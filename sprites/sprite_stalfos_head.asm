@@ -22,7 +22,7 @@ Sprite_StalfosHead:
     
     LDA.w $0E00, X : BEQ .use_typical_oam_region
     
-    LDA.b #$08 : JSL OAM_AllocateFromRegionC
+    LDA.b #$08 : JSL.l OAM_AllocateFromRegionC
     
     .use_typical_oam_region
     
@@ -30,31 +30,31 @@ Sprite_StalfosHead:
     
     LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.b #$30 : STA.w $0B89, X
     
-    JSR Sprite_PrepAndDrawSingleLarge
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_CheckDamage
+    JSR.w Sprite_PrepAndDrawSingleLarge
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckDamage
     
     LDA.w $0EA0, X : BEQ .not_recoiling
     
     ; This sprite can't be recoiled by hitting it. That's part of why
     ; they're annoying.
-    JSR Sprite_Zero_XY_Velocity
+    JSR.w Sprite_Zero_XY_Velocity
     
     .not_recoiling
     
-    JSR Sprite_Move
+    JSR.w Sprite_Move
     
     INC.w $0E80, X
     
     LDA.w $0DF0, X : BEQ .flee_from_player
     AND.b #$01   : BNE  .return
     
-    LDA.b #$10 : JSR Sprite_ProjectSpeedTowardsPlayer
+    LDA.b #$10 : JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     .approach_target_speed
     
@@ -93,7 +93,7 @@ Sprite_StalfosHead:
     
     LDA.b #$10
     
-    JSR Sprite_ProjectSpeedTowardsPlayer
+    JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     LDA.b $00 : EOR.b #$FF : INC A : STA.b $00
     LDA.b $01 : EOR.b #$FF : INC A : STA.b $01

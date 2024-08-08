@@ -4,12 +4,12 @@
 ; $03394C-$033961 JUMP LOCATION
 Sprite_BugNetKid:
 {
-    JSL BugNetKid_Draw
-    JSR Sprite_CheckIfActive
+    JSL.l BugNetKid_Draw
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw BugNetKid_Resting
     dw BugNetKid_PerkUp
@@ -22,8 +22,8 @@ Sprite_BugNetKid:
 ; $033962-$033990 JUMP LOCATION
 BugNetKid_Resting:
 {
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS .dont_awaken
-    JSR Sprite_CheckDamageToPlayer_same_layer : BCC .dont_awaken
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .dont_awaken
+    JSR.w Sprite_CheckDamageToPlayer_same_layer : BCC .dont_awaken
         LDA.l $7EF35C : ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F
         CMP.b #$02 : BCC .gotsNoBottles
         
@@ -41,7 +41,7 @@ BugNetKid_Resting:
     LDA.b #$04
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -67,11 +67,11 @@ BugNetKid_PerkUp:
     
     LDY.w $0D90, X
     
-    LDA .animation_states, Y : BMI .invalid_animation_state
+    LDA.w .animation_states, Y : BMI .invalid_animation_state
     
     STA.w $0DC0, X
     
-    LDA .delay_timers, Y : STA.w $0DF0, X
+    LDA.w .delay_timers, Y : STA.w $0DF0, X
     
     INC.w $0D90, X
     
@@ -85,7 +85,7 @@ BugNetKid_PerkUp:
     LDA.b #$05
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -104,7 +104,7 @@ BugNetKid_GrantBugNet:
     
     PHX
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -126,7 +126,7 @@ BugNetKid_BackToResting:
     LDA.b #$06
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }

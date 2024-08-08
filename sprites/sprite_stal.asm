@@ -8,20 +8,20 @@ Sprite_Stal:
     
     LDA.w $0D80, X : BNE .ignore_player_oam_overlap
     
-    LDA.b #$04 : JSL OAM_AllocateFromRegionB
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
     
     .ignore_player_oam_overlap
     
-    JSR Stal_Draw
+    JSR.w Stal_Draw
     
     .improper_gfx_set_loaded
     
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_CheckIfRecoiling
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfRecoiling
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Stal_Dormant
     dw Stal_Active
@@ -34,16 +34,16 @@ Stal_Dormant:
 {
     LDA.b #$01 : STA.w $0BA0, X
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_didnt_bump
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_didnt_bump
     
-    JSL Sprite_NullifyHookshotDrag
-    JSL Sprite_RepelDashAttackLong
+    JSL.l Sprite_NullifyHookshotDrag
+    JSL.l Sprite_RepelDashAttackLong
     
     LDA.w $0DF0, X : BNE .still_activating
     
     LDA.b #$40 : STA.w $0DF0, X
     
-    LDA.b #$22 : JSL Sound_SetSfx2PanLong
+    LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
     
     .still_activating
     .player_didnt_bump
@@ -88,9 +88,9 @@ Pool_Stal_Active:
 ; $0E819D-$0E81DB JUMP LOCATION
 Stal_Active:
 {
-    JSR Sprite4_CheckDamage
-    JSR Sprite4_Move
-    JSR Sprite4_CheckTileCollision
+    JSR.w Sprite4_CheckDamage
+    JSR.w Sprite4_Move
+    JSR.w Sprite4_CheckTileCollision
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
@@ -102,7 +102,7 @@ Stal_Active:
     
     LDA.b #$0C
     
-    JSL Sprite_ApplySpeedTowardsPlayerLong
+    JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     .not_grounded
     
@@ -119,7 +119,7 @@ Stal_Active:
     
     LDY.w $0E80, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -159,11 +159,11 @@ Stal_Draw:
     
     .active
     
-    JSL Sprite_DrawMultiple
+    JSL.l Sprite_DrawMultiple
     
     LDA.w $0D80, X : BEQ .dormant
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     .dormant
     

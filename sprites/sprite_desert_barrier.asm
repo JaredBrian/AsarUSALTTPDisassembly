@@ -4,12 +4,12 @@
 ; $02956D-$0295FB JUMP LOCATION
 Sprite_DesertBarrier:
 {
-    JSR DesertBarrier_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : PHP : BCC .no_collision
+    JSR.w DesertBarrier_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : PHP : BCC .no_collision
     
-    JSL Sprite_NullifyHookshotDrag
-    JSL Sprite_RepelDashAttackLong
+    JSL.l Sprite_NullifyHookshotDrag
+    JSL.l Sprite_RepelDashAttackLong
     
     .no_collision
     
@@ -45,7 +45,7 @@ Sprite_DesertBarrier:
     
     LDA.b #$20
     
-    JSL Sprite_ApplySpeedTowardsPlayerLong
+    JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     LDA.b $01 : STA.b $28
     
@@ -55,18 +55,18 @@ Sprite_DesertBarrier:
     
     LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
-    JSR Sprite2_CheckTileCollision : BEQ .no_collision
+    JSR.w Sprite2_CheckTileCollision : BEQ .no_collision
     
     LDY.w $0DE0, X
     
     ; Effects a counterclockwise adhesion to walls.
-    LDA .next_direction, Y : STA.w $0DE0, X
+    LDA.w .next_direction, Y : STA.w $0DE0, X
     
     .no_collision
     
@@ -139,13 +139,13 @@ DesertBarrier_Draw:
     
     LSR A : AND.b #$01 : CLC : ADC.w $0FD8 : STA.w $0FD8
     
-    JSR Sprite2_DirectionToFacePlayer
+    JSR.w Sprite2_DirectionToFacePlayer
     
     LDA.b $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .beta
     
     LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .beta
     
-    LDA.b #$10 : JSL OAM_AllocateFromRegionB
+    LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
     
     .beta
     

@@ -17,7 +17,7 @@ Sprite_SmithyBros:
 {
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Smithy_Main
     dw SmithySpark_Main
@@ -30,12 +30,12 @@ Sprite_SmithyBros:
 ; $0331FD-$03320D JUMP LOCATION
 ReturningSmithy_Main:
 {
-    JSR ReturningSmithy_Draw
-    JSR Sprite_CheckIfActive
+    JSR.w ReturningSmithy_Draw
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ReturningSmithy_ApproachTheBench
     dw ReturningSmithy_CopiouslyThankful
@@ -64,7 +64,7 @@ Pool_ReturningSmithy_ApproachTheBench:
 ; $03321B-$033254 JUMP LOCATION
 ReturningSmithy_ApproachTheBench:
 {
-    JSR Sprite_Move
+    JSR.w Sprite_Move
     
     LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
@@ -100,13 +100,13 @@ ReturningSmithy_ApproachTheBench:
 ; $033255-$033273 JUMP LOCATION
 ReturningSmithy_CopiouslyThankful:
 {
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l Sprite_PlayerCantPassThrough
     
     ; Smithy bros. saying "thank you!"
     LDA.b #$E3
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     STZ.w $02E4
     
@@ -123,13 +123,13 @@ ReturningSmithy_CopiouslyThankful:
 ; $033274-$0332BF JUMP LOCATION
 SmithyFrog_Main:
 {
-    JSR SmithyFrog_Draw
-    JSR Sprite_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w SmithyFrog_Draw
+    JSR.w Sprite_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_MoveAltitude
     
     LDA.w $0F70, X : BPL .ano_reset_hop
     
@@ -147,7 +147,7 @@ SmithyFrog_Main:
     LDA.b #$E1
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BCC .player_not_close_enough
     
@@ -164,8 +164,8 @@ SmithyFrog_Main:
     
     PHX
     
-    JSL Tagalong_LoadGfx
-    JSL Tagalong_SpawnFromSprite
+    JSL.l Tagalong_LoadGfx
+    JSL.l Tagalong_SpawnFromSprite
     
     PLX
     
@@ -212,14 +212,14 @@ ReturningSmithy_Draw:
     
     ; This sprite apparently vram to change appearance rather than using
     ; different sprite tile numbers.
-    LDA .vram_source_offsets, Y : STA.w $0AEA
+    LDA.w .vram_source_offsets, Y : STA.w $0AEA
     
     TYA : ASL #3
     
     ADC.b #.oam_groups                   : STA.b $08
     LDA.b #.oam_groups>>8   : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     JMP Sprite_DrawShadow
 }
 
@@ -243,7 +243,7 @@ SmithyFrog_Draw:
     LDA.b #.oam_groups    : STA.b $08
     LDA.b #.oam_groups>>8 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     JMP Sprite_DrawShadow
 }
 
@@ -252,11 +252,11 @@ SmithyFrog_Draw:
 ; $03334E-$0333E2 JUMP LOCATION
 Smithy_Main:
 {
-    JSR Smithy_Draw
+    JSR.w Smithy_Draw
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_MoveAltitude
     
     LDA.w $0F70, X : BPL .aloft
     
@@ -265,7 +265,7 @@ Smithy_Main:
     
     .aloft
     
-    JSR Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfActive
     
     LDY.w $0E90, X
     
@@ -291,9 +291,9 @@ Smithy_Main:
     
     INC A : AND.b #$07 : STA.w $0D90, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
-    LDA .animation_timers, Y : STA.w $0DA0, X
+    LDA.w .animation_timers, Y : STA.w $0DA0, X
     
     CPY.b #$01 : BNE .anojump
     
@@ -303,9 +303,9 @@ Smithy_Main:
     
     CPY.b #$03 : BNE .spark_spawn_delay
     
-    JSR SmithyBros_SpawnSmithySpark
+    JSR.w SmithyBros_SpawnSmithySpark
     
-    LDA.b #$05 : JSL Sound_SetSfx2PanLong
+    LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
     
     .spark_spawn_delay
     .animation_step_delay
@@ -313,7 +313,7 @@ Smithy_Main:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     ; \tcrf Does this hint that there were other items they could temper?
     ; Note the repeat of the tempering sword mode and the three do nothing
@@ -342,13 +342,13 @@ Smithy_ConversationStart:
     
     LDA.l $7EF3CC : CMP.b #$08 : BEQ .no_returning_smithy_tagalong
     
-    JSR Smithy_NearbyHammerUseListener : BCC .not_hammer_time
+    JSR.w Smithy_NearbyHammerUseListener : BCC .not_hammer_time
     
     ; "Hey hey, amateurs shouldn't try to do this. ..."
     LDA.b #$E4
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     LDA.b #$60 : STA.w $0E00, X
     
@@ -364,7 +364,7 @@ Smithy_ConversationStart:
     LDA.b #$D8
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .player_didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .player_didnt_speak
     
     INC.w $0D80, X
     
@@ -380,7 +380,7 @@ Smithy_ConversationStart:
     LDA.b #$DF
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
     
@@ -392,7 +392,7 @@ Smithy_ConversationStart:
     LDA.b #$E0
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     LDA.b #$0A : STA.w $0D80, X
     
@@ -416,7 +416,7 @@ Smithy_NearbyHammerUseListener:
     
     LDA.w $0300 : CMP.b #$02 : BNE .not_using_hammer
     
-    JSR Sprite_CheckDamageToPlayer_same_layer : BCC .no_collision
+    JSR.w Sprite_CheckDamageToPlayer_same_layer : BCC .no_collision
     
     RTS
     
@@ -440,7 +440,7 @@ Smithy_ProvideTemperingChoice:
     LDA.b #$D9
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -452,7 +452,7 @@ Smithy_ProvideTemperingChoice:
     LDA.b #$DC
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -472,7 +472,7 @@ Smithy_HandleTemperingChoice:
     LDA.b #$DA
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -484,7 +484,7 @@ Smithy_HandleTemperingChoice:
     LDA.b #$DB
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -496,7 +496,7 @@ Smithy_HandleTemperingChoice:
     LDA.b #$DC
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -514,7 +514,7 @@ Smithy_HandleTemperingCost:
     LDA.b #$DC
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -530,7 +530,7 @@ Smithy_HandleTemperingCost:
     LDA.b #$DC
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -549,7 +549,7 @@ Smithy_HandleTemperingCost:
     LDA.b #$DD
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     LDY.w $0E90, X 
     
@@ -573,13 +573,13 @@ Smithy_TemperingSword:
 {
     STZ.w $0DB0, X
     
-    JSR Smithy_NearbyHammerUseListener : BCC .not_hammer_time
+    JSR.w Smithy_NearbyHammerUseListener : BCC .not_hammer_time
     
     ; "Hey hey, amateurs shouldn't try to do this. You're just getting..."
     LDA.b #$E4
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     LDA.b #$60 : STA.w $0E00, X
     
@@ -595,7 +595,7 @@ Smithy_TemperingSword:
     LDA.b #$DE
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .no_player_dialogue
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .no_player_dialogue
     
     INC.w $0D80, X
     
@@ -611,7 +611,7 @@ Smithy_TemperingSword:
     LDY.b #$00
     
     ; "I'm sorry, we're not done yet. Come back after a while."
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -633,7 +633,7 @@ Smithy_GrantTemperedSword:
     
     PHX
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -657,7 +657,7 @@ Smithy_SpawnReturningSmithy:
 {
     LDA.b #$1A
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b $22 : STA.w $0D10, Y
     LDA.b $23 : STA.w $0D30, Y
@@ -687,7 +687,7 @@ Smithy_CopiouslyThankful:
     LDA.b #$E3
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -699,7 +699,7 @@ Smithy_SpawnOtherSmithy:
 {
     LDA.b #$1A
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b $00 : CLC : ADC.b #$2C : STA.w $0D10, Y
     LDA.b $01              : STA.w $0D30, Y
@@ -766,8 +766,8 @@ Smithy_Draw:
     ADC.b #$D3              : STA.b $08
     LDA.b #$B5 : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSR Sprite_DrawShadow
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSR.w Sprite_DrawShadow
     
     RTS
 }
@@ -789,8 +789,8 @@ Pool_SmithySpark_Main:
 ; $0336A3-$0336CA JUMP LOCATION
 SmithySpark_Main:
 {
-    JSR SmithySpark_Draw
-    JSR Sprite_CheckIfActive
+    JSR.w SmithySpark_Draw
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -831,7 +831,7 @@ SmithyBros_SpawnSmithySpark:
 {
     LDA.b #$1A
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     PHX
     
@@ -873,14 +873,14 @@ Pool_SmithySpark_Draw:
 ; $03372C-$033749 LOCAL JUMP LOCATION
 SmithySpark_Draw:
 {
-    LDA.b #$08 : JSL OAM_AllocateFromRegionB
+    LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
     
     LDA.w $0DC0, X : ASL #4
     
     ADC.b #.oam_groups                 : STA.b $08
     LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
     
-    LDA.b #$02 : JSL Sprite_DrawMultiple
+    LDA.b #$02 : JSL.l Sprite_DrawMultiple
     
     RTS
 }

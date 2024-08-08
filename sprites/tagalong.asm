@@ -138,7 +138,7 @@ Tagalong_SpawnFromSprite:
     ; Super bomb is no longer going off?
     LDA.b #$00 : STA.l $7EF3D3
     
-    JSL Tagalong_GetCloseToPlayer
+    JSL.l Tagalong_GetCloseToPlayer
     
     PLX : PLB
     
@@ -152,7 +152,7 @@ Tagalong_MainLong:
 {
     PHB : PHK : PLB
     
-    JSR Tagalong_Main
+    JSR.w Tagalong_Main
     
     PLB
     
@@ -246,7 +246,7 @@ Tagalong_Main:
             ; Tick down the timer until Zelda yells at you again.
             DEC.w $02CD : BPL Tagalong_Telepathy
                 SEP #$20
-                JSL Tagalong_CanWeDisplayMessage : BCS .can_display
+                JSL.l Tagalong_CanWeDisplayMessage : BCS .can_display
                     STZ.w $02CD : STZ.w $02CE
 
                     BRA Tagalong_Telepathy
@@ -264,7 +264,7 @@ Tagalong_Main:
                 
                 SEP #$20
                 
-                JSL Main_ShowTextMessage
+                JSL.l Main_ShowTextMessage
                 
                 PLY
 
@@ -477,7 +477,7 @@ Tagalong_BasicMover:
     
     .not_text_mode
     
-    JSR Tagalong_HandleTrigger ; $04A59E IN ROM
+    JSR.w Tagalong_HandleTrigger ; $04A59E IN ROM
     
     LDA.l $7EF3CC : CMP.b #$0A : BNE .dont_scare_kiki
         LDA.b $4D : BEQ .dont_scare_kiki
@@ -487,7 +487,7 @@ Tagalong_BasicMover:
 
                 .no_index_wrap
               
-                JSL Kiki_AbandonDamagedPlayer
+                JSL.l Kiki_AbandonDamagedPlayer
                 LDA.b #$00 : STA.l $7EF3CC
 
                 RTS
@@ -505,7 +505,7 @@ Tagalong_BasicMover:
             LDA.l $7EF0CA : AND.w #$0100 : BEQ .blind_not_triggered
                 SEP #$20
                 
-                JSL Tagalong_CheckBlindTriggerRegion : BCC .blind_not_triggered
+                JSL.l Tagalong_CheckBlindTriggerRegion : BCC .blind_not_triggered
                     .blind_transform
                         LDX.w $02CF
                         
@@ -517,7 +517,7 @@ Tagalong_BasicMover:
                         
                         LDA.b #$00 : STA.l $7EF3CC
                         
-                        JSL Blind_SpawnFromMaidenTagalong
+                        JSL.l Blind_SpawnFromMaidenTagalong
                         
                         INC.w $0468
                         
@@ -602,8 +602,8 @@ Tagalong_NotFollowing:
     
     ; Is Link dashing?
     LDA.w $0372 : BNE .dont_reset_self ; Yes... branch to alpha
-        JSR Tagalong_CheckPlayerProximity : BCS .dont_reset_self
-            JSL Tagalong_Init
+        JSR.w Tagalong_CheckPlayerProximity : BCS .dont_reset_self
+            JSL.l Tagalong_Init
             
             LDA.b $1B : STA.l $7EF3D1
             
@@ -626,7 +626,7 @@ Tagalong_NotFollowing:
             ; Yes, get out of here.
             LDY.b #$00
             LDA.b #$3A
-            JSL AddSuperBombExplosion
+            JSL.l AddSuperBombExplosion
 
             LDA.b #$00 : STA.l $7EF3D3
 
@@ -681,7 +681,7 @@ Tagalong_OldMountainMan:
 
     .dont_reset_link_speed
     
-    JSR Tagalong_HandleTrigger ; $04A59E IN ROM
+    JSR.w Tagalong_HandleTrigger ; $04A59E IN ROM
     
     SEP #$30
     
@@ -813,8 +813,8 @@ Tagalong_UnusedOldMan:
 
                 ; Is player in hookshot mode?
                 LDA.b $5D : CMP.b #$13 : BEQ Tagalong_DoLayers
-                JSR Tagalong_CheckPlayerProximity : BCS Tagalong_DoLayers
-                    JSL Tagalong_Init
+                JSR.w Tagalong_CheckPlayerProximity : BCS Tagalong_DoLayers
+                    JSL.l Tagalong_Init
 
                     LDA.l $7EF3CC : TAX
                     LDA Tagalong_ReplacementTagalongIds, X : STA.l $7EF3CC
@@ -999,7 +999,7 @@ Tagalong_HandleTrigger:
         
             SEP #$30
         
-            JSR Tagalong_CheckTextTriggerProximity : BCS .check_flags_and_proximity
+            JSR.w Tagalong_CheckTextTriggerProximity : BCS .check_flags_and_proximity
                 REP #$30
         
         .not_room_data_match
@@ -1027,7 +1027,7 @@ Tagalong_HandleTrigger:
             
             SEP #$30
             
-            JSR Tagalong_CheckTextTriggerProximity : BCS .check_flags_and_proximity
+            JSR.w Tagalong_CheckTextTriggerProximity : BCS .check_flags_and_proximity
                 REP #$30
             
                 .not_area_data_match
@@ -1068,13 +1068,13 @@ Tagalong_HandleTrigger:
                     
                     .tagalong_state_index_not_maxed
                     
-                    JSL OldMountainMan_TransitionFromTagalong
+                    JSL.l OldMountainMan_TransitionFromTagalong
             
             .show_text_message
             
             SEP #$20
             
-            JSL Main_ShowTextMessage
+            JSL.l Main_ShowTextMessage
             
             BRA .return
         
@@ -1092,7 +1092,7 @@ Tagalong_HandleTrigger:
         LDA.b $06 : AND.b #$03 : BNE .kiki_first_begging_sequence
             PLA
             
-            JSL Kiki_InitiatePalaceOpeningProposal
+            JSL.l Kiki_InitiatePalaceOpeningProposal
             
             BRA .return
         
@@ -1105,7 +1105,7 @@ Tagalong_HandleTrigger:
         LDA.l $7EF280, X : AND.b #$01 : BNE .return
             LDA.b $00
             
-            JSL Kiki_InitiateFirstBeggingSequence
+            JSL.l Kiki_InitiateFirstBeggingSequence
     
     .return
     
@@ -1476,7 +1476,7 @@ TagalongDraw_Drawing:
     
     SEP #$20
     
-    JSR Tagalong_SetOam_XY
+    JSR.w Tagalong_SetOam_XY
     
     LDA.w $A8D9, X : STA ($90), Y : INY
     LDA.w $A8DA, X : STA ($90), Y : INY
@@ -1497,7 +1497,7 @@ TagalongDraw_Drawing:
     
     SEP #$20
     
-    JSR Tagalong_SetOam_XY
+    JSR.w Tagalong_SetOam_XY
     
     LDA.w $A8DB, X : STA ($90), Y : INY
     LDA.w $A8DC, X : STA ($90), Y : INY
@@ -1554,7 +1554,7 @@ TagalongDraw_Drawing:
         
         SEP #$30
         
-        JSR Tagalong_SetOam_XY
+        JSR.w Tagalong_SetOam_XY
         
         LDA.b #$20 : STA ($90), Y
         
@@ -1594,7 +1594,7 @@ TagalongDraw_Drawing:
     
     SEP #$30
     
-    JSR Tagalong_SetOam_XY
+    JSR.w Tagalong_SetOam_XY
     
     LDA.b #$22 : STA ($90), Y
     

@@ -5,7 +5,7 @@ Sprite_ElderLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_Elder
+    JSR.w Sprite_Elder
     
     PLB
     
@@ -17,13 +17,13 @@ Sprite_ElderLong:
 ; $02F0D5-$02F0E9 LOCAL JUMP LOCATION
 Sprite_Elder:
 {
-    JSR Elder_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w Elder_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sprite_Sahasrahla
     dw Sprite_Aginah
@@ -43,7 +43,7 @@ Sprite_Aginah:
     LDA.b #$28
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .gamma
     
@@ -54,7 +54,7 @@ Sprite_Aginah:
     LDA.b #$26
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .gamma
     
@@ -65,7 +65,7 @@ Sprite_Aginah:
     LDA.b #$29
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .gamma
     
@@ -76,7 +76,7 @@ Sprite_Aginah:
     LDA.b #$27
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .gamma
     
@@ -85,7 +85,7 @@ Sprite_Aginah:
     LDA.b #$25
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     LDA.l $7EF3C6 : ORA.b #$20 : STA.l $7EF3C6
     
@@ -101,7 +101,7 @@ Sprite_Sahasrahla:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sahasrahla_Dialogue
     dw Sahasrahla_MarkMap
@@ -134,7 +134,7 @@ Sahasrahla_Dialogue:
     LDA.b #$32
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .dont_show
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .dont_show
     
     INC.w $0D80, X
     
@@ -148,10 +148,10 @@ Sahasrahla_Dialogue:
     
     LDA.l $7EF3C7 : CMP.b #$03 : ROL A : AND.b #$01 : TAY
     
-    LDA .messages_low, Y  : XBA
-    LDA .messages_high, Y : TAY : XBA
+    LDA.w .messages_low, Y  : XBA
+    LDA.w .messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .dont_show_2
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .dont_show_2
     
     INC.w $0D80, X : INC.w $0D80, X
     
@@ -167,7 +167,7 @@ Sahasrahla_Dialogue:
     LDA.b #$37
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .advance_animation_state
     
@@ -179,7 +179,7 @@ Sahasrahla_Dialogue:
     LDA.b #$34
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .advance_animation_state
     
@@ -191,7 +191,7 @@ Sahasrahla_Dialogue:
     LDA.b #$30
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .advance_animation_state
     
@@ -201,7 +201,7 @@ Sahasrahla_Dialogue:
     LDA.b #$31
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     ; $02F1DC ALTERNATE ENTRY POINT
     shared Elder_AdvanceAnimationState:
@@ -222,7 +222,7 @@ Sahasrahla_MarkMap:
     LDA.b #$33
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -240,7 +240,7 @@ Sahasrahla_GrantBoots:
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     INC.w $0D80, X
     
@@ -258,7 +258,7 @@ Sahasrahla_ShamelesslyPromoteIceRod:
     LDA.b #$37
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -268,7 +268,7 @@ Sahasrahla_ShamelesslyPromoteIceRod:
 ; ==============================================================================
 
 ; $02F21A-$02F239 DATA
-    pool Elder_Draw
+Pool_Elder_Draw:
 {
     .animation_states
     dw 0, -9 : db $A0, $00, $00, $02
@@ -293,8 +293,8 @@ Elder_Draw:
     ADC.b #$1A              : STA.b $08
     LDA.b #$F2 : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

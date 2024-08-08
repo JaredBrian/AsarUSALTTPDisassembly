@@ -26,7 +26,7 @@ Sprite_Poe:
     
     .dont_use_super_priority
     
-    JSR Poe_Draw
+    JSR.w Poe_Draw
     
     REP #$20
     
@@ -38,12 +38,12 @@ Sprite_Poe:
     
     DEC.w $0E40, X
     
-    JSR Sprite_PrepAndDrawSingleLarge
+    JSR.w Sprite_PrepAndDrawSingleLarge
     
     INC.w $0E40, X
     
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfRecoiling
     
     LDA.w $0E90, X : BEQ .not_rising_from_grave
     
@@ -61,11 +61,11 @@ Sprite_Poe:
     
     .not_rising_from_grave
     
-    JSR Sprite_CheckDamage
+    JSR.w Sprite_CheckDamage
     
     INC.w $0E80, X
     
-    JSR Sprite_Move
+    JSR.w Sprite_Move
     
     LDA.b $1A : LSR A : BCS .z_speed_adjustment_delay
     
@@ -80,13 +80,13 @@ Sprite_Poe:
     .z_speed_not_at_max
     .z_speed_adjustment_delay
     
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_MoveAltitude
     
     STZ.w $0D40, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Poe_SelectVerticalDirection
     dw Poe_Roaming
@@ -117,11 +117,11 @@ Poe_SelectVerticalDirection:
     INC.w $0D80, X
     
     ; Generate one random int and check its bit content.
-    JSL GetRandomInt : AND.b #$0C : BNE .flip_a_coin
+    JSL.l GetRandomInt : AND.b #$0C : BNE .flip_a_coin
     
     ; In this case the player's relative position is used to set the
     ; y direction.
-    JSR Sprite_IsBelowPlayer : TYA
+    JSR.w Sprite_IsBelowPlayer : TYA
     
     BRA .set_y_direction
     
@@ -129,7 +129,7 @@ Poe_SelectVerticalDirection:
     
     ; And in this case it's just a fifty fifty chance of going one way
     ; or thw other, vertically.
-    JSL GetRandomInt : AND.b #$01
+    JSL.l GetRandomInt : AND.b #$01
     
     .set_y_direction
     
@@ -168,14 +168,14 @@ Poe_Roaming:
     
     STZ.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$10 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$10 : STA.w $0DF0, X
     
     .adjust_speed_delay
     .x_speed_maxed_out
     
     LDY.w $0EB0, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     RTS
 }
@@ -197,7 +197,7 @@ Pool_Poe_Draw:
 ; $031786-$0317D7 LOCAL JUMP LOCATION
 Poe_Draw:
 {
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA.b $06
     
@@ -219,7 +219,7 @@ Poe_Draw:
     
     LDX.b $06
     
-    LDA .chr, X                       : INY : STA ($90), Y
+    LDA.w .chr, X                       : INY : STA ($90), Y
     LDA.b $05 : AND.b #$F0 : ORA.b #$02 : INY : STA ($90), Y
     
     LDA.b $0F : STA ($92)

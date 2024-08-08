@@ -4,9 +4,9 @@
 ; $032D6F-$032D99 JUMP LOCATION
 Sprite_StoryTeller_1:
 {
-    JSR StoryTeller_1_Draw
-    JSR Sprite_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w StoryTeller_1_Draw
+    JSR.w Sprite_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.w $0DF0, X : BNE .countingDown
     
@@ -16,7 +16,7 @@ Sprite_StoryTeller_1:
     
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $AD9A ; = $032D9A
     dw $ADE1 ; = $032DE1
@@ -29,7 +29,7 @@ Sprite_StoryTeller_1:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $ADA7 ; = $032DA7
     dw $ADBF ; = $032DBF
@@ -41,7 +41,7 @@ Sprite_StoryTeller_1:
     LDA.b #$FE
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
     
     INC.w $0D80, X
     
@@ -72,7 +72,7 @@ Sprite_StoryTeller_1:
     
     ; $032DCD ALTERNATE ENTRY POINT
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -83,7 +83,7 @@ Sprite_StoryTeller_1:
     LDA.b #$00
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -94,7 +94,7 @@ Sprite_StoryTeller_1:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $ADA7 ; = $32DA7*
     dw $ADEE ; = $32DEE*
@@ -118,7 +118,7 @@ Sprite_StoryTeller_1:
     LDA.b #$00
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -129,7 +129,7 @@ Sprite_StoryTeller_1:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $ADA7 ; = $32DA7*
     dw $AE17 ; = $32E17*
@@ -153,7 +153,7 @@ Sprite_StoryTeller_1:
     LDA.b #$00
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -170,7 +170,7 @@ Sprite_StoryTeller_1:
     
     .BRANCH_BETA
     
-    JSL GetRandomInt : BNE .BRANCH_ALPHA
+    JSL.l GetRandomInt : BNE .BRANCH_ALPHA
     
     LDA.b #$20 : STA.w $0DF0, X
     
@@ -179,7 +179,7 @@ Sprite_StoryTeller_1:
     LDA.b #$49
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -188,7 +188,7 @@ Sprite_StoryTeller_1:
 {
     LDA.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_MoveAltitude
     
     LDA.w $0F70, X : BPL .BRANCH_ALPHA
     
@@ -202,7 +202,7 @@ Sprite_StoryTeller_1:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $ADA7 ; = $32DA7*
     dw $AE8E ; = $32E8E*
@@ -226,7 +226,7 @@ Sprite_StoryTeller_1:
     LDA.b #$00
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -286,7 +286,7 @@ StoryTeller_1_Draw:
     LDA.b #$01 : STA.b $06
                  STZ.b $07
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     JMP Sprite_DrawShadow
 }
 

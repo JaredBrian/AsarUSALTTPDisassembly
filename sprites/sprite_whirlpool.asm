@@ -19,8 +19,8 @@ Sprite_Whirlpool:
     ; A consequence of this is that one cannot place a whirlpool in the
     ; water of this area.
     
-    JSL Sprite_PrepOamCoordLong
-    JSR Sprite3_CheckIfActive
+    JSL.l Sprite_PrepOamCoordLong
+    JSR.w Sprite3_CheckIfActive
     
     REP #$20
     
@@ -56,9 +56,9 @@ Sprite_Whirlpool:
     
     LDA.b $1A : LSR #3 : AND.b #$03 : TAY
     
-    LDA .vh_flip, Y : ORA.w $0F50, X : STA.w $0F50, X
+    LDA.w .vh_flip, Y : ORA.w $0F50, X : STA.w $0F50, X
     
-    LDA.b #$04 : JSL OAM_AllocateFromRegionB
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
     
     REP #$20
     
@@ -66,10 +66,10 @@ Sprite_Whirlpool:
     
     SEP #$30
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckIfActive
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_touch
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_touch
     ; TODO: Note sure if this name is right, or how this variable could
     ; be set...?
     LDA.w $0D90, X : BNE .temporarily_disabled

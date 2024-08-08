@@ -34,7 +34,7 @@ ChimneySmoke_Draw:
     ; $0E8549 ALTERNATE ENTRY POINT
     shared Sprite4_DrawMultiple:
     
-    JSL Sprite_DrawMultiple
+    JSL.l Sprite_DrawMultiple
     
     RTS
 }
@@ -57,9 +57,9 @@ Sprite_ChimneySmoke:
 {
     LDA.b #$30 : STA.w $0B89, X
     
-    JSR ChimneySmoke_Draw
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_Move
+    JSR.w ChimneySmoke_Draw
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_Move
     
     INC.w $0E80, X : LDA.w $0E80, X : AND.b #$07 : BNE .speed_adjust_delay
     
@@ -67,7 +67,7 @@ Sprite_ChimneySmoke:
     
     LDA.w $0D50, X
     
-    CLC : ADC Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA.w $0D50, X
+    CLC : ADC Sprite_ApplyConveyorAdjustment_x_shake_values, Y : STA.w $0D50, X
     
     CMP .x_speed_targets, Y : BNE .anoswitch_direction
     
@@ -89,7 +89,7 @@ Sprite_ChimneySmoke:
 
 ; $0E858B-$0E85DF JUMP LOCATION
 Sprite_ChimneyAndRabbitBeam:
-    shared Sprite_Chimney: ; NOTE: This is only put here to indicate an alias.
+Sprite_Chimney:
 {
     LDA.b $1B : BNE Sprite_RabbitBeam
     
@@ -97,15 +97,15 @@ Sprite_ChimneyAndRabbitBeam:
     
     LDA.w $0D80, X : BNE Sprite_ChimneySmoke
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     LDA.w $0DF0, X : BNE .spawn_delay
     
     LDA.b #$43 : STA.w $0DF0, X
     
-    LDA.b #$D1 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$D1 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
     
@@ -115,7 +115,7 @@ Sprite_ChimneyAndRabbitBeam:
     
     LDA.b #$43 : STA.w $0E40, Y : STA.w $0E60, Y
     
-    LDA .x_speed_targets+1 : STA.w $0D50, Y
+    LDA.w .x_speed_targets+1 : STA.w $0D50, Y
     
     LDA.b #-6 : STA.w $0D40, Y
     
@@ -132,10 +132,10 @@ Sprite_RabbitBeam:
 {
     LDA.w $0D80, X : BNE RabbitBeam_Active
     
-    JSL Sprite_PrepOamCoordLong
-    JSR Sprite4_CheckIfActive
+    JSL.l Sprite_PrepOamCoordLong
+    JSR.w Sprite4_CheckIfActive
     
-    JSR Sprite4_CheckTileCollision : BNE .no_tile_collision
+    JSR.w Sprite4_CheckTileCollision : BNE .no_tile_collision
     
     INC.w $0D80, X
     
@@ -160,13 +160,13 @@ Pool_RabbitBeam_Active:
 ; $0E8600-$0E8669 BRANCH LOCATION
 RabbitBeam_Active:
 {
-    JSL Sprite_DrawFourAroundOne
+    JSL.l Sprite_DrawFourAroundOne
     
     LDA.w $0F00, X : BNE .sprite_is_paused
     
     LDY.w $0DC0, X
     
-    LDA .chr, Y : STA.b $00
+    LDA.w .chr, Y : STA.b $00
     
     LDY.b #$00
     
@@ -181,14 +181,14 @@ RabbitBeam_Active:
     
     .sprite_is_paused
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     LDA.w $0DF0, X : BNE .cant_move_yet
     
     LDA.b #$30 : STA.w $0CD2, X
     
     ; The hunter is alive, but didn't get link yet.
-    JSL Sprite_CheckDamageToPlayerLong : BCC .no_player_collision
+    JSL.l Sprite_CheckDamageToPlayerLong : BCC .no_player_collision
     
     ; The hunter is dead, and it got Link to turn into a bunny.
     STZ.w $0DD0, X
@@ -208,21 +208,21 @@ RabbitBeam_Active:
     
     LDA.b #$10
     
-    JSL Sprite_ApplySpeedTowardsPlayerLong
+    JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     .cant_track_player
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
-    JSR Sprite4_CheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite4_CheckTileCollision : BEQ .no_tile_collision
     
     ; The transformer ran into a wall and died.
     STZ.w $0DD0, X
     
-    JSL Sprite_SpawnPoofGarnish
+    JSL.l Sprite_SpawnPoofGarnish
     
     ; Selects a sound to play.
-    LDA.b #$15 : JSL Sound_SetSfx2PanLong
+    LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
     
     .cant_move_yet
     .no_tile_collision

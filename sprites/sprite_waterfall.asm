@@ -8,7 +8,7 @@ Sprite_WaterfallLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_Waterfall
+    JSR.w Sprite_Waterfall
     
     PLB
     
@@ -22,7 +22,7 @@ Sprite_Waterfall:
 {
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Waterfall_Main
     dw Sprite_RetreatBat
@@ -33,15 +33,15 @@ Sprite_Waterfall:
 ; $0D75B8-$0D75D4 JUMP LOCATION
 Waterfall_Main:
 {
-    JSR Sprite6_CheckIfActive
+    JSR.w Sprite6_CheckIfActive
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
     LDA.b $8A : CMP.b #$43 : BEQ .ganons_tower_area
     
     PHX
     
-    JSL AddBreakTowerSeal
+    JSL.l AddBreakTowerSeal
     
     PLX
     
@@ -53,7 +53,7 @@ Waterfall_Main:
     
     PHX
     
-    JSL AddBreakTowerSeal
+    JSL.l AddBreakTowerSeal
     
     PLX
     

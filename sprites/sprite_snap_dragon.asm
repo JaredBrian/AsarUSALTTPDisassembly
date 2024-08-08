@@ -17,16 +17,16 @@ Sprite_SnapDragon:
     
     LDA.w $0DA0, X : CLC : ADC .animation_state_bases, Y : STA.w $0DC0, X
     
-    JSR SnapDragon_Draw
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_CheckDamage
+    JSR.w SnapDragon_Draw
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckDamage
     
     STZ.w $0DA0, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw SnapDragon_Resting
     dw SnapDragon_Attack
@@ -64,9 +64,9 @@ SnapDragon_Resting:
     
     INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$0C : LSR #2 : TAY
+    JSL.l GetRandomInt : AND.b #$0C : LSR #2 : TAY
     
-    LDA .timers, Y : STA.w $0DF0, X
+    LDA.w .timers, Y : STA.w $0DF0, X
     
     DEC.w $0D90, X : BPL .pick_random_direction
     
@@ -76,11 +76,11 @@ SnapDragon_Resting:
     
     INC.w $0DB0, X
     
-    JSR Sprite_IsBelowPlayer
+    JSR.w Sprite_IsBelowPlayer
     
     TYA : ASL A : STA.b $00
     
-    JSR Sprite_IsToRightOfPlayer
+    JSR.w Sprite_IsToRightOfPlayer
     
     TYA : ORA.b $00
     
@@ -88,7 +88,7 @@ SnapDragon_Resting:
     
     .pick_random_direction
     
-    JSL GetRandomInt : AND.b #$03
+    JSL.l GetRandomInt : AND.b #$03
     
     .set_direction
     
@@ -115,8 +115,8 @@ SnapDragon_Attack:
     ; Always has mouth open while in this state?
     INC.w $0DA0, X
     
-    JSR Sprite_Move
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_Move
+    JSR.w Sprite_CheckTileCollision
     
     LDA.w $0E70, X : BEQ .no_tile_collision
     
@@ -132,11 +132,11 @@ SnapDragon_Attack:
     
     .use_slower_speeds
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_MoveAltitude
     
     LDA.w $0F80, X : SEC : SBC.b #$04 : STA.w $0F80, X
     
@@ -222,7 +222,7 @@ SnapDragon_Draw:
     
     SEP #$20
     
-    LDA.b #$04 : JSL Sprite_DrawMultiple
+    LDA.b #$04 : JSL.l Sprite_DrawMultiple
     
     JMP Sprite_DrawShadow
 }

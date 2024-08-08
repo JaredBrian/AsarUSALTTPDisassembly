@@ -4,14 +4,14 @@
 ; $0F39A9-$0F39BF JUMP LOCATION
 Sprite_Gibdo:
 {
-    JSR Gibdo_Draw
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
-    JSR Sprite3_CheckDamage
+    JSR.w Gibdo_Draw
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckDamage
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Gibdo_ApproachTargetDirection
     dw Gibdo_CanMove
@@ -36,7 +36,7 @@ Gibdo_ApproachTargetDirection:
 {
     LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.b $1A : AND.b #$07 : BNE .delay
     
@@ -62,7 +62,7 @@ Gibdo_ApproachTargetDirection:
     
     .reset_timer
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$30 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$30 : STA.w $0DF0, X
     
     INC.w $0D80, X
     
@@ -93,12 +93,12 @@ Gibdo_CanMove:
     
     ; Note that half of these states will have a speed of zero, or that the
     ; sprite is standing still. Gibdos are kind of weird in that regard.
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
-    JSR Sprite3_Move
-    JSR Sprite3_CheckTileCollision
+    JSR.w Sprite3_Move
+    JSR.w Sprite3_CheckTileCollision
     
     LDA.w $0DF0, X : BEQ .timer_expired_so_face_player
     
@@ -106,7 +106,7 @@ Gibdo_CanMove:
     
     .timer_expired_so_face_player
     
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : CMP.w $0D90, X : BEQ .already_facing_player
     
@@ -131,7 +131,7 @@ Gibdo_CanMove:
     
     LDA.w $0E80, X : ASL #2 : AND.b #$04 : ORA.w $0D90, X : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -188,11 +188,11 @@ Gibdo_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR Sprite3_DrawMultiple
+    LDA.b #$02 : JSR.w Sprite3_DrawMultiple
     
     LDA.w $0F00, X : BNE .no_shadow
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     .no_shadow
     

@@ -22,7 +22,7 @@ Sprite_InnKeeperLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_InnKeeper
+    JSR.w Sprite_InnKeeper
     
     PLB
     
@@ -34,16 +34,16 @@ Sprite_InnKeeperLong:
 ; $02E3AF-$02E3CB LOCAL JUMP LOCATION
 Sprite_InnKeeper:
 {
-    JSR InnKeeper_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w InnKeeper_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.l $7EF356 : TAY
     
-    LDA .messages_low, Y        : XBA
-    LDA .messages_high, Y : TAY : XBA
+    LDA.w .messages_low, Y        : XBA
+    LDA.w .messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -69,8 +69,8 @@ InnKeeper_Draw:
     LDA.b #(.animation_states >> 0) : STA.b $08
     LDA.b #(.animation_states >> 8) : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

@@ -24,9 +24,9 @@ Sprite_SpikeRoller:
     ; Animation logic
     LDA.w $0E80, X : LSR A : AND.b #$01 : ORA.b $00 : STA.w $0DC0, X
     
-    JSR SpikeRoller_Draw
-    JSR Sprite2_CheckIfActive
-    JSR Sprite2_CheckDamage
+    JSR.w SpikeRoller_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckDamage
     
     LDA.w $0DF0, X : BNE .dont_change_direction
     
@@ -38,11 +38,11 @@ Sprite_SpikeRoller:
     
     LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     ; Step the animation counter
     INC.w $0E80, X
@@ -86,18 +86,18 @@ Pool_SpikeRoller_Draw:
 ; $028EE3-$028F53 LOCAL JUMP LOCATION
 SpikeRoller_Draw:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0DC0, X : ASL #3 : STA.b $06 : TAY
     
-    LDA .chr, Y : STA.b $08
+    LDA.w .chr, Y : STA.b $08
     
     PHX
     
     ; Appears that this is the size selector for the spike roller.
     LDY.w $0D80, X
     
-    LDX .num_subsprites, Y
+    LDX.w .num_subsprites, Y
     
     LDY.b #$00
     
@@ -127,7 +127,7 @@ SpikeRoller_Draw:
     ; After the first segment, the chr progession is specified by a table.
     LDA.b $08 : BNE .use_initial_segment_chr
     
-    LDA .chr, X
+    LDA.w .chr, X
     
     .use_initial_segment_chr
     
@@ -135,7 +135,7 @@ SpikeRoller_Draw:
     
     INY : STA ($90), Y
     
-    LDA .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
+    LDA.w .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     

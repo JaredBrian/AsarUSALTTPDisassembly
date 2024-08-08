@@ -43,7 +43,7 @@ Sprite_Octorock:
     
     LDA !timer_1, X : BEQ .timer_1_elapsed
     
-    LDA .next_direction, Y : STA !direction, X
+    LDA.w .next_direction, Y : STA !direction, X
     
     .timer_1_elapsed
     
@@ -59,14 +59,14 @@ Sprite_Octorock:
     
     ORA.w $D2AE, Y : ORA !force_hflip : STA !oam_4, X
     
-    JSR Octorock_Draw
+    JSR.w Octorock_Draw
     
     PLA : STA !direction, X
     
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_Move
-    JSR Sprite_CheckDamage
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_Move
+    JSR.w Sprite_CheckDamage
     
     LDA !ai_state, X : AND.b #$01 : BNE .stop_and_spit_maybe
     
@@ -83,7 +83,7 @@ Sprite_Octorock:
     
     LDY !type, X
     
-    LDA .delays-8, Y : STA !timer_0, X
+    LDA.w .delays-8, Y : STA !timer_0, X
     
     RTS
     
@@ -92,10 +92,10 @@ Sprite_Octorock:
     LDY !direction, X
     
     ; Make this little bugger move.
-    LDA .x_speed, Y : STA.w $0D50, X
-    LDA .y_speed, Y : STA.w $0D40, X
+    LDA.w .x_speed, Y : STA.w $0D50, X
+    LDA.w .y_speed, Y : STA.w $0D40, X
     
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_CheckTileCollision
     
     LDA.w $0E70, X : BEQ .epsilon
     
@@ -109,7 +109,7 @@ Sprite_Octorock:
     
     .stop_and_spit_maybe
     
-    JSR Sprite_Zero_XY_Velocity
+    JSR.w Sprite_Zero_XY_Velocity
     
     LDA !timer_0, X : BNE .wait_2
     
@@ -118,7 +118,7 @@ Sprite_Octorock:
     LDA !direction, X : PHA
     
     ; Set a new countdown timer and direction slightly at random.
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$30 : STA !timer_0, X
+    JSL.l GetRandomInt : AND.b #$3F : ADC.b #$30 : STA !timer_0, X
     
     AND.b #$03 : STA !direction, X
     
@@ -185,7 +185,7 @@ Octorock_Normal:
     
     PHA
     
-    JSR Octorock_SpitOutRock
+    JSR.w Octorock_SpitOutRock
     
     PLA
     
@@ -193,7 +193,7 @@ Octorock_Normal:
     
     LSR #3 : TAY
     
-    LDA .unknown, Y : STA.w $0DB0, X
+    LDA.w .unknown, Y : STA.w $0DB0, X
     
     RTS
 }
@@ -221,7 +221,7 @@ Octorock_FourShooter:
     
     LDY !direction, X
     
-    LDA .next_direction, Y : STA !direction, X
+    LDA.w .next_direction, Y : STA !direction, X
     
     PLA
     
@@ -229,14 +229,14 @@ Octorock_FourShooter:
     
     CMP.b #$08 : BNE .dont_shoot
     
-    JSR Octorock_SpitOutRock
+    JSR.w Octorock_SpitOutRock
     
     .dont_shoot
     .just_animate
     
     PLA : LSR #4 : TAY
     
-    LDA .unknown, Y : STA.w $0DB0, X
+    LDA.w .unknown, Y : STA.w $0DB0, X
     
     RTS
 }
@@ -271,11 +271,11 @@ Pool_Octorock_SpitOutRock:
 ; $0354CD-$035513 LOCAL JUMP LOCATION
 Octorock_SpitOutRock:
 {
-    LDA.b #$07 : JSL Sound_SetSfx2PanLong
+    LDA.b #$07 : JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$0C
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     PHX
     
@@ -327,7 +327,7 @@ Octorock_Draw:
     !top_x_bit_low  = $0E
     !top_x_bit_high = $0F
     
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     ; perhaps this draws the octorock's snout?
     LDA !direction, X : CMP.b #$03 : BEQ .dont_draw_this_part
@@ -355,9 +355,9 @@ Octorock_Draw:
     
     PLX
     
-    LDA .chr, X : INY : STA ($90), Y
+    LDA.w .chr, X : INY : STA ($90), Y
     
-    LDA .properties, X : INY : ORA.b $05 : STA ($90), Y
+    LDA.w .properties, X : INY : ORA.b $05 : STA ($90), Y
     
     LDA !top_x_bit_high : STA ($92)
     
@@ -377,7 +377,7 @@ Octorock_Draw:
     
     LDY.b #$00
     
-    JSR Sprite_PrepAndDrawSingleLarge.just_draw
+    JSR.w Sprite_PrepAndDrawSingleLarge_just_draw
     
     INC.w $0E40, X
     

@@ -6,7 +6,7 @@ Sprite_RavenLong:
 {
     PHB : PHK : PLB
     
-    JSR SpritePrep_Raven
+    JSR.w SpritePrep_Raven
     
     PLB
     
@@ -29,15 +29,15 @@ Sprite_Raven:
 {
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_CheckIfRecoiling
-    JSR Sprite4_CheckDamage
-    JSR Sprite4_Move
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfRecoiling
+    JSR.w Sprite4_CheckDamage
+    JSR.w Sprite4_Move
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Raven_InWait
     dw Raven_Ascend
@@ -60,8 +60,8 @@ Pool_Raven_Ascend:
 ; $0EDDAE-$0EDDE4 JUMP LOCATION
 Raven_InWait:
 {
-    JSR Sprite4_IsToRightOfPlayer
-    JSR Raven_SetHflip
+    JSR.w Sprite4_IsToRightOfPlayer
+    JSR.w Raven_SetHflip
     
     REP #$20
     
@@ -75,7 +75,7 @@ Raven_InWait:
     
     LDA.b #$18 : STA.w $0DF0, X
     
-    LDA.b #$1E : JSL Sound_SetSfx3PanLong
+    LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
     
     .player_too_far
     
@@ -95,11 +95,11 @@ Raven_Ascend:
     
     LDY.w $0D90, X
     
-    LDA .timers, Y : STA.w $0DF0, X
+    LDA.w .timers, Y : STA.w $0DF0, X
     
     LDA.b #$20
     
-    JSL Sprite_ApplySpeedTowardsPlayerLong
+    JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     .delay
     
@@ -132,7 +132,7 @@ Raven_Attack:
     
     TXA : EOR.b $1A : LSR A : BCS .delay_speed_analysis
     
-    LDA #$20 : JSL Sprite_ProjectSpeedTowardsPlayerLong
+    LDA #$20 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     ; $0EDE27 ALTERNATE ENTRY POINT
 Raven_AccelerateToTargetSpeed:
@@ -188,7 +188,7 @@ Raven_FleePlayer:
 {
     TXA : EOR.b $1A : LSR A : BCS Raven_Animate
     
-    LDA.b #$30 : JSL Sprite_ProjectSpeedTowardsPlayerLong
+    LDA.b #$30 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $00 : EOR.b #$FF : INC A : STA.b $00
     

@@ -45,15 +45,15 @@ Sprite_ZoraAndFireball:
     
     LDA.w $0DF0, X : BEQ .dont_allocate_oam
     
-    LDA.b #$04 : JSL OAM_AllocateFromRegionC
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionC
     
     .dont_allocate_oam
     
-    JSL Sprite_PrepAndDrawSingleSmallLong
-    JSR Sprite2_CheckIfActive
-    JSL ZoraFireball_SpawnTailGarnish
+    JSL.l Sprite_PrepAndDrawSingleSmallLong
+    JSR.w Sprite2_CheckIfActive
+    JSL.l ZoraFireball_SpawnTailGarnish
     
-    JSL Sprite_CheckDamageToPlayerLong : BCC .no_player_contact
+    JSL.l Sprite_CheckDamageToPlayerLong : BCC .no_player_contact
     
     .self_terminate
     
@@ -63,7 +63,7 @@ Sprite_ZoraAndFireball:
     
     .no_player_contact
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     LDA.b $1B : BEQ .ignore_tile_collision
     
@@ -71,7 +71,7 @@ Sprite_ZoraAndFireball:
     
     TXA : EOR.b $1A : AND.b #$03 : BNE .ignore_tile_collision
     
-    JSR Sprite2_CheckTileCollision : BNE .self_terminate
+    JSR.w Sprite2_CheckTileCollision : BNE .self_terminate
     
     .ignore_tile_collision
     
@@ -91,7 +91,7 @@ Sprite_ZoraAndFireball:
     ; No... so don�t hurt him.
     LDA.b $EE : CMP.w $0F20, X : BNE .ignore_shield_collision
     
-    JSL Sprite_SetupHitBoxLong
+    JSL.l Sprite_SetupHitBoxLong
     
     ; Okay, so normally (bread crumb) you might think a general collision
     ; function would handle this, and indeed there is code for some
@@ -104,28 +104,28 @@ Sprite_ZoraAndFireball:
     
     LDA.b $3C : BEQ .shield_not_to_the_side
     
-    LDA .shield_to_the_side_indices, Y : TAY
+    LDA.w .shield_to_the_side_indices, Y : TAY
     
     .shield_not_to_the_side
     
     LDA.b $22 : CLC : ADC .shield_x_offsets_low, Y  : STA.b $00
     LDA.b $23 : CLC : ADC .shield_x_offsets_high, Y : STA.b $08
     
-    LDA .shield_hit_box_size_x, Y : STA.b $02
+    LDA.w .shield_hit_box_size_x, Y : STA.b $02
     
     LDA.b $20 : CLC : ADC .shield_y_offsets_low, Y : STA.b $01
     LDA.b $21 : ADC.b #$00    : STA.b $09
     
-    LDA .shield_hit_box_size_y, Y : STA.b $03
+    LDA.w .shield_hit_box_size_y, Y : STA.b $03
     
-    JSL Utility_CheckIfHitBoxesOverlapLong : BCC .no_shield_collision
+    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .no_shield_collision
     
-    JSL Sprite_PlaceRupulseSpark.coerce
+    JSL.l Sprite_PlaceRupulseSpark_coerce
     
     ; Kill off the sprite.
     STZ.w $0DD0, X
     
-    LDA.b #$06 : JSL Sound_SetSfx2PanLong
+    LDA.b #$06 : JSL.l Sound_SetSfx2PanLong
     
     .no_shield_collision
     .ignore_shield_collision
@@ -140,17 +140,17 @@ Sprite_Zora:
 {
     LDA.w $0D80, X : BNE .draw_sprite
     
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_PrepOamCoordLong
     
     BRA .moving_on
     
     .draw_sprite
     
-    JSR Zora_Draw
+    JSR.w Zora_Draw
     
     .moving_on
     
-    JSR Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0D80, X : BEQ Zora_ChooseSurfacingLocation
     DEC A        : BEQ .surfacing
@@ -191,18 +191,18 @@ Zora_ChooseSurfacingLocation:
     ; logic indicates that it surfacing point is bounded by its starting
     ; coordinates.
     
-    JSL GetRandomInt : AND.b #$07 : TAY
+    JSL.l GetRandomInt : AND.b #$07 : TAY
     
     LDA.w $0D90, X : CLC : ADC .offsets_low, Y  : STA.w $0D10, X
     LDA.w $0DA0, X : ADC .offsets_high, Y : STA.w $0D30, X
     
-    JSL GetRandomInt : AND.b #$07 : TAY
+    JSL.l GetRandomInt : AND.b #$07 : TAY
     
     LDA.w $0DB0, X : CLC : ADC .offsets_low, Y  : STA.w $0D00, X
     LDA.w $0EB0, X : ADC .offsets_high, Y : STA.w $0D20, X
     
-    JSL Sprite_Get_16_bit_CoordsLong
-    JSR Sprite2_CheckTileCollision
+    JSL.l Sprite_Get_16_bit_CoordsLong
+    JSR.w Sprite2_CheckTileCollision
     
     LDA.w $0FA5 : CMP.b #$08 : BNE .not_in_deep_water
     
@@ -248,7 +248,7 @@ Zora_Surfacing:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -267,7 +267,7 @@ Pool_Zora_Attack:
 ; $0297F1-$029817 LOCAL JUMP LOCATION
 Zora_Attack:
 {
-    JSR Sprite2_CheckDamage
+    JSR.w Sprite2_CheckDamage
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -283,7 +283,7 @@ Zora_Attack:
     
     PHA
     
-    JSL Sprite_SpawnFireball
+    JSL.l Sprite_SpawnFireball
     
     PLA
     
@@ -291,7 +291,7 @@ Zora_Attack:
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -324,7 +324,7 @@ Zora_Submerging:
     
     LSR #2 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -370,7 +370,7 @@ Pool_Zora_Draw:
 ; $0298F5-$02995A LOCAL JUMP LOCATION
 Zora_Draw:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0DC0, X : ASL A : STA.b $06
     
@@ -402,11 +402,11 @@ Zora_Draw:
     
     PLX
     
-    LDA .chr, X : INY : STA ($90), Y
+    LDA.w .chr, X : INY : STA ($90), Y
     
     LDA.b #$0F : STA.b $0D
     
-    LDA .properties, X : BIT.b $0D : BNE .override_intended_palette
+    LDA.w .properties, X : BIT.b $0D : BNE .override_intended_palette
     
     ORA.b $05
     
@@ -416,7 +416,7 @@ Zora_Draw:
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA .size_bit, X : ORA.b $0F : STA ($92), Y
+    LDA.w .size_bit, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

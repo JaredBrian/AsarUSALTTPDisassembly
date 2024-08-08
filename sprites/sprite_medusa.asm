@@ -7,7 +7,7 @@
 ; $0EC7EB-$0EC852 JUMP LOCATION
 Sprite_Medusa:
 {
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_PrepOamCoordLong
     
     LDA.b $1B : BNE .indoors
     
@@ -16,13 +16,13 @@ Sprite_Medusa:
     ; gravestone.
     LDA.b #$FF : STA.w $0D50, X : STA.w $0E30, X
     
-    JSR Sprite4_CheckTileCollision : BEQ .didnt_collide
+    JSR.w Sprite4_CheckTileCollision : BEQ .didnt_collide
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     LDA.b #$19 : STA.w $0E20, X
     
-    JSL Sprite_LoadProperties
+    JSL.l Sprite_LoadProperties
     
     INC.w $0E90, X
     
@@ -30,7 +30,7 @@ Sprite_Medusa:
     
     LDA.w $0D00, X : SBC.b #$07 : STA.w $0D00, X
     
-    LDA.b #$19 : JSL Sound_SetSfx3PanLong
+    LDA.b #$19 : JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$80 : STA.w $0CAA, X
     
@@ -40,13 +40,13 @@ Sprite_Medusa:
     
     .indoors
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     INC.w $0E80, X : LDA.w $0E80, X : AND.b #$7F : BNE .dont_spawn
     
     LDA.w $0F20, X : CMP $EE : BNE .dont_spawn
     
-    JSL Sprite_SpawnFireball : BMI .spawn_failed
+    JSL.l Sprite_SpawnFireball : BMI .spawn_failed
     
     ; $0EC845 ALTERNATE ENTRY POINT
     shared Medusa_ConfigFireballProperties:

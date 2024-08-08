@@ -8,7 +8,7 @@ Sprite_BottleVendorLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_BottleVendor
+    JSR.w Sprite_BottleVendor
     
     PLB
     
@@ -24,21 +24,21 @@ Sprite_BottleVendor:
     ; are present, 0x81 - fish and good bee are present, but fish overrides
     ; good bee for this sprite's behavior.
     
-    JSR BottleVendor_Draw
+    JSR.w BottleVendor_Draw
     
     LDA.b $03 : ORA.b $01 : STA.w $0D90, X
     
-    JSR Sprite2_CheckIfActive
-    JSL BottleVendor_DetectFish
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w Sprite2_CheckIfActive
+    JSL.l BottleVendor_DetectFish
+    JSL.l Sprite_PlayerCantPassThrough
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCC .player_available
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCC .player_available
     
     RTS
     
     .player_available
     
-    JSL GetRandomInt : BNE .dont_reset_timer
+    JSL.l GetRandomInt : BNE .dont_reset_timer
     
     LDA.b #$01 : STA.w $0DC0, X
     
@@ -54,7 +54,7 @@ Sprite_BottleVendor:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw BottleVendor_Base
     dw BottleVendor_SellingBottle
@@ -72,7 +72,7 @@ BottleVendor_SoldOut:
     LDA.b #$D4
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -101,7 +101,7 @@ BottleVendor_Base:
     LDA.b #$D1
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_converse
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_converse
     
     INC.w $0D80, X
     
@@ -126,7 +126,7 @@ BottleVendor_SellingBottle:
     LDA.b #$D2
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -139,7 +139,7 @@ BottleVendor_SellingBottle:
     LDA.b #$D3
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -158,7 +158,7 @@ BottleVendor_GiveBottle:
     
     PHX
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -186,7 +186,7 @@ BottleVendor_BuyingFromPlayer:
     LDA.b #$D5
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -198,7 +198,7 @@ BottleVendor_BuyingFromPlayer:
     LDA.b #$D6
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -216,7 +216,7 @@ BottleVendor_DispenseRewardToPlayer:
     
     LDA.b #$00 : STA.w $0DD0, Y
     
-    JSL BottleVendor_PayForGoodBee
+    JSL.l BottleVendor_PayForGoodBee
     
     STZ.w $0E90, X
     STZ.w $0D80, X
@@ -229,7 +229,7 @@ BottleVendor_DispenseRewardToPlayer:
     
     LDA.b #$00 : STA.w $0DD0, Y
     
-    JSL BottleVendor_SpawnFishRewards
+    JSL.l BottleVendor_SpawnFishRewards
     
     STZ.w $0E90, X
     STZ.w $0D80, X
@@ -264,8 +264,8 @@ BottleVendor_Draw:
     ADC.b #$87              : STA.b $08
     LDA.b #$EB : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

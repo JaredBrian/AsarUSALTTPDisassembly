@@ -8,7 +8,7 @@ Sprite_FluteBoy:
     
     LDA.w $0EB0, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FluteBoy_Humanoid
     dw Sprite_FluteNote
@@ -22,7 +22,7 @@ FluteBoy_Humanoid:
     ; In this situation, determines light world / darkworld behavior
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FluteBoy_HumanForm
     dw Sprite_FluteAardvark
@@ -35,14 +35,14 @@ FluteBoy_HumanForm:
 {
     LDA.w $0D80, X : CMP.b #$03 : BEQ .invisible
     
-    JSL FluteBoy_Draw
+    JSL.l FluteBoy_Draw
     
     ; what exactly is going on here...?
     LDA.b $01 : ORA.b $03 : STA.w $0DB0, X
     
     .invisible
     
-    JSR Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0DB0, X : BNE .delay_playing_flute_ditty
     
@@ -57,7 +57,7 @@ FluteBoy_HumanForm:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FluteBoy_Chillin
     dw FltueBoy_PrepPhaseOut
@@ -72,7 +72,7 @@ FluteBoy_Chillin:
 {
     LDA.l $7EF34C : CMP.b #$02 : BCS .player_has_flute
     
-    JSR FluteBoy_CheckIfPlayerTooClose : BCS .player_not_too_close
+    JSR.w FluteBoy_CheckIfPlayerTooClose : BCS .player_not_too_close
     
     .player_has_flute
     
@@ -94,7 +94,7 @@ FluteBoy_Chillin:
     
     LDA.b #$19 : STA.w $0DF0, X
     
-    JSR FluteBoy_SpawnFluteNote
+    JSR.w FluteBoy_SpawnFluteNote
     
     .spawn_note_delay
     
@@ -118,7 +118,7 @@ FltueBoy_PrepPhaseOut:
     
     PHX
     
-    JSL Palette_AssertTranslucencySwap
+    JSL.l Palette_AssertTranslucencySwap
     
     PLX
     
@@ -127,7 +127,7 @@ FltueBoy_PrepPhaseOut:
     ; .... What? TODO: Does this quiet sfx1 down?
     LDA.b #$80 : STA.w $012D
     
-    LDA.b #$33 : JSL Sound_SetSfx2PanLong
+    LDA.b #$33 : JSL.l Sound_SetSfx2PanLong
     
     .delay
     
@@ -143,7 +143,7 @@ FluteBoy_PhaseOut:
     
     PHX
     
-    JSL Palette_Filter_SP5F
+    JSL.l Palette_Filter_SP5F
     
     PLX
     
@@ -164,8 +164,8 @@ FluteBoy_FullyPhasedOut:
 {
     PHX
     
-    JSL Palette_Restore_SP5F
-    JSL Palette_RevertTranslucencySwap
+    JSL.l Palette_Restore_SP5F
+    JSL.l Palette_RevertTranslucencySwap
     
     PLX
     
@@ -200,12 +200,12 @@ Pool_FluteAardvark_Arborating:
 ; $033040-$033059 JUMP LOCATION
 Sprite_FluteAardvark:
 {
-    JSL FluteAardvark_Draw
-    JSR Sprite_CheckIfActive
+    JSL.l FluteAardvark_Draw
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FluteAardvark_InitialStateFromFluteState
     dw FluteAardvark_ReactToSupplicationResponse
@@ -223,7 +223,7 @@ FluteAardvark_InitialStateFromFluteState:
     ; Flute
     LDA.l $7EF34C : AND.b #$03
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FluteAardvark_Supplicate
     dw FluteAardvark_GetMeMyFlute
@@ -240,7 +240,7 @@ FluteAardvark_Supplicate:
     LDA.b #$E5
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     INC.w $0D80, X
     
@@ -258,7 +258,7 @@ FluteAardvark_GetMeMyFlute:
     LDA.b #$E8
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -274,7 +274,7 @@ FluteAardvark_ThanksButYouKeepIt:
     LDA.b #$E9
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     LDA.b #$03 : STA.w $0D80, X
     
@@ -304,7 +304,7 @@ FluteAardvark_ReactToSupplicationResponse:
     LDA.b #$E6
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -316,7 +316,7 @@ FluteAardvark_ReactToSupplicationResponse:
     LDA.b #$E7
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X
     
@@ -335,7 +335,7 @@ FluteAardvark_GrantShovel:
     
     PHX
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -378,17 +378,17 @@ FluteAardvark_Arborating:
     
     LDA.w $0D90, X : CMP.b #$03 : BCC .anoplay_sfx
     
-    LDA.b #$33 : JSL Sound_SetSfx2PanLong
+    LDA.b #$33 : JSL.l Sound_SetSfx2PanLong
     
     .anoplay_sfx
     
     LDA.w $0D90, X : TAY : INC A : STA.w $0D90, X
     
-    LDA .animation_states, Y : BMI .invalid_state
+    LDA.w .animation_states, Y : BMI .invalid_state
     
     STA.w $0DC0, X
     
-    LDA .timers, Y : STA.w $0DF0, X
+    LDA.w .timers, Y : STA.w $0DF0, X
     
     .delay
     
@@ -475,10 +475,10 @@ Pool_Sprite_FluteNote:
 ; $033173-$0331A4 JUMP LOCATION
 Sprite_FluteNote:
 {
-    JSR Sprite_PrepAndDrawSingleSmall
-    JSR Sprite_CheckIfActive
-    JSR Sprite_Move
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_PrepAndDrawSingleSmall
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_Move
+    JSR.w Sprite_MoveAltitude
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -502,7 +502,7 @@ Sprite_FluteNote:
 ; $0331A5-$0331DD LOCAL JUMP LOCATION
 FluteBoy_SpawnFluteNote:
 {
-    LDA.b #$2E : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$2E : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
     LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y

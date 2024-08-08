@@ -4,16 +4,16 @@
 ; $0F4103-$0F411F JUMP LOCATION
 Sprite_Kodondo:
 {
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
-    JSR Sprite3_CheckDamage
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckDamage
     
     STZ.w $0B6B, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Kodondo_ChooseDirection
     dw Kodondo_Move
@@ -23,7 +23,7 @@ Sprite_Kodondo:
 ; ==============================================================================
 
 ; $0F4120-$0F4127 DATA
-    Pool_Kodondo_ChooseDirection
+Pool_Kodondo_ChooseDirection:
 {
     .x_speeds
     db $01, $FF, $00, $00
@@ -39,7 +39,7 @@ Kodondo_ChooseDirection:
 {
     INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$03 : STA.w $0DE0, X
+    JSL.l GetRandomInt : AND.b #$03 : STA.w $0DE0, X
     
     LDA.b #$B0 : STA.w $0B6B, X
     
@@ -47,11 +47,11 @@ Kodondo_ChooseDirection:
     
     LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
     
     LDA.w $0DE0, X : INC A : AND.b #$03 : STA.w $0DE0, X
     
@@ -67,9 +67,9 @@ Kodondo_ChooseDirection:
     
     LDY.w $0DE0, X
     
-    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
+    LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
     
-    LDA Sprite3_Shake.y_speeds, Y : STA.w $0D40, X
+    LDA Sprite3_Shake_y_speeds, Y : STA.w $0D40, X
     
     RTS
 }
@@ -91,13 +91,13 @@ Pool_Kodondo_Move:
 ; $0F4178-$0F41CD JUMP LOCATION
 Kodondo_Move:
 {
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
     
     LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
-    JSR Kodondo_SetSpeed
+    JSR.w Kodondo_SetSpeed
     
     .no_tile_collision
     
@@ -109,7 +109,7 @@ Kodondo_Move:
     
     LDA.w $0D00, X : AND.b #$1F : CMP.b #$1B : BNE .dont_breathe_flame
     
-    JSL GetRandomInt : AND.b #$03 : BNE .dont_breathe_flame
+    JSL.l GetRandomInt : AND.b #$03 : BNE .dont_breathe_flame
     
     LDA.b #$6F : STA.w $0DF0, X
     
@@ -123,7 +123,7 @@ Kodondo_Move:
     
     LDA.w $0E80, X : AND.b #$04 : ORA.w $0DE0, X : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0F50, X : AND.b #$BF : ORA .vh_flip_override, Y : STA.w $0F50, X
     
@@ -165,7 +165,7 @@ Kodondo_BreatheFlame:
     
     PHY
     
-    JSR Kodondo_SpawnFlames
+    JSR.w Kodondo_SpawnFlames
     
     PLY
     
@@ -173,7 +173,7 @@ Kodondo_BreatheFlame:
     
     TYA : ORA.w $0DE0, X : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -214,7 +214,7 @@ Kodondo_SpawnFlames:
     LDA.b #$87
     LDY.b #$0D
     
-    JSL Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
     
     PHX
     
@@ -226,9 +226,9 @@ Kodondo_SpawnFlames:
     LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
     LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     LDA.b #$01 : STA.w $0BA0, Y
     

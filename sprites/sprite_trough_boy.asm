@@ -6,7 +6,7 @@ Sprite_TroughBoyLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_TroughBoy
+    JSR.w Sprite_TroughBoy
     
     PLB
     
@@ -18,12 +18,12 @@ Sprite_TroughBoyLong:
 ; $02FF66-$02FF9E LOCAL JUMP LOCATION
 Sprite_TroughBoy:
 {
-    JSR TroughBoy_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
-    JSL Sprite_MakeBodyTrackHeadDirection
+    JSR.w TroughBoy_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
+    JSL.l Sprite_MakeBodyTrackHeadDirection
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA.l $7EF3C7 : CMP.b #$03 : BCS .player_met_sahasralah
     
@@ -31,7 +31,7 @@ Sprite_TroughBoy:
     LDA.b #$47
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_converse
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_converse
     
     LDA.b #$02 : STA.l $7EF3C7
     
@@ -45,7 +45,7 @@ Sprite_TroughBoy:
     LDA.b #$48
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -82,8 +82,8 @@ TroughBoy_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

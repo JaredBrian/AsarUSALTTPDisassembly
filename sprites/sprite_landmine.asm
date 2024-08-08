@@ -4,16 +4,16 @@
 ; $0E8099-$0E80BA JUMP LOCATION
 Sprite_Landmine:
 {
-    JSR Landmine_Draw
-    JSR Sprite4_CheckIfActive
+    JSR.w Landmine_Draw
+    JSR.w Sprite4_CheckIfActive
     
-    JSL Landmine_CheckDetonationFromHammer : BCS Landmine_InstantDetonation
+    JSL.l Landmine_CheckDetonationFromHammer : BCS Landmine_InstantDetonation
     
     LDA.w $0DF0, X : BNE Landmine_Detonating
     
     LDA.b #$04 : STA.w $0F50, X
     
-    JSL Sprite_CheckDamageToPlayerLong : BCC .player_didnt_touch
+    JSL.l Sprite_CheckDamageToPlayerLong : BCC .player_didnt_touch
     
     LDA.b #$08 : STA.w $0DF0, X
     
@@ -43,7 +43,7 @@ Landmine_Detonating:
     
     STZ.w $0DD0, X
     
-    JSR Sprite_SpawnBomb : BMI .spawn_failed
+    JSR.w Sprite_SpawnBomb : BMI .spawn_failed
     
     LDA.b #$06 : STA.w $0DD0, Y
     
@@ -55,7 +55,7 @@ Landmine_Detonating:
     
     LDA.b #$03 : STA.w $0E40, Y
     
-    JSL Sound_SetSfxPan : ORA.b #$0C : STA.w $012E
+    JSL.l Sound_SetSfxPan : ORA.b #$0C : STA.w $012E
     
     .spawn_failed
     
@@ -65,7 +65,7 @@ Landmine_Detonating:
     
     LSR A : AND.b #$03 : TAY
     
-    LDA .palettes, Y : STA.w $0F50, X
+    LDA.w .palettes, Y : STA.w $0F50, X
     
     RTS
 }
@@ -85,7 +85,7 @@ Pool_Landmine_Draw:
 ; $0E810C-$0E8128 LOCAL JUMP LOCATION
 Landmine_Draw:
 {
-    LDA.b #$08 : JSL OAM_AllocateFromRegionB
+    LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
     
     LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
     
@@ -95,7 +95,7 @@ Landmine_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSL Sprite_DrawMultiple
+    LDA.b #$02 : JSL.l Sprite_DrawMultiple
     
     .invalid_gfx_loaded
     

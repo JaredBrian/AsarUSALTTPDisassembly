@@ -32,21 +32,21 @@ Sprite_Recruit:
     
     LDA.w $0E80, X : AND.b #$08 : LSR A : ADC.w $0DE0, X : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
-    JSR Recruit_Draw
-    JSR Sprite2_CheckIfActive
-    JSR Sprite2_CheckIfRecoiling
-    JSR Sprite2_CheckDamage
-    JSR Sprite2_Move
-    JSR Sprite2_CheckTileCollision
+    JSR.w Recruit_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfRecoiling
+    JSR.w Sprite2_CheckDamage
+    JSR.w Sprite2_Move
+    JSR.w Sprite2_CheckTileCollision
     
     LDA.w $0D80, X : BNE Recruit_Moving
     
     LDA.w $0DF0, X : BNE .wait
     
     ; Set the delay timer to a new value.
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$30 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$3F : ADC.b #$30 : STA.w $0DF0, X
     
     ; Put the soldier back in motion again.
     INC.w $0D80, X
@@ -54,7 +54,7 @@ Sprite_Recruit:
     ; Set the direction of the body to that of the head.
     LDA.w $0EB0, X : STA.w $0DE0, X
     
-    JSR Sprite2_DirectionToFacePlayer : TYA
+    JSR.w Sprite2_DirectionToFacePlayer : TYA
     
     LDY.w $0DE0, X : CMP.w $0DE0, X : BNE .not_facing_player
     
@@ -72,8 +72,8 @@ Sprite_Recruit:
     .not_facing_player
     .not_close_to_player
     
-    LDA .x_speeds, Y : STA.w $0D50, X
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     .wait
     
@@ -105,13 +105,13 @@ Recruit_Moving:
     
     STA.w $0DF0, X
     
-    JSR Sprite2_ZeroVelocity
+    JSR.w Sprite2_ZeroVelocity
     
-    JSL GetRandomInt : AND.b #$01 : STA.b $00
+    JSL.l GetRandomInt : AND.b #$01 : STA.b $00
     
     LDA.w $0DE0, X : ASL A : ORA.b $00 : TAY
     
-    LDA .next_head_direction, Y : STA.w $0EB0, X
+    LDA.w .next_head_direction, Y : STA.w $0EB0, X
     
     STZ.w $0D80, X
     
@@ -150,7 +150,7 @@ Pool_Recruit_Draw:
 ; $02BD7E-$02BE09 LOCAL JUMP LOCATION
 Recruit_Draw:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0DC0, X : STA.b $06
     
@@ -208,8 +208,8 @@ Recruit_Draw:
     
     PLX
     
-    LDA .chr, X               : INY : STA ($90), Y
-    LDA .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
+    LDA.w .chr, X               : INY : STA ($90), Y
+    LDA.w .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
     
     LDY.b #$01
     
@@ -217,7 +217,7 @@ Recruit_Draw:
     
     PLX
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

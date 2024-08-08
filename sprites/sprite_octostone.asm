@@ -8,12 +8,12 @@ Sprite_Octostone:
     
     LDA.w $0DD0, X : CMP.b #$06 : BNE .not_crumbling
     
-    JSR Octostone_DrawCrumbling
-    JSR Sprite_CheckIfActive.permissive
+    JSR.w Octostone_DrawCrumbling
+    JSR.w Sprite_CheckIfActive_permissive
     
     LDA.w $0DF0, X : CMP.b #$1E : BNE .dont_play_crumble_sfx
     
-    LDA.b #$1F : JSL Sound_SetSfx2PanLong
+    LDA.b #$1F : JSL.l Sound_SetSfx2PanLong
     
     .dont_play_crumble_sfx
     
@@ -21,18 +21,18 @@ Sprite_Octostone:
     
     .not_crumbling
     
-    JSR Sprite_PrepAndDrawSingleLarge
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckDamageToPlayer
-    JSR Sprite_Move
+    JSR.w Sprite_PrepAndDrawSingleLarge
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckDamageToPlayer
+    JSR.w Sprite_Move
     
     TXA : EOR.b $1A : AND.b #$03 : BNE .tile_collision_logic_delay
     
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_CheckTileCollision
     
     LDA.w $0E70, X : BEQ .no_tile_collision
     
-    JSR Sprite_ScheduleForDeath
+    JSR.w Sprite_ScheduleForDeath
     
     .no_tile_collision
     .tile_collision_logic_delay
@@ -63,7 +63,7 @@ Pool_Octostone_DrawCrumbling:
 ; $035643-$0356A1 LOCAL JUMP LOCATION
 Octostone_DrawCrumbling:
 {
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     PHX
     
@@ -95,7 +95,7 @@ Octostone_DrawCrumbling:
     
     LDA.b #$BC : INY : STA ($90), Y
     
-    LDA .vh_flip, X : ORA.b #$2D : INY : STA ($90), Y
+    LDA.w .vh_flip, X : ORA.b #$2D : INY : STA ($90), Y
     
     PHY
     

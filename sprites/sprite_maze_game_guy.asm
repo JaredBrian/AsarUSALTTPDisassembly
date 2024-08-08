@@ -6,7 +6,7 @@ Sprite_MazeGameGuyLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_MazeGameGuy
+    JSR.w Sprite_MazeGameGuy
     
     PLB
     
@@ -18,13 +18,13 @@ Sprite_MazeGameGuyLong:
 ; $06CBF2-$06CC2C LOCAL JUMP LOCATION
 Sprite_MazeGameGuy:
 {
-    JSL MazeGameGuy_Draw
-    JSR Sprite5_CheckIfActive
-    JSL Sprite_MakeBodyTrackHeadDirection
+    JSL.l MazeGameGuy_Draw
+    JSR.w Sprite5_CheckIfActive
+    JSL.l Sprite_MakeBodyTrackHeadDirection
     
     STZ.w $0EB0, X
     
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
@@ -33,7 +33,7 @@ Sprite_MazeGameGuy:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw MazeGameGuy_ParseElapsedTime
     dw MazeGameGuy_CheckPlayerQualification
@@ -47,7 +47,7 @@ Sprite_MazeGameGuy:
     LDA.b #$D0
     LDY.b #$00
     
-    JSL Sprite_ShowMessageFromPlayerContact
+    JSL.l Sprite_ShowMessageFromPlayerContact
     
     RTS
 }
@@ -132,7 +132,7 @@ MazeGameGuy_ParseElapsedTime:
     LDA.b #$CB
     LDY.b #$00
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
     
     STA.w $0DE0, X : STA.w $0EB0, X
     
@@ -162,7 +162,7 @@ MazeGameGuy_CheckPlayerQualification:
     LDA.b #$CF
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     RTS
     
@@ -177,7 +177,7 @@ MazeGameGuy_CheckPlayerQualification:
     LDA.b #$CD
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STA.w $0EB0, X : STA.w $0DE0, X
     
@@ -189,7 +189,7 @@ MazeGameGuy_CheckPlayerQualification:
     LDA.b #$CE
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STA.w $0EB0, X : STA.w $0DE0, X
     
@@ -205,7 +205,7 @@ MazeGameGuy_SorryCantHaveIt:
     LDA.b #$CE
     LDY.b #$00
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
     
     STA.w $0EB0, X : STA.w $0DE0, X
     
@@ -223,7 +223,7 @@ MazeGameGuy_YouCanHaveIt:
     LDA.b #$CD
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     STA.w $0EB0, X : STA.w $0DE0, X
     
@@ -241,7 +241,7 @@ MazeGameGuy_NothingMoreToGive:
     LDA.b #$CF
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     STA.w $0EB0, X : STA.w $0DE0, X
     
@@ -296,8 +296,8 @@ MazeGameGuy_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     PLB
     

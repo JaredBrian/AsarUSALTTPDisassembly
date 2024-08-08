@@ -8,7 +8,7 @@ Sprite_WallMaster:
     
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSR WallMaster_Draw
+    JSR.w WallMaster_Draw
     
     LDA.w $0DD0, X : CMP.b #$09 : BEQ .dont_release_player
     
@@ -17,7 +17,7 @@ Sprite_WallMaster:
     
     .dont_release_player
     
-    JSR Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0D90, X : BEQ .player_not_ensnared
     
@@ -56,8 +56,8 @@ Sprite_WallMaster:
     
     PHX
     
-    JSL WallMaster_SendPlayerToLastEntrance
-    JSL Init_Player
+    JSL.l WallMaster_SendPlayerToLastEntrance
+    JSL.l Init_Player
     
     PLX
     
@@ -65,13 +65,13 @@ Sprite_WallMaster:
     
     .player_not_ensnared
     
-    JSL Sprite_CheckDamageFromPlayerLong
+    JSL.l Sprite_CheckDamageFromPlayerLong
     
     .delay_sending_player_to_entrance
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw WallMaster_Descend
     dw WallMaster_GrabAttempt
@@ -85,7 +85,7 @@ WallMaster_Descend:
 {
     LDA.w $0F70, X : PHA
     
-    JSR Sprite3_MoveAltitude
+    JSR.w Sprite3_MoveAltitude
     
     LDA.w $0F80, X : CMP.b #$C0 : BMI .descend_speed_maxed
     
@@ -131,14 +131,14 @@ WallMaster_GrabAttempt:
     
     TYA : STA.w $0DC0, X
     
-    JSR Sprite3_CheckDamageToPlayer : BCC .didnt_grab_player
+    JSR.w Sprite3_CheckDamageToPlayer : BCC .didnt_grab_player
     
     LDA.b #$01 : STA.w $0D90, X
     
     ; Sprite is invincible.
     LDA.b #$40 : STA.w $0E60, X
     
-    LDA.b #$2A : JSL Sound_SetSfx3PanLong
+    LDA.b #$2A : JSL.l Sound_SetSfx3PanLong
     
     .didnt_grab_player
     
@@ -151,7 +151,7 @@ WallMaster_GrabAttempt:
 {
     LDA.w $0F70, X : PHA
     
-    JSR Sprite3_MoveAltitude
+    JSR.w Sprite3_MoveAltitude
     
     LDA.w $0F80, X : CMP.b #$40 : BPL .ascend_speed_maxed
     
@@ -193,8 +193,8 @@ WallMaster_Draw:
     
     LDA.b #$04
     
-    JSR Sprite3_DrawMultiple
-    JSL Sprite_DrawVariableSizedShadow
+    JSR.w Sprite3_DrawMultiple
+    JSL.l Sprite_DrawVariableSizedShadow
     
     RTS
 }

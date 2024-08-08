@@ -4,16 +4,16 @@
 ; $031E1F-$031E43 JUMP LOCATION
 Sprite_Ropa:
 {
-    JSR Ropa_Draw
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_CheckDamage
+    JSR.w Ropa_Draw
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckDamage
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA.w $0DC0, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Ropa_Stationary
     dw Ropa_Pounce
@@ -28,9 +28,9 @@ Ropa_Stationary:
     
     LDA.b #$10
     
-    JSR Sprite_ApplySpeedTowardsPlayer
+    JSR.w Sprite_ApplySpeedTowardsPlayer
     
-    JSL GetRandomInt : AND.b #$0F : ADC.b #$14 : STA.w $0F80, X
+    JSL.l GetRandomInt : AND.b #$0F : ADC.b #$14 : STA.w $0F80, X
     
     INC.w $0D80, X
     
@@ -44,16 +44,16 @@ Ropa_Stationary:
 ; $031E5D-$031E84 JUMP LOCATION
 Ropa_Pounce:
 {
-    JSR Sprite_Move
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_Move
+    JSR.w Sprite_CheckTileCollision
     
     LDA.w $0E70, X : BEQ .no_tile_collision
     
-    JSR Sprite_Zero_XY_Velocity
+    JSR.w Sprite_Zero_XY_Velocity
     
     .no_tile_collision
     
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_MoveAltitude
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
@@ -108,7 +108,7 @@ Ropa_Draw:
     
     SEP #$20
     
-    LDA.b #$03 : JSL Sprite_DrawMultiple
+    LDA.b #$03 : JSL.l Sprite_DrawMultiple
     
     JMP Sprite_DrawShadow
 }

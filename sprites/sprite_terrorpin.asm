@@ -4,23 +4,23 @@
 ; $0F326F-$0F3296 JUMP LOCATION
 Sprite_Terrorpin:
 {
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckTileCollision
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckTileCollision
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
     
     LDA.w $0E10, X : BNE .invulnerable
     
-    JSL Sprite_CheckDamageFromPlayerLong
+    JSL.l Sprite_CheckDamageFromPlayerLong
     
     .invulnerable
     
-    JSR Terrorpin_CheckHammerHitNearby
-    JSR Sprite3_MoveXyz
+    JSR.w Terrorpin_CheckHammerHitNearby
+    JSR.w Sprite3_MoveXyz
     
     LDA.w $0DA0, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Terrorpin_Upright
     dw Terrorpin_Overturned
@@ -51,7 +51,7 @@ Terrorpin_Upright:
 {
     LDA.w $0F10, X : BNE .delay
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0F10, X
+    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0F10, X
     
     AND.b #$03 : STA.w $0DE0, X
     
@@ -59,7 +59,7 @@ Terrorpin_Upright:
     ; was a logical and with 0x03 immediately preceding this.
     AND.b #$30 : BNE .never_branch
     
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : STA.w $0DE0, X
     
@@ -68,9 +68,9 @@ Terrorpin_Upright:
     
     LDA.w $0DE0, X : CLC : ADC.w $0ED0, X : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     LDA.w $0F80, X : DEC #2 : STA.w $0F80, X
     
@@ -95,7 +95,7 @@ Terrorpin_Upright:
     
     LDA.b #$04 : STA.w $0CAA, X
     
-    JSR Sprite3_CheckDamageToPlayer
+    JSR.w Sprite3_CheckDamageToPlayer
     
     RTS
 }
@@ -162,7 +162,7 @@ Terrorpin_Overturned:
     
     LSR A : AND.b #$01 : TAY
     
-    LDA .shake_x_speeds, Y : STA.w $0D50, X
+    LDA.w .shake_x_speeds, Y : STA.w $0D50, X
     
     INC.w $0E80, X
     
@@ -195,10 +195,10 @@ Terrorpin_CheckHammerHitNearby:
     LDA.w $0044 : CMP.b #$80 : BEQ .cant_overturn
     LDA.w $0301 : AND.b #$0A : BEQ .cant_overturn
     
-    JSL Player_SetupActionHitBoxLong
-    JSR Terrorpin_FormHammerHitBox
+    JSL.l Player_SetupActionHitBoxLong
+    JSR.w Terrorpin_FormHammerHitBox
     
-    JSL Utility_CheckIfHitBoxesOverlapLong : BCC .didnt_hit_within_box
+    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .didnt_hit_within_box
     
     LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     

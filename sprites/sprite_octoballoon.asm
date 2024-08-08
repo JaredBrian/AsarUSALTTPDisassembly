@@ -15,10 +15,10 @@ Sprite_Octoballoon:
 {
     LDA.w $0E80, X : LSR #3 : AND.b #$07 : TAY
     
-    LDA .altitudes, Y : STA.w $0F70, X
+    LDA.w .altitudes, Y : STA.w $0F70, X
     
-    JSR Octoballoon_Draw
-    JSR Sprite_CheckIfActive
+    JSR.w Octoballoon_Draw
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0DF0, X : BNE .delay_bursting
     
@@ -47,13 +47,13 @@ Sprite_Octoballoon:
     
     .delay_bursting
     
-    JSR Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckIfRecoiling
     
     INC.w $0E80, X
     
     TXA : EOR.b $1A : AND.b #$0F : BNE .skip_speed_check_logic
     
-    LDA.b #$04 : JSR Sprite_ProjectSpeedTowardsPlayer
+    LDA.b #$04 : JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     LDA.w $0D40, X : CMP $00 : BEQ .at_target_y_speed
                              BPL .above_target_y_speed
@@ -84,19 +84,19 @@ Sprite_Octoballoon:
     .speed_check_logic_complete
     .skip_speed_check_logic
     
-    JSR Sprite_Move
+    JSR.w Sprite_Move
     
     ; NOTE: The Octoballoon can't actually damage the player, only its
     ; spawn can.
-    JSR Sprite_CheckDamageToPlayer : BCC .no_player_collision
+    JSR.w Sprite_CheckDamageToPlayer : BCC .no_player_collision
     
-    JSR Octoballoon_ApplyRecoilToPlayer
+    JSR.w Octoballoon_ApplyRecoilToPlayer
     
     .no_player_collision
     
-    JSR Sprite_CheckDamageFromPlayer
-    JSR Sprite_CheckTileCollision
-    JSR Sprite_WallInducedSpeedInversion
+    JSR.w Sprite_CheckDamageFromPlayer
+    JSR.w Sprite_CheckTileCollision
+    JSR.w Sprite_WallInducedSpeedInversion
     
     RTS
 }
@@ -110,9 +110,9 @@ Octoballoon_ApplyRecoilToPlayer:
     
     LDA.b #$04 : STA.b $46
     
-    LDA.b #$10 : JSR Sprite_ApplyRecoilToPlayer
+    LDA.b #$10 : JSR.w Sprite_ApplyRecoilToPlayer
     
-    JSR Sprite_Invert_XY_Speeds
+    JSR.w Sprite_Invert_XY_Speeds
     
     .player_invulnerable_right_now
     
@@ -140,7 +140,7 @@ Octoballoon_Draw:
     
     LDA.b $11 : BNE .dont_spawn_babies
     
-    JSR Octoballoon_SpawnTheSpawn
+    JSR.w Octoballoon_SpawnTheSpawn
     
     .dont_spawn_babies
     
@@ -148,7 +148,7 @@ Octoballoon_Draw:
     
     .not_dying
     
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     PHX
     
@@ -215,7 +215,7 @@ Pool_Octoballoon_SpawnTheSpawn:
 ; $03580E-$035842 LOCAL JUMP LOCATION
 Octoballoon_SpawnTheSpawn:
 {
-    LDA.b #$0C : JSL Sound_SetSfx2PanLong
+    LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$05 : STA.b $0D
     
@@ -223,17 +223,17 @@ Octoballoon_SpawnTheSpawn:
     
     LDA.b #$10
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     PHX
     
     LDX.b $0D
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     LDA.b #$30 : STA.w $0F80, Y
     

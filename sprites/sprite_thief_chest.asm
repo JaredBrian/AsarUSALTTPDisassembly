@@ -4,8 +4,8 @@
 ; $0F60DD-$0F6110 JUMP LOCATION
 Sprite_ThiefChest:
 {
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0D80, X : BNE .transition_to_tagalong
     
@@ -13,7 +13,7 @@ Sprite_ThiefChest:
     LDA.b #$16
     LDY.b #$01
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_touch
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_touch
     
     ; NOTE: This bit of logic is interesting in that the message above
     ; will always trigger from contact with the player but if for whatever
@@ -41,11 +41,11 @@ Sprite_ThiefChest:
     
     PHX
     
-    JSL Tagalong_LoadGfx
+    JSL.l Tagalong_LoadGfx
     
     PLX
     
-    JSL Tagalong_SpawnFromSprite
+    JSL.l Tagalong_SpawnFromSprite
     
     RTS
 }

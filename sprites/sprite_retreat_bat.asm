@@ -1,8 +1,8 @@
 
 ; ==============================================================================
 
-Pool_Sprite_RetreatBat:
 ; $0D75D5-$0D75D8 DATA
+Pool_Sprite_RetreatBat:
 {
     db  1, -1
     
@@ -17,10 +17,10 @@ Pool_Sprite_RetreatBat:
 ; $0D75D9-$0D763C JUMP LOCATION
 Sprite_RetreatBat:
 {
-    JSR RetreatBat_Draw
-    JSR Sprite6_CheckIfActive
-    JSL Sprite_MoveLong
-    JSR RetreatBat_DrawSomethingElse
+    JSR.w RetreatBat_Draw
+    JSR.w Sprite6_CheckIfActive
+    JSL.l Sprite_MoveLong
+    JSR.w RetreatBat_DrawSomethingElse
     
     STZ.w $011C
     STZ.w $011D
@@ -46,7 +46,7 @@ Sprite_RetreatBat:
     
     LDA.w $0D80, X : CMP.b #$02 : BCS .BRANCH_DELTA
     
-    LDA.b #$03 : JSL Sound_SetSfx2PanLong
+    LDA.b #$03 : JSL.l Sound_SetSfx2PanLong
     
     .BRANCH_DELTA
     
@@ -58,7 +58,7 @@ Sprite_RetreatBat:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $F63D ; = $D763D*
     dw $F684 ; = $D7684*
@@ -121,7 +121,7 @@ Sprite_RetreatBat:
     
     INC.w $0D80, X
     
-    LDA.b #$26 : JSL Sound_SetSfx3PanLong
+    LDA.b #$26 : JSL.l Sound_SetSfx3PanLong
     
     INC.w $0DE0, X
     
@@ -165,11 +165,11 @@ Sprite_RetreatBat:
     
     LDA.w $0E00, X : CMP.b #$09 : BNE .smash_delay
     
-    JSR RetreatBat_SpawnPyramidDebris
+    JSR.w RetreatBat_SpawnPyramidDebris
     
     PHX
     
-    JSL Overworld_CreatePyramidHole
+    JSL.l Overworld_CreatePyramidHole
     
     PLX
     
@@ -203,7 +203,7 @@ GanonEmerges_SpawnRetreatBat:
 {
     ; Create the bat to break into Pyramid of Power
     
-    LDA.b #$37 : JSL Sprite_SpawnDynamically
+    LDA.b #$37 : JSL.l Sprite_SpawnDynamically
     
     LDA.b #$00 : STA.w $0D40, Y
                  STA.w $0DA0, Y
@@ -257,7 +257,7 @@ RetreatBat_DrawSomethingElse:
     
     .write_oam_low_buffer_entries
     
-    LDA .oam_entries - 2, Y : STA.w $092E, Y
+    LDA.w .oam_entries - 2, Y : STA.w $092E, Y
     
     DEY #2 : BNE .write_oam_low_buffer_entries
     
@@ -294,7 +294,7 @@ RetreatBat_SpawnPyramidDebris:
     
     PHY
     
-    JSL Garnish_SpawnPyramidDebris
+    JSL.l Garnish_SpawnPyramidDebris
     
     PLY : DEY : BPL .spawn_another
     
@@ -336,10 +336,10 @@ RetreatBat_Draw:
     
     LDA.w $0DE0, X : ASL #2 : ADC.w $0DC0, X : TAY
     
-    LDA .ptr_low_bytes, Y : STA.b $08
-    LDA .ptr_high_byte    : STA.b $09
+    LDA.w .ptr_low_bytes, Y : STA.b $08
+    LDA.w .ptr_high_byte    : STA.b $09
     
-    LDA .num_oam_entries, Y : JSL Sprite_DrawMultiple
+    LDA.w .num_oam_entries, Y : JSL.l Sprite_DrawMultiple
     
     RTS
 }

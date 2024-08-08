@@ -6,7 +6,7 @@ Sprite_TalkingTreeLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_TalkingTree
+    JSR.w Sprite_TalkingTree
     
     PLB
     
@@ -20,7 +20,7 @@ Sprite_TalkingTree:
 {
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $F956 ; = $EF956*
     dw $FB0A ; = $EFB0A*
@@ -31,13 +31,13 @@ Sprite_TalkingTree:
 ; $0EF956-$0EF96D JUMP LOCATION
 {
     JSR.w $FADB ; $0EFADB IN ROM
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     STZ.w $0F60, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $F96E ; = $EF96E*
     dw $F99C ; = $EF99C*
@@ -51,20 +51,20 @@ Sprite_TalkingTree:
 {
     STZ.w $0DC0, X
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .BRANCH_ALPHA
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .BRANCH_ALPHA
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     LDA.b #$10 : STA.b $46
     
     LDA.b #$30
     
-    JSL Sprite_ProjectSpeedTowardsPlayerLong
+    JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $00 : STA.b $27
     LDA.b $01 : STA.b $28
     
-    LDA.b #$32 : JSL Sound_SetSfx3PanLong
+    LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
     
     INC.w $0D80, X
     
@@ -106,7 +106,7 @@ Sprite_TalkingTree:
 {
     LDA.w $0DF0, X : LSR A : TAY
     
-    LDA .animation_states, X : STA.w $0DC0, X
+    LDA.w .animation_states, X : STA.w $0DC0, X
     
     LDA.w $0DF0, X : CMP.b #$07 : BNE .BRANCH_ALPHA
     
@@ -146,9 +146,9 @@ Sprite_TalkingTree:
     
     LDA.w $0DA0, X : INC A : AND.b #$07 : STA.w $0DA0, X : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
-    LDA .timers, Y : STA.w $0DF0, X
+    LDA.w .timers, Y : STA.w $0DF0, X
     
     .countingDown
     
@@ -174,10 +174,10 @@ Sprite_TalkingTree:
     
     LDA.w $0D10, X : LSR #4 : AND.b #$01 : EOR.b #$01 : STA.w $0D90, X : TAY
     
-    LDA .message_ids, Y
+    LDA.w .message_ids, Y
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCS .didnt_solicit
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCS .didnt_solicit
     
     STZ.w $0D90, X
     
@@ -217,11 +217,11 @@ Sprite_TalkingTree:
     
     .BRANCH_ALPHA
     
-    LDA .message_ids, Y
+    LDA.w .message_ids, Y
     
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D90, X
     
@@ -232,10 +232,10 @@ Sprite_TalkingTree:
 
 ; $0EFA4E-$0EFA7A LOCAL JUMP LOCATION
 {
-    LDA.b #$4A : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$4A : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_TransmuteToEnemyBomb
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_TransmuteToEnemyBomb
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b $02 : CLC : ADC.b #$28 : STA.b $08
     LDA.b $03 : ADC.b #$00 : STA.b $03
@@ -263,7 +263,7 @@ Sprite_TalkingTree:
     LDA.b #$04 : STA.b $06
                  STZ.b $07
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     .BRANCH_ALPHA
     
@@ -286,8 +286,8 @@ Sprite_TalkingTree:
 
 ; $0EFB0A-$0EFB85 JUMP LOCATION
 {
-    JSL Sprite_PrepAndDrawSingleSmallLong
-    JSR Sprite4_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleSmallLong
+    JSR.w Sprite4_CheckIfActive
     
     LDY.w $0EB0, X
     
@@ -299,7 +299,7 @@ Sprite_TalkingTree:
     
     LDA.b #$02
     
-    JSL Sprite_ProjectSpeedTowardsPlayerLong
+    JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $00 : BMI .BRANCH_ALPHA
     
@@ -349,7 +349,7 @@ TalkingTree_SpawnEyes:
     
     LDA.b #$25
     
-    JSL Sprite_SpawnDynamically
+    JSL.l Sprite_SpawnDynamically
     
     PLA : STA.w $0EB0, Y : TAX
     

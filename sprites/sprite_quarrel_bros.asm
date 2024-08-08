@@ -6,7 +6,7 @@ Sprite_QuarrelBrosLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_QuarrelBros
+    JSR.w Sprite_QuarrelBros
     
     PLB
     
@@ -18,11 +18,11 @@ Sprite_QuarrelBrosLong:
 ; $02E013-$02E051 LOCAL JUMP LOCATION
 Sprite_QuarrelBros:
 {
-    JSR QuarrelBros_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_MakeBodyTrackHeadDirection
+    JSR.w QuarrelBros_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_MakeBodyTrackHeadDirection
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA.b $A0 : AND.b #$01 : BNE .is_right_hand_brother
     
@@ -30,7 +30,7 @@ Sprite_QuarrelBros:
     LDA.b #$31
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .moving_on
     
@@ -42,7 +42,7 @@ Sprite_QuarrelBros:
     LDA.b #$2F
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .moving_on
     
@@ -52,11 +52,11 @@ Sprite_QuarrelBros:
     LDA.b #$30
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     .moving_on
     
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l Sprite_PlayerCantPassThrough
     
     RTS
 }
@@ -66,13 +66,13 @@ Sprite_QuarrelBros:
 ; $02E052-$02E062 UNUSED
 Sprite_Oprhan1:
 {
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
-    JSR Sprite2_CheckTileCollision
+    JSR.w Sprite2_CheckTileCollision
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Orphan1_State1
     dw Orphan1_State2
@@ -97,7 +97,7 @@ Orphan1_State1:
 {
     LDA.w $0DF0, X : BNE .delay
     
-    JSL GetRandomInt : AND.b #$1F : CLC : ADC.b #$40 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$1F : CLC : ADC.b #$40 : STA.w $0DF0, X
     
     ; Picks a sort of new random direction that will be different from
     ; the previous direction.
@@ -117,9 +117,9 @@ Orphan1_State1:
     
     LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     TYA : STA.w $0D90, X
     
@@ -133,7 +133,7 @@ Orphan1_State2:
 {
     LDA.w $0DF0, X : BNE .delay
     
-    JSL GetRandomInt : AND.b #$1F : CLC : ADC.b #$60 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$1F : CLC : ADC.b #$60 : STA.w $0DF0, X
     
     STZ.w $0D80, X
     
@@ -199,8 +199,8 @@ QuarrelBros_Draw:
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4 : ADC.b #$FF : STA.b $08
     LDA.b #$E0                                   : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

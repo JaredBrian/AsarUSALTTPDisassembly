@@ -9,10 +9,10 @@ Sprite_Hokbok:
     ; NOTE: Label is purely informative.
     shared Sprite_Ricochet:
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_CheckDamage
-    JSR Sprite4_MoveXyz
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckDamage
+    JSR.w Sprite4_MoveXyz
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
@@ -24,9 +24,9 @@ Sprite_Hokbok:
     
     .no_ground_bounce
     
-    JSR Sprite4_BounceFromTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite4_BounceFromTileCollision : BEQ .no_tile_collision
     
-    LDA.b #$21 : JSL Sound_SetSfx2PanLong
+    LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
     
     .no_tile_collision
     
@@ -38,7 +38,7 @@ Sprite_Hokbok:
     
     STZ.w $0BE0, X
     
-    LDA.b #$1E : JSL Sound_SetSfx2PanLong
+    LDA.b #$1E : JSL.l Sound_SetSfx2PanLong
     
     .not_quite_dead
     
@@ -53,8 +53,8 @@ Sprite_Hokbok:
 ; $0EC69A-$0EC718 BRANCH LOCATION
 Hokbok_Main:
 {
-    JSR Hokbok_Draw
-    JSR Sprite4_CheckIfActive
+    JSR.w Hokbok_Draw
+    JSR.w Sprite4_CheckIfActive
     
     LDA.w $0EA0, X : BEQ .dont_remove_segment
     
@@ -92,9 +92,9 @@ Hokbok_Main:
     CLC : ADC.b #$04 : STA.w $0D40, X
     
     ; Spawn a Ricochet sprite since a segment was knocked off of the Hokbok.
-    LDA.b #$C7 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$C7 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$01 : STA.w $0DB0, Y
                  STA.w $0E50, Y
@@ -108,12 +108,12 @@ Hokbok_Main:
     .spawn_failed
     .dont_remove_segment
     
-    JSR Sprite4_CheckIfRecoiling
-    JSR Sprite4_CheckDamage
+    JSR.w Sprite4_CheckIfRecoiling
+    JSR.w Sprite4_CheckDamage
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Hokbok_ResetBounceVelocity
     dw Hokbok_Moving
@@ -145,7 +145,7 @@ Hokbok_ResetBounceVelocity:
     
     LSR A : TAY
     
-    LDA .spacing_amounts, Y : STA.w $0DA0, X
+    LDA.w .spacing_amounts, Y : STA.w $0DA0, X
     
     RTS
 }
@@ -155,7 +155,7 @@ Hokbok_ResetBounceVelocity:
 ; $0EC738-$0EC777 JUMP LOCATION
 Hokbok_Moving:
 {
-    JSR Sprite4_MoveXyz
+    JSR.w Sprite4_MoveXyz
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
@@ -172,7 +172,7 @@ Hokbok_Moving:
     ; $0EC751 ALTERNATE ENTRY POINT
     shared Sprite4_BounceFromTileCollision:
     
-    JSR Sprite4_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
+    JSR.w Sprite4_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
     
     LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
@@ -196,7 +196,7 @@ Hokbok_Moving:
 ; $0EC778-$0EC77C LONG JUMP LOCATION
 Sprite_BounceFromTileCollisionLong:
 {
-    JSR Sprite4_BounceFromTileCollision
+    JSR.w Sprite4_BounceFromTileCollision
     
     RTL
     
@@ -210,7 +210,7 @@ Sprite_BounceFromTileCollisionLong:
 ; $0EC77D-$0EC7EA LOCAL JUMP LOCATION
 Hokbok_Draw:
 {
-    JSR Sprite4_PrepOamCoord
+    JSR.w Sprite4_PrepOamCoord
     
     LDA.w $0DA0, X : STA.b $06
                    STZ.b $07
@@ -271,7 +271,7 @@ Hokbok_Draw:
     
     PLX
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

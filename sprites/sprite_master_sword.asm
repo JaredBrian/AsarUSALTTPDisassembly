@@ -6,7 +6,7 @@ Sprite_MasterSword:
 {
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw MasterSword_Main
     dw Sprite_MasterLightFountain 
@@ -35,13 +35,13 @@ MasterSword_Main:
     
     LDA.w $0D80, X : CMP.b #$05 : BEQ .skip_routine
     
-    JSR MasterSword_Draw
+    JSR.w MasterSword_Draw
     
     .skip_routine
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw MasterSword_ReadyAndWaiting
     dw MasterSword_PendantsInTransit
@@ -57,10 +57,10 @@ MasterSword_Main:
 MasterSword_ReadyAndWaiting:
 {
     ; (Player in unusual pose => fail)
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS .cant_pull
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .cant_pull
     
     ; (Not in contact with the sprite => fail)
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .cant_pull
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .cant_pull
     
     LDA.b $2F : CMP.b #$02 : BNE .cant_pull
     
@@ -76,11 +76,11 @@ MasterSword_ReadyAndWaiting:
     LDA.b #$01 : STA.w $037B
     
     ; Spawn each of the pendant helper sprites
-    LDA.b #$09 : JSR MasterSword_SpawnPendant
-    LDA.b #$0B : JSR MasterSword_SpawnPendant
-    LDA.b #$0F : JSR MasterSword_SpawnPendant
+    LDA.b #$09 : JSR.w MasterSword_SpawnPendant
+    LDA.b #$0B : JSR.w MasterSword_SpawnPendant
+    LDA.b #$0F : JSR.w MasterSword_SpawnPendant
     
-    JSR MasterSword_SpawnLightWell
+    JSR.w MasterSword_SpawnLightWell
     
     INC.w $0D80, X
     
@@ -98,7 +98,7 @@ MasterSword_PendantsInTransit:
 {
     LDA.w $0DF0, X : BNE .wait
     
-    JSR MasterSword_SpawnLightFountain
+    JSR.w MasterSword_SpawnLightFountain
     
     INC.w $0D8080, X
     
@@ -122,7 +122,7 @@ MasterSword_CrankUpLightShow:
 {
     LDA.w $0DF0, X : BNE .wait
     
-    LDY.b #$FF : JSR MasterSword_SpawnLightBeams
+    LDY.b #$FF : JSR.w MasterSword_SpawnLightBeams
     
     INC.w $0D80, X
     
@@ -142,7 +142,7 @@ MasterSword_CrankUpLightShow:
     LDA.b #$01
     LDY.b #$FF
     
-    JSR MasterSword_SpawnLightBeams
+    JSR.w MasterSword_SpawnLightBeams
     
     INC.w $0D80, X
     
@@ -180,7 +180,7 @@ MasterSword_GrantToPlayer:
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -224,7 +224,7 @@ Pool_Sprite_MasterLightFountain:
 ; $0289DC-$028A15 JUMP LOCATION
 Sprite_MasterLightFountain:
 {
-    JSR MasterSword_DrawLightBall
+    JSR.w MasterSword_DrawLightBall
     
     INC.w $0D90, X : LDA.w $0D90, X : BNE .alpha
     
@@ -238,15 +238,15 @@ Sprite_MasterLightFountain:
     
     LDA.w $0D90, X : LSR #5 : AND.b #$07 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
-    LDA .unknown, Y : BEQ .beta
+    LDA.w .unknown, Y : BEQ .beta
     
     TAY
     
     LDA.w $0D90, X : LSR #2 : AND.b #$01
     
-    JSR MasterSword_SpawnLightBeams
+    JSR.w MasterSword_SpawnLightBeams
     
     .beta
     
@@ -258,7 +258,7 @@ Sprite_MasterLightFountain:
 ; $028A16-$028A33 JUMP LOCATION
 Sprite_MasterLightWell:
 {
-    JSR MasterSword_DrawLightBall
+    JSR.w MasterSword_DrawLightBall
     
     INC.w $0D90, X : LDA.w $0D90, X : BNE .alpha
     
@@ -305,7 +305,7 @@ MasterSword_DrawLightBall:
     ; could have been merged into the same sprite, I'm fairly certain of
     ; this.
     
-    LDA.b #$04 : JSL OAM_AllocateFromRegionC
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionC
     
     LDA.w $0DC0, X : ASL #2 : ADC.w $0DE0, X : ASL #3 
     
@@ -321,7 +321,7 @@ MasterSword_DrawLightBall:
     ; really no reason why client code couldn't just call
     ; Sprite_DrawMultiple directly, so this is just a waste of cpu time.
     
-    JSL Sprite_DrawMultiple
+    JSL.l Sprite_DrawMultiple
     
     RTS
 }
@@ -333,8 +333,8 @@ MasterSword_SpawnLightWell:
 {
     LDA.b #$62
     
-    JSL Sprite_SpawnDynamically
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SpawnDynamically
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$04 : STA.w $0E80, Y
     LDA.b #$05 : STA.w $0F50, Y
@@ -350,8 +350,8 @@ MasterSword_SpawnLightFountain:
 {
     LDA.b #$62
     
-    JSL Sprite_SpawnDynamically
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SpawnDynamically
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$01 : STA.w $0E80, Y
     LDA.b #$05 : STA.w $0F50, Y
@@ -365,15 +365,15 @@ MasterSword_SpawnLightFountain:
 ; $028AEA-$028B07 JUMP LOCATION
 Sprite_MasterLightBeam:
 {
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     LDA.w $0D90, X : BEQ .alpha
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     LDA.b $1A : AND.b #$03 : BNE .beta
     
-    JSR MasterLightBeam_SpawnAnotherBeam
+    JSR.w MasterLightBeam_SpawnAnotherBeam
     
     .alpha
     
@@ -438,7 +438,7 @@ MasterLightBeam_SpawnAnotherBeam:
     
     LDA.b #$62
     
-    JSL Sprite_SpawnDynamically : BMI .alpha
+    JSL.l Sprite_SpawnDynamically : BMI .alpha
     
     LDA.b $00 : CLC : ADC.b #$00 : STA.w $0D10, Y
     LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
@@ -470,7 +470,7 @@ MasterSword_SpawnLightBeams:
     
     LDA.b #$62
     
-    JSL Sprite_SpawnDynamically : BPL .success_1
+    JSL.l Sprite_SpawnDynamically : BPL .success_1
     
     JMP .spawn_failed
     
@@ -492,13 +492,13 @@ MasterSword_SpawnLightBeams:
     
     TAX
     
-    LDA .x_speeds_1, X : STA.w $0D50, Y
+    LDA.w .x_speeds_1, X : STA.w $0D50, Y
     
-    LDA .y_speeds_1, X : STA.w $0D40, Y
+    LDA.w .y_speeds_1, X : STA.w $0D40, Y
     
-    LDA .animation_states_1, X : STA.w $0DC0, Y
+    LDA.w .animation_states_1, X : STA.w $0DC0, Y
     
-    LDA .oam_properties_1, X : STA.w $0F50, Y
+    LDA.w .oam_properties_1, X : STA.w $0F50, Y
     
     TXA
     
@@ -512,7 +512,7 @@ MasterSword_SpawnLightBeams:
     
     LDA.b #$62
     
-    JSL Sprite_SpawnDynamically : BPL .success_2
+    JSL.l Sprite_SpawnDynamically : BPL .success_2
     
     JMP .spawn_failed
     
@@ -534,13 +534,13 @@ MasterSword_SpawnLightBeams:
     
     TAX
     
-    LDA .x_speeds_2, X : STA.w $0D50, Y
+    LDA.w .x_speeds_2, X : STA.w $0D50, Y
     
-    LDA .y_speeds_2, X : STA.w $0D40, Y
+    LDA.w .y_speeds_2, X : STA.w $0D40, Y
     
-    LDA .animation_states_1, X : STA.w $0DC0, Y
+    LDA.w .animation_states_1, X : STA.w $0DC0, Y
     
-    LDA .oam_properties_1, X : STA.w $0F50, Y
+    LDA.w .oam_properties_1, X : STA.w $0F50, Y
     
     TXA
     
@@ -554,7 +554,7 @@ MasterSword_SpawnLightBeams:
     
     LDA.b #$62
     
-    JSL Sprite_SpawnDynamically : BPL .success_3
+    JSL.l Sprite_SpawnDynamically : BPL .success_3
     
     JMP .spawn_failed
     
@@ -576,13 +576,13 @@ MasterSword_SpawnLightBeams:
     
     TAX
     
-    LDA .x_speeds_3, X : STA.w $0D5050, Y
+    LDA.w .x_speeds_3, X : STA.w $0D5050, Y
     
-    LDA .y_speeds_3, X : STA.w $0D4040, Y
+    LDA.w .y_speeds_3, X : STA.w $0D4040, Y
     
-    LDA .animation_states_2, X : STA.w $0DC0, Y
+    LDA.w .animation_states_2, X : STA.w $0DC0, Y
     
-    LDA .oam_properties_2, X : STA.w $0F50, Y
+    LDA.w .oam_properties_2, X : STA.w $0F50, Y
     
     TXA
     
@@ -598,7 +598,7 @@ MasterSword_SpawnLightBeams:
     
     LDA.b #$62
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b $00 : SEC : SBC.b #$04 : STA.w $0D10, Y
     LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
@@ -616,13 +616,13 @@ MasterSword_SpawnLightBeams:
     
     TAX
     
-    LDA .x_speeds_4, X : STA.w $0D50, Y
+    LDA.w .x_speeds_4, X : STA.w $0D50, Y
     
-    LDA .y_speeds_4, X : STA.w $0D40, Y
+    LDA.w .y_speeds_4, X : STA.w $0D40, Y
     
-    LDA .animation_states_2, X : STA.w $0DC0, Y
+    LDA.w .animation_states_2, X : STA.w $0DC0, Y
     
-    LDA .oam_properties_2, X : STA.w $0F50, Y
+    LDA.w .oam_properties_2, X : STA.w $0F50, Y
     
     TXA
     
@@ -649,7 +649,7 @@ MasterSword_SpawnPendant:
     ; Master Sword and beams of light ceremony
     LDA.b #$62
     
-    JSL Sprite_SpawnDynamically
+    JSL.l Sprite_SpawnDynamically
     
     PLA : STA.w $0F50, Y
     
@@ -671,9 +671,9 @@ MasterSword_SpawnPendant:
     
     LDA.w $0F50, Y : LSR A : AND.b #$03 : TAX
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     PLX
     
@@ -691,13 +691,13 @@ MasterSword_SpawnPendant:
 ; $028D29-$028D3F JUMP LOCATION
 Sprite_MasterSwordPendant:
 {
-    LDA.b #$04 : JSL OAM_AllocateFromRegionB
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw MasterSwordPendant_DriftingAway
     dw MasterSwordPendant_Flashing
@@ -709,7 +709,7 @@ Sprite_MasterSwordPendant:
 ; $028D40-$028D56 JUMP LOCATION
 MasterSwordPendant_DriftingAway:
 {
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     LDA.w $0DF0, X : BNE .wait
     
@@ -754,7 +754,7 @@ MasterSwordPendant_FlyAway:
     ; I could be wrong, but I don't think it works as intended. Will
     ; will have to observe this in real time.
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     LDA.w $0DF0, X : BNE .wait
     
@@ -798,7 +798,7 @@ Pool_MasterSword_Draw:
 ; $028DA8-$028DD7 LOCAL JUMP LOCATION
 MasterSword_Draw:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     PHX
     
@@ -808,7 +808,7 @@ MasterSword_Draw:
     
     LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
     LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
-    LDA .chr, X                  : INY : STA ($90), Y
+    LDA.w .chr, X                  : INY : STA ($90), Y
     
     INY
     
@@ -823,7 +823,7 @@ MasterSword_Draw:
     LDY.b #$00
     LDA.b #$05
     
-    JSL Sprite_CorrectOamEntriesLong
+    JSL.l Sprite_CorrectOamEntriesLong
     
     RTS
 }

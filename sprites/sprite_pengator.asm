@@ -17,7 +17,7 @@ Sprite_Pengator:
     
     LDA.w $0D90, X : CLC : ADC .animation_states, Y : STA.w $0DC0, X
     
-    JSR Pengator_Draw
+    JSR.w Pengator_Draw
     
     LDA.w $0EA0, X : BNE .recoiling
     
@@ -33,10 +33,10 @@ Sprite_Pengator:
     
     .no_tile_collision
     
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
-    JSR Sprite3_CheckDamage
-    JSR Sprite3_MoveXyz
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckDamage
+    JSR.w Sprite3_MoveXyz
     
     ; Apply gravity
     DEC.w $0F80, X : DEC.w $0F80, X
@@ -49,11 +49,11 @@ Sprite_Pengator:
     
     .hasnt_landed
     
-    JSR Sprite3_CheckTileCollision
+    JSR.w Sprite3_CheckTileCollision
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Pengator_FacePlayer
     dw Pengator_SpeedUp
@@ -66,7 +66,7 @@ Sprite_Pengator:
 ; $0F21EA-$0F21F4 JUMP LOCATION
 Pengator_FacePlayer:
 {
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : STA.w $0DE0, X
     
@@ -97,7 +97,7 @@ Pengator_SpeedUp:
     
     LDY.w $0DE0, X
     
-    LDA.w $0D50, X : CMP Sprite3_Shake.x_speeds, Y : BEQ .x_speed_at_target
+    LDA.w $0D50, X : CMP Sprite3_Shake_x_speeds, Y : BEQ .x_speed_at_target
     
     CLC : ADC .x_speeds, Y : STA.w $0D50, X
     
@@ -105,7 +105,7 @@ Pengator_SpeedUp:
     
     .x_speed_at_target
     
-    LDA.w $0D40, X : CMP Sprite3_Shake.y_speeds, Y : BEQ .y_speed_at_target
+    LDA.w $0D40, X : CMP Sprite3_Shake_y_speeds, Y : BEQ .y_speed_at_target
     
     CLC : ADC .y_speeds, Y : STA.w $0D40, X
     
@@ -159,7 +159,7 @@ Pengator_Jump:
     
     LSR #2 : TAY
     
-    LDA .animation_states, Y : STA.w $0D90, X
+    LDA.w .animation_states, Y : STA.w $0D90, X
     
     RTS
 }
@@ -187,7 +187,7 @@ Pengator_SlideAndSparkle:
     
     LDA.w $0DE0, X : STA.b $06
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
     LDA.b $06 : CMP.b #$02 : BCC .vertical_orientation
     
@@ -195,10 +195,10 @@ Pengator_SlideAndSparkle:
     
     .vertical_orientation
     
-    LDA .random_y_offsets, Y : STA.b $00
+    LDA.w .random_y_offsets, Y : STA.b $00
                                STZ.b $01
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
     LDA.b $06 : CMP.b #$02 : BCC .vertical_orientation_2
     
@@ -206,10 +206,10 @@ Pengator_SlideAndSparkle:
     
     .vertical_orientation_2
     
-    LDA .random_y_offsets, Y : STA.b $02
+    LDA.w .random_y_offsets, Y : STA.b $02
                                STZ.b $03
     
-    JSL Sprite_SpawnSimpleSparkleGarnish_SlotRestricted
+    JSL.l Sprite_SpawnSimpleSparkleGarnish_SlotRestricted
     
     .still_falling
     
@@ -280,7 +280,7 @@ Pengator_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR Sprite3_DrawMultiple
+    LDA.b #$02 : JSR.w Sprite3_DrawMultiple
     
     LDY.b #$00
     
@@ -306,11 +306,11 @@ Pengator_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR Sprite3_DrawMultiple
+    LDA.b #$02 : JSR.w Sprite3_DrawMultiple
     
     .draw_shadow
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

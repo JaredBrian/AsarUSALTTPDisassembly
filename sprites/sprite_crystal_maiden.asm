@@ -23,8 +23,8 @@ CrystalMaiden_Configure:
     
     PHX
     
-    JSL Palette_AssertTranslucencySwap
-    JSL PaletteFilter_Crystal
+    JSL.l Palette_AssertTranslucencySwap
+    JSL.l PaletteFilter_Crystal
     
     PLX
     
@@ -43,8 +43,8 @@ CrystalMaiden_Configure:
     
     INC.b $15
     
-    JSR CrystalMaiden_SpawnAndConfigMaiden
-    JSR CrystalMaiden_InitPolyhedral
+    JSR.w CrystalMaiden_SpawnAndConfigMaiden
+    JSR.w CrystalMaiden_InitPolyhedral
     
     RTL
 }
@@ -65,7 +65,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
     DEY : BPL .kill_next_sprite
     
     ; Create a maiden.
-    LDA.b #$AB : JSL Sprite_SpawnDynamically
+    LDA.b #$AB : JSL.l Sprite_SpawnDynamically
     
     ; Give the maiden the same upper byte coordinates as Link.
     LDA.b $23 : STA.w $0D30, Y
@@ -86,7 +86,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
     
     ; Resets certains actions the player might be doing, like using the
     ; hookshot or carrying extensions.
-    JSL Ancilla_TerminateSelectInteractives
+    JSL.l Ancilla_TerminateSelectInteractives
     
     STZ.w $02E9
     
@@ -113,7 +113,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
     
     PHX
     
-    JSL Tagalong_LoadGfx
+    JSL.l Tagalong_LoadGfx
     
     PLX
     
@@ -182,7 +182,7 @@ Sprite_CrystalMaiden:
     
     LDA.w $0D80, X : CMP.b #$03 : BCC .not_visible
     
-    JSL CrystalMaiden_Draw
+    JSL.l CrystalMaiden_Draw
     
     .not_visible
     
@@ -190,7 +190,7 @@ Sprite_CrystalMaiden:
     
     LDA.w $1F00 : BNE .polyhedral_thread_sync
     
-    JSR CrystalMaiden_Main
+    JSR.w CrystalMaiden_Main
     
     LDA.b #$01 : STA.w $1F00
     
@@ -216,13 +216,13 @@ CrystalMaiden_Main:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw CrystalMaiden_DisableSubscreen
     dw CrystalMaiden_EnableSubscreen
     dw CrystalMaiden_GenerateSparkles
     dw CrystalMaiden_FilterPalette
-    dw CrystalMaiden_FilterPalette.finish
+    dw CrystalMaiden_FilterPalette_finish
     dw CrystalMaiden_ShowMessage
     dw CrystalMaiden_ReadingComprehensionExam
     dw CrystalMaiden_MayTheWayOfTheHero
@@ -274,7 +274,7 @@ CrystalMaiden_GenerateSparkles:
     
     LDA.w $0D90, X : TAX
     
-    JSL Sprite_SpawnSparkleAncilla
+    JSL.l Sprite_SpawnSparkleAncilla
     
     PLX
     
@@ -298,7 +298,7 @@ CrystalMaiden_FilterPalette:
     PHX
     
     ; does palette filtering of some sort...
-    JSL Palette_Filter_SP5F
+    JSL.l Palette_Filter_SP5F
     
     PLX
     
@@ -357,10 +357,10 @@ CrystalMaiden_ShowMessage:
     .not_turtle_rock
     
     ; Loads the Message ID.
-    LDA .message_ids+0, Y       : XBA
-    LDA .message_ids+1, Y : TAY : XBA
+    LDA.w .message_ids+0, Y       : XBA
+    LDA.w .message_ids+1, Y : TAY : XBA
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -385,7 +385,7 @@ CrystalMaiden_ReadingComprehensionExam:
     LDA.b #$3A
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -409,7 +409,7 @@ CrystalMaiden_MayTheWayOfTheHero:
     LDA.b #$39
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -425,7 +425,7 @@ CrystalMaiden_InitiateDungeonExit:
     
     PHX
     
-    JSL PrepDungeonExit
+    JSL.l PrepDungeonExit
     
     PLX
     

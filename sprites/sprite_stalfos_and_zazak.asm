@@ -4,21 +4,21 @@
 ; $0F0FDF-$0F0FFF LOCAL JUMP LOCATION
 Sprite_StalfosBone:
 {
-    JSR StalfosBone_Draw
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckDamageToPlayer
+    JSR.w StalfosBone_Draw
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckDamageToPlayer
     
     INC.w $0E80, X
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA !timer_0, X : BNE .dont_self_terminate
     
-    JSR Sprite3_CheckTileCollision : BEQ .dont_self_terminate
+    JSR.w Sprite3_CheckTileCollision : BEQ .dont_self_terminate
     
     STZ.w $0DD0, X
     
-    JSL Sprite_PlaceRupulseSpark
+    JSL.l Sprite_PlaceRupulseSpark
     
     .dont_self_terminate
     
@@ -92,7 +92,7 @@ Sprite_Stalfos:
     
     LDA.b #$01 : STA.w $0D50, X : STA.w $0D40, X
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
     
     STZ.w $0DD0, X
     
@@ -102,9 +102,9 @@ Sprite_Stalfos:
     
     STZ.w $0E90, X
     
-    LDA.b #$15 : JSL Sound_SetSfx2PanLong
+    LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
     
-    JSL Sprite_SpawnPoofGarnish
+    JSL.l Sprite_SpawnPoofGarnish
     
     LDA.b #$08 : STA !timer_2, X
     
@@ -116,7 +116,7 @@ Sprite_Stalfos:
     
     .delay
     
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_PrepOamCoordLong
     
     RTS
 }
@@ -149,7 +149,7 @@ Stalfos_Visible:
     
     LDA.b $EE : CMP.w $0F20, X : BNE .dont_dodge
     
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     STY.b $00
     
@@ -168,7 +168,7 @@ Stalfos_Visible:
     
     LDA.b $00 : STA.w $0DE0, X
     
-    LDA.b #$20 : JSL Sprite_ProjectSpeedTowardsPlayerLong
+    LDA.b #$20 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
@@ -176,7 +176,7 @@ Stalfos_Visible:
     
     LDA.b #$20 : STA.w $0F80, X
     
-    LDA.b #$13 : JSL Sound_SetSfx3PanLong
+    LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
     
     INC.w $0F70, X
     
@@ -188,10 +188,10 @@ Stalfos_Visible:
     
     LDY.w $0DE0, X
     
-    LDA Stalfos.animation_states_2, Y : STA.w $0DC0, X
+    LDA Stalfos_animation_states_2, Y : STA.w $0DC0, X
     
-    JSL Stalfos_Draw
-    JSR Sprite3_CheckIfActive
+    JSL.l Stalfos_Draw
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0EA0, X : BEQ .not_in_recoil
     
@@ -199,9 +199,9 @@ Stalfos_Visible:
     
     .not_in_recoil
     
-    JSR Sprite3_CheckIfRecoiling
-    JSR Sprite3_CheckDamage
-    JSR Sprite3_CheckTileCollision
+    JSR.w Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckDamage
+    JSR.w Sprite3_CheckTileCollision
     
     PHA
     
@@ -217,7 +217,7 @@ Stalfos_Visible:
     
     .no_horiz_tile_collision
     
-    JSR Sprite3_MoveXyz
+    JSR.w Sprite3_MoveXyz
     
     LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
     
@@ -225,9 +225,9 @@ Stalfos_Visible:
     
     STZ.w $0F70, X
     
-    JSR Sprite3_Zero_XY_Velocity
+    JSR.w Sprite3_Zero_XY_Velocity
     
-    LDA.b #$21 : JSL Sound_SetSfx2PanLong
+    LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
     
     LDA.w $0E30, X : BEQ .not_red_stalfos
     
@@ -248,19 +248,19 @@ Stalfos_Visible:
     
     LDA.w $0DA0, X : BEQ .not_fire_phlegm
     
-    JSR FirePhlegm_Draw
-    JSR Sprite3_CheckIfActive
+    JSR.w FirePhlegm_Draw
+    JSR.w Sprite3_CheckIfActive
     
     LDA.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
-    JSR Sprite3_CheckDamageToPlayer
-    JSR Sprite3_Move
+    JSR.w Sprite3_CheckDamageToPlayer
+    JSR.w Sprite3_Move
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_repulse_spark
+    JSR.w Sprite3_CheckTileCollision : BEQ .no_repulse_spark
     
     STZ.w $0DD0, X
     
-    JSL Sprite_PlaceRupulseSpark.coerce
+    JSL.l Sprite_PlaceRupulseSpark_coerce
     
     .no_repulse_spark
     
@@ -278,8 +278,8 @@ Stalfos_Visible:
     
     LDA.b #$20 : STA !timer_0, X
     
-    JSR Sprite3_Zero_XY_Velocity
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_Zero_XY_Velocity
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : STA.w $0EB0, X
     
@@ -289,7 +289,7 @@ Stalfos_Visible:
     
     CMP.b #$01 : BNE .dont_throw_bone
     
-    JSR Stalfos_ThrowBoneAtPlayer
+    JSR.w Stalfos_ThrowBoneAtPlayer
     
     LDA.b #$01 : STA.w $0E80, X
     
@@ -297,30 +297,30 @@ Stalfos_Visible:
     
     LDA.w $0E80, X : AND.b #$01 : ASL #2 : ADC.w $0DE0, X : TAY
     
-    LDA Stalfos.animation_states_1, Y : STA.w $0DC0, X
+    LDA Stalfos_animation_states_1, Y : STA.w $0DC0, X
     
     LDA.w $0E20, X : CMP.b #$A7 : BNE .not_stalfos
     
-    JSL Stalfos_Draw
-    JSR Sprite3_CheckIfActive
+    JSL.l Stalfos_Draw
+    JSR.w Sprite3_CheckIfActive
     
     BRA .moving_on
     
     .not_stalfos
     
-    JSL Zazak_Draw
-    JSR Sprite3_CheckIfActive
+    JSL.l Zazak_Draw
+    JSR.w Sprite3_CheckIfActive
     
     .moving_on
     
-    JSR Sprite3_CheckIfRecoiling
-    JSR Sprite3_CheckDamage
-    JSR Sprite3_Move
-    JSR Sprite3_CheckTileCollision
+    JSR.w Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckDamage
+    JSR.w Sprite3_Move
+    JSR.w Sprite3_CheckTileCollision
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Zazak_WalkThenTrackHead
     dw Zazak_HaltAndPickNextDirection
@@ -337,17 +337,17 @@ Zazak_WalkThenTrackHead:
 {
     LDA !timer_0, X : BNE .delay
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
-    LDA Stalfos.timers, Y : STA !timer_0, X
+    LDA Stalfos_timers, Y : STA !timer_0, X
     
     INC.w $0D80, X
     
     LDA.w $0EB0, X : STA.w $0DE0, X : TAY
     
-    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
+    LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
     
-    LDA Sprite3_Shake.y_speeds, Y : STA.w $0D40, X
+    LDA Sprite3_Shake_y_speeds, Y : STA.w $0D40, X
     
     .delay
     
@@ -376,7 +376,7 @@ Zazak_HaltAndPickNextDirection:
     
     LDA.w $0E20, X : CMP.b #$A6 : BNE .not_red_zazak
     
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : CMP.w $0DE0, X : BNE .dont_shoot_player
     
@@ -398,9 +398,9 @@ Zazak_HaltAndPickNextDirection:
     
     STA !timer_0, X
     
-    JSL GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
+    JSL.l GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
     
-    LDA .head_orientations, Y : STA.w $0EB0, X
+    LDA.w .head_orientations, Y : STA.w $0EB0, X
     
     STZ.w $0D80, X
     
@@ -409,7 +409,7 @@ Zazak_HaltAndPickNextDirection:
     STZ.w $0DB0, X
     
     ; In this case, directly face the player and walk towards them.
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : STA.w $0EB0, X
     
@@ -453,7 +453,7 @@ Zazak_ShootFirePhlegm:
     
     CMP.b #$18 : BNE .delay_firing_phlegm
     
-    JSL Sprite_SpawnFirePhlegm
+    JSL.l Sprite_SpawnFirePhlegm
     
     .delay_firing_phlegm
     
@@ -467,11 +467,11 @@ Sprite_SpawnFirePhlegm:
 {
     PHB : PHK : PLB
     
-    LDA.b #$A5 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$A5 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA.b #$05 : JSL Sound_SetSfx3PanLong
+    LDA.b #$05 : JSL.l Sound_SetSfx3PanLong
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     PHX
     
@@ -483,9 +483,9 @@ Sprite_SpawnFirePhlegm:
     LDA.b $02 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
     LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     LDA.w $0E60, Y : ORA.b #$40 : STA.w $0E60, Y
     
@@ -541,17 +541,17 @@ Sprite_SpawnFirePhlegm:
 ; $0F1379-$0F13C2 LOCAL JUMP LOCATION
 Stalfos_ThrowBoneAtPlayer:
 {
-    LDA.b #$A7 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$A7 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b #$01 : STA.w $0D90, Y
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     PHX
     
     TYX
     
-    LDA.b #$20 : JSL Sprite_ApplySpeedTowardsPlayerLong
+    LDA.b #$20 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     LDA.b #$21 : STA.w $0E40, X : STA.w $0BA0, X
     
@@ -569,7 +569,7 @@ Stalfos_ThrowBoneAtPlayer:
     
     PLX
     
-    LDA.b #$02 : JSL Sound_SetSfx2PanLong
+    LDA.b #$02 : JSL.l Sound_SetSfx2PanLong
     
     .spawn_failed
     

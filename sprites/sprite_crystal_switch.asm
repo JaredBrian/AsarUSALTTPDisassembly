@@ -20,19 +20,19 @@ Sprite_CrystalSwitch:
     LDA.l $7EC172 : AND.b #$01 : TAY
     
     ; Select the palette for the peg switch based on that state.
-    LDA .palettes, Y : ORA.w $0F50, X : STA.w $0F50, X
+    LDA.w .palettes, Y : ORA.w $0F50, X : STA.w $0F50, X
     
-    JSR OAM_AllocateDeferToPlayer
-    JSR Sprite_PrepAndDrawSingleLarge
-    JSR Sprite_CheckIfActive
+    JSR.w OAM_AllocateDeferToPlayer
+    JSR.w Sprite_PrepAndDrawSingleLarge
+    JSR.w Sprite_CheckIfActive
     
-    JSR Sprite_CheckDamageToPlayer_same_layer : BCC .no_player_collision
+    JSR.w Sprite_CheckDamageToPlayer_same_layer : BCC .no_player_collision
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     STZ.b $5E
     
-    JSL Sprite_RepelDashAttackLong
+    JSL.l Sprite_RepelDashAttackLong
     
     .no_player_collision
     
@@ -41,11 +41,11 @@ Sprite_CrystalSwitch:
     LDA.b $1A : AND.b #$07 : STA.b $00
                            STZ.b $01
     
-    JSL GetRandomInt : AND.b #$07 : STA.b $02
+    JSL.l GetRandomInt : AND.b #$07 : STA.b $02
                                     STZ.b $03
     
     ; Attempt to add a sparkle effect
-    JSL Sprite_SpawnSimpleSparkleGarnish
+    JSL.l Sprite_SpawnSimpleSparkleGarnish
     
     ; Restart sparkle countdown timer.
     LDA.b #$1F : STA.w $0DF0, X
@@ -56,7 +56,7 @@ Sprite_CrystalSwitch:
     
     LDA.b $3C : DEC A : CMP.b #$08 : BPL .ignore_player_poke_attack
     
-    JSR Sprite_CheckDamageFromPlayer
+    JSR.w Sprite_CheckDamageFromPlayer
     
     .ignore_player_poke_attack
     
@@ -71,7 +71,7 @@ Sprite_CrystalSwitch:
     
     LDA.b #$16 : STA.b $11
     
-    LDA.b #$25 : JSL Sound_SetSfx3PanLong
+    LDA.b #$25 : JSL.l Sound_SetSfx3PanLong
     
     .dont_switch_state
     

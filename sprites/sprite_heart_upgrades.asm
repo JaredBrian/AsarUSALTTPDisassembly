@@ -20,7 +20,7 @@ SpritePrep_HeartContainerLong:
     ; Sprite Prep for Heart Container (0xEA) / Heart Pieces (0xEB)
     PHB : PHK : PLB
     
-    JSR HeartUpdgrade_CheckIfAlreadyObtained
+    JSR.w HeartUpdgrade_CheckIfAlreadyObtained
     
     PLB
     
@@ -80,7 +80,7 @@ Sprite_HeartContainerLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_HeartContainer
+    JSR.w Sprite_HeartContainer
     
     PLB
     
@@ -106,11 +106,11 @@ Sprite_HeartContainer:
     
     PHX
     
-    JSL GetAnimatedSpriteTile.variable
+    JSL.l GetAnimatedSpriteTile_variable
     
     PLX
     
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
     
     INC.w $0ED0, X
     
@@ -120,16 +120,16 @@ Sprite_HeartContainer:
     
     LDA.w $0F70, X : BNE .dont_draw_water_ripple
     
-    JSL Sprite_AutoIncDrawWaterRippleLong
+    JSL.l Sprite_AutoIncDrawWaterRippleLong
     
     .dont_draw_water_ripple
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite2_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite2_CheckIfActive
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
-    JSR Sprite2_MoveAltitude
+    JSR.w Sprite2_MoveAltitude
     
     LDA.w $0F70, X : BPL .delta
     
@@ -145,17 +145,17 @@ Sprite_HeartContainer:
     
     INC.w $0E30, X
     
-    JSL Sprite_SpawnWaterSplashLong
+    JSL.l Sprite_SpawnWaterSplashLong
     
     .delta
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCC .epsilon
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCC .epsilon
     
     RTS
     
     .epsilon
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCS HeartContainer_Grant
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCS HeartContainer_Grant
     
     RTS
 }
@@ -172,7 +172,7 @@ HeartContainer_GrantFromSprite:
     
     LDY.b #$3E
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -192,13 +192,13 @@ HeartContainer_Grant:
     
     PHX
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     LDY.b #$26
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -247,7 +247,7 @@ Sprite_HeartPieceLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_HeartPiece
+    JSR.w Sprite_HeartPiece
     
     PLB
     
@@ -263,18 +263,18 @@ Sprite_HeartPiece:
     
     INC.w $0D80, X
     
-    JSR HeartUpdgrade_CheckIfAlreadyObtained
+    JSR.w HeartUpdgrade_CheckIfAlreadyObtained
     
     LDA.w $0DD0, X : BEQ .return
     
     .check_acquisition_check
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite2_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite2_CheckIfActive
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS .return
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .return
     
-    JSR Sprite2_CheckTileCollision
+    JSR.w Sprite2_CheckTileCollision
     
     LDA.w $0E70, X : AND.b #$03 : BEQ .no_horiz_tile_collision
     
@@ -292,8 +292,8 @@ Sprite_HeartPiece:
     
     DEC.w $0F80, X
     
-    JSR Sprite2_MoveAltitude
-    JSR Sprite2_Move
+    JSR.w Sprite2_MoveAltitude
+    JSR.w Sprite2_Move
     
     LDA.w $0F70, X : BPL .no_bounce
     
@@ -311,7 +311,7 @@ Sprite_HeartPiece:
     
     LDA.w $0F10, X : BNE .return
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCS .had_player_contact
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCS .had_player_contact
     
     .return
     
@@ -324,13 +324,13 @@ Sprite_HeartPiece:
     
     PHX
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     LDY.b #$26
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -338,14 +338,14 @@ Sprite_HeartPiece:
     
     .got_4_pieces
     
-    LDA.b #$2D : JSL Sound_SetSfx3PanLong
+    LDA.b #$2D : JSL.l Sound_SetSfx3PanLong
     
     LDA.l $7EF36B : TAY
     
-    LDA .messages_low, Y        : XBA
-    LDA .messages_high, Y : TAY : XBA
+    LDA.w .messages_low, Y        : XBA
+    LDA.w .messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .self_terminate
     

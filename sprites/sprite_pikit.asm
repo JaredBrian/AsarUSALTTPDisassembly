@@ -4,14 +4,14 @@
 ; $0F0BBF-$0F0BD7 JUMP LOCATION
 Sprite_Pikit:
 {
-    JSR Pikit_PrepThenDraw
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
-    JSR Sprite3_CheckDamage
+    JSR.w Pikit_PrepThenDraw
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckDamage
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Pikit_SetNextVelocity
     dw Pikit_FinishJumpThenAttack
@@ -44,21 +44,21 @@ Pikit_SetNextVelocity:
     
     STZ.w $0DB0, X
     
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     BRA .set_speed
     
     .pick_random_direction
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
     .set_speed
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
-    JSL GetRandomInt : AND.b #$07 : ADC.b #$13 : STA.w $0F80, X
+    JSL.l GetRandomInt : AND.b #$07 : ADC.b #$13 : STA.w $0F80, X
     
     .delay
     
@@ -75,8 +75,8 @@ Pikit_SetNextVelocity:
 ; $0F0C25-$0F0C71 JUMP LOCATION
 Pikit_FinishJumpThenAttack:
 {
-    JSR Sprite3_MoveXyz
-    JSR Sprite3_CheckTileCollision
+    JSR.w Sprite3_MoveXyz
+    JSR.w Sprite3_CheckTileCollision
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
@@ -86,7 +86,7 @@ Pikit_FinishJumpThenAttack:
     
     STZ.w $0F80, X
     
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     LDA.b $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .dont_activate_tongue
     
@@ -96,9 +96,9 @@ Pikit_FinishJumpThenAttack:
     
     LDA.b #$1F
     
-    JSL Sprite_ProjectSpeedTowardsPlayerLong
+    JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
-    JSL Sprite_ConvertVelocityToAngle : LSR A : STA.w $0DE0, X
+    JSL.l Sprite_ConvertVelocityToAngle : LSR A : STA.w $0DE0, X
     
     LDA.b #$5F : STA.w $0DF0, X
     
@@ -164,7 +164,7 @@ Pikit_AttemptItemGrab:
     
     LSR #2 : PHA : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     TYA
     
@@ -208,11 +208,11 @@ Pikit_AttemptItemGrab:
     
     LDA.w $0DF0, X : CMP.b #$2E : BCS .return
     
-    JSL Sound_SetSfxPanWithPlayerCoords
+    JSL.l Sound_SetSfxPanWithPlayerCoords
     
     ORA.b #$26 : STA.w $012E
     
-    JSL GetRandomInt : AND.b #$03 : INC A : STA.w $0ED0, X
+    JSL.l GetRandomInt : AND.b #$03 : INC A : STA.w $0ED0, X
                                             STA.w $0E90, X
     
     CMP.b #$01 : BNE .not_hungry_for_bombs
@@ -276,10 +276,10 @@ Pikit_AttemptItemGrab:
 ; ==============================================================================
 
 ; $0F0DCA-$0F0DD1 LOCAL JUMP LOCATION
-    Pikit_PrepThenDraw
+Pikit_PrepThenDraw:
 {
-    JSR Sprite3_PrepOamCoord
-    JSL Pikit_Draw
+    JSR.w Sprite3_PrepOamCoord
+    JSL.l Pikit_Draw
     
     RTS
 }

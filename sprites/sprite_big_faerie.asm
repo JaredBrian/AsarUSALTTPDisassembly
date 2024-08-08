@@ -24,22 +24,22 @@ Sprite_BigFairy:
     
     shared Sprite_FairyCloud:
     
-    JSL Sprite_PrepOamCoordLong
-    JSR Sprite4_CheckIfActive
+    JSL.l Sprite_PrepOamCoordLong
+    JSR.w Sprite4_CheckIfActive
     
     INC.w $0E80, X
     
-    JSR FairyCloud_Draw 
+    JSR.w FairyCloud_Draw 
     
     LDA.w $0E80, X : AND.b #$1F : BNE .delay_healing_sfx
     
-    LDA.b #$31 : JSL Sound_SetSfx2PanLong
+    LDA.b #$31 : JSL.l Sound_SetSfx2PanLong
     
     .delay_healing_sfx
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FairyCloud_SeekPlayer
     dw FairyCloud_AwaitFullPlayerHealth
@@ -53,10 +53,10 @@ FairyCloud_SeekPlayer:
 {
     LDA.b #$00 : STA.w $0D90, X
     
-    LDA.b #$08 : JSL Sprite_ApplySpeedTowardsPlayerLong
+    LDA.b #$08 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
-    JSR Sprite4_Move
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSR.w Sprite4_Move
+    JSL.l Sprite_Get_16_bit_CoordsLong
     
     REP #$20
     
@@ -150,7 +150,7 @@ BigFairy_Main:
     
     .draw
     
-    JSR BigFairy_Draw
+    JSR.w BigFairy_Draw
     
     ; Timer ranging from 0 - 5 to delay graphic changes
     ; Don't change graphics
@@ -164,13 +164,13 @@ BigFairy_Main:
     
     .animation_delay
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     INC.w $0E80, X ; Sometimes a subtype, in this case it's a timer.
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw BigFairy_AwaitClosePlayer
     dw BigFairy_Dormant
@@ -181,17 +181,17 @@ BigFairy_Main:
 ; $0EC4F9-$0EC54E JUMP LOCATION
 BigFairy_AwaitClosePlayer:
 {
-    JSR FairyCloud_Draw
+    JSR.w FairyCloud_Draw
     
     LDA.b #$01 : STA.w $0D90, X
     
-    JSR Sprite4_DirectionToFacePlayer
+    JSR.w Sprite4_DirectionToFacePlayer
     
     LDA.b $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_too_far
     
     LDA.b $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_too_far
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     INC.w $0D80, X
     
@@ -199,15 +199,15 @@ BigFairy_AwaitClosePlayer:
     LDA.b #$5A : STA.w $1CF0
     LDA.b #$01 : STA.w $1CF1
     
-    JSL Sprite_ShowMessageMinimal
+    JSL.l Sprite_ShowMessageMinimal
     
     LDA.b #$01 : STA.w $02E4 ; Make it so Link can't move
     
     ; Create the Fairy Dust cloud
     ; NOTE: It's not checked whether the spawn was successful.
-    LDA.b #$C8 : JSL Sprite_SpawnDynamically
+    LDA.b #$C8 : JSL.l Sprite_SpawnDynamically
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$01 : STA !is_fairy_cloud, Y
     
@@ -267,8 +267,8 @@ BigFairy_Draw:
     
     LDA.b #$04
     
-    JSR Sprite4_DrawMultiple
-    JSL Sprite_DrawShadowLong
+    JSR.w Sprite4_DrawMultiple
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }
@@ -313,23 +313,23 @@ FairyCloud_Draw:
     ; generated over time.
     AND.w $0E80, X : BNE .spawn_masked_this_frame
     
-    JSL GetRandomInt : AND.b #$07 : TAY
+    JSL.l GetRandomInt : AND.b #$07 : TAY
     
-    LDA .offset_indices, Y : TAY
+    LDA.w .offset_indices, Y : TAY
     
     ; Randomly picking an X or Y coordinate offset
-    LDA .xy_offsets_low, Y  : STA.b $00
-    LDA .xy_offsets_high, Y : STA.b $01
+    LDA.w .xy_offsets_low, Y  : STA.b $00
+    LDA.w .xy_offsets_high, Y : STA.b $01
     
-    JSL GetRandomInt : AND.b #$07 : TAY
+    JSL.l GetRandomInt : AND.b #$07 : TAY
     
-    LDA .offset_indices, Y : TAY
+    LDA.w .offset_indices, Y : TAY
     
     ; Same here... not sure which is X and which is Y
-    LDA .xy_offsets_low, Y  : STA.b $02
-    LDA .xy_offsets_high, Y : STA.b $03
+    LDA.w .xy_offsets_low, Y  : STA.b $02
+    LDA.w .xy_offsets_high, Y : STA.b $03
     
-    JSL Sprite_SpawnSimpleSparkleGarnish
+    JSL.l Sprite_SpawnSimpleSparkleGarnish
 
     .spawn_masked_this_frame
     .spawn_inhibited

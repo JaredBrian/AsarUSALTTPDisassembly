@@ -8,7 +8,7 @@ SpritePrep_SnitchesLong:
     
     PHB : PHK : PLB
     
-    JSR SpritePrep_Snitches
+    JSR.w SpritePrep_Snitches
     
     PLB
     
@@ -41,7 +41,7 @@ Sprite_OldSnitchLadyLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_OldSnitchLady
+    JSR.w Sprite_OldSnitchLady
     
     PLB
     
@@ -51,7 +51,6 @@ Sprite_OldSnitchLadyLong:
 ; ==============================================================================
 
 ; $02E6A2-$02E6A9 DATA
-    
 {
     ; TODO: Name these sublabels and the routines that use them.
     .x_speeds
@@ -68,7 +67,7 @@ Sprite_OldSnitchLady:
 {
     LDA.w $0E30, X : BEQ .not_indoor_chicken_lady
     
-    JSL Sprite_ChickenLadyLong
+    JSL.l Sprite_ChickenLadyLong
     
     RTS
     
@@ -77,22 +76,22 @@ Sprite_OldSnitchLady:
     LDA.w $0D80, X : CMP.b #$03 : BCS .not_visible
     
     ; Draws the old lady...
-    JSL Lady_Draw
+    JSL.l Lady_Draw
     
     .not_visible
     
     ; $02E6BF ALTERNATE ENTRY POINT
     shared Sprite_Snitch:
     
-    JSR Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0D80, X : CMP.b #$03 : BCS .gamma
     
     LDA.b $1B : BEQ .outdoors
     
-    JSL Sprite_MakeBodyTrackHeadDirection
+    JSL.l Sprite_MakeBodyTrackHeadDirection
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     ; \tcrf (verified), submitted)
     ; You can place this sprite indoors and it behaves as a old lady
@@ -108,7 +107,7 @@ Sprite_OldSnitchLady:
     LDA.b #$AD
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
     
@@ -116,13 +115,13 @@ Sprite_OldSnitchLady:
     
     LDA.w $0D80, X : BNE .skip_player_collision_logic
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCS Snitch_FacePlayer
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCS Snitch_FacePlayer
     
     .skip_player_collision_logic
     
-    JSL Sprite_MakeBodyTrackHeadDirection : BCC Snitch_SetShortTimer
+    JSL.l Sprite_MakeBodyTrackHeadDirection : BCC Snitch_SetShortTimer
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     .gamma
     
@@ -131,7 +130,7 @@ Sprite_OldSnitchLady:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $E71A ; = $2E71A*
     dw $E78D ; = $2E78D*
@@ -144,7 +143,7 @@ Sprite_OldSnitchLady:
 ; $02E706-$02E715 BRANCH LOCATION
 Snitch_FacePlayer:
 {
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0DE0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0DE0, X
     
     ; $02E70F ALTERNATE ENTRY POINT
     shared Snitch_SetShortTimer:
@@ -199,7 +198,7 @@ Snitch_FacePlayer:
     LDA.b #$2F
     LDY.b #$00
     
-    JSL Sprite_ShowMessageFromPlayerContact
+    JSL.l Sprite_ShowMessageFromPlayerContact
     
     TAY
     
@@ -207,7 +206,7 @@ Snitch_FacePlayer:
     
     TYA : STA.w $0DE0, X
     
-    JSL SpawnCrazyVillageSoldier
+    JSL.l SpawnCrazyVillageSoldier
     
     INC.w $0D80, X
     
@@ -252,7 +251,7 @@ Snitch_FacePlayer:
     
     CLC
     
-    JSL Overworld_DrawWoodenDoor
+    JSL.l Overworld_DrawWoodenDoor
     
     PLX
     
@@ -272,7 +271,7 @@ Snitch_FacePlayer:
     
     LDA.b #$40
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     LDA.b $01 : STA.w $0D50, X
@@ -307,7 +306,7 @@ Snitch_FacePlayer:
     
     SEC
     
-    JSL Overworld_DrawWoodenDoor
+    JSL.l Overworld_DrawWoodenDoor
     
     PLX
     
@@ -315,7 +314,7 @@ Snitch_FacePlayer:
     
     .alpha
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     RTS
 }

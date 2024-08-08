@@ -6,17 +6,17 @@ Sprite_Lynel:
 {
     ; Lynel sprite code (Those Centaur looking things on DW Death Mountain)
     
-    JSR Lynel_Draw
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_CheckIfRecoiling
+    JSR.w Lynel_Draw
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfRecoiling
     
-    JSR Sprite4_DirectionToFacePlayer : TYA : STA.w $0DE0, X
+    JSR.w Sprite4_DirectionToFacePlayer : TYA : STA.w $0DE0, X
     
-    JSR Sprite4_CheckDamage
+    JSR.w Sprite4_CheckDamage
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Lynel_TargetPlayer
     dw Lynel_ApproachPlayer
@@ -51,11 +51,11 @@ Lynel_TargetPlayer:
     
     LDY.w $0DE0, X
     
-    LDA .x_offsets_low,  Y : CLC : ADC.b $22 : STA.w $0D90, X
-    LDA .x_offsets_high, Y : ADC.b $23 : STA.w $0DA0, X
+    LDA.w .x_offsets_low,  Y : CLC : ADC.b $22 : STA.w $0D90, X
+    LDA.w .x_offsets_high, Y : ADC.b $23 : STA.w $0DA0, X
     
-    LDA .y_offsets_low,  Y : CLC : ADC.b $20 : STA.w $0DB0, X
-    LDA .y_offsets_high, Y : ADC.b $21 : STA.w $0E90, X
+    LDA.w .y_offsets_low,  Y : CLC : ADC.b $20 : STA.w $0DB0, X
+    LDA.w .y_offsets_high, Y : ADC.b $21 : STA.w $0E90, X
     
     INC.w $0D80, X
     
@@ -84,7 +84,7 @@ Lynel_ApproachPlayer:
     
     TXA : EOR.b $1A : AND.b #$03 : BNE .anoadjust_direction
     
-    JSR Sprite4_Load_16bit_AuxCoord
+    JSR.w Sprite4_Load_16bit_AuxCoord
     
     REP #$20
     
@@ -108,7 +108,7 @@ Lynel_ApproachPlayer:
     
     LDA.b #$18
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     
@@ -116,9 +116,9 @@ Lynel_ApproachPlayer:
     
     .anoadjust_direction
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
-    JSR Sprite4_CheckTileCollision : BNE .prepare_attack
+    JSR.w Sprite4_CheckTileCollision : BNE .prepare_attack
     
     INC.w $0E80, X
     
@@ -127,7 +127,7 @@ Lynel_ApproachPlayer:
     
     LDA.w $0E80, X : AND.b #$04 : ORA.w $0DE0, X : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -148,7 +148,7 @@ Lynel_Attack:
 {
     LDA.w $0DF0, X : BNE .delay
     
-    JSL GetRandomInt : AND.b #$0F : ADC.b #$10 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$0F : ADC.b #$10 : STA.w $0DF0, X
     
     STZ.w $0D80, X
     
@@ -158,7 +158,7 @@ Lynel_Attack:
     
     CMP.b #$10 : BNE .anospawn_projectile
     
-    JSL Sprite_SpawnFirePhlegm : BMI .spawn_failed
+    JSL.l Sprite_SpawnFirePhlegm : BMI .spawn_failed
     
     LDA.l $7EF35A : CMP.b #$03 : BEQ .blockable_projectile
     
@@ -170,9 +170,9 @@ Lynel_Attack:
     
     LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
-    JSR Sprite4_CheckTileCollision
+    JSR.w Sprite4_CheckTileCollision
     
     RTS
 }
@@ -242,8 +242,8 @@ Lynel_Draw:
     
     LDA.b #$03
     
-    JSR Sprite4_DrawMultiple
-    JSL Sprite_DrawShadowLong
+    JSR.w Sprite4_DrawMultiple
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

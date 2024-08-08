@@ -4,13 +4,13 @@
 ; $0F4F47-$0F4F99 JUMP LOCATION
 Sprite_SpikeTrap:
 {
-    JSR SpikeTrap_Draw
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckDamage
+    JSR.w SpikeTrap_Draw
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckDamage
     
     LDA.w $0D80, X : BNE SpikeTrap_InMotion
     
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : STA.w $0DE0, X
     
@@ -24,13 +24,13 @@ Sprite_SpikeTrap:
     
     .move_towards_player
     
-    LDA .timers, Y : STA.w $0DF0, X
+    LDA.w .timers, Y : STA.w $0DF0, X
     
     INC.w $0D80, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     .not_close_enough
     
@@ -61,7 +61,7 @@ SpikeTrap_InMotion:
 {
     CMP.b #$01 : BNE .retracting
     
-    JSR Sprite3_CheckTileCollision : BNE .collided_with_tile
+    JSR.w Sprite3_CheckTileCollision : BNE .collided_with_tile
     
     LDA.w $0DF0, X : BNE .moving_on
     
@@ -73,7 +73,7 @@ SpikeTrap_InMotion:
     
     .moving_on
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     RTS
     
@@ -83,11 +83,11 @@ SpikeTrap_InMotion:
     
     LDY.w $0DE0, X
     
-    LDA .retract_x_speeds, Y : STA.w $0D50, X
+    LDA.w .retract_x_speeds, Y : STA.w $0D50, X
     
-    LDA .retract_y_speeds, Y : STA.w $0D40, X
+    LDA.w .retract_y_speeds, Y : STA.w $0D40, X
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA.w $0D10, X : CMP.w $0D90, X : BNE .delay
     
@@ -125,7 +125,7 @@ SpikeTrap_Draw:
     
     SEP #$30
     
-    JSL Sprite_DrawMultiple.quantity_preset
+    JSL.l Sprite_DrawMultiple_quantity_preset
     
     RTS
 }

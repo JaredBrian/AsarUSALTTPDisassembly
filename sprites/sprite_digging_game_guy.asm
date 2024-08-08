@@ -6,16 +6,16 @@ Sprite_DiggingGameGuy:
 {
     ; Diggging game guy' code
     
-    JSR DiggingGameGuy_Draw
-    JSR Sprite4_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
-    JSR Sprite4_Move
+    JSR.w DiggingGameGuy_Draw
+    JSR.w Sprite4_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
+    JSR.w Sprite4_Move
     
     STZ.w $0D50, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw DiggingGameGuy_Introduction
     dw DiggingGameGuy_DoYouWantToPlay
@@ -33,7 +33,7 @@ DiggingGameGuy_Introduction:
     ; If player is more than 7 pixels away...
     LDA.w $0D00, X : CLC : ADC.b #$07 : CMP $20 : BCS .return 
     ; If Link is not below this sprite.
-    JSR Sprite4_DirectionToFacePlayer : CPY.b #$02 : BNE .return
+    JSR.w Sprite4_DirectionToFacePlayer : CPY.b #$02 : BNE .return
         ; Do we have a follower?
         LDA.l $7EF3CC : BNE .freak_out_over_tagalong
     
@@ -41,7 +41,7 @@ DiggingGameGuy_Introduction:
         LDA.b #$87
         LDY.b #$01
     
-        JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .return
+        JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .return
             INC.w $0D80, X
     
     .return
@@ -57,7 +57,7 @@ DiggingGameGuy_Introduction:
     LDA.b #$8C
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -81,7 +81,7 @@ DiggingGameGuy_DoYouWantToPlay:
         LDA.b #$88
         LDY.b #$01
         
-        JSL Sprite_ShowMessageUnconditional
+        JSL.l Sprite_ShowMessageUnconditional
         
         ; Increase the AI pointer
         INC.w $0D80, X
@@ -96,7 +96,7 @@ DiggingGameGuy_DoYouWantToPlay:
         
         LDA.b #$01
         
-        JSL Sprite_InitializeSecondaryItemMinigame
+        JSL.l Sprite_InitializeSecondaryItemMinigame
         
         ; Play the game time music.
         LDA.b #$0E : STA.w $012C
@@ -113,7 +113,7 @@ DiggingGameGuy_DoYouWantToPlay:
     LDA.b #$89
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     ; Reset the sprite back to it's original state.
     STZ.w $0D80, X
@@ -187,7 +187,7 @@ DiggingGameGuy_TerminateMinigame:
     
     ; "OK! Time's up, game over. Come back again. Good bye..."
     LDA.b #$8A :  STA.w $1CF0
-    LDA.b #$01 :  JSR Sprite4_ShowMessageMinimal
+    LDA.b #$01 :  JSR.w Sprite4_ShowMessageMinimal
     
     LDA.b #$FE : STA.w $04B4
     
@@ -205,7 +205,7 @@ DiggingGameGuy_ComeBackLater:
     LDA.b #$8B
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 } 
@@ -219,7 +219,7 @@ DiggingGameGuy_AttemptPrizeSpawnLong:
     
     LDA.l $7FFE01 : INC A : STA.l $7FFE01
     
-    JSR DiggingGameGuy_AttemptPrizeSpawn
+    JSR.w DiggingGameGuy_AttemptPrizeSpawn
     
     PLB
     
@@ -235,18 +235,18 @@ DiggingGameGuy_AttemptPrizeSpawn:
     
     LDA.b $20 : CMP.w #$0B18 : SEP #$30 : BCS DiggingGameGuy_GiveItem_nothing
     
-    JSL GetRandomInt : AND.b #$07 : TAY
+    JSL.l GetRandomInt : AND.b #$07 : TAY
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
-    dw DiggingGameGuy_GiveItem.basic
-    dw DiggingGameGuy_GiveItem.basic
-    dw DiggingGameGuy_GiveItem.basic
-    dw DiggingGameGuy_GiveItem.basic
-    dw DiggingGameGuy_GiveItem.heart_piece
-    dw DiggingGameGuy_GiveItem.nothing
-    dw DiggingGameGuy_GiveItem.nothing
-    dw DiggingGameGuy_GiveItem.nothing
+    dw DiggingGameGuy_GiveItem_basic
+    dw DiggingGameGuy_GiveItem_basic
+    dw DiggingGameGuy_GiveItem_basic
+    dw DiggingGameGuy_GiveItem_basic
+    dw DiggingGameGuy_GiveItem_heart_piece
+    dw DiggingGameGuy_GiveItem_nothing
+    dw DiggingGameGuy_GiveItem_nothing
+    dw DiggingGameGuy_GiveItem_nothing
 }
 
 ; ==============================================================================
@@ -277,7 +277,7 @@ DiggingGameGuy_GiveItem:
 {
     .basic
     
-    LDA .basic_types, Y : BRA .spawn_item
+    LDA.w .basic_types, Y : BRA .spawn_item
     
     .nothing
     
@@ -298,13 +298,13 @@ DiggingGameGuy_GiveItem:
     
     LDA.l $7FFE00 : BNE .nothing
     
-    JSL GetRandomInt : AND.b #$03 : BNE .nothing
+    JSL.l GetRandomInt : AND.b #$03 : BNE .nothing
     
     LDA.b #$EB : STA.l $7FFE00
     
     .spawn_item
     
-    JSL Sprite_SpawnDynamically
+    JSL.l Sprite_SpawnDynamically
     
     LDX.b #$00
     
@@ -314,7 +314,7 @@ DiggingGameGuy_GiveItem:
     
     .player_facing_left
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
     LDA.b #$00 : STA.w $0D40, Y
     LDA.b #$18 : STA.w $0F80, Y
@@ -332,7 +332,7 @@ DiggingGameGuy_GiveItem:
     
     TYX
     
-    LDA.b #$30 : JSL Sound_SetSfx3PanLong
+    LDA.b #$30 : JSL.l Sound_SetSfx3PanLong
     
     RTS
 }
@@ -370,8 +370,8 @@ DiggingGameGuy_Draw:
     ADC.b #.oam_groups                 : STA.b $08
     LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

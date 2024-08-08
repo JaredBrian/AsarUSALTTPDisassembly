@@ -29,7 +29,7 @@ Sprite_GiantMoldormLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_GiantMoldorm
+    JSR.w Sprite_GiantMoldorm
     
     PLB
     
@@ -66,15 +66,15 @@ Pool_Sprite_GiantMoldorm:
 ; $0ED74E-$0ED7FD LOCAL JUMP LOCATION
 Sprite_GiantMoldorm:
 {
-    JSR GiantMoldorm_Draw
-    JSR Sprite4_CheckIfActive
+    JSR.w GiantMoldorm_Draw
+    JSR.w Sprite4_CheckIfActive
     
     LDA.w $0D80, X : CMP.b #$03 : BNE .not_scheduled_for_death
         JMP GiantMoldorm_AwaitDeath
     
     .not_scheduled_for_death
     
-    JSL Sprite_CheckDamageFromPlayerLong
+    JSL.l Sprite_CheckDamageFromPlayerLong
     
     LDA.b #$07
     
@@ -88,7 +88,7 @@ Sprite_GiantMoldorm:
     INC.w $0E80, X
     
     AND.b $1A : BNE .skip_sound_effect_this_frame
-        LDA.b #$31 : JSL Sound_SetSfx3PanLong
+        LDA.b #$31 : JSL.l Sound_SetSfx3PanLong
     
     .skip_sound_effect_this_frame
     
@@ -105,10 +105,10 @@ Sprite_GiantMoldorm:
     .not_stunned_from_damage
     
     LDA.b $46 : BNE .dont_repulse_player
-        JSL Sprite_CheckDamageToPlayerLong : BCC .dont_repulse_player
-            JSL Player_HaltDashAttackLong
+        JSL.l Sprite_CheckDamageToPlayerLong : BCC .dont_repulse_player
+            JSL.l Player_HaltDashAttackLong
             
-            LDA.b #$28 : JSL Sprite_ProjectSpeedTowardsPlayerLong
+            LDA.b #$28 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
             
             LDA.b $00 : STA.b $27
             
@@ -119,7 +119,7 @@ Sprite_GiantMoldorm:
             LDA.b #$30 : STA !timer_1, X
             
             ; BUG: how does this work? This value gets overriden by the call.
-            LDA.b #$32 : JSL Sound_SetSfxPan : STA.w $012F
+            LDA.b #$32 : JSL.l Sound_SetSfxPan : STA.w $012F
     
     .dont_repulse_player
     
@@ -130,25 +130,25 @@ Sprite_GiantMoldorm:
     
     .not_desperate_2
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
-    JSR Sprite4_CheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite4_CheckTileCollision : BEQ .no_tile_collision
         LDY.w $0DE0, X
         
-        LDA .directions, Y : STA.w $0DE0, X
+        LDA.w .directions, Y : STA.w $0DE0, X
         
         ; I guess... this is where the ticking sound comes from?
-        LDA.b #$21 : JSL Sound_SetSfx2PanLong
+        LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
     
     .no_tile_collision
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw GiantMoldorm_StraightPath    ; 0x00 - $D7FE
     dw GiantMoldorm_SpinningMeander ; 0x01 - $D82D
@@ -173,9 +173,9 @@ GiantMoldorm_StraightPath:
         STA.w $0D80, X
         
         ; NOTE: Resultant value is either 1 or -1.
-        JSL GetRandomInt : AND.b #$02 : DEC A : STA.w $0EB0, X
+        JSL.l GetRandomInt : AND.b #$02 : DEC A : STA.w $0EB0, X
         
-        JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA !timer_0, X
+        JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA !timer_0, X
     
     .wait
     
@@ -188,7 +188,7 @@ GiantMoldorm_StraightPath:
 GiantMoldorm_SpinningMeander:
 {
     LDA !timer_0, X : BNE .wait
-        JSL GetRandomInt : AND.b #$0F : ADC.b #$08 : STA !timer_0, X
+        JSL.l GetRandomInt : AND.b #$0F : ADC.b #$08 : STA !timer_0, X
         
         STZ.w $0D80, X
         
@@ -210,9 +210,9 @@ GiantMoldorm_SpinningMeander:
 GiantMoldorm_LungeAtPlayer:
 {
     TXA : EOR.b $1A : AND.b #$03 : BNE .frame_delay
-        LDA.b #$1F : JSL Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$1F : JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
-        JSL Sprite_ConvertVelocityToAngle
+        JSL.l Sprite_ConvertVelocityToAngle
         
         CMP.w $0DE0, X : BNE .current_direction_doesnt_match
             STZ.w $0D80, X
@@ -242,11 +242,11 @@ GiantMoldorm_LungeAtPlayer:
 ; $0ED881-$0ED8F1 LOCAL JUMP LOCATION
 GiantMoldorm_Draw:
 {
-    JSR Sprite4_PrepOamCoord
+    JSR.w Sprite4_PrepOamCoord
     
     LDA.b #$0B : STA.w $0F50, X
     
-    JSR GiantMoldorm_DrawEyeballs
+    JSR.w GiantMoldorm_DrawEyeballs
     
     REP #$20
     
@@ -268,24 +268,24 @@ GiantMoldorm_Draw:
     
     PLX
     
-    JSR GiantMoldorm_DrawHead
+    JSR.w GiantMoldorm_DrawHead
     
     LDA.w $0DA0, X : CMP.b #$04 : BCS .dont_draw_segment
-        JSR GiantMoldorm_DrawSegment_A
+        JSR.w GiantMoldorm_DrawSegment_A
         
         LDA.w $0DA0, X : CMP.b #$03 : BCS .dont_draw_segment
-            JSR GiantMoldorm_DrawSegment_B
+            JSR.w GiantMoldorm_DrawSegment_B
             
             LDA.w $0DA0, X : CMP.b #$02 : BCS .dont_draw_segment
-                JSR GiantMoldorm_DrawSegment_C
+                JSR.w GiantMoldorm_DrawSegment_C
                 
                 LDA.w $0DA0, X : BNE .dont_draw_segment
-                    JSR GiantMoldorm_Tail
+                    JSR.w GiantMoldorm_Tail
     
     .dont_draw_segment
     
-    JSR GiantMoldorm_IncrementalSegmentExplosion
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSR.w GiantMoldorm_IncrementalSegmentExplosion
+    JSL.l Sprite_Get_16_bit_CoordsLong
     
     RTS
 }
@@ -302,7 +302,7 @@ GiantMoldorm_IncrementalSegmentExplosion:
                     ; Move on to the next segment.
                     INC.w $0DA0, X
                     
-                    JSL Sprite_MakeBossDeathExplosion
+                    JSL.l Sprite_MakeBossDeathExplosion
         
         .delay_explosion
     .alive_and_well
@@ -482,7 +482,7 @@ GiantMoldorm_PrepAndDrawSingleLargeLong:
     
     AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     PLA : STA.w $0F50, X
     
@@ -494,7 +494,7 @@ GiantMoldorm_PrepAndDrawSingleLargeLong:
 ; $0EDABA-$0EDB16 LOCAL JUMP LOCATION
 GiantMoldorm_Tail:
 {
-    JSR GiantMoldorm_DrawTail
+    JSR.w GiantMoldorm_DrawTail
     
     LDA !timer_2, X : BNE .temporarily_invulnerable
         LDA.b #$01 : STA.w $0D90, X
@@ -514,7 +514,7 @@ GiantMoldorm_Tail:
         LDA.w $0FDA : STA.w $0D00, X
         LDA.w $0FDB : STA.w $0D20, X
         
-        JSL Sprite_CheckDamageFromPlayerLong
+        JSL.l Sprite_CheckDamageFromPlayerLong
         
         STZ.w $0D90, X
         
@@ -671,14 +671,14 @@ Sprite_ScheduleBossForDeath:
 ; $0EDC2A-$0EDC71 LONG JUMP LOCATION
 Sprite_MakeBossDeathExplosion:
 {
-    LDA.b #$0C : JSL Sound_SetSfx2PanLong
+    LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
     
     ; $0EDC30 ALTERNATE ENTRY POINT
     .silent
     
     ; Spawn a.... raven? What? Oh it's just a dummy sprite that will be
     ; transmuted to an explosion.
-    LDA.b #$00 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$00 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$0B : STA.w $0AAA
         
         LDA.b #$04 : STA.w $0DD0, Y

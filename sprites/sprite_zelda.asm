@@ -8,7 +8,7 @@ SpritePrep_ZeldaLong:
     
     PHB : PHK : PLB
     
-    JSR SpritePrep_Zelda
+    JSR.w SpritePrep_Zelda
     
     PLB
     
@@ -24,7 +24,7 @@ SpritePrep_Zelda:
     
     INC.w $0BA0, X
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03
     
     STA.w $0EB0, X : STA.w $0DE0, X
     
@@ -34,7 +34,7 @@ SpritePrep_Zelda:
     
     PHX
     
-    JSL Tagalong_LoadGfx
+    JSL.l Tagalong_LoadGfx
     
     PLX
     
@@ -88,7 +88,7 @@ Zelda_TransitionFromTagalong:
     ; Transition princess Zelda back into a sprite from the tagalong
     ; state (the sage's sprite is doing this).
     
-    LDA.b #$76 : JSL Sprite_SpawnDynamically
+    LDA.b #$76 : JSL.l Sprite_SpawnDynamically
     
     PHX
     
@@ -135,7 +135,7 @@ Sprite_ZeldaLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_Zelda
+    JSR.w Sprite_Zelda
     
     PLB
     
@@ -147,19 +147,19 @@ Sprite_ZeldaLong:
 ; $02EC9E-$02ECBE LOCAL JUMP LOCATION
 Sprite_Zelda:
 {
-    JSL CrystalMaiden_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l CrystalMaiden_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
-    JSL Sprite_MakeBodyTrackHeadDirection : BCC .cant_move
+    JSL.l Sprite_MakeBodyTrackHeadDirection : BCC .cant_move
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     .cant_move
     
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Zelda_InPrison
     dw Zelda_EnteringSanctuary
@@ -173,11 +173,11 @@ Zelda_InPrison:
 {
     ; Wonder if she made a shank?
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Zelda_AwaitingRescue
     dw Zelda_ApproachingPlayer
@@ -191,7 +191,7 @@ Zelda_InPrison:
 ; $02ECD9-$02ECF9 JUMP LOCATION
 Zelda_AwaitingRescue:
 {
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
     
     INC.w $0D80, X
     
@@ -199,9 +199,9 @@ Zelda_AwaitingRescue:
     
     LDY.w $0EB0, X
     
-    LDA Sprite_Zelda.x_speeds, Y : STA.w $0D50, X
+    LDA Sprite_Zelda_x_speeds, Y : STA.w $0D50, X
     
-    LDA Sprite_Zelda.y_speeds, Y : STA.w $0D40, X
+    LDA Sprite_Zelda_y_speeds, Y : STA.w $0D40, X
     
     LDA.b #$10 : STA.w $0DF0, X
     
@@ -223,7 +223,7 @@ Zelda_ApproachingPlayer:
     LDA.b #$1C
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D50, X
     STZ.w $0D40, X
@@ -252,7 +252,7 @@ Zelda_TheWizardIsBadMkay:
     LDA.b #$25
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     RTS
 }
@@ -268,7 +268,7 @@ Zelda_WaitUntilPlayerPaysAttention:
     LDA.b #$24
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -290,14 +290,14 @@ Zelda_TransitionToTagalong:
     
     LDA.b #$02 : STA.l $7EF3C8
     
-    JSL SavePalaceDeaths
+    JSL.l SavePalaceDeaths
     
     LDA.b #$01 : STA.l $7EF3CC
     
     PHX
     
-    JSL Dungeon_SaveRoomQuadrantData
-    JSL Tagalong_SpawnFromSprite
+    JSL.l Dungeon_SaveRoomQuadrantData
+    JSL.l Tagalong_SpawnFromSprite
     
     PLX
     
@@ -315,7 +315,7 @@ Zelda_EnteringSanctuary:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Zelda_WalkTowardsPriest
     dw Zelda_RespondToPriest
@@ -353,17 +353,17 @@ Zelda_WalkTowardsPriest:
     
     .beta
     
-    LDA .timers, Y : STA.w $0DF0, X
+    LDA.w .timers, Y : STA.w $0DF0, X
         
-    LDA .directions, Y : STA.w $0EB0, X : STA.w $0DE0, X
+    LDA.w .directions, Y : STA.w $0EB0, X : STA.w $0DE0, X
         
     INC.w $0D90, X
         
     TAY
         
-    LDA Sprite_Zelda.x_speeds, Y : STA.w $0D50, X
+    LDA Sprite_Zelda_x_speeds, Y : STA.w $0D50, X
         
-    LDA Sprite_Zelda.y_speeds, Y : STA.w $0D40, X
+    LDA Sprite_Zelda_y_speeds, Y : STA.w $0D40, X
     
     .walking
     
@@ -381,7 +381,7 @@ Zelda_RespondToPriest:
     LDA.b #$1D
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -389,13 +389,13 @@ Zelda_RespondToPriest:
     
     LDA.b #$01 : STA.l $7EF3C8
     
-    JSL SavePalaceDeaths
+    JSL.l SavePalaceDeaths
     
     LDA.b #$02 : STA.l $7EF3C5
     
     PHX
     
-    JSL Sprite_LoadGfxProperties.justLightWorld
+    JSL.l Sprite_LoadGfxProperties_justLightWorld
     
     PLX
     
@@ -407,13 +407,13 @@ Zelda_RespondToPriest:
 ; $02EDEC-$02EE05 JUMP LOCATION
 Zelda_BeCarefulOutThere:
 {
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     ; "[Name], be careful out there! I know you can save Hyrule!"
     LDA.b #$1E
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     STA.w $0DE0, X
     STA.w $0EB0, X
@@ -445,7 +445,7 @@ Pool_Zelda_AtSanctuary:
 ; $02EE0C-$02EE4A JUMP LOCATION
 Zelda_AtSanctuary:
 {
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDY.b #$00
     
@@ -463,10 +463,10 @@ Zelda_AtSanctuary:
     
     .pick_message
     
-    LDA .messages_low, Y        : XBA
-    LDA .messages_high, Y : TAY : XBA
+    LDA.w .messages_low, Y        : XBA
+    LDA.w .messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .no_talky_talky
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .no_talky_talky
     
     STA.w $0DE0, X : STA.w $0EB0, X
     

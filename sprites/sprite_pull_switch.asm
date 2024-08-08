@@ -14,7 +14,7 @@ Sprite_PullSwitch:
     
     .bad_switches
     
-    JSR Sprite_BadPullSwitch
+    JSR.w Sprite_BadPullSwitch
     
     PLB
     
@@ -22,7 +22,7 @@ Sprite_PullSwitch:
     
     .good_switch
     
-    JSR Sprite_GoodPullSwitch
+    JSR.w Sprite_GoodPullSwitch
     
     PLB
     
@@ -65,13 +65,13 @@ Sprite_BadPullSwitch:
     
     LDA.w $0E20, X : CMP.b #$07 : BEQ .up_facing_switch
     
-    JSR BadPullDownSwitch_Draw
+    JSR.w BadPullDownSwitch_Draw
     
     RTS
     
     .up_facing_switch
     
-    JSR BadPullUpSwitch_Draw
+    JSR.w BadPullUpSwitch_Draw
     
     RTS
 }
@@ -87,12 +87,12 @@ Sprite_BadPullSwitch:
 
 ; $02D743-$02D7C9 LOCAL JUMP LOCATION
 {
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .alpha
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .alpha
     
     STZ.b $27
     STZ.b $28
     
-    JSL Sprite_RepelDashAttackLong
+    JSL.l Sprite_RepelDashAttackLong
     
     STZ.b $48
     
@@ -130,7 +130,7 @@ Sprite_BadPullSwitch:
     
     LDA.b #$08 : STA.w $0DF0F0, X
     
-    LDA.b #$22 : JSL Sound_SetSfx2PanLong
+    LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
     
     .epsilon
     
@@ -184,14 +184,14 @@ Sprite_BadPullSwitch:
 ; $02D7F9-$02D855 LOCAL JUMP LOCATION
 BadPullDownSwitch_Draw:
 {
-    JSR Sprite2_PrepOamCoord
-    JSL Sprite_OAM_AllocateDeferToPlayerLong
+    JSR.w Sprite2_PrepOamCoord
+    JSL.l Sprite_OAM_AllocateDeferToPlayerLong
     
     LDY.w $0DC0C0, X
     
-    LDA .additional_handle_y_indices, Y : TAY
+    LDA.w .additional_handle_y_indices, Y : TAY
     
-    LDA .additional_handle_y_offsets, Y : STA.b $06
+    LDA.w .additional_handle_y_offsets, Y : STA.b $06
     
     PHX
     
@@ -202,8 +202,8 @@ BadPullDownSwitch_Draw:
     
     LDA.b $00 : CLC : ADC.w $D7CA, X          : STA ($90), Y
     LDA.b $02 : CLC : ADC.w $D7D0, X    : INY : STA ($90), Y
-    LDA .chr, X                 : INY : STA ($90), Y
-    LDA .h_flip, X : ORA.b #$21 : INY : STA ($90), Y
+    LDA.w .chr, X                 : INY : STA ($90), Y
+    LDA.w .h_flip, X : ORA.b #$21 : INY : STA ($90), Y
     
     PHY
     
@@ -217,7 +217,7 @@ BadPullDownSwitch_Draw:
     
     TYA : LSR #2 : TAY
     
-    LDA .properties, X : STA ($92), Y
+    LDA.w .properties, X : STA ($92), Y
     
     PLY : INY
     
@@ -228,7 +228,7 @@ BadPullDownSwitch_Draw:
     LDY.b #$FF
     LDA.b #$04
     
-    JSL Sprite_CorrectOamEntriesLong
+    JSL.l Sprite_CorrectOamEntriesLong
     
     RTS
 }
@@ -247,14 +247,14 @@ Pool_BadPullUpSwitch_Draw:
 ; $02D858-$02D8B4 LOCAL JUMP LOCATION
 BadPullUpSwitch_Draw:
 {
-    JSR Sprite2_PrepOamCoord
-    JSL Sprite_OAM_AllocateDeferToPlayerLong
+    JSR.w Sprite2_PrepOamCoord
+    JSL.l Sprite_OAM_AllocateDeferToPlayerLong
     
     LDY.w $0DC0, X
     
-    LDA .additional_handle_y_indices, Y : TAY
+    LDA.w .additional_handle_y_indices, Y : TAY
     
-    LDA .additional_handle_y_offsets, Y : STA.b $06
+    LDA.w .additional_handle_y_offsets, Y : STA.b $06
                                           STZ.b $07
     
     PHX
@@ -286,7 +286,7 @@ BadPullUpSwitch_Draw:
     
     .on_screen_y
     
-    LDA .chr, X : INY : STA ($90), Y
+    LDA.w .chr, X : INY : STA ($90), Y
     LDA.b $05      : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
@@ -312,7 +312,7 @@ Sprite_GoodPullSwitch:
     LDY.w $0DC0, X : BEQ .alpha
     CPY.b #$0D   : BEQ .alpha
     
-    LDA .player_pull_poses-1, Y : STA.w $0377
+    LDA.w .player_pull_poses-1, Y : STA.w $0377
     
     LDA.w $0D00, X : CLC : ADC .player_y_offsets-1, Y : STA.b $20
     LDA.w $0D20, X : ADC.b #$00                 : STA.b $21
@@ -344,13 +344,13 @@ Sprite_GoodPullSwitch:
     
     .set_delay_timer
     
-    LDA .timers-1, Y : STA.w $0DF0, X
+    LDA.w .timers-1, Y : STA.w $0DF0, X
     
     BRA .alpha
     
     .alpha
     
-    JSR GoodPUllSwitch_Draw
+    JSR.w GoodPUllSwitch_Draw
     
     LDA.w $0F00, X : BEQ .delta
     
@@ -390,12 +390,12 @@ Pool_GoodPullSwitch_Draw:
 ; $02D953-$02D998 LOCAL JUMP LOCATION
 GoodPUllSwitch_Draw:
 {
-    JSR Sprite2_PrepOamCoord
-    JSL Sprite_OAM_AllocateDeferToPlayerLong
+    JSR.w Sprite2_PrepOamCoord
+    JSL.l Sprite_OAM_AllocateDeferToPlayerLong
     
     LDY.w $0DC0, X
     
-    LDA .y_offsets, Y : STA.b $06
+    LDA.w .y_offsets, Y : STA.b $06
     
     LDY.b #$04
     
@@ -411,7 +411,7 @@ GoodPUllSwitch_Draw:
     LDY.b #$02
     LDA.b #$01
     
-    JSL Sprite_CorrectOamEntriesLong
+    JSL.l Sprite_CorrectOamEntriesLong
     
     RTS
 }
@@ -420,12 +420,12 @@ GoodPUllSwitch_Draw:
 
 ; $02D999-$02DA28 LOCAL JUMP LOCATION
 {
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
     STZ.b $27
     STZ.b $28
     
-    JSL Sprite_RepelDashAttackLong
+    JSL.l Sprite_RepelDashAttackLong
     
     STZ.b $48
     
@@ -474,7 +474,7 @@ GoodPUllSwitch_Draw:
     
     LDA.b #$0C : STA.w $0DF0, X
     
-    LDA.b #$22 : JSL Sound_SetSfx2PanLong
+    LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
     
     .epsilon
     

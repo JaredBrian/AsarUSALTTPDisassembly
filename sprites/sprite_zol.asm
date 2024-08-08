@@ -10,7 +10,7 @@ Sprite_Zol:
         
         LDA.b #$01 : STA.w $0D50, X
         
-        JSR Sprite3_CheckTileCollision
+        JSR.w Sprite3_CheckTileCollision
         
         STZ.w $0D50, X
         
@@ -21,7 +21,7 @@ Sprite_Zol:
 
         .anoself_terminate
 
-        LDA.b #$20 : JSL Sound_SetSfx2PanLong
+        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
 
     .skip_initial_collision_check
 
@@ -30,19 +30,19 @@ Sprite_Zol:
 
     .use_oam_normal_priority_scheme
 
-    JSR Zol_Draw
-    JSR Sprite3_CheckIfActive
+    JSR.w Zol_Draw
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0D80, X : CMP.b #$02 : BCC .cant_damage_player
-    JSL Sprite_CheckDamageFromPlayerLong
+    JSL.l Sprite_CheckDamageFromPlayerLong
 
     .cant_damage_player
 
-    JSR Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckIfRecoiling
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Zol_HidingUnseen
     dw Zol_PoppingOut
@@ -59,7 +59,7 @@ Zol_HidingUnseen:
     
     LDA.w $0E40, X : ORA.b #$80 : STA.w $0E40, X
     
-    JSR Sprite3_CheckDamageToPlayer
+    JSR.w Sprite3_CheckDamageToPlayer
     
     PLA : STA.w $0F60, X : BCC .didnt_touch_player
     INC.w $0D80, X
@@ -105,10 +105,10 @@ Zol_PoppingOut:
     ; Make the Zol jump up.
     LDA.b #$20 : STA.w $0F80, X
     
-    LDA.b #$10 : JSL Sprite_ApplySpeedTowardsPlayerLong
+    LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     ; Play popping out of ground sfx.
-    LDA.b #$30 : JSL Sound_SetSfx3PanLong
+    LDA.b #$30 : JSL.l Sound_SetSfx3PanLong
     
     RTS
 
@@ -116,7 +116,7 @@ Zol_PoppingOut:
 
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -150,25 +150,25 @@ Zol_Falling:
 
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.b $1A : LSR A : AND.b #$01 : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    JSR Sprite3_MoveHoriz
+    JSR.w Sprite3_MoveHoriz
     
     RTS
 
     .falling_from_above
 
-    JSL Sprite_CheckDamageFromPlayerLong
-    JSR Sprite3_Move
-    JSR Sprite3_CheckTileCollision
+    JSL.l Sprite_CheckDamageFromPlayerLong
+    JSR.w Sprite3_Move
+    JSR.w Sprite3_CheckTileCollision
     
     LDA.w $0F70, X : PHA
     
-    JSR Sprite3_MoveAltitude
+    JSR.w Sprite3_MoveAltitude
     
     LDA.w $0F80, X : CMP.b #$C0 : BMI .fall_speed_maxed_out
     SEC : SBC.b #$02 : STA.w $0F80, X
@@ -200,12 +200,12 @@ Zol_Falling:
 ; $0F3144-$0F31C0 JUMP LOCATION
 Zol_Active:
 {
-    JSR Sprite3_CheckDamageToPlayer
+    JSR.w Sprite3_CheckDamageToPlayer
     
     LDA.w $0E00, X : BNE .delay_retargeting_player
-    LDA.b #$30 : JSL Sprite_ApplySpeedTowardsPlayerLong
+    LDA.b #$30 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
-    JSL GetRandomInt : AND.b #$3F : ORA.b #$60 : STA.w $0E00, X
+    JSL.l GetRandomInt : AND.b #$3F : ORA.b #$60 : STA.w $0E00, X
     
     ; Set h flip based on msb of x speed.
     ASL.w $0F50, X : ASL.w $0F50, X
@@ -220,18 +220,18 @@ Zol_Active:
     INC.w $0E80, X
     
     LDA.w $0E80, X : AND.b #$0E : ORA.w $0E70, X : BNE .deagitation_delay
-        JSR Sprite3_Move
+        JSR.w Sprite3_Move
         
         INC.w $0ED0, X : LDA.w $0ED0, X : CMP.w $0EB0, X : BNE .deagitation_delay
             STZ.w $0ED0, X
             
-            JSL GetRandomInt : AND.b #$1F : ADC.b #$40 : STA.w $0E10, X
+            JSL.l GetRandomInt : AND.b #$1F : ADC.b #$40 : STA.w $0E10, X
             
-            JSL GetRandomInt : AND.b #$1F : ORA.b #$10 : STA.w $0EB0, X
+            JSL.l GetRandomInt : AND.b #$1F : ORA.b #$10 : STA.w $0EB0, X
 
     .deagitation_delay
 
-    JSR Sprite3_CheckTileCollision
+    JSR.w Sprite3_CheckTileCollision
     
     LDA.w $0E80, X : AND.b #$08 : LSR #3 : STA.w $0DC0, X
     
@@ -273,7 +273,7 @@ Zol_Draw:
 
     LDA.w $0F10, X : BEQ .draw_in_front_of_player
     ; Draw behind player.
-    LDA.b #$08 : JSL OAM_AllocateFromRegionB
+    LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
 
     .draw_in_front_of_player
 
@@ -289,7 +289,7 @@ Zol_Draw:
     ; WTF: With all the use of $0F50, X?
     AND.b #$01 : EOR.b #$01 : ASL #2 : CLC : ADC.w $0DC0, X : STA.w $0DC0, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     PLA : STA.w $0F50, X
     PLA : STA.w $0DC0, X
@@ -299,7 +299,7 @@ Zol_Draw:
     .not_visible
 
     ; WTF: Am I to understand that this is doing anything useful?
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_PrepOamCoordLong
 
     .return
 

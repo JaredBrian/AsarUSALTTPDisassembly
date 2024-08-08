@@ -6,7 +6,7 @@ SpritePrep_OldMountainManLong:
 {
     PHB : PHK : PLB
     
-    JSR SpritePrep_OldMountainMan
+    JSR.w SpritePrep_OldMountainMan
     
     PLB
     
@@ -42,7 +42,7 @@ SpritePrep_OldMountainMan:
     
     PHX
     
-    JSL Tagalong_LoadGfx
+    JSL.l Tagalong_LoadGfx
     
     PLX
     
@@ -56,7 +56,7 @@ SpritePrep_OldMountainMan:
     
     PHX
     
-    JSL Tagalong_LoadGfx
+    JSL.l Tagalong_LoadGfx
     
     PLX
     
@@ -70,7 +70,7 @@ OldMountainMan_TransitionFromTagalong:
 {
     PHA
     
-    LDA.b #$AD : JSL Sprite_SpawnDynamically
+    LDA.b #$AD : JSL.l Sprite_SpawnDynamically
     
     PLA : PHX : TAX
     
@@ -88,7 +88,7 @@ OldMountainMan_TransitionFromTagalong:
     LDA.b #$01 : STA.w $0BA0, Y
                  STA.w $0E80, Y
     
-    JSR OldMountainMan_FreezePlayer
+    JSR.w OldMountainMan_FreezePlayer
     
     PLX
     
@@ -115,12 +115,12 @@ OldMountainMan_FreezePlayer:
 ; $0F6992-$0F69A5 JUMP LOCATION
 Sprite_OldMountainMan:
 {
-    JSL OldMountainMan_Draw
-    JSR Sprite3_CheckIfActive
+    JSL.l OldMountainMan_Draw
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw OldMountainMan_Lost
     dw OldMountainMan_EnteringDomicile
@@ -134,7 +134,7 @@ OldMountainMan_Lost:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw OldMountainMan_Supplicate
     dw OldMountainMan_SwitchToTagalong
@@ -145,8 +145,8 @@ OldMountainMan_Lost:
 ; $0F69B1-$0F69D1 JUMP LOCATION
 OldMountainMan_Supplicate:
 {
-    JSL Sprite_MakeBodyTrackHeadDirection
-    JSR Sprite3_DirectionToFacePlayer
+    JSL.l Sprite_MakeBodyTrackHeadDirection
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : EOR.b #$03 : STA.w $0EB0, X
     
@@ -154,7 +154,7 @@ OldMountainMan_Supplicate:
     LDA.b #$9C
     LDY.b #$00
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
     
     STA.w $0DE0, X
     STA.w $0EB0, X
@@ -174,7 +174,7 @@ OldMountainMan_SwitchToTagalong:
     ; Set up the old man on the mountain as the tagalong
     LDA.b #$04 : STA.l $7EF3CC
     
-    JSL Tagalong_SpawnFromSprite
+    JSL.l Tagalong_SpawnFromSprite
     
     LDA.b #$05 : STA.l $7EF3C8
     
@@ -193,11 +193,11 @@ OldMountainMan_SwitchToTagalong:
 ; $0F69EA-$0F69FB JUMP LOCATION
 OldMountainMan_EnteringDomicile:
 {
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw OldMountainMan_GrantMagicMirror
     dw OldMountainMan_ShuffleAway
@@ -217,11 +217,11 @@ OldMountainMan_GrantMagicMirror:
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     LDA.b #$01 : STA.l $7EF3C8
     
-    JSR OldMountainMan_FreezePlayer
+    JSR.w OldMountainMan_FreezePlayer
     
     LDA.b #$30 : STA.w $0DF0, X
     
@@ -239,7 +239,7 @@ OldMountainMan_GrantMagicMirror:
 ; $0F6A28-$0F6A3E JUMP LOCATION
 OldMountainMan_ShuffleAway:
 {
-    JSR OldMountainMan_FreezePlayer
+    JSR.w OldMountainMan_FreezePlayer
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -287,7 +287,7 @@ OldMountainMan_ApproachDoor:
     LDA.w $0B18, Y : STA.b $06
     LDA.w $0B20, Y : STA.b $07
     
-    LDA.b #$08 : JSL Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$08 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     
@@ -295,7 +295,7 @@ OldMountainMan_ApproachDoor:
     
     TXA : EOR.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
-    JSR OldMountainMan_FreezePlayer
+    JSR.w OldMountainMan_FreezePlayer
     
     RTS
 }
@@ -330,7 +330,7 @@ Pool_OldMountainMan_SittingAtHome:
 ; $0F6AB3-$0F6AE6 JUMP LOCATION
 OldMountainMan_SittingAtHome:
 {
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.w $0D80, X : BEQ .dont_activate_health_refill
     
@@ -348,10 +348,10 @@ OldMountainMan_SittingAtHome:
     
     .player_beat_agahnim
     
-    LDA .messages_low, Y        : XBA
-    LDA .messages_high, Y : TAY : XBA
+    LDA.w .messages_low, Y        : XBA
+    LDA.w .messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     INC.w $0D80, X
     

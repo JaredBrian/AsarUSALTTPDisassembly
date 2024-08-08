@@ -12,8 +12,8 @@ Overlord_SpawnBoulder:
                         LDA.b #$C2
                         LDY.b #$0D
                         
-                        JSL Sprite_SpawnDynamically : BMI .spawn_failed
-                            JSL GetRandomInt : AND.b #$7F
+                        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+                            JSL.l GetRandomInt : AND.b #$7F
                             CLC : ADC.b #$40 : CLC : ADC.b $E2 : STA.w $0D10, Y
 
                             LDA.b $E3 : ADC.b #$00             : STA.w $0D30, Y
@@ -38,8 +38,8 @@ Overlord_Main:
 {
     PHB : PHK : PLB
     
-    JSR Overlord_ExecuteAll
-    JSR Overlord_SpawnBoulder
+    JSR.w Overlord_ExecuteAll
+    JSR.w Overlord_SpawnBoulder
     
     PLB
     
@@ -57,7 +57,7 @@ Overlord_ExecuteAll:
         .next_overlord
         
             LDA.w $0B00, X : BEQ .inactive_overlord
-                JSR Overlord_ExecuteSingle
+                JSR.w Overlord_ExecuteSingle
             
             .inactive_overlord
         DEX : BPL .next_overlord
@@ -75,11 +75,11 @@ Overlord_ExecuteSingle:
 {
     PHA
     
-    JSR Overlord_CheckInRangeStatus
+    JSR.w Overlord_CheckInRangeStatus
     
     PLA : DEC A : REP #$30 : AND.w #$00FF : ASL A : TAY
     
-    LDA .handlers, Y : DEC A : PHA
+    LDA.w .handlers, Y : DEC A : PHA
     
     SEP #$30
     
@@ -143,7 +143,7 @@ Overlord_ExecuteSingle:
 ; $04B7DC-$04B7E0 JUMP LOCATION
 Overlord_ArmosCoordinator:
 {
-    JSL ArmosCoordinatorLong
+    JSL.l ArmosCoordinatorLong
     
     RTS
 }
@@ -201,7 +201,7 @@ Overlord18_InvisibleStalfos:
                 LDA.b #$A7
                 LDY.b #$0C
                 
-                JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
+                JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
                     PHX
                     
                     LDX.w $0FB5
@@ -212,7 +212,7 @@ Overlord18_InvisibleStalfos:
                     LDA.b $20 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
                     LDA.b $21 :       ADC .y_offsets_high, X : STA.w $0D20, Y
                     
-                    LDA .stalfos_delay_timers, X : STA.w $0DF0, Y
+                    LDA.w .stalfos_delay_timers, X : STA.w $0DF0, Y
                     
                     PLX
                     
@@ -291,7 +291,7 @@ Overlord_ZoroFactory:
     
     LDA.w $0B40, X
     
-    JSL Entity_GetTileAttr : CMP.b #$82 : BNE .cant_spawn
+    JSL.l Entity_GetTileAttr : CMP.b #$82 : BNE .cant_spawn
         ; If timer hasn't counted down yet do nothing
         LDA.w $0B30, X : CMP.b #$18 : BCS .cant_spawn
             ; Even when within the timer range, only spawn if (the timer % 4 == 0)
@@ -300,10 +300,10 @@ Overlord_ZoroFactory:
                 LDA.b #$9C
                 LDY.b #$0C
                 
-                JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
+                JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
                     PHX
                     
-                    JSL GetRandomInt : AND.b #$07 : TAX
+                    JSL.l GetRandomInt : AND.b #$07 : TAX
                     
                     ; TODO: Just out of curiosity, figure out if this paradigm of PHP
                     ; PLP is really required in these scenarios...
@@ -328,7 +328,7 @@ Overlord_ZoroFactory:
                     LDA.b #$20 : STA.w $0E40, Y
                     LDA.b #$0D : STA.w $0F50, Y
                     
-                    JSL GetRandomInt : STA.w $0E80, Y
+                    JSL.l GetRandomInt : STA.w $0E80, Y
                     
                     LDA.b #$30 : STA.w $0DF0, Y
                     LDA.b #$03 : STA.w $0CD2, Y
@@ -387,7 +387,7 @@ Overlord_WizzrobeFactory:
         LDA.b #$9B 
         LDY.b #$0C
         
-        JSL Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
+        JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
             PHX
             
             LDX.w $0FB5
@@ -441,7 +441,7 @@ Overlord_FlyingTileFactory:
                 RTS
                 
                 .spawn_flying_tile
-            JSR Overlord_SpawnFlyingTile : BMI .resetTimer
+            JSR.w Overlord_SpawnFlyingTile : BMI .resetTimer
             
             INC.w $0B28, X
             
@@ -482,15 +482,15 @@ Pool_Overlord_SpawnFlyingTile:
 ; $04BA56-$04BAAB LOCAL JUMP LOCATION
 Overlord_SpawnFlyingTile:
 {
-    LDA.b #$94 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$94 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$01 : STA.w $0E90, Y
         
         PHX : LDA.w $0B28, X : TAX
         
         ; Note: The high portions are fed off of the high bytes of this overlord.
-        LDA .x_coords_low, X : STA.w $0D10, Y
+        LDA.w .x_coords_low, X : STA.w $0D10, Y
         
-        LDA .y_coords_low, X : SEC : SBC.b #$08 : STA.w $0D00, Y
+        LDA.w .y_coords_low, X : SEC : SBC.b #$08 : STA.w $0D00, Y
         
         PLX
         
@@ -540,7 +540,7 @@ Pool_PirogusuFactory_Main:
 ; $04BAC4-$04BB23 BRANCH LOCATION
 PirogusuFactory_Main:
 {
-    JSL GetRandomInt : AND.b #$1F : CLC : ADC.b #$60 : STA.w $0B30, X
+    JSL.l GetRandomInt : AND.b #$1F : CLC : ADC.b #$60 : STA.w $0B30, X
     
     STZ.b $00
     
@@ -562,7 +562,7 @@ PirogusuFactory_Main:
         LDY.b #$0C
         LDA.b #$94
         
-        JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
+        JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
             LDA.b $05 : STA.w $0D10, Y
             LDA.b $06 : STA.w $0D30, Y
             
@@ -579,7 +579,7 @@ PirogusuFactory_Main:
             
             TAX
             
-            LDA .directions, X : STA.w $0D90, Y
+            LDA.w .directions, X : STA.w $0D90, Y
             
             PLX
 
@@ -714,16 +714,16 @@ Overlord_CrumbleTilePath:
     
     LDA.b #$10 : STA.w $0B30, X
     
-    JSR CrumbleTilePath_SpawnCrumbleTileGarnish
+    JSR.w CrumbleTilePath_SpawnCrumbleTileGarnish
     
     INC.w $0B28, X
     
     LDA.w $0B00, X : SEC : SBC.b #$0A : TAY
     
-    LDA .pointers_low, Y  : STA.b $00
-    LDA .pointers_high, Y : STA.b $01
+    LDA.w .pointers_low, Y  : STA.b $00
+    LDA.w .pointers_high, Y : STA.b $01
     
-    LDA .crumble_tile_limit, Y : CMP.w $0B28, X : BNE .crumble_tiles_not_maxed
+    LDA.w .crumble_tile_limit, Y : CMP.w $0B28, X : BNE .crumble_tiles_not_maxed
         STZ.w $0B00, X
     
     .crumble_tiles_not_maxed
@@ -759,7 +759,7 @@ CrumbleTilePath_SpawnCrumbleTileGarnish:
             
             LDA.w $0B08, Y : STA.l $7FF83C, X
             
-            JSL Sound_GetFineSfxPan : ORA.b #$1F : STA.w $012E
+            JSL.l Sound_GetFineSfxPan : ORA.b #$1F : STA.w $012E
             
             LDA.w $0B10, Y : STA.l $7FF878, X
             
@@ -801,7 +801,7 @@ Overlord_WallMasterFactory:
     LDA.b #$90
     LDY.b #$0C
     
-    JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
         LDA.b $22 : STA.w $0D10, Y
         LDA.b $23 : STA.w $0D30, Y
         
@@ -814,7 +814,7 @@ Overlord_WallMasterFactory:
         
         TYX
         
-        LDA.b #$20 : JSL Sound_SetSfx2PanLong
+        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
         
         PLX
         
@@ -858,7 +858,7 @@ Overlord_ZolFactory:
         LDA.b #$8F
         LDY.b #$0C
         
-        JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
+        JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
             PHX
             
             LDA.b $2F : LSR A : TAX
@@ -879,7 +879,7 @@ Overlord_ZolFactory:
                          STA.w $0E90, Y
                          STA.w $0DB0, Y
             
-            JSL GetRandomInt : AND.b #$1F : ORA.b #$10 : STA.w $0EB0, Y
+            JSL.l GetRandomInt : AND.b #$1F : ORA.b #$10 : STA.w $0EB0, Y
     
         .spawn_failed
     .zols_currently_maxed_out
@@ -903,7 +903,7 @@ Overlord_MovingFloor:
         INC.w $0B30, X : LDA.w $0B30, X : CMP.b #$20 : BNE .halt_floor
             STZ.w $0B30, X
             
-            JSL GetRandomInt : AND.b #$03
+            JSL.l GetRandomInt : AND.b #$03
             
             ; So.... depending on the x coordinate we can either just flip
             ; back and forth between two directions, or move in all directions
@@ -916,7 +916,7 @@ Overlord_MovingFloor:
             ; invert floor movement direction?
             ASL A : STA.w $041A
             
-            JSL GetRandomInt : AND.b #$7F : ADC.b #$80 : STA.w $0B30, X
+            JSL.l GetRandomInt : AND.b #$7F : ADC.b #$80 : STA.w $0B30, X
             
             INC.w $0B28, X
             
@@ -993,7 +993,7 @@ Overlord_StalfosFactory:
     
     ; WTF: Why not just return in this routine? It's not like it's
     ; too far away.
-    JSL Sprite_SpawnDynamically.arbitrary : BMI Overlord_PlayDropSfx_return
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI Overlord_PlayDropSfx_return
         PHX
         
         LDA.b $2F : LSR A : TAX
@@ -1020,7 +1020,7 @@ Overlord_PlayDropSfx:
 {
     PHX : TYX
     
-    LDA.b #$20 : JSL Sound_SetSfx2PanLong
+    LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
     
     PLX
     
@@ -1069,7 +1069,7 @@ Overlord_StalfosTrap:
         LDA.b #$85
         LDY.b #$0C
         
-        JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
+        JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
             LDA.b $05 : STA.w $0D10, Y
             LDA.b $06 : STA.w $0D30, Y
             
@@ -1080,7 +1080,7 @@ Overlord_StalfosTrap:
             
             LDA.w $0B40, X : STA.w $0F20, Y
             
-            JSR Overlord_PlayDropSfx
+            JSR.w Overlord_PlayDropSfx
 
         .spawn_failed
     .delay_spawn
@@ -1118,7 +1118,7 @@ Overlord_BombTrap:
     ; feel when the trap trigger springs.
     CMP .spawn_delays, X : BNE .delay
         ; Spawn a snake
-        LDA.b #$6E : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$6E : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             LDA.b $05 : STA.w $0D10, Y
             LDA.b $06 : STA.w $0D30, Y
             
@@ -1132,12 +1132,12 @@ Overlord_BombTrap:
             
             LDA.w $0B40, X : STA.w $0F20, Y
             
-            JSR Overlord_PlayFallingFromAboveSfx
+            JSR.w Overlord_PlayFallingFromAboveSfx
             
             LDA.w $0B00, X : STZ.w $0B00, X : CMP.b #$1A : BNE .not_bomb_trap
                 LDA.b #$4A : STA.w $0E20, Y
                 
-                JSL Sprite_TransmuteToEnemyBomb
+                JSL.l Sprite_TransmuteToEnemyBomb
                 
                 LDA.b #$70 : STA.w $0E00, Y
 
@@ -1181,18 +1181,18 @@ Overlord_AllDirectionMetalBallFactory:
                 
                 STZ.w $0FB6
                 
-                JSL GetRandomInt : AND.b #$0F : TAY
+                JSL.l GetRandomInt : AND.b #$0F : TAY
                 
-                LDA .coord_indices, Y : STA.w $0FB5
+                LDA.w .coord_indices, Y : STA.w $0FB5
                 
                 ; HARDCODED: The quadrant of the room where the balls generate.
-                LDA .x_coords, Y                     : STA.w $0B08, X
+                LDA.w .x_coords, Y                     : STA.w $0B08, X
                 LDA.b #$00       : CLC : ADC.w $0FB0 : STA.w $0B10, X
                 
-                LDA .y_coords, Y                     : STA.w $0B18, X
+                LDA.w .y_coords, Y                     : STA.w $0B18, X
                 LDA.b #$01       : CLC : ADC.w $0FB1 : STA.w $0B20, X
                 
-                JSR Overlord_SpawnMetalBall
+                JSR.w Overlord_SpawnMetalBall
 
             .delay
     .out_of_range
@@ -1236,11 +1236,11 @@ Overlord_CascadeMetalBallFactory:
             
             .spawn_small_ball
             
-            JSL GetRandomInt : AND.b #$02 : ASL #3 : STA.b $0E
+            JSL.l GetRandomInt : AND.b #$02 : ASL #3 : STA.b $0E
             
             .spawn_ball
             
-            JSR Overlord_SpawnMetalBall
+            JSR.w Overlord_SpawnMetalBall
         
         .dont_spawn_anything
         
@@ -1259,7 +1259,7 @@ Overlord_CascadeMetalBallFactory:
 Overlord_SpawnMetalBall:
 {
     ; Metal Balls (in Eastern Palace)
-    LDA.b #$50 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$50 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         PHX
         
         LDA.b $05 : CLC : ADC.b $0E    : STA.w $0D10, Y
@@ -1270,8 +1270,8 @@ Overlord_SpawnMetalBall:
         
         LDX.w $0FB5
         
-        LDA .x_speeds, X : STA.w $0D50, Y
-        LDA .y_speeds, X : STA.w $0D40, Y
+        LDA.w .x_speeds, X : STA.w $0D50, Y
+        LDA.w .y_speeds, X : STA.w $0D40, Y
         
         PLX
         
@@ -1291,7 +1291,7 @@ Overlord_SpawnMetalBall:
         
         PHX : TYX
         
-        LDA.b #$07 : JSL Sound_SetSfx3PanLong
+        LDA.b #$07 : JSL.l Sound_SetSfx3PanLong
         
         PLX
     

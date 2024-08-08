@@ -8,7 +8,7 @@ Sprite_TutorialEntitiesLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_TutorialEntities
+    JSR.w Sprite_TutorialEntities
     
     PLB
     
@@ -20,7 +20,7 @@ Sprite_TutorialEntitiesLong:
 ; $02D543-$02D547 BRANCH LOCATION
 Sprite_EvilBarrierTrampoline:
 {
-    JSL Sprite_EvilBarrierLong
+    JSL.l Sprite_EvilBarrierLong
     
     RTS
 }
@@ -52,15 +52,15 @@ Sprite_TutorialEntities:
     
     LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     ; draw the soldier's sprites
-    JSR TutorialSoldier_Draw
+    JSR.w TutorialSoldier_Draw
     
     PLA : STA.w $0DE0, X
     
-    JSR Sprite2_CheckIfActive ; checks if sprite is inactive (in which case it forces us out of this routine)
-    JSL Sprite_CheckDamageFromPlayerLong
+    JSR.w Sprite2_CheckIfActive ; checks if sprite is inactive (in which case it forces us out of this routine)
+    JSL.l Sprite_CheckDamageFromPlayerLong
     
     LDA.w $040A : CMP.b #$1B : BNE .use_default_tutorial_messages
     
@@ -76,7 +76,7 @@ Sprite_TutorialEntities:
     
     LDY.b #$00
     
-    JSL Sprite_ShowMessageIfPlayerTouching
+    JSL.l Sprite_ShowMessageIfPlayerTouching
     
     BRA .moving_on
     
@@ -85,7 +85,7 @@ Sprite_TutorialEntities:
     LDA.w $0B69 : PHA : CLC : ADC.b #$0F
     LDY.b #$00
     
-    JSL Sprite_ShowMessageIfPlayerTouching
+    JSL.l Sprite_ShowMessageIfPlayerTouching
     
     PLA : BCC .message_not_shown
     
@@ -100,11 +100,11 @@ Sprite_TutorialEntities:
     
     .moving_on
     
-    JSR Sprite2_CheckDamage
+    JSR.w Sprite2_CheckDamage
     
     TXA : EOR.b $1A : AND.b #$1F : BNE .delay_facing
     
-    JSR Trooper_FacePlayer
+    JSR.w Trooper_FacePlayer
     
     .delay_facing
     
@@ -147,7 +147,7 @@ Pool_TutorialSoldier_Draw:
 ; $02D64B-$02D6BB LOCA
 TutorialSoldier_Draw:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     ; $06 = ($0DC0, X * 5)
     LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : STA.b $06
@@ -182,9 +182,9 @@ TutorialSoldier_Draw:
     
     PLX
     
-    LDA .chr, X : INY : STA ($90), Y : CMP.b #$40
+    LDA.w .chr, X : INY : STA ($90), Y : CMP.b #$40
     
-    LDA .vh_flip, X : ORA.b $05 : BCS .no_palette_override
+    LDA.w .vh_flip, X : ORA.b $05 : BCS .no_palette_override
     
     AND.b #$F1 : ORA.b #$08
     
@@ -198,7 +198,7 @@ TutorialSoldier_Draw:
     
     TYA : LSR A : LSR A : TAY
     
-    LDA .sizes, X : ORA.b $0F : STA ($92), Y
+    LDA.w .sizes, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     
@@ -206,7 +206,7 @@ TutorialSoldier_Draw:
     
     PLX : LDA.b #$0C
     
-    JSL Sprite_DrawShadowLong.variable
+    JSL.l Sprite_DrawShadowLong_variable
     
     RTS
 }

@@ -36,32 +36,32 @@ Pool_Sprite_Moldorm:
 ; $031808-$03185F JUMP LOCATION
 Sprite_Moldorm:
 {
-    JSL Moldorm_Draw
-    JSR Sprite_CheckIfActive
+    JSL.l Moldorm_Draw
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0EA0, X : BEQ .not_recoiling
     
-    JSR SpritePrep_Moldorm
+    JSR.w SpritePrep_Moldorm
     
     .not_recoiling
     
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_CheckDamage
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckDamage
     
     INC !animation_index, X
     
     LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
-    JSR Sprite_Move
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_Move
+    JSR.w Sprite_CheckTileCollision
     
     LDA.w $0E70, X : BEQ .no_tile_collision
     
-    JSL GetRandomInt : LSR A : BCC .anotoggle_rotarity
+    JSL.l GetRandomInt : LSR A : BCC .anotoggle_rotarity
     
     LDA !rotarity, X : EOR.b #$FF : INC A : STA !rotarity, X
     
@@ -69,13 +69,13 @@ Sprite_Moldorm:
     
     LDY.w $0DE0, X
     
-    LDA .next_directions, Y : STA.w $0DE0, X
+    LDA.w .next_directions, Y : STA.w $0DE0, X
     
     .no_tile_collision
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Moldorm_ConfigureNextState
     dw Moldorm_Meander
@@ -103,9 +103,9 @@ Moldorm_ConfigureNextState:
     
     STA.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$02 : DEC A : STA !rotarity, X
+    JSL.l GetRandomInt : AND.b #$02 : DEC A : STA !rotarity, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
     
     .delay
     
@@ -119,7 +119,7 @@ Moldorm_Meander:
 {
     LDA.w $0DF0, X : BNE .delay
     
-    JSL GetRandomInt : AND.b #$0F : ADC.b #$08 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$0F : ADC.b #$08 : STA.w $0DF0, X
     
     STZ.w $0D80, X
     
@@ -143,9 +143,9 @@ Moldorm_SeekPlayer:
 {
     TXA : EOR.b $1A : AND.b #$03 : BNE .delay
     
-    LDA.b #$1F : JSR Sprite_ApplySpeedTowardsPlayer
+    LDA.b #$1F : JSR.w Sprite_ApplySpeedTowardsPlayer
     
-    JSL Sprite_ConvertVelocityToAngle
+    JSL.l Sprite_ConvertVelocityToAngle
     
     CMP.w $0DE0, X : BNE .not_at_target_angle
     

@@ -6,13 +6,13 @@ Sprite_MiddleAgedMan:
 {
     ; Middle aged guy in the desert
     
-    JSR MiddleAgedMan_Draw
-    JSR Sprite_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w MiddleAgedMan_Draw
+    JSR.w Sprite_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw MiddleAgedMan_Chillin
     dw MiddleAgedMan_TransitionToTagalong
@@ -31,17 +31,17 @@ MiddleAgedMan_Chillin:
     LDA.b #$07
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     LDA.w $0D10, X : PHA
     
     SEC : SBC.b #$10 : STA.w $0D10, X
     
-    JSR Sprite_Get_16_bit_Coords
+    JSR.w Sprite_Get_16_bit_Coords
     
     LDA.b #$01 : STA.w $0D50, X : STA.w $0D40, X
     
-    JSL Sprite_CheckTileCollisionLong : BNE .sign_wasnt_taken
+    JSL.l Sprite_CheckTileCollisionLong : BNE .sign_wasnt_taken
     
     INC.w $0D80, X
     
@@ -68,8 +68,8 @@ MiddleAgedMan_TransitionToTagalong:
     
     STZ.w $02F9
     
-    JSL Tagalong_LoadGfx
-    JSL Tagalong_Init
+    JSL.l Tagalong_LoadGfx
+    JSL.l Tagalong_Init
     
     PLX
     
@@ -86,7 +86,7 @@ MiddleAgedMan_TransitionToTagalong:
 ; $033D20-$033D45 JUMP LOCATION
 MiddleAgedMan_OfferChestOpening:
 {
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS .return
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .return
     
     ; OPTIMIZE: He says the same thing regardless of whether the chest
     ; is close by.
@@ -95,7 +95,7 @@ MiddleAgedMan_OfferChestOpening:
     LDA.b #$09  ; Message from the middle aged man saying he'll open
     LDY.b #$01  ; the chest for you.
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .return
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .return
     
     BRA .advance_ai_state
     
@@ -104,7 +104,7 @@ MiddleAgedMan_OfferChestOpening:
     LDA.b #$09
     LDY.b #$01
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .return
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .return
     
     .advance_ai_state
     
@@ -127,7 +127,7 @@ MiddleAgedMan_ReactToSecretKeepingResponse:
     LDA #$0C
     LDY #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     LDA.b #$02 : STA.w $0D80, X
     
@@ -140,7 +140,7 @@ MiddleAgedMan_ReactToSecretKeepingResponse:
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     LDA.l $7EF3C9 : ORA.b #$10 : STA.l $7EF3C9
     
@@ -156,7 +156,7 @@ MiddleAgedMan_ReactToSecretKeepingResponse:
     LDA.b #$0A
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     LDA.b #$02 : STA.w $0D80, X
     
@@ -172,7 +172,7 @@ MiddleAgedMan_PromiseReminder:
     LDA.b #$0B
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -186,7 +186,7 @@ MiddleAgedMan_SilenceDueToOtherTagalong:
     LDA.b #$07
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -212,7 +212,7 @@ MiddleAgedMan_Draw:
     LDA.b #.oam_groups    : STA.b $08
     LDA.b #.oam_groups>>8 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     JMP Sprite_DrawShadow
 }
 

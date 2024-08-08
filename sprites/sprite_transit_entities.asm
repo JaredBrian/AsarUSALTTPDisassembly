@@ -63,7 +63,7 @@ Sprite_SomariaPlatformLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_SomariaPlatform
+    JSR.w Sprite_SomariaPlatform
     
     PLB
     
@@ -113,7 +113,7 @@ Sprite_SomariaPlatform:
     
     LDA.w $0DC0, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $F6DF ; = $F76DF*
     dw $F709 ; = $F7709*
@@ -123,8 +123,8 @@ Sprite_SomariaPlatform:
 
 ; $0F76DF-$0F7708 JUMP LOCATION
 {
-    JSR SomariaPlatform_LocateTransitTile
-    JSL Sprite_SpawnSuperficialBombBlast
+    JSR.w SomariaPlatform_LocateTransitTile
+    JSL.l Sprite_SpawnSuperficialBombBlast
     
     ; x coordinate -= 0x08
     LDA.w $0D10, Y : SEC : SBC.b #$08 : STA.w $0D10, Y
@@ -142,7 +142,7 @@ Sprite_SomariaPlatform:
 ; $0F7709-$0F77C1 JUMP LOCATION
 {
     JSR.w $F860 ; $0F7860 IN ROM
-    JSR Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0B7C : ORA.w $0B7D : ORA.w $0B7E : ORA.w $0B7F : BEQ .BRANCH_ALPHA
     
@@ -154,11 +154,11 @@ Sprite_SomariaPlatform:
     
     LDA.b $5B : DEC #2 : BPL .BRANCH_BETA
     
-    JSL Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .BRANCH_GAMMA
+    JSL.l Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .BRANCH_GAMMA
     
     LDA.b #$01 : STA.w $0DB0, X
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     LDA.b $5D
     
@@ -196,7 +196,7 @@ Sprite_SomariaPlatform:
     LDA.w $F6C4, Y : CLC : ADC.w $0B7E : STA.w $0B7E
     LDA.w $F6CC, Y : ADC.w $0B7F : STA.w $0B7F
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     JSR.w $FB49 ; $0F7B49 IN ROM
     
     RTS
@@ -240,7 +240,7 @@ Sprite_SomariaPlatform:
     LDA.w $0D30, X : STA.b $03
     
     ; Forced to check on bg2 (the main bg).
-    LDA.b #$00 : JSL Entity_GetTileAttr
+    LDA.b #$00 : JSL.l Entity_GetTileAttr
     
     LDA.w $0FA5
     
@@ -278,7 +278,7 @@ Sprite_SomariaPlatform:
 
 ; $0F7860-$0F787C LOCAL JUMP LOCATION
 {
-    LDA.b #$10 : JSL OAM_AllocateFromRegionB
+    LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
     
     LDA.w $0F10, X : AND.b #$0C : ASL #3
     
@@ -304,7 +304,7 @@ Sprite_SomariaPlatform:
     
     .is_transit_tile
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $F908 ; = $F7908  ; 0xB0 - (RTS)
     dw $F908 ; = $F7908  ; 0xB1 - (RTS)
@@ -853,11 +853,11 @@ Pool_Unused:
 ; $0F7B7E-$0F7B93 JUMP LOCATION
 Sprite_Pipe:
 {
-    JSR Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0DC0, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Pipe_LocateTransitTile
     dw Pipe_LocateTransitEndpoint
@@ -895,7 +895,7 @@ Pipe_LocateTransitEndpoint:
     LDA.w $0DE0, X : STA.w $0EB0, X
     
     JSR.w $F7AF ; $0F77AF IN ROM
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     RTS
 }
@@ -913,11 +913,11 @@ Pipe_WaitForPlayer:
     ; of the rooms the pipes appear in.
     LDA.w $1DE0 : CMP.b #$FF : BNE .cant_enter
     
-    JSL Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .cant_enter
+    JSL.l Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .cant_enter
     
     PHX
     
-    JSL Player_IsPipeEnterable
+    JSL.l Player_IsPipeEnterable
     
     PLX
     
@@ -927,7 +927,7 @@ Pipe_WaitForPlayer:
     
     LDA.b #$04 : STA.w $0E00, X
     
-    JSL Player_ResetState
+    JSL.l Player_ResetState
     
     LDA.b #$01 : STA.w $02E4 : STA.w $037B
     
@@ -974,7 +974,7 @@ Pipe_DrawPlayerInward:
     
     LDY.w $0DE0, X
     
-    LDA Pipe.player_direction, Y
+    LDA Pipe_player_direction, Y
     
     JSR.w $FCFF ; $0F7CFF IN ROM
     
@@ -1005,7 +1005,7 @@ Pipe_DragPlayerAlong:
     PHA : CMP.b #$B2 : BCC .BRANCH_BETA
           CMP.b #$B6 : BCS .BRANCH_BETA
     
-    LDA.b #$0B : JSL Sound_SetSfx2PanLong
+    LDA.b #$0B : JSL.l Sound_SetSfx2PanLong
     
     .BRANCH_BETA
     
@@ -1026,7 +1026,7 @@ Pipe_DragPlayerAlong:
     
     .BRANCH_ALPHA
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA.w $0D10, X : SEC : SBC.b #$08 : STA.b $00
     LDA.w $0D30, X : SBC.b #$00 : STA.b $01
@@ -1073,13 +1073,13 @@ Pipe_DragPlayerAlong:
 
     LDY.w $0DE0, X
     
-    LDA Pipe.player_direction, Y : STA.b $26
+    LDA Pipe_player_direction, Y : STA.b $26
     
     PHX
     
     JSL.l $07E6A6 ; $03E6A6 IN ROM
     JSL.l $07F42F ; $03F42F IN ROM
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     PLX
     
@@ -1107,7 +1107,7 @@ Pipe_DragPlayerAlong:
     
     LDA.w $0DE0, X : EOR.b #$01 : TAY
     
-    LDA Pipe.player_direction, Y
+    LDA Pipe_player_direction, Y
     
     JSR.w $FCFF ; $0F7CFF IN ROM
     

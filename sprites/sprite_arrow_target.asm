@@ -6,7 +6,7 @@ Sprite_ArrowTriggerLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_ArrowTrigger
+    JSR.w Sprite_ArrowTrigger
     
     PLB
     
@@ -20,10 +20,10 @@ Sprite_ArrowTrigger:
 {
     LDA.w $0DA0, X : BNE .alpha
     
-    JSL Sprite_PrepOamCoordLong
-    JSR Sprite2_CheckIfActive
+    JSL.l Sprite_PrepOamCoordLong
+    JSR.w Sprite2_CheckIfActive
     
-    JSR Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .alpha
+    JSR.w Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .alpha
     
     LDA.w $0BB0, X : CMP.b #$09 : BNE .alpha
     

@@ -6,7 +6,7 @@ SpritePrep_MushroomLong:
 {
     PHB : PHK : PLB
     
-    JSR SpritePrep_Mushroom
+    JSR.w SpritePrep_Mushroom
     
     PLB
     
@@ -43,7 +43,7 @@ Sprite_MushroomLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_Mushroom
+    JSR.w Sprite_Mushroom
     
     PLB
     
@@ -55,11 +55,11 @@ Sprite_MushroomLong:
 ; $02EE78-$02EEA5 LOCAL JUMP LOCATION
 Sprite_Mushroom:
 {
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS .player_cant_obtain
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .player_cant_obtain
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
     STZ.w $0DD0, X
     
@@ -70,7 +70,7 @@ Sprite_Mushroom:
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     

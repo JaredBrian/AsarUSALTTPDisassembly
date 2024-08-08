@@ -23,7 +23,7 @@ Sprite_YellowStalfos:
     LDA.b #$01 : STA.w $0D50, X
                  STA.w $0D40, X
     
-    JSR Sprite3_CheckTileCollision : BEQ .dont_self_terminate
+    JSR.w Sprite3_CheckTileCollision : BEQ .dont_self_terminate
     
     ; Self terminate if the sprite would fall onto a solid tile.
     STZ.w $0DD0, X
@@ -38,7 +38,7 @@ Sprite_YellowStalfos:
     
     LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
-    LDA.b #$20 : JSL Sound_SetSfx2PanLong
+    LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
     
     .initial_collision_check_complete
     
@@ -46,12 +46,12 @@ Sprite_YellowStalfos:
     
     LDA.w $0B89, X : ORA .priority, Y : STA.w $0B89, X
     
-    JSR YellowStalfos_Draw
-    JSR Sprite3_CheckIfActive
+    JSR.w YellowStalfos_Draw
+    JSR.w Sprite3_CheckIfActive
     
     LDA.l $7EF359 : CMP.b #$03 : BCC .sword_too_weak_to_cause_recoil
     
-    JSR Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckIfRecoiling
     
     BRA .run_ai_handler
     
@@ -76,7 +76,7 @@ Sprite_YellowStalfos:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw YellowStalfos_Descend
     dw YellowStalfos_FacePlayer
@@ -96,7 +96,7 @@ YellowStalfos_Descend:
     
     LDA.w $0F70, X : PHA
     
-    JSR Sprite3_MoveAltitude
+    JSR.w Sprite3_MoveAltitude
     
     LDA.w $0F80, X : CMP.b #$C0 : BMI .fall_speed_maxed
     
@@ -115,7 +115,7 @@ YellowStalfos_Descend:
     
     LDA.b #$40 : STA.w $0DF0, X
     
-    JSR YellowStalfos_Animate
+    JSR.w YellowStalfos_Animate
     
     .aloft
     
@@ -129,8 +129,8 @@ YellowStalfos_FacePlayer:
 {
     STZ.w $0BA0, X
     
-    JSR Sprite3_CheckDamage
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_CheckDamage
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : STA.w $0DE0, X
           STA.w $0EB0, X
@@ -183,7 +183,7 @@ YellowStalfos_PauseThenDetachHead:
 {
     STZ.w $0BA0, X
     
-    JSR Sprite3_CheckDamage
+    JSR.w Sprite3_CheckDamage
     
     LDA.w $0DF0, X : BNE .delay_ai_state_change
     
@@ -199,7 +199,7 @@ YellowStalfos_PauseThenDetachHead:
     
     PHA
     
-    JSR YellowStalfos_DetachHead
+    JSR.w YellowStalfos_DetachHead
     
     PLA
     
@@ -207,13 +207,13 @@ YellowStalfos_PauseThenDetachHead:
     
     LSR #2 : AND.b #$FC : ORA.w $0DE0, X : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0DF0, X : LSR #2 : TAY
     
-    LDA .head_x_offsets, Y : STA !head_x_offset, X
+    LDA.w .head_x_offsets, Y : STA !head_x_offset, X
     
-    LDA .head_y_offsets, Y : STA !head_y_offset, X
+    LDA.w .head_y_offsets, Y : STA !head_y_offset, X
     
     JMP YellowStalfos_LowerShields
 }
@@ -234,7 +234,7 @@ YellowStalfos_DelayBeforeAscending:
 {
     STZ.w $0BA0, X
     
-    JSR Sprite3_CheckDamage
+    JSR.w Sprite3_CheckDamage
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -247,7 +247,7 @@ YellowStalfos_DelayBeforeAscending:
     
     LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     JMP YellowStalfos_LowerShields
 }
@@ -263,7 +263,7 @@ YellowStalfos_Ascend:
     
     LDA.w $0F70, X : PHA
     
-    JSR Sprite3_MoveAltitude
+    JSR.w Sprite3_MoveAltitude
     
     LDA.w $0F80, X : CMP.b #$40 : BPL .ascend_speed_maxed
     
@@ -304,7 +304,7 @@ YellowStalfos_Neutralized:
 {
     STZ.w $0BA0, X
     
-    JSL Sprite_CheckDamageFromPlayerLong
+    JSL.l Sprite_CheckDamageFromPlayerLong
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -314,9 +314,9 @@ YellowStalfos_Neutralized:
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
-    LDA .head_y_offsets, Y : STA !head_y_offset, X
+    LDA.w .head_y_offsets, Y : STA !head_y_offset, X
     
     RTS
 }
@@ -330,9 +330,9 @@ YellowStalfos_DetachHead:
     ; is different from that of the parent, as far as sprite code goes.
     ; Usually there's some variable that differentiates them and they
     ; use the same id. Refreshing.
-    LDA.b #$02 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$02 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$0D : STA.w $0F70, Y
     
@@ -340,7 +340,7 @@ YellowStalfos_DetachHead:
     
     TYX
     
-    LDA.b #$10 : JSL Sprite_ApplySpeedTowardsPlayerLong
+    LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     PLX
     
@@ -407,7 +407,7 @@ YellowStalfos_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR Sprite3_DrawMultiple
+    LDA.b #$02 : JSR.w Sprite3_DrawMultiple
     
     REP #$20
     
@@ -419,8 +419,8 @@ YellowStalfos_Draw:
     
     LDA.w $0F00, X : BNE .anodraw_shadow
     
-    JSR YellowStalfos_DrawHead
-    JSL Sprite_DrawShadowLong
+    JSR.w YellowStalfos_DrawHead
+    JSL.l Sprite_DrawShadowLong
     
     .anodraw_shadow
     
@@ -480,8 +480,8 @@ YellowStalfos_DrawHead:
     
     SEP #$20
     
-    LDA .chr, X        : INY           : STA ($90), Y
-    LDA .properties, X : INY : ORA.b $05 : STA ($90), Y
+    LDA.w .chr, X        : INY           : STA ($90), Y
+    LDA.w .properties, X : INY : ORA.b $05 : STA ($90), Y
     
     TYA : LSR #2 : TAY
     

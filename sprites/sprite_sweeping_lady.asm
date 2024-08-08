@@ -8,7 +8,7 @@ Sprite_SweepingLadyLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_SweepingLady
+    JSR.w Sprite_SweepingLady
     
     PLB
     
@@ -20,15 +20,15 @@ Sprite_SweepingLadyLong:
 ; $06C4AD-$06C4CA LOCAL JUMP LOCATION
 Sprite_SweepingLady:
 {
-    JSR SweepingLady_Draw
-    JSR Sprite5_CheckIfActive
+    JSR.w SweepingLady_Draw
+    JSR.w Sprite5_CheckIfActive
     
     ; "... rumors say you kidnapped the Princess, but I still trust you."
     LDA.b #$A5
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_PlayerCantPassThrough
     
     ; Next section of code simply changes her graphic index
     
@@ -65,8 +65,8 @@ SweepingLady_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

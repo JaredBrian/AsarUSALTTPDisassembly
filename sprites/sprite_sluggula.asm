@@ -20,20 +20,20 @@ Sprite_Sluggula:
     
     LDA.w $0DE0, X : ASL A : ORA.b $00 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
     
-    JSR Sprite_PrepAndDrawSingleLarge
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_CheckDamage
+    JSR.w Sprite_PrepAndDrawSingleLarge
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckDamage
     
     INC.w $0E80, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sluggula_Normal
     dw Sluggula_BreakFromBombing:
@@ -60,7 +60,7 @@ Sluggula_Normal:
     
     INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
     
     AND.b #$03 : STA.w $0DE0, X
     
@@ -78,7 +78,7 @@ Sluggula_Normal:
     
     CMP.b #$10 : BNE .return
     
-    JSL GetRandomInt : LSR A : BCS .return
+    JSL.l GetRandomInt : LSR A : BCS .return
     
     JMP Sluggula_LayBomb
     
@@ -93,8 +93,8 @@ Sluggula_Normal:
     
     .delay_resumption_of_bombing
     
-    JSR Sprite_Move
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_Move
+    JSR.w Sprite_CheckTileCollision
     
     LDA.w $0E70, X : BEQ .return
     
@@ -116,12 +116,12 @@ Sluggula_LayBomb:
     LDA.b #$4A
     LDY.b #$0B
     
-    JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     ; ... but once spawned, transmute it to an enemy bomb.
-    JSL Sprite_TransmuteToEnemyBomb
+    JSL.l Sprite_TransmuteToEnemyBomb
     
     .spawn_failed
     

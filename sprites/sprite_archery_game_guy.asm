@@ -48,27 +48,27 @@ SpritePrep_ArcheryGameGuy:
     
     LDA.b #$09 : STA.w $0DD0, X
     
-    JSL Sprite_LoadProperties
+    JSL.l Sprite_LoadProperties
     
     LDA.b $23           : STA.w $0D30, X
-    LDA .x_offsets, X : STA.w $0D10, X
+    LDA.w .x_offsets, X : STA.w $0D10, X
     
     LDA.b $21           : STA.w $0D20, X
-    LDA .y_offsets, X : STA.w $0D00, X
+    LDA.w .y_offsets, X : STA.w $0D00, X
     
-    LDA .subtypes, X : STA.w $0D90, X
+    LDA.w .subtypes, X : STA.w $0D90, X
     
     DEC A : STA.w $0DC0, X : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .hit_boxes, Y : STA.w $0F60, X
+    LDA.w .hit_boxes, Y : STA.w $0F60, X
     
     LDA.b #$0D : STA.w $0F50, X
     
     LDA.b $EE : STA.w $0F20, X
     
-    JSL GetRandomInt : STA.w $0E80, X
+    JSL.l GetRandomInt : STA.w $0E80, X
     
     DEX : BNE .next_sprite
     
@@ -94,7 +94,7 @@ Sprite_ArcheryGameGuy:
     
     LDA.w $0D90, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ArcheryGameGuy_Main
     dw Sprite_GoodArcheryTarget
@@ -122,25 +122,25 @@ ArcheryGameGuy_Main:
     
     .have_minigame_arrows
     
-    JSL ArcheryGameGuy_Draw
-    JSR Sprite2_CheckIfActive
+    JSL.l ArcheryGameGuy_Draw
+    JSR.w Sprite2_CheckIfActive
     
     LDA.b #$00 : STA.w $0F60, X
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     STZ.b $5E
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     .no_player_collision
     
     LDA.w $0DF0, X : BEQ .not_banging_his_drum
     AND.b #$07   : BNE .sound_effect_delay
     
-    LDA.b #$11 : JSL Sound_SetSfx2PanLong
+    LDA.b #$11 : JSL.l Sound_SetSfx2PanLong
     
     .sound_effect_delay
     
@@ -157,7 +157,7 @@ ArcheryGameGuy_Main:
     
     TAY
     
-    LDA .animation_states, Y
+    LDA.w .animation_states, Y
     
     .set_animation_state
     
@@ -179,13 +179,13 @@ ArcheryGameGuy_Main:
     
     LDA.b #$0A : STA.w $0F60, X
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_contact_2
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_contact_2
     
     LDA.b $F6 : BPL .a_button_not_pressed
     
     LDA.b #$85
     
-    JSR .show_message
+    JSR.w .show_message
     
     INC.w $0D80, X
     
@@ -223,7 +223,7 @@ ArcheryGameGuy_Main:
     STA.w $1CF0
     STZ.w $1CF1
     
-    JSL Sprite_ShowMessageMinimal
+    JSL.l Sprite_ShowMessageMinimal
     
     STZ.w $0DF0, X
     
@@ -250,7 +250,7 @@ ArcheryGameGuy_RunGame:
     
     LDA.b #$02
     
-    JSL Sprite_InitializeSecondaryItemMinigame
+    JSL.l Sprite_InitializeSecondaryItemMinigame
     
     ; Start a delay counter to populate the counter with arrows.
     LDA.b #$27 : STA.w $0E00, X
@@ -266,9 +266,9 @@ ArcheryGameGuy_RunGame:
     
     .arrow_already_laid_out
     
-    LDA.b #$34 : JSL OAM_AllocateFromRegionA
+    LDA.b #$34 : JSL.l OAM_AllocateFromRegionA
     
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDY.w $0B99 : STY.b $0D
     
@@ -276,7 +276,7 @@ ArcheryGameGuy_RunGame:
     
     ; This code is in play when the arrows on the counter are being
     ; populated one by one.
-    LSR #3 : TAY : LDA .override_num_arrows_displayed, Y : STA.b $0D
+    LSR #3 : TAY : LDA.w .override_num_arrows_displayed, Y : STA.b $0D
     
     .arrow_stagger_finished
     
@@ -294,8 +294,8 @@ ArcheryGameGuy_RunGame:
     LDA.b $00 : CLC : ADC.b #$EC : ADC .x_offsets, X       : STA ($90), Y
     LDA.b $02 : CLC : ADC.b #$D0 : ADC .y_offsets, X : INY : STA ($90), Y
     
-    LDA .chr, X        : INY : STA ($90), Y
-    LDA .properties, X : INY : STA ($90), Y
+    LDA.w .chr, X        : INY : STA ($90), Y
+    LDA.w .properties, X : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
@@ -321,14 +321,14 @@ ArcheryGameGuy_RunGame:
     ; he'll ask us if we want to play the minigame again.
     LDA.b #$0A : STA.w $0F60, X
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_retry_minigame
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_retry_minigame
     
     LDA.b $F6 : BPL .no_retry_minigame
     
     ; "Want to shoot again? > Continue > Quit"
     LDA.b #$88
     
-    JSR ArcheryGameGuy_Main.show_message
+    JSR.w ArcheryGameGuy_Main_show_message
     
     INC.w $0D80, X
     
@@ -399,7 +399,7 @@ Sprite_GoodArcheryTarget:
     
     LDA.w $0FDA : SEC : SBC.b #$03 : STA.w $0FDA
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     LDA.w $0E10, X : BEQ .no_arrow_sticking_out
     
@@ -425,7 +425,7 @@ Sprite_GoodArcheryTarget:
     
     .dont_grant_rupees_this_frame
     
-    JSR GoodArcheryTarget_DrawPrize
+    JSR.w GoodArcheryTarget_DrawPrize
     
     .no_arrow_sticking_out
     
@@ -438,11 +438,11 @@ Sprite_GoodArcheryTarget:
     
     LDA.w $0FDA : CLC : ADC.b #$03 : STA.w $0FDA
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     .moving_on
     
-    JSR Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0EE0, X : DEC A : BNE .no_error_sound
     
@@ -453,13 +453,13 @@ Sprite_GoodArcheryTarget:
     
     INC.w $0E80, X
     
-    JSR Sprite2_MoveHoriz
+    JSR.w Sprite2_MoveHoriz
     
     LDA.w $0E00, X : BNE .dont_initiate_x_reset
     
     LDA.w $0DF0, X : STA.w $0BA0, X : BNE .reset_x_coordinate
     
-    JSR Sprite2_CheckTileCollision : BEQ .dont_initiate_x_reset
+    JSR.w Sprite2_CheckTileCollision : BEQ .dont_initiate_x_reset
     
     LDA.b #$10 : STA.w $0DF0, X
     
@@ -480,7 +480,7 @@ Sprite_GoodArcheryTarget:
     
     LDY.w $0DC0, X
     
-    LDA .respawn_values, Y : STA.w $0D10, X
+    LDA.w .respawn_values, Y : STA.w $0D10, X
     LDA.b $23                : STA.w $0D30, X
     
     LDA.b #$20 : STA.w $0E00, X
@@ -528,7 +528,7 @@ GoodArcheryTarget_DrawPrize:
 {
     ; Part of shooting gallery guy code
     
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0DA0, X : STA.b $06
     
@@ -570,13 +570,13 @@ GoodArcheryTarget_DrawPrize:
     
     .not_first_digit
     
-    LDA .chr, X
+    LDA.w .chr, X
     
     .write_chr
     
     INY : STA ($90), Y
     
-    CMP.b #$7C : INY : LDA .properties, X : BCC .not_blank
+    CMP.b #$7C : INY : LDA.w .properties, X : BCC .not_blank
     
     ; Mask off the name table bit (b / c apparently the blank exists in the
     ; first name table)
@@ -596,7 +596,7 @@ GoodArcheryTarget_DrawPrize:
     
     PLX
     
-    JSL Sprite_DrawDistressMarker
+    JSL.l Sprite_DrawDistressMarker
     
     RTS
 }

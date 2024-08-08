@@ -18,8 +18,8 @@ Pool_Sprite_GuruguruBar:
 ; $0F501A-$0F5048 JUMP LOCATION
 Sprite_GuruguruBar:
 {
-    JSR GuruguruBar_Main
-    JSR Sprite3_CheckIfActive
+    JSR.w GuruguruBar_Main
+    JSR.w Sprite3_CheckIfActive
     
     INC.w $0E80, X
     
@@ -44,7 +44,7 @@ Sprite_GuruguruBar:
 ; $0F5049-$0F51CC LOCAL JUMP LOCATION
 GuruguruBar_Main:
 {
-    JSR Sprite3_PrepOamCoord
+    JSR.w Sprite3_PrepOamCoord
     
     LDA.b $05 : STA.w $0FB6
     
@@ -68,29 +68,29 @@ GuruguruBar_Main:
     
     LDA.b $00 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA.b $04
+    LDA.l SmoothCurve, X : STA.b $04
     
     LDA.b $02 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA.b $06
+    LDA.l SmoothCurve, X : STA.b $06
     
     SEP #$30
     
     PLX
     
-    LDA.b $04 : STA.w $4202
+    LDA.b $04 : STA.w SNES.MultiplicandA
     
     LDA.b $0F
     
     LDY.b $05 : BNE .BRANCH_ALPHA
     
-    STA.w $4203
+    STA.w SNES.MultiplierB
     
-    JSR Sprite3_DivisionDelay
+    JSR.w Sprite3_DivisionDelay
     
-    ASL.w $4216
+    ASL.w SNES.RemainderResultLow
     
-    LDA.w $4217 : ADC.b #$00
+    LDA.w SNES.RemainderResultHigh : ADC.b #$00
     
     .BRANCH_ALPHA
     
@@ -104,19 +104,19 @@ GuruguruBar_Main:
     
     STA.b $04
     
-    LDA.b $06 : STA.w $4202
+    LDA.b $06 : STA.w SNES.MultiplicandA
     
     LDA.b $0F
     
     LDY.b $07 : BNE .BRANCH_GAMMA
     
-    STA.w $4203
+    STA.w SNES.MultiplierB
     
-    JSR Sprite3_DivisionDelay
+    JSR.w Sprite3_DivisionDelay
     
-    ASL.w $4216
+    ASL.w SNES.RemainderResultLow
     
-    LDA.w $4217 : ADC.b #$00
+    LDA.w SNES.RemainderResultHigh : ADC.b #$00
     
     .BRANCH_GAMMA
     
@@ -150,12 +150,12 @@ GuruguruBar_Main:
     
     .draw_segments_loop
     
-    LDA.b $0E             : STA.w $4202
-    LDA .multipliers, X : STA.w $4203
+    LDA.b $0E             : STA.w SNES.MultiplicandA
+    LDA.w .multipliers, X : STA.w SNES.MultiplierB
     
-    JSR Sprite3_DivisionDelay
+    JSR.w Sprite3_DivisionDelay
     
-    LDA.b $04 : ASL A : LDA.w $4217 : BCC .BRANCH_EPSILON
+    LDA.b $04 : ASL A : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_EPSILON
     
     EOR.b #$FF : INC A
     
@@ -163,12 +163,12 @@ GuruguruBar_Main:
     
     CLC : ADC.w $0FA8 : STA ($90), Y
     
-    LDA.b $0F             : STA.w $4202
-    LDA .multipliers, X : STA.w $4203
+    LDA.b $0F             : STA.w SNES.MultiplicandA
+    LDA.w .multipliers, X : STA.w SNES.MultiplierB
     
-    JSR Sprite3_DivisionDelay
+    JSR.w Sprite3_DivisionDelay
     
-    LDA.b $06 : ASL A : LDA.w $4217 : BCC .BRANCH_ZETA
+    LDA.b $06 : ASL A : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_ZETA
     
     EOR.b #$FF : INC A
     
@@ -191,7 +191,7 @@ GuruguruBar_Main:
     LDY.b #$FF
     LDA.b #$03
     
-    JSL Sprite_CorrectOamEntriesLong
+    JSL.l Sprite_CorrectOamEntriesLong
     
     TXA : EOR.b $1A : AND.b #$03 : ORA.b $11
                                  ORA.w $0FC1 : BNE .damage_to_player_inhibit
@@ -218,7 +218,7 @@ GuruguruBar_Main:
     
     PHY
     
-    JSL Sprite_AttemptDamageToPlayerPlusRecoilLong
+    JSL.l Sprite_AttemptDamageToPlayerPlusRecoilLong
     
     PLY
     

@@ -4,17 +4,17 @@
 ; $0F68B6-$0F68F0 JUMP LOCATION
 Sprite_BlindMaiden:
 {
-    JSL CrystalMaiden_Draw
-    JSR Sprite3_CheckIfActive
-    JSL Sprite_MakeBodyTrackHeadDirection
+    JSL.l CrystalMaiden_Draw
+    JSR.w Sprite3_CheckIfActive
+    JSL.l Sprite_MakeBodyTrackHeadDirection
     
-    JSR Sprite3_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSR.w Sprite3_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA.w $0D80, X : BNE .switch_to_tagalong
         LDA.b #$22
         LDY.b #$01
         
-        JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
+        JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
             INC.w $0D80, X
         
         .didnt_speak
@@ -30,11 +30,11 @@ Sprite_BlindMaiden:
     
     PHX
     
-    JSL Tagalong_LoadGfx
+    JSL.l Tagalong_LoadGfx
     
     PLX
     
-    JSL Tagalong_SpawnFromSprite
+    JSL.l Tagalong_SpawnFromSprite
     
     RTS
 }

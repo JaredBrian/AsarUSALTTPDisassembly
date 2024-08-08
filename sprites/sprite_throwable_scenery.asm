@@ -38,9 +38,9 @@ Sprite_ThrowableScenery:
     
     REP #$20
     
-    LDA .main_oam_table_offsets, Y : STA.b $90
+    LDA.w .main_oam_table_offsets, Y : STA.b $90
     
-    LDA .high_oam_table_offsets, Y : STA.b $92
+    LDA.w .high_oam_table_offsets, Y : STA.b $92
     
     SEP #$20
     
@@ -51,13 +51,13 @@ Sprite_ThrowableScenery:
     ; if(object != bigass_object)
     LDA.w $0DB0, X : CMP.b #$06 : BCC .not_bigass_scenery
     
-    JSR ThrowableScenery_DrawLarge
+    JSR.w ThrowableScenery_DrawLarge
     
     BRA .done_drawing
     
     .not_bigass_scenery
     
-    JSR Sprite_PrepAndDrawSingleLarge
+    JSR.w Sprite_PrepAndDrawSingleLarge
     
     PHX
     
@@ -87,8 +87,8 @@ Sprite_ThrowableScenery:
     
     LDA.w $0DD0, X : CMP.b #$09 : BNE .skip_collision_logic
     
-    JSR Sprite_CheckIfActive
-    JSR ThrowableScenery_InteractWithSpritesAndTiles
+    JSR.w Sprite_CheckIfActive
+    JSR.w ThrowableScenery_InteractWithSpritesAndTiles
     
     .skip_collision_logic
     
@@ -125,9 +125,9 @@ ThrowableScenery_DrawLarge:
     
     ; NOTE: They did it this way because it's assumed that $0DB0, X is
     ; >= 0x06 here.
-    LDA .palettes-$06, Y : STA.w $0F50, X
+    LDA.w .palettes-$06, Y : STA.w $0F50, X
     
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     PHX
     
@@ -156,7 +156,7 @@ ThrowableScenery_DrawLarge:
     PLX
     
     LDA.b #$4A      : INY           : STA ($90), Y
-    LDA .vh_flip, X : INY : ORA.b $05 : STA ($90), Y
+    LDA.w .vh_flip, X : INY : ORA.b $05 : STA ($90), Y
     
     PHY
     
@@ -170,7 +170,7 @@ ThrowableScenery_DrawLarge:
     
     PLX
     
-    LDA.b #$0C : JSL OAM_AllocateFromRegionB
+    LDA.b #$0C : JSL.l OAM_AllocateFromRegionB
     
     LDY.b #$00
     
@@ -245,56 +245,53 @@ Pool_ThrowableScenery_ScatterIntoDebris:
 ThrowableScenery_ScatterIntoDebris:
 {
     LDA.w $0DB0, X : BMI .smaller_scenery
-    CMP.b #$06   : BCC .smaller_scenery
-    
-    LDA.b #$03 : STA.b $0D
-    
-    .spawn_next_smaller_scenery
-    
-    LDA.b #$EC : JSL Sprite_SpawnDynamically : BMI .spawn_failed
-    
-    LDA.w $0F70, X : STA.w $0F70, Y
-    
-    PHX
-    
-    LDX.b $0D
-    
-    LDA.b $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
-    
-    LDA.b $02 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
-    LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
-    
-    LDA.b #$01 : STA.w $0DB0, Y
-    
-    TYX
-    
-    JSR Sprite_ScheduleForBreakage
-    
-    PLX
-    
-    LDA.w $0DB0, X : CMP.b #$07 : LDA.b #$00 : BCS .use_default_palette
-    
-    ; 0x06 type scenery uses a palette ot 6 (12 >> 1).
-    LDA.b #$0C
-    
-    .use_default_palette
-    
-    STA.w $0F50, Y
-    
-    .spawn_failed
-    
-    DEC.b $0D : BPL .spawn_next_smaller_scenery
-    
-    STZ.w $0DD0, X
-    
-    RTS
-    
+    CMP.b #$06     : BCC .smaller_scenery
+        LDA.b #$03 : STA.b $0D
+        
+        .spawn_next_smaller_scenery
+        
+            LDA.b #$EC : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+                LDA.w $0F70, X : STA.w $0F70, Y
+                
+                PHX
+                
+                LDX.b $0D
+                
+                LDA.b $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+                LDA.b $01 :       ADC .x_offsets_high, X : STA.w $0D30, Y
+                
+                LDA.b $02 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
+                LDA.b $03 :       ADC .y_offsets_high, X : STA.w $0D20, Y
+                
+                LDA.b #$01 : STA.w $0DB0, Y
+                
+                TYX
+                
+                JSR.w Sprite_ScheduleForBreakage
+                
+                PLX
+                
+                LDA.w $0DB0, X : CMP.b #$07 : LDA.b #$00 : BCS .use_default_palette
+                
+                ; 0x06 type scenery uses a palette ot 6 (12 >> 1).
+                LDA.b #$0C
+                
+                .use_default_palette
+                
+                STA.w $0F50, Y
+            
+            .spawn_failed
+        DEC.b $0D : BPL .spawn_next_smaller_scenery
+        
+        STZ.w $0DD0, X
+        
+        RTS
+        
     .smaller_scenery
     
     STZ.w $0DD0, X
     
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     PHX : TXY
     
@@ -302,8 +299,7 @@ ThrowableScenery_ScatterIntoDebris:
     
     .find_empty_garnish_slot
     
-    LDA.l $7FF800, X : BEQ .empty_garnish_slot
-    
+        LDA.l $7FF800, X : BEQ .empty_garnish_slot
     DEX : BPL .find_empty_garnish_slot
     
     INX

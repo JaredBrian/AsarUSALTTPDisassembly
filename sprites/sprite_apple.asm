@@ -17,13 +17,13 @@ Sprite_DashApple:
     STZ.w $0DD0, X
     
     ; Spawn 2 to 5 apples.
-    JSL GetRandomInt : AND.b #$03 : CLC : ADC.b #$02 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : CLC : ADC.b #$02 : TAY
     
     .next_spawn_attempt
     
     PHY
     
-    JSR Apple_SpawnTangibleApple
+    JSR.w Apple_SpawnTangibleApple
     
     PLY : DEY : BPL .next_spawn_attempt
     
@@ -37,9 +37,9 @@ Sprite_DashApple:
 ; $0F7535-$0F7579 LOCAL JUMP LOCATION
 Apple_SpawnTangibleApple:
 {
-    LDA.b #$AC : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$AC : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$01 : STA.w $0D80, Y
     
@@ -49,13 +49,13 @@ Apple_SpawnTangibleApple:
     
     LDA.b #$16 : STA.w $0F80, Y
     
-    JSL GetRandomInt : STA.b $04
+    JSL.l GetRandomInt : STA.b $04
     LDA.b $01          : STA.b $05
     
-    JSL GetRandomInt : STA.b $06
+    JSL.l GetRandomInt : STA.b $06
     LDA.b $03          : STA.b $07
     
-    LDA.b #$0A : JSL Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$0A : JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, Y
     LDA.b $01 : STA.w $0D50, Y
@@ -85,21 +85,21 @@ Sprite_Apple:
     
     .dont_blink
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     .blink
     
-    JSR Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0D90, X : BEQ .expired_so_self_terminate
     
-    JSR Sprite3_MoveXyz
+    JSR.w Sprite3_MoveXyz
     
-    JSR Sprite3_CheckDamageToPlayer : BCC .no_player_collision
+    JSR.w Sprite3_CheckDamageToPlayer : BCC .no_player_collision
     
     LDA.b #$0B
     
-    JSL Sound_SetSfx3PanLong
+    JSL.l Sound_SetSfx3PanLong
     
     ; Fill in the player's life meter by 8 points (1 heart)
     LDA.l $7EF372 : CLC : ADC.b #$08 : STA.l $7EF372

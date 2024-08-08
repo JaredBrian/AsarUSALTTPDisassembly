@@ -13,19 +13,19 @@ Sprite_Bumper:
 ; $0F2982-$0F2A4A JUMP LOCATION
 Sprite_Bumper:
 {
-    JSR Bumper_Draw
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckTileCollision
+    JSR.w Bumper_Draw
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckTileCollision
     
     LDA.b $55 : BNE .using_magic_cape
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     LDA.b #$20 : STA.w $0DF0, X
     
-    LDA.b #$30 : JSL Sprite_ProjectSpeedTowardsPlayerLong
+    LDA.b #$30 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $F0 : LSR #2 : AND.b #$03 : TAY
     
@@ -39,11 +39,11 @@ Sprite_Bumper:
     
     PHX
     
-    JSL Player_ResetSwimState
+    JSL.l Player_ResetSwimState
     
     PLX
     
-    LDA.b #$32 : JSL Sound_SetSfx3PanLong
+    LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
     
     .no_player_collision
     .using_magic_cape
@@ -81,7 +81,7 @@ Sprite_Bumper:
     
     LDA.b #$40
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     PLY
     
@@ -90,7 +90,7 @@ Sprite_Bumper:
     
     LDA #$20 : STA.w $0DF0, X
     
-    LDA.b #$32 : JSL Sound_SetSfx3PanLong
+    LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
     
     .no_sprite_collision
     

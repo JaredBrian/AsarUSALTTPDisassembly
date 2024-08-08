@@ -17,7 +17,7 @@ Sprite_GreatCatfish:
     
     LDA.w $0D90, X : BPL .not_water_splash
     
-    JSR Sprite_WaterSplash
+    JSR.w Sprite_WaterSplash
     
     RTS
     
@@ -30,11 +30,11 @@ Sprite_GreatCatfish:
     
     LDA.w $0F70, X : BNE .aloft
     
-    JSL Sprite_AutoIncDrawWaterRippleLong
+    JSL.l Sprite_AutoIncDrawWaterRippleLong
     
     LDA.b $11 : BNE .dont_grant_item
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_grant_item
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_grant_item
     
     STZ.w $0DD0, X
     STZ.w $02E9
@@ -43,7 +43,7 @@ Sprite_GreatCatfish:
     
     PHX
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -53,13 +53,13 @@ Sprite_GreatCatfish:
     LDA !timer_3, X : BEQ .dont_use_different_oam_region
     
     ; TODO: Identify when this happens.
-    LDA.b #$08 : JSL OAM_AllocateFromRegionC
+    LDA.b #$08 : JSL.l OAM_AllocateFromRegionC
     
     .dont_use_different_oam_region
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_MoveXyz
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_MoveXyz
     
     ; Simulate gravity for the sprite.
     DEC.w $0F80, X : DEC.w $0F80, X
@@ -85,11 +85,11 @@ Sprite_GreatCatfish:
     
     INC.w $0D80, X
     
-    LDA .bounce_z_speeds, Y : STA.w $0F80, X
+    LDA.w .bounce_z_speeds, Y : STA.w $0F80, X
     
     CPY.b #$02 : BCS .dont_splash_from_bounce
     
-    JSR Sprite_SpawnWaterSplash : BMI .spawn_failed
+    JSR.w Sprite_SpawnWaterSplash : BMI .spawn_failed
     
     LDA.b #$10 : STA !timer_0, Y
     
@@ -106,12 +106,12 @@ Sprite_GreatCatfish:
 ; $0EDFD1-$0EDFE5 BRANCH LOCATION
 GreatCatfish_Main:
     
-    JSR GreatCatfish_Draw
-    JSR Sprite4_CheckIfActive
+    JSR.w GreatCatfish_Draw
+    JSR.w Sprite4_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw GreatCatfish_AwaitSpriteThrownInCircle
     dw GreatCatfish_RumbleBeforeEmergence
@@ -172,7 +172,7 @@ GreatCatfish_RumbleBeforeEmergence:
 {
     LDA !timer_0, X : BNE .delay_emergence
     
-    JSR GreatCatfish_AdvanceState
+    JSR.w GreatCatfish_AdvanceState
     
     ; Stop shaking the screen.
     STZ.w $011A
@@ -185,7 +185,7 @@ GreatCatfish_RumbleBeforeEmergence:
     
     LDA.b #$00 : STA.w $0D50, X
     
-    JSR GreatCatfish_SpawnImmediatelyDrownedSprite
+    JSR.w GreatCatfish_SpawnImmediatelyDrownedSprite
     
     RTS
     
@@ -230,7 +230,7 @@ GreatCatfish_Emerge:
 {
     INC.w $0E80, X
     
-    JSR Sprite4_MoveXyz
+    JSR.w Sprite4_MoveXyz
     
     LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
     
@@ -238,7 +238,7 @@ GreatCatfish_Emerge:
     ; z velocity becomes this negative.
     CMP.b #$D0 : BNE .anospawn_splash
     
-    JSR GreatCatfish_SpawnImmediatelyDrownedSprite
+    JSR.w GreatCatfish_SpawnImmediatelyDrownedSprite
     
     .anospawn_splash
     
@@ -246,7 +246,7 @@ GreatCatfish_Emerge:
     
     STZ.w $0F70, X
     
-    ; OPTIMIZED Makes you wonder, why didn't they JSR to
+    ; OPTIMIZED Makes you wonder, why didn't they JSR.w to
     ; GreatCatfish_AdvanceState in this case too? (For space, not speed.)
     INC.w $0D80, X
     
@@ -256,7 +256,7 @@ GreatCatfish_Emerge:
     
     LDA.w $0E80, X : LSR #2 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -289,7 +289,7 @@ GreatCatfish_ConversateThenSubmerge:
     
     PHA
     
-    JSR Sprite_SpawnWaterSplash
+    JSR.w Sprite_SpawnWaterSplash
     
     PLA
     
@@ -301,7 +301,7 @@ GreatCatfish_ConversateThenSubmerge:
     
     PHA
     
-    JSR GreatCatfish_SpawnImmediatelyDrownedSprite
+    JSR.w GreatCatfish_SpawnImmediatelyDrownedSprite
     
     PLA
     
@@ -311,7 +311,7 @@ GreatCatfish_ConversateThenSubmerge:
     
     PHA
     
-    JSR Sprite_SpawnWaterSplash
+    JSR.w Sprite_SpawnWaterSplash
     
     PLA
     
@@ -335,7 +335,7 @@ GreatCatfish_ConversateThenSubmerge:
                  STY.w $1CF0
     LDA.b #$01 : STA.w $1CF1
     
-    JSL Sprite_ShowMessageMinimal
+    JSL.l Sprite_ShowMessageMinimal
     
     RTS
     
@@ -348,17 +348,17 @@ GreatCatfish_ConversateThenSubmerge:
     ; \item (Quake medallion)
     LDA.l $7EF349 : BEQ .spawn_quake_medallion
     
-    JSL GetRandomInt : AND.b #$01 : BEQ .spawn_fireball
+    JSL.l GetRandomInt : AND.b #$01 : BEQ .spawn_fireball
     
-    JSR Sprite_SpawnBomb : BRA .spawning_logic_complete
+    JSR.w Sprite_SpawnBomb : BRA .spawning_logic_complete
     
     .spawn_fireball
     
-    JSL Sprite_SpawnFireball : BRA .spawning_logic_complete
+    JSL.l Sprite_SpawnFireball : BRA .spawning_logic_complete
 
     .spawn_quake_medallion
     
-    JSR GreatCatfish_SpawnQuakeMedallion
+    JSR.w GreatCatfish_SpawnQuakeMedallion
     
     .spawning_logic_complete
     
@@ -369,7 +369,7 @@ GreatCatfish_ConversateThenSubmerge:
     ; animate.
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -379,10 +379,10 @@ GreatCatfish_ConversateThenSubmerge:
 ; $0EE144-$0EE163 LOCAL JUMP LOCATION
 Sprite_SpawnBomb:
 {
-    LDA.b #$4A : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$4A : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
-    JSL Sprite_TransmuteToEnemyBomb
+    JSL.l Sprite_SetSpawnedCoords
+    JSL.l Sprite_TransmuteToEnemyBomb
     
     LDA.b #$50 : STA !timer_1, Y
     
@@ -402,7 +402,7 @@ GreatCatfish_SpawnSurfacingSplash:
 {
     CMP.b #$FC : BNE .delay_splash_spawning
     
-    JSR Sprite_SpawnWaterSplash
+    JSR.w Sprite_SpawnWaterSplash
     
     .delay_splash_spawning
     
@@ -414,9 +414,9 @@ GreatCatfish_SpawnSurfacingSplash:
 ; $0EE16C-$0EE1A9 LOCAL JUMP LOCATION
 GreatCatfish_SpawnQuakeMedallion:
 {
-    LDA.b #$C0 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$C0 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     PHX : TYX
     
@@ -427,7 +427,7 @@ GreatCatfish_SpawnQuakeMedallion:
     LDA.b #$11 : STA.w $0D90, X
     
     ; play a sound effect
-    LDA.b #$20 : JSL Sound_SetSfx2PanLong
+    LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$83 : STA.w $0E40, X
     
@@ -439,7 +439,7 @@ GreatCatfish_SpawnQuakeMedallion:
     
     PHX : PHY
     
-    LDA.b #$1C : JSL GetAnimatedSpriteTile.variable
+    LDA.b #$1C : JSL.l GetAnimatedSpriteTile_variable
     
     PLY : PLX
     
@@ -455,9 +455,9 @@ Sprite_SpawnFlippersItem:
 {
     LDA.b #$C0
     
-    JSL Sprite_SpawnDynamically : BMI .spawnFailed
+    JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     PHX
     
@@ -469,7 +469,7 @@ Sprite_SpawnFlippersItem:
     
     LDA.b #$1E : STA.w $0D90, X
     
-    LDA.b #$20 : JSL Sound_SetSfx2PanLong
+    LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$83 : STA.w $0E40, X
     
@@ -485,7 +485,7 @@ Sprite_SpawnFlippersItem:
     
     LDA.b #$11
     
-    JSL GetAnimatedSpriteTile.variable
+    JSL.l GetAnimatedSpriteTile_variable
     
     PLY : PLX
     
@@ -500,9 +500,9 @@ Sprite_SpawnFlippersItem:
 GreatCatfish_SpawnImmediatelyDrownedSprite:
 {
     ; Spawn a bush...
-    LDA.b #$EC : JSL Sprite_SpawnDynamically : BMI .spawnFailed
+    LDA.b #$EC : JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$03 : STA.w $0DD0, Y
     
@@ -511,7 +511,7 @@ GreatCatfish_SpawnImmediatelyDrownedSprite:
     LDA.b #$00 : STA.w $0D80, Y
     LDA.b #$03 : STA.w $0E40, Y
     
-    LDA.b #$28 : JSL Sound_SetSfx2PanLong
+    LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
     
     .spawnFailed
     
@@ -525,7 +525,7 @@ Sprite_SpawnWaterSplashLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_SpawnWaterSplash
+    JSR.w Sprite_SpawnWaterSplash
     
     PLB
     
@@ -539,9 +539,9 @@ Sprite_SpawnWaterSplash:
 {
     LDA.b #$C0
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$80 : STA.w $0D90, Y
     

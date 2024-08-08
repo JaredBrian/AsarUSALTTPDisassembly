@@ -11,12 +11,12 @@ ChattyAgahnim_SpawnZeldaOnAltar:
     LDA.w $0D00, X : CLC : ADC.b #$06 : STA.w $0D00, X
     
     ; Spawn the Zelda companion sprite so Agahnim has something to teleport.
-    LDA.b #$C1 : JSL Sprite_SpawnDynamically
+    LDA.b #$C1 : JSL.l Sprite_SpawnDynamically
     
     LDA.b #$01 : STA !is_altar_zelda, Y
                  STA.w $0BA0, Y
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b $02 : CLC : ADC.b #$28 : STA.w $0D00, Y
     
@@ -34,7 +34,7 @@ Sprite_ChattyAgahnim:
 {
     LDA !is_altar_zelda, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ChattyAgahnim_Main
     dw Sprite_AltarZelda
@@ -55,7 +55,7 @@ ChattyAgahnim_Main:
     
     AND.b #$01 : BNE .dont_draw
     
-    JSR ChattyAgahnim_Draw
+    JSR.w ChattyAgahnim_Draw
     
     .dont_draw
     
@@ -63,8 +63,8 @@ ChattyAgahnim_Main:
     
     .not_afterimage
     
-    JSR ChattyAgahnim_Draw
-    JSR ChattyAgahnim_DrawTelewarpSpell
+    JSR.w ChattyAgahnim_Draw
+    JSR.w ChattyAgahnim_DrawTelewarpSpell
     
     ; Basically checking if off screen or in transition?
     ; Update: This gives the player time enough to walk up the stairs to see
@@ -80,11 +80,11 @@ ChattyAgahnim_Main:
     
     .not_paused
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ChattyAgahnim_Problab
     dw ChattyAgahnim_LevitateZelda
@@ -108,7 +108,7 @@ ChattyAgahnim_Problab:
     LDA.b #$3D : STA.w $1CF0
     LDA.b #$01 : STA.w $1CF1
     
-    JSL Sprite_ShowMessageMinimal
+    JSL.l Sprite_ShowMessageMinimal
     
     INC.w $0D80, X
     
@@ -133,7 +133,7 @@ ChattyAgahnim_LevitateZelda:
 {
     INC.w $0DA0, X : LDA.w $0DA0, X : PHA : LSR #5 : AND.b #$03 : TAY
     
-    LDA .animation_states, Y
+    LDA.w .animation_states, Y
     
     ; HARDCODED: This Agahnim sprite is laboring under the assumption that
     ; the altar zelda sprite is in slot 0x0F. While this works, adding
@@ -249,7 +249,7 @@ ChattyAgahnim_Epiblab:
     LDA.b #$3E : STA.w $1CF0
     LDA.b #$01 : STA.w $1CF1
     
-    JSL Sprite_ShowMessageMinimal
+    JSL.l Sprite_ShowMessageMinimal
     
     INC.w $0D80, X
     
@@ -273,7 +273,7 @@ ChattyAgahnim_TeleportTowardCurtains:
     
     LDA.b #$E0 : STA.w $0D40, X
     
-    JSR Sprite4_MoveVert
+    JSR.w Sprite4_MoveVert
     
     LDA.w $0D00, X : CMP.b #$30 : BCS .spawn_afterimage
     
@@ -284,7 +284,7 @@ ChattyAgahnim_TeleportTowardCurtains:
     
     .spawn_afterimage
     
-    JSL Sprite_SpawnAgahnimAfterImage
+    JSL.l Sprite_SpawnAgahnimAfterImage
     
     RTS
 }
@@ -298,9 +298,9 @@ Sprite_SpawnAgahnimAfterImage:
     
     LDA.b $1A : AND.b #$03 : BNE .spawn_delay
     
-    LDA.b #$C1 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$C1 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.w $0DC0, X : STA.w $0DC0, Y
     
@@ -327,7 +327,7 @@ ChattyAgahnim_LingerThenTerminate:
     
     STZ.w $0DD0, X
     
-    JSL Dungeon_ManuallySetSpriteDeathFlag
+    JSL.l Dungeon_ManuallySetSpriteDeathFlag
     
     LDA.w $0403 : ORA.b #$40 : STA.w $0403
     
@@ -389,9 +389,9 @@ ChattyAgahnim_Draw:
     
     SEP #$20
     
-    LDA.b #$04 : JSR Sprite4_DrawMultiple
+    LDA.b #$04 : JSR.w Sprite4_DrawMultiple
     
-    LDA.b #$12 : JSL Sprite_DrawShadowLong.variable
+    LDA.b #$12 : JSL.l Sprite_DrawShadowLong_variable
     
     .dont_draw
     
@@ -457,7 +457,7 @@ Pool_ChattyAgahnim_DrawTelewarpSpell:
 ; $0ED516-$0ED57C LOCAL JUMP LOCATION
 ChattyAgahnim_DrawTelewarpSpell:
 {
-    LDA.b #$38 : JSL OAM_AllocateFromRegionA
+    LDA.b #$38 : JSL.l OAM_AllocateFromRegionA
     
     LDA.b $1A : LSR #2 : REP #$20 : LDA.w #$D48D : BCS .use_first_oam_group
     
@@ -525,7 +525,7 @@ ChattyAgahnim_DrawTelewarpSpell:
 ; $0ED57D-$0ED580 JUMP LOCATION
 Sprite_AltarZelda:
 {
-    JSR AltarZelda_Main
+    JSR.w AltarZelda_Main
     
     RTS
 }
@@ -553,7 +553,7 @@ AltarZelda_Main:
     ; If we end up here, we're drawing the telewarp sprite.
     PHA
     
-    JSR AltarZelda_DrawWarpEffect
+    JSR.w AltarZelda_DrawWarpEffect
     
     PLA : CMP.b #$01 : BNE .delay_self_termination
     
@@ -568,7 +568,7 @@ AltarZelda_Main:
     .also_draw_zelda_body
     .not_telewarping_zelda
     
-    LDA.b #$08 : JSL OAM_AllocateFromRegionA
+    LDA.b #$08 : JSL.l OAM_AllocateFromRegionA
     
     LDA.b #$00 : XBA
     
@@ -576,9 +576,9 @@ AltarZelda_Main:
     
     SEP #$20
     
-    LDA.b #$02 : JSR Sprite4_DrawMultiple
+    LDA.b #$02 : JSR.w Sprite4_DrawMultiple
     
-    JSR AltarZelda_DrawBody
+    JSR.w AltarZelda_DrawBody
     
     RTS
 }
@@ -598,7 +598,7 @@ Pool_AltarZelda_DrawBody:
 ; $0ED5E9-$0ED660 LOCAL JUMP LOCATION
 AltarZelda_DrawBody:
 {
-    LDA.b #$08 : JSL OAM_AllocateFromRegionA
+    LDA.b #$08 : JSL.l OAM_AllocateFromRegionA
     
     LDA.w $0F70, X : CMP.b #$1F : BCC .z_coord_not_maxed
     
@@ -610,7 +610,7 @@ AltarZelda_DrawBody:
     
     LSR A : TAY
     
-    LDA .xy_offsets, Y : STA.b $07
+    LDA.w .xy_offsets, Y : STA.b $07
     
     ; Get 16-bit Y coordinate.
     LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $02
@@ -673,7 +673,7 @@ Pool_AltarZelda_DrawWarpEffect:
 ; $0ED6B1-$0ED6D0 LOCAL JUMP LOCATION
 AltarZelda_DrawWarpEffect:
 {
-    LDA.b #$08 : JSL OAM_AllocateFromRegionA
+    LDA.b #$08 : JSL.l OAM_AllocateFromRegionA
     
     LDA.b #$00 : XBA
     

@@ -6,7 +6,7 @@ Sprite_MadBatterBoltLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_MadBatterBolt
+    JSR.w Sprite_MadBatterBolt
     
     PLB
     
@@ -21,16 +21,16 @@ Sprite_MadBatterBolt:
     LDA.w $0E80, X : AND.b #$10 : BEQ .in_front_of_player
     ; NOTE: Seems we have some confirmation that this oam region is for
     ; putting sprites behind the player...
-    LDA.b #$04 : JSL OAM_AllocateFromRegionB
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
     
     .in_front_of_player
     
-    JSL Sprite_PrepAndDrawSingleSmallLong
-    JSR Sprite3_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleSmallLong
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0D80, X : BNE MadBatterBold_Active
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA.w $0DF0, X : BNE .delay
     INC.w $0D80, X

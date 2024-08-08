@@ -18,8 +18,8 @@ Sprite_WizzrobeAndBeam:
     ; NOTE: Not invoked, just put in to be informative.
     shared Sprite_Wizzbeam:
     
-    JSL Wizzbeam_Draw
-    JSR Sprite3_CheckIfActive
+    JSL.l Wizzbeam_Draw
+    JSR.w Sprite3_CheckIfActive
     
     ; Toggle palette each frame.
     LDA.w $0F50, X : EOR.b #$06 : STA.w $0F5050, X
@@ -30,13 +30,13 @@ Sprite_WizzrobeAndBeam:
     ; wizzbeams at one point?
     LDA.w $0D80, X : BNE .harmless
     
-    JSR Sprite3_CheckDamageToPlayer
+    JSR.w Sprite3_CheckDamageToPlayer
     
     .harmless
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
-    JSR Sprite3_CheckTileCollision : BEQ .dont_self_terminate
+    JSR.w Sprite3_CheckTileCollision : BEQ .dont_self_terminate
     
     STZ.w $0DD0, X
     
@@ -58,19 +58,19 @@ Sprize_Wizzrobe:
     
     .invisible
     
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_PrepOamCoordLong
     
     BRA .skip_draw_logic
     
     .draw
     .flicker_draw
     
-    JSL Wizzrobe_Draw
+    JSL.l Wizzrobe_Draw
     
     .skip_draw_logic
     
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
     
     ; NOTE: Interesting. If we removed this they could possibly be
     ; vulnerable even when invisible?
@@ -78,7 +78,7 @@ Sprize_Wizzrobe:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Wizzrobe_Cloaked
     dw Wizzrobe_PhasingIn
@@ -109,17 +109,17 @@ Wizzrobe_Cloaked:
     LDA.b #$01 : STA.w $0D50, X
                  STA.w $0D40, X
     
-    JSR Sprite3_CheckTileCollision : BNE .self_terminate
+    JSR.w Sprite3_CheckTileCollision : BNE .self_terminate
     
     INC.w $0D80, X
     
     LDA.b #$3F : STA.w $0DF0, X
     
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : STA.w $0DE0, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
     
@@ -167,7 +167,7 @@ Wizzrobe_Attack:
 {
     STZ.w $0BA0, X
     
-    JSR Sprite3_CheckDamage
+    JSR.w Sprite3_CheckDamage
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -183,7 +183,7 @@ Wizzrobe_Attack:
     
     PHA
     
-    JSR Wizzrobe_SpawnBeam
+    JSR.w Wizzrobe_SpawnBeam
     
     PLA
     
@@ -191,7 +191,7 @@ Wizzrobe_Attack:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y
+    LDA.w .animation_states, Y
     
     LDY.w $0DE0, X
     
@@ -218,7 +218,7 @@ Wizzrobe_PhasingOut:
     
     STZ.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
     
     .delay
     
@@ -242,9 +242,9 @@ Pool_Wizzrobe_SpawnBeam:
 ; $0F1E15-$0F1E7A LOCAL JUMP LOCATION
 Wizzrobe_SpawnBeam:
 {
-    LDA.b #$9B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$9B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA.b #$36 : JSL Sound_SetSfx3PanLong
+    LDA.b #$36 : JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$01 : STA.w $0DB0, Y
                  STA.w $0BA0, Y
@@ -259,9 +259,9 @@ Wizzrobe_SpawnBeam:
     
     LDA.w $0DE0, X : TAX
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     LDA.b #$48 : STA.w $0CAA, Y
     

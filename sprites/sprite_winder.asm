@@ -14,9 +14,9 @@ Pool_Sprite_Winder:
 ; $0F51D1-$0F51FD JUMP LOCATION
 Sprite_Winder:
 {
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
     
     LDA.b $1A : LSR #2 : AND.b #$03 : TAY
     
@@ -54,19 +54,19 @@ Pool_Winder_DefaultState:
 ; $0F5206-$0F5238 LOCAL JUMP LOCATION
 Winder_DefaultState:
 {
-    JSR Sprite3_CheckDamage
-    JSR Winder_SpawnFireballGarnish
+    JSR.w Sprite3_CheckDamage
+    JSR.w Winder_SpawnFireballGarnish
     
     LDA.w $0E70, X : BNE .tile_collision_prev_frame
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     .tile_collision_prev_frame
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision_this_frame
+    JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision_this_frame
     
     ; Pick a new direction at random
-    JSL GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
+    JSL.l GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
     
     LDA.w $9254, Y : STA.w $0DE0, X
     
@@ -74,9 +74,9 @@ Winder_DefaultState:
     
     LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     RTS
 }

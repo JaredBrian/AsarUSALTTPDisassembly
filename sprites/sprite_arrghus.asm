@@ -32,14 +32,14 @@ Sprite_Arrghus:
 {
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSR Arrghus_Draw
+    JSR.w Arrghus_Draw
     
     LDA.w $0DD0, X : CMP.b #$09 : BNE .dying
         LDA.w $0F70, X : CMP.b #$60 : BCS .ignore_activity_check
     
     .dying
     
-    JSR Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfActive
     
     .ignore_activity_check
     
@@ -48,15 +48,15 @@ Sprite_Arrghus:
     LDA.b #$01 : STA.w $0B0C
     
     LDA.w $0EF0, X : AND.b #$7F : CMP.b #$02 : BNE .BRANCH_GAMMA
-        JSR Arrghus_InitiateJumpWayUp
+        JSR.w Arrghus_InitiateJumpWayUp
         
         ; Make it impervious temporarily...
         LDA.b #$40 : STA.w $0E60, X
     
     .BRANCH_GAMMA
     
-    JSR Sprite3_CheckIfRecoiling
-    JSR Sprite3_CheckDamageToPlayer
+    JSR.w Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckDamageToPlayer
     
     LDA.w $0E80, X : INC.w $0E80, X : AND.b #$03 : BNE .BRANCH_DELTA
         INC.w $0ED0, X : LDA.w $0ED0, X : CMP.b #$09 : BNE .BRANCH_EPSILON
@@ -66,11 +66,11 @@ Sprite_Arrghus:
         
         LDY.w $0ED0, X
         
-        LDA .animation_states, Y : STA.w $0DC0, X
+        LDA.w .animation_states, Y : STA.w $0DC0, X
     
     .BRANCH_DELTA
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
         LDY.w $0D80, X : CPY.b #$05 : BNE .ignore_collision_result
             AND.b #$03 : BEQ .no_horiz_collision
                 LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
@@ -85,14 +85,14 @@ Sprite_Arrghus:
         
         .ignore_collision_result
         
-        JSR Sprite3_Zero_XY_Velocity
+        JSR.w Sprite3_Zero_XY_Velocity
         
         .run_subprogram
     .no_tile_collision
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Arrghus_ApproachTargetSpeed ; 0x00 - $B593
     dw Arrghus_MakeDecision        ; 0x01 - $B5C8
@@ -109,7 +109,7 @@ Arrghus_JumpWayUp:
 {
     LDA.b #$78 : STA.w $0F80, X
     
-    JSR Sprite3_MoveAltitude
+    JSR.w Sprite3_MoveAltitude
     
     LDA.w $0F70, X : CMP.b #$E0 : BCC .continue_rising
         LDA.b #$40 : STA.w $0DF0, X
@@ -138,19 +138,19 @@ Arrghus_SmooshFromAbove:
         
         LDA.w $0F70, X : PHA
         
-        JSR Sprite3_MoveAltitude
+        JSR.w Sprite3_MoveAltitude
         
         PLA : EOR.w $0F70, X : BPL .didnt_touch_down
             LDA.w $0F70, X : BPL .didnt_touch_down
                 STZ.w $0F70, X
                 
-                JSL Sprite_SpawnSplashRingLong
+                JSL.l Sprite_SpawnSplashRingLong
                 
                 INC.w $0D80, X
                 
                 LDA.b #$20 : STA.w $0DF0, X
                 
-                LDA.b #$03 : JSL Sound_SetSfx3PanLong
+                LDA.b #$03 : JSL.l Sound_SetSfx3PanLong
                 
                 LDA.b #$20 : STA.w $0D50, X : STA.w $0D40, X
         
@@ -158,7 +158,7 @@ Arrghus_SmooshFromAbove:
     .delay
     
     DEC A : BNE .dont_play_falling_sound
-        LDA.b #$20 : JSL Sound_SetSfx2PanLong
+        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
     
     .dont_play_falling_sound
     
@@ -174,11 +174,11 @@ Arrghus_SwimFrantically:
         ; Unset impervious status.
         STZ.w $0E60, X
         
-        JSR Sprite3_Move
-        JSL Sprite_CheckDamageFromPlayerLong
+        JSR.w Sprite3_Move
+        JSL.l Sprite_CheckDamageFromPlayerLong
         
         LDA.b $1A : AND.b #$07  BNE .garnish_delay
-            LDA.b #$28 : JSL Sound_SetSfx2PanLong
+            LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
             
             PHX : TXY
             
@@ -229,7 +229,7 @@ Arrghus_ApproachTargetSpeed:
     
     .delay
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA.w $0D50, X : CMP.w $0EB0, X : BEQ .x_speed_matches_target
         BPL .decrease_x_speed
@@ -269,7 +269,7 @@ Arrghus_MakeDecision:
         STZ.w $0D80, X
         
         ; Checks to see if all his bebehs are ded.
-        JSL Sprite_VerifyAllOnScreenDefeated : BCS Arrghus_InitiateJumpWayUp
+        JSL.l Sprite_VerifyAllOnScreenDefeated : BCS Arrghus_InitiateJumpWayUp
             ; Note: Wtf Arrghus... why you dipping into Overlord memory
             ; regions?
             INC.w $0B0B : LDA.w $0B0B : CMP.b #$04 : BNE Arrghus_TargetLink
@@ -287,7 +287,7 @@ Arrghus_InitiateJumpWayUp:
 {
     LDA.b #$03 : STA.w $0D80, X
     
-    LDA.b #$32 : JSL Sound_SetSfx3PanLong
+    LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
     
     STZ.w $0E80, X
     
@@ -297,9 +297,9 @@ Arrghus_InitiateJumpWayUp:
 ; $0F35FD-$0F361A JUMP LOCATION
 Arrghus_TargetLink:
 {
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$30 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$3F : ADC.b #$30 : STA.w $0DF0, X
     
-    AND.b #$03 : ADC.b #$08 : JSL Sprite_ProjectSpeedTowardsPlayerLong
+    AND.b #$03 : ADC.b #$08 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $00 : STA.w $0DE0, X
     LDA.b $01 : STA.w $0EB0, X
@@ -310,7 +310,7 @@ Arrghus_TargetLink:
 ; $0F361B-$0F363C JUMP LOCATION
 Arrghus_Decelerate:
 {
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA.w $0D50, X : BEQ .x_speed_is_zero
         BPL .decrease_x_speed
@@ -372,7 +372,7 @@ Arrghus_PuffAttack:
         
         .play_sound_effect
         
-        JSL Sound_SetSfx3PanLong
+        JSL.l Sound_SetSfx3PanLong
     
     .sound_effect_delay
     
@@ -487,18 +487,18 @@ Arrghus_HandlePuffs:
         
         PLX
         
-        LDA.b $04 : STA.w $4202
+        LDA.b $04 : STA.w SNES.MultiplicandA
         
         LDA.b $0F
         
         LDY.b $05 : BNE .BRANCH_GAMMA
-            STA.w $4203
+            STA.w SNES.MultiplierB
             
-            JSR Sprite3_DivisionDelay
+            JSR.w Sprite3_DivisionDelay
             
-            ASL.w $4216
+            ASL.w SNES.RemainderResultLow
             
-            LDA.w $4217 : ADC.b #$00
+            LDA.w SNES.RemainderResultHigh : ADC.b #$00
         
         .BRANCH_GAMMA
         
@@ -517,18 +517,18 @@ Arrghus_HandlePuffs:
         CLC : ADC.w $0D10, X : LDY.w $0FB5 : STA.w $0B10, Y
         LDA.w $0D30, X : ADC.b $0A : STA.w $0B20, Y
         
-        LDA.b $06 : STA.w $4202
+        LDA.b $06 : STA.w SNES.MultiplicandA
         
         LDA.b $0E
         
         LDY.b $07 : BNE .BRANCH_ZETA
-            STA.w $4203
+            STA.w SNES.MultiplierB
             
-            JSR Sprite3_DivisionDelay
+            JSR.w Sprite3_DivisionDelay
             
-            ASL.w $4216
+            ASL.w SNES.RemainderResultLow
             
-            LDA.w $4217 : ADC.b #$00
+            LDA.w SNES.RemainderResultHigh : ADC.b #$00
         
         .BRANCH_ZETA
         
@@ -582,7 +582,7 @@ Arrghus_Draw:
     
     SEP #$20
     
-    LDA.b #$05 : JSR Sprite3_DrawMultiple
+    LDA.b #$05 : JSR.w Sprite3_DrawMultiple
     
     LDA.w $0DC0, X : ASL A : STA.b $00
     
@@ -617,7 +617,7 @@ Arrghus_Draw:
         LDA.w $0F70, X : CMP.b #$A0 : BCS .dont_draw_shadow
             LDA.w $0F50, X : PHA : AND.b #$FE : STA.w $0F50, X
             
-            JSL Sprite_DrawLargeShadow
+            JSL.l Sprite_DrawLargeShadow
             
             PLA : STA.w $0F50, X
         
@@ -627,7 +627,7 @@ Arrghus_Draw:
     
     .draw_water_ripples
     
-    JSL Sprite_DrawLargeWaterTurbulence
+    JSL.l Sprite_DrawLargeWaterTurbulence
     
     RTS
 }

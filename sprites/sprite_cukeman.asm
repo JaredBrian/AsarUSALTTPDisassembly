@@ -17,11 +17,11 @@ Cukeman_Unused:
     
     LDA.w $0F50, X : PHA
     
-    JSL Sprite_Cukeman
+    JSL.l Sprite_Cukeman
     
     PLA : STA.w $0F50, X
     
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
     
     RTL
 }
@@ -46,7 +46,7 @@ Sprite_Cukeman:
                             CLC : ADC.b #$7A : STA.w $1CF0
                             LDA.b #$01 : STA.w $1CF1
                             
-                            JSL Sprite_ShowMessageMinimal
+                            JSL.l Sprite_ShowMessageMinimal
         
         .dont_speak
         
@@ -58,11 +58,11 @@ Sprite_Cukeman:
         
         ORA.b #$08 : STA.w $0F50, X
         
-        JSR Cukeman_Draw
+        JSR.w Cukeman_Draw
         
         PLA : ORA.b #$0D : STA.w $0F50, X
         
-        LDA.b #$10 : JSL OAM_AllocateFromRegionA
+        LDA.b #$10 : JSL.l OAM_AllocateFromRegionA
         
         PLB
         
@@ -76,9 +76,8 @@ Sprite_Cukeman:
 ; ==============================================================================
 
 ; $0D7A7E-$0D7B0D DATA
-Pool_Cukeman_Draw:
+Pool_Cukeman_Draw_oam_groups:
 {
-    .oam_groups
     dw  0,  0 : db $F3, $01, $00, $00
     dw  7,  0 : db $F3, $41, $00, $00
     dw  4,  7 : db $E0, $07, $00, $00
@@ -111,11 +110,11 @@ Cukeman_Draw:
     
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
     
-    ASL A : ADC.b $00 : ADC.w # Pool_Cukeman_Draw_oam_groups : STA.b $08
+    ASL A : ADC.b $00 : ADC.w # .oam_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$03 : JSL Sprite_DrawMultiple
+    LDA.b #$03 : JSL.l Sprite_DrawMultiple
     
     RTS
 }

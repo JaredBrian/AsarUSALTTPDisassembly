@@ -26,7 +26,7 @@ Sprite_GanonHelpers:
     
     PLA : DEC A
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sprite_PhantomGanon  ; Ganon bat atop Ganon's Tower
     dw Sprite_Trident       ; Trident
@@ -48,12 +48,12 @@ Sprite_Tektite:
     
     .anoforce_default_animation_state
     
-    JSR Tektite_Draw
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_CheckIfRecoiling
-    JSR Sprite4_CheckDamage
-    JSR Sprite4_MoveXyz
-    JSR Sprite4_BounceFromTileCollision
+    JSR.w Tektite_Draw
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfRecoiling
+    JSR.w Sprite4_CheckDamage
+    JSR.w Sprite4_MoveXyz
+    JSR.w Sprite4_BounceFromTileCollision
     
     ; Simulates gravity for the sprite.
     LDA.w $0F8080, X : SEC : SBC.b #$01 : STA.w $0F80, X
@@ -67,7 +67,7 @@ Sprite_Tektite:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Tektite_Stationary
     dw Tektite_Aloft
@@ -88,7 +88,7 @@ Pool_Tektite_Stationary:
 ; $0EC2D2-$0EC387 LOCAL JUMP LOCATION
 Tektite_Stationary:
 {
-    JSR Sprite4_DirectionToFacePlayer
+    JSR.w Sprite4_DirectionToFacePlayer
     
     LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .dont_dodge
     
@@ -109,7 +109,7 @@ Tektite_Stationary:
     ; quirky logic.
     LDA.b $00 : CMP .comparison_directions, Y : BEQ .dont_dodge
     
-    LDA.b #$20 : JSL Sprite_ProjectSpeedTowardsPlayerLong
+    LDA.b #$20 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
@@ -136,15 +136,15 @@ Tektite_Stationary:
     
     INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$30 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$3F : ADC.b #$30 : STA.w $0DF0, X
     
     LDA.b #$0C : STA.w $0F80, X
     
-    JSR Sprite4_IsBelowPlayer
+    JSR.w Sprite4_IsBelowPlayer
     
     TYA : ASL A : STA.b $00
     
-    JSR Sprite4_IsToRightOfPlayer
+    JSR.w Sprite4_IsToRightOfPlayer
     
     TYA : ORA.b $00
     
@@ -152,17 +152,17 @@ Tektite_Stationary:
     
     .select_random_direction
     
-    JSL GetRandomInt : AND.b #$07 : ADC.b #$18 : STA.w $0F80, X
+    JSL.l GetRandomInt : AND.b #$07 : ADC.b #$18 : STA.w $0F80, X
     
-    JSL GetRandomInt : AND.b #$03
+    JSL.l GetRandomInt : AND.b #$03
     
     .set_xy_speeds
     
     TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     RTS
     
@@ -185,7 +185,7 @@ Tektite_Aloft:
     
     STZ.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$48 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$3F : ADC.b #$48 : STA.w $0DF0, X
     
     ; $0EC39B ALTERNATE ENTRY POINT
     shared Sprite4_Zero_XY_Velocity:
@@ -247,9 +247,9 @@ Tektite_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR Sprite4_DrawMultiple
+    LDA.b #$02 : JSR.w Sprite4_DrawMultiple
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

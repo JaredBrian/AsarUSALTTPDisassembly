@@ -25,14 +25,14 @@ Sprite_Arrgi:
 {
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckIfActive
     
     INC.w $0E80, X
     
     LDA.w $0E80, X : LSR #3 : AND.b #$07 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0DA0, X : BEQ .BRANCH_ALPHA
         TAY : DEY
@@ -60,7 +60,7 @@ Sprite_Arrgi:
     .BRANCH_ALPHA
     
     LDA.w $0DF0, X : BNE .BRANCH_GAMMA
-        JSR Sprite3_CheckDamageToPlayer
+        JSR.w Sprite3_CheckDamageToPlayer
     
     .BRANCH_GAMMA
     
@@ -75,7 +75,7 @@ Sprite_Arrgi:
     
     .BRANCH_DELTA
     
-    JSL Sprite_CheckDamageFromPlayerLong
+    JSL.l Sprite_CheckDamageFromPlayerLong
     
     TXA : EOR.b $1A : AND.b #$03 : BNE .BRANCH_EPSILON
         LDA.w $0B0F, X : STA.b $04
@@ -85,7 +85,7 @@ Sprite_Arrgi:
         
         LDA.b #$04
         
-        JSL Sprite_ProjectSpeedTowardsEntityLong
+        JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.b $00 : STA.w $0D40, X
         
@@ -101,7 +101,7 @@ Sprite_Arrgi:
     
     .BRANCH_EPSILON
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     RTS
 }

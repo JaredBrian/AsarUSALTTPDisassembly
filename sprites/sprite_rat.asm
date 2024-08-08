@@ -26,26 +26,26 @@ Sprite_Rat:
 {
     LDY.w $0D90, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite2_CheckIfActive
-    JSR Sprite2_CheckIfRecoiling
-    JSR Sprite2_CheckDamage
-    JSR Sprite2_Move
-    JSR Sprite2_CheckTileCollision
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfRecoiling
+    JSR.w Sprite2_CheckDamage
+    JSR.w Sprite2_Move
+    JSR.w Sprite2_CheckTileCollision
     
     LDA.w $0D80, X : BNE Rat_Moving
     
-    JSR Sprite2_ZeroVelocity
+    JSR.w Sprite2_ZeroVelocity
     
     LDA.w $0DF0, X : BNE .no_new_direction
     
     ; Select a new direction and change to the moving state.
     
-    JSL GetRandomInt : PHA : AND.b #$03 : STA.w $0DE0, X
+    JSL.l GetRandomInt : PHA : AND.b #$03 : STA.w $0DE0, X
     
     INC.w $0D80, X
     
@@ -55,7 +55,7 @@ Sprite_Rat:
     
     LDA.b $1A : LSR #4 : LDA.w $0DE0, X : ROL A : TAY
     
-    LDA .stationary_states, Y : STA.w $0D90, X
+    LDA.w .stationary_states, Y : STA.w $0D90, X
     
     RTS
 }
@@ -84,7 +84,7 @@ Rat_Moving:
     
     LDA.w $0FFF : BNE .in_dark_world
     
-    LDA.b #$17 : JSL Sound_SetSfx3PanLong
+    LDA.b #$17 : JSL.l Sound_SetSfx3PanLong
     
     .in_dark_world
     
@@ -98,12 +98,12 @@ Rat_Moving:
     
     LDA.w $0E70, X : BEQ .no_wall_collision
     
-    LDA .next_direction, Y : STA.w $0DE0, X : TAY
+    LDA.w .next_direction, Y : STA.w $0DE0, X : TAY
     
     .no_wall_collision
     
-    LDA .x_speeds, Y : STA.w $0D50, X
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     LDA.b $1A : LSR #3 : LDA.w $0DE0, X : ROL A : TAY
     

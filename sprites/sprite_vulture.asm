@@ -6,7 +6,7 @@ Sprite_VultureLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_Vulture
+    JSR.w Sprite_Vulture
     
     PLB
     
@@ -20,15 +20,15 @@ Sprite_Vulture:
 {
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSR Vulture_Draw
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_CheckIfRecoiling
-    JSR Sprite4_CheckDamage
-    JSR Sprite4_Move
+    JSR.w Vulture_Draw
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfRecoiling
+    JSR.w Sprite4_CheckDamage
+    JSR.w Sprite4_Move
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Vulture_Dormant
     dw Vulture_Circling
@@ -43,7 +43,7 @@ Vulture_Dormant:
     
     INC.w $0D80, X
     
-    LDA.b #$1E : JSL Sound_SetSfx3PanLong
+    LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$10 : STA.w $0DF0, X
     
@@ -68,7 +68,7 @@ Vulture_Circling:
 {
     LDA.b $1A : LSR A : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0DF0, X : BEQ .finished_ascending
     
@@ -82,7 +82,7 @@ Vulture_Circling:
     
     TXA : AND.b #$0F : CLC : ADC.b #$18
     
-    JSL Sprite_ProjectSpeedTowardsPlayerLong
+    JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D50, X
     
@@ -137,9 +137,9 @@ Vulture_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR Sprite4_DrawMultiple
+    LDA.b #$02 : JSR.w Sprite4_DrawMultiple
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

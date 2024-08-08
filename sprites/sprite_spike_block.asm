@@ -6,15 +6,15 @@ Sprite_SpikeBlock:
 {
     LDA.w $0E90, X : BNE Sprite_TransientSpikeBlock
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckDamage
-    JSR Sprite3_Move
-    JSR Sprite3_CheckTileCollision
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckDamage
+    JSR.w Sprite3_Move
+    JSR.w Sprite3_CheckTileCollision
     
     LDA.w $0DF0, X : BNE .ignore_collision
     
-    JSR SpikeBlock_CheckStatueSpriteCollision : BCC .no_sprite_collision
+    JSR.w SpikeBlock_CheckStatueSpriteCollision : BCC .no_sprite_collision
     
     LDA.w $0E70, X : AND.b #$0F : BEQ .no_tile_collision
     
@@ -24,7 +24,7 @@ Sprite_SpikeBlock:
     
     LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA.b #$05 : JSL Sound_SetSfx2PanLong
+    LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
     
     .no_tile_collision
     .ignore_collision
@@ -39,17 +39,17 @@ Sprite_TransientSpikeBlock:
 {
     ; NOTE: Spike blocks created by Mothula end up here.
     
-    LDA.b #$04 : JSL OAM_AllocateFromRegionB
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckDamage
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckDamage
     
     LDA.w $0D80, X : BNE TransientSpikeBlock_Activated
     
     ; Transmute a bg-based spike block into a mobile one (this sprite),
     ; but erase the underlying bg-based one.
-    LDY.b #$00 : JSR SpikeBlock_InduceTilemapUpdate
+    LDY.b #$00 : JSR.w SpikeBlock_InduceTilemapUpdate
     
     INC.w $0D80, X
     
@@ -89,9 +89,9 @@ TransientSpikeBlock_Activated:
     ; block before it becomes fully detatched.
     LSR A : AND.b #$01 : TAY
     
-    LDA .wiggle_x_speeds, Y : STA.w $0D50, X
+    LDA.w .wiggle_x_speeds, Y : STA.w $0D50, X
     
-    JSR Sprite3_MoveHoriz
+    JSR.w Sprite3_MoveHoriz
     
     STZ.w $0D50, X
     
@@ -142,13 +142,13 @@ TransientSpikeBlock_InMotion:
     .at_target_y_speed
     .acceleration_delay
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA.w $0E00, X : BNE .skip_tile_collision_logic
     
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
     
     INC.w $0D80, X
     
@@ -183,11 +183,11 @@ TransientSpikeBlock_Retract:
     
     LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA.w $0D10, X : CMP.w $0D90, X : BNE .not_at_target_coord
     
@@ -196,7 +196,7 @@ TransientSpikeBlock_Retract:
     STZ.w $0DD0, X
     
     ; Place a bg-based spike block here as the sprite version terminates.
-    LDY.b #$02 : JSR SpikeBlock_InduceTilemapUpdate
+    LDY.b #$02 : JSR.w SpikeBlock_InduceTilemapUpdate
     
     .not_at_target_coord
     .delay
@@ -215,7 +215,7 @@ SpikeBlock_InduceTilemapUpdate:
     LDA.w $0D00, X : STA.b $02
     LDA.w $0D20, X : STA.b $03
     
-    JSL Dungeon_SpriteInducedTilemapUpdate
+    JSL.l Dungeon_SpriteInducedTilemapUpdate
     
     RTS
 }

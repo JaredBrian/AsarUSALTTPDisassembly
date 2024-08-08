@@ -53,15 +53,15 @@ Sprite_HelmasaurKing:
             
         .BRANCH_BETA
         
-        JSL Sprite_PrepAndDrawSingleLargeLong
-        JSR Sprite3_CheckIfActive
+        JSL.l Sprite_PrepAndDrawSingleLargeLong
+        JSR.w Sprite3_CheckIfActive
         
         LDA.b $1A : AND.b #$07 : ORA.w $0E00, X : BNE .BRANCH_GAMMA
             LDA.w $0F50, X : EOR.b #$40 : STA.w $0F50, X
         
         .BRANCH_GAMMA
         
-        JSR Sprite3_MoveXyz
+        JSR.w Sprite3_MoveXyz
         
         DEC.w $0F80, X : DEC.w $0F80, X
         
@@ -137,7 +137,7 @@ Sprite_HelmasaurKing:
                     
                     LDA.w $0D20, X : ADC.b $00 : STA.w $0FDB
                     
-                    JSL Sprite_MakeBossDeathExplosion
+                    JSL.l Sprite_MakeBossDeathExplosion
         
         .BRANCH_IOTA
         
@@ -156,7 +156,7 @@ HelmasaurKing_Alive_phase_hp:
 ; $0F0117-$0F018B BRANCH LOCATION
 HelmasaurKing_Alive:
 {
-    JSR Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0E50, X : LSR #2 : TAY
     
@@ -177,7 +177,7 @@ HelmasaurKing_Alive:
     
     LDA.w $0DB0, X : STA.w $0E90, X
     
-    JSL Sprite_CheckDamageFromPlayerLong
+    JSL.l Sprite_CheckDamageFromPlayerLong
     JSR.w HelmasaurKing_SwingTail
     JSR.w HelmasaurKing_AttemptDamage
     JSR.w HelmasaurKing_CheckMaskDamageFromHammer
@@ -209,7 +209,7 @@ HelmasaurKing_Alive:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw HelmasaurKing_DecisionHome   ; 0x00 - $819C
     dw HelmasaurKing_WalkToLocation ; 0x01 - $81D5
@@ -239,7 +239,7 @@ HelmasaurKing_DecisionHome:
     
     JSR.w HelmasaurKing_MaybeFireball
     
-    JSL GetRandomInt : AND.b #$07 : TAY
+    JSL.l GetRandomInt : AND.b #$07 : TAY
     
     LDA.w Pool_HelmasaurKing_DecisionHome_speed_x, Y : STA.w $0D50, X
     LDA.w Pool_HelmasaurKing_DecisionHome_speed_y, Y : STA.w $0D40, X
@@ -292,7 +292,7 @@ HelmasaurKing_HandleMovement:
     
     .BRANCH_BETA
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     RTS
 }
@@ -362,10 +362,10 @@ HelmasaurKing_MaybeFireball:
         
         STZ.w $0E30, X
         
-        JSL GetRandomInt : AND.b #$01 : BEQ .BRANCH_BETA
+        JSL.l GetRandomInt : AND.b #$01 : BEQ .BRANCH_BETA
             LDA.b #$7F : STA.w $0E10, X
             
-            LDA.b #$2A : JSL Sound_SetSfx3PanLong
+            LDA.b #$2A : JSL.l Sound_SetSfx3PanLong
             
             RTS
         
@@ -402,7 +402,7 @@ HelmasaurKing_SwingTail:
 {
     INC.w $0B0C
     
-    JSL HelmasaurKing_Reinitialize
+    JSL.l HelmasaurKing_Reinitialize
     
     LDA.b #$01
     
@@ -417,7 +417,7 @@ HelmasaurKing_SwingTail:
         LDA.w $0B30 : CLC : ADC.w HelmasaurKing_TailSwingRotationDirection, Y
         STA.w $0B30
         
-        CMP Sprite3_Shake.x_speeds, Y : BNE .BRANCH_GAMMA
+        CMP Sprite3_Shake_x_speeds, Y : BNE .BRANCH_GAMMA
             INC.w $0DE0, X
         
         .BRANCH_GAMMA
@@ -437,7 +437,7 @@ HelmasaurKing_SwingTail:
     
     LDA.w $0EC0, X : BEQ .BRANCH_EPSILON
         LDA.w $0B30 : BNE .BRANCH_ZETA
-            LDA.b #$06 : JSL Sound_SetSfx3PanLong
+            LDA.b #$06 : JSL.l Sound_SetSfx3PanLong
         
         .BRANCH_ZETA
         
@@ -450,13 +450,13 @@ HelmasaurKing_SwingTail:
         
         LDA.w $0B2E : AND.b #$01 : STA.w $0EB0, X
         
-        JSR Sprite3_IsToRightOfPlayer
+        JSR.w Sprite3_IsToRightOfPlayer
         
         TYA : EOR.b #$01 : CMP.w $0EB0, X : BNE .BRANCH_EPSILON
         
         INC.w $0EC0, X
         
-        JSL Sound_SetSfxPan : ORA.b #$26 : STA.w $012F
+        JSL.l Sound_SetSfxPan : ORA.b #$26 : STA.w $012F
     
     .BRANCH_EPSILON
     
@@ -533,22 +533,22 @@ HelmasaurKing_CheckMaskDamageFromHammer:
     LDA.w $0DB0, X : CMP.b #$03 : BCS .BRANCH_ALPHA
         LDA.w $0301 : AND.b #$0A : BEQ .BRANCH_ALPHA
             LDA.b $44 : CMP.b #$80 : BEQ .BRANCH_ALPHA
-                JSL Player_SetupActionHitBoxLong
+                JSL.l Player_SetupActionHitBoxLong
                 
                 LDA.w $0D00, X : PHA : CLC : ADC.b #$08 : STA.w $0D00, X
                 
-                JSL Sprite_SetupHitBoxLong
+                JSL.l Sprite_SetupHitBoxLong
                 
                 PLA : STA.w $0D00, X
                 
-                JSL Utility_CheckIfHitBoxesOverlapLong : BCC .BRANCH_ALPHA
+                JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .BRANCH_ALPHA
                     DEC.w $0E50, X
                     
                     LDA.b #$21 : STA.w $012F
                     
                     LDA.b #$30
                     
-                    JSL Sprite_ProjectSpeedTowardsPlayerLong
+                    JSL.l Sprite_ProjectSpeedTowardsPlayerLong
                     
                     LDA.b $00 : STA.b $27
                     LDA.b $01 : STA.b $28
@@ -563,7 +563,7 @@ HelmasaurKing_CheckMaskDamageFromHammer:
                     
                     .BRANCH_BETA
                     
-                    LDA.b #$05 : JSL Sound_SetSfx2PanLong
+                    LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
     
     .BRANCH_ALPHA
     
@@ -580,7 +580,7 @@ HelmasaurKing_AttemptDamage:
             LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0028 : CMP.w #$0040 : BCS .BRANCH_ALPHA
                 SEP #$20
                 
-                JSL Sprite_AttemptDamageToPlayerPlusRecoilLong
+                JSL.l Sprite_AttemptDamageToPlayerPlusRecoilLong
     
     .BRANCH_ALPHA
     
@@ -664,7 +664,7 @@ HelmasaurKing_ExplodeMask:
     ; $0F04A3 ALTERNATE ENTRY POINT
     .make_sfx
     
-    LDA.b #$1F : JSL Sound_SetSfx2PanLong
+    LDA.b #$1F : JSL.l Sound_SetSfx2PanLong
     
     RTS
 }
@@ -674,7 +674,7 @@ HelmasaurKing_ExplodeMask:
 ; $0F04AA-$0F0516 LOCAL JUMP LOCATION
 HelmasaurKing_SpawnMaskDebris:
 {
-    LDA.b #$92 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$92 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         PHX
         
         LDX.w $0FB5
@@ -724,8 +724,8 @@ HelmasaurKing_SpawnMaskDebris:
 HelmasaurKing_SpitFireball:
 {
     ; Spawn helmasaur king fireball...
-    LDA.b #$70 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
-        JSL Sprite_SetSpawnedCoords
+    LDA.b #$70 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        JSL.l Sprite_SetSpawnedCoords
         
         LDA.b $02 : CLC : ADC.b #$1C : STA.w $0D00, Y
         LDA.b $03 :       ADC.b #$00 : STA.w $0D20, Y
@@ -823,7 +823,7 @@ SpriteDraw_KingHelmasaur_Eyes:
         LDY.b #$00
         LDA.b #$01
         
-        JSL Sprite_CorrectOamEntriesLong
+        JSL.l Sprite_CorrectOamEntriesLong
     
     .BRANCH_BETA
     
@@ -850,7 +850,7 @@ KingHelmasaurMask:
     LDA.w $0DB0, X : CMP.b #$03 : BCS .BRANCH_ALPHA
         LDA.b #$08
         
-        JSR Sprite3_DrawMultiple
+        JSR.w Sprite3_DrawMultiple
         
         REP #$20
         
@@ -887,7 +887,7 @@ KingHelmasaurMask:
 ; $0F06E5-$0F074C LOCAL JUMP LOCATION
 KingHelmasaur_CheckBombDamage:
 {
-    JSL Sprite_SetupHitBoxLong
+    JSL.l Sprite_SetupHitBoxLong
     
     LDA.w $0C04, Y : CLC : ADC.b #$06 : STA.b $00
     LDA.w $0C18, Y :       ADC.b #$00 : STA.b $08
@@ -898,7 +898,7 @@ KingHelmasaur_CheckBombDamage:
     LDA.b #$02 : STA.b $02
     LDA.b #$0F : STA.b $03
     
-    JSL Utility_CheckIfHitBoxesOverlapLong : BCC .BRANCH_ALPHA
+    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .BRANCH_ALPHA
         LDA.w $0C2C, Y : EOR.b #$FF : INC A : STA.w $0C2C, Y
         LDA.w $0C22, Y : EOR.b #$FF : INC A : STA.b $00
         
@@ -937,7 +937,7 @@ SpriteDraw_KingHelmasaur_Body:
 ; $0F07F0-$0F07F4 LOCAL JUMP LOCATION
 Sprite3_DrawMultiple:
 {
-    JSL Sprite_DrawMultiple
+    JSL.l Sprite_DrawMultiple
     
     RTS
 }
@@ -1030,8 +1030,8 @@ SpriteDraw_KingHelmasaur_Legs:
         LDY.b #$02
         LDA.b #$07
         
-        JSL Sprite_CorrectOamEntriesLong
-        JSR Sprite3_PrepOamCoord
+        JSL.l Sprite_CorrectOamEntriesLong
+        JSR.w Sprite3_PrepOamCoord
     
     .BRANCH_BETA
     
@@ -1055,7 +1055,7 @@ SpriteDraw_KingHelmasaur_Mouth:
         
         LDA.w .offset_y, Y : STA.b $06
         
-        LDA.b #$04 : JSL OAM_AllocateFromRegionB
+        LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
         
         LDY.b #$00
         
@@ -1122,13 +1122,13 @@ KingHelmasaur_OperateTail:
         
         .BRANCH_BETA
         
-        STA.w $4202
+        STA.w SNES.MultiplicandA
         
-        LDA.w Pool_KingHelmasaur_OperateTail_multiplier_a, Y : STA.w $4203
+        LDA.w Pool_KingHelmasaur_OperateTail_multiplier_a, Y : STA.w SNES.MultiplierB
         
-        JSR Sprite3_DivisionDelay
+        JSR.w Sprite3_DivisionDelay
         
-        LDA.w $4217 : PLP : BPL .BRANCH_GAMMA
+        LDA.w SNES.RemainderResultHigh : PLP : BPL .BRANCH_GAMMA
             EOR.b #$FF
         
         .BRANCH_GAMMA
@@ -1139,12 +1139,12 @@ KingHelmasaur_OperateTail:
         
         PLY
         
-        LDA.w $0B2F : STA.w $4202
-        LDA.w Pool_KingHelmasaur_OperateTail_multiplier_c, Y : STA.w $4203
+        LDA.w $0B2F : STA.w SNES.MultiplicandA
+        LDA.w Pool_KingHelmasaur_OperateTail_multiplier_c, Y : STA.w SNES.MultiplierB
         
-        JSR Sprite3_DivisionDelay
+        JSR.w Sprite3_DivisionDelay
         
-        LDA.w $4217 : STA.b $0F
+        LDA.w SNES.RemainderResultHigh : STA.b $0F
         
         PHX
         
@@ -1164,18 +1164,18 @@ KingHelmasaur_OperateTail:
         
         PLX
         
-        LDA.b $0A : STA.w $4202
+        LDA.b $0A : STA.w SNES.MultiplicandA
         
         LDA.b $0F
         
         LDY.b $0B : BNE .BRANCH_DELTA
-            STA.w $4203
+            STA.w SNES.MultiplierB
             
-            JSR Sprite3_DivisionDelay
+            JSR.w Sprite3_DivisionDelay
             
-            ASL.w $4216
+            ASL.w SNES.RemainderResultLow
             
-            LDA.w $4217 : ADC.b #$00
+            LDA.w SNES.RemainderResultHigh : ADC.b #$00
         
         .BRANCH_DELTA
         
@@ -1188,18 +1188,18 @@ KingHelmasaur_OperateTail:
         
         STA.w $0B0D, Y
         
-        LDA.b $0C : STA.w $4202
+        LDA.b $0C : STA.w SNES.MultiplicandA
         
         LDA.b $0F
         
         LDY.b $0D : BNE .BRANCH_ZETA
-            STA.w $4203
+            STA.w SNES.MultiplierB
             
-            JSR Sprite3_DivisionDelay
+            JSR.w Sprite3_DivisionDelay
             
-            ASL.w $4216
+            ASL.w SNES.RemainderResultLow
             
-            LDA.w $4217 : ADC.b #$00
+            LDA.w SNES.RemainderResultHigh : ADC.b #$00
         
         .BRANCH_ZETA
         
@@ -1267,15 +1267,15 @@ KingHelmasaur_OperateTail:
     
     LDA.b $0F : BEQ .BRANCH_XI
         LDA.w $0FFC : BNE .BRANCH_XI
-            JSL Sprite_AttemptDamageToPlayerPlusRecoilLong
+            JSL.l Sprite_AttemptDamageToPlayerPlusRecoilLong
     
     .BRANCH_XI
     
     LDY.b #$02
     LDA.b #$0F
     
-    JSL Sprite_CorrectOamEntriesLong
-    JSR Sprite3_PrepOamCoord
+    JSL.l Sprite_CorrectOamEntriesLong
+    JSR.w Sprite3_PrepOamCoord
     
     RTS
 }

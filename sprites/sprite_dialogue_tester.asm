@@ -15,8 +15,8 @@ Sprite_DialogueTester:
     ; has no selection menu, that's just a misconception based on some of
     ; the first messages he says after being initialized.
     
-    JSL Priest_Draw
-    JSR Sprite3_CheckIfActive
+    JSL.l Priest_Draw
+    JSR.w Sprite3_CheckIfActive
     
     ; Next set up the graphics state for next frame?
     
@@ -24,7 +24,7 @@ Sprite_DialogueTester:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw DialogueTester_Initialize
     dw DialogueTester_ShowMessage
@@ -51,7 +51,7 @@ DialogueTester_ShowMessage:
     LDA.w $0D90, X
     LDY.w $0DA0, X
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
         INC.w $0D80, X
     
     .didnt_speak

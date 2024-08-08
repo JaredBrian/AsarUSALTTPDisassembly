@@ -44,32 +44,32 @@ Sprite_MovableStatue:
     
     .BRANCH_BETA
     
-    JSR MovableStatue_Draw
-    JSR Sprite_CheckIfActive
+    JSR.w MovableStatue_Draw
+    JSR.w Sprite_CheckIfActive
     JSR.w $C277 ; $034277 IN ROM
     
     STZ.w $0642
     
-    JSR MovableStatue_CheckFullSwitchCovering : BCC .BRANCH_GAMMA
+    JSR.w MovableStatue_CheckFullSwitchCovering : BCC .BRANCH_GAMMA
     
     LDA.b #$01 : STA.w $0642
     
     .BRANCH_GAMMA
     
-    JSR Sprite_Move
-    JSR Sprite_Get_16_bit_Coords
-    JSR Sprite_CheckTileCollision
-    JSR Sprite_Zero_XY_Velocity
+    JSR.w Sprite_Move
+    JSR.w Sprite_Get_16_bit_Coords
+    JSR.w Sprite_CheckTileCollision
+    JSR.w Sprite_Zero_XY_Velocity
     
-    JSR Sprite_CheckDamageToPlayer_same_layer : BCC .BRANCH_DELTA
+    JSR.w Sprite_CheckDamageToPlayer_same_layer : BCC .BRANCH_DELTA
     
     LDA.b #$07 : STA.w $0DF0, X
     
-    JSL Sprite_RepelDashAttackLong
+    JSL.l Sprite_RepelDashAttackLong
     
     LDA.w $0E00, X : BNE .BRANCH_EPSILON
     
-    JSR Sprite_DirectionToFacePlayer
+    JSR.w Sprite_DirectionToFacePlayer
     
     LDA.w $C0E2, Y : STA.w $0D50, X
     
@@ -79,7 +79,7 @@ Sprite_MovableStatue:
     
     LDA.w $0376 : AND.b #$02 : BNE .BRANCH_ZETA
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     .BRANCH_ZETA
     
@@ -87,7 +87,7 @@ Sprite_MovableStatue:
     
     LDA.w $0F10, X : BNE .BRANCH_THETA
     
-    LDA.b #$22 : JSL Sound_SetSfx2PanLong
+    LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$08 : STA.w $0F10, X
     
@@ -97,7 +97,7 @@ Sprite_MovableStatue:
     
     .BRANCH_EPSILON
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     RTS
     
@@ -116,7 +116,7 @@ Sprite_MovableStatue:
     
     SEP #$30
     
-    JSR Sprite_DirectionToFacePlayer
+    JSR.w Sprite_DirectionToFacePlayer
     
     LDA.b $2F : CMP .directions, Y : BNE .BRANCH_KAPPA
     
@@ -135,9 +135,9 @@ Sprite_MovableStatue:
     
     TYA : EOR.b #$01 : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     JMP.w $C14A ; $03414A IN ROM
     
@@ -194,7 +194,7 @@ MovableStatue_CheckFullSwitchCovering:
     
     PHY
     
-    JSL Entity_GetTileAttr
+    JSL.l Entity_GetTileAttr
     
     PLY
     
@@ -244,7 +244,7 @@ MovableStatue_Draw:
     
     SEP #$30
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     RTS
 }
@@ -285,7 +285,7 @@ MovableStatue_Draw:
     
     LDA.b #$20
     
-    JSR Sprite_ProjectSpeedTowardsEntity
+    JSR.w Sprite_ProjectSpeedTowardsEntity
     
     PLY
     

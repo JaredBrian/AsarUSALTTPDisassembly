@@ -6,7 +6,7 @@ Sprite_DashBeeHive:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw DashBeeHive_WaitForDash
     dw Bee_Normal
@@ -28,7 +28,7 @@ DashBeeHive_WaitForDash:
     
     PHY
     
-    JSR DashBeeHive_SpawnBee
+    JSR.w DashBeeHive_SpawnBee
     
     PLY : DEY : BPL .next_spawn_attempt
     
@@ -57,9 +57,9 @@ Pool_Bee:
 ; $0F5C8F-$0F5CCE LOCAL JUMP LOCATION
 DashBeeHive_SpawnBee:
 {
-    LDA.b #$79 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$79 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     ; $0F5C9B ALTERNATE ENTRY POINT
     shared DashBeeHive_InitBee:
@@ -70,16 +70,16 @@ DashBeeHive_SpawnBee:
     
     TYA : AND.b #$03 : TAX
     
-    LDA .timers, X : STA.w $0DF0, Y
+    LDA.w .timers, X : STA.w $0DF0, Y
                      STA.w $0D90, Y
     
     LDA.b #$60 : STA.w $0F10, Y
     
-    JSL GetRandomInt : AND.b #$07 : TAX
+    JSL.l GetRandomInt : AND.b #$07 : TAX
     
     LDA Bee.speeds, X : STA.w $0D50, Y
     
-    JSL GetRandomInt : AND.b #$07 : TAX
+    JSL.l GetRandomInt : AND.b #$07 : TAX
     
     LDA Bee.speeds, X : STA.w $0D40, Y
     
@@ -97,7 +97,7 @@ PlayerItem_ReleaseBee:
 {
     PHB : PHK : PLB
     
-    LDA.b #$B2 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$B2 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b $EE : STA.w $0F20, Y
     
@@ -119,13 +119,13 @@ PlayerItem_ReleaseBee:
     
     .not_good_bee
     
-    JSR DashBeeHive_InitBee
+    JSR.w DashBeeHive_InitBee
     
-    JSL GetRandomInt : AND.b #$07 : TAX
+    JSL.l GetRandomInt : AND.b #$07 : TAX
     
     LDA Bee.half_speeds, X : STA.w $0D50, Y
     
-    JSL GetRandomInt : AND.b #$07 : TAX
+    JSL.l GetRandomInt : AND.b #$07 : TAX
     
     LDA Bee.half_speeds, X : STA.w $0D40, Y
     
@@ -163,28 +163,28 @@ Pool_Bee_Normal:
 ; $0F5D45-$0F5DF0 JUMP LOCATION
 Bee_Normal:
 {
-    JSR Bee_SetAltitude
-    JSL Sprite_PrepAndDrawSingleSmallLong
-    JSR Bee_DetermineInteractionStatus
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
+    JSR.w Bee_SetAltitude
+    JSL.l Sprite_PrepAndDrawSingleSmallLong
+    JSR.w Bee_DetermineInteractionStatus
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
     
     LDA.w $0EB0, X : BEQ .not_good_bee
     
-    JSL Sprite_SpawnSparkleGarnish
+    JSL.l Sprite_SpawnSparkleGarnish
     
     .not_good_bee
     
-    JSR Bee_Buzz
-    JSR Sprite3_Move
+    JSR.w Bee_Buzz
+    JSR.w Sprite3_Move
     
     TXA : EOR.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0F10, X : BNE .anointeract_with_player
     
-    JSR Sprite3_CheckDamageToPlayer
+    JSR.w Sprite3_CheckDamageToPlayer
     
-    JSL Sprite_CheckDamageFromPlayerLong : BEQ .anointeract_with_player
+    JSL.l Sprite_CheckDamageFromPlayerLong : BEQ .anointeract_with_player
     
     ; "You caught a bee! What will you do?"
     ; "> Keep it in a bottle"
@@ -192,7 +192,7 @@ Bee_Normal:
     LDA.b #$C8
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -210,17 +210,17 @@ Bee_Normal:
     
     LDA.w $0DF0, X : BNE .delay_direction_change
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
     LDA.b $22 : CLC : ADC .box_sizes, Y : STA.b $04
     LDA.b $23 : ADC.b #$00        : STA.b $05
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
     LDA.b $20 : CLC : ADC .box_sizes, Y : STA.b $06
     LDA.b $21 : ADC.b #$00        : STA.b $07
     
-    LDA.b #$14 : JSL Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$14 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     
@@ -250,12 +250,12 @@ Bee_Normal:
 ; $0F5DF1-$0F5E2D JUMP LOCATION
 Bee_PutInbottle:
 {
-    JSR Bee_DetermineInteractionStatus
-    JSR Sprite3_CheckIfActive
+    JSR.w Bee_DetermineInteractionStatus
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $1CE8 : BNE .was_set_free
     
-    JSL Sprite_GetEmptyBottleIndex : BMI .no_empty_bottle
+    JSL.l Sprite_GetEmptyBottleIndex : BMI .no_empty_bottle
     
     LDA.w $0EB0, X : STA.b $00
     
@@ -265,7 +265,7 @@ Bee_PutInbottle:
     
     LDA.b #$07 : CLC : ADC.b $00 : STA.l $7EF35C, X
     
-    JSL HUD.RefreshIconLong
+    JSL.l HUD.RefreshIconLong
     
     PLX
     
@@ -278,7 +278,7 @@ Bee_PutInbottle:
     LDA.b #$CA
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .was_set_free:
     
@@ -354,7 +354,7 @@ Sprite_GoodBee:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw GoodBee_WaitingForDash
     dw GoodBee_Activated
@@ -377,7 +377,7 @@ GoodBee_WaitingForDash:
     ; more bottled item types were available, this could present a problem.
     AND.b #$08 : BNE .have_one_in_bottle
     
-    JSR GoodBee_SpawnTangibleVersion
+    JSR.w GoodBee_SpawnTangibleVersion
     
     .have_one_in_bottle
     .not_dashed_into_yet
@@ -390,9 +390,9 @@ GoodBee_WaitingForDash:
 ; $0F5E90-$0F5ECF LOCAL JUMP LOCATION
 GoodBee_SpawnTangibleVersion:
 {
-    LDA.b #$79 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$79 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$01 : STA.w $0D80, Y
     
@@ -404,11 +404,11 @@ GoodBee_SpawnTangibleVersion:
     
     PHX
     
-    JSL GetRandomInt : AND.b #$07 : TAX
+    JSL.l GetRandomInt : AND.b #$07 : TAX
     
     LDA Bee.speeds, X : STA.w $0D50, Y
     
-    JSL GetRandomInt : AND.b #$07 : TAX
+    JSL.l GetRandomInt : AND.b #$07 : TAX
     
     LDA Bee.speeds, X : STA.w $0D40, Y
     
@@ -437,12 +437,12 @@ GoodBee_Activated:
 {
     LDA.b #$01 : STA.w $0BA0, X
     
-    JSR Bee_SetAltitude
-    JSL Sprite_PrepAndDrawSingleSmallLong
-    JSR Bee_DetermineInteractionStatus
-    JSR Sprite3_CheckIfActive
-    JSR Bee_Buzz
-    JSR Sprite3_Move
+    JSR.w Bee_SetAltitude
+    JSL.l Sprite_PrepAndDrawSingleSmallLong
+    JSR.w Bee_DetermineInteractionStatus
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Bee_Buzz
+    JSR.w Sprite3_Move
     
     TXA : EOR.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
@@ -450,7 +450,7 @@ GoodBee_Activated:
     ; could appear in this fashion (as a single bee) from dashing.
     LDA.w $0EB0, X : BEQ .not_good_bee
     
-    JSL Sprite_SpawnSparkleGarnish
+    JSL.l Sprite_SpawnSparkleGarnish
     
     .not_good_bee
     
@@ -467,13 +467,13 @@ GoodBee_Activated:
     
     LDA.w $0F10, X : BNE .return
     
-    JSL Sprite_CheckDamageFromPlayerLong : BEQ .not_caught_by_player
+    JSL.l Sprite_CheckDamageFromPlayerLong : BEQ .not_caught_by_player
     
     ; "You caught a bee!..."
     LDA.b #$C8
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -483,16 +483,16 @@ GoodBee_Activated:
     
     TXA : EOR.b $1A : AND.b #$03 : BNE .return
     
-    JSR GoodBee_ScanForTargetableSprites : BCS .pursuing_sprite
+    JSR.w GoodBee_ScanForTargetableSprites : BCS .pursuing_sprite
     
     TXA : EOR.b $1A : AND.b #$03 : BNE .return
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
     LDA.b $22 : CLC : ADC .box_sizes, Y : STA.b $04
     LDA.b $23 : ADC.b #$00        : STA.b $05
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
     LDA.b $20 : CLC : ADC .box_sizes, Y : STA.b $06
     LDA.b $21 : ADC.b #$00        : STA.b $07
@@ -503,7 +503,7 @@ GoodBee_Activated:
     
     LDA.b #$20
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     
@@ -593,16 +593,16 @@ GoodBee_ScanForTargetableSprites:
     
     .attack_sprite
     
-    JSL GoodBee_AttackOtherSprite
+    JSL.l GoodBee_AttackOtherSprite
     
     PHX
     
-    JSL GetRandomInt : AND.b #$03 : TAX
+    JSL.l GetRandomInt : AND.b #$03 : TAX
     
     LDA.w $0D10, Y : CLC : ADC .box_sizes, X : STA.b $04
     LDA.w $0D30, Y : ADC.b #$00        : STA.b $05
     
-    JSL GetRandomInt : AND.b #$03 : TAX
+    JSL.l GetRandomInt : AND.b #$03 : TAX
     
     LDA.w $0D00, Y : CLC : ADC .box_sizes, X : STA.b $06
     LDA.w $0D20, Y : ADC.b #$00        : STA.b $07
@@ -621,7 +621,7 @@ Bee_Buzz:
 {
     TXA : EOR.b $1A : AND.b #$1F : BNE .delay
     
-    LDA.b #$2C : JSL Sound_SetSfx3PanLong
+    LDA.b #$2C : JSL.l Sound_SetSfx3PanLong
     
     .delay
     

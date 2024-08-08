@@ -7,7 +7,7 @@ Sprite_GargoyleGrateLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_GargoyleGrate
+    JSR.w Sprite_GargoyleGrate
     
     PLB
     
@@ -19,12 +19,12 @@ Sprite_GargoyleGrateLong:
 ; $02E294-$02E2E9 LOCAL JUMP LOCATION
 Sprite_GargoyleGrate:
 {
-    JSL Sprite_PrepOamCoordLong
-    JSR Sprite2_CheckIfActive
+    JSL.l Sprite_PrepOamCoordLong
+    JSR.w Sprite2_CheckIfActive
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS .dont_open
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .dont_open
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_near
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_near
     
     LDA.b #$01 : STA.w $03F8 : STA.w $0D90, X
     
@@ -38,15 +38,15 @@ Sprite_GargoyleGrate:
     
     LDA.w $0308 : AND.b #$01 : BEQ .dont_open
     
-    LDA.b #$1F : JSL Sound_SetSfx2PanLong
+    LDA.b #$1F : JSL.l Sound_SetSfx2PanLong
     
     PHX
     
-    JSL Overworld_AlterGargoyleEntrance
+    JSL.l Overworld_AlterGargoyleEntrance
     
     PLX
     
-    JSR MedallionTablet_SpawnDustCloud
+    JSR.w MedallionTablet_SpawnDustCloud
     
     LDA.w $0D10, X : STA.w $0D10, Y
     LDA.w $0D30, X : STA.w $0D30, Y

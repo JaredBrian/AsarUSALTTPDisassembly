@@ -28,9 +28,9 @@ Sprite_Gibo:
     
     shared Sprite_GiboNucleus:
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_CheckDamage
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckDamage
     
     INC.w $0E80, X
     
@@ -40,8 +40,8 @@ Sprite_Gibo:
     
     LDA !timer_0, X : BEQ .halt_movement
     
-    JSR Sprite4_Move
-    JSR Sprite4_BounceFromTileCollision
+    JSR.w Sprite4_Move
+    JSR.w Sprite4_BounceFromTileCollision
     
     .halt_movement
     
@@ -53,8 +53,8 @@ Sprite_Gibo:
 ; $0ECD12-$0ECD61 BRANCH LOCATION
 Gibo_Main:
 {
-    JSR Gibo_Draw
-    JSR Sprite4_CheckIfActive
+    JSR.w Gibo_Draw
+    JSR.w Sprite4_CheckIfActive
     
     INC.w $0EC0, X
     
@@ -76,17 +76,17 @@ Gibo_Main:
     
     LDA.b $1A : AND.b #$3F : BNE .dont_pursue_player
     
-    JSR Sprite4_IsToRightOfPlayer
+    JSR.w Sprite4_IsToRightOfPlayer
     
     TYA : ASL #2 : STA.w $0DE0, X
     
     .dont_pursue_player
     
-    JSL Sprite_CheckDamageToPlayerLong
+    JSL.l Sprite_CheckDamageToPlayerLong
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Gibo_ExpelNucleus
     dw Gibo_DelayPursuit
@@ -121,9 +121,9 @@ Gibo_ExpelNucleus:
     ; BUG: Maybe. What if the nucleus fails to spawn? Will the thing
     ; just break completely? It's good that they check the return value,
     ; but it shouldn't advance to the next AI state, imo.
-    LDA.b #$C3 : JSL Sprite_SpawnDynamically : BMI .nucleus_spawn_failed
+    LDA.b #$C3 : JSL.l Sprite_SpawnDynamically : BMI .nucleus_spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     ; Store the index of the spawned child sprite (Gibo nucleus).
     TYA : STA.w $0EB0, X
@@ -149,7 +149,7 @@ Gibo_ExpelNucleus:
     
     PHY
     
-    JSR Sprite4_DirectionToFacePlayer : TYX
+    JSR.w Sprite4_DirectionToFacePlayer : TYX
     
     PLY
     
@@ -157,13 +157,13 @@ Gibo_ExpelNucleus:
     
     .pick_random_direction
     
-    JSL GetRandomInt : AND.b #$07 : TAX
+    JSL.l GetRandomInt : AND.b #$07 : TAX
     
     .set_xy_speeds
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     PLX
     
@@ -232,7 +232,7 @@ Gibo_PursueNucleus:
     
     LDA.w $0E50, Y : STA.w $0ED0, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA !timer_0, X
+    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA !timer_0, X
     
     RTS
     
@@ -241,7 +241,7 @@ Gibo_PursueNucleus:
     SEP #$20
     
     ; Go towards the nucleus.
-    LDA.b #$10 : JSL Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$10 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     
@@ -249,7 +249,7 @@ Gibo_PursueNucleus:
     
     .stagger_retargeting
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     RTS
 }
@@ -318,13 +318,13 @@ Gibo_Draw:
     
     LDA.w $0F50, X : PHA
     
-    LDA Sprite_GiboNucleus.vh_flip, Y
+    LDA Sprite_GiboNucleus_vh_flip, Y
     
     LDY.b $00
     
     ORA .palettes, Y : STA.w $0F50, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     PLA : STA.w $0F50, X
     PLA : STA.w $0E40, X

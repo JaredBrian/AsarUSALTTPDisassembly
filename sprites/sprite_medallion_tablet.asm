@@ -8,7 +8,7 @@ SpritePrep_MedallionTabletLong:
     
     PHB : PHK : PLB
     
-    JSR SpritePrep_MedallionTablet
+    JSR.w SpritePrep_MedallionTablet
     
     PLB
     
@@ -52,7 +52,7 @@ Sprite_MedallionTabletLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_MedallionTablet
+    JSR.w Sprite_MedallionTablet
     
     PLB
     
@@ -66,7 +66,7 @@ Sprite_MedallionTablet:
 {
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw MedallionTablet_Main
     dw Sprite_DustCloud
@@ -87,8 +87,8 @@ Pool_Sprite_DustCloud:
 ; $02F2B2-$02F2D5 JUMP LOCATION
 Sprite_DustCloud:
 {
-    JSL DustCloud_Draw
-    JSR Sprite2_CheckIfActive
+    JSL.l DustCloud_Draw
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -96,7 +96,7 @@ Sprite_DustCloud:
     
     LDY.w $0D90, X
     
-    LDA .animation_states, Y : BPL .valid_animation_state
+    LDA.w .animation_states, Y : BPL .valid_animation_state
     
     STZ.w $0DD0, X
     
@@ -118,11 +118,11 @@ Sprite_DustCloud:
 ; $02F2D6-$02F30B LOCAL JUMP LOCATION
 MedallionTablet_SpawnDustCloud:
 {
-    LDA.b #$F2 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$F2 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL GetRandomInt : STA.b $0F
+    JSL.l GetRandomInt : STA.b $0F
     
-    JSL GetRandomInt : REP #$20 : AND.w #$000F
+    JSL.l GetRandomInt : REP #$20 : AND.w #$000F
     
     SEC : SBC.w #$0008 : CLC : ADC.b $00 : STA.b $00
     
@@ -130,7 +130,7 @@ MedallionTablet_SpawnDustCloud:
     
     SEP #$30
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$01 : STA.w $0E80, Y
     
@@ -144,27 +144,27 @@ MedallionTablet_SpawnDustCloud:
 ; $02F30C-$02F346 JUMP LOCATION
 MedallionTablet_Main:
 {
-    JSL MedallionTablet_Draw
-    JSR Sprite2_CheckIfActive
+    JSL.l MedallionTablet_Draw
+    JSR.w Sprite2_CheckIfActive
     
     ; Turn off a certain pose for the player?
     LDA.w $037A : AND.b #$DF : STA.w $037A
     
     STZ.w $0D90, X
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     STZ.b $5E
     
-    JSL Sprite_RepelDashAttackLong
+    JSL.l Sprite_RepelDashAttackLong
     
     INC.w $0D90, X
     
     .no_player_collision
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCC .nope
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCC .nope
     
     RTS
     
@@ -172,7 +172,7 @@ MedallionTablet_Main:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw MedallionTablet_WaitForMudoraReader
     dw MedallionTablet_ExtendedDelay
@@ -189,7 +189,7 @@ MedallionTablet_WaitForMudoraReader:
     
     LDA.b $2F : BNE .beta
     
-    JSR Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .beta
+    JSR.w Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .beta
     
     REP #$20
     
@@ -241,7 +241,7 @@ MedallionTablet_WaitForMudoraReader:
     
     INC.w $0D80, X
     
-    JSL Player_InitiateFirstBombosSpell
+    JSL.l Player_InitiateFirstBombosSpell
     
     LDA.b #$40 : STA.w $0DF0, X
     
@@ -250,7 +250,7 @@ MedallionTablet_WaitForMudoraReader:
     LDA.w $F34B, Y       : XBA
     LDA.w $F34D, Y : TAY : XBA
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .beta
     
@@ -264,7 +264,7 @@ MedallionTablet_WaitForEther:
 {
     LDA.b $2F : BNE .return
     
-    JSR Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .return
+    JSR.w Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .return
     
     LDA.w $0D00, X : CLC : ADC.b #$10 : CMP $20 : BCC .return
     
@@ -304,7 +304,7 @@ MedallionTablet_WaitForEther:
     
     INC.w $0D80, X
     
-    JSL Player_InitiateFirstEtherSpell
+    JSL.l Player_InitiateFirstEtherSpell
     
     LDA.b #$40 : STA.w $0DF0, X
     
@@ -313,7 +313,7 @@ MedallionTablet_WaitForEther:
     LDA.w $F347, Y       : XBA
     LDA.w $F349, Y : TAY : XBA
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .return
     
@@ -363,7 +363,7 @@ MedallionTablet_Crumbling:
     
     LDA.b $1A : AND.b #$07 : BNE .dont_spawn_dust_cloud
     
-    JSR MedallionTablet_SpawnDustCloud
+    JSR.w MedallionTablet_SpawnDustCloud
     
     .dont_spawn_dust_cloud
     

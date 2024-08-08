@@ -16,14 +16,14 @@ Pool_Thief:
 ; $0EC8D8-$0EC90D JUMP LOCATION
 Sprite_Thief:
 {
-    JSL Thief_Draw
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_CheckIfRecoiling
-    JSL Sprite_CheckDamageFromPlayerLong
+    JSL.l Thief_Draw
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfRecoiling
+    JSL.l Sprite_CheckDamageFromPlayerLong
     
     LDA.w $0D80, X : CMP.b #$03 : BEQ .dont_reface_player
     
-    JSR Sprite4_DirectionToFacePlayer : TYA : STA.w $0EB0, X
+    JSR.w Sprite4_DirectionToFacePlayer : TYA : STA.w $0EB0, X
     
     EOR.w $0DE0, X : CMP.b #$01 : BNE .dont_reface_player
     
@@ -33,7 +33,7 @@ Sprite_Thief:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Thief_Loitering
     dw Thief_WatchPlayer
@@ -46,7 +46,7 @@ Sprite_Thief:
 ; $0EC90E-$0EC94B JUMP LOCATION
 Thief_Loitering:
 {
-    JSR Thief_CheckPlayerCollision
+    JSR.w Thief_CheckPlayerCollision
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -73,7 +73,7 @@ Thief_Loitering:
     
     LDY.w $0DE0, X
     
-    LDA Thief.standing_animation_states, Y : STA.w $0DC0, X
+    LDA Thief_standing_animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -83,9 +83,9 @@ Thief_Loitering:
 ; $0EC94C-$0EC984 JUMP LOCATION
 Thief_WatchPlayer:
 {
-    JSR Thief_CheckPlayerCollision
+    JSR.w Thief_CheckPlayerCollision
     
-    JSR Sprite4_DirectionToFacePlayer : TYA : STA.w $0EB0, X
+    JSR.w Sprite4_DirectionToFacePlayer : TYA : STA.w $0EB0, X
                                               STA.w $0DE0, X
     
     LDA.w $0DF0, X : BNE .delay
@@ -110,7 +110,7 @@ Thief_WatchPlayer:
     
     INC.w $0E80, X : LDA.w $0E80, X : AND.b #$04 : ORA.w $0DE0, X : TAY
     
-    LDA Thief.watching_animation_states, Y : STA.w $0DC0, X
+    LDA Thief_watching_animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -120,15 +120,15 @@ Thief_WatchPlayer:
 ; $0EC985-$0EC9DE JUMP LOCATION
 Thief_ChasePlayer:
 {
-    LDA.b #$12 : JSL Sprite_ApplySpeedTowardsPlayerLong
+    LDA.b #$12 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     LDA.w $0E70, X : BNE .hit_tile
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     .hit_tile
     
-    JSR Sprite4_CheckTileCollision
+    JSR.w Sprite4_CheckTileCollision
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -155,18 +155,18 @@ Thief_ChasePlayer:
     
     SEP #$20
     
-    JSL Sprite_CheckDamageToPlayerLong : BCC .didnt_touch_player
+    JSL.l Sprite_CheckDamageToPlayerLong : BCC .didnt_touch_player
     
     INC.w $0D80, X
     
     LDA.b #$20 : STA.w $0DF0, X
     
-    JSR Thief_DislodgePlayerItems
-    JSR Thief_MakeStealingStuffNoise
+    JSR.w Thief_DislodgePlayerItems
+    JSR.w Thief_MakeStealingStuffNoise
     
     .didnt_touch_player
     
-    JSR Thief_BodyTracksHead
+    JSR.w Thief_BodyTracksHead
     
     RTS
 }
@@ -176,22 +176,22 @@ Thief_ChasePlayer:
 ; $0EC9DF-$0ECA23 JUMP LOCATION
 Thief_StealStuff:
 {
-    JSR Thief_CheckPlayerCollision
-    JSR Thief_ScanForBooty
+    JSR.w Thief_CheckPlayerCollision
+    JSR.w Thief_ScanForBooty
     
     PHY
     
     LDA.w $0DF0, X : BNE .delay_pursuit_of_booty
     
-    JSR Thief_Animate
+    JSR.w Thief_Animate
     
     LDA.w $0E70, X : BNE .tile_collision
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     .tile_collision
     
-    JSR Sprite4_CheckTileCollision
+    JSR.w Sprite4_CheckTileCollision
     
     LDA.w $0EB0, X : STA.w $0DE0, X
     
@@ -207,7 +207,7 @@ Thief_StealStuff:
     LDA.w $0D00, Y : STA.b $06
     LDA.w $0D20, Y : STA.b $07
     
-    JSL Sprite_DirectionToFaceEntity
+    JSL.l Sprite_DirectionToFaceEntity
     
     TYA : STA.w $0EB0, X
     
@@ -235,7 +235,7 @@ Thief_ScanForBooty:
     
     PHY
     
-    JSR Thief_TrackDownBooty
+    JSR.w Thief_TrackDownBooty
     
     PLY
     
@@ -267,7 +267,7 @@ Thief_TrackDownBooty:
     LDA.w $0D00, Y : STA.b $06
     LDA.w $0D20, Y : STA.b $07
     
-    LDA.b #$13 : JSL Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$13 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     LDA.b $01 : STA.w $0D50, X
@@ -290,7 +290,7 @@ Thief_TrackDownBooty:
     
     .savory_booty
     
-    JSR Thief_AttemptBootyGrab
+    JSR.w Thief_AttemptBootyGrab
     
     .unsavory_booty
     .inactive_sprite_slot
@@ -326,7 +326,7 @@ Thief_AttemptBootyGrab:
     
     LDA.w $0E20, Y : SEC : SBC.b #$D8 : TAX
     
-    LDA.l $06D12D, X : JSL Sound_SetSfx3PanLong
+    LDA.l $06D12D, X : JSL.l Sound_SetSfx3PanLong
     
     PLX
     
@@ -344,9 +344,9 @@ Thief_AttemptBootyGrab:
 ; $0ECAF2-$0ECB1F LOCAL JUMP LOCATION
 Thief_CheckPlayerCollision:
 {
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_bump_player
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_bump_player
     
-    LDA.b #$20 : JSL Sprite_ProjectSpeedTowardsPlayerLong
+    LDA.b #$20 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $00    : STA.b $27
     EOR.b #$FF : STA.w $0F30, X
@@ -363,7 +363,7 @@ Thief_CheckPlayerCollision:
     ; $0ECB19 ALTERNATE ENTRY POINT
     shared Thief_MakeStealingStuffNoise:
     
-    LDA.b #$0B : JSL Sound_SetSfx2PanLong
+    LDA.b #$0B : JSL.l Sound_SetSfx2PanLong
     
     .didnt_bump_player
     
@@ -393,7 +393,7 @@ Thief_DislodgePlayerItems:
     
     .dislodge_next_item
     
-    JSL GetRandomInt : AND.b #$03 : STA.w $0FB6
+    JSL.l GetRandomInt : AND.b #$03 : STA.w $0FB6
     
     DEC A : BEQ .target_arrows
     DEC A : BEQ .target_bombs
@@ -423,11 +423,11 @@ Thief_DislodgePlayerItems:
     
     LDY.w $0FB6
     
-    LDA .item_to_spawn, Y
+    LDA.w .item_to_spawn, Y
     
     LDY #$07
     
-    JSL Sprite_SpawnDynamically.arbitrary : BMI .return
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI .return
     
     LDA.w $0FB6 : DEC A : BEQ .extract_arrow
                 DEC A : BEQ .extract_bomb
@@ -464,9 +464,9 @@ Thief_DislodgePlayerItems:
     
     LDX.w $0FB5
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     PLX
     
@@ -535,7 +535,7 @@ Thief_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR Sprite4_DrawMultiple
+    LDA.b #$02 : JSR.w Sprite4_DrawMultiple
     
     ; TODO: Figure out if the label name accurately reflects the mechanism
     ; (blinking).
@@ -545,7 +545,7 @@ Thief_Draw:
     
     LDA.w $0EB0, X : TAX
     
-    LDA .chr, X : LDY.b #$02 : STA ($90), Y
+    LDA.w .chr, X : LDY.b #$02 : STA ($90), Y
     
     INY
     
@@ -553,7 +553,7 @@ Thief_Draw:
     
     PLX
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     .dont_blink
     

@@ -6,24 +6,24 @@ Sprite_Kyameron:
 {
     LDA.w $0D80, X : BNE .visible
     
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_PrepOamCoordLong
     
     BRA .not_visible
     
     .visible
     
-    JSR Kyameron_Draw
+    JSR.w Kyameron_Draw
     
     .not_visible
     
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
     
     LDA.b #$01 : STA.w $0BA0, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Kyameron_Reset
     dw Kyameron_PuddleUp
@@ -41,7 +41,7 @@ Kyameron_Reset:
     
     INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$60 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$3F : ADC.b #$60 : STA.w $0DF0, X
     
     LDA.w $0D90, X : STA.w $0D10, X
     LDA.w $0DA0, X : STA.w $0D30, X
@@ -106,17 +106,17 @@ Kyameron_Coagulate:
     
     INC.w $0D80, X
     
-    JSR Sprite3_IsBelowPlayer
+    JSR.w Sprite3_IsBelowPlayer
     
     TYA : ASL A : STA.b $00
     
-    JSR Sprite3_IsToRightOfPlayer
+    JSR.w Sprite3_IsToRightOfPlayer
     
     TYA : ORA.b $00 : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     RTS
     
@@ -135,7 +135,7 @@ Kyameron_Coagulate:
     
     LSR #2 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -156,11 +156,11 @@ Kyameron_Moving:
 {
     STZ.w $0BA0, X
     
-    JSR Sprite3_CheckDamage : BCS .took_damage
+    JSR.w Sprite3_CheckDamage : BCS .took_damage
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
-    JSR Sprite3_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
+    JSR.w Sprite3_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
     
     LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
@@ -187,7 +187,7 @@ Kyameron_Moving:
     
     LDA.b #$0F : STA.w $0DF0, X
     
-    LDA.b #$28 : JSL Sound_SetSfx2PanLong
+    LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
     
     .not_enough_tile_collisions
     
@@ -197,15 +197,15 @@ Kyameron_Moving:
     
     TXA : EOR.b $1A : AND.b #$07 : BNE .dont_spawn_shiny_garnish
     
-    JSL GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA.b $00
+    JSL.l GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA.b $00
     
     SEP #$20
     
-    JSL GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA.b $02
+    JSL.l GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA.b $02
     
     SEP #$20
     
-    JSL Sprite_SpawnSimpleSparkleGarnish
+    JSL.l Sprite_SpawnSimpleSparkleGarnish
     
     .dont_spawn_shiny_garnish
     
@@ -359,7 +359,7 @@ Kyameron_Draw:
     
     AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     PLA : STA.w $0F50, X
     

@@ -5,9 +5,9 @@
 Sprite_SpawnPhantomGanon:
 {
     ; Spawn one of Ganon's bats? Emerges from Agahnim, seems like.
-    LDA.b #$C9 : JSL Sprite_SpawnDynamically
+    LDA.b #$C9 : JSL.l Sprite_SpawnDynamically
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$02 : STA.w $0E40, Y
                  STA.w $0BA0, Y
@@ -24,38 +24,36 @@ Sprite_PhantomGanon:
 {
     LDA.w $0D80, X : BNE Sprite_GanonBat
     
-    JSR PhantomGanon_Draw
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_MoveVert
+    JSR.w PhantomGanon_Draw
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_MoveVert
     
     INC.w $0E80, X
     
     LDA.w $0E80, X : AND.b #$1F : BNE .delay
-    
-    DEC.w $0D40, X
-    
-    LDA.w $0D40, X : CMP.b #$FC : BNE .BRANCH_BETA
-    
-    PHA
-    
-    JSR Blind_SpawnPoof
-    
-    LDA.w $0D00, Y : SEC : SBC.b #$14 : STA.w $0D00, Y
-    LDA.w $0D20, Y : SBC.b #$00 : STA.w $0D20, Y
-    
-    PLA
-    
-    .BRANCH_BETA
-    
-    CMP.b #$FB : BNE .dont_transform
-    
-    INC.w $0D80, X
-    
-    LDA.b #$FF : STA.w $0DF0, X
-    
-    LDA.b #$FC : STA.w $0D40, X
-    
-    .dont_transform
+        DEC.w $0D40, X
+        
+        LDA.w $0D40, X : CMP.b #$FC : BNE .BRANCH_BETA
+        
+        PHA
+        
+        JSR.w Blind_SpawnPoof
+        
+        LDA.w $0D00, Y : SEC : SBC.b #$14 : STA.w $0D00, Y
+        LDA.w $0D20, Y :       SBC.b #$00 : STA.w $0D20, Y
+        
+        PLA
+        
+        .BRANCH_BETA
+        
+        CMP.b #$FB : BNE .dont_transform
+            INC.w $0D80, X
+            
+            LDA.b #$FF : STA.w $0DF0, X
+            
+            LDA.b #$FC : STA.w $0D40, X
+        
+        .dont_transform
     .delay
     
     RTS
@@ -63,14 +61,14 @@ Sprite_PhantomGanon:
 
 ; ==============================================================================
 
+; $0E8906-$0E8A03
 incsrc "sprite_ganon_bat.asm"
 
 ; ==============================================================================
 
 ; $0E8A04-$0E8A83 DATA
-Pool_PhantomGanon_Draw:
+PhantomGanon_Draw_oam_groups:
 {
-    .oam_groups
     dw -16, -8 : db $46, $0D, $00, $02
     dw  -8, -8 : db $47, $0D, $00, $02
     dw   8, -8 : db $47, $4D, $00, $02
@@ -90,12 +88,10 @@ Pool_PhantomGanon_Draw:
     dw  16,  8 : db $66, $4D, $00, $02
 }
 
-; ==============================================================================
-
-; $0E8A84-$0E8AB5 LOCAL JUMP LOCATION
+; $0E8A84-$0E8AA8 LOCAL JUMP LOCATION
 PhantomGanon_Draw:
 {
-    LDA.b #$00   : XBA
+    LDA.b #$00 : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #6 : CLC : ADC.w #(.oam_groups) : STA.b $08
     
     LDA.w #$0950 : STA.b $90
@@ -105,16 +101,19 @@ PhantomGanon_Draw:
     SEP #$20
     
     LDA.b #$08 : JMP Sprite4_DrawMultiple
-    
-    ; $0E8AA9 ALTERNATE ENTRY POINT
-    shared Sprite_PeriodicWhirringSfx:
-    
+
+    ; Bleeds into the next function.
+}
+
+; $0E8AA9-$0E8AB5 LOCAL JUMP LOCATION
+Sprite_PeriodicWhirringSfx:
+{
     LDA.b $1A : AND.b #$0F : BNE .shadow_flicker
-    
-    LDA.b #$06 : JSL Sound_SetSfx3PanLong
+        LDA.b #$06 : JSL.l Sound_SetSfx3PanLong
     
     .shadow_flicker
     
     RTS
 }
 
+; ==============================================================================

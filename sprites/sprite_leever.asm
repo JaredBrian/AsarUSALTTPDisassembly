@@ -6,13 +6,13 @@ Sprite_Leever:
 {
     LDA.w $0D80, X : BEQ .dont_draw
     
-    JSR Leever_Draw
+    JSR.w Leever_Draw
     
     BRA .respawn_logic
     
     .dont_draw
     
-    JSR Sprite_PrepOamCoordSafeWrapper
+    JSR.w Sprite_PrepOamCoordSafeWrapper
     
     .respawn_logic
     
@@ -23,12 +23,12 @@ Sprite_Leever:
     
     .dont_respawn
     
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfRecoiling
     
     LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
     
-    LDA .handlers, Y : PHA
+    LDA.w .handlers, Y : PHA
     
     SEP #$30
     
@@ -60,10 +60,10 @@ Leever_UnderSand:
     
     .delay
     
-    LDA.b #$10 : JSR Sprite_ApplySpeedTowardsPlayer
+    LDA.b #$10 : JSR.w Sprite_ApplySpeedTowardsPlayer
     
-    JSR Sprite_Move
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_Move
+    JSR.w Sprite_CheckTileCollision
     
     RTS
 }
@@ -106,7 +106,7 @@ Leever_Emerge:
     
     INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$A0 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$3F : ADC.b #$A0 : STA.w $0DF0, X
     
     JMP Sprite_Zero_XY_Velocity
     
@@ -114,7 +114,7 @@ Leever_Emerge:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }    
@@ -136,7 +136,7 @@ Pool_Leever_AttackPlayer:
 ; $034C3C-$034C79 JUMP LOCATION
 Leever_AttackPlayer:
 {
-    JSR Sprite_CheckDamage
+    JSR.w Sprite_CheckDamage
     
     LDA.w $0DF0, X : BNE .submersion_delay
     
@@ -154,18 +154,18 @@ Leever_AttackPlayer:
     
     LDY.w $0D90, X
     
-    LDA .speeds, Y : JSR Sprite_ApplySpeedTowardsPlayer
+    LDA.w .speeds, Y : JSR.w Sprite_ApplySpeedTowardsPlayer
     
     .tracking_delay
     
-    JSR Sprite_Move
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_Move
+    JSR.w Sprite_CheckTileCollision
     
     LDA.w $0E70, X : BNE .tile_collision
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -189,7 +189,7 @@ Leever_Submerge:
     
     STZ.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$40 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$40 : STA.w $0DF0, X
     
     RTS
     
@@ -197,7 +197,7 @@ Leever_Submerge:
     
     LSR #3 : EOR.b #$0F : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
     
@@ -279,13 +279,13 @@ Pool_Leever_Draw:
 ; $034E45-$034EBF LOCAL JUMP LOCATION
 Leever_Draw:
 {
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     LDA.w $0DC0, X : TAY : ASL #2 : STA.b $06
     
     PHX
     
-    LDX .num_oam_entries, Y
+    LDX.w .num_oam_entries, Y
     
     LDY.b #$00
     
@@ -315,7 +315,7 @@ Leever_Draw:
     
     LDA.b $05 : PHA
     
-    LDA .chr, X : INY : STA ($90), Y
+    LDA.w .chr, X : INY : STA ($90), Y
     
     CMP.b #$60 : BCS .mask_off_palette_and_nametable_bits
     CMP.b #$28 : BEQ .mask_off_palette_and_nametable_bits
@@ -328,7 +328,7 @@ Leever_Draw:
     
     .dont_do_that
     
-    LDA .properties, X : ORA.b $05 : INY : STA ($90), Y
+    LDA.w .properties, X : ORA.b $05 : INY : STA ($90), Y
     
     PLA : STA.b $05
     
@@ -336,7 +336,7 @@ Leever_Draw:
     
     TYA : LSR #2 : TAY
     
-    LDA .oam_sizes, X : ORA.b $0F : STA ($92), Y
+    LDA.w .oam_sizes, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

@@ -15,8 +15,8 @@ Sprite_ArmosKnight:
     ; backgrounds.
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSR ArmosKnight_Draw
-    JSR Sprite2_CheckIfActive_permissive
+    JSR.w ArmosKnight_Draw
+    JSR.w Sprite2_CheckIfActive_permissive
     
     LDA.w $0DD0, X : CMP.b #$09 : BEQ .alive
         LDA.w $0DF0, X : BNE .still_dying
@@ -41,10 +41,10 @@ Sprite_ArmosKnight:
             ; Kill this Armos knight off.
             STZ.w $0DD0, X
             
-            JSL Sprite_VerifyAllOnScreenDefeated : BCC .not_all_dead
-                LDA.b #$EA : JSL Sprite_SpawnDynamically
+            JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .not_all_dead
+                LDA.b #$EA : JSL.l Sprite_SpawnDynamically
                 
-                JSL Sprite_SetSpawnedCoords
+                JSL.l Sprite_SetSpawnedCoords
                 
                 LDA.b #$20 : STA.w $0F80, Y
                 LDA.b #$01 : STA.w $0D90, Y
@@ -58,14 +58,14 @@ Sprite_ArmosKnight:
         LSR #3 : TAY
         
         ; Pick the proper graphic for his death!
-        LDA .death_animation_states, Y : STA.w $0DC0, X
+        LDA.w .death_animation_states, Y : STA.w $0DC0, X
         
         RTS
     
     .alive
     
-    JSR Sprite2_Move
-    JSR Sprite2_MoveAltitude
+    JSR.w Sprite2_Move
+    JSR.w Sprite2_MoveAltitude
     
     LDA.w $0F80, X : SEC : SBC.b #$04 : STA.w $0F80, X
     
@@ -77,19 +77,19 @@ Sprite_ArmosKnight:
             LDA.w $0D90, X : BEQ .zeta
                 LDA.b #$30 : STA.w $0F80, X
                 
-                LDA.b #$16 : JSL Sound_SetSfx3PanLong
+                LDA.b #$16 : JSL.l Sound_SetSfx3PanLong
         
     .zeta
     
     LDA.w $0EA0, X : BEQ .theta
-        JSR Sprite2_ZeroVelocity
+        JSR.w Sprite2_ZeroVelocity
         
         STZ.w $0D80, X
         STZ.w $0ED0, X
     
     .theta
     
-    JSR Sprite2_CheckIfRecoiling
+    JSR.w Sprite2_CheckIfRecoiling
     
     LDA.w $0D90, X : BNE .iota
         LDA.w $0DF0, X : BNE .kappa
@@ -119,17 +119,17 @@ Sprite_ArmosKnight:
             
             LDA.w Pool_Sprite_ArmosKnight_x_speeds, Y : STA.w $0D50, X
             
-            JSR Sprite2_MoveHoriz
+            JSR.w Sprite2_MoveHoriz
             
             STZ.w $0D50, X
         
         .mu
         
-        JSL Sprite_CheckDamageFromPlayerLong
+        JSL.l Sprite_CheckDamageFromPlayerLong
         
-        JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .nu
-            JSL Sprite_NullifyHookshotDrag
-            JSL Sprite_RepelDashAttackLong
+        JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .nu
+            JSL.l Sprite_NullifyHookshotDrag
+            JSL.l Sprite_RepelDashAttackLong
         
         .nu
         
@@ -138,12 +138,12 @@ Sprite_ArmosKnight:
     .iota
     
     LDA.w $0FF8 : CMP.b #$01 : BEQ .crusher_state
-        JSR Sprite2_CheckDamage
+        JSR.w Sprite2_CheckDamage
         
         LDA.w $0D80, X : BNE .omicron
         
-        JSR ArmosKnight_ProjectSpeedTowardsTarget
-        JSL Sprite_Get_16_bit_CoordsLong
+        JSR.w ArmosKnight_ProjectSpeedTowardsTarget
+        JSL.l Sprite_Get_16_bit_CoordsLong
         
         REP #$20
         
@@ -171,7 +171,7 @@ Sprite_ArmosKnight:
     
     .crusher_state
     
-    JSL Sprite_ArmosCrusherLong
+    JSL.l Sprite_ArmosCrusherLong
     
     RTS
 }
@@ -189,7 +189,7 @@ ArmosKnight_ProjectSpeedTowardsTarget:
     
     LDA.b #$10
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     LDA.b $01 : STA.w $0D50, X
@@ -261,12 +261,12 @@ Pool_ArmosKnight_Draw:
 ; $02A274-$02A376 LOCAL JUMP LOCATION
 ArmosKnight_Draw:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0D90, X : BNE .not_first
         ; Yeah.... what????
         LDA.b $11 : CMP.b #$07 : BEQ .in_downward_floor_transition
-            JSL Sprite_OAM_AllocateDeferToPlayerLong
+            JSL.l Sprite_OAM_AllocateDeferToPlayerLong
             
             LDY.b #$00
         
@@ -300,14 +300,14 @@ ArmosKnight_Draw:
         
         PLX
         
-        LDA .chr, X                    : INY : STA ($90), Y
-        LDA .properties, X : ORA.b $05 : INY : STA ($90), Y
+        LDA.w .chr, X                    : INY : STA ($90), Y
+        LDA.w .properties, X : ORA.b $05 : INY : STA ($90), Y
         
         PHY
         
         TYA : LSR #2 : TAY
         
-        LDA .sizes, X : ORA.b $0F : STA ($92), Y
+        LDA.w .sizes, X : ORA.b $0F : STA ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_subsprite

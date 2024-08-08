@@ -6,7 +6,7 @@ Sprite_ElderWifeLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_ElderWife
+    JSR.w Sprite_ElderWife
     
     PLB
     
@@ -20,13 +20,13 @@ Sprite_ElderWife:
 {
     ; Namely, I think it seems implied that this is Sahasralah's wife.
     
-    JSR ElderWife_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w ElderWife_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ElderWife_Initial
     dw ElderWife_TellLegend
@@ -45,7 +45,7 @@ ElderWife_Initial:
     LDA.b #$2B
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .animate
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .animate
     
     INC.w $0D80, X
     
@@ -64,7 +64,7 @@ ElderWife_Initial:
     LDA.b #$2E
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .animate
 }
@@ -78,7 +78,7 @@ ElderWife_TellLegend:
     LDA.b #$2C
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -98,7 +98,7 @@ ElderWife_LoopUntilPlayerNotDumb:
     LDA.b #$2D
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     RTS
     
@@ -109,7 +109,7 @@ ElderWife_LoopUntilPlayerNotDumb:
     LDA.b #$2C
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     RTS
 }
@@ -123,7 +123,7 @@ ElderWife_GoAwayFindTheOldMan:
     LDA.b #$2D
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA ElderWife_UpdateAnimationState
 }
@@ -154,7 +154,7 @@ ElderWife_Draw:
     ADC.b ( (.oam_groups >> 0 & $FF) )              : STA.b $08
     LDA.b ( (.oam_groups >> 8 & $FF) ) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     RTS
 }

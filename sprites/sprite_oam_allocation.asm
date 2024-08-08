@@ -55,7 +55,7 @@ OAM_Allocate:
 {
     PHB : PHK : PLB
     
-    JSR OAM_GetBufferPosition
+    JSR.w OAM_GetBufferPosition
     
     PLB
     
@@ -173,7 +173,7 @@ OAM_GetBufferPosition:
         ; Note: I find it fairly interesting that there are set fallback points
         ; that increment state whenever this happens. This is kind of what
         ; induces the famous 'flicker' effect in video games, I imagine.
-        LDA .fallback_points, Y : STA.b $90
+        LDA.w .fallback_points, Y : STA.b $90
         
         SEC
         

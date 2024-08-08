@@ -19,7 +19,7 @@ Sprite_Helmasaur:
     
     LDA.w $0E80, X : LSR #2 : AND.b #$01 : ORA.b $00 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
     
@@ -65,7 +65,7 @@ Sprite_Helmasaur:
     
     .delay_direction_selection_logic
     
-    JSR Sprite_PrepAndDrawSingleLarge
+    JSR.w Sprite_PrepAndDrawSingleLarge
     
     BRA .done_drawing
     
@@ -74,16 +74,16 @@ Sprite_Helmasaur:
     
     LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
-    JSR HardHatBeetle_Draw
+    JSR.w HardHatBeetle_Draw
 
     .done_drawing
 
-    JSR Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfActive
     
     INC.w $0E80, X
     
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_CheckDamage
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckDamage
     
     LDA.w $0E70, X : AND.b #$0F : BEQ .no_tile_collision
     
@@ -101,17 +101,17 @@ Sprite_Helmasaur:
     
     .no_tile_collision
     
-    JSR Sprite_Move
+    JSR.w Sprite_Move
     
     .dont_move
     
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_CheckTileCollision
     
     TXA : EOR.b $1A : AND.b #$1F : BNE .project_speed_delay
     
     LDA.w $0D90, X
     
-    JSR Sprite_ProjectSpeedTowardsPlayer
+    JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     LDA.b $00 : STA.w $0DA0, X
     
@@ -171,7 +171,7 @@ HardHatBeetle_Draw:
     ADC.b #.oam_groups                 : STA.b $08
     LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
     
-    LDA.b #$02 : JSL Sprite_DrawMultiple
+    LDA.b #$02 : JSL.l Sprite_DrawMultiple
     
     JMP Sprite_DrawShadowRedundant
 }

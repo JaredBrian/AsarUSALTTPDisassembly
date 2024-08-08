@@ -37,12 +37,12 @@ Sprite_CoveredRupeeCrab:
     
     .still_covered
     
-    JSR CoveredRupeeCrab_Draw
-    JSR Sprite_CheckIfActive
+    JSR.w CoveredRupeeCrab_Draw
+    JSR.w Sprite_CheckIfActive
     
     STZ.w $0DC0, X
     
-    JSR Sprite_DirectionToFacePlayer
+    JSR.w Sprite_DirectionToFacePlayer
     
     LDA.w $0DF0, X : BNE .BRANCH_BETA
     
@@ -53,22 +53,22 @@ Sprite_CoveredRupeeCrab:
     
     .BRANCH_BETA
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     LDA.w $0E70, X : BNE .tile_collision
     
-    JSR Sprite_Move
+    JSR.w Sprite_Move
     
     .tile_collision
     
-    JSR Sprite_CheckTileCollision
-    JSR Sprite_CheckDamageFromPlayer
+    JSR.w Sprite_CheckTileCollision
+    JSR.w Sprite_CheckDamageFromPlayer
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     .BRANCH_GAMMA
     
@@ -80,7 +80,7 @@ Sprite_CoveredRupeeCrab:
     
     .not_rock_covered_crab
     
-    JSL Sprite_CheckIfLiftedPermissiveLong
+    JSL.l Sprite_CheckIfLiftedPermissiveLong
     
     .puny_girly_man
     
@@ -102,9 +102,9 @@ Sprite_CoveredRupeeCrab:
     
     STZ.w $0DC0, X
     
-    LDA.b #$3E : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$3E : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.w $0E40, Y : ASL A : LSR A : STA.w $0E40, Y
     
@@ -123,20 +123,20 @@ Sprite_CoveredRupeeCrab:
 ; $03291D-$032A0B LOCAL JUMP LOCATION
 Sprite_RupeeCrab:
 {
-    JSR Sprite_PrepAndDrawSingleLarge
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_CheckDamageFromPlayer
+    JSR.w Sprite_PrepAndDrawSingleLarge
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckDamageFromPlayer
     
     LDA.w $0E10, X : BNE .BRANCH_ALPHA
     
-    JSR Sprite_CheckDamageToPlayer
+    JSR.w Sprite_CheckDamageToPlayer
     
     .BRANCH_ALPHA
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0F50, X : AND.b #$BF : ORA.w $AA08, Y : STA.w $0F50, X
     
@@ -144,27 +144,27 @@ Sprite_RupeeCrab:
     
     LDA.b #$10 : STA.w $0F10, X
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     BRA .dont_move
     
     .no_tile_collision
     
-    JSR Sprite_Move
+    JSR.w Sprite_Move
     
     .dont_move
     
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_CheckTileCollision
     
     LDA.w $0F10, X : BNE .BRANCH_DELTA
     
     TXA : EOR.b $1A : AND.b #$1F : BNE .BRANCH_DELTA
     
-    LDA.b #$10 : JSR Sprite_ProjectSpeedTowardsPlayer
+    LDA.b #$10 : JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     
@@ -178,7 +178,7 @@ Sprite_RupeeCrab:
     
     LDA.w $0ED0, X : CMP.b #$C0 : BNE .BRANCH_ZETA
     
-    LDA.b #$0F : JSR Sprite_CustomTimedScheduleForBreakage
+    LDA.b #$0F : JSR.w Sprite_CustomTimedScheduleForBreakage
     
     LDY.b #$01
     
@@ -200,11 +200,11 @@ Sprite_RupeeCrab:
     
     .red_rupee
     
-    JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
         
     INC.w $0EB0, X
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
     LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
@@ -217,7 +217,7 @@ Sprite_RupeeCrab:
     
     TYX
     
-    LDA.b #$10 : JSR Sprite_ApplySpeedTowardsPlayer
+    LDA.b #$10 : JSR.w Sprite_ApplySpeedTowardsPlayer
     
     LDA.b $00 : EOR.b #$FF : STA.w $0D40, X
     
@@ -225,7 +225,7 @@ Sprite_RupeeCrab:
     
     PLX
     
-    LDA.b #$30 : JSL Sound_SetSfx3PanLong
+    LDA.b #$30 : JSL.l Sound_SetSfx3PanLong
     
     .spawn_failed
     .BRANCH_EPSILON
@@ -243,7 +243,7 @@ Sprite_CheckIfLiftedPermissiveLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_CheckIfLiftedPermissiveWrapper
+    JSR.w Sprite_CheckIfLiftedPermissiveWrapper
     
     PLB
     
@@ -258,7 +258,7 @@ Sprite_CheckIfLiftedPermissiveLong:
 ; $032A14-$032A17 LOCAL JUMP LOCATION
 Sprite_CheckIfLiftedPermissiveWrapper:
 {
-    JSR Sprite_CheckIfLiftedPermissive
+    JSR.w Sprite_CheckIfLiftedPermissive
     
     RTS
 }
@@ -286,7 +286,7 @@ Pool_CoveredRupeeCrab_Draw:
 ; $032A48-$032ABD LOCAL JUMP LOCATION
 CoveredRupeeCrab_Draw:
 {
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
     
@@ -328,7 +328,7 @@ CoveredRupeeCrab_Draw:
     
     PLX
     
-    LDA .chr, X : CMP.b #$44 : BNE .chr_mismatch
+    LDA.w .chr, X : CMP.b #$44 : BNE .chr_mismatch
     
     CLC : ADC.b $07
     

@@ -6,7 +6,7 @@ Sprite_EvilBarrierLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_EvilBarrier
+    JSR.w Sprite_EvilBarrier
     
     PLB
     
@@ -18,15 +18,15 @@ Sprite_EvilBarrierLong:
 ; $0EF06B-$0EF0E0 LOCAL JUMP LOCATION
 Sprite_EvilBarrier:
 {
-    JSR EvilBarrier_Draw
+    JSR.w EvilBarrier_Draw
     
     LDA.w $0DC0, X : CMP.b #$04 : BEQ .zap_attempt_inhibit
     
     LDA.b $1A : LSR A : AND.b #$03 : STA.w $0DC0, X
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
-    JSL Sprite_CheckDamageFromPlayerLong : BCC .anozap_from_player_attack
+    JSL.l Sprite_CheckDamageFromPlayerLong : BCC .anozap_from_player_attack
     
     ; got master sword?
     LDA.l $7EF359 : CMP.b #$02 : BCS .anozap_from_player_attack
@@ -34,7 +34,7 @@ Sprite_EvilBarrier:
     ; no? you gettin electrocuted, son
     STZ.w $0EF0, X
     
-    JSL Sprite_AttemptDamageToPlayerPlusRecoilLong
+    JSL.l Sprite_AttemptDamageToPlayerPlusRecoilLong
     
     LDA.w $031F : BNE .anozap_from_player_attack
     
@@ -147,9 +147,9 @@ EvilBarrier_Draw:
     
     SEP #$20
     
-    LDA.b #$09 : JSR Sprite4_DrawMultiple
+    LDA.b #$09 : JSR.w Sprite4_DrawMultiple
     
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
     
     RTS
 }

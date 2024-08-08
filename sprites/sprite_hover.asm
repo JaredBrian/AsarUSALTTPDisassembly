@@ -6,8 +6,8 @@ Sprite_Hover:
 {
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0EA0, X : BEQ .not_in_recoil
     
@@ -15,22 +15,22 @@ Sprite_Hover:
     
     .not_in_recoil
     
-    JSR Sprite3_CheckIfRecoiling
-    JSR Sprite3_CheckDamage
+    JSR.w Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckDamage
     
     LDA.w $0E70, X : BNE .collided_with_tile
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     .collided_with_tile
     
-    JSR Sprite3_CheckTileCollision
+    JSR.w Sprite3_CheckTileCollision
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$02 : STA.w $0DC0, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Hover_Stopped
     dw Hover_Moving
@@ -57,19 +57,19 @@ Hover_Stopped:
     ; NOTE: $0DE0, X is used atypically here as a bitfield rather than
     ; a discrete direction. This allows it to move in both directions at
     ; once, but also restricts it to diagonal movement.
-    JSR Sprite3_IsToRightOfPlayer
+    JSR.w Sprite3_IsToRightOfPlayer
     
     STY.b $0C
     
-    JSR Sprite3_IsBelowPlayer
+    JSR.w Sprite3_IsBelowPlayer
     
     TYA : ASL A : ORA.b $0C : STA.w $0DE0, X : TAY
     
     LDA.w $0F50, X : AND.b #$BF : ORA .vh_flip, Y : STA.w $0F50, X
     
-    JSL GetRandomInt : AND.b #$0F : ADC.b #$0C : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$0F : ADC.b #$0C : STA.w $0DF0, X
     
-    JSR Sprite3_Zero_XY_Velocity
+    JSR.w Sprite3_Zero_XY_Velocity
     
     .delay
     

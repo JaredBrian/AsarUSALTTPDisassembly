@@ -8,7 +8,7 @@ Sprite_FortuneTellerLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_FortuneTeller
+    JSR.w Sprite_FortuneTeller
     
     PLB
     
@@ -22,7 +22,7 @@ Sprite_FortuneTeller:
 {
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FortuneTeller_Main
     dw Sprite_DwarfSolidity
@@ -37,17 +37,17 @@ Sprite_DwarfSolidity:
     ; sprite (0x1A). Strange but true, as they could have just added this
     ; logic to the dwarf sprite logic and be done with it. Very peculiar...
     
-    JSR Sprite5_CheckIfActive
+    JSR.w Sprite5_CheckIfActive
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_didnt_touch
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_didnt_touch
     
     PHX
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     STZ.b $5E
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     PLX
     
@@ -61,12 +61,12 @@ Sprite_DwarfSolidity:
 ; $06C783-$06C799 JUMP LOCATION
 FortuneTeller_Main:
 {
-    JSR FortuneTeller_Draw
-    JSR Sprite5_CheckIfActive
+    JSR.w FortuneTeller_Draw
+    JSR.w Sprite5_CheckIfActive
     
     LDA.l $7EF3CA : ASL A : ROL #2 : AND.b #$01
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FortuneTeller_LightWorld
     dw FortuneTeller_DarkWorld
@@ -79,7 +79,7 @@ FortuneTeller_LightWorld:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw LW_FortuneTeller_WaitForInquiry
     dw LW_FortuneTeller_NotEnoughRupees
@@ -106,7 +106,7 @@ LW_FortuneTeller_WaitForInquiry:
 {
     STZ.w $0DC0, X
     
-    JSL GetRandomInt : AND.b #$03 : ASL A : STA.w $0D90, X : TAY
+    JSL.l GetRandomInt : AND.b #$03 : ASL A : STA.w $0D90, X : TAY
     
     REP #$20
     
@@ -132,7 +132,7 @@ LW_FortuneTeller_NotEnoughRupees:
     LDA.b #$F2
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -146,7 +146,7 @@ LW_FortuneTeller_AskIfPlayerWantsReading:
     LDA.b #$F3
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     INC.w $0D80, X
     
@@ -182,7 +182,7 @@ LW_FortuneTeller_ReactToPlayerResponse:
     LDA.b #$F5
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     LDA.b #$02 : STA.w $0D80, X
     
@@ -229,7 +229,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$02
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCC .also_load_next_1
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCC .also_load_next_1
     
     JMP .show_message
     
@@ -240,7 +240,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$01
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCC .also_load_next_2
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCC .also_load_next_2
     
     JMP .show_message
     
@@ -251,7 +251,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$03
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCC .also_load_next_3
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCC .also_load_next_3
     
     JMP .show_message
     
@@ -262,7 +262,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$04
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCC .also_load_next_4
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCC .also_load_next_4
     
     JMP .show_message
     
@@ -273,7 +273,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$05
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCS .show_message
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCS .show_message
     
     .has_moon_pearl
     
@@ -281,7 +281,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$06
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCS .show_message
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCS .show_message
     
     .beaten_agahnim
     
@@ -289,7 +289,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$07
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCS .show_message
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCS .show_message
     
     .has_halved_magic_usage
     
@@ -297,7 +297,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$08
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCS .show_message
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCS .show_message
     
     .has_bombos_medallion
     
@@ -305,7 +305,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$09
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCS .show_message
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCS .show_message
     
     .opened_thieves_chest
     
@@ -313,7 +313,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$0A
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCS .show_message
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCS .show_message
     
     .saved_smithy_frog
     
@@ -321,7 +321,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$0B
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCS .show_message
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCS .show_message
     
     .has_magic_cape
     
@@ -329,7 +329,7 @@ FortuneTeller_GiveReading:
     
     LDA.b #$0C
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCS .show_message
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCS .show_message
     
     .bombed_open_pyramid
     
@@ -337,17 +337,17 @@ FortuneTeller_GiveReading:
     
     LDA.b #$0D
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCS .show_message
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCS .show_message
     
     .has_golden_sword
     
     LDA.b #$0E
     
-    JSR FortuneTeller_PopulateNextMessageSlot : BCS .show_message
+    JSR.w FortuneTeller_PopulateNextMessageSlot : BCS .show_message
     
     LDA.b #$0F
     
-    JSR FortuneTeller_PopulateNextMessageSlot
+    JSR.w FortuneTeller_PopulateNextMessageSlot
     
     .show_message
     
@@ -359,10 +359,10 @@ FortuneTeller_GiveReading:
     
     LDA.w $0000, Y : TAY
     
-    LDA .messages_low, Y        : XBA
-    LDA .messages_high, Y : TAY : XBA
+    LDA.w .messages_low, Y        : XBA
+    LDA.w .messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     RTS
 }
@@ -407,7 +407,7 @@ LW_FortuneTeller_ShowCostMessage:
     
     LDA FortuneTeller_Prices, Y
     
-    JMP DW_FortuneTeller_ShowCostMessage.known_amount
+    JMP DW_FortuneTeller_ShowCostMessage_known_amount
 }
 
 ; ==============================================================================
@@ -442,7 +442,7 @@ FortuneTeller_DarkWorld:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw DW_FortuneTeller_WaitForInquiry
     dw DW_FortuneTeller_NotEnoughRupees
@@ -461,7 +461,7 @@ DW_FortuneTeller_WaitForInquiry:
 {
     STZ.w $0DC0, X
     
-    JSL GetRandomInt : AND.b #$03 : ASL A : STA.w $0D90, X : TAY
+    JSL.l GetRandomInt : AND.b #$03 : ASL A : STA.w $0D90, X : TAY
     
     REP #$20
     
@@ -487,7 +487,7 @@ DW_FortuneTeller_NotEnoughRupees:
     LDA.b #$F2
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -501,7 +501,7 @@ DW_FortuneTeller_AskIfPlayerWantsReading:
     LDA.b #$F3
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     INC.w $0D80, X
     
@@ -536,7 +536,7 @@ DW_FortuneTeller_ReactToPlayerResponse:
     LDA.b #$F5
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     LDA.b #$02 : STA.w $0D80, X
     
@@ -624,7 +624,7 @@ DW_FortuneTeller_ShowCostMessage:
     LDA.b #$F4
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -692,7 +692,7 @@ FortuneTeller_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    LDA.b #$03 : JSL Sprite_DrawMultiple
+    LDA.b #$03 : JSL.l Sprite_DrawMultiple
     
     RTS
 }
@@ -702,7 +702,7 @@ FortuneTeller_Draw:
 ; $06CB2A-$06CB53 LONG JUMP LOCATION
 Dwarf_SpawnDwarfSolidity:
 {
-    LDA.b #$31 : JSL Sprite_SpawnDynamically
+    LDA.b #$31 : JSL.l Sprite_SpawnDynamically
     
     LDA.b $00 : STA.w $0D10, Y
     LDA.b $01 : STA.w $0D30, Y

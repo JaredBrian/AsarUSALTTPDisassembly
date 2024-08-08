@@ -17,8 +17,8 @@ Pool_Sprite_Spark:
 ; $02933F-$02940D JUMP LOCATION
 Sprite_Spark:
 {
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite2_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite2_CheckIfActive
     
     LDA.b $1A : AND.b #$01 : BNE .dont_toggle_palette
     
@@ -32,13 +32,13 @@ Sprite_Spark:
     
     LDA.b #$01 : STA.w $0D40, X : STA.w $0D50, X
     
-    JSR Sprite2_CheckTileCollision
+    JSR.w Sprite2_CheckTileCollision
     
     PHA
     
     LDA.b #$FF : STA.w $0D40, X : STA.w $0D50, X
     
-    JSR Sprite2_CheckTileCollision
+    JSR.w Sprite2_CheckTileCollision
     
     PLA : ORA.w $0E70, X : CMP.b #$04 : BCS .collided_up_or_down
     
@@ -69,7 +69,7 @@ Sprite_Spark:
     
     .travels_counterclockwise
     
-    LDA .directions, Y : STA.w $0DE0, X
+    LDA.w .directions, Y : STA.w $0DE0, X
     
     .direction_initialized
     
@@ -78,16 +78,16 @@ Sprite_Spark:
     ; interesting.... its v and h flip settings are cyclical?
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
-    JSR Sprite2_Move
-    JSL Sprite_CheckDamageToPlayerLong
+    JSR.w Sprite2_Move
+    JSL.l Sprite_CheckDamageToPlayerLong
     
     LDY.w $0DE0, X
     
-    LDA Probe.x_checked_directions, Y : STA.w $0D50, X
+    LDA Probe_x_checked_directions, Y : STA.w $0D50, X
     
-    LDA Probe.y_checked_directions, Y : STA.w $0D40, X
+    LDA Probe_y_checked_directions, Y : STA.w $0D40, X
     
-    JSR Sprite2_CheckTileCollision
+    JSR.w Sprite2_CheckTileCollision
     
     LDA.w $0E10, X : BEQ .check_orthogonal_collision
     CMP.b #$06   : BNE .check_collinear_collision
@@ -98,7 +98,7 @@ Sprite_Spark:
     ; orientation of the sprite. This is because we have run out of wall
     ; to adhere to on our near side, and have to find a new wall to adhere
     ; to, so we turn towards the orthogonal direction.
-    LDA Probe.orthogonal_next_direction, Y : STA.w $0DE0, X
+    LDA Probe_orthogonal_next_direction, Y : STA.w $0DE0, X
     
     BRA .check_collinear_collision
     
@@ -113,7 +113,7 @@ Sprite_Spark:
     
     LDA.w $0E70, X
     
-    AND Probe.orthogonal_directions, Y : BNE .has_orthogonal_collision
+    AND Probe_orthogonal_directions, Y : BNE .has_orthogonal_collision
     
     LDA.b #$0A : STA.w $0E10, X
     
@@ -124,17 +124,17 @@ Sprite_Spark:
     
     LDA.w $0E70, X
     
-    AND Probe.collinear_directions, Y : BEQ .no_collinear_collision
+    AND Probe_collinear_directions, Y : BEQ .no_collinear_collision
     
-    LDA Probe.collinear_next_direction, Y : STA.w $0DE0, X
+    LDA Probe_collinear_next_direction, Y : STA.w $0DE0, X
     
     .no_collinear_collision
     
     LDY.w $0DE0, X
     
-    LDA Probe.x_speeds, Y : ASL A : STA.w $0D50, X
+    LDA Probe_x_speeds, Y : ASL A : STA.w $0D50, X
     
-    LDA Probe.y_speeds, Y : ASL A : STA.w $0D40, X
+    LDA Probe_y_speeds, Y : ASL A : STA.w $0D40, X
     
     RTS
 }

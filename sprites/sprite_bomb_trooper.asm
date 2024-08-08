@@ -1,46 +1,39 @@
-
 ; ==============================================================================
 
 ; $02BE0A-$02BE48 LOCAL JUMP LOCATION
 Sprite_BombTrooper:
 {
     LDA.w $0DB0, X : BNE .is_bomb
-    
-    JMP BombTrooper_Main
+        JMP BombTrooper_Main
     
     .is_bomb
     
     CMP.b #$02 : BCS .flashing_or_exploding
-    
-    JMP EnemyBomb_ExplosionImminent
+        JMP EnemyBomb_ExplosionImminent
     
     .flashing_or_exploding
     
     BNE .exploding
-    
-    LDY.b #$0F
-    
-    .next_sprite
-    
-    CPY.w $0FA0                                 : BEQ .dont_damage
-    LDA.w $0DD0, Y : CMP.b #$09                 : BCC .dont_damage
-    TYA : EOR.b $1A : AND.b #$07 : ORA.w $0EF0, Y : BNE .dont_damage
-    
-    JSR EnemyBomb_CheckDamageToSprite
-    
-    .delta
-    
-    DEY : BPL .next_sprite
-    
-    JSL Sprite_CheckDamageToPlayerLong
+        LDY.b #$0F
+        
+        .next_sprite
+            
+            CPY.w $0FA0 : BEQ .dont_damage
+            LDA.w $0DD0, Y : CMP.b #$09 : BCC .dont_damage
+            TYA : EOR.b $1A : AND.b #$07 : ORA.w $0EF0, Y : BNE .dont_damage
+                JSR.w EnemyBomb_CheckDamageToSprite
+            
+            .dont_damage
+        DEY : BPL .next_sprite
+        
+        JSL.l Sprite_CheckDamageToPlayerLong
     
     .exploding
     
-    JSR EnemyBomb_DrawExplosion
+    JSR.w EnemyBomb_DrawExplosion
     
     LDA.w $0E00, X : BNE .dont_self_terminate
-    
-    STZ.w $0DD0, X
+        STZ.w $0DD0, X
     
     .dont_self_terminate
     
@@ -53,53 +46,51 @@ Sprite_BombTrooper:
 EnemyBomb_CheckDamageToSprite:
 {
     LDA.w $0D10, X : SEC : SBC.b #$10 : STA.b $00
-    LDA.w $0D30, X : SBC.b #$00 : STA.b $08
+    LDA.w $0D30, X :       SBC.b #$00 : STA.b $08
     
     LDA.b #$30 : STA.b $02 : STA.b $03
     
     LDA.w $0D00, X : SEC : SBC.b #$10 : STA.b $01
-    LDA.w $0D20, X : SBC.b #$00 : STA.b $09
+    LDA.w $0D20, X :       SBC.b #$00 : STA.b $09
     
     PHX
     
     TYX
     
-    JSL Sprite_SetupHitBoxLong
+    JSL.l Sprite_SetupHitBoxLong
     
     PLX
     
-    JSL Utility_CheckIfHitBoxesOverlapLong : BCC .dont_damage
-    
-    LDA.w $0E20, Y : CMP.b #$11 : BEQ .dont_damage
-    
-    PHX
-    
-    TYX : PHY
-    
-    LDA.b #$08 : JSL Ancilla_CheckSpriteDamage.preset_class
-    
-    PLY : PLX
-    
-    LDA.w $0D10, X : STA.b $00
-    LDA.w $0D30, X : STA.b $01
-    
-    LDA.w $0D00, X : SEC : SBC.w $0F70, X : STA.b $02
-    LDA.w $0D20, X : SBC.b #$00 : STA.b $03
-    
-    LDA.w $0D10, Y : STA.b $04
-    LDA.w $0D30, Y : STA.b $05
-    
-    LDA.w $0D00, Y : SEC : SBC.w $0F70, Y : STA.b $06
-    LDA.w $0D20, Y : SBC.b #$00 : STA.b $07
-    
-    PHY
-    
-    LDA.b #$20 : JSL Sprite_ProjectSpeedTowardsEntityLong
-    
-    PLY
-    
-    LDA.b $00 : STA.w $0F30, Y
-    LDA.b $01 : STA.w $0F40, Y
+    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .dont_damage
+        LDA.w $0E20, Y : CMP.b #$11 : BEQ .dont_damage
+            PHX
+            
+            TYX : PHY
+            
+            LDA.b #$08 : JSL.l Ancilla_CheckSpriteDamage_preset_class
+            
+            PLY : PLX
+            
+            LDA.w $0D10, X : STA.b $00
+            LDA.w $0D30, X : STA.b $01
+            
+            LDA.w $0D00, X : SEC : SBC.w $0F70, X : STA.b $02
+            LDA.w $0D20, X :       SBC.b #$00 : STA.b $03
+            
+            LDA.w $0D10, Y : STA.b $04
+            LDA.w $0D30, Y : STA.b $05
+            
+            LDA.w $0D00, Y : SEC : SBC.w $0F70, Y : STA.b $06
+            LDA.w $0D20, Y :       SBC.b #$00 : STA.b $07
+            
+            PHY
+            
+            LDA.b #$20 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+            
+            PLY
+            
+            LDA.b $00 : STA.w $0F30, Y
+            LDA.b $01 : STA.w $0F40, Y
     
     .dont_damage
     
@@ -112,31 +103,27 @@ EnemyBomb_CheckDamageToSprite:
 EnemyBomb_ExplosionImminent:
 {
     LDA.w $0E90, X : BEQ .iota
-    
-    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
+        LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
     .iota
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     LDA.w $0EF0, X : BNE .kappa
-    
-    LDA.w $0E00, X : CMP.b #$40 : BCS .lambda
-    
-    CMP.b #$01 : BNE .mu
+        LDA.w $0E00, X : CMP.b #$40 : BCS .lambda
+            CMP.b #$01 : BNE .mu
 
     .kappa
 
     STZ.w $0EF0, X
     
     LDA.w $0DD0, X : CMP.b #$0A : BNE .nu
-    
-    STZ.w $0309
-    STZ.w $0308
+        STZ.w $0309
+        STZ.w $0308
 
     .nu
 
-    LDA.b #$0C : JSL Sound_SetSfx2PanLong
+    LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
     
     INC.w $0DB0, X
     
@@ -156,23 +143,21 @@ EnemyBomb_ExplosionImminent:
     
     .lambda
     
-    JSR Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0EE0, X : BNE .xi
-    
-    JSL Sprite_CheckDamageFromPlayerLong
+        JSL.l Sprite_CheckDamageFromPlayerLong
     
     .xi
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     LDA.b $1B : BEQ .omicron
-    
-    JSR Sprite2_CheckTileCollision
+        JSR.w Sprite2_CheckTileCollision
     
     .omicron
     
-    JSL ThrownSprite_TileAndPeerInteractionLong
+    JSL.l ThrownSprite_TileAndPeerInteractionLong
     
     RTS
 }
@@ -182,51 +167,46 @@ EnemyBomb_ExplosionImminent:
 ; $02BF51-$02BFB0 LOCAL JUMP LOCATION
 BombTrooper_Main:
 {
-    JSR BombTrooper_Draw
-    JSR Sprite2_CheckIfActive
-    JSR Sprite2_CheckDamage
+    JSR.w BombTrooper_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckDamage
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0DE0, X : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : STA.w $0DE0, X : STA.w $0EB0, X
     
     LDA.w $0D80, X : BNE .pi
-    
-    LDA.w $0DF0, X : BNE .rho
-    
-    INC.w $0D80, X
-    
-    LDA.b #$70 : STA.w $0DF0, X
+        LDA.w $0DF0, X : BNE .rho
+            INC.w $0D80, X
+            
+            LDA.b #$70 : STA.w $0DF0, X
 
-    .rho
+        .rho
 
-    RTS
+        RTS
 
     .pi
 
     LDA.w $0DF0, X : BNE .sigma
-    
-    STZ.w $0D80, X
-    
-    LDA.b #$20 : STA.w $0DF0, X
-    
-    RTS
+        STZ.w $0D80, X
+        
+        LDA.b #$20 : STA.w $0DF0, X
+        
+        RTS
 
     .sigma
 
     STZ.w $0E80, X
     
     CMP.b #$50 : BCC .tau
-    
-    INC.w $0E80, X
+        INC.w $0E80, X
 
     .tau
 
     CMP.b #$20 : BNE .upsilon
-    
-    PHA
-    
-    JSR BombTrooper_SpawnAndThrowBomb
-    
-    PLA
+        PHA
+        
+        JSR.w BombTrooper_SpawnAndThrowBomb
+        
+        PLA
 
     .upsilon
 
@@ -234,7 +214,7 @@ BombTrooper_Main:
     
     LDA.w $0DE0, X : ASL #3 : ORA.b $00 : CLC : ADC.b #$20 : TAY
     
-    LDA.w $D001, Y : STA.w $0DC0, X
+    LDA.w Pool_JavelinTrooper_Attack_animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -242,77 +222,82 @@ BombTrooper_Main:
 ; ==============================================================================
 
 ; $02BFB1-$02BFC0 DATA
-    Pool_
+Pool_BombTrooper_SpawnAndThrowBomb:
 {
+    ; $02BFB1
     .x_offsets_low
     db $00, $01, $09, $F8
     
+    ; $02BFB5
     .x_offsets_high
     db $00, $00, $00, $FF
     
+    ; $02BFB9
     .y_offsets_low
     db $F4, $F4, $F1, $F3
     
+    ; $02BFBD
     .y_offsets_high
     db $FF, $FF, $FF, $FF
 }
-
-; ==============================================================================
 
 ; $02BFC1-$02C04A LOCAL JUMP LOCATION
 BombTrooper_SpawnAndThrowBomb:
 {
     LDA.b #$4A
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
-    
-    PHX
-    
-    LDA.w $0DE0, X : TAX
-    
-    LDA.b $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
-    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
-    
-    LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
-    LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
-    
-    TYX
-    
-    LDA.b #$10 : JSL Sprite_ApplySpeedTowardsPlayerLong
-    
-    LDA.b #$01 : STA.w $0DB0, X
-    
-    JSR Sprite2_DirectionToFacePlayer
-    
-    LDA.b $0F : BPL .positive_dx
-    
-    EOR.b #$FF : INC A
-    
-    .positive_dx
-    
-    STA.b $0F
-    
-    LDA.b $0E : BPL .positive_dy
-    
-    EOR.b #$FF : INC A
-    
-    .positive_dy
-    
-    ORA.b $0F : LSR #4 : TAY
-    
-    LDA .initial_z_velocities, Y : STA.w $0F80, X
-    
-    LDA.w $0E60, X : AND.b #$EE : ORA.b #$18 : STA.w $0E60, X
-    
-    LDA.b #$08 : STA.w $0F50, X
-    
-    LDA.b #$FF : STA.w $0E00, X
-    
-    STZ.w $0E50, X
-    
-    LDA.b #$13 : JSL Sound_SetSfx3PanLong
-    
-    PLX
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        PHX
+        
+        LDA.w $0DE0, X : TAX
+        
+        LDA.b $00 : CLC : ADC Pool_BombTrooper_SpawnAndThrowBombx_offsets_low, X 
+        STA.w $0D10, Y
+
+        LDA.b $01 :       ADC Pool_BombTrooper_SpawnAndThrowBombx_offsets_high, X
+        STA.w $0D30, Y
+        
+        LDA.b $02 : CLC : ADC Pool_BombTrooper_SpawnAndThrowBomby_offsets_low, X 
+        STA.w $0D00, Y
+        
+        LDA.b $03 :       ADC Pool_BombTrooper_SpawnAndThrowBomby_offsets_high, X
+        STA.w $0D20, Y
+        
+        TYX
+        
+        LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        
+        LDA.b #$01 : STA.w $0DB0, X
+        
+        JSR.w Sprite2_DirectionToFacePlayer
+        
+        LDA.b $0F : BPL .positive_dx
+            EOR.b #$FF : INC A
+        
+        .positive_dx
+        
+        STA.b $0F
+        
+        LDA.b $0E : BPL .positive_dy
+            EOR.b #$FF : INC A
+        
+        .positive_dy
+        
+        ORA.b $0F : LSR #4 : TAY
+        
+        LDA.w .initial_z_velocities, Y : STA.w $0F80, X
+        
+        LDA.w $0E60, X : AND.b #$EE : ORA.b #$18 : STA.w $0E60, X
+        
+        LDA.b #$08 : STA.w $0F50, X
+        
+        LDA.b #$FF : STA.w $0E00, X
+        
+        STZ.w $0E50, X
+        
+        LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
+        
+        PLX
     
     .spawn_failed
     
@@ -328,34 +313,45 @@ BombTrooper_SpawnAndThrowBomb:
 ; $02C04B-$02C068 LOCAL JUMP LOCATION
 BombTrooper_Draw:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDY.b #$08
     
-    JSR.w $B160 ; $02B160 IN ROM
+    JSR.w SpriteDraw_GuardHead
     
     LDY.b #$04
     
-    JSR.w $B3CD ; $02B3CD IN ROM
+    JSR.w SpriteDraw_GuardBody
     
     LDA.w $0DC0, X : CMP.b #$14 : BCS .alpha
-    
-    JSR BombTrooper_DrawArm
+        JSR.w BombTrooper_DrawArm
     
     .alpha
     
     LDA.b #$0A
     
-    JSL Sprite_DrawShadowLong.variable
+    JSL.l Sprite_DrawShadowLong_variable
     
     RTS
 }
 
 ; ==============================================================================
 
+; $02C069-$02C088 DATA
+Pool_SpriteDraw_BombGuard_Arm:
+{
+    ; $02C069
+    .offset_x
+    dw  -1,   1,   2,   0
+    dw   9,   9,  -8,  -8
+
+    ; $02C079
+    .offset_y
+    dw -12, -12, -12, -12
+    dw -16, -14, -12, -14
+}
+
 ; $02C089-$02C0D2 LOCAL JUMP LOCATION
-    ; NOTE: This name is tentative, and based purely on educated guessing.
-    ; TODO: Determine what this routine *really* does.
 BombTrooper_DrawArm:
 {
     PHX
@@ -364,21 +360,22 @@ BombTrooper_DrawArm:
     
     REP #$20
     
-    LDA.b $00      : CLC : ADC.w $C069, X : LDY.b #$00 : STA ($90), Y
+    LDA.b $00 : CLC : ADC.w Pool_SpriteDraw_BombGuard_Arm_offset_x, X
+    LDY.b #$00 : STA ($90), Y
     AND.w #$0100 : STA.b $0E
     
-    LDA.b $02 : CLC : ADC.w $C079, X      : INY        : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w Pool_SpriteDraw_BombGuard_Arm_offset_y, X 
+    INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
-    
-    LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA ($90), Y
     
     .on_screen_y
     
     SEP #$20
     
-    LDA.b #$6E : INY                     : STA ($90), Y : INY
-    LDA.b $05    : AND.b #$30 : ORA.b #$08 : STA ($90), Y
+    LDA.b #$6E                    : INY : STA ($90), Y : INY
+    LDA.b $05 : AND.b #$30 : ORA.b #$08 : STA ($90), Y
     
     LDA.b #$02 : ORA.b $0F : STA ($92)
     
@@ -392,33 +389,35 @@ BombTrooper_DrawArm:
 ; $02C0D3-$02C112 DATA
 Pool_EnemyBomb_DrawExplosion:
 {
+    ; $02C0D3
     .x_offsets
     db -12, 12, -12, 12
     db -8,   8,  -8,  8
     db -8,   8,  -8,  8
     db  0,   0,   0,  0
     
+    ; $02C0E3
     .y_offsets
     db -12, -12, 12, 12
     db  -8,  -8,  8,  8
     db  -8,  -8,  8,  8
     db   0,   0,  0,  0
     
+    ; $02C1F3
     .chr
     db $88, $88, $88, $88, $8A, $8A, $8A, $8A
     db $84, $84, $84, $84, $86, $86, $86, $86
     
+    ; $02C103
     .vh_flip
     db $00, $40, $80, $C0, $00, $40, $80, $C0
     db $00, $40, $80, $C0, $00, $00, $00, $00
 }
 
-; ==============================================================================
-
 ; $02C113-$02C154 LOCAL JUMP LOCATION
 EnemyBomb_DrawExplosion:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0E00, X : LSR A : AND.b #$0C : STA.b $06
     
@@ -427,18 +426,24 @@ EnemyBomb_DrawExplosion:
     LDX.b #$03
     
     .next_subsprite
-    
-    PHX
-    
-    TXA : CLC : ADC.b $06 : TAX
-    
-    LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
-    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
-    LDA .chr, X                 : INY : STA ($90), Y
-    LDA .vh_flip, X : ORA.b $05   : INY : STA ($90), Y
-    
-    INY
-    
+        
+        PHX
+        
+        TXA : CLC : ADC.b $06 : TAX
+        
+        LDA.b $00 : CLC : ADC Pool_EnemyBomb_DrawExplosion_x_offsets, X
+            STA ($90), Y
+
+        LDA.b $02 : CLC : ADC Pool_EnemyBomb_DrawExplosion_y_offsets, X
+        INY : STA ($90), Y
+
+        LDA Pool_EnemyBomb_DrawExplosion_chr, X
+        INY : STA ($90), Y
+
+        LDA Pool_EnemyBomb_DrawExplosion_vh_flip, X : ORA.b $05
+        INY : STA ($90), Y
+        
+        INY
     PLX : DEX : BPL .next_subsprite
     
     PLX
@@ -446,10 +451,9 @@ EnemyBomb_DrawExplosion:
     LDY.b #$02
     LDA.b #$03
     
-    JSL Sprite_CorrectOamEntriesLong
+    JSL.l Sprite_CorrectOamEntriesLong
     
     RTS
 }
 
 ; ==============================================================================
-

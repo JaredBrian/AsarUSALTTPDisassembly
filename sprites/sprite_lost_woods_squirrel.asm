@@ -16,10 +16,10 @@ Sprite_LostWoodsSquirrel:
     
     STA.w $0F50, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite2_CheckIfActive
-    JSR Sprite2_Move
-    JSR Sprite2_MoveAltitude
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite2_CheckIfActive
+    JSR.w Sprite2_Move
+    JSR.w Sprite2_MoveAltitude
     
     LDA.w $0F80, X : DEC #2 : STA.w $0F80, X
     

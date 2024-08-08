@@ -7,7 +7,7 @@ Sprite_MovableMantleLong:
     ; Sprite Logic for sprite 0xEE - pushable mantle
     PHB : PHK : PLB
     
-    JSR Sprite_MovableMantle
+    JSR.w Sprite_MovableMantle
     
     PLB
     
@@ -19,13 +19,13 @@ Sprite_MovableMantleLong:
 ; $0D7C39-$0D7C9A LOCAL JUMP LOCATION
 Sprite_MovableMantle:
 {
-    JSR MovableMantle_Draw
-    JSR Sprite6_CheckIfActive
+    JSR.w MovableMantle_Draw
+    JSR.w Sprite6_CheckIfActive
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .return
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .return
     
-    JSL Sprite_NullifyHookshotDrag
-    JSL Sprite_RepelDashAttackLong
+    JSL.l Sprite_NullifyHookshotDrag
+    JSL.l Sprite_RepelDashAttackLong
     
     ; Only moves if Zelda is following you
     LDA.l $7EF3CC : CMP.b #$01 : BNE .return
@@ -62,7 +62,7 @@ Sprite_MovableMantle:
     
     LDA.b #$02 : STA.w $0D50, X
     
-    JSL Sprite_MoveLong
+    JSL.l Sprite_MoveLong
     
     .return
     
@@ -82,9 +82,9 @@ Pool_MovableMantle_Draw:
 ; $0D7CB3-$0D7CEC LOCAL JUMP LOCATION
 MovableMantle_Draw:
 {
-    LDA.b #$20 : JSL OAM_AllocateFromRegionB
+    LDA.b #$20 : JSL.l OAM_AllocateFromRegionB
     
-    JSL Sprite_PrepOamCoordLong : BCS .not_on_screen
+    JSL.l Sprite_PrepOamCoordLong : BCS .not_on_screen
     
     PHX
     
@@ -104,7 +104,7 @@ MovableMantle_Draw:
     LDY.b #$02
     LDA.b #$05
     
-    JSL Sprite_CorrectOamEntriesLong
+    JSL.l Sprite_CorrectOamEntriesLong
     
     .not_on_screen
     

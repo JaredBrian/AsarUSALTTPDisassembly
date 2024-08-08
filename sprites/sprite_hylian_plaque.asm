@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F603C-$0F6043 DATA
-    pool HylianPlaque
+pool_HylianPlaque:
 {
     .sword_messages_low
     db $B6, $B7
@@ -22,12 +22,12 @@
 ; $0F6044-$0F609E JUMP LOCATION
 Sprite_HylianPlaque:
 {
-    JSL Sprite_PrepOamCoordLong
-    JSR Sprite3_CheckIfActive
+    JSL.l Sprite_PrepOamCoordLong
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $02E4 : BNE .player_paused
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCC .player_available
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCC .player_available
     
     .player_paused
     
@@ -46,7 +46,7 @@ Sprite_HylianPlaque:
     
     LDA.b $2F : BNE .not_facing_up
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_show_message
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_show_message
     
     LDA.w $0202 : CMP.b #$0F : BNE .book_of_mudora_not_equipped
     
@@ -72,10 +72,10 @@ Sprite_HylianPlaque:
     
     .no_pose_needed
     
-    LDA HylianPlaque.sword_messages_low, Y        : XBA
-    LDA HylianPlaque.sword_messages_high, Y : TAY : XBA
+    LDA HylianPlaque_sword_messages_low, Y        : XBA
+    LDA HylianPlaque_sword_messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .dont_show_message
     .not_facing_up
@@ -90,7 +90,7 @@ HylianPlaque_Desert:
 {
     LDA.b $2F : BNE .not_facing_up
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_show_message
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_show_message
     
     LDA.w $0202 : CMP.b #$0F : BNE .book_of_mudora_not_equipped
     
@@ -120,10 +120,10 @@ HylianPlaque_Desert:
     
     .no_pose_needed
     
-    LDA HylianPlaque.desert_messages_low, Y        : XBA
-    LDA HylianPlaque.desert_messages_high, Y : TAY : XBA
+    LDA HylianPlaque_desert_messages_low, Y        : XBA
+    LDA HylianPlaque_desert_messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .dont_show_message
     .not_facing_up

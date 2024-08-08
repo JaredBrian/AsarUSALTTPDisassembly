@@ -10,16 +10,16 @@ Sprite_Toppo:
     
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSR Toppo_Draw
+    JSR.w Toppo_Draw
     
     .not_visible
     
-    JSR Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
     
     ; Hidden table! gah!!!
-    LDA .states, Y : DEC A : PHA
+    LDA.w .states, Y : DEC A : PHA
     
     SEP #$30
     
@@ -63,7 +63,7 @@ Toppo_PickNextGrassPlot:
     
     LDA.b #$08 : STA.w $0DF0, X
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
     LDA.w $0D90, X : CLC : ADC .x_offsets_low,  Y : STA.w $0D10, X
     LDA.w $0DA0, X : ADC .x_offsets_high, Y : STA.w $0D30, X
@@ -93,7 +93,7 @@ Toppo_ChillBeforeJump:
     
     LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
-    JSR Toppo_CheckLandingSiteForGrass
+    JSR.w Toppo_CheckLandingSiteForGrass
     
     RTS
 }
@@ -113,7 +113,7 @@ Toppo_WaitThenJump:
     
     LDA.b #$02 : STA.w $0DC0, X
     
-    JSR Toppo_CheckLandingSiteForGrass
+    JSR.w Toppo_CheckLandingSiteForGrass
     
     RTS
 }
@@ -123,8 +123,8 @@ Toppo_WaitThenJump:
 ; $02BB30-$02BB52 JUMP LOCATION
 Toppo_RiseAndFall:
 {
-    JSR Sprite2_CheckDamage
-    JSR Sprite2_MoveAltitude
+    JSR.w Sprite2_CheckDamage
+    JSR.w Sprite2_MoveAltitude
     
     ; Simulate gravity.
     LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
@@ -137,7 +137,7 @@ Toppo_RiseAndFall:
     
     LDA.b #$10 : STA.w $0DF0, X
     
-    JSR Toppo_CheckLandingSiteForGrass
+    JSR.w Toppo_CheckLandingSiteForGrass
     
     .delay
     
@@ -163,7 +163,7 @@ Toppo_ChillAfterJump:
     
     .moving_on
     
-    JSR Toppo_CheckLandingSiteForGrass
+    JSR.w Toppo_CheckLandingSiteForGrass
     
     RTS
 }
@@ -173,7 +173,7 @@ Toppo_ChillAfterJump:
 ; $02BB6D-$02BB71
 Toppo_FlusteredTrampoline:
 {
-    JSL Toppo_Flustered
+    JSL.l Toppo_Flustered
     
     RTS
 }
@@ -189,7 +189,7 @@ Toppo_CheckLandingSiteForGrass:
     LDA.w $0D10, X : STA.b $02
     LDA.w $0D30, X : STA.b $03
     
-    LDA.b #$00 : JSL Entity_GetTileAttr : CMP.b #$40 : BEQ .is_thick_grass
+    LDA.b #$00 : JSL.l Entity_GetTileAttr : CMP.b #$40 : BEQ .is_thick_grass
     
     LDA.b #$05 : STA.w $0D80, X
     
@@ -211,7 +211,7 @@ Pool_Toppo_Draw:
 ; $02BBFF-$02BC89 LOCAL JUMP LOCATION
 Toppo_Draw:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $06
     LDA.w $0D20, X : SEC : SBC.b $E9 : STA.b $07

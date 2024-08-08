@@ -4,11 +4,11 @@
 ; $0E8AB6-$0E8AE3 JUMP LOCATION
 Sprite_Trident:
 {
-    JSR Trident_Draw
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_CheckDamage
-    JSR Sprite_PeriodicWhirringSfx
-    JSR Sprite4_Move
+    JSR.w Trident_Draw
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckDamage
+    JSR.w Sprite_PeriodicWhirringSfx
+    JSR.w Sprite4_Move
     
     DEC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$07 : TAY
     
@@ -18,7 +18,7 @@ Sprite_Trident:
         LSR A : BCS GanonTrident_AdjustVelocity_exit
             LDA.b #$20
             
-            JSL Sprite_ProjectSpeedTowardsPlayerLong
+            JSL.l Sprite_ProjectSpeedTowardsPlayerLong
 
             ; Bleeds into the next function.
 }
@@ -81,7 +81,7 @@ Trident_AimForParentPosition:
     LDA.w $0D00 : CLC : ADC.b #$F0 : STA.b $06
     LDA.w $0D20 :       ADC.b #$FF : STA.b $07
     
-    JSR Ganon_CheckEntityProximity : BCS .BRANCH_ALPHA
+    JSR.w Ganon_CheckEntityProximity : BCS .BRANCH_ALPHA
         STZ.w $0DD0, X
         
         LDA.b #$03 : STA.w $0D80
@@ -92,7 +92,7 @@ Trident_AimForParentPosition:
     
     LDA.b #$20
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     JMP.w GanonTrident_AdjustVelocity
 }
 

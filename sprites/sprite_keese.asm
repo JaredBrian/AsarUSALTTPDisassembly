@@ -14,23 +14,23 @@ Sprite_Keese:
 {
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite2_CheckIfActive
-    JSR Sprite2_CheckIfRecoiling
-    JSR Sprite2_CheckDamage
-    JSR Sprite2_Move
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfRecoiling
+    JSR.w Sprite2_CheckDamage
+    JSR.w Sprite2_Move
     
     LDA.w $0D80, X : BNE Keese_Agitated
     
     TXA : EOR.b $1A : AND.b #$03 : ORA.w $0DF0, X : BNE .delay
     
-    JSR Sprite2_DirectionToFacePlayer
+    JSR.w Sprite2_DirectionToFacePlayer
     
     LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
     
     LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
     
-    LDA.b #$1E : JSL Sound_SetSfx3PanLong
+    LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
     
     ; Keese gets mad when you invade its personal space :(.
     INC.w $0D80, X
@@ -38,9 +38,9 @@ Sprite_Keese:
     LDA.b #$40 : STA.w $0DF0, X
                  STA.w $0DA0, X
     
-    JSR Sprite2_DirectionToFacePlayer
+    JSR.w Sprite2_DirectionToFacePlayer
     
-    LDA .starting_speeds_indices, Y : STA.w $0D90, X
+    LDA.w .starting_speeds_indices, Y : STA.w $0D90, X
     
     .player_not_close
     .delay
@@ -53,13 +53,16 @@ Sprite_Keese:
 ; $02AAE2-$02AB03 DATA
 Pool_Keese_Agitated:
 {
+    ; $02AAE2
     .index_step
     db 1, -1
     
+    ; $02AAE4
     .random_x_speeds
     db   0,   8,  11,  14,  16,  14,  11,   8
     db   0,  -8, -11, -14, -16, -14, -11,  -8
     
+    ; $02AAF4
     .random_y_speeds
     db -11,  -8, -16, -14, -11,  -8,   0,   8
     db  11,  14,  16,  14,  11,   8,   0,  -9
@@ -79,7 +82,7 @@ Keese_Agitated:
     
     STZ.w $0DC0, X
     
-    JSR Sprite2_ZeroVelocity
+    JSR.w Sprite2_ZeroVelocity
     
     RTS
     
@@ -91,7 +94,7 @@ Keese_Agitated:
     
     LDA.w $0D90, X : CLC : ADC .index_step, Y : STA.w $0D90, X
     
-    JSL GetRandomInt : AND.b #$03 : BNE .beta
+    JSL.l GetRandomInt : AND.b #$03 : BNE .beta
     
     INC.w $0DA0, X
     
@@ -99,9 +102,9 @@ Keese_Agitated:
     
     LDA.w $0D90, X : AND.b #$0F : TAY
     
-    LDA .random_x_speeds, Y : STA.w $0D50, X
+    LDA.w .random_x_speeds, Y : STA.w $0D50, X
     
-    LDA .random_y_speeds, Y : STA.w $0D40, X
+    LDA.w .random_y_speeds, Y : STA.w $0D40, X
     
     LDA.b $1A : LSR #2 : AND.b #$01 : INC A : STA.w $0DC0, X
     

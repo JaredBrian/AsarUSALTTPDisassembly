@@ -12,16 +12,16 @@ Pool_Moblin_Walk:
 ; $0318E4-$031902 JUMP LOCATION
 Sprite_Moblin:
 {
-    JSR Moblin_Draw
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_CheckDamage
-    JSR Sprite_Move
-    JSR Sprite_CheckTileCollision
+    JSR.w Moblin_Draw
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckDamage
+    JSR.w Sprite_Move
+    JSR.w Sprite_CheckTileCollision
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Moblin_SelectDirection
     dw Moblin_Walk
@@ -44,9 +44,9 @@ Moblin_SelectDirection:
 {
     LDA.w $0DF0, X : BNE .direction_change_delay
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
-    LDA .timers, Y : STA.w $0DF0, X
+    LDA.w .timers, Y : STA.w $0DF0, X
     
     INC.w $0D80, X
     
@@ -86,7 +86,7 @@ Moblin_Walk:
     
     LDA.w $0DF0, X : BNE .direction_logic_delay
     
-    JSR Sprite_DirectionToFacePlayer
+    JSR.w Sprite_DirectionToFacePlayer
     
     TYA : CMP.w $0DE0, X : BNE .not_already_facing_player
     
@@ -105,7 +105,7 @@ Moblin_Walk:
     
     STA.w $0DF0, X
     
-    JSL GetRandomInt : AND.b #$01 : STA.b $00
+    JSL.l GetRandomInt : AND.b #$01 : STA.b $00
     
     LDA.w $0DE0, X : ASL A : ORA.b $00 : TAY
     
@@ -119,14 +119,14 @@ Moblin_Walk:
     ; face the player.
     STZ.w $0DB0, X
     
-    JSR Sprite_DirectionToFacePlayer
+    JSR.w Sprite_DirectionToFacePlayer
     
     TYA : STA.w $0EB0, X
     
     .anoface_player
     .skip_direction_change_logic
     
-    JSR Sprite_Zero_XYZ_Velocity
+    JSR.w Sprite_Zero_XYZ_Velocity
     
     RTS
     
@@ -171,7 +171,7 @@ Moblin_ThrowSpear:
     
     PHY
     
-    JSR Moblin_SpawnThrownSpear
+    JSR.w Moblin_SpawnThrownSpear
     
     PLY
     
@@ -214,7 +214,7 @@ Pool_Moblin_SpawnThrownSpear:
 ; $0319EB-$031A2F JUMP LOCATION
 Moblin_SpawnThrownSpear:
 {
-    LDA.b #$1B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$1B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b #$03 : STA.w $0D90, Y
     
@@ -226,14 +226,14 @@ Moblin_SpawnThrownSpear:
     ; dumb considering all the other space saving measures they could have
     ; done.
     LDA.b $00 : CLC : ADC .x_offsets_low, X       : STA.w $0D10, Y
-    LDA.b $01 : ADC Hinox.x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $01 : ADC Hinox_x_offsets_high, X : STA.w $0D30, Y
     
     LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
     LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     PLX
 
@@ -334,7 +334,7 @@ Moblin_Draw:
     
     SEP #$20
     
-    LDA.b #$04 : JSL Sprite_DrawMultiple
+    LDA.b #$04 : JSL.l Sprite_DrawMultiple
     
     LDA.w $0F00, X : BNE .sprite_is_paused
     
@@ -368,13 +368,13 @@ Moblin_Draw:
     
     LDY.w $0DC0, X
     
-    LDA .oam_buffer_offsets, Y : TAY
+    LDA.w .oam_buffer_offsets, Y : TAY
     
     PHX
     
     LDA.w $0EB0, X : TAX
     
-    LDA .chr, X : INY #2 : STA ($90), Y
+    LDA.w .chr, X : INY #2 : STA ($90), Y
     
     INY
     

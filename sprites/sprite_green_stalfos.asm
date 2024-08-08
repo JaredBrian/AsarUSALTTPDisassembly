@@ -23,22 +23,22 @@ Sprite_GreenStalfos:
     
     LDA.w $0F50, X : AND.b #$BF : ORA .vh_flip, Y : STA.w $0F50, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
-    JSR Sprite3_CheckDamage
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckDamage
     
     STZ.w $0D90, X
     
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
-    LDA .facing_direction, Y : CMP.w $002F : BEQ .player_is_facing
+    LDA.w .facing_direction, Y : CMP.w $002F : BEQ .player_is_facing
     
     TXA : EOR.b $1A : AND.b #$07 : BNE .delay_for_speedup
     
-    JSR Sprite3_DirectionToFacePlayer
+    JSR.w Sprite3_DirectionToFacePlayer
     
     TYA : STA.w $0DE0, X
     
@@ -48,14 +48,14 @@ Sprite_GreenStalfos:
     
     .finished_accelerating
     
-    JSL Sprite_ApplySpeedTowardsPlayerLong
-    JSR Sprite3_IsToRightOfPlayer
+    JSL.l Sprite_ApplySpeedTowardsPlayerLong
+    JSR.w Sprite3_IsToRightOfPlayer
     
     TYA : STA.w $0DE0, X
     
     .delay_for_speedup
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     RTS
     
@@ -71,14 +71,14 @@ Sprite_GreenStalfos:
     
     .finished_decelerating
     
-    JSL Sprite_ApplySpeedTowardsPlayerLong
-    JSR Sprite3_IsToRightOfPlayer
+    JSL.l Sprite_ApplySpeedTowardsPlayerLong
+    JSR.w Sprite3_IsToRightOfPlayer
     
     TYA : STA.w $0DE0, X
     
     .delay_for_slowdown
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     RTS
 }

@@ -3,9 +3,9 @@
 
 ; $035030-$035031 DATA
 Pool_Sprite_Key:
-    parallel pool Key_AbsorptionByPlayer:
-    ; TODO: Another routine uses this data array, please name it.
+parallel pool Key_AbsorptionByPlayer:
 {
+    ; TODO: Another routine uses this data array, please name it.
     .flag_masks
     db $40, $20
 }
@@ -27,8 +27,8 @@ Sprite_Key:
     
     .keyNotObtainedYet
     
-    JSL Sprite_DrawRippleIfInWater
-    JSR Sprite_DrawAbsorbable
+    JSL.l Sprite_DrawRippleIfInWater
+    JSR.w Sprite_DrawAbsorbable
     
     BRA .draw_logic_finished
     
@@ -48,19 +48,19 @@ Sprite_Key:
     shared Sprite_TenArrowRefill:
     shared Sprite_ShieldPickup:
     
-    JSL Sprite_DrawRippleIfInWater
-    JSR Sprite_DrawTransientAbsorbable
+    JSL.l Sprite_DrawRippleIfInWater
+    JSR.w Sprite_DrawTransientAbsorbable
     
     .draw_logic_finished
     
-    JSR Sprite_CheckIfActive
-    JSR Sprite_MoveAltitude
-    JSR Sprite_Move
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_MoveAltitude
+    JSR.w Sprite_Move
     
     LDA !timer_3, X : BNE .skip_tile_collision_logic
     
-    JSR Sprite_CheckTileCollision
-    JSR Sprite_WallInducedSpeedInversion
+    JSR.w Sprite_CheckTileCollision
+    JSR.w Sprite_WallInducedSpeedInversion
     
     .skip_tile_collision_logic
     
@@ -80,7 +80,7 @@ Sprite_Key:
     
     CMP.b #$09 : BCS .enough_z_speed_for_bounce
     
-    JSR Sprite_Zero_XYZ_Velocity
+    JSR.w Sprite_Zero_XYZ_Velocity
     
     BRA .finished_bounce_logic
     
@@ -95,7 +95,7 @@ Sprite_Key:
     
     STZ.w $0F80, X
     
-    JSL Sprite_SpawnSmallWaterSplash : BMI .finished_bounce_logic
+    JSL.l Sprite_SpawnSmallWaterSplash : BMI .finished_bounce_logic
     
     LDA.w $0E60, X : AND.b #$20 : BEQ .finished_bounce_logic
     
@@ -116,14 +116,14 @@ Sprite_Key:
     
     LDA.b $1B : BEQ .dont_play_clink_sfx
     
-    LDA.b #$05 : JSL Sound_SetSfx2PanLong
+    LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
     
     .dont_play_clink_sfx
     .finished_bounce_logic
     .aloft
     
-    JSR Sprite_HandleDraggingByAncilla
-    JSR Sprite_CheckAbsorptionByPlayer
+    JSR.w Sprite_HandleDraggingByAncilla
+    JSR.w Sprite_CheckAbsorptionByPlayer
     
     RTS
 }
@@ -153,7 +153,7 @@ Sprite_HandleBlinkingPhaseOut:
     
     LSR A : BCS .visible_this_frame
     
-    JSR Sprite_PrepOamCoordSafeWrapper
+    JSR.w Sprite_PrepOamCoordSafeWrapper
     
     PLA : PLA
     
@@ -172,9 +172,9 @@ Sprite_CheckAbsorptionByPlayer:
 {
     LDA.w $0F10, X : BNE .sprite_is_paused
     
-    JSR Sprite_CheckDamageToPlayer.stagger : BCC .no_player_collision
+    JSR.w Sprite_CheckDamageToPlayer_stagger : BCC .no_player_collision
     
-    JSL Sprite_HandleAbsorptionByPlayerLong
+    JSL.l Sprite_HandleAbsorptionByPlayerLong
     
     .no_player_collision
     .sprite_is_paused
@@ -189,7 +189,7 @@ Sprite_HandleAbsorptionByPlayerLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_HandleAbsorptionByPlayer
+    JSR.w Sprite_HandleAbsorptionByPlayer
     
     PLB
     
@@ -215,11 +215,11 @@ Sprite_HandleAbsorptionByPlayer:
     
     LDA.w $0E20, X : SEC : SBC.b #$D8 : TAY
     
-    LDA .sfx, Y : JSL Sound_SetSfx3PanLong
+    LDA.w .sfx, Y : JSL.l Sound_SetSfx3PanLong
     
     TYA
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw HeartRefill_AbsorptionByPlayer
     dw GreenRupee_AbsorptionByPlayer
@@ -260,7 +260,7 @@ BigKey_AbsorptionByPlayer:
     
     PHX
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -280,7 +280,7 @@ BigKey_AbsorptionByPlayer:
     
     LDA.w $0403 : ORA.w $D030, Y : STA.w $0403
     
-    JSL Dungeon_ManuallySetSpriteDeathFlag
+    JSL.l Dungeon_ManuallySetSpriteDeathFlag
     
     RTS
 }
@@ -290,7 +290,7 @@ BigKey_AbsorptionByPlayer:
 ; $0351A5-$0351BA JUMP LOCATION
 Fairy_AbsorptionByPlayer:
 {
-    LDA.b #$31 : JSL Sound_SetSfx2PanLong
+    LDA.b #$31 : JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$38 ; Amount of hearts a Fairy refills (7 hearts).
     
@@ -332,7 +332,7 @@ GreenRupee_AbsorptionByPlayer:
     
     ; (actual useful values start at $351BB)
     ; Give us this many more rupees
-    LDA .rupee_quantities-$D9, Y : REP #$20 : CLC : ADC.l $7EF360 : STA.l $7EF360
+    LDA.w .rupee_quantities-$D9, Y : REP #$20 : CLC : ADC.l $7EF360 : STA.l $7EF360
     
     SEP #$20
     
@@ -431,7 +431,7 @@ Pool_Sprite_DrawTransientAbsorbable:
 ; $03522F-$035289 LOCAL JUMP LOCATION
 Sprite_DrawTransientAbsorbable:
 {
-    JSR Sprite_HandleBlinkingPhaseOut
+    JSR.w Sprite_HandleBlinkingPhaseOut
     
     ; $035232 ALTERNATE ENTRY POINT
     shared Sprite_DrawAbsorbable:
@@ -448,7 +448,7 @@ Sprite_DrawTransientAbsorbable:
     
     LDA.w $0E10, X : BEQ .dont_use_special_oam_region
     
-    LDA.b #$0C : JSL OAM_AllocateFromRegionC
+    LDA.b #$0C : JSL.l OAM_AllocateFromRegionC
     
     .dont_use_special_oam_region
     
@@ -457,13 +457,13 @@ Sprite_DrawTransientAbsorbable:
     
     LDY.w $0E20, X
     
-    LDA .unknown_1-$D8, Y : BEQ .not_suffixed_with_number
+    LDA.w .unknown_1-$D8, Y : BEQ .not_suffixed_with_number
     
     JMP Sprite_DrawNumberedAbsorbable
     
     .not_suffixed_with_number
     
-    LDA .unknown_0-$D8, Y : BNE .not_single_small_oam_entry
+    LDA.w .unknown_0-$D8, Y : BNE .not_single_small_oam_entry
     
     JMP Sprite_PrepAndDrawSingleSmall
     
@@ -546,7 +546,7 @@ Sprite_DrawNumberedAbsorbable:
 {
     DEC A : STA.b $06
     
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     ; $06 *= 3;
     LDA.b $06 : ASL A : ADC.b $06 : STA.b $06
@@ -585,14 +585,14 @@ Sprite_DrawNumberedAbsorbable:
     
     PLX
     
-    LDA .chr, X : INY           : STA ($90), Y
+    LDA.w .chr, X : INY           : STA ($90), Y
                   INY : LDA.b $05 : STA ($90), Y
     
     PHY
     
     TYA : LSR A : LSR A : TAY
     
-    LDA .oam_sizes, X : ORA.b $0F : STA ($92), Y
+    LDA.w .oam_sizes, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

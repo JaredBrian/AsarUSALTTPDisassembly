@@ -4,11 +4,11 @@
 ; $0F7603-$0F7631 JUMP LOCATION
 Sprite_DrinkingGuy:
 {
-    JSL DrinkingGuy_Draw
-    JSR Sprite3_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l DrinkingGuy_Draw
+    JSR.w Sprite3_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
-    JSL GetRandomInt : BNE .dont_set_timer
+    JSL.l GetRandomInt : BNE .dont_set_timer
     
     LDA.b #$20 : STA.w $0DF0, X
     
@@ -26,7 +26,7 @@ Sprite_DrinkingGuy:
     LDA.b #$75
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     STZ.w $0DC0, X
     

@@ -4,12 +4,12 @@
 ; $02995B-$029971 JUMP LOCATION
 Sprite_ZoraKing:
 {
-    JSR ZoraKing_Draw
-    JSR Sprite2_CheckIfActive
+    JSR.w ZoraKing_Draw
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ZoraKing_WaitingForPlayer
     dw ZoraKing_RumblingGround
@@ -40,7 +40,7 @@ ZoraKing_WaitingForPlayer:
     SEP #$20
     
     ; Stop any process of Link dashing, moving, etc.
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     LDA.b #$7F : STA.w $0DF0, X
     
@@ -67,7 +67,7 @@ ZoraKing_WaitingForPlayer:
     .sprite_not_being_carried
     
     ; Attempt to delete the sprite
-    JSL Sprite_SelfTerminate
+    JSL.l Sprite_SelfTerminate
     
     PLY : PLX
     
@@ -117,8 +117,8 @@ ZoraKing_RumblingGround:
     ; Make the ground rumble while counting down
     AND.b #$01 : TAY
     
-    LDA .offsets_low, Y  : STA.w $011A
-    LDA .offsets_high, Y : STA.w $011B
+    LDA.w .offsets_low, Y  : STA.w $011A
+    LDA.w .offsets_high, Y : STA.w $011B
     
     ; Link can't move
     LDA.b #$01 : STA.w $02E4
@@ -157,7 +157,7 @@ ZoraKing_Surfacing:
     
     LDA.b #$0F : STA.w $0E10, X
     
-    JSR Sprite_SpawnSplashRing
+    JSR.w Sprite_SpawnSplashRing
     
     PLA
     
@@ -165,7 +165,7 @@ ZoraKing_Surfacing:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -196,7 +196,7 @@ ZoraKing_Dialogue:
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X ; $9A3E IN ROM
+    LDA.w .animation_states, Y : STA.w $0DC0, X ; $9A3E IN ROM
     
     LDA.w $0DF0, X : CMP.b #$50 : BEQ .initial_message
     
@@ -217,7 +217,7 @@ ZoraKing_Dialogue:
     
     LDA.b #$01 : STA.w $1CF1
     
-    JSL Sprite_ShowMessageMinimal
+    JSL.l Sprite_ShowMessageMinimal
     
     RTS
     
@@ -228,7 +228,7 @@ ZoraKing_Dialogue:
     ; ...But I don't just give flippers away for free. I sell them..."
     LDA.b #$43
     
-    JSR .show_message
+    JSR.w .show_message
     
     RTS
     
@@ -248,7 +248,7 @@ ZoraKing_Dialogue:
     ; "Wah ha ha! One pair of flippers coming up..."
     LDA.b #$44
     
-    JSR .show_message
+    JSR.w .show_message
     
     INC.w $0E90, X
     
@@ -259,7 +259,7 @@ ZoraKing_Dialogue:
     ; "Great! Whenever you want to see my fishy face, you are welcome here."
     LDA.b #$46
     
-    JSR .show_message
+    JSR.w .show_message
     
     LDA.b #$30 : STA.w $0DF0, X
     
@@ -273,7 +273,7 @@ ZoraKing_Dialogue:
     ; Wade back this way when you have more Rupees... Wah ha ha!..."
     LDA.b #$45
     
-    JSR .show_message
+    JSR.w .show_message
     
     LDA.b #$30 : STA.w $0DF0, X
     
@@ -284,7 +284,7 @@ ZoraKing_Dialogue:
     LDA.w $0E90, X : BEQ .didnt_pay_for_flippers
       
     ; Spawn the flippers and toss them at Link
-    JSL Sprite_SpawnFlippersItem
+    JSL.l Sprite_SpawnFlippersItem
     
     .didnt_pay_for_flippers
     
@@ -309,7 +309,7 @@ ZoraKing_Submerge:
 {
     LDA.w $0DF0, X : BNE .delay
     
-    JSL Sprite_SelfTerminate
+    JSL.l Sprite_SelfTerminate
     
     STZ.w $02E4
     
@@ -323,7 +323,7 @@ ZoraKing_Submerge:
     
     LDA.b #$0F : STA.w $0E10, X
     
-    JSR Sprite_SpawnSplashRing
+    JSR.w Sprite_SpawnSplashRing
     
     PLA
     
@@ -331,7 +331,7 @@ ZoraKing_Submerge:
     
     LSR A : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -368,7 +368,7 @@ Sprite_SpawnSplashRingLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_SpawnSplashRing
+    JSR.w Sprite_SpawnSplashRing
     
     PLB
     
@@ -380,7 +380,7 @@ Sprite_SpawnSplashRingLong:
 ; $029B40-$029BBA LOCAL JUMP LOCATION
 Sprite_SpawnSplashRing:
 {
-    LDA.b #$24 : JSL Sound_SetSfx2PanLong
+    LDA.b #$24 : JSL.l Sound_SetSfx2PanLong
     
     NOP
     
@@ -390,7 +390,7 @@ Sprite_SpawnSplashRing:
     
     LDA.b #$08 ; Murder some octorocs in the water because why not
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b #$03 : STA.w $0DD0, Y
     
@@ -398,19 +398,19 @@ Sprite_SpawnSplashRing:
     
     LDX.b $0D
     
-    LDA .x_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC.b $00   : STA.w $0D10, Y
+    LDA.w .x_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC.b $00   : STA.w $0D10, Y
     LDA.b $01               : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA .y_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC.b $02   : STA.w $0D00, Y
+    LDA.w .y_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC.b $02   : STA.w $0D00, Y
     LDA.b $03               : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     TXA : STA.w $0D90, Y
     
-    PHY : JSL GetRandomInt : PLY : AND.b #$0F : ADC.b #$18 : STA.w $0F80, Y
+    PHY : JSL.l GetRandomInt : PLY : AND.b #$0F : ADC.b #$18 : STA.w $0F80, Y
     
     LDA.b #$01 : STA.w $0D80, Y
     LDA.b #$00 : STA.w $0F70, Y
@@ -497,7 +497,7 @@ Pool_ZoraKing_Draw:
 ; $029CAB-$029D49 LOCAL JUMP LOCATION
 ZoraKing_Draw:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0D80, X : CMP.b #$02 : BCC .draw_whirlpool_instead
     
@@ -515,12 +515,12 @@ ZoraKing_Draw:
     
     INY
     
-    LDA .y_offsets, X : CLC : ADC.b $02        : STA ($90), Y
-    LDA .chr, X                  : INY : STA ($90), Y
+    LDA.w .y_offsets, X : CLC : ADC.b $02        : STA ($90), Y
+    LDA.w .chr, X                  : INY : STA ($90), Y
     
     LDA.b #$0F : STA.b $0F
     
-    LDA .properties, X : BIT.b $0F : BNE .palette_override
+    LDA.w .properties, X : BIT.b $0F : BNE .palette_override
     
     ORA.b $05
     
@@ -537,8 +537,8 @@ ZoraKing_Draw:
     LDY.b #$02
     LDA.b #$03
     
-    JSL Sprite_CorrectOamEntriesLong
-    JSR Sprite2_PrepOamCoord
+    JSL.l Sprite_CorrectOamEntriesLong
+    JSR.w Sprite2_PrepOamCoord
     
     .draw_whirlpool_instead
     
@@ -546,7 +546,7 @@ ZoraKing_Draw:
     
     LSR A : AND.b #$04 : STA.b $06
     
-    LDA.b #$10 : JSL OAM_AllocateFromRegionC
+    LDA.b #$10 : JSL.l OAM_AllocateFromRegionC
     
     LDY.b #$00
     
@@ -562,8 +562,8 @@ ZoraKing_Draw:
     
     LDA.b $00 : CLC : ADC .whirlpool_x_offsets, X           : STA ($90), Y
     LDA.b $02 : CLC : ADC .whirlpool_y_offsets, X     : INY : STA ($90), Y
-    LDA .whirlpool_chr, X                     : INY : STA ($90), Y
-    LDA .whirlpool_properties, X : ORA.b #$24 : INY : STA ($90), Y
+    LDA.w .whirlpool_chr, X                     : INY : STA ($90), Y
+    LDA.w .whirlpool_properties, X : ORA.b #$24 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     

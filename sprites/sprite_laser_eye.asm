@@ -17,20 +17,20 @@
 ; $0F2462-$0F2487 LOCAL JUMP LOCATION
 Sprite_LaserBeam:
 {
-    JSL Sprite_PrepAndDrawSingleSmallLong
-    JSR Sprite3_CheckIfActive
-    JSR LaserBeam_Draw
-    JSR Sprite3_Move
+    JSL.l Sprite_PrepAndDrawSingleSmallLong
+    JSR.w Sprite3_CheckIfActive
+    JSR.w LaserBeam_Draw
+    JSR.w Sprite3_Move
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong
     
     LDA !timer_0, X : BNE .delay
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
     
     STZ.w $0DD0, X
     
-    LDA.b #$26 : JSL Sound_SetSfx3PanLong
+    LDA.b #$26 : JSL.l Sound_SetSfx3PanLong
     
     RTS
     
@@ -94,7 +94,7 @@ SpritePrep_LaserEyeLong:
 {
     PHB : PHK : PLB
     
-    JSR SpritePrep_LaserEye
+    JSR.w SpritePrep_LaserEye
     
     PLB
     
@@ -161,12 +161,12 @@ Sprite_LaserEye:
     
     .not_beam
     
-    JSR LaserEye_Draw
-    JSR Sprite3_CheckIfActive
+    JSR.w LaserEye_Draw
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw LaserEye_MonitorFiringZone
     dw LaserEye_FiringBeam
@@ -273,7 +273,7 @@ LaserEye_FiringBeam:
     
     STZ.w $0D80, X
     
-    JSR LaserEye_SpawnBeam
+    JSR.w LaserEye_SpawnBeam
     
     LDA.b #$0C : STA !timer_4, X
     
@@ -287,7 +287,7 @@ LaserEye_FiringBeam:
 ; $0F25D8-$0F2647 LOCAL JUMP LOCATION
 LaserEye_SpawnBeam:
 {
-    LDA.b #$95 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$95 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     PHX
     
@@ -301,9 +301,9 @@ LaserEye_SpawnBeam:
     LDA.b $02 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
     LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     LDA.b #$20 : STA.w $0E40, Y : STA.w $0D90, Y
     
@@ -324,7 +324,7 @@ LaserEye_SpawnBeam:
     
     PLX
     
-    LDA.b #$19 : JSL Sound_SetSfx3PanLong
+    LDA.b #$19 : JSL.l Sound_SetSfx3PanLong
     
     .spawn_failed
     

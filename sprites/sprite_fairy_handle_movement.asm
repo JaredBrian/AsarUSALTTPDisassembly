@@ -17,7 +17,7 @@ Fairy_HandleMovementLong:
     
     PHB : PHK : PLB
     
-    JSR Fairy_HandleMovement
+    JSR.w Fairy_HandleMovement
     
     PLB
     
@@ -36,7 +36,7 @@ Fairy_HandleMovement:
     
     LDA.w $0E00, X : BNE .dont_invert_speeds
     
-    JSR Sprite3_CheckTileCollision
+    JSR.w Sprite3_CheckTileCollision
     
     AND.b #$03 : BEQ .dont_invert_x_speed
     
@@ -76,19 +76,19 @@ Fairy_HandleMovement:
     
     .x_speed_at_zero
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA.b $1A : AND.b #$3F : BNE .direction_change_delay
     
-    JSL GetRandomInt : STA.b $04
+    JSL.l GetRandomInt : STA.b $04
     LDA.b $23          : STA.b $05
     
-    JSL GetRandomInt : STA.b $06
+    JSL.l GetRandomInt : STA.b $06
     LDA.b $21          : STA.b $07
     
     LDA.b #$10
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D90, X
     LDA.b $01 : STA.w $0DE0, X
@@ -138,11 +138,11 @@ Fairy_HandleMovement:
     
     .delay_speed_averaging
     
-    JSR Sprite3_MoveAltitude
+    JSR.w Sprite3_MoveAltitude
     
-    JSL GetRandomInt : AND.b #$01 : TAY
+    JSL.l GetRandomInt : AND.b #$01 : TAY
     
-    LDA .z_speeds, Y : CLC : ADC.w $0F80, X : STA.w $0F80, X
+    LDA.w .z_speeds, Y : CLC : ADC.w $0F80, X : STA.w $0F80, X
     
     LDA.w $0F70, X
     
@@ -176,7 +176,7 @@ Fairy_HandleMovement:
 ; $0F7E33-$0F7E68 LONG JUMP LOCATION
 PlayerItem_SpawnFairy:
 {
-    LDA.b #$E3 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$E3 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b $EE : STA.w $0F20, Y
     

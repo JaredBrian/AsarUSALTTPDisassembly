@@ -8,7 +8,7 @@ SpritePrep_PotionShopLong:
     
     PHB : PHK : PLB
     
-    JSR SpritePrep_PotionShop
+    JSR.w SpritePrep_PotionShop
     
     PLB
     
@@ -20,10 +20,10 @@ SpritePrep_PotionShopLong:
 ; $02F529-$02F538 LOCAL JUMP LOCATION
 SpritePrep_PotionShop:
 {
-    JSR PotionShop_SpawnMagicPowder
-    JSR PotionShop_SpawnGreenPotion
-    JSR PotionShop_SpawnBluePotion
-    JSR PotionShop_SpawnRedPotion
+    JSR.w PotionShop_SpawnMagicPowder
+    JSR.w PotionShop_SpawnGreenPotion
+    JSR.w PotionShop_SpawnBluePotion
+    JSR.w PotionShop_SpawnRedPotion
     
     INC.w $0BA0, X
     
@@ -56,7 +56,7 @@ PotionShop_SpawnMagicPowder:
     
     LDA.b $00 : BEQ .already_obtained
     
-    LDA.b #$E9 : JSL Sprite_SpawnDynamically
+    LDA.b #$E9 : JSL.l Sprite_SpawnDynamically
     
     LDA.b #$01 : STA.w $0E80, Y
     
@@ -80,7 +80,7 @@ PotionShop_SpawnMagicPowder:
 ; $02F58E-$02F5BE LOCAL JUMP LOCATION
 PotionShop_SpawnGreenPotion:
 {
-    LDA.b #$E9 : JSL Sprite_SpawnDynamically
+    LDA.b #$E9 : JSL.l Sprite_SpawnDynamically
     
     LDA.b #$02 : STA.w $0E80, Y
     
@@ -102,7 +102,7 @@ PotionShop_SpawnGreenPotion:
 ; $02F5BF-$02F5EF LOCAL JUMP LOCATION
 PotionShop_SpawnBluePotion:
 {
-    LDA.b #$E9 : JSL Sprite_SpawnDynamically
+    LDA.b #$E9 : JSL.l Sprite_SpawnDynamically
     
     LDA.b #$03 : STA.w $0E80, Y
     
@@ -126,7 +126,7 @@ PotionShop_SpawnRedPotion:
 {
     LDA.b #$E9
     
-    JSL Sprite_SpawnDynamically
+    JSL.l Sprite_SpawnDynamically
     
     LDA.b #$04 : STA.w $0E80, Y
     
@@ -155,7 +155,7 @@ Sprite_PotionShopLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_PotionShop
+    JSR.w Sprite_PotionShop
     
     PLB
     
@@ -169,7 +169,7 @@ Sprite_PotionShop:
 {
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sprite_WitchAssistant
     dw Sprite_MagicPowderItem
@@ -183,23 +183,23 @@ Sprite_PotionShop:
 ; $02F644-$02F66A JUMP LOCATION
 Sprite_MagicPowderItem:
 {
-    JSR MagicPowderItem_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w MagicPowderItem_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_give_item
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_give_item
     
     LDA.b $F6 : BPL .dont_give_item
     
     PHX
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     LDY.b #$0D
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     PLX
     
@@ -233,7 +233,7 @@ MagicPowderItem_Draw:
     LDA.b #(.oam_groups >> 0) : STA.b $08
     LDA.b #(.oam_groups >> 8) : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     RTS
 }
@@ -243,20 +243,20 @@ MagicPowderItem_Draw:
 ; $02F68E-$02F6FF LOCAL JUMP LOCATION
 Sprite_GreenPotionItem:
 {
-    JSR GreenPotionItem_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w GreenPotionItem_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.w $0DF0, X : BNE .alpha
     
-    JSR WitchAssistant_CheckIfHaveAnyBottles : BCS .beta
+    JSR.w WitchAssistant_CheckIfHaveAnyBottles : BCS .beta
     
     LDA.b #$4F
     LDY.b #$00
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .messsage_didnt_show
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .messsage_didnt_show
     
-    JSR PotionItem_ErrorSfx
+    JSR.w PotionItem_ErrorSfx
     
     .messsage_didnt_show
     .alpha
@@ -265,7 +265,7 @@ Sprite_GreenPotionItem:
     
     .beta
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .gamma
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .gamma
     
     LDA.b $F6 : BPL .gamma
     
@@ -274,9 +274,9 @@ Sprite_GreenPotionItem:
     ; does the player have 60 rupees?
     LDA.l $7EF360 : CMP.w #$003C : SEP #$30 : BCC .delta
     
-    JSL Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
+    JSL.l Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
     
-    LDA.b #$1D : JSL Sound_SetSfx3PanLong
+    LDA.b #$1D : JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$40 : STA.w $0DF0, X
     
@@ -290,7 +290,7 @@ Sprite_GreenPotionItem:
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     .gamma
     
@@ -301,7 +301,7 @@ Sprite_GreenPotionItem:
     LDA.b #$50
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     JMP PotionItem_ErrorSfx
     
     .delta
@@ -331,7 +331,7 @@ GreenPotionItem_Draw:
     LDA.b #(.oam_groups >> 0) : STA.b $08
     LDA.b #(.oam_groups >> 8) : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     RTS
 }
@@ -341,20 +341,20 @@ GreenPotionItem_Draw:
 ; $02F72B-$02F79C JUMP LOCATION
 Sprite_BluePotionItem:
 {
-    JSR BluePotionItem_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w BluePotionItem_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.w $0DF0, X : BNE .alpha
     
-    JSR WitchAssistant_CheckIfHaveAnyBottles : BCS .beta
+    JSR.w WitchAssistant_CheckIfHaveAnyBottles : BCS .beta
     
     LDA.b #$4F
     LDY.b #$00
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .alpha
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .alpha
     
-    JSR PotionItem_ErrorSfx
+    JSR.w PotionItem_ErrorSfx
     
     .alpha
     
@@ -362,7 +362,7 @@ Sprite_BluePotionItem:
     
     .beta
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .gamma
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .gamma
     
     LDA.b $F6 : BPL .gamma
     
@@ -371,9 +371,9 @@ Sprite_BluePotionItem:
     ; check if the player has 160 rupees
     LDA.l $7EF360 : CMP.w #$00A0 : SEP #$30 : BCC .delta
     
-    JSL Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
+    JSL.l Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
     
-    LDA.b #$1D : JSL Sound_SetSfx3PanLong
+    LDA.b #$1D : JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$40 : STA.w $0DF0, X
     
@@ -387,7 +387,7 @@ Sprite_BluePotionItem:
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     .gamma
     
@@ -398,7 +398,7 @@ Sprite_BluePotionItem:
     LDA.b #$50
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     JMP PotionItem_ErrorSfx
     
     .delta
@@ -429,7 +429,7 @@ BluePotionItem_Draw:
     LDA.b #(.oam_groups >> 0) : STA.b $08
     LDA.b #(.oam_groups >> 8) : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     RTS
 }
@@ -439,20 +439,20 @@ BluePotionItem_Draw:
 ; $02F7D0-$02F84C JUMP LOCATION
 Sprite_RedPotionItem:
 {
-    JSR RedPotionItem_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w RedPotionItem_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.w $0DF0, X : BNE .alpha
     
-    JSR WitchAssistant_CheckIfHaveAnyBottles : BCS .beta
+    JSR.w WitchAssistant_CheckIfHaveAnyBottles : BCS .beta
     
     LDA.b #$4F
     LDY.b #$00
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .alpha
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .alpha
     
-    JSR PotionItem_ErrorSfx
+    JSR.w PotionItem_ErrorSfx
     
     .alpha
     
@@ -460,7 +460,7 @@ Sprite_RedPotionItem:
     
     .beta
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .gamma
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .gamma
     
     LDA.b $F6 : BPL .gamma
     
@@ -469,9 +469,9 @@ Sprite_RedPotionItem:
     ; check if player has 120 rupees
     LDA.l $7EF360 : CMP.w #$0078 : SEP #$30 : BCC .delta
     
-    JSL Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
+    JSL.l Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
     
-    LDA.b #$1D : JSL Sound_SetSfx3PanLong
+    LDA.b #$1D : JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$40 : STA.w $0DF0, X
     
@@ -485,7 +485,7 @@ Sprite_RedPotionItem:
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     .gamma
     
@@ -497,7 +497,7 @@ Sprite_RedPotionItem:
     LDA.b #$50
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     BRA .zeta
     
@@ -508,14 +508,14 @@ Sprite_RedPotionItem:
     LDA.b #$7C
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .zeta
     
     ; $02F846 ALTERNATE ENTRY POINT
     shared PotionItem_ErrorSfx:
     
-    LDA.b #$3C : JSL Sound_SetSfx2PanLong
+    LDA.b #$3C : JSL.l Sound_SetSfx2PanLong
     
     RTS
 }
@@ -543,7 +543,7 @@ RedPotionItem_Draw:
     LDA.b #(.oam_groups >> 0) : STA.b $08
     LDA.b #(.oam_groups >> 8) : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     RTS
 }
@@ -566,11 +566,11 @@ WitchAssistant_CheckIfHaveAnyBottles:
 ; $02F893-$02F8FA JUMP LOCATION
 Sprite_WitchAssistant:
 {
-    JSL Shopkeeper_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l Shopkeeper_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS .alpha
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .alpha
     
     LDA.w $0D80, X : BEQ .beta
     
@@ -596,7 +596,7 @@ Sprite_WitchAssistant:
     LDA.b #$4D
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     .delta
     
@@ -613,7 +613,7 @@ Sprite_WitchAssistant:
     LDA.b #$4E
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     BRA .delta
 }
@@ -646,8 +646,8 @@ Shopkeeper_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     PLB
     

@@ -7,7 +7,7 @@ Sprite_Fish:
     ; Check if if the right graphics are loaded to be able to draw.
     LDA.w $0FC6 : CMP.b #$03 : BCS .improper_gfx_pack_loaded
     
-    JSR Fish_Draw
+    JSR.w Fish_Draw
     
     .improper_gfx_pack_loaded
     
@@ -20,11 +20,11 @@ Sprite_Fish:
     
     .not_held_by_player
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Fish_PreliminaryDeepWaterCheck
     dw Fish_FlopAround
@@ -45,14 +45,14 @@ Fish_Wriggle:
     
     .aloft
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     ; NOTE: It's what allows the fish to become grateful, as this is 
     ; the only way the player can become thanked. If the fish just flops
     ; itself into deep water, it won't thank you at all. And naturally you
     ; didn't really do as much as you could in that scenario anyway, now
     ; did you?
-    JSL ThrownSprite_TileAndPeerInteractionLong
+    JSL.l ThrownSprite_TileAndPeerInteractionLong
     
     RTS
 }
@@ -73,7 +73,7 @@ Fish_PauseBeforeLeap:
     ; $0E828B ALTERNATE ENTRY POINT
     shared Fish_SpawnSmallWaterSplash:
     
-    JSL Sprite_SpawnSmallWaterSplash
+    JSL.l Sprite_SpawnSmallWaterSplash
     
     .delay
     
@@ -96,7 +96,7 @@ Pool_Fish_Leaping:
 ; $0E82A1-$0E830E JUMP LOCATION
 Fish_Leaping:
 {
-    JSR Sprite4_MoveAltitude
+    JSR.w Sprite4_MoveAltitude
     
     DEC.w $0F8080, X : DEC.w $0F8080, X : BNE .still_ascending
     
@@ -106,7 +106,7 @@ Fish_Leaping:
     LDY.w $0D9090, X : BEQ .ungrateful
     
     LDA.b #$76 : STA.w $1CF0
-    LDA.b #$01 : JSR Sprite4_ShowMessageMinimal
+    LDA.b #$01 : JSR.w Sprite4_ShowMessageMinimal
     
     .ungrateful
     .still_ascending
@@ -115,13 +115,13 @@ Fish_Leaping:
     
     STZ.w $0F70, X
     
-    JSR Fish_SpawnSmallWaterSplash
+    JSR.w Fish_SpawnSmallWaterSplash
     
     LDA.w $0D90, X : BEQ .no_rupees_for_you
     
-    LDA.b #$DB : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$DB : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
     LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
@@ -134,7 +134,7 @@ Fish_Leaping:
     
     TYX
     
-    LDA.b #$10 : JSL Sprite_ApplySpeedTowardsPlayerLong
+    LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     PLX
     
@@ -147,7 +147,7 @@ Fish_Leaping:
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -157,7 +157,7 @@ Fish_Leaping:
 ; $0E830F-$0E8320 JUMP LOCATION
 Fish_PreliminaryDeepWaterCheck:
 {
-    JSR Sprite4_CheckTileCollision
+    JSR.w Sprite4_CheckTileCollision
     
     LDA.w $0FA5 : CMP.b #$08 : BNE .not_deep_water
     
@@ -197,9 +197,9 @@ Fish_FlopAround:
 ; $0E8336-$0E83B5 JUMP LOCATION
 Fish_FlopAround:
 {
-    JSL Sprite_CheckIfLiftedPermissiveLong
-    JSR Sprite4_BounceFromTileCollision
-    JSR Sprite4_MoveXyz
+    JSL.l Sprite_CheckIfLiftedPermissiveLong
+    JSR.w Sprite4_BounceFromTileCollision
+    JSR.w Sprite4_MoveXyz
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
@@ -215,17 +215,17 @@ Fish_FlopAround:
     
     .touched_shallow_water
     
-    JSR Fish_SpawnSmallWaterSplash
+    JSR.w Fish_SpawnSmallWaterSplash
     
     .didnt_touch_deep_water
     
-    JSL GetRandomInt : AND.b #$0F : ADC.b #$10 : STA.w $0F80, X
+    JSL.l GetRandomInt : AND.b #$0F : ADC.b #$10 : STA.w $0F80, X
     
-    JSL GetRandomInt : AND.b #$07 : TAY
+    JSL.l GetRandomInt : AND.b #$07 : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     INC.w $0DE0, X
     
@@ -245,7 +245,7 @@ Fish_FlopAround:
     ; Note: The index for the animation fluctates between 0 and 2 inclusive.
     LDA.w $0D90, X : CMP .boundary_limits, Y : BEQ .at_boundary_already
     
-    CLC : ADC Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA.w $0D90, X
+    CLC : ADC Sprite_ApplyConveyorAdjustment_x_shake_values, Y : STA.w $0D90, X
     
     .at_boundary_already
     .delay_animation_base_adjustment
@@ -302,7 +302,7 @@ Pool_Fish_Draw:
     
     .dont_draw
     
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_PrepOamCoordLong
     
     RTS
 }
@@ -325,7 +325,7 @@ Fish_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSL Sprite_DrawMultiple
+    LDA.b #$02 : JSL.l Sprite_DrawMultiple
     
     LDA.w $0FDA : CLC : ADC.w $0F70, X : STA.w $0FDA
     LDA.w $0FDB : ADC.b #$00   : STA.w $0FDB
@@ -349,9 +349,9 @@ Fish_Draw:
     
     SEP #$20
     
-    LDA.b #$03 : JSL Sprite_DrawMultiple
+    LDA.b #$03 : JSL.l Sprite_DrawMultiple
     
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
     
     RTS
 }

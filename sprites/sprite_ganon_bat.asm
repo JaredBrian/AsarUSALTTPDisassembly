@@ -19,7 +19,7 @@ Pool_Sprite_GanonBat:
 ; $0E890E-$0E89BA LOCAL JUMP LOCATION
 Sprite_GanonBat:
 {
-    JSR GanonBat_Draw
+    JSR.w GanonBat_Draw
     
     LDA.w $0F00, X : BEQ .BRANCH_ALPHA
         STZ.w $0DD0, X
@@ -28,7 +28,7 @@ Sprite_GanonBat:
     
     .BRANCH_ALPHA
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     LDA.b $1A : LSR #2 : AND.b #$03 : TAY
     
@@ -55,7 +55,7 @@ Sprite_GanonBat:
             STA.w $0D50, X : BNE .BRANCH_EPSILON
                 PHA
                 
-                LDA.b #$1E : JSL Sound_SetSfx3PanLong
+                LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
                 
                 PLA
                 
@@ -74,13 +74,13 @@ Sprite_GanonBat:
         
         LDA.b $21 : STA.b $07
         
-        LDA.b #$05 : JSL Sprite_ProjectSpeedTowardsEntityLong
+        LDA.b #$05 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.w $0D50, X : PHA : CLC : ADC.b $01 : STA.w $0D50, X
         
         LDA.w $0D40, X : PHA : CLC : ADC.b $00 : STA.w $0D40, X
         
-        JSR Sprite4_Move
+        JSR.w Sprite4_Move
         
         PLA : STA.w $0D40, X
         PLA : STA.w $0D50, X
@@ -89,7 +89,7 @@ Sprite_GanonBat:
     
     .BRANCH_BETA
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     LDA.w $0D50, X : CMP.b #$40 : BEQ .BRANCH_ZETA
         INC.w $0D50, X

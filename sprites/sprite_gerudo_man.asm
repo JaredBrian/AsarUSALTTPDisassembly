@@ -7,18 +7,18 @@ Sprite_GerudoMan:
     LDA.w $0D80, X : CMP.b #$02 : BCS .draw
     
     ; (Don't draw, just prep)
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_PrepOamCoordLong
     
     BRA .draw_logic_complete
     
     .draw
     
-    JSR GerudoMan_Draw
+    JSR.w GerudoMan_Draw
     
     .draw_logic_complete
     
-    JSR Sprite2_CheckIfActive
-    JSR Sprite2_CheckIfRecoiling
+    JSR.w Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfRecoiling
     
     LDA.b #$01 : STA.w $0BA0, X
     
@@ -102,7 +102,7 @@ GerudoMan_Emerge:
     
     LDA.b #$60 : STA.w $0DF0, X
     
-    LDA.b #$10 : JSL Sprite_ApplySpeedTowardsPlayerLong
+    LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     RTS
     
@@ -110,7 +110,7 @@ GerudoMan_Emerge:
     
     LSR #2 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
     
@@ -153,10 +153,10 @@ GerudoMan_PursuePlayer:
     
     LSR #2 : AND.b #$01 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
-    JSR Sprite2_CheckDamage
-    JSR Sprite2_Move
+    JSR.w Sprite2_CheckDamage
+    JSR.w Sprite2_Move
     
     RTS
 }
@@ -178,7 +178,7 @@ GerudoMan_Submerge:
     
     LSR A : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -234,7 +234,7 @@ Pool_GerudoMan_Draw:
 ; $02BA24-$02BA84 LOCAL JUMP LOCATION
 GerudoMan_Draw:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $06
     
@@ -266,12 +266,12 @@ GerudoMan_Draw:
     
     PLX
     
-    LDA .chr, X     : INY           : STA ($90), Y
-    LDA .vh_flip, X : INY : ORA.b $05 : STA ($90), Y
+    LDA.w .chr, X     : INY           : STA ($90), Y
+    LDA.w .vh_flip, X : INY : ORA.b $05 : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA .sizes, X : ORA.b $0F : STA ($92), Y
+    LDA.w .sizes, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

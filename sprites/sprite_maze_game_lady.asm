@@ -6,7 +6,7 @@ Sprite_MazeGameLadyLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_MazeGameLady
+    JSR.w Sprite_MazeGameLady
     
     PLB
     
@@ -18,15 +18,15 @@ Sprite_MazeGameLadyLong:
 ; $06CB5C-$06CB7D LOCAL JUMP LOCATION
 Sprite_MazeGameLady:
 {
-    JSL Lady_Draw
-    JSR Sprite5_CheckIfActive
-    JSL Sprite_MakeBodyTrackHeadDirection
+    JSL.l Lady_Draw
+    JSR.w Sprite5_CheckIfActive
+    JSL.l Sprite_MakeBodyTrackHeadDirection
     
-    JSL Sprite_DirectionToFacePlayerLong : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSL.l Sprite_DirectionToFacePlayerLong : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw MazeGameLady_Startup
     dw MazeGameLady_PlayStartingNoise
@@ -44,7 +44,7 @@ MazeGameLady_Startup:
     LDA.b #$CC
     LDY.b #$00
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
     
     STA.w $0EB0, X : STA.w $0DE0, X
     
@@ -66,7 +66,7 @@ MazeGameLady_Startup:
     LDA.b #$D0
     LDY.b #$00
     
-    JSL Sprite_ShowMessageFromPlayerContact
+    JSL.l Sprite_ShowMessageFromPlayerContact
     
     RTS
 }
@@ -100,7 +100,7 @@ MazeGameLady_AccumulateTime:
 ; $06CBE0-$06CBE9 JUMP LOCATION
 MazeGameLady_PlayStartingNoise:
 {
-    LDA.b #$07 : JSL Sound_SetSfx3PanLong
+    LDA.b #$07 : JSL.l Sound_SetSfx3PanLong
     
     INC.w $0D80, X
     

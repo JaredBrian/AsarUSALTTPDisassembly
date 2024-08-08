@@ -6,7 +6,7 @@ Sprite_UnusedTelepathLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_UnusedTelepath
+    JSR.w Sprite_UnusedTelepath
     
     PLB
     
@@ -27,15 +27,15 @@ Sprite_UnusedTelepathLong:
 ; $06C6E6-$06C706 LOCAL JUMP LOCATION
 Sprite_UnusedTelepath:
 {
-    JSR UnusedTelepath_Draw
-    JSR Sprite5_CheckIfActive
+    JSR.w UnusedTelepath_Draw
+    JSR.w Sprite5_CheckIfActive
     
     ; "...it is I, Sahasrahla the elder. An orb known as the Moon Pearl..."
     LDA.b #$B5
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.b $1A : LSR A : ORA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
@@ -70,8 +70,8 @@ UnusedTelepath_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

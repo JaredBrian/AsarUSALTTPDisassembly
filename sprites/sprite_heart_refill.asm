@@ -4,12 +4,12 @@
 ; $034EC0-$034F09 JUMP LOCATION
 Sprite_HeartRefill:
 {
-    JSR Sprite_DrawTransientAbsorbable
-    JSR Sprite_CheckIfActive
-    JSR Sprite_CheckAbsorptionByPlayer
-    JSR Sprite_HandleDraggingByAncilla
-    JSR Sprite_Move
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_DrawTransientAbsorbable
+    JSR.w Sprite_CheckIfActive
+    JSR.w Sprite_CheckAbsorptionByPlayer
+    JSR.w Sprite_HandleDraggingByAncilla
+    JSR.w Sprite_Move
+    JSR.w Sprite_MoveAltitude
     
     LDA.w $0F70, X : BPL .no_ground_collision
     
@@ -38,7 +38,7 @@ Sprite_HeartRefill:
     
     .ai_state_not_maxed
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw HeartRefill_InitializeAscent
     dw HeartRefill_BeginDescending

@@ -4,12 +4,12 @@
 ; $031F05-$031F2F JUMP LOCATION
 Sprite_Hinox:
 {
-    JSR Hinox_Draw
-    JSR Sprite_CheckIfActive
+    JSR.w Hinox_Draw
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0EA0, X : BEQ .not_recoiling
     
-    JSR Hinox_FacePlayer
+    JSR.w Hinox_FacePlayer
     
     LDA.b #$02 : STA.w $0D80, X
     
@@ -17,12 +17,12 @@ Sprite_Hinox:
     
     .not_recoiling
     
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_CheckDamage
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckDamage
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Hinox_SelectNextDirection
     dw Hinox_Walk
@@ -71,9 +71,9 @@ Hinox_ThrowBomb:
     
     CMP.b #$20 : BNE .anothrow_bomb
     
-    LDA.b #$4A : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$4A : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_TransmuteToEnemyBomb
+    JSL.l Sprite_TransmuteToEnemyBomb
     
     LDA.b #$40 : STA.w $0E00, Y
     
@@ -87,9 +87,9 @@ Hinox_ThrowBomb:
     LDA.b $02 : CLC : ADC .y_offsets_low, X : STA.w $0D00, Y
     LDA.b $03 : ADC.b #-1             : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     PLX
     
@@ -109,7 +109,7 @@ Hinox_ThrowBomb:
     
     .dont_use_throwing_animation_states
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -133,7 +133,7 @@ Hinox_SelectNextDirection:
 {
     LDA.w $0DF0, X : BNE Hinox_Delay
     
-    JSL GetRandomInt : AND.b #$03 : BNE .change_direction
+    JSL.l GetRandomInt : AND.b #$03 : BNE .change_direction
     
     ; If we got a 0, just throw another bomb while facing the same
     ; direction.
@@ -154,11 +154,11 @@ Hinox_SelectNextDirection:
     ; $031FE1 ALTERNATE ENTRY POINT
     shared Hinox_FacePlayer:
     
-    JSR Sprite_DirectionToFacePlayer
+    JSR.w Sprite_DirectionToFacePlayer
     
     TYA
     
-    JSR Hinox_SetExplicitDirection
+    JSR.w Hinox_SetExplicitDirection
     
     ; Speed this motha up.
     ASL.w $0D50, X
@@ -182,24 +182,24 @@ Pool_Hinox_SetRandomDirection:
 ; $031FF7-$032024 BRANCH LOCATION
 Hinox_SetRandomDirection:
 {
-    JSL GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
+    JSL.l GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
     
-    LDA .directions, Y
+    LDA.w .directions, Y
     
     ; $032004 ALTERNATE ENTRY POINT
     shared Hinox_SetExplicitDirection:
     
     STA.w $0DE0, X
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$60 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$3F : ADC.b #$60 : STA.w $0DF0, X
     
     INC.w $0D80, X
     
     LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
 
     ; $032024 ALTERNATE ENTRY POINT
     shared Hinox_Delay:
@@ -241,8 +241,8 @@ Hinox_Walk:
     
     .delay_animation_counter_tick
     
-    JSR Sprite_Move
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_Move
+    JSR.w Sprite_CheckTileCollision
     
     LDA.w $0E70, X : BEQ .no_tile_collision
     
@@ -254,7 +254,7 @@ Hinox_Walk:
     
     LDY.w $0DE0, X
     
-    LDA .animation_state_bases, Y : CLC : ADC.b $00 : STA.w $0DC0, X
+    LDA.w .animation_state_bases, Y : CLC : ADC.b $00 : STA.w $0DC0, X
     
     RTS
 }
@@ -343,13 +343,13 @@ Hinox_Draw:
     
     REP #$20
     
-    LDA .oam_group_pointers, Y : STA.b $08
+    LDA.w .oam_group_pointers, Y : STA.b $08
     
     SEP #$20
     
     PLY
     
-    LDA .num_oam_entries, Y : JSL Sprite_DrawMultiple
+    LDA.w .num_oam_entries, Y : JSL.l Sprite_DrawMultiple
     
     JMP Sprite_DrawShadow
 }

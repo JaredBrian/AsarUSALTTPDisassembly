@@ -16,7 +16,7 @@ Sprite_FakeSwordLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_FakeSword
+    JSR.w Sprite_FakeSword
     
     PLB
     
@@ -28,8 +28,8 @@ Sprite_FakeSwordLong:
 ; $02EEAF-$02EED5 LOCAL JUMP LOCATION
 Sprite_FakeSword:
 {
-    JSR FakeSword_Draw
-    JSR Sprite2_CheckIfActive.permissive
+    JSR.w FakeSword_Draw
+    JSR.w Sprite2_CheckIfActive_permissive
     
     LDA.l $7FFA1C, X : CMP.b #$03 : BNE .player_is_holding
     
@@ -41,7 +41,7 @@ Sprite_FakeSword:
     LDA.b #$6F
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .ignore_message
     
@@ -49,8 +49,8 @@ Sprite_FakeSword:
     
     .player_is_holding
     
-    JSR Sprite2_Move
-    JSL ThrownSprite_TileAndPeerInteractionLong
+    JSR.w Sprite2_Move
+    JSL.l ThrownSprite_TileAndPeerInteractionLong
     
     RTS
 }
@@ -76,7 +76,7 @@ FakeSword_Draw:
     LDA.b #(.animation_states >> 0) : STA.b $08
     LDA.b #(.animation_states >> 8) : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     RTS
 }

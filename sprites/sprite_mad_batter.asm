@@ -8,7 +8,7 @@ Sprite_MadBatterLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_MadBatter
+    JSR.w Sprite_MadBatter
     
     PLB
     
@@ -21,24 +21,24 @@ Sprite_MadBatterLong:
 Sprite_MadBatter:
 {
     LDA.w $0EB0, X : BEQ .not_thunderbolt
-    JSL Sprite_MadBatterBoltLong
+    JSL.l Sprite_MadBatterBoltLong
     
     RTS
     
     .not_thunderbolt
     
     LDA.w $0D80, X : BEQ .dont_draw
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     .dont_draw
     
-    JSR Sprite2_CheckIfActive
-    JSR Sprite2_Move
-    JSR Sprite2_MoveAltitude
+    JSR.w Sprite2_CheckIfActive
+    JSR.w Sprite2_Move
+    JSR.w Sprite2_MoveAltitude
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw MadBatter_WaitForSummoning
     dw MadBatter_RisingUp
@@ -55,7 +55,7 @@ MadBatter_WaitForSummoning:
     LDA.l $7EF37B : CMP.b #$01 : BCS .magic_already_doubled
     ; The sprite doesn't actually damage the player, this is just to detect
     ; contact.
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .not_close_to_player
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .not_close_to_player
         ; Needs to be summoned via Magic Powder
         LDY.b #$04
     
@@ -68,9 +68,9 @@ MadBatter_WaitForSummoning:
     
         .magic_powder
     
-        JSL Sprite_SpawnSuperficialBombBlast
+        JSL.l Sprite_SpawnSuperficialBombBlast
         
-        LDA.b #$0D : JSL Sound_SetSfx1PanLong
+        LDA.b #$0D : JSL.l Sound_SetSfx1PanLong
         
         INC.w $0D80, X
         
@@ -106,7 +106,7 @@ MadBatter_RisingUp:
         
         LDA.w $0D90, X : AND.b #$01 : TAY
         
-        LDA .x_speeds, Y : CLC : ADC.w $0D50, X : STA.w $0D50, X
+        LDA.w .x_speeds, Y : CLC : ADC.w $0D50, X : STA.w $0D50, X
         
         LDA.w $0DC0, X : EOR.b #$01 : STA.w $0DC0, X
     
@@ -120,7 +120,7 @@ MadBatter_RisingUp:
     LDA.b #$10
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -163,7 +163,7 @@ MadBatter_PseudoAttackPlayer:
     LDA.w $0F50, X : AND.b #$F1 : ORA .palettes, Y : STA.w $0F50, X
     
     LDA.w $0DF0, X : CMP.b #$F0 : BNE .delay_2
-    JSL Sprite_SpawnMadBatterBolts
+    JSL.l Sprite_SpawnMadBatterBolts
     
     .delay_2
     
@@ -180,11 +180,11 @@ MadBatter_DoublePlayerMagicPower:
     LDA.b #$11
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     PHX
     
-    JSL Palette_Restore_BG_And_HUD
+    JSL.l Palette_Restore_BG_And_HUD
     
     ; NOTE: Redundant to do this, the subroutine does this.
     INC.b $15
@@ -196,7 +196,7 @@ MadBatter_DoublePlayerMagicPower:
     ; Reduce the magic power consumption by 1/2.
     LDA.b #$01 : STA.l $7EF37B
     
-    JSL HUD.RefreshIconLong
+    JSL.l HUD.RefreshIconLong
     
     RTS
     
@@ -215,7 +215,7 @@ MadBatter_DoublePlayerMagicPower:
 ; $02FBE4-$02FBEE JUMP LOCATION
 MadBatter_LaterComplains:
 {
-    JSL Sprite_SpawnDummyDeathAnimation
+    JSL.l Sprite_SpawnDummyDeathAnimation
     
     STZ.w $0DD0, X
     

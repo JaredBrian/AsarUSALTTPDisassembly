@@ -6,7 +6,7 @@ Sprite_WitchLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_Witch
+    JSR.w Sprite_Witch
     
     PLB
     
@@ -18,22 +18,22 @@ Sprite_WitchLong:
 ; $02E3FB-$02E452 LOCAL JUMP LOCATION
 Sprite_Witch:
 {
-    JSR Witch_Draw
-    JSR Sprite2_CheckIfActive
+    JSR.w Witch_Draw
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0F60, X : PHA
     
     LDA.b #$02 : STA.w $0F60, X
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
     
     PHX
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     STZ.b $5E
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     PLX
     
@@ -43,7 +43,7 @@ Sprite_Witch:
     
     LDA.b $1A : BNE .dont_change_stir_speed
     
-    JSL GetRandomInt : AND.b #$01 : CLC : ADC.b #$02 : STA.w $0D90, X
+    JSL.l GetRandomInt : AND.b #$01 : CLC : ADC.b #$02 : STA.w $0D90, X
     
     .dont_change_stir_speed
     
@@ -60,7 +60,7 @@ Sprite_Witch:
     
     AND.b #$07 : STA.w $0DC0, X
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCC .not_preoccupied
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCC .not_preoccupied
     
     RTS
     
@@ -68,7 +68,7 @@ Sprite_Witch:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Witch_Main
     dw Witch_GrantCaneOfByrna
@@ -92,7 +92,7 @@ Witch_GrantCaneOfByrna:
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     RTS
 }
@@ -112,7 +112,7 @@ Witch_Main:
     
     LDA.b $00
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     ; \tcrf (unverified: not thoroughly investigated)
     ; Why so many slots? Could you originally trade her for other
@@ -138,7 +138,7 @@ Witch_Main:
     LDA.b #$4A
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
     
@@ -162,7 +162,7 @@ Witch_Main:
     LDA.b #$4B
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -175,13 +175,13 @@ Witch_PlayerHasMushroom:
     LDA.b $F0 : AND.b #$40 : BEQ .y_button_not_down
     
     ; Check if the player is giving the mushroom to the Witch.
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_give_mushroom
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_give_mushroom
     
     LDA.w $0202 : CMP.b #$05 : BNE .dont_give_mushroom
     
     LDA.l $7EF344 : CMP.b #$01 : BNE .dont_give_mushroom
     
-    JSR Witch_PlayerHandsMushroomOver
+    JSR.w Witch_PlayerHandsMushroomOver
     
     .dont_give_mushroom
     
@@ -193,7 +193,7 @@ Witch_PlayerHasMushroom:
     LDA.b #$4C
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
 }
@@ -225,7 +225,7 @@ Witch_PlayerHandsMushroomOver:
     
     STZ.w $012E
     
-    JSL HUD.RefreshIconLong
+    JSL.l HUD.RefreshIconLong
     
     PLX
     
@@ -233,9 +233,9 @@ Witch_PlayerHandsMushroomOver:
     LDA.b #$4B
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
-    LDA.b #$0D : JSL Sound_SetSfx1PanLong
+    LDA.b #$0D : JSL.l Sound_SetSfx1PanLong
     
     .not_haz_mushroom
     
@@ -293,8 +293,8 @@ Pool_Witch_Draw:
 ; $02E55D-$02E62A LOCAL JUMP LOCATION
 Witch_Draw:
 {
-    JSR Sprite2_PrepOamCoord
-    JSL Sprite_OAM_AllocateDeferToPlayerLong
+    JSR.w Sprite2_PrepOamCoord
+    JSL.l Sprite_OAM_AllocateDeferToPlayerLong
     
     LDA.w $0DC0, X : STA.b $00
                    STZ.b $01
@@ -307,17 +307,17 @@ Witch_Draw:
     
     LDY.b $90
     
-    LDA .stirring_oam_groups+0, X : CLC : ADC.w $0FA8 : STA.w $0000, Y
+    LDA.w .stirring_oam_groups+0, X : CLC : ADC.w $0FA8 : STA.w $0000, Y
     
-    LDA .stirring_oam_groups+1, X : CLC : ADC.w $0FA9 : STA.w $0001, Y
+    LDA.w .stirring_oam_groups+1, X : CLC : ADC.w $0FA9 : STA.w $0001, Y
     
-    LDA .stirring_oam_groups+2, X : ORA.b $04 : STA.w $0002, Y
+    LDA.w .stirring_oam_groups+2, X : ORA.b $04 : STA.w $0002, Y
     
-    LDA .stirring_oam_groups+4, X : CLC : ADC.w $0FA8 : STA.w $0004, Y
+    LDA.w .stirring_oam_groups+4, X : CLC : ADC.w $0FA8 : STA.w $0004, Y
     
-    LDA .stirring_oam_groups+5, X : CLC : ADC.w $0FA9 : STA.w $0005, Y
+    LDA.w .stirring_oam_groups+5, X : CLC : ADC.w $0FA9 : STA.w $0005, Y
     
-    LDA .stirring_oam_groups+6, X : ORA.b $04 : STA.w $0006, Y
+    LDA.w .stirring_oam_groups+6, X : ORA.b $04 : STA.w $0006, Y
     
     LDX.w #$0000
     
@@ -325,11 +325,11 @@ Witch_Draw:
     
     .draw_body_and_cauldron
     
-    LDA .body_and_cauldron_oam_groups+0, X : CLC : ADC.w $0FA8 : STA.w $0008, Y
+    LDA.w .body_and_cauldron_oam_groups+0, X : CLC : ADC.w $0FA8 : STA.w $0008, Y
     
-    LDA .body_and_cauldron_oam_groups+1, X : ADC.w $0FA9 : STA.w $0009, Y
+    LDA.w .body_and_cauldron_oam_groups+1, X : ADC.w $0FA9 : STA.w $0009, Y
     
-    LDA .body_and_cauldron_oam_groups+2, X : EOR.b $04 : STA.w $000A, Y
+    LDA.w .body_and_cauldron_oam_groups+2, X : EOR.b $04 : STA.w $000A, Y
     
     INX #4
     
@@ -349,11 +349,11 @@ Witch_Draw:
     
     .draw_cloak
     
-    LDA .cloak_oam_groups+0, X : CLC : ADC.w $0FA8 : STA.w $0008, Y
+    LDA.w .cloak_oam_groups+0, X : CLC : ADC.w $0FA8 : STA.w $0008, Y
     
-    LDA .cloak_oam_groups+1, X : CLC : ADC.w $0FA9 : STA.w $0009, Y
+    LDA.w .cloak_oam_groups+1, X : CLC : ADC.w $0FA9 : STA.w $0009, Y
     
-    LDA .cloak_oam_groups+2, X : ORA.b $04 : STA.w $000A, Y
+    LDA.w .cloak_oam_groups+2, X : ORA.b $04 : STA.w $000A, Y
     
     LDY.b $92
     
@@ -368,7 +368,7 @@ Witch_Draw:
     LDA.b #$05
     LDY.b #$FF
     
-    JSL Sprite_CorrectOamEntriesLong
+    JSL.l Sprite_CorrectOamEntriesLong
     
     RTS
 }

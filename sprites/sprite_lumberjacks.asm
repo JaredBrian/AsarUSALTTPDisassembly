@@ -6,7 +6,7 @@ Sprite_LumberjacksLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_Lumberjacks
+    JSR.w Sprite_Lumberjacks
     
     PLB
     
@@ -30,32 +30,32 @@ Pool_Sprite_Lumberjacks:
 ; $06C51B-$06C57E LOCAL JUMP LOCATION
 Sprite_Lumberjacks:
 {
-    JSR LumberJacks_Draw
-    JSR Sprite5_CheckIfActive
+    JSR.w LumberJacks_Draw
+    JSR.w Sprite5_CheckIfActive
     
     ; check inner hit detection box
     LDY.b #$00
     
-    JSR Lumberjacks_CheckProximity : BCS .check_outer_region
+    JSR.w Lumberjacks_CheckProximity : BCS .check_outer_region
     
     PHX
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     STZ.b $5E
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     PLX
     
     .check_outer_region
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS .dont_speak
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .dont_speak
     
     ; Check outer hit detection box
     LDY.b #$02
     
-    JSR Lumberjacks_CheckProximity : BCS .dont_speak
+    JSR.w Lumberjacks_CheckProximity : BCS .dont_speak
     
     LDA.b $F6 : AND.b #$80 : BEQ .dont_speak
     
@@ -69,10 +69,10 @@ Sprite_Lumberjacks:
     
     LDA.b $01 : CLC : ADC.b $00 : TAY
     
-    LDA .messages_low, Y        : XBA
-    LDA .messages_high, Y : TAY : XBA
+    LDA.w .messages_low, Y        : XBA
+    LDA.w .messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .dont_speak
     
@@ -180,7 +180,7 @@ Lumberjacks_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.quantity_preset
+    JSL.l Sprite_DrawMultiple_quantity_preset
     
     RTS
 }

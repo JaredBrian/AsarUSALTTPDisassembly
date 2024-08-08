@@ -15,19 +15,19 @@ Sprite_Octospawn:
     
     .not_blinking
     
-    JSR Sprite_PrepAndDrawSingleSmall
+    JSR.w Sprite_PrepAndDrawSingleSmall
     
     .dont_draw_this_frame
     
-    JSR Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfActive
     
     DEC.w $0E80, X
     
-    JSR Sprite_CheckIfRecoiling
+    JSR.w Sprite_CheckIfRecoiling
     
     DEC.w $0F80, X
     
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_MoveAltitude
     
     LDA.w $0F70, X : BPL .not_grounded
     
@@ -37,15 +37,15 @@ Sprite_Octospawn:
     
     .not_grounded
     
-    JSR Sprite_Move
-    JSR Sprite_CheckTileCollision
-    JSR Sprite_WallInducedSpeedInversion
+    JSR.w Sprite_Move
+    JSR.w Sprite_CheckTileCollision
+    JSR.w Sprite_WallInducedSpeedInversion
     
     ; $03588B ALTERNATE ENTRY POINT
     shared Sprite_CheckDamage:
     
-    JSR Sprite_CheckDamageFromPlayer
-    JSR Sprite_CheckDamageToPlayer
+    JSR.w Sprite_CheckDamageFromPlayer
+    JSR.w Sprite_CheckDamageToPlayer
     
     RTS
 }

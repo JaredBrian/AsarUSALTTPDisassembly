@@ -8,7 +8,7 @@ SpritePrep_RunningManLong:
     
     PHB : PHK : PLB
     
-    JSR SpritePrep_RunningMan
+    JSR.w SpritePrep_RunningMan
     
     PLB
     
@@ -37,7 +37,7 @@ Sprite_RunningManLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_RunningMan
+    JSR.w Sprite_RunningMan
     
     PLB
     
@@ -63,20 +63,20 @@ Sprite_RunningMan:
 {
     ; (Scared red hat man that runs away if you come near.)
     
-    JSR RunningMan_Draw
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_MakeBodyTrackHeadDirection
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w RunningMan_Draw
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_MakeBodyTrackHeadDirection
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.b #$FF : STA.w $0E30, X ; wtf is this line? changes his own subtype to seemingly never look at it again?
     
-    JSR Sprite2_CheckTileCollision
+    JSR.w Sprite2_CheckTileCollision
     
     LDA.w $0F60, X : PHA
     
     LDA.b #$07 : STA.w $0F60, X
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
     LDA.w $0D80, X : STA.w $0DB0, X
     
@@ -88,7 +88,7 @@ Sprite_RunningMan:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw RunningMan_Chillin
     dw RunningMan_RunLeft
@@ -110,21 +110,21 @@ Pool_RunningMan_Chillin:
 ; $02E8F7-$02E937 JUMP LOCATION
 RunningMan_Chillin:
 {
-    JSL Sprite_MakeBodyTrackHeadDirection
+    JSL.l Sprite_MakeBodyTrackHeadDirection
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0DE0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0DE0, X
     
     EOR.b #$01 : ORA.b #$02 : STA.w $0EB0, X : TAY
     
     AND.b #$01 : INC A : STA.w $0D80, X
     
-    LDA .x_speeds - 2, Y : STA.w $0D50, X
+    LDA.w .x_speeds - 2, Y : STA.w $0D50, X
     
     LDA.b #$20 : STA.w $0DF0, X
     
@@ -146,7 +146,7 @@ RunningMan_AnimateAndRun:
 {
     LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     RTS
 }
@@ -158,8 +158,8 @@ RunningMan_RunLeft:
 {
     LDA.w $0DF0, X : BNE RunningMan_AnimateAndRun
     
-    JSR RunningMan_AnimateAndMakeDust
-    JSR RunningMan_RunFullSpeed
+    JSR.w RunningMan_AnimateAndMakeDust
+    JSR.w RunningMan_RunFullSpeed
     
     LDA.w $0D90, X : BNE .tick_run_countdown_timer
     
@@ -216,16 +216,16 @@ RunningMan_WindingRunRight:
 {
     LDA.w $0DF0, X : BNE RunningMan_AnimateAndRun
     
-    JSR RunningMan_AnimateAndMakeDust
-    JSR RunningMan_RunFullSpeed
+    JSR.w RunningMan_AnimateAndMakeDust
+    JSR.w RunningMan_RunFullSpeed
     
     LDA.w $0D90, X : BNE RunningMan_TickRunCountdownTimer
     
     LDY.w $0DA0, X : INC.w $0DA0, X
     
-    LDA .timers, Y : STA.w $0D90, X
+    LDA.w .timers, Y : STA.w $0D90, X
     
-    LDA .direction, Y : BMI RunningMan_ResumeChillin
+    LDA.w .direction, Y : BMI RunningMan_ResumeChillin
     
     STA.w $0EB0, X
     
@@ -240,7 +240,7 @@ RunningMan_GotCaught:
     LDA.b #$A6
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional : BCC 
+    JSL.l Sprite_ShowMessageUnconditional : BCC 
     
     STA.w $0DE0, X
     
@@ -256,7 +256,7 @@ RunningMan_GotCaught:
 ; $02E9AC-$02E9B9 LOCAL JUMP LOCATION
 RunningMan_AnimateAndMakeDust:
 {
-    JSL RunningMan_SpawnDashDustGarnish
+    JSL.l RunningMan_SpawnDashDustGarnish
     
     LDA.b $1A : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
@@ -270,11 +270,11 @@ RunningMan_RunFullSpeed:
 {
     LDY.w $0EB0, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     RTS
 }
@@ -324,8 +324,8 @@ RunningMan_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

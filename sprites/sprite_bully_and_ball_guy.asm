@@ -6,7 +6,7 @@ Sprite_BullyAndBallGuy:
 {
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sprite_BallGuy
     dw BallGuy_DrawDistressMarker ; UNUSED: Just this entry.
@@ -18,23 +18,23 @@ Sprite_BullyAndBallGuy:
 ; $0F6B40-$0F6C30 JUMP LOCATION
 Sprite_BallGuy:
 {
-    JSL Sprite_OAM_AllocateDeferToPlayerLong
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite3_CheckIfActive
-    JSR BallGuy_Dialogue
+    JSL.l Sprite_OAM_AllocateDeferToPlayerLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite3_CheckIfActive
+    JSR.w BallGuy_Dialogue
     
     LDA.w $0F50, X : AND.b #$7F : ORA.w $0EB0, X : STA.w $0F50, X
     
-    JSR Sprite3_MoveXyz
+    JSR.w Sprite3_MoveXyz
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
     AND.b #$03                     : BNE .horiz_tile_collision
     
     LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
     
     LDA.w $0E90, X : BEQ .not_kicked
     
-    JSR BallGuy_PlayBounceNoise
+    JSR.w BallGuy_PlayBounceNoise
     
     BRA .moving_on
     
@@ -45,7 +45,7 @@ Sprite_BallGuy:
     
     LDA.w $0E90, X : BEQ .not_kicked_2
     
-    JSR BallGuy_PlayBounceNoise
+    JSR.w BallGuy_PlayBounceNoise
     
     .not_kicked_2
     .no_tile_collision
@@ -61,11 +61,11 @@ Sprite_BallGuy:
     
     AND.b #$FC : BEQ .dont_play_sfx
     
-    JSR BallGuy_PlayBounceNoise
+    JSR.w BallGuy_PlayBounceNoise
     
     .dont_play_sfx
     
-    JSR BallGuy_Friction
+    JSR.w BallGuy_Friction
     
     .not_z_bouncing
     
@@ -77,7 +77,7 @@ Sprite_BallGuy:
     
     .right_side_up
     
-    JSR BallGuy_DrawDistressMarker
+    JSR.w BallGuy_DrawDistressMarker
     
     TXA : EOR.b $1A : PHA
     
@@ -88,15 +88,15 @@ Sprite_BallGuy:
     ; Put Ball Guy's new position somewhere in the vicinity of the player.
     ; That said, the low bytes are totally random, so it may not appear
     ; that way.
-    JSL GetRandomInt : STA.b $04
+    JSL.l GetRandomInt : STA.b $04
     LDA.b $23          : STA.b $05
     
-    JSL GetRandomInt : STA.b $06
+    JSL.l GetRandomInt : STA.b $06
     LDA.b $21          : STA.b $07
     
     LDA.b #$08
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $01 : STA.w $0DA0, X
     
@@ -137,7 +137,7 @@ Sprite_BallGuy:
 ; $0F6C31-$0F6C4A ALTERNATE ENTRY POINT
 BallGuy_UpsideDown:
 {
-    JSR BallGuy_DrawDistressMarker
+    JSR.w BallGuy_DrawDistressMarker
     
     TXA : EOR.b $1A : BEQ .turn_right_side_up
     
@@ -193,8 +193,8 @@ BallGuy_Friction:
 ; $0F6C74-$0F6C7B JUMP LOCATION
 BallGuy_DrawDistressMarker:
 {
-    JSR Sprite3_PrepOamCoord
-    JSL Sprite_DrawDistressMarker
+    JSR.w Sprite3_PrepOamCoord
+    JSL.l Sprite_DrawDistressMarker
     
     RTS
 }
@@ -204,12 +204,12 @@ BallGuy_DrawDistressMarker:
 ; $0F6C7C-$0F6CB1 JUMP LOCATION
 Sprite_Bully:
 {
-    JSR Bully_Draw
-    JSR Sprite3_CheckIfActive
-    JSR Bully_Dialogue
-    JSR Sprite3_MoveXyz
+    JSR.w Bully_Draw
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Bully_Dialogue
+    JSR.w Sprite3_MoveXyz
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
     AND.b #$03                     : BNE .horiz_tile_collision
     
     LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
@@ -225,7 +225,7 @@ Sprite_Bully:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Bully_ChaseBallGuy
     dw Bully_KickBallGuy
@@ -252,7 +252,7 @@ Bully_ChaseBallGuy:
     LDA.w $0D20, Y : STA.b $07
     
     ; Makes the Bully go towards the Ball Guy
-    LDA.b #$0E : JSL Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$0E : JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     
@@ -273,7 +273,7 @@ Bully_ChaseBallGuy:
     
     INC.w $0D80, X
     
-    JSR BallGuy_PlayBounceNoise
+    JSR.w BallGuy_PlayBounceNoise
     
     .cant_kick
     
@@ -298,7 +298,7 @@ Bully_KickBallGuy:
     STZ.w $0D50, X
     STZ.w $0D40, X
     
-    JSL GetRandomInt : AND.b #$1F : STA.w $0F80, Y
+    JSL.l GetRandomInt : AND.b #$1F : STA.w $0F80, Y
     
     LDA.b #$60 : STA.w $0DF0, X
     
@@ -353,8 +353,8 @@ Bully_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }
@@ -364,7 +364,7 @@ Bully_Draw:
 ; $0F6DC2-$0F6DC8 LOCAL JUMP LOCATION
 BallGuy_PlayBounceNoise:
 {
-    LDA.b #$32 : JSL Sound_SetSfx3PanLong
+    LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
     
     RTS
 }
@@ -374,9 +374,9 @@ BallGuy_PlayBounceNoise:
 ; $0F6DC9-$0F6DE3 LONG JUMP LOCATION
 BullyAndBallGuy_SpawnBully:
 {
-    LDA.b #$B9 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$B9 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$02 : STA.w $0E80, Y
     
@@ -411,10 +411,10 @@ BallGuy_Dialogue:
     
     LDA.l $7EF357 : AND.b #$01 : TAY
     
-    LDA .messages_low, Y        : XBA
-    LDA .messages_high, Y : TAY : XBA
+    LDA.w .messages_low, Y        : XBA
+    LDA.w .messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
     
     ; BUG: um... usually you increment after doing this. Assuming for now
     ; that it's a bug unless some point to this is found.
@@ -424,7 +424,7 @@ BallGuy_Dialogue:
     
     LDA.w $0E90, X : BEQ .dont_play_sfx
     
-    JSR BallGuy_PlayBounceNoise
+    JSR.w BallGuy_PlayBounceNoise
     
     .dont_play_sfx
     
@@ -457,10 +457,10 @@ Bully_Dialogue:
     
     LDA.l $7EF357 : AND.b #$01 : TAY
     
-    LDA .messages_low, Y        : XBA
-    LDA .messages_high, Y : TAY : XBA
+    LDA.w .messages_low, Y        : XBA
+    LDA.w .messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
     
     LDA.w $0D50, X : EOR.b #$FF : STA.w $0D50, X
     

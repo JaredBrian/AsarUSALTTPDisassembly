@@ -8,7 +8,7 @@ Sprite_ArmosCrusherLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_ArmosCrusher
+    JSR.w Sprite_ArmosCrusher
     
     PLB
     
@@ -31,15 +31,15 @@ Sprite_ArmosCrusher:
         ; Otherwise, shake the ground.
         AND.b #$01 : TAY
         
-        LDA Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA.w $011C
+        LDA Sprite_ApplyConveyorAdjustment_x_shake_values, Y : STA.w $011C
         
-        LDA Sprite_ApplyConveyorAdjustment.y_shake_values, Y : STA.w $011D
+        LDA Sprite_ApplyConveyorAdjustment_y_shake_values, Y : STA.w $011D
     
     .dont_shake_environment
     
     LDA.w $0ED0, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ArmosCrusher_RetargetPlayer       ; 0x00 - $EFAC
     dw ArmosCrusher_ApproachTargetCoords ; 0x01 - $EFE0
@@ -52,10 +52,10 @@ Sprite_ArmosCrusher:
 ; $0EEFAC-$0EEFDF JUMP LOCATION
 ArmosCrusher_RetargetPlayer:
 {
-    JSR Sprite4_CheckDamage
+    JSR.w Sprite4_CheckDamage
     
     LDA.w $0DF0, X : ORA.w $0F70, X : BNE .delay
-        LDA.b #$20 : JSL Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$20 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         LDA.b #$20 : STA.w $0F80, X
         
@@ -67,7 +67,7 @@ ArmosCrusher_RetargetPlayer:
         LDA.b $20 : STA.w $0E90, X
         LDA.b $21 : STA.w $0EB0, X
         
-        LDA.b #$20 : JSL Sound_SetSfx2PanLong
+        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
         
     .delay
     
@@ -81,8 +81,8 @@ ArmosCrusher_ApproachTargetCoords:
 {
     LDA.w $0F80, X : CLC : ADC.b #$03 : STA.w $0F80, X
     
-    JSR Sprite4_CheckTileCollision : BNE .collided_with_tile
-        JSL Sprite_Get_16_bit_CoordsLong
+    JSR.w Sprite4_CheckTileCollision : BNE .collided_with_tile
+        JSL.l Sprite_Get_16_bit_CoordsLong
         
         LDA.w $0DA0, X : STA.b $00
         LDA.w $0DB0, X : STA.b $01
@@ -144,7 +144,7 @@ ArmosCrusher_Crush:
         
         STZ.w $0ED0, X
         
-        LDA.b #$0C : JSL Sound_SetSfx2PanLong
+        LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
         
         LDA.b #$20 : STA.w $0F10, X
     

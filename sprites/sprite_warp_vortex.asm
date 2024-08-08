@@ -26,19 +26,19 @@ Sprite_WarpVortex:
     
     LDA.w $0FC6 : CMP.b #$03 : BCS .gamma
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     .gamma
     
-    JSR Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfActive
     
     LDA.b $1A : LSR #2 : AND.b #$03 : TAY
     
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip_states, Y : STA.w $0F50, X
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS .delta
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .delta
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .epsilon
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .epsilon
     
     LDA.w $0D90, X : BEQ .zeta
     

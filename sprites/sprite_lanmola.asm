@@ -51,13 +51,13 @@ Pool_Sprite_Lanmola_unused:
 ; $02A3A2-$02A3BE JUMP LOCATION
 Sprite_Lanmola:
 {
-    JSL Sprite_PrepOamCoordLong
-    JSR Lanmola_Draw
-    JSR Sprite2_CheckIfActive.permissive
+    JSL.l Sprite_PrepOamCoordLong
+    JSR.w Lanmola_Draw
+    JSR.w Sprite2_CheckIfActive_permissive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Lanmola_Wait   ; 0x00 - $A3BF
     dw Lanmola_Mound: ; 0x01 - $A3E6
@@ -69,8 +69,9 @@ Sprite_Lanmola:
 
 ; ==============================================================================
 
+; 0x00
 ; $02A3BF-$02A3D5 JUMP LOCATION
-Lanmola_Wait: ; 0x00
+Lanmola_Wait:
 {
     LDA.w $0DF0, X : ORA.w $0F00, X : BNE .delay
         LDA.b #$7F : STA.w $0DF0, X
@@ -78,7 +79,7 @@ Lanmola_Wait: ; 0x00
         INC.w $0D80, X
         
         ; Play rumbling sound.
-        LDA.b #$35 : JSL Sound_SetSfx2PanLong
+        LDA.b #$35 : JSL.l Sound_SetSfx2PanLong
     
     .delay
     
@@ -99,19 +100,20 @@ Pool_Lanmola_Mound:
     db $68, $60, $70, $80, $90, $A0, $A8, $B0
 }
 
+; 0x01
 ; $02A3E6-$02A41B JUMP LOCATION
-Lanmola_Mound: ; 0x01
+Lanmola_Mound:
 {
     LDA.w $0DF0, X : BNE Lanmola_SetScatterSandPosition_exit
-        JSL Lanmola_SpawnShrapnel
+        JSL.l Lanmola_SpawnShrapnel
         
         LDA.b #$13 : STA.w $012D
         
-        JSL GetRandomInt : AND.b #$07 : TAY
+        JSL.l GetRandomInt : AND.b #$07 : TAY
         
         LDA Pool_Lanmola_Mound_randXPos, Y : STA.w $0DA0, X
         
-        JSL GetRandomInt : AND.b #$07 : TAY
+        JSL.l GetRandomInt : AND.b #$07 : TAY
         
         LDA Pool_Lanmola_Mound_randYPos, Y : STA.w $0DB0, X
         
@@ -149,11 +151,12 @@ Lanmola_Fly_y_speed_slope:
     db 2, -2
 }
 
+; 0x02
 ; $02A431-$02A4CA JUMP LOCATION
-Lanmola_Fly: ; 0x03
+Lanmola_Fly:
 {
-    JSR Sprite2_CheckDamage
-    JSR Sprite2_MoveAltitude
+    JSR.w Sprite2_CheckDamage
+    JSR.w Sprite2_MoveAltitude
     
     ; Slowly decrease the Y speed when first coming out of the ground.
     LDA.w $0EC0, X : BNE .alpha
@@ -199,22 +202,23 @@ Lanmola_Fly: ; 0x03
     
     LDA.b #$0A
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     LDA.b $01 : STA.w $0D50, X
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     RTS
 }
 
+; 0x03
 ; $02A4CB-$02A4F1 JUMP LOCATION
-Lanmola_Dive: ; 0x03
+Lanmola_Dive:
 {
-    JSR Sprite2_CheckDamage
-    JSR Sprite2_Move
-    JSR Sprite2_MoveAltitude
+    JSR.w Sprite2_CheckDamage
+    JSR.w Sprite2_Move
+    JSR.w Sprite2_MoveAltitude
     
     LDA.w $0F80, X : CMP.b #$EC : BMI .alpha
         SEC : SBC.b #$01 : STA.w $0F80, X
@@ -226,7 +230,7 @@ Lanmola_Dive: ; 0x03
         
         LDA.b #$80 : STA.w $0DF0, X
         
-        JSR Lanmola_SetScatterSandPosition
+        JSR.w Lanmola_SetScatterSandPosition
     
     .notUnderGroundYet
     
@@ -235,17 +239,18 @@ Lanmola_Dive: ; 0x03
 
 ; ==============================================================================
 
+; 0x04
 ; $02A4F2-$02A514 JUMP LOCATION
-Lanmola_Reset: ; 0x04
+Lanmola_Reset:
 {
     LDA.w $0DF0, X : BNE .wait
         STZ.w $0D80, X
         
-        JSL GetRandomInt : AND.b #$07 : TAY
+        JSL.l GetRandomInt : AND.b #$07 : TAY
         
         LDA Lanmola_Mound_randXPos, Y : STA.w $0D10, X
         
-        JSL GetRandomInt : AND.b #$07 : TAY
+        JSL.l GetRandomInt : AND.b #$07 : TAY
         
         LDA Lanmola_Mound_randYPos, Y : STA.w $0D00, X
     
@@ -280,7 +285,7 @@ Sprite_SpawnFallingItem:
     LDY.b #$04 ; Try to load the effect into slot 4.
     LDA.b #$29 ; Trigger a falling item effect.
     
-    JSL AddPendantOrCrystal
+    JSL.l AddPendantOrCrystal
     
     PLX
     
@@ -289,17 +294,18 @@ Sprite_SpawnFallingItem:
 
 ; ==============================================================================
 
+; 0x05
 ; $02A529-$02A5D9 JUMP LOCATION
-Lanmola_Death: ; 0x05
+Lanmola_Death:
 {
     LDY.w $0DF0, X : BNE .alpha
         STZ.w $0DD0, X
         
-        JSL Sprite_VerifyAllOnScreenDefeated : BCC .alpha
+        JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .alpha
             ; Lanmolas are dead, spawn heart container.
-            LDA.b #$EA : JSL Sprite_SpawnDynamically
+            LDA.b #$EA : JSL.l Sprite_SpawnDynamically
             
-            JSL Sprite_SetSpawnedCoords
+            JSL.l Sprite_SetSpawnedCoords
             
             LDA.b #$20 : STA.w $0F80, Y
             LDA.b #$03 : STA.w $0D90, Y
@@ -321,7 +327,7 @@ Lanmola_Death: ; 0x05
         PLX
         
         ; Spawn a sprite that instantly dies as a boss explosion?
-        LDA.b #$00 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$00 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             LDA.b #$0B : STA.w $0AAA
             
             LDA.b #$04 : STA.w $0DD0, Y
@@ -337,7 +343,7 @@ Lanmola_Death: ; 0x05
             
             LDA.b #$0C : STA.w $0F50, Y
             
-            LDA.b #$0C : JSL Sound_SetSfx2PanLong
+            LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
             
             LDA.l $7FF81E, X : BMI .beta
                 DEC A : STA.l $7FF81E, X
@@ -430,7 +436,7 @@ Lanmola_Draw:
     LDA.w $0D40, X : SEC : SBC.w $0F80, X : STA.b $00
     LDA.w $0D50, X                        : STA.b $01
     
-    JSL Sprite_ConvertVelocityToAngle : STA.w $0DC0, X
+    JSL.l Sprite_ConvertVelocityToAngle : STA.w $0DC0, X
     
     LDA Pool_Lanmola_FinishInitialization_sprite_regions, X : STA.b $04
     
@@ -571,13 +577,13 @@ Lanmola_Draw:
             PHA
             
             LDA.w $0D40, X : ASL A : ROL A : ASL A : EOR.w $0D80, X : AND.b #$02 : BEQ .nu
-                LDA.b #$08 : JSL OAM_AllocateFromRegionB
+                LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
                 
                 BRA .xi
             
             .nu
             
-            LDA.b #$08 : JSL OAM_AllocateFromRegionC
+            LDA.b #$08 : JSL.l OAM_AllocateFromRegionC
             
             .xi
             
@@ -629,7 +635,7 @@ Lanmola_Draw:
 ; $02A820-$02A87F LOCAL JUMP LOCATION
 Lanmola_DrawMound:
 {
-    LDA.b #$04 : JSL OAM_AllocateFromRegionB
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
     
     LDA.w $0D10, X : SEC : SBC.b $E2 : STA.b $00
     LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $02

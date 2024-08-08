@@ -7,7 +7,7 @@ Sprite_PullForRupeesLong:
     ; PullForRupees sprite (0x33)
     PHB : PHK : PLB
     
-    JSR Sprite_PullForRupeesLong
+    JSR.w Sprite_PullForRupeesLong
     
     PLB
     
@@ -19,12 +19,12 @@ Sprite_PullForRupeesLong:
 ; $02E255-$02E28B LOCAL JUMP LOCATION
 Sprite_PullForRupees:
 {
-    JSL Sprite_PrepOamCoordLong
-    JSR Sprite2_CheckIfActive
+    JSL.l Sprite_PrepOamCoordLong
+    JSR.w Sprite2_CheckIfActive
     
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS .cant_pull
+    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .cant_pull
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_pull
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_pull
     
     LDA.b #$01 : STA.w $03F8 : STA.w $0D90, X
     
@@ -42,8 +42,8 @@ Sprite_PullForRupees:
     
     STZ.w $0DD0, X
     
-    JSL PullForRupees_SpawnRupees
-    JSL Sprite_SpawnPoofGarnish
+    JSL.l PullForRupees_SpawnRupees
+    JSL.l Sprite_SpawnPoofGarnish
     
     .cant_pull
     

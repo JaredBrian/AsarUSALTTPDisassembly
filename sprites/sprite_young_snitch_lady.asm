@@ -7,7 +7,7 @@ Sprite_YoungSnitchLadyLong:
     ; Scared Girl 2 (HM Name) (0x34)
     PHB : PHK : PLB
     
-    JSR SpriteYoungSnitchLady
+    JSR.w SpriteYoungSnitchLady
     
     PLB
     
@@ -21,7 +21,7 @@ Sprite_YoungSnitchLady:
 {
     LDA.w $0D80, X : CMP.b #$02 : BCS .not_visible
     
-    JSR YoungSnitchLady_Draw
+    JSR.w YoungSnitchLady_Draw
     
     .not_visible
     
@@ -65,8 +65,8 @@ YoungSnitchLady_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam-groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

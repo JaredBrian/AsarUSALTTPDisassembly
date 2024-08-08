@@ -31,7 +31,7 @@ ArmosCoordinatorLong:
 {
     PHB : PHK : PLB
     
-    JSR ArmosCoordinator_Main
+    JSR.w ArmosCoordinator_Main
     
     PLB
     
@@ -51,7 +51,7 @@ ArmosCoordinator_Main:
     
     LDA !coordinator_ai_state, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ArmosCoordinator_AwaitKnightActivation     ; 0x00 - $EC12
     dw ArmosCoordinator_AwaitKnightsUnderCoercion ; 0x01 - $EC34
@@ -83,7 +83,7 @@ ArmosCoordinator_AwaitKnightActivation:
         LDA.b #$C0 : STA !coordinator_angle
         LDA.b #$01 : STA !coordinator_angle+1
         
-        JSR ArmosCoordinator_TimedRotateThenTransition
+        JSR.w ArmosCoordinator_TimedRotateThenTransition
     
     .wait_for_knights_to_activate
     
@@ -96,7 +96,7 @@ ArmosCoordinator_AwaitKnightActivation:
 ArmosCoordinator_AwaitKnightsUnderCoercion:
 {
     ; Check for alive knights of a certain state?
-    JSR ArmosCoordinator_AreAllActiveKnightsSubmissive
+    JSR.w ArmosCoordinator_AreAllActiveKnightsSubmissive
     BCC .delay_next_state
     
         INC !coordinator_ai_state, X
@@ -120,13 +120,13 @@ ArmosCoordinator_OrderKnightsToBackWall_x_positions:
 ArmosCoordinator_OrderKnightsToBackWall:
 {
     LDA !state_timer, X : BNE .delay_movement
-        JSR ArmosCoordinator_DisableKnights_XY_Coercion
+        JSR.w ArmosCoordinator_DisableKnights_XY_Coercion
         
         LDY.b #$05
         
         .next_knight
         
-            LDA .x_position, Y : STA !puppet_x_low, Y
+            LDA.w .x_position, Y : STA !puppet_x_low, Y
             
             LDA.b #$30 : STA !puppet_y_low, Y
         DEY : BPL .next_knight
@@ -160,8 +160,8 @@ ArmosCoordinator_CascadeKnightsToFrontWall:
             
             LDA !angle_step, X : EOR.b #$FF : INC A : STA !angle_step, X
             
-            JSR ArmosCoordinator_DisableKnights_XY_Coercion
-            JSR ArmosCoordinator_Rotate
+            JSR.w ArmosCoordinator_DisableKnights_XY_Coercion
+            JSR.w ArmosCoordinator_Rotate
             
             RTS
         
@@ -274,21 +274,21 @@ ArmosCoordinator_Rotate:
         
         PLX
         
-        LDA.b $04 : STA.w $4202
+        LDA.b $04 : STA.w SNES.MultiplicandA
         
         LDA.b $0F
         
         LDY.b $05 : BNE .BRANCH_GAMMA
-            STA.w $4203
+            STA.w SNES.MultiplierB
             
             NOP #8
             
             ; BUG:(maybe) Is $4216 readable? What is the actual point of this?
             ; Whatever is read out is open bus so it would be the value from
             ; $4203, I think...
-            ASL.w $4216
+            ASL.w SNES.RemainderResultLow
             
-            LDA.w $4217 : ADC.b #$00
+            LDA.w SNES.RemainderResultHigh : ADC.b #$00
         
         .BRANCH_GAMMA
         
@@ -308,19 +308,19 @@ ArmosCoordinator_Rotate:
         LDY.w $0FB5 : STA !puppet_x_low, Y
         LDA !overlord_x_high, X : ADC.b $0A : STA !pupper_x_high, Y
         
-        LDA.b $06 : STA.w $4202
+        LDA.b $06 : STA.w SNES.MultiplicandA
         
         LDA.b $0F
         
         LDY.b $07 : BNE .BRANCH_ZETA
-            STA.w $4203
+            STA.w SNES.MultiplierB
             
             NOP #8
             
             ; BUG:(maybe) Scroll up and read.
-            ASL.w $4216
+            ASL.w SNES.RemainderResultLow
             
-            LDA.w $4217 : ADC.b #$00
+            LDA.w SNES.RemainderResultHigh : ADC.b #$00
         
         .BRANCH_ZETA
         

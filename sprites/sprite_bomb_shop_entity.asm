@@ -8,7 +8,7 @@ Sprite_BombShopEntity:
     
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sprite_BombShopGuy
     dw Sprite_BombShopBomb
@@ -39,8 +39,8 @@ Pool_Sprite_BombShopGuy:
 ; $0F6134-$0F618F JUMP LOCATION
 Sprite_BombShopGuy:
 {
-    JSR BombShopEntity_Draw
-    JSR Sprite3_CheckIfActive
+    JSR.w BombShopEntity_Draw
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -48,19 +48,19 @@ Sprite_BombShopGuy:
     
     INC A : AND.b #$07 : STA.w $0E90, X
     
-    LDA .timers, Y : STA.w $0DF0, X
+    LDA.w .timers, Y : STA.w $0DF0, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X : BNE .play_breathe_in_sound
+    LDA.w .animation_states, Y : STA.w $0DC0, X : BNE .play_breathe_in_sound
     
-    LDA.b #$11 : JSL Sound_SetSfx3PanLong
+    LDA.b #$11 : JSL.l Sound_SetSfx3PanLong
     
-    JSR BombShopGuy_SpawnSnoutPuff
+    JSR.w BombShopGuy_SpawnSnoutPuff
     
     BRA .moving_on
     
     .play_breathe_in_sound
     
-    LDA.b #$12 : JSL Sound_SetSfx3PanLong
+    LDA.b #$12 : JSL.l Sound_SetSfx3PanLong
     
     .moving_on
     .delay
@@ -78,11 +78,11 @@ Sprite_BombShopGuy:
     
     .dont_have_super_bomb
     
-    LDA .messages_low, Y        : XBA
-    LDA .messages_high, Y : TAY : XBA
+    LDA.w .messages_low, Y        : XBA
+    LDA.w .messages_high, Y : TAY : XBA
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_PlayerCantPassThrough
     
     RTS
 }
@@ -92,11 +92,11 @@ Sprite_BombShopGuy:
 ; $0F6190-$0F61DE JUMP LOCATION
 Sprite_BombShopBomb:
 {
-    JSR BombShopEntity_Draw
-    JSR Sprite3_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w BombShopEntity_Draw
+    JSR.w Sprite3_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
-    JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .didnt_solicit
+    JSR.w ShopKeeper_CheckPlayerSolicitedDamage : BCC .didnt_solicit
     
     LDA.l $7EF370 : PHX : TAX
     
@@ -116,7 +116,7 @@ Sprite_BombShopBomb:
     LDA.b #$19
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     LDY.b #$28
     
@@ -131,7 +131,7 @@ Sprite_BombShopBomb:
     LDA.b #$6E
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     JSR.w $F38A   ; $0F738A IN ROM
     
     RTS
@@ -146,11 +146,11 @@ Sprite_BombShopBomb:
 ; $0F61DF-$0F6215 JUMP LOCATION
 Sprite_BombShopSuperBomb:
 {
-    JSR BombShopEntity_Draw
-    JSR Sprite3_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w BombShopEntity_Draw
+    JSR.w Sprite3_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
-    JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .didnt_solicit
+    JSR.w ShopKeeper_CheckPlayerSolicitedDamage : BCC .didnt_solicit
     
     LDA.b #$64
     LDY.b #$00
@@ -162,19 +162,19 @@ Sprite_BombShopSuperBomb:
     
     PHX
     
-    JSL Tagalong_LoadGfx
+    JSL.l Tagalong_LoadGfx
     
     PLX
     
-    JSL Tagalong_LoadGfx
-    JSL Tagalong_SpawnFromSprite
+    JSL.l Tagalong_LoadGfx
+    JSL.l Tagalong_SpawnFromSprite
     
     STZ.w $0DD0, X
     
     LDA.b #$1A
     LDY.b #$01
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .didnt_solicit
     
@@ -199,10 +199,10 @@ Pool_Sprite_BombShopSnoutPuff:
 ; $0F621A-$0F6255 JUMP LOCATION
 Sprite_BombShopSnoutPuff:
 {
-    LDA.b #$04 : JSL OAM_AllocateFromRegionC
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionC
     
-    JSL Sprite_PrepAndDrawSingleSmallLong
-    JSR Sprite3_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleSmallLong
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0F50, X : AND.b #$30 : STA.w $0F50, X
     
@@ -212,7 +212,7 @@ Sprite_BombShopSnoutPuff:
     
     INC.w $0F80, X
     
-    JSR Sprite3_MoveAltitude
+    JSR.w Sprite3_MoveAltitude
     
     LDA.w $0DF0, X : BNE .dont_self_terminate
 
@@ -231,7 +231,7 @@ Sprite_BombShopSnoutPuff:
 BombShopGuy_SpawnSnoutPuff:
 {
     ; Spawn Bomb salesman or his bombs?
-    LDA.b #$B5 : JSL Sprite_SpawnDynamically
+    LDA.b #$B5 : JSL.l Sprite_SpawnDynamically
     
     LDA.b #$03 : STA.w $0E80, Y : STA.w $0BA0, Y
     
@@ -288,8 +288,8 @@ BombShopEntity_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

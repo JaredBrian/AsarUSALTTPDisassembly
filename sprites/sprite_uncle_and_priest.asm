@@ -9,7 +9,7 @@ SpritePrep_UncleAndSageLong:
 {
     PHB : PHK : PLB
     
-    JSR SpritePrep_UncleAndSage
+    JSR.w SpritePrep_UncleAndSage
     
     PLB
     
@@ -39,7 +39,7 @@ SpritePrep_UncleAndSage:
     
     .in_sanctuary
     
-    JSR Sage_SpawnMantle
+    JSR.w Sage_SpawnMantle
     
     LDA.l $7EF3C5 : CMP.b #$03 : BCC .agahnim_not_defeated
     
@@ -73,7 +73,7 @@ SpritePrep_UncleAndSage:
     
     .dontHaveMasterSword
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03
     
     STA.w $0EB0, X : STA.w $0DE0, X
     
@@ -99,11 +99,11 @@ SpritePrep_UncleAndSage:
     
     ASL A : TAY
     
-    LDA .x_offsets + 0, Y : CLC : ADC.w $0D10, X : STA.w $0D10, X
-    LDA .x_offsets + 1, Y : ADC.w $0D3030, X : STA.w $0D3030, X
+    LDA.w .x_offsets + 0, Y : CLC : ADC.w $0D10, X : STA.w $0D10, X
+    LDA.w .x_offsets + 1, Y : ADC.w $0D3030, X : STA.w $0D3030, X
     
-    LDA .y_offsets + 0, Y : CLC : ADC.w $0D00000000, X : STA.w $0D00, X
-    LDA .y_offsets + 1, Y : ADC.w $0D20, X : STA.w $0D20, X
+    LDA.w .y_offsets + 0, Y : CLC : ADC.w $0D00000000, X : STA.w $0D00, X
+    LDA.w .y_offsets + 1, Y : ADC.w $0D20, X : STA.w $0D20, X
     
     INC.w $0BA0, X
     
@@ -163,17 +163,17 @@ Sage_SpawnMantle:
     ; Create Sage... actually create the mantle behind him.
     LDA.b #$73
     
-    JSL Sprite_SpawnDynamically
+    JSL.l Sprite_SpawnDynamically
     
     STZ.w $0DDF
     
     LDA.w $0E40, Y : AND.b #$F0 : ORA.b #$03 : STA.w $0E40, Y
     
-    LDA .x_coord     : STA.w $0D10, Y
-    LDA .x_coord + 1 : STA.w $0D30, Y
+    LDA.w .x_coord     : STA.w $0D10, Y
+    LDA.w .x_coord + 1 : STA.w $0D30, Y
     
-    LDA .y_coord     : STA.w $0D00, Y
-    LDA .y_coord + 1 : STA.w $0D20, Y
+    LDA.w .y_coord     : STA.w $0D00, Y
+    LDA.w .y_coord + 1 : STA.w $0D20, Y
     
     LDA.b #$02 : STA.w $0E90, Y
     
@@ -207,7 +207,7 @@ Sprite_UncleAndSageLong:
     
     PHB : PHK : PLB
     
-    JSR Sprite_UncleAndSage
+    JSR.w Sprite_UncleAndSage
     
     PLB
     
@@ -221,7 +221,7 @@ Sprite_UncleAndSage:
 {
     LDA.w $0E90, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sprite_Uncle
     dw Sprite_Sage
@@ -233,20 +233,20 @@ Sprite_UncleAndSage:
 ; $02DB9B-$02DBD2 JUMP LOCATION
 Sprite_SageMantle:
 {
-    JSR SageMantle_Draw
-    JSR Sprite2_CheckIfActive
+    JSR.w SageMantle_Draw
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0DB0, X : BNE SageMantle_SlidingRight
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong  
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong  
     
     BCC SageMantle_NoPlayerCollision
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     STZ.b $5E
     
-    JSL Sprite_RepelDashAttackLong
+    JSL.l Sprite_RepelDashAttackLong
     
     LDA.b #$07 : STA.w $0E00, X
     
@@ -261,7 +261,7 @@ Sprite_SageMantle:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $DC00 ; = $2DC00*
     dw $DC39 ; = $2DC39*
@@ -279,7 +279,7 @@ SageMantle_NoPlayerCollision:
     
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $DBF5 ; = $2DBF5*
     dw SageMantle_DoNothing
@@ -294,7 +294,7 @@ SageMantle_SlidingRight:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $DC00 ; = $2DC00*
     dw $DC39 ; = $2DC39*
@@ -326,7 +326,7 @@ SageMantle_SlidingRight:
     LDA.w $0D10, X : PHA : CLC : ADC.b #$13 : STA.w $0D10, X
     LDA.w $0D30, X : PHA : ADC.b #$00 : STA.w $0D30, X
     
-    JSR Sprite2_DirectionToFacePlayer
+    JSR.w Sprite2_DirectionToFacePlayer
     
     PLA : STA.w $0D30, X
     PLA : STA.w $0D10, X
@@ -353,7 +353,7 @@ SageMantle_SlidingRight:
 
 ; $02DC39-$02DC51 JUMP LOCATION
 {
-    LDA.b #$18 : JSL Sound_SetSfx3PanLong
+    LDA.b #$18 : JSL.l Sound_SetSfx3PanLong
     
     INC.w $0D80, X
     
@@ -370,7 +370,7 @@ SageMantle_SlidingRight:
 
 ; $02DC52-$02DC69 JUMP LOCATION
 {
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     LDA.w $0DF0, X : BNE .alpha
     
@@ -411,7 +411,7 @@ SageMantle_Draw:
     
     LDA.w $0DB0, X : BNE .moving
     
-    LDA.b #$10 : JSL OAM_AllocateFromRegionB
+    LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
     
     .moving
     
@@ -478,18 +478,18 @@ Sprite_Sage:
 {
     LDA.w $0D90, X : BNE .dont_draw
     
-    JSL Priest_Draw
+    JSL.l Priest_Draw
     
     .dont_draw
     
-    JSR Sprite2_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
-    JSL Sprite_MakeBodyTrackHeadDirection
-    JSR Sprite2_Move
+    JSR.w Sprite2_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
+    JSL.l Sprite_MakeBodyTrackHeadDirection
+    JSR.w Sprite2_Move
     
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sage_MortallyWounded
     dw $DD63 ; = $2DD63*
@@ -505,7 +505,7 @@ Sage_MortallyWounded:
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sage_DyingWords
     dw Sage_DeathFlash
@@ -521,7 +521,7 @@ Sage_DyingWords:
     LDA.b #$1B
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .textNotTriggered
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .textNotTriggered
     
     INC.w $0D80, X
     
@@ -556,7 +556,7 @@ Sage_DeathFlash:
     
     LDA.w $0E10, X : AND.b #$07 : BNE .dont_play_sound
     
-    LDA.b #$33 : JSL Sound_SetSfx2PanLong
+    LDA.b #$33 : JSL.l Sound_SetSfx2PanLong
     
     .dont_play_sound
     
@@ -582,7 +582,7 @@ Sage_Terminate:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $DD72 ; = $2DD72*
     dw $DD9F ; = $2DD9F*
@@ -602,13 +602,13 @@ Sage_Terminate:
     LDA.b #$17
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
     LDA.b #$01 : STA.l $7FFE01
     
-    JSR Zelda_TransitionFromTagalong
+    JSR.w Zelda_TransitionFromTagalong
     
     LDA.b #$01 : STA.w $02E4
     
@@ -629,7 +629,7 @@ Sage_Terminate:
     LDA.b #$18
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -661,12 +661,12 @@ Sage_Terminate:
 
 ; $02DDC5-$02DDDE JUMP LOCATION
 {
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA.b #$16
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .alpha
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .alpha
     
     ; "Meet the elder of the village and get the master sword" message
     STA.w $0DE0, X
@@ -692,7 +692,7 @@ Sage_Terminate:
 
 ; $02DDE5-$02DE23 JUMP LOCATION
 {
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDY.b #$00
     
@@ -713,7 +713,7 @@ Sage_Terminate:
     LDA.w $DDDF, Y       : XBA
     LDA.w $DDE2, Y : TAY : XBA
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .gamma
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .gamma
     
     STA.w $0DE0, X
     STA.w $0EB0, X
@@ -742,12 +742,12 @@ Pool_Uncle_LeavingHouse:
 ; $02DE2C-$02DE3D JUMP LOCATION
 Sprite_Uncle:
 {
-    JSL Uncle_Draw
-    JSR Sprite2_CheckIfActive
+    JSL.l Uncle_Draw
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Uncle_AtHome
     dw Uncle_InSecretPassage
@@ -758,11 +758,11 @@ Sprite_Uncle:
 ; $02DE3E-$02DE51 JUMP LOCATION
 Uncle_AtHome:
 {
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Uncle_TelepathicZeldaPlea
     dw Uncle_WakeUpPlayer
@@ -788,7 +788,7 @@ Uncle_TelepathicZeldaPlea:
     LDA.b #$1F
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -837,7 +837,7 @@ Uncle_TellPlayerToStay:
     LDY.b #$00
     
     ; [Name], I'm going out for a while. I'll be back by morning..." message
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -876,12 +876,12 @@ Uncle_LeavingHouse:
     
     .already_stood_up
     
-    LDA .data_timers, Y : STA.w $0DF0, X
+    LDA.w .data_timers, Y : STA.w $0DF0, X
     
-    LDA .data_directions, Y : STA.w $0DE0, X : TAY
+    LDA.w .data_directions, Y : STA.w $0DE0, X : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     INC.w $0D90, X
     
@@ -931,7 +931,7 @@ Uncle_InSecretPassage:
 {
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Uncle_RemoveZeldaTelepathTagalong
     dw Uncle_GiveSwordAndShield
@@ -943,9 +943,9 @@ Uncle_InSecretPassage:
 ; $02DF26-$02DF43 JUMP LOCATION
 Uncle_RemoveZeldaTelepathTagalong:
 {
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     .player_not_close
     
@@ -953,7 +953,7 @@ Uncle_RemoveZeldaTelepathTagalong:
     LDY.b #$00
     
     ; "Unnh... [Name], I didn't want you involved in this..."
-    JSL Sprite_ShowMessageFromPlayerContact : BCC .player_not_close_2
+    JSL.l Sprite_ShowMessageFromPlayerContact : BCC .player_not_close_2
     
     ; Your Uncle frees you from Zelda's haunting >_<.
     LDA.b #$00 : STA.l $7EF3CC
@@ -976,7 +976,7 @@ Uncle_GiveSwordAndShield:
     
     STZ.w $02E9
     
-    JSL Link_ReceiveItem
+    JSL.l Link_ReceiveItem
     
     INC.w $0D80, X
     

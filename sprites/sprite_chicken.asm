@@ -33,12 +33,12 @@ Sprite_Chicken:
     
     .x_speed_at_rest
     
-    JSR Sprite_PrepAndDrawSingleLarge
+    JSR.w Sprite_PrepAndDrawSingleLarge
     
     LDA.w $0EB0, X : BEQ .not_transmutable_to_human
     LDA.b #$3D : STA.w $0E20, X
     
-    JSL Sprite_LoadProperties
+    JSL.l Sprite_LoadProperties
     
     INC.w $0E30, X
     
@@ -54,27 +54,27 @@ Sprite_Chicken:
     LDA.b #$03 : STA.w $0D80, X
         LDA.b $11 : BNE .inactive_game_submodule
         
-        JSR Chicken_SlowAnimate
-        JSR Chicken_DrawDistressMarker
+        JSR.w Chicken_SlowAnimate
+        JSR.w Chicken_DrawDistressMarker
         
         LDA.b $1A : AND.b #$0F : BNE .no_bawk_bawk
-            JSR Chicken_BawkBawk
+            JSR.w Chicken_BawkBawk
         
         .no_bawk_bawk
     .inactive_game_submodule
     .not_being_held_by_player
     
-    JSR Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0DB0, X : BEQ .not_part_of_horde
     LDA.w $0F50, X : ORA.b #$10 : STA.w $0F50, X
     
-    JSR Sprite_Move
+    JSR.w Sprite_Move
     
     LDA.b #$0C : STA.w $0F7070, X : STA.w $0BA0A0, X
     
     TXA : EOR.b $1A : AND.b #$07 : BNE .horde_damage_delay
-        JSR Sprite_CheckDamageToPlayer
+        JSR.w Sprite_CheckDamageToPlayer
     
     .horde_damage_delay
     
@@ -87,7 +87,7 @@ Sprite_Chicken:
     ; Begin spawning attack chickens if the player has hit this chicken
     ; too many times.
     LDA.w $0DA0, X : CMP.b #$23 : BCC .anospawn_attack_chicken
-    JSR Chicken_SpawnAvengerChicken
+    JSR.w Chicken_SpawnAvengerChicken
     
     .anospawn_attack_chicken
     
@@ -99,7 +99,7 @@ Sprite_Chicken:
     LDA.w $0DA0, X : CMP.b #$23 : BCS .saturated_with_hits
         INC.w $0DA0, X
         
-        JSR Chicken_BawkBawk
+        JSR.w Chicken_BawkBawk
     
     .saturated_with_hits
     
@@ -107,7 +107,7 @@ Sprite_Chicken:
     
     .no_new_hits_from_player
     
-    JSR Sprite_CheckDamageFromPlayer
+    JSR.w Sprite_CheckDamageFromPlayer
     
     LDA.w $0D80, X : BEQ .calm
     CMP.b #$01   : BEQ Chicken_Hopping
@@ -121,7 +121,7 @@ Sprite_Chicken:
     .calm
     
     LDA.w $0DF0, X : BNE .delay_direction_change 
-    JSL GetRandomInt : AND.b #$0F
+    JSL.l GetRandomInt : AND.b #$0F
     
     PHX : TXY
     
@@ -133,7 +133,7 @@ Sprite_Chicken:
     
     PLX
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$10 : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$10 : STA.w $0DF0, X
     
     INC.w $0D80, X
     
@@ -144,7 +144,7 @@ Sprite_Chicken:
     ; $0326AD ALTERNATE ENTRY POINT
 Chicken_CheckIfLifted:
     
-    JSR Sprite_CheckIfLifted
+    JSR.w Sprite_CheckIfLifted
     
     RTS
 }
@@ -155,13 +155,13 @@ Chicken_CheckIfLifted:
 Chicken_Hopping:
 {
     TXA : EOR.b $1A : LSR A : BCC .skip_tile_collision_logic
-    JSR Chicken_Move_XY_AndCheckTileCollision : BEQ .no_tile_collision
+    JSR.w Chicken_Move_XY_AndCheckTileCollision : BEQ .no_tile_collision
         STZ.w $0D80, X
     
     .no_tile_collision
     .skip_tile_collision_logic
     
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_MoveAltitude
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
@@ -199,8 +199,8 @@ Chicken_SlowAnimate:
 ; $0326FC-$03272E JUMP LOCATION
 Chicken_FleeingPlayer:
 {
-    JSR Chicken_CheckIfLifted
-    JSR Chicken_Move_XY_AndCheckTileCollision
+    JSR.w Chicken_CheckIfLifted
+    JSR.w Chicken_Move_XY_AndCheckTileCollision
     
     STZ.w $0F70, X
     
@@ -208,7 +208,7 @@ Chicken_FleeingPlayer:
     ; $03270C ALTERNATE ENTRY POINT
     Chicken_SetFleePlayerSpeeds:
     
-    LDA.b #$10 : JSR Sprite_ProjectSpeedTowardsPlayer
+    LDA.b #$10 : JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
@@ -217,13 +217,13 @@ Chicken_FleeingPlayer:
     
     INC.w $0E80, X
     
-    JSR Chicken_FastAnimate
+    JSR.w Chicken_FastAnimate
     
     ; $032727 ALTERNATE ENTRY POINT
 Chicken_DrawDistressMarker:
     
-    JSR Sprite_PrepOamCoord
-    JSL Sprite_DrawDistressMarker
+    JSR.w Sprite_PrepOamCoord
+    JSL.l Sprite_DrawDistressMarker
     
     RTS
 }
@@ -241,7 +241,7 @@ Sprite_DrawDistressMarker:
 Sprite_CustomTimedDrawDistressMarker:
     
     ; Allocate some oam space...
-    LDA.b #$10 : JSL OAM_AllocateFromRegionA
+    LDA.b #$10 : JSL.l OAM_AllocateFromRegionA
     
     LDA.b $06 : AND.b #$18 : BEQ .return
     PHX
@@ -292,13 +292,13 @@ Sprite_CustomTimedDrawDistressMarker:
 ; $03278E-$0327B7 LOCAL JUMP LOCATION
 Chicken_Aloft:
 {
-    JSR Chicken_Move_XYZ_AndCheckTileCollision : BEQ .no_tile_collision
-    JSR Sprite_Invert_XY_Speeds
+    JSR.w Chicken_Move_XYZ_AndCheckTileCollision : BEQ .no_tile_collision
+    JSR.w Sprite_Invert_XY_Speeds
 
-    JSR Sprite_Move
-    JSR Sprite_Halve_XY_Speeds
-    JSR Sprite_Halve_XY_Speeds
-    JSR Chicken_BawkBawk
+    JSR.w Sprite_Move
+    JSR.w Sprite_Halve_XY_Speeds
+    JSR.w Sprite_Halve_XY_Speeds
+    JSR.w Chicken_BawkBawk
     
     .no_tile_collision
     
@@ -321,13 +321,13 @@ Chicken_Aloft:
 ; $0327B8-$0327C2 ALTERNATE ENTRY POINT
 Chicken_Move_XYZ_AndCheckTileCollision:
 {
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_MoveAltitude
     
     ; $0327BB ALTERNATE ENTRY POINT
 Chicken_Move_XY_AndCheckTileCollision:
     
-    JSR Sprite_Move
-    JSL Sprite_CheckTileCollisionLong
+    JSR.w Sprite_Move
+    JSL.l Sprite_CheckTileCollisionLong
     
     RTS
 }
@@ -354,12 +354,12 @@ Chicken_SpawnAvengerChicken:
     LDA.b #$0B
     LDY.b #$0A
     
-    JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
         PHX
         
         TYX
         
-        LDA.b #$1E : JSL Sound_SetSfx3PanLong
+        LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
         
         PLX
         
@@ -367,7 +367,7 @@ Chicken_SpawnAvengerChicken:
         
         PHX
         
-        JSL GetRandomInt : STA.b $0F : AND.b #$02 : BEQ .vertical_entry_point
+        JSL.l GetRandomInt : STA.b $0F : AND.b #$02 : BEQ .vertical_entry_point
             LDA.b $0F : ADC.b $E2    : STA.w $0D10, Y
             LDA.b $E3 : ADC.b #$00 : STA.w $0D30, Y
             
@@ -392,14 +392,14 @@ Chicken_SpawnAvengerChicken:
     
         TYX
         
-        LDA.b #$20 : JSR Sprite_ApplySpeedTowardsPlayer
+        LDA.b #$20 : JSR.w Sprite_ApplySpeedTowardsPlayer
         
         PLX
     
         ; $03284C ALTERNATE ENTRY POINT
         Chicken_BawkBawk:
     
-        LDA.b #$30 : JSL Sound_SetSfx2PanLong
+        LDA.b #$30 : JSL.l Sound_SetSfx2PanLong
     
     .spawn_failed
     .spawn_delay

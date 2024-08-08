@@ -6,7 +6,7 @@ Sprite_HumanMulti_1_Long:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_HumanMulti_1
+    JSR.w Sprite_HumanMulti_1
     
     PLB
     
@@ -20,7 +20,7 @@ Sprite_HumanMulti_1:
 {
     LDA.w $0E80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Sprite_FluteBoyFather
     dw Sprite_ThiefHideoutGuy
@@ -32,10 +32,10 @@ Sprite_HumanMulti_1:
 ; $06C2E6-$06C307 JUMP LOCATION
 Sprite_BlindHideoutGuy:
 {
-    JSR BlindHideoutGuy_Draw
-    JSR Sprite5_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
-    JSL Sprite_MakeBodyTrackHeadDirection
+    JSR.w BlindHideoutGuy_Draw
+    JSR.w Sprite5_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
+    JSL.l Sprite_MakeBodyTrackHeadDirection
     
     STZ.w $0EB0, X
     
@@ -43,7 +43,7 @@ Sprite_BlindHideoutGuy:
     LDA.b #$72
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     STA.w $0DE0, X
     STA.w $0EB0, X
@@ -62,7 +62,7 @@ Sprite_ThiefHideoutGuy:
     
     LDA.b #$02 : STA.w $0DC0, X
     
-    JSL Sprite_DirectionToFacePlayerLong : CPY.b #$03 : BNE .not_up
+    JSL.l Sprite_DirectionToFacePlayerLong : CPY.b #$03 : BNE .not_up
     
     LDY.b #$02
     
@@ -74,16 +74,16 @@ Sprite_ThiefHideoutGuy:
     
     LDA.b #$0F : STA.w $0F50, X
     
-    JSL Sprite_OAM_AllocateDeferToPlayerLong
-    JSL Thief_Draw
-    JSR Sprite5_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSL.l Sprite_OAM_AllocateDeferToPlayerLong
+    JSL.l Thief_Draw
+    JSR.w Sprite5_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     ; "Hey kid, this is a secret hide-out for a gang of thieves! ..."
     LDA.b #$71
     LDY.b #$01
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     LDA.b #$02 : STA.w $0DC0, X
     
@@ -95,9 +95,9 @@ Sprite_ThiefHideoutGuy:
 ; $06C343-$06C3B0 JUMP LOCATION
 Sprite_FluteBoyFather:
 {
-    JSR FluteBoyFather_Draw
-    JSR Sprite5_CheckIfActive
-    JSL Sprite_PlayerCantPassThrough
+    JSR.w FluteBoyFather_Draw
+    JSR.w Sprite5_CheckIfActive
+    JSL.l Sprite_PlayerCantPassThrough
     
     LDA.b $1A : CMP.b #$30 : BCS .dozing
     
@@ -121,7 +121,7 @@ Sprite_FluteBoyFather:
     LDA.b #$A1
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
     .didnt_speak
     
@@ -133,7 +133,7 @@ Sprite_FluteBoyFather:
     LDA.b #$A4
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak_2
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak_2
     
     RTS
     
@@ -143,7 +143,7 @@ Sprite_FluteBoyFather:
     
     BIT.b $F0 : BVC .flute_usage_not_detected
     
-    JSL Sprite_CheckDamageToPlayerSameLayerLong
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong
     
     BCC .flute_usage_not_detected
     
@@ -151,7 +151,7 @@ Sprite_FluteBoyFather:
     LDA.b #$A2
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
@@ -167,7 +167,7 @@ Sprite_FluteBoyFather:
     LDA.b #$A3
     LDY.b #$00
     
-    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     LDA.b #$02 : STA.w $0DC0, X
     
@@ -203,8 +203,8 @@ FluteBoyFather_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }
@@ -253,8 +253,8 @@ BlindHideoutGuy_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     RTS
 }

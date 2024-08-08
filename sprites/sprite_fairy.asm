@@ -32,7 +32,7 @@ Sprite_HandleDraggingByAncilla:
     
     .ancilla_not_active
     
-    JSL Sprite_HandleAbsorptionByPlayerLong
+    JSL.l Sprite_HandleAbsorptionByPlayerLong
     
     BRA .terminate_caller
 }
@@ -52,16 +52,16 @@ Sprite_Fairy:
     
     .indoors
     
-    JSR Sprite_DrawTransientAbsorbable
+    JSR.w Sprite_DrawTransientAbsorbable
     
     .being_captured
     
-    JSR Fairy_CheckForTemporaryUntouchability
-    JSR Sprite_CheckIfActive
+    JSR.w Fairy_CheckForTemporaryUntouchability
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Fairy_Normal
     dw Fairy_HandleCapture
@@ -74,15 +74,15 @@ Fairy_Normal:
 {
     LDA.w $0F10, X : BNE .cant_touch_this
     
-    JSR Sprite_CheckDamageToPlayer : BCC .no_player_collision
+    JSR.w Sprite_CheckDamageToPlayer : BCC .no_player_collision
     
-    JSL Sprite_HandleAbsorptionByPlayerLong
+    JSL.l Sprite_HandleAbsorptionByPlayerLong
     
     BRA .return
     
     .no_player_collision
     
-    JSR Sprite_CheckDamageFromPlayer : BEQ .not_bugnetted
+    JSR.w Sprite_CheckDamageFromPlayer : BEQ .not_bugnetted
     
     INC.w $0D80, X
     
@@ -91,7 +91,7 @@ Fairy_Normal:
     LDA.b #$C9
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     RTS
     
@@ -99,8 +99,8 @@ Fairy_Normal:
     .not_bugnetted
     .cant_touch_this
     
-    JSR Sprite_HandleDraggingByAncilla
-    JSL Fairy_HandleMovementLong
+    JSR.w Sprite_HandleDraggingByAncilla
+    JSL.l Fairy_HandleMovementLong
     
     RTS
 }
@@ -112,7 +112,7 @@ Fairy_HandleCapture:
 {
     LDA.w $1CE8 : BNE .was_released
     
-    JSL Sprite_GetEmptyBottleIndex : BMI .no_empty_bottle
+    JSL.l Sprite_GetEmptyBottleIndex : BMI .no_empty_bottle
     
     PHX
     
@@ -120,7 +120,7 @@ Fairy_HandleCapture:
     
     LDA.b #$06 : STA.l $7EF35C, X
     
-    JSL HUD.RefreshIconLong
+    JSL.l HUD.RefreshIconLong
     
     PLX
     
@@ -135,7 +135,7 @@ Fairy_HandleCapture:
     LDA.b #$CA
     LDY.b #$00
     
-    JSL Sprite_ShowMessageUnconditional
+    JSL.l Sprite_ShowMessageUnconditional
     
     .was_released
     

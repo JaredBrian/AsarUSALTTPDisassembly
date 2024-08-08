@@ -87,7 +87,7 @@ Blind_SpawnFromMaidenTagalong:
     LDA.b $02 : SEC : SBC.b #$10 : STA.w $0D00, X
     LDA.b $03                    : STA.w $0D20, X
     
-    JSL Sprite_LoadProperties
+    JSL.l Sprite_LoadProperties
     
     LDA.b #$C0 : STA !timer_2, X
     
@@ -208,7 +208,7 @@ Sprite_BlindHead:
 {
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     PHX
     
@@ -222,7 +222,7 @@ Sprite_BlindHead:
     
     PLX
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     LDA.w $0EA0, X : CMP.b #$0E : BNE .anospeed_up_recoil
         ; Slightly speed up the recoil process? Seems hacky. HARDCODED
@@ -230,7 +230,7 @@ Sprite_BlindHead:
     
     .anospeed_up_recoil
     
-    JSR Sprite4_CheckIfRecoiling
+    JSR.w Sprite4_CheckIfRecoiling
     
     DEC !head_rotate_delay, X : BPL .anorotate
         LDA.b #$02 : STA !head_rotate_delay, X
@@ -246,14 +246,14 @@ Sprite_BlindHead:
     
     .fully_active
     
-    JSR Sprite4_CheckDamage
+    JSR.w Sprite4_CheckDamage
     
     INC !forward_timer, X
     
     ; Spawn semi frequently (every 0x20 frames).
     LDA.b #$1F
     
-    JSR Blind_SpawnFireball
+    JSR.w Blind_SpawnFireball
     
     TYA : BMI .spawn_failed
         ; This means that every fifth fireball is directly aimed at the player.
@@ -264,7 +264,7 @@ Sprite_BlindHead:
             
             LDA.b #$20
             
-            JSL Sprite_ProjectSpeedTowardsPlayerLong
+            JSL.l Sprite_ProjectSpeedTowardsPlayerLong
             
             PLY
             
@@ -310,7 +310,7 @@ Sprite_BlindHead:
     .anoinvert_y_accleration
     
     LDA.w $0EA0, X : BNE .dont_move
-        JSR Sprite4_Move
+        JSR.w Sprite4_Move
     
     .dont_move
     .return
@@ -324,8 +324,8 @@ Sprite_BlindHead:
 Blind_SpawnExtraHead:
 {
     ; Create a Blind Head sprite.
-    LDA.b #$CE : JSL Sprite_SpawnDynamically : BMI .spawn_failed
-        JSL Sprite_SetSpawnedCoords
+    LDA.b #$CE : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$5B : STA.w $0E60, Y
         
@@ -391,8 +391,8 @@ Sprite_BlindEntities:
         
         LDA Pool_Sprite_BlindLaser_vh_flip, Y : ORA.b #$03 : STA.w $0F50, X
         
-        JSL Sprite_PrepOamCoordLong
-        JSR Sprite4_CheckIfActive
+        JSL.l Sprite_PrepOamCoordLong
+        JSR.w Sprite4_CheckIfActive
         
         LDA !timer_0, X : BEQ .termination_timer_not_set
             CMP.b #$01 : BNE .anoself_terminate
@@ -404,7 +404,7 @@ Sprite_BlindEntities:
             
         .termination_timer_not_set
         
-        JSL Sprite_CheckDamageToPlayerSameLayerLong
+        JSL.l Sprite_CheckDamageToPlayerSameLayerLong
         
         LDY.b #$00
         
@@ -431,12 +431,12 @@ Sprite_BlindEntities:
         CLC : ADC.w $0D00, X : STA.w $0D00, X
         TYA : ADC.w $0D20, X : STA.w $0D20, X
         
-        JSR Sprite4_CheckTileCollision : BEQ .no_tile_collision
+        JSR.w Sprite4_CheckTileCollision : BEQ .no_tile_collision
             LDA.b #$0C : STA !timer_0, X
         
         .no_tile_collision
         
-        JSR BlindLaser_SpawnTrailGarnish
+        JSR.w BlindLaser_SpawnTrailGarnish
         
         RTS
 }
@@ -453,11 +453,11 @@ Sprite_Blind:
     
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSR Blind_Draw
+    JSR.w Blind_Draw
     
     LDA.b #$01 : STA.w $0F50, X
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     ; NOTE: Blind wasn't designed so that his HP depletes normally.
     LDA.w $0EA0, X : BEQ .not_counterattacking
@@ -491,30 +491,30 @@ Sprite_Blind:
                 LDA !extra_head_counter : CMP.b #$03 : BNE .spawn_extra_head
                     ; NOTE: Time for Blind and all his pals on screen to die.
                     
-                    JSL Sprite_SchedulePeersForDeath
+                    JSL.l Sprite_SchedulePeersForDeath
                     
                     ; Schedules Blind for death. Pretty sure.
-                    JSR Sprite_ScheduleBossForDeath
+                    JSR.w Sprite_ScheduleBossForDeath
                     
                     LDA.b #$FF : STA !timer_0, X
                                  STA.w $0EF0, X
                     
                     INC.w $0FFC
                     
-                    LDA.b #$22 : JSL Sound_SetSfx3PanLong
+                    LDA.b #$22 : JSL.l Sound_SetSfx3PanLong
                     
                     RTS
                 
                 .spawn_extra_head
                 
-                JSR Sprite4_Zero_XY_Velocity
+                JSR.w Sprite4_Zero_XY_Velocity
                 
                 LDA.b #$06 : STA !blind_ai_state, X
                 
                 LDA.b #$FF : STA !timer_2, X
                              STA.w $0BA0, X
                 
-                JSR Blind_SpawnExtraHead
+                JSR.w Blind_SpawnExtraHead
         
         .skip_damage_logic
     .not_counterattacking
@@ -527,7 +527,7 @@ Sprite_Blind:
         
         LSR #3 : TAY
         
-        LDA .animation_states, Y : STA.w $0DC0, X
+        LDA.w .animation_states, Y : STA.w $0DC0, X
         
         RTS
     
@@ -549,7 +549,7 @@ Sprite_Blind:
         STZ !fire_laser, X
         
         CMP.b #$08 : BNE .anospawn_laser
-            JSR Blind_SpawnLaser
+            JSR.w Blind_SpawnLaser
         
         .anospawn_laser
         
@@ -588,7 +588,7 @@ Sprite_Blind:
     
     LDA !blind_ai_state, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Blind_BlindedByTheLight  ; 0x00 - $A4C6
     dw Blind_RetreatToBackWall  ; 0x01 - $A53A
@@ -623,7 +623,7 @@ Blind_BehindTheCurtain:
         
         LDA.b #$13
         
-        JSL Sound_SetSfx1PanLong
+        JSL.l Sound_SetSfx1PanLong
         
         RTS
     
@@ -632,7 +632,7 @@ Blind_BehindTheCurtain:
     CMP.b #$E0 : BCC .delay_desheeting
         SBC.b #$E0 : LSR #3 : TAY
         
-        LDA .animation_states, Y : STA.w $0DC0, X
+        LDA.w .animation_states, Y : STA.w $0DC0, X
         
         RTS
     
@@ -668,7 +668,7 @@ Blind_Rerobe:
         ; Set head orientation based on current X position?
         LDA.w $0D10, X : ASL A : ROL A : STA !x_accel_polarity, X
         
-        JSR Sprite4_Zero_XY_Velocity
+        JSR.w Sprite4_Zero_XY_Velocity
         
         STZ.w $0BA0, X
         
@@ -678,7 +678,7 @@ Blind_Rerobe:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -726,7 +726,7 @@ Blind_FireballReprisal:
     
     .anoadjust_rotation_delay
     
-    JSR Blind_AnimateBody
+    JSR.w Blind_AnimateBody
     
     ; Spawn very frequently (every 0x10 frames).
     LDA.b #$0F
@@ -740,8 +740,8 @@ Blind_SpawnFireball:
     LDY.b #$FF
     
     AND !forward_timer, X : BNE .delay_fireball_spawning
-        JSL Sprite_SpawnFireball : BMI .spawn_failed
-            LDA.b #$19 : JSL Sound_SetSfx3PanLong
+        JSL.l Sprite_SpawnFireball : BMI .spawn_failed
+            LDA.b #$19 : JSL.l Sound_SetSfx3PanLong
             
             PHX
             
@@ -751,7 +751,7 @@ Blind_SpawnFireball:
             
             LDA Pool_Blind_FireballReprisal_y_speeds, X : STA.w $0D40, Y
             
-            JSR Medusa_ConfigFireballProperties
+            JSR.w Medusa_ConfigFireballProperties
             
             PLX
         
@@ -784,14 +784,14 @@ Blind_BlindedByTheLight:
         LDA.b #$23 : STA.w $1CF0
         LDA.b #$01 : STA.w $1CF1
         
-        JSL Sprite_ShowMessageMinimal
+        JSL.l Sprite_ShowMessageMinimal
         
         PLA
     
     .anocomplain
     
     CMP.b #$18 : BNE .anopoof
-        JSR Blind_SpawnPoof
+        JSR.w Blind_SpawnPoof
     
     .anopoof
     
@@ -805,7 +805,7 @@ Blind_SpawnPoof:
 {
     LDA.b #$0C : STA.w $012E
     
-    LDA.b #$CE : JSL Sprite_SpawnDynamically
+    LDA.b #$CE : JSL.l Sprite_SpawnDynamically
     
     LDA.b $00 : CLC : ADC.b #$10 : STA.w $0D10, Y
     LDA.b $01 :       ADC.b #$00 : STA.w $0D30, Y
@@ -829,7 +829,7 @@ Blind_SpawnPoof:
 ; $0EA53A-$0EA566 JUMP LOCATION
 Blind_RetreatToBackWall:
 {
-    JSR Blind_CheckBumpDamage
+    JSR.w Blind_CheckBumpDamage
     
     LDA.b #$09 : STA.w $0DC0, X
     
@@ -845,11 +845,11 @@ Blind_RetreatToBackWall:
     CMP.b #$40 : BCS .delay_upward_migration
         LDA.b #-8 : STA.w $0D40, X
         
-        JSR Sprite4_MoveVert
+        JSR.w Sprite4_MoveVert
     
     .delay_upward_migration
     
-    JSR Blind_Animate
+    JSR.w Blind_Animate
     
     LDA.b #$04 : STA !head_angle, X
     
@@ -877,11 +877,11 @@ Pool_Blind_OscillateAlongWall:
 ; $0EA56D-$0EA601 JUMP LOCATION
 Blind_OscillateAlongWall:
 {
-    JSR Blind_CheckBumpDamage
-    JSR Blind_Animate
+    JSR.w Blind_CheckBumpDamage
+    JSR.w Blind_Animate
     
     LDA !forward_timer, X : AND.b #$7F : BNE .ignore_player_position
-        JSR Sprite4_IsBelowPlayer
+        JSR.w Sprite4_IsBelowPlayer
         
         ; Results in Y being 2 or 3 (3 if sprite is below player).
         INY #2
@@ -931,7 +931,7 @@ Blind_OscillateAlongWall:
     
     .anoinvert_x_acceleration
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     LDA.w $0E70, X : BEQ .no_tile_bump
         JMP Blind_FireballReprisal
@@ -942,7 +942,7 @@ Blind_OscillateAlongWall:
     LDA !forward_timer, X : AND.b #$07 : BNE .anospawn_probe
         LDA !head_angle, X : ASL #2 : STA.b $0F
         
-        JSL Sprite_SpawnProbeAlwaysLong
+        JSL.l Sprite_SpawnProbeAlwaysLong
     
     .anospawn_probe
     
@@ -971,11 +971,11 @@ Pool_Blind_SwitchWalls:
 ; $0EA608-$0EA646 JUMP LOCATION
 Blind_SwitchWalls:
 {
-    JSR Blind_CheckBumpDamage
+    JSR.w Blind_CheckBumpDamage
     
     LDA !timer_2, X : BEQ .stop_decelerating
-        JSR Blind_Decelerate_X
-        JSR Sprite4_MoveHoriz
+        JSR.w Blind_Decelerate_X
+        JSR.w Sprite4_MoveHoriz
         JMP Blind_Decelerate_Y
     
     .stop_decelerating
@@ -996,7 +996,7 @@ Blind_SwitchWalls:
     
     .delay_whirl_around
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
 
     ; BLeeds into the next function.
 }
@@ -1014,7 +1014,7 @@ Blind_Decelerate_X:
     
     .fully_decelerated_x
     
-    JSR Blind_AnimateBody
+    JSR.w Blind_AnimateBody
     
     LDA.w $0E70, X : BEQ .inactive
         JMP Blind_FireballReprisal
@@ -1041,7 +1041,7 @@ Pool_Blind_WhirlAround:
 ; $0EA667-$0EA6A3 JUMP LOCATION
 Blind_WhirlAround:
 {
-    JSR Blind_CheckBumpDamage
+    JSR.w Blind_CheckBumpDamage
     
     LDA !forward_timer, X : AND.b #$07 : BNE .delay_animation_adjustment
         LDA !blind_direction, X : DEC #2 : TAY
@@ -1080,7 +1080,7 @@ Blind_Decelerate_Y:
         
     .fully_decelerated_y
     
-    JSR Sprite4_MoveVert
+    JSR.w Sprite4_MoveVert
     
     LDA.w $0E70, X : BEQ .inactive
         JMP Blind_FireballReprisal
@@ -1096,11 +1096,11 @@ Blind_Decelerate_Y:
 Blind_CheckBumpDamage:
 {
     LDA !timer_4, X : ORA.w $0EA0, X : BNE .temporarily_intouchable
-        JSR Sprite4_CheckDamage
+        JSR.w Sprite4_CheckDamage
     
     .temporarily_intouchable
     
-    JSR Blind_BumpDamageFromBody
+    JSR.w Blind_BumpDamageFromBody
     
     RTS
 }
@@ -1190,10 +1190,10 @@ Pool_Blind_SpawnLaser:
 ; $0EA765-$0EA7A9 LOCAL JUMP LOCATION
 Blind_SpawnLaser:
 {
-    LDA.b #$CE : JSL Sprite_SpawnDynamically : BMI .spawn_failed
-        JSL Sound_SetSfxPan : ORA.b #$26 : STA.w $012F
+    LDA.b #$CE : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        JSL.l Sound_SetSfxPan : ORA.b #$26 : STA.w $012F
         
-        JSL Sprite_SetSpawnedCoords
+        JSL.l Sprite_SetSpawnedCoords
         
         LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
         
@@ -1485,7 +1485,7 @@ Blind_Draw:
         
         SEP #$20
         
-        LDA.b #$07 : JSR Sprite4_DrawMultiple
+        LDA.b #$07 : JSR.w Sprite4_DrawMultiple
         
         LDA.w $0E70, X : BNE .using_fireball_counterattack
             LDA !blind_ai_state, X : CMP.b #$06 : BEQ .sheet_is_down

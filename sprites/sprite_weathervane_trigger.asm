@@ -4,8 +4,8 @@
 ; $0342E5-$034308 JUMP LOCATION
 Sprite_WeathervaneTrigger:
 {
-    JSR Sprite_PrepOamCoordSafeWrapper
-    JSR Sprite_CheckIfActive
+    JSR.w Sprite_PrepOamCoordSafeWrapper
+    JSR.w Sprite_CheckIfActive
     
     LDA.b $8A : CMP.b #$18 : BNE .outside_village
     

@@ -4,20 +4,20 @@
 ; $0E8B52-$0E8BBB JUMP LOCATION
 Sprite_SpiralFireBat:
 {
-    JSR FireBat_Draw
-    JSR Sprite4_CheckIfActive
-    JSR Sprite4_Load_16bit_AuxCoord
+    JSR.w FireBat_Draw
+    JSR.w Sprite4_CheckIfActive
+    JSR.w Sprite4_Load_16bit_AuxCoord
     
     LDA.b #$02
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     LDA.b $01 : STA.w $0D50, X
     
     LDA.b #$50
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.w $0D50, X : EOR.b #$FF : INC A : CLC : ADC.b $00 : STA.w $0D50, X
     
@@ -28,7 +28,7 @@ Sprite_SpiralFireBat:
     ; $0E8B90 ALTERNATE ENTRY POINT
     
     JSR.w $8C43 ; $0E8C43 IN ROM
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     LDA.w $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
     

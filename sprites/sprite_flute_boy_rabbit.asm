@@ -15,13 +15,13 @@ Sprite_FluteBoyRabbit:
 {
     LDY.w $0DE0, X
     
-    LDA.w $0F50, X : AND.b #$BF : ORA FluteBoyAnimal.vh_flip, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA FluteBoyAnimal_vh_flip, Y : STA.w $0F50, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FluteBoyRabbit_Chillin
     dw FluteBoyRabbit_RunAway
@@ -40,7 +40,7 @@ FluteBoyRabbit_Chillin:
     
     LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X : TAY
     
-    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
+    LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
     
     LDA.b #$F8 : STA.w $0D40, X
     
@@ -63,7 +63,7 @@ Pool_FluteBoyRabbit_RunAway:
 ; $0F1AAF-$0F1AEB JUMP LOCATION
 FluteBoyRabbit_RunAway:
 {
-    JSR Sprite3_MoveXyz
+    JSR.w Sprite3_MoveXyz
     
     DEC.w $0F80, X : DEC.w $0F80, X : DEC.w $0F80, X
     
@@ -91,7 +91,7 @@ FluteBoyRabbit_RunAway:
     
     LDY.w $0D90, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }

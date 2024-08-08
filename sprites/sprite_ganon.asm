@@ -112,18 +112,18 @@ Ganon_HandleFireBatCircle:
         
         PLX
         
-        LDA.b $04 : STA.w $4202
+        LDA.b $04 : STA.w SNES.MultiplicandA
         
         LDA.b $0F
         
         LDY.b $05 : BNE .BRANCH_BETA
-            STA.w $4203
+            STA.w SNES.MultiplierB
             
             JSR.w Six_NOP
             
-            ASL.w $4216
+            ASL.w SNES.RemainderResultLow
             
-            LDA.w $4217 : ADC.b #$00
+            LDA.w SNES.RemainderResultHigh : ADC.b #$00
         
         .BRANCH_BETA
         
@@ -142,18 +142,18 @@ Ganon_HandleFireBatCircle:
                 CLC : ADC.w $0D10 : STA.w $0B11, X
         LDA.w $0D30 : ADC.b $0A   : STA.w $0B21, X
         
-        LDA.b $06 : STA.w $4202
+        LDA.b $06 : STA.w SNES.MultiplicandA
         
         LDA.b $0F
         
         LDY.b $07 : BNE .BRANCH_EPSILON
-            STA.w $4203
+            STA.w SNES.MultiplierB
             
             JSR.w Six_NOP
             
-            ASL.w $4216
+            ASL.w SNES.RemainderResultLow
             
-            LDA.w $4217 : ADC.b #$00
+            LDA.w SNES.RemainderResultHigh : ADC.b #$00
         
         .BRANCH_EPSILON
         
@@ -196,9 +196,9 @@ Ganon_SpawnSpiralBat:
     LDA.b #$C9
     LDY.b #$08
     
-    JSL Sprite_SpawnDynamically_arbitrary
+    JSL.l Sprite_SpawnDynamically_arbitrary
     BMI Ganon_SetSpawnedEntityProperties_no_space
-        JSL Sprite_SetSpawnedCoords
+        JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$04 : STA.w $0EC0, Y
         LDA.b #$03 : STA.w $0F50, Y
@@ -227,7 +227,7 @@ Sprite_Ganon:
     ; Load the AI pointer.
     ; If >= 0, branch to another routine.
     LDA.w $0D80, X : BPL .not_dying
-        JSR Sprite4_CheckIfActive
+        JSR.w Sprite4_CheckIfActive
         
         LDA.w $0DF0, X : BNE .BRANCH_ALPHA
             ; Kill Ganon.
@@ -292,14 +292,14 @@ Sprite_Ganon:
     
     .BRANCH_GAMMA
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     LDA.w $0E10, X : BEQ .BRANCH_DELTA
         CMP.b #$10 : BEQ .BRANCH_EPSILON
             CMP.b #$01 : BNE .BRANCH_DELTA
                 PHX
                 
-                JSL Dungeon_ExtinguishSecondTorch
+                JSL.l Dungeon_ExtinguishSecondTorch
                 
                 PLX
                 
@@ -309,13 +309,13 @@ Sprite_Ganon:
 
         PHX
         
-        JSL Dungeon_ExtinguishFirstTorch
+        JSL.l Dungeon_ExtinguishFirstTorch
         
         PLX
     
     .BRANCH_DELTA
     
-    JSR Sprite4_IsToRightOfPlayer
+    JSR.w Sprite4_IsToRightOfPlayer
     
     LDA.b $0F : ADC.b #$20 : CMP.b #$40 : LDA.b #$01 : BCC .BRANCH_ZETA
         LDA.w .direction, Y
@@ -327,7 +327,7 @@ Sprite_Ganon:
     LDA.w $0F10, X : BEQ .BRANCH_THETA
         STA.w $0BA0, X
         
-        JSR Sprite4_CheckIfRecoiling
+        JSR.w Sprite4_CheckIfRecoiling
         
         STZ.w $0DF0, X
         
@@ -337,7 +337,7 @@ Sprite_Ganon:
     
     LDA.w $0BA0, X : ORA.w $02E4 : BNE .BRANCH_IOTA
         LDA.w $04C5 : CMP.b #$02 : BNE .BRANCH_IOTA
-            JSR Sprite4_CheckDamage
+            JSR.w Sprite4_CheckDamage
     
     .BRANCH_IOTA
     
@@ -345,7 +345,7 @@ Sprite_Ganon:
     
     LDA.w $0D80, X ; Load the AI pointer, the main control for Ganon.
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     ; Beginning Trident phase
     dw Ganon_Phase1_IntroduceSelf     ; 0x00 - $92CA Sets up the initial Ganon text, and his music.
@@ -407,7 +407,7 @@ Ganon_Phase4_Stunned:
     
     LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -425,7 +425,7 @@ Ganon_Phase4_Attack:
 {
     LDY.w $0DE0, X
     
-    LDA .animation_states+0, Y : STA.w $0DC0, X
+    LDA.w .animation_states+0, Y : STA.w $0DC0, X
     
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
         LDA.b #$12
@@ -503,7 +503,7 @@ Ganon_Phase3_SmashFloor:
     
     .BRANCH_ALPHA
     
-    JSR Sprite4_MoveAltitude
+    JSR.w Sprite4_MoveAltitude
     
     DEC.w $0F80, X : BNE .BRANCH_BETA
         LDA.b #$20 : STA.w $0DF0, X
@@ -512,7 +512,7 @@ Ganon_Phase3_SmashFloor:
     
     LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -565,7 +565,7 @@ Sprite4_ShowMessageMinimal:
 {
     STA.w $1CF1
                 
-    JSL Sprite_ShowMessageMinimal
+    JSL.l Sprite_ShowMessageMinimal
             
     .exit
 
@@ -588,7 +588,7 @@ Ganon_Phase3_DropTiles_shake_screen:
 ; $0E909C-$0E90C3 LOCAL JUMP LOCATION
 Ganon_Phase3_DropTiles_descend:
 {
-    JSR Sprite4_MoveAltitude
+    JSR.w Sprite4_MoveAltitude
     
     LDA.w $0F70, X : BPL .BRANCH_DELTA
         STZ.w $0F80, X
@@ -598,7 +598,7 @@ Ganon_Phase3_DropTiles_descend:
         
         LDA.b #$07 : STA.w $012D
         
-        LDA.b #$0C : JSL Sound_SetSfx2PanLong
+        LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
     
     .BRANCH_DELTA
     
@@ -772,10 +772,10 @@ Ganon_SpawnFireBat:
     LDA.b #$C9
     LDY.b #$08
     
-    JSL Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
-        LDA.b #$2A : JSL Sound_SetSfx2PanLong
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
+        LDA.b #$2A : JSL.l Sound_SetSfx2PanLong
         
-        JSL Sprite_SetSpawnedCoords
+        JSL.l Sprite_SetSpawnedCoords
         
         LDA.w $0FB5 : STA.w $0EC0, Y : STA.w $0BA0, Y
         
@@ -796,7 +796,7 @@ Ganon_SpawnFireBat:
         
         LDA.b #$20
         
-        JSL Sprite_ApplySpeedTowardsPlayerLong
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         PLX
         
@@ -824,7 +824,7 @@ Ganon_Phase3_SabotagePB:
     STZ.w $0ED0, X
     
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
-        JSL GetRandomInt : AND.b #$01 : BEQ .BRANCH_BETA
+        JSL.l GetRandomInt : AND.b #$01 : BEQ .BRANCH_BETA
             JMP.w Ganon_Phase3_WarpSelect
         
         .BRANCH_BETA
@@ -1014,7 +1014,7 @@ Ganon_Phase1_IntroduceSelf_let_iron_cool_before_striking:
             LDA.b #$6F : STA.w $1CF0
             LDA.b #$01 : STA.w $1CF1
             
-            JSL Sprite_ShowMessageMinimal
+            JSL.l Sprite_ShowMessageMinimal
         
         .BRANCH_GAMMA
         
@@ -1121,7 +1121,7 @@ Ganon_Phase1_ThrowTrident:
         
         LDA.b #$C9
         
-        JSL Sprite_SpawnDynamically
+        JSL.l Sprite_SpawnDynamically
         
         PHX
         
@@ -1143,9 +1143,9 @@ Ganon_Phase1_ThrowTrident:
         
         PHX : PHY
         
-        LDA.b #$1F : JSL Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$1F : JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
-        JSL Sprite_ConvertVelocityToAngle
+        JSL.l Sprite_ConvertVelocityToAngle
         PLY : SEC : SBC.b #$02 : AND.b #$0F : TAX
         
         LDA.w Pool_Ganon_Phase1_ThrowTrident_speed_x, X : STA.w $0D50, Y
@@ -1189,7 +1189,7 @@ Ganon_Phase1_AnimateTridentSpin:
     
     LDA.w GanonTridentAnimationSteps_facing_down, Y : STA.w $0DC0, X
     
-    JSR Sprite_PeriodicWhirringSfx
+    JSR.w Sprite_PeriodicWhirringSfx
     
     RTS
 }
@@ -1312,7 +1312,7 @@ Ganon_SelectWarpLocation:
         
     LDA.w $0E30, X : ASL #2 : STA.b $01
         
-    JSL GetRandomInt : AND.b #$03 : ORA.b $01 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : ORA.b $01 : TAY
         
     LDA.w Ganon_WarpLocation_ID, Y
         
@@ -1324,11 +1324,11 @@ Ganon_SelectWarpLocation:
         
     LDA.b $00 : STA.w $0D80, X
         
-    JSR Sprite4_Zero_XY_Velocity
+    JSR.w Sprite4_Zero_XY_Velocity
         
     LDA.b #$30 : STA.w $0DF0, X
         
-    LDA.b #$28 : JSL Sound_SetSfx3PanLong
+    LDA.b #$28 : JSL.l Sound_SetSfx3PanLong
         
     RTS
 }
@@ -1384,7 +1384,7 @@ Ganon_LookAround:
     LDA.l $7FFD68  : STA.b $06
     LDA.w $0D20, X : STA.b $07
     
-    JSR Ganon_CheckEntityProximity : BCS Ganon_MoveWithTrident
+    JSR.w Ganon_CheckEntityProximity : BCS Ganon_MoveWithTrident
         LDA.w $0E30, X : LSR #2 : STA.w $0DE0, X
         
         LDA.w $0D80, X : CMP.b #$05 : BEQ .BRANCH_ALPHA
@@ -1432,9 +1432,9 @@ Ganon_MoveWithTrident:
 {
     LDA.b #$20
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     JSR.w GanonTrident_AdjustVelocity
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     LDA.w $0DF0, X : BEQ .BRANCH_ALPHA
         LDA.b $1A : AND.b #$01 : BNE .BRANCH_ALPHA
@@ -1453,8 +1453,8 @@ Ganon_MoveWithTrident:
     LDA.b $1A : AND.b #$07 : BNE .BRANCH_GAMMA
         LDA.b #$D6
         
-        JSL Sprite_SpawnDynamically : BMI .BRANCH_GAMMA
-            JSL Sprite_SetSpawnedCoords
+        JSL.l Sprite_SpawnDynamically : BMI .BRANCH_GAMMA
+            JSL.l Sprite_SetSpawnedCoords
             
             LDA.b #$18 : STA.w $0BA0, Y : STA.w $0DF0, Y
             
@@ -1688,7 +1688,7 @@ Ganon_ArmOAMGroups:
 ; $0E9ADB-$0E9ADE BRANCH LOCATION
 DontDrawGanon:
 {
-    JSR Sprite4_PrepOamCoord
+    JSR.w Sprite4_PrepOamCoord
     
     RTS
 }
@@ -1705,8 +1705,8 @@ SpriteDraw_Ganon:
         
         .BRANCH_ALPHA
         
-        JSR Trident_Draw
-        JSR Sprite4_PrepOamCoord
+        JSR.w Trident_Draw
+        JSR.w Sprite4_PrepOamCoord
         
         ; There are much better combinations of instructions that produce
         ; multiplication by 12, guys...
@@ -1792,7 +1792,7 @@ SpriteDraw_Ganon:
             LDY.b #$FF
             LDA.b #$09
             
-            JSL Sprite_CorrectOamEntriesLong
+            JSL.l Sprite_CorrectOamEntriesLong
         
         .BRANCH_ZETA
         
@@ -1809,7 +1809,7 @@ SpriteDraw_Ganon:
             
             LDA.b #$02
             
-            JSR Sprite4_DrawMultiple
+            JSR.w Sprite4_DrawMultiple
         
         .BRANCH_THETA
         
@@ -1843,11 +1843,11 @@ SpriteDraw_Ganon:
         
         LDA.b #$03
         
-        JSR Sprite4_DrawMultiple
+        JSR.w Sprite4_DrawMultiple
         
         PLA : STA.w $0F50, X
         
-        JSL Sprite_Get_16_bit_CoordsLong
+        JSL.l Sprite_Get_16_bit_CoordsLong
         
         RTS
 }
@@ -1883,11 +1883,11 @@ Trident_Draw:
         
         LDA.w $0B89, X : PHA : AND.b #$F0 : STA.w $0B89, X
         
-        LDA.b #$05 : JSR Sprite4_DrawMultiple
+        LDA.b #$05 : JSR.w Sprite4_DrawMultiple
         
         PLA : STA.w $0B89, X
         
-        JSL Sprite_Get_16_bit_CoordsLong
+        JSL.l Sprite_Get_16_bit_CoordsLong
     
     .dont_draw
     

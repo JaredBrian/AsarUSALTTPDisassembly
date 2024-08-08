@@ -6,13 +6,13 @@ Sprite_FluteBoyBird:
 {
     LDA.w $0DC0, X : CMP.b #$03 : BNE .not_blinking
     
-    JSR FluteBoyBird_DrawBlink
+    JSR.w FluteBoyBird_DrawBlink
     
     .not_blinking
     
     LDY.w $0DE0, X
     
-    LDA.w $0F50, X : AND.b #$BF : ORA FluteBoyAnimal.vh_flip, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA FluteBoyAnimal_vh_flip, Y : STA.w $0F50, X
     
     REP #$20
     
@@ -24,15 +24,15 @@ Sprite_FluteBoyBird:
     
     DEC.w $0E40, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     INC.w $0E40, X
     
-    JSR Sprite3_MoveXyz
+    JSR.w Sprite3_MoveXyz
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FluteBoyBird_Chillin
     dw FluteBoyBird_Rising
@@ -60,7 +60,7 @@ FluteBoyBird_Chillin:
     
     LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X : TAY
     
-    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
+    LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
     
     LDA.b #$20 : STA.w $0DF0, X
     
@@ -126,7 +126,7 @@ Pool_FluteBoyBird_DrawBlink:
 ; $0F1B9C-$0F1BC7 LOCAL JUMP LOCATION
 FluteBoyBird_DrawBlink:
 {
-    JSR Sprite3_PrepOamCoord
+    JSR.w Sprite3_PrepOamCoord
     
     PHX
     
@@ -135,14 +135,14 @@ FluteBoyBird_DrawBlink:
     LDA.b $00 : CLC : ADC .x_offsets, X                    : STA ($90), Y
     LDA.b $02                                  : INY : STA ($90), Y
     LDA.b #$AE                               : INY : STA ($90), Y
-    LDA.b $05 : ORA FluteBoyAnimal.vh_flip, X  : INY : STA ($90), Y
+    LDA.b $05 : ORA FluteBoyAnimal_vh_flip, X  : INY : STA ($90), Y
     
     PLX
     
     LDY.b #$00
     LDA.b #$00
     
-    JSL Sprite_CorrectOamEntriesLong
+    JSL.l Sprite_CorrectOamEntriesLong
     
     RTS
 }

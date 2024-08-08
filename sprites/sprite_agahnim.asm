@@ -18,7 +18,7 @@ Pool_Sprite_Agahnim:
 ; $0F5330-$0F536E JUMP LOCATION
 Sprite_Agahnim:
 {
-    JSR AgahDraw
+    JSR.w AgahDraw
     
     LDA.w $0F00, X : BEQ .BRANCH_ALPHA
         LDA.b #$20 : STA.w $0DF0, X
@@ -29,14 +29,14 @@ Sprite_Agahnim:
     
     .BRANCH_ALPHA
     
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfRecoiling
     
     LDA.b #$01 : STA.w $0BA0, X
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Agah1or2                 ; 0x00 - $D4EC
     dw Agah1Inro                ; 0x01 - $D4F6
@@ -68,7 +68,7 @@ Agahnim_SpinToPyramid:
         
         STZ.w $0DD0, X
         
-        JSL PrepDungeonExit
+        JSL.l PrepDungeonExit
         
         PLX
     
@@ -83,7 +83,7 @@ Agahnim_SpinToPyramid:
         
         PHX
         
-        JSL Palette_Filter_SP5F
+        JSL.l Palette_Filter_SP5F
         
         PLX
     
@@ -99,13 +99,13 @@ Agahnim_SpinToPyramid:
         INC.w $0E80, X : LDA.w $0E80, X : CMP.b #$07 : BNE .BRANCH_DELTA
             STZ.w $0E80, X
             
-            LDA.b #$04 : JSL Sound_SetSfx2PanLong
+            LDA.b #$04 : JSL.l Sound_SetSfx2PanLong
         
     .BRANCH_DELTA
     
     LDY.w $0E80, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -127,7 +127,7 @@ Agahnim_ExorciseGanon:
     .BRANCH_ALPHA
     
     CMP.b #$01 : BNE .BRANCH_BETA
-        JSL Sprite_SpawnPhantomGanon
+        JSL.l Sprite_SpawnPhantomGanon
         
         LDA.b #$1D : STA.w $012C
     
@@ -165,14 +165,14 @@ Agahnim_UncloneSelf:
     
     LDA.b #$20
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     
     LDA.b $01 : STA.w $0D50, X
     
-    JSR Sprite3_Move
-    JSL Sprite_SpawnAgahnimAfterImage
+    JSR.w Sprite3_Move
+    JSL.l Sprite_SpawnAgahnimAfterImage
     
     RTS
 }
@@ -188,7 +188,7 @@ Agahnim_HelloDarkWorld:
         LDA.b #$41 : STA.w $1CF0
         LDA.b #$01 : STA.w $1CF1
         
-        JSL Sprite_ShowMessageMinimal
+        JSL.l Sprite_ShowMessageMinimal
         
         INC.w $0D80, X
         
@@ -223,9 +223,9 @@ Agahnim_CreateClones:
         ; And speed up the y velocity.
         LDA.w $0D40, X : CLC : ADC.b #$02 : STA.w $0D40, X
         
-        JSR Sprite3_Move
+        JSR.w Sprite3_Move
         
-        JSL Sprite_SpawnAgahnimAfterImage : BMI .BRANCH_BETA
+        JSL.l Sprite_SpawnAgahnimAfterImage : BMI .BRANCH_BETA
             LDA.b #$04 : STA.w $0F50, Y
         
         .BRANCH_BETA
@@ -253,10 +253,10 @@ Agahnim_CreateClones:
             LDA.b #$7A
             LDY.b #$02
             
-            JSL Sprite_SpawnDynamically.arbitrary
-            JSL Sprite_SetSpawnedCoords
+            JSL.l Sprite_SpawnDynamically_arbitrary
+            JSL.l Sprite_SetSpawnedCoords
             
-            LDA .special_properties, Y : STA.w $0E60, Y
+            LDA.w .special_properties, Y : STA.w $0E60, Y
             
             AND.b #$0F : STA.w $0F50, Y : STA.w $0EC0, Y
             
@@ -284,7 +284,7 @@ Agah1or2:
     ; Check if we are in the LW or DW. If dark world go to agah 2 instead.
     LDY.w $0FFF
     
-    LDA .ai_states, Y : STA.w $0D80, X
+    LDA.w .ai_states, Y : STA.w $0D80, X
     
     RTS
 }
@@ -298,7 +298,7 @@ Agah1Inro:
         LDA.b #$3F : STA.w $1CF0
         LDA.b #$01 : STA.w $1CF1
         
-        JSL Sprite_ShowMessageMinimal
+        JSL.l Sprite_ShowMessageMinimal
         
         ; Bleeds into the next function.
 }
@@ -349,7 +349,7 @@ Agahnim_EmergeFromShadow:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -380,7 +380,7 @@ AttachThenFadeToBlack:
     LDA.w $0DF0, X : CMP.b #$C0 : BNE .BRANCH_ALPHA
         PHA
         
-        LDA.b #$27 : JSL Sound_SetSfx3PanLong
+        LDA.b #$27 : JSL.l Sound_SetSfx3PanLong
         
         PLA
     
@@ -400,7 +400,7 @@ AttachThenFadeToBlack:
     
     .inDarkWorld
     
-    JSL PaletteFilter_Agahnim
+    JSL.l PaletteFilter_Agahnim
     
     PLX
     
@@ -408,7 +408,7 @@ AttachThenFadeToBlack:
     
     .BRANCH_GAMMA
     TXA : BNE .BRANCH_EPSILON
-        JSR Sprite3_CheckDamage
+        JSR.w Sprite3_CheckDamage
     
         STZ.w $0BA0, X
     
@@ -428,7 +428,7 @@ AttachThenFadeToBlack:
             
         LDA.b #$02
             
-        JSL Sprite_ApplySpeedTowardsPlayerLong
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
             
         LDY.b $01
             
@@ -438,7 +438,7 @@ AttachThenFadeToBlack:
             
         LDA.w Pool_Sprite_Agahnim_Direction, Y : STA.w $0DE0, X
             
-        LDA.b #$20 : JSL Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$20 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
             
         LDA.w $0E30, X : CMP.b #$04 : BNE .BRANCH_IOTA
             LDA.b #$03 : STA.w $0DE0, X
@@ -452,7 +452,7 @@ AttachThenFadeToBlack:
     CMP.b #$70 : BNE .BRANCH_KAPPA
         PHA
         
-        JSR DoLightningAttack
+        JSR.w DoLightningAttack
         
         PLA
     
@@ -511,7 +511,7 @@ Agahnim_ChooseWarpSpot:
         LDY.b #$04
             
         LDA.w $0E30, X : CMP.b #$04 : BEQ .BRANCH_BETA
-            JSL GetRandomInt : AND.b #$0F : TAY
+            JSL.l GetRandomInt : AND.b #$0F : TAY
         
         .BRANCH_BETA
         
@@ -563,15 +563,15 @@ DoLightningAttack:
     LDA.w $0E30, X : CMP.b #$05 : BNE .BRANCH_BETA
         STZ.w $0E30, X
         
-        LDA.b #$26 : JSL Sound_SetSfx3PanLong
+        LDA.b #$26 : JSL.l Sound_SetSfx3PanLong
         
         JSR.w .spawn_2
         
         ; $0F56A1 ALTERNATE ENTRY POINT
         .spawn_2
         
-        JSL Sprite_SpawnLightning
-        JSL Sprite_SpawnLightning
+        JSL.l Sprite_SpawnLightning
+        JSL.l Sprite_SpawnLightning
         
         RTS
     
@@ -579,8 +579,8 @@ DoLightningAttack:
     
     LDA.b #$7B
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
-        LDA.b #$29 : JSL Sound_SetSfx3PanLong
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$29 : JSL.l Sound_SetSfx3PanLong
         
         PHX
         
@@ -599,7 +599,7 @@ DoLightningAttack:
         LDA.w $0D40, X : STA.w $0D40, Y
         
         LDA.w $0E30, X : CMP.b #$02 : BCC .BRANCH_GAMMA
-            JSL GetRandomInt : AND.b #$01 : BNE .BRANCH_GAMMA
+            JSL.l GetRandomInt : AND.b #$01 : BNE .BRANCH_GAMMA
                 LDA.b #$01 : STA.w $0DA0, Y
                 LDA.b #$20 : STA.w $0DF0, Y
         
@@ -642,7 +642,7 @@ ShadowSneak:
     
     LDA.w $0ED0, X
     
-    JSL Sprite_ProjectSpeedTowardsEntityLong
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     
@@ -653,7 +653,7 @@ ShadowSneak:
     
     .BRANCH_BETA
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     RTS
 }
@@ -825,7 +825,7 @@ UNREACHABLE_1ED977:
 ; $0F5978-$0F5A41 LOCAL JUMP LOCATION
 AgahDraw:
 {
-    JSR Sprite3_PrepOamCoord
+    JSR.w Sprite3_PrepOamCoord
     
     LDA.w $0DC0, X : ASL #2 : STA.b $06
     
@@ -864,7 +864,7 @@ AgahDraw:
     LDA.w $0DC0, X : CMP.b #$0C : BCS .BRANCH_GAMMA
         LDA.b #$12
         
-        JSL Sprite_DrawShadowLong_variable
+        JSL.l Sprite_DrawShadowLong_variable
         
     .BRANCH_GAMMA
     
@@ -872,22 +872,22 @@ AgahDraw:
         LDY.b #$FF
         LDA.b #$03
         
-        JSL Sprite_CorrectOamEntriesLong
+        JSL.l Sprite_CorrectOamEntriesLong
     
     .BRANCH_DELTA
     
-    JSR Sprite3_PrepOamCoord
+    JSR.w Sprite3_PrepOamCoord
     
     LDA.b #$08
     
     LDY.w $0DE0, X : BEQ .BRANCH_EPSILON
-        JSL OAM_AllocateFromRegionC
+        JSL.l OAM_AllocateFromRegionC
         
         BRA .BRANCH_ZETA
     
     .BRANCH_EPSILON
     
-    JSL OAM_AllocateFromRegionB
+    JSL.l OAM_AllocateFromRegionB
     
     .BRANCH_ZETA
     

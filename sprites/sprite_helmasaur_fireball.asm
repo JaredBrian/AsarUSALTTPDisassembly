@@ -6,7 +6,7 @@ Sprite_HelmasaurFireballLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_HelmasaurFireball
+    JSR.w Sprite_HelmasaurFireball
     
     PLB
     
@@ -34,7 +34,7 @@ Sprite_HelmasaurFireball:
     
     LDA.w $0E80, X : LSR #2 : AND.b #$01 : TAY
     
-    LDA .properties, Y : STA.b $05
+    LDA.w .properties, Y : STA.b $05
     
     LDY.b #$00
     
@@ -64,7 +64,7 @@ Sprite_HelmasaurFireball:
     
     LDA.w $0DC0, X : TAX
     
-    LDA .chr, X
+    LDA.w .chr, X
     
     PLX
               INY : STA ($90), Y
@@ -72,7 +72,7 @@ Sprite_HelmasaurFireball:
     
     LDA.b #$02 : STA ($92)
     
-    JSR Sprite4_CheckIfActive
+    JSR.w Sprite4_CheckIfActive
     
     TXA : EOR.b $1A : AND.b #$03 : BNE .anodamage_player
     
@@ -86,7 +86,7 @@ Sprite_HelmasaurFireball:
     
     SEP #$20
     
-    JSL Sprite_AttemptDamageToPlayerPlusRecoilLong
+    JSL.l Sprite_AttemptDamageToPlayerPlusRecoilLong
     
     .anodamage_player
     
@@ -142,7 +142,7 @@ HelmasaurFireball_MigrateDown:
     ; Slow down a bit each frame.
     DEC.w $0D40, X : DEC.w $0D40, X
     
-    JSR Sprite4_MoveVert
+    JSR.w Sprite4_MoveVert
     
     RTS
 }
@@ -169,7 +169,7 @@ HelmasaurFireball_DelayThenTriSplit:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -189,7 +189,7 @@ HelmasaurFireball_DelayThenQuadSplit:
     
     INC.w $0EB0, X
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     .delay_movement
     
@@ -203,7 +203,7 @@ HelamsaurFireball_Move:
 {
     ; Just moves until it hits the edge of the screen. (See notes at the
     ; root procedure).
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     RTS
 }
@@ -225,35 +225,35 @@ Pool_HelmasaurFireball_TriSplit:
 ; $0EEED3-$0EEF34 LOCAL JUMP LOCATION
 HelmasaurFireball_TriSplit:
 {
-    LDA.b #$36 : JSL Sound_SetSfx3PanLong
+    LDA.b #$36 : JSL.l Sound_SetSfx3PanLong
     
     STZ.w $0DD0, X
     
     LDA.b #$02       : STA.w $0FB5
-    JSL GetRandomInt : STA.w $0FB6
+    JSL.l GetRandomInt : STA.w $0FB6
     
     .spawn_next
     
     LDA.b #$70
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     PHX
     
     LDX.w $0FB5
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     LDA.b #$03 : STA.w $0D80, Y
                  STA.w $0BA0, Y
     
     LDA.w $0FB6 : AND.b #$03 : CLC : ADC.w $0FB5 : TAX
     
-    LDA .timers, X : STA !timer_0, Y
+    LDA.w .timers, X : STA !timer_0, Y
     
     LDA.b #$00 : STA.w $0EB0, Y
     
@@ -288,7 +288,7 @@ HelmasaurFireball_QuadSplit:
 ; $0EEF3D-$0EEF75 LOCAL JUMP LOCATION
 HelmasaurFireball_QuadSplit:
 {
-    LDA.b #$36 : JSL Sound_SetSfx3PanLong
+    LDA.b #$36 : JSL.l Sound_SetSfx3PanLong
     
     STZ.w $0DD0, X
     
@@ -298,17 +298,17 @@ HelmasaurFireball_QuadSplit:
     
     LDA.b #$70
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     PHX
     
     LDX.w $0FB5
     
-    LDA .x_speeds, X : STA.w $0D50, Y
+    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA.w $0D40, Y
+    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     PLX
     

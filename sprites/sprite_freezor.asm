@@ -4,7 +4,7 @@
 ; $0F181D-$0F1858 JUMP LOCATION
 Sprite_Freezor:
 {
-    JSL Freezor_Draw
+    JSL.l Freezor_Draw
     
     ; Essentially this is to find out if it was hit with a fire
     ; attack and make it melt instantly in that event.
@@ -20,17 +20,17 @@ Sprite_Freezor:
     
     .in_basic_active_state
     
-    JSR Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0D80, X : CMP.b #$03 : BEQ .ignore_recoil_if_melting
     
-    JSR Sprite3_CheckIfRecoiling
+    JSR.w Sprite3_CheckIfRecoiling
     
     .ignore_recoil_if_melting
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Freezor_Stasis
     dw Freezor_Awakening
@@ -45,7 +45,7 @@ Freezor_Stasis:
 {
     INC.w $0BA0, X
     
-    JSR Sprite3_IsToRightOfPlayer
+    JSR.w Sprite3_IsToRightOfPlayer
     
     LDA.b $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .player_not_in_horiz_range
     
@@ -73,7 +73,7 @@ Freezor_Awakening:
     LDA.w $0D00, X : STA.b $02
     LDA.w $0D20, X : STA.b $03
     
-    LDY.b #$08 : JSL Dungeon_SpriteInducedTilemapUpdate
+    LDY.b #$08 : JSL.l Dungeon_SpriteInducedTilemapUpdate
     
     LDA.b #$60 : STA.w $0E00, X
     
@@ -87,9 +87,9 @@ Freezor_Awakening:
     
     AND.b #$01 : TAY
     
-    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
+    LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
     
-    JSR Sprite3_MoveHoriz
+    JSR.w Sprite3_MoveHoriz
     
     RTS
 }
@@ -120,10 +120,10 @@ Pool_Freezor_Moving:
 ; $0F18D2-$0F193D JUMP LOCATION
 Freezor_Moving:
 {
-    JSR Sprite3_CheckDamageToPlayer
+    JSR.w Sprite3_CheckDamageToPlayer
     
     ; $0372AA IN ROM
-    JSL Sprite_CheckDamageFromPlayerLong : BCC .no_damage_contact
+    JSL.l Sprite_CheckDamageFromPlayerLong : BCC .no_damage_contact
     
     STZ.w $0EF0, X
     
@@ -133,42 +133,42 @@ Freezor_Moving:
     
     TXA : EOR.b $1A : AND.b #$07 : BNE .dont_spawn_sparkle
     
-    JSL GetRandomInt : AND.b #$07 : TAY
+    JSL.l GetRandomInt : AND.b #$07 : TAY
     
-    LDA .sparkle_x_offsets_low, Y  : STA.b $00
-    LDA .sparkle_x_offsets_high, Y : STA.b $01
+    LDA.w .sparkle_x_offsets_low, Y  : STA.b $00
+    LDA.w .sparkle_x_offsets_high, Y : STA.b $01
     
     LDA.b #$FC : STA.b $02
     LDA.b #$FF : STA.b $03
     
-    JSL Sprite_SpawnSimpleSparkleGarnish
+    JSL.l Sprite_SpawnSimpleSparkleGarnish
     
     .dont_spawn_sparkle
     
     LDA.w $0DF0, X : BNE .dont_track_player_yet
     
-    JSR Sprite3_DirectionToFacePlayer : TYA : STA.w $0DE0, X
+    JSR.w Sprite3_DirectionToFacePlayer : TYA : STA.w $0DE0, X
     
     .dont_track_player_yet
     
     LDY.w $0DE0, X
     
     ; NOTE: The Y speeds are faster than the X speeds.
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     LDA.w $0E70, X : AND.b #$0F : BNE .tile_collision_occurred
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     .tile_collision_occurred
     
-    JSR Sprite3_CheckTileCollision
+    JSR.w Sprite3_CheckTileCollision
     
     TXA : EOR.b $1A : LSR #2 : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -191,7 +191,7 @@ Freezor_Melting:
     
     PHA
     
-    JSL Dungeon_ManuallySetSpriteDeathFlag
+    JSL.l Dungeon_ManuallySetSpriteDeathFlag
     
     STZ.w $0DD0, X
     
@@ -201,7 +201,7 @@ Freezor_Melting:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }

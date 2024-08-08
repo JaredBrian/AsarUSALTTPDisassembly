@@ -1,7 +1,7 @@
 ; ==============================================================================
 
 ; $0339E6-$0339F9 DATA
-    pool 
+pool:
 {
     db 40,  6,  3,  3,  3,  5,  1,  1,  3, 12
     
@@ -14,11 +14,11 @@
 Sprite_PushSwitch:
 {
     JSR.w $BB22   ; $033B22 IN ROM
-    JSR Sprite_CheckIfActive
+    JSR.w Sprite_CheckIfActive
     
     LDA.w $0D80, X : CMP.b #$02 : BEQ PushSwitch_Inert
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $BA10 ; = $33A10*
     dw $BA33 ; = $33A33*
@@ -46,7 +46,7 @@ PushSwitch_Inert:
     
     LDA.b $1A : AND.b #$03 : BNE .BRANCH_GAMMA
     
-    LDA.b #$22 : JSL Sound_SetSfx2PanLong
+    LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
     
     .BRANCH_GAMMA
     
@@ -69,7 +69,7 @@ PushSwitch_Inert:
     
     INC.w $0642
     
-    LDA.b #$25 : JSL Sound_SetSfx3PanLong
+    LDA.b #$25 : JSL.l Sound_SetSfx3PanLong
     
     RTS
     
@@ -79,7 +79,7 @@ PushSwitch_Inert:
     
     LDA.w $B9F0, Y : STA.w $0DE0, X
     
-    LDA.b #$22 : JSL Sound_SetSfx2PanLong
+    LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
     
     .BRANCH_ALPHA
     
@@ -88,8 +88,8 @@ PushSwitch_Inert:
 
 ; $033B22-$033CAB LOCAL JUMP LOCATION
 {
-    JSR OAM_AllocateDeferToPlayer
-    JSR Sprite_PrepOamCoord
+    JSR.w OAM_AllocateDeferToPlayer
+    JSR.w Sprite_PrepOamCoord
     
     LDA.w $0F50, X
     
@@ -180,7 +180,7 @@ PushSwitch_Inert:
     LDY.b #$FF
     LDA.b #$04
     
-    JSR Sprite_CorrectOamEntries
+    JSR.w Sprite_CorrectOamEntries
     
     LDA.w $0F20, X : CMP $EE : BEQ .BRANCH_GAMMA
     
@@ -223,12 +223,12 @@ PushSwitch_Inert:
     
     JSR.w $F70A   ; $03770A IN ROM
     
-    JSR Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_ZETA
+    JSR.w Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_ZETA
     
     LDA.w $0D00, X : PHA : CLC : ADC.b #$13 : STA.w $0D00, X
     LDA.w $0D20, X : PHA : ADC.b #$00 : STA.w $0D20, X
     
-    JSR Sprite_DirectionToFacePlayer
+    JSR.w Sprite_DirectionToFacePlayer
     
     PLA : STA.w $0D20, X
     PLA : STA.w $0D00, X
@@ -243,15 +243,15 @@ PushSwitch_Inert:
     
     .BRANCH_ZETA
     
-    JSR Sprite_CheckDamageToPlayer_same_layer : BCC .BRANCH_IOTA
+    JSR.w Sprite_CheckDamageToPlayer_same_layer : BCC .BRANCH_IOTA
     
     .BRANCH_THETA
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     STZ.b $5E
     
-    JSL Sprite_RepelDashAttackLong
+    JSL.l Sprite_RepelDashAttackLong
     
     ; $033CAB ALTERNATE ENTRY POINT
     .BRANCH_IOTA

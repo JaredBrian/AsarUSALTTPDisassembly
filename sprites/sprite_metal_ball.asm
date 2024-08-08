@@ -8,21 +8,21 @@ Sprite_MetalBall:
     
     LDA.w $0D80, X : BNE .is_larger_ball
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
     
     BRA .moving_on
     
     .is_larger_ball
     
-    JSR MetalBall_Draw
+    JSR.w MetalBall_Draw
     
     .moving_on
     
-    JSR Sprite2_CheckIfActive
+    JSR.w Sprite2_CheckIfActive
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
-    JSR Sprite2_Move
+    JSR.w Sprite2_Move
     
     LDA.w $0DF0, X : BEQ .termination_timer_not_running
     DEC A        : BNE .dont_self_terminate
@@ -35,11 +35,11 @@ Sprite_MetalBall:
     
     .termination_timer_not_runningma
     
-    JSR Sprite2_CheckDamage
+    JSR.w Sprite2_CheckDamage
     
     LDA.w $0E10, X : BNE .dont_start_timer
     
-    JSR Sprite2_CheckTileCollision : BEQ .dont_start_timer
+    JSR.w Sprite2_CheckTileCollision : BEQ .dont_start_timer
     
     LDA.b #$10 : STA.w $0DF0, X
     
@@ -72,7 +72,7 @@ Pool_MetalBall_DrawLargerVariety:
 ; $02B6A4-$02B702 LOCAL JUMP LOCATION
 MetalBall_DrawLargerVariety:
 {
-    JSR Sprite2_PrepOamCoord
+    JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0DC0, X : ASL #2 : STA.b $06
     
@@ -102,11 +102,11 @@ MetalBall_DrawLargerVariety:
     
     PLA : CLC : ADC.b $06 : TAX
     
-    LDA .properties, X : INY : STA ($90), Y
+    LDA.w .properties, X : INY : STA ($90), Y
     
     PLX
     
-    LDA .vh_flip, X : INY : ORA.b $05 : STA ($90), Y
+    LDA.w .vh_flip, X : INY : ORA.b $05 : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     

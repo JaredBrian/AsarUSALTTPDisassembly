@@ -25,12 +25,12 @@ Sprite_Rope:
     LDY.w $0D90, X
     
     ; Determine which graphic to use
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
-    JSL Sprite_PrepAndDrawSingleLargeLong
-    JSR Sprite2_CheckIfActive
+    JSL.l Sprite_PrepAndDrawSingleLargeLong
+    JSR.w Sprite2_CheckIfActive
     
     LDA.w $0E90, X : BEQ .on_ground
     
@@ -41,7 +41,7 @@ Sprite_Rope:
     
     LDA.w $0F70, X : PHA
     
-    JSR Sprite2_MoveAltitude
+    JSR.w Sprite2_MoveAltitude
     
     LDA.w $0F80, X : CMP.b #$C0 : BMI .at_terminal_falling_speed
     
@@ -68,26 +68,26 @@ Sprite_Rope:
     
     STZ.w $0E40, X
     
-    JSR Sprite2_CheckIfRecoiling
-    JSR Sprite2_CheckDamage
-    JSR Sprite2_Move
-    JSR Sprite2_CheckTileCollision
+    JSR.w Sprite2_CheckIfRecoiling
+    JSR.w Sprite2_CheckDamage
+    JSR.w Sprite2_Move
+    JSR.w Sprite2_CheckTileCollision
     
     LDA.w $0D80, X : BNE Rope_Moving
     
-    JSR Sprite2_ZeroVelocity
+    JSR.w Sprite2_ZeroVelocity
     
     LDA.w $0DF0, X : BNE .delay
     
     STZ.w $0ED0, X
     
-    JSL GetRandomInt : PHA : AND.b #$03 : STA.w $0DE0, X
+    JSL.l GetRandomInt : PHA : AND.b #$03 : STA.w $0DE0, X
     
     INC.w $0D80, X
     
     PLA : AND.b #$7F : ADC.b #$40 : STA.w $0DF0, X
     
-    JSR Sprite2_DirectionToFacePlayer
+    JSR.w Sprite2_DirectionToFacePlayer
     
     LDA.b $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCC .player_on_sightline
     
@@ -104,7 +104,7 @@ Sprite_Rope:
     
     LDA.b $1A : LSR #4 : LDA.w $0DE0, X : ROL A : TAY
     
-    LDA .animation_control, Y : STA.w $0D90, X
+    LDA.w .animation_control, Y : STA.w $0D90, X
     
     RTS
 }
@@ -149,9 +149,9 @@ Rope_Moving:
     
     TYA : CLC : ADC.w $0ED0, X : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     LDA.b $1A
     
@@ -163,7 +163,7 @@ Rope_Moving:
     
     LSR #2 : LDA.w $0DE0, X : ROL A : TAY
     
-    LDA .animation_control, Y : STA.w $0D90, X
+    LDA.w .animation_control, Y : STA.w $0D90, X
     
     RTS
 }

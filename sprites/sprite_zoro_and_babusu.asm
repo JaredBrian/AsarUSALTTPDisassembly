@@ -15,7 +15,7 @@ Sprite_Zoro:
     
     INC.w $0DB0, X
     
-    JSR Sprite3_IsBelowPlayer
+    JSR.w Sprite3_IsBelowPlayer
     
     ; 0 - sprite is above or level with player
     ; 1 - sprite is below player
@@ -31,21 +31,21 @@ Sprite_Zoro:
     .dont_self_terminate
     .initialized
     
-    JSL Sprite_PrepAndDrawSingleSmallLong
-    JSR Sprite3_CheckIfActive
-    JSR Sprite3_CheckDamage
+    JSL.l Sprite_PrepAndDrawSingleSmallLong
+    JSR.w Sprite3_CheckIfActive
+    JSR.w Sprite3_CheckDamage
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0E80, X : LSR #2 : AND.b #$01 : TAY
     
-    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
+    LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
     
-    JSR Sprite3_Move
+    JSR.w Sprite3_Move
     
     LDA.w $0DF0, X : BNE .dont_self_terminate
     
-    JSR Sprite3_CheckTileCollision : BEQ .dont_self_terminate
+    JSR.w Sprite3_CheckTileCollision : BEQ .dont_self_terminate
     
     STZ.w $0DD0, X
     
@@ -95,12 +95,12 @@ Sprite_Zoro:
 ; $0F1C6B-$0F1C80 ALTERNATE ENTRY POINT
 Babusu_Main:
 {
-    JSL Babusu_Draw
-    JSR Sprite3_CheckIfActive
+    JSL.l Babusu_Draw
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Babusu_Reset
     dw Babusu_Hiding
@@ -172,9 +172,9 @@ Babusu_TerrorSprinkles:
     ; whether they have any understanding
     LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
     
     LDA.b #$20 : STA.w $0DF0, X
     
@@ -186,7 +186,7 @@ Babusu_TerrorSprinkles:
     
     SBC.b #$20 : LSR #2 : TAY
     
-                   LDA .animation_states, Y      
+                   LDA.w .animation_states, Y      
     LDY.w $0DE0, X : CLC : ADC .animation_adjustments, Y : STA.w $0DC0, X
     
     RTS
@@ -212,8 +212,8 @@ Pool_Babusu_ScurryAcross:
 ; $0F1CEC-$0F1D16 JUMP LOCATION
 Babusu_ScurryAcross:
 {
-    JSR Sprite3_CheckDamage
-    JSR Sprite3_Move
+    JSR.w Sprite3_CheckDamage
+    JSR.w Sprite3_Move
     
     LDA.b $1A : LSR A : AND.b #$01
     
@@ -223,7 +223,7 @@ Babusu_ScurryAcross:
     
     LDA.w $0DF0, X : BNE .cant_collide
     
-    JSR Sprite3_CheckTileCollision : BEQ .didnt_collide
+    JSR.w Sprite3_CheckTileCollision : BEQ .didnt_collide
     
     LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     

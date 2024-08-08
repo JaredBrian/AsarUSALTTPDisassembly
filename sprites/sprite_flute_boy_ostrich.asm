@@ -4,12 +4,12 @@
 ; $0F195B-$0F196B JUMP LOCATION
 Sprite_FluteBoyOstrich:
 {
-    JSR FluteBoyOstrich_Draw
-    JSR Sprite3_CheckIfActive
+    JSR.w FluteBoyOstrich_Draw
+    JSR.w Sprite3_CheckIfActive
     
     LDA.w $0D80, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw FluteBoyOstrich_Chillin
     dw FluteBoyOstrich_RunAway
@@ -57,7 +57,7 @@ Pool_FluteBoyOstrich_RunAway:
 ; $0F1991-$0F19CA JUMP LOCATION
 FluteBoyOstrich_RunAway:
 {
-    JSR Sprite3_MoveXyz
+    JSR.w Sprite3_MoveXyz
     
     DEC.w $0F80, X : DEC.w $0F80, X
     
@@ -84,7 +84,7 @@ FluteBoyOstrich_RunAway:
     
     LDY.w $0D90, X
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -127,11 +127,11 @@ FluteBoyOstrich_Draw:
     
     SEP #$20
     
-    LDA.b #$04 : JSR Sprite3_DrawMultiple
+    LDA.b #$04 : JSR.w Sprite3_DrawMultiple
     
     LDA.b #$12
     
-    JSL Sprite_DrawShadowLong.variable
+    JSL.l Sprite_DrawShadowLong_variable
     
     RTS
 }

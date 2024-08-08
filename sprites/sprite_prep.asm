@@ -8,13 +8,13 @@ SpritePrep_Main:
 {
     ; SPRITE PREP ROUTINES 1
     
-    JSL Sprite_LoadProperties
+    JSL.l Sprite_LoadProperties
     
     INC.w $0DD0, X
     
     LDA.w $0E20, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw SpritePrep_Raven                    ; 0x00 - Raven
     dw SpritePrep_Vulture                  ; 0x01 - Vulture
@@ -284,7 +284,7 @@ SpritePrep_MoveRightOneTile:
 ; $030854-$030858 JUMP LOCATION
 SpritePrep_MedallionTableTrampoline:
 {
-    JSL SpritePrep_MedallionTabletLong
+    JSL.l SpritePrep_MedallionTabletLong
     
     RTS
 }
@@ -322,7 +322,7 @@ SpritePrep_SwitchFacingUp:
 ; $03086E-$030872 LOCAL JUMP LOCATION
 SpritePrep_OldSnitchLady:
 {
-    JSL SpritePrep_SnitchesLong
+    JSL.l SpritePrep_SnitchesLong
     
     RTS
 }
@@ -381,11 +381,11 @@ SpritePrep_Keese:
 {
     LDY.w $0FFF
     
-    LDA .damage_class, Y : STA.w $0CD2, X
+    LDA.w .damage_class, Y : STA.w $0CD2, X
     
-    LDA .hp, Y           : STA.w $0E50, X
+    LDA.w .hp, Y           : STA.w $0E50, X
     
-    LDA .prize_pack, Y   : STA.w $0BE0, X
+    LDA.w .prize_pack, Y   : STA.w $0BE0, X
     
     RTS
 }
@@ -424,7 +424,7 @@ SpritePrep_Rope:
 ; $0308C0-$0308C6 JUMP LOCATION
 SpritePrep_Swamola:
 {
-    JSL Swamola_InitSegments
+    JSL.l Swamola_InitSegments
     JMP SpritePrep_CacheInitialCoords
 }
 
@@ -433,8 +433,8 @@ SpritePrep_Swamola:
 ; $0308C7-$0308CE JUMP LOCATION
 SpritePrep_Blind:
 {
-    JSR SpritePrep_Bosses
-    JSL Blind_Initialize
+    JSR.w SpritePrep_Bosses
+    JSL.l Blind_Initialize
     
     RTS
 }
@@ -444,8 +444,8 @@ SpritePrep_Blind:
 ; $0308CF-$0308D6 JUMP LOCATION
 SpritePrep_Ganon:
 {
-    JSR SpritePrep_Bosses
-    JSL Ganon_Initialize
+    JSR.w SpritePrep_Bosses
+    JSL.l Ganon_Initialize
     
     RTS
 }
@@ -469,7 +469,7 @@ SpritePrep_Hokbok:
     
     LDA.b #$08 : STA.w $0DA0, X
     
-    JSL GetRandomInt : AND.b #$03 : TAY
+    JSL.l GetRandomInt : AND.b #$03 : TAY
     
     LDA Pool_SpritePep_HokBok_x_speeds, Y : STA.w $0D50, X
     
@@ -483,7 +483,7 @@ SpritePrep_Hokbok:
 ; $0308FD-$030900 JUMP LOCATION
 SpritePrep_Vitreolus:
 {
-    JSR SpritePrep_Bosses
+    JSR.w SpritePrep_Bosses
     
     RTS
 }
@@ -542,7 +542,7 @@ SpritePrep_EvilBarrier:
 ; $03092C-$03093A ALTERNATE ENTRY POINT
 SpritePrep_GreatCatfish:
 {
-    JSR SpritePrep_MoveDownOneRightTwoTiles
+    JSR.w SpritePrep_MoveDownOneRightTwoTiles
     
     LDA.w $0D00, X : SEC : SBC.b #$0C : STA.w $0D00, X
     
@@ -561,7 +561,7 @@ SpritePrep_ChattyAgahnim:
     
     .not_triggered
     
-    JSL ChattyAgahnim_SpawnZeldaOnAltar
+    JSL.l ChattyAgahnim_SpawnZeldaOnAltar
     JMP SpritePrep_IgnoresProjectiles
 }
 
@@ -570,12 +570,12 @@ SpritePrep_ChattyAgahnim:
 ; $03094D-$030962 JUMP LOCATION
 SpritePrep_Vitreous:
 {
-    JSR SpritePrep_Bosses
-    JSR SpritePrep_MoveDownOneRightTwoTiles
+    JSR.w SpritePrep_Bosses
+    JSR.w SpritePrep_MoveDownOneRightTwoTiles
     
     LDA.w $0D00, X : SEC : SBC.b #$10 : STA.w $0D00, X
     
-    JSL Vitreous_SpawnSmallerEyesLong
+    JSL.l Vitreous_SpawnSmallerEyesLong
     JMP SpritePrep_IgnoresProjectiles
 }
 
@@ -599,11 +599,11 @@ SpritePrep_Raven:
 {
     LDY.w $0FFF
     
-    LDA .bump_damage, Y : STA.w $0CD2, X
+    LDA.w .bump_damage, Y : STA.w $0CD2, X
     
-    LDA .hp, Y : STA.w $0E50, X
+    LDA.w .hp, Y : STA.w $0E50, X
     
-    LDA .prize_pack, Y : STA.w $0BE0, X
+    LDA.w .prize_pack, Y : STA.w $0BE0, X
     
     ; $03097E ALTERNATE ENTRY POINT
     shared SpritePrep_Vulture:
@@ -648,8 +648,8 @@ SpritePrep_BlindMaiden:
     
     STZ.w $02F9
     
-    JSL Tagalong_LoadGfx
-    JSL Tagalong_Init
+    JSL.l Tagalong_LoadGfx
+    JSL.l Tagalong_Init
     
     PLX
     
@@ -669,7 +669,7 @@ SpritePrep_BlindMaiden:
 ; $0309D3-$0309D7 JUMP LOCATION
 SpritePrep_Moldorm:
 {
-    JSL Moldorm_Initialize
+    JSL.l Moldorm_Initialize
     
     RTS
 }
@@ -692,7 +692,7 @@ SpritePrep_BombShopEntity:
     INC.w $0BA0, X
     
     ; spawn a normal set of bombs for sale
-    LDA.b #$B5 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$B5 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b $00 : SEC : SBC.b #$18 : STA.w $0D10, Y
     LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
@@ -711,7 +711,7 @@ SpritePrep_BombShopEntity:
     LDA.l $7EF3C9 : AND.b #$20 : BEQ .dont_spawn_super_bomb
     
     ; spawn the super bomb
-    LDA.b #$B5 : JSL Sprite_SpawnDynamically : BMI .super_bomb_spawn_failed
+    LDA.b #$B5 : JSL.l Sprite_SpawnDynamically : BMI .super_bomb_spawn_failed
     
     LDA.b $00 : SEC : SBC.b #$38 : STA.w $0D10, Y
     LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
@@ -732,7 +732,7 @@ SpritePrep_BombShopEntity:
 ; $030A51-$030A58 JUMP LOCATION
 SpritePrep_BullyAndBallGuy:
 {
-    JSL BullyAndBallGuy_SpawnBully
+    JSL.l BullyAndBallGuy_SpawnBully
     
     INC.w $0BA0, X
     
@@ -794,7 +794,7 @@ SpritePrep_Dwarf:
     ; NOTE: The dwarves need this in order to not be passed through by
     ; the player. Questionable technique, but I guess they did what they
     ; had to do to ship the game, right?
-    JSL Dwarf_SpawnDwarfSolidity
+    JSL.l Dwarf_SpawnDwarfSolidity
     
     ; in light world he can either be one or two dwarves?
     LDA.l $7EF3C9 : AND.b #$20 : BNE .partner_has_been_saved
@@ -809,11 +809,11 @@ SpritePrep_Dwarf:
     LDA.w $0D10, X : CLC : ADC.b #$02 : STA.w $0D10, X
     LDA.w $0D00, X : SEC : SBC.b #$03 : STA.w $0D00, X
     
-    JSR Smithy_SpawnOtherSmithy
+    JSR.w Smithy_SpawnOtherSmithy
     
     PHX : PHY : TYX
     
-    JSL Dwarf_SpawnDwarfSolidity
+    JSL.l Dwarf_SpawnDwarfSolidity
     
     PLY : PLX 
     
@@ -834,7 +834,7 @@ SpritePrep_Dwarf:
 ; $030AF0-$030B00 JUMP LOCATION
 SpritePrep_Babusu:
 {
-    JSR SpritePrep_MoveDownOneTile
+    JSR.w SpritePrep_MoveDownOneTile
     
     ; $030AF3 ALTERNATE ENTRY POINT
     shared SpritePrep_Zoro:
@@ -849,9 +849,9 @@ SpritePrep_Babusu:
 ; ==============================================================================
 
 ; $030B01-$030B02 DATA
-    ; UNUSED: Was it at one point intended that the speed of the laser beam
-    ; be variable or configured here?
-    Pool_SpritePrep_LaserEyeTrampoline
+; UNUSED: Was it at one point intended that the speed of the laser beam
+; be variable or configured here?
+Pool_SpritePrep_LaserEyeTrampoline:
 {
     ; an assumptive name
     .speeds
@@ -863,7 +863,7 @@ SpritePrep_Babusu:
 ; $030B03-$030B07 JUMP LOCATION
 SpritePrep_LaserEyeTrampoline:
 {
-    JSL SpritePrep_LaserEyeLong
+    JSL.l SpritePrep_LaserEyeLong
     
     RTS
 }
@@ -945,7 +945,7 @@ SpritePrep_FireDebirando:
 {
     LDA.b #$63 : STA.w $0E20, X
     
-    JSL Sprite_LoadProperties
+    JSL.l Sprite_LoadProperties
     
     DEC.w $0ED0, X
     
@@ -963,11 +963,11 @@ SpritePrep_FireDebirando:
     
     LDA.b #$06 : STA.w $0DC0, X
     
-    JSR SpritePrep_IgnoresProjectiles
+    JSR.w SpritePrep_IgnoresProjectiles
     
-    LDA.b #$64 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$64 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$60 : STA.w $0DF0, Y
     
@@ -982,7 +982,7 @@ SpritePrep_FireDebirando:
     TAX
     
     ; Well that just confirms the above.
-    LDA .palettes, X : STA.w $0F50, Y
+    LDA.w .palettes, X : STA.w $0F50, Y
     
     PLX
     
@@ -1004,7 +1004,7 @@ SpritePrep_Recruit:
     
     ; Pick a starting body direction and match it up with the starting head
     ; direction
-    JSL GetRandomInt : AND.b #$03 : STA.w $0DE0, X : STA.w $0EB0, X
+    JSL.l GetRandomInt : AND.b #$03 : STA.w $0DE0, X : STA.w $0EB0, X
     
     ; Start it on a 16 second timer
     LDA.b #$10 : STA.w $0DF0, X
@@ -1029,7 +1029,7 @@ SpritePrep_WallCannon:
 ; $030BA2-$030BA6 JUMP LOCATION
 SpritePrep_ArcheryGameGuyTrampoline:
 {
-    JSL SpritePrep_ArcheryGameGuy
+    JSL.l SpritePrep_ArcheryGameGuy
     
     RTS
 }
@@ -1052,7 +1052,7 @@ SpritePrep_IgnoresProjectiles:
 ; $030BAB-$030BBE JUMP LOCATION
 SpritePrep_FluteBoyAnimals:
 {
-    JSR Sprite_IsToRightOfPlayer
+    JSR.w Sprite_IsToRightOfPlayer
     
     TYA : STA.w $0DE0, X
     
@@ -1073,7 +1073,7 @@ SpritePrep_FluteBoyAnimals:
 ; $030BBF-$030BC3 JUMP LOCATION
 SpritePrep_DiggingGameGuyTrampoline:
 {
-    JSL SpritePrep_DiggingGameGuy
+    JSL.l SpritePrep_DiggingGameGuy
     
     RTS
 }
@@ -1138,7 +1138,7 @@ SpritePrep_ShopKeeper:
     
     TYA
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw $8C37 = $30C37*
     dw $8C43 = $30C43*
@@ -1161,7 +1161,7 @@ SpritePrep_ShopKeeper:
     LDA.b #$00
     LDY.b #$07
     
-    JSL ShopKeeper_SpawnInventoryItem
+    JSL.l ShopKeeper_SpawnInventoryItem
     
     LDY.b #$08
     
@@ -1172,17 +1172,17 @@ SpritePrep_ShopKeeper:
     LDA.b #$00
     LDY.b #$09
     
-    JSL ShopKeeper_SpawnInventoryItem
+    JSL.l ShopKeeper_SpawnInventoryItem
     
     LDA.b #$01
     LDY.b #$0D
     
-    JSL ShopKeeper_SpawnInventoryItem
+    JSL.l ShopKeeper_SpawnInventoryItem
     
     LDA.b #$02
     LDY.b #$0B
     
-    JSL ShopKeeper_SpawnInventoryItem
+    JSL.l ShopKeeper_SpawnInventoryItem
     
     RTS
     
@@ -1215,7 +1215,7 @@ SpritePrep_ShopKeeper:
     LDA.b #$00
     LDY.b #$07
     
-    JSL ShopKeeper_SpawnInventoryItem
+    JSL.l ShopKeeper_SpawnInventoryItem
     
     LDY.b #$0A
     
@@ -1223,12 +1223,12 @@ SpritePrep_ShopKeeper:
     
     LDA.b #$01
     
-    JSL ShopKeeper_SpawnInventoryItem
+    JSL.l ShopKeeper_SpawnInventoryItem
     
     LDA.b #$02
     LDY.b #$0C
     
-    JSL ShopKeeper_SpawnInventoryItem
+    JSL.l ShopKeeper_SpawnInventoryItem
     
     RTS
     
@@ -1401,7 +1401,7 @@ SpritePrep_DashItem:
     
     LDA.b #$0E
     
-    JSL GetAnimatedSpriteTile.variable
+    JSL.l GetAnimatedSpriteTile_variable
     
     PLX
     
@@ -1526,13 +1526,13 @@ SpritePrep_GanonHelpers:
 {
     LDA.w $0D10, X : LSR #4 : AND.b #$01 : STA.w $0D90, X : TAY
     
-    LDA .palette, Y : STA.w $0F50, X
+    LDA.w .palette, Y : STA.w $0F50, X
     
-    LDA .hp, Y : STA.w $0E50, X
+    LDA.w .hp, Y : STA.w $0E50, X
     
-    LDA .bump_damage, Y : STA.w $0CD2, X
+    LDA.w .bump_damage, Y : STA.w $0CD2, X
     
-    LDA.b #$10 : JSR Sprite_ApplySpeedTowardsPlayer
+    LDA.b #$10 : JSR.w Sprite_ApplySpeedTowardsPlayer
     
     LDA #$20 : STA.w $0F80, X
     
@@ -1546,7 +1546,7 @@ SpritePrep_GanonHelpers:
 ; $030DC1-$030DC5 JUMP LOCATION
 SpritePrep_ChainChompTrampoline:
 {
-    JSL SpritePrep_ChainChomp
+    JSL.l SpritePrep_ChainChomp
     
     RTS
 }
@@ -1558,7 +1558,7 @@ SpritePrep_BigFairy:
 {
     LDA.b #$18 : STA.w $0F70, X
     
-    JSR SpritePrep_MoveDownOneRightTwoTiles
+    JSR.w SpritePrep_MoveDownOneRightTwoTiles
     JMP SpritePrep_IgnoresProjectiles
 }
 
@@ -1573,7 +1573,7 @@ SpritePrep_ElderWife:
     shared SpritePrep_Lumberjacks:
     shared SpritePrep_MadBatter:
     
-    JSR SpritePrep_MoveRightOneTile
+    JSR.w SpritePrep_MoveRightOneTile
     JMP SpritePrep_IgnoresProjectiles
 }
 
@@ -1582,7 +1582,7 @@ SpritePrep_ElderWife:
 ; $030DE0-$030DE6 JUMP LOCATION
 SpritePrep_FortuneTeller:
 {
-    JSR SpritePrep_MoveDownOneRightTwoTiles
+    JSR.w SpritePrep_MoveDownOneRightTwoTiles
     
     INC.w $0BA0, X
     
@@ -1605,7 +1605,7 @@ SpritePrep_Leever:
 {
     LDA.w $0D10, X : LSR #4 : AND.b #$01 : STA.w $0D90, X : TAY
     
-    LDA .palettes, Y : STA.w $0F50, X
+    LDA.w .palettes, Y : STA.w $0F50, X
     
     RTS
 }
@@ -1622,7 +1622,7 @@ SpritePrep_HoboEntities:
     
     PHY
     
-    JSR Hobo_SpawnHobo
+    JSR.w Hobo_SpawnHobo
     
     PLY : DEY : BNE .spawn_next_hobo
     
@@ -1639,7 +1639,7 @@ SpritePrep_HoboEntities:
     
     DEY : BNE .terminate_next_hobo
     
-    JSR Hobo_SpawnCampfire
+    JSR.w Hobo_SpawnCampfire
     
     TXY
     
@@ -1760,14 +1760,14 @@ Pool_Unused:
 ; $030EC1-$030EEF JUMP LOCATION
 SpritePrep_LostWoodsBird:
 {
-    JSL GetRandomInt : AND.b #$1F : SEC : SBC.b #$10 : STA.w $0F80, X
+    JSL.l GetRandomInt : AND.b #$1F : SEC : SBC.b #$10 : STA.w $0F80, X
     
     LDA.b #$40 : STA.w $0F70, X
     
     ; $030ED2 ALTERNATE ENTRY POINT
     shared SpritePrep_LostWoodsSquirrel:
     
-    JSR Sprite_IsToRightOfPlayer
+    JSR.w Sprite_IsToRightOfPlayer
     
     LDA.b #$10
     
@@ -1809,7 +1809,7 @@ SpritePrep_Bubble:
 {
     LDA.w $0D10, X : LSR #4 : AND.b #$01 : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
     
     LDA.b #$F0 : STA.w $0D40, X
     
@@ -1821,7 +1821,7 @@ SpritePrep_Bubble:
 ; $030F08-$030F0E JUMP LOCATION
 SpritePrep_IceBallGenerator:
 {
-    JSR SpritePrep_Bosses
+    JSR.w SpritePrep_Bosses
     
     INC.w $0BA0, X
     
@@ -1889,7 +1889,7 @@ SpritePrep_Bosses:
 ; $030F3F-$030F4C JUMP LOCATION
 SpritePrep_ArmosKnight:
 {
-    JSR SpritePrep_Bosses
+    JSR.w SpritePrep_Bosses
     
     LDA.b #$FF : STA.w $0DF0, X
     
@@ -1909,7 +1909,7 @@ SpritePrep_DesertBarrier:
     
     INC.w $0B6A
     
-    JSR SpritePrep_MoveDownOneRightTwoTiles
+    JSR.w SpritePrep_MoveDownOneRightTwoTiles
     
     LDA.w $0D10, X : LDY.b #$01 : CMP.b #$30 : BCC .set_direction
     
@@ -1950,11 +1950,11 @@ SpritePrep_Octorock:
 {
     LDY.w $0FFF
     
-    LDA .hp, Y : STA.w $0E50, X
+    LDA.w .hp, Y : STA.w $0E50, X
     
-    LDA .bump_damage, Y : STA.w $0CD2, X
+    LDA.w .bump_damage, Y : STA.w $0CD2, X
     
-    JSL GetRandomInt : AND.b #$7F : STA.w $0DF0, X
+    JSL.l GetRandomInt : AND.b #$7F : STA.w $0DF0, X
     
     RTS
 }
@@ -1964,11 +1964,11 @@ SpritePrep_Octorock:
 ; $030F8A-$030F94 JUMP LOCATION
 SpritePrep_GiantMoldorm:
 {
-    JSR SpritePrep_Bosses
+    JSR.w SpritePrep_Bosses
     
     INC.w $0BA0, X
     
-    JSL Sprite_InitializedSegmented
+    JSL.l Sprite_InitializedSegmented
     
     RTS
 }
@@ -1978,8 +1978,8 @@ SpritePrep_GiantMoldorm:
 ; $030F95-$030F9C JUMP LOCATION
 SpritePrep_Lanmola:
 {
-    JSR SpritePrep_Bosses
-    JSL Lanmola_FinishInitialization
+    JSR.w SpritePrep_Bosses
+    JSL.l Lanmola_FinishInitialization
     
     RTS
 }
@@ -1989,7 +1989,7 @@ SpritePrep_Lanmola:
 ; $030F9D-$030FC8 JUMP LOCATION
 SpritePrep_SpikeTrap:
 {
-    JSR SpritePrep_MoveDownOneRightTwoTiles
+    JSR.w SpritePrep_MoveDownOneRightTwoTiles
     
     BRA .cache_coords
     
@@ -2060,7 +2060,7 @@ SpritePrep_Soldier:
     
     LDA.b #$70 : STA.w $0DF0, X
     
-    JSR Sprite_DirectionToFacePlayer
+    JSR.w Sprite_DirectionToFacePlayer
     
     TYA : STA.w $0DE0, X : STA.w $0EB0, X
     
@@ -2081,7 +2081,7 @@ SpritePrep_Soldier:
     
     TYA : ORA.b $00 : TAY
     
-    LDA .unknown, Y : STA.w $0DA0, X
+    LDA.w .unknown, Y : STA.w $0DA0, X
     
     LDA.w $0B6B, X : AND.b #$0F : ORA #$50 : STA.w $0B6B, X
     
@@ -2093,8 +2093,8 @@ SpritePrep_Soldier:
     
     SEC : ROR.w $0CAA, X
     
-    JSR SpriteActive_Main
-    JSR SpriteActive_Main
+    JSR.w SpriteActive_Main
+    JSR.w SpriteActive_Main
     
     ASL.w $0CAA, X
     
@@ -2126,8 +2126,8 @@ SpritePrep_TalkingTree:
     LDA.w $0D10, X : SEC : SBC.b #$08 : STA.w $0D10, X
     LDA.w $0D30, X : SBC.b #$00 : STA.w $0D30, X
     
-    LDA.b #$00 : JSL TalkingTree_SpawnEyes
-    LDA.b #$01 : JSL TalkingTree_SpawnEyes
+    LDA.b #$00 : JSL.l TalkingTree_SpawnEyes
+    LDA.b #$01 : JSL.l TalkingTree_SpawnEyes
     
     RTS
 }
@@ -2175,7 +2175,7 @@ SpritePrep_FluteBoy:
     
     .BRANCH_GAMMA
     
-    JSR SpritePrep_MoveRightOneTile
+    JSR.w SpritePrep_MoveRightOneTile
     
     LDA.w $0D00, X : SEC : SBC.b #$08 : STA.w $0D00, X
     
@@ -2243,7 +2243,7 @@ SpritePrep_Stalfos:
 ; $0310F0-$031115 JUMP LOCATION
 SpritePrep_KholdstareShell:
 {
-    JSR SpritePrep_Bosses
+    JSR.w SpritePrep_Bosses
     
     LDA.b #$C0 : STA.w $0E00, X
     
@@ -2252,18 +2252,18 @@ SpritePrep_KholdstareShell:
     ; $0310FA ALTERNATE ENTRY POINT
     shared SpritePrep_Kholdstare:
     
-    JSR SpritePrep_Bosses
+    JSR.w SpritePrep_Bosses
     
     LDA.b #$03 : STA.w $0D80, X
     
-    JSR SpritePrep_IgnoresProjectiles
+    JSR.w SpritePrep_IgnoresProjectiles
     
     BRA .down_one_right_two_tiles
     
     ; $031107 ALTERNATE ENTRY POINT
     shared SpritePrep_Bumper:
     
-    JSR SpritePrep_IgnoresProjectiles
+    JSR.w SpritePrep_IgnoresProjectiles
     
     ; $03110A ALTERNATE ENTRY POINT
     shared SpritePrep_MoveDownOneRightTwoTiles:
@@ -2272,7 +2272,7 @@ SpritePrep_KholdstareShell:
     
     PHX : TXA : CLC : ADC.b #$10 : TAX
     
-    JSR SpritePrep_MoveDownOneTile
+    JSR.w SpritePrep_MoveDownOneTile
     
     PLX
     
@@ -2320,17 +2320,17 @@ SpritePrep_HardHatBeetle:
     
     .BRANCH_ALPHA
     
-    LDA .palette, Y : STA.w $0F50, X
+    LDA.w .palette, Y : STA.w $0F50, X
     
-    LDA .hp, Y : STA.w $0E50, X
+    LDA.w .hp, Y : STA.w $0E50, X
     
-    LDA .unknown_0, Y : STA.w $0D90, X
+    LDA.w .unknown_0, Y : STA.w $0D90, X
     
-    LDA .ai_state, Y : STA.w $0D80, X
+    LDA.w .ai_state, Y : STA.w $0D80, X
     
-    LDA .unknown_1, Y : STA.w $0BE0, X
+    LDA.w .unknown_1, Y : STA.w $0BE0, X
     
-    LDA .bump_damage, Y : STA.w $0CD2, X
+    LDA.w .bump_damage, Y : STA.w $0CD2, X
     
     RTS
 }
@@ -2354,7 +2354,7 @@ SpritePrep_Helmasaur:
 ; $03115C-$031174 JUMP LOCATION
 SpritePrep_Fairy:
 {
-    JSL GetRandomInt : AND.b #$01
+    JSL.l GetRandomInt : AND.b #$01
     
     STA.w $0D90, X
     
@@ -2424,13 +2424,13 @@ Pool_SpritePrep_Agahnim:
 ; $031195-$0311AE JUMP LOCATION
 SpritePrep_Agahnim:
 {
-    JSR SpritePrep_Bosses
+    JSR.w SpritePrep_Bosses
     
     LDA.b #$00 : STA.w $0DC0, X
     
     LDA.b #$03 : STA.w $0DE0, X
     
-    JSR SpritePrep_MoveDownOneRightTwoTiles
+    JSR.w SpritePrep_MoveDownOneRightTwoTiles
     
     LDY.w $0FFF
     
@@ -2447,7 +2447,7 @@ SpritePrep_Agahnim:
 ; $0311AF-$0311B3 JUMP LOCATION
 SpritePrep_EyegoreTrampoline:
 {
-    JSL SpritePrep_Eyegore
+    JSL.l SpritePrep_Eyegore
     
     RTS
 }
@@ -2467,9 +2467,9 @@ SpritePrep_GuruGuruBar:
 ; $0311BA-$0311C4 JUMP LOCATION
 SpritePrep_TrinexxComponents:
 {
-    JSR SpritePrep_Bosses
-    JSL TrinexxComponents_InitializeLong
-    JSR SpritePrep_TerminateCachedSprites
+    JSR.w SpritePrep_Bosses
+    JSL.l TrinexxComponents_InitializeLong
+    JSR.w SpritePrep_TerminateCachedSprites
     
     RTS
 }
@@ -2479,8 +2479,8 @@ SpritePrep_TrinexxComponents:
 ; $0311C5-$0311D6 JUMP LOCATION
 SpritePrep_HelmasaurKing:
 {
-    JSR SpritePrep_Bosses
-    JSL HelmasaurKing_Initialize
+    JSR.w SpritePrep_Bosses
+    JSL.l HelmasaurKing_Initialize
     
     ; $0311CC ALTERNATE ENTRY POINT
     shared SpritePrep_TerminateCachedSprites:
@@ -2509,7 +2509,7 @@ SpritePrep_SpikeBlock:
     
     LDA.b #-16 : STA.w $0D40, X
     
-    JSR Sprite_MoveVert
+    JSR.w Sprite_MoveVert
     
     STZ.w $0D40, X
     
@@ -2523,7 +2523,7 @@ SpritePrep_Terrorpin:
 {
     LDA.b #$04 : STA.w $0DC0, X
     
-    JSR SpritePrep_IgnoresProjectiles
+    JSR.w SpritePrep_IgnoresProjectiles
     
     RTS
 }
@@ -2533,7 +2533,7 @@ SpritePrep_Terrorpin:
 ; $0311F1-$0311F9 JUMP LOCATION
 SpritePrep_Arghus:
 {
-    JSR SpritePrep_Bosses
+    JSR.w SpritePrep_Bosses
     
     LDA.b #$18 : STA.w $0F70, X
     
@@ -2545,9 +2545,9 @@ SpritePrep_Arghus:
 ; $0311FA-$03122E JUMP LOCATION
 SpritePrep_Arrgi:
 {
-    JSR SpritePrep_Bosses
+    JSR.w SpritePrep_Bosses
     
-    JSL GetRandomInt : STA.w $0E80, X
+    JSL.l GetRandomInt : STA.w $0E80, X
     
     CPX.b #$0D : BNE .BRANCH_ALPHA
     
@@ -2578,7 +2578,7 @@ SpritePrep_Arrgi:
 ; $03122F-$031247 JUMP LOCATION
 SpritePrep_Mothula:
 {
-    JSR SpritePrep_Bosses
+    JSR.w SpritePrep_Bosses
     
     LDA.b #$50 : STA.w $0DF0, X
     
@@ -2598,7 +2598,7 @@ SpritePrep_Mothula:
 ; $031248-$03124C JUMP LOCATION
 SpritePrep_BubbleGroupTrampoline:
 {
-    JSL SpritePrep_BubbleGroup
+    JSL.l SpritePrep_BubbleGroup
     
     RTS
 }
@@ -2616,7 +2616,7 @@ SpritePrep_CrystalMaiden:
 ; $03124E-$031255 JUMP LOCATION
 SpritePrep_BigKey:
 {
-    JSR SpritePrep_MoveRightOneTile
+    JSR.w SpritePrep_MoveRightOneTile
     
     LDA.b #$FF : STA.w $0E30, X
 
@@ -2630,7 +2630,7 @@ SpritePrep_LoadBigKeyGfx:
     
     LDA.b #$22
     
-    JSL GetAnimatedSpriteTile_variable
+    JSL.l GetAnimatedSpriteTile_variable
     
     PLY : PLX
     
