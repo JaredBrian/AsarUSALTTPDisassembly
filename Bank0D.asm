@@ -3285,7 +3285,7 @@ PlayerOam_Main:
     .no_slip_drawing
 
     LDA.w $0308 : BEQ .not_carrying_something
-        JSR PlayerOam_GetHighestSetBit
+        JSR.w PlayerOam_GetHighestSetBit
         
         ; This comparison would seem to indicate that some other part of the
         ; code gives a crap about bit 6 of this variable, but in truth the only
@@ -3331,7 +3331,7 @@ PlayerOam_Main:
     .not_grabbing_at_all
 
     LDA.w $0301 : BEQ .not_using_items_a
-        JSR PlayerOam_GetHighestSetBit
+        JSR.w PlayerOam_GetHighestSetBit
         
         LDY.w PlayerOam_ItemsAUseIndex, X
         
@@ -3340,7 +3340,7 @@ PlayerOam_Main:
     .not_using_items_a
 
     LDA.w $037A : BEQ .not_using_items_b
-        JSR PlayerOam_GetHighestSetBit
+        JSR.w PlayerOam_GetHighestSetBit
         
         LDY.w PlayerOam_ItemsBUseIndex, X
 
@@ -3586,7 +3586,7 @@ PlayerOam_Main:
     .PlayerOam_NoAux
 
     LDA.w $0309 : AND.w #$0004 : BEQ .always_taken
-        JSR PlayerOam_UnusedWeaponSettings
+        JSR.w PlayerOam_UnusedWeaponSettings
         
         BRA .skip_sword_vram
 
@@ -3612,7 +3612,7 @@ PlayerOam_Main:
     LDA.l $7EF359 : INC A : AND.w #$00FE : BEQ .skip_sword_vram
         .using_some_item
 
-        JSR PlayerOam_SetWeaponVRAMOffsets : BCC .continue_with_weapon
+        JSR.w PlayerOam_SetWeaponVRAMOffsets : BCC .continue_with_weapon
 
     .skip_sword_vram
 
@@ -3693,7 +3693,7 @@ PlayerOam_Main:
     
     LDA.b $0E : PHA
     
-    JSR PlayerOam_DrawSwordSwingTip
+    JSR.w PlayerOam_DrawSwordSwingTip
     
     PLA : STA.b $0E
 
@@ -3776,7 +3776,7 @@ PlayerOam_Main:
         ; his uncle yet. In other words, if Link has entered phase 1.
         LDA.l $7EF3C5 : AND.w #$00FF : BEQ .dontShowShield
             ; Affects graphics when carrying things?
-            JSR PlayerOam_SetEquipmentVRAMOffsets : BCC .showShield
+            JSR.w PlayerOam_SetEquipmentVRAMOffsets : BCC .showShield
 
     .dontShowShield
 
@@ -3811,7 +3811,7 @@ PlayerOam_Main:
     
     LDA PlayerOam_ShieldOffsetX, Y
     
-    JSR PlayerOam_GetRelativeHighBit
+    JSR.w PlayerOam_GetRelativeHighBit
     
     STZ.b $0E
     
@@ -3897,7 +3897,7 @@ PlayerOam_Main:
             ; See if Link is standing in water.
             LDA.w $0351 : BEQ .recoil_check
                 ; Draws water/grass sprites around Link.
-                JSR PlayerOam_DrawFootObject
+                JSR.w PlayerOam_DrawFootObject
                 
                 BRA .proceed_to_pose
 
@@ -3910,7 +3910,7 @@ PlayerOam_Main:
                 LDA.b $5B  : BEQ .weak_slip
                 CMP.b #$01 : BEQ .weak_slip
                     LDA.b $5A : CMP.b #$06 : BCC .proceed_to_pose
-                        JSR PlayerOam_DungeonFallShadow
+                        JSR.w PlayerOam_DungeonFallShadow
 
     .proceed_to_pose
 
@@ -4643,7 +4643,7 @@ PlayerOam_DrawSwordSwingTip:
                     LDA PlayerOam_SwordSwingTipOffsetY, Y : STA.b $44
                     LDA PlayerOam_SwordSwingTipOffsetX, Y : STA.b $45
                     
-                    JSR PlayerOam_GetRelativeHighBit
+                    JSR.w PlayerOam_GetRelativeHighBit
                     
                     REP #$20
                     
@@ -4712,7 +4712,7 @@ PlayerOam_UnusedWeaponSettings:
     
     LSR #2
     
-    JSR PlayerOam_GetHighestSetBit
+    JSR.w PlayerOam_GetHighestSetBit
     
     LDA.w Pool_LinkOAM_UnusedWeaponSettings_index, X
     CLC : ADC.w $030E : ASL #2 : STA.b $06 : STZ.b $07
@@ -4935,7 +4935,7 @@ PlayerOam_DrawFootObject:
 
         .check_next
 
-            LDA .aux_check, Y : CMP.w $0354 : BNE .wrong
+            LDA.w .aux_check, Y : CMP.w $0354 : BNE .wrong
                 STZ.b $8D
                 
                 BRA .check_step
@@ -7081,7 +7081,7 @@ SpriteData_Deflection:
 ; $06B818-$06B85B LONG JUMP LOCATION
 Sprite_LoadProperties:
 {
-    JSL Sprite_ResetProperties
+    JSL.l Sprite_ResetProperties
     
     PHY
     
@@ -7483,7 +7483,7 @@ GetRandomInt:
     ; What this first read does is latch a hardware register (v or hcount, I
     ; can't remember) Reading this "latch" places a value in $213C.
     
-    LDA.w $2137
+    LDA.w SNES.OAMReadDataLowHigh
     
     ; The purpose of this routine is to generate a random
     ; Number, of course. Number = counter + frame counter + $0FA1 which is
@@ -7492,7 +7492,7 @@ GetRandomInt:
     ; Contributing to the chaos is that all adds are done without regard to
     ; the state of the carry. It's probably not a well distributed random
     ; number generator but I'm sure it gets the job done most of the time.
-    LDA.w $213C : ADC.b $1A : ADC.w $0FA1 : STA.w $0FA1
+    LDA.w SNES.HCounterData : ADC.b $1A : ADC.w $0FA1 : STA.w $0FA1
     
     RTL
 }
@@ -7540,7 +7540,7 @@ Sound_SetSfx1PanLong:
     PHY
     
     LDY.w $012D : BNE .channelInUse
-        JSR Sound_AddSfxPan
+        JSR.w Sound_AddSfxPan
         
         STA.w $012D
     
@@ -7559,7 +7559,7 @@ Sound_SetSfx2PanLong:
     PHY
     
     LDY.w $012E : BEQ .channelInUse
-        JSR Sound_AddSfxPan
+        JSR.w Sound_AddSfxPan
         
         STA.w $012E
         
@@ -7579,7 +7579,7 @@ Sound_SetSfx3PanLong:
     
     ; Is there a sound effect playing on this channel?
     LDY.w $012F : BNE .channelInUse
-        JSR Sound_AddSfxPan
+        JSR.w Sound_AddSfxPan
         
         ; Picked a sound effect, play it.
         STA.w $012F
@@ -7597,7 +7597,7 @@ Sound_SetSfx3PanLong:
 Sound_AddSfxPan:
 {
     ; Store the sound effect index here temporarily.
-    STA.b $0D : JSL Sound_SetSfxPan : ORA.b $0D
+    STA.b $0D : JSL.l Sound_SetSfxPan : ORA.b $0D
     
     RTS
 }
@@ -7634,7 +7634,7 @@ Sound_SetSfxPan:
     
     SEP #$20
     
-    LDA .pan_options, X
+    LDA.w .pan_options, X
     
     PLX
     
@@ -7745,14 +7745,14 @@ Babusu_Draw:
         
         SEP #$20
         
-        LDA.b #$02 : JSL Sprite_DrawMultiple
+        LDA.b #$02 : JSL.l Sprite_DrawMultiple
             PLB
             
             RTL
     
     .invalid_animation_state
     
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_PrepOamCoordLong
     
     PLB
     
@@ -7812,7 +7812,7 @@ Wizzrobe_Draw:
     
     SEP #$20
     
-    LDA.b #$03 : JSL Sprite_DrawMultiple
+    LDA.b #$03 : JSL.l Sprite_DrawMultiple
     
     PLB
     
@@ -7851,7 +7851,7 @@ Wizzbeam_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSL Sprite_DrawMultiple
+    LDA.b #$02 : JSL.l Sprite_DrawMultiple
     
     PLB
     
@@ -7929,7 +7929,7 @@ Freezor_Draw:
         
         .now_draw
         
-        JSL Sprite_DrawMultiple
+        JSL.l Sprite_DrawMultiple
         
         PLB
         
@@ -8007,7 +8007,7 @@ Zazak_Draw:
     
     SEP #$20
     
-    LDA.b #$03 : JSL Sprite_DrawMultiple
+    LDA.b #$03 : JSL.l Sprite_DrawMultiple
         LDA.w $0F00, X : BNE .paused
         
         LDA.w $0E00, X : CMP.b #$01 : PHX : LDA.w $0EB0, X : TAX : BCC .mouth_closed
@@ -8015,7 +8015,7 @@ Zazak_Draw:
         
         .mouth_closed
         
-        LDA .chr_overrides, X : LDY.b #$02 : STA ($90), Y
+        LDA.w .chr_overrides, X : LDY.b #$02 : STA ($90), Y
         
         INY
         
@@ -8023,7 +8023,7 @@ Zazak_Draw:
         
         PLX
         
-        JSL Sprite_DrawShadowLong
+        JSL.l Sprite_DrawShadowLong
     
     .paused
     
@@ -8091,7 +8091,7 @@ Pool_Stalfos_Draw:
     
     .easy_out
     
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_PrepOamCoordLong
     
     RTL
 }
@@ -8111,7 +8111,7 @@ Stalfos_Draw:
     
     SEP #$20
     
-    LDA.b #$03 : JSL Sprite_DrawMultiple
+    LDA.b #$03 : JSL.l Sprite_DrawMultiple
     
     LDA.w $0DC0, X : CMP.b #$08 : BCS .no_head_override
         LDA.w $0F00, X : BNE .no_head_override
@@ -8119,7 +8119,7 @@ Stalfos_Draw:
             
             LDA.w $0EB0, X : TAX
             
-            LDA .head_chr, X : LDY.b #$02 : STA ($90), Y
+            LDA.w .head_chr, X : LDY.b #$02 : STA ($90), Y
             
             INY
             
@@ -8129,7 +8129,7 @@ Stalfos_Draw:
     
     .no_head_override
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
         
     PLB
         
@@ -8177,7 +8177,7 @@ Probe_CheckTileSolidity:
     
     SEP #$30
     
-    JSL Overworld_ReadTileAttr
+    JSL.l Overworld_ReadTileAttr
     
     ; (It will later be translated into something dungeon oriented).
     REP #$10
@@ -8260,8 +8260,8 @@ CrystalMaiden_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
     
-    LDA .vram_source_indices + 0, Y : STA.w $0AE8
-    LDA .vram_source_indices + 1, Y : STA.w $0AEA
+    LDA.w .vram_source_indices + 0, Y : STA.w $0AE8
+    LDA.w .vram_source_indices + 1, Y : STA.w $0AEA
     
     ; Crystal maidens?
     TYA : ASL #3
@@ -8269,7 +8269,7 @@ CrystalMaiden_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     PLB
     
@@ -8329,8 +8329,8 @@ Priest_Draw:
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     PLB
     
@@ -8371,14 +8371,14 @@ FluteBoy_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$10 : JSL OAM_AllocateFromRegionB
+    LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #5
     
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam-groups >> 8) : ADC.b #$00 : STA.b $09
     
-    LDA.b #$04 : JSL Sprite_DrawMultiple
+    LDA.b #$04 : JSL.l Sprite_DrawMultiple
     
     PLB
     
@@ -8418,7 +8418,7 @@ FluteAardvark_Draw:
     ADC.b #$00              : STA.b $08
     LDA.b #$D0 : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     PLB
     
@@ -8477,7 +8477,7 @@ DustCloud_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    LDA.b #$04 : JSL Sprite_DrawMultiple
+    LDA.b #$04 : JSL.l Sprite_DrawMultiple
     
     PLB
     
@@ -8532,7 +8532,7 @@ MedallionTablet_Draw:
     LDA.b #$04 : STA.b $06
                  STZ.b $07
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     PLB
     
@@ -8608,7 +8608,7 @@ Uncle_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$18 : JSL OAM_AllocateFromRegionB
+    LDA.b #$18 : JSL.l OAM_AllocateFromRegionB
     
     REP #$20
     
@@ -8631,15 +8631,15 @@ Uncle_Draw:
     ; BUG: Don't have proof yet, but something tells me that if Link's uncle
     ; were ever facing to the right, it would not look correct. These tables
     ; are only 7 elements long and should be 8 elements long...
-    LDA .source_for_vram_1, Y : STA.w $0107
+    LDA.w .source_for_vram_1, Y : STA.w $0107
     
-    LDA .source_for_vram_2, Y : STA.w $0108
+    LDA.w .source_for_vram_2, Y : STA.w $0108
     
-    JSL Sprite_DrawMultiple.quantity_preset
+    JSL.l Sprite_DrawMultiple_quantity_preset
     
     LDA.w $0DE0, X : BEQ .skip_shadow
     CMP.b #$03   : BEQ .skip_shadow
-        JSL Sprite_DrawShadowLong
+        JSL.l Sprite_DrawShadowLong
     
     .skip_shadow
     
@@ -8693,7 +8693,7 @@ BugNetKid_Draw:
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     PLB
     
@@ -8774,9 +8774,9 @@ Bomber_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSL Sprite_DrawMultiple
+    LDA.b #$02 : JSL.l Sprite_DrawMultiple
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     PLB
     
@@ -8829,7 +8829,7 @@ BomberPellet_DrawExplosion:
     
     SEP #$20
     
-    LDA.b #$03 : JSL Sprite_DrawMultiple
+    LDA.b #$03 : JSL.l Sprite_DrawMultiple
     
     PLB
     
@@ -8878,7 +8878,7 @@ GoodBee_AttackOtherSprite:
         
         TYX
         
-        JSL Ancilla_CheckSpriteDamage.preset_class
+        JSL.l Ancilla_CheckSpriteDamage_preset_class
         
         PLX : PLY
         
@@ -8924,7 +8924,7 @@ Pikit_Draw:
 {
     PHB : PHK : PLB
     
-    JSR Pikit_DrawTongue
+    JSR.w Pikit_DrawTongue
     
     LDY.b #$00
     
@@ -8940,15 +8940,15 @@ Pikit_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSL Sprite_DrawMultiple
+    LDA.b #$02 : JSL.l Sprite_DrawMultiple
     
     LDA.w $0E40, X : PHA : SEC : SBC.b #$06 : STA.w $0E40, X
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     PLA : STA.w $0E40, X
     
-    JSR Pikit_DrawGrabbedItem
+    JSR.w Pikit_DrawGrabbedItem
     
     PLB
     
@@ -9015,27 +9015,27 @@ Pikit_DrawTongue:
             
             .next_subsprite
             
-                LDA.b $0C           : STA.w $4202
-                LDA .multipliers, X : STA.w $4203
+                LDA.b $0C           : STA.w SNES.MultiplicandA
+                LDA.w .multipliers, X : STA.w SNES.MultiplierB
                 
                 ; Burn a few cycles...
-                JSR Pikit_MultiplicationDelay
+                JSR.w Pikit_MultiplicationDelay
                 
                 LDA.b $0E : ASL A
                 
-                LDA.w $4217 : BCC .BRANCH_GAMMA
+                LDA.w SNES.RemainderResultHigh : BCC .BRANCH_GAMMA
                     EOR.b #$FF : INC A
                 
                 .BRANCH_GAMMA
                 
                 CLC : ADC.b $00 : STA ($90), Y
                 
-                LDA.b $0D           : STA.w $4202
-                LDA .multipliers, X : STA.w $4203
+                LDA.b $0D           : STA.w SNES.MultiplicandA
+                LDA.w .multipliers, X : STA.w SNES.MultiplierB
                 
-                JSR Pikit_MultiplicationDelay
+                JSR.w Pikit_MultiplicationDelay
                 
-                LDA.b $0F : ASL A : LDA.w $4217 : BCC .BRANCH_DELTA
+                LDA.b $0F : ASL A : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_DELTA
                     EOR.b #$FF : INC A
                 
                 .BRANCH_DELTA
@@ -9050,11 +9050,11 @@ Pikit_DrawTongue:
                 
                 LDX.b $0B
                 
-                LDA .chr, X : INY : STA ($90), Y
+                LDA.w .chr, X : INY : STA ($90), Y
                 
                 INY
                 
-                LDA .vh_flip, X : ORA.b $05 : STA ($90), Y
+                LDA.w .vh_flip, X : ORA.b $05 : STA ($90), Y
                 
                 PLX
                 
@@ -9066,7 +9066,7 @@ Pikit_DrawTongue:
             LDY.b #$00
             LDA.b #$05
             
-            JSL Sprite_CorrectOamEntriesLong
+            JSL.l Sprite_CorrectOamEntriesLong
             
             RTS
     
@@ -9127,7 +9127,7 @@ Pikit_DrawGrabbedItem:
         
         STA.b $02
         
-        LDA.b #$10 : JSL OAM_AllocateFromRegionC
+        LDA.b #$10 : JSL.l OAM_AllocateFromRegionC
         
         LDY.b #$00
         
@@ -9143,8 +9143,8 @@ Pikit_DrawGrabbedItem:
             
             LDA.w $0FB5 : CLC : ADC .x_offsets, X       : STA ($90), Y
             LDA.w $0FB6 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
-            LDA .chr, X                           : INY : STA ($90), Y
-            LDX.b $02 : LDA .properties, X        : INY : STA ($90), Y
+            LDA.w .chr, X                           : INY : STA ($90), Y
+            LDX.b $02 : LDA.w .properties, X        : INY : STA ($90), Y
             
             INY
         LDX.b $03 : DEX : BPL .next_subsprite
@@ -9154,7 +9154,7 @@ Pikit_DrawGrabbedItem:
         LDY.b #$00
         LDA.b #$03
         
-        JSL Sprite_CorrectOamEntriesLong
+        JSL.l Sprite_CorrectOamEntriesLong
     
     .return
     
@@ -9211,7 +9211,7 @@ Kholdstare_Draw:
 {
     PHB : PHK : PLB
     
-    JSL Sprite_PrepOamCoordLong : BCS .offscreen
+    JSL.l Sprite_PrepOamCoordLong : BCS .offscreen
         PHX
         
         LDA.w $0D90, X : PHA : ASL A : TAX
@@ -9230,8 +9230,8 @@ Kholdstare_Draw:
         
         PLX
         
-        LDA .chr, X                 : INY : STA ($90), Y
-        LDA .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
+        LDA.w .chr, X                 : INY : STA ($90), Y
+        LDA.w .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
         
         TYA : LSR #2 : TAY
         
@@ -9249,7 +9249,7 @@ Kholdstare_Draw:
         
         SEP #$20
         
-        LDA.b #$04 : JSL Sprite_DrawMultiple
+        LDA.b #$04 : JSL.l Sprite_DrawMultiple
     
     .offscreen
     
@@ -9265,12 +9265,12 @@ Sprite_SpawnFireball:
 {
     PHB : PHK : PLB
     
-    LDA.b #$19 : JSL Sound_SetSfx3PanLong
+    LDA.b #$19 : JSL.l Sound_SetSfx3PanLong
     
     LDY.b #$0D
     LDA.b #$55
     
-    JSL Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
         LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
         LDA.b $01       : ADC.b #$00 : STA.w $0D30, Y
         
@@ -9290,7 +9290,7 @@ Sprite_SpawnFireball:
         
         LDA.b #$20
         
-        JSL Sprite_ApplySpeedTowardsPlayerLong
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         LDA.b #$14 : STA.w $0DF0, X
         
@@ -9361,8 +9361,8 @@ ArcheryGameGuy_Draw:
 {
     PHB : PHK : PLB
     
-    JSL Sprite_OAM_AllocateDeferToPlayerLong
-    JSL Sprite_PrepOamCoordLong
+    JSL.l Sprite_OAM_AllocateDeferToPlayerLong
+    JSL.l Sprite_PrepOamCoordLong
     
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $06
     
@@ -9376,19 +9376,19 @@ ArcheryGameGuy_Draw:
         
         LDA.b $00 : CLC : ADC .x_offsets, X        : STA ($90), Y
         LDA.b $02 : CLC : ADC .y_offsets, X  : INY : STA ($90), Y
-        LDA .chr, X                          : INY : STA ($90), Y
+        LDA.w .chr, X                          : INY : STA ($90), Y
         LDA.b $05       : ORA .properties, X : INY : STA ($90), Y
         
         PHY : TYA : LSR #2 : TAY
         
-        LDA .size_bits, X : STA ($92), Y
+        LDA.w .size_bits, X : STA ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_subsprite
     
     PLX
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     PLB
     
@@ -9462,9 +9462,9 @@ HUD_RefreshIconLong:
 {
     PHB : PHK : PLB
 
-    JSR SearchForEquippedItem
-    JSR Equipment_UpdateHUD
-    JSR Rebuild
+    JSR.w SearchForEquippedItem
+    JSR.w Equipment_UpdateHUD
+    JSR.w Rebuild
 
     SEP #$30
 
@@ -9478,7 +9478,7 @@ HUD_RefreshIconLong:
 ; ==============================================================================
 
 ; $06DB92-$06DD29 BRANCH LOCATION
-HUD_RefillLogic:    
+HUD_RefillLogic:
 {
     ; Check the refill magic indicator.
     LDA.l $7EF373
@@ -9591,7 +9591,7 @@ HUD_RefillLogic:
                 ; arrows.
                 LDA.l $7EF340 : INC A : STA.l $7EF340
                 
-                JSL RefreshIconLong
+                JSL.l RefreshIconLong
 
     .doneRefillingArrows
 
@@ -9667,8 +9667,8 @@ HUD_RefillLogic:
     
     LDA.w #$FFFF : STA.b $0E
     
-    JSR Update_ignoreHealth
-    JSR AnimateHeartRefill
+    JSR.w Update_ignoreHealth
+    JSR.w AnimateHeartRefill
     
     SEP #$30
     
@@ -9684,7 +9684,7 @@ HUD_RefillLogic:
     
     LDA.w #$FFFF : STA.b $0E
     
-    JSR Update_ignoreItemBox
+    JSR.w Update_ignoreItemBox
     
     SEP #$30
     
@@ -9733,7 +9733,7 @@ Equipment_Local:
     
     LDA.w $0200
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ClearTilemap       ; 0x00 - $DD5A
     dw Init               ; 0x01 - $DDAB
@@ -10262,7 +10262,7 @@ Equipment_CloseMenu:
             ; make sure we're indoors. Unless that LDA.b $11 up above was meant
             ; to be LDA.b $1B.
             
-            JSL RestoreTorchBackground
+            JSL.l RestoreTorchBackground
         
         .noSpecialSubmode
         
@@ -11850,7 +11850,7 @@ ItemMenu_CheckForDungeonPrize:
     SEP #$30
     
     LDA.w $040C : LSR A
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ItemMenu_NoPrizeHad           ; Sewers
     dw ItemMenu_NoPrizeHad           ; Hyrule Castle
@@ -12278,7 +12278,7 @@ HUD_AnimateHeartRefill:
         BNE .return
             SEP #$30
             
-            JSR Rebuild
+            JSR.w Rebuild
             
             STZ.w $020A
 
@@ -12877,7 +12877,7 @@ HUD_RebuildLong:
 {
     PHB : PHK : PLB
 
-    JSR Rebuild
+    JSR.w Rebuild
 
     PLB
 
@@ -12908,7 +12908,7 @@ RebuildHUD_Keys:
 ; $06FA6C-$06FA6F LONG JUMP LOCATION
 RebuildLong2:
 {
-    JSR Rebuild
+    JSR.w Rebuild
     
     RTL
 }
@@ -12949,7 +12949,7 @@ HUD_Rebuild:
     
     .alpha
     
-    JSR Update
+    JSR.w Update
     
     PLB
     
@@ -13102,7 +13102,7 @@ HUD_UpdateItemBox:
 ; $06FB91-$06FCF9 LOCAL JUMP LOCATION
 HUD_Update:
 {
-    JSR UpdateItemBox
+    JSR.w UpdateItemBox
     
     ; $06FB94 ALTERNATE ENTRY POINT
     .ignoreItemBox
@@ -13126,7 +13126,7 @@ HUD_Update:
     LDA.l $7EF36C : AND.w #$00FF : STA.b $00 : STA.b $02 : STA.b $04
     
     ; First, just draw all the empty hearts (capacity health).
-    JSR UpdateHearts
+    JSR.w UpdateHearts
     
     SEP #$30
     
@@ -13156,7 +13156,7 @@ HUD_Update:
     
     ; This time we're filling in the full and partially filled hearts (actual
     ; health).
-    JSR UpdateHearts
+    JSR.w UpdateHearts
     
     ; $06FC09 ALTERNATE ENTRY POINT ; Reentry hook.
     .ignoreHealth
@@ -13179,15 +13179,15 @@ HUD_Update:
     
     ; These four writes draw the magic power bar based on how much MP you
     ; have.
-    LDA .mp_tilemap+0, X : STA.l $7EC746
-    LDA .mp_tilemap+2, X : STA.l $7EC786
-    LDA .mp_tilemap+4, X : STA.l $7EC7C6
-    LDA .mp_tilemap+6, X : STA.l $7EC806
+    LDA.w .mp_tilemap+0, X : STA.l $7EC746
+    LDA.w .mp_tilemap+2, X : STA.l $7EC786
+    LDA.w .mp_tilemap+4, X : STA.l $7EC7C6
+    LDA.w .mp_tilemap+6, X : STA.l $7EC806
     
     ; Load how many rupees the player has.
     LDA.l $7EF362
     
-    JSR HexToDecimal
+    JSR.w HexToDecimal
     
     REP #$30
     
@@ -13203,7 +13203,7 @@ HUD_Update:
     ; Number of bombs Link has.
     LDA.l $7EF343 : AND.w #$00FF
     
-    JSR HexToDecimal
+    JSR.w HexToDecimal
     
     REP #$30
     
@@ -13217,7 +13217,7 @@ HUD_Update:
     LDA.l $7EF377 : AND.w #$00FF
     
     ; Converts hex to up to 3 decimal digits.
-    JSR HexToDecimal
+    JSR.w HexToDecimal
     
     REP #$30
     
@@ -13231,7 +13231,7 @@ HUD_Update:
     
     ; Load number of Keys Link has.
     LDA.l $7EF36F : AND.w #$00FF : CMP.w #$00FF : BEQ .noKeys
-        JSR HexToDecimal
+        JSR.w HexToDecimal
     
     .noKeys
     
@@ -13269,7 +13269,7 @@ HUD_UpdateHearts:
             
             LDY.w #$0004
             
-            JSR UpdateHUDBuffer_DrawSingleHeart
+            JSR.w UpdateHUDBuffer_DrawSingleHeart
             
             INX #2
     BRA .nextHeart

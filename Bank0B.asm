@@ -1330,9 +1330,9 @@ Overworld_SetFixedColorAndScroll:
 ; $05FFA8-$05FFBE LONG JUMP LOCATION
 WallMaster_SendPlayerToLastEntrance:
 {
-    JSL Dungeon_SaveRoomData.justKeys
-    JSL Dungeon_SaveRoomQuadrantData
-    JSL Sprite_ResetAll
+    JSL.l Dungeon_SaveRoomData_justKeys
+    JSL.l Dungeon_SaveRoomQuadrantData
+    JSL.l Sprite_ResetAll
     
     ; Don't use a starting point entrance.
     STZ.w $04AA
@@ -1381,7 +1381,7 @@ ResetSomeThingsAfterDeath:
 ; $05FFEE-$05FFF5 LONG JUMP LOCATION
 ResetAncillaAndLink:
 {
-    JSL Ancilla_TerminateSelectInteractives
+    JSL.l Ancilla_TerminateSelectInteractives
     JML Player_ResetState
 }
 

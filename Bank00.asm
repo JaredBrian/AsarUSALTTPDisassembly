@@ -18,17 +18,22 @@ Vector_Reset:
 {
     SEI ; Set interrupt disable bits.
 
-    STZ.w $4200 ; Disables the NMI and various other things.
-    STZ.w $420C ; HDMA and DMA is disabled.
-    STZ.w $420B   
-    STZ.w $2140 ; Clear SPC locations.
-    STZ.w $2141
-    STZ.w $2142
-    STZ.w $2143
+    ; Disables the NMI and various other things.
+    STZ.w SNES.NMIVHCountJoypadEnable
+
+    ; HDMA and DMA is disabled.
+    STZ.w SNES.HDMAChannelEnable
+    STZ.w SNES.DMAChannelEnable  
+
+    ; Clear SPC locations. 
+    STZ.w SNES.APUIOPort0
+    STZ.w SNES.APUIOPort1
+    STZ.w SNES.APUIOPort2
+    STZ.w SNES.APUIOPort3
 
     ; Set brightness to zero and enable force blank (forced V-Blank all the
     ; time).
-    LDA.b #$80 : STA.w $2100
+    LDA.b #$80 : STA.w SNES.ScreenDisplay
 
     ; Switch to native mode.
     CLC : XCE
@@ -49,7 +54,7 @@ Vector_Reset:
 
     ; Bit 7 enables NMI interrupt.
     ; This register tracks whether NMI is enabled.
-    LDA.b #$81 : STA.w $4200
+    LDA.b #$81 : STA.w SNES.NMIVHCountJoypadEnable
 
     .nmi_wait_loop
 
@@ -77,11 +82,11 @@ Vector_Reset:
                 
                 .do_frame
 
-                ; Frame counter. See ZeldaRAM.rtf for more variable listings.
+                ; Frame counter. See ZeldaRAM_rtf for more variable listings.
                 INC.b $1A
 
                 JSR.w ClearOamBuffer
-                JSL Module_MainRouting
+                JSL.l Module_MainRouting
 
                 .skip_frame
 
@@ -140,9 +145,9 @@ Module_MainRouting:
     ; This variable determines which module we're in.
     LDY.b $10
     
-    LDA .low, Y  : STA.b $03
-    LDA .high, Y : STA.b $04
-    LDA .bank, Y : STA.b $05
+    LDA.w .low, Y  : STA.b $03
+    LDA.w .high, Y : STA.b $04
+    LDA.w .bank, Y : STA.b $05
     
     ; Jump to a main module depending on addr $7E0010 in RAM.
     JMP [$0003]
@@ -172,14 +177,14 @@ Vector_NMI:
     
     ; This register needs to be read each time NMI is called.
     ; It apparently resets a latch so that the next NMI can trigger?
-    LDA.w $4210
+    LDA.w SNES.NMIFlagAndCPUVersionNum
     
     ; Used to select a musical track.
     LDA.w $012C : BNE .nonzeroMusicInput
-        LDA.w $2140 : CMP.w $0133 : BNE .handleAmbientSfxInput
+        LDA.w SNES.APUIOPort0 : CMP.w $0133 : BNE .handleAmbientSfxInput
         
         ; If they were the same, put 0 in $2140.
-        STZ.w $2140
+        STZ.w SNES.APUIOPort0
         
         BRA .handleAmbientSfxInput
 
@@ -187,7 +192,8 @@ Vector_NMI:
 
     CMP.w $0133 : BEQ .handleAmbientSfxInput
         ; The song has changed...
-        STA.w $2140 : STA.w $0133 : CMP.b #$F2 : BCS .volumeOrTransferCommand
+        STA.w SNES.APUIOPort0 : STA.w $0133
+        CMP.b #$F2 : BCS .volumeOrTransferCommand
             STA.w $0130
 
         .volumeOrTransferCommand
@@ -198,31 +204,31 @@ Vector_NMI:
 
     LDA.w $012D : BNE .nonzeroAmbientSfxInput
         ; Compare the values.
-        LDA.w $2141 : CMP.w $0131 : BNE .writeSfx
-            STZ.w $2141 ; If equal, zero out $2141.
+        LDA.w SNES.APUIOPort1 : CMP.w $0131 : BNE .writeSfx
+            STZ.w SNES.APUIOPort1 ; If equal, zero out $2141.
             
             BRA .writeSfx
 
     .nonzeroAmbientSfxInput
 
-    STA.w $0131 : STA.w $2141
+    STA.w $0131 : STA.w SNES.APUIOPort1
     
     STZ.w $012D
 
     .writeSfx
 
     ; Addresses will hold SPC memory locations.
-    LDA.w $012E : STA.w $2142
-    LDA.w $012F : STA.w $2143
+    LDA.w $012E : STA.w SNES.APUIOPort2
+    LDA.w $012F : STA.w SNES.APUIOPort3
     
     STZ.w $012E
     STZ.w $012F
     
     ; Bring the screen into forceblank (forced vblank).
-    LDA.b #$80 : STA.w $2100
+    LDA.b #$80 : STA.w SNES.ScreenDisplay
     
     ; Disable all DMA transfers.
-    STZ.w $420C
+    STZ.w SNES.HDMAChannelEnable
     
     ; Checks to see if we're still in the infinite loop in the main routine.
     ; If $12 is not 0, it shows that the infinite loop isn't running.
@@ -241,83 +247,83 @@ Vector_NMI:
     .helperThreadInactive
 
     ; Sets background clipping...
-    LDA.b $96 : STA.w $2123
-    LDA.b $97 : STA.w $2124
-    LDA.b $98 : STA.w $2125
+    LDA.b $96 : STA.w SNES.BG1And2WindowMask
+    LDA.b $97 : STA.w SNES.BG3And4WindowMask
+    LDA.b $98 : STA.w SNES.OBJAndColorWindow
     
     ; Sets color / sprite windowing registers.
-    LDA.b $99 : STA.w $2130
-    LDA.b $9A : STA.w $2131
+    LDA.b $99 : STA.w SNES.InitColorAddition
+    LDA.b $9A : STA.w SNES.AddSubtractSelectAndEnable
     
     ; Possibly a register that must be written 3 times (internal pointer).
-    LDA.b $9C : STA.w $2132
-    LDA.b $9D : STA.w $2132
-    LDA.b $9E : STA.w $2132
+    LDA.b $9C : STA.w SNES.FixedColorData
+    LDA.b $9D : STA.w SNES.FixedColorData
+    LDA.b $9E : STA.w SNES.FixedColorData
     
     ; Main / Subscreen designation registers.
-    LDA.b $1C : STA.w $212C
-    LDA.b $1D : STA.w $212D
+    LDA.b $1C : STA.w SNES.BGAndOBJEnableMainScreen
+    LDA.b $1D : STA.w SNES.BGAndOBJEnableSubScreen
     
     ; Window designations...
-    LDA.b $1E : STA.w $212E
-    LDA.b $1F : STA.w $212F
+    LDA.b $1E : STA.w SNES.WindowMaskDesMainScreen
+    LDA.b $1F : STA.w SNES.WindowMaskDesSubScreen
     
     ; Are these word addresses?
-    LDA.w $0120 : STA.w $210D
-    LDA.w $0121 : STA.w $210D
+    LDA.w $0120 : STA.w SNES.BG1HScrollOffset
+    LDA.w $0121 : STA.w SNES.BG1HScrollOffset
     
-    LDA.w $0124 : STA.w $210E
-    LDA.w $0125 : STA.w $210E
+    LDA.w $0124 : STA.w SNES.BG1VScrollOffset
+    LDA.w $0125 : STA.w SNES.BG1VScrollOffset
     
-    LDA.w $011E : STA.w $210F
-    LDA.w $011F : STA.w $210F
+    LDA.w $011E : STA.w SNES.BG2HScrollOffset
+    LDA.w $011F : STA.w SNES.BG2HScrollOffset
     
-    LDA.w $0122 : STA.w $2110
-    LDA.w $0123 : STA.w $2110
+    LDA.w $0122 : STA.w SNES.BG2VScrollOffset
+    LDA.w $0123 : STA.w SNES.BG2VScrollOffset
     
-    LDA.b $E4 : STA.w $2111
-    LDA.b $E5 : STA.w $2111
+    LDA.b $E4 : STA.w SNES.BG3HScrollOffset
+    LDA.b $E5 : STA.w SNES.BG3HScrollOffset
     
     ; All BG registers.
-    LDA.b $EA : STA.w $2112
-    LDA.b $EB : STA.w $2112
+    LDA.b $EA : STA.w SNES.BG3VScrollOffset
+    LDA.b $EB : STA.w SNES.BG3VScrollOffset
     
     ; MOSAIC and BGMODE register mirrors.
-    LDA.b $95 : STA.w $2106
-    LDA.b $94 : STA.w $2105
+    LDA.b $95 : STA.w SNES.MosaicAndBGEnable
+    LDA.b $94 : STA.w SNES.BGModeAndTileSize
     
     ; Check to see if we're in mode 7.
     AND.b #$07 : CMP.b #$07 : BNE .notInMode7
-        STZ.w $211C : STZ.w $211C
-        STZ.w $211D : STZ.w $211D
+        STZ.w SNES.Mode7MatrixB : STZ.w SNES.Mode7MatrixB
+        STZ.w SNES.Mode7MatrixC : STZ.w SNES.Mode7MatrixC
         
-        LDA.w $0638 : STA.w $211F
-        LDA.w $0639 : STA.w $211F
-        LDA.w $063A : STA.w $2120
-        LDA.w $063B : STA.w $2120
+        LDA.w $0638 : STA.w SNES.Mode7CenterPosX
+        LDA.w $0639 : STA.w SNES.Mode7CenterPosX
+        LDA.w $063A : STA.w SNES.Mode7CenterPosY
+        LDA.w $063B : STA.w SNES.Mode7CenterPosY
 
     .notInMode7
 
     LDA.w $0128 : BEQ .irqInactive
         ; Clear the IRQ line if one is pending? (reset latch).
-        LDA.w $4211
+        LDA.w SNES.IRQFlagByHVCountTimer
         
         ; Set vertical irq trigger position to 128, which is a tad
         ; bit past the middle of the screen, vertically.
-        LDA.b #$80 : STA.w $4209 : STZ.w $420A
+        LDA.b #$80 : STA.w SNES.VCountTImer : STZ.w SNES.VCountTimerMSB
         
         ; Set horizontal irq trigger position to 0
         ; (Will not be used anyways).
-        STZ.w $4207 : STZ.w $4208
+        STZ.w SNES.HCountTimer : STZ.w SNES.HCountTimerMSB
         
         ; Will enable NMI, and Joypad, and vertical IRQ trigger.
-        LDA.b #$A1 : STA.w $4200 ; #$A1 = #%10100001
+        LDA.b #$A1 : STA.w SNES.NMIVHCountJoypadEnable ; #$A1 = #%10100001
 
     .irqInactive
 
     ; $13 holds the screen state.
-    LDA.b $13 : STA.w $2100
-    LDA.b $9B : STA.w $420C
+    LDA.b $13 : STA.w SNES.ScreenDisplay
+    LDA.b $9B : STA.w SNES.HDMAChannelEnable
     
     REP #$30
     
@@ -335,44 +341,44 @@ NMI_SwitchThread:
 {
     JSR.w NMI_UpdateIrqGfx
     
-    LDA.b $FF : STA.w $4209 : STZ.w $420A
+    LDA.b $FF : STA.w SNES.VCountTImer : STZ.w SNES.VCountTimerMSB
     
     ; A = #%10100001, which means activate NMI, V-IRQ, and Joypad.
-    LDA.b #$A1 : STA.w $4200
+    LDA.b #$A1 : STA.w SNES.NMIVHCountJoypadEnable
     
-    LDA.b $96 : STA.w $2123
-    LDA.b $97 : STA.w $2124
-    LDA.b $98 : STA.w $2125
+    LDA.b $96 : STA.w SNES.BG1And2WindowMask
+    LDA.b $97 : STA.w SNES.BG3And4WindowMask
+    LDA.b $98 : STA.w SNES.OBJAndColorWindow
     
-    LDA.b $99 : STA.w $2130
-    LDA.b $9A : STA.w $2131
-    LDA.b $9C : STA.w $2132
-    LDA.b $9D : STA.w $2132
-    LDA.b $9E : STA.w $2132
+    LDA.b $99 : STA.w SNES.InitColorAddition
+    LDA.b $9A : STA.w SNES.AddSubtractSelectAndEnable
+    LDA.b $9C : STA.w SNES.FixedColorData
+    LDA.b $9D : STA.w SNES.FixedColorData
+    LDA.b $9E : STA.w SNES.FixedColorData
     
-    LDA.b $1C : STA.w $212C
-    LDA.b $1D : STA.w $212D
-    LDA.b $1E : STA.w $212E
-    LDA.b $1F : STA.w $212F
+    LDA.b $1C : STA.w SNES.BGAndOBJEnableMainScreen
+    LDA.b $1D : STA.w SNES.BGAndOBJEnableSubScreen
+    LDA.b $1E : STA.w SNES.WindowMaskDesMainScreen
+    LDA.b $1F : STA.w SNES.WindowMaskDesSubScreen
     
-    LDA.w $0120 : STA.w $210D
-    LDA.w $0121 : STA.w $210D
+    LDA.w $0120 : STA.w SNES.BG1HScrollOffset
+    LDA.w $0121 : STA.w SNES.BG1HScrollOffset
     
-    LDA.w $0124 : STA.w $210E
-    LDA.w $0125 : STA.w $210E
+    LDA.w $0124 : STA.w SNES.BG1VScrollOffset
+    LDA.w $0125 : STA.w SNES.BG1VScrollOffset
     
-    LDA.w $011E : STA.w $210F
-    LDA.w $011F : STA.w $210F
+    LDA.w $011E : STA.w SNES.BG2HScrollOffset
+    LDA.w $011F : STA.w SNES.BG2HScrollOffset
     
-    LDA.w $0122 : STA.w $2110
-    LDA.w $0123 : STA.w $2110
+    LDA.w $0122 : STA.w SNES.BG2VScrollOffset
+    LDA.w $0123 : STA.w SNES.BG2VScrollOffset
     
-    LDA.b $E4 : STA.w $2111
-    LDA.b $E5 : STA.w $2111
-    LDA.b $EA : STA.w $2112
-    LDA.b $EB : STA.w $2112
-    LDA.b $13 : STA.w $2100
-    LDA.b $9B : STA.w $420C
+    LDA.b $E4 : STA.w SNES.BG3HScrollOffset
+    LDA.b $E5 : STA.w SNES.BG3HScrollOffset
+    LDA.b $EA : STA.w SNES.BG3VScrollOffset
+    LDA.b $EB : STA.w SNES.BG3VScrollOffset
+    LDA.b $13 : STA.w SNES.ScreenDisplay
+    LDA.b $9B : STA.w SNES.HDMAChannelEnable
     
     REP #$30
     
@@ -407,27 +413,27 @@ Vector_IRQ:
     LDA.w $012A : BNE .BRANCH_3
         ; Only d7 is significant in this register. If set, h/v counter has
         ; latched. So in other words, branch if the timer has NOT counted down.
-        LDA.w $4211 : BPL .BRANCH_2
+        LDA.w SNES.IRQFlagByHVCountTimer : BPL .BRANCH_2
             ; Not sure what this does...
             LDA.w $0128 : BEQ .BRANCH_2
                 .BRANCH_1
 
                     ; Wait for hBlank.
-                BIT.w $4212 : BVC .BRANCH_1
+                BIT.w SNES.HVBlankFlagsAndJoyStatus : BVC .BRANCH_1
                         
-                LDA.w $0630 : STA.w $2111
-                LDA.w $0631 : STA.w $2111
+                LDA.w $0630 : STA.w SNES.BG3HScrollOffset
+                LDA.w $0631 : STA.w SNES.BG3HScrollOffset
                         
-                STZ.w $2112 : STZ.w $2112
+                STZ.w SNES.BG3VScrollOffset : STZ.w SNES.BG3VScrollOffset
                         
                 LDA.w $0128 : BPL .BRANCH_2
                     STZ.w $0128
                             
-                    LDA.b #$81 : STA.w $4200
+                    LDA.b #$81 : STA.w SNES.NMIVHCountJoypadEnable
 
         .BRANCH_2
 
-        ; h/v timer didn't count down yet, so we do NOTHING :).
+        ; H/V timer didn't count down yet, so we do NOTHING :).
             
         REP #$30
             
@@ -437,7 +443,7 @@ Vector_IRQ:
 
     .BRANCH_3
 
-    LDA.w $4211
+    LDA.w SNES.IRQFlagByHVCountTimer
     
     REP #$30
     
@@ -452,11 +458,10 @@ Vector_IRQ:
     RTI
 }
 
+; OPTIMIZE: This routine might be optimizable.
 ; $000333-$0003D0 LONG JUMP LOCATION
 Vram_EraseTilemaps:
 {
-    ; OPTIMIZE: This routine might be optimizable.
-
     .triforce ; For use with the title screen and the credits sequence.
 
     !fillBg_1_2 = $00
@@ -500,88 +505,88 @@ Vram_EraseTilemaps:
     STA !fillBg_1_2
     
     ; VRAM target address updates on writes to $2118.
-    STZ.w $2115
+    STZ.w SNES.VRAMAddrIncrementVal
     
     ; The VRAM target address is $0000 (word address).
-    STZ.w $2116
+    STZ.w SNES.VRAMAddrReadWriteLow
     
     ; Target register is $2118, write one register once mode, with fixed source
     ; address.
-    LDA.w #$1808 : STA.w $4310
+    LDA.w #$1808 : STA.w DMA.1_TransferParameters
     
     ; Dma source address is $000000.
-    STZ.w $4314
-    LDA.w #$0000 : STA.w $4312
+    STZ.w DMA.1_SourceAddrBank
+    LDA.w #$0000 : STA.w DMA.1_SourceAddrOffsetLow
     
     ; Will write 0x2000 bytes. since we're only writing to the low byte of each
     ; VRAM word address, we will technically cover 0x4000 bytes worth of
     ; address space, but in terms of VRAM addresses it's till only VRAM
     ; address$0000 to $1FFF.
-    LDA.w #$2000 : STA.w $4315
+    LDA.w #$2000 : STA.w DMA.1_TransferSizeLow
     
     ; Transfer the data on channel 1.
-    LDY.b #$02 : STY.w $420B
+    LDY.b #$02 : STY.w SNES.DMAChannelEnable
     
     ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     ; Increment VRAM address when $2119 is written.
-    LDX.b #$80 : STX.w $2115
+    LDX.b #$80 : STX.w SNES.VRAMAddrIncrementVal
     
     ; Reinitialize VRAM target address to $0000 (word).
-    STZ.w $2116
+    STZ.w SNES.VRAMAddrReadWriteLow
     
     ; Again write 0x2000 bytes.
-    STA.w $4315
+    STA.w DMA.1_TransferSizeLow
     
     ; Dma target register is $2119, write one register once mode, with fixed
     ; address.
-    LDA.w #$1908 : STA.w $4310
+    LDA.w #$1908 : STA.w DMA.1_TransferParameters
     
     ; The DMA source address will now be $000001.
-    LDA.w #$0001 : STA.w $4312
+    LDA.w #$0001 : STA.w DMA.1_SourceAddrOffsetLow
     
     ; Transfer data on channel 1.
-    STY.w $420B
+    STY.w SNES.DMAChannelEnable
     
     ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     ; This value was saved earliest in the routine.
     LDA !fillBg_3 : STA !fillBg_1_2
     
     ; Increment on writes to $2118 again.
-    STZ.w $2115
+    STZ.w SNES.VRAMAddrIncrementVal
     
     ; Write to VRAM address $6000 (word).
-    LDA.w #$6000 : STA.w $2116
+    LDA.w #$6000 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; Write to $2118, Non incrementally.
-    LDA.w #$1808 : STA.w $4310
+    LDA.w #$1808 : STA.w DMA.1_TransferParameters
     
     ; $DMA source address is $000000.
-    LDA.w #$0000 : STA.w $4312
+    LDA.w #$0000 : STA.w DMA.1_SourceAddrOffsetLow
     
     ; Write $00 #$800 times to VRAM.
-    LDA.w #$0800 : STA.w $4315
+    LDA.w #$0800 : STA.w DMA.1_TransferSizeLow
     
     ; Transfer data on channel 1.
-    STY.w $420B
+    STY.w SNES.DMAChannelEnable
     
     ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     ; Increment on writes to $2119 again.
-    STX.w $2115
+    STX.w SNES.VRAMAddrIncrementVal
     
     ; Reset the byte amount to 0x800 bytes.
-    STA.w $4315
+    STA.w DMA.1_TransferSizeLow
     
     ; Reset VRAM target address to $6000 (word).
-    LDA.w #$6000 : STA.w $2116
+    LDA.w #$6000 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; Write to $2119, write one register once mode, fixed source address.
-    LDA.w #$1908 : STA.w $4310
+    LDA.w #$1908 : STA.w DMA.1_TransferParameters
     
     ; DMA source address is $000001.
-    LDA.w #$0001 : STA.w $4312
+    LDA.w #$0001 : STA.w DMA.1_SourceAddrOffsetLow
     
     ; Transfer data on channel 1.
-    STY.w $420B
+    STY.w SNES.DMAChannelEnable
     
     SEP #$20
     
@@ -599,8 +604,8 @@ NMI_ReadJoypads:
     STZ.w $4016 
     
     ; Storing the state of Joypad 1 to $00-$01.
-    LDA.w $4218 : STA.b $00
-    LDA.w $4219 : STA.b $01
+    LDA.w SNES.JoyPad1DataLow : STA.b $00
+    LDA.w SNES.JoyPad2DataLow : STA.b $01
     
     ; $F2 has the pure joypad data.
     LDA.b $00 : STA.b $F2 : TAY 
@@ -621,8 +626,8 @@ NMI_ReadJoypads:
     ; never reaches this section. Yes folks, there is no love for Joypad2 in
     ; Zelda 3.
     
-    LDA.w $421A : STA.b $00
-    LDA.w $421B : STA.b $01
+    LDA.w SNES.JoyPad3DataLow : STA.b $00
+    LDA.w SNES.JoyPad4DataLow : STA.b $01
     
     LDA.b $00 : STA.b $F3 : TAY
     EOR.b $FB : AND.b $F3 : STA.b $F7 : STY.b $FB
@@ -833,10 +838,12 @@ Main_PrepSpritesForNmi:
     SEP #$10
         
     LDX.w $0107
-    LDA.w LinkOAM_SwordAddresses, X : STA.w $0AC0 : CLC : ADC.w #$0180 : STA.w $0AC2
+    LDA.w LinkOAM_SwordAddresses, X : STA.w $0AC0
+    CLC : ADC.w #$0180 : STA.w $0AC2
 
     LDX.w $0108
-    LDA.w LinkOAM_ShieldAddresses, X : STA.w $0AC4 : CLC : ADC.w #$00C0 : STA.w $0AC6
+    LDA.w LinkOAM_ShieldAddresses, X : STA.w $0AC4
+    CLC : ADC.w #$00C0 : STA.w $0AC6
         
     LDA.w $0109 : AND.w #$00F8 : LSR #2 : TAY
         
@@ -1038,7 +1045,7 @@ Startup_InitializeMemory:
     STY.w $01FE
     
     ; Window mask activation.
-    STZ.w $212E
+    STZ.w SNES.WindowMaskDesMainScreen
     
     SEP #$30
     
@@ -1102,7 +1109,7 @@ Sound_LoadSongBank:
     .BRANCH_INIT_WAIT
 
         ; Wait for the SPC to initialize to #$AABB.
-    CMP.w $2140 : BNE .BRANCH_INIT_WAIT
+    CMP.w SNES.APUIOPort0 : BNE .BRANCH_INIT_WAIT
     
     SEP #$20
     
@@ -1143,7 +1150,7 @@ Sound_LoadSongBank:
             .BRANCH_WAIT_FOR_ZERO
 
                 ; Wait for $2140 to be #$00 (we're in 8bit mode).
-            CMP.w $2140 : BNE .BRANCH_WAIT_FOR_ZERO
+            CMP.w SNES.APUIOPort0 : BNE .BRANCH_WAIT_FOR_ZERO
             
             INC A ; Increment the byte count.
 
@@ -1152,7 +1159,7 @@ Sound_LoadSongBank:
             REP #$20
             
             ; Ends up storing the byte count to $2140 and the.
-            STA.w $2140
+            STA.w SNES.APUIOPort0
             
             SEP #$20 ; Data byte to $2141. (Data byte represented as **).
         DEX : BNE .BRANCH_CONTINUE_TRANSFER
@@ -1160,9 +1167,9 @@ Sound_LoadSongBank:
     .BRANCH_SYNCHRONIZE ; We ran out of bytes to transfer.
 
         ; But we still need to synchronize.
-    CMP.w $2140 : BNE .BRANCH_SYNCHRONIZE
+    CMP.w SNES.APUIOPort0 : BNE .BRANCH_SYNCHRONIZE
 
-    .BRANCH_NO_ZERO ; At this point $2140 = #$01.
+    .BRANCH_NO_ZERO ; At this point SNES.APUIOPort0 = #$01.
 
         ; Add four to the byte count.
     ADC.b #$03 : BEQ .BRANCH_NO_ZERO ; (But Don't let A be zero!).
@@ -1177,7 +1184,7 @@ Sound_LoadSongBank:
         LDA [$00], Y : INY #2 : TAX
         
         ; Location in memory to map the data to.
-        LDA [$00], Y : INY #2 : STA.w $2142
+        LDA [$00], Y : INY #2 : STA.w SNES.APUIOPort2
         
         SEP #$20
         
@@ -1186,19 +1193,20 @@ Sound_LoadSongBank:
         ; Then the carry bit will be set and rotated into the accumulator
         ; (A = #$01). NOTE ANTITRACK'S DOC IS WRONG ABOUT THIS!!!
         ; He mistook #$0001 to be #$0100.
-        LDA.b #$00 : ROL A : STA.w $2141 : ADC.b #$7F
+        LDA.b #$00 : ROL A : STA.w SNES.APUIOPort1 : ADC.b #$7F
         
         ; Hopefully no one was confused.
-        PLA : STA.w $2140
+        PLA : STA.w SNES.APUIOPort0
 
         .BRANCH_TRANSFER_INIT_WAIT
 
             ; Initially, a 0xCC byte will be sent to initialize the transfer.
             ; if A was #$01 earlier...
-        CMP.w $2140 : BNE .BRANCH_TRANSFER_INIT_WAIT
+        CMP.w SNES.APUIOPort0 : BNE .BRANCH_TRANSFER_INIT_WAIT
     BVS .BRANCH_BEGIN_TRANSFER
     
-    STZ.w $2140 : STZ.w $2141 : STZ.w $2142 : STZ.w $2143
+    STZ.w SNES.APUIOPort0 : STZ.w SNES.APUIOPort1
+    STZ.w SNES.APUIOPort2 : STZ.w SNES.APUIOPort3
     
     PLP
     
@@ -1276,10 +1284,10 @@ EnableForceBlank:
 {
     ; Bring the screen into forceblank.
     ; Screen state is mirrored at $13.
-    LDA.b #$80 : STA.w $2100 : STA.b $13
+    LDA.b #$80 : STA.w SNES.ScreenDisplay : STA.b $13
     
     ; Disable hdma transfers on all channels.
-    STZ.w $420C : STZ.b $9B
+    STZ.w SNES.HDMAChannelEnable : STZ.b $9B
     
     RTL
 }
@@ -1369,7 +1377,7 @@ NMI_DoUpdates:
     REP #$10
     
     ; Update target VRAM address after writes to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; Flag used to indicate that special screen updates need to happen.
     LDA.w $0710 : BEQ .doCoreAnimatedSpriteUpdates
@@ -1382,191 +1390,198 @@ NMI_DoUpdates:
     ; (copied to VRAM).
     
     ; Base dma register is $2118, write two registers once mode ($2118/$2119),
-    ; with autoincrementing source addr. Why isn't $4320 set????
-    LDX.w #$1801 : STX.w $4300 : STX.w $4310 : STX.w $4320 : STX.w $4330 : STX.w $4340
+    ; with autoincrementing source addr. Why isn't DMA.2_TransferParameters set????
+    LDX.w #$1801 : STX.w DMA.0_TransferParameters : STX.w DMA.1_TransferParameters : STX.w DMA.2_TransferParameters : STX.w DMA.3_TransferParameters : STX.w DMA.4_TransferParameters
     
     ; Sets the bank for the DMA source bank to $10.
     ; Use channels 0 - 2.
-    LDA.b #$10 : STA.w $4304 : STA.w $4314 : STA.w $4324
+    LDA.b #$10
+    STA.w DMA.0_SourceAddrBank
+    STA.w DMA.1_SourceAddrBank
+    STA.w DMA.2_SourceAddrBank
     
     ; The VRAM target address is $4100 (word).
-    LDY.w #$4100 : STY.w $2116
+    LDY.w #$4100 : STY.w SNES.VRAMAddrReadWriteLow
     
     ; Sets a source address for dma channel 0.
-    LDY.w $0ACE : STY.w $4302
+    LDY.w $0ACE : STY.w DMA.0_SourceAddrOffsetLow
     
     ; Going to write 0x40 bytes on channel 0.
-    LDX.w #$0040 : STX.w $4305
+    LDX.w #$0040 : STX.w DMA.0_TransferSizeLow
     
     ; Set source address for channel 1.
-    LDY.w $0AD2 : STY.w $4312
+    LDY.w $0AD2 : STY.w DMA.1_SourceAddrOffsetLow
     
     ; Also send 0x40 bytes on channel 1.
-    STX.w $4315
+    STX.w DMA.1_TransferSizeLow
     
     ; Set source for channel 1.
-    LDY.w $0AD6 : STY.w $4322
+    LDY.w $0AD6 : STY.w DMA.2_SourceAddrOffsetLow
     
     ; Send 32 bytes on channel 2.
-    LDY.w #$0020 : STY.w $4325
+    LDY.w #$0020 : STY.w DMA.2_TransferSizeLow
     
     ; VOLLEY 1 *****
     ; Activates DMA transfers on channels 0 - 2.
-    LDA.b #$07 : STA.w $420B
+    LDA.b #$07 : STA.w SNES.DMAChannelEnable
     
-    STY.w $4325 ; Reset for another 32 bytes?
+    STY.w DMA.2_TransferSizeLow ; Reset for another 32 bytes?
     
     ; Set VRAM target to $4000 word addr. = $8000 byte addr.
-    LDY.w #$4000 : STY.w $2116
+    LDY.w #$4000 : STY.w SNES.VRAMAddrReadWriteLow
     
     LDY.w $0ACC ; 0 on first round
-    STY.w $4302 ; Uses Channel 1
-    STX.w $4305 ; Send 0x40 bytes
+    STY.w DMA.0_SourceAddrOffsetLow ; Uses Channel 1
+    STX.w DMA.0_TransferSizeLow ; Send 0x40 bytes
     
     LDY.w $0AD0 ; 0 on first round
-    STY.w $4312 ; Uses channel 2
-    STX.w $4315 ; Send 0x40 bytes
+    STY.w DMA.1_SourceAddrOffsetLow ; Uses channel 2
+    STX.w DMA.1_TransferSizeLow ; Send 0x40 bytes
     
     LDY.w $0AD4 ; 0 on first round
-    STY.w $4322 ; Note $4325 is still #$20. This was done above to save cycles.
-    STA.w $420B ; Activate transfer ( A = #$7 ) End of Volley 2 *****
+
+    ; Note $4325 is still #$20. This was done above to save cycles.
+    STY.w DMA.2_SourceAddrOffsetLow
+
+    ; Activate transfer ( A = #$7 ) End of Volley 2 *****
+    STA.w SNES.DMAChannelEnable
     
     ; Set the bank for the source to $7E.
-    LDA.b #$7E : STA.w $4304
+    LDA.b #$7E : STA.w DMA.0_SourceAddrBank
     
-    STA.w $4314
-    STA.w $4324
-    STA.w $4334
-    STA.w $4344 ; Doing five transfers on channels 1 through 5
+    STA.w DMA.1_SourceAddrBank
+    STA.w DMA.2_SourceAddrBank
+    STA.w DMA.3_SourceAddrBank
+    STA.w DMA.4_SourceAddrBank ; Doing five transfers on channels 1 through 5
     
     LDY.w $0AC0 ; 0 on first round
-    STY.w $4302 ;    
-    STX.w $4305 ; X is still 0x40
+    STY.w DMA.0_SourceAddrOffsetLow ;    
+    STX.w DMA.0_TransferSizeLow ; X is still 0x40
     
     LDY.w $0AC4
-    STY.w $4312 ;
-    STX.w $4315
+    STY.w DMA.1_SourceAddrOffsetLow ;
+    STX.w DMA.1_TransferSizeLow
     
     LDY.w $0AC8
-    STY.w $4322 ;
-    STX.w $4325
+    STY.w DMA.2_SourceAddrOffsetLow ;
+    STX.w DMA.2_TransferSizeLow
     
-    LDY.w $0AE0 : STY.w $4332
+    LDY.w $0AE0 : STY.w DMA.3_SourceAddrOffsetLow
     
     ; Store 0x20 bytes.
-    LDY.w #$0020 : STY.w $4335
+    LDY.w #$0020 : STY.w DMA.3_TransferSizeLow
     
     ; Use as a Rom local source address (channel 5).
-    LDY.w $0AD8 : STY.w $4342
+    LDY.w $0AD8 : STY.w DMA.4_SourceAddrOffsetLow
     
-    STX.w $4345 ; Store 64 bytes.
+    STX.w DMA.4_TransferSizeLow ; Store 64 bytes.
     
     ; 0x1F = 0b00011111
     ; Activate DMA channels 0 - 4 ; End of Volley 3 *****
-    LDA.b #$1F : STA.w $420B
+    LDA.b #$1F : STA.w SNES.DMAChannelEnable
     
     ; Target $8300 in VRAM.
-    LDY.w #$4150 : STY.w $2116
+    LDY.w #$4150 : STY.w SNES.VRAMAddrReadWriteLow
     
     ; Again X = 0x40.
-    LDY.w $0AC2 : STY.w $4302
-    STX.w $4305
+    LDY.w $0AC2 : STY.w DMA.0_SourceAddrOffsetLow
+    STX.w DMA.0_TransferSizeLow
     
-    LDY.w $0AC6 : STY.w $4312
-    STX.w $4315
+    LDY.w $0AC6 : STY.w DMA.1_SourceAddrOffsetLow
+    STX.w DMA.1_TransferSizeLow
     
-    LDY.w $0ACA : STY.w $4322
-    STX.w $4325
+    LDY.w $0ACA : STY.w DMA.2_SourceAddrOffsetLow
+    STX.w DMA.2_TransferSizeLow
     
-    LDY.w $0AE2 : STY.w $4332
+    LDY.w $0AE2 : STY.w DMA.3_SourceAddrOffsetLow
     
     ; Transfer 32 bytes.
-    LDY.w #$0020 : STY.w $4335
+    LDY.w #$0020 : STY.w DMA.3_TransferSizeLow
     
-    LDY.w $0ADA : STY.w $4342
-    STX.w $4345
+    LDY.w $0ADA : STY.w DMA.4_SourceAddrOffsetLow
+    STX.w DMA.4_TransferSizeLow
     
     ; Activate lines 0 - 4; End of Volley 4
-    STA.w $420B
+    STA.w SNES.DMAChannelEnable
     
     ; Target #$8400.
-    LDY.w #$4200 : STY.w $2116
+    LDY.w #SNES.NMIVHCountJoypadEnable : STY.w SNES.VRAMAddrReadWriteLow
     
-    LDY.w $0AEC : STY.w $4302
-    STX.w $4305
+    LDY.w $0AEC : STY.w DMA.0_SourceAddrOffsetLow
+    STX.w DMA.0_TransferSizeLow
     
-    LDY.w $0AF0 : STY.w $4312
-    STX.w $4315
+    LDY.w $0AF0 : STY.w DMA.1_SourceAddrOffsetLow
+    STX.w DMA.1_TransferSizeLow
     
-    LDY.w #$BD40 : STY.w $4322
-    STX.w $4325
+    LDY.w #$BD40 : STY.w DMA.2_SourceAddrOffsetLow
+    STX.w DMA.2_TransferSizeLow
     
     ; Transfer 64 bytes on all lines.
     ; Use lines 0 - 2 ; End of Volley 5 *****
-    LDA.b #$07 : STA.w $420B
+    LDA.b #$07 : STA.w SNES.DMAChannelEnable
     
     ; Target $8600 in VRAM.
-    LDY.w #$4300 : STY.w $2116
+    LDY.w #DMA.0_TransferParameters : STY.w SNES.VRAMAddrReadWriteLow
     
-    LDY.w $0AEE : STY.w $4302
-    STX.w $4305
+    LDY.w $0AEE : STY.w DMA.0_SourceAddrOffsetLow
+    STX.w DMA.0_TransferSizeLow
     
-    LDY.w $0AF2 : STY.w $4312
-    STX.w $4315
+    LDY.w $0AF2 : STY.w DMA.1_SourceAddrOffsetLow
+    STX.w DMA.1_TransferSizeLow
     
-    LDY.w #$BD80 : STY.w $4322
-    STX.w $4325 ; X = 64 still
+    LDY.w #$BD80 : STY.w DMA.2_SourceAddrOffsetLow
+    STX.w DMA.2_TransferSizeLow ; X = 64 still
     
-    STA.w $420B ; Use lines 0 - 2 ; End of Volley 6 *****
+    STA.w SNES.DMAChannelEnable ; Use lines 0 - 2 ; End of Volley 6 *****
     
     LDA.w $0AF4 : BEQ .noBirdSpriteUpdate
         ; Otherwise, Target $81C0.
-        LDY.w #$40E0 : STY.w $2116
+        LDY.w #$40E0 : STY.w SNES.VRAMAddrReadWriteLow
         
         ; X = 64 = #$40
-        LDY.w $0AF6 : STY.w $4302
-        STX.w $4305
+        LDY.w $0AF6 : STY.w DMA.0_SourceAddrOffsetLow
+        STX.w DMA.0_TransferSizeLow
         
         ; Use line 0.
-        LDA.b #$01 : STA.w $420B
+        LDA.b #$01 : STA.w SNES.DMAChannelEnable
         
         ; Target $83C0.
-        LDY.w #$41E0 : STY.w $2116
+        LDY.w #$41E0 : STY.w SNES.VRAMAddrReadWriteLow
         
-        LDY.w $0AF8 : STY.w $4302
-        STX.w $4305
+        LDY.w $0AF8 : STY.w DMA.0_SourceAddrOffsetLow
+        STX.w DMA.0_TransferSizeLow
         
-        STA.w $420B ; Activate line 0.
+        STA.w SNES.DMAChannelEnable ; Activate line 0.
 
     .noBirdSpriteUpdate
 
-    LDX.w $0ADC : STX.w $4302
+    LDX.w $0ADC : STX.w DMA.0_SourceAddrOffsetLow
     
     ; Set the target VRAM address.
-    LDX.w $0134 : STX.w $2116
+    LDX.w $0134 : STX.w SNES.VRAMAddrReadWriteLow
     
     ; Transfer #$400 = 4 * 256 = 1024 bytes = 1 Kbyte
-    LDX.w #$0400 : STX.w $4305
+    LDX.w #$0400 : STX.w DMA.0_TransferSizeLow
     
     ; Activate line 0.
-    LDA.b #$01 : STA.w $420B
+    LDA.b #$01 : STA.w SNES.DMAChannelEnable
 
     .skipCoreAnimatedTilesUpdate
 
     LDA.b $16 : BEQ .noBg3Update
         ; Target VRAM address is determined by $0219, but I'd expect this to be
         ; somewhat... fixed in practice.
-        LDX.w $0219 : STX.w $2116
+        LDX.w $0219 : STX.w SNES.VRAMAddrReadWriteLow
         
         ; $7EC700 is the WRAM buffer for this data.
-        LDX.w #$C700 : STX.w $4302
-        LDA.b #$7E   : STA.w $4304
+        LDX.w #$C700 : STX.w DMA.0_SourceAddrOffsetLow
+        LDA.b #$7E   : STA.w DMA.0_SourceAddrBank
         
         ; Number of bytes to transfer is 330.
-        LDX.w #$014A : STX.w $4305
+        LDX.w #$014A : STX.w DMA.0_TransferSizeLow
         
         ; Refresh BG3 tilemap data with this transfer on channel 0.
-        LDA.b #$01 : STA.w $420B
+        LDA.b #$01 : STA.w SNES.DMAChannelEnable
 
     .noBg3Update
 
@@ -1574,21 +1589,21 @@ NMI_DoUpdates:
         ; If $15 is set, we'll update CGRAM (palette update).
         
         ; Initialize the CGRAM pointer to color 0 (the start of CGRAM).
-        STZ.w $2121
+        STZ.w SNES.CGRAMWriteAddr
         
         ; We're going to be loading up CGRAM with palette data.
         ; Sets up data to be read in mode 0, to address $2222 (CGRAM DATA IN).
-        LDY.w #$2200 : STY.w $4310
+        LDY.w #$2200 : STY.w DMA.1_TransferParameters
         
         ; Sets source address to $7EC500.
-        LDY.w #$C500 : STY.w $4312
-        LDA.b #$7E   : STA.w $4314
+        LDY.w #$C500 : STY.w DMA.1_SourceAddrOffsetLow
+        LDA.b #$7E   : STA.w DMA.1_SourceAddrBank
         
         ; Number of bytes to transfer is 0x200, which is also the size of CGRAM.
-        LDY.w #$0200 : STY.w $4315
+        LDY.w #$0200 : STY.w DMA.1_TransferSizeLow
         
         ; Transfer data on channel 1.
-        LDA.b #$02 : STA.w $420B
+        LDA.b #$02 : STA.w SNES.DMAChannelEnable
 
     .noCgramUpdate
 
@@ -1597,21 +1612,21 @@ NMI_DoUpdates:
     REP #$20 : SEP #$10
     
     ; Clear out $15-$16 and an OAM register.
-    STZ.b $15 : STZ.w $2102
+    STZ.b $15 : STZ.w SNES.OAMAccessAddr
     
     ; Will send data to $2104, write one register once mode, autoincrementing
     ; source address.
-    LDA.w #$0400 : STA.w $4300
+    LDA.w #$0400 : STA.w DMA.0_TransferParameters
     
     ; Source address will be $7E0800.
-    LDA.w #$0800 : STA.w $4302
-    STZ.w $4304
+    LDA.w #$0800 : STA.w DMA.0_SourceAddrOffsetLow
+    STZ.w DMA.0_SourceAddrBank
     
     ; Fetch #$220 = 512 + 32 = 544 bytes
-    LDA.w #$0220 : STA.w $4305
+    LDA.w #$0220 : STA.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 1.
-    LDY.b #$01 : STY.w $420B
+    LDY.b #$01 : STY.w SNES.DMAChannelEnable
     
     SEP #$30
     
@@ -1638,26 +1653,26 @@ NMI_DoUpdates:
     LDA.b $19 : BEQ .BRANCH_7
         ; Apparently part of its function is to determine the upper byte of the
         ; target VRAM address.
-        STA.w $2117
+        STA.w SNES.VRAMAddrReadWriteHigh
         
         REP #$10
         
         ; Update VRAM target address after writes to $2119.
-        LDY.w #$0080 : STY.w $2115
+        LDY.w #$0080 : STY.w SNES.VRAMAddrIncrementVal
         
         ; Dma target address is $2118, write two registers once, autoincrement
         ; source address.
-        LDX.w #$1801 : STX.w $4300
+        LDX.w #$1801 : STX.w DMA.0_TransferParameters
         
         ; Source address is ($7F0000 + $0118).
-        LDX.w $0118  : STX.w $4302
-        LDA.b #$7F : STA.w $4304
+        LDX.w $0118  : STX.w DMA.0_SourceAddrOffsetLow
+        LDA.b #$7F : STA.w DMA.0_SourceAddrBank
         
         ; Number of bytes to transfer is 0x0200.
-        LDX.w #$0200 : STX.w $4305
+        LDX.w #$0200 : STX.w DMA.0_TransferSizeLow
         
         ; Transfer data on channel 0.
-        LDA.b #$01 : STA.w $420B
+        LDA.b #$01 : STA.w SNES.DMAChannelEnable
         
         STZ.b $19
         
@@ -1668,13 +1683,13 @@ NMI_DoUpdates:
     ; Yet another graphics flag.
     LDX.b $18 : BEQ .BRANCH_9
         ; Write from Bank $00.
-        STZ.w $4314
+        STZ.w DMA.1_SourceAddrBank
         
         REP #$20
         
         ; Writing to $2118 / $2119 alternating, with autoincrementing
         ; addressing.
-        LDA.w #$1801 : STA.w $4310
+        LDA.w #$1801 : STA.w DMA.1_TransferParameters
         
         REP #$10
         
@@ -1683,22 +1698,22 @@ NMI_DoUpdates:
     .BRANCH_8
 
     ; Extract the target VRAM Address.
-    STA.w $2116
+    STA.w SNES.VRAMAddrReadWriteLow
     
-    TXA : CLC : ADC.w #$1104 : STA.w $4312
+    TXA : CLC : ADC.w #$1104 : STA.w DMA.1_SourceAddrOffsetLow
     
     ; Tells us how many bytes to transfer.
-    LDA.w $1103, X : AND.w #$00FF : STA.w $4315
+    LDA.w $1103, X : AND.w #$00FF : STA.w DMA.1_TransferSizeLow
     
     CLC : ADC.w #$0004 : STA.b $00
     
     SEP #$20
     
     ; Video port settings are determined in the packed data.
-    LDA.w $1102, X : STA.w $2115
+    LDA.w $1102, X : STA.w SNES.VRAMAddrIncrementVal
     
     ; Transfer data on channel 1.
-    LDA.b #$02 : STA.w $420B
+    LDA.b #$02 : STA.w SNES.DMAChannelEnable
     
     REP #$21
     
@@ -1758,29 +1773,30 @@ NMI_UploadTilemap:
     ; I suppose you could use it to update graphics too.
     
     ; $1888, X that is sets the high byte of the Target VRAM address.
-    LDX.w $0116 : LDA.w TilemapUpload_HighBytes, X : STA.w $2117
+    LDX.w $0116
+    LDA.w TilemapUpload_HighBytes, X : STA.w SNES.VRAMAddrReadWriteHigh
     
     ; Bank of the source address is 0x00.
-    STZ.w $4304
+    STZ.w DMA.0_SourceAddrBank
     
     REP #$20
     
     ; VRAM target address will auto update after writes to $2119. (lower byte
     ; of VRAM addr is also 0x00 now).
-    LDA.w #$0080 : STA.w $2115
+    LDA.w #$0080 : STA.w SNES.VRAMAddrIncrementVal
     
     ; Dma target register is $2118, write two registers once mode
     ; ($2118/$2119), autoincrement source address.
-    LDA.w #$1801 : STA.w $4300
+    LDA.w #$1801 : STA.w DMA.0_TransferParameters
     
     ; Designates the source addr as $001000.
-    LDA.w #$1000 : STA.w $4302
+    LDA.w #$1000 : STA.w DMA.0_SourceAddrOffsetLow
     
     ; The number of bytes to transfer is $800.
-    LDA.w #$0800 : STA.w $4305
+    LDA.w #$0800 : STA.w DMA.0_TransferSizeLow
     
     ; Fire DMA channel 1.
-    LDY.b #$01 : STY.w $420B
+    LDY.b #$01 : STY.w SNES.DMAChannelEnable
     
     ; Do a little clean up.
     STZ.w $1000
@@ -1797,32 +1813,31 @@ NMI_UploadTilemap:
 
 ; ==============================================================================
 
+; Copies $7F0000[0x7E0] to $7C00 in VRAM ($F800 in byte addressing).
 ; $000CE4-$000D12 JUMP LOCATION
 NMI_UploadBg3Text:
 {
-    ; Copies $7F0000[0x7E0] to $7C00 in VRAM ($F800 in byte addressing).
-    
     REP #$10
     
     ; Update target VRAM address after writes to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; Dma target address = $2118, write two registers once mode ($2118/$2119),
     ; autoincrement source address.
-    LDX.w #$1801 : STX.w $4300
+    LDX.w #$1801 : STX.w DMA.0_TransferParameters
     
     ; Target VRAM address is $7C00 (word).
-    LDY.w #$7C00 : STY.w $2116
+    LDY.w #$7C00 : STY.w SNES.VRAMAddrReadWriteLow
     
     ; Source address is $7F0000.
-    LDY.w #$0000 : STY.w $4302
-    LDA.b #$7F   : STA.w $4304
+    LDY.w #$0000 : STY.w DMA.0_SourceAddrOffsetLow
+    LDA.b #$7F   : STA.w DMA.0_SourceAddrBank
     
     ; Copy 0x07E0 bytes.
-    LDX.w #$07E0 : STX.w $4305
+    LDX.w #$07E0 : STX.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 0.
-    LDA.b #$01 : STA.w $420B
+    LDA.b #$01 : STA.w SNES.DMAChannelEnable
     
     SEP #$10
     
@@ -1833,25 +1848,24 @@ NMI_UploadBg3Text:
 
 ; ==============================================================================
 
+; This updates the tilemap on the overworld every time you reach a map16
+; boundary. From a graphical standpoint, that means every time you cross a
+; boundary on an imaginary grid of 16x16 pixel tiles.
 ; $000D13-$000D61 JUMP LOCATION
 NMI_UpdateScrollingOwMap:
 {
-    ; This updates the tilemap on the overworld every time you reach a map16
-    ; boundary. From a graphical standpoint, that means every time you cross a
-    ; boundary on an imaginary grid of 16x16 pixel tiles.
-    
     REP #$10
     
     ; Dma will alternate writing between $2118 and $2119.
-    LDX.w #$1801 : STX.w $4300
+    LDX.w #$1801 : STX.w DMA.0_TransferParameters
     
     ; Source bank is determined to be 0x00.
-    STZ.w $4304
+    STZ.w DMA.0_SourceAddrBank
     
     ; Value is either 0x81 or 0x80. This means, increment on writing to $2119
     ; and optionally write to VRAM horizontally (0x80) or vertically (0x81)
     ; It depends on how the data in the $1100 area was set up.
-    LDA.w $1101 : AND.b #$80 : ASL A : ROL A : ORA.b #$80 : STA.w $2115
+    LDA.w $1101 : AND.b #$80 : ASL A : ROL A : ORA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     REP #$20
     
@@ -1865,20 +1879,20 @@ NMI_UpdateScrollingOwMap:
         REP #$21
         
         ; The next word in the array determines the target VRAM address (word).
-        LDA.w $1102, Y : STA.w $2116
+        LDA.w $1102, Y : STA.w SNES.VRAMAddrReadWriteLow
         
-        TYA : ADC.w #$1104 : STA.w $4302
+        TYA : ADC.w #$1104 : STA.w DMA.0_SourceAddrOffsetLow
         
         ; Brings us to the header of the next transfer block.
         TYA : ADC.b $02 : TAY
         
         ; Set number of bytes to transfer.
-        STX.w $4305
+        STX.w DMA.0_TransferSizeLow
         
         SEP #$20
         
         ; Transfer data on channel 0.
-        LDA.b #$01 : STA.w $420B
+        LDA.b #$01 : STA.w SNES.DMAChannelEnable
     
     ; While somewhat nonsensical, the signal to stop transferring is a negative
     ; byte (what if you wanted the next transfer to do between 0x80 and 0xFF
@@ -1900,15 +1914,15 @@ NMI_UploadSubscreenOverlay:
     ; Write 0x2000 bytes to VRAM.
     
     ; Source bank is 0x7F.
-    LDA.b #$7F : STA.w $4304
+    LDA.b #$7F : STA.w DMA.0_SourceAddrBank
     
     ; Update target VRAM address after writes to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     REP #$31
     
     ; Source address is $7F2000.
-    LDA.w #$2000 : STA.w $4302
+    LDA.w #$2000 : STA.w DMA.0_SourceAddrOffsetLow
     
     ; Going to loop many many times to fill the whole screen.
     LDX.w #$0000
@@ -1922,15 +1936,15 @@ NMI_UploadSubscreenOverlay:
     ; Write 0x1000 bytes to VRAM (half of a tilemap).
     
     ; Source bank is 0x7F.
-    LDA.b #$7F : STA.w $4304
+    LDA.b #$7F : STA.w DMA.0_SourceAddrBank
     
     ; Update target VRAM address after writes to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     REP #$31
     
     ; Source address is $7F2000.
-    LDA.w #$2000 : STA.w $4302
+    LDA.w #$2000 : STA.w DMA.0_SourceAddrOffsetLow
     
     LDX.w #$0000
     LDA.w #$0040
@@ -1943,15 +1957,15 @@ NMI_UploadSubscreenOverlay:
     ; Write the second 0x1000 bytes to VRAM (half of a tilemap).
     
     ; Source bank is 0x7F.
-    LDA.b #$7F : STA.w $4304
+    LDA.b #$7F : STA.w DMA.0_SourceAddrBank
     
     ; Update target VRAM address after writes to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     REP #$31
     
     ; Source address is $7F3000.
-    LDA.w #$3000 : STA.w $4302
+    LDA.w #$3000 : STA.w DMA.0_SourceAddrOffsetLow
     
     LDX.w #$0040
     LDA.w #$0080
@@ -1962,7 +1976,7 @@ NMI_UploadSubscreenOverlay:
     STA.b $02
     
     ; Alternate writing to $2118 and $2119, autoincrement source address.
-    LDA.w #$1801 : STA.w $4300
+    LDA.w #$1801 : STA.w DMA.0_TransferParameters
     
     LDA.w #$0001 : STA.b $00
     
@@ -1977,37 +1991,37 @@ NMI_UploadSubscreenOverlay:
         ; in either 0x1000 or 0x2000 bytes being written to VRAM.
 
         ; Target VRAM address (word) is determined by $7F4000.
-        LDA.l $7F4000, X : STA.w $2116
+        LDA.l $7F4000, X : STA.w SNES.VRAMAddrReadWriteLow
 
         ; Store the number of bytes to use to the proper register.
-        STY.w $4305
+        STY.w DMA.0_TransferSizeLow
 
         ; Transfer data on channel 0.
-        LDA.b $00 : STA.w $420B
+        LDA.b $00 : STA.w SNES.DMAChannelEnable
         
         ; Updating the target VRAM address with a new value.
-        LDA.l $7F4002, X : STA.w $2116
+        LDA.l $7F4002, X : STA.w SNES.VRAMAddrReadWriteLow
 
         ; Reset the number of bytes to 0x80.
-        STY.w $4305
+        STY.w DMA.0_TransferSizeLow
         
         ; Perform another 0x80 byte transfer.
-        LDA.b $00 : STA.w $420B
+        LDA.b $00 : STA.w SNES.DMAChannelEnable
         
         ; Updating target VRAM address (again, yeesh).
-        LDA.l $7F4004, X : STA.w $2116
+        LDA.l $7F4004, X : STA.w SNES.VRAMAddrReadWriteLow
         
         ; 0x80 bytes (again, double yeesh).
-        STY.w $4305
+        STY.w DMA.0_TransferSizeLow
         
         ; I think you can tell where this is headed.
-        LDA.b $00 : STA.w $420B
+        LDA.b $00 : STA.w SNES.DMAChannelEnable
         
-        LDA.l $7F4006, X : STA.w $2116
+        LDA.l $7F4006, X : STA.w SNES.VRAMAddrReadWriteLow
         
-        STY.w $4305
+        STY.w DMA.0_TransferSizeLow
         
-        LDA.b $00 : STA.w $420B
+        LDA.b $00 : STA.w SNES.DMAChannelEnable
 
     ; Note there was a REP #$31 earlier that reset the carry. Tells the next
     ; iteration to handle the next 4 packets specified in the $7F4000, X array.
@@ -2029,35 +2043,35 @@ NMI_UpdateBG1Wall:
     
     ; Target dma address is $2118, write two registers once mode, auto
     ; increment source address.
-    LDA.w #$1801 : STA.w $4300
+    LDA.w #$1801 : STA.w DMA.0_TransferParameters
     
     ; VRAM target address (word) = $0116.
-    LDA.w $0116 : STA.w $2116
+    LDA.w $0116 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; Update VRAM address after writes to $2119.
-    LDX.b #$81 : STX.w $2115
+    LDX.b #$81 : STX.w SNES.VRAMAddrIncrementVal
     
     ; Source address = $7EC880.
-    LDX.b #$7E   : STX.w $4304
-    LDA.w #$C880 : STA.w $4302
+    LDX.b #$7E   : STX.w DMA.0_SourceAddrBank
+    LDA.w #$C880 : STA.w DMA.0_SourceAddrOffsetLow
     
     ; Write 0x40 bytes.
-    LDA.w #$0040 : STA.w $4305
+    LDA.w #$0040 : STA.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 0.
-    LDY.b #$01 : STY.w $420B
+    LDY.b #$01 : STY.w SNES.DMAChannelEnable
     
     ; Write 0x40 bytes again.
-    STA.w $4305
+    STA.w DMA.0_TransferSizeLow
     
     ; Increment VRAM target address by 0x800 words.
-    LDA.w $0116 : CLC : ADC.w #$0800 : STA.w $2116
+    LDA.w $0116 : CLC : ADC.w #$0800 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; Source address = $7EC8C0.
-    LDA.w #$C8C0 : STA.w $4302
+    LDA.w #$C8C0 : STA.w DMA.0_SourceAddrOffsetLow
     
     ; Transfer data on channel 0.
-    STY.w $420B
+    STY.w SNES.DMAChannelEnable
     
     REP #$20
     
@@ -2084,15 +2098,15 @@ Pool_NMI_UpdateLoadLightWorldMap:
 ; $000E54-$000EA8 JUMP LOCATION
 NMI_LightWorldMode7Tilemap:
 {
-    STZ.w $2115
+    STZ.w SNES.VRAMAddrIncrementVal
     
     ; Source address is in bank 0x0A.
-    LDA.b #$0A : STA.w $4304
+    LDA.b #$0A : STA.w DMA.0_SourceAddrBank
     
     REP #$20
     
     ; Writing to $2118, incrementing of source address enabled (write once).
-    LDA.w #$1800 : STA.w $4300
+    LDA.w #$1800 : STA.w DMA.0_TransferParameters
     
     STZ.b $04 : STZ.b $02
     
@@ -2107,7 +2121,7 @@ NMI_LightWorldMode7Tilemap:
 
         .beta
 
-            LDA.b $00 : STA.w $2116
+            LDA.b $00 : STA.w SNES.VRAMAddrReadWriteLow
             
             ; But is adjusted for each iteration of the loop by 0x80 words
             ; (0x100 bytes).
@@ -2115,12 +2129,12 @@ NMI_LightWorldMode7Tilemap:
             
             ; Mode 7 tilemap data is based at $054727 in ROM.
             ; This data fills in the tilemap data that isn't "blank".
-            LDA.b $02 : CLC : ADC.w #WorldMap_LightWorldTilemap : STA.w $4302
+            LDA.b $02 : CLC : ADC.w #WorldMap_LightWorldTilemap : STA.w DMA.0_SourceAddrOffsetLow
             
             ; Number of bytes to transfer is 0x0020.
-            LDA.w #$0020 : STA.w $4305
+            LDA.w #$0020 : STA.w DMA.0_TransferSizeLow
             
-            STY.w $420B
+            STY.w SNES.DMAChannelEnable
             
             CLC : ADC.b $02 : STA.b $02
         DEC.b $06 : BNE .beta
@@ -2141,36 +2155,36 @@ NMI_UpdateLeftBg2Tilemaps:
     ; Copies $7F0000[0x1000] to VRAM address $0000.
     
     ; VRAM address increments after writing to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     REP #$10
     
     ; Target address in VRAM is (word) 0x0000.
-    LDY.w #$0000 : STY.w $2116
+    LDY.w #$0000 : STY.w SNES.VRAMAddrReadWriteLow
     
     ; Target $2118, two registers write once ($2118 / $2119 alternating).
-    LDY.w #$1801 : STY.w $4310
+    LDY.w #$1801 : STY.w DMA.1_TransferParameters
     
     ; Source address is $7F0000.
-    LDY.w #$0000 : STY.w $4312
-    LDA.b #$7F : STA.w $4314
+    LDY.w #$0000 : STY.w DMA.1_SourceAddrOffsetLow
+    LDA.b #$7F : STA.w DMA.1_SourceAddrBank
     
     ; Transfer 0x0800 bytes.
-    LDY.w #$0800 : STY.w $4315
+    LDY.w #$0800 : STY.w DMA.1_TransferSizeLow
     
     ; Use channel 2 to transfer the data.
-    LDA.b #$02 : STA.w $420B
+    LDA.b #$02 : STA.w SNES.DMAChannelEnable
     
-    STY.w $4315
+    STY.w DMA.1_TransferSizeLow
     
     ; Target address in VRAM is (word) 0x0800.
-    LDY.w #$0800 : STY.w $2116
+    LDY.w #$0800 : STY.w SNES.VRAMAddrReadWriteLow
     
     ; Source address is $7F0800.
-    LDY.w #$0800 : STY.w $4312
+    LDY.w #$0800 : STY.w DMA.1_SourceAddrOffsetLow
     
     ; Use channel 1 to transfer the data.
-    STA.w $420B
+    STA.w SNES.DMAChannelEnable
     
     SEP #$10
     
@@ -2187,23 +2201,23 @@ NMI_UpdateBgChrSlots_3_to_4:
     REP #$20
     
     ; VRAM target is $2C00 (word).
-    LDA.w #$2C00 : STA.w $2116
+    LDA.w #$2C00 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; Increment VRAM address on writes to $2119.
-    LDY.b #$80 : STY.w $2115
+    LDY.b #$80 : STY.w SNES.VRAMAddrIncrementVal
     
     ; Target bbus address is $2118, write two registers once ($2118 / $2119).
-    LDA.w #$1801 : STA.w $4300
+    LDA.w #$1801 : STA.w DMA.0_TransferParameters
     
     ; Source address is $7F0000.
-    LDA.w #$0000 : STA.w $4302
-    LDY.b #$7F : STY.w $4304
+    LDA.w #$0000 : STA.w DMA.0_SourceAddrOffsetLow
+    LDY.b #$7F : STY.w DMA.0_SourceAddrBank
     
     ; Write 0x1000 bytes.
-    LDA.w #$1000 : STA.w $4305
+    LDA.w #$1000 : STA.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 0.
-    LDY.b #$01 : STY.w $420B
+    LDY.b #$01 : STY.w SNES.DMAChannelEnable
     
     SEP #$20
     
@@ -2222,23 +2236,23 @@ NMI_UpdateBgChrSlots_5_to_6:
     REP #$20
     
     ; VRAM target address is $3400 (word).
-    LDA.w #$3400 : STA.w $2116
+    LDA.w #$3400 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; Increment on writes to $2119.
-    LDY.b #$80 : STY.w $2115
+    LDY.b #$80 : STY.w SNES.VRAMAddrIncrementVal
     
     ; Target $2118, write twice ($2118 / $2119).
-    LDA.w #$1801 : STA.w $4300
+    LDA.w #$1801 : STA.w DMA.0_TransferParameters
     
     ; Source address is $7F1000.
-    LDA.w #$1000 : STA.w $4302
-    LDY.b #$7F   : STY.w $4304
+    LDA.w #$1000 : STA.w DMA.0_SourceAddrOffsetLow
+    LDY.b #$7F   : STY.w DMA.0_SourceAddrBank
     
     ; Write 0x1000 bytes.
-    LDA.w #$1000 : STA.w $4305
+    LDA.w #$1000 : STA.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 1.
-    LDY.b #$01 : STY.w $420B
+    LDY.b #$01 : STY.w SNES.DMAChannelEnable
     
     SEP #$20
     
@@ -2253,25 +2267,25 @@ NMI_UpdateBgChrSlots_5_to_6:
 NMI_UpdateChrHalfSlot:
 {
     ; Set VRAM target address as variable ($0116).
-    LDA.w $0116 : STA.w $2117
+    LDA.w $0116 : STA.w SNES.VRAMAddrReadWriteHigh
     
     REP #$10
     
     ; Increment on writes to $2119.
-    LDX.w #$0080 : STX.w $2115
+    LDX.w #$0080 : STX.w SNES.VRAMAddrIncrementVal
     
     ; Target is $2118, write twice ($2118 / $2119).
-    LDX.w #$1801 : STX.w $4300
+    LDX.w #$1801 : STX.w DMA.0_TransferParameters
     
     ; Source address is $7F1000.
-    LDX.w #$1000 : STX.w $4302
-    LDA.b #$7F   : STA.w $4304
+    LDX.w #$1000 : STX.w DMA.0_SourceAddrOffsetLow
+    LDA.b #$7F   : STA.w DMA.0_SourceAddrBank
     
     ; Write 0x400 bytes.
-    LDX.w #$0400 : STX.w $4305
+    LDX.w #$0400 : STX.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 1.
-    LDA.b #$01 : STA.w $420B
+    LDA.b #$01 : STA.w SNES.DMAChannelEnable
     
     SEP #$10
     
@@ -2338,24 +2352,24 @@ NMI_UpdateChr_Spr0:
     REP #$20
     
     ; VRAM target addr is $4400 (word).
-    LDA.w #$4400 : STA.w $2116
+    LDA.w #$4400 : STA.w SNES.VRAMAddrReadWriteLow
     
-    LDA.w #$0000 : STA.w $4302
+    LDA.w #$0000 : STA.w DMA.0_SourceAddrOffsetLow
     
     ; Increment VRAM address on writes to $2119.
-    LDY.b #$80 : STY.w $2115
+    LDY.b #$80 : STY.w SNES.VRAMAddrIncrementVal
     
     ; Target is $2118, write two registers once ($2118 / $2119).
-    LDA.w #$1801 : STA.w $4300
+    LDA.w #$1801 : STA.w DMA.0_TransferParameters
     
     ; Source address is $7F0000.
-    LDY.b #$7F : STY.w $4304
+    LDY.b #$7F : STY.w DMA.0_SourceAddrBank
     
     ; Write 0x0800 bytes.
-    LDA.w #$0800 : STA.w $4305
+    LDA.w #$0800 : STA.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 1.
-    LDY.b #$01 : STY.w $420B
+    LDY.b #$01 : STY.w SNES.DMAChannelEnable
     
     SEP #$20
     
@@ -2391,24 +2405,24 @@ NMI_UpdateChr:
 
     .doUpdate
 
-    STA.w $2116
+    STA.w SNES.VRAMAddrReadWriteLow
     
-    LDA.w #$0000 : STA.w $4302
+    LDA.w #$0000 : STA.w DMA.0_SourceAddrOffsetLow
     
     ; Increment on writes to $2119.
-    LDY.b #$80 : STY.w $2115
+    LDY.b #$80 : STY.w SNES.VRAMAddrIncrementVal
     
     ; Target is $2118, write two registers once ($2118 / $2119).
-    LDA.w #$1801 : STA.w $4300
+    LDA.w #$1801 : STA.w DMA.0_TransferParameters
     
     ; Source address is $7F0000.
-    LDY.b #$7F : STY.w $4304
+    LDY.b #$7F : STY.w DMA.0_SourceAddrBank
     
     ; Write 0x1000 bytes.
-    LDA.w #$1000 : STA.w $4305
+    LDA.w #$1000 : STA.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 1.
-    LDY.b #$01 : STY.w $420B
+    LDY.b #$01 : STY.w SNES.DMAChannelEnable
     
     SEP #$20
     
@@ -2423,15 +2437,15 @@ NMI_UpdateChr:
 NMI_DarkWorldMode7Tilemap:
 {
     ; Increment VRAM address on writes to $2118.
-    STZ.w $2115
+    STZ.w SNES.VRAMAddrIncrementVal
     
     ; Source bank is 0x00.
-    STZ.w $4304
+    STZ.w DMA.0_SourceAddrBank
     
     REP #$20
     
     ; Set dma target register to $2118.
-    LDA.w #$1800 : STA.w $4300
+    LDA.w #$1800 : STA.w DMA.0_TransferParameters
     
     STZ.b $02
     
@@ -2443,16 +2457,16 @@ NMI_DarkWorldMode7Tilemap:
 
     .writeLoop
 
-        LDA.b $00 : STA.w $2116
+        LDA.b $00 : STA.w SNES.VRAMAddrReadWriteLow
         CLC : ADC.w #$0080 : STA.b $00
         
-        LDA.b $02 : CLC : ADC.w #$1000 : STA.w $4302
+        LDA.b $02 : CLC : ADC.w #$1000 : STA.w DMA.0_SourceAddrOffsetLow
         
         ; Transfering 0x20 bytes.
-        LDA.w #$0020 : STA.w $4305
+        LDA.w #$0020 : STA.w DMA.0_TransferSizeLow
         
         ; Perform dma transfer.
-        STY.w $420B
+        STY.w SNES.DMAChannelEnable
         
         ; Increment source address by 0x20 bytes each iteration.
         CLC : ADC.b $02 : STA.b $02
@@ -2475,47 +2489,47 @@ NMI_UpdateBg3ChrForDeathMode:
     REP #$20
     
     ; Target VRAM addr is $7800 (word).
-    LDA.w #$7800 : STA.w $2116
+    LDA.w #$7800 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; Source address is $7E2000.
-    LDA.w #$2000 : STA.w $4302
+    LDA.w #$2000 : STA.w DMA.0_SourceAddrOffsetLow
     
     ; Increment VRAM addr on writes to $2119.
-    LDY.b #$80 : STY.w $2115
+    LDY.b #$80 : STY.w SNES.VRAMAddrIncrementVal
     
     ; Target is $2118, write two registers once ($2118 / $2119).
-    LDA.w #$1801 : STA.w $4300
+    LDA.w #$1801 : STA.w DMA.0_TransferParameters
     
     ; Source address is $7E2000.
-    LDY.b #$7E : STY.w $4304
+    LDY.b #$7E : STY.w DMA.0_SourceAddrBank
     
     ; Write 0x0800 bytes.
-    LDA.b #$0800 : STA.w $4305
+    LDA.b #$0800 : STA.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 1.
-    LDY.b #$01 : STY.w $420B
+    LDY.b #$01 : STY.w SNES.DMAChannelEnable
     
     ; Target VRAM addr is $7D00.
-    LDA.w #$7D00 : STA.w $2116
+    LDA.w #$7D00 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; Source address is $7E3400.
-    LDA.w #$3400 : STA.w $4302
+    LDA.w #$3400 : STA.w DMA.0_SourceAddrOffsetLow
     
     ; Don't know why this was written again. The value hasn't changed.
     ; I suspect some macro tomfoolery.
-    LDY.b #$80 : STY.w $2115
+    LDY.b #$80 : STY.w SNES.VRAMAddrIncrementVal
     
     ; Again, this setting hasn't changed.
-    LDA.w #$1801 : STA.w $4300
+    LDA.w #$1801 : STA.w DMA.0_TransferParameters
     
     ; Source address is $7E3400.
-    LDY.b #$7E : STY.w $4304
+    LDY.b #$7E : STY.w DMA.0_SourceAddrBank
     
     ; Transfer 0x0600 bytes.
-    LDA.w #$0600 : STA.w $4305
+    LDA.w #$0600 : STA.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 1.
-    LDY.b #$01 : STY.w $420B
+    LDY.b #$01 : STY.w SNES.DMAChannelEnable
     
     SEP #$20
     
@@ -2530,23 +2544,23 @@ NMI_UpdateBarrierTileChr:
     REP #$10
     
     ; VRAM target address is $3D00 (word).
-    LDX.w #$3D00 : STX.w $2116
+    LDX.w #$3D00 : STX.w SNES.VRAMAddrReadWriteLow
     
     ; Increment target addr on writes to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; Base register is $2118, write two registers once ($2118 / $2119).
-    LDX.w #$1801 : STX.w $4300
+    LDX.w #$1801 : STX.w DMA.0_TransferParameters
     
     ; Source address is $7F0000.
-    LDX.w #$0000 : STX.w $4302
-    LDA.b #$7F : STA.w $4304
+    LDX.w #$0000 : STX.w DMA.0_SourceAddrOffsetLow
+    LDA.b #$7F : STA.w DMA.0_SourceAddrBank
     
     ; Write 0x100 bytes.
-    LDX.w #$0100 : STX.w $4305
+    LDX.w #$0100 : STX.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 1.
-    LDA.b #$01 : STA.w $420B
+    LDA.b #$01 : STA.w SNES.DMAChannelEnable
     
     SEP #$10
     
@@ -2563,23 +2577,23 @@ NMI_UpdateStarTiles:
     REP #$10
     
     ; VRAM target address is $3ED0 (word).
-    LDX.w #$3ED0 : STX.w $2116
+    LDX.w #$3ED0 : STX.w SNES.VRAMAddrReadWriteLow
     
     ; Increment VRAM address on writes to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; Base register is $2118, two registers write once ($2118 / $2119).
-    LDX.w #$1801 : STX.w $4300
+    LDX.w #$1801 : STX.w DMA.0_TransferParameters
     
     ; Source address is $7F0000.
-    LDX.w #$0000 : STX.w $4302
-    LDA.b #$7F   : STA.w $4304
+    LDX.w #$0000 : STX.w DMA.0_SourceAddrOffsetLow
+    LDA.b #$7F   : STA.w DMA.0_SourceAddrBank
     
     ; Write 0x40 bytes.
-    LDX.w #$0040 : STX.w $4305
+    LDX.w #$0040 : STX.w DMA.0_TransferSizeLow
     
     ; Transfer data on channel 1.
-    LDA.b #$01 : STA.w $420B
+    LDA.b #$01 : STA.w SNES.DMAChannelEnable
     
     REP #$10
     
@@ -2792,7 +2806,7 @@ HandleStripes14:
     REP #$10
     
     ; Designates a source bank for a transfer to VRAM.
-    STA.w $4314
+    STA.w DMA.1_SourceAddrBank
     
     ; You may have noticed this function is passed parameters through memory.
     STZ.b $06
@@ -2821,43 +2835,43 @@ HandleStripes14:
     LDA [$00], Y : AND.b #$40 : STA.b $05
     
     ; This adds the "two registers, write once" setting.
-    LSR #3 : ORA.b #$01 : STA.w $4310
+    LSR #3 : ORA.b #$01 : STA.w DMA.1_TransferParameters
     
     ; Write to $2118 in DMA transfers.
-    LDA.b #$18 : STA.w $4311
+    LDA.b #$18 : STA.w DMA.1_DestinationAddr
     
     REP #$20
     
     ; Write to the VRAM target address register.
-    LDA.b $03 : STA.w $2116
+    LDA.b $03 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; Set the number of bytes to transfer.
     ; (the amount stored in the buffer is the number of bytes minus one).
-    LDA [$00], Y : XBA : AND.w #$3FFF : TAX : INX : STX.w $4315
+    LDA [$00], Y : XBA : AND.w #$3FFF : TAX : INX : STX.w DMA.1_TransferSizeLow
     
     ; Set the source address (which will be somewhere in the $1000[0x800]
     ; buffer.
-    INY #2 : TYA : CLC : ADC.b $00 : STA.w $4312
+    INY #2 : TYA : CLC : ADC.b $00 : STA.w DMA.1_SourceAddrOffsetLow
     
     ; A = #$40 or #$00.
     ; If DMAing in incremental mode, branch.
     LDA.b $05 : BEQ .incrementSourceAddress
         INX
         
-        TXA : LSR A : TAX : STX.w $4315
+        TXA : LSR A : TAX : STX.w DMA.1_TransferSizeLow
         
         SEP #$20
         
-        LDA.b $05 : LSR #3 : STA.w $4310
+        LDA.b $05 : LSR #3 : STA.w DMA.1_TransferParameters
         
         ; A = 0x00 or 0x01.
         ; Hence we'll either increment VRAM addresses by 2 or 64 bytes.
-        LDA.b $07 : STA.w $2115
+        LDA.b $07 : STA.w SNES.VRAMAddrIncrementVal
         
-        LDA.b #$02 : STA.w $420B ; Fire DMA channel 2.
+        LDA.b #$02 : STA.w SNES.DMAChannelEnable ; Fire DMA channel 2.
         
         ; Now data is written to $2119 (upper byte only gets written).
-        LDA.b #$19 : STA.w $4311
+        LDA.b #$19 : STA.w DMA.1_DestinationAddr
         
         REP #$21
         
@@ -2866,13 +2880,13 @@ HandleStripes14:
         
         ; Add the original absolute address to this offset.
         ; It becomes the source address for DMA.
-        ADC.b $00 : INC A : STA.w $4312
+        ADC.b $00 : INC A : STA.w DMA.1_SourceAddrOffsetLow
         
         ; $03 contains the VRAM target address.
-        LDA.b $03 : STA.w $2116
+        LDA.b $03 : STA.w SNES.VRAMAddrReadWriteLow
         
         ; X contains the number of bytes to transfer.
-        STX.w $4315
+        STX.w DMA.1_TransferSizeLow
         
         LDX.w #$0002
 
@@ -2889,10 +2903,10 @@ HandleStripes14:
     
     ; A = 0x01 or 0x00
     ; We're incrementing when $2118 is accessed.
-    LDA.b $07 : ORA.b #$80 : STA.w $2115
+    LDA.b $07 : ORA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; Fire DMA channel 1.
-    LDA.b #$02 : STA.w $420B
+    LDA.b #$02 : STA.w SNES.DMAChannelEnable
     
     LDA [$00], Y : BMI .endOfTransfers
         JMP .validTransfer
@@ -9567,7 +9581,7 @@ LoadItemGFXIntoWRAM4BPPBuffer:
     
     LDY.b #$60
     
-    JSL Decomp_spr_low
+    JSL.l Decomp_spr_low
     
     REP #$30
     
@@ -9653,16 +9667,13 @@ DecompSwordGfx:
 ; ==============================================================================
 
 ; $005300-$005307 DATA
-Pool_DecompressShieldGraphics:
+DecompressShieldGraphics_offset:
 {
-    .offset
     dw $0660 ; None
     dw $0660 ; Fighter shield
     dw $06F0 ; Fire shield
     dw $0900 ; Mirror shield
 }
-
-; ==============================================================================
 
 ; $005308-$005336 LONG JUMP LOCATION
 DecompShieldGfx:
@@ -9683,7 +9694,7 @@ DecompShieldGfx:
     LDA.l $7EF35A : ASL A : TAY
     
     ; Load the index into $7E9000 to store the graphics to.
-    LDA.b $00 : ADC.w Pool_DecompressShieldGraphics_offset, Y
+    LDA.b $00 : ADC.w .offset, Y
 
     REP #$10
     
@@ -9863,9 +9874,8 @@ LoadItemGFX_Auxiliary:
 ; ==============================================================================
 
 ; $005407-$005422 DATA
-Pool_LoadFollowerGraphics:
+LoadFollowerGraphics_gfx_offset:
 {
-    .gfx_offset
     dw $0000 ; 0x00 - No follower
     dw $0600 ; 0x01 - Zelda
     dw $0300 ; 0x02 - Old man that stops following you
@@ -9881,8 +9891,6 @@ Pool_LoadFollowerGraphics:
     dw $0600 ; 0x0C - Purple chest
     dw $0900 ; 0x0D - Super bomb
 }
-
-; ==============================================================================
 
 ; $005423-$005468 LONG JUMP LOCATION
 Tagalong_LoadGfx:
@@ -9920,7 +9928,7 @@ Tagalong_LoadGfx:
     
     LDA.l $7EF3CC : AND.w #$00FF : ASL A : TAX
     
-    LDA.b $00 : CLC : ADC.l Pool_LoadFollowerGraphics_gfx_offset, X
+    LDA.b $00 : CLC : ADC.l .gfx_offset, X
     
     LDY.w #$0020
     LDX.w #$2940
@@ -9937,7 +9945,7 @@ Tagalong_LoadGfx:
 ; ==============================================================================
 
 ; $005469-$0054DA DATA
-Pool_GetAnimatedSpriteTile:
+GetAnimatedSpriteTile_offsets:
 {
     dw $09C0, $0030, $0060, $0090, $00C0, $0300, $0318, $0330
     dw $0348, $0360, $0378, $0390, $0930, $03F0, $0420, $0450
@@ -10010,7 +10018,7 @@ GetAnimatedSpriteTile:
     
     ; Time to determine where in the decompressed buffer the graphics will
     ; be copied from.
-    LDA.b $00 : ADC.w Pool_GetAnimatedSpriteTile, X
+    LDA.b $00 : ADC.w .offsets, X
     
     REP #$10
     
@@ -10181,14 +10189,13 @@ Do3To4LowAnimated:
 
 ; ==============================================================================
 
+; Inputs:
+; A - local portion of the pointer to the data to be converted.
+; X - offset into the animated tile buffer of WRAM (0x7E9000).
+; Y - Number of tiles to convert.
 ; $005619-$00566D LOCAL JUMP LOCATION
 Do3To4HighAnimated:
 {
-    ; Inputs:
-    ; A - local portion of the pointer to the data to be converted.
-    ; X - offset into the animated tile buffer of WRAM (0x7E9000).
-    ; Y - Number of tiles to convert.
-    
     LDY.w #$0006
 
     ; $00561C Alternate Entry Point.
@@ -10207,10 +10214,12 @@ Do3To4HighAnimated:
 
         .writeTile
 
-            LDA [$00] : STA.l $7E9000, X : XBA : ORA [$00] : AND.w #$00FF : STA.b $08 
+            LDA [$00] : STA.l $7E9000, X
+            XBA : ORA [$00] : AND.w #$00FF : STA.b $08 
             INC.b $00 : INC.b $00
             
-            LDA [$03] : AND.w #$00FF : STA.b $BD : ORA.b $08 : XBA : ORA.b $BD : STA.l $7E9010, X
+            LDA [$03] : AND.w #$00FF : STA.b $BD
+            ORA.b $08 : XBA : ORA.b $BD : STA.l $7E9010, X
             INC.b $03 : INX #2 
         DEY : BPL .writeTile
         
@@ -10487,15 +10496,14 @@ ReloadPreviouslyLoadedSheets:
 
 ; ==============================================================================
 
+; This routine decompresses graphics packs 0x67 and 0x68.
+; Now the funny thing is that these are picture graphics for the intro
+; (module 0x14).
+; I at first thought they were the game's text.
+; Graphics pack 0x68 is EMPTY, by the way.
 ; $00580E-$005836 LONG JUMP LOCATION
 Attract_DecompressStoryGfx:
 {
-    ; This routine decompresses graphics packs 0x67 and 0x68.
-    ; Now the funny thing is that these are picture graphics for the intro
-    ; (module 0x14).
-    ; I at first thought they were the game's text.
-    ; Graphics pack 0x68 is EMPTY, by the way.
-    
     PHB : PHK : PLB
     
     STZ.b $00
@@ -10617,7 +10625,7 @@ AnimateMirrorWarp_LoadPyramidIfAga:
     .ready
 
     ; Loads overworld exit data and animated tiles. Initialization, mostly.
-    JSL SetTargetOverworldWarpToPyramid
+    JSL.l SetTargetOverworldWarpToPyramid
     
     RTL
 }
@@ -10628,7 +10636,7 @@ AnimateMirrorWarp_LoadPyramidIfAga:
 ; $0058A5-$0058B2 JUMP LOCATION (LONG)
 AnimateMirrorWarp_TriggerOverlayA_2:
 {
-    JSL MirrorWarp_HandleCastlePyramidSubscreen
+    JSL.l MirrorWarp_HandleCastlePyramidSubscreen
     
     DEC.b $11
     
@@ -10642,7 +10650,7 @@ AnimateMirrorWarp_TriggerOverlayA_2:
 ; $0058B3-$0058BA JUMP LOCATION (LONG)
 AnimateMirrorWarp_DrawDestinationScreen:
 {
-    JSL Overworld_DrawScreenAtCurrentMirrorPosition
+    JSL.l Overworld_DrawScreenAtCurrentMirrorPosition
     
     INC.w $0710
     
@@ -10654,7 +10662,7 @@ AnimateMirrorWarp_DrawDestinationScreen:
 ; $0058BB-$0058C6 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DoSpritesPalettes:
 {
-    JSL MirrorWarp_LoadSpritesAndColors
+    JSL.l MirrorWarp_LoadSpritesAndColors
     
     LDA.b #$0C : STA.b $17 : STA.w $0710
     
@@ -10701,7 +10709,7 @@ AnimateMirrorWarp_DecompressAnimatedTiles:
     
     .deathMountain
     
-    JSL DecompOwAnimatedTiles
+    JSL.l DecompOwAnimatedTiles
         
     RTL
 }
@@ -11161,7 +11169,7 @@ AnimateMirrorWarp_DecompressSpritesB:
     
     SEP #$30
     
-    JSL HandleFollowersAfterMirroring
+    JSL.l HandleFollowersAfterMirroring
     
     RTL
 }
@@ -11583,16 +11591,20 @@ Do3To4High16Bit:
 
         .writeTile
 
-            LDA [$00] : STA.l $7F0000, X : XBA : ORA [$00] : AND.w #$00FF : STA.b $08
+            LDA [$00] : STA.l $7F0000, X
+            XBA : ORA [$00] : AND.w #$00FF : STA.b $08
             INC.b $00 : INC.b $00
             
-            LDA [$03] : AND.w #$00FF : STA.b $0A : ORA.b $08 : XBA : ORA.b $0A : STA.l $7F0010, X
+            LDA [$03] : AND.w #$00FF : STA.b $0A
+            ORA.b $08 : XBA : ORA.b $0A : STA.l $7F0010, X
             INC.b $03 : INX #2
             
-            LDA [$00] : STA.l $7F0000, X : XBA : ORA [$00] : AND.w #$00FF : STA.b $08
+            LDA [$00] : STA.l $7F0000, X
+            XBA : ORA [$00] : AND.w #$00FF : STA.b $08
             INC.b $00 : INC.b $00
             
-            LDA [$03] : AND.w #$00FF : STA.b $0A : ORA.b $08 : XBA : ORA.b $0A : STA.l $7F0010, X
+            LDA [$03] : AND.w #$00FF : STA.b $0A
+            ORA.b $08 : XBA : ORA.b $0A : STA.l $7F0010, X
             INC.b $03 : INX #2
         DEY : BPL .writeTile
         
@@ -11606,22 +11618,21 @@ Do3To4High16Bit:
 
 ; ==============================================================================
 
+; Very similar to Do3To4Low, except that the routine is completely
+; standalone, and remains in 16-bit until after the routine is finished as
+; well. (There are other differences).
+; Inputs:
+; A - Used to set the low 2 bytes of $00[3] - source address for already
+;     decompressed data.
+; Y - number of 3bpp tiles to convert to 4bpp (using only the lower 8
+;     colors of the palette).
+; X - a starting offset into $7F0000.
 ; TODO: Come up with a better lable. The main difference in this function as
 ; opposed to the Non-16bit version is that it stores to a buffer instead of
 ; directly into VRAM.
 ; $005FB8-$006030 LOCAL JUMP LOCATION
 Do3To4Low16Bit:
 {
-    ; Very similar to Do3To4Low, except that the routine is completely
-    ; standalone, and remains in 16-bit until after the routine is finished as
-    ; well. (There are other differences).
-    ; Inputs:
-    ; A - Used to set the low 2 bytes of $00[3] - source address for already
-    ;     decompressed data.
-    ; Y - number of 3bpp tiles to convert to 4bpp (using only the lower 8
-    ;     colors of the palette).
-    ; X - a starting offset into $7F0000.
-    
     STY.b $0C
 
     .nextTile
@@ -11793,22 +11804,21 @@ SheetsTable_0AA1:
 
 ; ==============================================================================
 
+; Summary of this routine:
+; Uses $0AA4 to load the sprite graphics for misc. items.
+; Uses $0AA3 to load sprite graphics.
 ; ZS overwrites part of this function. - ZS Custom Overworld
 ; $00619B-$0062CF LONG JUMP LOCATION
 InitTilesets:
 {
-    ; Summary of this routine:
-    ; Uses $0AA4 to load the sprite graphics for misc. items.
-    ; Uses $0AA3 to load sprite graphics.
-    
     PHB : PHK : PLB
     
     ; Increment target VRAM address after each write to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; Target address in VRAM is $4400 (word).
-    STZ.w $2116
-    LDA.b #$44 : STA.w $2117
+    STZ.w SNES.VRAMAddrReadWriteLow
+    LDA.b #$44 : STA.w SNES.VRAMAddrReadWriteHigh
     
     JSR.w LoadCommonSprGfx
     
@@ -11877,7 +11887,7 @@ InitTilesets:
     
     ; This is the address for BG0 and BG1's graphics (Not tilemap, actual
     ; graphics).
-    LDA.w #$2000 : STA.w $2116
+    LDA.w #$2000 : STA.w SNES.VRAMAddrReadWriteLow
 
     ; ZS starts writing here.
     ; $006221 - ZS Custom Overworld
@@ -11991,7 +12001,7 @@ LoadDefaultGfx:
     PHB : PHK : PLB
     
     ; Increment VRAM target address when data is written to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; The long address at $00[3] is $10F000 = $87000 in ROM.
     LDA.w GFXSheetPointers_sprite_bank : STA.b $02
@@ -12001,7 +12011,7 @@ LoadDefaultGfx:
     REP #$20
 
     ; Initial target VRAM address is $4000 (word).
-    LDA.w #$4000 : STA.w $2116
+    LDA.w #$4000 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; All in all, this loop writes 0x1000 bytes in total, or 0x800 words.
     LDY.b #$40
@@ -12017,7 +12027,7 @@ LoadDefaultGfx:
             
             ; The values will be written in reverse order from how they are in
             ; memory.
-            LDA [$00] : STA.w $2118 : XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
+            LDA [$00] : STA.w SNES.VRAMDataWriteLow : XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
             
             INC.b $00 : INC.b $00
         DEX #2 : BPL .writeLowBitplanes
@@ -12026,7 +12036,7 @@ LoadDefaultGfx:
 
         .writeHighBitplanes
 
-            LDA [$00] : AND.w #$00FF : STA.b $BD : ORA.b $BF, X : XBA : ORA.b $BD : STA.w $2118
+            LDA [$00] : AND.w #$00FF : STA.b $BD : ORA.b $BF, X : XBA : ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             INC.b $00
         DEX #2 : BPL .writeHighBitplanes
     DEY : BNE .nextTile
@@ -12034,7 +12044,7 @@ LoadDefaultGfx:
     ; Now that Link's graphics are in VRAM we'll next load the tiles for the
     ; HUD.
     
-    LDA.w #$7000 : STA.w $2116
+    LDA.w #$7000 : STA.w SNES.VRAMAddrReadWriteLow
     
     SEP #$20
     
@@ -12078,10 +12088,10 @@ DecompAndDirectCopy:
     .copyToVram
 
         ; Write the graphics we just decompressed into VRAM.
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
     DEX : BPL .copyToVram
     
     SEP #$30
@@ -12097,11 +12107,11 @@ Attract_LoadBG3GFX:
     PHB : PHK : PLB
     
     ; Increment VRAM target address on writes to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; VRAM target address is $7800 (word).
-                 STZ.w $2116
-    LDA.b #$78 : STA.w $2117
+                 STZ.w SNES.VRAMAddrReadWriteLow
+    LDA.b #$78 : STA.w SNES.VRAMAddrReadWriteHigh
     
     LDY.b #$67
     
@@ -12120,10 +12130,11 @@ Graphics_LoadCommonSprLong:
     PHB : PHK : PLB
     
     ; Writes to $2119 increment the VRAM target address.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; Set initial VRAM target address to 0x4400 (word).
-    STZ.w $2116 : LDA.b #$44 : STA.w $2117
+    STZ.w SNES.VRAMAddrReadWriteLow
+    LDA.b #$44 : STA.w SNES.VRAMAddrReadWriteHigh
     
     JSR.w LoadCommonSprGfx
     
@@ -12146,10 +12157,10 @@ CopyMode7Chr:
     LDA.b #$18 : STA.b $02
     
     ; Update VRAM address after writes to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; VRAM target address = $0000 (word).
-    STZ.w $2116 : STZ.w $2117
+    STZ.w SNES.VRAMAddrReadWriteLow : STZ.w SNES.VRAMAddrReadWriteHigh
     
     REP #$10
     
@@ -12162,10 +12173,10 @@ CopyMode7Chr:
     ; being written to.
     .writeChr
         
-        LDA [$00], Y : STA.w $2119 : INY
-        LDA [$00], Y : STA.w $2119 : INY
-        LDA [$00], Y : STA.w $2119 : INY
-        LDA [$00], Y : STA.w $2119 : INY
+        LDA [$00], Y : STA.w SNES.VRAMDataWriteHigh : INY
+        LDA [$00], Y : STA.w SNES.VRAMDataWriteHigh : INY
+        LDA [$00], Y : STA.w SNES.VRAMDataWriteHigh : INY
+        LDA [$00], Y : STA.w SNES.VRAMDataWriteHigh : INY
     CPY.w #$4000 : BNE .writeChr
     
     SEP #$10
@@ -12254,7 +12265,7 @@ Graphics_LoadChrHalfSlot:
             
             LDA.b #$02 : STA.w $0AA9
             
-            JSL Palette_MiscSprite
+            JSL.l Palette_MiscSprite
             
             ; Signal to update CGRAM this frame.
             INC.b $15
@@ -12265,7 +12276,7 @@ Graphics_LoadChrHalfSlot:
 
         LDA.b #$02 : STA.w $0AA9
         
-        JSL Palette_MiscSpr.justSP6
+        JSL.l Palette_MiscSpr_justSP6
         
         ; Signal to update CGRAM this frame.
         INC.b $15
@@ -12343,7 +12354,8 @@ Graphics_LoadChrHalfSlot:
 
         .nextBitplane
 
-            LDA [$00] : STA.l $7F1000, X : XBA : ORA [$00] : AND.w #$00FF : STA.b $08 
+            LDA [$00] : STA.l $7F1000, X
+            XBA : ORA [$00] : AND.w #$00FF : STA.b $08 
             
             INC.b $00 : INC.b $00 : BNE .notAtBankEdge2
                 LDA.b $03 : INC A : STA.b $00
@@ -12354,7 +12366,8 @@ Graphics_LoadChrHalfSlot:
 
             .notAtBankEdge2
 
-            LDA [$03] : AND.w #$00FF : STA.b $0A : ORA.b $08 : XBA : ORA.b $0A : STA.l $7F1010, X
+            LDA [$03] : AND.w #$00FF : STA.b $0A
+            ORA.b $08 : XBA : ORA.b $0A : STA.l $7F1010, X
             
             INC.b $03 : BNE .notAtBankEdge3
                 LDA.w #$8000 : STA.b $00
@@ -12385,15 +12398,15 @@ Graphics_LoadChrHalfSlot:
 LoadSelectScreenGfx:
 {
     ; The base address for OAM data will be (2 << 14) = $8000 (byte) in VRAM.
-    ; ^ unsure of this, anomie's document seems to contradict itself.
-    LDA.b #$02 : STA.w $2101
+    ; TOOD: ^ Unsure of this, anomie's document seems to contradict itself.
+    LDA.b #$02 : STA.w SNES.OAMSizeAndDataDes
     
     ; The address in VRAM increments when $2119 is written.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; The intitial target address in VRAM is $5000 (word).
-    STZ.w $2116
-    LDA.b #$50 : STA.w $2117
+    STZ.w SNES.VRAMAddrReadWriteLow
+    LDA.b #$50 : STA.w SNES.VRAMAddrReadWriteHigh
     
     PHB : PHK : PLB     
     
@@ -12432,7 +12445,7 @@ LoadSelectScreenGfx:
     REP #$30
     
     ; Target VRAM address is $7000 (word).
-    LDA.w #$7000 : STA.w $2116
+    LDA.w #$7000 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; Set source data address to $0E8000.
     LDA.w #$8000 : STA.b $00
@@ -12442,7 +12455,7 @@ LoadSelectScreenGfx:
     ; Writes 0x800 words to VRAM (0x1000 bytes).
     .copyFont
 
-        LDA [$00] : STA.w $2118
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow
         
         INC.b $00 : INC.b $00
     DEX : BPL .copyFont
@@ -12466,7 +12479,7 @@ LoadSelectScreenGfx:
     ; Writes 0x300 words to VRAM (0x600 bytes).
     .copyOther2bpp
 
-        LDA [$00] : STA.w $2118
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow
         
         INC.b $00 : INC.b $00
     DEX : BPL .copyOther2bpp
@@ -12486,10 +12499,10 @@ CopyFontToVram:
     ; Copies font graphics to VRAM (for BG3).
     
     ; Set name base table to VRAM $4000 (word).
-    LDA.b #$02 : STA.w $2101
+    LDA.b #$02 : STA.w SNES.OAMSizeAndDataDes
     
     ; Increment on writes to $2119.
-    LDA.b #$80 : STA.w $2115
+    LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     ; Set bank of the source address (see below).
     LDA.b #$0E : STA.b $02
@@ -12497,7 +12510,7 @@ CopyFontToVram:
     REP #$30
     
     ; VRAM target address is $7000 (word).
-    LDA.w #$7000 : STA.w $2116
+    LDA.w #$7000 : STA.w SNES.VRAMAddrReadWriteLow
     
     ; $00[3] = $0E8000 (offset for the font data).
     LDA.w #$8000 : STA.b $00
@@ -12508,7 +12521,7 @@ CopyFontToVram:
     .nextWord
 
         ; Read a word from the font data.
-        LDA [$00] : STA.w $2118
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow
         
         ; Increment source address by 2.
         INC.b $00 : INC.b $00
@@ -12521,13 +12534,12 @@ CopyFontToVram:
 
 ; ==============================================================================
 
+; This function takes as its parameters:
+; $01[1] - the high byte of the decompression target address.
+; Y - the sprite graphics pack to decrompress.
 ; $006583-$006608 LOCAL / EXTERN_BRANCH
 LoadSprGfx:
 {
-    ; This function takes as its parameters:
-    ; $01[1] - the high byte of the decompression target address.
-    ; Y - the sprite graphics pack to decrompress.
-    
     STZ.b $00
     STX.b $01
     
@@ -12571,10 +12583,12 @@ Do3To4High:
 
         .writeLowBitplanes
 
-            LDA [$00] : STA.w $2118 : XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
+            LDA [$00] : STA.w SNES.VRAMDataWriteLow
+            XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
             INC.b $00 : INC.b $00 : DEX #2
             
-            LDA [$00] : STA.w $2118 : XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
+            LDA [$00] : STA.w SNES.VRAMDataWriteLow
+            XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
             INC.b $00 : INC.b $00
         DEX #2 : BPL .writeLowBitplanes
         
@@ -12582,10 +12596,12 @@ Do3To4High:
 
         .writeHighBitplanes
             
-            LDA [$00] : AND.w #$00FF : STA.b $BD : ORA.b $BF, X : XBA : ORA.b $BD : STA.w $2118
+            LDA [$00] : AND.w #$00FF : STA.b $BD
+            ORA.b $BF, X : XBA : ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             INC.b $00 : DEX #2
             
-            LDA [$00] : AND.w #$00FF : STA.b $BD : ORA.b $BF, X : XBA : ORA.b $BD : STA.w $2118
+            LDA [$00] : AND.w #$00FF : STA.b $BD
+            ORA.b $BF, X : XBA : ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             INC.b $00
         DEX #2 : BPL .writeHighBitplanes
     DEY : BPL .nextTile
@@ -12597,12 +12613,11 @@ Do3To4High:
 
 ; ==============================================================================
 
+; Inputs:
+; $0F index of the graphics pack slot we're currently working on.
 ; $006609-$0066B6 LOCAL JUMP LOCATION
 LoadBgGFX:
 {
-    ; Inputs:
-    ; $0F index of the graphics pack slot we're currently working on.
-    
     ; Target decompression address is $7F4000.
     LDA.b #$7F
     LDX.b #$40
@@ -12636,41 +12651,41 @@ LoadBgGFX:
     .typicalGfxPack
 
     LDX.b $0F : CPX.b #$04 : BCS .high
-    
-    ; There should be a JMP to Do3To4Low here...
+        ; There should be a JMP to Do3To4Low here...
+
+        ; Bleeds into the next function.
 }
   
 ; ==============================================================================
   
+; Takes as input:
+; Y - number of tiles to convert from 3bpp to 4bpp.
+; $00[3] - source address of the already decompressed graphics.
 ; $00663C-$0066B6 JUMP LOCATION
 Do3To4Low:
 {
-    ; Takes as input:
-    ; Y - number of tiles to convert from 3bpp to 4bpp.
-    ; $00[3] - source address of the already decompressed graphics.
-
     .nextTile
 
         ; This whole routine writes $1000 or $800 bytes to VRAM.
         ; Do3To4Low( )
         
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
-        LDA [$00] : STA.w $2118 : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
+        LDA [$00] : STA.w SNES.VRAMDataWriteLow : INC.b $00 : INC.b $00
         
         LDX.b #$01
 
         .writeHighBitplanes
 
-            LDA [$00] : AND.w #$00FF : STA.w $2118 : INC.b $00
-            LDA [$00] : AND.w #$00FF : STA.w $2118 : INC.b $00
-            LDA [$00] : AND.w #$00FF : STA.w $2118 : INC.b $00
-            LDA [$00] : AND.w #$00FF : STA.w $2118 : INC.b $00
+            LDA [$00] : AND.w #$00FF : STA.w SNES.VRAMDataWriteLow : INC.b $00
+            LDA [$00] : AND.w #$00FF : STA.w SNES.VRAMDataWriteLow : INC.b $00
+            LDA [$00] : AND.w #$00FF : STA.w SNES.VRAMDataWriteLow : INC.b $00
+            LDA [$00] : AND.w #$00FF : STA.w SNES.VRAMDataWriteLow : INC.b $00
         DEX : BPL .writeHighBitplanes
     ; Loops variable number of times, usually $80 or $40.
     DEY : BPL .nextTile
@@ -12703,10 +12718,12 @@ LoadCommonSprGfx:
 
         .writeLowBitplanes
 
-            LDA [$00] : STA.w $2118 : XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
+            LDA [$00] : STA.w SNES.VRAMDataWriteLow
+            XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
             INC.b $00 : INC.b $00 : DEX #2
             
-            LDA [$00] : STA.w $2118 : XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
+            LDA [$00] : STA.w SNES.VRAMDataWriteLow
+            XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
             INC.b $00 : INC.b $00
         DEX #2 : BPL .writeLowBitplanes
         
@@ -12714,10 +12731,12 @@ LoadCommonSprGfx:
 
         .writeHighBitplanes
 
-            LDA [$00] : AND.w #$00FF : STA.b $BD : ORA.b $BF, X : XBA : ORA.b $BD : STA.w $2118
+            LDA [$00] : AND.w #$00FF : STA.b $BD
+            ORA.b $BF, X : XBA : ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             INC.b $00 : DEX #2
             
-            LDA [$00] : AND.w #$00FF : STA.b $BD : ORA.b $BF, X : XBA : ORA.b $BD : STA.w $2118
+            LDA [$00] : AND.w #$00FF : STA.b $BD
+            ORA.b $BF, X : XBA : ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             INC.b $00
         DEX #2 : BPL .writeHighBitplanes
     DEY : BNE .nextTile
@@ -12763,11 +12782,10 @@ LoadCommonSprGfx:
 
 ; ==============================================================================
 
+; The infamous graphics decompression routine.
 ; $00675C-$006851 LOCAL JUMP LOCATION
 Decomp:
 {
-    ; The infamous graphics decompression routine.
-
     .spr_high
 
     ; Sprite (type 1) decompression routine.
@@ -12994,7 +13012,8 @@ Decomp:
     LDX.b $C8 : INX : BNE .no_bank_wrap
         LDX.w #$8000 ; LoROM banks range from 0x8000 to 0xFFFF.
         
-        INC.b $CA ; Roll the bank number because we've gone past the end of the last bank.
+        ; Roll the bank number because we've gone past the end of the last bank.
+        INC.b $CA
     
     .no_bank_wrap
     
@@ -13055,11 +13074,10 @@ PaletteFilterColorMasks:
 
 ; ==============================================================================
 
+; Color filtering routine.
 ; $00690C-$0069E3 LONG JUMP LOCATION
 PaletteFilter:
 {
-    ; Color filtering routine.
-    
     !color      = $04
     !bitFilter  = $0C
     
@@ -13136,7 +13154,8 @@ PaletteFilter:
     PLB
     
     LDA.l $7EC009 : BNE .lightening
-        LDA.l $7EC007 : INC A : STA.l $7EC007 : CMP.l $7EC00B : BNE .stillFiltering
+        LDA.l $7EC007 : INC A : STA.l $7EC007
+        CMP.l $7EC00B : BNE .stillFiltering
             .switchDirection
 
             ; We're going to switch the direction of the lightening / darkening
@@ -13177,15 +13196,14 @@ PaletteFilter:
 
 ; ==============================================================================
 
+; Performs color filtering on the palette data given a starting color, and
+; counts up to color 0x1B0, skips sprite palette 5, then filters sprite
+; palette 6, and skips sprite palette 7.
+; Inputs:
+; X - the starting index of the color to work with.
 ; $0069E4-$006A48 LOCAL JUMP LOCATION
 FilterColors:
 {
-    ; Performs color filtering on the palette data given a starting color, and
-    ; counts up to color 0x1B0, skips sprite palette 5, then filters sprite
-    ; palette 6, and skips sprite palette 7.
-    ; Inputs:
-    ; X - the starting index of the color to work with.
-
     .nextColor
 
         LDA.l $7EC500, X : STA !color
@@ -13233,15 +13251,14 @@ FilterColors:
 
 ; ==============================================================================
 
+; This routine and its companion routine below don't seem to be used in the
+; game at all but they could potentially be used, they are finished
+; products, it seems the key difference is that this routine doesn't skip
+; SP5 and SP7, like the ones above do. This could be a "first draft" of
+; what the final routine was originally designed to do.
 ; $006A49-$006AB5 LONG JUMP LOCATION
 PaletteFilterUnused:
 {
-    ; This routine and its companion routine below don't seem to be used in the
-    ; game at all but they could potentially be used, they are finished
-    ; products, it seems the key difference is that this routine doesn't skip
-    ; SP5 and SP7, like the ones above do. This could be a "first draft" of
-    ; what the final routine was originally designed to do.
-    
     REP #$30
     
     LDX.w #$E88C
@@ -13273,7 +13290,8 @@ PaletteFilterUnused:
     PLB
     
     LDA.l $7EC009 : BNE .lightening
-        LDA.l $7EC007 : INC A : STA.l $7EC007 : CMP.l $7EC00B : BNE .stillFiltering
+        LDA.l $7EC007 : INC A : STA.l $7EC007
+        CMP.l $7EC00B : BNE .stillFiltering
             .switchDirection
 
             LDA.l $7EC009 : EOR.w #$0002 : STA.l $7EC009
@@ -13307,12 +13325,11 @@ PaletteFilterUnused:
 
 ; ==============================================================================
 
+; Similar to FilterColors, but it has a variable last color. Also doesn't
+; skip SP5 or SP7.
 ; $006ACE-$006B28 LOCAL JUMP LOCATION
 FilterColorsEndpoint:
 {
-    ; Similar to FilterColors, but it has a variable last color. Also doesn't
-    ; skip SP5 or SP7.
-    
     !lastColor = $0E
     
     STA !lastColor
@@ -13359,12 +13376,11 @@ FilterColorsEndpoint:
 
 ; ==============================================================================
 
+; Zeroes out BP1 (first half) in the CGRAM buffer and sets $15 high
+; so the NMI routine will update CGRAM.
 ; $006B29-$006B5D LONG JUMP LOCATION
 Attract_ResetHudPalettes_4_and_5:
 {
-    ; Zeroes out BP1 (first half) in the CGRAM buffer and sets $15 high
-    ; so the NMI routine will update CGRAM.
-    
     REP #$20
     
     LDA.w #$0000
@@ -13559,7 +13575,7 @@ Palette_Filter_SP5F:
         LDX.w #$01A0
         LDA.w #$01B0
         
-        JMP PaletteFilterHistory.doFiltering
+        JMP PaletteFilterHistory_doFiltering
 }
 
 ; ==============================================================================
@@ -13605,7 +13621,7 @@ KholdstareShell_PaletteFiltering:
 {
     LDA.b $B0 : BEQ .initialize
     
-    JSL .do_filtering
+    JSL.l .do_filtering
     
     LDA.l $7EC007 : BEQ .disable_subscreen
 
@@ -13638,7 +13654,7 @@ KholdstareShell_PaletteFiltering:
         LDX.w #$0080
         LDA.w #$0090
         
-        JMP PaletteFilterHistory.doFiltering
+        JMP PaletteFilterHistory_doFiltering
 }
 
 ; ==============================================================================
@@ -13652,15 +13668,13 @@ Pool_PaletteFilter_Agahnim:
 
 ; ==============================================================================
 
+; Input:
+; X - index of the sprite to perform filtering for.
+; Does palette filtering for Agahnim sprite and sprites when there's 2
+; or three of him.
 ; $006CCA-$006D18 LONG JUMP LOCATION
 PaletteFilter_Agahnim:
 {
-    ; Input:
-    ; X - index of the sprite to perform filtering for. How this works...
-    ; I don't even...
-    
-    ; Does palette filtering for Agahnim sprite and sprites when there's 2
-    ; or three of him.
     PHX
     
     TXA : ASL A : TAX
@@ -13744,7 +13758,8 @@ AgahnimWarpShadowFilter_filter_one:
     
     PLB
     
-    LDA.l $7EC007 : INC A : STA.l $7EC007 : CMP.w #$001F : BNE .notDoneFiltering
+    LDA.l $7EC007 : INC A : STA.l $7EC007
+    CMP.w #$001F : BNE .notDoneFiltering
         LDA.w #$0000 : STA.l $7EC007
         
         ; Change the direction of the filtering (lightening vs. darkening).
@@ -13823,12 +13838,11 @@ PaletteFilter_Restore:
 
 ; ==============================================================================
 
+; Gradually changes the colors in the main buffer so that they match those
+; in the auxiliary buffer by *increasing* the color values.
 ; $006DCA-$006E20 LOCAL JUMP LOCATION
 RestorePaletteAdditive:
 {
-    ; Gradually changes the colors in the main buffer so that they match those
-    ; in the auxiliary buffer by *increasing* the color values.
-    
     STA.b $0E
 
     .nextColor
@@ -13862,12 +13876,11 @@ RestorePaletteAdditive:
 
 ; ==============================================================================
 
+; Gradually changes the colors in the main buffer so that they match those
+; in the auxiliary buffer by *decreasing* the color values.
 ; $006E21-$006E77 JUMP LOCATION
 RestorePaletteSubtractive:
 {
-    ; Gradually changes the colors in the main buffer so that they match those
-    ; in the auxiliary buffer by *decreasing* the color values.
-
     STA.b $0E
 
     .nextColor
@@ -13946,13 +13959,12 @@ Palette_InitWhiteFilter:
 
 ; ==============================================================================
 
+; Seems to be used exclusively during the mirror sequence to gradually
+; decompress graphics.
 ; $006EE0-$006EE6 BRANCH LOCATION (LONG)
 MirrorGFXDecompress:
 {
-    ; Seems to be used exclusively during the mirror sequence to gradually
-    ; decompress graphics.
-    
-    JSL AnimateMirrorWarp
+    JSL.l AnimateMirrorWarp
 
     ; $006EE4 ALTERNATE ENTRY POINT
     .return
@@ -14035,13 +14047,13 @@ PaletteFilter_BlindingWhite:
             SEP #$30
                 
             LDA.b $10 : CMP.b #$15 : BNE .epsilon
-                STZ.w $420C : STZ.b $9B
+                STZ.w SNES.HDMAChannelEnable : STZ.b $9B
                     
                 REP #$20
                     
                 LDX.b #$3E : LDA.w #$0778
                     
-                JSL Mirror_InitHdmaSettings_init_hdma_table
+                JSL.l Mirror_InitHdmaSettings_init_hdma_table
                     
                 INC.b $15
 
@@ -14067,13 +14079,12 @@ PaletteFilter_BlindingWhiteTriforce:
 
 ; ==============================================================================
 
+; Causes all the colors in the palette to saturate their blue component
+; (saturated = 0x1F). This occurs first when you slip into a whirlpool.
+; The routine below eliminates the nonblue components.
 ; $006F97-$00700B LONG JUMP LOCATION
 WhirlpoolSaturateBlue:
 {
-    ; Causes all the colors in the palette to saturate their blue component
-    ; (saturated = 0x1F). This occurs first when you slip into a whirlpool.
-    ; The routine below eliminates the nonblue components.
-    
     LDA.b $1A : LSR A : BCC .skipFrame
         REP #$30
         
@@ -14129,12 +14140,11 @@ WhirlpoolSaturateBlue:
 
 ; ==============================================================================
 
+; Cycles through all colors in the palette and decrements the red and green
+; components of each color by one each frame.
 ; $00700C-$007049 LONG JUMP LOCATION
 WhirlpoolIsolateBlue:
 {
-    ; Cycles through all colors in the palette and decrements the red and green
-    ; components of each color by one each frame.
-    
     REP #$30
     
     PHB : PHK : PLB
@@ -14167,12 +14177,10 @@ WhirlpoolIsolateBlue:
 
 ; ==============================================================================
 
+; Restores the blue components in the palette colors to their original states.
 ; $00704A-$0070C6 LONG JUMP LOCATION
 WhirlpoolRestoreBlue:
 {
-    ; Restores the blue components in the palette colors to their original
-    ; states.
-    
     LDA.b $1A : LSR A : BCC .skipFrame
         REP #$30
         
@@ -14225,12 +14233,11 @@ WhirlpoolRestoreBlue:
 
 ; ==============================================================================
 
+; Restores the red and green component levels of the palette's colors
+; to their original levels from before we entered the whirlpool.
 ; $0070C7-$007131 LONG JUMP LOCATION
 WhirlpoolRestoreRedGreen:
 {
-    ; Restores the red and green component levels of the palette's colors
-    ; to their original levels from before we entered the whirlpool.
-    
     REP #$30
     
     PHB : PHK : PLB
@@ -14339,17 +14346,16 @@ PaletteFilter_Restore_Strictly_Bg_Additive:
     
     LDA.l $7EC007 : INC A : STA.l $7EC007
     
-    BRA PaletteFilter_Restore_Strictly_Bg_Subtractive.not_finished
+    BRA PaletteFilter_Restore_Strictly_Bg_Subtractive_not_finished
 }
 
 ; ==============================================================================
 
+; Increases the red component in the sprite palette of Trinexx, or one of
+; his parts.
 ; $007183-$0071CE LONG JUMP LOCATION
 PaletteFilter_IncreaseTrinexxRed:
 {
-    ; Increases the red component in the sprite palette of Trinexx, or one of
-    ; his parts.
-
     LDA.w $04BE : BNE .countdown
         REP #$20
         
@@ -14368,6 +14374,7 @@ PaletteFilter_IncreaseTrinexxRed:
         INX #2 : CPX.b #$0E : BNE .nextColor
 
         ; $0071B1 ALTERNATE ENTRY POINT
+        TrinexxFilterRed_continue:
 
         SEP #$20
         
@@ -14422,12 +14429,11 @@ PaletteFilter_RestoreTrinexxRed:
 
 ; ==============================================================================
 
+; Increases the blue component of trinexx or one of his parts by one
+; each time the routine is called.
 ; $007207-$007252 LONG JUMP LOCATION
 PaletteFilter_IncreaseTrinexxBlue:
 {
-    ; Increases the blue component of trinexx or one of his parts by one
-    ; each time the routine is called.
-    
     LDA.w $04BF : BNE .countdown
         REP #$20
         
@@ -14446,6 +14452,7 @@ PaletteFilter_IncreaseTrinexxBlue:
         INX #2 : CPX.b #$0E : BNE .nextColor
 
         ; $007235 ALTERNATE ENTRY POINT
+        TrinexxFilterBlue_continue:
 
         SEP #$20
         
@@ -14523,20 +14530,21 @@ Spotlight:
     STY.w $067E 
     STX.w $067C
     
-    STZ.w $420C
+    STZ.w SNES.HDMAChannelEnable
     
     ; Target dma register is $2126 (WH0), Window 1 Left Position. $2127 (WH1)
     ; will also be written because of the mode. Indirect HDMA is being used as
     ; well. transfer mode is write two registers once, ($2126 / $2127).
-    LDX.w #$2641 : STX.w $4360 : STX.w $4370
+    LDX.w #$2641
+    STX.w DMA.6_TransferParameters : STX.w DMA.7_TransferParameters
     
     ; The source address of the indirect hdma table.
-    LDX.w #.hdma_table : STX.w $4362
-                         STX.w $4372
+    LDX.w #.hdma_table : STX.w DMA.6_SourceAddrOffsetLow
+                         STX.w DMA.7_SourceAddrOffsetLow
     
     ; Source bank is bank $00.
-    LDA.b #$00 : STA.w $4364 : STA.w $4374
-    LDA.b #$00 : STA.w $4367 : STA.w $4377
+    LDA.b #$00 : STA.w DMA.6_SourceAddrBank : STA.w DMA.7_SourceAddrBank
+    LDA.b #$00 : STA.w DMA.6__DataBank : STA.w DMA.7__DataBank
     
     ; Configure window mask settings.
     LDA.b #$33 : STA.b $96
@@ -14557,7 +14565,7 @@ Spotlight:
 
     SEP #$10
     
-    JSL ConfigureSpotlightTable
+    JSL.l ConfigureSpotlightTable
     
     ; Enable HDMA on channel 7 during the NMI of the next frame.
     LDA.b #$80 : STA.b $9B
@@ -14659,9 +14667,9 @@ ConfigureSpotlightTable:
 
     .BRANCH_ZETA
 
-        LDA.w $2137 
-        LDA.w $213F
-    LDA.w $213D : AND.w #$00FF : CMP.w #$00C0 : BCC .BRANCH_ZETA
+        LDA.w SNES.OAMReadDataLowHigh 
+        LDA.w SNES.PPUStatusFlag2
+    LDA.w SNES.VCounterData : AND.w #$00FF : CMP.w #$00C0 : BCC .BRANCH_ZETA
     
     LDX.w #$0000
 
@@ -14680,13 +14688,13 @@ ConfigureSpotlightTable:
         
         LDA.w $067E : BNE .resetTable
             ; Enable forceblank.
-            LDA.b #$80 : STA.b $13 : STA.w $2100
+            LDA.b #$80 : STA.b $13 : STA.w SNES.ScreenDisplay
             
             BRA .BRANCH_LAMBDA
 
         .resetTable
 
-        JSL ResetSpotLightTable
+        JSL.l ResetSpotLightTable
 
         .BRANCH_LAMBDA
 
@@ -14714,7 +14722,7 @@ ConfigureSpotlightTable:
 
         ; Restore the current module.
         LDA.w $010C : STA.b $10 : CMP.b #$06 : BNE .notPreDungeon
-            JSL Sprite_ResetAll
+            JSL.l Sprite_ResetAll
 
         .notPreDungeon
     .return
@@ -14781,33 +14789,33 @@ IrisSpotlight_CalculateCircleValue:
     SEP #$30
     
     ; Set up an 8-bit dividend.
-    STA.w $4205
-    STZ.w $4204
+    STA.w SNES.DividendHigh
+    STZ.w SNES.DividendLow
     
     ; Set the divisor.
-    LDA.w $067C : STA.w $4206
+    LDA.w $067C : STA.w SNES.DivisorB
     
     NOP #6
     
     REP #$20
     
     ; Obtain the quotient of the division, and divide by two.
-    LDA.w $4214 : LSR A
+    LDA.w SNES.DivideResultQuotientLow : LSR A
     
     SEP #$20
     
     TAX
     
     LDY.w Pool_IrisSpotlight_CalculateCircleValue_multiplicand, X
-    STY.b $0A : STY.w $4202
+    STY.b $0A : STY.w SNES.MultiplicandA
     
-    LDA.w $067C : STA.w $4203
+    LDA.w $067C : STA.w SNES.MultiplierB
     
     NOP #2
     
     STZ.b $01 : STZ.b $0B
     
-    LDA.w $4217 : STA.b $00
+    LDA.w SNES.RemainderResultHigh : STA.b $00
     
     REP #$30
     
@@ -14874,12 +14882,11 @@ OrientLampBg_easyOut:
 
 ; ==============================================================================
 
+; If necessary, this function orients BG1 (which would have lamp graphics
+; on it) to match Link's direction and movement.
 ; $007567-$007648 LONG JUMP LOCATION
 OrientLampBg:
 {
-    ; If necessary, this function orients BG1 (which would have lamp graphics
-    ; on it) to match Link's direction and movement.
-    
     ; This variable is nonzero if Link has the lantern and the room is dark.
     LDA.w $0458 : BEQ OrientLampBg_easyOut
     
@@ -14920,7 +14927,8 @@ OrientLampBg:
         
         ; BG1HOFS mirror = BG2HOFS mirror - Link's X coordinate + 0x77 +
         ; $00F43E, X.
-        LDA.b $E2 : SEC : SBC.b $00 : CLC : ADC.l OrientLampData_horizontal, X : STA.b $E0
+        LDA.b $E2 : SEC : SBC.b $00
+        CLC : ADC.l OrientLampData_horizontal, X : STA.b $E0
         
         LDA.b $20 : SEC : SBC.w #$0058 : STA.b $00
         
@@ -15216,7 +15224,7 @@ Module_Messaging:
 
         ; Handles moving blocks and other stuff we're trying to finish up
         ; before pausing the action on screen.
-        JSL PushBlock_Handler
+        JSL.l PushBlock_Handler
         
         BRA .processCoreTasks
 
@@ -15230,25 +15238,25 @@ Module_Messaging:
     LDA.w $0200 : BNE .ignoreCoreTasks
         .processCoreTasks
 
-        JSL Sprite_Main
-        JSL PlayerOam_Main
+        JSL.l Sprite_Main
+        JSL.l PlayerOam_Main
         
         LDA.b $1B : BNE .indoors
-            JSL Module_Overworld_rainAnimation
+            JSL.l Module_Overworld_rainAnimation
 
         .indoors
 
-        JSL HUD.RefillLogicLong
+        JSL.l HUD.RefillLogicLong
         
         LDA.b $11 : CMP.b #$02 : BEQ .dialogueMode
-            JSL OrientLampBg
+            JSL.l OrientLampBg
 
         .dialogueMode
     .ignoreCoreTasks
 
     SEP #$30
     
-    JSL Messaging_Main
+    JSL.l Messaging_Main
     
     REP #$21
     
@@ -15301,17 +15309,16 @@ Messaging_Main:
 
 ; ==============================================================================
 
+; For using messaging functions without being in module 0x0E.
 ; $0078B1-$0078C5 LONG JUMP LOCATION
 Messaging_PrayingPlayer:
 {
-    ; For using messaging functions without being in module 0x0E.
-    
     LDA.b $B0
     
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
     
     dl ResetTransitionPropsAndAdvance_ResetInterface_long ; (initialize overworld color filtering settings).
-    dl PaletteFilter.doFiltering      ; Fade out before we set up the actual scene.
+    dl PaletteFilter_doFiltering      ; Fade out before we set up the actual scene.
     dl PrayingPlayer_InitScene        ;
     dl PrayingPlayer_FadeInScene      ;
     dl PrayingPlayer_AwaitButtonInput ;
@@ -15322,7 +15329,7 @@ Messaging_PrayingPlayer:
 ; $0078C6-$0078DF LONG JUMP LOCATION
 PrayingPlayer_InitScene:
 {
-    JSL Player_InitPrayingScene_HDMA
+    JSL.l Player_InitPrayingScene_HDMA
     
     ; Reverse filtering direction?
     LDA.l $7EC00B : DEC A : STA.l $7EC007
@@ -15339,7 +15346,7 @@ PrayingPlayer_InitScene:
 PrayingPlayer_FadeInScene:
 {
     ; Lightens scene until fully illuminated.
-    JSL PaletteFilter_doFiltering
+    JSL.l PaletteFilter_doFiltering
 
     ; Bleeds into the next function.
 }
@@ -15347,7 +15354,7 @@ PrayingPlayer_FadeInScene:
 ; $0078E4-$0078E8 ALTERNATE ENTRY POINT
 PrayingPlayer_AwaitButtonInput:
 {
-    JSL DesertPrayer_BuildIrisHDMATable
+    JSL.l DesertPrayer_BuildIrisHDMATable
     
     RTL
 }
@@ -15359,10 +15366,10 @@ Module0E_06_Unused:
 {
     LDA.b $B0
     
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
     
     dl $02A2A5 ; $0122A5 initialize a bunch of overworld crap.
-    dl PaletteFilter.doFiltering
+    dl PaletteFilter_doFiltering
     dl $02A2A9 ; Swap some palettes in memory?
     dl $02A2AD ; $0122AD
 }
@@ -15372,9 +15379,10 @@ Module0E_06_Unused:
 ; $0078FB-$7910 LONG JUMP LOCATION
 RefillHeathFromRedPotion:
 {
-    JSL HUD.RefillHealth : BCC .BRANCH_ALPHA
+    JSL.l HUD.RefillHealth : BCC .BRANCH_ALPHA
         ; $007901 ALTERNATE ENTRY POINT
         .MoveOn
+
         LDA.b $3A : AND.b #$BF : STA.b $3A
         
         INC.b $16
@@ -15393,7 +15401,7 @@ RefillHeathFromRedPotion:
 ; $007911-$007917 LONG JUMP LOCATION
 Module0E_08_GreenPotion:
 {
-    JSL HUD.RefillMagicPower : BCS RefillHeathFromRedPotion_MoveOn
+    JSL.l HUD.RefillMagicPower : BCS RefillHeathFromRedPotion_MoveOn
         RTL
 }
 
@@ -15402,12 +15410,12 @@ Module0E_08_GreenPotion:
 ; $007918-$00792C LONG JUMP LOCATION
 Module0E_09_BluePotion:
 {
-    JSL HUD.RefillHealth : BCC .alpha
+    JSL.l HUD.RefillHealth : BCC .alpha
         LDA.b #$08 : STA.b $11
 
     .alpha
 
-    JSL HUD.RefillMagicPower : BCC .beta
+    JSL.l HUD.RefillMagicPower : BCC .beta
         LDA.b #$04 : STA.b $11
 
     .beta
@@ -15457,16 +15465,16 @@ Pool_PrepareDungeonExitFromBossFight:
 ; $007945-$0079DC LONG JUMP LOCATION
 PrepDungeonExit:
 {
-    JSL SavePalaceDeaths
+    JSL.l SavePalaceDeaths
 
     ; Save current dungeon keys to proper slots.
-    JSL Dungeon_SaveRoomData_justKeys
+    JSL.l Dungeon_SaveRoomData_justKeys
     
     ; Indicate a boss has been killed in this room.
     LDA.w $0403 : ORA.b #$80 : STA.w $0403
     
     ; Save the room data as we exit.
-    JSL Dungeon_SaveRoomQuadrantData
+    JSL.l Dungeon_SaveRoomQuadrantData
     
     LDX.b #$0C
     
@@ -15480,7 +15488,7 @@ PrepDungeonExit:
     
     ; Set the room to the entrance room of the palace (I'm guessing this is so
     ; we can use an exit object?). Are we in Agahnim's room?
-    LDA .exit_room, X : STA.b $A0 : CMP.b #$20 : BNE .not_agahnim ; $00F939
+    LDA.w .exit_room, X : STA.b $A0 : CMP.b #$20 : BNE .not_agahnim ; $00F939
         ; After beating Agahnim the world state gets set to 3 ("second part").
         LDA.b #$03 : STA.l $7EF3C5
         
@@ -15491,8 +15499,8 @@ PrepDungeonExit:
         ; Put us in the Dark World.
         LDA.l $7EF3CA : EOR.b #$40 : STA.l $7EF3CA
         
-        JSL Sprite_LoadGfxProperties.justLightWorld
-        JSL Ancilla_TerminateSelectInteractives
+        JSL.l Sprite_LoadGfxProperties_justLightWorld
+        JSL.l Ancilla_TerminateSelectInteractives
         
         STZ.w $037B : STZ.b $3C : STZ.b $3A : STZ.w $03EF
         
@@ -15588,11 +15596,11 @@ SavePalaceDeaths:
 Module0E_0B_SaveMenu:
 {
     LDA.b $1B : BNE .indoors
-        JSL Overworld_DwDeathMountainPaletteAnimation
+        JSL.l Overworld_DwDeathMountainPaletteAnimation
 
     .indoors
 
-    JSL Messaging_Text
+    JSL.l Messaging_Text
 
     STZ.b $16 : STZ.w $0710
 
@@ -15927,8 +15935,8 @@ Mirror_InitHdmaSettings:
     
     STZ.w $06AC : STZ.w $06AE
     
-    LDA.w #$0F42 : STA.w $4370
-    LDA.w #$0D42 : STA.w $4360
+    LDA.w #$0F42 : STA.w DMA.7_TransferParameters
+    LDA.w #$0D42 : STA.w DMA.6_TransferParameters
     
     LDX.b #$3E
     
@@ -15967,10 +15975,10 @@ MirrorHDMA:
 ; $007E64-$007F2E LONG JUMP LOCATION
 MirrorWarp_BuildWavingHDMATable:
 {
-    JSL MirrorWarp_RunAnimationSubmodules
+    JSL.l MirrorWarp_RunAnimationSubmodules
     
     ; Only do something every other frame.
-    LDA.b $1A : LSR A : BCS Mirror_InitHdmaSettings.easy_out
+    LDA.b $1A : LSR A : BCS Mirror_InitHdmaSettings_easy_out
     
     REP #$30
     
@@ -16006,7 +16014,8 @@ MirrorWarp_BuildWavingHDMATable:
     LDX.w $06A0
     
     ; Is it just me, or is this a really weird set of formulas?
-    LDA.w $06AC : CLC : ADC.w $06A6, X : PHA : SEC : SBC.w $06A2, X : EOR.w $06A2, X : BMI .delta
+    LDA.w $06AC : CLC : ADC.w $06A6, X : PHA
+    SEC : SBC.w $06A2, X : EOR.w $06A2, X : BMI .delta
         STZ.w $06AA
         STZ.w $06AE
         
@@ -16062,7 +16071,7 @@ MirrorWarp_BuildWavingHDMATable:
 ; $007F2F-$007FB6 JUMP LOCATION (LONG)
 MirrorWarp_BuildDewavingHDMATable:
 {
-    JSL MirrorWarp_RunAnimationSubmodules
+    JSL.l MirrorWarp_RunAnimationSubmodules
         
     LDA.b $1A : LSR A : BCS MirrorHDMA_return
         REP #$30
@@ -16102,7 +16111,7 @@ MirrorWarp_BuildDewavingHDMATable:
             
             INC.b $B0
             
-            JSL Overworld_SetFixedColorAndScroll
+            JSL.l Overworld_SetFixedColorAndScroll
             
             ; Check if area is the Hyrule Castle screen or pyramid of power
             ; screen.
@@ -16130,15 +16139,15 @@ NULL_00FFB7:
     
 ; ==============================================================================
 
-; $007FC0-$007FFF Internal Rom Header
-Internal_Rom_Header:
+; $007FC0-$007FFF Internal ROM Header
+Internal_ROM_Header:
 {
     db "THE LEGEND OF ZELDA  "
         
     db $20   ; ROM layout
     db $02   ; Cartridge type
-    db $0A   ; Rom size
-    db $03   ; Ram size (SRAM size)
+    db $0A   ; ROM size
+    db $03   ; RAM size (SRAM size)
     db $01   ; Country code (NTSC here)
     db $01   ; Licensee (Nintendo here)
     db $00   ; Game version

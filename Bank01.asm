@@ -293,12 +293,12 @@ Pool_Dungeon_LoadType1Object:
     dw $8F62 ; = $008F62
     dw $8F62 ; = $008F62
     dw $97DC ; = $0097DC ; Fortune teller curtain
-    dw Object_Draw4x2s_AdvanceRight.from_1_to_15_or_26
-    dw Object_Draw4x2s_AdvanceRight.from_1_to_15_or_26
+    dw Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26
+    dw Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26
     
     ; 0xB8
-    dw Object_Draw2x2s_AdvanceRight.from_1_to_15_or_32 ; Blue switch block (horizontal)
-    dw Object_Draw2x2s_AdvanceRight.from_1_to_15_or_32 ; Orange switch block (horizontal)
+    dw Object_Draw2x2s_AdvanceRight_from_1_to_15_or_32 ; Blue switch block (horizontal)
+    dw Object_Draw2x2s_AdvanceRight_from_1_to_15_or_32 ; Orange switch block (horizontal)
     dw $9111 ; = $009111
     dw $9338 ; = $009338
     dw $B376 ; = $00B376 ; Horizontal line of pots
@@ -728,7 +728,7 @@ Dungeon_DrawObjectOffsets:
 ; $00873A-$0088E3 LONG JUMP LOCATION
 Dungeon_LoadRoom:
 {
-    JSR Dungeon_LoadHeader
+    JSR.w Dungeon_LoadHeader
     
     STZ.w $03F4
     
@@ -799,7 +799,7 @@ Dungeon_LoadRoom:
     
     STZ.b $BA
     
-    JSR Dungeon_DrawFloors
+    JSR.w Dungeon_DrawFloors
     
     LDY.b $BA : PHY
     
@@ -816,7 +816,7 @@ Dungeon_LoadRoom:
     
     STZ.b $BA
     
-    JSR Dungeon_DrawObjects ; Load the "layout" objects.
+    JSR.w Dungeon_DrawObjects ; Load the "layout" objects.
     
     ; Y = 2
     PLY : INY : STY.b $BA
@@ -828,7 +828,7 @@ Dungeon_LoadRoom:
     LDA.l RoomData_ObjectDataPointers+0, X : STA.b $B7
     
     ; Draw Layer 1 objects to BG2.
-    JSR Dungeon_DrawObjects
+    JSR.w Dungeon_DrawObjects
     
     INC.b $BA : INC.b $BA
     
@@ -841,7 +841,7 @@ Dungeon_LoadRoom:
     DEX #3 : BPL .setupLayer2
     
     ; Draw Layer 2 objects to BG1.
-    JSR Dungeon_DrawObjects
+    JSR.w Dungeon_DrawObjects
     
     INC.b $BA : INC.b $BA
     
@@ -854,7 +854,7 @@ Dungeon_LoadRoom:
     DEX #3 : BPL .setupLayer3
     
     ; Draw layer 3 objects to BG1.
-    JSR Dungeon_DrawObjects
+    JSR.w Dungeon_DrawObjects
     
     STZ.b $BA
     
@@ -867,7 +867,7 @@ Dungeon_LoadRoom:
             ; Load the block's location.
             LDA.l $7EF942, X : STA.b $08 : TAY
             
-            JSR Dungeon_LoadBlock
+            JSR.w Dungeon_LoadBlock
         
         .notInThisRoom
         
@@ -911,7 +911,7 @@ Dungeon_LoadRoom:
         
         INX #2 : STX.b $BA
         
-        JSR Dungeon_LoadTorch
+        JSR.w Dungeon_LoadTorch
         
         LDX.b $BA
     LDA.l $7EFB40, X : CMP.w #$FFFF : BNE .nextTorchInRoom
@@ -938,7 +938,7 @@ Dungeon_DrawObjects:
         
         LDA [$B7], Y : CMP.w #$FFFF : BEQ .return
             STA.b $00 : CMP.w #$FFF0 : BEQ .enteredType2Section
-                JSR Dungeon_LoadType1Object
+                JSR.w Dungeon_LoadType1Object
     BRA .nextType1
     
     .return
@@ -959,7 +959,7 @@ Dungeon_DrawObjects:
         ; Store the object's information at $00.
         STA.b $00
         
-        JSR Dungeon_LoadType2Object
+        JSR.w Dungeon_LoadType2Object
         
         INC.b $BA : INC.b $BA
         
@@ -1031,9 +1031,9 @@ Dungeon_LoadType1Object:
             ; Handles subtype 1 objects.
             TAX
             
-            LDA .subtype_1_routines, X : STA.b $0E
+            LDA.w .subtype_1_routines, X : STA.b $0E
             
-            LDA .subtype_1_params, X : TAX
+            LDA.w .subtype_1_params, X : TAX
             
             LDY.b $08
             
@@ -1203,7 +1203,7 @@ RoomDraw_A_Many32x32Blocks:
 ; $008A89-$008A91 JUMP LOCATION
 RoomDraw_Downwards4x2_1to15or26:
 {
-    JSR Object_Size_1_to_15_or_26
+    JSR.w Object_Size_1_to_15_or_26
     
     LDA.w #$0100
     
@@ -1215,7 +1215,7 @@ RoomDraw_Downwards4x2_1to15or26:
 ; $008A92-$008AA2 JUMP LOCATION
 Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26:
 {
-    JSR Object_Size_1_to_15_or_26
+    JSR.w Object_Size_1_to_15_or_26
     
     STX.b $0A ; Guessing this is the start of the tiles to draw.
     
@@ -1223,7 +1223,7 @@ Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26:
     
         LDA.w #$0002
         
-        JSR Object_Draw4xN
+        JSR.w Object_Draw4xN
         
         LDX.b $0A
     DEC.b $B2 : BNE .next_block
@@ -1245,7 +1245,7 @@ RoomDraw_Downwards4x2_1to16_BothBG:
     ; Swap X and Y (destroying A).
     TXA : TYX : TAY
     
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .nextRow
     
@@ -1272,7 +1272,7 @@ Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs:
     ; Swap X and Y (destroying A).
     TXA : TYX : TAY
     
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .nextColumn
     
@@ -1296,9 +1296,9 @@ Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs:
 ; $008B74-$008B78 JUMP LOCATION
 RoomDraw_Downwards2x2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
-    BRA Object_Draw2x2sDownVariableOrFull.next_block
+    BRA Object_Draw2x2sDownVariableOrFull_next_block
 }
 
 ; ==============================================================================
@@ -1306,9 +1306,9 @@ RoomDraw_Downwards2x2_1to16:
 ; $008B79-$008B7D JUMP LOCATION
 RoomDraw_Rightwards2x2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
-    BRA Object_Draw2x2s_AdvanceRight.next_block
+    BRA Object_Draw2x2s_AdvanceRight_next_block
 }
 
 ; ==============================================================================
@@ -1316,11 +1316,11 @@ RoomDraw_Rightwards2x2_1to16:
 ; $008B7E-$008B88 JUMP LOCATION
 Object_Draw2x2sDownVariableOrFull:
 {
-    JSR Object_Size_1_to_15_or_32
+    JSR.w Object_Size_1_to_15_or_32
     
     .next_block
     
-        JSR Object_Draw2x2_AdvanceDown
+        JSR.w Object_Draw2x2_AdvanceDown
     DEC.b $B2 : BNE .next_block
     
     RTS
@@ -1334,11 +1334,11 @@ Object_Draw2x2s_AdvanceRight:
     .from_1_to_15_or_32
     
     ; 1 to 0x0F or 0x20 tiles wide.
-    JSR Object_Size_1_to_15_or_32
+    JSR.w Object_Size_1_to_15_or_32
     
     .next_block
     
-        JSR Object_Draw2x2
+        JSR.w Object_Draw2x2
     DEC.b $B2 : BNE .next_block
     
     RTS
@@ -1388,7 +1388,7 @@ RoomDraw_DiagonalCeilingTopLeftA:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
     
@@ -1405,7 +1405,7 @@ RoomDraw_DiagonalCeilingBottomLeftA:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     INC.b $B4
     
@@ -1428,7 +1428,7 @@ RoomDraw_DiagonalCeilingTopRightA:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
     
@@ -1445,7 +1445,7 @@ RoomDraw_DiagonalCeilingBottomRightA:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
     
@@ -1460,7 +1460,7 @@ RoomDraw_DiagonalCeilingBottomRightA:
 ; $008C37-$008C4E JUMP LOCATION
 RoomDraw_Rightwards2x4spaced4_1to16_BothBG:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     STX.b $0A
     
@@ -1468,7 +1468,7 @@ RoomDraw_Rightwards2x4spaced4_1to16_BothBG:
     
         LDA.w #$0002
         
-        JSR Object_Draw4xN
+        JSR.w Object_Draw4xN
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -1481,7 +1481,7 @@ RoomDraw_Rightwards2x4spaced4_1to16_BothBG:
 ; $008C4F-$008C57 JUMP LOCATION
 RoomDraw_DownwardsDecor4x2spaced4_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     LDA.w #$0300
     
@@ -1494,7 +1494,7 @@ RoomDraw_DiagonalAcute_1to16:
     ; Sets minimum width to 7, maximum to 22.
     LDA.w #$0007
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     ; In reality, the width will range from 6 to 21, because of preincrementing
     ; in this destination.
@@ -1507,7 +1507,7 @@ RoomDraw_DiagonalGrave_1to16:
     ; Sets minimum width to 7, maximum to 22.
     LDA.w #$0007
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     ; In reality, the width will range from 6 to 21, because of preincrementing
     ; in this destination.
@@ -1522,7 +1522,7 @@ RoomDraw_DiagonalAcute_1to16_BothBG:
     
     LDA.w #$0006
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w #$FF82
     
@@ -1553,7 +1553,7 @@ RoomDraw_DiagonalGrave_1to16_BothBG:
     
     LDA.w #$0006
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w #$0082
     
@@ -1584,7 +1584,7 @@ RoomDraw_ClosedChestPlatform:
         LDY.b $08
         LDX.b $06
         
-        JSR Object_Draw2x3
+        JSR.w Object_Draw2x3
         
         TXA : CLC : ADC.w #$000C : TAX
         
@@ -1592,12 +1592,12 @@ RoomDraw_ClosedChestPlatform:
         
         .nextMiddleBlock
         
-            JSR Object_Draw2x2
+            JSR.w Object_Draw2x2
         DEC.b $0A : BNE .nextMiddleBlock
         
         TXA : CLC : ADC.w #$0008 : TAX
         
-        JSR Object_Draw2x3
+        JSR.w Object_Draw2x3
         
         LDA.b $08 : CLC : ADC.w #$0100 : STA.b $08
     DEC.b $0E : BNE .nextMiddleBlockRow
@@ -1637,7 +1637,7 @@ RoomDraw_ChestPlatformHorizontalWallWithCorners:
     
         LDA.w #$0002
         
-        JSR Object_Draw3xN
+        JSR.w Object_Draw3xN
         
         TXA : SEC : SBC.w #$000C : TAX
     DEC.b $0A : BNE .next_block
@@ -1653,7 +1653,7 @@ RoomDraw_Rightwards1x2_1to16_plus2:
     
     LDA.w #$0002
     
-    JSR Object_Draw3xN
+    JSR.w Object_Draw3xN
     
     .next_two_columns
     
@@ -1661,7 +1661,7 @@ RoomDraw_Rightwards1x2_1to16_plus2:
         
         LDA.w #$0001
         
-        JSR Object_Draw3xN
+        JSR.w Object_Draw3xN
     DEC.b $B2 : BNE .next_two_columns
     
     LDA.w #$0001
@@ -1728,7 +1728,7 @@ Object_Hole:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     STA.b $B4 : STA.b $0E
     
@@ -1818,7 +1818,7 @@ RoomDraw_DiagonalCeilingTopLeftB:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
     
@@ -1835,7 +1835,7 @@ RoomDraw_DiagonalCeilingBottomLeftB:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     INC.b $B4
     
@@ -1858,7 +1858,7 @@ RoomDraw_DiagonalCeilingTopRightB:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
     
@@ -1875,7 +1875,7 @@ RoomDraw_DiagonalCeilingBottomRightB:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
     
@@ -1902,7 +1902,7 @@ RoomDraw_DownwardsHasEdge1x1_1to16_plus3:
     
     .setSize
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w #$00E3
     
@@ -1939,7 +1939,7 @@ Object_HorizontalRail:
     
     .setWidth
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w #$00E2
     
@@ -1959,9 +1959,9 @@ Object_HorizontalRail:
 ; $008F0C-$008F35 JUMP LOCATION
 RoomDraw_DownwardsBigRail3x1_1to16plus5:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
-    JSR Object_Draw2x2_AdvanceDown
+    JSR.w Object_Draw2x2_AdvanceDown
     
     TXA : CLC : ADC.w #$0008 : TAX
     
@@ -1989,13 +1989,13 @@ Object_Draw3x2:
 ; $008F36-$008F61 JUMP LOCATION
 RoomDraw_RightwardsBigRail1x3_1to16plus5:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     INC.b $B2
     
     LDA.w #$0002
     
-    JSR Object_Draw3xN
+    JSR.w Object_Draw3xN
     
     .loop
     
@@ -2016,7 +2016,7 @@ RoomDraw_RightwardsBigRail1x3_1to16plus5:
 ; $008F62-$008F89 JUMP LOCATION
 RoomDraw_RightwardsHasEdge1x1_1to16_plus2:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     LDA.w #$01DB
     
@@ -2039,7 +2039,7 @@ RoomDraw_RightwardsHasEdge1x1_1to16_plus2:
 ; $008F8A-$008F9C JUMP LOCATION
 RoomDraw_DownwardsEdge1x1_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .nextRow
     
@@ -2096,14 +2096,14 @@ RoomDraw_RightwardsTopCorners1x2_1to16_plus13:
 {
     LDA.w #$000A
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w RoomDrawObjectData+00, X : STA.b $0E
     
     INX #2
     
     LDA [$BF], Y : AND.w #$03FF : CMP.w #$00E2 : BEQ .dontOverwrite
-        JSR .draw_2x2_at_endpoint
+        JSR.w .draw_2x2_at_endpoint
     
     .dontOverwrite
     
@@ -2137,14 +2137,14 @@ RoomDraw_RightwardsBottomCorners1x2_1to16_plus13:
 {
     LDA.w #$000A
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w RoomDrawObjectData+00, X : STA.b $0E
     
     INX #2
     
     LDA [$CB], Y : AND.w #$03FF : CMP.w #$00E2 : BEQ .dontOverwrite
-        JSR .draw_2x2_at_endpoint
+        JSR.w .draw_2x2_at_endpoint
     
     .dontOverwrite
     
@@ -2177,14 +2177,14 @@ RoomDraw_DownwardsLeftCorners2x1_1to16_plus12:
 {
     LDA.w #$000A
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w RoomDrawObjectData+00, X : STA.b $0E
     
     INX #2
     
     LDA [$BF], Y : AND.w #$03FF : CMP.w #$00E3 : BEQ .BRANCH_ALPHA
-        JSR .draw_2x2_at_endpoint
+        JSR.w .draw_2x2_at_endpoint
     
     .BRANCH_ALPHA
     
@@ -2218,14 +2218,14 @@ RoomDraw_DownwardsRightCorners2x1_1to16_plus12:
 {
     LDA.w #$000A
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w RoomDrawObjectData+00, X : STA.b $0E
     
     INX #2
     
     LDA [$C2], Y : AND.w #$03FF : CMP.w #$00E3 : BEQ .dontOverwrite
-        JSR .draw_2x2_at_endpoint
+        JSR.w .draw_2x2_at_endpoint
     
     .dontOverwrite
     
@@ -2258,7 +2258,7 @@ RoomDraw_RightwardsEdge1x1_1to16plus7:
 {
     LDA.w #$0008
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     JMP.w RoomDraw_Repeated1x1_CachedCount
 }
@@ -2268,7 +2268,7 @@ RoomDraw_DownwardsEdge1x1_1to16plus7:
 {
     LDA.w #$0008
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
     
@@ -2291,13 +2291,13 @@ RoomDraw_DownwardsFloor4x4_1to16:
 {
     STX.b $0A
     
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .next_block
     
         LDX.b $0A
         
-        JSR Object_Draw4x4
+        JSR.w Object_Draw4x4
         
         LDA.b $08 : CLC : ADC.w #$0200 : STA.b $08 : TAY
     DEC.b $B2 : BNE .next_block
@@ -2310,13 +2310,13 @@ RoomDraw_Rightwards4x4_1to16:
 {
     STX.b $0A
     
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .loop
     
         LDX.b $0A
         
-        JSR Object_Draw4x4
+        JSR.w Object_Draw4x4
     DEC.b $B2 : BNE .loop
     
     RTS
@@ -2327,7 +2327,7 @@ RoomDraw_Downwards1x1Solid_1to16_plus3:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     .loop
     
@@ -2344,7 +2344,7 @@ RoomDraw_Rightwards1x1Solid_1to16_plus3:
 {
     LDA.w #$0004
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     JMP.w RoomDraw_Repeated1x1_CachedCount
 }
 
@@ -2488,7 +2488,7 @@ Object_HiddenWallRight:
     
     .BRANCH_EPSILON
     
-        JSR Object_Draw2x3
+        JSR.w Object_Draw2x3
         
         TYA : CLC : ADC.w #$0100 : TAY
     DEC.b $0E : BNE .BRANCH_EPSILON
@@ -2545,7 +2545,7 @@ Object_HiddenWallLeft:
     
     .BRANCH_BETA
     
-        JSR Object_Draw2x3
+        JSR.w Object_Draw2x3
         
         TYA : CLC : ADC.w #$0100 : TAY
     DEC.b $0E : BNE .BRANCH_BETA
@@ -2668,7 +2668,7 @@ MovingWall_FillReplacementBuffer:
 ; $0092FB-$00930D JUMP LOCATION
 RoomDraw_RightwardsDecor4x4spaced2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     STX.b $0A
     
@@ -2676,7 +2676,7 @@ RoomDraw_RightwardsDecor4x4spaced2_1to16:
     
         LDX.b $0A
         
-        JSR Object_Draw4x4
+        JSR.w Object_Draw4x4
         
         INY #4
     DEC.b $B2 : BNE .next_block_to_right
@@ -2689,7 +2689,7 @@ RoomDraw_RightwardsDecor4x4spaced2_1to16:
 ; $00930E-$009322 JUMP LOCATION
 RoomDraw_DownwardsDecor4x4spaced2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     STX.b $0A
     
@@ -2697,7 +2697,7 @@ RoomDraw_DownwardsDecor4x4spaced2_1to16:
     
         LDX.b $0A
         
-        JSR Object_Draw4x4
+        JSR.w Object_Draw4x4
         
         TYA : CLC : ADC.w #$02F8 : TAY
     DEC.b $B2 : BNE .next_block
@@ -2710,7 +2710,7 @@ RoomDraw_DownwardsDecor4x4spaced2_1to16:
 ; $009323-$009337 JUMP LOCATION
 RoomDraw_RightwardsStatue2x3spaced2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .nextTwoColumns
     
@@ -2718,7 +2718,7 @@ RoomDraw_RightwardsStatue2x3spaced2_1to16:
         
         LDA.w #$0002
         
-        JSR Object_Draw3xN
+        JSR.w Object_Draw3xN
         
         INY #4
     DEC.b $B2 : BNE .nextTwoColumns
@@ -2731,11 +2731,11 @@ RoomDraw_RightwardsStatue2x3spaced2_1to16:
 ; $009338-$009346 JUMP LOCATION
 RoomDraw_RightwardsBlock2x2spaced2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .BRANCH_ALPHA
     
-        JSR Object_Draw2x2
+        JSR.w Object_Draw2x2
         
         INY #4
     DEC.b $B2 : BNE .BRANCH_ALPHA
@@ -2748,11 +2748,11 @@ RoomDraw_RightwardsBlock2x2spaced2_1to16:
 ; $009347-$009356 JUMP LOCATION
 RoomDraw_DownwardsBlock2x2spaced2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .next_block
     
-        JSR Object_Draw2x2_AdvanceDown
+        JSR.w Object_Draw2x2_AdvanceDown
         
         CLC : ADC.w #$0100 : TAY
     DEC.b $B2 : BNE .next_block
@@ -2765,7 +2765,7 @@ RoomDraw_DownwardsBlock2x2spaced2_1to16:
 ; $009357-$00936E JUMP LOCATION
 RoomDraw_DownwardsPillar2x4spaced2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     STX.b $0C
     
@@ -2775,7 +2775,7 @@ RoomDraw_DownwardsPillar2x4spaced2_1to16:
         
         LDA.w #$0002
         
-        JSR Object_Draw4xN
+        JSR.w Object_Draw4xN
         
         TYA : CLC : ADC.w #$02FC : TAY
     DEC.b $B2 : BNE .next_block
@@ -2788,7 +2788,7 @@ RoomDraw_DownwardsPillar2x4spaced2_1to16:
 ; $00936F-$009386 JUMP LOCATION
 RoomDraw_RightwardsPillar2x4spaced4_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     STX.b $0C
     
@@ -2799,7 +2799,7 @@ RoomDraw_RightwardsPillar2x4spaced4_1to16:
         ; Two consecutive loads of A? huh...
         LDA.w #$0002
         
-        JSR Object_Draw4xN
+        JSR.w Object_Draw4xN
         
         TYA : CLC : ADC.w #$0008 : TAY
     DEC.b $B2 : BNE .loop
@@ -2814,7 +2814,7 @@ RoomDraw_RightwardsDecor4x3spaced4_1to16:
 {
     STA.b $0A
     
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .nextFourColumns
     
@@ -2822,7 +2822,7 @@ RoomDraw_RightwardsDecor4x3spaced4_1to16:
         
         LDA.w #$0004
         
-        JSR Object_Draw3xN
+        JSR.w Object_Draw3xN
         
         TYA : CLC : ADC.w #$0008 : TAY
     DEC.b $B2 : BNE .nextFourColumns
@@ -2837,7 +2837,7 @@ RoomDraw_DownwardsDecor3x4spaced4_1to16:
 {
     STX.b $0A
     
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .next_block
     
@@ -2845,7 +2845,7 @@ RoomDraw_DownwardsDecor3x4spaced4_1to16:
         
         LDA.w #$0003
         
-        JSR Object_Draw4xN
+        JSR.w Object_Draw4xN
         
         TYA : CLC : ADC.w #$03FA : TAY
     DEC.b $B2 : BNE .next_block
@@ -2858,20 +2858,20 @@ RoomDraw_DownwardsDecor3x4spaced4_1to16:
 ; $0093B7-$0093DB JUMP LOCATION
 RoomDraw_RightwardsDoubled2x2spaced2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .loop
     
         LDX.w #$08CA
         
-        JSR Object_Draw2x2_AdvanceDown
+        JSR.w Object_Draw2x2_AdvanceDown
         
         CLC : ADC.w #$0200 : TAY
         
         ; Since this is a known quantity, why calculate it? (Hint: it's 0x08D2).
         TXA : CLC : ADC.w #$0008 : TAX
         
-        JSR Object_Draw2x2_AdvanceDown
+        JSR.w Object_Draw2x2_AdvanceDown
         
         LDA.b $08 : CLC : ADC.w #$0008 : STA.b $08 : TAY
     DEC.b $B2 : BNE .loop
@@ -2945,7 +2945,7 @@ RoomDraw_Spike2x2In4x4SuperSquare:
         
         .next_block_right
         
-            JSR Object_Draw2x2
+            JSR.w Object_Draw2x2
         DEC.b $0E : BNE .next_block_right
         
         LDA.b $08 : CLC : ADC.w #$0100 : STA.b $08 : TAY
@@ -2959,11 +2959,11 @@ RoomDraw_Spike2x2In4x4SuperSquare:
 ; $009446-$009455 JUMP LOCATION
 RoomDraw_DownwardsDecor2x2spaced12_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .next_piece
     
-        JSR Object_Draw2x2_AdvanceDown
+        JSR.w Object_Draw2x2_AdvanceDown
         
         CLC : ADC.w #$0600 : TAY
     DEC.b $B2 : BNE .next_piece
@@ -2976,11 +2976,11 @@ RoomDraw_DownwardsDecor2x2spaced12_1to16:
 ; $009456-$009465 JUMP LOCATION
 RoomDraw_RightwardsDecor2x2spaced12_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .loop
     
-        JSR Object_Draw2x2_AdvanceDown
+        JSR.w Object_Draw2x2_AdvanceDown
         
         CLC : ADC.w #$FF1C : TAY
     DEC.b $B2 : BNE .loop
@@ -2995,11 +2995,11 @@ RoomDraw_RightwardsDecor2x2spaced12_1to16:
 ; $009466-$009487 JUMP LOCATION
 RoomDraw_Waterfall47:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     ASL.b $B2
     
-    JSR Object_Draw5x1
+    JSR.w Object_Draw5x1
     
     TXA : CLC : ADC.w #$000A : TAX
     
@@ -3007,7 +3007,7 @@ RoomDraw_Waterfall47:
     
     .nextColumn
     
-        JSR Object_Draw5x1
+        JSR.w Object_Draw5x1
         
         INY #2
     DEC.b $B2 : BNE .nextColumn
@@ -3022,13 +3022,13 @@ RoomDraw_Waterfall47:
 ; $009488-$0094B3 JUMP LOCATION
 RoomDraw_Waterfall48:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     ASL.b $B2
     
     LDA.w #$0001
     
-    JSR Object_Draw3xN
+    JSR.w Object_Draw3xN
     
     .nextColumn
     
@@ -3051,7 +3051,7 @@ RoomDraw_Waterfall48:
 ; $0094B4-$0094BC JUMP LOCATION
 RoomDraw_RightwardsFloorTile4x2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     LDA.w #$0008
     
@@ -3063,11 +3063,11 @@ RoomDraw_RightwardsFloorTile4x2_1to16:
 ; $0094BD-$0094DE JUMP LOCATION
 RoomDraw_RightwardsBar4x3_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     ASL.b $B2
     
-    JSR Object_Draw3x1
+    JSR.w Object_Draw3x1
     
     INY #2
     
@@ -3075,7 +3075,7 @@ RoomDraw_RightwardsBar4x3_1to16:
     
     .loop
     
-        JSR Object_Draw3x1
+        JSR.w Object_Draw3x1
         
         INY #2 
     DEC.b $B2 : BNE .loop
@@ -3090,17 +3090,17 @@ RoomDraw_RightwardsBar4x3_1to16:
 ; $0094DF-$009500 JUMP LOCATION
 RoomDraw_RightwardsShelf4x4_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     LDA.w #$0001
     
-    JSR Object_Draw4xN
+    JSR.w Object_Draw4xN
     
     .alpha
     
         LDA.w #$0002
         
-        JSR Object_Draw4xN
+        JSR.w Object_Draw4xN
         
         TXA : SEC : SBC.w #$0010 : TAX
     DEC.b $B2 : BNE .alpha
@@ -3306,7 +3306,7 @@ RoomDraw_WaterOverlayB8x8_1to16:
 ; $0096DC-$0096E3 JUMP LOCATION
 RoomDraw_RightwardsLine1x1_1to16plus1:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     INC.b $B2
     
@@ -3318,7 +3318,7 @@ RoomDraw_RightwardsLine1x1_1to16plus1:
 ; $0096E4-$0096F8 JUMP LOCATION
 RoomDraw_DownwardsLine1x1_1to16plus1:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     INC.b $B2
     
@@ -3337,7 +3337,7 @@ RoomDraw_DownwardsLine1x1_1to16plus1:
 ; $0096F9-$009701 JUMP LOCATION
 RoomDraw_RightwardsDecor4x2spaced8_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     LDA.w #$0018
     
@@ -3351,7 +3351,7 @@ RoomDraw_DownwardsDecor2x4spaced8_1to16:
 {
     STX.b $0A
     
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .next_block
     
@@ -3359,7 +3359,7 @@ RoomDraw_DownwardsDecor2x4spaced8_1to16:
         
         LDA.w #$0002
         
-        JSR Object_Draw4xN
+        JSR.w Object_Draw4xN
         
         ; Make next block 10 tiles down?
         TYA : CLC : ADC.w #$05FC : TAY
@@ -3383,7 +3383,7 @@ RoomDraw_DownwardsDecor3x4spaced2_1to16:
 {
     STX.b $0A
     
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .next_block
     
@@ -3391,7 +3391,7 @@ RoomDraw_DownwardsDecor3x4spaced2_1to16:
         
         LDA.w #$0003
         
-        JSR Object_Draw4xN
+        JSR.w Object_Draw4xN
         
         ; Make next block 5 tiles down?
         TYA : CLC : ADC.w #$02FA : TAY
@@ -3481,7 +3481,7 @@ RoomDraw_DownwardsBar2x5_1to16:
 {
     LDA.w #$0002
     
-    JSR Object_Size_N_to_N_plus_15
+    JSR.w Object_Size_N_to_N_plus_15
     
     ASL.b $B2
     
@@ -3504,14 +3504,14 @@ RoomDraw_DownwardsBar2x5_1to16:
 ; $0097DC-$0097EC JUMP LOCATION
 RoomDraw_Weird2x4_1_to_16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .next_block
     
         LDX.w #$0B16
         LDA.w #$0002
         
-        JSR Object_Draw4xN 
+        JSR.w Object_Draw4xN 
     DEC.b $B2 : BNE .next_block
     
     RTS
@@ -3951,7 +3951,7 @@ Object_Draw6x4:
 {
     LDA.w #$0004
     
-    JSR Object_Draw3xN
+    JSR.w Object_Draw3xN
     
     LDA.b $08 : CLC : ADC.w #$0180 : TAY
     
@@ -4157,7 +4157,7 @@ Object_Watergate:
     LDA.w $0402 : AND.w #$0800 : BNE .hasBeenOpened
         LDA.w #$000A
         
-        JSR Object_Draw4xN
+        JSR.w Object_Draw4xN
         
         LDA.w #$000F : STA.w $0470
         
@@ -4170,7 +4170,7 @@ Object_Watergate:
     LDX.w #$13E8
     LDA.w #$000A
     
-    JSR Object_Draw4xN
+    JSR.w Object_Draw4xN
     
     LDA.b $B7 : PHA
     LDA.b $B8 : PHA
@@ -4180,7 +4180,7 @@ Object_Watergate:
     
     LDA.w #$F1CD
     
-    JSR Object_WatergateChannelWater
+    JSR.w Object_WatergateChannelWater
     
     REP #$30
     
@@ -4264,7 +4264,7 @@ RoomDraw_RightwardsCannonHole4x3_1to16:
             
             LDA.w #$0002
             
-            JSR Object_Draw3xN
+            JSR.w Object_Draw3xN
             
             PLX
         DEC.b $B2 : BNE .loop
@@ -4281,7 +4281,7 @@ RoomDraw_RightwardsCannonHole4x3_1to16:
 ; $009CEB-$009D28 JUMP LOCATION
 RoomDraw_DownwardsCannonHole3x4_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     JSR.w .draw_segment
     
@@ -4460,7 +4460,7 @@ Object_LanternLayer:
     LDY.w #$16DC
     LDA.w #$0514
     
-    JSR .drawLampPortion
+    JSR.w .drawLampPortion
     
     LDY.w #$17F6
     LDA.w #$0554
@@ -5273,7 +5273,7 @@ RoomDraw_SpiralStairsGoingDownUpper:
     
     LDA.w #$0004
     
-    JSR Object_Draw3xN
+    JSR.w Object_Draw3xN
     
     LDX.b $08 : DEX #2
     
@@ -5308,7 +5308,7 @@ RoomDraw_SpiralStairsGoingDownLower:
     
     LDA.w #$0004
     
-    JSR Object_Draw3xN
+    JSR.w Object_Draw3xN
     
     LDX.b $08
     
@@ -5586,7 +5586,7 @@ Object_Draw6x3:
 {
     LDA.w #$0003
     
-    JSR Object_Draw3xN
+    JSR.w Object_Draw3xN
     
     LDA.b $08 : CLC : ADC.w #$0180 : TAY
     
@@ -5600,13 +5600,13 @@ Object_Draw6x3:
 ; $00A7B6-$00A7D2 JUMP LOCATION
 Object_Stacked4x4s:
 {
-    JSR Object_Draw4x4
+    JSR.w Object_Draw4x4
     
     LDA.b $08 : CLC : ADC.w #$0100 : TAY
     
     LDX.w #$2376
     
-    JSR Object_Draw4x4
+    JSR.w Object_Draw4x4
     
     LDA.b $08 : CLC : ADC.w #$0300 : TAY
     
@@ -5630,13 +5630,13 @@ Object_8x8:
         .draw
         
         ; Boss entrance doorways + symbol (and Blind light).
-        JSR Object_Draw4x4
-        JSR Object_Draw4x4
+        JSR.w Object_Draw4x4
+        JSR.w Object_Draw4x4
         
         LDA.b $08 : CLC : ADC.w #$0200 : TAY
         
-        JSR Object_Draw4x4
-        JSR Object_Draw4x4
+        JSR.w Object_Draw4x4
+        JSR.w Object_Draw4x4
     
     .eventNotTriggered
     
@@ -5648,13 +5648,13 @@ Object_8x8:
 ; $00A7F0-$00A808 JUMP LOCATION
 Object_Triforce:
 {
-    JSR Object_Draw4x4
+    JSR.w Object_Draw4x4
     
     LDA.b $08 : CLC : ADC.w #$01FC : TAY
     
     PHX
     
-    JSR Object_Draw4x4
+    JSR.w Object_Draw4x4
     
     PLX
     
@@ -5726,7 +5726,7 @@ Door_Up:
     ; Y coordinate upwards to the nearest quadrant boundary.
     TYA : AND.w #$F07F
     
-    JSR Door_Prioritize7x4
+    JSR.w Door_Prioritize7x4
     JMP.w RoomDraw_NormalRangedDoors_North
     
     .BRANCH_ZETA
@@ -5787,7 +5787,7 @@ Door_Up:
                 
                 LDA.w #$0000
                 
-                JSR Door_Register
+                JSR.w Door_Register
                 
                 LDA.w DoorGFXDataOffset_North, Y : TAY
                 
@@ -5858,7 +5858,7 @@ RoomDraw_NormalRangedDoors_North:
     
     LDA.w #$0000
     
-    JSR Door_Register : BCC .registrationFailed ; If failed, return
+    JSR.w Door_Register : BCC .registrationFailed ; If failed, return
         LDA.w #$0018
         
         CPY.w #$0036 : BEQ .oneSidedTrapDoor
@@ -5946,7 +5946,7 @@ Door_Down:
         LDX.w $0460
         LDA.w #$0001
         
-        JSR Door_Register
+        JSR.w Door_Register
         
         LDA.b $08 : SEC : SBC.w #$0206 : STA.b $08
         
@@ -5964,14 +5964,14 @@ Door_Down:
         LDX.w $0460
         LDA.w #$0001
         
-        JSR Door_Register
+        JSR.w Door_Register
         
         LDA.b $08 : SEC : SBC.w #$0206 : STA.b $08
         
         LDY.w #$2656
         LDA.w #$000A
         
-        JSR Object_Draw8xN.draw
+        JSR.w Object_Draw8xN.draw
         
         LDA.b $08 : SEC : SBC.w #$2080 : TAX
         
@@ -5999,14 +5999,14 @@ RoomDraw_HighPriorityExitLight:
 {
     TYA : CLC : ADC.w #$0200
     
-    JSR Door_Prioritize7x4
+    JSR.w Door_Prioritize7x4
     
     .caveExitDoor
     
     LDX.w $0460
     LDA.w #$0001
     
-    JSR Door_Register
+    JSR.w Door_Register
     
     LDY.b $08
     
@@ -6045,7 +6045,7 @@ RoomDraw_CheckIfLowerLayerDoors_Vertical:
     CMP.w #$0002 : BNE .BRANCH_XI
         TYA : CLC : ADC.w #$0200
         
-        JSR Door_Prioritize7x4
+        JSR.w Door_Prioritize7x4
         
         BRA .BRANCH_OMICRON
     
@@ -6070,7 +6070,7 @@ RoomDraw_OneSidedShutters_South:
     LDX.w $0460
     LDA.w #$0001
     
-    JSR Door_Register : BCC .BRANCH_PI
+    JSR.w Door_Register : BCC .BRANCH_PI
         LDA.w #$0000
         
         CPY.w #$001E : BEQ .BRANCH_RHO ; Not big key -> normal door
@@ -6141,7 +6141,7 @@ Door_Left:
     CMP.w #$0002 : BNE .BRANCH_DELTA
         TYA : AND.w #$FFC0
         
-        JSR Door_Prioritize4x5
+        JSR.w Door_Prioritize4x5
         
         BRA .BRANCH_EPSILON
     
@@ -6189,7 +6189,7 @@ RoomDraw_NormalRangedDoors_West:
     
     LDA.w #$0002
     
-    JSR Door_Register : BCC RoomDraw_DrawUnreachableDoorSwitcher_BRANCH_KAPPA
+    JSR.w Door_Register : BCC RoomDraw_DrawUnreachableDoorSwitcher_BRANCH_KAPPA
     
     LDA.w #$0018
     
@@ -6280,7 +6280,7 @@ RoomDraw_NormalRangedDoors_East:
     CMP.w #$0002 : BNE .BRANCH_ALPHA
         TYA : CLC : ADC.w #$0008
         
-        JSR Door_Prioritize4x5
+        JSR.w Door_Prioritize4x5
         
         BRA .BRANCH_ALPHA ; OPTIMIZE: Useless branch.
     
@@ -6305,7 +6305,7 @@ RoomDraw_OneSidedShutters_East:
     
     LDA.w #$0003
     
-    JSR Door_Register : BCC DrawUnusedDoorSwitchObject_BRANCH_GAMMA
+    JSR.w Door_Register : BCC DrawUnusedDoorSwitchObject_BRANCH_GAMMA
         LDA.w #$0000
         
         CPY.w #$0036 : BEQ .BRANCH_DELTA
@@ -6363,7 +6363,7 @@ Door_SwordActivated:
     LDX.w $0460
     LDA.w #$0000
     
-    JSR Door_Register : BCC .failedRegistration
+    JSR.w Door_Register : BCC .failedRegistration
         LDX.w DoorGFXDataOffset_North, Y
         
         BRA .drawOtherGraphic ; Temp name
@@ -6379,7 +6379,7 @@ Door_SwordActivated:
     
     LDY.b $08
     
-    JSR Object_Draw4x4
+    JSR.w Object_Draw4x4
     
     RTS
 }
@@ -6546,7 +6546,7 @@ RoomDraw_HighRangeDoor_North:
     
     LDA.w #$0000
     
-    JSR Door_Register
+    JSR.w Door_Register
     
     LDA.w #$0044
     
@@ -6608,7 +6608,7 @@ RoomDraw_OneSidedLowerShutters_South:
     
     LDA.w #$0001
     
-    JSR Door_Register
+    JSR.w Door_Register
     
     LDA.w #$0040
     
@@ -6646,7 +6646,7 @@ RoomDraw_OneSidedLowerShutters_South:
     
     LDA.b #$08 : CLC : ADC.w #$0200
     
-    JSR Door_PrioritizeDownToQuadBoundary_variable
+    JSR.w Door_PrioritizeDownToQuadBoundary_variable
     
     LDX.w $0460
     
@@ -6684,7 +6684,7 @@ RoomDraw_HighRangeDoor_West:
     LDX.w $0460
     LDA.w #$0002
     
-    JSR Door_Register
+    JSR.w Door_Register
     
     LDA.w #$0044
     
@@ -6753,7 +6753,7 @@ RoomDraw_OneSidedLowerShutters_East:
     
     LDA.w #$0003
     
-    JSR Door_Register
+    JSR.w Door_Register
     
     LDA.w #$0040
     
@@ -6814,7 +6814,7 @@ RoomDraw_MakeDoorHighPriorityLowerLayer_North:
 {
     LDA.w #$0000
     
-    JSR Door_Register
+    JSR.w Door_Register
     
     LDA.b $08 : CLC : ADC.w #$0080
 
@@ -6849,7 +6849,7 @@ Door_PrioritizeDownToQuadBoundary:
 {
     LDA.w #$0001
     
-    JSR Door_Register
+    JSR.w Door_Register
     
     LDA.b $08 : CLC : ADC.w #$0100
 
@@ -6883,7 +6883,7 @@ RoomDraw_MakeDoorHighPriorityLowerLayer_West:
 {
     LDA.w #$0002
     
-    JSR Door_Register
+    JSR.w Door_Register
     
     LDA.b $08 : INC #2
 
@@ -6916,7 +6916,7 @@ RoomDraw_MakeDoorHighPriorityLowerLayer_East:
 {
     LDA.w #$0003
     
-    JSR Door_Register
+    JSR.w Door_Register
     
     LDA.b $08 : CLC : ADC.w #$0004
 }
@@ -7258,7 +7258,7 @@ UNREACHABLE_01B254:
     
     .next_block
     
-        JSR Object_Draw2x2_AdvanceDown
+        JSR.w Object_Draw2x2_AdvanceDown
         
         TXA : CLC : ADC.w #$0008 : TAX
     DEC.b $0E : BNE .next_block
@@ -7277,7 +7277,7 @@ UNREACHABLE_01B264:
         
             LDA.w #$0002
             
-            JSR Object_Draw4xN
+            JSR.w Object_Draw4xN
             
             TXA : SEC : SBC.w #$0010 : TAX
         DEC.b $B2 : BNE .loop
@@ -7308,7 +7308,7 @@ RoomDraw_DrawDiagonalGrave:
 {
     .loop
     
-        JSR Object_Draw5x1
+        JSR.w Object_Draw5x1
         
         TYA : CLC : ADC.w #$0082 : TAY
         
@@ -7324,7 +7324,7 @@ RoomDraw_DrawDiagonalAcute:
 {   
     .loop
     
-        JSR Object_Draw5x1
+        JSR.w Object_Draw5x1
         
         TYA : SEC : SBC.w #$007E : TAY
         
@@ -7452,19 +7452,19 @@ Object_LargeLiftableBlock:
     
     LDA.w #$2020
     
-    JSR .drawQuadrant
+    JSR.w .drawQuadrant
     
     LDX.w #$0E6A
-    LDA.w #$2121
+    LDA.w #SNES.CGRAMWriteAddr
     
-    JSR .drawQuadrant
+    JSR.w .drawQuadrant
     
     LDA.b $08 : CLC : ADC.w #$0100 : TAY
     
     LDX.w #$0E72
     LDA.w #$2222
     
-    JSR .drawQuadrant
+    JSR.w .drawQuadrant
     
     LDX.w #$0E7A
     LDA.w #$2323
@@ -7504,11 +7504,11 @@ Object_LargeLiftableBlock:
 ; $00B376-$00B380 JUMP LOCATION
 RoomDraw_RightwardsPots2x2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .next_block
     
-        JSR Object_Pot
+        JSR.w Object_Pot
     DEC.b $B2 : BNE .next_block
     
     RTS
@@ -7520,11 +7520,11 @@ RoomDraw_RightwardsPots2x2_1to16:
 ; $00B381-$00B394 JUMP LOCATION
 RoomDraw_DownwardsPots2x2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .next_block
     
-        JSR Object_Pot
+        JSR.w Object_Pot
         
         LDA.b $08 : CLC : ADC.w #$0100 : STA.b $08
         
@@ -7604,19 +7604,19 @@ Object_BombableFloor:
     LDX.w #$0220
     LDA.w #$3030
     
-    JSR .draw2x2
+    JSR.w .draw2x2
     
     LDX.w #$0228
     LDA.w #$3131
     
-    JSR .draw2x2
+    JSR.w .draw2x2
     
     LDA.b $08 : CLC : ADC.w #$0100 : TAY
     
     LDX.w #$0230
     LDA.w #$3232
     
-    JSR .draw2x2
+    JSR.w .draw2x2
     
     LDX.w #$0238
     LDA.w #$3333
@@ -7668,11 +7668,11 @@ Object_BombableFloor:
 ; $00B474-$00B47E JUMP LOCATION
 RoomDraw_RightwardsHammerPegs2x2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .nextMole
     
-        JSR Object_Mole
+        JSR.w Object_Mole
     DEC.b $B2 : BNE .nextMole
     
     RTS
@@ -7684,11 +7684,11 @@ RoomDraw_RightwardsHammerPegs2x2_1to16:
 ; $00B47F-$00B492 JUMP LOCATION
 RoomDraw_DownwardsHammerPegs2x2_1to16:
 {
-    JSR Object_Size1to16
+    JSR.w Object_Size1to16
     
     .nextMole
     
-        JSR Object_Mole
+        JSR.w Object_Mole
         
         LDA.b $08 : CLC : ADC.w #$0100 : STA.b $08
         
@@ -8028,7 +8028,7 @@ Dungeon_LoadHeader:
         ; All others
         LDA.w #$0024
         
-        JSR Dungeon_CheckAdjacentRoomOpenedDoors
+        JSR.w Dungeon_CheckAdjacentRoomOpenedDoors
     
     .divisible_by_16
     
@@ -8040,7 +8040,7 @@ Dungeon_LoadHeader:
         ; All others
         LDA.w #$0018
         
-        JSR Dungeon_CheckAdjacentRoomOpenedDoors
+        JSR.w Dungeon_CheckAdjacentRoomOpenedDoors
     
     .endsInF
     
@@ -8048,7 +8048,7 @@ Dungeon_LoadHeader:
     LDA.b $A0 : SEC : SBC.w #$0010 : TAX : BMI .first_F_rooms
         LDA.w #$000C
         
-        JSR Dungeon_CheckAdjacentRoomOpenedDoors
+        JSR.w Dungeon_CheckAdjacentRoomOpenedDoors
     
     .first_F_rooms
     
@@ -8058,7 +8058,7 @@ Dungeon_LoadHeader:
     CMP.w #$0140 : BCS .last_F_rooms
         LDA.w #$0000
         
-        JSR Dungeon_CheckAdjacentRoomOpenedDoors
+        JSR.w Dungeon_CheckAdjacentRoomOpenedDoors
     
     .last_F_rooms
     
@@ -8077,7 +8077,7 @@ Dungeon_CheckAdjacentRoomOpenedDoors:
     ; ARGUMENTS: A -> $04 and X -> $0E
     STA.b $04
     
-    JSR Dungeon_LoadAdjacentRoomDoors
+    JSR.w Dungeon_LoadAdjacentRoomDoors
     
     LDY.w #$0000
     
@@ -8207,7 +8207,7 @@ Dungeon_ApplyOverlay:
         LDA.l .ptr_table + 1, X : STA.b $B8
         LDA.l .ptr_table + 0, X : STA.b $B7
         
-        JSR Dungeon_DrawOverlay
+        JSR.w Dungeon_DrawOverlay
         
         REP #$30
         
@@ -8241,11 +8241,11 @@ Dungeon_ApplyOverlay:
         
         PHA
         
-        JSR Dungeon_PrepOverlayDma_nextPrep
+        JSR.w Dungeon_PrepOverlayDma_nextPrep
         
         PLA
         
-        JSR Dungeon_ApplyOverlayAttr
+        JSR.w Dungeon_ApplyOverlayAttr
         
         BRA .next_object
     
@@ -8285,7 +8285,7 @@ Dungeon_LoadAttrSelectable:
 {
     LDA.w $0200 : ASL A : TAX
     
-    JSR (Dungeon_LoadAttrSelectable_jumpTable, X)
+    JSR.w (Dungeon_LoadAttrSelectable_jumpTable, X)
     
     SEP #$30
     
@@ -8310,15 +8310,15 @@ Dungeon_LoadAttrTable:
     
     LDA.w #$1000 : STA !numTiles
     
-    JSR Dungeon_LoadBasicAttr_full
+    JSR.w Dungeon_LoadBasicAttr_full
     
     SEP #$30
     
-    JSR Dungeon_LoadObjAttr
-    JSR Dungeon_LoadDoorAttr
+    JSR.w Dungeon_LoadObjAttr
+    JSR.w Dungeon_LoadDoorAttr
     
     LDA.l $7EC172 : BEQ .dontFlipBarrierAttr
-        JSL Dungeon_ToggleBarrierAttr ; $00C22A IN ROM
+        JSL.l Dungeon_ToggleBarrierAttr ; $00C22A IN ROM
     
     .dontFlipBarrierAttr
     
@@ -8758,7 +8758,7 @@ Dungeon_LoadObjAttr:
         
         .noHiddenChests
         
-        JSR Dungeon_SetChestAttr
+        JSR.w Dungeon_SetChestAttr
     
     .noChests
     
@@ -8891,7 +8891,7 @@ Dungeon_LoadDoorAttr:
         ; Look at the tile address of each door.
         ; If zero, skip this door (doesn't exist)
         LDA.w $19A0, Y : BEQ .skipDoor
-            JSR Dungeon_LoadSingleDoorAttr
+            JSR.w Dungeon_LoadSingleDoorAttr
         
         .skipDoor
     INY #2 : CPY.w #$0020 : BNE .nextDoor
@@ -9327,7 +9327,7 @@ Dungeon_InitBarrierAttr:
     ; Check the orange/blue barrier state.
     LDA.l $7EC172 : BEQ .ignore
         ; If it's nonzero, flip the collision states for the barriers.
-        JSL Dungeon_ToggleBarrierAttr ; $00C22A IN ROM
+        JSL.l Dungeon_ToggleBarrierAttr ; $00C22A IN ROM
     
     .ignore
     
@@ -9478,14 +9478,14 @@ Dungeon_CheckStairsAndRunScripts:
     LDA.w $04C7 : BNE .return
         SEP #$30
         
-        JSR Dungeon_DetectStaircase
+        JSR.w Dungeon_DetectStaircase
         
         STZ.b $0E
         
         LDA.b $AE : ASL A : TAX
         
         ; Handle tag1 routine
-        JSR (Dungeon_TagRoutines, X)
+        JSR.w (Dungeon_TagRoutines, X)
         
         ; Based on the whether it's tag1 or tag2, execute different routines.
         LDA.b #$01 : STA.b $0E
@@ -9493,7 +9493,7 @@ Dungeon_CheckStairsAndRunScripts:
         LDA.b $AF : ASL A : TAX
         
         ; Handle tag2 routine
-        JSR (Dungeon_TagRoutines, X)
+        JSR.w (Dungeon_TagRoutines, X)
     
     .return
     
@@ -9617,7 +9617,7 @@ Dungeon_DetectStaircase:
             
             SEP #$30
             
-            JSL Dungeon_SaveRoomQuadrantData
+            JSL.l Dungeon_SaveRoomQuadrantData
             
             SEP #$30
             
@@ -9788,7 +9788,7 @@ RoomTag_SouthTrigger:
         CMP.b #$0B : BCC .checkIfEnemiesDead
             CMP.b #$29 : BCC .checkIfBlockMoved
                 ; Check if sprites are all dead.
-                JSL Sprite_VerifyAllOnScreenDefeated : BCC .dontShowChest
+                JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .dontShowChest
                     JSR.w RoomTag_OperateChestReveal
                 
                 .dontShowChest
@@ -9819,7 +9819,7 @@ RoomTag_SouthTrigger:
         
         .checkIfEnemiesDead
         
-        JSL Sprite_VerifyAllOnScreenDefeated : BCC .dontOpenDoors
+        JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .dontOpenDoors
             .checkDoorState
             
             ; Success, sprites are all dead.
@@ -9855,7 +9855,7 @@ RoomTag_RoomTrigger:
     LDA.b $AE, X : CMP.b #$0A : BEQ .clearRoomToOpen
         ; (clear room for chest portion)
         
-        JSL Sprite_CheckIfAllDefeated : BCC .return
+        JSL.l Sprite_CheckIfAllDefeated : BCC .return
         
         JSR.w RoomTag_OperateChestReveal
         
@@ -9869,7 +9869,7 @@ RoomTag_RoomTrigger:
 
     RoomTag_FullRoomKillCheck:
     
-    JSL Sprite_CheckIfAllDefeated : BCC .return : BCS .checkDoorState
+    JSL.l Sprite_CheckIfAllDefeated : BCC .return : BCS .checkDoorState
 
     ; Bleeds into the next function.
 }
@@ -9879,7 +9879,7 @@ RoomTag_RoomTrigger:
 RoomTag_RekillableBoss:
 {
     ; Carry clear = failure. Sprites are still onscreen.
-    JSL Sprite_CheckIfAllDefeated : BCC RoomTag_RoomTrigger_return
+    JSL.l Sprite_CheckIfAllDefeated : BCC RoomTag_RoomTrigger_return
         STZ.w $0FFC
         STZ.b $AF
         
@@ -10082,7 +10082,7 @@ PushPressurePlate:
             
             LDY.b #$10
             
-            JSL Dungeon_SpriteInducedTilemapUpdate
+            JSL.l Dungeon_SpriteInducedTilemapUpdate
     
     .BRANCH_ALPHA
     
@@ -10202,7 +10202,7 @@ RoomTag_PullSwitchExplodingWall:
         
         STZ.b $AE, X
         
-        JSL AddBlastWall
+        JSL.l AddBlastWall
     
     .return
     
@@ -10256,7 +10256,7 @@ RoomTag_GetHeartForPrize:
             
             LDA.w $040C : LSR A : TAX
             
-            LDA.l Pool_RoomTag_GetHeartForPrize, X : JSL Sprite_SpawnFallingItem
+            LDA.l Pool_RoomTag_GetHeartForPrize, X : JSL.l Sprite_SpawnFallingItem
             
             PLA : STA.b $0E
         
@@ -10281,11 +10281,11 @@ RoomTag_Agahnim:
         ; And it's checking if we have beaten Agahnim yet.
         LDA.w $0403 : ASL A : BCC .return
             ; Otherwise do some swapping to the palettes in memory.
-            JSL Palette_RevertTranslucencySwap
+            JSL.l Palette_RevertTranslucencySwap
             
             STZ.b $AE
             
-            JSL PrepDungeonExit
+            JSL.l PrepDungeonExit
     
     .return
     
@@ -10342,7 +10342,7 @@ RoomTag_KillRoomBlock:
         LDA.b $21 : LSR A : BCC .return
             LDA.b $0E : PHA
             
-            JSL Sprite_VerifyAllOnScreenDefeated : BCC .someSpritesAlive
+            JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .someSpritesAlive
                 ; Play puzzle solved song
                 LDA.b #$1B : STA.w $012F
                 
@@ -10434,25 +10434,25 @@ RoomTag_OperateChestReveal:
     
     LDA.w #$0000
     
-    JSR Dungeon_GetKeyedObjectRelativeVramAddr
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1002, X
     
     LDA.w #$0080
     
-    JSR Dungeon_GetKeyedObjectRelativeVramAddr
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1008, X
     
     LDA.w #$0002
     
-    JSR Dungeon_GetKeyedObjectRelativeVramAddr
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $100E, X
     
     LDA.w #$0082
     
-    JSR Dungeon_GetKeyedObjectRelativeVramAddr
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1014, X
     
@@ -10785,7 +10785,7 @@ RoomTag_WaterOff:
         
         LDA.b #$01 : STA.w $0424
         
-        JSL Hdma_ConfigureWaterTable
+        JSL.l Hdma_ConfigureWaterTable
         
         ; Change to "Turn off Water" dungeon submodule.
         LDA.b #$0B : STA.b $11
@@ -10810,7 +10810,7 @@ RoomTag_WaterOff:
         LDX.b $08
         
         JSR.w RoomTag_WaterOff_AdjustWater
-        JSR Dungeon_PrepOverlayDma_tilemapAlreadyUpdated
+        JSR.w Dungeon_PrepOverlayDma_tilemapAlreadyUpdated
         
         LDY.b $0C : LDA.w #$FFFF : STA.w $1100, Y
         
@@ -10914,7 +10914,7 @@ Tag_Watergate:
             
             LDA.w #$F1CD
             
-            JSR Object_WatergateChannelWater
+            JSR.w Object_WatergateChannelWater
             
             REP #$30
             
@@ -11041,7 +11041,7 @@ RoomTag_TriggerHoles:
             
             LDA.w $04BC : EOR.b #$01 : STA.w $04BC
             
-            JSL Dungeon_RestoreStarTileChr
+            JSL.l Dungeon_RestoreStarTileChr
     
     .BRANCH_GAMMA
     
@@ -11397,7 +11397,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
                         
                         TXA : ORA.b #$C0 : STA.w $0333
                         
-                        JSL Dungeon_ExtinguishTorch
+                        JSL.l Dungeon_ExtinguishTorch
                         
                         PLX
                     
@@ -11473,7 +11473,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
                             
                             SEP #$30
                             
-                            JSL Main_ShowTextMessage
+                            JSL.l Main_ShowTextMessage
                             
                             REP #$30
                         
@@ -11533,7 +11533,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
         
         STY.b $00
         
-        JSL AddDoorDebris : BCS .BRANCH_OMICRON
+        JSL.l AddDoorDebris : BCS .BRANCH_OMICRON
             LDY.b $00
             
             LDA.w $19C0, Y : AND.b #$03 : STA.w $03BE, X
@@ -11555,7 +11555,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
         
         LDA.b #$09 : STA.b $11
         
-        JSL Sprite_RepelDashAttackLong
+        JSL.l Sprite_RepelDashAttackLong
         
         .BRANCH_TAU
         
@@ -11606,7 +11606,7 @@ DontOpenDoor:
                     LDA.w $0437 : AND.w #$00FF : TAY
                     
                     JSR.w DrawEyeWatchDoor
-                    JSR Dungeon_PrepOverlayDma_nextPrep
+                    JSR.w Dungeon_PrepOverlayDma_nextPrep
                     
                     LDY.w $0460
                     
@@ -11768,13 +11768,13 @@ DontOpenDoor:
                 
                 .BRANCH_OPTIMUS
                 
-                JSR Dungeon_PrepOverlayDma_nextPrep
+                JSR.w Dungeon_PrepOverlayDma_nextPrep
                 
                 SEP #$30
                 
                 LDA.b $08 : AND.b #$7F : ASL A
                 
-                JSL Sound_GetFineSfxPan
+                JSL.l Sound_GetFineSfxPan
                 
                 ORA.b #$1E : STA.w $012E
                 
@@ -11905,7 +11905,7 @@ BlowOpenBombableFloor:
     
     LDA.w #$0000
     
-    JSL Dungeon_CustomIndexedRevealCoveredTiles
+    JSL.l Dungeon_CustomIndexedRevealCoveredTiles
     
     SEP #$30
     
@@ -12232,7 +12232,7 @@ Dungeon_AnimateOpeningLockedDoor:
     LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
     
     JSR.w DrawDoorOpening_Step1
-    JSR Dungeon_PrepOverlayDma_nextPrep
+    JSR.w Dungeon_PrepOverlayDma_nextPrep
     
     LDY.b $0C
     
@@ -12262,7 +12262,7 @@ Dungeon_AnimateOpeningLockedDoor:
             CMP.w #$0020 : BCC .notKeyDoor
             CMP.w #$0028 : BCS .notKeyDoor
                 ; Handles special key doors that hide spiral staircases
-                JSR Object_RefreshStaircaseAttr
+                JSR.w Object_RefreshStaircaseAttr
         
         .notKeyDoor
         
@@ -12289,7 +12289,7 @@ Dungeon_LoadToggleDoorAttr:
     ; $00D51C ALTERNATE ENTRY POINT
     .from_parameter
 
-    JSR Dungeon_LoadSingleDoorAttr
+    JSR.w Dungeon_LoadSingleDoorAttr
     
     ; $00D51F ALTERNATE ENTRY POINT
     .extern
@@ -12491,14 +12491,14 @@ Door_BlastWallExploding:
             
             LDY.w $0456
             
-            JSR Door_LoadBlastWallAttr
+            JSR.w Door_LoadBlastWallAttr
             
             STZ.w $0454
             STZ.w $0456
             
             SEP #$30
             
-            JSL Dungeon_SaveRoomQuadrantData
+            JSL.l Dungeon_SaveRoomQuadrantData
             
             STZ.w $02E4
             STZ.w $0FC1
@@ -12592,7 +12592,7 @@ PushBlock_Main:
     
         LDA.w $0500, Y : BEQ .next_block
             CMP.w #$0001 : BNE .not_block_phase_1
-                JSR Dungeon_EraseInteractive2x2
+                JSR.w Dungeon_EraseInteractive2x2
                 
                 LDX.w $0474
                 
@@ -12614,7 +12614,7 @@ PushBlock_Main:
                 LDY.w $042C
                 
                 LDA.w $0500, Y : CMP.w #$0003 : BNE .next_block
-                    JSR PushBlock_StoppedMoving
+                    JSR.w PushBlock_StoppedMoving
                     
                     BRA .increment_object_state
             
@@ -12682,25 +12682,25 @@ Dungeon_EraseInteractive2x2:
     
     LDA.w #$0000
     
-    JSR Dungeon_GetInteractiveVramAddr
+    JSR.w Dungeon_GetInteractiveVramAddr
     
     STA.w $1002, X
     
     LDA.w #$0080
     
-    JSR Dungeon_GetInteractiveVramAddr
+    JSR.w Dungeon_GetInteractiveVramAddr
     
     STA.w $1008, X
     
     LDA.w #$0002
     
-    JSR Dungeon_GetInteractiveVramAddr
+    JSR.w Dungeon_GetInteractiveVramAddr
     
     STA.w $100E, X
     
     LDA.w #$0082
     
-    JSR Dungeon_GetInteractiveVramAddr
+    JSR.w Dungeon_GetInteractiveVramAddr
     
     STA.w $1014, X
     
@@ -12910,11 +12910,11 @@ Dungeon_RevealCoveredTiles:
         
         LDA.w $0540, Y
         
-        JSR Dungeon_LoadSecret
+        JSR.w Dungeon_LoadSecret
         
         LDY.w $042C
         
-        JSR Dungeon_EraseInteractive2x2
+        JSR.w Dungeon_EraseInteractive2x2
         
         PLA : AND.w #$000F : ASL A : TAX
         
@@ -12941,23 +12941,23 @@ Dungeon_CustomIndexedRevealCoveredTiles:
     
     LDA.w $0540, Y
     
-    JSR Dungeon_LoadSecret
+    JSR.w Dungeon_LoadSecret
     
     PLY
     
-    JSR Dungeon_EraseInteractive2x2
+    JSR.w Dungeon_EraseInteractive2x2
     
     INC.w $042C : INC.w $042C : LDY.w $042C
     
-    JSR Dungeon_EraseInteractive2x2
+    JSR.w Dungeon_EraseInteractive2x2
     
     INC.w $042C : INC.w $042C : LDY.w $042C
     
-    JSR Dungeon_EraseInteractive2x2
+    JSR.w Dungeon_EraseInteractive2x2
     
     INC.w $042C : INC.w $042C : LDY.w $042C
     
-    JSR Dungeon_EraseInteractive2x2
+    JSR.w Dungeon_EraseInteractive2x2
     
     LDA.w #$5555 : STA.b $06
     
@@ -12965,7 +12965,7 @@ Dungeon_CustomIndexedRevealCoveredTiles:
     
     .BRANCH_GAMMA
     
-    JSR Dungeon_GetUprootedTerrainSpawnCoords
+    JSR.w Dungeon_GetUprootedTerrainSpawnCoords
     
     LDA.b $06
     
@@ -13013,7 +13013,7 @@ Dungeon_ToolAndTileInteraction:
                 
                 STY.w $042C
                 
-                JSR Dungeon_EraseInteractive2x2
+                JSR.w Dungeon_EraseInteractive2x2
                 
                 PLA
                 
@@ -13032,12 +13032,12 @@ Dungeon_ToolAndTileInteraction:
                 
                 LDA.w $0540, Y
                 
-                JSR Dungeon_LoadSecret
+                JSR.w Dungeon_LoadSecret
                 
                 LDY.w $042C
                 
-                JSR Dungeon_EraseInteractive2x2
-                JSR Dungeon_GetUprootedTerrainSpawnCoords
+                JSR.w Dungeon_EraseInteractive2x2
+                JSR.w Dungeon_GetUprootedTerrainSpawnCoords
                 
                 SEP #$30
                 
@@ -13045,7 +13045,7 @@ Dungeon_ToolAndTileInteraction:
                 
                 LDA.b #$01
                 
-                JSL Sprite_SpawnImmediatelySmashedTerrain
+                JSL.l Sprite_SpawnImmediatelySmashedTerrain
                 JML AddDisintegratingBushPoof
 }
 
@@ -15160,14 +15160,14 @@ Dungeon_SpriteInducedTilemapUpdate:
         
         CLC : ADC.w #$0010 : STA.b $00
         
-        JSR Dungeon_PrepSpriteInducedDma
+        JSR.w Dungeon_PrepSpriteInducedDma
         
         PLA : STA.b $00
         PLA : STA.b $0E
     
     .not_ice_man
     
-    JSR Dungeon_PrepSpriteInducedDma
+    JSR.w Dungeon_PrepSpriteInducedDma
     
     SEP #$30
     
@@ -15220,25 +15220,25 @@ Dungeon_PrepSpriteInducedDma:
     
     LDA.w #$0000
     
-    JSR Dungeon_GetRelativeVramAddr_2
+    JSR.w Dungeon_GetRelativeVramAddr_2
     
     STA.w $1002, X
     
     LDA.w #$0080
     
-    JSR Dungeon_GetRelativeVramAddr_2
+    JSR.w Dungeon_GetRelativeVramAddr_2
     
     STA.w $1008, X
     
     LDA.w #$0002
     
-    JSR Dungeon_GetRelativeVramAddr_2
+    JSR.w Dungeon_GetRelativeVramAddr_2
     
     STA.w $100E, X
     
     LDA.w #$0082
     
-    JSR Dungeon_GetRelativeVramAddr_2
+    JSR.w Dungeon_GetRelativeVramAddr_2
     
     STA.w $1014, X
     
@@ -15299,13 +15299,13 @@ Dungeon_ClearRupeeTile:
     
     LDA.w #$0000
     
-    JSR Dungeon_GetRelativeVramAddr
+    JSR.w Dungeon_GetRelativeVramAddr
     
     STA.w $1002, X
     
     LDA.w #$0080
     
-    JSR Dungeon_GetRelativeVramAddr
+    JSR.w Dungeon_GetRelativeVramAddr
     
     STA.w $1008, X
     
@@ -15404,7 +15404,7 @@ Dungeon_OpenKeyedObject:
             
             SEP #$30
             
-            JSL Main_ShowTextMessage
+            JSL.l Main_ShowTextMessage
             
             REP #$30
             
@@ -15487,7 +15487,7 @@ Dungeon_OpenKeyedObject:
         
         SEP #$30
         
-        JSL Main_ShowTextMessage
+        JSL.l Main_ShowTextMessage
         
         PLB
         
@@ -15536,25 +15536,25 @@ Dungeon_OpenKeyedObject:
     
     LDA.w #$0000
     
-    JSR Dungeon_GetKeyedObjectRelativeVramAddr
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1002, X
     
     LDA.w #$0080
     
-    JSR Dungeon_GetKeyedObjectRelativeVramAddr
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1008, X
     
     LDA.w #$0002
     
-    JSR Dungeon_GetKeyedObjectRelativeVramAddr
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $100E, X
     
     LDA.w #$0082
     
-    JSR Dungeon_GetKeyedObjectRelativeVramAddr
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1014, X
     
@@ -15577,7 +15577,7 @@ Dungeon_OpenKeyedObject:
     ; A flag indicating to update the tilemap.
     LDA.b #$01 : STA.b $14
     
-    JSR Dungeon_SaveRoomQuadrantData
+    JSR.w Dungeon_SaveRoomQuadrantData
     
     ; Is there a sound channel available?
     LDA.w $012F : BNE .sfx3ChannelNotAvailable
@@ -15626,7 +15626,7 @@ Dungeon_OpenBigChest:
     
     LDA.b $0C : PHA
     
-    JSR Dungeon_PrepOverlayDma.tilemapAlreadyUpdated
+    JSR.w Dungeon_PrepOverlayDma_tilemapAlreadyUpdated
     
     LDY.b $0C
     
@@ -15650,7 +15650,7 @@ Dungeon_OpenBigChest:
     
     PLB
     
-    JSL Dungeon_SaveRoomQuadrantData
+    JSL.l Dungeon_SaveRoomQuadrantData
     
     LDA.b #$0E : STA.w $012F
     
@@ -15692,7 +15692,7 @@ Dungeon_ShowMinigameChestMessage:
     
     SEP #$20
     
-    JSL Main_ShowTextMessage
+    JSL.l Main_ShowTextMessage
     
     PLB
     
@@ -15761,25 +15761,25 @@ Dungeon_OpenMiniGameChest:
             
             LDA.b $0C
             
-            JSR Dungeon_GetKeyedObjectRelativeVramAddr
+            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
             
             STA.w $1002, X
             
             LDA.b $0C : CLC : ADC.w #$0080
             
-            JSR Dungeon_GetKeyedObjectRelativeVramAddr
+            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
             
             STA.w $1008, X
             
             LDA.b $0C : CLC : ADC.w #$0002
             
-            JSR Dungeon_GetKeyedObjectRelativeVramAddr
+            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
             
             STA.w $100E, X
             
             LDA.b $0C : CLC : ADC.w #$0082
             
-            JSR Dungeon_GetKeyedObjectRelativeVramAddr
+            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
             
             STA.w $1014, X
             
@@ -15805,7 +15805,7 @@ Dungeon_OpenMiniGameChest:
             LDA.b $A0 : BEQ Dungeon_GetRupeeChestMinigamePrize_highStakes
                 CMP.b #$18 : BEQ Dungeon_GetRupeeChestMinigamePrize_lowStakes
                     ; Must be the village of outcasts chest game room.
-                    JSL GetRandomInt : AND.b #$07 : TAX
+                    JSL.l GetRandomInt : AND.b #$07 : TAX
                     
                     CPX.b #$02 : BCC .BRANCH_BETA
                         ; Make sure it's not the same thing we got last time?
@@ -15869,14 +15869,14 @@ Dungeon_GetRupeeChestMinigamePrize:
 {
     .highStakes
     
-    JSL GetRandomInt : AND.b #$0F
+    JSL.l GetRandomInt : AND.b #$0F
     
     BRA .BRANCH_ALPHA
     
     ; $00EEFF ALTERNATE ENTRY POINT
     .lowStakes
     
-    JSL GetRandomInt : AND.b #$0F : CLC : ADC.w #$10
+    JSL.l GetRandomInt : AND.b #$0F : CLC : ADC.w #$10
     
     .BRANCH_ALPHA
     
@@ -15884,7 +15884,7 @@ Dungeon_GetRupeeChestMinigamePrize:
     
     LDA.l Dungeon_RupeeChestMinigamePrizes, X
     
-    BRA Dungeon_OpenMiniGameChest.prizeExternallyDetermined
+    BRA Dungeon_OpenMiniGameChest_prizeExternallyDetermined
 }
     
 ; ==============================================================================
@@ -15944,7 +15944,7 @@ IncrementallyDrainSwampPool:
             
             INC.w $0424
             
-            JSL Hdma_ConfigureWaterTable
+            JSL.l Hdma_ConfigureWaterTable
             
             RTL
     
@@ -15954,7 +15954,7 @@ IncrementallyDrainSwampPool:
     
     INC.w $0424
     
-    JSL Hdma_ConfigureWaterTable
+    JSL.l Hdma_ConfigureWaterTable
     
     RTL
     
@@ -15965,7 +15965,7 @@ IncrementallyDrainSwampPool:
     LDA.b #$02 : STA.b $99
     LDA.b #$32 : STA.b $9A
     
-    STZ.w $212D
+    STZ.w SNES.BGAndOBJEnableSubScreen
     STZ.b $1D
     STZ.b $96
     STZ.w $046C
@@ -16278,7 +16278,7 @@ Underworld_FloodSwampWater_RiseInLevel:
     
     INC.w $0424
     
-    JSL Hdma_ConfigureWaterTable
+    JSL.l Hdma_ConfigureWaterTable
     
     RTL
     
@@ -16500,7 +16500,7 @@ FloodDam_Fill:
         STZ.b $1E
         STZ.b $1F
         
-        JSL ResetSpotlightTable
+        JSL.l ResetSpotlightTable
     
     .alpha
     
@@ -16573,7 +16573,7 @@ Dungeon_LightTorch:
             
             LDY.w #$0ECA
             
-            JSR Dungeon_PrepOverlayDma
+            JSR.w Dungeon_PrepOverlayDma
             
             LDY.b $0C : LDA.w #$FFFF : STA.w $1100, Y
             
@@ -16583,7 +16583,7 @@ Dungeon_LightTorch:
             
             AND.b #$7F : ASL A
             
-            JSL Sound_GetFineSfxPan
+            JSL.l Sound_GetFineSfxPan
             
             ORA.b #$2A : STA.w $012E
             
@@ -16628,7 +16628,7 @@ Dungeon_LightTorch:
 ; $00F496-$00F4A0 LONG JUMP LOCATION
 Dungeon_ExtinguishFirstTorch:
 {
-    JSL Palette_AssertTranslucencySwap
+    JSL.l Palette_AssertTranslucencySwap
     
     LDA.b #$C0 : STA.w $0333
     
@@ -16667,7 +16667,7 @@ Dungeon_ExtinguishTorch:
     
     LDY.w #$0EC2
     
-    JSR Dungeon_PrepOverlayDma
+    JSR.w Dungeon_PrepOverlayDma
     
     LDY.b $0C
     
@@ -16734,13 +16734,13 @@ Dungeon_ElevateStaircasePriority:
         INX #2
     DEY : BPL .next_column
     
-    JSR Dungeon_PrepOverlayDma.tilemapAlreadyUpdated
+    JSR.w Dungeon_PrepOverlayDma_tilemapAlreadyUpdated
     
     ; TODO: Investigate exactly what tiles are being reblitted to vram,
     ; because something about this just seems off.
     PLA : CLC : ADC.w #$0008 : STA.b $08
     
-    JSR Dungeon_PrepOverlayDma_nextPrep
+    JSR.w Dungeon_PrepOverlayDma_nextPrep
     
     ; Finalizes oam buffer...
     JMP.w RoomDraw_CloseStripes
@@ -16768,11 +16768,11 @@ Dungeon_DecreaseStaircasePriority:
     
     DEY : BPL .nextColumn
     
-    JSR Dungeon_PrepOverlayDma.tilemapAlreadyUpdated
+    JSR.w Dungeon_PrepOverlayDma_tilemapAlreadyUpdated
     
     PLA : CLC : ADC.w #$0008 : STA.b $08
     
-    JSR Dungeon_PrepOverlayDma_nextPrep
+    JSR.w Dungeon_PrepOverlayDma_nextPrep
     JMP.w RoomDraw_CloseStripes
 }
 
@@ -17183,7 +17183,7 @@ Dungeon_DrawOverlay:
         LDA [$B7], Y : CMP.w #$FFFF : BEQ .endOfObjects
             STA.b $00
             
-            JSR Dungeon_DrawChunk ; $00F980 IN ROM
+            JSR.w Dungeon_DrawChunk ; $00F980 IN ROM
     BRA .nextObject
     
     .endOfObjects
@@ -17298,11 +17298,11 @@ DoorDoorStep1_North:
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
         JSR.w GetDoorDrawDataIndex_South
-        JSR Dungeon_PrepOverlayDma_nextPrep
+        JSR.w Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
         
-        JSR Dungeon_LoadSingleDoorAttr
+        JSR.w Dungeon_LoadSingleDoorAttr
         
         PLX : STX.b $08
     
@@ -17406,11 +17406,11 @@ DoorDoorStep1_South:
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
         JSR.w GetDoorDrawDataIndex_North
-        JSR Dungeon_PrepOverlayDma_nextPrep
+        JSR.w Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
         
-        JSR Dungeon_LoadSingleDoorAttr
+        JSR.w Dungeon_LoadSingleDoorAttr
         
         PLX : STX.b $08
     
@@ -17510,11 +17510,11 @@ DoorDoorStep1_West:
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
         JSR.w GetDoorDrawDataIndex_East
-        JSR Dungeon_PrepOverlayDma_nextPrep
+        JSR.w Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
         
-        JSR Dungeon_LoadSingleDoorAttr
+        JSR.w Dungeon_LoadSingleDoorAttr
         
         PLX : STX.b $08
     
@@ -17613,11 +17613,11 @@ DoorDoorStep1_East:
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
         JSR.w GetDoorDrawDataIndex_West
-        JSR Dungeon_PrepOverlayDma_nextPrep
+        JSR.w Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
         
-        JSR Dungeon_LoadSingleDoorAttr
+        JSR.w Dungeon_LoadSingleDoorAttr
         
         PLX : STX.b $08
     

@@ -28,7 +28,7 @@ Intro_SetupScreen:
     LDA.b #$80 : STA.w $0710
 
     ; Resets screen and HDMA.
-    JSL EnableForceBlank
+    JSL.l EnableForceBlank
 
     ; Only enable OBJ on main screen.
     LDA.b #$10 : STA.b $1C
@@ -43,12 +43,12 @@ Intro_SetupScreen:
 
     ; Sets sprites to 8x8 or 16x16, name select to 0, and puts sprite tables
     ; at 0x4000 and 0x5000 in VRAM (word addresses).
-    LDA.b #$02 : STA.w $2101
+    LDA.b #$02 : STA.w SNES.OAMSizeAndDataDes
 
     ; This selects the offset to load the "Nintendo" sprite graphics pack.
     LDA.b #$14 : STA.w $0AAA
 
-    JSL Graphics_LoadChrHalfSlot
+    JSL.l Graphics_LoadChrHalfSlot
 
     ; Reset this setting because we only needed it for loading the "Nintendo" logo.
     STZ.w $0AAA
@@ -57,10 +57,10 @@ Intro_SetupScreen:
 
     REP #$20
 
-    LDX.b #$80 : STX.w $2115
+    LDX.b #$80 : STX.w SNES.VRAMAddrIncrementVal
 
     ; Target vram address is $27F0 (word).
-    LDA.w #$27F0 : STA.w $2116
+    LDA.w #$27F0 : STA.w SNES.VRAMAddrReadWriteLow
 
     LDX.b #$20 : LDA.w #$7FFF
 
@@ -68,7 +68,7 @@ Intro_SetupScreen:
     .initSP1
 
         ; Zero out this portion of VRAM.
-        STZ.w $2118
+        STZ.w SNES.VRAMDataWriteLow
 
         STA.l $7EC620, X
     DEX #2 : BPL .initSP1
@@ -197,7 +197,7 @@ Intro_ValidateSram:
 ; $010116-$01011D LONG JUMP LOCATION
 Intro_LoadTextPointersAndPalettes:
 {
-    JSL Text_GenerateMessagePointers
+    JSL.l Text_GenerateMessagePointers
 
     .justPalettes
 
@@ -224,7 +224,7 @@ AnimatedTileSheets:
 Module_LoadFile:
 {
     ; Disable Screen (force blank).
-    JSL EnableForceBlank
+    JSL.l EnableForceBlank
 
     ; Initialize a bunch of tagalong, submodule and other related variables
     ; (document these at some point in the future, but for now they're just
@@ -237,18 +237,18 @@ Module_LoadFile:
     STZ.w $0379
     STZ.w $03FD
 
-    JSL Vram_EraseTilemaps.normal
+    JSL.l Vram_EraseTilemaps_normal
 
     ; Set OAM CHR position to $8000 (byte) / $4000 (word) in VRAM.
-    LDA.b #$02 : STA.w $2101
+    LDA.b #$02 : STA.w SNES.OAMSizeAndDataDes
 
-    JSL LoadDefaultGfx
-    JSL Sprite_LoadGfxProperties
-    JSL Init_LoadDefaultTileAttr
-    JSL DecompSwordGfx
-    JSL DecompShieldGfx
-    JSL Init_Player
-    JSL Tagalong_LoadGfx
+    JSL.l LoadDefaultGfx
+    JSL.l Sprite_LoadGfxProperties
+    JSL.l Init_LoadDefaultTileAttr
+    JSL.l DecompSwordGfx
+    JSL.l DecompShieldGfx
+    JSL.l Init_Player
+    JSL.l Tagalong_LoadGfx
 
     ; Is this even useful? Seems to set all sprite graphics slots to default
     ; graphics sets really, because they're all the same.
@@ -268,9 +268,9 @@ Module_LoadFile:
     LDA.l $7EF3CA : BEQ .inLightWorld
         ; We're in the dark world, but are we in a dungeon?
         LDA.b $1B : BNE .indoors
-            JSL Equipment_DrawItem
-            JSL HUD.RebuildLong2
-            JSL Equipment_UpdateEquippedItemLong
+            JSL.l Equipment_DrawItem
+            JSL.l HUD.RebuildLong2
+            JSL.l Equipment_UpdateEquippedItemLong
 
             ; Dying outside in the Dark World apparently doesn't have any
             ; bearing on the next load.
@@ -331,7 +331,7 @@ Module_LoadFile:
 
                 SEP #$10
 
-                JSL Main_ShowTextMessage
+                JSL.l Main_ShowTextMessage
                 JSR.w Dungeon_LoadPalettes
 
                 LDA.b #$0F : STA.b $13
@@ -359,9 +359,9 @@ LoadDungeonRoomRebuildHUD:
     ; Apply mosaic settings to BGs 1,2, and 3.
     ORA.b #$07 : STA.b $95
 
-    JSL Equipment_DrawItem
-    JSL HUD.RebuildLong2
-    JSL Equipment_UpdateEquippedItemLong
+    JSL.l Equipment_DrawItem
+    JSL.l HUD.RebuildLong2
+    JSL.l Equipment_UpdateEquippedItemLong
 
     ; Bleed into the next function.
 }
@@ -410,7 +410,7 @@ Module_PreDungeon:
 
     .notPalace
 
-    JSL RebuildHUD_Keys
+    JSL.l RebuildHUD_Keys
 
     STZ.w $045A
     STZ.w $0458
@@ -419,19 +419,19 @@ Module_PreDungeon:
 
     ; Then, Draws BG0 and 1 tilemaps into VRAM from $7E2000 and $7E4000.
     ; Loads graphics dependent behavior types for tiles.
-    JSL Dungeon_LoadCustomTileAttr
+    JSL.l Dungeon_LoadCustomTileAttr
 
     ; Derived from entrance index.
     LDX.w $0AA1
 
     LDA.l AnimatedTileSheets, X : TAY
 
-    JSL DecompDungAnimatedTiles
-    JSL Dungeon_LoadAttrTable
+    JSL.l DecompDungAnimatedTiles
+    JSL.l Dungeon_LoadAttrTable
 
     LDA.b #$0A : STA.w $0AA4
 
-    JSL InitTilesets
+    JSL.l InitTilesets
 
     ; Specify the tileset for throwable objects (rocks, pots, etc).
     LDA.b #$0A : STA.w $0AB1
@@ -439,7 +439,7 @@ Module_PreDungeon:
     JSR.w Dungeon_LoadPalettes
 
     LDA.w $02E0 : ORA.b $56 : BEQ .player_not_using_bunny_gfx
-        JSL LoadGearPalettes.bunny
+        JSL.l LoadGearPalettes_bunny
 
     .player_not_using_bunny_gfx
 
@@ -458,7 +458,7 @@ Module_PreDungeon:
     
     SEP #$30
 
-    JSL SetAndSaveVisitedQuadrantFlags
+    JSL.l SetAndSaveVisitedQuadrantFlags
 
     ; Set color addition parameters.
     LDA.b #$02 : STA.b $99
@@ -493,7 +493,7 @@ Module_PreDungeon:
 
     LDA.l RoomEffectFixedColors, X : STA.l $7EC017
 
-    JSL Dungeon_ApproachFixedColor_variable
+    JSL.l Dungeon_ApproachFixedColor_variable
 
     LDA.b #$1F : STA.l $7EC007
     LDA.b #$00 : STA.l $7EC008
@@ -505,7 +505,7 @@ Module_PreDungeon:
     STZ.b $3C
 
     JSR.w Dungeon_ResetTorchBackgroundAndPlayer
-    JSL Link_CheckBunnyStatus
+    JSL.l Link_CheckBunnyStatus
     JSR.w ResetThenCacheRoomEntryProperties
 
     LDA.l $7EF3CC : CMP.b #$0D : BNE .notSuperBombTagalong
@@ -515,15 +515,15 @@ Module_PreDungeon:
 
         STZ.w $04B4
 
-        JSL FloorIndicator_hideIndicator
+        JSL.l FloorIndicator_hideIndicator
 
     .notSuperBombTagalong
 
     LDA.b #$09 : STA.b $94
 
-    JSL Tagalong_Init
-    JSL Sprite_ResetAll
-    JSL Dungeon_ResetSprites
+    JSL.l Tagalong_Init
+    JSL.l Sprite_ResetAll
+    JSL.l Dungeon_ResetSprites
 
     STZ.w $02F0
 
@@ -540,7 +540,7 @@ Module_PreDungeon:
             LDA.b #$00 : STA.l $7EC005 : STA.l $7EC006
 
             ; Puts Link into a sleep state at the beginning of the game.
-            JSL Link_TuckIntoBed
+            JSL.l Link_TuckIntoBed
 
     .notOpeningScene
 
@@ -627,7 +627,7 @@ PreOverworld_LoadProperties:
     STZ.w $03F4
 
     ; If Link has moon pearl, load his default graphic states and otherwise.
-    JSL AdjustBunnyLinkStatus
+    JSL.l AdjustBunnyLinkStatus
 
     ; Special branch for if you are outside the normal overworld area e.g.
     ; Master Sword woods.
@@ -642,12 +642,12 @@ PreOverworld_LoadProperties:
 
     .normalArea
 
-    JSL Overworld_SetSongList
+    JSL.l Overworld_SetSongList
 
     ; We have no keys on the overworld.
     LDA.b #$FF : STA.l $7EF36F
 
-    JSL HUD_RefillLogicLong
+    JSL.l HUD_RefillLogicLong
 
     ; ZS starts writing here.
     ; $0103EE - ZS Custom Overworld
@@ -759,10 +759,10 @@ PreOverworld_LoadProperties:
 
     ; This forces the game to update the animated tiles when going from one
     ; area to another.
-    JSL DecompOwAnimatedTiles
+    JSL.l DecompOwAnimatedTiles
 
     ; Decompress all other graphics.
-    JSL InitTilesets
+    JSL.l InitTilesets
 
     ; Load palettes for overworld.
     JSR.w Overworld_LoadAreaPalettes
@@ -774,10 +774,10 @@ PreOverworld_LoadProperties:
     LDA.l OverworldPalettesScreenToSet, X
 
     ; Load some other palettes.
-    JSL Overworld_LoadPalettes
+    JSL.l Overworld_LoadPalettes
 
     ; Sets the background color (changes depending on area).
-    JSL Palette_SetOwBgColor_Long
+    JSL.l Palette_SetOwBgColor_Long
 
     LDA.b $10 : CMP.b #$08 : BNE .specialArea2
         ; Copies $7EC300[0x200] to $7EC500[0x200].
@@ -792,28 +792,28 @@ PreOverworld_LoadProperties:
 
     .normalArea2
 
-    JSL Overworld_SetFixedColorAndScroll ; Sets fixed colors and scroll values.
+    JSL.l Overworld_SetFixedColorAndScroll ; Sets fixed colors and scroll values.
 
     ; Something fixed color related.
     LDA.b #$00 : STA.l $7EC017
 
     ; Sets up properties in the event a tagalong shows up.
-    JSL Tagalong_Init
+    JSL.l Tagalong_Init
 
     LDA.b $8A : AND.b #$3F : BNE .notForestArea
         LDA.b #$1E
 
-        JSL GetAnimatedSpriteTile.variable
+        JSL.l GetAnimatedSpriteTile_variable
 
     .notForestArea
 
     LDA.b #$09 : STA.w $010C
 
-    JSL Sprite_OverworldReloadAll
+    JSL.l Sprite_OverworldReloadAll
 
     ; Are we in the dark world? If so, there's no warp vortex there.
     LDA.b $8A : AND.b #$40 : BNE .noWarpVortex
-        JSL Sprite_ReinitWarpVortex
+        JSL.l Sprite_ReinitWarpVortex
 
     .noWarpVortex
 
@@ -852,7 +852,7 @@ PreOverworld_LoadProperties:
 
             LDA.b #$17 : STA.b $5D
 
-            JSL LoadGearPalettes.bunny
+            JSL.l LoadGearPalettes_bunny
 
     .notBunny
 
@@ -877,19 +877,19 @@ PreOverworld_LoadProperties:
         SEI
 
         ; Shut down NMI until music loads.
-        STZ.w $4200
+        STZ.w SNES.NMIVHCountJoypadEnable
 
         ; Stop all HDMA.
-        STZ.w $420C
+        STZ.w SNES.HDMAChannelEnable
 
         STZ.w $0136
 
-        LDA.b #$FF : STA.w $2140
+        LDA.b #$FF : STA.w SNES.APUIOPort0
 
-        JSL Sound_LoadLightWorldSongBank
+        JSL.l Sound_LoadLightWorldSongBank
 
         ; Re-enable NMI and joypad.
-        LDA.b #$81 : STA.w $4200
+        LDA.b #$81 : STA.w SNES.NMIVHCountJoypadEnable
 
     .no_music_load_needed
 
@@ -943,13 +943,13 @@ Pool_Module_LocationMenu:
 ; $010586-$0105B3 LONG JUMP LOCATION
 Module_LocationMenu:
 {
-    JSL Messaging_Text
+    JSL.l Messaging_Text
 
     LDA.b $11 : BNE .notBaseSubmodule
         STZ.b $14
 
-        JSL EnableForceBlank
-        JSL Vram_EraseTilemaps.normal
+        JSL.l EnableForceBlank
+        JSL.l Vram_EraseTilemaps_normal
 
         LDA.l $7EF3C8 : PHA
 
@@ -960,7 +960,7 @@ Module_LocationMenu:
         STZ.b $B0
 
         ; Finish up with pre dungeon mode after the selection is made.
-        JSL LoadDungeonRoomRebuildHUD
+        JSL.l LoadDungeonRoomRebuildHUD
 
         PLA : STA.l $7EF3C8
 
@@ -985,7 +985,7 @@ Credits_LoadScene_Overworld:
 {
     ; As usual, the level 2 submodule index.
     LDA.b $B0 : ASL A : TAX
-    JSR (Credits_LoadScene_OverworldJumpTable, X)
+    JSR.w (Credits_LoadScene_OverworldJumpTable, X)
 
     RTL
 }
@@ -1044,8 +1044,8 @@ Pool_Credits_LoadScene_Overworld_PrepGFX:
 ; $010604-$010696 LOCAL JUMP LOCATION
 Credits_LoadScene_Overworld_PrepGFX:
 {
-    JSL EnableForceBlank ; Sets the screen mode.
-    JSL Vram_EraseTilemaps_normal
+    JSL.l EnableForceBlank ; Sets the screen mode.
+    JSL.l Vram_EraseTilemaps_normal
 
     ; Activates subscreen color add/subtract mode.
     LDA.b #$82 : STA.b $99
@@ -1093,7 +1093,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     .deathMountain
 
-    JSL DecompOwAnimatedTiles
+    JSL.l DecompOwAnimatedTiles
 
     LDA.b $11 : LSR A : TAX
 
@@ -1101,7 +1101,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     LDA.l Pool_Credits_LoadScene_Overworld_PrepGFX_sprite_palette, X : PHA
 
-    JSL InitTilesets
+    JSL.l InitTilesets
 
     ; Load Palettes.
     JSR.w Overworld_LoadAreaPalettes
@@ -1112,22 +1112,22 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     LDA.l OverworldPalettesScreenToSet, X
 
-    JSL Overworld_LoadPalettes
+    JSL.l Overworld_LoadPalettes
 
     LDA.b #$01 : STA.w $0AB2
 
-    JSL Palette_Hud
+    JSL.l Palette_Hud
 
     LDA.b $11 : BNE .BRANCH_4
-        JSL CopyFontToVram
+        JSL.l CopyFontToVram
 
     .BRANCH_4
 
     JSR.w Overworld_CopyPalettesToCache_WithPrep
-    JSL Overworld_SetFixedColorAndScroll
+    JSL.l Overworld_SetFixedColorAndScroll
 
     LDA.b $8A : CMP.b #$80 : BCC .BRANCH_5
-        JSL Palette_SetOwBgColor_Long
+        JSL.l Palette_SetOwBgColor_Long
 
     .BRANCH_5
 
@@ -1159,7 +1159,7 @@ Credits_LoadScene_Overworld_Overlay:
 Credits_LoadScene_Overworld_LoadMap:
 {
     JSR.w Overworld_LoadAndBuildScreen
-    JSL Credits_PrepAndLoadSprites
+    JSL.l Credits_PrepAndLoadSprites
     STZ.b $C8
     STZ.b $C9
     STZ.b $B0
@@ -1170,7 +1170,7 @@ Credits_LoadScene_Overworld_LoadMap:
 ; $0106B3-$0106BF LONG JUMP LOCATION
 Credits_OperateScrollingAndTilemap:
 {
-    JSL Credits_HandleCameraScrollControl
+    JSL.l Credits_HandleCameraScrollControl
 
     LDA.w $0416 : BEQ .alpha
         JSR.w Overworld_ScrollMap
@@ -1193,7 +1193,7 @@ Credits_LoadCoolBackground:
     LDA.b #$2D : STA.w $0AA3
 
     ; Using the parameters above, loads all the necessary tile sets.
-    JSL InitTilesets
+    JSL.l InitTilesets
 
     ; Put us at the pyrmaid of power.
     LDX.b #$5B : STX.b $8A
@@ -1204,12 +1204,12 @@ Credits_LoadCoolBackground:
     LDA.l OverworldPalettesScreenToSet, X
 
     ; Loads several palettes based on the X = 0x5B above.
-    JSL Overworld_LoadPalettes
+    JSL.l Overworld_LoadPalettes
 
     ; Reload the BG auxiliary 2 palette with a different value.
     LDA.b #$03 : STA.w $0AB5
 
-    JSL Palette_OverworldBgAux2
+    JSL.l Palette_OverworldBgAux2
 
     JSR.w Overworld_CgramAuxToMain
 
@@ -1232,8 +1232,8 @@ Credits_LoadCoolBackground:
 ; $0106FD-$01076B LONG JUMP LOCATION
 Credits_LoadScene_Dungeon:
 {
-    JSL EnableForceBlank
-    JSL Vram_EraseTilemaps_normal
+    JSL.l EnableForceBlank
+    JSL.l Vram_EraseTilemaps_normal
 
     REP #$20
 
@@ -1253,7 +1253,7 @@ Credits_LoadScene_Dungeon:
 
     LDX.w $0AA1 : LDA.l AnimatedTileSheets, X : TAY
 
-    JSL DecompDungAnimatedTiles
+    JSL.l DecompDungAnimatedTiles
 
     LDA.b $11 : LSR A : TAX
 
@@ -1269,7 +1269,7 @@ Credits_LoadScene_Dungeon:
     ; Use indoor liftable sprites (pointless for an ending but whatever).
     LDA.b #$0A : STA.w $0AA4
 
-    JSL InitTilesets
+    JSL.l InitTilesets
 
     LDA.b #$0A : STA.w $0AB1
 
@@ -1285,7 +1285,7 @@ Credits_LoadScene_Dungeon:
     INC.b $11
 
     ; Do sprite loading specific to ending mode.
-    JSL Credits_PrepAndLoadSprites
+    JSL.l Credits_PrepAndLoadSprites
 
     RTL
 }
@@ -1336,28 +1336,28 @@ Module_Dungeon:
 {
     SEP #$30
 
-    JSL Effect_Handler
+    JSL.l Effect_Handler
 
     LDA.b $11 : ASL A : TAX
 
-    JSR (Module_DungeonTable, X)
+    JSR.w (Module_DungeonTable, X)
 
     STZ.w $042C
 
-    JSL PushBlock_Handler
+    JSL.l PushBlock_Handler
 
     LDA.b $11 : BNE .enteredNonDefaultSubmodule
-        JSL Graphics_LoadChrHalfSlot
+        JSL.l Graphics_LoadChrHalfSlot
         JSR.w Dungeon_HandleCamera
 
         LDA.b $11 : BNE .enteredNonDefaultSubmodule
-            JSL Dungeon_CheckStairsAndRunScripts
+            JSL.l Dungeon_CheckStairsAndRunScripts
 
             LDA.b $11 : BNE .enteredNonDefaultSubmodule
-                JSL Dungeon_ProcessTorchAndDoorInteractives
+                JSL.l Dungeon_ProcessTorchAndDoorInteractives
 
                 LDA.w $0454 : BEQ .blastWallNotOpening
-                    JSL Door_BlastWallExploding
+                    JSL.l Door_BlastWallExploding
 
                 .blastWallNotOpening
 
@@ -1370,7 +1370,7 @@ Module_Dungeon:
                 .standingInDoorway
     .enteredNonDefaultSubmodule
 
-    JSL OrientLampBg
+    JSL.l OrientLampBg
 
     REP $21
 
@@ -1394,8 +1394,8 @@ Module_Dungeon:
     SEP #$20
 
     ; Handle the sprites of pushed blocks.
-    JSL Underworld_DrawAllPushBlocks
-    JSL Sprite_Main
+    JSL.l Underworld_DrawAllPushBlocks
+    JSL.l Sprite_Main
 
     REP #$20
 
@@ -1406,8 +1406,8 @@ Module_Dungeon:
 
     SEP #$20
 
-    JSL PlayerOam_Main
-    JSL HUD_RefillLogicLong
+    JSL.l PlayerOam_Main
+    JSL.l HUD_RefillLogicLong
     JML FloorIndicator ; Handles HUD floor indicator.
 }
 
@@ -1454,10 +1454,10 @@ Dungeon_TryScreenEdgeTransition:
 
         SEP #$20
 
-        JSL Player_IsScreenTransitionPermitted : BCS .noRoomTransition
+        JSL.l Player_IsScreenTransitionPermitted : BCS .noRoomTransition
             ; Are we in dungeon mode?
             LDA.b $10 : CMP.b #$07 : BNE .noRoomTransition
-                JSL Dungeon_StartInterRoomTrans
+                JSL.l Dungeon_StartInterRoomTrans
 
                 LDA.b $10 : CMP.b #$07 : BNE .noRoomTransition
                     ; Set the submode to dungeon inter-room transition.
@@ -1491,7 +1491,7 @@ Dungeon_StartInterRoomTrans:
 
     TXA
 
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
 
     dl HandleEdgeTransitionMovementEast  ; 0x00 - $B63A
     dl HandleEdgeTransitionMovementWest  ; 0x01 - $B6D9
@@ -1567,7 +1567,7 @@ Dungeon_Normal:
             LDA.b $10 : PHA
 
             ; Switch to text mode and wait for input.
-            JSL Main_ShowTextMessage
+            JSL.l Main_ShowTextMessage
 
             PLA : STA.b $10
 
@@ -1581,7 +1581,7 @@ Dungeon_Normal:
 
     .ignoreInput
 
-    JSL Player_Main
+    JSL.l Player_Main
 
     RTS
 }
@@ -1645,7 +1645,7 @@ Dungeon_IntraRoomTrans:
 
     ; Only seems to handle aspects of Link's appearance during the transition
     ; (speculative).
-    JSL Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
 
     LDA.b $B0 : ASL A : TAX
 
@@ -1665,7 +1665,7 @@ Dungeon_IntraRoomTransShutDoors:
 
     LDA.b $11 : PHA
 
-    JSL Dungeon_AnimateTrapDoors
+    JSL.l Dungeon_AnimateTrapDoors
 
     PLA : STA.b $11
 
@@ -1708,10 +1708,10 @@ Dungeon_IntraRoomTransInit:
 Dungeon_IntraRoomTransFilter:
 {
     LDA.l $7EC005 : BEQ .noFiltering
-        JSL PaletteFilter.doFiltering
+        JSL.l PaletteFilter_doFiltering
 
         LDA.l $7EC007 : BEQ .doneFiltering
-            JSL PaletteFilter.doFiltering
+            JSL.l PaletteFilter_doFiltering
 
         .doneFiltering
 
@@ -1782,15 +1782,15 @@ Dungeon_InterRoomTrans:
 
     LDA.b $B0 : BEQ .alpha
         CMP.b #$07 : BCC .beta
-            JSL Graphics_IncrementalVramUpload
+            JSL.l Graphics_IncrementalVramUpload
 
         .beta
 
-        JSL Dungeon_LoadAttrSelectable
+        JSL.l Dungeon_LoadAttrSelectable
 
     .alpha
 
-    JSL Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
 
     LDA.b $B0 : ASL A : TAX
 
@@ -1814,9 +1814,9 @@ Dungeon_InterRoomTrans_Init:
 ; $010A5B-$010A86 LOCAL JUMP LOCATION
 Dungeon_InterRoomTrans_LoadNextRoom:
 {
-    JSL Dungeon_LoadRoom
-    JSL Dungeon_InitStarTileChr
-    JSL LoadTransAuxGFX_sprite
+    JSL.l Dungeon_LoadRoom
+    JSL.l Dungeon_InitStarTileChr
+    JSL.l LoadTransAuxGFX_sprite
 
     INC.b $B0
 
@@ -1828,7 +1828,7 @@ Dungeon_InterRoomTrans_LoadNextRoom:
 
     PLA : STA.b $A2
 
-    JSL Dungeon_ResetSprites
+    JSL.l Dungeon_ResetSprites
 
     LDA.w $0458 : BNE .darkRoomWithTorch
         JSR.w Dungeon_SyncBG1and2Scroll
@@ -1850,12 +1850,12 @@ Dungeon_02_03:
 
     .notDarkRoom
 
-    JSL Dungeon_AdjustForRoomLayout
-    JSL LoadNewSpriteGFXSet
+    JSL.l Dungeon_AdjustForRoomLayout
+    JSL.l LoadNewSpriteGFXSet
     JSR.w Dungeon_SyncBG1and2Scroll
 
     ; Tile updates of a room.
-    JSL WaterFlood_BuildOneQuadrantForVRAM
+    JSL.l WaterFlood_BuildOneQuadrantForVRAM
 
     INC.b $B0
 
@@ -1877,7 +1877,7 @@ Dungeon_02_0A:
 ; $010AAF-$010AB3 LOCAL JUMP LOCATION
 Dungeon_Dungeon_FilterPrepTilemapAndAdvance:
 {
-    JSL PaletteFilter_doFiltering
+    JSL.l PaletteFilter_doFiltering
 
     ; Bleeds into the next function.
 }
@@ -1886,7 +1886,7 @@ Dungeon_Dungeon_FilterPrepTilemapAndAdvance:
 ; $010AB3-$010AB9 LOCAL JUMP LOCATION
 Dungeon_PrepTilemapAndAdvance:
 {
-    JSL WaterFlood_BuildOneQuadrantForVRAM
+    JSL.l WaterFlood_BuildOneQuadrantForVRAM
 
     INC.b $B0
 
@@ -1909,7 +1909,7 @@ Dungeon_02_09:
 ; $010AC4-$010AC7 LOCAL JUMP LOCATION
 Dungeon_FilterUploadAndAdvance:
 {
-    JSL PaletteFilter_doFiltering
+    JSL.l PaletteFilter_doFiltering
 
     ; Bleeds into the next function.
 }
@@ -1918,7 +1918,7 @@ Dungeon_FilterUploadAndAdvance:
 ; $010AC8-$010ACE LOCAL JUMP LOCATION
 Dungeon_PrepNextQuadrantUploadAndAdvance:
 {
-    JSL Dungeon_PrepareNextRoomQuadrantUpload
+    JSL.l Dungeon_PrepareNextRoomQuadrantUpload
 
     INC.b $B0
 
@@ -1937,7 +1937,7 @@ Dungeon_02_0C:
             JSR.w IntraroomTransitionCalculateLanding
 
             LDA.l $7EC005 : ORA.l $7EC006 : BEQ .BRANCH_ALPHA
-                JSL PaletteFilter.doFiltering
+                JSL.l PaletteFilter_doFiltering
 
     .BRANCH_ALPHA
 
@@ -1976,7 +1976,7 @@ Dungeon_ResetTorchBackgroundAndPlayer:
     STY.b $1C
     STA.b $1D
 
-    JSL RestoreTorchBackground
+    JSL.l RestoreTorchBackground
 
     ; Bleeds into the next function.
 }
@@ -1985,7 +1985,7 @@ Dungeon_ResetTorchBackgroundAndPlayer:
 DeleteCertainAncillaeStopDashing:
 {
     ; Not really sure, terminates some ancillae, probably.
-    JSL Ancilla_TerminateSelectInteractives
+    JSL.l Ancilla_TerminateSelectInteractives
 
     ; Check if Link will bounce off of a wall if he touches one.
     LDA.w $0372 : BEQ .return
@@ -2058,7 +2058,7 @@ UnderworldTransition_RunFiltering:
 
         LDA.l RoomEffectFixedColors, X : STA.l $7EC017
 
-        JSL Dungeon_ApproachFixedColor_variable
+        JSL.l Dungeon_ApproachFixedColor_variable
 
         LDA.b #$00 : STA.l $7EC00B
 
@@ -2076,10 +2076,10 @@ UnderworldTransition_RunFiltering:
 Dungeon_FadedFilter:
 {
     LDA.l $7EC005 : ORA.l $7EC006 : BEQ .noFilteringNeeded
-        JSL PaletteFilter_doFiltering
+        JSL.l PaletteFilter_doFiltering
 
         LDA.l $7EC007 : BEQ .beta
-            JSL PaletteFilter_doFiltering
+            JSL.l PaletteFilter_doFiltering
 
         .beta
 
@@ -2142,7 +2142,7 @@ Underworld_SetBossOrSancMusicUponEntry:
 
             SEP #$20
 
-            JSL Sprite_VerifyAllOnScreenDefeated : BCS .noSongChange
+            JSL.l Sprite_VerifyAllOnScreenDefeated : BCS .noSongChange
                 ; Activate boss music.
                 LDX.b #$15
 
@@ -2163,7 +2163,7 @@ Underworld_SetBossOrSancMusicUponEntry:
 ; $010C05-$010C09 LOCAL JUMP LOCATION
 Dungeon_OverlayChange:
 {
-    JSL Dungeon_ApplyOverlay
+    JSL.l Dungeon_ApplyOverlay
 
     RTS
 }
@@ -2174,7 +2174,7 @@ Dungeon_OverlayChange:
 ; $010C0A-$010C0E LOCAL JUMP LOCATION
 Dungeon_OpeningLockedDoor:
 {
-    JSL Dungeon_AnimateOpeningLockedDoor
+    JSL.l Dungeon_AnimateOpeningLockedDoor
 
     RTS
 }
@@ -2185,7 +2185,7 @@ Dungeon_OpeningLockedDoor:
 ; $010C0F-$010C13 LOCAL JUMP LOCATION
 Dungeon_ControlShutters:
 {
-    JSL Dungeon_AnimateTrapDoors
+    JSL.l Dungeon_AnimateTrapDoors
 
     RTS
 }
@@ -2197,12 +2197,12 @@ Dungeon_ControlShutters:
 Dungeon_FatInterRoomStairs:
 {
     LDA.b $B0 : CMP.b #$03 : BCC .BRANCH_ALPHA
-        JSL Dungeon_LoadAttrSelectable
+        JSL.l Dungeon_LoadAttrSelectable
 
     .BRANCH_ALPHA
 
     LDA.b $B0 : CMP.b #$0D : BCC .BRANCH_BETA
-        JSL Graphics_IncrementalVramUpload
+        JSL.l Graphics_IncrementalVramUpload
 
         LDA.w $0464 : BEQ .BRANCH_GAMMA
             DEC.w $0464
@@ -2221,16 +2221,16 @@ Dungeon_FatInterRoomStairs:
 
             STX.b $67
 
-            JSL Link_HandleVelocity
+            JSL.l Link_HandleVelocity
             JSR.w Dungeon_HandleCamera
 
     .BRANCH_BETA
 
-    JSL Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
 
     .BRANCH_GAMMA
 
-    LDA.b $B0 : JSL UseImplicitRegIndexedLocalJumpTable
+    LDA.b $B0 : JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw ResetTransitionPropsAndAdvance_ResetInterface  ; 0x00 - $8CA9
     dw DungeonTransition_FatStairs_RunFade            ; 0x01 - $8D01
@@ -2334,14 +2334,14 @@ ResetTransitionPropsAndAdvanceSubmodule:
 Dungeon_InitializeRoomFromSpecial:
 {
     JSR.w Dungeon_AdjustAfterSpiralStairs
-    JSL Dungeon_LoadRoom
-    JSL Dungeon_InitStarTileChr
-    JSL LoadTransAuxGFX
-    JSL Dungeon_LoadCustomTileAttr
+    JSL.l Dungeon_LoadRoom
+    JSL.l Dungeon_InitStarTileChr
+    JSL.l LoadTransAuxGFX
+    JSL.l Dungeon_LoadCustomTileAttr
 
     LDA.b $A0 : STA.w $048E
 
-    JSL Tagalong_Init
+    JSL.l Tagalong_Init
 
     INC.b $B0
 
@@ -2353,10 +2353,10 @@ Dungeon_InitializeRoomFromSpecial:
 ; $010D01-$010D0F LOCAL JUMP LOCATION
 DungeonTransition_FatStairs_RunFade:
 {
-    JSL PaletteFilter.doFiltering
+    JSL.l PaletteFilter_doFiltering
 
     LDA.l $7EC007 : BEQ .BRANCH_ALPHA
-        JSL PaletteFilter.doFiltering
+        JSL.l PaletteFilter_doFiltering
 
     .BRANCH_ALPHA
 
@@ -2369,8 +2369,8 @@ DungeonTransition_FatStairs_RunFade:
 DungeonTransition_LoadSpriteGFX:
 {
     ; Prep some graphics for loading.
-    JSL LoadNewSpriteGFXSet
-    JSL Dungeon_ResetSprites
+    JSL.l LoadNewSpriteGFXSet
+    JSL.l Dungeon_ResetSprites
     JMP.w UnderworldTransition_RunFiltering
 }
 
@@ -2380,7 +2380,7 @@ DungeonTransition_LoadSpriteGFX:
 DungeonTransition_AdjustForFatStairScroll:
 {
     JSR.w Dungeon_SyncBG1and2Scroll
-    JSL Dungeon_AdjustForRoomLayout
+    JSL.l Dungeon_AdjustForRoomLayout
 
     LDY.b #$16
 
@@ -2495,7 +2495,7 @@ CacheRoomEntryProperties:
 ; $010E0F-$010E1C LOCAL JUMP LOCATION
 DungeonTransition_TriggerBGC34UpdateAndAdvance:
 {
-    JSL PrepTransAuxGFX
+    JSL.l PrepTransAuxGFX
 
     LDA.b #$09 : STA.b $17 : STA.w $0710
 
@@ -2523,15 +2523,15 @@ DungeonTransition_TriggerBGC56UpdateAndAdvance:
 Dungeon_FallingTransition:
 {
     LDA.b $B0 : CMP.b #$06 : BCC .alpha
-        JSL Graphics_IncrementalVramUpload
-        JSL Dungeon_LoadAttrSelectable
-        JSL Dungeon_ApproachFixedColor
+        JSL.l Graphics_IncrementalVramUpload
+        JSL.l Dungeon_LoadAttrSelectable
+        JSL.l Dungeon_ApproachFixedColor
 
     .alpha
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw Dungeon_FallingTransition_HandleMusicAndResetRoom ; 0x00 - $010E63
     dw ApplyPaletteFilter_bounce                         ; 0x01 - $0122A0
@@ -2582,7 +2582,7 @@ Dungeon_FallingTransition_HandleMusicAndResetRoom:
 Dungeon_FallingTransition_SyncBG1andBG2:
 {
     JSR.w Dungeon_SyncBG1and2Scroll
-    JSL Dungeon_AdjustForRoomLayout
+    JSL.l Dungeon_AdjustForRoomLayout
 
     LDY.b #$16
 
@@ -2597,7 +2597,7 @@ Dungeon_FallingTransition_SyncBG1andBG2:
     STY.b $1C
     STA.b $1D
 
-    JSL WaterFlood_BuildOneQuadrantForVRAM
+    JSL.l WaterFlood_BuildOneQuadrantForVRAM
 
     INC.b $B0
 
@@ -2607,7 +2607,7 @@ Dungeon_FallingTransition_SyncBG1andBG2:
 ; $010EA1-$010EC8 LOCAL JUMP LOCATION
 Dungeon_FallingTransition_FallingFadeIn:
 {
-    JSL PaletteFilter.doFiltering
+    JSL.l PaletteFilter_doFiltering
 
     LDA.l $7EC009 : BNE Dungeon_PlayBlipAndCacheQuadrantVisits_exit
         LDA.b $21
@@ -2639,7 +2639,7 @@ Dungeon_PlayBlipAndCacheQuadrantVisits:
 
     LDA.b #$24 : STA.w $012F
 
-    JSL SetAndSaveVisitedQuadrantFlags
+    JSL.l SetAndSaveVisitedQuadrantFlags
 
     ; $010ED7 ALTERNATE ENTRY POINT
     .exit
@@ -2659,7 +2659,7 @@ Dungeon_PlayBlipAndCacheQuadrantVisits:
 ; $010EE0-$010EF9 LOCAL JUMP LOCATION
 Dungeon_FallingTransition_LandLinkFromFalling:
 {
-    JSL HandleUnderworldLandingFromPit
+    JSL.l HandleUnderworldLandingFromPit
 
     LDA.b $11 : BNE .BRANCH_ALPHA
         LDA.b #$07 : STA.b $11
@@ -2668,7 +2668,7 @@ Dungeon_FallingTransition_LandLinkFromFalling:
 
         LDA.b #$01 : STA.w $0AAA
 
-        JSL Graphics_LoadChrHalfSlot
+        JSL.l Graphics_LoadChrHalfSlot
 
     .BRANCH_ALPHA
 
@@ -2683,7 +2683,7 @@ Dungeon_FallingTransition_CacheRoomAndSetMusic:
     LDA.w $0200 : CMP.b #$05 : BNE .BRANCH_ALPHA
         JSR.w ResetThenCacheRoomEntryProperties
         JSR.w Underworld_SetBossOrSancMusicUponEntry
-        JSL Graphics_LoadChrHalfSlot
+        JSL.l Graphics_LoadChrHalfSlot
 
     .BRANCH_ALPHA
 
@@ -2704,14 +2704,14 @@ Dungeon_NorthIntraRoomStairs:
 
         .BRANCH_BETA
 
-        JSL Link_HandleVelocity
-        JSL ApplyLinksMovementToCamera
+        JSL.l Link_HandleVelocity
+        JSL.l ApplyLinksMovementToCamera
         JSR.w Dungeon_HandleCamera
-        JSL Link_HandleMovingAnimation_FullLongEntry
+        JSL.l Link_HandleMovingAnimation_FullLongEntry
 
     .BRANCH_ALPHA
 
-    LDA.b $B0 : JSL UseImplicitRegIndexedLocalJumpTable
+    LDA.b $B0 : JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw Dungeon_NorthIntraRoomStairs_InitStairs  ; 0x00 - $010F35
     dw Dungeon_NorthIntraRoomStairs_ClimbStairs ; 0x01 - $010F5F
@@ -2772,7 +2772,7 @@ Dungeon_NorthIntraRoomStairs_ClimbStairs:
         STZ.w $0418
         STZ.b $11
 
-        JSL SetAndSaveVisitedQuadrantFlags
+        JSL.l SetAndSaveVisitedQuadrantFlags
 
         RTS
 }
@@ -2791,14 +2791,14 @@ Dungeon_SouthIntraRoomStairs:
 
         .skipStairDrag:
 
-        JSL Link_HandleVelocity
-        JSL ApplyLinksMovementToCamera
+        JSL.l Link_HandleVelocity
+        JSL.l ApplyLinksMovementToCamera
         JSR.w Dungeon_HandleCamera
-        JSL Link_HandleMovingAnimation_FullLongEntry
+        JSL.l Link_HandleMovingAnimation_FullLongEntry
 
     .runGreatGrandSub:
 
-    LDA.b $B0 : JSL UseImplicitRegIndexedLocalJumpTable
+    LDA.b $B0 : JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw Dungeon_SouthIntraRoomStairs_InitStairs  ; 0x00 $010FB1
     dw Dungeon_SouthIntraRoomStairs_ClimbStairs ; 0x01 $010FE1
@@ -2856,7 +2856,7 @@ Dungeon_SouthIntraRoomStairs_ClimbStairs:
         STZ.w $0418
         STZ.b $11
 
-        JSL SetAndSaveVisitedQuadrantFlags
+        JSL.l SetAndSaveVisitedQuadrantFlags
 
         RTS
 }
@@ -2867,7 +2867,7 @@ Dungeon_SouthIntraRoomStairs_ClimbStairs:
 ; $01100F-$011013 LOCAL JUMP LOCATION
 Dungeon_DestroyingWeakDoor:
 {
-    JSL Dungeon_AnimateDestroyingWeakDoor
+    JSL.l Dungeon_AnimateDestroyingWeakDoor
 
     RTS
 }
@@ -2878,8 +2878,8 @@ Dungeon_DestroyingWeakDoor:
 ; $011014-$01102C LOCAL JUMP LOCATION
 Dungeon_ChangeBrightness:
 {
-    JSL OrientLampBg
-    JSL Dungeon_ApproachFixedColor
+    JSL.l OrientLampBg
+    JSL.l Dungeon_ApproachFixedColor
 
     LDA.l $00009C : AND.b #$1F : CMP.l $7EC017 : BNE .notAtTarget
         STZ.b $11
@@ -2900,7 +2900,7 @@ Dungeon_TurnOffWater:
     ; from the same bank. The work could have been done in this routine
     ; just as easily.
 
-    JSL Dungeon_TurnOffWaterActual
+    JSL.l Dungeon_TurnOffWaterActual
 
     RTS
 }
@@ -2912,7 +2912,7 @@ Dungeon_TurnOffWaterActual:
 {
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
 
     dl $01EF54 ; $00EF54
     dl $01EFEC ; $00EFEC
@@ -2928,7 +2928,7 @@ Dungeon_TurnOffWaterActual:
 ; $01104A-$01104E LOCAL JUMP LOCATION
 Dungeon_TurnOnWater:
 {
-    JSL Dungeon_TurnOnWaterLong
+    JSL.l Dungeon_TurnOnWaterLong
 
     RTS
 }
@@ -2939,7 +2939,7 @@ Dungeon_TurnOnWater:
 ; $01104F-$011053 LOCAL JUMP LOCATION
 Dungeon_Watergate:
 {
-    JSL Watergate_Main
+    JSL.l Watergate_Main
 
     RTS
 }
@@ -2952,16 +2952,16 @@ Dungeon_Watergate:
 Dungeon_SpiralStaircase:
 {
     LDA.b $B0 : CMP.b #$07 : BCC .BRANCH_ALPHA
-        JSL Graphics_IncrementalVramUpload
-        JSL Dungeon_LoadAttrSelectable
+        JSL.l Graphics_IncrementalVramUpload
+        JSL.l Dungeon_LoadAttrSelectable
 
     .BRANCH_ALPHA
 
-    JSL HandleLinkOnSpiralStairs
+    JSL.l HandleLinkOnSpiralStairs
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw Module07_0E_00_InitPriorityAndScreens          ; 0x00 - $91C4
     dw Dungeon_0E_01_HandleMusicAndResetProps         ; 0x01 - $8C78
@@ -2992,9 +2992,9 @@ Dungeon_SpiralStaircase:
 ; $011094-$0110A0 LOCAL JUMP LOCATION
 Dungeon_DoubleApplyAndIncrementGrayscale:
 {
-    JSL PaletteFilter_doFiltering
-    JSL PaletteFilter_doFiltering
-    JSL Dungeon_ApproachFixedColor
+    JSL.l PaletteFilter_doFiltering
+    JSL.l PaletteFilter_doFiltering
+    JSL.l Dungeon_ApproachFixedColor
 
     RTS
 }
@@ -3005,10 +3005,10 @@ Dungeon_DoubleApplyAndIncrementGrayscale:
 Dungeon_ApplyFilterIf:
 {
     LDA.w $0464 : CMP.b #$09 : BCS .BRANCH_ALPHA
-        JSL PaletteFilter.doFiltering
+        JSL.l PaletteFilter_doFiltering
 
         LDA.l $7EC007 : BEQ .BRANCH_ALPHA
-            JSL PaletteFilter.doFiltering
+            JSL.l PaletteFilter_doFiltering
 
     .BRANCH_ALPHA
 
@@ -3077,7 +3077,7 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
 
     SEP #$30
 
-    JSL Dungeon_AdjustForRoomLayout
+    JSL.l Dungeon_AdjustForRoomLayout
 
     LDY.b #$16
 
@@ -3108,7 +3108,7 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
     LDX.b #$18 : STX.w $0464
 
     JSR.w Dungeon_PlayBlipAndCacheQuadrantVisits
-    JSL RestoreTorchBackground
+    JSL.l RestoreTorchBackground
     JMP Dungeon_PrepTilemapAndAdvance
 }
 
@@ -3163,7 +3163,7 @@ Underworld_SetBossMusicUnorthodox:
 ; $01119B-$0111B4 LOCAL JUMP LOCATION
 Module07_0E_11:
 {
-    JSL SpiralStairs_FindLandingSpot
+    JSL.l SpiralStairs_FindLandingSpot
 
     DEC.w $0464 : BNE .BRANCH_ALPHA
         LDX.b #$0A
@@ -3187,7 +3187,7 @@ Module07_0E_11:
 ; $0111B5-$0111C3 LOCAL JUMP LOCATION
 Module07_0E_12:
 {
-    JSL SpiralStairs_FindLandingSpot
+    JSL.l SpiralStairs_FindLandingSpot
 
     DEC.w $0464 : BNE .BRANCH_ALPHA
         INC.b $B0
@@ -3204,7 +3204,7 @@ Module07_0E_12:
 ; $0111C4-$0111DC LOCAL JUMP LOCATION
 Module07_0E_00_InitPriorityAndScreens:
 {
-    JSL Dungeon_ElevateStaircasePriority
+    JSL.l Dungeon_ElevateStaircasePriority
 
     LDA.b $EE : BEQ .onBG2
         LDA.b $1C : AND.b #$0F : STA.b $1C
@@ -3235,7 +3235,7 @@ Module07_0E_13_SetRoomAndLayerAndCache:
     LDA.b $1D : AND.b #$0F : STA.b $1D
 
     LDA.w $0462 : AND.b #$04 : BNE .up_staircase
-        JSL Dungeon_DecreaseStaircasePriority
+        JSL.l Dungeon_DecreaseStaircasePriority
 
     .up_staircase
 
@@ -3306,7 +3306,7 @@ RepositionLinkAfterSpiralStairs:
 
         SEP #$20
 
-        JSL Tagalong_Init
+        JSL.l Tagalong_Init
 
         REP #$20
 
@@ -3328,7 +3328,7 @@ RepositionLinkAfterSpiralStairs:
 
     SEP #$20
 
-    JSL Tagalong_Init
+    JSL.l Tagalong_Init
 
     REP #$20
 
@@ -3387,10 +3387,10 @@ Dungeon_LandingWipe:
 {
     LDA.b $B0 : ASL A : TAX
 
-    JSR (Pool_Dungeon_LandingWipe, X)
+    JSR.w (Pool_Dungeon_LandingWipe, X)
 
-    JSL Link_HandleMovingAnimation_FullLongEntry
-    JSL PlayerOam_Main
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
+    JSL.l PlayerOam_Main
 
     RTS
 }
@@ -3400,7 +3400,7 @@ Dungeon_LandingWipe:
 ; $01132D-$011333 LOCAL JUMP LOCATION
 Module07_0F_00_InitSpotlight:
 {
-    JSL Spotlight_open
+    JSL.l Spotlight_open
 
     INC.b $B0
 
@@ -3412,8 +3412,8 @@ Module07_0F_00_InitSpotlight:
 ; $011334-$011356 LOCAL JUMP LOCATION
 Module07_0F_01_OperateSpotlight:
 {
-    JSL Sprite_Main
-    JSL ConfigureSpotlightTable
+    JSL.l Sprite_Main
+    JSL.l ConfigureSpotlightTable
 
     LDA.b $11 : BNE .BRANCH_ALPHA
         STZ.b $96
@@ -3439,12 +3439,12 @@ Module07_0F_01_OperateSpotlight:
 Dungeon_StraightStairs:
 {
     LDA.b $B0 : CMP.b #$03 : BCC .doneWithAttrLoads
-        JSL Dungeon_LoadAttrSelectable
+        JSL.l Dungeon_LoadAttrSelectable
 
     .doneWithAttrLoads
 
     LDA.b $B0 : CMP.b #$0D : BCC .waitForVramConfig
-        JSL Graphics_IncrementalVramUpload
+        JSL.l Graphics_IncrementalVramUpload
 
     .waitForVramConfig
 
@@ -3466,15 +3466,15 @@ Dungeon_StraightStairs:
 
         STX.b $67
 
-        JSL Link_HandleVelocity
+        JSL.l Link_HandleVelocity
 
     .counterElapsed
 
-    JSL Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw Dungeon_StraightStairs_PrepAndReset      ; 0x00 - $93BB
     dw Dungeon_StraightStairs_FadeOut           ; 0x01 - $93ED
@@ -3546,7 +3546,7 @@ Dungeon_StraightStairs_PrepAndReset:
 Dungeon_StraightStairs_FadeOut:
 {
     LDA.w $0464 : CMP.b #$09 : BCS .BRANCH_ALPHA
-        JSL PaletteFilter_doFiltering
+        JSL.l PaletteFilter_doFiltering
 
         LDA.l $7EC007 : CMP.b #$17 : BNE .BRANCH_ALPHA
             INC.b $B0
@@ -3561,13 +3561,13 @@ Dungeon_StraightStairs_FadeOut:
 ; $011403-$011421 LOCAL JUMP LOCATION
 Dungeon_StraightStairs_LoadAndPrepRoom:
 {
-    JSL PaletteFilter_doFiltering
-    JSL Dungeon_LoadRoom
-    JSL Dungeon_RestoreStarTileChr
-    JSL LoadTransAuxGFX
-    JSL Dungeon_LoadCustomTileAttr
-    JSL Dungeon_AdjustForRoomLayout
-    JSL Tagalong_Init
+    JSL.l PaletteFilter_doFiltering
+    JSL.l Dungeon_LoadRoom
+    JSL.l Dungeon_RestoreStarTileChr
+    JSL.l LoadTransAuxGFX
+    JSL.l Dungeon_LoadCustomTileAttr
+    JSL.l Dungeon_AdjustForRoomLayout
+    JSL.l Tagalong_Init
 
     INC.b $B0
 
@@ -3580,7 +3580,7 @@ Dungeon_StraightStairs_LoadAndPrepRoom:
 ; $011422-$011429 LOCAL JUMP LOCATION
 StraightStairs_3:
 {
-    JSL PaletteFilter_doFiltering
+    JSL.l PaletteFilter_doFiltering
     JSR.w DungeonTransition_TriggerBGC34UpdateAndAdvance
 
     RTS
@@ -3592,12 +3592,12 @@ StraightStairs_3:
 ; $01142A-$01143A LOCAL JUMP LOCATION
 StraightStairs_4:
 {
-    JSL PaletteFilter_doFiltering
+    JSL.l PaletteFilter_doFiltering
     JSR.w DungeonTransition_TriggerBGC56UpdateAndAdvance
 
     LDA.b $A0 : STA.w $048E
 
-    JSL Dungeon_ResetSprites
+    JSL.l Dungeon_ResetSprites
 
     RTS
 }
@@ -3713,7 +3713,7 @@ StraightStairs_11:
     .BRANCH_THETA
 
     JSR.w Dungeon_PlayBlipAndCacheQuadrantVisits
-    JSL RestoreTorchBackground
+    JSL.l RestoreTorchBackground
     JMP Dungeon_PrepTilemapAndAdvance
 }
 
@@ -3722,11 +3722,11 @@ StraightStairs_11:
 ; $0114E0-$0114EC LOCAL JUMP LOCATION
 StraightStairs_9:
 {
-    JSL PaletteFilter.doFiltering
+    JSL.l PaletteFilter_doFiltering
 
     DEC.b $B0
 
-    JSL LoadNewSpriteGFXSet
+    JSL.l LoadNewSpriteGFXSet
     JMP.w Dungeon_HandleTranslucencyAndPalettes
 }
 
@@ -3765,7 +3765,7 @@ Module07_11_19_SetSongAndFilter:
 ; $011513-$011517 LOCAL JUMP LOCATION
 ApplyGrayscaleFixed_Incremental_bounce:
 {
-    JSL Dungeon_ApproachFixedColor
+    JSL.l Dungeon_ApproachFixedColor
 
     RTS
 }
@@ -3789,7 +3789,7 @@ Dungeon_RecoverFromFall:
 {
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw Module07_14_00_ScrollCamera  ; 0x00 - $952A
     dw RecoverPositionAfterDrowning ; 0x01 - $9583
@@ -3907,11 +3907,11 @@ RecoverPositionAfterDrowning:
 
     STZ.w $037B
 
-    JSL Link_ResetStateAfterDamagingPit
+    JSL.l Link_ResetStateAfterDamagingPit
 
     STZ.w $02F9
 
-    JSL Tagalong_Init
+    JSL.l Tagalong_Init
 
     STZ.w $0642
     STZ.w $0200
@@ -3944,14 +3944,14 @@ RecoverPositionAfterDrowning:
 Dungeon_Teleport:
 {
     LDA.b $B0 : CMP.b #$03 : BCC .alpha
-        JSL Graphics_IncrementalVramUpload
-        JSL Dungeon_LoadAttrSelectable
+        JSL.l Graphics_IncrementalVramUpload
+        JSL.l Dungeon_LoadAttrSelectable
 
     .alpha
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw ResetTransitionPropsAndAdvance_ResetInterface ; 0x00 - $8CA9
     dw Module07_15_01_ApplyMosaicAndFilter           ; 0x01 - $96AC
@@ -3983,7 +3983,7 @@ Module07_15_01_ApplyMosaicAndFilter:
 ; $0116BA-$0116EB LOCAL JUMP LOCATION
 Module07_15_04_SyncRoomPropsAndBuildOverlay:
 {
-    JSL Dungeon_ApproachFixedColor
+    JSL.l Dungeon_ApproachFixedColor
 
     REP #$20
 
@@ -3994,7 +3994,7 @@ Module07_15_04_SyncRoomPropsAndBuildOverlay:
     .notRoomRightBeforeMoldorm
 
     JSR.w Dungeon_SyncBG1and2Scroll
-    JSL Dungeon_AdjustForRoomLayout
+    JSL.l Dungeon_AdjustForRoomLayout
 
     LDY.b #$16
 
@@ -4009,7 +4009,7 @@ Module07_15_04_SyncRoomPropsAndBuildOverlay:
     STY.b $1C
     STA.b $1D
 
-    JSL WaterFlood_BuildOneQuadrantForVRAM
+    JSL.l WaterFlood_BuildOneQuadrantForVRAM
 
     INC.b $B0
 
@@ -4038,7 +4038,7 @@ Module07_15_0E_FadeInFromWarp:
 Module07_15_0F_FinalizeAndCacheEntry:
 {
     LDA.w $0200 : CMP.b #$05 : BNE .return
-        JSL SetAndSaveVisitedQuadrantFlags
+        JSL.l SetAndSaveVisitedQuadrantFlags
         STZ.b $11
 
         JSR.w ResetThenCacheRoomEntryProperties
@@ -4168,7 +4168,7 @@ Underworld_UpdatePegGFXBuffer:
 ; $0117A9-$0117B1 LOCAL JUMP LOCATION
 Module07_16_UpdatePegs_FinishUp:
 {
-    JSL Dungeon_ToggleBarrierAttr
+    JSL.l Dungeon_ToggleBarrierAttr
 
     STZ.b $B0
     STZ.b $11
@@ -4216,7 +4216,7 @@ Dungeon_PressurePlate:
 
         LDY.b #$0E
 
-        JSL Dungeon_SpriteInducedTilemapUpdate
+        JSL.l Dungeon_SpriteInducedTilemapUpdate
 
         LDA.w $010C : STA.b $11
 
@@ -4241,7 +4241,7 @@ Dungeon_Crystal:
 {
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw PrepareForCrystalCutscene                ; 0x00 - $9826
     dw BuildCrystalCutsceneTilemap              ; 0x01 - $9888
@@ -4261,7 +4261,7 @@ Dungeon_Crystal:
 ; $011826-$011887 LOCAL JUMP LOCATION
 PrepareForCrystalCutscene:
 {
-    JSL PaletteFilter_Restore_Strictly_Bg_Subtractive
+    JSL.l PaletteFilter_Restore_Strictly_Bg_Subtractive
 
     LDA.l $7EC540 : STA.l $7EC500
     LDA.l $7EC541 : STA.l $7EC501
@@ -4302,7 +4302,7 @@ PrepareForCrystalCutscene:
 ; $011888-$0118E6 LOCAL JUMP LOCATION
 BuildCrystalCutsceneTilemap:
 {
-    JSL PaletteFilter_Crystal
+    JSL.l PaletteFilter_Crystal
 
     LDA.b #$01 : STA.b $1D
 
@@ -4358,8 +4358,8 @@ StartCrystalCutscene:
 {
     INC.w $012A
 
-    JSL Polyhedral_InitThread
-    JSL CrystalMaiden_Configure
+    JSL.l Polyhedral_InitThread
+    JSL.l CrystalMaiden_Configure
 
     STZ.b $11
     STZ.b $B0
@@ -4383,7 +4383,7 @@ Dungeon_MirrorFade:
         LDA.w $0130 : STA.w $0133
 
         LDA.w $0ABD : BEQ .noPaletteSwap
-            JSL Palette_RevertTranslucencySwap
+            JSL.l Palette_RevertTranslucencySwap
 
         .noPaletteSwap
     .notFullyDarkened
@@ -4395,7 +4395,7 @@ Dungeon_MirrorFade:
 ; $011916-$01191A LOCAL JUMP LOCATION
 Dungeon_OpenGanonDoor:
 {
-    JSL Object_OpenGanonDoor
+    JSL.l Object_OpenGanonDoor
 
     RTS
 }
@@ -4416,7 +4416,7 @@ Module0C_RunSubmodule:
 {
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw ResetTransitionPropsAndAdvance_ResetInterface ; 0x00 - $8CA9
     dw ApplyPaletteFilter_bounce                     ; 0x01 - $A2A0
@@ -4454,7 +4454,7 @@ Module0D_RunSubmodule:
 {
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw ApplyPaletteFilter_bounce ; 0x00 - $A2A0
     dw Module0C_RestoreModule    ; 0x01 - $995B
@@ -4501,11 +4501,11 @@ Module_CloseSpotlightTable:
 ; $011982-$0119C9 LONG JUMP LOCATION
 Module_CloseSpotlight:
 {
-    JSL Sprite_Main
+    JSL.l Sprite_Main
 
     LDA.b $11 : ASL A : TAX
 
-    JSR (Module_CloseSpotlightTable, X)
+    JSR.w (Module_CloseSpotlightTable, X)
 
     LDA.b $1B : BNE .BRANCH_ALPHA
         LDA.b $8A : CMP.b #$0F : BNE .BRANCH_BETA
@@ -4515,7 +4515,7 @@ Module_CloseSpotlight:
 
         LDA.b #$06 : STA.b $5E
 
-        JSL Link_HandleVelocity
+        JSL.l Link_HandleVelocity
 
         STZ.b $31
         STZ.b $30
@@ -4534,7 +4534,7 @@ Module_CloseSpotlight:
 
     LDA.l Pool_Module0F_SpotlightClose_direction, X : STA.b $26 : STA.b $67
 
-    JSL Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
     JML PlayerOam_Main
 }
 
@@ -4547,7 +4547,7 @@ Dungeon_PrepExitWithSpotlight:
     STZ.w $1F0C
 
     LDA.b $1B : BNE .BRANCH_ALPHA
-        JSL Ancilla_TerminateWaterfallSplashes
+        JSL.l Ancilla_TerminateWaterfallSplashes
 
         REP #$20
 
@@ -4582,11 +4582,11 @@ Dungeon_PrepExitWithSpotlight:
 
     STZ.w $04A0
 
-    JSL FloorIndicator
+    JSL.l FloorIndicator
 
     INC.b $16
 
-    JSL Spotlight_close
+    JSL.l Spotlight_close
 
     INC.b $11
 
@@ -4599,7 +4599,7 @@ Dungeon_PrepExitWithSpotlight:
 ; ZS rewrites part of this function. - ZS Custom Overworld
 Spotlight_ConfigureTableAndControl:
 {
-    JSL ConfigureSpotlightTable
+    JSL.l ConfigureSpotlightTable
 
     ; Disable IRQ logic.
     STZ.w $012A
@@ -4619,9 +4619,9 @@ Spotlight_ConfigureTableAndControl:
 
     LDA.b $10 : CMP.b #$09 : BEQ .BRANCH_BETA
         ; Force V-blank in preperation for Dungeon mode.
-        JSL EnableForceBlank
+        JSL.l EnableForceBlank
 
-        JSL Link_ItemReset_FromOverworldThings
+        JSL.l Link_ItemReset_FromOverworldThings
 
     .BRANCH_BETA
 
@@ -4717,11 +4717,11 @@ Module_OpenSpotlightTable:
 ; $011AD7-$011AE5 LONG JUMP LOCATION
 Module_OpenSpotlight:
 {
-    JSL Sprite_Main
+    JSL.l Sprite_Main
 
     LDA.b $11 : ASL A : TAX
 
-    JSR (Module_OpenSpotlightTable, X)
+    JSR.w (Module_OpenSpotlightTable, X)
 
     JML PlayerOam_Main
 }
@@ -4732,7 +4732,7 @@ Module_OpenSpotlight:
 ; $011AE6-$011AEC LOCAL JUMP LOCATION
 Module_OpenSpotlight_Iris:
 {
-    JSL Spotlight_open
+    JSL.l Spotlight_open
 
     ; Move to the next submodule.
     INC.b $11
@@ -4762,7 +4762,7 @@ Module_HoleToDungeon:
 {
     LDA.b $B0 : ASL A : TAX
 
-    JSR (Pool_Module_HoleToDungeon_submodules, X)
+    JSR.w (Pool_Module_HoleToDungeon_submodules, X)
 
     RTL
 }
@@ -4793,7 +4793,7 @@ HoleToDungeon_FadeMusic:
 ; $011B1C-$011BD6 LOCAL JUMP LOCATION
 HoleToDungeon_LoadDungeon:
 {
-    JSL EnableForceBlank
+    JSL.l EnableForceBlank
 
     LDA.b #$02 : STA.b $99
 
@@ -4811,7 +4811,7 @@ HoleToDungeon_LoadDungeon:
 
     .not_palace
 
-    JSL HUD.RebuildIndoor.palace
+    JSL.l HUD.RebuildIndoor_palace
 
     LDA.b #$04 : STA.b $5A
     LDA.b #$03 : STA.b $5B
@@ -4842,7 +4842,7 @@ HoleToDungeon_LoadDungeon:
     STZ.w $0458
 
     JSR.w Dungeon_LoadAndDrawRoom
-    JSL Dungeon_LoadCustomTileAttr
+    JSL.l Dungeon_LoadCustomTileAttr
 
     ; Load main tileset index.
     LDX.w $0AA1
@@ -4850,8 +4850,8 @@ HoleToDungeon_LoadDungeon:
     ; Use it to compress the appropriate animated tiles?
     LDA.l $02811E, X : TAY
 
-    JSL DecompDungAnimatedTiles
-    JSL Dungeon_LoadAttrTable
+    JSL.l DecompDungAnimatedTiles
+    JSL.l Dungeon_LoadAttrTable
 
     ; Increment to next submodule.
     PLA : INC A : STA.b $B0
@@ -4859,14 +4859,14 @@ HoleToDungeon_LoadDungeon:
     LDA.b #$0A : STA.w $0AA4
 
     ; Set OBJSEL.
-    LDA.b #$02 : STA.w $2101
+    LDA.b #$02 : STA.w SNES.OAMSizeAndDataDes
 
-    JSL InitTilesets
+    JSL.l InitTilesets
 
     LDA.b #$0A : STA.w $0AB1
 
     JSR.w Dungeon_LoadPalettes
-    JSL HUD_RestoreTorchBackground
+    JSL.l HUD_RestoreTorchBackground
 
     STZ.b $3A
     STZ.b $3C
@@ -4874,14 +4874,14 @@ HoleToDungeon_LoadDungeon:
     JSR.w Dungeon_ResetTorchBackgroundAndPlayer
 
     LDA.w $02E0 : BEQ .using_normal_player_gfx
-        JSL LoadGearPalettes.bunny
+        JSL.l LoadGearPalettes_bunny
 
     .using_normal_player_gfx
 
     LDA.b #$80 : STA.b $9B
 
-    JSL HUD.RefillLogicLong
-    JSL Module_PreDungeon.setAmbientSfx
+    JSL.l HUD.RefillLogicLong
+    JSL.l Module_PreDungeon_setAmbientSfx
 
     LDA.b #$07 : STA.b $11
 
@@ -4903,16 +4903,16 @@ Dungeon_LoadSongBankIfNeeded:
         LDA.w $0136 : BNE .dontLoadMusic
             SEI
 
-            STZ.w $4200
-            STZ.w $420C
+            STZ.w SNES.NMIVHCountJoypadEnable
+            STZ.w SNES.HDMAChannelEnable
 
             INC.w $0136
 
-            LDA.b #$FF : STA.w $2140
+            LDA.b #$FF : STA.w SNES.APUIOPort0
 
-            JSL Sound_LoadIndoorSongBank
+            JSL.l Sound_LoadIndoorSongBank
 
-            LDA.b #$81 : STA.w $4200
+            LDA.b #$81 : STA.w SNES.NMIVHCountJoypadEnable
 
     .dontLoadMusic
 
@@ -4936,7 +4936,7 @@ Module11_04_FadeAndLoadQuadrants:
     ; $011C1C ALTERNATE ENTRY POINT
     .notFullyBright
 
-    JSL HandleUnderworldLandingFromPit
+    JSL.l HandleUnderworldLandingFromPit
 
     LDA.b $11 : BNE .notDefaultSubmodule
         LDA.b #$07 : STA.b $10
@@ -4975,9 +4975,9 @@ Module_BossVictory:
 {
     LDA.b $11 : ASL A : TAX
 
-    JSR (Module_BossVictoryTable, X)
+    JSR.w (Module_BossVictoryTable, X)
 
-    JSL Sprite_Main
+    JSL.l Sprite_Main
     JML PlayerOam_Main
 }
 
@@ -4986,12 +4986,12 @@ Module_BossVictory:
 ; $011C59-$011C92 LOCAL JUMP LOCATION
 Module_BossVictory_Heal:
 {
-    JSL HUD.RefillMagicPower : BCS .still_restoring_magic
+    JSL.l HUD.RefillMagicPower : BCS .still_restoring_magic
         INC.w $0200
 
     .still_restoring_magic
 
-    JSL HUD.RefillHealth : BCS .still_healing_hp
+    JSL.l HUD.RefillHealth : BCS .still_healing_hp
         INC.w $0200
 
     .still_healing_hp
@@ -5016,7 +5016,7 @@ Module_BossVictory_Heal:
 
     STZ.w $0200
 
-    JSL HUD_RefillLogicLong
+    JSL.l HUD_RefillLogicLong
 
     RTS
 }
@@ -5031,9 +5031,9 @@ Module_BossVictory_StartSpinAnimation:
 
         LDA.b #$02 : STA.b $2F
 
-        JSL Link_AnimateVictorySpin_long
-        JSL Ancilla_TerminateSelectInteractives
-        JSL addVictorySpinEffect
+        JSL.l Link_AnimateVictorySpin_long
+        JSL.l Ancilla_TerminateSelectInteractives
+        JSL.l addVictorySpinEffect
 
         INC.b $11
 
@@ -5047,7 +5047,7 @@ Module_BossVictory_StartSpinAnimation:
 ; $011CAD-$011CD0 LOCAL JUMP LOCATION
 Module_BossVictory_RunSpinAnimation:
 {
-    JSL Player_Main
+    JSL.l Player_Main
 
     LDA.b $5D : CMP.b #$00 : BNE .return
         ; What the deuce... are we supposed to be able to get. the master sword
@@ -5117,7 +5117,7 @@ Module_Mirror:
 {
     LDA.b $11 : ASL A : TAX
 
-    JSR (Module_MirrorTable_states, X)
+    JSR.w (Module_MirrorTable_states, X)
 
     LDA.b $11
 
@@ -5126,8 +5126,8 @@ Module_Mirror:
 
     .runCoreTasks
 
-    JSL Sprite_Main
-    JSL PlayerOam_Main
+    JSL.l Sprite_Main
+    JSL.l PlayerOam_Main
 
     .ignoreCoreTasks
 
@@ -5158,11 +5158,11 @@ Mirror_Init:
     LDA.b #$08 : STA.w $012C
                  STA.w $0410
 
-    JSL Mirror_InitHdmaSettings
+    JSL.l Mirror_InitHdmaSettings
 
     STZ.w $0200
 
-    JSL Palette_InitWhiteFilter
+    JSL.l Palette_InitWhiteFilter
     JSR.w Overworld_LoadMapProperties
 
     INC.b $11
@@ -5181,7 +5181,7 @@ Mirror_Init:
 
     SEP #$20
 
-    JSL ResetAncillaAndLink
+    JSL.l ResetAncillaAndLink
 
     RTS
 }
@@ -5193,7 +5193,7 @@ Module15_05:
 {
     REP #$30
 
-    LDA.w #$2641 : STA.w $4370
+    LDA.w #$2641 : STA.w DMA.7_TransferParameters
 
     LDX.w #$003E
     LDA.w #$FF00
@@ -5212,9 +5212,9 @@ Module15_05:
 
     SEP #$10
 
-    JSL Main_ShowTextMessage
-    JSL ReloadPreviouslyLoadedSheets
-    JSL HUD_RebuildIndoor
+    JSL.l Main_ShowTextMessage
+    JSL.l ReloadPreviouslyLoadedSheets
+    JSL.l HUD_RebuildIndoor
 
     LDA.b #$80 : STA.b $9B
 
@@ -5243,7 +5243,7 @@ Module15_06:
 ; $011DC2-$011DF4 LOCAL JUMP LOCATION
 Module15_07:
 {
-    JSL Messaging_Text
+    JSL.l Messaging_Text
 
     LDA.b $11 : BNE .BRANCH_ALPHA
         STZ.w $0200
@@ -5259,7 +5259,7 @@ Module15_07:
 
             SEP #$20
 
-            JSL Main_ShowTextMessage
+            JSL.l Main_ShowTextMessage
 
             STZ.w $012D
 
@@ -5281,7 +5281,7 @@ Module15_07:
 ; $011DF5-$011E05 LOCAL JUMP LOCATION
 Module15_08:
 {
-    JSL Messaging_Text
+    JSL.l Messaging_Text
 
     LDA.b $11 : BNE .BRANCH_ALPHA
         LDA.b #$20 : STA.b $B0
@@ -5295,7 +5295,7 @@ Module15_08:
 ; $011E06-$011E0E LOCAL JUMP LOCATION
 Module15_02_RunMirrorWarp_Part1:
 {
-    JSL MirrorHDMA
+    JSL.l MirrorHDMA
 
     INC.b $11
 
@@ -5307,7 +5307,7 @@ Module15_02_RunMirrorWarp_Part1:
 ; $011E0F-$011E14 LOCAL JUMP LOCATION
 Module15_03_RunMirrorWarp_Part2:
 {
-    JSL MirrorWarp_BuildWavingHDMATable
+    JSL.l MirrorWarp_BuildWavingHDMATable
 
     BRA Module15_04_RunMirrorWarp_Part3_check_subsub
 }
@@ -5315,7 +5315,7 @@ Module15_03_RunMirrorWarp_Part2:
 ; $011E15-$011E21 LOCAL JUMP LOCATION
 Module15_04_RunMirrorWarp_Part3:
 {
-    JSL MirrorWarp_BuildDewavingHDMATable
+    JSL.l MirrorWarp_BuildDewavingHDMATable
 
     .check_subsub
 
@@ -5333,8 +5333,8 @@ Module15_04_RunMirrorWarp_Part3:
 Module15_0C:
 {
     DEC.b $B0 : BNE .stillCountingDown
-        JSL SetTargetOverworldWarpToPyramid_ResetAncillaAndCutscene
-        JSL Overworld_SetSongList
+        JSL.l SetTargetOverworldWarpToPyramid_ResetAncillaAndCutscene
+        JSL.l Overworld_SetSongList
 
         LDA.l $7EF29B : ORA.b #$20 : STA.l $7EF29B
 
@@ -5378,12 +5378,12 @@ SetTargetOverworldWarpToPyramid:
 
         LDY.b #$5A
 
-        JSL DecompOwAnimatedTiles
+        JSL.l DecompOwAnimatedTiles
 
         ; $011E6E ALTERNATE ENTRY POINT
         .ResetAncillaAndCutscene
 
-        JSL Ancilla_TerminateSelectInteractives
+        JSL.l Ancilla_TerminateSelectInteractives
 
         STZ.w $037B
 
@@ -5415,9 +5415,9 @@ Module_Victory:
 {
     LDA.b $11 : ASL A : TAX
 
-    JSR (Pool_Module_Victory_states, X)
+    JSR.w (Pool_Module_Victory_states, X)
 
-    JSL Sprite_Main
+    JSL.l Sprite_Main
     JML PlayerOam_Main
 }
 
@@ -5441,7 +5441,7 @@ Module16_04_FadeAndEnd:
 
         STZ.w $02E4
 
-        JSL Palette_RevertTranslucencySwap
+        JSL.l Palette_RevertTranslucencySwap
 
         LDA.b #$00 : STA.b $5D
 
@@ -5484,7 +5484,7 @@ Module_GanonEmerges:
 
     SEP #$20
 
-    JSL Sprite_Main
+    JSL.l Sprite_Main
 
     REP #$20
 
@@ -5497,7 +5497,7 @@ Module_GanonEmerges:
 
     LDA.w $0200 : ASL A : TAX
 
-    JSR (Pool_Module_GanonEmerges_submodules, X)
+    JSR.w (Pool_Module_GanonEmerges_submodules, X)
 
     JML PlayerOam_Main
 }
@@ -5507,9 +5507,9 @@ Module_GanonEmerges:
 ; $011F2F-$011F41 LOCAL JUMP LOCATION
 GanonEmerges_GetBirdForPursuit:
 {
-    JSL Effect_Handler
-    JSL GanonEmerges_SpawnTravelBird
-    JSL Dungeon_SaveRoomData.justKeys
+    JSL.l Effect_Handler
+    JSL.l GanonEmerges_SpawnTravelBird
+    JSL.l Dungeon_SaveRoomData_justKeys
 
     INC.w $0200
     INC.w $02E4
@@ -5522,7 +5522,7 @@ GanonEmerges_GetBirdForPursuit:
 ; $011F42-$011F5D LOCAL JUMP LOCATION
 GanonEmerges_PrepForPyramidLocation:
 {
-    JSL Effect_Handler
+    JSL.l Effect_Handler
 
     LDA.b $11 : CMP.b #$0A : BNE .dont_transfer_yet
         LDA.b #$5B : STA.b $8A
@@ -5545,14 +5545,14 @@ GanonEmerges_PrepForPyramidLocation:
 ; $011F5E-$011F75 LOCAL JUMP LOCATION
 GanonEmerges_FadeOutDungeonScreen:
 {
-    JSL Effect_Handler
+    JSL.l Effect_Handler
 
     DEC.b $13 : BNE .not_fully_darkened
-        JSL EnableForceBlank
+        JSL.l EnableForceBlank
 
         INC.w $0200
 
-        JSL HUD_RebuildIndoor
+        JSL.l HUD_RebuildIndoor
 
         STZ.b $30 : STZ.b $31
 
@@ -5571,7 +5571,7 @@ GanonEmerges_LOadPyramidArea:
     LDA.b #$08 : STA.w $1AF0
                  STZ.w $1AF1
 
-    JSL BirdTravel_LoadTargetArea
+    JSL.l BirdTravel_LoadTargetArea
     JSR.w Overworld_LoadMusicIfNeeded
 
     ; Load the dark world music.
@@ -5585,7 +5585,7 @@ GanonEmerges_LOadPyramidArea:
 ; $011F8B-$011F93 LOCAL JUMP LOCATION
 GanonEmerges_LoadAmbientOverlay:
 {
-    JSL BirdTravel_LoadAmbientOverlay
+    JSL.l BirdTravel_LoadAmbientOverlay
 
     LDA.b #$00 : STA.b $B0
 
@@ -5606,7 +5606,7 @@ GanonEmerges_BrightenScreenThenSpawnBat:
         STZ.w $0403
         STZ.w $0FC1
 
-        JSL GanonEmerges_SpawnRetreatBat
+        JSL.l GanonEmerges_SpawnRetreatBat
 
         LDA.b #$02 : STA.b $2F
 
@@ -5650,7 +5650,7 @@ GanonEmerges_DelayPlayerDropOff:
 GanonEmerges_DropOffPlayerAtPyramid:
 {
     ; WTF: Wasn't the previous module dungeon?
-    JSL BirdTravel_Finish_restore_prev_module
+    JSL.l BirdTravel_Finish_restore_prev_module
 
     RTS
 }
@@ -5686,7 +5686,7 @@ Module_TriforceRoom:
 {
     LDA.b $B0 : ASL A : TAX
 
-    JSR (Pool_Module_TriforceRoom_submodules, X)
+    JSR.w (Pool_Module_TriforceRoom_submodules, X)
 
     REP #$20
 
@@ -5705,8 +5705,8 @@ Module_TriforceRoom:
 
     .BRANCH_ALPHA
 
-    JSL Link_HandleVelocity
-    JSL Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Link_HandleVelocity
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
 
     .BRANCH_BETA
 
@@ -5718,7 +5718,7 @@ Module_TriforceRoom:
 ; $012021-$01202E LOCAL JUMP LOCATION
 TriforceRoom_Step0:
 {
-    JSL Player_ResetState
+    JSL.l Player_ResetState
 
     STZ.b $66
 
@@ -5738,26 +5738,26 @@ TriforceRoom_Step1:
 ; $012035-$012064 LOCAL JUMP LOCATION
 TriforceRoom_Step2:
 {
-    JSL EnableForceBlank
+    JSL.l EnableForceBlank
 
     SEI
 
     ; Disable NMI, IRQ, and automatic joypad reads.
-    STZ.w $4200
+    STZ.w SNES.NMIVHCountJoypadEnable
 
     ; Load in the ending music.
-    LDA.b #$FF : STA.w $2140
-    JSL Sound_LoadEndingSongBank
+    LDA.b #$FF : STA.w SNES.APUIOPort0
+    JSL.l Sound_LoadEndingSongBank
 
     ; Reenable NMI and automatic joypad reads.
-    LDA.b #$81 : STA.w $4200
+    LDA.b #$81 : STA.w SNES.NMIVHCountJoypadEnable
 
     ; Set exit identifier to 0x0189 (special area, probably) ; Yes it is.
     LDA.b #$89 : STA.b $A0
     LDA.b #$01 : STA.b $A1
 
-    JSL Vram_EraseTilemaps.normal
-    JSL Palette_RevertTranslucencySwap
+    JSL.l Vram_EraseTilemaps_normal
+    JSL.l Palette_RevertTranslucencySwap
     JSR.w LoadSpecialOverworld
     JSR.w Overworld_ReloadSubscreenOverlay
 
@@ -5775,7 +5775,7 @@ TriforceRoom_Step3:
     LDA.b #$7D : STA.w $0AA3
     LDA.b #$51 : STA.w $0AA2
 
-    JSL InitTilesets
+    JSL.l InitTilesets
 
     LDX.b #$04
 
@@ -5785,7 +5785,7 @@ TriforceRoom_Step3:
 
     LDA.b #$0E
 
-    JSL Overworld_LoadPalettes
+    JSL.l Overworld_LoadPalettes
     JSR.w SpecialOverworld_CopyPalettesToCache
 
     INC.b $B0
@@ -5863,7 +5863,7 @@ TriforceRoom_Step6:
     .BRANCH_ALPHA
 
     JSR.w CopyMosaicControl
-    JSL PaletteFilter.doFiltering
+    JSL.l PaletteFilter_doFiltering
 
     RTS
 }
@@ -5871,7 +5871,7 @@ TriforceRoom_Step6:
 ; $012100-$012120 LOCAL JUMP LOCATION
 TriforceRoom_Step7:
 {
-    JSL TriforceRoom_PrepGFXSlotForPoly
+    JSL.l TriforceRoom_PrepGFXSlotForPoly
 
     REP #$20
 
@@ -5879,8 +5879,8 @@ TriforceRoom_Step7:
 
     SEP #$20
 
-    JSL Main_ShowTextMessage
-    JSL Messaging_Text
+    JSL.l Main_ShowTextMessage
+    JSL.l Messaging_Text
 
     LDA.b #$80 : STA.b $C8
     LDA.b #$19 : STA.b $10
@@ -5893,8 +5893,8 @@ TriforceRoom_Step7:
 ; $012121-$012136 LOCAL JUMP LOCATION
 TriforceRoom_Step9:
 {
-    JSL AdvancePolyhedral
-    JSL Messaging_Text
+    JSL.l AdvancePolyhedral
+    JSL.l Messaging_Text
 
     LDA.b $11 : BNE .waitForTextToEnd
         STZ.w $0200
@@ -5911,7 +5911,7 @@ TriforceRoom_Step9:
 ; $012137-$012150 LOCAL JUMP LOCATION
 TriforceRoom_Step8And10:
 {
-    JSL AdvancePolyhedral
+    JSL.l AdvancePolyhedral
 
     LDA.b $B0 : CMP.b #$0B : BNE .BRANCH_ALPHA
         LDA.b #$21 : STA.w $012C
@@ -5933,8 +5933,8 @@ TriforceRoom_Step8And10:
 ; $012151-$012163 LOCAL JUMP LOCATION
 TriforceRoom_Step11:
 {
-    JSL AdvancePolyhedral
-    JSL Player_ApproachTriforce
+    JSL.l AdvancePolyhedral
+    JSL.l Player_ApproachTriforce
 
     LDA.b $B0 : CMP.b #$0C : BNE .alpha
         STZ.b $67
@@ -5951,11 +5951,11 @@ TriforceRoom_Step11:
 ; $012164-$012172 LOCAL JUMP LOCATION
 TriforceRoom_Step12:
 {
-    JSL AdvancePolyhedral
+    JSL.l AdvancePolyhedral
 
     ; $C8 used as a timer here?
     DEC.b $C8 : BNE .alpha
-        JSL PaletteBlackAndWhiteSomething_NonConditional
+        JSL.l PaletteBlackAndWhiteSomething_NonConditional
 
         INC.b $11
 
@@ -5971,8 +5971,8 @@ TriforceRoom_Step12:
 ; $012173-$012185 LOCAL JUMP LOCATION
 TriforceRoom_Step13:
 {
-    JSL AdvancePolyhedral
-    JSL PaletteFilter_BlindingWhiteTriforce
+    JSL.l AdvancePolyhedral
+    JSL.l PaletteFilter_BlindingWhiteTriforce
 
     LDA.l $7EC009 : CMP.b #$FF : BNE .alpha
         INC.b $B0
@@ -6028,7 +6028,7 @@ Dungeon_SaveRoomData:
 
         LDA.b #$33 : STA.w $012E
 
-        JSL Dungeon_SaveRoomQuadrantData
+        JSL.l Dungeon_SaveRoomQuadrantData
 
         ; $0121C7 ALTERNATE ENTRY POINT
         .justKeys
@@ -6073,7 +6073,7 @@ RoomEffectFixedColors:
 Dungeon_HandleTranslucencyAndPalettes:
 {
     LDA.w $0ABD : BEQ .no_swap
-        JSL Palette_RevertTranslucencySwap
+        JSL.l Palette_RevertTranslucencySwap
 
     .no_swap
 
@@ -6098,7 +6098,7 @@ Dungeon_HandleTranslucencyAndPalettes:
                     CPY.b #$02 : BNE .setColorMath
                         PHX
 
-                        JSL Palette_AssertTranslucencySwap
+                        JSL.l Palette_AssertTranslucencySwap
 
                         PLX
 
@@ -6112,7 +6112,7 @@ Dungeon_HandleTranslucencyAndPalettes:
 
                             SEP #$20
 
-                            JSL Palette_AgahnimClones
+                            JSL.l Palette_AgahnimClones
 
                         .notAgahnim2
 
@@ -6132,10 +6132,10 @@ Dungeon_HandleTranslucencyAndPalettes:
 
     STZ.w $0AA9
 
-    JSL Palette_DungBgMain
-    JSL Palette_SpriteAux3
-    JSL Palette_SpriteAux1
-    JSL Palette_SpriteAux2
+    JSL.l Palette_DungBgMain
+    JSL.l Palette_SpriteAux3
+    JSL.l Palette_SpriteAux1
+    JSL.l Palette_SpriteAux2
 
     INC.b $B0
 
@@ -6147,7 +6147,7 @@ Dungeon_HandleTranslucencyAndPalettes:
 ; $012281-$01229A LOCAL JUMP LOCATION
 UnusedInterfacePaletteRecovery:
 {
-    JSL PaletteFilter_doFiltering
+    JSL.l PaletteFilter_doFiltering
 
     LDA.l $7EC007 : BNE .stillFiltering
         ; Turn off the dark transition.
@@ -6167,7 +6167,7 @@ UnusedInterfacePaletteRecovery:
 ; $01229B-$01229F LOCAL JUMP LOCATION
 HoleToDungeon_PaletteFilter:
 {
-    JSL PaletteFilter
+    JSL.l PaletteFilter
 
     RTS
 }
@@ -6178,7 +6178,7 @@ HoleToDungeon_PaletteFilter:
 ; $0122A0-$0122A4 LOCAL JUMP LOCATION
 ApplyPaletteFilter_bounce:
 {
-    JSL PaletteFilter_doFiltering
+    JSL.l PaletteFilter_doFiltering
 
     RTS
 }
@@ -6377,7 +6377,7 @@ Module_Overworld:
     ; Submodule index
     LDA.b $11 : ASL A : TAX
 
-    JSR (Module_OverworldTable, X)
+    JSR.w (Module_OverworldTable, X)
 
     REP #$21
 
@@ -6388,7 +6388,7 @@ Module_Overworld:
 
     SEP #$20
 
-    JSL Sprite_Main
+    JSL.l Sprite_Main
 
     REP #$20
 
@@ -6399,8 +6399,8 @@ Module_Overworld:
 
     SEP #$20
 
-    JSL PlayerOam_Main
-    JSL HUD_RefillLogicLong
+    JSL.l PlayerOam_Main
+    JSL.l HUD_RefillLogicLong
 
     ; $0124CD ALTERNATE ENTRY POINT - ZS Custom Overworld
     ; ZS only overwrites the rest of this function.
@@ -6529,7 +6529,7 @@ Overworld_PlayerControl:
 
         LDA.b $10 : PHA
 
-        JSL Main_ShowTextMessage
+        JSL.l Main_ShowTextMessage
 
         ; Indicates that above Subroutine may have altered play mode.
         PLA : STA.b $10
@@ -6547,17 +6547,17 @@ Overworld_PlayerControl:
 
     ; Is there a special animation to do?
     LDA.w $04C6 : BEQ .noEntranceAnimation
-        JSL Overworld_EntranceSequence
+        JSL.l Overworld_EntranceSequence
 
     .noEntranceAnimation
 
     SEP #$30
 
-    JSL Player_Main
+    JSL.l Player_Main
 
     LDA.w $04B4 : CMP.b #$FF : BEQ .noSuperBombIndicator
         ; Handles Super bomb countdown indicator on HUD.
-        JSL HUD_SuperBombIndicator
+        JSL.l HUD_SuperBombIndicator
 
     .noSuperBombIndicator
 
@@ -6568,13 +6568,13 @@ Overworld_PlayerControl:
 
     SEP #$20
 
-    JSL Graphics_LoadChrHalfSlot
+    JSL.l Graphics_LoadChrHalfSlot
     JSR.w Overworld_OperateCameraScroll
 
     ; If special outdoors mode skip this part.
     LDA.b $10 : CMP.b #$0B : BEQ .specialOverworld
-        JSL Overworld_Entrance
-        JSL Overworld_DwDeathMountainPaletteAnimation
+        JSL.l Overworld_Entrance
+        JSL.l Overworld_DwDeathMountainPaletteAnimation
         JSR.w OverworldHandleTransitions
 
         BRA .return
@@ -6770,7 +6770,7 @@ OverworldHandleTransitions:
         .BRANCH_DELTA
         .noDeltaX
 
-        JSL Overworld_CheckForSpecialOverworldTrigger
+        JSL.l Overworld_CheckForSpecialOverworldTrigger
 
         RTS
 
@@ -6781,7 +6781,7 @@ OverworldHandleTransitions:
     SEP #$20
 
     ; Just makes sure we're not using a medallion or input is disabled.
-    JSL Player_IsScreenTransitionPermitted : BCS .BRANCH_DELTA
+    JSL.l Player_IsScreenTransitionPermitted : BCS .BRANCH_DELTA
         STY.b $02 : STZ.b $03
 
         JSR.w DeleteCertainAncillaeStopDashing
@@ -6873,7 +6873,7 @@ OverworldHandleTransitions:
 
         LDA.l $00FD1C, X
 
-        JSL Overworld_LoadPalettes
+        JSL.l Overworld_LoadPalettes
         JSR.w Overworld_CgramAuxToMain
 
         RTS
@@ -6955,7 +6955,7 @@ ScrollAndCheckForSOWExit:
     .alpha
 
     ; Checks for tiles that lead back to normal overworld.
-    JSL SpecialOverworld_CheckForReturnTrigger
+    JSL.l SpecialOverworld_CheckForReturnTrigger
 
     RTS
 }
@@ -6980,12 +6980,12 @@ Overworld_LoadTransGfx:
     LDA.l $7EF051 : AND.b #$FE : STA.l $7EF051
 
     ; Load the graphics that have changed during the screen transition.
-    JSL LoadTransAuxGFX
+    JSL.l LoadTransAuxGFX
 
     ; Convert those graphics to 4bpp while copying them into the buffer
     ; starting at $7F0000. It's necessary to do it this way because we can't
     ; blank the screen (no screen fade / darkness).
-    JSL PrepTransAuxGFX
+    JSL.l PrepTransAuxGFX
 
     ; Trigger NMI module: NMI_UpdateBgChrSlots_3_to_4.
     LDA.b #$09
@@ -7040,7 +7040,7 @@ Overworld_LoadNewMapAndGfx:
     ; vblank.
     JSR.w Overworld_StartTransMapUpdate
 
-    JSL LoadNewSpriteGFXSet
+    JSL.l LoadNewSpriteGFXSet
 
     RTL
 }
@@ -7048,8 +7048,8 @@ Overworld_LoadNewMapAndGfx:
 ; $012BDA-$012BEC LOCAL JUMP LOCATION
 Overworld_RunScrollTransition:
 {
-    JSL Link_HandleMovingAnimation_FullLongEntry
-    JSL Graphics_IncrementalVramUpload
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Graphics_IncrementalVramUpload
     JSR.w OverworldScrollTransition
 
     AND.b #$0F : BEQ .alpha
@@ -7078,7 +7078,7 @@ Overworld_LoadNewSprites:
 
     .notDownTransition
 
-    JSL Sprite_OverworldReloadAll_justLoad
+    JSL.l Sprite_OverworldReloadAll_justLoad
 
     ; Reset tile modification index (keeps track of modified tiles when warping
     ; between worlds).
@@ -7094,7 +7094,7 @@ Overworld_LoadNewSprites:
     ; OPTIMIZE: What a jank branch.
     LDA.b $11 : CMP.b #$12 : BEQ .specialTransition
         ; Load bg color and other stuff.
-        JSL Overworld_SetFixedColorAndScroll
+        JSL.l Overworld_SetFixedColorAndScroll
 
     .skipBgColor
 
@@ -7166,7 +7166,7 @@ Overworld_EaseOffScrollTransition:
 
             INC.b $11
 
-            JSL Tagalong_Disable
+            JSL.l Tagalong_Disable
 
     .return
 
@@ -7176,7 +7176,7 @@ Overworld_EaseOffScrollTransition:
 ; $012C8F-$012CC1 LOCAL JUMP LOCATION
 Overworld_WalkFromExiting_FaceDown:
 {
-    JSL Link_HandleMovingAnimation_SetFacingDown
+    JSL.l Link_HandleMovingAnimation_SetFacingDown
 
     REP #$20
 
@@ -7209,7 +7209,7 @@ Overworld_WalkFromExiting_FaceDown:
 ; $012CC2-$012CD9 LOCAL JUMP LOCATION
 Overworld_WalkFromExiting_FaceUp:
 {
-    JSL Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
 
     REP #$20
 
@@ -7351,7 +7351,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     LDY.w #$0000 : LDX.w $0698
 
-    JSL Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawMap16_Anywhere
 
     LDA.w $0698 : LDX.w $04AC : INC #2 : STA.l $7EF802, X
 
@@ -7362,7 +7362,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     LDY.w #$0002 : LDX.w $0698
 
-    JSL Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawMap16_Anywhere
 
     LDA.w $0698 : LDX.w $04AC : CLC : ADC.w #$0080 : STA.l $7EF804, X
 
@@ -7374,7 +7374,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     LDY.w #$0080 : LDX.w $0698
 
-    JSL Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawMap16_Anywhere
 
     LDA.w $0698 : LDX.w $04AC : CLC : ADC.w ADC #$0082 : STA.l $7EF806, X
 
@@ -7384,7 +7384,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     LDY.w #$0082 : LDX.w $0698
 
-    JSL Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawMap16_Anywhere
 
     ; Put the finishing touches on the VRAM package that will be sent.
     LDY.w $1000 : LDA.w #$FFFF : STA.w $1002, X
@@ -7427,7 +7427,7 @@ Overworld_StartMosaicTransition:
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw OverworldMosaicTransition_HandleSong                 ; 0x00 - $AE6D
     dw ApplyPaletteFilter_bounce                            ; 0x01 - $A2A0
@@ -7468,7 +7468,7 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
         LDA.b #$1E
 
         ; Load animated graphics into WRAM.
-        JSL GetAnimatedSpriteTile.variable
+        JSL.l GetAnimatedSpriteTile_variable
 
     .notForestArea
 
@@ -7502,7 +7502,7 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
             LDA.b #$1E
 
             ; Load a certain sprite into the animated tiles buffer.
-            JSL GetAnimatedSpriteTile.variable
+            JSL.l GetAnimatedSpriteTile_variable
 
     .BRANCH_GAMMA
 
@@ -7518,7 +7518,7 @@ Module09_1D:
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw ResetTransitionPropsAndAdvance_ResetInterface ; 0x00 - $8CA9
     dw ApplyPaletteFilter_bounce                     ; 0x01 - $A2A0
@@ -7542,7 +7542,7 @@ Module09_1E:
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw ResetTransitionPropsAndAdvance_ResetInterface ; 0x00 - $8CA9
     dw ApplyPaletteFilter_bounce                     ; 0x01 - $A2A0
@@ -7570,8 +7570,8 @@ Module09_1E_02_FBlankAndLoadSPOW:
 ; $012F0B-$012F18 LOCAL JUMP LOCATION
 OverworldLoadSubScreenOverlay:
 {
-    JSL InitSpriteSlots
-    JSL Sprite_OverworldReloadAll
+    JSL.l InitSpriteSlots
+    JSL.l Sprite_OverworldReloadAll
 
     STZ.w $0308
     STZ.w $0309
@@ -7845,7 +7845,7 @@ Module09_FadeBackInFromMosaic:
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw OverworldMosaicTransition_RecoverDestinationPalettes ; 0x00 - $B0F3
     dw OverworldMosaicTransition_FilterAndLoadGraphics      ; 0x01 - $B195
@@ -7861,7 +7861,7 @@ OverworldMosaicTransition_RecoverDestinationPalettes:
 
     LDA.l $00FD1C, X
 
-    JSL Overworld_LoadPalettes
+    JSL.l Overworld_LoadPalettes
 
     BRA OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic
 }
@@ -7923,7 +7923,7 @@ Module09_1C:
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic ; 0x00 - $B171
     dw OverworldMosaicTransition_FilterAndLoadGraphics          ; 0x01 - $B195
@@ -7933,7 +7933,7 @@ Module09_1C:
 ; $013171-$013194 LOCAL JUMP LOCATION
 OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic:
 {
-    JSL LoadNewSpriteGFXSet
+    JSL.l LoadNewSpriteGFXSet
 
     LDA.b #$0F : STA.b $13
     LDA.b #$80 : STA.b $9B
@@ -7951,8 +7951,8 @@ OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic:
 ; $013195-$01319D LOCAL JUMP LOCATION
 OverworldMosaicTransition_FilterAndLoadGraphics:
 {
-    JSL Graphics_IncrementalVramUpload
-    JSL PaletteFilter_doFiltering
+    JSL.l Graphics_IncrementalVramUpload
+    JSL.l PaletteFilter_doFiltering
 
     RTS
 }
@@ -8049,7 +8049,7 @@ Overworld_ReloadSubscreenOverlayAndAdvance_long:
 ; $0131FA-$0131FE LOCAL JUMP LOCATION
 Overworld_MirrorWarp:
 {
-    JSL Overworld_MirrorWarp_Main
+    JSL.l Overworld_MirrorWarp_Main
 
     RTS
 }
@@ -8063,7 +8063,7 @@ Overworld_MirrorWarp_Main:
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
 
     dl Overworld_InitMirrorWarp
 
@@ -8093,7 +8093,7 @@ Overworld_InitMirrorWarp:
 
     LDA.b #$90 : STA.w $031F
 
-    JSL Mirror_InitHdmaSettings
+    JSL.l Mirror_InitHdmaSettings
 
     ; SWAP DARKWORLD / LIGHTWORLD STATUS
     LDA.l $7EF3CA : EOR.b #$40 : STA.l $7EF3CA
@@ -8105,7 +8105,7 @@ Overworld_InitMirrorWarp:
 
     STZ.w $0200
 
-    JSL Palette_InitWhiteFilter
+    JSL.l Palette_InitWhiteFilter
     JSR.w Overworld_LoadMapProperties
 
     INC.b $B0
@@ -8120,7 +8120,7 @@ Overworld_FinishMirrorWarp:
 {
     REP #$20
 
-    LDA.w #$2641 : STA.w $4370
+    LDA.w #$2641 : STA.w DMA.7_TransferParameters
 
     LDX.b #$3E
 
@@ -8138,8 +8138,8 @@ Overworld_FinishMirrorWarp:
 
     SEP #$20
 
-    JSL ReloadPreviouslyLoadedSheets
-    JSL Overworld_SetSongList
+    JSL.l ReloadPreviouslyLoadedSheets
+    JSL.l Overworld_SetSongList
 
     LDA.b #$80 : STA.b $9B
 
@@ -8278,9 +8278,9 @@ MirrorWarp_LoadSpritesAndColors:
 
     LDA.l $00FD1C, X
 
-    JSL Overworld_LoadPalettes
-    JSL Overworld_SetScreenBGColorCacheOnly
-    JSL Overworld_SetFixedColorAndScroll
+    JSL.l Overworld_LoadPalettes
+    JSL.l Overworld_SetScreenBGColorCacheOnly
+    JSL.l Overworld_SetFixedColorAndScroll
 
     ; ZS starts writing here.
     ; $0133A1 - ZS Custom Overworld
@@ -8322,15 +8322,15 @@ MirrorWarp_LoadSpritesAndColors:
 
     SEP #$20
 
-    JSL Sprite_ResetAll
-    JSL Sprite_OverworldReloadAll
-    JSL Link_ItemReset_FromOverworldThings
+    JSL.l Sprite_ResetAll
+    JSL.l Sprite_OverworldReloadAll
+    JSL.l Link_ItemReset_FromOverworldThings
     JSR.w DeleteCertainAncillaeStopDashing
 
     LDA.b #$14 : STA.b $5D
 
     LDA.b $8A : AND.b #$40 : BNE .darkWorld
-        JSL Sprite_ReinitWarpVortex
+        JSL.l Sprite_ReinitWarpVortex
 
     .darkWorld
 
@@ -8342,7 +8342,7 @@ MirrorWarp_LoadSpritesAndColors:
 ; $01340A-$01340E LOCAL JUMP LOCATION
 Overworld_MasterSword:
 {
-    JSL PaletteBlackAndWhiteSomething
+    JSL.l PaletteBlackAndWhiteSomething
 
     Overworld_WeathervaneExplosion:
 
@@ -8356,7 +8356,7 @@ Overworld_Whirlpool:
 
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw Whirlpool_InitWhirlpool        ; 0x00 - $B432
     dw Whirlpool_FilterBlue           ; 0x01 - $B44C
@@ -8391,7 +8391,7 @@ Whirlpool_InitWhirlpool:
 ; $01344C-$013450 LOCAL JUMP LOCATION
 Whirlpool_FilterBlue:
 {
-    JSL WhirlpoolSaturateBlue
+    JSL.l WhirlpoolSaturateBlue
 
     RTS
 }
@@ -8399,7 +8399,7 @@ Whirlpool_FilterBlue:
 ; $013451-$013455 LOCAL JUMP LOCATION
 Whirlpool_MoreBlue:
 {
-    JSL WhirlpoolIsolateBlue
+    JSL.l WhirlpoolIsolateBlue
 
     RTS
 }
@@ -8407,8 +8407,8 @@ Whirlpool_MoreBlue:
 ; $013456-$01345E LOCAL JUMP LOCATION
 Module09_2E_0B:
 {
-    JSL Graphics_IncrementalVramUpload
-    JSL WhirlpoolRestoreBlue
+    JSL.l Graphics_IncrementalVramUpload
+    JSL.l WhirlpoolRestoreBlue
 
     RTS
 }
@@ -8416,10 +8416,10 @@ Module09_2E_0B:
 ; $01345F-$01346D LOCAL JUMP LOCATION
 Module09_2E_0A:
 {
-    JSL WhirlpoolRestoreRedGreen
+    JSL.l WhirlpoolRestoreRedGreen
 
     LDA.l $7EC007 : BEQ .alpha
-        JSL WhirlpoolRestoreRedGreen
+        JSL.l WhirlpoolRestoreRedGreen
 
     .alpha
 
@@ -8434,11 +8434,11 @@ Module09_2E_03_FindDestination:
     STZ.w $0AA9
     STZ.w $0AB2
 
-    JSL Whirlpool_LookUpAndLoadTargetArea
+    JSL.l Whirlpool_LookUpAndLoadTargetArea
 
     STZ.b $B2
 
-    JSL Overworld_ReloadSubscreenOverlayAndAdvance_long
+    JSL.l Overworld_ReloadSubscreenOverlayAndAdvance_long
 
     LDA.b #$0C : STA.b $17
 
@@ -8458,7 +8458,7 @@ Module09_2E_04:
 ; $013490-$013499 LOCAL JUMP LOCATION
 Module09_2E_05_LoadDestinationMap:
 {
-    JSL BirdTravel_LoadAmbientOverlay
+    JSL.l BirdTravel_LoadAmbientOverlay
 
     LDA.b #$0C : STA.b $17
 
@@ -8499,11 +8499,11 @@ Module09_2E_09_LoadPalettes:
 {
     STZ.w $0AA9
 
-    JSL Palette_MainSpr
-    JSL Palette_MiscSpr
-    JSL Palette_SpriteAux3
-    JSL Palette_Hud
-    JSL Palette_OverworldBgMain
+    JSL.l Palette_MainSpr
+    JSL.l Palette_MiscSpr
+    JSL.l Palette_SpriteAux3
+    JSL.l Palette_Hud
+    JSL.l Palette_OverworldBgMain
 
     LDX.b $8A
 
@@ -8511,10 +8511,10 @@ Module09_2E_09_LoadPalettes:
 
     LDA.l $00FD1C, X
 
-    JSL Overworld_LoadPalettes
-    JSL Palette_SetOwBgColor_Long
-    JSL Overworld_SetFixedColorAndScroll
-    JSL LoadNewSpriteGFXSet
+    JSL.l Overworld_LoadPalettes
+    JSL.l Palette_SetOwBgColor_Long
+    JSL.l Overworld_SetFixedColorAndScroll
+    JSL.l LoadNewSpriteGFXSet
 
     .BRANCH_DELTA
 
@@ -8537,7 +8537,7 @@ Module09_2E_0C_FinalizeWarp:
 {
     LDA.b #$90 : STA.w $031F
 
-    JSL ReloadPreviouslyLoadedSheets
+    JSL.l ReloadPreviouslyLoadedSheets
 
     LDA.b #$80 : STA.b $9B
 
@@ -8567,7 +8567,7 @@ Module09_2E_0C_FinalizeWarp:
 ; $013521-$013527 LOCAL JUMP LOCATION
 Module09_2F:
 {
-    JSL Overworld_DrawWarpTile
+    JSL.l Overworld_DrawWarpTile
 
     STZ.b $11
 
@@ -8581,7 +8581,7 @@ Overworld_RecoverFromDrowning:
 {
     LDA.b $B0
 
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw Module09_2A_00_ScrollToLand  ; 0x00 - $B532
     dw RecoverPositionAfterDrowning ; 0x01 - $9583
@@ -9036,8 +9036,8 @@ HandleEdgeTransitionMovementSouth:
 ; $0137AE-$01381B LONG JUMP LOCATION
 PrepForOverworldExit:
 {
-    JSL Dungeon_SaveRoomData_justKeys
-    JSL SaveVisitedQuadrantFlags
+    JSL.l Dungeon_SaveRoomData_justKeys
+    JSL.l SaveVisitedQuadrantFlags
 
     LDA.b #$08 : STA.w $010C
 
@@ -9144,7 +9144,7 @@ HandleEdgeTransitionMovementNorth:
         .notGoingToOverworld
 
         LDA.b $A0 : ORA.b $A1 : BNE .notInGanonsRoom
-            JSL Dungeon_SaveRoomData_justKeys
+            JSL.l Dungeon_SaveRoomData_justKeys
 
             ; Go to the triforce room scene.
             LDA.b #$19 : STA.b $10
@@ -10043,7 +10043,7 @@ UnderworldTransition_ScrollRoom:
     LDA.b $00 : AND.w #$01FC : CMP.w $0610, Y : BNE .BRANCH_DELTA
         SEP #$20
 
-        JSL SetAndSaveVisitedQuadrantFlags
+        JSL.l SetAndSaveVisitedQuadrantFlags
 
         PLB
 
@@ -10052,7 +10052,7 @@ UnderworldTransition_ScrollRoom:
         STZ.w $0126
 
         LDA.b $11 : CMP.b #$02 : BNE .BRANCH_EPSILON
-            JSL WaterFlood_BuildOneQuadrantForVRAM
+            JSL.l WaterFlood_BuildOneQuadrantForVRAM
 
             RTS
 
@@ -10309,7 +10309,7 @@ OverworldScrollTransition:
 
     PHA : PHX
 
-    JSL InitSpriteSlots
+    JSL.l InitSpriteSlots
 
     PLX : PLA
 
@@ -10446,7 +10446,7 @@ IntraroomTransitionCalculateLanding:
 Module07_02_0D:
 {
     LDA.l $7EC005 : ORA.l $7EC006 : BEQ .noDarkTransition
-        JSL PaletteFilter.doFiltering
+        JSL.l PaletteFilter_doFiltering
 
     .noDarkTransition
 
@@ -10456,7 +10456,7 @@ Module07_02_0D:
 ; $014170-$014190 LOCAL JUMP LOCATION
 UnderworldTransition_HandleFinalMovements:
 {
-    JSL Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
 
     JSR.w UnderworldTransition_MoveLinkOutDoor : BCC .BRANCH_BETA
         LDX.b $4E
@@ -10601,7 +10601,7 @@ Overworld_FinalizeEntryOntoScreen_song_change_directions:
 ; $014242-$0142A3 LOCAL JUMP LOCATION
 Overworld_FinalizeEntryOntoScreen:
 {
-    JSL Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
 
     LDY.b #$02
 
@@ -10661,7 +10661,7 @@ Overworld_FinalizeEntryOntoScreen:
 ; $0142A4-$0142E3 LOCAL JUMP LOCATION
 Module09_1F:
 {
-    JSL Link_HandleMovingAnimation_FullLongEntry
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
     LDY.b #$01
 
     LDA.w $069C : LSR A : BCS .BRANCH_ALPHA
@@ -10882,7 +10882,7 @@ NULL_02C4C0:
 Intro_InitBgSettings:
 {
     ; Setini variable. No interlacing and such.
-    STZ.w $2133
+    STZ.w SNES.ScreenInit
 
     ; Give BG1 priority, and we're in mode 1.
     LDA.b #$09 : STA.b $94
@@ -10891,20 +10891,20 @@ Intro_InitBgSettings:
     STZ.b $95
 
     ; BG1 Tile map begins at $800 in VRAM. Tile map is 64x64.
-    LDA.b #$13 : STA.w $2107
+    LDA.b #$13 : STA.w SNES.BG1AddrAndSize
 
     ; BG2 Tile map begins at $0 in VRAM. Tile map is 64x64.
-    LDA.b #$03 : STA.w $2108
+    LDA.b #$03 : STA.w SNES.BG2AddrAndSize
 
     ; BG3 Tile map begins at $6000 in VRAM. Tile map is 64x64.
-    LDA.b #$63 : STA.w $2109
+    LDA.b #$63 : STA.w SNES.BG3AddrAndSize
 
     ; BG1 Character Data is at $4000 in VRAM. Same for BG2
-    LDA.b #$22 : STA.w $210B
+    LDA.b #$22 : STA.w SNES.BG1And2TileDataDes
 
     ; BG3 Character Data is at $E000 in VRAM. BG4 is at $0
     ; Note: BG4 is never used in the game
-    LDA.b #$07 : STA.w $210C
+    LDA.b #$07 : STA.w SNES.BG3And4TileDataDes
 
     ; Means that only the backdrop will be participating in color addition
     ; currently.
@@ -10945,23 +10945,23 @@ Attract_LoadDungeonGfxAndTiles:
     STA.w $0AA1
     STA.w $0AA2
 
-    JSL InitTilesets
+    JSL.l InitTilesets
 
     LDA.b #$02 : STA.w $0AA9
 
     INC.b $15
 
-    JSL Palette_BgAndFixedColor
+    JSL.l Palette_BgAndFixedColor
     ; $01455E ALTERNATE ENTRY POINT
     .justPalettes
 
-    JSL Palette_SpriteAux3
-    JSL Palette_MainSpr
-    JSL Palette_SpriteAux1
-    JSL Palette_SpriteAux2
-    JSL Palette_MiscSpr_justSp6
-    JSL Palette_Hud
-    JSL Palette_DungBgMain
+    JSL.l Palette_SpriteAux3
+    JSL.l Palette_MainSpr
+    JSL.l Palette_SpriteAux1
+    JSL.l Palette_SpriteAux2
+    JSL.l Palette_MiscSpr_justSp6
+    JSL.l Palette_Hud
+    JSL.l Palette_DungBgMain
 
     RTL
 }
@@ -10977,10 +10977,10 @@ Dungeon_LoadAndDrawRoom:
 
     LDA.b $9B : PHA
 
-    STZ.w $420C
+    STZ.w SNES.HDMAChannelEnable
     STZ.b $9B
 
-    JSL Dungeon_LoadRoom
+    JSL.l Dungeon_LoadRoom
 
     STZ.w $0418
     STZ.w $045C
@@ -10989,15 +10989,15 @@ Dungeon_LoadAndDrawRoom:
     .next_quadrant
 
         ; Draws the dungeons.
-        JSL TilemapPrep_NotWaterOnTag
+        JSL.l TilemapPrep_NotWaterOnTag
 
         ; Since we are in forced v-blank.
-        JSL NMI_UploadTilemap_long 
+        JSL.l NMI_UploadTilemap_long 
 
         ; We can do these DMA transfers.
-        JSL Dungeon_PrepareNextRoomQuadrantUpload
+        JSL.l Dungeon_PrepareNextRoomQuadrantUpload
 
-        JSL NMI_UploadTilemap_long
+        JSL.l NMI_UploadTilemap_long
 
         ; Each iteration draws a quadrant on BG1 and BG2
         ; i.e. it draws the tilemaps, which are taken from WRAM.
@@ -11044,15 +11044,15 @@ Intro_LoadPalettes:
     STZ.w $0ABD
     STZ.w $0AA9
 
-    JSL Palette_BgAndFixedColor
-    JSL Palette_SpriteAux3
-    JSL Palette_MainSpr
-    JSL Palette_OverworldBgMain
-    JSL Palette_OverworldBgAux1
-    JSL Palette_OverworldBgAux2
-    JSL Palette_OverworldBgAux3
-    JSL Palette_MiscSpr_justSp6
-    JSL Palette_Hud
+    JSL.l Palette_BgAndFixedColor
+    JSL.l Palette_SpriteAux3
+    JSL.l Palette_MainSpr
+    JSL.l Palette_OverworldBgMain
+    JSL.l Palette_OverworldBgAux1
+    JSL.l Palette_OverworldBgAux2
+    JSL.l Palette_OverworldBgAux3
+    JSL.l Palette_MiscSpr_justSp6
+    JSL.l Palette_Hud
 
     REP #$20
 
@@ -11077,17 +11077,17 @@ Dungeon_LoadPalettes:
 {
     STZ.w $0AA9
 
-    JSL Palette_BgAndFixedColor
-    JSL Palette_SpriteAux3
-    JSL Palette_MainSpr
-    JSL Palette_SpriteAux1
-    JSL Palette_SpriteAux2
-    JSL Palette_Sword
-    JSL Palette_Shield
-    JSL Palette_MiscSpr
-    JSL Palette_ArmorAndGloves
-    JSL Palette_Hud
-    JSL Palette_DungBgMain
+    JSL.l Palette_BgAndFixedColor
+    JSL.l Palette_SpriteAux3
+    JSL.l Palette_MainSpr
+    JSL.l Palette_SpriteAux1
+    JSL.l Palette_SpriteAux2
+    JSL.l Palette_Sword
+    JSL.l Palette_Shield
+    JSL.l Palette_MiscSpr
+    JSL.l Palette_ArmorAndGloves
+    JSL.l Palette_Hud
+    JSL.l Palette_DungBgMain
 
     ; Bleeds into the next function.
 }
@@ -11160,25 +11160,25 @@ Overworld_LoadAreaPalettes:
     STZ.w $0AA9
 
     ; Load SP1 through SP4.
-    JSL Palette_MainSpr
+    JSL.l Palette_MainSpr
 
     ; Load SP0 (2nd half) and SP6 (2nd half).
-    JSL Palette_MiscSpr
+    JSL.l Palette_MiscSpr
 
     ; Load SP5 (1st half).
-    JSL Palette_SpriteAux1
+    JSL.l Palette_SpriteAux1
 
     ; Load SP6 (1st half).
-    JSL Palette_SpriteAux2
+    JSL.l Palette_SpriteAux2
 
     ; Load SP5 (2nd half, 1st 3 colors), which is the sword palette.
-    JSL Palette_Sword
+    JSL.l Palette_Sword
 
     ; Load SP5 (2nd half, next 4 colors), which is the shield.
-    JSL Palette_Shield
+    JSL.l Palette_Shield
 
     ; Load SP7 (full) Link's whole palette, including Armor.
-    JSL Palette_ArmorAndGloves
+    JSL.l Palette_ArmorAndGloves
 
     LDX.b #$01
 
@@ -11190,13 +11190,13 @@ Overworld_LoadAreaPalettes:
     STX.w $0AAC
 
     ; Load SP0 (first half) (or SP7 (first half))
-    JSL Palette_SpriteAux3
+    JSL.l Palette_SpriteAux3
 
     ; Load BP0 and BP1 (first halves)
-    JSL Palette_Hud
+    JSL.l Palette_Hud
 
     ; Load BP2 through BP5 (first halves)
-    JSL Palette_OverworldBgMain
+    JSL.l Palette_OverworldBgMain
 
     RTS
 }
@@ -11290,10 +11290,10 @@ CleanUpAndPrepDesertPrayerHDMA:
     .configure_dma_channel
 
         LDA.w Pool_CleanUpAndPrepDesertPrayerHDMA_hdma_props, X
-        STA.w $4370, X
+        STA.w DMA.7_TransferParameters, X
     DEX : BPL .configure_dma_channel
 
-    LDA.b #$00 : STA.w $4377
+    LDA.b #$00 : STA.w DMA.7__DataBank
 
     LDA.b #$33 : STA.b $96
     LDA.b #$03 : STA.b $97
@@ -13807,7 +13807,7 @@ LoadSpecialOverworld:
     ; Property property a
     LDA.l Pool_LoadSpecialOverworld_palette_prop_a, X
 
-    JSL Overworld_LoadPalettes
+    JSL.l Overworld_LoadPalettes
 
     PLX
 
@@ -13844,7 +13844,7 @@ LoadSpecialOverworld:
 
     PLB
 
-    JSL Overworld_SetScreenBGColorCacheOnly
+    JSL.l Overworld_SetScreenBGColorCacheOnly
 
     RTS
 }
@@ -13900,8 +13900,8 @@ LoadOverworldFromSpecialOverworld:
     LDA.l $00FD1C, X
 
     ; Set palettes and background color
-    JSL Overworld_LoadPalettes
-    JSL Overworld_SetScreenBGColorCacheOnly
+    JSL.l Overworld_LoadPalettes
+    JSL.l Overworld_SetScreenBGColorCacheOnly
 
     STZ.b $A9
 
@@ -13912,7 +13912,7 @@ LoadOverworldFromSpecialOverworld:
 
     SEP #$30
 
-    JSL Player_ResetSwimState
+    JSL.l Player_ResetSwimState
     JSR.w Overworld_LoadMapProperties
 
     LDA.b #$E4 : STA.w $0716
@@ -14183,8 +14183,8 @@ Whirlpool_LoadTargetAreaData:
     PLB
 
     JSR.w Overworld_LoadNewScreenProperties
-    JSL Sprite_ResetAll
-    JSL Sprite_OverworldReloadAll
+    JSL.l Sprite_ResetAll
+    JSL.l Sprite_OverworldReloadAll
 
     STZ.b $6C
 
@@ -14206,8 +14206,8 @@ BirdTravel_LoadTargetAreaPalettes:
 
     LDA.l OverworldPalettesScreenToSet, X
 
-    JSL Overworld_LoadPalettes
-    JSL Palette_SetOwBgColor_Long
+    JSL.l Overworld_LoadPalettes
+    JSL.l Palette_SetOwBgColor_Long
     JSR.w Overworld_CopyPalettesToCache_WithPrep
 
     RTL
@@ -14411,7 +14411,7 @@ Overworld_LoadMapData:
             CPX.w #$8000 : BCS .drawBombableDoor
                 LDA.w #$0DA4 : STA.l $7E2000, X
 
-                JSL Overworld_Memorize_Map16_Change
+                JSL.l Overworld_Memorize_Map16_Change
 
                 ; 0x0DA4 and 0x0DA6 are the wooden door frames.
                 LDA.w #$0DA6
@@ -14425,7 +14425,7 @@ Overworld_LoadMapData:
             ; Bombable door tile (left)
             LDA.w #$0DB4
 
-            JSL Overworld_Memorize_Map16_Change
+            JSL.l Overworld_Memorize_Map16_Change
 
             STA.l $7E2000, X
 
@@ -14436,7 +14436,7 @@ Overworld_LoadMapData:
 
             STA.l $7E2002, X : INX #2
 
-            JSL Overworld_Memorize_Map16_Change
+            JSL.l Overworld_Memorize_Map16_Change
 
             ; Doorway has been handled, zero it out.
             DEX #2 : STZ.w $0696
@@ -14474,7 +14474,7 @@ Overworld_LoadMapData:
         ; such as changing tiles to reflect this.
         LDA.l $7EF280, X : AND.b #$20 : BEQ .dontDrawOverlay
             ; The routine that makes the overlay show up.
-            JSL Overworld_LoadEventOverlay
+            JSL.l Overworld_LoadEventOverlay
 
     .dontDrawOverlay
 

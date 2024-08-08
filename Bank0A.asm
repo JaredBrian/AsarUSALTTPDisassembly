@@ -370,7 +370,7 @@ Messaging_BirdTravel:
 {
     LDA.w $0200
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw OverworldMap_Backup           ; 0x00 - $B9A3 Also handles fading to black
     dw BirdTravel_InitGfx            ; 0x01 - $B74B On the last frame of fading load the map gfx
@@ -391,7 +391,7 @@ BirdTravel_InitGfx:
 {
     STZ.w $1AF0
     
-    JSL OverworldMap_InitGfx
+    JSL.l OverworldMap_InitGfx
     
     RTL
 }
@@ -596,8 +596,8 @@ BirdTravel_LoadTargetArea:
     LDA.l $7EF216 : AND.b #$7F : STA.l $7EF216
     LDA.l $7EF051 : AND.b #$FE : STA.l $7EF051
         
-    JSL BirdTravel_LoadTargetAreaData
-    JSL BirdTravel_LoadTargetAreaPalettes
+    JSL.l BirdTravel_LoadTargetAreaData
+    JSL.l BirdTravel_LoadTargetAreaPalettes
     
     ; ZS starts writing here.
     ; $0538F5 - ZS Custom Overworld
@@ -613,19 +613,19 @@ BirdTravel_LoadTargetArea:
     
     .death_mountain
     
-    JSL DecompOwAnimatedTiles
-    JSL Overworld_SetFixedColorAndScroll
+    JSL.l DecompOwAnimatedTiles
+    JSL.l Overworld_SetFixedColorAndScroll
         
     STZ.w $0AA9
     STZ.w $0AB2
         
-    JSL InitTilesets
+    JSL.l InitTilesets
         
     INC.w $0200
         
     STZ.b $B2
         
-    JSL Overworld_ReloadSubscreenOverlayAndAdvance_long
+    JSL.l Overworld_ReloadSubscreenOverlayAndAdvance_long
         
     ; Play sound effect indicating we're coming out of map mode.
     LDA.b #$10 : STA.w $012F
@@ -660,7 +660,7 @@ BirdTravel_LoadAmbientOverlay:
     SEP #$20
     
     ; Loads overworld map32 data (and subsequently map16, etc etc).
-    JSL Overworld_LoadAndBuildScreen_long
+    JSL.l Overworld_LoadAndBuildScreen_long
     
     REP #$20
     
@@ -697,11 +697,11 @@ BirdTravel_Finish:
         LDY.b #$04
         LDA.b #$27
         
-        JSL AddTravelBird.drop_off
+        JSL.l AddTravelBird_drop_off
 
     .keep_brightening
 
-    JSL Sprite_Main
+    JSL.l Sprite_Main
     
     RTL
 }
@@ -713,7 +713,7 @@ Messaging_OverworldMap:
 {
     LDA.w $0200
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw OverworldMap_Backup           ; 0x00 - $B9A3
     dw OverworldMap_InitGfx          ; 0x01 - $BA30
@@ -743,7 +743,7 @@ OverworldMap_Backup:
         ; Cache hdma settings.
         LDA.b $9B : STA.l $7EC229
         
-        JSL EnableForceBlank
+        JSL.l EnableForceBlank
         
         ; Set mosaic to disabled on BG1 and BG2.
         LDA.b #$03 : STA.b $95
@@ -801,11 +801,11 @@ OverworldMap_Backup:
         
         ; Set screen mode to mode 7 (because the overworld map is done in mode
         ; 7, obviously).
-        LDA.b #$07 : STA.w $2105 : STA.b $94
+        LDA.b #$07 : STA.w SNES.BGModeAndTileSize : STA.b $94
         
         ; Set so that the playing field is filled with transparency wherever
         ; there aren't tiles.
-        LDA.b #$80 : STA.w $211A
+        LDA.b #$80 : STA.w SNES.Mode7Init
         
         RTL
 }
@@ -815,13 +815,13 @@ OverworldMap_Backup:
 ; $053A30-$053A79 LONG JUMP LOCATION
 OverworldMap_InitGfx:
 {
-    JSR ClearMode7Tilemap
+    JSR.w ClearMode7Tilemap
     
     ; Put BG1 and OBJ on main screen, and nothing on the subscreen.
     LDA.b #$11 : STA.b $1C
                  STZ.b $1D
     
-    JSL WriteMode7Chr
+    JSL.l WriteMode7Chr
     JSR.w WorldMap_SetUpHDMA
     
     ; Set data bank to 0x0A
@@ -849,7 +849,7 @@ OverworldMap_InitGfx:
     
     PLB
     
-    JSL LoadActualGearPalettes
+    JSL.l LoadActualGearPalettes
     
     ; Tell NMI to update CGRAM this frame.
     INC.b $15
@@ -900,7 +900,7 @@ OverworldMap_LoadSprGfx:
 {
     LDA.b #$10 : STA.w $0AAA
     
-    JSL Graphics_LoadChrHalfSlot
+    JSL.l Graphics_LoadChrHalfSlot
     
     STZ.w $0AAA
     
@@ -980,7 +980,7 @@ OverworldMap_Main:
         
         ; Change the matrix multiplication done via hdma (changes from
         ; closeup to full view).
-        LDA.l $0ABAE2, X : STA.w $4362 : STA.w $4372
+        LDA.l $0ABAE2, X : STA.w DMA.6_SourceAddrOffsetLow : STA.w DMA.7_SourceAddrOffsetLow
 
     .dontToggleZoomLevel
 
@@ -1102,7 +1102,7 @@ OverworldMap_PrepExit:
 {
     ; Darken screen gradually until fully dark.
     DEC.b $13 : BNE OverworldMap_Main_easyOut ; (RTL)
-        JSL EnableForceBlank
+        JSL.l EnableForceBlank
         
         INC.w $0200
         
@@ -1137,10 +1137,10 @@ OverworldMap_PrepExit:
 
         ; Restore HDMA settings on channel 7.
         
-        LDA.w #$BDDD : STA.w $4372
+        LDA.w #$BDDD : STA.w DMA.7_SourceAddrOffsetLow
         
-        LDX.b #$0A : STX.w $4374
-        LDX.b #$00 : STX.w $4377
+        LDX.b #$0A : STX.w DMA.7_SourceAddrBank
+        LDX.b #$00 : STX.w DMA.7__DataBank
         
         SEP #$30
         
@@ -1148,7 +1148,7 @@ OverworldMap_PrepExit:
         LDA.b #$80 : STA.b $9B
         
         ; Return to screen mode 1 (with priority bit enabled).
-        LDA.b #$09 : STA.w $2105
+        LDA.b #$09 : STA.w SNES.BGModeAndTileSize
         
         STA.b $94
         
@@ -1171,7 +1171,7 @@ OverworldMap_RestoreGfx:
     ; ZS writes here.
     ; $053C5A
 
-    JSL InitTilesets
+    JSL.l InitTilesets
         
     ; Update CGRAM this frame.
     INC.b $15
@@ -1220,8 +1220,8 @@ WorldMap_SetUpHDMA:
     
     LDA.w #$0100 : STA.w $0638
     
-    LDA.w #$1B42 : STA.w $4360
-    LDA.w #$1E42 : STA.w $4370
+    LDA.w #$1B42 : STA.w DMA.6_TransferParameters
+    LDA.w #$1E42 : STA.w DMA.7_TransferParameters
     
     SEP #$20
     
@@ -1229,11 +1229,11 @@ WorldMap_SetUpHDMA:
     
     STZ.b $1E : STZ.b $1F
     
-    STZ.w $211C : STZ.w $211C
-    STZ.w $211D : STZ.w $211D
+    STZ.w SNES.Mode7MatrixB : STZ.w SNES.Mode7MatrixB
+    STZ.w SNES.Mode7MatrixC : STZ.w SNES.Mode7MatrixC
     
-    STZ.w $211F : LDA.b #$01 : STA.w $211F
-    STZ.w $2120 : STA.w $2120 
+    STZ.w SNES.Mode7CenterPosX : LDA.b #$01 : STA.w SNES.Mode7CenterPosX
+    STZ.w SNES.Mode7CenterPosY : STA.w SNES.Mode7CenterPosY 
     
     LDA.b $10 : CMP.b #$14 : BEQ .attractMode
         LDA.b $11 : CMP.b #$0A : BNE .beta
@@ -1267,8 +1267,8 @@ WorldMap_SetUpHDMA:
 
         CLC : ADC.w #$0080 : AND.w #$FFFE : STA.b $E0
         
-        LDA.w #$BDD6 : STA.w $4362 : STA.w $4372
-        LDX.b #$0A   : STX.w $4364 : STX.w $4374
+        LDA.w #$BDD6 : STA.w DMA.6_SourceAddrOffsetLow : STA.w DMA.7_SourceAddrOffsetLow
+        LDX.b #$0A   : STX.w DMA.6_SourceAddrBank : STX.w DMA.7_SourceAddrBank
         
         LDX.b #$0A
         
@@ -1278,8 +1278,8 @@ WorldMap_SetUpHDMA:
 
     REP #$21
     
-    LDA.w #$BDDD : STA.w $4362 : STA.w $4372
-    LDX.b #$0A   : STX.w $4364 : STX.w $4374
+    LDA.w #$BDDD : STA.w DMA.6_SourceAddrOffsetLow : STA.w DMA.7_SourceAddrOffsetLow
+    LDX.b #$0A   : STX.w DMA.6_SourceAddrBank : STX.w DMA.7_SourceAddrBank
     
     LDX.b #$00
     
@@ -1294,14 +1294,14 @@ WorldMap_SetUpHDMA:
     
     REP #$21
     
-    LDA.w #$BDCF : STA.w $4362 : STA.w $4372
-    LDX.b #$0A   : STX.w $4364 : STX.w $4374
+    LDA.w #$BDCF : STA.w DMA.6_SourceAddrOffsetLow : STA.w DMA.7_SourceAddrOffsetLow
+    LDX.b #$0A   : STX.w DMA.6_SourceAddrBank : STX.w DMA.7_SourceAddrBank
     
     LDX.b #$0A
 
     .BRANCH_EPSILON
 
-    STX.w $4367 : STX.w $4377
+    STX.w DMA.6__DataBank : STX.w DMA.7__DataBank
     
     SEP #$20
     
@@ -1322,22 +1322,22 @@ ClearMode7Tilemap:
     LDA.w #$00EF : STA.b $00
     
     ; Sets VRAM address to 0x0000 and configures the video port.
-    STZ.w $2115 : STZ.w $2116
+    STZ.w SNES.VRAMAddrIncrementVal : STZ.w SNES.VRAMAddrReadWriteLow
     
     ; Destination register is $2118 and DMA address will not be adjusted.
-    LDA.w #$1808 : STA.w $4310
+    LDA.w #$1808 : STA.w DMA.1_TransferParameters
     
     ; Use bank $00 for DMA address.
-    STZ.w $4314
+    STZ.w DMA.1_SourceAddrBank
     
     ; Use address $000000 ($7E:0000) for DMA address.
-    LDA.w #$0000 : STA.w $4312
+    LDA.w #$0000 : STA.w DMA.1_SourceAddrOffsetLow
     
     ; Write 0x4000 bytes.
-    LDA.w #$4000 : STA.w $4315
+    LDA.w #$4000 : STA.w DMA.1_TransferSizeLow
     
     ; Do transfer on DMA channel 0.
-    LDY.b #$02 : STY.w $420B
+    LDY.b #$02 : STY.w SNES.DMAChannelEnable
     
     SEP #$20
     
@@ -1779,8 +1779,8 @@ WorldMap_HandleSprites:
     ; Checking pendant 0 (courage).
     LDX.b #$00
     
-    JSR OverworldMap_CheckPendant : BCS .BRANCH_ZETA
-        JSR OverworldMap_CheckCrystal : BCS .BRANCH_ZETA
+    JSR.w OverworldMap_CheckPendant : BCS .BRANCH_ZETA
+        JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_ZETA
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
             
@@ -2473,15 +2473,15 @@ WorldMap_HandleSpriteBlink:
 ; $05456D-$05457F LOCAL JUMP LOCATION
 WorldMap_MultiplyAxB:
 {
-    STA.w $4202
+    STA.w SNES.MultiplicandA
     
-    XBA : STA.w $4203
+    XBA : STA.w SNES.MultiplierB
     
     NOP #4
     
-    LDA.w $4217 : XBA
+    LDA.w SNES.RemainderResultHigh : XBA
     
-    LDA.w $4216
+    LDA.w SNES.RemainderResultLow
     
     RTS
 }
@@ -3812,7 +3812,7 @@ Messaging_PalaceMap:
 {
     LDA.w $0200 ; An index into what type of display to use.
     
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
     
     dl PalaceMap_Backup               ; 0x00 - $0ED94C Fade to full darkness (amidst other things)
     dl PalaceMap_Init                 ; 0x01 - $0AE0DC Loading Dungeon Map
@@ -3851,7 +3851,7 @@ PalaceMap_Init:
 PalaceMap_SetupGraphics:
 {
     ; Cache HDMA settings elsewhere and turn off HDMA for the time being.
-    LDA.b $9B : PHA : STZ.w $420C : STZ.b $9B
+    LDA.b $9B : PHA : STZ.w SNES.HDMAChannelEnable : STZ.b $9B
     
     ; Cache graphics settings to temp variables.
     LDA.w $0AA1 : STA.l $7EC20E
@@ -3876,25 +3876,25 @@ PalaceMap_SetupGraphics:
     LDA.b #$01 : STA.b $1D
     
     ; Writes blanks to $0000-$01FFF (byte addr) in vram. Clears BG2 tilemap.
-    JSL Vram_EraseTilemaps_palace
+    JSL.l Vram_EraseTilemaps_palace
     
     ; Perform the standard graphics decompression routine.
-    JSL InitTilesets
+    JSL.l InitTilesets
     
     ; Set special palette index.
     LDA.b #$02 : STA.w $0AA9
     
     ; Load palettes.
-    JSL Palette_PalaceMapBg
-    JSL Palette_PalaceMapSpr
+    JSL.l Palette_PalaceMapBg
+    JSL.l Palette_PalaceMapSpr
     
     ; Set another palette index.
     LDA.b #$01 : STA.w $0AB2
     
     ; Load palettes for BG3 (2bpp) graphics.
-    JSL Palette_Hud
+    JSL.l Palette_Hud
     
-    JSL LoadActualGearPalettes
+    JSL.l LoadActualGearPalettes
     
     INC.b $15
     
@@ -4524,7 +4524,7 @@ DungeonMap_DrawDungeonLayout:
 ; ==============================================================================
 
 ; $05659A-$0565BB DATA
-Pool_DungeonMap_DrawSingleRowOfRooms
+Pool_DungeonMap_DrawSingleRowOfRooms:
 {
     ; $05659A
     .row_draw_offset
@@ -5099,7 +5099,7 @@ DungeonMap_DrawRoomMarkers:
 ; $056954-$05695A JUMP LOCATION
 PalaceMap_3:
 {
-    JSL DungeonMap_HandleInput
+    JSL.l DungeonMap_HandleInput
     JMP.w DungeonMap_DrawSprites
 }
 
@@ -5112,7 +5112,7 @@ DungeonMap_HandleInput:
     
     ; Unless the depressed button is X, continue.
     LDA.b $F6 : AND.b #$40 : BNE .exitPalaceMapMode
-        JSL DungeonMap_HandleMovementInput
+        JSL.l DungeonMap_HandleMovementInput
         
         PLB
         
@@ -5142,7 +5142,7 @@ DungeonMap_PanValues:
 ; $056979-$056985 LONG JUMP LOCATION
 DungeonMap_HandleMovementInput:
 {
-    JSL DungeonMap_HandleFloorSelect
+    JSL.l DungeonMap_HandleFloorSelect
     
     LDA.w $0210 : BEQ .notScrolling
         JMP PalaceMap_Scroll
@@ -5333,7 +5333,7 @@ DungeonMap_DrawSprites:
     STZ.b $00
     STZ.b $0E
     
-    JSR PalaceMap_DrawPlayerFloorIndicator
+    JSR.w PalaceMap_DrawPlayerFloorIndicator
     
     INC.b $00
 
@@ -5398,7 +5398,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     TXA : ASL #2 : TAX
     
-    LDA .x_offset : STA.w $0800, X
+    LDA.w .x_offset : STA.w $0800, X
     
     LDY.b $03
     
@@ -5847,7 +5847,7 @@ DungeonMap_DrawBossIcon:
 
     PHX
     
-    JSR PalaceMap_DrawBossFloorIndicator
+    JSR.w PalaceMap_DrawBossFloorIndicator
     
     PLX
     
@@ -5957,7 +5957,7 @@ PalaceMap_DrawBossFloorIndicator:
         
         TXA : ASL #2 : TAX
         
-        LDA .x_offset : STA.w $0800, X
+        LDA.w .x_offset : STA.w $0800, X
         
         LDY.b $03
         
@@ -6005,10 +6005,10 @@ PalaceMap_RestoreGraphics:
 {
     LDA.b $9B : PHA
     
-    STZ.w $420C
+    STZ.w SNES.HDMAChannelEnable
     STZ.b $9B
     
-    JSL Vram_EraseTilemaps_normal
+    JSL.l Vram_EraseTilemaps_normal
     
     ; Restore main screen designation.
     LDA.l $7EC211 : STA.b $1C
@@ -6023,23 +6023,23 @@ PalaceMap_RestoreGraphics:
     LDA.l $7EC210 : STA.w $0AA2
     
     ; Restore graphic from the mode we came from.
-    JSL InitTilesets
+    JSL.l InitTilesets
     
     ; Begin ignoring any special palette loads.
     STZ.w $0AA9
     STZ.w $0AB2
     
-    JSL HUD_RebuildLong2
+    JSL.l HUD_RebuildLong2
     
     STZ.w $0418
     STZ.w $045C
 
     .drawQuadrants
 
-        JSL WaterFlood_BuildOneQuadrantForVRAM
-        JSL NMI_UploadTilemap_long
-        JSL Underworld_PrepareNextRoomQuadrantUpload
-        JSL NMI_UploadTilemap_long
+        JSL.l WaterFlood_BuildOneQuadrantForVRAM
+        JSL.l NMI_UploadTilemap_long
+        JSL.l Underworld_PrepareNextRoomQuadrantUpload
+        JSL.l NMI_UploadTilemap_long
     LDA.w $045C : CMP.b #$10 : BNE .drawQuadrants
     
     STZ.b $17
@@ -6069,7 +6069,7 @@ PalaceMap_RestoreGraphics:
     ; Bring volume back to full
     LDA.b #$F3 : STA.w $012C
     
-    JSL RecoverPegGFXFromMapping
+    JSL.l RecoverPegGFXFromMapping
     
     ; Refresh cgram this frame.
     INC.b $15
@@ -6088,7 +6088,7 @@ PalaceMap_RestoreGraphics:
 ; $056FC9-$056FD0 JUMP LOCATION (LONG)
 PalaceMap_RestoreStarTileState:
 {
-    JSL Dungeon_RestoreStarTileChr
+    JSL.l Dungeon_RestoreStarTileChr
     
     INC.w $0200
     
@@ -7210,16 +7210,16 @@ HUD_SuperBombIndicator:
 
     .BRANCH_GAMMA
 
-    LDA.w $04B4 : STA.w $4204
-                STZ.w $4205
+    LDA.w $04B4 : STA.w SNES.DividendLow
+                STZ.w SNES.DividendHigh
     
-    LDA.b #$0A : STA.w $4206
+    LDA.b #$0A : STA.w SNES.DivisorB
     
     NOP #8
     
-    LDA.w $4214 : ASL A : STA.b $00
+    LDA.w SNES.DivideResultQuotientLow : ASL A : STA.b $00
     
-    LDA.w $4216 : ASL A : STA.b $02
+    LDA.w SNES.RemainderResultLow : ASL A : STA.b $02
     
     PHB : PHK : PLB
     

@@ -78,7 +78,7 @@ Sprite_CreateDeflectedArrow:
     
     STZ.w $0C4A, X
     
-    LDA.b #$1B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$1B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.w $0C04, X : STA.w $0D10, Y
         LDA.w $0C18, X : STA.w $0D30, Y
         
@@ -99,7 +99,7 @@ Sprite_CreateDeflectedArrow:
         
         TYX
         
-        JSL Sprite_PlaceRupulseSpark
+        JSL.l Sprite_PlaceRupulseSpark
         
         PLX
     
@@ -120,7 +120,7 @@ Sprite_MoveLong:
     ; Invoked from ending mode usually...?
     PHB : PHK : PLB
     
-    JSR Sprite4_Move
+    JSR.w Sprite4_Move
     
     PLB
     
@@ -132,7 +132,7 @@ Sprite_MoveLong:
 ; $0E8094-$0E8098 LOCAL JUMP LOCATION
 Sprite4_CheckTileCollision:
 {
-    JSL Sprite_CheckTileCollisionLong
+    JSL.l Sprite_CheckTileCollisionLong
     
     RTS
 }
@@ -178,7 +178,7 @@ incsrc "sprite_swamola.asm"
 ; $0EA03C-$0EAD0D
 incsrc "sprite_blind_entities.asm"
 
-; $0EAD0E-$0EB772
+; $0EAD0E-$0EB82F
 incsrc "sprite_trinexx.asm"
 
 ; $0EB897-$0EBE3B
@@ -192,8 +192,8 @@ incsrc "sprite_chain_chomp.asm"
 ; $0EC211-$0EC219 LOCAL JUMP LOCATION
 Sprite4_CheckDamage:
 {
-    JSL Sprite_CheckDamageFromPlayerLong
-    JSL Sprite_CheckDamageToPlayerLong
+    JSL.l Sprite_CheckDamageFromPlayerLong
+    JSL.l Sprite_CheckDamageToPlayerLong
     
     RTS
 }
@@ -205,7 +205,7 @@ SpriteActive4_MainLong:
 {
     PHB : PHK : PLB
     
-    JSR SpriteActive4_Main
+    JSR.w SpriteActive4_Main
     
     PLB
     
@@ -221,7 +221,7 @@ SpriteActive4_Main:
     LDA.w $0E20, X : SEC : SBC.b #$BD : REP #$30 : AND.w #$00FF : ASL A : TAY
     
     ; Again, we have a subtle jump table by means of stack manipulation.
-    LDA .handlers, Y : DEC A : PHA
+    LDA.w .handlers, Y : DEC A : PHA
     
     SEP #$30
     
@@ -307,7 +307,7 @@ Vitreous_SpawnSmallerEyesLong:
 {
     PHB : PHK : PLB
     
-    JSR Vitreous_SpawnSmallerEyes
+    JSR.w Vitreous_SpawnSmallerEyes
     
     PLB
     
@@ -354,7 +354,7 @@ Vitreous_SpawnSmallerEyes:
     
     LDY.b #$0D
     
-    JSL Sprite_SpawnDynamically_arbitrary
+    JSL.l Sprite_SpawnDynamically_arbitrary
     
     LDY.b #$0C
     
@@ -366,7 +366,7 @@ Vitreous_SpawnSmallerEyes:
         
         PHX : TYX : INX
         
-        JSL Sprite_LoadProperties
+        JSL.l Sprite_LoadProperties
         
         PLX
         
@@ -390,7 +390,7 @@ Vitreous_SpawnSmallerEyes:
         
         TYA : ASL #3 : STA.b $0F
         
-        JSL GetRandomInt : ADC.b $0F : STA.w $0E81, Y
+        JSL.l GetRandomInt : ADC.b $0F : STA.w $0E81, Y
     DEY : BPL .next_eyeball
     
     RTS
@@ -401,7 +401,7 @@ Vitreous_SpawnSmallerEyes:
 ; $0EDF45-$0EE39C
 incsrc "sprite_great_catfish.asm"
 
-; $0EE3ED-$0EE4C7
+; $0EE39D-$0EE4C7
 incsrc "sprite_lightning.asm"
 
 ; $0EE4C8-$0EE762
@@ -415,7 +415,7 @@ incsrc "sprite_vitreolus.asm"
 ; $0EE893-$0EE897 LOCAL JUMP LOCATION
 Sprite4_DirectionToFacePlayer:
 {
-    JSL Sprite_DirectionToFacePlayerLong
+    JSL.l Sprite_DirectionToFacePlayerLong
     
     RTS
 }
@@ -425,7 +425,7 @@ Sprite4_DirectionToFacePlayer:
 ; $0EE898-$0EE89C LOCAL JUMP LOCATION
 Sprite4_IsToRightOfPlayer:
 {
-    JSL Sprite_IsToRightOfPlayerLong
+    JSL.l Sprite_IsToRightOfPlayerLong
     
     RTS
 }
@@ -435,7 +435,7 @@ Sprite4_IsToRightOfPlayer:
 ; $0EE89D-$0EE8A1 LOCAL JUMP LOCATION
 Sprite4_IsBelowPlayer:
 {
-    JSL Sprite_IsBelowPlayerLong
+    JSL.l Sprite_IsBelowPlayerLong
     
     RTS
 }
@@ -495,7 +495,7 @@ Sprite4_CheckIfRecoiling:
                     LDA.w $0F40, X : STA.w $0D50, X
                     
                     LDA.w $0CD2, X : BMI .no_wall_collision
-                        JSR Sprite4_CheckTileCollision
+                        JSR.w Sprite4_CheckTileCollision
                         
                         AND.b #$0F : BEQ .no_wall_collision
                             CMP.b #$04 : BCS .y_axis_wall_collision
@@ -515,7 +515,7 @@ Sprite4_CheckIfRecoiling:
                     
                     .no_wall_collision
                     
-                    JSR Sprite4_Move
+                    JSR.w Sprite4_Move
             
             .halted
             
@@ -543,7 +543,7 @@ Sprite4_CheckIfRecoiling:
 ; $0EE948-$0EE94A LOCAL JUMP LOCATION
 Sprite4_MoveXyz:
 {
-    JSR Sprite4_MoveAltitude
+    JSR.w Sprite4_MoveAltitude
 
     ; Bleeds into the next function.
 }
@@ -551,8 +551,8 @@ Sprite4_MoveXyz:
 ; $0EE94B-$0EE951 LOCAL JUMP LOCATION
 Sprite4_Move:
 {
-    JSR Sprite4_MoveHoriz
-    JSR Sprite4_MoveVert
+    JSR.w Sprite4_MoveHoriz
+    JSR.w Sprite4_MoveVert
     
     RTS
 }
@@ -564,7 +564,7 @@ Sprite4_MoveHoriz:
 {
     PHX : TXA : CLC : ADC.b #$10 : TAX
     
-    JSR Sprite4_MoveVert
+    JSR.w Sprite4_MoveVert
     
     PLX
     
@@ -618,7 +618,7 @@ Sprite4_MoveAltitude:
 ; $0EE9AD-$0EE9B5 LOCAL JUMP LOCATION
 Sprite4_PrepOamCoord:
 {
-    JSL Sprite_PrepOamCoordLong : BCC .sprite_wasnt_disabled
+    JSL.l Sprite_PrepOamCoordLong : BCC .sprite_wasnt_disabled
         PLA : PLA
     
     .sprite_wasnt_disabled
@@ -638,20 +638,20 @@ Filter_MajorWhitenMain:
                 ; don't quite understand why this is necessary though, as the
                 ; HUD palettes weren't (intentionally) modified by this
                 ; particular subset of the game logic.
-                JSL Palette_Restore_BG_And_HUD
+                JSL.l Palette_Restore_BG_And_HUD
                 
                 RTL
             
             .filter_still_active
             
             AND.b #$01 : BEQ .restore_palette
-                JSL Filter_Majorly_Whiten_Bg
+                JSL.l Filter_Majorly_Whiten_Bg
                 
                 BRA .set_palette_update_flag
             
             .restore_palette
             
-            JSL Palette_Restore_BG_From_Flash
+            JSL.l Palette_Restore_BG_From_Flash
             
             .set_palette_update_flag
             
@@ -686,7 +686,7 @@ CacheSprite_ExecuteAll:
                     STX.w $0FA0
                     
                     LDA.w $1D00, X : BEQ .inactive_cached_sprite
-                        JSR CacheSprite_ExecuteSingle
+                        JSR.w CacheSprite_ExecuteSingle
                     
                     .inactive_cached_sprite
                 DEX : BPL .next_cached_sprite
@@ -761,7 +761,7 @@ CacheSprite_ExecuteSingle:
     LDA.l $7FFACC, X : STA.l $7FF9C2, X
     LDA.l $7FFADC, X : STA.w $0BA0, X
     
-    JSL Sprite_ExecuteSingleLong
+    JSL.l Sprite_ExecuteSingleLong
     
     LDA.w $0F00, X : BEQ .active_sprite
         STZ.w $1D00, X
@@ -830,7 +830,7 @@ Sprite_SimulateSoldier:
     
     STZ.w $0F70, X
     
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
     
     LDA.b $04 : STA.w $0DE0, X : STA.w $0EB0, X : TAY
     
@@ -863,7 +863,7 @@ Sprite_SimulateSoldier:
     
     SEP #$20
     
-    JSL Soldier_AnimateMarionetteTempLong
+    JSL.l Soldier_AnimateMarionetteTempLong
     
     PLB
     
@@ -985,7 +985,7 @@ Sprite_DrawFourAroundOne:
     
     SEP #$20
     
-    LDA.b #$05 : JSR Sprite4_DrawMultiple
+    LDA.b #$05 : JSR.w Sprite4_DrawMultiple
     
     PLB
     
@@ -1004,14 +1004,14 @@ Toppo_Flustered:
     LDA.b #$49 : STA.w $0E60, X
     
     LDA.w $0E30, X : BNE .caught_by_player
-        JSL Sprite_CheckDamageToPlayerLong : BCC .just_animate
+        JSL.l Sprite_CheckDamageToPlayerLong : BCC .just_animate
             INC.w $0E30, X
             
             ; "All right! Take it Thief!"
             LDA.b #$74 : STA.w $1CF0
             LDA.b #$01 : STA.w $1CF1
             
-            JSL Sprite_ShowMessageMinimal
+            JSL.l Sprite_ShowMessageMinimal
             
             BRA .just_animate
     
@@ -1027,10 +1027,10 @@ Toppo_Flustered:
             
             LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
             
-            LDA.b #$15 : JSL Sound_SetSfx2PanLong
+            LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
             
-            LDA.b #$4D : JSL Sprite_SpawnDynamically : BMI .prize_delay
-                JSL Sprite_SetSpawnedCoords
+            LDA.b #$4D : JSL.l Sprite_SpawnDynamically : BMI .prize_delay
+                JSL.l Sprite_SetSpawnedCoords
                 
                 PHX : TYX : LDY.b #$06
                 
@@ -1186,7 +1186,7 @@ Goriya_Draw:
             
             SEP #$20
             
-            LDA.b #$01 : JSR Sprite4_DrawMultiple
+            LDA.b #$01 : JSR.w Sprite4_DrawMultiple
         
         .facing_right
     .not_firing_fire_pleghm
@@ -1206,11 +1206,11 @@ Goriya_Draw:
     PLY
     
     LDA.w Pool_Goriya_Draw_group_size, Y
-    JSR Sprite4_DrawMultiple
+    JSR.w Sprite4_DrawMultiple
     
     DEC.w $0E40, X
     
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
     
     INC.w $0E40, X
     
@@ -1281,7 +1281,7 @@ Sprite_ConvertVelocityToAngle:
         LDA !y_magnitude : LSR #2 : CLC : ADC !sign_bits : TAY
         ; I don't think these tables are large enough (do we have a verified
         ; BUG: on our hands?) for all possible combinations of velocities.
-        LDA .x_angles, Y
+        LDA.w .x_angles, Y
 
         BRA .return
     
@@ -1289,7 +1289,7 @@ Sprite_ConvertVelocityToAngle:
     
     LDA !x_magnitude : LSR #2 : CLC : ADC !sign_bits : TAY
     
-    LDA .y_angles, Y
+    LDA.w .y_angles, Y
     
     .return
     
@@ -1345,7 +1345,7 @@ Sprite_SpawnDynamically:
     ; Refresh the sprite index using Y -> X.
     TYX
     
-    JSL Sprite_LoadProperties
+    JSL.l Sprite_LoadProperties
     
     LDA.b $1B : BNE .indoors
         TXA : ASL A : TAX
@@ -1680,7 +1680,7 @@ Pool_Moldorm_Draw:
 ; $0EF822-$0EF942 LONG JUMP LOCATION
 Moldorm_Draw:
 {
-    JSL Sprite_PrepOamCoordLong : BCC .can_draw
+    JSL.l Sprite_PrepOamCoordLong : BCC .can_draw
         RTL
     
     .can_draw
@@ -1865,20 +1865,20 @@ PullForRupees_SpawnRupees:
             
             ; Select which kind of rupee to use with the "pull for rupees"
             ; thing.
-            LDA .rupee_types, Y
+            LDA.w .rupee_types, Y
             
-            JSL Sprite_SpawnDynamically : BMI .spawn_failed
-                LDA.b #$30 : JSL Sound_SetSfx3PanLong
+            JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+                LDA.b #$30 : JSL.l Sound_SetSfx3PanLong
                 
-                JSL Sprite_SetSpawnedCoords
+                JSL.l Sprite_SetSpawnedCoords
                 
                 PHX
                 
                 LDX.w $0FB5
                 
-                LDA .x_speeds, X : STA.w $0D50, Y
+                LDA.w .x_speeds, X : STA.w $0D50, Y
                 
-                LDA .y_speeds, X : STA.w $0D40, Y
+                LDA.w .y_speeds, X : STA.w $0D40, Y
                 
                 PLX
                 
@@ -1962,16 +1962,16 @@ OldMountainMan_Draw:
         LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
         
         ; Wait... so the Old Man's graphics are updated dynamically? Why?
-        LDA .dma_config, Y     : STA.w $0AE8
+        LDA.w .dma_config, Y     : STA.w $0AE8
         
-        LDA .dma_config + 1, Y : STA.w $0AEA
+        LDA.w .dma_config + 1, Y : STA.w $0AEA
         
         TYA : ASL #3
         
         ADC.b #(.dynamic_poses >> 0)              : STA.b $08
         LDA.b #(.dynamic_poses >> 8) : ADC.b #$00 : STA.b $09
         
-        JSL Sprite_DrawMultiple.player_deferred
+        JSL.l Sprite_DrawMultiple_player_deferred
         
         PLB
         
@@ -1985,7 +1985,7 @@ OldMountainMan_Draw:
     LDA.b #(.static_pose >> 0) : STA.b $08
     LDA.b #(.static_pose >> 8) : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     PLB
     
@@ -2021,7 +2021,7 @@ SpriteBurn_Execute:
     
     LDA.b #$03 : STA.w $0F50, X
     
-    JSL Flame_Draw
+    JSL.l Flame_Draw
     
     PLA : STA.w $0F50, X
     PLA : STA.w $0DC0, X
@@ -2042,7 +2042,7 @@ SpriteBurn_Execute:
         
         DEC #2 : STA.w $0E40, X
         
-        JSL SpriteActive_MainLong
+        JSL.l SpriteActive_MainLong
         
         PLA : STA.w $0E40, X
     
@@ -2075,7 +2075,7 @@ SpriteFall_Draw:
     
     TAX
     
-    LDA .chr, X                         : INY : STA ($90), Y
+    LDA.w .chr, X                         : INY : STA ($90), Y
     LDA.b $05 : AND.b #$30 : ORA.b #$04 : INY : STA ($90), Y
     
     PLX
@@ -2083,7 +2083,7 @@ SpriteFall_Draw:
     LDY.b #$00
     LDA.b #$00
     
-    JSL Sprite_CorrectOamEntriesLong
+    JSL.l Sprite_CorrectOamEntriesLong
     
     PLB
     

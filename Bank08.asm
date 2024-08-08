@@ -17,7 +17,7 @@ org $088000
 ; $040000-$040006 LOCAL 
 Ancilla_DoSfx1_NearPlayer:
 {
-    JSR Ancilla_SetSfxPan_NearPlayer : STA.w $012D
+    JSR.w Ancilla_SetSfxPan_NearPlayer : STA.w $012D
     
     RTS
 }
@@ -27,7 +27,7 @@ Ancilla_DoSfx1_NearPlayer:
 ; $040007-$04000D LOCAL JUMP LOCATION
 Ancilla_DoSfx2_NearPlayer:
 {
-    JSR Ancilla_SetSfxPan_NearPlayer : STA.w $012E
+    JSR.w Ancilla_SetSfxPan_NearPlayer : STA.w $012E
     
     RTS
 }
@@ -37,7 +37,7 @@ Ancilla_DoSfx2_NearPlayer:
 ; $04000E-$040014 LOCAL JUMP LOCATION
 Ancilla_DoSfx3_NearPlayer:
 {
-    JSR Ancilla_SetSfxPan_NearPlayer : STA.w $012F
+    JSR.w Ancilla_SetSfxPan_NearPlayer : STA.w $012F
     
     RTS
 }
@@ -49,7 +49,7 @@ Ancilla_SetSfxPan_NearPlayer:
 {
     STA.w $0CF8
     
-    JSL Sound_SetSfxPanWithPlayerCoords : ORA.w $0CF8
+    JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.w $0CF8
     
     RTS
 }
@@ -61,7 +61,7 @@ Ancilla_SetSfxPan_NearPlayer:
 ; $040020-$040026 LOCAL JUMP LOCATION
 Ancilla_DoSfx1:
 {
-    JSR Ancilla_SetSfxPan : STA.w $012D
+    JSR.w Ancilla_SetSfxPan : STA.w $012D
     
     RTS
 }
@@ -71,7 +71,7 @@ Ancilla_DoSfx1:
 ; $040027-$04002D LOCAL JUMP LOCATION
 Ancilla_DoSfx2:
 {
-    JSR Ancilla_SetSfxPan : STA.w $012E
+    JSR.w Ancilla_SetSfxPan : STA.w $012E
     
     RTS
 }
@@ -81,7 +81,7 @@ Ancilla_DoSfx2:
 ; $04002E-$040034 LOCAL JUMP LOCATION
 Ancilla_DoSfx3:
 {
-    JSR Ancilla_SetSfxPan : STA.w $012F
+    JSR.w Ancilla_SetSfxPan : STA.w $012F
     
     RTS
 }
@@ -93,7 +93,7 @@ Ancilla_SetSfxPan:
 {
     STA.w $0CF8
     
-    JSL Sound_SfxPanObjectCoords : ORA.w $0CF8
+    JSL.l Sound_SfxPanObjectCoords : ORA.w $0CF8
     
     RTS
 }
@@ -230,7 +230,7 @@ AddFireRodShot:
     
     STA.b $00
     
-    JSL Ancilla_CheckForAvailableSlot : BPL .slot_available
+    JSL.l Ancilla_CheckForAvailableSlot : BPL .slot_available
         ; \tcrf Astounding! While it's not that silly when you think about it,
         ; it would appear that at some point they were considering using the
         ; Somarian blasts as the projectile for the fire rod. Why else put
@@ -241,7 +241,7 @@ AddFireRodShot:
             ; Oddly enough it avoids this for the Somarian blasts, for whatever
             ; reason. But, this is only in the event that there are no open slots
             ; for the object.... eh. whatever.
-            LDX.b #$00 : JSL LinkItem_ReturnUnusedMagic
+            LDX.b #$00 : JSL.l LinkItem_ReturnUnusedMagic
         
         .no_mp_add_back
         
@@ -258,7 +258,7 @@ AddFireRodShot:
     LDA.b $00 : CMP.b #$01 : BEQ .dont_play_sound_effect
         PHY
         
-        LDA.b #$0E : JSR Ancilla_DoSfx2_NearPlayer
+        LDA.b #$0E : JSR.w Ancilla_DoSfx2_NearPlayer
         
         PLY
     
@@ -280,7 +280,7 @@ AddFireRodShot:
     ; Appears to check multiple spots around Link to see if the item can
     ; spawn there. If it can't spawn in any of those locations, I guess
     ; we have a problem? Not sure yet.
-    JSL Ancilla_CheckInitialTileCollision_Class_1
+    JSL.l Ancilla_CheckInitialTileCollision_Class_1
     
     PLX : PLY
     
@@ -344,7 +344,7 @@ AddFireRodShot:
     LDA.b #$1F : STA.w $0C68, Y
     LDA.b #$08 : STA.w $0C90, Y
     
-    LDA.b #$2A : JSR Ancilla_DoSfx2
+    LDA.b #$2A : JSR.w Ancilla_DoSfx2
     
     .return_2
     
@@ -396,7 +396,7 @@ SomarianBlast_SpawnCentrifugalQuad:
         LDY.b #$04
         LDA.b #$01
         
-        JSL Ancilla_CheckForAvailableSlot : BMI .spawn_failed
+        JSL.l Ancilla_CheckForAvailableSlot : BMI .spawn_failed
             PHX
             
             LDA.b #$01 : STA.w $0C4A, Y : TAX
@@ -414,7 +414,7 @@ SomarianBlast_SpawnCentrifugalQuad:
             LDA.b $02 : CLC : ADC .y_offsets, X : STA.w $0BFA, Y
             LDA.b $03 :       ADC.b #$FF :        STA.w $0C0E, Y
             
-            JSL Ancilla_TerminateIfOffscreen
+            JSL.l Ancilla_TerminateIfOffscreen
             
             LDA.w $8050, X : STA.w $0C2C, Y
             LDA.w $805C, X : STA.w $0C22, Y
@@ -438,8 +438,8 @@ Ancilla_Main:
 {
     PHB : PHK : PLB
     
-    JSR Ancilla_RepulseSpark
-    JSR Ancilla_ExecuteObjects
+    JSR.w Ancilla_RepulseSpark
+    JSR.w Ancilla_ExecuteObjects
     
     PLB
     
@@ -468,7 +468,7 @@ Bomb_ProjectReflexiveSpeedOntoSprite:
     
     TYA
     
-    JSL Bomb_ProjectReflexiveSpeedOntoSpriteLong
+    JSL.l Bomb_ProjectReflexiveSpeedOntoSpriteLong
     
     PLA : STA.w $0021
     PLA : STA.w $0020
@@ -523,11 +523,11 @@ Bomb_CheckSpriteDamage:
                 
                 PHX : TYX
                 
-                JSL Sprite_SetupHitBoxLong
+                JSL.l Sprite_SetupHitBoxLong
                 
                 PLX
                 
-                JSL Utility_CheckIfHitBoxesOverlapLong : BCC .sprite_undamaged
+                JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .sprite_undamaged
                     LDA.w $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king
                         ; Only certain parts of the HK are vulnerable.
                         ; Only the stage where he still has his mask.
@@ -547,10 +547,10 @@ Bomb_CheckSpriteDamage:
                     
                     TYX
                     
-                    JSL Ancilla_CheckSpriteDamage
+                    JSL.l Ancilla_CheckSpriteDamage
                     
                     ; How far the sprite gets pushed back.
-                    LDY.b #$40 : JSR Bomb_ProjectReflexiveSpeedOntoSprite
+                    LDY.b #$40 : JSR.w Bomb_ProjectReflexiveSpeedOntoSprite
                     
                     PLY : PLX
                     
@@ -583,7 +583,7 @@ Ancilla_ExecuteObjects:
         
         ; The type of effect in play. 0 designates no effect.
         LDA.w $0C4A, X : BEQ .inactive_object
-            JSR Ancilla_ExecuteObject
+            JSR.w Ancilla_ExecuteObject
         
         .inactive_object
     DEX : BPL .next_object
@@ -610,20 +610,20 @@ Ancilla_ExecuteObject:
             ; section of the OAM buffer (probably also changes priority).
             LDY.w $0C7C, X : BNE .on_bg1
                 ; Floor 1 sprites...
-                JSL OAM_AllocateFromRegionD
+                JSL.l OAM_AllocateFromRegionD
                 
                 BRA .record_starting_oam_position
             
             .on_bg1
             
             ; Floor 2 sprites...
-            JSL OAM_AllocateFromRegionF
+            JSL.l OAM_AllocateFromRegionF
             
             BRA .record_starting_oam_position
             
             .sortSprites
             
-            JSL OAM_AllocateFromRegionA
+            JSL.l OAM_AllocateFromRegionA
             
             .record_starting_oam_position
             
@@ -645,8 +645,8 @@ Ancilla_ExecuteObject:
     ; Load a subroutine based on the anillary object's index.
     PLA : DEC A : ASL A : TAY
     
-    LDA .object_routines+0, Y : STA.b $00
-    LDA .object_routines+1, Y : STA.b $01
+    LDA.w .object_routines+0, Y : STA.b $00
+    LDA.w .object_routines+1, Y : STA.b $01
     
     JMP ($0000)
     
@@ -915,7 +915,7 @@ Ancilla_CheckTileCollision:
         
         LDA.b #$01 : STA.w $0C7C, X
         
-        JSR .check_basic_collision
+        JSR.w .check_basic_collision
         
         STZ.w $0C7C, X
         
@@ -938,7 +938,7 @@ Ancilla_CheckTileCollision:
         ; collision on BG0).
         PHP
         
-        JSR .check_basic_collision
+        JSR.w .check_basic_collision
         
         ; Takes the previous carry flag state, rolls in the current carry flag
         ; state (Has to detect on BG0 for the carry to be set).
@@ -981,7 +981,7 @@ Ancilla_CheckTargetedTileCollision:
                 
                 PHX
                 
-                JSL Overworld_GetTileAttrAtLocation
+                JSL.l Overworld_GetTileAttrAtLocation
                 
                 PLX
                 
@@ -993,13 +993,13 @@ Ancilla_CheckTargetedTileCollision:
             LDA.w $0C7C, X
             
             ; Retrieves tile type that the bomb is sitting on.
-            JSL Entity_GetTileAttr
+            JSL.l Entity_GetTileAttr
             
             .store_tile_interaction_result
             
             STA.w $03E4, X : TAY
             
-            LDA .collision_table, Y : STA.b $0F
+            LDA.w .collision_table, Y : STA.b $0F
             
             ; Checks the special effect type.
             LDA.w $0C4A, X : CMP #$02 : BNE .not_fire_rod_shot
@@ -1015,7 +1015,7 @@ Ancilla_CheckTargetedTileCollision:
                 LDA.b $0F : BEQ .tile_type_not_collision_candidate
                     CMP.b #$01 : BEQ .collided
                         CMP.b #$02 : BNE .not_sloped_tile
-                            JSL Entity_CheckSlopedTileCollisionLong
+                            JSL.l Entity_CheckSlopedTileCollisionLong
                             
                             RTS
                         
@@ -1150,7 +1150,7 @@ Ancilla_CheckTileCollision_Class2:
         
         LDA.b #$01 : STA.w $0C7C, X
         
-        JSR .check_basic_collision
+        JSR.w .check_basic_collision
         
         STZ.w $0C7C, X
         
@@ -1169,7 +1169,7 @@ Ancilla_CheckTileCollision_Class2:
         
         PHY : PHP
         
-        JSR .check_basic_collision
+        JSR.w .check_basic_collision
         
         PLA : AND.b #$01 : ROL A : CMP.b #$01
         
@@ -1213,7 +1213,7 @@ Ancilla_CheckTileCollision_Class2:
                 
                 PHX
                 
-                JSL Overworld_GetTileAttrAtLocation
+                JSL.l Overworld_GetTileAttrAtLocation
                 
                 PLX
                 
@@ -1225,7 +1225,7 @@ Ancilla_CheckTileCollision_Class2:
             ; function.
             LDA.w $0C7C, X
             
-            JSL Entity_GetTileAttr
+            JSL.l Entity_GetTileAttr
             
             .store_queried_tile_attr
             
@@ -1239,12 +1239,12 @@ Ancilla_CheckTileCollision_Class2:
             TAY
             
             ; Collision detection table:
-            LDA .collision_table, Y : BEQ .no_collision
+            LDA.w .collision_table, Y : BEQ .no_collision
                 CMP.b #$02 : BNE .not_sloped_collision
                     ; Should be noted that like the other return points for this
                     ; routine, the above routine returns a boolean result via
                     ; the carry flag.
-                    JSL Entity_CheckSlopedTileCollisionLong
+                    JSL.l Entity_CheckSlopedTileCollisionLong
                     
                     RTS
                 
@@ -1309,7 +1309,7 @@ Ancilla_CheckSpriteCollision:
             .ignore_priority_differences
             
             LDA.w $0C7C, X : CMP.w $0F20, Y : BNE .ignore_sprite
-                JSR Ancilla_CheckIndividualSpriteCollision
+                JSR.w Ancilla_CheckIndividualSpriteCollision
         
         .ignore_sprite
     DEY : BPL .next_sprite
@@ -1326,7 +1326,7 @@ Ancilla_CheckSpriteCollisionLong:
 {
     PHB : PHK : PLB
     
-    JSR Ancilla_CheckSpriteCollision
+    JSR.w Ancilla_CheckSpriteCollision
     
     PLB
     
@@ -1347,17 +1347,17 @@ Pool_Ancilla_CheckIndividualSpriteCollision:
 ; $040DAE-$040E7C LOCAL JUMP LOCATION
 Ancilla_CheckIndividualSpriteCollision:
 {
-    JSR Ancilla_SetupHitBox
+    JSR.w Ancilla_SetupHitBox
     
     PHY : PHX
     
     TYX
     
-    JSL Sprite_SetupHitBoxLong
+    JSL.l Sprite_SetupHitBoxLong
     
     PLX : PLY
     
-    JSL Utility_CheckIfHitBoxesOverlapLong : BCS .hit_box_overlap
+    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCS .hit_box_overlap
         JMP .no_collision
     
     .hit_box_overlap
@@ -1367,7 +1367,7 @@ Ancilla_CheckIndividualSpriteCollision:
             LDA.w $0E20, Y : CMP.b #$1B : BEQ .not_arrow_vs_enemy_arrow
                 .create_deflected_arrow
                 
-                JSL Sprite_CreateDeflectedArrow
+                JSL.l Sprite_CreateDeflectedArrow
                 
                 CLC
                 
@@ -1377,7 +1377,7 @@ Ancilla_CheckIndividualSpriteCollision:
             
             ; Do we have Silver Arrows?
             LDA.l $7EF340 : CMP.b #$03 : BCC .not_silver_arrows
-                JSR .undeflected_silver_arrow
+                JSR.w .undeflected_silver_arrow
                 
                 CLC
                 
@@ -1385,7 +1385,7 @@ Ancilla_CheckIndividualSpriteCollision:
             
             .not_silver_arrows
             
-            JSR .create_deflected_arrow
+            JSR.w .create_deflected_arrow
 
         .not_arrow_ancilla
     .doesnt_deflect_arrows
@@ -1402,7 +1402,7 @@ Ancilla_CheckIndividualSpriteCollision:
         
         LDA.w $0DE0, Y : TAY
         
-        LDA .opposing_sprite_directions, Y
+        LDA.w .opposing_sprite_directions, Y
         
         PLY
         
@@ -1439,8 +1439,8 @@ Ancilla_CheckIndividualSpriteCollision:
             
             LDA.w $0C72, X : AND.b #$03 : TAX 
             
-            LDA .sprite_recoil_x, X : STA.w $0F40, Y
-            LDA .sprite_recoil_y, X : STA.w $0F30, Y
+            LDA.w .sprite_recoil_x, X : STA.w $0F40, Y
+            LDA.w .sprite_recoil_y, X : STA.w $0F30, Y
             
             PLX : PHX
             
@@ -1448,7 +1448,7 @@ Ancilla_CheckIndividualSpriteCollision:
             
             TYX : PHY
             
-            JSL Ancilla_CheckSpriteDamage
+            JSL.l Ancilla_CheckSpriteDamage
             
             PLY : PLX
             
@@ -1460,7 +1460,7 @@ Ancilla_CheckIndividualSpriteCollision:
     
     PLA : PLA
     
-    JSR Ancilla_AlertSprites
+    JSR.w Ancilla_AlertSprites
     
     SEC
     
@@ -1558,7 +1558,7 @@ Ancilla_ProjectSpeedTowardsPlayer:
     
     PHX : PHY
     
-    JSR Ancilla_IsBelowPlayer
+    JSR.w Ancilla_IsBelowPlayer
     
     STY.b $02
     
@@ -1569,7 +1569,7 @@ Ancilla_ProjectSpeedTowardsPlayer:
     
     STA.b $0C
     
-    JSR Ancilla_IsToRightOfPlayer
+    JSR.w Ancilla_IsToRightOfPlayer
     
     STY.b $03
     
@@ -1689,7 +1689,7 @@ Ancilla_MoveHoriz:
     ; Increments X_reg by 0x0A so that X coordinates will be handled next.
     TXA : CLC : ADC.b #$0A : TAX
     
-    JSR Ancilla_MoveVert
+    JSR.w Ancilla_MoveVert
     
     ; Reload the special object's index to X.
     BRL Ancilla_RestoreIndex
@@ -1845,7 +1845,7 @@ Ancilla_AddSwordChargeSpark:
     LDA.b $1A : AND.b #$07 : BNE .sorry_ladies_no_sparkles_with_this_dress
         PHX
         
-        JSL AddSwordChargeSpark
+        JSL.l AddSwordChargeSpark
         
         PLX
     
@@ -1894,7 +1894,7 @@ incsrc "ancilla_cane_spark.asm"
 ; $045DC5-$045DC9 JUMP LOCATION
 Ancilla_SwordBeam:
 {
-    JSL SwordBeam
+    JSL.l SwordBeam
     
     RTS
 }
@@ -1906,11 +1906,11 @@ Ancilla_SwordFullChargeSpark:
 {
     LDA.b #$04
     
-    JSR Ancilla_AllocateOam
+    JSR.w Ancilla_AllocateOam
     
     TYA : STA.w $0C86, X
     
-    JSL SwordFullChargeSpark
+    JSL.l SwordFullChargeSpark
     
     RTS
 }
@@ -1953,7 +1953,7 @@ Ancilla_CheckBasicSpriteCollision:
                     
                     .not_somarian_block
                     
-                    JSR Ancilla_CheckSingleBasicSpriteCollision
+                    JSR.w Ancilla_CheckSingleBasicSpriteCollision
         
         .no_collision
     DEY : BPL .next_sprite
@@ -1968,17 +1968,17 @@ Ancilla_CheckBasicSpriteCollision:
 ; $04623D-$0462C9 LOCAL JUMP LOCATION
 Ancilla_CheckSingleBasicSpriteCollision:
 {
-    JSR Ancilla_SetupBasicHitBox
+    JSR.w Ancilla_SetupBasicHitBox
     
     PHY : PHX
     
     TYX
     
-    JSL Sprite_SetupHitBoxLong
+    JSL.l Sprite_SetupHitBoxLong
     
     PLX : PLY
     
-    JSL Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
+    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
         ; Helmasaur king check...
         LDA.w $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king_component
             LDA.w $0DB0, Y : CMP.b #$03 : BCC .not_helmasaur_king_mask
@@ -2011,7 +2011,7 @@ Ancilla_CheckSingleBasicSpriteCollision:
             
             TYX
             
-            JSL Sprite_ProjectSpeedTowardsEntityLong
+            JSL.l Sprite_ProjectSpeedTowardsEntityLong
             
             PLX : PLY
             
@@ -2024,7 +2024,7 @@ Ancilla_CheckSingleBasicSpriteCollision:
             
             TYX
             
-            JSL Ancilla_CheckSpriteDamage
+            JSL.l Ancilla_CheckSpriteDamage
             
             PLX
             
@@ -2124,7 +2124,7 @@ Ancilla_Spawn:
 {
     PHA
     
-    JSL Ancilla_CheckForAvailableSlot
+    JSL.l Ancilla_CheckForAvailableSlot
     
     PLA
     
@@ -2247,7 +2247,7 @@ Ancilla_PrepOamCoordLong:
 {
     PHB : PHK : PLB
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     PLB
     
@@ -2297,7 +2297,7 @@ Ancilla_SetOam_XY:
 ; $0476FE-$047701 LONG JUMP LOCATION
 Ancilla_SetOam_XY_Long:
 {
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     RTL
 }
@@ -2563,10 +2563,10 @@ Ancilla_DrawShadow:
     STZ.b $74
     STZ.b $75
     
-    JSR Ancilla_SetSafeOam_XY
+    JSR.w Ancilla_SetSafeOam_XY
     
-    LDA .chr, X                                 : STA ($90), Y : INY
-    LDA .properties, X : AND.b #$CF : ORA.b $04 : STA ($90), Y : INY
+    LDA.w .chr, X                                 : STA ($90), Y : INY
+    LDA.w .properties, X : AND.b #$CF : ORA.b $04 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -2584,10 +2584,10 @@ Ancilla_DrawShadow:
         STZ.b $74
         STZ.b $75
         
-        JSR Ancilla_SetSafeOam_XY
+        JSR.w Ancilla_SetSafeOam_XY
         
-        LDA .chr+1, X                                 : STA ($90), Y : INY
-        LDA .properties+1, X : AND.b #$CF : ORA.b $04 : STA ($90), Y : INY
+        LDA.w .chr+1, X                                 : STA ($90), Y : INY
+        LDA.w .properties+1, X : AND.b #$CF : ORA.b $04 : STA ($90), Y : INY
         
         PHY : TYA : SEC : SBC.b #$03 : LSR #2 : TAY
         
@@ -2606,13 +2606,13 @@ Ancilla_DrawShadow:
 Ancilla_AllocateOam_B_or_E:
 {
     LDY.w $0FB3 : BNE .sort_sprites
-        JSL OAM_AllocateFromRegionB
+        JSL.l OAM_AllocateFromRegionB
         
         BRA .return
     
     .sort_sprites
     
-    JSL OAM_AllocateFromRegionE
+    JSL.l OAM_AllocateFromRegionE
     
     .return
     
@@ -2639,16 +2639,16 @@ Tagalong_GetCloseToPlayer:
         LDX.b #$09
         LDA.b #$18
         
-        JSR Ancilla_ProjectSpeedTowardsPlayer
+        JSR.w Ancilla_ProjectSpeedTowardsPlayer
         
         LDA.b $00 : STA.w $0C22, X
         LDA.b $01 : STA.w $0C2C, X
         
-        JSR Ancilla_MoveVert
+        JSR.w Ancilla_MoveVert
         
         PHX
         
-        JSR Ancilla_MoveHoriz
+        JSR.w Ancilla_MoveHoriz
         
         PLX
         
@@ -2688,7 +2688,7 @@ Tagalong_GetCloseToPlayer:
             
             LDY.b $EE
         
-        LDA Ancilla_PrepOamCoord.priority, Y
+        LDA Ancilla_PrepOamCoord_priority, Y
         
         LSR #2 : ORA.b #$01 : STA.w $1A64, X
     BRL .need_to_get_closer_to_player
@@ -2882,28 +2882,28 @@ Ancilla_GetRadialProjection:
     
     TAX
     
-    LDA.l $0FFC02, X : STA.w $4202
-    LDA.b $08        : STA.w $4203
+    LDA.l $0FFC02, X : STA.w SNES.MultiplicandA
+    LDA.b $08        : STA.w SNES.MultiplierB
     
     ; Sign of the projected distance.
     LDA.l $0FFC42, X : STA.b $02
                        STZ.b $03
     
     ; Get Y projected distance?
-    LDA.w $4216 : ASL A
-    LDA.w $4217 : ADC.b #$00 : STA.b $00
+    LDA.w SNES.RemainderResultLow : ASL A
+    LDA.w SNES.RemainderResultHigh : ADC.b #$00 : STA.b $00
                                STZ.b $01
     
-    LDA.l $0FFBC2, X : STA.w $4202
-    LDA.b $08        : STA.w $4203
+    LDA.l $0FFBC2, X : STA.w SNES.MultiplicandA
+    LDA.b $08        : STA.w SNES.MultiplierB
     
     ; Sign of the projected distance.
     LDA.l $0FFC82, X : STA.b $06
                        STZ.b $07
     
     ; Get X projected distance?
-    LDA.w $4216 : ASL A
-    LDA.w $4217 : ADC.b #$00 : STA.b $04
+    LDA.w SNES.RemainderResultLow : ASL A
+    LDA.w SNES.RemainderResultHigh : ADC.b #$00 : STA.b $04
                                STZ.b $05
     
     PLX
@@ -2918,7 +2918,7 @@ Ancilla_GetRadialProjectionLong:
 {
     PHB : PHK : PLB
     
-    JSR Ancilla_GetRadialProjection
+    JSR.w Ancilla_GetRadialProjection
     
     PLB
     
@@ -2931,20 +2931,20 @@ Ancilla_GetRadialProjectionLong:
 Ancilla_AllocateOam:
 {
     LDY.w $0FB3 : BNE .sorted_sprites
-        JSL OAM_AllocateFromRegionA
+        JSL.l OAM_AllocateFromRegionA
         
         RTS
         
     .sorted_sprites
     
     LDY.w $0C7C, X : BNE .on_bg1
-        JSL OAM_AllocateFromRegionD
+        JSL.l OAM_AllocateFromRegionD
         
         RTS
     
     .on_bg1
     
-    JSL OAM_AllocateFromRegionF
+    JSL.l OAM_AllocateFromRegionF
     
     RTS
 }
@@ -2954,7 +2954,7 @@ Ancilla_AllocateOam:
 ; $047B44-$047BA5 LONG BRANCH LOCATION
 BeamHit_Unknown:
 {
-    JSR BeamHit_GetCoords
+    JSR.w BeamHit_GetCoords
     
     LDY.b #$00
     
@@ -2983,7 +2983,7 @@ BeamHit_Unknown:
         CLC : ADC.b $02 : STA.b $04
         TXA : ADC.b $03 : STA.b $05
         
-        JSR BeamHit_Get_Top_X_Bit : BCC .no_x_adjustment_needed
+        JSR.w BeamHit_Get_Top_X_Bit : BCC .no_x_adjustment_needed
             PHY
             
             TYA : LSR #2 : TAY
@@ -3006,7 +3006,7 @@ BeamHit_Unknown:
         
         TXA : ADC.b $01 : STA.b $0A
         
-        JSR BeamHit_CheckOffscreen_Y : BCC .onscreen_y
+        JSR.w BeamHit_CheckOffscreen_Y : BCC .onscreen_y
             LDA.b #$F0 : STA ($90), Y
         
         .onscreen_y

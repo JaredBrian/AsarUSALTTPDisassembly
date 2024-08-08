@@ -4598,7 +4598,7 @@ Hobo_Draw:
     ADC.b #.oam_groups                 : STA.b $08
     LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
     
-    JSL Sprite_DrawMultiple.player_deferred
+    JSL.l Sprite_DrawMultiple_player_deferred
     
     PLB
     
@@ -4612,9 +4612,9 @@ Landmine_CheckDetonationFromHammer:
 {
     LDA.w $0301 : AND.b #$0A : BEQ .player_not_using_hammer
         LDA.b $44 : CMP.b #$80 : BEQ .cant_check
-            JSL Player_SetupActionHitBoxLong
-            JSL Sprite_SetupHitBoxLong
-            JSL Utility_CheckIfHitBoxesOverlapLong
+            JSL.l Player_SetupActionHitBoxLong
+            JSL.l Sprite_SetupHitBoxLong
+            JSL.l Utility_CheckIfHitBoxesOverlapLong
             
             RTL
         
@@ -4654,7 +4654,7 @@ EasterEgg_BageCode:
         
         LDA.b $F6
         
-        JSL BAGE_HandleSword
+        JSL.l BAGE_HandleSword
         
         LDA.l $7EF359 : CMP.b #$04 : BNE .not_golden_sword
             LDA.b #$03 : STA.l $7EF35A
@@ -4750,7 +4750,7 @@ Bomb_ProjectSpeedTowardsPlayer:
     
     TYA
     
-    JSL Sprite_ProjectSpeedTowardsPlayerLong
+    JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     PLA : STA.w $0F70, X
     
@@ -4775,7 +4775,7 @@ Bomb_ProjectReflexiveSpeedOntoSpriteLong:
 {
     PHB : PHK : PLB
     
-    JSL Sprite_ProjectSpeedTowardsPlayerLong
+    JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     PLB
     
@@ -4810,14 +4810,14 @@ Sprite_DrawLargeWaterTurbulence:
     
     LDA.w $0E80, X : LSR A : AND.b #$01 : TAY
     
-    LDA .properties, Y : STA.w $0F50, X
+    LDA.w .properties, Y : STA.w $0F50, X
     
     ; BUG: Why is this load not used?
     LDA.b #$18
     
     LDA.w $0B89, X : AND.b #$F0 : STA.w $0B89, X
     
-    JSL OAM_AllocateFromRegionC
+    JSL.l OAM_AllocateFromRegionC
     
     REP #$20
     
@@ -4825,7 +4825,7 @@ Sprite_DrawLargeWaterTurbulence:
     
     SEP #$20
     
-    LDA.b #$06 : JSL Sprite_DrawMultiple
+    LDA.b #$06 : JSL.l Sprite_DrawMultiple
     
     PLA : STA.w $0F50, X
     

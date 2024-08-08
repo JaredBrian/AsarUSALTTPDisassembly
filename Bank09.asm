@@ -179,7 +179,7 @@ AddSomarianBlockDivide:
     
     STZ.w $0646
     
-    JSL Sound_SfxPanObjectCoords : ORA.b #$01 : STA.w $012F
+    JSL.l Sound_SfxPanObjectCoords : ORA.b #$01 : STA.w $012F
     
     PLB
     
@@ -318,7 +318,7 @@ Sprite_SpawnSuperficialBombBlast:
     ; Create a blast that looks like a green bomb going off? (Somaria
     ; platform uses during creation? Magic powder tossed on green altar?)
     LDA.b #$4A 
-    JSL Sprite_SpawnDynamically : BMI Sprite_SetSpawnedCoords_spawn_failed
+    JSL.l Sprite_SpawnDynamically : BMI Sprite_SetSpawnedCoords_spawn_failed
         LDA.b #$06 : STA.w $0DD0, Y
         
         LDA.b #$1F : STA.w $0E00, Y
@@ -327,7 +327,7 @@ Sprite_SpawnSuperficialBombBlast:
         
         INC A : STA.w $0F50, Y
         
-        LDA.b #$15 : JSL Sound_SetSfx2PanLong
+        LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
 }
         
 ; $04AE64-$04AE7D LONG JUMP LOCATION
@@ -354,14 +354,14 @@ Sprite_SpawnDummyDeathAnimation:
     ; Used for the chicken swarm (has to be, I'm sure of it)
     ; Update: This seems to be used by the contradiction bat.
     
-    LDA.b #$0B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
-        JSL Sprite_SetSpawnedCoords
+    LDA.b #$0B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$06 : STA.w $0DD0, Y
         
         LDA.b #$0F : STA.w $0DF0, Y
         
-        LDA.b #$14 : JSL Sound_SetSfx2PanLong
+        LDA.b #$14 : JSL.l Sound_SetSfx2PanLong
         
         ; Ensure the spawned death sprite is visible by giving it high priority.
         LDA.b #$02 : STA.w $0F20, Y
@@ -387,17 +387,17 @@ Pool_Sprite_SpawnMadBatterBolts:
 ; $04AEA8-$04AF31 LONG JUMP LOCATION
 Sprite_SpawnMadBatterBolts:
 {
-    JSL .attempt_bold_spawn
-    JSL .attempt_bold_spawn
-    JSL .attempt_bold_spawn
+    JSL.l .attempt_bold_spawn
+    JSL.l .attempt_bold_spawn
+    JSL.l .attempt_bold_spawn
     
     ; $04AEB4 ALTERNATE ENTRY POINT
     .attempt_bold_spawn
     
-    LDA.b #$3A : JSL Sprite_SpawnDynamically : BMI .spawnFailed
-        LDA.b #$01 : JSL Sound_SetSfx3PanLong
+    LDA.b #$3A : JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
+        LDA.b #$01 : JSL.l Sound_SetSfx3PanLong
         
-        JSL Sprite_SetSpawnedCoords
+        JSL.l Sprite_SetSpawnedCoords
         
         LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
         LDA.b $01 :       ADC.b #$00 : STA.w $0D30, Y
@@ -540,7 +540,7 @@ Sprite_ReinitWarpVortex:
     
     LDA.b #$6C
     
-    JSL Sprite_SpawnDynamically : BPL .spawnSucceeded
+    JSL.l Sprite_SpawnDynamically : BPL .spawnSucceeded
         LDY.b #$00
     
     .spawnSucceeded
@@ -660,7 +660,7 @@ SpawnCrazyVillageSoldier:
     LDA.b #$45
     LDY.b #$00
     
-    JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
         PHX
         
         LDA.w $0E20, X
@@ -678,11 +678,11 @@ SpawnCrazyVillageSoldier:
         
         .place_soldier
         
-        LDA .x_offsets_low,  X :                     STA.w $0D10, Y
-        LDA .x_offsets_high, X : CLC : ADC.w $0FBD : STA.w $0D30, Y
+        LDA.w .x_offsets_low,  X :                     STA.w $0D10, Y
+        LDA.w .x_offsets_high, X : CLC : ADC.w $0FBD : STA.w $0D30, Y
         
-        LDA .y_offsets_low,  X :                     STA.w $0D00, Y
-        LDA .y_offsets_high, X : CLC : ADC.w $0FBF : STA.w $0D20, Y
+        LDA.w .y_offsets_low,  X :                     STA.w $0D00, Y
+        LDA.w .y_offsets_high, X : CLC : ADC.w $0FBF : STA.w $0D20, Y
         
         PLX
         
@@ -796,13 +796,13 @@ Dungeon_ResetSprites:
     PHB : PHK : PLB
     
     ; $04C176 IN ROM; Transfer a lot of sprite data to other places.
-    JSR Dungeon_CacheTransSprites
+    JSR.w Dungeon_CacheTransSprites
     
     ; Make Link drop whatever he's carrying.
     STZ.w $0309 : STZ.w $0308
     
     ; $04C22F IN ROM; Zeroes out and disables a number of memory locations.
-    JSL Sprite_DisableAll
+    JSL.l Sprite_DisableAll
     
     REP #$20
     
@@ -837,7 +837,7 @@ Dungeon_ResetSprites:
     
     SEP #$30
     
-    JSR Dungeon_LoadSprites
+    JSR.w Dungeon_LoadSprites
     
     PLB
     
@@ -1022,7 +1022,7 @@ Dungeon_LoadSprites:
         LDY !dataOffset
         
         LDA (!dataPtr), Y : CMP.b #$FF : BEQ .endOfSpriteList
-            JSR Dungeon_LoadSprite ; $04C327 IN ROM
+            JSR.w Dungeon_LoadSprite ; $04C327 IN ROM
             
             ; Increment the slot we're saving to. ($0E20, $0E21, ...).
             INC !spriteSlot
@@ -1127,7 +1127,7 @@ Dungeon_LoadSprite:
     ; Examine its X coordinate, and go back to the sprite type position.
     ; If X coord < 0xE0, Load the overlord's information into memory.
     LDA (!dataPtr), Y : INY : CMP.b #$E0 : BCC .notOverlord
-        JSR Dungeon_LoadOverlord ; $04C3E8 IN ROM
+        JSR.w Dungeon_LoadOverlord ; $04C3E8 IN ROM
         
         ; Since this isn't a normal sprite, we don't want to throw off their
         ; loading mechanism, because the normal sprites are loaded in a linear
@@ -1261,7 +1261,7 @@ Dungeon_LoadOverlord:
     
     LDA.w $0FB0 : ADC.b #$00 : STA.w $0B10, X
     
-    JSR Overworld_LoadOverlord_misc
+    JSR.w Overworld_LoadOverlord_misc
     
     ; Load the overlord type and check for various special cases.
     LDA.w $0B00, X : CMP.b #$0A : BEQ .needsTimer
@@ -1288,7 +1288,7 @@ Dungeon_LoadOverlord:
 ; $04C44E-$04C451 LONG JUMP LOCATION
 Sprite_ResetAll:
 {
-    JSL Sprite_DisableAll
+    JSL.l Sprite_DisableAll
 
     ; TODO: Check for other references to this entry point and change it to
     ; Sprite_ResetBuffers instead.
@@ -1345,8 +1345,8 @@ Sprite_ResetBuffers:
 ; $04C499-$04C49C LONG JUMP LOCATION
 Sprite_OverworldReloadAll:
 {
-    JSL Sprite_DisableAll
-    JSL Sprite_ResetBuffers
+    JSL.l Sprite_DisableAll
+    JSL.l Sprite_ResetBuffers
     
     ; TODO: Check for other references to this entry point and change it to
     ; Sprite_LoadAll_Overworld instead.
@@ -1360,7 +1360,7 @@ Sprite_LoadAll_Overworld:
 {
     PHB : PHK : PLB
     
-    JSR LoadOverworldSprites
+    JSR.w LoadOverworldSprites
     JSR.w $C55E ; $04C55E IN ROM
     
     PLB
@@ -1756,7 +1756,7 @@ Overworld_LoadProximaSpriteIfAlive:
         LDA.b $00 : AND.b #$07 : TAY
         
         LDA [$02] : AND.w Overworld_AliveStatusBits, Y : BNE .alpha
-            JSR Overworld_LoadSprite
+            JSR.w Overworld_LoadSprite
     
     .alpha
     
@@ -1772,7 +1772,7 @@ Overworld_LoadSprite:
     ; what is loaded. Here, we're really referring to $F3 sprites, not a
     ; $F4 limit.
     LDA [$05] : CMP.b #$F4 : BCC .normalSprite
-        JSR Overworld_LoadOverlord
+        JSR.w Overworld_LoadOverlord
         
         RTS
     
@@ -2328,7 +2328,7 @@ SpriteExplode_ExecuteLong:
 {
     PHB : PHK : PLB
     
-    JSR SpriteExplode_Execute
+    JSR.w SpriteExplode_Execute
     
     PLB
     
@@ -2353,7 +2353,7 @@ SpriteExplode_Execute:
         
         LDY.b #$01 : STY.w $0AAA
         
-        JSL Sprite_VerifyAllOnScreenDefeated : BCS .found_one ; BRANCH_BETA
+        JSL.l Sprite_VerifyAllOnScreenDefeated : BCS .found_one ; BRANCH_BETA
             ; Restore menu functionality. Bit of a \hack, imo.
             STZ.w $0FFC
         
@@ -2375,7 +2375,7 @@ SpriteExplode_Execute:
         
         SEP #$20
         
-        LDA.b #$04 : JSL Sprite_DrawMultiple
+        LDA.b #$04 : JSL.l Sprite_DrawMultiple
         
         RTS
 }
@@ -2414,7 +2414,7 @@ Explode_VerifyPrizing:
     STZ.w $02E4
     
     LDA.b $5B : CMP.b #$02 : BEQ .cant_spawn_heart_container
-        JSL Sprite_VerifyAllOnScreenDefeated : BCC .cant_spawn_heart_container
+        JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .cant_spawn_heart_container
             ; Is this sprite Ganon?
             LDY.w $0E20, X : CPY.b #$D6 : BCS .victory_over_ganon
                 ; Is it Agahnim?
@@ -2422,7 +2422,7 @@ Explode_VerifyPrizing:
                     ; So it's Agahnim... what do we do.
                     PHX
                     
-                    JSL PrepDungeonExit
+                    JSL.l PrepDungeonExit
                     
                     PLX
             
@@ -2444,8 +2444,8 @@ Explode_VerifyPrizing:
     LDA.b #$EA
     LDY.b #$0E
     
-    JSL Sprite_SpawnDynamically.arbitrary
-    JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SpawnDynamically_arbitrary
+    JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$20 : STA.w $0F80, Y
     
@@ -2497,7 +2497,7 @@ Explode_SpawnExplosion:
 
         .do_standard_sprite_proccessing
                 
-        JSL SpriteActive_MainLong
+        JSL.l SpriteActive_MainLong
         
     .skip_standard_sprite_proccessing
     
@@ -2516,14 +2516,14 @@ Explode_SpawnExplosion:
     PHA
     
     AND.b #$03 : BNE .explosion_sfx_delay
-        LDA.b #$0C : JSL Sound_SetSfx2PanLong
+        LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
     
     .explosion_sfx_delay
     
     PLA : AND.b $0E : BNE .anospawn_explosion_sprite
         LDA.b #$1C
         
-        JSL Sprite_SpawnDynamically : BMI .spawn_failed
+        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             LDA.b #$0B : STA.w $0AAA
             
             LDA.b #$04 : STA.w $0DD0, Y
@@ -2534,7 +2534,7 @@ Explode_SpawnExplosion:
             
             PHX
             
-            JSL GetRandomInt : AND.b #$07 : TAX
+            JSL.l GetRandomInt : AND.b #$07 : TAX
             
             LDA.b $0F : CMP.b #$92 : BNE .use_normal_x_offsets
                 TXA : ORA.b #$08 : TAX
@@ -2549,7 +2549,7 @@ Explode_SpawnExplosion:
             ADC.w Pool_Explode_SpawnExplosion_x_offsets_high, X
             STA.w $0D30, Y
             
-            JSL GetRandomInt : AND.b #$07 : TAX
+            JSL.l GetRandomInt : AND.b #$07 : TAX
             
             LDA.b $0F : CMP.b #$92 : BNE .use_normal_y_offsets
                 TXA : ORA.b #$08 : TAX
@@ -2661,13 +2661,13 @@ Pool_Garnish_ScatterDebris:
 ; $04F0CB-$04F15B JUMP LOCATION
 Garnish_ScatterDebris:
 {
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.l $7FF9FE, X : STA.b $05
     
     LDA.w $0FC6 : CMP.b #$03 : BCS .BRANCH_ALPHA
         LDA.l $7FF92C, X : CMP.b #$03 : BNE .BRANCH_BETA
-            JSR ScatterDebris_Draw
+            JSR.w ScatterDebris_Draw
         
     .BRANCH_ALPHA
     
@@ -2943,10 +2943,10 @@ Module_Death:
     ; $11 index for death module.
     LDA.b $11 : ASL A : TAX
     
-    JSR (Module_Death_JumpTable, X)
+    JSR.w (Module_Death_JumpTable, X)
     
     LDA.b $11 : CMP.b #$09 : BEQ .dont_show_player
-        JSL PlayerOam_Main
+        JSL.l PlayerOam_Main
     
     .dont_show_player
     
@@ -3033,8 +3033,8 @@ GameOver_DelayBeforeIris:
 {
     DEC.b $C8 : BNE .alpha
         ; Initializes "death ancillae" for death mode.
-        JSL Death_InitializeGameOverLetters
-        JSL Spotlight_close
+        JSL.l Death_InitializeGameOverLetters
+        JSL.l Spotlight_close
         
         LDA.b #$30 : STA.b $98
                     STZ.b $97
@@ -3052,14 +3052,14 @@ GameOver_DelayBeforeIris:
 ; $04F350-$04F3DD LOCAL JUMP LOCATION
 GameOver_IrisWipe:
 {
-    JSL PaletteFilter_Restore_Strictly_Bg_Subtractive
+    JSL.l PaletteFilter_Restore_Strictly_Bg_Subtractive
     
     LDA.l $7EC540 : STA.l $7EC500
     LDA.l $7EC541 : STA.l $7EC501
     
     LDA.b $10 : PHA
     
-    JSL ConfigureSpotlightTable
+    JSL.l ConfigureSpotlightTable
     
     PLA : STA.b $10
     
@@ -3081,7 +3081,7 @@ GameOver_IrisWipe:
         
         SEP #$20
         
-        JSL ResetSpotlightTable
+        JSL.l ResetSpotlightTable
         
         LDA.b #$20 : STA.b $9C
         LDA.b #$40 : STA.b $9D
@@ -3106,7 +3106,7 @@ GameOver_IrisWipe:
         
         LDA.b #$00 : STA.l $7EC007 : STA.l $7EC009
         
-        JSL Death_PrepFaint
+        JSL.l Death_PrepFaint
     
     .return
     
@@ -3120,7 +3120,7 @@ GameOver_IrisWipe:
 GameOver_SplatAndFade:
 {
     LDA.b $C8 : BNE .delay
-        JSL PaletteFilter_Restore_Strictly_Bg_Subtractive
+        JSL.l PaletteFilter_Restore_Strictly_Bg_Subtractive
         
         LDA.l $7EC540 : STA.l $7EC500
         LDA.l $7EC541 : STA.l $7EC501
@@ -3171,7 +3171,7 @@ GameOver_SplatAndFade:
     LDA.b #$0F : STA.w $0AAA
     
     ; Grab a half pack of graphics and expand to 4bpp.
-    JSL Graphics_LoadChrHalfSlot
+    JSL.l Graphics_LoadChrHalfSlot
     
     STZ.w $0AAA
     
@@ -3186,15 +3186,15 @@ GameOver_LoadGAMEOVR:
     LDA.b #$0C : STA.b $C8
     LDA.b #$0F : STA.w $0AAA
     
-    JSL Graphics_LoadChrHalfSlot
+    JSL.l Graphics_LoadChrHalfSlot
     
     STZ.w $0AAA
     
     LDA.b #$05 : STA.w $0AB1
     LDA.b #$02 : STA.w $0AA9
     
-    JSL Palette_MiscSpr.justSP6
-    JSL Palette_MainSpr
+    JSL.l Palette_MiscSpr_justSP6
+    JSL.l Palette_MainSpr
     
     INC.b $15 : INC.b $11
 
@@ -3205,7 +3205,7 @@ GameOver_LoadGAMEOVR:
 ; $04F47E-$04F482 LOCAL JUMP LOCATION
 Link_SpinAndDie_bounce:
 {
-    JSL Death_PlayerSwoon
+    JSL.l Death_PlayerSwoon
     
     RTS
 }
@@ -3213,7 +3213,7 @@ Link_SpinAndDie_bounce:
 ; $04F483-$04F487 LOCAL JUMP LOCATION
 Animate_GAMEOVER_Letters_bounce:
 {
-    JSL Ancilla_GameOverTextLong
+    JSL.l Ancilla_GameOverTextLong
     
     RTS
 }
@@ -3221,14 +3221,14 @@ Animate_GAMEOVER_Letters_bounce:
 ; $04F488-$04F4AB LOCAL JUMP LOCATION
 Death_ShowSaveOptionsMenu:
 {
-    JSL Ancilla_GameOverTextLong
+    JSL.l Ancilla_GameOverTextLong
     
     LDA.b $10 : PHA
     LDA.b $11 : PHA
     
     LDA.b #$02 : STA.w $1CD8
     
-    JSL Messaging_Text
+    JSL.l Messaging_Text
     
     PLA : INC A : STA.b $11
     
@@ -3264,7 +3264,7 @@ GameOver_SaveAndOrContinue:
     JSR.w $F67A ; $04F67A IN ROM
     
     LDA.w $0C4A : BEQ .alpha
-        JSL Ancilla_GameOverTextLong
+        JSL.l Ancilla_GameOverTextLong
     
     .alpha
     
@@ -3310,11 +3310,11 @@ GameOver_FadeAndRevive:
     LDA.b #$F1 : STA.w $012C
         
     LDA.b $1B : BEQ .BRANCH_ZETA
-        JSL Dungeon_SaveRoomQuadrantData
+        JSL.l Dungeon_SaveRoomQuadrantData
         
     .BRANCH_ZETA
         
-    JSL $02856A ; $01056A IN ROM
+    JSL.l $02856A ; $01056A IN ROM
         
     LDA.l $7EF3C5 : CMP.b #$03 : BCS .BRANCH_THETA
         LDA.b #$00 : STA.l $7EF3CA
@@ -3362,7 +3362,7 @@ GameOver_FadeAndRevive:
         
     .BRANCH_MU
         
-    JSL Sprite_ResetAll
+    JSL.l Sprite_ResetAll
         
     REP #$20
         
@@ -3400,7 +3400,7 @@ GameOver_FadeAndRevive:
         
         LDA.l $7EF3C5 : BEQ .BRANCH_TAU
             LDA.b $B0 : BNE .BRANCH_UPSILON
-                JSL Main_SaveGameFile
+                JSL.l Main_SaveGameFile
             
             .BRANCH_UPSILON
             
@@ -3429,7 +3429,7 @@ GameOver_FadeAndRevive:
     .handleSram
         
     LDA.l $7EF3C5 : BEQ .dontSave
-        JSL Main_SaveGameFile
+        JSL.l Main_SaveGameFile
         
     .dontSave
         
@@ -3443,7 +3443,7 @@ GameOver_FadeAndRevive:
         
     SEI
         
-    STZ.w $4200 : STZ.w $420C
+    STZ.w SNES.NMIVHCountJoypadEnable : STZ.w SNES.HDMAChannelEnable
         
     REP #$30
         
@@ -3466,11 +3466,11 @@ GameOver_FadeAndRevive:
         
     STZ.w $0136
         
-    LDA.b #$FF : STA.w $2140
+    LDA.b #$FF : STA.w SNES.APUIOPort0
         
-    JSL Sound_LoadLightWorldSongBank
+    JSL.l Sound_LoadLightWorldSongBank
         
-    LDA #$81 : STA.w $4200
+    LDA #$81 : STA.w SNES.NMIVHCountJoypadEnable
         
     RTS
 }
@@ -3493,7 +3493,7 @@ Pool_GameOver_AnimateChoiceFairy:
 }
 
 ; $04F67A-$04F6A3 LOCAL JUMP LOCATION
-GameOver_AnimateChoiceFairy: 
+GameOver_AnimateChoiceFairy:
 {
     PHB : PHK : PLB
     
@@ -3523,7 +3523,7 @@ GameOver_InitializeRevivalFairy:
 {
     ; Configure some ancillary objects for reviving the player, such
     ; as a fairy and... other stuff?
-    JSL Ancilla_ConfigureRevivalObjects
+    JSL.l Ancilla_ConfigureRevivalObjects
     
     ; Restore the player's health by 7 hearts.
     LDA.b #$38 : STA.l $7EF372
@@ -3538,7 +3538,7 @@ GameOver_InitializeRevivalFairy:
 ; $04F6B4-$04F6B8 LOCAL JUMP LOCATION
 RevivalFairy_Main_bounce:
 {
-    JSL Ancilla_RevivalFairy
+    JSL.l Ancilla_RevivalFairy
     
     RTS
 }
@@ -3587,8 +3587,8 @@ GameOver_AriseAdvancement:
 ; $04F714-$04F71C LOCAL JUMP LOCATION
 GameOver_RunFairyRefill:
 {
-    JSL Ancilla_RevivalFairy
-    JSL HUD_RefillLogicLong
+    JSL.l Ancilla_RevivalFairy
+    JSL.l HUD_RefillLogicLong
     
     RTS
 }
@@ -3600,11 +3600,11 @@ GameOver_Restore0D:
     
     LDA #$01 : STA.w $0AAA
     
-    JSL Graphics_LoadChrHalfSlot
+    JSL.l Graphics_LoadChrHalfSlot
     
     LDA.l $7EC017
     
-    JSL Dungeon_ApproachFixedColor_variable
+    JSL.l Dungeon_ApproachFixedColor_variable
     
     BRA GameOver_RunFairyRefill
 }
@@ -3612,7 +3612,7 @@ GameOver_Restore0D:
 ; $04F735-$04F741 LOCAL JUMP LOCATION
 GameOver_Restore0E:
 {
-    JSL Graphics_LoadChrHalfSlot
+    JSL.l Graphics_LoadChrHalfSlot
     
     LDA.l $7EC212 : STA.b $1D
     
@@ -3626,14 +3626,14 @@ GameOver_Restore0E:
 ; $04F742-$04F79A LOCAL JUMP LOCATION
 Death_RestoreScreenPostRevival:
 {
-    JSL PaletteFilter_Restore_Strictly_Bg_Additive
+    JSL.l PaletteFilter_Restore_Strictly_Bg_Additive
     
     LDA.l $7EC540 : STA.l $7EC500
     LDA.l $7EC541 : STA.l $7EC501
     
     LDA.l $7EC007 : CMP.b #$20 : BNE .not_done
         LDA.b $1B : BNE .indoors
-            JSL Overworld_SetFixedColorAndScroll
+            JSL.l Overworld_SetFixedColorAndScroll
         
         .indoors
         
@@ -3679,10 +3679,10 @@ Module_Quit:
 {
     LDA.b $11 : ASL A : TAX
     
-    JSR (Pool_Module_Quit_submodules, X)
+    JSR.w (Pool_Module_Quit_submodules, X)
     
-    JSL Sprite_Main
-    JSL PlayerOam_Main
+    JSL.l Sprite_Main
+    JSL.l PlayerOam_Main
     
     RTL
 }
@@ -3780,7 +3780,7 @@ Polyhedral_RunThread:
         LDA.b $00 : BEQ .wait
     LDA.b $0C : BNE .wait
     
-    JSL Polyhedral_EmptyBitMapBuffer
+    JSL.l Polyhedral_EmptyBitMapBuffer
     
     JSR.w Polyhedral_SetShapePointer
     JSR.w Polyhedral_SetRotationMatrix
@@ -3842,29 +3842,29 @@ Polyhedral_SetRotationMatrix:
     
     SEI
     
-    LDX.b $54 : STX.w $211B
-    LDX.b $55 : STX.w $211B
-    LDX.b $50 : STX.w $211C
+    LDX.b $54 : STX.w SNES.Mode7MatrixA
+    LDX.b $55 : STX.w SNES.Mode7MatrixA
+    LDX.b $50 : STX.w SNES.Mode7MatrixB
     
-    LDA.w $2135 : ASL #2 : STA.b $58
+    LDA.w SNES.MultResultMid : ASL #2 : STA.b $58
     
-    LDX.b $56 : STX.w $211B
-    LDX.b $57 : STX.w $211B
-    LDX.b $52 : STX.w $211C
+    LDX.b $56 : STX.w SNES.Mode7MatrixA
+    LDX.b $57 : STX.w SNES.Mode7MatrixA
+    LDX.b $52 : STX.w SNES.Mode7MatrixB
     
-    LDA.w $2135 : ASL #2 : STA.b $5E
+    LDA.w SNES.MultResultMid : ASL #2 : STA.b $5E
     
-    LDX.b $56 : STX.w $211B
-    LDX.b $57 : STX.w $211B
-    LDX.b $50 : STX.w $211C
+    LDX.b $56 : STX.w SNES.Mode7MatrixA
+    LDX.b $57 : STX.w SNES.Mode7MatrixA
+    LDX.b $50 : STX.w SNES.Mode7MatrixB
     
-    LDA.w $2135 : ASL #2 : STA.b $5A
+    LDA.w SNES.MultResultMid : ASL #2 : STA.b $5A
     
-    LDX.b $54 : STX.w $211B
-    LDX.b $55 : STX.w $211B
-    LDX.b $52 : STX.w $211C
+    LDX.b $54 : STX.w SNES.Mode7MatrixA
+    LDX.b $55 : STX.w SNES.Mode7MatrixA
+    LDX.b $52 : STX.w SNES.Mode7MatrixB
     
-    LDA.w $2135 : ASL #2 : STA.b $5C
+    LDA.w SNES.MultResultMid : ASL #2 : STA.b $5C
     
     CLI
     
@@ -3917,17 +3917,17 @@ Polyhedral_RotatePoint:
     
     SEI
     
-                STY.w $211B
-    LDY.b $57 : STY.w $211B
-    LDY.b $45 : STY.w $211C
+                STY.w SNES.Mode7MatrixA
+    LDY.b $57 : STY.w SNES.Mode7MatrixA
+    LDY.b $45 : STY.w SNES.Mode7MatrixB
     
-    LDA.w $2134
+    LDA.w SNES.MultResultLow
     
-    LDY.b $54 : STY.w $211B
-    LDY.b $55 : STY.w $211B
-    LDY.b $47 : STY.w $211C
+    LDY.b $54 : STY.w SNES.Mode7MatrixA
+    LDY.b $55 : STY.w SNES.Mode7MatrixA
+    LDY.b $47 : STY.w SNES.Mode7MatrixB
     
-    SEC : SBC.w $2134
+    SEC : SBC.w SNES.MultResultLow
     
     CLI
     
@@ -3937,23 +3937,23 @@ Polyhedral_RotatePoint:
     
     SEI
     
-                STY.w $211B
-    LDY.b $59 : STY.w $211B
-    LDY.b $45 : STY.w $211C
+                STY.w SNES.Mode7MatrixA
+    LDY.b $59 : STY.w SNES.Mode7MatrixA
+    LDY.b $45 : STY.w SNES.Mode7MatrixB
     
-    LDA.w $2134
+    LDA.w SNES.MultResultLow
     
-    LDY.b $52 : STY.w $211B
-    LDY.b $53 : STY.w $211B
-    LDY.b $46 : STY.w $211C
+    LDY.b $52 : STY.w SNES.Mode7MatrixA
+    LDY.b $53 : STY.w SNES.Mode7MatrixA
+    LDY.b $46 : STY.w SNES.Mode7MatrixB
     
-    CLC : ADC.w $2134
+    CLC : ADC.w SNES.MultResultLow
     
-    LDY.b $5A : STY.w $211B
-    LDY.b $5B : STY.w $211B
-    LDY.b $47 : STY.w $211C
+    LDY.b $5A : STY.w SNES.Mode7MatrixA
+    LDY.b $5B : STY.w SNES.Mode7MatrixA
+    LDY.b $47 : STY.w SNES.Mode7MatrixB
     
-    CLC : ADC.w $2134
+    CLC : ADC.w SNES.MultResultLow
     
     CLI
     
@@ -3963,23 +3963,23 @@ Polyhedral_RotatePoint:
     
     SEI
     
-                STY.w $211B
-    LDY.b $5D : STY.w $211B
-    LDY.b $45 : STY.w $211C
+                STY.w SNES.Mode7MatrixA
+    LDY.b $5D : STY.w SNES.Mode7MatrixA
+    LDY.b $45 : STY.w SNES.Mode7MatrixB
     
-    LDA.w $2135
+    LDA.w SNES.MultResultMid
     
-    LDY.b $50 : STY.w $211B
-    LDY.b $51 : STY.w $211B
-    LDY.b $46 : STY.w $211C
+    LDY.b $50 : STY.w SNES.Mode7MatrixA
+    LDY.b $51 : STY.w SNES.Mode7MatrixA
+    LDY.b $46 : STY.w SNES.Mode7MatrixB
     
-    SEC : SBC.w $2135
+    SEC : SBC.w SNES.MultResultMid
     
-    LDY.b $5E : STY.w $211B
-    LDY.b $5F : STY.w $211B
-    LDY.b $47 : STY.w $211C
+    LDY.b $5E : STY.w SNES.Mode7MatrixA
+    LDY.b $5F : STY.w SNES.Mode7MatrixA
+    LDY.b $47 : STY.w SNES.Mode7MatrixB
     
-    CLC : ADC.w $2135
+    CLC : ADC.w SNES.MultResultMid
     
     ; Note that this combines a CLC with a CLI.
     REP #$05
@@ -4012,8 +4012,8 @@ Polyhedral_ProjectPoint:
     
     SEI
     
-    LDA.b $B2 : STA.w $4204
-    LDY.b $B0 : STY.w $4206
+    LDA.b $B2 : STA.w SNES.DividendLow
+    LDY.b $B0 : STY.w SNES.DivisorB
     
     NOP #2
     
@@ -4026,13 +4026,13 @@ Polyhedral_ProjectPoint:
     BMI .delta
         NOP
         
-        LDA.w $4214
+        LDA.w SNES.DivideResultQuotientLow
         
         BRA .epsilon
     
     .delta
     
-    SBC.w $4214
+    SBC.w SNES.DivideResultQuotientLow
     
     .epsilon
     
@@ -4062,8 +4062,8 @@ Polyhedral_ProjectPoint:
     
     SEI
     
-    LDA.b $B2 : STA.w $4204
-    LDY.b $B0 : STY.w $4206
+    LDA.b $B2 : STA.w SNES.DividendLow
+    LDY.b $B0 : STY.w SNES.DivisorB
     
     NOP #2
     
@@ -4076,13 +4076,13 @@ Polyhedral_ProjectPoint:
     BMI .kappa
         NOP
         
-        LDA.w $4214
+        LDA.w SNES.DivideResultQuotientLow
         
         BRA .lamba
     
     .kappa
     
-    SBC.w $4214
+    SBC.w SNES.DivideResultQuotientLow
     
     .lambda
     
@@ -4141,7 +4141,7 @@ Polyhedral_DrawPolyhedron:
             JSR.w Polyhedral_CalculateCrossProduct : BMI .gamma
                 BEQ .beta
                     JSR.w Polyhedral_SetForegroundColor
-                    JSL Polyhedral_DrawFace
+                    JSL.l Polyhedral_DrawFace
         
         .beta
         
@@ -4181,7 +4181,7 @@ Polyhedral_DrawPolyhedron:
         SEP #$20
         
         JSR.w Polyhedral_SetBackgroundColor
-        JSL Polyhedral_DrawFace
+        JSL.l Polyhedral_DrawFace
         
         JMP .beta
 }
@@ -4192,7 +4192,7 @@ Polyhedral_SetForegroundColor:
     LDA.b $01 : BNE Polyhedral_SetFGShadeColor
         LDA.b $4F : AND.b #$07
         
-        JSL Polyhedral_SetColorMask
+        JSL.l Polyhedral_SetColorMask
         
         RTS
 }
@@ -4203,7 +4203,7 @@ Polyhedral_SetBackgroundColor:
     LDA.b $01 : BNE Polyhedral_SetBGShadeColor
         LDA.b $4F : LSR #4 : AND.b #$07
         
-        JSL Polyhedral_SetColorMask
+        JSL.l Polyhedral_SetColorMask
         
         RTS
 }
@@ -4261,7 +4261,7 @@ Polyhedral_SetShadeColor:
     
     .epsilon
     
-    JSL Polyhedral_SetColorMask
+    JSL.l Polyhedral_SetColorMask
     
     RTS
 }
@@ -4272,27 +4272,27 @@ Polyhedral_CalculateCrossProduct:
     ; (Set I and C flags)
     SEP #$05
     
-    LDA.b $C3 : SBC.b $C1 : STA.w $211B
+    LDA.b $C3 : SBC.b $C1 : STA.w SNES.Mode7MatrixA
     
-    LDA.b #$00 : SBC.b #$00 : STA.w $211B
+    LDA.b #$00 : SBC.b #$00 : STA.w SNES.Mode7MatrixA
     
-    SEC : LDA.b $C6 : SBC.b $C4 : STA.w $211C
+    SEC : LDA.b $C6 : SBC.b $C4 : STA.w SNES.Mode7MatrixB
     
     ; Apparently it's super important to keep the I flag low
     ; for as little time as possible.
-    LDA.w $2134       : STA.b $B0
-    LDA.w $2135 : CLI : STA.b $B1
+    LDA.w SNES.MultResultLow       : STA.b $B0
+    LDA.w SNES.MultResultMid : CLI : STA.b $B1
     
     SEP #$05
     
-    LDA.b $C5  : SBC.b $C3  : STA.w $211B
-    LDA.b #$00 : SBC.b #$00 : STA.w $211B
+    LDA.b $C5  : SBC.b $C3  : STA.w SNES.Mode7MatrixA
+    LDA.b #$00 : SBC.b #$00 : STA.w SNES.Mode7MatrixA
     
-    SEC : LDA.b $C4 : SBC.b $C2 : STA.w $211C
+    SEC : LDA.b $C4 : SBC.b $C2 : STA.w SNES.Mode7MatrixB
     
     REP #$20
     
-    SEC : LDA.b $B0 : SBC.w $2134 : STA.b $B0
+    SEC : LDA.b $B0 : SBC.w SNES.MultResultLow : STA.b $B0
     
     SEP #$20
     CLI

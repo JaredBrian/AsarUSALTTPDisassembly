@@ -384,7 +384,7 @@ Module_EndSequence:
     ; Load the level 1 submodule index and used it to index into a jump table.
     LDA.b $11 : ASL A : TAX
         
-    JSR (Pool_Module_EndSequence, X)
+    JSR.w (Pool_Module_EndSequence, X)
         
     RTL
 }
@@ -394,7 +394,7 @@ Credits_LoadNextScene_Overworld:
 {
     ; For overworld portions:
     JSL Credits_LoadScene_Overworld
-    JSR Credits_AddEndingSequenceText
+    JSR.w Credits_AddEndingSequenceText
         
     RTS
 }
@@ -404,7 +404,7 @@ Credits_LoadNextScene_Underworld:
 {
     ; For dungeon portions
     JSL Credits_LoadScene_Dungeon ; Module 1A's basecamp in Bank02.
-    JSR Credits_AddEndingSequenceText
+    JSR.w Credits_AddEndingSequenceText
 }
 
 ; Seems to be prep functions.
@@ -447,7 +447,7 @@ Credits_PrepAndLoadSprites:
         
     LDA.b $11 : AND.b #$FE : TAX
         
-    JSR (Pool_Credits_PrepAndLoadSprites, X)
+    JSR.w (Pool_Credits_PrepAndLoadSprites, X)
         
     PLB
         
@@ -578,7 +578,7 @@ Credits_ScrollScene_Overworld:
         
     PLX
         
-    JSR (Pool_Credits_ScrollScene_Underworld, X)
+    JSR.w (Pool_Credits_ScrollScene_Underworld, X)
         
     JMP Credits_HandleSceneFade
 }
@@ -643,7 +643,7 @@ Credits_ScrollScene_Underworld:
     
     SEP #$20
         
-    JSR (Pool_Credits_ScrollScene_Underworld, X)
+    JSR.w (Pool_Credits_ScrollScene_Underworld, X)
 
     ; Why.... this just jumps to the function right after acomplishing
     ; literally nothing.
@@ -651,7 +651,7 @@ Credits_ScrollScene_Underworld:
 }
 
 ; $071A0A-$071A29 DATA
-Pool_Credits_HandleSceneFade
+Pool_Credits_HandleSceneFade:
 {
     .timer
     dw $0300 ;  768 - Hyrule Castle
@@ -1401,7 +1401,7 @@ Credits_SpriteDraw_Castle:
         LDA.w Pool_Credits_SpriteDraw_Castle_group_size, X
         LDY.w Pool_Credits_SpriteDraw_Castle_pointer_offset, X
         
-        JSR Credits_SpriteDraw_Single
+        JSR.w Credits_SpriteDraw_Single
 	DEX : CPX.b #$07 : BNE .loop1
 
     .loop2
@@ -1411,7 +1411,7 @@ Credits_SpriteDraw_Castle:
         LDA.w Pool_Credits_SpriteDraw_Castle_group_size, X
         LDY.w Pool_Credits_SpriteDraw_Castle_pointer_offset, X
         
-        JSR Credits_SpriteDraw_Single
+        JSR.w Credits_SpriteDraw_Single
 	DEX : CPX.b #$01 : BNE .loop2
 
     .loop3
@@ -1421,7 +1421,7 @@ Credits_SpriteDraw_Castle:
         LDA.w Pool_Credits_SpriteDraw_Castle_group_size, X
         LDY.w Pool_Credits_SpriteDraw_Castle_pointer_offset, X
         
-        JSR Credits_SpriteDraw_Single
+        JSR.w Credits_SpriteDraw_Single
     DEX : BPL .loop3
     
 	PLX
@@ -1503,7 +1503,7 @@ Credits_SpriteDraw_Hera:
     LDA.b #$01
     LDY.b #$3C
     
-    JSR Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_Single
 
     .BRANCH_BETA
 
@@ -1540,8 +1540,8 @@ Credits_SpriteDraw_Hera:
         LDA.w Pool_Credits_SpriteDraw_Hera_object_count, Y
         LDY.w Pool_Credits_SpriteDraw_Hera_group_data_index, X
         
-        JSR Credits_SpriteDraw_Single
-        JSR Credits_SpriteDraw_DrawShadow_priority_set
+        JSR.w Credits_SpriteDraw_Single
+        JSR.w Credits_SpriteDraw_DrawShadow_priority_set
         JSL Sprite_MoveLong
 	DEX : BPL .BRANCH_BETA
     
@@ -1661,8 +1661,8 @@ Credits_SpriteDraw_Kakariko1:
     LDA.b #$02
     LDY.b #$24
         
-    JSR Credits_SpriteDraw_Single
-    JSR Credits_SpriteDraw_CirclingBirds
+    JSR.w Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_CirclingBirds
         
     DEX
         
@@ -1682,7 +1682,7 @@ Credits_SpriteDraw_Kakariko1:
     LDY.b #$26
     LDA.b #$02
         
-    JSR Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_Single
         
     DEX
     
@@ -1698,8 +1698,8 @@ Credits_SpriteDraw_Kakariko1:
         LDY.w CreditsOAMGroup1_oam_pointers, X
         LDA.w CreditsOAMGroup1_num_oam_entries, X
         
-        JSR Credits_SpriteDraw_Single
-        JSR Credits_SpriteDraw_DrawShadow_priority_set
+        JSR.w Credits_SpriteDraw_Single
+        JSR.w Credits_SpriteDraw_DrawShadow_priority_set
     DEX : BPL .BRANCH_GAMMA
         
     PLX
@@ -1800,7 +1800,7 @@ Credits_SpriteDraw_House:
     SEC : SBC.w #$0208 : CMP.w #$0030 : SEP #$20 : BCS .BRANCH_DELTA
         LDY.b #$02
         
-        JSR Credits_SpriteDraw_AddSparkle
+        JSR.w Credits_SpriteDraw_AddSparkle
     
     .BRANCH_DELTA
     
@@ -1818,8 +1818,8 @@ Credits_SpriteDraw_House:
     LDA.b #$04
     LDY.b #$08
         
-    JSR Credits_SpriteDraw_Single
-    JSR Credits_SpriteDraw_DrawShadow_priority_set
+    JSR.w Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_DrawShadow_priority_set
         
     LDA.w $0DC0, X : DEX : STA.w $0DC0, X : TAY
         
@@ -1843,8 +1843,8 @@ Credits_SpriteDraw_House:
         
     LDA.b #$05
         
-    JSR Credits_SpriteDraw_Single
-    JSR Credits_SpriteDraw_DrawShadow_priority_set
+    JSR.w Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_DrawShadow_priority_set
         
     PLX
         
@@ -1896,7 +1896,7 @@ Credits_SpriteDraw_DeathMountain:
     LDA.b #$03
     LDY.b #$34
         
-    JSR Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_Single
     JSL Sprite_MoveLong
         
     PLX
@@ -1963,7 +1963,7 @@ Credits_SpriteDraw_Venus:
         
         LDY.b #$03
         
-        JSR Credits_SpriteDraw_AddSparkle
+        JSR.w Credits_SpriteDraw_AddSparkle
     
     .BRANCH_ALPHA
     
@@ -1980,8 +1980,8 @@ Credits_SpriteDraw_Venus:
         
         LDA.b #$01
         
-        JSR Credits_SpriteDraw_SetShadowProp
-        JSR Credits_SpriteDraw_ActivateAndRunSprite_allocate8
+        JSR.w Credits_SpriteDraw_SetShadowProp
+        JSR.w Credits_SpriteDraw_ActivateAndRunSprite_allocate8
     INX : CPX.b #$05 : BNE .BRANCH_GAMMA
         
     LDA.b #$72 : STA.w $0E20, X
@@ -1990,7 +1990,7 @@ Credits_SpriteDraw_Venus:
         
     LDA.b #$30
         
-    JSR Credits_SpriteDraw_PreexistingSpriteDraw
+    JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
 
     PLX
         
@@ -2099,7 +2099,7 @@ Credits_SpriteDraw_Kakariko2:
     LDA.b #$30 : STA.w $0E60, X
     LDA.b #$10 : STA.w $0F70, X
         
-    JSR Credits_SpriteDraw_PreexistingSpriteDraw_eight
+    JSR.w Credits_SpriteDraw_PreexistingSpriteDraw_eight
         
     DEX
         
@@ -2107,19 +2107,19 @@ Credits_SpriteDraw_Kakariko2:
         
     LDA.b #$02
         
-    JSR Credits_SpriteDraw_SetShadowProp
+    JSR.w Credits_SpriteDraw_SetShadowProp
         
     LDA.b #$0C
         
-    JSR Credits_SpriteDraw_ActivateAndRunSprite
+    JSR.w Credits_SpriteDraw_ActivateAndRunSprite
         
     DEX
         
-    JSR Credits_SpriteDraw_ActivateAndRunSprite_allocate8
+    JSR.w Credits_SpriteDraw_ActivateAndRunSprite_allocate8
         
     DEX
         
-    JSR Credits_SpriteDraw_ActivateAndRunSprite_allocate8
+    JSR.w Credits_SpriteDraw_ActivateAndRunSprite_allocate8
         
     DEX
     
@@ -2129,10 +2129,10 @@ Credits_SpriteDraw_Kakariko2:
         
         LDA.w Pool_Credits_SpriteDraw_Kakariko2_object_count, X
         
-        JSR Credits_SpriteDraw_Single
+        JSR.w Credits_SpriteDraw_Single
         
         TXA : BNE .BRANCH_DELTA
-            JSR Credits_SpriteDraw
+            JSR.w Credits_SpriteDraw
             
             BRA .BRANCH_EPSILON
     
@@ -2158,7 +2158,7 @@ Credits_SpriteDraw_Kakariko2:
     
         TYA : STA.w $0DC0, X
         
-        JSR Credits_SpriteDraw_DrawShadow
+        JSR.w Credits_SpriteDraw_DrawShadow
     
         .BRANCH_THETA
     DEX : BPL .loop
@@ -2182,7 +2182,7 @@ Credits_SpriteDraw_DrawShadow:
     .priority_set
     LDA.b #$00
         
-    JSR Credits_SpriteDraw_SetShadowProp
+    JSR.w Credits_SpriteDraw_SetShadowProp
         
     LDA.b #$04 : JSL OAM_AllocateFromRegionA
         
@@ -2221,7 +2221,7 @@ Credits_SpriteDraw:
     
     ; $072645 ALTERNATE ENTRY POINT
     .AnimateLostWoodsThief
-    JSR Credits_SpriteDraw_DrawShadow_parameterized_priority
+    JSR.w Credits_SpriteDraw_DrawShadow_parameterized_priority
         
     LDY.w $0D90, X
         
@@ -2281,7 +2281,7 @@ Credits_SpriteDraw_ActivateAndRunSprite:
     STX.w $0FA0
         
     JSL OAM_AllocateFromRegionA
-    JSR Sprite_Get_16_bit_CoordsLong
+    JSR.w Sprite_Get_16_bit_CoordsLong
         
     LDA.b $11 : PHA
         
@@ -2377,26 +2377,26 @@ Credits_SpriteDraw_Single:
     
     JSL Sprite_Get_16_bit_CoordsLong
     
-    PLA : STA.w $4202
+    PLA : STA.w SNES.MultiplicandA
     
-    LDA.b #$08 : STA.w $4203
+    LDA.b #$08 : STA.w SNES.MultiplierB
     
     ; OPTIMIZE: Are they seriously using the multiplication registers to
     ; multiply by 8? Rather than just shifting left three times in 16-bit
     ; mode...
     NOP #4
     
-    LDA.w $4216 : STA.w $4202
+    LDA.w SNES.RemainderResultLow : STA.w SNES.MultiplicandA
     
     ; This part I can understand as it's variable, potentially.
-    LDA.w $0DC0, X : STA.w $4203
+    LDA.w $0DC0, X : STA.w SNES.MultiplierB
     
     REP #$20
     
     PLY
     
     LDA.w Pool_Credits_SpriteDraw_Single_group_pointers, Y
-    CLC : ADC.w $4216, Y : STA.b $08
+    CLC : ADC.w SNES.RemainderResultLow, Y : STA.b $08
     
     SEP #$20
     
@@ -2510,7 +2510,7 @@ Credits_SpriteDraw_Smithy:
             LDA.b #$01
             LDY.b #$3E
             
-            JSR Credits_SpriteDraw_Single
+            JSR.w Credits_SpriteDraw_Single
         INX : CPX.b #$06 : BNE .loop
         
         LDX.b #$00
@@ -2540,7 +2540,7 @@ Credits_SpriteDraw_Smithy:
         LDA.b #$04
         LDY.b #$06
         
-        JSR Credits_SpriteDraw_Single
+        JSR.w Credits_SpriteDraw_Single
         
         PLX
         
@@ -2556,13 +2556,13 @@ Credits_SpriteDraw_Smithy:
         
         LDA.b #$02
         
-        JSR Credits_SpriteDraw_SetShadowProp
+        JSR.w Credits_SpriteDraw_SetShadowProp
         
         LDA.b $10 : PHA
         
         LDA.b #$0C
         
-        JSR Credits_SpriteDraw_ActivateAndRunSprite
+        JSR.w Credits_SpriteDraw_ActivateAndRunSprite
         
         PLA : STA.b $10
         
@@ -2572,7 +2572,7 @@ Credits_SpriteDraw_Smithy:
 
         .BRANCH_ZETA
 
-        JSR Credits_SpriteDraw_DrawSmithSpark
+        JSR.w Credits_SpriteDraw_DrawSmithSpark
     INX : CPX.b #$02 : BNE .loop
     
     PLX
@@ -2620,7 +2620,7 @@ Credits_SpriteDraw_DrawSmithSpark:
         LDA.b #$02
         LDY.b #$36
         
-        JSR Credits_SpriteDraw_Single
+        JSR.w Credits_SpriteDraw_Single
     
     .BRANCH_ALPHA
     
@@ -2672,7 +2672,7 @@ Credits_SpriteDraw_Desert:
             
             LDA.b #$02
             
-            JSR Credits_SpriteDraw_SetShadowProp
+            JSR.w Credits_SpriteDraw_SetShadowProp
             
             LDA.b #$30 : STA.w $0F70, X
             
@@ -2685,11 +2685,11 @@ Credits_SpriteDraw_Desert:
             
             LDA.w Pool_Credits_SpriteDraw_Desert, Y : STA.w $0DC0, X
             
-            JSR Credits_SpriteDraw_CirclingBirds
+            JSR.w Credits_SpriteDraw_CirclingBirds
             
             LDA.b #$0C
             
-            JSR Credits_SpriteDraw_PreexistingSpriteDraw
+            JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
             
             BRA .BRANCH_BETA
     
@@ -2697,7 +2697,7 @@ Credits_SpriteDraw_Desert:
     
         LDA.b #$10
         
-        JSR Credits_SpriteDraw_PreexistingSpriteDraw
+        JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
     
         .BRANCH_BETA
     INX : CPX.b #$05 : BCC .BRANCH_GAMMA
@@ -2705,15 +2705,15 @@ Credits_SpriteDraw_Desert:
     LDA.b #$02
     LDY.b #$38
         
-    JSR Credits_SpriteDraw_Single
-    JSR Credits_SpriteDraw
+    JSR.w Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw
         
     INX
         
     LDA.b #$03
     LDY.b #$3A
         
-    JSR Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_Single
         
     PLX
         
@@ -2737,8 +2737,8 @@ Credits_SpriteDraw_Sanctuary:
     LDY.b #$0C
     LDA.b #$03
         
-    JSR Credits_SpriteDraw_Single
-    JSR Credits_SpriteDraw_DrawShadow
+    JSR.w Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_DrawShadow
         
     INX
         
@@ -2750,7 +2750,7 @@ Credits_SpriteDraw_Sanctuary:
     LDA.b #$10
         
     ; Keep sprites alive?
-    JSR Credits_SpriteDraw_PreexistingSpriteDraw
+    JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
         
     PLX
         
@@ -2760,7 +2760,7 @@ Credits_SpriteDraw_Sanctuary:
 ; ==============================================================================
 
 ; $0729D1-$0729D2 DATA
-Pool_Credits_SpriteDraw_Witch
+Pool_Credits_SpriteDraw_Witch:
 {
     .animation_step_amounts
     db  1, -1
@@ -2776,7 +2776,7 @@ Credits_SpriteDraw_Witch:
     LDX.b #$01
     LDA.b #$02
         
-    JSR Credits_SpriteDraw_SetShadowProp
+    JSR.w Credits_SpriteDraw_SetShadowProp
         
     LDA.b #$E9 : STA.w $0E20, X
         
@@ -2927,7 +2927,7 @@ Credits_SpriteDraw_Grove:
             LDY.b #$10
             LDA.b #$01
             
-            JSR Credits_SpriteDraw_Single
+            JSR.w Credits_SpriteDraw_Single
     
         .BRANCH_BETA
     INX : CPX.b #$05 : BCC .loop1
@@ -2955,7 +2955,7 @@ Credits_SpriteDraw_Grove:
             
             LDA.b #$10
             
-            JSR Credits_SpriteDraw_PreexistingSpriteDraw
+            JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
             
             INX
         
@@ -2966,7 +2966,7 @@ Credits_SpriteDraw_Grove:
     LDX.b #$12
     LDA.b #$02
         
-    JSR Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_Single
         
     INX
     
@@ -2979,7 +2979,7 @@ Credits_SpriteDraw_Grove:
         STA.w $0DE0, X
 
         LDA.w Pool_Credits_SpriteDraw_Grove_animal_object_allocation-7, X
-        JSR Credits_SpriteDraw_ActivateAndRunSprite
+        JSR.w Credits_SpriteDraw_ActivateAndRunSprite
     INX : CPX.b #$0B : BCC .loop3
         
     PLX
@@ -3050,7 +3050,7 @@ Credits_SpriteDraw_LostWoods:
             
             LDA.b #$01
             
-            JSR Credits_SpriteDraw_SetShadowProp
+            JSR.w Credits_SpriteDraw_SetShadowProp
             
             LDA.b $1A : CLC
             
@@ -3061,13 +3061,13 @@ Credits_SpriteDraw_LostWoods:
             
             LDA.b #$20 : STA.w $0F70, X
             
-            JSR Credits_SpriteDraw_CirclingBirds
+            JSR.w Credits_SpriteDraw_CirclingBirds
             
             LDA.w $0D50, X : LSR A : AND.b #$40 : EOR.b #$0F : STA.w $0F50, X
             
             LDA.b #$08
             
-            JSR Credits_SpriteDraw_PreexistingSpriteDraw
+            JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
             
             BRA .BRANCH_BETA
         
@@ -3082,7 +3082,7 @@ Credits_SpriteDraw_LostWoods:
         
         LDA.b #$03
             
-        JSR Credits_SpriteDraw_SetShadowProp
+        JSR.w Credits_SpriteDraw_SetShadowProp
             
         LDA.b #$2B : STA.w $0F50, X
             
@@ -3122,7 +3122,7 @@ Credits_SpriteDraw_LostWoods:
             
         LDA.b #$10
             
-        JSR Credits_SpriteDraw_PreexistingSpriteDraw
+        JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
         
         .BRANCH_BETA
         
@@ -3134,11 +3134,11 @@ Credits_SpriteDraw_LostWoods:
     LDY.b #$18
     LDA.b #$03
         
-    JSR Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_Single
         
     LDA.b #$20
         
-    JSR Credits_SpriteDraw_AnimateLostWoodsThief
+    JSR.w Credits_SpriteDraw_AnimateLostWoodsThief
         
     PLX
         
@@ -3224,7 +3224,7 @@ Credits_SpriteDraw_AddSparkle:
             LDY.b #$1C
             LDA.b #$01
             
-            JSR Credits_SpriteDraw_Single
+            JSR.w Credits_SpriteDraw_Single
         
         .BRANCH_GAMMA
     INX : CPX.w $0DB0 : BCC .loop
@@ -3252,14 +3252,14 @@ Credits_SpriteDraw_Pedestal:
         
     LDY.b $02
         
-    JSR Credits_SpriteDraw_AddSparkle
+    JSR.w Credits_SpriteDraw_AddSparkle
         
     LDA.b #$62 : STA.w $0E20, X
     LDA.b #$39 : STA.w $0F50, X
         
     LDA.b #$18
         
-    JSR Credits_SpriteDraw_PreexistingSpriteDraw
+    JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
         
     LDY.b #$01
     
@@ -3287,7 +3287,7 @@ Credits_SpriteDraw_Pedestal:
             
             PHY
             
-            JSR Credits_SpriteDraw_MoveSquirrel
+            JSR.w Credits_SpriteDraw_MoveSquirrel
             
             PLY
             
@@ -3321,13 +3321,13 @@ Credits_SpriteDraw_Pedestal:
         LDA.b #$01
         LDY.b #$14
         
-        JSR Credits_SpriteDraw_Single
-        JSR Credits_SpriteDraw_DrawShadow_priority_set
+        JSR.w Credits_SpriteDraw_Single
+        JSR.w Credits_SpriteDraw_DrawShadow_priority_set
     PLY : DEY : BPL .loop
         
     INX
         
-    JSR Credits_SpriteDraw_WalkLinkAwayFromPedestal
+    JSR.w Credits_SpriteDraw_WalkLinkAwayFromPedestal
         
     PLX
         
@@ -3380,8 +3380,8 @@ Credits_SpriteDraw_WalkLinkAwayFromPedestal:
     LDA.b #$02
     LDY.b #$1A
         
-    JSR Credits_SpriteDraw_Single
-    JSR Credits_SpriteDraw_DrawShadow_priority_set
+    JSR.w Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_DrawShadow_priority_set
     JSL Sprite_MoveLong
         
     RTS
@@ -3390,7 +3390,7 @@ Credits_SpriteDraw_WalkLinkAwayFromPedestal:
 ; ==============================================================================
 
 ; $072E2D-$072E34 DATA
-Pool_Credits_SpriteDraw_MoveSquirrel
+Pool_Credits_SpriteDraw_MoveSquirrel:
 {
     .x_speeds
     db  32,  24, -32, -24
@@ -3415,9 +3415,9 @@ Credits_SpriteDraw_MoveSquirrel:
     
     LDY.w $0DB0, X
         
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA.w .x_speeds, Y : STA.w $0D50, X
         
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA.w .y_speeds, Y : STA.w $0D40, X
         
     JSL Sprite_MoveLong
         
@@ -3475,7 +3475,7 @@ Credits_SpriteDraw_CirclingBirds:
 ; ==============================================================================
 
 ; $072E9E-$072EA5 DATA
-Pool_Credits_SingleCameraScrollControl
+Pool_Credits_SingleCameraScrollControl:
 {
     .flags
     dw $0008, $0004, $0002, $0001
@@ -3518,7 +3518,7 @@ Credits_HandleCameraScrollControl:
     
     LDX.b #$06
         
-    JSR Credits_SingleCameraScrollControl
+    JSR.w Credits_SingleCameraScrollControl
         
     LDA.b $04 : STA.w $069E
         
@@ -3586,7 +3586,7 @@ Credits_HandleCameraScrollControl:
     
     LDX.b #$00
         
-    JSR Credits_SingleCameraScrollControl
+    JSR.w Credits_SingleCameraScrollControl
         
     LDA.b $04 : STA.w $069F
         
@@ -3687,7 +3687,7 @@ Credits_SingleCameraScrollControl:
     CMP.w #$0010 : BMI .BRANCH_BETA 
         SEC : SBC.w #$0010 : STA.w $0624, Y
             
-        LDA .flags, Y : ORA.w $0416 : STA.w $0416
+        LDA.w .flags, Y : ORA.w $0416 : STA.w $0416
     
     .BRANCH_BETA
     
@@ -4681,7 +4681,7 @@ Credits_InitializeTheActualCredits:
     STZ.b $E4
         
     ; Draws the first row of tiles.
-    JSR Credits_AddNextAttribution
+    JSR.w Credits_AddNextAttribution
         
     SEP #$20
         
@@ -4691,7 +4691,7 @@ Credits_InitializeTheActualCredits:
         
     LDA.b #$A2 : STA.b $9A
         
-    LDA.b #$12 : STA.w $2108
+    LDA.b #$12 : STA.w SNES.BG2AddrAndSize
         
     LDA.b #$3F : STA.b $9C
     LDA.b #$5F : STA.b $9D
@@ -4704,10 +4704,10 @@ Credits_InitializeTheActualCredits:
     
     .BRANCH_BETA
     
-        LDA .hdma_data, X : STA.w $4370, X
+        LDA.w .hdma_data, X : STA.w DMA.7_TransferParameters, X
     DEX : BPL .BRANCH_BETA
         
-    STZ.w $4377
+    STZ.w DMA.7__DataBank
         
     LDA.b #$80 : STA.b $9B
         
@@ -4777,7 +4777,7 @@ Credits_FadeOutFixedCol:
 Credits_FadeColorAndBeginAnimating:
 {
     ; Gradually neutralize color add/sub.
-    JSR Credits_FadeOutFixedCol
+    JSR.w Credits_FadeOutFixedCol
         
     LDA.b #$01 : STA.w $0710
         
@@ -4795,7 +4795,7 @@ Credits_FadeColorAndBeginAnimating:
         LDA.b $E2 : CMP.w #$0C00 : BNE .noTilemapAdjust
             ; Adjust the tilemap size and locations of BG1 and BG2... not
             ; entirely clear yet as to why.
-            LDY.w #$1300 : STY.w $2107
+            LDY.w #$1300 : STY.w SNES.BG1AddrAndSize
         
         .noTilemapAdjust
     
@@ -4821,7 +4821,7 @@ Credits_FadeColorAndBeginAnimating:
         TAY : AND.w #$0007 : BNE .return
             TYA : LSR #3 : STA.b $CA
             
-            JSR Credits_AddNextAttribution
+            JSR.w Credits_AddNextAttribution
     
     ; $073DEB LONG BRANCH LOCATION
     .return
@@ -5546,7 +5546,7 @@ Messaging_Text:
 {
     PHB : PHK : PLB
     
-    JSR Text_Local
+    JSR.w Text_Local
     
     PLB
     
@@ -5578,7 +5578,7 @@ Text_PostDeathSaveOptions:
     
     LDX.b #$00
     
-    JSR Text_Initialize_initModuleStateLoop
+    JSR.w Text_Initialize_initModuleStateLoop
     
     ; Manually sets the .... position? Window type?
     LDA.b #$E8 : STA.w $1CD2
@@ -5589,11 +5589,11 @@ Text_PostDeathSaveOptions:
     ; third, fourth, and fifth calls render one line of text each, with the
     ; fifth doing clean up. could be wrong about all this, but best guess so
     ; far...
-    JSR Text_Render
-    JSR Text_Render
-    JSR Text_Render
-    JSR Text_Render
-    JSR Text_Render
+    JSR.w Text_Render
+    JSR.w Text_Render
+    JSR.w Text_Render
+    JSR.w Text_Render
+    JSR.w Text_Render
     
     RTS
 }
@@ -5628,8 +5628,8 @@ Text_Initialize:
         LDA Text_InitializationData, X : STA.w $1CD0, X
     INX : CPX.b #$20 : BCC .initModuleStateLoop
     
-    JSR Text_InitVwfState
-    JSR Text_SetDefaultWindowPos
+    JSR.w Text_InitVwfState
+    JSR.w Text_SetDefaultWindowPos
     
     REP #$30
     
@@ -5640,8 +5640,8 @@ Text_Initialize:
     
     SEP #$30
     
-    JSR Text_LoadCharacterBuffer
-    JSR VWF_ClearBuffer
+    JSR.w Text_LoadCharacterBuffer
+    JSR.w VWF_ClearBuffer
     
     REP #$30
     
@@ -5712,7 +5712,7 @@ Text_LoadCharacterBuffer:
         
         ; Terminator byte = bye bye.
         CMP.b #$7F : BEQ .endOfMessage
-            JSR Text_Command
+            JSR.w Text_Command
             
             LDX.w $1CD9
             LDY.w $1CDD
@@ -5724,7 +5724,7 @@ Text_LoadCharacterBuffer:
     ; Dictionary compression for partial words.
     SEC : SBC.b #$88
     
-    JSR Text_DictionarySequence
+    JSR.w Text_DictionarySequence
     
     LDX.w $1CD9
     LDY.w $1CDD
@@ -5864,7 +5864,7 @@ Text_WritePlayerName:
         ; Now that the name is in memory check it for spaces.
         LDA.w $0008, Y
         
-        JSR Text_FilterPlayerNameCharacters
+        JSR.w Text_FilterPlayerNameCharacters
         
         STA.w $0008, Y
     INY : CPY.w #$0006 : BCC .nextCharacter2
@@ -6620,10 +6620,10 @@ Text_Render:
 ; $0748EA-$074918 JUMP LOCATION
 Text_DrawBorder:
 {
-    JSR Text_InitBorderOffsets
+    JSR.w Text_InitBorderOffsets
     
     ; Draw the top line of the box frame.
-    JSR Text_DrawBorderRow
+    JSR.w Text_DrawBorderRow
     
     REP #$30
     
@@ -6634,12 +6634,12 @@ Text_DrawBorder:
         ; This loop draws the middle rows of the message box border.
         LDY.w #$0006
         
-        JSR Text_DrawBorderRow
+        JSR.w Text_DrawBorderRow
     DEC.b $00 : BNE .nextRow
     
     LDY.w #$000C
     
-    JSR Text_DrawBorderRow
+    JSR.w Text_DrawBorderRow
     
     LDA.w #$FFFF : STA.w $1002, X
     
@@ -6695,8 +6695,8 @@ Text_DrawFirstBorderRow:
 {
     REP #$30
     
-    JSR Text_InitBorderOffsets
-    JSR Text_DrawBorderRow
+    JSR.w Text_InitBorderOffsets
+    JSR.w Text_DrawBorderRow
     
     LDA.w #$FFFF : STA.w $1002, X
     
@@ -6717,7 +6717,7 @@ Text_DrawMiddleBorderRow:
     LDX.w #$0000
     LDY.w #$0006
     
-    JSR Text_DrawBorderRow
+    JSR.w Text_DrawBorderRow
     
     LDA.w #$FFFF : STA.w $1002, X
     
@@ -6738,7 +6738,7 @@ Text_DrawBottomBorderRow:
     LDX.w #$0000
     LDY.w #$000C
     
-    JSR Text_DrawBorderRow
+    JSR.w Text_DrawBorderRow
     
     LDA.w #$FFFF : STA.w $1002, X
     
@@ -6758,7 +6758,7 @@ Text_DrawBottomBorderRow:
 ; $07497D-$074983 JUMP LOCATION
 Text_CharacterTilemap:
 {
-    JSR Text_BuildCharacterTilemap
+    JSR.w Text_BuildCharacterTilemap
     
     INC.w $1CD4
     
@@ -6838,7 +6838,7 @@ Text_MessageHandler:
     
     SEP #$30
     
-    JSR VWF_CharacterOrCommand
+    JSR.w VWF_CharacterOrCommand
     
     LDA.b #$02 : STA.b $17 : STA.w $0710
     
@@ -6891,13 +6891,13 @@ Text_Close:
 {
     REP #$30
     
-    JSR Text_InitBorderOffsets
+    JSR.w Text_InitBorderOffsets
     
     REP #$30
     
     LDA.w $1CD0 : XBA : STA.w $1002, X : INX #2
-    LDA .reg_config : STA.w $1002, X : INX #2
-    LDA .data       : STA.w $1002, X : INX #2
+    LDA.w .reg_config : STA.w $1002, X : INX #2
+    LDA.w .data       : STA.w $1002, X : INX #2
     
     LDA.w #$FFFF : STA.w $1002, X
     
@@ -6951,7 +6951,7 @@ VWF_Render:
 ; $074A99-$074AB7 JUMP LOCATION
 VWF_RenderRecursive:
 {
-    JSR VWF_RenderSingle
+    JSR.w VWF_RenderSingle
     
     REP #$30
     
@@ -6999,7 +6999,7 @@ VWF_RenderSingle:
     
     SEP #$30
     
-    JSR VWF_RenderCharacter
+    JSR.w VWF_RenderCharacter
     
     LDA.w $1CD6 : STA.w $1CD5
     
@@ -7083,8 +7083,8 @@ VWF_RenderCharacter:
         ; Index of the line text is being generated on.
         LDY !rowIndex
         
-        LDA .renderPositions, Y : STA !renderBase
-        LDA .linePositions, Y   : STA !cumulativePosIndex
+        LDA.w .renderPositions, Y : STA !renderBase
+        LDA.w .linePositions, Y   : STA !cumulativePosIndex
         
         STZ !changeRowFlag
     
@@ -7102,7 +7102,7 @@ VWF_RenderCharacter:
     SEP #$10
     
     ; Y = the character value.
-    TAY : LDA .widths, Y : STA !charWidth
+    TAY : LDA.w .widths, Y : STA !charWidth
     
     ; Take our current (H) position in the tile, add the width of the last
     ; character, store it as the our h pixel position on the line as a whole
@@ -7372,7 +7372,7 @@ VWF_Select2Or3_Indented_messages:
 ; ==============================================================================
 
 ; $074D1A-$074D87 JUMP LOCATION
-VWF_Select2Or3_Indented:    
+VWF_Select2Or3_Indented:
 {
     LDA.w $1CE9 : BEQ .readyForInput
         DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
@@ -7413,13 +7413,13 @@ VWF_Select2Or3_Indented:
                 LDA VWF_Select2Or3_Indented_messages+0, X : STA.w $1CF0
                 LDA VWF_Select2Or3_Indented_messages+1, X : STA.w $1CF1
                 
-                JSR Text_LoadCharacterBuffer
+                JSR.w Text_LoadCharacterBuffer
                 
                 STZ.w $1CE6
                 STZ.w $1CD9
                 STZ.w $1CDA
                 
-                JSR Text_InitVwfState
+                JSR.w Text_InitVwfState
                 
             RTS
         
@@ -7457,8 +7457,8 @@ VWF_SelectItem:
         LDA.b $F4 : AND.b #$0A : BEQ .noDownOrRightInput
             DEC.w $1CE8
             
-            JSR VWF_SelectPrevItem
-            JSR Text_DrawCharacterTilemap
+            JSR.w VWF_SelectPrevItem
+            JSR.w Text_DrawCharacterTilemap
             
             BRA .return
             
@@ -7466,8 +7466,8 @@ VWF_SelectItem:
 
         .BRANCH_EPSILON
         
-        JSR VWF_SelectNextItem
-        JSR Text_DrawCharacterTilemap
+        JSR.w VWF_SelectNextItem
+        JSR.w Text_DrawCharacterTilemap
         
         .return
         
@@ -7650,13 +7650,13 @@ VWF_Select2Or3:
                 LDA VWF_Select2Or3_messages+0, X : STA.w $1CF0
                 LDA VWF_Select2Or3_messages+1, X : STA.w $1CF1
                 
-                JSR Text_LoadCharacterBuffer
+                JSR.w Text_LoadCharacterBuffer
                 
                 STZ.w $1CE6
                 STZ.w $1CD9
                 STZ.w $1CDA
                 
-                JSR Text_InitVwfState
+                JSR.w Text_InitVwfState
                 
                 RTS
         
@@ -7737,13 +7737,13 @@ VWF_Choose3:
             LDA VWF_Choose3_ArrowDialogs+0, X : STA.w $1CF0
             LDA VWF_Choose3_ArrowDialogs+1, X : STA.w $1CF1
             
-            JSR Text_LoadCharacterBuffer
+            JSR.w Text_LoadCharacterBuffer
             
             STZ.w $1CE6
             STZ.w $1CD9
             STZ.w $1CDA
             
-            JSR Text_InitVwfState
+            JSR.w Text_InitVwfState
             
             RTS
     
@@ -7811,13 +7811,13 @@ VWF_Choose1Or2:
                 LDA VWF_Choose1Or2_messages, X   : STA.w $1CF0
                 LDA VWF_Choose1Or2_messages+1, X : STA.w $1CF1
                 
-                JSR Text_LoadCharacterBuffer
+                JSR.w Text_LoadCharacterBuffer
                 
                 STZ.w $1CE6
                 STZ.w $1CD9
                 STZ.w $1CDA
                 
-                JSR Text_InitVwfState
+                JSR.w Text_InitVwfState
                 
             RTS
     
@@ -8403,7 +8403,7 @@ Text_BuildCharacterTilemap:
         INC.w $1CE2
     INX #2 : CPX.w #$00FC : BCC .buildLoop
     
-    JSR Text_DrawCharacterTilemap
+    JSR.w Text_DrawCharacterTilemap
     
     SEP #$30
     
@@ -8426,7 +8426,7 @@ Text_DrawCharacterTilemap:
     
     LDA.w #$0006 : STA !num_rows
     
-    JSR Text_InitBorderOffsets
+    JSR.w Text_InitBorderOffsets
     
     REP #$30
     
@@ -8877,7 +8877,7 @@ SetBGColorCacheOnly:
 ; $075618-$07561C LONG JUMP LOCATION
 Palette_SetOwBgColor_Long:
 {
-    JSR Palette_GetOwBgColor
+    JSR.w Palette_GetOwBgColor
         
     ; Sets fixed color to normal and zeroes the first color of some palettes.
     BRA Palette_BgAndFixedColor_setBgColor
@@ -8886,7 +8886,7 @@ Palette_SetOwBgColor_Long:
 ; $07561D-$075621 LONG JUMP LOCATION
 Overworld_SetScreenBGColorCacheOnly:
 {
-    JSR Palette_GetOwBgColor
+    JSR.w Palette_GetOwBgColor
         
     BRA SetBGColorCacheOnly
 }
@@ -9040,7 +9040,7 @@ LoadActualGearPalettes:
     ; Link's armor value.
     LDA.l $7EF35B : AND.w #$00FF
         
-    BRA LoadGearPalettes.variable
+    BRA LoadGearPalettes_variable
 }
 
 ; ==============================================================================
@@ -9056,7 +9056,7 @@ Palette_ElectroThemedGear:
         
     LDA.w #$0404
         
-    BRA LoadGearPalettes.variable
+    BRA LoadGearPalettes_variable
 }
 
 ; ==============================================================================
@@ -9092,7 +9092,7 @@ LoadGearPalettes:
     LDX.w #$01B2 ; Offset into the palette array.
     LDY.w #$0002 ; Length of the palette in words.
         
-    JSR LoadGearPalette
+    JSR.w LoadGearPalette
         
     SEP #$10
         
@@ -9107,7 +9107,7 @@ LoadGearPalettes:
     LDX.w #$01B8
     LDY.w #$0003
         
-    JSR LoadGearPalette
+    JSR.w LoadGearPalette
         
     SEP #$10
         
@@ -9121,7 +9121,7 @@ LoadGearPalettes:
     LDX.w #$01E2
     LDY.w #$000E
         
-    JSR LoadGearPalette
+    JSR.w LoadGearPalette
         
     SEP #$30
         
@@ -9164,18 +9164,18 @@ Filter_Majorly_Whiten_Bg:
     
     .next_color_in_each_palette
     
-        LDA.l $7EC340, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC540, X
-        LDA.l $7EC350, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC550, X
-        LDA.l $7EC360, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC560, X
-        LDA.l $7EC370, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC570, X
-        LDA.l $7EC380, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC580, X
-        LDA.l $7EC390, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC590, X
-        LDA.l $7EC3A0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5A0, X
-        LDA.l $7EC3B0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5B0, X
-        LDA.l $7EC3C0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5C0, X
-        LDA.l $7EC3D0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5D0, X
-        LDA.l $7EC3E0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5E0, X
-        LDA.l $7EC3F0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5F0, X
+        LDA.l $7EC340, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC540, X
+        LDA.l $7EC350, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC550, X
+        LDA.l $7EC360, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC560, X
+        LDA.l $7EC370, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC570, X
+        LDA.l $7EC380, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC580, X
+        LDA.l $7EC390, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC590, X
+        LDA.l $7EC3A0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5A0, X
+        LDA.l $7EC3B0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5B0, X
+        LDA.l $7EC3C0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5C0, X
+        LDA.l $7EC3D0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5D0, X
+        LDA.l $7EC3E0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5E0, X
+        LDA.l $7EC3F0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5F0, X
     INX #2 : CPX.b #$10 : BEQ .finished_whitening_increment
         
     JMP .next_color_in_each_palette
@@ -9519,7 +9519,7 @@ DungeonMap_BG3Tilemap:
     dw $4260, $0100 ; VRAM $C084 | 2 bytes | Horizontal
     dw $2100
 
-    dw $4360, $0E40 ; VRAM $C086 | 16 bytes | Fixed horizontal
+    dw DMA.6_TransferParameters, $0E40 ; VRAM $C086 | 16 bytes | Fixed horizontal
     dw $2101
 
     dw $4B60, $0100 ; VRAM $C096 | 2 bytes | Horizontal
@@ -9875,7 +9875,7 @@ Overworld_CheckForSpecialOverworldTrigger:
     REP #$31
         
     ; Get the map16 address of Link's coordinates.
-    JSR GetMap16Tile
+    JSR.w GetMap16Tile
         
     ; Get the CHR at that location...
     LDA.l Map16Definitions, X : AND.w #$01FF : STA.b $00
@@ -9985,7 +9985,7 @@ SpecialOverworld_CheckForReturnTrigger:
 {
     REP #$31
         
-    JSR GetMap16Tile
+    JSR.w GetMap16Tile
         
     LDA.l Map16Definitions, X : AND.w #$01FF : STA.b $00
         
@@ -11714,7 +11714,7 @@ Overworld_LoadEventOverlay:
     ; Use it as an index into a jump table.
     LDA.b $8A : ASL A : TAX
         
-    JSR (Overworld_EventOverlayTable, X)
+    JSR.w (Overworld_EventOverlayTable, X)
         
     SEP #$30
         

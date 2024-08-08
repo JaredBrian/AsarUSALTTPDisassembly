@@ -195,7 +195,7 @@ SpriteActive2_Main:
 {
     LDA.w $0E20, X : SEC : SBC.b #$41 : REP #$30 : AND.w #$00FF : ASL A : TAY
     
-    LDA .sprite_routines, Y : DEC A : PHA
+    LDA.w .sprite_routines, Y : DEC A : PHA
     
     SEP #$30
     
@@ -490,7 +490,7 @@ Soldier_Main:
     
     REP #$30 : AND.w #$00FF : ASL A : TAY
     
-    LDA .states, Y : DEC A : PHA
+    LDA.w .states, Y : DEC A : PHA
     
     SEP #$30
     
@@ -809,7 +809,7 @@ Guard_InPursuit:
     LDA.w $0DF0, X : BNE .delay
         LDY.w $0DE0, X
         
-        LDA JavelinTrooper_Attack.scan_anbles, X : STA.w $0EC0, X
+        LDA JavelinTrooper_Attack_scan_anbles, X : STA.w $0EC0, X
         
         BRL Guard_StopAndLookAround
 }
@@ -829,7 +829,7 @@ Sprite2_ZeroVelocity:
 ; ==============================================================================
 
 ; $02C500-$02C534 LOCAL JUMP LOCATION
-Guard_InPursuit_delay
+Guard_InPursuit_delay:
 {
     TYA : EOR.b $1A1A : AND.b #$1F : BNE .alpha
         LDA.w $0ED0, X : BNE .beta
@@ -1072,9 +1072,9 @@ Guard_DrawShadow:
     LDA.w $0E60, X : AND.b #$10 : BEQ .alpha
         LDY.w $0DE0, X
         
-        LDA .shadow_types, Y
+        LDA.w .shadow_types, Y
         
-        JSL.l Sprite_DrawShadowLong.variable
+        JSL.l Sprite_DrawShadowLong_variable
     
     .alpha
     
@@ -1592,9 +1592,9 @@ Sprite_PsychoSpearSoldier:
             
             .gamma
             
-            LDA .x_speeds, Y : STA.w $0D50, X
+            LDA.w .x_speeds, Y : STA.w $0D50, X
             
-            LDA .y_speeds, Y : STA.w $0D40, X
+            LDA.w .y_speeds, Y : STA.w $0D40, X
     
     .no_direction_change
     
@@ -1662,9 +1662,9 @@ Sprite_PsychoTrooper:
             
             .gamma
             
-            LDA .x_speeds, Y : STA.w $0D50, X
+            LDA.w .x_speeds, Y : STA.w $0D50, X
             
-            LDA .y_speeds, Y : STA.w $0D40, X
+            LDA.w .y_speeds, Y : STA.w $0D40, X
     
     .alpha
     
@@ -1918,7 +1918,7 @@ ArcherAndJavelinGuardMain:
     
     LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
     
-    LDA .states, Y : DEC A : PHA
+    LDA.w .states, Y : DEC A : PHA
     
     SEP #$30
     
@@ -2039,7 +2039,7 @@ JavelinTrooper_LookingAround:
         
         LDA.w $0DE0, X : ASL #3 : ORA.b $0000 : TAY
         
-        LDA Soldier.head_looking_states, Y : STA.w $0EB0, X
+        LDA Soldier_head_looking_states, Y : STA.w $0EB0, X
     
     .mucho_time_left
     
@@ -2227,7 +2227,7 @@ JavelinTrooper_Attack:
     
     TAY
     
-    LDA .animation_states, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -2295,13 +2295,13 @@ JavelinTrooper_SpawnProjectile:
         LDA.b $0202 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
         LDA.b $0303 :       ADC .y_offsets_high, X : STA.w $0D20, Y
         
-        LDA .x_speeds, X : STA.w $0D50, Y
+        LDA.w .x_speeds, X : STA.w $0D50, Y
         
-        LDA .y_speeds, X : STA.w $0D40, Y
+        LDA.w .y_speeds, X : STA.w $0D40, Y
         
         TXA : AND.b #$03 : STA.w $0DE0, Y : TAX
         
-        LDA .hit_boxes, X : STA.w $0F60, Y
+        LDA.w .hit_boxes, X : STA.w $0F60, Y
         
         LDA.b #$00 : STA.w $0F70, Y
         
@@ -2445,7 +2445,7 @@ BushGuard_Main:
     
     AND.w #$00FF : ASL A : TAY
     
-    LDA .states, Y : DEC A : PHA
+    LDA.w .states, Y : DEC A : PHA
     
     SEP #$30
     
@@ -2741,19 +2741,19 @@ ArcherSoldier_Draw:
     
     LDY.w $0DE0, X
     
-    LDA .head, Y : TAY
+    LDA.w .head, Y : TAY
     
     JSR.w Guard_AnimateHead_PreserveOAMOffset
     
     LDY.w $0DE0, X
     
-    LDA .body, Y : TAY
+    LDA.w .body, Y : TAY
     
     JSR.w Guard_AnimateBody_PreserveOAMOffset
     
     LDY.w $0DE0, X
     
-    LDA .weapon, Y : TAY
+    LDA.w .weapon, Y : TAY
     
     JSR.w SpriteDraw_Archer_Weapon
     JMP.w Guard_DrawShadow
@@ -3071,7 +3071,7 @@ Sprite_ShowSolicitedMessageIfPlayerFacing:
                         ; Make sure that the sprite is facing towards the
                         ; player, otherwise talking can't happen.
                         ; TODO: (What sprites actually use this???)
-                        LDA .facing_direction, X : PLX : CMP $2F : BNE .not_facing_each_other
+                        LDA.w .facing_direction, X : PLX : CMP $2F : BNE .not_facing_each_other
                             PHY
                             
                             LDA.w $1CF0

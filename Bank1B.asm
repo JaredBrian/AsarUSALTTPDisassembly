@@ -437,7 +437,7 @@ Overworld_Hole:
     TXA : LSR A : TAX
     
     ; Set an entrance index...
-    LDA .entrance, X : STA.w $010E : STZ.w $010F
+    LDA.w .entrance, X : STA.w $010E : STZ.w $010F
     
     PLB
     
@@ -777,13 +777,13 @@ Overworld_Entrance:
     
     LDA.w #$0DA4
     
-    JSL Overworld_DrawPersistentMap16
+    JSL.l Overworld_DrawPersistentMap16
     
     LDA.w #$0DA6 : STA.l $7E2002, X
     
     LDY.w #$0002
     
-    JSL Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawMap16_Anywhere
     
     SEP #$30
     
@@ -970,7 +970,7 @@ Overworld_Map16_ToolInteraction:
         
         REP #$20
         
-        JSL HandlePegPuzzles
+        JSL.l HandlePegPuzzles
         
         ; Choose the map16 tile with the "peg pounded down" tile
         LDA.w #$0DCB
@@ -979,7 +979,7 @@ Overworld_Map16_ToolInteraction:
     
     .notPeg
     
-    JSR Overworld_HammerSfx
+    JSR.w Overworld_HammerSfx
     
     .notBush
     
@@ -1076,7 +1076,7 @@ Overworld_Map16_ToolInteraction:
         STY.b $0E
         
         ; check for secrets under the bush?
-        JSR Overworld_RevealSecret : BCS .noSecret
+        JSR.w Overworld_RevealSecret : BCS .noSecret
             ; if there's a secret under the bush, like a hole or a cave
             ; it would require a different replacement map16 tile
             LDA.b $0E
@@ -1085,8 +1085,8 @@ Overworld_Map16_ToolInteraction:
         
         STA.l $7E2000, X
         
-        JSL Overworld_Memorize_Map16_Change
-        JSL Overworld_DrawMap16
+        JSL.l Overworld_Memorize_Map16_Change
+        JSL.l Overworld_DrawMap16
         
         SEP #$20
         
@@ -1123,8 +1123,8 @@ Overworld_Map16_ToolInteraction:
     SEP #$30
     
     LDA.b $76 : BEQ .noAncilla
-        JSL Sprite_SpawnImmediatelySmashedTerrain
-        JSL AddDisintegratingBushPoof
+        JSL.l Sprite_SpawnImmediatelySmashedTerrain
+        JSL.l AddDisintegratingBushPoof
     
     .noAncilla
     
@@ -1230,7 +1230,7 @@ Overworld_LiftableTiles:
     
     REP #$30
     
-    JSR Overworld_GetLinkMap16Coords
+    JSR.w Overworld_GetLinkMap16Coords
     
     LDA.b $00 : PHA
     LDA.b $02 : PHA
@@ -1289,15 +1289,15 @@ Overworld_LiftableTiles:
     
     PHA
     
-    JSR Overworld_RevealSecret : BCS .noSecret
+    JSR.w Overworld_RevealSecret : BCS .noSecret
         LDA.b $0E
     
     .noSecret
     
     STA.l $7E2000, X
     
-    JSL Overworld_Memorize_Map16_Change
-    JSL Overworld_DrawMap16
+    JSL.l Overworld_Memorize_Map16_Change
+    JSL.l Overworld_DrawMap16
     
     SEP #$20
     
@@ -1358,7 +1358,7 @@ Overworld_SmashRockPileFromAbove:
     
     CLC : ADC.w #$0008 : STA.b $20
     
-    JSR Overworld_GetLinkMap16Coords
+    JSR.w Overworld_GetLinkMap16Coords
     
     PLA : STA.b $20
     
@@ -1370,7 +1370,7 @@ Overworld_SmashRockPileFromHere:
 {
     REP #$30
     
-    JSR Overworld_GetLinkMap16Coords
+    JSR.w Overworld_GetLinkMap16Coords
     
     .continue
     
@@ -1409,7 +1409,7 @@ Overworld_SmashRockPileFromHere:
     
     STZ.b $0E
     
-    JSR Overworld_RevealSecret
+    JSR.w Overworld_RevealSecret
     
     LDA.b $0E : CMP.w #$FFFF : BNE .noBurrowUnderneath
         SEP #$20
@@ -1431,7 +1431,7 @@ Overworld_SmashRockPileFromHere:
     LDA.b $00 : CLC : ADC.l $1BBF54, X : STA.b $00
     LDA.b $02 : CLC : ADC.l $1BBF5C, X : STA.b $02
     
-    JSL Overworld_DoMapUpdate32x32_Long
+    JSL.l Overworld_DoMapUpdate32x32_Long
     JMP Overworld_LiftableTile_getTileAttribute
 }
 
@@ -1456,15 +1456,15 @@ Overworld_ApplyBombToTiles:
         
         LDA.w $0486
         
-        JSR Overworld_ApplyBombToTile
+        JSR.w Overworld_ApplyBombToTile
         
         LDA.w $0486 : CLC : ADC.w #$0010
         
-        JSR Overworld_ApplyBombToTile
+        JSR.w Overworld_ApplyBombToTile
         
         LDA.w $0486 : CLC : ADC.w #$0020
         
-        JSR Overworld_ApplyBombToTile
+        JSR.w Overworld_ApplyBombToTile
         
         LDA.w $0488 : CLC : ADC.w #$0010 : STA.w $0488
 	DEC.b $C8 : BNE .downOneRow
@@ -1509,18 +1509,18 @@ Overworld_ApplyBombToTile:
         
         LDX.b $04
         
-        JSR Overworld_RevealSecret : BCS .noSecret
+        JSR.w Overworld_RevealSecret : BCS .noSecret
             LDA.b $0E
         
         .noSecret
         
         STA.l $7E2000, X
         
-        JSL Overworld_Memorize_Map16_Change
+        JSL.l Overworld_Memorize_Map16_Change
         
         LDY.w #$0000
         
-        JSL Overworld_DrawMap16_Anywhere
+        JSL.l Overworld_DrawMap16_Anywhere
         
         PLA         : AND.w #$FFF8 : STA.b $00
         LDA.w $0488 : AND.w #$FFF8 : STA.b $02
@@ -1531,7 +1531,7 @@ Overworld_ApplyBombToTile:
         
         LDA.b $0A
         
-        JSL Sprite_SpawnImmediatelySmashedTerrain
+        JSL.l Sprite_SpawnImmediatelySmashedTerrain
         
         LDA.b #$01 : STA.b $14
         
@@ -1545,7 +1545,7 @@ Overworld_ApplyBombToTile:
     
     LDX.b $04
     
-    JSR Overworld_RevealSecret
+    JSR.w Overworld_RevealSecret
     
     LDA.b $0E : CMP.w #$0DB4 : BEQ .bombableCave
         PLA
@@ -1556,19 +1556,19 @@ Overworld_ApplyBombToTile:
     
     STA.l $7E2000, X
     
-    JSL Overworld_Memorize_Map16_Change
+    JSL.l Overworld_Memorize_Map16_Change
     
     LDY.w #$0000
     
-    JSL Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawMap16_Anywhere
     
     LDA.w #$0DB5 : STA.l $7E2002, X
     
-    JSL Overworld_Memorize_Map16_Change
+    JSL.l Overworld_Memorize_Map16_Change
     
     LDY.w #$0002
     
-    JSL Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawMap16_Anywhere
     
     STZ.b $0E
     
@@ -1605,7 +1605,7 @@ Overworld_AlterWeathervane:
     ; The index in the tile map to start from.
     LDA.w #$0C3E : STA.w $0698
     
-    JSL Overworld_DoMapUpdate32x32_Long
+    JSL.l Overworld_DoMapUpdate32x32_Long
     
     REP #$30
     
@@ -1615,7 +1615,7 @@ Overworld_AlterWeathervane:
     
     LDY.w #$0000
     
-    JSL Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawMap16_Anywhere
     
     LDX.w #$0CC0
     
@@ -1623,7 +1623,7 @@ Overworld_AlterWeathervane:
     
     LDY.w #$0002
     
-    JSL Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawMap16_Anywhere
     
     SEP #$30
     
@@ -1649,7 +1649,7 @@ Overworld_AlterGargoyleEntrance:
     LDX.w #$0D3E
     LDA.w #$0E1B
     
-    JSL Overworld_DrawPersistentMap16
+    JSL.l Overworld_DrawPersistentMap16
     
     LDX.w #$0D40
     LDA.w #$0E1C
@@ -1692,7 +1692,7 @@ Overworld_CreatePyramidHole:
     LDX.w #$03BC
     LDA.w #$0E3F
     
-    JSL Overworld_DrawPersistentMap16
+    JSL.l Overworld_DrawPersistentMap16
     
     LDX.w #$03BE
     LDA.w #$0E40
@@ -2795,7 +2795,7 @@ Overworld_DrawWoodenDoor:
         ; door.
         LDA.w #$0DA4
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDA.w #$0DA6
         
@@ -2805,7 +2805,7 @@ Overworld_DrawWoodenDoor:
     
     LDA.w #$0DA5
     
-    JSL Overworld_DrawPersistentMap16
+    JSL.l Overworld_DrawPersistentMap16
     
     LDA.w #$0DA7
     
@@ -2815,7 +2815,7 @@ Overworld_DrawWoodenDoor:
     
     LDY.w #$0002
     
-    JSL Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawMap16_Anywhere
     
     SEP #$3
     
@@ -2843,7 +2843,7 @@ Overworld_DrawMap16:
 }
 
 ; $0DC983-$0DC9DD LONG JUMP LOCATION
-Overworld_DrawMap16_Anywhere
+Overworld_DrawMap16_Anywhere:
 {
     PHX
     
@@ -2982,8 +2982,8 @@ Overworld_DrawWarpTile:
     
     STA.l $7E2000, X
     
-    JSL Overworld_Memorize_Map16_Change
-    JSL Overworld_DrawMap16
+    JSL.l Overworld_Memorize_Map16_Change
+    JSL.l Overworld_DrawMap16
     
     SEP #$30
     
@@ -3017,7 +3017,7 @@ Overworld_EntranceSequence:
     
     DEC A : ASL A : TAX
     
-    JSR (Pool_Overworld_EntranceSequence_handlers, X)
+    JSR.w (Pool_Overworld_EntranceSequence_handlers, X)
     
     RTL
 }
@@ -3060,7 +3060,7 @@ AnimateEntrance_PoD_step1:
         LDX.w #$01E6
         LDA.w #$0E31
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         ; $0DCB18 ALTERNATE ENTRY POINT
         .modify_bottom_stair_part
@@ -3109,7 +3109,7 @@ AnimateEntrance_PoD_step2:
         LDX.w #$026A
         LDA.w #$0E28
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDA.w #$0E29
         
@@ -3131,7 +3131,7 @@ AnimateEntrance_PoD_step3:
         LDX.w #$026A
         LDA.w #$0E2A
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$02EA
         LDA.w #$0E2B
@@ -3158,7 +3158,7 @@ AnimateEntrance_PoD_step4:
         LDX.w #$026A
         LDA.w #$0E2D
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$02EA
         LDA.w #$0E2E
@@ -3219,7 +3219,7 @@ AnimateEntrance_Skull_step1:
         LDX.w #$0812
         LDA.w #$0E06
     
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
     
         LDX.w #$0814
         LDA.w #$0E06
@@ -3263,7 +3263,7 @@ AnimateEntrance_Skull_step2:
     	LDX.w #$0790
     	LDA.w #$0E07
     
-    	JSL Overworld_DrawPersistentMap16
+    	JSL.l Overworld_DrawPersistentMap16
     
     	LDX.w #$0792
     	LDA.w #$0E08
@@ -3335,7 +3335,7 @@ AnimateEntrance_Skull_step4:
        LDX.w #$0590
        LDA.w #$0E11
     
-       JSL Overworld_DrawPersistentMap16
+       JSL.l Overworld_DrawPersistentMap16
     
        LDX.w #$0596
        LDA.w #$0E12
@@ -3375,7 +3375,7 @@ AnimateEntrance_Skull_step5:
         LDX.w #$0590
         LDA.w #$0E13
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0596
         LDA.w #$0E14
@@ -3516,7 +3516,7 @@ AnimateEntrance_Mire_step2:
         ; An index into the set of tiles to use.
         LDA.w #$0E48
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0624 : LDA.w #$0E49
         
@@ -3565,7 +3565,7 @@ AnimateEntrance_Mire_step3:
         LDX.w #$05A2
         LDA.w #$0E54
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$05A4
         LDA.w #$0E55
@@ -3595,7 +3595,7 @@ AnimateEntrance_Mire_step4:
         LDX.w #$0522
         LDA.w #$0E64
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0524
         LDA.w $0E65
@@ -3673,7 +3673,7 @@ AnimateEntrance_TurtleRock_step1:
     
     LDA.b #$00
     
-    JSL Dungeon_ApproachFixedColor.variable
+    JSL.l Dungeon_ApproachFixedColor_variable
     
     LDA.b #$10
     
@@ -3881,7 +3881,7 @@ OverworldEntrance_DrawManyTR:
     LDX.w #$099E
     LDA.w #$0E78
     
-    JSL Overworld_DrawPersistentMap16
+    JSL.l Overworld_DrawPersistentMap16
     
     LDX.w #$09A0
     LDA.w #$0E79
@@ -4014,7 +4014,7 @@ AnimateEntrance_GanonsTower_step03:
         LDX.w #$045E
         LDA.w #$0E88
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0460
         LDA.w #$0E89
@@ -4069,7 +4069,7 @@ AnimateEntrance_GanonsTower_step04:
         LDX.w #$045E
         LDA.w #$0E8C
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0460
         LDA.w #$0E8D
@@ -4100,7 +4100,7 @@ AnimateEntrance_GanonsTower_step05:
         LDX.w #$045E
         LDA.w #$0E92
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0460
         LDA.w #$0E93
@@ -4148,7 +4148,7 @@ AnimateEntrance_GanonsTower_step06:
         LDX.w #$045E
         LDA.w #$0E9C
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0460
         LDA.w #$0E97
@@ -4172,7 +4172,7 @@ AnimateEntrance_GanonsTower_step07:
         LDX.w #$04DE
         LDA.w #$0E9A
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$04E0
         LDA.w #$0E9B
@@ -4191,7 +4191,7 @@ AnimateEntrance_GanonsTower_step08:
         LDX.w #$04DE
         LDA.w #$0E9C
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$04E0
         LDA.w #$0E9D
@@ -4214,7 +4214,7 @@ AnimateEntrance_GanonsTower_step09:
         LDX.w #$055E
         LDA.w #$0E9A
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0560
         LDA.w #$0E9B
@@ -4233,7 +4233,7 @@ AnimateEntrance_GanonsTower_step10:
         LDX.w #$055E
         LDA.w #$0E9C
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0560
         LDA.w #$0E9D
@@ -4264,7 +4264,7 @@ AnimateEntrance_GanonsTower_step11:
         LDX.w #$05DE
         LDA.w #$0E9A
         
-        JSL Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentMap16
         
         LDA.w #$0E9B
         
@@ -5950,7 +5950,7 @@ Palette_SpriteAux3:
     ; Write a palette consisting of 7 colors to cgram buffer
     LDX.w #$0006
     
-    JSR Palette_SingleLoad
+    JSR.w Palette_SingleLoad
     
     SEP #$30
     
@@ -5988,7 +5988,7 @@ Palette_MainSpr:
     LDX.w #$000E
     LDY.w #$0003
     
-    JSR Palette_MultiLoad
+    JSR.w Palette_MultiLoad
     
     SEP #$30
     
@@ -6012,7 +6012,7 @@ Palette_SpriteAux1:
     LDA.w #$01A2 ; Target SP-5 (first half)
     LDX.w #$0006 ; Palette has 7 colors
     
-    JSR Palette_SingleLoad
+    JSR.w Palette_SingleLoad
     
     SEP #$30
     
@@ -6036,7 +6036,7 @@ Palette_SpriteAux2:
     LDA.w $01C2    ; Target SP-6 (first half)
     LDX.w #$0006 ; Palette has 7 colors
     
-    JSR Palette_SingleLoad
+    JSR.w Palette_SingleLoad
     
     SEP #$30
     
@@ -6064,7 +6064,7 @@ Palette_Sword:
     LDA.w #$01B2 ; Target SP-5 (second half)
     LDX.w #$0002 ; palette has 3 colors
     
-    JSR Palette_ArbitraryLoad
+    JSR.w Palette_ArbitraryLoad
     
     SEP #$30
     
@@ -6093,7 +6093,7 @@ Palette_Shield:
     LDA.w #$01B8
     LDX.w #$0003
     
-    JSR Palette_ArbitraryLoad
+    JSR.w Palette_ArbitraryLoad
     
     SEP #$30
     
@@ -6122,7 +6122,7 @@ Palette_Unused:
     LDA.w #$01C2
     LDX.w #$0006
     
-    JSR Palette_SingleLoad
+    JSR.w Palette_SingleLoad
     
     SEP #$30
     
@@ -6152,7 +6152,7 @@ Palette_MiscSpr:
         LDA.w #$01D2  ; Target SP-6 (second half)
         LDX.w #$0006  ; Palette has 7 colors
         
-        JSR Palette_SingleLoad
+        JSR.w Palette_SingleLoad
         
         SEP #$30
         
@@ -6190,7 +6190,7 @@ Palette_MiscSpr:
     
     LDX.w #$0006 ; 7 color palette
     
-    JSR Palette_SingleLoad
+    JSR.w Palette_SingleLoad
     
     SEP #$10
     
@@ -6203,7 +6203,7 @@ Palette_MiscSpr:
     LDA.w #$01D2 ; Target SP-6 (second half)
     LDX.w #$0006 ; 7 color palette
     
-    JSR Palette_SingleLoad
+    JSR.w Palette_SingleLoad
     
     REP #$30
     
@@ -6229,7 +6229,7 @@ Palette_PalaceMapSpr:
     LDX.w #$0006
     LDY.w #$0002
     
-    JSR Palette_MultiLoad
+    JSR.w Palette_MultiLoad
     
     SEP #$30
     
@@ -6262,7 +6262,7 @@ Palette_ArmorAndGloves:
     LDA.w #$01E2 ; Target SP-7 (sprite palette 6)
     LDX.w #$000E ; Palette has 15 colors
     
-    JSR Palette_ArbitraryLoad
+    JSR.w Palette_ArbitraryLoad
     
     ; $0DEE1B ALTERNATE ENTRY POINT
     .justGloves
@@ -6303,7 +6303,7 @@ Palette_PalaceMapBg:
     LDX.w #$000F ; Each palette has 16 colors
     LDY.w #$0005 ; Load 6 palettes
     
-    JSR Palette_MultiLoad
+    JSR.w Palette_MultiLoad
     
     SEP #$30
     
@@ -6331,7 +6331,7 @@ Palette_Hud:
     LDX.w #$000F
     LDY.w #$0001
     
-    JSR Palette_MultiLoad
+    JSR.w Palette_MultiLoad
     
     SEP #$30
     
@@ -6357,7 +6357,7 @@ Palette_DungBgMain:
     LDX.w #$000E ; (Length - 1) (in words) of the palettes.
     LDY.w #$0005 ; Load 6 palettes
     
-    JSR Palette_MultiLoad
+    JSR.w Palette_MultiLoad
     
     ; Now get that value of A before the subroutine.
     PLA
@@ -6377,7 +6377,7 @@ Palette_DungBgMain:
     
     LDX.w #$0006
     
-    JSR Palette_SingleLoad
+    JSR.w Palette_SingleLoad
     
     SEP #$30
     
@@ -6400,7 +6400,7 @@ Palette_OverworldBgAux3:
     LDA.w #$00E2 ; Target BP-7 (first half)
     LDX.w #$0006
     
-    JSR Palette_SingleLoad
+    JSR.w Palette_SingleLoad
     
     SEP #$30
     
@@ -6427,7 +6427,7 @@ Palette_OverworldBgMain:
     LDX.w #$0006
     LDY.w #$0004
     
-    JSR Palette_MultiLoad
+    JSR.w Palette_MultiLoad
     
     SEP #$30
     
@@ -6451,7 +6451,7 @@ Palette_OverworldBgAux1:
     LDX.w #$0006 ; each one has 7 colors
     LDY.w #$0002 ; Load 3 palettes
     
-    JSR Palette_MultiLoad
+    JSR.w Palette_MultiLoad
     
     REP #$30
     
@@ -6475,7 +6475,7 @@ Palette_OverworldBgAux2:
     LDX.w #$0006 ; each one has 7 colors
     LDY.w #$0002 ; load 3 palettes
     
-    JSR Palette_MultiLoad
+    JSR.w Palette_MultiLoad
     
     SEP #$30
     
@@ -6611,19 +6611,19 @@ Palette_SelectScreen:
     ; The value for your armor.
     LDA.l $70035B
     
-    JSR Palette_SelectScreenArmor
+    JSR.w Palette_SelectScreenArmor
     
     LDX.w #$0000
     
     LDA.l $700359
     
-    JSR Palette_SelectScreenSword
+    JSR.w Palette_SelectScreenSword
     
     LDX.w #$0000
     
     LDA.l $70035A
     
-    JSR Palette_SelectScreenShield
+    JSR.w Palette_SelectScreenShield
     
     ; Save slot two.
     
@@ -6635,19 +6635,19 @@ Palette_SelectScreen:
     ; The value for the armor.
     LDA.l $70085B
     
-    JSR Palette_SelectScreenArmor
+    JSR.w Palette_SelectScreenArmor
     
     LDX.w #$0040
     
     LDA.l $700859
     
-    JSR Palette_SelectScreenSword
+    JSR.w Palette_SelectScreenSword
     
     LDX.w #$0040
     
     LDA.l $70085A
     
-    JSR Palette_SelectScreenShield
+    JSR.w Palette_SelectScreenShield
     
     ; Save slot three.
     
@@ -6658,19 +6658,19 @@ Palette_SelectScreen:
     
     LDA.l $700D5B
     
-    JSR Palette_SelectScreenArmor
+    JSR.w Palette_SelectScreenArmor
     
     LDX.w #$0080
     
     LDA.l $700D59
     
-    JSR Palette_SelectScreenSword
+    JSR.w Palette_SelectScreenSword
     
     LDX.w #$0080
     
     LDA.l $700D5A
     
-    JSR Palette_SelectScreenShield
+    JSR.w Palette_SelectScreenShield
     
     LDY.w #$0000
     LDX.w #$0000
@@ -6819,7 +6819,7 @@ Palettes_LoadAgahnim:
     LDA.w #$0162
     LDX.w #$0006
     
-    JSR Palette_ArbitraryLoad
+    JSR.w Palette_ArbitraryLoad
     
     PLA : STA.b $00
     
@@ -6828,14 +6828,14 @@ Palettes_LoadAgahnim:
     LDA.w #$0182
     LDX.w #$0006
     
-    JSR Palette_ArbitraryLoad
+    JSR.w Palette_ArbitraryLoad
     
     PLA : STA.b $00
     
     LDA.w #$01A2
     LDX.w #$0006
     
-    JSR Palette_ArbitraryLoad
+    JSR.w Palette_ArbitraryLoad
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
@@ -6844,7 +6844,7 @@ Palettes_LoadAgahnim:
     LDA.w #$01C2
     LDX.w #$0006
     
-    JSR Palette_ArbitraryLoad
+    JSR.w Palette_ArbitraryLoad
     
     SEP #$30
     

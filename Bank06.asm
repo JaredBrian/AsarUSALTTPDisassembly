@@ -42,11 +42,11 @@ BottleVendor_DetectFish:
     
     PHX : TYX
     
-    JSR Sprite_SetupHitBox
+    JSR.w Sprite_SetupHitBox
     
     PLX
     
-    JSR Utility_CheckIfHitBoxesOverlap : BCC .delta
+    JSR.w Utility_CheckIfHitBoxesOverlap : BCC .delta
         ; If the fish is close enough to the merchant, indicate as such.
         TYA : ORA.b #$80 : STA.w $0E90, X
     
@@ -79,7 +79,7 @@ BottleVendor_SpawnFishRewards:
 {
     PHB : PHK : PLB
     
-    LDA.b #$13 : JSL Sound_SetSfx3PanLong
+    LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$04 : STA.w $0FB5
     
@@ -87,8 +87,8 @@ BottleVendor_SpawnFishRewards:
     
         LDY.w $0FB5
         
-        LDA .item_types, Y : JSL Sprite_SpawnDynamically : BMI .spawnFailed
-            JSL Sprite_SetSpawnedCoords
+        LDA.w .item_types, Y : JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
+            JSL.l Sprite_SetSpawnedCoords
             
             LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
             
@@ -222,7 +222,7 @@ Player_ApplyRumbleToSprites:
     LDA.w Pool_Player_ApplyRumbleToSprites_hitbox_w, Y : STA.b $02
     LDA.w Pool_Player_ApplyRumbleToSprites_hitbox_h, Y : STA.b $03
     
-    JSR Entity_ApplyRumbleToSprites
+    JSR.w Entity_ApplyRumbleToSprites
     
     PLB
     
@@ -239,7 +239,7 @@ Sprite_SpawnImmediatelySmashedTerrain:
     
     PHB : PHK : PLB
     
-    JSL Sprite_SpawnThrowableTerrainSilently : BMI .spawn_failed
+    JSL.l Sprite_SpawnThrowableTerrainSilently : BMI .spawn_failed
         JSR.w ThrowableScenery_TransmuteToDebris
     
     .spawn_failed
@@ -268,7 +268,7 @@ Sprite_SpawnThrowableTerrain:
 {
     PHA
     
-    JSL Sound_SetSfxPanWithPlayerCoords
+    JSL.l Sound_SetSfxPanWithPlayerCoords
     
     ORA.b #$1D : STA.w $012E
     
@@ -307,7 +307,7 @@ Sprite_SpawnThrowableTerrainSilently:
     LDA.b $02 : STA.w $0D00, X
     LDA.b $03 : STA.w $0D20, X
     
-    JSL Sprite_LoadProperties
+    JSL.l Sprite_LoadProperties
     
     ; Set the floor level to whichever the player is on.
     LDA.b $EE : STA.w $0F20, X
@@ -351,7 +351,7 @@ Sprite_SpawnThrowableTerrainSilently:
     LDA.w $0B9C : CMP.b #$FF : BEQ .invalid_secret
         ORA.b $1B : BNE .dont_substitute
             LDA.w $0DB0, X : DEC #2 : CMP.b #$02 : BCC .dont_substitute
-                JSL Overworld_SubstituteAlternateSecret
+                JSL.l Overworld_SubstituteAlternateSecret
             
         .dont_substitute
         
@@ -362,7 +362,7 @@ Sprite_SpawnThrowableTerrainSilently:
         
         .normal_secret
         
-        JSR Sprite_SpawnSecret
+        JSR.w Sprite_SpawnSecret
     
     .invalid_secret
     
@@ -514,13 +514,13 @@ Sprite_SpawnSecret_fastexit:
 Sprite_SpawnSecret:
 {
     LDA.b $1B : BNE .indoors
-        JSL GetRandomInt : AND.b #$08 : BNE Sprite_SpawnSecret_fastexit
+        JSL.l GetRandomInt : AND.b #$08 : BNE Sprite_SpawnSecret_fastexit
     
     .indoors
     
     LDY.w $0B9C : BEQ Sprite_SpawnSecret_fastexit
         CPY.b #$04 : BNE .not_random
-            JSL GetRandomInt : AND.b #$03 : CLC : ADC.b #$13 : TAY
+            JSL.l GetRandomInt : AND.b #$03 : CLC : ADC.b #$13 : TAY
         
         .not_random
         
@@ -528,7 +528,7 @@ Sprite_SpawnSecret:
         
         ; List of sprites that can be spawned by secrets.
         LDA.w Pool_Sprite_SpawnSecret_ID-1, Y : BEQ Sprite_SpawnSecret_fastexit
-            JSL Sprite_SpawnDynamically : BMI Sprite_SpawnSecret_fastexit
+            JSL.l Sprite_SpawnDynamically : BMI Sprite_SpawnSecret_fastexit
                 PHX
                 
                 LDX.b $0D
@@ -618,7 +618,7 @@ Sprite_Main:
         
         ; Looks like this might load or unload sprites as we scroll during
         ; the overworld... Not certain of this yet.
-        JSL Sprite_RangeBasedActivation
+        JSL.l Sprite_RangeBasedActivation
     
     .indoors
     
@@ -646,9 +646,9 @@ Sprite_Main:
     
     .dont_reset_player_dragging
     
-    JSR Oam_ResetRegionBases
-    JSL Garnish_ExecuteUpperSlotsLong
-    JSL Tagalong_MainLong
+    JSR.w Oam_ResetRegionBases
+    JSL.l Garnish_ExecuteUpperSlotsLong
+    JSL.l Tagalong_MainLong
     
     LDA.w $0314 : STA.w $0FB2
     
@@ -677,8 +677,8 @@ Sprite_Main:
     
     .projectileCounterDone
     
-    JSL Ancilla_Main
-    JSL Overlord_Main
+    JSL.l Ancilla_Main
+    JSL.l Overlord_Main
     
     STZ.w $0B9A
     
@@ -688,17 +688,17 @@ Sprite_Main:
     
         STX.w $0FA0
         
-        JSR Sprite_ExecuteSingle
+        JSR.w Sprite_ExecuteSingle
     DEX : BPL .next_sprite
     
-    JSL Garnish_ExecuteLowerSlotsLong
+    JSL.l Garnish_ExecuteLowerSlotsLong
     
     STZ.w $069F
     STZ.w $069E
     
     PLB
     
-    JSL CacheSprite_ExecuteAll
+    JSL.l CacheSprite_ExecuteAll
     
     LDA.w $0AAA : BEQ .iota
         STA.w $0FC6
@@ -717,7 +717,7 @@ Sprite_Main:
 ; $0303C2-$0303C6 LONG JUMP LOCATION
 EasterEgg_BageCodeTrampoline:
 {
-    JSL EasterEgg_BageCode
+    JSL.l EasterEgg_BageCode
     
     RTL
 }
@@ -745,7 +745,7 @@ Oam_ResetRegionBases:
     
     .next_oam_region
     
-        LDA .bases, Y : STA.w $0FE0, Y
+        LDA.w .bases, Y : STA.w $0FE0, Y
     INY #2 : CPY.b #$0B : BCC .next_oam_region
     
     SEP #$20
@@ -758,7 +758,7 @@ Oam_ResetRegionBases:
 ; $0303E6-$0303E9 LONG JUMP LOCATION
 Utility_CheckIfHitBoxesOverlapLong:
 {
-    JSR Utility_CheckIfHitBoxesOverlap
+    JSR.w Utility_CheckIfHitBoxesOverlap
     
     RTL
 }
@@ -770,7 +770,7 @@ Sprite_SetupHitBoxLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_SetupHitBox
+    JSR.w Sprite_SetupHitBox
     
     PLB
     
@@ -782,21 +782,21 @@ Sprite_SetupHitBoxLong:
 ; $0303F2-$0304BC LOCAL JUMP LOCATION
 Sprite_TimersAndOAM:
 {
-    JSR Sprite_Get_16_bit_Coords
+    JSR.w Sprite_Get_16_bit_Coords
     
     LDA.w $0E40, X : AND.b #$1F : INC A : ASL #2
     
     LDY.w $0FB3 : BEQ .dontSortSprites
         LDY.w $0F20, X : BEQ .onBG2
-            JSL OAM_AllocateFromRegionF : BRA .doneAllocatingOamSlot
+            JSL.l OAM_AllocateFromRegionF : BRA .doneAllocatingOamSlot
         
         .onBG2
         
-        JSL OAM_AllocateFromRegionD : BRA .doneAllocatingOamSlot
+        JSL.l OAM_AllocateFromRegionD : BRA .doneAllocatingOamSlot
     
     .dontSortSprites
     
-    JSL OAM_AllocateFromRegionA
+    JSL.l OAM_AllocateFromRegionA
     
     .doneAllocatingOamSlot
     
@@ -849,7 +849,7 @@ Sprite_TimersAndOAM:
                         LDA.b #$40 : STA.w $1CF0
                         LDA.b #$01 : STA.w $1CF1
                         
-                        JSL Sprite_ShowMessageMinimal
+                        JSL.l Sprite_ShowMessageMinimal
                 
                 .not_agahnim_complaining
                 
@@ -907,7 +907,7 @@ Sprite_TimersAndOAM:
 ; $0304BD-$0304C0 LONG JUMP LOCATION
 Sprite_Get_16_bit_CoordsLong:
 {
-    JSR Sprite_Get_16_bit_Coords
+    JSR.w Sprite_Get_16_bit_Coords
     
     RTL
 }
@@ -934,7 +934,7 @@ Sprite_ExecuteSingleLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_ExecuteSingle
+    JSR.w Sprite_ExecuteSingle
     
     PLB
     
@@ -953,7 +953,7 @@ Sprite_ExecuteSingle:
         JSR.w Sprite_TimersAndOAM
         
         PLA : CMP.b #$09 : BEQ .activeSprite
-            JSL UseImplicitRegIndexedLocalJumpTable
+            JSL.l UseImplicitRegIndexedLocalJumpTable
             
             ; Index is $0DD0, X
             dw SpriteModule_Inactive ; 0x00 - $8510 Sprite is totally inactive
@@ -1006,7 +1006,7 @@ SpriteActive_MainLong:
 {
     PHB : PHK : PLB
     
-    JSR SpriteActive_Main
+    JSR.w SpriteActive_Main
     
     PLB
     
@@ -1022,14 +1022,14 @@ SpriteFall_Main:
     LDA.w $0DF0, X : BNE .delay
         STZ.w $0DD0, X
         
-        JSL Dungeon_ManuallySetSpriteDeathFlag
+        JSL.l Dungeon_ManuallySetSpriteDeathFlag
         
         RTS
     
     .delay
     
-    JSR Sprite_PrepOamCoord
-    JSL SpriteFall_Draw
+    JSR.w Sprite_PrepOamCoord
+    JSL.l SpriteFall_Draw
     
     RTS
 }
@@ -1039,7 +1039,7 @@ SpriteFall_Main:
 ; $030543-$030547 JUMP LOCATION
 SpriteBurn_Main:
 {
-    JSL SpriteBurn_Execute
+    JSL.l SpriteBurn_Execute
     
     RTS
 }
@@ -1049,7 +1049,7 @@ SpriteBurn_Main:
 ; $030548-$03054C JUMP LOCATION
 SpriteExplode_Main:
 {
-    JSL SpriteExplode_ExecuteLong
+    JSL.l SpriteExplode_ExecuteLong
     
     RTS
 }
@@ -1089,13 +1089,13 @@ SpriteDrown_Main:
 {
     LDA.w $0D80, X : BEQ Drowning_DrawSprite
         LDA.w $0D90, X : CMP.b #$06 : BNE .BRANCH_BETA
-            LDA.b #$08 : JSL OAM_AllocateFromRegionC
+            LDA.b #$08 : JSL.l OAM_AllocateFromRegionC
         
         .BRANCH_BETA
         
         LDA.w $0E60, X : EOR.b #$10 : STA.w $0E60, X
         
-        JSR Sprite_PrepAndDrawSingleLarge
+        JSR.w Sprite_PrepAndDrawSingleLarge
         
         LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
         
@@ -1125,12 +1125,12 @@ SpriteDrown_Main:
         PLX
         
         LDA.w $0DF0, X : BNE EXIT_06861A
-            JSR Sprite_CheckIfActive_permissive
+            JSR.w Sprite_CheckIfActive_permissive
             
             INC.w $0E80, X
             
-            JSR Sprite_Move
-            JSR Sprite_MoveAltitude
+            JSR.w Sprite_Move
+            JSR.w Sprite_MoveAltitude
             
             LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
             
@@ -1157,7 +1157,7 @@ EXIT_06861A:
 ; $03061B-$03064C JUMP LOCATION
 Drowning_DrawSprite:
 {
-    JSR Sprite_CheckIfActive.permissive
+    JSR.w Sprite_CheckIfActive_permissive
     
     LDA.b $1A : AND.b #$01 : BNE .BRANCH_ZETA
         INC.w $0DF0, X
@@ -1181,7 +1181,7 @@ Drowning_DrawSprite:
     
     SEP #$20
     
-    LDA.b #$02 : JSL Sprite_DrawMultiple
+    LDA.b #$02 : JSL.l Sprite_DrawMultiple
     
     RTS
 }
@@ -1456,7 +1456,7 @@ SpriteActive_Table:
 ; $031469-$03146D JUMP LOCATION
 Sprite_GiantMoldormTrampoline:
 {
-    JSL Sprite_GiantMoldormLong
+    JSL.l Sprite_GiantMoldormLong
     
     RTS
 }
@@ -1466,7 +1466,7 @@ Sprite_GiantMoldormTrampoline:
 ; $03146E-$031472 JUMP LOCATION
 Sprite_RavenTrampoline:
 {
-    JSL Sprit_RavenLong
+    JSL.l Sprit_RavenLong
     
     RTS
 }
@@ -1476,7 +1476,7 @@ Sprite_RavenTrampoline:
 ; $031473-$031477 JUMP LOCATION
 Sprite_VultureTrampoline:
 {
-    JSL Sprite_VultureLong
+    JSL.l Sprite_VultureLong
     
     RTS
 }
@@ -1524,7 +1524,7 @@ incsrc "sprite_chicken.asm"
 ; $032853-$032857 JUMP LOCATION
 Sprite_MovableMantleTrampoline:
 {
-    JSL Sprite_MovableMantleLong
+    JSL.l Sprite_MovableMantleLong
     
     RTS
 }
@@ -1555,12 +1555,12 @@ Entity_ApplyRumbleToSprites:
                     
                     ; Loads up all the bases and widths for the collision
                     ; detection...
-                    JSR Sprite_SetupHitBox
+                    JSR.w Sprite_SetupHitBox
                     
                     PLX
                     
                     ; Does the actual collision detection...
-                    JSR Utility_CheckIfHitBoxesOverlap : BCC .skip_sprite
+                    JSR.w Utility_CheckIfHitBoxesOverlap : BCC .skip_sprite
                 
                 .collision_guaranteed
                 
@@ -1581,7 +1581,7 @@ Entity_ApplyRumbleToSprites:
                 ; and I've known it for somewhat longer, but it still manages to
                 ; surprise me now and then.
                 LDA.w $0E20, Y : CMP.b #$D8 : BNE .not_single_heart_refill
-                    JSL Sprite_TransmuteToEnemyBomb
+                    JSL.l Sprite_TransmuteToEnemyBomb
 
                 .not_single_heart_refill
             .skip_sprite
@@ -1641,7 +1641,7 @@ incsrc "sprite_hobo.asm"
 ; $033FE0-$033FE4 JUMP LOCATION
 Sprite_UncleAndSageTrampoline:
 {
-    JSL Sprite_UncleAndSageLong
+    JSL.l Sprite_UncleAndSageLong
     
     RTS
 }
@@ -1651,7 +1651,7 @@ Sprite_UncleAndSageTrampoline:
 ; $033FE5-$033FE9 JUMP LOCATION
 SpritePrep_UncleAndSageTrampoline:
 {
-    JSL SpritePrep_UncleAndSageLong
+    JSL.l SpritePrep_UncleAndSageLong
     
     RTS
 }
@@ -1661,7 +1661,7 @@ SpritePrep_UncleAndSageTrampoline:
 ; $033FEA-$033FEE JUMP LOCATION
 SpriteActive2_Trampoline:
 {
-    JSL SpriteActive2_MainLong
+    JSL.l SpriteActive2_MainLong
     
     RTS
 }
@@ -1671,7 +1671,7 @@ SpriteActive2_Trampoline:
 ; $033FEF-$033FF3 JUMP LOCATION
 SpriteActive3_Transfer:
 {
-    JSL SpriteActive3_MainLong
+    JSL.l SpriteActive3_MainLong
     
     RTS
 }
@@ -1681,7 +1681,7 @@ SpriteActive3_Transfer:
 ; $033FF4-$033FF8 JUMP LOCATION
 SpriteActive4_Transfer:
 {
-    JSL SpriteActive4_MainLong
+    JSL.l SpriteActive4_MainLong
     
     RTS
 }
@@ -1691,7 +1691,7 @@ SpriteActive4_Transfer:
 ; $033FF9-$033FFD JUMP LOCATION
 SpritePrep_OldMountainManTrampoline:
 {
-    JSL SpritePrep_OldMountainManLong
+    JSL.l SpritePrep_OldMountainManLong
     
     RTS
 }
@@ -1701,7 +1701,7 @@ SpritePrep_OldMountainManTrampoline:
 ; $033FFE-$034002 JUMP LOCATION
 Sprite_TutorialEntitiesTrampoline:
 {
-    JSL Sprite_TutorialEntitiesLong
+    JSL.l Sprite_TutorialEntitiesLong
     
     RTS
 }
@@ -1711,7 +1711,7 @@ Sprite_TutorialEntitiesTrampoline:
 ; $034003-$034007 JUMP LOCATION
 Sprite_PullSwitchTrampoline:
 {
-    JSL Sprite_PullSwitch
+    JSL.l Sprite_PullSwitch
     
     RTS
 }
@@ -1721,7 +1721,7 @@ Sprite_PullSwitchTrampoline:
 ; $034008-$03400C JUMP LOCATION
 Sprite_SomariaPlatformTrampoline:
 {
-    JSL Sprite_SomariaPlatformLong
+    JSL.l Sprite_SomariaPlatformLong
     
     RTS
 }
@@ -1732,7 +1732,7 @@ Sprite_SomariaPlatformTrampoline:
 Sprite_MedallionTabletTrampoline:
 {
     ; Medallion Tablet
-    JSL Sprite_MedallionTabletLong
+    JSL.l Sprite_MedallionTabletLong
     
     RTS
 }
@@ -1742,7 +1742,7 @@ Sprite_MedallionTabletTrampoline:
 ; $034012-$034016 JUMP LOCATION
 Sprite_QuarrelBrosTrampoline:
 {
-    JSL Sprite_QuarrelBrosLong
+    JSL.l Sprite_QuarrelBrosLong
     
     RTS
 }
@@ -1752,7 +1752,7 @@ Sprite_QuarrelBrosTrampoline:
 ; $034017-$03401B JUMP LOCATION
 Sprite_PullForRupeesTrampoline:
 {
-    JSL Sprite_PullForRupeesLong
+    JSL.l Sprite_PullForRupeesLong
     
     RTS
 }
@@ -1762,7 +1762,7 @@ Sprite_PullForRupeesTrampoline:
 ; $03401C-$034020 JUMP LOCATION
 Sprite_GargoyleGrateTrampoline:
 {
-    JSL Sprite_GargoyleGrateLong
+    JSL.l Sprite_GargoyleGrateLong
     
     RTS
 }
@@ -1772,7 +1772,7 @@ Sprite_GargoyleGrateTrampoline:
 ; $034021-$034025 JUMP LOCATION
 Sprite_YoungSnitchLadyTrampoline:
 {
-    JSL Sprite_YoungSnitchLadyLong
+    JSL.l Sprite_YoungSnitchLadyLong
     
     RTS
 }
@@ -1782,7 +1782,7 @@ Sprite_YoungSnitchLadyTrampoline:
 ; $034026-$03402A JUMP LOCATION
 SpritePrep_YoungSnitchGirl:
 {
-    JSL SpritePrep_SnitchesLong
+    JSL.l SpritePrep_SnitchesLong
     
     RTS
 }
@@ -1792,7 +1792,7 @@ SpritePrep_YoungSnitchGirl:
 ; $03402B-$03402F JUMP LOCATION
 Sprite_InnKeeperTrampoline:
 {
-    JSL Sprite_InnKeeperLong
+    JSL.l Sprite_InnKeeperLong
     
     RTS
 }
@@ -1802,7 +1802,7 @@ Sprite_InnKeeperTrampoline:
 ; $034030-$034034 JUMP LOCATION
 SpritePrep_InnKeeper:
 {
-    JSL SpritePrep_SnitchesLong
+    JSL.l SpritePrep_SnitchesLong
     
     RTS
 }
@@ -1812,7 +1812,7 @@ SpritePrep_InnKeeper:
 ; $034035-$034039 JUMP LOCATION
 Sprite_WitchTrampoline:
 {
-    JSL Sprite_WitchLong
+    JSL.l Sprite_WitchLong
     
     RTS
 }
@@ -1822,7 +1822,7 @@ Sprite_WitchTrampoline:
 ; $03403A-$03403E JUMP LOCATION
 Sprite_WaterfallTrampoline:
 {
-    JSL Sprite_WaterfallLong
+    JSL.l Sprite_WaterfallLong
     
     RTS
 }
@@ -1832,7 +1832,7 @@ Sprite_WaterfallTrampoline:
 ; $03403F-$034043 JUMP LOCATION
 Sprite_ArrowTriggerTrampoline:
 {
-    JSL Sprite_ArrowTriggerLong
+    JSL.l Sprite_ArrowTriggerLong
     
     RTS
 }
@@ -1842,7 +1842,7 @@ Sprite_ArrowTriggerTrampoline:
 ; $034044-$034048 JUMP LOCATION
 Sprite_MadBatterTrampoline:
 {
-    JSL Sprite_MadBatterLong
+    JSL.l Sprite_MadBatterLong
     
     RTS
 }
@@ -1852,7 +1852,7 @@ Sprite_MadBatterTrampoline:
 ; $034049-$03404D JUMP LOCATION
 Sprite_DashItemTrampoline:
 {
-    JSL Sprite_DashItemLong
+    JSL.l Sprite_DashItemLong
     
     RTS
 }
@@ -1862,7 +1862,7 @@ Sprite_DashItemTrampoline:
 ; $03404E-$034052 JUMP LOCATION
 Sprite_TroughBoyTrempoline:
 {
-    JSL Sprite_TroughBoyLong
+    JSL.l Sprite_TroughBoyLong
     
     RTS
 }
@@ -1872,7 +1872,7 @@ Sprite_TroughBoyTrempoline:
 ; $034053-$034057 JUMP LOCATION
 Sprite_OldSnitchLadyTrampoline:
 {
-    JSL Sprite_OldSnitchLadyLong
+    JSL.l Sprite_OldSnitchLadyLong
     
     RTS
 }
@@ -1882,7 +1882,7 @@ Sprite_OldSnitchLadyTrampoline:
 ; $034058-$03405C JUMP LOCATION
 Sprite_RunningManTrampoline:
 {
-    JSL Sprite_RunningManLong
+    JSL.l Sprite_RunningManLong
     
     RTS
 }
@@ -1892,7 +1892,7 @@ Sprite_RunningManTrampoline:
 ; $03405D-$034061 JUMP LOCATION
 SpritePrep_RunningManTrampoline:
 {
-    JSL SpritePrep_RunningManLong
+    JSL.l SpritePrep_RunningManLong
     
     RTS
 }
@@ -1904,7 +1904,7 @@ Sprite_BottleVendorTrampoline:
 {
     ; Bottle Vendor AI
     
-    JSL Sprite_BottleVendorLong
+    JSL.l Sprite_BottleVendorLong
     
     RTS
 }
@@ -1914,7 +1914,7 @@ Sprite_BottleVendorTrampoline:
 ; $034067-$03406B JUMP LOCATION
 Sprite_ZeldaTrampoline:
 {
-    JSL Sprite_ZeldaLong
+    JSL.l Sprite_ZeldaLong
     
     RTS
 }
@@ -1924,7 +1924,7 @@ Sprite_ZeldaTrampoline:
 ; $03406C-$034070 JUMP LOCATION
 SpritePrep_ZeldaTrampoline:
 {
-    JSL SpritePrep_ZeldaLong
+    JSL.l SpritePrep_ZeldaLong
     
     RTS
 }
@@ -1934,7 +1934,7 @@ SpritePrep_ZeldaTrampoline:
 ; $034071-$034075 JUMP LOCATION
 Sprite_ElderWifeTrampoline:
 {
-    JSL Sprite_ElderWifeLong
+    JSL.l Sprite_ElderWifeLong
     
     RTS
 }
@@ -1944,7 +1944,7 @@ Sprite_ElderWifeTrampoline:
 ; $034076-$03407A JUMP LOCATION
 Sprite_MushroomTrampoline:
 {
-    JSL Sprite_MushroomLong
+    JSL.l Sprite_MushroomLong
     
     RTS
 }
@@ -1954,7 +1954,7 @@ Sprite_MushroomTrampoline:
 ; $03407B-$03407F JUMP LOCATION
 SpritePrep_MushroomTrampoline:
 {
-    JSL SpritePrep_MushroomLong
+    JSL.l SpritePrep_MushroomLong
     
     RTS
 }
@@ -1964,7 +1964,7 @@ SpritePrep_MushroomTrampoline:
 ; $034080-$034084 JUMP LOCATION
 Sprite_FakeSwordTrampoline:
 {
-    JSL Sprite_FakeSwordLong
+    JSL.l Sprite_FakeSwordLong
     
     RTS
 }
@@ -1974,7 +1974,7 @@ Sprite_FakeSwordTrampoline:
 ; $034085-$034089 JUMP LOCATION
 SpritePrep_FakeSwordTrampoline:
 {
-    JSL SpritePrep_FakeSword
+    JSL.l SpritePrep_FakeSword
     
     RTS
 }
@@ -1984,7 +1984,7 @@ SpritePrep_FakeSwordTrampoline:
 ; $03408A-$03408E JUMP LOCATION
 Sprite_ElderTrampoline:
 {
-    JSL Sprite_ElderLong
+    JSL.l Sprite_ElderLong
     
     RTS
 }
@@ -1994,7 +1994,7 @@ Sprite_ElderTrampoline:
 ; $03408F-$034093 JUMP LOCATION
 Sprite_PotionShopTrampoline:
 {
-    JSL Sprite_PotionShopLong
+    JSL.l Sprite_PotionShopLong
     
     RTS
 }
@@ -2004,7 +2004,7 @@ Sprite_PotionShopTrampoline:
 ; $034094-$034098 JUMP LOCATION
 SpritePrep_PotionShopTrampoline:
 {
-    JSL SpritePrep_PotionShopLong
+    JSL.l SpritePrep_PotionShopLong
     
     RTS
 }
@@ -2014,7 +2014,7 @@ SpritePrep_PotionShopTrampoline:
 ; $034099-$03409D JUMP LOCATION
 Sprite_HeartContainerTrampoline:
 {
-    JSL Sprite_HeartContainerLong
+    JSL.l Sprite_HeartContainerLong
     
     RTS
 }
@@ -2024,7 +2024,7 @@ Sprite_HeartContainerTrampoline:
 ; $03409E-$0340A2 JUMP LOCATION
 SpritePrep_HeartContainerTrampoline:
 {
-    JSL SpritePrep_HeartContainerLong
+    JSL.l SpritePrep_HeartContainerLong
     
     RTS
 }
@@ -2034,7 +2034,7 @@ SpritePrep_HeartContainerTrampoline:
 ; $0340A3-$0340A7 JUMP LOCATION
 Sprite_HeartPieceTrampoline:
 {
-    JSL Sprite_HeartPieceLong
+    JSL.l Sprite_HeartPieceLong
     
     RTS
 }
@@ -2044,7 +2044,7 @@ Sprite_HeartPieceTrampoline:
 ; $0340A8-$0340AC JUMP LOCATION
 SpritePrep_HeartPieceTrampoline:
 {
-    JSL SpritePrep_HeartPieceLong
+    JSL.l SpritePrep_HeartPieceLong
     
     RTS
 }
@@ -2054,7 +2054,7 @@ SpritePrep_HeartPieceTrampoline:
 ; $0340AD-$0340B1 JUMP LOCATION (UNUSED)
 FluteBoy_UnusedInvocation:
 {
-    JSL Sprite_FluteBoy
+    JSL.l Sprite_FluteBoy
     
     RTS
 }
@@ -2064,7 +2064,7 @@ FluteBoy_UnusedInvocation:
 ; $0340B2-$0340B6 JUMP LOCATION
 Sprite_UnusedTelepathTrampoline:
 {
-    JSL Sprite_UnusedTelepathLong
+    JSL.l Sprite_UnusedTelepathLong
     
     RTS
 }
@@ -2074,7 +2074,7 @@ Sprite_UnusedTelepathTrampoline:
 ; $0340B7-$0340BB JUMP LOCATION
 Sprite_HumanMulti_1_Trampoline:
 {
-    JSL Sprite_HumanMulti_1_Long
+    JSL.l Sprite_HumanMulti_1_Long
     
     RTS
 }
@@ -2084,7 +2084,7 @@ Sprite_HumanMulti_1_Trampoline:
 ; $0340BC-$0340C0 JUMP LOCATION
 Sprite_SweepingLadyTrampoline:
 {
-    JSL Sprite_SweepingLadyLong
+    JSL.l Sprite_SweepingLadyLong
     
     RTS
 }
@@ -2094,7 +2094,7 @@ Sprite_SweepingLadyTrampoline:
 ; $0340C1-$0340C5 JUMP LOCATION
 Sprite_LumberjacksTrampoline:
 {
-    JSL Sprite_LumberjacksLong
+    JSL.l Sprite_LumberjacksLong
     
     RTS
 }
@@ -2104,7 +2104,7 @@ Sprite_LumberjacksTrampoline:
 ; $0340C6-$0340CA JUMP LOCATION
 Sprite_FortuneTellerTrampoline:
 {
-    JSL Sprite_FortuneTellerLong
+    JSL.l Sprite_FortuneTellerLong
     
     RTS
 }
@@ -2114,7 +2114,7 @@ Sprite_FortuneTellerTrampoline:
 ; $0340CB-$0340CF JUMP LOCATION
 Sprite_MazeGameLadyTrampoline:
 {
-    JSL Sprite_MazeGameLadyLong
+    JSL.l Sprite_MazeGameLadyLong
     
     RTS
 }
@@ -2124,7 +2124,7 @@ Sprite_MazeGameLadyTrampoline:
 ; $0340D0-$0340D4 JUMP LOCATION
 Sprite_MazeGameGuyTrampoline:
 {
-    JSL Sprite_MazeGameGuyLong
+    JSL.l Sprite_MazeGameGuyLong
     
     RTS
 }
@@ -2134,7 +2134,7 @@ Sprite_MazeGameGuyTrampoline:
 ; $0340D5-$0340D9 JUMP LOCATION
 Sprite_TalkingTreeTrampoline:
 {
-    JSL Sprite_TalkingTreeLong
+    JSL.l Sprite_TalkingTreeLong
     
     RTS
 }
@@ -2183,12 +2183,12 @@ incsrc "sprite_buzzblob.asm"
 Sprite_WallInducedSpeedInversion:
 {
     LDA.w $0E70, X : AND.b #$03 : BEQ .no_horiz_collision
-        JSR Sprite_InvertHorizSpeed
+        JSR.w Sprite_InvertHorizSpeed
     
     .no_horiz_collision
     
     LDA.w $0E70, X : AND.b #$0C : BEQ .no_vert_collision
-        JSR Sprite_InvertVertSpeed
+        JSR.w Sprite_InvertVertSpeed
     
     .no_vert_collision
     
@@ -2200,7 +2200,7 @@ Sprite_WallInducedSpeedInversion:
 ; $0359D5-$0359E1 LOCAL JUMP LOCATION
 Sprite_Invert_XY_Speeds:
 {
-    JSR Sprite_InvertVertSpeed
+    JSR.w Sprite_InvertVertSpeed
 
     ; Bleeds into the next function.
 }
@@ -2882,7 +2882,7 @@ Sprite_PrepAndDrawSingleLargeLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_PrepAndDrawSingleLarge
+    JSR.w Sprite_PrepAndDrawSingleLarge
     
     PLB
     
@@ -2896,7 +2896,7 @@ Sprite_PrepAndDrawSingleSmallLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_PrepAndDrawSingleSmall
+    JSR.w Sprite_PrepAndDrawSingleSmall
     
     PLB
     
@@ -2916,7 +2916,7 @@ UNREACHABLE_06DC00:
 ; $035C10-$035C4B LOCAL JUMP LOCATION
 Sprite_PrepAndDrawSingleLarge:
 {
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     ; $035C13 ALTERNATE ENTRY POINT
     .just_draw
@@ -2963,7 +2963,7 @@ Sprite_DrawShadowLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_DrawShadow
+    JSR.w Sprite_DrawShadow
     
     PLB
     
@@ -2975,7 +2975,7 @@ Sprite_DrawShadowLong_variable:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_DrawShadow_variable
+    JSR.w Sprite_DrawShadow_variable
     
     PLB
     
@@ -3055,7 +3055,7 @@ Sprite_DrawShadow:
 ; $035CEF-$035D37 LOCAL JUMP LOCATION
 Sprite_PrepAndDrawSingleSmall:
 {
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     LDA.b $00 : STA ($90), Y
     
@@ -3098,7 +3098,7 @@ DashKey_Draw:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_DrawKey
+    JSR.w Sprite_DrawKey
     
     PLB
     
@@ -3111,7 +3111,7 @@ DashKey_Draw:
 Sprite_DrawKey:
 Sprite_DrawThinAndTall:
 {
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     LDA.b $00  : STA ($90), Y
     LDY.b #$04 : STA ($90), Y
@@ -3254,13 +3254,13 @@ SpriteHeld_Main:
     
     LDA.b $EE : AND.b #$01 : STA.w $0F20, X
     
-    JSR SpriteHeld_ThrowQuery
-    JSR Sprite_Get_16_bit_Coords
+    JSR.w SpriteHeld_ThrowQuery
+    JSR.w Sprite_Get_16_bit_Coords
     
     LDA.l $7FFA2C, X : CMP.b #$0B : BEQ .frozen_sprite
         ; TODO: Presumably.... just does the drawing of the sprite? Find out
         ; what implications this has.
-        JSR SpriteActive_Main
+        JSR.w SpriteActive_Main
         
         LDA.w $0F10, X : DEC A : BNE .dont_leap_from_player_grip
             ; UNUSED: The code bracketed by the above branch label.
@@ -3336,7 +3336,7 @@ SpriteHeld_ThrowQuery:
         
         .coerced_throw
         
-        LDA.b #$13 : JSL Sound_SetSfx3PanLong
+        LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
         
         LDA.b #$02 : STA.w $0309
         
@@ -3358,11 +3358,11 @@ SpriteHeld_ThrowQuery:
         
         LDA.b $2F : LSR A : TAY
         
-        LDA .x_speeds, Y : STA.w $0D50, X
+        LDA.w .x_speeds, Y : STA.w $0D50, X
         
-        LDA .y_speeds, Y : STA.w $0D40, X
+        LDA.w .y_speeds, Y : STA.w $0D40, X
         
-        LDA .z_speeds, Y : STA.w $0F80, X
+        LDA.w .z_speeds, Y : STA.w $0F80, X
         
         LDA.b #$00 : STA.w $0F10, X
         
@@ -3378,7 +3378,7 @@ ThrownSprite_TileAndPeerInteractionLong:
 {
     PHB : PHK : PLB
     
-    JSR ThrownSprite_TileAndPeerInteraction
+    JSR.w ThrownSprite_TileAndPeerInteraction
     
     PLB
     
@@ -3400,22 +3400,22 @@ SpriteStunned_Main:
         
         .recoil_timer_ticking
         
-        JSR Sprite_Zero_XY_Velocity
+        JSR.w Sprite_Zero_XY_Velocity
     
     .not_recoiling
     
     ; Even though the sprite is stunned, there is still a 32 frame delay
     ; before it can be damaged.
     LDA.w $0DF0, X : CMP.b #$20 : BCS .delay_vulnerability
-        JSR Sprite_CheckDamageFromPlayer
+        JSR.w Sprite_CheckDamageFromPlayer
     
     .delay_vulnerability
     
-    JSR Sprite_CheckIfRecoiling
-    JSR Sprite_Move
+    JSR.w Sprite_CheckIfRecoiling
+    JSR.w Sprite_Move
     
     LDA.w $0E90, X : BNE ThrownSprite_skip_tile_collision_logic
-        JSR Sprite_CheckTileCollision
+        JSR.w Sprite_CheckTileCollision
         
         LDA.w $0DD0, X : BEQ Sprite_ChangeOAMAllotmentTo4_exit
             ; Bleeds into the next function.
@@ -3429,7 +3429,7 @@ ThrownSprite_TileAndPeerInteraction:
                 
         LDA.w $0DD0, X : CMP.b #$0B : BNE .not_frozen
             ; Play clink sound because frozen sprite hit a wall.
-            LDA.b #$05 : JSL Sound_SetSfx2PanLong
+            LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
 
         .not_frozen
     .no_tile_collision
@@ -3458,7 +3458,7 @@ ThrownSprite_PeerInteraction:
     
     .BRANCH_ZETA
     
-    JSR Sprite_MoveAltitude
+    JSR.w Sprite_MoveAltitude
     
     ; Applies gravity to the sprite
     DEC.w $0F80, X : DEC.w $0F80, X
@@ -3515,7 +3515,7 @@ Sprite_SetToFalling:
     
     STZ.w $012E
     
-    LDA.b #$20 : JSL Sound_SetSfx2PanLong
+    LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
     
     RTS
 }
@@ -3527,8 +3527,8 @@ ThrownSprite_PeerInteraction_not_pit_or_too_high:
         LDA.w $0F80, X : STZ.w $0F80, X : CMP.b #$F0 : BPL ThrownSprite_PeerInteraction_plop_in_water_continue
             LDA.b #$EC
             
-            JSL Sprite_SpawnDynamically : BMI ThrownSprite_PeerInteraction_plop_in_water_continue
-                JSL Sprite_SetSpawnedCoords
+            JSL.l Sprite_SpawnDynamically : BMI ThrownSprite_PeerInteraction_plop_in_water_continue
+                JSL.l Sprite_SetSpawnedCoords
                 
                 PHX
                 
@@ -3544,11 +3544,11 @@ ThrownSprite_PeerInteraction_not_pit_or_too_high:
     
     CMP.b #$08 : BNE ThrownSprite_PeerInteraction_plop_in_water_continue
         LDA.w $0E20, X : CMP.b #$D2 : BEQ .is_flopping_fish
-            JSL GetRandomInt : LSR A : BCC .anospawn_leaping_fish
+            JSL.l GetRandomInt : LSR A : BCC .anospawn_leaping_fish
         
         .is_flopping_fish
         
-        JSR Fish_SpawnLeapingFish
+        JSR.w Fish_SpawnLeapingFish
         
         .anospawn_leaping_fish
 
@@ -3558,7 +3558,7 @@ ThrownSprite_PeerInteraction_not_pit_or_too_high:
 ; $0360F6-$036163 JUMP LOCATION
 ThrownSprite_PeerInteraction_plop_in_water:
 {
-    JSL Sound_SetSfxPan : ORA.b #$28 : STA.w $012E
+    JSL.l Sound_SetSfxPan : ORA.b #$28 : STA.w $012E
     
     LDA.b #$03 : STA.w $0DD0, X
     
@@ -3566,7 +3566,7 @@ ThrownSprite_PeerInteraction_plop_in_water:
     
     STZ.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$01
+    JSL.l GetRandomInt : AND.b #$01
     
     JMP.w Sprite_ChangeOAMAllotmentTo4
 
@@ -3604,10 +3604,10 @@ ThrownSprite_PeerInteraction_plop_in_water:
     
     .BRANCH_TAU
     
-    JSR Sprite_CheckIfLifted
+    JSR.w Sprite_CheckIfLifted
     
     LDA.w $0E20, X : CMP.b #$4A : BEQ .BRANCH_UPSILON
-        JSR ThrownSprite_CheckDamageToPeers
+        JSR.w ThrownSprite_CheckDamageToPeers
     
     .BRANCH_UPSILON
     
@@ -3619,10 +3619,10 @@ ThrownSprite_PeerInteraction_plop_in_water:
 ; $036164-$036171 LOCAL JUMP LOCATION
 ThrowableScenery_InteractWithSpritesAndTiles:
 {
-    JSR Sprite_Move
+    JSR.w Sprite_Move
     
     LDA.w $0E90, X : BNE .skip_tile_collision
-        JSR Sprite_CheckTileCollision
+        JSR.w Sprite_CheckTileCollision
     
     .skip_tile_collision
     
@@ -3650,7 +3650,7 @@ ThrownSprite_CheckDamageToPeers:
                             TYA : EOR.b $1A : AND.b #$03
                             ORA.w $0BA0, Y : ORA.w $0EF0, Y : BNE .cant_damage
                                 LDA.w $0F20, X : CMP.w $0F20, Y : BNE .cant_damage
-                                    JSR ThrownSprite_CheckDamageToSinglePeer
+                                    JSR.w ThrownSprite_CheckDamageToSinglePeer
                     
                     .cant_damage
                 .cant_damage_self
@@ -3683,13 +3683,13 @@ ThrownSprite_CheckDamageToSinglePeer:
     
     TYX
     
-    JSR Sprite_SetupHitBox
+    JSR.w Sprite_SetupHitBox
     
     PLX
     
-    JSR Utility_CheckIfHitBoxesOverlap : BCC ThrownSprite_CheckDamageToPeers_exit
+    JSR.w Utility_CheckIfHitBoxesOverlap : BCC ThrownSprite_CheckDamageToPeers_exit
         LDA.w $0E20, Y : CMP.b #$3F : BNE .notTutorialSoldier
-            JSL Sprite_PlaceRupulseSpark
+            JSL.l Sprite_PlaceRupulseSpark
             
             BRA Sprite_ApplyRicochet
         
@@ -3712,7 +3712,7 @@ ThrownSprite_CheckDamageToSinglePeer:
         
         PHY
         
-        JSL Ancilla_CheckSpriteDamage_preset_class
+        JSL.l Ancilla_CheckSpriteDamage_preset_class
         
         PLY : PLX
         
@@ -3730,8 +3730,8 @@ ThrownSprite_CheckDamageToSinglePeer_BRANCH_BETA:
 ; $036229-$03622E LOCAL JUMP LOCATION
 Sprite_ApplyRicochet:
 {
-    JSR Sprite_Invert_XY_Speeds
-    JSR Sprite_Halve_XY_Speeds
+    JSR.w Sprite_Invert_XY_Speeds
+    JSR.w Sprite_Halve_XY_Speeds
         
     ; Bleeds into the next function.
 }
@@ -3753,7 +3753,7 @@ ThrowableScenery_TransmuteToDebris:
         
         STA.w $0B9C
         
-        JSR Sprite_SpawnSecret
+        JSR.w Sprite_SpawnSecret
         
         STZ.w $0B9C
         
@@ -3768,7 +3768,7 @@ ThrowableScenery_TransmuteToDebris:
         
     STZ.w $012E
         
-    LDA.w ThrownItemSFX, Y : JSL Sound_SetSfx2PanLong
+    LDA.w ThrownItemSFX, Y : JSL.l Sound_SetSfx2PanLong
 
     ; Bleeds into the next function.
 }
@@ -3837,8 +3837,8 @@ ThrownItemSFX:
 ; $036286-$0362A6 LOCAL JUMP LOCATION
 Fish_SpawnLeapingFish:
 {
-    LDA.b #$D2 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
-        JSL Sprite_SetSpawnedCoords
+    LDA.b #$D2 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$02 : STA.w $0D80, Y
         
@@ -3876,7 +3876,7 @@ Pool_SpriteModule_Frozen:
 ; $0362B6-$0362B9 LOCAL JUMP LOCATION
 HandleFreezeAndStunTimer:
 {
-    JSL Sprite_DrawRippleIfInWater
+    JSL.l Sprite_DrawRippleIfInWater
 
     ; Bleeds into the next function.
 }
@@ -3884,7 +3884,7 @@ HandleFreezeAndStunTimer:
 ; $0362BA-$036342 LOCAL JUMP LOCATION
 SpriteModule_Frozen:
 {
-    JSR SpriteActive_Main
+    JSR.w SpriteActive_Main
     
     LDA.l $7FFA3C, X : BEQ .BRANCH_ALPHA
         LDA.w $0DF0, X : CMP.b #$20 : BCS .BRANCH_BETA
@@ -3896,17 +3896,17 @@ SpriteModule_Frozen:
         LDA.w $0DF0, X : LSR #4 : TAY
         
         TXA : ASL #4 : EOR.b $1A : ORA.b $11 : AND.w Pool_SpriteModule_Frozen_sparkle_mask, Y : BNE .BRANCH_GAMMA
-            JSL GetRandomInt : AND.b #$03 : TAY
+            JSL.l GetRandomInt : AND.b #$03 : TAY
             
             LDA.w Pool_SpriteModule_Frozen_sparkle_offset_low, Y : STA.b $00
             LDA.w Pool_SpriteModule_Frozen_sparkle_offset_high, Y : STA.b $01
             
-            JSL GetRandomInt : AND.b #$03 : TAY
+            JSL.l GetRandomInt : AND.b #$03 : TAY
             
             LDA.w Pool_SpriteModule_Frozen_sparkle_offset_low, Y : STA.b $02
             LDA.w Pool_SpriteModule_Frozen_sparkle_offset_high, Y : STA.b $03
             
-            JSL Sprite_SpawnSimpleSparkleGarnish
+            JSL.l Sprite_SpawnSimpleSparkleGarnish
         
         .BRANCH_GAMMA
         
@@ -3919,9 +3919,9 @@ SpriteModule_Frozen:
             DEC.w $0B58, X : CMP.b #$38 : BCS .BRANCH_DELTA
                 AND.b #$01 : TAY
                 
-                LDA .wiggle_x_speeds, Y : STA.w $0D50, X
+                LDA.w .wiggle_x_speeds, Y : STA.w $0D50, X
                 
-                JSR Sprite_MoveHoriz
+                JSR.w Sprite_MoveHoriz
     
     .BRANCH_DELTA
     
@@ -4014,7 +4014,7 @@ SpritePoof_Main:
     
     .just_draw
     
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     LDA.w $0DF0, X : LSR A : AND.b #$FC : STA.b $00
     
@@ -4030,14 +4030,14 @@ SpritePoof_Main:
         
         LDA.w $0FA8 : CLC : ADC .x_offsets, X        : STA ($90), Y
         LDA.w $0FA9 : CLC : ADC .y_offsets, X  : INY : STA ($90), Y
-        LDA .chr, X                            : INY : STA ($90), Y
-        LDA .properties, X                     : INY : STA ($90), Y
+        LDA.w .chr, X                            : INY : STA ($90), Y
+        LDA.w .properties, X                     : INY : STA ($90), Y
         
         PHY
         
         TYA : LSR #2 : TAY
         
-        LDA .oam_sizes, X : STA ($92), Y
+        LDA.w .oam_sizes, X : STA ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_oam_entry
@@ -4055,7 +4055,7 @@ SpritePoof_Main:
 ; $036416-$036419 LONG JUMP LOCATION
 Sprite_PrepOamCoordLong:
 {
-    JSR Sprite_PrepOamCoordSafeWrapper
+    JSR.w Sprite_PrepOamCoordSafeWrapper
     
     RTL
 }
@@ -4070,7 +4070,7 @@ Sprite_PrepOamCoordLong:
 ; $03641A-$03641D LOCAL JUMP LOCATION
 Sprite_PrepOamCoordSafeWrapper:
 {
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     RTS
 }
@@ -4144,7 +4144,7 @@ Sprite_PrepOamCoord:
     INC.w $0F00, X
     
     LDA.w $0CAA, X : BMI .dont_kill
-        JSL Sprite_SelfTerminate
+        JSL.l Sprite_SelfTerminate
     
     .dont_kill
     
@@ -4162,7 +4162,7 @@ Sprite_CheckTileCollisionLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_CheckTileCollision
+    JSR.w Sprite_CheckTileCollision
     
     PLB
     
@@ -4182,7 +4182,7 @@ Sprite_CheckTileCollision_restore_layer_property:
 }
 
 ; $0364A7-$0364AB BRANCH LOCATION
-Sprite_CheckTileCollision_restrict_to_same_layer
+Sprite_CheckTileCollision_restrict_to_same_layer:
 {
     JMP Sprite_CheckTileCollisionSingleLayer
 
@@ -4200,12 +4200,12 @@ Sprite_CheckTileCollision:
             
             LDA.b #$01 : STA.w $0F20, X
             
-            JSR Sprite_CheckTileCollisionSingleLayer
+            JSR.w Sprite_CheckTileCollisionSingleLayer
             
             LDA.w $046C : CMP.b #$04 : BEQ .restore_layer_property
                 STZ.w $0F20, X
                 
-                JSR Sprite_CheckTileCollisionSingleLayer
+                JSR.w Sprite_CheckTileCollisionSingleLayer
                 
                 LDA.w $0FA5 : STA.l $7FFABC, X
                 
@@ -4348,7 +4348,7 @@ Sprite_CheckTileCollisionSingleLayer:
             
             TAY
             
-            JSL Sprite_ApplyConveyorAdjustment
+            JSL.l Sprite_ApplyConveyorAdjustment
             
             RTS
     
@@ -4379,8 +4379,8 @@ Sprite_CheckForTileInDirection_horizontal:
                 ; slow. Mainly, it's calling the same code 3 times to do 3
                 ; additions, so why not just adjust the amounts in the table by
                 ; a factor of 3?
-                JSR .add_offset
-                JSR .add_offset
+                JSR.w .add_offset
+                JSR.w .add_offset
             
             .add_offset
             
@@ -4405,8 +4405,8 @@ Sprite_CheckForTileInDirection_vertical:
                 ; slow. Mainly, it's calling the same code 3 times to do 3
                 ; additions, so why not just adjust the amounts in the table by
                 ; a factor of 3?
-                JSR .add_offset
-                JSR .add_offset
+                JSR.w .add_offset
+                JSR.w .add_offset
             
             ; $036610 ALTERNATE ENTRY POINT
             .add_offset
@@ -4547,7 +4547,7 @@ Sprite_CheckTileProperty:
     
     .inbounds
     
-    JSR Sprite_GetTileAttrLocal
+    JSR.w Sprite_GetTileAttrLocal
     
     TAY
     
@@ -4568,7 +4568,7 @@ Sprite_CheckTileProperty:
                 
                 CMP.b #$10 : BCC .not_sloped_tile
                 CMP.b #$14 : BCS .not_sloped_tile
-                    JSR Entity_CheckSlopedTileCollision
+                    JSR.w Entity_CheckSlopedTileCollision
                     JMP.w .load_tile_prop_exit
                 
                 .not_sloped_tile
@@ -4633,7 +4633,7 @@ Sprite_CheckTileProperty:
         
         CMP.b #$10 : BCC .BRANCH_RHO
         CMP.b #$14 : BCS .BRANCH_RHO
-            JSR Entity_CheckSlopedTileCollision
+            JSR.w Entity_CheckSlopedTileCollision
             
             BRA .load_tile_prop_exit
         
@@ -4642,7 +4642,7 @@ Sprite_CheckTileProperty:
         CMP.b #$44 : BNE .not_spike_tile
             LDA.w $0EA0, X : BEQ .BRANCH_PI
                 LDA.w $0CE2, X : BMI .BRANCH_UPSILON
-                    LDA.b #$04 : JSL Ancilla_CheckSpriteDamage.preset_class
+                    LDA.b #$04 : JSL.l Ancilla_CheckSpriteDamage_preset_class
                     
                     LDA.w $0EF0, X : BEQ .BRANCH_UPSILON
                         LDA.b #$99 : STA.w $0EF0, X
@@ -4710,7 +4710,7 @@ Entity_GetTileAttr:
 {
     PHB : PHK : PLB
     
-    JSR Entity_GetTileAttrLocal
+    JSR.w Entity_GetTileAttrLocal
     
     PLB
     
@@ -4762,7 +4762,7 @@ Entity_GetTileAttrLocal:
     
     PHX : PHY
     
-    JSL Overworld_GetTileAttrAtLocation : SEP #$30 : STA.w $0FA5
+    JSL.l Overworld_GetTileAttrAtLocation : SEP #$30 : STA.w $0FA5
     
     PLY : PLX
     
@@ -4786,7 +4786,7 @@ Entity_CheckSlopedTileCollisionLong:
 {
     PHB : PHK : PLB
     
-    JSR Entity_CheckSlopedTileCollision
+    JSR.w Entity_CheckSlopedTileCollision
     
     PLB
     
@@ -4821,7 +4821,7 @@ Entity_CheckSlopedTileCollision:
     
     .alpha
     
-    LDA .subtile_boundaries, Y : CMP $04
+    LDA.w .subtile_boundaries, Y : CMP $04
     
     .beta
     
@@ -4835,7 +4835,7 @@ Entity_CheckSlopedTileCollision:
 ; $03692C-$036931 LOCAL JUMP LOCATION
 Sprite_Move:
 {
-    JSR Sprite_MoveHoriz
+    JSR.w Sprite_MoveHoriz
     JMP Sprite_MoveVert
 }
 
@@ -4845,7 +4845,7 @@ Sprite_MoveHoriz:
     ; Do X position adjustment.
     TXA : CLC : ADC.b #$10 : TAX
       
-    JSR Sprite_MoveVert
+    JSR.w Sprite_MoveVert
     
     ; Reset sprite index so that we can do the Y position adjustment next.
     LDX.w $0FA0
@@ -4911,7 +4911,7 @@ Sprite_ProjectSpeedTowardsPlayer:
     STA.b $01 : CMP.b #$00 : BEQ Sprite_ProjectSpeedTowardsPlayer_return
         PHX : PHY
         
-        JSR Sprite_IsBelowPlayer : STY.b $02
+        JSR.w Sprite_IsBelowPlayer : STY.b $02
         
         ; Difference in the low Y coordinate bytes.
         LDA.b $0E : BPL .positive_1
@@ -4924,7 +4924,7 @@ Sprite_ProjectSpeedTowardsPlayer:
         ; $0C = |$0E| = |dY|
         STA.b $0C
         
-        JSR Sprite_IsToRightOfPlayer : STY.b $03
+        JSR.w Sprite_IsToRightOfPlayer : STY.b $03
         
         ; The difference in the low X coordinate bytes.
         LDA.b $0F : BPL .positive_2
@@ -5002,7 +5002,7 @@ Sprite_ProjectSpeedTowardsPlayer:
 ; $036A04-$036A11 LOCAL JUMP LOCATION
 Sprite_ApplySpeedTowardsPlayer:
 {
-    JSR Sprite_ProjectSpeedTowardsPlayer
+    JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     LDA.b $00 : STA.w $0D40, X
     LDA.b $01 : STA.w $0D50, X
@@ -5017,7 +5017,7 @@ Sprite_ApplySpeedTowardsPlayerLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_ApplySpeedTowardsPlayer
+    JSR.w Sprite_ApplySpeedTowardsPlayer
     
     PLB
     
@@ -5031,7 +5031,7 @@ Sprite_ProjectSpeedTowardsPlayerLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_ProjectSpeedTowardsPlayer
+    JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     PLB
     
@@ -5045,7 +5045,7 @@ Sprite_ProjectSpeedTowardsEntityLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_ProjectSpeedTowardsEntity
+    JSR.w Sprite_ProjectSpeedTowardsEntity
     
     PLB
     
@@ -5069,7 +5069,7 @@ Sprite_ProjectSpeedTowardsEntity:
     
     PHX : PHY
     
-    JSR Sprite_IsBelowEntity : STY.b $02
+    JSR.w Sprite_IsBelowEntity : STY.b $02
     
     LDA.b $0E : BPL .positive_1
         EOR.b #$FF : INC A
@@ -5078,7 +5078,7 @@ Sprite_ProjectSpeedTowardsEntity:
     
     STA.b $0C
     
-    JSR Sprite_IsToRightOfEntity : STY.b $03
+    JSR.w Sprite_IsToRightOfEntity : STY.b $03
     
     LDA.b $0F : BPL .positive_2
         EOR.b #$FF : INC A
@@ -5153,7 +5153,7 @@ Sprite_ProjectSpeedTowardsEntity:
 ; $036AA0-$036AA3 LONG JUMP LOCATION
 Sprite_DirectionToFacePlayerLong:
 {
-    JSR Sprite_DirectionToFacePlayer
+    JSR.w Sprite_DirectionToFacePlayer
     
     RTL
 }
@@ -5165,8 +5165,8 @@ Sprite_DirectionToFacePlayerLong:
 ;         $0F is low byte of player_x_pos - sprite_x_pos
 Sprite_DirectionToFacePlayer:
 {
-    JSR Sprite_IsToRightOfPlayer : STY.b $00
-    JSR Sprite_IsBelowPlayer     : STY.b $01
+    JSR.w Sprite_IsToRightOfPlayer : STY.b $00
+    JSR.w Sprite_IsBelowPlayer     : STY.b $01
     
     LDA.b $0E : BPL .positive_1
         EOR.b #$FF : INC A
@@ -5198,7 +5198,7 @@ Sprite_DirectionToFacePlayer:
 ; $036ACD-$036AD0 LONG JUMP LOCATION
 Sprite_IsToRightOfPlayerLong:
 {
-    JSR Sprite_IsToRightOfPlayer
+    JSR.w Sprite_IsToRightOfPlayer
     
     RTL
 }
@@ -5224,7 +5224,7 @@ Sprite_IsToRightOfPlayer:
 ; $036AE4-$036AE7 LONG JUMP LOCATION
 Sprite_IsBelowPlayerLong:
 {
-    JSR Sprite_IsBelowPlayer
+    JSR.w Sprite_IsBelowPlayer
     
     RTL
 }
@@ -5299,8 +5299,8 @@ Sprite_DirectionToFaceEntity:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_IsToRightOfEntity : STY.b $00
-    JSR Sprite_IsBelowEntity     : STY.b $01
+    JSR.w Sprite_IsToRightOfEntity : STY.b $00
+    JSR.w Sprite_IsBelowEntity     : STY.b $01
     
     LDA.b $0E : BPL .positive_1
         EOR.b #$FF : INC A
@@ -5371,12 +5371,12 @@ Guard_ParrySwordAttacks_main:
             
             LDA.w $037A : AND.b #$10 : BNE .BRANCH_GAMMA
                 LDA.b $44 : CMP.b #$80 : BEQ .BRANCH_GAMMA
-                    JSR Player_SetupActionHitBox
+                    JSR.w Player_SetupActionHitBox
                     
                     LDA.b $3C : BMI .BRANCH_DELTA
-                        JSR Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_DELTA
+                        JSR.w Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_DELTA
                             LDA.w $0E20, X : CMP.b #$6A : BEQ .BRANCH_EPSILON
-                                JSL GetRandomInt : AND.b #$07 : TAY
+                                JSL.l GetRandomInt : AND.b #$07 : TAY
                                 
                                 ; $036B66 IN ROM
                                 LDA Pool_Guard_ParrySwordAttacks_main_recoilTimes, Y 
@@ -5384,7 +5384,7 @@ Guard_ParrySwordAttacks_main:
                             
                             .BRANCH_EPSILON
                             
-                            JSL GetRandomInt : AND.b #$07 : TAY
+                            JSL.l GetRandomInt : AND.b #$07 : TAY
                             
                             LDA.w Pool_Guard_ParrySwordAttacks_main_recoil_timer_link, Y : STA.b $46
                             
@@ -5395,7 +5395,7 @@ Guard_ParrySwordAttacks_main:
                             
                             .BRANCH_ZETA
                             
-                            JSR Sprite_ProjectSpeedTowardsPlayer
+                            JSR.w Sprite_ProjectSpeedTowardsPlayer
                             
                             LDA.b $00 : EOR.b #$FF : INC A : STA.w $0F30, X
                             LDA.b $01 : EOR.b #$FF : INC A : STA.w $0F40, X
@@ -5407,8 +5407,8 @@ Guard_ParrySwordAttacks_main:
                             
                             .BRANCH_THETA
                             
-                            JSR Sprite_ApplyRecoilToPlayer
-                            JSR Player_PlaceRepulseSpark
+                            JSR.w Sprite_ApplyRecoilToPlayer
+                            JSR.w Player_PlaceRepulseSpark
                             
                             LDA.b #$90 : STA.b $47
     
@@ -5418,9 +5418,9 @@ Guard_ParrySwordAttacks_main:
     
     .BRANCH_DELTA
     
-    JSR Sprite_SetupHitBox
+    JSR.w Sprite_SetupHitBox
     
-    JSR Utility_CheckIfHitBoxesOverlap : BCS .BRANCH_IOTA
+    JSR.w Utility_CheckIfHitBoxesOverlap : BCS .BRANCH_IOTA
         .BRANCH_GAMMA
         
         JML Sprite_StaggeredCheckDamageToPlayerPlusRecoil
@@ -5474,7 +5474,7 @@ Sprite_AttemptZapDamage:
     
     .BRANCH_OMICRON
     
-    JSR Sprite_ProjectSpeedTowardsPlayer
+    JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     LDA.b $00 : EOR.b #$FF : INC A : STA.w $0F30, X
     LDA.b $01 : EOR.b #$FF : INC A : STA.w $0F40, X
@@ -5498,7 +5498,7 @@ Medallion_CheckSpriteDamage:
     
         LDA.w $0DD0, X : CMP.b #$09 : BCC .inactive_sprite
             LDA.w $0BA0, X : ORA.w $0F00, X : BNE .inactive_sprite
-                LDA.w $0FB5 : JSL Ancilla_CheckSpriteDamage.override
+                LDA.w $0FB5 : JSL.l Ancilla_CheckSpriteDamage_override
         
         .inactive_sprite
     DEX : BPL .next_sprite
@@ -5632,7 +5632,7 @@ Ancilla_CheckSpriteDamage:
     
     .boomerang_or_hookshot_class
     
-    JSL .apply_damage
+    JSL.l .apply_damage
     
     LDA.w $0CE2, X : BNE .dont_spawn_repulse_spark
         LDA.w $0FAC : BNE .dont_spawn_repulse_spark
@@ -5648,7 +5648,7 @@ Ancilla_CheckSpriteDamage:
             
             STZ.w $012E
             
-            LDA.b #$05 : JSL Sound_SetSfx2PanLong
+            LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
 
     .dont_spawn_repulse_spark
 
@@ -5792,12 +5792,12 @@ Sprite_ApplyCalculatedDamage:
         
         STA.w $0E20, X
         
-        JSL Sprite_LoadProperties
-        JSL Sprite_SpawnPoofGarnish
+        JSL.l Sprite_LoadProperties
+        JSL.l Sprite_SpawnPoofGarnish
         
         STZ.w $012F
         
-        LDA.b #$32 : JSL Sound_SetSfx3PanLong
+        LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
         
         JMP.w Sprite_Clear_queued_damage
     
@@ -5858,7 +5858,7 @@ Sprite_ApplyCalculatedDamage:
             
             LDA.b #$0F : STA.w $0DF0, X
             
-            LDA.b #$28 : JSL Sound_SetSfx2PanLong
+            LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
             
             RTL
     
@@ -5869,10 +5869,10 @@ Sprite_ApplyCalculatedDamage:
         ; $036E60 ALTERNATE ENTRY POINT
         .SpriteArrow_Break
         
-        LDA.b #$05 : JSL Sound_SetSfx2PanLong
+        LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
         
-        JSR Sprite_ScheduleForBreakage
-        JSL Sprite_PlaceRupulseSpark
+        JSR.w Sprite_ScheduleForBreakage
+        JSL.l Sprite_PlaceRupulseSpark
         
         RTL
     
@@ -5898,7 +5898,7 @@ Sprite_ApplyCalculatedDamage:
     .minor_damage_sound
     .boss_damage_sound
     
-    STY.b $01 : JSL Sound_SetSfxPan : ORA.b $01 : STA.w $012F
+    STY.b $01 : JSL.l Sound_SetSfxPan : ORA.b $01 : STA.w $012F
     
     .no_sound_effect
     
@@ -5943,7 +5943,7 @@ Sprite_HandleSpecialHits:
         LDA.w $0CE2, X : CMP.b #$FD : BNE .not_burn_damage
             STZ.w $0CE2, X
             
-            LDA.b #$09 : JSL Sound_SetSfx3PanLong
+            LDA.b #$09 : JSL.l Sound_SetSfx3PanLong
             
             LDA.b #$07 : STA.w $0DD0, X
             
@@ -5979,13 +5979,13 @@ Sprite_HandleSpecialHits:
                 
                 ASL.w $0BE0, X : LSR.w $0BE0, X
                 
-                LDA.b #$0F : JSL Sound_SetSfx2PanLong
+                LDA.b #$0F : JSL.l Sound_SetSfx2PanLong
                 
                 LDA.b #$18 : STA.w $0F80, X
                 
                 ASL.w $0CD2, X : LSR.w $0CD2, X
                 
-                JSR Sprite_Zero_XY_Velocity
+                JSR.w Sprite_Zero_XY_Velocity
             
             .BRANCH_DELTA
             
@@ -5996,7 +5996,7 @@ Sprite_HandleSpecialHits:
             
             ; BUG: (unconfirmed) This seems destined for failure, unless I'm
             ; missing something.
-            LDA .stun_timer_amounts, Y : STA.w $0B58, X
+            LDA.w .stun_timer_amounts, Y : STA.w $0B58, X
             
             LDA.w $0E20, X : CMP.b #$23 : BNE .BRANCH_EPSILON
             
@@ -6042,7 +6042,7 @@ Sprite_HandleSpecialHits:
     .BRANCH_GAMMA
     
     LDY.w $0E20, X : CPY.b #$1B : BEQ .BRANCH_EPSILON
-        LDA.b #$09 : JSL Sound_SetSfx3PanLong
+        LDA.b #$09 : JSL.l Sound_SetSfx3PanLong
     
     .BRANCH_EPSILON
     
@@ -6095,7 +6095,7 @@ Sprite_ScheduleForDeath:
 Sprite_AttemptKillingOfKin:
 {
     CMP.b #$92 : BNE .BRANCH_LAMBDA
-        JSL Sprite_SchedulePeersForDeath
+        JSL.l Sprite_SchedulePeersForDeath
         
         LDA.b #$FF : STA.w $0DF0, X
         
@@ -6170,7 +6170,7 @@ Sprite_AttemptKillingOfKin:
             
             ; Check if it's Kholdstare.
             LDA.w $0E20, X : CMP.b #$A2 : BEQ .BRANCH_OMEGA
-                JSL Sprite_SchedulePeersForDeath
+                JSL.l Sprite_SchedulePeersForDeath
             
             .BRANCH_OMEGA
             
@@ -6213,7 +6213,7 @@ Sprite_BossScreamAndDisableMenu:
 
     STZ.w $012F
     
-    LDA.b #$22 : JSL Sound_SetSfx3PanLong
+    LDA.b #$22 : JSL.l Sound_SetSfx3PanLong
     
     RTS
 }
@@ -6269,7 +6269,7 @@ Trinexx_ScheduleMainHeadForDeath:
 ; $0370CE-$03710A JUMP LOCATION
 Agahnim_ScheduleForDeath:
 {
-    JSL Sprite_SchedulePeersForDeath
+    JSL.l Sprite_SchedulePeersForDeath
     
     LDA.b #$09 : STA.w $0DD0, X
                  STA.w $0BA0, X
@@ -6318,7 +6318,7 @@ Sprite_CheckDamageToPlayerLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_CheckDamageToPlayer
+    JSR.w Sprite_CheckDamageToPlayer
     
     PLB
     
@@ -6332,7 +6332,7 @@ Sprite_CheckDamageToPlayerSameLayerLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_CheckDamageToPlayer_same_layer
+    JSR.w Sprite_CheckDamageToPlayer_same_layer
     
     PLB
     
@@ -6346,7 +6346,7 @@ Sprite_CheckDamageToPlayerIgnoreLayerLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_CheckDamageToPlayer_ignore_layer
+    JSR.w Sprite_CheckDamageToPlayer_ignore_layer
     
     PLB
     
@@ -6401,10 +6401,10 @@ Sprite_CheckDamageToPlayer:
                 ; Is the sprite deactivated?
                 LDA.w $0F60, X : BEQ .BRANCH_GAMMA
                     ; Puts Link's X / Y coords into memory.
-                    JSR Player_SetupHitBox_ignoreImmunity
+                    JSR.w Player_SetupHitBox_ignoreImmunity
 
-                    JSR Sprite_SetupHitBox
-                    JSR Utility_CheckIfHitBoxesOverlap
+                    JSR.w Sprite_SetupHitBox
+                    JSR.w Utility_CheckIfHitBoxesOverlap
                     
                     BRA .BRANCH_DELTA
                 
@@ -6442,14 +6442,14 @@ Sprite_CheckDamageToPlayer:
                                             
                                             CMP.w Sprite_ToLink_Directions_opposing2, Y : BNE .BRANCH_ZETA
                                                 LDA.b #$06
-                                                JSL Sound_SetSfx2PanLong
+                                                JSL.l Sound_SetSfx2PanLong
                                                 
-                                                JSL Sprite_PlaceRupulseSpark_coerce
+                                                JSL.l Sprite_PlaceRupulseSpark_coerce
                                                 
                                                 ; Check if it's one of those laser eyes.
                                                 LDA.w $0E20, X : CMP.b #$95 : BNE .not_laser_eye
                                                     LDA.b #$26
-                                                    JSL Sound_SetSfx3PanLong
+                                                    JSL.l Sound_SetSfx3PanLong
         
     .no_damage
     
@@ -6462,7 +6462,7 @@ Sprite_CheckDamageToPlayer:
     .not_laser_eye
     
     CMP.b #$9B : BNE .not_wizzrobe
-        JSR Sprite_Invert_XY_Speeds
+        JSR.w Sprite_Invert_XY_Speeds
         
         LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
         
@@ -6491,7 +6491,7 @@ Sprite_CheckDamageToPlayer:
         
         .octorock_stone
         
-        JSR Sprite_ScheduleForDeath
+        JSR.w Sprite_ScheduleForDeath
         
         .not_octorock_stone
         
@@ -6575,10 +6575,10 @@ Sprite_CheckIfLiftedPermissive:
         LDA.w $02F4 : DEC A : CMP.w $0FA0 : BEQ .player_picks_up_sprite
             ; Set up player's hit box.
             ; $037705 IN ROM
-            JSR Player_SetupHitBox
-            JSR Sprite_SetupHitBox
+            JSR.w Player_SetupHitBox
+            JSR.w Sprite_SetupHitBox
                         
-             JSR Utility_CheckIfHitBoxesOverlap : BCC .return
+             JSR.w Utility_CheckIfHitBoxesOverlap : BCC .return
                 TXA : INC A : STA.w $0314
                               STA.w $0FB2
                             
@@ -6591,7 +6591,7 @@ Sprite_CheckIfLiftedPermissive:
         STZ.w $0E90, X
                 
         ; Play pick up object sound.
-        LDA.b #$1D : JSL Sound_SetSfx2PanLong
+        LDA.b #$1D : JSL.l Sound_SetSfx2PanLong
                 
         LDA.w $0DD0, X : STA.l $7FFA2C, X
                 
@@ -6600,7 +6600,7 @@ Sprite_CheckIfLiftedPermissive:
                 
         LDA.b #$00 : STA.l $7FFA1C, X : STA.l $7FF9C2, X
                 
-        JSR Sprite_DirectionToFacePlayer
+        JSR.w Sprite_DirectionToFacePlayer
                 
         LDA.w Sprite_ToLink_Directions_opposing, Y : STA.b $2F
                 
@@ -6618,7 +6618,7 @@ Sprite_CheckDamageFromPlayerLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_CheckDamageFromPlayer
+    JSR.w Sprite_CheckDamageFromPlayer
     
     TAY
     
@@ -6642,10 +6642,10 @@ Sprite_CheckDamageFromPlayer:
     
     BNE .no_collision
         LDA.b $44 : CMP.b #$80 : BEQ .no_collision
-            JSR Player_SetupActionHitBox
-            JSR Sprite_SetupHitBox
+            JSR.w Player_SetupActionHitBox
+            JSR.w Sprite_SetupHitBox
             
-            JSR Utility_CheckIfHitBoxesOverlap : BCC .no_collision
+            JSR.w Utility_CheckIfHitBoxesOverlap : BCC .no_collision
                 STZ.w $0047
                 
                 LDA.w $037A : AND.b #$10 : BNE Sprite_CheckIfLifted_return
@@ -6671,7 +6671,7 @@ Sprite_CheckDamageFromPlayer:
                                     
                                     LDA.b #$1F
                                     
-                                    JSL Sound_SetSfx2PanLong
+                                    JSL.l Sound_SetSfx2PanLong
                                     
                                     SEC
                                     
@@ -6702,7 +6702,7 @@ Sprite_CheckDamageFromPlayer:
         
         STZ.w $0EF0, X
         
-        JSR Player_PlaceRepulseSpark
+        JSR.w Player_PlaceRepulseSpark
         JMP.w .ExitWith00
 
     .direction_mismatch
@@ -6714,7 +6714,7 @@ Sprite_CheckDamageFromPlayer:
     
     JSR.w Sprite_AttemptZapDamage
     
-    LDA.b #$20 : JSR Sprite_ApplyRecoilToPlayer
+    LDA.b #$20 : JSR.w Sprite_ApplyRecoilToPlayer
     
     LDA.b #$10 : STA.b $47 : STA.b $46
     
@@ -6727,7 +6727,7 @@ Sprite_CheckDamageFromPlayer:
             JSR.w Sprite_RecoilLinkAndTHUMP
             
             ; I don't think this would play a sound at all, actually...
-            LDA.b #$32 : JSL Sound_SetSfxPan : STA.w $012F
+            LDA.b #$32 : JSL.l Sound_SetSfxPan : STA.w $012F
             
             JMP.w .place_tink
     
@@ -6752,7 +6752,7 @@ Sprite_CheckDamageFromPlayer:
                 ; $037395 ALTERNATE ENTRY POINT
                 .certain_bosses
                     
-                LDA.b #$20 : JSR Sprite_ApplyRecoilToPlayer
+                LDA.b #$20 : JSR.w Sprite_ApplyRecoilToPlayer
                     
                 LDA.b #$90 : STA.b $47
                 LDA.b #$10 : STA.b $46
@@ -6777,7 +6777,7 @@ Sprite_CheckDamageFromPlayer:
                 .okay_maybe_you_are
                 
                 LDA.b $47 : BNE .place_tink
-                    LDA.b #$04 : JSR Sprite_ApplyRecoilToPlayer
+                    LDA.b #$04 : JSR.w Sprite_ApplyRecoilToPlayer
                     
                     LDA.b #$10 : STA.b $46
                     LDA.b #$10 : STA.b $47
@@ -6785,7 +6785,7 @@ Sprite_CheckDamageFromPlayer:
                 ; $0373C3 ALTERNATE ENTRY POINT
                 .place_tink
                 
-                JSR Player_PlaceRepulseSpark
+                JSR.w Player_PlaceRepulseSpark
                 
                 SEC
                 
@@ -6804,9 +6804,9 @@ Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
 {
     TXA : EOR.b $1A : LSR A : BCS Sprite_AttemptDamageToPlayerPlusRecoil_dont_damage_player
         JSR.w Sprite_DoHitboxesFast
-        JSR Player_SetupHitBox
+        JSR.w Player_SetupHitBox
         
-        JSR Utility_CheckIfHitBoxesOverlap
+        JSR.w Utility_CheckIfHitBoxesOverlap
         BCS Sprite_AttemptDamageToPlayerPlusRecoil_dont_damage_player
             ; Bleeds into the next function.
 }
@@ -6817,7 +6817,7 @@ Sprite_AttemptDamageToPlayerPlusRecoil:
     LDA.w $031F : ORA.w $037B : BNE .dont_damage_player
         LDA.b #$13 : STA.b $46
                 
-        LDA.b #$18 : JSR Sprite_ApplyRecoilToPlayer
+        LDA.b #$18 : JSR.w Sprite_ApplyRecoilToPlayer
                 
         LDA.b #$01 : STA.b $4D
                 
@@ -6850,7 +6850,7 @@ Sprite_AttemptDamageToPlayerPlusRecoilLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_AttemptDamageToPlayerPlusRecoil
+    JSR.w Sprite_AttemptDamageToPlayerPlusRecoil
     
     PLB
     
@@ -6880,12 +6880,12 @@ Bump_Damage_Table:
 ; $037445-$03745F LOCAL JUMP LOCATION
 Sprite_RecoilLinkAndTHUMP:
 {
-    LDA.b #$30 : JSR Sprite_ApplyRecoilToPlayer
+    LDA.b #$30 : JSR.w Sprite_ApplyRecoilToPlayer
     
     LDA.b #$90 : STA.b $47
     LDA.b #$10 : STA.b $46
     
-    LDA.b #$21 : JSL Sound_SetSfx2PanLong
+    LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$30 : STA.w $0E00, X
     
@@ -7218,7 +7218,7 @@ Player_SetupActionHitBoxLong:
 {
     PHB : PHK : PLB
     
-    JSR Player_SetupActionHitBox
+    JSR.w Player_SetupActionHitBox
     
     PLB
     
@@ -7395,7 +7395,7 @@ Sprite_ApplyRecoilToPlayer:
 {
     PHA
     
-    JSR Sprite_ProjectSpeedTowardsPlayer
+    JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     LDA.b $00 : STA.b $27
     LDA.b $01 : STA.b $28
@@ -7421,7 +7421,7 @@ Player_PlaceRepulseSpark:
         
         LDA.b $EE : STA.w $0B68
         
-        JSL Sound_SetSfxPanWithPlayerCoords
+        JSL.l Sound_SetSfxPanWithPlayerCoords
         
         ; Make "clink" against wall noise.
         ORA.b #$05 : STA.w $012E
@@ -7437,7 +7437,7 @@ Player_PlaceRepulseSpark:
 Sprite_PlaceRupulseSpark:
 {
     LDA.w $0FAC : BNE .dont_place
-        LDA.b #$05 : JSL Sound_SetSfx2PanLong
+        LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
         
         ; NOTE: This entry point ignores whether there is already a repulse
         ; spark active (as there's only one slot for it, this would erase the
@@ -7569,9 +7569,9 @@ Sprite_SetupHitBox:
                                ADC .y_offsets_high, Y : STA.b $0B
         
         ; Box widths.
-        LDA .width, Y : STA.b $06
+        LDA.w .width, Y : STA.b $06
         ; Box heights.
-        LDA .height, Y : STA.b $07
+        LDA.w .height, Y : STA.b $07
         
         PLY
         
@@ -7640,7 +7640,7 @@ Sprite_OAM_AllocateDeferToPlayerLong:
 {
     PHB : PHK : PLB
     
-    JSR OAM_AllocateDeferToPlayer
+    JSR.w OAM_AllocateDeferToPlayer
     
     PLB
     
@@ -7656,12 +7656,12 @@ OAM_AllocateDeferToPlayer:
 {
     ; Is the sprite on the same floor as the player?
     LDA.w $0F20, X : CMP $EE : BNE .return
-    JSR Sprite_IsToRightOfPlayer
+    JSR.w Sprite_IsToRightOfPlayer
     
     ; Proceed only if the difference between the sprite's X coordinate
     ; and player's satisfies : [ -16 <= dX < 16 ].
     LDA.b $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .return
-        JSR Sprite_IsBelowPlayer
+        JSR.w Sprite_IsBelowPlayer
         
         ; Proceed if the difference in the Y coordinates satisfies:
         ; [ -32 <= dY < 40 ]
@@ -7671,13 +7671,13 @@ OAM_AllocateDeferToPlayer:
             ; The sprite will request a different OAM range
             ; depending on player's relative position.
             CPY.b #$00 : BEQ .linkIsLower
-                JSL OAM_AllocateFromRegionC
+                JSL.l OAM_AllocateFromRegionC
                 
                 BRA .return
     
             .linkIsLower
     
-            JSL OAM_AllocateFromRegionB
+            JSL.l OAM_AllocateFromRegionB
     
     .return
     
@@ -7691,7 +7691,7 @@ OAM_AllocateDeferToPlayer:
 SpriteDeath_Main:
 {
     LDA.w $0E20, X : CMP.b #$EC : BNE .notBushOrGrass
-        JSR ThrowableScenery_ScatterIntoDebris
+        JSR.w ThrowableScenery_ScatterIntoDebris
         
         RTS
     
@@ -7717,7 +7717,7 @@ SpriteDeath_Main:
                 
                 .delay_finality
                 
-                JSR SpriteDeath_DrawPerishingOverlay
+                JSR.w SpriteDeath_DrawPerishingOverlay
                 
                 LDA.w $0E20, X : CMP.b #$40 : BEQ .is_evil_barrier
                     LDA.w $0DF0, X : CMP.b #$0A : BCC .stop_drawing_sprite
@@ -7736,7 +7736,7 @@ SpriteDeath_Main:
                 
                 SEC : SBC.b #$04 : STA.w $0E40, X
                 
-                JSR SpriteActive_Main
+                JSR.w SpriteActive_Main
                 
                 PLA : STA.w $0E40, X
                 
@@ -7746,7 +7746,7 @@ SpriteDeath_Main:
     
     .draw_normally
     
-    JSR SpriteActive_Main
+    JSR.w SpriteActive_Main
     
     RTS
 }
@@ -7794,7 +7794,7 @@ Sprite_DoTheDeath:
     CMP #$AA : BNE .not_a_pikit
         LDY.w $0E90, X : BEQ .BRANCH_BETA
         
-        LDA .pikit_drop_items-1, Y
+        LDA.w .pikit_drop_items-1, Y
         
         LDY.w $0E30, X : PHY
         
@@ -7871,7 +7871,7 @@ Sprite_DoTheDeath:
     .BRANCH_IOTA ; How prize packs normally drop.
     
     ; Reload the prize pack #.
-    JSL GetRandomInt : PLY : AND.w PrizePack_Chance, Y : BNE .BRANCH_MU
+    JSL.l GetRandomInt : PLY : AND.w PrizePack_Chance, Y : BNE .BRANCH_MU
         ; $0379BC ALTERNATE ENTRY POINT
         .ForcePrizeDrop
         
@@ -7892,7 +7892,7 @@ Sprite_DoTheDeath:
         
         ; Is the sprite we've dropped a big key?
         STA.w $0E20, X : CMP.b #$E5 : BNE .BRANCH_NU
-            JSR SpritePrep_LoadBigKeyGfx
+            JSR.w SpritePrep_LoadBigKeyGfx
             
             BRA .BRANCH_XI
         
@@ -7900,7 +7900,7 @@ Sprite_DoTheDeath:
         
         ; Is it a normal key?
         CMP.b #$E4 : BNE .BRANCH_XI
-            JSR SpritePrep_Key.set_item_drop
+            JSR.w SpritePrep_Key.set_item_drop
         
         .BRANCH_XI
         
@@ -7908,7 +7908,7 @@ Sprite_DoTheDeath:
         
         LDA.w $0F70, X : PHA
         
-        JSL Sprite_LoadProperties
+        JSL.l Sprite_LoadProperties
         
         INC.w $0BA0, X
         
@@ -7936,13 +7936,13 @@ Sprite_DoTheDeath:
     .BRANCH_OMICRON
     
     LDA.w $0E20, X : CMP.b #$A2 : BNE .not_kholdstare
-        JSL Sprite_VerifyAllOnScreenDefeated : BCC .anospawn_crystal
-            LDA.b #$04 : JSL Sprite_SpawnFallingItem
+        JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .anospawn_crystal
+            LDA.b #$04 : JSL.l Sprite_SpawnFallingItem
         
         .anospawn_crystal
     .not_kholdstare
     
-    JSL Dungeon_ManuallySetSpriteDeathFlag
+    JSL.l Dungeon_ManuallySetSpriteDeathFlag
     
     INC.w $0CFB
     
@@ -8148,7 +8148,7 @@ SpriteDeath_DrawPerishingOverlay:
     
     .dont_use_super_priority
     
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     LDA.w $0E60, X : AND.b #$20 : LSR #3 : STA.b $0C
     
@@ -8190,7 +8190,7 @@ SpriteDeath_DrawPerishingOverlay:
     LDY.b #$00
     LDA.b #$03
     
-    JSR Sprite_CorrectOamEntries
+    JSR.w Sprite_CorrectOamEntries
     
     RTS
 }
@@ -8230,7 +8230,7 @@ SpriteCustomFall_Main:
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
         STZ.w $0DD0, X
         
-        JSL Dungeon_ManuallySetSpriteDeathFlag
+        JSL.l Dungeon_ManuallySetSpriteDeathFlag
         
         RTS
     
@@ -8245,19 +8245,19 @@ SpriteCustomFall_Main:
         .BRANCH_GAMMA
         
         LDA.w $0DF0, X : AND.b #$07 : ORA.b $11 : ORA.w $0FC1 : BNE .BRANCH_LAMBDA
-            LDA.b #$31 : JSL Sound_SetSfx3PanLong
+            LDA.b #$31 : JSL.l Sound_SetSfx3PanLong
         
         .BRANCH_LAMBDA
         
-        JSR SpriteActive_Main
-        JSR Sprite_PrepOamCoord
+        JSR.w SpriteActive_Main
+        JSR.w Sprite_PrepOamCoord
         
         LDA.b $02 : SEC : SBC.b #$08 : STA.b $02
         LDA.b $03 : SEC : SBC.b #$00 : STA.b $03
         
         LDA.w $0DF0, X : CLC : ADC.b #$14 : STA.b $06
         
-        JSL Sprite_CustomTimedDrawDistressMarker
+        JSL.l Sprite_CustomTimedDrawDistressMarker
         
         RTS
     
@@ -8266,7 +8266,7 @@ SpriteCustomFall_Main:
     CMP.b #$3D : BNE .BRANCH_DELTA
         PHA
         
-        LDA.b #$20 : JSL Sound_SetSfx2PanLong
+        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
         
         PLA
     
@@ -8323,7 +8323,7 @@ SpriteCustomFall_Main:
         
         ASL A : PHP : ROR.w $0D50, X : PLP : ROR.w $0D50, X
         
-        JSR Sprite_Move
+        JSR.w Sprite_Move
     
     .BRANCH_IOTA
     
@@ -8342,7 +8342,7 @@ SpriteDraw_FallingHelmaBeetle:
         
         ADC.b #$00 : STA.b $09
         
-        LDA.b #$01 : JSL Sprite_DrawMultiple
+        LDA.b #$01 : JSL.l Sprite_DrawMultiple
         
         RTS
     
@@ -8451,7 +8451,7 @@ Pool_SpriteDraw_FallingHumanoid:
 ; $037E5B-$037EB3 LOCAL JUMP LOCATION
 SpriteDraw_FallingHumanoid:
 {
-    JSR Sprite_PrepOamCoord
+    JSR.w Sprite_PrepOamCoord
     
     LDA.w $0DC0, X : PHA
     
@@ -8504,7 +8504,7 @@ SpriteDraw_FallingHumanoid:
     
     LDA.b $07
     
-    JSR Sprite_CorrectOamEntries
+    JSR.w Sprite_CorrectOamEntries
     
     RTS
 }
@@ -8516,7 +8516,7 @@ Sprite_CorrectOamEntriesLong:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_CorrectOamEntries
+    JSR.w Sprite_CorrectOamEntries
     
     PLB
     
@@ -8537,7 +8537,7 @@ Sprite_CorrectOamEntries:
     !spr_y_screen_rel = $06
     !spr_x_screen_rel = $07
     
-    JSR Sprite_GetScreenRelativeCoords
+    JSR.w Sprite_GetScreenRelativeCoords
     
     PHX
     
@@ -8572,7 +8572,7 @@ Sprite_CorrectOamEntries:
             CLC : ADC.b $02 : STA.b $04
         TYA : ADC.b $03 : STA.b $05
         
-        JSR Sprite_CheckIfOnScreenX : BCC .on_screen_x
+        JSR.w Sprite_CheckIfOnScreenX : BCC .on_screen_x
             LDX.b $0E
             
             ; Restore the X bit, as it's been show to be in exceess of 0x100...
@@ -8594,7 +8594,7 @@ Sprite_CorrectOamEntries:
         CLC : ADC.b $00 : STA.b $09
         TYA : ADC.b $01 : STA.b $0A
         
-        JSR Sprite_CheckIfOnScreenY : BCC .on_screen_y
+        JSR.w Sprite_CheckIfOnScreenY : BCC .on_screen_y
             LDA.b #$F0 : STA.b $00, X
         
         .on_screen_y
@@ -8670,7 +8670,7 @@ Sprite_CheckIfOnScreenY:
 ; $037F6D-$037F71
 UNREACHABLE_06FF6D:
 {
-    JSL Sprite_SelfTerminate
+    JSL.l Sprite_SelfTerminate
     
     RTS
 }
@@ -8710,7 +8710,7 @@ Sprite_CheckIfRecoiling:
                     LDA.w $0F40, X : STA.w $0D50, X
                     
                     LDA.w $0CD2, X : BMI .no_wall_collision
-                        JSL Sprite_CheckTileCollisionLong
+                        JSL.l Sprite_CheckTileCollisionLong
                         
                         LDA.w $0E70, X
                         
@@ -8732,7 +8732,7 @@ Sprite_CheckIfRecoiling:
                     
                     .no_wall_collision
                     
-                    JSR Sprite_Move
+                    JSR.w Sprite_Move
             
             .halted
             

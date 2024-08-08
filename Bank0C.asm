@@ -24,7 +24,7 @@ OverworldMap32_Screen62_High:
 
 ; $0600D2-$0601C3 DATA
 ;org $0C80D2
-OverworldMap32_Screen62_Low: 
+OverworldMap32_Screen62_Low:
 {
     incbin "bin/ow/screen62-l.bin" ; Size: 0x00F2
 }
@@ -38,7 +38,7 @@ OverworldMap32_Screen63_High:
 
 ; $060265-$060320 DATA
 ;org $0C8265
-OverworldMap32_Screen63_Low: 
+OverworldMap32_Screen63_Low:
 {
     incbin "bin/ow/screen63-l.bin" ; Size: 0x00BC
 }
@@ -52,7 +52,7 @@ OverworldMap32_Screen64_High:
 
 ; $0603E6-$0604BC DATA
 ;org $0C83E6
-OverworldMap32_Screen64_Low: 
+OverworldMap32_Screen64_Low:
 {
     incbin "bin/ow/screen64-l.bin" ; Size: 0x00D7
 }
@@ -66,7 +66,7 @@ OverworldMap32_Screen25_High:
 
 ; $060598-$060687 DATA
 ;org $0C8598
-OverworldMap32_Screen25_Low: 
+OverworldMap32_Screen25_Low:
 {
     incbin "bin/ow/screen25-l.bin" ; Size: 0x00F0
 }
@@ -80,7 +80,7 @@ OverworldMap32_Screen66_High:
 
 ; $060734-$06080C DATA
 ;org $0C8734
-OverworldMap32_Screen66_Low: 
+OverworldMap32_Screen66_Low:
 {
     incbin "bin/ow/screen66-l.bin" ; Size: 0x00D9
 }
@@ -94,7 +94,7 @@ OverworldMap32_Screen67_High:
 
 ; $0608DD-$0609CB DATA
 ;org $0C88DD
-OverworldMap32_Screen67_Low: 
+OverworldMap32_Screen67_Low:
 {
     incbin "bin/ow/screen67-l.bin" ; Size: 0x00EF
 }
@@ -108,7 +108,7 @@ OverworldMap32_Screen68_High:
 
 ; $060AA4-$060B99 DATA
 ;org $0C8AA4
-OverworldMap32_Screen68_Low: 
+OverworldMap32_Screen68_Low:
 {
     incbin "bin/ow/screen68-l.bin" ; Size: 0x00F6
 }
@@ -122,7 +122,7 @@ OverworldMap32_Screen69_High:
 
 ; $060C73-$060D6B DATA
 ;org $0C8C73
-OverworldMap32_Screen69_Low: 
+OverworldMap32_Screen69_Low:
 {
     incbin "bin/ow/screen69-l.bin" ; Size: 0x00F9
 }
@@ -136,7 +136,7 @@ OverworldMap32_Screen2A_High:
 
 ; $060E3B-$060F2A DATA
 ;org $0C8E3B
-OverworldMap32_Screen2A_Low: 
+OverworldMap32_Screen2A_Low:
 {
     incbin "bin/ow/screen2A-l.bin" ; Size: 0x00F0
 }
@@ -150,7 +150,7 @@ OverworldMap32_Screen2B_High:
 
 ; $06100C-$061105 DATA
 ;org $0C900C
-OverworldMap32_Screen2B_Low: 
+OverworldMap32_Screen2B_Low:
 {
     incbin "bin/ow/screen2B-l.bin" ; Size: 0x00FA
 }
@@ -164,7 +164,7 @@ OverworldMap32_Screen2C_High:
 
 ; $0611F1-$0612E7 DATA
 ;org $0C91F1
-OverworldMap32_Screen2C_Low: 
+OverworldMap32_Screen2C_Low:
 {
     incbin "bin/ow/screen2C-l.bin" ; Size: 0x00F7
 }
@@ -178,7 +178,7 @@ OverworldMap32_Screen6D_High:
 
 ; $0613D4-$0614CF DATA
 ;org $0C93D4
-OverworldMap32_Screen6D_Low: 
+OverworldMap32_Screen6D_Low:
 {
     incbin "bin/ow/screen6D-l.bin" ; Size: 0x00FC
 }
@@ -192,7 +192,7 @@ OverworldMap32_Screen2E_High:
 
 ; $0615C4-$0616BE DATA
 ;org $0C95C4
-OverworldMap32_Screen2E_Low: 
+OverworldMap32_Screen2E_Low:
 {
     incbin "bin/ow/screen2E-l.bin" ; Size: 0x00FB
 }
@@ -206,7 +206,7 @@ OverworldMap32_Screen2F_High:
 
 ; $0617B3-$0618AF DATA
 ;org $0C97B3
-OverworldMap32_Screen2F_Low: 
+OverworldMap32_Screen2F_Low:
 {
     incbin "bin/ow/screen2F-l.bin" ; Size: 0x00FD
 }
@@ -220,7 +220,7 @@ OverworldMap32_Screen70_High:
 
 ; $06196E-$061A47 DATA
 ;org $0C996E
-OverworldMap32_Screen70_Low: 
+OverworldMap32_Screen70_Low:
 {
     incbin "bin/ow/screen70-l.bin" ; Size: 0x00DA
 }
@@ -234,7 +234,7 @@ OverworldMap32_Screen71_High:
 
 ; $061AF4-$061BC1 DATA
 ;org $0C9AF4
-OverworldMap32_Screen71_Low: 
+OverworldMap32_Screen71_Low:
 {
     incbin "bin/ow/screen71-l.bin" ; Size: 0x00CE
 }
@@ -248,7 +248,7 @@ OverworldMap32_Screen72_High:
 
 ; $061CB3-$061DAE DATA
 ;org $0C9CB3
-OverworldMap32_Screen72_Low: 
+OverworldMap32_Screen72_Low:
 {
     incbin "bin/ow/screen72-l.bin" ; Size: 0x00FC
 }
@@ -262,7 +262,7 @@ OverworldMap32_Screen33_High:
 
 ; $061E82-$061F72 DATA
 ;org $0C9E82
-OverworldMap32_Screen33_Low: 
+OverworldMap32_Screen33_Low:
 {
     incbin "bin/ow/screen33-l.bin" ; Size: 0x00F1
 }
@@ -276,7 +276,7 @@ OverworldMap32_Screen34_High:
 
 ; $062049-$062131 DATA
 ;org $0CA049
-OverworldMap32_Screen34_Low: 
+OverworldMap32_Screen34_Low:
 {
     incbin "bin/ow/screen34-l.bin" ; Size: 0x00E9
 }
@@ -290,7 +290,7 @@ OverworldMap32_Screen75_High:
 
 ; $062226-$062328 DATA
 ;org $0CA226
-OverworldMap32_Screen75_Low: 
+OverworldMap32_Screen75_Low:
 {
     incbin "bin/ow/screen75-l.bin" ; Size: 0x0103
 }
@@ -304,7 +304,7 @@ OverworldMap32_Screen76_High:
 
 ; $0623DC-$0624B9 DATA
 ;org $0CA3DC
-OverworldMap32_Screen76_Low: 
+OverworldMap32_Screen76_Low:
 {
     incbin "bin/ow/screen76-l.bin" ; Size: 0x00DE
 }
@@ -318,7 +318,7 @@ OverworldMap32_Screen37_High:
 
 ; $0625B3-$0626B1 DATA
 ;org $0CA5B3
-OverworldMap32_Screen37_Low: 
+OverworldMap32_Screen37_Low:
 {
     incbin "bin/ow/screen37-l.bin" ; Size: 0x00FF
 }
@@ -332,7 +332,7 @@ OverworldMap32_Screen78_High:
 
 ; $062799-$062897 DATA
 ;org $0CA799
-OverworldMap32_Screen78_Low: 
+OverworldMap32_Screen78_Low:
 {
     incbin "bin/ow/screen78-l.bin" ; Size: 0x00FF
 }
@@ -346,7 +346,7 @@ OverworldMap32_Screen79_High:
 
 ; $062971-$062A6C DATA
 ;org $0CA971
-OverworldMap32_Screen79_Low: 
+OverworldMap32_Screen79_Low:
 {
     incbin "bin/ow/screen79-l.bin" ; Size: 0x00FC
 }
@@ -360,7 +360,7 @@ OverworldMap32_Screen7A_High:
 
 ; $062B64-$062C5E DATA
 ;org $0CAB64
-OverworldMap32_Screen7A_Low: 
+OverworldMap32_Screen7A_Low:
 {
     incbin "bin/ow/screen7A-l.bin" ; Size: 0x00FB
 }
@@ -374,7 +374,7 @@ OverworldMap32_Screen3B_High:
 
 ; $062D4A-$062E36 DATA
 ;org $0CAD4A
-OverworldMap32_Screen3B_Low: 
+OverworldMap32_Screen3B_Low:
 {
     incbin "bin/ow/screen3B-l.bin" ; Size: 0x00ED
 }
@@ -388,7 +388,7 @@ OverworldMap32_Screen3C_High:
 
 ; $062F24-$063015 DATA
 ;org $0CAF24
-OverworldMap32_Screen3C_Low: 
+OverworldMap32_Screen3C_Low:
 {
     incbin "bin/ow/screen3C-l.bin" ; Size: 0x00F2
 }
@@ -402,7 +402,7 @@ OverworldMap32_Screen7D_High:
 
 ; $06310C-$06320A DATA
 ;org $0CB10C
-OverworldMap32_Screen7D_Low: 
+OverworldMap32_Screen7D_Low:
 {
     incbin "bin/ow/screen7D-l.bin" ; Size: 0x00FF
 }
@@ -416,7 +416,7 @@ OverworldMap32_Screen7E_High:
 
 ; $0632E6-$0633D1 DATA
 ;org $0CB2E6
-OverworldMap32_Screen7E_Low: 
+OverworldMap32_Screen7E_Low:
 {
     incbin "bin/ow/screen7E-l.bin" ; Size: 0x00EC
 }
@@ -430,7 +430,7 @@ OverworldMap32_Screen3F_High:
 
 ; $0634C8-$0635C7 DATA
 ;org $0CB4C8
-OverworldMap32_Screen3F_Low: 
+OverworldMap32_Screen3F_Low:
 {
     incbin "bin/ow/screen3F-l.bin" ; Size: 0x0100
 }
@@ -444,7 +444,7 @@ OverworldMap32_Screen9E_High:
 
 ; $0635CC-$06367A DATA
 ;org $0CB5CC
-OverworldMap32_Screen9E_Low: 
+OverworldMap32_Screen9E_Low:
 {
     incbin "bin/ow/screen9E-l.bin" ; Size: 0x00AF
 }
@@ -458,7 +458,7 @@ OverworldMap32_Screen97_High:
 
 ; $06367F-$0636BD DATA
 ;org $0CB67F
-OverworldMap32_Screen97_Low: 
+OverworldMap32_Screen97_Low:
 {
     incbin "bin/ow/screen97-l.bin" ; Size: 0x003F
 }
@@ -472,7 +472,7 @@ OverworldMap32_Screen9F_High:
 
 ; $063743-$06383B DATA
 ;org $0CB743
-OverworldMap32_Screen9F_Low: 
+OverworldMap32_Screen9F_Low:
 {
     incbin "bin/ow/screen9F-l.bin" ; Size: 0x00F9
 }
@@ -486,7 +486,7 @@ OverworldMap32_Screen80_High:
 
 ; $0638AC-$06397B DATA
 ;org $0CB8AC
-OverworldMap32_Screen80_Low: 
+OverworldMap32_Screen80_Low:
 {
     incbin "bin/ow/screen80-l.bin" ; Size: 0x00D0
 }
@@ -500,7 +500,7 @@ OverworldMap32_Screen81_High:
 
 ; $063A16-$063AF1 DATA
 ;org $0CBA16
-OverworldMap32_Screen81_Low: 
+OverworldMap32_Screen81_Low:
 {
     incbin "bin/ow/screen81-l.bin" ; Size: 0x00DC
 }
@@ -514,7 +514,7 @@ OverworldMap32_Screen82_High:
 
 ; $063BB9-$063CAD DATA
 ;org $0CBBB9
-OverworldMap32_Screen82_Low: 
+OverworldMap32_Screen82_Low:
 {
     incbin "bin/ow/screen82-l.bin" ; Size: 0x00F5
 }
@@ -528,7 +528,7 @@ OverworldMap32_Screen89_High:
 
 ; $063D5E-$063E4A DATA
 ;org $0CBD5E
-OverworldMap32_Screen89_Low: 
+OverworldMap32_Screen89_Low:
 {
     incbin "bin/ow/screen89-l.bin" ; Size: 0x00ED
 }
@@ -542,7 +542,7 @@ OverworldMap32_Screen8A_High:
 
 ; $063F05-$063FD6 DATA
 ;org $0CBF05
-OverworldMap32_Screen8A_Low: 
+OverworldMap32_Screen8A_Low:
 {
     incbin "bin/ow/screen8A-l.bin" ; Size: 0x00D2
 }
@@ -556,7 +556,7 @@ OverworldMap32_Screen96_High:
 
 ; $063FDE-$063FF9 DATA
 ;org $0CBFDE
-OverworldMap32_Screen96_Low: 
+OverworldMap32_Screen96_Low:
 {
     incbin "bin/ow/screen96-l.bin" ; Size: 0x001C
 }
@@ -570,7 +570,7 @@ OverworldMap32_Screen95_High:
 
 ; $064044-$0640AB DATA
 ;org $0CC044
-OverworldMap32_Screen95_Low: 
+OverworldMap32_Screen95_Low:
 {
     incbin "bin/ow/screen95-l.bin" ; Size: 0x0068
 }
@@ -584,7 +584,7 @@ OverworldMap32_Screen9C_High:
 
 ; $0640B0-$0640B3 DATA
 ;org $0CC0B0
-OverworldMap32_Screen9C_Low: 
+OverworldMap32_Screen9C_Low:
 {
     incbin "bin/ow/screen9C-l.bin" ; Size: 0x0004
 }
@@ -598,7 +598,7 @@ OverworldMap32_Screen88_High:
 
 ; $0640B8-$06410A DATA
 ;org $0CC0B8
-OverworldMap32_Screen88_Low: 
+OverworldMap32_Screen88_Low:
 {
     incbin "bin/ow/screen88-l.bin" ; Size: 0x0054
 }
@@ -631,7 +631,7 @@ Module_Intro:
     ; Otherwise, branch to the appropriate part of the intro.
     LDA.b $11
     
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
     
     dl Intro_Init                        ; 0x00 - $0CC15D Blank Screen
     dl Intro_Init_justLogo               ; 0x01 - $0CC170 -Nintendo presents-
@@ -652,7 +652,7 @@ Module_Intro:
 ; $06415D-$06419F JUMP LOCATION
 Intro_Init:
 {
-    JSL Intro_SetupScreen
+    JSL.l Intro_SetupScreen
     
     ; Push the screen to full brightness next frame.
     LDA.b #$0F : STA.b $13
@@ -674,12 +674,12 @@ Intro_Init:
     
     ; $066D82, sets up sprite information for the N-logo.
     ; (OAM buffer is refreshed every frame, so this must be repeatedly called.)
-    JSR Intro_DisplayNintendoLogo
+    JSR.w Intro_DisplayNintendoLogo
     
     ; As long as $B0 is less than 0xB, no branch occurs.
     LDA.b $B0 : INC.b $B0 : CMP.b #$0B : BCS Intro_LoadTitleGraphics
     
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
     
     dl Intro_InitWram                    ; 0x00 - $0CC1A0
     dl Intro_InitWram                    ; 0x01 - $0CC1A0
@@ -741,10 +741,10 @@ Intro_LoadTitleGraphics:
         .noWait
         
         ; $00093D
-        JSL EnableForceBlank
-        JSL Vram_EraseTilemaps.normal
+        JSL.l EnableForceBlank
+        JSL.l Vram_EraseTilemaps_normal
         
-        LDA.b #$02 : STA.w $2101
+        LDA.b #$02 : STA.w SNES.OAMSizeAndDataDes
         
         ; What tiles shall we put on the start up screen?
         LDA.b #$23 : STA.w $0AA1
@@ -761,12 +761,12 @@ Intro_LoadTitleGraphics:
         ; Why we're calling this prior to InitTileSets.... no idea. It seems 
         ; that InitTileSets would overwrite any graphics this routine would
         ; decompress.
-        JSL LoadDefaultGfx ; $0062D0
-        JSL InitTileSets
+        JSL.l LoadDefaultGfx ; $0062D0
+        JSL.l InitTileSets
         
         LDY.b #$5D
         
-        JSL DecompDungAnimatedTiles ; $005337
+        JSL.l DecompDungAnimatedTiles ; $005337
         
         LDA.b #$02 : STA.l $7EC00D
         LDA.b #$00 : STA.l $7EC00E
@@ -800,10 +800,10 @@ Intro_LoadTitleGraphics:
 ; $06425C-$064283 JUMP LOCATION
 Intro_FadeLogoIn:
 {
-    JSL Intro_HandleAllTriforceAnimations
+    JSL.l Intro_HandleAllTriforceAnimations
     
     LDA.b $1A : LSR A : BCC .evenFrame
-        JSL $00ED7C ; $006D7C
+        JSL.l $00ED7C ; $006D7C
         
         LDA.l $7EC007 : BNE .BRANCH_2
             LDA.b #$2A : STA.b $B0
@@ -834,7 +834,7 @@ Intro_FadeLogoIn:
 Intro_PopSubtitleCard:
 {
     JSR.w Intro_InitLogoSword_HandleLogoSword
-    JSL Intro_HandleAllTriforceAnimations
+    JSL.l Intro_HandleAllTriforceAnimations
     
     LDA.l $7EC007 : BEQ .alpha
         LDA.b $1A : LSR A : BCC .dontAdvanceYet
@@ -860,7 +860,7 @@ Intro_PopSubtitleCard:
 ; $0642AE-$0642D3 JUMP LOCATION
 Intro_SwordStab:
 {
-    JSL Intro_HandleAllTriforceAnimations
+    JSL.l Intro_HandleAllTriforceAnimations
     
     STZ.w $1F00
     STZ.w $012A
@@ -887,7 +887,7 @@ Intro_SwordStab:
 ; $0642D4-$0642EF JUMP LOCATION 
 Intro_TrianglesBeforeAttract:
 {
-    JSL Intro_HandleAllTriforceAnimations
+    JSL.l Intro_HandleAllTriforceAnimations
     
     STZ.w $1F00
     STZ.w $012A
@@ -930,7 +930,7 @@ FadeMusicAndResetSRAMMirror:
     ; Give the silence command for music.
     LDA.b #$F1 : STA.w $012C
     
-    JSL Palette_BgAndFixedColor_justFixedColor
+    JSL.l Palette_BgAndFixedColor_justFixedColor
     
     REP #$30
     
@@ -973,7 +973,7 @@ Intro_InitGfx:
     ; Set misc. sprite graphics.
     LDA.b #$08 : STA.w $0AA4
     
-    JSL Graphics_LoadCommonSprLong
+    JSL.l Graphics_LoadCommonSprLong
     JSR.w TriforceInitializePolyhedralModul
     
     LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
@@ -995,7 +995,7 @@ Intro_InitGfx:
 ; $06436F-$0643BC LOCAL JUMP LOCATION
 TriforceInitializePolyhedralModule:
 {
-    JSL Polyhedral_InitThread
+    JSL.l Polyhedral_InitThread
     JSR.w LoadTriforceSpritePalette
     
     ; Set vertical IRQ trigger scanline.
@@ -1117,7 +1117,7 @@ Intro_AnimateTriforceDanceMoves:
 {
     LDA.w $1E00
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Intro_TriforceTinyDancers   ; 0x00 - $C45B
     dw Intro_TriforceSpinInwards   ; 0x01 - $C47B
@@ -1257,7 +1257,7 @@ Intro_TriforceDoNothing:
 Scene_AnimateSingleSprite:
 {
     LDA.w $1E10, X : BEQ .exit
-        JSL UseImplicitRegIndexedLocalJumpTable
+        JSL.l UseImplicitRegIndexedLocalJumpTable
         
         ; Jump table
         dw .exit                 ; 0x00 - $C543
@@ -1275,7 +1275,7 @@ InitializeSceneSprite:
 {
     LDA.w $1E18, X
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw InitializeSceneSprite_Triangle             ; 0x00 - $C57E
     dw SceneSprite_TitleCard                      ; 0x01 - $C84F
@@ -1292,7 +1292,7 @@ AnimateSceneSprite:
 {
     LDA.w $1E18, X
     
-    JSR UseImplicitRegIndexedLocalJumpTable
+    JSR.w UseImplicitRegIndexedLocalJumpTable
     
     dw AnimateSceneSprite_Triangle             ; 0x00 - $C5B1
     dw SceneSprite_TitleCard                   ; 0x01 - $C84F
@@ -1346,7 +1346,7 @@ AnimateSceneSprite_Triangle:
     
     LDA.w $1E00
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw IntroTriangle_MoveIntoPlace ; 0x00 - $C5D6
     dw IntroTriangle_MoveIntoPlace ; 0x01 - $C5D6
@@ -1778,7 +1778,7 @@ TriforceRoom_PrepGFXSlotForPoly:
 {
     LDA.b #$08 : STA.w $0AA4
     
-    JSL Graphics_LoadCommonSprLong
+    JSL.l Graphics_LoadCommonSprLong
     JSR.w TriforceInitializePolyhedralModul
     
     LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
@@ -1800,7 +1800,7 @@ Credits_InitializePolyhedral:
 {
     LDA.b #$08 : STA.w $0AA4
     
-    JSL Graphics_LoadCommonSprLong
+    JSL.l Graphics_LoadCommonSprLong
 
     ; MAKES SURE THE TRIFORCES ARE SET UP.
     JSR.w TriforceInitializePolyhedralModul
@@ -1863,7 +1863,7 @@ AdvancePolyhedral_run_sub:
 {
     LDA.w $1E00
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw IntroPolyhedral_StartUp                ; 0x00 - $CAE9
     dw IntroPolyhedral_StartUp_MoveGrowRotate ; 0x01 - $CAFE
@@ -2087,7 +2087,7 @@ AnimateSceneSprite_TriforceRoomTriangle:
     
     LDA.w $1E00
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw AnimateTriforceRoomTriangle_Expand        ; 0x00 - $CC33
     dw AnimateTriforceRoomTriangle_RotateInPlace ; 0x01 - $CC56
@@ -2407,7 +2407,7 @@ Module_SelectFile:
     
     LDA.b $11 ; Load the submodule index.
     
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
     
     dl FileSelect_InitializeGFX                   ; 0x00 - $0CCD9D
     dl FileSelect_UploadFancyBackground           ; 0x01 - $0CCDF2
@@ -2422,7 +2422,7 @@ Module_SelectFile:
 ; $064D9D-$064DF1 JUMP LOCATION
 FileSelect_InitializeGFX:
 {
-    JSL EnableForceBlank
+    JSL.l EnableForceBlank
     
     STZ.w $012A
     STZ.w $1F0C
@@ -2436,12 +2436,12 @@ FileSelect_InitializeGFX:
     
     LDA.b #$06 : STA.w $0AB6 : STA.w $0710
     
-    JSL Palette_DungBgMain
-    JSL Palette_OverworldBgAux3
+    JSL.l Palette_DungBgMain
+    JSL.l Palette_OverworldBgAux3
     
     LDA.b #$00 : STA.w $0AB2
     
-    JSL Palette_Hud
+    JSL.l Palette_Hud
     
     STZ.w $0202
     
@@ -2449,10 +2449,10 @@ FileSelect_InitializeGFX:
     LDA.b #$23 : STA.w $0AA1
     LDA.b #$51 : STA.w $0AA2
     
-    JSL LoadDefaultGfx
-    JSL InitTileSets
-    JSL LoadSelectScreenGfx
-    JSL Intro_ValidateSram
+    JSL.l LoadDefaultGfx
+    JSL.l InitTileSets
+    JSL.l LoadSelectScreenGfx
+    JSL.l Intro_ValidateSram
     JML Intro_LoadSpriteStats
 }
 
@@ -2474,9 +2474,9 @@ FileSelect_ReInitSaveFlagsAndEraseTriforce:
     
     LDA.b #$80 : STA.w $0710
     
-    JSL EnableForceBlank
-    JSL Vram_EraseTilemaps_triforce
-    JSL Palette_SelectScreen
+    JSL.l EnableForceBlank
+    JSL.l Vram_EraseTilemaps_triforce
+    JSL.l Palette_SelectScreen
     
     INC.b $15
     
@@ -2646,7 +2646,7 @@ FileSelect_Main:
     PHB : PHK : PLB
     
     ; Main logic for the select screen.
-    JSL $0CCEDC ; ($064EDC)
+    JSL.l $0CCEDC ; ($064EDC)
 
     ; Sets the tile map update flag and exits.
     JMP.w FileSelect_TriggerTheStripes
@@ -2742,7 +2742,7 @@ FileSelect_HandleInput:
     LDA.w FileSelect_FairyY, X : STA.b $01
     
     ; Animates the fairy icon.
-    JSR SelectFile_DrawFairy
+    JSR.w SelectFile_DrawFairy
     
     LDY.b #$02
     
@@ -2916,7 +2916,7 @@ Module_CopyFile:
     
     LDA.b $11
     
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
     
     dl FileSelect_ReInitSaveFlagsAndEraseTriforce_EraseTriforce ; 0x00 - $0CCDF9
     dl FileSelect_ReInitSaveFlagsAndEraseTriforce               ; 0x01 - $0CCE53
@@ -3178,7 +3178,7 @@ CopyFile_SelectionAndBlinker:
     LDA.w CopyFile_FairyIndent, X : STA.b $00
     LDA.w CopyFile_FairyHeight, X : STA.b $01
     
-    JSR SelectFile_DrawFairy
+    JSR.w SelectFile_DrawFairy
     
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$FC : BNE .BRANCH_5
         BRL ReturnToFileSelect_exit
@@ -3408,7 +3408,7 @@ CopyFile_TargetSelectionAndBlink:
     
     LDA.w CopyFile_TargetFairyY, X : STA.b $01
     
-    JSR SelectFile_DrawFairy
+    JSR.w SelectFile_DrawFairy
     
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4
     
@@ -3489,7 +3489,7 @@ CopyFile_HandleConfirmation:
     LDA.b #$1C   : STA.b $00
     LDA.w Pool_CopyFile_HandleConfirmation, X : STA.b $01
     
-    JSR SelectFile_DrawFairy
+    JSR.w SelectFile_DrawFairy
     
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4
     
@@ -3638,7 +3638,7 @@ Module_EraseFile:
 {
     LDA.b $11
     
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
     
     dl FileSelect_ReInitSaveFlagsAndEraseTriforce_EraseTriforce ; 0x00 - $0CCDF9
     dl FileSelect_ReInitSaveFlagsAndEraseTriforce               ; 0x01 - $0CD89C
@@ -3717,7 +3717,7 @@ KILLFile_ChooseTarget:
     LDA.w KILLFile_FairyX, X : STA.b $00
     LDA.w KILLFile_FairyY, X : STA.b $01
     
-    JSR SelectFile_DrawFairy
+    JSR.w SelectFile_DrawFairy
     
     LDY.b #$02
     
@@ -3832,9 +3832,9 @@ KILLFile_VerifyDeletion:
     
     LDA.b #$1C : STA.b $00
     
-    LDA .fairy_pos_y, X : STA.b $01
+    LDA.w .fairy_pos_y, X : STA.b $01
     
-    JSR SelectFile_DrawFairy
+    JSR.w SelectFile_DrawFairy
     
     LDY.b #$02
     
@@ -4199,7 +4199,7 @@ SelectFile_DrawFairy:
     
     .set_chr
     
-    LDA .chr, X : STA.w $0802
+    LDA.w .chr, X : STA.w $0802
     
     PLX
     
@@ -4362,7 +4362,7 @@ Module_NamePlayer:
 {
     LDA.b $11
     
-    JSL UseImplicitRegIndexedLongJumpTable
+    JSL.l UseImplicitRegIndexedLongJumpTable
     
     dl NameFile_EraseSave         ; 0x00 - $0CD89C
     dl NameFile_FillBackground    ; 0x01 - $0CD911
@@ -4373,7 +4373,7 @@ Module_NamePlayer:
 ; $06589C-$065910 JUMP LOCATION
 NameFile_EraseSave:
 {
-    JSL FileSelect_ReInitSaveFlagsAndEraseTriforce_EraseTriforce
+    JSL.l FileSelect_ReInitSaveFlagsAndEraseTriforce_EraseTriforce
     
     LDA.b #$01 : STA.w $0128
     
@@ -5498,7 +5498,7 @@ NamePlayerTilemap:
     dw $2312, $3240 ; VRAM $2446 | 52 bytes | Fixed horizontal
     dw $147F
 
-    dw $4312, $3240 ; VRAM $2486 | 52 bytes | Fixed horizontal
+    dw $4302, $3240 ; VRAM $2486 | 52 bytes | Fixed horizontal
     dw $147F
 
     dw $6312, $3240 ; VRAM $24C6 | 52 bytes | Fixed horizontal
@@ -5778,7 +5778,7 @@ Module_Attract:
 ; $066DE6-$066E0B LONG JUMP LOCATION
 Attract_Fade:
 {
-    JSL Intro_HandleAllTriforceAnimations
+    JSL.l Intro_HandleAllTriforceAnimations
     
     STZ.w $1F00
     STZ.w $012A
@@ -5793,7 +5793,7 @@ Attract_Fade:
     
     .fullyDark
     
-    JSL EnableForceBlank
+    JSL.l EnableForceBlank
     
     ; Disable all that crazy 3D triforce stuff.
     LDA.b #$FF : STA.w $0128
@@ -5819,7 +5819,7 @@ Attract_InitGraphics:
         STZ.b $20, X
     DEX : BPL .zeroVars
     
-    JSL Vram_EraseTilemaps_normal
+    JSL.l Vram_EraseTilemaps_normal
     JSL.l $00E36D ; $00636D
     
     LDA.b #$04 : STA.w $0AB3
@@ -5827,13 +5827,13 @@ Attract_InitGraphics:
     
     STZ.w $0AA9
     
-    JSL Palette_Hud ; $0DEE52
+    JSL.l Palette_Hud ; $0DEE52
     
     LDA.b #$02 : STA.w $0AA9
     
-    JSL Palette_OverworldBgMain
-    JSL Palette_Hud
-    JSL Palette_ArmorAndGloves
+    JSL.l Palette_OverworldBgMain
+    JSL.l Palette_Hud
+    JSL.l Palette_ArmorAndGloves
     
     LDA.b #$00 : STA.l $7EC53A
     LDA.b #$38 : STA.l $7EC53B
@@ -5861,7 +5861,7 @@ Attract_InitGraphics:
     
     SEP #$10
     
-    JSR Attract_SetupHdma
+    JSR.w Attract_SetupHdma
     
     STZ.b $96
     STZ.b $97
@@ -5877,8 +5877,8 @@ Attract_InitGraphics:
     LDA.b #$10 : STA.b $99
     LDA.b #$A3 : STA.b $9A
     
-    STZ.w $212A
-    STZ.w $212B
+    STZ.w SNES.BG123And4WindowLogic
+    STZ.w SNES.ColorAndOBJWindowLogic
     
     ; Resume hdma next frame using channels 6 and 7.
     LDA.b #$C0 : STA.b $9B
@@ -5948,8 +5948,8 @@ Attract_SlowFadeToBlank:
     
     .fullyDarkened
     
-    JSL EnableForceBlank
-    JSL Vram_EraseTilemaps.normal
+    JSL.l EnableForceBlank
+    JSL.l Vram_EraseTilemaps_normal
     
     .nextSubmodule
     
@@ -6000,17 +6000,17 @@ Attract_PrepLegend:
 ; $066EFF-$066F4D JUMP LOCATION
 Attract_PrepMapZoom:
 {
-    LDA.b #$13 : STA.w $2107
-    LDA.b #$03 : STA.w $2108
+    LDA.b #$13 : STA.w SNES.BG1AddrAndSize
+    LDA.b #$03 : STA.w SNES.BG2AddrAndSize
     
     LDA.b #$80 : STA.b $99
     LDA.b #$21 : STA.b $9A
     
-    LDA.b #$07 : STA.w $2105 : STA.b $94
+    LDA.b #$07 : STA.w SNES.BGModeAndTileSize : STA.b $94
     
-    LDA.b #$80 : STA.w $211A
+    LDA.b #$80 : STA.w SNES.Mode7Init
     
-    JSL OverworldMap_InitGfx
+    JSL.l OverworldMap_InitGfx
     
     REP #$20
     
@@ -6024,7 +6024,7 @@ Attract_PrepMapZoom:
     
     LDA.b #$FF : STA.w $0637
     
-    JSR Attract_AdjustMapZoom
+    JSR.w Attract_AdjustMapZoom
     
     LDA.b #$01 : STA.b $25
     
@@ -6040,7 +6040,7 @@ Attract_PrepMapZoom:
 ; $066F4E-$066FBF LONG JUMP LOCATION
 Attract_PrepThroneRoom:
 {
-    STZ.w $420C
+    STZ.w SNES.HDMAChannelEnable
     STZ.b $9B
     
     ; Sets up subscreen addition a certain way because this room has
@@ -6051,7 +6051,7 @@ Attract_PrepThroneRoom:
     ; Set misc. sprite index.
     LDA.b #$0A : STA.w $0AA4
     
-    JSL Graphics_LoadCommonSprLong ; $006384
+    JSL.l Graphics_LoadCommonSprLong ; $006384
     
     REP #$20
     
@@ -6067,7 +6067,7 @@ Attract_PrepThroneRoom:
     ; The entrance number to load.
     LDA.b #$74
     
-    JSL Attract_LoadDungeonRoom
+    JSL.l Attract_LoadDungeonRoom
     
     REP #$20
     
@@ -6086,7 +6086,7 @@ Attract_PrepThroneRoom:
     
     LDA.b #$00
     
-    JSL Attract_LoadDungeonGfxAndTiles
+    JSL.l Attract_LoadDungeonGfxAndTiles
     
     LDA.b #$00 : STA.l $7EC53A
     LDA.b #$38 : STA.l $7EC53B
@@ -6149,7 +6149,7 @@ Attract_PrepZeldaPrison:
     
     LDA.b #$73
     
-    JSL Attract_LoadDungeonRoom
+    JSL.l Attract_LoadDungeonRoom
     
     REP #$20
     
@@ -6168,7 +6168,7 @@ Attract_PrepZeldaPrison:
     LDX.b #$7F
     LDA.b #$01
     
-    JSL Attract_LoadDungeonGfxAndTiles
+    JSL.l Attract_LoadDungeonGfxAndTiles
     
     LDA.b #$00 : STA.l $7EC53A
     LDA.b #$38 : STA.l $7EC53B
@@ -6213,7 +6213,7 @@ Attract_PrepMaidenWarp:
     
     LDA.b #$75
     
-    JSL Attract_LoadDungeonRoom
+    JSL.l Attract_LoadDungeonRoom
     
     REP #$20
     
@@ -6233,12 +6233,12 @@ Attract_PrepMaidenWarp:
     
     ; This call confuses me, as it seems that the next call after this
     ; would undo what this one does...
-    JSL Attract_LoadDungeonGfxAndTiles_justPalettes
+    JSL.l Attract_LoadDungeonGfxAndTiles_justPalettes
     
     LDX.b #$7F
     LDA.b #$02
     
-    JSL Attract_LoadDungeonGfxAndTiles
+    JSL.l Attract_LoadDungeonGfxAndTiles
     
     LDA.b #$00 : STA.l $7EC33A : STA.l $7EC53A
     LDA.b #$38 : STA.l $7EC33B : STA.l $7EC53B
@@ -6278,14 +6278,14 @@ AttractScene_EndOfStory:
 {
     REP #$20
     
-    JSL OverworldMap_PrepExit_restoreHdmaSettings
+    JSL.l OverworldMap_PrepExit_restoreHdmaSettings
     
     ; $0670E2 ALTERNATE ENTRY POINT
     
     INC.w $0710
     
-    JSL Intro_LoadTitleGraphics.noWait
-    JSL Intro_LoadTextPointersAndPalettes.justPalettes
+    JSL.l Intro_LoadTitleGraphics_noWait
+    JSL.l Intro_LoadTextPointersAndPalettes_justPalettes
     
     STZ.b $EA
     
@@ -6350,7 +6350,7 @@ Attract_Legend:
     .dontMoveBgs
     
     LDA.b $27 : BEQ .noNewGraphic
-        JSR Attract_LoadNextLegendGraphic
+        JSR.w Attract_LoadNextLegendGraphic
         
         STZ.b $27
         
@@ -6362,7 +6362,7 @@ Attract_Legend:
     STZ.b $F6
     STZ.b $F4
     
-    JSL Messaging_Text
+    JSL.l Messaging_Text
     
     REP #$20
     
@@ -6415,7 +6415,7 @@ Attract_MapZoom:
             ; Decrement the timer by one.
             LDA.w $0637 : SEC : SBC.b #$01 : STA.w $0637
             
-            JSR Attract_AdjustMapZoom
+            JSR.w Attract_AdjustMapZoom
         
         .noZoomAdjustThisFrame
         
@@ -6423,11 +6423,11 @@ Attract_MapZoom:
     
     .advanceToNextSequence
     
-    JSL EnableForceBlank
+    JSL.l EnableForceBlank
     
-    LDA.b #$09 : STA.w $2105 : STA.b $94
+    LDA.b #$09 : STA.w SNES.BGModeAndTileSize : STA.b $94
     
-    JSL Vram_EraseTilemaps_normal
+    JSL.l Vram_EraseTilemaps_normal
     
     ; Go to the throne room sequence.
     INC.b $23
@@ -6502,7 +6502,7 @@ Attract_ThroneRoom:
     LDA.w $0122 : BNE .stillScrolling
         SEP #$20
         
-        JSR Attract_ShowTimedTextMessage
+        JSR.w Attract_ShowTimedTextMessage
         
         REP #$20
         
@@ -6555,7 +6555,7 @@ Attract_ThroneRoom:
             
             LDA.l $0CF1C6, X : TAY
             
-            JSR Attract_DrawSpriteSet
+            JSR.w Attract_DrawSpriteSet
         
         .spriteSetOffscreen
     PLX : DEX #2 : BPL .nextSpriteSet
@@ -6602,13 +6602,13 @@ Attract_ZeldaPrison:
     STZ.b $2A
     
     LDA.b $5F : BNE .brighteningTaskFinished
-        JSR Attract_SlowBrigthenSetFlag
+        JSR.w Attract_SlowBrigthenSetFlag
     
     .brighteningTaskFinished
     
     LDA.b #$38 : STA.b $28
     
-    JSR Atract_DrawZelda
+    JSR.w Atract_DrawZelda
     
     LDA.b $25 : CMP.b #$C0 : BCS .BRANCH_BETA
         JMP.w AttractDramatize_Agahnim
@@ -6657,13 +6657,13 @@ Attract_ZeldaPrison:
         
         SEP #$20
         
-        JSL Sprite_ResetProperties
+        JSL.l Sprite_ResetProperties
         
         ; I think that this animates the soldiers leading the prisoner away.
         ; As in, generates their appearance and puts it into oam and such.
         ; Kind of like a marionette being controlled by a puppeteer, but one
         ; frame at a time.
-        JSL Sprite_SimulateSoldier
+        JSL.l Sprite_SimulateSoldier
     PLX : DEX : BPL .nextSoldier
     
     INC.b $32
@@ -6743,7 +6743,7 @@ Dramaghanim_WaitForCue:
     
     LDY.b #$05
     
-    JSR Attract_DrawSpriteSet
+    JSR.w Attract_DrawSpriteSet
     
     RTL
 }
@@ -6754,7 +6754,7 @@ Dramaghanim_WaitForCue:
 Dramaghanim_MoveAndSpin:
 {
     LDA.b $25 : CMP.b #$80 : BCS .BRANCH_ALPHA
-        JSR Attract_ShowTimedTextMessage
+        JSR.w Attract_ShowTimedTextMessage
         
         REP #$20
         
@@ -6823,7 +6823,7 @@ Dramaghanim_MoveAndSpin:
     
     LDY.b #$05
     
-    JSR Attract_DrawSpriteSet
+    JSR.w Attract_DrawSpriteSet
     
     RTL
 }
@@ -6851,10 +6851,10 @@ Attract_MaidenWarp:
     
     STZ.b $2A
     
-    JSL Filter_MajorWhitenMain
+    JSL.l Filter_MajorWhitenMain
     
     LDA.b $5F : BNE .brighteningTaskFinished
-        JSR Attract_SlowBrigthenSetFlag
+        JSR.w Attract_SlowBrigthenSetFlag
     
     .brighteningTaskFinished
     
@@ -6873,7 +6873,7 @@ Attract_MaidenWarp:
     
     LDA.b $60 : ASL A : TAX
     
-    JSR (Pool_Attract_MaidenWarp_vectors, X)
+    JSR.w (Pool_Attract_MaidenWarp_vectors, X)
     
     LDX.b #$05
     
@@ -6890,8 +6890,8 @@ Attract_MaidenWarp:
         
         PHX
         
-        JSL Sprite_ResetProperties
-        JSL Sprite_SimulateSoldier
+        JSL.l Sprite_ResetProperties
+        JSL.l Sprite_SimulateSoldier
     PLX : DEX : BPL .nextSoldier
     
     LDX.b $50 : CPX.b #$A0 : BCC .BRANCH_ZETA
@@ -6935,7 +6935,7 @@ Attract_MaidenWarp:
         
         LDY.b #$01
         
-        JSR Attract_DrawSpriteSet
+        JSR.w Attract_DrawSpriteSet
         
         LDX.b #$0E
         
@@ -6964,7 +6964,7 @@ Attract_MaidenWarp:
         
         LDY.b #$01
         
-        JSR Attract_DrawSpriteSet
+        JSR.w Attract_DrawSpriteSet
     
     .BRANCH_IOTA
     
@@ -6985,7 +6985,7 @@ Attract_MaidenWarp:
     
     LDY.b #$05
     
-    JSR Attract_DrawSpriteSet
+    JSR.w Attract_DrawSpriteSet
     
     RTL
 }
@@ -7052,7 +7052,7 @@ Dramagahnim_ReadySpell:
     
     LDA.l $0CF58A, X : TAY
     
-    JSR Attract_DrawSpriteSet
+    JSR.w Attract_DrawSpriteSet
     
     LDA.b $51 : BNE .BRANCH_ALPHA
         LDY.b $63 : CPY.b #$70 : BNE .BRANCH_ALPHA
@@ -7144,7 +7144,7 @@ Dramagahnim_CastSpell:
     
     LDA.w Pool_Dramagahnim_CastSpell_oam_count, X : TAY
     
-    JSR Attract_DrawSpriteSet
+    JSR.w Attract_DrawSpriteSet
     
     PLB
     
@@ -7200,7 +7200,7 @@ Dramagahnim_RealizeWhatJustHappened:
         
         LDA.l $0CF687, X : TAY
         
-        JSR Attract_DrawSpriteSet
+        JSR.w Attract_DrawSpriteSet
     
     .BRANCH_GAMMA
     
@@ -7212,7 +7212,7 @@ Dramagahnim_RealizeWhatJustHappened:
 ; $0676E2-$0676FF LOCAL JUMP LOCATION
 Dramagahnim_IdleGuiltily:
 {
-    JSR Attract_ShowTimedTextMessage
+    JSR.w Attract_ShowTimedTextMessage
     
     REP #$20
     
@@ -7235,17 +7235,17 @@ Dramagahnim_IdleGuiltily:
 Attract_Exit:
 {
     DEC.b $13 : BNE .stillDarkening
-        JSL EnableForceBlank
+        JSL.l EnableForceBlank
         
         ; Set BG1 tilemap to xy-mirrored, at VRAM address $1000.
-        LDA.b #$13 : STA.w $2107
+        LDA.b #$13 : STA.w SNES.BG1AddrAndSize
         
         ; Set BG2 tilemap to xy-mirrored, at VRAM address $0000.
-        LDA.b #$03 : STA.w $2108
+        LDA.b #$03 : STA.w SNES.BG2AddrAndSize
         
         REP #$20
         
-        JSL OverworldMap_PrepExit.restoreHdmaSettings
+        JSL.l OverworldMap_PrepExit_restoreHdmaSettings
         
         REP #$20
         
@@ -7326,7 +7326,7 @@ Attract_ShowTimedTextMessage:
     STZ.b $F6
     STZ.b $F4
     
-    JSL Messaging_Text
+    JSL.l Messaging_Text
     
     REP #$20
     
@@ -7347,26 +7347,26 @@ Attract_AdjustMapZoom:
 {
     REP #$10
     
-    LDA.w $0637 : STA.w $4202
+    LDA.w $0637 : STA.w SNES.MultiplicandA
     
     LDX.w #$01BE
     
     .adjustHdmaTableLoop
     
-        LDA.l $0ADD27, X : STA.w $4203
+        LDA.l $0ADD27, X : STA.w SNES.MultiplierB
         
         NOP #4
         
-        LDA.w $4217 : STA.b $00
+        LDA.w SNES.RemainderResultHigh : STA.b $00
         
-        LDA.l $0ADD28, X : STA.w $4203
+        LDA.l $0ADD28, X : STA.w SNES.MultiplierB
         
         NOP
         
         ; This is effectively the top 16-bits of the 24-bit result of
         ; multiplying $0637 (byte) by the current word from the table.
-        LDA.b $00   : CLC : ADC.w $4216  : STA.w $1B00, X
-        LDA.w $4217 : ADC.b #$00 : STA.w $1B01, X
+        LDA.b $00   : CLC : ADC.w SNES.RemainderResultLow  : STA.w $1B00, X
+        LDA.w SNES.RemainderResultHigh : ADC.b #$00 : STA.w $1B01, X
     DEX #2 : BPL .adjustHdmaTableLoop
     
     SEP #$10
@@ -7385,8 +7385,8 @@ Attract_BuildBackgrounds:
     
     STZ.b $1D
     
-    LDA.b #$10 : STA.w $2107
-    LDA.b #$00 : STA.w $2108
+    LDA.b #$10 : STA.w SNES.BG1AddrAndSize
+    LDA.b #$00 : STA.w SNES.BG2AddrAndSize
     
     PHB : PHK : PLB
     
@@ -7461,20 +7461,20 @@ Attract_TriggerBGDMA:
     
     LDX.b #$07
     
-    LDA.b $30 : STA.w $2116
+    LDA.b $30 : STA.w SNES.VRAMAddrReadWriteLow
     
     .nextTransfer
     
-        LDY.b #$80 : STY.w $2115
+        LDY.b #$80 : STY.w SNES.VRAMAddrIncrementVal
         
-        LDA.w #$1801 : STA.w $4300
+        LDA.w #$1801 : STA.w DMA.0_TransferParameters
         
-        LDA.w #$1006 : STA.w $4302
-        LDY.b #$00   : STY.w $4304
+        LDA.w #$1006 : STA.w DMA.0_SourceAddrOffsetLow
+        LDY.b #$00   : STY.w DMA.0_SourceAddrBank
         
-        LDA.w #$0100 : STA.w $4305
+        LDA.w #$0100 : STA.w DMA.0_TransferSizeLow
         
-        LDY.b #$01 : STY.w $420B
+        LDY.b #$01 : STY.w SNES.DMAChannelEnable
     DEX : BPL .nextTransfer
     
     RTS
@@ -7687,7 +7687,7 @@ Attract_SetupHdma:
     
     .configLoop
     
-        LDA.l $0CFA9E, X : STA.w $4360, X : STA.w $4370, X
+        LDA.l $0CFA9E, X : STA.w DMA.6_TransferParameters, X : STA.w DMA.7_TransferParameters, X
     DEX : BPL .configLoop
     
     REP #$20
@@ -7695,12 +7695,12 @@ Attract_SetupHdma:
     ; I don't think they realized that this special casing actually lost
     ; bytes in the end. Using two 5 byte groups and an extra load uses 6
     ; bytes less.
-    LDA.w #$FA94 : STA.w $4372
+    LDA.w #$FA94 : STA.w DMA.7_SourceAddrOffsetLow
     
     SEP #$20
     
     ; Channel 7 will write to registers $2128 and $2129 (alternating).
-    LDA.b #$28 : STA.w $4371
+    LDA.b #$28 : STA.w DMA.7_DestinationAddr
     
     RTS
 }
@@ -7969,7 +7969,7 @@ Intro_HandleLogoSword:
     
     .BRANCH_1
     
-    JSL Palette_BgAndFixedColor_justFixedColor
+    JSL.l Palette_BgAndFixedColor_justFixedColor
     
     LDA.w $0FF9 : BEQ .BRANCH_4
         AND.b #$03 : BEQ .BRANCH_3

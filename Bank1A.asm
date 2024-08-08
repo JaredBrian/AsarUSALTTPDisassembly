@@ -78,8 +78,8 @@ Lady_Draw:
     ; $0D794A ALTERNATE ENTRY POINT
     .DrinkingGuy_continue
     
-    JSL Sprite_DrawMultiple.player_deferred
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawMultiple_player_deferred
+    JSL.l Sprite_DrawShadowLong
     
     PLB
     
@@ -137,8 +137,8 @@ Lanmola_SpawnShrapnel:
     
     LDA.b #$C2
     
-    JSL Sprite_SpawnDynamically : BMI .spawn_failed
-        JSL Sprite_SetSpawnedCoords
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        JSL.l Sprite_SetSpawnedCoords
         
         LDA.b $00 : ADC.b #$04 : STA.w $0D10, Y
         LDA.b $02 : ADC.b #$04 : STA.w $0D00, Y
@@ -156,7 +156,7 @@ Lanmola_SpawnShrapnel:
         LDA.l Pool_Lanmola_SpawnShrapnel_speed_x, X : STA.w $0D50, Y
         LDA.l Pool_Lanmola_SpawnShrapnel_speed_y, X : STA.w $0D40, Y
         
-        JSL GetRandomInt : AND.b #$01 : STA.w $0DC0, Y
+        JSL.l GetRandomInt : AND.b #$01 : STA.w $0DC0, Y
         
         PLX
     
@@ -244,7 +244,7 @@ Overworld_SubstituteAlternateSecret:
     
     !num_live_sprites = $0D
     
-    JSL GetRandomInt : AND.b #$01 : BNE .return
+    JSL.l GetRandomInt : AND.b #$01 : BNE .return
         STZ !num_live_sprites
         
         LDY.b #$0F
@@ -336,7 +336,7 @@ Mothula_DrawLong:
     ; Something related to drawing Mothula (Gamoth?) or his beams?
     PHB : PHK : PLB
     
-    JSR Mothula_Draw
+    JSR.w Mothula_Draw
     
     PLB
     
@@ -358,7 +358,7 @@ Mothula_Draw:
     
     SEP #$20
     
-    LDA.b #$08 : JSL Sprite_DrawMultiple
+    LDA.b #$08 : JSL.l Sprite_DrawMultiple
     
     LDA.w $0F00, X : BNE .skip
         PHX
@@ -441,14 +441,14 @@ BottleVendor_PayForGoodBee:
 {
     PHB : PHK : PLB
     
-    LDA.b #$13 : JSL Sound_SetSfx3PanLong
+    LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$04 : STA.w $0FB5
     
     .next_red_rupee
     
-        LDA.b #$DB : JSL Sprite_SpawnDynamically : BMI .spawn_failed
-            JSL Sprite_SetSpawnedCoords
+        LDA.b #$DB : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+            JSL.l Sprite_SetSpawnedCoords
             
             LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
             
@@ -458,9 +458,9 @@ BottleVendor_PayForGoodBee:
             
             LDX.w $0FB5
             
-            LDA .x_speeds, X : STA.w $0D50, Y
+            LDA.w .x_speeds, X : STA.w $0D50, Y
             
-            LDA .y_speeds, X : STA.w $0D40, Y
+            LDA.w .y_speeds, X : STA.w $0D40, Y
             
             LDA.b #$20 : STA.w $0F80, Y
                          STA.w $0F10, Y
@@ -480,7 +480,7 @@ BottleVendor_PayForGoodBee:
 ; $0D7ECF-$0D7ED2 LONG JUMP LOCATION
 Sprite_ChickenLadyLong:
 {
-    JSR Sprite_ChickenLady        
+    JSR.w Sprite_ChickenLady        
     
     RTL
 }
@@ -492,15 +492,15 @@ Sprite_ChickenLady:
 {
     LDA.b #$01 : STA.w $0DE0, X
     
-    JSL Lady_Draw
-    JSR Sprite6_CheckIfActive
+    JSL.l Lady_Draw
+    JSR.w Sprite6_CheckIfActive
     
     LDA.w $0DF0, X : CMP.b #$01 : BNE .anoshow_message
         ; "Cluck cluck...  What?! (...) I can even speak! ...".
         LDA.b #$7D : STA.w $1CF0
         LDA.b #$01 : STA.w $1CF1
         
-        JSL Sprite_ShowMessageMinimal
+        JSL.l Sprite_ShowMessageMinimal
     
     .anoshow_message
     
@@ -592,7 +592,7 @@ Player_SpawnSmallWaterSplashFromHammer:
         
         SEP #$30
         
-        JSL Overworld_ReadTileAttr
+        JSL.l Overworld_ReadTileAttr
         
         REP #$10
         
@@ -604,7 +604,7 @@ Player_SpawnSmallWaterSplashFromHammer:
             CMP.b #$09 : BNE .not_water_tile
                 .water_tile
                 
-                JSL Sprite_SpawnSmallWaterSplash : BMI .spawn_failed
+                JSL.l Sprite_SpawnSmallWaterSplash : BMI .spawn_failed
                     LDY.b $2F
                     
                     LDA.b $20 : CLC : ADC.l .y_offsets, X : PHP : SEC : SBC.b #$10              : STA.w $0D00, Y

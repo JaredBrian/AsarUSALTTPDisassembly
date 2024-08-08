@@ -36,7 +36,7 @@ SpriteActive3_MainLong:
 {
     PHB : PHK : PLB
     
-    JSR SpriteActive3_Main
+    JSR.w SpriteActive3_Main
     
     PLB
     
@@ -63,7 +63,7 @@ SpriteActive3_Main:
 ; $0F0B2E-$0F0B32 LOCAL JUMP LOCATION
 Sprite3_CheckTileCollision:
 {
-    JSL Sprite_CheckTileCollisionLong
+    JSL.l Sprite_CheckTileCollisionLong
     
     RTS
 }
@@ -240,7 +240,7 @@ incsrc "sprite_kodondo.asm"
 ; $0F4267-$0F426A LOCAL JUMP LOCATION
 Sprite3_CheckDamage:
 {
-    JSL Sprite_CheckDamageFromPlayerLong
+    JSL.l Sprite_CheckDamageFromPlayerLong
 
     ; Bleeds into the next function.
 }
@@ -248,7 +248,7 @@ Sprite3_CheckDamage:
 ; $0F426B-$0F426F LOCAL JUMP LOCATION
 Sprite3_CheckDamageToPlayer:
 {
-    JSL Sprite_CheckDamageToPlayerLong
+    JSL.l Sprite_CheckDamageToPlayerLong
     
     RTS
 }
@@ -334,8 +334,8 @@ Sprite_PlayerCantPassThrough:
     STZ.w $0F60, X
     
     ; Also, if bit 7 of $0E40, X is not set, it will hurt Link.
-    JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_contact
-        JSR Sprite_HaltSpecialPlayerMovement
+    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_contact
+        JSR.w Sprite_HaltSpecialPlayerMovement
     
     .no_contact
     
@@ -351,11 +351,11 @@ Sprite_HaltSpecialPlayerMovement:
 {
     PHX
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     STZ.b $5E ; Set Link's speed to zero...
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
     PLX
     
@@ -381,7 +381,7 @@ incsrc "sprite_fairy_handle_movement.asm"
 ; $0F7E69-$0F7E6D LOCAL JUMP LOCATION
 Sprite3_DirectionToFacePlayer:
 {
-    JSL Sprite_DirectionToFacePlayerLong
+    JSL.l Sprite_DirectionToFacePlayerLong
     
     RTS
 }
@@ -391,7 +391,7 @@ Sprite3_DirectionToFacePlayer:
 ; $0F7E6E-$0F7E72 LOCAL JUMP LOCATION
 Sprite3_IsToRightOfPlayer:
 {
-    JSL Sprite_IsToRightOfPlayerLong
+    JSL.l Sprite_IsToRightOfPlayerLong
     
     RTS
 }
@@ -401,7 +401,7 @@ Sprite3_IsToRightOfPlayer:
 ; $0F7E73-$0F7E77 LOCAL JUMP LOCATION
 Sprite3_IsBelowPlayer:
 {
-    JSL Sprite_IsBelowPlayerLong
+    JSL.l Sprite_IsBelowPlayerLong
     
     RTS
 }
@@ -466,7 +466,7 @@ Sprite3_CheckIfRecoiling:
                     LDA.w $0F40, X : STA.w $0D50, X
                     
                     LDA.w $0CD2, X : BMI .no_wall_collision
-                        JSR Sprite3_CheckTileCollision
+                        JSR.w Sprite3_CheckTileCollision
                         
                         AND.b #$0F : BEQ .no_wall_collision
                             CMP.b #$04 : BCS .y_axis_wall_collision
@@ -486,7 +486,7 @@ Sprite3_CheckIfRecoiling:
                     
                     .no_wall_collision
                     
-                    JSR Sprite3_Move
+                    JSR.w Sprite3_Move
             
             .halted
             
@@ -513,7 +513,7 @@ Sprite3_CheckIfRecoiling:
 ; $0F7F1E-$0F7F20 LOCAL JUMP LOCATION
 Sprite3_MoveXyz:
 {
-    JSR Sprite3_MoveAltitude
+    JSR.w Sprite3_MoveAltitude
     
     ; Bleeds into the next function.
 }
@@ -521,8 +521,8 @@ Sprite3_MoveXyz:
 ; $0F7F21-$0F7F27 LOCAL JUMP LOCATION
 Sprite3_Move:
 {  
-    JSR Sprite3_MoveHoriz
-    JSR Sprite3_MoveVert
+    JSR.w Sprite3_MoveHoriz
+    JSR.w Sprite3_MoveVert
     
     RTS
 }
@@ -534,7 +534,7 @@ Sprite3_MoveHoriz:
 {
     TXA : CLC : ADC.b #$10 : TAX
     
-    JSR Sprite3_MoveVert
+    JSR.w Sprite3_MoveVert
     
     LDX.w $0FA0
     
@@ -587,7 +587,7 @@ Sprite3_MoveAltitude:
 ; $0F7F84-$0F7F8C LOCAL JUMP LOCATION
 Sprite3_PrepOamCoord:
 {
-    JSL Sprite_PrepOamCoordLong : BCC .renderable
+    JSL.l Sprite_PrepOamCoordLong : BCC .renderable
         PLA : PLA
     
     .renderable
@@ -620,12 +620,12 @@ Sprite_DrawRippleIfInWater:
     
     .dontAdjustX
     
-    JSL Sprite_DrawWaterRipple
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_DrawWaterRipple
+    JSL.l Sprite_Get_16_bit_CoordsLong
     
     LDA.w $0E40, X : AND.b #$1F : INC A : ASL #2
     
-    JSL OAM_AllocateFromRegionA
+    JSL.l OAM_AllocateFromRegionA
     
     .notWaterTile
     
