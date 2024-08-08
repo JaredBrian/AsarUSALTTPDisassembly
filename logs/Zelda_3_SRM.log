@@ -38,7 +38,7 @@ on startup of the machine. The three major emulators even differ on what they pu
 Take into consideration if you want a permanent stat to be added in, you should probably index it in such a way that you have copies
 for all three save files. Note, the game for some odd reason uses address $701FFF on a temporary basis. Annoyed me when
 a romhack I was doing conflicted with that location. I thought the game didn't use anything past $1DFF at that time. Just be aware of that
-one. You can use it probably, but don't save permanent data to it, like a game timer ;).
+one. You can use it probably, but don't save permanent data to it, like a game timer.
 
 If you are going to take advantage of this extra space remember to use long writes to bank $70,
 or intelligently manipulate the data bank register if you have to.
@@ -135,7 +135,7 @@ See routine $13947 for more details.
 $250-$27F Nothing, but if we could expand the game's data a bit, we could easily use these for extra dungeon rooms. That would bring the grand total to 320 (decimal), which would be $140 in hex. 
 Notice that each room has two bytes, so that would extend up to $27F. 
 This makes sense given this area is completely unused. 
-Nintendo probably just didn't end up using the extra rooms and thus never put any data in them. But it appears they planned for extras if they needed them ;).
+Nintendo probably just didn't end up using the extra rooms and thus never put any data in them. But it appears they planned for extras if they needed them.
 I credit Euclid (the romhacker, not the mathematician) with encouraging me to accept this.
 
 $280-$2FF Overworld Event Information 0x80 (no room for SW areas)

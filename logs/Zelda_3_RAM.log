@@ -4571,7 +4571,7 @@ $0FC7[0x10] -
     correct? I'm not sure, but it seems logical given that it
     interacts with sprite slots, of which there are also 0x10.
     
-    \task Find out what the index affects. Perhaps some of this is free ram.
+    TODO: Find out what the index affects. Perhaps some of this is free ram.
                 
 
 $0FD7[0x01] -   The code that writes and reads this variable is not enabled.
