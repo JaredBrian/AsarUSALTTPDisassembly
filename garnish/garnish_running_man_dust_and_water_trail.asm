@@ -28,7 +28,7 @@ Garnish_RunningManDashDust:
     
     LSR #2 : STA.w $0FB5
     
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.b $00       : STA ($90), Y
     LDA.b $02 : INY : STA ($90), Y
@@ -37,7 +37,7 @@ Garnish_RunningManDashDust:
     
     LDX.w $0FB5
     
-    LDA .chr, X : INY : STA ($90), Y
+    LDA.w .chr, X : INY : STA ($90), Y
     
     LDA.b #$24
     

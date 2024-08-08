@@ -47,13 +47,13 @@ Garnish_ExecuteUpperSlotsLong:
 {
     ; NOTE: Maybe I'm nitpickin', but doesn't this seem a bit out of place
     ; here?
-    JSL Filter_MajorWhitenMain
+    JSL.l Filter_MajorWhitenMain
     
     LDA.w $0FB4 : BEQ .no_spawned_garnishes
     
     PHB : PHK : PLB
     
-    JSR Garnish_ExecuteUpperSlots
+    JSR.w Garnish_ExecuteUpperSlots
     
     PLB
     
@@ -71,7 +71,7 @@ Garnish_ExecuteLowerSlotsLong:
     
     PHB : PHK : PLB
     
-    JSR Garnish_ExecuteLowerSlots
+    JSR.w Garnish_ExecuteLowerSlots
     
     PLB
     
@@ -89,7 +89,7 @@ Garnish_ExecuteUpperSlots:
     
     .next_animation
     
-    JSR Garnish_ExecuteSingle
+    JSR.w Garnish_ExecuteSingle
     
     DEX : CPX.b #$0E : BNE .next_animation
     
@@ -105,7 +105,7 @@ Garnish_ExecuteLowerSlots:
     
     .next_animation
     
-    JSR Garnish_ExecuteSingle
+    JSR.w Garnish_ExecuteSingle
     
     DEX : BPL .next_animation
     
@@ -153,7 +153,7 @@ Garnish_ExecuteSingle:
     
     LDA.l $7FF800, X : TAY
     
-    LDA .oam_allocation-1, Y : JSL OAM_AllocateFromRegionF
+    LDA.w .oam_allocation-1, Y : JSL.l OAM_AllocateFromRegionF
     
     BRA .execute_handler
     
@@ -161,7 +161,7 @@ Garnish_ExecuteSingle:
     
     LDA.l $7FF800, X : TAY
     
-    LDA .oam_allocation-1, Y : JSL OAM_AllocateFromRegionD
+    LDA.w .oam_allocation-1, Y : JSL.l OAM_AllocateFromRegionD
     
     BRA .execute_handler
     
@@ -169,7 +169,7 @@ Garnish_ExecuteSingle:
     
     LDA.l $7FF800, X : TAY
     
-    LDA .oam_allocation-1, Y : JSL OAM_AllocateFromRegionA
+    LDA.w .oam_allocation-1, Y : JSL.l OAM_AllocateFromRegionA
     
     .execute_handler
     
@@ -180,7 +180,7 @@ Garnish_ExecuteSingle:
     AND.w #$00FF : ASL A : TAY
     
     ; These sneaky hidden jump tables, I swear...
-    LDA .handlers, Y : DEC A : PHA
+    LDA.w .handlers, Y : DEC A : PHA
     
     SEP #$30
     
@@ -232,7 +232,7 @@ Garnish_Move_XY:
     
     TXA : CLC : ADC.b #$1E : TAX
     
-    JSR Garnish_MoveVert
+    JSR.w Garnish_MoveVert
     
     PLX
     

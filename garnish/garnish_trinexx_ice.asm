@@ -31,7 +31,7 @@ Garnish_TrinexxIce:
     LDA.l $7FF81E, X : SEC : SBC.b #$10 : STA.b $02
     LDA.l $7FF85A, X : SBC.b #$00 : STA.b $03
     
-    LDY.b #$12 : JSL Dungeon_SpriteInducedTilemapUpdate
+    LDY.b #$12 : JSL.l Dungeon_SpriteInducedTilemapUpdate
     
     PLA
     
@@ -39,9 +39,9 @@ Garnish_TrinexxIce:
     
     LDA.l $7FF90E, X : LSR #2 : AND.b #$03 : TAY
     
-    LDA .properties, Y : STA.b $04
+    LDA.w .properties, Y : STA.b $04
     
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.b $00       : STA ($90), Y
     LDA.b $02 : INY : STA ($90), Y
@@ -49,7 +49,7 @@ Garnish_TrinexxIce:
     ; WTF: NOP? hrm...
     LDA.l $7FF90E, X : LSR #4 : NOP : PHX : TAX
     
-    LDA .chr, X : INY : STA ($90), Y
+    LDA.w .chr, X : INY : STA ($90), Y
     
     LDA.b #$35 : ORA.b $04 : PLX
     

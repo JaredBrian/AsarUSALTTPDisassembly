@@ -13,7 +13,7 @@ Pool_Garnish_BlindLaserTrail:
 ; $04B591-$04B5B8
 Garnish_BlindLaserTrail:
 {
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.b $00       : STA ($90), Y
     LDA.b $02 : INY : STA ($90), Y
@@ -25,7 +25,7 @@ Garnish_BlindLaserTrail:
     
     ; I guess that this assumes that the chr *index*
     ; is at least 0x07?
-    LDA .chr-7, Y : PLY : INY : STA ($90), Y
+    LDA.w .chr-7, Y : PLY : INY : STA ($90), Y
     
     PHY
     

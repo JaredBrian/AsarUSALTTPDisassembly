@@ -14,7 +14,7 @@ Pool_Garnish_LaserBeamTrail:
 ; $04B5BB-$04B5DD JUMP LOCATION
 Garnish_LaserBeamTrail:
 {
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.b $00       : STA ($90), Y
     LDA.b $02 : INY : STA ($90), Y
@@ -23,7 +23,7 @@ Garnish_LaserBeamTrail:
     
     LDA.l $7FF9FE, X : TAY
     
-    LDA .chr, Y : PLY : INY : STA ($90), Y
+    LDA.w .chr, Y : PLY : INY : STA ($90), Y
     
     LDA.b #$25
     

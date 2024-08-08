@@ -16,7 +16,7 @@ Pool_Garnish_BabusuFlash:
 ; $04B49E-$04B4BF
 Garnish_BabusuFlash:
 {
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.b $00       : STA ($90), Y
     LDA.b $02 : INY : STA ($90), Y
@@ -27,9 +27,9 @@ Garnish_BabusuFlash:
     
     TAX
     
-    LDA .chr, X : INY : STA ($90), Y
+    LDA.w .chr, X : INY : STA ($90), Y
     
-    LDA .properties, X
+    LDA.w .properties, X
     
     PLX
     

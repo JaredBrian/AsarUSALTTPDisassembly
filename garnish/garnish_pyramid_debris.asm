@@ -33,7 +33,7 @@ Garnish_SpawnPyramidDebris:
     LDA.b $02 : STA.l $7FF8B4, X
     LDA.b $03 : STA.l $7FF896, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$30 : STA.l $7FF90E, X
+    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$30 : STA.l $7FF90E, X
     
     PLX
     
@@ -59,7 +59,7 @@ Garnish_PyramidDebris:
 {
     ; special animation 0x13
     
-    JSR Garnish_Move_XY
+    JSR.w Garnish_Move_XY
     
     LDA.l $7FF896, X : CLC : ADC.b #$03 : STA.l $7FF896, X
     

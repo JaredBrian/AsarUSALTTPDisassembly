@@ -18,14 +18,14 @@ Garnish_LightningTrail:
 {
     ; special animation 0x09
     
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.b $00       : STA ($90), Y
     LDA.b $02 : INY : STA ($90), Y
     
     LDA.l $7FF92C, X : PHX : TAX
     
-    LDA .chr, X : PHX
+    LDA.w .chr, X : PHX
     
     LDX.w $048E : CPX.b #$20 : BNE .not_agahnim_1_room
     
@@ -43,7 +43,7 @@ Garnish_LightningTrail:
     
     PLX
     
-    JSR Garnish_SetOamPropsAndLargeSize
+    JSR.w Garnish_SetOamPropsAndLargeSize
     
     ; $04B459 ALTERNATE ENTRY POINT
     shared Garnish_CheckPlayerCollision:

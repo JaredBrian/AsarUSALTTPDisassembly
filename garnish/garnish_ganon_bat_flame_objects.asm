@@ -33,7 +33,7 @@ Garnish_GanonBatFlameout:
     
     .pause_movement
     
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     REP #$10
     
@@ -68,22 +68,22 @@ Garnish_GanonBatFlame:
     
     .dont_transmute
     
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.b $00       : STA ($90), Y
     LDA.b $02 : INY : STA ($90), Y
     
     LDA.l $7FF90E, X : LSR #3 : PHX : TAX
     
-    LDA .chr_indices, X : TAX
+    LDA.w .chr_indices, X : TAX
     
-    LDA .chr, X : INY : STA ($90), Y
+    LDA.w .chr, X : INY : STA ($90), Y
     
     LDA.b #$22 : ORA .properties, X
     
     PLX
     
-    JSR Garnish_SetOamPropsAndLargeSize
+    JSR.w Garnish_SetOamPropsAndLargeSize
     
     JMP Garnish_CheckPlayerCollision
 }

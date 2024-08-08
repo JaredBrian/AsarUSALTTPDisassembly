@@ -13,14 +13,14 @@ Pool_Garnish_TrinexxLavaBubble:
 ; $04B55D-$04B58C JUMP LOCATION
 Garnish_TrinexxLavaBubble:
 {
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.b $00       : STA ($90), Y
     LDA.b $02 : INY : STA ($90), Y
     
     LDA.l $7FF90E, X : LSR #3 : PHX : TAX
     
-    LDA .chr, X : PLX : INY : STA ($90), Y
+    LDA.w .chr, X : PLX : INY : STA ($90), Y
     
     PHY
     

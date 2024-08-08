@@ -44,7 +44,7 @@ Garnish_CrumbleTile:
     PHX
     
     ; Replace the targeted tile with a pit tile.
-    LDY.b #$04 : JSL Dungeon_SpriteInducedTilemapUpdate
+    LDY.b #$04 : JSL.l Dungeon_SpriteInducedTilemapUpdate
     
     PLX : PLA
     
@@ -53,9 +53,9 @@ Garnish_CrumbleTile:
     
     LSR #3 : TAY
     
-    LDA .chr, Y        : STA.b $03
-    LDA .properties, Y : STA.b $05
-    LDA .oam_sizes, Y  : STA.b $06
+    LDA.w .chr, Y        : STA.b $03
+    LDA.w .properties, Y : STA.b $05
+    LDA.w .oam_sizes, Y  : STA.b $06
     
     LDA.l $7FF83C, X : SEC : SBC.b $E2    : PHP : CLC : ADC .xy_offsets, Y : STA.b $00
     LDA.l $7FF878, X : ADC.b #$00 : PLP : SBC.b $E3

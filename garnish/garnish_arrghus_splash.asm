@@ -25,7 +25,7 @@ Pool_Garnish_ArrghusSplash:
 ; $04B178-$04B1BC JUMP LOCATION
 Garnish_ArrghusSplash:
 {
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.l $7FF90E, X : LSR A : AND.b #$06 : STA.b $06
     
@@ -41,14 +41,14 @@ Garnish_ArrghusSplash:
     LDA.b $00 : CLC : ADC .y_offsets, X       : STA ($90), Y
     LDA.b $02 : CLC : ADC .x_offsets, X : INY : STA ($90), Y
     
-    LDA .chr, X        : INY : STA ($90), Y
-    LDA .properties, X : INY : STA ($90), Y
+    LDA.w .chr, X        : INY : STA ($90), Y
+    LDA.w .properties, X : INY : STA ($90), Y
     
     PHY
     
     TYA : LSR #2 : TAY
     
-    LDA .oam_sizes, X : STA ($92), Y
+    LDA.w .oam_sizes, X : STA ($92), Y
     
     PLY : INY
     

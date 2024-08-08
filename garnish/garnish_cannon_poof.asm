@@ -17,14 +17,14 @@ Garnish_CannonPoof:
 {
     ; special animation 0x0A
     
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.b $00       : STA ($90), Y
     LDA.b $02 : INY : STA ($90), Y
     
     LDA.l $7FF90E, X : LSR #3 : PHX : TAX
     
-    LDA .chr, X : INY : STA ($90), Y
+    LDA.w .chr, X : INY : STA ($90), Y
     
     PLX 
     
@@ -32,7 +32,7 @@ Garnish_CannonPoof:
     
     LDA.l $7FF92C, X : TAX
     
-    LDA .properties, X : ORA.b #$04 : PLX
+    LDA.w .properties, X : ORA.b #$04 : PLX
     
     JMP Garnish_SetOamPropsAndLargeSize
 }

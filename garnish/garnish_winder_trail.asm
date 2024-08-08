@@ -6,7 +6,7 @@ Garnish_WinderTrail:
 {
     ; special animation 0x01
     
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     LDA.b $00                    : STA ($90), Y
     LDA.b $02 : INY              : STA ($90), Y

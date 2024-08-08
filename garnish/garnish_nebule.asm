@@ -18,7 +18,7 @@ Garnish_Nebule:
 {
     ; Special animation 0x07
     
-    JSR Garnish_PrepOamCoord
+    JSR.w Garnish_PrepOamCoord
     
     PHX
     
@@ -27,7 +27,7 @@ Garnish_Nebule:
     LDA.b $00 : CLC : ADC .xy_offsets, X       : STA ($90), Y
     LDA.b $02 : CLC : ADC .xy_offsets, X : INY : STA ($90), Y
     
-    LDA .chr, X : INY : STA ($90), Y
+    LDA.w .chr, X : INY : STA ($90), Y
     
     PLX
     
