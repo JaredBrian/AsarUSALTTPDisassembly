@@ -20,7 +20,7 @@ Pool_Ancilla_RepulseSpark:
 ; $040F89-$04107F LOCAL JUMP LOCATION
 Ancilla_RepulseSpark:
 {
-    LDA.w $0FAC : BEQ Ancilla_IsBelowPlayer.return
+    LDA.w $0FAC : BEQ Ancilla_IsBelowPlayer_return
     
     ; Activate enemies that are listening for sounds?
     LDA.b #$02 : STA.w $0FDC
@@ -39,19 +39,19 @@ Ancilla_RepulseSpark:
     
     LDY.w $0B68 : BNE .on_bg1
     
-    JSL OAM_AllocateFromRegionD
+    JSL.l OAM_AllocateFromRegionD
     
     BRA .check_if_on_screen
     
     .on_bg1
     
-    JSL OAM_AllocateFromRegionF
+    JSL.l OAM_AllocateFromRegionF
     
     BRA .check_if_on_screen
     
     .dont_sort_sprites
     
-    JSL OAM_AllocateFromRegionA
+    JSL.l OAM_AllocateFromRegionA
     
     .check_if_on_screen
     
@@ -120,7 +120,7 @@ Ancilla_RepulseSpark:
     
     LDX.w $0FAC
     
-    LDA .chr, X : LDY.b #$02 : STA ($90), Y
+    LDA.w .chr, X : LDY.b #$02 : STA ($90), Y
                   LDY.b #$06 : STA ($90), Y
                   LDY.b #$0A : STA ($90), Y
                   LDY.b #$0E : STA ($90), Y

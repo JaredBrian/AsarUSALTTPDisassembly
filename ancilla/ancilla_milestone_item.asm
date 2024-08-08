@@ -53,7 +53,7 @@ Ancilla_MilestoneItem:
                         
                     PHX
                         
-                    JSL GetAnimatedSpriteTile.variable
+                    JSL.l GetAnimatedSpriteTile_variable
                         
                     PLX
                     
@@ -92,7 +92,7 @@ Ancilla_MilestoneItem:
         LDA.b #$04 : STA.w $0AB1
         LDA.b #$02 : STA.w $0AA9
         
-        JSL Palette_MiscSpr.justSP6
+        JSL.l Palette_MiscSpr_justSP6
         
         INC $15
         
@@ -101,7 +101,7 @@ Ancilla_MilestoneItem:
     .no_misc_palette_load
     
     LDA.w $0C5E, X : CMP .crystal : BNE .dont_sparkle
-    JSR Ancilla_AddSwordChargeSpark
+    JSR.w Ancilla_AddSwordChargeSpark
     
     .dont_sparkle
     
@@ -110,7 +110,7 @@ Ancilla_MilestoneItem:
     LDA.w $029E, X : CMP.b #$18 : BCS .no_player_collision
         LDY.b #$02
         
-        JSR Ancilla_CheckPlayerCollision : BCC .no_player_collision
+        JSR.w Ancilla_CheckPlayerCollision : BCC .no_player_collision
             LDA.w $037E : BNE .no_player_collision
                 LDA $4D : BNE .no_player_collision
                     STZ.w $0C4A, X
@@ -140,7 +140,7 @@ Ancilla_MilestoneItem:
                     
                     LDA.w $0C5E, X
                     
-                    JSL Link_ReceiveItem
+                    JSL.l Link_ReceiveItem
                     
                     PLX
                     
@@ -156,7 +156,7 @@ Ancilla_MilestoneItem:
     
     .hasnt_touched_ground
     
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveAltitude
     
     LDA.w $029E, X : CMP.b #$F8 : BCC .draw
     ; It hit the ground, so make the object bounce upward a bit.
@@ -168,7 +168,7 @@ Ancilla_MilestoneItem:
     
     .draw
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     REP #$20
     
@@ -178,7 +178,7 @@ Ancilla_MilestoneItem:
     
     SEP #$20
     
-    JSR Ancilla_ReceiveItem.draw
+    JSR.w Ancilla_ReceiveItem_draw
     
     PHX
     
@@ -222,7 +222,7 @@ Ancilla_MilestoneItem:
     
     LDA.b #$20 : STA $04
     
-    JSR Ancilla_DrawShadow
+    JSR.w Ancilla_DrawShadow
     
     PLX
     

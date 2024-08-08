@@ -29,7 +29,7 @@ Ancilla_WeathervaneExplosion:
     
     SEP #$20
     
-    BRA Ancilla_Flute.return
+    BRA Ancilla_Flute_return
     
     .music_at_full_volume
     
@@ -46,7 +46,7 @@ Ancilla_WeathervaneExplosion:
     ; This code should only get executed once?
     INC A : STA.w $039F, X
     
-    LDA.b #$0C : JSR Ancilla_DoSfx2_NearPlayer
+    LDA.b #$0C : JSR.w Ancilla_DoSfx2_NearPlayer
     
     .explosion_sfx_already_played
     
@@ -60,13 +60,13 @@ Ancilla_WeathervaneExplosion:
     
     PHX
     
-    JSL Overworld_AlterWeathervane
+    JSL.l Overworld_AlterWeathervane
     
     ; Trigger the sprite animations, such as the particles and the bird.
     LDY.b #$00
     LDA.b #$38
     
-    JSL AddTravelBirdIntro
+    JSL.l AddTravelBirdIntro
     
     PLX
     
@@ -112,9 +112,9 @@ Ancilla_WeathervaneExplosion:
     
     TYX
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveAltitude
     
     STZ.b $74
     
@@ -124,7 +124,7 @@ Ancilla_WeathervaneExplosion:
     
     .not_below_ground_enough
     
-    JSR WeathervaneExplosion_DrawWoodChunk
+    JSR.w WeathervaneExplosion_DrawWoodChunk
     
     PLX
     
@@ -187,7 +187,7 @@ Pool_WeathervaneExplosion_DrawWoodChunk:
 ; $045188-$0451D3 LOCAL JUMP LOCATION
 WeathervaneExplosion_DrawWoodChunk:
 {
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -207,11 +207,11 @@ WeathervaneExplosion_DrawWoodChunk:
     
     LDA.l $7F5879 : TAY
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDX.b $72
     
-    LDA .chr, X  : STA ($90), Y : INY
+    LDA.w .chr, X  : STA ($90), Y : INY
     LDA.b #$3C   : STA ($90), Y : INY
     
     TYA : STA.l $7F5879

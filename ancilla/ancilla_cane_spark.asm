@@ -95,8 +95,8 @@ Ancilla_InitialCaneSpark:
     
     REP #$20
     
-    LDA .player_relative_y_offsets, Y : CLC : ADC $20 : STA $00
-    LDA .player_relative_x_offsets, Y : CLC : ADC $22 : STA $02
+    LDA.w .player_relative_y_offsets, Y : CLC : ADC $20 : STA $00
+    LDA.w .player_relative_x_offsets, Y : CLC : ADC $22 : STA $02
     
     SEP #$20
     
@@ -106,7 +106,7 @@ Ancilla_InitialCaneSpark:
     LDA $02 : STA.w $0C04, X
     LDA $03 : STA.w $0C18, X
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -143,7 +143,7 @@ Ancilla_InitialCaneSpark:
     
     .next_oam_entry
     
-    LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
     
     REP #$20
     
@@ -158,10 +158,10 @@ Ancilla_InitialCaneSpark:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X                               : STA ($90), Y : INY
-    LDA .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y : INY
+    LDA.w .chr, X                               : STA ($90), Y : INY
+    LDA.w .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -207,10 +207,10 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDA $2F : ASL A : TAY
     
-    LDA .initial_rotation_states+0, Y : STA.l $7F5800
-    LDA .initial_rotation_states+1, Y : STA.l $7F5801
-    LDA .initial_rotation_states+2, Y : STA.l $7F5802
-    LDA .initial_rotation_states+3, Y : STA.l $7F5803
+    LDA.w .initial_rotation_states+0, Y : STA.l $7F5800
+    LDA.w .initial_rotation_states+1, Y : STA.l $7F5801
+    LDA.w .initial_rotation_states+2, Y : STA.l $7F5802
+    LDA.w .initial_rotation_states+3, Y : STA.l $7F5803
     
     LDA.b #$17 : STA.w $03B1, X
     
@@ -228,7 +228,7 @@ CaneSpark_TransmuteInitialToNormal:
     
     DEC A : STA.l $7F5808
     
-    LDA.b #$30 : JSR Ancilla_DoSfx3_NearPlayer
+    LDA.b #$30 : JSR.w Ancilla_DoSfx3_NearPlayer
     
     ; $045C70 ALTERNATE ENTRY POINT
     shared Ancilla_CaneSpark:
@@ -264,7 +264,7 @@ CaneSpark_TransmuteInitialToNormal:
     
     ; Table of magic depletion values for the cane effects. 
     ; Depletions are every 0x18 frames.
-    LDA .mp_costs, Y : STA $00
+    LDA.w .mp_costs, Y : STA $00
     
     ; Reduce magic by this amount
     LDA.l $7EF36E : BEQ .self_terminate
@@ -366,7 +366,7 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDA.b #$15 : STA.w $0C68, X
     
-    LDA.b #$30 : JSR Ancilla_DoSfx3_NearPlayer
+    LDA.b #$30 : JSR.w Ancilla_DoSfx3_NearPlayer
     
     .sfx_delay
     
@@ -392,12 +392,12 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDA.l $7F5800, X
     
-    JSR Ancilla_GetRadialProjection
-    JSL Sparkle_PrepOamCoordsFromRadialProjection
+    JSR.w Ancilla_GetRadialProjection
+    JSL.l Sparkle_PrepOamCoordsFromRadialProjection
     
     PLY
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDX $72
     
@@ -425,7 +425,7 @@ CaneSpark_TransmuteInitialToNormal:
     
     STZ.w $0C72, X
     
-    JSR Ancilla_CheckSpriteCollision
+    JSR.w Ancilla_CheckSpriteCollision
     
     PLY
     

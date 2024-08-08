@@ -55,7 +55,7 @@ Ancilla_Hookshot:
     
     LDA.b #$07 : STA.w $0C68, X
     
-    LDA.b #$0A : JSR Ancilla_DoSfx2
+    LDA.b #$0A : JSR.w Ancilla_DoSfx2
     
     .chain_sfx_delay
     
@@ -64,8 +64,8 @@ Ancilla_Hookshot:
     ; hookshot.
     LDA.w $037E : BNE .just_draw
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
     
     ; In the protracting state? Branch.
     ; If retracting, continue on.
@@ -100,7 +100,7 @@ Ancilla_Hookshot:
     
     .protraction_not_maxed
     
-    JSR Hookshot_IsCollisionCheckFutile : BCC .perform_collision_checks
+    JSR.w Hookshot_IsCollisionCheckFutile : BCC .perform_collision_checks
     
     BRL .draw
     
@@ -112,7 +112,7 @@ Ancilla_Hookshot:
     ; know if we're here that it can't be retracting.
     LDA.w $0C54, X : BNE .ignore_sprite_collision
     
-    JSR Ancilla_CheckSpriteCollision : BCC .no_tile_collision
+    JSR.w Ancilla_CheckSpriteCollision : BCC .no_tile_collision
     
     LDA.w $0C54, X : BNE .ignore_sprite_collision
     
@@ -133,7 +133,7 @@ Ancilla_Hookshot:
     .no_tile_collision
     .check_tile_collision
      
-    JSL Hookshot_CheckTileCollison
+    JSL.l Hookshot_CheckTileCollison
     
     STZ $00
     
@@ -235,7 +235,7 @@ Ancilla_Hookshot:
     LDY.b #$01
     LDA.b #$06
     
-    JSL AddHookshotWallHit
+    JSL.l AddHookshotWallHit
     
     PLX
     
@@ -248,7 +248,7 @@ Ancilla_Hookshot:
     
     .hit_key_door
     
-    TYA : JSR Ancilla_DoSfx2
+    TYA : JSR.w Ancilla_DoSfx2
     
     .no_extra_tile_collision
     
@@ -272,7 +272,7 @@ Ancilla_Hookshot:
     
     .draw
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0385, X : BEQ .max_priority_not_required
     
@@ -302,14 +302,14 @@ Ancilla_Hookshot:
     
     LDX $0A
     
-    LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDX $0A
     
-    LDA .chr, X                               : STA ($90), Y : INY
-    LDA .properties, X : ORA.b #$02 : ORA $65 : STA ($90), Y : INY
+    LDA.w .chr, X                               : STA ($90), Y : INY
+    LDA.w .properties, X : ORA.b #$02 : ORA $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -382,14 +382,14 @@ Ancilla_Hookshot:
     
     LDA.w $0C72, X : ASL A : AND.b #$00FF : TAX
     
-    LDA .chain_y_speeds, X : BNE .use_actual_y_displacement
+    LDA.w .chain_y_speeds, X : BNE .use_actual_y_displacement
     
     ; Otherwise move the base y offset for the links down 4 pixels.
     LDA $04 : CLC : ADC.w #$0004 : STA $04
     
     .use_actual_y_displacement
     
-    LDA .chain_x_speeds, X : BNE .use_actual_x_displacement
+    LDA.w .chain_x_speeds, X : BNE .use_actual_x_displacement
     
     ; Otherwise move the base x offset for the links right 4 pixels.
     LDA $06 : CLC : ADC.w #$0004 : STA $06
@@ -401,7 +401,7 @@ Ancilla_Hookshot:
     
     REP #$20
     
-    LDA .chain_y_speeds, X : BEQ .dont_accumulate_y_offset
+    LDA.w .chain_y_speeds, X : BEQ .dont_accumulate_y_offset
     
     ; accumulate y offset.
     CLC : ADC $0A
@@ -411,7 +411,7 @@ Ancilla_Hookshot:
     CLC : ADC $04 : STA $04
               STA $00
     
-    LDA .chain_x_speeds, X : BEQ .dont_accumulate_x_offset
+    LDA.w .chain_x_speeds, X : BEQ .dont_accumulate_x_offset
     
     ; accumulate x offset.
     CLC : ADC $0C
@@ -425,9 +425,9 @@ Ancilla_Hookshot:
     
     ; If the chain's calculated position is too close to the player,
     ; it is omitted from the oam buffer.
-    JSR Hookshot_CheckChainLinkProximityToPlayer : BCS .chain_link_too_close
+    JSR.w Hookshot_CheckChainLinkProximityToPlayer : BCS .chain_link_too_close
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     ; Always same chr, but...
     LDA.b #$19 : STA ($90), Y : INY

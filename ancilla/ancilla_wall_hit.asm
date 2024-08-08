@@ -18,7 +18,7 @@ Ancilla_WallHit:
     ; $0413FF ALTERNATE ENTRY POINT
     shared Ancilla_SwordWallHit:
     
-    JSR Ancilla_AlertSprites
+    JSR.w Ancilla_AlertSprites
     
     DEC.w $03B1, X : BPL .delay
     
@@ -75,7 +75,7 @@ Pool_WallHit_Draw:
 ; $0414DF-$041542 LONG BRANCH LOCATION
 WallHit_Draw:
 {
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -94,7 +94,7 @@ WallHit_Draw:
     
     .next_oam_entry
     
-    LDA .chr, X : BEQ .skip_entry
+    LDA.w .chr, X : BEQ .skip_entry
     
     PHX
     
@@ -102,19 +102,19 @@ WallHit_Draw:
     
     REP #$20
     
-    LDA .y_offsets, X : CLC : ADC.b $04 : STA.b $00
-    LDA .x_offsets, X : CLC : ADC.b $06 : STA.b $02
+    LDA.w .y_offsets, X : CLC : ADC.b $04 : STA.b $00
+    LDA.w .x_offsets, X : CLC : ADC.b $06 : STA.b $02
     
     SEP #$20
     
     PLX
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X : STA ($90), Y
+    LDA.w .chr, X : STA ($90), Y
     INY
     
-    LDA .properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y
+    LDA.w .properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y
     INY : PHY
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
@@ -125,7 +125,7 @@ WallHit_Draw:
     
     .skip_entry
     
-    JSR Ancilla_CustomAllocateOam
+    JSR.w Ancilla_CustomAllocateOam
     
     INX
     

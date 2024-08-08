@@ -6,7 +6,7 @@ Ancilla_GameOverTextLong:
 {
     PHB : PHK : PLB
     
-    JSR Ancilla_GameOverText
+    JSR.w Ancilla_GameOverText
     
     PLB
     
@@ -85,12 +85,12 @@ GameOverText_SweepLeft:
     ; Rapidly move the object off screen? (The boomerang, I assume.)
     TYA : STA.w $0C2C, X
     
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveHoriz
     
     LDA.w $0C18, X                : BNE .to_right_of_target
     LDA.w $0C04, X : CMP.w $F4EE, X : BCS .to_right_of_target
     
-    LDA .target_x_coords, X : STA.w $0C04, X
+    LDA.w .target_x_coords, X : STA.w $0C04, X
     
     ; Add another letter, and move on if we've got all the letters in
     ; place.
@@ -163,13 +163,13 @@ GameOverText_UnfurlRight:
     
     LDA.b #$60 : STA.w $0C2C, X
     
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveHoriz
     
     LDY.w $039D
     
     LDA.w $0C04, X : CMP .target_x_coords, Y : BCC .left_of_limit
     
-    LDA .target_x_coords, Y : STA.w $0C04, Y
+    LDA.w .target_x_coords, Y : STA.w $0C04, Y
     
     INC.w $039D : LDA.w $039D : CMP.b #$08 : BNE .not_all_letters_in_position
     
@@ -239,19 +239,19 @@ GameOverText_Draw:
     LDA.w $0C04, X : STA $02
     LDA.w $0C18, X : STA $03
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     TXA : ASL A : TAX
     
-    LDA .chr+0, X : STA ($90), Y : INY
+    LDA.w .chr+0, X : STA ($90), Y : INY
     LDA.b #$3C    : STA ($90), Y : INY
     
     LDA.b #$5F : STA $00
                  STZ $01
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr+1, X : STA ($90), Y : INY
+    LDA.w .chr+1, X : STA ($90), Y : INY
     LDA.b #$3C    : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$08 : LSR #2 : TAY

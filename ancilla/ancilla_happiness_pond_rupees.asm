@@ -17,7 +17,7 @@ Ancilla_HappinessPondRupees:
     
     PHX
     
-    JSR HappinessPondRupees_ExecuteRupee
+    JSR.w HappinessPondRupees_ExecuteRupee
     
     PLX
     
@@ -58,13 +58,13 @@ Ancilla_HappinessPondRupees:
 HappinessPondRupees_ExecuteRupee:
 {
     ; WTF: Wait, why does this need 4 oam slots exactly?
-    LDA.b #$10 : JSR Ancilla_AllocateOam
+    LDA.b #$10 : JSR.w Ancilla_AllocateOam
     
     PHX
     
     LDY.w $0FA0
     
-    JSR HappinessPondRupee_LoadRupeeeState
+    JSR.w HappinessPondRupee_LoadRupeeeState
     
     TYX
     
@@ -84,7 +84,7 @@ HappinessPondRupees_ExecuteRupee:
     
     .just_draw_splash
     
-    JSR Ancilla_ObjectSplash.draw
+    JSR.w Ancilla_ObjectSplash_draw
     
     BRA .return
     
@@ -96,9 +96,9 @@ HappinessPondRupees_ExecuteRupee:
     
     LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveAltitude
     
     LDA.w $029E, X : BPL .just_draw_item
     CMP.b #$E4   : BCS .just_draw_item
@@ -115,7 +115,7 @@ HappinessPondRupees_ExecuteRupee:
     
     LDA.b #$06 : STA.w $0C68, X
     
-    LDA.b #$28 : JSR Ancilla_DoSfx2
+    LDA.b #$28 : JSR.w Ancilla_DoSfx2
     
     INC.w $0C54, X
     
@@ -126,7 +126,7 @@ HappinessPondRupees_ExecuteRupee:
     LDA.b #$02 : STA.w $0BF0, X
     LDA.b #$00 : STA.w $0C7C, X
     
-    JSR Ancilla_WishPondItem.draw
+    JSR.w Ancilla_WishPondItem_draw
     
     .return
     
@@ -134,7 +134,7 @@ HappinessPondRupees_ExecuteRupee:
     
     PLX
     
-    JSR HappinessPondRupees_StoreRupeeState
+    JSR.w HappinessPondRupees_StoreRupeeState
     
     RTS
 }

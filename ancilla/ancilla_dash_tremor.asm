@@ -19,7 +19,7 @@ Ancilla_DashTremor:
     
     .delay
     
-    JSL DashTremor_TwiddleOffset
+    JSL.l DashTremor_TwiddleOffset
     
     LDA $00 : STA.w $011A, Y
     LDA $01 : STA.w $011B, Y

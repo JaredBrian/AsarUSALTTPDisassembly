@@ -14,14 +14,14 @@ Ancilla_FireShot:
     
     STZ.w $0385, X
     
-    JSR Ancilla_MoveHoriz
-    JSR Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveVert
     
-    JSR Ancilla_CheckSpriteCollision : BCS .collided
+    JSR.w Ancilla_CheckSpriteCollision : BCS .collided
     
     LDA.w $0C72, X : ORA.b #$08 : STA.w $0C72, X
     
-    JSR Ancilla_CheckTileCollision
+    JSR.w Ancilla_CheckTileCollision
     
     PHP
     
@@ -33,7 +33,7 @@ Ancilla_FireShot:
     
     LDA.w $028A, X : STA $74
     
-    JSR Ancilla_CheckTileCollision
+    JSR.w Ancilla_CheckTileCollision
     
     PHP
     
@@ -49,7 +49,7 @@ Ancilla_FireShot:
     
     LDA.b #$08 : STA.w $0C90, X
     
-    LDA.b #$2A : JSR Ancilla_DoSfx2
+    LDA.b #$2A : JSR.w Ancilla_DoSfx2
     
     .no_collision
     
@@ -69,14 +69,14 @@ Ancilla_FireShot:
     
     PHX
     
-    JSL Dungeon_LightTorch
+    JSL.l Dungeon_LightTorch
     
     PLX
     
     .ignore_torch
     .just_draw
     
-    JSR FireShot_Draw
+    JSR.w FireShot_Draw
     
     RTS
 }
@@ -103,7 +103,7 @@ Pool_FireShot_Draw:
 ; $04077C-$0407CA LOCAL JUMP LOCATION
 FireShot_Draw:
 {
-    JSR Ancilla_BoundsCheck
+    JSR.w Ancilla_BoundsCheck
     
     LDA.w $0280, X : BEQ .default_priority
     
@@ -129,7 +129,7 @@ FireShot_Draw:
     
     LDX $03
     
-    LDA .chr, X          : INY : STA ($90), Y
+    LDA.w .chr, X          : INY : STA ($90), Y
     LDA $04 : ORA.b #$02 : INY : STA ($90), Y
     
     PHY
@@ -172,7 +172,7 @@ Pool_Ancilla_ConsumingFire:
     
     ; Initiate the sequence for burning open the final portion of the
     ; Skull Woods dungeon.
-    JSL ConsumingFire_TransmuteToSkullWoodsFire
+    JSL.l ConsumingFire_TransmuteToSkullWoodsFire
     
     PLX
     
@@ -186,8 +186,8 @@ Pool_Ancilla_ConsumingFire:
     ; $0407EC MAIN ENTRY POINT
 Ancilla_ConsumingFire:
     
-    JSR Ancilla_CheckBasicSpriteCollision
-    JSR Ancilla_BoundsCheck
+    JSR.w Ancilla_CheckBasicSpriteCollision
+    JSR.w Ancilla_BoundsCheck
     
     LDY.b #$00
     
@@ -198,7 +198,7 @@ Ancilla_ConsumingFire:
     
     LDA $00                    : STA ($90), Y
     LDA $01              : INY : STA ($90), Y
-    LDA .chr - 1, X      : INY : STA ($90), Y
+    LDA.w .chr - 1, X      : INY : STA ($90), Y
     LDA.b #$02 : ORA $04 : INY : STA ($90), Y
     
     LDA.b #$02 : STA ($92)

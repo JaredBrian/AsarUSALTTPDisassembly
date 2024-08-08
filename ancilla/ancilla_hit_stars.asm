@@ -46,12 +46,12 @@ Ancilla_HitStars:
     
     .dont_self_terminate
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
     
     .just_draw
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0C04, X : STA $06
     LDA.w $0C18, X : STA $07
@@ -69,7 +69,7 @@ Ancilla_HitStars:
     
     LDA.w $0C54, X : CMP.b #$02 : BNE .dont_alter_oam_allocation
     
-    LDA.b #$08 : JSR Ancilla_AllocateOam_B_or_E
+    LDA.b #$08 : JSR.w Ancilla_AllocateOam_B_or_E
     
     .dont_alter_oam_allocation
     
@@ -83,9 +83,9 @@ Ancilla_HitStars:
     
     .next_oam_entry
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X : STA ($90), Y : INY
+    LDA.w .chr, X : STA ($90), Y : INY
     
     LDA.b #$04 : ORA $65 : ORA $73 : STA ($90), Y : INY
     
@@ -97,7 +97,7 @@ Ancilla_HitStars:
     
     PLY
     
-    JSR HitStars_UpdateOamBufferPosition
+    JSR.w HitStars_UpdateOamBufferPosition
     
     ; Adjust the hflip on the second iteration.
     LDA.b #$40 : STA $73

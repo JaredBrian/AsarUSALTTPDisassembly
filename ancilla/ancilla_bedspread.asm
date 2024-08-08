@@ -18,7 +18,7 @@ Pool_Ancilla_BedSpread:
 ; $044013-$044090 JUMP LOCATION
 Ancilla_BedSpread:
 {
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -30,13 +30,13 @@ Ancilla_BedSpread:
     PHX
     
     LDA.w $037D : BNE .player_eyes_not_shut
-        LDA.b #$10 : JSL OAM_AllocateFromRegionB
+        LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
         
         BRA .oam_allocation_set
     
     .player_eyes_not_shut
     
-    LDA.b #$10 : JSL OAM_AllocateFromRegionA
+    LDA.b #$10 : JSL.l OAM_AllocateFromRegionA
     
     .oam_allocation_set
     
@@ -53,11 +53,11 @@ Ancilla_BedSpread:
     
     .next_oam_entry
     
-            JSR Ancilla_SetOam_XY
+            JSR.w Ancilla_SetOam_XY
             
-            LDA .chr, X : STA ($90), Y : INY
+            LDA.w .chr, X : STA ($90), Y : INY
             
-            LDA .properties, X : ORA.b #$0D : ORA $65 : STA ($90), Y : INY
+            LDA.w .properties, X : ORA.b #$0D : ORA $65 : STA ($90), Y : INY
             
             PHY
             

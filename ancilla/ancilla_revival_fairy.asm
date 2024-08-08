@@ -42,7 +42,7 @@ Ancilla_RevivalFairy:
     
     INC.w $0C54, X : LDY.w $0C54, X
     
-    LDA .timers, Y : STA.w $039F, X
+    LDA.w .timers, Y : STA.w $039F, X
     
     STZ.w $0380, X
     STZ.w $0294, X
@@ -51,7 +51,7 @@ Ancilla_RevivalFairy:
     
     .fairy_rising
     
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveAltitude
     
     BRL .draw
     
@@ -78,7 +78,7 @@ Ancilla_RevivalFairy:
     INC.w $0385, X
     
     ; Sprinkling fairy dust sound.
-    LDA.b #$31 : JSR Ancilla_DoSfx2
+    LDA.b #$31 : JSR.w Ancilla_DoSfx2
     
     .dont_initiate_sprinkle
     
@@ -124,7 +124,7 @@ Ancilla_RevivalFairy:
     
     .dont_toggle_float_direction
     
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveAltitude
     
     BRA .draw
     
@@ -144,14 +144,14 @@ Ancilla_RevivalFairy:
     
     .x_velocity_maxed
     
-    JSR Ancilla_MoveHoriz
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveAltitude
     
     .draw
     
-    LDA.b #$0C : JSL OAM_AllocateFromRegionC
+    LDA.b #$0C : JSL.l OAM_AllocateFromRegionC
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     PHX
     
@@ -179,7 +179,7 @@ Ancilla_RevivalFairy:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA.b $0A : BEQ .fairy_just_flapping
     
@@ -194,7 +194,7 @@ Ancilla_RevivalFairy:
     
     .commit_fairy_chr
     
-    LDA .chr, X  : STA ($90), Y : INY
+    LDA.w .chr, X  : STA ($90), Y : INY
     LDA.b #$74   : STA ($90), Y
     
     TYA : SEC : SBC.b #$03 : LSR #2 : TAY
@@ -216,8 +216,8 @@ Ancilla_RevivalFairy:
     .return
     .fairy_not_off_screen
     
-    JSR RevivalFairy_Dust
-    JSR RevivalFairy_MonitorPlayerRecovery
+    JSR.w RevivalFairy_Dust
+    JSR.w RevivalFairy_MonitorPlayerRecovery
     
     PLB
     
@@ -248,13 +248,13 @@ RevivalFairy_Dust:
     
     LDY.w $0FB3 : BNE .sort_sprites
     
-    JSL OAM_AllocateFromRegionA
+    JSL.l OAM_AllocateFromRegionA
     
     BRA .oam_allocated
     
     .sort_sprites
     
-    JSL OAM_AllocateFromRegionD
+    JSL.l OAM_AllocateFromRegionD
     
     .oam_allocated
     
@@ -265,7 +265,7 @@ RevivalFairy_Dust:
     LDY.b #$03
     
     ; probably chr or a grouping state?
-    LDA Ancilla_MagicPowder.animation_group_offsets, Y : STA.b $00
+    LDA Ancilla_MagicPowder_animation_group_offsets, Y : STA.b $00
     
     LDA.w $0C5E, X : INC A : CMP.b #$0A : BNE .powder_not_fully_dispersed
     
@@ -288,7 +288,7 @@ RevivalFairy_Dust:
     
     .animation_delay
     
-    JSR MagicPowder_Draw
+    JSR.w MagicPowder_Draw
     
     .return
     
@@ -359,7 +359,7 @@ RevivalFairy_MonitorPlayerRecovery:
     
     LDA.b #$04 : STA.w $0294, X
     
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveAltitude
     
     LDA.w $029E, X : CMP.b #$10 : BCC .altitude_not_at_target
     
@@ -382,7 +382,7 @@ RevivalFairy_MonitorPlayerRecovery:
     
     .delay_float_direction_toggle
     
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveAltitude
     
     .set_player_altitude
     

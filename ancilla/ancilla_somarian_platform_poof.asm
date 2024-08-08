@@ -34,7 +34,7 @@ Ancilla_SomarianPlatformPoof:
     PHX
     
     ; Create a cane of Somaria platform sprite
-    LDA.b #$ED : JSL Sprite_SpawnDynamically : BPL .spawn_succeeded
+    LDA.b #$ED : JSL.l Sprite_SpawnDynamically : BPL .spawn_succeeded
     
     BRL .spawn_failed
     
@@ -78,7 +78,7 @@ Ancilla_SomarianPlatformPoof:
     
     LDX.b $06
     
-    LDA .directions, X : STA.w $0DE0, Y
+    LDA.w .directions, X : STA.w $0DE0, Y
     
     LDA.b #$00 : STA.w $0F20, Y
     
@@ -89,7 +89,7 @@ Ancilla_SomarianPlatformPoof:
     ; WTF: What actually happens in the macroscopic game scale if we cannot
     ; spawn a sprite for the platform? Would be good to check this out.
     ; TODO: durp, check it out!
-    JSR SomarianBlock_Draw
+    JSR.w SomarianBlock_Draw
     
     .return
     

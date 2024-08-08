@@ -24,7 +24,7 @@ Ancilla_BlastWall:
     LDY.b #$0A
     LDA.b #$32
     
-    JSL AddBlastWallFireball
+    JSL.l AddBlastWallFireball
     
     PLX
     
@@ -130,7 +130,7 @@ Ancilla_BlastWall:
     
     LDA $72
     
-    JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA.w $012E
+    JSR.w Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA.w $012E
     
     .anoplay_explosion_sfx
     
@@ -171,7 +171,7 @@ Ancilla_BlastWall:
     
     PLX : PLY
     
-    JSR BlastWall_DrawExplosion
+    JSR.w BlastWall_DrawExplosion
     
     SEP #$20
     
@@ -218,11 +218,11 @@ BlastWall_DrawExplosion:
     
     LDA.l $7F0000, X : TAY
     
-    LDA Bomb_Draw.num_oam_entries, Y : STA $08
+    LDA Bomb_Draw_num_oam_entries, Y : STA $08
     
-    LDA Ancilla_Bomb.chr_groups, Y : TAY
+    LDA Ancilla_Bomb_chr_groups, Y : TAY
     
-    LDA Bomb_Draw.chr_start_offset, Y : ASL A : TAX
+    LDA Bomb_Draw_chr_start_offset, Y : ASL A : TAX
     
     ASL A : STA $04
             STZ $05
@@ -238,13 +238,13 @@ BlastWall_DrawExplosion:
     
     LDY.w $0FB3 : BEQ .dont_sort_sprites
     
-    JSL OAM_AllocateFromRegionD
+    JSL.l OAM_AllocateFromRegionD
     
     BRA .finished_allocating
     
     .dont_sort_sprites
     
-    JSL OAM_AllocateFromRegionA
+    JSL.l OAM_AllocateFromRegionA
     
     .finished_allocating
     
@@ -257,7 +257,7 @@ BlastWall_DrawExplosion:
     
     LDY.b #$00
     
-    JSR Bomb_DrawExplosion
+    JSR.w Bomb_DrawExplosion
     
     PLY : PLX
     
@@ -271,7 +271,7 @@ Bomb_DrawExplosion:
 {
     .next_oam_entry
     
-    LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
     
     ; offset index for placing the sprites?
     STX $72
@@ -282,18 +282,18 @@ Bomb_DrawExplosion:
     
     LDA $06 : ASL #2 : CLC : ADC $04 : TAX
     
-    LDA .y_offsets, X : CLC : ADC $0C : STA $00
-    LDA .x_offsets, X : CLC : ADC $0E : STA $02
+    LDA.w .y_offsets, X : CLC : ADC $0C : STA $00
+    LDA.w .x_offsets, X : CLC : ADC $0E : STA $02
     
     SEP #$20
     
     LDX $72
     
-    JSR Ancilla_SetSafeOam_XY
+    JSR.w Ancilla_SetSafeOam_XY
     
-    LDA .chr, X : STA ($90), Y : INY
+    LDA.w .chr, X : STA ($90), Y : INY
     
-    LDA .properties, X : AND.b #$C1
+    LDA.w .properties, X : AND.b #$C1
                          ORA $65
                          ORA $0B    : STA ($90), Y : INY
     
@@ -304,7 +304,7 @@ Bomb_DrawExplosion:
     
     TXA : LSR A : TAX
     
-    LDA .oam_sizes, X : ORA $75 : STA ($92), Y
+    LDA.w .oam_sizes, X : ORA $75 : STA ($92), Y
     
     LDX $73
     LDY $72

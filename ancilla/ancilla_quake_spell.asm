@@ -8,8 +8,8 @@ Ancilla_QuakeSpell:
     
     LDA.w $0C54, X : CMP.b #$02 : BEQ .wrap_up_state
     
-    JSR QuakeSpell_ShakeScreen
-    JSR QuakeSpell_ExecuteBolts
+    JSR.w QuakeSpell_ShakeScreen
+    JSR.w QuakeSpell_ExecuteBolts
     
     BRL QuakeSpell_SpreadGroundBolts
     
@@ -26,7 +26,7 @@ Ancilla_QuakeSpell:
     ; BUG: Maybe? Note the short branch a few lines down.
     LDA.l $7F5805, X : CMP.w $B713, X : BEQ .inactive_piece
     
-    JSR QuakeSpell_DrawFirstGroundBolts
+    JSR.w QuakeSpell_DrawFirstGroundBolts
     
     .possible_bug
     .inactive_piece
@@ -41,8 +41,8 @@ Ancilla_QuakeSpell:
     
     PHX
     
-    JSL Medallion_CheckSpriteDamage
-    JSL Player_ApplyRumbleToSprites
+    JSL.l Medallion_CheckSpriteDamage
+    JSL.l Player_ApplyRumbleToSprites
     
     PLX
     
@@ -69,7 +69,7 @@ Ancilla_QuakeSpell:
     ; Check event overlay flag for Turtle Rock (overworld)
     LDA.l $7EF2C7 : AND.b #$20 : BNE .not_turtle_rock_trigger
     
-    LDY.b #$03 : JSR Ancilla_CheckIfEntranceTriggered
+    LDY.b #$03 : JSR.w Ancilla_CheckIfEntranceTriggered
     
     BCC .not_turtle_rock_trigger
     
@@ -156,7 +156,7 @@ QuakeSpell_ExecuteBolts:
     CMP.b #$02 : BNE .dont_activate_second_state
     
     ; Play loud thud sound.
-    LDA.b #$0C : JSR Ancilla_DoSfx2_NearPlayer
+    LDA.b #$0C : JSR.w Ancilla_DoSfx2_NearPlayer
     
     ; Add an extra... something.
     LDA.b #$01 : STA.l $7F580A
@@ -186,7 +186,7 @@ QuakeSpell_ExecuteBolts:
     
     .draw_bolt
     
-    JSR QuakeSpell_DrawFirstGroundBolts
+    JSR.w QuakeSpell_DrawFirstGroundBolts
     
     .component_inactive
     
@@ -220,12 +220,12 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
     LDA.l $7F5805, X : CLC : ADC .pointer_offsets, X : ASL A : TAY
     
     ; Start pointer.
-    LDA .pointers+0, Y : STA $72
-    LDA .pointers+1, Y : STA $73
+    LDA.w .pointers+0, Y : STA $72
+    LDA.w .pointers+1, Y : STA $73
     
     ; End pointer
-    LDA .pointers+2, Y : STA $74
-    LDA .pointers+3, Y : STA $75
+    LDA.w .pointers+2, Y : STA $74
+    LDA.w .pointers+3, Y : STA $75
     
     REP #$20
     
@@ -295,7 +295,7 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
     
     LDA ($72), Y : AND.b #$0F : TAX
     
-    LDA QuakeSpell_DrawGroundBolts.chr, X
+    LDA QuakeSpell_DrawGroundBolts_chr, X
     
     ; Store chr.
     LDY.b #$00 : STA ($90), Y : INC $90
@@ -372,12 +372,12 @@ QuakeSpell_DrawGroundBolts:
     ; TODO: Check into this.
     
     ; Start pointer
-    LDA .pointers+0, Y : STA $72
-    LDA .pointers+1, Y : STA $73
+    LDA.w .pointers+0, Y : STA $72
+    LDA.w .pointers+1, Y : STA $73
     
     ; End pointer
-    LDA .pointers+2, Y : STA $74
-    LDA .pointers+3, Y : STA $75
+    LDA.w .pointers+2, Y : STA $74
+    LDA.w .pointers+3, Y : STA $75
     
     REP #$20
     
@@ -405,7 +405,7 @@ QuakeSpell_DrawGroundBolts:
     LDA ($72), Y : AND.b #$0F : TAX
     
     ; Store chr.
-    LDA .chr, X
+    LDA.w .chr, X
     
     LDY.b #$00 : STA ($90), Y : INC $90
     
@@ -423,7 +423,7 @@ QuakeSpell_DrawGroundBolts:
     
     LDY.b #$00 : STA ($92), Y : INC $92
     
-    JSR Ancilla_CustomAllocateOam
+    JSR.w Ancilla_CustomAllocateOam
     
     INX : CPX $74 : BNE .next_oam_entry
     

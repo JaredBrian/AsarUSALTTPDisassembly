@@ -15,7 +15,7 @@ Ancilla_BreakTowerSeal:
     
     STA.w $0C22, X
     
-    JSR Ancilla_MoveVert
+    JSR.w Ancilla_MoveVert
     
     LDA.w $0BFA, X : STA $00
     LDA.w $0C0E, X : STA $01
@@ -56,7 +56,7 @@ Ancilla_BreakTowerSeal:
     
     SEP #$20
     
-    JSL Main_ShowTextMessage
+    JSL.l Main_ShowTextMessage
     
     BRA .draw_single_crystal_prep
     
@@ -78,7 +78,7 @@ Ancilla_BreakTowerSeal:
     LDA.l $7F5808 : STA.w $0C04, X
                   STZ.w $0C18, X
     
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveHoriz
     
     LDA.w $0C04, X : STA.l $7F5808
     
@@ -133,7 +133,7 @@ Ancilla_BreakTowerSeal:
     LDA.l $7F5808 : STA.w $0C04, X
                   STZ.w $0C18, X
     
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveHoriz
     
     LDA.w $0C04, X : STA.l $7F5808
     
@@ -151,7 +151,7 @@ Ancilla_BreakTowerSeal:
     LDA.b #$00 : STA.w $0AB1
     LDA.b #$02 : STA.w $0AA9
     
-    JSL Palette_MiscSpr.justSP6
+    JSL.l Palette_MiscSpr_justSP6
     
     INC $15
     
@@ -167,7 +167,7 @@ Ancilla_BreakTowerSeal:
     
     LDA.w $0C54, X : STA $72 : BEQ .no_sparkles_yet
     
-    JSR BreakTowerSeal_ExecuteSparkles
+    JSR.w BreakTowerSeal_ExecuteSparkles
     
     .no_sparkles_yet
     
@@ -191,7 +191,7 @@ Ancilla_BreakTowerSeal:
     
     LDA.l $7F5800, X
     
-    JSR Ancilla_GetRadialProjection
+    JSR.w Ancilla_GetRadialProjection
     
     REP #$20
     
@@ -229,7 +229,7 @@ Ancilla_BreakTowerSeal:
     
     PHX
     
-    JSR BreakTowerSeal_DrawCrystal
+    JSR.w BreakTowerSeal_DrawCrystal
     
     PLX : DEX : BPL .handle_next_crystal
     
@@ -239,7 +239,7 @@ Ancilla_BreakTowerSeal:
     
     PHY
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     PLY
     
@@ -249,13 +249,13 @@ Ancilla_BreakTowerSeal:
     LDA $02 : STA.l $7F582E
     LDA $03 : STA.l $7F5836
     
-    JSR BreakTowerSeal_DrawCrystal
+    JSR.w BreakTowerSeal_DrawCrystal
     
     LDX.w $0FA0
     
     LDA.w $0C54, X : BNE .stop_spawning_sparkles
     
-    JSR Ancilla_AddSwordChargeSpark
+    JSR.w Ancilla_AddSwordChargeSpark
     
     BRA .return
     
@@ -263,7 +263,7 @@ Ancilla_BreakTowerSeal:
     
     LDA $11 : BNE .return
     
-    JSR BreakTowerSeal_ActivateSingleSparkle
+    JSR.w BreakTowerSeal_ActivateSingleSparkle
     
     LDX.w $0FA0
     
@@ -277,7 +277,7 @@ Ancilla_BreakTowerSeal:
 ; $044EAA-$044EC6 LOCAL JUMP LOCATION
 BreakTowerSeal_DrawCrystal:
 {
-    JSR Ancilla_SetSafeOam_XY
+    JSR.w Ancilla_SetSafeOam_XY
     
     LDA.b #$24 : STA ($90), Y : INY
     LDA.b #$3C : STA ($90), Y
@@ -321,7 +321,7 @@ BreakTowerSeal_ActivateSingleSparkle:
     ; Generate a random X and Y offset relative to a crystal location.
     ; This logic restricts the offsets in both dimensions to being
     ; 0 to 15.
-    JSL GetRandomInt : STA $08
+    JSL.l GetRandomInt : STA $08
     LSR #4           : STA $09
     
     LDA $08 : AND.b #$0F : STA $08
@@ -395,7 +395,7 @@ BreakTowerSeal_ExecuteSparkles:
     ; subroutine.
     LDA.l $7F5837, X : TAX
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     ; Uses the same chr and properties as the master sword swing sparkle?
     LDA.w $C1E4, X              : STA ($90), Y : INY

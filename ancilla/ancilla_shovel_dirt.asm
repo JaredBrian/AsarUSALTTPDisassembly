@@ -19,7 +19,7 @@ Pool_Ancilla_ShovelDirt:
 ; $0429A9-$042A31 JUMP LOCATION
 Ancilla_ShovelDirt:
 {
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0C68, X : BNE .delay
     
@@ -50,9 +50,9 @@ Ancilla_ShovelDirt:
     
     REP #$20
     
-    LDA .xy_offsets+0, Y : CLC : ADC.b $00 : STA.b $00
+    LDA.w .xy_offsets+0, Y : CLC : ADC.b $00 : STA.b $00
     
-    LDA .xy_offsets+2, Y : CLC : ADC.b $02 : STA.b $02
+    LDA.w .xy_offsets+2, Y : CLC : ADC.b $02 : STA.b $02
     CLC : ADC.w #$0008         : STA.b $04
     
     SEP #$20
@@ -63,7 +63,7 @@ Ancilla_ShovelDirt:
     
     .next_oam_entry
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDX.b $0A
     
@@ -74,7 +74,7 @@ Ancilla_ShovelDirt:
     
     LDA.b #$00 : STA ($92), Y
     
-    PLY : JSR Ancilla_CustomAllocateOam
+    PLY : JSR.w Ancilla_CustomAllocateOam
     
     LDA.b $04 : STA.b $02
     LDA.b $05 : STA.b $03

@@ -11,8 +11,8 @@ Gravestone_Move:
     
     LDA.b #$F8 : STA.w $0C22, X
     
-    JSR Ancilla_MoveVert
-    JSR Gravestone_RepelPlayerAdvance
+    JSR.w Ancilla_MoveVert
+    JSR.w Gravestone_RepelPlayerAdvance
     
     LDA.w $038A, X : STA $00
     LDA.w $038F, X : STA $01
@@ -61,7 +61,7 @@ Gravestone_Move:
     
     PHX
     
-    JSL Overworld_DoMapUpdate32x32_Long
+    JSL.l Overworld_DoMapUpdate32x32_Long
     
     PLX
     
@@ -98,7 +98,7 @@ Ancilla_Gravestone:
 {
     PHX
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     REP #$20
     
@@ -106,16 +106,16 @@ Ancilla_Gravestone:
     
     SEP #$20
     
-    LDA.b #$10 : JSL OAM_AllocateFromRegionB
+    LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
     
     LDY.b #$00 : TYX
     
     .next_oam_entry
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X                     : STA ($90), Y : INY
-    LDA .properties, X : ORA.b #$3D : STA ($90), Y : INY
+    LDA.w .chr, X                     : STA ($90), Y : INY
+    LDA.w .properties, X : ORA.b #$3D : STA ($90), Y : INY
     
     PHY
     

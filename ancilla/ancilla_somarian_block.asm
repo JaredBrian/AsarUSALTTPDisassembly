@@ -51,7 +51,7 @@ Pool_Ancilla_SomarianBlock:
 ; $046365-$04674B JUMP LOCATION
 Ancilla_SomarianBlock:
 {
-    DEC.w $0394, X : BPL Ancilla_SetupBasicHitBox.return
+    DEC.w $0394, X : BPL Ancilla_SetupBasicHitBox_return
     
     STZ.w $0394, X
     
@@ -63,7 +63,7 @@ Ancilla_SomarianBlock:
     
     .full_execute
     
-    JSR Ancilla_LiftableObjectLogic
+    JSR.w Ancilla_LiftableObjectLogic
     
     BRA .held_logic
     
@@ -76,14 +76,14 @@ Ancilla_SomarianBlock:
     
     LDY.b #$03
     
-    JSR Ancilla_PegCoordsToPlayer
-    JSR Ancilla_PegAltitudeAbovePlayer
+    JSR.w Ancilla_PegCoordsToPlayer
+    JSR.w Ancilla_PegAltitudeAbovePlayer
     
     LDA.b #$03 : STA.w $0380, X
     
     .assert_fully_held_position
     
-    JSR Ancilla_SetPlayerHeldPosition
+    JSR.w Ancilla_SetPlayerHeldPosition
     
     .pretrigger_logic
     
@@ -130,7 +130,7 @@ Ancilla_SomarianBlock:
     
     LDA.w $0280, X : PHA
     
-    JSR Ancilla_CheckTargetedTileCollision
+    JSR.w Ancilla_CheckTargetedTileCollision
     
     PLA : STA.w $0280, X
     
@@ -152,7 +152,7 @@ Ancilla_SomarianBlock:
     LDA.b $74 : STA.w $0C04, X
     LDA.b $75 : STA.w $0C18, X
     
-    JSL AddSomarianPlatformPoof
+    JSL.l AddSomarianPlatformPoof
     
     TXA : INC A : CMP.w $02EC : BNE .reset_nearest_flag_near_platform
     
@@ -167,7 +167,7 @@ Ancilla_SomarianBlock:
     ; WTF: Does this routine check against star tiles? Could I use this
     ; to trigger doors in dungeon by putting a block on a star tile?
     ; (or whatever 0x3b is?)
-    JSR SomarianBlock_CheckCoveredTileTrigger : BCS .tile_collision_logic
+    JSR.w SomarianBlock_CheckCoveredTileTrigger : BCS .tile_collision_logic
     
     LDA.w $029E, X : BEQ .set_tile_trigger_flag
     CMP.b #$FF   : BNE .tile_collision_logic
@@ -178,14 +178,14 @@ Ancilla_SomarianBlock:
     
     .tile_collision_logic
     
-    JSR Ancilla_Adjust_Y_CoordByAltitude
+    JSR.w Ancilla_Adjust_Y_CoordByAltitude
     
     LDA.w $0C72, X : STA.b $74
     LDA.w $0280, X : STA.b $75
     
     STZ.w $0280, X
     
-    JSR Ancilla_CheckTileCollision_Class2
+    JSR.w Ancilla_CheckTileCollision_Class2
     
     PHP
     
@@ -286,7 +286,7 @@ Ancilla_SomarianBlock:
     
     LDA.w $0280, X : PHA
     
-    JSR Ancilla_CheckTileCollision
+    JSR.w Ancilla_CheckTileCollision
     
     PLA : STA.w $0280, X
     
@@ -374,7 +374,7 @@ Ancilla_SomarianBlock:
     
     .apply_conveyor_movement_to_object
     
-    JSR Ancilla_ConveyorBeltVelocityOverride
+    JSR.w Ancilla_ConveyorBeltVelocityOverride
     
     BRA .damage_logic
     
@@ -414,7 +414,7 @@ Ancilla_SomarianBlock:
     
     STZ.w $0280, X
     
-    JSR Ancilla_CheckBasicSpriteCollision : BCC .dont_fizzle
+    JSR.w Ancilla_CheckBasicSpriteCollision : BCC .dont_fizzle
     
     LDA.b #$07 : STA.w $03A9, X
     
@@ -427,7 +427,7 @@ Ancilla_SomarianBlock:
     LDA.b $74 : STA.w $0C72, X
     LDA.b $75 : STA.w $0280, X
     
-    JSR Ancilla_Set_Y_Coord
+    JSR.w Ancilla_Set_Y_Coord
     
     ; $04661B ALTERNATE ENTRY POINT
     shared SomarianBlock_Draw:
@@ -440,7 +440,7 @@ Ancilla_SomarianBlock:
     
     LDA.b $2F : BNE .no_special_oam_allocation
     
-    LDA.w $0C90, X : JSR Ancilla_AllocateOam_B_or_E
+    LDA.w $0C90, X : JSR.w Ancilla_AllocateOam_B_or_E
     
     BRA .prep_coords
     
@@ -467,7 +467,7 @@ Ancilla_SomarianBlock:
     
     .prep_coords
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     REP #$20
     
@@ -522,13 +522,13 @@ Ancilla_SomarianBlock:
     
     SEP #$20
     
-    JSR Ancilla_SetSafeOam_XY
+    JSR.w Ancilla_SetSafeOam_XY
     
     ; NOTE: Really? This is made out of 4 little sprites and not 1 big one?
     ; I doesn't computer this amdfpaiosdfjadsofja. (Maybe it was a space
     ; limitation, but still...)
     LDA.b #$E9                                          : STA ($90), Y : INY
-    LDA .properties, X : AND.b #$CF : ORA.b $72 : ORA.b $65 : STA ($90), Y : INY
+    LDA.w .properties, X : AND.b #$CF : ORA.b $72 : ORA.b $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -590,7 +590,7 @@ Ancilla_SomarianBlock:
 ; ==============================================================================
 
 ; $04674C-$04675B DATA
-    Pool_SomarianBlock_CheckCoveredTileTrigger
+Pool_SomarianBlock_CheckCoveredTileTrigger:
 {
     .y_offsets
     dw -4,  4,  0,  0
@@ -622,7 +622,7 @@ SomarianBlock_CheckCoveredTileTrigger:
     
     LDA.w $0280, X : PHA
     
-    JSR Ancilla_CheckTargetedTileCollision
+    JSR.w Ancilla_CheckTargetedTileCollision
     
     PLA : STA.w $0280, X
     
@@ -760,7 +760,7 @@ SomarianBlock_PlayerInteraction:
     
     LDY.b #$04
     
-    JSR Ancilla_CheckPlayerCollision : BCC .end_push_logic
+    JSR.w Ancilla_CheckPlayerCollision : BCC .end_push_logic
     
     LDA.w $0C7C, X : CMP $EE : BNE .end_push_logic
     
@@ -774,9 +774,9 @@ SomarianBlock_PlayerInteraction:
     
     .disable_nearby_status
     
-    JSL Player_HaltDashAttackLong
+    JSL.l Player_HaltDashAttackLong
     
-    LDA.b #$32 : JSR Ancilla_DoSfx3
+    LDA.b #$32 : JSR.w Ancilla_DoSfx3
     
     BRL SomarianBlock_InitDashBounce
     
@@ -789,11 +789,11 @@ SomarianBlock_PlayerInteraction:
     
     AND.b #$03 : BEQ .vertical_push
     
-    LDY .positive_push_speed
+    LDY.w .positive_push_speed
     
     AND.b #$01 : BNE .left_push
     
-    LDY .negative_push_speed
+    LDY.w .negative_push_speed
     
     .left_push
     
@@ -809,11 +809,11 @@ SomarianBlock_PlayerInteraction:
     
     .vertical_push
     
-    LDY .positive_push_speed
+    LDY.w .positive_push_speed
     
     LDA.b $F0 : AND.b #$08 : BEQ .upward_push
     
-    LDY .negative_push_speed
+    LDY.w .negative_push_speed
     
     .upward_push
     
@@ -836,10 +836,10 @@ SomarianBlock_PlayerInteraction:
     
     .no_player_recoil
     
-    JSR Ancilla_CheckTileCollision_Class2 : BCS .no_tile_collision
+    JSR.w Ancilla_CheckTileCollision_Class2 : BCS .no_tile_collision
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
     
     ; TODO: Does this like.... mean if you walk up to a somarian block
     ; while you're holding something else it makes no noise?
@@ -850,7 +850,7 @@ SomarianBlock_PlayerInteraction:
     
     INC.w $038A, X : STA.w $038A, X : AND.b #$07 : BNE .no_push_sfx
     
-    LDA.b $22 : JSR Ancilla_DoSfx2
+    LDA.b $22 : JSR.w Ancilla_DoSfx2
     
     .no_push_sfx
     .no_tile_collision
@@ -860,7 +860,7 @@ SomarianBlock_PlayerInteraction:
     
     .player_recoiling
     
-    JSL Sprite_NullifyHookshotDrag
+    JSL.l Sprite_NullifyHookshotDrag
     
     .return
     
@@ -879,12 +879,12 @@ SomarianBlock_InitDashBounce:
     
     LDA.b $2F : LSR A : STA.w $0C72, X : TAY
     
-    LDA .launch_y_speeds, Y : STA.w $0C22, X
+    LDA.w .launch_y_speeds, Y : STA.w $0C22, X
     
-    LDA .launch_x_speeds, Y : STA.w $0C2C, X
+    LDA.w .launch_x_speeds, Y : STA.w $0C2C, X
     
     ; Not indexed, used the maximum rise available in the array.
-    LDA .bounce_rebound_z_speeds : STA.w $0294, X
+    LDA.w .bounce_rebound_z_speeds : STA.w $0294, X
     
     LDA.b #$01 : STA.w $03C5, X
     
@@ -896,9 +896,9 @@ SomarianBlock_InitDashBounce:
     ; Simulate gravity.
     LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveAltitude
     
     LDA.w $029E, X : BEQ .hit_ground
     CMP.b #$FC   : BCC .return
@@ -906,7 +906,7 @@ SomarianBlock_InitDashBounce:
     .hit_ground
     
     ; Play plopping on the ground noise when it hits the ground.
-    LDA.b #$21 : JSR Ancilla_DoSfx2
+    LDA.b #$21 : JSR.w Ancilla_DoSfx2
     
     ; Force altitude to zero.
     STZ.w $029E, X
@@ -927,7 +927,7 @@ SomarianBlock_InitDashBounce:
     DEX
     
     ; Get different resultant altitude speeds for each bounce.
-    LDA .bounce_rebound_z_speeds, Y : STA.w $0294, X
+    LDA.w .bounce_rebound_z_speeds, Y : STA.w $0294, X
     
     LDA.b $2F : LSR A : STA.b $00
     

@@ -30,7 +30,7 @@ Pool_Ancilla_LampFlame:
 ; $046C13-$046C76 JUMP LOCATION
 Ancilla_LampFlame:
 {
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     LDA $00 : STA $06
     LDA $01 : STA $07
@@ -49,17 +49,17 @@ Ancilla_LampFlame:
     
     .next_oam_entry
     
-    LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
     
-    LDA .y_offsets_low, X : CLC : ADC $06                : STA $00
+    LDA.w .y_offsets_low, X : CLC : ADC $06                : STA $00
     LDA $07               : ADC .y_offsets_high, X : STA $01
     
-    LDA .x_offsets_low, X : CLC : ADC $04    : STA $02
+    LDA.w .x_offsets_low, X : CLC : ADC $04    : STA $02
     LDA $05               : ADC.b #$00 : STA $03
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X          : STA ($90), Y : INY
+    LDA.w .chr, X          : STA ($90), Y : INY
     LDA.b #$02 : ORA $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY

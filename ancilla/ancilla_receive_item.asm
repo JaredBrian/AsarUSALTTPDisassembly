@@ -94,7 +94,7 @@ Ancilla_ReceiveItem:
         .isPendant
     
         ; Wait for the music to stop ( I think )
-        LDA.w $2140 : BEQ .wait_for_music
+        LDA.w SNES.APUIOPort0 : BEQ .wait_for_music
             INC.w $03B1, X
             
             BRA .timerWait
@@ -134,7 +134,7 @@ Ancilla_ReceiveItem:
     STZ.w $02DA
     STZ.w $037B
     
-    JSL GiveRupeeGift ; $04AD6C IN ROM
+    JSL.l GiveRupeeGift ; $04AD6C IN ROM
     
     ; needs real name
     .optimus
@@ -149,7 +149,7 @@ Ancilla_ReceiveItem:
             LDY.b #$26
             
             ; Grant a heart container!!! yay
-            JSL Link_ReceiveItem
+            JSL.l Link_ReceiveItem
             
             PLX
             
@@ -194,7 +194,7 @@ Ancilla_ReceiveItem:
     
         .playHeartContainerSfx
     
-        LDA.b #$0D : JSR Ancilla_DoSfx3_NearPlayer
+        LDA.b #$0D : JSR.w Ancilla_DoSfx3_NearPlayer
         
         BRA .objectFinished
     
@@ -224,7 +224,7 @@ Ancilla_ReceiveItem:
     
             PHX
             
-            JSL Palette_ArmorAndGloves
+            JSL.l Palette_ArmorAndGloves
             
             PLX
     
@@ -244,7 +244,7 @@ Ancilla_ReceiveItem:
         
         PHA : PHX
         
-        JSL PrepDungeonExit
+        JSL.l PrepDungeonExit
         
         PLX : PLA
     
@@ -271,7 +271,7 @@ Ancilla_ReceiveItem:
         ; Check if item came from sprite
         LDA.w $0C54, X : CMP.b #$02 : BEQ .dontGiveRupees
             ; $04AD6C IN ROM
-            JSL GiveRupeeGift : BCS .rupeesGiven
+            JSL.l GiveRupeeGift : BCS .rupeesGiven
                 LDA.w $0C5E, X : CMP.b #$17 : BNE .noSoundEffect
     
     .dontGiveRupees
@@ -281,7 +281,7 @@ Ancilla_ReceiveItem:
     .noSoundEffect
     .rupeesGiven
     
-    LDA.b #$0F : JSR Ancilla_DoSfx3_NearPlayer
+    LDA.b #$0F : JSR.w Ancilla_DoSfx3_NearPlayer
     
     BRA .dontGiveRupees
     
@@ -322,7 +322,7 @@ Ancilla_ReceiveItem:
         
         REP #$20
         
-        LDA .pendant_encouragement_message, Y : STA.w $1CF0
+        LDA.w .pendant_encouragement_message, Y : STA.w $1CF0
             SEP #$20
             
             BRA .doTextMessage
@@ -336,7 +336,7 @@ Ancilla_ReceiveItem:
         
         REP #$20
         
-        LDA .piece_of_heart_messages, Y : CMP.w #$FFFF : BEQ .handleGraphics
+        LDA.w .piece_of_heart_messages, Y : CMP.w #$FFFF : BEQ .handleGraphics
             STA.w $1CF0
             
             SEP #$20
@@ -349,7 +349,7 @@ Ancilla_ReceiveItem:
         
     REP #$20
         
-    LDA .item_messages, Y : CMP.w #$FFFF : BEQ .handleGraphics
+    LDA.w .item_messages, Y : CMP.w #$FFFF : BEQ .handleGraphics
         ; Check if it's Sahasralah's speech after getting the master sword
         STA.w $1CF0 : CMP.w #$0070 : BNE .notGeezerSpeech
             SEP #$20
@@ -363,7 +363,7 @@ Ancilla_ReceiveItem:
     
         .doTextMessage
     
-        JSL Main_ShowTextMessage
+        JSL.l Main_ShowTextMessage
         
         BRA .handleGraphics
     
@@ -381,7 +381,7 @@ Ancilla_ReceiveItem:
         
     ; Move the object's in the Y direction based on $0C22, X's value
     ; handles speed values for the object (velocity)
-    JSR Ancilla_MoveVert
+    JSR.w Ancilla_MoveVert
     
     .handleGraphics
     
@@ -392,9 +392,9 @@ Ancilla_ReceiveItem:
     ; Set a timer to zero.
     STZ.w $029E, X 
     
-    JSR Ancilla_AddSwordChargeSpark
+    JSR.w Ancilla_AddSwordChargeSpark
     
-    LDA.w $2140 : BNE .waitForSilence
+    LDA.w SNES.APUIOPort0 : BNE .waitForSilence
         ; Play the boss victory tune.
         LDA.b #$1A : STA.w $012C
         
@@ -407,7 +407,7 @@ Ancilla_ReceiveItem:
     SEP #$20
     
     LDA.w $0C5E, X : CMP.b #$01 : BNE .checkIfRupee
-    LDA .default_oam_properties : STA.w $0BF0, X
+    LDA.w .default_oam_properties : STA.w $0BF0, X
     
     LDA.w $0C54, X : CMP.b #$02 : BEQ .dontAnimateMasterSword
         LDA.w $0C68, X : CMP.b #$10 : BCC .waitAnimateMasterSword
@@ -425,7 +425,7 @@ Ancilla_ReceiveItem:
     
         STA.w $03A4, X : TAY
     
-        LDA .default_oam_properties, Y : STA.w $0BF0, X
+        LDA.w .default_oam_properties, Y : STA.w $0BF0, X
     
     .dontAnimateMasterSword
     .checkIfRupee
@@ -446,18 +446,18 @@ Ancilla_ReceiveItem:
     TAY
         
     ; Set a new countdown timer for the amount of time it takes to get to the next animation step.
-    LDA .animation_timers, Y : STA.w $039F, X
+    LDA.w .animation_timers, Y : STA.w $039F, X
         
     PHX
         
     ; Load a new tile for the rupee
-    LDA .animation_tiles, Y : JSL GetAnimatedSpriteTile
+    LDA.w .animation_tiles, Y : JSL.l GetAnimatedSpriteTile
         
     PLX
     
     .dontAnimateSprite
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     REP #$20
     
@@ -478,12 +478,12 @@ Ancilla_ReceiveItem:
     LDY.b #$00
     
     ; Writes X and Y coordinates to OAM buffer
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     ; always use the same character graphic (0x24)
     LDA.b #$24 : STA ($90), Y : INY
     
-    LDA AddReceiveItem.properties, X : BPL .valid_upper_properties
+    LDA AddReceiveItem_properties, X : BPL .valid_upper_properties
     LDA.b $74
     
     .valid_upper_properties
@@ -494,7 +494,7 @@ Ancilla_ReceiveItem:
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
-    LDA .wide_item_flag, X : STA ($92), Y
+    LDA.w .wide_item_flag, X : STA ($92), Y
     
     PLY
     
@@ -508,12 +508,12 @@ Ancilla_ReceiveItem:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     ; always use the same character graphic (0x34)
     LDA.b #$34 : STA ($90), Y : INY
     
-    LDA AddReceiveItem.properties, X : BPL .valid_lower_properties
+    LDA AddReceiveItem_properties, X : BPL .valid_lower_properties
         LDA.b $74
     
     .valid_lower_properties

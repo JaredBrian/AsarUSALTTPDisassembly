@@ -26,14 +26,14 @@ Ancilla_TransmuteToObjectSplash:
     LDA.w $0C04, X : CLC : ADC.b #$F8 : STA.w $0C04, X
     LDA.w $0C18, X : ADC.b #$FF : STA.w $0C18, X
     
-    LDA.b #$28 : JSR Ancilla_DoSfx2
+    LDA.b #$28 : JSR.w Ancilla_DoSfx2
     
     ; $044A01 ALTERNATE ENTRY POINT
     shared Ancilla_ObjectSplash:
     
     LDA.b #$08
     
-    JSR Ancilla_AllocateOam
+    JSR.w Ancilla_AllocateOam
     
     LDA.b $11 : BNE .draw
     
@@ -50,7 +50,7 @@ Ancilla_TransmuteToObjectSplash:
     ; $044A22 ALTERNATE ENTRY POINT
     .draw
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -82,7 +82,7 @@ Ancilla_TransmuteToObjectSplash:
     
     PLX
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA.w $C987, X              : STA ($90), Y : INY
     LDA.w $C991, X : ORA.b #$24 : STA ($90), Y : INY

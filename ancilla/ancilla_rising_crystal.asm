@@ -20,7 +20,7 @@ Ancilla_TransmuteToRisingCrystal:
     
     STZ.w $029E, X
     
-    JSR Ancilla_AddSwordChargeSpark
+    JSR.w Ancilla_AddSwordChargeSpark
     
     LDA.w $0C22, X : CLC : ADC.b #$FF : CMP.b #$F0 : BCS .ascent_speed_maxed
     
@@ -30,7 +30,7 @@ Ancilla_TransmuteToRisingCrystal:
     
     STA.w $0C22, X
     
-    JSR Ancilla_MoveVert
+    JSR.w Ancilla_MoveVert
     
     LDA.w $0BFA, X : STA.b $00
     LDA.w $0C0E, X : STA.b $01
@@ -83,7 +83,7 @@ Ancilla_TransmuteToRisingCrystal:
     
     SEP #$20
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     REP #$20
     
@@ -91,7 +91,7 @@ Ancilla_TransmuteToRisingCrystal:
     
     SEP #$20
     
-    JSR Ancilla_ReceiveItem.draw
+    JSR.w Ancilla_ReceiveItem_draw
     
     RTS
 }

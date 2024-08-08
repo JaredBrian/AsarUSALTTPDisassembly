@@ -45,7 +45,7 @@ Ancilla_WaterfallSplash:
     
     .indoors
     
-    JSR Ancilla_CheckIfEntranceTriggered : BCS .do_splash_sequence
+    JSR.w Ancilla_CheckIfEntranceTriggered : BCS .do_splash_sequence
     
     STZ.w $0C4A, X
     
@@ -57,7 +57,7 @@ Ancilla_WaterfallSplash:
     
     LDA.b $1A : AND.b #$07 : BNE .no_sound_effect
     
-    LDA.b #$1C : JSR Ancilla_DoSfx2_NearPlayer
+    LDA.b #$1C : JSR.w Ancilla_DoSfx2_NearPlayer
     
     .no_sound_effect
     
@@ -97,7 +97,7 @@ Ancilla_WaterfallSplash:
     LDA.b $22 : STA.w $0C04, X
     LDA.b $23 : STA.w $0C18, X
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     LDA.b $24 : BPL .positive_z_player_coord
     
@@ -117,22 +117,22 @@ Ancilla_WaterfallSplash:
     
     .next_oam_entry
     
-    LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
     
-    LDA .y_offsets_low,  X : CLC : ADC.b $06 : STA.b $00
-    LDA .y_offsets_high, X : ADC.b $07 : STA.b $01
+    LDA.w .y_offsets_low,  X : CLC : ADC.b $06 : STA.b $00
+    LDA.w .y_offsets_high, X : ADC.b $07 : STA.b $01
     
-    LDA .x_offsets_low,  X : CLC : ADC.b $04 : STA.b $02
-    LDA .x_offsets_high, X : ADC.b $05 : STA.b $03
+    LDA.w .x_offsets_low,  X : CLC : ADC.b $04 : STA.b $02
+    LDA.w .x_offsets_high, X : ADC.b $05 : STA.b $03
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X                     : STA ($90), Y : INY
-    LDA .properties, X : ORA.b #$30 : STA ($90), Y : INY
+    LDA.w .chr, X                     : STA ($90), Y : INY
+    LDA.w .properties, X : ORA.b #$30 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
-    LDA .oam_sizes, X : STA ($92), Y
+    LDA.w .oam_sizes, X : STA ($92), Y
     
     PLY
     

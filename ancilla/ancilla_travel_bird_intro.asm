@@ -21,7 +21,7 @@ Ancilla_TravelBirdIntro:
     ; Check the frame index.
     LDA.b $1A : AND.b #$1F : BNE .no_flutter_sfx
     
-    LDA.b #$1E : JSR Ancilla_DoSfx3
+    LDA.b #$1E : JSR.w Ancilla_DoSfx3
     
     .no_flutter_sfx
     
@@ -79,7 +79,7 @@ Ancilla_TravelBirdIntro:
     STZ.w $0C54, X
     
     ; Move to the right
-    LDA .swirl_speeds : STA.w $0C2C, X
+    LDA.w .swirl_speeds : STA.w $0C2C, X
     
     ; Begin falling.
     LDA.b #$F0 : STA.w $0294, X
@@ -153,7 +153,7 @@ Ancilla_TravelBirdIntro:
     ; NOTE: Seems that the actual z speed determined is actually affected
     ; by the current x speed. Perhaps that's where this ellipsoid behavior
     ; originates from.
-    LDA .swirl_speeds, Y : SEC : SBC.b $00 : LSR A : STA.b $00
+    LDA.w .swirl_speeds, Y : SEC : SBC.b $00 : LSR A : STA.b $00
     
     LDA.w $0C54, X : AND.b #$02 : BEQ .lowering
     
@@ -166,8 +166,8 @@ Ancilla_TravelBirdIntro:
     
     .update_position_and_draw
     
-    JSR Ancilla_MoveHoriz
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveAltitude
     
     LDY.w $0380, X
     
@@ -175,11 +175,11 @@ Ancilla_TravelBirdIntro:
     ; only two states, but this is updated every frame.
     LDA.w $DDE5, Y : STA.w $0AF4
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0C72, X : AND.b #$01 : TAY
     
-    LDA .hflip_settings, Y : STA.b $08
+    LDA.w .hflip_settings, Y : STA.b $08
     
     REP #$20
     
@@ -210,7 +210,7 @@ Ancilla_TravelBirdIntro:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA.w $DDD8                        : STA ($90), Y : INY
     LDA.w $DDDB : ORA.b #$30 : ORA.b $08 : STA ($90), Y : INY
@@ -231,7 +231,7 @@ Ancilla_TravelBirdIntro:
     
     LDA.b #$30 : STA.b $04
     
-    LDX.b #$01 : JSR Ancilla_DrawShadow
+    LDX.b #$01 : JSR.w Ancilla_DrawShadow
     
     PLX
     

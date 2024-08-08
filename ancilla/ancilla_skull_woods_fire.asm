@@ -110,7 +110,7 @@ Ancilla_SkullWoodsFire:
     ; Activate the blast component of this object.
     LDA.b #$01 : STA.l $7F0010
     
-    LDA.b $00 : JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA.w $012E
+    LDA.b $00 : JSR.w Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA.w $012E
     
     .dont_play_thud_sfx
     
@@ -135,7 +135,7 @@ Ancilla_SkullWoodsFire:
     
     LDA.l $7F001A : SEC : SBC.b $E2
     
-    JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$2A : STA.w $012E
+    JSR.w Ancilla_SetSfxPan_NearEntity : ORA.b #$2A : STA.w $012E
     
     .sfx2_already_set
     .draw_flames_logic
@@ -154,10 +154,10 @@ Ancilla_SkullWoodsFire:
     
     TAY
     
-    LDA .flame_y_offsets_low,  Y : STA.b $04
-    LDA .flame_y_offsets_high, Y : STA.b $05
-    LDA .flame_chr, Y            : STA.b $06
-    LDA .flame_properties, Y     : STA.b $07
+    LDA.w .flame_y_offsets_low,  Y : STA.b $04
+    LDA.w .flame_y_offsets_high, Y : STA.b $05
+    LDA.w .flame_chr, Y            : STA.b $06
+    LDA.w .flame_properties, Y     : STA.b $07
     
     TXA : ASL A : TAX
     
@@ -173,7 +173,7 @@ Ancilla_SkullWoodsFire:
     
     PLY
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA.b $06    : STA ($90), Y : INY
     LDA.b #$32 : STA ($90), Y : INY
@@ -194,7 +194,7 @@ Ancilla_SkullWoodsFire:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA.b $06 : INC A : STA ($90), Y
     
@@ -243,13 +243,13 @@ Ancilla_SkullWoodsFire:
     
     TAX
     
-    LDA .blast_data_offsets, X : TAX
+    LDA.w .blast_data_offsets, X : TAX
     
     STZ.b $08
     
     .next_blast_oam_entry
     
-    LDA .blast_chr, X : CMP.b #$FF : BEQ .skip_blast_oam_entry
+    LDA.w .blast_chr, X : CMP.b #$FF : BEQ .skip_blast_oam_entry
     
     PHX
     
@@ -264,17 +264,17 @@ Ancilla_SkullWoodsFire:
     
     PLX
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .blast_chr, X : STA ($90), Y : INY
+    LDA.w .blast_chr, X : STA ($90), Y : INY
     
-    LDA .blast_properties, X : ORA.b #$30 : ORA.b #$02 : STA ($90), Y
+    LDA.w .blast_properties, X : ORA.b #$30 : ORA.b #$02 : STA ($90), Y
     
     INY : PHY
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
-    LDA .blast_oam_sizes, X : STA ($92), Y
+    LDA.w .blast_oam_sizes, X : STA ($92), Y
     
     PLY
     

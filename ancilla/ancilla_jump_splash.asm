@@ -48,7 +48,7 @@ Ancilla_JumpSplash:
     
     PHX
     
-    JSL Link_CheckSwimCapability
+    JSL.l Link_CheckSwimCapability
     
     PLX
     
@@ -59,12 +59,12 @@ Ancilla_JumpSplash:
     
     .speed_not_maxed
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
     
     .draw
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0C04, X : STA $06
     LDA.w $0C18, X : STA $07
@@ -88,9 +88,9 @@ Ancilla_JumpSplash:
     
     .next_oam_entry
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X          : STA ($90), Y : INY
+    LDA.w .chr, X          : STA ($90), Y : INY
     LDA.b #$24 : ORA $0C : STA ($90), Y : INY
     
     PHY
@@ -99,7 +99,7 @@ Ancilla_JumpSplash:
     
     LDA.b #$02 : STA ($92), Y
     
-    PLY : JSR Ancilla_CustomAllocateOam
+    PLY : JSR.w Ancilla_CustomAllocateOam
     
     LDA $08 : STA $02
     
@@ -110,7 +110,7 @@ Ancilla_JumpSplash:
     ; Commit one more sprite to the oam buffer.
     LDA $06 : STA $02
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA.b #$C0 : STA ($90), Y : INY
     LDA.b #$24 : STA ($90), Y : INY

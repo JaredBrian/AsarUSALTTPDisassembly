@@ -48,7 +48,7 @@ Ancilla_SwordCeremony:
     
     .dont_advance_animation_index
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -80,11 +80,11 @@ Ancilla_SwordCeremony:
     
     PLX
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X : STA ($90), Y : INY
+    LDA.w .chr, X : STA ($90), Y : INY
     
-    LDA .properties, X : AND.b #$CF
+    LDA.w .properties, X : AND.b #$CF
     
     ORA.b #$04 : ORA.b $65 : STA ($90), Y : INY
     

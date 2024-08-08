@@ -33,14 +33,14 @@ Ancilla_Arrow:
     
     .begin_moving
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
     
     LDA.l $7EF340 : AND.b #$04 : BEQ .dont_spawn_sparkle
         LDA $1A : AND.b #$01 : BNE .dont_spawn_sparkle
             PHX
             
-            JSL AddSilverArrowSparkle
+            JSL.l AddSilverArrowSparkle
             
             PLX
     
@@ -48,8 +48,8 @@ Ancilla_Arrow:
     
     LDA.b #$FF : STA.w $03A9, X
     
-    JSR Ancilla_CheckSpriteCollision : BCS .sprite_collision
-        JSR Ancilla_CheckTileCollision : BCS .tile_collision
+    JSR.w Ancilla_CheckSpriteCollision : BCS .sprite_collision
+        JSR.w Ancilla_CheckTileCollision : BCS .tile_collision
             BRL .draw
         
         .tile_collision
@@ -58,11 +58,11 @@ Ancilla_Arrow:
         
         LDA.w $0C72, X : AND.b #$03 : ASL A : TAY
         
-        LDA .y_offsets+0, Y : CLC : ADC.w $0BFA, X : STA.w $0BFA, X
-        LDA .y_offsets+1, Y : ADC.w $0C0E, X : STA.w $0C0E, X
+        LDA.w .y_offsets+0, Y : CLC : ADC.w $0BFA, X : STA.w $0BFA, X
+        LDA.w .y_offsets+1, Y : ADC.w $0C0E, X : STA.w $0C0E, X
         
-        LDA .x_offsets+0, Y : CLC : ADC.w $0C04, X : STA.w $0C04, X
-        LDA .x_offsets+1, Y : ADC.w $0C18, X : STA.w $0C18, X
+        LDA.w .x_offsets+0, Y : CLC : ADC.w $0C04, X : STA.w $0C04, X
+        LDA.w .x_offsets+1, Y : ADC.w $0C18, X : STA.w $0C18, X
         
         STZ.w $0B88
         
@@ -109,7 +109,7 @@ Ancilla_Arrow:
     .transmute_to_halted_arrow
     
     LDA.w $0E20, Y : CMP.b #$1B : BEQ .hit_enemy_arrow_no_sfx
-        LDA.b #$08 : JSR Ancilla_DoSfx2
+        LDA.b #$08 : JSR.w Ancilla_DoSfx2
     
     .hit_enemy_arrow_no_sfx
     
@@ -252,7 +252,7 @@ Pool_Arrow_Draw:
 ; $04236E-$04245A LONG BRANCH LOCATION
 Arrow_Draw:
 {
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     LDA.w $0280, X : BEQ .normal_priority
         LDA.b #$30 : STA $65
@@ -324,7 +324,7 @@ Arrow_Draw:
     
     .next_oam_entry
     
-        LDA .chr_and_properties, X : CMP.b #$FF : BEQ .skip_oam_entry
+        LDA.w .chr_and_properties, X : CMP.b #$FF : BEQ .skip_oam_entry
             STA $72
             
             PHX : TXA : ASL A : TAX
@@ -333,18 +333,18 @@ Arrow_Draw:
             
             ; First of each interleaved pair is the y offset, and the second
             ; is the x offset.
-            LDA .xy_offsets+0, X : CLC : ADC $0C : STA $00
-            LDA .xy_offsets+2, X : CLC : ADC $0E : STA $02
+            LDA.w .xy_offsets+0, X : CLC : ADC $0C : STA $00
+            LDA.w .xy_offsets+2, X : CLC : ADC $0E : STA $02
             
             SEP #$20
             
-            JSR Ancilla_SetOam_XY
+            JSR.w Ancilla_SetOam_XY
             
             PLX
             
             LDA $72 : STA ($90), Y : INY
             
-            LDA .chr_and_properties+1, X : AND.b #$C1
+            LDA.w .chr_and_properties+1, X : AND.b #$C1
             
             ORA $74 : ORA $65 : STA ($90), Y : INY
             

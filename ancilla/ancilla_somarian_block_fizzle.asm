@@ -63,7 +63,7 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     
     .animation_delay
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     LDY.b #$00
     
@@ -97,7 +97,7 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     
     .next_oam_entry
     
-    LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
     
     REP #$20
     
@@ -110,10 +110,10 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X                               : STA ($90), Y : INY
-    LDA .properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y : INY
+    LDA.w .chr, X                               : STA ($90), Y : INY
+    LDA.w .properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     

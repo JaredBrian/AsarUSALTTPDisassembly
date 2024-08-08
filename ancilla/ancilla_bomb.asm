@@ -23,7 +23,7 @@ Ancilla_Bomb:
     
     .walking_on_staircase
     
-    JSR Ancilla_LiftableObjectLogic
+    JSR.w Ancilla_LiftableObjectLogic
     
     BRA .just_draw
     
@@ -39,14 +39,14 @@ Ancilla_Bomb:
     ; Coerce the bomb into the held state immediately.
     LDY.b #$03
     
-    JSR Ancilla_PegCoordsToPlayer
-    JSR Ancilla_PegAltitudeAbovePlayer
+    JSR.w Ancilla_PegCoordsToPlayer
+    JSR.w Ancilla_PegAltitudeAbovePlayer
     
     LDA.b #$03 : STA.w $0380, X
     
     .player_fully_holding
     
-    JSR Ancilla_SetPlayerHeldPosition
+    JSR.w Ancilla_SetPlayerHeldPosition
     
     .just_draw
     
@@ -54,8 +54,8 @@ Ancilla_Bomb:
     
     .full_execute
     
-    JSR Ancilla_LiftableObjectLogic
-    JSR Ancilla_Adjust_Y_CoordByAltitude
+    JSR.w Ancilla_LiftableObjectLogic
+    JSR.w Ancilla_Adjust_Y_CoordByAltitude
     
     LDA.w $0C72, X : STA $74
     
@@ -63,7 +63,7 @@ Ancilla_Bomb:
     
     STZ.w $0280, X
     
-    JSR Ancilla_CheckTileCollision_Class2
+    JSR.w Ancilla_CheckTileCollision_Class2
     
     ; Save the collision flag status.
     PHP
@@ -185,7 +185,7 @@ Ancilla_Bomb:
     ; Not really sure what purpose saving $0280, X serves...
     LDA.w $0280, X : PHA
     
-    JSR Ancilla_CheckTileCollision
+    JSR.w Ancilla_CheckTileCollision
     
     PLA : STA.w $0280, X
     
@@ -296,17 +296,17 @@ Ancilla_Bomb:
     
     .apply_conveyor_movement_to_object
     
-    JSR Ancilla_ConveyorBeltVelocityOverride
+    JSR.w Ancilla_ConveyorBeltVelocityOverride
     
     .state_logic
     
-    JSR Ancilla_Set_Y_Coord
+    JSR.w Ancilla_Set_Y_Coord
     
     LDA $74 : STA.w $0C72, X
     
     LDA $75 : ORA.w $0280, X : STA.w $0280, X
     
-    JSR Bomb_CheckSpriteAndPlayerDamage
+    JSR.w Bomb_CheckSpriteAndPlayerDamage
     
     ; Decrement the timer for the bomb.
     DEC.w $039F, X : LDA.w $039F, X : BNE .state_change_delay
@@ -315,7 +315,7 @@ Ancilla_Bomb:
     INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$01 : BNE .not_just_exploded
     
     ; Play the bomb exploding sound
-    LDA.b #$0C : JSR Ancilla_DoSfx2
+    LDA.b #$0C : JSR.w Ancilla_DoSfx2
     
     ; Did Link come in contact with the explosion?
     TXA : INC A : CMP.w $02EC : BNE .dont_reset_player_lift_state
@@ -359,7 +359,7 @@ Ancilla_Bomb:
     TAY ; Y = the explosion state
     
     ; Set a new timer based on which explosion state it is
-    LDA .interstate_intervals, Y : STA.w $039F, X
+    LDA.w .interstate_intervals, Y : STA.w $039F, X
     
     .state_change_delay
     
@@ -382,7 +382,7 @@ Ancilla_Bomb:
     STZ.w $03B6, X
     STZ.w $03B7, X
     
-    JSL Bomb_CheckForVulnerableTileObjects
+    JSL.l Bomb_CheckForVulnerableTileObjects
     
     PLX : TXY : TXA : ASL A : TAX
     
@@ -400,7 +400,7 @@ Ancilla_Bomb:
     
     .draw
     
-    JSR Bomb_Draw
+    JSR.w Bomb_Draw
     
     ; 417B5 ALTERNATE ENTRY POINT
     .return
@@ -430,11 +430,11 @@ Ancilla_ConveyorBeltVelocityOverride:
     
     LDA.w $03E4, X : SEC : SBC.b #$68 : TAY
     
-    LDA .y_speeds, Y : STA.w $0C22, X
-    LDA .x_speeds, Y : STA.w $0C2C, X
+    LDA.w .y_speeds, Y : STA.w $0C22, X
+    LDA.w .x_speeds, Y : STA.w $0C2C, X
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
     
     LDA.w $0BFA, X : STA $72
     LDA.w $0C0E, X : STA $73
@@ -472,15 +472,15 @@ Bomb_CheckSpriteAndPlayerDamage:
     LDA.w $0C5E, X : BEQ .dont_damage_anything
     CMP.b #$09   : BCS .dont_damage_anything
     
-    JSR Bomb_CheckSpriteDamage
+    JSR.w Bomb_CheckSpriteDamage
     
     LDA.w $037B : BEQ .player_not_using_invincibility_item
     
-    TXA : INC A : CMP.w $02EC : BNE Ancilla_Bomb.return
+    TXA : INC A : CMP.w $02EC : BNE Ancilla_Bomb_return
     
     ; If the player is holding the bomb that is exploding, take the player
     ; out of the "holding something over head" state.
-    LDA.w $0308 : AND.b #$80 : BEQ Ancilla_Bomb.return
+    LDA.w $0308 : AND.b #$80 : BEQ Ancilla_Bomb_return
     
     LDA.w $0308 : AND.b #$7F : STA.w $0308
     
@@ -488,7 +488,7 @@ Bomb_CheckSpriteAndPlayerDamage:
     
     .dont_damage_anything
     
-    BRL Ancilla_Bomb.return
+    BRL Ancilla_Bomb_return
     
     .player_not_using_invincibility_item
     
@@ -526,7 +526,7 @@ Bomb_CheckSpriteAndPlayerDamage:
     LDA.b #$20 : STA $06
                  STA $07
     
-    JSL Utility_CheckIfHitBoxesOverlapLong : BCC .dont_damage_player
+    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .dont_damage_player
     
     LDA.w $0C04, X : CLC : ADC.b #$-8 : STA $00
     LDA.w $0C18, X : ADC.b #$-1 : STA $01
@@ -536,11 +536,11 @@ Bomb_CheckSpriteAndPlayerDamage:
     
     PHX
     
-    JSR Bomb_GetGrossPlayerDistance
+    JSR.w Bomb_GetGrossPlayerDistance
     
-    LDA .recoil_magnitudes, Y : TAY
+    LDA.w .recoil_magnitudes, Y : TAY
     
-    JSL Bomb_ProjectSpeedTowardsPlayer
+    JSL.l Bomb_ProjectSpeedTowardsPlayer
     
     PLX
     
@@ -553,11 +553,11 @@ Bomb_CheckSpriteAndPlayerDamage:
     LDA $00 : STA $27
     LDA $01 : STA $28
     
-    JSR Bomb_GetGrossPlayerDistance
+    JSR.w Bomb_GetGrossPlayerDistance
     
-    LDA .resistances, Y : STA $29 : STA.w $02C7
+    LDA.w .resistances, Y : STA $29 : STA.w $02C7
     
-    LDA .damage_timers, Y : STA $46
+    LDA.w .damage_timers, Y : STA $46
     
     ; Put Link in recoil mode
     LDA.b #$01 : STA $4D
@@ -572,7 +572,7 @@ Bomb_CheckSpriteAndPlayerDamage:
     LDA.l $7EF35B : TAY
     
     ; Damage Link by this amount
-    LDA .damage_quantities, Y : STA.w $0373
+    LDA.w .damage_quantities, Y : STA.w $0373
     
     .dont_damage_player
     
@@ -707,7 +707,7 @@ Ancilla_LiftableObjectLogic:
     
     LDY.b #$00
     
-    JSR Ancilla_CheckPlayerCollision : BCC .not_liftable_2
+    JSR.w Ancilla_CheckPlayerCollision : BCC .not_liftable_2
     
     LDA.w $0C7C, X : CMP $EE : BNE .not_liftable_2
     
@@ -738,7 +738,7 @@ Ancilla_LiftableObjectLogic:
     .is_player_direction_suitable_for_lift
     
     ; Check if player facing a proper direction for lifting the object
-    LDA .compatible_lift_directions, Y : CMP $2F : BNE .not_liftable_2
+    LDA.w .compatible_lift_directions, Y : CMP $2F : BNE .not_liftable_2
     
     .begin_lifting
     
@@ -747,7 +747,7 @@ Ancilla_LiftableObjectLogic:
     
     STZ.w $0380, X
     
-    LDA .lift_timers : STA.w $03B1, X
+    LDA.w .lift_timers : STA.w $03B1, X
     
     STZ.w $0385, X
     STZ.w $029E, X
@@ -769,7 +769,7 @@ Ancilla_LiftableObjectLogic:
     
     LDA.w $03B1, X : CMP.b #$10 : BNE .dont_play_lift_sfx
     
-    LDA.b #$1D : JSR Ancilla_DoSfx2
+    LDA.b #$1D : JSR.w Ancilla_DoSfx2
     
     .dont_play_lift_sfx
     
@@ -778,7 +778,7 @@ Ancilla_LiftableObjectLogic:
     ; Make Link pick up the bomb (1 all the way to 3)
     INY : TYA : STA.w $0380, X
     
-    LDA .lift_timers, Y : STA.w $03B1, X
+    LDA.w .lift_timers, Y : STA.w $03B1, X
     
     CPY.b #$03 : BNE Ancilla_PegCoordsToPlayer
     
@@ -836,8 +836,8 @@ Ancilla_LiftableObjectLogic:
     LDA.b #$18 : STA.w $0294, X
     
     ; Set the Y and X velocity for the bomb
-    LDA .throw_y_speeds, Y : STA.w $0C22, X
-    LDA .throw_x_speeds, Y : STA.w $0C2C, X
+    LDA.w .throw_y_speeds, Y : STA.w $0C22, X
+    LDA.w .throw_x_speeds, Y : STA.w $0C2C, X
     
     ; Make it look like Link is throwing the object
     LDA.b #$02 : STA.w $0309
@@ -852,7 +852,7 @@ Ancilla_LiftableObjectLogic:
     STZ.w $0380, X ; Set carrying state to zero (not holding it)
     STZ.w $0280, X
     
-    LDA.b #$13 : JSR Ancilla_DoSfx3
+    LDA.b #$13 : JSR.w Ancilla_DoSfx3
     
     .airborn_logic
     
@@ -867,12 +867,12 @@ Ancilla_LiftableObjectLogic:
     ; Simulate gravity.
     LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
     
     LDA.w $029E, X : STA $00
     
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveAltitude
     
     ; Ugh, what a mess!
     LDA.w $0BF0, X : BEQ .dont_add_altitude_back_to_y_coord
@@ -916,7 +916,7 @@ Ancilla_LiftableObjectLogic:
     STZ.w $029E, X
     
     ; Play the "bomb hitting the ground" sound
-    LDA.b #$21 : JSR Ancilla_DoSfx2
+    LDA.b #$21 : JSR.w Ancilla_DoSfx2
     
     INC.w $0385, X : LDA.w $0385, X : CMP.b #$03 : BEQ .bounces_maxed_out
     
@@ -962,7 +962,7 @@ Ancilla_LiftableObjectLogic:
     
     STA.w $0C2C, X
     
-    LDA .postbounce_z_speeds, Y : STA.w $0294, X
+    LDA.w .postbounce_z_speeds, Y : STA.w $0294, X
     
     LDA.w $0BF0, X : BEQ .dont_transition_bg
     
@@ -1069,7 +1069,7 @@ Ancilla_LiftableObjectLogic:
     ; Simulate gravity.
     LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveAltitude
     
     LDA.w $029E, X : BEQ .on_ground
     CMP.b #$FC   : BCC .return
@@ -1386,7 +1386,7 @@ Pool_Bomb_Draw:
 ; $041E9E-$041FB5 LOCAL JUMP LOCATION
 Bomb_Draw:
 {
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     REP #$20
     
@@ -1416,9 +1416,9 @@ Bomb_Draw:
     ; Y = bomb state
     LDY.w $0C5E, X
     
-    LDA Ancilla_Bomb.chr_groups, Y : TAY
+    LDA Ancilla_Bomb_chr_groups, Y : TAY
     
-    LDA Bomb_Draw.chr_start_offset, Y : ASL A : TAY
+    LDA Bomb_Draw_chr_start_offset, Y : ASL A : TAY
     
     ASL A : STA $04 : STZ $05
     
@@ -1465,7 +1465,7 @@ Bomb_Draw:
     .defer_for_uncarrying_player
     
     ; this only seems to get called if Link is near the bomb.
-    LDA.b #$0C : JSR Ancilla_AllocateOam_B_or_E
+    LDA.b #$0C : JSR.w Ancilla_AllocateOam_B_or_E
     
     BRA .determine_underside_sprite
     
@@ -1496,7 +1496,7 @@ Bomb_Draw:
     ; Load the current state of the bomb.
     LDY $08
     
-    LDA .num_oam_entries, Y : STA $08
+    LDA.w .num_oam_entries, Y : STA $08
     
     CPY.b #$00 : BNE .no_underside_sprite
     
@@ -1526,14 +1526,14 @@ Bomb_Draw:
     
     PLX ; X = the old Y, which is some value like 0, 6, 18, 24, ??? etc.
     
-    JSR Bomb_DrawExplosion
+    JSR.w Bomb_DrawExplosion
     
     PLX ; X = the old index for the bomb (either 0 or 1)
     
-    JSL Bomb_CheckUndersideSpriteStatus : BCS .dont_draw_shadow
+    JSL.l Bomb_CheckUndersideSpriteStatus : BCS .dont_draw_shadow
     
     ; (set in the previous routine)
-    LDX $0A : JSR Ancilla_DrawShadow
+    LDX $0A : JSR.w Ancilla_DrawShadow
     
     LDX.w $0FA0
     

@@ -19,8 +19,8 @@ Ancilla_Flute:
     
     LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
-    JSR Ancilla_MoveHoriz
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveAltitude
     
     LDA.w $029E, X : BPL .dont_check_player_collision
     
@@ -40,7 +40,7 @@ Ancilla_Flute:
     
     LDY.b #$02
     
-    JSR Ancilla_CheckPlayerCollision : BCC .player_didnt_acquire
+    JSR.w Ancilla_CheckPlayerCollision : BCC .player_didnt_acquire
     
     LDA.w $037E : BNE .player_didnt_acquire
     
@@ -51,7 +51,7 @@ Ancilla_Flute:
     STZ.w $0C4A, X
     STZ.w $02E9
     
-    LDY.b #$14 : JSL Link_ReceiveItem
+    LDY.b #$14 : JSL.l Link_ReceiveItem
     
     PLX
     
@@ -60,7 +60,7 @@ Ancilla_Flute:
     .draw
     .player_didnt_acquire
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     REP #$20
     
@@ -78,7 +78,7 @@ Ancilla_Flute:
     
     LDY.b #$00
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA.b #$24           : STA ($90), Y : INY
     LDA.b #$04 : ORA $65 : STA ($90), Y

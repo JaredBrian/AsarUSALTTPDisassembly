@@ -58,7 +58,7 @@ Ancilla_InitialSpinSpark:
     
     LDA.w $0C5E, X : INC A : STA.w $0C5E, X : TAY
     
-    LDA .timers, Y : STA.w $0C68, X
+    LDA.w .timers, Y : STA.w $0C68, X
     
     CPY.b #$05 : BNE .draw
     
@@ -70,7 +70,7 @@ Ancilla_InitialSpinSpark:
     
     .spawn_sword_beam
     
-    JSL AddSwordBeam
+    JSL.l AddSwordBeam
     
     RTS
     
@@ -78,7 +78,7 @@ Ancilla_InitialSpinSpark:
     
     LDA.w $0C5E, X : BEQ .first_state_invisible
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -98,7 +98,7 @@ Ancilla_InitialSpinSpark:
     
     .next_oam_entry
     
-    LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
     
     REP #$20
     
@@ -111,10 +111,10 @@ Ancilla_InitialSpinSpark:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X                               : STA ($90), Y : INY
-    LDA .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y : INY
+    LDA.w .chr, X                               : STA ($90), Y : INY
+    LDA.w .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -161,10 +161,10 @@ InitialSpinSpark_TransmuteToNormalSpinSpark:
     
     LDA $2F : ASL A : TAY
     
-    LDA .initial_rotation_states, Y : STA.l $7F5800
-    LDA .initial_rotation_states, Y : STA.l $7F5801
-    LDA .initial_rotation_states, Y : STA.l $7F5802
-    LDA .initial_rotation_states, Y : STA.l $7F5803
+    LDA.w .initial_rotation_states, Y : STA.l $7F5800
+    LDA.w .initial_rotation_states, Y : STA.l $7F5801
+    LDA.w .initial_rotation_states, Y : STA.l $7F5802
+    LDA.w .initial_rotation_states, Y : STA.l $7F5803
                                       STA.l $7F5804
     
     LDA.b #$02 : STA.w $03B1, X

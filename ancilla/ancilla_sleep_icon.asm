@@ -40,8 +40,8 @@ Ancilla_SleepIcon:
     
     .dont_reverse_x_acceleration:
     
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
     
     LDA.w $0BFA, X : STA.b $00
     LDA.w $0C0E, X : STA.b $01
@@ -64,13 +64,13 @@ Ancilla_SleepIcon:
     ; This variable is used every NMI to update a small portion of the
     ; tiles available in vram. This essentially causes the 'Z's to
     ; cycle through different animation states.
-    LDA .tileset, Y : STA.w $0109
+    LDA.w .tileset, Y : STA.w $0109
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDY.b #$00
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA.b #$09 : STA ($90), Y : INY
     LDA.b #$24 : STA ($90), Y

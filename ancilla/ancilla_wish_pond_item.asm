@@ -7,7 +7,7 @@ Ancilla_WishPondItem:
     ; Special Object 0x28 (item sprite thrown into ponds)
     LDA.b #$10
     
-    JSR Ancilla_AllocateOam
+    JSR.w Ancilla_AllocateOam
     
     LDA.b $11 : BEQ .execute
               BRL .draw
@@ -23,9 +23,9 @@ Ancilla_WishPondItem:
     ; Begin z-deceleation (i.e. simulating gravity).
     LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
-    JSR Ancilla_MoveAltitude
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
     
     LDA.w $029E, X : BPL .draw
     CMP.b #$E4   : BCS .draw
@@ -58,7 +58,7 @@ Ancilla_WishPondItem:
     ; $044760 ALTERNATE ENTRY POINT
     .draw
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     ; WTF:
     ; Looks like this is making a special exception for the master sword
@@ -86,7 +86,7 @@ Ancilla_WishPondItem:
     
     SEP #$20
     
-    JSR Ancilla_ReceiveItem.draw
+    JSR.w Ancilla_ReceiveItem_draw
     
     ; Done throwing?
     LDA.w $0309 : CMP.b #$02 : BNE .return
@@ -127,7 +127,7 @@ Ancilla_WishPondItem:
     
     LDA.b $65 : STA.b $04
     
-    JSR Ancilla_DrawShadow
+    JSR.w Ancilla_DrawShadow
     
     PLX
     

@@ -6,7 +6,7 @@ Ancilla_DoorDebris:
 {
     ; Special Effect 0x08 - Debris from bombing a cave / wall open.
     
-    JSR DoorDebris_Draw
+    JSR.w DoorDebris_Draw
     
     DEC.w $03C0, X : BPL .delay
     
@@ -55,7 +55,7 @@ Pool_DoorDebris_Draw:
 ; $042091-$042120 LOCAL JUMP LOCATION
 DoorDebris_Draw:
 {
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     TXA : ASL A : TAY
     
@@ -92,25 +92,25 @@ DoorDebris_Draw:
     
     ; The first entry in each interleaved pair is the y offset and the
     ; second is the x offset.
-    LDA .xy_offsets + 0, X : CLC : ADC $0C : STA $00
-    LDA .xy_offsets + 2, X : CLC : ADC $0E : STA $02
+    LDA.w .xy_offsets + 0, X : CLC : ADC $0C : STA $00
+    LDA.w .xy_offsets + 2, X : CLC : ADC $0E : STA $02
     
     SEP #$20
     
     PLX
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     ; The second entry in each interleaved set is a property, and the first
     ; is a chr value.
-    LDA .chr_and_properties + 0, X                        : STA ($90), Y : INY
-    LDA .chr_and_properties + 2, X : AND.b #$C0 : ORA $65 : STA ($90), Y : INY
+    LDA.w .chr_and_properties + 0, X                        : STA ($90), Y : INY
+    LDA.w .chr_and_properties + 2, X : AND.b #$C0 : ORA $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
     LDA.b #$00 : STA ($92), Y
     
-    PLY : JSR Ancilla_CustomAllocateOam
+    PLY : JSR.w Ancilla_CustomAllocateOam
     
     INX #2
     

@@ -28,11 +28,11 @@ Ancilla_MotiveDashDust:
     
     LDA.b $2F : CMP.b #$02 : BNE .not_behind_player
     
-    LDA.b #$04 : JSL OAM_AllocateFromRegionB
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
     
     .not_behind_player
     
-    JSL Ancilla_PrepOamCoordLong
+    JSL.l Ancilla_PrepOamCoordLong
     
     PHX
     
@@ -40,9 +40,9 @@ Ancilla_MotiveDashDust:
     
     LDY.b #$00
     
-    JSL Ancilla_SetOam_XY_Long
+    JSL.l Ancilla_SetOam_XY_Long
     
-    LDA .chr, X          : STA ($90), Y : INY
+    LDA.w .chr, X          : STA ($90), Y : INY
     LDA.b #$04 : ORA.b $65 : STA ($90), Y
     
     LDA.b #$00 : STA ($92)

@@ -31,8 +31,8 @@ Ancilla_EtherSpell:
     
     PHX
     
-    JSL Palette_ElectroThemedGear
-    JSL Filter_Majorly_Whiten_Bg
+    JSL.l Palette_ElectroThemedGear
+    JSL.l Filter_Majorly_Whiten_Bg
     
     PLX
     
@@ -42,8 +42,8 @@ Ancilla_EtherSpell:
     
     PHX
     
-    JSL LoadActualGearPalettes
-    JSL Palette_Restore_BG_From_Flash
+    JSL.l LoadActualGearPalettes
+    JSL.l Palette_Restore_BG_From_Flash
     
     PLX
     
@@ -143,7 +143,7 @@ Pool_EtherSpell_LightningDescends:
 ; $042B63-$042BA6 BRANCH LOCATION
 EtherSpell_LightningDescends:
 {
-    JSR Ancilla_MoveVert
+    JSR.w Ancilla_MoveVert
     
     LDA.w $0C0E, X : STA $01
     LDA.w $0BFA, X : STA $00
@@ -225,7 +225,7 @@ EtherSpell_PulsingBlitzOrb:
     
     PHX
     
-    JSL Medallion_CheckSpriteDamage
+    JSL.l Medallion_CheckSpriteDamage
     
     PLX
     
@@ -267,7 +267,7 @@ EtherSpell_RadialStates:
     LDA.l $7F5808 : STA.w $0C04, X
                   STZ.w $0C18, X
     
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveHoriz
     
     ; Wish I had a better name for this label... but ugh.
     LDA.w $0C04, X : STA.l $7F5808 : CMP.b #$40 : BNE .not_ready_for_state_4
@@ -299,19 +299,19 @@ EtherSpell_RadialStates:
     
     LDA.l $7F5800, X
     
-    JSR Ancilla_GetRadialProjection
+    JSR.w Ancilla_GetRadialProjection
     
     PHX
     
     LDA $72 : CMP.b #$02 : BEQ .still_in_segment_form
     
-    JSR EtherSpell_DrawBlitzBall
+    JSR.w EtherSpell_DrawBlitzBall
     
     BRA .moving_on
     
     .still_in_segment_form
     
-    JSR EtherSpell_DrawSplittingBlitzSegment
+    JSR.w EtherSpell_DrawSplittingBlitzSegment
     
     .moving_on
     
@@ -350,7 +350,7 @@ EtherSpell_RadialStates:
     LDA.l $7EF2F0 : AND.b #$20 : BNE .untriggered
     
     ; We might reveal it, but you have to be in the trigger window.
-    LDY.b #$02 : JSR Ancilla_CheckIfEntranceTriggered : BCC .untriggered
+    LDY.b #$02 : JSR.w Ancilla_CheckIfEntranceTriggered : BCC .untriggered
     
     ; Do the 3rd animation for opening entrances
     LDA.b #$03 : STA.w $04C6
@@ -385,8 +385,8 @@ EtherSpell_RadialStates:
     
     PHX
     
-    JSL LoadActualGearPalettes
-    JSL Palette_Restore_BG_And_HUD
+    JSL.l LoadActualGearPalettes
+    JSL.l Palette_Restore_BG_And_HUD
     
     PLX
     
@@ -442,18 +442,18 @@ EtherSpell_DrawBlitzBall:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA $73 : TAX
     
-    LDA .chr, X  : STA ($90), Y : INY
+    LDA.w .chr, X  : STA ($90), Y : INY
     LDA.b #$3C   : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
     LDA.b #$02 : STA ($92), Y
     
-    JSR Ancilla_CustomAllocateOam
+    JSR.w Ancilla_CustomAllocateOam
     
     PLY
     
@@ -578,14 +578,14 @@ EtherSpell_DrawSplittingBlitzSegment:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA $73 : ASL #4 : STA $0E
     
     TXA : ASL A : CLC : ADC $0E : TAX
     
-    LDA .chr, X        : STA ($90), Y : INY
-    LDA .properties, X : STA ($90), Y : INY
+    LDA.w .chr, X        : STA ($90), Y : INY
+    LDA.w .properties, X : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -602,18 +602,18 @@ EtherSpell_DrawSplittingBlitzSegment:
     
     PHX
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     PLX
     
-    LDA .chr+1, X        : STA ($90), Y : INY
-    LDA .properties+1, X : STA ($90), Y : INY
+    LDA.w .chr+1, X        : STA ($90), Y : INY
+    LDA.w .properties+1, X : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
     LDA.b #$02 : STA ($92), Y
     
-    PLY : JSR Ancilla_CustomAllocateOam
+    PLY : JSR.w Ancilla_CustomAllocateOam
     
     RTS
 }
@@ -642,7 +642,7 @@ Pool_EtherSpell_DrawBlitzSegments:
 ; $042E87-$042EDC LONG BRANCH LOCATION
 EtherSpell_DrawBlitzSegments:
 {
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0C5E, X : STA $06
     
@@ -656,13 +656,13 @@ EtherSpell_DrawBlitzSegments:
     
     .draw_next_segment
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     PHX
     
     LDA $06 : ASL A : CLC : ADC $08 : TAX
     
-    LDA .chr, X : STA ($90), Y
+    LDA.w .chr, X : STA ($90), Y
     
     PLX
     
@@ -671,7 +671,7 @@ EtherSpell_DrawBlitzSegments:
     ; \tcrf The ether spell might have looked slightly different if this
     ; was an indexed load rather than the contrary. Try it out and see
     ; if anything interesting happens.
-    LDA .properties : ORA $65 : STA ($90), Y : INY
+    LDA.w .properties : ORA $65 : STA ($90), Y : INY
     
     PHY
     
@@ -718,18 +718,18 @@ EtherSpell_DrawBlitzOrb:
     
     .next_oam_entry
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDX $06
     
-    LDA .orb_chr, X    : STA ($90), Y : INY
-    LDA .properties, X : STA ($90), Y : INY
+    LDA.w .orb_chr, X    : STA ($90), Y : INY
+    LDA.w .properties, X : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
     LDA.b #$02 : STA ($92), Y
     
-    PLY : JSR Ancilla_CustomAllocateOam
+    PLY : JSR.w Ancilla_CustomAllocateOam
     
     REP #$20
     

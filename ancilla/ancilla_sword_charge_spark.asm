@@ -35,20 +35,20 @@ Ancilla_SwordChargeSpark:
     
     LDA.b #$04
     
-    JSR Ancilla_AllocateOam
+    JSR.w Ancilla_AllocateOam
     
     TYA : STA.w $0C86, X
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0C5E, X : TAX
     
     LDY.b #$00
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X                  : STA ($90), Y : INY
-    LDA .properties, X : ORA.b $65 : STA ($90), Y
+    LDA.w .chr, X                  : STA ($90), Y : INY
+    LDA.w .properties, X : ORA.b $65 : STA ($90), Y
     
     LDA.b #$00 : STA ($92)
     

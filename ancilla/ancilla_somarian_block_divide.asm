@@ -14,7 +14,7 @@ Ancilla_SomarianBlockDivide:
     
     PHX
     
-    JSR SomarianBlast_SpawnCentrifugalQuad
+    JSR.w SomarianBlast_SpawnCentrifugalQuad
     
     PLX
     
@@ -22,7 +22,7 @@ Ancilla_SomarianBlockDivide:
     
     .full_divide_delay
     
-    JSR Ancilla_PrepAdjustedOamCoord
+    JSR.w Ancilla_PrepAdjustedOamCoord
     
     LDY.b #$00
     
@@ -73,10 +73,10 @@ Ancilla_SomarianBlockDivide:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X                               : STA ($90), Y : INY
-    LDA .properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y : INY
+    LDA.w .chr, X                               : STA ($90), Y : INY
+    LDA.w .properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     

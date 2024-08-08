@@ -48,14 +48,14 @@ Pool_IceShotSpread_Draw:
 ; $042571-$04260D LONG BRANCH LOCATION
 IceShotSpread_Draw:
 {
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     PHX
     
     ; Load the amount of OAM ram this object needs.
     LDA.w $0C90, X
     
-    JSR Ancilla_AllocateOam
+    JSR.w Ancilla_AllocateOam
     
     LDA.w $0C5E, X : ASL #3 : TAX
     
@@ -68,7 +68,7 @@ IceShotSpread_Draw:
     REP #$20
     
     ; The x offsets
-    LDA .offsets_xy, X
+    LDA.w .offsets_xy, X
     
     AND.w #$00FF : CMP.w #$0080 : BCC .no_x_sign_extend
     
@@ -79,7 +79,7 @@ IceShotSpread_Draw:
     CLC : ADC $00 : STA $08
     
     ; The y offsets
-    LDA .offsets_xy+1, X
+    LDA.w .offsets_xy+1, X
     
     AND.w #$00FF : CMP.w #$0080 : BCC .no_y_sign_extend
     
@@ -113,15 +113,15 @@ IceShotSpread_Draw:
     
     PLX
     
-    LDA .chr_and_properties,   X                        : STA ($90), Y : INY
-    LDA .chr_and_properties+1, X : AND.b #$CF : ORA $65 : STA ($90), Y
+    LDA.w .chr_and_properties,   X                        : STA ($90), Y : INY
+    LDA.w .chr_and_properties+1, X : AND.b #$CF : ORA $65 : STA ($90), Y
     
     INY : PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
     ; Use small sprites always.
     LDA.b #$00 : STA ($92), Y
     
-    PLY : JSR Ancilla_CustomAllocateOam
+    PLY : JSR.w Ancilla_CustomAllocateOam
     
     INX #2
     

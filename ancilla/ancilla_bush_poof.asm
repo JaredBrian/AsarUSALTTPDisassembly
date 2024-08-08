@@ -58,9 +58,9 @@ Ancilla_BushPoof:
     
     .draw
     
-    LDA.b #$10 : JSL OAM_AllocateFromRegionC
+    LDA.b #$10 : JSL.l OAM_AllocateFromRegionC
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDA $00 : STA $06
     LDA $01 : STA $07
@@ -78,10 +78,10 @@ Ancilla_BushPoof:
     LDA $04 : CLC : ADC .x_offsets_low,  X : STA $02
     LDA $05 : ADC .x_offsets_high, X : STA $03
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X                               : STA ($90), Y : INY
-    LDA .properties, X : ORA.b #$04 : ORA $65 : STA ($90), Y : INY
+    LDA.w .chr, X                               : STA ($90), Y : INY
+    LDA.w .properties, X : ORA.b #$04 : ORA $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     

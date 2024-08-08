@@ -18,7 +18,7 @@ AddSomarianBlock:
 {
     PHB : PHK : PLB
     
-    JSR Ancilla_Spawn : BCC .spawn_success
+    JSR.w Ancilla_Spawn : BCC .spawn_success
     
     BRL .spawn_failed
     
@@ -44,7 +44,7 @@ AddSomarianBlock:
     
     .not_closest_carryable_ancilla
     
-    JSL AddSomarianBlockDivide
+    JSL.l AddSomarianBlockDivide
     
     PLX
     
@@ -67,7 +67,7 @@ AddSomarianBlock:
     
     PLX
     
-    LDA.b #$2A : JSR Ancilla_DoSfx3_NearPlayer
+    LDA.b #$2A : JSR.w Ancilla_DoSfx3_NearPlayer
     
     STZ.w $0C54, X
     STZ.w $0C22, X
@@ -93,7 +93,7 @@ AddSomarianBlock:
     
     LDA $2F : LSR A : STA.w $0C72, X
     
-    JSL Ancilla_CheckInitialTileCollision_Class2 : BCC .enough_space
+    JSL.l Ancilla_CheckInitialTileCollision_Class2 : BCC .enough_space
     
     ; Basically, if the player is so close to a collision surface that
     ; the block could get embedded in a wall, just place it where the
@@ -123,13 +123,13 @@ AddSomarianBlock:
     LDA $22 : CLC : ADC .initial_collision_x_offsets+0, Y : STA.w $0C04, X
     LDA $23 : ADC .initial_collision_y_offsets+1, Y : STA.w $0C18, X
     
-    JSR SomarianBlock_CheckForTransitLine
+    JSR.w SomarianBlock_CheckForTransitLine
     
     BRA .return
     
     .spawn_failed
     
-    LDX.b #$04 : JSL LinkItem_ReturnUnusedMagic
+    LDX.b #$04 : JSL.l LinkItem_ReturnUnusedMagic
     
     .return
     
@@ -174,7 +174,7 @@ SomarianBlock_CheckForTransitLine:
     
     LDA.w $0280, X : PHA
     
-    JSR Ancilla_CheckTargetedTileCollision
+    JSR.w Ancilla_CheckTargetedTileCollision
     
     PLA : STA.w $0280, X
     
@@ -195,7 +195,7 @@ SomarianBlock_CheckForTransitLine:
     LDA $74 : STA.w $0C04, X
     LDA $75 : STA.w $0C18, X
     
-    JSL AddSomarianPlatformPoof
+    JSL.l AddSomarianPlatformPoof
     
     .return
     

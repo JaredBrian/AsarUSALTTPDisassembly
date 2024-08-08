@@ -120,7 +120,7 @@ Ancilla_SwordSwingSparkle:
     LDA.b $22 : STA.w $0C04, X
     LDA.b $23 : STA.w $0C18, X
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -140,11 +140,11 @@ Ancilla_SwordSwingSparkle:
     
     .next_oam_entry
     
-    LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
     
     REP #$20
     
-    LDA .y_offsets, X : AND.w #$00FF : CMP.w #$0080 : BCC .positive_y_offset
+    LDA.w .y_offsets, X : AND.w #$00FF : CMP.w #$0080 : BCC .positive_y_offset
     
     ORA.w #$FF00
     
@@ -152,7 +152,7 @@ Ancilla_SwordSwingSparkle:
     
     CLC : ADC.b $04 : STA.b $00
     
-    LDA .x_offsets, X : AND.w #$00FF : CMP.w #$0080 : BCC .positive_x_offset
+    LDA.w .x_offsets, X : AND.w #$00FF : CMP.w #$0080 : BCC .positive_x_offset
     
     ORA.w #$FF00
     
@@ -162,10 +162,10 @@ Ancilla_SwordSwingSparkle:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X                               : STA ($90), Y : INY
-    LDA .properties, X : ORA.b #$04 : ORA.b $65 : STA ($90), Y : INY
+    LDA.w .chr, X                               : STA ($90), Y : INY
+    LDA.w .properties, X : ORA.b #$04 : ORA.b $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     

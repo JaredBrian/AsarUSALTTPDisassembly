@@ -31,7 +31,7 @@ Ancilla_Boomerang:
     ; every 8 frames play the whirling sound effect of the boomerang.
     LDA $1A : AND.b #$07 : BNE .no_whirling_sound
     
-    LDA.b #$09 : JSR Ancilla_DoSfx2
+    LDA.b #$09 : JSR.w Ancilla_DoSfx2
     
     .no_whirling_sound
     
@@ -85,7 +85,7 @@ Ancilla_Boomerang:
     
     PHX
     
-    JSL AddSwordChargeSpark
+    JSL.l AddSwordChargeSpark
     
     PLX
     
@@ -111,9 +111,9 @@ Ancilla_Boomerang:
     
     SEP #$20
     
-    LDA.w $03C5, X : JSR Ancilla_ProjectSpeedTowardsPlayer
+    LDA.w $03C5, X : JSR.w Ancilla_ProjectSpeedTowardsPlayer
     
-    JSL Boomerang_CheatWhenNoOnesLooking
+    JSL.l Boomerang_CheatWhenNoOnesLooking
     
     LDA $00 : STA.w $0C22, X
     LDA $01 : STA.w $0C2C, X
@@ -134,7 +134,7 @@ Ancilla_Boomerang:
     
     .y_speed_at_rest
     
-    JSR Ancilla_MoveVert
+    JSR.w Ancilla_MoveVert
     
     ; at rest in x axis
     LDA.w $0C2C, X : BEQ .x_speed_at_rest
@@ -143,9 +143,9 @@ Ancilla_Boomerang:
     
     .y_speed_at_rest
     
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveHoriz
     
-    JSR Ancilla_CheckSpriteCollision
+    JSR.w Ancilla_CheckSpriteCollision
     
     LDY.b #$00 : BCC .no_sprite_collision
     
@@ -159,11 +159,11 @@ Ancilla_Boomerang:
     
     CPY.b #$01 : BEQ .reverse_seek_polarity
     
-    JSR Ancilla_CheckTileCollision : BCC .no_tile_collision
+    JSR.w Ancilla_CheckTileCollision : BCC .no_tile_collision
     
     PHX
     
-    JSL AddBoomerangWallHit
+    JSL.l AddBoomerangWallHit
     
     PLX
     
@@ -177,7 +177,7 @@ Ancilla_Boomerang:
     
     .not_key_door
     
-    TYA : JSR Ancilla_DoSfx2
+    TYA : JSR.w Ancilla_DoSfx2
     
     BRA .reverse_seek_polarity
     
@@ -185,7 +185,7 @@ Ancilla_Boomerang:
     
     ; If the boomerang hits the edge of the screen it will also
     ; flip polarity and go back to the player.
-    JSR Boomerang_CheckForScreenEdgeReversal : BCS .reverse_seek_polarity
+    JSR.w Boomerang_CheckForScreenEdgeReversal : BCS .reverse_seek_polarity
     
     DEC.w $0C54, X : LDA.w $0C54, X : BEQ .reverse_seek_polarity
     
@@ -211,12 +211,12 @@ Ancilla_Boomerang:
     
     STZ.w $0C7C, X
     
-    JSR Ancilla_CheckTileCollision
+    JSR.w Ancilla_CheckTileCollision
     
     PLA : STA.w $0C7C, X
     PLA : STA.w $0280, X
     
-    JSR Boomerang_SelfTerminateIfOffscreen
+    JSR.w Boomerang_SelfTerminateIfOffscreen
     
     .draw
     
@@ -230,7 +230,7 @@ Ancilla_CheckTileCollisionLong:
 {
     PHB : PHK : PLB
     
-    JSR Ancilla_CheckTileCollision
+    JSR.w Ancilla_CheckTileCollision
     
     PLB
     
@@ -244,7 +244,7 @@ Ancilla_CheckTileCollision_Class2_Long:
 {
     PHB : PHK : PLB
     
-    JSR Ancilla_CheckTileCollision_Class2
+    JSR.w Ancilla_CheckTileCollision_Class2
     
     PLB
     
@@ -388,7 +388,7 @@ Pool_Boomerang_Draw:
 ; $041338-$0413E7 LONG BRANCH LOCATION
 Boomerang_Draw:
 {
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0C5E, X : BEQ .moving_away
     
@@ -412,7 +412,7 @@ Boomerang_Draw:
     
     LDY.w $0394, X
     
-    LDA .rotation_speed, Y : STA.w $039F, X
+    LDA.w .rotation_speed, Y : STA.w $039F, X
     
     LDY.w $03A4, X
     
@@ -447,14 +447,14 @@ Boomerang_Draw:
     
     ; The first entry in each interleaved pair is the y offset, the second
     ; being the x offset.
-    LDA .xy_offsets+0, Y : CLC : ADC $00           : STA $00
-    LDA .xy_offsets+2, Y : CLC : ADC $02 : STA $02 : STA $04
+    LDA.w .xy_offsets+0, Y : CLC : ADC $00           : STA $00
+    LDA.w .xy_offsets+2, Y : CLC : ADC $02 : STA $02 : STA $04
     
     LDA.w $03B1, X : AND.w #$00FF : BNE .use_general_oam_base
     
     LDA.w $0FB3 : AND.w #$00FF : ASL A : TAX
     
-    LDA .oam_base, X : PHA
+    LDA.w .oam_base, X : PHA
     
     LSR #2 : CLC : ADC.w #$0A20 : STA $92
     
@@ -468,7 +468,7 @@ Boomerang_Draw:
     
     LDY.b #$00
     
-    JSR Ancilla_SetSafeOam_XY
+    JSR.w Ancilla_SetSafeOam_XY
     
     LDA.b #$26 : STA ($90), Y
     

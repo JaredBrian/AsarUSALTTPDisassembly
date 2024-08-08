@@ -17,8 +17,8 @@ Ancilla_BlastWallFireball:
         LDA.w $0C5E, X : CLC : ADC.b #$02   : STA.w $0C5E, X
                        CLC : ADC.w $0C22, X : STA.w $0C22, X
         
-        JSR Ancilla_MoveVert
-        JSR Ancilla_MoveHoriz
+        JSR.w Ancilla_MoveVert
+        JSR.w Ancilla_MoveHoriz
         
         LDA.l $7F0040, X : DEC A : STA.l $7F0040, X : BPL .still_active
             STZ.w $0C4A, X
@@ -31,13 +31,13 @@ Ancilla_BlastWallFireball:
     LDA.b #$04
     
     LDY.w $0FB3 : BEQ .dont_sort_sprites
-        JSL OAM_AllocateFromRegionD
+        JSL.l OAM_AllocateFromRegionD
         
         BRA .oam_allocation_determined
     
     .dont_sort_sprites
     
-    JSL OAM_AllocateFromRegionA
+    JSL.l OAM_AllocateFromRegionA
     
     .oam_allocation_determined
     
@@ -53,13 +53,13 @@ Ancilla_BlastWallFireball:
     .just_first_chr
     .use_second_chr
     
-    LDA .chr, Y : STA $06
+    LDA.w .chr, Y : STA $06
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     LDY.b #$00
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA $06    : STA ($90), Y : INY
     LDA.b #$22 : STA ($90), Y

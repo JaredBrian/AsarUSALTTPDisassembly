@@ -30,13 +30,13 @@
     
     LDA.w $0C54, X : BEQ .ignore_movement_and_collision
     
-    JSR Ancilla_BoundsCheck
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_BoundsCheck
+    JSR.w Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
     
-    JSR Ancilla_CheckSpriteCollision : BCS .collided
+    JSR.w Ancilla_CheckSpriteCollision : BCS .collided
     
-    JSR Ancilla_CheckTileCollision : BCC .no_collision
+    JSR.w Ancilla_CheckTileCollision : BCC .no_collision
     
     .collided
     

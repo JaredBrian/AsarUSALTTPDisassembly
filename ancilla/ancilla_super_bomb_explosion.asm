@@ -22,7 +22,7 @@ Ancilla_SuperBombExplosion:
     
     INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$02 : BNE .blast_sfx_delay
     
-    LDA.b #$0C : JSR Ancilla_DoSfx2
+    LDA.b #$0C : JSR.w Ancilla_DoSfx2
     
     .blast_sfx_delay
     
@@ -36,7 +36,7 @@ Ancilla_SuperBombExplosion:
     
     TAY
     
-    LDA Ancilla_Bomb.interstate_intervals, Y : STA.w $039F, X
+    LDA Ancilla_Bomb_interstate_intervals, Y : STA.w $039F, X
     
     .draw
     
@@ -50,11 +50,11 @@ Ancilla_SuperBombExplosion:
     
     LDA.w $0C5E, X : TAY
     
-    LDA Bomb_Draw.num_oam_entries, Y : STA.b $08
+    LDA Bomb_Draw_num_oam_entries, Y : STA.b $08
     
-    LDA Ancilla_Bomb.chr_groups, Y : TAY
+    LDA Ancilla_Bomb_chr_groups, Y : TAY
     
-    LDA Bomb_Draw.chr_start_offset, Y : ASL A : TAY
+    LDA Bomb_Draw_chr_start_offset, Y : ASL A : TAY
     
     ASL A : STA.b $04
             STZ.b $05
@@ -94,7 +94,7 @@ Ancilla_SuperBombExplosion:
     
     LDA.b #$18
     
-    JSR Ancilla_AllocateOam
+    JSR.w Ancilla_AllocateOam
     
     PLY : PLX
     
@@ -107,7 +107,7 @@ Ancilla_SuperBombExplosion:
     STZ.b $06
     STZ.b $07
     
-    JSR Bomb_DrawExplosion
+    JSR.w Bomb_DrawExplosion
     
     .off_screen
     
@@ -127,7 +127,7 @@ Ancilla_SuperBombExplosion:
     
     PHX
     
-    JSL Bomb_CheckForVulnerableTileObjects
+    JSL.l Bomb_CheckForVulnerableTileObjects
     
     PLX
     

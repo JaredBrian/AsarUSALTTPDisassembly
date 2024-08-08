@@ -32,12 +32,12 @@ Ancilla_IceShotSparkle:
     
     LDA $11 : BNE .no_movement
     
-    JSR Ancilla_MoveHoriz
-    JSR Ancilla_MoveVert
+    JSR.w Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveVert
     
     .no_movement
     
-    JSR Ancilla_BoundsCheck
+    JSR.w Ancilla_BoundsCheck
     
     LDY.b #$04
     LDA.b #$0B
@@ -62,19 +62,19 @@ Ancilla_IceShotSparkle:
     
     LDY.w $0C7C, X : BNE .other_floor
     
-    JSL OAM_AllocateFromRegionD
+    JSL.l OAM_AllocateFromRegionD
     
     BRA .draw
     
     .other_floor
     
-    JSL OAM_AllocateFromRegionE
+    JSL.l OAM_AllocateFromRegionE
     
     BRA .draw
     
     .sort_sprites
     
-    JSL OAM_AllocateFromRegionA
+    JSL.l OAM_AllocateFromRegionA
     
     .draw
     
@@ -92,7 +92,7 @@ Ancilla_IceShotSparkle:
     
     LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y : INY
     LDA $01 : CLC : ADC .y_offsets, X : STA ($90), Y : INY
-    LDA .chr, X                 : STA ($90), Y : INY
+    LDA.w .chr, X                 : STA ($90), Y : INY
     LDA $04 : ORA.b #$04        : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
@@ -156,9 +156,9 @@ IceShotSparkle_Spawn:
     
     TAX
     
-    LDA .y_speeds, X : STA.w $0C2C, Y
+    LDA.w .y_speeds, X : STA.w $0C2C, Y
     
-    LDA .x_speeds, X : STA.w $0C22, Y
+    LDA.w .x_speeds, X : STA.w $0C22, Y
     
     PLX
     

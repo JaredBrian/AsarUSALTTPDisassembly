@@ -34,7 +34,7 @@ Pool_Ancilla_BeamHit:
 ; $040D19-$040D67 JUMP LOCATION
 Ancilla_BeamHit:
 {
-    JSR Ancilla_BoundsCheck
+    JSR.w Ancilla_BoundsCheck
     
     LDA.w $0C68, X : BNE .delay
         BRL Ancilla_SelfTerminate
@@ -55,8 +55,8 @@ Ancilla_BeamHit:
         
         LDA $00     : CLC : ADC .x_offsets, X           : STA ($90), Y
         LDA $01     : CLC : ADC .y_offsets, X     : INY : STA ($90), Y
-        LDA .chr, X : CLC : ADC.b #$82            : INY : STA ($90), Y
-        LDA .properties, X : ORA.b #$02 : ORA $04 : INY : STA ($90), Y
+        LDA.w .chr, X : CLC : ADC.b #$82            : INY : STA ($90), Y
+        LDA.w .properties, X : ORA.b #$02 : ORA $04 : INY : STA ($90), Y
         
         INY
     LDX $03 : DEX : BPL .next_oam_entry

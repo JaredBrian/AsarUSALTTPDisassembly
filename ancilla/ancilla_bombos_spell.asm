@@ -20,7 +20,7 @@ AddBombosSpell:
 {
     PHB : PHK : PLB
     
-    JSR Ancilla_Spawn : BCC .spawn_succeeded
+    JSR.w Ancilla_Spawn : BCC .spawn_succeeded
     
     BRL .spawn_failed
     
@@ -60,7 +60,7 @@ AddBombosSpell:
     STZ.w $0C54, X
     STZ.w $0C5E, X
     
-    LDA.b #$2A : JSR Ancilla_DoSfx2_NearPlayer
+    LDA.b #$2A : JSR.w Ancilla_DoSfx2_NearPlayer
     
     PHX
     
@@ -101,7 +101,7 @@ AddBombosSpell:
     
     PLX
     
-    JSR Ancilla_GetRadialProjection
+    JSR.w Ancilla_GetRadialProjection
     
     REP #$20
     
@@ -170,7 +170,7 @@ Ancilla_BombosSpell:
     
     .next_fire_column
     
-    JSR BombosSpell_DrawFireColumn
+    JSR.w BombosSpell_DrawFireColumn
     
     DEX : BPL .next_fire_column
     
@@ -182,7 +182,7 @@ Ancilla_BombosSpell:
     
     LDA $11 : BNE .just_draw_flame_columns
     
-    JSR BombosSpell_WrapUpFlameColumns
+    JSR.w BombosSpell_WrapUpFlameColumns
     
     RTS
     
@@ -196,7 +196,7 @@ Ancilla_BombosSpell:
     
     .draw_next_blast
     
-    JSR BombosSpell_DrawBlast
+    JSR.w BombosSpell_DrawBlast
     
     DEX : BPL .draw_next_blast
     
@@ -298,7 +298,7 @@ Bombos_ExecuteFlameColumns:
     
     LDA.l $7F5820, X : CLC : ADC.b #$06 : STA.l $7F5820, X : AND.b #$3F
     
-    JSR Ancilla_GetRadialProjection
+    JSR.w Ancilla_GetRadialProjection
     
     TXA : ASL A : TAX
     
@@ -363,7 +363,7 @@ Bombos_ExecuteFlameColumns:
     
     .just_draw_column
     
-    JSR BombosSpell_DrawFireColumn
+    JSR.w BombosSpell_DrawFireColumn
     
     .advance_to_next_column
     
@@ -418,7 +418,7 @@ BombosSpell_WrapUpFlameColumns:
     .delay
     .not_inactive
     
-    JSR BombosSpell_DrawFireColumn
+    JSR.w BombosSpell_DrawFireColumn
     
     DEX : BPL .next_fire_column
     
@@ -437,7 +437,7 @@ BombosSpell_WrapUpFlameColumns:
     
     PLX : PHX
     
-    JSL Medallion_CheckSpriteDamage
+    JSL.l Medallion_CheckSpriteDamage
     
     PLX
     
@@ -468,7 +468,7 @@ BombosSpell_DrawFireColumn:
     ; weeded out. See note near the end of this subroutine.
     TXA : CLC : ADC.b #$00 : STA $75
     
-    LDA.b #$10 : JSR Ancilla_AllocateOam
+    LDA.b #$10 : JSR.w Ancilla_AllocateOam
     
     LDY.b #$00
     
@@ -507,7 +507,7 @@ BombosSpell_DrawFireColumn:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     PLX
     
@@ -522,7 +522,7 @@ BombosSpell_DrawFireColumn:
     
     .skip_oam_entry
     
-    JSR Ancilla_CustomAllocateOam
+    JSR.w Ancilla_CustomAllocateOam
     
     DEX
     
@@ -618,8 +618,8 @@ BombosSpell_ExecuteBlasts:
     ; game normally uses.)
     LDA $1A : AND.b #$3F : TAX
     
-    LDA .y_offsets, X : STA $00 : STZ $01
-    LDA .x_offsets, X : STA $02 : STZ $03
+    LDA.w .y_offsets, X : STA $00 : STZ $01
+    LDA.w .x_offsets, X : STA $02 : STZ $03
     
     TYX
     
@@ -638,7 +638,7 @@ BombosSpell_ExecuteBlasts:
     
     .just_draw_blast
     
-    JSR BombosSpell_DrawBlast
+    JSR.w BombosSpell_DrawBlast
     
     DEX : BMI .handled_all_active_blasts
     
@@ -782,7 +782,7 @@ BombosSpell_DrawBlast:
     
     LDA.l $7F5935, X : CMP.b #$08 : BEQ .inactive_blast
     
-    LDA.b #$10 : JSR Ancilla_AllocateOam
+    LDA.b #$10 : JSR.w Ancilla_AllocateOam
     
     LDY.b #$00
     
@@ -796,14 +796,14 @@ BombosSpell_DrawBlast:
     
     REP #$20
     
-    LDA .y_offsets, X : CLC : ADC $08 : SEC : SBC $E8 : STA $00
-    LDA .x_offsets, X : CLC : ADC $0A : SEC : SBC $E2 : STA $02
+    LDA.w .y_offsets, X : CLC : ADC $08 : SEC : SBC $E8 : STA $00
+    LDA.w .x_offsets, X : CLC : ADC $0A : SEC : SBC $E2 : STA $02
     
     SEP #$20
     
     PLX
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA.w $B521, X : STA ($90), Y : INY
     LDA.w $B541, X : STA ($90), Y : INY
@@ -816,7 +816,7 @@ BombosSpell_DrawBlast:
     
     .skip_oam_entry
     
-    JSR Ancilla_CustomAllocateOam
+    JSR.w Ancilla_CustomAllocateOam
     
     DEX
     

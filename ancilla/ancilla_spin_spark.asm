@@ -102,16 +102,16 @@ Ancilla_SpinSpark:
     
     LDA.l $7F5800, X
     
-    JSR Ancilla_GetRadialProjection
-    JSL Sparkle_PrepOamCoordsFromRadialProjection
+    JSR.w Ancilla_GetRadialProjection
+    JSL.l Sparkle_PrepOamCoordsFromRadialProjection
     
     PLY
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDX.b $72
     
-    LDA .spark_chr, X           : STA ($90), Y : INY
+    LDA.w .spark_chr, X           : STA ($90), Y : INY
     LDA.b $73           : ORA.b $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
@@ -147,16 +147,16 @@ Ancilla_SpinSpark:
     
     LDA.l $7F5804
     
-    JSR Ancilla_GetRadialProjection
-    JSL Sparkle_PrepOamCoordsFromRadialProjection
+    JSR.w Ancilla_GetRadialProjection
+    JSL.l Sparkle_PrepOamCoordsFromRadialProjection
     
     PLY
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDX.b $72
     
-    LDA .extra_spark_chr, X           : STA ($90), Y : INY
+    LDA.w .extra_spark_chr, X           : STA ($90), Y : INY
     LDA.b #$04              : ORA.b $65 : STA ($90), Y : INY
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
@@ -234,7 +234,7 @@ SpinSpark_ExecuteClosingSpark:
     .animation_delay
     .termination_delay
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -249,7 +249,7 @@ SpinSpark_ExecuteClosingSpark:
     
     LDA.w $0C5E, X : CLC : ADC.b #$04 : ASL #2 : TAX
     
-    BRL Ancilla_InitialSpinSpark.oam_commit_loop
+    BRL Ancilla_InitialSpinSpark_oam_commit_loop
 }
 
 ; ==============================================================================

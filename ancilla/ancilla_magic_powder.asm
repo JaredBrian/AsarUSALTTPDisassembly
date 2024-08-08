@@ -91,7 +91,7 @@ Ancilla_MagicPowder:
 {
     LDA $11 : BNE .just_draw
     
-    JSR MagicPowder_ApplySpriteDamage
+    JSR.w MagicPowder_ApplySpriteDamage
     
     DEC.w $03B1, X : BPL .just_draw
     
@@ -99,7 +99,7 @@ Ancilla_MagicPowder:
     
     LDY.w $0C72, X
     
-    LDA .animation_group_offsets, Y : STA $00
+    LDA.w .animation_group_offsets, Y : STA $00
     
     LDA.w $0C5E, X : INC A : CMP.b #$0A : BNE .dont_self_terminate
     
@@ -115,16 +115,16 @@ Ancilla_MagicPowder:
     
     CLC : ADC $00 : TAY
     
-    LDA .animation_groups, Y : STA.w $03C2, X
+    LDA.w .animation_groups, Y : STA.w $03C2, X
     
     .just_draw
     
-    LDA.w $0C90, X : JSR Ancilla_AllocateOam_B_or_E
+    LDA.w $0C90, X : JSR.w Ancilla_AllocateOam_B_or_E
     
     ; $043AEB ALTERNATE ENTRY POINT
     shared MagicPowder_Draw:
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     PHX
     
@@ -157,17 +157,17 @@ Ancilla_MagicPowder:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDX $0C
     
-    LDA .chr, X : STA ($90), Y : INY
+    LDA.w .chr, X : STA ($90), Y : INY
     
     LDX $0A
     
     ; BUG:(maybe) Is it possible that the game will read past the end of
     ; this array into the proceeding code?
-    LDA .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y : INY
+    LDA.w .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -201,17 +201,17 @@ MagicPowder_ApplySpriteDamage:
     
     LDA.w $0CD2, Y : AND.b #$20 : BNE .no_collision
     
-    JSR Ancilla_SetupBasicHitBox
+    JSR.w Ancilla_SetupBasicHitBox
     
     PHY : PHX
     
     TYX
     
-    JSL Sprite_SetupHitBoxLong
+    JSL.l Sprite_SetupHitBoxLong
     
     PLX : PLY
     
-    JSL Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
+    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
     
     LDA.w $0E20, Y : CMP.b #$0B : BNE .not_transformable_chicken
     
@@ -235,7 +235,7 @@ MagicPowder_ApplySpriteDamage:
     
     TYX
     
-    JSL Sprite_SpawnPoofGarnish
+    JSL.l Sprite_SpawnPoofGarnish
     
     PLY : PLX
     
@@ -249,7 +249,7 @@ MagicPowder_ApplySpriteDamage:
     
     ; Check damage from magic powder to general sprites (not specifically
     ; transformable like chickens or buzzblobs).
-    LDA.b #$0A : JSL Ancilla_CheckSpriteDamage.preset_class
+    LDA.b #$0A : JSL.l Ancilla_CheckSpriteDamage_preset_class
     
     PLY : PLX
     

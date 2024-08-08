@@ -74,7 +74,7 @@ Ancilla_TravelBird:
     
     LDA.b #$28 : STA.w $0394, X
     
-    LDA.b #$1E : JSR Ancilla_DoSfx3
+    LDA.b #$1E : JSR.w Ancilla_DoSfx3
     
     .flapping_sfx_delay
     
@@ -89,11 +89,11 @@ Ancilla_TravelBird:
     
     LDA.w $0294, X : CLC : ADC.b #-1 : STA.w $0294, X
     
-    JSR Ancilla_MoveAltitude
+    JSR.w Ancilla_MoveAltitude
     
     .maintain_current_altitude
     
-    JSR Ancilla_MoveHoriz
+    JSR.w Ancilla_MoveHoriz
     
     LDA.w $0385, X : BEQ .pick_up_logic
     
@@ -107,7 +107,7 @@ Ancilla_TravelBird:
     
     LDY.b #$01
     
-    JSR Ancilla_CheckPlayerCollision : BCC .dont_pick_up_player
+    JSR.w Ancilla_CheckPlayerCollision : BCC .dont_pick_up_player
     
     LDA.b $10 : CMP.b #$0F : BEQ .dont_pick_up_player
     
@@ -168,7 +168,7 @@ Ancilla_TravelBird:
     
     SEP #$20
     
-    JSL Player_ResetState
+    JSL.l Player_ResetState
     
     STZ.w $0345
     STZ.w $03F8
@@ -242,7 +242,7 @@ Ancilla_TravelBird:
     
     .tagalong_neither_of_those
     
-    JSL Tagalong_Init
+    JSL.l Tagalong_Init
     
     BRA .draw_logic
     
@@ -280,9 +280,9 @@ Ancilla_TravelBird:
     .set_vram_offset
     
     ; Set chr vram upload offset for bird body.
-    LDA .vram_offsets, Y : STA.w $0AF4
+    LDA.w .vram_offsets, Y : STA.w $0AF4
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -315,7 +315,7 @@ Ancilla_TravelBird:
     
     REP #$20
     
-    LDA .y_offsets, X : AND.w #$00FF
+    LDA.w .y_offsets, X : AND.w #$00FF
     
     CMP.w #$0080 : BCC .sign_ext_y_offset
     
@@ -325,7 +325,7 @@ Ancilla_TravelBird:
     
     CLC : ADC.b $04 : STA.b $00
     
-    LDA .x_offsets, X : AND.w #$00FF
+    LDA.w .x_offsets, X : AND.w #$00FF
     
     CMP.w #$0080 : BCC .sign_ext_x_offset
     
@@ -337,11 +337,11 @@ Ancilla_TravelBird:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
-    LDA .chr, X : STA ($90), Y : INY
+    LDA.w .chr, X : STA ($90), Y : INY
     
-    LDA .properties, X : ORA.b #$30 : STA ($90), Y : INY
+    LDA.w .properties, X : ORA.b #$30 : STA ($90), Y : INY
     
     PHY
     
@@ -365,7 +365,7 @@ Ancilla_TravelBird:
     
     LDA.b #$30 : STA.b $04
     
-    LDX.b #$01 : JSR Ancilla_DrawShadow
+    LDX.b #$01 : JSR.w Ancilla_DrawShadow
     
     LDX.w $0FA0
     
@@ -381,7 +381,7 @@ Ancilla_TravelBird:
     
     LDA.b #$30 : STA.b $04
     
-    LDX.b #$01 : JSR Ancilla_DrawShadow
+    LDX.b #$01 : JSR.w Ancilla_DrawShadow
     
     .dont_draw_player_shadow
     

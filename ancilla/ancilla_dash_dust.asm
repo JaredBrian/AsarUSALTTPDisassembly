@@ -51,7 +51,7 @@ Ancilla_DashDust:
 {
     LDA.w $0C54, X : BEQ .stationary_dust
     
-    JSL Ancilla_MotiveDashDust
+    JSL.l Ancilla_MotiveDashDust
     
     BRA .return
     
@@ -74,7 +74,7 @@ Ancilla_DashDust:
     
     LDA.w $0C5E, X : CMP.b #$05 : BEQ .return
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     PHX
     
@@ -86,8 +86,8 @@ Ancilla_DashDust:
     
     LDY $2F
     
-    LDA .player_relative_offset+0, Y : STA $0C
-    LDA .player_relative_offset+1, Y : STA $0D
+    LDA.w .player_relative_offset+0, Y : STA $0C
+    LDA.w .player_relative_offset+1, Y : STA $0D
     
     LDY.b #$00
     
@@ -122,11 +122,11 @@ Ancilla_DashDust:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDX $04
     
-    LDA .chr, X          : STA ($90), Y : INY
+    LDA.w .chr, X          : STA ($90), Y : INY
     LDA.b #$04 : ORA $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY

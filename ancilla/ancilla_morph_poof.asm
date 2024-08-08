@@ -50,13 +50,13 @@ Ancilla_MorphPoof:
         .in_light_world
         
         STY.w $02E0 : STY $56 : BEQ .using_normal_player_graphics
-            JSL LoadGearPalettes.bunny
+            JSL.l LoadGearPalettes_bunny
         
             BRA .return
         
         .using_normal_player_graphics
         
-        JSL LoadActualGearPalettes
+        JSL.l LoadActualGearPalettes
     
     .return
     
@@ -89,7 +89,7 @@ MorphPoof_Draw:
     
     .use_default_oam_region
     
-    JSR Ancilla_PrepOamCoord
+    JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
@@ -102,9 +102,9 @@ MorphPoof_Draw:
     
     LDY.w $0C5E, X
     
-    LDA .oam_size, Y : STA $08
+    LDA.w .oam_size, Y : STA $08
     
-    LDA .chr, Y : STA $0C
+    LDA.w .chr, Y : STA $0C
     
     TYA : ASL #2 : STA $0E
     
@@ -121,7 +121,7 @@ MorphPoof_Draw:
     
     SEP #$20
     
-    JSR Ancilla_SetOam_XY
+    JSR.w Ancilla_SetOam_XY
     
     LDA $0C : STA ($90), Y : INY
     
