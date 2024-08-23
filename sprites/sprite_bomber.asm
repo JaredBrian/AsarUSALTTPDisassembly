@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $0F0DD2-$0F0DE6 JUMP LOCATION
@@ -11,8 +10,8 @@ Sprite_Bomber:
         
         JSL.l UseImplicitRegIndexedLocalJumpTable
         
-        dw BomberPellet_Falling
-        dw BomberPellet_Exploding
+        dw BomberPellet_Falling   ; 0x00 - $8DE7
+        dw BomberPellet_Exploding ; 0x01 - $8E14
 }
 
 ; ==============================================================================

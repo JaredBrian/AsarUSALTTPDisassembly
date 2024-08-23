@@ -517,8 +517,6 @@ Pool_Sprite_BeamosLaserHit:
     db $06, $46, $86, $C6
 }
 
-; ==============================================================================
-
 ; $0292DA-$029332 LOCAL JUMP LOCATION
 Sprite_BeamosLaserHit:
 {

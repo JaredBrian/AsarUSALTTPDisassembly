@@ -1,33 +1,35 @@
+; ==============================================================================
 
-    !is_nucleus_expelled = $0D90
+!is_nucleus_expelled = $0D90
 
 ; ==============================================================================
 
 ; $0ECCDB-$0ECCDE DATA
-Pool_Sprite_GiboNucleus:
+Sprite_GiboNucleus_vh_flip:
 {
-    .vh_flip
     db $00, $40, $C0, $80
 }
 
 ; ==============================================================================
 
 ; $0ECCDF-$0ECCE0 DATA
-Pool_Gibo_Draw:
+Gibo_Draw_palettes:
 {
-    .palettes
     db $0B, $07
 }
 
 ; ==============================================================================
 
-; $0ECCE1-$0ECD11 JUMP LOCATION
+; $0ECCE1-$0ECD15 JUMP LOCATION
 Sprite_Gibo:
 {
     LDA.w $0DA0, X : BEQ Gibo_Main
-    
-    shared Sprite_GiboNucleus:
-    
+    	; Bleeds into the next function.
+}
+
+; $0ECCE6-$0ECD11 JUMP LOCATION
+Sprite_GiboNucleus:
+{
     JSL.l Sprite_PrepAndDrawSingleLargeLong
     JSR.w Sprite4_CheckIfActive
     JSR.w Sprite4_CheckDamage
@@ -38,10 +40,10 @@ Sprite_Gibo:
     
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
+    ; TODO: timer_0?
     LDA !timer_0, X : BEQ .halt_movement
-    
-    JSR.w Sprite4_Move
-    JSR.w Sprite4_BounceFromTileCollision
+    	JSR.w Sprite4_Move
+    	JSR.w Sprite4_BounceFromTileCollision
     
     .halt_movement
     
@@ -61,24 +63,23 @@ Gibo_Main:
     LDY.w $0EB0, X
     
     LDA.w $0DD0, Y : CMP.b #$06 : BNE .nucleus_not_dying
+    	STA.w $0DD0, X
+     
+	; TODO: timer_0?
+    	LDA !timer_0, Y : STA !timer_0, X
     
-    STA.w $0DD0, X
+    	LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
     
-    LDA !timer_0, Y : STA !timer_0, X
-    
-    LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
-    
-    RTS
+    	RTS
     
     .nucleus_not_dying
     
     LDA.b $1A : LSR #3 : AND.b #$03 : STA.w $0E80, X
     
     LDA.b $1A : AND.b #$3F : BNE .dont_pursue_player
+    	JSR.w Sprite4_IsToRightOfPlayer
     
-    JSR.w Sprite4_IsToRightOfPlayer
-    
-    TYA : ASL #2 : STA.w $0DE0, X
+        TYA : ASL #2 : STA.w $0DE0, X
     
     .dont_pursue_player
     
@@ -88,9 +89,9 @@ Gibo_Main:
     
     JSL.l UseImplicitRegIndexedLocalJumpTable
     
-    dw Gibo_ExpelNucleus
-    dw Gibo_DelayPursuit
-    dw Gibo_PursueNucleus
+    dw Gibo_ExpelNucleus  ; 0x00 - $CD72
+    dw Gibo_DelayPursuit  ; 0x01 - $CDE2
+    dw Gibo_PursueNucleus ; 0x02 - $CDEB
 }
 
 ; ==============================================================================
@@ -98,9 +99,11 @@ Gibo_Main:
 ; $0ECD62-$0ECD71 DATA
 Pool_Gibo_ExpelNucleus:
 {
+    ; $0ECD62
     .x_speeds
     db  16,  16,   0, -16, -16, -16,   0,  16
     
+    ; $0ECD6A
     .y_speeds
     db   0,   0,  16, -16,  16,  16, -16, -16
 }
@@ -111,72 +114,68 @@ Pool_Gibo_ExpelNucleus:
 Gibo_ExpelNucleus:
 {
     LDA !timer_0, X : BNE .delay
+    	INC.w $0D80, X
     
-    INC.w $0D80, X
+    	LDA.b #$30 : STA !timer_0, X
     
-    LDA.b #$30 : STA !timer_0, X
+    	INC !is_nucleus_expelled, X
     
-    INC !is_nucleus_expelled, X
+    	; BUG: Maybe. What if the nucleus fails to spawn? Will the thing
+    	; just break completely? It's good that they check the return value,
+    	; but it shouldn't advance to the next AI state, imo.
+    	LDA.b #$C3 : JSL.l Sprite_SpawnDynamically : BMI .nucleus_spawn_failed
+    	    JSL.l Sprite_SetSpawnedCoords
     
-    ; BUG: Maybe. What if the nucleus fails to spawn? Will the thing
-    ; just break completely? It's good that they check the return value,
-    ; but it shouldn't advance to the next AI state, imo.
-    LDA.b #$C3 : JSL.l Sprite_SpawnDynamically : BMI .nucleus_spawn_failed
+    	    ; Store the index of the spawned child sprite (Gibo nucleus).
+    	    TYA : STA.w $0EB0, X
     
-    JSL.l Sprite_SetSpawnedCoords
+    	    LDA.b #$01 : STA.w $0E40, Y
+                         STA.w $0DA0, Y
     
-    ; Store the index of the spawned child sprite (Gibo nucleus).
-    TYA : STA.w $0EB0, X
+    	    LDA.b #$10 : STA.w $0E60, Y
     
-    LDA.b #$01 : STA.w $0E40, Y
-                 STA.w $0DA0, Y
+    	    LDA.w $0ED0, X : STA.w $0E50, Y
     
-    LDA.b #$10 : STA.w $0E60, Y
+    	    LDA.b #$07 : STA.w $0F50, Y
     
-    LDA.w $0ED0, X : STA.w $0E50, Y
+    	    LDA.b #$30 : STA !timer_0, Y
     
-    LDA.b #$07 : STA.w $0F50, Y
+    	    PHX
     
-    LDA.b #$30 : STA !timer_0, Y
+    	    INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$03 : BNE .pick_random_direction
+    	        ; Otherwise pursue the player? TODO: confirm that it's not fleeing
+    	        ; in this case.
+    	        STZ.w $0DB0, X
     
-    PHX
+    	        PHY
     
-    INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$03 : BNE .pick_random_direction
+    	        JSR.w Sprite4_DirectionToFacePlayer : TYX
     
-    ; Otherwise pursue the player? TODO: confirm that it's not fleeing
-    ; in this case.
-    STZ.w $0DB0, X
+    	        PLY
     
-    PHY
+    	        BRA .set_xy_speeds
     
-    JSR.w Sprite4_DirectionToFacePlayer : TYX
+    	    .pick_random_direction
     
-    PLY
+    	    JSL.l GetRandomInt : AND.b #$07 : TAX
     
-    BRA .set_xy_speeds
+    	    .set_xy_speeds
     
-    .pick_random_direction
+    	    LDA.w .x_speeds, X : STA.w $0D50, Y
     
-    JSL.l GetRandomInt : AND.b #$07 : TAX
+    	    LDA.w .y_speeds, X : STA.w $0D40, Y
     
-    .set_xy_speeds
+    	    PLX
     
-    LDA.w .x_speeds, X : STA.w $0D50, Y
+    	.nucleus_spawn_failed
     
-    LDA.w .y_speeds, X : STA.w $0D40, Y
-    
-    PLX
-    
-    .nucleus_spawn_failed
-    
-    RTS
+    	RTS
     
     .delay
     
     ; TODO: Terrible branch name, but maybe semiaccurate.
     CMP.b #$20 : BNE .dont_special_draw
-    
-    STA !timer_1, X
+        STA !timer_1, X
     
     .dont_special_draw
     
@@ -189,8 +188,7 @@ Gibo_ExpelNucleus:
 Gibo_DelayPursuit:
 {
     LDA !timer_0, X : BNE .delay
-    
-    INC.w $0D80, X
+     	INC.w $0D80, X
     
     .delay
     
@@ -203,49 +201,44 @@ Gibo_DelayPursuit:
 Gibo_PursueNucleus:
 {
     TXA : EOR.b $1A : AND.b #$03 : BNE .stagger_retargeting
+        ; NOTE: Y was preloaded with the index of the nucleus before calling this.
+        LDA.w $0D10, Y : STA.b $04
+        LDA.w $0D30, Y : STA.b $05
     
-    ; NOTE: Y was preloaded with the index of the nucleus before calling
-    ; this.
-    LDA.w $0D10, Y : STA.b $04
-    LDA.w $0D30, Y : STA.b $05
+        LDA.w $0D00, Y : STA.b $06
+        LDA.w $0D20, Y : STA.b $07
     
-    LDA.w $0D00, Y : STA.b $06
-    LDA.w $0D20, Y : STA.b $07
+        REP #$20
     
-    REP #$20
+        LDA.w $0FD8 : SEC : SBC.b $04 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+            LDA.w $0FDA : SEC : SBC.b $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+                SEP #$20
     
-    LDA.w $0FD8 : SEC : SBC.b $04 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+    	        LDY.w $0EB0, X
     
-    LDA.w $0FDA : SEC : SBC.b $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+    	        ; Terminate the nucleus now that we've recombined (another will spawn soon).
+    	        LDA.b #$00 : STA.w $0DD0, Y
     
-    SEP #$20
+    	        STZ !is_nucleus_expelled, X
     
-    LDY.w $0EB0, X
+    	        STZ.w $0D80, X
     
-    ; Terminate the nucleus now that we've recombined (another will spawn
-    ; soon).
-    LDA.b #$00 : STA.w $0DD0, Y
+    	        LDA.w $0E50, Y : STA.w $0ED0, X
     
-    STZ !is_nucleus_expelled, X
+    	        JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA !timer_0, X
     
-    STZ.w $0D80, X
+    	        RTS
     
-    LDA.w $0E50, Y : STA.w $0ED0, X
+        .dont_recombine
     
-    JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA !timer_0, X
+        SEP #$20
     
-    RTS
+    	; Go towards the nucleus.
+    	LDA.b #$10 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
-    .dont_recombine
+    	LDA.b $00 : STA.w $0D40, X
     
-    SEP #$20
-    
-    ; Go towards the nucleus.
-    LDA.b #$10 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
-    
-    LDA.b $00 : STA.w $0D40, X
-    
-    LDA.b $01 : STA.w $0D50, X
+     	LDA.b $01 : STA.w $0D50, X
     
     .stagger_retargeting
     
@@ -257,9 +250,8 @@ Gibo_PursueNucleus:
 ; ==============================================================================
 
 ; $0ECE5E-$0ECF5D DATA
-Pool_Gibo_Draw:
+Gibo_Draw_oam_groups:
 {
-    .oam_groups
     dw  4, -4 : db $8A, $40, $00, $02
     dw -4, -4 : db $8F, $40, $00, $00
     dw 12, 12 : db $8E, $40, $00, $00
@@ -301,33 +293,31 @@ Pool_Gibo_Draw:
     dw  4,  3 : db $8C, $00, $00, $02
 }
 
-; ==============================================================================
-
 ; $0ECF5E-$0ECFC2 LOCAL JUMP LOCATION
 Gibo_Draw:
 {
     LDA !is_nucleus_expelled, X : BNE .is_currently_expelled
+    	LDA.w $0E40, X : PHA
     
-    LDA.w $0E40, X : PHA
+    	LDA.b #$01 : STA.w $0E40, X
     
-    LDA.b #$01 : STA.w $0E40, X
+	; TODO: timer_1?
+    	LDA !timer_1, X : AND.b #$04 : LSR #2 : STA.b $00
     
-    LDA !timer_1, X : AND.b #$04 : LSR #2 : STA.b $00
+    	LDA.w $0EC0, X : LSR #2 : AND.b #$03 : TAY
     
-    LDA.w $0EC0, X : LSR #2 : AND.b #$03 : TAY
+    	LDA.w $0F50, X : PHA
     
-    LDA.w $0F50, X : PHA
+    	LDA Sprite_GiboNucleus_vh_flip, Y
     
-    LDA Sprite_GiboNucleus_vh_flip, Y
+    	LDY.b $00
     
-    LDY.b $00
+    	ORA .palettes, Y : STA.w $0F50, X
     
-    ORA .palettes, Y : STA.w $0F50, X
+    	JSL.l Sprite_PrepAndDrawSingleLargeLong
     
-    JSL.l Sprite_PrepAndDrawSingleLargeLong
-    
-    PLA : STA.w $0F50, X
-    PLA : STA.w $0E40, X
+    	PLA : STA.w $0F50, X
+     	PLA : STA.w $0E40, X
     
     .is_currently_expelled
     
