@@ -10543,25 +10543,25 @@ Equipment_UpdateBottleMenu:
     ; blanks).
     LDA.w #$1372 :                 STA.b $00
     LDA.l $7EF35C : AND.w #$00FF : STA.b $02
-    LDA.w #$F751 :                 STA.b $04
+    LDA.w ItemMenuIcons_bottles  : STA.b $04
     
     JSR.w DrawItem
     
     LDA.w #$1472 :                 STA.b $00
     LDA.l $7EF35D : AND.w #$00FF : STA.b $02
-    LDA.w #$F751 :                 STA.b $04
+    LDA.w ItemMenuIcons_bottles  : STA.b $04
     
     JSR.w DrawItem
     
     LDA.w #$1572 :                 STA.b $00
     LDA.l $7EF35E : AND.w #$00FF : STA.b $02
-    LDA.w #$F751 :                 STA.b $04
+    LDA.w ItemMenuIcons_bottles  : STA.b $04
     
     JSR.w DrawItem
     
     LDA.w #$1672 :                 STA.b $00
     LDA.l $7EF35F : AND.w #$00FF : STA.b $02
-    LDA.w #$F751 :                 STA.b $04
+    LDA.w ItemMenuIcons_bottles  : STA.b $04
     
     JSR.w DrawItem
     
@@ -10580,7 +10580,7 @@ Equipment_UpdateBottleMenu:
     
     STA.b $02
     
-    LDA.w #$F751 : STA.b $04
+    LDA.w ItemMenuIcons_bottles : STA.b $04
     
     JSR.w DrawItem
     
@@ -10840,9 +10840,9 @@ Equipment_DrawYButtonItems:
     
     .drawBoxInterior
     
-        STA.w $1184, X : A.w $11C4C4, X A.w $12041204, A.w $1244 $1244, X
-        STA.w $1284, X : A.w $12C4C4, X A.w $13041304, A.w $1344 $1344, X
-        STA.w $1384, X : A.w $13C4C4, X A.w $14041404, A.w $1444 $1444, X
+        STA.w $1184, X : STA.w $11C4, X STA.w $1204, STA.w $1244, X
+        STA.w $1284, X : STA.w $12C4, X STA.w $1304, STA.w $1344, X
+        STA.w $1384, X : STA.w $13C4, X STA.w $1404, STA.w $1444, X
         STA.w $1484, X
         
         INX #2
@@ -10856,22 +10856,24 @@ Equipment_DrawYButtonItems:
     LDA.w #$246E : STA.w $1146
     LDA.w #$246F : STA.w $1148
     
+    ; Draw the items:
+
     ; Draw Bow and Arrow.
     LDA.w #$11C8                 : STA.b $00
     LDA.l $7EF340 : AND.w #$00FF : STA.b $02
-    LDA.w #$F629                 : STA.b $04
+    LDA.w ItemMenuIcons_bows     : STA.b $04
     JSR.w DrawItem
     
     ; Draw Boomerang.
     LDA.w #$11CE                 : STA.b $00
     LDA.l $7EF341 : AND.w #$00FF : STA.b $02
-    LDA.w #$F651                 : STA.b $04
+    LDA.w ItemMenuIcons_booms    : STA.b $04
     JSR.w DrawItem
     
     ; Draw Hookshot.
     LDA.w #$11D4                 : STA.b $00
     LDA.l $7EF342 : AND.w #$00FF : STA.b $02
-    LDA.w #$F669                 : STA.b $04
+    LDA.w ItemMenuIcons_hook     : STA.b $04
     JSR.w DrawItem
     
     ; Draw Bombs.
@@ -10882,73 +10884,73 @@ Equipment_DrawYButtonItems:
     .gotNoBombs
     
     STA.b $02
-    LDA.w #$F679 : STA.b $04
+    LDA.w ItemMenuIcons_bombs : STA.b $04
     JSR.w DrawItem
     
     ; Draw mushroom or magic powder.
     LDA.w #$11E0 :                 STA.b $00
     LDA.l $7EF344 : AND.w #$00FF : STA.b $02
-    LDA.w #$F689 :                 STA.b $04
+    LDA.w ItemMenuIcons_powder   : STA.b $04
     JSR.w DrawItem
     
     ; Draw Fire Rod.
     LDA.w #$1288 :                 STA.b $00
     LDA.l $7EF345 : AND.w #$00FF : STA.b $02
-    LDA.w #$F6A1 :                 STA.b $04
+    LDA.w ItemMenuIcons_fire_rod : STA.b $04
     JSR.w DrawItem
     
     ; Draw Ice Rod.
     LDA.w #$128E :                 STA.b $00
     LDA.l $7EF346 : AND.w #$00FF : STA.b $02
-    LDA.w #$F6B1 :                 STA.b $04
+    LDA.w ItemMenuIcons_ice_rod  : STA.b $04
     JSR.w DrawItem
     
     ; Draw Bombos Medallion.
     LDA.w #$1294 :                 STA.b $00
     LDA.l $7EF347 : AND.w #$00FF : STA.b $02
-    LDA.w #$F6C1 :                 STA.b $04
+    LDA.w ItemMenuIcons_bombos   : STA.b $04
     JSR.w DrawItem
     
     ; Draw Ether Medallion.
     LDA.w #$129A :                 STA.b $00
     LDA.l $7EF348 : AND.w #$00FF : STA.b $02
-    LDA.w #$F6D1 :                 STA.b $04
+    LDA.w ItemMenuIcons_ether    : STA.b $04
     JSR.w DrawItem
     
     ; Draw Quake Medallion.
     LDA.w #$12A0 :                 STA.b $00
     LDA.l $7EF349 : AND.w #$00FF : STA.b $02
-    LDA.w #$F6E1 :                 STA.b $04
+    LDA.w ItemMenuIcons_quake    : STA.b $04
     JSR.w DrawItem
     
     ; Draw Lamp.
     LDA.w #$1348 :                 STA.b $00
     LDA.l $7EF34A : AND.w #$00FF : STA.b $02
-    LDA.w #$F6F1 :                 STA.b $04
+    LDA.w ItemMenuIcons_lamp     : STA.b $04
     JSR.w DrawItem
     
     ; Hammer.
     LDA.w #$134E :                 STA.b $00
     LDA.l $7EF34B : AND.w #$00FF : STA.b $02
-    LDA.w #$F701 :                 STA.b $04
+    LDA.w #$F701ItemMenuIcons_   : STA.b $04
     JSR.w DrawItem
     
     ; Flute.
     LDA.w #$1354 :                 STA.b $00
     LDA.l $7EF34C : AND.w #$00FF : STA.b $02
-    LDA.w #$F711 :                 STA.b $04
+    LDA.w ItemMenuIcons_hammer   : STA.b $04
     JSR.w DrawItem
     
     ; Bug Catching Net.
     LDA.w #$135A :                 STA.b $00
     LDA.l $7EF34D : AND.w #$00FF : STA.b $02
-    LDA.w #$F731 :                 STA.b $04
+    LDA.w ItemMenuIcons_net      : STA.b $04
     JSR.w DrawItem
     
     ; Draw Book Of Mudora.
     LDA.w #$1360 :                 STA.b $00
     LDA.l $7EF34E : AND.w #$00FF : STA.b $02
-    LDA.w #$F741 :                 STA.b $04
+    LDA.w ItemMenuIcons_book     : STA.b $04
     JSR.w DrawItem
     
     ; There is an active bottle.
@@ -10965,31 +10967,31 @@ Equipment_DrawYButtonItems:
     .noSelectedBottle
     
     STA.b $02
-    LDA.w #$F751 : STA.b $04
+    LDA.w ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     ; Draw Cane of Somaria.
     LDA.w #$140E :                 STA.b $00
     LDA.l $7EF350 : AND.w #$00FF : STA.b $02
-    LDA.w #$F799 :                 STA.b $04
+    LDA.w ItemMenuIcons_somaria  : STA.b $04
     JSR.w DrawItem
     
     ; Draw Cane of Byrna.
     LDA.w #$1414 :                 STA.b $00
     LDA.l $7EF351 : AND.w #$00FF : STA.b $02
-    LDA.w #$F7A9 :                 STA.b $04
+    LDA.w ItemMenuIcons_byrna    : STA.b $04
     JSR.w DrawItem
     
     ; Draw Magic Cape.
     LDA.w #$141A :                 STA.b $00
     LDA.l $7EF352 : AND.w #$00FF : STA.b $02
-    LDA.w #$F7B9 :                 STA.b $04
+    LDA.w ItemMenuIcons_cape     : STA.b $04
     JSR.w DrawItem
     
     ; Draw Magic Mirror.
     LDA.w #$1420 :                 STA.b $00
     LDA.l $7EF353 : AND.w #$00FF : STA.b $02
-    LDA.w #$F7C9 :                 STA.b $04
+    LDA.w ItemMenuIcons_mirror   : STA.b $04
     JSR.w DrawItem
     
     SEP #$30
@@ -12072,25 +12074,25 @@ Equipment_DrawBottleMenu:
     ; Draw bottle 0.
     LDA.w #$1372                 : STA.b $00
     LDA.l $7EF35C : AND.w #$00FF : STA.b $02
-    LDA.w #$F751                 : STA.b $04
+    LDA.w ItemMenuIcons_bottles  : STA.b $04
     JSR.w DrawItem
     
     ; Draw bottle 1.
     LDA.w #$1472                 : STA.b $00
     LDA.l $7EF35D : AND.w #$00FF : STA.b $02
-    LDA.w #$F751                 : STA.b $04
+    LDA.w ItemMenuIcons_bottles  : STA.b $04
     JSR.w DrawItem
     
     ; Draw bottle 2.
     LDA.w #$1572                 : STA.b $00
     LDA.l $7EF35E : AND.w #$00FF : STA.b $02
-    LDA.w #$F751                 : STA.b $04
+    LDA.w ItemMenuIcons_bottles  : STA.b $04
     JSR.w DrawItem
     
     ; Draw bottle 3.
     LDA.w #$1672                 : STA.b $00
     LDA.l $7EF35F : AND.w #$00FF : STA.b $02
-    LDA.w #$F751                 : STA.b $04
+    LDA.w ItemMenuIcons_bottles  : STA.b $04
     JSR.w DrawItem
     
     ; Draw the currently selected bottle.
@@ -12099,7 +12101,7 @@ Equipment_DrawBottleMenu:
     LDA.l $7EF35B, X : AND.w #$00FF : STA.b $02
 
     ; Loads $2837, $2838, $2CC3, $2CD3
-    LDA.w #$F751 : STA.b $04
+    LDA.w ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     ; Take the currently selected item, and draw something with it, perhaps on
@@ -12563,7 +12565,7 @@ ItemMenuIcons:
     dw $20F5, $20F5, $20F5, $20F5 ; No bombos
     dw $287D, $287E, $E87E, $E87D ; Bombos
 
-    ; $06F6D9
+    ; $06F6D1
     .ether
     dw $20F5, $20F5, $20F5, $20F5 ; No ether
     dw $2876, $2877, $E877, $E876 ; Ether
@@ -12600,7 +12602,7 @@ ItemMenuIcons:
     dw $20F5, $20F5, $20F5, $20F5 ; No book
     dw $3CA5, $3CA6, $3CD8, $3CD9 ; Book of Mudora
 
-    ; $06F701
+    ; $06F751
     .bottles
     dw $20F5, $20F5, $20F5, $20F5 ; No bottle
     dw $2044, $2045, $2046, $2047 ; Mushroom
@@ -12993,7 +12995,6 @@ ItemMenu_ItemGFXPointers:
     dw ItemMenuIcons_boots
     dw ItemMenuIcons_flippers
     dw ItemMenuIcons_pearl
-
     dw ItemMenuIcons_unused_nothing
 
     dw ItemMenuIcons_sword
@@ -13075,6 +13076,7 @@ HUD_UpdateItemBox:
         .bottleNotEquipped
         
         STA.b $02
+
         ; Insert jump here check for 0x15 in X then branch off, interject gfx,
         ; and return to .noEquippedItem, otherwise insert the next line again 
         ; and return to LDA.w ItemMenu_ItemGFXPointers.
