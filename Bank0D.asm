@@ -10840,9 +10840,9 @@ Equipment_DrawYButtonItems:
     
     .drawBoxInterior
     
-        STA.w $1184, X : STA.w $11C4, X STA.w $1204, STA.w $1244, X
-        STA.w $1284, X : STA.w $12C4, X STA.w $1304, STA.w $1344, X
-        STA.w $1384, X : STA.w $13C4, X STA.w $1404, STA.w $1444, X
+        STA.w $1184, X : STA.w $11C4, X : STA.w $1204, X : STA.w $1244, X
+        STA.w $1284, X : STA.w $12C4, X : STA.w $1304, X : STA.w $1344, X
+        STA.w $1384, X : STA.w $13C4, X : STA.w $1404, X : STA.w $1444, X
         STA.w $1484, X
         
         INX #2
@@ -10932,13 +10932,13 @@ Equipment_DrawYButtonItems:
     ; Hammer.
     LDA.w #$134E :                 STA.b $00
     LDA.l $7EF34B : AND.w #$00FF : STA.b $02
-    LDA.w #$F701ItemMenuIcons_   : STA.b $04
+    LDA.w ItemMenuIcons_hammer   : STA.b $04
     JSR.w DrawItem
     
     ; Flute.
     LDA.w #$1354 :                 STA.b $00
     LDA.l $7EF34C : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_hammer   : STA.b $04
+    LDA.w ItemMenuIcons_flute    : STA.b $04
     JSR.w DrawItem
     
     ; Bug Catching Net.
