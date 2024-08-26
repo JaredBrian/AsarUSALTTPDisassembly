@@ -32,11 +32,11 @@ Player_Main:
     ; By frozen we generally mean he's not being allowed to move due to some
     ; kind of cinema scene or something similar.
     LDA.w $02E4 : BNE .linkFrozen
-        JSR.w $807F ; $03807F IN ROM
+        JSR.w Link_ControlHandler
     
     .linkFrozen
     
-    JSR.w $8689 ; $038689 IN ROM
+    JSR.w HandleSomariaAndGraves
     
     PLB
     
@@ -95,45 +95,42 @@ Pool_Link_ControlHandler:
 {
     ; Indexed by $5D.
     
-    dw $8109 ; $038109 0x00 - Ground state (normal mode)
-    dw $92D3 ; $0392D3 0x01 - Falling into a hole or getting close to edge of
-             ;                hole
+    dw LinkState_Default        ; 0x00 - $8109 Ground state (normal mode)
+    dw LinkState_Pits           ; 0x01 - $92D3 Falling into a hole or getting close to edge of hole
 
-    dw $86B5 ; $0386B5 0x02 - Recoil from hitting a wall (other such movement)
-    dw LinkState_SpinAttack ; $A804 0x03 - Spin Attack Mode
-    dw $963B ; $03963B 0x04 - Swimming Mode
-    dw $8872 ; $038872 0x05 - Turtle Rock Platforms
-    dw $86B5 ; $0386B5 0x06 - recoil mode 2
-    dw Player_Electrocution ; 0x07 - Electrocution Mode
+    dw LinkState_Recoil         ; 0x02 - $86B5 Recoil from hitting a wall (other such movement)
+    dw LinkState_SpinAttack     ; 0x03 - $A804 Spin Attack Mode
+    dw LinkState_Swimming       ; 0x04 - $963B Swimming Mode
+    dw LinkState_OnIce          ; 0x05 - $8872 Turtle Rock Platforms
+    dw LinkState_Recoil         ; 0x06 - $86B5 recoil mode 2
+    dw Player_Electrocution     ; 0x07 - $996C Electrocution Mode
     
-    dw $A50F ; $03A50F 0x08 - Ether Medallion Mode
-    dw $A5F7 ; $03A5F7 0x09 - Bombos Medallion Mode
-    dw $A6D6 ; $03A6D6 0x0A - Quake Medallion Mode
-    dw $894E ; $03894E 0x0B - Falling into hole by jumping off a ledge
-    dw $8B74 ; $038B74 0x0C - Falling to the left/right off a ledge
-    dw $8DC6 ; $038DC6 0x0D - Jumping off a ledge diagonally up and left/right
-    dw $8E15 ; $038E15 0x0E - Jumping off a ledge diagonally down and left/right
-    dw $8C69 ; $038C69 0x0F - More jumping off a ledge but with dashing maybe +
-             ;                some directions
+    dw LinkState_UsingEther     ; 0x08 - $A50F Ether Medallion Mode
+    dw LinkState_UsingBombos    ; 0x09 - $A5F7 Bombos Medallion Mode
+    dw LinkState_UsingQuake     ; 0x0A - $A6D6 Quake Medallion Mode
+    dw LinkState_HoppingSouthOW ; 0x0B - $894E Falling into hole by jumping off a ledge
+    dw LinkState_HoppingHorizontallyOW   ; 0x0C - $8B74 Falling to the left/right off a ledge
+    dw LinkState_HoppingDiagonallyUpOW   ; 0x0D - $8DC6 Jumping off a ledge diagonally up and left/right
+    dw LinkState_HoppingDiagonallyDownOW ; 0x0E - $8E15 Jumping off a ledge diagonally down and left/right
+    dw LinkState_0F                      ; 0x0F - $8C69 More jumping off a ledge but with dashing maybe + some directions
     
-    dw $8C69 ; $038C69 0x10 - Same as 0x0F?
-    dw LinkState_Dashing ; $8F86 0x11 - Falling off a ledge / Dashing
-    dw $915E ; $03915E 0x12 - Coming out of dash due to button press in the
-             ;                direction we're not going
+    dw LinkState_0F                  ; 0x10 - $8C69 Same as 0x0F?
+    dw LinkState_Dashing             ; 0x11 - $8F86 Falling off a ledge / Dashing
+    dw LinkState_ExitingDash         ; 0x12 - $915E Coming out of dash due to button press in the direction we're not going
 
-    dw $AB7C ; $03AB7C 0x13 - Hookshot
-    dw $A9B1 ; $03A9B1 0x14 - Magic Mirror
-    dw LinkState_ShowingOffItem ; $99AC 0x15 - Holding up an item (RTS)
-    dw $9A5A ; $039A5A 0x16 - Asleep in bed
-    dw LinkState_Bunny ; $83A1 0x17 - Permabunny mode
+    dw LinkState_Hookshotting        ; 0x13 - $AB7C Hookshot
+    dw LinkState_CrossingWorlds      ; 0x14 - $A9B1 Magic Mirror
+    dw LinkState_ShowingOffItem      ; 0x15 - $99AC Holding up an item (RTS)
+    dw LinkState_Sleeping            ; 0x16 - $9A5A Asleep in bed
+    dw LinkState_Bunny               ; 0x17 - $83A1 Permabunny mode
     
-    dw $8481 ; $038481  ; 0x18 - stuck under heavy lifted object
-    dw Player_EtherSpell  ; 0x19 - Receiving Ether Medallion Mode
-    dw Player_BombosSpell ; 0x1A - Receiving Bombos Medallion Mode
-    dw $867B ; $03867B 0x1B - Opening Desert Palace Mode
-    dw LinkState_TemporaryBunny ; $8365 0x1C - Temp bunny mode
-    dw $B416 ; $03B416 0x1D - Rolling back from Gargoyle gate or PullForRupees
-    dw LinkState_SpinAttack ; $A804 0x1E - Spin attack mode 2
+    dw LinkState_HoldingBigRock      ; 0x18 - $8481 stuck under heavy lifted object
+    dw Player_EtherSpell             ; 0x19 - $8570 Receiving Ether Medallion Mode
+    dw Player_BombosSpell            ; 0x1A - $85FB Receiving Bombos Medallion Mode
+    dw LinkState_ReadingDesertTablet ; 0x1B - $867B Opening Desert Palace Mode
+    dw LinkState_TemporaryBunny      ; 0x1C - $8365 Temp bunny mode
+    dw LinkState_TreePull            ; 0x1D - $B416 Rolling back from Gargoyle gate or PullForRupees
+    dw LinkState_SpinAttack          ; 0x1E - $A804 Spin attack mode 2
 }
 
 ; $03807F-$038108 LOCAL JUMP LOCATION
@@ -226,20 +223,20 @@ Link_ControlHandler:
     
     ; Is Link in the ground state?
     LDA.b $5D : BEQ .inGroundState
-        JSR.w $AE8F ; $03AE8F IN ROM
+        JSR.w Link_HandleCape_passive
     
     .inGroundState
     
     ; Link's main handling variable. This determines his actions.
     LDA.b $5D : ASL A : TAX
     
-    JMP ($8041, X) ; (38041, X) THAT IS
+    JMP ($8041, X)
 }
 
 ; $038109-$0382D9 JUMP LOCATION
 LinkState_Default:
 {
-    JSR.w $F514 ; $03F514 IN ROM
+    JSR.w CacheCameraPropertiesIfOutdoors
     
     LDA.b $F5 : AND.b #$80 : BEQ .notDebugWallWalk
         ; \tcrf(confirmed, submitted) Debug feature where if you pressed the 
@@ -248,9 +245,9 @@ LinkState_Default:
 
     .notDebugWallWalk
 
-    ; $0382DA IN ROM; Checks whether Link can move.
+    ; Checks whether Link can move.
     ; C clear = Link can move. C set = opposite.
-    JSR.w $82DA : BCC .linkCanMove
+    JSR.w Link_HandleBunnyTransformation : BCC .linkCanMove
         ; Link can't move... is Link in the Temp Bunny mode?
         ; No... so do nothing extra.
         LDA.b $5D : CMP.b #$17 : BNE .notTempBunnyCantMove
@@ -302,7 +299,7 @@ LinkState_Default:
 
             .BRANCH_ZETA
 
-            JSR.w $9D84 ; $039D84 IN ROM
+            JSR.w Link_ResetSwordAndItemUsage
             
             LDA.b #$01 : STA.w $037B
             
@@ -346,15 +343,15 @@ LinkState_Default:
     
     STZ.w $02C6
     
-    ; $03B5D6 IN ROM ; If Carry is set on Return, don't read the buttons.
-    JSR.w $B5D6 : BCS .BRANCH_IOTA
-        JSR.w $9BAA ; $039BAA IN ROM
+    ; If Carry is set on Return, don't read the buttons.
+    JSR.w Link_HandleToss : BCS .BRANCH_IOTA
+        JSR.w Link_HandleAPress
         
         LDA.w $0308 : ORA.w $0376 : BNE .BRANCH_IOTA
             LDA.w $0377 : BNE .BRANCH_IOTA
                 ; Is Link falling off of a ledge?    ; Yes...
                 LDA.b $5D : CMP.b #$11 : BEQ .BRANCH_IOTA
-                    JSR.w $9B0E ; $039B0E IN ROM ; Handle Y button items?
+                    JSR.w Link_HandleYItem ; Handle Y button items?
                     
                     ; HARDCODED: This is pretty unfair.
                     ; \item Relates to ability to use the sword if you have one.
@@ -371,7 +368,7 @@ LinkState_Default:
                     .cant_use_sword
     .BRANCH_IOTA
 
-    JSR.w $AE88 ; $03AE88 IN ROM
+    JSR.w Link_HandleCape_passive_LiftCheck
     
     LDA.b $46 : BEQ .BRANCH_KAPPA
         LDA.b $6B : BEQ .BRANCH_LAMBDA
@@ -474,10 +471,10 @@ LinkState_Default:
 
     .BRANCH_PHI
 
-    JSR.w $B64F   ; $03B64F IN ROM
-    JSL.l $07E245 ; $03E245 IN ROM
+    JSR.w Link_HandleDiagonalCollision
+    JSL.l Link_HandleVelocity
     JSR.w Link_HandleCardinalCollision ; Has to do with opening chests.
-    JSL.l $07E6A6 ; $03E6A6 IN ROM
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
     
     LDA.w $0377 : BEQ .dont_halt_link
         STZ.b $30
@@ -488,7 +485,7 @@ LinkState_Default:
 
     STZ.w $0302
     
-    JSR.w $E8F0 ; $03E8F0 IN ROM
+    JSR.w HandleIndoorCameraAndDoors
 
     .return
 
@@ -497,7 +494,7 @@ LinkState_Default:
     RTS
 }
 
-; $0382DA-$038364 ALTERNATE ENTRY POINT
+; $0382DA-$038364 LOCAL JUMP LOCATION
 Link_HandleBunnyTransformation:
 {
     ; Has the tempbunny timer counted down yet?
@@ -638,7 +635,7 @@ LinkState_TemporaryBunny:
 ; $0383A1-$038480 LONG BRANCH LOCATION.
 LinkState_Bunny:
 {
-    JSR.w $F514 ; $03F514 IN ROM
+    JSR.w CacheCameraPropertiesIfOutdoors
     
     LDA.b $F5 : AND.b #$80 : BEQ .BRANCH_BETA
         ; If the number is odd, change it to the closest lower even number.
@@ -704,7 +701,7 @@ LinkState_Bunny:
         .BRANCH_IOTA
         
         JSR.w Player_ResetSwimCollision
-        JSR.w $9B0E ; $039B0E IN ROM
+        JSR.w Link_HandleYItem
         
         LDA.b $49 : AND.b #$0F : BNE .BRANCH_KAPPA
             LDA.b $F0 : AND.b #$0F : BNE .BRANCH_KAPPA
@@ -742,14 +739,14 @@ LinkState_Bunny:
         
         .BRANCH_LAMBDA
         
-        JSR.w $B64F   ; $03B64F IN ROM
-        JSL.l $07E245 ; $03E245 IN ROM
+        JSR.w Link_HandleDiagonalCollision
+        JSL.l Link_HandleVelocity
         JSR.w Link_HandleCardinalCollision
-        JSL.l $07E6A6 ; $03E6A6 IN ROM
+        JSL.l Link_HandleMovingAnimation_FullLongEntry
         
         STZ.w $0302
         
-        JSR.w $E8F0   ; $03E8F0 IN ROM
+        JSR.w HandleIndoorCameraAndDoors
     
     .BRANCH_NU
     
@@ -779,7 +776,7 @@ LinkState_HoldingBigRock:
         STZ.b $25
         
         LDA.w $0360 : BEQ .BRANCH_BETA
-            JSR.w $9D84 ; $039D84 IN ROM
+            JSR.w Link_ResetSwordAndItemUsage
             
             LDA.b #$01 : STA.w $037B
             
@@ -829,7 +826,7 @@ LinkState_HoldingBigRock:
     
     .BRANCH_GAMMA
     
-    JSR.w $9BAA ; $39BAA
+    JSR.w Link_HandleAPress
     
     LDA.b $50 : AND.b #$0F : BNE .BRANCH_EPSILON
         STA.b $30 : STA.b $31 : STA.b $67 : STA.b $26
@@ -861,11 +858,11 @@ LinkState_HoldingBigRock:
     
     .BRANCH_ZETA
     
-    JSL.l $07E6A6 ; $03E6A6 IN ROM
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
     
     STZ.w $0302
     
-    JSR.w $E8F0 ; $03E8F0 IN ROM
+    JSR.w HandleIndoorCameraAndDoors
     
     RTS
 }
@@ -1126,18 +1123,17 @@ HandleSomariaAndGraves:
     RTS
 }
 
+; RECOIL MODE (2 and 6 are both recoil mode).
 ; $0386B5-$038710 LONG BRANCH LOCATION
 LinkState_Recoil:
 {
-    ; RECOIL MODE (2 and 6 are both recoil mode).
-
     LDA.b $20 : STA.b $3E
     LDA.b $21 : STA.b $40
 
     LDA.b $22 : STA.b $3F
     LDA.b $23 : STA.b $41
     
-    JSR.w $8926 ; $038926 IN ROM
+    JSR.w Link_HandleChangeInZVelocity
     
     STZ.b $50
     STZ.w $0351
@@ -1146,14 +1142,14 @@ LinkState_Recoil:
         LDA.b $29 : BPL .BRANCH_ALPHA
             LDY.b #$05
             
-            JSR.w $D077 ; $03D077 IN ROM
+            JSR.w TileDetect_MainHandler
             
             LDA.w $0341 : AND.b #$01 : BEQ .BRANCH_BETA
                 ; Put Link into Swimming mode.
                 LDA.b #$04 : STA.b $5D
                 
                 JSR.w Link_SetToDeepWater
-                JSR.w $9D84 ; $039D84 IN ROM
+                JSR.w Link_ResetSwordAndItemUsage
                 
                 LDA.b #$15
                 LDY.b #$00
@@ -1191,7 +1187,7 @@ Link_HandleRecoilAndTimer:
     STZ.b $69
     STZ.b $6A
     
-    JSR.w $E1BE ; $03E1BE IN ROM
+    JSR.w Link_HandleRecoiling
     
     DEC.b $46 : LDA.b $46 : BEQ .BRANCH_EPSILON
         .BRANCH_IOTA
@@ -1225,7 +1221,7 @@ Link_HandleRecoilAndTimer:
 
         .BRANCH_MU
 
-        JSR.w $8F1D ; $038F1D IN ROM
+        JSR.w Link_SplashUponLanding
         
         LDA.w $02E0 : BEQ .BRANCH_NU
             LDA.w $0345 : BEQ .BRANCH_NU
@@ -1267,7 +1263,7 @@ Link_HandleRecoilAndTimer:
 
         LDY.b #$00
         
-        JSR.w $D077 ; $03D077 IN ROM
+        JSR.w TileDetect_MainHandler
         
         LDA.w $0357 : AND.b #$01 : BEQ .BRANCH_UPSILON
             ; Make grass swishy sound effect.
@@ -1285,7 +1281,7 @@ Link_HandleRecoilAndTimer:
             LDA.b #$04 : STA.b $5D
             
             JSR.w Link_SetToDeepWater
-            JSR.w $9D84 ; $039D84 IN ROM
+            JSR.w Link_ResetSwordAndItemUsage
             
             LDA.b #$15
             LDY.b #$00
@@ -1331,10 +1327,10 @@ Link_HandleRecoilAndTimer:
 
     .BRANCH_PSI
 
-    JSR.w $92A0 ; $0392A0 IN ROM
+    JSR.w Flag67WithDirections
     
     LDA.b $5D : CMP.b #$06 : BEQ .BRANCH_DIALPHA
-        JSR.w $B64F ; $03B64F IN ROM
+        JSR.w Link_HandleDiagonalCollision
         
         LDA.b $67 : AND.b #$03 : BNE .BRANCH_DIBETA
             STZ.b $28
@@ -1347,7 +1343,7 @@ Link_HandleRecoilAndTimer:
 
     .BRANCH_DIALPHA
 
-    JSL.l $07E370 ; $03E370 IN ROM
+    JSL.l LinkHop_FindArbitraryLandingSpot
 
     .BRANCH_OMEGA
 
@@ -1358,7 +1354,7 @@ Link_HandleRecoilAndTimer:
 
     .BRANCH_DIGAMMA
 
-    JSR.w $E8F0 ; $03E8F0 IN ROM
+    JSR.w HandleIndoorCameraAndDoors
     
     LDA.b $24 : BEQ .BRANCH_DIDELTA
         CMP.b #$E0 : BCC .BRANCH_DIEPSILON
@@ -1392,7 +1388,7 @@ LinkState_OnIce:
     LDA.b $EE : BEQ .BRANCH_BETA
         STZ.b $EE
         
-        JSR.w $CF7E ; $03CF7E IN ROM
+        JSR.w TileDetect_UnusedIce
         
         LDX.b #$00
         
@@ -1472,7 +1468,7 @@ LinkState_OnIce:
 
         .BRANCH_THETA
 
-        JSL.l $07E6A6 ; $03E6A6 IN ROM
+        JSL.l Link_HandleMovingAnimation_FullLongEntry
         
         ; GO TO RECOIL MODE (Revision really recoil mode or just jumping?).
         BRL LinkState_Recoil
@@ -1481,7 +1477,7 @@ LinkState_OnIce:
 
         .BRANCH_NU
 
-        JSR.w $D077 ; $03D077 IN ROM
+        JSR.w TileDetect_MainHandler
         
         LDA.w $035B : AND.b #$01 : BEQ .BRANCH_XI
             LDA.b #$02 : STA.b $EE
@@ -1514,14 +1510,14 @@ Link_HandleChangeInZVelocity:
     ; $038932 ALTERNATE ETNRY POINT
     .preset
 
-    LDA.b $29 : BPL .BRANCH_BETA
-        LDA.b $24 : BEQ .BRANCH_GAMMA  BPL .BRANCH_BETA
+    LDA.b $29 : BPL .apply_z_speed_change
+        LDA.b $24 : BEQ .BRANCH_GAMMA  BPL .apply_z_speed_change
             LDA.b #$FF : STA.b $24 : STA.b $25 : STA.b $29
             
             BRA .BRANCH_GAMMA
     
     ; $038946 ALTERNATE ENTRY POINT
-    .BRANCH_BETA
+    .apply_z_speed_change
     
     LDA.b $29 : SEC : SBC.b $00 : STA.b $29
     
@@ -1547,7 +1543,7 @@ LinkState_HoppingSouthOW:
             ; Play the "something's falling" sound effect.
             LDA.b #$20 : JSR.w Player_DoSfx2
             
-            JSR.w $8AD1 ; $038AD1 IN ROM ; 20 D1 8A
+            JSR.w LinkHop_FindTileToLandOnSouth
             
             LDA.b $1B : BNE .indoors
                 LDA.b #$02 : STA.b $EE
@@ -1565,8 +1561,8 @@ LinkState_HoppingSouthOW:
     
     LDA.b #$02 : STA.b $00
     
-    JSR.w $8946   ; $038946 IN ROM
-    JSL.l $07E370 ; $03E370 IN ROM
+    JSR.w Link_HandleChangeInZVelocity_apply_z_speed_change
+    JSL.l LinkHop_FindArbitraryLandingSpot
     
     LDA.b $29 : BPL .BRANCH_BETA
         CMP.b #$A0 : BCS .BRANCH_GAMMA
@@ -1581,7 +1577,7 @@ LinkState_HoppingSouthOW:
             
             SEP #$20
             
-            JSR.w $8F1D ; $038F1D IN ROM
+            JSR.w Link_SplashUponLanding
             
             LDA.b $5B : BEQ .BRANCH_DELTA
                 LDA.b #$01 : STA.b $5D
@@ -1636,9 +1632,9 @@ LinkState_HandlingJump:
     
     LDA.b #$02 : STA.b $00
     
-    JSR.w $8946 ; $038946 IN ROM
+    JSR.w Link_HandleChangeInZVelocity_apply_z_speed_change
     
-    JSL.l $07E370 ; $03E370 IN ROM
+    JSL.l LinkHop_FindArbitraryLandingSpot
     
     LDA.b $29 : BMI .alpha
         BRL .beta
@@ -1663,19 +1659,19 @@ LinkState_HandlingJump:
         
         LDY.b #$00
         
-        JSR.w $D077 ; $3D077
+        JSR.w TileDetect_MainHandler
         
         LDA.w $0341 : AND.b #$01 : BEQ .zeta
             LDA.b #$04 : STA.b $5D
             
             JSR.w Link_SetToDeepWater
-            JSR.w $9D84 ; $039D84 in Rom.
+            JSR.w Link_ResetSwordAndItemUsage
             
             ; Add transition splash.
             LDA.b #$15
             LDY.b #$00
             
-            JSL.l AddTransitionSplash ; $0498FC IN ROM
+            JSL.l AddTransitionSplash
             
             BRA .epsilon
         
@@ -1694,7 +1690,7 @@ LinkState_HandlingJump:
         
         .epsilon
         
-        JSR.w $8F1D ; $038F1D in Rom.
+        JSR.w Link_SplashUponLanding
         
         LDA.b $5D : CMP.b #$04 : BEQ .theta
             LDA.w $0345 : BNE .theta
@@ -1748,7 +1744,6 @@ Pool_Link_HoppingHorizontally_FindTile_Vertical:
     .offset_x
     db -8, -1, 8, 0
     
-    
     ; $038ACD
     .offset_y
     db -16, -1, 16, 0
@@ -1768,11 +1763,12 @@ LinkHop_FindTileToLandOnSouth:
         
         REP #$20
         
-        LDA.w $8AC9, Y : CLC : ADC.b $20 : STA.b $20
+        LDA.w Pool_LinkHop_FindTileToLandOnSouth_offset_x, Y
+        CLC : ADC.b $20 : STA.b $20
         
         SEP #$20
         
-        JSR.w $CDCB ; $03CDCB IN ROM
+        JSR.w TileDetect_Movement_Vertical
         
         LDA.w $0343 : ORA.b $59 : ORA.w $035B : ORA.w $0357 : ORA.w $0341
     AND.b #$07 : CMP.b #$07 : BNE .BRANCH_ALPHA
@@ -1807,7 +1803,8 @@ LinkHop_FindTileToLandOnSouth:
     
     REP #$20
     
-    LDA.w $8ACD, Y : CLC : ADC.b $20 : STA.b $20
+    LDA.w Pool_LinkHop_FindTileToLandOnSouth_offset_y, Y
+    CLC : ADC.b $20 : STA.b $20
     
     SEP #$20
     
@@ -1853,6 +1850,20 @@ LinkState_HoppingHorizontallyOW:
     BRL LinkState_HandlingJump ; (RTS)
 }
 
+; $038B8B-$038B9A DATA
+Pool_Link_HoppingHorizontally_FindTile_Vertical:
+{
+    ; $038B8B
+    .speed_z
+    db $20, $20, $20, $28
+    db $30, $38, $40, $48
+
+    ; $038B93
+    .speed_x
+    db $10, $1C, $1C, $1C
+    db $1C, $1C, $1C, $1C
+}
+
 ; $038B9B-$038C43 LOCAL JUMP LOCATION
 Link_HoppingHorizontally_FindTile_Vertical:
 {
@@ -1865,11 +1876,12 @@ Link_HoppingHorizontally_FindTile_Vertical:
     
     REP #$20
     
-    LDA.w $8AC9, Y : CLC : ADC.b $20 : STA.b $20
+    LDA.w Pool_Link_HoppingHorizontally_FindTile_Vertical_offset_x, Y
+    CLC : ADC.b $20 : STA.b $20
     
     SEP #$20
     
-    JSR.w $CDCB ; $03CDCB IN ROM
+    JSR.w TileDetect_Movement_Vertical
     
     LDA.w $0343 : ORA.w $035B : ORA.w $0357 : ORA.w $0341
     
@@ -1890,9 +1902,10 @@ Link_HoppingHorizontally_FindTile_Vertical:
         
         LSR #4 : TAX
         
-        LDA.w $8B8B, X : STA.w $0362 : STA.w $0363
+        LDA.w Pool_Link_HoppingHorizontally_FindTile_Vertical_speed_z, X
+        STA.w $0362 : STA.w $0363
         
-        LDA.w $8B93, X
+        LDA.w Pool_Link_HoppingHorizontally_FindTile_Vertical_speed_x, X
         
         CPY.b #$FF : BNE .BRANCH_GAMMA
             EOR.b #$FF : INC A
@@ -1909,7 +1922,8 @@ Link_HoppingHorizontally_FindTile_Vertical:
     
     REP #$20
     
-    LDA.w $8ACD, X : CLC : ADC.b $20 : STA.b $20
+    LDA.w Pool_Link_HoppingHorizontally_FindTile_Vertical_offset_y, X
+    CLC : ADC.b $20 : STA.b $20
     
     SEP #$20
     
@@ -1957,6 +1971,32 @@ Link_SetToDeepWater:
     RTS
 }
 
+; $038C59-$038C68 DATA
+Pool_LinkState_0F:
+{
+    ; $038C59
+    .offset_x
+    dw $FFE8
+    dw $0018
+    dw $FFE8
+    dw $0018
+
+    ; $038C61
+    .offset_y
+    dw $0020
+    dw $0050
+
+    ; $038C65
+    .speed_x
+    db $10
+    db $18
+
+    ; $038C67
+    .offset_z
+    db $20
+    db $50
+}
+
 ; Link modes 0x0F and 0x10 - ????
 ; $038C69-$038CEE JUMP LOCATION
 LinkState_0F:
@@ -1985,13 +2025,12 @@ LinkState_0F:
             
             REP #$20
             
-            LDA.b $22 : CLC : ADC.w $8C59, X : STA.b $22
+            LDA.b $22 : CLC : ADC.w Pool_LinkState_0F_offset_x, X : STA.b $22
             
             SEP #$20
             
             TXA : LSR #2 : TAX
-            
-            LDA.w $8C65, X
+            LDA.w Pool_LinkState_0F_speed_x, X
             
             CPY.b #$02 : BNE .BRANCH_GAMMA
                 EOR.b #$FF : INC A
@@ -2005,13 +2044,13 @@ LinkState_0F:
 
             .BRANCH_DELTA
 
-            CLC : ADC.w $8C67, X : STA.w $0364 : STA.b $24
+            CLC : ADC.w Pool_LinkState_0F_offset_z, X : STA.w $0364 : STA.b $24
             
             TXA : ASL A : TAX
             
             REP #$20
             
-            LDA.w $8C61, X : CLC : ADC.b $20 : STA.b $20
+            LDA.w Pool_LinkState_0F_offset_y, X : CLC : ADC.b $20 : STA.b $20
             
             SEP #$20
             
@@ -2029,7 +2068,7 @@ LinkState_0F:
     BRL LinkState_HandlingJump
 }
 
-; $038CEF-$038D2B DATA
+; $038CEF-$038D2A DATA
 Pool_Link_HoppingHorizontally_FindTile_Horizontal:
 {
     ; $038CEF
@@ -2075,13 +2114,14 @@ Link_HoppingHorizontally_FindTile_Horizontal:
         
         REP #$20
         
-        LDA.w $8CEF, Y : CLC : ADC.b $22 : STA.b $22
+        LDA.w Pool_Link_HoppingHorizontally_FindTile_Horizontal_offset_x_a, Y
+        CLC : ADC.b $22 : STA.b $22
         
         SEP #$20
         
         LDA.b $66 : ASL A : TAY
         
-        JSR.w $CE2A ; $03CE2A IN ROM
+        JSR.w TileDetect_Movement_Horizontal
         
         PLY
         PLX
@@ -2107,7 +2147,7 @@ Link_HoppingHorizontally_FindTile_Horizontal:
     
     REP #$20
     
-    LDA.w $8CF3, Y : CLC : ADC.b $32 : STA.b $22
+    LDA.w Pool_Link_HoppingHorizontally_FindTile_Horizontal_offset_x_b, Y : CLC : ADC.b $32 : STA.b $22
     
     SEP #$20
 
@@ -2117,7 +2157,8 @@ Link_HoppingHorizontally_FindTile_Horizontal:
     
     REP #$20
     
-    LDA.w $8CF7, Y : CLC : ADC.b $22 : STA.b $22
+    LDA.w Pool_Link_HoppingHorizontally_FindTile_Horizontal_offset_x_c, Y
+    CLC : ADC.b $22 : STA.b $22
     
     LDA.b $32 : SEC : SBC.b $22 : BPL .BRANCH_DELTAs
         EOR.w #$FFFF : INC A
@@ -2128,14 +2169,16 @@ Link_HoppingHorizontally_FindTile_Horizontal:
     
     SEP #$20
     
-    LDA.w $8CFB, X : CPY.b #$02 : BEQ .BRANCH_EPSILON
+    LDA.w Pool_Link_HoppingHorizontally_FindTile_Horizontal_speed_x, X
+    CPY.b #$02 : BEQ .BRANCH_EPSILON
         EOR.b #$FF : INC A
 
     .BRANCH_EPSILON
 
     STA.b $28
     
-    LDA.w $8D13, X : STA.w $0362 : STA.w $0363
+    LDA.w Pool_Link_HoppingHorizontally_FindTile_Horizontal_speed_z, X
+    STA.w $0362 : STA.w $0363
     
     PLX
     
@@ -2150,11 +2193,11 @@ LinkState_HoppingDiagonallyUpOW:
     
     LDA.b #$02 : STA.b $00
     
-    JSR.w $8932 ; $038932 IN ROM
-    JSL.l $07E370 ; $03E370 IN ROM
+    JSR.w Link_HandleChangeInZVelocity_preset
+    JSL.l LinkHop_FindArbitraryLandingSpot
     
     LDA.b $24 : BPL .exit
-        JSR.w $8F1D ; $038F1D IN ROM
+        JSR.w Link_SplashUponLanding
         
         LDA.b $5D : CMP.b #$04 : BEQ .swimming
             LDA.w $0345 : BNE .BRANCH_BETA
@@ -2174,9 +2217,8 @@ LinkState_HoppingDiagonallyUpOW:
 }
 
 ; $038DFD-$038E14 DATA
-Pool_LinkState_HoppingDiagonallyDownOW:
+LinkState_HoppingDiagonallyDownOW_speed_x:
 {
-    .speed_x
     db $04, $04, $04, $0A, $0A, $0A, $0B, $12
     db $12, $12, $14, $14, $14, $14, $16, $16
     db $1A, $1A, $1A, $1A, $1C, $1C, $1C, $1C
@@ -2210,7 +2252,7 @@ LinkState_HoppingDiagonallyDownOW:
             
             LDA.b #$20 : JSR.w Player_DoSfx2
             
-            JSR.w $8E7B ; $038E7B IN ROM
+            JSR.w LinkHop_FindLandingSpotDiagonallyDown
             
             PLA : STA.b $23
             PLA : STA.b $22
@@ -2223,7 +2265,7 @@ LinkState_HoppingDiagonallyDownOW:
             
             SEP #$20
             
-            LDA.w $8DFD, Y
+            LDA.w .speed_x, Y
             
             CPX.b #$02 : BNE .BRANCH_GAMMA
                 EOR.b #$FF : INC A
@@ -2240,6 +2282,26 @@ LinkState_HoppingDiagonallyDownOW:
     .cantMove
 
     BRL LinkState_HandlingJump
+}
+
+; $038E6D
+Pool_LinkHop_FindLandingSpotDiagonallyDown:
+{
+    ; $038E6D
+    .offset_x
+    db $F8, $FF, $08, $00
+
+    ; $038E71
+    .offset_y
+    db $F7, $FF, $09, $00
+
+    ; $038E75
+    .offset_y_2
+    db $E8, $FF, $18, $00
+
+    ; $038E79
+    .detection_masks
+    db $06, $03
 }
 
 ; $038E7B-$038F1C LOCAL JUMP LOCATION
@@ -2274,7 +2336,7 @@ LinkHop_FindLandingSpotDiagonallyDown:
         
         SEP #$20
         
-        JSR.w $CDCB ; $03CDCB IN ROM
+        JSR.w TileDetect_Movement_Vertical
         
         PLY : TYA : LSR A : TAY
         
@@ -2383,8 +2445,9 @@ Link_SplashUponLanding:
 ; $038F86-$03915D LONG BRANCH LOCATION
 LinkState_Dashing:
 {
-    JSR.w $F514 ; $03F514 IN ROM ; Buffers a number of important variables.
-    JSR.w $82DA : BCC .BRANCH_ALPHA ; $0382DA IN ROM
+    ; Buffers a number of important variables.
+    JSR.w CacheCameraPropertiesIfOutdoors
+    JSR.w Link_HandleBunnyTransformation : BCC .BRANCH_ALPHA
         LDA.b $5D : CMP.b #$17 : BNE .BRANCH_BETA
             BRL LinkState_Bunny ; PERMABUNNY MODE
         
@@ -2431,7 +2494,7 @@ LinkState_Dashing:
             
             .BRANCH_THETA
             
-            JSR.w $9D84 ; $039D84 IN ROM
+            JSR.w Link_ResetSwordAndItemUsage
             
             LDA.b #$01 : STA.w $037B
             
@@ -2534,7 +2597,7 @@ LinkState_Dashing:
     
     STZ.b $6B
     
-    JSL.l $07E6A6 ; $03E6A6 IN ROM
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
     
     LDA.b $20 : STA.b $00 : STA.b $3E
     LDA.b $22 : STA.b $01 : STA.b $3F
@@ -2553,7 +2616,7 @@ LinkState_Dashing:
     LDA.b $22 : SEC : SBC.b $3F : STA.b $31
     
     JSR.w Link_HandleCardinalCollision
-    JSR.w $E8F0 ; $03E8F0 IN ROM
+    JSR.w HandleIndoorCameraAndDoors
     
     BRL .BRANCH_ULTIMA
     
@@ -2580,7 +2643,7 @@ LinkState_Dashing:
     LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_PHI
         LDY.b #$07
         
-        JSR.w $D077 ; $03D077 IN ROM
+        JSR.w TileDetect_MainHandler
     
     .BRANCH_PHI
     
@@ -2619,14 +2682,14 @@ LinkState_Dashing:
     
     STA.b $67 : STA.b $26
     
-    JSR.w $B64F   ; $03B64F IN ROM
-    JSL.l $07E245 ; $03E245 IN ROM
+    JSR.w Link_HandleDiagonalCollision
+    JSL.l Link_HandleVelocity
     JSR.w Link_HandleCardinalCollision
-    JSL.l $07E6A6 ; $03E6A6 IN ROM
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
     
     STZ.w $0302
     
-    JSR.w $E8F0 ; $03E8F0 IN ROM
+    JSR.w HandleIndoorCameraAndDoors
     
     .BRANCH_ULTIMA
     
@@ -2636,7 +2699,7 @@ LinkState_Dashing:
 ; $03915E-$039194 LOCAL JUMP LOCATION
 LinkState_ExitingDash:
 {
-    JSR.w $F514 ; $03F514 IN ROM
+    JSR.w CacheCameraPropertiesIfOutdoors
     
     LDA.b $F0 : AND.b #$0F : BNE .BRANCH_ALPHA2
         LDA.w $0374 : CMP.b #$10 : BCC .BRANCH_BETA2
@@ -2662,7 +2725,7 @@ LinkState_ExitingDash:
     
     .BRANCH_GAMMA2
     
-    JSL.l $07E6A6 ; $03E6A6 IN ROM
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
     
     RTS
 }
@@ -2856,7 +2919,7 @@ Sprite_RepelDashAttackLong:
     ; Update the last direction the player moved in.
     LDA.b $2F : LSR A : STA.b $66
     
-    JSR.w $91F1 ; $0391F1 IN ROM
+    JSR.w RepelDash
     
     PLX : PLB
     
@@ -2955,7 +3018,7 @@ LinkState_Pits:
             
             LDY.b #$04
             
-            JSR.w $D077 ; $03D077 IN ROM
+            JSR.w TileDetect_MainHandler
     LDA.b $59 : AND.b #$01 : BNE .BRANCH_DELTA
     
     LDA.w $0372 : BEQ .BRANCH_EPSILON
@@ -3113,12 +3176,12 @@ Link_HandleFallingInPit:
     LDA.b $00 : BEQ .BRANCH_OMEGA
         .BRANCH_PSI
         
-        JSL.l $07E6A6 ; $03E6A6 IN ROM
+        JSL.l Link_HandleMovingAnimation_FullLongEntry
     
     .BRANCH_OMEGA
     
-    JSR.w $B64F   ; $03B64F IN ROM
-    JSL.l $07E245 ; $03E245 IN ROM
+    JSR.w Link_HandleDiagonalCollision
+    JSL.l Link_HandleVelocity
     JSR.w Link_HandleCardinalCollision
     JSL.l $07E9D3 ; $03E9D3 IN ROM
     
@@ -3301,7 +3364,7 @@ HandleUnderworldLandingFromPit:
     
     LDA.b #$04 : STA.b $67
     
-    JSL.l $07E245 ; $03E245 IN ROM
+    JSL.l Link_HandleVelocity
     
     REP #$20
     
@@ -3348,7 +3411,7 @@ HandleUnderworldLandingFromPit:
     
     LDY.b #$00
     
-    JSR.w $D077 ; $03D077 IN ROM
+    JSR.w TileDetect_MainHandler
     
     LDA.w $0359 : AND.b #$01 : BEQ .BRANCH_IOTA
         LDA.b #$24 : JSR.w Player_DoSfx2
@@ -3412,6 +3475,19 @@ HandleUnderworldLandingFromPit:
     PLB
     
     RTL
+}
+
+;$039635-$039639 DATA
+LinkSwimming_anim_offset:
+{
+    dw $0002
+    dw $0001
+}
+
+; $039639-$03963A DATA
+MaxSwimAcceleration:
+{
+    dw $00F0
 }
 
 ; MODE 4 SWIMMING
@@ -3557,14 +3633,14 @@ Link_HandleSwimMovements:
     
     .BRANCH_MU
     
-    JSR.w $B64F   ; $03B64F IN ROM
-    JSL.l $07E245 ; $03E245 IN ROM
+    JSR.w Link_HandleDiagonalCollision
+    JSL.l Link_HandleVelocity
     JSR.w Link_HandleCardinalCollision
-    JSL.l $07E6A6 ; $03E6A6 IN ROM
+    JSL.l Link_HandleMovingAnimation_FullLongEntry
     
     STZ.w $0302
     
-    JSR.w $E8F0 ; $03E8F0 IN ROM
+    JSR.w HandleIndoorCameraAndDoors
     
     RTS
 }
@@ -3877,7 +3953,7 @@ Link_SetTheMaxAccel:
 ; $03996C-$0399AB LONG BRANCH POINT
 Player_Electrocution:
 {
-    JSR.w $F514 ; $03F514 in Rom.
+    JSR.w CacheCameraPropertiesIfOutdoors
     JSL.l Player_SetElectrocutionMosaicLevel
     
     ; Decrease the delay counter.
@@ -4333,7 +4409,7 @@ Link_HandleAPress:
             .spriteLiftAction
             
             LDA.b $3C : BEQ .nu
-                JSR.w $9D84 ; $039D84 IN ROM
+                JSR.w Link_ResetSwordAndItemUsage
             
             .nu
             
@@ -4573,7 +4649,7 @@ Link_CheckForSwordSwing:
                         
                         .BRANCH_IOTA
                         
-                        JSR.w $D077 ; $03D077 IN ROM
+                        JSR.w TileDetect_MainHandler
                         
                         BRA .BRANCH_DELTA
 
@@ -4598,7 +4674,7 @@ Link_CheckForSwordSwing:
         ; B Button is still being held?
         BIT.b $F0 : BMI Link_ResetSwordAndItemUsage_holding_b
             LDA.b $79 : CMP.b #$30 : BCC Link_ResetSwordAndItemUsage
-                JSR.w $9D84 ; $039D84 IN ROM
+                JSR.w Link_ResetSwordAndItemUsage
                 
                 STZ.b $79
                 
@@ -4671,7 +4747,7 @@ Link_ResetSwordAndItemUsage:
                 ; Do sword interaction with tiles.
                 LDY.b #$01
                 
-                JSR.w $D077 ; $03D077 IN ROM
+                JSR.w TileDetect_MainHandler
             
             .BRANCH_LAMBDA
 
@@ -4966,7 +5042,7 @@ LinkItem_Hammer:
             
             LDY.b #$03
             
-            JSR.w $D077 ; $03D077 IN ROM
+            JSR.w TileDetect_MainHandler
             
             LDY.b #$00
             LDA.b #$16
@@ -5409,7 +5485,7 @@ LinkItem_MagicPowder:
         LDA.b $11 : BNE .BRANCH_DELTA
             LDY.b #$01
             
-            JSR.w $D077 ; $03D077 IN ROM
+            JSR.w TileDetect_MainHandler
             
             BRA .BRANCH_DELTA ; OPTIMIZE: Lol what?
         
@@ -5478,7 +5554,7 @@ LinkItem_Shovel:
         
         PHX
         
-        JSR.w $D077 ; $03D077 IN ROM
+        JSR.w TileDetect_MainHandler
         
         PLX
         
@@ -5988,8 +6064,8 @@ LinkState_UsingQuake:
         
         LDA.b #$02 : STA.b $00 : STA.b $4D
         
-        JSR.w $8932   ; $038932 IN ROM
-        JSL.l $07E370 ; $03E370 IN ROM
+        JSR.w Link_HandleChangeInZVelocity_preset
+        JSL.l LinkHop_FindArbitraryLandingSpot
         
         LDA.b $29 : STA.w $0362
         
@@ -6042,9 +6118,9 @@ LinkState_UsingQuake:
         
         .BRANCH_IOTA
         
-        LDA.w $A6CA, X : STA.b $3D
+        LDA.w Pool_LinkState_UsingQuake_anim_timer, X : STA.b $3D
         
-        LDA.w $A6BE, X : STA.w $031C
+        LDA.w Pool_LinkState_UsingQuake_anim_step, X : STA.w $031C
         
         LDA.w $0324 : BNE .BRANCH_DELTA
         CPX.b #$0B  : BNE .BRANCH_DELTA
@@ -6077,7 +6153,7 @@ Link_ActivateSpinAttack:
     ; Bleeds into the next function.
 }
     
-; $03A783-$03A7AE DATA
+; $03A783-$03A7AE LOCAL JUMP LOCATION
 Link_AnimateVictorySpin:
 {
     ; Enter spin attack mode.
@@ -6085,11 +6161,11 @@ Link_AnimateVictorySpin:
     
     LDA.b $2F : LSR A : TAX
     
-    LDA.w $A800, X : STA.w $031E : TAX
+    LDA.w Pool_SpinAttack_data_offset, X : STA.w $031E : TAX
     
-    LDA.w $A7E8 : STA.b $3D
+    LDA.w Pool_SpinAttack_anim_timer_a : STA.b $3D
     
-    LDA.w $A7B8, X : STA.w $031C : STA.w $031D, X
+    LDA.w Pool_SpinAttack_anim_step, X : STA.w $031C : STA.w $031D, X
     
     ; Trigger the spin attack motion.
     LDA.b #$90 : STA.b $3C
@@ -6112,18 +6188,50 @@ Link_AnimateVictorySpin_long:
 {
     PHB : PHK : PLB
     
-    JSR.w $A783 ; $03A783 IN ROM
+    JSR.w Link_AnimateVictorySpin
     
     PLB
     
     RTL
 }
 
+; $03A7B8-$03A803 DATA
+Pool_SpinAttack:
+{
+    ; $03A7B8
+    .anim_step
+    db $0A, $0B, $0A, $06, $07, $08, $09, $02, $03, $04, $05, $0A ; up
+    db $00, $01, $00, $02, $03, $04, $05, $06, $07, $08, $09, $00 ; down
+    db $0C, $0D, $0C, $04, $05, $06, $07, $08, $09, $02, $03, $0C ; left
+    db $0E, $0F, $0E, $08, $09, $02, $03, $04, $05, $06, $07, $0E ; right
+
+    ; $03A7E8
+    .anim_timer_a
+    db $03, $09, $03 ; up
+    db $01, $01, $01 ; down
+    db $01, $01, $01 ; left
+    db $01, $01, $05 ; right
+
+    ; $03A7F4
+    .anim_timer_b
+    db $01, $05, $01 ; up
+    db $01, $01, $01 ; down
+    db $01, $01, $01 ; left
+    db $01, $01, $05 ; right
+
+    ; $03A800
+    .data_offset
+    db $00 ; up
+    db $0C ; down
+    db $18 ; left
+    db $24 ; right
+}
+
 ; Link mode 0x03 - Spin Attack Mode
 ; $03A804-$03A8EB JUMP LOCATION
 LinkState_SpinAttack:
 {
-    JSR.w $F514 ; $03F514 IN ROM
+    JSR.w CacheCameraPropertiesIfOutdoors
     
     ; Check to see if Link is in a ground state.
     LDA.b $4D : BEQ .BRANCH_ALPHA
@@ -6167,7 +6275,7 @@ LinkState_SpinAttack:
             
             .BRANCH_THETA
             
-            JSR.w $9D84 ; $039D84 IN ROM
+            JSR.w Link_ResetSwordAndItemUsage
             
             LDA.b #$01 : STA.w $037B
             
@@ -6194,7 +6302,7 @@ LinkState_SpinAttack:
     .BRANCH_ALPHA
     
     LDA.b $46 : BEQ .BRANCH_IOTA ; Link's movement data is being taken in.
-        JSR.w $8711 ; $038711 IN ROM Link Can't move, do some other stuff.
+        JSR.w Link_HandleRecoilAndTimer ; Link Can't move, do some other stuff.
         
         BRA .BRANCH_KAPPA
     
@@ -6202,14 +6310,14 @@ LinkState_SpinAttack:
     
     STZ.b $67 ; Not sure...
     
-    JSL.l $07E245 ; $03E245 IN ROM
+    JSL.l Link_HandleVelocity
     JSR.w Link_HandleCardinalCollision
     
     LDA.b #$03 : STA.b $5D
     
     STZ.w $0302
     
-    JSR.w $E8F0 ; $03E8F0 IN ROM
+    JSR.w HandleIndoorCameraAndDoors
     
     .BRANCH_KAPPA
     
@@ -6253,16 +6361,16 @@ LinkState_SpinAttack:
         LDA.w $031D : CLC : ADC.w $031E : TAX
         
         ; Determine which graphic to display while spinning.
-        LDA.w $A7B8, X : STA.w $031C
+        LDA.w Pool_SpinAttack_anim_step, X : STA.w $031C
         
         LDX.w $031D
         
         ; Determine the frame delay between changing the sprites.
-        LDY.w $A7F4, X : STY.b $3D
+        LDY.w Pool_SpinAttack_anim_timer_b, X : STY.b $3D
         
         LDY.b #$08
         
-        JSR.w $D077 ; $03D077 IN ROM
+        JSR.w TileDetect_MainHandler
     
     .return
     
@@ -6282,11 +6390,11 @@ UNREACHABLE_07A8EC:
     
     LDA.b $2F : LSR A : TAX
     
-    LDA.w $A800, X : STA.w $031E : TAX
+    LDA.w Pool_SpinAttack_data_offset, X : STA.w $031E : TAX
     
-    LDA.w $A7E8 : STA.b $3D
+    LDA.w Pool_SpinAttack_anim_timer_a : STA.b $3D
     
-    LDA.w $A7B8, X : STA.w $031C
+    LDA.w Pool_SpinAttack_anim_step, X : STA.w $031C
     
     STZ.w $031D
     
@@ -6399,8 +6507,8 @@ Mirror_TryToWarp:
 ; $03A9B1-$03AA6B JUMP LOCATION
 LinkState_CrossingWorlds:
 {
-    JSL.l $07F1E6 ; $03F1E6 IN ROM
-    JSR.w $D6F4   ; $03D6F4 IN ROM
+    JSL.l Link_ResetProperties_B
+    JSR.w TileCheckForMirrorBonk
     
     LDA.b $8A : AND.b #$40 : CMP.b $7B : BNE .BRANCH_ALPHA
         BRL .BRANCH_BETA
@@ -6554,7 +6662,7 @@ HandleFollowersAfterMirroring:
     
     LDY.b #$00
     
-    JSR.w $D077 ; $03D077 IN ROM
+    JSR.w TileDetect_MainHandler
     
     STZ.b $2E
     
@@ -6664,6 +6772,44 @@ LinkItem_Hookshot:
     RTS
 }
 
+; ==============================================================================
+
+; $03AB6C-$03AB73 DATA
+Hookdrag_Offset:
+{
+    ; $03AB6C
+    .Y
+    db $F8 ; up
+    db $F0 ; down
+    db $00 ; left
+    db $00 ; right
+
+    ; $03AB70
+    .X
+    db $00 ; up
+    db $00 ; down
+    db $04 ; left
+    db $F4 ; right
+}
+
+; $03AB74-$03AB7B DATA
+HookdragSpeeds:
+{
+    ; $03AB74
+    .Vertical
+    db $C0 ; up
+    db $40 ; down
+    db $00 ; left
+    db $00 ; right
+
+    ; $03AB78
+    .Horizontal
+    db $00 ; up
+    db $00 ; down
+    db $C0 ; left
+    db $40 ; right
+}
+
 ; Link mode 0x13 - Hookshot
 ; $03AB7C-$03ADBD JUMP LOCATION
 LinkState_Hookshotting:
@@ -6736,14 +6882,14 @@ LinkState_Hookshotting:
         
         STZ.b $05
         
-        LDA.w $AB6C, Y : STA.b $04 : BPL .BRANCH_THETA
+        LDA.w Hookdrag_Offset_Y, Y : STA.b $04 : BPL .BRANCH_THETA
             LDA.b #$FF : STA.b $05
 
         .BRANCH_THETA
 
         STZ.b $07
         
-        LDA.w $AB70, Y : STA.b $06 : BPL .BRANCH_IOTA
+        LDA.w Hookdrag_Offset_X, Y : STA.b $06 : BPL .BRANCH_IOTA
             LDA.b #$FF : STA.b $07
 
         .BRANCH_IOTA
@@ -6751,8 +6897,8 @@ LinkState_Hookshotting:
         STZ.b $27
         STZ.b $28
         
-        LDA.w $AB74, Y : STA.b $08 : STZ.b $09
-        LDA.w $AB78, Y : STA.b $0A : STZ.b $0B
+        LDA.w HookdragSpeeds_Vertical, Y : STA.b $08 : STZ.b $09
+        LDA.w HookdragSpeeds_Horizontal, Y : STA.b $0A : STZ.b $0B
         
         REP #$20
         
@@ -6890,11 +7036,11 @@ LinkState_Hookshotting:
 
         .BRANCH_PSI
 
-        JSL.l $07E370 ; $03E370 IN ROM
+        JSL.l LinkHop_FindArbitraryLandingSpot
         
         LDY.b #$05
         
-        JSR.w $D077   ; $03D077 IN ROM
+        JSR.w TileDetect_MainHandler
         
         LDA.b $1B : BEQ .BRANCH_OMEGA
             LDA.w $036D : LSR #4 : ORA.w $036D : ORA.w $036E : AND.b #$01 : BEQ .BRANCH_OMEGA
@@ -6933,7 +7079,7 @@ LinkState_Hookshotting:
 
         .BRANCH_ALIF
 
-        JSR.w $E8F0 ; $03E8F0 IN ROM
+        JSR.w HandleIndoorCameraAndDoors
         
         ; $03ADBD ALTERNATE ENTRY POINT
         .return
@@ -7563,7 +7709,7 @@ Link_Lift:
     ; ancilla to pick up.
     LDA.w $0314  : ORA.w $02EC : BNE .BRANCH_ALPHA
         ; Prep Link for picking things up.
-        JSR.w $9D84 ; $039D84 IN ROM
+        JSR.w Link_ResetSwordAndItemUsage
         
         STZ.b $3B
         
@@ -7887,7 +8033,7 @@ Link_PerformGrab:
     STZ.b $2E
     STZ.w $030A
     
-    LDA.w $B314 : STA.w $030B
+    LDA.w LinkStrain_timer : STA.w $030B
     
     STZ.w $030D
     
@@ -7895,6 +8041,27 @@ Link_PerformGrab:
 }
 
 ; ==============================================================================
+
+; $03B310-$03B313 DATA
+LinkPull_Directions:
+{
+    db $04
+    db $08
+    db $01
+    db $02
+}
+
+; $03B314-$03B321 DATA
+LinkStrain:
+{
+    ; $03B314
+    .timer
+    db   0,   5,   5,  12,   5,   5,  12
+
+    ; $03B31B
+    .char
+    db $00, $01, $02, $03, $01, $02, $03
+}
 
 ; Pre grabbing a wall?
 ; $03B322-$03B372 JUMP LOCATION
@@ -7905,7 +8072,7 @@ Link_APress_PullObject:
     LDA.b $2F : LSR A : TAX
     
     LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_ALPHA
-        AND.w $B310, X : BNE .BRANCH_BETA
+        AND.w LinkPull_Directions, X : BNE .BRANCH_BETA
     
     .BRANCH_ALPHA
     
@@ -7925,8 +8092,8 @@ Link_APress_PullObject:
         
         STX.w $030D
         
-        LDA.w $B31B, X : STA.w $030A
-        LDA.w $B314, X : STA.w $030B
+        LDA.w LinkStrain_char, X : STA.w $030A
+        LDA.w LinkStrain_timer, X : STA.w $030B
     
     .BRANCH_DELTA
     
@@ -7955,7 +8122,7 @@ Link_MovableStatue:
     STZ.b $2E
     STZ.w $030A
     
-    LDA.w $B314 : STA.w $030B
+    LDA.w LinkStrain_timer : STA.w $030B
     
     STZ.w $030D
     
@@ -7972,7 +8139,7 @@ Link_APress_StatueDrag:
     LDA.b $2F : LSR A : TAX
     
     LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_ALPHA
-        AND.w $B310, X : BNE .BRANCH_BETA
+        AND.w LinkPull_Directions, X : BNE .BRANCH_BETA
     
     .BRANCH_ALPHA
     
@@ -7997,9 +8164,8 @@ Link_APress_StatueDrag:
         
         STX.w $030D
         
-        LDA.w $B31B, X : STA.w $030A
-        
-        LDA.w $B314, X : STA.w $030B
+        LDA.w LinkStrain_char, X  : STA.w $030A
+        LDA.w LinkStrain_timer, X : STA.w $030B
     
     .BRANCH_DELTA
     
@@ -8032,7 +8198,7 @@ Link_PerformRupeePull:
         STZ.b $2E
         STZ.w $030A
         
-        LDA.w $B314 : STA.w $030B
+        LDA.w LinkStrain_timer : STA.w $030B
         
         STZ.w $030D
         
@@ -8051,10 +8217,18 @@ Link_PerformRupeePull:
 
 ; ==============================================================================
 
+; $03B40D-$03B416 DATA
+LinkState_TreePull_step:
+{
+    db $00, $01, $02, $03
+    db $04, $00, $01, $02
+    db $03
+}
+
 ; $03B416-$03B4F1 JUMP LOCATION
 LinkState_TreePull:
 {
-    JSR.w $F514 ; $03F514 IN ROM
+    JSR.w CacheCameraPropertiesIfOutdoors
     
     LDA.b $4D : BEQ .durp
         BRL LinkState_Default_HandleLink_From1D
@@ -8089,8 +8263,8 @@ LinkState_TreePull:
         DEC.w $030B : BPL .BRANCH_DELTA
             INC.w $030D : LDX.w $030D
             
-            LDA.w $B31B, X : STA.w $030A
-            LDA.w $B314, X : STA.w $030B
+            LDA.w LinkStrain_char, X : STA.w $030A
+            LDA.w LinkStrain_timer, X : STA.w $030B
             
             CPX.b #$07 : BNE .BRANCH_DELTA
                 STZ.w $0376
@@ -8129,7 +8303,7 @@ LinkState_TreePull:
             
             LDA.b #$02 : STA.w $030B
             
-            LDA.w $B400D, X : STA.w $030A
+            LDA.w .step, X : STA.w $030A
             
             LDA.b #$30 : STA.b $27
             
@@ -8147,7 +8321,7 @@ LinkState_TreePull:
     
     .BRANCH_LAMBDA
     
-    JSR.w $92A0 ; $0392A0 IN ROM
+    JSR.w Flag67WithDirections
     
     LDA.b $67 : AND.b #$03 : BNE .BRANCH_NU
         STZ.b $28
@@ -8159,12 +8333,12 @@ LinkState_TreePull:
     
     .BRANCH_ZETA
     
-    JSL.l $07E370 ; $03E370 IN ROM
+    JSL.l LinkHop_FindArbitraryLandingSpot
     
     .BRANCH_KAPPA
     
     JSR.w Link_HandleCardinalCollision
-    JSR.w $E8F0 ; $03E8F0 IN ROM
+    JSR.w HandleIndoorCameraAndDoors
     
     .BRANCH_MU
     
@@ -8332,7 +8506,7 @@ Link_CheckNewAPress:
     RTS
 }
 
-; $03B5D6-$03B608 LONG JUMP LOCATION
+; $03B5D6-$03B608 LOCAL JUMP LOCATION
 Link_HandleToss:
 {
     LDA.b $3B : AND.b #$80 : BEQ .aButtonNotDown
@@ -8365,13 +8539,21 @@ Link_HandleToss:
     RTS
 }
 
+; $03B64B-$03B64E
+StoppedFlags:
+{
+    db $07
+    db $0B
+    db $0D
+    db $0E
+}
+
 ; $03B64F-$03B65F LOCAL JUMP LOCATION
 Link_HandleDiagonalCollision:
 {
-    ; $03B97C IN ROM
-    JSR.w $B97C : BCC .onlyOneBg
-        JSR.w $B660 ; $03B660 IN ROM
-        JSR.w $B9B3 ; $03B9B3 IN ROM
+    JSR.w CheckIfRoomNeedsDoubleLayerCheck : BCC .onlyOneBg
+        JSR.w FlagObstructions
+        JSR.w CreateVelocityFromMovingBackground
 
     .onlyOneBg
 
@@ -8409,7 +8591,7 @@ FlagObstructions:
     ; $66 = #$0 or #$1. #$1 if the down button, #$0 if the up button was pushed.
     TYA : LSR A : STA.b $66
     
-    JSR.w $CE85 ; $03CE85 IN ROM
+    JSR.w TileDetect_Movement_VerticalSlopes
     
     LDA.b $0E : AND.b #$30 : BEQ .BRANCH_DELTA
         LDA.b $62 : AND.b #$02 : BNE .BRANCH_DELTA
@@ -8462,7 +8644,7 @@ FlagObstructions:
 
         .BRANCH_EPSILON
 
-        LDA.w $B64B, Y : STA.b $42
+        LDA.w StoppedFlags, Y : STA.b $42
 
     .BRANCH_IOTA
 
@@ -8482,7 +8664,7 @@ FlagObstructions:
 
     TYA : LSR A : STA.b $66
     
-    JSR.w $CEC9 ; $03CEC9 IN ROM
+    JSR.w TileDetect_Movement_HorizontalSlopes
     
     LDA.b $0E : AND.b #$30 : BEQ .BRANCH_XI
         LDA.b $62 : AND.b #$02 : BEQ .BRANCH_XI
@@ -8536,7 +8718,7 @@ FlagObstructions:
 
         .BRANCH_OMICRON
 
-        LDA.w $B64B, Y : STA.b $43
+        LDA.w StoppedFlags, Y : STA.b $43
 
     .BRANCH_SIGMA
 
@@ -8589,16 +8771,14 @@ Link_HandleCardinalCollision:
     ; Branch if there is [forced] diagonal movement.
     LDA.b $6B : AND.b #$30 : BNE .BRANCH_ALPHA
         ; Handles left/right tiles and maybe up/down too.
-        ; $03CCAB IN ROM
-        JSR.w $CCAB
+        JSR.w Link_HandleDiagonalKickback
         
         LDA.b $6D : BEQ .BRANCH_ALPHA
             BRL .BRANCH_BETA
     
     .BRANCH_ALPHA
     
-    ; $03B97C IN ROM
-    JSR.w $B97C : BCC .BRANCH_BETA
+    JSR.w CheckIfRoomNeedsDoubleLayerCheck : BCC .BRANCH_BETA
         ; "Check collision" as named in Hyrule Magic
         ; Keep in mind that outdoors, collisions are always 0, i.e. "normal"
         ; Why load it twice, homes?
@@ -8639,17 +8819,17 @@ Link_HandleCardinalCollision:
         
         .BRANCH_GAMMA
         
-        JSR.w $B956 ; $03B956 IN ROM
+        JSR.w RunSlopeCollisionChecks_VerticalFirst
         
         BRA .BRANCH_ZETA
         
         .BRANCH_DELTA
         
-        JSR.w $B969 ; $03B969 IN ROM
+        JSR.w RunSlopeCollisionChecks_HorizontalFirst
         
         .BRANCH_ZETA
         
-        JSR.w $B9B3 ; $03B9B3 IN ROM
+        JSR.w CreateVelocityFromMovingBackground
     
     .BRANCH_BETA
     
@@ -8703,7 +8883,7 @@ Link_HandleCardinalCollision:
     
     LDA.b #$01 : STA.w $0315
     
-    JSR.w $B956 ; $03B956 IN ROM
+    JSR.w RunSlopeCollisionChecks_VerticalFirst
     
     BRA .BRANCH_XI
     
@@ -8711,13 +8891,13 @@ Link_HandleCardinalCollision:
     
     LDA.b #$01 : STA.w $0315
     
-    JSR.w $B969 ; $03B969 IN ROM
+    JSR.w RunSlopeCollisionChecks_HorizontalFirst
     
     .BRANCH_XI
     
     LDY.b #$00
     
-    JSR.w $D077 ; $03D077 IN ROM
+    JSR.w TileDetect_MainHandler
     
     LDA.b $6A : BEQ .BRANCH_OMICRON
         STZ.b $6B
@@ -8789,12 +8969,12 @@ Link_HandleCardinalCollision:
 RunSlopeCollisionChecks_VerticalFirst:
 {
     LDA.b $6B : AND.b #$20 : BNE .BRANCH_ALPHA
-        JSR.w $BA0A ; $03BA0A IN ROM
+        JSR.w StartMovementCollisionChecks_Vertical
     
     .BRANCH_ALPHA
     
     LDA.b $6B : AND.b #$10 : BNE .BRANCH_BETA
-        JSR.w $C4D4 ; $03C4D4 IN ROM
+        JSR.w StartMovementCollisionChecks_Horizontal
     
     .BRANCH_BETA
     
@@ -8805,12 +8985,12 @@ RunSlopeCollisionChecks_VerticalFirst:
 RunSlopeCollisionChecks_HorizontalFirst:
 {
     LDA.b $6B : AND.b #$10 : BNE .BRANCH_ALPHA
-        JSR.w $C4D4   ; $03C4D4 IN ROM
+        JSR.w StartMovementCollisionChecks_Horizontal
     
     .BRANCH_ALPHA
     
     LDA.b $6B : AND.b #$20 : BNE .BRANCH_BETA
-        JSR.w $BA0A   ; $03BA0A IN ROM
+        JSR.w StartMovementCollisionChecks_Vertical
     
     .BRANCH_BETA
     
@@ -8879,6 +9059,30 @@ CreateVelocityFromMovingBackground:
     RTS
 }
 
+; ==============================================================================
+
+; $03B9F7-$03B9FE DATA
+RupeeTileOffset_y:
+{
+    dw $0008, $0018, $0010, $0010
+}
+
+; $03B9FF-$03BA06 DATA
+RupeeTileOffset_x:
+{
+    dw $0008, $0008, $0000, $000F
+}
+
+; $03BA07-$03BA09 DATA
+SpikeDamageValues:
+{
+    db $08 ; green
+    db $08 ; blue
+    db $08 ; red
+}
+
+; ==============================================================================
+
 ; $03BA0A-$03BEAE LOCAL JUMP LOCATION
 StartMovementCollisionChecks_Vertical:
 {
@@ -8909,7 +9113,7 @@ StartMovementCollisionChecks_Vertical:
 
     TYA : LSR A : STA.b $66
     
-    JSR.w $CDCB ; $03CDCB IN ROM
+    JSR.w TileDetect_Movement_Vertical
     
     LDA.b $1B : BNE .indoors
         BRL StartMovementCollisionChecks_Vertical_HandleOutdoors
@@ -8935,14 +9139,14 @@ StartMovementCollisionChecks_Vertical:
 
             .BRANCH_LAMBDA
 
-            JSR.w $C29F ; $03C29F IN ROM
+            JSR.w Link_AddInVelocityY
             
             BRL ChangeAxisOfPerpendicularDoorMovement_Vertical
 
         .BRANCH_KAPPA
 
         LDA.b $62 : BEQ .BRANCH_IOTA
-            JSR.w $C29F ; $03C29F IN ROM
+            JSR.w Link_AddInVelocityY
             
             BRA .BRANCH_MU
 
@@ -8976,8 +9180,8 @@ StartMovementCollisionChecks_Vertical:
 
             STZ.b $6B
             
-            JSR.w $C1E4 ; $03C1E4 IN ROM
-            JSR.w $C1FF ; $03C1FF IN ROM
+            JSR.w Link_AddInVelocityYFalling
+            JSR.w CalculateSnapScratch_Vertical
             
             STZ.b $6C
             
@@ -9015,7 +9219,7 @@ StartMovementCollisionChecks_Vertical:
         LDA.b $0C : AND.b #$05 : BEQ .BRANCH_UPSILON
             STZ.w $03F3
             
-            JSR.w $E076 ; $03E076 IN ROM
+            JSR.w FlagMovingIntoSlopes_Vertical
             
             LDA.b $6B : AND.b #$0F : BEQ .BRANCH_UPSILON
                 RTS
@@ -9085,9 +9289,11 @@ StartMovementCollisionChecks_Vertical:
         LDA.l $7EF360 : CLC : ADC.w #$0005 : STA.l $7EF360
         
         ; This is intended to help calculate where to do the clearing update.
-        LDA.b $20 : CLC : ADC.w $B9F7, Y : SEC : SBC.b $00 : STA.b $00
+        LDA.b $20
+        CLC : ADC.w RupeeTileOffset_y, Y : SEC : SBC.b $00 : STA.b $00
         
-        LDA.b $22 : CLC : ADC.w $B9FF, Y : STA.b $02
+        LDA.b $22
+        CLC : ADC.w RupeeTileOffset_x, Y                   : STA.b $02
         
         SEP #$20
         
@@ -9136,8 +9342,7 @@ StartMovementCollisionChecks_Vertical:
     .BRANCH_DELTA2
 
     LDA.w $036D : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_THETA2
-        ; $03C16D IN ROM
-        JSR.w $C16D : BCC .BRANCH_THETA2
+        JSR.w RunLedgeHopTimer : BCC .BRANCH_THETA2
             JSR.w Player_HaltDashAttack
             
             ; This increments when Link is ready to jump down from a ledge.
@@ -9312,7 +9517,7 @@ StartMovementCollisionChecks_Vertical:
                 LDA.w $031F : BNE .BRANCH_OMEGA2
                     LDA.l $7EF35B : TAY
                     
-                    LDA.w $BA07, Y : STA.w $0373
+                    LDA.w SpikeDamageValues, Y : STA.w $0373
                     
                     JSR.w Player_HaltDashAttack
                     JSR.w Link_ForceUnequipCape_quietly
@@ -9349,17 +9554,15 @@ StartMovementCollisionChecks_Vertical:
                         
                         SEP #$20
                         
-                        ; $03ED2C IN ROM
-                        JSR.w $ED2C : BCS .BRANCH_TOD
+                        JSR.w FindFreeMovingBlockSlot : BCS .BRANCH_TOD
                             STX.b $0E
                             
                             TYA : ASL A : TAX
                             
-                            ; $03ED3F IN ROM
-                            JSR.w $ED3F : BCS .BRANCH_TOD
+                            JSR.w InitializePushBlock : BCS .BRANCH_TOD
                                 LDA.b $0E : ASL A : TAY
                                 
-                                JSR.w $F0D9 ; $03F0D9 IN ROM
+                                JSR.w Underworld_DrawSinglePushBlock
                                 
                                 TYX
                                 
@@ -9406,7 +9609,7 @@ StartMovementCollisionChecks_Vertical:
         .BRANCH_SHIN
 
         LDA.b $6A : BEQ .BRANCH_ZHA
-            JSR.w $C1E4 ; $03C1E4 IN ROM
+            JSR.w Link_AddInVelocityYFalling
             
             BRA .BRANCH_FATHA
 
@@ -9419,15 +9622,15 @@ StartMovementCollisionChecks_Vertical:
 
     LDA.b $0E : PHA
     
-    JSR.w $C1A1 ; $03C1A1 IN ROM
-    JSR.w $91F1 ; $0391F1 IN ROM
+    JSR.w Link_BonkAndSmash
+    JSR.w RepelDash
     
     PLA : STA.b $0E
     
     LDA.b #$01 : STA.w $0302
     
     LDA.b $0E : AND.b #$02 : CMP.b #$02 : BNE .BRANCH_YEH
-        JSR.w $C1E4 ; $03C1E4 IN ROM
+        JSR.w Link_AddInVelocityYFalling
         
         BRA .BRANCH_FATHA
 
@@ -9440,7 +9643,7 @@ StartMovementCollisionChecks_Vertical:
 
     .BRANCH_EIN
 
-    JSR.w $C1E4 ; $03C1E4 IN ROM
+    JSR.w Link_AddInVelocityYFalling
     
     LDA.b $6A : CMP.b #$02 : BEQ .BRANCH_GHEIN
         .BRANCH_FATHA
@@ -9463,8 +9666,8 @@ StartMovementCollisionChecks_Vertical:
                 
                 LDA.b $0E : AND.b #$02 : BNE .BRANCH_DELTA3
                     LDA.b $22 : AND.b #$07 : BNE .BRANCH_EPSILON3
-                        JSR.w $C1A1 ; $03C1A1 IN ROM
-                        JSR.w $91F1 ; $0391F1 IN ROM
+                        JSR.w Link_BonkAndSmash
+                        JSR.w RepelDash
                         
                         BRA .BRANCH_DELTA3
 
@@ -9491,15 +9694,15 @@ StartMovementCollisionChecks_Vertical:
 
         .BRANCH_JIIM
 
-        JSR.w $C1A1 ; $03C1A1 IN ROM
-        JSR.w $91F1 ; $0391F1 IN ROM
+        JSR.w Link_BonkAndSmash
+        JSR.w RepelDash
         
         BRA .BRANCH_DELTA3
 
         .BRANCH_EPSILON3
 
         JSR.w AddAbsoluteScratchToXCoord
-        JMP.w $D485 ; $03D485 IN ROM
+        JMP.w HandleNudging
 
         .BRANCH_DELTA3
 
@@ -9602,7 +9805,7 @@ StartMovementCollisionChecks_Vertical_HandleOutdoors:
 
         LDA.w $0345 : BNE .BRANCH_THETA
             LDA.b $4D : BNE .BRANCH_THETA
-                JSR.w $9D84 ; $039D84 IN ROM
+                JSR.w Link_ResetSwordAndItemUsage
                 JSR.w Player_HaltDashAttack
                 
                 LDA.b #$01 : STA.w $0345
@@ -9691,8 +9894,7 @@ Link_HandleEnteringWater_Vertical:
         .BRANCH_OMICRON
 
         LDA.w $036D : AND.b #$70 : BEQ .BRANCH_PI
-            ; $03C16D IN ROM
-            JSR.w $C16D : BCC .BRANCH_PI
+            JSR.w RunLedgeHopTimer : BCC .BRANCH_PI
                 JSR.w Player_HaltDashAttack
                 
                 LDA.b #$01 : STA.w $037B : STA.b $78
@@ -9724,8 +9926,7 @@ Link_HandleEnteringWater_Vertical:
         .BRANCH_PI
 
         LDA.w $036D : AND.b #$07 : BEQ .BRANCH_SIGMA
-            ; $03C16D IN ROM
-            JSR.w $C16D : BCC .BRANCH_SIGMA
+            JSR.w RunLedgeHopTimer : BCC .BRANCH_SIGMA
                 LDA.b #$20 : JSR.w Player_DoSfx2
                 
                 LDA.b #$01 : STA.w $037B
@@ -9754,8 +9955,7 @@ Link_HandleEnteringWater_Vertical:
                 .BRANCH_PHI
 
                 TXA : AND.w $036F : BEQ .BRANCH_UPSILON
-                    ; $03C16D IN ROM
-                    JSR.w $C16D : BCC .BRANCH_UPSILON
+                    JSR.w RunLedgeHopTimer : BCC .BRANCH_UPSILON
                         JSR.w Player_HaltDashAttack
                         
                         LDX.b #$10
@@ -9790,8 +9990,7 @@ Link_HandleEnteringWater_Vertical:
 
         LDA.w $036E : AND.b #$70 : BEQ .BRANCH_PSI
             LDA.w $036D : AND.b #$77 : BNE .BRANCH_PSI
-                ; $03C16D IN ROM
-                JSR.w $C16D : BCC .BRANCH_PSI
+                JSR.w RunLedgeHopTimer : BCC .BRANCH_PSI
                     JSR.w Player_HaltDashAttack
                     
                     LDA.b #$20 : JSR.w Player_DoSfx2
@@ -9853,7 +10052,7 @@ Link_HandleEnteringWater_Vertical:
 
         LDA.b $0C : AND.b #$05 : BEQ .BRANCH_SHIN
             LDA.b $0E : AND.b #$07 : BNE .BRANCH_SHIN
-                JSR.w $E076 ; $03E076 IN ROM
+                JSR.w FlagMovingIntoSlopes_Vertical
                 
                 LDA.b $6B : AND.b #$0F : BEQ .BRANCH_SHIN
                     RTS
@@ -9904,7 +10103,7 @@ Link_HandleEnteringWater_Vertical:
 
                     LDA.l $7EF35B : TAY
                     
-                    LDA.w $BA07, Y : STA.w $0373
+                    LDA.w SpikeDamageValues, Y : STA.w $0373
                     
                     JSR.w Player_HaltDashAttack
                     JSR.w Link_ForceUnequipCape_quietly
@@ -9928,20 +10127,20 @@ RunLedgeHopTimer:
     ; Check the sub sub mode we're in.
     ; $03C171 Change from F0 to 80 to stop players from jumping off ledges all
     ; together.
-    LDA.b $4D : CMP.b #$01 : BEQ .BRANCH_ALPHA
+    LDA.b $4D : CMP.b #$01 : BEQ .restore_coordinates
         ; Is Link running? Bypass waiting to jump off of a ledge. I think...
         LDA.w $0372 : BNE .BRANCH_BETA
             ; $03C17B Change from 10 to 80 to stop players from jumping off
             ; ledges unless dashing.
             
-            DEC.w $0375 : BPL .BRANCH_ALPHA
+            DEC.w $0375 : BPL .restore_coordinates
                 LDA.b #$13 : STA.w $0375
                 
                 BRA .BRANCH_GAMMA
         
         .BRANCH_BETA
         
-        JSR.w $C189 ; $03C189 IN ROM
+        JSR.w .restore_coordinates
         
         .BRANCH_GAMMA
         
@@ -9950,7 +10149,7 @@ RunLedgeHopTimer:
         RTS
     
     ; $03C189 ALTERNATE ENTRY POINT
-    .BRANCH_ALPHA
+    .restore_coordinates
     
     REP #$20
     
@@ -10002,7 +10201,7 @@ Link_BonkAndSmash:
                     
                     .BRANCH_DELTA
                     
-                        CMP.w $B1AD, X : BEQ .BRANCH_GAMMA
+                        CMP.w Pool_LinkToss_liftable_tiles, X : BEQ .BRANCH_GAMMA
                     DEX : BPL .BRANCH_DELTA
                     
                     BRA .BRANCH_BETA
@@ -10203,6 +10402,22 @@ Link_AddInVelocityY:
     RTS
 }
 
+; $03C2BA-$03C2C2 DATA
+Pool_Link_HopInOrOutOfWater_Vertical:
+{
+    ; $03C2BA
+    .speed_y
+    db 24, 16, 16
+
+    ; $03C2BD
+    .speed_z
+    db 36, 24, 24
+
+    ; $03C2C0
+    .timer
+    db 16, 16, 16
+}
+
 ; $03C2C3-$03C30B LOCAL JUMP LOCATION
 Link_HopInOrOutOfWater_Vertical:
 {
@@ -10222,7 +10437,7 @@ Link_HopInOrOutOfWater_Vertical:
     
     STX.b $00
     
-    LDA.w $C2BA, X : TAX
+    LDA.w Pool_Link_HopInOrOutOfWater_Vertical_speed_y, X : TAX
     
     LDA.b $66 : BNE .BRANCH_GAMMA
         TXA : EOR.b #$FF : INC A : TAX
@@ -10235,12 +10450,13 @@ Link_HopInOrOutOfWater_Vertical:
     
     LDX.b $00
     
-    LDA.w $C2B2, X : STA.b $29 : STA.w $02C7
+    LDA.w Pool_Link_HopInOrOutOfWater_Vertical_speed_z, X
+    STA.b $29 : STA.w $02C7
     
     STZ.b $24
     STZ.b $25
     
-    LDA.w $C2C0, X : STA.b $46
+    LDA.w Pool_Link_HopInOrOutOfWater_Vertical_timer, X : STA.b $46
     
     LDA.b $4D : CMP.b #$02 : BEQ .BRANCH_DELTA
         LDA.b #$01 : STA.b $4D
@@ -10252,6 +10468,31 @@ Link_HopInOrOutOfWater_Vertical:
     LDA.b #$06 : STA.b $5D
     
     RTS
+}
+
+; $03C30C- DATA
+Pool_Link_FindValidLandingTile_North:
+{
+    ; $03C30C
+    .recoil_y
+    db $10, $10, $14, $14, $18, $18, $1C, $1C
+    db $20, $20, $24, $24, $28, $28, $2C, $2C
+    db $30, $30, $30, $30, $30, $30, $30, $30
+    db $30, $30, $30, $30, $30, $30, $30, $30
+
+    ; $03C32C
+    .recoil_z
+    db $18, $18, $18, $18, $1C, $1C, $1C, $1C
+    db $20, $20, $20, $20, $24, $24, $24, $24
+    db $28, $28, $28, $28, $2C, $2C, $2C, $2C
+    db $30, $30, $30, $30, $34, $34, $34, $34
+
+    ; $03C34C
+    .timer
+    db $10, $10, $14, $14, $18, $18, $1C, $1C
+    db $20, $20, $24, $24, $28, $28, $2C, $2C
+    db $30, $30, $30, $30, $30, $30, $30, $30
+    db $30, $30, $30, $30, $30, $30, $30, $30
 }
 
 ; $03C36C-$03C408 LONG BRANCH LOCATION
@@ -10270,7 +10511,7 @@ Link_FindValidLandingTile_North:
         
         LDA.b $66 : ASL A : TAY
         
-        JSR.w $CDCB ; $03CDCB IN ROM
+        JSR.w TileDetect_Movement_Vertical
     LDA.w $0343 : ORA.w $035B : ORA.w $0357 : ORA.w $0341 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_ALPHA
     
     LDA.w $0341 : AND.b #$07 : BEQ .BRANCH_BETA
@@ -10302,7 +10543,7 @@ Link_FindValidLandingTile_North:
     
     LDA.b $32 : LSR #3 : TAY
     
-    LDA.w $C30C, Y : TAX
+    LDA.w Pool_Link_FindValidLandingTile_North_recoil_y, Y : TAX
     
     LDA.b $66 : BNE .BRANCH_GAMMA
         TXA : EOR.b #$FF : INC A : TAX
@@ -10312,11 +10553,12 @@ Link_FindValidLandingTile_North:
     STX.b $27
     STZ.b $28
     
-    LDA.w $C32C, Y : STA.b $29 : STA.w $02C7
+    LDA.w Pool_Link_FindValidLandingTile_North_recoil_z, Y
+    STA.b $29 : STA.w $02C7
     
     STZ.b $24 : STZ.b $25
     
-    LDA.w $C34C, Y : STA.b $46
+    LDA.w Pool_Link_FindValidLandingTile_North_timer, Y : STA.b $46
     
     LDA.b #$02 : STA.b $4D
     
@@ -10325,6 +10567,32 @@ Link_FindValidLandingTile_North:
     LDA.b #$06 : STA.b $5D
     
     RTS
+}
+
+; $03C409-$03C46C DATA
+Pool_Link_FindValidLandingTile_DiagonalNorth:
+{
+    ; $03C409
+    .recoil_y
+    db $08, $08, $08, $08, $10, $10, $14, $14
+    db $18, $18, $18, $18, $20, $20, $20, $20
+    db $08, $14, $14, $14, $18, $18, $18, $18
+    db $1C, $1C, $1C, $1C, $20, $20, $20, $20
+
+    ; $03C429
+    .recoil_x
+    db $08, $08, $08, $08, $10, $10, $10, $10
+    db $18, $18, $18, $18, $10, $10, $10, $10
+    db $08, $14, $14, $14, $18, $18, $18, $18
+    db $1C, $1C, $1C, $1C, $20, $20, $20, $20
+
+    ; $03C449
+    .recoil_z
+    db $20, $20, $20, $20, $20, $20, $20, $20
+    db $24, $24, $24, $24, $28, $28, $28, $28
+    db $20, $28, $28, $28, $2C, $2C, $2C, $2C
+    db $30, $30, $30, $30, $34, $34, $34, $34
+    db $E0, $FF, $20, $00
 }
 
 ; $03C46D-$03C4D3 LOCAL JUMP LOCATION
@@ -10347,7 +10615,7 @@ Link_FindValidLandingTile_DiagonalNorth:
     
     LDA.b #$00 : STA.b $66
     
-    JSR.w $8E7B ; $038E7B IN ROM
+    JSR.w LinkHop_FindLandingSpotDiagonallyDown
     
     PLX
     
@@ -10363,9 +10631,10 @@ Link_FindValidLandingTile_DiagonalNorth:
     
     SEP #$20
     
-    LDA.w $C409, Y : EOR.b #$FF : INC A : STA.b $27
+    LDA.w Pool_Link_FindValidLandingTile_DiagonalNorth_recoil_y, Y
+    EOR.b #$FF : INC A : STA.b $27
     
-    LDA.w $C429, Y
+    LDA.w Pool_Link_FindValidLandingTile_DiagonalNorth_recoil_x, Y
     
     CPX.b #$02 : BNE .BRANCH_BETA
         EOR.b #$FF : INC A
@@ -10374,7 +10643,8 @@ Link_FindValidLandingTile_DiagonalNorth:
 
     STA.b $28
     
-    LDA.w $C449, Y : STA.b $29 : STA.w $02C7
+    LDA.w Pool_Link_FindValidLandingTile_DiagonalNorth_recoil_z, Y
+    STA.b $29 : STA.w $02C7
     
     STZ.b $24
     STZ.b $25
@@ -10416,7 +10686,8 @@ StartMovementCollisionChecks_Horizontal:
 
     TYA : LSR A : STA.b $66
     
-    JSR.w $CE2A ; $03CE2A IN ROM; Has to do with detecting areas around chests.
+    ; Has to do with detecting areas around chests.
+    JSR.w TileDetect_Movement_Horizontal
     
     LDA.b $1B : BNE .BRANCH_EPSILON
         BRL StartMovementCollisionChecks_Horizontal_HandleOutdoors
@@ -10563,8 +10834,11 @@ StartMovementCollisionChecks_Horizontal:
         LDA.l $7EF360 : CLC : ADC.w #$0005 : STA.l $7EF360
         
         ; Configure the address where the clearing of the rupee tile will occur.
-        LDA.b $20 : CLC : ADC.w $B9F7, Y : SEC : SBC.b $00 : STA.b $00
-        LDA.b $22 : CLC : ADC.w $B9FF, Y                   : STA.b $02
+        LDA.b $20
+        CLC : ADC.w RupeeTileOffset_y, Y : SEC : SBC.b $00 : STA.b $00
+
+        LDA.b $22
+        CLC : ADC.w RupeeTileOffset_x, Y                   : STA.b $02
         
         SEP #$20
         
@@ -10616,8 +10890,7 @@ StartMovementCollisionChecks_Horizontal:
     .BRANCH_SIN
 
     LDA.w $036E : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_DOD
-        ; $03C16D IN ROM
-        JSR.w $C16D : BCC .BRANCH_DOD
+        JSR.w RunLedgeHopTimer : BCC .BRANCH_DOD
             JSR.w Player_HaltDashAttack
             
             INC.w $047A
@@ -10732,7 +11005,7 @@ StartMovementCollisionChecks_Horizontal:
                 LDA.w $031F : BNE .BRANCH_KESRA
                     LDA.l $7EF35B : TAY
                     
-                    LDA.w $BA07, Y : STA.w $0373
+                    LDA.w SpikeDamageValues, Y : STA.w $0373
                     
                     JSR.w Player_HaltDashAttack
                     JSR.w Link_ForceUnequipCape_quietly
@@ -10769,17 +11042,15 @@ StartMovementCollisionChecks_Horizontal:
                         
                         SEP #$20
                         
-                        ; $03ED2C IN ROM
-                        JSR.w $ED2C : BCS .BRANCH_EPSILON2
+                        JSR.w FindFreeMovingBlockSlot : BCS .BRANCH_EPSILON2
                             STX.b $0E
                             
                             TYA : ASL A : TAX
                             
-                            ; $03ED3F IN ROM
-                            JSR.w $ED3F : BCS .BRANCH_EPSILON2
+                            JSR.w InitializePushBlock : BCS .BRANCH_EPSILON2
                                 LDA.b $0E : ASL A : TAY
                                 
-                                JSR.w $F0D9 ; $03F0D9 IN ROM
+                                JSR.w Underworld_DrawSinglePushBlock
                                 
                                 TYX
                                 
@@ -10840,8 +11111,8 @@ HandlePushingBonkingSnaps_Horizontal:
     LDA.b $0E : AND.b #$02 : BEQ .BRANCH_MU2
         LDA.b $0E : PHA
         
-        JSR.w $C1A1 ; $03C1A1 IN ROM
-        JSR.w $91F1 ; $0391F1 IN ROM
+        JSR.w Link_BonkAndSmash
+        JSR.w RepelDash
         
         PLA : STA.b $0E
 
@@ -10886,8 +11157,8 @@ HandlePushingBonkingSnaps_Horizontal:
                 
                 LDA.b $0E : AND.b #$02 : BNE .BRANCH_PHI2
                     LDA.b $20 : AND.b #$07 : BNE .BRANCH_CHI2
-                        JSR.w $C1A1 ; $03C1A1 IN ROM
-                        JSR.w $91F1 ; $0391F1 IN ROM
+                        JSR.w Link_BonkAndSmash
+                        JSR.w RepelDash
                         
                         BRA .BRANCH_PHI2
 
@@ -10912,15 +11183,15 @@ HandlePushingBonkingSnaps_Horizontal:
 
         .BRANCH_RHO2
 
-        JSR.w $C1A1 ; $03C1A1 IN ROM
-        JSR.w $91F1 ; $0391F1 IN ROM
+        JSR.w Link_BonkAndSmash
+        JSR.w RepelDash
         
         BRA .BRANCH_PHI2
 
         .BRANCH_CHI2
 
-        JSR.w $CBC9 ; $03CBC9 IN ROM
-        JMP.w $D485 ; $03D485 IN ROM
+        JSR.w AddAbsoluteScratchToYCoord
+        JMP.w HandleNudging
 
         .BRANCH_PHI2
 
@@ -11013,7 +11284,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
         LDA.w $0345 : BNE .BRANCH_ZETA
             LDA.b $4D : BNE .BRANCH_ZETA
                 JSR.w Player_HaltDashAttack
-                JSR.w $9D84 ; $039D84 IN ROM
+                JSR.w Link_ResetSwordAndItemUsage
                 
                 LDA.b #$01 : STA.w $0345
                 
@@ -11085,8 +11356,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
     .BRANCH_NU
 
     LDA.w $036E : AND.b #$07 : BEQ .BRANCH_XI
-        ; $03C16D IN ROM
-        JSR.w $C16D : BCC .BRANCH_XI
+        JSR.w RunLedgeHopTimer : BCC .BRANCH_XI
             LDA.b #$20 : JSR.w Player_DoSfx2
             
             LDX.b #$10
@@ -11123,18 +11393,18 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
             LDA.b $22 : PHA
             LDA.b $23 : PHA
             
-            JSR.w $8D2B ; $038D2B IN ROM
+            JSR.w Link_HoppingHorizontally_FindTile_Horizontal
             
             LDA.b #$01 : STA.b $66
             
             CPX.b #$FF : BEQ .BRANCH_RHO
-                JSR.w $8B9B ; $038B9B IN ROM
+                JSR.w Link_HoppingHorizontally_FindTile_Vertical
                 
                 BRL .BRANCH_SIGMA
 
             .BRANCH_RHO
 
-            JSR.w $8AD1 ; $038AD1 IN ROM 
+            JSR.w LinkHop_FindTileToLandOnSouth
 
             .BRANCH_SIGMA
 
@@ -11146,8 +11416,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
     .BRANCH_XI
 
     LDA.w $0370 : AND.b #$77 : BEQ .BRANCH_TAU
-        ; $03C16D IN ROM
-        JSR.w $C16D : BCC .BRANCH_TAU
+        JSR.w RunLedgeHopTimer : BCC .BRANCH_TAU
             LDA.b #$20 : JSR.w Player_DoSfx2
             
             LDX.b #$0F
@@ -11192,8 +11461,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
             LDA.w $0370 : AND.b #$77 : BNE .BRANCH_CHI
                 LDA.b $5D : CMP.b #$0D : BEQ .BRANCH_CHI
                 
-                ; $03C16D IN ROM
-                JSR.w $C16D : BCC .BRANCH_CHI
+                JSR.w RunLedgeHopTimer : BCC .BRANCH_CHI
                     LDA.b #$20 : JSR.w Player_DoSfx2
                     
                     JSR.w Player_HaltDashAttack
@@ -11210,8 +11478,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
     LDA.w $036F : AND.b #$07 : BEQ .BRANCH_PSI
         LDA.w $036E : AND.b #$07 : BNE .BRANCH_PSI
             LDA.w $0370 : AND.b #$77 : BNE .BRANCH_PSI
-                ; $03C16D IN ROM
-                JSR.w $C16D : BCC .BRANCH_PSI
+                JSR.w RunLedgeHopTimer : BCC .BRANCH_PSI
                     LDX.b #$10
                     
                     LDA.b $66 : AND.b #$01 : BNE .BRANCH_OMEGA
@@ -11278,7 +11545,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                 ; Use armor value to determine damage to be doled out.
                 LDA.l $7EF35B : TAY
                 
-                LDA.w $BA07, Y : STA.w $0373
+                LDA.w SpikeDamageValues, Y : STA.w $0373
                 
                 JSR.w Player_HaltDashAttack
                 
@@ -11541,7 +11808,7 @@ Link_HandleDiagonalKickback:
         
         .BRANCH_GAMMA
         
-        JSR.w $CE2A ; $03CE2A IN ROM
+        JSR.w TileDetect_Movement_Horizontal
         
         LDA.b $0C : AND.b #$05 : BEQ .BRANCH_DELTA
             JSR.w $E112 ; $03E112 IN ROM
@@ -11570,10 +11837,10 @@ Link_HandleDiagonalKickback:
             
             .BRANCH_ZETA
             
-            JSR.w $CDCB ; $03CDCB IN ROM
+            JSR.w TileDetect_Movement_Vertical
             
             LDA.b $0C : AND.b #$05 : BEQ .BRANCH_THETA
-                JSR.w $E076 ; $03E076 IN ROM
+                JSR.w FlagMovingIntoSlopes_Vertical
 
                 LDA.b $6B : AND.b #$0F : BEQ .BRANCH_THETA
                     
@@ -16838,7 +17105,7 @@ PushBlock_HandleCollision:
     
     SEP #$20
     
-    JSR.w $E8F0 ; $03E8F0 IN ROM
+    JSR.w HandleIndoorCameraAndDoors
     
     PLY
     
@@ -16863,7 +17130,7 @@ Underworld_DrawAllPushBlocks:
                 
                 PHX
                 
-                JSR.w $F0D9 ; $03F0D9 IN ROM
+                JSR.w Underworld_DrawSinglePushBlock
                 
                 PLX
             
@@ -17003,7 +17270,7 @@ Init_Player:
     STZ.b $55
     
     JSR.w Link_ForceUnequipCape_quietly ; More init...
-    JSR.w $9D84 ; $039D84 IN ROM
+    JSR.w Link_ResetSwordAndItemUsage
     
     STZ.w $037B
     STZ.w $0300
@@ -17102,7 +17369,7 @@ Link_ResetProperties_C:
     STZ.w $02DA
     STZ.b $55
     
-    JSR.w $9D84 ; $039D84 IN ROM
+    JSR.w Link_ResetSwordAndItemUsage
     
     STZ.w $037B
     STZ.w $0300
@@ -17237,7 +17504,7 @@ HandleLinkOnSpiralStairs:
     
     .BRANCH_DELTA
     
-    JSL.l $07E370 ; $03E370 IN ROM
+    JSL.l LinkHop_FindArbitraryLandingSpot
     JSL.l $07E704 ; $03E704 IN ROM
     
     LDA.w $0371 : BNE .BRANCH_ZETA
@@ -17362,7 +17629,7 @@ SpiralStairs_FindLandingSpot:
         
     .BRANCH_GAMMA
     
-    JSL.l $07E370 ; $03E370 IN ROM
+    JSL.l LinkHop_FindArbitraryLandingSpot
     JSL.l $07E704 ; $03E704 IN ROM
     
     LDA.b $22 : CMP.b $53 : BNE .BRANCH_DELTA
@@ -17428,7 +17695,7 @@ UNREACHABLE_07F3FD:
     
     STY.b $27
     
-    JSL.l $07E370 ; $03E370 in rom.
+    JSL.l LinkHop_FindArbitraryLandingSpot
     JSL.l $07E704 ; $03E704 in rom.
     
     PLB

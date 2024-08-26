@@ -2494,7 +2494,6 @@ AttackHitboxOffset_X:
     db $10, $15, $18, $1C, $17, $14, $07
 }
 
-
 ; Walking
 ; Charging dash
 ; Index 0 used for standing still
@@ -3228,7 +3227,7 @@ PlayerOam_Main:
                 
                 LDA.b $1A : AND.b #$18 : LSR #3 : TAX
                 
-                LDA.l $079635, X : STA.b $02
+                LDA.l LinkSwimming_anim_offset, X : STA.b $02
                 
                 BRL .PlayerOam_ContinueWithAnimation
 
@@ -3640,7 +3639,7 @@ PlayerOam_Main:
     
     LDA.b $01 : CLC : ADC PlayerOam_SwordOffsetY, Y : SEC : SBC.b $0B : STA.b $0B
     
-    LDA.b $00 : CLC : ADC PlayerOam_SwordOffsetX, Y : STA.b $0A : STA.b $08
+    LDA.b $00 : CLC : ADC PlayerOam_SwordOffsetX, Y       : STA.b $0A : STA.b $08
     
     LDA.w $0301 : AND.b #$02 : BEQ .not_hammer
         LDA.w $0300 : CMP.b #$02 : BNE .skip_hitbox
@@ -4388,15 +4387,16 @@ PlayerOam_SetWeaponVRAMOffsets:
     RTS
 }
 
-; TODO: Analyze.
 ; $06ABCA-06ABE7 DATA
 EquipmentVRAMOffsets:
 {
+    ; $06ABCA
     .shield_id
     db $00, $02, $04, $04, $04, $04, $04, $04
     db $09, $0C, $09, $0C, $0E, $0A, $08, $0D
     db $08, $0D
 
+    ; $06ABDC
     .rod_id
     db $01, $04, $01, $04, $06, $02, $00, $05
     db $00, $05
@@ -4454,148 +4454,160 @@ PlayerOam_SetEquipmentVRAMOffsets:
 ; $06AC45-06AC8C DATA
 PlayerOam_SwordSwingTipTile:
 {
+    ; $06AC45
     .up
-     dw $FFFF
-     dw $FFFF
-     dw $6A3E
-     dw $6A2F
-     dw $6A2F
-     dw $2A05
-     dw $2A2F
-     dw $2A3E
-     dw $FFFF
+    dw $FFFF
+    dw $FFFF
+    dw $6A3E
+    dw $6A2F
+    dw $6A2F
+    dw $2A05
+    dw $2A2F
+    dw $2A3E
+    dw $FFFF
 
+    ; $06AC57
     .down
-     dw $FFFF
-     dw $FFFF
-     dw $AA3E
-     dw $AA2F
-     dw $AA2F
-     dw $AA05
-     dw $EA2F
-     dw $EA3E
-     dw $FFFF
+    dw $FFFF
+    dw $FFFF
+    dw $AA3E
+    dw $AA2F
+    dw $AA2F
+    dw $AA05
+    dw $EA2F
+    dw $EA3E
+    dw $FFFF
 
+    ; $06AC69
     .left
-     dw $FFFF
-     dw $FFFF
-     dw $2A3E
-     dw $2A3F
-     dw $2A3F
-     dw $2A05
-     dw $AA3F
-     dw $AA3E
-     dw $FFFF
+    dw $FFFF
+    dw $FFFF
+    dw $2A3E
+    dw $2A3F
+    dw $2A3F
+    dw $2A05
+    dw $AA3F
+    dw $AA3E
+    dw $FFFF
 
+    ; $06AC7B
     .right
-     dw $FFFF
-     dw $FFFF
-     dw $6A3E
-     dw $6A3F
-     dw $6A3F
-     dw $6A05
-     dw $EA3F
-     dw $EA3E
-     dw $FFFF
+    dw $FFFF
+    dw $FFFF
+    dw $6A3E
+    dw $6A3F
+    dw $6A3F
+    dw $6A05
+    dw $EA3F
+    dw $EA3E
+    dw $FFFF
 }
 
 ; ==============================================================================
 
-; 06AC8D-06ACB0 DATA
+; $06AC8D-$06ACB0 DATA
 PlayerOam_SwordSwingTipOffsetY:
 {
+    ; $06AC8D
     .up
-     db $FF
-     db $FF
-     db $FB
-     db $F3
-     db $F1
-     db $EB
-     db $F3
-     db $FB
-     db $FF
+    db $FF
+    db $FF
+    db $FB
+    db $F3
+    db $F1
+    db $EB
+    db $F3
+    db $FB
+    db $FF
 
+    ; $06AC96
     .down
-     db $FF
-     db $FF
-     db $16
-     db $1B
-     db $1D
-     db $23
-     db $1B
-     db $18
-     db $FF
+    db $FF
+    db $FF
+    db $16
+    db $1B
+    db $1D
+    db $23
+    db $1B
+    db $18
+    db $FF
 
+    ; $06AC9F
     .left
-     db $FF
-     db $FF
-     db $FF
-     db $02
-     db $05
-     db $0C
-     db $14
-     db $1A
-     db $FF
+    db $FF
+    db $FF
+    db $FF
+    db $02
+    db $05
+    db $0C
+    db $14
+    db $1A
+    db $FF
 
+    ; $06ACA8
     .right
-     db $FF
-     db $FF
-     db $FF
-     db $02
-     db $05
-     db $0C
-     db $14
-     db $1A
-     db $FF
+    db $FF
+    db $FF
+    db $FF
+    db $02
+    db $05
+    db $0C
+    db $14
+    db $1A
+    db $FF
 }
 ; ==============================================================================
 
 ; $06ACB1-$06ACD4 DATA
 PlayerOam_SwordSwingTipOffsetX:
 {
+    ; $06ACB1
     .up
-     db $FF
-     db $FF
-     db $0F
-     db $0D
-     db $08
-     db $FF
-     db $F6
-     db $F2
-     db $FF
+    db $FF
+    db $FF
+    db $0F
+    db $0D
+    db $08
+    db $FF
+    db $F6
+    db $F2
+    db $FF
 
+    ; $06ACBA
     .down
-     db $FF
-     db $FF
-     db $FA
-     db $FD
-     db $01
-     db $08
-     db $10
-     db $15
-     db $FF
+    db $FF
+    db $FF
+    db $FA
+    db $FD
+    db $01
+    db $08
+    db $10
+    db $15
+    db $FF
 
+    ; $06ACC3
     .left
-     db $FF
-     db $FF
-     db $F5
-     db $F1
-     db $EE
-     db $E8
-     db $EF
-     db $F4
-     db $FF
+    db $FF
+    db $FF
+    db $F5
+    db $F1
+    db $EE
+    db $E8
+    db $EF
+    db $F4
+    db $FF
 
+    ; $06ACCC
     .right
-     db $FF
-     db $FF
-     db $13
-     db $17
-     db $1A
-     db $20
-     db $19
-     db $14
-     db $FF
+    db $FF
+    db $FF
+    db $13
+    db $17
+    db $1A
+    db $20
+    db $19
+    db $14
+    db $FF
 }
 
 ; $06ACD5-$06AD81 LOCAL JUMP LOCATION
@@ -4637,8 +4649,11 @@ PlayerOam_DrawSwordSwingTip:
                     
                     SEP #$20
                     
-                    LDA PlayerOam_SwordSwingTipOffsetY, Y : CLC : ADC.b $01 : STA.b $0B
-                    LDA PlayerOam_SwordSwingTipOffsetX, Y : CLC : ADC.b $00 : STA.b $0A
+                    LDA PlayerOam_SwordSwingTipOffsetY, Y
+                    CLC : ADC.b $01 : STA.b $0B
+
+                    LDA PlayerOam_SwordSwingTipOffsetX, Y
+                    CLC : ADC.b $00 : STA.b $0A
                     
                     LDA PlayerOam_SwordSwingTipOffsetY, Y : STA.b $44
                     LDA PlayerOam_SwordSwingTipOffsetX, Y : STA.b $45
@@ -4776,13 +4791,10 @@ PlayerOam_UnusedWeaponSettings:
 ; ==============================================================================
 
 ; $06AE38-$06AE3A DATA
-DungeonFallShadow:
+DungeonFallShadow_offset_x:
 {
-    .offset_x
     db $00, $00, $04
 }
-
-; ==============================================================================
 
 ; $06AE3B-$06AEC9 LOCAL JUMP LOCATION
 PlayerOam_DungeonFallShadow:
@@ -4919,7 +4931,7 @@ PlayerOam_DrawFootObject:
     ; ???? $72 apparently is assumed to be even at all times.
     LDX.b $72
     
-    LDA PlayerOam_ShadowBufferOffsetPointers, X : STA.b $74
+    LDA PlayerOam_ShadowBufferOffsetPointers+0, X : STA.b $74
     LDA PlayerOam_ShadowBufferOffsetPointers+1, X : STA.b $75
     
     LDY.b $04
@@ -5003,9 +5015,8 @@ PlayerOam_DrawFootObject:
 ; ==============================================================================
 
 ; $06AF9D-$06AFA5 DATA
-Pool_PlayerOam_Unused_0:
+Pool_PlayerOam_Unused_0_offsets:
 {
-    .offsets
     db $00, $00, $00, $01, $00, $01, $01, $01
     db $00
 }
@@ -5022,7 +5033,7 @@ PlayerOam_Unused_0:
 
     .alpha
 
-    LDA Pool_PlayerOam_Unused_0_offsets, X : CLC : ADC.b $01 : STA.b $01
+    LDA .offsets, X : CLC : ADC.b $01 : STA.b $01
     
     REP #$30
     
@@ -7499,14 +7510,14 @@ GetRandomInt:
 
 ; ==============================================================================
 
+; $06BA80-$06BB5A
 incsrc "sprite_oam_allocation.asm"
 
 ; ==============================================================================
 
 ; $06BB5B-$06BB5D DATA TABLE
-Pool_Sound_SetSfxPan:
+Sound_SetSfxPan_pan_options:
 {
-    .pan_options
     dw $00, $80, $40
 }
 
@@ -7644,9 +7655,8 @@ Sound_SetSfxPan:
 ; ==============================================================================
 
 ; $06BBC8-$06BBCF DATA
-Pool_Sound_GetFineSfxPan:
+Sound_GetFineSfxPan_settings:
 {
-    .settings
     db $80, $80, $80, $00, $00, $40, $40, $40
 }
 
@@ -7655,7 +7665,7 @@ Sound_GetFineSfxPan:
 {
     SEC : SBC.b $E2 : LSR #5 : PHX : TAX
     
-    LDA Pool_Sound_GetFineSfxPan_settings, X
+    LDA .settings, X
     
     PLX
     
@@ -7665,9 +7675,8 @@ Sound_GetFineSfxPan:
 ; ==============================================================================
 
 ; $06BBE0-$06BD1F DATA
-pool_Babusu_Draw:
+Babusu_Draw_oam_groups:
 {
-    .oam_groups
     dw  0,  4 : db $80, $43, $00, $00
     dw  0,  4 : db $80, $43, $00, $00
     
@@ -7729,8 +7738,6 @@ pool_Babusu_Draw:
     dw  0,  0 : db $6B, $CA, $00, $02   
 }
 
-; ==============================================================================
-
 ; $06BD20-$06BD45 LONG JUMP LOCATION
 Babusu_Draw:
 {
@@ -7762,9 +7769,8 @@ Babusu_Draw:
 ; ==============================================================================
 
 ; $06BD46-$06BE05 DATA
-pool_Wizzrobe_Draw:
+Wizzrobe_Draw_oam_groups:
 {
-    .oam_groups
     dw 0, -8 : db $B2, $00, $00, $00
     dw 8, -8 : db $B3, $00, $00, $00
     dw 0,  0 : db $88, $00, $00, $02
@@ -7798,14 +7804,12 @@ pool_Wizzrobe_Draw:
     dw 0,  0 : db $8E, $00, $00, $02
 }
 
-; ==============================================================================
-
 ; $06BE06-$06BE27 LONG JUMP LOCATION
 Wizzrobe_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$00   : XBA
+    LDA.b #$00 : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
     
     ASL A : ADC.b $00 : ADC.w #(.oam_groups) : STA.b $08
@@ -7822,9 +7826,8 @@ Wizzrobe_Draw:
 ; ==============================================================================
 
 ; $06BE28-$06BE67 DATA
-Pool_Wizzbeam_Draw:
+Wizzbeam_Draw_oam_groups:
 {
-    .oam_groups
     dw  0, -4 : db $C5, $00, $00, $00
     dw  0,  4 : db $C5, $80, $00, $00
     
@@ -7838,15 +7841,12 @@ Pool_Wizzbeam_Draw:
     dw  4,  0 : db $D2, $80, $00, $00
 }
 
-; ==============================================================================
-
 ; $06BE68-$06BE85 LONG JUMP LOCATION
 Wizzbeam_Draw:
 {
     PHB : PHK : PLB
     
     LDA.b #$00 : XBA
-    
     LDA.w $0DE0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
@@ -7912,16 +7912,14 @@ Pool_Freezor_Draw:
     dw 10, 8 : db $BE, $40, $00, $00
 }
 
-; ==============================================================================
-
 ; $06BFA6-$06BFD5 LONG JUMP LOCATION
 Freezor_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$00   : XBA
+    LDA.b #$00 : XBA
     LDA.w $0DC0, X : CMP.b #$07 : BEQ .use_normal_oam_groups
-        REP #$20 : ASL #5 : ADC.w #(.death_oam_groups) : STA.b $08
+        REP #$20 : ASL #5 : ADC.w #(Pool_Freezor_Draw_death_oam_groups) : STA.b $08
         
         SEP #$20
         
@@ -7939,7 +7937,7 @@ Freezor_Draw:
     
     REP #$20
     
-    LDA.w #(.normal_oam_group) : STA.b $08
+    LDA.w #(Pool_Freezor_Draw_normal_oam_group) : STA.b $08
     
     SEP #$20
     
@@ -7953,6 +7951,7 @@ Freezor_Draw:
 ; $06BFD6-$06C0A5 DATA
 Pool_Zazak_Draw:
 {
+    ; $06BFD6
     .oam_groups
     dw  0, -8 : db $08, $00, $00, $02
     dw -4,  0 : db $A0, $00, $00, $02
@@ -7986,9 +7985,11 @@ Pool_Zazak_Draw:
     dw  0,  0 : db $A8, $40, $00, $02
     dw  0,  0 : db $A8, $40, $00, $02
     
+    ; $06C096
     .chr_overrides
     db $82, $82, $80, $84, $88, $88, $86, $84
     
+    ; $06C09E
     .vh_flip_overrides
     db $40, $00, $00, $00, $40, $00, $00, $00
 }
@@ -8034,9 +8035,10 @@ Zazak_Draw:
 
 ; ==============================================================================
 
-; $06C0F3-$06C21B MIXED
+; $06C0F3-$06C216 DATA
 Pool_Stalfos_Draw:
 {
+    ; $06C0F3
     .oam_groups
     dw  0, -10 : db $00, $00, $00, $02
     dw  0,   0 : db $06, $00, $00, $02
@@ -8086,55 +8088,57 @@ Pool_Stalfos_Draw:
     dw  0,  -6 : db $04, $00, $00, $02
     dw  0,  -6 : db $04, $00, $00, $02
     
+    ; $06C213
     .head_chr
     db $02, $02, $00, $04
-    
-    .easy_out
-    
+}
+
+; $06C217-$06C21B DATA
+SpriteDontDraw_Stalfos:
+{
     JSL.l Sprite_PrepOamCoordLong
     
     RTL
 }
 
-; ==============================================================================
-
 ; $06C21C-$06C26D LONG JUMP LOCATION
 Stalfos_Draw:
 {
-    LDA.w $0E10, X : BNE .easy_out
-    PHB : PHK : PLB
-    
-    LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
-    
-    ADC.w #(.oam_groups) : STA.b $08
-    
-    SEP #$20
-    
-    LDA.b #$03 : JSL.l Sprite_DrawMultiple
-    
-    LDA.w $0DC0, X : CMP.b #$08 : BCS .no_head_override
-        LDA.w $0F00, X : BNE .no_head_override
-            PHX
-            
-            LDA.w $0EB0, X : TAX
-            
-            LDA.w .head_chr, X : LDY.b #$02 : STA ($90), Y
-            
-            INY
-            
-            LDA ($90), Y : AND.b #$8F : ORA .head_properties, X : STA ($90), Y
-            
-            PLX
-    
-    .no_head_override
-    
-    JSL.l Sprite_DrawShadowLong
+    LDA.w $0E10, X : BNE SpriteDontDraw_Stalfos
+        PHB : PHK : PLB
         
-    PLB
+        LDA.b #$00 : XBA
+        LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
         
-    RTL
+        ADC.w #(Pool_Stalfos_Draw_oam_groups) : STA.b $08
+        
+        SEP #$20
+        
+        LDA.b #$03 : JSL.l Sprite_DrawMultiple
+        
+        LDA.w $0DC0, X : CMP.b #$08 : BCS .no_head_override
+            LDA.w $0F00, X : BNE .no_head_override
+                PHX
+                
+                LDA.w $0EB0, X : TAX
+                
+                LDA.w Pool_Stalfos_Draw_head_chr, X : LDY.b #$02 : STA ($90), Y
+                
+                INY
+                
+                LDA ($90), Y : AND.b #$8F : ORA .head_properties, X : STA ($90), Y
+                
+                PLX
+        
+        .no_head_override
+        
+        JSL.l Sprite_DrawShadowLong
+            
+        PLB
+            
+        RTL
     
+    ; $06C26A
     .head_properties
     db $70, $30, $30, $30
 }
@@ -8199,12 +8203,25 @@ Probe_CheckTileSolidity:
 
 ; ==============================================================================
 
+; $06C2D1-$06C4A4
 incsrc "sprite_human_multi_1.asm"
+
+; $06C4A5-$06C50A
 incsrc "sprite_sweeping_lady.asm"
+
+; $06C50B-$06C6DD
 incsrc "sprite_lumberjacks.asm"
+
+; $06C6DE-$06C759
 incsrc "sprite_unused_telepath.asm"
+
+; $06C75A-$06CB53
 incsrc "sprite_fortune_teller.asm"
+
+; $06CB54-$06CBE9
 incsrc "sprite_maze_game_lady.asm"
+
+; $06CBEA-$06CDCE
 incsrc "sprite_maze_game_guy.asm"
 
 ; ==============================================================================
@@ -8212,6 +8229,7 @@ incsrc "sprite_maze_game_guy.asm"
 ; $06CDCF-$06CE5E DATA
 Pool_CrystalMaiden_Draw:
 {
+    ; $06CDCF
     .oam_groups
     dw 1, -7 : db $20, $01, $00, $02
     dw 1,  3 : db $22, $01, $00, $02
@@ -8237,6 +8255,7 @@ Pool_CrystalMaiden_Draw:
     dw 1, -7 : db $20, $41, $00, $02
     dw 1,  3 : db $22, $41, $00, $02
     
+    ; $06CE4F
     .vram_source_indices
     db $20, $C0
     db $20, $C0
@@ -8248,8 +8267,6 @@ Pool_CrystalMaiden_Draw:
     db $40, $60
 }
 
-; ==============================================================================
-
 ; $06CE5F-$06CE90 LONG JUMP LOCATION
 CrystalMaiden_Draw:
 {
@@ -8260,14 +8277,14 @@ CrystalMaiden_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
     
-    LDA.w .vram_source_indices + 0, Y : STA.w $0AE8
-    LDA.w .vram_source_indices + 1, Y : STA.w $0AEA
+    LDA.w Pool_CrystalMaiden_Draw_vram_source_indices + 0, Y : STA.w $0AE8
+    LDA.w Pool_CrystalMaiden_Draw_vram_source_indices + 1, Y : STA.w $0AEA
     
     ; Crystal maidens?
     TYA : ASL #3
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(Pool_CrystalMaiden_Draw_oam_groups >> 0)              : STA.b $08
+    LDA.b #(Pool_CrystalMaiden_Draw_oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     
@@ -8279,9 +8296,8 @@ CrystalMaiden_Draw:
 ; ==============================================================================
 
 ; $06CE91-$06CF30 DATA
-Pool_Priest_Draw:
+Pool_Priest_Draw_oam_groups:
 {
-    .oam_groups
     dw  0, -8 : db $20, $0E, $00, $02
     dw  0,  0 : db $26, $0E, $00, $02
     
@@ -8313,8 +8329,6 @@ Pool_Priest_Draw:
     dw  3,  3 : db $0C, $0E, $00, $02
 }
 
-; ==============================================================================
-
 ; Called by two routines.
 ; $06CF31-$06CF58 LONG JUMP LOCATION
 Priest_Draw:
@@ -8340,9 +8354,8 @@ Priest_Draw:
 ; ==============================================================================
 
 ; $06CF59-$06CFD8 DATA
-Pool_FluteBoy_Draw:
+Pool_FluteBoy_Draw_oam_groups:
 {
-    .oam_groups
     dw -1,  -1 : db $BE, $0A, $00, $00
     dw  0,   0 : db $AA, $0A, $00, $02
     dw  0, -10 : db $A8, $0A, $00, $02
@@ -8363,8 +8376,6 @@ Pool_FluteBoy_Draw:
     dw  0, -10 : db $A8, $0A, $00, $02
     dw  0,   0 : db $AA, $0A, $00, $02
 }
-
-; ==============================================================================
 
 ; $06CFD9-$06CFFF LONG JUMP LOCATION
 FluteBoy_Draw:
@@ -8388,7 +8399,7 @@ FluteBoy_Draw:
 ; ==============================================================================
 
 ; $06D000-$06D03F DATA
-Pool_FluteAardvark_Draw:
+FluteAardvark_Draw_oam_groups:
 {
     db 0, -10, $E6, $06, $00, $02
     db 0,  -8, $C8, $06, $00, $02
@@ -8403,8 +8414,6 @@ Pool_FluteAardvark_Draw:
     db 0,  -8, $DC, $00, $00, $02
 }
 
-; ==============================================================================
-
 ; $06D040-$06D05F LONG JUMP LOCATION
 FluteAardvark_Draw:
 {
@@ -8415,8 +8424,8 @@ FluteAardvark_Draw:
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #$00              : STA.b $08
-    LDA.b #$D0 : ADC.b #$00 : STA.b $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam-groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     
@@ -8428,9 +8437,8 @@ FluteAardvark_Draw:
 ; ==============================================================================
 
 ; $06D060-$06D11F DATA
-Pool_DustCloud_Draw:
+DustCloud_Draw_oam_groups:
 {
-    .oam_groups
     db  0, -3 : db $8B, $00, $00, $00
     db  3,  0 : db $9B, $00, $00, $00
     db -3,  0 : db $8B, $C0, $00, $00
@@ -8462,8 +8470,6 @@ Pool_DustCloud_Draw:
     db  0,  7 : db $86, $40, $00, $02
 }
 
-; ==============================================================================
-
 ; $06D120-$06D141 LONG JUMP LOCATION
 DustCloud_Draw:
 {
@@ -8487,9 +8493,8 @@ DustCloud_Draw:
 ; ==============================================================================
 
 ; $06D142-$06D1E1 DATA
-Pool_MedallionTablet_Draw:
+MedallionTablet_Draw_oam_groups:
 {
-    .oam_groups
     dw -8, -16 : $8C, $00, $00, $02
     dw  8, -16 : $8C, $40, $00, $02
     dw -8,   0 : $AC, $00, $00, $02
@@ -8516,8 +8521,6 @@ Pool_MedallionTablet_Draw:
     dw  8,   0 : $AA, $40, $00, $02
 }
 
-; ==============================================================================
-
 ; $06D1E2-$06D202 LONG JUMP LOCATION
 MedallionTablet_Draw:
 {
@@ -8525,9 +8528,8 @@ MedallionTablet_Draw:
     
     LDA.w $0DC0, X : ASL #5
     
-    ; $6D142
-    ADC.b #$42              : STA.b $08
-    LDA.b #$D1 : ADC.b #$00 : STA.b $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$04 : STA.b $06
                  STZ.b $07
@@ -8544,6 +8546,7 @@ MedallionTablet_Draw:
 ; $06D203-$06D390 DATA
 Pool_Uncle_Draw:
 {
+    ; $06D203
     .oam_groups
     dw   0, -10 : db $00, $0E, $00, $02
     dw   0,   0 : db $06, $0C, $00, $02
@@ -8594,14 +8597,14 @@ Pool_Uncle_Draw:
     dw  -8, -19 : db $20, $0C, $00, $02
     dw   8, -19 : db $20, $4C, $00, $02
     
+    ; $06D383
     .source_for_vram_1
     db $08, $08, $00, $00, $06, $06, $00
     
+    ; $06D38A
     .source_for_vram_2
     db $00, $00, $00, $00, $04, $04, $00
 }
-
-; ==============================================================================
 
 ; $06D391-$06D3EA LONG JUMP LOCATION
 Uncle_Draw:
@@ -8638,7 +8641,7 @@ Uncle_Draw:
     JSL.l Sprite_DrawMultiple_quantity_preset
     
     LDA.w $0DE0, X : BEQ .skip_shadow
-    CMP.b #$03   : BEQ .skip_shadow
+    CMP.b #$03 : BEQ .skip_shadow
         JSL.l Sprite_DrawShadowLong
     
     .skip_shadow
@@ -8651,9 +8654,8 @@ Uncle_Draw:
 ; ==============================================================================
 
 ; $06D3EB-$06D47A DATA
-Pool_BugKidNet_Draw:
+BugKidNet_Draw_oam_groups:
 {
-    .oam_groups
     dw  4,  0 : db $27, $00, $00, $00
     dw  0, -5 : db $0E, $00, $00, $02
     dw -8,  6 : db $0A, $04, $00, $02
@@ -8676,8 +8678,6 @@ Pool_BugKidNet_Draw:
     dw  8, 14 : db $0A, $C4, $00, $02
 }
 
-; ==============================================================================
-
 ; $06D47B-$06D49E LONG JUMP LOCATION
 BugNetKid_Draw:
 {
@@ -8689,7 +8689,6 @@ BugNetKid_Draw:
     ; Multiples of 0x30.
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ; $02D3EB
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
@@ -8724,9 +8723,8 @@ Sprite5_CheckIfActive:
 ; ==============================================================================
 
 ; $06D4BC-$06D56B DATA
-Pool_Bomber_Draw:
+Bomber_Draw_oam_groups:
 {
-    .oam_groups
     dw  0, 0 : db $C6, $40, $00, $02
     dw  0, 0 : db $C6, $40, $00, $02
     
@@ -8761,8 +8759,6 @@ Pool_Bomber_Draw:
     dw  0, 0 : db $E6, $00, $00, $02
 }
 
-; ==============================================================================
-
 ; $06D56C-$06D58D LONG JUMP LOCATION
 Bomber_Draw:
 {
@@ -8786,9 +8782,8 @@ Bomber_Draw:
 ; ==============================================================================
 
 ; $06D58E-$06D605 DATA
-Pool_BomberPellet_DrawExplosion:
+BomberPellet_DrawExplosion_oam_groups:
 {
-    .oam_groups
     dw -11,   0 : db $9B, $01, $00, $00
     dw   0,  -8 : db $9B, $C1, $00, $00
     dw   6,   6 : db $9B, $41, $00, $00
@@ -8809,8 +8804,6 @@ Pool_BomberPellet_DrawExplosion:
     dw  -4,  -4 : db $AA, $01, $00, $02
     dw  -4,  -4 : db $AA, $01, $00, $02
    }
-
-; ==============================================================================
 
 ; $06D606-$06D630 LONG JUMP LOCATION
 BomberPellet_DrawExplosion:
@@ -8861,34 +8854,33 @@ GoodBee_AttackOtherSprite:
         LDA.w $0FDA : SEC : SBC.b $02 : CLC : ADC.w #$FFF8
         
         CMP.w #$0018 : BCS .sprite_not_close
-        
-        SEP #$20
-        
-        LDA.w $0E20, Y : CMP.b #$75 : BNE .not_bottle_vendor
-            TXA : INC A : STA.w $0E90, Y
+            SEP #$20
             
-            RTL
-        
-        .not_bottle_vendor
-        
-        ; Damage class of the attack is same as that of the level 1 sword.
-        LDA.b #$01
-        
-        PHY : PHX
-        
-        TYX
-        
-        JSL.l Ancilla_CheckSpriteDamage_preset_class
-        
-        PLX : PLY
-        
-        LDA.b #$0F : STA.w $0EA0, Y
-        
-        LDA.w $0D50, X : ASL A : STA.w $0F40, Y
-        
-        LDA.w $0D40, X : ASL A : STA.w $0F30, Y
-        
-        INC.w $0DA0, X
+            LDA.w $0E20, Y : CMP.b #$75 : BNE .not_bottle_vendor
+                TXA : INC A : STA.w $0E90, Y
+                
+                RTL
+            
+            .not_bottle_vendor
+            
+            ; Damage class of the attack is same as that of the level 1 sword.
+            LDA.b #$01
+            
+            PHY : PHX
+            
+            TYX
+            
+            JSL.l Ancilla_CheckSpriteDamage_preset_class
+            
+            PLX : PLY
+            
+            LDA.b #$0F : STA.w $0EA0, Y
+            
+            LDA.w $0D50, X : ASL A : STA.w $0F40, Y
+            
+            LDA.w $0D40, X : ASL A : STA.w $0F30, Y
+            
+            INC.w $0DA0, X
     
     .sprite_not_close
     .is_a_boss
@@ -8901,9 +8893,8 @@ GoodBee_AttackOtherSprite:
 ; ==============================================================================
 
 ; $06D6A6-$06D6E5 DATA
-Pool_Pikit_Draw:
+Pool_Pikit_Draw_oam_groups:
 {
-    .oam_groups
     dw  0, 0 : db $C8, $00, $00, $02
     dw  0, 0 : db $C8, $00, $00, $02
     
@@ -8916,8 +8907,6 @@ Pool_Pikit_Draw:
     dw -8, 0 : db $CE, $00, $00, $02
     dw  8, 0 : db $CE, $40, $00, $02
 }
-
-; ==============================================================================
 
 ; $06D6E6-$06D738 LONG JUMP LOCATION
 Pikit_Draw:
@@ -8957,15 +8946,20 @@ Pikit_Draw:
 
 ; ==============================================================================
 
-; $06D739-$06D749 BRANCH LOCATION
+; $06D739-$06D739 BRANCH LOCATION
+Pikit_DrawTongue_easy_out
+{
+    RTS
+}
+    
+; $06D73A-$06D749
 Pool_Pikit_DrawTongue:
 {
-    .easy_out
-    RTS
-    
+    ; $06D73A
     .chr
     db $EE, $FD, $ED, $FD, $EE, $FD, $ED, $FD
     
+    ; $06D742
     .vh_flip
     db $00, $00, $00, $40, $40, $C0, $80, $80
 }
@@ -9015,7 +9009,7 @@ Pikit_DrawTongue:
             
             .next_subsprite
             
-                LDA.b $0C           : STA.w SNES.MultiplicandA
+                LDA.b $0C             : STA.w SNES.MultiplicandA
                 LDA.w .multipliers, X : STA.w SNES.MultiplierB
                 
                 ; Burn a few cycles...
@@ -9030,7 +9024,7 @@ Pikit_DrawTongue:
                 
                 CLC : ADC.b $00 : STA ($90), Y
                 
-                LDA.b $0D           : STA.w SNES.MultiplicandA
+                LDA.b $0D             : STA.w SNES.MultiplicandA
                 LDA.w .multipliers, X : STA.w SNES.MultiplierB
                 
                 JSR.w Pikit_MultiplicationDelay
@@ -9050,11 +9044,11 @@ Pikit_DrawTongue:
                 
                 LDX.b $0B
                 
-                LDA.w .chr, X : INY : STA ($90), Y
+                LDA.w Pool_Pikit_DrawTongue_chr, X : INY : STA ($90), Y
                 
                 INY
                 
-                LDA.w .vh_flip, X : ORA.b $05 : STA ($90), Y
+                LDA.w Pool_Pikit_DrawTongue_vh_flip, X : ORA.b $05 : STA ($90), Y
                 
                 PLX
                 
@@ -9070,10 +9064,9 @@ Pikit_DrawTongue:
             
             RTS
     
-    .multipliers
-    
     ; Multiples of 51.... okay then... 51 = 1/5 of 255, mind you.
     ; Don't yet know the significance, however.
+    .multipliers
     db $33, $66, $99, $CC        
 }
 
@@ -9093,31 +9086,33 @@ Pikit_MultiplicationDelay:
 ; $06D817-$06D857 DATA
 Pool_Pikit_DrawGrabbedItem:
 {
+    ; $06D817
     .x_offsets
     db -4,  4, -4,  4,  0,  8,  0,  8
     db  0,  8,  0,  8,  0,  8,  0,  8
     db -4,  4, -4,  4
     
+    ; $06D82B
     .y_offsets
     db -4, -4,  4,  4, -4, -4,  4,  4
     db -4, -4,  4,  4, -4, -4,  4,  4
     db -4, -4,  4,  4    
     
+    ; $06D83F
     .chr
     db $6E, $6F, $7E, $7F, $63, $7C, $73, $7C
     db $0B, $7C, $1B, $7C, $EC, $F9, $FC, $F9
     db $EA, $EB, $FA, $FB
     
+    ; $06D853
     .properties
     db $24, $24, $28, $29, $2F
 }
 
-; ==============================================================================
-
 ; $06D858-$06D8AE LOCAL JUMP LOCATION
 Pikit_DrawGrabbedItem:
 {
-    LDA.w $0ED0, X       : BEQ .return
+    LDA.w $0ED0, X : BEQ .return
         DEC A : CMP.b #$03 : BNE .not_shield
             ; Indicates the shield level, which should be 1 or 2, resulting in
             ; a final value here of 3 or 4.
@@ -9141,10 +9136,10 @@ Pikit_DrawGrabbedItem:
             
             LDA.b $02 : ASL #2 : ORA.b $03 : TAX
             
-            LDA.w $0FB5 : CLC : ADC .x_offsets, X       : STA ($90), Y
-            LDA.w $0FB6 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
-            LDA.w .chr, X                           : INY : STA ($90), Y
-            LDX.b $02 : LDA.w .properties, X        : INY : STA ($90), Y
+            LDA.w $0FB5 : CLC : ADC Pool_Pikit_DrawGrabbedItem_x_offsets, X       : STA ($90), Y
+            LDA.w $0FB6 : CLC : ADC Pool_Pikit_DrawGrabbedItem_y_offsets, X : INY : STA ($90), Y
+            LDA.w Pool_Pikit_DrawGrabbedItem_chr, X                         : INY : STA ($90), Y
+            LDX.b $02 : LDA.w Pool_Pikit_DrawGrabbedItem_properties, X      : INY : STA ($90), Y
             
             INY
         LDX.b $03 : DEX : BPL .next_subsprite
@@ -9166,6 +9161,7 @@ Pikit_DrawGrabbedItem:
 ; $06D8AF-$06D98E DATA
 Pool_Kholdstare_Draw:
 {
+    ; $06D8AF
     .oam_groups
     dw -8, -8 : db $80, $00, $00, $02
     dw  8, -8 : db $82, $00, $00, $02
@@ -9187,24 +9183,26 @@ Pool_Kholdstare_Draw:
     dw -8,  8 : db $A4, $00, $00, $02
     dw  8,  8 : db $A6, $00, $00, $02
     
+    ; $06D92F
     .x_offsets
     dw  8,  7,  4,  2,  0, -2, -4, -7
     dw -8, -7, -4, -2,  0,  2,  4,  7
     
+    ; $06D94F
     .y_offsets
     dw  0,  2,  4,  7,  8,  7,  4,  2
     dw  0, -2, -4, -7, -8, -7, -4, -2
     
+    ; $06D96F
     .chr
     db $AC, $AC, $AA, $8C, $8C, $8C, $AA, $AC
     db $AC, $AA, $AA, $8C, $8C, $8C, $AA, $AC
     
+    ; $06D97F
     .vh_flip
     db $40, $40, $40, $00, $00, $00, $00, $00
     db $80, $80, $80, $80, $80, $80, $C0, $C0
 }
-
-; ==============================================================================
 
 ; $06D98F-$06DA05 LONG JUMP LOCATION
 Kholdstare_Draw:
@@ -9218,10 +9216,10 @@ Kholdstare_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC Pool_Kholdstare_Draw_x_offsets, X : STA ($90), Y
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC Pool_Kholdstare_Draw_y_offsets, X : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA ($90), Y
@@ -9230,8 +9228,8 @@ Kholdstare_Draw:
         
         PLX
         
-        LDA.w .chr, X                 : INY : STA ($90), Y
-        LDA.w .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
+        LDA.w Pool_Kholdstare_Draw_chr, X                 : INY : STA ($90), Y
+        LDA.w Pool_Kholdstare_Draw_vh_flip, X : ORA.b $05 : INY : STA ($90), Y
         
         TYA : LSR #2 : TAY
         
@@ -9241,7 +9239,7 @@ Kholdstare_Draw:
         
         LDA.b #$00 : XBA
         
-        LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA.b $08
+        LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(Pool_Kholdstare_Draw_oam_groups) : STA.b $08
         
         LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
         
@@ -9318,6 +9316,7 @@ Sprite_SpawnFireball:
 ; $06DA79-$06DAC3 DATA
 Pool_ArcheryGameGuy_Draw:
 {
+    ; $06DA79
     .x_offsets
     db $00, $00, $00
     db $00, $00, $FB
@@ -9325,6 +9324,7 @@ Pool_ArcheryGameGuy_Draw:
     db $00, $00, $00
     db $00, $01, $01
     
+    ; $06DA88
     .y_offsets
     db $00, $F6, $F6
     db $00, $F6, $FD
@@ -9332,6 +9332,7 @@ Pool_ArcheryGameGuy_Draw:
     db $00, $F6, $F6
     db $00, $F6, $F6
     
+    ; $06DA97
     .chr
     db $26, $06, $06
     db $08, $06, $3A
@@ -9339,6 +9340,7 @@ Pool_ArcheryGameGuy_Draw:
     db $26, $06, $06
     db $26, $06, $06
     
+    ; $06DAA6
     .properties
     db $08, $06, $06
     db $08, $06, $08
@@ -9346,6 +9348,7 @@ Pool_ArcheryGameGuy_Draw:
     db $08, $06, $06
     db $08, $06, $06
     
+    ; $06DAB5
     .size_bits
     db $02, $02, $02
     db $02, $02, $00
@@ -9353,8 +9356,6 @@ Pool_ArcheryGameGuy_Draw:
     db $02, $02, $02
     db $02, $02, $02
 }
-
-; ==============================================================================
 
 ; $06DAC4-$06DB16 LONG JUMP LOCATION
 ArcheryGameGuy_Draw:
@@ -9374,14 +9375,14 @@ ArcheryGameGuy_Draw:
     
         PHX : TXA : CLC : ADC.b $06 : TAX
         
-        LDA.b $00 : CLC : ADC .x_offsets, X        : STA ($90), Y
-        LDA.b $02 : CLC : ADC .y_offsets, X  : INY : STA ($90), Y
-        LDA.w .chr, X                          : INY : STA ($90), Y
-        LDA.b $05       : ORA .properties, X : INY : STA ($90), Y
+        LDA.b $00 : CLC : ADC Pool_ArcheryGameGuy_Draw_x_offsets, X : STA ($90), Y
+        LDA.b $02 : CLC : ADC Pool_ArcheryGameGuy_y_offsets, X      : INY : STA ($90), Y
+        LDA.w Pool_ArcheryGameGuy_chr, X                            : INY : STA ($90), Y
+        LDA.b $05       : ORA Pool_ArcheryGameGuy_properties, X     : INY : STA ($90), Y
         
         PHY : TYA : LSR #2 : TAY
         
-        LDA.w .size_bits, X : STA ($92), Y
+        LDA.w Pool_ArcheryGameGuy_size_bits, X : STA ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_subsprite
@@ -9481,31 +9482,28 @@ HUD_RefreshIconLong:
 HUD_RefillLogic:
 {
     ; Check the refill magic indicator.
-    LDA.l $7EF373
-
-    BEQ .doneWithMagicRefill
-
-    ; Check the current magic power level we have.
-    ; Is it full?
-    LDA.l $7EF36E : CMP.b #$80 : BCC .magicNotFull
-        ; If it is full, freeze it at 128 magic pts.
-        ; And stop this refilling nonsense.
-        LDA.b #$80 : STA.l $7EF36E
-        LDA.b #$00 : STA.l $7EF373
+    LDA.l $7EF373 :  BEQ .doneWithMagicRefill
+        ; Check the current magic power level we have.
+        ; Is it full?
+        LDA.l $7EF36E : CMP.b #$80 : BCC .magicNotFull
+            ; If it is full, freeze it at 128 magic pts.
+            ; And stop this refilling nonsense.
+            LDA.b #$80 : STA.l $7EF36E
+            LDA.b #$00 : STA.l $7EF373
+            
+            BRA .doneWithMagicRefill
         
-        BRA .doneWithMagicRefill
-    
-    .magicNotFull
-    
-    LDA.l $7EF373 : DEC A : STA.l $7EF373
-    LDA.l $7EF36E : INC A : STA.l $7EF36E
-    
-    ; If((frame_counter % 4) != 0) don't refill this frame.
-    LDA.b $1A : AND.b #$03 : BNE .doneWithMagicRefill
-        ; Is this sound channel in use?
-        LDA.w $012E : BNE .doneWithMagicRefill
-            ; Play the magic refill sound effect.
-            LDA.b #$2D : STA.w $012E
+        .magicNotFull
+        
+        LDA.l $7EF373 : DEC A : STA.l $7EF373
+        LDA.l $7EF36E : INC A : STA.l $7EF36E
+        
+        ; If((frame_counter % 4) != 0) don't refill this frame.
+        LDA.b $1A : AND.b #$03 : BNE .doneWithMagicRefill
+            ; Is this sound channel in use?
+            LDA.w $012E : BNE .doneWithMagicRefill
+                ; Play the magic refill sound effect.
+                LDA.b #$2D : STA.w $012E
     
     .doneWithMagicRefill
     
@@ -9517,9 +9515,7 @@ HUD_RefillLogic:
     ; 100, but it takes a while for the current rupees indicator to catch up.
     ; When you get a gift of 300 rupees, the goal increases, and current has to
     ; catch up in the other direction.
-    LDA.l $7EF362
-    
-    CMP.l $7EF360 : BEQ .doneWithRupeesRefill
+    LDA.l $7EF362 : CMP.l $7EF360 : BEQ .doneWithRupeesRefill
         BMI .addRupees
             DEC A : BPL .subtractRupees
                 LDA.w #$0000 : STA.l $7EF360
@@ -9944,8 +9940,8 @@ Equipment_ChooseNextMode:
 
         ; Loop.
     ORA.l $7EF341, X : DEX : BPL .haveAnyEquippable
-        CMP.b #$00 : BEQ .haveNone
-        
+
+    CMP.b #$00 : BEQ .haveNone
         ; Tell NMI to update BG3 tilemap next from by writing to address $6800
         ; (word) in vram.
         LDA.b #$01 : STA.b $17
@@ -10229,7 +10225,7 @@ Equipment_UpdateHUD:
     ; item to use during actual gameplay. (Y button items, btw).
     LDX.w $0202 
     
-    LDA.l $0DFA15, X : STA.w $0303
+    LDA.l MenuID_to_EquipID, X : STA.w $0303
     
     RTS
 }
@@ -10526,14 +10522,14 @@ Equipment_UpdateBottleMenu:
     
     .erase
     
-        STA.w $132C, X : A.w $136C6C, X
-        STA.w $13AC, X : A.w $13ECEC, X
-        STA.w $142C, X : A.w $146C6C, X
-        STA.w $14AC, X : A.w $14ECEC, X
-        STA.w $152C, X : A.w $156C6C, X
-        STA.w $15AC, X : A.w $15ECEC, X
-        STA.w $162C, X : A.w $166C6C, X
-        STA.w $16AC, X : A.w $16ECEC, X
+        STA.w $132C, X : STA.w $136C, X
+        STA.w $13AC, X : STA.w $13EC, X
+        STA.w $142C, X : STA.w $146C, X
+        STA.w $14AC, X : STA.w $14EC, X
+        STA.w $152C, X : STA.w $156C, X
+        STA.w $15AC, X : STA.w $15EC, X
+        STA.w $162C, X : STA.w $166C, X
+        STA.w $16AC, X : STA.w $16EC, X
         STA.w $172C, X 
         
         INX #2
@@ -10543,26 +10539,22 @@ Equipment_UpdateBottleMenu:
     ; blanks).
     LDA.w #$1372 :                 STA.b $00
     LDA.l $7EF35C : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_bottles  : STA.b $04
-    
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     LDA.w #$1472 :                 STA.b $00
     LDA.l $7EF35D : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_bottles  : STA.b $04
-    
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     LDA.w #$1572 :                 STA.b $00
     LDA.l $7EF35E : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_bottles  : STA.b $04
-    
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     LDA.w #$1672 :                 STA.b $00
     LDA.l $7EF35F : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_bottles  : STA.b $04
-    
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     LDA.w #$1408 : STA.b $00
@@ -10579,19 +10571,17 @@ Equipment_UpdateBottleMenu:
     .drawEquippedBottle
     
     STA.b $02
-    
-    LDA.w ItemMenuIcons_bottles : STA.b $04
-    
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
     LDY.w ItemMenu_CursorPositions, X
     
-    LDA.w $0000, Y : A.w $11B2B2
-    LDA.w $0002, Y : A.w $11B4B4
-    LDA.w $0040, Y : A.w $11F2F2
-    LDA.w $0042, Y : A.w $11F4F4
+    LDA.w $0000, Y : STA.w $11B2
+    LDA.w $0002, Y : STA.w $11B4
+    LDA.w $0040, Y : STA.w $11F2
+    LDA.w $0042, Y : STA.w $11F4
     
     LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
     
@@ -10715,10 +10705,11 @@ Equipment_DrawItem:
 {
     LDA.b $02 : ASL #3 : TAY
     
-    LDX.b $00 : LDA ($04), Y : STA.w $0000, X
-    INY #2 :    LDA ($04), Y : STA.w $0002, X 
-    INY #2 :    LDA ($04), Y : STA.w $0040, X 
-    INY #2 :    LDA ($04), Y : STA.w $0042, X
+    LDX.b $00
+             LDA ($04), Y : STA.w $0000, X
+    INY #2 : LDA ($04), Y : STA.w $0002, X 
+    INY #2 : LDA ($04), Y : STA.w $0040, X 
+    INY #2 : LDA ($04), Y : STA.w $0042, X
     
     RTS
 } 
@@ -10753,7 +10744,7 @@ Equipment_SearchForEquippedItem:
     
     CMP.b #$00 : BNE .equippableItemAvailable
         ; In this case we have no equippable items.
-        STZ.w $0202 : Z.w $020303 Z.w $02040204
+        STZ.w $0202 : STZ.w $0203 STZ.w $0204
         
         .weHaveThatItem
         
@@ -10817,8 +10808,8 @@ Equipment_DrawYButtonItems:
     
     .drawVerticalEdges
     
-        LDA.w #$3CFC : AND.b $00 : STA.w $1182, X
-        ORA.w #$4000 : STA.w $11A6, X
+        LDA.w #$3CFC : AND.b $00    : STA.w $1182, X
+                       ORA.w #$4000 : STA.w $11A6, X
         
         TXA : CLC : ADC.w #$0040 : TAX
     DEY : BPL .drawVerticalEdges
@@ -10829,7 +10820,7 @@ Equipment_DrawYButtonItems:
     .drawHorizontalEdges
     
         LDA.w #$3CF9 : AND.b $00 : STA.w $1144, X
-        ORA.w #$8000 : STA.w $14C4, X
+        ORA.w #$8000             : STA.w $14C4, X
         
         INX #2
     DEY : BPL .drawHorizontalEdges
@@ -10861,19 +10852,19 @@ Equipment_DrawYButtonItems:
     ; Draw Bow and Arrow.
     LDA.w #$11C8                 : STA.b $00
     LDA.l $7EF340 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_bows     : STA.b $04
+    LDA.w #ItemMenuIcons_bows    : STA.b $04
     JSR.w DrawItem
     
     ; Draw Boomerang.
     LDA.w #$11CE                 : STA.b $00
     LDA.l $7EF341 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_booms    : STA.b $04
+    LDA.w #ItemMenuIcons_booms   : STA.b $04
     JSR.w DrawItem
     
     ; Draw Hookshot.
     LDA.w #$11D4                 : STA.b $00
     LDA.l $7EF342 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_hook     : STA.b $04
+    LDA.w #ItemMenuIcons_hook    : STA.b $04
     JSR.w DrawItem
     
     ; Draw Bombs.
@@ -10884,73 +10875,73 @@ Equipment_DrawYButtonItems:
     .gotNoBombs
     
     STA.b $02
-    LDA.w ItemMenuIcons_bombs : STA.b $04
+    LDA.w #ItemMenuIcons_bombs : STA.b $04
     JSR.w DrawItem
     
     ; Draw mushroom or magic powder.
     LDA.w #$11E0 :                 STA.b $00
     LDA.l $7EF344 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_powder   : STA.b $04
+    LDA.w #ItemMenuIcons_powder  : STA.b $04
     JSR.w DrawItem
     
     ; Draw Fire Rod.
-    LDA.w #$1288 :                 STA.b $00
-    LDA.l $7EF345 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_fire_rod : STA.b $04
+    LDA.w #$1288 :                  STA.b $00
+    LDA.l $7EF345 : AND.w #$00FF  : STA.b $02
+    LDA.w #ItemMenuIcons_fire_rod : STA.b $04
     JSR.w DrawItem
     
     ; Draw Ice Rod.
     LDA.w #$128E :                 STA.b $00
     LDA.l $7EF346 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_ice_rod  : STA.b $04
+    LDA.w #ItemMenuIcons_ice_rod : STA.b $04
     JSR.w DrawItem
     
     ; Draw Bombos Medallion.
     LDA.w #$1294 :                 STA.b $00
     LDA.l $7EF347 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_bombos   : STA.b $04
+    LDA.w #ItemMenuIcons_bombos  : STA.b $04
     JSR.w DrawItem
     
     ; Draw Ether Medallion.
     LDA.w #$129A :                 STA.b $00
     LDA.l $7EF348 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_ether    : STA.b $04
+    LDA.w #ItemMenuIcons_ether   : STA.b $04
     JSR.w DrawItem
     
     ; Draw Quake Medallion.
     LDA.w #$12A0 :                 STA.b $00
     LDA.l $7EF349 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_quake    : STA.b $04
+    LDA.w #ItemMenuIcons_quake   : STA.b $04
     JSR.w DrawItem
     
     ; Draw Lamp.
     LDA.w #$1348 :                 STA.b $00
     LDA.l $7EF34A : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_lamp     : STA.b $04
+    LDA.w #ItemMenuIcons_lamp    : STA.b $04
     JSR.w DrawItem
     
     ; Hammer.
     LDA.w #$134E :                 STA.b $00
     LDA.l $7EF34B : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_hammer   : STA.b $04
+    LDA.w #ItemMenuIcons_hammer  : STA.b $04
     JSR.w DrawItem
     
     ; Flute.
     LDA.w #$1354 :                 STA.b $00
     LDA.l $7EF34C : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_flute    : STA.b $04
+    LDA.w #ItemMenuIcons_flute   : STA.b $04
     JSR.w DrawItem
     
     ; Bug Catching Net.
     LDA.w #$135A :                 STA.b $00
     LDA.l $7EF34D : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_net      : STA.b $04
+    LDA.w #ItemMenuIcons_net     : STA.b $04
     JSR.w DrawItem
     
     ; Draw Book Of Mudora.
     LDA.w #$1360 :                 STA.b $00
     LDA.l $7EF34E : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_book     : STA.b $04
+    LDA.w #ItemMenuIcons_book    : STA.b $04
     JSR.w DrawItem
     
     ; There is an active bottle.
@@ -10967,31 +10958,31 @@ Equipment_DrawYButtonItems:
     .noSelectedBottle
     
     STA.b $02
-    LDA.w ItemMenuIcons_bottles : STA.b $04
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     ; Draw Cane of Somaria.
     LDA.w #$140E :                 STA.b $00
     LDA.l $7EF350 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_somaria  : STA.b $04
+    LDA.w #ItemMenuIcons_somaria : STA.b $04
     JSR.w DrawItem
     
     ; Draw Cane of Byrna.
     LDA.w #$1414 :                 STA.b $00
     LDA.l $7EF351 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_byrna    : STA.b $04
+    LDA.w #ItemMenuIcons_byrna   : STA.b $04
     JSR.w DrawItem
     
     ; Draw Magic Cape.
     LDA.w #$141A :                 STA.b $00
     LDA.l $7EF352 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_cape     : STA.b $04
+    LDA.w #ItemMenuIcons_cape    : STA.b $04
     JSR.w DrawItem
     
     ; Draw Magic Mirror.
     LDA.w #$1420 :                 STA.b $00
     LDA.l $7EF353 : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_mirror   : STA.b $04
+    LDA.w #ItemMenuIcons_mirror  : STA.b $04
     JSR.w DrawItem
     
     SEP #$30
@@ -11018,7 +11009,7 @@ Equipment_DrawSelectedItemBox:
     ; The lines these tiles make are vertical.
     .drawBoxVerticalSides
     
-        LDA.w #$3CFC : AND.b $00 :    STA.w $11AA, X
+        LDA.w #$3CFC : AND.b $00    : STA.w $11AA, X
                        ORA.w #$4000 : STA.w $11BC, X
         
         TXA : CLC : ADC.w #$0040 : TAX
@@ -11030,8 +11021,8 @@ Equipment_DrawSelectedItemBox:
     ; I say horizontal because the lines the sides make are horizontal.
     .drawBoxHorizontalSides
     
-        LDA.w #$3CF9 : AND.b $00 : STA.w $116C, X
-        ORA.w #$8000 : STA.w $12AC, X
+        LDA.w #$3CF9 : AND.b $00    : STA.w $116C, X
+                       ORA.w #$8000 : STA.w $12AC, X
         
         INX #2
     DEY : BPL .drawBoxHorizontalSides
@@ -11043,7 +11034,7 @@ Equipment_DrawSelectedItemBox:
     .drawBoxInterior
     
         ; Init description draw.
-        STA.w $11AC, X : A.w $11ECEC, X A.w $122C122C, A.w $126C.w $126C, X
+        STA.w $11AC, X : STA.w $11EC, X : STA.w $122C, X : STA.w $126C, X
         
         INX #2
     DEY : BPL .drawBoxInterior
@@ -11066,9 +11057,9 @@ Equipment_DrawAbilityText:
     
     .drawBoxInterior
     
-        STA.w $1584, X : A.w $15C4C4, X
-        STA.w $1604, X : A.w $164444, X
-        STA.w $1684, X : A.w $16C4C4, X
+        STA.w $1584, X : STA.w $15C4, X
+        STA.w $1604, X : STA.w $1644, X
+        STA.w $1684, X : STA.w $16C4, X
         
         STA.w $1704, X : INX #2
     DEY : BPL .drawBoxInterior
@@ -11110,10 +11101,10 @@ Equipment_DrawAbilityText:
     DEC.b $04 : BNE .nextLine
     
     ; Draw the 4 corners of the box containing the ability tiles.
-    LDA.w #$24FB : AND.b $00 : STA.w $1542
-    ORA.w #$8000 : STA.w $1742
-    ORA.w #$4000 : STA.w $1766
-    EOR.w #$8000 : STA.w $1566
+    LDA.w #$24FB : AND.b $00    : STA.w $1542
+                   ORA.w #$8000 : STA.w $1742
+                   ORA.w #$4000 : STA.w $1766
+                   EOR.w #$8000 : STA.w $1566
     
     LDX.w #$0000
     LDY.w #$0006
@@ -11121,7 +11112,7 @@ Equipment_DrawAbilityText:
     .drawVerticalEdges
     
         LDA.w #$24FC : AND.b $00 : STA.w $1582, X
-        ORA.w #$4000 : STA.w $15A6, X
+        ORA.w #$4000             : STA.w $15A6, X
         
         TXA : CLC : ADC.w #$0040 : TAX
     DEY : BPL .drawVerticalEdges
@@ -11131,8 +11122,8 @@ Equipment_DrawAbilityText:
     
     .drawHorizontalEdges
     
-        LDA.w #$24F9 : AND.b $00 : STA.w $1544, X
-        ORA.w #$8000 : STA.w $1744, X
+        LDA.w #$24F9 : AND.b $00    : STA.w $1544, X
+                       ORA.w #$8000 : STA.w $1744, X
         
         INX #2
     DEY : BPL .drawHorizontalEdges
@@ -11449,11 +11440,11 @@ Equipment_DrawSelectedYButtonItem:
     LDA.w $0042, Y : STA.w $11F4
     
     LDA.w $0207 : AND.w #$0010 : BEQ .dontUpdate
-        ; BUG: Wtf? Are we storing into ROM here?
+        ; TODO: Find out where the bank switch is for this and what bank we are =
+        ; currently in.
         LDA.w #$3C61 : STA.w $FFC0, Y
         ORA.w #$4000 : STA.w $FFC2, Y
         
-        ; BUG: Wtf? Are we storing into ROM here?
         LDA.w #$3C70 : STA.w $FFFE, Y
         ORA.w #$4000 : STA.w $0004, Y
         
@@ -11463,7 +11454,6 @@ Equipment_DrawSelectedYButtonItem:
         LDA.w #$BC61 : STA.w $0080, Y
         ORA.w #$4000 : STA.w $0082, Y
         
-        ; BUG: Wtf? Are we storing into ROM here?
         LDA.w #$3C60 : STA.w $FFBE, Y
         ORA.w #$4000 : STA.w $FFC4, Y
         ORA.w #$8000 : STA.w $0084, Y
@@ -11619,7 +11609,6 @@ Equipment_DrawMoonPearl:
 ; $06ED04-$06ED08 LOCAL JUMP LOCATION
 Equipment_UnfinishedRoutine:
 {
-    ; MOST WORTHLESS ROUTINE EVAR!
     REP #$30
     
     SEP #$30
@@ -11854,20 +11843,20 @@ ItemMenu_CheckForDungeonPrize:
     LDA.w $040C : LSR A
     JSL.l UseImplicitRegIndexedLocalJumpTable
     
-    dw ItemMenu_NoPrizeHad           ; Sewers
-    dw ItemMenu_NoPrizeHad           ; Hyrule Castle
-    dw ItemMenu_CheckForBow          ; Eastern Palace
-    dw ItemMenu_CheckForGloves       ; Desert Palace
-    dw ItemMenu_NoPrizeHad           ; Agahnim's Tower
-    dw ItemMenu_CheckForHookshot     ; Swamp Palace
-    dw ItemMenu_CheckForHammer       ; Palace of Darkness
-    dw ItemMenu_CheckForSomaria      ; Misery Mire
-    dw ItemMenu_CheckForFireRod      ; Skull Woods
-    dw ItemMenu_CheckForBlueMail     ; Ice Palace
-    dw ItemMenu_CheckForMoonPearl    ; Tower of Hera
-    dw ItemMenu_CheckForTitansMitt   ; Thieves' Town
-    dw ItemMenu_CheckForMirrorShield ; Turtle Rock
-    dw ItemMenu_CheckForRedMail      ; Ganon's Tower
+    dw ItemMenu_NoPrizeHad           ; 0x00 - $EEDC Sewers
+    dw ItemMenu_NoPrizeHad           ; 0x00 - $EEDC Hyrule Castle
+    dw ItemMenu_CheckForBow          ; 0x00 - $EEE1 Eastern Palace
+    dw ItemMenu_CheckForGloves       ; 0x00 - $EEEE Desert Palace
+    dw ItemMenu_NoPrizeHad           ; 0x00 - $EEDC Agahnim's Tower
+    dw ItemMenu_CheckForHookshot     ; 0x00 - $EEF4 Swamp Palace
+    dw ItemMenu_CheckForHammer       ; 0x00 - $EEFA Palace of Darkness
+    dw ItemMenu_CheckForSomaria      ; 0x00 - $EF00 Misery Mire
+    dw ItemMenu_CheckForFireRod      ; 0x00 - $EF06 Skull Woods
+    dw ItemMenu_CheckForBlueMail     ; 0x00 - $EF0C Ice Palace
+    dw ItemMenu_CheckForMoonPearl    ; 0x00 - $EF12 Tower of Hera
+    dw ItemMenu_CheckForTitansMitt   ; 0x00 - $EF18 Thieves' Town
+    dw ItemMenu_CheckForMirrorShield ; 0x00 - $EF1F Turtle Rock
+    dw ItemMenu_CheckForRedMail      ; 0x00 - $EF2C Ganon's Tower
 }
 
 ; $06EEDC-$06EEE0 LOCAL JUMP LOCATION
@@ -12074,34 +12063,34 @@ Equipment_DrawBottleMenu:
     ; Draw bottle 0.
     LDA.w #$1372                 : STA.b $00
     LDA.l $7EF35C : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_bottles  : STA.b $04
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     ; Draw bottle 1.
     LDA.w #$1472                 : STA.b $00
     LDA.l $7EF35D : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_bottles  : STA.b $04
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     ; Draw bottle 2.
     LDA.w #$1572                 : STA.b $00
     LDA.l $7EF35E : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_bottles  : STA.b $04
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     ; Draw bottle 3.
     LDA.w #$1672                 : STA.b $00
     LDA.l $7EF35F : AND.w #$00FF : STA.b $02
-    LDA.w ItemMenuIcons_bottles  : STA.b $04
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     ; Draw the currently selected bottle.
-    LDA.w #$1408 : STA.b $00
-    LDA.l $7EF34F : AND.w #$00FF : TAX
+    LDA.w #$1408                    : STA.b $00
+    LDA.l $7EF34F : AND.w #$00FF    : TAX
     LDA.l $7EF35B, X : AND.w #$00FF : STA.b $02
 
     ; Loads $2837, $2838, $2CC3, $2CD3
-    LDA.w ItemMenuIcons_bottles : STA.b $04
+    LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
     ; Take the currently selected item, and draw something with it, perhaps on
@@ -12151,7 +12140,6 @@ Equipment_DrawBottleMenu:
 ; ==============================================================================
 ; End of Equipment:    
 ; ==============================================================================
-
 
 ; This apparently is a hex to decimal converter for use with displaying numbers
 ; It's obviously slower with larger numbers... should find a way to speed it
@@ -12268,13 +12256,14 @@ HUD_AnimateHeartRefill:
 
         SEP #$30
         
-        LDX.w $0209 : LDA.l $0DFA11, X : STA.w $0208
+        LDX.w $0209 : LDA.l HUD_AllOnes, X : STA.w $0208
         
         TXA : ASL A : TAX
         
-        LDA.l $0DFA09, X : STA [$00], Y
+        LDA.l HUD_HeartDisplayFrames+0, X : STA [$00], Y
         
-        INY : LDA.l $0DFA0A, X : STA [$00], Y
+        INY
+        LDA.l HUD_HeartDisplayFrames+2, X : STA [$00], Y
         
         LDA.w $0209 : INC A : AND.b #$03 : STA.w $0209
         BNE .return
@@ -13315,9 +13304,8 @@ UpdateHUDBuffer_DrawSingleHeart:
 ; ==============================================================================
 
 ; $06FDEF-$06FE76 DATA
-Pool_HUD_Update:
+HUD_Update_mp_tilemap:
 {
-    .mp_tilemap
     dw $3CF5, $3CF5, $3CF5, $3CF5
     dw $3CF5, $3CF5, $3CF5, $3C5F
     dw $3CF5, $3CF5, $3CF5, $3C4C
@@ -13340,9 +13328,8 @@ Pool_HUD_Update:
 ; ==============================================================================
 
 ; $06FE77-$06FFC0
-Pool_HUD_Rebuild:
+HUD_Rebuild_hud_tilemap:
 {
-    .hud_tilemap
     dw $207F, $207F, $2850, $A856
     dw $2852, $285B, $285B, $285C
     dw $207F, $3CA8, $207F, $207F

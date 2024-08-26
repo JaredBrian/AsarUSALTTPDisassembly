@@ -3829,8 +3829,8 @@ Sprite_NullifyHookshotDrag:
     SEP #$20
     
     ; This is what stops Link dead in his tracks when he collides with a
-    ; sprite :/
-    JSL.l $07F42F ; $03F42F IN ROM; Does some stuff only relevant to indoors
+    ; sprite. Does some stuff only relevant to indoors.
+    JSL.l HandleIndoorCameraAndDoors_long
     
     PLX
     
