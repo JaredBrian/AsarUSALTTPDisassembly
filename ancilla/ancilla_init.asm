@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $048000-$048023 DATA
@@ -553,6 +552,7 @@ AddBoomerang:
 ; $04836C-$0485E7 DATA
 Pool_AddReceiveItem:
 {
+    ; $04836C
     .y_offsets
     db -5, -5, -5, -5, -5, -4, -4, -5
     db -5, -4, -4, -4, -2, -4, -4, -4
@@ -569,6 +569,7 @@ Pool_AddReceiveItem:
     db -4, -4, -2, -2, -4, -2, -4, -4
     db -4, -5, -4, -4
     
+    ; $0483B8
     .x_offsets
     db  4,  4,  4,  4,  4,  0,  0,  4
     db  4,  4,  4,  4,  5,  0,  0,  0
@@ -587,21 +588,84 @@ Pool_AddReceiveItem:
     
     ; $048404
     .item_graphics_indices
-    db $06, $18, $18, $18, $2D, $20, $2E, $09
-    db $09, $0A, $08, $05, $10, $0B, $2C, $1B
+    db $06 ; 0x00 - FIGHTER SWORD
+    db $18 ; 0x01 - MASTER SWORD
+    db $18 ; 0x02 - TEMPERED SWORD
+    db $18 ; 0x03 - BUTTER SWORD
+    db $2D ; 0x04 - FIGHTER SHIELD
+    db $20 ; 0x05 - FIRE SHIELD
+    db $2E ; 0x06 - MIRROR SHIELD
+    db $09 ; 0x07 - FIRE ROD
+    db $09 ; 0x08 - ICE ROD
+    db $0A ; 0x09 - HAMMER
+    db $08 ; 0x0A - HOOKSHOT
+    db $05 ; 0x0B - BOW
+    db $10 ; 0x0C - BOOMERANG
+    db $0B ; 0x0D - POWDER
+    db $2C ; 0x0E - BOTTLE REFILL (BEE)
+    db $1B ; 0x0F - BOMBOS
+    db $1A ; 0x10 - ETHER
+    db $1C ; 0x11 - QUAKE
+    db $14 ; 0x12 - LAMP
+    db $19 ; 0x13 - SHOVEL
+    db $0C ; 0x14 - FLUTE
+    db $07 ; 0x15 - SOMARIA
+    db $1D ; 0x16 - BOTTLE
+    db $2F ; 0x17 - HEART PIECE
+    db $07 ; 0x18 - BYRNA
+    db $15 ; 0x19 - CAPE
+    db $12 ; 0x1A - MIRROR
+    db $0D ; 0x1B - GLOVE
+    db $0D ; 0x1C - MITTS
+    db $0E ; 0x1D - BOOK
+    db $11 ; 0x1E - FLIPPERS
+    db $17 ; 0x1F - PEARL
+    db $28 ; 0x20 - CRYSTAL
+    db $27 ; 0x21 - NET
+    db $04 ; 0x22 - BLUE MAIL
+    db $04 ; 0x23 - RED MAIL
+    db $0F ; 0x24 - SMALL KEY
+    db $16 ; 0x25 - COMPASS
+    db $03 ; 0x26 - HEART CONTAINER FROM 4/4
+    db $13 ; 0x27 - BOMB
+    db $01 ; 0x28 - 3 BOMBS
+    db $1E ; 0x29 - MUSHROOM
+    db $10 ; 0x2A - RED BOOMERANG
+    db $00 ; 0x2B - FULL BOTTLE (RED)
+    db $00 ; 0x2C - FULL BOTTLE (GREEN)
+    db $00 ; 0x2D - FULL BOTTLE (BLUE)
+    db $00 ; 0x2E - POTION REFILL (RED)
+    db $00 ; 0x2F - POTION REFILL (GREEN)
+    db $00 ; 0x30 - POTION REFILL (BLUE)
+    db $30 ; 0x31 - 10 BOMBS
+    db $22 ; 0x32 - BIG KEY
+    db $21 ; 0x33 - MAP
+    db $24 ; 0x34 - 1 RUPEE
+    db $24 ; 0x35 - 5 RUPEES
+    db $24 ; 0x36 - 20 RUPEES
+    db $23 ; 0x37 - GREEN PENDANT
+    db $23 ; 0x38 - BLUE PENDANT
+    db $23 ; 0x39 - RED PENDANT
+    db $29 ; 0x3A - TOSSED BOW
+    db $2A ; 0x3B - SILVERS
+    db $2C ; 0x3C - FULL BOTTLE (BEE)
+    db $2B ; 0x3D - FULL BOTTLE (FAIRY)
+    db $03 ; 0x3E - BOSS HC
+    db $03 ; 0x3F - SANC HC
+    db $34 ; 0x41 - 100 RUPEES
+    db $35 ; 0x42 - 50 RUPEES
+    db $31 ; 0x43 - HEART
+    db $33 ; 0x44 - ARROW
+    db $02 ; 0x45 - 10 ARROWS
+    db $32 ; 0x46 - SMALL MAGIC
+    db $36 ; 0x47 - 300 RUPEES
+    db $37 ; 0x48 - 20 RUPEES GREEN
+    db $2C ; 0x49 - FULL BOTTLE (GOOD BEE)
+    db $06 ; 0x4A - TOSSED FIGHTER SWORD
+    db $0C ; 0x4B - FLUTE (ACTIVATED)
+    db $38 ; 0x4C - BOOTS
     
-    db $1A, $1C, $14, $19, $0C, $07, $1D, $2F
-    db $07, $15, $12, $0D, $0D, $0E, $11, $17
-    
-    db $28, $27, $04, $04, $0F, $16, $03, $13
-    db $01, $1E, $10, $00, $00, $00, $00, $00
-
-    db $00, $30, $22, $21, $24, $24, $24, $23
-    db $23, $23, $29, $2A, $2C, $2B, $03, $03
-    
-    db $34, $35, $31, $33, $02, $32, $36, $37
-    db $2C, $06, $0C, $38
-    
+    ; $048450
     .wide_item_flag
     db $00, $00, $00, $00, $00, $02, $02, $00 
     db $00, $00, $00, $00, $00, $02, $02, $02 
@@ -618,7 +682,7 @@ Pool_AddReceiveItem:
     db $02, $02, $00, $00, $02, $00, $02, $02
     db $02, $00, $02, $02    
     
-    ; $4849C
+    ; $04849C
     .properties
     db  5, -1,  5,  5,  5,  5,  5,  1
     db  2,  1,  1,  1,  2,  2,  2,  4
@@ -631,7 +695,8 @@ Pool_AddReceiveItem:
     db  4,  4,  1,  2,  2,  4,  4,  4
     db  2,  5,  2,  1        
     
-    ; $0484E8 \item Target SRAM addresses for items you receive
+    ; Item Target SRAM addresses for items you receive
+    ; $0484E8
     .item_target_addr
     dw $F359, $F359, $F359, $F359, $F35A, $F35A, $F35A, $F345
     dw $F346, $F34B, $F342, $F340, $F341, $F344, $F35C, $F347
@@ -647,11 +712,10 @@ Pool_AddReceiveItem:
 
     dw $F360, $F360, $F372, $F376, $F376, $F373, $F360, $F360
     dw $F35C, $F359, $F34C, $F355
-}
-    
-    ; $048580 ; Values to write to the above SRAM locations.
+
+    ; Values to write to the above SRAM locations.
+    ; $048580
     .item_values
-{
     db $01, $02, $03, $04, $01, $02, $03, $01
     db $01, $01, $01, $01, $01, $02, $FF, $01
 
@@ -667,13 +731,12 @@ Pool_AddReceiveItem:
     db $9C, $CE, $FF, $01, $0A, $FF, $FF, $FF
     db $FF, $01, $03, $01
     
+    ; $0485CC
     .item_masks
     dw $8000, $4000, $2000, $1000, $0800, $0400, $0200, $0100
     dw $0080, $0040, $0020, $0010, $0008, $0004
 }
-
-; ==============================================================================
-    
+ 
 ; $0485E8-$048931 LONG JUMP LOCATION
 AddReceivedItem:
 {
@@ -713,7 +776,7 @@ AddReceivedItem:
         ; Gives the address to write this value to.    
         LDA.w .item_target_addr+0, X : STA $00
         LDA.w .item_target_addr+1, X : STA $01
-        LDA.b #$7E                 : STA $02
+        LDA.b #$7E                   : STA $02
         
         LDA.w .item_values, Y : STA [$00]
     
@@ -724,7 +787,7 @@ AddReceivedItem:
     ; Tells what inventory location to write to.    
     LDA.w .item_target_addr+0, X : STA $00
     LDA.w .item_target_addr+1, X : STA $01
-    LDA.b #$7E                 : STA $02
+    LDA.b #$7E                   : STA $02
     
     ; Tells what value to write to that location.    
     ; If it's a negative value, don't write it.
@@ -1084,7 +1147,8 @@ AddReceivedItem:
         
         REP #$20
         
-        LDA.w $836C, Y : AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $00 : STA $00
+        LDA.w Pool_AddReceiveItem_y_offsets, Y
+        AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $00 : STA $00
         
         LDA.w .x_offsets, X : AND.w #$00FF : CLC : ADC $02
         
@@ -1190,7 +1254,8 @@ AddReceivedItem:
     
     LDA $04 : BEQ .noYAdjustForText
         ; Sign extend the byte to a 2-byte negative offset for the Y coordinate
-        LDA.w $836C, Y : AND.w #$00FF : ORA.w #$FF00 : STA $00
+        LDA.w Pool_AddReceiveItem_y_offsets, Y
+        AND.w #$00FF : ORA.w #$FF00 : STA $00
     
     .noYAdjustForText
     
@@ -1341,87 +1406,82 @@ Pool_AddWishPondItem:
 }
 
 ; ==============================================================================
-    
+
+; special effect 0x28 initializer
 ; $048A32-$048AB9 LONG JUMP LOCATION
 AddWishPondItem:
 {
-    ; special effect 0x28 initializer
-    
     PHB : PHK : PLB
     
     STX.w $02D8
     
     JSR.w AddAncilla : BCS .spawn_failed
-    
-    JSL.l Sound_SetSfxPanWithPlayerCoords
-    
-    ; play throwing sound effect
-    ORA.b #$13 : STA.w $012F
-    
-    PHX
-    
-    ; No item that I've seen in the rom takes on this value here...
-    ; but who knows, anything is possible, right?
-    LDY.w $02D8
-    
-    LDA AddReceiveItem_item_graphics_indices, Y : STA $72
-    
-    CMP.b #$FF : BEQ .invalidItem
-    
-    ; check for the hero's shield (the red shield)
-    CMP.b #$20 : BNE .getItemTiles
-    
-    JSL.l DecompShieldGfx
-    
-    LDA $72
-    
-    BRA .getItemTiles
-    
-    .invalidItem
-    
-    LDA.b #$00
-    
-    .getItemTiles
-    
-    JSL.l GetAnimatedSpriteTile_variable
-    
-    ; Checking for the fighter sword
-    LDA $72 : CMP.b #$06 : BNE .notFighterSword
-    
-    JSL.l DecompSwordGfx    ; $52C8 IN ROM
-    
-    .notFighterSword
-    
-    PLX
-    
-    ; Put Link's hands up like he's going to throw the item (which he will)
-    LDA.b #$80 : STA.w $0308
-    
-    ; Set Link facing forward and his animation index to 0. Also force his
-    ; picking stuff up index to 0.
-    STZ.w $0309 : STZ $2F : STZ $2E
-    
-    LDA.b #$14 : STA.w $0294, X
-    LDA.b #$D8 : STA.w $0C22, X
-    
-    STZ.w $0C2C, X : STZ.w $029E, X
-    
-    ; ????
-    LDA.b #$10 : STA.w $0C68, X
-    
-    ; Store the item type in this variable
-    LDA.w $02D8 : STA.w $0C5E, X : TAY
-    
-    REP #$20
-    
-    ; Set up initial coordinates for the item sprite
-    LDA.w .y_offsets, Y : AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $20 : STA $00
-    
-    LDA.w .x_offsets, Y : AND.w #$00FF : CLC : ADC $22 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
+        JSL.l Sound_SetSfxPanWithPlayerCoords
+        
+        ; Play throwing sound effect.
+        ORA.b #$13 : STA.w $012F
+        
+        PHX
+        
+        ; No item that I've seen in the rom takes on this value here...
+        ; but who knows, anything is possible, right?
+        LDY.w $02D8
+        
+        LDA AddReceiveItem_item_graphics_indices, Y : STA $72
+        
+        CMP.b #$FF : BEQ .invalidItem
+            ; Check for the hero's shield (the red shield).
+            CMP.b #$20 : BNE .getItemTiles
+                JSL.l DecompShieldGfx
+                
+                LDA $72
+                
+                BRA .getItemTiles
+        
+        .invalidItem
+        
+        LDA.b #$00
+        
+        .getItemTiles
+        
+        JSL.l GetAnimatedSpriteTile_variable
+        
+        ; Checking for the fighter sword.
+        LDA $72 : CMP.b #$06 : BNE .notFighterSword
+            JSL.l DecompSwordGfx
+        
+        .notFighterSword
+        
+        PLX
+        
+        ; Put Link's hands up like he's going to throw the item (which he will).
+        LDA.b #$80 : STA.w $0308
+        
+        ; Set Link facing forward and his animation index to 0. Also force his
+        ; picking stuff up index to 0.
+        STZ.w $0309 : STZ $2F : STZ $2E
+        
+        LDA.b #$14 : STA.w $0294, X
+        LDA.b #$D8 : STA.w $0C22, X
+        
+        STZ.w $0C2C, X : STZ.w $029E, X
+        
+        ; ????
+        LDA.b #$10 : STA.w $0C68, X
+        
+        ; Store the item type in this variable.
+        LDA.w $02D8 : STA.w $0C5E, X : TAY
+        
+        REP #$20
+        
+        ; Set up initial coordinates for the item sprite.
+        LDA.w .y_offsets, Y : AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $20 : STA $00
+        
+        LDA.w .x_offsets, Y : AND.w #$00FF                : CLC : ADC $22 : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
     
     .spawn_failed
     

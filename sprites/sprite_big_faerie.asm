@@ -1,7 +1,6 @@
-
 ; ==============================================================================
 
-    ; UNUSED: Appears to be true.
+; UNUSED: Appears to be true.
 ; $0EC412-$0EC413 DATA
 {
     .unknown_0
@@ -10,20 +9,20 @@
 
 ; ==============================================================================
 
-    !is_fairy_cloud = $0EB0
+!is_fairy_cloud = $0EB0
 
+; Big Fairy / Fairy Dust cloud
 ; $0EC414-$0EC442 JUMP LOCATION
 Sprite_BigFairy:
 {
-    ; Big Fairy / Fairy Dust cloud
-    
     ; If nonzero, it is a dust cloud
     LDA !is_fairy_cloud, X : BNE Sprite_FairyCloud
+        JMP BigFairy_Main
+}
     
-    JMP BigFairy_Main
-    
-    shared Sprite_FairyCloud:
-    
+; $0EC41C-$0EC442 LOCAL JUMP LOCATION
+Sprite_FairyCloud:
+{
     JSL.l Sprite_PrepOamCoordLong
     JSR.w Sprite4_CheckIfActive
     
@@ -32,8 +31,7 @@ Sprite_BigFairy:
     JSR.w FairyCloud_Draw 
     
     LDA.w $0E80, X : AND.b #$1F : BNE .delay_healing_sfx
-    
-    LDA.b #$31 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$31 : JSL.l Sound_SetSfx2PanLong
     
     .delay_healing_sfx
     
