@@ -58,7 +58,7 @@ Vector_Reset:
 
     .nmi_wait_loop
 
-        ; This loop doesn't normally exit unless NMI is enabled!
+            ; This loop doesn't normally exit unless NMI is enabled!
         LDA.b $12 : BEQ .nmi_wait_loop
 
         CLI ; Clear the interrupt disable bit.
@@ -88,12 +88,12 @@ Vector_Reset:
                 JSR.w ClearOamBuffer
                 JSL.l Module_MainRouting
 
-                .skip_frame
+            .skip_frame
 
-                JSR.w Main_PrepSpritesForNmi
+            JSR.w Main_PrepSpritesForNmi
 
-                ; Start the NMI Wait loop again.
-                STZ.b $12
+            ; Start the NMI Wait loop again.
+            STZ.b $12
     BRA .nmi_wait_loop
 }
 
@@ -232,6 +232,8 @@ Vector_NMI:
     
     ; Checks to see if we're still in the infinite loop in the main routine.
     ; If $12 is not 0, it shows that the infinite loop isn't running.
+    ; This prevents the NMI updates from running more than once per frame,
+    ; preventing lag and preventing lost player input.
     LDA.b $12 : BNE .normalFrameNotFinished
         ; This would happen if NMI had been called from the wait loop.
         INC.b $12
@@ -268,7 +270,7 @@ Vector_NMI:
     LDA.b $1E : STA.w SNES.WindowMaskDesMainScreen
     LDA.b $1F : STA.w SNES.WindowMaskDesSubScreen
     
-    ; Are these word addresses?
+    ; Written twice each to get a whole word in.
     LDA.w $0120 : STA.w SNES.BG1HScrollOffset
     LDA.w $0121 : STA.w SNES.BG1HScrollOffset
     
@@ -416,10 +418,10 @@ Vector_IRQ:
         LDA.w SNES.IRQFlagByHVCountTimer : BPL .BRANCH_2
             ; Not sure what this does...
             LDA.w $0128 : BEQ .BRANCH_2
-                .BRANCH_1
+                --
 
                     ; Wait for hBlank.
-                BIT.w SNES.HVBlankFlagsAndJoyStatus : BVC .BRANCH_1
+                BIT.w SNES.HVBlankFlagsAndJoyStatus : BVC --
                         
                 LDA.w $0630 : STA.w SNES.BG3HScrollOffset
                 LDA.w $0631 : STA.w SNES.BG3HScrollOffset
@@ -601,7 +603,7 @@ NMI_ReadJoypads:
     !joypad2_action = !disableJoypad2
     
     ; Probably indicates that we're not using the old style joypad reading.
-    STZ.w $4016 
+    STZ.w $4016
     
     ; Storing the state of Joypad 1 to $00-$01.
     LDA.w SNES.JoyPad1DataLow : STA.b $00
@@ -622,9 +624,9 @@ NMI_ReadJoypads:
     
     !joypad2_action
     
-    ; If it wasn't obvious, please note that the original game, coded this way,
-    ; never reaches this section. Yes folks, there is no love for Joypad2 in
-    ; Zelda 3.
+    ; UNUSED: If it wasn't obvious, please note that the original game, coded
+    ; this way, never reaches this section. Yes folks, there is no love for
+    ; Joypad2 in Zelda 3.
     
     LDA.w SNES.JoyPad3DataLow : STA.b $00
     LDA.w SNES.JoyPad4DataLow : STA.b $01
@@ -1294,11 +1296,10 @@ EnableForceBlank:
 
 ; ==============================================================================
 
+; Loads Ram into SRAM, calculates an inverse checksum.
 ; $00094A-$0009C1 LONG JUMP LOCATION
 Main_SaveGameFile:
 {
-    ; Loads Ram into SRAM, calculates an inverse checksum.
-    
     ; Data bank = 0x70, which is the bank that SRAM has been mapped it.
     PHB : LDA.b #$70 : PHA : PLB
     
@@ -1391,7 +1392,10 @@ NMI_DoUpdates:
     
     ; Base dma register is $2118, write two registers once mode ($2118/$2119),
     ; with autoincrementing source addr. Why isn't DMA.2_TransferParameters set????
-    LDX.w #$1801 : STX.w DMA.0_TransferParameters : STX.w DMA.1_TransferParameters : STX.w DMA.2_TransferParameters : STX.w DMA.3_TransferParameters : STX.w DMA.4_TransferParameters
+    LDX.w #$1801
+    STX.w DMA.0_TransferParameters : STX.w DMA.1_TransferParameters
+    STX.w DMA.2_TransferParameters : STX.w DMA.3_TransferParameters
+    STX.w DMA.4_TransferParameters
     
     ; Sets the bank for the DMA source bank to $10.
     ; Use channels 0 - 2.
@@ -1585,9 +1589,8 @@ NMI_DoUpdates:
 
     .noBg3Update
 
+    ; If $15 is set, we'll update CGRAM (palette update).
     LDA.b $15 : BEQ .noCgramUpdate
-        ; If $15 is set, we'll update CGRAM (palette update).
-        
         ; Initialize the CGRAM pointer to color 0 (the start of CGRAM).
         STZ.w SNES.CGRAMWriteAddr
         
@@ -1737,41 +1740,40 @@ NMI_DoUpdates:
     JMP ($8C7E, X)
 
     ; $000C7E-$000CAF Jump Table
-    dw NMI_UploadTilemap_doNothing           ; 0x00
-    dw NMI_UploadTilemap                     ; 0x01
-    dw NMI_UploadBg3Text                     ; 0x02
-    dw NMI_UpdateScrollingOwMap              ; 0x03
-    dw NMI_UploadSubscreenOverlay            ; 0x04
-    dw NMI_UpdateBG1Wall                     ; 0x05 Used in the moving wall code
-    dw NMI_DoNothing                         ; 0x06 Just and RTS ; Replaced by ZS - ZS Custom Overworld
-    dw NMI_LightWorldMode7Tilemap            ; 0x07 Transfers mode 7 tilemap
-    dw NMI_UpdateLeftBg2Tilemaps             ; 0x08 Transfers 0x1000 bytes from $7F0000 to VRAM $0000
-    dw NMI_UpdateBgChrSlots_3_to_4           ; 0x09 Transfers 0x1000 bytes from $7F0000 to VRAM $2C00
-    dw NMI_UpdateBgChrSlots_5_to_6           ; 0x0A Transfers 0x1000 bytes from $7F1000 to VRAM $3400
-    dw NMI_UpdateChrHalfSlot                 ; 0x0B Transfers 0x400 bytes from $7F1000 to a VRAM address set by $0116 (sets the high byte)
-    dw NMI_UploadSubscreenOverlay_secondHalf ; 0x0C
-    dw NMI_UploadSubscreenOverlay_firstHalf  ; 0x0D
-    dw NMI_UpdateChr_Bg0                     ; 0x0E Transfers 0x1000 bytes from $7F0000 to VRAM $2000
-    dw NMI_UpdateChr_Bg1                     ; 0x0F Transfers 0x1000 bytes from $7F0000 to VRAM $2800
-    dw NMI_UpdateChr_Bg2                     ; 0x10 Transfers 0x1000 bytes from $7F0000 to VRAM $3000
-    dw NMI_UpdateChr_Bg3                     ; 0x11 Transfers 0x1000 bytes from $7F0000 to VRAM $3800
-    dw NMI_UpdateChr_Spr0                    ; 0x12 Transfers 0x1000 bytes from $7F0000 to VRAM $4400
-    dw NMI_UpdateChr_Spr2                    ; 0x13 Transfers 0x1000 bytes from $7F0000 to VRAM $5000
-    dw NMI_UpdateChr_Spr3                    ; 0x14 Transfers 0x1000 bytes from $7F0000 to VRAM $5800
-    dw NMI_DarkWorldMode7Tilemap             ; 0x15
-    dw NMI_UpdateBg3ChrForDeathMode          ; 0x16
-    dw NMI_UpdateBarrierTileChr              ; 0x17
-    dw NMI_UpdateStarTiles                   ; 0x18
+    dw NMI_UploadTilemap_doNothing           ; 0x00 - $8CE3
+    dw NMI_UploadTilemap                     ; 0x01 - $8CB0
+    dw NMI_UploadBg3Text                     ; 0x02 - $8CE4
+    dw NMI_UpdateScrollingOwMap              ; 0x03 - $8D13
+    dw NMI_UploadSubscreenOverlay            ; 0x04 - $8D62
+    dw NMI_UpdateBG1Wall                     ; 0x05 - $8E09 Used in the moving wall code
+    dw NMI_DoNothing                         ; 0x06 - $8E4B Just and RTS ; Replaced by ZS - ZS Custom Overworld
+    dw NMI_LightWorldMode7Tilemap            ; 0x07 - $8E54 Transfers mode 7 tilemap
+    dw NMI_UpdateLeftBg2Tilemaps             ; 0x08 - $8EA9 Transfers 0x1000 bytes from $7F0000 to VRAM $0000
+    dw NMI_UpdateBgChrSlots_3_to_4           ; 0x09 - $8EE7 Transfers 0x1000 bytes from $7F0000 to VRAM $2C00
+    dw NMI_UpdateBgChrSlots_5_to_6           ; 0x0A - $8F16 Transfers 0x1000 bytes from $7F1000 to VRAM $3400
+    dw NMI_UpdateChrHalfSlot                 ; 0x0B - $8F45 Transfers 0x400 bytes from $7F1000 to a VRAM address set by $0116 (sets the high byte)
+    dw NMI_UploadSubscreenOverlay_secondHalf ; 0x0C - $8D96
+    dw NMI_UploadSubscreenOverlay_firstHalf  ; 0x0D - $8D7C
+    dw NMI_UpdateChr_Bg0                     ; 0x0E - $8F72 Transfers 0x1000 bytes from $7F0000 to VRAM $2000
+    dw NMI_UpdateChr_Bg1                     ; 0x0F - $8F79 Transfers 0x1000 bytes from $7F0000 to VRAM $2800
+    dw NMI_UpdateChr_Bg2                     ; 0x10 - $8F80 Transfers 0x1000 bytes from $7F0000 to VRAM $3000
+    dw NMI_UpdateChr_Bg3                     ; 0x11 - $8F87 Transfers 0x1000 bytes from $7F0000 to VRAM $3800
+    dw NMI_UpdateChr_Spr0                    ; 0x12 - $8F8E Transfers 0x1000 bytes from $7F0000 to VRAM $4400
+    dw NMI_UpdateChr_Spr2                    ; 0x13 - $8FBD Transfers 0x1000 bytes from $7F0000 to VRAM $5000
+    dw NMI_UpdateChr_Spr3                    ; 0x14 - $8FC4 Transfers 0x1000 bytes from $7F0000 to VRAM $5800
+    dw NMI_DarkWorldMode7Tilemap             ; 0x15 - $8FF3
+    dw NMI_UpdateBg3ChrForDeathMode          ; 0x16 - $9038
+    dw NMI_UpdateBarrierTileChr              ; 0x17 - $908B
+    dw NMI_UpdateStarTiles                   ; 0x18 - $90B7
 }
 
 ; ==============================================================================
 
+; General purpose dma transfer for updating tilemaps, though I suppose you
+; could use it to update graphics too.
 ; $000CB0-$000CE3 JUMP LOCATION
 NMI_UploadTilemap:
 {    
-    ; General purpose dma transfer for updating tilemaps, though
-    ; I suppose you could use it to update graphics too.
-    
     ; $1888, X that is sets the high byte of the Target VRAM address.
     LDX.w $0116
     LDA.w TilemapUpload_HighBytes, X : STA.w SNES.VRAMAddrReadWriteHigh
@@ -1865,7 +1867,8 @@ NMI_UpdateScrollingOwMap:
     ; Value is either 0x81 or 0x80. This means, increment on writing to $2119
     ; and optionally write to VRAM horizontally (0x80) or vertically (0x81)
     ; It depends on how the data in the $1100 area was set up.
-    LDA.w $1101 : AND.b #$80 : ASL A : ROL A : ORA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
+    LDA.w $1101
+    AND.b #$80 : ASL A : ROL A : ORA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     REP #$20
     
@@ -1908,11 +1911,10 @@ NMI_UpdateScrollingOwMap:
 
 ; ==============================================================================
 
+; Write 0x2000 bytes to VRAM.
 ; $000D62-$000E08 JUMP LOCATION
 NMI_UploadSubscreenOverlay:
 {
-    ; Write 0x2000 bytes to VRAM.
-    
     ; Source bank is 0x7F.
     LDA.b #$7F : STA.w DMA.0_SourceAddrBank
     
@@ -2089,9 +2091,8 @@ NMI_DoNothing:
 ; ==============================================================================
 
 ; $000E4C-$000E53 DATA
-Pool_NMI_UpdateLoadLightWorldMap:
+NMI_UpdateLoadLightWorldMap_vram_offset:
 {
-    .vram_offset
     dw $0000, $0020, $1000, $1020
 }
 
@@ -2117,7 +2118,7 @@ NMI_LightWorldMode7Tilemap:
 
         LDA.w #$0020 : STA.b $06
         
-        LDA.w Pool_NMI_UpdateLoadLightWorldMap_vram_offset, X : STA.b $00
+        LDA.w .vram_offset, X : STA.b $00
 
         .beta
 
@@ -2129,7 +2130,8 @@ NMI_LightWorldMode7Tilemap:
             
             ; Mode 7 tilemap data is based at $054727 in ROM.
             ; This data fills in the tilemap data that isn't "blank".
-            LDA.b $02 : CLC : ADC.w #WorldMap_LightWorldTilemap : STA.w DMA.0_SourceAddrOffsetLow
+            LDA.b $02 : CLC : ADC.w #WorldMap_LightWorldTilemap
+            STA.w DMA.0_SourceAddrOffsetLow
             
             ; Number of bytes to transfer is 0x0020.
             LDA.w #$0020 : STA.w DMA.0_TransferSizeLow
@@ -2149,11 +2151,10 @@ NMI_LightWorldMode7Tilemap:
 
 ; ==============================================================================
 
+; Copies $7F0000[0x1000] to VRAM address $0000.
 ; $000EA9-$000EE6 JUMP LOCATION
 NMI_UpdateLeftBg2Tilemaps:
 {
-    ; Copies $7F0000[0x1000] to VRAM address $0000.
-    
     ; VRAM address increments after writing to $2119.
     LDA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
@@ -2193,11 +2194,10 @@ NMI_UpdateLeftBg2Tilemaps:
 
 ; ==============================================================================
 
+; Transfers 0x1000 bytes from $7F0000 to VRAM $2C00 (word).
 ; $000EE7-$000F15 JUMP LOCATION
 NMI_UpdateBgChrSlots_3_to_4:
 {
-    ; Transfers 0x1000 bytes from $7F0000 to VRAM $2C00 (word).
-    
     REP #$20
     
     ; VRAM target is $2C00 (word).
@@ -2228,11 +2228,10 @@ NMI_UpdateBgChrSlots_3_to_4:
 
 ; ==============================================================================
 
+; Transfers 0x1000 bytes from $7F0000 to VRAM $3400 (word).
 ; $000F16-$000F44 JUMP LOCATION
 NMI_UpdateBgChrSlots_5_to_6:
 {
-    ; Transfers 0x1000 bytes from $7F0000 to VRAM $3400 (word).
-    
     REP #$20
     
     ; VRAM target address is $3400 (word).
@@ -2394,10 +2393,8 @@ NMI_UpdateChr_Spr2:
 ; ==============================================================================
 
 ; $000FC4-$000FF2 JUMP LOCATION
-NMI_UpdateChr:
+NMI_UpdateChr_Spr3:
 {
-    .Spr3
-
     REP #$20
     
     ; Set VRAM target to $5800 (word).
@@ -2481,11 +2478,10 @@ NMI_DarkWorldMode7Tilemap:
 
 ; ==============================================================================
 
+; Transfers 0x800 bytes from $7E2000 to VRAM $7800 (word).
 ; $001038-$00108A JUMP LOCATION
 NMI_UpdateBg3ChrForDeathMode:
 {
-    ; Transfers 0x800 bytes from $7E2000 to VRAM $7800 (word).
-    
     REP #$20
     
     ; Target VRAM addr is $7800 (word).
@@ -2536,11 +2532,10 @@ NMI_UpdateBg3ChrForDeathMode:
     RTS
 }
 
+; Transfers 0x100 bytes from $7F0000 to VRAM $3D00 (word).
 ; $00108B-$0010B6 JUMP LOCATION
 NMI_UpdateBarrierTileChr:
 {
-    ; Transfers 0x100 bytes from $7F0000 to VRAM $3D00 (word).
-    
     REP #$10
     
     ; VRAM target address is $3D00 (word).
@@ -2569,11 +2564,10 @@ NMI_UpdateBarrierTileChr:
 
 ; ==============================================================================
 
+; Transfers 0x40 bytes from $7F0000 to VRAM $3ED0 (word).
 ; $0010B7-$0010E2 JUMP LOCATION
 NMI_UpdateStarTiles:
 {
-    ; Transfers 0x40 bytes from $7F0000 to VRAM $3ED0 (word).
-    
     REP #$10
     
     ; VRAM target address is $3ED0 (word).
@@ -2612,11 +2606,10 @@ NMI_UploadTilemap_long:
 
 ; ==============================================================================
 
+; Unused???
 ; $0010E7-$0010EA LONG JUMP LOCATION
 NMI_UpdateOWScroll_long:
 {
-    ; Unused???
-    
     JSR.w NMI_UpdateScrollingOwMap
     
     RTL
@@ -9480,9 +9473,8 @@ GFXSheetPointers:
 ; ==============================================================================
 
 ; $00521D-$005230 DATA
-Pool_LoadItemGFX:
+Pool_LoadItemGFX_offset:
 {
-    .offset
     dw $0000 ; rods
     dw $0108 ; hammer
     dw $00C0 ; bow
@@ -9510,52 +9502,41 @@ LoadItemGFXIntoWRAM4BPPBuffer:
     
     ; Load ice rod tiles?
     LDA.b #$07
-    
     JSR.w LoadItemGFX
     
     ; Load fire rod tiles?
     LDA.b #$07
-    
     JSR.w LoadItemGFX
     
     ; Load hammer tiles?
     LDA.b #$03
-    
     JSR.w LoadItemGFX
     
     LDY.b #$5F
     LDA.b #$04
-    
     JSR.w LoadItemGFX_arbitrary_sheet
     
     LDA.b #$03
-    
     JSR.w LoadItemGFX_current_sheet
     
     LDA.b #$01
-    
     JSR.w LoadItemGFX_current_sheet
     
     LDA.b #$04
-    
     JSR.w LoadItemGFX
     
     LDY.b #$60
     LDA.b #$0E
-    
     JSR.w LoadItemGFX_arbitrary_sheet
     
     LDA.b #$07
-    
     JSR.w LoadItemGFX_current_sheet
     
     LDY.b #$5F
     LDA.b #$02
-    
     JSR.w LoadItemGFX_arbitrary_sheet
     
     LDY.b #$54
-    
     JSR.w Decomp_spr_low
     
     REP #$30
@@ -9681,11 +9662,9 @@ DecompShieldGfx:
     PHB : PHK : PLB
     
     LDY.b #$5F
-    
     JSR.w Decomp_spr_high
     
     LDY.b #$5E
-    
     JSR.w Decomp_spr_low
     
     REP #$21
@@ -9797,7 +9776,6 @@ DecompOwAnimatedTiles:
     
     ; Decompress the next consecutive bg graphics pack (e.g. 0x44 -> 0x45).
     PLY : INY
-    
     JSR.w Decomp_bg_low
     
     REP #$30
@@ -9826,7 +9804,6 @@ LoadItemGFX_Auxiliary:
     ; Loads blue / orange block, bird / thief's chest, and star animated tiles
     ; (in that order).
     LDY.b #$0F
-    
     JSR.w Decomp_bg_low
     
     REP #$30
@@ -9840,7 +9817,6 @@ LoadItemGFX_Auxiliary:
     SEP #$30
     
     LDY.b #$58
-    
     JSR.w Decomp_spr_low
     
     REP #$30
@@ -9854,7 +9830,6 @@ LoadItemGFX_Auxiliary:
     SEP #$30
     
     LDY.b #$05
-    
     JSR.w Decomp_bg_low
     
     REP #$30
@@ -9863,7 +9838,6 @@ LoadItemGFX_Auxiliary:
     
     LDY.w #$0002
     LDX.w #$2DC0
-    
     JSR.w Do3To4LowAnimated_variable
     
     SEP #$30
@@ -9892,11 +9866,10 @@ LoadFollowerGraphics_gfx_offset:
     dw $0900 ; 0x0D - Super bomb
 }
 
+; Something of a tagalong graphics decompressor.
 ; $005423-$005468 LONG JUMP LOCATION
 Tagalong_LoadGfx:
 {
-    ; Something of a tagalong graphics decompressor.
-    
     PHB : PHK : PLB
     
     LDY.b #$64
@@ -9932,7 +9905,6 @@ Tagalong_LoadGfx:
     
     LDY.w #$0020
     LDX.w #$2940
-    
     JSR.w Do3To4LowAnimated_variable
     
     SEP #$30
@@ -10088,7 +10060,7 @@ LoadItemGFX:
     
     LDY.b $0C
     
-    LDA.b $00 : ADC.w Pool_LoadItemGFX_offset, Y
+    LDA.b $00 : ADC.w .offset, Y
     
     LDX.b $06
     LDY.b $0A
@@ -11567,20 +11539,20 @@ PrepTransAuxGFX:
 
 ; ==============================================================================
 
+
 ; TODO: Come up with a better lable. The main difference in this function as
 ; opposed to the Non-16bit version is that it stores to a buffer instead of
 ; directly into VRAM.
+; Looks similar to Do3To4High, exept that it accepts more parameters.
+; Inputs:
+; A - Used to set the low 2 bytes of $00[3] - source address for
+;     already decompressed data.
+; Y - number of 3bpp tiles to convert to 4bpp (using only the higher 8
+;     colors of the palette).
+; X - a starting offset into $7F0000.
 ; $005F4F-$005FB7 LOCAL JUMP LOCATION
 Do3To4High16Bit:
 {
-    ; Looks similar to Do3To4High, exept that it accepts more parameters.
-    ; Inputs:
-    ; A - Used to set the low 2 bytes of $00[3] - source address for
-    ;     already decompressed data.
-    ; Y - number of 3bpp tiles to convert to 4bpp (using only the higher 8
-    ;     colors of the palette).
-    ; X - a starting offset into $7F0000.
-    
     STY.b $0C
 
     .nextTile
@@ -11618,6 +11590,9 @@ Do3To4High16Bit:
 
 ; ==============================================================================
 
+; TODO: Come up with a better lable. The main difference in this function as
+; opposed to the Non-16bit version is that it stores to a buffer instead of
+; directly into VRAM.
 ; Very similar to Do3To4Low, except that the routine is completely
 ; standalone, and remains in 16-bit until after the routine is finished as
 ; well. (There are other differences).
@@ -11627,9 +11602,6 @@ Do3To4High16Bit:
 ; Y - number of 3bpp tiles to convert to 4bpp (using only the lower 8
 ;     colors of the palette).
 ; X - a starting offset into $7F0000.
-; TODO: Come up with a better lable. The main difference in this function as
-; opposed to the Non-16bit version is that it stores to a buffer instead of
-; directly into VRAM.
 ; $005FB8-$006030 LOCAL JUMP LOCATION
 Do3To4Low16Bit:
 {
@@ -12027,7 +11999,8 @@ LoadDefaultGfx:
             
             ; The values will be written in reverse order from how they are in
             ; memory.
-            LDA [$00] : STA.w SNES.VRAMDataWriteLow : XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
+            LDA [$00] : STA.w SNES.VRAMDataWriteLow
+            XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
             
             INC.b $00 : INC.b $00
         DEX #2 : BPL .writeLowBitplanes
@@ -12036,7 +12009,8 @@ LoadDefaultGfx:
 
         .writeHighBitplanes
 
-            LDA [$00] : AND.w #$00FF : STA.b $BD : ORA.b $BF, X : XBA : ORA.b $BD : STA.w SNES.VRAMDataWriteLow
+            LDA [$00] : AND.w #$00FF : STA.b $BD
+            ORA.b $BF, X : XBA : ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             INC.b $00
         DEX #2 : BPL .writeHighBitplanes
     DEY : BNE .nextTile
@@ -12145,14 +12119,13 @@ Graphics_LoadCommonSprLong:
 
 ; ==============================================================================
 
-; Decent name?
+; TODO: Decent name?
+; Appears to write the mode 7 chr data to VRAM, however, it would be much
+; faster to do this via DMA. in fact, in another place this operation is
+; performed with dma, if I'm not mistaken.
 ; $006399-$0063D1 LONG JUMP LOCATION
 CopyMode7Chr:
 {
-    ; Appears to write the mode 7 chr data to VRAM, however, it would be much
-    ; faster to do this via DMA. in fact, in another place this operation is
-    ; performed with dma, if I'm not mistaken.
-    
     ; Set source address bank to 0x18.
     LDA.b #$18 : STA.b $02
     
@@ -12246,7 +12219,6 @@ Pool_Graphics_LoadChrHalfSlot:
 ; tiles to one of two locations in the sprite region of VRAM - 
 ; 0x4400 or 0x4600. Generally I guess you could say that it's designed
 ; to load "half slots" or half graphics packs.
-
 ; $0063FA-$0064E8 LONG JUMP LOCATION
 Graphics_LoadChrHalfSlot:
 {
@@ -12749,7 +12721,8 @@ LoadCommonSprGfx:
         ; I forget what it contains for the moment...
         LDY.b #$06
         
-        ; Determine the address of the data to directly convert from 3bpp to 4bpp.
+        ; Determine the address of the data to directly convert from 3bpp to
+        ; 4bpp.
         LDA.w GFXSheetPointers_sprite_bank, Y : STA.b $02
         LDA.w GFXSheetPointers_sprite_high, Y : STA.b $01
         LDA.w GFXSheetPointers_sprite_low, Y  : STA.b $00
@@ -13093,7 +13066,7 @@ PaletteFilter:
 
     REP #$30
     
-    LDX.w #$E88C
+    LDX.w #PaletteFilterColorMasks
     
     LDA.l $7EC007 : CMP.w #$0010 : BCC .alpha
         ; X = 0xE88E in this case. (darkening process).
@@ -13332,7 +13305,7 @@ FilterColorsEndpoint:
 {
     !lastColor = $0E
     
-    STA !lastColor
+    STA.b !lastColor
 
     .nextColor
 
@@ -13581,10 +13554,8 @@ Palette_Filter_SP5F:
 ; ==============================================================================
 
 ; $006C54-$006C78 BRANCH LOCATION
-Pool_KholdstareShell_PaletteFiltering:
+KholdstareShell_PaletteFiltering_initialize:
 {
-    .initialize
-
     REP #$20
     
     ; This loop copies auxiliary BP4_L to normal BP4_L.
@@ -13620,53 +13591,48 @@ Pool_KholdstareShell_PaletteFiltering:
 KholdstareShell_PaletteFiltering:
 {
     LDA.b $B0 : BEQ .initialize
-    
-    JSL.l .do_filtering
-    
-    LDA.l $7EC007 : BEQ .disable_subscreen
+        JSL.l .do_filtering
+        
+        LDA.l $7EC007 : BEQ .disable_subscreen
+            .do_filtering
 
-        .do_filtering
+            REP #$30
+            
+            LDX.w #$E88C
+            
+            LDA.l $7EC007 : CMP.w #$0010 : BCC .firstHalf
+                INX #2
 
-        REP #$30
-        
-        LDX.w #$E88C
-        
-        LDA.l $7EC007 : CMP.w #$0010 : BCC .firstHalf
-            INX #2
+            .firstHalf
 
-        .firstHalf
+            STX.b $B7
+            
+            AND.w #$000F : ASL A : TAX
+            
+            ; Get 1 << (15 - i).
+            LDA.l $0098C0, X : STA !bitFilter
+            
+            PHB : PHK : PLB
+            
+            LDA.l $7EC009 : TAX
 
-        STX.b $B7
-        
-        AND.w #$000F : ASL A : TAX
-        
-        ; Get 1 << (15 - i).
-        LDA.l $0098C0, X : STA !bitFilter
-        
-        PHB : PHK : PLB
-        
-        LDA.l $7EC009 : TAX
-
-        LDA.w PaletteFilterColorAdd_red, X   : STA.b $06
-        LDA.w PaletteFilterColorAdd_green, X : STA.b $08
-        LDA.w PaletteFilterColorAdd_blue, X  : STA.b $0A
-        
-        LDX.w #$0080
-        LDA.w #$0090
-        
-        JMP PaletteFilterHistory_doFiltering
+            LDA.w PaletteFilterColorAdd_red, X   : STA.b $06
+            LDA.w PaletteFilterColorAdd_green, X : STA.b $08
+            LDA.w PaletteFilterColorAdd_blue, X  : STA.b $0A
+            
+            LDX.w #$0080
+            LDA.w #$0090
+            
+            JMP PaletteFilterHistory_doFiltering
 }
 
 ; ==============================================================================
 
 ; $006CC4-$006CC9 DATA
-Pool_PaletteFilter_Agahnim:
+Pool_PaletteFilter_Agahnim_palette_offsets:
 {
-    .palette_offsets
     dw $0160, $0180, $01A0
 }
-
-; ==============================================================================
 
 ; Input:
 ; X - index of the sprite to perform filtering for.
@@ -13821,12 +13787,10 @@ PaletteFilter_Restore:
     
     LDX.w #$00B0
     LDA.w #$00C0
-    
     JSR.w RestorePaletteAdditive
     
     LDX.w #$00D0
     LDA.w #$00E0
-    
     JSR.w RestorePaletteSubtractive
     
     SEP #$30
@@ -13849,7 +13813,7 @@ RestorePaletteAdditive:
 
         LDA.l $7EC500, X : TAY 
         
-        AND.w #$001F       : STA.b $08
+              AND.w #$001F : STA.b $08
         TYA : AND.w #$03E0 : STA.b $0A
         TYA : AND.w #$7C00 : STA.b $0C
         
@@ -13986,8 +13950,10 @@ MirrorWarp_RunAnimationSubmodules:
 }
 
 ; $006EF1-$006F89 LONG JUMP LOCATION
-PaletteFilter_BlindingWhite:
+PaletteFilter:
 {
+    .BlindingWhite
+
     REP #$30
         
     LDA.l $7EC009
@@ -14019,7 +13985,7 @@ PaletteFilter_BlindingWhite:
         JSR.w RestorePaletteSubtractive
 
         ; $006F27 ALTERNATE ENTRY POINT
-        .PaletteFilter_StartBlindingWhite
+        .StartBlindingWhite
 
         LDA.l $7EC540 : STA.l $7EC500
             
@@ -14074,7 +14040,7 @@ PaletteFilter_BlindingWhiteTriforce:
     
     JSR.w RestorePaletteAdditive
     
-    BRA .BRANCH_$6F27
+    BRA PaletteFilterStartBlindingWhite
 }
 
 ; ==============================================================================
@@ -14289,8 +14255,6 @@ WhirlpoolRestoreRedGreen:
 ; $007132-$007168 BRANCH LOCATION
 PaletteFilter_EasyOut:
 {
-    .easy_out
-
     SEP #$30
 
     RTL
@@ -14301,7 +14265,7 @@ PaletteFilter_Restore_Strictly_Bg_Subtractive:
 {
     REP #$30
     
-    LDA.l $7EC009 : CMP.w #$00FF : BEQ PaletteFilter_EasyOut_easy_out
+    LDA.l $7EC009 : CMP.w #$00FF : BEQ PaletteFilter_EasyOut
         PHB : PHK : PLB
         
         LDX.w #$0040
@@ -14544,7 +14508,7 @@ Spotlight:
     
     ; Source bank is bank $00.
     LDA.b #$00 : STA.w DMA.6_SourceAddrBank : STA.w DMA.7_SourceAddrBank
-    LDA.b #$00 : STA.w DMA.6__DataBank : STA.w DMA.7__DataBank
+    LDA.b #$00 : STA.w DMA.6__DataBank      : STA.w DMA.7__DataBank
     
     ; Configure window mask settings.
     LDA.b #$33 : STA.b $96
@@ -14589,9 +14553,11 @@ Spotlight:
 Pool_ConfigureSpotlightTable:
 {
     ; Granularity of how much the spotlight expands or dilates each frame.
+    ; $007302
     .delta_size
     dw -7,   7,   7,   7
 
+    ; $00730A
     .goal
     dw  0, 126,  35, 126
 }
@@ -14761,9 +14727,8 @@ ResetSpotlightTable:
 ; ==============================================================================
 
 ; $00744B-$0074CB DATA
-Pool_IrisSpotlight_CalculateCircleValue:
+IrisSpotlight_CalculateCircleValue_multiplicand:
 {
-    .multiplicand
     db 255, 255, 255, 255, 255, 255, 255, 255
     db 255, 255, 255, 255, 254, 254, 254, 254
     db 253, 253, 253, 253, 252, 252, 252, 251
@@ -14806,8 +14771,7 @@ IrisSpotlight_CalculateCircleValue:
     
     TAX
     
-    LDY.w Pool_IrisSpotlight_CalculateCircleValue_multiplicand, X
-    STY.b $0A : STY.w SNES.MultiplicandA
+    LDY.w .multiplicand, X : STY.b $0A : STY.w SNES.MultiplicandA
     
     LDA.w $067C : STA.w SNES.MultiplierB
     
@@ -14853,23 +14817,27 @@ IrisSpotlight_CalculateCircleValue:
 
 ; ==============================================================================
 
+; Data for the following routine.
 ; $00753E-$007565 DATA
 OrientLampData:
 {
-    ; Data for the following routine.
-
+    ; $00753E
     .horitzonal
     dw   0, 256,   0, 256
     
+    ; $007546
     .vertical
     dw   0,   0, 256, 256
 
+    ; $00754E
     .adjustment
     dw  52,  -2,  56,   6
 
+    ; $007556
     .margin
     dw  64,  64, 82, -176
 
+    ; $00755E
     .maxima
     dw 128, 384, 160, 160
 }
@@ -14880,17 +14848,15 @@ OrientLampBg_easyOut:
     RTL
 }
 
-; ==============================================================================
-
 ; If necessary, this function orients BG1 (which would have lamp graphics
 ; on it) to match Link's direction and movement.
 ; $007567-$007648 LONG JUMP LOCATION
 OrientLampBg:
 {
     ; This variable is nonzero if Link has the lantern and the room is dark.
-    LDA.w $0458 : BEQ OrientLampBg_easyOut
+    LDA.w $0458 : BEQ .easyOut
     
-    LDA.b $11 : CMP.b #$14 : BEQ OrientLampBg_easyOut
+    LDA.b $11 : CMP.b #$14 : BEQ .easyOut
     
     REP #$30
     
@@ -15281,18 +15247,18 @@ Messaging_MainJumpTable:
     ; TODO: figure out interleaving syntax for tables like this.
     ; Parameterized by X:
     
-    dl Module_Messaging_doNothing ; 0x00 - RTL (do nothing).
-    dl Messaging_Equipment        ; 0x01 - Link's item submenu (press start).
-    dl Messaging_Text             ; 0x02 - Dialogue Mode.
-    dl Messaging_PalaceMap        ; 0x03 - Dungeon Map Mode.
-    dl RefillHeathFromRedPotion   ; 0x04 - Fills life (red potion).
-    dl Messaging_PrayingPlayer    ; 0x05 - Praying at desert palace before it opens.
-    dl Module0E_06_Unused         ; 0x06 - unused? Agahnim 2 related code?
-    dl Messaging_OverworldMap     ; 0x07 - Overworld Map Mode.
-    dl Module0E_08_GreenPotion    ; 0x08 - Fill up all magic (green potion).
-    dl Module0E_09_BluePotion     ; 0x09 - Fill up magic and life (blue potion).
-    dl Messaging_BirdTravel       ; 0x0A - The flute bird that flies you around.
-    dl Module0E_0B_SaveMenu       ; 0x0B - Continue/Save & Quit Mode.
+    dl Module_Messaging_doNothing ; 0x00 - $00F875 RTL (do nothing).
+    dl Messaging_Equipment        ; 0x01 - $0DDD2A Link's item submenu (press start).
+    dl Messaging_Text             ; 0x02 - $ Dialogue Mode.
+    dl Messaging_PalaceMap        ; 0x03 - $ Dungeon Map Mode.
+    dl RefillHeathFromRedPotion   ; 0x04 - $ Fills life (red potion).
+    dl Messaging_PrayingPlayer    ; 0x05 - $ Praying at desert palace before it opens.
+    dl Module0E_06_Unused         ; 0x06 - $ unused? Agahnim 2 related code?
+    dl Messaging_OverworldMap     ; 0x07 - $ Overworld Map Mode.
+    dl Module0E_08_GreenPotion    ; 0x08 - $ Fill up all magic (green potion).
+    dl Module0E_09_BluePotion     ; 0x09 - $ Fill up magic and life (blue potion).
+    dl Messaging_BirdTravel       ; 0x0A - $ The flute bird that flies you around.
+    dl Module0E_0B_SaveMenu       ; 0x0B - $ Continue/Save & Quit Mode.
 }
 
 ; $00789A-$0078B0 LONG JUMP LOCATION
@@ -15304,7 +15270,7 @@ Messaging_Main:
     LDA.l $00F882, X : STA.b $01
     LDA.l $00F88E, X : STA.b $02
     
-    JMP [$0000] ; SEE JUMP TABLE $007876
+    JMP [$0000]
 }
 
 ; ==============================================================================
