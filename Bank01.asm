@@ -63,8 +63,8 @@ Pool_Dungeon_LoadType1Object:
 ; $008200-$0083EF JUMP TABLE
 Pool_Dungeon_LoadType1Object:
 {
-    .subtype_1_params
     ; Subtype 1 objects (0xF8 distinct object types)
+    .subtype_1_params
     
     ; 0x00
     dw Object_Draw2x2s_AdvanceRight_from_1_to_15_or_32
@@ -72,309 +72,309 @@ Pool_Dungeon_LoadType1Object:
     dw Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26
     dw Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs
     dw Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs
-    dw $8C37 ; = $008C37
-    dw $8C37 ; = $008C37
-    dw $8B79 ; = $008B79
+    dw RoomDraw_Rightwards2x4spaced4_1to16_BothBG
+    dw RoomDraw_Rightwards2x4spaced4_1to16_BothBG
+    dw RoomDraw_Rightwards2x2_1to16
     
     ; 0x08
-    dw $8B79 ; = $008B79
-    dw $8C58 ; = $008C58
-    dw $8C61 ; = $008C61
-    dw $8C61 ; = $008C61
-    dw $8C58 ; = $008C58
-    dw $8C58 ; = $008C58
-    dw $8C61 ; = $008C61
-    dw $8C61 ; = $008C61
+    dw RoomDraw_Rightwards2x2_1to16
+    dw RoomDraw_DiagonalAcute_1to16
+    dw RoomDraw_DiagonalGrave_1to16
+    dw RoomDraw_DiagonalGrave_1to16
+    dw RoomDraw_DiagonalAcute_1to16
+    dw RoomDraw_DiagonalAcute_1to16
+    dw RoomDraw_DiagonalGrave_1to16
+    dw RoomDraw_DiagonalGrave_1to16
     
     ; 0x10
-    dw $8C58 ; = $008C58
-    dw $8C58 ; = $008C58
-    dw $8C61 ; = $008C61
-    dw $8C61 ; = $008C61
-    dw $8C58 ; = $008C58
-    dw $8C6A ; = $008C6A
-    dw $8CB9 ; = $008CB9
-    dw $8CB9 ; = $008CB9
+    dw RoomDraw_DiagonalAcute_1to16
+    dw RoomDraw_DiagonalAcute_1to16
+    dw RoomDraw_DiagonalGrave_1to16
+    dw RoomDraw_DiagonalGrave_1to16
+    dw RoomDraw_DiagonalAcute_1to16
+    dw RoomDraw_DiagonalAcute_1to16_BothBG
+    dw RoomDraw_DiagonalGrave_1to16_BothBG
+    dw RoomDraw_DiagonalGrave_1to16_BothBG
     
     ; 0x18
-    dw $8C6A ; = $008C6A
-    dw $8C6A ; = $008C6A
-    dw $8CB9 ; = $008CB9
-    dw $8CB9 ; = $008CB9
-    dw $8C6A ; = $008C6A
-    dw $8C6A ; = $008C6A
-    dw $8CB9 ; = $008CB9
-    dw $8CB9 ; = $008CB9
+    dw RoomDraw_DiagonalAcute_1to16_BothBG
+    dw RoomDraw_DiagonalAcute_1to16_BothBG
+    dw RoomDraw_DiagonalGrave_1to16_BothBG
+    dw RoomDraw_DiagonalGrave_1to16_BothBG
+    dw RoomDraw_DiagonalAcute_1to16_BothBG
+    dw RoomDraw_DiagonalAcute_1to16_BothBG
+    dw RoomDraw_DiagonalGrave_1to16_BothBG
+    dw RoomDraw_DiagonalGrave_1to16_BothBG
     
     ; 0x20
-    dw $8C6A ; = $008C6A
-    dw $8D5D ; = $008D5D ; Mini staircase (just slows you down)
-    dw Object_HorizontalRail_short ; = $008EF0
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
+    dw RoomDraw_DiagonalAcute_1to16_BothBG
+    dw RoomDraw_Rightwards1x2_1to16_plus2 ; Mini staircase (just slows you down)
+    dw Object_HorizontalRail_short
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
     
     ; 0x28
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
-    dw $8FBD ; = $008FBD
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsTopCorners1x2_1to16_plus13
     
     ; 0x30
-    dw $9001 ; = $009001
-    dw $90F8 ; = $0090F8 ; UNUSED: Unused object
-    dw $90F8 ; = $0090F8 ; UNUSED: Unused object
-    dw $9111 ; = $009111
-    dw $9136 ; = $009136 ; 34
-    dw $913F ; = $00913F ; 35? (HM says unused)
-    dw $92FB ; = $0092FB ; Curtains in Agahnim's room (horizontal)
-    dw $92FB ; = $0092FB ; Curtains in Agahnim's room (vertical, but not really useful because it tiles horizontally)
+    dw RoomDraw_RightwardsBottomCorners1x2_1to16_plus13
+    dw RoomDraw_Nothing_A ; UNUSED: Unused object
+    dw RoomDraw_Nothing_A ; UNUSED: Unused object
+    dw RoomDraw_Rightwards4x4_1to16
+    dw RoomDraw_Rightwards1x1Solid_1to16_plus3 ; 34
+    dw RoomDraw_DoorSwitcherer ; 35? (HM says unused)
+    dw RoomDraw_RightwardsDecor4x4spaced2_1to16 ; Curtains in Agahnim's room (horizontal)
+    dw RoomDraw_RightwardsDecor4x4spaced2_1to16 ; Curtains in Agahnim's room (vertical, but not really useful because it tiles horizontally)
     
     ; 0x38
-    dw $9323 ; = $009323
-    dw $936F ; = $00936F
-    dw $9387 ; = $009387
-    dw $9387 ; = $009387
-    dw $93B7 ; = $0093B7
-    dw $936F ; = $00936F
-    dw $9456 ; = $009456
-    dw $8F62 ; = $008F62
+    dw RoomDraw_RightwardsStatue2x3spaced2_1to16
+    dw RoomDraw_RightwardsPillar2x4spaced4_1to16
+    dw RoomDraw_RightwardsDecor4x3spaced4_1to16
+    dw RoomDraw_RightwardsDecor4x3spaced4_1to16
+    dw RoomDraw_RightwardsDoubled2x2spaced2_1to16
+    dw RoomDraw_RightwardsPillar2x4spaced4_1to16
+    dw RoomDraw_RightwardsDecor2x2spaced12_1to16
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
     
     ; 0x40
-    dw $8F62 ; = $008F62 ; Outline for water pools
-    dw $8F62 ; = $008F62 ; Outline for water pools
-    dw $8F62 ; = $008F62 ; Outline for water pools
-    dw $8F62 ; = $008F62 ; Outline for water pools
-    dw $8F62 ; = $008F62 ; Outline for water pools
-    dw $8F62 ; = $008F62 ; Outline for water pools
-    dw $8F62 ; = $008F62 ; Outline for water pools
-    dw $9466 ; = $009466 ; Thin waterfall (not used!)
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2 ; Outline for water pools
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2 ; Outline for water pools
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2 ; Outline for water pools
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2 ; Outline for water pools
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2 ; Outline for water pools
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2 ; Outline for water pools
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2 ; Outline for water pools
+    dw RoomDraw_Waterfall47 ; Thin waterfall (not used!)
     
     ; 0x48
-    dw $9488 ; = $009488 ; Variable width waterfall (also unused)
-    dw $94B4 ; = $0094B4
-    dw $94B4 ; = $0094B4
-    dw $9456 ; = $009456
-    dw $94BD ; = $0094BD
-    dw $94DF ; = $0094DF ; Interesting that these three objects are identical and so are their parameters...
-    dw $94DF ; = $0094DF
-    dw $94DF ; = $0094DF
+    dw RoomDraw_Waterfall48 ; Variable width waterfall (also unused)
+    dw RoomDraw_RightwardsFloorTile4x2_1to16
+    dw RoomDraw_RightwardsFloorTile4x2_1to16
+    dw RoomDraw_RightwardsDecor2x2spaced12_1to16
+    dw RoomDraw_RightwardsBar4x3_1to16
+    dw RoomDraw_RightwardsShelf4x4_1to16 ; Interesting that these three objects are identical and so are their parameters...
+    dw RoomDraw_RightwardsShelf4x4_1to16
+    dw RoomDraw_RightwardsShelf4x4_1to16
     
     ; 0x50
-    dw $96DC ; = $0096DC
-    dw $9CC6 ; = $009CC6
-    dw $9CC6 ; = $009CC6
-    dw $8B79 ; = $008B79
-    dw $8AA3 ; = $008AA3 ; UNUSED: Unused object
-    dw $96F9 ; = $0096F9
-    dw $96F9 ; = $0096F9
-    dw $971A ; = $00971A
+    dw RoomDraw_RightwardsLine1x1_1to16plus1
+    dw RoomDraw_RightwardsCannonHole4x3_1to16
+    dw RoomDraw_RightwardsCannonHole4x3_1to16
+    dw RoomDraw_Rightwards2x2_1to16
+    dw RoomDraw_Nothing_B ; UNUSED: Unused object
+    dw RoomDraw_RightwardsDecor4x2spaced8_1to16
+    dw RoomDraw_RightwardsDecor4x2spaced8_1to16
+    dw RoomDraw_Nothing_C
     
     ; 0x58
-    dw $971A ; = $00971A
-    dw $971A ; = $00971A
-    dw $971A ; = $00971A
-    dw $9CC6 ; = $009CC6
-    dw $9CC6 ; = $009CC6
-    dw $8F36 ; = $008F36
-    dw $9338 ; = $009338
+    dw RoomDraw_Nothing_C
+    dw RoomDraw_Nothing_C
+    dw RoomDraw_Nothing_C
+    dw RoomDraw_RightwardsCannonHole4x3_1to16
+    dw RoomDraw_RightwardsCannonHole4x3_1to16
+    dw RoomDraw_RightwardsBigRail1x3_1to16plus5
+    dw RoomDraw_RightwardsBlock2x2spaced2_1to16
     dw Object_HorizontalRail_long
     
     ; 0x60
     dw Object_Draw2x2sDownVariableOrFull
-    dw $8A89 ; = $008A89
-    dw $8A89 ; = $008A89
-    dw $8AA4 ; = $008AA4
-    dw $8AA4 ; = $008AA4
-    dw $8C4F ; = $008C4F
-    dw $8C4F ; = $008C4F
-    dw $8B74 ; = $008B74
+    dw RoomDraw_Downwards4x2_1to15or26
+    dw RoomDraw_Downwards4x2_1to15or26
+    dw RoomDraw_Downwards4x2_1to16_BothBG
+    dw RoomDraw_Downwards4x2_1to16_BothBG
+    dw RoomDraw_DownwardsDecor4x2spaced4_1to16
+    dw RoomDraw_DownwardsDecor4x2spaced4_1to16
+    dw RoomDraw_Downwards2x2_1to16
     
     ; 0x68
-    dw $8B74 ; = $008B74
-    dw $8EC3 ; = $008EC3
-    dw $8F8A ; = $008F8A
-    dw $8F8A ; = $008F8A
-    dw $9045 ; = $009045
-    dw $908F ; = $00908F
-    dw $90F8 ; = $0090F8 ; UNUSED: Unused object?
-    dw $90F8 ; = $0090F8 ; UNUSED: Unused object?
+    dw RoomDraw_Downwards2x2_1to16
+    dw RoomDraw_DownwardsHasEdge1x1_1to16_plus3
+    dw RoomDraw_DownwardsEdge1x1_1to16
+    dw RoomDraw_DownwardsEdge1x1_1to16
+    dw RoomDraw_DownwardsLeftCorners2x1_1to16_plus12
+    dw RoomDraw_DownwardsRightCorners2x1_1to16_plus12
+    dw RoomDraw_Nothing_A ; UNUSED: Unused object?
+    dw RoomDraw_Nothing_A ; UNUSED: Unused object?
     
     ; 0x70
-    dw $90F9 ; = $0090F9
-    dw $9120 ; = $009120
-    dw $8AA3 ; = $008AA3
-    dw $930E ; = $00930E
-    dw $930E ; = $00930E
-    dw $9357 ; = $009357
-    dw $939F ; = $00939F
-    dw $939F ; = $00939F
+    dw RoomDraw_DownwardsFloor4x4_1to16
+    dw RoomDraw_Downwards1x1Solid_1to16_plus3
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_DownwardsDecor4x4spaced2_1to16
+    dw RoomDraw_DownwardsDecor4x4spaced2_1to16
+    dw RoomDraw_DownwardsPillar2x4spaced2_1to16
+    dw RoomDraw_DownwardsDecor3x4spaced4_1to16
+    dw RoomDraw_DownwardsDecor3x4spaced4_1to16
     
     ; 0x78
-    dw $9446 ; = $009446
-    dw $8F8A ; = $008F8A
-    dw $8F8A ; = $008F8A
-    dw $9446 ; = $009446
-    dw $96E4 ; = $0096E4
-    dw $8B74 ; = $008B74
-    dw $8AA3 ; = $008AA3
-    dw $9702 ; = $009702
+    dw RoomDraw_DownwardsDecor2x2spaced12_1to16
+    dw RoomDraw_DownwardsEdge1x1_1to16
+    dw RoomDraw_DownwardsEdge1x1_1to16
+    dw RoomDraw_DownwardsDecor2x2spaced12_1to16
+    dw RoomDraw_DownwardsLine1x1_1to16plus1
+    dw RoomDraw_Downwards2x2_1to16
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_DownwardsDecor2x4spaced8_1to16
     
     ; 0x80
-    dw $9702 ; = $009702
-    dw $971B ; = $00971B
-    dw $971B ; = $00971B
-    dw $971B ; = $00971B
-    dw $971B ; = $00971B
-    dw $9CEB ; = $009CEB
-    dw $9CEB ; = $009CEB
-    dw $9357 ; = $009357
+    dw RoomDraw_DownwardsDecor2x4spaced8_1to16
+    dw RoomDraw_DownwardsDecor3x4spaced2_1to16
+    dw RoomDraw_DownwardsDecor3x4spaced2_1to16
+    dw RoomDraw_DownwardsDecor3x4spaced2_1to16
+    dw RoomDraw_DownwardsDecor3x4spaced2_1to16
+    dw RoomDraw_DownwardsCannonHole3x4_1to16
+    dw RoomDraw_DownwardsCannonHole3x4_1to16
+    dw RoomDraw_DownwardsPillar2x4spaced2_1to16
     
     ; 0x88
-    dw $8F0C ; = $008F0C
-    dw $9347 ; = $009347
-    dw $8EBE ; = $008EBE
-    dw $90E2 ; = $0090E2
-    dw $90E2 ; = $0090E2
-    dw $8F8A ; = $008F8A
-    dw $8F8A ; = $008F8A
-    dw $97B5 ; = $0097B5
+    dw RoomDraw_DownwardsBigRail3x1_1to16plus5
+    dw RoomDraw_DownwardsBlock2x2spaced2_1to16
+    dw RoomDraw_DownwardsHasEdge1x1_1to16_plus23
+    dw RoomDraw_DownwardsEdge1x1_1to16plus7
+    dw RoomDraw_DownwardsEdge1x1_1to16plus7
+    dw RoomDraw_DownwardsEdge1x1_1to16
+    dw RoomDraw_DownwardsEdge1x1_1to16
+    dw RoomDraw_DownwardsBar2x5_1to16
     
     ; 0x90
-    dw $8A89 ; = $008A89
-    dw $8A89 ; = $008A89
+    dw RoomDraw_Downwards4x2_1to15or26
+    dw RoomDraw_Downwards4x2_1to15or26
     dw Object_Draw2x2sDownVariableOrFull ; Blue block switch   (vertical)
     dw Object_Draw2x2sDownVariableOrFull ; Orange block switch (vertical)
-    dw $90F9 ; = $0090F9 ; Partially see through floor
-    dw $B381 ; = $00B381 ; Vertical line of pots
-    dw $B47F ; = $00B47F ; Vertical Line of moles
-    dw $8AA3 ; = $008AA3
+    dw RoomDraw_DownwardsFloor4x4_1to16 ; Partially see through floor
+    dw RoomDraw_DownwardsPots2x2_1to16 ; Vertical line of pots
+    dw RoomDraw_DownwardsHammerPegs2x2_1to16 ; Vertical Line of moles
+    dw RoomDraw_Nothing_B
     
     ; 0x98
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
     
     ; 0xA0
-    dw $8BE0 ; = $008BE0
-    dw $8BF4 ; = $008BF4
-    dw $8C0E ; = $008C0E
-    dw $8C22 ; = $008C22
+    dw RoomDraw_DiagonalCeilingTopLeftA
+    dw RoomDraw_DiagonalCeilingBottomLeftA
+    dw RoomDraw_DiagonalCeilingTopRightA
+    dw RoomDraw_DiagonalCeilingBottomRightA
     dw Object_Hole
-    dw $8E67 ; = $008E67
-    dw $8E7B ; = $008E7B
-    dw $8E95 ; = $008E95
+    dw RoomDraw_DiagonalCeilingTopLeftB
+    dw RoomDraw_DiagonalCeilingBottomLeftB
+    dw RoomDraw_DiagonalCeilingTopRightB
     
     ; 0xA8
-    dw $8EA9 ; = $008EA9
-    dw $8E67 ; = $008E67
-    dw $8E7B ; = $008E7B
-    dw $8E95 ; = $008E95
-    dw $8EA9 ; = $008EA9
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
+    dw RoomDraw_DiagonalCeilingBottomRightB
+    dw RoomDraw_DiagonalCeilingTopLeftB
+    dw RoomDraw_DiagonalCeilingBottomLeftB
+    dw RoomDraw_DiagonalCeilingTopRightB
+    dw RoomDraw_DiagonalCeilingBottomRightB
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
     
     ; 0xB0
-    dw $90D9 ; = $0090D9
-    dw $90D9 ; = $0090D9
-    dw $9111 ; = $009111
-    dw $8F62 ; = $008F62
-    dw $8F62 ; = $008F62
-    dw $97DC ; = $0097DC ; Fortune teller curtain
+    dw RoomDraw_RightwardsEdge1x1_1to16plus7
+    dw RoomDraw_RightwardsEdge1x1_1to16plus7
+    dw RoomDraw_Rightwards4x4_1to16
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_RightwardsHasEdge1x1_1to16_plus2
+    dw RoomDraw_Weird2x4_1_to_16 ; Fortune teller curtain
     dw Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26
     dw Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26
     
     ; 0xB8
     dw Object_Draw2x2s_AdvanceRight_from_1_to_15_or_32 ; Blue switch block (horizontal)
     dw Object_Draw2x2s_AdvanceRight_from_1_to_15_or_32 ; Orange switch block (horizontal)
-    dw $9111 ; = $009111
-    dw $9338 ; = $009338
-    dw $B376 ; = $00B376 ; Horizontal line of pots
-    dw $B474 ; = $00B474 ; Horizontal line of moles
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
+    dw RoomDraw_Rightwards4x4_1to16
+    dw RoomDraw_RightwardsBlock2x2spaced2_1to16
+    dw RoomDraw_RightwardsPots2x2_1to16 ; Horizontal line of pots
+    dw RoomDraw_RightwardsHammerPegs2x2_1to16 ; Horizontal line of moles
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
     
     ; 0xC0
     dw Object_DrawRectOf1x1s
-    dw $8CC7 ; = $008CC7
+    dw RoomDraw_ClosedChestPlatform
     dw Object_DrawRectOf1x1s
-    dw $8D9E ; = $008D9E
-    dw $8FA2 ; = $008FA2
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
+    dw RoomDraw_3x3FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorOneIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
     
     ; 0xC8
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
-    dw $918F ; = $00918F ; Undefined object
-    dw $918F ; = $00918F ; Undefined object
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_Nothing_E ; Undefined object
+    dw RoomDraw_Nothing_E ; Undefined object
     dw Object_HiddenWallRight
     dw Object_HiddenWallLeft
-    dw $8FBC ; = $008FBC
+    dw RoomDraw_Nothing_D
     
     ; 0xD0
-    dw $8FBC ; = $008FBC
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
-    dw RoomDraw_CheckIfWallIsMoved ; $9298 ; = $009298
-    dw RoomDraw_CheckIfWallIsMoved ; $9298 ; = $009298
-    dw RoomDraw_CheckIfWallIsMoved ; $9298 ; = $009298
-    dw RoomDraw_CheckIfWallIsMoved ; $9298 ; = $009298
-    dw $8D9E ; = $008D9E
+    dw RoomDraw_Nothing_D
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_CheckIfWallIsMoved
+    dw RoomDraw_CheckIfWallIsMoved
+    dw RoomDraw_CheckIfWallIsMoved
+    dw RoomDraw_CheckIfWallIsMoved
+    dw RoomDraw_3x3FloorIn4x4SuperSquare
     
     ; 0xD8
     dw Object_Water ; Water
-    dw $8FA5 ; = $008FA5 ; Large b8FA5lack space
-    dw $95EF ; = $0095EF ; Water 2?
-    dw $8F9D ; = $008F9D
-    dw $9733 ; = $009733 ; Staircase platform
-    dw $93DC ; = $0093DC ; Large rock formation in caves / variable sized table
-    dw $9429 ; = $009429 ; Spike block groups
-    dw $8FA5 ; = $008FA5
+    dw RoomDraw_4x4FloorIn4x4SuperSquare ; Large b8FA5lack space
+    dw RoomDraw_WaterOverlayB8x8_1to16 ; Water 2?
+    dw RoomDraw_4x4FloorTwoIn4x4SuperSquare
+    dw RoomDraw_OpenChestPlatform ; Staircase platform
+    dw RoomDraw_TableRock4x4_1to16 ; Large rock formation in caves / variable sized table
+    dw RoomDraw_Spike2x2In4x4SuperSquare ; Spike block groups
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
     
     ; 0xE0
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
-    dw $8FA5 ; = $008FA5
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
     
     ; 0xE8
-    dw $8FA5 ; = $008FA5
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
+    dw RoomDraw_4x4FloorIn4x4SuperSquare
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
     
     ; 0xF0
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
-    dw $8AA3 ; = $008AA3
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
+    dw RoomDraw_Nothing_B
 }
 
 ; ==============================================================================
@@ -457,25 +457,25 @@ Subtype2Routines:
     dw Object_Draw2x4
     dw Object_Draw2x2
     dw Object_Draw3x6_Alternate 
-    dw $A41B ; = $00A41B ; Inter-room in-room up-north   staircase
-    dw $A458 ; = $00A458 ; Inter-room in-room down-south staircase
-    dw $A486 ; = $00A486 ; Inter-room in-room down-north staircase (subtype obscured by hidden wall)
+    dw RoomDraw_InterRoomFatStairsUp ; Inter-room in-room up-north   staircase
+    dw RoomDraw_InterRoomFatStairsDown_A ; Inter-room in-room down-south staircase
+    dw RoomDraw_InterRoomFatStairsDown_B ; Inter-room in-room down-north staircase (subtype obscured by hidden wall)
     
     ; 0x30
-    dw $A25D ; = $00A25D ; Seems identical to next object, but unused in the original game
-    dw $A26D ; = $00A26D ; Inter-bg        in-room up-north staircase
-    dw $A2C7 ; = $00A2C7 ; Inter-psuedo bg in-room up-north staircase
-    dw $A2DF ; = $00A2DF ; Inter-bg        in-room up-north staircase (subtype used in water rooms like in Swamp Palace)
+    dw RoomDraw_AutoStairs_North_MultiLayer_A ; Seems identical to next object, but unused in the original game
+    dw RoomDraw_AutoStairs_North_MultiLayer_B ; Inter-bg        in-room up-north staircase
+    dw RoomDraw_AutoStairs_North_MergedLayer_A ; Inter-psuedo bg in-room up-north staircase
+    dw RoomDraw_AutoStairs_North_MergedLayer_B ; Inter-bg        in-room up-north staircase (subtype used in water rooms like in Swamp Palace)
     dw Object_Draw2x2 ; Single block
     dw Object_WaterLadder ; Swamp Palace activated ladder
     dw Object_InactiveWaterLadder ; Swamp Palace deactivated ladder
     dw Object_Watergate
     
     ; 0x38
-    dw $A4B4 ; = $00A4B4 ; Wall up-north spiral staircase
-    dw $A533 ; = $00A533 ; Wall down-north spiral staircase
-    dw $A4F5 ; = $00A4F5 ; Wall up-north spiral staircase
-    dw $A584 ; = $00A584 ; Wall down-north spiral staircase
+    dw RoomDraw_SpiralStairsGoingUpUpper   ; Wall up-north spiral staircase
+    dw RoomDraw_SpiralStairsGoingDownUpper ; Wall down-north spiral staircase
+    dw RoomDraw_SpiralStairsGoingUpLower   ; Wall up-north spiral staircase
+    dw RoomDraw_SpiralStairsGoingDownLower ; Wall down-north spiral staircase
     dw Object_SanctuaryMantle
     dw Object_Draw3x4
     dw Object_Draw3x6
@@ -519,10 +519,10 @@ Subtype3Params:
 Subtype3Routines:
 {
     ; 0x00
-    dw $9D29 ; = $009D29
-    dw $9D5D ; = $009D5D
-    dw $9D67 ; = $009D67
-    dw $9C3B ; = $009C3B
+    dw RoomDraw_EmptyWaterFace
+    dw RoomDraw_SpittingWaterFace
+    dw RoomDraw_DrenchingWaterFace
+    dw RoomDraw_SomariaLine_increment_count
     dw Object_Draw1x1
     dw Object_Draw1x1
     dw Object_Draw1x1
@@ -535,7 +535,7 @@ Subtype3Routines:
     dw Object_Draw1x1
     dw Object_Draw1x1
     dw Object_PrisonBars ; Set of prison bars with slot (unused?)
-    dw $9C3B ; = $009C3B
+    dw RoomDraw_SomariaLine_increment_count
     dw Object_Draw1x1
     
     ; 0x10
@@ -549,40 +549,40 @@ Subtype3Routines:
     dw Object_PrisonBars ; Set of prison bars with slot (used)
     
     ; 0x18
-    dw Object_BigKeyLock       ; = $0098AE
-    dw Object_Chest            ; = $0098D0 ; Normal Chest
-    dw Object_Chest_startsOpen ; = $0099B8
-    dw $A30C ; = $00A30C ; In-room up-south staircase
-    dw $A31C ; = $00A31C ; In-room up-south staircase
-    dw $A36E ; = $00A36E ; In-room up-south staircase
-    dw $A5D2 ; = $00A5D2 ; Wall up-north straight staircase
-    dw $A5F4 ; = $00A5F4 ; Wall down-north straight staircase
+    dw Object_BigKeyLock
+    dw Object_Chest            ; Normal Chest
+    dw Object_Chest_startsOpen
+    dw RoomDraw_AutoStairs_South_MultiLayer_A ; In-room up-south staircase
+    dw RoomDraw_AutoStairs_South_MultiLayer_B ; In-room up-south staircase
+    dw RoomDraw_AutoStairs_South_MultiLayer_C ; In-room up-south staircase
+    dw RoomDraw_StraightInterroomStairsGoingUpNorthUpper ; Wall up-north straight staircase
+    dw RoomDraw_StraightInterroomStairsGoingDownNorthUpper ; Wall down-north straight staircase
     
     ; 0x20
-    dw $A607 ; = $00A607 ; Wall up-south straight staircase
-    dw $A626 ; = $00A626 ; Wall down-south straight staircase
+    dw RoomDraw_StraightInterroomStairsGoingUpSouthUpper ; Wall up-south straight staircase
+    dw RoomDraw_StraightInterroomStairsGoingDownSouthUpper ; Wall down-south straight staircase
     dw Object_Draw2x2
     dw Object_Draw2x2
     dw Object_Draw2x2
     dw Object_Draw2x2
-    dw $A664 ; = $00A664 ; Wall up-north straight staircase
-    dw $A695 ; = $00A695 ; Wall down-north straight staircase
+    dw RoomDraw_StraightInterroomStairsGoingUpNorthLower ; Wall up-north straight staircase
+    dw RoomDraw_StraightInterroomStairsGoingDownNorthLower ; Wall down-north straight staircase
     
     ; 0x28
-    dw $A71C ; = $00A71C ; Wall up-south straight staircase
-    dw $A74A ; = $00A74A ; Wall down-south straight staircase  
+    dw RoomDraw_StraightInterroomStairsGoingUpSouthLower ; Wall up-south straight staircase
+    dw RoomDraw_StraightInterroomStairsGoingDownSouthLower ; Wall down-south straight staircase  
     dw Object_LanternLayer
-    dw $B306 ; = $00B306 ; Heavy (unfinished) throwable pot?
+    dw RoomDraw_WeirdGloveRequiredPot ; Heavy (unfinished) throwable pot?
     dw Object_LargeLiftableBlock
     dw Object_AgahnimAltar 
     dw Object_AgahnimRoomFrame
     dw Object_Pot ; Pots and Skulls in dungeons
     
     ; 0x30
-    dw $B30B ; = $00B30B ; Other liftable object (graphics messed up)
-    dw Object_BigChest  ; = $0099BB ; Big Chest
+    dw RoomDraw_WeirdGloveRequiredPot ; Other liftable object (graphics messed up)
+    dw Object_BigChest ; Big Chest
     dw Object_OpenedBigChest_fake
-    dw $A380 ; = $00A380 ; In room staircase (facing up)
+    dw RoomDraw_AutoStairs_South_MergedLayer ; In room staircase (facing up)
     dw Object_Draw2x3
     dw Object_Draw2x3
     dw Object_Draw3x6_Alternate
@@ -624,15 +624,15 @@ Subtype3Routines:
     dw Object_Draw2x2
     dw Object_Draw2x2
     dw Object_FortuneTellerTemplate
-    dw $A194 ; = $00A194
+    dw RoomDraw_Utility3x5
     dw Object_Draw2x2
     dw Object_Draw2x2
     
     ; 0x58
     dw Object_Draw2x2
     dw Object_Draw2x2
-    dw $9D6C ; = $009D6C
-    dw $A194 ; = $00A194
+    dw RoomDraw_TableBowl
+    dw RoomDraw_Utility3x5
     dw Object_Draw4x6 ; Bookcase
     dw Object_Draw3x6
     dw Object_Draw2x2
@@ -641,7 +641,7 @@ Subtype3Routines:
     ; 0x60
     dw Object_Draw6x3
     dw Object_Draw6x3
-    dw $A1D1 ; = $00A1D1
+    dw RoomDraw_VitreousGooGraphics
     dw Object_Draw2x2
     dw Object_Draw2x2
     dw Object_Draw2x2
@@ -676,7 +676,7 @@ Subtype3Routines:
     dw Object_Draw2x2
     dw Object_Draw2x2
     dw Object_Draw2x2
-    dw $8AA3 ; = $008AA3
+    dw RoomDraw_Nothing_B
 }
 
 ; ==============================================================================
@@ -690,10 +690,10 @@ DoorObjectRoutines:
     ; $04 = type
     ; $0A = type
     
-    dw Door_Up    ; $00A81C ; Up
-    dw Door_Down  ; $00A984 ; Down
-    dw Door_Left  ; $00AAD7 ; Left
-    dw Door_Right ; $00AB99 ; Right?
+    dw Door_Up    ; Up
+    dw Door_Down  ; Down
+    dw Door_Left  ; Left
+    dw Door_Right ; Right?
 }
     
 ; ==============================================================================
@@ -706,7 +706,8 @@ Dungeon_DrawObjectOffsets:
     ; $D7
     ; $DA
     ; $DD
-    
+
+    ; $0086F8
     .BG2
     dl $7E2000, $7E2002, $7E2004, $7E2006
     dl $7E2080, $7E2082, $7E2084, $7E2086
@@ -714,6 +715,7 @@ Dungeon_DrawObjectOffsets:
     dl $7E2180
     dl $7E2200         
     
+    ; $008719
     .BG1
     dl $7E4000, $7E4002, $7E4004, $7E4006
     dl $7E4080, $7E4082, $7E4084, $7E4086
@@ -1217,7 +1219,8 @@ Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26:
 {
     JSR.w Object_Size_1_to_15_or_26
     
-    STX.b $0A ; Guessing this is the start of the tiles to draw.
+    ; TODO: Guessing this is the start of the tiles to draw.
+    STX.b $0A
     
     .next_block
     
@@ -1727,7 +1730,6 @@ RoomDraw_3x3FloorIn4x4SuperSquare:
 Object_Hole:
 {
     LDA.w #$0004
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     STA.b $B4 : STA.b $0E
@@ -1817,7 +1819,6 @@ Object_Hole:
 RoomDraw_DiagonalCeilingTopLeftB:
 {
     LDA.w #$0004
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
@@ -1834,7 +1835,6 @@ RoomDraw_DiagonalCeilingTopLeftB:
 RoomDraw_DiagonalCeilingBottomLeftB:
 {
     LDA.w #$0004
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     INC.b $B4
@@ -1857,7 +1857,6 @@ RoomDraw_DiagonalCeilingBottomLeftB:
 RoomDraw_DiagonalCeilingTopRightB:
 {
     LDA.w #$0004
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
@@ -1874,7 +1873,6 @@ RoomDraw_DiagonalCeilingTopRightB:
 RoomDraw_DiagonalCeilingBottomRightB:
 {
     LDA.w #$0004
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
@@ -1982,7 +1980,6 @@ RoomDraw_DownwardsBigRail3x1_1to16plus5:
 Object_Draw3x2:
 {
     LDA.w #$0002
-    
     JMP Object_Draw3xN
 }
 
@@ -2059,7 +2056,7 @@ RoomDraw_4x4FloorTwoIn4x4SuperSquare:
     BRA RoomDraw_4x4FloorIn4x4SuperSquare
 }
 
-; $008FA2-$008FBB JUMP LOCATION
+; $008FA2-$008FA4 JUMP LOCATION
 RoomDraw_4x4FloorOneIn4x4SuperSquare:
 {
     LDX.w $046A
@@ -2067,7 +2064,7 @@ RoomDraw_4x4FloorOneIn4x4SuperSquare:
     ; Bleeds into the next function.
 }
 
-; $008FA5 ALTERNATE ENTRY POINT
+; $008FA5-$008FBB LOCAL JUMP LOCATION
 RoomDraw_4x4FloorIn4x4SuperSquare:
 {
     INC.b $B2
@@ -2095,7 +2092,6 @@ RoomDraw_Nothing_D:
 RoomDraw_RightwardsTopCorners1x2_1to16_plus13:
 {
     LDA.w #$000A
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w RoomDrawObjectData+00, X : STA.b $0E
@@ -2136,7 +2132,6 @@ RoomDraw_RightwardsTopCorners1x2_1to16_plus13:
 RoomDraw_RightwardsBottomCorners1x2_1to16_plus13:
 {
     LDA.w #$000A
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w RoomDrawObjectData+00, X : STA.b $0E
@@ -2176,7 +2171,6 @@ RoomDraw_RightwardsBottomCorners1x2_1to16_plus13:
 RoomDraw_DownwardsLeftCorners2x1_1to16_plus12:
 {
     LDA.w #$000A
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w RoomDrawObjectData+00, X : STA.b $0E
@@ -2217,7 +2211,6 @@ RoomDraw_DownwardsLeftCorners2x1_1to16_plus12:
 RoomDraw_DownwardsRightCorners2x1_1to16_plus12:
 {
     LDA.w #$000A
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     LDA.w RoomDrawObjectData+00, X : STA.b $0E
@@ -2257,7 +2250,6 @@ RoomDraw_DownwardsRightCorners2x1_1to16_plus12:
 RoomDraw_RightwardsEdge1x1_1to16plus7:
 {
     LDA.w #$0008
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     JMP.w RoomDraw_Repeated1x1_CachedCount
@@ -2267,7 +2259,6 @@ RoomDraw_RightwardsEdge1x1_1to16plus7:
 RoomDraw_DownwardsEdge1x1_1to16plus7:
 {
     LDA.w #$0008
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     .nextRow
@@ -2290,7 +2281,7 @@ RoomDraw_Nothing_A:
 RoomDraw_DownwardsFloor4x4_1to16:
 {
     STX.b $0A
-    
+
     JSR.w Object_Size1to16
     
     .next_block
@@ -2326,7 +2317,6 @@ RoomDraw_Rightwards4x4_1to16:
 RoomDraw_Downwards1x1Solid_1to16_plus3:
 {
     LDA.w #$0004
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     .loop
@@ -2343,7 +2333,6 @@ RoomDraw_Downwards1x1Solid_1to16_plus3:
 RoomDraw_Rightwards1x1Solid_1to16_plus3:
 {
     LDA.w #$0004
-    
     JSR.w Object_Size_N_to_N_plus_15
     JMP.w RoomDraw_Repeated1x1_CachedCount
 }
@@ -3480,7 +3469,6 @@ RoomDraw_OpenChestPlatform:
 RoomDraw_DownwardsBar2x5_1to16:
 {
     LDA.w #$0002
-    
     JSR.w Object_Size_N_to_N_plus_15
     
     ASL.b $B2
@@ -3811,7 +3799,6 @@ Object_BigChest:
 Object_Draw3x4:
 {
     LDA.w #$0004
-    
     JMP Object_Draw3xN
 }
 
@@ -3821,7 +3808,6 @@ Object_Draw3x4:
 Object_Draw4x3:
 {
     LDA.w #$0003
-    
     JMP Object_Draw4xN
 }
 
@@ -3840,14 +3826,12 @@ Object_OpenedBigChest:
     ; Bleeds into the next function.
 }
 
+; Essentially a fake big chest that is opened. (but was never closed to
+; begin with).
 ; $009A00-$009A05 JUMP LOCATION
 RoomDraw_OpenBigChest:
 {
-    ; Essentially a fake big chest that is opened. (but was never closed to
-    ; begin with).
-    
     LDA.w #$0004
-    
     JMP Object_Draw3xN
 }
 
@@ -3857,7 +3841,6 @@ RoomDraw_OpenBigChest:
 Object_Draw3x8:
 {
     LDA.w #$0008
-    
     JMP Object_Draw3xN
 }
 
@@ -3867,7 +3850,6 @@ Object_Draw3x8:
 Object_Draw3x6:
 {
     LDA.w #$0006
-    
     JMP Object_Draw3xN
 }
 
@@ -3912,7 +3894,6 @@ Object_Draw8x6:
 {
     LDY.w #$1F92
     LDA.w #$0006
-    
     JMP Object_Draw8xN.draw
 }
 
@@ -3950,7 +3931,6 @@ Object_StarTile:
 Object_Draw6x4:
 {
     LDA.w #$0004
-    
     JSR.w Object_Draw3xN
     
     LDA.b $08 : CLC : ADC.w #$0180 : TAY
@@ -3966,7 +3946,6 @@ Object_Draw6x4:
 Object_Draw4x6:
 {
     LDA.w #$0006
-    
     JMP Object_Draw4xN
 }
 
@@ -4032,7 +4011,6 @@ Object_Draw5x4:
 UNREACHABLE_019B18:
 {
     LDA.w #$0002
-    
     JMP Object_Draw4xN
 }
 
@@ -4068,7 +4046,6 @@ Object_WaterLadder:
 Object_Draw2x4:
 {
     LDA.w #$0001 : STA.b $B2
-    
     JMP Object_Draw2x4s_VariableOffset
 }
 
@@ -4080,7 +4057,6 @@ Object_Draw3x6_Alternate:
     ; There really is no difference between this object and the
     ; other Draw3x6 object.
     LDA.w #$0006
-    
     JMP Object_Draw3xN
 }
 
@@ -4156,7 +4132,6 @@ Object_Watergate:
 {
     LDA.w $0402 : AND.w #$0800 : BNE .hasBeenOpened
         LDA.w #$000A
-        
         JSR.w Object_Draw4xN
         
         LDA.w #$000F : STA.w $0470
@@ -4169,7 +4144,6 @@ Object_Watergate:
     
     LDX.w #$13E8
     LDA.w #$000A
-    
     JSR.w Object_Draw4xN
     
     LDA.b $B7 : PHA
@@ -4179,7 +4153,6 @@ Object_Watergate:
     LDA.w #$0004 : STA.b $B9
     
     LDA.w #$F1CD
-    
     JSR.w Object_WatergateChannelWater
     
     REP #$30
@@ -4229,21 +4202,33 @@ Object_PrisonBars:
     
     .nextColumn
     
-        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2004, X :                STA.l $7E2012, X
-        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2084, X : ORA.w #$4000 : STA.l $7E2092, X
-        LDA.w RoomDrawObjectData+08, Y : STA.l $7E2104, X : ORA.w #$4000 : STA.l $7E2112, X
-        LDA.w RoomDrawObjectData+10, Y : STA.l $7E2184, X : ORA.w #$4000 : STA.l $7E2192, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2004, X
+                                         STA.l $7E2012, X
+
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2084, X
+                          ORA.w #$4000 : STA.l $7E2092, X
+
+        LDA.w RoomDrawObjectData+08, Y : STA.l $7E2104, X
+                          ORA.w #$4000 : STA.l $7E2112, X
+
+        LDA.w RoomDrawObjectData+10, Y : STA.l $7E2184, X
+                          ORA.w #$4000 : STA.l $7E2192, X
         
         INX #2
     DEC.b $0C : BNE .nextColumn
     
     PLX
     
-    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : ORA.w #$4000 : STA.l $7E201E, X
-    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2002, X                : STA.l $7E200E, X
-                                                       STA.l $7E2010, X
-                                                       STA.l $7E201C, X
-    LDA.w RoomDrawObjectData+06, Y : STA.l $7E2102, X : ORA.w #$4000 : STA.l $7E211C, X
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+                      ORA.w #$4000 : STA.l $7E201E, X
+
+    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2002, X
+                                     STA.l $7E200E, X
+                                     STA.l $7E2010, X
+                                     STA.l $7E201C, X
+
+    LDA.w RoomDrawObjectData+06, Y : STA.l $7E2102, X
+                      ORA.w #$4000 : STA.l $7E211C, X
     
     RTS
 }
@@ -4254,7 +4239,6 @@ RoomDraw_RightwardsCannonHole4x3_1to16:
     JMP Object_Size1to16
     
     LDA.w #$0002
-    
     JMP Object_Draw3xN
     
     DEC.b $B2 : BEQ .alpha
@@ -4263,7 +4247,6 @@ RoomDraw_RightwardsCannonHole4x3_1to16:
             PHX
             
             LDA.w #$0002
-            
             JSR.w Object_Draw3xN
             
             PLX
@@ -4274,7 +4257,6 @@ RoomDraw_RightwardsCannonHole4x3_1to16:
     TXA : CLC : ADC.w #$000C : TAX
     
     LDA.w #$0002
-    
     JMP Object_Draw3xN
 }
 
@@ -4362,7 +4344,7 @@ RoomDraw_SpittingWaterFace:
     BRA .BRANCH_EPSILON
 }
 
-; $009D67-$009D6C JUMP LOCATION
+; $009D67-$009D6B JUMP LOCATION
 RoomDraw_DrenchingWaterFace:
 {
     LDA.w #$0007
@@ -4459,17 +4441,14 @@ Object_LanternLayer:
 {
     LDY.w #$16DC
     LDA.w #$0514
-    
     JSR.w .drawLampPortion
     
     LDY.w #$17F6
     LDA.w #$0554
-    
     JMP .drawLampPortion
     
     LDY.w #$1914
     LDA.w #$1514
-    
     JMP .drawLampPortion
     
     LDY.w #$1A2A
@@ -4515,22 +4494,22 @@ Object_AgahnimAltar:
     .nextRow
     
         LDA.w RoomDrawObjectData+000, Y : STA.l $7E2000, X
-        ORA.w #$4000 : STA.l $7E201A, X
+                           ORA.w #$4000 : STA.l $7E201A, X
         
         LDA.w RoomDrawObjectData+028, Y : STA.l $7E2002, X : STA.l $7E2004, X
-        EOR.w #$4000 : STA.l $7E2016, X : STA.l $7E2018, X
+                           EOR.w #$4000 : STA.l $7E2016, X : STA.l $7E2018, X
         
         LDA.w RoomDrawObjectData+056, Y : STA.l $7E2006, X
-        EOR.w #$4000 : STA.l $7E2014, X
+                           EOR.w #$4000 : STA.l $7E2014, X
         
         LDA.w RoomDrawObjectData+084, Y : STA.l $7E2008, X
-        EOR.w #$4000 : STA.l $7E2012, X
+                           EOR.w #$4000 : STA.l $7E2012, X
         
         LDA.w RoomDrawObjectData+112, Y : STA.l $7E200A, X
-        EOR.w #$4000 : STA.l $7E2010, X
+                           EOR.w #$4000 : STA.l $7E2010, X
         
         LDA.w RoomDrawObjectData+140, Y : STA.l $7E200C, X
-        EOR.w #$4000 : STA.l $7E200E, X
+                           EOR.w #$4000 : STA.l $7E200E, X
         
         TXA : CLC : ADC.w #$0080 : TAX
         
@@ -4553,10 +4532,17 @@ Object_AgahnimRoomFrame:
     
     .topEdgeLoop
     
-        LDA.w RoomDrawObjectData+00, Y : STA.l $7E220E, X : STA.l $7E221A, X : STA.l $7E2226, X
-        LDA.w RoomDrawObjectData+02, Y : STA.l $7E228E, X : STA.l $7E229A, X : STA.l $7E22A6, X
-        LDA.w RoomDrawObjectData+04, Y : STA.l $7E230E, X : STA.l $7E231A, X : STA.l $7E2326, X
-        LDA.w RoomDrawObjectData+06, Y : STA.l $7E238E, X : STA.l $7E239A, X : STA.l $7E23A6, X
+        LDA.w RoomDrawObjectData+00, Y
+        STA.l $7E220E, X : STA.l $7E221A, X : STA.l $7E2226, X
+
+        LDA.w RoomDrawObjectData+02, Y
+        STA.l $7E228E, X : STA.l $7E229A, X : STA.l $7E22A6, X
+
+        LDA.w RoomDrawObjectData+04, Y
+        STA.l $7E230E, X : STA.l $7E231A, X : STA.l $7E2326, X
+
+        LDA.w RoomDrawObjectData+06, Y
+        STA.l $7E238E, X : STA.l $7E239A, X : STA.l $7E23A6, X
         
         INY #8
         INX #2
@@ -4570,7 +4556,7 @@ Object_AgahnimRoomFrame:
     
     .diagonalsLoop
     
-        LDA.w RoomDrawObjectData+00, Y   : STA.l $7E2504, X 
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2504, X 
         STA.l $7E2486, X : STA.l $7E2408, X
         STA.l $7E238A, X : STA.l $7E230C, X 
         STA.l $7E228E, X : STA.l $7E2210, X
@@ -4594,17 +4580,29 @@ Object_AgahnimRoomFrame:
     
     .sidesLoop
     
-        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2584, X : STA.l $7E2884, X : STA.l $7E2B84, X
-        ORA.w #$4000   : STA.l $7E25BA, X : STA.l $7E28BA, X : STA.l $7E2BBA, X
+        LDA.w RoomDrawObjectData+00, Y
+        STA.l $7E2584, X : STA.l $7E2884, X : STA.l $7E2B84, X
+
+        ORA.w #$4000
+        STA.l $7E25BA, X : STA.l $7E28BA, X : STA.l $7E2BBA, X
         
-        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2586, X : STA.l $7E2886, X : STA.l $7E2B86, X
-        ORA.w #$4000   : STA.l $7E25B8, X : STA.l $7E28B8, X : STA.l $7E2BB8, X
+        LDA.w RoomDrawObjectData+02, Y
+        STA.l $7E2586, X : STA.l $7E2886, X : STA.l $7E2B86, X
+
+        ORA.w #$4000
+        STA.l $7E25B8, X : STA.l $7E28B8, X : STA.l $7E2BB8, X
         
-        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2588, X : STA.l $7E2888, X : STA.l $7E2B88, X
-        ORA.w #$4000   : STA.l $7E25B6, X : STA.l $7E28B6, X : STA.l $7E2BB6, X
+        LDA.w RoomDrawObjectData+04, Y
+        STA.l $7E2588, X : STA.l $7E2888, X : STA.l $7E2B88, X
+
+        ORA.w #$4000
+        STA.l $7E25B6, X : STA.l $7E28B6, X : STA.l $7E2BB6, X
         
-        LDA.w RoomDrawObjectData+06, Y : STA.l $7E258A, X : STA.l $7E288A, X : STA.l $7E2B8A, X
-        ORA.w #$4000   : STA.l $7E25B4, X : STA.l $7E28B4, X : STA.l $7E2BB4, X
+        LDA.w RoomDrawObjectData+06, Y
+        STA.l $7E258A, X : STA.l $7E288A, X : STA.l $7E2B8A, X
+
+        ORA.w #$4000
+        STA.l $7E25B4, X : STA.l $7E28B4, X : STA.l $7E2BB4, X
         
         INY #8
         
@@ -4731,10 +4729,10 @@ Object_FortuneTellerTemplate:
     LDX.b $08
     
     LDA.w RoomDrawObjectData+10, Y : STA.l $7E2000, X : STA.l $7E2080, X
-    ORA.w #$4000   : STA.l $7E201A, X : STA.l $7E209A, X
+    ORA.w #$4000 : STA.l $7E201A, X : STA.l $7E209A, X
     
     LDA.w RoomDrawObjectData+12, Y : STA.l $7E2100, X
-    ORA.w #$4000   : STA.l $7E211A, X
+    ORA.w #$4000 : STA.l $7E211A, X
     
     LDA.w #$0004 : STA.b $0E
     
@@ -4745,16 +4743,16 @@ Object_FortuneTellerTemplate:
     .nextRow2
     
         LDA.w RoomDrawObjectData+20, Y : STA.l $7E2506, X
-        EOR.w #$4000   : STA.l $7E2514, X
+                          EOR.w #$4000 : STA.l $7E2514, X
         
         LDA.w RoomDrawObjectData+28, Y : STA.l $7E2508, X
-        EOR.w #$4000   : STA.l $7E2512, X
+                          EOR.w #$4000 : STA.l $7E2512, X
         
         LDA.w RoomDrawObjectData+36, Y : STA.l $7E250A, X
-        EOR.w #$4000   : STA.l $7E2510, X
+                          EOR.w #$4000 : STA.l $7E2510, X
         
         LDA.w RoomDrawObjectData+44, Y : STA.l $7E250C, X
-        EOR.w #$4000   : STA.l $7E250E, X
+                          EOR.w #$4000 : STA.l $7E250E, X
         
         INY #2
         
@@ -5027,7 +5025,7 @@ South_MergedStairs_BecomeMultiC:
 }
 
 ; In-room up-south staircase (1.3.0x1D)
-; $00A36E-$00A380 JUMP LOCATION
+; $00A36E-$00A37F JUMP LOCATION
 RoomDraw_AutoStairs_South_MultiLayer_C:
 {
     PHX
@@ -5510,11 +5508,10 @@ RoomDraw_StraightInterroomStairsLower:
     RTS
 }
 
+; Straight up south (1.3.0x28)
 ; $00A71C-$00A749 JUMP LOCATION
 RoomDraw_StraightInterroomStairsGoingUpSouthLower:
 {
-    ; Straight up south (1.3.0x28)
-    
     PHX
     
     LDX.w $04A4
@@ -5669,13 +5666,11 @@ Object_Triforce:
 Object_Draw10x20_With4x4:
 {
     LDA.w #$0005
-    
     JSR.w RoomDraw_A_Many32x32Blocks
     
     LDA.b $08 : CLC : ADC.w #$0200 : TAY
     
     LDA.w #$0005
-    
     JMP.w RoomDraw_A_Many32x32Blocks
 }
 
@@ -5945,14 +5940,12 @@ Door_Down:
     CMP.w #$000A : BNE .notBg2_LargeExit
         LDX.w $0460
         LDA.w #$0001
-        
         JSR.w Door_Register
         
         LDA.b $08 : SEC : SBC.w #$0206 : STA.b $08
         
         LDY.w #$2656
         LDA.w #$000A
-        
         JMP Object_Draw8xN.draw
     
     .notBg2_LargeExit
@@ -5963,14 +5956,12 @@ Door_Down:
         
         LDX.w $0460
         LDA.w #$0001
-        
         JSR.w Door_Register
         
         LDA.b $08 : SEC : SBC.w #$0206 : STA.b $08
         
         LDY.w #$2656
         LDA.w #$000A
-        
         JSR.w Object_Draw8xN.draw
         
         LDA.b $08 : SEC : SBC.w #$2080 : TAX
@@ -6005,14 +5996,12 @@ RoomDraw_HighPriorityExitLight:
     
     LDX.w $0460
     LDA.w #$0001
-    
     JSR.w Door_Register
     
     LDY.b $08
     
     LDX.w #$26F6
     LDA.w #$000A
-    
     JMP Object_Draw4x4
     
     .notCaveExitDoor
@@ -6069,7 +6058,6 @@ RoomDraw_OneSidedShutters_South:
     
     LDX.w $0460
     LDA.w #$0001
-    
     JSR.w Door_Register : BCC .BRANCH_PI
         LDA.w #$0000
         
@@ -6467,7 +6455,6 @@ RoomDraw_ExplodingWallSegment:
     LDA.w #$0012 : STA.b $B2
     
     LDY.b $08
-    
     JSR.w RoomDraw_ExplodingWallColumn
     
     LDA.b $08 : CLC : ADC.w #$0004 : STA.b $08
@@ -6683,7 +6670,6 @@ RoomDraw_HighRangeDoor_West:
     
     LDX.w $0460
     LDA.w #$0002
-    
     JSR.w Door_Register
     
     LDA.w #$0044
@@ -6750,9 +6736,7 @@ RoomDraw_OneSidedLowerShutters_East:
     STY.b $08
     
     LDX.w $0460
-    
     LDA.w #$0003
-    
     JSR.w Door_Register
     
     LDA.w #$0040
@@ -6813,7 +6797,6 @@ RoomDraw_OneSidedLowerShutters_East:
 RoomDraw_MakeDoorHighPriorityLowerLayer_North:
 {
     LDA.w #$0000
-    
     JSR.w Door_Register
     
     LDA.b $08 : CLC : ADC.w #$0080
@@ -6824,7 +6807,6 @@ RoomDraw_MakeDoorHighPriorityLowerLayer_North:
 ; $00AF8B-$00AFC7 JUMP LOCATION
 RoomDraw_MakeDoorHighPriority_North:
 {
-    
     STA.b $02
     
     AND.w #$F07F : TAX
@@ -6848,7 +6830,6 @@ RoomDraw_MakeDoorHighPriority_North:
 Door_PrioritizeDownToQuadBoundary:
 {
     LDA.w #$0001
-    
     JSR.w Door_Register
     
     LDA.b $08 : CLC : ADC.w #$0100
@@ -6882,7 +6863,6 @@ RoomDraw_MakeDoorHighPriority_South:
 RoomDraw_MakeDoorHighPriorityLowerLayer_West:
 {
     LDA.w #$0002
-    
     JSR.w Door_Register
     
     LDA.b $08 : INC #2
@@ -6915,7 +6895,6 @@ RoomDraw_MakeDoorHighPriority_West:
 RoomDraw_MakeDoorHighPriorityLowerLayer_East:
 {
     LDA.w #$0003
-    
     JSR.w Door_Register
     
     LDA.b $08 : CLC : ADC.w #$0004
@@ -7449,21 +7428,17 @@ Object_LargeLiftableBlock:
     STY.b $08
     
     LDX.w #$0E62
-    
     LDA.w #$2020
-    
     JSR.w .drawQuadrant
     
     LDX.w #$0E6A
     LDA.w #SNES.CGRAMWriteAddr
-    
     JSR.w .drawQuadrant
     
     LDA.b $08 : CLC : ADC.w #$0100 : TAY
     
     LDX.w #$0E72
     LDA.w #$2222
-    
     JSR.w .drawQuadrant
     
     LDX.w #$0E7A
@@ -7603,19 +7578,16 @@ Object_BombableFloor:
     
     LDX.w #$0220
     LDA.w #$3030
-    
     JSR.w .draw2x2
     
     LDX.w #$0228
     LDA.w #$3131
-    
     JSR.w .draw2x2
     
     LDA.b $08 : CLC : ADC.w #$0100 : TAY
     
     LDX.w #$0230
     LDA.w #$3232
-    
     JSR.w .draw2x2
     
     LDX.w #$0238
@@ -8270,15 +8242,13 @@ Dungeon_ApplyOverlay:
 ; $00B8A8-$00B8B3 Jump Table
 Dungeon_LoadAttrSelectable_jumpTable:
 {
-    dw Dungeon_LoadBasicAttr
-    dw Dungeon_LoadBasicAttr_partial ; Load the tile attributes differently?
-    dw Dungeon_LoadObjAttr
-    dw Dungeon_LoadDoorAttr
-    dw Dungeon_InitBarrierAttr
-    dw Dungeon_LoadBasicAttr_easyOut
+    dw Dungeon_LoadBasicAttr         ; 0x00 - $B8E3
+    dw Dungeon_LoadBasicAttr_partial ; 0x01 - $B8EC Load the tile attributes differently?
+    dw Dungeon_LoadObjAttr           ; 0x02 - $B967
+    dw Dungeon_LoadDoorAttr          ; 0x03 - $BE17
+    dw Dungeon_InitBarrierAttr       ; 0x04 - $C21C
+    dw Dungeon_LoadBasicAttr_easyOut ; 0x05 - $B966
 }
-
-; ==============================================================================
 
 ; $00B8B4-$00B8BE LONG JUMP LOCATION
 Dungeon_LoadAttrSelectable:
@@ -8419,6 +8389,7 @@ Dungeon_LoadBasicAttr:
     
     PLB ; Restore the bank.
     
+    ; $00B966 ALTERNATE ENTRY POINT
     .easyOut
     
     RTS
@@ -8846,11 +8817,10 @@ Dungeon_LoadObjAttr:
 
 ; ==============================================================================
 
+; This routine loads tile attribute information for chests and big chests.
 ; $00BDDB-$00BE16 LOCAL JUMP LOCATION
 Dungeon_SetChestAttr:
 {
-    ; This routine loads tile attribute information for chests and big chests
-    
     .nextChest
     
         LDA.w $06E0, Y : BEQ .getNextChestAttr
@@ -9068,11 +9038,11 @@ Dungeon_LoadSingleDoorAttr:
 
 ; ==============================================================================
 
+; This is handled somewhere else because a blast wall is much different from
+; typical doors.
 ; $00BFB2-$00BFB2 JUMP LOCATION
 Door_LoadBlastWallAttrStub:
 {
-    ; This is handled somewhere else because a blast
-    ; wall is much different from typical doors.
     RTS
 }
 
@@ -9397,80 +9367,78 @@ Dungeon_ToggleBarrierAttr:
 ; $00C27D-$00C2FC JUMP TABLE
 Dungeon_TagRoutines:
 {
-    dw $C328 ; = $00C328 ; Routine 0x00 (RTS)
-    dw $C432 ; = $00C432 ; Routine 0x01 "NW kill enemy to open"
-    dw $C438 ; = $00C438 ; Routine 0x02 "NE kill enemy to open"
-    dw $C43E ; = $00C43E ; Routine 0x03 "SW kill enemy to open"
-    dw $C444 ; = $00C444 ; Routine 0x04 "SE kill enemy to open"
-    dw $C44A ; = $00C44A ; Routine 0x05 "W kill enemy to open"
-    dw $C450 ; = $00C450 ; Routine 0x06 "E kill enemy to open"
-    dw $C456 ; = $00C456 ; Routine 0x07 "N kill enemy to open"
+    dw Dungeon_DetectStaircaseEasyOut   ; 0x00 - $C328 Routine 0x00 (RTS)
+    dw RoomTag_NorthWestTrigger         ; 0x01 - $C432 Routine 0x01 "NW kill enemy to open"
+    dw RoomTag_NorthEastTrigger         ; 0x02 - $C438 Routine 0x02 "NE kill enemy to open"
+    dw RoomTag_SouthWestTrigger         ; 0x03 - $C43E Routine 0x03 "SW kill enemy to open"
+    dw RoomTag_SouthEastTrigger         ; 0x04 - $C444 Routine 0x04 "SE kill enemy to open"
+    dw RoomTag_WestTrigger              ; 0x05 - $C44A Routine 0x05 "W kill enemy to open"
+    dw RoomTag_EastTrigger              ; 0x06 - $C450 Routine 0x06 "E kill enemy to open"
+    dw RoomTag_NorthTrigger             ; 0x07 - $C456 Routine 0x07 "N kill enemy to open"
     
-    dw $C45C ; = $00C45C ; Routine 0x08 "S kill enemy to open"
-    dw $C461 ; = $00C461 ; Routine 0x09 "clear quadrant to open"
-    dw $C4BF ; = $00C4BF ; Routine 0x0A "clear room to open"
-    dw $C432 ; = $00C432 ; Routine 0x0B "NW move block to open"
-    dw $C438 ; = $00C438 ; Routine 0x0C "NE move block to open"
-    dw $C43E ; = $00C43E ; Routine 0x0D "SW move block to open"
-    dw $C444 ; = $00C444 ; Routine 0x0E "SE move block to open"
-    dw $C44A ; = $00C44A ; Routine 0x0F "W move block to open"
+    dw RoomTag_SouthTrigger             ; 0x08 - $C45C Routine 0x08 "S kill enemy to open"
+    dw RoomTag_QuadrantTrigger          ; 0x09 - $C461 Routine 0x09 "clear quadrant to open"
+    dw RoomTag_RoomTrigger              ; 0x0A - $C4BF Routine 0x0A "clear room to open"
+    dw RoomTag_NorthWestTrigger         ; 0x0B - $C432 Routine 0x0B "NW move block to open"
+    dw RoomTag_NorthEastTrigger         ; 0x0C - $C438 Routine 0x0C "NE move block to open"
+    dw RoomTag_SouthWestTrigger         ; 0x0D - $C43E Routine 0x0D "SW move block to open"
+    dw RoomTag_SouthEastTrigger         ; 0x0E - $C444 Routine 0x0E "SE move block to open"
+    dw RoomTag_WestTrigger              ; 0x0F - $C44A Routine 0x0F "W move block to open"
     
-    dw $C450 ; = $00C450 ; Routine 0x10 "E move block to open"
-    dw $C456 ; = $00C456 ; Routine 0x11 "N move block to open"
-    dw $C45C ; = $00C45C ; Routine 0x12 "S move block to open"
-    dw $C461 ; = $00C461 ; Routien 0x13 "move block to open"
-    dw $C4E7 ; = $00C4E7 ; Routine 0x14 "pull lever to Open"
-    dw $C508 ; = $00C508 ; Routine 0x15 "clear level to open door"
-    dw $C541 ; = $00C541 ; Routine 0x16 "switch opens doors (hold)"
-    dw $C599 ; = $00C599 ; Routine 0x17 "switch opens doors (toggle)"
+    dw RoomTag_EastTrigger              ; 0x10 - $C450 Routine 0x10 "E move block to open"
+    dw RoomTag_NorthTrigger             ; 0x11 - $C456 Routine 0x11 "N move block to open"
+    dw RoomTag_SouthTrigger             ; 0x12 - $C45C Routine 0x12 "S move block to open"
+    dw RoomTag_QuadrantTrigger          ; 0x13 - $C461 Routien 0x13 "move block to open"
+    dw RoomTag_PullSwitchDoor           ; 0x14 - $C4E7 Routine 0x14 "pull lever to Open"
+    dw RoomTag_PrizeTriggerDoorDoor     ; 0x15 - $C508 Routine 0x15 "clear level to open door"
+    dw RoomTag_SwitchTrigger_HoldDoor   ; 0x16 - $C541 Routine 0x16 "switch opens doors (hold)"
+    dw RoomTag_SwitchTrigger_ToggleDoor ; 0x17 - $C599 Routine 0x17 "switch opens doors (toggle)"
     
-    dw $CA94 ; = $00CA94 ; Routine 0x18 (turn off water)
-    dw Tag_TurnOnWater   ; Routine 0x19 (turn on water)
-    dw Tag_Watergate     ; Routine 0x1A (watergate room)
-    dw $CBFF ; = $00CBFF ; (RTS) (water twin)
-    dw $C8D4 ; = $00C8D4 ; Routine 0x1C Secret Wall (Right)
-    dw $C98B ; = $00C98B ; Routine 0x1D Secret Wall (Left)
-    dw RoomTag_MovingWallTorchesCheck ; $CA17 Routine 0x1E "Crash"
-    dw RoomTag_MovingWallTorchesCheck ; $CA17 Routine 0x1F "Crash"
+    dw RoomTag_WaterOff                 ; 0x18 - $CA94 Routine 0x18 (turn off water)
+    dw Tag_TurnOnWater                  ; 0x19 - $CB1A Routine 0x19 (turn on water)
+    dw Tag_Watergate                    ; 0x1A - $CB49 Routine 0x1A (watergate room)
+    dw Tag_Watergate_easyOut            ; 0x1B - $CBFF (RTS) (water twin)
+    dw RoomTag_MovingWall_East          ; 0x1C - $C8D4 Routine 0x1C Secret Wall (Right)
+    dw RoomTag_MovingWall_West          ; 0x1D - $C98B Routine 0x1D Secret Wall (Left)
+    dw RoomTag_MovingWallTorchesCheck   ; 0x1E - $CA17 Routine 0x1E "Crash"
+    dw RoomTag_MovingWallTorchesCheck   ; 0x1F - $CA17 Routine 0x1F "Crash"
     
-    dw $C67A ; = $00C67A ; Routine 0x20 "use switch to bomb wall"
-    dw $CC00 ; = $00CC00 ; Routine 0x21 "holes(0)"
-    dw $CC5B ; = $00CC5B ; Routine 0x22 "open chest for holes (0)"
-    dw $CC04 ; = $00CC04 ; Routine 0x23 "holes(1)"
-    dw $CC89 ; = $00CC89 ; Routine 0x24 "holes(2)"
-    dw $C709 ; = $00C709 ; Routine 0x25 "kill enemy to clear level"
-    dw $C7A2 ; = $00C7A2 ; Routine 0x26 "kill enemy to move block"
-    dw $C7CC ; = $00C7CC ; Routine 0x27 "trigger activated chest"
+    dw RoomTag_Switch_ExplodingWall     ; 0x20 - $C67A Routine 0x20 "use switch to bomb wall"
+    dw RoomTag_Holes0                   ; 0x21 - $CC00 Routine 0x21 "holes(0)"
+    dw RoomTag_ChestHoles0              ; 0x22 - $CC5B Routine 0x22 "open chest for holes (0)"
+    dw RoomTag_Holes1                   ; 0x23 - $CC04 Routine 0x23 "holes(1)"
+    dw RoomTag_Holes2                   ; 0x24 - $CC89 Routine 0x24 "holes(2)"
+    dw RoomTag_GetHeartForPrize         ; 0x25 - $C709 Routine 0x25 "kill enemy to clear level"
+    dw RoomTag_KillRoomBlock            ; 0x26 - $C7A2 Routine 0x26 "kill enemy to move block"
+    dw RoomTag_TriggerChest             ; 0x27 - $C7CC Routine 0x27 "trigger activated chest"
     
-    dw $C685 ; = $00C685 ; Routine 0x28 "use lever to bomb wall"
-    dw $C432 ; = $00C432 ; Routine 0x29 "NW kill enemy for chest"
-    dw $C438 ; = $00C438 ; Routine 0x2A "NE kill enemy for chest"
-    dw $C43E ; = $00C43E ; Routine 0x2B "SW kill enemy for chest"
-    dw $C444 ; = $00C444 ; Routine 0x2C "SE kill enemy for chest"
-    dw $C44A ; = $00C44A ; Routine 0x2D "W kill enemy for chest"
-    dw $C450 ; = $00C450 ; Routine 0x2F "E kill enemy for chest"
-    dw $C456 ; = $00C456 ; Routine 0x2F "N kill enemy for chest"
+    dw RoomTag_PullSwitchExplodingWall  ; 0x28 - $C685 Routine 0x28 "use lever to bomb wall"
+    dw RoomTag_NorthWestTrigger         ; 0x29 - $C432 Routine 0x29 "NW kill enemy for chest"
+    dw RoomTag_NorthEastTrigger         ; 0x2A - $C438 Routine 0x2A "NE kill enemy for chest"
+    dw RoomTag_SouthWestTrigger         ; 0x2B - $C43E Routine 0x2B "SW kill enemy for chest"
+    dw RoomTag_SouthEastTrigger         ; 0x2C - $C444 Routine 0x2C "SE kill enemy for chest"
+    dw RoomTag_WestTrigger              ; 0x2D - $C44A Routine 0x2D "W kill enemy for chest"
+    dw RoomTag_EastTrigger              ; 0x2E - $C450 Routine 0x2F "E kill enemy for chest"
+    dw RoomTag_NorthTrigger             ; 0x2F - $C456 Routine 0x2F "N kill enemy for chest"
     
-    dw $C45C ; = $00C45C ; Routine 0x30 "S kill enemy for chest"
-    dw $C461 ; = $00C461 ; Routine 0x31 "clear quadrant for chest"
-    dw $C4BF ; = $00C4BF ; Routine 0x32 "clear room for chest"
-    dw $C629 ; = $00C629 ; Routine 0x33 "light torches to open"
-    dw $CC08 ; = $00CC08 ; Routine 0x34 "Holes(3)"
-    dw $CC0C ; = $00CC0C ; Routine 0x35 "Holes(4)"
-    dw $CC10 ; = $00CC10 ; Routine 0x36 "Holes(5)"
-    dw $CC14 ; = $00CC14 ; Routine 0x37 "Holes(6)"
+    dw RoomTag_SouthTrigger             ; 0x30 - $C45C Routine 0x30 "S kill enemy for chest"
+    dw RoomTag_QuadrantTrigger          ; 0x31 - $C461 Routine 0x31 "clear quadrant for chest"
+    dw RoomTag_RoomTrigger              ; 0x32 - $C4BF Routine 0x32 "clear room for chest"
+    dw RoomTag_TorchPuzzleDoor          ; 0x33 - $C629 Routine 0x33 "light torches to open"
+    dw RoomTag_Holes3                   ; 0x34 - $CC08 Routine 0x34 "Holes(3)"
+    dw RoomTag_Holes4                   ; 0x35 - $CC0C Routine 0x35 "Holes(4)"
+    dw RoomTag_Holes5                   ; 0x36 - $CC10 Routine 0x36 "Holes(5)"
+    dw RoomTag_Holes6                   ; 0x37 - $CC14 Routine 0x37 "Holes(6)"
     
-    dw $C74E ; = $00C74E ; Routine 0x38 "Agahnim's room"
-    dw $CC18 ; = $00CC18 ; Routine 0x39 "Holes(7)"
-    dw $CC1C ; = $00CC1C ; Routine 0x3A "Holes(8)"
-    dw $CC62 ; = $00CC62 ; Routine 0x3B "open chest for holes (8)"
-    dw $C7C2 ; = $00C7C2 ; Routine 0x3C "move block to get chest"
-    dw $C767 ; = $00C767 ; Routine 0x3D "Kill to open Ganon's door"
-    dw $C8AE ; = $00C8AE ; Routine 0x3E "light torches to get chest"
-    dw $C4DB ; = $00C4DB ; Routine 0x3F "kill boss again"
+    dw RoomTag_Agahnim                  ; 0x38 - $C74E Routine 0x38 "Agahnim's room"
+    dw RoomTag_Holes7                   ; 0x39 - $CC18 Routine 0x39 "Holes(7)"
+    dw RoomTag_Holes8                   ; 0x3A - $CC1C Routine 0x3A "Holes(8)"
+    dw RoomTag_ChestHoles8              ; 0x3B - $CC62 Routine 0x3B "open chest for holes (8)"
+    dw RoomTag_PushBlockForChest        ; 0x3C - $C7C2 Routine 0x3C "move block to get chest"
+    dw RoomTag_GanonDoor                ; 0x3D - $C767 Routine 0x3D "Kill to open Ganon's door"
+    dw RoomTag_TorchPuzzleChest         ; 0x3E - $C8AE Routine 0x3E "light torches to get chest"
+    dw RoomTag_RekillableBoss           ; 0x3F - $C4DB Routine 0x3F "kill boss again"
 }
-
-; ==============================================================================
 
 ; $00C2FD-$00C31E LONG JUMP LOCATION
 Dungeon_CheckStairsAndRunScripts:
@@ -9484,7 +9452,7 @@ Dungeon_CheckStairsAndRunScripts:
         
         LDA.b $AE : ASL A : TAX
         
-        ; Handle tag1 routine
+        ; Handle tag1 routine.
         JSR.w (Dungeon_TagRoutines, X)
         
         ; Based on the whether it's tag1 or tag2, execute different routines.
@@ -9492,7 +9460,7 @@ Dungeon_CheckStairsAndRunScripts:
         
         LDA.b $AF : ASL A : TAX
         
-        ; Handle tag2 routine
+        ; Handle tag2 routine.
         JSR.w (Dungeon_TagRoutines, X)
     
     .return
@@ -9717,7 +9685,7 @@ Dungeon_DetectStaircase:
 RoomTag_NorthWestTrigger:
 {
     ; Branch if Link is in the left two quadrants
-    LDA.b $23 : LSR A : BCC .checkIfNorth
+    LDA.b $23 : LSR A : BCC RoomTag_NorthTrigger
         RTS
 }
 
@@ -9727,124 +9695,128 @@ RoomTag_NorthWestTrigger:
 ; $00C438-$00C43D LOCAL JUMP LOCATION
 RoomTag_NorthEastTrigger:
 {
-    
     ; Branch if Link in the right two quadrants
-    LDA.b $23 : LSR A : BCS RoomTag_SouthTrigge_checkIfNorth
+    LDA.b $23 : LSR A : BCS RoomTag_NorthTrigger
         RTS
 }
 
 ; $00C43E-$00C443 LOCAL JUMP LOCATION
 RoomTag_SouthWestTrigger:
 {
-    LDA.b $23 : LSR A : BCC RoomTag_SouthTrigger_checkIfSouth
+    LDA.b $23 : LSR A : BCC RoomTag_SouthTrigger
         RTS
 }
 
+; Tag routine 0x04 (SE kill enemy to open), 0x0E (SE move block to open),
+; 0x2C (SE kill enemy for chest)
 ; $00C444-$00C449 LOCAL JUMP LOCATION
 RoomTag_SouthEastTrigger:
 {
-    ; Tag routine 0x04 (SE kill enemy to open), 0x0E (SE move block to open),
-    ; 0x2C (SE kill enemy for chest)
-    LDA.b $23 : LSR A : BCS RoomTag_SouthTrigger_checkIfSouth 
+    LDA.b $23 : LSR A : BCS RoomTag_SouthTrigger
         RTS
 }
 
+; Tag routine 0x05 (W kill enemy to open), 0x0F (W move block to open),
+; 0x2D (W kill enemy for chest)
 ; $00C44A-$00C44F LOCAL JUMP LOCATION
 RoomTag_WestTrigger:
 {
-    ; Tag routine 0x05 (W kill enemy to open), 0x0F (W move block to open),
-    ; 0x2D (W kill enemy for chest)
-    LDA.b $23 : LSR A : BCC RoomTag_SouthTrigger_coordSuccess 
+    LDA.b $23 : LSR A : BCC RoomTag_QuadrantTrigger
         RTS
 }
         
 ; $00C450-$00C45B LOCAL JUMP LOCATION
 RoomTag_EastTrigger:
 {
-    LDA.b $23 : LSR A : BCS RoomTag_SouthTrigger_coordSuccess
+    LDA.b $23 : LSR A : BCS RoomTag_QuadrantTrigger
         RTS
 }
     
-; $00C45C-$00C4BE LOCAL JUMP LOCATION
-RoomTag_SouthTrigger:
+; $00C456-$00C45B LOCAL JUMP LOCATION
+RoomTag_NorthTrigger:
 {
-    .checkIfNorth
-
     ; Branch if Link is in the upper two quadrants
-    LDA.b $21 : LSR A : BCC .coordSuccess
+    LDA.b $21 : LSR A : BCC RoomTag_QuadrantTrigger
+        ; $00C45B ALTERNATE ENTRY POINT
         .coordFail
         
         RTS
+}
         
-    .checkIfSouth
+; $00C45C-$00C460 LOCAL JUMP LOCATION
+RoomTag_SouthTrigger:
+{
+    LDA.b $21 : LSR A : BCC RoomTag_NorthTrigger_coordFail
+        ; Bleeds into the next function.
+}
 
-    LDA.b $21 : LSR A : BCC .coordFail
-        .coordSuccess
+; $00C461-$00C4BE LOCAL JUMP LOCAION
+RoomTag_QuadrantTrigger:
+{
+    LDX.b $0E
         
-        LDX.b $0E
+    LDA.b $AE, X
         
-        LDA.b $AE, X
-        
-        CMP.b #$0B : BCC .checkIfEnemiesDead
-            CMP.b #$29 : BCC .checkIfBlockMoved
-                ; Check if sprites are all dead.
-                JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .dontShowChest
-                    JSR.w RoomTag_OperateChestReveal
+    CMP.b #$0B : BCC .checkIfEnemiesDead
+        CMP.b #$29 : BCC .checkIfBlockMoved
+            ; Check if sprites are all dead.
+            JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .dontShowChest
+                JSR.w RoomTag_OperateChestReveal
                 
-                .dontShowChest
+            .dontShowChest
                 
-                RTS
-            
-            .checkIfBlockMoved
-            
-            LDA.w $0641 : EOR.b #$01 : CMP.w $0468 : BEQ .noDoorStateMatch
-                STA.w $0468
-                
-                ; Play switch triggering sound.
-                LDA.b #$25 : STA.w $012F
-                
-                ; Enter "open trap door" submodule.
-                LDA.b #$05 : STA.b $11
-                
-                REP #$20
-                
-                STZ.w $068E
-                STZ.w $0690
-            
-            .noDoorStateMatch
-            
-            SEP #$30
-            
             RTS
-        
-        .checkIfEnemiesDead
-        
-        JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .dontOpenDoors
-            .checkDoorState
             
-            ; Success, sprites are all dead.
+        .checkIfBlockMoved
             
-            REP #$30
+        LDA.w $0641 : EOR.b #$01 : CMP.w $0468 : BEQ .noDoorStateMatch
+            STA.w $0468
+                
+            ; Play switch triggering sound.
+            LDA.b #$25 : STA.w $012F
+                
+            ; Enter "open trap door" submodule.
+            LDA.b #$05 : STA.b $11
+                
+            REP #$20
+                
+            STZ.w $068E
+            STZ.w $0690
             
-            ; Trap door down flag. (If it's already unset, ignore it!)
-            LDX.w #$0000 : CPX.w $0468 : BEQ .dontOpenDoors
-                STZ.w $0468
-                STZ.w $068E
-                STZ.w $0690
-                
-                SEP #$30
-                
-                ; The mystery sound when a puzzle is solved.
-                LDA.b #$1B : STA.w $012F
-                
-                ; Open ze doors
-                LDA.b #$05 : STA.b $11
-        
-        .dontOpenDoors
-        
+        .noDoorStateMatch
+            
         SEP #$30
-        
+            
         RTS
+        
+    .checkIfEnemiesDead
+        
+    JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .dontOpenDoors
+        .checkDoorState
+            
+        ; Success, sprites are all dead.
+            
+        REP #$30
+            
+        ; Trap door down flag. (If it's already unset, ignore it!)
+        LDX.w #$0000 : CPX.w $0468 : BEQ .dontOpenDoors
+            STZ.w $0468
+            STZ.w $068E
+            STZ.w $0690
+                
+            SEP #$30
+                
+            ; The mystery sound when a puzzle is solved.
+            LDA.b #$1B : STA.w $012F
+                
+            ; Open ze doors
+            LDA.b #$05 : STA.b $11
+        
+    .dontOpenDoors
+        
+    SEP #$30
+        
+    RTS
 }
 
 ; $00C4BF-$00C4DA JUMP LOCATION
@@ -10431,27 +10403,19 @@ RoomTag_OperateChestReveal:
     CLC : ADC.w #$0101 : STA.b $0C
     
     LDX.w $1000
-    
     LDA.w #$0000
-    
     JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1002, X
-    
     LDA.w #$0080
-    
     JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1008, X
-    
     LDA.w #$0002
-    
     JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $100E, X
-    
     LDA.w #$0082
-    
     JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1014, X
@@ -10941,6 +10905,9 @@ Tag_Watergate:
             
             LDA.b #$1B : STA.w $012F
             LDA.b #$2F : STA.w $012E
+
+            ; $00CBFF ALTERNATE ENTRY POINT
+            .easyOut
             
             RTS
 }
@@ -11419,8 +11386,11 @@ Dungeon_ProcessTorchAndDoorInteractives:
     LDA.b $2F : AND.w #$00FF : STA.b $08 : TAY
     
     ; Note, data bank here is apparently $00, not $01
-    LDA.b $20 : ADC.w DetectStaircase_offset_y, Y : AND.w #$01F8 : ASL #3 : STA.b $00
-    LDA.b $22 : CLC : ADC.w DetectStaircase_offset_x, Y : AND.w #$01F8 : LSR #3 : ORA.b $00
+    LDA.b $20
+          ADC.w DetectStaircase_offset_y, Y : AND.w #$01F8 : ASL #3 : STA.b $00
+
+    LDA.b $22
+    CLC : ADC.w DetectStaircase_offset_x, Y : AND.w #$01F8 : LSR #3 : ORA.b $00
     
     ; Based on what floor Link is on, we look at a specific tile.
     LDX.b $EE : BEQ .player_on_bg2
@@ -11810,7 +11780,6 @@ RoomDraw_CloseStripes:
 Bomb_CheckForVulnerableTileObjects:
 {
     LDA.b $10 : CMP.b #$07 : BEQ .indoors
-
         JML Overworld_ApplyBombToTiles
     
     .indoors
@@ -12579,9 +12548,8 @@ Dungeon_QueryIfTileLiftable:
 ; ==============================================================================
 
 ; $00D7C0-$00D7C7 DATA
-Pool_PushBlock_Main:
+PushBlock_Main_move_distances:
 {
-    .move_distances
     dw -256, 256, -4, 4
 }
     
@@ -12679,27 +12647,19 @@ Dungeon_EraseInteractive2x2:
     STA.l $7F2000, X : STA.l $7F2040, X
     
     LDX.w $1000
-    
     LDA.w #$0000
-    
     JSR.w Dungeon_GetInteractiveVramAddr
     
     STA.w $1002, X
-    
     LDA.w #$0080
-    
     JSR.w Dungeon_GetInteractiveVramAddr
     
     STA.w $1008, X
-    
     LDA.w #$0002
-    
     JSR.w Dungeon_GetInteractiveVramAddr
     
     STA.w $100E, X
-    
     LDA.w #$0082
-    
     JSR.w Dungeon_GetInteractiveVramAddr
     
     STA.w $1014, X
@@ -12784,9 +12744,7 @@ PushBlock_StoppedMoving:
         .set_block_state
         
         STA.w $0500, Y
-        
         LDA.w #$2727
-        
         JMP Dungeon_EraseInteractive2x2_partially_prepped
     
     .blockFellIntoPit
@@ -12876,13 +12834,15 @@ Dungeon_RevealCoveredTiles:
     
     ; Tells us how far to look from Link's sprite in the Y direction (either
     ; positive or negative depending on the direciton he's currently facing
-    LDA.b $20 : CLC : ADC.l .y_offsets, X : STA.b $00 : STA.b $C8
+    LDA.b $20
+    CLC : ADC.l Pool_Dungeon_RevealCoveredTiles_y_offsets, X : STA.b $00 : STA.b $C8
     
     ; Mask to increments of 8 in coordinate (one tile)
     AND.w #$01F8 : ASL #3 : STA.b $06
     
     ; Do the same thing for the X direction.
-    LDA.b $22 : CLC : ADC.l .x_offsets, X : STA.b $02 : STA.b $CA
+    LDA.b $22
+    CLC : ADC.l Pool_Dungeon_RevealCoveredTiles_x_offsets, X : STA.b $02 : STA.b $CA
     
     ; Mask to increments of 8 in coordinate (one tile)
     ; $06 = 0000yyyy yyxxxxxx
@@ -15115,9 +15075,8 @@ Dungeon_LoadSecret:
 ; ==============================================================================
 
 ; $00E795-$00E7A8 DATA
-Pool_Dungeon_PrepSpriteInducedDma:
+Dungeon_PrepSpriteInducedDma_replacement_tiles:
 {
-    .replacement_tiles
     dw $00E0 ; 0x00 - pit (floor, rather?) (empty space?)
     dw $0ADE ; 0x02 - spike block
     dw $05AA ; 0x04 - pit
@@ -15296,15 +15255,11 @@ Dungeon_ClearRupeeTile:
     LDA.b $08 : STA.l $7F2000, X : STA.l $7F2040, X
     
     LDX.w $1000
-    
     LDA.w #$0000
-    
     JSR.w Dungeon_GetRelativeVramAddr
     
     STA.w $1002, X
-    
     LDA.w #$0080
-    
     JSR.w Dungeon_GetRelativeVramAddr
     
     STA.w $1008, X
@@ -15533,27 +15488,19 @@ Dungeon_OpenKeyedObject:
     LDA.b $00 : STA.l $7F2000, X : STA.l $7F2040, X
     
     LDX.w $1000
-    
     LDA.w #$0000
-    
     JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1002, X
-    
     LDA.w #$0080
-    
     JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1008, X
-    
     LDA.w #$0002
-    
     JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $100E, X
-    
     LDA.w #$0082
-    
     JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
     
     STA.w $1014, X
@@ -15758,27 +15705,19 @@ Dungeon_OpenMiniGameChest:
             LDA.w RoomDrawObjectData+06, Y : STA.l $7E2082, X : STA.b $08
             
             LDX.w $1000
-            
             LDA.b $0C
-            
             JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
             
             STA.w $1002, X
-            
             LDA.b $0C : CLC : ADC.w #$0080
-            
             JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
             
             STA.w $1008, X
-            
             LDA.b $0C : CLC : ADC.w #$0002
-            
             JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
             
             STA.w $100E, X
-            
             LDA.b $0C : CLC : ADC.w #$0082
-            
             JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
             
             STA.w $1014, X
@@ -16077,31 +16016,28 @@ WaterDrainSpeed:
 ; ==============================================================================
 
 ; $00F07B-$00F092 JUMP TABLE
-Pool_Dungeon_TurnOnWaterLong:
+Dungeon_TurnOnWaterLong_handlers:
 {
-    .handlers
-    dw Underworld_FloodSwampWater_PrepTilemap  ; 0x00
-    dw Underworld_FloodSwampWater_PrepTilemap  ; 0x01
-    dw Underworld_FloodSwampWater_PrepTilemap  ; 0x02
-    dw Underworld_FloodSwampWater_PrepTilemap  ; 0x03
-    dw Underworld_FloodSwampWater_VomitWater   ; 0x04
-    dw Underworld_FloodSwampWater_VomitWater   ; 0x05
-    dw Underworld_FloodSwampWater_VomitWater   ; 0x06
-    dw Underworld_FloodSwampWater_VomitWater   ; 0x07
-    dw Underworld_FloodSwampWater_VomitWater   ; 0x08
-    dw Underworld_FloodSwampWater_SpillToFloor ; 0x09
-    dw Underworld_FloodSwampWater_CoverFloor   ; 0x0A
-    dw Underworld_FloodSwampWater_RiseInLevel  ; 0x0B
+    dw Underworld_FloodSwampWater_PrepTilemap  ; 0x00 - $F046
+    dw Underworld_FloodSwampWater_PrepTilemap  ; 0x01 - $F046
+    dw Underworld_FloodSwampWater_PrepTilemap  ; 0x02 - $F046
+    dw Underworld_FloodSwampWater_PrepTilemap  ; 0x03 - $F046
+    dw Underworld_FloodSwampWater_VomitWater   ; 0x04 - $F09B
+    dw Underworld_FloodSwampWater_VomitWater   ; 0x05 - $F09B
+    dw Underworld_FloodSwampWater_VomitWater   ; 0x06 - $F09B
+    dw Underworld_FloodSwampWater_VomitWater   ; 0x07 - $F09B
+    dw Underworld_FloodSwampWater_VomitWater   ; 0x08 - $F09B
+    dw Underworld_FloodSwampWater_SpillToFloor ; 0x09 - $F16D
+    dw Underworld_FloodSwampWater_CoverFloor   ; 0x0A - $F18C
+    dw Underworld_FloodSwampWater_RiseInLevel  ; 0x0B - $F1E1
 }
-
-; ==============================================================================
 
 ; $00F093-$00F09A LONG JUMP LOCATION
 Dungeon_TurnOnWaterLong:
 {
     LDA.b $B0 : ASL A : TAX
     
-    JMP (Pool_Dungeon_TurnOnWaterLong_handlers, X)
+    JMP (.handlers, X)
 
     ; $00F09A ALTERNATE ENTRY POINT
     .exit
@@ -16137,7 +16073,7 @@ Underworld_AdjustWaterVomit:
 {
     LDA.w $047C : CLC : ADC.w #$0100 : STA.b $08 : TAX
     
-    .BRANCH_ALPHA
+    .loop
     
         LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
         LDA.w RoomDrawObjectData+02, Y : STA.l $7E2002, X
@@ -16146,13 +16082,13 @@ Underworld_AdjustWaterVomit:
         
         TYA : CLC : ADC.w #$0008 : TAY
         TXA : CLC : ADC.w #$0080 : TAX
-    DEC.b $0E : BNE .BRANCH_ALPHA
+    DEC.b $0E : BNE .loop
     
     LDA.w #$0004 : STA.b $0A
     
     LDY.w #$0000
     
-    .BRANCH_BETA
+    .loop2
     
         LDX.b $08
         
@@ -16171,7 +16107,7 @@ Underworld_AdjustWaterVomit:
         INC.b $08 : INC.b $08
         
         TYA : CLC : ADC.w #$000E : TAY
-    DEC.b $0A : BNE .BRANCH_BETA
+    DEC.b $0A : BNE .loop2
     
     LDA.w #$FFFF : STA.w $1002, Y
     
@@ -16366,15 +16302,13 @@ FloodGateTileOffsets:
 ; $00F2F2-$00F2FD JUMP TABLE
 Watergate_MainJumpTable:
 {
-    dw FloodDam_PrepTiles_init ; 0x00
-    dw FloodDam_PrepTiles      ; 0x01
-    dw FloodDam_PrepTiles      ; 0x02
-    dw FloodDam_PrepTiles      ; 0x03
-    dw FloodDam_Expand         ; 0x04
-    dw FloodDam_Fill           ; 0x05
+    dw FloodDam_PrepTiles_init ; 0x00 - $F3A7
+    dw FloodDam_PrepTiles      ; 0x01 - $F3AA
+    dw FloodDam_PrepTiles      ; 0x02 - $F3AA
+    dw FloodDam_PrepTiles      ; 0x03 - $F3AA
+    dw FloodDam_Expand         ; 0x04 - $F30C
+    dw FloodDam_Fill           ; 0x05 - $F3BD
 }
-
-; ==============================================================================
 
 ; $00F2FE-$00F30B LONG JUMP LOCATION
 Watergate_Main:
@@ -16779,9 +16713,8 @@ Dungeon_DecreaseStaircasePriority:
 ; ==============================================================================
 
 ; $00F5D1-$00F5D8 DATA
-Pool_RoomDraw_OpenTriforceDoor:
+RoomDraw_OpenTriforceDoor_tile_offset:
 {
-    .tile_offset
     dw $2556, $2596, $25D6, $2616
 }
 
@@ -16820,7 +16753,7 @@ Object_OpenGanonDoor:
         
         LDA.b $B0 : SEC : SBC.w #$0004 : LSR A : TAX
         
-        LDA.l Pool_RoomDraw_OpenTriforceDoor_tile_offset, X : TAY
+        LDA.l .tile_offset, X : TAY
         
         LDX.w #$0000
         
@@ -17183,7 +17116,7 @@ Dungeon_DrawOverlay:
         LDA [$B7], Y : CMP.w #$FFFF : BEQ .endOfObjects
             STA.b $00
             
-            JSR.w Dungeon_DrawChunk ; $00F980 IN ROM
+            JSR.w Dungeon_DrawChunk
     BRA .nextObject
     
     .endOfObjects
@@ -17748,7 +17681,6 @@ GetDoorGraphicsIndex:
 ClearExplodingWallFromTilemap:
 {
     LDY.w #$31EA
-    
     JSR.w ClearExplodingWallFromTilemap_ClearOnePair
     
     LDA.w $0454 : DEC A : STA.b $0E : BEQ .skip

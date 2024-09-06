@@ -15249,16 +15249,16 @@ Messaging_MainJumpTable:
     
     dl Module_Messaging_doNothing ; 0x00 - $00F875 RTL (do nothing).
     dl Messaging_Equipment        ; 0x01 - $0DDD2A Link's item submenu (press start).
-    dl Messaging_Text             ; 0x02 - $ Dialogue Mode.
-    dl Messaging_PalaceMap        ; 0x03 - $ Dungeon Map Mode.
-    dl RefillHeathFromRedPotion   ; 0x04 - $ Fills life (red potion).
-    dl Messaging_PrayingPlayer    ; 0x05 - $ Praying at desert palace before it opens.
-    dl Module0E_06_Unused         ; 0x06 - $ unused? Agahnim 2 related code?
-    dl Messaging_OverworldMap     ; 0x07 - $ Overworld Map Mode.
-    dl Module0E_08_GreenPotion    ; 0x08 - $ Fill up all magic (green potion).
-    dl Module0E_09_BluePotion     ; 0x09 - $ Fill up magic and life (blue potion).
-    dl Messaging_BirdTravel       ; 0x0A - $ The flute bird that flies you around.
-    dl Module0E_0B_SaveMenu       ; 0x0B - $ Continue/Save & Quit Mode.
+    dl Messaging_Text             ; 0x02 - $0EC440 Dialogue Mode.
+    dl Messaging_PalaceMap        ; 0x03 - $0AE0B0 Dungeon Map Mode.
+    dl RefillHeathFromRedPotion   ; 0x04 - $00F8FB Fills life (red potion).
+    dl Messaging_PrayingPlayer    ; 0x05 - $00F8B1 Praying at desert palace before it opens.
+    dl Module0E_06_Unused         ; 0x06 - $00F8E9 unused? Agahnim 2 related code?
+    dl Messaging_OverworldMap     ; 0x07 - $0AB98B Overworld Map Mode.
+    dl Module0E_08_GreenPotion    ; 0x08 - $00F911 Fill up all magic (green potion).
+    dl Module0E_09_BluePotion     ; 0x09 - $00F918 Fill up magic and life (blue potion).
+    dl Messaging_BirdTravel       ; 0x0A - $0AB730 The flute bird that flies you around.
+    dl Module0E_0B_SaveMenu       ; 0x0B - $00F9FA Continue/Save & Quit Mode.
 }
 
 ; $00789A-$0078B0 LONG JUMP LOCATION
@@ -15283,11 +15283,11 @@ Messaging_PrayingPlayer:
     
     JSL.l UseImplicitRegIndexedLongJumpTable
     
-    dl ResetTransitionPropsAndAdvance_ResetInterface_long ; (initialize overworld color filtering settings).
-    dl PaletteFilter_doFiltering      ; Fade out before we set up the actual scene.
-    dl PrayingPlayer_InitScene        ;
-    dl PrayingPlayer_FadeInScene      ;
-    dl PrayingPlayer_AwaitButtonInput ;
+    dl ResetTransitionPropsAndAdvance_ResetInterface_long ; 0x00 - (initialize overworld color filtering settings).
+    dl PaletteFilter_doFiltering      ;  0x01 - $02A2A5 Fade out before we set up the actual scene.
+    dl PrayingPlayer_InitScene        ; 0x02 - $00F8C6
+    dl PrayingPlayer_FadeInScene      ; 0x03 - $00F8E0
+    dl PrayingPlayer_AwaitButtonInput ; 0x04 - $00F8E4
 }
 
 ; ==============================================================================
@@ -15334,10 +15334,10 @@ Module0E_06_Unused:
     
     JSL.l UseImplicitRegIndexedLongJumpTable
     
-    dl $02A2A5 ; $0122A5 initialize a bunch of overworld crap.
-    dl PaletteFilter_doFiltering
-    dl $02A2A9 ; Swap some palettes in memory?
-    dl $02A2AD ; $0122AD
+    dl ResetTransitionPropsAndAdvance_ResetInterface_long ; 0x00 - $02A2A5 Initialize a bunch of overworld crap.
+    dl PaletteFilter_doFiltering                          ; 0x01 - $00E914
+    dl Underworld_HandleTranslucencyAndPalettes_long      ; 0x02 - $02A2A9 Swap some palettes in memory?
+    dl UnusedInterfacePaletteRecovery_long                ; 0x03 - $02A2AD
 }
 
 ; ==============================================================================
@@ -15367,7 +15367,7 @@ RefillHeathFromRedPotion:
 ; $007911-$007917 LONG JUMP LOCATION
 Module0E_08_GreenPotion:
 {
-    JSL.l HUD.RefillMagicPower : BCS RefillHeathFromRedPotion_MoveOn
+    JSL.l HUD_RefillMagicPower : BCS RefillHeathFromRedPotion_MoveOn
         RTL
 }
 
