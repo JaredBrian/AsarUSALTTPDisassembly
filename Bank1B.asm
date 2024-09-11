@@ -3628,9 +3628,8 @@ AnimateEntrance_Mire_step5:
 ; ==============================================================================
 
 ; $0DCE16-$0DCE27 DATA
-Pool_TurtleRockEntrance_Main:
+TurtleRockEntrance_Main_handlers:
 {
-    .handlers
     dw AnimateEntrance_TurtleRock_step1
     dw AnimateEntrance_TurtleRock_step2
     dw AnimateEntrance_TurtleRock_step3
@@ -3651,9 +3650,9 @@ TurtleRockEntrance_Main:
     
     LDA.b $1A : AND.w #$0001 : ASL A : TAX
     
-    LDA.l $01C961, X : STA.w $011A
+    LDA.l OverworldShake_Offsets_Y, X : STA.w $011A
     
-    LDA.l $01C965, X : STA.w $011C
+    LDA.l OverworldShake_Offsets_X, X : STA.w $011C
     
     SEP #$20
     
