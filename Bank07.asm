@@ -4002,10 +4002,10 @@ LinkState_ShowingOffItem:
 
 ; ==============================================================================
 
+; Grant link the item he earned, if possible.
 ; $0399AD-$039A28 LONG JUMP LOCATION
 Link_ReceiveItem:
 {
-    ; Grant link the item he earned, if possible.
     PHB : PHK : PLB
     
     ; Is Link in another type of mode besides ground state?
@@ -4029,6 +4029,7 @@ Link_ReceiveItem:
     
     LDA.w $02E9 : BEQ .fromTextOrObject
         ; 0x03 = grabbed an item off the floor (from an ancillary object).
+        ; Such as a pendant or crystal.
         CMP.b #$03 : BNE .fromChestOrSprite
             .fromTextOrObject
         

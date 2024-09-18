@@ -112,10 +112,13 @@ AddLinksBedSpread:
     ; Use fixed coordinates for Link's bed spread sprite.
     LDA.w #$2162 : STA $00
     LDA.w #$0938 : STA $02
+
+    ; Bleeds into the next function.
+}
     
-    ; $0480C1 ALTERNATE ENTRY POINT
-    shared Shortcut:
-    
+; $0480C1 ALTERNATE ENTRY POINT
+Shortcut:
+{   
     .set_8Bit
     
     SEP #$20
@@ -736,11 +739,11 @@ Pool_AddReceiveItem:
     dw $8000, $4000, $2000, $1000, $0800, $0400, $0200, $0100
     dw $0080, $0040, $0020, $0010, $0008, $0004
 }
- 
+
+; Special effect 0x22 initializer (falling prize objects from boss fights).
 ; $0485E8-$048931 LONG JUMP LOCATION
 AddReceivedItem:
 {
-    ; special effect 0x22 initializer (falling prize objects from boss fights)
     PHB : PHK : PLB
     
     ; Carry indicates success for this routine.
@@ -1019,7 +1022,7 @@ AddReceivedItem:
         
         .notMasterSword
         
-        JSR.w GiveBottledItem 
+        JSR.w GiveBottledItem
     
     .gfxHandling
     
@@ -1033,9 +1036,9 @@ AddReceivedItem:
         CMP.b #$2E : BNE .extractGraphic
             .isShield
     
-            ; decompresses graphics to show off the new item
-            JSL.l DecompShieldGfx             ; $5308 IN ROM
-            JSL.l Palette_Shield              ; $0DED29 IN ROM
+            ; Decompresses graphics to show off the new item
+            JSL.l DecompShieldGfx
+            JSL.l Palette_Shield
             
             LDA $72
             
@@ -1063,7 +1066,8 @@ AddReceivedItem:
     
     PLX
     
-    ; Stores the item index to give Link in an array for the special object code to handle
+    ; Stores the item index to give Link in an array for the special object
+    ; code to handle.
     LDA.w $02D8 : STA.w $0C5E, X : TAY
     
     STZ.w $03A4, X
@@ -1305,19 +1309,19 @@ PotionList:
 ; $04893E-$048999 LOCAL JUMP LOCATION
 GiveBottledItem:
 {
-    ; cache the value of the item to give.
+    ; Cache the value of the item to give.
     STY $0C
     
     LDX.b #$06
     
     .searchLoop
     
-    LDA BottleList, X : CMP $0C : BEQ .foundBottle
-    
+        LDA BottleList, X : CMP $0C : BEQ .foundBottle
     DEX : BPL .searchLoop
 
-    ; it's not a bottle, so what is it...?
+    ; It's not a bottle, so what is it...?
     BRA .notBottle
+
     .foundBottle
     
     TXA : CLC : ADC.b #$02 : STA $0C
@@ -1326,11 +1330,12 @@ GiveBottledItem:
     
     .bottleLoop
     
-        ; This loop searches to see if Link has an inventory slot that has no bottle (an empty bottle counts!)
-        ; If so, Link acquires the item stored in variable $0C (along with a bottle)
+        ; This loop searches to see if Link has an inventory slot that has no
+        ; bottle (an empty bottle counts!) If so, Link acquires the item stored
+        ; in variable $0C (along with a bottle)
         LDA.l $7EF35C, X : CMP.b #$02 : BCS .checkNextBottleSlot
             ; Give Link the bottle or bottled item
-            LDA $0C : STA.l $7EF35C, X                   ; JML written here to fix bottle bug
+            LDA $0C : STA.l $7EF35C, X
             
             ; And.... we're done in this routine.
             BRL .finished
@@ -1346,10 +1351,11 @@ GiveBottledItem:
     
     .potionSearch
     
-    LDA PotionList, X : CMP $0C : BEQ .potionMatch
+        LDA PotionList, X : CMP $0C : BEQ .potionMatch
     DEX : BPL .potionSearch
     
     BRA .finished
+
     .potionMatch
     
     TXA : CLC : ADC.b #$03 : STA $0C
@@ -4328,12 +4334,11 @@ ConsumingFire_TransmuteToSkullWoodsFire:
 }
 
 ; ==============================================================================
-    
+
+; Special effect activator
 ; $049CE2-$049D17 LOCAL JUMP LOCATION
 AddAncilla:
 {
-	; Special effect activator
-    
     ; Save the effect index.
     PHA
     
