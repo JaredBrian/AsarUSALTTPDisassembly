@@ -1,12 +1,13 @@
-
 ; ==============================================================================
 
 ; $041543-$041559 DATA
 Pool_Ancilla_Bomb:
 {
+    ; $041543
     .interstate_intervals
     db 160, 6, 4, 4, 4, 4, 4, 6, 6, 6, 6
     
+    ; $04154E
     .chr_groups
     db 0, 1, 2, 3, 2, 3, 4, 5, 6, 7, 8, 9
 }
@@ -17,7 +18,7 @@ Pool_Ancilla_Bomb:
 Ancilla_Bomb:
 {
     ; Code for implementing the Bomb Special Effect (0x07)
-    LDA $11    : BEQ .full_execute
+    LDA.b $11    : BEQ .full_execute
     CMP.b #$08 : BEQ .walking_on_staircase
     CMP.b #$10 : BNE .not_in_room_staircase_submode
     

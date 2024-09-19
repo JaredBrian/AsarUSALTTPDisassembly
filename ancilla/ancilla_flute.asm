@@ -1,10 +1,8 @@
-
 ; ==============================================================================
 
 ; $044FA6-$044FA9 DATA
-Pool_Ancilla_Flute:
+Ancilla_Flute_bounce_z_speeds:
 {
-    .bounce_z_speeds
     db 24, 16, 10, 0
 }
 

@@ -3,6 +3,7 @@
 ; $048000-$048023 DATA
 Pool_AddHitStars:
 {
+    ; $048000
     .xy_offsets
     dw 21, -11
     dw 21,  11
@@ -11,6 +12,7 @@ Pool_AddHitStars:
     dw 16, -14
     dw 16,  14
     
+    ; $048018
     .unknown_offsets
     dw -3, 19
     dw  2, 13
@@ -19,61 +21,57 @@ Pool_AddHitStars:
 
 ; ==============================================================================
 
+; Special effect 0x16 initializer.
 ; $048024-$048090 LONG JUMP LOCATION
 AddHitStars:
 {
-    ; special effect 0x16 initializer
-    
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCS .spawn_failed
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$02 : STA.w $03B1, X
-    LDA.b #$01 : STA.w $039F, X
-    
-    STZ.w $0C22, X
-    STZ.w $0C2C, X
-    
-    LDA.w $0301 : BEQ .nothing_in_hand
-    
-    LDA $2F : LSR A : CLC : ADC.b #$02 : TAY
-    
-    BRA .continue
-    
-    .nothing_in_hand
-    
-    LDA.w $037A : BEQ .no_special_position
-    
-    LDY.b #$00
-    
-    LDA $2F : CMP.b #$04 : BEQ .facing_left
-    
-    LDY.b #$01
-    
-    .no_special_position
-    .facing_left
-    .continue
-    
-    TYA : STA.w $0C54, X : ASL #2 : TAY
-    
-    REP #$20
-    
-    LDA.w .xy_offsets+0, Y : CLC : ADC $20 : STA $00
-    LDA.w .xy_offsets+2, Y : CLC : ADC $22 : STA $02
-    
-    TYA : LSR A : TAY
-    
-    LDA $22 : CLC : ADC .unknown_offsets, Y : STA $04
-    
-    SEP #$20
-    
-    LDA $04 : STA.w $038A, X
-    LDA $05 : STA.w $038F, X
-    
-    BRL Shortcut_just_coords
-    
+        STZ.w $0C5E, X
+        
+        LDA.b #$02 : STA.w $03B1, X
+        LDA.b #$01 : STA.w $039F, X
+        
+        STZ.w $0C22, X
+        STZ.w $0C2C, X
+        
+        LDA.w $0301 : BEQ .nothing_in_hand
+            LDA $2F : LSR A : CLC : ADC.b #$02 : TAY
+            
+            BRA .continue
+        
+        .nothing_in_hand
+        
+        LDA.w $037A : BEQ .no_special_position
+            LDY.b #$00
+            
+            LDA $2F : CMP.b #$04 : BEQ .facing_left
+                LDY.b #$01
+
+            .facing_left
+        .no_special_position
+        
+        .continue
+        
+        TYA : STA.w $0C54, X : ASL #2 : TAY
+        
+        REP #$20
+        
+        LDA.w Pool_AddHitStars_xy_offsets+0, Y : CLC : ADC $20 : STA $00
+        LDA.w Pool_AddHitStars_xy_offsets+2, Y : CLC : ADC $22 : STA $02
+        
+        TYA : LSR A : TAY
+        
+        LDA $22 : CLC : ADC Pool_AddHitStars_unknown_offsets, Y : STA $04
+        
+        SEP #$20
+        
+        LDA $04 : STA.w $038A, X
+        LDA $05 : STA.w $038F, X
+        
+        BRL Shortcut_just_coords
+        
     .spawn_failed
     
     PLB
@@ -83,11 +81,10 @@ AddHitStars:
 
 ; ==============================================================================
 
+; Special effect 0x20 initializer
 ; $048091-$0480C7 LONG JUMP LOCATION
 AddLinksBedSpread:
 {
-    ; special effect 0x20 initializer
-    
     PHB : PHK : PLB
     
     LDX.b #$00 
@@ -96,7 +93,7 @@ AddLinksBedSpread:
     
     PHX : TAX
     
-    LDA.l $08806F, X : STA $0E
+    LDA.l AncillaObjectAllocation, X : STA $0E
     
     PLX
     
@@ -134,31 +131,29 @@ Shortcut:
 
 ; ==============================================================================
 
+; Special effect 0x21 initializer
 ; $0480C8-$0480FE LONG JUMP LOCATION
 AddLinksSleepZs:
 {
-    ; special effect 0x21 initializer
-    
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCS .no_open_slots
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$F8 : STA.w $0C22, X
-    
-    LDA.b #$07 : STA.w $03B1, X : INC A : STA.w $0C2C, X
-    
-    LDA.b #$FF : STA.w $0C54, X
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC.w #$0004 : STA $00
-    LDA $22 : CLC : ADC.w #$0010 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
+        STZ.w $0C5E, X
+        
+        LDA.b #$F8 : STA.w $0C22, X
+        
+        LDA.b #$07 : STA.w $03B1, X : INC A : STA.w $0C2C, X
+        
+        LDA.b #$FF : STA.w $0C54, X
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC.w #$0004 : STA $00
+        LDA $22 : CLC : ADC.w #$0010 : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
     
     ; $0480FD ALTERNATE ENTRY POINT
     .no_open_slots
@@ -173,21 +168,23 @@ AddLinksSleepZs:
 ; $0480FF-$04811E DATA
 Pool_AddBlueBomb:
 {
+    ; $0480FF
     .closer_y_offsets
     dw 4, 28, 12, 12
     
+    ; $048107
     .closer_x_offsets
     dw 8, 8, -6, 22
     
+    ; $04810F
     .y_offsets
     dw 0, 24, 12, 12
     
+    ; $048117
     .x_offsets
     dw 8, 8, 0, 16
 }
 
-; ==============================================================================
-    
 ; NOTE: Special Effect 0x07 (Link's blue bombs) Initializer
 ; $04811F-$0481B2 LONG JUMP LOCATION
 AddBlueBomb:
@@ -195,89 +192,87 @@ AddBlueBomb:
     PHB : PHK : PLB	
     
     ; A = 0x07
-    ; No room? Don't lay the bomb
+    ; No room? Don't lay the bomb.
     JSR.w AddAncilla : BCS AddLinkSleepZs_no_open_slots
-    
-    ; Check our bomb stock.
-    LDA.l $7EF343 : BNE .player_has_bombs
-    
-    STZ.w $0C4A, X ; Otherwise forget it.
-    
-    BRA .out_of_bombs
-    
-    .player_has_bombs
-    
-    ; Subtract from our bomb stock by one.
-    DEC A : STA.l $7EF343 : BNE .bombs_left_over
-    
-    PHX ; If we run out of bombs select a new item.
-    
-    JSL.l HUD.RefreshIconLong
-    
-    .bombs_left_over
-    
-    PLX
-    
-    ; not used?
-    STZ.w $03EA, X : STZ.w $0C54, X
-    
-    STZ.w $0C5E, X : STZ.w $03C2, X : STZ.w $0385, X
-    
-    ; Load the timer value for the bomb (this value is the first entry into that table)
-    LDA.l $089543 : STA.w $039F, X
-    
-    ; seems like this memory is specific to bombs
-    LDA.b #$07 : STA.w $03C0, X
-    
-    ; elevation of the sprite
-    STZ.w $029E, X
-    
-    LDA.b #$08 : STA.w $0C68, X
-    
-    ; see which direction Link is facing. the bomb keeps track of this I guess
-    LDA $2F : LSR A : STA.w $0C72, X
-    
-    STZ.w $03D5, X
-    STZ.w $03D2, X
-    STZ.w $03E1, X
-    
-    JSL.l Ancilla_CheckInitialTileCollision_Class2 : BCS .use_closer_offsets
-    
-    LDY $2F
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC .y_offsets, Y : STA $00
-    LDA $22 : CLC : ADC .x_offsets, Y : STA $02
-    
-    SEP #$20
-    
-    BRA .finalize_coordinates
-    
-    .use_closer_offsets
-    
-    LDY $2F
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC .closer_y_offsets, Y : STA $00
-    LDA $22 : CLC : ADC .closer_x_offsets, Y : STA $02
-    
-    SEP #$20
-    
-    .finalize_coordinates
-    
-    JSL.l Sound_SetSfxPanWithPlayerCoords
-    
-    ; Play the bomb laying sound
-    ORA.b #$0B : STA.w $012E
-    
-    BRL Shortcut_just_coords
-    
+        ; Check our bomb stock.
+        LDA.l $7EF343 : BNE .player_has_bombs
+            STZ.w $0C4A, X ; Otherwise forget it.
+            
+            BRA .out_of_bombs
+        
+        .player_has_bombs
+        
+        ; Subtract from our bomb stock by one.
+        DEC A : STA.l $7EF343 : BNE .bombs_left_over
+            PHX ; If we run out of bombs select a new item.
+            
+            JSL.l HUD.RefreshIconLong
+        
+        .bombs_left_over
+        
+        PLX
+        
+        ; Not used?
+        STZ.w $03EA, X : STZ.w $0C54, X
+        
+        STZ.w $0C5E, X : STZ.w $03C2, X : STZ.w $0385, X
+        
+        ; Load the timer value for the bomb (this value is the first entry into
+        ; that table).
+        LDA.l Pool_Ancilla_Bomb_interstate_intervals : STA.w $039F, X
+        
+        ; Seems like this memory is specific to bombs.
+        LDA.b #$07 : STA.w $03C0, X
+        
+        ; Elevation of the sprite.
+        STZ.w $029E, X
+        
+        LDA.b #$08 : STA.w $0C68, X
+        
+        ; See which direction Link is facing. The bomb keeps track of this I
+        ; guess.
+        LDA $2F : LSR A : STA.w $0C72, X
+        
+        STZ.w $03D5, X
+        STZ.w $03D2, X
+        STZ.w $03E1, X
+        
+        JSL.l Ancilla_CheckInitialTileCollision_Class2 : BCS .use_closer_offsets
+            LDY $2F
+            
+            REP #$20
+            
+            LDA $20 : CLC : ADC Pool_AddBlueBomb_y_offsets, Y : STA $00
+            LDA $22 : CLC : ADC Pool_AddBlueBomb_x_offsets, Y : STA $02
+            
+            SEP #$20
+            
+            BRA .finalize_coordinates
+            
+        .use_closer_offsets
+        
+        LDY $2F
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC Pool_AddBlueBomb_closer_y_offsets, Y : STA $00
+        LDA $22 : CLC : ADC Pool_AddBlueBomb_closer_x_offsets, Y : STA $02
+        
+        SEP #$20
+        
+        .finalize_coordinates
+        
+        JSL.l Sound_SetSfxPanWithPlayerCoords
+        
+        ; Play the bomb laying sound.
+        ORA.b #$0B : STA.w $012E
+        
+        BRL Shortcut_just_coords
+        
     .out_of_bombs
-    
+        
     PLB
-    
+        
     RTL
 }
 
@@ -286,50 +281,58 @@ AddBlueBomb:
 ; $0481B3-$04820E DATA
 Pool_AddBoomerang:
 {
+    ; $0481B3
     .speeds
     db $20, $18
     db $30, $28
     
+    ; $0481B7
     .throw_distance
     db 32, 96
     
+    ; $0481B9
     .rotation_speed
     db  3,  2
     
+    ; $0481BB
     .directional_components
     db $08, $04, $02, $01
     
+    ; $0481BF
     .valid_direction_combinations
     db $08, $04, $02, $01, $09, $05, $0A, $06
     
+    ; $0481C7
     .initial_rotation_state
     db 2, 3, 3, 2, 2, 3, 3, 3
     
+    ; $0481CF
     .typical_y_offsets
     dw -10,  -8,  -9,  -9, -10,  -8,  -9,  -9
     
+    ; $0481DF
     .typical_x_offsets
     dw  -9,  11,   8,  -8, -10,  11,   8,  -8
     
+    ; $0481EF
     .sword_held_y_offsets
     dw -16,   6,   0,   0,  -8,   8,  -8,   8
     
+    ; $0481FF
     .sword_held_x_offsets
     dw   0,   0,  -8,   8,   8,   8,  -8,  -8
 }
 
 ; ==============================================================================
     
+; Special effect 0x5 (boomerang) initializer.
 ; $04820F-$04836B LONG JUMP LOCATION
 AddBoomerang:
 {
-    ; special effect 0x5 (boomerang) initializer
-    
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCC .open_slot
-    
-    BRL .no_open_slots
+        BRL .no_open_slots
     
     .open_slot
     
@@ -342,22 +345,20 @@ AddBoomerang:
     
     LDA.b #$01 : STA.w $035F
     
-    ; $0394, X = Which type of boomerang it is - normal or magic
+    ; $0394, X = Which type of boomerang it is - normal or magic.
     LDA.l $7EF341 : DEC A : STA.w $0394, X : TAY
     
-    LDA.w .throw_distance, Y : STA.w $0C54, X
+    LDA.w Pool_AddBoomerang_throw_distance, Y : STA.w $0C54, X
     
-    LDA.w .rotation_speed, Y : STA.w $039F, X
+    LDA.w Pool_AddBoomerang_rotation_speed, Y : STA.w $039F, X
     
     LDY.b #$00
     
-    ; check if player is attempting to throw the boomerang diagonally
+    ; Check if player is attempting to throw the boomerang diagonally.
     LDA $F0 : AND.b #$0C : BEQ .not_diagonal
-    
-    LDA $F0 : AND.b #$03 : BEQ .not_diagonal
-    
-    INY
-    
+        LDA $F0 : AND.b #$03 : BEQ .not_diagonal
+            INY
+        
     .not_diagonal
     
     STY $00
@@ -365,20 +366,19 @@ AddBoomerang:
     ; Add additional offset to the index if it's the magic boomerang.
     LDA.w $0394, X : ASL A : CLC : ADC $00 : TAY
     
-    LDA.w .speeds, Y : STA $00 : STA.w $03C5, X
+    LDA.w Pool_AddBoomerang_speeds, Y : STA $00 : STA.w $03C5, X
     
     STY $72
     
-    ; Check if the player is attempting to throw the boomerang in a specific direction
-    ; (by holding down a directional button)
+    ; Check if the player is attempting to throw the boomerang in a specific
+    ; direction (by holding down a directional button).
     LDA $F0 : AND.b #$0F : BNE .directional_throw
-    
-    LDA $2F : LSR A : TAY
-    
-    ; if no directional buttons are being pressed, just use the direction Link is facing
-    ; to set the directional component of the throw
-    LDA.w .directional_components, Y
-    
+        LDA $2F : LSR A : TAY
+        
+        ; If no directional buttons are being pressed, just use the direction
+        ; Link is facing to set the directional component of the throw.
+        LDA.w .directional_components, Y
+        
     .directional_throw
     
     STA $01
@@ -390,28 +390,26 @@ AddBoomerang:
     LDA $01
     
     AND.b #$0C : BEQ .nonvertical_throw
-    AND.b #$08 : BEQ .down_throw
-    
-    ; reverse the direction (velocity?) of the throw
-    TYA : EOR.b #$FF : INC A : TAY
-    
-    .down_throw
-    
-    ; store vertical velocity
-    TYA : STA.w $0C22, X
-    
-    LDY.b #$00
-    
-    LDA.w $0C22, X : BMI .up_throw
-    
-    INY
-    
-    .up_throw
-    
-    ; $0C72, X = 1 if it's a down throw, 0 if it's an up throw
-    TYA : STA.w $0C72, X
-    
-    LDA.w .directional_components, Y : STA.w $039D
+        AND.b #$08 : BEQ .down_throw
+            ; Reverse the direction (velocity?) of the throw.
+            TYA : EOR.b #$FF : INC A : TAY
+        
+        .down_throw
+        
+        ; Store vertical velocity.
+        TYA : STA.w $0C22, X
+        
+        LDY.b #$00
+        
+        LDA.w $0C22, X : BMI .up_throw
+            INY
+        
+        .up_throw
+        
+        ; $0C72, X = 1 if it's a down throw, 0 if it's an up throw.
+        TYA : STA.w $0C72, X
+        
+        LDA.w Pool_AddBoomerang_directional_components, Y : STA.w $039D
     
     .nonvertical_throw
     
@@ -422,35 +420,35 @@ AddBoomerang:
     LDA $01
     
     AND.b #$03 : BEQ .nonhoriz_throw
-    AND.b #$02 : BEQ .right_throw
-    
-    ; Reverse the polarity of the velocity so that the boomerang travels left
-    ; which is the negative X direction
-    TYA : EOR.b #$FF : INC A : TAY
-    
-    BRA .set_horiz_velocity
-    
-    .right_throw
-    
-    ; apparently $03A9, X = 0xFF for a right throw, and 0x00 for a left throw...
-    DEC.w $03A9, X
-    
-    .set_horiz_velocity
-    
-    TYA : STA.w $0C2C, X
-    
-    LDY.b #$02
-    
-    LDA.w $0C2C, X : BMI .left_throw
-    
-    LDY.b #$03
-    
-    .left_throw
-    
-    TYA : STA.w $0C72, X
-    
-    ; $039D is the list of directional components for the throw
-    LDA.w .directional_components, Y : ORA.w $039D : STA.w $039D
+        AND.b #$02 : BEQ .right_throw
+            ; Reverse the polarity of the velocity so that the boomerang travels
+            ; left which is the negative X direction.
+            TYA : EOR.b #$FF : INC A : TAY
+            
+            BRA .set_horiz_velocity
+            
+        .right_throw
+        
+        ; Apparently $03A9, X = 0xFF for a right throw, and 0x00 for a left
+        ; throw...
+        DEC.w $03A9, X
+        
+        .set_horiz_velocity
+        
+        TYA : STA.w $0C2C, X
+        
+        LDY.b #$02
+        
+        LDA.w $0C2C, X : BMI .left_throw
+            LDY.b #$03
+        
+        .left_throw
+        
+        TYA : STA.w $0C72, X
+        
+        ; $039D is the list of directional components for the throw.
+        LDA.w Pool_AddBoomerang_directional_components, Y
+        ORA.w $039D : STA.w $039D
     
     .nonhoriz_throw
     
@@ -458,32 +456,28 @@ AddBoomerang:
     
     .find_valid_combo_loop
     
-    LDA.w .valid_direction_combinations, Y : CMP $01 : BEQ .is_valid_combo
-    
+        LDA.w Pool_AddBoomerang_valid_direction_combinations, Y : CMP $01 : BEQ .is_valid_combo
     DEY : BPL .find_valid_combo_loop
     
     INY
     
     .is_valid_combo
     
-    LDA.w .initial_rotation_state, Y : STA.w $03A4, X
+    LDA.w Pool_AddBoomerang_initial_rotation_state, Y : STA.w $03A4, X
     
     TYA : ASL A : TAY : STA.w $03CF, X
     
     LDA $3C : CMP.b #$09 : BCC .spin_attack_not_charged
-    
-    INC.w $03B1, X
-    
-    BRA .directional_throw_2
+        INC.w $03B1, X
+        
+        BRA .directional_throw_2
     
     .spin_attack_not_charged
     
-    ; WTF: this seems like a lapse of logic.... lumping in the magic
-    ; boomerang
-    ; with diagonal throwing
+    ; WTF: this seems like a lapse of logic.... lumping in the magic boomerang
+    ; with diagonal throwing.
     LDA $72 : BNE .diagonal_or_magic_throw
-    
-    LDA $F0 : AND.b #$0F : BNE .directional_throw_2
+        LDA $F0 : AND.b #$0F : BNE .directional_throw_2
     
     .diagonal_or_magic_throw
     
@@ -492,49 +486,52 @@ AddBoomerang:
     .directional_throw_2
     
     JSL.l Ancilla_CheckInitialTileCollision_Class_1 : BCS .terminate_object
-    
-    LDA.w $03B1, X : BEQ .not_thrown_while_spin_attack_charged
-    
-    ; NOTE: This section calculates the starting position of the boomerang
-    ; differently since the player has a charged spin attack, and the
-    ; throwing animation will not be done.
-    REP #$20
-    
-    LDA $20 : CLC : ADC.w #8 : CLC : ADC .sword_held_y_offsets, Y : STA $00
-    LDA $22            : CLC : ADC .sword_held_x_offsets, Y : STA $02
-    
-    SEP #$20
-    
-    BRL .finished_so_finalize_coordinates
-    
-    .not_thrown_while_spin_attack_charged
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC.w #8 : CLC : ADC .typical_y_offsets, Y : STA $00
-    LDA $22            : CLC : ADC .typical_x_offsets, Y : STA $02
-    
-    SEP #$20
-    
-    .finished_so_finalize_coordinates
-    
-    BRL Shortcut_just_coords
+        LDA.w $03B1, X : BEQ .not_thrown_while_spin_attack_charged
+            ; NOTE: This section calculates the starting position of the
+            ; boomerang differently since the player has a charged spin attack,
+            ; and the throwing animation will not be done.
+            REP #$20
+            
+            LDA $20 : CLC : ADC.w #$0008
+            CLC : ADC Pool_AddBoomerang_sword_held_y_offsets, Y : STA $00
+
+            LDA $22
+            CLC : ADC Pool_AddBoomerang_sword_held_x_offsets, Y : STA $02
+            
+            SEP #$20
+            
+            BRL .finished_so_finalize_coordinates
+        
+        .not_thrown_while_spin_attack_charged
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC.w #$0008
+        CLC : ADC Pool_AddBoomerang_typical_y_offsets, Y : STA $00
+
+        LDA $22
+        CLC : ADC Pool_AddBoomerang_typical_x_offsets, Y : STA $02
+        
+        SEP #$20
+        
+        .finished_so_finalize_coordinates
+        
+        BRL Shortcut_just_coords
     
     .no_open_slots
-    
+        
     PLB
-    
+        
     RTL
-    
+        
     .terminate_object
     
     STZ.w $0C4A, X : STZ.w $035F
     
     LDA.w $03E4, X : CMP.b #$F0 : BEQ .hit_key_door
-    
-    JSL.l Sound_SfxPanObjectCoords : ORA.b #$05 : STA.w $012E
-    
-    BRA .spawn_wall_hit_object
+        JSL.l Sound_SfxPanObjectCoords : ORA.b #$05 : STA.w $012E
+        
+        BRA .spawn_wall_hit_object
     
     .hit_key_door
     
@@ -761,7 +758,7 @@ AddReceivedItem:
     
     LDY.b #$01
     
-    ; is the item a crystal?
+    ; Is the item a crystal?
     LDA.w $02D8 : CMP.b #$20 : BNE .notCrystal
         LDY.b #$02
     
@@ -771,12 +768,12 @@ AddReceivedItem:
     
     PHX
     
-    ; Load the item index again
-    ; If it's not a sword+lvl_1 shield. 
+    ; Load the item index again.
+    ; If it's not a sword+lvl_1 shield.
     LDY.w $02D8 : BNE .not_uncles_gear
         LDX.b #$08
         
-        ; Gives the address to write this value to.    
+        ; Gives the address to write this value to.
         LDA.w .item_target_addr+0, X : STA $00
         LDA.w .item_target_addr+1, X : STA $01
         LDA.b #$7E                   : STA $02
@@ -787,12 +784,12 @@ AddReceivedItem:
     
     TYA : ASL A : TAX
     
-    ; Tells what inventory location to write to.    
+    ; Tells what inventory location to write to.
     LDA.w .item_target_addr+0, X : STA $00
     LDA.w .item_target_addr+1, X : STA $01
     LDA.b #$7E                   : STA $02
     
-    ; Tells what value to write to that location.    
+    ; Tells what value to write to that location.
     ; If it's a negative value, don't write it.
     LDA.w .item_values, Y : BMI .dontWrite
         STA [$00]
@@ -800,14 +797,14 @@ AddReceivedItem:
     .dontWrite
     
     ; Is it a moon pearl?
-    ; Not a moon pearl.    
+    ; Not a moon pearl.
     CPY.b #$1F : BNE .notMoonPearl
-        ; Reset Link's graphic status to normal (so he's not a bunny anymore)
+        ; Reset Link's graphic status to normal (so he's not a bunny anymore).
         STZ $56
     
     .notMoonPearl
     
-    ; Grant the running ability (if boots are involved)
+    ; Grant the running ability (if boots are involved).
     LDA.b #$04
     
     ; Are they the Pegasus boots?
@@ -823,7 +820,7 @@ AddReceivedItem:
     
     .notFlippers
     
-    ; Are they gloves? (power glove or titan's mitt)
+    ; Are they gloves? (power glove or titan's mitt).
     CPY.b #$1B : BEQ .areGloves
     CPY.b #$1C : BNE .notGloves
         .areGloves
@@ -837,7 +834,7 @@ AddReceivedItem:
     
         LDX.b #$04
         
-        ; These are the three pendants (codes #$37, #$38, #$39)    
+        ; These are the three pendants (codes #$37, #$38, #$39).
         CPY.b #$37 : BEQ .isPendant
             LDX.b #$01
             
@@ -854,7 +851,8 @@ AddReceivedItem:
                     
                     ; Are all the pendants filled in yet?
                     AND.b #$07 : CMP.b #$07 : BNE .dontHaveAllPendants
-                        ; #$04 means we have all the pendants apparently, and can go get us some Master Sword action.
+                        ; #$04 means we have all the pendants apparently, and
+                        ; can go get us some Master Sword action.
                         LDA.b #$04 : STA.l $7EF3C7
                 
                     .dontHaveAllPendants
@@ -877,9 +875,9 @@ AddReceivedItem:
         CPY.b #$25 : BEQ .isPalaceItem
         ; Is it a big key?
         CPY.b #$32 : BEQ .isPalaceItem
-            ; Is it a a dungeon map?    
+            ; Is it a a dungeon map?
             CPY.b #$33 : BNE .notPalaceItem
-                ; Palaces have compasses, big keys, and maps
+                ; Palaces have compasses, big keys, and maps.
                 .isPalaceItem
         
                 ; Tell me what dungeon I'm in.
@@ -892,7 +890,8 @@ AddReceivedItem:
                 
                 SEP #$20
                 
-                ; don't have a good name for this but it basically means move on, we're done here
+                ; Don't have a good name for this but it basically means move
+                ; on, we're done here.
                 BRL .gfxHandling
         
         .notPalaceItem
@@ -907,7 +906,8 @@ AddReceivedItem:
     
         ; Is it a crystal?
         CPY.b #$20 : BNE .notCrystal2
-            ; Paul's concern
+            ; TODO: Wtf is this comment?
+            ; Paul's concern.
             INC.w $0200
             
             PHX
@@ -932,7 +932,7 @@ AddReceivedItem:
             
             ; Is Link in "cape" mode?
             LDA $55 : BEQ .notInCapeMode
-                ; if so, transform him out of it.
+                ; If so, transform him out of it.
                 LDA.b #$20 : STA.w $02E2
                 
                 STZ.w $037B
@@ -946,7 +946,7 @@ AddReceivedItem:
                 JSL.l AddTransformationCloud
                 JSL.l Sound_SetSfxPanWithPlayerCoords
                 
-                ; play sound effect
+                ; Play sound effect.
                 ORA.b #$15 : STA.w $012E
                 
                 PLX : PLY
@@ -957,31 +957,32 @@ AddReceivedItem:
         
         ; Is it a mushroom / magic powder?
         CPY.b #$29 : BNE .notMagicPowder
-            ; check if we have magic powder
+            ; Check if we have magic powder:
             LDA.l $7EF344 : CMP.b #$02 : BEQ .notMagicPowder
-                ; if not, give the guy a mushroom instead
+                ; If not, give the guy a mushroom instead.
                 LDA.b #$01 : STA [$00]
                 
-                ; probably should split off a differnt name for this invocation of the branch
+                ; TODO: Probably should split off a differnt name for this
+                ; invocation of the branch.
                 BRA .noKeyOverflow
         
         .notMagicPowder
         
         LDX.b #$01
         
-        ; but not the Big Key, just to be clear
+        ; But not the Big Key, just to be clear.
         CPY.b #$24 : BEQ .addToStock
             LDA.w $02E9 : CMP.b #$02 : BEQ .receivingFromSprite
-                ; give the guy 1 bomb
+                ; Give the guy 1 bomb.
                 CPY.b #$27 : BEQ .addToStock
-                    ; give the guy 3 bombs
+                    ; Give the guy 3 bombs.
                     LDX.b #$03
                     
                     CPY.b #$28 : BEQ .addToStock
-                        ; bombs again, this time you get 10 bombs
+                        ; Bombs again, this time you get 10 bombs.
                         ; branch if not those things.
                         CPY.b #$31 : BNE .notFillerItem
-                            ; give the guy 10 bombs
+                            ; Give the guy 10 bombs.
                             LDX.b #$0A
         
         .addToStock
@@ -1036,7 +1037,7 @@ AddReceivedItem:
         CMP.b #$2E : BNE .extractGraphic
             .isShield
     
-            ; Decompresses graphics to show off the new item
+            ; Decompresses graphics to show off the new item.
             JSL.l DecompShieldGfx
             JSL.l Palette_Shield
             
@@ -1050,7 +1051,7 @@ AddReceivedItem:
     
     .extractGraphic
     
-    JSL.l GetAnimatedSpriteTile_variable ; passes through here 0987a0
+    JSL.l GetAnimatedSpriteTile_variable ; Passes through here 0987A0.
     
     LDA $72
     
@@ -1059,8 +1060,8 @@ AddReceivedItem:
         .isSword
     
         LDA.w $02D8 : BEQ .notSword
-            JSL.l DecompSwordGfx ; $0052C8 IN ROM
-            JSL.l Palette_Sword ; $0DED03 IN ROM
+            JSL.l DecompSwordGfx
+            JSL.l Palette_Sword
     
     .notSword
     
@@ -1075,7 +1076,7 @@ AddReceivedItem:
     LDA.b #$09 : CPY.b #$01 : BNE .notMasterSword2
         STA.w $039F, X
         
-        ; not sure if this is accurate
+        ; Not sure if this is accurate.
         LDA.w $02E9 : CMP.b #$02 : BEQ .masterSwordFromSprite
             LDA.b #$A0 : STA.w $0C68, X
             
@@ -1129,7 +1130,7 @@ AddReceivedItem:
     
     .heartPiece
     
-    ; Delay timer that can affect how high the item gets off the air
+    ; Delay timer that can affect how high the item gets off the air.
     TYA : STA.w $03B1, X
     
     PLY
@@ -1145,7 +1146,8 @@ AddReceivedItem:
         
         SEP #$20
         
-        ; Since we're indoors (chests only occur indoors), add the base coordinates for the room we're in
+        ; Since we're indoors (chests only occur indoors), add the base
+        ; coordinates for the room we're in.
         LDA $01 : CLC : ADC.w $062F : STA $01
         LDA $03 : CLC : ADC.w $062D : STA $03
         
@@ -1162,13 +1164,14 @@ AddReceivedItem:
     
     PHY
     
-    ; Check method
+    ; Check method.
     LDA.w $0C54, X : BNE .notFromText
-        ; Check item
+        ; Check item.
         LDA.w $0C5E, X : CMP.b #$01 : BNE .notMasterSword4
             JSL.l Sound_SetSfxPanWithPlayerCoords
         
-            ; Play sound of sword being brandished (since we're getting the master sword)
+            ; Play sound of sword being brandished (since we're getting the
+            ; master sword).
             ORA.b #$2C : STA.w $012E
         
             BRA .doneWithSoundEffects
@@ -1178,11 +1181,11 @@ AddReceivedItem:
     .notFromText
     
     LDA.w $0C5E, X : CMP.b #$3E : BEQ .doneWithSoundEffects
-                   CMP.b #$17 : BEQ .doneWithSoundEffects
+                     CMP.b #$17 : BEQ .doneWithSoundEffects
         ; Is it a crystal?
         CMP.b #$20 : BEQ .bossVictoryMusic
             
-        ; These are the three pendants, 0x37, 0x38, and 0x$39
+        ; These are the three pendants, 0x37, 0x38, and 0x39.
         CMP.b #$37 : BEQ .bossVictoryMusic
         CMP.b #$38 : BEQ .bossVictoryMusic
         CMP.b #$39 : BNE .generalSoundEffect
@@ -1208,7 +1211,7 @@ AddReceivedItem:
 
     STZ $03
     
-    ; Check a flag to see whether we should use an alternate default coordinate
+    ; Check a flag to see whether we should use an alternate default coordinate.
     LDY.w $0C5E, X
     
     LDA.w .wide_item_flag, Y : BEQ .setCoordinates
@@ -1229,17 +1232,18 @@ AddReceivedItem:
     
     ; Did we get this item off a special object?
     LDY.w $02E9 : CPY.b #$03 : BNE .notFromAncilla
-        ; Treat special object given items just like text, when it comes to coordinates
+        ; Treat special object given items just like text, when it comes to
+        ; coordinates.
         LDY.b #$00
     
     .notFromAncilla
     
-    ; Set altitude to zero by default
+    ; Set altitude to zero by default.
     STZ $08
     STZ $09
     
     CPY.b #$02 : BNE .noAltitudeAdjustForNonSprite
-        ; $08 = 0xFFF8 (-8)
+        ; $08 = 0xFFF8 (-8).
         LDA.b #$F8 : STA $08
                      DEC $09
     
@@ -1253,26 +1257,26 @@ AddReceivedItem:
     
     REP #$20
     
-    ; $00 = 0xFFF2 (-14)
+    ; $00 = 0xFFF2 (-14).
     LDA #$FFF2 : STA $00
     
     LDA $04 : BEQ .noYAdjustForText
-        ; Sign extend the byte to a 2-byte negative offset for the Y coordinate
+        ; Sign extend the byte to a 2-byte negative offset for the Y coordinate.
         LDA.w Pool_AddReceiveItem_y_offsets, Y
         AND.w #$00FF : ORA.w #$FF00 : STA $00
     
     .noYAdjustForText
     
-    ; Add to Link's coordinate and adjust altitude with $08
+    ; Add to Link's coordinate and adjust altitude with $08.
     LDA $00 : CLC : ADC $20 : CLC : ADC $08 : STA $00
     
     LDA $04 : BEQ .noXAdjustForText
-        ; Sign extend the byte to a 2-byte position offset for the X coordinate
+        ; Sign extend the byte to a 2-byte position offset for the X coordinate.
         LDA.w .x_offsets, Y : AND.w #$00FF : STA $02
     
     .noXAdjustForText
     
-    ; Add to Link's X coordinate
+    ; Add to Link's X coordinate.
     LDA $02 : CLC : ADC $22
     
     .finishedWithCoords
@@ -1332,9 +1336,9 @@ GiveBottledItem:
     
         ; This loop searches to see if Link has an inventory slot that has no
         ; bottle (an empty bottle counts!) If so, Link acquires the item stored
-        ; in variable $0C (along with a bottle)
+        ; in variable $0C (along with a bottle).
         LDA.l $7EF35C, X : CMP.b #$02 : BCS .checkNextBottleSlot
-            ; Give Link the bottle or bottled item
+            ; Give Link the bottle or bottled item.
             LDA $0C : STA.l $7EF35C, X
             
             ; And.... we're done in this routine.
@@ -1382,38 +1386,34 @@ GiveBottledItem:
 ; $04899A-$048A31 DATA
 Pool_AddWishPondItem:
 {
+    ; $04899A
     .y_offsets
     db -13, -13, -13, -13, -13, -12, -12, -13
     db -13, -12, -12, -12, -10, -12, -12, -12
     db -12, -12, -12, -12, -12, -12, -12, -12
     db -12, -12, -12, -12, -12, -12, -12, -12
-    db -12, -12, -12, -13, -12, -12
+    db -12, -12, -12, -13, -12, -12, -12, -12
+    db -12, -12, -10, -12, -12, -12, -12, -12
+    db -12, -12, -12, -12, -12, -12, -12, -12
+    db -12, -12, -12, -12, -12, -12, -12, -12
+    db -12, -12, -12, -12, -12, -12, -12, -12
+    db -12, -13, -12, -12
     
+    ; $0489E6
     .x_offsets
-    db -12, -12, -12, -12, -10, -12, -12, -12
-    db -12, -12, -12, -12, -12, -12, -12, -12
-    db -12, -12, -12, -12, -12, -12, -12, -12
-    db -12, -12, -12, -12, -12, -12, -12, -12
-    db -12, -12, -12, -13, -12, -12
-    
-    ; $0489E6 UNUSED:
-    db  4,  4,  4,  4,  4,  0,  0,  4
-    db  4,  4,  4,  4,  5,  0,  0,  0
-    db  0,  0,  0,  4,  0,  4,  0,  0
-    db  4,  0,  0,  0,  0,  0,  0,  0
-    db  0,  0,  0,  0, 11,  0
-    
-    ; $048A0C UNUSED:
-    db  0,  0,  2,  0,  5,  0,  0,  0
-    db  0,  0,  0,  0,  0,  0,  4,  4
-    db  4,  0,  0,  0,  0,  0,  0,  0
-    db  0,  0,  0,  0,  4,  4,  0,  4
-    db  0,  0,  0,  4,  0,  0
+    db   4,   4,   4,   4,   4,   0,   0,   4
+    db   4,   4,   4,   4,   5,   0,   0,   0
+    db   0,   0,   0,   4,   0,   4,   0,   0
+    db   4,   0,   0,   0,   0,   0,   0,   0
+    db   0,   0,   0,   0,  11,   0,   0,   0
+    db   2,   0,   5,   0,   0,   0,   0,   0
+    db   0,   0,   0,   0,   4,   4,   4,   0
+    db   0,   0,   0,   0,   0,   0,   0,   0
+    db   0,   0,   4,   4,   0,   4,   0,   0
+    db   0,   4,   0,   0
 }
 
-; ==============================================================================
-
-; special effect 0x28 initializer
+; Special effect 0x28 initializer
 ; $048A32-$048AB9 LONG JUMP LOCATION
 AddWishPondItem:
 {
@@ -1481,9 +1481,11 @@ AddWishPondItem:
         REP #$20
         
         ; Set up initial coordinates for the item sprite.
-        LDA.w .y_offsets, Y : AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $20 : STA $00
+        LDA.w Pool_AddWishPondItem_y_offsets, Y
+        AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $20 : STA $00
         
-        LDA.w .x_offsets, Y : AND.w #$00FF                : CLC : ADC $22 : STA $02
+        LDA.w Pool_AddWishPondItem_x_offsets, Y
+        AND.w #$00FF                : CLC : ADC $22 : STA $02
         
         SEP #$20
         
@@ -1501,24 +1503,27 @@ AddWishPondItem:
 ; $048ABA-$048ADF DATA
 Pool_AddHappinessPondRupees:
 {
+    ; $048ABA
     .z_speeds
     db  20,  20,  20,  20,  20,  16,  16,  16,  16,  16
     
+    ; $048AC4
     .y_speeds
     db -40, -40, -40, -40, -40, -32, -32, -32, -32, -32
     
+    ; $048ACE
     .x_speeds
     db   0, -12,  -6,   6,  12,  -9,  -5,   0,   5,   9
     
+    ; $048AD8
     .start_rupee_index
     db  0,  4,  4,  9
     
+    ; $048ADC
     .end_rupee_index
     db -1,  0, -1, -1
 }
 
-; ==============================================================================
-    
 ; $048AE0-$048B8F LONG JUMP LOCATION
 AddHappinessPondRupees:
 {
@@ -1530,26 +1535,25 @@ AddHappinessPondRupees:
     LDA.b #$42
     
     JSR.w AddAncilla : BCC .open_slot
-    
-    PLA : PLX
-    
-    BRA AddWuishPondItem_spawn_failed
+        PLA : PLX
+        
+        BRA AddWuishPondItem_spawn_failed
     
     .open_slot
     
     JSL.l Sound_SetSfxPanWithPlayerCoords
     
-    ; Play throwing sound effect
+    ; Play throwing sound effect.
     ORA.b #$13 : STA.w $012F
     
-    ; Item we're using is rupees (duh)
+    ; Item we're using is rupees.
     LDY.b #$35
     
     LDA AddReceiveItem_item_graphics_indices, Y : STA $72
     
     JSL.l GetAnimatedSpriteTile_variable
     
-    ; Put Link's hands up
+    ; Put Link's hands up.
     LDA.b #$80 : STA.w $0308
     
     ; Initialize his picking up stuff index, make him face up, and reset his
@@ -1567,46 +1571,45 @@ AddHappinessPondRupees:
     
     STA.l $7F586C, X : DEX : BPL .init_rupee_slots
     
-    ; an input to this function was an index to the number of rupees to throw
-    ; which gets translated to a number of rupees to display on screen
+    ; An input to this function was an index to the number of rupees to throw
+    ; which gets translated to a number of rupees to display on screen.
     PLA : TAX
     
-    LDA.w .end_rupee_index, X   : STA $0F
-    LDA.w .start_rupee_index, X : TAY
+    LDA.w Pool_AddHappinessPondRupees_end_rupee_index, X   : STA $0F
+    LDA.w Pool_AddHappinessPondRupees_start_rupee_index, X : TAY
     
     LDX.b #$09
     
     .next_rupee_slot
     
-    LDA.b #$01 : STA.l $7F586C, X
-    
-    LDA.w .z_speeds, Y : STA.l $7F5818, X
-    LDA.w .y_speeds, Y : STA.l $7F5800, X
-    LDA.w .x_speeds, Y : STA.l $7F580C, X
-    
-    LDA.b #$00 : STA.l $7F5854, X
-                 STA.l $7F58AA, X
-    
-    LDA.b #$10 : STA.l $7F5860, X
-    
-    LDA.b #$35 : STA.l $7F587A, X
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC.w #-12 : STA $00
-    
-    LDA $22 : CLC : ADC.w #4 : STA $02
-    
-    SEP #$20
-    
-    LDA $00 : STA.l $7F5824, X
-    LDA $01 : STA.l $7F5830, X
-    
-    LDA $02 : STA.l $7F583C, X
-    LDA $03 : STA.l $7F5848, X
-    
-    DEX
-    
+        LDA.b #$01 : STA.l $7F586C, X
+        
+        LDA.w Pool_AddHappinessPondRupees_z_speeds, Y : STA.l $7F5818, X
+        LDA.w Pool_AddHappinessPondRupees_y_speeds, Y : STA.l $7F5800, X
+        LDA.w Pool_AddHappinessPondRupees_x_speeds, Y : STA.l $7F580C, X
+        
+        LDA.b #$00 : STA.l $7F5854, X
+                     STA.l $7F58AA, X
+        
+        LDA.b #$10 : STA.l $7F5860, X
+        
+        LDA.b #$35 : STA.l $7F587A, X
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC.w #-12 : STA $00
+        
+        LDA $22 : CLC : ADC.w #4 : STA $02
+        
+        SEP #$20
+        
+        LDA $00 : STA.l $7F5824, X
+        LDA $01 : STA.l $7F5830, X
+        
+        LDA $02 : STA.l $7F583C, X
+        LDA $03 : STA.l $7F5848, X
+        
+        DEX
     DEY : CPY $0F : BNE .next_rupee_slot
     
     PLX
@@ -1623,137 +1626,143 @@ AddHappinessPondRupees:
 ; $048B90-$048BC0 DATA
 Pool_AddPendantOrCrystal:
 {
+    ; $048B90
     .item_values
+
+    ; $048B90
     .ether_medallion
     db $10
     
+    ; $048B91
     .pendants
     db $37, $39, $38
     
+    ; $048B94
     .heart_container
     db $26
     
+    ; $048B95
     .bombos_medallion
     db $0F
     
+    ; $048B96
     .crystal
     db $20
     
+    ; $048B97
     .fall_height
     db $60, $80, $80, $80, $80, $80, $80
     
+    ; $048B9E
     .y_offsets
     dw $0048, $0078, $0078, $0078, $0078, $0068, $0078
     
+    ; $048BAC
     .x_offsets
     dw $0078, $0078, $0078, $0078, $0078, $0080, $0078
     
+    ; $048BBA
     .delay_timers
     db $40, $00, $00, $00, $00, $FF, $00
 }
 
-; ==============================================================================
-
+; A = 0x29 (pendants/crystals, etc)
 ; $048BC1-$048C72 LONG JUMP LOCATION
 AddPendantOrCrystal:
-{
-    ; A = 0x29 (pendants/crystals, etc)
-    
+{  
     PHB : PHK : PLB
     
     STX.w $02D8 ; X contains the value of the item we're going to receive.
     
     JSR.w AddAncilla : BCS AddHappinessPondRupees_spawn_failed
-    
-    PHX
-    
-    ; What is the item?
-    LDY.w $02D8 : LDA.w .item_values, Y : STA.w $0C5E, X
-    
-    CMP .ether_medallion  : BEQ .medallion
-    CMP .bombos_medallion : BNE .notMedallion
-    
-    .medallion
-    
-    TAY
-    
-    LDA AddReceiveItem_item_graphics_indices, Y : STA $72
-    
-    JSL.l GetAnimatedSpriteTile_variable
-    
-    .notMedallion
-    
-    PLX
-    
-    LDA.b #$D0 : STA.w $0294, X
-    
-    STZ.w $0C22, X
-    
-    STZ.w $0C2C, X
-    
-    STZ.w $0C54, X
-    
-    ; length or height for the timed fall.
-    LDY.w $02D8 : LDA.w .fall_height, Y : STA.w $029E, X
-    
-    LDA.b #$09 : STA.w $03B1, X
-    
-    STZ.w $039F, X
-    
-    STZ.w $0385, X
-    
-    LDA.w .delay_timers, Y : STA.w $0394, X
-    
-    ; Load up with the real item value (not an index)
-    LDA.w $0C5E, X : STA.w $02D8
-    
-    CPY.b #$00 : BEQ .medallion2
-    CPY.b #$05 : BEQ .medallion2
-    
-    ; Make an exception for the Tower of Hera so that the pendant isn't
-    ; hard to retrieve or doesn't fall on a hole area.
-    LDA.w $040C : CMP.b #$14 : BNE .notTowerOfHera
-    
-    LDA $21 : AND.b #$FE : INC A : STA $01
-                                   STZ $00
-    
-    LDA $23 : AND.b #$FE : INC A : STA $03
-                                   STZ $02
-    
-    BRL Shortcut_just_coords
-    
-    .notTowerOfHera
-    
-    ; Handle normal falling items (non medallions)
-    TYA : ASL A : TAY
-    
-    REP #$20
-    
-    LDA.w .y_offsets, Y : CLC : ADC $E8 : STA $00
-    LDA.w .x_offsets, Y : CLC : ADC $E2 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
-    
-    .medallion2
-    
-    ; Again separate out Medallions
-    TYA : ASL A : TAY
-    
-    REP #$20
-    
-    LDA.w .y_offsets, Y : CLC : ADC $E8 : STA $00
-    
-    LDA $22 : CLC : ADC.w #$0000 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
-    
-    PLB
-    
-    RTL
+        PHX
+        
+        ; What is the item?
+        LDY.w $02D8
+        LDA.w Pool_AddPendantOrCrystal_item_values, Y : STA.w $0C5E, X
+        
+        CMP Pool_AddPendantOrCrystal_ether_medallion  : BEQ .medallion
+        CMP Pool_AddPendantOrCrystal_bombos_medallion : BNE .notMedallion
+            .medallion
+            
+            TAY
+            
+            LDA AddReceiveItem_item_graphics_indices, Y : STA $72
+            
+            JSL.l GetAnimatedSpriteTile_variable
+            
+        .notMedallion
+        
+        PLX
+        
+        LDA.b #$D0 : STA.w $0294, X
+        
+        STZ.w $0C22, X
+        
+        STZ.w $0C2C, X
+        
+        STZ.w $0C54, X
+        
+        ; Length or height for the timed fall.
+        LDY.w $02D8
+        LDA.w Pool_AddPendantOrCrystal_fall_height, Y : STA.w $029E, X
+        
+        LDA.b #$09 : STA.w $03B1, X
+        
+        STZ.w $039F, X
+        
+        STZ.w $0385, X
+        
+        LDA.w Pool_AddPendantOrCrystal_delay_timers, Y : STA.w $0394, X
+        
+        ; Load up with the real item value (not an index).
+        LDA.w $0C5E, X : STA.w $02D8
+        
+        CPY.b #$00 : BEQ .medallion2
+        CPY.b #$05 : BEQ .medallion2
+            ; Make an exception for the Tower of Hera so that the pendant isn't
+            ; hard to retrieve or doesn't fall on a hole area.
+            LDA.w $040C : CMP.b #$14 : BNE .notTowerOfHera
+                LDA $21 : AND.b #$FE : INC A : STA $01
+                                               STZ $00
+                
+                LDA $23 : AND.b #$FE : INC A : STA $03
+                                               STZ $02
+                
+                BRL Shortcut_just_coords
+                
+            .notTowerOfHera
+            
+            ; Handle normal falling items (non medallions).
+            TYA : ASL A : TAY
+            
+            REP #$20
+            
+            LDA.w Pool_AddPendantOrCrystal_y_offsets, Y : CLC : ADC $E8 : STA $00
+            LDA.w Pool_AddPendantOrCrystal_x_offsets, Y : CLC : ADC $E2 : STA $02
+            
+            SEP #$20
+            
+            BRL Shortcut_just_coords
+        
+        .medallion2
+        
+        ; Again separate out Medallions.
+        TYA : ASL A : TAY
+        
+        REP #$20
+        
+        LDA.w Pool_AddPendantOrCrystal_y_offsets, Y : CLC : ADC $E8 : STA $00
+        
+        LDA $22 : CLC : ADC.w #$0000 : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
+        
+        PLB
+        
+        RTL
 }
 
 ; ==============================================================================
@@ -1766,37 +1775,35 @@ AddRecoveredFlute:
     ; A = $36
     
     JSR.w AddAncilla : BCS .failure
-    
-    STZ.w $0C54, X : STZ.w $029E, X
-    
-    LDA.l $08CFA6 : STA.w $0294, X
-    
-    LDY.b #$08
-    
-    LDA $2F : CMP.b #$04 : BNE .notFacingLeft
-    
-    LDY.b #$F8
-    
-    .notFacingLeft
-    
-    TYA : STA.w $0C2C, X
-    
-    PHX
-    
-    LDA.b #$0C
-    
-    JSL.l GetAnimatedSpriteTile_variable
-    
-    PLX
-    
-    REP #$20
-    
-    LDA.w #$0A8A : STA $00
-    LDA.w #$0490 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
+        STZ.w $0C54, X : STZ.w $029E, X
+        
+        LDA.l Ancilla_Flute_bounce_z_speeds : STA.w $0294, X
+        
+        LDY.b #$08
+        
+        LDA $2F : CMP.b #$04 : BNE .notFacingLeft
+            LDY.b #$F8
+        
+        .notFacingLeft
+        
+        TYA : STA.w $0C2C, X
+        
+        PHX
+        
+        LDA.b #$0C
+        
+        JSL.l GetAnimatedSpriteTile_variable
+        
+        PLX
+        
+        REP #$20
+        
+        LDA.w #$0A8A : STA $00
+        LDA.w #$0490 : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
     
     .failure
     
@@ -1812,15 +1819,13 @@ AddChargedSpinAttackSparkle:
 {
     PHB : PHK : PLB
 
-    ; start at index 0x09 of the active special objects list.
+    ; Start at index 0x09 of the active special objects list.
     LDX.b #$09
     
     .checkNextSlot
-    
-    LDA.w $0C4A, X : BEQ .emptySlot
-    
-    ; if there's a sword sparkle in the way, kill it and put 
-    CMP.b #$3C : BEQ .emptySlot
+        LDA.w $0C4A, X : BEQ .emptySlot
+            ; If there's a sword sparkle in the way, kill it and put .
+            CMP.b #$3C : BEQ .emptySlot
     
     DEX : BPL .checkNextSlot
     
@@ -1846,88 +1851,88 @@ AddChargedSpinAttackSparkle:
 ; $048CD5-$048D10 DATA
 Pool_AddWeathervaneExplosion:
 {
+    ; $048CD5
     .x_speeds
     db   8,  10,   9,   4,  11,  12, -10,  -8,   4,  -6, -10,  -4
     
+    ; $048CE1
     .z_speeds
     db  20,  22,  20,  20,  22,  20,  20,  22,  20,  22,  20,  20
     
+    ; $048CED
     .y_coords
     db $B0, $A3, $A0, $A2, $A0, $A8, $A0, $A0, $A8, $A1, $B0, $A0
     
+    ; $048CF9
     .x_coords
     db $30, $12, $20, $14, $16, $18, $20, $14, $18, $16, $14, $20
     
+    ; $048D05
     .z_coords
     db $00, $02, $04, $06, $03, $08, $0E, $08, $0C, $07, $0A, $08
 }
 
-; ==============================================================================
-
+; A = 0x37
 ; $048D11-$048D8F LONG JUMP LOCATION
 AddWeathervaneExplosion:
 {
-    ; A = 0x37
-    
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCS .spawn_failed
-    
-    ; Sets up another timer. This effect has a lot of timers >_<.
-    LDA.b #$0A : STA.w $03B1, X
-    
-    ; Start the timer for the weathervane explosion. 
-    ; (It won't start counting down immediately; The extended flute sound effect has to finish first.)
-    LDA.b #$80 : STA.w $0394, X
-    
-    ; Put the special effect in the first stage.
-    STZ.w $0C54, X
-    STZ.w $039F, X
-    
-    STZ.w $012E
-    
-    ; SET TO HALF VOLUME
-    LDA.b #$F2 : STA.w $012C
-    
-    ; The flute boy's song to activate the weather vane explosion.
-    LDA.b #$17 : STA.w $012D
-    
-    ; Um...?
-    LDA.b #$00 : STA.l $7F58B8
-    
-    REP #$20
-    
-    ; Set up a timer at this location for the 
-    ; weathervane to explode.
-    LDA.w #$0280 : STA.l $7F58B6
-    
-    SEP #$20
-    
-    LDX.b #$0B
-    
-    .init_wood_chunks
-    
-    LDA.b #$00 : STA.l $7F5800, X
-    
-    LDA.w .x_speeds, X : STA.l $7F580C, X
-    
-    LDA.w .z_speeds, X : STA.l $7F5818, X
-    
-    ; Y scroll data for the sprite.
-    LDA.w .y_coords, X : STA.l $7F5824, X
-    LDA.b #$07       : STA.l $7F5830, X
-    
-    ; X scroll data for the sprite.
-    LDA.w .x_coords, X : STA.l $7F583C, X
-    LDA.b #$02       : STA.l $7F5848, X
-    
-    LDA.w .z_coords, X : STA.l $7F5854, X
-    
-    LDA.b #$01 : STA.l $7F5860, X
-    
-    TXA : AND.b #$01 : STA.l $7F586C, X
-    
-    DEX : BPL .init_wood_chunks
+        ; Sets up another timer. This effect has a lot of timers >_<.
+        LDA.b #$0A : STA.w $03B1, X
+        
+        ; Start the timer for the weathervane explosion.
+        ; (It won't start counting down immediately, The extended flute sound
+        ; effect has to finish first.)
+        LDA.b #$80 : STA.w $0394, X
+        
+        ; Put the special effect in the first stage.
+        STZ.w $0C54, X
+        STZ.w $039F, X
+        
+        STZ.w $012E
+        
+        ; SET TO HALF VOLUME.
+        LDA.b #$F2 : STA.w $012C
+        
+        ; The flute boy's song to activate the weather vane explosion.
+        LDA.b #$17 : STA.w $012D
+        
+        ; Um...?
+        LDA.b #$00 : STA.l $7F58B8
+        
+        REP #$20
+        
+        ; Set up a timer at this location for the.
+        ; weathervane to explode.
+        LDA.w #$0280 : STA.l $7F58B6
+        
+        SEP #$20
+        
+        LDX.b #$0B
+        
+        .init_wood_chunks
+            
+            LDA.b #$00 : STA.l $7F5800, X
+            
+            LDA.w Pool_AddWeathervaneExplosion_x_speeds, X : STA.l $7F580C, X
+            LDA.w Pool_AddWeathervaneExplosion_z_speeds, X : STA.l $7F5818, X
+            
+            ; Y scroll data for the sprite.
+            LDA.w Pool_AddWeathervaneExplosion_y_coords, X : STA.l $7F5824, X
+            LDA.b #$07                                     : STA.l $7F5830, X
+            
+            ; X scroll data for the sprite.
+            LDA.w Pool_AddWeathervaneExplosion_x_coords, X : STA.l $7F583C, X
+            LDA.b #$02                                     : STA.l $7F5848, X
+            LDA.w Pool_AddWeathervaneExplosion_z_coords, X : STA.l $7F5854, X
+            
+            LDA.b #$01 : STA.l $7F5860, X
+            
+            TXA : AND.b #$01 : STA.l $7F586C, X
+        
+        DEX : BPL .init_wood_chunks
     
     .spawn_failed
     
@@ -1938,41 +1943,38 @@ AddWeathervaneExplosion:
 
 ; ==============================================================================
 
+; Sets up some initial values for the bird to use.
+; A = $38
 ; $048D90-$048DD1 LONG JUMP LOCATION
 AddTravelBirdIntro:
 {
-    ; Sets up some initial values for the bird to use. 
-    ; A = $38
-    
     PHB : PHK : PLB
     
     JSR.w Ancilla_CheckIfAlreadyExists : BCS .spawn_failed
-    
-    JSR.w AddAncilla : BCS .spawn_failed
-    
-    LDA.b #$02 : STA.w $0C72, X
-    INC A      : STA.w $039F, X
-    
-    STZ.w $0C54, X
-    
-    LDA.b #$20 : STA.w $03B1, X
-    LDA.b #$74 : STA.w $0C5E, X
-    
-    STZ.w $0294, X
-    STZ.w $0385, X
-    STZ.w $029E, X
-    STZ.w $03A9, X
-    
-    REP #$20
-    
-    ; coordinates
-    LDA.w #$0788 : STA $00
-    LDA.w #$0200 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
-    
+        JSR.w AddAncilla : BCS .spawn_failed
+            LDA.b #$02 : STA.w $0C72, X
+            INC A      : STA.w $039F, X
+            
+            STZ.w $0C54, X
+            
+            LDA.b #$20 : STA.w $03B1, X
+            LDA.b #$74 : STA.w $0C5E, X
+            
+            STZ.w $0294, X
+            STZ.w $0385, X
+            STZ.w $029E, X
+            STZ.w $03A9, X
+            
+            REP #$20
+            
+            ; Coordinates
+            LDA.w #$0788 : STA $00
+            LDA.w #$0200 : STA $02
+            
+            SEP #$20
+            
+            BRL Shortcut_just_coords
+        
     .spawn_failed
     
     PLB
@@ -1982,28 +1984,26 @@ AddTravelBirdIntro:
 
 ; ==============================================================================
 
+; Special effect 0x39 initializer
 ; $048DD2-$048DF8 LONG JUMP LOCATION
 AddSomarianPlatformPoof:
 {
-    ; special effect 0x39 initializer
-    
     LDA.b #$39
     
     .next_slot
-    
-    STA.w $0C4A, X
-    
-    LDA.b #$07 : STA.w $03B1, X
-    
-    PHX : PHY
-    
-    LDY.b #$0F
-    
-    LDA.w $0E20, Y : CMP.b #$ED : BNE .not_somarian_platform
-    
-    LDA.b #$00 : STA.w $0DD0, Y : STA.w $02F5
-    
-    .not_somaria_platform
+        
+        STA.w $0C4A, X
+        
+        LDA.b #$07 : STA.w $03B1, X
+        
+        PHX : PHY
+        
+        LDY.b #$0F
+        
+        LDA.w $0E20, Y : CMP.b #$ED : BNE .not_somarian_platform
+            LDA.b #$00 : STA.w $0DD0, Y : STA.w $02F5
+        
+        .not_somaria_platform
     
     DEY : BPL .next_slot
     
@@ -2016,23 +2016,21 @@ AddSomarianPlatformPoof:
 
 ; ==============================================================================
 
+; Special effect 0x3A initializer
 ; $048DF9-$048E4D LONG JUMP LOCATION
 AddSuperBombExplosion:
 {
-    ; Special effect 0x3A initializer
-    
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCC .open_slot
-    
-    BRL .spawn_failed
+        BRL .spawn_failed
     
     .open_slot
     
     STZ.w $03EA, X : STZ.w $0C54, X
     STZ.w $03C2, X : STZ.w $0385, X
     
-    LDA.l $0895A4 : STA.w $039F, X
+    LDA.l Pool_Ancilla_Bomb_interstate_intervals+1 : STA.w $039F, X
     
     LDA.b #$01 : STA.w $0C5E, X
     
@@ -2068,8 +2066,6 @@ AddSuperBombExplosion:
 ; $048E4E-$048EDF LONG JUMP LOCATION
 Ancilla_ConfigureRevivalObjects:
 {
-	; 
-
 	PHB : PHK : PLB
 
 	LDA.b #$50 : STA.w $0109
@@ -2100,7 +2096,7 @@ Ancilla_ConfigureRevivalObjects:
     
 	STZ.w $029E, X
     
-    ; working with ancilla slot 1...
+    ; Working with ancilla slot 1...
     INX
     
     STZ.w $029E, X
@@ -2109,7 +2105,7 @@ Ancilla_ConfigureRevivalObjects:
 
 	STZ.w $0C54, X : STZ.w $0380, X
     
-    ; working with ancilla slot 2...
+    ; Working with ancilla slot 2...
 	INX
 
 	LDA.b #$02 : STA.w $0C5E, X : STA $00 : INC A : STA.w $03B1, X
@@ -2124,7 +2120,7 @@ Ancilla_ConfigureRevivalObjects:
 
 	LDA.l Ancilla_MagicPowder_animation_group_offsets, X : CLC : ADC $00 : TAX
 
-	LDA.l $08B8F4, X
+	LDA.l Pool_Ancilla_MagicPowder_animation_groups, X
     
     PLX
     
@@ -2135,9 +2131,11 @@ Ancilla_ConfigureRevivalObjects:
 	REP #$20
     
     ; Position of fairy?
-	LDA $20 : CLC : ADC.w $92D0, Y : CLC : ADC.w #$FFEC : STA $00
+	LDA $20 : CLC : ADC.w Pool_AddMagicPowder_y_offsets, Y
+    CLC : ADC.w #$FFEC : STA $00
 
-	LDA $22 : CLC : ADC.w #$FFF8 : CLC : ADC.w $92D8, Y : STA $02
+	LDA $22 : CLC : ADC.w #$FFF8
+    CLC : ADC.w Pool_AddMagicPowder_x_offsets, Y : STA $02
 
 	SEP #$20
 
@@ -2146,10 +2144,10 @@ Ancilla_ConfigureRevivalObjects:
 
 ; ==============================================================================
 
+; A = 0x30
 ; $048EE0-$048F0B LONG JUMP LOCATION
 AddCaneOfByrnaStart:
 { 
-    ; A = 0x30
     PHB : PHK : PLB
     
     PHA
@@ -2158,12 +2156,12 @@ AddCaneOfByrnaStart:
     
     .checkNextSlot
     
-    ; basically seeing if the cane of byrna spinning sparkle has already activated
-    LDA.w $0C4A, X : CMP.b #$31 : BNE .notByrnaSparkle
-    
-    STZ.w $0C4A, X
-    
-    .notByrnaSparkle
+        ; Basically seeing if the cane of byrna spinning sparkle has already
+        ; activated.
+        LDA.w $0C4A, X : CMP.b #$31 : BNE .notByrnaSparkle
+            STZ.w $0C4A, X
+        
+        .notByrnaSparkle
     
     DEX : BPL .checkNextSlot
     
@@ -2171,16 +2169,15 @@ AddCaneOfByrnaStart:
     PLA
     
     JSR.w AddAncilla : BCS .noOpenSlots
-    
-    STZ.w $0C5E, X
-    
-    ; ??? what's this...
-    LDA.b #$09 : STA.w $03B1, X
-    
-    ; Make Link invincible.
-    LDA.b #$01 : STA.w $037B
-    
-    INC A : STA.w $039F, X
+        STZ.w $0C5E, X
+        
+        ; TODO: ??? what's this...
+        LDA.b #$09 : STA.w $03B1, X
+        
+        ; Make Link invincible.
+        LDA.b #$01 : STA.w $037B
+        
+        INC A : STA.w $039F, X
     
     .noOpenSlots
     
@@ -2194,14 +2191,14 @@ AddCaneOfByrnaStart:
 ; $048F0C-$048F1B DATA
 Pool_AddLampFlame:
 {
+    ; $048F0C
     .y_offsets
     dw -16, 24,   4,  4
     
+    ; $048F14
     .x_offsets
     dw   0,  0, -20, 18
 }
-
-; ==============================================================================
 
 ; $048F1C-$048F5A LONG JUMP LOCATION
 AddLampFlame:
@@ -2210,36 +2207,36 @@ AddLampFlame:
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCS .noOpenSlots
-    
-    STZ.w $0C5E, X : STZ.w $03B1, X
-    
-    LDA #$17 : STA.w $0C68, X
-    
-    LDA $2F : LSR A : STA.w $0C72, X
-    
-    LDY $2F
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC .y_offsets, Y : STA $00
-    
-    LDA $22 : CLC : ADC .x_offsets, Y : STA $02
-    
-    SEP #$20
-    
-    JSR.w Ancilla_SetCoords
-    
-    JSL.l Sound_SfxPanObjectCoords : ORA.b #$2A : STA.w $012E
-    
-    PLB
-    
-    RTL
+        STZ.w $0C5E, X : STZ.w $03B1, X
+        
+        LDA #$17 : STA.w $0C68, X
+        
+        LDA $2F : LSR A : STA.w $0C72, X
+        
+        LDY $2F
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC Pool_AddLampFlame_y_offsets, Y : STA $00
+        
+        LDA $22 : CLC : ADC Pool_AddLampFlame_x_offsets, Y : STA $02
+        
+        SEP #$20
+        
+        JSR.w Ancilla_SetCoords
+        
+        JSL.l Sound_SfxPanObjectCoords : ORA.b #$2A : STA.w $012E
+        
+        PLB
+        
+        RTL
 
     .noOpenSlots
 
+    ; OPTIMIZE: Just use the other PLB and RTL.
     PLB
     
-    RTL ; redundant, eh?
+    RTL
 }
 
 ; ==============================================================================
@@ -2251,20 +2248,19 @@ AddShovelDirt:
     
     ; NOTE: A = 0x17;
     JSR.w AddAncilla : BCS .no_open_slots
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$14 : STA.w $0C68, X
-    
-    REP #$20
-    
-    LDA $20 : STA $00
-    LDA $22 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
-    
+        STZ.w $0C5E, X
+        
+        LDA.b #$14 : STA.w $0C68, X
+        
+        REP #$20
+        
+        LDA $20 : STA $00
+        LDA $22 : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
+        
     .no_open_slots
     
     PLB
@@ -2274,31 +2270,29 @@ AddShovelDirt:
 
 ; ==============================================================================
     
+; The graphical suckfest that is the granting of the master sword.
 ; $048F7C-$048FA9 LONG JUMP LOCATION
 AddSwordCeremony:
 {
-    ; The graphical suckfest that is the granting of the master sword
-    
     PHB : PHK : PLB
     
     ; A = 0x35
     JSR.w AddAncilla : BCS .no_open_slots
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$02 : STA.w $03B1, X
-    
-    LDA.b #$40 : STA.w $0C68, X
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC.w #$FFF8 : STA $00
-    LDA $22 : CLC : ADC.w #$0008 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
-    
+        STZ.w $0C5E, X
+        
+        LDA.b #$02 : STA.w $03B1, X
+        
+        LDA.b #$40 : STA.w $0C68, X
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC.w #$FFF8 : STA $00
+        LDA $22 : CLC : ADC.w #$0008 : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
+        
     .no_open_slots
     
     PLB
@@ -2311,14 +2305,14 @@ AddSwordCeremony:
 ; $048FAA-$048FB9 DATA
 Pool_AddDashingDust:
 {
+    ; $048FAA
     .y_offsets
     dw 20, 4, 16, 16
     
+    ; $048FB2
     .x_offsets
     dw  4, 4,  6,  0
 }
-
-; ==============================================================================
 
 ; $048FBA-$049010 LONG JUMP LOCATION
 AddDashingDust:
@@ -2343,39 +2337,38 @@ AddDashingDust:
     STX $72
     
     JSR.w AddAncilla : BCS .noOpenSlots
-    
-    LDA $72 : STA.w $0C54, X
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$03 : STA.w $0C68, X
-    
-    LDY $2F : TYA : LSR A : STA.w $0C72, X
-    
-    LDA $72 : BNE .inMotion
-    
-    REP #$20
-    
-    ; Set Y and X coordinates relative to Link's position
-    LDA $20 : CLC : ADC.w #$0014 : STA $00
-    LDA $22 : STA $02
-    
-    SEP #$20
-    
-    JMP Shortcut_just_coords
-    
-    .inMotion
-    
-    REP #$20
-    
-    ; Set Y and X coordinates relative to Link's direction (because he's moving)
-    LDA $20 : CLC : ADC .y_offsets, Y : STA $00
-    
-    LDA $22 : CLC : ADC .x_offsets, Y : STA $02
-    
-    SEP #$20
-    
-    JMP Shortcut_just_coords
+        LDA $72 : STA.w $0C54, X
+        
+        STZ.w $0C5E, X
+        
+        LDA.b #$03 : STA.w $0C68, X
+        
+        LDY $2F : TYA : LSR A : STA.w $0C72, X
+        
+        LDA $72 : BNE .inMotion
+            REP #$20
+            
+            ; Set Y and X coordinates relative to Link's position.
+            LDA $20 : CLC : ADC.w #$0014 : STA $00
+            LDA $22 : STA $02
+            
+            SEP #$20
+            
+            JMP Shortcut_just_coords
+        
+        .inMotion
+        
+        REP #$20
+        
+        ; Set Y and X coordinates relative to Link's direction (because he's
+        ; moving).
+        LDA $20 : CLC : ADC Pool_AddDashingDust_y_offsets, Y : STA $00
+        
+        LDA $22 : CLC : ADC Pool_AddDashingDust_x_offsets, Y : STA $02
+        
+        SEP #$20
+        
+        JMP Shortcut_just_coords
     
     .noOpenSlots
     
@@ -2387,9 +2380,8 @@ AddDashingDust:
 ; ==============================================================================
 
 ; $049011-$049030 DATA
-Pool_AddBlastWallFireball:
+AddBlastWallFireball_xy_speeds:
 {
-    .xy_speeds
     db -64,  0
     db -22, 42
     db -38, 38
@@ -2400,8 +2392,6 @@ Pool_AddBlastWallFireball:
     db  42, 22
 }
 
-; ==============================================================================
-
 ; $049031-$049087 LONG JUMP LOCATION
 AddBlastWallFireball:
 {
@@ -2411,7 +2401,7 @@ AddBlastWallFireball:
     
     .check_next_slot
     
-    LDA.w $0C4A, X : BEQ .empty_slot
+        LDA.w $0C4A, X : BEQ .empty_slot
     
     DEX : CPX.b #$04 : BNE .check_next_slot
     
@@ -2421,10 +2411,10 @@ AddBlastWallFireball:
     
     .empty_slot
     
-    ; Place special object 0x32 (whatever it is) into the special object list
+    ; Place special object 0x32 (whatever it is) into the special object list.
     LDA.b #$32 : STA.w $0C4A, X
     
-    ; store layer information for the object
+    ; Store layer information for the object.
     LDA $EE : STA.w $0C7C, X
     
     LDA.b #$10 : STA.l $7F0040, X
@@ -2461,9 +2451,11 @@ AddBlastWallFireball:
 ; $049088-$0490A3 DATA
 Pool_AddArrow:
 {
+    ; $049088
     .y_speeds
     db -30,  30,   0,   0
     
+    ; $04908C
     .x_speeds
     db   0,   0, -30,  30
     
@@ -2471,14 +2463,14 @@ Pool_AddArrow:
     .unknown_0 
     db 8, 4, 2, 1
     
+    ; $049094
     .y_offsets
     dw -4,  3,  4,  4
     
+    ; $049098
     .x_offsets
     dw  4,  4,  0,  4
 }
-
-; ==============================================================================
 
 ; $0490A4-$049101 LONG JUMP LOCATION
 AddArrow:
@@ -2487,17 +2479,16 @@ AddArrow:
     
     STX $76
     
-    ; Only one arrow at a time, sorry
+    ; Only one arrow at a time, sorry.
     JSR.w Ancilla_CheckIfAlreadyExists : BCC .not_already_there
-    
-    BRL .failure
+        BRL .failure
     
     .not_already_there
     
-    ; Try to find an open slot, and get rid of any arrows in the wall if we have to.
+    ; Try to find an open slot, and get rid of any arrows in the wall if we
+    ; have to.
     JSR.w Ancilla_GetRidOfArrowInWall : BCC .openSlot
-    
-    BRL .failure
+        BRL .failure
     
     .openSlot
     
@@ -2513,17 +2504,15 @@ AddArrow:
     
     ORA.b #$04 : STA.w $0C72, X
     
-    LDA.w .x_speeds, Y : STA.w $0C22, X
-    
-    LDA.w .y_speeds, Y : STA.w $0C2C, X
+    LDA.w Pool_AddArrow_x_speeds, Y : STA.w $0C22, X
+    LDA.w Pool_AddArrow_y_speeds, Y : STA.w $0C2C, X
     
     LDY $76
     
     REP #$20
     
-    LDA $72 : CLC : ADC.w #$0008 : CLC : ADC .y_offsets, Y : STA $00
-    
-    LDA $74 : CLC : ADC .x_offsets, Y : STA $02
+    LDA $72 : CLC : ADC.w #$0008 : CLC : ADC Pool_AddArrow_y_offsets, Y : STA $00
+    LDA $74                      : CLC : ADC Pool_AddArrow_x_offsets, Y : STA $02
     
     SEP #$20
     
@@ -2546,79 +2535,73 @@ AddArrow:
     
 ; ==============================================================================
 
+; This cloud triggers only when warping between worlds (and you don't have a
+; moon pearl).
 ; $049102-$04912B LONG JUMP LOCATION
 AddWarpTransformationCloud:
 { 
-    ; This cloud triggers only when warping between worlds (and you don't have a moon pearl)
-    
     ; A = #$23
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCS AddTransformationCloud_noOpenSlots
-    
-    ; Make Link invisible (hint hint, cape)
-    LDA.b #$0C : STA $4B
-    
-    STZ.w $0C54, X
-    
-    ; Check on Link's graphic set
-    LDA.w $02E0 : BNE .bunnyLink
-    
-    JSL.l Sound_SetSfxPanWithPlayerCoords
-    
-    ORA.b #$14 : STA.w $012E
-    
-    BRA .setup
-    
-    .bunnyLink
-    
-    JSL.l Sound_SetSfxPanWithPlayerCoords
-    
-    ORA.b #$15 : STA.w $012E
-    
-    .setup
-    
-    BRA AddTransformationCloud_setup
+        ; Make Link invisible (hint hint, cape).
+        LDA.b #$0C : STA $4B
+        
+        STZ.w $0C54, X
+        
+        ; Check on Link's graphic set.
+        LDA.w $02E0 : BNE .bunnyLink
+            JSL.l Sound_SetSfxPanWithPlayerCoords
+            
+            ORA.b #$14 : STA.w $012E
+            
+            BRA .setup
+            
+        .bunnyLink
+        
+        JSL.l Sound_SetSfxPanWithPlayerCoords
+        
+        ORA.b #$15 : STA.w $012E
+        
+        .setup
+        
+        BRA AddTransformationCloud_setup
 }
 
 ; ==============================================================================
 
+; The transformation cloud is the poof that occurs when Link transitions between
+; using the cape and not using it. Also used during transitions between being a
+; bunny and not.
 ; $04912C-$04915E LONG JUMP LOCATION
 AddTransformationCloud:
 {
-    ; The transformation cloud is the poof that occurs
-    ; when Link transitions between using the cape and not using it.
-    ; Also used during transitions between being a bunny and not.
-    
     PHB : PHK : PLB
     
     ; A = $23
-    JSR.w AddAncilla
-    
-    BCS .noOpenSlots
-    
-    LDA.b #$01 : STA.w $0C54, X : STA.w $02E1
-    TSB $05
-    
-    STZ $67 : STZ $26
-    
-    ; $049142 ALTERNATE ENTRY POINT
-    .setup
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$07 : STA.w $03B1
-    
-    REP #$20
-    
-    ; Setup coordinates for the poof
-    LDA $20 : CLC : ADC.w #$0004 : STA $00
-    LDA $22 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
-    
+    JSR.w AddAncilla :  BCS .noOpenSlots
+        LDA.b #$01 : STA.w $0C54, X : STA.w $02E1
+        TSB $05
+        
+        STZ $67 : STZ $26
+        
+        ; $049142 ALTERNATE ENTRY POINT
+        .setup
+        
+        STZ.w $0C5E, X
+        
+        LDA.b #$07 : STA.w $03B1
+        
+        REP #$20
+        
+        ; Setup coordinates for the poof.
+        LDA $20 : CLC : ADC.w #$0004 : STA $00
+        LDA $22                      : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
+        
     .noOpenSlots
     
     PLB
@@ -2638,41 +2621,39 @@ AddDwarfTransformationCloud:
     
     ; A = #$40
     JSR.w AddAncilla : BCS .noOpenSlots
-    
-    LDA.l $7EF3CC : CMP.b #$08 : BNE .notLightWorldDwarf
-    
-    JSL.l Sound_SetSfxPanWithPlayerCoords
-    
-    ORA.b #$14 : STA.w $012E
-    
-    BRA .finishInit
-    
-    .notLightWorldDwarf
-    
-    JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.b #$15 : STA.w $012E
-    
-    .finishInit
-    
-    STZ.w $0C5E, X : STZ.w $0C54, X
-    
-    LDA.b #$07 : STA.w $03B1, X
-    LDA.b #$01 : STA.w $02F9
-    
-    LDY.w $02CF
-    
-    LDA.w $1A00, Y : STA $00
-    LDA.w $1A14, Y : STA $01
-    LDA.w $1A28, Y : STA $02
-    LDA.w $1A3C, Y : STA $03
-    
-    REP #$20
-    
-    LDA $00 : CLC : ADC.w #$0004 : STA $00
-    LDA $02 : CLC : ADC.w #$0000 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
+        LDA.l $7EF3CC : CMP.b #$08 : BNE .notLightWorldDwarf
+            JSL.l Sound_SetSfxPanWithPlayerCoords
+            
+            ORA.b #$14 : STA.w $012E
+            
+            BRA .finishInit
+            
+        .notLightWorldDwarf
+        
+        JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.b #$15 : STA.w $012E
+        
+        .finishInit
+        
+        STZ.w $0C5E, X : STZ.w $0C54, X
+        
+        LDA.b #$07 : STA.w $03B1, X
+        LDA.b #$01 : STA.w $02F9
+        
+        LDY.w $02CF
+        
+        LDA.w $1A00, Y : STA $00
+        LDA.w $1A14, Y : STA $01
+        LDA.w $1A28, Y : STA $02
+        LDA.w $1A3C, Y : STA $03
+        
+        REP #$20
+        
+        LDA $00 : CLC : ADC.w #$0004 : STA $00
+        LDA $02 : CLC : ADC.w #$0000 : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
     
     .noOpenSlots
     
@@ -2683,38 +2664,36 @@ AddDwarfTransformationCloud:
 
 ; ==============================================================================
 
+; This occurs when Link puts Magic Powder on a bush,
+; causing it to disintegrate with a poof.
 ; $0491C3-$0491FB LONG JUMP LOCATION
 AddDisintegratingBushPoof:
 {
-    ; This occurs when Link puts Magic Powder on a bush, 
-    ; causing it to disintegrate with a poof.
     PHB : PHK : PLB
     
     LDA.w $0301 : AND.b #$40 : BEQ .notUsingMagicPowder
+        LDY.b #$04
+        LDA.b #$3F
+        
+        JSR.w AddAncilla : BCS .noOpenSlots
+            STZ.w $0C5E, X
+            
+            LDA.b #$07 : STA.w $0C68, X
+            
+            JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.b #$15 : STA.w $012E
+            
+            REP #$20
+            
+            LDA $74 : CLC : ADC.w #$FFFE : STA $00
+            
+            LDA $72 : STA $02
+            
+            SEP #$20
+            
+            JMP Shortcut_just_coords
     
-    LDY.b #$04
-    LDA.b #$3F
-    
-    JSR.w AddAncilla : BCS .noOpenSlots
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$07 : STA.w $0C68, X
-    
-    JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.b #$15 : STA.w $012E
-    
-    REP #$20
-    
-    LDA $74 : CLC : ADC.w #$FFFE : STA $00
-    
-    LDA $72 : STA $02
-    
-    SEP #$20
-    
-    JMP Shortcut_just_coords
-    
+        .noOpenSlots
     .notUsingMagicPowder
-    .noOpenSlots
     
     PLB
     
@@ -2723,17 +2702,15 @@ AddDisintegratingBushPoof:
 
 ; ==============================================================================
     
+; Triggers the Ether effect
 ; $0491FC-$0492AB LONG JUMP LOCATION
 AddEtherSpell:
 {
-    ; Triggers the Ether effect
-    
     PHB : PHK : PLB 
     
     ; A = 0x18
     JSR.w AddAncilla : BCC .slot_available
-    
-    BRL .no_open_slots
+        BRL .no_open_slots
     
     .slot_available
     
@@ -2768,9 +2745,11 @@ AddEtherSpell:
     
     LDA.w #$FFF0 : CLC : ADC $E8 : STA $00 : AND.w #$00F0 : STA.l $7F580C
     
-    LDA $22 : STA $02 : STA.l $7F5815 : CLC : ADC.w #$0008 : STA.l $7F580E
+    LDA $22 : STA $02 : STA.l $7F5815
+    CLC : ADC.w #$0008 : STA.l $7F580E
     
-    LDA $20 : SEC : SBC.w #$0010 : STA.l $7F580A : CLC : ADC.w #$0024 : STA.l $7F5810
+    LDA $20 : SEC : SBC.w #$0010 : STA.l $7F580A
+              CLC : ADC.w #$0024 : STA.l $7F5810
     
     SEP #$20
     
@@ -2790,19 +2769,18 @@ AddVictorySpinEffect:
 {
     PHB : PHK : PLB
     
-    ; Check if we have a sword
+    ; Check if we have a sword.
     LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .dontHaveSword
-    
-    LDY.b #$00
-    LDA.b #$3B
-    
-    JSR.w AddAncilla : BCS .failure
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$01 : STA.w $039F, X
-    LDA.b #$22 : STA.w $03B1, X
-    
+        LDY.b #$00
+        LDA.b #$3B
+        
+        JSR.w AddAncilla : BCS .failure
+        
+        STZ.w $0C5E, X
+        
+        LDA.b #$01 : STA.w $039F, X
+        LDA.b #$22 : STA.w $03B1, X
+        
     .dontHaveSword
     
     PLB
@@ -2815,17 +2793,34 @@ AddVictorySpinEffect:
 ; $0492D0-$0492EF DATA
 Pool_AddMagicPowder:
 {
+    ; $0492D0
     .y_offsets
-    dw  1, 40, 22, 22
+    dw   1 ; Up
+    dw  40 ; Down
+    dw  22 ; Left
+    dw  22 ; Right
     
+    ; $0492D8
     .x_offsets
-    dw 10, 10, -8, 28
+    dw  10 ; Up
+    dw  10 ; Down
+    dw  -8 ; Left
+    dw  28 ; Right
     
-    
-    
-}
+    ; $0492E0
+    .tile_check_offset_y
+    dw   0 ; Up
+    dw  20 ; Down
+    dw  16 ; Left
+    dw  16 ; Right
 
-; ==============================================================================
+    ; $0492E8
+    .tile_check_offset_x
+    dw  -2 ; Up
+    dw  -2 ; Down
+    dw -12 ; Left
+    dw  12 ; Right
+}
 
 ; $0492F0-$049384 LONG JUMP LOCATION
 AddMagicPowder:
@@ -2834,8 +2829,7 @@ AddMagicPowder:
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCC .open_slot
-    
-    BRL .no_open_slots
+        BRL .no_open_slots
     
     .open_slot
     
@@ -2850,14 +2844,14 @@ AddMagicPowder:
     
     LDA.l Ancilla_MagicPowder_animation_group_offsets, X : TAX
     
-    LDA.l $08B8F4, X : PHX : STA.w $03C2, X
+    LDA.l Pool_Ancilla_MagicPowder_animation_groups, X : PHX : STA.w $03C2, X
     
     LDY $2F
     
     REP #$20
     
-    LDA $20 : CLC : ADC.w $92E0, Y : STA $04
-    LDA $22 : CLC : ADC.w $92E8, Y : STA $06
+    LDA $20 : CLC : ADC.w Pool_AddMagicPowder_tile_check_offset_y, Y : STA $04
+    LDA $22 : CLC : ADC.w Pool_AddMagicPowder_tile_check_offset_x, Y : STA $06
     
     SEP #$20
     
@@ -2874,20 +2868,19 @@ AddMagicPowder:
     ; stopping the torch from having the same effect as the magic powder?
     ; update: yes, that is correct.
     LDA.w $0304 : CMP.b #$09 : BNE .torch_not_equipped
-    
-    STZ.w $0C4A, X
-    
-    BRA .no_open_slots
-    
+        STZ.w $0C4A, X
+        
+        BRA .no_open_slots
+        
     .torch_not_equipped
     
     LDY $2F
     
     REP #$20
     
-    LDA $20 : CLC : ADC .y_offsets, Y : STA $00
+    LDA $20 : CLC : ADC Pool_AddMagicPowder_y_offsets, Y : STA $00
     
-    LDA $22 : CLC : ADC .x_offsets, Y : STA $02
+    LDA $22 : CLC : ADC Pool_AddMagicPowder_x_offsets, Y : STA $02
     
     SEP #$20
     
@@ -2909,14 +2902,14 @@ AddMagicPowder:
 ; $049385-$049394 DATA
 Pool_AddWallTapSpark:
 {
+    ; $049385
     .y_offsets
     dw -4,  32,  17,  17
     
+    ; $04938D
     .x_offsets
     dw 11,  10, -12,  29
 }
-
-; ==============================================================================
 
 ; $049395-$0493C1 LONG JUMP LOCATION
 AddWallTapSpark:
@@ -2925,22 +2918,21 @@ AddWallTapSpark:
     
     ; A = #$1B
     JSR.w AddAncilla : BCS .no_open_slots
-    
-    LDA.b #$05 : STA.w $0C5E, X
-    
-    LDA.b #$01 : STA.w $03B1, X
-    
-    LDY $2F
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC .y_offsets, Y : STA $00
-    
-    LDA $22 : CLC : ADC .x_offsets, Y : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
+        LDA.b #$05 : STA.w $0C5E, X
+        
+        LDA.b #$01 : STA.w $03B1, X
+        
+        LDY $2F
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC Pool_AddWallTapSpark_y_offsets, Y : STA $00
+        
+        LDA $22 : CLC : ADC Pool_AddWallTapSpark_x_offsets, Y : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
     
     .no_open_slots
     
@@ -2957,21 +2949,20 @@ AddSwordSwingSparkles:
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCS .no_open_slots
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$01 : STA.w $03B1, X
-    
-    LDA $2F : LSR A : STA.w $0C72, X
-    
-    REP #$20
-    
-    LDA $20 : STA $00
-    LDA $22 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
+        STZ.w $0C5E, X
+        
+        LDA.b #$01 : STA.w $03B1, X
+        
+        LDA $2F : LSR A : STA.w $0C72, X
+        
+        REP #$20
+        
+        LDA $20 : STA $00
+        LDA $22 : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
     
     .no_open_slots
     
@@ -2985,17 +2976,18 @@ AddSwordSwingSparkles:
 ; $0493E9-$0493F2 DATA
 Pool_AddDashTremor:
 {
+    ; $0493E9
     .axis
     db $02, $02, $00, $00
     
+    ; $0493ED
     .offsets
     dw 3, -3
     
+    ; $0493F1
     .xy_thresholds
     db $80, $78
 }
-
-; ==============================================================================
 
 ; $0493F3-$049447 LONG JUMP LOCATION
 AddDashTremor:
@@ -3003,50 +2995,47 @@ AddDashTremor:
     PHB : PHK : PLB
     
     JSR.w Ancilla_CheckIfAlreadyExists : BCS .spawn_failed
-    
-    JSR.w AddAncilla : BCS .spawn_failed
-    
-    LDA.b #$10 : STA.w $0C5E, X
-    
-    STZ.w $0385, X
-    
-    LDA $2F : LSR A : TAY
-    
-    LDA.w .axis, Y : STA.w $0C72, X : TAY
-    
-    REP #$20
-    
-    LDA $20 : SEC : SBC $E8 : STA $02
-    LDA $22 : SEC : SBC $E2 : STA $00
-    
-    SEP #$20
-    
-    PHX
-    
-    TYA : LSR A : TAX
-    
-    ; As the screen is wider than it is tall, there are different thresholds
-    ; for determining the polarity of the tremor.
-    LDA.w .xy_thresholds, X : STA $06
-    
-    TYX
-    
-    LDY.b #$00
-    
-    ; 'to left or above' means that for the respective axis the tremor
-    ; is set to affect, this is testing for one of those conditions, but
-    ; not both simultaneously. Again, The tremor only affects one axis
-    ; per instantiation.
-    LDA $00, X : CMP $06 : BCC .to_left_or_above
-    
-    LDY.b #$02
-    
-    .to_left_or_above
-    
-    PLX
-    
-    LDA.w .offsets+0, Y : STA.w $0BFA, X
-    LDA.w .offsets+1, Y : STA.w $0C0E, X
+        JSR.w AddAncilla : BCS .spawn_failed
+            LDA.b #$10 : STA.w $0C5E, X
+            
+            STZ.w $0385, X
+            
+            LDA $2F : LSR A : TAY
+            
+            LDA.w Pool_AddDashTremor_axis, Y : STA.w $0C72, X : TAY
+            
+            REP #$20
+            
+            LDA $20 : SEC : SBC $E8 : STA $02
+            LDA $22 : SEC : SBC $E2 : STA $00
+            
+            SEP #$20
+            
+            PHX
+            
+            TYA : LSR A : TAX
+            
+            ; As the screen is wider than it is tall, there are different
+            ; thresholds for determining the polarity of the tremor.
+            LDA.w Pool_AddDashTremor_xy_thresholds, X : STA $06
+            
+            TYX
+            
+            LDY.b #$00
+            
+            ; 'to left or above' means that for the respective axis the tremor
+            ; is set to affect, this is testing for one of those conditions, but
+            ; not both simultaneously. Again, The tremor only affects one axis
+            ; per instantiation.
+            LDA $00, X : CMP $06 : BCC .to_left_or_above
+                LDY.b #$02
+            
+            .to_left_or_above
+            
+            PLX
+            
+            LDA.w Pool_AddDashTremor_offsets+0, Y : STA.w $0BFA, X
+            LDA.w Pool_AddDashTremor_offsets+1, Y : STA.w $0C0E, X
     
     .spawn_failed
     
@@ -3060,18 +3049,19 @@ AddDashTremor:
 ; $049448-$049477 DATA
 Pool_AddBoomerangWallHit:
 {
+    ; $049448
     .y_offsets
     dw 0,  8,  8,  8,  4,  8, 12,  8
     
+    ; $049458
     .x_offsets
     dw 8,  8,  0, 10, 12,  8,  4,  0
     
+    ; $049468
     .offset_indices
     db 0,  6,  4,  0,  2, 10, 12,  0
     db 0,  8, 14,  0,  0,  0,  0,  0
 }
-
-; ==============================================================================
 
 ; $049478-$0494C5 LONG JUMP LOCATION
 AddBoomerangWallHit:
@@ -3089,28 +3079,28 @@ AddBoomerangWallHit:
     LDA.b #$06
     
     JSR.w AddAncilla : BCS .no_open_slots
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$01 : STA.w $039F
-    
-    ; Based on the directional components of the boomerang, supply an
-    ; index into a list of offsets that indicate where to place the wall
-    ; hit object.
-    ; Also BUG: Do the boomerang and hookshot interfere with one another?
-    ; Since they use this same global variable I'd be inclined to say yes,
-    ; but it should be investigated. Perhaps one is deactivated if the
-    ; other becomes active.
-    LDY.w $039D : LDA.w .offset_indices, Y : TAY
-    
-    REP #$20
-    
-    LDA.w $0399 : CLC : ADC .y_offsets, Y : STA $00
-    LDA.w $039B : CLC : ADC .x_offsets, Y : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
+        STZ.w $0C5E, X
+        
+        LDA.b #$01 : STA.w $039F
+        
+        ; Based on the directional components of the boomerang, supply an
+        ; index into a list of offsets that indicate where to place the wall
+        ; hit object.
+        ; Also BUG: Do the boomerang and hookshot interfere with one another?
+        ; Since they use this same global variable I'd be inclined to say yes,
+        ; but it should be investigated. Perhaps one is deactivated if the
+        ; other becomes active.
+        LDY.w $039D 
+        LDA.w Pool_AddBoomerangWallHit_offset_indices, Y : TAY
+        
+        REP #$20
+        
+        LDA.w $0399 : CLC : ADC Pool_AddBoomerangWallHit_y_offsets, Y : STA $00
+        LDA.w $039B : CLC : ADC Pool_AddBoomerangWallHit_x_offsets, Y : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
     
     .no_open_slots
     
@@ -3130,29 +3120,28 @@ AddHookshotWallHit:
     STX $74
     
     JSR.w AddAncilla : BCS AddBoomerangWallHit_no_open_slots
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$01 : STA.w $039F, X
-    
-    PHX
-    
-    LDX $74
-    
-    JSR.w Ancilla_GetCoords
-    
-    LDA.w $0C72, X : ASL A : TAY
-    
-    REP #$20
-    
-    LDA $00 : CLC : ADC.w $9448, Y : STA $00
-    LDA $02 : CLC : ADC.w $9458, Y : STA $02
-    
-    SEP #$20
-    
-    PLX
-    
-    BRL Shortcut_just_coords
+        STZ.w $0C5E, X
+        
+        LDA.b #$01 : STA.w $039F, X
+        
+        PHX
+        
+        LDX $74
+        
+        JSR.w Ancilla_GetCoords
+        
+        LDA.w $0C72, X : ASL A : TAY
+        
+        REP #$20
+        
+        LDA $00 : CLC : ADC.w Pool_AddBoomerangWallHit_y_offsets, Y : STA $00
+        LDA $02 : CLC : ADC.w Pool_AddBoomerangWallHit_x_offsets, Y : STA $02
+        
+        SEP #$20
+        
+        PLX
+        
+        BRL Shortcut_just_coords
     
     ; $0494FB ALTERNATE ENTRY POINT
     .return
@@ -3162,82 +3151,77 @@ AddHookshotWallHit:
     
 ; ==============================================================================
 
-; $0494FE-$049588 LONG JUMP LOCATION
-AddTravelBird:
+; $0494FE-$04951C LONG JUMP LOCATION
+AddTravelBird_pick_up:
 {
-    ; NOTE: Convenience label. Not necessary to invoke it, as it's the same
-    ; as the main entry point.
-    .pick_up
-    
     PHB : PHK : PLB
     
     JSR.w Ancilla_CheckIfAlreadyExists : BCS AddHookshotWallHit_return
-    
-    JSR.w AddAncilla : BCS AddHookshotWallHit_return
-    
-    LDA.b #$78 : STA.w $0C68, X
-    
-    STZ.w $0385, X
-    STZ.w $0294, X
-    STZ.w $029E, X
-    
-    LDY.b #$00
-    
-    BRA .init_invariants
-    
-    ; $04951D ALTERNATE ENTRY POINT
-    .drop_off
-    
+        JSR.w AddAncilla : BCS AddHookshotWallHit_return
+            LDA.b #$78 : STA.w $0C68, X
+            
+            STZ.w $0385, X
+            STZ.w $0294, X
+            STZ.w $029E, X
+            
+            LDY.b #$00
+            
+            BRA AddTravelBird_drop_off_init_invariants
+}
+
+; $04951D-$049588 LONG JUMP LOCATION
+AddTravelBird_drop_off:
+{
     PHB : PHK : PLB
     
     JSR.w Ancilla_CheckIfAlreadyExists : BCS .return
-    
-    JSR.w AddAncilla : BCS .spawn_failed
-    
-    LDA.b #$00 : STA $5D
-                 STZ $5E
-    
-    LDA $3A : AND.b #$7E : STA $3A
-    
-    STZ $3C
-    STZ $3D
-    
-    LDA $50 : AND.b #$FE : STA $50
-    
-    LDA.b #$01 : STA.w $0385, X
-    LDA.b #$28 : STA.w $0294, X
-    LDA.b #$CD : STA.w $029E, X
-    
-    LDY.b #$02
-    
-    ; Meaning, the things that are the same regardless of drop off or pick up.
-    .init_invariants
-    
-    TYA : STA.w $0C54, X
-    
-    STZ.w $0C22, X
-    STZ.w $0C5E, X
-    
-    LDA.b #$01 : STA.w $03B1, X
-    LDA.b #$38 : STA.w $0C2C, X
-    
-    LDA #$03 : STA.w $039F, X
-    
-    STZ.w $0380, X
-    STZ.w $0394, X
-    
-    REP #$20
-    
-    LDA $20 : SEC : SBC.w #8 : STA $00
-    
-    LDA.w #-16 : CLC : ADC $E2 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
-    
-    ; $049587 ALTERNATE ENTRY POINT
-    .spawn_failed
+        JSR.w AddAncilla : BCS .spawn_failed
+            LDA.b #$00 : STA $5D
+                        STZ $5E
+            
+            LDA $3A : AND.b #$7E : STA $3A
+            
+            STZ $3C
+            STZ $3D
+            
+            LDA $50 : AND.b #$FE : STA $50
+            
+            LDA.b #$01 : STA.w $0385, X
+            LDA.b #$28 : STA.w $0294, X
+            LDA.b #$CD : STA.w $029E, X
+            
+            LDY.b #$02
+            
+            ; Meaning, the things that are the same regardless of drop off or
+            ; pick up.
+            ; $049551 ALTERNATE ENTRY POINT
+            .init_invariants
+            
+            TYA : STA.w $0C54, X
+            
+            STZ.w $0C22, X
+            STZ.w $0C5E, X
+            
+            LDA.b #$01 : STA.w $03B1, X
+            LDA.b #$38 : STA.w $0C2C, X
+            
+            LDA #$03 : STA.w $039F, X
+            
+            STZ.w $0380, X
+            STZ.w $0394, X
+            
+            REP #$20
+            
+            LDA $20 : SEC : SBC.w #8 : STA $00
+            
+            LDA.w #-16 : CLC : ADC $E2 : STA $02
+            
+            SEP #$20
+            
+            BRL Shortcut_just_coords
+            
+        ; $049587 ALTERNATE ENTRY POINT
+        .spawn_failed
     .return
     
     PLB
@@ -3253,8 +3237,7 @@ AddQuakeSpell:
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCC .open_slot
-    
-    BRL .spawn_failed
+        BRL .spawn_failed
     
     .open_slot
     
@@ -3301,65 +3284,61 @@ AddQuakeSpell:
 ; $0495FB-$04960A DATA
 Pool_AddSpinAttackStartSparkle:
 {
+    ; $0495FB
     .y_offsets
     dw 32,  -8,  10,  20
     
+    ; ; $049603
     .x_offsets
     dw 10,   7,  28, -10
 }
 
-; ==============================================================================
-    
+; A = 0x2A
 ; $04960B-$049659 LONG JUMP LOCATION
 AddSpinAttackStartSparkle:
 {
-    ; A = 0x2A
     PHB : PHK : PLB
     
     STX $72
     
     JSR.w AddAncilla : BCS .spawn_failed
-    
-    STX $00
-    
-    LDX.b #$04
-    
-    .next_slot
-    
-    LDA.w $0C4A, X : CMP.b #$31 : BNE .not_cane_spark
-    
-    STZ.w $0C4A, X
-    
-    .not_cane_spark
-    
-    DEX : BPL .next_slot
-    
-    LDX $00 : STZ.w $0C5E, X
-    
-    LDY.b #$04
-    
-    LDA $72 : STA.w $0C54, X : BEQ .never
-    
-    ; WTF:(confirmed) No difference in the logic here. What's the point?
-    LDY.b #$04
-    
-    .never
-    
-    TYA : STA.w $0C68, X
-    
-    LDA.b #$03 : STA.w $03B1, X
-    
-    LDY $2F
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC .y_offsets, Y : STA $00
-    
-    LDA $22 : CLC : ADC .x_offsets, Y : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
+        STX $00
+        
+        LDX.b #$04
+        
+        .next_slot
+            LDA.w $0C4A, X : CMP.b #$31 : BNE .not_cane_spark
+                STZ.w $0C4A, X
+            
+            .not_cane_spark
+        
+        DEX : BPL .next_slot
+        
+        LDX $00 : STZ.w $0C5E, X
+        
+        LDY.b #$04
+        
+        LDA $72 : STA.w $0C54, X : BEQ .never
+            ; WTF: (confirmed) No difference in the logic here. What's the point?
+            LDY.b #$04
+            
+        .never
+        
+        TYA : STA.w $0C68, X
+        
+        LDA.b #$03 : STA.w $03B1, X
+        
+        LDY $2F
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC Pool_AddSpinAttackStartSparkle_y_offsets, Y : STA $00
+        
+        LDA $22 : CLC : ADC Pool_AddSpinAttackStartSparkle_x_offsets, Y : STA $02
+        
+        SEP #$20
+        
+        BRL Shortcut_just_coords
     
     .spawn_failed
     
@@ -3370,28 +3349,43 @@ AddSpinAttackStartSparkle:
 
 ; ==============================================================================
 
-; $04965A-$049691 DATA
+; $04965A-$049689 DATA
 Pool_AddBlastWall:
 {
+    ; $04965A
     .xy_offsets
-    dw  -8,   0
-    dw  -8,  16
-    dw  16,   0
-    dw  16,  16
-    dw   0,  -8
-    dw  16,  -8
-    dw   0,  16
-    dw  16,  16
-    dw -16,  16
-    dw   0,   0
-    dw   0,   0
-    dw -16,  16
-    
-    .sfx_pan_values
-    db $80, $80, $80, $00, $00, $40, $40, $40
+    dw  -8,   0 ; Up
+    dw  -8,  16 ; Down
+    dw  16,   0 ; Left
+    dw  16,  16 ; Right
+
+    dw   0,  -8 ; Up
+    dw  16,  -8 ; Down
+    dw   0,  16 ; Left
+    dw  16,  16 ; Right
+
+    ; $04967A
+    .base_offset_y
+    dw -16 ; Up
+    dw  16 ; Down
+    dw   0 ; Left
+    dw   0 ; Right
+
+    ; $049682
+    .base_offset_x
+    dw   0 ; Up
+    dw   0 ; Down
+    dw -16 ; Left
+    dw  16 ; Right
 }
 
-; ==============================================================================
+; $04968A-$049691 DATA
+AncillaPanValues:
+{
+    db $80, $80, $80 ; Left
+    db $00, $00      ; Middle
+    db $40, $40, $40 ; Right
+}
 
 ; $049692-$049756 LONG JUMP LOCATION
 AddBlastWall:
@@ -3435,8 +3429,11 @@ AddBlastWall:
     
     REP #$20
     
-    LDA.w $967A, Y : CLC : ADC.l $7F0018 : STA.l $7F0018
-    LDA.w $9682, Y : CLC : ADC.l $7F001A : STA.l $7F001A
+    LDA.w Pool_AddBlastWall_base_offset_y, Y
+    CLC : ADC.l $7F0018 : STA.l $7F0018
+
+    LDA.w Pool_AddBlastWall_base_offset_x, Y
+    CLC : ADC.l $7F001A : STA.l $7F001A
     
     SEP #$20
     
@@ -3444,38 +3441,38 @@ AddBlastWall:
     
     ; TODO: Figure out what's going on here.
     LDA.l $7F001C : CMP.b #$04 : BCS .unknown
-    
-    LDY.b #$10
+        LDY.b #$10
     
     .unknown
     
     LDX.b #$06
     
     .init_component_loop
-    
-    REP #$20
-    
-    LDA.w .xy_offsets+0, Y : CLC : ADC.l $7F0018 : STA.l $7F0020, X
-    LDA.w .xy_offsets+2, Y : CLC : ADC.l $7F001A : STA.l $7F0030, X
-    
-    SEC : SBC $E2 : STA $00
-    
-    SEP #$20
-    
-    LDA $01 : BNE .off_screen_so_no_sfx
-    
-    PHY : PHX
-    
-    LDA $00 : LSR #5 : TAX
-    
-    LDA.w .sfx_pan_values, X : ORA.b #$0C : STA.w $012E
-    
-    PLX : PLY
-    
-    .off_screen_so_no_sfx
-    
-    INY #4
-    
+        
+        REP #$20
+        
+        LDA.w Pool_AddBlastWall_xy_offsets+0, Y
+        CLC : ADC.l $7F0018 : STA.l $7F0020, X
+
+        LDA.w Pool_AddBlastWall_xy_offsets+2, Y
+        CLC : ADC.l $7F001A : STA.l $7F0030, X
+        
+        SEC : SBC $E2 : STA $00
+        
+        SEP #$20
+        
+        LDA $01 : BNE .off_screen_so_no_sfx
+            PHY : PHX
+            
+            LDA $00 : LSR #5 : TAX
+            
+            LDA.w AncillaPanValues, X : ORA.b #$0C : STA.w $012E
+            
+            PLX : PLY
+        
+        .off_screen_so_no_sfx
+        
+        INY #4
     DEX #2 : BPL .init_component_loop
     
     PLB
@@ -3496,8 +3493,7 @@ AddSwordChargeSpark:
     
     .next_slot
     
-    LDA.w $0C4A, X : BEQ .open_slot
-    
+        LDA.w $0C4A, X : BEQ .open_slot
     DEX : BPL .next_slot
     
     BRL .noOpenSlots
@@ -3507,7 +3503,8 @@ AddSwordChargeSpark:
     ; Put the sparkly effects into memory, if possible.
     LDA.b #$3C : STA.w $0C4A, X
     
-    ; Whatever floor Link is on, make sure the sparklies have that status as well.
+    ; Whatever floor Link is on, make sure the sparklies have that status as
+    ; well.
     LDA $EE : STA.w $0C7C, X
     
     STZ.w $0C5E, X
@@ -3526,8 +3523,7 @@ AddSwordChargeSpark:
     STZ $0B
     
     LDA.w $029E, X : CMP.b #$F8 : BCC .delta
-    
-    LDA.b #$00
+        LDA.b #$00
     
     .delta
     
@@ -3567,15 +3563,15 @@ AddSwordChargeSpark:
 ; $0497CE-$0497DD DATA
 Pool_AddSilverArrowSparkle:
 {
+    ; $0497CE
     .y_offsets
     dw  0,  2, -4, -4
     
+    ; $0497D2
     .x_offsets
     dw -4, -4,  0,  2
 }
 
-; ==============================================================================
-  
 ; $0497DE-$04984A LONG JUMP LOCATION
 AddSilverArrowSparkle:
 {
@@ -3587,15 +3583,15 @@ AddSilverArrowSparkle:
     
     .next_slot
     
-    LDA.w $0C4A, X : BEQ .empty_slot
-    
+        LDA.w $0C4A, X : BEQ .empty_slot
     DEX : BPL .next_slot
     
     BRL .no_open_slots
     
     .empty_slot
     
-    ; Add sparkle... the motivation for this routine in particular escapes me though
+    ; Add sparkle... the motivation for this routine in particular escapes
+    ; me though.
     LDA.b #$3C : STA.w $0C4A, X
     
     STZ.w $0C5E, X
@@ -3626,9 +3622,11 @@ AddSilverArrowSparkle:
     
     REP #$20
     
-    LDA $00 : CLC : ADC .y_offsets, Y : CLC : ADC $04 : STA $00
+    LDA $00 : CLC : ADC Pool_AddSilverArrowSparkle_y_offsets, Y
+    CLC : ADC $04 : STA $00
     
-    LDA $02 : CLC : ADC .x_offsets, Y : CLC : ADC $06 : STA $02
+    LDA $02 : CLC : ADC Pool_AddSilverArrowSparkle_x_offsets, Y
+    CLC : ADC $06 : STA $02
     
     SEP #$20
     
@@ -3646,20 +3644,22 @@ AddSilverArrowSparkle:
 ; $04984B-$049862 DATA
 Pool_AddIceRodShot:
 {
+    ; $04984B
     .y_offsets
     dw -16, 24,   8,   8
     
+    ; $049853
     .x_offsets
     dw   0,  0, -20,  20
     
+    ; $04985B
     .y_speeds
     db -48,  48,   0,   0
     
+    ; $04985F
     .x_speeds
     db   0,   0, -48,  48
 }
-
-; ==============================================================================
 
 ; $049863-$0498FB LONG JUMP LOCATION
 AddIceRodShot:
@@ -3668,10 +3668,9 @@ AddIceRodShot:
     PHB : PHK  : PLB
     
     JSR.w AddAncilla : BCC .open_slot
-    
-    LDX.b #$00 : JSL.l LinkItem_ReturnUnusedMagic
-    
-    BRA AddSilverArrowSparkle_noOpenSlots
+        LDX.b #$00 : JSL.l LinkItem_ReturnUnusedMagic
+        
+        BRA AddSilverArrowSparkle_noOpenSlots
     
     .open_slot
     
@@ -3690,9 +3689,9 @@ AddIceRodShot:
     
     LDA $2F : LSR A : STA.w $0C72, X : TAY
     
-    LDA.w .y_speeds, Y : STA.w $0C22, X
+    LDA.w Pool_AddIceRodShot_y_speeds, Y : STA.w $0C22, X
     
-    LDA.w .x_speeds, Y : STA.w $0C2C, X
+    LDA.w Pool_AddIceRodShot_x_speeds, Y : STA.w $0C2C, X
     
     PHY : PHX
     
@@ -3701,37 +3700,35 @@ AddIceRodShot:
     PLX : PLY
     
     BCS .asplode_ice_rod_shot
-    
-    LDY $2F
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC .y_offsets, Y : STA $00
-    
-    SEC : SBC $E8 : STA $04
-    
-    LDA $22 : CLC : ADC .x_offsets, Y : STA $02
-    
-    SEC : SBC $E2 : STA $06
-    
-    SEP #$20
-    
-    LDA $05 : ORA $07 : BEQ .on_screen
-    
-    ; Terminate the object because it's going to initialize off screen
-    STZ.w $0C4A, X
-    
-    BRA .return
-    
-    .on_screen
-    
-    BRL Shortcut_just_coords
-    
-    .return
-    
-    PLB
-    
-    RTL
+        LDY $2F
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC Pool_AddIceRodShot_y_offsets, Y : STA $00
+        
+        SEC : SBC $E8 : STA $04
+        
+        LDA $22 : CLC : ADC Pool_AddIceRodShot_x_offsets, Y : STA $02
+        
+        SEC : SBC $E2 : STA $06
+        
+        SEP #$20
+        
+        LDA $05 : ORA $07 : BEQ .on_screen
+            ; Terminate the object because it's going to initialize off screen.
+            STZ.w $0C4A, X
+            
+            BRA .return
+            
+        .on_screen
+        
+        BRL Shortcut_just_coords
+        
+        .return
+        
+        PLB
+        
+        RTL
     
     .asplode_ice_rod_shot
     
@@ -3740,7 +3737,7 @@ AddIceRodShot:
     ; Make an ice rod shot explode on a wall.
     LDA.b #$11 : STA.w $0C4A, X : TAX
     
-    LDA.l $08806F, X
+    LDA.l AncillaObjectAllocation, X
     
     PLX 
     
@@ -3757,41 +3754,39 @@ AddIceRodShot:
 
 ; ==============================================================================
 
+; A = 0x15
 ; $0498FC-$049939 LONG JUMP LOCATION
 AddTransitionSplash:
 {
-    ; A = 0x15
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCS .noOpenSlots
-    
-    JSL.l Sound_SetSfxPanWithPlayerCoords
-    
-    ORA.b #$24 : STA.w $012E
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$02 : STA.w $03B1, X
-    
-    LDA $1B : BEQ .dontChangeFloors
-    
-    LDA.w $0345 : BNE .dontChangeFloors
-    
-    ; Changing floors to get in and out of water only applies indoors.
-    STZ $EE
-    
-    .dontChangeFloors
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC.w #$0008 : STA $00
-    LDA $22 : CLC : ADC.w #$FFF5 : STA $02
-    
-    SEP #$20
-    
-    JSR.w Ancilla_SetCoords
-    
-    CLC
+        JSL.l Sound_SetSfxPanWithPlayerCoords
+        
+        ORA.b #$24 : STA.w $012E
+        
+        STZ.w $0C5E, X
+        
+        LDA.b #$02 : STA.w $03B1, X
+        
+        LDA $1B : BEQ .dontChangeFloors
+            LDA.w $0345 : BNE .dontChangeFloors
+                ; Changing floors to get in and out of water only applies
+                ; indoors.
+                STZ $EE
+            
+        .dontChangeFloors
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC.w #$0008 : STA $00
+        LDA $22 : CLC : ADC.w #$FFF5 : STA $02
+        
+        SEP #$20
+        
+        JSR.w Ancilla_SetCoords
+        
+        CLC
     
     .noOpenSlots
     
@@ -3805,13 +3800,15 @@ AddTransitionSplash:
 ; $04993A-$0499E8 DATA
 Pool_AddGravestone:
 {
+    ; $04993A
     .y_coordinates
     dw $0550, $0540, $0530, $0520, $0500, $04E0, $04C0, $04B0
     
+    ; $04994A
     .x_coordinates
     
     ; These numbers are just guidelines that correspond to the data in
-    ; the label we need to name below ($499e0)
+    ; the label we need to name below ($0499E0).
     ; 0x00
     dw $08B0
     
@@ -3837,41 +3834,39 @@ Pool_AddGravestone:
     dw $0840
     
     ; TODO: I'm punting on this. Fill in the rest of the data later.
-    ; $49968
+    ; $049968
     .yPosition
     dw $0540, $0350, $0530, $0530, $0520, $0520, $0510, $0510
     dw $04F0, $04F0, $04F0, $04F0, $04D0, $04B0, $04A0
 
-    ; $49986
+    ; $049986
     .xPosition
     dw $08B0, $08F0, $0910, $0950, $0970, $09A0, $0850, $0870
     dw $08B0, $08F0, $0920, $0950, $0880, $0990, $0840
 
-    ; $499A4
+    ; $0499A4
     .tilemapPosition
     dw $0A16, $099E, $09A2, $09AA, $092E, $0934, $088A, $088E
     dw $0796, $079E, $07A4, $07AA, $0690, $05B2, $0508
     
-    ; $499C2
+    ; $0499C2
     .gfx
     dw $0030, $0030, $0030, $0030, $0030, $0030, $0030, $0030
     dw $0030, $0030, $0030, $0030, $0030, $0038, $0058
 
-    ; $499E0
+    ; $0499E0
+    .offset_data_x
     db $00, $02, $08, $0C, $10, $18, $1A, $1C, $1E
 }
 
-; ==============================================================================
-
+; A = 0x24
 ; $0499E9-$049AF7 LONG JUMP LOCATION
 AddGravestone:
 {
-    ; A = 0x24
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCC .open_slot
-    
-    BRL .no_open_slots
+        BRL .no_open_slots
     
     .open_slot
     
@@ -3880,10 +3875,9 @@ AddGravestone:
     LDY $20
     
     TYA : AND.w #$000F : CMP.w #$0007 : BCS .round_to_next_tile
-    
-    TYA
-    
-    BRA .clipTo16Pixels
+        TYA
+        
+        BRA .clipTo16Pixels
     
     .round_to_next_tile
     
@@ -3897,8 +3891,7 @@ AddGravestone:
     
     .y_coord_next
     
-    LDA $00 : CMP .y_coordinates, Y : BEQ .y_coord_match
-    
+        LDA $00 : CMP .y_coordinates, Y : BEQ .y_coord_match
     DEY #2 : BPL .y_coord_next
     
     BRA .terminate_object
@@ -3907,36 +3900,30 @@ AddGravestone:
     
     TYA : LSR A : TAY
     
-    LDA.w $99E1, Y : AND.w #$00FF : STA $00
+    LDA.w Pool_AddGravestone_offset_data_x+1, Y : AND.w #$00FF : STA $00
     
-    ; get index of corresponding X coordinate
-    LDA.w $99E0, Y : AND.w #$00FF : TAY
+    ; Get index of corresponding X coordinate
+    LDA.w Pool_AddGravestone_offset_data_x+0, Y : AND.w #$00FF : TAY
     
     .xCoordNext
     
-    LDA.w $994A, Y : CMP $22 : BCS .xCoordNonMatch
-    
-    CLC : ADC.w #$000F : CMP $22 : BCC .xCoordNonMatch
-    
-    ; X coord was a match, but only one of the graves is dashable in the 
-    ; game (this is hardcoded here)
-    CPY.w #$001A : BNE .nondashable_grave
-    
-    ; the dashable gravestone is only able to be opened with dashing, 
-    ; not by pushing seems silly, but... eh
-    LDA.w $0372 : AND.w #$00FF : BEQ .terminate_object
-    
-    BRA .success
-    
-    .nondashable_grave
-    
-    ; self terminate if we tried to dash a nondashable grave stone
-    LDA.w $0372 : AND.w #$00FF : BNE .terminate_object
-    
-    BRA .success
-    
-    .xCoordNonMatch
-    
+        LDA.w Pool_AddGravestone_x_coordinates, Y : CMP $22 : BCS .xCoordNonMatch
+            CLC : ADC.w #$000F : CMP $22 : BCC .xCoordNonMatch
+                ; X coord was a match, but only one of the graves is dashable in
+                ; the game (this is hardcoded here).
+                CPY.w #$001A : BNE .nondashable_grave
+                    ; The dashable gravestone is only able to be opened with
+                    ; dashing, not by pushing seems silly.
+                    LDA.w $0372 : AND.w #$00FF : BEQ .terminate_object
+                        BRA .success
+                    
+                .nondashable_grave
+                
+                ; Self terminate if we tried to dash a nondashable grave stone.
+                LDA.w $0372 : AND.w #$00FF : BNE .terminate_object
+                    BRA .success
+            
+        .xCoordNonMatch
     INY #2 : CPY $00 : BNE .xCoordNext
     
     .terminate_object
@@ -3949,29 +3936,28 @@ AddGravestone:
     
     .success
     
-    LDA.w $99A4, Y  : STA.w $0698
+    LDA.w Pool_AddGravestone_tilemapPosition, Y  : STA.w $0698
     
     SEC : SBC.w #$0080 : STA $72
     
-    LDA.w $99C2, Y : STA.w $0692 : CMP.w #$0058 : BEQ .holeUnderGrave
-    
-    CMP.w #$0038 : BNE .notStairsUnderGrave
-    
-    SEP #$30
-    
-    PHX
-    
-    ; save a flag in SRAM so that the path to the cape chest will be revealed next time
-    ; this map loads
-    LDX $8A : LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
-    
-    PLX
+    LDA.w Pool_AddGravestone_gfx, Y : STA.w $0692
+    CMP.w #$0058 : BEQ .holeUnderGrave
+        CMP.w #$0038 : BNE .notStairsUnderGrave
+            SEP #$30
+            
+            PHX
+            
+            ; Save a flag in SRAM so that the path to the cape chest will be
+            ; revealed next time this map loads.
+            LDX $8A : LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
+            
+            PLX
 
     .holeUnderGrave
 
     SEP #$30
     
-    ; play sound effect
+    ; Play sound effect.
     JSL.l Sound_SetSfxPanWithPlayerCoords
 
     ORA.b #$1B : STA.w $012F
@@ -3997,22 +3983,21 @@ AddGravestone:
     TYA : AND.w #$00FF : TAY
     
     ; Load the tilemap locations of the graves.
-    LDA.w $9968, Y : CLC : ADC.w #$FFFE : STA $00
+    LDA.w Pool_AddGravestone_yPosition, Y : CLC : ADC.w #$FFFE : STA $00
     
     CLC : ADC.w #$FFF0 : STA $04
     
-    LDA.w $9986, Y : STA $02
+    LDA.w Pool_AddGravestone_xPosition, Y : STA $02
     
     SEP #$30
     
     LDA.w $012F : AND.b #$3F : CMP.b #$1B : BEQ .puzzleSoundPlaying
-    
-    JSL.l Sound_SetSfxPanWithPlayerCoords
-    
-    ; If there's no mystery solved sound, just play the sound
-    ; that happens when something's dragging on the floor
-    ORA.b #$22 : STA.w $012E
-    
+        JSL.l Sound_SetSfxPanWithPlayerCoords
+        
+        ; If there's no mystery solved sound, just play the sound
+        ; that happens when something's dragging on the floor.
+        ORA.b #$22 : STA.w $012E
+        
     .puzzleSoundPlaying
     
     LDA.b #$04 : STA $48
@@ -4036,20 +4021,22 @@ AddGravestone:
 ; $049AF8-$049B0F
 Pool_AddHookshot:
 {
+    ; $049AF8
     .y_speeds
     db -64, 64,   0,  0
     
+    ; $049AFC
     .x_speeds
     db   0,  0, -64, 64
     
+    ; $049B00
     .y_offsets
     dw 4, 20,  8,  8
     
-     .x_offsets
+    ; $049B08
+    .x_offsets
     dw 0,  0, -4, 11
 }
-
-; ==============================================================================
 
 ; $049B10-$049B67 LONG JUMP LOCATION
 AddHookshot:
@@ -4057,39 +4044,38 @@ AddHookshot:
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCS .no_open_slots
-    
-    LDA.b #$03 : STA.w $03B1, X
-    
-    STZ.w $0C5E, X
-    STZ.w $0C54, X
-    STZ.w $0385, X
-    STZ.w $037E
-    
-    STX.w $039D
-    
-    STZ.w $0380, X
-    
-    LDA #$FF : STA.w $0394, X
-    
-    STZ.w $03A4, X
-    STZ.w $0C68, X
-    
-    LDA $2F : LSR A : STA.w $0C72, X : TAY
-    
-    LDA.w .y_speeds, Y : STA.w $0C22, X
-    LDA.w .x_speeds, Y : STA.w $0C2C, X
-    
-    LDY $2F
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC .y_offsets, Y : STA $00
-    LDA $22 : CLC : ADC .x_offsets, Y : STA $02
-    
-    SEP #$20
-    
-    JMP Shortcut_just_coords
-    
+        LDA.b #$03 : STA.w $03B1, X
+        
+        STZ.w $0C5E, X
+        STZ.w $0C54, X
+        STZ.w $0385, X
+        STZ.w $037E
+        
+        STX.w $039D
+        
+        STZ.w $0380, X
+        
+        LDA #$FF : STA.w $0394, X
+        
+        STZ.w $03A4, X
+        STZ.w $0C68, X
+        
+        LDA $2F : LSR A : STA.w $0C72, X : TAY
+        
+        LDA.w Pool_AddHookshot_y_speeds, Y : STA.w $0C22, X
+        LDA.w Pool_AddHookshot_x_speeds, Y : STA.w $0C2C, X
+        
+        LDY $2F
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC Pool_AddHookshot_y_offsets, Y : STA $00
+        LDA $22 : CLC : ADC Pool_AddHookshot_x_offsets, Y : STA $02
+        
+        SEP #$20
+        
+        JMP Shortcut_just_coords
+        
     .no_open_slots
     
     PLB
@@ -4099,27 +4085,26 @@ AddHookshot:
 
 ; ==============================================================================
 
+; Splash of water over Link's head that occurs
+; outside of the entrance to the waterfall of wishing.
 ; $049B68-$049B82 LONG JUMP LOCATION
 AddWaterfallSplash:
 {
-    ; Splash of water over Link's head that occurs
-    ; outside of the entrance to the waterfall of wishing
 	PHB : PHK : PLB
     
 	LDY.b #$04
 	LDA.b #$41
     
 	SR.w Ancilla_CheckIfAlreadyExists : BCS .already_present
-    
-    JSR.w AddAncilla : BCS .no_open_slots
-    
-	LDA.b #$02 : STA.w $0C68, X
-    
-	STZ.w $0C5E, X
-    
+        JSR.w AddAncilla : BCS .no_open_slots
+            LDA.b #$02 : STA.w $0C68, X
+            
+            STZ.w $0C5E, X
+
+        .no_open_slots
+
     ; $049B81 ALTERNATE ENTRY POINT
     .already_present
-    .no_open_slots
     
 	PLB
     
@@ -4128,100 +4113,97 @@ AddWaterfallSplash:
 
 ; ==============================================================================
 
-; $049B83-$049C37 LONG JUMP LOCATION
+; Waterfall sprite sees if you can open Ganon's tower.
+; $049B83-$049C35 LONG JUMP LOCATION
 AddBreakTowerSeal:
 {
-    ; Waterfall sprite sees if you can open Ganon's tower
-    
     PHB : PHK : PLB
     
     LDA.w $0308 : AND.b #$80 : ORA $4D : BNE AddWaterfallSplash_no_open_slots
-    
-    ; Don't have enough crystals? return()
-    LDA.l $7EF37A : AND.b #$7F : CMP.b #$7F : BNE AddWaterfallSplash_no_open_slots
-    
-    ; Ganon's tower already opened. return()
-    LDA.l $7EF2C3 : AND.b #$20 : BNE AddWaterfallSplash_no_open_slots
-    
-    JSL.l Ancilla_TerminateSparkleObjects
-    
-    LDY.b #$04
-    LDA.b #$43
-    
-    JSR.w Ancilla_CheckIfAlreadyExists : BCS AddWaterfallSplash_no_open_slots
-    
-    JSR.w AddAncilla : BCS AddWaterfallSplash_no_open_slots
-    
-    PHX
-    
-    LDX.b #$0F
-    
-    .check_next_sprite
-    
-    LDA.w $0E20, X : CMP.b #$37 : BNE .not_waterfall
-    
-    ; Kill the waterfall sprite after it starts the sequence.
-    STZ.w $0DD0, X 
-    
-    .not_waterfall
-    
-    DEX : BPL .check_next_sprite
-    
-    ; Initialize all the sparkles to be inactive.
-    LDX.b #$17
-    LDA.b #$FF
-    
-    .next_sparkle
-    
-    STA.l $7F5837, X
-    
-    DEX : BPL .next_sparkle
-    
-    LDA.b #$28 : STA $72
-    
-    JSL.l GetAnimatedSpriteTile_variable
-    
-    LDA.b #$04 : STA.w $0AB1
-    LDA.b #$02 : STA.w $0AA9
-    
-    JSL.l Palette_MiscSpr_justSP6
-    
-    ; Update CGRAM on next NMI
-    INC $15
-    
-    PLX
-    
-    ; Make Link unable to move.
-    LDA.b #$01 : STA.w $02E4
-    
-    STZ.w $0C36, X
-    STZ.w $0C40, X
-    STZ.w $0C54, X
-    
-    ; Timer?
-    LDA.b #$F0 : STA.l $7F5812 
-    
-    ; These set the initial angles for the 6 rotating cyrstals.
-    ; The last one is stationary and isn't rotated at all about a point.
-    LDA.b #$00 : STA.l $7F5800 : STA.l $7F5808
-    LDA.b #$0A : STA.l $7F5801
-    LDA.b #$16 : STA.l $7F5802
-    LDA.b #$20 : STA.l $7F5803
-    LDA.b #$2A : STA.l $7F5804
-    LDA.b #$36 : STA.l $7F5805
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC.w #$FFF0 : STA $00
-    
-    LDA $22 : STA $02
-    
-    SEP #$20
-    
-    BRL Shortcut_just_coords
-    
-    .unused
-    
+        ; Don't have enough crystals?
+        LDA.l $7EF37A : AND.b #$7F : CMP.b #$7F : BNE AddWaterfallSplash_no_open_slots
+            ; Ganon's tower already opened.
+            LDA.l $7EF2C3 : AND.b #$20 : BNE AddWaterfallSplash_no_open_slots
+                JSL.l Ancilla_TerminateSparkleObjects
+                
+                LDY.b #$04
+                LDA.b #$43
+                
+                JSR.w Ancilla_CheckIfAlreadyExists : BCS AddWaterfallSplash_no_open_slots
+                    JSR.w AddAncilla : BCS AddWaterfallSplash_no_open_slots
+                        PHX
+                        
+                        LDX.b #$0F
+                        
+                        .check_next_sprite
+                        
+                            LDA.w $0E20, X : CMP.b #$37 : BNE .not_waterfall
+                                ; Kill the waterfall sprite after it starts the
+                                ; sequence.
+                                STZ.w $0DD0, X 
+                            
+                            .not_waterfall
+                        DEX : BPL .check_next_sprite
+                        
+                        ; Initialize all the sparkles to be inactive.
+                        LDX.b #$17
+                        LDA.b #$FF
+                        
+                        .next_sparkle
+                        
+                            STA.l $7F5837, X
+                        DEX : BPL .next_sparkle
+                        
+                        LDA.b #$28 : STA $72
+                        
+                        JSL.l GetAnimatedSpriteTile_variable
+                        
+                        LDA.b #$04 : STA.w $0AB1
+                        LDA.b #$02 : STA.w $0AA9
+                        
+                        JSL.l Palette_MiscSpr_justSP6
+                        
+                        ; Update CGRAM on next NMI.
+                        INC $15
+                        
+                        PLX
+                        
+                        ; Make Link unable to move.
+                        LDA.b #$01 : STA.w $02E4
+                        
+                        STZ.w $0C36, X
+                        STZ.w $0C40, X
+                        STZ.w $0C54, X
+                        
+                        ; Timer?
+                        LDA.b #$F0 : STA.l $7F5812 
+                        
+                        ; These set the initial angles for the 6 rotating
+                        ; cyrstals. The last one is stationary and isn't
+                        ; rotated at all about a point.
+                        LDA.b #$00 : STA.l $7F5800 : STA.l $7F5808
+                        LDA.b #$0A : STA.l $7F5801
+                        LDA.b #$16 : STA.l $7F5802
+                        LDA.b #$20 : STA.l $7F5803
+                        LDA.b #$2A : STA.l $7F5804
+                        LDA.b #$36 : STA.l $7F5805
+                        
+                        REP #$20
+                        
+                        LDA $20 : CLC : ADC.w #$FFF0 : STA $00
+                        
+                        LDA $22 : STA $02
+                        
+                        SEP #$20
+                        
+                        BRL Shortcut_just_coords
+}
+
+; ==============================================================================
+
+; $049C36-$049C37 LONG JUMP LOCATION
+UNUSED099C36:
+{
     PLB
     
     RTL
@@ -4229,25 +4211,23 @@ AddBreakTowerSeal:
 
 ; ==============================================================================
 
+; A = 0x08
 ; $049C38-$049C4E LONG JUMP LOCATION
 AddDoorDebris:
 {
-    ; A = 0x08
-    
     PHB : PHK : PLB
     
     LDY.b #$01
     LDA.b #$08
     
     JSR.w AddAncilla : BCS .spawn_failed
-    
-    STZ.w $03C2, X
-    
-    LDA #$07 : STA.w $03C0, X
-    
-    ; Callers of this function need to know the result of whether it could
-    ; be added or not.
-    CLC
+        STZ.w $03C2, X
+        
+        LDA #$07 : STA.w $03C0, X
+        
+        ; Callers of this function need to know the result of whether it could
+        ; be added or not.
+        CLC
     
     ; $049C4D ALTERNATE ENTRY POINT
     .spawn_failed
@@ -4265,72 +4245,70 @@ ConsumingFire_TransmuteToSkullWoodsFire:
     PHB : PHK : PLB
     
     LDA $1B : BNE AddDoorDebris_spawn_failed
-    
-    LDA $8A : AND.b #$40 : BEQ AddDoorDebris_spawn_failed
-    
-    PHX
-    
-    ; Configure a special object that probably does the flame up portion
-    ; of the opening sequence (because the tile animation doesn't do it
-    ; in its entirely).
-    LDY.b #$34 : STY.w $0C4A
-    
-    ; Eliminate most other special objects in play.
-    STZ.w $0C4B
-    STZ.w $0C4C
-    STZ.w $0C4D
-    STZ.w $0C4E
-    STZ.w $0C4F
-    
-    STZ.w $035F
-    
-    ; Set OAM allocation requirement.
-    TYX : LDA.l $08806F, X : STA.w $0C90
-    
-    PLX
-    
-    LDA.b #$FD : STA.l $7F0000
-    INC A      : STA.l $7F0001
-    INC A      : STA.l $7F0002
-    
-    LDA.b #$00 : STA.l $7F0003
-                 STA.l $7F0010
-    
-    LDA.b #$05 : STA.l $7F0008
-                 STA.l $7F0009
-                 STA.l $7F000A
-                 STA.l $7F000B
-                 STA.w $03B1
-    
-    REP #$20
-    
-    LDA.w #$0100 : STA.l $7F0018
-                   STA.l $7F0026
-    
-    LDA.w #$0098 : STA.l $7F001A
-                   STA.l $7F0036
-    
-    SEP #$20
-    
-    ; Initiates the actual tile animation sequence that is the skull woods
-    ; opening.
-    LDA.b #$02 : STA.w $04C6
-    
-    STZ $B0
-    STZ $C8
-    
-    ; Further configure the state of the skull woods flame object that is
-    ; about to become active next frame.
-    LDA $EE : STA.w $0C7C
-    
-    LDA.w $0476 : STA.w $03CA
-    
-    STZ.w $0C5E
-    STZ.w $0C54
-    
-    PLB
-    
-    RTL
+        LDA $8A : AND.b #$40 : BEQ AddDoorDebris_spawn_failed
+            PHX
+            
+            ; Configure a special object that probably does the flame up portion
+            ; of the opening sequence (because the tile animation doesn't do it
+            ; in its entirely).
+            LDY.b #$34 : STY.w $0C4A
+            
+            ; Eliminate most other special objects in play.
+            STZ.w $0C4B
+            STZ.w $0C4C
+            STZ.w $0C4D
+            STZ.w $0C4E
+            STZ.w $0C4F
+            
+            STZ.w $035F
+            
+            ; Set OAM allocation requirement.
+            TYX : LDA.l AncillaObjectAllocation, X : STA.w $0C90
+            
+            PLX
+            
+            LDA.b #$FD : STA.l $7F0000
+            INC A      : STA.l $7F0001
+            INC A      : STA.l $7F0002
+            
+            LDA.b #$00 : STA.l $7F0003
+                         STA.l $7F0010
+            
+            LDA.b #$05 : STA.l $7F0008
+                        STA.l $7F0009
+                        STA.l $7F000A
+                        STA.l $7F000B
+                        STA.w $03B1
+            
+            REP #$20
+            
+            LDA.w #$0100 : STA.l $7F0018
+                           STA.l $7F0026
+            
+            LDA.w #$0098 : STA.l $7F001A
+                           STA.l $7F0036
+            
+            SEP #$20
+            
+            ; Initiates the actual tile animation sequence that is the skull
+            ; woods opening.
+            LDA.b #$02 : STA.w $04C6
+            
+            STZ $B0
+            STZ $C8
+            
+            ; Further configure the state of the skull woods flame object that is
+            ; about to become active next frame.
+            LDA $EE : STA.w $0C7C
+            
+            LDA.w $0476 : STA.w $03CA
+            
+            STZ.w $0C5E
+            STZ.w $0C54
+            
+            PLB
+            
+            RTL
 }
 
 ; ==============================================================================
@@ -4348,47 +4326,46 @@ AddAncilla:
     PLA
     
     TYX : BMI .no_slots_open
-    
-    ; Otherwise load the effect in.
-    STA.w $0C4A, X : TAY
-    
-    ; Put the effect on the same plane as Link.
-    LDA $EE : STA.w $0C7C, X
-    
-    ; ???
-    LDA.w $0476 : STA.w $03CA, X
-    
-    ; Initialize the effect.
-    STZ.w $0C22, X
-    
-    STZ.w $0C2C, X
-    
-    STZ.w $0280, X
-    
-    STZ.w $028A, X
-    
-    ; Save our spot in the effects array.
-    PHX
-    
-    TYX
-    
-    ; Load some extra information about the effect into $0E.
-    LDA.l $08806F, X : STA $0E
-    
-    ; Retrieve our spot in the effects array.
-    PLX
-    
-    ; Store the extra information at $0C90, X
-    LDA $0E : STA.w $0C90, X
-    
-    ; indicates success
-    CLC
-    
-    RTS
+        ; Otherwise load the effect in.
+        STA.w $0C4A, X : TAY
+        
+        ; Put the effect on the same plane as Link.
+        LDA $EE : STA.w $0C7C, X
+        
+        ; ???
+        LDA.w $0476 : STA.w $03CA, X
+        
+        ; Initialize the effect.
+        STZ.w $0C22, X
+        
+        STZ.w $0C2C, X
+        
+        STZ.w $0280, X
+        
+        STZ.w $028A, X
+        
+        ; Save our spot in the effects array.
+        PHX
+        
+        TYX
+        
+        ; Load some extra information about the effect into $0E.
+        LDA.l AncillaObjectAllocation, X : STA $0E
+        
+        ; Retrieve our spot in the effects array.
+        PLX
+        
+        ; Store the extra information at $0C90, X.
+        LDA $0E : STA.w $0C90, X
+        
+        ; Indicates success.
+        CLC
+        
+        RTS
     
     .no_slots_open
     
-    ; indicates failure
+    ; Indicates failure.
     SEC
     
     RTS
@@ -4410,18 +4387,16 @@ AddAncillaLong:
 
 ; ==============================================================================
 
+; This routine accepts A as an input and returns true (SEC)
+; if a special object value in indices 0 - 5 matches the value of A.
 ; $049D20-$049D2D LOCAL JUMP LOCATION
 Ancilla_CheckIfAlreadyExists:
 {
-    ; This routine accepts A as an input and returns true (SEC)
-    ; if a special object value in indices 0 - 5 matches the value of A
-    
     LDX.b #$05
     
     .checkNextSlot
     
-    CMP.w $0C4A, X : BEQ .alreadyExists
-    
+        CMP.w $0C4A, X : BEQ .alreadyExists
     DEX : BPL .checkNextSlot
     
     CLC
@@ -4437,7 +4412,7 @@ Ancilla_CheckIfAlreadyExists:
 
 ; ==============================================================================
 
-    ; UNUSED:
+; UNUSED:
 ; $049D2E-$049D35 DATA
 Ancilla_CheckIfAlreadyExistsLong:
 {
@@ -4459,49 +4434,43 @@ Ancilla_GetRidOfArrowInWall:
     
     INY : STY $0E
     
-    ; starting index is 0x00
+    ; Starting index is 0x00.
     LDY.b #$00
     LDX.b #$04
     
     .arrowInWallSearch
-    
-    ; See if the object in the list is an arrow sticking out of the wall
-    LDA.b #$0A : CMP.w $0C4A, X : BNE .notArrowInWall
-    
-    ; Count the number of arrows that are in the wall
-    INY
-    
-    .notArrowInWall
+        ; See if the object in the list is an arrow sticking out of the wall.
+        LDA.b #$0A : CMP.w $0C4A, X : BNE .notArrowInWall
+            ; Count the number of arrows that are in the wall.
+            INY
+        
+        .notArrowInWall
     
     DEX : BPL .arrowInWallSearch
     
     CPY $0E : BEQ .tooManyArrowsInWall
-    
-    LDY.b #$04
-    
-    .emptySlotSearch
-    
-    LDA.w $0C4A, Y : BEQ .replaceArrowInWall
-    
-    DEY : BPL .emptySlotSearch
-    
-    BRA .replaceArrowInWall
+        LDY.b #$04
+        
+        .emptySlotSearch
+        
+            LDA.w $0C4A, Y : BEQ .replaceArrowInWall
+        DEY : BPL .emptySlotSearch
+        
+        BRA .replaceArrowInWall
     
     .tooManyArrowsInWall
     
-    DEC.w $03C4 : BPL .noUnderflow
-    
-    .arrowInWallSearch2
-    
-    LDA.b #$04 : STA.w $03C4
-    
-    .noUnderflow
-    
-    ; Look for an arrow in a wall in one of 5 slots
-    LDY.w $03C4
-    
-    LDA.w $0C4A, Y : CMP.b #$0A : BEQ .replaceArrowInWall
-    
+        DEC.w $03C4 : BPL .noUnderflow
+            .arrowInWallSearch2
+            
+            LDA.b #$04 : STA.w $03C4
+            
+        .noUnderflow
+        
+        ; Look for an arrow in a wall in one of 5 slots.
+        LDY.w $03C4
+        
+        LDA.w $0C4A, Y : CMP.b #$0A : BEQ .replaceArrowInWall
     DEY : BPL .tooManyArrowsInWall
     
     BRA .arrowInWallSearch2
@@ -4511,27 +4480,26 @@ Ancilla_GetRidOfArrowInWall:
     PLA
     
     TYX : BMI .cantReplaceAny
-    
-    STA.w $0C4A, X : TAY
-    
-    ; Set floor information for the object
-    LDA $EE : STA.w $0C7C, X
-    
-    ; store level information for the object (similar to $EE)
-    LDA.w $0476 : A.w $03CACA, X
-    
-    STZ.w $0C22, X : Z.w $0C2C2C, X Z.w $02800280, Z.w $028A.w $028A, X
-    
-    PHX : TYX
-    
-    LDA.l $08806F, X : STA $0E
-    
-    PLX : LDA $0E : STA.w $0C90, X
-    
-    CLC
-    
-    RTS
-    
+        STA.w $0C4A, X : TAY
+        
+        ; Set floor information for the object.
+        LDA $EE : STA.w $0C7C, X
+        
+        ; Store level information for the object (similar to $EE).
+        LDA.w $0476 : STA.w $03CA, X
+        
+        STZ.w $0C22, X : STZ.w $0C2C, X STZ.w $0280, STZ.w $028A, X
+        
+        PHX : TYX
+        
+        LDA.l AncillaObjectAllocation, X : STA $0E
+        
+        PLX : LDA $0E : STA.w $0C90, X
+        
+        CLC
+        
+        RTS
+        
     .cantReplaceAny
     
     SEC
@@ -4544,6 +4512,7 @@ Ancilla_GetRidOfArrowInWall:
 ; $049DA3-$049DD2 DATA
 Pool_Ancilla_CheckInitialTileCollision_Class_1:
 {
+    ; $049DA3
     .y_offsets
     dw   8,   0
     dw  -8,   8
@@ -4552,6 +4521,7 @@ Pool_Ancilla_CheckInitialTileCollision_Class_1:
     dw   8,   8
     dw   8,   8
     
+    ; $049DBB
     .x_offsets
     dw   0,   0
     dw   0,   0
@@ -4561,15 +4531,12 @@ Pool_Ancilla_CheckInitialTileCollision_Class_1:
     dw   8,  16
 }
 
-; ==============================================================================
-
-    ; TODO: Rename this sucker, maybe.
+; TODO: Rename this, maybe.
     
-    ; NOTE: Class 1 and Class 2 indicates that we have two very similar routines
-    ; for checking this kind of situation, but that the ... eh explain it later.
-    ; Basically there's one for boomerangs and junk and one for bombs and
-    ; blocks. We'd need to come up with nammes for the two classes.
-    
+; NOTE: Class 1 and Class 2 indicates that we have two very similar routines
+; for checking this kind of situation, but that the ... eh explain it later.
+; Basically there's one for boomerangs and junk and one for bombs and
+; blocks. We'd need to come up with nammes for the two classes.
 ; $049DD3-$049E23 LONG JUMP LOCATION
 Ancilla_CheckInitialTileCollision_Class_1:
 {
@@ -4579,35 +4546,36 @@ Ancilla_CheckInitialTileCollision_Class_1:
     
     LDA.b #$02 : STA $72
     
-    ; Y = directional value of object * 6
+    ; Y = directional value of object * 6.
     LDA.w $0C72, X : ASL A : STA $02
-                   ASL A : CLC : ADC $02 : TAY
+                     ASL A : CLC : ADC $02 : TAY
     
     .next_entry
     
-    REP #$20
-    
-    LDA.w .y_offsets, Y : CLC : ADC $20 : STA $02
-    LDA.w .x_offsets, Y : CLC : ADC $22 : STA $04
-    
-    SEP #$20
-    
-    LDA $02 : STA.w $0BFA, X
-    LDA $03 : STA.w $0C0E, X
-    
-    LDA $04 : STA.w $0C04, X
-    LDA $05 : STA.w $0C18, X
-    
-    PHY
-    
-    JSL.l Ancilla_CheckTileCollisionLong
-    
-    PLY
-    
-    BCS .alpha
-    
-    INY #2
-    
+        REP #$20
+        
+        LDA.w Pool_Ancilla_CheckInitialTileCollision_Class_1_y_offsets, Y
+        CLC : ADC $20 : STA $02
+        
+        LDA.w Pool_Ancilla_CheckInitialTileCollision_Class_1_x_offsets, Y
+        CLC : ADC $22 : STA $04
+        
+        SEP #$20
+        
+        LDA $02 : STA.w $0BFA, X
+        LDA $03 : STA.w $0C0E, X
+        
+        LDA $04 : STA.w $0C04, X
+        LDA $05 : STA.w $0C18, X
+        
+        PHY
+        
+        JSL.l Ancilla_CheckTileCollisionLong
+        
+        PLY
+        
+        BCS .alpha
+            INY #2
     DEC $72 : BPL .next_entry
     
     PLY
@@ -4634,12 +4602,14 @@ Ancilla_CheckInitialTileCollision_Class_1:
 ; $049E24-$049E43 DATA
 Pool_Ancilla_CheckInitialTileCollision_Class2:
 {
+    ; $049E24
     .y_offsets
     dw 15, 16
     dw 28, 24
     dw 12, 12
     dw 12, 12
     
+    ; $049E34
     .x_offsets
     dw  8,  8
     dw  8,  8
@@ -4647,9 +4617,7 @@ Pool_Ancilla_CheckInitialTileCollision_Class2:
     dw 17, 16
 }
 
-; ==============================================================================
-
-    ; TODO: Maybe rename this big lug later on.
+; TODO: Maybe rename this later on.
 ; $049E44-$049E8F LONG JUMP LOCATION
 Ancilla_CheckInitialTileCollision_Class2:
 {
@@ -4665,29 +4633,30 @@ Ancilla_CheckInitialTileCollision_Class2:
     
     .next_entry
     
-    REP #$20
-    
-    LDA.w $9E24, Y : CLC : ADC $20 : STA $02
-    LDA.w $9E34, Y : CLC : ADC $22 : STA $04
-    
-    SEP #$20
-    
-    LDA $02 : STA.w $0BFA, X
-    LDA $03 : STA.w $0C0E, X
-    
-    LDA $04 : STA.w $0C04, X
-    LDA $05 : STA.w $0C18, X
-    
-    PHY
-    
-    JSL.l Ancilla_CheckTileCollision_Class2_Long
-    
-    PLY
-    
-    BCS .alpha
-    
-    INY #2
-    
+        REP #$20
+        
+        LDA.w Pool_Ancilla_CheckInitialTileCollision_Class2_y_offsets, Y
+        CLC : ADC $20 : STA $02
+
+        LDA.w Pool_Ancilla_CheckInitialTileCollision_Class2_x_offsets, Y
+        CLC : ADC $22 : STA $04
+        
+        SEP #$20
+        
+        LDA $02 : STA.w $0BFA, X
+        LDA $03 : STA.w $0C0E, X
+        
+        LDA $04 : STA.w $0C04, X
+        LDA $05 : STA.w $0C18, X
+        
+        PHY
+        
+        JSL.l Ancilla_CheckTileCollision_Class2_Long
+        
+        PLY
+        
+        BCS .alpha
+            INY #2
     DEC $72 : BPL .next_entry
     
     PLY
