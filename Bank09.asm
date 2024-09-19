@@ -162,7 +162,7 @@ AddSomarianBlockDivide:
     
     PHX
     
-    TAX : LDA.l $08806F, X
+    TAX : LDA.l AncillaObjectAllocation, X
     
     PLX
     
