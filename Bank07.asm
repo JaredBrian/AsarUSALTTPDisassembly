@@ -5700,7 +5700,7 @@ LinkItem_Flute:
                     LDY.b #$04
                     LDA.b #$27
                     
-                    JSL.l AddTravelBird
+                    JSL.l AddTravelBird_pick_up
                     
                     STZ.w $03F8
                     
@@ -5722,7 +5722,7 @@ GanonEmerges_SpawnTravelBird:
     LDY.b #$04
     LDA.b #$27
     
-    JSL.l AddTravelBird
+    JSL.l AddTravelBird_pick_up
     
     PLB
     
