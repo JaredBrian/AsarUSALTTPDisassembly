@@ -1,39 +1,39 @@
-
 ; ==============================================================================
 
 ; $02966A-$02967A DATA
 Pool_Sprite_ZoraAndFireball:
 {
+    ; $02966A
     .shield_x_offsets_low
     db $04, $04, $FC, $10
     
-    ; note: data segment overlaps with the next one (length = 4)
-    ; other segments also overlap, but using the length keyword we've conjured
-    ; up, this will indicate to a parser the actual length in bytes of
-    ; the array.
-    .shield_to_the_side_indices length 4
+    ; NOTE: data segment overlaps with the next one (length = 4)
+    ; other segments also overlap.
+    ; $02966E
+    .shield_to_the_side_indices ; Bleeds into the next block. Length 4
     db $03, $02
     
-    .shield_x_offests_high length 4
+    ; $029670
+    .shield_x_offests_high ; Bleeds into the next block. Length 4
     db $00, $00, $FF
     
-    .shield_y_offsets_low length 4
+    ; $029673
+    .shield_y_offsets_low ; Bleeds into the next block. Length 4
     db $00, $10
     
-    .shield_hit_box_size_x length 4
+    ; $029675
+    .shield_hit_box_size_x ; Bleeds into the next block. Length 4
     db $08, $08
     
+    ; $029677
     .shield_hit_box_size_y
     db $04, $04, $08, $08
 }
 
-; ==============================================================================
-
+; Fireball sprite (from Zora or similar)
 ; $02967B-$029724 JUMP LOCATION
 Sprite_ZoraAndFireball:
 {
-    ; Fireball sprite (from Zora or similar)
-    
     LDA.w $0E90, X : BNE Sprite_Fireball
     
     JMP Sprite_Zora
