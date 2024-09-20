@@ -197,6 +197,7 @@ Sprite_BlueBari:
             
             RTS
         
+        ; $032342 ALTERNATE ENTRY POINT
         .set_new_electrication_delay
         
         JSL.l GetRandomInt : AND.b #$3F : ADC.b #$80 : STA.w $0E00, X

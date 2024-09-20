@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $04B714-$04B772 LOCAL JUMP LOCATION
@@ -87,55 +86,56 @@ Overlord_ExecuteSingle:
     
     ; There is no 0x00.
     .handlers
-    dw Overlord_SpritePositionTarget         ; 0x01 - 
+    dw Overlord_SpritePositionTarget         ; 0x01 - $C01E
 
-    dw Overlord_AllDirectionMetalBallFactory ; 0x02 - Generates metal balls in
-                                             ;        specific positions all around a
-                                             ;        quadrant of a room.
+    dw Overlord_AllDirectionMetalBallFactory ; 0x02 - $BF09 Generates metal
+                                             ; balls in specific positions all
+                                             ; around a quadrant of a room.
 
-    dw Overlord_CascadeMetalBallFactory      ; 0x03 - Alternates generating metal
-                                             ;        balls at two positions and 
-                                             ;        sometimes makes one large ball.
+    dw Overlord_CascadeMetalBallFactory      ; 0x03 - $BF5B Alternates
+                                             ; generating metal balls at two
+                                             ; positions and sometimes makes one
+                                             ; large ball.
 
-    dw Overlord_StalfosFactory               ; 0x04 - Probably unused in the
-                                             ;        original game, not positive.
+    dw Overlord_StalfosFactory               ; 0x04 - $BD9D Probably unused in
+                                             ; the original game, not positive.
 
-    dw Overlord_StalfosTrap                  ; 0x05 - Stalfos trap (what's the other
-                                             ;        one do?)
+    dw Overlord_StalfosTrap                  ; 0x05 - $BE0F Stalfos trap (what's
+                                             ; the other one do?)
 
-    dw Overlord_SnakeTrap                    ; 0x06 - Snake trap
-    dw Overlord_MovingFloor                  ; 0x07 - Moving floor
-    dw Overlord_ZolFactory                   ; 0x08 - Zol factory
-    dw Overlord_WallMasterFactory            ; 0x09 - Floormaster?
-    dw Overlord_CrumbleTilePath              ; 0x0A - Falling tiles
-    dw Overlord_CrumbleTilePath              ; 0x0B - Falling tiles 2
-    dw Overlord_CrumbleTilePath              ; 0x0C - Falling tiles 3
-    dw Overlord_CrumbleTilePath              ; 0x0D - Falling tiles 4
-    dw Overlord_CrumbleTilePath              ; 0x0E - Falling tiles 5
-    dw Overlord_CrumbleTilePath              ; 0x0F - Falling tiles 6
+    dw Overlord_SnakeTrap                    ; 0x06 - $BE75 Snake trap
+    dw Overlord_MovingFloor                  ; 0x07 - $BD3F Moving floor
+    dw Overlord_ZolFactory                   ; 0x08 - $BCC3 Zol factory
+    dw Overlord_WallMasterFactory            ; 0x09 - $BC7B Floormaster?
+    dw Overlord_CrumbleTilePath              ; 0x0A - $BBB2 Falling tiles
+    dw Overlord_CrumbleTilePath              ; 0x0B - $BBB2 Falling tiles 2
+    dw Overlord_CrumbleTilePath              ; 0x0C - $BBB2 Falling tiles 3
+    dw Overlord_CrumbleTilePath              ; 0x0D - $BBB2 Falling tiles 4
+    dw Overlord_CrumbleTilePath              ; 0x0E - $BBB2 Falling tiles 5
+    dw Overlord_CrumbleTilePath              ; 0x0F - $BBB2 Falling tiles 6
 
-    dw Overlord_PirogusuFactory              ; 0x10 - Spawn pirogusu out of the
-                                             ;        walls in swamp palace.
+    dw Overlord_PirogusuFactory              ; 0x10 - $BAAC Spawn pirogusu out 
+                                             ; of the walls in swamp palace.
 
-    dw Overlord_PirogusuFactory              ; 0x11 - Spawn pirogusu out of the
-                                             ;        walls in swamp palace.
+    dw Overlord_PirogusuFactory              ; 0x11 - $BAAC Spawn pirogusu out 
+                                             ; of the walls in swamp palace.
 
-    dw Overlord_PirogusuFactory              ; 0x12 - Spawn pirogusu out of the
-                                             ;        walls in swamp palace.
+    dw Overlord_PirogusuFactory              ; 0x12 - $BAAC Spawn pirogusu out 
+                                             ; of the walls in swamp palace.
 
-    dw Overlord_PirogusuFactory              ; 0x13 - Spawn pirogusu out of the
-                                             ;        walls in swamp palace.
+    dw Overlord_PirogusuFactory              ; 0x13 - $BAAC Spawn pirogusu out 
+                                             ; of the walls in swamp palace.
 
-    dw Overlord_FlyingTileFactory            ; 0x14 - Spawns the flying tiles in
-                                             ;        annoying rooms in various
-                                             ;        dungeons.
+    dw Overlord_FlyingTileFactory            ; 0x14 - $B9E8 Spawns the flying
+                                             ; tiles in annoying rooms in various
+                                             ; dungeons.
 
-    dw Overlord_WizzrobeFactory              ; 0x15 - 
-    dw Overlord_ZoroFactory                  ; 0x16 - 
-    dw Overlord_StalfosTrapTriggerWindow     ; 0x17 - 
-    dw Overlord_RedStalfosTrap               ; 0x18 - 
-    dw Overlord_ArmosCoordinator             ; 0x19 - 
-    dw Overlord_BombTrap                     ; 0x1A - Bomb Trap
+    dw Overlord_WizzrobeFactory              ; 0x15 - $B986 
+    dw Overlord_ZoroFactory                  ; 0x16 - $B8D1
+    dw Overlord_StalfosTrapTriggerWindow     ; 0x17 - $B884
+    dw Overlord_RedStalfosTrap               ; 0x18 - $B7F5
+    dw Overlord_ArmosCoordinator             ; 0x19 - $B7DC
+    dw Overlord_BombTrap                     ; 0x1A - $BE75 Bomb Trap
 }
 
 ; ==============================================================================
@@ -174,10 +174,8 @@ Pool_Overlord_RedStalfosTrap:
     db $30, $50, $70, $90
 }
 
-; ==============================================================================
-
 ; $04B7F5-$04B883 JUMP LOCATION
-Overlord18_InvisibleStalfos:
+Overlord_RedStalfosTrap:
 {
     LDA.w $0B08, X : STA.b $00
     LDA.w $0B10, X : STA.b $01
@@ -284,19 +282,20 @@ Overlord_ZoroFactory:
     DEC.w $0B30, X
     
     LDA.w $0B18, X : CLC : ADC.b #$08 : STA.b $00
-    LDA.w $0B20, X : ADC.b #$00 : STA.b $01
+    LDA.w $0B20, X       : ADC.b #$00 : STA.b $01
     
     LDA.w $0B08, X : CLC : ADC.b #$08 : STA.b $02
-    LDA.w $0B10, X : ADC.b #$00 : STA.b $03
+    LDA.w $0B10, X       : ADC.b #$00 : STA.b $03
     
     LDA.w $0B40, X
     
     JSL.l Entity_GetTileAttr : CMP.b #$82 : BNE .cant_spawn
-        ; If timer hasn't counted down yet do nothing
+        ; If timer hasn't counted down yet do nothing.
         LDA.w $0B30, X : CMP.b #$18 : BCS .cant_spawn
-            ; Even when within the timer range, only spawn if (the timer % 4 == 0)
+            ; Even when within the timer range, only spawn
+            ; if (the timer % 4 == 0).
             AND.b #$03 : BNE .cant_spawn
-                ; Try to spawn zoro (out of bombed out hole in wall)
+                ; Try to spawn zoro (out of bombed out hole in wall).
                 LDA.b #$9C
                 LDY.b #$0C
                 
@@ -305,8 +304,8 @@ Overlord_ZoroFactory:
                     
                     JSL.l GetRandomInt : AND.b #$07 : TAX
                     
-                    ; TODO: Just out of curiosity, figure out if this paradigm of PHP
-                    ; PLP is really required in these scenarios...
+                    ; TODO: Just out of curiosity, figure out if this paradigm
+                    ; of PHP PLP is really required in these scenarios...
                     LDA.b $05 : CLC : ADC .x_offsets_low, X  : PHP
                                 CLC : ADC.b #$08             : STA.w $0D10, Y
 
@@ -392,16 +391,20 @@ Overlord_WizzrobeFactory:
             
             LDX.w $0FB5
             
-            LDA.b $22 : CLC : ADC.w Pool_Overlord_WizzrobeFactory_x_offsets_low, X 
+            LDA.b $22
+            CLC : ADC.w Pool_Overlord_WizzrobeFactory_x_offsets_low, X
             STA.w $0D10, Y
 
-            LDA.b $23 : ADC.w Pool_Overlord_WizzrobeFactory_x_offsets_high, X
+            LDA.b $23
+            ADC.w Pool_Overlord_WizzrobeFactory_x_offsets_high, X
             STA.w $0D30, Y
             
-            LDA.b $20 : CLC : ADC.w Pool_Overlord_WizzrobeFactory_y_offsets_low, X
+            LDA.b $20
+            CLC : ADC.w Pool_Overlord_WizzrobeFactory_y_offsets_low, X
             STA.w $0D00, Y
 
-            LDA.b $21 : ADC.w Pool_Overlord_WizzrobeFactory_y_offsets_high, X
+            LDA.b $21
+            ADC.w Pool_Overlord_WizzrobeFactory_y_offsets_high, X
             STA.w $0D20, Y
             
             ; TODO: Figure out what this really does and if there's a better
@@ -477,8 +480,6 @@ Pool_Overlord_SpawnFlyingTile:
     db $80, $90, $70, $90, $70, $90
 }
 
-; ==============================================================================
-
 ; $04BA56-$04BAAB LOCAL JUMP LOCATION
 Overlord_SpawnFlyingTile:
 {
@@ -488,9 +489,10 @@ Overlord_SpawnFlyingTile:
         PHX : LDA.w $0B28, X : TAX
         
         ; Note: The high portions are fed off of the high bytes of this overlord.
-        LDA.w .x_coords_low, X : STA.w $0D10, Y
+        LDA.w Pool_Overlord_SpawnFlyingTile_x_coords_low, X : STA.w $0D10, Y
         
-        LDA.w .y_coords_low, X : SEC : SBC.b #$08 : STA.w $0D00, Y
+        LDA.w Pool_Overlord_SpawnFlyingTile_y_coords_low, X
+        SEC : SBC.b #$08 : STA.w $0D00, Y
         
         PLX
         
@@ -531,9 +533,8 @@ Overlord_PirogusuFactory:
 ; ==============================================================================
 
 ; $04BAC0-$04BAC3 DATA
-Pool_PirogusuFactory_Main:
+PirogusuFactory_Main_dirctions:
 {
-    .dirctions
     db 2, 3, 0, 1
 }
 
@@ -685,8 +686,6 @@ Pool_Overlord_CrumbleTilePath:
     db .south_to_north>>8
 }
 
-; ==============================================================================
-
 ; $04BBB2-$04BC30 JUMP LOCATION
 Overlord_CrumbleTilePath:
 {
@@ -702,8 +701,8 @@ Overlord_CrumbleTilePath:
         LDA.w $0B10, X : SBC.b $E3 : BNE .off_screen
             LDA.w $0B18, X : CMP $E8
             LDA.w $0B20, X : SBC.b $E9 : BNE .off_screen
-                ; If on screen even once in this logic, the overlord will continue
-                ; crumbling tiles.
+                ; If on screen even once in this logic, the overlord will
+                ; continue crumbling tiles.
                 INC.w $0B38, X
             
         .off_screen
@@ -720,10 +719,11 @@ Overlord_CrumbleTilePath:
     
     LDA.w $0B00, X : SEC : SBC.b #$0A : TAY
     
-    LDA.w .pointers_low, Y  : STA.b $00
-    LDA.w .pointers_high, Y : STA.b $01
+    LDA.w Pool_Overlord_CrumbleTilePath_pointers_low, Y  : STA.b $00
+    LDA.w Pool_Overlord_CrumbleTilePath_pointers_high, Y : STA.b $01
     
-    LDA.w .crumble_tile_limit, Y : CMP.w $0B28, X : BNE .crumble_tiles_not_maxed
+    LDA.w Pool_Overlord_CrumbleTilePath_crumble_tile_limit, Y
+    CMP.w $0B28, X : BNE .crumble_tiles_not_maxed
         STZ.w $0B00, X
     
     .crumble_tiles_not_maxed
@@ -732,11 +732,21 @@ Overlord_CrumbleTilePath:
     
     LDA ($00), Y : TAY
     
-    LDA.w $0B08, X : CLC : ADC .x_adjustments_low,  Y : STA.w $0B08, X
-    LDA.w $0B10, X :       ADC .x_adjustments_high, Y : STA.w $0B10, X
+    LDA.w $0B08, X
+    CLC : ADC.w Pool_Overlord_CrumbleTilePath_x_adjustments_low, Y
+    STA.w $0B08, X
+
+    LDA.w $0B10, X
+    ADC.w Pool_Overlord_CrumbleTilePath_x_adjustments_high, Y
+    STA.w $0B10, X
     
-    LDA.w $0B18, X : CLC : ADC .y_adjustments_low,  Y : STA.w $0B18, X
-    LDA.w $0B20, X :       ADC .y_adjustments_high, Y : STA.w $0B20, X
+    LDA.w $0B18, X
+    CLC : ADC.w Pool_Overlord_CrumbleTilePath_y_adjustments_low, Y
+    STA.w $0B18, X
+    
+    LDA.w $0B20, X
+    ADC.w Pool_Overlord_CrumbleTilePath_y_adjustments_high, Y
+    STA.w $0B20, X
     
     RTS
 }
@@ -863,11 +873,17 @@ Overlord_ZolFactory:
             
             LDA.b $2F : LSR A : TAX
             
-            LDA.b $22 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-            LDA.b $23 :       ADC .x_offsets_high, X : STA.w $0D30, Y
+            LDA.b $22
+            CLC : ADC Pool_Overlord_ZolFactory_x_offsets_low, X  : STA.w $0D10, Y
+
+            LDA.b $23
+                  ADC Pool_Overlord_ZolFactory_x_offsets_high, X : STA.w $0D30, Y
             
-            LDA.b $20 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
-            LDA.b $21 :       ADC .y_offsets_high, X : STA.w $0D20, Y
+            LDA.b $20
+            CLC : ADC Pool_Overlord_ZolFactory_y_offsets_low, X  : STA.w $0D00, Y
+
+            LDA.b $21
+                  ADC Pool_Overlord_ZolFactory_y_offsets_high, X : STA.w $0D20, Y
             
             PLX
             
@@ -913,7 +929,7 @@ Overlord_MovingFloor:
             
             .all_direction_movement
             
-            ; invert floor movement direction?
+            ; Invert floor movement direction?
             ASL A : STA.w $041A
             
             JSL.l GetRandomInt : AND.b #$7F : ADC.b #$80 : STA.w $0B30, X
@@ -924,7 +940,7 @@ Overlord_MovingFloor:
         
         .halt_floor
         
-        ; disable horizontal and vertical floor from moving
+        ; Disable horizontal and vertical floor from moving.
         LDA.b #$01 : STA.w $041A
         
         RTS
@@ -949,22 +965,25 @@ Overlord_MovingFloor:
 Pool_Overlord_ZolFactory:
 Pool_Overlord_StalfosFactory:
 {
+    ; $04BD8D
     .x_offsets_low
     db   0,   0, -48,  48
     
+    ; $04BD91
     .y_offsets_low
     db -40,  40,   8,   8
     
+    ; $04BD95
     .x_offsets_high
     db   0,   0,  -1,   0
     
+    ; $04BD89
     .y_offsets_high
     db  -1,   0,   0,   0
 }
 
 ; Note: Somewhat like endless shrimp at Red Lobster, but more affordable.
 ; $04BD9D-$04BDFC JUMP LOCATION
-Overlord04_Unused:
 Overlord_StalfosFactory:
 {
     LDA.w $0B30, X : BEQ .spawn
@@ -1065,7 +1084,7 @@ Overlord_StalfosTrap:
         STZ.w $0B00, X
         
         ; Try to spawn a yellow stalfos (the ones that chuck their head at
-        ; you.)
+        ; you).
         LDA.b #$85
         LDY.b #$0C
         
@@ -1091,9 +1110,8 @@ Overlord_StalfosTrap:
 ; ==============================================================================
 
 ; $04BE6D-$04BE74 DATA
-Pool_Overlord_SnakeTrap:
+Overlord_SnakeTrap_spawn_delays:
 {
-    .spawn_delays
     db $20, $30, $40, $50, $60, $70, $80, $90
 }
 
@@ -1117,7 +1135,7 @@ Overlord_BombTrap:
     ; on which slot the overlord is in. This is done to create a staggered
     ; feel when the trap trigger springs.
     CMP .spawn_delays, X : BNE .delay
-        ; Spawn a snake
+        ; Spawn a snake.
         LDA.b #$6E : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             LDA.b $05 : STA.w $0D10, Y
             LDA.b $06 : STA.w $0D30, Y
@@ -1186,11 +1204,11 @@ Overlord_AllDirectionMetalBallFactory:
                 LDA.w .coord_indices, Y : STA.w $0FB5
                 
                 ; HARDCODED: The quadrant of the room where the balls generate.
-                LDA.w .x_coords, Y                     : STA.w $0B08, X
-                LDA.b #$00       : CLC : ADC.w $0FB0 : STA.w $0B10, X
+                LDA.w .x_coords, Y             : STA.w $0B08, X
+                LDA.b #$00 : CLC : ADC.w $0FB0 : STA.w $0B10, X
                 
-                LDA.w .y_coords, Y                     : STA.w $0B18, X
-                LDA.b #$01       : CLC : ADC.w $0FB1 : STA.w $0B20, X
+                LDA.w .y_coords, Y             : STA.w $0B18, X
+                LDA.b #$01 : CLC : ADC.w $0FB1 : STA.w $0B20, X
                 
                 JSR.w Overlord_SpawnMetalBall
 
@@ -1225,8 +1243,8 @@ Overlord_CascadeMetalBallFactory:
             LDA.b #$38 : STA.w $0B28, X
             
             LDA.w $0B30, X : BNE .spawn_small_ball
-                ; Spawn a large ball instead and reset the timer that will dictate
-                ; when next large ball can appear again.
+                ; Spawn a large ball instead and reset the timer that will
+                ; dictate when next large ball can appear again.
                 LDA.b #$A0 : STA.w $0B30, X
                              STA.w $0FB6
                 
@@ -1255,14 +1273,14 @@ Overlord_CascadeMetalBallFactory:
 
 ; ==============================================================================
 
+; Metal Balls (in Eastern Palace)
 ; $04BFAF-$04C015 LOCAL JUMP LOCATION
 Overlord_SpawnMetalBall:
 {
-    ; Metal Balls (in Eastern Palace)
     LDA.b #$50 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         PHX
         
-        LDA.b $05 : CLC : ADC.b $0E    : STA.w $0D10, Y
+        LDA.b $05 : CLC : ADC.b $0E  : STA.w $0D10, Y
         LDA.b $06 :       ADC.b #$00 : STA.w $0D30, Y
         
         LDA.b $07 : SEC : SBC.b #$01 : STA.w $0D00, Y
@@ -1298,16 +1316,12 @@ Overlord_SpawnMetalBall:
     .spawn_failed
     
     RTS
-}
 
-; ==============================================================================
-
-; $04C016-$04C01D DATA
-Pool_Overlord_SpawnMetalBall:
-{
+    ; $04C016
     .x_speeds
     db  24, -24,   0,   0
     
+    ; $04C01A
     .y_speeds
     db   0,   0,  24, -24
 }
