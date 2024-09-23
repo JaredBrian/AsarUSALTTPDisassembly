@@ -1,18 +1,15 @@
-
 ; ==============================================================================
 
 ; $0E8129-$0E814E JUMP LOCATION
 Sprite_Stal:
 {
     LDA.w $0FC6 : CMP.b #$03 : BCS .improper_gfx_set_loaded
-    
-    LDA.w $0D80, X : BNE .ignore_player_oam_overlap
-    
-    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
-    
-    .ignore_player_oam_overlap
-    
-    JSR.w Stal_Draw
+        LDA.w $0D80, X : BNE .ignore_player_oam_overlap
+            LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
+        
+        .ignore_player_oam_overlap
+        
+        JSR.w Stal_Draw
     
     .improper_gfx_set_loaded
     
@@ -22,9 +19,8 @@ Sprite_Stal:
     LDA.w $0D80, X
     
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw Stal_Dormant
-    dw Stal_Active
+    dw Stal_Dormant ; 0x00 - $814F
+    dw Stal_Active  ; 0x01 - $819D
 }
 
 ; ==============================================================================
@@ -35,24 +31,21 @@ Stal_Dormant:
     LDA.b #$01 : STA.w $0BA0, X
     
     JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_didnt_bump
-    
-    JSL.l Sprite_NullifyHookshotDrag
-    JSL.l Sprite_RepelDashAttackLong
-    
-    LDA.w $0DF0, X : BNE .still_activating
-    
-    LDA.b #$40 : STA.w $0DF0, X
-    
-    LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
-    
-    .still_activating
+        JSL.l Sprite_NullifyHookshotDrag
+        JSL.l Sprite_RepelDashAttackLong
+        
+        LDA.w $0DF0, X : BNE .still_activating
+            LDA.b #$40 : STA.w $0DF0, X
+            
+            LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
+            
+        .still_activating
     .player_didnt_bump
     
     LDA.w $0DF0, X : BEQ .never_bumped
-    DEC A        : BEQ .fully_activated
-    
-    ORA.b #$40 : STA.w $0EF0, X
-    
+        DEC A : BEQ .fully_activated
+            ORA.b #$40 : STA.w $0EF0, X
+        
     .never_bumped
     
     RTS
@@ -77,13 +70,10 @@ Stal_Dormant:
 ; ==============================================================================
 
 ; $0E8198-$0E819C DATA
-Pool_Stal_Active:
+Stal_Active_animation_states:
 {
-    .animation_states
     db $02, $02, $01, $00, $01
 }
-
-; ==============================================================================
 
 ; $0E819D-$0E81DB JUMP LOCATION
 Stal_Active:
@@ -95,26 +85,23 @@ Stal_Active:
     DEC.w $0F80, X : DEC.w $0F80, X
     
     LDA.w $0F70, X : BPL .not_grounded
-    
-    STZ.w $0F70, X
-    
-    LDA.b #$10 : STA.w $0F80, X
-    
-    LDA.b #$0C
-    
-    JSL.l Sprite_ApplySpeedTowardsPlayerLong
-    
+        STZ.w $0F70, X
+        
+        LDA.b #$10 : STA.w $0F80, X
+        
+        LDA.b #$0C
+        
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        
     .not_grounded
     
     LDA.b $1A : AND.b #$03 : BNE .anotick_animation_timer
-    
-    INC.w $0E80, X
-    
-    LDA.w $0E80, X : CMP.b #$05 : BNE .anoreset_animation_timer
-    
-    STZ.w $0E80, X
-    
-    .anoreset_animation_timer
+        INC.w $0E80, X
+        
+        LDA.w $0E80, X : CMP.b #$05 : BNE .anoreset_animation_timer
+            STZ.w $0E80, X
+        
+        .anoreset_animation_timer
     .anotick_animation_timer
     
     LDY.w $0E80, X
@@ -127,9 +114,8 @@ Stal_Active:
 ; ==============================================================================
 
 ; $0E81DC-$0E820B DATA
-Pool_Stal_Draw:
+Stal_Draw_oam_groups:
 {
-    .oam_groups
     dw 0,  0 : db $44, $00, $00, $02
     dw 4, 11 : db $70, $00, $00, $00
     
@@ -139,8 +125,6 @@ Pool_Stal_Draw:
     dw 0,  0 : db $44, $00, $00, $02
     dw 4, 13 : db $70, $00, $00, $00
 }
-
-; ==============================================================================
 
 ; $0E820C-$0E8234 LOCAL JUMP LOCATION
 Stal_Draw:
@@ -154,16 +138,14 @@ Stal_Draw:
     LDA.b #$02
     
     LDY.w $0D80, X : BNE .active
-    
-    DEC A
+        DEC A
     
     .active
     
     JSL.l Sprite_DrawMultiple
     
     LDA.w $0D80, X : BEQ .dormant
-    
-    JSL.l Sprite_DrawShadowLong
+        JSL.l Sprite_DrawShadowLong
     
     .dormant
     
