@@ -13,6 +13,22 @@ Find comments without a leading space and replace with one.
 (;)([^ ])
 ; $2
 
+Find some old Namespace.Function instead of Namespace_Function formatting.
+([a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z])\.([a-zA-Z])
+$1_$2
+
+Find JSR.w without a .w
+JSR[^\.]
+JSR.w 
+
+Find JSL.l without a .l
+JSL[^\.]
+JSL.l 
+
+Find LD[AXY] .label without a .w 
+LD([AXY])([^\.][\.])
+LD$1.w$2
+
 Get rid of kan address formatting:
 #_......: 
 
@@ -30,5 +46,5 @@ Find comments with a lower case starting letter and replace with upper case:
 ; \U$1
 
 Find comments that don't end in a period and replace with a period:
-(; .*[^=?:,!\.]$)
+(; .*[^"=?:,!\.]$)
 $1.
