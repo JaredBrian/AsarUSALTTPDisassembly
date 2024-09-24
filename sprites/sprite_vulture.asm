@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $0EDC72-$0EDC79 LONG JUMP LOCATION
@@ -27,11 +26,9 @@ Sprite_Vulture:
     JSR.w Sprite4_Move
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw Vulture_Dormant
-    dw Vulture_Circling
+    dw Vulture_Dormant  ; 0x00 - $DC9C
+    dw Vulture_Circling ; 0x01 - $DCB9
 }
 
 ; ==============================================================================
@@ -40,12 +37,11 @@ Sprite_Vulture:
 Vulture_Dormant:
 {
     INC.w $0E80, X : LDA.w $0E80, X : CMP.b #$A0 : BNE .activation_delay
-    
-    INC.w $0D80, X
-    
-    LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
-    
-    LDA.b #$10 : STA.w $0DF0, X
+        INC.w $0D80, X
+        
+        LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
+        
+        LDA.b #$10 : STA.w $0DF0, X
     
     .activation_delay
     
@@ -55,13 +51,10 @@ Vulture_Dormant:
 ; ==============================================================================
 
 ; $0EDCB5-$0EDCB8 DATA
-Pool_Vulture_Circling:
+Vulture_Circling_animation_states:
 {
-    .animation_states
     db 1, 2, 3, 2
 }
-
-; ==============================================================================
 
 ; $0EDCB9-$0EDD1D JUMP LOCATION
 Vulture_Circling:
@@ -71,27 +64,24 @@ Vulture_Circling:
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0DF0, X : BEQ .finished_ascending
-    
-    INC.w $0F70, X
-    
-    RTS
+        INC.w $0F70, X
+        
+        RTS
     
     .finished_ascending
     
     TXA : EOR.b $1A : AND.b #$01 : BNE .dont_adjust_xy_speeds
-    
-    TXA : AND.b #$0F : CLC : ADC.b #$18
-    
-    JSL.l Sprite_ProjectSpeedTowardsPlayerLong
-    
-    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D50, X
-    
-    LDA.b $01 : STA.w $0D40, X
-    
-    LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
-    
-    LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
-    
+        TXA : AND.b #$0F : CLC : ADC.b #$18
+        
+        JSL.l Sprite_ProjectSpeedTowardsPlayerLong
+        
+        LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D50, X
+        
+        LDA.b $01 : STA.w $0D40, X
+        
+        LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
+            LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
+        
     .dont_adjust_xy_speeds
     
     RTS
@@ -100,9 +90,11 @@ Vulture_Circling:
     
     ; This mess o' logic keep the vulture from going too far from the
     ; player by apparently reversing somewhat...
-    LDA.b $00 : ASL.b $00 : PHP : ROR A : PLP : ROR A : CLC : ADC.w $0D40, X : STA.w $0D40, X
+    LDA.b $00 : ASL.b $00 : PHP : ROR A : PLP
+    ROR A : CLC : ADC.w $0D40, X : STA.w $0D40, X
     
-    LDA.b $01 : ASL.b $01 : PHP : ROR A : PLP : ROR A : CLC : ADC.w $0D50, X : STA.w $0D50, X
+    LDA.b $01 : ASL.b $01 : PHP : ROR A : PLP
+    ROR A : CLC : ADC.w $0D50, X : STA.w $0D50, X
     
     RTS
 }
@@ -110,9 +102,8 @@ Vulture_Circling:
 ; ==============================================================================
 
 ; $0EDD1E-$0EDD5D DATA
-Pool_Vulture_Draw:
+Vulture_Draw_oam_groups:
 {
-    .oam_groups
     dw -8,  0 : db $86, $00, $00, $02
     dw  8,  0 : db $86, $40, $00, $02
     
@@ -125,8 +116,6 @@ Pool_Vulture_Draw:
     dw -8,  0 : db $84, $00, $00, $02
     dw  8,  0 : db $84, $40, $00, $02
 }
-
-; ==============================================================================
 
 ; $0EDD5E-$0EDD7A LOCAL JUMP LOCATION
 Vulture_Draw:
@@ -145,4 +134,3 @@ Vulture_Draw:
 }
 
 ; ==============================================================================
-

@@ -413,7 +413,7 @@ StalfosKnight_Draw:
     JSR.w Sprite3_PrepOamCoord
     JSR.w SpriteDraw_StalfosKnight_Head
     
-    LDA.b #$00   : XBA
+    LDA.b #$00 : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL #2 : ADC.b $00
     
     ADC.w #.oam_groups : STA.b $08
