@@ -76,27 +76,27 @@ SpritePrep_Main:
     dw SpritePrep_DoNothing                ; 0x3E - $8873 Rupee Crab under rock
     dw SpritePrep_DoNothing                ; 0x3F - $8873 Tutorial Soldier
     dw SpritePrep_EvilBarrier              ; 0x40 - $891B Evil barrier to Hyrule tower
-    dw SpritePrep_Soldier                  ; 0x41 - $ Green Soldier
-    dw SpritePrep_Soldier                  ; 0x42 - $ Blue Soldier
-    dw SpritePrep_Soldier                  ; 0x43 - $ Red Spear Soldier
-    dw SpritePrep_TrooperAndArcherSoldier  ; 0x44 - $ Psycho Trooper
-    dw SpritePrep_TrooperAndArcherSoldier  ; 0x45 - $ Psycho Spear Soldier
-    dw SpritePrep_TrooperAndArcherSoldier  ; 0x46 - $ Blue Archer Soldier
-    dw SpritePrep_TrooperAndArcherSoldier  ; 0x47 - $ Green Archer Bush Soldier
-    dw SpritePrep_TrooperAndArcherSoldier  ; 0x48 - $ Red Javelin Trooper
-    dw SpritePrep_TrooperAndArcherSoldier  ; 0x49 - $ Red Javelin Bush Soldier
-    dw SpritePrep_TrooperAndArcherSoldier  ; 0x4A - $ Green Enemy Bombs
-    dw SpritePrep_Recruit                  ; 0x4B - $ Green Soldier (weak version)
-    dw SpritePrep_GerudoMan                ; 0x4C - $ Gerudo Man
-    dw SpritePrep_Toppo                    ; 0x4D - $ Toppo
-    dw SpritePrep_Popo                     ; 0x4E - $ Popo
-    dw SpritePrep_Bot                      ; 0x4F - $ Bot
+    dw SpritePrep_Soldier                  ; 0x41 - $8FD6 Green Soldier
+    dw SpritePrep_Soldier                  ; 0x42 - $8FD6 Blue Soldier
+    dw SpritePrep_Soldier                  ; 0x43 - $8FD6 Red Spear Soldier
+    dw SpritePrep_TrooperAndArcherSoldier  ; 0x44 - $9001 Psycho Trooper
+    dw SpritePrep_TrooperAndArcherSoldier  ; 0x45 - $9001 Psycho Spear Soldier
+    dw SpritePrep_TrooperAndArcherSoldier  ; 0x46 - $9001 Blue Archer Soldier
+    dw SpritePrep_TrooperAndArcherSoldier  ; 0x47 - $9001 Green Archer Bush Soldier
+    dw SpritePrep_TrooperAndArcherSoldier  ; 0x48 - $9001 Red Javelin Trooper
+    dw SpritePrep_TrooperAndArcherSoldier  ; 0x49 - $9001 Red Javelin Bush Soldier
+    dw SpritePrep_TrooperAndArcherSoldier  ; 0x4A - $9001 Green Enemy Bombs
+    dw SpritePrep_Recruit                  ; 0x4B - $9001 Green Soldier (weak version)
+    dw SpritePrep_GerudoMan                ; 0x4C - $8FA7 Gerudo Man
+    dw SpritePrep_Toppo                    ; 0x4D - $8FB0 Toppo
+    dw SpritePrep_Popo                     ; 0x4E - $8B08 Popo
+    dw SpritePrep_Bot                      ; 0x4F - $8B0C Bot
     dw SpritePrep_DoNothing                ; 0x50 - $8873 Metal Ball
-    dw SpritePrep_Armos                    ; 0x51 - $ Armos
-    dw SpritePrep_ZoraKing                 ; 0x52 - $ Zora King
-    dw SpritePrep_ArmosKnight              ; 0x53 - $ Armos Knight
-    dw SpritePrep_Lanmola                  ; 0x54 - $ Lanmola
-    dw SpritePrep_ZoraAndFireball          ; 0x55 - $ Zora and Fireball
+    dw SpritePrep_Armos                    ; 0x51 - $8F6C Armos
+    dw SpritePrep_ZoraKing                 ; 0x52 - $8F0F Zora King
+    dw SpritePrep_ArmosKnight              ; 0x53 - $8F3F Armos Knight
+    dw SpritePrep_Lanmola                  ; 0x54 - $8F95 Lanmola
+    dw SpritePrep_ZoraAndFireball          ; 0x55 - $8FA2 Zora and Fireball
     dw SpritePrep_WalkingZora              ; 0x56 - $ Walking Zora
     dw SpritePrep_DesertBarrier            ; 0x57 - $ Desert Palace barriers
     dw SpritePrep_DoNothing                ; 0x58 - $8873 Crab
