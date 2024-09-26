@@ -1,21 +1,16 @@
-
 ; ==============================================================================
 
 ; $0F4CD3-$0F4CE2 DATA
-Pool_CrystalMaiden_Configure:
+CrystalMaiden_Configure_palette:
 {
-    .palette
     dw $0000, $3821, $4463, $54A5, $5CE7, $6D29, $79AD, $7E10
 }
 
-; ==============================================================================
-
+; USED DURING THE CRYSTAL SEQUENCE
 ; $0F4CE3-$0F4D47 LONG JUMP LOCATION
 CrystalMaiden_Configure:
 {
-    ; USED DURING THE CRYSTAL SEQUENCE
-    
-    ; Enable color addition on backdrop/obj/bg1/bg2
+    ; Enable color addition on backdrop/obj/bg1/bg2.
     LDA.b #$33 : STA.b $9A
     
     LDA.b #$00 : STA.l $7EC007
@@ -30,14 +25,14 @@ CrystalMaiden_Configure:
     
     REP #$20
     
-    LDA.l .palette + $00 : STA.l $7EC5E0
-    LDA.l .palette + $02 : STA.l $7EC5E2
-    LDA.l .palette + $04 : STA.l $7EC5E4
-    LDA.l .palette + $06 : STA.l $7EC5E6
-    LDA.l .palette + $08 : STA.l $7EC5E8
-    LDA.l .palette + $0A : STA.l $7EC5EA
-    LDA.l .palette + $0C : STA.l $7EC5EC
-    LDA.l .palette + $0E : STA.l $7EC5EE
+    LDA.l .palette+$00 : STA.l $7EC5E0
+    LDA.l .palette+$02 : STA.l $7EC5E2
+    LDA.l .palette+$04 : STA.l $7EC5E4
+    LDA.l .palette+$06 : STA.l $7EC5E6
+    LDA.l .palette+$08 : STA.l $7EC5E8
+    LDA.l .palette+$0A : STA.l $7EC5EA
+    LDA.l .palette+$0C : STA.l $7EC5EC
+    LDA.l .palette+$0E : STA.l $7EC5EE
     
     SEP #$30
     
@@ -59,9 +54,8 @@ CrystalMaiden_SpawnAndConfigMaiden:
     
     .kill_next_sprite
     
-    ; Kill all normal sprites on screen.
-    STA.w $0DD0, Y
-    
+        ; Kill all normal sprites on screen.
+        STA.w $0DD0, Y
     DEY : BPL .kill_next_sprite
     
     ; Create a maiden.
@@ -69,11 +63,9 @@ CrystalMaiden_SpawnAndConfigMaiden:
     
     ; Give the maiden the same upper byte coordinates as Link.
     LDA.b $23 : STA.w $0D30, Y
-    
     LDA.b $21 : STA.w $0D20, Y
     
     LDA.b #$78 : STA.w $0D10, Y
-    
     LDA.b #$7C : STA.w $0D00, Y
     
     LDA.b #$01 : STA.w $0DE0, Y
@@ -93,18 +85,17 @@ CrystalMaiden_SpawnAndConfigMaiden:
     TYA : PLY : STA.w $0D90, Y
     
     LDA.w $040C : CMP.b #$18 : BNE .not_in_turtle_rock
-    
-    ; Zelda has a special palette.
-    LDA.b #$09 : STA.w $0F50, Y
-    
-    ; Use a Zelda tagalong
-    LDA.b #$01
-    
-    BRA .load_tagalong_graphics
+        ; Zelda has a special palette.
+        LDA.b #$09 : STA.w $0F50, Y
+        
+        ; Use a Zelda tagalong.
+        LDA.b #$01
+        
+        BRA .load_tagalong_graphics
     
     .not_in_turtle_rock
     
-    ; Use a maiden tagalong
+    ; Use a maiden tagalong.
     LDA.b #$06
     
     .load_tagalong_graphics
@@ -123,7 +114,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
     
     REP #$20
     
-    ; what? sec : adc ? ohhhhhhhh. it's being all clever.
+    ; Ahat? SEC : ADC? ohhhhhhhh, it's being all clever.
     ; the normal way to get the negative of a number in 2's complement
     ; is to xor all the bits (0xffff) and then add 1. This is just doing it
     ; by way of the addition. So it is in fact a pure add of 0x0079, really.
@@ -168,11 +159,10 @@ CrystalMaiden_InitPolyhedral:
 
 ; ==============================================================================
 
+; Crystal Maiden sprite (after beating Dark World Palace)
 ; $0F4E03-$0F4E38 JUMP LOCATION
 Sprite_CrystalMaiden:
 {
-    ; Crystal Maiden sprite (after beating Dark World Palace)
-    
     REP #$20
     
     LDA.w $0FD8 : SEC : SBC.w $0422 : STA.w $0FD8
@@ -181,18 +171,16 @@ Sprite_CrystalMaiden:
     SEP #$30
     
     LDA.w $0D80, X : CMP.b #$03 : BCC .not_visible
-    
-    JSL.l CrystalMaiden_Draw
+        JSL.l CrystalMaiden_Draw
     
     .not_visible
     
     LDA.b #$01 : STA.w $012A
     
     LDA.w $1F00 : BNE .polyhedral_thread_sync
-    
-    JSR.w CrystalMaiden_Main
-    
-    LDA.b #$01 : STA.w $1F00
+        JSR.w CrystalMaiden_Main
+        
+        LDA.b #$01 : STA.w $1F00
     
     .polyhedral_thread_sync
     
@@ -209,24 +197,21 @@ CrystalMaiden_Main:
     LDA.w $1F05 : CLC : ADC.b #$06 : STA.w $1F05
     
     LDA.b $11 : BEQ .basic_submodule
-    
-    RTS
+        RTS
     
     .basic_submodule
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw CrystalMaiden_DisableSubscreen
-    dw CrystalMaiden_EnableSubscreen
-    dw CrystalMaiden_GenerateSparkles
-    dw CrystalMaiden_FilterPalette
-    dw CrystalMaiden_FilterPalette_finish
-    dw CrystalMaiden_ShowMessage
-    dw CrystalMaiden_ReadingComprehensionExam
-    dw CrystalMaiden_MayTheWayOfTheHero
-    dw CrystalMaiden_InitiateDungeonExit
+    dw CrystalMaiden_DisableSubscreen         ; 0x00 - $CE63
+    dw CrystalMaiden_EnableSubscreen          ; 0x01 - $CE69
+    dw CrystalMaiden_GenerateSparkles         ; 0x02 - $CE71
+    dw CrystalMaiden_FilterPalette            ; 0x03 - $CE93
+    dw CrystalMaiden_FilterPalette_finish     ; 0x04 - $CE96
+    dw CrystalMaiden_ShowMessage              ; 0x05 - $CECE
+    dw CrystalMaiden_ReadingComprehensionExam ; 0x06 - $CF18
+    dw CrystalMaiden_MayTheWayOfTheHero       ; 0x07 - $CF24
+    dw CrystalMaiden_InitiateDungeonExit      ; 0x08 - $CF3B
 }
 
 ; ==============================================================================
@@ -259,25 +244,23 @@ CrystalMaiden_EnableSubscreen:
 CrystalMaiden_GenerateSparkles:
 {
     LDA.w $1F02 : CMP.b #$06 : BCS .delay
-    
-    STZ.w $1F02
-    
-    INC.w $0D80, X
-    
-    RTS
-    
+        STZ.w $1F02
+        
+        INC.w $0D80, X
+        
+        RTS
+        
     .delay
     
     SBC.b #$03 : STA.w $1F02 : CMP.b #$40 : BCC .delay_2
-    
-    PHX
-    
-    LDA.w $0D90, X : TAX
-    
-    JSL.l Sprite_SpawnSparkleAncilla
-    
-    PLX
-    
+        PHX
+        
+        LDA.w $0D90, X : TAX
+        
+        JSL.l Sprite_SpawnSparkleAncilla
+        
+        PLX
+        
     .delay_2
     
     RTS
@@ -294,26 +277,24 @@ CrystalMaiden_FilterPalette:
     .finish
     
     LDA.w $0E90, X : AND.b #$01 : BNE .delay
-    
-    PHX
-    
-    ; does palette filtering of some sort...
-    JSL.l Palette_Filter_SP5F
-    
-    PLX
-    
-    LDA.l $7EC007 : BNE .filtering_not_finished
-    
-    INC.w $0D80, X
-    
-    LDA.b #$01 : STA.w $02E4
-    
-    STZ.w $02D8
-    STZ.w $02DA
-    STZ.b $2E
-    STZ.b $2F
-    
-    .filtering_not_finished
+        PHX
+        
+        ; Does palette filtering of some sort...
+        JSL.l Palette_Filter_SP5F
+        
+        PLX
+        
+        LDA.l $7EC007 : BNE .filtering_not_finished
+            INC.w $0D80, X
+            
+            LDA.b #$01 : STA.w $02E4
+            
+            STZ.w $02D8
+            STZ.w $02DA
+            STZ.b $2E
+            STZ.b $2F
+            
+        .filtering_not_finished
     .delay
     
     RTS
@@ -322,52 +303,43 @@ CrystalMaiden_FilterPalette:
 ; ==============================================================================
 
 ; $0F4EBC-$0F4ECD DATA
-Pool_CrystalMaiden_ShowMessage:
+CrystalMaiden_ShowMessage_message_ids:
 {
-    .message_ids
     dw $0133, $0132, $0137, $0134, $0136, $0132, $0135, $0138
     dw $013c
 }
-
-; ==============================================================================
 
 ; $0F4ECE-$0F4F17 JUMP LOCATION
 CrystalMaiden_ShowMessage:
 {
     ; Load the dungeon index. Is it the Dark Palace?
     LDA.w $040C : SEC : SBC.b #$0A : TAY : CPY.b #$02 : BNE .not_dark_palace
-    
-    LDA.l $7EF3C7 : CMP.b #$07 : BCS .dont_update_map_icons
-    
-    LDA.b #$07 : STA.l $7EF3C7
-    
-    .dont_update_map_icons
+        LDA.l $7EF3C7 : CMP.b #$07 : BCS .dont_update_map_icons
+            LDA.b #$07 : STA.l $7EF3C7
+        
+        .dont_update_map_icons
     .not_dark_palace
     
     ; Is it Turtle Rock?
     CPY.b #$0E : BNE .not_turtle_rock
-    
-    ; How many Crystals do we have?
-    ; We have all the crystals.
-    LDA.l $7EF37A : AND.b #$7F : CMP.b #$7F : BEQ .have_all_crystals
-    
-    LDY.b #$10 ; Otherwise Zelda says something different.
-    
-    .have_all_crystals
+        ; How many Crystals do we have?
+        ; We have all the crystals.
+        LDA.l $7EF37A : AND.b #$7F : CMP.b #$7F : BEQ .have_all_crystals
+            LDY.b #$10 ; Otherwise Zelda says something different.
+            
+        .have_all_crystals
     .not_turtle_rock
     
     ; Loads the Message ID.
     LDA.w .message_ids+0, Y       : XBA
     LDA.w .message_ids+1, Y : TAY : XBA
-    
     JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
     
     LDA.l $7EF37A : AND.b #$7F : CMP.b #$7F : BNE .dont_have_all_crystals
-    
-    ; Update the map icon to just be Ganon's Tower
-    LDA.b #$08 : STA.l $7EF3C7
+        ; Update the map icon to just be Ganon's Tower.
+        LDA.b #$08 : STA.l $7EF3C7
     
     .dont_have_all_crystals
     
@@ -384,7 +356,6 @@ CrystalMaiden_ReadingComprehensionExam:
     ; "Not at all[Choose]"
     LDA.b #$3A
     LDY.b #$01
-    
     JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
@@ -398,17 +369,15 @@ CrystalMaiden_ReadingComprehensionExam:
 CrystalMaiden_MayTheWayOfTheHero:
 {
     LDA.w $1CE8 : BEQ .player_said_yes
-    
-    LDA.b #$05 : STA.w $0D80, X
-    
-    RTS
+        LDA.b #$05 : STA.w $0D80, X
+        
+        RTS
     
     .player_said_yes
     
     ; "May the way of the Hero lead to the Triforce."
     LDA.b #$39
     LDY.b #$01
-    
     JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
@@ -435,4 +404,3 @@ CrystalMaiden_InitiateDungeonExit:
 }
 
 ; ==============================================================================
-
