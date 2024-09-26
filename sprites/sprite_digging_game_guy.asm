@@ -298,9 +298,8 @@ DiggingGameGuy_GiveItem_spawn_item:
                 
     LDX.b #$00
                 
-    LDA.b $2F : CMP.b #$04 : BEQ .player_facing_left
-                
-    INX
+    LDA.b $2F : CMP.b #$04 : BEQ .player_facing_left        
+        INX
                 
     .player_facing_left
                 
