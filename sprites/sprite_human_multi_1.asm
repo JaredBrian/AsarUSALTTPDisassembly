@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $06C2D1-$06C2D8 LONG JUMP LOCATION
@@ -19,12 +18,10 @@ Sprite_HumanMulti_1_Long:
 Sprite_HumanMulti_1:
 {
     LDA.w $0E80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw Sprite_FluteBoyFather
-    dw Sprite_ThiefHideoutGuy
-    dw Sprite_BlindHideoutGuy
+    dw Sprite_FluteBoyFather  ; 0x00 - $C343
+    dw Sprite_ThiefHideoutGuy ; 0x01 - $C308
+    dw Sprite_BlindHideoutGuy ; 0x02 - $C2E6
 }
 
 ; ==============================================================================
@@ -42,12 +39,10 @@ Sprite_BlindHideoutGuy:
     ; "Yo [Name]! This house used to be a hideout for a gang of thieves..."
     LDA.b #$72
     LDY.b #$01
-    
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
-    
-    STA.w $0DE0, X
-    STA.w $0EB0, X
-    
+        STA.w $0DE0, X
+        STA.w $0EB0, X
+        
     .didnt_speak
     
     RTS
@@ -59,17 +54,15 @@ Sprite_BlindHideoutGuy:
 Sprite_ThiefHideoutGuy:
 {
     LDA.b $1A : AND.b #$03 : BNE .delay_head_direction_change
-    
-    LDA.b #$02 : STA.w $0DC0, X
-    
-    JSL.l Sprite_DirectionToFacePlayerLong : CPY.b #$03 : BNE .not_up
-    
-    LDY.b #$02
-    
-    .not_up
-    
-    TYA : STA.w $0EB0, X
-    
+        LDA.b #$02 : STA.w $0DC0, X
+        
+        JSL.l Sprite_DirectionToFacePlayerLong : CPY.b #$03 : BNE .not_up
+            LDY.b #$02
+        
+        .not_up
+        
+        TYA : STA.w $0EB0, X
+        
     .delay_head_direction_change
     
     LDA.b #$0F : STA.w $0F50, X
@@ -82,7 +75,6 @@ Sprite_ThiefHideoutGuy:
     ; "Hey kid, this is a secret hide-out for a gang of thieves! ..."
     LDA.b #$71
     LDY.b #$01
-    
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     LDA.b #$02 : STA.w $0DC0, X
@@ -100,10 +92,9 @@ Sprite_FluteBoyFather:
     JSL.l Sprite_PlayerCantPassThrough
     
     LDA.b $1A : CMP.b #$30 : BCS .dozing
-    
-    LDA.b #$02
-    
-    BRA .not_dozing
+        LDA.b #$02
+        
+        BRA .not_dozing
     
     .dozing
     
@@ -114,59 +105,51 @@ Sprite_FluteBoyFather:
     STA.w $0DC0, X
     
     LDA.w $0D80, X : BNE .knows_what_happened_to_son
-    
-    LDA.l $7EF34C : CMP.b #$02 : BCS .player_has_flute
-    
-    ; "... My son really liked to play the flute, ..."
-    LDA.b #$A1
-    LDY.b #$00
-    
-    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
-    
-    .didnt_speak
-    
-    RTS
-    
-    .player_has_flute
-    
-    ; "Zzzzzzz  Zzzzzzzz ...  ...  ... Snore  Zzzzzz  Zzzzzz"
-    LDA.b #$A4
-    LDY.b #$00
-    
-    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak_2
-    
-    RTS
-    
-    .didnt_speak_2
-    
-    LDA.w $0202 : CMP.b #$0D : BNE .flute_usage_undetected
-    
-    BIT.b $F0 : BVC .flute_usage_not_detected
-    
-    JSL.l Sprite_CheckDamageToPlayerSameLayerLong
-    
-    BCC .flute_usage_not_detected
-    
-    ; "... Oh? This is my son's flute...! Did you meet my son? ..."
-    LDA.b #$A2
-    LDY.b #$00
-    
-    JSL.l Sprite_ShowMessageUnconditional
-    
-    INC.w $0D80, X
-    
-    LDA.b #$02 : STA.w $0DC0, X
-    
-    .flute_usage_not_detected
-    
-    RTS
+        LDA.l $7EF34C : CMP.b #$02 : BCS .player_has_flute
+            ; "... My son really liked to play the flute, ..."
+            LDA.b #$A1
+            LDY.b #$00
+            JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
+                ; OPTIMIZE: Useless branch.
+
+            .didnt_speak
+            
+            RTS
+            
+        .player_has_flute
+        
+        ; "Zzzzzzz  Zzzzzzzz ...  ...  ... Snore  Zzzzzz  Zzzzzz"
+        LDA.b #$A4
+        LDY.b #$00
+        JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak_2
+            RTS
+        
+        .didnt_speak_2
+        
+        LDA.w $0202 : CMP.b #$0D : BNE .flute_usage_not_detected
+            BIT.b $F0 : BVC .flute_usage_not_detected
+                JSL.l Sprite_CheckDamageToPlayerSameLayerLong
+            
+                BCC .flute_usage_not_detected
+                    ; "... Oh? This is my son's flute...! Did you meet my
+                    ; son? ..."
+                    LDA.b #$A2
+                    LDY.b #$00
+                    JSL.l Sprite_ShowMessageUnconditional
+                    
+                    INC.w $0D80, X
+                    
+                    LDA.b #$02 : STA.w $0DC0, X
+                    
+        .flute_usage_not_detected
+        
+        RTS
     
     .knows_what_happened_to_son
     
     ; "... And will you play its sweet melody for the bird in the (...)?"
     LDA.b #$A3
     LDY.b #$00
-    
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     LDA.b #$02 : STA.w $0DC0, X
@@ -177,9 +160,8 @@ Sprite_FluteBoyFather:
 ; ==============================================================================
 
 ; $06C3B1-$06C3E0 DATA
-Pool_FluteBoyFather_Draw:
+FluteBoyFather_Draw_oam_groups:
 {
-    .oam_groups
     dw 0, -7 : db $86, $00, $00, $02
     dw 0,  0 : db $88, $00, $00, $02
     
@@ -189,8 +171,6 @@ Pool_FluteBoyFather_Draw:
     dw 0, -8 : db $84, $00, $00, $02
     dw 0,  0 : db $88, $00, $00, $02
 }
-
-; ==============================================================================
 
 ; $06C3E1-$06C400 LOCAL JUMP LOCATION
 FluteBoyFather_Draw:
@@ -212,9 +192,8 @@ FluteBoyFather_Draw:
 ; ==============================================================================
 
 ; $06C401-$06C480 DATA
-Pool_BlindHideoutGuy_Draw:
+Pool_BlindHideoutGuy_Draw_oam_groups:
 {
-    .oam_groups
     dw 0, -8 : db $0C, $00, $00, $02
     dw 0,  0 : db $CA, $00, $00, $02
     
@@ -260,4 +239,3 @@ BlindHideoutGuy_Draw:
 }
 
 ; ==============================================================================
-

@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $06CBEA-$06CBF1 LONG JUMP LOCATION
@@ -30,23 +29,19 @@ Sprite_MazeGameGuy:
     
     ; Check if the event has been initialized.
     LDA.w $0ABF : BNE .yous_a_cheater
-    
-    LDA.w $0D80, X
-    
-    JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw MazeGameGuy_ParseElapsedTime
-    dw MazeGameGuy_CheckPlayerQualification
-    dw MazeGameGuy_SorryCantHaveIt
-    dw MazeGameGuy_YouCanHaveIt
-    dw MazeGameGuy_NothingMoreToGive
-    
+        LDA.w $0D80, X
+        JSL.l UseImplicitRegIndexedLocalJumpTable
+        dw MazeGameGuy_ParseElapsedTime         ; 0x00 - $CC2D
+        dw MazeGameGuy_CheckPlayerQualification ; 0x01 - $CCA7
+        dw MazeGameGuy_SorryCantHaveIt          ; 0x02 - $CCF4
+        dw MazeGameGuy_YouCanHaveIt             ; 0x03 - $CD05
+        dw MazeGameGuy_NothingMoreToGive        ; 0x04 - $CD16
+        
     .yous_a_cheater
     
     ; "You Have to enter the maze from the proper entrance or I can't..."
     LDA.b #$D0
     LDY.b #$00
-    
     JSL.l Sprite_ShowMessageFromPlayerContact
     
     RTS
@@ -76,47 +71,39 @@ MazeGameGuy_ParseElapsedTime:
     LDA.l $7FFE04
     
     .modulo_6000_loop
-    
-    CMP.w #6000 : BCC .exhausted_modulo_6000
-    
-    SBC.w #6000
-    
+        
+        CMP.w #6000 : BCC .exhausted_modulo_6000
+            SBC.w #6000
     BRA .modulo_6000_loop
     
     .exhausted_modulo_6000
     
     .modulo_600_loop
     
-    CMP.w #600 : BCC .exhausted_modulo_600
-    
-    SBC.w #600
-    
-    INC.b $06
-    
+        CMP.w #600 : BCC .exhausted_modulo_600
+            SBC.w #600
+            
+            INC.b $06
     BRA .modulo_600_loop
     
     .exhausted_modulo_600
     
     .modulo_60_loop
     
-    CMP.w #60 : BCC .exhausted_modulo_60
-    
-    SBC.w #60
-    
-    INC.b $04
-    
-    BRA .modulo_60_loop
-    
+        CMP.w #60 : BCC .exhausted_modulo_60
+            SBC.w #60
+            
+            INC.b $04
+            
+            BRA .modulo_60_loop
     .exhausted_modulo_60
     
     .modulo_10_loop
     
-    CMP.w #10 : BCC .exhausted_modulo_10
-    
-    SBC.w #10
-    
-    INC.b $02
-    
+        CMP.w #10 : BCC .exhausted_modulo_10
+            SBC.w #10
+            
+            INC.b $02
     BRA .modulo_10_loop
     
     .exhausted_modulo_10
@@ -131,12 +118,10 @@ MazeGameGuy_ParseElapsedTime:
     
     LDA.b #$CB
     LDY.b #$00
-    
     JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
-    
-    STA.w $0DE0, X : STA.w $0EB0, X
-    
-    INC.w $0D80, X
+        STA.w $0DE0, X : STA.w $0EB0, X
+        
+        INC.w $0D80, X
     
     .didnt_speak
     
@@ -155,40 +140,35 @@ MazeGameGuy_CheckPlayerQualification:
     LDX.b $8A
     
     LDA.l $7EF280, X : TYX : AND.b #$40 : BEQ .heart_piece_not_acquired
-    
-    INC.w $0D80, X : INC.w $0D80, X
-    
-    ; "I don't have anything more to give you. I'm sorry!"
-    LDA.b #$CF
-    LDY.b #$00
-    
-    JSL.l Sprite_ShowMessageUnconditional
-    
-    RTS
-    
+        INC.w $0D80, X : INC.w $0D80, X
+        
+        ; "I don't have anything more to give you. I'm sorry!"
+        LDA.b #$CF
+        LDY.b #$00
+        JSL.l Sprite_ShowMessageUnconditional
+        
+        RTS
+        
     .heart_piece_not_acquired
     
     LDA.l $7FFE05              : BNE .player_took_too_long
     LDA.l $7FFE04 : CMP.b #$10 : BCS .player_took_too_long
-    
-    INC.w $0D80, X
-    
-    ; "... Congratulations! I present you with a piece of Heart!"
-    LDA.b #$CD
-    LDY.b #$00
-    
-    JSL.l Sprite_ShowMessageUnconditional
-    
-    STA.w $0EB0, X : STA.w $0DE0, X
-    
-    RTS
-    
-    .player_took_too_long
+        INC.w $0D80, X
+        
+        ; "... Congratulations! I present you with a piece of Heart!"
+        LDA.b #$CD
+        LDY.b #$00
+        JSL.l Sprite_ShowMessageUnconditional
+        
+        STA.w $0EB0, X : STA.w $0DE0, X
+        
+        RTS
+        
+        .player_took_too_long
     
     ; "You're not qualified. Too bad! Why don't you try again?"
     LDA.b #$CE
     LDY.b #$00
-    
     JSL.l Sprite_ShowMessageUnconditional
     
     STA.w $0EB0, X : STA.w $0DE0, X
@@ -204,11 +184,9 @@ MazeGameGuy_SorryCantHaveIt:
     ; "You're not qualified. Too bad! Why don't you try again?"
     LDA.b #$CE
     LDY.b #$00
-    
     JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
-    
-    STA.w $0EB0, X : STA.w $0DE0, X
-    
+        STA.w $0EB0, X : STA.w $0DE0, X
+        
     .didnt_speak
     
     RTS
@@ -222,11 +200,9 @@ MazeGameGuy_YouCanHaveIt:
     ; "... Congratulations! I present you with a piece of Heart!"
     LDA.b #$CD
     LDY.b #$00
-    
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
-    
-    STA.w $0EB0, X : STA.w $0DE0, X
-    
+        STA.w $0EB0, X : STA.w $0DE0, X
+        
     .didnt_speak
     
     RTS
@@ -240,11 +216,9 @@ MazeGameGuy_NothingMoreToGive:
     ; "I don't have anything more to give you. I'm sorry!"
     LDA.b #$CF
     LDY.b #$00
-    
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
-    
-    STA.w $0EB0, X : STA.w $0DE0, X
-    
+        STA.w $0EB0, X : STA.w $0DE0, X
+        
     .didnt_speak
     
     RTS
@@ -253,9 +227,8 @@ MazeGameGuy_NothingMoreToGive:
 ; ==============================================================================
 
 ; $06CD27-$06CDA6 DATA
-Pool_MazeGameGuy_Draw:
+MazeGameGuy_Draw_oam_groups:
 {
-    .oam_groups
     dw 0, -10 : db $00, $00, $00, $02
     dw 0,   0 : db $20, $00, $00, $02
     
@@ -281,8 +254,6 @@ Pool_MazeGameGuy_Draw:
     dw 0,   0 : db $20, $00, $00, $02
    }
 
-; ==============================================================================
-
 ; $06CDA7-$06CDCE LONG JUMP LOCATION
 MazeGameGuy_Draw:
 {
@@ -305,4 +276,3 @@ MazeGameGuy_Draw:
 }
 
 ; ==============================================================================
-

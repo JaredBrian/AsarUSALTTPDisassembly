@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $0F68F1-$0F68F8 LONG JUMP LOCATION
@@ -21,34 +20,31 @@ SpritePrep_OldMountainMan:
     INC.w $0BA0, X
     
     LDA.b $A0 : CMP.b #$E4 : BNE .not_at_home
-    
-    LDA.b #$02 : STA.w $0E80, X
-    
-    RTS
-    
+        LDA.b #$02 : STA.w $0E80, X
+        
+        RTS
+        
     .not_at_home
     
     LDA.l $7EF3CC : CMP.b #$00 : BNE .already_have_tagalong
-    
-    LDA.l $7EF353 : CMP.b #$02 : BNE .dont_have_magic_mirror
-    
-    STZ.w $0DD0, X
-    
-    .dont_have_magic_mirror
-    
-    ; Temporarily set Link's tagalong status to that of the Old Man for
-    ; the purpose of loading the tagalong graphics.
-    LDA.b #$04 : STA.l $7EF3CC
-    
-    PHX
-    
-    JSL.l Tagalong_LoadGfx
-    
-    PLX
-    
-    LDA.b #$00 : STA.l $7EF3CC
-    
-    RTS
+        LDA.l $7EF353 : CMP.b #$02 : BNE .dont_have_magic_mirror
+            STZ.w $0DD0, X
+            
+        .dont_have_magic_mirror
+        
+        ; Temporarily set Link's tagalong status to that of the Old Man for
+        ; the purpose of loading the tagalong graphics.
+        LDA.b #$04 : STA.l $7EF3CC
+        
+        PHX
+        
+        JSL.l Tagalong_LoadGfx
+        
+        PLX
+        
+        LDA.b #$00 : STA.l $7EF3CC
+        
+        RTS
     
     .already_have_tagalong
     
@@ -75,13 +71,13 @@ OldMountainMan_TransitionFromTagalong:
     PLA : PHX : TAX
     
     LDA.w $1A64, X : AND.b #$03 : STA.w $0EB0, Y
-                                STA.w $0DE0, Y
+                                  STA.w $0DE0, Y
     
     LDA.w $1A00, X : CLC : ADC.b #$02 : STA.w $0D00, Y
-    LDA.w $1A14, X : ADC.b #$00 : STA.w $0D20, Y
+    LDA.w $1A14, X       : ADC.b #$00 : STA.w $0D20, Y
     
     LDA.w $1A28, X : CLC : ADC.b #$02 : STA.w $0D10, Y
-    LDA.w $1A3C, X : ADC.b #$00 : STA.w $0D30, Y
+    LDA.w $1A3C, X       : ADC.b #$00 : STA.w $0D30, Y
     
     LDA.b $EE : STA.w $0F20, Y
     
@@ -119,12 +115,10 @@ Sprite_OldMountainMan:
     JSR.w Sprite3_CheckIfActive
     
     LDA.w $0E80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw OldMountainMan_Lost
-    dw OldMountainMan_EnteringDomicile
-    dw OldMountainMan_SittingAtHome
+    dw OldMountainMan_Lost             ; 0x00 - $E9A6
+    dw OldMountainMan_EnteringDomicile ; 0x01 - $E9EA
+    dw OldMountainMan_SittingAtHome    ; 0x02 - $EAB3
 }
 
 ; ==============================================================================
@@ -133,11 +127,9 @@ Sprite_OldMountainMan:
 OldMountainMan_Lost:
 {
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw OldMountainMan_Supplicate
-    dw OldMountainMan_SwitchToTagalong
+    dw OldMountainMan_Supplicate       ; 0x00 - $E9B1
+    dw OldMountainMan_SwitchToTagalong ; 0x01 - $E9D2
 }
 
 ; ==============================================================================
@@ -153,13 +145,11 @@ OldMountainMan_Supplicate:
     ; "I lost my lamp, blah blah blah"
     LDA.b #$9C
     LDY.b #$00
-    
     JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
-    
-    STA.w $0DE0, X
-    STA.w $0EB0, X
-    
-    INC.w $0D80, X
+        STA.w $0DE0, X
+        STA.w $0EB0, X
+        
+        INC.w $0D80, X
     
     .didnt_speak
     
@@ -171,7 +161,7 @@ OldMountainMan_Supplicate:
 ; $0F69D2-$0F69E9 JUMP LOCATION
 OldMountainMan_SwitchToTagalong:
 {
-    ; Set up the old man on the mountain as the tagalong
+    ; Set up the old man on the mountain as the tagalong.
     LDA.b #$04 : STA.l $7EF3CC
     
     JSL.l Tagalong_SpawnFromSprite
@@ -183,7 +173,7 @@ OldMountainMan_SwitchToTagalong:
     ; caches some dungeon values. Not sure if this is really necessary,
     ; but it might be ancitipating that you suck at this game and will
     ; die while the old man is with you?
-    JSL.l $0283B5 ; $0103B5 IN ROM
+    JSL.l CacheRoomEntryProperties_long
     
     RTS
 }
@@ -196,13 +186,11 @@ OldMountainMan_EnteringDomicile:
     JSR.w Sprite3_Move
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw OldMountainMan_GrantMagicMirror
-    dw OldMountainMan_ShuffleAway
-    dw OldMountainMan_ApproachDoor
-    dw OldMountainMan_MadeItInside
+    dw OldMountainMan_GrantMagicMirror ; 0x00 - $E9FC
+    dw OldMountainMan_ShuffleAway      ; 0x01 - $EA28
+    dw OldMountainMan_ApproachDoor     ; 0x02 - $EA3F
+    dw OldMountainMan_MadeItInside     ; 0x03 - $EAA3
 }
 
 ; ==============================================================================
@@ -242,8 +230,7 @@ OldMountainMan_ShuffleAway:
     JSR.w OldMountainMan_FreezePlayer
     
     LDA.w $0DF0, X : BNE .delay
-    
-    INC.w $0D80, X
+        INC.w $0D80, X
     
     .delay
     
@@ -271,14 +258,13 @@ OldMountainMan_ApproachDoor:
     REP #$20
     
     LDA.b $00 : CMP $02 : SEP #$30 : BCC .not_north_enough_yet
-    
-    INC.w $0D80, X
-    
-    STZ.w $0D50, X
-    STZ.w $0D40, X
-    
-    RTS
-    
+        INC.w $0D80, X
+        
+        STZ.w $0D50, X
+        STZ.w $0D40, X
+        
+        RTS
+        
     .not_north_enough_yet
     
     LDA.w $0B08, Y : STA.b $04
@@ -318,14 +304,14 @@ OldMountainMan_MadeItInside:
 ; $0F6AAD-$0F6AB2 DATA
 Pool_OldMountainMan_SittingAtHome:
 {
+    ; $0F6AAD
     .messages_low
     db $9E, $9F, $A0
     
+    ; $0F6AB0
     .messages_high
     db $00, $00, $00
 }
-
-; ==============================================================================
 
 ; $0F6AB3-$0F6AE6 JUMP LOCATION
 OldMountainMan_SittingAtHome:
@@ -333,27 +319,24 @@ OldMountainMan_SittingAtHome:
     JSL.l Sprite_PlayerCantPassThrough
     
     LDA.w $0D80, X : BEQ .dont_activate_health_refill
-    
-    LDA.b #$A0 : STA.l $7EF372
-    
-    STZ.w $0D80, X
+        LDA.b #$A0 : STA.l $7EF372
+        
+        STZ.w $0D80, X
     
     .dont_activate_health_refill
     
     LDY.b #$02
     
     LDA.l $7EF3C5 : CMP.b #$03 : BCS .player_beat_agahnim
-    
-    LDA.l $7EF357 : TAY
+        LDA.l $7EF357 : TAY
     
     .player_beat_agahnim
     
-    LDA.w .messages_low, Y        : XBA
-    LDA.w .messages_high, Y : TAY : XBA
+    LDA.w Pool_OldMountainMan_SittingAtHome_messages_low, Y        : XBA
+    LDA.w Pool_OldMountainMan_SittingAtHome_messages_high, Y : TAY : XBA
     
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
-    
-    INC.w $0D80, X
+        INC.w $0D80, X
     
     .didnt_speak
     

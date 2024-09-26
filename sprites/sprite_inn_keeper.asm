@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $02E3A3-$02E3A6 DATA
@@ -6,20 +5,21 @@ Pool_Sprite_InnKeeper:
 {
     ; "There is a lake swimming with Zoras at the source of the river...".
     ; "...there was a boy in this village who could talk to animals ..."
+    ; $02E3A3
     .messages_low
     db $82, $83
     
+    ; $02E3A5
     .messages_high
     db $01, $01
 }
 
 ; ==============================================================================
 
+; Inn Keeper (0x35)
 ; $02E3A7-$02E3AE LONG JUMP LOCATION
 Sprite_InnKeeperLong:
 {
-    ; Inn Keeper (0x35)
-    
     PHB : PHK : PLB
     
     JSR.w Sprite_InnKeeper
@@ -40,8 +40,8 @@ Sprite_InnKeeper:
     
     LDA.l $7EF356 : TAY
     
-    LDA.w .messages_low, Y        : XBA
-    LDA.w .messages_high, Y : TAY : XBA
+    LDA.w Pool_Sprite_InnKeeper_messages_low, Y        : XBA
+    LDA.w Pool_Sprite_InnKeeper_messages_high, Y : TAY : XBA
     
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
@@ -51,14 +51,11 @@ Sprite_InnKeeper:
 ; ==============================================================================
 
 ; $02E3CC-$02E3DB DATA
-Pool_InnKeeper_Draw:
+InnKeeper_Draw_animation_states:
 {
-    .animation_states
     dw 0, -8 : db $C4, $00, $00, $02
     dw 0,  0 : db $CA, $00, $00, $02
 }
-
-; ==============================================================================
 
 ; $02E3DC-$02E3F2 LOCAL JUMP LOCATION
 InnKeeper_Draw:
