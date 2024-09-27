@@ -1,11 +1,9 @@
-
 ; ==============================================================================
 
+; Sweeping lady
 ; $06C4A5-$06C4AC LONG JUMP LOCATION
 Sprite_SweepingLadyLong:
 {
-    ; Sweeping lady
-    
     PHB : PHK : PLB
     
     JSR.w Sprite_SweepingLady
@@ -26,11 +24,11 @@ Sprite_SweepingLady:
     ; "... rumors say you kidnapped the Princess, but I still trust you."
     LDA.b #$A5
     LDY.b #$00
-    
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
+
     JSL.l Sprite_PlayerCantPassThrough
     
-    ; Next section of code simply changes her graphic index
+    ; Next section of code simply changes her graphic index.
     
     LDA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
@@ -40,9 +38,8 @@ Sprite_SweepingLady:
 ; ==============================================================================
 
 ; $06C4CB-$06C4EA DATA
-Pool_SweepingLady_Draw:
+SweepingLady_Draw_oam_groups:
 {
-    .oam_groups
     dw 0, -7 : db $8E, $00, $00, $02
     dw 0,  5 : db $8A, $00, $00, $02
     
@@ -50,13 +47,10 @@ Pool_SweepingLady_Draw:
     dw 0,  4 : db $8C, $00, $00, $02
 }
 
-; ==============================================================================
-
+; Handles appearance of sprite.
 ; $06C4EB-$06C50A LOCAL JUMP LOCATION
 SweepingLady_Draw:
 {
-    ; Handles appearance of sprite
-    
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     

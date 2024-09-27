@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $02FF5E-$02FF65 LONG JUMP LOCATION
@@ -26,25 +25,21 @@ Sprite_TroughBoy:
     JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA.l $7EF3C7 : CMP.b #$03 : BCS .player_met_sahasralah
-    
-    ; "Hi [Name]! Elder?  Are you talking about the grandpa?"
-    LDA.b #$47
-    LDY.b #$01
-    
-    JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_converse
-    
-    LDA.b #$02 : STA.l $7EF3C7
-    
-    .didnt_converse
-    
-    RTS
+        ; "Hi [Name]! Elder?  Are you talking about the grandpa?"
+        LDA.b #$47
+        LDY.b #$01
+        JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_converse
+            LDA.b #$02 : STA.l $7EF3C7
+            
+        .didnt_converse
+        
+        RTS
     
     .player_met_sahasralah
     
     ; "Did you meet the grandpa? If all the bad people go away..."
     LDA.b #$48
     LDY.b #$01
-    
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
@@ -53,9 +48,8 @@ Sprite_TroughBoy:
 ; ==============================================================================
 
 ; $02FF9F-$02FFDE LOCAL JUMP LOCATION
-Pool_TroughBoy_Draw:
+TroughBoy_Draw_oam_groups:
 {
-    .oam_groups
     dw 0, -8 : db $82, $08, $00, $02
     dw 0,  0 : db $AA, $0A, $00, $02
     
@@ -68,8 +62,6 @@ Pool_TroughBoy_Draw:
     dw 0, -8 : db $80, $08, $00, $02
     dw 0,  0 : db $AA, $0A, $00, $02
 }
-
-; ==============================================================================
 
 ; $02FFDF-$02FFFE LOCAL JUMP LOCATION
 TroughBoy_Draw:
@@ -86,15 +78,6 @@ TroughBoy_Draw:
     JSL.l Sprite_DrawShadowLong
     
     RTS
-}
-
-; ==============================================================================
-
-; $02FFFF-$02FFFF NULL
-{
-    fillbyte $FF
-    
-    fill 1
 }
 
 ; ==============================================================================

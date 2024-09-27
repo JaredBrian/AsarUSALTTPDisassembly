@@ -1,10 +1,9 @@
-
 ; ==============================================================================
 
+; Scared Girl 2 (HM Name) (0x34)
 ; $02E2EA-$02E2F1 LONG JUMP LOCATION
 Sprite_YoungSnitchLadyLong:
 {
-    ; Scared Girl 2 (HM Name) (0x34)
     PHB : PHK : PLB
     
     JSR.w SpriteYoungSnitchLady
@@ -20,8 +19,7 @@ Sprite_YoungSnitchLadyLong:
 Sprite_YoungSnitchLady:
 {
     LDA.w $0D80, X : CMP.b #$02 : BCS .not_visible
-    
-    JSR.w YoungSnitchLady_Draw
+        JSR.w YoungSnitchLady_Draw
     
     .not_visible
     
@@ -31,9 +29,8 @@ Sprite_YoungSnitchLady:
 ; ==============================================================================
 
 ; $02E2FF-$02E37E DATA
-Pool_YoungSnitchLady_Draw:
+Pool_YoungSnitchLady_Draw_oam_groups:
 {
-    .oam_groups
     dw 0, -8 : db $26, $00, $00, $02
     dw 0,  0 : db $E8, $00, $00, $02
     dw 0, -7 : db $26, $00, $00, $02
@@ -51,8 +48,6 @@ Pool_YoungSnitchLady_Draw:
     dw 0, -7 : db $28, $40, $00, $02
     dw 0,  1 : db $E6, $40, $00, $02
 }
-
-; ==============================================================================
 
 ; $02E37F-$02E3A2 LOCAL JUMP LOCATION
 YoungSnitchLady_Draw:

@@ -1,11 +1,9 @@
-
 ; ==============================================================================
 
+; Sprite Prep for Princess Zelda (0x76)
 ; $02EBC7-$02EBCE LONG JUMP LOCATION
 SpritePrep_ZeldaLong:
 {
-    ; Sprite Prep for Princess Zelda (0x76)
-    
     PHB : PHK : PLB
     
     JSR.w SpritePrep_Zelda
@@ -21,41 +19,39 @@ SpritePrep_ZeldaLong:
 SpritePrep_Zelda:
 {
     LDA.l $7EF359 : CMP.b #$02 : BCS .hasMasterSword
-    
-    INC.w $0BA0, X
-    
-    JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03
-    
-    STA.w $0EB0, X : STA.w $0DE0, X
-    
-    LDA.l $7EF3CC : PHA
-    
-    LDA.b #$01 : STA.l $7EF3CC
-    
-    PHX
-    
-    JSL.l Tagalong_LoadGfx
-    
-    PLX
-    
-    PLA : STA.l $7EF3CC
-    
-    LDA.b $A0 : CMP.b #$12 : BNE .notInSanctuary
-    
-    LDA.b #$02 : STA.w $0E80, X
-    
-    LDA.l $7EF3C6 : AND.b #$04 : BNE .been_brought_to_sanctuary_already
-    
+        INC.w $0BA0, X
+        
+        JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03
+        
+        STA.w $0EB0, X : STA.w $0DE0, X
+        
+        LDA.l $7EF3CC : PHA
+        
+        LDA.b #$01 : STA.l $7EF3CC
+        
+        PHX
+        
+        JSL.l Tagalong_LoadGfx
+        
+        PLX
+        
+        PLA : STA.l $7EF3CC
+        
+        LDA.b $A0 : CMP.b #$12 : BNE .notInSanctuary
+            LDA.b #$02 : STA.w $0E80, X
+            
+            LDA.l $7EF3C6 : AND.b #$04 : BNE .been_brought_to_sanctuary_already
+            
     .hasMasterSword
     
-    STZ.w $0DD0D0, X
+    STZ.w $0DD0, X
     
     RTS
     
     .been_brought_to_sanctuary_already
     
     LDA.w $0D00, X : CLC : ADC.b #$0F : STA.w $0D00, X
-    LDA.w $0D20, X : ADC.b #$00 : STA.w $0D20, X
+    LDA.w $0D20, X       : ADC.b #$00 : STA.w $0D20, X
     
     LDA.w $0D10, X : CLC : ADC.b #$06 : STA.w $0D10, X
     
@@ -68,9 +64,8 @@ SpritePrep_Zelda:
     LDA.b #$00 : STA.w $0E80, X
     
     LDA.l $7EF3CC : CMP.b #$01 : BEQ .delta
-    
-    LDA.l $7EF3C6 : AND.b #$04 : BEQ .epsilon
-    
+        LDA.l $7EF3C6 : AND.b #$04 : BEQ .epsilon
+        
     .delta
     
     STZ.w $0DD0, X
@@ -82,12 +77,11 @@ SpritePrep_Zelda:
 
 ; ==============================================================================
 
+; Transition princess Zelda back into a sprite from the tagalong
+; state (the sage's sprite is doing this).
 ; $02EC4C-$02EC8D LOCAL JUMP LOCATION
 Zelda_TransitionFromTagalong:
 {
-    ; Transition princess Zelda back into a sprite from the tagalong
-    ; state (the sage's sprite is doing this).
-    
     LDA.b #$76 : JSL.l Sprite_SpawnDynamically
     
     PHX
@@ -120,13 +114,14 @@ Zelda_TransitionFromTagalong:
 ; $02EC8E-$02EC95 DATA
 Pool_Sprite_Zelda:
 {
+    ; $02EC8E
     .x_speeds
     db $00, $00, $F7, $09
     
+    ; $02EC92
     .y_speeds
     db $F7, $09, $00, $00
 }
-
 
 ; ==============================================================================
 
@@ -152,18 +147,15 @@ Sprite_Zelda:
     JSL.l Sprite_PlayerCantPassThrough
     
     JSL.l Sprite_MakeBodyTrackHeadDirection : BCC .cant_move
-    
-    JSR.w Sprite2_Move
-    
+        JSR.w Sprite2_Move
+        
     .cant_move
     
     LDA.w $0E80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw Zelda_InPrison
-    dw Zelda_EnteringSanctuary
-    dw Zelda_AtSanctuary
+    dw Zelda_InPrison          ; 0x00 - $ECBF
+    dw Zelda_EnteringSanctuary ; 0x01 - $ED69
+    dw Zelda_AtSanctuary       ; 0x02 - $EE0C
 }
 
 ; ==============================================================================
@@ -171,19 +163,15 @@ Sprite_Zelda:
 ; $02ECBF-$02ECD8 JUMP LOCATION
 Zelda_InPrison:
 {
-    ; Wonder if she made a shank?
-    
     JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw Zelda_AwaitingRescue
-    dw Zelda_ApproachingPlayer
-    dw Zelda_TheWizardIsBadMkay
-    dw Zelda_WaitUntilPlayerPaysAttention
-    dw Zelda_TransitionToTagalong
+    dw Zelda_AwaitingRescue               ; 0x00 - $ECD9
+    dw Zelda_ApproachingPlayer            ; 0x01 - $ECFA
+    dw Zelda_TheWizardIsBadMkay           ; 0x02 - $ED20
+    dw Zelda_WaitUntilPlayerPaysAttention ; 0x03 - $ED2C
+    dw Zelda_TransitionToTagalong         ; 0x04 - $ED43
 }
 
 ; ==============================================================================
@@ -192,18 +180,17 @@ Zelda_InPrison:
 Zelda_AwaitingRescue:
 {
     JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
-    
-    INC.w $0D80, X
-    
-    INC.w $02E4
-    
-    LDY.w $0EB0, X
-    
-    LDA Sprite_Zelda_x_speeds, Y : STA.w $0D50, X
-    
-    LDA Sprite_Zelda_y_speeds, Y : STA.w $0D40, X
-    
-    LDA.b #$10 : STA.w $0DF0, X
+        INC.w $0D80, X
+        
+        INC.w $02E4
+        
+        LDY.w $0EB0, X
+        
+        LDA Sprite_Zelda_x_speeds, Y : STA.w $0D50, X
+        
+        LDA Sprite_Zelda_y_speeds, Y : STA.w $0D40, X
+        
+        LDA.b #$10 : STA.w $0DF0, X
     
     .player_not_close
     
@@ -216,20 +203,18 @@ Zelda_AwaitingRescue:
 Zelda_ApproachingPlayer:
 {
     LDA.w $0DF0, X : BNE .still_approaching
-    
-    INC.w $0D80, X
-    
-    ; "Thank you, [Name]. I had a feeling you were getting close."
-    LDA.b #$1C
-    LDY.b #$00
-    
-    JSL.l Sprite_ShowMessageUnconditional
-    
-    STZ.w $0D50, X
-    STZ.w $0D40, X
-    
-    ; Play you saved the day durp durp music.
-    LDA.b #$19 : STA.w $012C
+        INC.w $0D80, X
+        
+        ; "Thank you, [Name]. I had a feeling you were getting close."
+        LDA.b #$1C
+        LDY.b #$00
+        JSL.l Sprite_ShowMessageUnconditional
+        
+        STZ.w $0D50, X
+        STZ.w $0D40, X
+        
+        ; Play you saved the day durp durp music.
+        LDA.b #$19 : STA.w $012C
     
     .still_approaching
     
@@ -251,7 +236,6 @@ Zelda_TheWizardIsBadMkay:
     ; "   ^ Yeah Zelda, I'm really dumb, this could take a while."
     LDA.b #$25
     LDY.b #$00
-    
     JSL.l Sprite_ShowMessageUnconditional
     
     RTS
@@ -263,17 +247,15 @@ Zelda_TheWizardIsBadMkay:
 Zelda_WaitUntilPlayerPaysAttention:
 {
     LDA.w $1CE8 : BNE .sorry_zelda_wasnt_listening
-    
-    ; "All right, let's get out of here before the wizard notices. ..."
-    LDA.b #$24
-    LDY.b #$00
-    
-    JSL.l Sprite_ShowMessageUnconditional
-    
-    INC.w $0D80, X
-    
-    RTS
-    
+        ; "All right, let's get out of here before the wizard notices. ..."
+        LDA.b #$24
+        LDY.b #$00
+        JSL.l Sprite_ShowMessageUnconditional
+        
+        INC.w $0D80, X
+        
+        RTS
+        
     .sorry_zelda_wasnt_listening
     
     LDA.b #$02 : STA.w $0D80, X
@@ -314,12 +296,10 @@ Zelda_TransitionToTagalong:
 Zelda_EnteringSanctuary:
 {
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw Zelda_WalkTowardsPriest
-    dw Zelda_RespondToPriest
-    dw Zelda_BeCarefulOutThere
+    dw Zelda_WalkTowardsPriest ; 0x00 - $ED7E
+    dw Zelda_RespondToPriest   ; 0x01 - $EDC4
+    dw Zelda_BeCarefulOutThere ; 0x02 - $EDEC
 }
 
 ; ==============================================================================
@@ -327,44 +307,44 @@ Zelda_EnteringSanctuary:
 ; $02ED76-$02ED7D DATA
 Pool_Zelda_WalkTowardsPriest:
 {
+    ; $02ED76
     .timers
     db $26, $1A, $2C, $01
     
+    ; $02ED7A
     .directions
     db $01, $03, $01, $02
 }
-
-; ==============================================================================
 
 ; $02ED7E-$02EDC3 JUMP LOCATION
 Zelda_WalkTowardsPriest:
 {
     LDA.w $0DF0, X : BNE .walking
-    LDY.w $0D90, X : CPY.b #$04 : BCC .beta
-        INC.w $0D80, X
+        LDY.w $0D90, X : CPY.b #$04 : BCC .beta
+            INC.w $0D80, X
+            
+            STZ.w $0DE0, X
+            STZ.w $0EB0, X
+            
+            STZ.w $0D50, X
+            STZ.w $0D40, X
+            
+            RTS
         
-        STZ.w $0DE0, X
-        STZ.w $0EB0, X
+        .beta
         
-        STZ.w $0D50, X
-        STZ.w $0D40, X
+        LDA.w Pool_Zelda_WalkTowardsPriest_timers, Y : STA.w $0DF0, X
+            
+        LDA.w Pool_Zelda_WalkTowardsPriest_directions, Y
+        STA.w $0EB0, X : STA.w $0DE0, X
+            
+        INC.w $0D90, X
+            
+        TAY
+            
+        LDA Sprite_Zelda_x_speeds, Y : STA.w $0D50, X
+        LDA Sprite_Zelda_y_speeds, Y : STA.w $0D40, X
         
-        RTS
-    
-    .beta
-    
-    LDA.w .timers, Y : STA.w $0DF0, X
-        
-    LDA.w .directions, Y : STA.w $0EB0, X : STA.w $0DE0, X
-        
-    INC.w $0D90, X
-        
-    TAY
-        
-    LDA Sprite_Zelda_x_speeds, Y : STA.w $0D50, X
-        
-    LDA Sprite_Zelda_y_speeds, Y : STA.w $0D40, X
-    
     .walking
     
     LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
@@ -380,7 +360,6 @@ Zelda_RespondToPriest:
     ; "Yes, it was [Name] who helped me escape from the dungeon! ..."
     LDA.b #$1D
     LDY.b #$00
-    
     JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
@@ -412,12 +391,10 @@ Zelda_BeCarefulOutThere:
     ; "[Name], be careful out there! I know you can save Hyrule!"
     LDA.b #$1E
     LDY.b #$00
-    
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
-    
-    STA.w $0DE0, X
-    STA.w $0EB0, X
-    
+        STA.w $0DE0, X
+        STA.w $0EB0, X
+        
     .didnt_speak
     
     RTS
@@ -428,19 +405,17 @@ Zelda_BeCarefulOutThere:
 ; $02EE06-$02EE0B DATA
 Pool_Zelda_AtSanctuary:
 {
-    .messages_lower
-    
     ; "[Name], be careful out there! I know you can save Hyrule!"
     ; "You should follow the marks the elder made on your map..."
     ; "... Now, you should get the Master Sword. ..."
+    ; $02EE06
+    .messages_lower
     db $1E, $26, $27
     
+    ; $02EE09
     .messages_upper
     db $00, $00, $00
-    
 }
-
-; ==============================================================================
 
 ; $02EE0C-$02EE4A JUMP LOCATION
 Zelda_AtSanctuary:
@@ -450,28 +425,25 @@ Zelda_AtSanctuary:
     LDY.b #$00
     
     LDA.l $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .need_moar_pendants
-    
-    LDY.b #$02
-    
-    BRA .pick_message
-    
+        LDY.b #$02
+        
+        BRA .pick_message
+        
     .need_moar_pendants
     
     LDA.l $7EF3C7 : CMP.b #$03 : BCC .pick_message
-    
-    LDY.b #$01
-    
+        LDY.b #$01
+        
     .pick_message
     
-    LDA.w .messages_low, Y        : XBA
-    LDA.w .messages_high, Y : TAY : XBA
+    LDA.w Pool_Zelda_AtSanctuary_messages_low, Y        : XBA
+    LDA.w Pool_Zelda_AtSanctuary_messages_high, Y : TAY : XBA
     
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .no_talky_talky
-    
-    STA.w $0DE0, X : STA.w $0EB0, X
-    
-    ; Restore player health completely.
-    LDA.b #$A0 : STA.l $7EF372
+        STA.w $0DE0, X : STA.w $0EB0, X
+        
+        ; Restore player health completely.
+        LDA.b #$A0 : STA.l $7EF372
     
     .no_talky_talky
     
@@ -479,4 +451,3 @@ Zelda_AtSanctuary:
 }
 
 ; ==============================================================================
-
