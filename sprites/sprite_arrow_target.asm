@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $02E62B-$02E632 LONG JUMP LOCATION
@@ -19,18 +18,16 @@ Sprite_ArrowTriggerLong:
 Sprite_ArrowTrigger:
 {
     LDA.w $0DA0, X : BNE .alpha
-    
-    JSL.l Sprite_PrepOamCoordLong
-    JSR.w Sprite2_CheckIfActive
-    
-    JSR.w Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .alpha
-    
-    LDA.w $0BB0, X : CMP.b #$09 : BNE .alpha
-    
-    INC.w $0642
-    
-    LDA.b #$01 : STA.w $0DA0, X
-    
+        JSL.l Sprite_PrepOamCoordLong
+        JSR.w Sprite2_CheckIfActive
+        
+        JSR.w Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .alpha
+            LDA.w $0BB0, X : CMP.b #$09 : BNE .alpha
+            
+            INC.w $0642
+            
+            LDA.b #$01 : STA.w $0DA0, X
+        
     .alpha
     
     RTS
