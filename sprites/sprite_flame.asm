@@ -1,44 +1,37 @@
-
 ; ==============================================================================
 
 ; $0F4270-$0F4273 DATA
-    pook Sprite_Flame:
+Sprite_Flame_vh_flip:
 {
-    .vh_flip
     db $00, $40, $C0, $80
 }
-
-; ==============================================================================
 
 ; $0F4274-$0F42B3 JUMP LOCATION
 Sprite_Flame:
 {
     LDA.w $0DF0, X : BNE Flame_Halted
-    
-    JSL.l Sprite_PrepAndDrawSingleLargeLong
-    JSR.w Sprite3_CheckIfActive
-    
-    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
-    
-    LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
-    
-    JSR.w Sprite3_CheckDamageToPlayer : BCS .hit_something
-    
-    JSR.w Sprite3_Move
-    
-    JSR.w Sprite3_CheckTileCollision : BNE .hit_something
-    
-    RTS
-    
-    .hit_something
-    
-    LDA.b #$7F : STA.w $0DF0, X
-    
-    LDA.w $0F50, X : AND.b #$3F : STA.w $0F50, X
-    
-    LDA.b #$2A : JSL.l Sound_SetSfx2PanLong
-    
-    RTS
+        JSL.l Sprite_PrepAndDrawSingleLargeLong
+        JSR.w Sprite3_CheckIfActive
+        
+        LDA.b $1A : LSR #2 : AND.b #$03 : TAY
+        
+        LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
+        
+        JSR.w Sprite3_CheckDamageToPlayer : BCS .hit_something
+            JSR.w Sprite3_Move
+            
+            JSR.w Sprite3_CheckTileCollision : BNE .hit_something
+                RTS
+            
+        .hit_something
+        
+        LDA.b #$7F : STA.w $0DF0, X
+        
+        LDA.w $0F50, X : AND.b #$3F : STA.w $0F50, X
+        
+        LDA.b #$2A : JSL.l Sound_SetSfx2PanLong
+        
+        RTS
 }
 
 ; ==============================================================================
@@ -55,19 +48,17 @@ Flame_Halted_animation_states:
 ; $0F42D4-$0F42FB BRANCH LOCATION
 Flame_Halted:
 {
-    ; TODO: figure out if this can even happen. (player damaging flame)
+    ; TODO: figure out if this can even happen. (player damaging flame).
     JSL.l Sprite_CheckDamageFromPlayerLong : BCC .player_didnt_damage
-    
-    DEC.w $0DF0, X : BEQ .self_terminate
-    
+        DEC.w $0DF0, X : BEQ .self_terminate
+        
     .player_didnt_damage
     
     LDA.w $0DF0, X : DEC A : BNE .still_burning
-    
-    .self_terminate
-    
-    STZ.w $0DD0, X
-    
+        .self_terminate
+        
+        STZ.w $0DD0, X
+        
     .still_burning
     
     LDA.w $0DF0, X : LSR #3 : TAY
@@ -81,9 +72,8 @@ Flame_Halted:
 ; ==============================================================================
 
 ; $0F42FC-$0F435B DATA
-Pool_Flame_Draw:
+Flame_Draw_oam_groups:
 {
-    .oam_groups
     dw 0,  0 : db $8E, $01, $00, $02
     dw 0,  0 : db $8E, $01, $00, $02
     
@@ -103,14 +93,12 @@ Pool_Flame_Draw:
     dw 8, -6 : db $A5, $01, $00, $00
 }
 
-; ==============================================================================
-
 ; $0F435C-$0F4378 LONG JUMP LOCATION
 Flame_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$00   : XBA
+    LDA.b #$00 : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
