@@ -1191,8 +1191,8 @@ Bomb_GetGrossPlayerDistance:
     
     .abs_delta_y
     
-    ; add the X and Y absolute distances together, and snap to a 
-    ; 4 by 4 pixel grid
+    ; Add the X and Y absolute distances together, and snap to a 
+    ; 4 by 4 pixel grid.
     CLC : ADC $0A : AND.w #$00FC : LSR #2 : TAY
     
     SEP #$20
@@ -1204,13 +1204,15 @@ Bomb_GetGrossPlayerDistance:
 
 ; $041D10-$041E9D DATA
 Pool_Bomb_Draw:
-    parallel Pool_Bomb_DrawExplosion:
+Pool_Bomb_DrawExplosion:
 {
+    ; $041D10
     .chr_and_properties
     .chr
     
     db $6E
     
+    ; $041D11
     .properties
     db $26
     
@@ -1278,6 +1280,7 @@ Pool_Bomb_Draw:
     db $9B, $A2
     db $9B, $22
     
+    ; $041D7C
     .xy_offsets
     .y_offsets
     dw  -8
@@ -1360,10 +1363,10 @@ Pool_Bomb_Draw:
     dw   2,  -9
     dw  10,   6
     
-    .oam_sizes
-    
     ; NOTE: The entries that are '1' are designed to push the sprite
     ; off screen, as in disable it from being viewed.
+    ; $041E54
+    .oam_sizes
     db 2, 1, 1, 1, 1, 1
     db 0, 0, 0, 0, 1, 1
     db 2, 2, 2, 2, 1, 1
@@ -1374,12 +1377,13 @@ Pool_Bomb_Draw:
     db 2, 2, 2, 2, 2, 2
     db 0, 0, 0, 0, 0, 0        
     
+    ; $041E8A
     .chr_start_offset
     db 0, 6, 12, 18, 24, 30, 36, 42, 48
     
+    ; $041E93
     .num_oam_entries
     db 1, 4, 4, 4, 4, 4, 5, 4, 6, 6, 6
-    
 }
 
 ; ==============================================================================

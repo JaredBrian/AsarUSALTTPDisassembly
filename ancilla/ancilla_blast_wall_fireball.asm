@@ -1,21 +1,17 @@
-
 ; ==============================================================================
 
 ; $042A32-$042A34 DATA
-Pool_Ancilla_BlastWallFireball:
+Ancilla_BlastWallFireball_chr:
 {
-    .chr
     db $9D, $9C, $8D
 }
-
-; ==============================================================================
 
 ; $042A35-$042A9F JUMP LOCATION
 Ancilla_BlastWallFireball:
 {
     LDA $11 : BNE .just_draw
-        LDA.w $0C5E, X : CLC : ADC.b #$02   : STA.w $0C5E, X
-                       CLC : ADC.w $0C22, X : STA.w $0C22, X
+        LDA.w $0C5E, X : CLC : ADC.b #$02     : STA.w $0C5E, X
+                         CLC : ADC.w $0C22, X : STA.w $0C22, X
         
         JSR.w Ancilla_MoveVert
         JSR.w Ancilla_MoveHoriz
@@ -49,9 +45,9 @@ Ancilla_BlastWallFireball:
         LDA $06 : AND.b #$04 : BNE .use_second_chr
             ; All that leaves is the third possible tile.
             LDY.b #$02
-    
+
+        .use_second_chr
     .just_first_chr
-    .use_second_chr
     
     LDA.w .chr, Y : STA $06
     

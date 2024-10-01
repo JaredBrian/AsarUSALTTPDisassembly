@@ -1,17 +1,16 @@
-
 ; ==============================================================================
 
 ; $042121-$042130 DATA
 Pool_Ancilla_Arrow:
 {
+    ; $042121
     .y_offsets
     dw -4,  2,  0,  0
     
+    ; $042125
     .x_offsets
     dw  0,  0, -4,  4
 }
-
-; ==============================================================================
 
 ; $042131-$04224D JUMP LOCATION
 Ancilla_Arrow:
@@ -58,11 +57,17 @@ Ancilla_Arrow:
         
         LDA.w $0C72, X : AND.b #$03 : ASL A : TAY
         
-        LDA.w .y_offsets+0, Y : CLC : ADC.w $0BFA, X : STA.w $0BFA, X
-        LDA.w .y_offsets+1, Y : ADC.w $0C0E, X : STA.w $0C0E, X
+        LDA.w Pool_Ancilla_Arrow_y_offsets+0, Y
+        CLC : ADC.w $0BFA, X : STA.w $0BFA, X
+
+        LDA.w Pool_Ancilla_Arrow_y_offsets+1, Y
+              ADC.w $0C0E, X : STA.w $0C0E, X
         
-        LDA.w .x_offsets+0, Y : CLC : ADC.w $0C04, X : STA.w $0C04, X
-        LDA.w .x_offsets+1, Y : ADC.w $0C18, X : STA.w $0C18, X
+        LDA.w Pool_Ancilla_Arrow_x_offsets+0, Y
+        CLC : ADC.w $0C04, X : STA.w $0C04, X
+
+        LDA.w Pool_Ancilla_Arrow_x_offsets+1, Y
+              ADC.w $0C18, X : STA.w $0C18, X
         
         STZ.w $0B88
         
@@ -81,7 +86,7 @@ Ancilla_Arrow:
             LDA.b #$2D : STA.w $012F
             
             ; Set a delay for the archery game proprietor and set a timer for
-            ; the target that was hit (indicating it was hit)
+            ; the target that was hit (indicating it was hit).
             LDA.b #$80 : STA.w $0E10, Y : STA.w $0F10
             
             ; \tcrf In conjunction with the ArcheryGameGuy sprite code, this is
@@ -119,22 +124,21 @@ Ancilla_Arrow:
     LDA.b #$01 : STA.w $03B1, X
     
     LDA.w $03C5, X : BEQ .draw
-    
-    REP #$20
-    
-    LDA $E0 : SEC : SBC $E2 : CLC : ADC.w $0C04, X : STA $00
-    LDA $E6 : SEC : SBC $E8 : CLC : ADC.w $0BFA, X : STA $02
-    
-    SEP #$20
-    
-    LDA $00 : STA.w $0C04, X
-    LDA $02 : STA.w $0BFA, X
-    
-    BRA .draw
-    
-    .do_nothing
-    
-    RTS
+        REP #$20
+        
+        LDA $E0 : SEC : SBC $E2 : CLC : ADC.w $0C04, X : STA $00
+        LDA $E6 : SEC : SBC $E8 : CLC : ADC.w $0BFA, X : STA $02
+        
+        SEP #$20
+        
+        LDA $00 : STA.w $0C04, X
+        LDA $02 : STA.w $0BFA, X
+        
+        BRA .draw
+        
+        .do_nothing
+        
+        RTS
     
     .draw
     
@@ -146,6 +150,7 @@ Ancilla_Arrow:
 ; $04224E-$04236D DATA
 Pool_Arrow_Draw:
 {
+    ; $04224E
     .chr_and_properties
     db $2B, $A4
     db $2A, $A4
@@ -196,6 +201,7 @@ Pool_Arrow_Draw:
     db $3A, $24
     db $3B, $A4
     
+    ; $0422AE
     .xy_offsets
     dw  0,  0
     dw  8,  0
@@ -247,8 +253,6 @@ Pool_Arrow_Draw:
     dw  0,  8
 }
 
-; ==============================================================================
-
 ; $04236E-$04245A LONG BRANCH LOCATION
 Arrow_Draw:
 {
@@ -280,7 +284,7 @@ Arrow_Draw:
     
     LDA.w $0C4A, X : CMP.b #$0A : BNE .not_halted_arrow
         LDA.w $0C5E, X : AND.b #$08 : BEQ .use_wiggling_frames
-            ; During this frame draw as a straight arrow
+            ; During this frame draw as a straight arrow.
             LDA.b #$01
             
             BRA .chr_index_determined
@@ -324,7 +328,7 @@ Arrow_Draw:
     
     .next_oam_entry
     
-        LDA.w .chr_and_properties, X : CMP.b #$FF : BEQ .skip_oam_entry
+        LDA.w Pool_Arrow_Draw_chr_and_properties, X : CMP.b #$FF : BEQ .skip_oam_entry
             STA $72
             
             PHX : TXA : ASL A : TAX
@@ -333,8 +337,8 @@ Arrow_Draw:
             
             ; First of each interleaved pair is the y offset, and the second
             ; is the x offset.
-            LDA.w .xy_offsets+0, X : CLC : ADC $0C : STA $00
-            LDA.w .xy_offsets+2, X : CLC : ADC $0E : STA $02
+            LDA.w Pool_Arrow_Draw_xy_offsets+0, X : CLC : ADC $0C : STA $00
+            LDA.w Pool_Arrow_Draw_xy_offsets+2, X : CLC : ADC $0E : STA $02
             
             SEP #$20
             
@@ -344,7 +348,7 @@ Arrow_Draw:
             
             LDA $72 : STA ($90), Y : INY
             
-            LDA.w .chr_and_properties+1, X : AND.b #$C1
+            LDA.w Pool_Arrow_Draw_chr_and_properties+1, X : AND.b #$C1
             
             ORA $74 : ORA $65 : STA ($90), Y : INY
             

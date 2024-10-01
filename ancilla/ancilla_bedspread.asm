@@ -1,19 +1,18 @@
-
 ; ==============================================================================
 
 ; $044003-$044012 DATA
 Pool_Ancilla_BedSpread:
 {
+    ; $044003
     .chr
     db $0A, $0A, $0A, $0A
     db $0C, $0C, $0A, $0A
     
+    ; $04400B
     .properties
     db $00, $60, $A0, $E0
     db $00, $60, $A0, $E0
 }
-
-; ==============================================================================
 
 ; $044013-$044090 JUMP LOCATION
 Ancilla_BedSpread:
@@ -55,9 +54,12 @@ Ancilla_BedSpread:
     
             JSR.w Ancilla_SetOam_XY
             
-            LDA.w .chr, X : STA ($90), Y : INY
+            LDA.w Pool_Ancilla_BedSpread_chr, X : STA ($90), Y
+            INY
             
-            LDA.w .properties, X : ORA.b #$0D : ORA $65 : STA ($90), Y : INY
+            LDA.w Pool_Ancilla_BedSpread_properties, X
+            ORA.b #$0D : ORA $65 : STA ($90), Y
+            INY
             
             PHY
             
