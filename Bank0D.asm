@@ -5033,7 +5033,7 @@ PlayerOam_Unused_0:
 
     .alpha
 
-    LDA .offsets, X : CLC : ADC.b $01 : STA.b $01
+    LDA.w .offsets, X : CLC : ADC.b $01 : STA.b $01
     
     REP #$30
     
@@ -7665,7 +7665,7 @@ Sound_GetFineSfxPan:
 {
     SEC : SBC.b $E2 : LSR #5 : PHX : TAX
     
-    LDA .settings, X
+    LDA.w .settings, X
     
     PLX
     

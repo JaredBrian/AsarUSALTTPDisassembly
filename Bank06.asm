@@ -972,8 +972,6 @@ Sprite_ExecuteSingle:
         .activeSprite
         
         JMP SpriteActive_Main
-
-        ; Bleeds into the next function.
 }
 
 ; $03050F-$03050F LOCAL JUMP LOCATION
@@ -4098,10 +4096,10 @@ Sprite_PrepOamCoord:
         
         REP #$20
         
-        ; Link's Y coord. Subtract the Y coordinate of the camera.
+        ; Sprite's Y coord. Subtract the Y coordinate of the camera.
         LDA.w $0FDA : SEC : SBC.b $E8 : PHA
         
-        ; Offset by how far the object is off the ground, to be fair.
+        ; Offset by how far the object is off the ground.
         SEC : SBC.b $04 : STA.b $02
         
         ; Grab the non height adjusted value.
@@ -4121,7 +4119,7 @@ Sprite_PrepOamCoord:
         ; What palette is the sprite using?
         ; Xor it with sprite priority.
         LDA.w $0F50, X : EOR.w $0B89, X : STA.b $05
-                                    STZ.b $04
+                                          STZ.b $04
         
         LDA.b $00 : STA.w $0FA8
         LDA.b $02 : STA.w $0FA9

@@ -2181,9 +2181,8 @@ Ancilla_FindMatch:
 ; ==============================================================================
 
 ; $04766D-$047670 DATA
-Pool_Ancilla_PrepOamCoord:
+Ancilla_PrepOamCoord_priority:
 {
-    .priority
     db $20, $10, $30, $20
 }
 
@@ -2192,7 +2191,7 @@ Ancilla_PrepOamCoord:
 {
     LDY.w $0C7C, X
     
-    LDA Pool_Ancilla_PrepOamCoord_priority, Y : STA.b $65
+    LDA .priority, Y : STA.b $65
     STZ.b $64
     
     LDA.w $0BFA, X : STA.b $00

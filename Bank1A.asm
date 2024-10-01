@@ -15,10 +15,117 @@ org $1A8000
 
 ; ==============================================================================
 
-; $0D75A5-$0D75D4
-incsrc "sprite_waterfall.asm"
+; $0D7424-$0D742F
+GARBAGE_1AF424:
+{
+    db $34, $00, $00, $00, $00, $01, $FF, $00, $00, $00, $00, $00
+}
+
+; $0D7430-$0D74FF NULL
+NULL_1AF430:
+{
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+}
 
 ; ==============================================================================
+
+; $0D7500-$0D758F DATA
+SpriteDraw_BatCrash_oam_group:
+{
+    ; $0D7500
+    .00
+    dw   0,   0 : db $4B, $04, $00, $00
+
+    ; $0D7508
+    .01
+    dw   5,  -4 : db $5B, $04, $00, $00
+
+    ; $0D7510
+    .02
+    dw  -2,  -4 : db $64, $04, $00, $02
+
+    ; $0D7518
+    .03
+    dw  -2,  -4 : db $49, $04, $00, $02
+
+    ; $0D7520
+    .04
+    dw  -8,  -9 : db $6C, $04, $00, $02
+    dw   8,  -9 : db $6C, $44, $00, $02
+
+    ; $0D7530
+    .05
+    dw  -8,  -7 : db $4C, $04, $00, $02
+    dw   8,  -7 : db $4C, $44, $00, $02
+
+    ; $0D7540
+    .06
+    dw  -8,  -9 : db $44, $04, $00, $02
+    dw   8,  -9 : db $44, $44, $00, $02
+
+    ; $0D7550
+    .07
+    dw  -8,  -8 : db $62, $04, $00, $02
+    dw   8,  -8 : db $62, $44, $00, $02
+
+    ; $0D7560
+    .08
+    dw  -8,  -7 : db $60, $04, $00, $02
+    dw   8,  -7 : db $60, $44, $00, $02
+
+    ; $0D7570
+    .09
+    dw   0,   0 : db $4E, $04, $00, $02
+    dw  16,   0 : db $4E, $44, $00, $02
+    dw   0,  16 : db $6E, $04, $00, $02
+    dw  16,  16 : db $6E, $44, $00, $02
+}
+
+; $0D7590-$0D75A4 DATA
+Pool_BatCrash_Approach:
+{
+    ; $0D7590
+    .position_x
+    dw $07DC, $07F0, $0820, $0818
+
+    ; $0D7598
+    .position_y
+    dw $062E, $0636, $0630, $05E0
+
+    ; $0D75A0
+    .anim_timer
+    db 4, 3, 4, 6, 0
+}
+
+; ==============================================================================
+
+; $0D75A5-$0D75D4
+incsrc "sprite_waterfall.asm"
 
 ; $0D75D5-$0D785B
 incsrc "sprite_retreat_bat.asm"

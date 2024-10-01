@@ -32,7 +32,7 @@ LD$1.w$2
 Get rid of kan address formatting:
 #_......: 
 
-Find a Function or pool label with out a :
+Find a Function or pool label with out a:
 [^:]\n\{
 
 Find op codes that are using ROM addresses:

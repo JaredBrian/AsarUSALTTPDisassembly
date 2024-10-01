@@ -4653,10 +4653,12 @@ DashTremor_TwiddleOffset:
 ; $07FB7A-$07FBC1 DATA
 Pool_BombosSpell_ExecuteBlasts:
 {
-    .y_offsets length 64
+    ; $07FB7A
+    .y_offsets ; Bleeds into the next block. Length 64.
     db $B6, $5D, $A1
     
-    .x_offsets length 64
+    ; $07FB7D
+    .x_offsets ; Bleeds into the next block. Length 64.
     db $30, $69, $B5, $A3, $24
     db $96, $AC, $73, $5F, $92, $48, $52, $81
     db $39, $95, $7F, $20, $88, $5D, $34, $98
@@ -4667,6 +4669,7 @@ Pool_BombosSpell_ExecuteBlasts:
     db $40, $50, $7E, $8C, $2D, $61, $AC, $88
     
     ; WTF: Is this used for anything?
+    ; $07FBBA
     .unknown
     db $20, $6A, $72, $5F, $D2, $28, $52, $80        
 }

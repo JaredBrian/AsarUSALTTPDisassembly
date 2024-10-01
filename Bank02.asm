@@ -6381,7 +6381,7 @@ Module_Overworld:
 
     REP #$21
 
-    LDA.b $E2 : PHA : ADC.w $011A : STA.b $E2 : STA.w $011E
+    LDA.b $E2 : PHA :       ADC.w $011A : STA.b $E2 : STA.w $011E
     LDA.b $E8 : PHA : CLC : ADC.w $011C : STA.b $E8 : STA.w $0122
     LDA.b $E0 : PHA : CLC : ADC.w $011A : STA.b $E0 : STA.w $0120
     LDA.b $E6 : PHA : CLC : ADC.w $011C : STA.b $E6 : STA.w $0124
