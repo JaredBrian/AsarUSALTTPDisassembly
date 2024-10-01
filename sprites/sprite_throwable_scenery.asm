@@ -34,9 +34,9 @@ Sprite_ThrowableScenery:
                 
                 REP #$20
                 
-                LDA.w .main_oam_table_offsets, Y : STA.b $90
+                LDA.w Pool_Sprite_ThrowableScenery_main_oam_table_offsets, Y : STA.b $90
                 
-                LDA.w .high_oam_table_offsets, Y : STA.b $92
+                LDA.w Pool_Sprite_ThrowableScenery_high_oam_table_offsets, Y : STA.b $92
                 
                 SEP #$20
                 

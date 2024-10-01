@@ -1,11 +1,9 @@
-
 ; ==============================================================================
 
+; Waterfall sprite
 ; $0D75A5-$0D75AC LONG JUMP LOCATION
 Sprite_WaterfallLong:
 {
-    ; Waterfall sprite
-    
     PHB : PHK : PLB
     
     JSR.w Sprite_Waterfall
@@ -21,11 +19,9 @@ Sprite_WaterfallLong:
 Sprite_Waterfall:
 {
     LDA.w $0E80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw Waterfall_Main
-    dw Sprite_RetreatBat
+    dw Waterfall_Main    ; 0x00 - $F5B8
+    dw Sprite_RetreatBat ; 0x01 - $F5D9
 }
 
 ; ==============================================================================
@@ -36,15 +32,13 @@ Waterfall_Main:
     JSR.w Sprite6_CheckIfActive
     
     JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
-    
-    LDA.b $8A : CMP.b #$43 : BEQ .ganons_tower_area
-    
-    PHX
-    
-    JSL.l AddBreakTowerSeal
-    
-    PLX
-    
+        LDA.b $8A : CMP.b #$43 : BEQ .ganons_tower_area
+            PHX
+            
+            JSL.l AddBreakTowerSeal
+            
+            PLX
+        
     .no_player_collision
     
     RTS
