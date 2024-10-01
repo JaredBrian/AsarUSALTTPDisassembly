@@ -1,17 +1,13 @@
-
 ; ==============================================================================
 
 ; $04B5B9-$04B5BA DATA
-Pool_Garnish_LaserBeamTrail:
+Garnish_LaserBeamTrail_chr:
 {
-    .chr
     ; NOTE: One is horizontal, the other is vertical.
     db $D2, $F3
 }
 
-; ==============================================================================
-
-; $04B5BB-$04B5DD JUMP LOCATION
+; $04B5BB-$04B5D5 JUMP LOCATION
 Garnish_LaserBeamTrail:
 {
     JSR.w Garnish_PrepOamCoord
@@ -26,10 +22,13 @@ Garnish_LaserBeamTrail:
     LDA.w .chr, Y : PLY : INY : STA ($90), Y
     
     LDA.b #$25
+
+    ; Bleeds into the next function.
+}
     
-    ; $04B5D6 ALTERNATE ENTRY POINT
-    shared Garnish_SetOamPropsAndSmallSize:
-    
+; $04B5D6-$04B5DD JUMP LOCATION
+Garnish_SetOamPropsAndSmallSize:
+{
     INY : STA ($90), Y
     
     LDA.b #$00 : STA ($92)
@@ -38,4 +37,3 @@ Garnish_LaserBeamTrail:
 }
 
 ; ==============================================================================
-

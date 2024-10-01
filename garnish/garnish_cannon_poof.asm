@@ -1,22 +1,21 @@
-
 ; ==============================================================================
 
 ; $04B3E8-$04B3ED DATA
 Pool_Garnish_CannonPoof:
 {
+    ; $04B3E8
     .chr
     db $8A, $86
     
+    ; $04B3EA
+    .properties
     db $20, $10, $30, $30
 }
 
-; ==============================================================================
-
+; Special animation 0x0A
 ; $04B3EE-$04B418 JUMP LOCATION
 Garnish_CannonPoof:
 {
-    ; special animation 0x0A
-    
     JSR.w Garnish_PrepOamCoord
     
     LDA.b $00       : STA ($90), Y
@@ -24,7 +23,7 @@ Garnish_CannonPoof:
     
     LDA.l $7FF90E, X : LSR #3 : PHX : TAX
     
-    LDA.w .chr, X : INY : STA ($90), Y
+    LDA.w Pool_Garnish_CannonPoof_chr, X : INY : STA ($90), Y
     
     PLX 
     
@@ -32,10 +31,9 @@ Garnish_CannonPoof:
     
     LDA.l $7FF92C, X : TAX
     
-    LDA.w .properties, X : ORA.b #$04 : PLX
+    LDA.w Pool_Garnish_CannonPoof_properties, X : ORA.b #$04 : PLX
     
     JMP Garnish_SetOamPropsAndLargeSize
 }
 
 ; ==============================================================================
-

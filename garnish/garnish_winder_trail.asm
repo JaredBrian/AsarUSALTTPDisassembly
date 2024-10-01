@@ -1,16 +1,14 @@
-
 ; ==============================================================================
 
+; Special animation 0x01
 ; $04B6C0-$04B6E0 JUMP LOCATION
 Garnish_WinderTrail:
 {
-    ; special animation 0x01
-    
     JSR.w Garnish_PrepOamCoord
     
     LDA.b $00                    : STA ($90), Y
     LDA.b $02 : INY              : STA ($90), Y
-              INY : LDA.b #$28 : STA ($90), Y
+                INY : LDA.b #$28 : STA ($90), Y
     
     PHY
     
@@ -25,4 +23,3 @@ Garnish_WinderTrail:
 }
 
 ; ==============================================================================
-

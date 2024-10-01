@@ -1,19 +1,20 @@
-
 ; ==============================================================================
 
 ; $04B496-$04B49D DATA
 Pool_Garnish_BabusuFlash:
 {
+    ; $04B496
     .chr
     db $A8, $8A, $86, $86
     
+    ; $04B49A
     .properties
     db $2D, $2C, $2C, $2C
 }
 
 ; ==============================================================================
 
-; $04B49E-$04B4BF
+; $04B49E-$04B4BF LOCAL JUMP LOCATION
 Garnish_BabusuFlash:
 {
     JSR.w Garnish_PrepOamCoord
@@ -27,9 +28,9 @@ Garnish_BabusuFlash:
     
     TAX
     
-    LDA.w .chr, X : INY : STA ($90), Y
+    LDA.w Pool_Garnish_BabusuFlash_chr, X : INY : STA ($90), Y
     
-    LDA.w .properties, X
+    LDA.w Pool_Garnish_BabusuFlash_properties, X
     
     PLX
     

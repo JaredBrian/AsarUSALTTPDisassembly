@@ -1,17 +1,15 @@
-
 ; ==============================================================================
 
-    ; NOTE: Called simple sparkle because it has no animation frames. It's
-    ; either on the screen or it isn't - nothing more to it.
+; NOTE: Called simple sparkle because it has no animation frames. It's
+; either on the screen or it isn't - nothing more to it.
+; Special animation 0x05
 ; $04B4FB-$04B51B JUMP LOCATION
 Garnish_ZoroDander:
 {
-    ; Special animation 0x05
-    
     JSR.w Garnish_PrepOamCoord
     
-    LDA.b $00          : STA ($90), Y
-    LDA.b $02    : INY : STA ($90), Y
+    LDA.b $00        : STA ($90), Y
+    LDA.b $02  : INY : STA ($90), Y
     LDA.w #$75 : INY : STA ($90), Y
     
     PHY
