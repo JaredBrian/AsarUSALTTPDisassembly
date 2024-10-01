@@ -16,12 +16,10 @@ Sprite_Vitreous:
     JSR.w Sprite4_CheckDamage
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw Vitreous_Dormant
-    dw Vitreous_SpewLightning
-    dw Vitreous_PursuePlayer
+    dw Vitreous_Dormant       ; 0x00 - $E4EB
+    dw Vitreous_SpewLightning ; 0x01 - $E549
+    dw Vitreous_PursuePlayer  ; 0x02 - $E58B
 }
 
 ; ==============================================================================
