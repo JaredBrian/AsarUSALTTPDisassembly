@@ -1,17 +1,16 @@
-
 ; ==============================================================================
 
 ; $046068-$046077 DATA
 Pool_AddSomarianBlock:
 {
+    ; $046068
     .initial_collision_y_offsets
     dw -8, 31, 17, 17
     
+    ; $046070
     .initial_collision_x_offsets
     dw  8,  8, -8, 23
 }
-
-; ==============================================================================
 
 ; $046078-$046160 LONG JUMP LOCATION
 AddSomarianBlock:
@@ -19,8 +18,7 @@ AddSomarianBlock:
     PHB : PHK : PLB
     
     JSR.w Ancilla_Spawn : BCC .spawn_success
-    
-    BRL .spawn_failed
+        BRL .spawn_failed
     
     .spawn_success
     
@@ -30,39 +28,34 @@ AddSomarianBlock:
     
     .find_somarian_block_loop
     
-    CPX $00 : BEQ .ignore_slot
-    
-    LDA.w $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
-    
-    STX $02
-    
-    LDA.w $02EC : DEC A : CMP $02 : BNE .not_closest_carryable_ancilla
-    
-    ; Zero that index anyways so the player can't pick it up (it's 
-    ; being terminated anyways)
-    STZ.w $02EC
-    
-    .not_closest_carryable_ancilla
-    
-    JSL.l AddSomarianBlockDivide
-    
-    PLX
-    
-    STZ.w $0C4A, X
-    STZ.w $0646
-    
-    LDA $5E : CMP.b #$12 : BNE .dont_reset_player_speed
-    
-    STZ $48
-    STZ $5E
-    
-    .dont_reset_player_speed
-    
-    BRL .return
-    
-    .ignore_slot
-    .not_somarian_block
-    
+        CPX $00 : BEQ .ignore_slot
+            LDA.w $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
+                STX $02
+                
+                LDA.w $02EC : DEC A : CMP $02 : BNE .not_closest_carryable_ancilla
+                    ; Zero that index anyways so the player can't pick it up
+                    ; (it's being terminated anyways).
+                    STZ.w $02EC
+                
+                .not_closest_carryable_ancilla
+                
+                JSL.l AddSomarianBlockDivide
+                
+                PLX
+                
+                STZ.w $0C4A, X
+                STZ.w $0646
+                
+                LDA $5E : CMP.b #$12 : BNE .dont_reset_player_speed
+                    STZ $48
+                    STZ $5E
+                    
+                .dont_reset_player_speed
+                
+                BRL .return
+            
+            .not_somarian_block
+        .ignore_slot
     DEX : BPL .find_somarian_block_loop
     
     PLX
@@ -94,34 +87,39 @@ AddSomarianBlock:
     LDA $2F : LSR A : STA.w $0C72, X
     
     JSL.l Ancilla_CheckInitialTileCollision_Class2 : BCC .enough_space
-    
-    ; Basically, if the player is so close to a collision surface that
-    ; the block could get embedded in a wall, just place it where the
-    ; player actually is to be safe.
-    REP #$20
-    
-    LDA $20 : CLC : ADC.w #$0010 : STA $00
-    LDA $22 : CLC : ADC.w #$0008 : STA $02
-    
-    SEP #$20
-    
-    LDA $00 : STA.w $0BFA, X
-    LDA $01 : STA.w $0C0E, X
-    
-    LDA $02 : STA.w $0C04, X
-    LDA $03 : STA.w $0C18, X
-    
-    BRA .return
+        ; Basically, if the player is so close to a collision surface that
+        ; the block could get embedded in a wall, just place it where the
+        ; player actually is to be safe.
+        REP #$20
+        
+        LDA $20 : CLC : ADC.w #$0010 : STA $00
+        LDA $22 : CLC : ADC.w #$0008 : STA $02
+        
+        SEP #$20
+        
+        LDA $00 : STA.w $0BFA, X
+        LDA $01 : STA.w $0C0E, X
+        
+        LDA $02 : STA.w $0C04, X
+        LDA $03 : STA.w $0C18, X
+        
+        BRA .return
     
     .enough_space
     
     LDY $2F
     
-    LDA $20 : CLC : ADC .initial_collision_y_offsets+0, Y : STA.w $0BFA, X
-    LDA $21 : ADC .initial_collision_y_offsets+1, Y : STA.w $0C0E, X
+    LDA $20 : CLC : ADC Pool_AddSomarianBlock_initial_collision_y_offsets+0, Y
+    STA.w $0BFA, X
+
+    LDA $21 : ADC Pool_AddSomarianBlock_initial_collision_y_offsets+1, Y
+    STA.w $0C0E, X
     
-    LDA $22 : CLC : ADC .initial_collision_x_offsets+0, Y : STA.w $0C04, X
-    LDA $23 : ADC .initial_collision_y_offsets+1, Y : STA.w $0C18, X
+    LDA $22 : CLC : ADC Pool_AddSomarianBlock_initial_collision_x_offsets+0, Y
+    STA.w $0C04, X
+
+    LDA $23 : ADC Pool_AddSomarianBlock_initial_collision_y_offsets+1, Y
+    STA.w $0C18, X
     
     JSR.w SomarianBlock_CheckForTransitLine
     
@@ -143,59 +141,67 @@ AddSomarianBlock:
 ; $046161-$046190 DATA
 Pool_SomarianBlock_CheckForTransitLine:
 {
+    ; $046161
     .y_offsets
     dw -16, -16, -16,  16,  16,  16
     dw  -8,   0,   8,  -8,   0,   8
     
+    ; $046179
     .x_offsets
     dw  -8,   0,   8,  -8,   0,   8
     dw -16, -16, -16,  16,  16,  16
 }
-
-; ==============================================================================
 
 ; $046191-$0461F8 LOCAL JUMP LOCATION
 SomarianBlock_CheckForTransitLine:
 {
     ; If there are no transit lines, we need not even worry about this.
     LDA.w $03F4 : BEQ .return
-    
-    LDY.b #$16
-    
-    .next_offset
-    
-    LDA.w $0BFA, X : CLC : ADC .y_offsets+0, Y : STA $00 : STA $72
-    LDA.w $0C0E, X : ADC .y_offsets+1, Y : STA $01 : STA $73
-    
-    LDA.w $0C04, X : CLC : ADC .x_offsets+0, Y : STA $02 : STA $74
-    LDA.w $0C18, X : ADC .x_offsets+1, Y : STA $03 : STA $75
-    
-    PHY
-    
-    LDA.w $0280, X : PHA
-    
-    JSR.w Ancilla_CheckTargetedTileCollision
-    
-    PLA : STA.w $0280, X
-    
-    PLY
-    
-    LDA.w $03E4, X : CMP.b #$B6 : BEQ .transit_node
-                   CMP.b #$BC : BEQ .transit_node
-    
-    DEY #2 : BPL .next_offset
-    
-    BRA .return
-    
-    .transit_node
-    
-    LDA $72 : STA.w $0BFA, X
-    LDA $73 : STA.w $0C0E, X
-    
-    LDA $74 : STA.w $0C04, X
-    LDA $75 : STA.w $0C18, X
-    
-    JSL.l AddSomarianPlatformPoof
+        LDY.b #$16
+        
+        .next_offset
+            
+            LDA.w $0BFA, X
+            CLC : ADC Pool_SomarianBlock_CheckForTransitLine_y_offsets+0, Y
+            STA $00 : STA $72
+
+            LDA.w $0C0E, X
+            ADC Pool_SomarianBlock_CheckForTransitLine_y_offsets+1, Y
+            STA $01 : STA $73
+            
+            LDA.w $0C04, X
+            CLC : ADC Pool_SomarianBlock_CheckForTransitLine_x_offsets+0, Y
+            STA $02 : STA $74
+
+            LDA.w $0C18, X
+            ADC Pool_SomarianBlock_CheckForTransitLine_x_offsets+1, Y
+            STA $03 : STA $75
+            
+            PHY
+            
+            LDA.w $0280, X : PHA
+            
+            JSR.w Ancilla_CheckTargetedTileCollision
+            
+            PLA : STA.w $0280, X
+            
+            PLY
+            
+            LDA.w $03E4, X : CMP.b #$B6 : BEQ .transit_node
+                             CMP.b #$BC : BEQ .transit_node
+        DEY #2 : BPL .next_offset
+        
+        BRA .return
+        
+        .transit_node
+        
+        LDA $72 : STA.w $0BFA, X
+        LDA $73 : STA.w $0C0E, X
+        
+        LDA $74 : STA.w $0C04, X
+        LDA $75 : STA.w $0C18, X
+        
+        JSL.l AddSomarianPlatformPoof
     
     .return
     

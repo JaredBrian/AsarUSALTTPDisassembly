@@ -120,6 +120,7 @@ Shortcut:
     
     SEP #$20
     
+    ; $0480C3 ALTERNATE ENTRY POINT
     .just_coords
     
     JSR.w Ancilla_SetCoords
@@ -4202,7 +4203,7 @@ AddBreakTowerSeal:
 ; ==============================================================================
 
 ; $049C36-$049C37 LONG JUMP LOCATION
-UNUSED099C36:
+UNUSED_099C36:
 {
     PLB
     
@@ -4275,10 +4276,10 @@ ConsumingFire_TransmuteToSkullWoodsFire:
                          STA.l $7F0010
             
             LDA.b #$05 : STA.l $7F0008
-                        STA.l $7F0009
-                        STA.l $7F000A
-                        STA.l $7F000B
-                        STA.w $03B1
+                         STA.l $7F0009
+                         STA.l $7F000A
+                         STA.l $7F000B
+                         STA.w $03B1
             
             REP #$20
             
@@ -4297,8 +4298,8 @@ ConsumingFire_TransmuteToSkullWoodsFire:
             STZ $B0
             STZ $C8
             
-            ; Further configure the state of the skull woods flame object that is
-            ; about to become active next frame.
+            ; Further configure the state of the skull woods flame object that
+            ; is about to become active next frame.
             LDA $EE : STA.w $0C7C
             
             LDA.w $0476 : STA.w $03CA

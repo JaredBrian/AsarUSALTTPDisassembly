@@ -1,18 +1,20 @@
-
 ; ==============================================================================
 
 ; $0438F4-$043AAF DATA
 Pool_Ancilla_MagicPowder:
 {
+    ; $0438F4
     .animation_groups
     db 13, 14, 15,  0,  1,  2,  3,  4,  5,  6
     db 10, 11, 12,  0,  1,  2,  3,  4,  5,  6
     db 16, 17, 18,  0,  1,  2,  3,  4,  5,  6
     db  7,  8,  9,  0,  1,  2,  3,  4,  5,  6
     
+    ; $04391C
     .animation_group_offsets
     db 0, 10, 20, 30
     
+    ; $043920
     .y_offsets
     dw -20, -15, -13,  -7
     dw -18, -13, -13, -13
@@ -34,6 +36,7 @@ Pool_Ancilla_MagicPowder:
     dw -17, -14, -12,  -8
     dw -18, -14, -13,  -6
     
+    ; $0439B8
     .x_offsets
     dw  -5, -12,   2,  -9
     dw  -7, -10,  -6,  -2
@@ -55,6 +58,7 @@ Pool_Ancilla_MagicPowder:
     dw   3,  10,   1,   5
     dw  -4,   5,  -7,   0
     
+    ; $043A50
     .chr
     db $09, $0A, $0A, $09
     db $09, $09, $09, $09
@@ -62,6 +66,7 @@ Pool_Ancilla_MagicPowder:
     db $09, $09, $09, $09
     db $09, $09, $09, $09
     
+    ; $043A64
     .properties
     db $68, $24, $A2, $28
     db $68, $E2, $28, $A4
@@ -84,46 +89,44 @@ Pool_Ancilla_MagicPowder:
     db $E4, $A8, $E2, $68
 }
 
-; ==============================================================================
-
-; $043AB0-$043B57 JUMP LOCATION
+; $043AB0-$043AEA JUMP LOCATION
 Ancilla_MagicPowder:
 {
     LDA $11 : BNE .just_draw
-    
-    JSR.w MagicPowder_ApplySpriteDamage
-    
-    DEC.w $03B1, X : BPL .just_draw
-    
-    LDA.b #$01 : STA.w $03B1, X
-    
-    LDY.w $0C72, X
-    
-    LDA.w .animation_group_offsets, Y : STA $00
-    
-    LDA.w $0C5E, X : INC A : CMP.b #$0A : BNE .dont_self_terminate
-    
-    STZ.w $0C4A, X
-    
-    STZ.w $0333
-    
-    RTS
-    
-    .dont_self_terminate
-    
-    STA.w $0C5E, X
-    
-    CLC : ADC $00 : TAY
-    
-    LDA.w .animation_groups, Y : STA.w $03C2, X
+        JSR.w MagicPowder_ApplySpriteDamage
+        
+        DEC.w $03B1, X : BPL .just_draw
+            LDA.b #$01 : STA.w $03B1, X
+            
+            LDY.w $0C72, X
+            
+            LDA.w Pool_Ancilla_MagicPowder_animation_group_offsets, Y : STA $00
+            
+            LDA.w $0C5E, X : INC A : CMP.b #$0A : BNE .dont_self_terminate
+                STZ.w $0C4A, X
+                
+                STZ.w $0333
+                
+                RTS
+            
+            .dont_self_terminate
+            
+            STA.w $0C5E, X
+            
+            CLC : ADC $00 : TAY
+            
+            LDA.w Pool_Ancilla_MagicPowder_animation_groups, Y : STA.w $03C2, X
     
     .just_draw
     
     LDA.w $0C90, X : JSR.w Ancilla_AllocateOam_B_or_E
     
-    ; $043AEB ALTERNATE ENTRY POINT
-    shared MagicPowder_Draw:
-    
+    ; Bleeds into the next function.
+}
+
+; $043AEB-$043B57 JUMP LOCATION
+MagicPowder_Draw:
+{
     JSR.w Ancilla_PrepOamCoord
     
     PHX
@@ -148,37 +151,40 @@ Ancilla_MagicPowder:
     
     .next_oam_entry
     
-    LDX $04
-    
-    REP #$20
-    
-    LDA $06 : CLC : ADC .y_offsets, X : STA $00
-    LDA $08 : CLC : ADC .x_offsets, X : STA $02
-    
-    SEP #$20
-    
-    JSR.w Ancilla_SetOam_XY
-    
-    LDX $0C
-    
-    LDA.w .chr, X : STA ($90), Y : INY
-    
-    LDX $0A
-    
-    ; BUG:(maybe) Is it possible that the game will read past the end of
-    ; this array into the proceeding code?
-    LDA.w .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y : INY
-    
-    PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$00 : STA ($92), Y
-    
-    PLY
-    
-    INC $04 : INC $04
-    
-    INC $0A
-    
+        LDX $04
+        
+        REP #$20
+        
+        LDA $06 : CLC : ADC Pool_Ancilla_MagicPowder_y_offsets, X : STA $00
+        LDA $08 : CLC : ADC Pool_Ancilla_MagicPowder_x_offsets, X : STA $02
+        
+        SEP #$20
+        
+        JSR.w Ancilla_SetOam_XY
+        
+        LDX $0C
+        
+        LDA.w Pool_Ancilla_MagicPowder_chr, X : STA ($90), Y
+        INY
+        
+        LDX $0A
+        
+        ; TODO: Confirm this.
+        ; BUG:(maybe) Is it possible that the game will read past the end of
+        ; this array into the proceeding code?
+        LDA.w Pool_Ancilla_MagicPowder_properties, X
+        AND.b #$CF : ORA $65 : STA ($90), Y
+        INY
+        
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        
+        LDA.b #$00 : STA ($92), Y
+        
+        PLY
+        
+        INC $04 : INC $04
+        
+        INC $0A
     DEC $72 : BPL .next_oam_entry
     
     PLX
@@ -195,66 +201,56 @@ MagicPowder_ApplySpriteDamage:
     
     .next_sprite
     
-    TYA : EOR $1A : AND.b #$03 : BNE .no_collision
-    
-    LDA.w $0DD0, Y : CMP.b #$09 : BNE .no_collision
-    
-    LDA.w $0CD2, Y : AND.b #$20 : BNE .no_collision
-    
-    JSR.w Ancilla_SetupBasicHitBox
-    
-    PHY : PHX
-    
-    TYX
-    
-    JSL.l Sprite_SetupHitBoxLong
-    
-    PLX : PLY
-    
-    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
-    
-    LDA.w $0E20, Y : CMP.b #$0B : BNE .not_transformable_chicken
-    
-    LDA $1B : BEQ .not_transformable_chicken
-    
-    LDA.w $048E : DEC A : BNE .not_transformable_chicken
-
-    BRA .transformable_sprite
-    
-    .not_transformable_chicken
-    
-    CMP.b #$0D : BNE .not_buzzblob
-    
-    LDA.w $0EB0, Y : BNE .no_collision
-    
-    .transformable_sprite
-    
-    LDA.b #$01 : STA.w $0EB0, Y
-    
-    PHX : PHY
-    
-    TYX
-    
-    JSL.l Sprite_SpawnPoofGarnish
-    
-    PLY : PLX
-    
-    BRA .no_collision
-    
-    .not_buzzblob
-    
-    PHX : PHY
-    
-    TYX
-    
-    ; Check damage from magic powder to general sprites (not specifically
-    ; transformable like chickens or buzzblobs).
-    LDA.b #$0A : JSL.l Ancilla_CheckSpriteDamage_preset_class
-    
-    PLY : PLX
-    
-    .no_collision
-    
+        TYA : EOR $1A : AND.b #$03 : BNE .no_collision
+            LDA.w $0DD0, Y : CMP.b #$09 : BNE .no_collision
+                LDA.w $0CD2, Y : AND.b #$20 : BNE .no_collision
+                    JSR.w Ancilla_SetupBasicHitBox
+                    
+                    PHY : PHX
+                    
+                    TYX
+                    
+                    JSL.l Sprite_SetupHitBoxLong
+                    
+                    PLX : PLY
+                    
+                    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
+                        LDA.w $0E20, Y : CMP.b #$0B : BNE .not_transformable_chicken
+                            LDA $1B : BEQ .not_transformable_chicken
+                                LDA.w $048E : DEC A : BNE .not_transformable_chicken
+                                    BRA .transformable_sprite
+                        
+                        .not_transformable_chicken
+                        
+                        CMP.b #$0D : BNE .not_buzzblob
+                            LDA.w $0EB0, Y : BNE .no_collision
+                                .transformable_sprite
+                                
+                                LDA.b #$01 : STA.w $0EB0, Y
+                                
+                                PHX : PHY
+                                
+                                TYX
+                                
+                                JSL.l Sprite_SpawnPoofGarnish
+                                
+                                PLY : PLX
+                                
+                                BRA .no_collision
+                                
+                        .not_buzzblob
+                        
+                        PHX : PHY
+                        
+                        TYX
+                        
+                        ; Check damage from magic powder to general sprites (not
+                        ; specifically transformable like chickens or buzzblobs).
+                        LDA.b #$0A : JSL.l Ancilla_CheckSpriteDamage_preset_class
+                        
+                        PLY : PLX
+        
+        .no_collision
     DEY : BPL .next_sprite
     
     RTS

@@ -1,8 +1,6 @@
-
 ; ==============================================================================
 
-    ; Ancilla 0x42 (rupees thrown into pond of wishing)
-    
+; Ancilla 0x42 (rupees thrown into pond of wishing)
 ; $0447DE-$044818 JUMP LOCATION
 Ancilla_HappinessPondRupees:
 {
@@ -13,29 +11,25 @@ Ancilla_HappinessPondRupees:
     
     .next_rupee_slot
     
-    LDA.l $7F586C, X : BEQ .inactive_rupee
-    
-    PHX
-    
-    JSR.w HappinessPondRupees_ExecuteRupee
-    
-    PLX
-    
-    LDA.l $7F58AA, X : CMP.b #$02 : BNE .dont_deactivate_rupee
-    
-    LDA.b #$00 : STA.l $7F586C, X
-    
-    .inactive_rupee
-    .dont_deactivate_rupee
-    
+        LDA.l $7F586C, X : BEQ .inactive_rupee
+            PHX
+            
+            JSR.w HappinessPondRupees_ExecuteRupee
+            
+            PLX
+            
+            LDA.l $7F58AA, X : CMP.b #$02 : BNE .dont_deactivate_rupee
+                LDA.b #$00 : STA.l $7F586C, X
+            
+            .dont_deactivate_rupee
+        .inactive_rupee
     DEX : BPL .next_rupee_slot
     
     LDX.b #$09
     
     .find_active_rupee_loop
     
-    LDA.l $7F586C, X : BNE .not_all_inactive
-    
+        LDA.l $7F586C, X : BNE .not_all_inactive
     DEX : BPL .find_active_rupee_loop
     
     LDX.w $0FA0
@@ -69,58 +63,52 @@ HappinessPondRupees_ExecuteRupee:
     TYX
     
     LDA.w $0C54, X : BEQ .not_in_splash_state
-    
-    LDA $11 : BNE .just_draw_splash
-    
-    LDA.w $0C68, X : BNE .just_draw_splash
-    
-    LDA.b #$06 : STA.w $0C68, X
-    
-    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$05 : BNE .just_draw_splash
-    
-    INC.w $0C54, X
-    
-    BRL .return
-    
-    .just_draw_splash
-    
-    JSR.w Ancilla_ObjectSplash_draw
-    
-    BRA .return
+        LDA $11 : BNE .just_draw_splash
+            LDA.w $0C68, X : BNE .just_draw_splash
+                LDA.b #$06 : STA.w $0C68, X
+                
+                INC.w $0C5E, X
+                LDA.w $0C5E, X : CMP.b #$05 : BNE .just_draw_splash
+                    INC.w $0C54, X
+                    
+                    BRL .return
+            
+        .just_draw_splash
+        
+        JSR.w Ancilla_ObjectSplash_draw
+        
+        BRA .return
     
     .not_in_splash_state
     
     LDA $11 : BNE .just_draw_item
-    
-    LDA.w $0C68, X : BNE .just_draw_item
-    
-    LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
-    
-    JSR.w Ancilla_MoveVert
-    JSR.w Ancilla_MoveHoriz
-    JSR.w Ancilla_MoveAltitude
-    
-    LDA.w $029E, X : BPL .just_draw_item
-    CMP.b #$E4   : BCS .just_draw_item
-    
-    LDA.b #$E4 : STA.w $029E, X
-    
-    LDA.w $0BFA, X : CLC : ADC.b #$1E : STA.w $0BFA, X
-    LDA.w $0C0E, X : ADC.b #$00 : STA.w $0C0E, X
-    
-    LDA.w $0C04, X : CLC : ADC.b #$FC : STA.w $0C04, X
-    LDA.w $0C18, X : ADC.b #$FF : STA.w $0C18, X
-    
-    STZ.w $0C5E, X
-    
-    LDA.b #$06 : STA.w $0C68, X
-    
-    LDA.b #$28 : JSR.w Ancilla_DoSfx2
-    
-    INC.w $0C54, X
-    
-    BRA .return
-    
+        LDA.w $0C68, X : BNE .just_draw_item
+            LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
+            
+            JSR.w Ancilla_MoveVert
+            JSR.w Ancilla_MoveHoriz
+            JSR.w Ancilla_MoveAltitude
+            
+            LDA.w $029E, X : BPL .just_draw_item
+            CMP.b #$E4 : BCS .just_draw_item
+                LDA.b #$E4 : STA.w $029E, X
+                
+                LDA.w $0BFA, X : CLC : ADC.b #$1E : STA.w $0BFA, X
+                LDA.w $0C0E, X       : ADC.b #$00 : STA.w $0C0E, X
+                
+                LDA.w $0C04, X : CLC : ADC.b #$FC : STA.w $0C04, X
+                LDA.w $0C18, X       : ADC.b #$FF : STA.w $0C18, X
+                
+                STZ.w $0C5E, X
+                
+                LDA.b #$06 : STA.w $0C68, X
+                
+                LDA.b #$28 : JSR.w Ancilla_DoSfx2
+                
+                INC.w $0C54, X
+                
+                BRA .return
+        
     .just_draw_item
     
     LDA.b #$02 : STA.w $0BF0, X
@@ -173,8 +161,7 @@ HappinessPondRupees_LoadRupeeeState:
     LDA.l $7F58AA, X : STA.w $0C54, Y
     
     LDA.l $7F5860, X : BEQ .timer_expired
-    
-    DEC A
+        DEC A
     
     .timer_expired
     
