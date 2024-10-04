@@ -1,32 +1,34 @@
-
 ; ==============================================================================
 
 ; $04698E-$0469B1 DATA
 Pool_Ancilla_SomarianBlockFizzle:
 {
+    ; $04698E
     .y_offsets
     dw -4, -1, -4, -4, -4, -4
     
+    ; $04699A
     .x_offsets
     dw -4, -1, -8,  0, -6, -2
     
+    ; $0469A6
     .chr
     db $92, $FF, $F9, $F9, $F9, $F9
     
+    ; $0469AC
     .properties
     db $06, $FF, $86, $C6, $86, $C6
 }
 
 ; ==============================================================================
 
-; $0469B2-$046A7E LONG BRANCH LOCATION
+; $0469B2-$0469E7 BRANCH LOCATION
 Ancilla_TransmuteToSomarianBlockFizzle:
 {
     LDA.b $5E : CMP.b #$12 : BNE .player_not_slowed_down
-    
-    STZ.b $48
-    STZ.b $5E
-    
+        STZ.b $48
+        STZ.b $5E
+        
     .player_not_slowed_down
     
     STZ.w $0646
@@ -41,25 +43,26 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     STZ.w $03EA, X
     
     TXA : INC A : CMP.w $02EC : BNE .player_wasnt_carrying_block
-    
-    STZ.w $02EC
-    
-    LDA.w $0308 : AND.b #$80 : STA.w $0308
-    
+        STZ.w $02EC
+        
+        LDA.w $0308 : AND.b #$80 : STA.w $0308
+        
     .player_wasnt_carrying_block
+
+    ; Bleeds into the next function.
+}
     
-    ; $0469E8 ALTERNATE ENTRY POINT
-    shared Ancilla_SomarianBlockFizzle:
-    
+; $0469E8-$046A7E BRANCH LOCATION
+Ancilla_SomarianBlockFizzle:
+{
     DEC.w $03B1, X : BPL .animation_delay
-    
-    LDA.b #$03 : STA.w $03B1, X
-    
-    LDA.w $0C5E, X : INC A : STA.w $0C5E, X : CMP.b #$03 : BNE .animation_delay
-    
-    STZ.w $0C4A, X
-    
-    RTS
+        LDA.b #$03 : STA.w $03B1, X
+        
+        LDA.w $0C5E, X : INC A : STA.w $0C5E, X
+        CMP.b #$03 : BNE .animation_delay
+            STZ.w $0C4A, X
+            
+            RTS
     
     .animation_delay
     
@@ -68,14 +71,12 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     LDY.b #$00
     
     LDA.w $029E, X : CMP.b #$FF : BNE .coerce_above_ground
-    
-    LDA.b #$00
+        LDA.b #$00
     
     .coerce_above_ground
     
     STA.b $04 : BPL .sign_ext_z_coord
-    
-    LDY.b #$FF
+        LDY.b #$FF
     
     .sign_ext_z_coord
     
@@ -97,34 +98,39 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     
     .next_oam_entry
     
-    LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
-    
-    REP #$20
-    
-    PHX : TXA : ASL A : TAX
-    
-    LDA.b $04 : CLC : ADC .y_offsets, X : STA.b $00
-    LDA.b $06 : CLC : ADC .x_offsets, X : STA.b $02
-    
-    PLX
-    
-    SEP #$20
-    
-    JSR.w Ancilla_SetOam_XY
-    
-    LDA.w .chr, X                               : STA ($90), Y : INY
-    LDA.w .properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y : INY
-    
-    PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$00 : STA ($92), Y
-    
-    PLY
-    
-    .skip_oam_entry
-    
-    INX
-    
+        LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+            REP #$20
+            
+            PHX : TXA : ASL A : TAX
+            
+            LDA.b $04
+            CLC : ADC Pool_Ancilla_SomarianBlockFizzle_y_offsets, X : STA.b $00
+
+            LDA.b $06
+            CLC : ADC Pool_Ancilla_SomarianBlockFizzle_x_offsets, X : STA.b $02
+            
+            PLX
+            
+            SEP #$20
+            
+            JSR.w Ancilla_SetOam_XY
+            
+            LDA.w Pool_Ancilla_SomarianBlockFizzle_chr, X : STA ($90), Y
+            INY
+
+            LDA.w Pool_Ancilla_SomarianBlockFizzle_properties, X
+            AND.b #$CF : ORA.b $65 : STA ($90), Y
+            INY
+            
+            PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+            
+            LDA.b #$00 : STA ($92), Y
+            
+            PLY
+            
+        .skip_oam_entry
+        
+        INX
     INC.b $08 : LDA.b $08 : CMP.b #$02 : BNE .next_oam_entry
     
     PLX

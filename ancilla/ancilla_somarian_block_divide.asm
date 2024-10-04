@@ -1,37 +1,34 @@
-
 ; ==============================================================================
 
 ; $046B3E-$046BE2 JUMP LOCATION
 Ancilla_SomarianBlockDivide:
 {
     DEC.w $03B1, X : BPL .full_divide_delay
-    
-    LDA.b #$03 : STA.w $03B1, X
-    
-    LDA.w $0C5E, X : INC A : STA.w $0C5E, X : CMP.b #$02 : BNE .full_divide_delay
-    
-    STZ.w $0C4A, X
-    
-    PHX
-    
-    JSR.w SomarianBlast_SpawnCentrifugalQuad
-    
-    PLX
-    
-    RTS
-    
+        LDA.b #$03 : STA.w $03B1, X
+        
+        LDA.w $0C5E, X : INC A : STA.w $0C5E, X
+        CMP.b #$02 : BNE .full_divide_delay
+            STZ.w $0C4A, X
+            
+            PHX
+            
+            JSR.w SomarianBlast_SpawnCentrifugalQuad
+            
+            PLX
+            
+            RTS
+        
     .full_divide_delay
     
     JSR.w Ancilla_PrepAdjustedOamCoord
     
     LDY.b #$00
     
-    ; WTF: Where is this variable actually initialized or  set for this
+    ; WTF: Where is this variable actually initialized or set for this
     ; object?
     LDA.w $0380, X : CMP.b #$03 : BNE .unsigned_player_altitude
-    
-    LDA.b $24 : CMP.b #$FF : BNE .positive_player_altitude
-    
+        LDA.b $24 : CMP.b #$FF : BNE .positive_player_altitude
+        
     .unsigned_player_altitude
     
     LDA.b #$00
@@ -39,8 +36,7 @@ Ancilla_SomarianBlockDivide:
     .positive_player_altitude
     
     CLC : ADC.w $029E, X : STA.b $04 : BPL .positive_object_altitude
-    
-    LDY.b #$FF
+        LDY.b #$FF
     
     .positive_object_altitude
     
@@ -62,28 +58,33 @@ Ancilla_SomarianBlockDivide:
     
     .next_oam_entry
     
-    REP #$20
-    
-    PHX : TXA : ASL A : TAX
-    
-    LDA.b $04 : CLC : ADC .y_offsets, X : STA.b $00
-    LDA.b $06 : CLC : ADC .x_offsets, X : STA.b $02
-    
-    PLX
-    
-    SEP #$20
-    
-    JSR.w Ancilla_SetOam_XY
-    
-    LDA.w .chr, X                               : STA ($90), Y : INY
-    LDA.w .properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y : INY
-    
-    PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$00 : STA ($92), Y
-    
-    PLY : INX
-    
+        REP #$20
+        
+        PHX : TXA : ASL A : TAX
+        
+        LDA.b $04
+        CLC : ADC Pool_Ancilla_SomarianBlockDivide_y_offsets, X : STA.b $00
+        LDA.b $06
+        CLC : ADC Pool_Ancilla_SomarianBlockDivide_x_offsets, X : STA.b $02
+        
+        PLX
+        
+        SEP #$20
+        
+        JSR.w Ancilla_SetOam_XY
+        
+        LDA.w Pool_Ancilla_SomarianBlockDivide_chr, X : STA ($90), Y
+        INY
+
+        LDA.w Pool_Ancilla_SomarianBlockDivide_properties, X
+        AND.b #$CF : ORA.b $65 : STA ($90), Y
+        INY
+        
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        
+        LDA.b #$00 : STA ($92), Y
+        
+        PLY : INX
     INC.b $08 : LDA.b $08 : CMP.b #$08 : BNE .next_oam_entry
     
     PLX

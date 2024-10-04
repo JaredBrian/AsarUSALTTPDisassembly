@@ -4,9 +4,11 @@
 ; $0441E4-$0441E9 DATA
 Pool_Ancilla_SwordChargeSpark:
 {
+    ; $0441E4
     .chr
     db $B7, $80, $83
     
+    ; $0441E7
     .properties
     db $04, $04, $84
 }

@@ -12,8 +12,6 @@ Pool_Ancilla_Bomb:
     db 0, 1, 2, 3, 2, 3, 4, 5, 6, 7, 8, 9
 }
 
-; ==============================================================================
-
 ; $04155A-$0417B5 JUMP LOCATION
 Ancilla_Bomb:
 {
@@ -299,11 +297,12 @@ Ancilla_Bomb:
     
     JSR.w Ancilla_ConveyorBeltVelocityOverride
     
+    ; $041712 ALTERNATE ENTRY POINT
     .state_logic
     
     JSR.w Ancilla_Set_Y_Coord
     
-    LDA $74 : STA.w $0C72, X
+    LDA.b $74 : STA.w $0C72, X
     
     LDA $75 : ORA.w $0280, X : STA.w $0280, X
     
@@ -403,7 +402,7 @@ Ancilla_Bomb:
     
     JSR.w Bomb_Draw
     
-    ; 417B5 ALTERNATE ENTRY POINT
+    ; 0417B5 ALTERNATE ENTRY POINT
     .return
     
     RTS
