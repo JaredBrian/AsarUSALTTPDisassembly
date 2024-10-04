@@ -1671,6 +1671,8 @@ Ancilla_IsBelowPlayer:
         INY
     
     .object_upward_of_player
+
+    ; $040F81 ALTERNATE ENTRY POINT
     .return
     
     RTS
@@ -3684,9 +3686,8 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
 }
 
 ; $047EEA-$047F69 DATA
-Pool_QuakeSpell_DrawFirstGroundBolts:
+QuakeSpell_DrawFirstGroundBolts_pointers:
 {
-    .pointers
     dw QuakeDrawGFX_group00_a, QuakeDrawGFX_group00_b
     dw QuakeDrawGFX_group01_a, QuakeDrawGFX_group01_b
     dw QuakeDrawGFX_group02_a, QuakeDrawGFX_group02_b
