@@ -1,12 +1,12 @@
-
 ; ==============================================================================
 
-    ; NOTE: Each of these groupings corresponds to a different direction.
-    ; Interestingly enough, I think the chr and properties are identical
-    ; for all 3 directions. No surprise there, I guess.
+; NOTE: Each of these groupings corresponds to a different direction.
+; Interestingly enough, I think the chr and properties are identical
+; for all 3 directions. No surprise there, I guess.
 ; $045596-$045659 DATA
 Pool_Ancilla_SwordSwingSparkle:
 {
+    ; $045596
     .chr
     db $B7, $B7, $FF
     db $80, $80, $B7
@@ -28,6 +28,7 @@ Pool_Ancilla_SwordSwingSparkle:
     db $83, $83, $80
     db $83, $FF, $FF
     
+    ; $0455C6
     .properties
     db $00, $00, $FF
     db $00, $00, $00
@@ -49,6 +50,7 @@ Pool_Ancilla_SwordSwingSparkle:
     db $80, $80, $00
     db $80, $FF, $FF
     
+    ; $0455F6
     .y_offsets
     db -22, -18,  -1
     db -22, -18, -17
@@ -70,6 +72,7 @@ Pool_Ancilla_SwordSwingSparkle:
     db   2,   7,  19
     db  19,  -1,  -1
     
+    ; $045626
     .y_offsets
     db   5,  10,  -1
     db   5,  10,  -4
@@ -91,24 +94,21 @@ Pool_Ancilla_SwordSwingSparkle:
     db  32,  35,  30
     db  30,  -1,  -1    
     
+    ; $045656
     .directed_oam_group
     db 0, 12, 24, 36
 }
-
-; ==============================================================================
 
 ; $04565A-$045703 JUMP LOCATION
 Ancilla_SwordSwingSparkle:
 {
     DEC.w $03B1, X : BPL .termination_delay
-    
-    LDA.b #$00 : STA.w $03B1, X
-    
-    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$04 : BNE .termination_delay
-    
-    STZ.w $0C4A, X
-    
-    RTS
+        LDA.b #$00 : STA.w $03B1, X
+        
+        INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$04 : BNE .termination_delay
+            STZ.w $0C4A, X
+            
+            RTS
     
     .termination_delay
     
@@ -129,53 +129,56 @@ Ancilla_SwordSwingSparkle:
     
     SEP #$20
     
-    ; Number of sprites to draw
+    ; Number of sprites to draw.
     LDA.b #$02 : STA.b $08
     
     LDY.w $0C72, X
     
-    LDA.w $0C5E, X : ASL A : CLC : ADC.w $0C5E, X : CLC : ADC .directed_oam_group, Y : TAX
+    LDA.w $0C5E, X : ASL A : CLC : ADC.w $0C5E, X
+    CLC : ADC Pool_Ancilla_SwordSwingSparkle_directed_oam_group, Y : TAX
     
     LDY.b #$00
     
     .next_oam_entry
-    
-    LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
-    
-    REP #$20
-    
-    LDA.w .y_offsets, X : AND.w #$00FF : CMP.w #$0080 : BCC .positive_y_offset
-    
-    ORA.w #$FF00
-    
-    .positive_y_offset
-    
-    CLC : ADC.b $04 : STA.b $00
-    
-    LDA.w .x_offsets, X : AND.w #$00FF : CMP.w #$0080 : BCC .positive_x_offset
-    
-    ORA.w #$FF00
-    
-    .positive_x_offset
-    
-    CLC : ADC.b $06 : STA.b $02
-    
-    SEP #$20
-    
-    JSR.w Ancilla_SetOam_XY
-    
-    LDA.w .chr, X                               : STA ($90), Y : INY
-    LDA.w .properties, X : ORA.b #$04 : ORA.b $65 : STA ($90), Y : INY
-    
-    PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$00 : STA ($92), Y
-    
-    PLY
-    
-    .skip_oam_entry
-    
-    INX
+        
+        LDA.w Pool_Ancilla_SwordSwingSparkle_chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+        
+            REP #$20
+            
+            LDA.w Pool_Ancilla_SwordSwingSparkle_y_offsets, X
+            AND.w #$00FF : CMP.w #$0080 : BCC .positive_y_offset
+                ORA.w #$FF00
+                
+            .positive_y_offset
+            
+            CLC : ADC.b $04 : STA.b $00
+            
+            LDA.w Pool_Ancilla_SwordSwingSparkle_x_offsets, X
+            AND.w #$00FF : CMP.w #$0080 : BCC .positive_x_offset
+                ORA.w #$FF00
+            
+            .positive_x_offset
+            
+            CLC : ADC.b $06 : STA.b $02
+            
+            SEP #$20
+            
+            JSR.w Ancilla_SetOam_XY
+            
+            LDA.w Pool_Ancilla_SwordSwingSparkle_chr, X : STA ($90), Y : INY
+
+            LDA.w Pool_Ancilla_SwordSwingSparkle_properties, X
+            ORA.b #$04 : ORA.b $65 : STA ($90), Y : INY
+            
+            PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+            
+            LDA.b #$00 : STA ($92), Y
+            
+            PLY
+        
+        .skip_oam_entry
+        
+        INX
     
     DEC.b $08 : BPL .next_oam_entry
     
