@@ -103,15 +103,19 @@ Ancilla_SetSfxPan:
 ; $040040-$04006E DATA
 Pool_AncillaAdd_FireRodShot:
 {
+    ; $040040
     .init_check_offset_x_low
     db  0,  0, -8, 16
     
+    ; $040044
     .init_check_offset_x_high
     db  0,  0, -1,  0
     
+    ; $040048
     .init_check_offset_y_low
     db -8, 16,  3,  3
     
+    ; $04004C
     .init_check_offset_y_high
     db -1,  0,  0,  0
 }
@@ -132,7 +136,7 @@ SomariaBulletSpeed:
     db -64,  64,   0,   0
 }
 
-; $040068-; $04006E DATA
+; $040068-$04006E DATA
 Flame_Speed:
 {
     ; $040068
@@ -266,7 +270,7 @@ AddFireRodShot:
     
     LDA.b $00 : STA.w $0C4A, Y : TAX
     
-    LDA.w $806F, X : STA.w $0C90, Y
+    LDA.w AncillaObjectAllocation, X : STA.w $0C90, Y
     
     LDA.b #$03 : STA.w $0C68, Y
     
@@ -285,15 +289,25 @@ AddFireRodShot:
     PLX : PLY
     
     BCS .initialize_in_spread_state
-        LDA.w $0022 : CLC : ADC.w $8040, X : STA.w $0C04, Y
-        LDA.w $0023 :       ADC.w $8044, X : STA.w $0C18, Y
+        LDA.w $0022
+        CLC : ADC.w Pool_AncillaAdd_FireRodShot_init_check_offset_x_low, X
+        STA.w $0C04, Y
+
+        LDA.w $0023
+              ADC.w Pool_AncillaAdd_FireRodShot_init_check_offset_x_high, X
+        STA.w $0C18, Y
         
-        LDA.w $0020 : CLC : ADC.w $8048, X : STA.w $0BFA, Y
-        LDA.w $0021 :       ADC.w $804C, X : STA.w $0C0E, Y
+        LDA.w $0020
+        CLC : ADC.w Pool_AncillaAdd_FireRodShot_init_check_offset_y_low, X
+        STA.w $0BFA, Y
+
+        LDA.w $0021
+              ADC.w Pool_AncillaAdd_FireRodShot_init_check_offset_y_high, X
+        STA.w $0C0E, Y
         
         LDA.w $0C4A, Y : CMP.b #$01 : BEQ .sword_determines_speed
-            LDA.w $8068, X : STA.w $0C2C, Y
-            LDA.w $806C, X
+            LDA.w Flame_Speed_x, X : STA.w $0C2C, Y
+            LDA.w Flame_Speed_y, X
             
             BRA .speed_has_been_determined
             
@@ -306,9 +320,9 @@ AddFireRodShot:
         
         TXA : CLC : ADC.b $0F : TAX
         
-        LDA.w $8050, X : STA.w $0C2C, Y
+        LDA.w SomariaBulletSpeed_X, X : STA.w $0C2C, Y
         
-        LDA.w $805C, X
+        LDA.w SomariaBulletSpeed_Y, X
         
         .speed_has_been_determined
         
@@ -401,7 +415,7 @@ SomarianBlast_SpawnCentrifugalQuad:
             
             LDA.b #$01 : STA.w $0C4A, Y : TAX
             
-            LDA.w $806F, X : STA.w $0C90, Y
+            LDA.w AncillaObjectAllocation, X : STA.w $0C90, Y
             
             LDA.b #$04 : STA.w $0C54, Y
             LDA.b #$00 : STA.w $0C5E, Y : STA.w $0280, Y
@@ -416,8 +430,8 @@ SomarianBlast_SpawnCentrifugalQuad:
             
             JSL.l Ancilla_TerminateIfOffscreen
             
-            LDA.w $8050, X : STA.w $0C2C, Y
-            LDA.w $805C, X : STA.w $0C22, Y
+            LDA.w SomariaBulletSpeed_X, X : STA.w $0C2C, Y
+            LDA.w SomariaBulletSpeed_Y, X : STA.w $0C22, Y
             
             LDA.b $04 : STA.w $0C7C, Y
             
@@ -1531,14 +1545,14 @@ Ancilla_SetupHitBox:
     
     .not_sword_beam
     
-    LDA.w $0C04, X : CLC : ADC.w $8E7D, Y : STA.b $00
-    LDA.w $0C18, X :       ADC.b $09      : STA.b $08
+    LDA.w $0C04, X : CLC : ADC.w Pool_Ancilla_SetupHitBox_offset_x, Y : STA.b $00
+    LDA.w $0C18, X :       ADC.b $09                                  : STA.b $08
     
-    LDA.w $0BFA, X : CLC : ADC.w $8E95, Y : STA.b $01
-    LDA.w $0C0E, X :       ADC.b $09      : STA.b $09
+    LDA.w $0BFA, X : CLC : ADC.w Pool_Ancilla_SetupHitBox_offset_y, Y : STA.b $01
+    LDA.w $0C0E, X :       ADC.b $09                                  : STA.b $09
     
-    LDA.w $8E89, Y : STA.b $02
-    LDA.w $8EA1, Y : STA.b $03
+    LDA.w Pool_Ancilla_SetupHitBox_width, Y  : STA.b $02
+    LDA.w Pool_Ancilla_SetupHitBox_height, Y : STA.b $03
     
     PLY
     
@@ -2112,7 +2126,7 @@ Ancilla_SetSfxPan_NearEntity:
     
     LSR #5 : TAX
     
-    LDA.l $09968A, X
+    LDA.l AncillaPanValues, X
     
     PLX
     
@@ -2133,9 +2147,9 @@ Ancilla_Spawn:
     TYX : BMI .no_open_slots
         STA.w $0C4A, X : TAY
         
-        LDA.w $806F, Y : STA.w $0C90, X
-        LDA.b $EE      : STA.w $0C7C, X
-        LDA.w $0476    : STA.w $03CA, X
+        LDA.w AncillaObjectAllocation, Y : STA.w $0C90, X
+        LDA.b $EE                        : STA.w $0C7C, X
+        LDA.w $0476                      : STA.w $03CA, X
         
         STZ.w $0C22, X
         STZ.w $0C2C, X
@@ -2545,8 +2559,6 @@ Pool_Ancilla_DrawShadow:
     db $24, $64
 }
 
-; ==============================================================================
-
 ; $047897-$047909 LOCAL JUMP LOCATION
 Ancilla_DrawShadow:
 {
@@ -2566,8 +2578,12 @@ Ancilla_DrawShadow:
     
     JSR.w Ancilla_SetSafeOam_XY
     
-    LDA.w .chr, X                                 : STA ($90), Y : INY
-    LDA.w .properties, X : AND.b #$CF : ORA.b $04 : STA ($90), Y : INY
+    LDA.w Pool_Ancilla_DrawShadow_chr, X : STA ($90), Y
+    INY
+
+    LDA.w Pool_Ancilla_DrawShadow_properties, X
+    AND.b #$CF : ORA.b $04 : STA ($90), Y
+    INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -2581,14 +2597,18 @@ Ancilla_DrawShadow:
     
     SEP #$20
     
-    LDA.w $F87C, X : CMP.b #$FF : BEQ .only_one_oam_entry
+    LDA.w Pool_Ancilla_DrawShadow_chr+1, X : CMP.b #$FF : BEQ .only_one_oam_entry
         STZ.b $74
         STZ.b $75
         
         JSR.w Ancilla_SetSafeOam_XY
         
-        LDA.w .chr+1, X                                 : STA ($90), Y : INY
-        LDA.w .properties+1, X : AND.b #$CF : ORA.b $04 : STA ($90), Y : INY
+        LDA.w Pool_Ancilla_DrawShadow_chr+1, X : STA ($90), Y
+        INY
+
+        LDA.w Pool_Ancilla_DrawShadow_properties+1, X
+        AND.b #$CF : ORA.b $04 : STA ($90), Y
+        INY
         
         PHY : TYA : SEC : SBC.b #$03 : LSR #2 : TAY
         
@@ -2799,13 +2819,17 @@ Hookshot_IsCollisionCheckFutile:
         REP #$20
         
         LDA.w $0C72, X : AND.w #$0002 : BNE .moving_horizontally
-            LDX.w $0700 : LDA.b $00 : SEC : SBC.l $02A8C4, X : CMP.w #$0004 : BCC .off_screen
+            LDX.w $0700
+            LDA.b $00 : SEC : SBC.l OverworldTransitionPositionY, X
+            CMP.w #$0004 : BCC .off_screen
                 CMP.w $0716 : BCS .off_screen
                     BRA .not_at_screen_edge
         
         .moving_horizontally
         
-        LDX.w $0700 : LDA.b $02 : SEC : SBC.l $02A944, X : CMP.w #$0006 : BCC .off_screen
+        LDX.w $0700
+        LDA.b $02 : SEC : SBC.l OverworldTransitionPositionX, X
+        CMP.w #$0006 : BCC .off_screen
             CMP.w $0716 : BCC .not_at_screen_edge
         
         .off_screen
@@ -2883,29 +2907,34 @@ Ancilla_GetRadialProjection:
     
     TAX
     
-    LDA.l $0FFC02, X : STA.w SNES.MultiplicandA
-    LDA.b $08        : STA.w SNES.MultiplierB
+    LDA.l Pool_Ancilla_GetRadialProjection_multiplier_y, X
+    STA.w SNES.MultiplicandA
+
+    LDA.b $08 : STA.w SNES.MultiplierB
     
     ; Sign of the projected distance.
-    LDA.l $0FFC42, X : STA.b $02
-                       STZ.b $03
+    LDA.l Pool_Ancilla_GetRadialProjection_meta_sign_y, X
+    STA.b $02
+    STZ.b $03
     
     ; Get Y projected distance?
     LDA.w SNES.RemainderResultLow : ASL A
     LDA.w SNES.RemainderResultHigh : ADC.b #$00 : STA.b $00
-                               STZ.b $01
+                                                  STZ.b $01
     
-    LDA.l $0FFBC2, X : STA.w SNES.MultiplicandA
-    LDA.b $08        : STA.w SNES.MultiplierB
+    LDA.l Pool_Ancilla_GetRadialProjection_multiplier_x, X
+    STA.w SNES.MultiplicandA
+
+    LDA.b $08 : STA.w SNES.MultiplierB
     
     ; Sign of the projected distance.
-    LDA.l $0FFC82, X : STA.b $06
-                       STZ.b $07
+    LDA.l Pool_Ancilla_GetRadialProjection_meta_sign_x, X : STA.b $06
+                                                            STZ.b $07
     
     ; Get X projected distance?
     LDA.w SNES.RemainderResultLow : ASL A
     LDA.w SNES.RemainderResultHigh : ADC.b #$00 : STA.b $04
-                               STZ.b $05
+                                                  STZ.b $05
     
     PLX
     

@@ -607,7 +607,8 @@ LinkState_TemporaryBunny:
         
         LDA.b #$00 : STA.b $5D
         
-        JSL.l $07F1FA ; $03F1FA IN ROM. Reinstates your abilities.
+        ; Reinstates your abilities.
+        JSL.l Link_ResetProperties_C
         
         STZ.w $03F7
         STZ.b $56
@@ -3317,7 +3318,7 @@ Link_HandleFallingInPit:
         
         .BRANCH_BETA2
         
-            CMP.l $00990C, X : BEQ HandleLayerOfDestination_BRANCH_ALPHA2
+            CMP.l RoomsWithPitDamage, X : BEQ HandleLayerOfDestination_BRANCH_ALPHA2
         DEX #2 : BPL .BRANCH_BETA2
     
     .BRANCH_LATIMUS
@@ -3364,9 +3365,9 @@ HandleLayerOfDestination:
 {
     LDX.w $063C
     
-    LDA.l $01C31F, X : STA.w $0476
+    LDA.l LayerOfDestination_for_0476, X : STA.w $0476
     
-    LDA.l $01C322, X : STA.b $EE
+    LDA.l LayerOfDestination_for_EE, X : STA.b $EE
     
     RTS
     
@@ -4908,16 +4909,16 @@ CalculateSwordHitbox:
                 
                 LDA.b $2F : AND.w #$00FF : TAX
                 
-                LDA.l $0DA030, X : STA.b $04
+                LDA.l PlayerOam_AnimationDirectionalStepIndexOffset, X : STA.b $04
                 
                 TYA : AND.w #$00FF : ASL A : CLC : ADC.b $04 : TAX
                 
-                LDA.l $0D9EF0, X : CLC : ADC.b $02 : TAX
+                LDA.l PlayerOam_AnimationStepDataOffsets, X : CLC : ADC.b $02 : TAX
                 
                 SEP #$20
                 
-                LDA.l $0D98F3, X : STA.b $44
-                LDA.l $0D9AF2, X : STA.b $45
+                LDA.l AttackHitboxOffset_Y, X : STA.b $44
+                LDA.l AttackHitboxOffset_X, X : STA.b $45
                 
                 SEP #$10
                 
@@ -4932,11 +4933,11 @@ CalculateSwordHitbox:
         
         ASL #3 : CLC : ADC.b $0E : ASL A : CLC : ADC.b $04 : TAX
         
-        LDA.l $0DAC45, X : CMP.b #$FF : BEQ .no_hitbox
+        LDA.l PlayerOam_SwordSwingTipTile_up, X : CMP.b #$FF : BEQ .no_hitbox
             TXA : LSR A : TAX
             
-            LDA.l $0DAC8D, X : STA.b $44
-            LDA.l $0DACB1, X : STA.b $45
+            LDA.l PlayerOam_SwordSwingTipOffsetY_up, X : STA.b $44
+            LDA.l PlayerOam_SwordSwingTipOffsetX_up, X : STA.b $45
 
             .return
 
@@ -6272,31 +6273,31 @@ Pool_SpinAttack:
 {
     ; $03A7B8
     .anim_step
-    db $0A, $0B, $0A, $06, $07, $08, $09, $02, $03, $04, $05, $0A ; up
-    db $00, $01, $00, $02, $03, $04, $05, $06, $07, $08, $09, $00 ; down
-    db $0C, $0D, $0C, $04, $05, $06, $07, $08, $09, $02, $03, $0C ; left
-    db $0E, $0F, $0E, $08, $09, $02, $03, $04, $05, $06, $07, $0E ; right
+    db $0A, $0B, $0A, $06, $07, $08, $09, $02, $03, $04, $05, $0A ; Up
+    db $00, $01, $00, $02, $03, $04, $05, $06, $07, $08, $09, $00 ; Down
+    db $0C, $0D, $0C, $04, $05, $06, $07, $08, $09, $02, $03, $0C ; Left
+    db $0E, $0F, $0E, $08, $09, $02, $03, $04, $05, $06, $07, $0E ; Right
 
     ; $03A7E8
     .anim_timer_a
-    db $03, $09, $03 ; up
-    db $01, $01, $01 ; down
-    db $01, $01, $01 ; left
-    db $01, $01, $05 ; right
+    db $03, $09, $03 ; Up
+    db $01, $01, $01 ; Down
+    db $01, $01, $01 ; Left
+    db $01, $01, $05 ; Right
 
     ; $03A7F4
     .anim_timer_b
-    db $01, $05, $01 ; up
-    db $01, $01, $01 ; down
-    db $01, $01, $01 ; left
-    db $01, $01, $05 ; right
+    db $01, $05, $01 ; Up
+    db $01, $01, $01 ; Down
+    db $01, $01, $01 ; Left
+    db $01, $01, $05 ; Right
 
     ; $03A800
     .data_offset
-    db $00 ; up
-    db $0C ; down
-    db $18 ; left
-    db $24 ; right
+    db $00 ; Up
+    db $0C ; Down
+    db $18 ; Left
+    db $24 ; Right
 }
 
 ; Link mode 0x03 - Spin Attack Mode
@@ -6851,17 +6852,17 @@ Hookdrag_Offset:
 {
     ; $03AB6C
     .Y
-    db $F8 ; up
-    db $F0 ; down
-    db $00 ; left
-    db $00 ; right
+    db $F8 ; Up
+    db $F0 ; Down
+    db $00 ; Left
+    db $00 ; Right
 
     ; $03AB70
     .X
-    db $00 ; up
-    db $00 ; down
-    db $04 ; left
-    db $F4 ; right
+    db $00 ; Up
+    db $00 ; Down
+    db $04 ; Left
+    db $F4 ; Right
 }
 
 ; $03AB74-$03AB7B DATA
@@ -6869,17 +6870,17 @@ HookdragSpeeds:
 {
     ; $03AB74
     .Vertical
-    db $C0 ; up
-    db $40 ; down
-    db $00 ; left
-    db $00 ; right
+    db $C0 ; Up
+    db $40 ; Down
+    db $00 ; Left
+    db $00 ; Right
 
     ; $03AB78
     .Horizontal
-    db $00 ; up
-    db $00 ; down
-    db $C0 ; left
-    db $40 ; right
+    db $00 ; Up
+    db $00 ; Down
+    db $C0 ; Left
+    db $40 ; Right
 }
 
 ; Link mode 0x13 - Hookshot
@@ -9142,9 +9143,9 @@ RupeeTileOffset_x:
 ; $03BA07-$03BA09 DATA
 SpikeDamageValues:
 {
-    db $08 ; green
-    db $08 ; blue
-    db $08 ; red
+    db $08 ; Green
+    db $08 ; Blue
+    db $08 ; Red
 }
 
 ; ==============================================================================
@@ -10818,7 +10819,7 @@ StartMovementCollisionChecks_Horizontal:
                 STZ.b $6C
                 
                 JSR.w SnapOnX
-                JML.l $07CB9F ; $03CB9F IN ROM
+                JML.l CalculateSnapScratch_Horizontal
 
             .BRANCH_OMICRON
 
@@ -12238,13 +12239,17 @@ Player_TileDetectNearby:
     
     JSR.w TileDetect_ResetState
     
-    LDA.b $22 : CLC : ADC.w $CD83offset_perpendicular_axis_1 : AND.b $EC : LSR #3 : STA.b $02
+    LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_1
+    AND.b $EC : LSR #3 : STA.b $02
     
-    LDA.b $22 : CLC : ADC.w $CD93offset_perpendicular_axis_3 : AND.b $EC : LSR #3 : STA.b $04
+    LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_3
+    AND.b $EC : LSR #3 : STA.b $04
     
-    LDA.b $20 : CLC : ADC.w $CD87offset_pit_y : AND.b $EC : STA.b $00 : STA.b $74
+    LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_pit_y
+    AND.b $EC : STA.b $00 : STA.b $74
     
-    LDA.b $20 : CLC : ADC.w $CD97offset_pit_x : AND.b $EC : STA.b $08
+    LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_pit_x
+    AND.b $EC : STA.b $08
     
     ; Bleeds into the next function.
 }
@@ -12383,7 +12388,8 @@ TileDetect_MainHandler:
                 
                 TAY
                 
-                LDA.w $D06F, Y : AND.w #$00FF : CLC : ADC.w #$0040 : TAY
+                LDA.w Pool_TileDetect_MainHandler_index_offset, Y
+                AND.w #$00FF : CLC : ADC.w #$0040 : TAY
                 
                 BRA .delta
     
@@ -12398,9 +12404,11 @@ TileDetect_MainHandler:
     .delta
     
     ; Find some coordinates relative to Link, but depending on.
-    LDA.b $22 : CLC : ADC.w $D01C, Y : AND.b $EC : LSR #3 : STA.b $02
+    LDA.b $22 : CLC : ADC.w Pool_TileDetect_MainHandler_offset_x, Y
+    AND.b $EC : LSR #3 : STA.b $02
     
-    LDA.b $20 : CLC : ADC.w $CFCC, Y : AND.b $EC : STA.b $00
+    LDA.b $20 : CLC : ADC.w Pool_TileDetect_MainHandler_offset_y, Y
+    AND.b $EC          : STA.b $00
     
     LDA.w #$0001 : STA.b $0A
     
@@ -12430,7 +12438,7 @@ TileDetect_MainHandler:
     
     SEP #$30
     
-    JSR.w $DC4A ; $03DC4A IN ROM
+    JSR.w TileBehavior_HandleItemAndExecute
     
     .stillSpinAttacking
     
@@ -12599,7 +12607,7 @@ TileDetect_MainHandler:
                     LDA.l $7EF35B : TAY
                     
                     ; Determine how much damage the spike floor will do to Link.
-                    LDA.w $D06C, Y : STA.w $0373
+                    LDA.w Pool_TileDetect_MainHandler_spike_floor_damage, Y : STA.w $0373
                     
                     BRL Player_HaltDashAttack
         
@@ -12737,22 +12745,28 @@ PushBlock_AttemptToPushTheBlock:
     LDA.b $00 : STA.b $08
     LDA.b $02 : STA.b $04
     
-    LDA.b $08 : CLC : ADC.w $D2F4, Y : AND.b $EC : LSR #3 : STA.b $02
+    LDA.b $08
+    CLC : ADC.w Pool_PushBlock_AttemptToPushTheBlock_target_offset_x_a, Y
+    AND.b $EC : LSR #3 : STA.b $02
     
-    LDA.b $04 : CLC : ADC.w $D2E4, Y : AND.b $EC : STA.b $00
+    LDA.b $04
+    CLC : ADC.w Pool_PushBlock_AttemptToPushTheBlock_target_offset_y_a, Y
+    AND.b $EC          : STA.b $00
     
-    ; $03E026 IN ROM
-    JSR.w $E026 : BEQ .BRANCH_ALPHA
+    JSR.w PushBlock_GetGeneralizedTileInteractionOfTarget : BEQ .BRANCH_ALPHA
         CPX.w #$0009 : BNE .BRANCH_BETA
     
     .BRANCH_ALPHA
     
-    LDA.b $08 : CLC : ADC.w $D2FC, Y : AND.b $EC : LSR #3 : STA.b $02
+    LDA.b $08
+    CLC : ADC.w Pool_PushBlock_AttemptToPushTheBlock_target_offset_x_b, Y
+    AND.b $EC : LSR #3 : STA.b $02
     
-    LDA.b $04 : CLC : ADC.w $D2EC, Y : AND.b $EC          : STA.b $00
+    LDA.b $04
+    CLC : ADC.w Pool_PushBlock_AttemptToPushTheBlock_target_offset_y_b, Y
+    AND.b $EC          : STA.b $00
     
-    ; $03E026 IN ROM
-    JSR.w $E026 : BEQ .BRANCH_GAMMA
+    JSR.w PushBlock_GetGeneralizedTileInteractionOfTarget : BEQ .BRANCH_GAMMA
         CPX.w #$0009 : BNE .BRANCH_BETA
     
     .BRANCH_GAMMA
@@ -12826,11 +12840,13 @@ Link_HandleLiftables:
     
     ; We're going to form a box based on which to detect a tile type we can
     ; interact with.
-    LDA.b $20 : CLC : ADC.w $D365, Y : AND.b $EC : STA.b $00
+    LDA.b $20 : CLC : ADC.w Liftable_CheckOffset_Y, Y
+    AND.b $EC          : STA.b $00
     
     LDA.b $20 : CLC : ADC.w #$0014 : AND.b $EC : STA.b $04
     
-    LDA.b $22 : CLC : ADC.w $D36D, Y : AND.b $EC : LSR #3 : STA.b $02
+    LDA.b $22 : CLC : ADC.w Liftable_CheckOffset_X, Y
+    AND.b $EC : LSR #3 : STA.b $02
     
     LDA.b $22 : CLC : ADC.w #$0008 : AND.b $EC : LSR #3 : STA.b $08
     
@@ -12874,7 +12890,7 @@ Link_HandleLiftables:
             
             AND.b #$0F : TAY
             
-            LDA.w $D37C, Y : STA.w $0368 : TAY
+            LDA.w Liftable_0368ID, Y : STA.w $0368 : TAY
             
             BRA .check_lift_strength
         
@@ -12914,7 +12930,7 @@ Link_HandleLiftables:
         .check_lift_strength
         
         ; Subtract glove strength.
-        LDA.w $D375, Y : SEC : SBC.l $7EF354 : BEQ .strongEnough 
+        LDA.w Liftable_GloveLevels, Y : SEC : SBC.l $7EF354 : BEQ .strongEnough 
             BPL .checkIfOpeningChest
         
         .strongEnough
@@ -12935,6 +12951,31 @@ Link_HandleLiftables:
 }
 
 ; ==============================================================================
+
+; $03D445-$03D484 DATA
+Pool_HandleNudging:
+{
+    ; $03D445
+    .offset_y_top
+    dw $0008, $0008, $0017, $0017
+    dw $0008, $0017, $0008, $0017
+
+    ; $03D455
+    .offset_x_top
+    dw $0000, $000F, $0000, $000F
+    dw $0000, $0000, $000F, $000F
+
+    ; $03D465
+    .offset_y_bottom
+    dw $0017, $0017, $0008, $0008
+    dw $0008, $0017, $0008, $0017
+
+    ; $03D475
+    .offset_x_bottom
+    dw $0000, $000F, $0000, $000F
+    dw $000F, $000F, $0000, $0000
+}
+
 
 ; $03D485-$03D555 LOCAL JUMP LOCATION
 HandleNudging:
@@ -12988,11 +13029,17 @@ HandleNudging:
     
     JSR.w TileDetect_ResetState
     
-    LDA.b $20 : CLC : ADC.w $D445, Y : AND.b $EC :          STA.b $00
-    LDA.b $22 : CLC : ADC.w $D455, Y : AND.b $EC : LSR #3 : STA.b $02
+    LDA.b $20 : CLC : ADC.w Pool_HandleNudging_offset_y_top, Y
+    AND.b $EC :          STA.b $00
+
+    LDA.b $22 : CLC : ADC.w Pool_HandleNudging_offset_x_top, Y
+    AND.b $EC : LSR #3 : STA.b $02
     
-    LDA.b $20 : CLC : ADC.w $D465, Y : AND.b $EC :          STA.b $04
-    LDA.b $22 : CLC : ADC.w $D475, Y : AND.b $EC : LSR #3 : STA.b $08
+    LDA.b $20 : CLC : ADC.w Pool_HandleNudging_offset_y_bottom, Y
+    AND.b $EC :          STA.b $04
+
+    LDA.b $22 : CLC : ADC.w Pool_HandleNudging_offset_x_bottom, Y
+    AND.b $EC : LSR #3 : STA.b $08
     
     LDA.w #$0001 : STA.b $0A
     
@@ -13188,8 +13235,6 @@ Pool_HandleNudgingInADoor:
     dw $0008, $0008, $0000, $000F
 }
 
-; ==============================================================================
-
 ; $03D667-$03D6F3 LONG BRANCH LOCATION
 HandleNudgingInADoor:
 {
@@ -13218,9 +13263,11 @@ HandleNudgingInADoor:
     
     JSR.w TileDetect_ResetState
     
-    LDA.b $20 : CLC : ADC.w $D657, Y : AND.b $EC :          STA.b $00
+    LDA.b $20 : CLC : ADC.w Pool_HandleNudgingInADoor_offset_y, Y
+    AND.b $EC :          STA.b $00
     
-    LDA.b $22 : CLC : ADC.w $D65F, Y : AND.b $EC : LSR #3 : STA.b $02
+    LDA.b $22 : CLC : ADC.w Pool_HandleNudgingInADoor_offset_x, Y
+    AND.b $EC : LSR #3 : STA.b $02
     
     LDA.w #$0001 : STA.b $0A
     
@@ -14144,7 +14191,7 @@ TileBehavior_Slope:
     
     LDA.b $06 : AND.w #$0003 : ASL A : TAY
     
-    LDA.w $DC55, Y : STA.b $6E
+    LDA.w TileBehavior_Slope_masks, Y : STA.b $6E
     
     RTS
 }
@@ -14289,7 +14336,7 @@ TileBehavior_ShutterDoor:
     RTS
 }
 
-; $03DD00-$03DD1A JUMP LOCATION
+; $03DD00-$03DD09 JUMP LOCATION
 TileBehavior_DungeonToggleManualDoor:
 {
     LDA.b $EF : AND.w #$FF00 : ORA.w #$0002 : STA.b $EF
@@ -14297,7 +14344,7 @@ TileBehavior_DungeonToggleManualDoor:
     ; Bleeds into the next function.
 }
     
-; $03DD0A ALTERNATE ENTRY POINT
+; $03DD0A-$03DD1A LOCAL JUMP LOACTION
 TileBehavior_Door:
 {
     LDA.b $0A : ASL #4 : TSB.b $0E
@@ -14319,9 +14366,8 @@ TileBehavior_ShallowWater:
 ; ==============================================================================
 
 ; $03DD21-$03DD40 DATA
-Pool_TileBehavior_ManipulablyReplaced:
+TileBehavior_ManipulablyReplaced_bitmask:
 {
-    .bitmask
     dw $0001 ; 0000000000000001
     dw $0002 ; 0000000000000010
     dw $0004 ; 0000000000000100
@@ -14340,21 +14386,19 @@ Pool_TileBehavior_ManipulablyReplaced:
     dw $8000 ; 1000000000000000
 }
 
-; ==============================================================================
-
 ; $03DD41-$03DD5B JUMP LOCATION
 TileBehavior_ManipulablyReplaced:
 {
     LDA.b $0A : AND.w #$0002 : BEQ .BRANCH_ALPHA
         LDA.b $06 : AND.w #$000F : ASL A : TAY
         
-        LDA.w $DD21, Y : TSB.b $5F
+        LDA.w .bitmask, Y : TSB.b $5F
     
     .BRANCH_ALPHA
     
     LDA.b $0A : TSB.b $0E
     
-    JSR.w $DDE5 ; $03DDE5 IN ROM
+    JSR.w TileBehavior_FlagManipulable
     
     RTS
 }
@@ -14377,7 +14421,8 @@ TileBehavior_UnusedDeepWater:
 ; $03DD6A-$03DD9C JUMP LOCATION
 TileBehavior_Chest:
 {
-    JSR.w $DDE5 ; $03DDE5 IN ROM; TSB to $02F6
+    ; TSB to $02F6
+    JSR.w TileBehavior_FlagManipulable
     
     ; Store the tile type we're handling to $76.
     LDA.b $06 : STA.b $76
@@ -14576,7 +14621,7 @@ TileBehavior_Conveyor:
 ; $03DE45-$03DE4E LOCAL JUMP LOCATION
 TileBehavior_MinigameChest:
 {
-    JSR.w $DDE5 ; $03DDE5 IN ROM
+    JSR.w TileBehavior_FlagManipulable
     
     LDA.b $06 : STA.b $76
     
@@ -14586,7 +14631,7 @@ TileBehavior_MinigameChest:
 ; $03DE4F-$03DE5A LOCAL JUMP LOCATION
 TileBehavior_Entrance:
 {
-    JSR.w $DD0A ; $03DD0A IN ROM
+    JSR.w TileBehavior_Door
     
     LDA.b $0A : XBA : TSB.w $02EE
     
@@ -14621,9 +14666,8 @@ TileBehavior_DiggableGround:
 }
 
 ; $03DE70-$03DE7D DATA
-pool TileBehavior_Liftable:
+TileBehavior_Liftable_id_matcher:
 {
-    .id_matcher
     dw $0054 ; Hint tile/Sign
     dw $0052 ; Gray rock
     dw $0050 ; Green bush
@@ -14643,7 +14687,7 @@ TileBehavior_Liftable:
         ; Load this tile's attribute value.
         LDA.b $06 
         
-        CMP.w $DE70, X : BNE .noMatch
+        CMP.w .id_matcher, X : BNE .noMatch
             CMP.w #$0050 : BEQ .specialCase
                 CMP.w #$0051 : BNE .notSpecialCase
             
@@ -14659,7 +14703,7 @@ TileBehavior_Liftable:
             
             STX.w $036A
             
-            JSR.w $DDE1 ; $03DDE1 IN ROM
+            JSR.w TileBehavior_Hookshottables
             
             RTS
         
@@ -14776,9 +14820,8 @@ TileBehavior_BonkRocks:
 }
 
 ; $03DF26-$03E025 DATA
-Pool_PushBlock_GetGeneralizedTileInteractionOfTarget:
+PushBlock_GetGeneralizedTileInteractionOfTarget_generic_type:
 {
-    .generic_type
     db $00, $01, $02, $03, $02, $00, $00, $00
     db $00, $01, $00, $01, $00, $00, $00, $00
     db $01, $01, $01, $01, $01, $01, $01, $01
@@ -14831,7 +14874,7 @@ PushBlock_GetGeneralizedTileInteractionOfTarget:
     
     LDA.l $7F2000, X : AND.w #$00FF : TAX
     
-    LDA.w $DF26, X : AND.w #$00FF
+    LDA.w .generic_type, X : AND.w #$00FF
     
     RTS
 }
@@ -14888,7 +14931,7 @@ FlagMovingIntoSlopes_Vertical:
 
         STA.b $02
         
-        LDA.w $E052, X : SEC : SBC.b $02
+        LDA.w DifferenceFor6BLowNibble, X : SEC : SBC.b $02
         
         LDY.b $30 : BEQ .BRANCH_EPSILON
             BPL .BRANCH_ZETA
@@ -14902,7 +14945,7 @@ FlagMovingIntoSlopes_Vertical:
 
     .BRANCH_BETA
 
-    LDA.w $E052, X : SEC : SBC.b $00 : STA.b $00
+    LDA.w DifferenceFor6BLowNibble, X : SEC : SBC.b $00 : STA.b $00
 
     .BRANCH_THETA
 
@@ -14942,7 +14985,7 @@ FlagMovingIntoSlopes_Vertical:
 
             .BRANCH_LAMBDA
 
-            LDA.w $E072, Y : ORA.w #$0410
+            LDA.w FlagFor6BLowNibble, Y : ORA.w #$0410
             
             RTL
 
@@ -14991,7 +15034,7 @@ FlagMovingIntoSlopes_Horizontal:
 
         SEC : SBC.b #$08 : EOR.b #$FF : INC A : STA.b $02
         
-        LDA.w $E052, X : SEC : SBC.b $02
+        LDA.w DifferenceFor6BLowNibble, X : SEC : SBC.b $02
 
         .BRANCH_EPSILON
 
@@ -15007,7 +15050,7 @@ FlagMovingIntoSlopes_Horizontal:
 
     .BRANCH_GAMMA
 
-    LDA.w $E052, X : SEC : SBC.b $00 : STA.b $00
+    LDA.w DifferenceFor6BLowNibble, X : SEC : SBC.b $00 : STA.b $00
 
     .BRANCH_IOTA
 
@@ -15047,7 +15090,7 @@ FlagMovingIntoSlopes_Horizontal:
 
             .BRANCH_MU
 
-            LDA.w $E072, Y : ORA.w #$0420
+            LDA.w FlagFor6BLowNibble, Y : ORA.w #$0420
             
             RTL
 
@@ -15306,8 +15349,8 @@ Link_HandleVelocity:
     
     .load_subvel
     
-    ; $3E227, X in rom. Link's speed table.
-    LDA.w $E227, X
+    ; Link's speed table.
+    LDA.w SubVelocityValues, X
     
     .BRANCH_UPSILON
     
@@ -15449,6 +15492,32 @@ Link_HandleVelocityAndSandDrag::
     RTL
 }
 
+; $03E406-$03E41D DATA
+SwimmingAccelAndThrustChange:
+{
+    dw   8, -12,  -8, -16
+    dw   4,  -6, -12,  -6
+    dw  10, -16, -12,  -6
+}
+
+; $03E41E-$03E421 DATA
+SwimmingThrustDirectionMask:
+{
+    db $F3
+    db $FF
+    db $FC
+    db $FF
+}
+
+; $03E422-$03E429 DATA
+SwimmingThrustDirectionBit:
+{
+    dw $0008
+    dw $0004
+    dw $0002
+    dw $0001
+}
+
 ; $03E42A-$03E540 LONG BRANCH LOCATION
 HandleSwimStrokeAndSubpixels:
 {
@@ -15479,17 +15548,17 @@ HandleSwimStrokeAndSubpixels:
         
         .BRANCH_BETA
         
-        LDA.w $E406, Y : CLC : ADC.w $033C, X : BEQ .BRANCH_GAMMA
+        LDA.w SwimmingAccelAndThrustChange, Y : CLC : ADC.w $033C, X : BEQ .BRANCH_GAMMA
             BPL .BRANCH_DELTA
 
         .BRANCH_GAMMA
             
-        LDA.w $E41E, X : AND.b $67 : STA.b $67 : STA.b $26
+        LDA.w SwimmingThrustDirectionMask, X : AND.b $67 : STA.b $67 : STA.b $26
             
          LDA.w $032B, X : CMP.w #$0002 : BNE .BRANCH_EPSILON
             STZ.w $032B, X
                 
-            LDA.w $9639 : STA.w $0334, X
+            LDA.w MaxSwimAcceleration : STA.w $0334, X
                 
             LDA.w #$0002
                 
@@ -15507,7 +15576,7 @@ HandleSwimStrokeAndSubpixels:
         
         TXA : CLC : ADC.w $0338, X : ASL A : TAY
         
-        LDA.w $E422, Y : ORA.b $67 : STA.b $67
+        LDA.w SwimmingThrustDirectionBit, Y : ORA.b $67 : STA.b $67
         
         PLA : CMP.w $0334, X : BCC .BRANCH_ZETA
             LDA.w $0334, X
@@ -15588,7 +15657,7 @@ HandleSwimStrokeAndSubpixels:
     DEX #2 : BPL .BRANCH_XI
     
     LDA.w $046C : CMP.b #$04 : BNE .BRANCH_OMICRON
-        JSR.w $E5CD ; $03E5CD IN ROM
+        JSR.w Link_ApplyMovingFloorVelocity
     
     .BRANCH_OMICRON
     
@@ -15779,7 +15848,8 @@ Link_ApplyConveyor:
                         LDA.w $02F1 : CMP.b #$20 : BNE .BRANCH_BETA
                             LDY.w $03F3 : DEY
                         
-                            LDA.w $E5E4, Y : AND.b $67 : BEQ Link_ApplyMovingFloorVelocity_return
+                            LDA.w Pool_Link_ApplyConveyor_walking_direction_flags, Y
+                            AND.b $67 : BEQ Link_ApplyMovingFloorVelocity_return
                     
                     .BRANCH_BETA
                     
@@ -15787,11 +15857,12 @@ Link_ApplyConveyor:
                     
                     LDY.w $03F3 : DEY
                     
-                    LDA.w $E5E4, Y : TSB.b $67
+                    LDA.w Pool_Link_ApplyConveyor_walking_direction_flags, Y
+                    TSB.b $67
                     
-                    LDA.w $E5E8, Y : STA.b $72
+                    LDA.w Pool_Link_ApplyConveyor_y_speeds, Y : STA.b $72
                     
-                    LDA.w $E5EC, Y : STA.b $73
+                    LDA.w Pool_Link_ApplyConveyor_x_speeds, Y : STA.b $73
                     
                     LDX.b #$01
                     LDY.b #$02
@@ -15829,6 +15900,44 @@ Link_ApplyConveyor:
                     SEP #$20
                     
                     RTS
+}
+
+; ==============================================================================
+
+; $03E671-$03E674 DATA
+LinkDiagonalDominantDirection:
+{
+    db $08, $04, $02, $01
+}
+
+; $03E675-$03E684 DATA
+LinkWalkAnimationTimer_other:
+{
+    db $04 ; Bunny/carry walk up
+    db $04 ; Bunny/carry walk down
+    db $04 ; Bunny/carry walk left
+    db $04 ; Bunny/carry walk right
+    db $01 ; Slipping with sword/carry up
+    db $01 ; Slipping with sword/carry down
+    db $01 ; Slipping with sword/carry left
+    db $01 ; Slipping with sword/carry right
+    db $02
+    db $02
+    db $02
+    db $02
+    db $08 ; Straight stair doors/pushing
+    db $08
+    db $08
+    db $08
+}
+
+; $03E685-$03E69C DATA
+LinkWalkAnimationTimer:
+{
+    db $01, $02, $03, $02, $02, $02, $03, $02 ; Walk
+    db $01 ; Used both by walk and on ice, but not for entering underworld
+    db $01, $02, $01, $01, $01, $02, $01, $02 ; Entering underworld/ice
+    db $02, $03, $02, $02, $02, $03, $02 ; Ice+underworld entrance - impossible?
 }
 
 ; $03E69D-$03E6A5 LONG JUMP LOCATION
@@ -15885,7 +15994,7 @@ Link_HandleMovingAnimation_MainEntry:
             
             LDA.b $2F : LSR A : TAX
             
-            LDA.b $00 : AND.w $E671, X : BNE Link_HandleMovingAnimation_StartWithDash_check_dashing
+            LDA.b $00 : AND.w LinkDiagonalDominantDirection, X : BNE Link_HandleMovingAnimation_StartWithDash_check_dashing
         
         .BRANCH_EPSILON
         
@@ -15980,7 +16089,7 @@ Link_HandleMovingAnimation_StartWithDash:
     
     LDA.b $2E : CMP.b #$06 : BCS .BRANCH_PI
         LDA.w $02F5 : CMP.b #$02 : BEQ .BRANCH_PI
-            LDA.w $E675, X : STA.b $00
+            LDA.w LinkWalkAnimationTimer_other, X : STA.b $00
             
             LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .BRANCH_PSI
                 STZ.b $2D
@@ -16016,7 +16125,7 @@ Link_HandleMovingAnimation_StartWithDash:
     .BRANCH_BET
     
     LDA.w $02F5 : CMP.b #$02 : BEQ Link_HandleMovingAnimation_Bunny_return
-        LDA.w $E685, X : STA.b $00
+        LDA.w LinkWalkAnimationTimer, X : STA.b $00
         
         LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .BRANCH_THEL
             STZ.b $2D
@@ -16040,7 +16149,7 @@ Link_HandleMovingAnimation_Bunny:
 {
     LDA.b $2E : CMP.b #$04 : BCS .BRANCH_ZAH
         LDA.w $02F5 : CMP.b #$02 : BEQ .BRANCH_ZAH
-            LDA.w $E675, X : STA.b $00
+            LDA.w LinkWalkAnimationTimer_other, X : STA.b $00
             
             LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .return
                 STZ.b $2D
@@ -16077,7 +16186,7 @@ Link_HandleMovingAnimationSwimming:
                 
                 LDA.b $2F : LSR A : TAX
                 
-                LDA.w $0340 : AND.w $E671, X : BNE .BRANCH_ALPHA
+                LDA.w $0340 : AND.w LinkDiagonalDominantDirection, X : BNE .BRANCH_ALPHA
             
             .BRANCH_BETA
             
@@ -16110,6 +16219,32 @@ Link_HandleMovingAnimationSwimming:
     RTL
 }
 
+; $03E842- DATA
+Pool_Link_HandleMovingAnimation_Dash:
+{
+    ; $03E842
+    .timers_a_idk
+    db $03, $03, $05, $03, $03, $03, $05, $03
+    db $02, $02, $04, $02, $02, $02, $04, $02
+    db $02, $02, $03, $02, $02, $02, $03, $02
+    db $01, $01, $02, $01, $01, $01, $02, $01
+    db $01, $01, $01, $01, $01, $01, $01, $01
+    db $00, $00, $01, $00, $00, $00, $01, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
+
+    ; $03E87A
+    .timers_charge
+    db $01
+    db $02, $02, $02, $02, $02 ; Water?
+    db $02                     ; Actual dashing
+
+    ; $03E881
+    .thresholds
+    db $30                               ; Unused? is this a default?
+    db $24, $18, $10, $0C, $08, $04
+    db $04, $06, $08, $0A, $0C, $0E, $10 ; Unused?
+}
+
 ; $03E88F-$03E8EF LONG BRANCH LOCATION
 Link_HandleMovingAnimation_Dash:
 {
@@ -16118,7 +16253,8 @@ Link_HandleMovingAnimation_Dash:
     LDA.w $0374 : BEQ .BRANCH_ALPHA
         .BRANCH_BETA
         
-            LDA.w $0374 : CMP.w $E881, X : BCC .BRANCH_ALPHA
+            LDA.w $0374
+            CMP.w Pool_Link_HandleMovingAnimation_Dash_thresholds, X : BCC .BRANCH_ALPHA
         DEX : BPL .BRANCH_BETA
         
         INX
@@ -16129,7 +16265,7 @@ Link_HandleMovingAnimation_Dash:
         LDA.w $0351 : BNE .BRANCH_GAMMA
             TXA : ASL #3 : TAX
             
-            LDA.w $E842, X : STA.b $00
+            LDA.w Pool_Link_HandleMovingAnimation_Dash_timers_a_idk, X : STA.b $00
             
             LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D
             CMP.b $00 : BCC .BRANCH_DELTA
@@ -16148,7 +16284,7 @@ Link_HandleMovingAnimation_Dash:
     
     .BRANCH_GAMMA
     
-    LDA.w $E87A, X : STA.b $00
+    LDA.w Pool_Link_HandleMovingAnimation_Dash_timers_charge, X : STA.b $00
     
     LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .BRANCH_THETA
         STZ.b $2D
@@ -16174,11 +16310,11 @@ HandleIndoorCameraAndDoors:
     LDA.b $1B : BEQ .return
         ; I'll deal with this routine later.
         LDA.b $6C : BEQ .notInDoorway
-            JML.l $07E901 ; $03E901 IN ROM
+            JML.l HandleDoorTransitions
         
         .notInDoorway
         
-        JSL.l $07E9D3 ; $03E9D3 IN ROM
+        JSL.l ApplyLinksMovementToCamera
     
     .return
     
@@ -16261,7 +16397,7 @@ HandleDoorTransitions:
             STZ.w $0376
             
             ; Transition right.
-            JSL.l $02B62E ; $01362E IN ROM
+            JSL.l HandleEdgeTransitionMovementEast_RightBy8
             
             RTS
     
@@ -16273,7 +16409,7 @@ HandleDoorTransitions:
         STZ.w $0376
         
         ; Transition left.
-        JSL.l $02B6CD ; $0136CD IN ROM
+        JSL.l HandleEdgeTransitionMovementWest_LeftBy8
         
         RTS
     
@@ -16297,7 +16433,7 @@ HandleDoorTransitions:
         STZ.w $0309
         STZ.w $0376
         
-        JSL.l $02B76E ; $01376E IN ROM
+        JSL.l HandleEdgeTransitionMovementSouth_DownBy16
     
     .noVerticalMovement
     
@@ -16316,19 +16452,19 @@ ApplyLinksMovementToCamera:
     
     LDA.b $69 : BEQ .noHorizontalMovement
         BMI .movedLeft
-            JSL.l $02B8BD ; $0138BD IN ROM
+            JSL.l AdjustQuadrantAndCamera_right
             
             BRA .noHorizontalMovement
             
         .movedLeft
             
-        JSL.l $02B8F9 ; $0138F9 IN ROM
+        JSL.l AdjustQuadrantAndCamera_left
     
     .noHorizontalMovement
     
     LDA.b $68 : BEQ .noVerticalMovement
         BPL .movedDown
-            JSL.l $02B919 ; $013919 IN ROM
+            JSL.l AdjustQuadrantAndCamera_up
             
             PLB
             
@@ -16336,7 +16472,7 @@ ApplyLinksMovementToCamera:
         
         .movedDown
         
-        JSL.l $02B909 ; $013909 IN ROM
+        JSL.l AdjustQuadrantAndCamera_down
     
     .noVerticalMovement
     
@@ -16347,15 +16483,14 @@ ApplyLinksMovementToCamera:
 
 ; ==============================================================================
 
+; This routine initializes the hdma table for Link praying to open
+; the desert barrier. This code is not the same as that used to create
+; the spotlight effects of entering or leaving a dungeon. That can
+; be found in bank 0x00.
 ; $03EA06-$03EA21 LONG JUMP LOCATION
 Player_InitPrayingScene_HDMA:
 {
-    ; This routine initializes the hdma table for Link praying to open
-    ; the desert barrier. This code is not the same as that used to create
-    ; the spotlight effects of entering or leaving a dungeon. That can
-    ; be found in bank 0x00.
-    
-    JSL.l $02C7B8 ; $0147B8 IN ROM
+    JSL.l CleanUpAndPrepDesertPrayerHDMA
     
     PHB : PHK : PLB
     
@@ -16381,7 +16516,6 @@ Player_InitPrayingScene_HDMA:
 ; $03EA22-$03EA26 DATA
 DesertPrayerAnimationTimer:
 {
-    .timers
     db 22, 22, 22, 64, 1
 }
 
@@ -16435,7 +16569,7 @@ DesertPrayer_BuildIrisHDMATable:
         
         .BRANCH_DELTA
         
-        JSR.w $ECDC ; $03ECDC IN ROM
+        JSR.w DesertHDMA_CalculateIrisShapeLine
         
         LDA.b $06 : BNE .BRANCH_ZETA
             STZ.w $0674
@@ -16596,7 +16730,7 @@ DesertPrayer_BuildIrisHDMATable:
         
         .BRANCH_ALTIMA
         
-        LDA.w $EA22, X : STA.b $3D
+        LDA.w DesertPrayerAnimationTimer, X : STA.b $3D
     
     .BRANCH_CHI
     
@@ -16611,6 +16745,7 @@ DesertPrayer_BuildIrisHDMATable:
 Pool_DesertHDMA_CalculateIrisShapeLine:
 {
     ; $03EBDA
+    .multiplier_opening
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FE, $FE, $FE, $FE
     db $FD, $FD, $FD, $FD, $FC, $FC, $FC, $FB
@@ -16652,11 +16787,10 @@ Pool_DesertHDMA_CalculateIrisShapeLine:
 
 ; ==============================================================================
 
+; ( table[ ( (A / B) / 2) ] * B) >> 8
 ; $03ECDC-$03ED2B LOCAL JUMP LOCATION
 DesertHDMA_CalculateIrisShapeLine:
 {
-    ; ( table[ ( (A / B) / 2) ] * B) >> 8
-    
     SEP #$30
     
     LDA.w $067A : STA.w SNES.DividendHigh
@@ -16672,11 +16806,11 @@ DesertHDMA_CalculateIrisShapeLine:
     
     TAX
     
-    LDY.w $EC5B, X
+    LDY.w Pool_DesertHDMA_CalculateIrisShapeLine_multiplier_closed, X
     
     LDA.w $067E : BEQ .contracting
         ; Use a different table if dilating.
-        LDY.w $EBDA, X
+        LDY.w Pool_DesertHDMA_CalculateIrisShapeLine_multiplier_opening, X
     
     .contracting
     
@@ -16759,8 +16893,7 @@ InitializePushBlock:
         LDA.w $0500, X : BNE .BRANCH_ALPHA
             LDY.b #$00
             
-            ; $03D304 IN ROM
-            JSR.w $D304 : BCC .BRANCH_BETA
+            JSR.w PushBlock_AttemptToPushTheBlock : BCC .BRANCH_BETA
         
     .BRANCH_ALPHA
     
@@ -16816,7 +16949,7 @@ PushBlock_Slide:
         
         LDA.b #$09 : STA.w $02C4 : STZ.w $02C3
         
-        JSR.w $EE35 ; $03EE35 IN ROM
+        JSR.w PushBlock_ApplyVelocity
         
         LDA.w $05F0, Y : STA.b $72
         LDA.w $05EC, Y : STA.b $73
@@ -16824,7 +16957,7 @@ PushBlock_Slide:
         LDA.w $05E4, Y : STA.b $74
         LDA.w $05E0, Y : STA.b $75
         
-        JSR.w $EFB9 ; $03EFB9 IN ROM
+        JSR.w PushBlock_HandleCollision
     
     .return
     
@@ -16836,9 +16969,8 @@ PushBlock_Slide:
 ; ==============================================================================
 
 ; $03EDF4-$03EDF8
-Pool_PushBlock_HandleFalling:
+PushBlock_HandleFalling_fall_timer:
 {
-    .fall_timer
     db $09, $09, $09, $09, $09
 }
 
@@ -16855,7 +16987,7 @@ PushBlock_HandleFalling:
     DEC.w $02C4 : BPL .not_finished
         INC.w $02C3 : LDX.w $02C3
         
-        LDA.w $EDF4, X : STA.w $02C4
+        LDA.w .fall_timer, X : STA.w $02C4
         
         CPX.b #$04 : BNE .not_finished
             TYX
@@ -16893,22 +17025,20 @@ Pool_PushBlock_ApplyVelocity:
     db $08, $04, $02, $01
 }
 
-; ==============================================================================
-
 ; $03EE35-$03EF60 LOCAL JUMP LOCATION
 PushBlock_ApplyVelocity:
 {
     STZ.b $27
     STZ.b $28
     
-    LDA.w $EE30 : STA.b $0A : STA.b $0B
+    LDA.w Pool_PushBlock_ApplyVelocity_block_speed : STA.b $0A : STA.b $0B
     
     LDA.b #$03 : STA.b $0C
     LDA.b #$02 : STA.b $0D
     
     LDA.w $05F8, Y : LSR A : TAX
     
-    LDA.w $EE31, X : STA.b $00
+    LDA.w Pool_PushBlock_ApplyVelocity_direction_mask, X : STA.b $00
     
     LDX.b #$01
     
@@ -17062,7 +17192,7 @@ Pool_PushBlock_ApplyVelocity:
 
 ; ==============================================================================
 
-; $03EF69-$03EFB9 DATA
+; $03EF69-$03EFB8 DATA
 Pool_PushBlock_HandleCollision:
 {
     ; $03EF69
@@ -17165,19 +17295,41 @@ PushBlock_HandleCollision:
     
     LDA.b $0E : PHA
     
-    LDA.w $EFA1, Y : STA.b $0C
-    LDA.w $EFB1, Y : STA.b $0E
+    LDA.w Pool_PushBlock_HandleCollision_link_coord_address_perpendicular, Y
+    STA.b $0C
+
+    LDA.w Pool_PushBlock_HandleCollision_block_coords_address_perpendicular, Y
+    STA.b $0E
     
-    LDA ($0C) : CLC : ADC.w $EF71, Y : STA.b $00
-    LDA ($0C) : CLC : ADC.w $EF79, Y : STA.b $02
-    LDA ($0E) : CLC : ADC.w $EF89, Y : STA.b $04
-    LDA ($0E) : CLC : ADC.w $EF91, Y : STA.b $06
+    LDA ($0C)
+    CLC : ADC.w Pool_PushBlock_HandleCollision_link_offset_perpendicular_bottom, Y
+    STA.b $00
+
+    LDA ($0C)
+    CLC : ADC.w Pool_PushBlock_HandleCollision_link_offset_perpendicular_top, Y
+    STA.b $02
+
+    LDA ($0E)
+    CLC : ADC.w Pool_PushBlock_HandleCollision_block_offset_perpendicular_bottom, Y
+    STA.b $04
+
+    LDA ($0E)
+    CLC : ADC.w Pool_PushBlock_HandleCollision_block_offset_perpendicular_top, Y
+    STA.b $06
     
-    LDA.w $EF99, Y : STA.b $0C
-    LDA.w $EFA9, Y : STA.b $0E
+    LDA.w Pool_PushBlock_HandleCollision_link_coord_address_on_axis, Y
+    STA.b $0C
+
+    LDA.w Pool_PushBlock_HandleCollision_block_coords_address_on_axis, Y
+    STA.b $0E
     
-    LDA ($0C) : CLC : ADC.w $EF69, Y : STA.b $08
-    LDA ($0E) : CLC : ADC.w $EF81, Y : STA.b $0A
+    LDA ($0C)
+    CLC : ADC.w Pool_PushBlock_HandleCollision_link_offset_on_axis, Y
+    STA.b $08
+
+    LDA ($0E)
+    CLC : ADC.w Pool_PushBlock_HandleCollision_block_coords_address_perpendicular, Y
+    STA.b $0A
     
     LDA.b $48 : AND.w #$FFFB : STA.b $48
     
@@ -17338,11 +17490,11 @@ Underworld_DrawSinglePushBlock:
     
     LDY.w $02C3
     
-    LDA.w $F0D0, Y : TAX
+    LDA.w Pool_Underworld_DrawSinglePushBlock_index, Y : TAX
     
     LDY.b #$00
     
-    LDA.w $F0CC, X : CMP.b #$FF : BNE .alpha
+    LDA.w Pool_Underworld_DrawSinglePushBlock_step, X : CMP.b #$FF : BNE .alpha
         BRA .beta
     
     .alpha
@@ -17677,7 +17829,7 @@ HandleLinkOnSpiralStairs:
     
     REP #$20
     
-    JSL.l $02921A ; $01121A IN ROM
+    JSL.l RepositionLinkAfterSpiralStairs
     
     SEP #$20
     
@@ -17711,15 +17863,18 @@ HandleLinkOnSpiralStairs:
         
         LDA.b #$17 ; Play the up staircase sound.
         
-        JSR.w $8028 ; Play a sound (maybe the staircase steps sound?)
+        ; Play a sound (maybe the staircase steps sound?)
+        JSR.w Player_DoSfx2
         
         BRA .BRANCH_MU
     
-    .BRANCH_LAMBDA ; Yep, downward staircase.
+    ; Yep, downward staircase.
+    .BRANCH_LAMBDA
     
     LDA.b #$19
     
-    JSR.w $8028 ; Play a sound (also a staircase step sound presumably).
+    ; Play a sound (also a staircase step sound presumably).
+    JSR.w Player_DoSfx2
     
     .BRANCH_MU
     

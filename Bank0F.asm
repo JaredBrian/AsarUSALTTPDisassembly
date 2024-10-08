@@ -4703,6 +4703,8 @@ Pool_BombosSpell_ExecuteBlasts:
 ; $07FBC2-$07FCC1 DATA
 Pool_Ancilla_GetRadialProjection:
 {
+    ; $07FBC2
+    .multiplier_x
     db $00, $19, $31, $4A, $61, $78, $8E, $A2
     db $B5, $C5, $D4, $E1, $EC, $F4, $FB, $FE
     db $FF, $FE, $FB, $F4, $EC, $E1, $D4, $C5
@@ -4712,7 +4714,8 @@ Pool_Ancilla_GetRadialProjection:
     db $FF, $FE, $FB, $F4, $EC, $E1, $D4, $C5
     db $B5, $A2, $8E, $78, $61, $4A, $31, $19
     
-    
+    ; $07FC02
+    .multiplier_y
     db $FF, $FE, $FB, $F4, $EC, $E1, $D4, $C5
     db $B5, $A2, $8E, $78, $61, $4A, $31, $19
     db $00, $19, $31, $4A, $61, $78, $8E, $A2
@@ -4722,7 +4725,8 @@ Pool_Ancilla_GetRadialProjection:
     db $00, $19, $31, $4A, $61, $78, $8E, $A2
     db $B5, $C5, $D4, $E1, $EC, $F4, $FB, $FE
     
-    
+    ; $07FC42
+    .meta_sign_y
     db $01, $01, $01, $01, $01, $01, $01, $01
     db $01, $01, $01, $01, $01, $01, $01, $01
     db $00, $00, $00, $00, $00, $00, $00, $00
@@ -4732,7 +4736,8 @@ Pool_Ancilla_GetRadialProjection:
     db $01, $01, $01, $01, $01, $01, $01, $01
     db $01, $01, $01, $01, $01, $01, $01, $01
     
-    
+    ; $07FC82
+    .meta_sign_x
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00, $00, $00, $00, $00, $00
