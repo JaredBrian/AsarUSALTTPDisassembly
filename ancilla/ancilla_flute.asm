@@ -80,6 +80,9 @@ Ancilla_Flute:
         STZ.w $0C4A, X
     
     .on_screen_y
+
+    ; $04503C ALTERNATE ENTRY POINT
+    .return
     
     RTS
 }

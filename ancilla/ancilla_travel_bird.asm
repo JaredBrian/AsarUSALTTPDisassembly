@@ -290,7 +290,7 @@ Ancilla_TravelBird:
         
         REP #$20
         
-        LDA.w .y_offsets, X : AND.w #$00FF
+        LDA.w Pool_Ancilla_TravelBird_y_offsets, X : AND.w #$00FF
         
         CMP.w #$0080 : BCC .sign_ext_y_offset
             ORA.w #$FF00
@@ -312,9 +312,11 @@ Ancilla_TravelBird:
         
         JSR.w Ancilla_SetOam_XY
         
-        LDA.w .chr, X : STA ($90), Y : INY
+        LDA.w Pool_Ancilla_TravelBird_chr, X : STA ($90), Y
+        INY
         
-        LDA.w .properties, X : ORA.b #$30 : STA ($90), Y : INY
+        LDA.w Pool_Ancilla_TravelBird_properties, X : ORA.b #$30 : STA ($90), Y
+        INY
         
         PHY
         
@@ -342,18 +344,17 @@ Ancilla_TravelBird:
     LDX.w $0FA0
     
     LDA.w $0C54, X : BEQ .dont_draw_player_shadow
-    
-    REP #$20
-    
-    LDA.b $0A : CLC : ADC.w #28 : STA.b $00
-    
-    LDA.b $06 : CLC : ADC.w #-7 : STA.b $02
-    
-    SEP #$20
-    
-    LDA.b #$30 : STA.b $04
-    
-    LDX.b #$01 : JSR.w Ancilla_DrawShadow
+        REP #$20
+        
+        LDA.b $0A : CLC : ADC.w #28 : STA.b $00
+        
+        LDA.b $06 : CLC : ADC.w #-7 : STA.b $02
+        
+        SEP #$20
+        
+        LDA.b #$30 : STA.b $04
+        
+        LDX.b #$01 : JSR.w Ancilla_DrawShadow
     
     .dont_draw_player_shadow
     
@@ -361,26 +362,23 @@ Ancilla_TravelBird:
     
     REP #$20
     
-    LDA.b $06      : BMI .not_far_enough_right
-    CMP.w #$0130 : BCC .not_far_enough_right
-    
-    SEP #$20
-    
-    STZ.w $0C4A, X
-    
-    LDA.w $0385, X : BNE .dont_transition_to_bird_travel_submodule
-    
-    LDA.w $0C54, X : BEQ .dont_transition_to_bird_travel_submodule
-    
-    ; Enter the BirdTravel submodule of Messaging module.
-    LDA.b #$0A : STA.b $11
-    
-    LDA.b $10 : STA.w $010C
-    
-    LDA.b #$0E : STA.b $10
-    
+    LDA.b $06 : BMI .not_far_enough_right
+        CMP.w #$0130 : BCC .not_far_enough_right
+            SEP #$20
+            
+            STZ.w $0C4A, X
+            
+            LDA.w $0385, X : BNE .dont_transition_to_bird_travel_submodule
+                LDA.w $0C54, X : BEQ .dont_transition_to_bird_travel_submodule
+                    ; Enter the BirdTravel submodule of Messaging module.
+                    LDA.b #$0A : STA.b $11
+                    
+                    LDA.b $10 : STA.w $010C
+                    
+                    LDA.b #$0E : STA.b $10
+
+            .dont_transition_to_bird_travel_submodule
     .not_far_enough_right
-    .dont_transition_to_bird_travel_submodule
     
     SEP #$20
     
