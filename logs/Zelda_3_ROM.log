@@ -1483,7 +1483,7 @@ $F4EBC - Message IDs for Maidens
 ************************************
 
 $F8000 - Location of type, layout, and object information for each Dungeon room.
-It's a table of 24 bit pointers with an entry for each room. (all 320 of them ;) )
+It's a table of 24 bit pointers with an entry for each room. (all 320 of them )
 
 size = 3C0h
 

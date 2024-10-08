@@ -2328,11 +2328,13 @@ LinkHop_FindLandingSpotDiagonallyDown:
         
         REP #$20
         
-        LDA.w $8E6D, Y : CLC : ADC.b $22 : STA.b $22
+        LDA.w Pool_LinkHop_FindLandingSpotDiagonallyDown_offset_x, Y
+        CLC : ADC.b $22 : STA.b $22
         
         LDA.b $66 : AND.w #$00FF : ASL A : TAY
         
-        LDA.w $8E71, Y : CLC : ADC.b $20 : STA.b $20
+        LDA.w Pool_LinkHop_FindLandingSpotDiagonallyDown_offset_y, Y
+        CLC : ADC.b $20 : STA.b $20
         
         SEP #$20
         
@@ -2340,7 +2342,8 @@ LinkHop_FindLandingSpotDiagonallyDown:
         
         PLY : TYA : LSR A : TAY
         
-        LDA.w $8E79, Y : STA.b $72
+        LDA.w Pool_LinkHop_FindLandingSpotDiagonallyDown_detection_masks, Y
+        STA.b $72
         
         LDA.w $0343 : ORA.w $035B : ORA.w $0357 : ORA.w $0341
     AND.b $72 : CMP.b $72 : BNE .check_next
@@ -2363,7 +2366,8 @@ LinkHop_FindLandingSpotDiagonallyDown:
     
     REP #$20
     
-    LDA.w $8E75, Y : CLC : ADC.b $20 : STA.b $20
+    LDA.w Pool_LinkHop_FindLandingSpotDiagonallyDown_offset_y_2, Y
+    CLC : ADC.b $20 : STA.b $20
     
     SEP #$20
     
@@ -2440,6 +2444,65 @@ Link_SplashUponLanding:
     
     RTS
 }
+
+; ==============================================================================
+
+; $038F61-$038F64 DATA
+LinkDirections26:
+{
+    db $08
+    db $04
+    db $02
+    db $01
+}
+
+; $038F65-$038F67 DATA
+LinkDashSFXMasks:
+{
+    db $07, $0F, $0F
+}
+
+; $038F68-$038F76 DATA
+FollowerReactionToDashing:
+{
+    db $FF ; 0x00 - No follower
+    db $00 ; 0x01 - Zelda
+    db $02 ; 0x02 - Old man that stops following you
+    db $00 ; 0x03 - Unused old man
+    db $00 ; 0x04 - Normal old man
+    db $00 ; 0x05 - Zelda rescue telepathy
+    db $00 ; 0x06 - Blind maiden
+    db $00 ; 0x07 - Frogsmith
+    db $00 ; 0x08 - Smithy
+    db $00 ; 0x09 - Locksmith
+    db $00 ; 0x0A - Kiki
+    db $00 ; 0x0B - Unused old man
+    db $00 ; 0x0C - Purple chest
+    db $00 ; 0x0D - Super bomb
+    db $00 ; 0x0E - Master Sword telepathy
+}
+
+; $038F77-$038F85 DATA
+FollowerDashReplacement:
+{
+    db $FF ; 0x00 - No follower
+    db $00 ; 0x01 - Zelda
+    db $03 ; 0x02 - Old man that stops following you ⇒ FOLLOWER 03
+    db $00 ; 0x03 - Unused old man
+    db $00 ; 0x04 - Normal old man
+    db $00 ; 0x05 - Zelda rescue telepathy
+    db $00 ; 0x06 - Blind maiden
+    db $00 ; 0x07 - Frogsmith
+    db $00 ; 0x08 - Smithy
+    db $00 ; 0x09 - Locksmith
+    db $00 ; 0x0A - Kiki
+    db $00 ; 0x0B - Unused old man
+    db $00 ; 0x0C - Purple chest
+    db $00 ; 0x0D - Super bomb
+    db $00 ; 0x0E - Master Sword telepathy
+}
+
+; ==============================================================================
 
 ; MODE 0x11 FALLING OFF A LEDGE / Dashing
 ; $038F86-$03915D LONG BRANCH LOCATION
@@ -2529,8 +2592,7 @@ LinkState_Dashing:
     
     .BRANCH_IOTA
     
-    ; $038F65, X THAT IS
-    AND.w $8F65, X : BNE .BRANCH_KAPPA
+    AND.w LinkDashSFXMasks, X : BNE .BRANCH_KAPPA
         LDA.b #$23 : JSR.w Player_DoSfx2
     
     .BRANCH_KAPPA
@@ -2540,8 +2602,8 @@ LinkState_Dashing:
         
         ; If the current tagalong is the (not used) alternate old man, change
         ; it to a Tagalong that is waiting for the player to come back (0x03).
-        LDA.l $7EF3CC : TAX : CMP.w $8F68, X : BNE .BRANCH_MU
-            LDA.w $8F77, X : STA.l $7EF3CC
+        LDA.l $7EF3CC : TAX : CMP.w FollowerReactionToDashing, X : BNE .BRANCH_MU
+            LDA.w FollowerDashReplacement, X : STA.l $7EF3CC
         
         .BRANCH_MU
         
@@ -2589,7 +2651,7 @@ LinkState_Dashing:
     
     LDA.b $2F : LSR A : TAX
     
-    LDA.w $8F61, X
+    LDA.w LinkDirections26, X
     
     .BRANCH_PI
     
@@ -2605,10 +2667,10 @@ LinkState_Dashing:
     LDA.b $23 : STA.b $03 : STA.b $41
     
     JSR.w Link_HandleMovingFloor
-    JSR.w $E5F0 ; $03E5F0 IN ROM
+    JSR.w Link_ApplyConveyor
     
     LDA.w $02F5 : BEQ .BRANCH_RHO
-        JSL.l $07E3DD ; $03E3DD IN ROM
+        JSL.l Link_HandleVelocityAndSandDrag_long
     
     .BRANCH_RHO
     
@@ -2657,7 +2719,7 @@ LinkState_Dashing:
     
     LDA.b $2F : LSR A : TAX
     
-    LDA.w $8F61, X : STA.b $00
+    LDA.w LinkDirections26, X : STA.b $00
     
     LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_PSI
     CMP.b $00              : BEQ .BRANCH_PSI
@@ -2676,7 +2738,7 @@ LinkState_Dashing:
     LDA.b $49 : AND.b #$0F : BNE .BRANCH_OMEGA
         LDA.b $2F : LSR A : TAX
         
-        LDA.w $8F61, X
+        LDA.w LinkDirections26, X
     
     .BRANCH_OMEGA
     
@@ -2854,19 +2916,19 @@ LinkApplyTileRebound:
     LDX.b $66
     
     ; Recoil in the opposite direction from the dash.
-    LDA.w $91BD, X : STA.b $27
+    LDA.w RepelBonkSpeedY_y_recoil, X : STA.b $27
     
-    LDA.w $91C1, X : STA.b $28
+    LDA.w RepelBonkSpeedY_x_recoil, X : STA.b $28
     
     LDA.b #$18 : STA.b $46
     
     LDA.b #$24 : STA.b $29 : STA.w $02C7
     
     LDA.w $034A : BEQ .BRANCH_DELTA
-        LDA.w $91ED, X : STA.w $0340 : STA.b $67
+        LDA.w RepelDirectionMasks, X : STA.w $0340 : STA.b $67
         
-        LDA.w $91C5, X : STA.w $0338
-        LDA.w $91C9, X : STA.w $033A
+        LDA.w RepelBonkSpeedY_TileReboundAFlaggingY, X : STA.w $0338
+        LDA.w RepelBonkSpeedY_TileReboundAFlaggingX, X : STA.w $033A
         
         PHX
         
@@ -2876,8 +2938,8 @@ LinkApplyTileRebound:
         
         REP #$20
         
-        LDA.w $91CD, X : STA.w $033C
-        LDA.w $91DD, X : STA.w $033E
+        LDA.w IceRepelAccel_Y, X : STA.w $033C
+        LDA.w IceRepelAccel_X, X : STA.w $033E
         
         SEP #$20
         
@@ -2946,7 +3008,7 @@ Flag67WithDirections:
     
     LDY.b #$02
     
-    LDA.b $28 : BEQ Flag67WithDirections_flag_one_BRANCH_GAMMA  BMI .flag_one
+    LDA.b $28 : BEQ Flag67WithDirections_flag_one_return  BMI .flag_one
         LDY.b #$03
     
     .flag_one
@@ -2957,9 +3019,10 @@ Flag67WithDirections:
 ; $0392B9-$0392BE LOCAL JUMP LOCATION
 Flag67WithDirections_flag_one:
 {
-    LDA.w $91ED, Y : TSB.b $67
+    LDA.w RepelDirectionMasks, Y : TSB.b $67
     
-    .BRANCH_GAMMA
+    ; $0392BE ALTERNATE ENTRY POINT
+    .return
     
     RTS
 }
@@ -2970,15 +3033,15 @@ Flag67WithDirections_flag_one:
 PitFall_Flags:
 {
     ; $0392BF
-    .ForAnimation:
+    .ForAnimation
     db $0A, $09, $06, $05, $08, $04, $02, $01
 
     ; $0392C7
-    .ForDirection:
+    .ForDirection
     db $05, $06, $09, $0A, $04, $08, $01, $02
 
     ; $0392CF
-    .ForDetection:
+    .ForDetection
     db $0C, $03, $0A, $05
 }
 
@@ -3137,7 +3200,7 @@ Link_HandleFallingInPit:
     
     .BRANCH_UPSILON
     
-        LDA.b $59 : AND.b #$0F : CMP.w $92CF, X : BNE .BRANCH_SIGMA
+        LDA.b $59 : AND.b #$0F : CMP.w PitFall_Flags_ForDetection, X : BNE .BRANCH_SIGMA
             TXA : CLC : ADC.b #$04 : TAX
             
             BRA .BRANCH_TAU
@@ -3158,7 +3221,7 @@ Link_HandleFallingInPit:
     
     STX.w $02C9
     
-    LDA.b $67 : AND.w $92C7, X : BEQ .BRANCH_CHI
+    LDA.b $67 : AND.w PitFall_Flags_ForDirection, X : BEQ .BRANCH_CHI
         LDA.b $67 : STA.b $26
         
         LDA.b #$06 : STA.b $5E
@@ -3171,7 +3234,7 @@ Link_HandleFallingInPit:
     
     LDX.w $02C9
     
-    LDA.w $92BF, X : TSB.b $67
+    LDA.w PitFall_Flags_ForAnimation, X : TSB.b $67
     
     LDA.b $00 : BEQ .BRANCH_OMEGA
         .BRANCH_PSI
@@ -3183,7 +3246,7 @@ Link_HandleFallingInPit:
     JSR.w Link_HandleDiagonalCollision
     JSL.l Link_HandleVelocity
     JSR.w Link_HandleCardinalCollision
-    JSL.l $07E9D3 ; $03E9D3 IN ROM
+    JSL.l ApplyLinksMovementToCamera
     
     .BRANCH_ALTIMA
     
@@ -3477,7 +3540,7 @@ HandleUnderworldLandingFromPit:
     RTL
 }
 
-;$039635-$039639 DATA
+; $039635-$039638 DATA
 LinkSwimming_anim_offset:
 {
     dw $0002
@@ -3548,7 +3611,7 @@ LinkState_Swimming:
         
         LDA.b $2E : INC A : AND.b #$03 : STA.b $2E : TAX
         
-        LDA.w $9635, X : STA.w $02CC
+        LDA.w LinkSwimming_anim_offset, X : STA.w $02CC
     
     .BRANCH_EPSILON
     
@@ -3564,7 +3627,7 @@ LinkState_Swimming:
                 LDA.b #$01 : STA.w $032A
                 LDA.b #$07 : STA.w $02CB
                 
-                JSR.w $98A8 ; $0398A8 IN ROM
+                JSR.w Link_HandleSwimAccels
     
     .BRANCH_ZETA
     
@@ -3591,7 +3654,7 @@ Link_HandleSwimMovements:
             STZ.b $30
             STZ.b $31
             
-            JSR.w $9785 ; $039785 IN ROM
+            JSR.w Link_FlagMaxAccels
             
             LDA.w $034A : BEQ .BRANCH_KAPPA
                 LDA.w $0372 : BEQ .BRANCH_LAMBDA
@@ -3627,9 +3690,9 @@ Link_HandleSwimMovements:
     
     STA.w $0340
     
-    JSR.w $97A6 ; $0397A6 IN ROM
-    JSR.w $97C7 ; $0397C7 IN ROM
-    JSR.w $9903 ; $039903 IN ROM
+    JSR.w Link_SetIceMaxAccel
+    JSR.w Link_SetMomentum
+    JSR.w Link_SetTheMaxAccel
     
     .BRANCH_MU
     
@@ -3740,7 +3803,7 @@ Link_SetMomentum:
                 
                 DEC A : ASL A : TAY
                 
-                LDA.w $97C3, Y : STA.w $0326, X
+                LDA.w Pool_Link_SetMomentum_momentum, Y : STA.w $0326, X
                 
                 PLY
             
@@ -3760,7 +3823,7 @@ Link_SetMomentum:
             .BRANCH_EPSILON
             
             LDA.w $0334, X : BNE .BRANCH_ALPHA
-                LDA.w $9639 : STA.w $0334, X
+                LDA.w MaxSwimAcceleration : STA.w $0334, X
         
         .BRANCH_ALPHA
         
@@ -3849,6 +3912,14 @@ Player_ResetSwimCollision:
 
 ; ==============================================================================
 
+; $079896-$0398A7 DATA
+Link_HandleSwimAccels_max_speeds:
+{
+    dw $0080, $00A0, $00C0, $00E0
+    dw $0100, $0120, $0140, $0160
+    dw $0180
+}
+
 ; $0398A8-$039902 LOCAL JUMP LOCATION
 Link_HandleSwimAccels:
 {
@@ -3867,7 +3938,7 @@ Link_HandleSwimAccels:
                     
                     .BRANCH_DELTA
                     
-                        LDA.w $9896, Y : CMP.w $033C, X : BCS .BRANCH_GAMMA
+                        LDA.w .max_speeds, Y : CMP.w $033C, X : BCS .BRANCH_GAMMA
                     INY #2 : CPY.w #$0012 : BNE .BRANCH_DELTA
                     
                     BRA .BRANCH_GAMMA
@@ -3884,7 +3955,7 @@ Link_HandleSwimAccels:
             
             LDA.w #$0001 : STA.w $033C, X
             
-            LDA.w $9639
+            LDA.w MaxSwimAcceleration
             
             .BRANCH_GAMMA
             
@@ -3918,21 +3989,21 @@ Link_SetTheMaxAccel:
                         LDA.w $032F, X : BNE .BRANCH_GAMMA
                             STZ.w $032F, X
                             
-                            LDA.w $033C, X : CMP.w $9639 : BCC .BRANCH_DELTA
+                            LDA.w $033C, X : CMP.w MaxSwimAcceleration : BCC .BRANCH_DELTA
                                 CMP.w $0334, X : BEQ .BRANCH_GAMMA  BCC .BRANCH_DELTA
                         
                         .BRANCH_GAMMA
                         
                         STZ.w $032B, X
                         
-                        LDA.w $033C, X : CMP.w $9639 : BCC .BRANCH_BETA
+                        LDA.w $033C, X : CMP.w MaxSwimAcceleration : BCC .BRANCH_BETA
                             LDA.w #$0001 : STA.w $032B, X : STA.w $032F, X
                             
                             BRA .BRANCH_DELTA
                 
                 .BRANCH_BETA
                 
-                LDA.w $9639 : STA.w $0334, X
+                LDA.w MaxSwimAcceleration : STA.w $0334, X
                 
                 STZ.w $032F, X
                 
@@ -4215,13 +4286,13 @@ Player_Sword:
         LDA.w $0301 : ORA.w $037A : BNE .exit
             LDA.b $3C : CMP.b #$09 : BCS .spin_attack_jerks
                 LDA.w $0372 : BNE .exit
-                    JSR.w $9CD9 ; $039CD9 IN ROM
+                    JSR.w Link_CheckForSwordSwing
                     
                     BRA .exit
             
             .spin_attack_jerks
             
-            JSR.w $9D72 ; $039D72 IN ROM
+            JSR.w Link_CheckForSwordSwing_maybeDoSpinAttack
     
     ; $039AE5 ALTERNATE ENTRY POINT
     .exit
@@ -4379,9 +4450,8 @@ Link_HandleAPress:
     
     ; Is link Holding a pot? Is he holding a wall?
     LDA.w $0308 : ORA.w $0376 : BNE .handsAreOccupied
-        ; $03B5C0 IN ROM
         ; If the A button was down, then continue. If not, branch.
-        JSR.w $B5C0 : BCC .cantDoAction
+        JSR.w Link_CheckNewAPress : BCC .cantDoAction
             ; Pull for rupees flag (if near one).
             LDA.w $03F8 : BEQ .notPullForRupeesAction
                 ; What direction is Link facing? If he's not facing up, then...
@@ -4436,18 +4506,18 @@ Link_HandleAPress:
             ; Determines what type of action you desire to complete. Eg.
             ; Opening a chest, dashing, etc. Returns X as the index of that
             ; action.
-            JSR.w $D383 ; $03D383 IN ROM
+            JSR.w Link_HandleLiftables
             
             .attemptAction
             
             ; Check to see if we have the capability for this action.
-            LDA.w $9BA2, X : AND.l $7EF379 : BEQ .cantDoAction
+            LDA.w Link_AbilityChecks, X : AND.l $7EF379 : BEQ .cantDoAction
                 ; Buffer $036C with the current action index.
                 STX.w $036C
                 
                 TXA : ASL A : TAX
                 
-                JSR.w $9C5F ; $039C5F IN ROM; Do the action.
+                JSR.w Link_APress_PerformBasic ; Do the action.
     
     .handsAreOccupied
     
@@ -4542,7 +4612,7 @@ HandleSwordSFXAndBeam:
     
     CPX.b #$FE : BEQ .noSwordSound
     CPX.b #$FF : BEQ .noSwordSound
-        ORA.w $9CD1, X : STA.w $012E
+        ORA.w SwordSwingSFX, X : STA.w $012E
     
     .noSwordSound
     
@@ -4588,7 +4658,7 @@ Link_CheckForSwordSwing:
                 LDX.b $6C : BEQ .not_in_doorway
                     ; Seems like this checks the types of tiles in front of the
                     ; player to see if we can bring the sword out.
-                    JSR.w $D73E ; $03D73E IN ROM
+                    JSR.w TileDetect_SwordSwingDeepInDoor
                     
                     LDA.b $0E : AND.b #$30 : EOR.b #$30 : BEQ HandleSwordSFXAndBeam_easy_out
                 
@@ -4628,7 +4698,7 @@ Link_CheckForSwordSwing:
             LDA.b $3C : CMP.b #$09 : BCS .maybeDoSpinAttack
                 TAX
                 
-                LDA.w $9CBF, X : STA.b $3D
+                LDA.w SwordSwingTimers, X : STA.b $3D
                 
                 CPX.b #$05 : BNE .no_swing_sparkle
                     LDA.l $7EF359 : BEQ .BRANCH_THETA
@@ -4665,7 +4735,7 @@ Link_CheckForSwordSwing:
         
         .BRANCH_DELTA
         
-        JSR.w $9E63 ; $039E63 IN ROM
+        JSR.w CalculateSwordHitbox
         
         RTS
         
@@ -4720,7 +4790,7 @@ Link_ResetSwordAndItemUsage:
     LDA.b $3C : CMP.b #$09 : BNE .BRANCH_ZETA
         LDX.b #$0A : STX.b $3C
         
-        LDA.w $9CBF, X : STA.b $3D
+        LDA.w SwordSwingTimers, X : STA.b $3D
 
     .BRANCH_ZETA
 
@@ -4758,7 +4828,7 @@ Link_ResetSwordAndItemUsage:
 
         STA.b $3C : TAX
         
-        LDA.w $9CBF, X : STA.b $3D
+        LDA.w SwordSwingTimers, X : STA.b $3D
     
     .BRANCH_THETA
 
@@ -4805,7 +4875,7 @@ Link_ResetSwordAndItemUsage:
 
     .BRANCH_RHO
 
-    JSR.w $9E63 ; $039E63 IN ROM
+    JSR.w CalculateSwordHitbox
 
     ; $039E62 ALTERNATE ENTRY POINT
     .return
@@ -4908,7 +4978,7 @@ LinkItem_Rod:
                         JSR.w LinkItem_RodDiscriminator
                         
                         ; Delay the spin attack for some amount of time?
-                        LDA.w $9EEC : STA.b $3D
+                        LDA.w RodAndCaneAnimationTimer : STA.b $3D
                         
                         STZ.b $2E
                         STZ.w $0300
@@ -4926,7 +4996,7 @@ LinkItem_Rod:
     DEC.b $3D : BPL .return
         LDA.w $0300 : INC A : STA.w $0300 : TAX
         
-        LDA.w $9EEC, X : STA.b $3D
+        LDA.w RodAndCaneAnimationTimer, X : STA.b $3D
         
         CPX.b #$03 : BNE .return
             STZ.b $5E
@@ -4994,13 +5064,10 @@ LinkItem_FireRod:
 ; ==============================================================================
 
 ; $039F78-$039F7A DATA
-Pool_LinkItem_Hammer:
+LinkItem_Hammer_timers:
 {
-    .timers
     db  3,  3, 16
 }
-
-; ==============================================================================
 
 ; Hammer item code
 ; $039F7B-$03A002 BRANCH LOCATION
@@ -5017,7 +5084,7 @@ LinkItem_Hammer:
     
     .BRANCH_GAMMA
     
-    LDA.w $9F78 : STA.b $3D
+    LDA.w .timers : STA.b $3D
     
     LDA.b #$01 : TSB.b $50
     
@@ -5036,7 +5103,7 @@ LinkItem_Hammer:
     DEC.b $3D : BPL .return
         LDA.w $0300 : INC A : STA.w $0300 : TAX
         
-        LDA.w $9F78, X : STA.b $3D
+        LDA.w .timers, X : STA.b $3D
         
         CPX.b #$01 : BNE .BRANCH_EPSILON
             PHX
@@ -5077,13 +5144,10 @@ LinkItem_Hammer:
 ; ==============================================================================
 
 ; $03A003-$03A005
-Pool_LinkItem_Bow:
+LinkItem_Bow_timer:
 {
-    .timer
     db $03, $03, $08
 }
-
-; ==============================================================================
 
 ; Box and Arrow use code
 ; $03A006-$03A0BA LONG BRANCH LOCATION
@@ -5094,7 +5158,7 @@ LinkItem_Bow:
             JSR.w Link_CheckNewY_ButtonPress : BCC LinkItem_Hammer_return
                 LDA.b #$01 : TSB.b $50
                 
-                LDA.w $A003 : STA.b $3D
+                LDA.w .timer : STA.b $3D
                 
                 STZ.b $2E
                 STZ.w $0300
@@ -5110,7 +5174,7 @@ LinkItem_Bow:
     DEC.b $3D : BPL LinkItem_Hammer_return
         LDA.w $0300 : INC A : STA.w $0300 : TAX
         
-        LDA.w $A003, X : STA.b $3D
+        LDA.w .timer, X : STA.b $3D
         
         CPX.b #$03 : BNE .return
             LDA.b $20 : STA.b $72
@@ -5423,13 +5487,21 @@ LinkItem_Lamp:
             .dont_reset_player_speed
     .no_input
 
-    ; $03A292 ALTERNATE ENTRY POINT
+    ; $03A288 ALTERNATE ENTRY POINT
     .return
     
     RTS
 }
 
 ; ==============================================================================
+
+; $03A289-$03A292 DATA
+LinkItem_MagicPowder_timer:
+{
+    db $02, $01, $01, $03
+    db $02, $02, $02, $02
+    db $06, $00
+}
 
 ; $03A293-$03A312 JUMP LOCATION
 LinkItem_Mushroom:
@@ -5448,7 +5520,7 @@ LinkItem_MagicPowder:
                 LDX.b #$02
                 
                 JSR.w LinkItem_EvaluateMagicCost : BCC .BRANCH_DELTA
-                    LDA.w $A289 : STA.b $3D
+                    LDA.w .timer : STA.b $3D
                     
                     STZ.w $0300
                     STZ.b $2E
@@ -5471,7 +5543,7 @@ LinkItem_MagicPowder:
     DEC.b $3D : BPL .return
         LDA.w $0300 : INC A : STA.w $0300 : TAX
         
-        LDA.w $A289, X : STA.b $3D
+        LDA.w .timer, X : STA.b $3D
         
         CPX.b #$04 : BNE .BRANCH_EPSILON
             LDY.b #$00
@@ -5517,6 +5589,20 @@ LinkItem_ShovelAndFlute:
 
 ; ==============================================================================
 
+; $03A320-$03A32B DATA
+Pool_LinkItem_Shovel:
+{
+    ; $03A320
+    .timer
+    db   7,  18,  16
+    db   7,  18,  16
+
+    ; $03A326
+    .pose
+    db $00, $01, $02
+    db $00, $01, $02
+}
+
 ; Shovel item code
 ; $03A32C-$03A3DA LONG BRANCH LOCATION
 LinkItem_Shovel:
@@ -5524,7 +5610,7 @@ LinkItem_Shovel:
     BIT.b $3A : BVS .BRANCH_ALPHA
         LDA.b $6C : BNE LinkItem_MagicPowder_return
             JSR.w Link_CheckNewY_ButtonPress : BCC LinkItem_MagicPowder_return
-                LDA.w $A320 : STA.b $3D
+                LDA.w Pool_LinkItem_Shovel_timer : STA.b $3D
                 
                 STZ.w $030D
                 STZ.w $0300
@@ -5548,9 +5634,9 @@ LinkItem_Shovel:
     
     LDX.w $030D : INX : STX.w $030D
     
-    LDA.w $A320, X : STA.b $3D
+    LDA.w Pool_LinkItem_Shovel_timer, X : STA.b $3D
     
-    LDA.w $A326, X : STA.w $0300 : CMP.b #$01 : BNE .BRANCH_GAMMA
+    LDA.w Pool_LinkItem_Shovel_pose, X : STA.w $0300 : CMP.b #$01 : BNE .BRANCH_GAMMA
         LDY.b #$02
         
         PHX
@@ -5756,7 +5842,7 @@ LinkItem_Book:
 
 ; ==============================================================================
 
-; $03A494-$03A4F6 JUMP LOCATION
+; $03A494-$03A50E JUMP LOCATION
 LinkItem_EtherMedallion:
 {
     JSR.w Link_CheckNewY_ButtonPress : BCC .cant_cast_no_sound
@@ -5782,7 +5868,7 @@ LinkItem_EtherMedallion:
                 
                 LDA.b #$01 : TSB.b $50
                 
-                LDA.w $A503 : STA.b $3D
+                LDA.w .anim_timer : STA.b $3D
                 
                 STZ.w $031C
                 STZ.w $031D
@@ -5793,12 +5879,7 @@ LinkItem_EtherMedallion:
     .cant_cast_no_sound
     
     RTS
-}
 
-; $03A4F7-$03A50E DATA
-Pool_LinkItem_Ether:
-Pool_LinkState_UsingEther:
-{
     ; $03A4F7
     .anim_step
     db $00, $01, $02, $03
@@ -5845,9 +5926,9 @@ LinkState_UsingEther:
         
         .BRANCH_GAMMA
         
-        LDA.w $A503, X : STA.b $3D
+        LDA.w LinkItem_EtherMedallion_anim_timer, X : STA.b $3D
         
-        LDA.w $A4F7, X : STA.w $031C
+        LDA.w LinkItem_EtherMedallion_anim_step, X : STA.w $031C
         
         LDA.w $0324 : BNE .return
         CPX.b #$0A  : BNE .return
@@ -5869,7 +5950,7 @@ LinkState_UsingEther:
 ; ==============================================================================
 
 ; Bombos medallion (0x0E)
-; $03A569-$03A5CE LOCAL JUMP LOCATION
+; $03A569-$03A5F6 LOCAL JUMP LOCATION
 LinkItem_Bombos:
 {
     JSR.w Link_CheckNewY_ButtonPress : BCC .return
@@ -5896,9 +5977,9 @@ LinkItem_Bombos:
                 
                 LDA.b #$01 : TSB.b $50
                 
-                LDA.w $A5E3 : STA.b $3D
+                LDA.w .anim_timer : STA.b $3D
                 
-                LDA.w $A5CF : STA.w $031C
+                LDA.w .anim_step : STA.w $031C
                 
                 STZ.w $031D
                 STZ.w $0324
@@ -5908,12 +5989,7 @@ LinkItem_Bombos:
     .return
 
     RTS
-}
 
-; $03A5CF-$03A5F6 DATA
-Pool_LinkItem_Bombos:
-Pool_LinkState_UsingBombos:
-{
     ; $03A5CF
     .anim_step
     db $00, $01, $02, $03
@@ -5961,9 +6037,9 @@ LinkState_UsingBombos:
         
         .BRANCH_DELTA
         
-        LDA.w $A5E3, X : STA.b $3D
+        LDA.w LinkItem_Bombos_anim_timer, X : STA.b $3D
         
-        LDA.w $A5CF, X : STA.w $031C
+        LDA.w LinkItem_Bombos_anim_step, X : STA.w $031C
         
         LDA.w $0324 : BNE .return
         CPX.b #$13  : BNE .return
@@ -5984,7 +6060,7 @@ LinkState_UsingBombos:
 
 ; ==============================================================================
 
-; $03A64B-$03A6BD JUMP LOCATION
+; $03A64B-$03A6D5 JUMP LOCATION
 LinkItem_Quake:
 {
     JSR.w Link_CheckNewY_ButtonPress : BCC .return
@@ -6011,9 +6087,9 @@ LinkItem_Quake:
                 
                 LDA.b #$01 : TSB.b $50
                 
-                LDA.w $A6CA : STA.b $3D
+                LDA.w .anim_timer : STA.b $3D
                 
-                LDA.w $A6BE : STA.w $031C
+                LDA.w .anim_step : STA.w $031C
                 
                 STZ.w $031D
                 STZ.w $0324
@@ -6028,12 +6104,7 @@ LinkItem_Quake:
     .return
     
     RTS
-}
 
-; $03A6BE-$03A6D5 DATA
-Pool_LinkItem_Quake:
-Pool_LinkState_UsingQuake:
-{
     ; $03A6BE
     .anim_step
     db $00, $01, $02, $03
@@ -6456,7 +6527,7 @@ Mirror_TryToWarp:
 {
     LDA.b $1B : BEQ .outdoors
         LDA.w $0FFC : BNE .cantWarp
-            JSL.l Dungeon_SaveRoomData ; $0121B1 IN ROM
+            JSL.l Dungeon_SaveRoomData
             
             LDA.w $012E : CMP.b #$3C : BEQ .cantWarp
                 STZ.w $05FC
@@ -7058,8 +7129,7 @@ LinkState_Hookshotting:
             LDA.w $0357 : AND.b #$01 : BEQ .BRANCH_BET
                 LDA.b #$02 : STA.w $0351
                 
-                ; $03D2C6 IN ROM
-                JSR.w $D2C6 : BCS .BRANCH_ALIF
+                JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_ALIF
                     LDA.b #$1A : JSR.w Player_DoSfx2
                     
                     BRA .BRANCH_ALIF
@@ -7090,17 +7160,14 @@ LinkState_Hookshotting:
 
 ; ==============================================================================
 
+; Note: Higher timers mean it takes longer for a point of magic power
+; to be consumed by the cape. Also note that the 1/4th magic consumption
+; status isn't any better than 1/2 in this case.
 ; $03ADBE-$03ADC0 DATA
-Pool_LinkItem_Cape:
+LinkItem_Cape_mp_depletion_timers:
 {
-    ; Note: Higher timers mean it takes longer for a point of magic power
-    ; to be consumed by the cape. Also note that the 1/4th magic consumption
-    ; status isn't any better than 1/2 in this case.
-    .mp_depletion_timers
     db 4, 8, 8
 }
-
-; ==============================================================================
 
 ; Magic Cape routine
 ; $03ADC1-$03AE46 JUMP LOCATION
@@ -7129,7 +7196,7 @@ LinkItem_Cape:
                 
                 LDA.l $7EF37B : TAY
                 
-                LDA.w $AEBE, Y : STA.b $4C
+                LDA.w .mp_depletion_timers, Y : STA.b $4C
                 
                 LDA.b #$14 : STA.w $02E2
                 
@@ -7302,7 +7369,7 @@ LinkItem_CaneOfSomaria:
                         
                         JSL.l AddSomarianBlock
                         
-                        LDA.w $9EEC : STA.b $3D
+                        LDA.w RodAndCaneAnimationTimer : STA.b $3D
                         
                         STZ.b $2E
                         STZ.w $0300
@@ -7319,7 +7386,7 @@ LinkItem_CaneOfSomaria:
     DEC.b $3D : BPL .return           
         LDA.w $0300 : INC A : STA.w $0300 : TAX
                     
-        LDA.w $9EEC, X : STA.b $3D
+        LDA.w RodAndCaneAnimationTimer, X : STA.b $3D
                     
         CPX.b #$03 : BNE .return
                     
@@ -7351,9 +7418,8 @@ Pool_PlayerItem_CaneOfByrna:
 ; $03AF3E-$03AFB4 JUMP LOCATION
 PlayerItem_CaneOfByrna:
 {
-    ; $03AFB5 IN ROM
     ; Check to see if it's okay to do.
-    JSR.w $AFB5 : BCS LinkItem_CaneOfSomaria_return
+    JSR.w SearchForByrnaSpark : BCS LinkItem_CaneOfSomaria_return
         ; Check to see if the Y button is down.
         BIT.b $3A : BVS .BRANCH_ALPHA
             ; Yes it's down.
@@ -7479,24 +7545,23 @@ LinkItem_Net:
     BIT.b $3A : BVS .BRANCH_ALPHA
         LDA.b $6C : BNE PlayerItem_CaneOfByrna_return
             JSR.w Link_CheckNewY_ButtonPress : BCC PlayerItem_CaneOfByrna_return
-            
-            LDA.b $2F : LSR A : TAY
-            
-            LDX.w $AFF4, Y
-            
-            LDA.w $AFCC, X : STA.w $0300
-            
-            LDA.b #$03 : STA.b $3D
-            
-            STZ.w $030D, X
-            
-            LDA.b #$10 : STA.w $037A
-            
-            LDA.b #$01 : TSB.b $50
-            
-            STZ.b $2E
-            
-            LDA.b #$32 : JSR.w Player_DoSfx2
+                LDA.b $2F : LSR A : TAY
+                
+                LDX.w Pool_LinkItem_Net_pose_offset, Y
+                
+                LDA.w Pool_LinkItem_Net_pose_id, X : STA.w $0300
+                
+                LDA.b #$03 : STA.b $3D
+                
+                STZ.w $030D, X
+                
+                LDA.b #$10 : STA.w $037A
+                
+                LDA.b #$01 : TSB.b $50
+                
+                STZ.b $2E
+                
+                LDA.b #$32 : JSR.w Player_DoSfx2
     
     .BRANCH_ALPHA
     
@@ -7511,9 +7576,9 @@ LinkItem_Net:
         
         LDA.b $2F : LSR A : TAY
         
-        LDA.w $AFF4, Y : CLC : ADC.w $030D : TAY
+        LDA.w Pool_LinkItem_Net_pose_offset, Y : CLC : ADC.w $030D : TAY
         
-        LDA.w $AFCC, Y : STA.w $0300
+        LDA.w Pool_LinkItem_Net_pose_id, Y : STA.w $0300
         
         CPX.b #$0A : BNE .BRANCH_BETA
             STZ.w $030D
@@ -7753,7 +7818,7 @@ Link_Lift:
         
         .find_matching_tile_attrribute
         
-            CMP.w $B1AD, X : BEQ .tile_attribute_match
+            CMP.w Pool_LinkToss_liftable_tiles, X : BEQ .tile_attribute_match
         DEX : BPL .find_matching_tile_attrribute
         
         .noOpenSpriteSlots
@@ -7780,7 +7845,7 @@ Link_Lift:
     STZ.b $3A
     
     ; Set an animation timer.
-    LDA.w $B199 : STA.w $030B
+    LDA.w Pool_LinkToss_timer_a : STA.w $030B
     
     ; Set it so Link is kneeling down to pick up the item.
     LDA.b #$01 : STA.w $0309
@@ -7847,7 +7912,7 @@ Link_APress_LiftCarryThrow:
         ; Is Link throwing an item?
         LDA.w $0309 : AND.b #$02 : BEQ .alpha
             LDA.w $030B : CMP.b #$05 : BCC .alpha
-                LDA.w $B19C : STA.w $030B
+                LDA.w Pool_LinkToss_timer_b : STA.w $030B
         
         .alpha
         
@@ -7887,9 +7952,9 @@ Link_APress_LiftCarryThrow:
                 INC A : CMP.b #$09 : BEQ .BRANCH_EPSILON
                     STA.w $0300 : TAX
                     
-                    LDA.w $B1B6, X : STA.w $030B
+                    LDA.w Pool_LinkToss_heavy_lift_animation_timers, X : STA.w $030B
                     
-                    LDA.w $B1C0, X : STA.w $030A
+                    LDA.w Pool_LinkToss_heavy_lift_animation_steps, X : STA.w $030A
                     
                     CPX.b #$06 : BNE .return
                         STZ.w $0B9C
@@ -7924,7 +7989,7 @@ Link_APress_LiftCarryThrow:
             
             LDX.w $030A : INX
             
-            LDA.w $B199, X : STA.w $030B
+            LDA.w Pool_LinkToss_timer_a, X : STA.w $030B
             
             STX.w $030A : CPX.b #$03 : BNE .return
                 .BRANCH_EPSILON
@@ -7981,7 +8046,7 @@ Link_PerformDash:
 
                 ; N  Z  OM OM OM IZ BM FR DW TH KI ?? TC SB MS
                 ; FF 00 02 00 00 00 00 00 00 00 00 00 00 00 00
-                CMP.w $8F68, X : BNE .tagalong_not_enabled_for_this
+                CMP.w FollowerReactionToDashing, X : BNE .tagalong_not_enabled_for_this
                     ; Basically, only the old man makes it through here
                     ; (tagalong  0x02).
 
@@ -10716,8 +10781,8 @@ StartMovementCollisionChecks_Horizontal:
 
                 .BRANCH_LAMBDA
 
-                JSR.w $CB84 ; $03CB84 IN ROM
-                JSR.w $CBDD ; $03CBDD IN ROM
+                JSR.w SnapOnX
+                JSR.w ChangeAxisOfPerpendicularDoorMovement_Horizontal
                 
                 BRL HandleNudgingInADoor
 
@@ -10752,7 +10817,7 @@ StartMovementCollisionChecks_Horizontal:
                 STZ.b $6B
                 STZ.b $6C
                 
-                JSR.w $CB84   ; $03CB84 IN ROM
+                JSR.w SnapOnX
                 JML.l $07CB9F ; $03CB9F IN ROM
 
             .BRANCH_OMICRON
@@ -10779,7 +10844,7 @@ StartMovementCollisionChecks_Horizontal:
         LDA.b $0C : AND.b #$05 : BEQ .BRANCH_UPSILON
             STZ.w $03F3
             
-            JSR.w $E112 ; $03E112 IN ROM
+            JSR.w FlagMovingIntoSlopes_Horizontal
             
             LDA.b $6B : AND.b #$0F : BEQ .BRANCH_UPSILON
                 RTS
@@ -11122,7 +11187,7 @@ HandlePushingBonkingSnaps_Horizontal:
     LDA.b #$01 : STA.w $0302
     
     LDA.b $0E : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_NU2
-        JSR.w $CB84 ; $03CB84 IN ROM
+        JSR.w SnapOnX
         
         BRA .BRANCH_XI2
 
@@ -11135,7 +11200,7 @@ HandlePushingBonkingSnaps_Horizontal:
 
     .BRANCH_OMICRON2
 
-    JSR.w $CB84 ; $03CB84 IN ROM
+    JSR.w SnapOnX
     
     LDA.b $6A : CMP.b #$01 : BEQ .BRANCH_PI2
         .BRANCH_XI2
@@ -11517,7 +11582,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
 
             .BRANCH_BET
 
-            JSR.w $E112 ; $03E112 IN ROM
+            JSR.w FlagMovingIntoSlopes_Horizontal
             
             LDA.b $6B : AND.b #$0F : BEQ .BRANCH_ALIF
                 RTS
@@ -11697,6 +11762,22 @@ ChangeAxisOfPerpendicularDoorMovement_Horizontal:
     RTS
 }
 
+; $03CC33-$03CC3B DATA
+Pool_Link_HopInOrOutOfWater_Horizontal:
+{
+    ; $03CC33
+    .speed_x
+    db 28, 24, 16
+
+    ; $03CC36
+    .speed_z
+    db 32, 24, 24
+
+    ; $03CC39
+    .timer
+    db 16, 16, 16
+}
+
 ; $03CC3C-$03CC82 LOCAL JUMP LOCATION
 Link_HopInOrOutOfWater_Horizontal:
 {
@@ -11716,7 +11797,7 @@ Link_HopInOrOutOfWater_Horizontal:
     
     STX.b $00
     
-    LDA.w $CC33, X : TAX
+    LDA.w Pool_Link_HopInOrOutOfWater_Horizontal_speed_x, X : TAX
     
     LDA.b $66 : AND.b #$01 : BNE .BRANCH_GAMMA
         TXA : EOR.b #$FF : INC A : TAX
@@ -11728,9 +11809,9 @@ Link_HopInOrOutOfWater_Horizontal:
     
     LDX.b $00
     
-    LDA.w $CC36, X : STA.b $29 : STA.w $02C7
+    LDA.w Pool_Link_HopInOrOutOfWater_Horizontal_speed_z, X : STA.b $29 : STA.w $02C7
     
-    LDA.w $CC39, X : STA.b $46
+    LDA.w Pool_Link_HopInOrOutOfWater_Horizontal_timer, X : STA.b $46
     
     LDA.b $4D : CMP.b #$02 : BEQ .BRANCH_DELTA
         LDA.b #$01 : STA.b $4D
@@ -11812,7 +11893,7 @@ Link_HandleDiagonalKickback:
         JSR.w TileDetect_Movement_Horizontal
         
         LDA.b $0C : AND.b #$05 : BEQ .BRANCH_DELTA
-            JSR.w $E112 ; $03E112 IN ROM
+            JSR.w FlagMovingIntoSlopes_Horizontal
             
             LDA.b $6B : AND.b #$0F : BNE .BRANCH_EPSILON
         
@@ -11858,7 +11939,7 @@ Link_HandleDiagonalKickback:
                     LDA.b $00 : STA.b $30
                     
                     LDY.b $31 : BMI .BRANCH_IOTA
-                        LDA.w $CC83, Y
+                        LDA.w DiagonalKickback_right, Y
                         
                         BRA .BRANCH_KAPPA
                     
@@ -11866,7 +11947,7 @@ Link_HandleDiagonalKickback:
                     
                     TYA : EOR.b #$FF : INC A : TAY
                     
-                    LDA.w $CC8D, Y ; $3CC8D, Y THAT IS
+                    LDA.w DiagonalKickback_left, Y
                     
                     .BRANCH_KAPPA
                     
@@ -11882,7 +11963,7 @@ Link_HandleDiagonalKickback:
                     SEP #$20
                     
                     LDY.b $30 : BMI .BRANCH_MU
-                        LDA.w $CC97, Y
+                        LDA.w DiagonalKickback_down, Y
                         
                         BRA .BRANCH_NU
                     
@@ -11890,7 +11971,7 @@ Link_HandleDiagonalKickback:
                     
                     TYA : EOR.b #$FF : INC A : TAY
                     
-                    LDA.w $CCA1, Y
+                    LDA.w DiagonalKickback_up, Y
                     
                     .BRANCH_NU
                     
@@ -11918,6 +11999,56 @@ Link_HandleDiagonalKickback:
     RTS
 }
 
+; $03CD7B-$03CDCA
+TileDetect_Movement:
+{
+    ; $03CD7B
+    .offset_same_axis
+    dw $0008, $0018, $0000, $000F
+
+    ; $03CD83
+    .offset_perpendicular_axis_1
+    dw $0000, $0000
+
+    ; $03CD87
+    .offset_pit_y
+    dw $0008
+
+    ; $03CD89
+    .unused_a
+    dw $0008
+
+    ; $03CD8B
+    .offset_perpendicular_axis_2
+    dw $0008, $0008, $0010, $0010
+
+    ; $03CD93
+    .offset_perpendicular_axis_3
+    dw $000F, $000F
+
+    ; $03CD97
+    .offset_pit_x
+    dw $0017
+
+    ; $03CD99
+    .unused_b
+    dw $0017, $0000, $0000, $001F, $001F
+
+    ; $03CDA3
+    .offset_slope_same_axis
+    dw $0007, $0018, $FFFF, $0010
+
+    ; $03CDAB
+    .offset_slope_perpendicular_axis_1
+    dw $0000, $0000, $0008, $0008
+
+    ; $03CDB3
+    .offset_slope_perpendicular_axis_2
+    dw $000F, $000F, $0017, $0017
+    dw $0000, $0000, $0000, $000F
+    dw $0000, $0000, $0012, $0012
+}
+
 ; This probably the up/down movement handler analagous to $03CE2A below
 ; $03CDCB-$03CE29 LOCAL JUMP LOCATION
 TileDetect_Movement_Vertical:
@@ -11928,10 +12059,17 @@ TileDetect_Movement_Vertical:
     
     STZ.b $59
     
-    LDA.b $20 : CLC : ADC.w $CB7B, Y : STA.b $51 : AND.b $EC : STA.b $00
-    LDA.b $22 : CLC : ADC.w $CD89, Y : AND.b $EC : LSR #3    : STA.b $02
-    LDA.b $22 : CLC : ADC.w $CD8B, Y : AND.b $EC : LSR #3    : STA.b $04
-    LDA.b $22 : CLC : ADC.w $CD93, Y : AND.b $EC : LSR #3    : STA.b $74
+    LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_same_axis, Y : STA.b $51
+    AND.b $EC : STA.b $00
+
+    LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_1, Y
+    AND.b $EC : LSR #3 : STA.b $02
+
+    LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_2, Y
+    AND.b $EC : LSR #3 : STA.b $04
+
+    LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_3, Y
+    AND.b $EC : LSR #3 : STA.b $74
     
     REP #$10
     
@@ -11956,26 +12094,31 @@ TileDetect_Movement_Vertical:
     RTS
 }
 
+; Note, this routine only execute when Link is moving horizontally (Yes, it
+; will execute if he's moving in a diagonal direction since that includes
+; horizontal).
 ; $03CE2A-$03CE84 LOCAL JUMP LOCATION
 TileDetect_Movement_Horizontal:
 {
-    ; Note, this routine only execute when Link is moving horizontally (Yes, it
-    ; will execute if he's moving in a diagonal direction since that includes
-    ; horizontal).
-    
     REP #$20
     
     JSR.w TileDetect_ResetState
     
     STZ.b $59
     
-    LDA.b $22 : CLC : ADC.w $CD7B, Y : AND.b $EC : LSR #3    : STA.b $02
+    LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_same_axis, Y
+    AND.b $EC : LSR #3 : STA.b $02
     
-    LDA.b $20 : CLC : ADC.w $CD83, Y : AND.b $EC             : STA.b $00
+    LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_1, Y
+    AND.b $EC : STA.b $00
     
-    LDA.b $20 : CLC : ADC.w $CD8B, Y : STA.b $51 : AND.b $EC : STA.b $04
+    LDA.b $20
+    CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_2, Y : STA.b $51
+    AND.b $EC : STA.b $04
     
-    LDA.b $20 : CLC : ADC.w $CD93, Y : STA.b $53 : AND.b $EC : STA.b $08
+    LDA.b $20
+    CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_3, Y : STA.b $53
+    AND.b $EC : STA.b $08
     
     REP #$10
     
@@ -12009,10 +12152,14 @@ TileDetect_Movement_VerticalSlopes:
     
     STZ.b $59
     
-    LDA.b $20 : CLC : ADC.w $CDA3, Y : AND.b $EC : STA.b $00
+    LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_slope_same_axis, Y
+    AND.b $EC : STA.b $00
     
-    LDA.b $22 : CLC : ADC.w $CDAB, Y : AND.b $EC : LSR #3 : STA.b $02
-    LDA.b $22 : CLC : ADC.w $CDB3, Y : AND.b $EC : LSR #3 : STA.b $04
+    LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_slope_perpendicular_axis_1, Y
+    AND.b $EC : LSR #3 : STA.b $02
+
+    LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_slope_perpendicular_axis_2, Y
+    AND.b $EC : LSR #3 : STA.b $04
     
     REP #$10
     
@@ -12040,11 +12187,14 @@ TileDetect_Movement_HorizontalSlopes:
     
     STZ.b $59
     
-    LDA.b $22 : CLC : ADC.w $CDA3, Y : AND.b $EC : LSR #3 : STA.b $02
+    LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_slope_same_axis, Y
+    AND.b $EC : LSR #3 : STA.b $02
     
-    LDA.b $20 : CLC : ADC.w $CDAB, Y : AND.b $EC : STA.b $00
+    LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_slope_perpendicular_axis_1, Y
+    AND.b $EC : STA.b $00
     
-    LDA.b $20 : CLC : ADC.w $CDB3, Y : AND.b $EC : STA.b $04
+    LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_slope_perpendicular_axis_2, Y
+    AND.b $EC : STA.b $04
     
     REP #$10
     
@@ -12088,13 +12238,13 @@ Player_TileDetectNearby:
     
     JSR.w TileDetect_ResetState
     
-    LDA.b $22 : CLC : ADC.w $CD83 : AND.b $EC : LSR #3 : STA.b $02
+    LDA.b $22 : CLC : ADC.w $CD83offset_perpendicular_axis_1 : AND.b $EC : LSR #3 : STA.b $02
     
-    LDA.b $22 : CLC : ADC.w $CD93 : AND.b $EC : LSR #3 : STA.b $04
+    LDA.b $22 : CLC : ADC.w $CD93offset_perpendicular_axis_3 : AND.b $EC : LSR #3 : STA.b $04
     
-    LDA.b $20 : CLC : ADC.w $CD87 : AND.b $EC : STA.b $00 : STA.b $74
+    LDA.b $20 : CLC : ADC.w $CD87offset_pit_y : AND.b $EC : STA.b $00 : STA.b $74
     
-    LDA.b $20 : CLC : ADC.w $CD97 : AND.b $EC : STA.b $08
+    LDA.b $20 : CLC : ADC.w $CD97offset_pit_x : AND.b $EC : STA.b $08
     
     ; Bleeds into the next function.
 }
@@ -12332,7 +12482,7 @@ TileDetect_MainHandler:
                 .BRANCH_CHI
                 
                 LDA.w $02DB : BNE .BRANCH_RHO
-                    JSR.w $A95C ; $03A95C IN ROM
+                    JSR.w Mirror_TryToWarp
         
         .BRANCH_RHO
         
@@ -12345,8 +12495,7 @@ TileDetect_MainHandler:
     LDA.w $0357 : AND.b #$01 : BEQ .BRANCH_ZETA
         LDA.b #$02 : STA.w $0351
         
-        ; $03D2C6 IN ROM
-        JSR.w $D2C6 : BCS .BRANCH_THETA
+        JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_THETA
             LDA.b $4D : BNE .BRANCH_THETA
                 LDA.b #$1A : JSR.w Player_DoSfx2
         
@@ -12373,10 +12522,8 @@ TileDetect_MainHandler:
         
         .BRANCH_IOTA
         
-        ; $03D2C6 IN ROM
-        JSR.w $D2C6 : BCS .BRANCH_TAU
-        
-        LDA.b $8A : CMP.b #$70 : BNE .notEvilSwamp
+        JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_TAU
+            LDA.b $8A : CMP.b #$70 : BNE .notEvilSwamp
     
     .BRANCH_LAMBDA
     
@@ -12398,8 +12545,7 @@ TileDetect_MainHandler:
             LDA.w $0341 : AND.b #$01 : BEQ .BRANCH_ALEPH
                 LDA.b #$01 : STA.w $0351
                 
-                ; $03D2C6 IN ROM
-                JSR.w $D2C6 : BCS .BRANCH_BET
+                JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_BET
                     ; Dat be sum swamp o' evil.
                     LDA.b $8A : CMP.b #$70 : BNE .BRANCH_DALET
                         LDA.b #$1B : JSR.w Player_DoSfx2
@@ -12435,8 +12581,7 @@ TileDetect_MainHandler:
         STZ.w $0373
         
         LDA.b $55 : BNE .noSpikeFloorDamage
-            ; $03AFB5 IN ROM
-            JSR.w $AFB5 : BCS .noSpikeFloorDamage
+            JSR.w SearchForByrnaSpark : BCS .noSpikeFloorDamage
                 ; Did Link just get damaged and is still flashing?
                 LDA.w $031F : BNE .noSpikeFloorDamage
                     STZ.w $03F7
@@ -15263,7 +15408,7 @@ LinkHop_FindArbitraryLandingSpot:
     DEX #2 : BPL .BRANCH_KESRA
     
     JSR.w Link_HandleMovingFloor
-    JSR.w $E5F0 ; $03E5F0 IN ROM
+    JSR.w Link_ApplyConveyor
     
     BRA Link_HandleVelocityAndSandDrag
 }
@@ -17506,7 +17651,7 @@ HandleLinkOnSpiralStairs:
     .BRANCH_DELTA
     
     JSL.l LinkHop_FindArbitraryLandingSpot
-    JSL.l $07E704 ; $03E704 IN ROM
+    JSL.l Link_HandleMovingAnimation_StartWithDash
     
     LDA.w $0371 : BNE .BRANCH_ZETA
         DEC.w $0378 : BPL .BRANCH_ZETA
@@ -17631,7 +17776,7 @@ SpiralStairs_FindLandingSpot:
     .BRANCH_GAMMA
     
     JSL.l LinkHop_FindArbitraryLandingSpot
-    JSL.l $07E704 ; $03E704 IN ROM
+    JSL.l Link_HandleMovingAnimation_StartWithDash
     
     LDA.b $22 : CMP.b $53 : BNE .BRANCH_DELTA
         LDA.b #$02 : STA.w $030A
@@ -17697,7 +17842,7 @@ UNREACHABLE_07F3FD:
     STY.b $27
     
     JSL.l LinkHop_FindArbitraryLandingSpot
-    JSL.l $07E704 ; $03E704 in rom.
+    JSL.l Link_HandleMovingAnimation_StartWithDash
     
     PLB
     
@@ -17713,7 +17858,7 @@ HandleIndoorCameraAndDoors_long:
     
     PHX
     
-    JSR.w $E8F0 ; $3E8F0 IN ROM
+    JSR.w HandleIndoorCameraAndDoors
     
     PLX : PLB
     

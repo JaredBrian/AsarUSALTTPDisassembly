@@ -8947,7 +8947,7 @@ Pikit_Draw:
 ; ==============================================================================
 
 ; $06D739-$06D739 BRANCH LOCATION
-Pikit_DrawTongue_easy_out
+Pikit_DrawTongue_easy_out:
 {
     RTS
 }
@@ -11440,7 +11440,7 @@ Equipment_DrawSelectedYButtonItem:
     LDA.w $0042, Y : STA.w $11F4
     
     LDA.w $0207 : AND.w #$0010 : BEQ .dontUpdate
-        ; TODO: Find out where the bank switch is for this and what bank we are =
+        ; TODO: Find out where the bank switch is for this and what bank we are
         ; currently in.
         LDA.w #$3C61 : STA.w $FFC0, Y
         ORA.w #$4000 : STA.w $FFC2, Y

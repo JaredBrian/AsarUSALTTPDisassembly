@@ -393,7 +393,7 @@ Module_EndSequence:
 Credits_LoadNextScene_Overworld:
 {
     ; For overworld portions:
-    JSL Credits_LoadScene_Overworld
+    JSL.l Credits_LoadScene_Overworld
     SR.w Credits_AddEndingSequenceText
         
     RTS
@@ -403,7 +403,7 @@ Credits_LoadNextScene_Overworld:
 Credits_LoadNextScene_Underworld:
 {
     ; For dungeon portions
-    JSL Credits_LoadScene_Dungeon ; Module 1A's basecamp in Bank02.
+    JSL.l Credits_LoadScene_Dungeon ; Module 1A's basecamp in Bank02.
     SR.w Credits_AddEndingSequenceText
 }
 
@@ -438,7 +438,7 @@ Credits_PrepAndLoadSprites:
 
     .loop
 
-        JSL Sprite_ResetProperties
+        JSL.l Sprite_ResetProperties
         
         STZ.w $0DD0, X
         STZ.w $0BE0, X
@@ -574,7 +574,7 @@ Credits_ScrollScene_Overworld:
         
     PHX
         
-    JSL Credits_OperateScrollingAndTilemap
+    JSL.l Credits_OperateScrollingAndTilemap
         
     PLX
         
@@ -1542,7 +1542,7 @@ Credits_SpriteDraw_Hera:
         
         SR.w Credits_SpriteDraw_Single
         SR.w Credits_SpriteDraw_DrawShadow_priority_set
-        JSL Sprite_MoveLong
+        JSL.l Sprite_MoveLong
 	DEX : BPL .BRANCH_BETA
     
 	PLX
@@ -1897,7 +1897,7 @@ Credits_SpriteDraw_DeathMountain:
     LDY.b #$34
         
     SR.w Credits_SpriteDraw_Single
-    JSL Sprite_MoveLong
+    JSL.l Sprite_MoveLong
         
     PLX
         
@@ -1913,11 +1913,11 @@ Credits_SpriteDraw_Lumberjacks:
         
     LDA.b #$2C : STA.w $0E20, X
         
-    LDA.b #$2C : JSL OAM_AllocateFromRegionA
+    LDA.b #$2C : JSL.l OAM_AllocateFromRegionA
         
     LDA.b #$3B : STA.w $0F50, X
         
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
         
     LDA.b #$02
         
@@ -1932,7 +1932,7 @@ Credits_SpriteDraw_Lumberjacks:
     
     STA.w $0DC0, X
         
-    JSL SpriteActive_MainLong
+    JSL.l SpriteActive_MainLong
         
     PLX
         
@@ -1946,15 +1946,15 @@ Credits_SpriteDraw_Venus:
         
     LDX.b #$05
         
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
         
     LDA.w $0F00, X : BNE .BRANCH_ALPHA 
-        JSL GetRandomInt : AND.b #$07 : TAX
+        JSL.l GetRandomInt : AND.b #$07 : TAX
             
         ; TODO: Fix this address.
         LDA.l $06C309, X : CLC : ADC.w $0FD8 : PHA
             
-        JSL GetRandomInt : AND.b #$07 : TAX
+        JSL.l GetRandomInt : AND.b #$07 : TAX
             
         ; TODO: Fix this address.
         LDA.l $06C311, X : CLC : ADC.w $0FDA
@@ -2089,7 +2089,7 @@ Credits_SpriteDraw_Kakariko2:
     
         CLC : ADC.w $0D40, X : STA.w $0D40, X
         
-        JSL Sprite_MoveLong
+        JSL.l Sprite_MoveLong
     
     .BRANCH_ALPHA
     
@@ -2184,9 +2184,9 @@ Credits_SpriteDraw_DrawShadow:
         
     SR.w Credits_SpriteDraw_SetShadowProp
         
-    LDA.b #$04 : JSL OAM_AllocateFromRegionA
+    LDA.b #$04 : JSL.l OAM_AllocateFromRegionA
         
-    JSL Sprite_DrawShadowLong
+    JSL.l Sprite_DrawShadowLong
         
     RTS
 }
@@ -2280,7 +2280,7 @@ Credits_SpriteDraw_ActivateAndRunSprite:
 {
     STX.w $0FA0
         
-    JSL OAM_AllocateFromRegionA
+    JSL.l OAM_AllocateFromRegionA
     SR.w Sprite_Get_16_bit_CoordsLong
         
     LDA.b $11 : PHA
@@ -2289,7 +2289,7 @@ Credits_SpriteDraw_ActivateAndRunSprite:
         
     LDA.b #$09 : STA.w $0DD0, X
         
-    JSL SpriteActive_MainLong
+    JSL.l SpriteActive_MainLong
         
     PLA : STA.b $11
         
@@ -2307,12 +2307,12 @@ Credits_SpriteDraw_PreexistingSpriteDraw_eight:
 ; $0726B3-$0726C2 LOCAL JUMP LOCATION
 Credits_SpriteDraw_PreexistingSpriteDraw:
 {
-    JSL OAM_AllocateFromRegionA
+    JSL.l OAM_AllocateFromRegionA
         
     STX.w $0FA0
         
-    JSL Sprite_Get_16_bit_CoordsLong
-    JSL SpriteActive_MainLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
+    JSL.l SpriteActive_MainLong
         
     RTS
 }
@@ -2373,9 +2373,9 @@ Credits_SpriteDraw_Single:
 {
     PHA : PHY
     
-    PHA : ASL #2 : JSL OAM_AllocateFromRegionA
+    PHA : ASL #2 : JSL.l OAM_AllocateFromRegionA
     
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
     
     PLA : STA.w SNES.MultiplicandA
     
@@ -2402,7 +2402,7 @@ Credits_SpriteDraw_Single:
     
     PHA
     
-    JSL Sprite_DrawMultiple
+    JSL.l Sprite_DrawMultiple
     
     RTS
 }
@@ -2457,7 +2457,7 @@ Credits_SpriteDraw_Zora:
         LDA.w Pool_Credits_SpriteDraw_Zora_sprite_id, X : STA.w $0E20, X
         
         LDA.w Pool_Credits_SpriteDraw_Zora_object_allocation, X
-        JSL OAM_AllocateFromRegionA
+        JSL.l OAM_AllocateFromRegionA
         
         LDA.w Pool_Credits_SpriteDraw_Zora_sprite_ai, X : STA.w $0D80, X
         
@@ -2484,8 +2484,8 @@ Credits_SpriteDraw_Zora:
         
         LDA.b #$33 : STA.w $0F50, X
         
-        JSL Sprite_Get_16_bit_CoordsLong
-        JSL SpriteActive_MainLong
+        JSL.l Sprite_Get_16_bit_CoordsLong
+        JSL.l SpriteActive_MainLong
     DEX : BPL .loop
     
     PLX
@@ -2780,18 +2780,18 @@ Credits_SpriteDraw_Witch:
         
     LDA.b #$E9 : STA.w $0E20, X
         
-    LDA.b #$0C : JSL OAM_AllocateFromRegionA
+    LDA.b #$0C : JSL.l OAM_AllocateFromRegionA
         
     LDA.b #$37 : STA.w $0F50, X
         
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
         
     LDA.b $1A : AND.b #$0F : BNE .BRANCH_ALPHA
         LDA.w $0DC0, X : EOR.b #$01 : STA.w $0DC0, X
     
     .BRANCH_ALPHA
     
-    JSL SpriteActive_MainLong
+    JSL.l SpriteActive_MainLong
         
     REP #$20
         
@@ -2799,7 +2799,7 @@ Credits_SpriteDraw_Witch:
         LDA.b #$04 : STA.w $0D40, X
         
         LDA.w $0D00, X : CMP.b #$7C : BEQ .BRANCH_BETA
-            JSL Sprite_MoveLong
+            JSL.l Sprite_MoveLong
     
     .BRANCH_BETA
     
@@ -2807,11 +2807,11 @@ Credits_SpriteDraw_Witch:
         
     LDA.b #$36 : STA.w $0E20, X
         
-    LDA.b #$18 : JSL OAM_AllocateFromRegionA
+    LDA.b #$18 : JSL.l OAM_AllocateFromRegionA
         
     LDA.b #$39 : STA.w $0F50, X
         
-    JSL Sprite_Get_16_bit_CoordsLong
+    JSL.l Sprite_Get_16_bit_CoordsLong
         
     LDA.w $0DF0, X : BNE .BRANCH_GAMMA
         LDA.b #$04 : STA.w $0DF0, X
@@ -2822,7 +2822,7 @@ Credits_SpriteDraw_Witch:
     
     .BRANCH_GAMMA
     
-    JSL SpriteActive_MainLong
+    JSL.l SpriteActive_MainLong
         
     PLX
         
@@ -2913,7 +2913,7 @@ Credits_SpriteDraw_Grove:
         LDA.w $0DD0, X : BEQ .BRANCH_BETA
             LDA.b #$F8 : STA.w $0D40, X
             
-            JSL Sprite_MoveLong
+            JSL.l Sprite_MoveLong
             
             LDA.b $1A : LSR A : BCS .BRANCH_GAMMA
                 STX.b $00
@@ -3114,7 +3114,7 @@ Credits_SpriteDraw_LostWoods:
         
         .BRANCH_THETA
         
-        JSL Sprite_MoveLong
+        JSL.l Sprite_MoveLong
             
         LDA.b $1A : LSR #3 : AND.b #$03 : TAY
             
@@ -3382,7 +3382,7 @@ Credits_SpriteDraw_WalkLinkAwayFromPedestal:
         
     SR.w Credits_SpriteDraw_Single
     SR.w Credits_SpriteDraw_DrawShadow_priority_set
-    JSL Sprite_MoveLong
+    JSL.l Sprite_MoveLong
         
     RTS
 }
@@ -3419,7 +3419,7 @@ Credits_SpriteDraw_MoveSquirrel:
         
     LDA.w .y_speeds, Y : STA.w $0D40, X
         
-    JSL Sprite_MoveLong
+    JSL.l Sprite_MoveLong
         
     RTS
 }
@@ -3467,7 +3467,7 @@ Credits_SpriteDraw_CirclingBirds:
         .anotoggle_y_acceleration
     .delay
 
-    JSL Sprite_MoveLong
+    JSL.l Sprite_MoveLong
         
     RTS
 }
@@ -4608,12 +4608,12 @@ CreditsData:
 Credits_InitializeTheActualCredits:
 {
     ; Set up the screen values, resets HDMA, etc.
-    JSL EnableForceBlank
+    JSL.l EnableForceBlank
 
-    JSL Vram_EraseTilemaps_normal
-    JSL CopyFontToVram
-    JSL Credits_LoadCoolBackground
-    JSL Credits_InitializePolyhedral
+    JSL.l Vram_EraseTilemaps_normal
+    JSL.l CopyFontToVram
+    JSL.l Credits_LoadCoolBackground
+    JSL.l Credits_InitializePolyhedral
         
     ; Force blank the screen.
     LDA.b #$80 : STA.b $13
@@ -4623,7 +4623,7 @@ Credits_InitializeTheActualCredits:
     ; Load a couple of palettes.
     LDA.b #$01 : STA.w $0AB2
         
-    JSL Palette_Hud
+    JSL.l Palette_Hud
         
     ; Note that cgram should be updated for the next frame.
     INC.b $15
@@ -4661,7 +4661,7 @@ Credits_InitializeTheActualCredits:
     ; Puts us in the Dark World.
     LDA.b #$40 : STA.l $7EF3CA
         
-    JSL Main_SaveGameFile
+    JSL.l Main_SaveGameFile
         
     REP #$20
         
@@ -4784,7 +4784,7 @@ Credits_FadeColorAndBeginAnimating:
     SEP #$30
         
     ; Presumably something to do with the 3D triforce.
-    JSL Credits_AnimateTheTriangles
+    JSL.l Credits_AnimateTheTriangles
         
     REP #$30
         
@@ -5421,7 +5421,7 @@ Credits_BrightenTriangles:
     
     .BRANCH_ALPHA
     
-    JSL Credits_AnimateTheTriangles
+    JSL.l Credits_AnimateTheTriangles
         
     RTS
 }
@@ -5459,7 +5459,7 @@ Credits_FadeAndDisperseTriangles:
     DEC.b $C8
         
     LDA.b $CA : BNE .BRANCH_GAMMA
-        JSL PaletteFilter_doFiltering
+        JSL.l PaletteFilter_doFiltering
             
         LDA.l $7EC007 : BNE Credits_StopCreditsScroll_exit
             INC.b $CA
@@ -5469,7 +5469,7 @@ Credits_FadeAndDisperseTriangles:
     LDA.b $C8 : BNE Credits_StopCreditsScroll_exit   
         INC.b $11
             
-        JSL PaletteFilter_InitTheEndSprite
+        JSL.l PaletteFilter_InitTheEndSprite
             
         RTS
 }
@@ -5479,7 +5479,7 @@ Credits_FadeInTheEnd:
 {
     LDA.b $1A : AND.b #$07 : BNE .frameNotMultipleOf8
         ; Do some palette filtering.
-        JSL Palette_Filter_SP5F
+        JSL.l Palette_Filter_SP5F
             
         LDA.l $7EC007 : BNE .notDoneFiltering
             INC.b $11
@@ -5560,7 +5560,7 @@ Text_Local:
 {
     LDA.w $1CD8
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Text_Initialize           ; 0x00 - $C483
     dw Text_Render               ; 0x01 - $C8D9
@@ -5609,13 +5609,13 @@ Text_Initialize:
 {
     ; Are we in History mode?
     LDA.b $10 : CMP.b #$14 : BNE .notInAtractMode
-        JSL Attract_ResetHudPalettes_4_and_5
+        JSL.l Attract_ResetHudPalettes_4_and_5
     
     .notInAttractMode
     
     ; This is is always called - not the best use of time since we're not
     ; always in attract mode. What gives?
-    JSL Attract_DecompressStoryGfx
+    JSL.l Attract_DecompressStoryGfx
     
     LDX.b #$00
     
@@ -5749,7 +5749,7 @@ Text_Command:
     
     SBC.b #$67
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     ; Text Routines 1 (preparation)
     ; These routines are used for setting up the $7F1200[0x800] buffer that
@@ -6605,7 +6605,7 @@ Text_Render:
 {
     LDA.w $1CD4 ; Second level controller for text mode submodules.
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Text_DrawBorder           ; 0x00 - $C8EA
     dw Text_DrawBorderIncremenal ; 0x01 - $C919
@@ -6681,7 +6681,7 @@ Text_DrawBorderIncremenal:
     
     .alpha
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Text_DrawFirstBorderRow  ; 0x00 - $C936
     dw Text_DrawMiddleBorderRow ; 0x01 - $C94A
@@ -6850,7 +6850,7 @@ Text_MessageHandler:
 ; $0749FD-$074A34 LOCAL JUMP LOCATION
 VWF_CharacterOrCommand:
 {
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     ; Text Routines 2
     ; These routines are used in the actual generation of the text.
@@ -6926,7 +6926,7 @@ VWF_Render:
     
     .validSpeed
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw VWF_RenderRecursive ; 0x00 - $CA99
     dw VWF_RenderSingle    ; 0x01 - $CAB8 Speed = 1
@@ -7343,7 +7343,7 @@ VWF_NextPicture:
     ; Is it history mode?
     ; If it's not history module, just move to the next character.
     LDA.b $10 : CMP.b #$14 : BNE .notInAttractMode
-        JSL PaletteFilterHistory
+        JSL.l PaletteFilterHistory
         
         LDA.l $7EC007 : BNE .notDoneFiltering
     
@@ -8040,7 +8040,7 @@ VWF_Wait:
     
     SEP #$30
     
-    JSL UseImplicitRegIndexedLocalJumpTable
+    JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw VWF_WaitLoop_initCounter ; 0x00 - $D138
     dw VWF_EndWait              ; 0x01 - $D154
@@ -8828,11 +8828,11 @@ Overworld_LoadPalettes:
     
     .noPaletteChange5
     
-    JSL Palette_OverworldBgAux1
-    JSL Palette_OverworldBgAux2
-    JSL Palette_OverworldBgAux3
-    JSL Palette_SpriteAux1
-    JSL Palette_SpriteAux2
+    JSL.l Palette_OverworldBgAux1
+    JSL.l Palette_OverworldBgAux2
+    JSL.l Palette_OverworldBgAux3
+    JSL.l Palette_SpriteAux1
+    JSL.l Palette_SpriteAux2
     
     ; TODO: Confirm whether this is an actual alternate entry point or not.
     ; $0755F3 ALTERNATE ENTRY POINT
@@ -9371,7 +9371,7 @@ PalaceMap_Backup:
         ; because EnableForceBlank turns off HDMA.
         LDA.b $9B : STA.l $7EC229
             
-        JSL EnableForceBlank
+        JSL.l EnableForceBlank
             
         ; Move on to next step of the submodule, and initialize the
         ; initilization indicator ($020D).
@@ -9457,7 +9457,7 @@ PalaceMap_FadeMapToBlack:
     DEC.b $13 : BNE .notDoneDarkening
         
         ; Forceblank the screen
-        JSL EnableForceBlank
+        JSL.l EnableForceBlank
         
         ; Move to next step of submodule.
         INC.w $0200
@@ -9489,7 +9489,7 @@ PalaceMap_FadeMapToBlack:
 ; $075A79-$075A9B JUMP LOCATION (LONG)
 PalaceMap_LightenUpDungeon:
 {
-    JSL OrientLampBg
+    JSL.l OrientLampBg
         
     INC.b $13
         
@@ -9799,7 +9799,7 @@ HandlePegPuzzles:
             LDA.w #$0050 : STA.w $0692
             LDA.w #$0D20 : STA.w $0698
             
-            JSL Overworld_DoMapUpdate32x32_Long
+            JSL.l Overworld_DoMapUpdate32x32_Long
             
             REP #$30
             
@@ -9821,7 +9821,7 @@ HandleStakeField:
     
     .BRANCH_ALPHA
     
-    JSL PaletteFilter_BlindingWhite
+    JSL.l PaletteFilter_BlindingWhite
         
     REP #$30
         
@@ -11499,7 +11499,7 @@ PaletteBlackAndWhiteSomething:
     
     .BRANCH_ALPHA
     
-    JSL PaletteFilter_BlindingWhite
+    JSL.l PaletteFilter_BlindingWhite
         
     REP #$30
         

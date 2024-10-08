@@ -2193,7 +2193,7 @@ Ancilla_PrepOamCoord:
 {
     LDY.w $0C7C, X
     
-    LDA .priority, Y : STA.b $65
+    LDA.w .priority, Y : STA.b $65
     STZ.b $64
     
     LDA.w $0BFA, X : STA.b $00

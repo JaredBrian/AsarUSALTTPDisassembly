@@ -26,7 +26,7 @@ Pool_foo1:
     dw c3
 }
     
-    ; transformed state
+; transformed state
 {
     .states
     dw a0, b0, c0
@@ -50,7 +50,7 @@ Pool_foo1:
     dw a6
 }
     
-    ; transformed state
+; transformed state
 {
     .lowers
     db a0
@@ -87,7 +87,7 @@ Pool_foo1:
     dl a6
 }
     
-    ; transformed state
+; transformed state
 {
     .lowers
     dw a0
@@ -125,7 +125,7 @@ Pool_foo1:
     dl a6
 }
     
-    ; transformed state
+; transformed state
 {
     .bottoms
     dw a0
@@ -171,7 +171,7 @@ Pool_foo1:
     dw a3, b3, c3
 }
     
-    ; transformed state
+; transformed state
 {
     .set0
     dw a0

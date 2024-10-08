@@ -1224,7 +1224,7 @@ SpriteDraw_TrinexxRockHeadAndBody:
     dw  24,  32,  39,  42,  44
     dw  24,  32,  37,  37,  33
 
-    ;$0EB7FF
+    ; $0EB7FF
     .tail_char
     db $06, $28, $28, $2C, $2C
 

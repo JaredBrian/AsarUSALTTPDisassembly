@@ -20,7 +20,7 @@
         
         LDA.b $F6
         
-        JSL .check_button_press
+        JSL.l .check_button_press
         
         LDA.l $7EF359 : CMP.b #$04 : BNE .not_golden_sword
             LDA.b #$03 : STA.l $7EF35A

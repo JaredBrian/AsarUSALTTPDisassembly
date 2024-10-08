@@ -521,7 +521,7 @@ SpritePrep_Octoballoon:
 {
     TXA : AND.b #$03 : TAY
     
-    LDA .timers, Y : STA.w $0DF0, X
+    LDA.w .timers, Y : STA.w $0DF0, X
     
     RTS
 }

@@ -69,12 +69,12 @@ Leever_UnderSand:
 ; I say this due to the large simlarity with the previous routine
 ; (Leever_UnderSand).
 ; $034BF5-$034C02 LOCAL JUMP LOCATION
+UNUSED_06CBF5:
 {
     LDA.w $0DF0, X : BNE .delay
-    
-    INC.w $0D80, X
-    
-    LDA.b #$7F : STA.w $0DF0, X
+        INC.w $0D80, X
+        
+        LDA.b #$7F : STA.w $0DF0, X
     
     .delay
     

@@ -5752,7 +5752,7 @@ PaletteData:
 
 ; ==============================================================================
 
-; $0DEBB4-$0DEBB8 DATA
+; $0DEBB4-$0DEBC0 DATA
 SwordPaletteOffsets:
 {
     db (PaletteData_sword_00-PaletteData_sword) ; $00
@@ -5760,11 +5760,6 @@ SwordPaletteOffsets:
     db (PaletteData_sword_01-PaletteData_sword) ; $06
     db (PaletteData_sword_02-PaletteData_sword) ; $0C
     db (PaletteData_sword_03-PaletteData_sword) ; $12
-}
-    
-; TODO: Figure out a name for this.
-; $0DEBB9-$0DEBC0 DATA
-{
     db $18, $1E, $24, $2A, $30, $36, $3C, $42
 }
     
