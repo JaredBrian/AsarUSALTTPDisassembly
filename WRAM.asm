@@ -5,6 +5,42 @@
 
 ; ==============================================================================
 
+; Shorthand legend:
+; Addr = Address
+; APU = Audio Processing Unit
+; AUX = Auxiliary
+; BG = BackGround
+; Calc = Calculate/Calculation
+; CGRAM = Color Generator RAM
+; Coord = Coordinate
+; Des = Designation
+; Diff = Difference
+; Dir = Direction
+; DMA = Direct Memory Access
+; Dun = Dungeon
+; DWall = Diagonal Wall
+; GFX = Graphics
+; H = Horizontal
+; HDMA = Horizontal Direct Memory Access
+; HV = H/V or Horizontal/Vertical
+; Init = Initial
+; IO = I/O or Input/Output
+; IRQ = Interupt ReQuest
+; NMI = Non-Maskable Interupt
+; Num = Number
+; Manip = Manipulate
+; MULT = Multiply/Multiplication
+; OAM = Object Attribute Memory
+; OBJ = Object
+; OW = Overworld
+; Pos = Position
+; PPU = Picture Processing Unit
+; SFX = Sound Effects
+; TM = Tile Map
+; V = Vertical
+; Val = Value
+; VRAM = Video RAM
+
 struct WRAM $7E0000
 {
     ; $00[0x10] (Main)
@@ -47,9 +83,9 @@ struct WRAM $7E0000
 
     ; $11[0x01] (Main)
     .Submodule: skip $01
-        ; ; Submodule Index (See $B0)
+        ; Submodule Index (See $B0)
 
-    ; $12[0x01] - (Main / NMI)
+    ; $12[0x01] - (NMI)
     .NMIWaitFlag: skip $01
         ; NMI Boolean. If set to zero, the game will wait at a certain loop until
         ; NMI executes. The NMI interrupt generally sets it to one after it's
@@ -57,12 +93,12 @@ struct WRAM $7E0000
         ; the screen. This prevents the NMI updates from running more than once
         ; per frame, preventing lag and preventing lost player input.
 
-    ; $13[0x01] - (Main / NMI)
+    ; $13[0x01] - (Main, NMI)
     .Brightness: skip $01
         ; Mirror of INIDISP, which controls the screen brightness and force blank
         ; status.
 
-    ; $14[0x01] - (NMI)
+    ; $14[0x01] - (Main, NMI, Tilemap)
     .BGTileMapUpdateFlag: skip $01
         ; Value based flag, that if nonzero, causes the tilemap to update from
         ; one of several source addresses. Some are in ram, but most are in rom.
@@ -70,22 +106,22 @@ struct WRAM $7E0000
         ; address buffer. The others are used for highly specific parts of the
         ; game code, such as the intro.
 
-    ; $15[0x01] - (NMI)
+    ; $15[0x01] - (CGRAM, Main, NMI)
     .CGRAMUpdateFlag: skip $01
         ; Flag indicating to update CGRAM (0x200 bytes)
 
-    ; $16[0x01] - (NMI)
+    ; $16[0x01] - (Main, NMI, Tilemap)
     .BG3TileMapUpdateFlag: skip $01
         ; Flag indicating to update the HUD portion of the BG3 tilemap with
         ; source address $7EC700 (0x14A bytes).
 
-    ; $17[0x01] - (NMI)
+    ; $17[0x01] - (GFX, Main, NMI)
     .DMAMask: skip $01
         ; Value based flag that, if nonzero, indexes one of a set of specialized
         ; subroutines to execute. Examples of these are updating portions of the
         ; sprite chr region in vram.
 
-    ; $18[0x01] - (NMI) Graphics Flag
+    ; $18[0x01] - (GFX, Main, NMI)
     .GFXUpdateFlag: skip $01
         ; If nonzero, will read from a buffer starting at $001100, which will
         ; indicate a series of 1 or more packets of data to transfer of vram.
@@ -94,7 +130,7 @@ struct WRAM $7E0000
         ; module. Note that the buffer $001100 can also be used differently
         ; with some of the specialized routines that $17 can utilize.
 
-    ; $19[0x01] - (NMI) Graphics flag
+    ; $19[0x01] - (GFX, Main, NMI)
     .VRAMIncramentalUpload: skip $01
         ; When nonzero, will trigger a transfer from $7FXXXX to vram
         ; address $YY00
@@ -116,7 +152,7 @@ struct WRAM $7E0000
     .IsIndoors: skip $01
         ; Flag that is set to 1 if the player is in indoors and 0 otherwise.
 
-    ; $1C[0x01] - (NMI)
+    ; $1C[0x01] - (Main, NMI)
     .MainScreenDes: skip $01
         ; Main Screen Designation (TM / $212C)
         ; To be written to SNES.BGAndOBJEnableMainScreen during NMI.
@@ -128,7 +164,7 @@ struct WRAM $7E0000
         ; 3 - BG3 enabled
         ; 4 - BG4 enabled
 
-    ; $1D[0x01] - (NMI)
+    ; $1D[0x01] - (Main, NMI)
     .SubScreenDes: skip $01
         ; Sub Screen Designation (TS / $212D)
         ; To be written to SNES.BGAndOBJEnableSubScreen during NMI.
@@ -140,18 +176,18 @@ struct WRAM $7E0000
         ; 3 - BG2 enabled
         ; 4 - BG1 enabled
 
-    ; $1E[0x01] - (NMI)
+    ; $1E[0x01] - (Main, NMI)
     .MainWindowMaskDes: skip $01
         ; Window Mask Activation (TMW / $212E)
-        ; To be written to SNES.SNES.WindowMaskDesMainScreen during NMI.
+        ; To be written to SNES.WindowMaskDesMainScreen during NMI.
 
-    ; $1F[0x01] - (NMI)
+    ; $1F[0x01] - (Main, NMI)
     .SubWindowMaskDes: skip $01
         ; Subscreen Window Mask Activation (TSW / $212F)
         ; To be written to SNES.WindowMaskDesSubScreen during NMI.
 
     ; $20[0x02] - (Player)
-    .LinkYCoord: skip $01
+    .LinkYCoord: skip $02
         ; Link's Y-Coordinate (mirrored at $0FC4)
 
     ; $22[0x02] - (Player)
@@ -228,7 +264,7 @@ struct WRAM $7E0000
     .LinkXSubCoord: skip $01
         ; Player's subpixel X coordinate
 
-    ; $2C[0x01] - (Dungeon, Overworld)
+    ; $2C[0x01] - (Player)
     .LinkWorthlessZero:
         ; Only written to in one place, and it's always a zero.
         ; Given the limited scope of this use compared to the one below, it
@@ -241,17 +277,16 @@ struct WRAM $7E0000
         ; 0x1e, it is used to begin the fade to the next scene by decreasing the
         ; brightness by one on frames where this variable has an even value.
 
-    ; $2D[0x01] - (Dungeon, Overworld)
+    ; $2D[0x01] - (Player)
     .LinkAnimationTimer:
-        ; Unknown, but it seems to be used there.
-        ; TODO: Confirm this name, this is just my initial guess.
+        ; Acts as a timer for certain animations to advance LinkAnimationStep.
 
     ; $2D[0x02] - (Attract)
     .AttractUnknownPointer: skip $01
         ; Appears to serve as a pointer to sprite data of some sort. Exact scope
         ; of usage during this mode not known at this time.
 
-    ; $2E[0x01] - (Player)
+    ; $2E[0x01] - (Player, OAM)
     .LinkAnimationStep: skip $01
         ; Animation steps: seems to cycle from 0 to 5 then repeats. Seems that
         ; other submodes of the player logic use a different number of steps
@@ -266,17 +301,17 @@ struct WRAM $7E0000
         ; The direction the player is currently facing. Other values should be
         ; considered invalid.
 
-    ; $30[0x01]
+    ; $30[0x01] - (Player)
     .LinkYVelocity: skip $01
         ; When Link is moving down or up, this is the signed number of pixels
         ; that his Y coordinate will change by.
 
-    ; $31[0x01]
+    ; $31[0x01] - (Player)
     .LinkXVelocity: skip $01
         ; Same as $30 except it's for X coordinates
 
-    ; $32[0x01]
-    .LinkCliffHoppingY: skip $01
+    ; $32[0x01] - (Player)
+    .LinkCliffHoppingY: skip $02
         ; Seems to be used in some subsection of Bank 07 that handles hopping
         ; off cliffs in relation to link's Y coordinate. TODO: Also has a use
         ; in the Attract Module. TODO: Figure out exact use.
@@ -288,17 +323,42 @@ struct WRAM $7E0000
         ; causing advancement to the next subsequence of this sequence
         ; (Agahnim walking towards Zelda's cell and the text appearing.)
 
-    ; $35[0x03]
-    .Free_0x35: skip $03
+    ; $35[0x01] - (Free)
+    .Free_35: skip $01
         ; Free RAM
 
-    ; $38[0x02]
-    .DiagonalWallCalc: skip $02
+    ; $36[0x01] - (Free)
+    .Free_36: skip $01
+        ; Free RAM
+
+    ; $37[0x01] - (Free)
+    .Free_37: skip $01
+        ; Free RAM
+
+    ; $38[0x02] - (Player)
+    .LinkDWallCalc: skip $02
         ; Seems to be set some of the time when going up diagonal walls.
         ; It's a bitfield for tiles type 0x10 through 0x13. TODO: Confirm
         ; this name.
+        ; SEE TILE ACT NOTES
 
-    ; $3A[0x01]
+    ; TILE ACT NOTES
+
+    ; For tile act bitfields, each property is flagged with 4 bits.
+    ; These bits indicate which tile relative Link the tile was found.
+    ;  a b
+    ;   L
+    ;  c d
+    ;
+    ; abcd
+    ;   a - Found to the north west
+    ;   b - Found to the north east
+    ;   c - Found to the south west
+    ;   d - Found to the south east
+    ;
+    ;   L - Link
+
+    ; $3A[0x01] - (Input)
     .BAndYInputField: skip $01
         ; Bitfield for the B and Y buttons
         ; hymuunub
@@ -310,7 +370,7 @@ struct WRAM $7E0000
         ; u - Unused.
         ; y - The Y button has been held down for one or more frames.
 
-    ; $3B[0x01] - (Player)
+    ; $3B[0x01] - (Input)
     .AInputField: skip $01
         ; Bitfield for the A button
         ; auuduuuu
@@ -318,55 +378,89 @@ struct WRAM $7E0000
         ; u - Unused.
         ; d - Debug flag. Checked in one place, but never set.
 
-    ; $3C[0x01] - (Player)
+    ; $3C[0x01] - (Input)
     .BFlag: skip $01
         ; ssss tttt
         ;   s - Set to 9 on spin attack release.
         ;   t - How many frames the B button has been held, approximately.
 
-    ; $3D[0x01] - (Player)
+    ; $3D[0x01] - (Player, OAM)
+    .LinkAnimationTimer: skip $01
         ; A delay timer for the spin attack. Used between shifts to make the
         ; animation flow with the flash effect. Also used for delays between
         ; different graphics when swinging the sword.
 
-    ; $3E[0x01]
+    ; $3E[0x01] - (Player)
+    .LinkCalcYLow: skip $01
         ; Y coordinate related variable (low byte)
 
-    ; $3F[0x01]
+    ; $3F[0x01] - (Player)
+    .LinkCalcXLow: skip $01
         ; X coordinate related variable (low byte)
 
-    ; $40[0x01]
+    ; $40[0x01] - (Player)
+    .LinkCalcYHigh: skip $01
         ; Y coordinate related variable (high byte)
 
-    ; $41[0x01]
+    ; $41[0x01] - (Player)
+    .LinkCalcXHigh: skip $01
         ; X coordinate related variable (high byte)
 
-    ; $42[0x01]
-        ; Set to 0x0F during preoverworld
+    ; $42[0x01] - (Player)
+    .LinkObstructV: skip $01
+        ; Appears to flag directions for freedom for vertical. Flags are set
+        ; when there's no obstruction. TODO: Of movement? or for freedom of what?
+        ; (0: obstructed | 1: unobstructed)
+        ; .... udlr
+        ;   u - upwards
+        ;   d - downwards
+        ;   l - leftwards
+        ;   r - rightwards
 
-    ; $43[0x01]
-        ; Mostly the same as $42
+    ; $43[0x01] - (Player)
+    .LinkObstructD: skip $01
+        ; Appears to flag directions for freedom for diagonal. Flags are set
+        ; when there's no obstruction. TODO: Of movement? or for freedom of what?
+        ; (0: obstructed | 1: unobstructed)
+        ; .... udlr
+        ;   u - upwards
+        ;   d - downwards
+        ;   l - leftwards
+        ;   r - rightwards
 
     ; $44[0x01] - (Player)
+    .AttackOAMOffsetY: skip $01
         ; Set to 0x80 during preoverworld. Seems to be an offset for player oam
         ; y offset. TODO: Not fully confirmed.
 
     ; $45[0x01] - (Player)
+    .AttackOAMOffsetX: skip $01
         ; Set to 0x80 during preoverworld. Seems to be an offset for player oam
         ; x offset. TODO: Not fully confirmed.
 
     ; $46[0x01] - (Player)
+    .LinkRecoilTimer: skip $01
         ; A countdown timer that incapacitates Link when damaged or in recoil
         ; state. If nonzero, no movement input is recorded for Link.
 
-    ; $47[0x01]
-        ; Set when damaging enemies, unsure of exact usage yet.
+    ; $47[0x01] - (Player)
+    .WeapponTinkTimer: skip $01
+        ; Weapon tink spark timer.
 
-    ; $48[0x01] - (PlayerOam)
+    ; $48[0x01] - (Player, OAM)
+    .LinkPushAction: skip $01
         ; If set, when the A button is pressed, the player sprite will enter the
         ; "grabbing at something" state.
+        ; Bitfield for push actions
+        ; s... dbpt
+        ;   s - statue/somaria
+        ;   d - pushing door
+        ;   b - push block
+        ;   p - pushing
+        ;   t - harder push
 
-    ; $49[0x01] - (Player)
+    ; $49[0x02] - (Player)
+    .LinkForceMove: skip $01
         ; This address is written to make Link move in any given direction. When 
         ; indoors, it is cleared every frame. When outdoors, it is not cleared
         ; every frame so watch out. Also any value besides 0 it overwrites
@@ -389,19 +483,24 @@ struct WRAM $7E0000
         ; 0x0E - North West (facing south)
         ; 0x0F - North West (facing south) too?
 
-    ; $4A[0x01]
-        ; Free RAM
+    ; $4A[0x01] - (Free)
+    .NotFree_4A: skip $01
+        ; Was marked as free RAM but appears to be cleared by tile detection
+        ; routines.
 
-    ; $4B[0x01]
+    ; $4B[0x01] - (Player)
+    .LinkVisible: skip $01
         ; Link's visibility status. If set to 0x0C, Link will disappear.
 
-    ; $4C[0x01]
-        ; Counter that decreases every frame when the Cape is in use. Starts at 4
-        ; and counts down to 0. When it reaches 0, your magic meter is decremented
-        ; based on whether you have full or 1/2 magic. There's a table in Bank 07
-        ; that determines this.
+    ; $4C[0x01] - (Item)
+    .CapeDrainTimer: skip $01
+        ; Counter that decreases every frame when the Cape is in use. Starts at
+        ; 4 and counts down to 0. When it reaches 0, your magic meter is
+        ; decremented based on whether you have full or 1/2 magic. There's a
+        ; table in Bank 07 that determines this.
 
-    ; $4D[0x01]
+    ; $4D[0x01] - (Player)
+    .LinkAuxState: skip $01
         ; An Auxiliary Link handler.
         ; As far as I know:
         ; 0x00 - ground state (normal)
@@ -413,13 +512,11 @@ struct WRAM $7E0000
         ; values indicating states. That is, each bit indicates a state, but the
         ; states are assumedly mutually exclusive.
 
-    ; $4E[0x01] 
-        ; Appears to be related to dungeon transitions. It can only take on
-        ; a value between 0 and 4, inclusive. It indicates broadly the tile
-        ; attribute of the location that the player lands on after the
-        ; transition. This documentation will have to remain incomplete for
-        ; now, as we have limited information on some of the tile attributes:
-        ; Value | Caused by tile attribute numbers...
+    ; $4E[0x01] - (Dungeon)
+    .DunTransitionLand: skip $01
+        ; It indicates broadly the tile attribute of the location that the
+        ; player lands on after the transition. It can only take on a value
+        ; between 0 and 4, inclusive.
         ; ------+-------------------------------------------------------------
         ; 0     | 0x00, 0x09
         ;       |
@@ -432,45 +529,74 @@ struct WRAM $7E0000
         ;       |
         ; 4     | 0x86, 0x87, 0x96, 0x97, ..., 0xE6, 0xE7, 0xF6, 0xF7
 
-    ; $4F[0x01]
+        ; According to Kan:
+        ;   0x00 - Shallow water/Nothing
+        ;   0x01 - Normal door
+        ;   0x02 - Shutter doors/All others - zeros DOORWAY
+        ;   0x03 - Layer doors? TODO
+        ;   0x04 - Lower layer shutters - zeros DOORWAY
+
+    ; $4F[0x01] - (Player, SFX)
+    .DashSFXTimer: skip $01
         ; Index for creating the dashing sound effect. If frozen to a single
         ; value, no sound occurs.
 
     ; $50[0x01] - (Player)
+    .LinkStrafeFlag: skip $01
         ; A flag indicating whether a change of the direction Link is facing is
         ; possible. For example, when the B button is held down with a sword.
-        ; 0        - Can change
-        ; non zero - Can't change.
+        ; When non 0, strafe.
+        ; .... .bps
+        ;   s - the bit generally flagged
+        ;   p - flagged during rupee pull and perpendicular door movement
+        ;   b - flagged during push blocks
 
-    ; $51[0x01]
-        ; ????
+    ; $51[0x01] - (Attract)
+    .AttractUnknownFlag_51:
+        ; TODO: Has some use in attract mode.
 
-    ; $51[0x02] - (Dungeon, Overworld)
+    ; $51[0x02] - (Player)
+    .LinkTargetY: skip $01
         ; Used as a buffer to store the Y position where link is supposed to
         ; land to when falling in a hole.
 
     ; $52[0x01] - (Attract)
-        ; Has a function identical to $5F in some cases, though sometimes it
-        ; used for something else.
+    .AttractUnknownFlag_52:
+        ; TODO: Has a function identical to $5F in some cases, though
+        ; sometimes it used for something else.
 
-    ; $53[0x02] - (Dungeon, Overworld)
-        ; Used as a buffer to store the X position where link is supposed to land to when falling in a hole.
+    ; $52[0x01] - (Polyhedral)
+    .PolyCosCalc: skip $01
+        ; Has some sort of use in the Polyhedral code. Appears to store a
+        ; cosine value.
 
-    ; $55[0x01] - Cape flag, when set, makes you invisible and invincible.
-        ; You can also go through objects, such as bungies.
+    ; $53[0x02] - (Player)
+    .LinkTargetX: skip $02
+        ; Used as a buffer to store the X position where link is supposed to
+        ; land to when falling in a hole.
 
-    ; $56[0x01] - (PlayerOam)
+    ; $55[0x01] - (Player)
+    .LinkCapeOn: skip $01
+        ; Cape flag, when set, makes you invisible and invincible. You can
+        ; also go through objects, such as bungies.
+
+    ; $56[0x01] - (Player, OAM)
+    .LinkIsBunny: skip $01
         ; Link's graphic status.
         ; 0 - real link.
         ; 1 - bunny link
 
-    ; $57[0x01] - Modifier for Link's movement speed.
+    ; $57[0x01] - (Player)
+    .LinkSpeedModifier: skip $01
+        ; Modifier for Link's movement speed. Counts up to 0x10 to
+        ; induce slower speed on stairs. Famously uncleared after spiral stairs.
         ; 0            - normal
         ; 0x01 to 0x0F - slow
         ; 0x10 and up  - fast.
         ; Negative values actually reverse your direction.
 
-    ; $58[0x01]
+    ; $58[0x01] - (Player)
+    .LinkStairTile: skip $01
         ; Bitfield describing insteractions with stairs tiles.
         ; uuuussss
         ; s - Stair tiles
@@ -478,26 +604,33 @@ struct WRAM $7E0000
         ; If this masked with 0x07 equals 0x07, Link moves slowly, like he's on
         ; a small staircase. $02C0 also needs this variable to be nonzero to
         ; trigger.
+        ; SEE TILE ACT NOTES
 
     ; $59[0x01] - (Player)
+    .LinkPitTile: skip $01
         ; Bitfield for pit tile interaction.
         ; uuuupppp
         ; u - Free RAM
         ; p - pit tile detected
+        ; SEE TILE ACT NOTES
 
     ; $5A[0x01] - (Player)
-        ; ????
+    .LinkFallPose: skip $01
+        ; Pose when landing from a pit fall in underworld.
 
     ; $5B[0x01] - (Player)
-        ; 0 - indicates nothing
+    .LinkPitSlipping: skip $01
+        ; 0 - Indicates nothing
         ; 1 - Player is dangerously near the edge of a pit
         ; 2 - Player is falling
         ; 3 - Player is falling into a hole, part 2?
 
-    ; $5C[0x01]
-        ; ???? Seems to have something to do with $5A
+    ; $5C[0x01] - (Player)
+    .LinkFallTimer: skip $01
+       ; Timer for the falling animation.
 
     ; $5D[0x01] - (Player)
+    .LinkState: skip $01
         ; Player Handler or "State"
         ; 0x00 - ground state
         ; 0x01 - falling into a hole
@@ -514,11 +647,12 @@ struct WRAM $7E0000
         ; 0x0C - Falling to the left / right off of a ledge.
         ; 0x0D - Jumping off of a ledge diagonally up and left / right.
         ; 0x0E - Jumping off of a ledge diagonally down and left / right.
-        ; 0x0F - More jumping off of a ledge but with dashing maybe + some directions.
+        ; 0x0F - More jumping off of a ledge but with dashing maybe + some
+        ;        directions.
         ; 0x10 - Same or similar to 0x0F?
         ; 0x11 - Falling off a ledge
-        ; 0x12 - Used when coming out of a dash by pressing a direction other than the
-        ;     dash direction.
+        ; 0x12 - Used when coming out of a dash by pressing a direction other 
+        ;        than the dash direction.
         ; 0x13 - hookshot
         ; 0x14 - magic mirror
         ; 0x15 - holding up an item
@@ -533,36 +667,40 @@ struct WRAM $7E0000
         ; 0x1E - The actual spin attack motion.
 
     ; $5E[0x01] - (Player)
+    .LinkSpeed: skip $01
         ; Speed setting for Link. The different values this can be set to index
         ; into a table that sets his real speed. Some common values:
         ; 0x00 - Normal walking speed
         ; 0x02 - Walking (or dashing) on stairs
         ; 0x10 - Dashing
 
-    ; $5F[0x01] - (Dungeon, Overworld)
-        ; ????
+    ; $5F[0x02] - (Dungeon, Overworld)
+    .TileManip:
+        ; Bitfield used by manipulable tiles.
 
     ; $5F[0x01] - (Attract)
+    .AttractBrightnessFlag: skip $01
         ; Used as a flag during fade in from darkness in between sequences.
         ; Once the screen is fully bright, this variable is set to 1.
 
-    ; $60[0x01] - (Dungeon, Overworld)
-        ; ????
-
     ; $60[0x01] - (Attract)
+    .AttractSubModule2: skip $01
         ; Indicates the current subsequence index of a sequence.
         ; Only used in 'Zelda in Prison' and 'Maiden Warp'.
 
     ; $61[0x01] - (Dungeon, Overworld)
-        ; ????
+    .PushFriction:
+        ; Push timer for blocks, graves, etc.
 
     ; $61[0x01] - (Attract)
+    .AttractMaidenWarpFlag: skip $01
         ; After a sufficient amount of time has counted down during the 'Maiden
         ; Warp' sequence, this will transition from 0 to 1, and this tells the
         ; sequence to move from the first subsequence to the second. Yeah,
         ; narrow usage.
 
-    ; $62[0x02]
+    ; $62[0x02] - (Dungeon)
+    .DoorHFlag: skip $01
         ; Seems like it's used in conjunction with doors. I think this causes
         ; the behavior where walking in a doorway path causes the player's
         ; orthogonal movement to translate to movement along the path
@@ -572,10 +710,27 @@ struct WRAM $7E0000
         ; is reinterpreted in either the up or down direction, probably
         ; depending upon the direction the player was already traveling in.
 
+        ; According to Kan:
+        ; Seems to only act as a flag for horizontal doors.
+        ; .... ..h.
+        ;   h - on horizontal door tile
+
+    ; $63[0x01] - (Attract)
+    .AttractAgahSpell: skip $01
+        ; Used for spell timer for Agahnim in attract mode.
+        ; Zeroed by DoorHFlag during normal gameplay.
+
     ; $64[0x02]
+    .LinkOAMPriority: skip $01
+        ; Used to ORA in OAM priority, but only high byte seems used for that.
         ; 0x1000 if $EE = 1, 0x2000 if $EE = 0.
 
+    ; $64[0x02] - (Attract)
+    .AttractTimer2: skip $02
+        ; Used as a timer for Agahnim text display in attract mode.
+
     ; $66[0x01] - (Player)
+    .LinkLastDir: skip $01
         ; Indicates the last direction Link moved towards.
         ; Value-wise:
         ; 0 - Up
@@ -584,6 +739,7 @@ struct WRAM $7E0000
         ; 3 - Right
 
     ; $67[0x01] - (Player)
+    .LinkDir: skip $01
         ; Indicates which direction Link is walking (even if not going anywhere).
         ; ----udlr.
         ; u - Up
@@ -592,12 +748,15 @@ struct WRAM $7E0000
         ; r - Right
 
     ; $68[0x01] - (Player)
+    .LinkYDiff: skip $01
         ; When the player moves in room, this is the difference between their
         ; new Y coordinate and their old one (Y_new - Y_old).
         ; For example, a value of 1 would indicate that the player has moved
         ; down by one pixel, whereas a value of 0 would indicate no
         ; movement in the Y axis.
+
     ; $69[0x01] - (Player)
+    .LinkXDiff: skip $01
         ; When the player moves in room, this is the difference between their
         ; new and old X coordinates (X_new - X_old).
         ; For example, a value of -2 would indicates that the player has
@@ -605,6 +764,7 @@ struct WRAM $7E0000
         ; movement in the X axis.
 
     ; $6A[0x01] - (Player)
+    .LinkOrthogonalDir: skip $01
         ; Indicates the number of orthogonal directions the player is moving
         ; in simultaneously. This does not include the rarely used Z axis
         ; (altitude).
@@ -613,125 +773,285 @@ struct WRAM $7E0000
         ; 2 - moving both horizontally and vertically
 
     ; $6B[0x01] - (Player)
-        ; moving up against a \ wall: 0x1A
-        ; moving right against a \ wall: 0x25
-        ; moving down against a \ wall: 0x15
-        ; moving left against a \ wall: 0x2A
-        ; moving up against a / wall: 0x19
-        ; moving left against a / wall: 0x26
-        ; moving right against a / wall: 0x29
-        ; moving down against a / wall: 0x16
+    .LinkDWallDir: skip $01
+        ;         ..hv udlr
+        ;   0x15  ...1 .1.1  ◣ down
+        ;   0x16  ...1 .11.  ◢ down
+        ;   0x19  ...1 1..1  ◤ up
+        ;   0x1A  ...1 1.1.  ◥ up
+        ;   0x25  ..1. .1.1  ◥ right
+        ;   0x26  ..1. .11.  ◤ left
+        ;   0x29  ..1. 1..1  ◢ right
+        ;   0x2A  ..1. 1.1.  ◣ left
+        ;     h - Moving horizontally
+        ;     v - Moving vertically
+        ;     u - Change of direction into the slope has an up vector
+        ;     d - Change of direction into the slope has a down vector
+        ;     l - Change of direction into the slope has a left vector
+        ;     r - Change of direction into the slope has a right vector
 
-    ; $6C[0x01] - (Player)
+    ; $6C[0x01] - (Dungeon, Player)
+    .LinkInDoor: skip $01
         ; Indicates whether you are standing in a doorway
         ; 0 - not standing in a doorway. 
         ; 1 - standing in a vertical doorway 
         ; 2 - standing in a horizontal door way
 
-    ; $6D[0x01] - When you are moving against a diagonal wall and you are deadlocked,
-        ; i.e. you are pressing against it directly, but aren't going anywhere,
+    ; $6D[0x01] - (Player)
+    .LinkDWallFail: skip $01
+        ; When you are moving against a diagonal wall and you are deadlocked.
+        ; I.e. you are pressing against it directly, but aren't going anywhere,
         ; this will contain the value that $6B would have.
 
-    ; $6E[0x01] - (archiving but not sure if this is correct) Related to certain tile behaviors (see tile type 2 I think) nearby
-        ; moving against a \ wall from below: 0 
-        ; moving against a \ wall from above: 2
-        ; moving against a / wall from below: 4
-        ; moving against a / wall from above: 6
+    ; $6E[0x02] - (Player, TileAttr)
+    .LinkDWallTile: skip $01
+        ; Tile act bitfield used by slopes.
+        ; High byte has an explicit STZ as well, but never used.
+        ; .... ssss
+        ; Moving against a \ wall from below: 0 
+        ; Moving against a \ wall from above: 2
+        ; Moving against a / wall from below: 4
+        ; Moving against a / wall from above: 6
+        ; SEE TILE ACT NOTES
 
-    ; $6F[0x03] - As of now, I consider this to be Free RAM
+    ; $6F[0x02] - (Free)
+    .NotFree_70: skip $01
+        ; Was marked as free, see note for LinkDWallTile.
 
-    ; $72[0x04] - Used as general scratch space in a variety of different routines.
+    ; $70[0x01] - (Free)
+    .Free_70: skip $01
+        ; Free RAM
 
-    ; $76[0x02] - (TileAttr)
+    ; $71[0x01] - (Free)
+    .Free_71: skip $01
+        ; Free RAM
+
+    ; $72[0x04] - (Main)
+    .Work2: skip $04
+        ; Used as general scratch space in a variety of different routines.
+
+    ; $76[0x02] - (Player, TileAttr)
+    .LinkInteractTile: skip $02
         ; When object, such as the player, interact with certain tile types, 
         ; the index of that tile gets stored here.
 
-    ; $78[0x01] - possibly used in the context of chests.
+    ; $78[0x01] - (Player)
+    .LinkJumpScroll: skip $01
+        ; Seems to flag non-north hops in the overworld. Messes with camera
+        ; scroll. Kept in sync with NOHURT.
+        ; From MoN but I can find no evidence of:
+        ; Possibly used in the context of chests.
 
     ; $79[0x01] - (Player)
-        ; Controls whether to do a spin attack or not?
-        ; Update: Actually looks more like a step counter for the spin attack...
+    .SpinAttackTimer: skip $01s
+        ; Spin attack timer
+        ; Fully charged at 48 (0x30)
+        ; Hardcapped at 64 (0x40)
 
-    ; $7A[0x01] - Free RAM
+    ; $7A[0x01] - (Free)
+    .Free_7A: skip $01
+        ; Free RAM
 
     ; $7B[0x01] - (Dungeon, Overworld)
+    .InDarkWorld: skip $01
         ; Set to 0x00 when in the Light World, and 0x40 when in the Dark World.
-        ; Often used for temporary calculations, so don't expect it to be reflective
-        ; of the current status of the player at all times.
+        ; Often used for temporary calculations, so don't expect it to be
+        ; reflective of the current status of the player at all times.
 
-    ; $7C[0x08] - Free RAM
+    ; $7C[0x01] - (Free)
+    .Free_7C: skip $01
+        ; Free RAM
 
-    ; $84[0x02] - not sure... ; overworld vertical scroll tile position?
-    ; $86[0x02] - not sure... ; overworld horizontal scroll position?
-    ; $88[0x02] - not sure... ; overworld vertical scroll position?
+    ; $7D[0x01] - (Free)
+    .Free_7D: skip $01
+        ; Free RAM
 
-    ; $8A[0x02] - Overworld Screen Index
+    ; $7E[0x01] - (Free)
+    .Free_7E: skip $01
+        ; Free RAM
 
-    ; $8C[0x01] - Overlay index
+    ; $7F[0x01] - (Free)
+    .Free_7F: skip $01
+        ; Free RAM
 
-    ; $8D[0x01] - Seems to be some kind of step counter for drawing ripples around
-        ; the player sprite (see Bank 0x0D)
 
-    ; $8E[0x02] - Free RAM
+    ; $80[0x01] - (Free)
+    .Free_80: skip $01
+        ; Free RAM
 
-    OAM consists of 544 ($220) bytes of data (or $110 words), split (unevenly) into 2 tables. 
-    The first table is $200 bytes long ($100 words), ranging from $0000-$00FF. 
-    The 2nd table is just $20 bytes long ($10 words), and ranges from $0100-010F. Here is what is contained in this tables:
+    ; $81[0x01] - (Free)
+    .Free_81: skip $01
+        ; Free RAM
 
-    ; $90[0x02] - Points to current position in the low OAM buffer (the first 512 bytes)
+    ; $82[0x01] - (Free)
+    .Free_82: skip $01
+        ; Free RAM
 
-        ; Sprite Table 1 (4-bytes per sprite)        ;  
-        ; Byte 1:    xxxxxxxx    x: X coordinate
-        ; Byte 2:    yyyyyyyy    y: Y coordinate
-        ; Byte 3:    cccccccc    c: Starting tile #
-        ; Byte 4:    vhoopppc    v: vertical flip h: horizontal flip  o: priority bits
-        ;     p: palette # c:sprite size (e.g. 8x8 or 16x16 pixel)
-        ; The x and y coordinates are self-explanatory, but there's one twist. 
-        ; There's an extra 9th bit for the x coord in the 2nd sprite table. 
-        ; The primary reason for this is to place unused sprites off the screen. 
-        ; With all 9 bits, the x coordinate can range from -256-255 ($100-$FF). 
-        ; ; $100 = -256, -1 = $1FF, etc. The starting tile # is the same thing as from the BG tutorial, 
-        ; same with vertical and horizontal flips.. Same with the priority bits.. and same with the palette #.
+    ; $83[0x01] - (Free)
+    .Free_83: skip $01
+        ; Free RAM
 
-    ; $92[0x02] - Points to current position in the high OAM table buffer (latter 32 bytes)
+    ; $84[0x02] - (Overworld)
+    .OWTMIndex:
+        ; Index for overworld map16 buffer to load new graphics when scrolling.
 
-        ; Sprite Table 2 (2 bits per sprite)
-        ; bits 0,2,4,6 - Enable or disable the X coordinate's 9th bit.
-        ; bits 1,3,5,7 - Toggle Sprite size: 0 - small size   1 - large size
+    ; $86[0x02] - (Overworld)
+    .OWTMHScroll: skip $02
+        ; Overworld horizontal scroll position. Used to index $0500 and tilemap.
 
-        ; ($90), -> [0][X, Y, C , VHOOPPPC] [1][X, Y, C , VHOOPPPC] [2][X, Y, C , VHOOPPPC] [3][X, Y, C , VHOOPPPC]
-        ; ($92), -> [0][sx][sx][sx][sx]
-        ; 1 byte in $92 is setting 4 tiles properties ( x and size)
+    ; $88[0x02] - (Overworld)
+    .OWTMVScroll: skip $02
+        ; Overworld vertical scroll position. Used to index $0500 and tilemap.
 
-    ; $94[0x01] - Screen Mode Register ($2105)
+    ; $8A[0x02] - (Overworld)
+    .OWAreaIndex: skip $02
+        ; Overworld Area Index. Occasionally $8A is used to read underworld
+        ; screens. In practice bit 6 indicates a Dark World area, and bit 7
+        ; indicates special overworld. As the highest screen ID is 0x81, $8B
+        ; is essentially unused in the overworld. However, reads and writes for
+        ; screen ID are often 16-bit.
 
-    ; $95[0x01] - Mosaic Settings ($2106)
+    ; $8C[0x01] - (Overworld)
+    .OverlayIndex: skip $01
+        ; Subscreen Overlay index. TODO: Add the corrsiponding overlays here.
 
-    ; $96[0x01] - Window Masks for Backgrounds 1 and 2 ($2123)
+    ; $8D[0x01] - 
+    .StepAnimationTimer: skip $01
+        ; Seems to be some kind of step counter for drawing ripples and thick
+        ; grass around the player sprite (see Bank 0x0D).
+
+    ; $8E[0x01] - (Free)
+    .Free_8E: skip $01
+        ; Free RAM
+
+    ; $8F[0x01] - (Free)
+    .Free_8F: skip $01
+        ; Free RAM
+
+    ; OAM consists of 0x220 bytes of data, split unevenly into 2 tables. The
+    ; first table is 0x200 bytes long, ranging from $0000-$01FF. The 2nd table
+    ; is just 0x20 bytes long, and ranges from $0100-011F. Here is what is
+    ; contained in this tables:
+
+    ; $90[0x02] - (OAM)
+    .OAMLowPointer: skip $02
+        ; Points to current position in the low OAM buffer (the first 0x200
+        ; bytes). Each entry is 4-bytes per OAM tile. This will be written to
+        ; SNES.OMADataWrite during NMI.   
+        ; Byte 0: xxxxxxxx
+        ; Byte 1: yyyyyyyy
+        ; Byte 2: cccccccc
+        ; Byte 3: vhoopppc
+        ;         x - X coordinate
+        ;         y - Y coordinate
+        ;         c - Character in VRAM
+        ;         v - Vertical flip
+        ;         h - Horizontal flip
+        ;         o - Priority
+        ;         p - Palette
+
+        ; NOTE: There is a 9th X bit found in the 2nd OAM table. 
+        ; With all 9 bits, the X coordinate can range from -256 to 255
+        ; ($100-$FF). $100 = -256, -1 = $1FF, etc.
+
+    ; $92[0x02] - (OAM)
+    .OAMHighPointer: skip $02
+        ; Points to current position in the high OAM table buffer (latter 0x20
+        ; bytes). Each entry is 2 bits per OAM tile. This will be written to
+        ; SNES.OMADataWrite during NMI.
+        ; sx sx sx sx
+        ; x - The X coordinate's 9th bit.
+        ; s - OAM size: 0 - small size, 1 - large size)
+
+        ; NOTE: The OAM size CAN change depending on the setting put into
+        ; SNES.OAMSizeAndDataDes. Only the first 6 options were intended to be
+        ; used. Tthe last 2 are rectangular shaped and behave oddly with
+        ; vertical flipping. However ALTTP never changes this and only uses the
+        ; first option of 8x8 and 16x16
+        ; The sizes are as follows:
+        ;      | Small | Large |
+        ; 0x00 |  8x8  | 16x16 |
+        ; 0x01 |  8x8  | 32x32 |
+        ; 0x02 |  8x8  | 64x64 |
+        ; 0x03 | 16x16 | 32x32 |
+        ; 0x04 | 16x16 | 64x64 |
+        ; 0x05 | 32x32 | 64x64 |
+        ; 0x06 | 16x32 | 32x64 |
+        ; 0x07 | 16x32 | 32x32 |
+
+    ; $94[0x01] - (NMI, Overworld)
+    .BGMode: skip $01
+        ; Screen Mode Register (BGModeAndTileSize / $2105).
+        ; To be written to SNES.BGModeAndTileSize during NMI. Also written
+        ; to when entering and exiting the overworld map mode.
+
+    ; $95[0x01] - (NMI)
+    .MosaicSetting: skip $01
+        ; Mosaic Settings (MosaicAndBGEnable / $2106).
+        ; To be written to SNES.MosaicAndBGEnable during NMI.
+
+    ; $96[0x01] - (NMI)
+    .BG12WindowMask: skip $01
+        ; Window Masks for Backgrounds 1 and 2 (BG1And2WindowMask / $2123).
+        ; To be written to SNES.BG1And2WindowMask during NMI.
 
     ; $97[0x01] - (NMI)
-        ; Window Masks for Backgrounds 3 and 4 ($2124)
+    .BG34WindowMask: skip $01
+        ; Window Masks for Backgrounds 3 and 4 (BG3And4WindowMask / $2124).
+        ; To be written to SNES.BG3And4WindowMask during NMI.
 
     ; $98[0x01] - (NMI)
-        ; Window Masks for Obj and Color Add/Subtraction Layers ($2125)
+    .OBJAndColor: skip $01
+        ; Window Masks for Obj and Color Add/Subtraction Layers
+        ; (OBJAndColorWindow / $2125). To be written to SNES.OBJAndColorWindow
+        ; during NMI.
 
     ; $99[0x01] - (NMI)
-        ; Enable Fixed Color +/- ($2130)
+    .EnableFixedColor: skip $01
+        ; Enable Fixed Color +/- (InitColorAddition / $2130).
+        ; To be written to SNES.InitColorAddition during NMI.
 
-    ; $9A[0x01] - Enable +/- per layer ($2131)
+    ; $9A[0x01] -(NMI)
+    .AddSubSelect: skip $01
+        ; Enable +/- per layer (AddSubtractSelectAndEnable / $2131).
+        ; To be written to SNES.AddSubtractSelectAndEnable during NMI.
 
     ; $9B[0x01] - (NMI)
-        ; HDMA channels to write to $420C [HDMAEN]
+    .HDMAEnable: skip $01
+        ; HDMA channels to write to $420C / HDMAChannelEnable.
 
-    ; $9C[0x01] - writes to $2132. Red fixed color component
-    ; $9D[0x01] - writes to $2132. Green fixed color component
-    ; $9E[0x01] - writes to $2132. Blue fixed color component
+    ; $9C[0x01] - (NMI)
+    .FixedColorRed: skip $01
+        ; Writes to $2132 / FixedColorData. Red fixed color component.
 
-    ; $9F[0x01] - Free RAM
+    ; $9D[0x01] - (NMI)
+    .FixedColorGreen: skip $01
+        ; Writes to $2132 / FixedColorData. Green fixed color component.
 
-    ; $A0[0x02] - The index used for loading a dungeon room. There are 296 rooms all in all. (mirrored in other variables).
-    ; $A2[0x02] - Points to the previous dungeon room.
-    ; $A4[0x02] - Indicates the current floor Link is on in a dungeon.
+    ; $9E[0x01] - (NMI)
+    .FixedColorBlue: skip $01
+        ; Writes to $2132 / FixedColorData. Blue fixed color component.
+
+    ; $9F[0x01] - (Free)
+    .Free_9F: skip $01
+        ; Free RAM
+
+    ; $A0[0x02] - (Dungeon)
+    .DunRoomIndex: skip $02
+        ; Dungeon Room Index. There are 296 rooms total. The high byte will
+        ; always be either 0 or 1 as there are only 2 different blocks of rooms.
+        ; Mirrored in $0483.
+
+    ; $A2[0x02] - (Dungeon)
+    .PreviousDunRoomIndex: skip $02
+        ; The last room we were in. If we move from room 0x69 to 0x6A, the last
+        ; room would be 0x69.
+
+    ; $A4[0x02] - 
+    .DunFloor: skip $02
+        ; Indicates the current floor Link is on in a dungeon.
+        ;   0x00 - Floor 1
+        ;   Negative values indicate basement floors.
 
     ; $A6[0x01] - Set to 0 or 2, but it depends upon the dungeon room's layout
         ; and the quadrant it was entered from. Further investigation seems
