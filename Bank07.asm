@@ -8059,7 +8059,7 @@ Link_PerformDash:
                     
                     ; BUG: This is not cool, bro. Writing to bank 0x07?
                     ; Perhaps mentionable enough that maybe they wanted the
-                    ; player  to lose the old man here? This is a mistake and
+                    ; player to lose the old man here? This is a mistake and
                     ; was ment to write to SRM. ex: STA.l $7EF3CD. See the
                     ; latter half of thefunction Tagalong_NoTimedMessage in
                     ; tagalong.asm.
