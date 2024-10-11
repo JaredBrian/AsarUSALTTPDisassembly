@@ -686,6 +686,14 @@ Pool_Overlord_CrumbleTilePath:
     db .south_to_north>>8
 }
 
+; Sub types for this overlord are determined by which of the 6 shared overlord
+; types is used. See $0B00 in the RAM.log.
+; 0x0A - rectangle
+; 0x0B - snake_upward
+; 0x0C - line_rightward
+; 0x0D - line_downward
+; 0x0E - line_leftward
+; 0x0F - line_upward
 ; $04BBB2-$04BC30 JUMP LOCATION
 Overlord_CrumbleTilePath:
 {
