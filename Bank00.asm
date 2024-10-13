@@ -15226,7 +15226,7 @@ Module_Messaging:
     
     REP #$21
     
-    LDA.b $E2 : ADC.w $011A : STA.w $011E
+    LDA.b $E2       : ADC.w $011A : STA.w $011E
     LDA.b $E8 : CLC : ADC.w $011C : STA.w $0122
     LDA.b $E0 : CLC : ADC.w $011A : STA.w $0120
     LDA.b $E6 : CLC : ADC.w $011C : STA.w $0124

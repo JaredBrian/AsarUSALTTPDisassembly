@@ -1912,7 +1912,7 @@ $0356[0x01] -   (PlayerOam)
 
 $0357[0x02] -   Bitfield for interaction with thick Grass / warp tiles
                 
-                uuuuuuuu wwwwgggg
+                uuuuuuww wwwwgggg
                 
                 g - bits are for thick grass tiles
                 w - bits are for warp tiles (blue on OW, orange in dungeons)

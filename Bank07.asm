@@ -6766,8 +6766,10 @@ HandleFollowersAfterMirroring:
         
         .preserveTagalong
         
-        LDY.b #$07 : LDA.l $7EF3CC : CMP.b #$08 : BEQ .isDwarf
-            LDY.b #$08 : CMP.b #$07 : BNE .checkPlayerPoofPotential
+        LDY.b #$07
+        LDA.l $7EF3CC : CMP.b #$08 : BEQ .isDwarf
+            LDY.b #$08
+            CMP.b #$07 : BNE .checkPlayerPoofPotential
         
         .isDwarf
         
@@ -12446,230 +12448,230 @@ TileDetect_MainHandler:
     
     .BRANCH_XI
     
-        BRL .return
+    BRL .return
         
-        .BRANCH_MU
+    .BRANCH_MU
         
-        SEP #$30
+    SEP #$30
     CPY.b #$05 : BEQ .BRANCH_XI
-    
-    LDA.w $0357 : AND.b #$10 : BEQ .BRANCH_OMICRON
-        LDA.b $20 : CLC : ADC.b #$08 : AND.b #$0F
-        
-        CMP.b #$04 : BCC .BRANCH_PI
-            CMP.b #$0B : BCC .BRANCH_RHO
-        
-        .BRANCH_PI
-        
-        LDA.b $22 : AND.b #$0F
-        
-        CMP.b #$04 : BCC .BRANCH_SIGMA
-            CMP.b #$0C : BCC .BRANCH_RHO
-        
-        .BRANCH_SIGMA
-        
-        LDA.w $031F : BNE .BRANCH_RHO
-            LDA.b $4D : BNE .BRANCH_RHO
-                LDA.b $1B : BEQ .BRANCH_CHI
-                    JSL.l Dungeon_SaveRoomQuadrantData
+        ; Handle warp tiles.
+        LDA.w $0357 : AND.b #$10 : BEQ .BRANCH_OMICRON
+            LDA.b $20 : CLC : ADC.b #$08 : AND.b #$0F
+            
+            CMP.b #$04 : BCC .BRANCH_PI
+                CMP.b #$0B : BCC .BRANCH_RHO
+            
+            .BRANCH_PI
+            
+            LDA.b $22 : AND.b #$0F
+            
+            CMP.b #$04 : BCC .BRANCH_SIGMA
+                CMP.b #$0C : BCC .BRANCH_RHO
+            
+            .BRANCH_SIGMA
+            
+            LDA.w $031F : BNE .BRANCH_RHO
+                LDA.b $4D : BNE .BRANCH_RHO
+                    LDA.b $1B : BEQ .BRANCH_CHI
+                        JSL.l Dungeon_SaveRoomQuadrantData
+                        
+                        LDA.b #$33 : JSR.w Player_DoSfx2
+                        
+                        STZ.b $5E
+                        
+                        LDA.b #$15 : STA.b $11
+                        
+                        LDA.b $A0 : STA.b $A2
+                        
+                        LDA.l $7EC000 : STA.b $A0
+                        
+                        JSR.w HandleLayerOfDestination
+                        
+                        BRA .BRANCH_RHO
                     
-                    LDA.b #$33 : JSR.w Player_DoSfx2
+                    .BRANCH_CHI
                     
-                    STZ.b $5E
-                    
-                    LDA.b #$15 : STA.b $11
-                    
-                    LDA.b $A0 : STA.b $A2
-                    
-                    LDA.l $7EC000 : STA.b $A0
-                    
-                    JSR.w HandleLayerOfDestination
-                    
-                    BRA .BRANCH_RHO
-                
-                .BRANCH_CHI
-                
-                LDA.w $02DB : BNE .BRANCH_RHO
-                    JSR.w Mirror_TryToWarp
+                    LDA.w $02DB : BNE .BRANCH_RHO
+                        JSR.w Mirror_TryToWarp
+            
+            .BRANCH_RHO
+            
+            BRL .BRANCH_GAMMA
         
-        .BRANCH_RHO
+        .BRANCH_OMICRON
         
-        BRL .BRANCH_GAMMA
-    
-    .BRANCH_OMICRON
-    
-    STZ.w $02DB
-    
-    LDA.w $0357 : AND.b #$01 : BEQ .BRANCH_ZETA
-        LDA.b #$02 : STA.w $0351
+        STZ.w $02DB
         
-        JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_THETA
-            LDA.b $4D : BNE .BRANCH_THETA
-                LDA.b #$1A : JSR.w Player_DoSfx2
+        LDA.w $0357 : AND.b #$01 : BEQ .BRANCH_ZETA
+            LDA.b #$02 : STA.w $0351
+            
+            JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_THETA
+                LDA.b $4D : BNE .BRANCH_THETA
+                    LDA.b #$1A : JSR.w Player_DoSfx2
+            
+            .BRANCH_THETA
+            
+            BRL .BRANCH_KAPPA
         
-        .BRANCH_THETA
+        .BRANCH_ZETA
+        
+        LDA.w $0359 : AND.b #$01 : BEQ .BRANCH_LAMBDA
+            LDA.b #$01 : STA.w $0351
+            
+            LDA.b $1B : BNE .BRANCH_IOTA
+                LDA.w $0345 : BEQ .BRANCH_IOTA
+                    LDA.w $02E0 : BNE .BRANCH_IOTA
+                        LDA.l $7EF356 : BEQ .BRANCH_THETA
+                            STZ.w $0345
+                            
+                            LDA.w $0340 : STA.b $26
+                            
+                            LDA.b #$00 : STA.b $5D
+                        
+                        BRL .BRANCH_KAPPA
+            
+            .BRANCH_IOTA
+            
+            JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_TAU
+                LDA.b $8A : CMP.b #$70 : BNE .notEvilSwamp
+        
+        .BRANCH_LAMBDA
+        
+        LDA.b #$1B : JSR.w Player_DoSfx2
+        
+        BRA .BRANCH_TAU
+        
+        .notEvilSwamp
+        
+        LDA.b $4D : BNE .BRANCH_TAU
+            LDA.b #$1C : JSR.w Player_DoSfx2
+        
+        .BRANCH_TAU
         
         BRL .BRANCH_KAPPA
-    
-    .BRANCH_ZETA
-    
-    LDA.w $0359 : AND.b #$01 : BEQ .BRANCH_LAMBDA
-        LDA.b #$01 : STA.w $0351
         
-        LDA.b $1B : BNE .BRANCH_IOTA
-            LDA.w $0345 : BEQ .BRANCH_IOTA
-                LDA.w $02E0 : BNE .BRANCH_IOTA
-                    LDA.l $7EF356 : BEQ .BRANCH_THETA
-                        STZ.w $0345
+        LDA.b $1B : BNE .BRANCH_ALEPH
+            LDA.w $0345 : BNE .BRANCH_ALEPH
+                LDA.w $0341 : AND.b #$01 : BEQ .BRANCH_ALEPH
+                    LDA.b #$01 : STA.w $0351
+                    
+                    JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_BET
+                        ; Dat be sum swamp o' evil.
+                        LDA.b $8A : CMP.b #$70 : BNE .BRANCH_DALET
+                            LDA.b #$1B : JSR.w Player_DoSfx2
+                            
+                            BRA .BRANCH_BET
                         
-                        LDA.w $0340 : STA.b $26
+                        .BRANCH_DALET
                         
-                        LDA.b #$00 : STA.b $5D
+                        LDA.b $4D : BNE .BRANCH_BET
+                            LDA.b #$1C : JSR.w Player_DoSfx2
                     
-                    BRL .BRANCH_KAPPA
+                    .BRANCH_BET
+                    
+                    BRL .return
         
-        .BRANCH_IOTA
+        .BRANCH_ALEPH
         
-        JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_TAU
-            LDA.b $8A : CMP.b #$70 : BNE .notEvilSwamp
-    
-    .BRANCH_LAMBDA
-    
-    LDA.b #$1B : JSR.w Player_DoSfx2
-    
-    BRA .BRANCH_TAU
-    
-    .notEvilSwamp
-    
-    LDA.b $4D : BNE .BRANCH_TAU
-        LDA.b #$1C : JSR.w Player_DoSfx2
-    
-    .BRANCH_TAU
-    
-    BRL .BRANCH_KAPPA
-    
-    LDA.b $1B : BNE .BRANCH_ALEPH
-        LDA.w $0345 : BNE .BRANCH_ALEPH
-            LDA.w $0341 : AND.b #$01 : BEQ .BRANCH_ALEPH
-                LDA.b #$01 : STA.w $0351
-                
-                JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_BET
-                    ; Dat be sum swamp o' evil.
-                    LDA.b $8A : CMP.b #$70 : BNE .BRANCH_DALET
-                        LDA.b #$1B : JSR.w Player_DoSfx2
+        STZ.w $0351
+        
+        LDA.w $02EE : AND.b #$01 : BEQ .chet
+            ; Only current documentation on this relates to the Desert Palace
+            ; opening.
+            LDA.b #$01 : STA.w $02ED
+            
+            ; Our work is done here I guess?
+            BRL .return
+        
+        .chet
+        
+        STZ.w $02ED
+        
+        LDA.w $02EE : AND.b #$10 : BEQ .noSpikeFloorDamage
+            STZ.w $0373
+            
+            LDA.b $55 : BNE .noSpikeFloorDamage
+                JSR.w SearchForByrnaSpark : BCS .noSpikeFloorDamage
+                    ; Did Link just get damaged and is still flashing?
+                    LDA.w $031F : BNE .noSpikeFloorDamage
+                        STZ.w $03F7
+                        STZ.w $03F5
+                        STZ.w $03F6
                         
-                        BRA .BRANCH_BET
-                    
-                    .BRANCH_DALET
-                    
-                    LDA.b $4D : BNE .BRANCH_BET
-                        LDA.b #$1C : JSR.w Player_DoSfx2
-                
-                .BRANCH_BET
-                
-                BRL .return
-    
-    .BRANCH_ALEPH
-    
-    STZ.w $0351
-    
-    LDA.w $02EE : AND.b #$01 : BEQ .chet
-        ; Only current documentation on this relates to the Desert Palace
-        ; opening.
-        LDA.b #$01 : STA.w $02ED
+                        ; Moon pearl
+                        LDA.l $7EF357 : BEQ .doesntHaveMoonPearl
+                            STZ.b $56
+                            STZ.w $02E0
+                        
+                        .doesntHaveMoonPearl
+                        
+                        ; Armor level
+                        LDA.l $7EF35B : TAY
+                        
+                        ; Determine how much damage the spike floor will do to Link.
+                        LDA.w Pool_TileDetect_MainHandler_spike_floor_damage, Y : STA.w $0373
+                        
+                        BRL Player_HaltDashAttack
+            
+        .noSpikeFloorDamage
         
-        ; Our work is done here I guess?
-        BRL .return
-    
-    .chet
-    
-    STZ.w $02ED
-    
-    LDA.w $02EE : AND.b #$10 : BEQ .noSpikeFloorDamage
-        STZ.w $0373
+        LDA.w $0348 : AND.b #$11 : BEQ .notWalkingOnIce
+            LDA.w $034A : BEQ .BRANCH_AYIN
+                LDA.b $6A : BEQ .BRANCH_PEY
+                    LDA.w $0340 : STA.b $26
+                    
+                    BRL .BRANCH_PEY
+            
+            .BRANCH_AYIN
+            
+            LDA.b $67 : AND.b #$0C : BEQ .BRANCH_TSADIE
+                LDA.b #$01 : STA.w $033D
+                LDA.b #$80 : STA.w $033C
+            
+            .BRANCH_TSADIE
+            
+            LDA.b $67 : AND.b #$03 : BEQ .BRANCH_QOF
+                LDA.b #$01 : STA.w $033D
+                LDA.b #$80 : STA.w $033C
+            
+            .BRANCH_QOF
+            
+            LDY.b #$01
+            
+            LDA.w $0348 : AND.b #$01 : BNE .BRANCH_RESH
+                LDY.b #$02
+            
+            .BRANCH_RESH
+            
+            STY.w $034A
+            
+            LDA.b $26 : STA.w $0340
+            
+            JSL.l Player_ResetSwimState
+            
+            BRL .BRANCH_PEY
         
-        LDA.b $55 : BNE .noSpikeFloorDamage
-            JSR.w SearchForByrnaSpark : BCS .noSpikeFloorDamage
-                ; Did Link just get damaged and is still flashing?
-                LDA.w $031F : BNE .noSpikeFloorDamage
-                    STZ.w $03F7
-                    STZ.w $03F5
-                    STZ.w $03F6
-                    
-                    ; Moon pearl
-                    LDA.l $7EF357 : BEQ .doesntHaveMoonPearl
-                        STZ.b $56
-                        STZ.w $02E0
-                    
-                    .doesntHaveMoonPearl
-                    
-                    ; Armor level
-                    LDA.l $7EF35B : TAY
-                    
-                    ; Determine how much damage the spike floor will do to Link.
-                    LDA.w Pool_TileDetect_MainHandler_spike_floor_damage, Y : STA.w $0373
-                    
-                    BRL Player_HaltDashAttack
+        .notWalkingOnIce
         
-    .noSpikeFloorDamage
-    
-    LDA.w $0348 : AND.b #$11 : BEQ .notWalkingOnIce
-        LDA.w $034A : BEQ .BRANCH_AYIN
-            LDA.b $6A : BEQ .BRANCH_PEY
+        LDA.b $5D : CMP.b #$04 : BEQ .BRANCH_SIN
+            LDA.w $034A : BEQ .BRANCH_TAV
                 LDA.w $0340 : STA.b $26
-                
-                BRL .BRANCH_PEY
+            
+            .BRANCH_TAV
+            
+            JSL.l Player_ResetSwimState
         
-        .BRANCH_AYIN
+        .BRANCH_SIN
         
-        LDA.b $67 : AND.b #$0C : BEQ .BRANCH_TSADIE
-            LDA.b #$01 : STA.w $033D
-            LDA.b #$80 : STA.w $033C
+        STZ.w $034A
         
-        .BRANCH_TSADIE
+        .BRANCH_PEY
         
-        LDA.b $67 : AND.b #$03 : BEQ .BRANCH_QOF
-            LDA.b #$01 : STA.w $033D
-            LDA.b #$80 : STA.w $033C
+        LDA.w $02E8 : AND.b #$10 : BEQ .BRANCH_KAPPA
+            LDA.w $031F : BNE .BRANCH_KAPPA
+                LDA.b #$3A : STA.w $031F
         
-        .BRANCH_QOF
-        
-        LDY.b #$01
-        
-        LDA.w $0348 : AND.b #$01 : BNE .BRANCH_RESH
-            LDY.b #$02
-        
-        .BRANCH_RESH
-        
-        STY.w $034A
-        
-        LDA.b $26 : STA.w $0340
-        
-        JSL.l Player_ResetSwimState
-        
-        BRL .BRANCH_PEY
-    
-    .notWalkingOnIce
-    
-    LDA.b $5D : CMP.b #$04 : BEQ .BRANCH_SIN
-        LDA.w $034A : BEQ .BRANCH_TAV
-            LDA.w $0340 : STA.b $26
-        
-        .BRANCH_TAV
-        
-        JSL.l Player_ResetSwimState
-    
-    .BRANCH_SIN
-    
-    STZ.w $034A
-    
-    .BRANCH_PEY
-    
-    LDA.w $02E8 : AND.b #$10 : BEQ .BRANCH_KAPPA
-        LDA.w $031F : BNE .BRANCH_KAPPA
-            LDA.b #$3A : STA.w $031F
-    
-    .BRANCH_KAPPA
+        .BRANCH_KAPPA
     .return
     
     RTS
@@ -13806,7 +13808,7 @@ TileDetect_Execute:
     ; that kind of tile.
     ASL A : TAX
     
-    JMP ($D7D8, X) ; ($3D7D8, X) THAT IS
+    JMP (Pool_TileDetection_Execute_underworld, X)
 }
 
 ; ==============================================================================
