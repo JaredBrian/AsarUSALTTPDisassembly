@@ -7078,7 +7078,7 @@ Overworld_LoadNewSprites:
 
     .notDownTransition
 
-    JSL.l Sprite_OverworldReloadAll_justLoad
+    JSL.l Sprite_LoadAll_Overworld
 
     ; Reset tile modification index (keeps track of modified tiles when warping
     ; between worlds).

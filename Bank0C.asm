@@ -2679,7 +2679,7 @@ FileSelect_SetUpNamesStripes:
 ; ==============================================================================
 
 ; This routine handles input on the select screen, changing it appropriately.
-; $064EDC-$065052 JUMP LOCATION
+; $064EDC-$064FBA JUMP LOCATION
 FileSelect_HandleInput:
 {
     ; The menu index on the select screen (0-2 save files,
@@ -2806,7 +2806,8 @@ FileSelect_HandleInput:
                 
                 SEP #$20
                 
-                BRL .loadSram ; Why this is a long branch (BRL), I have no idea.
+                ; Why this is a long branch (BRL), I have no idea.
+                BRL CopySaveToWRAM
             
             .emptyFile
             
@@ -2852,10 +2853,11 @@ FileSelect_HandleInput:
     .return
     
     RTL
-    
-    ; $064FBB ALTERNATE ENTRY POINT
-    .loadSram
-    
+}
+
+; $064FBB-$065052 JUMP LOCATION
+CopySaveToWRAM:
+{
     ; We end up here if we've selected a game that has data in it already.
     LDX.b #$0F
     
@@ -6273,15 +6275,17 @@ Attract_PrepMaidenWarp:
 
 ; ==============================================================================
 
-; $0670DC-$067114 LONG JUMP LOCATION
+; $0670DC-$0670E1 LONG JUMP LOCATION
 AttractScene_EndOfStory:
 {
     REP #$20
     
     JSL.l OverworldMap_PrepExit_restoreHdmaSettings
-    
-    ; $0670E2 ALTERNATE ENTRY POINT
-    
+}
+
+; $0670E2-$067114 LONG JUMP LOCATION
+InitializeTriforceIntro:
+{
     INC.w $0710
     
     JSL.l Intro_LoadTitleGraphics_noWait
