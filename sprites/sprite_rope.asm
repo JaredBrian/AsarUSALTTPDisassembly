@@ -136,7 +136,7 @@ Rope_Moving:
     LDY.w $0DE0, X
     
     LDA.w $0E70, X : BEQ .no_tile_collision
-        LDA.w $AA40, Y : STA.w $0DE0, X : TAY
+        LDA.w Pool_Rope_Moving_reaction_direction, Y : STA.w $0DE0, X : TAY
     
     .no_tile_collision
     

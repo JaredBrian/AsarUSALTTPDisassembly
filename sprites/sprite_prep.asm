@@ -1847,7 +1847,7 @@ SpritePrep_Bosses:
     
     LDY.b #$0F
     
-    ; Kill certain other sprites in the room based on $06B266
+    ; Kill certain other sprites in the room based on SpriteData_Bump
     ; in sprite_properties.asm.
     .nextSprite
         
@@ -1855,7 +1855,7 @@ SpritePrep_Bosses:
         
         LDX.w $0E20, Y
         
-        LDA.l $0DB266, X
+        LDA.l SpriteData_Bump, X
         
         PLX
         
@@ -2129,7 +2129,7 @@ SpritePrep_CrystalSwitch:
 {
     LDA.l $7EC172 : AND.b #$01 : TAY
     
-    LDA.w $B8CE, Y : ORA.w $0F50, X : STA.w $0F50, X
+    LDA.w Sprite_CrystalSwitch_palettes, Y : ORA.w $0F50, X : STA.w $0F50, X
     
     RTS
 }
@@ -2557,7 +2557,7 @@ SpritePrep_Arrgi:
         
         LDX.b #$00
         
-        JSL.l $1EB8B4 ; $0F38B4 IN ROM
+        JSL.l Arrghus_HandlePuffs_long
         
         PLX
     
