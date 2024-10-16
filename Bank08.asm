@@ -2226,13 +2226,12 @@ Ancilla_PrepOamCoord:
     RTS
 }
 
+; Identical to the preceding routine, except that it measures against
+; the adjusted screen coordinates ($0122 and $011e) which can be
+; manipulated via effects and.... moving floors maybe.
 ; $0476A4-$0476D8 LOCAL JUMP LOCATION
 Ancilla_PrepAdjustedOamCoord:
 {
-    ; Identical to the preceding routine, except that it measures against
-    ; the adjusted screen coordinates ($0122 and $011e) which can be
-    ; manipulated via effects and.... moving floors maybe.
-    
     LDY.w $0C7C, X
     
     LDA Pool_Ancilla_PrepOamCoord_priority, Y : STA.b $65

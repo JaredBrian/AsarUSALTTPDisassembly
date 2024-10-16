@@ -4096,7 +4096,7 @@ AddWaterfallSplash:
 	LDY.b #$04
 	LDA.b #$41
     
-	SR.w Ancilla_CheckIfAlreadyExists : BCS .already_present
+	JSR.w Ancilla_CheckIfAlreadyExists : BCS .already_present
         JSR.w AddAncilla : BCS .no_open_slots
             LDA.b #$02 : STA.w $0C68, X
             

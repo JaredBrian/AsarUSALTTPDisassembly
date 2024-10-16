@@ -9237,7 +9237,7 @@ SetAndSaveVisitedQuadrantFlags:
 
     TAX
 
-    LDA.l $02B5CC, X : ORA.w $0408 : STA.w $0408
+    LDA.l QuadrantLayoutFlagBitfield, X : ORA.w $0408 : STA.w $0408
 
     ; Bleeds into the next function.
 }

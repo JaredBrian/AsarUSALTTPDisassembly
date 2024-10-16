@@ -8516,7 +8516,7 @@ Explode_VerifyPrizing:
     LDA.b #$02 : STA.w $0F20, X
     
     LDA.w $0DF0, X : CMP.b #$20 : BEQ .check_heart_container_spawn
-        JMP.w $EEAD ; $04EEAD IN ROM
+        JMP.w Explode_SpawnExplosion
     
     .check_heart_container_spawn
     
@@ -8540,14 +8540,14 @@ Explode_VerifyPrizing:
             
     .cant_spawn_heart_container
     
-    JMP.w $EEAD ; $04EEAD IN ROM
+    JMP.w Explode_SpawnExplosion
     
     .victory_over_ganon
     
     ; Play the victory song (yay you killed Ganon).
     LDA.b #$13 : STA.w $012C
     
-    JMP.w $EEAD ; $04EEAD IN ROM
+    JMP.w Explode_SpawnExplosion
     
     .not_victory_over_agahnim
     
@@ -8633,11 +8633,12 @@ Explode_SpawnExplosion:
     .explosion_sfx_delay
     
     PLA : AND.b $0E : BNE .anospawn_explosion_sprite
+        ; Spawn a moveable statue.
         LDA.b #$1C
-        
         JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             LDA.b #$0B : STA.w $0AAA
             
+            ; And then make it instantly explode.
             LDA.b #$04 : STA.w $0DD0, Y
             
             LDA.b #$03 : STA.w $0E40, Y
