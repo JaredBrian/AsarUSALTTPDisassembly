@@ -1,23 +1,17 @@
-
 ; ==============================================================================
 
 ; $046A7F-$046A82 DATA
-Pool_Ancilla_SomarianPlatformPoof:
+Ancilla_SomarianPlatformPoof_directions:
 {
-    .directions
     db $01, $00, $03, $02
 }
 
-; ==============================================================================
-
+; Special Object 0x39 - Cane of Somaria platform creating poof
 ; $046A83-$046B3D JUMP LOCATION
 Ancilla_SomarianPlatformPoof:
 {
-    ; Special Object 0x39 - Cane of Somaria platform creating poof
-    
     DEC.w $03B1, X : BMI .initiate_poof
-    
-    RTS
+        RTS
     
     .initiate_poof
     
@@ -33,10 +27,9 @@ Ancilla_SomarianPlatformPoof:
     
     PHX
     
-    ; Create a cane of Somaria platform sprite
+    ; Create a cane of Somaria platform sprite.
     LDA.b #$ED : JSL.l Sprite_SpawnDynamically : BPL .spawn_succeeded
-    
-    BRL .spawn_failed
+        BRL .spawn_failed
     
     .spawn_succeeded
     
@@ -49,8 +42,7 @@ Ancilla_SomarianPlatformPoof:
     LDA.b $75                           : STA.w $0D30, Y
     
     LDA.b $BD : CMP.b #$01 : REP #$30 : STZ.b $06 : BCC .on_bg2
-    
-    LDA.w #$1000 : STA.b $06
+        LDA.w #$1000 : STA.b $06
     
     .on_bg2
     
@@ -61,16 +53,13 @@ Ancilla_SomarianPlatformPoof:
     STZ.b $06
     
     LDA.l $7F1FC0, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
-    
-    INC.b $06
-    
-    LDA.l $7F2040, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
-    
-    INC.b $06
-    
-    LDA.l $7F1FFF, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
-    
-    INC.b $06
+        INC.b $06
+        
+        LDA.l $7F2040, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
+            INC.b $06
+            
+            LDA.l $7F1FFF, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
+                INC.b $06
     
     .attribute_match
     
@@ -86,9 +75,8 @@ Ancilla_SomarianPlatformPoof:
     
     .spawn_failed
     
-    ; WTF: What actually happens in the macroscopic game scale if we cannot
+    ; TODO: What actually happens in the macroscopic game scale if we cannot
     ; spawn a sprite for the platform? Would be good to check this out.
-    ; TODO: durp, check it out!
     JSR.w SomarianBlock_Draw
     
     .return

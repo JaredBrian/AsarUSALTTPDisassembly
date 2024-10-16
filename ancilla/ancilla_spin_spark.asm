@@ -4,21 +4,20 @@
 ; $0458F6-$0458FC DATA
 Pool_Ancilla_SpinSpark:
 {
+    ; $0458F6
     .spark_chr
     db $D7, $B7, $80, $83
     
+    ; $0458FA
     .extra_spark_chr
     db $B7, $80, $83
 }
-
-; ==============================================================================
 
 ; $0458FD-$045A16 JUMP LOCATION
 Ancilla_SpinSpark:
 {
     LDA.w $0385, X : BEQ .multi_spark_in_progress
-    
-    BRL SpinSpark_ExecuteClosingSpark
+        BRL SpinSpark_ExecuteClosingSpark
     
     .multi_spark_in_progress
     
@@ -28,59 +27,54 @@ Ancilla_SpinSpark:
     LDA.b #$02 : STA.b $73
     
     LDA.b $11 : BNE .skip_state_logic
-    
-    ; By default, only draw the lead spark.
-    LDY.b #$00
-    
-    LDA.w $0C5E, X : SEC : SBC.b #$03 : STA.w $0C5E, X
-    
-    CMP.b #$0D : BCS .dont_transition_to_closing_spark
-    
-    PLX
-    
-    LDA.b #$01 : STA.w $03B1, X
-                 STA.w $0385, X
-    
-    STZ.w $0C5E, X
-    
-    BRL SpinSpark_ExecuteClosingSpark
-    
-    .dont_transition_to_closing_spark
-    
-    CMP.b #$42 : BCS .dont_draw_four_sparks
-    
-    ; Display 4 spark components.
-    LDY.b #$03
-    
-    BRA .set_spark_draw_count
-    
-    .dont_draw_four_sparks
-    
-    CMP.b #$46 : BNE .dont_draw_two_sparks
-    
-    ; Display two spark components.
-    LDY.b #$01
-    
-    .dont_draw_two_sparks
-    
-    CMP.b #$43 : BNE .dont_draw_three_sparks
-    
-    LDY.b #$02
-    
-    .dont_draw_three_sparks
-    .set_spark_draw_count
-    
-    TYA : STA.w $0C54, X
-    
-    DEC.w $03B1, X : BPL .not_alternate_palette
-    
-    ; Use palette 2 for the sparks on this frame.
-    LDA.b #$04 : STA.b $73
-    
-    LDA.b #$02 : STA.w $03B1, X
-    
+        ; By default, only draw the lead spark.
+        LDY.b #$00
+        
+        LDA.w $0C5E, X : SEC : SBC.b #$03 : STA.w $0C5E, X
+        
+        CMP.b #$0D : BCS .dont_transition_to_closing_spark
+            PLX
+            
+            LDA.b #$01 : STA.w $03B1, X
+                         STA.w $0385, X
+            
+            STZ.w $0C5E, X
+            
+            BRL SpinSpark_ExecuteClosingSpark
+            
+        .dont_transition_to_closing_spark
+        
+        CMP.b #$42 : BCS .dont_draw_four_sparks
+            ; Display 4 spark components.
+            LDY.b #$03
+            
+            BRA .set_spark_draw_count
+        
+        .dont_draw_four_sparks
+        
+        CMP.b #$46 : BNE .dont_draw_two_sparks
+            ; Display two spark components.
+            LDY.b #$01
+        
+        .dont_draw_two_sparks
+        
+        CMP.b #$43 : BNE .dont_draw_three_sparks
+            LDY.b #$02
+        
+        .dont_draw_three_sparks
+
+        .set_spark_draw_count
+        
+        TYA : STA.w $0C54, X
+        
+        DEC.w $03B1, X : BPL .not_alternate_palette
+            ; Use palette 2 for the sparks on this frame.
+            LDA.b #$04 : STA.b $73
+            
+            LDA.b #$02 : STA.w $03B1, X
+            
+        .not_alternate_palette
     .skip_state_logic
-    .not_alternate_palette
     
     LDY.b #$00
     
@@ -88,92 +82,88 @@ Ancilla_SpinSpark:
     
     .next_spark
     
-    STX.b $72
-    
-    LDA.b $11 : BNE .dont_advance_spark_rotation
-    
-    LDA.l $7F5800, X : CLC : ADC.b #$04 : AND.b #$3F : STA.l $7F5800, X
-    
-    .dont_advance_spark_rotation
-    
-    PHX : PHY
-    
-    LDA.l $7F5808 : STA.b $08
-    
-    LDA.l $7F5800, X
-    
-    JSR.w Ancilla_GetRadialProjection
-    JSL.l Sparkle_PrepOamCoordsFromRadialProjection
-    
-    PLY
-    
-    JSR.w Ancilla_SetOam_XY
-    
-    LDX.b $72
-    
-    LDA.w .spark_chr, X           : STA ($90), Y : INY
-    LDA.b $73           : ORA.b $65 : STA ($90), Y : INY
-    
-    PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$00 : STA ($92), Y
-    
-    PLY
-    
+        STX.b $72
+        
+        LDA.b $11 : BNE .dont_advance_spark_rotation
+            LDA.l $7F5800, X : CLC : ADC.b #$04 : AND.b #$3F : STA.l $7F5800, X
+        
+        .dont_advance_spark_rotation
+        
+        PHX : PHY
+        
+        LDA.l $7F5808 : STA.b $08
+        
+        LDA.l $7F5800, X
+        
+        JSR.w Ancilla_GetRadialProjection
+        JSL.l Sparkle_PrepOamCoordsFromRadialProjection
+        
+        PLY
+        
+        JSR.w Ancilla_SetOam_XY
+        
+        LDX.b $72
+        
+        LDA.w Pool_Ancilla_SpinSpark_spark_chr, X : STA ($90), Y : INY
+
+        LDA.b $73 : ORA.b $65 : STA ($90), Y : INY
+        
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        
+        LDA.b #$00 : STA ($92), Y
+        
+        PLY
     PLX : DEX : BPL .next_spark
     
     PLX : PHX
     
     LDA.b $11 : BNE .skip_extra_spark_logic
-    
-    DEC.w $039F, X : BPL .extra_spark_delay
-    
-    LDA.b #$00 : STA.w $039F, X
-    
-    LDA.w $03A4, X : INC A : AND.b #$03 : STA.w $03A4, X
-    
-    CMP.b #$03 : BNE .extra_spark_rotation_delay
-    
-    LDA.l $7F5804 : CLC : ADC.b #$09 : AND.b #$3F : STA.l $7F5804
-    
+        DEC.w $039F, X : BPL .extra_spark_delay
+            LDA.b #$00 : STA.w $039F, X
+            
+            LDA.w $03A4, X : INC A : AND.b #$03 : STA.w $03A4, X
+            
+            CMP.b #$03 : BNE .extra_spark_rotation_delay
+                LDA.l $7F5804 : CLC : ADC.b #$09 : AND.b #$3F : STA.l $7F5804
+
+            .extra_spark_rotation_delay
     .skip_extra_spark_logic
-    .extra_spark_rotation_delay
-    
+
     LDA.w $03A4, X : STA.b $72 : CMP.b #$03 : BEQ .anodraw_extra_spark
-    
-    PHY
-    
-    LDA.l $7F5808 : STA.b $08
-    
-    LDA.l $7F5804
-    
-    JSR.w Ancilla_GetRadialProjection
-    JSL.l Sparkle_PrepOamCoordsFromRadialProjection
-    
-    PLY
-    
-    JSR.w Ancilla_SetOam_XY
-    
-    LDX.b $72
-    
-    LDA.w .extra_spark_chr, X           : STA ($90), Y : INY
-    LDA.b #$04              : ORA.b $65 : STA ($90), Y : INY
-    
-    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$00 : STA ($92), Y
-    
-    .extra_spark_delay
+        PHY
+        
+        LDA.l $7F5808 : STA.b $08
+        
+        LDA.l $7F5804
+        
+        JSR.w Ancilla_GetRadialProjection
+        JSL.l Sparkle_PrepOamCoordsFromRadialProjection
+        
+        PLY
+        
+        JSR.w Ancilla_SetOam_XY
+        
+        LDX.b $72
+        
+        LDA.w Pool_Ancilla_SpinSpark_extra_spark_chr, X : STA ($90), Y : INY
+
+        LDA.b #$04 : ORA.b $65 : STA ($90), Y : INY
+        
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        
+        LDA.b #$00 : STA ($92), Y
+        
     .anodraw_extra_spark
+
+    .extra_spark_delay
     
     PLX : PHX
     
     LDA.w $0C5E, X : TAX : CPX.b #$07 : BNE .never
-    
-    ; WTF:(confirmed that this never seems to execute)
-    ; Possibly debug code or a dev dicking around that was never taken
-    ; out.
-    LDY.b #$03 : LDA.b #$01 : STA ($92), Y
+        ; WTF: (Confirmed that this never seems to execute)
+        ; Possibly debug code or a dev messing around that was never taken
+        ; out.
+        LDY.b #$03 : LDA.b #$01 : STA ($92), Y
     
     .never
     
@@ -194,8 +184,7 @@ Sparkle_PrepOamCoordsFromRadialProjection:
     LDA.b $00
     
     LDY.b $02 : BEQ .positive_y_projection
-    
-    EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC A
     
     .positive_y_projection
     
@@ -204,8 +193,7 @@ Sparkle_PrepOamCoordsFromRadialProjection:
     LDA.b $04
     
     LDY.b $06 : BEQ .positive_x_projection
-    
-    EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC A
     
     .positive_x_projection
     
@@ -222,17 +210,15 @@ Sparkle_PrepOamCoordsFromRadialProjection:
 SpinSpark_ExecuteClosingSpark:
 {
     DEC.w $03B1, X : BPL .animation_delay
-    
-    LDA.b #$01 : STA.w $03B1, X
-    
-    LDA.w $0C5E, X : INC A : STA.w $0C5E, X
-    
-    CMP.b #$03 : BNE .termination_delay
-    
-    STZ.w $0C4A, X
-    
+        LDA.b #$01 : STA.w $03B1, X
+        
+        LDA.w $0C5E, X : INC A : STA.w $0C5E, X
+        
+        CMP.b #$03 : BNE .termination_delay
+            STZ.w $0C4A, X
+        
+        .termination_delay
     .animation_delay
-    .termination_delay
     
     JSR.w Ancilla_PrepOamCoord
     

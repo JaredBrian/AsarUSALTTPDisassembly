@@ -689,7 +689,7 @@ SomarianBlock_PlayerInteraction:
 {
     PHB : PHK : PLB
     
-    ; Index into the SFX arrays
+    ; Index into the SFX arrays.
     STX.w $0FA0
     
     LDA.w $0394, X : BNE .end_push_logic
@@ -842,25 +842,29 @@ SomarianBlock_PlayerInteraction:
 ; ==============================================================================
 
 ; NOTE: Send the Somarian block flying from the impact of the dash attack.
-; $0468F3-$04698D BRANCH LOCATION
+; $0468F3-$046913 BRANCH LOCATION
 SomarianBlock_InitDashBounce:
 {
     LDA.b $2F : LSR A : STA.w $0C72, X : TAY
     
-    LDA.w .launch_y_speeds, Y : STA.w $0C22, X
+    LDA.w Pool_SomarianBlock_InitDashBounce_launch_y_speeds, Y : STA.w $0C22, X
     
-    LDA.w .launch_x_speeds, Y : STA.w $0C2C, X
+    LDA.w Pool_SomarianBlock_InitDashBounce_launch_x_speeds, Y : STA.w $0C2C, X
     
     ; Not indexed, used the maximum rise available in the array.
-    LDA.w .bounce_rebound_z_speeds : STA.w $0294, X
+    LDA.w Pool_SomarianBlock_InitDashBounce_bounce_rebound_z_speeds
+    STA.w $0294, X
     
     LDA.b #$01 : STA.w $03C5, X
     
     STZ.w $029E, X
+
+    ; Bleeds into the next function.
+}
     
-    shared SomarianBlock_ContinueDashBounce:
-    .bounce_logic
-    
+; $046914-$04698D BRANCH LOCATION
+SomarianBlock_ContinueDashBounce:
+{
     ; Simulate gravity.
     LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
@@ -869,7 +873,7 @@ SomarianBlock_InitDashBounce:
     JSR.w Ancilla_MoveAltitude
     
     LDA.w $029E, X : BEQ .hit_ground
-    CMP.b #$FC   : BCC .return
+        CMP.b #$FC : BCC .return
     
     .hit_ground
     
@@ -882,12 +886,11 @@ SomarianBlock_InitDashBounce:
     LDA.w $03C5, X : INC A : STA.w $03C5, X
     
     CMP.b #$04 : BNE .bounces_maxed_out
-    
-    STZ.w $0BF0, X
-    STZ.w $03C5, X
-    
-    BRA .return
-    
+        STZ.w $0BF0, X
+        STZ.w $03C5, X
+        
+        BRA .return
+        
     .bounces_maxed_out
     
     TAY
@@ -895,7 +898,8 @@ SomarianBlock_InitDashBounce:
     DEX
     
     ; Get different resultant altitude speeds for each bounce.
-    LDA.w .bounce_rebound_z_speeds, Y : STA.w $0294, X
+    LDA.w Pool_SomarianBlock_InitDashBounce_bounce_rebound_z_speeds, Y
+    STA.w $0294, X
     
     LDA.b $2F : LSR A : STA.b $00
     
@@ -904,10 +908,9 @@ SomarianBlock_InitDashBounce:
     LDY.b #$00
     
     LDA.w $0C22, X : BPL .abs_y_speed
-    
-    LDY.b #$01
-    
-    EOR.b #$FF : INC A
+        LDY.b #$01
+        
+        EOR.b #$FF : INC A
     
     .abs_y_speed
     
@@ -915,8 +918,7 @@ SomarianBlock_InitDashBounce:
     LSR A
     
     CPY.b #$01 : BNE .restore_y_speed_sign
-    
-    EOR.b #$FF : INC A
+        EOR.b #$FF : INC A
     
     .restore_y_speed_sign
     
@@ -925,19 +927,17 @@ SomarianBlock_InitDashBounce:
     LDY.b #$00
     
     LDA.w $0C2C, X : BPL .abs_x_speed
-    
-    LDY.b #$01
-    
-    EOR.b #$FF : INC A
-    
+        LDY.b #$01
+        
+        EOR.b #$FF : INC A
+        
     .abs_x_speed
     
     ; Halve the absolute value of the x speed.
     LSR A
     
     CPY.b #$01 : BNE .restore_x_speed_sign
-    
-    EOR.b #$FF : INC A
+        EOR.b #$FF : INC A
     
     .restore_x_speed_sign
     
