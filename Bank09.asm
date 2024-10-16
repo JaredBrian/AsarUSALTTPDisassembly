@@ -189,9 +189,8 @@ AddSomarianBlockDivide:
 ; ==============================================================================
 
 ; $04AD67-$04AD6B DATA
-Pool_GiveRupeeGift:
+GiveRupeeGift_gift_amounts:
 {
-    .gift_amounts
     db 1, 5, 20, 100, 50
 }
 
@@ -238,7 +237,8 @@ GiveRupeeGift:
     
     .setGiftIndex
     
-    LDA Pool_GiveRupeeGift_gift_amounts, Y : STA.b $00 : STZ.b $01
+    LDA .gift_amounts, Y : STA.b $00
+                           STZ.b $01
     
     .giveRupees
     
@@ -341,6 +341,7 @@ Sprite_SetSpawnedCoords:
         
     LDA.b $04 : STA.w $0F70, Y
     
+    ; $04AE7D ALTERNATE ENTRY POINT
     .spawn_failed
     
     RTL
@@ -376,24 +377,29 @@ Sprite_SpawnDummyDeathAnimation:
 ; $04AEA0-$04AEA7 DATA
 Pool_Sprite_SpawnMadBatterBolts:
 {
+    ; $04AEA0
     .x_speeds
-    -8, -4,  4,  8
+    db -8, -4,  4,  8
     
+    ; $04AEA4
     .initial_cycling_states
-    0, 17, 34, 51
+    db 0, 17, 34, 51
 }
 
 ; Note: Only used by the mad batter (naturally).
-; $04AEA8-$04AF31 LONG JUMP LOCATION
+; $04AEA8-$04AEB3 LONG JUMP LOCATION
 Sprite_SpawnMadBatterBolts:
 {
     JSL.l .attempt_bold_spawn
     JSL.l .attempt_bold_spawn
     JSL.l .attempt_bold_spawn
+
+    ; Bleeds into the next function.
+}
     
-    ; $04AEB4 ALTERNATE ENTRY POINT
-    .attempt_bold_spawn
-    
+; $04AEB4-$04AF31 LONG JUMP LOCATION
+Sprite_SpawnMadBatterBolts_attempt_bold_spawn:
+{
     LDA.b #$3A : JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
         LDA.b #$01 : JSL.l Sound_SetSfx3PanLong
         
@@ -407,7 +413,9 @@ Sprite_SpawnMadBatterBolts:
         
         LDA.b #$00 : STA.w $0F70, Y
         
-        LDA.b #$18 : STA.w $0D40, Y : STA.w $0EB0, Y : STA.w $0BA0, Y
+        LDA.b #$18 : STA.w $0D40, Y
+                     STA.w $0EB0, Y
+                     STA.w $0BA0, Y
         
         LDA.b #$80 : STA.w $0E40, Y
         
@@ -422,9 +430,11 @@ Sprite_SpawnMadBatterBolts:
         
         LDA.w $0ED0, X : TAX
         
-        LDA.l Pool_Sprite_SpawnMadBatterBolt_x_speeds, X : STA.w $0D50, Y
+        LDA.l Pool_Sprite_SpawnMadBatterBolt_x_speeds, X
+        STA.w $0D50, Y
         
-        LDA.l Pool_Sprite_SpawnMadBatterBolt_initial_cycling_states, X : STA.w $0E80, Y
+        LDA.l Pool_Sprite_SpawnMadBatterBolt_initial_cycling_states, X
+        STA.w $0E80, Y
         
         LDA.b #$02 : STA.w $0F20, Y
         
@@ -450,7 +460,8 @@ Sprite_VerifyAllOnScreenDefeated:
     
         LDA.w $0DD0, X : BEQ .dead
             ; Check if the sprite is always considered dead for these purposes
-            ; (some sprites have this property set at load and some dynamically).
+            ; (some sprites have this property set at load and some
+            ; dynamically).
             LDA.w $0F60, X : AND.b #$40 : BNE .dead
                 ; In these cases Dead apparently means offscreen.
                 LDA.w $0D10, X : CMP $E2
@@ -460,7 +471,8 @@ Sprite_VerifyAllOnScreenDefeated:
                     LDA.w $0D20, X : SBC.b $E9 : BNE .dead
                         PLX
                         
-                        CLC ; Not all enemies are dead, return false.
+                        ; Not all enemies are dead, return false.
+                        CLC
                         
                         RTL
         
@@ -488,7 +500,8 @@ Sprite_CheckIfAllDefeated:
                 
                 PLX
                 
-                CLC ; Not all the enemies are dead, it's a failure.
+                ; Not all the enemies are dead, it's a failure.
+                CLC
                 
                 RTL
         
@@ -629,23 +642,26 @@ incsrc "overlord.asm"
 
 ; ==============================================================================
 
+; \tcrf (verified)
+; The inn keeper's data is unused because he's not a snitch, naturally.
+; Use Pro Action Replay Code 09C04834 to switch the young snitch girl's
+; soldier spawn data with that of the innkeeper's.
 ; $04C023-$04C02E DATA
 Pool_SpawnCrazyVillageSoldier:
 {
-    ; \tcrf (verified)
-    ; The inn keeper's data is unused because he's not a snitch, naturally.
-    ; Use Pro Action Replay Code 09C04834 to switch the young snitch girl's
-    ; soldier spawn data with that of the innkeeper's.
-    
+    ; $04C023
     .x_offsets_low
     db $20, $40, $E0
     
+    ; $04C026
     .x_offsets_high
     db $01, $03, $02
     
+    ; $04C029
     .y_offsets_low
     db $00, $B0, $60
     
+    ; $04C02C
     .y_offsets_high
     db $01, $03, $01
 }
@@ -705,17 +721,21 @@ SpawnCrazyVillageSoldier:
 
 ; ==============================================================================
 
-; $04C088-$04C08C DATA
+; $04C088-$04C08B DATA
 Pool_Overlord_CheckInRangeStatus:
 {
+    ; $04C088
     .offsets_low
     db $30, $C0
     
+    ; $04C08A
     .offsets_high
     db $01, $FF
-    
-    .easy_out
-    
+}
+
+; $04C08C-$04C08C LOCAL JUMP LOCATION
+Overlord_CheckInRangeStatus_easy_out:
+{
     RTS
 }
 
@@ -724,7 +744,7 @@ Pool_Overlord_CheckInRangeStatus:
 ; $04C08D-$04C113 LOCAL JUMP LOCATION
 Overlord_CheckInRangeStatus:
 {
-    LDA.b $1B : BNE Pool_Overlord_CheckInRangeStatus_easy_out
+    LDA.b $1B : BNE .easy_out
         LDA.b $1A : AND.b #$01 : STA.b $01
                                  STA.b $02
                                  TAY
@@ -795,13 +815,13 @@ Dungeon_ResetSprites:
 {
     PHB : PHK : PLB
     
-    ; $04C176 IN ROM; Transfer a lot of sprite data to other places.
+    ; Transfer a lot of sprite data to other places.
     JSR.w Dungeon_CacheTransSprites
     
     ; Make Link drop whatever he's carrying.
     STZ.w $0309 : STZ.w $0308
     
-    ; $04C22F IN ROM; Zeroes out and disables a number of memory locations.
+    ; Zeroes out and disables a number of memory locations.
     JSL.l Sprite_DisableAll
     
     REP #$20
@@ -847,9 +867,8 @@ Dungeon_ResetSprites:
 ; ==============================================================================
 
 ; $04C175-$04C175 BRANCH LOCATION
-Pool_Dungeon_CacheTransSprites:
+Dungeon_CacheTransSprites_easy_out:
 {
-    .easy_out
     RTS
 }
     
@@ -857,60 +876,60 @@ Pool_Dungeon_CacheTransSprites:
 Dungeon_CacheTransSprites:
 {
     ; Don't do this routine if we're outside.
-    LDA.b $1B : BEQ Pool_Dungeon_CacheTransSprites_easy_out
+    LDA.b $1B : BEQ .easy_out
     
-    ; Use $0FFA as a place holder.
-    STA.w $0FFA
-    
-    ; We're going to cycle through all 16 sprites.
-    LDX.b #$0F
-    
-    .nextSprite
-    
-        ; Transfer sprite data to an extended region.
-        STZ.w $1D00, X
+        ; Use $0FFA as a place holder.
+        STA.w $0FFA
         
-        LDA.w $0E20, X : STA.w $1D10, X
-        LDA.w $0D10, X : STA.w $1D20, X
-        LDA.w $0DC0, X : STA.w $1D60, X
-        LDA.w $0D30, X : STA.w $1D30, X
-        LDA.w $0D00, X : STA.w $1D40, X
-        LDA.w $0D20, X : STA.w $1D50, X
+        ; We're going to cycle through all 16 sprites.
+        LDX.b #$0F
         
-        LDA.w $0F00, X : BNE .inactiveSprite
-            LDA.w $0DD0, X : CMP.b #$04 : BEQ .inactiveSprite
-                ; Frozen
-                CMP.b #$0A : BEQ .inactiveSprite
-                    STA.w $1D00, X
-                    
-                    LDA.w $0D90, X : STA.w $1D70, X
-                    LDA.w $0EB0, X : STA.w $1D80, X
-                    LDA.w $0F50, X : STA.w $1D90, X
-                    LDA.w $0B89, X : STA.w $1DA0, X
-                    LDA.w $0DE0, X : STA.w $1DB0, X
-                    LDA.w $0E40, X : STA.w $1DC0, X
-                    LDA.w $0F20, X : STA.w $1DD0, X
-                    LDA.w $0D80, X : STA.w $1DE0, X
-                    LDA.w $0E60, X : STA.w $1DF0, X
-                    
-                    LDA.w $0DA0, X : STA.l $7FFA5C, X
-                    LDA.w $0DB0, X : STA.l $7FFA6C, X
-                    LDA.w $0E90, X : STA.l $7FFA7C, X
-                    LDA.w $0E80, X : STA.l $7FFA8C, X
-                    LDA.w $0F70, X : STA.l $7FFA9C, X
-                    LDA.w $0DF0, X : STA.l $7FFAAC, X
-                    
-                    LDA.l $7FF9C2, X : STA.l $7FFACC, X
-                    LDA.w $0BA0, X   : STA.l $7FFADC, X
+        .nextSprite
         
-        .inactiveSprite
+            ; Transfer sprite data to an extended region.
+            STZ.w $1D00, X
+            
+            LDA.w $0E20, X : STA.w $1D10, X
+            LDA.w $0D10, X : STA.w $1D20, X
+            LDA.w $0DC0, X : STA.w $1D60, X
+            LDA.w $0D30, X : STA.w $1D30, X
+            LDA.w $0D00, X : STA.w $1D40, X
+            LDA.w $0D20, X : STA.w $1D50, X
+            
+            LDA.w $0F00, X : BNE .inactiveSprite
+                LDA.w $0DD0, X : CMP.b #$04 : BEQ .inactiveSprite
+                    ; Frozen:
+                    CMP.b #$0A : BEQ .inactiveSprite
+                        STA.w $1D00, X
+                        
+                        LDA.w $0D90, X : STA.w $1D70, X
+                        LDA.w $0EB0, X : STA.w $1D80, X
+                        LDA.w $0F50, X : STA.w $1D90, X
+                        LDA.w $0B89, X : STA.w $1DA0, X
+                        LDA.w $0DE0, X : STA.w $1DB0, X
+                        LDA.w $0E40, X : STA.w $1DC0, X
+                        LDA.w $0F20, X : STA.w $1DD0, X
+                        LDA.w $0D80, X : STA.w $1DE0, X
+                        LDA.w $0E60, X : STA.w $1DF0, X
+                        
+                        LDA.w $0DA0, X : STA.l $7FFA5C, X
+                        LDA.w $0DB0, X : STA.l $7FFA6C, X
+                        LDA.w $0E90, X : STA.l $7FFA7C, X
+                        LDA.w $0E80, X : STA.l $7FFA8C, X
+                        LDA.w $0F70, X : STA.l $7FFA9C, X
+                        LDA.w $0DF0, X : STA.l $7FFAAC, X
+                        
+                        LDA.l $7FF9C2, X : STA.l $7FFACC, X
+                        LDA.w $0BA0, X   : STA.l $7FFADC, X
+            
+            .inactiveSprite
+            
+            DEX : BMI .return
+        JMP .nextSprite
         
-        DEX : BMI .return
-    JMP .nextSprite
-    
-    .return
-    
-    RTS
+        .return
+        
+        RTS
 }
 
 ; =============================================================
@@ -994,8 +1013,9 @@ Dungeon_LoadSprites:
     LDA.w $048E : ASL A : TAY
     
     ; (update: Black Magic ended up hooking $04C16E)
-    ; $04D62E is the pointer table for the sprite data in each room.
-    LDA.w $D62E, Y : STA !dataPtr
+    ; RoomData_SpritePointers is the pointer table for the sprite data in
+    ; each room.
+    LDA.w RoomData_SpritePointers, Y : STA !dataPtr
     
     ; Load the room index again. Divide by 8. why... I'm not sure.
     LDA.w $048E : LSR #3
@@ -1022,7 +1042,7 @@ Dungeon_LoadSprites:
         LDY !dataOffset
         
         LDA (!dataPtr), Y : CMP.b #$FF : BEQ .endOfSpriteList
-            JSR.w Dungeon_LoadSprite ; $04C327 IN ROM
+            JSR.w Dungeon_LoadSprite
             
             ; Increment the slot we're saving to. ($0E20, $0E21, ...).
             INC !spriteSlot
@@ -1041,9 +1061,8 @@ Dungeon_LoadSprites:
 ; ==============================================================================
 
 ; $04C2D5-$04C2F4 DATA
-Pool_Dungeon_ManuallySetSpriteDeathFlag:
+Dungeon_ManuallySetSpriteDeathFlag_flags:
 {
-    .flags
     dw $0001, $0002, $0004, $0008, $0010, $0020, $0040, $0080
     dw $0100, $0200, $0400, $0800, $1000, $2000, $4000, $8000
 }
@@ -1068,9 +1087,7 @@ Dungeon_ManuallySetSpriteDeathFlag:
                 LDA.b $02 : ASL A : TAY
                 
                 ; Keep this guy from respawning.
-                LDA.l $7FDF80, X
-                ORA Pool_Dungeon_ManuallySetSpriteDeathFlag_flags, Y
-                STA.l $7FDF80, X
+                LDA.l $7FDF80, X : ORA .flags, Y : STA.l $7FDF80, X
                 
                 PLX
                 
@@ -1090,8 +1107,8 @@ Dungeon_ManuallySetSpriteDeathFlag:
 Dungeon_LoadSprite:
 {
     ; Vars
-    !dataPtr      = $00
-    !spriteSlot   = $02
+    !dataPtr    = $00
+    !spriteSlot = $02
 
     INY #2
     
@@ -1127,7 +1144,7 @@ Dungeon_LoadSprite:
     ; Examine its X coordinate, and go back to the sprite type position.
     ; If X coord < 0xE0, Load the overlord's information into memory.
     LDA (!dataPtr), Y : INY : CMP.b #$E0 : BCC .notOverlord
-        JSR.w Dungeon_LoadOverlord ; $04C3E8 IN ROM
+        JSR.w Dungeon_LoadOverlord
         
         ; Since this isn't a normal sprite, we don't want to throw off their
         ; loading mechanism, because the normal sprites are loaded in a linear
@@ -1140,7 +1157,7 @@ Dungeon_LoadSprite:
     .notOverlord
     
     ; Checking for sprites with a special specific property.
-    LDA.l $0DB725, X : AND.b #$01 : BNE .notSpawnedYet
+    LDA.l SpriteData_Deflection, X : AND.b #$01 : BNE .notSpawnedYet
         REP #$30
         
         PHY : PHX
@@ -1153,7 +1170,7 @@ Dungeon_LoadSprite:
         
         ; Apparently information on whether stuff has been loaded is stored for
         ; each room?
-        LDA.l $7FDF80, X : AND.w $C2D5, Y
+        LDA.l $7FDF80, X : AND.w Dungeon_ManuallySetSpriteDeathFlag_flags, Y
         
         PLX : PLY
         
@@ -1225,8 +1242,8 @@ Dungeon_LoadSprite:
 ; $04C3E8-$04C44D LOCAL JUMP LOCATION
 Dungeon_LoadOverlord:
 {
-    ; Vars
-    !dataPtr      = $00
+    ; Vars:
+    !dataPtr = $00
 
     LDX.b #$07 ; We're going to cycle through the 8 overlord slots.
     
@@ -1290,10 +1307,6 @@ Sprite_ResetAll:
 {
     JSL.l Sprite_DisableAll
 
-    ; TODO: Check for other references to this entry point and change it to
-    ; Sprite_ResetBuffers instead.
-    .justBuffers
-
     ; Bleeds into the next function.
 }
     
@@ -1347,10 +1360,6 @@ Sprite_OverworldReloadAll:
 {
     JSL.l Sprite_DisableAll
     JSL.l Sprite_ResetBuffers
-    
-    ; TODO: Check for other references to this entry point and change it to
-    ; Sprite_LoadAll_Overworld instead.
-    .justLoad
 
     ; Bleeds into the next function.
 }
@@ -1361,7 +1370,7 @@ Sprite_LoadAll_Overworld:
     PHB : PHK : PLB
     
     JSR.w LoadOverworldSprites
-    JSR.w $C55E ; $04C55E IN ROM
+    JSR.w Sprite_ActivateAllProxima
     
     PLB
     
@@ -1398,24 +1407,24 @@ LoadOverworldSprites:
     CMP.b #$03 : BEQ .secondPart
         CMP.b #$02 : BEQ .firstPart
             ; Load the "Beginning" sprites for the Overworld.
-            LDA.w $C881, Y : STA.b $00
-            LDA.w $C882, Y
+            LDA.w Overworld_SpritePointers_state_0+0, Y : STA.b $00
+            LDA.w Overworld_SpritePointers_state_0+1, Y
             
             BRA .loadData
         
     .secondPart
     
     ; Load the "Second part" sprites for the Overworld.
-    LDA.w $CA21, Y : STA.b $00
-    LDA.w $CA22, Y
+    LDA.w Overworld_SpritePointers_state_2+0, Y : STA.b $00
+    LDA.w Overworld_SpritePointers_state_2+1, Y
     
     BRA .loadData
     
     .firstPart
     
     ; Load the "First Part" sprites for the Overworld.
-    LDA.w $C901, Y : STA.b $00
-    LDA.w $C902, Y
+    LDA.w Overworld_SpritePointers_state_1+0, Y : STA.b $00
+    LDA.w Overworld_SpritePointers_state_1+1, Y
     
     .loadData
     
@@ -1483,7 +1492,7 @@ Sprite_ActivateAllProxima:
     
         PHY
         
-        JSR.w $C5BB ; $04C5BB IN ROM
+        JSR.w Sprite_ActivateWhenProximal_Horizontal
         
         PLY
         
@@ -1508,8 +1517,8 @@ Sprite_RangeBasedActivation:
     PHB : PHK : PLB
     
     LDA.b $11 : BEQ .alpha
-        JSR.w $C5BB ; $04C5BB IN ROM
-        JSR.w $C5FA ; $04C5FA IN ROM
+        JSR.w Sprite_ActivateWhenProximal_Horizontal
+        JSR.w Sprite_ActivateWhenProximal_Vertical
         
         PLB
         
@@ -1518,12 +1527,12 @@ Sprite_RangeBasedActivation:
     .alpha
     
     LDA.w $0FB7 : AND.b #$01 : BNE .beta
-        JSR.w $C5BB ; $04C5BB IN ROM
+        JSR.w Sprite_ActivateWhenProximal_Horizontal
     
     .beta
     
     LDA.w $0FB7 : AND.b #$01 : BEQ .gamma
-        JSR.w $C5FA ; $04C5FA IN ROM
+        JSR.w Sprite_ActivateWhenProximal_Vertical
     
     .gamma
     
@@ -1577,7 +1586,7 @@ Sprite_ActivateWhenProximal_Horizontal:
         
         .vertical_loop
         
-            JSR.w $C6F5 ; $04C6F5 IN ROM
+            JSR.w Overworld_ProximityMotivatedLoad
             
             REP #$20
             
@@ -1632,7 +1641,7 @@ Sprite_ActivateWhenProximal_Vertical:
         
         .horizontalLoop
         
-            JSR.w $C6F5 ; $04C6F5 IN ROM
+            JSR.w Overworld_ProximityMotivatedLoad
             
             REP #$20
             
@@ -1649,18 +1658,17 @@ Sprite_ActivateWhenProximal_Vertical:
 
 ; ==============================================================================
 
+; $04 = Large area
+; $02 = Small area
+; These are mostly known to be map sizes. I think some of these values are
+; wrong as they do not seem to line up with the areas in the game.
+
+; Later note: Area 0x0A and 0x0F are incorrect. ZS overwrites this table as
+; part of its ability to change which areas are large and when these 2
+; values are correct it does not break anything in game.
 ; $04C635-$04C6F4 DATA
 OverworldScreenSizeForLoading:
 {
-    ; $04 = Large area
-    ; $02 = Small area
-    ; These are mostly known to be map sizes. I think some of these values are
-    ; wrong as they do not seem to line up with the areas in the game.
-
-    ; Later note: Area 0x0A and 0x0F are incorrect. ZS overwrites this table as
-    ; part of its ability to change which areas are large and when these 2
-    ; values are correct it does not break anything in game.
-
     ; LW
     db $04, $04, $02, $04, $04, $04, $04, $02
     db $04, $04, $04, $04, $04, $04, $04, $04
@@ -1713,7 +1721,7 @@ Overworld_ProximityMotivatedLoad:
             
             PHX
             
-            JSR.w $C739 ; $04C739 IN ROM
+            JSR.w Overworld_LoadProximaSpriteIfAlive
             
             PLX
             
@@ -1751,7 +1759,7 @@ Overworld_LoadProximaSpriteIfAlive:
         
         SEP #$20
         
-        LDA.b #$7F : STA.b $04 ; $07 = $7FEF80 + offset
+        LDA.b #$7F : STA.b $04 ; $07 = $7FEF80 + offset.
         
         LDA.b $00 : AND.b #$07 : TAY
         
@@ -2280,7 +2288,7 @@ Overworld_SpritePointers:
 ; $04CB41-$04CB41 DATA
 Overworld_Sprites_EMPTY:
 {
-        db $FF ; END
+    db $FF ; END
 }
 
 ; ==============================================================================
@@ -4587,7 +4595,8 @@ RoomData_SpritePointers:
 ;   i - sprite ID
 ;   s - aux part 1
 ;   t - aux part 2
-;       if every bit of t is set, then the entry corresponds to an overlord or a key
+;       if every bit of t is set, then the entry corresponds to an overlord
+;       or a key
 ;
 ;   s and t form a 5 bit auxiliary value written to $0E30,X
 ;     ...ssttt
@@ -4774,7 +4783,7 @@ RoomData_Sprites_Room000E:
     db $16, $05, $24 ; SPRITE 24   | xy: { 0x050, 0x160, U } | s: 0x00
     db $18, $05, $24 ; SPRITE 24   | xy: { 0x050, 0x180, U } | s: 0x00
     db $1A, $05, $24 ; SPRITE 24   | xy: { 0x050, 0x1A0, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $FF ; END
 }
 
@@ -4819,7 +4828,7 @@ RoomData_Sprites_Room0013:
     db $05, $1A, $15 ; SPRITE 15   | xy: { 0x1A0, 0x050, U } | s: 0x00
     db $16, $1B, $7C ; SPRITE 7C   | xy: { 0x1B0, 0x160, U } | s: 0x00
     db $18, $16, $C7 ; SPRITE C7   | xy: { 0x160, 0x180, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $18, $1E, $96 ; SPRITE 96   | xy: { 0x1E0, 0x180, U } | s: 0x00
     db $1A, $14, $7C ; SPRITE 7C   | xy: { 0x140, 0x1A0, U } | s: 0x00
     db $1B, $1B, $D1 ; SPRITE D1   | xy: { 0x1B0, 0x1B0, U } | s: 0x00
@@ -5016,7 +5025,7 @@ RoomData_Sprites_Room0021:
 {
     db $00 ; Unlayered OAM
     db $06, $05, $6D ; SPRITE 6D   | xy: { 0x050, 0x060, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $06, $17, $6F ; SPRITE 6F   | xy: { 0x170, 0x060, U } | s: 0x00
     db $06, $18, $6F ; SPRITE 6F   | xy: { 0x180, 0x060, U } | s: 0x00
     db $09, $11, $6D ; SPRITE 6D   | xy: { 0x110, 0x090, U } | s: 0x00
@@ -5366,7 +5375,7 @@ RoomData_Sprites_Room0039:
     db $18, $04, $18 ; SPRITE 18   | xy: { 0x040, 0x180, U } | s: 0x00
     db $0F, $EF, $09 ; OVERLORD 09 | xy: { 0x0F0, 0x0F0, U }
     db $15, $05, $8B ; SPRITE 8B   | xy: { 0x050, 0x150, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $15, $09, $13 ; SPRITE 13   | xy: { 0x090, 0x150, U } | s: 0x00
     db $16, $17, $8A ; SPRITE 8A   | xy: { 0x170, 0x160, U } | s: 0x00
     db $18, $0B, $26 ; SPRITE 26   | xy: { 0x0B0, 0x180, U } | s: 0x00
@@ -5426,7 +5435,7 @@ RoomData_Sprites_Room003D:
     db $17, $05, $1E ; SPRITE 1E   | xy: { 0x050, 0x170, U } | s: 0x00
     db $19, $0A, $1E ; SPRITE 1E   | xy: { 0x0A0, 0x190, U } | s: 0x00
     db $07, $17, $13 ; SPRITE 13   | xy: { 0x170, 0x070, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $07, $18, $13 ; SPRITE 13   | xy: { 0x180, 0x070, U } | s: 0x00
     db $08, $15, $C5 ; SPRITE C5   | xy: { 0x150, 0x080, U } | s: 0x00
     db $08, $1A, $C5 ; SPRITE C5   | xy: { 0x1A0, 0x080, U } | s: 0x00
@@ -5457,7 +5466,7 @@ RoomData_Sprites_Room003E:
     db $12, $15, $9D ; SPRITE 9D   | xy: { 0x150, 0x120, U } | s: 0x00
     db $16, $07, $24 ; SPRITE 24   | xy: { 0x070, 0x160, U } | s: 0x00
     db $18, $11, $24 ; SPRITE 24   | xy: { 0x110, 0x180, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $19, $15, $24 ; SPRITE 24   | xy: { 0x150, 0x190, U } | s: 0x00
     db $1A, $0B, $24 ; SPRITE 24   | xy: { 0x0B0, 0x1A0, U } | s: 0x00
     db $FF ; END
@@ -6197,7 +6206,7 @@ RoomData_Sprites_Room0071:
     db $00 ; Unlayered OAM
     db $98, $06, $42 ; SPRITE 42   | xy: { 0x060, 0x180, L } | s: 0x00
     db $D8, $BA, $41 ; SPRITE 41   | xy: { 0x1A0, 0x180, L } | s: 0x15
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $FF ; END
 }
 
@@ -6208,7 +6217,7 @@ RoomData_Sprites_Room0072:
 {
     db $00 ; Unlayered OAM
     db $06, $B1, $41 ; SPRITE 41   | xy: { 0x110, 0x060, U } | s: 0x05
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $99, $2A, $41 ; SPRITE 41   | xy: { 0x0A0, 0x190, L } | s: 0x01
     db $FF ; END
 }
@@ -6394,7 +6403,7 @@ RoomData_Sprites_Room0080:
     db $03, $16, $76 ; SPRITE 76   | xy: { 0x160, 0x030, U } | s: 0x00
     db $09, $07, $42 ; SPRITE 42   | xy: { 0x070, 0x090, U } | s: 0x00
     db $09, $1A, $6A ; SPRITE 6A   | xy: { 0x1A0, 0x090, U } | s: 0x00
-    db $FD, $00, $E4 ; big key on above sprite
+    db $FD, $00, $E4 ; Big key on above sprite
     db $FF ; END
 }
 
@@ -6724,7 +6733,7 @@ RoomData_Sprites_Room0099:
     db $08, $1A, $15 ; SPRITE 15   | xy: { 0x1A0, 0x080, U } | s: 0x00
     db $17, $0E, $83 ; SPRITE 83   | xy: { 0x0E0, 0x170, U } | s: 0x00
     db $17, $11, $83 ; SPRITE 83   | xy: { 0x110, 0x170, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $18, $0D, $4E ; SPRITE 4E   | xy: { 0x0D0, 0x180, U } | s: 0x00
     db $18, $12, $4E ; SPRITE 4E   | xy: { 0x120, 0x180, U } | s: 0x00
     db $19, $0E, $4F ; SPRITE 4F   | xy: { 0x0E0, 0x190, U } | s: 0x00
@@ -7024,7 +7033,7 @@ RoomData_Sprites_Room00B0:
     db $16, $0B, $6F ; SPRITE 6F   | xy: { 0x0B0, 0x160, U } | s: 0x00
     db $16, $0A, $43 ; SPRITE 43   | xy: { 0x0A0, 0x160, U } | s: 0x00
     db $18, $08, $43 ; SPRITE 43   | xy: { 0x080, 0x180, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $1A, $1B, $44 ; SPRITE 44   | xy: { 0x1B0, 0x1A0, U } | s: 0x00
     db $1C, $17, $48 ; SPRITE 48   | xy: { 0x170, 0x1C0, U } | s: 0x00
     db $FF ; END
@@ -7110,7 +7119,7 @@ RoomData_Sprites_Room00B6:
     db $04, $0C, $1E ; SPRITE 1E   | xy: { 0x0C0, 0x040, U } | s: 0x00
     db $07, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x070, U } | s: 0x00
     db $15, $07, $C7 ; SPRITE C7   | xy: { 0x070, 0x150, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $18, $F7, $14 ; OVERLORD 14 | xy: { 0x170, 0x180, U }
     db $1B, $07, $8F ; SPRITE 8F   | xy: { 0x070, 0x1B0, U } | s: 0x00
     db $1B, $08, $8F ; SPRITE 8F   | xy: { 0x080, 0x1B0, U } | s: 0x00
@@ -7256,7 +7265,7 @@ RoomData_Sprites_Room00C0:
     db $07, $1A, $46 ; SPRITE 46   | xy: { 0x1A0, 0x070, U } | s: 0x00
     db $09, $0B, $41 ; SPRITE 41   | xy: { 0x0B0, 0x090, U } | s: 0x00
     db $0B, $14, $46 ; SPRITE 46   | xy: { 0x140, 0x0B0, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $0E, $06, $41 ; SPRITE 41   | xy: { 0x060, 0x0E0, U } | s: 0x00
     db $18, $04, $41 ; SPRITE 41   | xy: { 0x040, 0x180, U } | s: 0x00
     db $1B, $14, $46 ; SPRITE 46   | xy: { 0x140, 0x1B0, U } | s: 0x00
@@ -7281,7 +7290,7 @@ RoomData_Sprites_Room00C1:
     db $19, $14, $15 ; SPRITE 15   | xy: { 0x140, 0x190, U } | s: 0x00
     db $1A, $18, $C6 ; SPRITE C6   | xy: { 0x180, 0x1A0, U } | s: 0x00
     db $1B, $13, $24 ; SPRITE 24   | xy: { 0x130, 0x1B0, U } | s: 0x00
-    db $FE, $00, $E4 ; small key on above sprite
+    db $FE, $00, $E4 ; Small key on above sprite
     db $1B, $1B, $7C ; SPRITE 7C   | xy: { 0x1B0, 0x1B0, U } | s: 0x00
     db $FF ; END
 }
@@ -8465,7 +8474,7 @@ SpriteExplode_Execute:
         
         LDY.b #$01 : STY.w $0AAA
         
-        JSL.l Sprite_VerifyAllOnScreenDefeated : BCS .found_one ; BRANCH_BETA
+        JSL.l Sprite_VerifyAllOnScreenDefeated : BCS .found_one
             ; Restore menu functionality. Bit of a \hack, imo.
             STZ.w $0FFC
         
@@ -8497,6 +8506,7 @@ SpriteExplode_Execute:
 ; $04EDEF-$04EE0E DATA
 Pool_Explode_SpawnExplosion:
 {
+    ; $04EDEF
     .x_offsets_low
     db 0,   4,   8,  12,  -4,  -8, -12,   0
     db 0,   8,  16,  24, -24, -16,  -8,   0
@@ -8822,7 +8832,7 @@ Garnish_ScatterDebris:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC.w $EF8B, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC.w Pool_Garnish_ScatterDebris_x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
@@ -8830,7 +8840,8 @@ Garnish_ScatterDebris:
         
         PLX
         
-        LDA.b $02 : CLC : ADC.w $F00B, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC.w Pool_Garnish_ScatterDebris_y_offsets, X
+        INY : STA ($90), Y
         
         LDA.w $0FB5 : BNE .BRANCH_EPSILON
             LDA.b #$4E
@@ -8841,13 +8852,15 @@ Garnish_ScatterDebris:
         
         ; Feel I should leave a comment here because of this unusual sequence
         ; of instructions.
-        CMP.b #$80 : LDA.w $F04B, X : BCC .BRANCH_ZETA
+        CMP.b #$80 : LDA.w Pool_Garnish_ScatterDebris_chr, X : BCC .BRANCH_ZETA
             LDA.b #$F2
         
         .BRANCH_ZETA
         
-                         INY             : STA ($90), Y
-        LDA.w $F08B, X : INY : ORA.b $05 : STA ($90), Y
+        INY : STA ($90), Y
+
+        LDA.w Pool_Garnish_ScatterDebris_properties, X
+        INY : ORA.b $05 : STA ($90), Y
         
         PHY : TYA : LSR #2 : TAY
         
@@ -8985,7 +8998,7 @@ Sprite_SelfTerminate:
         
         LDA.b $00 : AND.b #$07 : TAX
         
-        LDA [$01] : AND.l $09F24B, X : STA [$01]
+        LDA [$01] : AND.l SpriteDeathMasks, X : STA [$01]
         
         PLX
         
@@ -9043,7 +9056,7 @@ Module_Death_JumpTable:
     dw GameOver_SaveAndOrContinue      ; 0x09 - $F4C1
     dw GameOver_InitializeRevivalFairy ; 0x0A - $F6A4
     dw RevivalFairy_Main_bounce        ; 0x0B - $F6B4
-    dw GameOver_RiseALittle            ; 0x0C - $F6B9  
+    dw GameOver_RiseALittle            ; 0x0C - $F6B9
     dw GameOver_Restore0D              ; 0x0D - $F71D
     dw GameOver_Restore0E              ; 0x0E - $F735
     dw Death_RestoreScreenPostRevival  ; 0x0F - $F742
@@ -9083,28 +9096,28 @@ GameOver_InitializeAndFadeMusic:
     LDA.w $0130 : STA.l $7EC227
     LDA.w $0131 : STA.l $7EC228
     
-    ; Fade volume to nothing
-    LDA.b #$F1 : STA.w $012C2C
+    ; ; FADE VOLUME TO NOTHING
+    LDA.b #$F1 : STA.w $012C
     
-    ; turn off ambient sound effect (rumbling, etc)
+    ; ; TURN OFF AMBIENT SOUND EFFECT (RUMBLING, ETC)
     LDA.b #$05 : STA.w $012D
     
-    ; not sure of the interpretation of this, though
+    ; ; NOT SURE OF THE INTERPRETATION OF THIS, THOUGH
     STA.w $0200
     
-    ; turn off cape ($55), and two other things that I don't understand
+    ; ; TURN OFF CAPE ($55), AND TWO OTHER THINGS THAT I DON'T UNDERSTAND
     STZ.w $03F3 : STZ.w $0322 : STZ.b $55
     
     REP #$20
     
-    ; cache mosaic level settings in temporary variables
+    ; ; CACHE MOSAIC LEVEL SETTINGS IN TEMPORARY VARIABLES
     LDA.l $7EC007 : STA.l $7EC221
     LDA.l $7EC009 : STA.l $7EC223
     
     LDX.b #$00
     
-    ; sets all entries in the auxiliary palette to black. This is presumably used
-    ; later for the fade from red to black after Link falls down.
+    ; Sets all entries in the auxiliary palette to black. This is presumably
+    ; used later for the fade from red to black after Link falls down.
     .blackenAuxiliary
     
         LDA.l $7EC300, X : STA.l $7FDD80, X
@@ -9123,17 +9136,18 @@ GameOver_InitializeAndFadeMusic:
     
     SEP #$20
     
-    ; Set a timer for 32 frames
+    ; Set a timer for 32 frames.
     LDA.b #$20 : STA.b $C8
     
     STZ.w $04A0
     
-    ; Setting $04A0 to 0 turns off the display of the floor level indicator on bg3
-    JSL.l $0AFD0C ; $57D0C
+    ; Setting $04A0 to 0 turns off the display of the floor level indicator
+    ; on bg3.
+    JSL.l FloorIndicator
     
     INC.b $16
     
-    ; Silences the sound effect on first channel    
+    ; Silences the sound effect on first channel.
     LDA #$05 : STA.w $012D
     
     INC.b $11
@@ -9371,10 +9385,10 @@ MaxHealthBasedSpawnHP:
 ; ==============================================================================
 
 ; Showing the save/quit options
-; $04F4C1-$04F674 LOCAL JUMP LOCATION
+; $04F4C1-$04F50E LOCAL JUMP LOCATION
 GameOver_SaveAndOrContinue:
 {
-    JSR.w $F67A ; $04F67A IN ROM
+    JSR.w GameOver_AnimateChoiceFairy
     
     LDA.w $0C4A : BEQ .alpha
         JSL.l Ancilla_GameOverTextLong
@@ -9414,10 +9428,10 @@ GameOver_SaveAndOrContinue:
     
         LDA.b #$2C : STA.w $012E
 
-        ; Bleeds into the next function.   
+        ; Bleeds into the next function.
 }
 
-; $04F50F ALTERNATE ENTRY POINT
+; $04F50F-$04F674 LOCAL JUMP LOCATION
 GameOver_FadeAndRevive:
 {
     LDA.b #$F1 : STA.w $012C
@@ -9427,13 +9441,13 @@ GameOver_FadeAndRevive:
         
     .BRANCH_ZETA
         
-    JSL.l $02856A ; $01056A IN ROM
+    JSL.l AdjustBunnyLinkStatus
         
     LDA.l $7EF3C5 : CMP.b #$03 : BCS .BRANCH_THETA
         LDA.b #$00 : STA.l $7EF3CA
         
         LDA.l $7EF357 : BNE .BRANCH_THETA
-            JSL.l $028570 ; $010570 IN ROM
+            JSL.l ForceNonBunnyStatus
         
     .BRANCH_THETA
         
@@ -9442,7 +9456,7 @@ GameOver_FadeAndRevive:
         
     .BRANCH_IOTA
         
-    JSL.l $0BFFBF ; $05FFBF IN ROM
+    JSL.l ResetSomeThingsAfterDeath
         
     LDA.l $7EF3CC
         
@@ -9459,7 +9473,7 @@ GameOver_FadeAndRevive:
 
     LDA.l $7EF36C : LSR #3 : TAX
         
-    LDA.l $09F4AC, X : STA.l $7EF36D : STA.w $04AA
+    LDA.l MaxHealthBasedSpawnHP, X : STA.l $7EF36D : STA.w $04AA
         
     LDA.w $040C
         
@@ -9529,13 +9543,13 @@ GameOver_FadeAndRevive:
         
         LDA.l $701FFE : TAX : DEX #2
         
-        LDA.l $00848C, X : STA.b $00
+        LDA.l SaveFileCopyOffsets, X : STA.b $00
         
         SEP #$20
         
         STZ.w $010A
         
-        JSL.l $0CCFBB ; $064FBB IN ROM
+        JSL.l CopySaveToWRAM
         
         RTS
         
@@ -9550,7 +9564,7 @@ GameOver_FadeAndRevive:
         
     STZ.b $1B
         
-    JSL.l $0CF0E2 ; $0670E2 IN ROM
+    JSL.l InitializeTriforceIntro
         
     STZ.w $04AA : STZ.w $010A : STZ.w $0132
         
@@ -9614,11 +9628,11 @@ GameOver_AnimateChoiceFairy:
     
     LDA.b #$34 : STA.w $0850
     
-    LDA.w $F677, X : STA.w $0851
+    LDA.w Pool_GameOver_AnimateChoiceFairy_fairy_height, X : STA.w $0851
     
     LDA.b $1A : AND.b #$08 : LSR #3 : TAX
     
-    LDA.w $F675, X : STA.w $0852
+    LDA.w Pool_GameOver_AnimateChoiceFairy_fairy_char, X : STA.w $0852
     
     LDA.b #$78 : STA.w $0853
     LDA.b #$02 : STA.w $0A34
@@ -9667,7 +9681,7 @@ GameOver_RiseALittle:
         
         .restore_cached_palettes_loop
         
-            ; Mess with the palette
+            ; Mess with the palette.
             LDA.l $7FDD80, X : STA.l $7EC300, X
             LDA.l $7FDDC0, X : STA.l $7EC340, X
             LDA.l $7FDE00, X : STA.l $7EC380, X
@@ -9779,9 +9793,8 @@ Death_RestoreScreenPostRevival:
 ; ==============================================================================
 
 ; $04F79B-$04F79E Jump Table
-Pool_Module_Quit:
+Module_Quit_submodules:
 {
-    .submodules
     dw Quit_IndicateHaltedState
     dw Quit_FadeOut
 }
@@ -9792,7 +9805,7 @@ Module_Quit:
 {
     LDA.b $11 : ASL A : TAX
     
-    JSR.w (Pool_Module_Quit_submodules, X)
+    JSR.w (.submodules, X)
     
     JSL.l Sprite_Main
     JSL.l PlayerOam_Main
@@ -9821,7 +9834,7 @@ Quit_FadeOut:
     
     LDA.b #$01 : STA.b $B0
     
-    JMP.w $F50F ; $04F50F IN ROM
+    JMP.w GameOver_FadeAndRevive
 }
 
 ; ==============================================================================
@@ -9834,9 +9847,6 @@ NULL_09F7C0:
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FF, $FF
 }
-    
-; ==============================================================================
-
 
 ; ==============================================================================
 
@@ -10152,8 +10162,6 @@ Polyhedral_ProjectPoint:
     CLI
     
     STA.b $48
-    
-    ; $04FA12
     
     LDA.b $4A : BPL .zeta
         EOR.w #$FFFF : INC A
@@ -10639,7 +10647,7 @@ UNREACHABLE_09FDCC:
     RTL
 }
 
-; $04FDCF-$04FE93 LOCAL JUMP LOCATION
+; $04FDCF-$04FEB3 LOCAL JUMP LOCATION
 Polyhedral_FillLine:
 {
     LDA.b $E6 : AND.b #$07 : ASL A : TAY
@@ -10651,7 +10659,7 @@ Polyhedral_FillLine:
     LDA.b $EF : AND.b #$38 : SEC : SBC.b $BC : BNE .alpha
         REP #$30
         
-        LDA.l $09FEA4, X : TYX : AND.l $09FE94, X : STA.b $B2
+        LDA.l .Mask_right, X : TYX : AND.l .Mask_left, X  : STA.b $B2
         
         LDA.b $EF : AND.w #$0038 : ASL #2 : ORA.b $B9 : TAY
         
@@ -10671,7 +10679,7 @@ Polyhedral_FillLine:
         
         REP #$30
         
-        LDA.l $09FEA4, X : STA.b $B2
+        LDA.l .Mask_right, X : STA.b $B2
         
         TYX
         
@@ -10693,7 +10701,7 @@ Polyhedral_FillLine:
         
         .beta
         
-        LDA.l $09FE94, X : STA.b $B2
+        LDA.l .Mask_left, X : STA.b $B2
         
         LDA.b $B5 : EOR.w $0000, Y : AND.b $B2 : EOR.w $0000, Y : STA.w $0000, Y
         LDA.b $B7 : EOR.w $0010, Y : AND.b $B2 : EOR.w $0010, Y : STA.w $0010, Y
@@ -10701,17 +10709,13 @@ Polyhedral_FillLine:
         SEP #$30
         
         RTS
-}
 
-; $04FE94-$04FEB3 DATA
-Polyhedral_LineFillMask:
-{
     ; $04FE94
-    .left
+    .Mask_left
     dw $FFFF, $7F7F, $3F3F, $1F1F, $0F0F, $0707, $0303, $0101
     
     ; $04FEA4
-    .right
+    .Mask_right
     dw $8080, $C0C0, $E0E0, $F0F0, $F8F8, $FCFC, $FEFE, $FFFF
 }
 
@@ -10760,10 +10764,10 @@ Polyhedral_SetLeft:
     
     SEI
     
-                 STA.l $004205
-    LDA.b #$00 : STA.l $004204
+                 STA.l SNES.DividendHigh
+    LDA.b #$00 : STA.l SNES.DividendLow
     
-    SEC : LDA.b $E4 : SBC.b $E2 : STA.l $004206
+    SEC : LDA.b $E4 : SBC.b $E2 : STA.l SNES.DivisorB
     
     REP #$20
     
@@ -10772,13 +10776,13 @@ Polyhedral_SetLeft:
     LDA.w #$0000
     
     CPX.b #$00 : BNE .zeta
-        LDA.l $004214
+        LDA.l SNES.DivideResultQuotientLow
         
         BRA .theta
         
     .zeta
     
-    SEC : SBC.l $004214
+    SEC : SBC.l SNES.DivideResultQuotientLow
     
     .theta
     
@@ -10843,10 +10847,10 @@ Polyhedral_SetRight:
     
     SEI
     
-                 STA.l $004205
-    LDA.b #$00 : STA.l $004204
+                 STA.l SNES.DividendHigh
+    LDA.b #$00 : STA.l SNES.DividendLow
     
-    SEC : LDA.b $ED : SBC.b $EB : STA.l $004206
+    SEC : LDA.b $ED : SBC.b $EB : STA.l SNES.DivisorB
     
     REP #$20
     
@@ -10855,13 +10859,13 @@ Polyhedral_SetRight:
     LDA.w #$0000
     
     CPX.b #$00 : BNE .theta
-        LDA.l $004214
+        LDA.l SNES.DivideResultQuotientLow
         
         BRA .iota
     
     .theta
     
-    SEC : SBC.l $004214
+    SEC : SBC.l SNES.DivideResultQuotientLow
     
     .iota
     
@@ -10881,15 +10885,17 @@ Polyhedral_SetRight:
 ; $04FF8C-$04FF97 DATA
 PolyhedralPropertyTable:
 {
+    ; $04FF8C
     .crystal
-    db $06 ; vertices
-    db $08 ; faces
+    db $06 ; Vertices
+    db $08 ; Faces
     dw CrystalVertices
     dw CrystalFaces
 
+    ; $04FF92
     .triforce
-    db $06 ; vertices
-    db $05 ; faces
+    db $06 ; Vertices
+    db $05 ; Faces
     dw TriforceVertices
     dw TriforceFaces
 }

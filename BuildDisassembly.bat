@@ -3,7 +3,7 @@
 
 echo -----------------------Starting patch------------------------------
 
-CALL asar.exe Test.asm TestBuild.sfc
+CALL asar.exe zelda3.asm DissasemblyAlttp.sfc
 
 echo -----------------------Done applying patch------------------------------
 

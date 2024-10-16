@@ -515,10 +515,10 @@ BirdTravel_Main:
     .next_numeral
 
     CPX.w $1AF0 : BNE .BRANCH_THETA
-        LDA.l $0AB763, X : STA.w $1AB0, X : STA.l $7EC10A
-        LDA.l $0AB76B, X : STA.w $1AC0, X : STA.l $7EC10B
-        LDA.l $0AB773, X : STA.w $1AD0, X : STA.l $7EC108
-        LDA.l $0AB77B, X : STA.w $1AE0, X : STA.l $7EC109
+        LDA.l Pool_BirdTravel_Main_pos_x_low,  X : STA.w $1AB0, X : STA.l $7EC10A
+        LDA.l Pool_BirdTravel_Main_pos_x_high, X : STA.w $1AC0, X : STA.l $7EC10B
+        LDA.l Pool_BirdTravel_Main_pos_y_low,  X : STA.w $1AD0, X : STA.l $7EC108
+        LDA.l Pool_BirdTravel_Main_pos_y_high, X : STA.w $1AE0, X : STA.l $7EC109
         
         PHX
         
@@ -527,7 +527,7 @@ BirdTravel_Main:
         PLX
         
         BCC .BRANCH_IOTA
-            LDA.l $0AB75B, X : STA.b $0D
+            LDA.l Pool_BirdTravel_Main_char, X : STA.b $0D
             
             LDA.b $1A : AND.b #$06 : ORA.b #$30 : STA.b $0C
             
@@ -543,10 +543,10 @@ BirdTravel_Main:
 
     .BRANCH_THETA
 
-    LDA.l $0AB763, X : STA.w $1AB0, X : STA.l $7EC10A
-    LDA.l $0AB76B, X : STA.w $1AC0, X : STA.l $7EC10B
-    LDA.l $0AB773, X : STA.w $1AD0, X : STA.l $7EC108
-    LDA.l $0AB77B, X : STA.w $1AE0, X : STA.l $7EC109
+    LDA.l Pool_BirdTravel_Main_pos_x_low,  X : STA.w $1AB0, X : STA.l $7EC10A
+    LDA.l Pool_BirdTravel_Main_pos_x_high, X : STA.w $1AC0, X : STA.l $7EC10B
+    LDA.l Pool_BirdTravel_Main_pos_y_low,  X : STA.w $1AD0, X : STA.l $7EC108
+    LDA.l Pool_BirdTravel_Main_pos_y_high, X : STA.w $1AE0, X : STA.l $7EC109
     
     PHX
     
@@ -555,7 +555,7 @@ BirdTravel_Main:
     PLX
     
     BCC .BRANCH_IOTA
-        LDA.l $0AB75B, X : STA.b $0D
+        LDA.l Pool_BirdTravel_Main_char, X : STA.b $0D
         
         LDA.b #$32 : STA.b $0C
         LDA.b #$00 : STA.b $0B
@@ -879,7 +879,7 @@ OverworldMap_DarkWorldTilemap:
 
         .copyLoop
 
-            LDA.l $0AD727, X : STA.w $1000, X
+            LDA.l WorldMap_DarkWorldTilemap, X : STA.w $1000, X
         DEX #2 : BPL .copyLoop
         
         SEP #$30
@@ -928,21 +928,23 @@ OverworldMap_BrightenScreen:
 
 ; ==============================================================================
 
-; $053AB6-$053AE5 DATA
-Pool_OverworldMap_Main:
+; $053AB6-$053AC3 DATA
+UNREACHABLE_0ABAB6:
 {
-    ; $053AB6
-    .UNREACHABLE_0ABAB6
     db $1E, $00, $1E, $02, $FE, $02, $00, $80
     db $02, $80, $00, $01, $FF, $01
+}
 
+; $053AC4-$053AE5 DATA
+Pool_OverworldMap_Main:
+{
     ; $053AC4
-    .WorldMap_BaseZoom
+    .BaseZoom
     db $21 ; Zoomed out
     db $0C ; Zoomed in
 
     ; $053AC6
-    .WorldMap_PanMovements
+    .PanMovements
     dw $0000 ; None
     dw $0000 ; None
     dw $0001 ; Down
@@ -953,7 +955,7 @@ Pool_OverworldMap_Main:
     dw $0002 ; Never used, but handles LR
 
     ; $053AD6
-    .WorldMap_PanBoundaries
+    .PanBoundaries
     db $00, $00 ; None
     db $00, $00 ; None
     db $E0, $00 ; Down
@@ -962,12 +964,10 @@ Pool_OverworldMap_Main:
     db $20, $FF ; Left
 
     ; $053AE2
-    .WorldMapHDMA_ZoomPointers
+    .HDMAZoomPointers
     dw WorldMapHDMA_ZoomedOut
     dw WorldMapHDMA_ZoomedIn
 }
-
-; ==============================================================================
 
 ; $053AE6-$053BD5 LONG JUMP LOCATION
 OverworldMap_Main:
@@ -980,7 +980,8 @@ OverworldMap_Main:
         
         ; Change the matrix multiplication done via hdma (changes from
         ; closeup to full view).
-        LDA.l $0ABAE2, X : STA.w DMA.6_SourceAddrOffsetLow : STA.w DMA.7_SourceAddrOffsetLow
+        LDA.l Pool_OverworldMap_Main_HDMAZoomPointers, X
+        STA.w DMA.6_SourceAddrOffsetLow : STA.w DMA.7_SourceAddrOffsetLow
 
     .dontToggleZoomLevel
 
@@ -1013,7 +1014,8 @@ OverworldMap_Main:
         
         ORA.b #$80 : STA.w $0636
         
-        LDA.l $0ABAC4, X : STA.w $0637 : CMP.b #$0C : BNE .fartherZoomedOut
+        LDA.l Pool_OverworldMap_Main_BaseZoom, X : STA.w $0637
+        CMP.b #$0C : BNE .fartherZoomedOut
             REP #$20
             
             LDA.l $7EC108 : LSR #4
@@ -1064,8 +1066,8 @@ OverworldMap_Main:
         
         REP #$20
         
-        LDA.b $E6 : CMP.l $0ABAD6, X : BEQ .BRANCH_LAMBDA
-            CLC : ADC.l $0ABAC6, X : STA.b $E6
+        LDA.b $E6 : CMP.l Pool_OverworldMap_Main_PanBoundaries, X : BEQ .BRANCH_LAMBDA
+            CLC : ADC.l Pool_OverworldMap_Main_PanMovements, X : STA.b $E6
             CLC : ADC.w #$0100 : STA.w $063A
 
         .BRANCH_LAMBDA
@@ -1078,8 +1080,8 @@ OverworldMap_Main:
         
         REP #$20
         
-        LDA.b $E0 : CMP.l $0ABAD6, X : BEQ .BRANCH_MU
-            CLC : ADC.l $0ABAC6, X : STA.b $E0
+        LDA.b $E0 : CMP.l Pool_OverworldMap_Main_PanBoundaries, X : BEQ .BRANCH_MU
+            CLC : ADC.l Pool_OverworldMap_Main_PanMovements, X : STA.b $E0
 
         .BRANCH_MU
 
@@ -1089,6 +1091,7 @@ OverworldMap_Main:
 
     JSR.w WorldMap_HandleSprites
 
+    ; $053BD5 ALTERNATE ENTRY POINT
     .easyOut
 
     RTL
@@ -1101,7 +1104,7 @@ OverworldMap_Main:
 OverworldMap_PrepExit:
 {
     ; Darken screen gradually until fully dark.
-    DEC.b $13 : BNE OverworldMap_Main_easyOut ; (RTL)
+    DEC.b $13 : BNE OverworldMap_Main_easyOut
         JSL.l EnableForceBlank
         
         INC.w $0200
@@ -1248,7 +1251,7 @@ WorldMap_SetUpHDMA:
         REP #$21
         
         LDA.l $7EC108 : LSR #4
-        SEC : SBC.w #$0048 : AND.w #$FFFE : CLC : ADC.l $0ABAC6 : STA.b $E6
+        SEC : SBC.w #$0048 : AND.w #$FFFE : CLC : ADC.l Pool_OverworldMap_Main_PanMovements : STA.b $E6
         CLC : ADC.w #$0100 : STA.w $063A
         
         LDA.l $7EC10A : LSR #4
@@ -1366,7 +1369,7 @@ WorldMapHDMA_ZoomedIn:
 
 ; ==============================================================================
 
-; $053DDD-$053DE4 DATA
+; $053DDD-$053DE3 DATA
 WorldMapHDMA_AttractMode:
 {
     db $F0 : dw $1B00 ; 112 lines, continuous
@@ -1756,7 +1759,7 @@ WorldMap_HandleSprites:
                 
                 LDA.b $1A : LSR A : AND.b #$03 : TAX
                 
-                LDA.l $0ABF62, X : STA.b $0C
+                LDA.l WorldMap_PortalProps, X : STA.b $0C
                 
                 LDA.b #$02 : STA.b $0B
                 
@@ -1784,14 +1787,14 @@ WorldMap_HandleSprites:
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
             
-            LDA.l $0ABDE5, X : BMI .BRANCH_ZETA
+            LDA.l WorldMapIcon_posx_spr0-1, X : BMI .BRANCH_ZETA
                 STA.l $7EC10B
                 
-                LDA.l $0ABDE4, X : STA.l $7EC10A
-                LDA.l $0ABDF7, X : STA.l $7EC109
-                LDA.l $0ABDF6, X : STA.l $7EC108
+                LDA.l WorldMapIcon_posx_spr0+0, X : STA.l $7EC10A
+                LDA.l WorldMapIcon_posy_spr0+1, X : STA.l $7EC109
+                LDA.l WorldMapIcon_posy_spr0+2, X : STA.l $7EC108
                 
-                LDA.l $0ABEE1, X : BEQ .BRANCH_THETA
+                LDA.l WorldMapIcon_tile_spr0+1, X : BEQ .BRANCH_THETA
                     CMP.b #$64 : BEQ .BRANCH_IOTA
                         LDA.b $1A : AND.b #$10 : BNE .BRANCH_ZETA
                             .BRANCH_IOTA
@@ -1806,10 +1809,10 @@ WorldMap_HandleSprites:
                     ; X = (map sprites indicator << 1)
                     LDA.l $7EF3C7 : ASL A : TAX
                     
-                    LDA.l $0ABEE1, X : BEQ .BRANCH_KAPPA
+                    LDA.l WorldMapIcon_tile_spr0+1, X : BEQ .BRANCH_KAPPA
                         STA.b $0D
                         
-                        LDA.l $0ABEE0, X : STA.b $0C
+                        LDA.l WorldMapIcon_tile_spr0, X : STA.b $0C
                         
                         LDA.b #$02
                         
@@ -1819,8 +1822,8 @@ WorldMap_HandleSprites:
 
                     LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                     
-                    LDA.l $0ABF5E, X : STA.b $0D
-                    LDA.b #$32     : STA.b $0C
+                    LDA.l WorldMap_RedXChars, X : STA.b $0D
+                    LDA.b #$32                  : STA.b $0C
                     LDA.b #$00
 
                     .BRANCH_LAMBDA
@@ -1840,14 +1843,14 @@ WorldMap_HandleSprites:
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
             
-            LDA.l $0ABE09, X : BMI .BRANCH_MU
+            LDA.l WorldMapIcon_posx_spr1+1, X : BMI .BRANCH_MU
                 STA.l $7EC10B
                 
-                LDA.l $0ABE08, X : STA.l $7EC10A
-                LDA.l $0ABE1B, X : STA.l $7EC109
-                LDA.l $0ABE1A, X : STA.l $7EC108
+                LDA.l WorldMapIcon_posx_spr1, X : STA.l $7EC10A
+                LDA.l WorldMapIcon_posy_spr1+1, X : STA.l $7EC109
+                LDA.l WorldMapIcon_posy_spr1+0, X : STA.l $7EC108
                 
-                LDA.l $0ABEF3, X : BEQ .BRANCH_NU
+                LDA.l WorldMapIcon_tile_spr1+1, X : BEQ .BRANCH_NU
                     CMP.b #$64 : BEQ .BRANCH_XI
                         ; Every 16 frames...
                         LDA.b $1A : AND.b #$10 : BNE .BRANCH_MU
@@ -1861,10 +1864,10 @@ WorldMap_HandleSprites:
                     ; X = (map sprites indicator << 1)
                     LDA.l $7EF3C7 : ASL A : TAX
                             
-                    LDA.l $0ABEF3, X : BEQ .BRANCH_OMICRON
+                    LDA.l WorldMapIcon_tile_spr1+1, X : BEQ .BRANCH_OMICRON
                         STA.b $0D
                                 
-                        LDA.l $0ABEF2, X : STA.b $0C
+                        LDA.l WorldMapIcon_tile_spr1+0, X : STA.b $0C
                                 
                         LDA.b #$02
                                 
@@ -1874,7 +1877,7 @@ WorldMap_HandleSprites:
 
                     LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                             
-                    LDA.l $0ABF5E, X : STA.b $0D
+                    LDA.lWorldMap_RedXChars, X : STA.b $0D
                     LDA.b #$32 : STA.b $0C
                     LDA.b #$00
 
@@ -2416,9 +2419,8 @@ WorldMap_CalculateOAMCoordinates:
 ; ==============================================================================
 
 ; $054515-$05451B DATA
-Pool_WorldMap_HandleSpriteBlink:
+WorldMap_HandleSpriteBlink_crystal_numbers:
 {
-    .crystal_numbers
     db $79 ; 2
     db $6E ; 5
     db $6F ; 6
@@ -2436,7 +2438,7 @@ WorldMap_HandleSpriteBlink:
         LDA.b $0D : CMP.b #$64 : BNE .BRANCH_ALPHA
             ; Since the base of this array starts in code, we deduce that
             ; X must range from 0x08 and 0x0E.
-            LDA.l $0AC50D, X : STA.b $0D
+            LDA.l .crystal_numbers-8, X : STA.b $0D
             LDA.b #$32 : STA.b $0C
             
             STZ.w $0A20, X
@@ -2513,14 +2515,13 @@ WorldMapIcon_AdjustCoordinate:
     RTS
 }
 
+; ==============================================================================
+
 ; $0545A6-$0545A8 DATA
-Pool_OverworldMap_CheckForPendant:
+OverworldMap_CheckForPendant_bit:
 {
-    .bit
     db $04, $02, $01
 }
-
-; ==============================================================================
 
 ; $0545A9-$0545BE LOCAL JUMP LOCATION
 Overworldmap_CheckPendant:
@@ -2530,7 +2531,7 @@ Overworldmap_CheckPendant:
     ; Check if the sprites indicator tells us to show the three pendants.
     LDA.l $7EF3C7 : CMP.b #$03 : BNE .fail
         ; Check if we have that pendant.
-        LDA.l $7EF374 : AND.l $0AC5A6, X : BEQ .fail
+        LDA.l $7EF374 : AND.l .bit, X : BEQ .fail
             SEC
             
             RTS
@@ -6013,7 +6014,7 @@ PalaceMap_RestoreGraphics:
     ; Restore main screen designation.
     LDA.l $7EC211 : STA.b $1C
     
-    ; Assembler problem much?
+    ; OPTIMIZE: Assembler problem much?
     ; (compiled as long address when only a direct page access was necessary).
     LDA.l $7EC212 : STA.l $00001D
     

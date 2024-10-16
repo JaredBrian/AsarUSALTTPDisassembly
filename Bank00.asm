@@ -1307,7 +1307,8 @@ Main_SaveGameFile:
     
     ; $701FFE, an offset of 0, 2, 4, 6,...
     ; Will give Y a value of 0, 0x0500, 0x0A00, or 0x0F00.
-    LDX.w $1FFE : LDA.l $00848A, X : TAY : PHY
+    LDX.w $1FFE
+    LDA.l SaveFileOffsets, X : TAY : PHY
     
     LDX.w #$0000
 
@@ -11474,11 +11475,13 @@ Pool_Graphics_IncrementalVramUpload:
 Graphics_IncrementalVramUpload:
 {
     LDX.w $0412 : CPX.b #$10 : BEQ .finished
-        LDA.l $00DEDF, X : STA.b $19
+        LDA.l Pool_Graphics_IncrementalVramUpload_vram_address_high, X
+        STA.b $19
         
         STZ.w $0118
         
-        LDA.l $00DEEF, X : STA.w $0119
+        LDA.l Pool_Graphics_IncrementalVramUpload_buffer_address_high, X
+        STA.w $0119
         
         INC.w $0412
 
@@ -13393,7 +13396,7 @@ PaletteFilterHistory:
     AND.w #$000F : ASL A : TAX
     
     ; Note that this access is a long address mode, unlike the others.
-    LDA.l $0098C0, X : STA.b $0C
+    LDA.l DungeonMask, X : STA.b $0C
     
     ; Equate banks.
     PHB : PHK : PLB
@@ -13535,7 +13538,7 @@ Palette_Filter_SP5F:
         
         AND.w #$000F : ASL A : TAX
         
-        LDA.l $0098C0, X : STA !bitFilter
+        LDA.l DungeonMask, X : STA !bitFilter
         
         PHB : PHK : PLB
         
@@ -13610,7 +13613,7 @@ KholdstareShell_PaletteFiltering:
             AND.w #$000F : ASL A : TAX
             
             ; Get 1 << (15 - i).
-            LDA.l $0098C0, X : STA !bitFilter
+            LDA.l DungeonMask, X : STA !bitFilter
             
             PHB : PHK : PLB
             
@@ -13702,7 +13705,7 @@ AgahnimWarpShadowFilter_filter_one:
     
     AND.w #$000F : ASL A : TAX
     
-    LDA.l $0098C0, X : STA !bitFilter
+    LDA.l DungeonMask, X : STA !bitFilter
     
     PHB : PHK : PLB
     
@@ -15244,21 +15247,56 @@ Module_Messaging:
 ; $007876-$007899 JUMP TABLE
 Messaging_MainJumpTable:
 {
-    ; TODO: figure out interleaving syntax for tables like this.
-    ; Parameterized by X:
-    
-    dl Module_Messaging_doNothing ; 0x00 - $00F875 RTL (do nothing).
-    dl Messaging_Equipment        ; 0x01 - $0DDD2A Link's item submenu (press start).
-    dl Messaging_Text             ; 0x02 - $0EC440 Dialogue Mode.
-    dl Messaging_PalaceMap        ; 0x03 - $0AE0B0 Dungeon Map Mode.
-    dl RefillHeathFromRedPotion   ; 0x04 - $00F8FB Fills life (red potion).
-    dl Messaging_PrayingPlayer    ; 0x05 - $00F8B1 Praying at desert palace before it opens.
-    dl Module0E_06_Unused         ; 0x06 - $00F8E9 unused? Agahnim 2 related code?
-    dl Messaging_OverworldMap     ; 0x07 - $0AB98B Overworld Map Mode.
-    dl Module0E_08_GreenPotion    ; 0x08 - $00F911 Fill up all magic (green potion).
-    dl Module0E_09_BluePotion     ; 0x09 - $00F918 Fill up magic and life (blue potion).
-    dl Messaging_BirdTravel       ; 0x0A - $0AB730 The flute bird that flies you around.
-    dl Module0E_0B_SaveMenu       ; 0x0B - $00F9FA Continue/Save & Quit Mode.
+    ; $007876
+    .low
+    db Module_Messaging_doNothing>>0 ; 0x00 - $00F875 RTL (do nothing).
+    db Messaging_Equipment>>0        ; 0x01 - $0DDD2A Link's item submenu
+                                     ;        (press start).
+    db Messaging_Text>>0             ; 0x02 - $0EC440 Dialogue Mode.
+    db Messaging_PalaceMap>>0        ; 0x03 - $0AE0B0 Dungeon Map Mode.
+    db RefillHeathFromRedPotion>>0   ; 0x04 - $00F8FB Fills life (red potion).
+    db Messaging_PrayingPlayer>>0    ; 0x05 - $00F8B1 Praying at desert palace
+                                     ;        before it opens.
+    db Module0E_06_Unused>>0         ; 0x06 - $00F8E9 unused? Agahnim 2 related
+                                     ;        code?
+    db Messaging_OverworldMap>>0     ; 0x07 - $0AB98B Overworld Map Mode.
+    db Module0E_08_GreenPotion>>0    ; 0x08 - $00F911 Fill up all magic (green
+                                     ;        potion).
+    db Module0E_09_BluePotion>>0     ; 0x09 - $00F918 Fill up magic and life
+                                     ;        (blue potion).
+    db Messaging_BirdTravel>>0       ; 0x0A - $0AB730 The flute bird that flies
+                                     ;        you around.
+    db Module0E_0B_SaveMenu>>0       ; 0x0B - $00F9FA Continue/Save & Quit Mode.
+
+    ; $007882
+    .high
+    db Module_Messaging_doNothing>>8
+    db Messaging_Equipment>>8
+    db Messaging_Text>>8
+    db Messaging_PalaceMap>>8
+    db RefillHeathFromRedPotion>>8
+    db Messaging_PrayingPlayer>>8
+    db Module0E_06_Unused>>8
+    db Messaging_OverworldMap>>8
+    db Module0E_08_GreenPotion>>8
+    db Module0E_09_BluePotion>>8
+    db Messaging_BirdTravel>>8
+    db Module0E_0B_SaveMenu>>8
+
+    ; $00788E
+    .bank
+    db Module_Messaging_doNothing>>16
+    db Messaging_Equipment>>16
+    db Messaging_Text>>16
+    db Messaging_PalaceMap>>16
+    db RefillHeathFromRedPotion>>16
+    db Messaging_PrayingPlayer>>16
+    db Module0E_06_Unused>>16
+    db Messaging_OverworldMap>>16
+    db Module0E_08_GreenPotion>>16
+    db Module0E_09_BluePotion>>16
+    db Messaging_BirdTravel>>16
+    db Module0E_0B_SaveMenu>>16
 }
 
 ; $00789A-$0078B0 LONG JUMP LOCATION
@@ -15266,9 +15304,9 @@ Messaging_Main:
 {
     LDX.b $11
     
-    LDA Messaging_MainJumpTable, X : STA.b $00
-    LDA.l $00F882, X : STA.b $01
-    LDA.l $00F88E, X : STA.b $02
+    LDA.l Messaging_MainJumpTable_low, X  : STA.b $00
+    LDA.l Messaging_MainJumpTable_high, X : STA.b $01
+    LDA.l Messaging_MainJumpTable_bank, X : STA.b $02
     
     JMP [$0000]
 }
