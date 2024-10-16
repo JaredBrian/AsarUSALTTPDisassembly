@@ -138,7 +138,7 @@ Kyameron_Coagulate:
 ; ==============================================================================
 
 ; $0F1F55-$0F1F58 DATA
-Pool_Kyameron_Moving_animation_states:
+Kyameron_Moving_animation_states:
 {
     db $03, $02, $01, $00
 }
@@ -183,15 +183,19 @@ Kyameron_Moving:
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$03 : TAY
     
-    LDA.w $9F55, Y : STA.w $0DC0, X
+    LDA.w .animation_states, Y : STA.w $0DC0, X
     
     TXA : EOR.b $1A : AND.b #$07 : BNE .dont_spawn_shiny_garnish
-    	JSL.l GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA.b $00
-    
+    	JSL.l GetRandomInt
+
+        REP #$20
+        AND.w #$000F : SEC : SBC.w #$0004 : STA.b $00
     	SEP #$20
     
-    	JSL.l GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA.b $02
-    
+    	JSL.l GetRandomInt
+
+        REP #$20
+        AND.w #$000F : SEC : SBC.w #$0004 : STA.b $02
     	SEP #$20
     
     	JSL.l Sprite_SpawnSimpleSparkleGarnish

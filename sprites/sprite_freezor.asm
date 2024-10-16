@@ -120,7 +120,6 @@ Freezor_Moving:
 {
     JSR.w Sprite3_CheckDamageToPlayer
     
-    ; $0372AA IN ROM
     JSL.l Sprite_CheckDamageFromPlayerLong : BCC .no_damage_contact
     	STZ.w $0EF0, X
     

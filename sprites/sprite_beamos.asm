@@ -4,7 +4,7 @@
 ; $028F54-$028FC1 LOCAL JUMP LOCATION
 Sprite_Beamos:
 {
-    ; Usually/always zero? Can't tell
+    ; Usually/always zero? Can't tell.
     LDA.w $0DB0, X : BEQ .is_beamos_station
         CMP.b #$01 : BNE .is_collided_laser_sprite
             JMP Sprite_BeamosLaser
@@ -42,7 +42,7 @@ Sprite_Beamos:
             CMP.b #$0F : BNE .dont_fire_beam
                 PHA
                 
-                ; Fire za laser! (Comment kept because I like it. Shut up!)
+                ; Fire za laser!
                 JSR.w Beamos_FireBeam
                 
                 PLA

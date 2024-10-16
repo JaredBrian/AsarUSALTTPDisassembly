@@ -98,9 +98,11 @@ Hover_Moving:
     	LDY.w $0DE0, X
     
     	; Accelerate until timer elapses.
-    	LDA.w $0D50, X : CLC : ADC.w $CC79, Y : STA.w $0D50, X
+    	LDA.w $0D50, X
+        CLC : ADC.w Pool_Hover_Moving_x_acceleration_step, Y : STA.w $0D50, X
     
-    	LDA.w $0D40, X : CLC : ADC.w $CC7D, Y : STA.w $0D40, X
+    	LDA.w $0D40, X
+        CLC : ADC.w Pool_Hover_Moving_y_acceleration_step, Y : STA.w $0D40, X
     
     	LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
@@ -111,9 +113,12 @@ Hover_Moving:
     LDY.w $0DE0, X
     
     ; Decelerate until stopped.
-    LDA.w $0D50, X : CLC : ADC.w $CC81, Y : STA.w $0D50, X
+    LDA.w $0D50, X
+    CLC : ADC.w Pool_Hover_Moving_x_deceleration_step, Y : STA.w $0D50, X
     
-    LDA.w $0D40, X : CLC : ADC.w $CC85, Y : STA.w $0D40, X : BNE .still_decelerating
+    LDA.w $0D40, X
+    CLC : ADC.w Pool_Hover_Moving_y_deceleration_step, Y : STA.w $0D40, X
+    BNE .still_decelerating
     	STZ.w $0D80, X
     
     	LDA.b #$40 : STA.w $0DF0, X
