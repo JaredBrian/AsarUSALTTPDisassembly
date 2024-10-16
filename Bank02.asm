@@ -1263,8 +1263,8 @@ Credits_LoadScene_Dungeon:
     LDA.l Pool_Credits_LoadScene_Overworld_PrepGFX_sprite_palette, X
     ASL #2 : TAX
 
-    LDA.l $0ED462, X : STA.w $0AAD
-    LDA.l $0ED463, X : STA.w $0AAE
+    LDA.l UnderworldPaletteSets+2, X : STA.w $0AAD
+    LDA.l UnderworldPaletteSets+3, X : STA.w $0AAE
 
     ; Use indoor liftable sprites (pointless for an ending but whatever).
     LDA.b #$0A : STA.w $0AA4
@@ -1408,7 +1408,9 @@ Module_Dungeon:
 
     JSL.l PlayerOam_Main
     JSL.l HUD_RefillLogicLong
-    JML FloorIndicator ; Handles HUD floor indicator.
+
+    ; Handles HUD floor indicator.
+    JML.l FloorIndicator
 }
 
 ; =====================================================
@@ -1474,25 +1476,21 @@ Dungeon_TryScreenEdgeTransition:
 ; ==============================================================================
 
 ; $0108C1-$0108C4 DATA TABLE
-Pool_Dungeon_HandleEdgeTransitionMovement:
+Dungeon_HandleEdgeTransitionMovement_masks:
 {
-    .masks
     db $03, $03, $0C, $0C
 }
-
-; ==============================================================================
 
 ; $0108C5-$0108DD LONG JUMP LOCATION
 Dungeon_StartInterRoomTrans:
 {
     ; Forces Link to be moving on one axis (negates diagonal movement
     ; while scrolling).
-    LDA.b $67 : AND.l $0288C1, X : STA.b $67
+    LDA.b $67 : AND.l .masks, X : STA.b $67
 
     TXA
 
     JSL.l UseImplicitRegIndexedLongJumpTable
-
     dl HandleEdgeTransitionMovementEast  ; 0x00 - $B63A
     dl HandleEdgeTransitionMovementWest  ; 0x01 - $B6D9
     dl HandleEdgeTransitionMovementSouth ; 0x02 - $B77A
@@ -2138,7 +2136,7 @@ Underworld_SetBossOrSancMusicUponEntry:
             .nextEntry
 
                 DEX #2 : BMI .noSongChange
-            CMP.l $028954, X : BNE .nextEntry
+            CMP.l PendantBossRooms, X : BNE .nextEntry
 
             SEP #$20
 
@@ -2881,6 +2879,7 @@ Dungeon_ChangeBrightness:
     JSL.l OrientLampBg
     JSL.l Dungeon_ApproachFixedColor
 
+    ; OPTIMIZE: Why the long call?
     LDA.l $00009C : AND.b #$1F : CMP.l $7EC017 : BNE .notAtTarget
         STZ.b $11
         STZ.b $B0
@@ -3054,7 +3053,7 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
 
     LDX.w $048A
 
-    LDA.l $01C322, X : STA.b $EE
+    LDA.l LayerOfDestination_for_EE, X : STA.b $EE
 
     JSR.w SpiralStairs_MakeNearbyWallsHighPriority_Exiting
 
@@ -3226,9 +3225,9 @@ Module07_0E_13_SetRoomAndLayerAndCache:
 {
     LDX.w $048A
 
-    LDA.l $01C31F, X : STA.w $0476
+    LDA.l LayerOfDestination_for_0476, X : STA.w $0476
 
-    LDA.l $01C322, X : STA.b $EE
+    LDA.l LayerOfDestination_for_EE, X : STA.b $EE
 
     LDA.b #$10 : TSB.b $1C
 
@@ -3249,14 +3248,14 @@ Module07_0E_13_SetRoomAndLayerAndCache:
 ; $01120A-$011219 DATA TABLE
 Pool_RepositionLinkAfterSpiralStairs:
 {
+    ; $01120A
     .x_offsets
     dw -28, -28,  24,  24
 
+    ; $011212
     .y_offsets
     dw  16, -10, -10, -32
 }
-
-; ==============================================================================
 
 ; $01121A-$0112B0 LONG JUMP LOCATION
 RepositionLinkAfterSpiralStairs:
@@ -3282,12 +3281,15 @@ RepositionLinkAfterSpiralStairs:
     REP #$20
 
     ; Staircases and how they affect your X and Y coordinates.
-    LDA.b $22 : CLC : ADC.l $02920A, X : STA.b $22
-    LDA.b $20 : CLC : ADC.l $029212, X : STA.b $20
+    LDA.b $22
+    CLC : ADC.l Pool_RepositionLinkAfterSpiralStairs__x_offsets, X : STA.b $22
+    
+    LDA.b $20
+    CLC : ADC.l Pool_RepositionLinkAfterSpiralStairs__y_offsets, X : STA.b $20
 
     SEP #$20
 
-    ; See if the sprite layer is not enabled
+    ; See if the sprite layer is not enabled.
     LDA.b $1C : AND.b #$10 : BEQ .BRANCH_DELTA
         ; Is enabled.
         LDA.w $048A : CMP.b #$02 : BNE .BRANCH_GAMMA
@@ -3317,7 +3319,7 @@ RepositionLinkAfterSpiralStairs:
     LDA.w $048A : CMP.b #$02 : BEQ .BRANCH_EPSILON
         LDA.b #$10 : TSB.b $1C
 
-        LDA.b $1D : AND.b #$0F : STA .b$0F
+        LDA.b $1D : AND.b #$0F : STA. b$0F
 
         LDA.w $0492 : CMP.b #$02 : BEQ .BRANCH_GAMMA
             REP #$20
@@ -3378,8 +3380,8 @@ SpiralStairs_MakeNearbyWallsHighPriority_Exiting:
 ; $011319-$01131C LOCAL JUMP TABLE
 Pool_Dungeon_LandingWipe:
 {
-    dw Module07_0F_00_InitSpotlight ; 0x00 - $01132D
-    dw $9334                        ; 0x01 - $011334
+    dw Module07_0F_00_InitSpotlight    ; 0x00 - $932D
+    dw Module07_0F_01_OperateSpotlight ; 0x01 - $9334
 }
 
 ; $01131D-$01132C LOCAL JUMP LOCATION
@@ -3475,7 +3477,6 @@ Dungeon_StraightStairs:
     LDA.b $B0
 
     JSL.l UseImplicitRegIndexedLocalJumpTable
-
     dw Dungeon_StraightStairs_PrepAndReset      ; 0x00 - $93BB
     dw Dungeon_StraightStairs_FadeOut           ; 0x01 - $93ED
     dw Dungeon_StraightStairs_LoadAndPrepRoom   ; 0x02 - $9403
@@ -3667,9 +3668,9 @@ StraightStairs_11:
 
     LDX.w $048A
 
-    LDA.l $01C31F, X : STA.w $0476
+    LDA.l LayerOfDestination_for_0476, X : STA.w $0476
 
-    LDA.l $01C322, X : STA.b $EE : BEQ .BRANCH_EPSILON
+    LDA.l LayerOfDestination__for_EE, X : STA.b $EE : BEQ .BRANCH_EPSILON
         REP #$20
 
         LDA.w #$0020
@@ -4317,9 +4318,9 @@ BuildCrystalCutsceneTilemap:
     .BRANCH_ALPHA
 
         DEX #2
-    CMP.l $02895C, X : BNE .BRANCH_ALPHA
+    CMP.l CrystalBossRooms, X : BNE .BRANCH_ALPHA
 
-    LDA.l $0297FA, X : STA.b $08
+    LDA.l CrystalGraphicsTilemapLocation, X : STA.b $08
 
     REP #$10
 
@@ -4559,7 +4560,7 @@ Dungeon_PrepExitWithSpotlight:
 
     LDX.w $010E
 
-    LDA.l $02D82E, X : CMP.b #$03 : BNE .BRANCH_BETA
+    LDA.l EntranceData_musicTrack, X : CMP.b #$03 : BNE .BRANCH_BETA
         LDA.l $7EF3C5 : CMP.b #$02 : BCC .BRANCH_GAMMA
 
     .BRANCH_BETA
@@ -4775,7 +4776,7 @@ HoleToDungeon_FadeMusic:
 {
     LDX.w $010E
 
-    LDA.l $02D82E, X : CMP.b #$03 : BNE .not_legend_theme
+    LDA.l EntranceData_musicTrack, X : CMP.b #$03 : BNE .not_legend_theme
         LDA.l $7EF3C5 : CMP.b #$02 : BCC .dont_fade
 
     .not_legend_theme
@@ -4848,7 +4849,7 @@ HoleToDungeon_LoadDungeon:
     LDX.w $0AA1
 
     ; Use it to compress the appropriate animated tiles?
-    LDA.l $02811E, X : TAY
+    LDA.l AnimatedTileSheets, X : TAY
 
     JSL.l DecompDungAnimatedTiles
     JSL.l Dungeon_LoadAttrTable
@@ -6358,11 +6359,11 @@ Module_OverworldTable:
 OWOverlay:
 {
     ; $01246D
-    .HShift:
+    .HShift
     db  1,  0,  1,  0
 
     ; $012471
-    .VShift:
+    .VShift
     db  0, 17,  0, 17
 }
 
@@ -6455,8 +6456,8 @@ Module_Overworld:
                 LDA.b $1A : AND.b #$03 : BNE .skipMovement
                     LDA.w $0494 : INC A : AND.b #$03 : STA.w $0494 : TAX
 
-                    LDA.b $E1 : CLC : ADC.l $02A46D, X : STA.b $E1
-                    LDA.b $E7 : CLC : ADC.l $02A471, X : STA.b $E7
+                    LDA.b $E1 : CLC : ADC.l OWOverlay_HShift, X : STA.b $E1
+                    LDA.b $E7 : CLC : ADC.l OWOverlay_VShift, X : STA.b $E7
 
     .skipMovement
 
@@ -6597,7 +6598,6 @@ Overworld_PlayerControl:
 ; $0125EC-$01262B DATA
 Overworld_ActualScreenID:
 {
-    ; $0125EC
     db $00, $00, $02, $03, $03, $05, $05, $07
     db $00, $00, $0A, $03, $03, $05, $05, $0F
     db $10, $11, $12, $13, $14, $15, $16, $17
@@ -6813,7 +6813,8 @@ OverworldHandleTransitions:
 
         ; The "custom lost woods" asm hooks in right here.
         ; $012A7D Sets the OW area number
-        LDA.l $02A5EC, X : ORA.l $7EF3CA : STA.b $8A : STA.w $040A : TAX
+        LDA.l Overworld_ActualScreenID, X : ORA.l $7EF3CA
+        STA.b $8A : STA.w $040A : TAX
 
         LDA.l $7EF3CA : BEQ .lightWorld
             ; Check for moon pearl.
@@ -6871,7 +6872,7 @@ OverworldHandleTransitions:
 
         LDX.b $8A : LDA.l $7EFD40, X : STA.b $00
 
-        LDA.l $00FD1C, X
+        LDA.l OverworldPalettesScreenToSet, X
 
         JSL.l Overworld_LoadPalettes
         JSR.w Overworld_CgramAuxToMain
@@ -6895,7 +6896,7 @@ Overworld_LoadMapProperties:
     LDA.l $7EFCC0, X : STA.w $0AA3
 
     ; $0AA2 is the secondary background graphics index.
-    LDA.l $00FC9C, X : STA.w $0AA2
+    LDA.l GFXAA2ValsOW, X : STA.w $0AA2
 
     ; Overworld screen widths and heights match for DW and LW.
     TXA : AND.b #$3F : TAX
@@ -6921,7 +6922,7 @@ Overworld_LoadMapProperties:
     STY.w $0AA1
 
     ; $0AA4 = 0x01 in LW, 0x0B in DW.
-    LDA.l $00D8F4, X : STA.w $0AA4
+    LDA.l SheetsTable_0AA4, X : STA.w $0AA4
 
     REP #$30
 
@@ -7859,7 +7860,7 @@ OverworldMosaicTransition_RecoverDestinationPalettes:
 
     LDA.l $7EFD40, X : STA.b $00
 
-    LDA.l $00FD1C, X
+    LDA.l OverworldPalettesScreenToSet, X
 
     JSL.l Overworld_LoadPalettes
 
@@ -8276,7 +8277,7 @@ MirrorWarp_LoadSpritesAndColors:
 
     LDA.l $7EFD40, X : STA.b $00
 
-    LDA.l $00FD1C, X
+    LDA.l OverworldPalettesScreenToSet, X
 
     JSL.l Overworld_LoadPalettes
     JSL.l Overworld_SetScreenBGColorCacheOnly
@@ -8509,7 +8510,7 @@ Module09_2E_09_LoadPalettes:
 
     LDA.l $7EFD40, X : STA.b $00
 
-    LDA.l $00FD1C, X
+    LDA.l OverworldPalettesScreenToSet, X
 
     JSL.l Overworld_LoadPalettes
     JSL.l Palette_SetOwBgColor_Long
@@ -9321,7 +9322,7 @@ Dungeon_SaveRoomQuadrantData:
     TAX
 
     ; These determine the quadrants Link has seen in this room.
-    LDA.l $02B5CC, X : ORA.w $0408 : STA.w $0408
+    LDA.l QuadrantLayoutFlagBitfield, X : ORA.w $0408 : STA.w $0408
 
     JSR.w Underworld_SaveRoomData ; Save the room data and exit.
 
@@ -10416,11 +10417,11 @@ IntraroomTransitionCalculateLanding:
 
     .beta
 
-    CLC : ADC.l $02C0F8, X : TAX
+    CLC : ADC.l LinkLandingIndexOffset, X : TAX
 
     LDY.b #$08
 
-    LDA.l $02C0FC, X : BPL .positive
+    LDA.l UnderworldTransitionLandingCoordinate, X : BPL .positive
         LDY.b #$F8
 
     .positive
@@ -10489,7 +10490,7 @@ UnderworldTransition_MoveLinkOutDoor:
     LDX.w $0418
 
     ; Add to a multiple of 4 based on the current direction.
-    LDA.b $4E : CLC : ADC.l $02C0F8, X : TAX
+    LDA.b $4E : CLC : ADC.l LinkLandingIndexOffset, X : TAX
 
     LDY.b #$02
 
@@ -10512,7 +10513,7 @@ UnderworldTransition_MoveLinkOutDoor:
 
         TYA : ADC.b $21 : STA.b $21
 
-        LDA.b $20 : AND.b #$FE : CMP.l $02C0FC, X : BEQ .BRANCH_DELTA
+        LDA.b $20 : AND.b #$FE : CMP.l UnderworldTransitionLandingCoordinate, X : BEQ .BRANCH_DELTA
             .BRANCH_ZETA
 
             CLC
@@ -10531,7 +10532,7 @@ UnderworldTransition_MoveLinkOutDoor:
           CLC : ADC.b $22 : STA.b $22
     TYA : ADC.b $23 : STA.b $23
 
-    LDA.b $22 : AND.b #$FE : CMP.l $02C0FC, X : BNE .BRANCH_ZETA
+    LDA.b $22 : AND.b #$FE : CMP.l UnderworldTransitionLandingCoordinate, X : BNE .BRANCH_ZETA
         .BRANCH_DELTA
 
         SEC
@@ -12064,13 +12065,13 @@ Dungeon_LoadEntrance:
 
         ; Note that we are now storing data in bank $7E.
         ; Hence this goes to $7EF940, X
-        LDA.l $04F1DE, X : STA.w $F940, X
-        LDA.l $04F25E, X : STA.w $F9C0, X
-        LDA.l $04F2DE, X : STA.w $FA40, X
-        LDA.l $04F35E, X : STA.w $FAC0, X
-        LDA.l $04F36A, X : STA.w $FB40, X
-        LDA.l $04F3EA, X : STA.w $FBC0, X
-        LDA.l $04F46A, X : STA.w $FC40, X
+        LDA.l SpecialUnderworldObjects_pushable_block+$000, X : STA.w $F940, X
+        LDA.l SpecialUnderworldObjects_pushable_block+$080, X : STA.w $F9C0, X
+        LDA.l SpecialUnderworldObjects_pushable_block+$100, X : STA.w $FA40, X
+        LDA.l SpecialUnderworldObjects_pushable_block+$180, X : STA.w $FAC0, X
+        LDA.l SpecialUnderworldObjects_torch+$00, X           : STA.w $FB40, X
+        LDA.l SpecialUnderworldObjects_torch+$80, X           : STA.w $FBC0, X
+        LDA.l SpecialUnderworldObjects_torch, X               : STA.w $FC40, X
     INX #2 : CPX.b #$80 : BNE .loadPushBlocks
 
     LDX.b #$3E

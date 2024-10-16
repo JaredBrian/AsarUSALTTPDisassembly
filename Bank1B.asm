@@ -461,7 +461,8 @@ Pool_Overworld_Entrance:
     dw $0131, $0112, $016D, $0163
     dw $0173, $00FE, $0113, $0177
     
-    ; $0DB917 chr types indicating door entrances right
+    ; chr types indicating door entrances right
+    ; $0DB917
     .ValidDoorTypes_high
     dw $014A, $00C4, $014F, $0115
     dw $0114, $0174, $0155, $00F5
@@ -476,7 +477,7 @@ Pool_Overworld_Entrance:
     dw $0172, $01BD, $0152, $0167
 
     ; $0DB96F Area list for entrances
-    .EntranceScreens
+    .Screens
     dw $002C ; 0x00 - OW 2C - Link's house
     dw $0013 ; 0x01 - OW 13 - Sanctuary
     dw $001B ; 0x02 - OW 1B - Castle west wing
@@ -608,7 +609,7 @@ Pool_Overworld_Entrance:
     dw $0077 ; 0x80 - OW 77 - Dark ice rod big fairy
     
     ; $0DBA71 - Map16 list for entrances
-    .EntranceTileIndex
+    .TileIndex
     dw $0796 ; 0x00 - Link's house
     dw $01AA ; 0x01 - Sanctuary
     dw $0124 ; 0x02 - Castle west wing
@@ -738,6 +739,138 @@ Pool_Overworld_Entrance:
     dw $0D20 ; 0x7E - Stake puzzle heart piece cave
     dw $0208 ; 0x7F - Ice rod cave
     dw $0208 ; 0x80 - Dark ice rod big fairy
+
+    ; $0DBB73
+    .ID
+    db $01 ; 0x00 - ENTRANCE 01 - Link's house
+    db $02 ; 0x01 - ENTRANCE 02 - Sanctuary
+    db $03 ; 0x02 - ENTRANCE 03 - Castle west wing
+    db $04 ; 0x03 - ENTRANCE 04 - Castle lobby
+    db $05 ; 0x04 - ENTRANCE 05 - Castle east wing
+    db $06 ; 0x05 - ENTRANCE 06 - Old man cave west
+    db $07 ; 0x06 - ENTRANCE 07 - Old man cave east
+    db $08 ; 0x07 - ENTRANCE 08 - Eastern Palace
+    db $09 ; 0x08 - ENTRANCE 09 - Desert Palace lobby
+    db $0A ; 0x09 - ENTRANCE 0A - Desert Palace east
+    db $0B ; 0x0A - ENTRANCE 0B - Desert Palace west
+    db $0C ; 0x0B - ENTRANCE 0C - Desert Palace back
+    db $0D ; 0x0C - ENTRANCE 0D - Sahasrahla's house west
+    db $0E ; 0x0D - ENTRANCE 0E - Sahasrahla's house east
+    db $0F ; 0x0E - ENTRANCE 0F - Angry bro west
+    db $10 ; 0x0F - ENTRANCE 10 - Angry bro east
+    db $11 ; 0x10 - ENTRANCE 11 - Magic bat
+    db $12 ; 0x11 - ENTRANCE 12 - Lumberjack cave
+    db $13 ; 0x12 - ENTRANCE 13 - Super bunny bottom
+    db $14 ; 0x13 - ENTRANCE 14 - Super bunny top
+    db $15 ; 0x14 - ENTRANCE 15 - Turtle Rock laser pots
+    db $16 ; 0x15 - ENTRANCE 16 - Bumper cave bottom
+    db $17 ; 0x16 - ENTRANCE 17 - Bumper cave top
+    db $18 ; 0x17 - ENTRANCE 18 - Turtle Rock laser bridge
+    db $19 ; 0x18 - ENTRANCE 19 - Turtle Rock big chest
+    db $1A ; 0x19 - ENTRANCE 1A - East Death Mountain useless bottom
+    db $1B ; 0x1A - ENTRANCE 1B - East Death Mountain useless top
+    db $1C ; 0x1B - ENTRANCE 1C - Spiral cave exit
+    db $1D ; 0x1C - ENTRANCE 1D - Spiral cave top
+    db $1E ; 0x1D - ENTRANCE 1E - Paradox cave bottom
+    db $1F ; 0x1E - ENTRANCE 1F - Paradox cave middle
+    db $20 ; 0x1F - ENTRANCE 20 - Paradox cave top
+    db $21 ; 0x20 - ENTRANCE 21 - Kiki cave west
+    db $22 ; 0x21 - ENTRANCE 22 - Kiki cave east
+    db $23 ; 0x22 - ENTRANCE 23 - Spectacle rock
+    db $24 ; 0x23 - ENTRANCE 24 - Agahnim's Tower
+    db $25 ; 0x24 - ENTRANCE 25 - Swamp Palace
+    db $26 ; 0x25 - ENTRANCE 26 - Palace of Darkness
+    db $27 ; 0x26 - ENTRANCE 27 - Misery Mire
+    db $28 ; 0x27 - ENTRANCE 28 - Skull Woods west
+    db $29 ; 0x28 - ENTRANCE 29 - Skull Woods mummy statue
+    db $2A ; 0x29 - ENTRANCE 2A - Skull Woods big chest
+    db $2B ; 0x2A - ENTRANCE 2B - Skull Woods back
+    db $2C ; 0x2B - ENTRANCE 2C - Lost Woods hideout
+    db $2D ; 0x2C - ENTRANCE 2D - Ice Palace
+    db $2E ; 0x2D - ENTRANCE 2E - Death Mountain exit west
+    db $2F ; 0x2E - ENTRANCE 2F - Death Mountain exit from summit
+    db $30 ; 0x2F - ENTRANCE 30 - Old man home cave west
+    db $31 ; 0x30 - ENTRANCE 31 - Old man home cave east
+    db $32 ; 0x31 - ENTRANCE 32 - Hyrule Castle secret entrance
+    db $33 ; 0x32 - ENTRANCE 33 - Tower of Hera
+    db $34 ; 0x33 - ENTRANCE 34 - Thieves' Town
+    db $35 ; 0x34 - ENTRANCE 35 - Turtle Rock
+    db $36 ; 0x35 - ENTRANCE 36 - Pyramid drop
+    db $37 ; 0x36 - ENTRANCE 37 - Ganon's Tower
+    db $38 ; 0x37 - ENTRANCE 38 - Graveyard fairy
+    db $39 ; 0x38 - ENTRANCE 39 - Kakariko well
+    db $3A ; 0x39 - ENTRANCE 3A - Hookshot cave bottom
+    db $3B ; 0x3A - ENTRANCE 3B - Hookshot cave top
+    db $3C ; 0x3B - ENTRANCE 3C - Lost Woods chest game
+    db $3D ; 0x3C - ENTRANCE 3D - Swamp thief cave hideout
+    db $3E ; 0x3D - ENTRANCE 3E - Eastern snitch house
+    db $3F ; 0x3E - ENTRANCE 3F - Cucco easter egg
+    db $40 ; 0x3F - ENTRANCE 40 - Sick kid
+    db $41 ; 0x40 - ENTRANCE 41 - Spike cave
+    db $42 ; 0x41 - ENTRANCE 42 - Tavern front
+    db $43 ; 0x42 - ENTRANCE 43 - Tavern back
+    db $44 ; 0x43 - ENTRANCE 44 - Kakariko Inn
+    db $45 ; 0x44 - ENTRANCE 45 - Sahasrahla's hideout
+    db $46 ; 0x45 - ENTRANCE 46 - Kakariko shop
+    db $47 ; 0x46 - ENTRANCE 47 - Village of Outcasts chest game
+    db $48 ; 0x47 - ENTRANCE 48 - Village of Outcasts bombable hut
+    db $49 ; 0x48 - ENTRANCE 49 - Library
+    db $4A ; 0x49 - ENTRANCE 4A - Kakariko bombable hut
+    db $4B ; 0x4A - ENTRANCE 4B - Chicken hut
+    db $4C ; 0x4B - ENTRANCE 4C - Potion shop
+    db $4D ; 0x4C - ENTRANCE 4D - Aginah's cave
+    db $4E ; 0x4D - ENTRANCE 4E - Dam
+    db $4F ; 0x4E - ENTRANCE 4F - Mimic cave
+    db $50 ; 0x4F - ENTRANCE 50 - East Death Mountain fairy pond cave
+    db $51 ; 0x50 - ENTRANCE 51 - Circle of bushes heart piece cave
+    db $52 ; 0x51 - ENTRANCE 52 - Graveyard ledge heart piece cave
+    db $53 ; 0x52 - ENTRANCE 53 - Bomb shop
+    db $54 ; 0x53 - ENTRANCE 54 - C-shaped house
+    db $55 ; 0x54 - ENTRANCE 55 - Southeast of Eastern Ruins fairy cave
+    db $5E ; 0x55 - ENTRANCE 5E - Mire big fairy
+    db $60 ; 0x56 - ENTRANCE 60 - Dark World lumberjacks shop
+    db $58 ; 0x57 - ENTRANCE 58 - Lake Hylia shop
+    db $59 ; 0x58 - ENTRANCE 59 - Arrow game
+    db $5A ; 0x59 - ENTRANCE 5A - Dark World sanctuary cave
+    db $5B ; 0x5A - ENTRANCE 5B - King's tomb
+    db $5C ; 0x5B - ENTRANCE 5C - Waterfall of Wishing
+    db $5D ; 0x5C - ENTRANCE 5D - Pond of Happiness
+    db $5E ; 0x5D - ENTRANCE 5E - Big fairy (Eastern Ruins)
+    db $5F ; 0x5E - ENTRANCE 5F - Mire shed
+    db $60 ; 0x5F - ENTRANCE 60 - Village of Outcasts shop
+    db $61 ; 0x60 - ENTRANCE 61 - Blind's hut
+    db $62 ; 0x61 - ENTRANCE 62 - Watto's cave
+    db $63 ; 0x62 - ENTRANCE 63 - Fat Fairy
+    db $64 ; 0x63 - ENTRANCE 64 - Smithy's house
+    db $65 ; 0x64 - ENTRANCE 65 - Light World fortune teller (Kakariko)
+    db $66 ; 0x65 - ENTRANCE 66 - Dark World fortune teller
+    db $67 ; 0x66 - ENTRANCE 67 - South of Kakariko chest game
+    db $68 ; 0x67 - ENTRANCE 68 - Broccoli's house
+    db $69 ; 0x68 - ENTRANCE 69 - Bird hint NPC cave
+    db $6A ; 0x69 - ENTRANCE 6A - Hamburger Helper's cave
+    db $56 ; 0x6A - ENTRANCE 56 - Ice rod cave golden bee
+    db $5E ; 0x6B - ENTRANCE 5E - Big fairy (South of Link's house)
+    db $5E ; 0x6C - ENTRANCE 5E - Big fairy (South of Kiki)
+    db $58 ; 0x6D - ENTRANCE 58 - Dark Death Mountain shop
+    db $60 ; 0x6E - ENTRANCE 60 - Dark World witch shop
+    db $5E ; 0x6F - ENTRANCE 5E - Dark West Death Mountain big fairy
+    db $4D ; 0x70 - ENTRANCE 4D - Aginah's cave
+    db $5E ; 0x71 - ENTRANCE 5E - Desert big fairy
+    db $65 ; 0x72 - ENTRANCE 65 - Light World fortune teller (Lake Hylia)
+    db $60 ; 0x73 - ENTRANCE 60 - Dark Lake Hylia shop
+    db $57 ; 0x74 - ENTRANCE 57 - East of Village of Outcasts shop
+    db $6B ; 0x75 - ENTRANCE 6B - Bumpkin residency
+    db $71 ; 0x76 - ENTRANCE 71 - Link's house bonk rocks fairy pond
+    db $71 ; 0x77 - ENTRANCE 71 - Bomb shop bonk rocks fairy pond
+    db $6D ; 0x78 - ENTRANCE 6D - Desert thief hideout
+    db $6E ; 0x79 - ENTRANCE 6E - Bonk rocks heart piece cave
+    db $6F ; 0x7A - ENTRANCE 6F - Lake Hylia falls thief hideout
+    db $70 ; 0x7B - ENTRANCE 70 - Dark Lake Hylia falls spike cave
+    db $6C ; 0x7C - ENTRANCE 6C - Mini moldorm cave
+    db $72 ; 0x7D - ENTRANCE 72 - Checkerboard cave heart piece
+    db $83 ; 0x7E - ENTRANCE 83 - Stake puzzle heart piece cave
+    db $84 ; 0x7F - ENTRANCE 84 - Ice rod cave
+    db $5E ; 0x80 - ENTRANCE 5E - Dark ice rod big fairy
 }
 
 ; $0DBBF4-$0DBD79 LONG JUMP LOCATION
@@ -831,15 +964,15 @@ Overworld_Entrance:
     
     .BRANCH_EPSILON
     
-    LDA.l $0F8004, X : AND.w #$01FF : STA.b $00
-    LDA.l $0F8006, X : AND.w #$01FF : STA.b $02
+    LDA.l Map16Definitions_2, X : AND.w #$01FF : STA.b $00
+    LDA.l Map16Definitions_3, X : AND.w #$01FF : STA.b $02
     
     LDX.w #$0056
     
     .loop
     
-        LDA.b $00 : CMP.l $1BB8BF, X : BNE .BRANCH_ZETA
-            LDA.b $02 : CMP.l $1BB917, X : BEQ .BRANCH_KAPPA
+        LDA.b $00 : CMP.l Pool_Overworld_Entrance_ValidDoorTypes_low, X : BNE .BRANCH_ZETA
+            LDA.b $02 : CMP.l Pool_Overworld_Entrance_ValidDoorTypes_high, X : BEQ .BRANCH_KAPPA
         
         .BRANCH_ZETA
     DEX #2 : BPL .loop
@@ -857,7 +990,8 @@ Overworld_Entrance:
     
     INC.w $04B8
     
-    ; "You can't enter with something following you" (this variable holds the message index.)
+    ; "You can't enter with something following you" (this variable holds
+    ; the message index.)
     LDA.w #$0005 : STA.w $1CF0
     
     SEP #$30
@@ -878,8 +1012,8 @@ Overworld_Entrance:
         .BRANCH_OMICRON
         
             DEX #2 : BMI .BRANCH_XI
-        CMP.l $1BBA71, X : BNE .BRANCH_OMICRON
-    LDA.w $040A : CMP.l $1BB96F, X : BNE .BRANCH_PI
+        CMP.l Pool_Overworld_Entrance_TileIndex, X : BNE .BRANCH_OMICRON
+    LDA.w $040A : CMP.l Pool_Overworld_Entrance_Screens, X : BNE .BRANCH_PI
     
     LDA.l $7EF3D3 : AND.w #$00FF : BNE .BRANCH_RHO
         LDA.w $02DA : AND.w #$00FF : CMP.w #$0001 : BEQ .BRANCH_LAMBDA
@@ -897,7 +1031,7 @@ Overworld_Entrance:
     
     SEP #$30
     
-    LDA.l $1BBB73, X : STA.w $010E
+    LDA.l Pool_Overworld_Entrance_ID, X : STA.w $010E
     
     STZ.b $4D : STZ.b $46
     
@@ -1188,12 +1322,14 @@ RockSmashReplaceOffset:
     dw -130 ; from bottom right
     
     ; $0DBF54
+    .tile2
     dw    0 ; from top left
     dw    0 ; from top right
     dw -128 ; from bottom left
     dw -128 ; from bottom right
     
     ; $0DBF5C
+    .tile3
     dw    0 ; from top left
     dw   -2 ; from top right
     dw    0 ; from bottom left
@@ -1208,12 +1344,12 @@ Overworld_GetLinkMap16Coords:
     LDA.b $2F : AND.w #$00FF : TAX
 
     LDA.b $20
-    CLC : ADC.l $07D365, X : AND.w #$FFF0 : STA.b $00
+    CLC : ADC.l Liftable_CheckOffset_Y, X : AND.w #$FFF0 : STA.b $00
     SEC : SBC.w $0708      : AND.w $070A  : ASL #3
     STA.b $06
 
     LDA.b $22
-    CLC : ADC.l $07D36D, X : AND.w #$FFF0 : STA.b $02
+    CLC : ADC.l Liftable_CheckOffset_X, X : AND.w #$FFF0 : STA.b $02
     LSR #3
     SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $06
     TAX
@@ -1403,7 +1539,7 @@ Overworld_SmashRockPileFromHere:
     
     TXA : CLC
     
-    LDX.b $0C : ADC.l $1BBF4C, X : STA.w $0698 : TAX
+    LDX.b $0C : ADC.l RockSmashReplaceOffset_tile1, X : STA.w $0698 : TAX
     
     LDA.w #$0028 : STA.w $0692
     
@@ -1428,8 +1564,8 @@ Overworld_SmashRockPileFromHere:
     
     LDX.b $0C
     
-    LDA.b $00 : CLC : ADC.l $1BBF54, X : STA.b $00
-    LDA.b $02 : CLC : ADC.l $1BBF5C, X : STA.b $02
+    LDA.b $00 : CLC : ADC.l RockSmashReplaceOffset_tile2, X : STA.b $00
+    LDA.b $02 : CLC : ADC.l RockSmashReplaceOffset_tile3, X : STA.b $02
     
     JSL.l Overworld_DoMapUpdate32x32_Long
     JMP Overworld_LiftableTile_getTileAttribute
@@ -2682,25 +2818,24 @@ Overworld_SecretTileType:
 
 ; ==============================================================================
 
+; Routine is used for checking if there's secrets underneath a newly
+; exposed map16 tile.
 ; $0DC8A4-$0DC942 LOCAL JUMP LOCATION
 Overworld_RevealSecret:
 {
-    ; Routine is used for checking if there's secrets underneath a newly
-    ; exposed map16 tile
-    
     STX.b $04
     
     LDA.w $0B9C : AND.w #$FF00 : STA.w $0B9C
     
-    ; special areas don't have secrets
+    ; Special areas don't have secrets.
     LDA.b $8A : CMP.w #$0080 : BCS .failure
     
         ASL A : TAX
         
         ; Get pointer to secrets data for this area.
-        LDA.l $1BC2F9, X : STA.b $00
+        LDA.l OverworldData_HiddenItems, X : STA.b $00
         
-        ; Set source bank for data
+        ; Set source bank for data.
         LDA.w #$001B : STA.b $02
         
         LDY.w #$FFFD
@@ -2747,7 +2882,7 @@ Overworld_RevealSecret:
             
             LDA [$00], Y : AND.w #$000F : TAX
             
-            LDA.l $1BC89C, X : STA.b $0E
+            LDA.l Overworld_SecretTileType, X : STA.b $0E
     
     .failure
     
@@ -3307,7 +3442,7 @@ AnimateEntrance_Skull_step3:
         LDX.w #$0710
         LDA.w #$0E07
     
-        JSL.l $1BC97C
+        JSL.l Overworld_DrawPersistentMap16
     
         LDX.w #$0712
         LDA.w #$0E08
@@ -3401,15 +3536,14 @@ AnimateEntrance_Skull_step5:
 ; ==============================================================================
 
 ; $0DCCC8-$0DCCD3 JUMP TABLE
-Pool_MiseryMireEntrance_Main:
+MiseryMireEntrance_Main_handlers:
 {
-    .handlers
-    dw MiseryMireEntrance_PhaseOutRain
-    dw AnimateEntrance_Mire_step1 ; $0DCD41 Set up the rumbling noise 
-    dw AnimateEntrance_Mire_step2 ; $0DCD41 Do the first graphical change
-    dw AnimateEntrance_Mire_step3 ; $0DCDA9 Do the second graphical change
-    dw AnimateEntrance_Mire_step4 ; $0DCDD7 Do the third graphical change
-    dw AnimateEntrance_Mire_step5 ; $0DCE05
+    dw MiseryMireEntrance_PhaseOutRain ; 0x00 - $CD14
+    dw AnimateEntrance_Mire_step2      ; 0x01 - $CD41 Set up the rumbling noise 
+    dw AnimateEntrance_Mire_step2      ; 0x02 - $CD41 Do the first graphical change
+    dw AnimateEntrance_Mire_step3      ; 0x03 - $CDA9 Do the second graphical change
+    dw AnimateEntrance_Mire_step4      ; 0x04 - $CDD7 Do the third graphical change
+    dw AnimateEntrance_Mire_step5      ; 0x05 - $CE05
 }
 
 ; $0DCCD4-$0DCCF9 LOCAL JUMP LOCATION
@@ -3423,8 +3557,8 @@ MiseryMireEntrance_Main:
         LDA.b $1A : AND.w #$0001 : ASL A : TAX
         
         ; Shake the earth! This is the earthquake type effect.
-        LDA.l $01C961, X : STA.w $011A
-        LDA.l $01C965, X : STA.w $011C
+        LDA.l OverworldShake_Offsets_Y, X : STA.w $011A
+        LDA.l OverworldShake_Offsets_X, X : STA.w $011C
         
         SEP #$20
     
@@ -3432,22 +3566,19 @@ MiseryMireEntrance_Main:
     
     LDA.b $B0 : ASL A : TAX
     
-    JMP (Pool_MiseryMireEntrance_Main_handlers, X)
+    JMP (.handlers, X)
 }
 
 ; ==============================================================================
 
 ; $0DCCFA-$0DCD13 DATA
-Pool_MiseryMireEntrance_PhaseOutRain:
+MiseryMireEntrance_PhaseOutRain_phase_masks:
 {
-    .phase_masks
     db $FF, $F7, $F7, $FB, $EE, $EE, $EE, $EE
     db $EE, $EE, $AA, $AA, $AA, $AA, $AA, $AA
     db $AA, $88, $88, $88, $88, $80, $80, $80
     db $80, $80
 }
-
-; ==============================================================================
 
 ; NOTE: Assume a data bank register value of 0x00 here. Yeah, strange, I know.
 ; $0DCD14-$0DCD40 JUMP LOCATION
@@ -3803,7 +3934,7 @@ AnimateEntrance_TurtleRock_step7:
 {
     LDA.b $1A : LSR A : BCS .exit
         LDA.b $C8 : AND.b #$07 : BNE .skip_sfx7
-            JSL.l $00EDB1 ; $006DB1 IN ROM
+            JSL.l PaletteFilter_Restore
             
             LDA.b #$02 : STA.w $012F
         
@@ -3958,7 +4089,7 @@ AnimateEntrance_GanonsTower_step01:
     
     LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
     
-    JSL.l $0EDDFC ; $075DFC IN ROM
+    JSL.l HandleStakeField
     
     RTS
 }
@@ -3966,7 +4097,7 @@ AnimateEntrance_GanonsTower_step01:
 ; $0DCFF1-$0DD00D JUMP LOCATION
 AnimateEntrance_GanonsTower_step02:
 {
-    JSL.l $0EDDFC ; $075DFC IN ROM
+    JSL.l HandleStakeField
     
     LDA.b $1D : BNE .BRANCH_BETA
         INC.b $1D
@@ -6831,9 +6962,9 @@ Palettes_LoadAgahnim:
     
     JSR.w Palette_ArbitraryLoad
     
-    ; TODO: See if there is a way to reference the address directly here.
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
-    LDA.l $1BEC00 : CLC : ADC.w #$D4E0 : STA.b $00
+    LDA.l PaletteIDtoOffset_16bit_agah+$0E
+    CLC : ADC.w #PaletteData_spriteaux_00 : STA.b $00
     
     LDA.w #$01C2
     LDX.w #$0006

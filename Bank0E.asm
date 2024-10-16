@@ -1951,13 +1951,11 @@ Credits_SpriteDraw_Venus:
     LDA.w $0F00, X : BNE .BRANCH_ALPHA 
         JSL.l GetRandomInt : AND.b #$07 : TAX
             
-        ; TODO: Fix this address.
-        LDA.l $06C309, X : CLC : ADC.w $0FD8 : PHA
+        LDA.l Pool_Sprite_WishPond_x_offsets, X : CLC : ADC.w $0FD8 : PHA
             
         JSL.l GetRandomInt : AND.b #$07 : TAX
             
-        ; TODO: Fix this address.
-        LDA.l $06C311, X : CLC : ADC.w $0FDA
+        LDA.l Pool_Sprite_WishPond_y_offsets, X : CLC : ADC.w $0FDA
         
         PLX
         
@@ -5665,7 +5663,7 @@ Text_InitVwfState:
     STZ.w $0720
     STZ.w $0721
     STZ.w $0724
-    STZ.w $072525
+    STZ.w $0725
     STZ.w $0726
     STZ.w $0727
     
@@ -7836,20 +7834,18 @@ VWF_Choose1Or2:
 VWF_Scroll:
 {
     ; Data bank = 0x7F.
-    PHB : LDA.b #$7F : PHA : PLB =
+    PHB : LDA.b #$7F : PHA : PLB
     
     ; OPTIMIZE: Useless branch.
     ; (note this is unfiltered joypad 1 input) Look for A button presses.
     LDA.b $F2 : AND.b #$80 : BEQ .A_ButtonNotHeld
         ; Holding A down doesn't make any real difference.
-        ; OPTIMIZE: Why is this long?
         LDA.l $001CEA
         
         BRA .UselessAdditionalLogic
     
     .A_ButtonNotHeld
     
-    ; OPTIMIZE: Why is this long?
     LDA.l $001CEA
     
     .UselessAdditionalLogic
@@ -7907,7 +7903,6 @@ VWF_Scroll:
         
         SEP #$30
         
-        ; OPTIMIZE: Why are all these addresses long?
         LDA.l $001CDF : CLC : ADC.b #$01 : STA.l $001CDF
         AND.b #$0F : BNE .lineFinished
             ; This gets called after the text has moved up 0x10 pixels.
@@ -8632,7 +8627,7 @@ Text_GenerateMessagePointers:
     
     .keepGoing
     
-        ; $1C8000 => $E0000 IN ROM
+        ; $1C8000 => $0E0000 IN ROM
         LDA [$00] : AND.w #$00FF : TAY
         
         LDA !commandLengthTable, Y : AND.w #$00FF

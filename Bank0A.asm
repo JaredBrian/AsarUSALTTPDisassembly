@@ -1499,7 +1499,7 @@ WorldMapIcon_posy_spr3:
 
 ; ==============================================================================
 
-; $053E74-$053E86 DATA
+; $053E74-$053E85 DATA
 WorldMapIcon_posx_spr4:
 {
     dw $FF00 ; 0x00
@@ -1898,14 +1898,14 @@ WorldMap_HandleSprites:
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
             
-            LDA.l $0ABE2D, X : BMI .BRANCH_RHO
+            LDA.l WorldMapIcon_posx_spr2+1, X : BMI .BRANCH_RHO
                 STA.l $7EC10B
                 
-                LDA.l $0ABE2C, X : STA.l $7EC10A
-                LDA.l $0ABE3F, X : STA.l $7EC109
-                LDA.l $0ABE3E, X : STA.l $7EC108
+                LDA.l WorldMapIcon_posx_spr2+0, X : STA.l $7EC10A
+                LDA.l WorldMapIcon_posy_spr2+1, X : STA.l $7EC109
+                LDA.l WorldMapIcon_posy_spr2+0, X : STA.l $7EC108
                 
-                LDA.l $0ABF05, X : BEQ .BRANCH_SIGMA
+                LDA.l WorldMapIcon_tile_spr2+1, X : BEQ .BRANCH_SIGMA
                     CMP.b #$64 : BEQ .BRANCH_TAU
                         LDA.b $1A : AND.b #$10 : BNE .BRANCH_RHO
                             .BRANCH_TAU
@@ -1917,13 +1917,13 @@ WorldMap_HandleSprites:
                 LDX.b #$0C
                             
                 JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_RHO
-                     ; X = (map sprites indictaor << 1)
+                    ; X = (map sprites indictaor << 1)
                     LDA.l $7EF3C7 : ASL A : TAX
                                 
-                    LDA.l $0ABF05, X : BEQ .BRANCH_UPSILON
+                    LDA.l WorldMapIcon_tile_spr2+1, X : BEQ .BRANCH_UPSILON
                         STA.b $0D
                                     
-                        LDA.l $0ABF04, X : STA.b $0C
+                        LDA.l WorldMapIcon_tile_spr2+0, X : STA.b $0C
                                     
                         LDA.b #$02
                                     
@@ -1933,7 +1933,7 @@ WorldMap_HandleSprites:
 
                     LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                                 
-                    LDA.l $0ABF5E, X : STA.b $0D
+                    LDA.l WorldMap_RedXChars, X : STA.b $0D
                                 
                     LDA.b #$32 : STA.b $0C
                                 
@@ -1955,14 +1955,14 @@ WorldMap_HandleSprites:
         ; X = (map sprites indicator << 1)
         LDA.l $7EF3C7 : ASL A : TAX
         
-        LDA.l $0ABE51, X : BMI .BRANCH_CHI
+        LDA.l WorldMapIcon_posx_spr3+1, X : BMI .BRANCH_CHI
             STA.l $7EC10B
             
-            LDA.l $0ABE50, X : STA.l $7EC10A
-            LDA.l $0ABE63, X : STA.l $7EC109
-            LDA.l $0ABE62, X : STA.l $7EC108
+            LDA.l WorldMapIcon_posx_spr3+0, X : STA.l $7EC10A
+            LDA.l WorldMapIcon_posy_spr3+1, X : STA.l $7EC109
+            LDA.l WorldMapIcon_posy_spr3+0, X : STA.l $7EC108
             
-            LDA.l $0ABF17, X : BEQ .BRANCH_PSI
+            LDA.l WorldMapIcon_tile_spr3+1, X : BEQ .BRANCH_PSI
                 CMP.b #$64 : BEQ .BRANCH_OMEGA
                     LDA.b $1A : AND.b #$10 : BNE .BRANCH_CHI
                         .BRANCH_OMEGA
@@ -1977,10 +1977,10 @@ WorldMap_HandleSprites:
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL A : TAX
                 
-                LDA.l $0ABF17, X : BEQ .BRANCH_ALTIMA
+                LDA.l WorldMapIcon_tile_spr3+1, X : BEQ .BRANCH_ALTIMA
                     STA.b $0D
                     
-                    LDA.l $0ABF16, X : STA.b $0C
+                    LDA.l WorldMapIcon_tile_spr3+0, X : STA.b $0C
                     
                     LDA.b #$02
                     
@@ -1990,7 +1990,7 @@ WorldMap_HandleSprites:
 
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
-                LDA.l $0ABF5E, X : STA.b $0D
+                LDA.l WorldMap_RedXChars, X : STA.b $0D
                 LDA.b #$32 : STA.b $0C
                 LDA.b #$00
 
@@ -2010,14 +2010,14 @@ WorldMap_HandleSprites:
         ; X = (map sprites indicator << 1)
         LDA.l $7EF3C7 : ASL A : TAX
         
-        LDA.l $0ABE75, X : BMI .BRANCH_OPTIMUS
+        LDA.l WorldMapIcon_posx_spr4+1, X : BMI .BRANCH_OPTIMUS
             STA.l $7EC10B
             
-            LDA.l $0ABE74, X : STA.l $7EC10A
-            LDA.l $0ABE87, X : STA.l $7EC109
-            LDA.l $0ABE86, X : STA.l $7EC108
+            LDA.l WorldMapIcon_posx_spr4+0, X : STA.l $7EC10A
+            LDA.l WorldMapIcon_posy_spr4+1, X : STA.l $7EC109
+            LDA.l WorldMapIcon_posy_spr4+0, X : STA.l $7EC108
             
-            LDA.l $0ABF29, X : BEQ .BRANCH_ALIF
+            LDA.l WorldMapIcon_tile_spr4+1, X : BEQ .BRANCH_ALIF
                 CMP.b #$64 : BEQ .BRANCH_BET
                     LDA.b $1A : AND.b #$10 : BNE .BRANCH_OPTIMUS
                         .BRANCH_BET
@@ -2032,10 +2032,10 @@ WorldMap_HandleSprites:
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL A : TAX
                 
-                LDA.l $0ABF29, X : BEQ .BRANCH_DEL
+                LDA.l WorldMapIcon_tile_spr4+1, X : BEQ .BRANCH_DEL
                     STA.b $0D
                     
-                    LDA.l $0ABF28, X : STA.b $0C
+                    LDA.l WorldMapIcon_tile_spr4+0, X : STA.b $0C
                     
                     LDA.b #$02
                     
@@ -2045,7 +2045,7 @@ WorldMap_HandleSprites:
 
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
-                LDA.l $0ABF5E, X : STA.b $0D
+                LDA.l WorldMap_RedXChars, X : STA.b $0D
                 LDA.b #$32 : STA.b $0C
                 
                 LDA.b #$00
@@ -2065,14 +2065,14 @@ WorldMap_HandleSprites:
     JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_SIN
         LDA.l $7EF3C7 : ASL A : TAX
         
-        LDA.l $0ABE99, X : BMI .BRANCH_SIN
+        LDA.l WorldMapIcon_posx_spr5+1, X : BMI .BRANCH_SIN
             STA.l $7EC10B
             
-            LDA.l $0ABE98, X : STA.l $7EC10A
-            LDA.l $0ABEAB, X : STA.l $7EC109
-            LDA.l $0ABEAA, X : STA.l $7EC108
+            LDA.l WorldMapIcon_posx_spr5+0, X : STA.l $7EC10A
+            LDA.l WorldMapIcon_posy_spr5+1, X : STA.l $7EC109
+            LDA.l WorldMapIcon_posy_spr5+0, X : STA.l $7EC108
             
-            LDA.l $0ABF3B, X : BEQ .BRANCH_SHIN
+            LDA.l WorldMapIcon_tile_spr5+1, X : BEQ .BRANCH_SHIN
                 CMP.b #$64 : BEQ .BRANCH_SOD
                     LDA.b $1A : AND.b #$10 : BNE .BRANCH_SIN
                         .BRANCH_SOD
@@ -2086,10 +2086,10 @@ WorldMap_HandleSprites:
             JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_SIN
                 LDA.l $7EF3C7 : ASL A : TAX
                 
-                LDA.l $0ABF3B, X : BEQ .BRANCH_DOD
+                LDA.l WorldMapIcon_tile_spr5+1, X : BEQ .BRANCH_DOD
                     STA.b $0D
                     
-                    LDA.l $0ABF3A, X : STA.b $0C
+                    LDA.l WorldMapIcon_tile_spr56+0, X : STA.b $0C
                     
                     LDA.b #$02
                     
@@ -2099,7 +2099,7 @@ WorldMap_HandleSprites:
 
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
-                LDA.l $0ABF5E, X : STA.b $0D
+                LDA.l WorldMap_RedXChars, X : STA.b $0D
                 LDA.b #$32 : STA.b $0C
                 
                 LDA.b #$00
@@ -2119,14 +2119,14 @@ WorldMap_HandleSprites:
     JSR.w OverworldMap_CheckCrystal : BCS .restore_coords_and_exit
         LDA.l $7EF3C7 : ASL A : TAX
         
-        LDA.l $0ABEBD, X : BMI .restore_coords_and_exit
+        LDA.l WorldMapIcon_posx_spr6+1, X : BMI .restore_coords_and_exit
             STA.l $7EC10B
             
-            LDA.l $0ABEBC, X : STA.l $7EC10A
-            LDA.l $0ABECF, X : STA.l $7EC109
-            LDA.l $0ABECE, X : STA.l $7EC108
+            LDA.l WorldMapIcon_posx_spr6+0, X : STA.l $7EC10A
+            LDA.l WorldMapIcon_posy_spr6+1, X : STA.l $7EC109
+            LDA.l WorldMapIcon_posy_spr6+0, X : STA.l $7EC108
             
-            LDA.l $0ABF4D, X : BEQ .BRANCH_FATHA
+            LDA.l WorldMapIcon_tile_spr6+1, X : BEQ .BRANCH_FATHA
                 CMP.b #$64 : BEQ .BRANCH_KESRA
                     LDA.b $1A : AND.b #$10 : BNE .restore_coords_and_exit
                         .BRANCH_KESRA
@@ -2141,10 +2141,10 @@ WorldMap_HandleSprites:
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL A : TAX
                 
-                LDA.l $0ABF4D, X : BEQ .BRANCH_DUMMA
+                LDA.l WorldMapIcon_tile_spr6+1, X : BEQ .BRANCH_DUMMA
                     STA.b $0D
                     
-                    LDA.l $0ABF4C, X : STA.b $0C
+                    LDA.l WorldMapIcon_tile_spr6+0, X : STA.b $0C
                     
                     LDA.b #$02
                     
@@ -2154,7 +2154,7 @@ WorldMap_HandleSprites:
 
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
-                LDA.l $0ABF5E, X : STA.b $0D
+                LDA.l WorldMap_RedXChars, X : STA.b $0D
                 LDA.b #$32 : STA.b $0C
                 
                 LDA.b #$00
@@ -2190,7 +2190,7 @@ WorldMap_CalculateOAMCoordinates:
         
         SEP #$20
         
-        LDA.l $0AC5DA, X : STA.b $0F
+        LDA.l WorldMap_SpritePositions, X : STA.b $0F
         
         SEP #$30
         
@@ -2284,7 +2284,7 @@ WorldMap_CalculateOAMCoordinates:
 
     .BRANCH_THETA
 
-    LDA.l $0AC5DA, X : STA.b $0F
+    LDA.l WorldMap_SpritePositions, X : STA.b $0F
     
     REP #$20
     
@@ -2547,13 +2547,10 @@ Overworldmap_CheckPendant:
 ; ==============================================================================
     
 ; $0545BF-$0545C5 DATA
-OverworldMap_CheckForCrystal:
+OverworldMap_CheckForCrystal_bit:
 {
-    .bit
     db $02, $40, $08, $20, $01, $04, $10
 }
-
-; ==============================================================================
 
 ; $0545C6-$0545D9 LOCAL JUMP LOCATION
 OverworldMap_CheckCrystal:
@@ -2562,7 +2559,7 @@ OverworldMap_CheckCrystal:
     ; (ones we've yet to obtain).
     LDA.l $7EF3C7 : CMP.b #$07 : BNE OverworldMap_CheckPendant_fail
         ; Check if we have that crystal.
-        LDA.l $7EF37A : AND.l $0AC5BF, X : BEQ OverworldMap_CheckPendant_fail
+        LDA.l $7EF37A : AND.l .bit, X : BEQ OverworldMap_CheckPendant_fail
             SEC
             
             RTS
@@ -4667,7 +4664,7 @@ DungeonMap_DrawSingleRowOfRooms:
                 LDX.w $040C
                 
                 ; Check if Link has the map.
-                LDA.l $7EF368 : AND.l $0098C0, X : BEQ .BRANCH_DEL
+                LDA.l $7EF368 : AND.l DungeonMask, X : BEQ .BRANCH_DEL
                     PLX : PLA
                     
                     LDA.b $0C : AND.w #$E3FF : ORA.w #$0C00
@@ -4689,7 +4686,7 @@ DungeonMap_DrawSingleRowOfRooms:
         LDX.w $040C
         
         ; Check if Link has the map.
-        LDA.l $7EF368 : AND.l $0098C0, X : BNE .BRANCH_THETA
+        LDA.l $7EF368 : AND.l DungeonMask, X : BNE .BRANCH_THETA
             LDA.b $0E : AND.w #$0008 : BNE .BRANCH_THETA
                 LDA.w #$0B00
                 
@@ -4723,7 +4720,7 @@ DungeonMap_DrawSingleRowOfRooms:
                 LDX.w $040C
                 
                 ; Check if Link has the map.
-                LDA.l $7EF368 : AND.l $0098C0, X : BEQ .BRANCH_SIN
+                LDA.l $7EF368 : AND.l DungeonMask, X : BEQ .BRANCH_SIN
                     PLX : PLA
                     
                     LDA.b $0C : AND.w #$E3FF : ORA.w #$0C00
@@ -4746,7 +4743,7 @@ DungeonMap_DrawSingleRowOfRooms:
         LDX.w $040C
         
         ; Check if we have the map for this dungeon.
-        LDA.l $7EF368 : AND.l $0098C0, X : BNE .BRANCH_NU
+        LDA.l $7EF368 : AND.l DungeonMask, X : BNE .BRANCH_NU
             LDA.b $0E : AND.w #$0004 : BNE .BRANCH_NU
                 LDA.w #$0B00
                 
@@ -4779,7 +4776,7 @@ DungeonMap_DrawSingleRowOfRooms:
                 LDX.w $040C
                 
                 ; Check if we have the map... again.
-                LDA.l $7EF368 : AND.l $0098C0, X : BEQ .BRANCH_SOD
+                LDA.l $7EF368 : AND.l DungeonMask, X : BEQ .BRANCH_SOD
                     PLX : PLA
                     
                     LDA.b $0C : AND.w #$E3FF : ORA.w #$0C00
@@ -4800,7 +4797,7 @@ DungeonMap_DrawSingleRowOfRooms:
         
         LDX.w $040C
         
-        LDA.l $7EF368 : AND.l $0098C0, X : BNE .BRANCH_SIGMA
+        LDA.l $7EF368 : AND.l DungeonMask, X : BNE .BRANCH_SIGMA
             LDA.b $0E : AND.w #$0002 : BNE .BRANCH_SIGMA
                 LDA.w #$0B00
                 
@@ -4833,7 +4830,7 @@ DungeonMap_DrawSingleRowOfRooms:
                 LDX.w $040C
                 
                 ; Check if Link has the map.
-                LDA.l $7EF368 : AND.l $0098C0, X : BEQ .BRANCH_TOD
+                LDA.l $7EF368 : AND.l DungeonMask, X : BEQ .BRANCH_TOD
                     PLX : PLA
                     
                     LDA.b $0C : AND.w #$E3FF : ORA.w #$0C00
@@ -4855,7 +4852,7 @@ DungeonMap_DrawSingleRowOfRooms:
         LDX.w $040C
         
         ; Check if Link has the map.
-        LDA.l $7EF368 : AND.l $0098C0, X : BNE .BRANCH_PSI
+        LDA.l $7EF368 : AND.l DungeonMask, X : BNE .BRANCH_PSI
             LDA.b $0E : AND.w #$0001 : BNE .BRANCH_PSI
                 LDA.w #$0B00
                 
@@ -5835,7 +5832,7 @@ DungeonMap_DrawBossIcon:
         REP #$20
         
         ; Check if we have the compass for this palace.
-        LDA.l $7EF364 : AND.l $0098C0, X : SEP #$20 : BEQ .dontShowBossIcon
+        LDA.l $7EF364 : AND.l DungeonMask, X : SEP #$20 : BEQ .dontShowBossIcon
             LDA.w DungeonMap_BossRoomFloor+1, X : BPL .palaceHasBoss
 
     .dontShowBossIcon

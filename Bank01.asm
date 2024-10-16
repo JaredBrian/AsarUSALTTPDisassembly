@@ -8288,7 +8288,7 @@ Dungeon_LoadAttrTable:
     JSR.w Dungeon_LoadDoorAttr
     
     LDA.l $7EC172 : BEQ .dontFlipBarrierAttr
-        JSL.l Dungeon_ToggleBarrierAttr ; $00C22A IN ROM
+        JSL.l Dungeon_ToggleBarrierAttr
     
     .dontFlipBarrierAttr
     
@@ -9297,7 +9297,7 @@ Dungeon_InitBarrierAttr:
     ; Check the orange/blue barrier state.
     LDA.l $7EC172 : BEQ .ignore
         ; If it's nonzero, flip the collision states for the barriers.
-        JSL.l Dungeon_ToggleBarrierAttr ; $00C22A IN ROM
+        JSL.l Dungeon_ToggleBarrierAttr
     
     .ignore
     
@@ -11655,7 +11655,7 @@ DontOpenDoor:
             STZ.b $0C
             
             CMP.w #$006C : BEQ .BRANCH_PSI
-                JMP .not_vines ; $00D18A IN ROM
+                JMP .not_vines
             
             .BRANCH_PSI
             

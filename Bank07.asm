@@ -537,7 +537,6 @@ Link_HandleBunnyTransformation:
                 LDY.b #$04
                 LDA.b #$23
                 
-                ; $04912C IN ROM
                 JSL.l AddTransformationCloud
                 
                 LDA.b #$14 : JSR.w Player_DoSfx2
@@ -1155,9 +1154,9 @@ LinkState_Recoil:
                 LDA.b #$15
                 LDY.b #$00
                 
-                JSL.l AddTransitionSplash ; $0498FC IN ROM
+                JSL.l AddTransitionSplash
                 
-                BRL .BRANCH_BETA ; Lol what?
+                BRL .BRANCH_BETA ; OPTIMIZ: Lol what?
 
             .BRANCH_BETA
 
@@ -1258,7 +1257,7 @@ Link_HandleRecoilAndTimer:
             LDA.b #$15
             LDY.b #$00
             
-            JSL.l AddTransitionSplash ; $0498FC IN ROM
+            JSL.l AddTransitionSplash
 
         .BRANCH_SIGMA
 
@@ -2400,7 +2399,7 @@ Link_SplashUponLanding:
             LDA.b #$15
             LDY.b #$00
             
-            JSL.l AddTransitionSplash  ; $0498FC IN ROM
+            JSL.l AddTransitionSplash
             
             PLY : PLX
             
@@ -2428,7 +2427,7 @@ Link_SplashUponLanding:
             LDA.b #$15
             LDY.b #$00
             
-            JSL.l AddTransitionSplash ; $0498FC IN ROM
+            JSL.l AddTransitionSplash
         
         .notRecoiling
         
@@ -3507,7 +3506,7 @@ HandleUnderworldLandingFromPit:
         LDA.b #$15
         LDY.b #$00
         
-        JSL.l AddTransitionSplash ; $0498FC IN ROM
+        JSL.l AddTransitionSplash
         
         LDA.b #$04 : STA.b $5D
         
@@ -4803,7 +4802,7 @@ Link_ResetSwordAndItemUsage:
                 LDY.b #$01
                 LDA.b #$1B
                 
-                JSL.l AddWallTapSpark ; $049395 IN ROM
+                JSL.l AddWallTapSpark
                 
                 LDA.b $48 : AND.b #$08 : BNE .BRANCH_MUNU
                     LDA.b $05 : JSR.w Player_DoSfx2
@@ -7059,7 +7058,7 @@ LinkState_Hookshotting:
                 LDA.b #$15
                 LDY.b #$00
                 
-                JSL.l AddTransitionSplash ; $0498FC IN ROM
+                JSL.l AddTransitionSplash
                 
                 LDA.b #$04 : STA.b $5D
                 
@@ -9479,7 +9478,6 @@ StartMovementCollisionChecks_Vertical:
     LDA.b #$15
     LDY.b #$00
     
-    ; $0498FC IN ROM
     JSL.l AddTransitionSplash : BCC .BRANCH_XI2
         LDA.b #$01 : STA.w $0345
         
@@ -9946,7 +9944,7 @@ Link_HandleEnteringWater_Vertical:
             LDY.b #$00
             
             ; Jump out of the water onto a docking area.
-            JSL.l AddTransitionSplash ; $0498FC IN ROM
+            JSL.l AddTransitionSplash
             
             BRL Link_HopInOrOutOfWater_Vertical
 
@@ -11029,7 +11027,7 @@ StartMovementCollisionChecks_Horizontal:
                 LDA.b #$15
                 LDY.b #$00
                 
-                JSL.l AddTransitionSplash ; $0498FC IN ROM
+                JSL.l AddTransitionSplash
                 
                 LDA.b #$01 : STA.w $037B
                 
@@ -11416,7 +11414,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                 LDA.b #$15
                 LDY.b #$00
                 
-                JSL.l AddTransitionSplash ; $0498FC IN ROM
+                JSL.l AddTransitionSplash
                 
                 LDA.b #$01 : STA.w $037B
                 

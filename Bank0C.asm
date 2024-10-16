@@ -803,7 +803,7 @@ Intro_FadeLogoIn:
     JSL.l Intro_HandleAllTriforceAnimations
     
     LDA.b $1A : LSR A : BCC .evenFrame
-        JSL.l $00ED7C ; $006D7C
+        JSL.l IntroLogoPaletteFadeIn
         
         LDA.l $7EC007 : BNE .BRANCH_2
             LDA.b #$2A : STA.b $B0
@@ -1030,14 +1030,14 @@ LoadTriforceSpritePalette:
 {
     REP #$20
     
-    LDA.l $0CC425 : STA.l $7EC6A0
-    LDA.l $0CC427 : STA.l $7EC6A2
-    LDA.l $0CC429 : STA.l $7EC6A4
-    LDA.l $0CC42B : STA.l $7EC6A6
-    LDA.l $0CC42D : STA.l $7EC6A8
-    LDA.l $0CC42F : STA.l $7EC6AA
-    LDA.l $0CC431 : STA.l $7EC6AC
-    LDA.l $0CC433 : STA.l $7EC6AE
+    LDA.l Palettes_Triforce+$00 : STA.l $7EC6A0
+    LDA.l Palettes_Triforce+$02 : STA.l $7EC6A2
+    LDA.l Palettes_Triforce+$04 : STA.l $7EC6A4
+    LDA.l Palettes_Triforce+$06 : STA.l $7EC6A6
+    LDA.l Palettes_Triforce+$08 : STA.l $7EC6A8
+    LDA.l Palettes_Triforce+$0A : STA.l $7EC6AA
+    LDA.l Palettes_Triforce+$0C : STA.l $7EC6AC
+    LDA.l Palettes_Triforce+$0E : STA.l $7EC6AE
     
     SEP #$30
     
@@ -1084,11 +1084,10 @@ Scene_AnimateEverySprite:
 
 ; ==============================================================================
 
+; FOR USE WITH $0643BD
 ; $064425-$064434 DATA
 Palettes_Triforce:
 {
-    ; FOR USE WITH $643BD
-    
     dw $0000, $014D, $01B0, $01F3, $0256, $0279, $02FD, $035F
 }
 
@@ -1960,8 +1959,8 @@ IntroPolyhedral_LockIntoPlace:
     DEC.w $1E01
     
     LDA.w $1E01 : BNE .exit
-        LDA.l $0CC433 : STA.l $7EC6AE
-        LDA.l $0CC434 : STA.l $7EC6AF
+        LDA.l Palettes_Triforce+$0E : STA.l $7EC6AE
+        LDA.l Palettes_Triforce+$0F : STA.l $7EC6AF
         
         INC.b $15
         
@@ -2646,7 +2645,7 @@ FileSelect_Main:
     PHB : PHK : PLB
     
     ; Main logic for the select screen.
-    JSL.l $0CCEDC ; ($064EDC)
+    JSL.l FileSelect_HandleInput
 
     ; Sets the tile map update flag and exits.
     JMP.w FileSelect_TriggerTheStripes
@@ -2699,7 +2698,7 @@ FileSelect_HandleInput:
         
         ; $048C, X; It holds the SRAM offsets.
         ; X = #$0, #$500, #$A00
-        LDA.l $00848C, X : TAX
+        LDA.l SaveFileCopyOffsets, X : TAX
         
         ; isValid variable
         ; If the file actually has this written, we do something.
@@ -2798,7 +2797,7 @@ FileSelect_HandleInput:
                 REP #$20
                 
                 ;  Obtain the SRAM offset of the save file we chose.
-                LDA.l $00848C, X : STA.b $00
+                LDA.l SaveFileCopyOffsets, X : STA.b $00
                 
                 ;  A = #$02, #$04, #$06
                 ; Indicates in SRAM which save slot was loaded last.
@@ -3150,7 +3149,7 @@ CopyFile_SelectionAndBlinker:
         STX.b $00
         
         LDA.b $BF, X : AND.w #$0001 : BEQ .BRANCH_4
-            LDA.l $00848C, X
+            LDA.l SaveFileCopyOffsets, X
             
             TXY
             
@@ -3386,7 +3385,7 @@ CopyFile_TargetSelectionAndBlink:
             LDA.b $BF, X : BEQ .BRANCH_6
                 LDA.w #$0006 : STA.b $02
                 
-                LDA.l $00848C, X : TAX
+                LDA.l SaveFileCopyOffsets, X : TAX
                 
                 .BRANCH_5
                 
@@ -3523,8 +3522,11 @@ CopyFile_HandleConfirmation:
         LDA.b $C8 : BNE .BRANCH_3
             REP #$30
             
-            LDX.b $CA : LDA.l $00848C, X : TAY
-            LDX.b $CC : LDA.l $00848C, X : TAX
+            LDX.b $CA
+            LDA.l SaveFileCopyOffsets, X : TAY
+
+            LDX.b $CC
+            LDA.l SaveFileCopyOffsets, X : TAX
             
             JSR.w CopyFile_CopyData
             
@@ -3705,7 +3707,7 @@ KILLFile_ChooseTarget:
         STX.b $00
         
         LDA.b $BF, X : AND.w #$0001 : BEQ .BRANCH_3
-            LDA.l $00848C, X : TAX
+            LDA.l SaveFileCopyOffsets, X : TAX
             
             JSR.w FileSelect_CopyNameToStripes
         
@@ -3872,7 +3874,7 @@ KILLFile_VerifyDeletion:
             
             STZ.b $BF, X
             
-            LDA.l $00848C, X : TAX
+            LDA.l SaveFileCopyOffsets, X : TAX
             
             LDY.w #$0000 : TYA
             
@@ -4031,7 +4033,7 @@ FileSelect_DrawLink:
     LDA.b $00 : AND.w #$00FF : TAX
     
     ; Get that SRAM offset again, Mirror it at $0E.
-    LDA.l $00848C, X : STA.b $0E
+    LDA.l SaveFileCopyOffsets, X : STA.b $0E
     
     SEP #$30
     
@@ -4400,7 +4402,7 @@ NameFile_EraseSave:
     ; Offsets for each of the save slots. #$0, #$500, #$A00, #$F00 for mirrors.
     ; $200 will hold the offset, And it will be the index in SRAM for the
     ; following loop.
-    LDA.l $00848C, X : STA.w $0200 : TAX
+    LDA.l SaveFileCopyOffsets, X : STA.w $0200 : TAX
     
     ; We're going to be putting zeroes in SRAM.
     LDY.w #$0000 : TYA
@@ -4473,7 +4475,7 @@ NameFile_MakeScreenVisible:
 Pool_NameFile:
 {
     ; $065935
-    .CharacterLayout:
+    .CharacterLayout
     db $06, $07, $5F, $09, $59, $59, $1A, $1B
     db $1C, $1D, $1E, $1F, $20, $21, $60, $23
     db $59, $59, $76, $77, $78, $79, $7A, $59
@@ -4491,9 +4493,8 @@ Pool_NameFile:
     db $59, $59, $5A, $44, $59, $6F, $6F, $59
     db $59, $59, $59, $59, $59, $59, $59, $5A
 
-
     ; $0659B5
-    .CursorPositionX:
+    .CursorPositionX
     dw $01F0, $0000, $0010, $0020
     dw $0030, $0040, $0050, $0060
     dw $0070, $0080, $0090, $00A0
@@ -4504,47 +4505,46 @@ Pool_NameFile:
     dw $01B0, $01C0, $01D0, $01E0
 
     ; $0659F5
-    .CursorIndexMovementX:
+    .CursorIndexMovementX
     dw $0001 ; Right
     dw $00FF ; Left
 
     ; $0659F9
-    .CursorIndexBoundaryX:
+    .CursorIndexBoundaryX
     dw $0020 ; Right
     dw $00FF ; Left
 
     ; $0659FD
-    .CursorIndexWrapX:
+    .CursorIndexWrapX
     dw $0000 ; Right
     dw $001F ; Left
 
     ; $065A01
-    .CursorPositionY:
+    .CursorPositionY
     db $83, $93, $A3, $B3
 
     ; $065A05
-    .CursorIndexMovementY:
+    .CursorIndexMovementY
     db $01, $FF
 
     ; $065A07
-    .CursorIndexBoundaryY:
+    .CursorIndexBoundaryY
     db $04, $FF
 
     ; $065A09
-    .CursorStickY:
+    .CursorStickY
     db $00, $03
 
     ; $065A0B
-    .YtoXIndexOffset:
+    .YtoXIndexOffset
     dw $0000, $0020, $0040, $0060
 
-
     ; $065A13
-    .HeartXPosition:
+    .HeartXPosition
     db $1F, $2F, $3F, $4F, $5F, $6F
 
     ; $065A19
-    .CursorMovement:
+    .CursorMovement
     dw  -1,   1,  -1,   1
     dw  -1,   1,  -1,   1
     dw  -1,   1,  -1,   1
@@ -4571,7 +4571,7 @@ NameFile_DoTheNaming:
         
         DEY
         
-        LDA.w $0630 : CMP.l $0CD9B5, X : BNE .BRANCH_4
+        LDA.w $0630 : CMP.l Pool_NameFile_CursorPositionX, X : BNE .BRANCH_4
             SEP #$20
             
             LDA.b #$30 : STA.w $0B13
@@ -4598,7 +4598,7 @@ NameFile_DoTheNaming:
         
         TYX
         
-        CLC : ADC.l $0CDA19, X : AND.w #$01FF : STA.w $0630
+        CLC : ADC.l Pool_NameFile_CursorMovement, X : AND.w #$01FF : STA.w $0630
         
         SEP #$20
         
@@ -4615,7 +4615,7 @@ NameFile_DoTheNaming:
         
         LDY.b #$02
         
-        LDA.w $0B11 : CMP.l $0CDA01, X : BNE .BRANCH_8
+        LDA.w $0B11 : CMP.l Pool_NameFile_CursorPositionY, X : BNE .BRANCH_8
             STZ.w $0B14
             
             JSR.w NameFile_CheckForScrollInputY
@@ -4664,7 +4664,7 @@ NameFile_DoTheNaming:
     
     LDX.w $0B12
     
-    LDA.l $0CDA13, X : STA.w $0800, Y
+    LDA.l Pool_NameFile_HeartXPosition, X : STA.w $0800, Y
     
     LDA.b #$58 : STA.w $0801, Y
     
@@ -4697,11 +4697,11 @@ NameFile_DoTheNaming:
     
     LDA.w $0B15 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $0CDA0B, X : CLC : ADC.w $0B10 : AND.w #$00FF : TAX
+    LDA.l Pool_NameFile_YtoXIndexOffset, X : CLC : ADC.w $0B10 : AND.w #$00FF : TAX
     
     SEP #$20
     
-    LDA.l $0CD935, X
+    LDA.l Pool_NameFile_CharacterLayout, X
     
     CMP.b #$5A : BEQ .BRANCH_16
         CMP.b #$44 : BEQ .BRANCH_18
@@ -4794,7 +4794,7 @@ NameFile_DoTheNaming:
     
     LDA.b $C8 : ASL A : INC #2 : STA.l $701FFE : TAX
     
-    LDA.l $00848A, X : STA.b $00 : TAX
+    LDA.l SaveFileOffsets, X : STA.b $00 : TAX
     
     LDA.w #$55AA : STA.l $7003E5, X
     
@@ -4806,11 +4806,12 @@ NameFile_DoTheNaming:
     
     ; Branch if it's not the first save game slot.
     LDY.w #$003C : CPX.w #$0000 : BNE .loadInitialEquipment
+        ; OPTIMIZE: Just add a BRA.
         ; Lol.... wow, this is checking if the end of the "get joypad input"
         ; routine ends with an RTS instruction or not. In otherwords, it's
         ; checking the game's own code to determine if the player 2 joypad is
         ; enabled interesting manuever, I must say.
-        LDA.l $0083F8 : AND.w #$00FF : CMP.w #$0060 : BEQ .loadInitialEquipment
+        LDA.l Player2JoypadReturn : AND.w #$00FF : CMP.w #$0060 : BEQ .loadInitialEquipment
             ; If the first letter of the player's name is not an uppercase 'B',
             ; no cheat code for you!
             LDA.l $7003D9 : CMP.w #$0001 : BNE .loadInitialEquipment
@@ -4898,8 +4899,10 @@ NameFile_CheckForScrollInputX:
         
         AND.w #$00FF : ASL A : TAX
         
-        LDA.w $0B10 : AND.w #$00FF : CLC : ADC.l $0CD9F5, X : CMP.l $0CD9F9, X : BNE .BRANCH_1
-            LDA.l $0CD9FD, X
+        LDA.w $0B10 : AND.w #$00FF
+        CLC : ADC.l Pool_NameFile_CursorIndexMovementX, X
+        CMP.l Pool_NameFile_CursorIndexBoundaryX, X : BNE .BRANCH_1
+            LDA.l Pool_NameFile_CursorIndexWrapX, X
         
         .BRANCH_1
         
@@ -4934,8 +4937,10 @@ NameFile_CheckForScrollInputY:
                 
                     TAX
                     
-                    LDA.w $0B15 : CLC : ADC.l $0CDA04, X : CMP.l $0CDA06, X : BNE .BRANCH_2
-                        LDA.l $0CDA08, X
+                    LDA.w $0B15
+                    CLC : ADC.l Pool_NameFile_CursorIndexMovementY-1, X
+                    CMP.l Pool_NameFile_CursorIndexBoundaryY-1, X : BNE .BRANCH_2
+                        LDA.l Pool_NameFile_CursorStickY-1, X
                     
                     .BRANCH_2
                     
@@ -4948,9 +4953,9 @@ NameFile_CheckForScrollInputY:
                     
                     LDX.w $0B15
                     
-                    LDA.l $0CDA0B, X : CLC : ADC.w $0B10 : AND.b #$FF : TAX
+                    LDA.l Pool_NameFile_YtoXIndexOffset, X : CLC : ADC.w $0B10 : AND.b #$FF : TAX
                     
-                    LDA.l $0CD935, X
+                    LDA.l Pool_NameFile_CharacterLayout, X
                     
                     .BRANCH_3
                     
@@ -5822,14 +5827,14 @@ Attract_InitGraphics:
     DEX : BPL .zeroVars
     
     JSL.l Vram_EraseTilemaps_normal
-    JSL.l $00E36D ; $00636D
+    JSL.l Attract_LoadBG3GFX
     
     LDA.b #$04 : STA.w $0AB3
     LDA.b #$01 : STA.w $0AB2
     
     STZ.w $0AA9
     
-    JSL.l Palette_Hud ; $0DEE52
+    JSL.l Palette_Hud
     
     LDA.b #$02 : STA.w $0AA9
     
@@ -6444,7 +6449,7 @@ Attract_MapZoom:
 ; ==============================================================================
 
 ; $0671AE-$0671C7 DATA
-Pool_AttractDramatize_ThroneRoom:
+Pool_Attract_ThroneRoom:
 {
     ; $0671AE
     .pointer_size
@@ -6481,8 +6486,6 @@ Pool_AttractDramatize_ThroneRoom:
     db $03 ; King
     db $05 ; Mantle
 }
-
-; ==============================================================================
 
 ; $0671C8-$06725F LONG JUMP LOCATION
 Attract_ThroneRoom:
@@ -6542,22 +6545,23 @@ Attract_ThroneRoom:
         
         REP #$20
         
-        LDA.l $0CF1AE, X : STA.b $2D
-        LDA.l $0CF1B2, X : STA.b $02
-        LDA.l $0CF1B6, X : STA.b $04
-        LDA.l $0CF1BA, X : STA.b $06
-        LDA.l $0CF1BE, X : STA.b $08
+        LDA.l Pool_Attract_ThroneRoom_pointer_size, X : STA.b $2D
+        LDA.l Pool_Attract_ThroneRoom_pointer_offset_x, X : STA.b $02
+        LDA.l Pool_Attract_ThroneRoom_pointer_offset_y, X : STA.b $04
+        LDA.l Pool_Attract_ThroneRoom_pointer_char, X : STA.b $06
+        LDA.l Pool_Attract_ThroneRoom_pointer_prop, X : STA.b $08
         
         TXA : AND.w #$00FF : LSR A : TAX
         
-        LDA.l $0CF1C4, X : AND.w #$00FF : SEC : SBC.w $0122 : STA.b $00
+        LDA.l Pool_Attract_ThroneRoom_offset_y, X
+        AND.w #$00FF : SEC : SBC.w $0122 : STA.b $00
         
         CMP.w #$FFE0 : SEP #$20 : BMI .spriteSetOffscreen
-            LDA.l $0CF1C2, X : STA.b $28
+            LDA.l Pool_Attract_ThroneRoom_offset_x, X : STA.b $28
             
             LDA.b $00 : STA.b $29
             
-            LDA.l $0CF1C6, X : TAY
+            LDA.l Pool_Attract_ThroneRoom_oam_count, X : TAY
             
             JSR.w Attract_DrawSpriteSet
         
@@ -6570,7 +6574,7 @@ Attract_ThroneRoom:
 ; ==============================================================================
 
 ; $067260-$067279 DATA
-Pool_AttractDramatize_Prison:
+Pool_Attract_Prison:
 {
     ; $067260
     .soldier_offset_x
@@ -6597,8 +6601,6 @@ Pool_AttractDramatize_Prison:
     db  4,  4,  3,  3
     db  2,  2,  1,  1
 }   
-
-; ==============================================================================
 
 ; $06727A-$067318 LONG JUMP LOCATION
 Attract_ZeldaPrison:
@@ -6630,7 +6632,8 @@ Attract_ZeldaPrison:
     
     LDA.b $31 : STA.b $40
     
-    LDA.b $30 : CLC : ADC.l $0CF26A, X : STA.b $28 : BCC .BRANCH_DELTA
+    LDA.b $30 : CLC : ADC.l Pool_Attract_Prison_maiden_jab_offset_x, X : STA.b $28
+    BCC .BRANCH_DELTA
         INC.b $40
     
     .BRANCH_DELTA
@@ -6645,10 +6648,10 @@ Attract_ZeldaPrison:
         
         LDA.b $33 : STA.b $06
         
-        LDA.b $29 : CLC : ADC.l $0CF264, X : STA.b $02
+        LDA.b $29 : CLC : ADC.l Pool_Attract_Prison_soldier_offset_y, X : STA.b $02
         
-        LDA.l $0CF266, X : STA.b $04
-        LDA.l $0CF268, X : STA.b $05
+        LDA.l Pool_Attract_Prison_soldier_direction, X : STA.b $04
+        LDA.l Pool_Attract_Prison_soldier_palette, X : STA.b $05
         
         PHX
         
@@ -6656,7 +6659,8 @@ Attract_ZeldaPrison:
         
         TXA : ASL A : TAX
         
-        LDA.b $30 : CLC : ADC.w #$0100 : CLC : ADC.l $0CF260, X : STA.b $00
+        LDA.b $30 : CLC : ADC.w #$0100
+        CLC : ADC.l Pool_Attract_Prison_soldier_offset_x, X : STA.b $00
         TAY : STY.b $34
         
         SEP #$20
@@ -6754,6 +6758,26 @@ Dramaghanim_WaitForCue:
 
 ; ==============================================================================
 
+; $067365-$067378 DATA
+Dramaghanim_MoveAndSpin:
+{
+    ; $067365
+    .pointers_char
+    dw AttractAgahnimOAM_char_step0
+    dw AttractAgahnimOAM_char_step1
+    dw AttractAgahnimOAM_char_step2
+    dw AttractAgahnimOAM_char_step3
+    dw AttractAgahnimOAM_char_step4
+
+    ; $06736F
+    .pointers_prop
+    dw AttractAgahnimOAM_prop_step0
+    dw AttractAgahnimOAM_prop_step1
+    dw AttractAgahnimOAM_prop_step2
+    dw AttractAgahnimOAM_prop_step0
+    dw AttractAgahnimOAM_prop_step0
+}
+
 ; $067379-$067400 LONG JUMP LOCATION
 Dramaghanim_MoveAndSpin:
 {
@@ -6816,8 +6840,8 @@ Dramaghanim_MoveAndSpin:
     LDA.w #$F8DF : STA.b $02
     LDA.w #$F8E5 : STA.b $04
     
-    LDA.l $0CF365, X : STA.b $06
-    LDA.l $0CF36F, X : STA.b $08
+    LDA.l Dramaghanim_MoveAndSpin_pointers_char, X : STA.b $06
+    LDA.l Dramaghanim_MoveAndSpin_pointers_prop, X : STA.b $08
     
     SEP #$20
     
@@ -6834,9 +6858,26 @@ Dramaghanim_MoveAndSpin:
 
 ; ==============================================================================
 
-; $067419-$067422 Jump Table
+; $067401-$067422 DATA
 Pool_Attract_MaidenWarp:
 {
+    ; $067401
+    .soldier_position_x
+    db $30, $C0, $30, $C0, $50, $A0
+
+    ; $067407
+    .soldier_position_y
+    db $70, $70, $98, $98, $C0, $C0
+
+    ; $06740D
+    .soldier_direction
+    db $00, $01, $00, $01, $03, $03
+
+    ; $067413
+    .soldier_palette
+    db $09, $09, $09, $09, $07, $09
+
+    ; $067419
     .vectors
     dw Dramagahnim_RaiseTheRoof            ; 0x00 - $F57B
     dw Dramagahnim_ReadySpell              ; 0x01 - $F592
@@ -6845,7 +6886,7 @@ Pool_Attract_MaidenWarp:
     dw Dramagahnim_IdleGuiltily            ; 0x04 - $F6E2
 }
 
-; $067423-$06754E LONG JUMP LOCATION
+; $067423-$06757A LONG JUMP LOCATION
 Attract_MaidenWarp:
 {
     LDA.b $5D : BEQ .sequenceNotFinished
@@ -6887,10 +6928,10 @@ Attract_MaidenWarp:
         STZ.b $03
         STZ.b $06
         
-        LDA.l $0CF401, X : STA.b $00
-        LDA.l $0CF407, X : STA.b $02
-        LDA.l $0CF40D, X : STA.b $04
-        LDA.l $0CF413, X : STA.b $05
+        LDA.l Pool_Attract_MaidenWarp_soldier_position_x, X : STA.b $00
+        LDA.l Pool_Attract_MaidenWarp_soldier_position_y, X : STA.b $02
+        LDA.l Pool_Attract_MaidenWarp_soldier_direction, X  : STA.b $04
+        LDA.l Pool_Attract_MaidenWarp_soldier_palette, X    : STA.b $05
         
         PHX
         
@@ -6927,7 +6968,7 @@ Attract_MaidenWarp:
         
         .BRANCH_KAPPA
         
-        LDA.l $0CF567, X : STA.b $06
+        LDA.l .maiden_char_pointer, X : STA.b $06
         
         LDA.w #$F931 : STA.b $08
         
@@ -6952,7 +6993,7 @@ Attract_MaidenWarp:
         
         LDA.w #$F933 : STA.b $2D
         
-        LDA.l $0CF54F, X : STA.b $02
+        LDA.l .shadow_offset_x_pointer, X : STA.b $02
         
         LDA.w #$F93F : STA.b $04
         LDA.w #$F941 : STA.b $06
@@ -6962,7 +7003,7 @@ Attract_MaidenWarp:
         
         TXA : LSR A : TAX
         
-        LDA.b #$74 : CLC : ADC.l $0CF55F, X : STA.b $28
+        LDA.b #$74 : CLC : ADC.l .shadow_base_offset_x, X : STA.b $28
         
         LDA.b #$76 : STA.b $29
         
@@ -6979,7 +7020,7 @@ Attract_MaidenWarp:
     LDA.w #$F8D9   : STA.b $2D
     LDA.w #$F8DF   : STA.b $02
     LDA.w #$F8E5   : STA.b $04
-    LDA.l $0CF56B, X : STA.b $06
+    LDA.l .agahnim_char_pointer, X : STA.b $06
     LDA.w #$F915   : STA.b $08
     
     SEP #$20
@@ -6992,6 +7033,38 @@ Attract_MaidenWarp:
     JSR.w Attract_DrawSpriteSet
     
     RTL
+
+    ; $06754F
+    .shadow_offset_x_pointer
+    dw AttractAltarMaidenShadowOAM_offset_x_step0
+    dw AttractAltarMaidenShadowOAM_offset_x_step0
+    dw AttractAltarMaidenShadowOAM_offset_x_step1
+    dw AttractAltarMaidenShadowOAM_offset_x_step1
+    dw AttractAltarMaidenShadowOAM_offset_x_step2
+    dw AttractAltarMaidenShadowOAM_offset_x_step2
+    dw AttractAltarMaidenShadowOAM_offset_x_step3
+    dw AttractAltarMaidenShadowOAM_offset_x_step4
+
+    ; $06755F
+    .shadow_base_offset_x
+    db  4,  4,  3,  3
+    db  2,  2,  1,  0
+
+    ; $067567
+    .maiden_char_pointer
+    dw AttractAltarMaidenOAM_char_step0
+    dw AttractAltarMaidenOAM_char_step1
+
+    ; $06756B
+    .agahnim_char_pointer
+    dw AttractAgahnimOAM_char_step3
+    dw AttractAgahnimOAM_char_step5
+    dw AttractAgahnimOAM_char_step3
+    dw AttractAgahnimOAM_char_step6
+    dw AttractAgahnimOAM_char_step3
+    dw AttractAgahnimOAM_char_step5
+    dw AttractAgahnimOAM_char_step3
+    dw AttractAgahnimOAM_char_step4
 }
 
 ; $06757B-$067581 LOCAL JUMP LOCATION
@@ -7020,9 +7093,8 @@ DramagahnimSpellPropPointer:
 }
 
 ; $06758A-$067591 DATA
-Pool_Dramagahnim_ReadySpell:
+Dramagahnim_ReadySpell_oam_count:
 {
-    .oam_count
     db  1
     db  1
     db  1
@@ -7044,8 +7116,8 @@ Dramagahnim_ReadySpell:
     LDA.w #$F953 : STA.b $02
     LDA.w #$F961 : STA.b $04
     
-    LDA.l $0CF582, X : STA.b $06
-    LDA.l $0CF586, X : STA.b $08
+    LDA.l DramagahnimSpellCharPointer, X : STA.b $06
+    LDA.l DramagahnimSpellPropPointer, X : STA.b $08
     
     SEP #$20
     
@@ -7054,7 +7126,7 @@ Dramagahnim_ReadySpell:
     
     LDA.b $51 : LSR A : AND.b #$07 : TAX
     
-    LDA.l $0CF58A, X : TAY
+    LDA.l Dramagahnim_ReadySpell_oam_count, X : TAY
     
     JSR.w Attract_DrawSpriteSet
     
@@ -7165,6 +7237,40 @@ Dramagahnim_CastSpell:
     RTS
 }
 
+; $067675-$067688
+Pool_Dramagahnim_Realize:
+{
+    ; $067675
+    .pointers_offset_x
+    dw AttractTelebubbleOAM_step0_offset_x
+    dw AttractTelebubbleOAM_step1_offset_x
+
+    ; $067679
+    .pointers_offset_y
+    dw AttractTelebubbleOAM_step0_offset_y
+    dw AttractTelebubbleOAM_step1_offset_y
+
+    ; $06767D
+    .pointers_char
+    dw AttractTelebubbleOAM_step0_char
+    dw AttractTelebubbleOAM_step1_char
+
+    ; $067681
+    .pointers_prop
+    dw AttractTelebubbleOAM_step0_prop
+    dw AttractTelebubbleOAM_step1_prop
+
+    ; $067685
+    .position_x
+    db $78
+    db $70
+
+    ; $067687
+    .object_count
+    db $00
+    db $01
+}
+
 ; $067689-$0676E1 LOCAL JUMP LOCATION
 Dramagahnim_RealizeWhatJustHappened:
 {
@@ -7189,20 +7295,20 @@ Dramagahnim_RealizeWhatJustHappened:
         
         LDA.w #$F9A7 : STA.b $2D
         
-        LDA.l $0CF675, X : STA.b $02
-        LDA.l $0CF679, X : STA.b $04
-        LDA.l $0CF67D, X : STA.b $06
-        LDA.l $0CF681, X : STA.b $08
+        LDA.l Pool_Dramagahnim_Realize_pointers_offset_x, X : STA.b $02
+        LDA.l Pool_Dramagahnim_Realize_pointers_offset_y, X : STA.b $04
+        LDA.l Pool_Dramagahnim_Realize_pointers_char, X     : STA.b $06
+        LDA.l Pool_Dramagahnim_Realize_pointers_prop, X     : STA.b $08
         
         SEP #$20
         
         TXA : LSR A : TAX
         
-        LDA.l $0CF685, X : STA.b $28
+        LDA.l Pool_Dramagahnim_Realize_position_x, X : STA.b $28
         
         LDA.b #$60 : STA.b $29
         
-        LDA.l $0CF687, X : TAY
+        LDA.l Pool_Dramagahnim_Realize_object_count, X : TAY
         
         JSR.w Attract_DrawSpriteSet
     
@@ -7357,13 +7463,13 @@ Attract_AdjustMapZoom:
     
     .adjustHdmaTableLoop
     
-        LDA.l $0ADD27, X : STA.w SNES.MultiplierB
+        LDA.l WorldMapHDMA_ZoomedOut_Part1+0, X : STA.w SNES.MultiplierB
         
         NOP #4
         
         LDA.w SNES.RemainderResultHigh : STA.b $00
         
-        LDA.l $0ADD28, X : STA.w SNES.MultiplierB
+        LDA.l WorldMapHDMA_ZoomedOut_Part1+1, X : STA.w SNES.MultiplierB
         
         NOP
         
@@ -7678,6 +7784,7 @@ Attract_WindowingHDMA:
     ; Use direct hdma to write from A bus to registers $2126 and $2127,
     ; alternating on channel 6.
     ; $067A9E
+    .settings
     db $01
     db $26
     dl .table_a ; $0CFA87
@@ -7691,7 +7798,8 @@ Attract_SetupHdma:
     
     .configLoop
     
-        LDA.l $0CFA9E, X : STA.w DMA.6_TransferParameters, X : STA.w DMA.7_TransferParameters, X
+        LDA.l Attract_WindowingHDMA_settings, X
+        STA.w DMA.6_TransferParameters, X : STA.w DMA.7_TransferParameters, X
     DEX : BPL .configLoop
     
     REP #$20

@@ -5376,7 +5376,6 @@ Guard_ParrySwordAttacks_main:
                             LDA.w $0E20, X : CMP.b #$6A : BEQ .BRANCH_EPSILON
                                 JSL.l GetRandomInt : AND.b #$07 : TAY
                                 
-                                ; $036B66 IN ROM
                                 LDA Pool_Guard_ParrySwordAttacks_main_recoilTimes, Y 
                                 STA.w $0EA0, X
                             
@@ -6572,7 +6571,6 @@ Sprite_CheckIfLiftedPermissive:
         ; Check if the current sprite is the same one Link is touching.
         LDA.w $02F4 : DEC A : CMP.w $0FA0 : BEQ .player_picks_up_sprite
             ; Set up player's hit box.
-            ; $037705 IN ROM
             JSR.w Player_SetupHitBox
             JSR.w Sprite_SetupHitBox
                         

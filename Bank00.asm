@@ -595,13 +595,9 @@ Vram_EraseTilemaps:
     RTL
 }
 
-; $0003D1-$00041D LOCAL JUMP LOCATION
+; $0003D1-$0003F7 LOCAL JUMP LOCATION
 NMI_ReadJoypads:
 {
-    !disableJoypad2 = "RTS"
-    !enableJoypad2  = "NOP"
-    !joypad2_action = !disableJoypad2
-    
     ; Probably indicates that we're not using the old style joypad reading.
     STZ.w $4016
     
@@ -621,7 +617,18 @@ NMI_ReadJoypads:
     ; Essentially the same procedure as above, but for the other half of JP1.
     LDA.b $01 : STA.b $F0 : TAY
     EOR.b $F8 : AND.b $F0 : STA.b $F4 : STY.b $F8
+
+    ; Bleeds into the next function.
+
+}
     
+; $0003F8-$00041D LOCAL JUMP LOCATION
+Player2JoypadReturn:
+{
+    !disableJoypad2 = "RTS"
+    !enableJoypad2  = "NOP"
+    !joypad2_action = !disableJoypad2
+
     !joypad2_action
     
     ; UNUSED: If it wasn't obvious, please note that the original game, coded

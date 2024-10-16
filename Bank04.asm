@@ -5470,7 +5470,7 @@ WaterOverlayData:
 ; $0271DE-$027369 DATA
 SpecialUnderworldObjects_pushable_block:
 {
-    ;           roomID, tilemap index
+    ; roomID, tilemap index
     dw $010B, $193A ; ROOM 010B
     dw $010B, $193E
 
