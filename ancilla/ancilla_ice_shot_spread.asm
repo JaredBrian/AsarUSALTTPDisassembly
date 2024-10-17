@@ -49,7 +49,7 @@ IceShotSpread_Draw:
     
     PHX
     
-    ; Load the amount of OAM ram this object needs.
+    ; Load the amount of OAM RAM this object needs.
     LDA.w $0C90, X
     
     JSR.w Ancilla_AllocateOam

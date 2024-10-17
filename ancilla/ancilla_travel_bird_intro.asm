@@ -157,9 +157,9 @@ Ancilla_TravelBirdIntro:
     
     LDY.w $0380, X
     
-    ; Indicate which chr to transfer to vram for the travel bird. There are
+    ; Indicate which chr to transfer to VRAM for the travel bird. There are
     ; only two states, but this is updated every frame.
-    LDA.w Pool_Ancilla_TravelBird_vram_offsets+1, Y : STA.w $0AF4
+    LDA.w Pool_Ancilla_TravelBird_VRAM_offsets+1, Y : STA.w $0AF4
     
     JSR.w Ancilla_PrepOamCoord
     

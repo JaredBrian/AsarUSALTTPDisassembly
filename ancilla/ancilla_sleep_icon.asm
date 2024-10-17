@@ -52,7 +52,7 @@ Ancilla_SleepIcon:
     LDY.w $0C5E, X
     
     ; This variable is used every NMI to update a small portion of the
-    ; tiles available in vram. This essentially causes the 'Z's to
+    ; tiles available in VRAM. This essentially causes the 'Z's to
     ; cycle through different animation states.
     LDA.w .tileset, Y : STA.w $0109
     

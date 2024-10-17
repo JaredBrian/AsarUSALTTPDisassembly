@@ -32,7 +32,7 @@ Pool_Ancilla_TravelBird:
     db $00, $F7, $F7
     
     ; $045DE4
-    .vram_offsets
+    .VRAM_offsets
     db $00, $20, $40, $E0
 }
 
@@ -233,7 +233,7 @@ Ancilla_TravelBird:
         
         SEP #$20
         
-        BRA .set_vram_offset
+        BRA .set_VRAM_offset
     
     .draw_logic
     
@@ -253,10 +253,10 @@ Ancilla_TravelBird:
     
     LDY.w $0380, X
     
-    .set_vram_offset
+    .set_VRAM_offset
     
-    ; Set chr vram upload offset for bird body.
-    LDA.w .vram_offsets, Y : STA.w $0AF4
+    ; Set chr VRAM upload offset for bird body.
+    LDA.w .VRAM_offsets, Y : STA.w $0AF4
     
     JSR.w Ancilla_PrepOamCoord
     
