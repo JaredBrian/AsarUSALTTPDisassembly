@@ -1,7 +1,7 @@
 ; ==============================================================================
 
 ; WRAM Map
-; WIP will eventually replace the RAM.log
+; WIP will eventually replace the WRAM.log
 
 ; ==============================================================================
 
@@ -33,8 +33,10 @@
 ; OAM = Object Attribute Memory
 ; OBJ = Object
 ; OW = Overworld
+; Poly = Polyhedral
 ; Pos = Position
 ; PPU = Picture Processing Unit
+; Ptr = Pointer
 ; SFX = Sound Effects
 ; TM = Tile Map
 ; V = Vertical
@@ -45,7 +47,7 @@ struct WRAM $7E0000
 {
     ; $00[0x10] (Main)
     .Work: skip $10
-        ; Generic work RAM. Used for temporary calculations. Should not be used
+        ; Generic work WRAM. Used for temporary calculations. Should not be used
         ; for anything that needs to be used accross multiple frames.
 
     ; $10[0x01] (Main)
@@ -101,8 +103,8 @@ struct WRAM $7E0000
     ; $14[0x01] - (Main, NMI, Tilemap)
     .BGTileMapUpdateFlag: skip $01
         ; Value based flag, that if nonzero, causes the tilemap to update from
-        ; one of several source addresses. Some are in ram, but most are in rom.
-        ; However, the ram address $001000 is most commonly used as the source
+        ; one of several source addresses. Some are in WRAM, but most are in rom.
+        ; However, the WRAM address $001000 is most commonly used as the source
         ; address buffer. The others are used for highly specific parts of the
         ; game code, such as the intro.
 
@@ -119,12 +121,12 @@ struct WRAM $7E0000
     .DMAMask: skip $01
         ; Value based flag that, if nonzero, indexes one of a set of specialized
         ; subroutines to execute. Examples of these are updating portions of the
-        ; sprite chr region in vram.
+        ; sprite chr region in VRAM.
 
     ; $18[0x01] - (GFX, Main, NMI)
     .GFXUpdateFlag: skip $01
         ; If nonzero, will read from a buffer starting at $001100, which will
-        ; indicate a series of 1 or more packets of data to transfer of vram.
+        ; indicate a series of 1 or more packets of data to transfer of VRAM.
         ; Each packet is limited to at most 0xff bytes. The usage of this
         ; flag and buffer interface is known to be limited to the dungeon
         ; module. Note that the buffer $001100 can also be used differently
@@ -258,7 +260,7 @@ struct WRAM $7E0000
     ; $2A[0x01] - (Player)
     .LinkYSubCoord: skip $01
         ; Player's subpixel Y coordinate
-        ; TODO: Also has a use in the attract mode like most of this early RAM.
+        ; TODO: Also has a use in the attract mode like most of this early WRAM.
 
     ; $2B[0x01] - (Player)
     .LinkXSubCoord: skip $01
@@ -282,7 +284,7 @@ struct WRAM $7E0000
         ; Acts as a timer for certain animations to advance LinkAnimationStep.
 
     ; $2D[0x02] - (Attract)
-    .AttractUnknownPointer: skip $01
+    .AttractUnknownPtr: skip $01
         ; Appears to serve as a pointer to sprite data of some sort. Exact scope
         ; of usage during this mode not known at this time.
 
@@ -485,7 +487,7 @@ struct WRAM $7E0000
 
     ; $4A[0x01] - (Free)
     .NotFree_4A: skip $01
-        ; Was marked as free RAM but appears to be cleared by tile detection
+        ; Was marked as free WRAM but appears to be cleared by tile detection
         ; routines.
 
     ; $4B[0x01] - (Player)
@@ -934,7 +936,7 @@ struct WRAM $7E0000
     ; contained in this tables:
 
     ; $90[0x02] - (OAM)
-    .OAMLowPointer: skip $02
+    .OAMLowPtr: skip $02
         ; Points to current position in the low OAM buffer (the first 0x200
         ; bytes). Each entry is 4-bytes per OAM tile. This will be written to
         ; SNES.OMADataWrite during NMI.   
@@ -955,7 +957,7 @@ struct WRAM $7E0000
         ; ($100-$FF). $100 = -256, -1 = $1FF, etc.
 
     ; $92[0x02] - (OAM)
-    .OAMHighPointer: skip $02
+    .OAMHighPtr: skip $02
         ; Points to current position in the high OAM table buffer (latter 0x20
         ; bytes). Each entry is 2 bits per OAM tile. This will be written to
         ; SNES.OMADataWrite during NMI.
@@ -1074,70 +1076,186 @@ struct WRAM $7E0000
         ; a - ORed in value of $A9
         ; u - Unused
 
-    ; $A9[0x01] - (Dungeon)
-        ; 0 if you are on the left half of the room. 1 if you are on the
-        ; right half.
+    ; $A9[0x01] - (Dungeon, Player)
+    .LinkQuadrantH: skip $01
+        ; 0 if you are on the left half of the room.
+        ; 1 if you are on the right half.
 
-    ; $AA[0x01] - (Dungeon)
-        ; 2 if you are the lower half of the room. 0 if you are on the
-        ; upper half.
+    ; $AA[0x01] - (Dungeon, Player)
+    .LinkQuadrantV: skip $01
+        ; 2 if you are the lower half of the room.
+        ; 0 if you are on the upper half.
 
-    ; $AB[0x02] - 
+    ; $AB[0x01] - (Free)
+    .Free_AB: skip $01
         ; Free RAM
 
-    ; $AD[0x01] - 
-        ; ??? collision?
+    ; $AC[0x01] - (Free)
+    .Free_AC: skip $01
+        ; Free RAM
 
-    ; $AE[0x01] - 
-        ; In dungeons, holds the Tag1 Value. (see hyrule magic)
+    ; $AD[0x01] - (Dungeon)
+    .LayerFloorEffect: skip $01
+        ; Original MoN comment: ??? collision?
+        ; Kan: Holds layer floor effect index
 
-    ; $AF[0x01] - 
-        ; In dungeons, holds the Tag2 Value. (see hyrule magic)
+    ; $AE[0x01] - (Dungeon)
+    .DunTag1: skip $01
+        ; In dungeons, holds the Tag1 Value. Kill all enemies to open door,
+        ; push button to open door, bush block for chest, etc. (See ZScream)
+        ; TODO: Add all the indexed tags here.
 
-    ; $B0[0x01] - 
+    ; $AF[0x01] - (Dungeon)
+    .DunTag2: skip $01
+        ; In dungeons, holds the Tag2 Value. Kill all enemies to open door,
+        ; push button to open door, bush block for chest, etc. (See ZScream)
+        ; TODO: Add all the indexed tags here.
+
+    ; $B0[0x01] - (Main)
+    .SunSubmodule: skip $01
         ; Sub-submodule index. (Submodules of the $11 submodule index.)
 
-    ; $B1[0x01] - 
+    ; $B1[0x01] - (Free)
+    .Free_B1: skip $01
         ; Free RAM?
+        ; TODO: Confirm is unused.
 
-    ; $B2[0x02] - 
+    ; $B2[0x02] - (Dungeon)
+    .DunDrawOBJWidth: skip $02
         ; Width indicator for drawing dungeon objects.
 
-    ; $B4[0x02] - 
+    ; $B4[0x02] - (Dungeon)
+    .DunDrawOBJHeight: skip $02
         ; Height indicator for drawing dungeon objects.
 
-    ; $B6[0x01] - 
+    ; $B6[0x01] - (Free)
+    .Free_B6: skip $01
         ; Free RAM
 
-    ; $B7[0x03] - 
+    ; $B7[0x03] - (Dungeon)
+    .DunOBJPtr: skip $01
         ; Used as a 3 byte pointer to be indirectly accessed during dungeon
         ; room loading.
+        ; TODO: Also something with palettes?
 
-    ; $BA[0x02] - 
+    ; $BA[0x02] - (Dungeon)
+    .DunOBJPtrOff: skip $01
         ; Often used as a position into a buffer of data during dungeon room
-        ; loading.
+        ; loading. Used as an offset for DunOBJPtr.
 
-    ; $BC[0x01] - 
+    ; $BC[0x01] - (Free)
+    .Free_BC: skip $01
         ; Free RAM
 
-    ; $BD[0x02] - 
-        ; (Bank 0x08) Used as a temporary for the Cane of Somaria creation
-        ; poof, or something like that.
+    ; $BD[0x02] - (GFX)
+    .GFX3BPPTemp1:
         ; (Bank 0x00) Temporary used in expanding 3bpp to 4bpp (high)
         ; graphics.
-        ; (Bank 0x07) Address recorded during tile interactions.
-        ; (Equipment) Seems to represent joypad input for selecting an item.
 
-    ; $BF[0x02] 
+    ; $BD[0x02] - (Dungeon, Overworld)
+    .TileInteractionOff: 
+        ; (Bank 0x07) The address of the current tile interaction in the tile buffer ($7F2000). Rupee floor, warp tile, ledges, grass, etc.
 
+    ; $BD[0x01] - (Item)
+    .SomariaPlatformPoofTemp:
+        ; (Bank 0x08) Used as a temporary for the Cane of Somaria creation
+        ; poof, or something like that.
 
-    ; $BF[0x21] - (Dungeon)
-        ; Used as a series of 3-byte pointers to tilemap buffer
-        ; offsets. Generally, they point to locations in the range
-        ; $7E2000 - $7E5fff
+    ; $BD[0x01] - (Equipment)
+    .EquipmentInputWait: skip $02
+        ; (Bank 0x0D) Temporary buffer for player input while selecting an item.
+        ; Prevents the cursor from moving over more than one slot per button
+        ; press.
 
-    ; $BF[0x??] - 
-        ; Used during the dungeon
+    ; $BF[0x02] - (GFX)
+    .GFX3BPPTemp2:
+        ; (Bank 0x00) Temporary used in expanding 3bpp to 4bpp (high)
+        ; graphics.
+
+    ; $BF[0x06] - (File)
+    .ValidFileArray1:
+        ; (Bank 0x0C) The first entry in an array of 1 word each, one for each
+        ; save file.
+        ; 0 if there is no save file in that slot.
+        ; 1 if there is a save file in that slot.
+        ; See ValidFileArray2 and ValidFileArray3.
+
+    ; $BF[0x30] - (Dungeon)
+    .DunDrawOBJAddLow: 
+        ; (Bank 0x01) 10 entries of 3 bytes each. Used as a series of long
+        ; pointers to tilemap buffer offsets. Generally, they point to locations
+        ; in the range $7E2000 - $7E5FFF. Used to draw objects on different BGs 
+        ; than where they were placed or on multiple BGs. See DunDrawOBJAddHigh.
+
+    ; $BF[0x01] - (Polyhedral)
+    .PolyUnknown_BF: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; $C0[0x30] - (Dungeon)
+    .DunDrawOBJAddHigh: 
+        ; (Bank 0x01) 10 entries of 3 bytes each. Used as a series of long
+        ; pointers to tilemap buffer offsets. Generally, they point to locations
+        ; in the range $7E2000 - $7E5FFF. Used to draw objects on different BGs 
+        ; than where they were placed or on multiple BGs. See DunDrawOBJAddLow.
+
+    ; $C0[0x01] - (Polyhedral)
+    .PolyUnknown_C0: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; $C1[0x02] - (File)
+    .ValidFileArray2:
+        ; (Bank 0x0C) The second entry in an array of 1 word each, one for each
+        ; save file.
+        ; 0 if there is no save file in that slot.
+        ; 1 if there is a save file in that slot.
+        ; See ValidFileArray1 and ValidFileArray3.
+
+    ; $C1[0x01] - (Polyhedral)
+    .PolyUnknown_C1: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; $C2[0x01] - (Polyhedral)
+    .PolyUnknown_C2: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; $C3[0x01] - (Polyhedral)
+    .PolyUnknown_C3:
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; $C3[0x02] - (File)
+    .ValidFileArray3: skip $01
+        ; (Bank 0x0C) The third entry in an array of 1 word each, one for each
+        ; save file.
+        ; 0 if there is no save file in that slot.
+        ; 1 if there is a save file in that slot.
+        ; See ValidFileArray1 and ValidFileArray2.
+
+    ; $C4[0x01] - (Polyhedral)
+    .PolyUnknown_C4: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; $C5[0x01] - (Polyhedral)
+    .PolyUnknown_C5: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; $C6[0x01] - (Polyhedral)
+    .PolyUnknown_C6: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; $C7[0x01] - (Polyhedral)
+    .PlayerRecoilUnknown: skip $01
+        ; Written to in bank 02 and 06. Something to do with recoil. Possibly
+        ; unused as its seems to be only written to. TODO: Confirm this.
+
+    ; $C8[0x03] - (GFX)
+    .GFXDecompressPtrLow:
+        ; (Bank 0x00) Used to store a pointer from GFXSheetPointers_sprite
+        ; during GFX decompression.
+
+    ; $C8[0x02] - (Credits)
+    .GFXDecompressPtrLow:
+        ; (Bank 0x0E) Used as a timer and possibly a line positions tracker
+        ; during the credits sequence. TODO: Confirm.
 
     ; $C8[0x01] - (in menus)
         ; Keeps track of what part of a menu you are in. For example, on the
@@ -1311,7 +1429,7 @@ struct WRAM $7E0000
 
     ; $0118[0x02] - 
         ; Local portion of an address used to transfer data from $7FXXXX to
-        ; vram whenever variable $19 is nonzero.
+        ; VRAM whenever variable $19 is nonzero.
 
     ; $011A[0x02] - 
         ; BG1 Y Offset. Gets applied to $0124. Can be used in quakes/shaking
@@ -2097,7 +2215,7 @@ struct WRAM $7E0000
         ; If set to 1, the effect will wait until it is set to 0 to activate.
 
     ; $0325[0x01] - (Free)
-        ; Free ram, with the caveat that it is cleared in some locations in Bank
+        ; Free RAM, with the caveat that it is cleared in some locations in Bank
         ; 0x08.
 
     ; $0326 - 
@@ -2492,29 +2610,29 @@ struct WRAM $7E0000
 
     ; $03C5[0x05] - (Ancilla)
 
-        ; Special Object ram.
+        ; Special Object WRAM.
 
     ; $03CA[0x05] - (Ancilla)
 
         ; Used by some special objects as the pseudo bg selector.
 
     ; $03CF - 
-        ; Special Object ram.
+        ; Special Object WRAM.
 
     ; $03D2 - 
-        ; Special Object ram.
+        ; Special Object WRAM.
 
     ; $03D5 - 
-        ; Special Object ram.
+        ; Special Object WRAM.
 
     ; $03DB[0x06] - (Ancilla)
-        ; Special Object ram.
+        ; Special Object WRAM.
 
     ; $03E1 - 
-        ; Special Object ram.
+        ; Special Object WRAM.
 
     ; $03E4 - 
-        ; Special object ram for tile interactions. Bombs and ice rod
+        ; Special object WRAM for tile interactions. Bombs and ice rod
         ; shots in particular use this.
 
     ; $03E9[0x01] - 
@@ -2605,7 +2723,7 @@ struct WRAM $7E0000
         ; Free RAM
 
     ; $0405 - 
-        ; Free ram? Never written to, but read in one instance in bank
+        ; Free RAM? Never written to, but read in one instance in bank
         ; 0x00.
 
     ; $0406 - 
@@ -2667,7 +2785,7 @@ struct WRAM $7E0000
 
     ; $0412 - 
         ; Index used during screen transitions to gradually, over the
-        ; course of several frames, transmit data to vram.
+        ; course of several frames, transmit data to VRAM.
         ; See variables $19 and $0118
 
     ; $0414 - 
@@ -3488,7 +3606,7 @@ struct WRAM $7E0000
         ; Stores tilemap positions of chests, big key chests,
         ; and big key locks. The array is 12 bytes long, and you can
         ; only have 6 chests in one room. 
-        ; (because of the layout of save game ram and associated code)
+        ; (because of the layout of save game WRAM and associated code)
         ; 
         ; Note: If the top bit is set, it's a Big Key lock, otherwise it's one of the chest types.
 
@@ -3539,7 +3657,7 @@ struct WRAM $7E0000
         ; 
         ; Generally speaking, $17 indexes some subroutines that require
         ; this flag to be set, or else we'd run past the blanking period
-        ; trying to blit everything to vram / oam / cgram, etc. Other
+        ; trying to blit everything to VRAM / oam / CGRAM, etc. Other
         ; operations may also require setting this flag.
 
     ; $0711 - 
@@ -3620,7 +3738,7 @@ struct WRAM $7E0000
     ; $0AA0 - 
         ; Seesms as though this variable is cached at various points in
         ; the code, though it doesn't seem to be used for anything
-        ; meaningful. Free ram, perhaps, if the existing code is modified.
+        ; meaningful. Free RAM, perhaps, if the existing code is modified.
 
     ; $0AA1[0x01] - (Graphics)
         ; Main Tile Theme index.
@@ -3807,7 +3925,7 @@ struct WRAM $7E0000
         ; Also a ROM Address for DMA transfers, usually is 0x200 higher than $0AF0
 
     ; $0AF4[0x02] - (NMI, TravelBird)
-        ; Used as a vram selector for the travel bird. Since that vram region
+        ; Used as a VRAM selector for the travel bird. Since that VRAM region
         ; is updated during every screen update (usually every frame), this
         ; effectively controls the animation state of the bird. Its 
         ; Note: While this is read as a 16-bit value usually, it's only written as
@@ -3906,7 +4024,7 @@ struct WRAM $7E0000
         ; sprites that block the way into the Desert Palace. It's designed to limit
         ; the number of these sprites that can appear at any one time. Typically this
         ; is because they can potentially have a large number of subsprites, which
-        ; can require additional ram to keep track of, which is limited.
+        ; can require additional WRAM to keep track of, which is limited.
 
     ; $0B6B[0x10] - (Sprite)
         ; ttttacbp
@@ -4783,7 +4901,7 @@ struct WRAM $7E0000
         ; p - palette
         ; N - name table
         ; The 'N' bit operates as the the top bit of the CHR index in our case,
-        ; because the game has the two name tables placed consecutively in vram.
+        ; because the game has the two name tables placed consecutively in VRAM.
 
     ; $0F60[0x10] - (Sprite)
         ; isphhhhh
@@ -4851,7 +4969,7 @@ struct WRAM $7E0000
     ; $0FAC[0x01] - (RepulseSpark)
         ; Controls the animation state of the repulse spark ancillary object.
         ; This is always set to 0x05 and then gradually counts down and then the
-        ; repulse spark becomes deactivated at value 0. Also, There is only RAM 
+        ; repulse spark becomes deactivated at value 0. Also, There is only WRAM 
         ; allocated for one repulse spark at any given time.
         ; Technically, this can be set to higher values, but all it does is induce
         ; higher waiting time before the repulse spark resolves and disappears.
@@ -5039,10 +5157,10 @@ struct WRAM $7E0000
         ; 
         ; 00ttttttssssssss
         ; 
-        ; w - If not set, vram target address increments on writes to $2118.
+        ; w - If not set, VRAM target address increments on writes to $2118.
         ; Otherwise, it increments on writes to $2119.
         ; ^ This documention is not 100% correct. I'll fix it when I have time.
-        ; Basically it determines whether or not to increment vram address by 1 or 32 words
+        ; Basically it determines whether or not to increment VRAM address by 1 or 32 words
         ; after each adjustment (write to $2118 or $2119)
 
     ; $1006 - 
@@ -5916,7 +6034,7 @@ struct WRAM $7E0000
     ; $7EF000[0x500] - Save Game Memory, which gets mapped to a slot in SRAM when
         ; you save your game. SRAM slots are at $70:0000, $70:0500,
         ; and $70:0A00. They are also mirrored in the next three
-        ; slots. See the sram documentation for more details.
+        ; slots. See the SRAM documentation for more details.
 
     ; $7EF500 - 
         ; Possibly Free RAM
