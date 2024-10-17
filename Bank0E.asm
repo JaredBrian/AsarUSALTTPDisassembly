@@ -4608,7 +4608,7 @@ Credits_InitializeTheActualCredits:
     ; Set up the screen values, resets HDMA, etc.
     JSL.l EnableForceBlank
 
-    JSL.l Vram_EraseTilemaps_normal
+    JSL.l VRAM_EraseTilemaps_normal
     JSL.l CopyFontToVram
     JSL.l Credits_LoadCoolBackground
     JSL.l Credits_InitializePolyhedral
@@ -4623,7 +4623,7 @@ Credits_InitializeTheActualCredits:
         
     JSL.l Palette_Hud
         
-    ; Note that cgram should be updated for the next frame.
+    ; Note that CGRAM should be updated for the next frame.
     INC.b $15
         
     REP #$20
@@ -5839,7 +5839,7 @@ Text_WritePlayerName:
     ; Check which file is active.
     LDA.l $701FFE : TAX
     
-    ; Get its offset in sram.
+    ; Get its offset in SRAM.
     LDA.l SaveFileOffsets, X : TAX
     
     LDY.w #$0000
@@ -8308,7 +8308,7 @@ Text_SetDefaultWindowPos:
     LDA.b $20 : SEC : SBC.b $E8 : CMP.w #$0078
     ROL A : EOR.w #$0001 : AND.w #$0001 : ASL A : TAX
     
-    ; Ultimately, a vram address gets stored here, so the system knows where to
+    ; Ultimately, a VRAM address gets stored here, so the system knows where to
     ; draw the tiles.
     LDA Text_Positions, X : STA.w $1CD2
     
@@ -8345,7 +8345,7 @@ Text_DrawBorderRow:
     
     INX #2
     
-    ; Our vram address will be moving "down", so increment by 32 words.
+    ; Our VRAM address will be moving "down", so increment by 32 words.
     XBA : CLC : ADC.w #$0020 : STA.w $1CD0
     
     ; Write 0x30 bytes, use incrementing dma mode, increment on writes to $2119.
@@ -8408,7 +8408,7 @@ Text_BuildCharacterTilemap:
 ; ==============================================================================
 
 ; This routine is where the tilemap actually gets configured to be transferred
-; to vram during the NMI interrupt.
+; to VRAM during the NMI interrupt.
 ; $075307-$075359 LOCAL JUMP LOCATION
 Text_DrawCharacterTilemap:
 {
@@ -8425,18 +8425,18 @@ Text_DrawCharacterTilemap:
     
     REP #$30
     
-    ; Move vram target address down one tile and to the right one tile from the
-    ; upper left corner of the message box's border address in vram.
+    ; Move VRAM target address down one tile and to the right one tile from the
+    ; upper left corner of the message box's border address in VRAM.
     LDA.w $1CD0 : CLC : ADC.w #$0021 : STA.w $1CD0
     
     .nextRow
     
-        ; Store vram address (big endian, not sure why they felt like it was
+        ; Store VRAM address (big endian, not sure why they felt like it was
         ; good to do that).
         LDA.w $1CD0 : XBA : STA.w $1002, X
         
         ; Make it so the dma will start one row down from this one (adding 0x20
-        ; to a vram address typically accopmlishes this if you can be sure that
+        ; to a VRAM address typically accopmlishes this if you can be sure that
         ; you'll remain in the same tilemap).
         XBA : CLC : ADC.w #$0020 : STA.w $1CD0
         
@@ -8547,7 +8547,7 @@ VWF_LinePositions:
 ; $07539F-$0753A6 DATA
 Text_Command_7C_Data:
 {
-    ; For use with command 0x7C (looks like items if you look at vram).
+    ; For use with command 0x7C (looks like items if you look at VRAM).
     dw $24B8, $24BA, $24BC, $24BE
 }
     
@@ -8556,7 +8556,7 @@ Text_Command_7C_Data:
 ; $0753A7-$0753AE DATA
 Pool_VWF_Command7B:
 {
-    ; For use with command 0x7B (looks like items if you look at vram).
+    ; For use with command 0x7B (looks like items if you look at VRAM).
     .unknown
     dw $24B8, $24BA, $24BC, $24BE
 }
@@ -9135,7 +9135,7 @@ LoadGearPalette:
 
     .nextColor
 
-        ; LDA from address $1BXXXX into auxiliary cgram buffer and normal cgra
+        ; LDA from address $1BXXXX into auxiliary CGRAM buffer and normal cgra
         ; buffer. 
         LDA [$00] : STA.l $7EC300, X : STA.l $7EC500, X
 

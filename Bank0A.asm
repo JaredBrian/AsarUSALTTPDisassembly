@@ -3873,8 +3873,8 @@ PalaceMap_SetupGraphics:
     LDA.b #$16 : STA.b $1C
     LDA.b #$01 : STA.b $1D
     
-    ; Writes blanks to $0000-$01FFF (byte addr) in vram. Clears BG2 tilemap.
-    JSL.l Vram_EraseTilemaps_palace
+    ; Writes blanks to $0000-$01FFF (byte addr) in VRAM. Clears BG2 tilemap.
+    JSL.l VRAM_EraseTilemaps_palace
     
     ; Perform the standard graphics decompression routine.
     JSL.l InitTilesets
@@ -4085,7 +4085,7 @@ Module0E_03_01_02_DrawFloorsBackdrop:
 
     .limitNotReached
 
-        ; Store big endian vram target address????
+        ; Store big endian VRAM target address????
         LDA.b $00 : XBA : STA.w $1002, Y
         
         INY #2
@@ -6006,7 +6006,7 @@ PalaceMap_RestoreGraphics:
     STZ.w SNES.HDMAChannelEnable
     STZ.b $9B
     
-    JSL.l Vram_EraseTilemaps_normal
+    JSL.l VRAM_EraseTilemaps_normal
     
     ; Restore main screen designation.
     LDA.l $7EC211 : STA.b $1C
@@ -6069,7 +6069,7 @@ PalaceMap_RestoreGraphics:
     
     JSL.l RecoverPegGFXFromMapping
     
-    ; Refresh cgram this frame.
+    ; Refresh CGRAM this frame.
     INC.b $15
     
     ; Move to next step of the submodule.

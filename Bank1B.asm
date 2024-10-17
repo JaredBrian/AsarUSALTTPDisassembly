@@ -2993,10 +2993,10 @@ Overworld_DrawMap16_Anywhere:
     
     LDY.w $1000
     
-    ; Write the base vram (tilemap) address of the first two tiles.
+    ; Write the base VRAM (tilemap) address of the first two tiles.
     LDA.b $02 : XBA : STA.w $1002, Y
     
-    ; Write the base vram address of the second two tiles.
+    ; Write the base VRAM address of the second two tiles.
     LDA.b $02 : CLC : ADC.w #$0020 : XBA : STA.w $100A, Y
     
     ; Probably indicates the number of tiles and some other information.
@@ -3082,7 +3082,7 @@ Overworld_AlterTileHardcore:
 
 ; ==============================================================================
 
-; I guess this calculates some sort of vram type address for an outdoor tile?
+; I guess this calculates some sort of VRAM type address for an outdoor tile?
 ; $0DCA69-$0DCA9E LOCAL JUMP LOCATION
 Overworld_FindMap16VRAMAddress:
 {
@@ -6072,7 +6072,7 @@ Palette_SpriteAux3:
     
     .useSP0
     
-    ; Write a palette consisting of 7 colors to cgram buffer
+    ; Write a palette consisting of 7 colors to CGRAM buffer
     LDX.w #$0006
     
     JSR.w Palette_SingleLoad

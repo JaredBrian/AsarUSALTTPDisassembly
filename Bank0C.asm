@@ -709,7 +709,7 @@ Intro_InitWram:
     
     .zeroLoop
     
-        ; Erases $7E0000-$7FFFF (all work ram).
+        ; Erases $7E0000-$7FFFF (all work WRAM).
         STA.l $7E2000, X : STA.l $7E4000, X
         STA.l $7E6000, X : STA.l $7E8000, X
         STA.l $7EA000, X : STA.l $7EC000, X
@@ -742,7 +742,7 @@ Intro_LoadTitleGraphics:
         
         ; $00093D
         JSL.l EnableForceBlank
-        JSL.l Vram_EraseTilemaps_normal
+        JSL.l VRAM_EraseTilemaps_normal
         
         LDA.b #$02 : STA.w SNES.OAMSizeAndDataDes
         
@@ -1007,7 +1007,7 @@ TriforceInitializePolyhedralModule:
     LDA.b #$60 : STA.w $1F05
     LDA.b #$01 : STA.w $1F01 : STA.w $1F03 : STA.w $012A : STA.w $1F00
     
-    ; Initialize RAM for starting Module 0x00.
+    ; Initialize WRAM for starting Module 0x00.
     LDX.b #$0F
     
     .loop
@@ -2474,7 +2474,7 @@ FileSelect_ReInitSaveFlagsAndEraseTriforce:
     LDA.b #$80 : STA.w $0710
     
     JSL.l EnableForceBlank
-    JSL.l Vram_EraseTilemaps_triforce
+    JSL.l VRAM_EraseTilemaps_triforce
     JSL.l Palette_SelectScreen
     
     INC.b $15
@@ -4985,7 +4985,7 @@ NameFile_CheckForScrollInputY:
 ; $065D24-$065D2F DATA
 Pool_NameFile_DrawSelectedCharacter:
 {
-    ; .vram_position_low
+    ; .VRAM_position_low
     dw $0084
     dw $0086
     dw $0088
@@ -5826,7 +5826,7 @@ Attract_InitGraphics:
         STZ.b $20, X
     DEX : BPL .zeroVars
     
-    JSL.l Vram_EraseTilemaps_normal
+    JSL.l VRAM_EraseTilemaps_normal
     JSL.l Attract_LoadBG3GFX
     
     LDA.b #$04 : STA.w $0AB3
@@ -5956,7 +5956,7 @@ Attract_SlowFadeToBlank:
     .fullyDarkened
     
     JSL.l EnableForceBlank
-    JSL.l Vram_EraseTilemaps_normal
+    JSL.l VRAM_EraseTilemaps_normal
     
     .nextSubmodule
     
@@ -6436,7 +6436,7 @@ Attract_MapZoom:
     
     LDA.b #$09 : STA.w SNES.BGModeAndTileSize : STA.b $94
     
-    JSL.l Vram_EraseTilemaps_normal
+    JSL.l VRAM_EraseTilemaps_normal
     
     ; Go to the throne room sequence.
     INC.b $23

@@ -5508,7 +5508,7 @@ Medallion_CheckSpriteDamage:
 ; $036C7E-$036CB6 DATA
 AncillaDamageClasses:
 {
-    ; See $0C4A in ram.
+    ; See $0C4A in WRAM.
     ; Possible values: 0, 1, 6, 7, 8, 11, 12, 13, 14, 15
 
     db $06 ; NOTHING

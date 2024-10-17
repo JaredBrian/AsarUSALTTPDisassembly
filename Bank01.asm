@@ -8325,7 +8325,7 @@ Dungeon_LoadBasicAttr:
     ; $00B8F3 ALTERNATE ENTRY POINT
     .full
     
-    ; Switch to bank $7E which is really just RAM.
+    ; Switch to bank $7E which is really just WRAM.
     PHB : LDX.w #$7E : PHX : PLB
     
     REP #$10
@@ -12675,7 +12675,7 @@ Dungeon_EraseInteractive2x2:
     SEP #$20
     
     ; A dma transfer should trigger during the next frame that will
-    ; update the 4 tilemap entries we have indicated in vram.
+    ; update the 4 tilemap entries we have indicated in VRAM.
     LDA.b #$01 : STA.b $14
     
     REP #$30
@@ -15511,7 +15511,7 @@ Dungeon_OpenKeyedObject:
     LDA.b $08 : STA.w $1018, X
     
     ; Two bytes for each dma transfer. Source address increment mode is
-    ; incremental, vram address increment mode is horizontal.
+    ; incremental, VRAM address increment mode is horizontal.
     LDA.w #$0100
     STA.w $1004, X : STA.w $100A, X : STA.w $1010, X : STA.w $1016, X
     
@@ -16670,7 +16670,7 @@ Dungeon_ElevateStaircasePriority:
     
     JSR.w Dungeon_PrepOverlayDma_tilemapAlreadyUpdated
     
-    ; TODO: Investigate exactly what tiles are being reblitted to vram,
+    ; TODO: Investigate exactly what tiles are being reblitted to VRAM,
     ; because something about this just seems off.
     PLA : CLC : ADC.w #$0008 : STA.b $08
     
@@ -16908,7 +16908,7 @@ Dungeon_PrepOverlayDma:
     
     ; If A < 0x3A.
     LDA.b $08 : AND.w #$003F : CMP.w #$003A : BCC .useHorizontalDma
-        ; As opposed to vertical dma (vram).
+        ; As opposed to vertical dma (VRAM).
         INC.b $06
 
     .useHorizontalDma
@@ -16966,7 +16966,7 @@ ClearAndStripeExplodingWall_offset:
     dw $0500, $0600, $0700, $0800
 }
 
-; Routine used with blast walls to prep vram updates for nmi.
+; Routine used with blast walls to prep VRAM updates for nmi.
 ; $00F811-$00F907 LOCAL JUMP LOCATION
 ClearAndStripeExplodingWall:
 {

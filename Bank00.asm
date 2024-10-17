@@ -149,7 +149,7 @@ Module_MainRouting:
     LDA.w .high, Y : STA.b $04
     LDA.w .bank, Y : STA.b $05
     
-    ; Jump to a main module depending on addr $7E0010 in RAM.
+    ; Jump to a main module depending on addr $7E0010 in WRAM.
     JMP [$0003]
 }
 
@@ -1303,7 +1303,7 @@ EnableForceBlank:
 
 ; ==============================================================================
 
-; Loads Ram into SRAM, calculates an inverse checksum.
+; Loads WRAM into SRAM, calculates an inverse checksum.
 ; $00094A-$0009C1 LONG JUMP LOCATION
 Main_SaveGameFile:
 {
@@ -1350,7 +1350,7 @@ Main_SaveGameFile:
     PLY
     
     ; Subtract the checksum from 0x5A5A, and store the result at a
-    ; corresponding location in RAM. Because the result is subtracted from
+    ; corresponding location in WRAM. Because the result is subtracted from
     ; 0x5A5A, I'm inclined to call it an "inverse" checksum.
     LDA.w #$5A5A : SEC : SBC.b $00 : STA.l $7EF4FE
     
@@ -2099,7 +2099,7 @@ NMI_DoNothing:
 ; ==============================================================================
 
 ; $000E4C-$000E53 DATA
-NMI_UpdateLoadLightWorldMap_vram_offset:
+NMI_UpdateLoadLightWorldMap_VRAM_offset:
 {
     dw $0000, $0020, $1000, $1020
 }
@@ -2126,7 +2126,7 @@ NMI_LightWorldMode7Tilemap:
 
         LDA.w #$0020 : STA.b $06
         
-        LDA.w .vram_offset, X : STA.b $00
+        LDA.w .VRAM_offset, X : STA.b $00
 
         .beta
 
@@ -11438,7 +11438,7 @@ SheetsTable_0AA2:
 Pool_Graphics_IncrementalVramUpload:
 {
     ; $005EDF
-    .vram_address_high
+    .VRAM_address_high
     db $50 ; VRAM $A000
     db $51 ; VRAM $A200
     db $52 ; VRAM $A400
@@ -11482,7 +11482,7 @@ Pool_Graphics_IncrementalVramUpload:
 Graphics_IncrementalVramUpload:
 {
     LDX.w $0412 : CPX.b #$10 : BEQ .finished
-        LDA.l Pool_Graphics_IncrementalVramUpload_vram_address_high, X
+        LDA.l Pool_Graphics_IncrementalVramUpload_VRAM_address_high, X
         STA.b $19
         
         STZ.w $0118
@@ -13690,7 +13690,7 @@ PaletteFilter_Agahnim:
     
     PLX
     
-    ; Update the palette RAM this frame.
+    ; Update the palette WRAM this frame.
     INC.b $15
     
     RTL
@@ -16158,7 +16158,7 @@ Internal_ROM_Header:
     db $20   ; ROM layout
     db $02   ; Cartridge type
     db $0A   ; ROM size
-    db $03   ; RAM size (SRAM size)
+    db $03   ; WRAM size (SRAM size)
     db $01   ; Country code (NTSC here)
     db $01   ; Licensee (Nintendo here)
     db $00   ; Game version

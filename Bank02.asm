@@ -59,7 +59,7 @@ Intro_SetupScreen:
 
     LDX.b #$80 : STX.w SNES.VRAMAddrIncrementVal
 
-    ; Target vram address is $27F0 (word).
+    ; Target VRAM address is $27F0 (word).
     LDA.w #$27F0 : STA.w SNES.VRAMAddrReadWriteLow
 
     LDX.b #$20 : LDA.w #$7FFF
@@ -92,7 +92,7 @@ Intro_ValidateSram:
 
     .checkNextSlot
 
-        ; $848C contains the offsets for each sram save slot. i.e. #$0000,
+        ; $848C contains the offsets for each SRAM save slot. i.e. #$0000,
         ; #$500, #$A00.
         LDX.b $00 : LDA.l SaveFileCopyOffset, X : TAX : PHX
 
@@ -107,7 +107,7 @@ Intro_ValidateSram:
             INX #2
         INY : CPY.w #$0280 : BNE .calcChecksum
 
-        ; Restore the sram save file offset.
+        ; Restore the SRAM save file offset.
         PLX
 
         ; If it worked, go to the next file.
@@ -127,7 +127,7 @@ Intro_ValidateSram:
                 INX #2
             INY : CPY.w #$0280 : BEQ .calcMirrorSum
 
-            ; Restore the sram save file offset.
+            ; Restore the SRAM save file offset.
             PLX
 
             ; Do the same check to see if it adds up correctly.
@@ -237,7 +237,7 @@ Module_LoadFile:
     STZ.w $0379
     STZ.w $03FD
 
-    JSL.l Vram_EraseTilemaps_normal
+    JSL.l VRAM_EraseTilemaps_normal
 
     ; Set OAM CHR position to $8000 (byte) / $4000 (word) in VRAM.
     LDA.b #$02 : STA.w SNES.OAMSizeAndDataDes
@@ -949,7 +949,7 @@ Module_LocationMenu:
         STZ.b $14
 
         JSL.l EnableForceBlank
-        JSL.l Vram_EraseTilemaps_normal
+        JSL.l VRAM_EraseTilemaps_normal
 
         LDA.l $7EF3C8 : PHA
 
@@ -1045,7 +1045,7 @@ Pool_Credits_LoadScene_Overworld_PrepGFX:
 Credits_LoadScene_Overworld_PrepGFX:
 {
     JSL.l EnableForceBlank ; Sets the screen mode.
-    JSL.l Vram_EraseTilemaps_normal
+    JSL.l VRAM_EraseTilemaps_normal
 
     ; Activates subscreen color add/subtract mode.
     LDA.b #$82 : STA.b $99
@@ -1233,7 +1233,7 @@ Credits_LoadCoolBackground:
 Credits_LoadScene_Dungeon:
 {
     JSL.l EnableForceBlank
-    JSL.l Vram_EraseTilemaps_normal
+    JSL.l VRAM_EraseTilemaps_normal
 
     REP #$20
 
@@ -5755,7 +5755,7 @@ TriforceRoom_Step2:
     LDA.b #$89 : STA.b $A0
     LDA.b #$01 : STA.b $A1
 
-    JSL.l Vram_EraseTilemaps_normal
+    JSL.l VRAM_EraseTilemaps_normal
     JSL.l Palette_RevertTranslucencySwap
     JSR.w LoadSpecialOverworld
     JSR.w Overworld_ReloadSubscreenOverlay
@@ -6305,7 +6305,7 @@ Module_OverworldTable:
     ; (Indexed by $11)
     dw Overworld_PlayerControl              ; 0x00 Default mode.
     dw Overworld_LoadTransGfx               ; 0x01 1 through 8 seem to be screen transitioning.
-    dw Overworld_FinishTransGfx             ; 0x02 Blits the remainder of the bg / spr graphics to vram.
+    dw Overworld_FinishTransGfx             ; 0x02 Blits the remainder of the bg / spr graphics to VRAM.
     dw Overworld_LoadNewMapAndGfx           ; 0x03 Loads map32 data, event overlay, converts to map16 and map8.
     dw Overworld_LoadNewSprites             ; 0x04 Loads new sprites.
     dw Overworld_LoadNewSprites_justScroll  ; 0x05 Start Scroll Transition.
@@ -6336,7 +6336,7 @@ Module_OverworldTable:
     dw Module09_1E                          ; 0x1E $012EEA
     dw Module09_1F                          ; 0x1F $0142A4 Coming out of Lost woods.
     dw Overworld_ReloadSubscreenOverlay     ; 0x20 Coming back from Overworld Map.... reloads subscreen overlay to wram?
-    dw Overworld_LoadAmbientOverlay         ; 0x21 Coming back from Overworld Map.... sends command to reupload subscreen overlay to vram?
+    dw Overworld_LoadAmbientOverlay         ; 0x21 Coming back from Overworld Map.... sends command to reupload subscreen overlay to VRAM?
     dw Overworld_BrightenScreen             ; 0x22 $0131BB - Brightens screen.
     dw Overworld_MirrorWarp                 ; 0x23 Magic Mirror routine (normal warp between worlds).
     dw Overworld_StartMosaicTransition      ; 0x24 Also part of magic mirror stuff?
@@ -7001,7 +7001,7 @@ Overworld_LoadTransGfx:
 Overworld_FinishTransGfx:
 {
     ; The purpose of this submodule is to finish blitting the rest of the
-    ; graphics that were decompressed in the previous module to vram (from the
+    ; graphics that were decompressed in the previous module to VRAM (from the
     ; $7F0000 buffer).
 
     ; Trigger NMI module: NMI_UpdateBgChrSlots_5_to_6.
@@ -7035,7 +7035,7 @@ Overworld_LoadNewMapAndGfx:
     INC.w $0710
 
     ; This mess all looks like it does map16 to map8 conversion, and the
-    ; subsequent one sets up the system to blit it to vram during the next
+    ; subsequent one sets up the system to blit it to VRAM during the next
     ; vblank.
     JSR.w Overworld_StartTransMapUpdate
 
@@ -9248,7 +9248,7 @@ SaveVisitedQuadrantFlags:
 
     LDA.b $A0 : ASL A : TAX
 
-    ; Save quadrants explored to save ram buffer
+    ; Save quadrants explored to save WRAM buffer
     LDA.l $7EF000, X : ORA.w $0408 : STA.l $7EF000, X
 
     SEP #$30
@@ -12495,7 +12495,7 @@ UnderworldExitData:
     db $88 ; 0x4E
 
     ; $015E77
-    .exit_vram_addr
+    .exit_VRAM_addr
     dw $0506 ; 0x00
     dw $001C ; 0x01
     dw $0016 ; 0x02
@@ -13469,7 +13469,7 @@ Overworld_LoadExitData:
     ; See the data document for details
     LDA.w UnderworldExitData_x_coordinate, X : STA.b $22
 
-    LDA.w UnderworldExitData_exit_vram_addr, X : STA.b $84
+    LDA.w UnderworldExitData_exit_VRAM_addr, X : STA.b $84
     SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
 
     LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
@@ -16042,7 +16042,7 @@ LoadSubscreenOverlay:
     JSR.w Map16ToMap8_subscreenOverlay
 
     ; Trigger an NMI routine that will upload the subscreen overlay to
-    ; vram during vblank.
+    ; VRAM during vblank.
     LDA.b #$04 : STA.b $17 : STA.w $0710
 
     INC.b $11

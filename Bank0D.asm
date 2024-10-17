@@ -8256,7 +8256,7 @@ Pool_CrystalMaiden_Draw:
     dw 1,  3 : db $22, $41, $00, $02
     
     ; $06CE4F
-    .vram_source_indices
+    .VRAM_source_indices
     db $20, $C0
     db $20, $C0
     db $00, $A0
@@ -8277,8 +8277,8 @@ CrystalMaiden_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
     
-    LDA.w Pool_CrystalMaiden_Draw_vram_source_indices + 0, Y : STA.w $0AE8
-    LDA.w Pool_CrystalMaiden_Draw_vram_source_indices + 1, Y : STA.w $0AEA
+    LDA.w Pool_CrystalMaiden_Draw_VRAM_source_indices + 0, Y : STA.w $0AE8
+    LDA.w Pool_CrystalMaiden_Draw_VRAM_source_indices + 1, Y : STA.w $0AEA
     
     ; Crystal maidens?
     TYA : ASL #3
@@ -8598,11 +8598,11 @@ Pool_Uncle_Draw:
     dw   8, -19 : db $20, $4C, $00, $02
     
     ; $06D383
-    .source_for_vram_1
+    .source_for_VRAM_1
     db $08, $08, $00, $00, $06, $06, $00
     
     ; $06D38A
-    .source_for_vram_2
+    .source_for_VRAM_2
     db $00, $00, $00, $00, $04, $04, $00
 }
 
@@ -8634,9 +8634,9 @@ Uncle_Draw:
     ; BUG: Don't have proof yet, but something tells me that if Link's uncle
     ; were ever facing to the right, it would not look correct. These tables
     ; are only 7 elements long and should be 8 elements long...
-    LDA.w .source_for_vram_1, Y : STA.w $0107
+    LDA.w .source_for_VRAM_1, Y : STA.w $0107
     
-    LDA.w .source_for_vram_2, Y : STA.w $0108
+    LDA.w .source_for_VRAM_2, Y : STA.w $0108
     
     JSL.l Sprite_DrawMultiple_quantity_preset
     
@@ -9896,7 +9896,7 @@ Equipment_Init:
     ; Make NMI update BG3 tilemap.
     LDA.b #$01 : STA.b $17
     
-    ; Update vram address $6800 (word).
+    ; Update VRAM address $6800 (word).
     LDA.b #$22 : STA.w $0116
     
     ; Move on to next step of the submodule.
@@ -9943,7 +9943,7 @@ Equipment_ChooseNextMode:
 
     CMP.b #$00 : BEQ .haveNone
         ; Tell NMI to update BG3 tilemap next from by writing to address $6800
-        ; (word) in vram.
+        ; (word) in VRAM.
         LDA.b #$01 : STA.b $17
         LDA.b #$22 : STA.w $0116
         
@@ -10201,7 +10201,7 @@ Equipment_NormalMenu:
     .didntSelectBottle
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800
-    ; (word) in vram.
+    ; (word) in VRAM.
     LDA.b #$01 : STA.b $17
     LDA.b #$22 : STA.w $0116
     
@@ -10324,7 +10324,7 @@ Equipment_InitBottleMenu:
     .notDoneErasing
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800
-    ; (word) in vram.
+    ; (word) in VRAM.
     LDA.b #$01 : STA.b $17
     LDA.b #$22 : STA.w $0116
     
@@ -10400,7 +10400,7 @@ Equipment_ExpandBottleMenu:
     .notDoneDrawing
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800
-    ; (word) in vram.
+    ; (word) in VRAM.
     LDA.b #$01 : STA.b $17
     LDA.b #$22 : STA.w $0116
     
@@ -10626,7 +10626,7 @@ Equipment_UpdateBottleMenu:
     SEP #$30
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800
-    ; (word) in vram.
+    ; (word) in VRAM.
     LDA.b #$01 : STA.b $17
     LDA.b #$22 : STA.w $0116
     
@@ -10661,7 +10661,7 @@ Equipment_EraseBottleMenu:
     .notDoneErasing
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800
-    ; (word) in vram.
+    ; (word) in VRAM.
     LDA.b #$01 : STA.b $17
     LDA.b #$22 : STA.w $0116
     
@@ -10691,7 +10691,7 @@ Equipment_RestoreNormalMenu:
     LDA.b #$04 : STA.w $0200
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800
-    ; (word) in vram.
+    ; (word) in VRAM.
     LDA.b #$01 : STA.b $17
     LDA.b #$22 : STA.w $0116
     
