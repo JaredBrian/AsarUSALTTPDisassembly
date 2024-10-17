@@ -710,9 +710,9 @@ LinkOAM_SwordAddresses:
 ; $0004AC-$0004B1 DATA
 LinkOAM_ShieldAddresses:
 {
-    dw $9300 ; down
-    dw $9340 ; up
-    dw $9380 ; side
+    dw $9300 ; Down
+    dw $9340 ; Up
+    dw $9380 ; Side
 }
 
 ; $0004B2-$0005D1 DATA
@@ -8530,8 +8530,8 @@ RoomDrawObjectData:
         dw obj27A6-RoomDrawObjectData ; 0x1E - Big key door
         dw obj27BE-RoomDrawObjectData ; 0x20 - Small key stairs (upwards)
         dw obj27BE-RoomDrawObjectData ; 0x22 - Small key stairs (downwards)
-        dw obj27D6-RoomDrawObjectData ; 0x24 - Small key stairs (lower layer; upwards)
-        dw obj27D6-RoomDrawObjectData ; 0x26 - Small key stairs (lower layer; downwards)
+        dw obj27D6-RoomDrawObjectData ; 0x24 - Small key stairs (lower layer upwards)
+        dw obj27D6-RoomDrawObjectData ; 0x26 - Small key stairs (lower layer downwards)
         dw obj27EE-RoomDrawObjectData ; 0x28 - Dash wall
         dw obj2806-RoomDrawObjectData ; 0x2A - Bombable cave exit
         dw obj2806-RoomDrawObjectData ; 0x2C - Unopenable, double-sided big key door
@@ -8544,7 +8544,7 @@ RoomDrawObjectData:
         dw obj2866-RoomDrawObjectData ; 0x3A - Unusable normal door (lower layer)
         dw obj2866-RoomDrawObjectData ; 0x3C - Unusable normal door (lower layer)
         dw obj2866-RoomDrawObjectData ; 0x3E - Unusable normal door (lower layer)
-        dw obj2866-RoomDrawObjectData ; 0x40 - Normal door (lower layer; used with one-sided shutters)
+        dw obj2866-RoomDrawObjectData ; 0x40 - Normal door (lower layer used with one-sided shutters)
         dw obj287E-RoomDrawObjectData ; 0x42 - Unused double-sided shutter
         dw obj2896-RoomDrawObjectData ; 0x44 - Double-sided shutter (lower layer)
         dw obj28AE-RoomDrawObjectData ; 0x46 - Explicit room door
@@ -9483,16 +9483,16 @@ GFXSheetPointers:
 ; $00521D-$005230 DATA
 Pool_LoadItemGFX_offset:
 {
-    dw $0000 ; rods
-    dw $0108 ; hammer
-    dw $00C0 ; bow
-    dw $0390 ; shovel
+    dw $0000 ; Rods
+    dw $0108 ; Hammer
+    dw $00C0 ; Bow
+    dw $0390 ; Shovel
     dw $03F0 ; Zzz ♪
-    dw $0438 ; powder dust
-    dw $0330 ; hookshot
-    dw $0048 ; net
-    dw $0318 ; cane
-    dw $0450 ; book
+    dw $0438 ; Powder dust
+    dw $0330 ; Hookshot
+    dw $0048 ; Net
+    dw $0318 ; Cane
+    dw $0450 ; Book
 }
 
 ; $005231-$0052BD LONG JUMP LOCATION
@@ -9605,11 +9605,11 @@ LoadItemGFXIntoWRAM4BPPBuffer:
 ; $0052BE-$0052C7 DATA
 Pool_DecompressSwordGraphics:
 {
-    dw $0000 ; none
-    dw $0000 ; fighter sword
-    dw $0120 ; master sword
-    dw $0120 ; tempered sword
-    dw $0120 ; gold sword
+    dw $0000 ; None
+    dw $0000 ; Fighter sword
+    dw $0120 ; Master sword
+    dw $0120 ; Tempered sword
+    dw $0120 ; Gold sword
 }
 
 ; $0052C8-$0052FF LONG JUMP LOCATION
@@ -10612,7 +10612,7 @@ AnimateMirrorWarp_LoadPyramidIfAga:
 
 ; ==============================================================================
 
-; load overlays and ... silence music? what?
+; Load overlays and ... silence music? what?
 ; $0058A5-$0058B2 JUMP LOCATION (LONG)
 AnimateMirrorWarp_TriggerOverlayA_2:
 {

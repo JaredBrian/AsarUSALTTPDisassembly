@@ -165,12 +165,11 @@ DrinkingGuy_Draw:
 
 ; ==============================================================================
 
+; Generally speaking, this draws a lady sprite... can be young or old,
+; but the same graphics either way.
 ; $0D792C-$0D7953 LONG JUMP LOCATION
 Lady_Draw:
 {
-    ; Generally speaking, this draws a lady sprite... can be young or old,
-    ; but the same graphics either way.
-    
     PHB : PHK : PLB
     
     LDA.b #$02 : STA.b $06

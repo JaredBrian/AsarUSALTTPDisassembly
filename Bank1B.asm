@@ -58,73 +58,73 @@ SongBank_Underworld_Main:
 ; $0D804A-$0D8BEF DATA
 Song10_HyruleCastle:
 {
-    incbin "bin/music/song10.bin" ; size: 0x0BA6
+    incbin "bin/music/song10.bin" ; Size: 0x0BA6
 }
 
 ; $0D8BF0-$0D913D DATA
 Song11_PendantDungeon:
 {
-    incbin "bin/music/song11.bin" ; size: 0x054E
+    incbin "bin/music/song11.bin" ; Size: 0x054E
 }
 
 ; $0D913E-$0D9434 DATA
 Song12_Cave:
 {
-    incbin "bin/music/song12.bin" ; size: 0x02F7
+    incbin "bin/music/song12.bin" ; Size: 0x02F7
 }
 
 ; $0D9435-$0D96FC DATA
 Song13_Fanfare:
 {
-    incbin "bin/music/song13.bin" ; size: 0x02C8
+    incbin "bin/music/song13.bin" ; Size: 0x02C8
 }
 
 ; $0D96FD-$0D9921 DATA
 Song14_Sanctuary:
 {
-    incbin "bin/music/song14.bin" ; size: 0x0225
+    incbin "bin/music/song14.bin" ; Size: 0x0225
 }
 
 ; $0D9922-$0D9C0E DATA
 Song15_Boss:
 {
-    incbin "bin/music/song15.bin" ; size: 0x02ED
+    incbin "bin/music/song15.bin" ; Size: 0x02ED
 }
 
 ; $0D9C0F-$0DA1D4 DATA
 Song16_CrystalDungeon:
 {
-    incbin "bin/music/song16.bin" ; size: 0x05C6
+    incbin "bin/music/song16.bin" ; Size: 0x05C6
 }
 
 ; $0DA1D5-$0DA307 DATA
 Song17_Shop:
 {
-    incbin "bin/music/song17.bin" ; size: 0x0133
+    incbin "bin/music/song17.bin" ; Size: 0x0133
 }
 
 ; $0DA308-$0DA583 DATA
 Song19_ZeldaRescue:
 {
-    incbin "bin/music/song19.bin" ; size: 0x027C
+    incbin "bin/music/song19.bin" ; Size: 0x027C
 }
 
 ; $0DA584-$0DA90C DATA
 Song1A_CrystalMaiden:
 {
-    incbin "bin/music/song1A.bin" ; size: 0x0389
+    incbin "bin/music/song1A.bin" ; Size: 0x0389
 }
 
 ; $0DA90D-$0DAB6D DATA
 Song1B_BigFairy:
 {
-    incbin "bin/music/song1B.bin" ; size: 0x0261
+    incbin "bin/music/song1B.bin" ; Size: 0x0261
 }
 
 ; $0DAB6E-$0DACC2 DATA
 Song1C_Suspense:
 {
-    incbin "bin/music/song1C.bin" ; size: 0x0155
+    incbin "bin/music/song1C.bin" ; Size: 0x0155
 }
 
 base off
@@ -142,24 +142,24 @@ base SONG_POINTERS_AUX
 ; $0DACC7-0DAD79 DATA
 Song1D_AgahnimEscapes:
 {
-    incbin "bin/music/song1D.bin" ; size: 0x00B3
+    incbin "bin/music/song1D.bin" ; Size: 0x00B3
 }
 
 ; $0DAD7A-0DB11F DATA
 Song1F_KingOfThieves:
 {
-    incbin "bin/music/song1F.bin" ; size: 0x03A6
+    incbin "bin/music/song1F.bin" ; Size: 0x03A6
 }
 
 ; $0DB120-$0DB1D6 DATA
 Song1E_MeetingGanon:
 {
-    incbin "bin/music/song1E.bin" ; size: 0x00B3
+    incbin "bin/music/song1E.bin" ; Size: 0x00B3
 
     base off
 
     ; $0DB1D3
-    dw $0000, SPC_ENGINE ; end of transfer
+    dw $0000, SPC_ENGINE ; End of transfer
 }
 
 ; ==============================================================================
@@ -1124,23 +1124,23 @@ Overworld_Map16_ToolInteraction:
     ; Normal tile interactions
     LDA.l $7E2000, X : PHA
     
-    CMP.w #$0034 : BEQ .shovelable   ; normal blank green ground
-    CMP.w #$0071 : BEQ .shovelable   ; non thick grass
-    CMP.w #$0035 : BEQ .shovelable   ; non thick grass
-    CMP.w #$010D : BEQ .shovelable   ; non thick grass
-    CMP.w #$010F : BEQ .shovelable   ; non thick grass
-    CMP.w #$00E1 : BEQ .shovelable   ; animated flower tile
-    CMP.w #$00E2 : BEQ .shovelable   ; animated flower tile
-    CMP.w #$00DA : BEQ .shovelable   ; non thick grass
-    CMP.w #$00F8 : BEQ .shovelable   ; non thick grass
-    CMP.w #$010E : BEQ .shovelable   ; non thick grass
-        CMP.w #$037E : BEQ .isThickGrass ; thick grass
+    CMP.w #$0034 : BEQ .shovelable   ; Normal blank green ground
+    CMP.w #$0071 : BEQ .shovelable   ; Non thick grass
+    CMP.w #$0035 : BEQ .shovelable   ; Non thick grass
+    CMP.w #$010D : BEQ .shovelable   ; Non thick grass
+    CMP.w #$010F : BEQ .shovelable   ; Non thick grass
+    CMP.w #$00E1 : BEQ .shovelable   ; Animated flower tile
+    CMP.w #$00E2 : BEQ .shovelable   ; Animated flower tile
+    CMP.w #$00DA : BEQ .shovelable   ; Non thick grass
+    CMP.w #$00F8 : BEQ .shovelable   ; Non thick grass
+    CMP.w #$010E : BEQ .shovelable   ; Non thick grass
+        CMP.w #$037E : BEQ .isThickGrass ; Thick grass
             LDY.w #$0002
             
-            ; normal bush
+            ; Normal bush
             CMP.w #$0036 : BEQ .isBush2
                 LDY.w #$0004
-                    ; off color bush
+                    ; Off color bush
                     CMP.w #$072A : BEQ .isBush2
                         .notShoveling
                         
@@ -1159,7 +1159,7 @@ Overworld_Map16_ToolInteraction:
     
     .notFluteLocation
     
-    ; replacement tile after you shovel out the ground
+    ; Replacement tile after you shovel out the ground
     LDY.w #$0DC9
     
     BRA .checkForSecret
@@ -1191,7 +1191,7 @@ Overworld_Map16_ToolInteraction:
         
         LDA.b $00 : AND.w #$FFF0 : STA.b $74
         
-        ; again... why?
+        ; Again... why?
         PLA : STA.b $72
         
         STY.b $76
@@ -1201,7 +1201,7 @@ Overworld_Map16_ToolInteraction:
         LDY.w #$0DC7
         
         CMP.w #$072A : BNE .notOffColorBush
-            ; use a different replacement map16 tile for the off color bushes
+            ; Use a different replacement map16 tile for the off color bushes
             LDY.w #$0DC8
         
         .notOffColorBush
@@ -1209,9 +1209,9 @@ Overworld_Map16_ToolInteraction:
         
         STY.b $0E
         
-        ; check for secrets under the bush?
+        ; Check for secrets under the bush?
         JSR.w Overworld_RevealSecret : BCS .noSecret
-            ; if there's a secret under the bush, like a hole or a cave
+            ; If there's a secret under the bush, like a hole or a cave
             ; it would require a different replacement map16 tile
             LDA.b $0E
         
@@ -1316,24 +1316,24 @@ RockSmashReplaceOffset:
 {
     ; $0DBF4C
     .tile1
-    dw    0 ; from top left
-    dw   -2 ; from top right
-    dw -128 ; from bottom left
-    dw -130 ; from bottom right
+    dw    0 ; From top left
+    dw   -2 ; From top right
+    dw -128 ; From bottom left
+    dw -130 ; From bottom right
     
     ; $0DBF54
     .tile2
-    dw    0 ; from top left
-    dw    0 ; from top right
-    dw -128 ; from bottom left
-    dw -128 ; from bottom right
+    dw    0 ; From top left
+    dw    0 ; From top right
+    dw -128 ; From bottom left
+    dw -128 ; From bottom right
     
     ; $0DBF5C
     .tile3
-    dw    0 ; from top left
-    dw   -2 ; from top right
-    dw    0 ; from bottom left
-    dw   -2 ; from bottom right
+    dw    0 ; From top left
+    dw   -2 ; From top right
+    dw    0 ; From bottom left
+    dw   -2 ; From bottom right
 }
 
 ; ==============================================================================
@@ -1380,21 +1380,21 @@ Overworld_LiftableTiles:
         ; Also a big light colored rock...
         CMP.w #$036E : BEQ .liftingLargeRock
             INY
-            ; ditto
+            ; Ditto
             CMP.w #$0374 : BEQ .liftingLargeRock
                 INY
-                ; ditto
+                ; Ditto
                 CMP.w #$0375 : BEQ .liftingLargeRock
                     LDY.w #$0000
-                    ; dark colored big rock?
+                    ; Dark colored big rock?
                     CMP.w #$023B : BEQ .liftingLargeRock
                         INY
-                        ; same
+                        ; Same
                         CMP.w #$023C : BEQ .liftingLargeRock
                             INY
-                            ; same
+                            ; Same
                             CMP.w #$023D : BEQ .liftingLargeRock
-                                ; same
+                                ; Same
                                 CMP.w #$023E : BNE .notLiftingRock
                                     INY
     
@@ -1474,7 +1474,7 @@ Overworld_SmashRockPile:
     .checkForBush
     
     LDY.w #$0DC7
-    ; check if the map16 tile is a bush
+    ; Check if the map16 tile is a bush
     CMP.w #$0036 : BEQ Overworld_LiftableTile_liftingSmallObject
         PLA : PLA
 
@@ -1515,17 +1515,17 @@ Overworld_SmashRockPileFromHere:
     
     LDA.l $7E2000, X : LDY.w #$0000
     
-    ; check if it's a rock pile
+    ; Check if it's a rock pile
     CMP.w #$0226 : BEQ .isRockPile
         INY
         
-        ; same
+        ; Same
         CMP.w #$0227 : BEQ .isRockPile
             INY
             
-            ; same
+            ; Same
             CMP.w #$0228 : BEQ .isRockPile
-                ; same
+                ; Same
                 CMP.w #$0229    
                     BNE Overworld_SmashRockPile_checkForBush
                         INY
@@ -1534,7 +1534,7 @@ Overworld_SmashRockPileFromHere:
 
     STY.b $0C
     
-    ; why store to $0C then TSB it again...?
+    ; Why store to $0C then TSB it again...?
     PHA : TSB.b $0C
     
     TXA : CLC
@@ -1626,14 +1626,14 @@ Overworld_ApplyBombToTile:
         LDY.w #$0DC7
         LDX.w #$0002
         
-        ; normal bush
+        ; Normal bush
         CMP.w #$0036 : BEQ .grassOrBush
             LDX.w #$0004
             LDY.w #$0DC8
             
-            ; off color bush
+            ; Off color bush
             CMP.w #$072A : BEQ .grassOrBush
-                ; thick grass
+                ; Thick grass
                 CMP.w #$037E : BNE .checkForBombableCave
                     LDY.w #$0DC5
                     LDX.w #$0003
@@ -1735,7 +1735,7 @@ Overworld_AlterWeathervane:
     
     REP #$30
     
-    ; the replacement map16 tile to use?
+    ; The replacement map16 tile to use?
     LDA.w #$0068 : STA.w $0692
     
     ; The index in the tile map to start from.
@@ -2810,10 +2810,10 @@ OverworldData_HiddenItems_Screen_7F:
 ; $0DC89C-$0DC8A3 DATA
 Overworld_SecretTileType:
 {
-    dw $0DCC ; hole
-    dw $0212 ; portal
-    dw $FFFF ; garbage
-    dw $0DB4 ; bomb hole
+    dw $0DCC ; Hole
+    dw $0212 ; Portal
+    dw $FFFF ; Garbage
+    dw $0DB4 ; Bomb hole
 }
 
 ; ==============================================================================
@@ -3147,7 +3147,7 @@ Overworld_EntranceSequence:
     ; ($04C6 I think)
     
     STA.w $02E4 ; Link can't move.
-    STA.w $0FC1 ; not sure...
+    STA.w $0FC1 ; Not sure...
     STA.w $0710 ; There is a special graphical effect about to happen
     
     DEC A : ASL A : TAX
@@ -3606,7 +3606,7 @@ MiseryMireEntrance_PhaseOutRain:
         STZ.b $1D
         
         AND.l .phase_masks, X : BEQ .no_rain
-            ; turn the overlay back on if the two numbers share some bits
+            ; Turn the overlay back on if the two numbers share some bits
             INC.b $1D
         
         .no_rain
@@ -4809,22 +4809,22 @@ PaletteData:
 
     ; $0DD630
     .sword
-    .sword_00 ; no sword and fighter sword
+    .sword_00 ; No sword and fighter sword
     ;  F8F8F8, F8F848, 6888B8
     dw  $7FFF,  $27FF,  $5E2D
 
     ; $0DD636
-    .sword_01 ; fighter sword
+    .sword_01 ; Fighter sword
     ;  7090F8, A0F8D8, A83838
     dw  $7E4E,  $6FF4,  $1CF5
 
     ; $0DD63C
-    .sword_02 ; tempered sword
+    .sword_02 ; Tempered sword
     ;  D84810, F8A028, 68A0F8
     dw  $093B,  $169F,  $7E8D
 
     ; $0DD642
-    .sword_03 ; golden sword
+    .sword_03 ; Golden sword
     ;  F8C800, F8F8C8, 009048
     dw  $033F,  $67FF,  $2640
 
@@ -6187,7 +6187,7 @@ Palette_Sword:
     REP #$10
     
     LDA.w #$01B2 ; Target SP-5 (second half)
-    LDX.w #$0002 ; palette has 3 colors
+    LDX.w #$0002 ; Palette has 3 colors
     
     JSR.w Palette_ArbitraryLoad
     
@@ -6573,7 +6573,7 @@ Palette_OverworldBgAux1:
     REP #$10
     
     LDA.w #$0052 ; Target BP-2 through BP-4 (second halves)
-    LDX.w #$0006 ; each one has 7 colors
+    LDX.w #$0006 ; Each one has 7 colors
     LDY.w #$0002 ; Load 3 palettes
     
     JSR.w Palette_MultiLoad
@@ -6597,8 +6597,8 @@ Palette_OverworldBgAux2:
     REP #$10
     
     LDA.w #$00B2 ; Target BP-5 through BP-7 (second halves)
-    LDX.w #$0006 ; each one has 7 colors
-    LDY.w #$0002 ; load 3 palettes
+    LDX.w #$0006 ; Each one has 7 colors
+    LDY.w #$0002 ; Load 3 palettes
     
     JSR.w Palette_MultiLoad
     

@@ -1661,8 +1661,8 @@ Credits_SpriteDraw_Kakariko1:
     LDA.b #$02
     LDY.b #$24
         
-    SR.w Credits_SpriteDraw_Single
-    SR.w Credits_SpriteDraw_CirclingBirds
+    JSR.w Credits_SpriteDraw_Single
+    JSR.w Credits_SpriteDraw_CirclingBirds
         
     DEX
         

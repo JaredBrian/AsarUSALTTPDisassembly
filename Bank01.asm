@@ -7112,7 +7112,7 @@ RoomDraw_SmallRailCorner:
 {
     STA.b $0E
     
-    ; i.e. goto CLC; RTS
+    ; .e. goto CLC; RTS
     LDA [$BF], Y : AND.w #$03FF : CMP.b $0E : BEQ Door_Register_BRANCH_DELTA
         SEC
         

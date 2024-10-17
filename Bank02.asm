@@ -2910,15 +2910,13 @@ Dungeon_TurnOffWater:
 Dungeon_TurnOffWaterActual:
 {
     LDA.b $B0
-
     JSL.l UseImplicitRegIndexedLongJumpTable
-
-    dl $01EF54 ; $00EF54
-    dl $01EFEC ; $00EFEC
-    dl $01F046 ; $00F046
-    dl $01F046 ; $00F046
-    dl $01F046 ; $00F046
-    dl $01F046 ; $00F046
+    dl IncrementallyDrainSwampPool            ; 0x00 - $01EF54
+    dl DeleteSwampPoolWaterOverlay            ; 0x01 - $01EFEC
+    dl Underworld_FloodSwampWater_PrepTilemap ; 0x02 - $01F046
+    dl Underworld_FloodSwampWater_PrepTilemap ; 0x03 - $01F046
+    dl Underworld_FloodSwampWater_PrepTilemap ; 0x04 - $01F046
+    dl Underworld_FloodSwampWater_PrepTilemap ; 0x05 - $01F046
 }
 
 ; ==============================================================================
@@ -12069,9 +12067,9 @@ Dungeon_LoadEntrance:
         LDA.l SpecialUnderworldObjects_pushable_block+$080, X : STA.w $F9C0, X
         LDA.l SpecialUnderworldObjects_pushable_block+$100, X : STA.w $FA40, X
         LDA.l SpecialUnderworldObjects_pushable_block+$180, X : STA.w $FAC0, X
-        LDA.l SpecialUnderworldObjects_torch+$00, X           : STA.w $FB40, X
-        LDA.l SpecialUnderworldObjects_torch+$80, X           : STA.w $FBC0, X
-        LDA.l SpecialUnderworldObjects_torch, X               : STA.w $FC40, X
+        LDA.l SpecialUnderworldObjects_torch+$000, X         : STA.w $FB40, X
+        LDA.l SpecialUnderworldObjects_torch+$080, X         : STA.w $FBC0, X
+        LDA.l SpecialUnderworldObjects_torch+$100, X         : STA.w $FC40, X
     INX #2 : CPX.b #$80 : BNE .loadPushBlocks
 
     LDX.b #$3E
@@ -13898,7 +13896,7 @@ LoadOverworldFromSpecialOverworld:
 
     LDX.b $8A : LDA.l $7EFD40, X : STA.b $00
 
-    LDA.l $00FD1C, X
+    LDA.l OverworldPalettesScreenToSet, X
 
     ; Set palettes and background color
     JSL.l Overworld_LoadPalettes
@@ -14217,7 +14215,7 @@ BirdTravel_LoadTargetAreaPalettes:
 ; ==============================================================================
 
 ; $016CF8-$016D07 DATA TABLE
-Pool_Whirlpool_LookUpAndLoadTargetArea:
+Whirlpool_LookUpAndLoadTargetArea_my_screen_id:
 {
     dw $000F ; OW 0F - Lake Hylia whirlpool
     dw $0035 ; OW 35 - Waterfall of Wishing whirlpool
@@ -14228,8 +14226,6 @@ Pool_Whirlpool_LookUpAndLoadTargetArea:
     dw $007F ; OW 7F - Dark witch whirlpool
     dw $0055 ; OW 55 - Dark Lake Hylia falls whirlpool
 }
-
-; ==============================================================================
 
 ; $016D08-$016D24 LONG JUMP LOCATION
 Whirlpool_LookUpAndLoadTargetArea:
@@ -14245,7 +14241,7 @@ Whirlpool_LookUpAndLoadTargetArea:
     .locate_target_area
 
         ; Appears to be a routine dealing with whirlpool warps.
-    DEX #2 : CMP.l $02ECF8, X : BNE .locate_target_area
+    DEX #2 : CMP.l .my_screen_id, X : BNE .locate_target_area
 
     TXA : CLC : ADC.w #$0012 : TAX
 
@@ -14268,7 +14264,8 @@ Overworld_LoadAmbientOverlay:
 
     LDX.b $8A
 
-    LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area
+    LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+    AND.w #$00FF : BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
         SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88

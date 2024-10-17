@@ -671,7 +671,7 @@ RoomDataBank1F:
 
     ; $0F8780
     RoomDataTiles_Empty:
-    incbin "bin/rooms/room0005.bin" ; size: 0x000A
+    incbin "bin/rooms/room0005.bin" ; Size: 0x000A
 
     ; ===========================================================================
     ; Desert Palace
@@ -679,43 +679,43 @@ RoomDataBank1F:
 
     ; $0F878A
     RoomDataTiles_0033:
-    incbin "bin/rooms/room0033.bin" ; size: 0x000C
+    incbin "bin/rooms/room0033.bin" ; Size: 0x000C
 
     ; $0F8796
     RoomDataTiles_0043:
-    incbin "bin/rooms/room0043.bin" ; size: 0x006A
+    incbin "bin/rooms/room0043.bin" ; Size: 0x006A
 
     ; $0F8800
     RoomDataTiles_0053:
-    incbin "bin/rooms/room0053.bin" ; size: 0x00B5
+    incbin "bin/rooms/room0053.bin" ; Size: 0x00B5
 
     ; $0F88B5
     RoomDataTiles_0063:
-    incbin "bin/rooms/room0063.bin" ; size: 0x0040
+    incbin "bin/rooms/room0063.bin" ; Size: 0x0040
 
     ; $0F88F5
     RoomDataTiles_0073:
-    incbin "bin/rooms/room0073.bin" ; size: 0x0085
+    incbin "bin/rooms/room0073.bin" ; Size: 0x0085
 
     ; $0F897A
     RoomDataTiles_0074:
-    incbin "bin/rooms/room0074.bin" ; size: 0x00F2
+    incbin "bin/rooms/room0074.bin" ; Size: 0x00F2
 
     ; $0F8A6C
     RoomDataTiles_0075:
-    incbin "bin/rooms/room0075.bin" ; size: 0x0053
+    incbin "bin/rooms/room0075.bin" ; Size: 0x0053
 
     ; $0F8ABF
     RoomDataTiles_0083:
-    incbin "bin/rooms/room0083.bin" ; size: 0x0103
+    incbin "bin/rooms/room0083.bin" ; Size: 0x0103
 
     ; $0F8BC2
     RoomDataTiles_0084:
-    incbin "bin/rooms/room0084.bin" ; size: 0x00F9
+    incbin "bin/rooms/room0084.bin" ; Size: 0x00F9
 
     ; $0F8CBB
     RoomDataTiles_0085:
-    incbin "bin/rooms/room0085.bin" ; size: 0x00CC
+    incbin "bin/rooms/room0085.bin" ; Size: 0x00CC
 
     ; ===========================================================================
     ; Agahnim's Tower
@@ -723,31 +723,31 @@ RoomDataBank1F:
 
     ; $0F8D87
     RoomDataTiles_0030:
-    incbin "bin/rooms/room0030.bin" ; size: 0x0062
+    incbin "bin/rooms/room0030.bin" ; Size: 0x0062
 
     ; $0F8DE9
     RoomDataTiles_0040:
-    incbin "bin/rooms/room0040.bin" ; size: 0x0105
+    incbin "bin/rooms/room0040.bin" ; Size: 0x0105
 
     ; $0F8EEE
     RoomDataTiles_00B0:
-    incbin "bin/rooms/room00B0.bin" ; size: 0x0085
+    incbin "bin/rooms/room00B0.bin" ; Size: 0x0085
 
     ; $0F8F73
     RoomDataTiles_00C0:
-    incbin "bin/rooms/room00C0.bin" ; size: 0x00BB
+    incbin "bin/rooms/room00C0.bin" ; Size: 0x00BB
 
     ; $0F902E
     RoomDataTiles_00D0:
-    incbin "bin/rooms/room00D0.bin" ; size: 0x00B6
+    incbin "bin/rooms/room00D0.bin" ; Size: 0x00B6
 
     ; $0F90E4
     RoomDataTiles_00E0:
-    incbin "bin/rooms/room00E0.bin" ; size: 0x006F
+    incbin "bin/rooms/room00E0.bin" ; Size: 0x006F
 
     ; $0F9153
     RoomDataTiles_000D:
-    incbin "bin/rooms/room000D.bin" ; size: 0x003C
+    incbin "bin/rooms/room000D.bin" ; Size: 0x003C
 
     ; ===========================================================================
     ; Swamp Palace
@@ -755,55 +755,55 @@ RoomDataBank1F:
 
     ; $0F918F
     RoomDataTiles_0028:
-    incbin "bin/rooms/room0028.bin" ; size: 0x011F
+    incbin "bin/rooms/room0028.bin" ; Size: 0x011F
 
     ; $0F92AE
     RoomDataTiles_0038:
-    incbin "bin/rooms/room0038.bin" ; size: 0x00B3
+    incbin "bin/rooms/room0038.bin" ; Size: 0x00B3
 
     ; $0F9361
     RoomDataTiles_0037:
-    incbin "bin/rooms/room0037.bin" ; size: 0x013F
+    incbin "bin/rooms/room0037.bin" ; Size: 0x013F
 
     ; $0F94A0
     RoomDataTiles_0036:
-    incbin "bin/rooms/room0036.bin" ; size: 0x01F3
+    incbin "bin/rooms/room0036.bin" ; Size: 0x01F3
 
     ; $0F9693
     RoomDataTiles_0035:
-    incbin "bin/rooms/room0035.bin" ; size: 0x016C
+    incbin "bin/rooms/room0035.bin" ; Size: 0x016C
 
     ; $0F97FF
     RoomDataTiles_0034:
-    incbin "bin/rooms/room0034.bin" ; size: 0x0143
+    incbin "bin/rooms/room0034.bin" ; Size: 0x0143
 
     ; $0F9942
     RoomDataTiles_0054:
-    incbin "bin/rooms/room0054.bin" ; size: 0x012D
+    incbin "bin/rooms/room0054.bin" ; Size: 0x012D
 
     ; $0F9A6F
     RoomDataTiles_0046:
-    incbin "bin/rooms/room0046.bin" ; size: 0x0154
+    incbin "bin/rooms/room0046.bin" ; Size: 0x0154
 
     ; $0F9BC3
     RoomDataTiles_0026:
-    incbin "bin/rooms/room0026.bin" ; size: 0x0102
+    incbin "bin/rooms/room0026.bin" ; Size: 0x0102
 
     ; $0F9CC5
     RoomDataTiles_0076:
-    incbin "bin/rooms/room0076.bin" ; size: 0x017A
+    incbin "bin/rooms/room0076.bin" ; Size: 0x017A
 
     ; $0F9E3F
     RoomDataTiles_0066:
-    incbin "bin/rooms/room0066.bin" ; size: 0x01E6
+    incbin "bin/rooms/room0066.bin" ; Size: 0x01E6
 
     ; $0FA025
     RoomDataTiles_0016:
-    incbin "bin/rooms/room0016.bin" ; size: 0x0135
+    incbin "bin/rooms/room0016.bin" ; Size: 0x0135
 
     ; $0FA15A
     RoomDataTiles_0006:
-    incbin "bin/rooms/room0006.bin" ; size: 0x003C
+    incbin "bin/rooms/room0006.bin" ; Size: 0x003C
 
     ; ===========================================================================
     ; Unused room I found
@@ -811,7 +811,7 @@ RoomDataBank1F:
 
     ; $0FA196
     RoomDataTiles_Orphan:
-    incbin "bin/rooms/unused-1FA196.bin" ; size: 0x000C
+    incbin "bin/rooms/unused-1FA196.bin" ; Size: 0x000C
 
     ; ===========================================================================
     ; Palace of Darkness
@@ -819,59 +819,59 @@ RoomDataBank1F:
 
     ; $0FA1A2
     RoomDataTiles_004A:
-    incbin "bin/rooms/room004A.bin" ; size: 0x00D1
+    incbin "bin/rooms/room004A.bin" ; Size: 0x00D1
 
     ; $0FA273
     RoomDataTiles_003A:
-    incbin "bin/rooms/room003A.bin" ; size: 0x018A
+    incbin "bin/rooms/room003A.bin" ; Size: 0x018A
 
     ; $0FA3FD
     RoomDataTiles_002A:
-    incbin "bin/rooms/room002A.bin" ; size: 0x01A5
+    incbin "bin/rooms/room002A.bin" ; Size: 0x01A5
 
     ; $0FA5A2
     RoomDataTiles_001A:
-    incbin "bin/rooms/room001A.bin" ; size: 0x00DC
+    incbin "bin/rooms/room001A.bin" ; Size: 0x00DC
 
     ; $0FA67E
     RoomDataTiles_000A:
-    incbin "bin/rooms/room000A.bin" ; size: 0x00BA
+    incbin "bin/rooms/room000A.bin" ; Size: 0x00BA
 
     ; $0FA738
     RoomDataTiles_006A:
-    incbin "bin/rooms/room006A.bin" ; size: 0x0093
+    incbin "bin/rooms/room006A.bin" ; Size: 0x0093
 
     ; $0FA7CB
     RoomDataTiles_005A:
-    incbin "bin/rooms/room005A.bin" ; size: 0x001E
+    incbin "bin/rooms/room005A.bin" ; Size: 0x001E
 
     ; $0FA7E9
     RoomDataTiles_004B:
-    incbin "bin/rooms/room004B.bin" ; size: 0x00E8
+    incbin "bin/rooms/room004B.bin" ; Size: 0x00E8
 
     ; $0FA8D1
     RoomDataTiles_003B:
-    incbin "bin/rooms/room003B.bin" ; size: 0x0111
+    incbin "bin/rooms/room003B.bin" ; Size: 0x0111
 
     ; $0FA9E2
     RoomDataTiles_002B:
-    incbin "bin/rooms/room002B.bin" ; size: 0x00CF
+    incbin "bin/rooms/room002B.bin" ; Size: 0x00CF
 
     ; $0FAAB1
     RoomDataTiles_001B:
-    incbin "bin/rooms/room001B.bin" ; size: 0x0086
+    incbin "bin/rooms/room001B.bin" ; Size: 0x0086
 
     ; $0FAB37
     RoomDataTiles_000B:
-    incbin "bin/rooms/room000B.bin" ; size: 0x00C1
+    incbin "bin/rooms/room000B.bin" ; Size: 0x00C1
 
     ; $0FABF8
     RoomDataTiles_0019:
-    incbin "bin/rooms/room0019.bin" ; size: 0x00D4
+    incbin "bin/rooms/room0019.bin" ; Size: 0x00D4
 
     ; $0FACCC
     RoomDataTiles_0009:
-    incbin "bin/rooms/room0009.bin" ; size: 0x005B
+    incbin "bin/rooms/room0009.bin" ; Size: 0x005B
 
     ; ===========================================================================
     ; Unused rooms Zarby found
@@ -879,11 +879,11 @@ RoomDataBank1F:
 
     ; $0FAD27
     RoomDataTiles_Zarby89:
-    incbin "bin/rooms/unused-1FAD27.bin" ; size: 0x00CA
+    incbin "bin/rooms/unused-1FAD27.bin" ; Size: 0x00CA
 
     ; $0FADF1
     RoomDataTiles_Zarby90:
-    incbin "bin/rooms/unused-1FADF1.bin" ; size: 0x00D2
+    incbin "bin/rooms/unused-1FADF1.bin" ; Size: 0x00D2
 
     ; ===========================================================================
     ; Misery Mire
@@ -891,75 +891,75 @@ RoomDataBank1F:
 
     ; $0FAEC3
     RoomDataTiles_0098:
-    incbin "bin/rooms/room0098.bin" ; size: 0x009C
+    incbin "bin/rooms/room0098.bin" ; Size: 0x009C
 
     ; $0FAF5F
     RoomDataTiles_00D2:
-    incbin "bin/rooms/room00D2.bin" ; size: 0x007B
+    incbin "bin/rooms/room00D2.bin" ; Size: 0x007B
 
     ; $0FAFDA
     RoomDataTiles_00C2:
-    incbin "bin/rooms/room00C2.bin" ; size: 0x011F
+    incbin "bin/rooms/room00C2.bin" ; Size: 0x011F
 
     ; $0FB0F9
     RoomDataTiles_00C1:
-    incbin "bin/rooms/room00C1.bin" ; size: 0x008F
+    incbin "bin/rooms/room00C1.bin" ; Size: 0x008F
 
     ; $0FB188
     RoomDataTiles_00D1:
-    incbin "bin/rooms/room00D1.bin" ; size: 0x00DB
+    incbin "bin/rooms/room00D1.bin" ; Size: 0x00DB
 
     ; $0FB263
     RoomDataTiles_0097:
-    incbin "bin/rooms/room0097.bin" ; size: 0x00AD
+    incbin "bin/rooms/room0097.bin" ; Size: 0x00AD
 
     ; $0FB310
     RoomDataTiles_00B1:
-    incbin "bin/rooms/room00B1.bin" ; size: 0x00B1
+    incbin "bin/rooms/room00B1.bin" ; Size: 0x00B1
 
     ; $0FB3C1
     RoomDataTiles_00B2:
-    incbin "bin/rooms/room00B2.bin" ; size: 0x00FE
+    incbin "bin/rooms/room00B2.bin" ; Size: 0x00FE
 
     ; $0FB4BF
     RoomDataTiles_00C3:
-    incbin "bin/rooms/room00C3.bin" ; size: 0x00BD
+    incbin "bin/rooms/room00C3.bin" ; Size: 0x00BD
 
     ; $0FB57C
     RoomDataTiles_00B3:
-    incbin "bin/rooms/room00B3.bin" ; size: 0x0074
+    incbin "bin/rooms/room00B3.bin" ; Size: 0x0074
 
     ; $0FB5F0
     RoomDataTiles_00A3:
-    incbin "bin/rooms/room00A3.bin" ; size: 0x007D
+    incbin "bin/rooms/room00A3.bin" ; Size: 0x007D
 
     ; $0FB66D
     RoomDataTiles_00A2:
-    incbin "bin/rooms/room00A2.bin" ; size: 0x00F6
+    incbin "bin/rooms/room00A2.bin" ; Size: 0x00F6
 
     ; $0FB763
     RoomDataTiles_00A1:
-    incbin "bin/rooms/room00A1.bin" ; size: 0x00E0
+    incbin "bin/rooms/room00A1.bin" ; Size: 0x00E0
 
     ; $0FB843
     RoomDataTiles_0093:
-    incbin "bin/rooms/room0093.bin" ; size: 0x00A6
+    incbin "bin/rooms/room0093.bin" ; Size: 0x00A6
 
     ; $0FB8E9
     RoomDataTiles_0092:
-    incbin "bin/rooms/room0092.bin" ; size: 0x009E
+    incbin "bin/rooms/room0092.bin" ; Size: 0x009E
 
     ; $0FB987
     RoomDataTiles_0091:
-    incbin "bin/rooms/room0091.bin" ; size: 0x0063
+    incbin "bin/rooms/room0091.bin" ; Size: 0x0063
 
     ; $0FB9EA
     RoomDataTiles_00A0:
-    incbin "bin/rooms/room00A0.bin" ; size: 0x00B4
+    incbin "bin/rooms/room00A0.bin" ; Size: 0x00B4
 
     ; $0FBA9E
     RoomDataTiles_0090:
-    incbin "bin/rooms/room0090.bin" ; size: 0x0018
+    incbin "bin/rooms/room0090.bin" ; Size: 0x0018
 
     ; ===========================================================================
     ; Skull Woods
@@ -967,39 +967,39 @@ RoomDataBank1F:
 
     ; $0FBAB6
     RoomDataTiles_0056:
-    incbin "bin/rooms/room0056.bin" ; size: 0x00A2
+    incbin "bin/rooms/room0056.bin" ; Size: 0x00A2
 
     ; $0FBB58
     RoomDataTiles_0057:
-    incbin "bin/rooms/room0057.bin" ; size: 0x0088
+    incbin "bin/rooms/room0057.bin" ; Size: 0x0088
 
     ; $0FBBE0
     RoomDataTiles_0058:
-    incbin "bin/rooms/room0058.bin" ; size: 0x0124
+    incbin "bin/rooms/room0058.bin" ; Size: 0x0124
 
     ; $0FBD04
     RoomDataTiles_0067:
-    incbin "bin/rooms/room0067.bin" ; size: 0x011B
+    incbin "bin/rooms/room0067.bin" ; Size: 0x011B
 
     ; $0FBE1F
     RoomDataTiles_0068:
-    incbin "bin/rooms/room0068.bin" ; size: 0x00E9
+    incbin "bin/rooms/room0068.bin" ; Size: 0x00E9
 
     ; $0FBF08
     RoomDataTiles_0059:
-    incbin "bin/rooms/room0059.bin" ; size: 0x00F9
+    incbin "bin/rooms/room0059.bin" ; Size: 0x00F9
 
     ; $0FC001
     RoomDataTiles_0049:
-    incbin "bin/rooms/room0049.bin" ; size: 0x0135
+    incbin "bin/rooms/room0049.bin" ; Size: 0x0135
 
     ; $0FC136
     RoomDataTiles_0039:
-    incbin "bin/rooms/room0039.bin" ; size: 0x0050
+    incbin "bin/rooms/room0039.bin" ; Size: 0x0050
 
     ; $0FC186
     RoomDataTiles_0029:
-    incbin "bin/rooms/room0029.bin" ; size: 0x006A
+    incbin "bin/rooms/room0029.bin" ; Size: 0x006A
 
     ; ===========================================================================
     ; Ice Palace
@@ -1007,87 +1007,87 @@ RoomDataBank1F:
 
     ; $0FC1F0
     RoomDataTiles_000E:
-    incbin "bin/rooms/room000E.bin" ; size: 0x0091
+    incbin "bin/rooms/room000E.bin" ; Size: 0x0091
 
     ; $0FC281
     RoomDataTiles_001E:
-    incbin "bin/rooms/room001E.bin" ; size: 0x00E7
+    incbin "bin/rooms/room001E.bin" ; Size: 0x00E7
 
     ; $0FC368
     RoomDataTiles_001F:
-    incbin "bin/rooms/room001F.bin" ; size: 0x004D
+    incbin "bin/rooms/room001F.bin" ; Size: 0x004D
 
     ; $0FC3B5
     RoomDataTiles_002E:
-    incbin "bin/rooms/room002E.bin" ; size: 0x0027
+    incbin "bin/rooms/room002E.bin" ; Size: 0x0027
 
     ; $0FC3DC
     RoomDataTiles_003E:
-    incbin "bin/rooms/room003E.bin" ; size: 0x00B0
+    incbin "bin/rooms/room003E.bin" ; Size: 0x00B0
 
     ; $0FC48C
     RoomDataTiles_003F:
-    incbin "bin/rooms/room003F.bin" ; size: 0x0093
+    incbin "bin/rooms/room003F.bin" ; Size: 0x0093
 
     ; $0FC51F
     RoomDataTiles_004E:
-    incbin "bin/rooms/room004E.bin" ; size: 0x00A1
+    incbin "bin/rooms/room004E.bin" ; Size: 0x00A1
 
     ; $0FC5C0
     RoomDataTiles_005E:
-    incbin "bin/rooms/room005E.bin" ; size: 0x0102
+    incbin "bin/rooms/room005E.bin" ; Size: 0x0102
 
     ; $0FC6C2
     RoomDataTiles_005F:
-    incbin "bin/rooms/room005F.bin" ; size: 0x003C
+    incbin "bin/rooms/room005F.bin" ; Size: 0x003C
 
     ; $0FC6FE
     RoomDataTiles_006E:
-    incbin "bin/rooms/room006E.bin" ; size: 0x0051
+    incbin "bin/rooms/room006E.bin" ; Size: 0x0051
 
     ; $0FC74F
     RoomDataTiles_007E:
-    incbin "bin/rooms/room007E.bin" ; size: 0x007F
+    incbin "bin/rooms/room007E.bin" ; Size: 0x007F
 
     ; $0FC7CE
     RoomDataTiles_007F:
-    incbin "bin/rooms/room007F.bin" ; size: 0x005F
+    incbin "bin/rooms/room007F.bin" ; Size: 0x005F
 
     ; $0FC82D
     RoomDataTiles_008E:
-    incbin "bin/rooms/room008E.bin" ; size: 0x0024
+    incbin "bin/rooms/room008E.bin" ; Size: 0x0024
 
     ; $0FC851
     RoomDataTiles_009E:
-    incbin "bin/rooms/room009E.bin" ; size: 0x0081
+    incbin "bin/rooms/room009E.bin" ; Size: 0x0081
 
     ; $0FC8D2
     RoomDataTiles_009F:
-    incbin "bin/rooms/room009F.bin" ; size: 0x006B
+    incbin "bin/rooms/room009F.bin" ; Size: 0x006B
 
     ; $0FC93D
     RoomDataTiles_00AE:
-    incbin "bin/rooms/room00AE.bin" ; size: 0x003C
+    incbin "bin/rooms/room00AE.bin" ; Size: 0x003C
 
     ; $0FC979
     RoomDataTiles_00AF:
-    incbin "bin/rooms/room00AF.bin" ; size: 0x006E
+    incbin "bin/rooms/room00AF.bin" ; Size: 0x006E
 
     ; $0FC9E7
     RoomDataTiles_00BE:
-    incbin "bin/rooms/room00BE.bin" ; size: 0x0049
+    incbin "bin/rooms/room00BE.bin" ; Size: 0x0049
 
     ; $0FCA30
     RoomDataTiles_004F:
-    incbin "bin/rooms/room004F.bin" ; size: 0x005D
+    incbin "bin/rooms/room004F.bin" ; Size: 0x005D
 
     ; $0FCA8D
     RoomDataTiles_00CE:
-    incbin "bin/rooms/room00CE.bin" ; size: 0x0054
+    incbin "bin/rooms/room00CE.bin" ; Size: 0x0054
 
     ; $0FCAE1
     RoomDataTiles_00DE:
-    incbin "bin/rooms/room00DE.bin" ; size: 0x000D
+    incbin "bin/rooms/room00DE.bin" ; Size: 0x000D
 
     ; ===========================================================================
     ; Tower of Hera
@@ -1095,31 +1095,31 @@ RoomDataBank1F:
 
     ; $0FCAEE
     RoomDataTiles_0007:
-    incbin "bin/rooms/room0007.bin" ; size: 0x0139
+    incbin "bin/rooms/room0007.bin" ; Size: 0x0139
 
     ; $0FCC27
     RoomDataTiles_0017:
-    incbin "bin/rooms/room0017.bin" ; size: 0x010C
+    incbin "bin/rooms/room0017.bin" ; Size: 0x010C
 
     ; $0FCD33
     RoomDataTiles_0027:
-    incbin "bin/rooms/room0027.bin" ; size: 0x013F
+    incbin "bin/rooms/room0027.bin" ; Size: 0x013F
 
     ; $0FCE72
     RoomDataTiles_0031:
-    incbin "bin/rooms/room0031.bin" ; size: 0x00E3
+    incbin "bin/rooms/room0031.bin" ; Size: 0x00E3
 
     ; $0FCF55
     RoomDataTiles_0077:
-    incbin "bin/rooms/room0077.bin" ; size: 0x0197
+    incbin "bin/rooms/room0077.bin" ; Size: 0x0197
 
     ; $0FD0EC
     RoomDataTiles_0087:
-    incbin "bin/rooms/room0087.bin" ; size: 0x00D1
+    incbin "bin/rooms/room0087.bin" ; Size: 0x00D1
 
     ; $0FD1BD
     RoomDataTiles_00A7:
-    incbin "bin/rooms/room00A7.bin" ; size: 0x0040
+    incbin "bin/rooms/room00A7.bin" ; Size: 0x0040
 
     ; ===========================================================================
     ; Thieves' Town
@@ -1127,51 +1127,51 @@ RoomDataBank1F:
 
     ; $0FD1FD
     RoomDataTiles_00DB:
-    incbin "bin/rooms/room00DB.bin" ; size: 0x0179
+    incbin "bin/rooms/room00DB.bin" ; Size: 0x0179
 
     ; $0FD376
     RoomDataTiles_00DC:
-    incbin "bin/rooms/room00DC.bin" ; size: 0x015F
+    incbin "bin/rooms/room00DC.bin" ; Size: 0x015F
 
     ; $0FD4D5
     RoomDataTiles_00CB:
-    incbin "bin/rooms/room00CB.bin" ; size: 0x015F
+    incbin "bin/rooms/room00CB.bin" ; Size: 0x015F
 
     ; $0FD634
     RoomDataTiles_00CC:
-    incbin "bin/rooms/room00CC.bin" ; size: 0x0157
+    incbin "bin/rooms/room00CC.bin" ; Size: 0x0157
 
     ; $0FD78B
     RoomDataTiles_00BB:
-    incbin "bin/rooms/room00BB.bin" ; size: 0x00EE
+    incbin "bin/rooms/room00BB.bin" ; Size: 0x00EE
 
     ; $0FD879
     RoomDataTiles_00BC:
-    incbin "bin/rooms/room00BC.bin" ; size: 0x010D
+    incbin "bin/rooms/room00BC.bin" ; Size: 0x010D
 
     ; $0FD986
     RoomDataTiles_00AB:
-    incbin "bin/rooms/room00AB.bin" ; size: 0x0029
+    incbin "bin/rooms/room00AB.bin" ; Size: 0x0029
 
     ; $0FD9AF
     RoomDataTiles_00AC:
-    incbin "bin/rooms/room00AC.bin" ; size: 0x002D
+    incbin "bin/rooms/room00AC.bin" ; Size: 0x002D
 
     ; $0FD9DC
     RoomDataTiles_0064:
-    incbin "bin/rooms/room0064.bin" ; size: 0x007B
+    incbin "bin/rooms/room0064.bin" ; Size: 0x007B
 
     ; $0FDA57
     RoomDataTiles_0065:
-    incbin "bin/rooms/room0065.bin" ; size: 0x0072
+    incbin "bin/rooms/room0065.bin" ; Size: 0x0072
 
     ; $0FDAC9
     RoomDataTiles_0044:
-    incbin "bin/rooms/room0044.bin" ; size: 0x010E
+    incbin "bin/rooms/room0044.bin" ; Size: 0x010E
 
     ; $0FDBD7
     RoomDataTiles_0045:
-    incbin "bin/rooms/room0045.bin" ; size: 0x00E1
+    incbin "bin/rooms/room0045.bin" ; Size: 0x00E1
 
     ; ===========================================================================
     ; Turtle Rock
@@ -1179,71 +1179,71 @@ RoomDataBank1F:
 
     ; $0FDCB8
     RoomDataTiles_00B6:
-    incbin "bin/rooms/room00B6.bin" ; size: 0x00A4
+    incbin "bin/rooms/room00B6.bin" ; Size: 0x00A4
 
     ; $0FDD5C
     RoomDataTiles_00B7:
-    incbin "bin/rooms/room00B7.bin" ; size: 0x0075
+    incbin "bin/rooms/room00B7.bin" ; Size: 0x0075
 
     ; $0FDDD1
     RoomDataTiles_00C6:
-    incbin "bin/rooms/room00C6.bin" ; size: 0x0199
+    incbin "bin/rooms/room00C6.bin" ; Size: 0x0199
 
     ; $0FDF6A
     RoomDataTiles_00C7:
-    incbin "bin/rooms/room00C7.bin" ; size: 0x013F
+    incbin "bin/rooms/room00C7.bin" ; Size: 0x013F
 
     ; $0FE0A9
     RoomDataTiles_00D6:
-    incbin "bin/rooms/room00D6.bin" ; size: 0x012A
+    incbin "bin/rooms/room00D6.bin" ; Size: 0x012A
 
     ; $0FE1D3
     RoomDataTiles_0004:
-    incbin "bin/rooms/room0004.bin" ; size: 0x0095
+    incbin "bin/rooms/room0004.bin" ; Size: 0x0095
 
     ; $0FE268
     RoomDataTiles_0013:
-    incbin "bin/rooms/room0013.bin" ; size: 0x003B
+    incbin "bin/rooms/room0013.bin" ; Size: 0x003B
 
     ; $0FE2A3
     RoomDataTiles_0014:
-    incbin "bin/rooms/room0014.bin" ; size: 0x01D1
+    incbin "bin/rooms/room0014.bin" ; Size: 0x01D1
 
     ; $0FE171
     RoomDataTiles_0015:
-    incbin "bin/rooms/room0015.bin" ; size: 0x01D0
+    incbin "bin/rooms/room0015.bin" ; Size: 0x01D0
 
     ; $0FE644
     RoomDataTiles_0024:
-    incbin "bin/rooms/room0024.bin" ; size: 0x00BC
+    incbin "bin/rooms/room0024.bin" ; Size: 0x00BC
 
     ; $0FE700
     RoomDataTiles_00A4:
-    incbin "bin/rooms/room00A4.bin" ; size: 0x0045
+    incbin "bin/rooms/room00A4.bin" ; Size: 0x0045
 
     ; $0FE745
     RoomDataTiles_00B4:
-    incbin "bin/rooms/room00B4.bin" ; size: 0x00C6
+    incbin "bin/rooms/room00B4.bin" ; Size: 0x00C6
 
     ; $0FE80B
     RoomDataTiles_00B5:
-    incbin "bin/rooms/room00B5.bin" ; size: 0x0300
+    incbin "bin/rooms/room00B5.bin" ; Size: 0x0300
 
     ; $0FEB0B
     RoomDataTiles_00C4:
-    incbin "bin/rooms/room00C4.bin" ; size: 0x0138
+    incbin "bin/rooms/room00C4.bin" ; Size: 0x0138
 
     ; $0FEC43
     RoomDataTiles_00C5:
-    incbin "bin/rooms/room00C5.bin" ; size: 0x00A6
+    incbin "bin/rooms/room00C5.bin" ; Size: 0x00A6
 
     ; $0FECE9
     RoomDataTiles_0023:
-    incbin "bin/rooms/room0023.bin" ; size: 0x004D
+    incbin "bin/rooms/room0023.bin" ; Size: 0x004D
 
     ; $0FED36
     RoomDataTiles_00D5:
-    incbin "bin/rooms/room00D5.bin" ; size: 0x0110
+    incbin "bin/rooms/room00D5.bin" ; Size: 0x0110
 
     ; ===========================================================================
     ; Ganon's Tower
@@ -1251,103 +1251,103 @@ RoomDataBank1F:
 
     ; $0FEE46
     RoomDataTiles_000C:
-    incbin "bin/rooms/room000C.bin" ; size: 0x0111
+    incbin "bin/rooms/room000C.bin" ; Size: 0x0111
 
     ; $0FEF57
     RoomDataTiles_007B:
-    incbin "bin/rooms/room007B.bin" ; size: 0x00DC
+    incbin "bin/rooms/room007B.bin" ; Size: 0x00DC
 
     ; $0FF033
     RoomDataTiles_007C:
-    incbin "bin/rooms/room007C.bin" ; size: 0x00C6
+    incbin "bin/rooms/room007C.bin" ; Size: 0x00C6
 
     ; $0FF0F9
     RoomDataTiles_007D:
-    incbin "bin/rooms/room007D.bin" ; size: 0x011B
+    incbin "bin/rooms/room007D.bin" ; Size: 0x011B
 
     ; $0FF214
     RoomDataTiles_008B:
-    incbin "bin/rooms/room008B.bin" ; size: 0x0137
+    incbin "bin/rooms/room008B.bin" ; Size: 0x0137
 
     ; $0FF34B
     RoomDataTiles_008C:
-    incbin "bin/rooms/room008C.bin" ; size: 0x00B2
+    incbin "bin/rooms/room008C.bin" ; Size: 0x00B2
 
     ; $0FF3FD
     RoomDataTiles_008D:
-    incbin "bin/rooms/room008D.bin" ; size: 0x00EF
+    incbin "bin/rooms/room008D.bin" ; Size: 0x00EF
 
     ; $0FF4EC
     RoomDataTiles_009B:
-    incbin "bin/rooms/room009B.bin" ; size: 0x00BE
+    incbin "bin/rooms/room009B.bin" ; Size: 0x00BE
 
     ; $0FF5AA
     RoomDataTiles_009C:
-    incbin "bin/rooms/room009C.bin" ; size: 0x0129
+    incbin "bin/rooms/room009C.bin" ; Size: 0x0129
 
     ; $0FF6D3
     RoomDataTiles_009D:
-    incbin "bin/rooms/room009D.bin" ; size: 0x0076
+    incbin "bin/rooms/room009D.bin" ; Size: 0x0076
 
     ; $0FF749
     RoomDataTiles_001C:
-    incbin "bin/rooms/room001C.bin" ; size: 0x0043
+    incbin "bin/rooms/room001C.bin" ; Size: 0x0043
 
     ; $0FF78C
     RoomDataTiles_006B:
-    incbin "bin/rooms/room006B.bin" ; size: 0x009F
+    incbin "bin/rooms/room006B.bin" ; Size: 0x009F
 
     ; $0FF82B
     RoomDataTiles_005B:
-    incbin "bin/rooms/room005B.bin" ; size: 0x00A7
+    incbin "bin/rooms/room005B.bin" ; Size: 0x00A7
 
     ; $0FF8D2
     RoomDataTiles_005C:
-    incbin "bin/rooms/room005C.bin" ; size: 0x00AA
+    incbin "bin/rooms/room005C.bin" ; Size: 0x00AA
 
     ; $0FF97C
     RoomDataTiles_005D:
-    incbin "bin/rooms/room005D.bin" ; size: 0x006D
+    incbin "bin/rooms/room005D.bin" ; Size: 0x006D
 
     ; $0FF9E9
     RoomDataTiles_006D:
-    incbin "bin/rooms/room006D.bin" ; size: 0x006D
+    incbin "bin/rooms/room006D.bin" ; Size: 0x006D
 
     ; $0FFA56
     RoomDataTiles_006C:
-    incbin "bin/rooms/room006C.bin" ; size: 0x0052
+    incbin "bin/rooms/room006C.bin" ; Size: 0x0052
 
     ; $0FFAA8
     RoomDataTiles_00A5:
-    incbin "bin/rooms/room00A5.bin" ; size: 0x00DF
+    incbin "bin/rooms/room00A5.bin" ; Size: 0x00DF
 
     ; $0FFB87
     RoomDataTiles_0095:
-    incbin "bin/rooms/room0095.bin" ; size: 0x0083
+    incbin "bin/rooms/room0095.bin" ; Size: 0x0083
 
     ; $0FFC0A
     RoomDataTiles_0096:
-    incbin "bin/rooms/room0096.bin" ; size: 0x0074
+    incbin "bin/rooms/room0096.bin" ; Size: 0x0074
 
     ; $0FFC7E
     RoomDataTiles_003D:
-    incbin "bin/rooms/room003D.bin" ; size: 0x00C3
+    incbin "bin/rooms/room003D.bin" ; Size: 0x00C3
 
     ; $0FFD41
     RoomDataTiles_004D:
-    incbin "bin/rooms/room004D.bin" ; size: 0x011F
+    incbin "bin/rooms/room004D.bin" ; Size: 0x011F
 
     ; $0FFE60
     RoomDataTiles_004C:
-    incbin "bin/rooms/room004C.bin" ; size: 0x0072
+    incbin "bin/rooms/room004C.bin" ; Size: 0x0072
 
     ; $0FFED2
     RoomDataTiles_001D:
-    incbin "bin/rooms/room001D.bin" ; size: 0x004B
+    incbin "bin/rooms/room001D.bin" ; Size: 0x004B
 
     ; $0FFF1D
     RoomDataTiles_00A6:
-    incbin "bin/rooms/room00A6.bin" ; size: 0x0031
+    incbin "bin/rooms/room00A6.bin" ; Size: 0x0031
 }
 
 ; ==============================================================================

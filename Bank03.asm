@@ -4662,139 +4662,139 @@ RoomDataBank03:
 
     ; $01EBA0
     RoomDataTiles_0100:
-    incbin "bin/rooms/room0100.bin" ; size: 0x004D
+    incbin "bin/rooms/room0100.bin" ; Size: 0x004D
 
     ; $01EBED
     RoomDataTiles_0101:
-    incbin "bin/rooms/room0101.bin" ; size: 0x0084
+    incbin "bin/rooms/room0101.bin" ; Size: 0x0084
 
     ; $01EC71
     RoomDataTiles_0102:
-    incbin "bin/rooms/room0102.bin" ; size: 0x005F
+    incbin "bin/rooms/room0102.bin" ; Size: 0x005F
 
     ; $01ECD0
     RoomDataTiles_0103:
-    incbin "bin/rooms/room0103.bin" ; size: 0x00F4
+    incbin "bin/rooms/room0103.bin" ; Size: 0x00F4
 
     ; $01EDC4
     RoomDataTiles_0105:
-    incbin "bin/rooms/room0105.bin" ; size: 0x0070
+    incbin "bin/rooms/room0105.bin" ; Size: 0x0070
 
     ; $01EE34
     RoomDataTiles_0106:
-    incbin "bin/rooms/room0106.bin" ; size: 0x00BD
+    incbin "bin/rooms/room0106.bin" ; Size: 0x00BD
 
     ; $01EEF1
     RoomDataTiles_0107:
-    incbin "bin/rooms/room0107.bin" ; size: 0x00A2
+    incbin "bin/rooms/room0107.bin" ; Size: 0x00A2
 
     ; $01EF93
     RoomDataTiles_0108:
-    incbin "bin/rooms/room0108.bin" ; size: 0x00BB
+    incbin "bin/rooms/room0108.bin" ; Size: 0x00BB
 
     ; $01F04E
     RoomDataTiles_0109:
-    incbin "bin/rooms/room0109.bin" ; size: 0x0062
+    incbin "bin/rooms/room0109.bin" ; Size: 0x0062
 
     ; $01F0B0
     RoomDataTiles_010A:
-    incbin "bin/rooms/room010A.bin" ; size: 0x00DC
+    incbin "bin/rooms/room010A.bin" ; Size: 0x00DC
 
     ; $01F18C
     RoomDataTiles_010B:
-    incbin "bin/rooms/room010B.bin" ; size: 0x00DF
+    incbin "bin/rooms/room010B.bin" ; Size: 0x00DF
 
     ; $01F26B
     RoomDataTiles_010C:
-    incbin "bin/rooms/room010C.bin" ; size: 0x0106
+    incbin "bin/rooms/room010C.bin" ; Size: 0x0106
 
     ; $01F371
     RoomDataTiles_011B:
-    incbin "bin/rooms/room011B.bin" ; size: 0x00E5
+    incbin "bin/rooms/room011B.bin" ; Size: 0x00E5
 
     ; $01FF53
     RoomDataTiles_011C:
-    incbin "bin/rooms/room011C.bin" ; size: 0x00A5
+    incbin "bin/rooms/room011C.bin" ; Size: 0x00A5
 
     ; $01F4FB
     RoomDataTiles_0120:
-    incbin "bin/rooms/room0120.bin" ; size: 0x008F
+    incbin "bin/rooms/room0120.bin" ; Size: 0x008F
 
     ; $01F58A
     RoomDataTiles_0110:
-    incbin "bin/rooms/room0110.bin" ; size: 0x0050
+    incbin "bin/rooms/room0110.bin" ; Size: 0x0050
 
     ; $01F5DA
     RoomDataTiles_0111:
-    incbin "bin/rooms/room0111.bin" ; size: 0x0041
+    incbin "bin/rooms/room0111.bin" ; Size: 0x0041
 
     ; $01F61B
     RoomDataTiles_0112:
-    incbin "bin/rooms/room0112.bin" ; size: 0x0095
+    incbin "bin/rooms/room0112.bin" ; Size: 0x0095
 
     ; $01F6B0
     RoomDataTiles_0113:
-    incbin "bin/rooms/room0113.bin" ; size: 0x0074
+    incbin "bin/rooms/room0113.bin" ; Size: 0x0074
 
     ; $01F724
     RoomDataTiles_0114:
-    incbin "bin/rooms/room0114.bin" ; size: 0x00CD
+    incbin "bin/rooms/room0114.bin" ; Size: 0x00CD
 
     ; $01F7F1
     RoomDataTiles_0115:
-    incbin "bin/rooms/room0115.bin" ; size: 0x0100
+    incbin "bin/rooms/room0115.bin" ; Size: 0x0100
 
     ; $01F8F1
     RoomDataTiles_011A:
-    incbin "bin/rooms/room011A.bin" ; size: 0x006A
+    incbin "bin/rooms/room011A.bin" ; Size: 0x006A
 
     ; $01F95B
     RoomDataTiles_0121:
-    incbin "bin/rooms/room0121.bin" ; size: 0x0029
+    incbin "bin/rooms/room0121.bin" ; Size: 0x0029
 
     ; $01F984
     RoomDataTiles_0122:
-    incbin "bin/rooms/room0122.bin" ; size: 0x0078
+    incbin "bin/rooms/room0122.bin" ; Size: 0x0078
 
     ; $01F9FC
     RoomDataTiles_010E:
-    incbin "bin/rooms/room010E.bin" ; size: 0x012B
+    incbin "bin/rooms/room010E.bin" ; Size: 0x012B
 
     ; $01FB27
     RoomDataTiles_010D:
-    incbin "bin/rooms/room010D.bin" ; size: 0x0089
+    incbin "bin/rooms/room010D.bin" ; Size: 0x0089
 
     ; $01FBB0
     RoomDataTiles_010F:
-    incbin "bin/rooms/room010F.bin" ; size: 0x0053
+    incbin "bin/rooms/room010F.bin" ; Size: 0x0053
 
     ; $01FC03
     RoomDataTiles_0116:
-    incbin "bin/rooms/room0116.bin" ; size: 0x0042
+    incbin "bin/rooms/room0116.bin" ; Size: 0x0042
 
     ; $01FC45
     RoomDataTiles_0117:
-    incbin "bin/rooms/room0117.bin" ; size: 0x0144
+    incbin "bin/rooms/room0117.bin" ; Size: 0x0144
 
     ; $01FD89
     RoomDataTiles_0118:
-    incbin "bin/rooms/room0118.bin" ; size: 0x0059
+    incbin "bin/rooms/room0118.bin" ; Size: 0x0059
 
     ; $01FDE2
     RoomDataTiles_0119:
-    incbin "bin/rooms/room0119.bin" ; size: 0x005F
+    incbin "bin/rooms/room0119.bin" ; Size: 0x005F
 
     ; $01FE41
     RoomDataTiles_011D:
-    incbin "bin/rooms/room011D.bin" ; size: 0x007E
+    incbin "bin/rooms/room011D.bin" ; Size: 0x007E
 
     ; $01FEBF
     RoomDataTiles_011E:
-    incbin "bin/rooms/room011E.bin" ; size: 0x0094
+    incbin "bin/rooms/room011E.bin" ; Size: 0x0094
 
     ; $01FF53
     RoomDataTiles_011F:
-    incbin "bin/rooms/room011F.bin" ; size: 0x00A2
+    incbin "bin/rooms/room011F.bin" ; Size: 0x00A2
 }
 
 ; ==============================================================================
