@@ -1,6 +1,6 @@
 ; =============================================================================
 
-; NOTE: This sprite uses $0B08[0x05] as some extra scratch ram. This is
+; NOTE: This sprite uses $0B08[0x05] as some extra scratch WRAM. This is
 ; probably ill-advised, but bosses always seem to want to break the rules.
 ;
 ; $0B08[0x02] - 

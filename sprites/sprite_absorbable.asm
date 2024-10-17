@@ -95,7 +95,7 @@ Sprite_Absorbable_draw_logic_finished:
                 LDA.w $0E60, X : AND.b #$20 : BEQ .finished_bounce_logic
                 
                 ; Adjust water splash coordinates, but only if this flag is set?
-                ; TODO: Investigate, and if this is true, document it in ram doc.
+                ; TODO: Investigate, and if this is true, document it in WRAM doc.
                 LDA.w $0D10, Y : SBC.b #$04 : STA.w $0D10, Y
                 LDA.w $0D30, Y : SBC.b #$00 : STA.w $0D30, Y
                 
