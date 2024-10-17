@@ -189,7 +189,7 @@ Pool_ReturningSmithy_Draw:
     dw 0, 0 : db $22, $41, $00, $02
     
     ; $033300
-    .vram_source_offsets
+    .VRAM_source_offsets
     db $C0, $C0, $A0, $A0, $80, $60, $80, $60
 }
 
@@ -201,9 +201,9 @@ ReturningSmithy_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : TAY
     
-    ; This sprite apparently vram to change appearance rather than using
+    ; This sprite apparently VRAM to change appearance rather than using
     ; different sprite tile numbers.
-    LDA.w Pool_ReturningSmithy_Draw_vram_source_offsets, Y : STA.w $0AEA
+    LDA.w Pool_ReturningSmithy_Draw_VRAM_source_offsets, Y : STA.w $0AEA
     
     TYA : ASL #3
     

@@ -1,7 +1,7 @@
 ; ==============================================================================
 
 ; $0E9C7A-$0E9C7F DATA
-Swamola_InitSegments_ram_offsets:
+Swamola_InitSegments_WRAM_offsets:
 {
     db $00, $20, $40, $60, $80, $A0
 }
@@ -13,7 +13,7 @@ Swamola_InitSegments:
     
     ; BUG: (confirmed) This loads from the wrong bank when this function
     ; is called.
-    LDA.w .ram_offsets, X : TAX
+    LDA.w .WRAM_offsets, X : TAX
     
     LDA.b #$1F : STA.b $00
     
@@ -437,7 +437,7 @@ Swamola_Draw:
     PHX : TXY
     
     LDA.w $0E80, X
-    AND.b #$1F : CLC : ADC.w Swamola_InitSegments_ram_offsets, X : TAX
+    AND.b #$1F : CLC : ADC.w Swamola_InitSegments_WRAM_offsets, X : TAX
     
     LDA.w $0D10, Y : STA.l $7FFA5C, X
     LDA.w $0D30, Y : STA.l $7FFB1C, X
@@ -474,7 +474,7 @@ Swamola_Draw:
         
         LDA.w $0E80, X
         SEC : SBC Pool_Swamola_Draw_unknown_0, Y : AND.b #$1F
-        CLC : ADC.w Swamola_InitSegments_ram_offsets, X : TAX
+        CLC : ADC.w Swamola_InitSegments_WRAM_offsets, X : TAX
         
         LDA.l $7FFA5C, X : STA.w $0FD8
         LDA.l $7FFB1C, X : STA.w $0FD9
