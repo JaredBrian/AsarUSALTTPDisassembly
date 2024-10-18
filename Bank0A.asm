@@ -442,18 +442,17 @@ Pool_BirdTravel_Main:
 BirdTravel_Main:
 {
     LDA.b $C8 : BNE .waitForCounter
-    
-    ; Check A, X, B, and Y buttons (BYSTudlr and AXLR----).
-    LDA.b $F2 : ORA.b $F0 : AND.b #$C0 : BEQ .noButtonInput
-        ; These buttons cause us to exit bird travel and end up at the
-        ; selected destination.
-        INC.w $0200
-        
-        RTL
+        ; Check A, X, B, and Y buttons (BYSTudlr and AXLR----).
+        LDA.b $F2 : ORA.b $F0 : AND.b #$C0 : BEQ .noButtonInput
+            ; These buttons cause us to exit bird travel and end up at the
+            ; selected destination.
+            INC.w $0200
+            
+            RTL
 
-        .waitForCounter
+    .waitForCounter
 
-        DEC.b $C8
+    DEC.b $C8
 
     .noButtonInput
 
@@ -4488,9 +4487,8 @@ DungeonMap_DrawFloorNumbersByRoom:
 ; ==============================================================================
 
 ; $05656F-$056578 DATA
-Pool_DungeonMap_DrawDungeonLayout:
+DungeonMap_DrawDungeonLayout_row_offset:
 {
-    .row_offset
     dw $0124, $01A4, $0224, $02A4, $0324
 }
 
@@ -4506,8 +4504,7 @@ DungeonMap_DrawDungeonLayout:
 
         LDA.b $00 : ASL A : TAX
         
-        LDA.w Pool_DungeonMap_DrawDungeonLayout_row_offset, X 
-        CLC : ADC.b $06 : AND.w #$0FFF : TAX
+        LDA.w .row_offset, X : CLC : ADC.b $06 : AND.w #$0FFF : TAX
         
         JSR.w DungeonMap_DrawSingleRowOfRooms
         
@@ -4551,7 +4548,8 @@ DungeonMap_DrawSingleRowOfRooms:
         LDA.b $00 : ASL A : TAX
         
         ; $04 = column * 5.
-        LDA.b $02 : ADC.w Pool_DungeonMap_DrawSingleRowOfRooms_row_draw_offset, X : STA.b $04
+        LDA.b $02
+        ADC.w Pool_DungeonMap_DrawSingleRowOfRooms_row_draw_offset, X : STA.b $04
         
         SEP #$20
         
@@ -4559,7 +4557,8 @@ DungeonMap_DrawSingleRowOfRooms:
         
         ; I think this is trying to figure out the current floor against
         ; the deepest depth of the current palace.
-        LDA.w DungeonMapFloorCountData, X : AND.b #$0F : CLC : ADC.w $020E : ASL A : STA.b $0E
+        LDA.w DungeonMapFloorCountData, X : AND.b #$0F
+        CLC : ADC.w $020E : ASL A : STA.b $0E
         TAY
         
         REP #$20
@@ -5005,7 +5004,8 @@ DungeonMap_DrawRoomMarkers:
 
     REP #$20
     
-    LDA.b $00 : CLC : ADC.w Pool_DungeonMap_DrawRoomMarkers_offset_x_base : STA.w $0215
+    LDA.b $00
+    CLC : ADC.w Pool_DungeonMap_DrawRoomMarkers_offset_x_base : STA.w $0215
     
     LDA.b $22 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC.w $0215 : STA.w $0215
     
@@ -5020,13 +5020,15 @@ DungeonMap_DrawRoomMarkers:
     
     LDA.b #$00 : XBA
     
-    LDA.w DungeonMapFloorCountData, X : AND.b #$0F : CLC : ADC.w DungeonMap_BossRoomFloor, X
+    LDA.w DungeonMapFloorCountData, X
+    AND.b #$0F : CLC : ADC.w DungeonMap_BossRoomFloor, X
     
     REP #$20
     
     ASL A : TAY
     
-    LDA.w DungeonMapRoomPointers, X : CLC : ADC.w DungeonMapFloorToDataOffset, Y : STA.b $0E
+    LDA.w DungeonMapRoomPointers, X
+    CLC : ADC.w DungeonMapFloorToDataOffset, Y : STA.b $0E
     
     SEP #$20
     
@@ -6359,11 +6361,10 @@ DungeonMapFloorToDataOffset:
     dw $00AF
 }
 
+; Quick note, all of these pointers seem to be a multiple of 25 bytes apart.
 ; $057605-$057620 DATA
 DungeonMapRoomPointers:
 {
-    ; Quick note, all of these pointers seem to be a multiple of 25 bytes
-    ; apart...
     db $F621, $F66C, $F6E9, $F71B, $F766, $F815, $F860, $F892
     db $F8DD, $F90F, $F9D7, $FA6D, $FAB8, $FB1C
 }

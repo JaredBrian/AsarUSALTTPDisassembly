@@ -13,6 +13,7 @@
 ; Calc = Calculate/Calculation
 ; CGRAM = Color Generator RAM
 ; Coord = Coordinate
+; Decomp = Decompress/Decompression
 ; Des = Designation
 ; Diff = Difference
 ; Dir = Direction
@@ -38,6 +39,7 @@
 ; PPU = Picture Processing Unit
 ; Ptr = Pointer
 ; SFX = Sound Effects
+; Src = Source
 ; TM = Tile Map
 ; V = Vertical
 ; Val = Value
@@ -1172,7 +1174,7 @@ struct WRAM $7E0000
         ; (Bank 0x00) Temporary used in expanding 3bpp to 4bpp (high)
         ; graphics.
 
-    ; $BF[0x06] - (File)
+    ; $BF[0x06] - (File Select)
     .ValidFileArray1:
         ; (Bank 0x0C) The first entry in an array of 1 word each, one for each
         ; save file.
@@ -1180,7 +1182,7 @@ struct WRAM $7E0000
         ; 1 if there is a save file in that slot.
         ; See ValidFileArray2 and ValidFileArray3.
 
-    ; $BF[0x30] - (Dungeon)
+    ; $BF[0x1E] - (Dungeon)
     .DunDrawOBJAddLow: 
         ; (Bank 0x01) 10 entries of 3 bytes each. Used as a series of long
         ; pointers to tilemap buffer offsets. Generally, they point to locations
@@ -1202,7 +1204,7 @@ struct WRAM $7E0000
     .PolyUnknown_C0: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
-    ; $C1[0x02] - (File)
+    ; $C1[0x02] - (File Select)
     .ValidFileArray2:
         ; (Bank 0x0C) The second entry in an array of 1 word each, one for each
         ; save file.
@@ -1222,7 +1224,7 @@ struct WRAM $7E0000
     .PolyUnknown_C3:
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
-    ; $C3[0x02] - (File)
+    ; $C3[0x02] - (File Select)
     .ValidFileArray3: skip $01
         ; (Bank 0x0C) The third entry in an array of 1 word each, one for each
         ; save file.
@@ -1247,47 +1249,215 @@ struct WRAM $7E0000
         ; Written to in bank 02 and 06. Something to do with recoil. Possibly
         ; unused as its seems to be only written to. TODO: Confirm this.
 
+    ; TODO: $C8-$CA Realistically could be considered work ram instead of
+    ; having all these different labels but I'll leave them here for now so
+    ; they can be doccumented where they are used later.
+
     ; $C8[0x03] - (GFX)
-    .GFXDecompressPtrLow:
+    .GFXDecompPtrLow:
         ; (Bank 0x00) Used to store a pointer from GFXSheetPointers_sprite
-        ; during GFX decompression.
+        ; during GFX decompression. See GFXDecompPtrMid and
+        ; GFXDecompPtrHigh.
+
+    ; $C8[0x02] - (Dungeon)
+    .GanonDoorTimerLow:
+        ; (Bank 0x01) Acts as a misc timer for the Ganon room door tag.
+        ; See GanonDoorTimerHigh.
+
+    ; $C8[0x01] - (Dungeon, Minigame)
+    .ChestMinigameLastItem:
+        ; (Bank 0x01) Saves the index of the last item recieved from the chest
+        ; minigame. This is checked to prevent giving the same item twice in a
+        ; row.
+
+    ; $C8[0x01] - (Triforce)
+    .TriforceRoomTimer:
+        ; (Bank 0x02) Acts as a misc timer for the Triforce room sequence.
+
+    ; $C8[0x03] - (Triforce)
+    .OWDecompSrcAddrLow:
+        ; (Bank 0x02) Stores the sorce address for overworld decompression.
+        ; See OWDecompSrcAddrMid and OWDecompSrcAddrHigh.
+
+    ; $C8[0x01] - (Game Over)
+    .GameOverTimer:
+        ; (Bank 0x09) Acts as a misc timer for the Game Over sequence.
+
+    ; $C8[0x01] - (Bird)
+    .BirdTravelTimer:
+        ; (Bank 0x0A) Acts as a misc timer for the bird travel sequence.
+
+    ; $C8[0x01] - (Dungeon)
+    .DunMapLayoutIndex:
+        ; (Bank 0x0A) Temporarily stores the index of the layout for the
+        ; dungeon map rooms.
+
+    ; $C8[0x01] - (File Select)
+    .FileFairyCursorIndex:
+        ; (Bank 0x0C) Keeps track of what part of a menu you are in. For
+        ; example, on the select game screen this will take on values 0 - 4.
+        ; 0 - 2 for each save game, 3 & 4 are copy and erase game. You could
+        ; also say this is where the fairy cursor is.
 
     ; $C8[0x02] - (Credits)
-    .GFXDecompressPtrLow:
-        ; (Bank 0x0E) Used as a timer and possibly a line positions tracker
-        ; during the credits sequence. TODO: Confirm.
+    .CreditsTimerLow:
+        ; (Bank 0x0E) Used as a 16 bit timer used for stepping through the
+        ; credits sequence. See CreditsTimerHigh.
 
-    ; $C8[0x01] - (in menus)
-        ; Keeps track of what part of a menu you are in. For example, on the
-        ; select game screen this will take on values 0 - 4, 0 - 2 for each save
-        ; game, 3 & 4 are copy and erase game. (in ending module) 16 bit timer
-        ; used for stepping through each ending sequence.
+    ; $C8[0x01] - (Overworld)
+    .EntranceAnimationTimer: skip $01
+        ; (Bank 0x1B) Acts as a misc timer for special entrance animations.
+        ; Palace of Darkness, Skull Woods, Misery Mire, Gannon's Tower, etc.
 
-    ; $CC[0x02] - 
-        ; Keeps track of what death count line to look for next during the end
-        ; credits.
+    ; $C9[0x03] - (GFX)
+    .GFXDecompPtrMid:
+        ; (Bank 0x00) Used to store a pointer from GFXSheetPointers_sprite
+        ; during GFX decompression. See GFXDecompPtrLow and
+        ; GFXDecompPtrHigh.
 
-    ; $CA[0x20] - 
-        ; Keeps track of what vertical line the game is currently on during the
-        ; end credits.
+    ; $C9[0x01] - (Triforce)
+    .OWDecompSrcAddrMid:
+        ; (Bank 0x02) Stores the sorce address for overworld decompression.
+        ; See OWDecompSrcAddrLow and OWDecompSrcAddrHigh.
+
+    ; $C9[0x01] - (Dungeon)
+    .GanonDoorTimerHigh:
+        ; (Bank 0x01) Acts as a misc timer for the Ganon room door tag.
+        ; See GanonDoorTimerLow.
+
+    ; $C9[0x01] - (Credits)
+    .CreditsTimerHigh: skip $01
+        ; (Bank 0x0E) Used as a 16 bit timer used for stepping through the
+        ; credits sequence. See CreditsTimerLow.
+
+    ; $CA[0x03] - (GFX)
+    .GFXDecompPtrHigh:
+        ; (Bank 0x00) Used to store a pointer from GFXSheetPointers_sprite
+        ; during GFX decompression. See GFXDecompPtrLow and
+        ; GFXDecompPtrMid.
+
+    ; $CA[0x01] - (Overworld)
+    .OWDecompSrcAddrHigh:
+        ; (Bank 0x02) Stores the sorce address for overworld decompression.
+        ; See OWDecompSrcAddrLow and OWDecompSrcAddrMid.
+
+    ; $CA[0x02] - (Dungeon)
+    .DunMapRoomPtr:
+        ; (Bank 0x0A) Temporarily stores the pointer for the dungeon map rooms.
+
+    ; $CA[0x02] - (Title Screen)
+    .LogoSwordTimerLow:
+        ; (Bank 0x0C) Used as a misc timer for the logo sword in the
+        ; title screen sequence. See LogoSwordTimerHigh.
+
+    ; $CA[0x02] - (File Select)
+    .FileCopyToOffsetLow:
+        ; (Bank 0x0C) Stores the offset of the secondary save slot to overwrite
+        ; when in copy save mode. See FileCopyToOffsetHigh.
+
+    ; $CA[0x02] - (Credits)
+    .CreditsLineCount:
+        ; (Bank 0x0E) This stores the current vertical line for the scrolling
+        ; credits. There are 0x0314 lines that can have text on them, most
+        ; of which are blank.
+
+    ; $CA[0x01] - (Main)
+    .Work_CA: skip $01
+        ; (Bank 0x0C, 0x01, 0x1B) This RAM has other smaller uses that are still
+        ; unclear. TODO: Make them clear.
+
+    ; $CB[0x02] - (GFX)
+    .DecompWriteCount
+        ; (Bank 0x00) A temporary count of bytes to write during GFX
+        ; decompression.
+
+    ; $CB[0x02] - (Overworld)
+    .OWDecompMiscWork_CB:
+        ; (Bank 0x02) Used during overworld decompression. Appears to have 
+        ; multiple uses. TODO: Needs more investigation.
+
+    ; $CB[0x02] - (Title Screen)
+    .LogoSwordTimerHigh:
+        ; (Bank 0x0C) Used as a misc timer for the logo sword in the
+        ; title screen sequence. See LogoSwordTimerLow.
+
+    ; $CB[0x01] - (File Select)
+    .FileCopyToOffsetHigh: skip $01
+        ; (Bank 0x0C) Stores the offset of the save slot to overwrite when in
+        ; copy save mode. See FileCopyToOffsetLow.
+
+    ; $CC[0x02] - (Overworld)
+    .OWTile16DecompWriteOff:
+        ; (Bank 0x02) Stores and offset of either 0x1000 or 0x0000.
+        ; 0x0000 - Tile16 Decompression will write to $7F4000 BG2 (Normal BG).
+        ; 0x1000 - Tile16 Decompression will write to $7F5000 BG1 (SubScreen BG).
+
+    ; $CC[0x02] - (File Select)
+    .FileCopyFromOffsetLow:
+        ; (Bank 0x0C) Stores the offset of the secondary save slot to overwrite
+        ; when in copy save mode. See FileCopyFromOffsetHigh.
+
+    ; $CC[0x02] - (Title Screen)
+    .LogoSwordState:
+        ; (Bank 0x0C) Stores the current state of the logo sword on the title
+        ; screen. 
+        ; 0x00 - Sword is idle
+        ; 0x01 - The eye in the hilt of the sword will twinkle
+        ; 0x02 - The blade of the sword will shimmer
+
+    ; $CC[0x02] - (Credits)
+    .CreditsNextDeathCountIndex: skip $01
+        ; (Bank 0x0E) Keeps track of what death count line to look for next
+        ; during the credits.
+
+    ; $CD[0x01] - (GFX)
+    .GFXDecompMiscWork:
+        ; (Bank 0x00) Used as a temp var for GFX Decompression. TODO: Unsure of
+        ; exact use.
+
+    ; $CD[0x01] - (Overworld)
+    .OWDecompMiscWork_CD:
+        ; (Bank 0x02) Used as a temp var for Overworld Decompression.
+        ; TODO: Unsure of exact use.
+
+    ; $CD[0x01] - (File Select)
+    .FileCopyFromOffsetHigh:
+        ; (Bank 0x0C) Stores the offset of the secondary save slot to overwrite
+        ; when in copy save mode. See FileCopyFromOffsetLow.
+
+    ; $CD[0x01] - (Title Screen)
+    .LogoSwordShimmerTimer:
+        ; (Bank 0x0C) Used as a timer for the logo sword shimmer.
+
+    ; $CE[0x02] - (Credits)
+    .CreditsDeathDigitPos: skip $02
+        ; (Bank 0x0E) A temp var used to store where horizontally to draw the
+        ; current digit of the current death count.
+
+    ; $D0[0x01] - (Title Screen)
+    .LogoSwordUnknown_D0:
+        ; (Bank 0x0C) Used in the title screen logo sword. TODO: Purpose unknown.
+
+    ; $DD-$DF - Free RAM?
+        ; TODO: Super tentative, confirm for sure.
 
     ; $E0[0x02] - (NMI)
-        ; BG1 horizontal scroll register (BG1HOFS / $210F)
+        ; BG1 horizontal scroll register (SNES.BG2HScrollOffset / $210F)
 
     ; $E2[0x02] - (NMI)
-        ; BG2 horizontal scroll register (BG2HOFS / $210D)
+        ; BG2 horizontal scroll register (SNES.BG1HScrollOffset / $210D)
 
     ; $E4[0x02] - (NMI)
-        ; BG3 horizontal scroll register (BG3HOFS / $2111)
+        ; BG3 horizontal scroll register (SNES.BG3HScrollOffset / $2111)
 
     ; $E6[0x02] - (NMI)
-        ; BG1 vertical scroll register (BG1VOFS / $2110)
+        ; BG1 vertical scroll register (SNES.BG2VScrollOffset / $2110)
 
     ; $E8[0x02] - (NMI)
-        ; BG2 vertical scroll register (BG2VOFS / $210E)
+        ; BG2 vertical scroll register (SNES.BG1VScrollOffset / $210E)
 
     ; $EA[0x02] - (NMI)
-        ; BG3 vertical Scroll Register (BG3VOFS / $2112)
+        ; BG3 vertical Scroll Register (SNES.BG3VScrollOffset / $2112)
 
     ; $EC[0x02] - (Overworld, Dungeon)
         ; Tilemap location calculation mask. Is only ever set to 0xFFF8 or 0x01F8

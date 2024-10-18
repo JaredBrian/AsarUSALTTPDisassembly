@@ -12868,7 +12868,7 @@ Decomp:
     
     ; Examine the byte again.
     ; Get the lower two bits.
-    ; Shift this value to the upper byte of the Acc.
+    ; Shift this value to the upper byte of the Accumulator.
     LDA.b $CD : AND.b #$03 : XBA
     
     JSR.w .get_next_byte
@@ -12913,7 +12913,9 @@ Decomp:
         STA [$00], Y
         
         INY
-    LDX.b $CB : DEX : STX.b $CB : BNE .nonrepeating
+        
+        LDX.b $CB : DEX : STX.b $CB
+    BNE .nonrepeating
     
     BRA .next_code
 

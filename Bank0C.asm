@@ -1475,7 +1475,7 @@ AnimateSceneSprite_DrawTriangle:
     .BRANCH_1
     
     LDA.b #$8F : STA.b $08
-    LDA.b $C6    : STA.b $09
+    LDA.b #$C6  : STA.b $09
     
     .BRANCH_2
     
@@ -1492,7 +1492,7 @@ AnimateSceneSprite_DrawTriforceRoomTriangle:
     
     CPX.b #$02 : BEQ .BRANCH_1
         LDA.b #$2F : STA.b $08
-        LDA.b $C7    : STA.b $09
+        LDA.b #$C7  : STA.b $09
         
         BRA .BRANCH_2
     
@@ -2615,7 +2615,7 @@ FileSelect_TriggerStripesAndAdvance:
 {
     LDA.w $0B9D : STA.b $CB
     
-    .alpha
+    .alpha ; TODO: Alternate entry?
     
     INC.b $11 ; Increment the submodule index.
         
@@ -2708,7 +2708,8 @@ FileSelect_HandleInput:
         ; Here we actually have a file to work with.
         ; X = 0x00, 0x02, or 0x04
         ; Write a 1 to each entry of $BF that corresponds to an active file.
-        PHX : LDX.b $00 : LDA.w #$0001 : STA.b $BF, X : PLX
+        PHX : LDX.b $00
+        LDA.w #$0001 : STA.b $BF, X : PLX
         
         LDA.w #$D698 : STA.b $04
         LDA.w #$D699 : STA.b $02
@@ -3437,7 +3438,8 @@ CopyFile_TargetSelectionAndBlink:
         LDA.b #$2C : STA.w $012E
         
         LDX.b $C8 : CPX.b #$02 : BEQ .BRANCH_12
-            LDA.b $CA, X : STA.b $CA : STZ.b $CB
+            LDA.b $CA, X : STA.b $CA
+                           STZ.b $CB
             
             LDX.b #$30
             
@@ -3608,19 +3610,19 @@ KILLFile_FairyY:
 ; $06541E-$065482 DATA
 KILL_OK_stripes:
 {
-    db $61,$A7,$40,$24,$A9,$00,$61,$C7
-    db $40,$24,$A9,$00,$62,$07,$40,$24
-    db $A9,$00,$62,$27,$40,$24,$A9,$00
-    db $62,$C6,$00,$21,$04,$18,$21,$18
-    db $00,$18,$22,$18,$04,$18,$A9,$18
-    db $23,$18,$07,$18,$AF,$18,$22,$18
-    db $A9,$18,$0F,$18,$0B,$18,$00,$18
-    db $28,$18,$04,$18,$21,$18,$62,$E6
-    db $00,$21,$14,$18,$31,$18,$10,$18
-    db $32,$18,$14,$18,$A9,$18,$33,$18
-    db $17,$18,$BF,$18,$32,$18,$A9,$18
-    db $1F,$18,$1B,$18,$10,$18,$38,$18
-    db $14,$18,$31,$18
+    db $61, $A7, $40, $24, $A9, $00, $61, $C7
+    db $40, $24, $A9, $00, $62, $07, $40, $24
+    db $A9, $00, $62, $27, $40, $24, $A9, $00
+    db $62, $C6, $00, $21, $04, $18, $21, $18
+    db $00, $18, $22, $18, $04, $18, $A9, $18
+    db $23, $18, $07, $18, $AF, $18, $22, $18
+    db $A9, $18, $0F, $18, $0B, $18, $00, $18
+    db $28, $18, $04, $18, $21, $18, $62, $E6
+    db $00, $21, $14, $18, $31, $18, $10, $18
+    db $32, $18, $14, $18, $A9, $18, $33, $18
+    db $17, $18, $BF, $18, $32, $18, $A9, $18
+    db $1F, $18, $1B, $18, $10, $18, $38, $18
+    db $14, $18, $31, $18
 
     db $FF ; End of stripes data
 }
@@ -8234,9 +8236,8 @@ LogoSword_EyeTwinkle:
 ; ==============================================================================
 
 ; $067F49-067F50 DATA
-Pool_LogoSword_BladeShimmer:
+LogoSword_BladeShimmer_char:
 {
-    .char
     db $26, $20
     db $24, $34
     db $25, $20
@@ -8263,8 +8264,8 @@ LogoSword_BladeShimmer:
         
         LDA.b #$23 : STA.w $0943 : STA.w $0947
         
-        LDA.w Pool_LogoSword_BladeShimmer_char+0, X : STA.w $0942
-        LDA.w Pool_LogoSword_BladeShimmer_char+1, X : STA.w $0946
+        LDA.w .char+0, X : STA.w $0942
+        LDA.w .char+1, X : STA.w $0946
         
         LDA.b $CA : BNE .BRANCH_3
             LDA.b $CD : CLC : ADC.b #$04 : STA.b $CD

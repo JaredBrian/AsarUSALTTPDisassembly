@@ -14305,8 +14305,7 @@ Overworld_LoadAmbientOverlay:
 
         LDA.w #-1 : STA.b $C8
 
-        STZ.b $CA
-        STZ.b $CC
+        STZ.b $CA : STZ.b $CC
 
         SEP #$20
 
@@ -16187,7 +16186,9 @@ Map16ChunkToMap8:
     STA.b $02
 
     ; This is how the DMA transfer later knows where to blit to.
-    LDX.b $0A : LDA.b $00 : ORA.b $CC : STA.l $7F4000, X : INX #2 : STX.b $0A
+    LDX.b $0A
+    LDA.b $00 : ORA.b $CC : STA.l $7F4000, X
+    INX #2 : STX.b $0A
 
     ; The index for the target array.
     LDX.b $0E
@@ -16330,7 +16331,9 @@ Overworld_Decomp_next_byte:
 
     .BRANCH_ITERATE
 
-    STA.b $CD : AND.b #$E0 : CMP.b #$E0 : BEQ .BRANCH_EXPANDED ; [111]
+    STA.b $CD
+    
+    AND.b #$E0 : CMP.b #$E0 : BEQ .BRANCH_EXPANDED ; [111]
         PHA
 
         LDA.b $CD
@@ -16357,10 +16360,10 @@ Overworld_Decomp_next_byte:
 
     .BRANCH_NORMAL
 
-    ; Increment the value and save it to $CB
+    ; Increment the value and save it to $CB.
     INC A : STA.b $CB
 
-    SEP #$20; Return to 8-bit accumulator.
+    SEP #$20 ; Return to 8-bit accumulator.
 
     ; Get the top three bits that were set in $CD.
     ; If none of the top three bits were set: [000]
@@ -16398,7 +16401,8 @@ Overworld_Decomp_next_byte:
 
         ; This is the bottom LSB's of $CD + 1
         ; Decrement $CB until it's zero.
-    LDX.b $CB : DEX : STX.b $CB : BNE .BRANCH_NONREPEATING
+        LDX.b $CB : DEX : STX.b $CB
+    BNE .BRANCH_NONREPEATING
 
     BRA Overworld_Decomp_next_byte
 

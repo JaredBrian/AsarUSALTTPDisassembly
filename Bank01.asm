@@ -701,6 +701,7 @@ DoorObjectRoutines:
 ; $0086F8-$008739 DATA
 Dungeon_DrawObjectOffsets:
 {
+    ; TODO: What is this comment?
     ; $BF, $C2, $C5, $C8
     ; $CB, $CE, $D1, $D4
     ; $D7
@@ -12842,7 +12843,8 @@ Dungeon_RevealCoveredTiles:
     
     ; Do the same thing for the X direction.
     LDA.b $22
-    CLC : ADC.l Pool_Dungeon_RevealCoveredTiles_x_offsets, X : STA.b $02 : STA.b $CA
+    CLC : ADC.l Pool_Dungeon_RevealCoveredTiles_x_offsets, X
+    STA.b $02 : STA.b $CA
     
     ; Mask to increments of 8 in coordinate (one tile)
     ; $06 = 0000yyyy yyxxxxxx
