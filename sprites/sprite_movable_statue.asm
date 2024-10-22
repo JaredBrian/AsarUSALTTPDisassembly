@@ -199,11 +199,10 @@ MovableStatue_CheckFullSwitchCovering:
         PLY
         
         LDA.w $0FA5
-        
-        CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles : BEQ .partial_switch_covering
-        CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles : BEQ .partial_switch_covering
-        CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles : BEQ .partial_switch_covering
-        CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles : BNE .failure
+        CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles+0 : BEQ .partial_switch_covering
+        CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles+1 : BEQ .partial_switch_covering
+        CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles+2 : BEQ .partial_switch_covering
+        CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles+3 : BNE .failure
         
         .partial_switch_covering
     DEY : BPL .next_tile

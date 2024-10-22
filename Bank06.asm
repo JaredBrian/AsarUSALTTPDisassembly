@@ -59,15 +59,18 @@ BottleVendor_DetectFish:
 
 ; ==============================================================================
 
-; $030044-$030053 DATA
+; $030045-$030053 DATA
 Pool_BottleVendor_SpawnFishRewards:
 {
+    ; $030045
     .x_speeds
     db $FA, $FD, $00, $04, $07
     
+    ; $03004A
     .y_speeds
     db $0B, $0E, $10, $0E, $0B
     
+    ; $03004F
     .item_types
     db $DB, $E0, $DE, $E2, $D9
 }
@@ -725,9 +728,8 @@ EasterEgg_BageCodeTrampoline:
 ; ==============================================================================
 
 ; $0303C7-$0303D2 DATA
-Pool_Oam_ResetRegionBases:
+Oam_ResetRegionBases_bases:
 {
-    .bases
     db $0030, $01D0, $0000, $0030, $0120, $0140
 }
 
@@ -4369,7 +4371,8 @@ Sprite_CheckTileCollisionSingleLayer:
 Sprite_CheckForTileInDirection_horizontal:
 {
     JSR.w Sprite_CheckTileInDirection : BCC .BRANCH_ALPHA
-        LDA.w Pool_Sprite_CheckForTileInDirection_direction_flag, Y : ORA.w $0E70, X : STA.w $0E70, X
+        LDA.w Pool_Sprite_CheckForTileInDirection_direction_flag, Y
+        ORA.w $0E70, X : STA.w $0E70, X
         
         LDA.w $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .BRANCH_ALPHA
             LDA.w $0EA0, X : BEQ .BRANCH_BETA
@@ -4382,9 +4385,13 @@ Sprite_CheckForTileInDirection_horizontal:
             
             .add_offset
             
-            LDA.w $0D10, X : CLC : ADC.w Pool_Sprite_CheckForTileInDirection_pushback_low, Y : STA.w $0D10, X
+            LDA.w $0D10, X
+            CLC : ADC.w Pool_Sprite_CheckForTileInDirection_pushback_low, Y
+            STA.w $0D10, X
 
-            LDA.w $0D30, X : ADC.w Pool_Sprite_CheckForTileInDirection_pushback_high, Y : STA.w $0D30, X
+            LDA.w $0D30, X
+                  ADC.w Pool_Sprite_CheckForTileInDirection_pushback_high, Y
+            STA.w $0D30, X
     
     .BRANCH_ALPHA
     
@@ -4395,7 +4402,8 @@ Sprite_CheckForTileInDirection_horizontal:
 Sprite_CheckForTileInDirection_vertical:
 {
     JSR.w Sprite_CheckTileInDirection : BCC .return
-        LDA.w Pool_Sprite_CheckForTileInDirection_direction_flag, Y : ORA.w $0E70, X : STA.w $0E70, X
+        LDA.w Pool_Sprite_CheckForTileInDirection_direction_flag, Y
+        ORA.w $0E70, X : STA.w $0E70, X
         
         LDA.w $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .return
             LDA.w $0EA0, X : BEQ .add_offset
@@ -7652,29 +7660,29 @@ OAM_AllocateDeferToPlayer:
 {
     ; Is the sprite on the same floor as the player?
     LDA.w $0F20, X : CMP $EE : BNE .return
-    JSR.w Sprite_IsToRightOfPlayer
-    
-    ; Proceed only if the difference between the sprite's X coordinate
-    ; and player's satisfies : [ -16 <= dX < 16 ].
-    LDA.b $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .return
-        JSR.w Sprite_IsBelowPlayer
+        JSR.w Sprite_IsToRightOfPlayer
         
-        ; Proceed if the difference in the Y coordinates satisfies:
-        ; [ -32 <= dY < 40 ]
-        LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$48 : BCS .return
-            LDA.w $0E40, X : AND.b #$1F : INC A : ASL #2
+        ; Proceed only if the difference between the sprite's X coordinate
+        ; and player's satisfies : [ -16 <= dX < 16 ].
+        LDA.b $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .return
+            JSR.w Sprite_IsBelowPlayer
             
-            ; The sprite will request a different OAM range
-            ; depending on player's relative position.
-            CPY.b #$00 : BEQ .linkIsLower
-                JSL.l OAM_AllocateFromRegionC
+            ; Proceed if the difference in the Y coordinates satisfies:
+            ; [ -32 <= dY < 40 ]
+            LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$48 : BCS .return
+                LDA.w $0E40, X : AND.b #$1F : INC A : ASL #2
                 
-                BRA .return
-    
-            .linkIsLower
-    
-            JSL.l OAM_AllocateFromRegionB
-    
+                ; The sprite will request a different OAM range
+                ; depending on player's relative position.
+                CPY.b #$00 : BEQ .linkIsLower
+                    JSL.l OAM_AllocateFromRegionC
+                    
+                    BRA .return
+        
+                .linkIsLower
+        
+                JSL.l OAM_AllocateFromRegionB
+        
     .return
     
     RTS

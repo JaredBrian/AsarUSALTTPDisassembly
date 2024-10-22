@@ -125,7 +125,8 @@ Bomber_Main:
                 
                 .dodge_player_attack
                 
-                LDA.b #$30 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
+                LDA.b #$30
+                JSL.l Sprite_ProjectSpeedTowardsPlayerLong
                 
                 LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
                 
@@ -139,12 +140,10 @@ Bomber_Main:
     .player_not_close
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    dw Bomber_Hovering
-    dw Bomber_Moving
-    dw Bomber_Dodge
+    dw Bomber_Hovering ; 0x00 - $8EE4
+    dw Bomber_Moving   ; 0x01 - $8F36
+    dw Bomber_Dodge    ; 0x02 - $8ED2
 }
 
 ; ==============================================================================
@@ -253,7 +252,8 @@ Bomber_MoveAndAnimate:
     
     JSR.w Sprite3_DirectionToFacePlayer : TYA : STA.w $0DE0, X
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA.b $00
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA.b $00
     
     LDA.w $0DE0, X : ASL A : ORA.b $00 : STA.w $0DC0, X
     

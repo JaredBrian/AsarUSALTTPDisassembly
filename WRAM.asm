@@ -273,7 +273,7 @@ struct WRAM $7E0000
         ; Only written to in one place, and it's always a zero.
         ; Given the limited scope of this use compared to the one below, it
         ; could be considered Free RAM, so long as there's an understanding
-        ; that its use is shared with attract mode (see .AttractTimer).
+        ; that its use is shared with attract mode (see AttractTimer).
 
     ; $2C[0x01] - (Attract)
     .AttractTimer: skip $01
@@ -489,7 +489,7 @@ struct WRAM $7E0000
 
     ; $4A[0x01] - (Free)
     .NotFree_4A: skip $01
-        ; Was marked as free WRAM but appears to be cleared by tile detection
+        ; Was marked as free RAM but appears to be cleared by tile detection
         ; routines.
 
     ; $4B[0x01] - (Player)
@@ -819,7 +819,7 @@ struct WRAM $7E0000
         ; SEE TILE ACT NOTES
 
     ; $6F[0x02] - (Free)
-    .NotFree_70: skip $01
+    .NotFree_6F: skip $01
         ; Was marked as free, see note for LinkDWallTile.
 
     ; $70[0x01] - (Free)
@@ -877,7 +877,6 @@ struct WRAM $7E0000
     ; $7F[0x01] - (Free)
     .Free_7F: skip $01
         ; Free RAM
-
 
     ; $80[0x01] - (Free)
     .Free_80: skip $01
@@ -1193,7 +1192,7 @@ struct WRAM $7E0000
     .PolyUnknown_BF: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
-    ; $C0[0x30] - (Dungeon)
+    ; $C0[0x1E] - (Dungeon)
     .DunDrawOBJAddHigh: 
         ; (Bank 0x01) 10 entries of 3 bytes each. Used as a series of long
         ; pointers to tilemap buffer offsets. Generally, they point to locations
@@ -1376,7 +1375,7 @@ struct WRAM $7E0000
         ; (Bank 0x02) Used during overworld decompression. Appears to have 
         ; multiple uses. TODO: Needs more investigation.
 
-    ; $CB[0x02] - (Title Screen)
+    ; $CB[0x01] - (Title Screen)
     .LogoSwordTimerHigh:
         ; (Bank 0x0C) Used as a misc timer for the logo sword in the
         ; title screen sequence. See LogoSwordTimerLow.
@@ -1437,9 +1436,6 @@ struct WRAM $7E0000
     ; $D0[0x01] - (Title Screen)
     .LogoSwordUnknown_D0:
         ; (Bank 0x0C) Used in the title screen logo sword. TODO: Purpose unknown.
-
-    ; $DD-$DF - Free RAM?
-        ; TODO: Super tentative, confirm for sure.
 
     ; $E0[0x02] - (NMI)
         ; BG1 horizontal scroll register (SNES.BG2HScrollOffset / $210F)

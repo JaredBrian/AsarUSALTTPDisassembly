@@ -1,4 +1,3 @@
-
 ; ==============================================================================
 
 ; $0F4103-$0F411F JUMP LOCATION
@@ -12,9 +11,7 @@ Sprite_Kodondo:
     STZ.w $0B6B, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Kodondo_ChooseDirection ; 0x00 - $C128
     dw Kodondo_Move            ; 0x01 - $C178
     dw Kodondo_BreatheFlame    ; 0x02 - $C1D6
@@ -122,7 +119,8 @@ Kodondo_Move:
     
     LDA.w ORA Pool_Kodondo_Move_animation_states, Y : STA.w $0DC0, X
     
-    LDA.w $0F50, X : AND.b #$BF : ORA Pool_Kodondo_Move_vh_flip_override, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF
+    ORA Pool_Kodondo_Move_vh_flip_override, Y : STA.w $0F50, X
     
     RTS
 }
@@ -130,7 +128,7 @@ Kodondo_Move:
 ; ==============================================================================
 
 ; $0F41CE-$0F41D5 DATA
-Pool_Kodondo_BreatheFlames_animation_states:
+Kodondo_BreatheFlames_animation_states:
 {
     db $02, $02, $00, $05
     db $04, $04, $01, $06
