@@ -12475,11 +12475,10 @@ LoadSelectScreenGfx:
 
 ; ==============================================================================
 
+; Copies font graphics to VRAM (for BG3).
 ; $006556-$006582 LONG JUMP LOCATION
 CopyFontToVram:
 {
-    ; Copies font graphics to VRAM (for BG3).
-    
     ; Set name base table to VRAM $4000 (word).
     LDA.b #$02 : STA.w SNES.OAMSizeAndDataDes
     

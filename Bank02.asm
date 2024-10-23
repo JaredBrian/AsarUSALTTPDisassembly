@@ -6963,7 +6963,7 @@ ScrollAndCheckForSOWExit:
 
 ; Module 0x09.0x01, 0x09.0x0F, 0x09.0x1A, 0x09.0x26
 ; Also referenced one other place.
-; $012B88-$012BC5 LOCAL JUMP LOCATION
+; $012B88-$012BBB LOCAL JUMP LOCATION
 Overworld_LoadTransGfx:
 {
     ; Reset the water outside the watergate.
@@ -6995,15 +6995,14 @@ Overworld_LoadTransGfx:
 ; ==============================================================================
 
 ; ZS overwrites most of this function. - ZS Custom Overworld
+; The purpose of this submodule is to finish blitting the rest of the
+; graphics that were decompressed in the previous module to VRAM (from the
+; $7F0000 buffer).
 ; Module 0x09.0x02, 0x09.0x10, 0x09.0x1B, 0x09.0x27
 ; Also referenced one other place.
 ; $012BBC-$012BC5 JUMP LOCATION
 Overworld_FinishTransGfx:
 {
-    ; The purpose of this submodule is to finish blitting the rest of the
-    ; graphics that were decompressed in the previous module to VRAM (from the
-    ; $7F0000 buffer).
-
     ; Trigger NMI module: NMI_UpdateBgChrSlots_5_to_6.
     LDA.b #$0A
 
@@ -11091,11 +11090,10 @@ Dungeon_LoadPalettes:
     ; Bleeds into the next function.
 }
 
+; This alternate entry point can be used for the pre-overworld module.
 ; $01465F-$01468D LOCAL JUMP LOCATION
 Overworld_CopyPalettesToCache_WithPrep:
 {
-    ; This alternate entry point can be used for the pre-overworld module.
-
     LDA.w $0AB6 : STA.l $7EC20A
     LDA.w $0AB8 : STA.l $7EC20B
     LDA.w $0AB7 : STA.l $7EC20C
