@@ -993,7 +993,7 @@ Credits_LoadScene_Overworld:
 ; ==============================================================================
 
 ; $0105C2-$010603 DATA TABLE
-Pool_Credits_LoadScene_Overworld_PrepGFX:
+Credits_LoadScene_PrepGFX:
 {
     ; $0105C2
     .screen
@@ -1097,9 +1097,9 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     LDA.b $11 : LSR A : TAX
 
-    LDA.l Pool_Credits_LoadScene_Overworld_PrepGFX_sprite_gfx, X : STA.w $0AA3
+    LDA.l Credits_LoadScene_PrepGFX_sprite_gfx, X : STA.w $0AA3
 
-    LDA.l Pool_Credits_LoadScene_Overworld_PrepGFX_sprite_palette, X : PHA
+    LDA.l Credits_LoadScene_PrepGFX_sprite_palette, X : PHA
 
     JSL.l InitTilesets
 
@@ -1240,7 +1240,7 @@ Credits_LoadScene_Dungeon:
     LDX.b $11
 
     ; Load the dungeon entrance to use.
-    LDA.l Pool_Credits_LoadScene_Overworld_PrepGFX_screen, X : STA.w $010E
+    LDA.l Credits_LoadScene_PrepGFX_screen, X : STA.w $010E
 
     SEP #$20
 
@@ -1257,10 +1257,10 @@ Credits_LoadScene_Dungeon:
 
     LDA.b $11 : LSR A : TAX
 
-    LDA.l Pool_Credits_LoadScene_Overworld_PrepGFX_sprite_gfx, X
+    LDA.l Credits_LoadScene_PrepGFX_sprite_gfx, X
     STA.w $0AA3
 
-    LDA.l Pool_Credits_LoadScene_Overworld_PrepGFX_sprite_palette, X
+    LDA.l Credits_LoadScene_PrepGFX_sprite_palette, X
     ASL #2 : TAX
 
     LDA.l UnderworldPaletteSets+2, X : STA.w $0AAD
@@ -6803,7 +6803,8 @@ OverworldHandleTransitions:
 
         SEP #$30
 
-        LDA.b $8A : PHA : CMP.b #$2A : BNE .notFluteBoyGrove
+        LDA.b $8A : PHA
+        CMP.b #$2A : BNE .notFluteBoyGrove
             ; Flute boy area has special flute sound effect (surprise?).
             LDA.b #$80 : STA.w $012D
 
@@ -6843,7 +6844,9 @@ OverworldHandleTransitions:
             ; Doing a weird math loop here.
         DEX : LSR A : BCC .BRANCH_LAMBDA
 
-        STX.w $0418 : STX.w $069C : STZ.w $0696 : STZ.w $0698 : STZ.w $0126
+        STX.w $0418 : STX.w $069C
+
+        STZ.w $0696 : STZ.w $0698 : STZ.w $0126
 
         PLA
 
@@ -8033,7 +8036,7 @@ Overworld_LoadAndBuildScreen_long:
 ; ==============================================================================
 
 ; $0131F4-$0131F9 LONG JUMP LOCATION
-Overworld_ReloadSubscreenOverlayAndAdvance_long:
+Overworld_ReloadSubscreenOverlayAndAdvance:
 {
     JSR.w Overworld_ReloadSubscreenOverlay
 
@@ -8436,7 +8439,7 @@ Module09_2E_03_FindDestination:
 
     STZ.b $B2
 
-    JSL.l Overworld_ReloadSubscreenOverlayAndAdvance_long
+    JSL.l Overworld_ReloadSubscreenOverlayAndAdvance
 
     LDA.b #$0C : STA.b $17
 

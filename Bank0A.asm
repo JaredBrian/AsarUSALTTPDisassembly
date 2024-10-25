@@ -624,7 +624,7 @@ BirdTravel_LoadTargetArea:
         
     STZ.b $B2
         
-    JSL.l Overworld_ReloadSubscreenOverlayAndAdvance_long
+    JSL.l Overworld_ReloadSubscreenOverlayAndAdvance
         
     ; Play sound effect indicating we're coming out of map mode.
     LDA.b #$10 : STA.w $012F
