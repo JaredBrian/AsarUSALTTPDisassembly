@@ -12219,13 +12219,13 @@ Dungeon_LoadStartingPoint:
     ; An SRAM value that tells us what starting location to use?
     LDA.l $7EF3C8 : AND.w #$00FF : ASL A : TAX : ASL #2 : TAY
 
-    ; Set the entrance
+    ; Set the entrance.
     LDA.w SpawnPointData_entrance_id, X : STA.w $010E
 
-    ; Load the dungeon room index
+    ; Load the dungeon room index.
     LDA.w SpawnPointData_room_id, X : STA.b $A0 : STA.w $048E
 
-    ; Load Camera Y and X coordinates
+    ; Load Camera Y and X coordinates.
     LDA.w SpawnPointData_vertical_scroll, X
     STA.b $E8 : STA.b $E6 : STA.w $0122 : STA.w $0124
 
@@ -12234,25 +12234,25 @@ Dungeon_LoadStartingPoint:
 
     ; You goin' to bed!
     LDA.l $7EF3C5 : BEQ .veryBeginning
-        ; Set Link's Y and X coordinates
+        ; Set Link's Y and X coordinates.
         LDA.w SpawnPointData_y_coordinate, X : STA.b $20
         LDA.w SpawnPointData_x_coordinate, X : STA.b $22
 
     .veryBeginning
 
-    ; Set camera scroll bounds
+    ; Set camera scroll bounds.
     LDA.w SpawnPointData_camera_trigger_y, X : STA.w $0618
     INC #2 : STA.w $061A
     LDA.w SpawnPointData_camera_trigger_x, X : STA.w $061C
     INC #2 : STA.w $061E
 
-    ; Set coordinate mask
+    ; Set coordinate mask.
     LDA.w #$01F8 : STA.b $EC
 
-    ; Load the door settings (for use when exiting)
+    ; Load the door settings (for use when exiting).
     LDA.w SpawnPointData_overworld_door_tilemap, X : STA.w $0696
 
-    ; Scroll bounds for intraroom and interroom transitions
+    ; Scroll bounds for intraroom and interroom transitions.
     LDA.w #$0000 : STA.w $0610
     LDA.w #$0110 : STA.w $0612
     LDA.w #$0000 : STA.w $0614
@@ -12262,7 +12262,7 @@ Dungeon_LoadStartingPoint:
 
     SEP #$20
 
-    ; Set a bunch of quadrant bounds
+    ; Set a bunch of quadrant bounds.
     ; SpawnPointData_camera_scroll_bounds, Y
     LDA.w SpawnPointData_relativeCoords_0, Y : STA.w $0601
     LDA.w SpawnPointData_relativeCoords_1, Y : STA.w $0603
@@ -12279,34 +12279,34 @@ Dungeon_LoadStartingPoint:
     STA.w $0604 : STA.w $0606 : STA.w $0608
     STA.w $060A : STA.w $060C : STA.w $060E
 
-    ; Make Link face south
+    ; Make Link face south.
     LDA.b #$02 : STA.b $2F
 
-    ; Set main bg graphics
+    ; Set main bg graphics.
     LDA.w SpawnPointData_main_GFX, X : STA.w $0AA1
 
-    ; Set starting floor
+    ; Set starting floor.
     LDA.w SpawnPointData_floor, X : STA.b $A4
 
-    ; Set palace Link is in, if any
+    ; Set palace Link is in, if any.
     LDA.w SpawnPointData_dungeon_id, X : STA.w $040C
 
-    ; Start off by not being in a doorway
+    ; Start off by not being in a doorway.
     STZ.b $6C
 
-    ; Set starting floor level for Link (BG2 or BG1)
+    ; Set starting floor level for Link (BG2 or BG1).
     LDA.w SpawnPointData_layer, X : LSR #4 : STA.b $EE
 
-    ; Set starting speudo bg level
+    ; Set starting speudo bg level.
     LDA.w SpawnPointData_startingBg, X : AND.w #$0F : STA.w $0476
 
-    ; Set quadrant information
+    ; Set quadrant information.
     LDA.w SpawnPointData_camera_scroll_controller, X : LSR #4     : STA.b $A6
     LDA.w SpawnPointData_camera_scroll_controller, X : AND.b #$0F : STA.b $A7
     LDA.w SpawnPointData_quadrant, X :                 LSR #4     : STA.b $A9
     LDA.w SpawnPointData_quadrant, X :                 AND.b #$0F : STA.b $AA
 
-    ; Set musicical number to play
+    ; Set musicical number to play.
     LDA.w SpawnPointData_song, X : STA.w $0132
 
     CPX.w #$0000 : BNE .notVeryStart
@@ -12329,7 +12329,7 @@ Dungeon_LoadStartingPoint:
 UnderworldExitData:
 {
     ; Something to do with overworld overlay data?
-    ; In SePH's notes it mentions the first ahganim transport
+    ; In SePH's notes it mentions the first ahganim transport.
 
     ; $015D8A
     .room_id

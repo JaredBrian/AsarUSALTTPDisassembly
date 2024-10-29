@@ -12061,7 +12061,7 @@ TileDetect_Movement_Vertical:
     STZ.b $59
     
     LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_same_axis, Y : STA.b $51
-    AND.b $EC : STA.b $00
+    AND.b $EC          : STA.b $00
 
     LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_1, Y
     AND.b $EC : LSR #3 : STA.b $02

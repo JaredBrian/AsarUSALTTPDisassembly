@@ -16,11 +16,11 @@
 ;
 ; Unused addresses will be named "UNUSED_AAAAAA"
 ; Unused addresses will be grouped together and include a comment:
-; "FREE RAM: <size>" to make finding free space easier
-; Larger blocks will say "BIG FREE RAM"
+; "FREE WRAM: <size>" to make finding free space easier
+; Larger blocks will say "BIG FREE WRAM"
 ;
 ; For documentation on hardware registers, see «registers.asm»
-; For documentation on save game data, see «symbols_sram.asm»
+; For documentation on save game data, see «symbols_SRAM.asm»
 ; For documentation on APU addresses, see «symbols_apu.asm»
 ;===================================================================================================
 
@@ -180,7 +180,7 @@ HOPCALCX        = $7E0033
 ; Used as a delay timer for Agahnim during attract mode.
 ATRAGATIME      = $7E0034
 
-; FREE RAM: 0x03
+; FREE WRAM: 0x03
 UNUSED_35       = $7E0035
 UNUSED_36       = $7E0036
 UNUSED_37       = $7E0037
@@ -433,7 +433,7 @@ SLOPEFAIL       = $7E006D
 TACTSLOPI       = $7E006E
 TACTSLOPIH      = $7E006F
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_70       = $7E0070
 UNUSED_71       = $7E0071
 
@@ -459,7 +459,7 @@ JUMPSCROLL      = $7E0078
 ; Hardcapped at 64 (0x40)
 SPINTIME        = $7E0079
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7A       = $7E007A
 
 ; Used to cache light world versus dark world for comparisons.
@@ -467,7 +467,7 @@ UNUSED_7A       = $7E007A
 ;   w - world (0: light world | 1: dark world)
 WORLDCACHE      = $7E007B
 
-; FREE RAM: 0x08
+; FREE WRAM: 0x08
 UNUSED_7C       = $7E007C
 UNUSED_7D       = $7E007D
 UNUSED_7E       = $7E007E
@@ -503,7 +503,7 @@ OWBG1           = $7E008C
 ; Used to index sloshing animations for thick grass and shallow water.
 FEETANIM        = $7E008D
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_8E       = $7E008E
 UNUSED_8F       = $7E008F
 
@@ -535,7 +535,7 @@ COLDATAR        = $7E009C
 COLDATAG        = $7E009D
 COLDATAB        = $7E009E
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_9F       = $7E009F
 
 ; Room ID for underworld
@@ -574,7 +574,7 @@ ROOMLAYOUT      = $7E00A8
 QUADH           = $7E00A9
 QUADV           = $7E00AA
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_AB       = $7E00AB
 UNUSED_AC       = $7E00AC
 
@@ -588,7 +588,7 @@ TAG2            = $7E00AF
 ; Often used as a submodule, such as for transitions
 SUBSUB          = $7E00B0
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_B1       = $7E00B1
 
 ; Used as scrap space when building rooms.
@@ -597,7 +597,7 @@ SCRAPB3         = $7E00B3
 SCRAPB4         = $7E00B4
 SCRAPB5         = $7E00B5
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_B6       = $7E00B6
 
 ; Used as a pointer when drawing room objects.
@@ -611,7 +611,7 @@ OBJPTRB         = $7E00B9
 OBJX            = $7E00BA
 OBJXH           = $7E00BB
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_BC       = $7E00BC
 
 ; Frequently used as scratch space with various uses
@@ -721,7 +721,7 @@ JOY2B_OLD       = $7E00FB
 BWSETH          = $7E00FC
 BWSETV          = $7E00FD
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_FE       = $7E00FE
 
 ; Vertical scanline trigger for IRQ
@@ -747,7 +747,7 @@ AUXACHRH        = $7E0103
 AUXBCHR         = $7E0104
 AUXBCHRH        = $7E0105
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0106   = $7E0106
 
 SWORDCHR        = $7E0107
@@ -757,7 +757,7 @@ ITEMCHR         = $7E0109
 ; Flag set on death for use by dungeon reload.
 DEADLOAD        = $7E010A
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E010B   = $7E010B
 
 ; Used to cache MODE and SUBMODE during interface modules
@@ -775,7 +775,7 @@ ROOMX3H         = $7E0111
 ; Flag used for medallion cutscenes.
 MDLSCENE        = $7E0112
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0113   = $7E0113
 
 ; Current tile type Link is standing on in the underworld.
@@ -813,7 +813,7 @@ BG1VOFSQH       = $7E0125
 ; Used as a counter for scrolling in the underworld.
 UWTRANSCR       = $7E0126
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0127   = $7E0127
 
 ; Flags IRQ enabling during NMI
@@ -822,13 +822,13 @@ UNUSED_7E0127   = $7E0127
 ;   0x80–0xFF - Disable IRQ
 IRQSET          = $7E0128
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0129   = $7E0129
 
 ; Flags whether IRQ is handling polyhedral text or credits
 IRQTHREAD       = $7E012A
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E012B   = $7E012B
 
 ; APU I/O queues handled during NMI
@@ -910,7 +910,7 @@ DEBUG_7E020B    = $7E020B
 
 ; Never really used. Scares MoN for some reason - "oh hells naw".
 ; Some unreachable debug code reads this when reading $020B.
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E020C   = $7E020C
 
 ; Used as a module index for dungeon map.
@@ -967,7 +967,7 @@ JUNK_7E0222     = $7E0222
 ; Zeroed during message routines, but never used.
 JUNK_7E0223     = $7E0223
 
-; BIG FREE RAM: 0x5C
+; BIG FREE WRAM: 0x5C
 UNUSED_7E0224   = $7E0224
 
 ; Forces ancilla priority higher during drawing and checks.
@@ -1037,7 +1037,7 @@ ANC7SUBZ        = $7E02AF
 ANC8SUBZ        = $7E02B0
 ANC9SUBZ        = $7E02B1
 
-; FREE RAM: 0x0E
+; FREE WRAM: 0x0E
 UNUSED_7E02B2   = $7E02B2
 UNUSED_7E02B3   = $7E02B3
 UNUSED_7E02B4   = $7E02B4
@@ -1079,7 +1079,7 @@ BOUNCESHIFT     = $7E02C6
 ; Link's recoil controlled by above before writing to KNOCKBZ.
 REBOUNCE        = $7E02C7
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E02C8   = $7E02C8
 
 ; Used for indexing the fall animation.
@@ -1118,7 +1118,7 @@ FLWANIMIW       = $7E02D3
 ; Zeroed in one location; never read.
 JUNK_7E02D4     = $7E02D4
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E02D5   = $7E02D5
 
 ; Zeroed by followers; never read.
@@ -1264,7 +1264,7 @@ FLWNODRAW       = $7E02F9
 ; Set when near a draggable statue. Causes Link to drag.
 STATUE          = $7E02FA
 
-; FREE RAM: 0x05
+; FREE WRAM: 0x05
 UNUSED_7E02FB   = $7E02FB
 UNUSED_7E02FC   = $7E02FC
 UNUSED_7E02FD   = $7E02FD
@@ -1329,7 +1329,7 @@ STRAIN          = $7E030A
 ; Timer that handles Link's pull animation
 STRAINTIME      = $7E030B
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E030C   = $7E030C
 
 ; Indexes Link's sweat drops animation
@@ -1338,7 +1338,7 @@ SWEAT           = $7E030D
 ; Only ever zeroed in bank07. ADC in bank0D for some reason.
 DEBUG_7E030E    = $7E030E
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E030F   = $7E030F
 
 ; Moving floor velocity like Mothula or Ice Place
@@ -1560,7 +1560,7 @@ BOOMOUT         = $7E035F
 ; When set, recoils will cause Link to feel electricity
 ZAP             = $7E0360
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0361   = $7E0361
 
 ; Something with hopping; often takes value of SPEEDZ
@@ -1735,7 +1735,7 @@ BOOMHITXH       = $7E039C
 ; Also used by boomerang to flag directions when first thrown.
 HOOKSLOT        = $7E039D
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E039E   = $7E039E
 
 ; General use variable for ancillae. Only intended for front slots.
@@ -1764,7 +1764,7 @@ ANC3MISCG       = $7E03AC
 ANC4MISCG       = $7E03AD
 
 ; Technically unreferenced but misslotting...
-; FREE RAM: 0x03
+; FREE WRAM: 0x03
 UNUSED_7E03AE   = $7E03AE
 UNUSED_7E03AF   = $7E03AF
 UNUSED_7E03B0   = $7E03B0
@@ -1929,7 +1929,7 @@ YOVERRIDE       = $7E03FC
 ; Flags flute ducks summoned inside.
 INBIRD          = $7E03FD
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7E03FE   = $7E03FE
 UNUSED_7E03FF   = $7E03FF
 
@@ -1959,13 +1959,13 @@ OPENED          = $7E0402
 ;   c - chest 0
 TAKEN           = $7E0403
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0404   = $7E0404
 
 ; Read by water flooding, but never written.
 JUNK_7E0405     = $7E0405
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7E0406   = $7E0406
 UNUSED_7E0407   = $7E0407
 
@@ -2007,7 +2007,7 @@ OWTDIRH         = $7E0411
 ; Incremental VRAM upload step
 UPINCSTEP       = $7E0412
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0413   = $7E0413
 
 ; TODO
@@ -2054,14 +2054,14 @@ BG1OFFHH        = $7E0423
 BG1OFFVL        = $7E0424
 BG1OFFVH        = $7E0425
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7E0426   = $7E0426
 UNUSED_7E0427   = $7E0427
 
 ; TODO something with scrolling bg1
 UNKNOWN_7E0428  = $7E0428
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0429   = $7E0429
 
 ; Tilemap address of moving wall
@@ -2084,7 +2084,7 @@ ONSWITCHH       = $7E0431
 STARINDEX       = $7E0432
 STARINDEXH      = $7E0433
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7E0434   = $7E0434
 UNUSED_7E0435   = $7E0435
 
@@ -2121,7 +2121,7 @@ RSTAIRSI7H      = $7E0449
 EGSTR           = $7E044A
 EGSTRH          = $7E044B
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7E044C   = $7E044C
 UNUSED_7E044D   = $7E044D
 
@@ -2179,7 +2179,7 @@ JUNK_7E0463     = $7E0463
 ; Countdown timer used when climbing stairs.
 STAIRSTEP       = $7E0464
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0465   = $7E0465
 
 ; Takes on SHUTTER ^ 0x0001 when a push block covers a switch.
@@ -2197,7 +2197,7 @@ FLOOR1H         = $7E046B
 ; TODO "collision"
 BG1FX           = $7E046C
 
-; FREE RAM: 0x03
+; FREE WRAM: 0x03
 UNUSED_7E046D   = $7E046D
 UNUSED_7E046E   = $7E046E
 UNUSED_7E046F   = $7E046F
@@ -2223,7 +2223,7 @@ BLOCKDIRH       = $7E0475
 ; Sometimes kept in sync.
 DLAYER          = $7E0476
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0477   = $7E0477
 
 ; Number of manipulable objects in a room, x2.
@@ -2235,7 +2235,7 @@ MANIPCOUNTH     = $7E0479
 ; Famous for arming EG.
 ARMEG           = $7E047A
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E047B   = $7E047B
 
 ; Flag to adjust the offset of water vomit face drawing.
@@ -2281,7 +2281,7 @@ STAIRLIH        = $7E0493
 ; Counts from 0x00 to 0x03 to animate the overworld rain overlay
 RAINSTEP        = $7E0494
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0495   = $7E0495
 
 ; Used to index chests when building rooms.
@@ -2358,7 +2358,7 @@ HOLESH          = $7E04BB
 ; Current state of star switches.
 STARON          = $7E04BC
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E04BD   = $7E04BD
 
 ; Timers for Trinexx shell palette filtering
@@ -2372,7 +2372,7 @@ SHELLICE        = $7E04C1
 ; Timer used by falling items.
 MFALLTIME       = $7E04C2
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E04C3   = $7E04C3
 
 ; Number of chances left for chest minigames.
@@ -2395,7 +2395,7 @@ PEGCOUNTH       = $7E04C9
 ; Countdown timer for heart beep. Starts at 32.
 BEEP            = $7E04CA
 
-; FREE RAM: 0x25
+; FREE WRAM: 0x25
 UNUSED_7E04CA   = $7E04CB
 
 ; Countdown timers for torches.
@@ -2504,7 +2504,7 @@ PBLOCK1DIRU     = $7E05FB
 PBLOCK0X        = $7E05FC
 PBLOCK1X        = $7E05FD
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7E05FE   = $7E05FE
 UNUSED_7E05FF   = $7E05FF
 
@@ -2582,7 +2582,7 @@ BGOFEVH         = $7E062F
 CREDITBG3       = $7E0630
 CREDITBG3H      = $7E0631
 
-; FREE RAM: 0x03
+; FREE WRAM: 0x03
 UNUSED_7E0632   = $7E0632
 UNUSED_7E0633   = $7E0633
 UNUSED_7E0634   = $7E0634
@@ -2617,7 +2617,7 @@ PUSHFLIP        = $7E0641
 ; Set high by sprites triggering room tags
 SPRTAG          = $7E0642
 
-; FREE RAM: 0x03
+; FREE WRAM: 0x03
 UNSUED_7E0643   = $7E0643
 UNSUED_7E0644   = $7E0644
 UNSUED_7E0645   = $7E0645
@@ -2628,14 +2628,14 @@ SOMBTN          = $7E0646
 ; If set, mosaic from electrocution decreases; otherwise, it increases.
 MOSAICDIR       = $7E0647
 
-; FREE RAM: 0x28
+; FREE WRAM: 0x28
 UNUSED_7E0648   = $7E0648
 
 ; Used for calculating water HDMA properties
 WCALCLEFT       = $7E0670
 WCALCLEFTH      = $7E0671
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7E0672   = $7E0672
 UNUSED_7E0673   = $7E0673
 
@@ -2703,7 +2703,7 @@ REPLTMAPH       = $7E0699
 ; Countdown timer for walking out when exiting to overworld.
 WALKOUT         = $7E069A
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E069B   = $7E069B
 
 ; Another address for transition direction.
@@ -2782,7 +2782,7 @@ CHEST5ATH       = $7E06EB
 ; TODO
 SSTAIRAT        = $7E06EC
 
-; FREE RAM: 0x08
+; FREE WRAM: 0x08
 UNUSED_7E06F8   = $7E06F8
 UNUSED_7E06F9   = $7E06F9
 UNUSED_7E06FA   = $7E06FA
@@ -2802,7 +2802,7 @@ UNUSED_7E06FF   = $7E06FF
 OWPOSM          = $7E0700
 OWPOSMH         = $7E0701
 
-; FREE RAM: 0x06
+; FREE WRAM: 0x06
 UNUSED_7E0702   = $7E0702
 UNUSED_7E0703   = $7E0703
 UNUSED_7E0704   = $7E0704
@@ -2852,8 +2852,8 @@ OWSCROLLH       = $7E0717
 ; These addresses may be read during erroneous map16 reads for overworld scrolling.
 ; But the values are written to an area completely off screen.
 ; This block of memory is otherwise completely unused.
-; It can safely be considered free RAM.
-; BIG FREE RAM: 0xE8
+; It can safely be considered free WRAM.
+; BIG FREE WRAM: 0xE8
 MAP16OVERFLOW   = $7E0718
 
 ;---------------------------------------------------------------------------------------------------
@@ -2875,7 +2875,7 @@ BGSET2          = $7E0AA2
 SPRSET1         = $7E0AA3
 SPRSET2         = $7E0AA4
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0AA5   = $7E0AA5
 
 ; Only ever zeroed
@@ -2889,7 +2889,7 @@ PALBUFNH        = $7E0AA9
 ; Used to choose different graphics temporarily, such as medallion spells
 GFXSTEAL        = $7E0AAA
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0AAB   = $7E0AAB
 
 ; TODO
@@ -2898,7 +2898,7 @@ PALSPR0         = $7E0AAC
 PALSPR1         = $7E0AAD
 PALSPR2         = $7E0AAE
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0AAF   = $7E0AAF
 
 ; Only referenced in an unreachable palette routine.
@@ -2922,7 +2922,7 @@ PALAB7          = $7E0AB7
 ; TODO
 PALAB8          = $7E0AB8
 
-; FREE RAM: 0x04
+; FREE WRAM: 0x04
 UNUSED_7E0AB9   = $7E0AB9
 UNUSED_7E0ABA   = $7E0ABA
 UNUSED_7E0ABB   = $7E0ABB
@@ -2991,7 +2991,7 @@ BLKGFXBH        = $7E0ADB
 BGANIMGFX       = $7E0ADC
 BGANIMGFXH      = $7E0ADD
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7E0ADE   = $7E0ADE
 UNUSED_7E0ADF   = $7E0ADF
 
@@ -3001,7 +3001,7 @@ RUPGFXTH        = $7E0AE1
 RUPGFXB         = $7E0AE2
 RUPGFXBH        = $7E0AE3
 
-; FREE RAM: 0x04
+; FREE WRAM: 0x04
 UNUSED_7E0AE4   = $7E0AE4
 UNUSED_7E0AE5   = $7E0AE5
 UNUSED_7E0AE6   = $7E0AE6
@@ -3033,7 +3033,7 @@ DUCKGFXTH       = $7E0AF7
 DUCKGFXB        = $7E0AF8
 DUCKGFXBH       = $7E0AF9
 
-; FREE RAM: 0x06
+; FREE WRAM: 0x06
 UNUSED_7E0AFA   = $7E0AFA
 UNUSED_7E0AFB   = $7E0AFB
 UNUSED_7E0AFC   = $7E0AFC
@@ -3272,7 +3272,7 @@ FILEID          = $7E0B9D
 ; Flags activation of falling stalfos trap triggers.
 STALTRAP        = $7E0B9E
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0B9F   = $7E0B9F
 
 ; If nonzero, ancillae do not interact with the sprite
@@ -4570,7 +4570,7 @@ SPRSLOT         = $7E0FA0
 ; Used to hold last RNG value for "seeding"
 RNG             = $7E0FA1
 
-; FREE RAM: 0x03
+; FREE WRAM: 0x03
 UNUSED_7E0FA2   = $7E0FA2
 UNUSED_7E0FA3   = $7E0FA3
 UNUSED_7E0FA4   = $7E0FA4
@@ -4578,7 +4578,7 @@ UNUSED_7E0FA4   = $7E0FA4
 ; Stores the tile type for sprites and ancillae.
 SPRTILE         = $7E0FA5
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7E0FA6   = $7E0FA6
 UNUSED_7E0FA7   = $7E0FA7
 
@@ -4636,7 +4636,7 @@ OWLDEXH         = $7E0FBD
 OWLDSYL         = $7E0FBE
 OWLDSYH         = $7E0FBF
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0FC0   = $7E0FC0
 
 ; Seems to freeze sprites
@@ -4665,7 +4665,7 @@ PRIZEX5         = $7E0FCB
 PRIZEX6         = $7E0FCC
 PRIZEX7         = $7E0FCD
 
-; FREE RAM: 0x09
+; FREE WRAM: 0x09
 ; Space was probably allotted for more prize packs, but it goes unused.
 UNUSED_7E0FCE   = $7E0FCE
 UNUSED_7E0FCF   = $7E0FCF
@@ -4695,7 +4695,7 @@ ANIMALRUN       = $7E0FDD
 ; Overlord index of active "home target" overlords (ID: 0x01)
 HOMESLOT        = $7E0FDE
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E0FDF   = $7E0FDF
 
 ; OAM region pointers
@@ -4885,7 +4885,7 @@ EXIT2TXH        = $7E19E7
 EXIT3TX         = $7E19E8
 EXIT3TXH        = $7E19E9
 
-; FREE RAM: 0x16
+; FREE WRAM: 0x16
 UNUSED_7E19EA   = $7E19EA
 
 ;---------------------------------------------------------------------------------------------------
@@ -4900,14 +4900,14 @@ FOLLOWERXH      = $7E1A3C
 FOLLOWERZ       = $7E1A50
 FOLLOWERLAYER   = $7E1A64
 
-; BIG FREE RAM: 0x38
+; BIG FREE WRAM: 0x38
 UNUSED_7E1A78   = $7E1A78
 
 ; X- and Y- coordinates of mirror portal; also flute numbers during flute menu.
 ; x low
 FLUTENUMXL      = $7E1AB0
 
-; FREE RAM: 0x07
+; FREE WRAM: 0x07
 UNUSED_7E1AB8   = $7E1AB8
 
 ; mirror x low
@@ -4916,7 +4916,7 @@ MIRRORXL        = $7E1ABF
 ; x high
 FLUTENUMXH      = $7E1AC0
 
-; FREE RAM: 0x07
+; FREE WRAM: 0x07
 UNUSED_7E1AC8   = $7E1AC8
 
 ; mirror x high
@@ -4925,7 +4925,7 @@ MIRRORXH        = $7E1ACF
 ; y low
 FLUTENUMYL      = $7E1AD0
 
-; FREE RAM: 0x07
+; FREE WRAM: 0x07
 UNUSED_7E1AD8   = $7E1AD8
 
 ; mirror y low
@@ -4934,7 +4934,7 @@ MIRRORYL        = $7E1ADF
 ; y high
 FLUTENUMYH      = $7E1AE0
 
-; FREE RAM: 0x07
+; FREE WRAM: 0x07
 UNUSED_7E1AE8   = $7E1AE8
 
 ; mirror y high
@@ -4946,7 +4946,7 @@ FLUTESEL        = $7E1AF0
 ; Zeroed when initializing bat crash, but never read.
 JUNK_7E1AF1     = $7E1AF1
 
-; FREE RAM: 0x0D
+; FREE WRAM: 0x0D
 UNUSED_7E1AF2   = $7E1AF2
 UNUSED_7E1AF3   = $7E1AF3
 UNUSED_7E1AF4   = $7E1AF4
@@ -4973,7 +4973,7 @@ IRIS            = $7E1B00
 
 ;---------------------------------------------------------------------------------------------------
 
-; FREE RAM: 0x10
+; FREE WRAM: 0x10
 UNUSED_7E1CC0   = $7E1CC0
 UNUSED_7E1CC1   = $7E1CC1
 UNUSED_7E1CC2   = $7E1CC2
@@ -5016,7 +5016,7 @@ MSGSUB          = $7E1CD8
 MSGBFROFF       = $7E1CD9
 MSGBFROFFH      = $7E1CDA
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E1CDB   = $7E1CDB
 
 ; High byte of message tilemap definition (including props; color)
@@ -5074,7 +5074,7 @@ MSGBCD34        = $7E1CF3
 ; Saves last selected menu option when entering various interfaces
 MSGLASTC        = $7E1CF4
 
-; FREE RAM: 0x0B
+; FREE WRAM: 0x0B
 UNUSED_7E1CF5   = $7E1CF5
 UNUSED_7E1CF6   = $7E1CF6
 UNUSED_7E1CF7   = $7E1CF7
@@ -5110,7 +5110,7 @@ CACHE_0E60      = $7E1DF0
 ;---------------------------------------------------------------------------------------------------
 ; Polyhedral variables used by the intro and ending sequence.
 ;---------------------------------------------------------------------------------------------------
-; Be wary of FREE RAM listed here, as it will be cleared with other values here.
+; Be wary of FREE WRAM listed here, as it will be cleared with other values here.
 ;---------------------------------------------------------------------------------------------------
 
 ; Cutscene act
@@ -5122,7 +5122,7 @@ SCENETIME       = $7E1E01
 ; When set, triforce room triangles don't move.
 SCENESTOP       = $7E1E02
 
-; FREE RAM: 0x05
+; FREE WRAM: 0x05
 UNUSED_7E1E03   = $7E1E03
 UNUSED_7E1E04   = $7E1E04
 UNUSED_7E1E05   = $7E1E05
@@ -5136,14 +5136,14 @@ SCENEOAMXH      = $7E1E09
 ; Frame counter
 SCENEFRAME      = $7E1E0A
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E1E0B   = $7E1E0B
 
 ; Countdown timer for the triangles to snap into their final position in the triforce room.
 SCENESNAPTL     = $7E1E0C
 SCENESNAPTH     = $7E1E0D
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7E1E0E   = $7E1E0E
 UNUSED_7E1E0F   = $7E1E0F
 
@@ -5177,10 +5177,10 @@ SCSPRYH         = $7E1E50
 SCSPRVX         = $7E1E58
 SCSPRVY         = $7E1E60
 
-; FREE RAM: 0x08
+; FREE WRAM: 0x08
 UNUSED_7E1E68   = $7E1E68
 
-; BIG FREE RAM: 0x90
+; BIG FREE WRAM: 0x90
 ; This big block is actually 100% safe
 UNUSED_7E1E70   = $7E1E70
 
@@ -5193,7 +5193,7 @@ UNUSED_7E1E70   = $7E1E70
 ; The polyhedral code is the only instance of direct page juggling in ALTTP
 ; most addresses here will be accessed with direct page addressing
 ;
-; Be wary of FREE RAM listed here, as it will be zeroed whenever the polyhedral thread initializes.
+; Be wary of FREE WRAM listed here, as it will be zeroed whenever the polyhedral thread initializes.
 ;---------------------------------------------------------------------------------------------------
 ;===================================================================================================
 
@@ -5293,7 +5293,7 @@ UNKNOWN_7E1FB1  = $7E1FB1
 UNKNOWN_7E1FB2  = $7E1FB2
 UNKNOWN_7E1FB3  = $7E1FB3
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E1FB4   = $7E1FB4
 
 ; TODO
@@ -5304,13 +5304,13 @@ UNKNOWN_7E1FB8  = $7E1FB8
 UNKNOWN_7E1FB9  = $7E1FB9
 UNKNOWN_7E1FBA  = $7E1FBA
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7E1FBB   = $7E1FBB
 
 ; TODO
 UNKNOWN_7E1FBC  = $7E1FBC
 
-; FREE RAM: 0x03
+; FREE WRAM: 0x03
 UNUSED_7E1FBD   = $7E1FBD
 UNUSED_7E1FBE   = $7E1FBE
 UNUSED_7E1FBF   = $7E1FBE
@@ -5344,7 +5344,7 @@ UNKNOWN_7E1FF0  = $7E1FF0
 UNKNOWN_7E1FF1  = $7E1FF1
 UNKNOWN_7E1FF2  = $7E1FF2
 
-; FREE RAM: 0x07
+; FREE WRAM: 0x07
 UNUSED_7E1FF3   = $7E1FF3
 UNUSED_7E1FF4   = $7E1FF4
 UNUSED_7E1FF5   = $7E1FF5
@@ -5357,7 +5357,7 @@ UNUSED_7E1FF9   = $7E1FF9
 UNKNOWN_7E1FFA  = $7E1FFA
 UNKNOWN_7E1FFB  = $7E1FFB
 
-; FREE RAM: 0x04
+; FREE WRAM: 0x04
 UNUSED_7E1FFC   = $7E1FFC
 UNUSED_7E1FFD   = $7E1FFD
 UNUSED_7E1FFE   = $7E1FFE
@@ -5415,7 +5415,7 @@ GFX_STARS       = $7EBDC0
 
 ;---------------------------------------------------------------------------------------------------
 
-; BIG FREE RAM: 0x0200
+; BIG FREE WRAM: 0x0200
 UNUSED_7EBE00   = $7EBE00
 
 ;---------------------------------------------------------------------------------------------------
@@ -5473,7 +5473,7 @@ DARKNESSH       = $7EC018
 AGAFADETIME     = $7EC019
 AGAFADEDIR      = $7EC01F
 
-; BIG FREE RAM: 0xDB
+; BIG FREE WRAM: 0xDB
 UNUSED_7EC025   = $7EC025
 
 ;---------------------------------------------------------------------------------------------------
@@ -5520,7 +5520,7 @@ SPO_BGSET1      = $7EC125
 SPO_BGSET2      = $7EC126
 SPO_SPRSET1     = $7EC127
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7EC128   = $7EC128
 UNUSED_7EC129   = $7EC129
 
@@ -5534,7 +5534,7 @@ SPO_SCRMODXAH   = $7EC12F
 SPO_SCRMODXBL   = $7EC130
 SPO_SCRMODXBH   = $7EC131
 
-; FREE RAM: 0x0E
+; FREE WRAM: 0x0E
 UNUSED_7EC132   = $7EC132
 UNUSED_7EC133   = $7EC133
 UNUSED_7EC134   = $7EC134
@@ -5592,7 +5592,7 @@ EN_BGSET1       = $7EC165
 EN_BGSET2       = $7EC166
 EN_SPRSET1      = $7EC167
 
-; FREE RAM: 0x02
+; FREE WRAM: 0x02
 UNUSED_7EC168   = $7EC168
 UNUSED_7EC169   = $7EC169
 
@@ -5617,7 +5617,7 @@ OWCALC86H       = $7EC175
 OWCALC88L       = $7EC176
 OWCALC88H       = $7EC177
 
-; FREE RAM: 0x08
+; FREE WRAM: 0x08
 UNUSED_7EC178   = $7EC178
 UNUSED_7EC179   = $7EC179
 UNUSED_7EC17A   = $7EC17A
@@ -5661,7 +5661,7 @@ CC_QUADV        = $7EC19D
 CC_QUADLR       = $7EC19E
 CC_QUADTB       = $7EC19F
 
-; FREE RAM: 0x06
+; FREE WRAM: 0x06
 UNUSED_7EC1A0   = $7EC1A0
 UNUSED_7EC1A1   = $7EC1A1
 UNUSED_7EC1A2   = $7EC1A2
@@ -5676,7 +5676,7 @@ CC_DLAYER       = $7EC1A8
 CC_DOORWAY      = $7EC1A9
 CC_DNGFLOOR     = $7EC1AA
 
-; FREE RAM: 0x55
+; FREE WRAM: 0x55
 UNUSED_7EC1AB   = $7EC1AB
 
 ;---------------------------------------------------------------------------------------------------
@@ -5694,7 +5694,7 @@ OMC_BG2VERTH    = $7EC207
 ; Copies BGACT but never used
 CACHE_BGACT     = $7EC208
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7EC209   = $7EC209
 
 ; TODO update with names
@@ -5703,7 +5703,7 @@ CACHE_AB6       = $7EC20A
 CACHE_AB8       = $7EC20B
 CACHE_AB7       = $7EC20C
 
-; FREE RAM: 0x01
+; FREE WRAM: 0x01
 UNUSED_7EC20D   = $7EC20D
 
 
@@ -5745,7 +5745,7 @@ GOC_SFX1        = $7EC228
 ; Cache for HDMA enable for various things
 CACHE_HDMAENQ   = $7EC229
 
-; BIG FREE RAM: 0xCE
+; BIG FREE WRAM: 0xCE
 UNUSED_7EC22A   = $7EC22A
 
 ; Lists the currently loaded sheets to check against for decompression.
@@ -5859,13 +5859,13 @@ HUD             = $7EC700
 
 ;---------------------------------------------------------------------------------------------------
 
-; FREE RAM: 0x36
+; FREE WRAM: 0x36
 UNUSED_7EC84A   = $7EC84A
 
 ; Tilemap buffer for moving wall animation.
 WALLDRAW        = $7EC880
 
-; BIG FREE RAM: 0x1F00
+; BIG FREE WRAM: 0x1F00
 UNUSED_7EC900   = $7EC900
 
 ;---------------------------------------------------------------------------------------------------
@@ -5876,12 +5876,12 @@ POLYDRAW        = $7EE800
 ;---------------------------------------------------------------------------------------------------
 
 ; SRAM mirror for current file
-; see symbols_sram.asm
+; see symbols_SRAM.asm
 WRAMSAVE        = $7EF000
 
 ;---------------------------------------------------------------------------------------------------
 
-; FREE RAM: 0x80
+; FREE WRAM: 0x80
 UNUSED_7EF500   = $7EF500
 
 ; Tracks lifted pot secrets
@@ -5907,7 +5907,7 @@ SHEETLISTB      = $7EFD40
 
 ;---------------------------------------------------------------------------------------------------
 
-; FREE RAM: 0x40
+; FREE WRAM: 0x40
 UNUSED_7EFDC0   = $7EFDC0
 
 ;---------------------------------------------------------------------------------------------------
@@ -5941,7 +5941,7 @@ COLMAPB         = $7F3000
 ; Decompression buffer
 DECOMPB         = $7F4000
 
-; BIG FREE RAM: 0x0800
+; BIG FREE WRAM: 0x0800
 UNUSED_7F5000   = $7F5000
 
 ;---------------------------------------------------------------------------------------------------
@@ -6011,21 +6011,21 @@ ANC_7F58E4      = $7F58E4
 ;---------------------------------------------------------------------------------------------------
 
 ; TODO at least this much
-; FREE RAM: 0x024
+; FREE WRAM: 0x024
 UNUSED_7F5900   = $7F5900
 
 ; TODO
 BOMBOS_7F5924   = $7F5924
 BOMBOS_7F5925   = $7F5925
 
-; FREE RAM: 0x06
+; FREE WRAM: 0x06
 UNUSED_7F5926   = $7F5926
 
 ; TODO
 BOMBOS_7F592C   = $7F592C
 BOMBOS_7F592D   = $7F592D
 
-; FREE RAM: 0x06
+; FREE WRAM: 0x06
 UNUSED_7F592E   = $7F592E
 
 ; TODO
@@ -6034,13 +6034,13 @@ BOMBOS_7F5935   = $7F5935
 BOMBOS_7F5945   = $7F5945
 BOMBOS_7F5955   = $7F5955
 
-; BIG FREE RAM: 0x60
+; BIG FREE WRAM: 0x60
 UNUSED_7F5975   = $7F5975
 
 ; TODO
 BOMBOS_7F59D5   = $7F59D5
 
-; BIG FREE RAM: 0x60
+; BIG FREE WRAM: 0x60
 UNUSED_7F59F5   = $7F59F5
 
 ; TODO
@@ -6048,7 +6048,7 @@ BOMBOS_7F5A55   = $7F5A55
 BOMBOS_7F5A56   = $7F5A56
 BOMBOS_7F5A57   = $7F5A57
 
-; BIG FREE RAM: 0xA8
+; BIG FREE WRAM: 0xA8
 UNUSED_7F5A58   = $7F5A58
 
 ;---------------------------------------------------------------------------------------------------
@@ -6058,7 +6058,7 @@ TEXTDECOMP      = $7F5B00
 
 ;---------------------------------------------------------------------------------------------------
 
-; BIG FREE RAM: 0xFE
+; BIG FREE WRAM: 0xFE
 UNUSED_7F5F02   = $7F5F02
 
 ;---------------------------------------------------------------------------------------------------
@@ -6476,7 +6476,7 @@ MSG018B         = $7F74D6 ; $F356
 
 ;---------------------------------------------------------------------------------------------------
 
-; MASSIVE FREE RAM: 0x68A8
+; MASSIVE FREE WRAM: 0x68A8
 UNUSED_7F74D8   = $7F74D8
 
 ;---------------------------------------------------------------------------------------------------
@@ -6498,7 +6498,7 @@ OWDEATH         = $7FEF80
 
 ;---------------------------------------------------------------------------------------------------
 
-; BIG FREE RAM: 0x680
+; BIG FREE WRAM: 0x680
 UNUSED_7FF180   = $7FF180
 
 ;---------------------------------------------------------------------------------------------------
@@ -7003,7 +7003,7 @@ SPRDTILE        = $7FF9CF
 SPRETILE        = $7FF9D0
 SPRFTILE        = $7FF9D1
 
-; FREE RAM: 0x2C
+; FREE WRAM: 0x2C
 UNUSED_7FF9D2   = $7FF9D2
 
 ; TODO
@@ -7125,7 +7125,7 @@ SPRFTILE2       = $7FFACB
 SPRCACHE_7FFACC = $7FFACC
 SPRCACHE_7FFADC = $7FFADC
 
-; FREE RAM: 0x30
+; FREE WRAM: 0x30
 UNUSED_7FFAEC   = $7FFAEC
 
 ;---------------------------------------------------------------------------------------------------

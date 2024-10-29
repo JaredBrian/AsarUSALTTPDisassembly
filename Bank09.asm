@@ -9399,9 +9399,7 @@ GameOver_SaveAndOrContinue:
         DEC.b $C8 : BNE .BRANCH_GAMMA
             INC.b $C8
             
-            LDA.b $F0
-            
-            AND.b #$0C : BEQ .BRANCH_GAMMA
+            LDA.b $F0 : AND.b #$0C : BEQ .BRANCH_GAMMA
                 AND.b #$04 : BEQ .BRANCH_DELTA
     
     .selectButtonPressed

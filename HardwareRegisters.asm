@@ -29,7 +29,7 @@
 ; Further details on each register can be found here:
 ; https://github.com/gilligan/snesdev/blob/master/docs/snes_registers.txt
 
-struct SNES $2100
+struct SNES $21
 {
     .ScreenDisplay:             skip $01 ; $2100
     .OAMSizeAndDataDes:         skip $01 ; $2101
@@ -129,9 +129,9 @@ struct SNES $2100
     .DividendHigh:              skip $01 ; $4205
     .DivisorB:                  skip $01 ; $4206
     .HCountTimer:               skip $01 ; $4207
-    .HCountTimerMSB:            skip $01 ; $4208
+    .HCountTimerHigh:            skip $01 ; $4208
     .VCountTImer:               skip $01 ; $4209
-    .VCountTimerMSB:            skip $01 ; $420A
+    .VCountTimerHigh:            skip $01 ; $420A
 
     .DMAChannelEnable:          skip $01 ; $420B
     .HDMAChannelEnable:         skip $01 ; $420C
@@ -148,12 +148,12 @@ struct SNES $2100
     .RemainderResultHigh:       skip $01 ; $4217
 
     .JoyPad1DataLow:            skip $01 ; $4218
-    .JoyPad2DataLow:            skip $01 ; $4219
-    .JoyPad3DataLow:            skip $01 ; $421A
-    .JoyPad4DataLow:            skip $01 ; $421B
-    .JoyPad1DataHigh:           skip $01 ; $421C
-    .JoyPad2DataHigh:           skip $01 ; $421D
-    .JoyPad3DataHigh:           skip $01 ; $421E
+    .JoyPad1DataHigh:           skip $01 ; $4219
+    .JoyPad2DataLow:            skip $01 ; $421A
+    .JoyPad2DataHigh:           skip $01 ; $421B
+    .JoyPad3DataLow:            skip $01 ; $421C
+    .JoyPad3DataHigh:           skip $01 ; $421D
+    .JoyPad4DataLow:            skip $01 ; $421E
     .JoyPad4DataHigh:           skip $01 ; $421F
 }
 endstruct

@@ -310,13 +310,14 @@ Vector_NMI:
         ; Clear the IRQ line if one is pending? (reset latch).
         LDA.w SNES.IRQFlagByHVCountTimer
         
-        ; Set vertical irq trigger position to 128, which is a tad
+        ; Set vertical IRQ trigger position to 128, which is a tad
         ; bit past the middle of the screen, vertically.
-        LDA.b #$80 : STA.w SNES.VCountTImer : STZ.w SNES.VCountTimerMSB
+        LDA.b #$80 : STA.w SNES.VCountTImer
+                     STZ.w SNES.VCountTimerHigh
         
-        ; Set horizontal irq trigger position to 0
+        ; Set horizontal IRQ trigger position to 0
         ; (Will not be used anyways).
-        STZ.w SNES.HCountTimer : STZ.w SNES.HCountTimerMSB
+        STZ.w SNES.HCountTimer : STZ.w SNES.HCountTimerHigh
         
         ; Will enable NMI, and Joypad, and vertical IRQ trigger.
         LDA.b #$A1 : STA.w SNES.NMIVHCountJoypadEnable ; #$A1 = #%10100001
@@ -343,7 +344,8 @@ NMI_SwitchThread:
 {
     JSR.w NMI_UpdateIrqGfx
     
-    LDA.b $FF : STA.w SNES.VCountTImer : STZ.w SNES.VCountTimerMSB
+    LDA.b $FF : STA.w SNES.VCountTImer
+    STZ.w SNES.VCountTimerHigh
     
     ; A = #%10100001, which means activate NMI, V-IRQ, and Joypad.
     LDA.b #$A1 : STA.w SNES.NMIVHCountJoypadEnable
@@ -602,8 +604,8 @@ NMI_ReadJoypads:
     STZ.w $4016
     
     ; Storing the state of Joypad 1 to $00-$01.
-    LDA.w SNES.JoyPad1DataLow : STA.b $00
-    LDA.w SNES.JoyPad2DataLow : STA.b $01
+    LDA.w SNES.JoyPad1DataLow  : STA.b $00
+    LDA.w SNES.JoyPad1DataHigh : STA.b $01
     
     ; $F2 has the pure joypad data.
     LDA.b $00 : STA.b $F2 : TAY 
@@ -616,10 +618,10 @@ NMI_ReadJoypads:
     
     ; Essentially the same procedure as above, but for the other half of JP1.
     LDA.b $01 : STA.b $F0 : TAY
+
     EOR.b $F8 : AND.b $F0 : STA.b $F4 : STY.b $F8
 
     ; Bleeds into the next function.
-
 }
     
 ; $0003F8-$00041D LOCAL JUMP LOCATION
@@ -635,13 +637,15 @@ Player2JoypadReturn:
     ; this way, never reaches this section. Yes folks, there is no love for
     ; Joypad2 in Zelda 3.
     
-    LDA.w SNES.JoyPad3DataLow : STA.b $00
-    LDA.w SNES.JoyPad4DataLow : STA.b $01
+    LDA.w SNES.JoyPad2DataLow  : STA.b $00
+    LDA.w SNES.JoyPad2DataHigh : STA.b $01
     
     LDA.b $00 : STA.b $F3 : TAY
+
     EOR.b $FB : AND.b $F3 : STA.b $F7 : STY.b $FB
     
     LDA.b $01 : STA.b $F1 : TAY
+
     EOR.b $F9 : AND.b $F1 : STA.b $F5 : STY.b $F9
     
     RTS

@@ -47,6 +47,18 @@
 
 struct WRAM $7E0000
 {
+    ; ===========================================================================
+    ; Start of bank 0x7E and direct page memory
+    ; ===========================================================================
+    ; Page 0x00
+    ; ===========================================================================
+
+    ; Note that these addresses are only one byte and you can assume that they
+    ; are $7E00XX where XX is the byte address you see below. These can
+    ; technically change to a different direct page however ALTTP never makes
+    ; use of changing the direct page feature and leaves it at #$0000 the
+    ; entire game.
+
     ; $00[0x10] (Main)
     .Work: skip $10
         ; Generic work WRAM. Used for temporary calculations. Should not be used
@@ -1061,7 +1073,8 @@ struct WRAM $7E0000
         ; Set to 0 or 2, but it depends upon the dungeon room's layout
         ; and the quadrant it was entered from. Further investigation seems
         ; to indicate that its purpose is to control the camera / scrolling
-        ; boundaries in dungeons.
+        ; boundaries in dungeons. Also used during certain overworld scenarios,
+        ; possibly in special areas. TODO: Confirm this.
 
     ; $A7[0x01] - (Dungeon)
     .CameraBoundsY: skip $01
@@ -1437,97 +1450,359 @@ struct WRAM $7E0000
     .LogoSwordUnknown_D0:
         ; (Bank 0x0C) Used in the title screen logo sword. TODO: Purpose unknown.
 
-    ; $E0[0x02] - (NMI)
-        ; BG1 horizontal scroll register (SNES.BG2HScrollOffset / $210F)
+    ; BG positions/scroll registers.
+    ; BG1:
+    ;     Dungeon: Lower level objects
+    ;     Overworld: Subscreen overlays
+    ;     Title: Title text
+    ;     File: Border box
+    ;     Attract: The moving bubble BG that goes North West
+    ;     Dungeon map: Levels background, and layout grid
+    ;     Overworld map: Mode 7 map
+    ; BG2:
+    ;     Dungeon: Upper level objects
+    ;     Overworld: Main tile map
+    ;     Title: Castle, lake, forrest, and mountain Background
+    ;     Attract: The moving bubble BG that goes North East
+    ;     Dungeon map: Map layout and level box
+    ;     Credits: Mountain background
+    ; BG3:
+    ;     Everywhere: Text
+    ;     Dungeon and Overworld: Item menu
+    ;     Attract: History depictions
+    ;     Dungeon map: Outer box + "Map" label on the top left
 
-    ; $E2[0x02] - (NMI)
-        ; BG2 horizontal scroll register (SNES.BG1HScrollOffset / $210D)
+    ; BG scroll registers / positions
 
-    ; $E4[0x02] - (NMI)
-        ; BG3 horizontal scroll register (SNES.BG3HScrollOffset / $2111)
+    ; $E0[0x02] - (Main)
+    .BG1HPosLow: skip $01
+        ; The BG1 horizontal position. This is almost the BG1 horizontal scroll
+        ; register (SNES.BG1HScrollOffset / $210D). $E0 is written to as if it
+        ; were the scroll register most of the time. However, its value is
+        ; occasionally changed and then written to $0120 which is the true BG1
+        ; horizontal scroll register. Functionally this means this is the X
+        ; position of BG1 relative to the camera.
 
-    ; $E6[0x02] - (NMI)
-        ; BG1 vertical scroll register (SNES.BG2VScrollOffset / $2110)
+    ; $E1[0x01] - (Main)
+    .BG1HPosHigh: skip $01
+        ; The high byte of BG1HPosLow.
 
-    ; $E8[0x02] - (NMI)
-        ; BG2 vertical scroll register (SNES.BG1VScrollOffset / $210E)
+    ; $E2[0x02] - (Main)
+    .BG2HPosLow: skip $01
+        ; The BG2 horizontal position. This is almost the BG1 horizontal scroll
+        ; register (SNES.BG2HScrollOffset / $210F). $E2 is written to as if it
+        ; were the scroll register most of the time. However, its value is
+        ; occasionally changed and then written to $011E which is the true BG2
+        ; horizontal scroll register. Functionally this means this is the X
+        ; position of BG2 relative to the camera.
 
-    ; $EA[0x02] - (NMI)
-        ; BG3 vertical Scroll Register (SNES.BG3VScrollOffset / $2112)
+    ; $E3[0x01] - (Main)
+    .BG2HPosHigh: skip $01
+        ; The high byte of BG2HPosLow.
+
+    ; $E4[0x02] - (Main, NMI)
+    .BG3HScrollLow: skip $01
+        ; The BG3 horizontal scroll register (SNES.BG3HScrollOffset / $2111).
+        ; Functionally this means this is the X position of BG3 relative to the 
+        ; camera.
+
+    ; $35[0x01] - (Main, NMI)
+    .BG3HScrollHigh: skip $01
+        ; The high byte of BG3HScrollLow.
+
+    ; $E6[0x02] - (Main)
+    .BG1VPosLow: skip $01
+        ; The BG1 vertical position. This is almost the BG1 vertical scroll
+        ; register (SNES.BG1VScrollOffset / $210E). $E6 is written to as if it
+        ; were the scroll register most of the time. However, its value is
+        ; occasionally changed and then written to $0124 which is the true BG1
+        ; vertical scroll register. Functionally this means this is the Y
+        ; position of BG1 relative to the camera.
+
+    ; $E7[0x01] - (Main)
+    .BG1VPosHigh: skip $01
+        ; The high byte of BG1VPosLow.
+
+    ; $E8[0x02] - (Main)
+    .BG2VPosLow: skip $01
+        ; The BG2 vertical position. This is almost the BG2 vertical scroll
+        ; register (SNES.BG2VScrollOffset / $2110). $E8 is written to as if it
+        ; were the scroll register most of the time. However, its value is
+        ; occasionally changed and then written to $0124 which is the true BG2
+        ; vertical scroll register. Functionally this means this is the Y
+        ; position of BG2 relative to the camera.
+
+    ; $E9[0x01] - (Main)
+    .BG2VPosHigh: skip $01
+        ; The high byte of BG2VPosLow.
+
+    ; $EA[0x02] - (Main, NMI)
+    .BG3HScrollLow: skip $01
+        ; The BG3 vertical scroll register (SNES.BG3VScrollOffset / $2112).
+        ; Functionally this means this is the Y position of BG3 relative to the 
+        ; camera.
+    
+    ; $EB[0x01] - (Main, NMI)
+    .BG3HScrollHigh: skip $01
+        ; The high byte of BG3VScrollLow.
 
     ; $EC[0x02] - (Overworld, Dungeon)
-        ; Tilemap location calculation mask. Is only ever set to 0xFFF8 or 0x01F8
+    .CollisionType: skip $01
+        ; Tilemap location calculation mask.
+        ; UW: 0x01F8
+        ; OW: 0xFFF8
 
-    ; $EE[0x01] - 
-        ; In dungeons, 0 Means you're on the upper level. 
-        ; 1 Means you're on a lower level.
-        ; Important for interaction with different tile types.
+    ; $ED[0x02] - (Overworld, Dungeon)
+    .CollisionTypeHigh: skip $01
+        ; The high byte of CollisionType.
 
-    ; $EF[0x01] - 
-        ; Room Transitioning Value (bitwise)
-        ; bit 0 - Toggles between BG1 and BG2. One example: Sanctuary and Hyrule
-        ; Castle. (see door type up-11)
-        ; bit 1 - Transition between Sewer and Hyrule Castle. Xors the dungeon
-        ; index by 0x02. 
+    ; $EE[0x01] - (Dungeon, Player)
+    .LinkDunLayer:
+        ; What layer in dungeons the player is currently on. Used to determine
+        ; draw, tile interactions, and collision calculations mostly.
+        ; 0 Means you're on the upper level (BG2). 
+        ; 1 Means you're on a lower level (BG1).
 
-    ; $F0[0x01] - 
-        ; Unfiltered Joypad 1 Register: Same as $F4, except it preserves buttons
-        ; that were being pressed in the previous frame.
+    ; $EE[0x01] - (Polyhedral)
+    .PolyUnknown_EE: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
-    ; $F1[0x01] - 
-        ; Unfiltered Joypad 2 Register: Same as $F5, except it preserves buttons
-        ; that were being pressed in the previous frame. Note: Input from joypad
-        ; 2 is not read unless you do some ASM hacking.
+    ; $EF[0x01] - (Dungeon)
+    .DunTransitionProp: skip $01
+        ; Room transitioning properties
+        ; .... ..sl
+        ; l - If set, will trigger a layer swap. going from layer 1 to layer 2
+        ;     and vis versa One example: Sanctuary and Hyrule Castle.
+        ;     TODO: Find the exact rooms for this example.
+        ; s - Transition between Sewer and Hyrule Castle. Xors the dungeon
+        ;     index by 0x02 so this could be used for other dungeons that are
+        ;     only different by their 2nd bit but its only vanilla use is going
+        ;     between the castle and the sewers.
+        ; This address is cleared every movement frame in the underworld but
+        ; it's also set by certain door tiles. The effects of the address don't
+        ; occur until an dungeon to dungeon transition.
 
-    ; $F2[0x01] - 
-        ; Unfiltered Joypad 1 Register: Same as $F6, except it preserves button
-        ; that were being pressed in the previous frame.
+    ; $EF[0x01] - (Polyhedral)
+    .PolyUnknown_EF: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
-    ; $F3[0x01] - 
-        ; Unfiltered Joypad 2 Register: Same as $F7, except it preserves buttons
-        ; that were being pressed in the previous frame. Note: Input from joypad
-        ; 2 is not read unless you do some asm hacking
+    ; Joypad input:
+    ; Joypad is the current state of the input.
+    ; JoypadLast is the state of the input last frame.
+    ; JoypadPressed is a rising edge trigger for the current state of the input.
+    ; Meaning when a button is held down it will only appear for one frame here.
+    ; So if you press A for 3 frames:
+    ; +=======+========+============+===============+
+    ; | Frame | Joypad | JoypadLast | JoypadPressed |
+    ; +=======+========+============+===============+
+    ; | 0     | 0      | 0          | 0             |
+    ; +-------+--------+------------+---------------+
+    ; | 1     | 1      | 0          | 1             |
+    ; +-------+--------+------------+---------------+
+    ; | 2     | 1      | 1          | 0             |
+    ; +-------+--------+------------+---------------+
+    ; | 3     | 1      | 1          | 0             |
+    ; +-------+--------+------------+---------------+
+    ; | 4     | 0      | 1          | 0             |
+    ; +-------+--------+------------+---------------+
+    ; | 5     | 0      | 0          | 0             |
+    ; +-------+--------+------------+---------------+
+
+    ; $F0[0x01] - (Input, NMI)
+    .Joypad1High:
+        ; Unfiltered Joypad 1 high Register (SNES.JoyPad1DataHigh / $4219).
+        ; Updated once per frame during NMI.
+        ; BYsS udlr
+        ; B - B button
+        ; Y - Y button
+        ; s - Select button
+        ; S - Start button
+        ; u - Up d-pad
+        ; d - Down d-pad
+        ; l - Left d-pad
+        ; r - Right d-pad
+
+    ; $F0[0x02] - (Polyhedral)
+    .PolyUnknown_F0: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; $F1[0x01] - (Input, NMI)
+    .Joypad2High: skip $01
+        ; Unfiltered Joypad 2 high Register (SNES.JoyPad2DataHigh / $421B).
+        ; Input from joypad 2 is not read unless you do some ASM hacking.
+        ; BYsS udlr
+        ; B - B button
+        ; Y - Y button
+        ; s - Select button
+        ; S - Start button
+        ; u - Up d-pad
+        ; d - Down d-pad
+        ; l - Left d-pad
+        ; r - Right d-pad
+
+    ; $F2[0x01] - (Input, NMI)
+    .Joypad1Low:
+        ; Unfiltered Joypad 1 low Register (SNES.JoyPad1DataLow / $4218)
+        ; Updated once per frame during NMI.
+        ; AXLR iiii
+        ; A - A button
+        ; X - X button
+        ; L - Left shoulder button
+        ; R - Right shoulder button
+        ; i - ID for the controller type.
+
+    ; $F2[0x01] - (Polyhedral)
+    .PolyUnknown_F2: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; $F3[0x01] - (Input, NMI)
+    .Joypad2Low: skip $01
+        ; Unfiltered Joypad 2 low Register (SNES.JoyPad2DataLow / $421A)
+        ; Input from joypad 2 is not read unless you do some ASM hacking.
+        ; AXLR iiii
+        ; A - A button
+        ; X - X button
+        ; L - Left shoulder button
+        ; R - Right shoulder button
+        ; i - ID for the controller type.
 
     ; $F4[0x01] - 
-        ; Filtered Joypad 1 Register: [BYST | udlr].
-        ; Lower case represents the cardinal directions, T = start. S = select.
+    .Joypad1PressedHigh: skip $01
+        ; Pressed Joypad 1 high Register (SNES.JoyPad1DataHigh / $4219).
+        ; This is a rising edge trigger for the current state of the input.
+        ; Meaning when a button is held down it will only appear for one frame
+        ; here. Updated once per frame during NMI.
+        ; BYsS udlr
+        ; B - B button
+        ; Y - Y button
+        ; s - Select button
+        ; S - Start button
+        ; u - Up d-pad
+        ; d - Down d-pad
+        ; l - Left d-pad
+        ; r - Right d-pad
 
     ; $F5[0x01] - 
-        ; Filtered Joypad 2 Register: [BYST | udlr].
-        ; Lower case represents the cardinal directions, T = start. S = select.
-        ; Note: Input from joypad 2 is not read unless you do some asm hacking
+    .Joypad2PressedHigh: skip $01
+        ; Pressed Joypad 2 high Register (SNES.JoyPad2DataHigh / $421B).
+        ; This is a rising edge trigger for the current state of the input.
+        ; Meaning when a button is held down it will only appear for one frame
+        ; here. Input from joypad 2 is not read unless you do some ASM hacking.
+        ; BYsS udlr
+        ; B - B button
+        ; Y - Y button
+        ; s - Select button
+        ; S - Start button
+        ; u - Up d-pad
+        ; d - Down d-pad
+        ; l - Left d-pad
+        ; r - Right d-pad
 
     ; $F6[0x01] - 
-        ; Filtered Joypad Register [AXLR | ????]
-        ; LR: The shoulder buttons. ? = unknown inputs
+    .Joypad1PressedLow: skip $01
+        ; Pressed Joypad 1 low Register (SNES.JoyPad1DataLow / $4218)
+        ; This is a rising edge trigger for the current state of the input.
+        ; Meaning when a button is held down it will only appear for one frame
+        ; here. Updated once per frame during NMI.
+        ; AXLR iiii
+        ; A - A button
+        ; X - X button
+        ; L - Left shoulder button
+        ; R - Right shoulder button
+        ; i - ID for the controller type.
 
     ; $F7[0x01] - 
-        ; Filtered Joypad Register [AXLR | ????]
-        ; LR: The shoulder buttons. ? = unknown inputs.
-        ; Note: input from joypad 2 is not read unless you do some asm hacking.
+    .Joypad2PressedLow: skip $01
+        ; Pressed Joypad 2 low Register (SNES.JoyPad2DataLow / $421A)
+        ; This is a rising edge trigger for the current state of the input.
+        ; Meaning when a button is held down it will only appear for one frame
+        ; here. Input from joypad 2 is not read unless you do some ASM hacking.
+        ; AXLR iiii
+        ; A - A button
+        ; X - X button
+        ; L - Left shoulder button
+        ; R - Right shoulder button
+        ; i - ID for the controller type.
 
     ; $F8[0x01] - 
-        ; Unfiltered Joypad 1 Input from previous frame [BYSTudlr].
+    .Joypad1LastHigh: skip $01
+        ; Unfiltered Joypad 1 high Register (SNES.JoyPad1DataHigh / $4219) from
+        ; the previous frame. Updated once per frame during NMI.
+        ; BYsS udlr
+        ; B - B button
+        ; Y - Y button
+        ; s - Select button
+        ; S - Start button
+        ; u - Up d-pad
+        ; d - Down d-pad
+        ; l - Left d-pad
+        ; r - Right d-pad
 
     ; $F9[0x01] - 
-        ; Unfiltered Joypad 2 Input from previous frame [BYSTudlr].
+    .Joypad2LastHigh: skip $01
+        ; Unfiltered Joypad 2 high Register (SNES.JoyPad2DataHigh / $421B) from
+        ; the previous frame. Input from joypad 2 is not read unless you do some
+        ; ASM hacking.
+        ; BYsS udlr
+        ; B - B button
+        ; Y - Y button
+        ; s - Select button
+        ; S - Start button
+        ; u - Up d-pad
+        ; d - Down d-pad
+        ; l - Left d-pad
+        ; r - Right d-pad
 
     ; $FA[0x01] - 
-        ; Unfiltered Joypad 1 Input from previous frame [AXLR----].
+    .Joypad1LastLow: skip $01
+        ; Unfiltered Joypad 1 low Register (SNES.JoyPad1DataLow / $4218) from
+        ; the previous frame. Updated once per frame during NMI.
+        ; AXLR iiii
+        ; A - A button
+        ; X - X button
+        ; L - Left shoulder button
+        ; R - Right shoulder button
+        ; i - ID for the controller type.
+
+    ; $FA[0x02] - (Polyhedral)
+    .PolyUnknown_FA: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $FB[0x01] - 
-        ; Unfiltered Joypad 2 Input from previous frame [AXLR----].
+    .Joypad2LastLow:
+        ; Unfiltered Joypad 2 low Register (SNES.JoyPad2DataLow / $421A) from
+        ; the previous frame. Input from joypad 2 is not read unless you do some
+        ; ASM hacking.
+        ; AXLR iiii
+        ; A - A button
+        ; X - X button
+        ; L - Left shoulder button
+        ; R - Right shoulder button
+        ; i - ID for the controller type.
 
-    ; $FC[0x02] - 
-        ; .... Overrides for dungeon room transitions? (Seen used with blast
-        ; walls)
+    ; $FC[0x01] - (Dungeon)
+    .CameraBoundsXOverride: skip $01
+        ; Overrides CameraBoundsX if non 0. This is only set when a blast wall
+        ; is triggered.
 
-    ; $FE[0x01] - 
+    ; $FD[0x01] - (Dungeon)
+    .CameraBoundsYOverride: skip $01
+        ; Overrides CameraBoundsY if non 0. This is only set when a blast wall
+        ; is triggered.
+
+    ; $FE[0x01] - (Free)
+    .Free_FE: skip $01
         ; Free RAM
 
-    ; $FF[0x01] - 
-        ; Vertical IRQ Trigger (this is the vertical scanline that will
-        ; trigger the IRQ).
+    ; $FF[0x01] - (NMI)
+    .VCountTarget: skip $01
+        ; Vertical IRQ Trigger register (SNES.VCountTImer / $4209). If the
+        ; vertical scan line equals SNES.VCountTImer then it will trigger the
+        ; IRQ. Is only set to 0x90 or 0x30 but SNES.VCountTImer is also set
+        ; manually during NMI to 0x80.
+        ; 0x90 - Set during the 3D triforce setup.
+        ; 0x30 - When loading a save file (and it probably stays that way for
+        ;        most of the game)
 
     ; ===========================================================================
     ; End of direct page memory and start of mirrored bank 0x7E memory locations
@@ -1603,19 +1878,21 @@ struct WRAM $7E0000
     ; $011C[0x02] - 
         ; BG1 X Offset. Gets applied to $0120
 
-    ; These are extra buffers for the scroll variables in addition to the
-    ; $E0,...,$EA registers earlier
+    ; These are the true scroll registers for BG1 and BG2. Practically speaking,
+    ; the regesters at $E0-$EA should be used instead of these.
     ; $011E[0x02] - 
-        ; BG2 Horizontal Scroll Register ($210F)
+    .BG2HScroll: skip $02
+        ; BG2 Horizontal Scroll Register (SNES.BG2HScrollOffset / $210F)
 
     ; $0120[0x02] - 
-        ; BG1 Horizontal Scroll Register ($210D)
+    .BG1HScroll: skip $02
+        ; BG1 Horizontal Scroll Register (SNES.BG1HScrollOffset / $210D)
 
     ; $0122[0x02] - 
-        ; BG2 Vertical Scroll Register ($2110)
+        ; BG2 Vertical Scroll Register (SNES.BG2VScrollOffset / $2110)
 
     ; $0124[0x02] - 
-        ; BG1 Vertical Scroll Register ($210E)
+        ; BG1 Vertical Scroll Register (SNES.BG1VScrollOffset / $210E)
 
     ; $0126[0x01] - 
         ; Seems to be used during dungeon screen transitions as some sort

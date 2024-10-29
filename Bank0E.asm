@@ -3634,6 +3634,7 @@ Credits_HandleCameraScrollControl:
             CPX.b #$9D : BNE .BRANCH_TAU
                 .BRANCH_SIGMA
             
+                ; OPTIMIZE: Add #$0000?
                 LDA.w $0622 : CLC : ADC.w #$2000 : STA.w $0622
                 LDA.b $E6         : ADC.w #$0000 : STA.b $E6
                 LDA.w $0620 : CLC : ADC.w #$2000 : STA.w $0620
