@@ -373,6 +373,7 @@ Ancilla_TravelBird:
                     ; Enter the BirdTravel submodule of Messaging module.
                     LDA.b #$0A : STA.b $11
                     
+                    ; Cache the current module.
                     LDA.b $10 : STA.w $010C
                     
                     LDA.b #$0E : STA.b $10

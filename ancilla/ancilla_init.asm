@@ -2719,7 +2719,9 @@ AddEtherSpell:
     STZ.w $03C2, X
     STZ.w $0C54, X
     
-    LDA.b #$01 : STA.w $0112 : INC A : STA.w $03B1, X : INC A : STA.w $039F, X
+    LDA.b #$01 : STA.w $0112
+    INC A : STA.w $03B1, X
+    INC A : STA.w $039F, X
     
     LDA.b #$7F : STA.w $0C22, X
     
