@@ -737,9 +737,8 @@ Dungeon_LoadRoom:
     
     REP #$30
     
-    LDX.w $0110
-    
     ; Get pointer to object data.
+    LDX.w $0110
     LDA.l RoomData_ObjectDataPointers+1, X : STA.b $B8
     LDA.l RoomData_ObjectDataPointers+0, X : STA.b $B7
     
@@ -826,7 +825,6 @@ Dungeon_LoadRoom:
     
     ; Get room index * 3.
     LDX.w $0110
-    
     LDA.l RoomData_ObjectDataPointers+1, X : STA.b $B8
     LDA.l RoomData_ObjectDataPointers+0, X : STA.b $B7
     

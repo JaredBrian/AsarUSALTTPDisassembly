@@ -9764,6 +9764,7 @@ Death_RestoreScreenPostRevival:
         
         LDA.l $7EC212 : STA.b $1D
         
+        ; Restore the current module.
         LDA.w $010C : STA.b $10
         
         STZ.b $11

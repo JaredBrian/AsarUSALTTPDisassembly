@@ -5352,6 +5352,7 @@ LinkItem_Bottle:
             
             LDA.b #$04 : STA.b $11
             
+            ; Cache the current module.
             LDA.b $10 : STA.w $010C
             
             LDA.b #$0E : STA.b $10
@@ -5376,6 +5377,7 @@ LinkItem_Bottle:
             ; Submodule ????
             LDA.b #$08 : STA.b $11
             
+            ; Cache the current module.
             LDA.b $10 : STA.w $010C
             
             ; Go to text mode.
@@ -5401,6 +5403,7 @@ LinkItem_Bottle:
             
             LDA.b #$09 : STA.b $11
             
+            ; Cache the current module.
             LDA.b $10 : STA.w $010C
             
             LDA.b #$0E : STA.b $10
@@ -6699,6 +6702,7 @@ Link_PerformDesertPrayer:
     ; Put us in submodule 5 of text mode.
     LDA.b #$05 : STA.b $11
     
+    ; Cache the current module.
     LDA.b $10 : STA.w $010C
     
     ; Go to text mode.
@@ -16706,6 +16710,7 @@ DesertPrayer_BuildIrisHDMATable:
                 STZ.b $B0
                 STZ.b $11
                 
+                ; Restore the current module.
                 LDA.w $010C : STA.b $10
                 
                 STZ.b $1E

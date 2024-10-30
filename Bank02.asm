@@ -268,8 +268,14 @@ Module_LoadFile:
     LDA.l $7EF3CA : BEQ .inLightWorld
         ; We're in the dark world, but are we in a dungeon?
         LDA.b $1B : BNE .indoors
+            ; Since this means we are starting on top of the pyramid, we have
+            ; to setup some extra stuff.
+
+            ; Hardcoded: If we ever wanted to start on the OW in the LW would
+            ; we need to run this stuff too?
+
             JSL.l Equipment_DrawItem
-            JSL.l HUD.RebuildLong2
+            JSL.l HUD_RebuildLong2
             JSL.l Equipment_UpdateEquippedItemLong
 
             ; Dying outside in the Dark World apparently doesn't have any
@@ -313,8 +319,8 @@ Module_LoadFile:
             ; way to returning the Old Man to his cave. It's like 2 rooms, but
             ; I guess they figured some people would really really suck at the
             ; game. So they made starting location 5 put you in the cave where
-            ; you meet the old man. I guess the only way you'd conceivably die 
-            ; is from pits or enemies outside.
+            ; you meet the old man. I guess the only way you'd conceivably
+            ; die is from pits or enemies outside.
             LDA.l $7EF3C8 : CMP.b #$05 : BEQ .indoors
                 REP #$10
 
@@ -807,6 +813,7 @@ PreOverworld_LoadProperties:
 
     .notForestArea
 
+    ; Put us in the overworld module.
     LDA.b #$09 : STA.w $010C
 
     JSL.l Sprite_OverworldReloadAll
@@ -3924,6 +3931,7 @@ RecoverPositionAfterDrowning:
         LDA.b $1C : STA.l $7EC211
         LDA.b $1D : STA.l $7EC212
 
+        ; Cache the current module.
         LDA.b $10 : STA.w $010C
 
         LDA.b #$12 : STA.b $10
@@ -4217,6 +4225,7 @@ Dungeon_PressurePlate:
 
         JSL.l Dungeon_SpriteInducedTilemapUpdate
 
+        ; Restore the current submodule.
         LDA.w $010C : STA.b $11
 
     .stillCountingDown
@@ -4425,6 +4434,7 @@ Module0C_RunSubmodule:
 ; $01192E-$011937 LOCAL JUMP LOCATION
 Module0C_RestoreSubmodule:
 {
+    ; Restore the current module.
     LDA.w $010C : STA.b $10
 
     STZ.b $11
@@ -4465,7 +4475,9 @@ Module0C_RestoreModule:
     STZ.b $11
     STZ.b $B0
 
-    LDA.w $010C : STA.b $10 : CMP.b #$09 : BNE .BRANCH_ALPHA
+    ; Restore the current module.
+    LDA.w $010C : STA.b $10
+    CMP.b #$09 : BNE .BRANCH_ALPHA
         LDA.w $0696 : ORA.w $0698 : BEQ .BRANCH_ALPHA
             ; Mode for coming out of a special door?
             LDA.b #$0A : STA.b $11
@@ -4480,9 +4492,8 @@ Module0C_RestoreModule:
 ; ==============================================================================
 
 ; $01197A-$01197D DATA TABLE
-Pool_Module0F_SpotlightClose:
+Module0F_SpotlightClose_direction:
 {
-    .direction
     db $08
     db $04
     db $02
@@ -4526,12 +4537,13 @@ Module_CloseSpotlight:
     LDA.b $1B : BNE .BRANCH_GAMMA
         LDX.b #$00
 
+        ; TODO: Check what entrance is #$43.
         LDA.w $010E : CMP.b #$43 : BNE .BRANCH_GAMMA
             INX
 
     .BRANCH_GAMMA
 
-    LDA.l Pool_Module0F_SpotlightClose_direction, X : STA.b $26 : STA.b $67
+    LDA.l .direction, X : STA.b $26 : STA.b $67
 
     JSL.l Link_HandleMovingAnimation_FullLongEntry
     JML PlayerOam_Main
@@ -4557,7 +4569,6 @@ Dungeon_PrepExitWithSpotlight:
     .BRANCH_ALPHA
 
     LDX.w $010E
-
     LDA.l EntranceData_musicTrack, X : CMP.b #$03 : BNE .BRANCH_BETA
         LDA.l $7EF3C5 : CMP.b #$02 : BCC .BRANCH_GAMMA
 
@@ -4773,7 +4784,6 @@ Module_HoleToDungeon:
 HoleToDungeon_FadeMusic:
 {
     LDX.w $010E
-
     LDA.l EntranceData_musicTrack, X : CMP.b #$03 : BNE .not_legend_theme
         LDA.l $7EF3C5 : CMP.b #$02 : BCC .dont_fade
 
@@ -5446,6 +5456,7 @@ Module16_04_FadeAndEnd:
 
         STZ.w $02D8 : STZ.w $02DA : STZ.w $037B
 
+        ; Restore the current module.
         LDA.w $010C : STA.b $10
 
         STZ.b $11 : STZ.b $B0
@@ -5609,6 +5620,7 @@ GanonEmerges_BrightenScreenThenSpawnBat:
 
         LDA.b #$02 : STA.b $2F
 
+        ; Cache the overworld module.
         LDA.b #$09 : STA.w $010C
 
         STZ.b $1B
@@ -6152,6 +6164,7 @@ UnusedInterfacePaletteRecovery:
         ; Turn off the dark transition.
         LDA.b #$00 : STA.l $7EC005
 
+        ; Restore the current module.
         LDA.w $010C : STA.b $10
 
         STZ.b $B0 : STZ.b $11
@@ -6508,6 +6521,7 @@ Overworld_PlayerControl:
 
         STA.b $11
 
+        ; Cache the current module.
         LDA.b $10 : STA.w $010C
 
         LDA.b #$0E : STA.b $10
@@ -8156,6 +8170,7 @@ Overworld_FinishMirrorWarp:
 
     .not_bunny_music
 
+    ; Cache the current submodule.
     LDA.b $11 : STA.w $010C
 
     STZ.b $11
@@ -12205,7 +12220,7 @@ SpawnPointData:
     dw $0816, $0000, $0000, $0000, $0000, $0000, $0000
 
     ; $015C40
-    .associatedEntrance
+    .entrance_id
     dw $0000, $0002, $0002, $0032, $0004, $0006, $0030
 
     ; $015C4E

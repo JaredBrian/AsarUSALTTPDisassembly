@@ -9491,6 +9491,7 @@ PalaceMap_LightenUpDungeon:
     INC.b $13
         
     LDA.b $13 : CMP.b #$0F : BNE .notDoneBrightening
+        ; Restore the current module.
         LDA.w $010C : STA.b $10
         
         STZ.b $11

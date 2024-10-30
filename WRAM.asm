@@ -59,6 +59,9 @@ struct WRAM $7E0000
     ; use of changing the direct page feature and leaves it at #$0000 the
     ; entire game.
 
+    ; TODO: Go back and check for word and long calls for each of these for
+    ; other uses.
+
     ; $00[0x10] (Main)
     .Work: skip $10
         ; Generic work WRAM. Used for temporary calculations. Should not be used
@@ -1813,64 +1816,110 @@ struct WRAM $7E0000
     ; This is beyond direct page and you can assume that all addresses here are
     ; $7EXXXX until you reach bank $7F.
 
-    ; $0100[0x02] - 
-        ; Numerical index that controls the graphics that are blitted for Link
-        ; during VRAM. See DMA Variables for additional info.
+    ; $0100[0x02] - (Player, GFX)
+    .LinkPoseChrIndex: skip $02
+        ; An index that controls the graphics that need to be loaded for Link's
+        ; head and body during NMI. The Chr is stored into $0ACC.
 
-    ; $0102[0x02] - 
-        ; See DMA Variables
+    ; $0102[0x02] - (Player, GFX)
+    .LinkAuxAChrIndex: skip $02
+        ; The first index that controls the graphics that need to be loaded for
+        ; Link's auxiliary during NMI. The Chr is stored into $0AD4.
 
-    ; $0104[0x02] - 
-        ; See DMA Variables
+    ; $0104[0x02] - (Player, GFX)
+    .LinkAuxBChrIndex: skip $02
+        ; The second index that controls the graphics that need to be loaded
+        ; for Link's auxiliary during NMI. The Chr is stored into $0AD6.
 
-    ; $0106[0x01] - 
-        ; Free RAM?
+    ; $0106[0x01] - (Free)
+    .Free_0106: skip $01
+        ; Free RAM
 
-    ; $0107[0x02] - 
-        ; See DMA Variables
+    ; $0107[0x01] - (Player, GFX)
+    .SwordChrIndex: skip $01
+        ; An index that controls the graphics that need to be loaded for Link's
+        ; sword during NMI. The Chr is stored into $0AC0.
 
-    ; $0109[0x01] - 
-        ; See DMA Variables
+    ; $0108[0x01] - (Player, GFX)
+    .SheildChrIndex: skip $01
+        ; An index that controls the graphics that need to be loaded for Link's
+        ; shield during NMI. The Chr is stored into $0AC4.
 
-    ; $010A[0x01] - 
+    ; $0109[0x01] - (Player, GFX)
+    .ItemChrIndex: skip $01
+        ; An index that controls the graphics that need to be loaded for Link's
+        ; shield during NMI. The Chr is stored into $0AC8.
+
+    ; $010A[0x01] - (Dungeon)
+    .DeathLoad: skip $01
         ; Set to nonzero when Link incurs death. Used if the player saved and
         ; continued (or just continued) after dying, indicating that the
-        ; loading process will be slightly different.
+        ; dungeon loading process will be slightly different.
 
-    ; $010B[0x01] - 
-        ; Free RAM?
+    ; $010B[0x01] - (Free)
+    .Free_010B: skip $01
+        ; Free RAM
 
-    ; $010C[0x02] - 
-        ; Temporary storage for a module number. Example: If we're in Overworld
-        ; mode (0x9) and have to display a textbox (module 0xE), 0x9 gets saved
-        ; to this location on a temporary basis. Once the textbox disappears
-        ; this module will be resumed.
+    ; $010C[0x01] - (Main)
+    .ModuleCache: skip $01
+        ; Temporary storage for the module number. Example: If we're in Overworld
+        ; mode (0x09) and have to display a textbox (module 0x0E), 0x09 gets
+        ; saved to this location on a temporary basis. Once the textbox
+        ; disappears this module will be resumed.
+
+    ; $010D[0x01] - (Free)
+    .Free_010D: skip $01
+        ; Free RAM. This was marked as the high byte for the ModuleCache in the
+        ; original MoN dissassembly and as a SubmoduleCache in Kan's however I
+        ; have confirmed that this byte is never written to outside of its
+        ; initial zero-ing out and there are not other explicit references to it.
 
     ; $010E[0x02] - (Dungeon)
-        ; gives the entrance index of the current dungeon
+    .EntranceID: skip $02
+        ; The index of the current entrance. TODO: Add a list of all the
+        ; entrances here.
 
-    ; $0110[0x02] - 
+    ; $0110[0x02] - (Dungeon)
+    .DunRoomIndexX3
         ; In the context of loading dungeon rooms, contains the index of the
-        ; room (see $A0) multiplied by 3. Allows for indexing into 24bit pointer
-        ; address tables.
+        ; room (see DunRoomIndex) multiplied by 3. Allows for indexing into
+        ; 24bit pointer address tables. Is only used while loading dungeon
+        ; objects.
 
-    ; $0112[0x02] - 
-        ; Apparently a flag indicating the bombos medallion is falling.
+    ; $0112[0x01] - (Dungeon, Item)
+    .MedallionScene: skip $01
+        ; Apparently a flag indicating medallions  are falling.
         ; Stops the Menu from being dropped down too. It seems to work as
         ; a flag for any general extended animation that is currently in
-        ; progress.
+        ; progress. Is also set during a blast wall opening scene.
 
-    ; $0114[0x02] - 
+    ; $011#[0x01] - (Free)
+    .Free_0113: skip $01
+        ; Free RAM. This was marked as the high byte for MedallionScene but
+        ; Kan's disassembly confirms that it is never written to.
+
+    ; $0114[0x02] - (Dungeon)
+    .DunCurrentTileType: skip $02
         ; Value of the type of tile Link is currently standing on. Only the
-        ; lower byte is used.
+        ; lower byte contains the actual tile, the high byte is always 00.
+        ; The high byte could almost be free RAM but 00 is written to it
+        ; constantly in dungeons.
 
-    ; $0116[0x02] - 
-        ; Used with routine $008CB0 to transfer 0x800 bytes from $7E1000
-        ; to a variable location (determined by this memory location)
+    ; $0116[0x02] - (NMI, Tilemap)
+    .ArbitraryTileMapAddress: skip $02
+        ; The index for high bytes for VRAM tile map uploads. Also used as the
+        ; high byte for VRAM addresses for various other uploads.
 
-    ; $0118[0x02] - 
+    ; $0118[0x01] - (NMI)
+    .IncramentalUploadBufferLow: skip $01
         ; Local portion of an address used to transfer data from $7FXXXX to
-        ; VRAM whenever variable $19 is nonzero.
+        ; VRAM whenever variable VRAMIncramentalUpload is nonzero. This is
+        ; always set to 0x00.
+
+    ; $0119[0x01] - (NMI)
+    .IncramentalUploadBufferHigh: skip $01
+        ; Local portion of an address used to transfer data from $7FXXXX to
+        ; VRAM whenever variable VRAMIncramentalUpload is nonzero.
 
     ; $011A[0x02] - 
         ; BG1 Y Offset. Gets applied to $0124. Can be used in quakes/shaking

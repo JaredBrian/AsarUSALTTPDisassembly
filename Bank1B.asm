@@ -395,14 +395,10 @@ Pool_Overworld_Hole:
     db $80, $80, $81, $82
 }
 
-; ==============================================================================
-
+; Routine used to find the entrance to send Link to when he falls into a hole.
 ; $0DB860-$0DB8BE LONG JUMP LOCATION
 Overworld_Hole:
 {
-    ; Routine used to find the entrance to send Link to when he falls into a
-    ; hole.
-    
     PHB : PHK : PLB
     
     REP #$31
@@ -417,17 +413,17 @@ Overworld_Hole:
 
     .nextHole
 
-        LDA.b $00 : CMP .map16, X : BNE .wrongMap16
-            LDA.w $040A : CMP .area, X : BEQ .matchedHole
+        LDA.b $00 : CMP Pool_Overworld_Hole_map16, X : BNE .wrongMap16
+            LDA.w $040A : CMP Pool_Overworld_Hole_area, X : BEQ .matchedHole
                 .wrongMap16
     DEX #2 : BPL .nextHole
     
-    ; Send us to the Chris Houlihan room        
+    ; Send us to the Chris Houlihan room  .      
     LDX.w #$0026
     
     SEP #$20
     
-    ; Put Link in the Light World
+    ; Put Link in the Light World.
     LDA.b #$00 : STA.l $7EF3CA
 
     .matchedHole
@@ -437,7 +433,8 @@ Overworld_Hole:
     TXA : LSR A : TAX
     
     ; Set an entrance index...
-    LDA.w .entrance, X : STA.w $010E : STZ.w $010F
+    LDA.w Pool_Overworld_Hole_entrance, X : STA.w $010E
+                                            STZ.w $010F
     
     PLB
     

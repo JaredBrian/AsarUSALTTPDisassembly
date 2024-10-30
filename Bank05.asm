@@ -3149,6 +3149,7 @@ Sprite_ShowMessageUnconditional:
     
     LDA.b #$02 : STA.b $11
     
+    ; Cache the current module.
     LDA.b $10 : STA.w $010C
     
     LDA.b #$0E : STA.b $10
@@ -3531,11 +3532,13 @@ Sprite_ShowMessageMinimal:
     STZ.w $1CD8
             
     LDA.b #$02 : STA.b $11
-            
+    
+    ; Cache the current module.
     LDA.b $10 : STA.w $010C
             
     LDA.b #$0E : STA.b $10
     
+    ; $02FAA1 ALTERNATE ENTRY POINT
     .exit
     
     RTL

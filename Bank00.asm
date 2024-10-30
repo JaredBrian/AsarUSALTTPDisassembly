@@ -837,16 +837,17 @@ Main_PrepSpritesForNmi:
     REP #$31
         
     LDX.w $0100
-        
     LDA.w LinkOAM_HeadAddresses, X : STA.w $0ACC
-          ADC.w #$0200 : STA.w $0ACE
+          ADC.w #$0200             : STA.w $0ACE
 
     LDA.w LinkOAM_BodyAddresses, X : STA.w $0AD0
-    CLC : ADC.w #$0200 : STA.w $0AD2
+    CLC : ADC.w #$0200             : STA.w $0AD2
         
-    LDX.w $0102 : LDA.w LinkOAM_AuxAddresses, X : STA.w $0AD4
+    LDX.w $0102
+    LDA.w LinkOAM_AuxAddresses, X : STA.w $0AD4
         
-    LDX.w $0104 : LDA.w LinkOAM_AuxAddresses, X : STA.w $0AD6
+    LDX.w $0104
+    LDA.w LinkOAM_AuxAddresses, X : STA.w $0AD6
         
     SEP #$10
         
@@ -914,17 +915,17 @@ Main_PrepSpritesForNmi:
     .ignoreSpriteAnimation
 
     ; Setup tagalong sprite for dma transfer.
-    LDA.w $0AE8    : ASL A
+    LDA.w $0AE8  : ASL A
     ADC.w #$B940 : STA.w $0AEC
     ADC.w #$0200 : STA.w $0AEE
         
     ; Setup tagalong sprite's other component for dma transfer?
-    LDA.w $0AEA    : ASL A
+    LDA.w $0AEA  : ASL A
     ADC.w #$B940 : STA.w $0AF0
     ADC.w #$0200 : STA.w $0AF2
         
     ; Setup dma transfer for bird's sprite slot.
-    LDA.w $0AF4    : ASL A
+    LDA.w $0AF4  : ASL A
     ADC.w #$B540 : STA.w $0AF6
     ADC.w #$0200 : STA.w $0AF8
         
@@ -1054,7 +1055,7 @@ Startup_InitializeMemory:
     .validSlot3Sram
 
     ; Restore the return location for this function to the stack.
-    ; As above, I think "TYX : TXS" would have worked >___>.
+    ; As above, I think "TYX : TXS" would have worked.
     STY.w $01FE
     
     ; Window mask activation.
@@ -1403,7 +1404,8 @@ NMI_DoUpdates:
     ; (copied to VRAM).
     
     ; Base dma register is $2118, write two registers once mode ($2118/$2119),
-    ; with autoincrementing source addr. Why isn't DMA.2_TransferParameters set????
+    ; with autoincrementing source addr. Why isn't DMA.2_TransferParameters
+    ; set?
     LDX.w #$1801
     STX.w DMA.0_TransferParameters : STX.w DMA.1_TransferParameters
     STX.w DMA.2_TransferParameters : STX.w DMA.3_TransferParameters
@@ -1680,8 +1682,8 @@ NMI_DoUpdates:
         LDX.w #$1801 : STX.w DMA.0_TransferParameters
         
         ; Source address is ($7F0000 + $0118).
-        LDX.w $0118  : STX.w DMA.0_SourceAddrOffsetLow
-        LDA.b #$7F : STA.w DMA.0_SourceAddrBank
+        LDX.w $0118 : STX.w DMA.0_SourceAddrOffsetLow
+        LDA.b #$7F  : STA.w DMA.0_SourceAddrBank
         
         ; Number of bytes to transfer is 0x0200.
         LDX.w #$0200 : STX.w DMA.0_TransferSizeLow
@@ -1786,7 +1788,7 @@ NMI_DoUpdates:
 ; $000CB0-$000CE3 JUMP LOCATION
 NMI_UploadTilemap:
 {    
-    ; $1888, X that is sets the high byte of the Target VRAM address.
+    ; Sets the high byte of the Target VRAM address.
     LDX.w $0116
     LDA.w TilemapUpload_HighBytes, X : STA.w SNES.VRAMAddrReadWriteHigh
     
@@ -12291,7 +12293,7 @@ Graphics_LoadChrHalfSlot:
             LDY.b #$46
             
             CPX.b #$02 : BNE .specificValues
-                ; Unknown usage.
+                ; TODO: Unknown usage.
                 STZ.w $0112
 
         .specificValues
@@ -14702,7 +14704,8 @@ ConfigureSpotlightTable:
         .BRANCH_NU
 
         ; Restore the current module.
-        LDA.w $010C : STA.b $10 : CMP.b #$06 : BNE .notPreDungeon
+        LDA.w $010C : STA.b $10
+        CMP.b #$06 : BNE .notPreDungeon
             JSL.l Sprite_ResetAll
 
         .notPreDungeon
@@ -15405,6 +15408,7 @@ RefillHeathFromRedPotion:
         
         STZ.b $11
         
+        ; Restore the current module.
         LDA.w $010C : STA.b $10
 
     .BRANCH_ALPHA

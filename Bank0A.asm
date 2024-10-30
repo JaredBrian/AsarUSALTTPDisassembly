@@ -687,6 +687,7 @@ BirdTravel_Finish:
         
         STZ.b $B0
         
+        ; Restore the current module.
         LDA.w $010C : STA.b $10
         
         STZ.b $11
@@ -769,6 +770,7 @@ OverworldMap_Backup:
         ; Cache CGWSEL register mirror.
         LDA.b $99 : STA.l $7EC225
         
+        ; Set link animation.
         LDA.w #$01FC : STA.w $0100
         
         LDX.b $8A : CPX.b #$80 : BCS .specialArea
@@ -1195,6 +1197,7 @@ OverworldMap_RestoreGfx:
     ; Restore CGADSUB.
     LDA.l $7EC229 : STA.b $9B
         
+    ; OPTIMIZE: Useless SEP? we are already in 8 bit mode.
     SEP #$20
         
     ; Restore ambient sound effect (rain, etc).
