@@ -4966,9 +4966,7 @@ Bomb_CheckUndersideSpriteStatus:
         ; Puts a water ripple around the bomb.
         LDA.w $03D2, X : CLC : ADC.b #$04 : STA.b $0A
         
-        LDA.w $012E : AND.b #$3F
-        
-        CMP.b #$0B : BEQ .sfx_can_be_overriden
+        LDA.w $012E : AND.b #$3F : CMP.b #$0B : BEQ .sfx_can_be_overriden
             CMP.b #$21 : BNE .shadow_size_logic
         
         .sfx_can_be_overriden

@@ -621,7 +621,7 @@ Module_PreOverworld:
 
 ; Module 0x08.0x00, 0x0A.0x00 - Loads palettes.
 ; ZS overwrites most of this function. - ZS Custom Overworld
-; $0103C7-$010569 LOCAL JUMP LOCATION
+; $0103C7-$01054B LOCAL JUMP LOCATION
 PreOverworld_LoadProperties:
 {
     ; Clip colors to black before color math inside the color window (this
@@ -877,9 +877,12 @@ PreOverworld_LoadProperties:
 
     STZ.w $0402 : STZ.w $0403
 
-    ; $01054C ALTERNATE ENTRY POINT
-    Overworld_LoadMusicIfNeeded:
+    ; Bleeds into the next function.
+}
 
+; $01054C-$010569 LOCAL JUMP LOCATION=
+Overworld_LoadMusicIfNeeded:
+{
     LDA.w $0136 : BEQ .no_music_load_needed
         SEI
 
@@ -4902,7 +4905,6 @@ Dungeon_LoadSongBankIfNeeded:
 {
     ; Is there no music loading?
     LDA.w $0132
-
     CMP.b #$FF : BEQ .dontLoadMusic
     CMP.b #$F2 : BEQ .dontLoadMusic ; Half volume music.
         CMP.b #$03 : BEQ .song_is_in_outdoor_bank
@@ -5000,7 +5002,7 @@ Module_BossVictory_Heal:
 
     .still_restoring_magic
 
-    JSL.l HUD.RefillHealth : BCS .still_healing_hp
+    JSL.l HUD_RefillHealth : BCS .still_healing_hp
         INC.w $0200
 
     .still_healing_hp
@@ -6490,6 +6492,8 @@ UNREACHABLE_02A52D:
 ; $01253C-$0125EB LONG JUMP LOCATION
 Overworld_PlayerControl:
 {
+    ; Don't check input for certain conditions.
+    ; TODO: Investigate: Don't if were are far enough to the right?
     LDA.w $0121 : ORA.w $02E4 ; Stop everything flag.
                   ORA.w $0FFC ; Link's can't bring up menu flag.
                   ORA.w $04C6 ; Special animation trigger.
@@ -10048,7 +10052,8 @@ UnderworldTransition_ScrollRoom:
 
     .verticalScrolling ; ???? is this name correct?
 
-    LDA.w $0126 : AND.w #$00FF : CMP.w Pool_UnderworldTransition_ScrollRoom_bounds, Y : BCC .BRANCH_GAMMA
+    LDA.w $0126 : AND.w #$00FF
+    CMP.w Pool_UnderworldTransition_ScrollRoom_bounds, Y : BCC .BRANCH_GAMMA
         LDA.b $20, X
         CLC : ADC.w Pool_UnderworldTransition_ScrollRoom_camera_scroll, Y
         STA.b $20, X
@@ -10263,8 +10268,7 @@ OverworldScrollTransition:
     .verticalScroll
 
     LDA.w $0126 : AND.w #$00FF
-    CMP.w Pool_Overworld_SetCameraBounds_camera_matters_when, Y
-    BCC .dontMoveLink
+    CMP.w Pool_Overworld_SetCameraBounds_camera_matters_when, Y : BCC .dontMoveLink
         LDA.b $20, X
         CLC : ADC.w Pool_Overworld_SetCameraBounds_coordinate_camera_adjust, Y
         STA.b $20, X

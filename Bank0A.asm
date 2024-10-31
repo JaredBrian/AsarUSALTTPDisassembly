@@ -369,12 +369,10 @@ NULL_0AB72A:
 Messaging_BirdTravel:
 {
     LDA.w $0200
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw OverworldMap_Backup           ; 0x00 - $B9A3 Also handles fading to black
     dw BirdTravel_InitGfx            ; 0x01 - $B74B On the last frame of fading load the map gfx
-    dw OverworldMap_LoadSprGfx       ; 0x02 - $BA9
+    dw OverworldMap_LoadSprGfx       ; 0x02 - $BA9A
     dw OverworldMap_BrightenScreen   ; 0x03 - $BAAA
     dw BirdTravel_InitCounter        ; 0x04 - $B753
     dw BirdTravel_Main               ; 0x05 - $B78B Player selection
@@ -712,9 +710,7 @@ BirdTravel_Finish:
 Messaging_OverworldMap:
 {
     LDA.w $0200
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw OverworldMap_Backup           ; 0x00 - $B9A3
     dw OverworldMap_InitGfx          ; 0x01 - $BA30
     dw OverworldMap_DarkWorldTilemap ; 0x02 - $BA7A
@@ -3811,9 +3807,7 @@ NULL_0AE0A7:
 Messaging_PalaceMap:
 {
     LDA.w $0200 ; An index into what type of display to use.
-    
     JSL.l UseImplicitRegIndexedLongJumpTable
-    
     dl PalaceMap_Backup               ; 0x00 - $0ED94C Fade to full darkness (amidst other things)
     dl PalaceMap_Init                 ; 0x01 - $0AE0DC Loading Dungeon Map
     dl PalaceMap_LightenUpMap         ; 0x02 - $0ED940 Fade to full brightness
@@ -3828,7 +3822,7 @@ Messaging_PalaceMap:
 ; ==============================================================================
 
 ; $0560D2-$0560DB Jump Table
-PalaceMap_InitJumpTable:
+PalaceMap_Init_JumpTable:
 {
     dw PalaceMap_SetupGraphics              ; 0x00 - $E0E4
     dw PalaceMap_OptionalGraphic            ; 0x01 - $E1A4
@@ -3841,8 +3835,7 @@ PalaceMap_InitJumpTable:
 PalaceMap_Init:
 {
     LDA.w $020D : ASL A : TAX
-    
-    JMP (PalaceMap_InitJumpTable, X)
+    JMP (.JumpTable, X)
 }
 
 ; ==============================================================================
@@ -4284,6 +4277,7 @@ Module0E_03_01_03_DrawRooms:
     
     LDA.w #$0300 : STA.b $06
     
+    ; OPTIMIZE: Useless branches.
     LDA.w $0211 : BNE .BRANCH_EPSILON
         BRA .BRANCH_EPSILON
 

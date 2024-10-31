@@ -182,11 +182,10 @@ Vector_NMI:
     ; Used to select a musical track.
     LDA.w $012C : BNE .nonzeroMusicInput
         LDA.w SNES.APUIOPort0 : CMP.w $0133 : BNE .handleAmbientSfxInput
-        
-        ; If they were the same, put 0 in $2140.
-        STZ.w SNES.APUIOPort0
-        
-        BRA .handleAmbientSfxInput
+            ; If they were the same, put 0 in $2140.
+            STZ.w SNES.APUIOPort0
+            
+            BRA .handleAmbientSfxInput
 
     .nonzeroMusicInput
 
@@ -394,10 +393,9 @@ NMI_SwitchThread:
     ; $1F0A = X
     LDA.w $1F0A : TCS : STX.w $1F0A
     
-    ; Expect to end up at $09F81D after the RTI.
-    
     PLB : PLD : PLY : PLX : PLA
     
+    ; Expect to end up at Polyhedral_RunThread after the RTI.
     RTI
 }
 
@@ -418,7 +416,7 @@ Vector_IRQ:
         ; Only d7 is significant in this register. If set, h/v counter has
         ; latched. So in other words, branch if the timer has NOT counted down.
         LDA.w SNES.IRQFlagByHVCountTimer : BPL .BRANCH_2
-            ; Not sure what this does...
+            ; TODO: Not sure what this does...
             LDA.w $0128 : BEQ .BRANCH_2
                 --
 
@@ -437,7 +435,7 @@ Vector_IRQ:
 
         .BRANCH_2
 
-        ; H/V timer didn't count down yet, so we do NOTHING :).
+        ; H/V timer didn't count down yet, so we do nothing.
             
         REP #$30
             
@@ -15200,7 +15198,7 @@ Module_Messaging:
 {
     LDA.b $1B : BEQ .outdoors
         LDA.b $11 : CMP.b #$03 : BNE .notDungeonMapMode
-            LDA.w $0200  : BEQ .processCoreTasks
+            LDA.w $0200 : BEQ .processCoreTasks
             CMP.b #$07 : BEQ .processCoreTasks
                 BRA .ignoreCoreTasks
 
@@ -15398,7 +15396,7 @@ Module0E_06_Unused:
 ; $0078FB-$7910 LONG JUMP LOCATION
 RefillHeathFromRedPotion:
 {
-    JSL.l HUD.RefillHealth : BCC .BRANCH_ALPHA
+    JSL.l HUD_RefillHealth : BCC .stillHealing
         ; $007901 ALTERNATE ENTRY POINT
         .MoveOn
 
@@ -15411,7 +15409,7 @@ RefillHeathFromRedPotion:
         ; Restore the current module.
         LDA.w $010C : STA.b $10
 
-    .BRANCH_ALPHA
+    .stillHealing
 
     RTL
 }
@@ -15430,10 +15428,10 @@ Module0E_08_GreenPotion:
 ; $007918-$00792C LONG JUMP LOCATION
 Module0E_09_BluePotion:
 {
-    JSL.l HUD.RefillHealth : BCC .alpha
+    JSL.l HUD_RefillHealth : BCC .alreadyHealing
         LDA.b #$08 : STA.b $11
 
-    .alpha
+    .alreadyHealing
 
     JSL.l HUD.RefillMagicPower : BCC .beta
         LDA.b #$04 : STA.b $11

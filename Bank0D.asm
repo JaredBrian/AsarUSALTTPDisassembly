@@ -9728,9 +9728,7 @@ Equipment_Local:
     INC.w $0206
     
     LDA.w $0200
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw ClearTilemap       ; 0x00 - $DD5A
     dw Init               ; 0x01 - $DDAB
     dw BringMenuDown      ; 0x02 - $DE59
@@ -10394,7 +10392,8 @@ Equipment_ExpandBottleMenu:
     
     SEP #$30
     
-    DEC.w $0205 : LDA.w $0205 : BPL .notDoneDrawing
+    DEC.w $0205
+    LDA.w $0205 : BPL .notDoneDrawing
         INC.w $0200
     
     .notDoneDrawing
@@ -12108,8 +12107,8 @@ Equipment_DrawBottleMenu:
     
     LDA.w BottleMenuCursorPosition, Y : TAY
     
-    ; Appears to be an extraneous load, perhaps something that was unfinished
-    ; or meant to be taken out but it just never happened.
+    ; OPTIMIZE: Appears to be an extraneous load, perhaps something that was
+    ; unfinished or meant to be taken out but it just never happened.
     LDA.w $0207
     
     LDA.w #$3C61 : STA.w $12AA, Y
@@ -12200,6 +12199,8 @@ HUD_HexToDecimal:
 
 ; ==============================================================================
 
+; Carry clear if we are currently healing.
+; Carry set if not.
 ; $06F128-$06F14E LONG JUMP LOCATION
 HUD_RefillHealth:
 {
@@ -12210,12 +12211,11 @@ HUD_RefillHealth:
         
         LDA.b #$00 : STA.l $7EF372
         
-        ; ??? not sure what purpose this branch serves.
+        ; If we are already healing, return carry clear.
         LDA.w $020A : BNE .beta
-        
-        SEC
-        
-        RTL
+            SEC
+            
+            RTL
     
     .refillAllHealth
     
@@ -13060,7 +13060,8 @@ HUD_UpdateItemBox:
         .bombsNotEquipped
         
         CPX.w #$0010 : BNE .bottleNotEquipped
-            TXY : TAX : LDA.l $7EF35B, X : AND.w #$00FF : TYX
+            TXY : TAX
+            LDA.l $7EF35B, X : AND.w #$00FF : TYX
         
         .bottleNotEquipped
         

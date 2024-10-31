@@ -502,10 +502,9 @@ struct WRAM $7E0000
         ; 0x0E - North West (facing south)
         ; 0x0F - North West (facing south) too?
 
-    ; $4A[0x01] - (Free)
-    .NotFree_4A: skip $01
-        ; Was marked as free RAM but appears to be cleared by tile detection
-        ; routines.
+    ; $EF[0x01] - (Polyhedral)
+    .PolyUnknown_4A: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $4B[0x01] - (Player)
     .LinkVisible: skip $01
@@ -825,17 +824,13 @@ struct WRAM $7E0000
     ; $6E[0x02] - (Player, TileAttr)
     .LinkDWallTile: skip $01
         ; Tile act bitfield used by slopes.
-        ; High byte has an explicit STZ as well, but never used.
+        ; High byte has an explicit STZ as well, but it is never used.
         ; .... ssss
         ; Moving against a \ wall from below: 0 
         ; Moving against a \ wall from above: 2
         ; Moving against a / wall from below: 4
         ; Moving against a / wall from above: 6
         ; SEE TILE ACT NOTES
-
-    ; $6F[0x02] - (Free)
-    .NotFree_6F: skip $01
-        ; Was marked as free, see note for LinkDWallTile.
 
     ; $70[0x01] - (Free)
     .Free_70: skip $01
@@ -1069,6 +1064,7 @@ struct WRAM $7E0000
     .DunFloor: skip $02
         ; Indicates the current floor Link is on in a dungeon.
         ;   0x00 - Floor 1
+        ;   Positive values indingating floors above the ground floor.
         ;   Negative values indicate basement floors.
 
     ; $A6[0x01] - (Dungeon)
@@ -1893,7 +1889,7 @@ struct WRAM $7E0000
         ; a flag for any general extended animation that is currently in
         ; progress. Is also set during a blast wall opening scene.
 
-    ; $011#[0x01] - (Free)
+    ; $0113[0x01] - (Free)
     .Free_0113: skip $01
         ; Free RAM. This was marked as the high byte for MedallionScene but
         ; Kan's disassembly confirms that it is never written to.
@@ -1921,92 +1917,135 @@ struct WRAM $7E0000
         ; Local portion of an address used to transfer data from $7FXXXX to
         ; VRAM whenever variable VRAMIncramentalUpload is nonzero.
 
-    ; $011A[0x02] - 
-        ; BG1 Y Offset. Gets applied to $0124. Can be used in quakes/shaking
+    ; $011A[0x02] - (Main)
+    .BGHShake: skip $02
+        ; BG1 and BG2 X Offsets. Gets added to BG1HPosLow and BG2HPosLow and
+        ; then stored into BG1HScroll and BG2HScroll respectively. Used in
+        ; dungeon opening animations, the quake medallion effect, and in the
+        ; dash bonk shake.
 
-    ; $011C[0x02] - 
-        ; BG1 X Offset. Gets applied to $0120
+    ; $011C[0x02] - (Main)
+    .BGVShake: skip $02 
+        ; BG1 and BG2 Y Offsets. Gets added to BG1VPosLow and BG2VPosLow and
+        ; then stored into BG1VScroll and BG2VScroll respectively. Used in
+        ; dungeon opening animations, the quake medallion effect, and in the
+        ; dash bonk shake.
 
     ; These are the true scroll registers for BG1 and BG2. Practically speaking,
     ; the regesters at $E0-$EA should be used instead of these.
-    ; $011E[0x02] - 
-    .BG2HScroll: skip $02
-        ; BG2 Horizontal Scroll Register (SNES.BG2HScrollOffset / $210F)
+    ; $011E[0x02] - (Main)
+    .BG2HScrollLow: skip $01
+        ; BG2 Horizontal Scroll Register (SNES.BG2HScrollOffset / $210F).
+        ; See BG2HPosLow and BGHShake for more details.
 
-    ; $0120[0x02] - 
-    .BG1HScroll: skip $02
+    ; $011F[0x01] - (Main)
+    .BG2HScrollHigh: skip $01
+        ; The high byte for BG2HScrollLow.
+
+    ; $0120[0x02] - (Main)
+    .BG1HScrollLow: skip $01
         ; BG1 Horizontal Scroll Register (SNES.BG1HScrollOffset / $210D)
+        ; See BG1HPosLow and BGHShake for more details.
 
-    ; $0122[0x02] - 
+    ; $0121[0x01] - (Main)
+    .BG1HScrollHigh: skip $01
+        ; The high byte for BG1HScrollLow.
+
+    ; $0122[0x02] - (Main)
+    .BG2VScrollLow: skip $01
         ; BG2 Vertical Scroll Register (SNES.BG2VScrollOffset / $2110)
+        ; See BG2VPosLow and BGVShake for more details.
 
-    ; $0124[0x02] - 
+    ; $0123[0x01] - (Main)
+    .BG2VScrollHigh: skip $01
+        ; The high byte for BG2VScrollLow.
+
+    ; $0124[0x02] - (Main)
+    .BG1VScrollLow: skip $01
         ; BG1 Vertical Scroll Register (SNES.BG1VScrollOffset / $210E)
+        ; See BG1VPosLow and BGVShake for more details.
 
-    ; $0126[0x01] - 
-        ; Seems to be used during dungeon screen transitions as some sort
-        ; of counter.
+    ; $0125[0x01] - (Main)
+    .BG1VScrollHigh: skip $01
+        ; The high byte for BG1VScrollLow.
 
-    ; $0127[0x01] - 
+    ; $0126[0x01] - (Dungeon, Overworld)
+    .TransitionStepCounter: skip $01
+        ; Used as a counter during Dungeon and Overworld transitions to count how
+        ; many steps or how many times we've moved the camera over to the target
+        ; area or room.
+
+    ; $0127[0x01] - (Free)
+    .Free_0127: skip $01
         ; Free RAM
 
-    ; $0128[0x01] - 
-        ; ???? Seen as 0xFF during the history sequence. When set to 0xFF,
-        ; the IRQ routine will disable the IRQ routine the next time it
-        ; executes by writing 0x81 to $4200.
+    ; $0128[0x01] - (NMI)
+    .IRQSet: skip $01
+        ; Flags IRQ enabling during NMI.
+        ; 0x00      - Don't update BG3 scroll
+        ; 0x01–0x7F - Enable IRQ
+        ; 0x80–0xFF - Disable IRQ
 
-    ; $0129[0x01] - 
+    ; $0129[0x01] - (Free)
+    .Free_0129: skip $01
         ; Free RAM
 
-    ; $012A[0x01] - 
-        ; Seems to be a flag for the crystal sequence scripting. As long as
-        ; this flag is set, the sequence progresses. Also used for the Triforce
-        ; sequences. Triggers a subsection of the NMI routine.
+    ; $012A[0x01] - (NMI)
+    .PolyIRQ: skip $01
+        ; Used during the crystal sequence and any time the triforce is used.
+        ; When non-0, a different version of NMI will be used that also runs the
+        ; polyhedral thread. Also causes a part of Vector_IRQ to be skipped.
 
-    ; $012B[0x01] - 
+    ; $012B[0x01] - (Free)
+    .Free_012B: skip $01
         ; Free RAM
 
     ; $012C[0x01] - (SFX)
-        ; Music control
+    .MusicControl: skip $01
+        ; Music control. Written to SNES.APUIOPort0 when non-0.
+        ; TODO: Find the official track names for each of these.
+        ; 0x00 - No effect
         ; 0x01 - Triforce opening
-        ; 0x02 - light world
-        ; 0x03 - legend theme
-        ; 0x04 - bunny link
-        ; 0x05 - lost woods
-        ; 0x06 - legend theme
-        ; 0x07 - kakkariko village
-        ; 0x08 - mirror warp
-        ; 0x09 - dark world
-        ; 0x0A - restoring the master sword
-        ; 0x0B - fairy theme
-        ; 0x0C - chase theme
-        ; 0x0D - dark world (skull woods)
-        ; 0x0E - game theme (Overworld only?)
-        ; 0x10 - hyrule castle
+        ; 0x02 - Light world
+        ; 0x03 - Legend theme
+        ; 0x04 - Bunny link
+        ; 0x05 - Lost woods
+        ; 0x06 - Legend theme
+        ; 0x07 - Kakkariko village
+        ; 0x08 - Mirror warp
+        ; 0x09 - Dark world
+        ; 0x0A - Restoring the master sword
+        ; 0x0B - Fairy theme
+        ; 0x0C - Chase theme
+        ; 0x0D - Dark world (skull woods)
+        ; 0x0E - Game theme (Overworld only?)
+        ; 0x10 - Hyrule castle
         ; 0x11 - Light World Dungeon
-        ; 0x13 - fanfare
-        ; 0x15 - boss theme
-        ; 0x16 - dark world dungeon
-        ; 0x17 - fortune teller
-        ; 0x18 - caves
-        ; 0x19 - sentiment of hope
-        ; 0x1A - crystal theme
-        ; 0x1B - fairy theme w/ arpeggio
-        ; 0x1C - fear & anxiety
+        ; 0x13 - Fanfare
+        ; 0x15 - Boss theme
+        ; 0x16 - Dark world dungeon
+        ; 0x17 - Fortune teller
+        ; 0x18 - Caves
+        ; 0x19 - Sentiment of hope
+        ; 0x1A - Crystal theme
+        ; 0x1B - Fairy theme w/ arpeggio
+        ; 0x1C - Fear & anxiety
         ; 0x1D - Agahnim unleashed
-        ; 0x1E - surprise!
+        ; 0x1E - Surprise!
         ; 0x1F - Ganondorf the Thief
-        ; 0x20 - nothing
+        ; 0x20 - Nothing (as in it turns off any music)
         ; 0x21 - Agahnim unleashed
-        ; 0x22 - surprise!
+        ; 0x22 - Surprise!
         ; 0x23 - Ganondorf the Thief
-        ; 0xF1 - fade out
-        ; 0xF2 - half volume
-        ; 0xF3 - full volume
+        ; 0xF1 - Fade out
+        ; 0xF2 - Half volume
+        ; 0xF3 - Full volume
         ; 0xFF - Load a new set of music.
 
     ; $012D[0x01] - (SFX)
-        ; Ambient Sound effects
+    .AmbientSFX: skip $01
+        ; Ambient Sound effects. Written to SNES.APUIOPort1 when non-0.
+        ; TODO: Verify all the names.
         ; 0x00 - Silence
         ; 0x01 - Outdoor rain
         ; 0x02 - Outdoor rain broken
@@ -2034,7 +2073,8 @@ struct WRAM $7E0000
         ; 0x80 - Fade out sound?
 
     ; $012E[0x01] - (SFX)
-        ; Sound Effects 1
+    .SFX1: skip $01
+        ; Sound Effects 1. Written to SNES.APUIOPort2.
         ; 0x00 - none (no change)
         ; 0x01 - small sword swing 1 (Fighter Sword)
         ; 0x02 - small sword swing 2 (Fighter Sword)
@@ -2101,7 +2141,8 @@ struct WRAM $7E0000
         ; 0x3F - magic powder
 
     ; $012F[0x01] - (SFX)
-        ; Sound Effects 2
+    .SFX2: skip $01
+        ; Sound Effects 2. Written to SNES.APUIOPort3.
         ; 0x00 - none (no change)
         ; 0x01 - master sword beam
         ; 0x02 - unintelligble switch noise
@@ -2166,102 +2207,166 @@ struct WRAM $7E0000
         ; 0x3E - Unused drum roll thing? need to be confirmed
         ; 0x3F - More minor fanfares
 
-    ; $0130[0x01] - 
-        ; Something to do with SPC, exact usage is not clear.
+    ; $0130[0x01] - (SFX)
+    .LastMusic: skip $01
+        ; Stores the last non-0 value that was stored in MusicControl. Mostly
+        ; used to check when we need to set the volume back to full after setting
+        ; it to half.
 
-    ; $0131[0x01] - 
-        ; Something to do with SPC, exact usage is not clear.
+    ; $0131[0x01] - (SFX)
+    .LastSFX1: skip $01
+        ; Stores the last non-0 SFX value that was stored into SFX1. Used to
+        ; prevent the same sound effect from being spammed over and over.
 
-    ; $0132[0x01] - 
+    ; $0132[0x01] - (SFX)
+    .MusicQueue: skip $01
         ; Buffer for playing songs. Put a value here to try to play a song.
-        ; (Will try to write to $012C)
+        ; Will try to write to MusicControl under certain conditions.
 
-    ; $0133[0x01] - 
-        ; Something to do with SPC, exact usage is not clear.
+    ; $0133[0x01] - (SFX)
+    .LastAPU0: skip $01
+        ; Stores the last value that was written to APU0 or LastMusic. Used to
+        ; prevent spamming the same music over and over.
 
-    ; $0134[0x02] - 
-        ; VRAM target address for animated tiles. Usually $3B00 or $3C00. 
-        ; Remember that if you were to look this stuff up in Geiger's debugger
-        ; the byte addresses would actually be $7600 and $7800. SNES VRAM
-        ; addresses are expressed as words addresses internally, you just have
-        ; to deal with it unfortunately.
+    ; $0134[0x02] - (Dungeon, NMI, Overworld)
+    .AnimatedTargetVRAM: skip $02
+        ; VRAM target address for animated tiles. The animated tiles are uploaded
+        ; via DMA during NMI every frame (reguardless if the animation frame has
+        ; changed or not) and this is the VRAM address where they will end up.
+        ; $3B00 - For dungeon animated tiles.
+        ; $3C00 - For overworld animated tiles.
 
-    ; $0136[0x01] - 
-        ; Flag that toggles when different sets of musical tracks are loaded.
-        ; I think the two track sets are normal outdoor and the ending tracks.
+    ; $0136[0x01] - (SFX)
+    .MusicBank: skip $01
+        ; Flags which song bank was last loaded to APU.
+        ; 0x00 - Overworld
+        ; 0x01 - Underworld
 
-    ; $0137[0xC9] - 
-        ; Normal (Non-IRQ) Stack
+    ; $0137[0xC6] - 
+    .StackEnd: skip $C6
+        ; The end of the normal (Non-IRQ) stack.
+
+    ; $01FF[0x01] - 
+    .Stack: skip $01
+        ; The start of the Normal (Non-IRQ) stack. Every time you run a PHA/PLA
+        ; or make a jump with a JSR/JSL those values are written here starting at
+        ; $01FF and moving up to $0137. It is technically possible to go past
+        ; $0137 but I guess the devs decided that the game would never use that
+        ; much space in the stack.
 
     ; ===========================================================================
     ; Page 0x02
     ; ===========================================================================
 
-    ; $0200[0x01] - 
-        ; Sub-submodule index for mode E.
+    ; $0200[0x02] - (Main)
+    .Subsubmodule:
+        ; Sub-submodule index for various submodules.
 
-    ; $0201[0x01] - 
-        ; Seems to be never referenced (Free RAM?)
+    ; $0200[0x02] - (File)
+    .FileCurrentSaveOffset:
+        ; (Bank 0x00 and 0x0C) Used to temporarily store the save file offset.
 
-    ; $0202[0x01] - 
-        ; currently selected item
+    ; $0200[0x02] - (Main)
+    .AttractTimer3: skip $02
+        ; (Bank 0x0C) Used as a timer to keep track of how long to show each BG3
+        ; "legend" image.
 
-    ; $0203[0x01] - 
-        ; Module 0x0E.0x01 references it but never seems to use it
+    ; $0202[0x01] - (Equipment)
+    .SelectedYItem: skip $01
+        ; The currently selected Y button item.
+        ; TODO: Put in all of the valid items here.
 
-    ; $0204[0x01] - 
-        ; Module 0x0E.0x01 references it but never seems to use it
+    ; $0203[0x01] - (Equipment, Junk)
+    .Junk_0203: skip $01
+        ; Technically the high byte of SelectedYItem but is only ever set to 00
+        ; and is read once in HUD_UpdateItemBox even though it doesn't need to
+        ; be.
 
-    ; $0205[0x01] - 
-        ; Module 0x0E.0x01 uses it in the creation and destruction of the bottle
-        ; submenu as a progress indicator
+    ; $0204[0x01] - (File, Equipment, Junk)
+    .Junk_0204: skip $01
+        ; Written to once in the eqipment code and once while loading a save
+        ; file but is never read from.
 
-    ; $0206[0x01] - 
-        ; Module 0x0E.0x01 increments it as a frame counter similar to $1A, but
-        ; it never seems to get used (debug probably)
+    ; $0205[0x01] - (Equipment)
+    .BottleMenuTimer: skip $01
+        ; Used to time the opening and closing of the bottle sub menu.
+        ; Also referenced in unused dungeon map module.
 
-    ; $0207[0x01] - 
-        ; Module 0x0E.0x01 uses it as a timer for the flashing item selector
-        ; circle
+    ; $0206[0x01] - (Equipment, Junk)
+    .EquipmentFrame: skip $01
+        ; The equipment module increments it as a frame counter similar to $1A,
+        ; but it is never read.
 
-    ; $0208[0x01] - 
+    ; $0207[0x01] - (Equipment)
+    .EquipmentCursorBlink: skip $01
+        ; Incremented every frame and masked with 0x10 to blink the equipment
+        ; menu cursor. If bit 4 is set, the cursor is visible. Otherwise, it is
+        ; not. Reset to 0x10 when moving the cursor.
+
+    ; $0208[0x01] - (HUD)
+    .HeartFlipTimer: skip $01
         ; Countdown timer that controls when the next animation of hearts being
-        ; filled in occurs. (The rotating animation)
+        ; filled in occurs (the rotating animation).
 
-    ; $0209[0x01] - 
-        ; Index related to $0208. When $0208 counts down to zero, $0209 is
-        ; incremented, then reassigned modulo 4 (logical and by 0x03)
-        ; Determines the graphics used in each step of the heart refil
-        ; animation. (4 steps) Once $0209 reaches 4 (which is 0 modulo 4), $020A
-        ; is set to zero to indicate that the animation for this particular
-        ; heart is finished.
+    ; $0209[0x01] - (HUD)
+    .HeartFlipFrame:
+        ; Index related to HeartFlipTimer. This determines the chr used in each
+        ; step of the heart refil animation. When HeartFlipTimer counts down to
+        ; zero, $0209 is incremented, then once $0209 reaches 4 it is reset and
+        ; CurrentlyHealing is set to zero to indicate that the animation for\
+        ; this particular heart is finished.
+        ; TODO: Add what each frame is.
+        ; 0x00 - 
+        ; 0x01 - 
+        ; 0x02 - 
+        ; 0x03 - 
 
     ; $020A[0x01] - (HUD)
+    .CurrentlyHealing: skip $01
         ; Flag that indicates whether a heart refill animation is taking place.
-        ; Nonzero if that is the case.
+        ; 0 - Not healing
+        ; Non-0 - healing
 
-    ; $020B[0x01] - 
-        ; Seems to be a debug value for Module 0x0E.0x01
+    ; $020B[0x01] - (Equipment, Junk)
+    .EquipmentRodDebug: skip $01
+        ; Appears to be a flag related to the menu and rod items. Zeroed in
+        ; several places, but never set to any other value.
 
-    ; $020C[0x01] - 
-        ; oh naw
+    ; $020C[0x01] - (Free)
+    .Free_020C: skip $01
+        ; Free RAM
 
-    ; $020D[0x01] - 
-        ; Used in some submodule of module 0x0E in Bank 0A
+    ; $020D[0x01] - (Dungeon map)
+    .DunMapInitSubmodule: skip $01
+        ; Used as a submodule for the dungeon map function: PalaceMap_Init.
 
-    ; $020E[0x01] - 
-        ; Floor index for the dungeon map. Floor 1F is the basic floor with
-        ; 0x00. 1B is 0xFF. 2F is 0x01. You get the idea.
+    ; $020E[0x01] - (Dungeon map)
+    .DunMapFloor: skip $01
+        ; Floor index for the selected floor in the dungeon map. Starts off
+        ; being equal to DunFloor and is then changed by the player pressing up
+        ; or down on the dpad to see different floors.
+        ;   0x00 - Floor 1
+        ;   Positive values indingating floors above the ground floor.
+        ;   Negative values indicate basement floors.
 
-    ; $020F[0x01] - 
-        ; Referenced in Module 0x0E in Bank 0A but doesn't seem to be used.
+    ; $020F[0x01] - (Junk)
+    .Junk_020F: skip $01
+        ; Set to 00 once in the dungeon map code in Bank 0x0A but is never read.
 
-    ; $0210[0x01] - 
-        ; Mostly referenced in Module 0x0E in Bank 0x0A with various specific
-        ; usages I've yet to document
+    ; $0210[0x01] - (Dungeon map)
+    .DunMapInputFlag: skip $01
+        ; Used to prevent reading input while scrolling between floors in the
+        ; dungeon map.
+        ; 0 - Will read input
+        ; 1 - Will not read input
 
-    ; $0211[0x02] - 
-        ; ???? Shows up in bank 0x0A only. Indexes $0217...
+    ; $0211[0x02] - (Dungeon Map)
+    .DunMapCurrentFloor: skip $02
+        ; Of the two floors shown on a dungeon map, this indicates which one is
+        ; of the floor Link is currently on. High byte isn't relevant and is
+        ; zeroed during drawing.
+        ;   0x00 - top map
+        ;   0x02 - bottom map
 
     ; $0213[0x02] - 
         ; Shows up in Bank 0x0A only.

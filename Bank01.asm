@@ -8254,7 +8254,7 @@ Dungeon_LoadAttrSelectable:
 {
     LDA.w $0200 : ASL A : TAX
     
-    JSR.w (Dungeon_LoadAttrSelectable_jumpTable, X)
+    JSR.w (.jumpTable, X)
     
     SEP #$30
     
