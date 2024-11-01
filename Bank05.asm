@@ -3144,7 +3144,9 @@ Sprite_ShowMessageUnconditional:
     STA.w $1CF0
     STY.w $1CF1
     
+    ; Unused: Only ever set to 0.
     STZ.w $0223
+    
     STZ.w $1CD8
     
     LDA.b #$02 : STA.b $11
@@ -3527,8 +3529,10 @@ Sprite_ShowMessageIfPlayerTouching:
 
 ; $02FA8E-$02FAA1 LONG JUMP LOCATION
 Sprite_ShowMessageMinimal:
-{    
+{
+    ; Unused: Only ever set to 0.
     STZ.w $0223
+
     STZ.w $1CD8
             
     LDA.b #$02 : STA.b $11

@@ -2880,6 +2880,7 @@ CopySaveToWRAM:
     LDA.w #$0007 : STA.l $7EC00D : STA.l $7EC013
     LDA.w #$0000 : STA.l $7EC00F : STA.l $7EC015
     
+    ; OPTIMIZE: Unused: These values are unused and can be remvoed.
     LDA.w #$6040 : STA.w $0219
     LDA.w #$4841 : STA.w $021D
     LDA.w #$007F : STA.w $021F

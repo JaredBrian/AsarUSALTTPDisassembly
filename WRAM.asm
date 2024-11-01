@@ -2360,7 +2360,7 @@ struct WRAM $7E0000
         ; 0 - Will read input
         ; 1 - Will not read input
 
-    ; $0211[0x02] - (Dungeon Map)
+    ; $0211[0x02] - (Dungeon map)
     .DunMapCurrentFloor: skip $02
         ; Of the two floors shown on a dungeon map, this indicates which one is
         ; of the floor Link is currently on. High byte isn't relevant and is
@@ -2368,41 +2368,91 @@ struct WRAM $7E0000
         ;   0x00 - top map
         ;   0x02 - bottom map
 
-    ; $0213[0x02] - 
-        ; Shows up in Bank 0x0A only.
+    ; $0213[0x02] - (Dungeon map)
+    .DunMapScrollTarget: skip $02
+        ; Acts as the Y target for dungeon map scrolling. Appears to have been
+        ; used as a Y velocity for the scrolling in an unused function as well.
 
-    ; $0215[0x02] - 
-        ; Relevant to dungeon map mode sprites...
+    ; $0215[0x02] - (Dungeon map)
+    .DunMapLinkXPos: skip $02
+        ; The X position to draw the flashing red/yellow/white dot showing where
+        ; link is on the map grid. This also controls the X position of the
+        ; blinking red/white room cross hair box also showing what room the
+        ; player is.
 
-    ; $0217[0x02] - 
-        ; Dungeon map related too?
+    ; $0217[0x02] - (Dungeon map)
+    .DunMapLinkYPos: skip $01
+        ; The Y position to draw the flashing red/yellow/white dot showing where
+        ; link is on the map grid. Unlike the X position, this does NOT control
+        ; the Y position of the blinking red/white room cross hair box. That is
+        ; instead controlled by $0CF5.
 
-    ; $0219[0x02] - 
+    ; $0218[0x01] - (Dungeon map)
+    .DunMapLinkYPosHigh: skip $01
+        ; The high byte of DunMapLinkYPos.
+
+    ; $0219[0x02] - (HUD, Tilemap)
+    .HUDTileMapLocation: skip $02
         ; Specifically used as the target address in VRAM for the HUD portion of
-        ; the BG3 tilemap. For the entirety of the game this is supposed to stay
-        ; as 0x6040 (0xE080 in byte addressing)
+        ; the BG3 tilemap. $6040 is written to this once during save file
+        ; loading and then stays that way for the rest of the game.
 
-    ; $021B[0x02] - 
+    ; $021B[0x01] - (Free)
+    .Free_021B: skip $01
         ; Free RAM
+        ; According to Kan: Unused but referenced in an unused table entry
+        ; indicating this address would have been used for stripes data of
+        ; some sort...?
 
-    ; $021D[0x04] - 
-        ; Assigned the value 0x007F4841... doesn't seem to be referenced
-        ; anywhere else though Is this meant to reference the address $7F4841
+    ; $021C[0x01] - (Free)
+    .Free_021C: skip $01
+        ; Free RAM
+        ; See the note from Free_021B.
 
-    ; $0221[0x02] - 
-        ; Assigned a value of 0xFFFF (-1) in Bank 0x0C, never seems to be
-        ; referenced though.
+    ; $021D[0x01] - (Free)
+    .Free_021D: skip $01
+        ; The value 0x4841 is written to this and Free_021E once during file
+        ; loading and then never used again. Can be reasonably used as free RAM.
 
-    ; $0223[0x01] - (????)
-        ; There's a few STZ.w $0223's that pop up in the rom but other than that
-        ; it's not clear if it was ever intended to be used for anything.
+    ; $021E[0x01] - (Free)
+    .Free_021E: skip $01
+        ; See the note for Free_021D.
 
-    ; $0224[0x0C] - 
+    ; $021F[0x01] - (Free)
+    .Free_021F: skip $01
+        ; The value 0x007F is written to this and Free_0220 once during file
+        ; loading and then never used again. Can be reasonably used as free RAM.
+
+    ; $0220[0x01] - (Free)
+    .Free_0220: skip $01
+        ; See the note for Free_021F.
+
+    ; $0221[0x01] - (Free)
+    .Free_0221: skip $01
+        ; The value 0xFFFF is written to this and Free_0222 once during file
+        ; loading and then never used again. Can be reasonably used as free RAM.
+
+    ; $0222[0x01] - (Free)
+    .Free_0222: skip $01
+        ; See the note for Free_0221.
+
+    ; $0223[0x01] - (Junk)
+    .Junk_0223: skip $01
+        ; Zeroed during message routines, but never used.
+
+    ; $0224[0x0C] - (Free)
+    .Free_224: skip $0C
+        ; Free RAM. MoN did give this a note saying it wasn't but I tested it
+        ; any was unable to recreate the effects he mentioned and these adresses
+        ; are not referenced anywhere in ROM. Kan's also agrees that these are
+        ; indeed free.
+        ; Original MoN note:
         ; Free RAM? - Nope! causes some funky faded effects and a lack of an
         ; overworld.
 
-    ; $0230[0x50] - 
-        ; Tentatively considered to be Free RAM at this time
+    ; $0230[0x50] - (Free)
+    .Free_0230: skip $50
+        ; Free RAM.
 
     ; $0280[0x0A] - (Ancilla)
         ; Special object OAM priority (full byte boolean) If nonzero, use highest
