@@ -672,26 +672,24 @@ Intro_Init:
     ; $064170 ALTERNATE ENTRY POINT
     .justLogo
     
-    ; $066D82, sets up sprite information for the N-logo.
+    ; Sets up sprite information for the N-logo.
     ; (OAM buffer is refreshed every frame, so this must be repeatedly called.)
     JSR.w Intro_DisplayNintendoLogo
     
     ; As long as $B0 is less than 0xB, no branch occurs.
     LDA.b $B0 : INC.b $B0 : CMP.b #$0B : BCS Intro_LoadTitleGraphics
-    
-    JSL.l UseImplicitRegIndexedLongJumpTable
-    
-    dl Intro_InitWram                    ; 0x00 - $0CC1A0
-    dl Intro_InitWram                    ; 0x01 - $0CC1A0
-    dl Intro_InitWram                    ; 0x02 - $0CC1A0
-    dl Intro_InitWram                    ; 0x03 - $0CC1A0
-    dl Intro_InitWram                    ; 0x04 - $0CC1A0
-    dl Intro_InitWram                    ; 0x05 - $0CC1A0
-    dl Intro_InitWram                    ; 0x06 - $0CC1A0
-    dl Intro_InitWram                    ; 0x07 - $0CC1A0
-    dl Intro_LoadTextPointersAndPalettes ; 0x08 - $028116
-    dl LoadItemGFXIntoWRAM4BPPBuffer     ; 0x09 - $00D231
-    dl Tagalong_LoadGfx                  ; 0x0A - $00D423
+        JSL.l UseImplicitRegIndexedLongJumpTable
+        dl Intro_InitWram                    ; 0x00 - $0CC1A0
+        dl Intro_InitWram                    ; 0x01 - $0CC1A0
+        dl Intro_InitWram                    ; 0x02 - $0CC1A0
+        dl Intro_InitWram                    ; 0x03 - $0CC1A0
+        dl Intro_InitWram                    ; 0x04 - $0CC1A0
+        dl Intro_InitWram                    ; 0x05 - $0CC1A0
+        dl Intro_InitWram                    ; 0x06 - $0CC1A0
+        dl Intro_InitWram                    ; 0x07 - $0CC1A0
+        dl Intro_LoadTextPointersAndPalettes ; 0x08 - $028116
+        dl LoadItemGFXIntoWRAM4BPPBuffer     ; 0x09 - $00D231
+        dl Tagalong_LoadGfx                  ; 0x0A - $00D423
 }
 
 ; ==============================================================================
@@ -740,7 +738,6 @@ Intro_LoadTitleGraphics:
         ; $0641F9 ALTERNATE ENTRY POINT
         .noWait
         
-        ; $00093D
         JSL.l EnableForceBlank
         JSL.l VRAM_EraseTilemaps_normal
         
@@ -761,12 +758,12 @@ Intro_LoadTitleGraphics:
         ; Why we're calling this prior to InitTileSets.... no idea. It seems 
         ; that InitTileSets would overwrite any graphics this routine would
         ; decompress.
-        JSL.l LoadDefaultGfx ; $0062D0
+        JSL.l LoadDefaultGfx
         JSL.l InitTileSets
         
         LDY.b #$5D
         
-        JSL.l DecompDungAnimatedTiles ; $005337
+        JSL.l DecompDungAnimatedTiles
         
         LDA.b #$02 : STA.l $7EC00D
         LDA.b #$00 : STA.l $7EC00E
@@ -974,7 +971,7 @@ Intro_InitGfx:
     LDA.b #$08 : STA.w $0AA4
     
     JSL.l Graphics_LoadCommonSprLong
-    JSR.w TriforceInitializePolyhedralModul
+    JSR.w TriforceInitializePolyhedralModule
     
     LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
     LDA.b #$00 : STA.w $1E18 : STA.w $1E19 : STA.w $1E1A
@@ -1115,9 +1112,7 @@ Intro_AnimateTriforce:
 Intro_AnimateTriforceDanceMoves:
 {
     LDA.w $1E00
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Intro_TriforceTinyDancers   ; 0x00 - $C45B
     dw Intro_TriforceSpinInwards   ; 0x01 - $C47B
     dw Intro_TriforceNearingMerge  ; 0x02 - $C4BA
@@ -1273,9 +1268,7 @@ Scene_AnimateSingleSprite:
 InitializeSceneSprite:
 {
     LDA.w $1E18, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw InitializeSceneSprite_Triangle             ; 0x00 - $C57E
     dw SceneSprite_TitleCard                      ; 0x01 - $C84F
     dw InitializeSceneSprite_Copyright            ; 0x02 - $C850
@@ -1290,9 +1283,7 @@ InitializeSceneSprite:
 AnimateSceneSprite:
 {
     LDA.w $1E18, X
-    
     JSR.w UseImplicitRegIndexedLocalJumpTable
-    
     dw AnimateSceneSprite_Triangle             ; 0x00 - $C5B1
     dw SceneSprite_TitleCard                   ; 0x01 - $C84F
     dw AnimateSceneSprite_Copyright            ; 0x02 - $C864
@@ -1344,9 +1335,7 @@ AnimateSceneSprite_Triangle:
     JSR.w AnimateSceneSprite_MoveTriangle
     
     LDA.w $1E00
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw IntroTriangle_MoveIntoPlace ; 0x00 - $C5D6
     dw IntroTriangle_MoveIntoPlace ; 0x01 - $C5D6
     dw IntroTriangle_MoveIntoPlace ; 0x02 - $C5D6
@@ -1778,7 +1767,7 @@ TriforceRoom_PrepGFXSlotForPoly:
     LDA.b #$08 : STA.w $0AA4
     
     JSL.l Graphics_LoadCommonSprLong
-    JSR.w TriforceInitializePolyhedralModul
+    JSR.w TriforceInitializePolyhedralModule
     
     LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
     LDA.b #$04 : STA.w $1E18
@@ -1802,7 +1791,7 @@ Credits_InitializePolyhedral:
     JSL.l Graphics_LoadCommonSprLong
 
     ; MAKES SURE THE TRIFORCES ARE SET UP.
-    JSR.w TriforceInitializePolyhedralModul
+    JSR.w TriforceInitializePolyhedralModule
     
     STZ.w $1F02
     
