@@ -2699,7 +2699,8 @@ Tagalong_GetCloseToPlayer:
         
         ; Try up to 0x12 times to get closer to the player but give up after
         ; that.
-        INC.w $02D3 : LDX.w $02D3 : CPX.b #$12 : BEQ .exhausted_attempts
+        INC.w $02D3
+        LDX.w $02D3 : CPX.b #$12 : BEQ .exhausted_attempts
             LDA.b $00 : STA.w $1A00, X
             LDA.b $01 : STA.w $1A14, X
             

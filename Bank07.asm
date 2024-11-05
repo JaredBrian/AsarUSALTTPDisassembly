@@ -1156,11 +1156,13 @@ LinkState_Recoil:
                 
                 JSL.l AddTransitionSplash
                 
-                BRL .BRANCH_BETA ; OPTIMIZ: Lol what?
+                ; OPTIMIZ: 0 length branch.
+                BRL .BRANCH_BETA
 
             .BRANCH_BETA
 
-            INC.w $02C6 : LDA.w $02C6 : CMP.b #$04 : BEQ .BRANCH_GAMMA
+            INC.w $02C6
+            LDA.w $02C6 : CMP.b #$04 : BEQ .BRANCH_GAMMA
                 TAX
                 
                 LDA.w $02C7
@@ -2147,7 +2149,8 @@ Link_HoppingHorizontally_FindTile_Horizontal:
     
     REP #$20
     
-    LDA.w Pool_Link_HoppingHorizontally_FindTile_Horizontal_offset_x_b, Y : CLC : ADC.b $32 : STA.b $22
+    LDA.w Pool_Link_HoppingHorizontally_FindTile_Horizontal_offset_x_b, Y
+    CLC : ADC.b $32 : STA.b $22
     
     SEP #$20
 
@@ -3052,8 +3055,10 @@ LinkState_Pits:
     STZ.b $67
     
     LDA.w $0302 : BEQ .BRANCH_ALPHA
-        INC.w $02CA : LDA.w $02CA : CMP.b #$20 : BNE .BRANCH_ALPHA
-            ; Ensures the next time around that this .
+        INC.w $02CA
+        LDA.w $02CA : CMP.b #$20 : BNE .BRANCH_ALPHA
+            ; Ensures the next time around that this...
+            ; TODO: MoN finish your comment.
             LDA.b #$1F : STA.w $02CA
             
             BRA .BRANCH_BETA
@@ -16952,7 +16957,8 @@ PushBlock_Slide:
         
         TXA : ASL A : TAY
         
-        LDA.b #$09 : STA.w $02C4 : STZ.w $02C3
+        LDA.b #$09 : STA.w $02C4
+                     STZ.w $02C3
         
         JSR.w PushBlock_ApplyVelocity
         
@@ -16990,7 +16996,8 @@ PushBlock_HandleFalling:
     STY.b $0E
     
     DEC.w $02C4 : BPL .not_finished
-        INC.w $02C3 : LDX.w $02C3
+        INC.w $02C3
+        LDX.w $02C3
         
         LDA.w .fall_timer, X : STA.w $02C4
         
@@ -17494,7 +17501,6 @@ Underworld_DrawSinglePushBlock:
     PHY
     
     LDY.w $02C3
-    
     LDA.w Pool_Underworld_DrawSinglePushBlock_index, Y : TAX
     
     LDY.b #$00
