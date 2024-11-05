@@ -463,29 +463,23 @@ Pool_Bomb_CheckSpriteAndPlayerDamage:
     db 8, 4, 2
 }
 
-; ==============================================================================
-
 ; $041815-$041912 LOCAL JUMP LOCATION
 Bomb_CheckSpriteAndPlayerDamage:
 {
     ; If the bomb is in state 9 it can do damage
     LDA.w $0C5E, X : BEQ .dont_damage_anything
-    CMP.b #$09   : BCS .dont_damage_anything
-    
-    JSR.w Bomb_CheckSpriteDamage
-    
-    LDA.w $037B : BEQ .player_not_using_invincibility_item
-    
-    TXA : INC A : CMP.w $02EC : BNE Ancilla_Bomb_return
-    
-    ; If the player is holding the bomb that is exploding, take the player
-    ; out of the "holding something over head" state.
-    LDA.w $0308 : AND.b #$80 : BEQ Ancilla_Bomb_return
-    
-    LDA.w $0308 : AND.b #$7F : STA.w $0308
-    
-    STZ $50
-    
+        CMP.b #$09 : BCS .dont_damage_anything
+            JSR.w Bomb_CheckSpriteDamage
+            
+            LDA.w $037B : BEQ .player_not_using_invincibility_item
+                TXA : INC A : CMP.w $02EC : BNE Ancilla_Bomb_return
+                    ; If the player is holding the bomb that is exploding, take
+                    ; the player out of the "holding something over head" state.
+                    LDA.w $0308 : AND.b #$80 : BEQ Ancilla_Bomb_return
+                        LDA.w $0308 : AND.b #$7F : STA.w $0308
+                        
+                        STZ $50
+            
     .dont_damage_anything
     
     BRL Ancilla_Bomb_return
@@ -493,90 +487,83 @@ Bomb_CheckSpriteAndPlayerDamage:
     .player_not_using_invincibility_item
     
     LDA $4D : BNE .dont_damage_anything
-    
-    LDA $46 : BNE .dont_damage_anything
-    
-    LDA.w $0C7C, X : CMP $EE : BNE .dont_damage_anything
-    
-    LDA $22 : STA $00
-    LDA $23 : STA $08
-    LDA $20 : STA $01
-    LDA $21 : STA $09
-    
-    LDA.b #$10 : STA $02
-    LDA.b #$18 : STA $03
-    
-    LDA.w $0C04, X : STA $04
-    LDA.w $0C18, X : STA $05
-    
-    LDA.w $0BFA, X : STA $06
-    LDA.w $0C0E, X : STA $07
-    
-    REP #$20
-    
-    LDA $04 : CLC : ADC.w #-16 : STA $04
-    LDA $06 : CLC : ADC.w #-16 : STA $06
-    
-    SEP #$20
-    
-    LDA $05 : STA $0A
-    LDA $06 : STA $05
-    LDA $07 : STA $0B
-    
-    LDA.b #$20 : STA $06
-                 STA $07
-    
-    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .dont_damage_player
-    
-    LDA.w $0C04, X : CLC : ADC.b #$-8 : STA $00
-    LDA.w $0C18, X : ADC.b #$-1 : STA $01
-    
-    LDA.w $0BFA, X : CLC : ADC.b #$-12 : STA $02
-    LDA.w $0C0E, X : ADC.b #$-1  : STA $03
-    
-    PHX
-    
-    JSR.w Bomb_GetGrossPlayerDistance
-    
-    LDA.w .recoil_magnitudes, Y : TAY
-    
-    JSL.l Bomb_ProjectSpeedTowardsPlayer
-    
-    PLX
-    
-    ; If Link is already flashing he's invulnerable
-    LDA.w $031F : BNE .dont_damage_player
-    
-    ; Check for the menu being unable to be activated
-    LDA.w $0FFC : CMP.b #$02 : BEQ .dont_damage_player
-    
-    LDA $00 : STA $27
-    LDA $01 : STA $28
-    
-    JSR.w Bomb_GetGrossPlayerDistance
-    
-    LDA.w .resistances, Y : STA $29 : STA.w $02C7
-    
-    LDA.w .damage_timers, Y : STA $46
-    
-    ; Put Link in recoil mode
-    LDA.b #$01 : STA $4D
-    
-    ; Make Link's sprite blink
-    LDA.b #$3A : STA.w $031F
-    
-    ; If the boss is beaten Link is invincible!
-    LDA.w $0403 : AND.b #$80 : BNE .dont_damage_player
-    
-    ; Check his armor status
-    LDA.l $7EF35B : TAY
-    
-    ; Damage Link by this amount
-    LDA.w .damage_quantities, Y : STA.w $0373
-    
-    .dont_damage_player
-    
-    RTS
+        LDA $46 : BNE .dont_damage_anything
+            LDA.w $0C7C, X : CMP $EE : BNE .dont_damage_anything
+                LDA $22 : STA $00
+                LDA $23 : STA $08
+                LDA $20 : STA $01
+                LDA $21 : STA $09
+                
+                LDA.b #$10 : STA $02
+                LDA.b #$18 : STA $03
+                
+                LDA.w $0C04, X : STA $04
+                LDA.w $0C18, X : STA $05
+                
+                LDA.w $0BFA, X : STA $06
+                LDA.w $0C0E, X : STA $07
+                
+                REP #$20
+                
+                LDA $04 : CLC : ADC.w #-16 : STA $04
+                LDA $06 : CLC : ADC.w #-16 : STA $06
+                
+                SEP #$20
+                
+                LDA $05 : STA $0A
+                LDA $06 : STA $05
+                LDA $07 : STA $0B
+                
+                LDA.b #$20 : STA $06
+                            STA $07
+                
+                JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .dont_damage_player
+                    LDA.w $0C04, X : CLC : ADC.b #$-8 : STA $00
+                    LDA.w $0C18, X :       ADC.b #$-1 : STA $01
+                    
+                    LDA.w $0BFA, X : CLC : ADC.b #$-12 : STA $02
+                    LDA.w $0C0E, X :       ADC.b #$-1  : STA $03
+                    
+                    PHX
+                    
+                    JSR.w Bomb_GetGrossPlayerDistance
+                    
+                    LDA.w .recoil_magnitudes, Y : TAY
+                    
+                    JSL.l Bomb_ProjectSpeedTowardsPlayer
+                    
+                    PLX
+                    
+                    ; If Link is already flashing he's invulnerable
+                    LDA.w $031F : BNE .dont_damage_player
+                        ; Check for the menu being unable to be activated
+                        LDA.w $0FFC : CMP.b #$02 : BEQ .dont_damage_player
+                            LDA $00 : STA $27
+                            LDA $01 : STA $28
+                            
+                            JSR.w Bomb_GetGrossPlayerDistance
+                            
+                            LDA.w .resistances, Y : STA $29 : STA.w $02C7
+                            
+                            LDA.w .damage_timers, Y : STA $46
+                            
+                            ; Put Link in recoil mode
+                            LDA.b #$01 : STA $4D
+                            
+                            ; Make Link's sprite blink
+                            LDA.b #$3A : STA.w $031F
+                            
+                            ; If the boss is beaten Link is invincible!
+                            LDA.w $0403 : AND.b #$80 : BNE .dont_damage_player
+                                ; Check his armor status
+                                LDA.l $7EF35B : TAY
+                                
+                                ; Damage Link by this amount
+                                LDA.w .damage_quantities, Y : STA.w $0373
+                        
+                .dont_damage_player
+                
+                RTS
 }
 
 ; ==============================================================================
