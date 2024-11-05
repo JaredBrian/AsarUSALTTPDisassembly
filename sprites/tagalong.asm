@@ -16,7 +16,6 @@ Tagalong_CheckBlindTriggerRegion:
     PHB : PHK : PLB
     
     LDX.w $02CF
-    
     LDA.w $1A00, X : STA.b $00
     LDA.w $1A14, X : STA.b $01
     
@@ -1281,7 +1280,6 @@ Tagalong_Draw:
     PHX : PHY
     
     LDX.w $02CF
-    
     LDA.w $1A50, X : BEQ .not_floating_outdoors
         LDA.b $1B : BNE .not_floating_outdoors
             LDA.b #$20
