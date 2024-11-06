@@ -17,39 +17,37 @@ Ancilla_Bomb:
 {
     ; Code for implementing the Bomb Special Effect (0x07)
     LDA.b $11    : BEQ .full_execute
-    CMP.b #$08 : BEQ .walking_on_staircase
-    CMP.b #$10 : BNE .not_in_room_staircase_submode
-    
-    .walking_on_staircase
-    
-    JSR.w Ancilla_LiftableObjectLogic
-    
-    BRA .just_draw
-    
-    .not_in_room_staircase_submode
-    
-    ; Is Link close to the bomb? If not, branch
-    TXA : INC A : CMP.w $02EC : BNE .just_draw
-    
-    ; Is Link carrying the bomb?
-    LDA.w $0380, X : BEQ .just_draw
-    CMP.b #$03   : BEQ .player_fully_holding
-    
-    ; Coerce the bomb into the held state immediately.
-    LDY.b #$03
-    
-    JSR.w Ancilla_PegCoordsToPlayer
-    JSR.w Ancilla_PegAltitudeAbovePlayer
-    
-    LDA.b #$03 : STA.w $0380, X
-    
-    .player_fully_holding
-    
-    JSR.w Ancilla_SetPlayerHeldPosition
-    
-    .just_draw
-    
-    BRL .draw
+        CMP.b #$08 : BEQ .walking_on_staircase
+            CMP.b #$10 : BNE .not_in_room_staircase_submode
+        
+        .walking_on_staircase
+        
+        JSR.w Ancilla_LiftableObjectLogic
+        
+        BRA .just_draw
+        
+        .not_in_room_staircase_submode
+        
+        ; Is Link close to the bomb? If not, branch
+        TXA : INC A : CMP.w $02EC : BNE .just_draw
+            ; Is Link carrying the bomb?
+            LDA.w $0380, X : BEQ .just_draw
+                CMP.b #$03 : BEQ .player_fully_holding
+                    ; Coerce the bomb into the held state immediately.
+                    LDY.b #$03
+                    
+                    JSR.w Ancilla_PegCoordsToPlayer
+                    JSR.w Ancilla_PegAltitudeAbovePlayer
+                    
+                    LDA.b #$03 : STA.w $0380, X
+                
+                .player_fully_holding
+                
+                JSR.w Ancilla_SetPlayerHeldPosition
+        
+        .just_draw
+        
+        BRL .draw
     
     .full_execute
     
@@ -69,160 +67,149 @@ Ancilla_Bomb:
     
     ; Outdoors doesn't use multiple interactive bgs.
     LDA $1B : BEQ .dont_coerce_to_bg1
-    
-    ; Check to see if the bomb is airborn.
-    LDA.w $0385, X : BEQ .dont_coerce_to_bg1
-    
-    ; If it hit the top of a 'water staircase', coerce.
-    LDA.w $03E4, X : CMP.b #$1C : BNE .dont_coerce_to_bg1
-    
-    ; if it's tile type 0x1C (whatever that is), set the transition flag (to go to BG0)
-    LDA.b #$01 : STA.w $03D5, X
-    
+        ; Check to see if the bomb is airborn.
+        LDA.w $0385, X : BEQ .dont_coerce_to_bg1
+            ; If it hit the top of a 'water staircase', coerce.
+            LDA.w $03E4, X : CMP.b #$1C : BNE .dont_coerce_to_bg1
+                ; If it's tile type 0x1C (whatever that is), set the transition
+                ; flag (to go to BG0).
+                LDA.b #$01 : STA.w $03D5, X
+        
     .dont_coerce_to_bg1
     
     PLP : BCC .no_tile_collision
+            .check_tile_collision
 
-    .check_tile_collision
+            ; Collision detected with wall.
+            BIT.w $0308 : BPL .player_not_holding_anything_yet
+                LDA.w $0309 : BEQ .no_tile_collision
 
-    ; collision detected with wall
-    BIT.w $0308 : BPL .player_not_holding_anything_yet
-    
-    LDA.w $0309 : BEQ .no_tile_collision
+            .player_not_holding_anything_yet
 
-    .player_not_holding_anything_yet
+            ; Collision detected with wall and link is not holding the bomb in
+            ; his hands therefore, collisions matter and we have to handle them.
+            LDA $75 : BNE .ignore_tile_collision_results
+                ; Seemingly flags a collision has been handled and does not need
+                ; to be handled again this frame.
+                LDA.w $0BF0, X : BNE .ignore_tile_collision_results
+                    ; If we reach this point we need to handle a collision.
+                    LDA.b #$01 : STA.w $0BF0, X
+                    
+                    LDA.b #$04 : STA $0E
+                    
+                    LDY.b #-4
+                    
+                    LDA.w $0C72, X : CMP.b #$01 : BNE .not_oriented_down
+                        LDA.b #16 : STA $0E
+                        
+                        LDY.b #-16
 
-    ; collision detected with wall and link is not holding the bomb in his hands
-    ; therefore, collisions matter and we have to handle them.
-    LDA $75 : BNE .ignore_tile_collision_results
-    
-    ; Seemingly flags a collision has been handled and does not need to be  
-    ; handled again this frame.
-    LDA.w $0BF0, X : BNE .ignore_tile_collision_results
-    
-    ; If we reach this point we need to handle a collision
-    LDA.b #$01 : STA.w $0BF0, X
-    
-    LDA.b #$04 : STA $0E
-    
-    LDY.b #-4
-    
-    LDA.w $0C72, X : CMP.b #$01 : BNE .not_oriented_down
-    
-    LDA.b #16 : STA $0E
-    
-    LDY.b #-16
+                    .not_oriented_down
 
-    .not_oriented_down
+                    ; Get current y speed
+                    LDA.w $0C22, X : BEQ .at_rest_y
+                        BPL .moving_down
+                            LDY $0E
+                        
+                        .moving_down
+                        
+                        ; This is where reversal of y velocity occurs (bounces
+                        ; off of a wall).
+                        TYA : STA.w $0C22, X
+                    
+                    .at_rest_y
+                    
+                    ; Moving left at a rate of 4.
+                    LDY.b #-4
+                    
+                    LDA.w $0C2C, X : BEQ .at_rest_x
+                        BPL .moving_right
+                            LDY.b #4
+                        
+                        .moving_right
+                        
+                        ; This is where reversal of X velocity occurs (bounces
+                        ; off of a wall).
+                        TYA : STA.w $0C2C, X
+                    
+                    .at_rest_x
+                    
+                    ; WTF: I don't know what else to call this label, what are we
+                    ; doing here? I realize that the perspective of this game is
+                    ; messed up, but what makes the downward physics handling so
+                    ; special that it needs all this adjustment?
+                    LDA.w $0C72, X : CMP.b #$01 : BNE .dont_fudge_y_velocity
+                        LDA.w $029E, X : BEQ .dont_fudge_y_velocity
+                            LDA.b #-4 : STA.w $0C22, X
+                            
+                            LDA.b #$02 : STA.w $0385, X
+                        
+                    .dont_fudge_y_velocity
+            .ignore_tile_collision_results
 
-    ; Get current y speed
-    LDA.w $0C22, X : BEQ .at_rest_y
-                   BPL .moving_down
-    
-    LDY $0E
-    
-    .moving_down
-    
-    ; This is where reversal of y velocity occurs (bounces off of a wall).
-    TYA : STA.w $0C22, X
-    
-    .at_rest_y
-    
-    ; moving left at a rate of 4
-    LDY.b #-4
-    
-    LDA.w $0C2C, X : BEQ .at_rest_x
-                   BPL .moving_right
-    
-    LDY.b #4
-    
-    .moving_right
-    
-    ; This is where reversal of X velocity occurs (bounces off of a wall).
-    TYA : STA.w $0C2C, X
-    
-    .at_rest_x
-    
-    ; WTF: I don't know what else to call this label, what are we
-    ; doing here? I realize that the perspective of this game is
-    ; messed up, but what makes the downward physics handling so
-    ; special that it needs all this adjustment?
-    LDA.w $0C72, X : CMP.b #$01 : BNE .dont_fudge_y_velocity
-    
-    LDA.w $029E, X : BEQ .dont_fudge_y_velocity
-    
-    LDA.b #-4 : STA.w $0C22, X
-    
-    LDA.b #$02 : STA.w $0385, X
-    
-    .dont_fudge_y_velocity
-    .ignore_tile_collision_results
-    .dont_process_ground_touch_logic
-    
-    BRL .state_logic
-    
-    .no_tile_collision
-    
-    ; This branch is taken if collision with a wall was not detected
-    
-    TXA : INC A : CMP.w $02EC : BNE .player_not_touching_object
-    
-    BIT.w $0308 : BMI .ignore
-    
-    .player_not_touching_object
-    
-    ; bomb's elevation in pixels
-    LDA.w $029E, X : BEQ .touching_ground
-    CMP.b #$FF   : BNE .dont_process_ground_touch_logic
-    
-    .touching_ground
-    
-    ; Essentially this designates that the bomb has no orientation at the
-    ; moment.
-    LDA.b #$10 : STA.w $0C72, X
-    
-    ; Not really sure what purpose saving $0280, X serves...
-    LDA.w $0280, X : PHA
-    
-    JSR.w Ancilla_CheckTileCollision
-    
-    PLA : STA.w $0280, X
-    
-    LDA.w $03E4, X
-    
-    CMP.b #$26 : BEQ .in_floor_staircase_boundary
-    CMP.b #$0C : BEQ .niche_collision_tiles
-    CMP.b #$1C : BEQ .niche_collision_tiles
-    CMP.b #$20 : BEQ .pit_tiles
-    CMP.b #$08 : BEQ .deep_water_tile
-    CMP.b #$68 : BEQ .conveyor_belt_tiles
-    CMP.b #$69 : BEQ .conveyor_belt_tiles
-    CMP.b #$6A : BEQ .conveyor_belt_tiles
-    CMP.b #$6B : BEQ .conveyor_belt_tiles
-    CMP.b #$B6 : BEQ .transit_tiles
-    CMP.b #$BC : BEQ .transit_tiles
-    
-    ; Checking for any other cane of somaria types
-    AND.b #$F0 : CMP.b #$B0 : BEQ .pit_tiles
-    
-    .transit_tiles
-    
-    STZ.w $0C68, X
-    
-    ; Check if flying through air
-    LDA.w $0385, X : BNE .dont_process_ground_touch_logic
-    
-    LDA.b #$02 : STA.w $0C68, X
-    
-    .delay_reckoning
-    
-    BRL .state_logic
-    
-    .conveyor_belt_tiles
-    
-    BRL .apply_conveyor_movement_to_object
-    
-    .in_floor_staircase_boundary
+            .dont_process_ground_touch_logic
+            
+            BRL .state_logic
+        
+        .no_tile_collision
+        
+        ; This branch is taken if collision with a wall was not detected.
+        
+        TXA : INC A : CMP.w $02EC : BNE .player_not_touching_object
+            BIT.w $0308 : BMI .ignore_tile_collision_results
+        
+        .player_not_touching_object
+        
+        ; Bomb's elevation in pixels.
+        LDA.w $029E, X : BEQ .touching_ground
+            CMP.b #$FF : BNE .dont_process_ground_touch_logic
+        
+        .touching_ground
+        
+        ; Essentially this designates that the bomb has no orientation at the
+        ; moment.
+        LDA.b #$10 : STA.w $0C72, X
+        
+        ; Not really sure what purpose saving $0280, X serves...
+        LDA.w $0280, X : PHA
+        
+        JSR.w Ancilla_CheckTileCollision
+        
+        PLA : STA.w $0280, X
+        
+        LDA.w $03E4, X
+        
+        CMP.b #$26 : BEQ .in_floor_staircase_boundary
+            CMP.b #$0C : BEQ .niche_collision_tiles
+            CMP.b #$1C : BEQ .niche_collision_tiles
+                CMP.b #$20 : BEQ .pit_tiles
+                    CMP.b #$08 : BEQ .deep_water_tile
+                        CMP.b #$68 : BEQ .conveyor_belt_tiles
+                        CMP.b #$69 : BEQ .conveyor_belt_tiles
+                        CMP.b #$6A : BEQ .conveyor_belt_tiles
+                        CMP.b #$6B : BEQ .conveyor_belt_tiles
+                            CMP.b #$B6 : BEQ .transit_tiles
+                            CMP.b #$BC : BEQ .transit_tiles
+                                ; Checking for any other cane of somaria types.
+                                AND.b #$F0 : CMP.b #$B0 : BEQ .pit_tiles
+                                
+                            .transit_tiles
+                            
+                            STZ.w $0C68, X
+                            
+                            ; Check if flying through air:
+                            LDA.w $0385, X : BNE .dont_process_ground_touch_logic
+                                LDA.b #$02 : STA.w $0C68, X
+                                
+                                .delay_reckoning
+                                
+                                BRL .state_logic
+                        
+                        .conveyor_belt_tiles
+                        
+                        BRL .apply_conveyor_movement_to_object
+            
+        .in_floor_staircase_boundary
     
     BRL .check_tile_collision
     
@@ -230,66 +217,57 @@ Ancilla_Bomb:
     
     ; Top of water staircase and moving floor tiles end up here.
     BRL .niche_collision_logic
-    
-    .deep_water_tile
-    
-    ; Kills the bomb because it fell in water; then it makes a splash
-    
-    TXA : INC A : CMP.w $02EC : BNE .water_tile_reset_player_proximity
-    
-    ; Don't get the game's hopes up that you can pick up this bomb,
-    ; it's set for termination soon!
-    STZ.w $02EC
-    
-    .water_tile_reset_player_proximity
-    
-    LDA.w $0C68, X : BNE .delay_reckoning
-    
-    LDA.w $0BFA, X : CLC : ADC.b #-24                : STA.w $0BFA, X
-                   LDA.b #-1  : ADC.w $0C0E, X : STA.w $0C0E, X
-    
-    BRL Ancilla_TransmuteToObjectSplash
-    
-    .pit_tiles
-    
-    ; executed when the bomb falls into a hole
-    LDA.w $0308 : BMI .state_logic
-    
-    STX $04
-    
-    LDA.w $02EC : DEC A : CMP $04 : BNE .pit_tile_reset_player_proximity
-    
-    ; Same as with water tiles, reset this state if necessary.
-    STZ.w $02EC
-    
-    .pit_tile_reset_player_proximity
-    
-    LDA.w $0C68, X : BNE .delay_reckoning
-    
-    BRL Ancilla_SelfTerminate
-    
+        .deep_water_tile
+        
+        ; Kills the bomb because it fell in water, then it makes a splash.
+        
+        TXA : INC A : CMP.w $02EC : BNE .water_tile_reset_player_proximity
+            ; Don't get the game's hopes up that you can pick up this bomb,
+            ; it's set for termination soon!
+            STZ.w $02EC
+            
+        .water_tile_reset_player_proximity
+        
+        LDA.w $0C68, X : BNE .delay_reckoning
+            LDA.w $0BFA, X : CLC : ADC.b #-24     : STA.w $0BFA, X
+            LDA.b #-1            : ADC.w $0C0E, X : STA.w $0C0E, X
+            
+            BRL Ancilla_TransmuteToObjectSplash
+            
+            .pit_tiles
+            
+            ; Executed when the bomb falls into a hole.
+            LDA.w $0308 : BMI .state_logic
+                STX $04
+                
+                LDA.w $02EC : DEC A : CMP $04 : BNE .pit_tile_reset_player_proximity
+                    ; Same as with water tiles, reset this state if necessary.
+                    STZ.w $02EC
+                    
+                .pit_tile_reset_player_proximity
+                
+                LDA.w $0C68, X : BNE .delay_reckoning
+                    BRL Ancilla_SelfTerminate
+        
     .niche_collision_logic
     
     LDA.w $046C : CMP.b #$03 : BEQ .moving_floor_collision
-    
-    LDA.w $0C7C, X : BNE .state_logic
-    
-    ; check elevation
-    LDA.w $029E, X : BEQ .state_logic ; if zero, branch
-    CMP.b #$FF   : BEQ .state_logic ; if it bounced, branch
-    
-    ; Move the object to BG1.
-    LDA.b #$01 : STA.w $0C7C, X
-    
-    BRA .state_logic
-    
+        LDA.w $0C7C, X : BNE .state_logic
+            ; Check elevation:
+            LDA.w $029E, X : BEQ .state_logic ; If zero, branch.
+                CMP.b #$FF : BEQ .state_logic ; If it bounced, branch.
+                    ; Move the object to BG1.
+                    LDA.b #$01 : STA.w $0C7C, X
+                    
+                    BRA .state_logic
+                
     .moving_floor_collision
     
     LDA.w $0310 : CLC : ADC.w $0BFA, X : STA $72
-    LDA.w $0311 : ADC.w $0C0E, X : STA $73
+    LDA.w $0311 :       ADC.w $0C0E, X : STA $73
     
     LDA.w $0312 : CLC : ADC.w $0C04, X : STA.w $0C04, X
-    LDA.w $0313 : ADC.w $0C18, X : STA.w $0C18, X
+    LDA.w $0313 :       ADC.w $0C18, X : STA.w $0C18, X
     
     BRA .state_logic
     
@@ -310,93 +288,86 @@ Ancilla_Bomb:
     
     ; Decrement the timer for the bomb.
     DEC.w $039F, X : LDA.w $039F, X : BNE .state_change_delay
-    
-    ; Begin the bomb's explosion
-    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$01 : BNE .not_just_exploded
-    
-    ; Play the bomb exploding sound
-    LDA.b #$0C : JSR.w Ancilla_DoSfx2
-    
-    ; Did Link come in contact with the explosion?
-    TXA : INC A : CMP.w $02EC : BNE .dont_reset_player_lift_state
-    
-    STZ.w $02EC ; Link has been hit by this bomb
-    
-    ; See if he's carrying anything.
-    BIT.w $0308 : BPL .dont_reset_player_lift_state
-    
-    ; Make him drop anything he carries
-    STZ.w $0308
-    
-    ; Unset any flags stopping Link from changing direction
-    STZ $50
-    
-    .not_just_exploded
-    .dont_reset_player_lift_state
-    
-    ; Check the bomb explosion state index (0x01 to 0x0B)
-    ; branch if it's not at 0x0B
-    LDA.w $0C5E, X : CMP.b #$0B : BNE .not_fully_exploded
-    
-    ; Trigger no special effect... if there's no wall to blow up
-    LDY.b #$00
-    
-    LDA.w $0C54, X : BEQ .dont_transmute_to_door_debris
-    
-    ; Transmute to the door debris special effect
-    LDY.b #$08
-    
-    .dont_transmute_to_door_debris
-    
-    TYA : STA.w $0C4A, X
-    
-    RTS
-    
-    .not_fully_exploded
-    
-    ; explosion states < 0x0B
-    
-    TAY ; Y = the explosion state
-    
-    ; Set a new timer based on which explosion state it is
-    LDA.w .interstate_intervals, Y : STA.w $039F, X
+        ; Begin the bomb's explosion.
+        INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$01 : BNE .not_just_exploded
+            ; Play the bomb exploding sound.
+            LDA.b #$0C : JSR.w Ancilla_DoSfx2
+            
+            ; Did Link come in contact with the explosion?
+            TXA : INC A : CMP.w $02EC : BNE .dont_reset_player_lift_state
+                ; Link has been hit by this bomb.
+                STZ.w $02EC
+                
+                ; See if he's carrying anything.
+                BIT.w $0308 : BPL .dont_reset_player_lift_state
+                    ; Make him drop anything he carries.
+                    STZ.w $0308
+                    
+                    ; Unset any flags stopping Link from changing direction.
+                    STZ $50
+
+            .dont_reset_player_lift_state
+        .not_just_exploded
+
+        ; Check the bomb explosion state index (0x01 to 0x0B)
+        ; branch if it's not at 0x0B.
+        LDA.w $0C5E, X : CMP.b #$0B : BNE .not_fully_exploded
+            ; Trigger no special effect... if there's no wall to blow up.
+            LDY.b #$00
+            
+            LDA.w $0C54, X : BEQ .dont_transmute_to_door_debris
+                ; Transmute to the door debris special effect
+                LDY.b #$08
+            
+            .dont_transmute_to_door_debris
+            
+            TYA : STA.w $0C4A, X
+            
+            RTS
+        
+        .not_fully_exploded
+        
+        ; Explosion states < 0x0B
+        
+        ; Y = the explosion state.
+        TAY
+        
+        ; Set a new timer based on which explosion state it is.
+        LDA.w .interstate_intervals, Y : STA.w $039F, X
     
     .state_change_delay
     
     LDA.w $0C5E, X : CMP.b #$07 : BNE .draw
-    
-    LDA.w $039F, X : CMP.b #$02 : BNE .draw
-    
-    PHX
-    
-    LDA.w $0BFA, X : STA $00
-    LDA.w $0C0E, X : STA $01
-    
-    LDA.w $0C04, X : STA $02
-    LDA.w $0C18, X : STA $03
-    
-    STX $0E
-    
-    TXA : ASL A : TAX
-    
-    STZ.w $03B6, X
-    STZ.w $03B7, X
-    
-    JSL.l Bomb_CheckForVulnerableTileObjects
-    
-    PLX : TXY : TXA : ASL A : TAX
-    
-    LDA.w $03B6, X : ORA.w $03B7, X : BEQ .didnt_blow_open_door
-    
-    TYX
-    
-    ; Set a flag indicating that we need to transmute to the door debris
-    ; object when finished exploding.
-    LDA.b #$01 : STA.w $0C54, X
-    
-    .didnt_blow_open_door
-    
-    TYX
+        LDA.w $039F, X : CMP.b #$02 : BNE .draw
+            PHX
+            
+            LDA.w $0BFA, X : STA $00
+            LDA.w $0C0E, X : STA $01
+            
+            LDA.w $0C04, X : STA $02
+            LDA.w $0C18, X : STA $03
+            
+            STX $0E
+            
+            TXA : ASL A : TAX
+            
+            STZ.w $03B6, X
+            STZ.w $03B7, X
+            
+            JSL.l Bomb_CheckForVulnerableTileObjects
+            
+            PLX : TXY : TXA : ASL A : TAX
+            
+            LDA.w $03B6, X : ORA.w $03B7, X : BEQ .didnt_blow_open_door
+                TYX
+                
+                ; Set a flag indicating that we need to transmute to the door
+                ; debris object when finished exploding.
+                LDA.b #$01 : STA.w $0C54, X
+                
+            .didnt_blow_open_door
+            
+            TYX
     
     .draw
     
@@ -413,25 +384,24 @@ Ancilla_Bomb:
 ; $0417B6-$0417BD DATA
 Pool_Ancilla_ConveyorBeltVelocityOverride:
 {
+    ; $0417B6
     .y_speeds
     db -8,  8,  0,  0
     
+    ; $0417BA
     .x_speeds
     db  0,  0, -8,  8
 }
 
-; ==============================================================================
-
+; This routine is triggered if a bomb is on a conveyor belt or otherwise
+; moving surface.
 ; $0417BE-$0417E1 LOCAL JUMP LOCATION
 Ancilla_ConveyorBeltVelocityOverride:
 {
-    ; This routine is triggered if a bomb is on a conveyor belt or
-    ; otherwise moving surface
-    
     LDA.w $03E4, X : SEC : SBC.b #$68 : TAY
     
-    LDA.w .y_speeds, Y : STA.w $0C22, X
-    LDA.w .x_speeds, Y : STA.w $0C2C, X
+    LDA.w Pool_Ancilla_ConveyorBeltVelocityOverride_y_speeds, Y : STA.w $0C22, X
+    LDA.w Pool_Ancilla_ConveyorBeltVelocityOverride_x_speeds, Y : STA.w $0C2C, X
     
     JSR.w Ancilla_MoveVert
     JSR.w Ancilla_MoveHoriz
@@ -447,18 +417,22 @@ Ancilla_ConveyorBeltVelocityOverride:
 ; $0417E2-$041814 DATA
 Pool_Bomb_CheckSpriteAndPlayerDamage:
 {
+    ; $0417E2
     .recoil_magnitudes
     db 32, 32, 32, 32, 32, 32, 28, 28
     db 28, 28, 28, 28, 24, 24, 24, 24
     
+    ; $0417F2
     .resistances
     db 16, 16, 16, 16, 16, 16, 12, 12
     db 12, 12,  8   8,  8,  8,  8,  8
     
+    ; $041802
     .damage_timers
     db 32, 32, 32, 32, 32, 32, 24, 24
     db 24, 24, 24, 24, 16, 16, 16, 16
     
+    ; $041812
     .damage_quantities
     db 8, 4, 2
 }
@@ -466,7 +440,7 @@ Pool_Bomb_CheckSpriteAndPlayerDamage:
 ; $041815-$041912 LOCAL JUMP LOCATION
 Bomb_CheckSpriteAndPlayerDamage:
 {
-    ; If the bomb is in state 9 it can do damage
+    ; If the bomb is in state 9 it can do damage.
     LDA.w $0C5E, X : BEQ .dont_damage_anything
         CMP.b #$09 : BCS .dont_damage_anything
             JSR.w Bomb_CheckSpriteDamage
@@ -534,9 +508,9 @@ Bomb_CheckSpriteAndPlayerDamage:
                     
                     PLX
                     
-                    ; If Link is already flashing he's invulnerable
+                    ; If Link is already flashing he's invulnerable.
                     LDA.w $031F : BNE .dont_damage_player
-                        ; Check for the menu being unable to be activated
+                        ; Check for the menu being unable to be activated.
                         LDA.w $0FFC : CMP.b #$02 : BEQ .dont_damage_player
                             LDA $00 : STA $27
                             LDA $01 : STA $28
@@ -547,18 +521,18 @@ Bomb_CheckSpriteAndPlayerDamage:
                             
                             LDA.w .damage_timers, Y : STA $46
                             
-                            ; Put Link in recoil mode
+                            ; Put Link in recoil mode.
                             LDA.b #$01 : STA $4D
                             
-                            ; Make Link's sprite blink
+                            ; Make Link's sprite blink.
                             LDA.b #$3A : STA.w $031F
                             
                             ; If the boss is beaten Link is invincible!
                             LDA.w $0403 : AND.b #$80 : BNE .dont_damage_player
-                                ; Check his armor status
+                                ; Check his armor status:
                                 LDA.l $7EF35B : TAY
                                 
-                                ; Damage Link by this amount
+                                ; Damage Link by this amount.
                                 LDA.w .damage_quantities, Y : STA.w $0373
                         
                 .dont_damage_player
@@ -571,111 +545,111 @@ Bomb_CheckSpriteAndPlayerDamage:
 ; $041913-$041975 DATA
 Pool_Ancilla_LiftableObjectLogic:
 {
+    ; $041913
     .player_relative_y_offsets
     dw 16, 8, 4, 4
     dw 8, 2, -1, -1
     dw 2, 2, -1, -1
     
+    ; $04192B
     .player_relative_x_offsets
     dw 8, 8, -4, 20
     dw 8, 8, 8, 8
     dw 8, 8, 8, 8
     
+    ; $041943
     .lift_timers
     db 16, 8, 9
     
+    ; $041946
     .z_offset_player_moving
     dw -2, -1, 0, -2, -1, 0
     
+    ; $041952
     .throw_y_speeds
     db -32,  32,   0,   0
     
+    ; $041956
     .throw_x_speeds
     db   0,   0, -32,  32
     
-    ; $04195A to $41961
     ; UNUSED: Presumably for testing throws and bounces
+    ; $04195A
     .unused_throw_y_speeds
     db   8,   8,   0,   0
     db   4,   4,   0,   0
     
-    ; $041962 to $41969
     ; UNUSED: Presumably for testing throws and bounces
+    ; $041962 to $41969
     .unused_throw_x_speeds
     db   0,   0,   8,   8
     db   0,   0,   4,   4
     
+    ; $04196A
     .postbounce_z_speeds
     db 16, 16
     
-    ; $04196c to $41971
     ; UNUSED: Presumably for testing throws and bounces
+    ; $04196C
     .unused_postbounce_z_speeds
     db 16, 16, 8,  8,  8,  8
     
+    ; $041972
     .compatible_lift_directions
     db 0, 2, 4, 6
 }
 
-; ==============================================================================
-
 ; $041976-$041C7E LOCAL JUMP LOCATION
 Ancilla_LiftableObjectLogic:
 {
-    ; Setting this flag causes player to not be able to pick it up
+    ; Setting this flag causes player to not be able to pick it up.
     LDA.w $03EA, X : BNE .not_currently_liftable
-    
-    ; Is it in motion?
-    LDA.w $0385, X : BEQ .not_airborn
-    
-    BRL .airborn_logic
-    
-    .not_airborn
-    
-    STX $00
-    
-    ; This is set to the special effect index + 1 of a detected collision
-    LDA.w $02EC : BEQ .player_not_near_to_any_object
-    
-    ; this branch fails if some other sprite triggered $02EC
-    DEC A : CMP $00 : BEQ .closest_liftable_object_to_player
-    
-    RTS
-    
-    .closest_liftable_object_to_player
-    
-    ; Collision detected and it matches this special effect
-    LDY.w $037B : BNE .player_invulnerable
-    
-    LDA $46 : BNE .not_liftable_per_player_damage_timer
-    
-    .player_invulnerable
-    
-    LDA.w $03FD : BNE .travel_bird_in_play
-    
-    LDA $4D : CMP.b #$01 : BNE .player_not_in_recoil
-    
-    .travel_bird_in_play
-    .not_liftable_per_player_damage_timer
-    
-    LDA.b #$01 : STA.w $03EA, X
-    
-    STZ.w $0294, X
-    
-    ; Set it so there's no possibility of lifting anything this frame.
-    STZ.w $02EC
-    
-    STZ.w $0BF0, X
-    
-    BRA .not_currently_liftable
-    
-    .player_not_in_recoil
-    
-    ; This code is hit when Link is within range of the bomb
-    LDA.w $0308 : BPL .player_not_carrying_anything
-    
-    BRL .player_already_carrying_something
-    
+        ; Is it in motion?
+        LDA.w $0385, X : BEQ .not_airborn
+            BRL .airborn_logic
+            
+        .not_airborn
+        
+        STX $00
+        
+        ; This is set to the special effect index + 1 of a detected collision.
+        LDA.w $02EC : BEQ .player_not_near_to_any_object
+            ; This branch fails if some other sprite triggered $02EC.
+            DEC A : CMP $00 : BEQ .closest_liftable_object_to_player
+                RTS
+            
+            .closest_liftable_object_to_player
+            
+            ; Collision detected and it matches this special effect.
+            LDY.w $037B : BNE .player_invulnerable
+                LDA $46 : BNE .not_liftable_per_player_damage_timer
+            
+            .player_invulnerable
+            
+            LDA.w $03FD : BNE .travel_bird_in_play
+                LDA $4D : CMP.b #$01 : BNE .player_not_in_recoil
+                    .travel_bird_in_play
+                    
+                    .not_liftable_per_player_damage_timer
+                    
+                    LDA.b #$01 : STA.w $03EA, X
+                    
+                    STZ.w $0294, X
+                    
+                    ; Set it so there's no possibility of lifting anything
+                    ; this frame.
+                    STZ.w $02EC
+                    
+                    STZ.w $0BF0, X
+                    
+                    BRA .not_currently_liftable
+            
+            .player_not_in_recoil
+            
+            ; This code is hit when Link is within range of the bomb.
+            LDA.w $0308 : BPL .player_not_holding_anything_yet
+                BRL .player_already_carrying_something
+        
     .not_currently_liftable
     
     BRL .altitude_physics
@@ -683,61 +657,53 @@ Ancilla_LiftableObjectLogic:
     .player_not_holding_anything_yet
     .player_not_near_to_any_object
     
-    ; Set collision detection to "false"
+    ; Set collision detection to "false".
     STZ.w $02EC
     
-    ; Check explosion status (0 = not exploded yet)
+    ; Check explosion status (0 = not exploded yet).
     LDA.w $0C5E, X : BNE .not_liftable_2
-    
-    ; See if Link is lifting or lifted anything
-    LDA.w $0308 : BNE .not_liftable_2
-    
-    LDY.b #$00
-    
-    JSR.w Ancilla_CheckPlayerCollision : BCC .not_liftable_2
-    
-    LDA.w $0C7C, X : CMP $EE : BNE .not_liftable_2
-    
-    LDA $08 : CMP.b #$10 : BCS .vertical_distance_large
-    
-    LDA $0A : CMP.b #$0C : BCC .begin_lifting
-    
-    .vertical_distance_large
-    
-    LDA $08 : CMP $0A : BCC .vertical_distance_less
-    
-    LDY.b #$00
-    
-    LDA $04 : BPL .is_player_direction_suitable_for_lift
-    
-    INY
-    
-    BRA .is_player_direction_suitable_for_lift
-    
-    .vertical_distance_less
-    
-    LDY.b #$02
-    
-    LDA $06 : BPL .is_player_direction_suitable_for_lift
-    
-    INY
-    
-    .is_player_direction_suitable_for_lift
-    
-    ; Check if player facing a proper direction for lifting the object
-    LDA.w .compatible_lift_directions, Y : CMP $2F : BNE .not_liftable_2
-    
-    .begin_lifting
-    
-    ; Collision detected?
-    TXA : INC A : STA.w $02EC
-    
-    STZ.w $0380, X
-    
-    LDA.w .lift_timers : STA.w $03B1, X
-    
-    STZ.w $0385, X
-    STZ.w $029E, X
+        ; See if Link is lifting or lifted anything.
+        LDA.w $0308 : BNE .not_liftable_2
+            LDY.b #$00
+            
+            JSR.w Ancilla_CheckPlayerCollision : BCC .not_liftable_2
+                LDA.w $0C7C, X : CMP $EE : BNE .not_liftable_2
+                    LDA $08 : CMP.b #$10 : BCS .vertical_distance_large
+                        LDA $0A : CMP.b #$0C : BCC .begin_lifting
+                    
+                    .vertical_distance_large
+                    
+                    LDA $08 : CMP $0A : BCC .vertical_distance_less
+                        LDY.b #$00
+                        
+                        LDA $04 : BPL .is_player_direction_suitable_for_lift
+                            INY
+                            
+                            BRA .is_player_direction_suitable_for_lift
+                            
+                    .vertical_distance_less
+                    
+                    LDY.b #$02
+                    
+                    LDA $06 : BPL .is_player_direction_suitable_for_lift
+                        INY
+                    
+                    .is_player_direction_suitable_for_lift
+                    
+                    ; Check if player facing a proper direction for lifting
+                    ; the object.
+                    LDA.w .compatible_lift_directions, Y : CMP $2F : BNE .not_liftable_2
+                        .begin_lifting
+                        
+                        ; Collision detected?
+                        TXA : INC A : STA.w $02EC
+                        
+                        STZ.w $0380, X
+                        
+                        LDA.w .lift_timers : STA.w $03B1, X
+                        
+                        STZ.w $0385, X
+                        STZ.w $029E, X
     
     .not_liftable_2
     
@@ -747,58 +713,51 @@ Ancilla_LiftableObjectLogic:
     
     ; Check if Link is already picking up something or throwing it.
     LDA.w $0309 : CMP.b #$02 : BEQ .throw_logic
-    
-    LDA.w $02EC : BEQ .throw_logic
-    
-    LDY.w $0380, X : CPY.b #$03 : BEQ .throw_logic
-    
-    CPY.b #$00 : BNE dont_play_lift_sfx
-    
-    LDA.w $03B1, X : CMP.b #$10 : BNE .dont_play_lift_sfx
-    
-    LDA.b #$1D : JSR.w Ancilla_DoSfx2
-    
-    .dont_play_lift_sfx
-    
-    DEC.w $03B1, X : BPL Ancilla_PegCoordsToPlayer
-    
-    ; Make Link pick up the bomb (1 all the way to 3)
-    INY : TYA : STA.w $0380, X
-    
-    LDA.w .lift_timers, Y : STA.w $03B1, X
-    
-    CPY.b #$03 : BNE Ancilla_PegCoordsToPlayer
-    
-    ; $041A4F ALTERNATE ENTRY POINT
-    shared Ancilla_PegAltitudeAbovePlayer:
-    
-    ; This subsection makes the elevation 0x11, but also pushes the y
-    ; coordinate down 0x11 pixels.
-    ; Altitude += 0x11;
-    LDA.b #$11 : STA.w $029E, X
-    
-    ; y_coord += 0x11;
-    LDA.w $0BFA, X : CLC : ADC.b #$11 : STA.w $0BFA, X
-    LDA.w $0C0E, X : ADC.b #$00 : STA.w $0C0E, X
-    
-    STZ.w $0280, X
-    
-    BRA .cant_throw
-    
-    ; $041A6A ALTERNATE ENTRY POINT
-    shared Ancilla_PegCoordsToPlayer:
-    
-    TYA : ASL #3 : CLC : ADC $2F : TAY
-    
-    LDA $20 : CLC : ADC .player_relative_y_offsets+0, Y : STA.w $0BFA, X
-    LDA $21 : ADC .player_relative_y_offsets+1, Y : STA.w $0C0E, X
-    
-    LDA $22 : CLC : ADC .player_relative_x_offsets+0, Y : STA.w $0C04, X
-    LDA $23 : ADC .player_relative_x_offsets+1, Y : STA.w $0C18, X
-    
-    .cant_throw
-    
-    RTS
+        LDA.w $02EC : BEQ .throw_logic
+            LDY.w $0380, X : CPY.b #$03 : BEQ .throw_logic
+                CPY.b #$00 : BNE .dont_play_lift_sfx
+                    LDA.w $03B1, X : CMP.b #$10 : BNE .dont_play_lift_sfx
+                        LDA.b #$1D : JSR.w Ancilla_DoSfx2
+                    
+                .dont_play_lift_sfx
+                
+                DEC.w $03B1, X : BPL Ancilla_PegCoordsToPlayer
+                    ; Make Link pick up the bomb (1 all the way to 3).
+                    INY : TYA : STA.w $0380, X
+                    
+                    LDA.w .lift_timers, Y : STA.w $03B1, X
+                    CPY.b #$03 : BNE Ancilla_PegCoordsToPlayer
+                        ; $041A4F ALTERNATE ENTRY POINT
+                        Ancilla_PegAltitudeAbovePlayer:
+                        
+                        ; This subsection makes the elevation 0x11, but also
+                        ; pushes the y coordinate down 0x11 pixels.
+                        ; Altitude += 0x11;
+                        LDA.b #$11 : STA.w $029E, X
+                        
+                        ; y_coord += 0x11;
+                        LDA.w $0BFA, X : CLC : ADC.b #$11 : STA.w $0BFA, X
+                        LDA.w $0C0E, X       : ADC.b #$00 : STA.w $0C0E, X
+                        
+                        STZ.w $0280, X
+                        
+                        ; OPTIMIZE: Just put an RTS here.
+                        BRA .cant_throw
+                    
+                ; $041A6A ALTERNATE ENTRY POINT
+                Ancilla_PegCoordsToPlayer:
+                
+                TYA : ASL #3 : CLC : ADC $2F : TAY
+                
+                LDA $20 : CLC : ADC .player_relative_y_offsets+0, Y : STA.w $0BFA, X
+                LDA $21       : ADC .player_relative_y_offsets+1, Y : STA.w $0C0E, X
+                
+                LDA $22 : CLC : ADC .player_relative_x_offsets+0, Y : STA.w $0C04, X
+                LDA $23       : ADC .player_relative_x_offsets+1, Y : STA.w $0C18, X
+                
+                .cant_throw
+                
+                RTS
     
     .throw_logic
     
