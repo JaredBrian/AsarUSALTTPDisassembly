@@ -824,7 +824,7 @@ struct WRAM $7E0000
         ; I.e. you are pressing against it directly, but aren't going anywhere,
         ; this will contain the value that $6B would have.
 
-    ; $6E[0x02] - (Player, TileAttr)
+    ; $6E[0x02] - (Player, Tile Attribute)
     .LinkDWallTile: skip $01
         ; Tile act bitfield used by slopes.
         ; High byte has an explicit STZ as well, but it is never used.
@@ -847,7 +847,7 @@ struct WRAM $7E0000
     .Work2: skip $04
         ; Used as general scratch space in a variety of different routines.
 
-    ; $76[0x02] - (Player, TileAttr)
+    ; $76[0x02] - (Player, Tile Attribute)
     .LinkInteractTile: skip $02
         ; When object, such as the player, interact with certain tile types, 
         ; the index of that tile gets stored here.
@@ -2683,21 +2683,21 @@ struct WRAM $7E0000
         ; cutscenes such as talking to any npc with an event (zelda, kiki,
         ; priest, etc.)
 
-    ; $02E5[0x02] - (Player, TileAttr)
+    ; $02E5[0x02] - (Player, Tile Attribute)
     .TileActChest: skip $02
         ; Bitfield for chest interaction. High byte unused but written. SEE TILE
         ; ACT NOTES.
         ; .... cccc
         ; c - touching chest
 
-    ; $02E7[0x01] - (Playe, TileAttrr)
+    ; $02E7[0x01] - (Playe, Tile Attribute)
     .TileActChestGrave: skip $01
         ; Tile act bitfield for big key locks and gravestone interactions.
         ; bbbb gggg
         ; b - big key lock
         ; g - gravestone
 
-    ; $02E8[0x01] - (Player, TileAttr)
+    ; $02E8[0x01] - (Player, Tile Attribute)
     .TileActSpikePegs: skip $01
         ; Tile act bitfield for spike / cactus and barrier tile interactions?
         ; bbbb ssss
@@ -2712,77 +2712,104 @@ struct WRAM $7E0000
         ; 2 - Receiving item that was spawned in the game by a sprite
         ; 3 - Receiving item that was spawned by a special object.
 
-    ; $02EA[0x02] - (Player, TileAttr)
+    ; $02EA[0x02] - (Player, Tile Attribute)
     .ChestTileType: skip $02
         ; Tile type of chests referenced when opening a chest. High byte unused
         ; but written.
 
-    ; $02EC - 
-        ; Seems to be a flag for (Link's) collision with bombs. Maybe other uses
+    ; $02EC[0x01] - (Player, Ancilla) 
+    .LiftableID: skip $01
+        ; When Link is near a liftable ancilla, this holds its slot+1. Often
+        ; just used as a non-0 check to see if Link can lift something.
 
-    ; $02ED - 
-        ; If nonzero, it indicates that Link is near the tile that triggers the
-        ; Desert Palace opening with the Book of Mudora
+    ; $02ED[0x01] - (Player, Tile Attribute, DesertBarrier) 
+    .NearPlaque: skip $01
+        ; If nonzero, it indicates that Link is near the plaque tile that
+        ; triggers the Desert Palace opening with the Book of Mudora. TODO:
+        ; Check if this is only the desert palace plaque or if its all plaques.
 
-    ; $02EE - 
-        ; Bitfield for spike floor and ????? tile interactions
-        ; ssssuuud
-        ; d - desert palace entrance trigger
+    ; $02EE[0x01] - (Player, Tile Attribute, DesertBarrier)
+    .TileActSpikePlaque: skip $01
+        ; Tile act bitfield for spike floor and hylian plaques tile interactions
+        ; ssss pppp
+        ; p - plaques
         ; s - spike floor tiles
-        ; u - not tested
 
-        ; $02EF - 
-        ; Bitfield for dashable (breakable with dash) and ????? tile interactions
-        ; dddduuuu
-        ; d - dashable
-        ; u - not tested
+    ; $02EF[0x01] - (Player, Tile Attribute)
+    .TileActBreakEntrance: skip $01
+        ; Tile act bitfield for dashable (breakable with dash) and entrances
+        ; tile interactions.
+        ; bbbb dddd
+        ;   d - entrance
+        ;   b - breakables
 
     ; $02F0[0x01] - (DesertBarrier)
+    .DesertBarrierFlag: skip $01
         ; When nonzero, the Desert Barrier activates and allows link to progress
         ; into the Desert Palace.
 
     ; $02F1[0x01] - (Player)
-        ; ??? related to dashing. Set to 0x40 at start, counts down to 0x20
+    .DashStop:
+        ; Related to dashing. Set to 0x40 at start, counts down to 0x20. If it
+        ; could reach 0x0F (which it can't), Link would stop moving. TODO:
+        ; Figure out exact use.
 
     ; $02F2[0x01] - (Tagalong)
+    .TagalongMessageSent: skip $01
         ; Used as a bitfield of event flags of a temporary nature relating to
         ; Tagalongs. Specifically these are usually used to indicate if a text
         ; message triggered by a Tagalong has already fired once while being
         ; in a room or an overworld area.
+        ; TODO: Map the bitfield.
 
-    ; $02F3[0x01] - 
-        ; There is one place where the value of zero is written to it,
-        ; but otherwise it could be considered Free RAM.
+    ; $02F3[0x01] - (Junk)
+    .Junk_02F3: skip $01
+        ; Zeroed in one place in bank 0x09, but otherwise unused.
 
-    ; $02F4[0x01] - 
-        ; Only use is for caching the current value of $0314 in some instances
+    ; $02F4[0x01] - (Player)
+    .LiftCache: skip $01
+        ; Only use is for caching the current value of $0314 while handling the
+        ; A button press.
 
-    ; $02F5[0x01] - (Player)
-        ; 0 - Not on a Somaria Platform.
-        ; 2 - On a Somaria Platform.
+    ; $02F5[0x01] - (Player, Somaria)
+    .LinkOnSomaria: skip $01
+        ; 0 - Not on a Somaria platform.
+        ; 1 - On a Somaria platform.
+        ; 2 - On a Somaria platform and moving.
 
-    ; $02F6[0x02] - (Player)
-        ; Bitfield for interaction with Blue Rupee, Grabbable, and Key Door tiles
-        ; ssssrrrr kkkkgggg
-        ; k - Key Door tiles
+    ; $02F6[0x01] - (Player, Tile Attribute)
+    .TileActHookshotDoor: skip $01
+        ; Bitfield for interaction with hookshot grabbable and key/flagable door
+        ; tiles.
+        ; kkkk gggg
+        ; k - Key Door tiles/ flagable door tiles
         ; g - Tiles grabbable by Hookshot
-        ; r - Blue Rupee tile (upper half)
-        ; s - Blue Rupee tile (lower half)
 
-    ; $02F8 - 
+    ; $02F7[0x01] - (Player, Tile Attribute)
+    .TileActRupee: skip $01
+        ; Tile act bitfield used by rupees.
+        ; bbbb rrrr
+        ;   b - rupee tiles (low)
+        ;   r - rupee tiles (high)
+        ; SEE TILE ACT NOTES
+
+    ; $02F8[0x01] - (Player)
+    .LinkThud: skip $01
         ; Flag used to make Link make a noise when he gets done bouncing after
         ; a wall he's dashed into. Thus, it only has any use in relation to
         ; dashing.
 
-    ; $02F9[0x01] - 
-        ; Best guess so far: zero if your tagalong is transforming,
-        ; nonzero otherwise.
+    ; $02F9[0x01] - (Tagalong)
+    .TagalongDraw: skip $01
+        ; When set, prevents follower from drawing and forces a game mode check.
 
-    ; $02FA - 
+    ; $02FA[0x01] - (Player, Statue)
+    .LinkDrag: skip $01
         ; Flag that is set if you are near a moveable statue (close enough to
-        ; grab it)
+        ; grab it) causes Link to drag.
 
-    ; $02FB - 
+    ; $02FB[0x05] - (Free)
+    .Free_02FB: skip $05
         ; Free RAM
 
     ; ===========================================================================
