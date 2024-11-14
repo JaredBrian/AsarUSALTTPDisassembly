@@ -8494,7 +8494,7 @@ Module09_2E_07_LoadAuxGraphics:
 }
 
 ; $01349F-$0134A8 LOCAL JUMP LOCATION
-Module09_2E_08_TriggerTilemapUpdate:
+Whirlpool_TriggerTilemapUpdate:
 {
     JSR.w Overworld_FinishTransGfx
 
@@ -9863,43 +9863,42 @@ Overworld_OperateCameraScroll:
 ; $013CFB-$013D61 LOCAL JUMP LOCATION
 OverworldHandleBGOverlayScroll:
 {
-    ; $013CFB - ZS Custom Overworld? - This one seems to control some sort of
-    ; subscreen movement but only for turtle rock. This will need to be
-    ; investigated further as to why.
-    LDX.b $8A : CPX.b #$47 : BEQ .BRANCH_OMEGA
-        LDX.b $8C
+    ; TODO: Investigate this:
+    ; Don't move the area if we are in turtle rock for some reason.
+    LDX.b $8A : CPX.b #$47 : BEQ .turtleRock
+        LDX.b $8C : CPX.b #$9C : BEQ .lavaFlow
+            CPX.b #$97 : BEQ .fogScroll
+                CPX.b #$9D : BNE .notFog
+                    .fogScroll
 
-        CPX.b #$9C : BEQ .BRANCH_ALTIMA
-            CPX.b #$97 : BEQ .BRANCH_ULTIMA
-                CPX.b #$9D : BNE .BRANCH_OMEGA
-                    .BRANCH_ULTIMA
-
+                    ; Optimize: Subtract 0?
                     LDA.w $0622 : CLC : ADC.w #$2000 : STA.w $0622
-
-                    LDA.b $E6 : ADC.w #$0000 : STA.b $E6
-
+                    LDA.b $E6         : ADC.w #$0000 : STA.b $E6
                     LDA.w $0620 : CLC : ADC.w #$2000 : STA.w $0620
+                    LDA.b $E0         : ADC.w #$0000 : STA.b $E0
 
-                    LDA.b $E0 : ADC.w #$0000 : STA.b $E0
+                    BRA .notFog
 
-                    BRA .BRANCH_OMEGA
-
-        .BRANCH_ALTIMA
+        .lavaFlow
 
         LDA.w $0622 : SEC : SBC.w #$2000 : STA.w $0622
 
+        ; Optimize: Subtract 0?
         LDA.b $E6 : SBC.w #$0000 : CLC : ADC.w $069E : STA.b $E6
 
         LDA.b $E2 : STA.b $E0
 
-    .BRANCH_OMEGA
+        .notFog
+    .turtleRock
 
-    LDA.b $A0 : CMP.w #$0181 : BNE .BRANCH_OPTIMUS
+    ; Are we going into the under the bridge area?
+    LDA.b $A0 : CMP.w #$0181 : BNE .notBridge
+        ; Adjust the subscreen overlay so that it aligns correctly.
         LDA.b $E8 : ORA.w #$0100 : STA.b $E6
 
         LDA.b $E2 : STA.b $E0
 
-    .BRANCH_OPTIMUS
+    .notBridge
 
     SEP #$20
 
@@ -9953,11 +9952,9 @@ OverworldCameraBoundaryCheck:
 
 ; ==============================================================================
 
-
 ; $013DC0-$013DC7 DATA
-Pool_UnderworldTransition_AdjustCamera_Horizontal:
+UnderworldTransition_AdjustCamera_Horizontal_boundary:
 {
-    .boundary
     dw $0000, $0100, $0100, $0000
 }
 
@@ -9970,7 +9967,7 @@ UnderworldTransition_AdjustCamera_Horizontal:
 
     .nextDirection
 
-        LDA.w Pool_UnderworldTransition_AdjustCamera_Horizontal, Y
+        LDA.w .boundary, Y
         STA.w $0614, X
     INX #2 : CPX.b #$04 : BNE .nextDirection
 

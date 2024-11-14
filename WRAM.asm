@@ -342,16 +342,8 @@ struct WRAM $7E0000
         ; causing advancement to the next subsequence of this sequence
         ; (Agahnim walking towards Zelda's cell and the text appearing.)
 
-    ; $35[0x01] - (Free)
-    .Free_35: skip $01
-        ; Free RAM
-
-    ; $36[0x01] - (Free)
-    .Free_36: skip $01
-        ; Free RAM
-
-    ; $37[0x01] - (Free)
-    .Free_37: skip $01
+    ; $35[0x03] - (Free)
+    .Free_35: skip $03
         ; Free RAM
 
     ; $38[0x02] - (Player)
@@ -832,12 +824,8 @@ struct WRAM $7E0000
         ; Moving against a / wall from above: 6
         ; SEE TILE ACT NOTES
 
-    ; $70[0x01] - (Free)
-    .Free_70: skip $01
-        ; Free RAM
-
-    ; $71[0x01] - (Free)
-    .Free_71: skip $01
+    ; $70[0x02] - (Free)
+    .Free_70: skip $02
         ; Free RAM
 
     ; $72[0x04] - (Main)
@@ -872,36 +860,8 @@ struct WRAM $7E0000
         ; Often used for temporary calculations, so don't expect it to be
         ; reflective of the current status of the player at all times.
 
-    ; $7C[0x01] - (Free)
-    .Free_7C: skip $01
-        ; Free RAM
-
-    ; $7D[0x01] - (Free)
-    .Free_7D: skip $01
-        ; Free RAM
-
-    ; $7E[0x01] - (Free)
-    .Free_7E: skip $01
-        ; Free RAM
-
-    ; $7F[0x01] - (Free)
-    .Free_7F: skip $01
-        ; Free RAM
-
-    ; $80[0x01] - (Free)
-    .Free_80: skip $01
-        ; Free RAM
-
-    ; $81[0x01] - (Free)
-    .Free_81: skip $01
-        ; Free RAM
-
-    ; $82[0x01] - (Free)
-    .Free_82: skip $01
-        ; Free RAM
-
-    ; $83[0x01] - (Free)
-    .Free_83: skip $01
+    ; $7C[0x08] - (Free)
+    .Free_7C: skip $08
         ; Free RAM
 
     ; $84[0x02] - (Overworld)
@@ -1448,6 +1408,8 @@ struct WRAM $7E0000
     ; $D0[0x01] - (Title Screen)
     .LogoSwordUnknown_D0:
         ; (Bank 0x0C) Used in the title screen logo sword. TODO: Purpose unknown.
+
+    ; TODO: Wtf i just forgot all of these i guess.
 
     ; BG positions/scroll registers.
     ; BG1:

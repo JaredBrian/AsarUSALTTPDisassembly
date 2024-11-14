@@ -5753,6 +5753,7 @@ Sprite_ApplyCalculatedDamage:
 {
     STA.b $00
     
+    ; TODO: Investigate this.
     ; THIS IS NOT USELESS!!!
     ; Removing this line makes it impossible to hit anything with your sword.
     STZ.w $0CF3
