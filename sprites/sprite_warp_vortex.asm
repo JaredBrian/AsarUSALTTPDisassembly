@@ -31,23 +31,20 @@ Sprite_WarpVortex:
         JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .delta
             JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .epsilon
                 LDA.w $0D90, X : BEQ .zeta
-                
-                LDA.w $037B : ORA.w $031F : BNE .zeta
-                
-                LDA.w $02E4 : BNE .zeta
-                
-                LDA.b #$23 : STA.b $11
-                
-                LDA.b #$01 : STA.w $02DB
-                
-                STZ.b $B0
-                STZ.b $27
-                STZ.b $28
-                
-                LDA.b #$14 : STA.b $5D
-                
-                LDA.b $8A : AND.b #$40 : STA.b $7B
-        
+                    LDA.w $037B : ORA.w $031F : BNE .zeta
+                        LDA.w $02E4 : BNE .zeta
+                            LDA.b #$23 : STA.b $11
+                            
+                            LDA.b #$01 : STA.w $02DB
+                            
+                            STZ.b $B0
+                            STZ.b $27
+                            STZ.b $28
+                            
+                            LDA.b #$14 : STA.b $5D
+                            
+                            LDA.b $8A : AND.b #$40 : STA.b $7B
+            
     .self_terminate
     
     STZ.w $0DD0, X

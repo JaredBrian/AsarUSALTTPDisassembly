@@ -7,6 +7,7 @@
 
 ; Shorthand legend:
 ; Addr = Address
+; Anc = Ancilla
 ; APU = Audio Processing Unit
 ; AUX = Auxiliary
 ; BG = BackGround
@@ -251,7 +252,8 @@ struct WRAM $7E0000
 
     ; $27[0x01] - (Player)
     .LinkYCollisionRecoil:
-        ; Link's Recoil for vertical collisions
+        ; Link's Y Recoil. This will be reset every frame Link is not in recoil
+        ; state.
 
     ; $27[0x01] - (Attract)
     .AttractNextLegendFlag: skip $01
@@ -259,16 +261,17 @@ struct WRAM $7E0000
 
     ; $28[0x01] - (Player)
     .LinkXCollisionRecoil:
-        ; Link's Recoil for horizontal collisions
+        ; Link's X Recoil. This will be reset every frame Link is not in recoil
+        ; state.
 
     ; $28[0x01] - (Attract)
     .AttractAgahXCoord: skip $01
         ; Agahnim's base X coordinate relative to the screen.
 
     ; $29[0x01] - (Player)
-    .LinkYResistance:
-        ; Vertical resistance
-        ; TODO: Figure out exactly what this is.
+    .LinkZRecoil:
+        ; Link's Z Recoil. This will be reset every frame Link is not in recoil
+        ; state.
 
     ; $29[0x01] - (Attract)
     .AttractAgahYCoord: skip $01
@@ -813,7 +816,7 @@ struct WRAM $7E0000
         ; I.e. you are pressing against it directly, but aren't going anywhere,
         ; this will contain the value that $6B would have.
 
-    ; $6E[0x02] - (Player, TileAttr)
+    ; $6E[0x02] - (Player, Tile Attribute)
     .LinkDWallTile: skip $01
         ; Tile act bitfield used by slopes.
         ; High byte has an explicit STZ as well, but it is never used.
@@ -832,7 +835,7 @@ struct WRAM $7E0000
     .Work2: skip $04
         ; Used as general scratch space in a variety of different routines.
 
-    ; $76[0x02] - (Player, TileAttr)
+    ; $76[0x02] - (Player, Tile Attribute)
     .LinkInteractTile: skip $02
         ; When object, such as the player, interact with certain tile types, 
         ; the index of that tile gets stored here.
@@ -2322,7 +2325,7 @@ struct WRAM $7E0000
         ; 0 - Will read input
         ; 1 - Will not read input
 
-    ; $0211[0x02] - (Dungeon Map)
+    ; $0211[0x02] - (Dungeon map)
     .DunMapCurrentFloor: skip $02
         ; Of the two floors shown on a dungeon map, this indicates which one is
         ; of the floor Link is currently on. High byte isn't relevant and is
@@ -2330,286 +2333,445 @@ struct WRAM $7E0000
         ;   0x00 - top map
         ;   0x02 - bottom map
 
-    ; $0213[0x02] - 
-        ; Shows up in Bank 0x0A only.
+    ; $0213[0x02] - (Dungeon map)
+    .DunMapScrollTarget: skip $02
+        ; Acts as the Y target for dungeon map scrolling. Appears to have been
+        ; used as a Y velocity for the scrolling in an unused function as well.
 
-    ; $0215[0x02] - 
-        ; Relevant to dungeon map mode sprites...
+    ; $0215[0x02] - (Dungeon map)
+    .DunMapLinkXPos: skip $02
+        ; The X position to draw the flashing red/yellow/white dot showing where
+        ; link is on the map grid. This also controls the X position of the
+        ; blinking red/white room cross hair box also showing what room the
+        ; player is.
 
-    ; $0217[0x02] - 
-        ; Dungeon map related too?
+    ; $0217[0x02] - (Dungeon map)
+    .DunMapLinkYPos: skip $01
+        ; The Y position to draw the flashing red/yellow/white dot showing where
+        ; link is on the map grid. Unlike the X position, this does NOT control
+        ; the Y position of the blinking red/white room cross hair box. That is
+        ; instead controlled by $0CF5.
 
-    ; $0219[0x02] - 
+    ; $0218[0x01] - (Dungeon map)
+    .DunMapLinkYPosHigh: skip $01
+        ; The high byte of DunMapLinkYPos.
+
+    ; $0219[0x02] - (HUD, Tilemap)
+    .HUDTileMapLocation: skip $02
         ; Specifically used as the target address in VRAM for the HUD portion of
-        ; the BG3 tilemap. For the entirety of the game this is supposed to stay
-        ; as 0x6040 (0xE080 in byte addressing)
+        ; the BG3 tilemap. $6040 is written to this once during save file
+        ; loading and then stays that way for the rest of the game.
 
-    ; $021B[0x02] - 
+    ; $021B[0x01] - (Free)
+    .Free_021B: skip $01
         ; Free RAM
+        ; According to Kan: Unused but referenced in an unused table entry
+        ; indicating this address would have been used for stripes data of
+        ; some sort...?
 
-    ; $021D[0x04] - 
-        ; Assigned the value 0x007F4841... doesn't seem to be referenced
-        ; anywhere else though Is this meant to reference the address $7F4841
+    ; $021C[0x01] - (Free)
+    .Free_021C: skip $01
+        ; Free RAM
+        ; See the note from Free_021B.
 
-    ; $0221[0x02] - 
-        ; Assigned a value of 0xFFFF (-1) in Bank 0x0C, never seems to be
-        ; referenced though.
+    ; $021D[0x01] - (Free)
+    .Free_021D: skip $01
+        ; The value 0x4841 is written to this and Free_021E once during file
+        ; loading and then never used again. Can be reasonably used as free RAM.
 
-    ; $0223[0x01] - (????)
-        ; There's a few STZ.w $0223's that pop up in the rom but other than that
-        ; it's not clear if it was ever intended to be used for anything.
+    ; $021E[0x01] - (Free)
+    .Free_021E: skip $01
+        ; See the note for Free_021D.
 
-    ; $0224[0x0C] - 
+    ; $021F[0x01] - (Free)
+    .Free_021F: skip $01
+        ; The value 0x007F is written to this and Free_0220 once during file
+        ; loading and then never used again. Can be reasonably used as free RAM.
+
+    ; $0220[0x01] - (Free)
+    .Free_0220: skip $01
+        ; See the note for Free_021F.
+
+    ; $0221[0x01] - (Free)
+    .Free_0221: skip $01
+        ; The value 0xFFFF is written to this and Free_0222 once during file
+        ; loading and then never used again. Can be reasonably used as free RAM.
+
+    ; $0222[0x01] - (Free)
+    .Free_0222: skip $01
+        ; See the note for Free_0221.
+
+    ; $0223[0x01] - (Junk)
+    .Junk_0223: skip $01
+        ; Zeroed during message routines, but never used.
+
+    ; $0224[0x0C] - (Free)
+    .Free_224: skip $0C
+        ; Free RAM. MoN did give this a note saying it wasn't but I tested it
+        ; any was unable to recreate the effects he mentioned and these adresses
+        ; are not referenced anywhere in ROM. Kan's also agrees that these are
+        ; indeed free.
+        ; Original MoN note:
         ; Free RAM? - Nope! causes some funky faded effects and a lack of an
         ; overworld.
 
-    ; $0230[0x50] - 
-        ; Tentatively considered to be Free RAM at this time
+    ; $0230[0x50] - (Free)
+    .Free_0230: skip $50
+        ; Free RAM.
 
     ; $0280[0x0A] - (Ancilla)
-        ; Special object OAM priority (full byte boolean) If nonzero, use highest
-        ; priority, otherwise use default priority.
+    .AncPriority: skip $0A
+        ; Ancilla OAM priority If nonzero, use highest priority, otherwise use
+        ; default priority.
 
     ; $028A[0x0A] - (Ancilla)
-        ; ????
+    .AncCollisionTimer: skip $0A
+        ; Timer to rate limit tile collision calculations. Set to 0x06 after a
+        ; collision.
 
     ; $0294[0x0A] - (Ancilla)
-        ; Altitude velocity (Z-coordinate velocity).
+    .AncZVelocity: skip $0A
+        ; Ancilla Z velocity.
 
     ; $029E[0x0A] - (Ancilla)
-        ; Pixel portion of Altitude.
+    .AncZPos: skip $0A
+        ; Ancilaa Z cooridnate.
 
     ; $02A8[0x0A] - (Ancilla)
-        ; Subpixel portion of altitude.
+    .AncSubZVelocity: skip $0A
+        ; Ancilla subpixel Z velocity.
 
-    ; $02B2[0x0E] - 
-        ; Free RAM
+    ; $02B2[0x0E] - (Free)
+    .Free_02B2: skip $0E
+        ; Free RAM.
 
-    ; $02C0 - 
-        ; bitfield possibly related to inroom staircases. If this variable
-        ; masked with 0x0070 is nonzero, Link moves as though he's on an
-        ; in-room south staircase If this variable masked with 0x0007 is
-        ; nonzero, Link moves as though he's on an in-room north staircase
+    ; $02C0[0x02] - (Dungeon)
+    .TileActAutoStairs: skip $02
+        ; Tile act bitfield used by intraroom stairs. If this variable masked
+        ; with s is nonzero, Link moves as though he's on an in-room south
+        ; staircase If this variable masked with n is nonzero, Link moves
+        ; as though he's on an in-room north staircase. High byte unused but
+        ; written.
+        ; .... .... sss. nnn.
+        ;   s - south
+        ;   n - north
+        ; SEE TILE ACT NOTES
 
-    ; $02C2 - 
-        ; The value of $5F gets cached here sometimes, unclear what $5F is for though right now.
+    ; $02C2[0x01] - (Junk)
+    .Junk_02C2: skip $01
+        ; The value of AttractBrightnessFlag gets cached here in a couple places
+        ; but it is never read from.
 
-    ; $02C3 - 
-        ; ????
+    ; $02C3[0x01] - (Block, Dungeon)
+    .PushBlockStep: skip $01
+        ; The step counter for push blocks.
 
-    ; $02C4 - 
-        ; ????
+    ; $02C4[0x01] - (Block, Dungeon)
+    .PushBlockTimer: skip $01
+        ; A timer used to control push blocks.
 
-    ; $02C5 - 
-        ; Related to $46 (damage countdown timer)
+    ; $02C5[0x01] - (Player)
+    .LinkJumpDelay: skip $01
+        ; Related to LinkRecoilTimer. Some weird timer/flag when doing very long
+        ; jumps or recoils. Seems to cause Link to hesitate briefly before
+        ; actually jumping.
 
-    ; $02C6[0x01] - 
-        ; ????
+    ; $02C6[0x01] - (Player)
+    .BounceShift: skip $01
+        ; Seems to be a counter for Link's bouncing and how many shifts right to
+        ; perform.
 
-    ; $02C7[0x01] - 
-        ; Probably countdown timer associated with $29
+    ; $02C7[0x01] - (Player)
+    .LinkRecoilTimerTemp: skip $01
+        ; A value to be eventually manipulated and stored into LinkRecoilTimer.
 
-    ; $02C8 - 
-        ; ????
+    
+    ; $02C8[0x01] - (Free)
+    .Free_02C8: skip $01
+        ; Free RAM.
 
-    ; $02C9 - 
-        ; Very limited usage only in Bank 0x07.
+    ; $02C9 - (Player)
+    .LinkPitFallAnimation: skip $01
+        ; Used to temporarily store the index of the pit fall animation. Only
+        ; written to once and read from very shortly after. Could be used as
+        ; free ram as long as its not in a room or area with pits. You could
+        ; also just use a PHX and PLX instead.
 
-    ; $02CA - 
-        ; ????
+    ; $02CA - (Player)
+    .PushFallTimer: skip $01
+        ; Timer that counts up to 0x1F when pushing a wall into falling.
+        ; TODO: Unsure of what it accomplishes. Could be used to handle and edge
+        ; case where the player goes straight from pushing a block into falling.
 
     ; $02CB[0x01] - (Player)
-        ; Very limited usage only in Bank 0x07.
+    .LinkSwimStrokeTimer:
+        ; A timer that controls the length of link's swim stroke.
+        ; TODO: Confirm this.
 
     ; $02CC[0x01] - (Player)
-        ; Limited usage in Bank 0x07 and 0x0D.
+    .LinkSwimAnimationOffset: skip $01
+        ; Acts as a step offset for swimming.
+        ; 0 - 
+        ; 1 - 
+        ; 2 - 
+        ; TODO: Fill these out.
 
     ; $02CD[0x02] - (Tagalong)
-        ; Counter for the beginning of the game where Zelda telepathically
-        ; contacts you over and over again. 
+    .TagalongMessageTimer: skip $01
+        ; A timer to control how long until a tagalong can display a message.
+        ; Used for the beginning of the game where Zelda telepathically
+        ; contacts you over and over again and a few other smaller cases.
+
+    ; $02CE[0x02] - (Tagalong)
+    .TagalongMessageTimerHigh: skip $01
+        ; The high byte for TagalongMessageTime.
 
     ; $02CF[0x01] - (Tagalong)
-        ; It would appear that this is the index of the current tagalong state
-        ; (out of 20 / 0x14 states) Exact usage is not clear, though.
+    .TagalongAnimationRead: skip $01
+        ; The tagalong animation step index. Used for reading data.
+        ; 0x00-0x13
+        ; TODO: Add each animation step.
 
-    ; $02D0 - 
-        ; ????
+    ; $02D0[0x01] - (Tagalong)
+    .TagalongHookshot: skip $01
+        ; Flag set when using hookshot with a tagalong. Forces game mode check.
 
-    ; $02D1 - 
-        ; Cache location for $02D3
+    ; $02D1[0x01] - (Tagalong)
+    .TagalongAnimationWriteChache: 
+        ; Temprary cache location for TagalongAnimationWrite after the hookshot
+        ; is finished.
 
     ; $02D2[0x01] - (Tagalong, Player)
+    .TagalongGrabTimer:
         ; When the player loses a Tagalong object, such as the Super Bomb or the
         ; old man, this seems to be a timer before they can be reacquired.
 
-    ; $02D3[0x01] - (Tagalong) ?
-        ; ????
+    ; $02D3[0x01] - (Tagalong)
+    .TagalongAnimationWrite: skip $01
+        ; The tagalong animation step index. Used for writing data.
+        ; 0x00-0x13
+        ; TODO: Add each animation step.
 
-    ; $02D4 - 
-        ; Apparently a debug variable, doesn't appear to be used in the real game
+    ; $02D4[0x01] - (Junk)
+    .Junk_02D4: skip $01
+        ; Zeroed in one location, never read.
 
-    ; $02D5 - 
+    ; $02D5[0x01] - (Free)
+    .Free_02D5: skip $01
         ; Free RAM
 
-    ; $02D6 - 
-        ; ???? relates to tagalongs
+    ; $02D6[0x01] - (Junk)
+    .Junk_02D6: skip $01
+        ; Zeroed twice in tagalong code, never read.
 
-    ; $02D7 - 
-        ; ????
+    ; $02D7[0x01] - (Tagalong)
+    .TagalongDrawChange
+        ; TODO: Seems to be something with overriding properties by changing the
+        ; chr read. Needs further investigation.
 
-    ; $02D8[0x01] - (ReceiveItem)
+    ; $02D8[0x01] - (Item)
+    .RecieveItem: skip $01
         ; The index of the item you receive when you open a chest or pick up
         ; an item off the ground, or otherwise obtain the item (like the player
         ; getting the sword from the Uncle)
+        ; TODO: Add all of the available items.
 
-    ; $02D9[0x01] - 
-        ; Related to $02D8, haven't worked out the details because it wasn't
-        ; necessary yet.
+    ; $02D9[0x01] - (Junk)
+    Junk_02D9: skip $01
+        ; Written to with a value of 0x60 when receiving an item, but never read.
 
     ; $02DA[0x01] - (Player)
+    .LinkItemPose: skip $01
         ; Flag indicating whether Link is in the pose used to hold an item
         ; or not.
-        ; 0 - no extra pose.
-        ; 1 - (and other value besides 2) holding up item with one hand pose
-        ; 2 - holding up item with two hands pose (e.g. triforce)
+        ; 0x00            - No extra pose.
+        ; 0x01, 0x03-0xFF - Holding up item with one hand pose
+        ; 0x02            - Holding up item with two hands pose (e.g. triforce)
 
     ; $02DB[0x01] - (Player)
-        ; Triggered by the Whirlpool sprite (but only when touched in Area 0x1B).
-        ; The Whirlpool sprite used is not visible to the player, and is placed
-        ; in the open perimeter gate to Hyrule Castle after beating Agahnim. I
+    .PreventWarp: skip $01
+        ; Flag that prevents warp tiles from activating. Set during world
+        ; changes, but always seems cleared before it can be read. Triggered by
+        ; the Whirlpool sprite (but only when touched in Area 0x1B). The
+        ; Whirlpool sprite used is not visible to the player, and is placed in
+        ; the open perimeter gate to Hyrule Castle after beating Agahnim. I
         ; guess they needed some mechanism to make that happen, and that sprite
-        ; was specialized in order to do so. Apparently this is set when warping
-        ; to the Dark World?
+        ; was specialized in order to do so.
 
-    ; $02DC - 
-        ; Mirror of Link's X coordinate which is used in Bank 07's movement
-        ; routines.
+    ; $02DC[0x02] - (Player)
+    .LinkXCoordCache: skip $01
+        ; Mirror of Link's X coordinate which is used in a Bank 07 function
+        ; Link_HandleDiagonalKickback.
 
-    ; $02DE - 
-        ; Mirror of Link's Y coordinate which is used in Bank 07's movement
-        ; routines.
+    ; $02DD[0x01] - (Player)
+    .LinkXCoordCacheHigh: skip $01
+        ; The high byte of LinkXCoordCache.
+
+    ; $02DE[0x02] - (Player)
+    .LinkYCoordCache: skip $02
+        ; Mirror of Link's Y coordinate which is used in a Bank 07 function
+        ; Link_HandleDiagonalKickback.
+
+    ; $02DF[0x01] - (Player)
+    .LinkYCoordCache: skip $01
+        ; The high byte of LinkYCoordCache.
 
     ; $02E0[0x01] - (Player)
-        ; Flag for Link's graphics set.
-        ; 0 - Normal Link
-        ; 1 - Bunny Link (Mirrored at $56)
+    .LinkIsBunny2: skip $01
+        ; Flag for Link's graphics set. Mirrored at LinkIsBunny, One of the 2
+        ; could just be removed as they appear to always be eqaul.
+        ; 0 - Normal Link.
+        ; 1 - Bunny Link.
         ; All other values are invalid.
 
     ; $02E1[0x01] - (Player)
-        ; Link is transforming? (Poofing in a cloud to transform into something
-        ; else.)
+    .IsPoofing: skip $01
+        ; Link is transforming? Poofing in a cloud to transform into the bunny
+        ; or when using the cape.
 
-    ; $02E2 - 
-        ; Timer for when Link transforms between Link and Bunny modes.
+    ; $02E2[0x01] - (Player)
+    .PoofTimer: skip $01
+        ; Timer for when Link is poofing.
 
     ; $02E3[0x01] - (Player)
-        ; (Slightly uncertain about this) Delay timer between attacks involving
-        ; the sword. In essence, the repeat rate at which you are able to swing
-        ; your sword. May have an impact on other types of sword attacks like
-        ; stabbing and dash attacks.
+    .SwordCoolDown: skip $01
+        ; Cooldown timer for the sword after dashing through an enemy. Is set on
+        ; hits in general, but often irrelevant.
 
-    ; $02E4[0x01] - (Player)
-        ; Flag that, if nonzero, will not allow Link to move. Requires further
-        ; research as to its generalized usage. Also... Link cannot bring down
-        ; the menu if this is nonzero. Additionally.
+    ; $02E4[0x01] - (Player, Tagalong, Equipment)
+    .CutsceneFlag: skip $01
+        ; Flag that, if nonzero, will not allow Link to move, tagalongs to move,
+        ; will not allow entering the equipment menu, etc. Generally used during
+        ; cutscenes such as talking to any npc with an event (zelda, kiki,
+        ; priest, etc.)
 
-    ; $02E5[0x01] - (Player)
-        ; Bitfield for chest interaction
-        ; uuuucccc
+    ; $02E5[0x02] - (Player, Tile Attribute)
+    .TileActChest: skip $02
+        ; Bitfield for chest interaction. High byte unused but written. SEE TILE
+        ; ACT NOTES.
+        ; .... cccc
         ; c - touching chest
-        ; u - Free RAM
 
-    ; $02E6 - 
-        ; Free RAM, but could be used as a bitfield for expanded tile types
-
-    ; $02E7 - 
-        ; Bitfield for big key locks and gravestone interactions.
-        ; bbbbgggg
+    ; $02E7[0x01] - (Playe, Tile Attribute)
+    .TileActChestGrave: skip $01
+        ; Tile act bitfield for big key locks and gravestone interactions.
+        ; bbbb gggg
         ; b - big key lock
         ; g - gravestone
 
-    ; $02E8 - 
-        ; Bitfield for spike / cactus and barrier tile interactions?
-        ; bbbbssss
+    ; $02E8[0x01] - (Player, Tile Attribute)
+    .TileActSpikePegs: skip $01
+        ; Tile act bitfield for spike / cactus and barrier tile interactions?
+        ; bbbb ssss
         ; s - spike blocks / cactus tiles
         ; b - orange / blue barrier tiles that are up
 
-    ; $02E9 - 
-        ; Item Receipt Method
+    ; $02E9[0x01] - (Item)
+    .RecieveItemMethod: 
+        ; The method by which the player is recieving an item.
         ; 0 - Receiving item from an NPC or message
         ; 1 - Receiving item from a chest
         ; 2 - Receiving item that was spawned in the game by a sprite
         ; 3 - Receiving item that was spawned by a special object.
 
-    ; $02EA - 
-        ; Set to the tile type
+    ; $02EA[0x02] - (Player, Tile Attribute)
+    .ChestTileType: skip $02
+        ; Tile type of chests referenced when opening a chest. High byte unused
+        ; but written.
 
-    ; $02EC - 
-        ; seems to be a flag for (Link's) collision with bombs. Maybe other uses
+    ; $02EC[0x01] - (Player, Ancilla) 
+    .LiftableID: skip $01
+        ; When Link is near a liftable ancilla, this holds its slot+1. Often
+        ; just used as a non-0 check to see if Link can lift something.
 
-    ; $02ED - 
-        ; If nonzero, it indicates that Link is near the tile that triggers the
-        ; Desert Palace opening with the Book of Mudora
+    ; $02ED[0x01] - (Player, Tile Attribute, DesertBarrier) 
+    .NearPlaque: skip $01
+        ; If nonzero, it indicates that Link is near the plaque tile that
+        ; triggers the Desert Palace opening with the Book of Mudora. TODO:
+        ; Check if this is only the desert palace plaque or if its all plaques.
 
-    ; $02EE - 
-        ; Bitfield for spike floor and ????? tile interactions
-        ; ssssuuud
-        ; d - desert palace entrance trigger
+    ; $02EE[0x01] - (Player, Tile Attribute, DesertBarrier)
+    .TileActSpikePlaque: skip $01
+        ; Tile act bitfield for spike floor and hylian plaques tile interactions
+        ; ssss pppp
+        ; p - plaques
         ; s - spike floor tiles
-        ; u - not tested
 
-        ; $02EF - 
-        ; Bitfield for dashable (breakable with dash) and ????? tile interactions
-        ; dddduuuu
-        ; d - dashable
-        ; u - not tested
+    ; $02EF[0x01] - (Player, Tile Attribute)
+    .TileActBreakEntrance: skip $01
+        ; Tile act bitfield for dashable (breakable with dash) and entrances
+        ; tile interactions.
+        ; bbbb dddd
+        ;   d - entrance
+        ;   b - breakables
 
     ; $02F0[0x01] - (DesertBarrier)
+    .DesertBarrierFlag: skip $01
         ; When nonzero, the Desert Barrier activates and allows link to progress
         ; into the Desert Palace.
 
     ; $02F1[0x01] - (Player)
-        ; ??? related to dashing. Set to 0x40 at start, counts down to 0x20
+    .DashStop:
+        ; Related to dashing. Set to 0x40 at start, counts down to 0x20. If it
+        ; could reach 0x0F (which it can't), Link would stop moving. TODO:
+        ; Figure out exact use.
 
     ; $02F2[0x01] - (Tagalong)
+    .TagalongMessageSent: skip $01
         ; Used as a bitfield of event flags of a temporary nature relating to
         ; Tagalongs. Specifically these are usually used to indicate if a text
         ; message triggered by a Tagalong has already fired once while being
         ; in a room or an overworld area.
+        ; TODO: Map the bitfield.
 
-    ; $02F3[0x01] - 
-        ; There is one place where the value of zero is written to it,
-        ; but otherwise it could be considered Free RAM.
+    ; $02F3[0x01] - (Junk)
+    .Junk_02F3: skip $01
+        ; Zeroed in one place in bank 0x09, but otherwise unused.
 
-    ; $02F4[0x01] - 
-        ; Only use is for caching the current value of $0314 in some instances
+    ; $02F4[0x01] - (Player)
+    .LiftCache: skip $01
+        ; Only use is for caching the current value of $0314 while handling the
+        ; A button press.
 
-    ; $02F5[0x01] - (Player)
-        ; 0 - Not on a Somaria Platform.
-        ; 2 - On a Somaria Platform.
+    ; $02F5[0x01] - (Player, Somaria)
+    .LinkOnSomaria: skip $01
+        ; 0 - Not on a Somaria platform.
+        ; 1 - On a Somaria platform.
+        ; 2 - On a Somaria platform and moving.
 
-    ; $02F6[0x02] - (Player)
-        ; Bitfield for interaction with Blue Rupee, Grabbable, and Key Door tiles
-        ; ssssrrrr kkkkgggg
-        ; k - Key Door tiles
+    ; $02F6[0x01] - (Player, Tile Attribute)
+    .TileActHookshotDoor: skip $01
+        ; Bitfield for interaction with hookshot grabbable and key/flagable door
+        ; tiles.
+        ; kkkk gggg
+        ; k - Key Door tiles/ flagable door tiles
         ; g - Tiles grabbable by Hookshot
-        ; r - Blue Rupee tile (upper half)
-        ; s - Blue Rupee tile (lower half)
 
-    ; $02F8 - 
+    ; $02F7[0x01] - (Player, Tile Attribute)
+    .TileActRupee: skip $01
+        ; Tile act bitfield used by rupees.
+        ; bbbb rrrr
+        ;   b - rupee tiles (low)
+        ;   r - rupee tiles (high)
+        ; SEE TILE ACT NOTES
+
+    ; $02F8[0x01] - (Player)
+    .LinkThud: skip $01
         ; Flag used to make Link make a noise when he gets done bouncing after
         ; a wall he's dashed into. Thus, it only has any use in relation to
         ; dashing.
 
-    ; $02F9[0x01] - 
-        ; Best guess so far: zero if your tagalong is transforming,
-        ; nonzero otherwise.
+    ; $02F9[0x01] - (Tagalong)
+    .TagalongDraw: skip $01
+        ; When set, prevents follower from drawing and forces a game mode check.
 
-    ; $02FA - 
+    ; $02FA[0x01] - (Player, Statue)
+    .LinkDrag: skip $01
         ; Flag that is set if you are near a moveable statue (close enough to
-        ; grab it)
+        ; grab it) causes Link to drag.
 
-    ; $02FB - 
+    ; $02FB[0x05] - (Free)
+    .Free_02FB: skip $05
         ; Free RAM
 
     ; ===========================================================================

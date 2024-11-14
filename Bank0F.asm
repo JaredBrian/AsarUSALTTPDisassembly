@@ -4896,8 +4896,13 @@ Main_ShowTextMessage:
 {
     ; Are we in text mode? If so then end the routine.
 	LDA.b $10 : CMP.b #$0E : BEQ .already_in_text_mode
-        STZ.w $0223 ; Otherwise set it so we are in text mode.
-        STZ.w $1CD8 ; Initialize the step in the submodule.
+        ; Otherwise set it so we are in text mode.
+
+        ; Unused: Only ever set to 0.
+        STZ.w $0223
+
+        ; Initialize the step in the submodule.
+        STZ.w $1CD8
         
         ; Go to text display mode (as opposed to maps, etc).
         LDA.b #$02 : STA.b $11

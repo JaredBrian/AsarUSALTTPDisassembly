@@ -5283,8 +5283,6 @@ Pool_PalaceMap_Scroll:
     dw   4 ; Up
 }
 
-; ==============================================================================
-
 ; $056A7F-$056AB1 JUMP LOCATION (LONG)
 PalaceMap_Scroll:
 {
@@ -5430,6 +5428,8 @@ Pool_DungeonMap_DrawBlinkingIndicator:
     db $3B, $3B, $3B, $3B
 }
 
+; This is the little blinking red/yellow/white dot that shows link's exact
+; position in the map.
 ; $056B50-$056B89 LOCAL JUMP LOCATION
 DungeonMap_DrawBlinkingIndicator:
 {
@@ -5497,6 +5497,7 @@ Pool_DungeonMap_DrawLocationMarker:
     dw $0180, $01E0, $0240
 }
 
+; This is the blinking white/red box on the grid in the dungeon map.
 ; $056BA8-$056C09 LOCAL JUMP LOCATION
 DungeonMap_DrawLocationMarker:
 {
@@ -5510,7 +5511,9 @@ DungeonMap_DrawLocationMarker:
         
         TXA : ASL #2 : TAX
         
-        LDA.w $0215 : AND.b #$F0 : CLC : ADC.w Pool_DungeonMap_DrawLocationMarker_offset_x, Y : STA.w $0800, X
+        LDA.w $0215 : AND.b #$F0
+        CLC : ADC.w Pool_DungeonMap_DrawLocationMarker_offset_x, Y
+        STA.w $0800, X
         
         PHY
         
@@ -5520,7 +5523,8 @@ DungeonMap_DrawLocationMarker:
         
         PLY
         
-        CLC : ADC.w Pool_DungeonMap_DrawLocationMarker_offset_y, Y : STA.w $0801, X
+        CLC : ADC.w Pool_DungeonMap_DrawLocationMarker_offset_y, Y
+        STA.w $0801, X
         
         STZ.w $0802, X
         
@@ -5538,7 +5542,8 @@ DungeonMap_DrawLocationMarker:
 
         .BRANCH_ALPHA
 
-        LDA.b $0C : ORA.w Pool_DungeonMap_DrawLocationMarker_palette_flash, Y : STA.w $0803, X
+        LDA.b $0C : ORA.w Pool_DungeonMap_DrawLocationMarker_palette_flash, Y
+        STA.w $0803, X
         
         PLY
         
