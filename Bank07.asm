@@ -4387,7 +4387,9 @@ Link_HandleYItem:
             CPY.b #$06 : BNE .BRANCH_LAMBDA
                 .BRANCH_KAPPA
                 
+                ; OPTIMIZE: Wtf? Why not just subtract 4?
                 ; Only gets triggered if the previous item was one of the rods.
+                ; This is to change differentiate which rod to use.
                 LDA.w $0304 : SEC : SBC.b #$05 : INC A : STA.w $0307
                 
             .BRANCH_LAMBDA
@@ -8858,7 +8860,7 @@ Link_HandleCardinalCollision:
     JSR.w CheckIfRoomNeedsDoubleLayerCheck : BCC .BRANCH_BETA
         ; "Check collision" as named in Hyrule Magic
         ; Keep in mind that outdoors, collisions are always 0, i.e. "normal"
-        ; Why load it twice, homes?
+        ; Why load it twice?
         LDA.w $046C : CMP.b #$02 : BCC .BRANCH_GAMMA
             LDA.w $046C : CMP.b #$03 : BEQ .BRANCH_GAMMA
                 LDA.b #$02 : STA.w $0315

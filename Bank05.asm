@@ -36,7 +36,7 @@ Sprite_SpawnSparkleGarnish:
         JSL.l GetRandomInt : AND.b #$03 : TAX
         
         LDA.l Pool_Sprite_SpawnSparkleGarnish_low_offset, X  : STA.b $02
-        LDA.l Pool_Sprite_SpawnSparkleGarnish_high_offset, X : STA.b $0303
+        LDA.l Pool_Sprite_SpawnSparkleGarnish_high_offset, X : STA.b $03
         
         LDX.b #$1D
         
@@ -61,8 +61,8 @@ Sprite_SpawnSparkleGarnish:
         LDA.w $0D10, Y : CLC : ADC.b $00 : STA.l $7FF83C, X
         LDA.w $0D30, Y :       ADC.b $01 : STA.l $7FF878, X
         
-        LDA.w $0D00, Y : CLC : ADC.b $0202 : STA.l $7FF81E, X
-        LDA.w $0D20, Y :       ADC.b $0303 : STA.l $7FF85A, X
+        LDA.w $0D00, Y : CLC : ADC.b $02 : STA.l $7FF81E, X
+        LDA.w $0D20, Y :       ADC.b $03 : STA.l $7FF85A, X
         
         ; Set the associated sprite index for the garnish sprite?
         TYA : STA.l $7FF92C, X
@@ -392,7 +392,7 @@ Sprite_Probe:
     
     JSR.w Sprite2_PrepOamCoord
     
-    LDA.b $01 : ORA.b $0303 : BEQ .return
+    LDA.b $01 : ORA.b $03 : BEQ .return
         .theta
         
         STZ.w $0DD0, X
@@ -2292,8 +2292,8 @@ JavelinTrooper_SpawnProjectile:
         LDA.b $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
         LDA.b $0101 :     ADC .x_offsets_high, X : STA.w $0D30, Y
         
-        LDA.b $0202 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
-        LDA.b $0303 :       ADC .y_offsets_high, X : STA.w $0D20, Y
+        LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+        LDA.b $03 :       ADC .y_offsets_high, X : STA.w $0D20, Y
         
         LDA.w .x_speeds, X : STA.w $0D50, Y
         

@@ -345,8 +345,16 @@ struct WRAM $7E0000
         ; causing advancement to the next subsequence of this sequence
         ; (Agahnim walking towards Zelda's cell and the text appearing.)
 
-    ; $35[0x03] - (Free)
-    .Free_35: skip $03
+    ; $35[0x01] - (Free)
+    .Free_35: skip $01
+        ; Free RAM
+
+    ; $36[0x01] - (Free)
+    .Free_36: skip $01
+        ; Free RAM
+
+    ; $37[0x01] - (Free)
+    .Free_37: skip $01
         ; Free RAM
 
     ; $38[0x02] - (Player)
@@ -827,8 +835,12 @@ struct WRAM $7E0000
         ; Moving against a / wall from above: 6
         ; SEE TILE ACT NOTES
 
-    ; $70[0x02] - (Free)
-    .Free_70: skip $02
+    ; $70[0x01] - (Free)
+    .Free_70: skip $01
+        ; Free RAM
+
+    ; $71[0x01] - (Free)
+    .Free_71: skip $01
         ; Free RAM
 
     ; $72[0x04] - (Main)
@@ -863,8 +875,36 @@ struct WRAM $7E0000
         ; Often used for temporary calculations, so don't expect it to be
         ; reflective of the current status of the player at all times.
 
-    ; $7C[0x08] - (Free)
-    .Free_7C: skip $08
+    ; $7C[0x01] - (Free)
+    .Free_7C: skip $01
+        ; Free RAM
+
+    ; $7D[0x01] - (Free)
+    .Free_7D: skip $01
+        ; Free RAM
+
+    ; $7E[0x01] - (Free)
+    .Free_7E: skip $01
+        ; Free RAM
+
+    ; $7F[0x01] - (Free)
+    .Free_7F: skip $01
+        ; Free RAM
+
+    ; $80[0x01] - (Free)
+    .Free_80: skip $01
+        ; Free RAM
+
+    ; $81[0x01] - (Free)
+    .Free_81: skip $01
+        ; Free RAM
+
+    ; $82[0x01] - (Free)
+    .Free_82: skip $01
+        ; Free RAM
+
+    ; $83[0x01] - (Free)
+    .Free_83: skip $01
         ; Free RAM
 
     ; $84[0x02] - (Overworld)
@@ -1412,8 +1452,6 @@ struct WRAM $7E0000
     .LogoSwordUnknown_D0:
         ; (Bank 0x0C) Used in the title screen logo sword. TODO: Purpose unknown.
 
-    ; TODO: Wtf i just forgot all of these i guess.
-
     ; BG positions/scroll registers.
     ; BG1:
     ;     Dungeon: Lower level objects
@@ -1630,7 +1668,7 @@ struct WRAM $7E0000
         ; R - Right shoulder button
         ; i - ID for the controller type.
 
-    ; $F4[0x01] - 
+    ; $F4[0x01] - (Input, NMI)
     .Joypad1PressedHigh: skip $01
         ; Pressed Joypad 1 high Register (SNES.JoyPad1DataHigh / $4219).
         ; This is a rising edge trigger for the current state of the input.
@@ -1646,7 +1684,7 @@ struct WRAM $7E0000
         ; l - Left d-pad
         ; r - Right d-pad
 
-    ; $F5[0x01] - 
+    ; $F5[0x01] - (Input, NMI)
     .Joypad2PressedHigh: skip $01
         ; Pressed Joypad 2 high Register (SNES.JoyPad2DataHigh / $421B).
         ; This is a rising edge trigger for the current state of the input.
@@ -1662,7 +1700,7 @@ struct WRAM $7E0000
         ; l - Left d-pad
         ; r - Right d-pad
 
-    ; $F6[0x01] - 
+    ; $F6[0x01] - (Input, NMI)
     .Joypad1PressedLow: skip $01
         ; Pressed Joypad 1 low Register (SNES.JoyPad1DataLow / $4218)
         ; This is a rising edge trigger for the current state of the input.
@@ -1675,7 +1713,7 @@ struct WRAM $7E0000
         ; R - Right shoulder button
         ; i - ID for the controller type.
 
-    ; $F7[0x01] - 
+    ; $F7[0x01] - (Input, NMI)
     .Joypad2PressedLow: skip $01
         ; Pressed Joypad 2 low Register (SNES.JoyPad2DataLow / $421A)
         ; This is a rising edge trigger for the current state of the input.
@@ -1688,7 +1726,7 @@ struct WRAM $7E0000
         ; R - Right shoulder button
         ; i - ID for the controller type.
 
-    ; $F8[0x01] - 
+    ; $F8[0x01] - (Input, NMI)
     .Joypad1LastHigh: skip $01
         ; Unfiltered Joypad 1 high Register (SNES.JoyPad1DataHigh / $4219) from
         ; the previous frame. Updated once per frame during NMI.
@@ -1702,7 +1740,7 @@ struct WRAM $7E0000
         ; l - Left d-pad
         ; r - Right d-pad
 
-    ; $F9[0x01] - 
+    ; $F9[0x01] - (Input, NMI)
     .Joypad2LastHigh: skip $01
         ; Unfiltered Joypad 2 high Register (SNES.JoyPad2DataHigh / $421B) from
         ; the previous frame. Input from joypad 2 is not read unless you do some
@@ -1717,7 +1755,7 @@ struct WRAM $7E0000
         ; l - Left d-pad
         ; r - Right d-pad
 
-    ; $FA[0x01] - 
+    ; $FA[0x01] - (Input, NMI)
     .Joypad1LastLow: skip $01
         ; Unfiltered Joypad 1 low Register (SNES.JoyPad1DataLow / $4218) from
         ; the previous frame. Updated once per frame during NMI.
@@ -1732,7 +1770,7 @@ struct WRAM $7E0000
     .PolyUnknown_FA: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
-    ; $FB[0x01] - 
+    ; $FB[0x01] - (Input, NMI)
     .Joypad2LastLow:
         ; Unfiltered Joypad 2 low Register (SNES.JoyPad2DataLow / $421A) from
         ; the previous frame. Input from joypad 2 is not read unless you do some
@@ -2274,7 +2312,7 @@ struct WRAM $7E0000
         ; filled in occurs (the rotating animation).
 
     ; $0209[0x01] - (HUD)
-    .HeartFlipFrame:
+    .HeartFlipFrame: skip $01
         ; Index related to HeartFlipTimer. This determines the chr used in each
         ; step of the heart refil animation. When HeartFlipTimer counts down to
         ; zero, $0209 is incremented, then once $0209 reaches 4 it is reset and
@@ -2485,7 +2523,6 @@ struct WRAM $7E0000
     .LinkRecoilTimerTemp: skip $01
         ; A value to be eventually manipulated and stored into LinkRecoilTimer.
 
-    
     ; $02C8[0x01] - (Free)
     .Free_02C8: skip $01
         ; Free RAM.
@@ -2504,7 +2541,7 @@ struct WRAM $7E0000
         ; case where the player goes straight from pushing a block into falling.
 
     ; $02CB[0x01] - (Player)
-    .LinkSwimStrokeTimer:
+    .LinkSwimStrokeTimer: skip $01
         ; A timer that controls the length of link's swim stroke.
         ; TODO: Confirm this.
 
@@ -2537,12 +2574,12 @@ struct WRAM $7E0000
         ; Flag set when using hookshot with a tagalong. Forces game mode check.
 
     ; $02D1[0x01] - (Tagalong)
-    .TagalongAnimationWriteChache: 
+    .TagalongAnimationWriteChache: skip $01
         ; Temprary cache location for TagalongAnimationWrite after the hookshot
         ; is finished.
 
     ; $02D2[0x01] - (Tagalong, Player)
-    .TagalongGrabTimer:
+    .TagalongGrabTimer: skip $01
         ; When the player loses a Tagalong object, such as the Super Bomb or the
         ; old man, this seems to be a timer before they can be reacquired.
 
@@ -2711,7 +2748,7 @@ struct WRAM $7E0000
         ; into the Desert Palace.
 
     ; $02F1[0x01] - (Player)
-    .DashStop:
+    .DashStop: skip $01
         ; Related to dashing. Set to 0x40 at start, counts down to 0x20. If it
         ; could reach 0x0F (which it can't), Link would stop moving. TODO:
         ; Figure out exact use.
@@ -2778,37 +2815,39 @@ struct WRAM $7E0000
     ; Page 0x03
     ; ===========================================================================
 
-    ; $0300[0x01] - 
-        ; Link's state changes? Happens when using boomerang.
-        ; Also related to electrocution maybe?
-        ; Also related to recieving an item.
+    ; $0300[0x01] - (Player)
+    .ElectrocutionTimer:
+        ; Timer for player electrocution.
 
-    ; $0301[0x01] - (Player)
-        ; bmuaethr
+    ; $0300[0x01] - (Player, Item)
+    .ItemStep: skip $01
+        ; Step counter for item animations.
+
+    ; $0301[0x01] - (Player, Item)
+    .ItemUseFlag: skip $01
+        ; bp.aethr
         ; When non zero, Link has something in his hand, poised to strike. It's
-        ; intended that only one bit in this flag be set at any time, though.
+        ; intended that only one bit in this flag be set at any time.
         ; b - Boomerang
-        ; m - Magic Powder
-        ; u - Unused
+        ; p - Magic Powder
         ; a - Bow and Arrow
-        ; e - Tested for, but doesn't seem to correspond to any actual item or
-        ; action. Possibly could indicate an item that was cut from the game
-        ; during development. It is, in fact, tested for simultaneously with
-        ; the hammer in many locations. Perhaps this suggests another
-        ; hammer-like item was in the works.
-        ; t - Tested for exclusively with the 'r' bit, but no code seems to set
-        ; this particular bit. Perhaps at one point the bits for the two rods
-        ; were separate at some point?
+        ; e - Tested for simultaneously with the hammer in many locations. Perhaps
+        ;     this suggests another hammer-like item was cut from the game during
+        ;     development.
+        ; t - Tested for exclusively with the rods bit, but no code seems to set
+        ;     this particular bit. Perhaps at one point the bits for the two rods
+        ;     were separate at some point.
         ; h - Hammer
         ; r - Ice Rod or Fire Rod
 
     ; $0302[0x01] - (Player)
-        ; ????
+    .PlayerCollision: skip $01
+        ; Seems to be a flag for intraframe wall collisions, indicating pushback.
 
-    ; $0303[0x01] - (Player)
-        ; In conjunction with the above variable when set to 0x13, matching the
-        ; above variable, the cape transformation is complete. This indicates
-        ; which secondary item is equipped (aka Y-button item).
+    ; $0303[0x01] - (Player, Item)
+    .CurrentItem: skip $01
+        ; This indicates which secondary item is equipped (aka Y-button item).
+        ; See: MenuID_to_EquipID in bank 0x0D.
         ; 0x00 - Nothing
         ; 0x01 - Bombs
         ; 0x02 - Boomerang
@@ -2831,98 +2870,137 @@ struct WRAM $7E0000
         ; 0x13 - Cape
         ; 0x14 - Magic Mirror
 
-    ; $0304 - 
-        ; Related to the magic cape transformation (a flag probably).
+    ; $0304[0x01] - (Player, Item)
+    .ActiveItem: skip $01
+        ; The actively being used item, copied from CurrentItem.
 
-    ; $0305 - 
+    ; $0305[0x01] - (Junk)
+    .Junk_0305: skip $01
         ; Debug variable only seen in Bank 07. If not equal to 0x01,
         ; it will cause $1E and $1F to not be zeroed out every frame,
         ; which could cause some graphical oddities.
 
-    ; $0306 - 
+    ; $0306[0x01] - (Junk)
+    .Junk_0306: skip $01
         ; Apparently only written to as a temporary cache for the
-        ; A button action. Never read, so could be considered Free RAM,
-        ; though the write to it would have to be disabled.
+        ; A button action $036C but never read from.
 
-    ; $0307 - 
-        ; Something to do with rods during player sprite OAM handling.
-        ; (????)
+    ; $0307[0x01] - (Item)
+    .RodType: skip $01
+        ; Contains ActiveItem minus 4 to get rod type. This is used to change the
+        ; palette of the rod during player OAM and to control which ice or fire
+        ; ancilla to spawn from it.
+        ;   0x01 - Fire rod
+        ;   0x02 - Ice rod
+        ; Any other value would crash the game on use.
 
-    ; $0308[0x01] -
-        ; Bit 7 - is set when Link is carrying something.
-        ; Bit 1 - set when Link is praying?
+    ; $0308[0x01] - (Player)
+    .AAction: skip $01
+        ; Bitfield for certain A button presses.
+        ; h... ..dt
+        ;   h - carrying/tossing item (including wishing wells)
+        ;   d - Desert prayer
+        ;   t - tree pull
 
-    ; $0309[0x01] -
-        ; 0 - nothing.
-        ; 1 - picking up something.
-        ; 2 - throwing something or halfway done picking up something.
+    ; $0309[0x01] - (Player)
+    .PlayerCarryFlag: skip $01
+        ; Bitfield for carry-related actions.
+        ; .... ..tl
+        ;   t - tossing object
+        ;   l - lifting object
 
-    ; $030A[0x01] - (PlayerOam)
-        ; Step counter used with $030B. Also, $030A-B seem to be used for the
-        ; opening of the desert palace
+    ; $030A[0x01] - (Player, OAM)
+    .PlayerStrainAnimation: skip $01
+        ; Indexes Link's grab animation, but all nonzero values seem to behave the
+        ; same way. Used with $030B.
+        
+        ; TODO: Investigate this.
+        ; Also, $030A-B seem to be used for the opening of the desert palace.
 
-    ; $030B[0x01] -
-        ; Animation timer for throwing and picking up items like rocks or signs
+    ; $030B[0x01] - (Player, OAM)
+    .PlayerStrainTimer: skip $01
+        ; Animation timer for throwing and picking up items like rocks or signs.
 
-    ; $030C - 
-        ; ??? Free RAM?
+    ; $030C[0x01] - (Free)
+    .Free_030C: skip $01
+        ; Free RAM.
 
-    ; $030D - 
-        ; ????
+    ; $030D[0x01] - (Player, OAM)
+    .PlayerSweat: skip $01
+        ; Player sweat drop animation.
 
-    ; $030E - 
+    ; $030E[0x01] - (Junk)
+    .Junk_030E: skip $01
         ; Always seems to be set to 0, and only read during OAM handling
         ; of the player sprite.
 
-    ; $030F - 
-        ; Free RAM
+    ; $030F[0x01] - (Free)
+    .Free_030F: skip $01
+        ; Free RAM.
 
-    ; $0310 - 
-        ; The Y velocity of a moving floor (Mothula's room)
+    ; $0310[0x02] - (Dungeon)
+    .FloorVelocityY: skip $02
+        ; The Y velocity of a moving floor (For example: Mothula's room).
 
-    ; $0312 - 
-        ; The X velocity of a moving floor (Mothula's room)
+    ; $0312[0x02] - (Dungeon)
+    .FloorVelocityX: skip $02
+        ; The X velocity of a moving floor (For example: Mothula's room).
 
-    ; $0314[0x01] - (Player)
-        ; The index (the X in $0DD0 for example) of the sprite that Link is
-        ; "touching"
+    ; $0314[0x01] - (Player, Sprite)
+    .SpriteLift: skip $01
+        ; The index (the X in $0DD0 for example) of a liftable sprite that Link is
+        ; near, +1.
 
-    ; $0315[0x01] - 
+    ; $0315[0x01] - (Player)
+    .UnknownCollisionFlag: skip $01
         ; Seems to be a flag that is set to 0 if Link is not moving, 
         ; and 1 if he is moving. However it doesn't seem to get reset to zero.
+        ; Set to 2 in certain scenarios, appears to be used in collision checks.
+        ; TODO: Confirm uses.
 
-    ; $0316 - 
-        ; ???? bunny stuffs? 
+    ; $0316[0x02] - (Dungeon)
+    .Unknown_0316: skip $02
+        ; TODO: Figure out wtf this actually does.
+        ; ???? bunny stuffs?
+        ; Flags which axes moving walls should push or something.
 
-    ; $0318 - 
-        ; related to moving floor
+    ; $0318[0x02] - (Player, Dungeon)
+    .FloorY: skip $02
+        ; Scratch spaced used for caching Link's Y coordinate during moving floor
+        ; routines.
 
-    ; $031A - 
-        ; related to moving floor
+    ; $031A[0x02] - (Player, Dungeon)
+    .FloorX: skip $02
+        ; Scratch spaced used for caching Link's X coordinate during moving floor
+        ; routines.
 
-    ; $031C[0x01] - (Player)
-        ; tells us the actual graphic/state to use on the given step of a
-        ; spin attack
+    ; $031C[0x01] - (Player, OAM)
+    .PlayerSpinGFX: skip $01
+        ; Animation GFX for spin attack animations, including medallions.
 
-    ; $031D[0x01] - (Player)
-        ; step counter for the spin attack
+    ; $031D[0x01] - (Player, OAM)
+    .PlayerSpinStep: skip $01
+        ; Animation step for spin attack animations, including medallions.
 
-    ; $031E - 
-        ; used as an offset for a table to retrieve values for $031C. The offset
+    ; $031E[0x01] - (Player, OAM)
+    .PlayerSpinStepOff: skip $01
+        ; Used as an offset for a table to retrieve values for $031C. The offset
         ; comes in increments of four, depending on which direction Link is
         ; facing when he begins to spin. This makes sense, given that he always
         ; spins the same direction, and allows for reusability between the
         ; different directions, each one being a sub set of the full sequence.
 
-    ; $031F[0x01] - 
-        ; Countdown timer that, when it's set, causes Link's sprite to
-        ; blink, i.e. flash on and off
+    ; $031F[0x01] - (Player, OAM)
+    .IFrameTimer: skip $01
+        ; Countdown timer for invulnerability frames. Causes the player's sprite to
+        ; flash on and off.
 
-    ; $0320 - 
+    ; $0320[0x02] - (Tile Attribute)
+    .MovingFloorTileAct:
         ; Bitfield for interaction with moving floor tiles
-        ; uuuuuuuu uuuummmm
+        ; ........ ....mmmm
         ; m - Moving floor
-        ; u - Free RAM
+        ; High byte unused but written.
 
     ; $0322 - 
         ; ????
