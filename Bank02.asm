@@ -6982,6 +6982,7 @@ ScrollAndCheckForSOWExit:
 
 ; ==============================================================================
 
+; ZS writes a hook in this function. - ZS Custom Overworld
 ; Module 0x09.0x01, 0x09.0x0F, 0x09.0x1A, 0x09.0x26
 ; Also referenced one other place.
 ; $012B88-$012BBB LOCAL JUMP LOCATION
@@ -7002,6 +7003,7 @@ Overworld_LoadTransGfx:
     ; Load the graphics that have changed during the screen transition.
     JSL.l LoadTransAuxGFX
 
+    ; ZS writes here. - ZS Custom Overworld
     ; Convert those graphics to 4bpp while copying them into the buffer
     ; starting at $7F0000. It's necessary to do it this way because we can't
     ; blank the screen (no screen fade / darkness).

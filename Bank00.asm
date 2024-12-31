@@ -11507,12 +11507,11 @@ Graphics_IncrementalVramUpload:
 
 ; ==============================================================================
 
+; Prepares the transition graphics to be transferred to VRAM during NMI.
+; This could occur either during this frame or any subsequent frame.
 ; $005F1A-$005F4E LONG JUMP LOCATION
 PrepTransAuxGFX:
 {
-    ; Prepares the transition graphics to be transferred to VRAM during NMI.
-    ; This could occur either during this frame or any subsequent frame.
-    
     ; Set bank for source address.
     LDA.b #$7E : STA.b $02 : STA.b $05
     
