@@ -1763,7 +1763,7 @@ NMI_DoUpdates:
     dw NMI_UpdateLeftBg2Tilemaps             ; 0x08 - $8EA9 Transfers 0x1000 bytes from $7F0000 to VRAM $0000
     dw NMI_UpdateBgChrSlots_3_to_4           ; 0x09 - $8EE7 Transfers 0x1000 bytes from $7F0000 to VRAM $2C00
     dw NMI_UpdateBgChrSlots_5_to_6           ; 0x0A - $8F16 Transfers 0x1000 bytes from $7F1000 to VRAM $3400
-    dw NMI_UpdateChrHalfSlot                 ; 0x0B - $8F45 Transfers 0x0400 bytes from $7F1000 to a VRAM address set by $0116 (sets the high byte)
+    dw NMI_UpdateChrHalfSlot                 ; 0x0B - $8F45 Transfers 0x400 bytes from $7F1000 to a VRAM address set by $0116 (sets the high byte)
     dw NMI_UploadSubscreenOverlay_secondHalf ; 0x0C - $8D96
     dw NMI_UploadSubscreenOverlay_firstHalf  ; 0x0D - $8D7C
     dw NMI_UpdateChr_Bg0                     ; 0x0E - $8F72 Transfers 0x1000 bytes from $7F0000 to VRAM $2000
@@ -2404,7 +2404,7 @@ NMI_UpdateChr_Spr2:
 
 ; ==============================================================================
 
-; $000FC4-$000FC8 JUMP LOCATION
+; $000FC4-$000FF2 JUMP LOCATION
 NMI_UpdateChr_Spr3:
 {
     REP #$20
@@ -2412,12 +2412,8 @@ NMI_UpdateChr_Spr3:
     ; Set VRAM target to $5800 (word).
     LDA.w #$5800
 
-    ; Bleeds into the next function.
-}
+    .doUpdate
 
-; $000FC9-$000FF2 JUMP LOCATION
-NMI_UpdateChr_doUpdate:
-{
     STA.w SNES.VRAMAddrReadWriteLow
     
     LDA.w #$0000 : STA.w DMA.0_SourceAddrOffsetLow
@@ -11507,11 +11503,12 @@ Graphics_IncrementalVramUpload:
 
 ; ==============================================================================
 
-; Prepares the transition graphics to be transferred to VRAM during NMI.
-; This could occur either during this frame or any subsequent frame.
 ; $005F1A-$005F4E LONG JUMP LOCATION
 PrepTransAuxGFX:
 {
+    ; Prepares the transition graphics to be transferred to VRAM during NMI.
+    ; This could occur either during this frame or any subsequent frame.
+    
     ; Set bank for source address.
     LDA.b #$7E : STA.b $02 : STA.b $05
     

@@ -506,7 +506,7 @@ struct WRAM $7E0000
         ; 0x0F - North West (facing south) too?
 
     ; $EF[0x01] - (Polyhedral)
-    .PolyUnknown_4A: skip $01
+    .Poly_Unknown_4A: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $4B[0x01] - (Player)
@@ -1204,7 +1204,7 @@ struct WRAM $7E0000
         ; than where they were placed or on multiple BGs. See DunDrawOBJAddHigh.
 
     ; $BF[0x01] - (Polyhedral)
-    .PolyUnknown_BF: skip $01
+    .Poly_Unknown_BF: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $C0[0x1E] - (Dungeon)
@@ -1215,7 +1215,7 @@ struct WRAM $7E0000
         ; than where they were placed or on multiple BGs. See DunDrawOBJAddLow.
 
     ; $C0[0x01] - (Polyhedral)
-    .PolyUnknown_C0: skip $01
+    .Poly_Unknown_C0: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $C1[0x02] - (File Select)
@@ -1227,15 +1227,15 @@ struct WRAM $7E0000
         ; See ValidFileArray1 and ValidFileArray3.
 
     ; $C1[0x01] - (Polyhedral)
-    .PolyUnknown_C1: skip $01
+    .Poly_Unknown_C1: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $C2[0x01] - (Polyhedral)
-    .PolyUnknown_C2: skip $01
+    .Poly_Unknown_C2: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $C3[0x01] - (Polyhedral)
-    .PolyUnknown_C3:
+    .Poly_Unknown_C3:
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $C3[0x02] - (File Select)
@@ -1247,15 +1247,15 @@ struct WRAM $7E0000
         ; See ValidFileArray1 and ValidFileArray2.
 
     ; $C4[0x01] - (Polyhedral)
-    .PolyUnknown_C4: skip $01
+    .Poly_Unknown_C4: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $C5[0x01] - (Polyhedral)
-    .PolyUnknown_C5: skip $01
+    .Poly_Unknown_C5: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $C6[0x01] - (Polyhedral)
-    .PolyUnknown_C6: skip $01
+    .Poly_Unknown_C6: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $C7[0x01] - (Polyhedral)
@@ -1449,7 +1449,7 @@ struct WRAM $7E0000
         ; current digit of the current death count.
 
     ; $D0[0x01] - (Title Screen)
-    .LogoSwordUnknown_D0:
+    .LogoSword_Unknown_D0:
         ; (Bank 0x0C) Used in the title screen logo sword. TODO: Purpose unknown.
 
     ; BG positions/scroll registers.
@@ -1566,7 +1566,7 @@ struct WRAM $7E0000
         ; 1 Means you're on a lower level (BG1).
 
     ; $EE[0x01] - (Polyhedral)
-    .PolyUnknown_EE: skip $01
+    .Poly_Unknown_EE: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $EF[0x01] - (Dungeon)
@@ -1585,7 +1585,7 @@ struct WRAM $7E0000
         ; occur until an dungeon to dungeon transition.
 
     ; $EF[0x01] - (Polyhedral)
-    .PolyUnknown_EF: skip $01
+    .Poly_Unknown_EF: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; Joypad input:
@@ -1625,7 +1625,7 @@ struct WRAM $7E0000
         ; r - Right d-pad
 
     ; $F0[0x02] - (Polyhedral)
-    .PolyUnknown_F0: skip $01
+    .Poly_Unknown_F0: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $F1[0x01] - (Input, NMI)
@@ -1654,7 +1654,7 @@ struct WRAM $7E0000
         ; i - ID for the controller type.
 
     ; $F2[0x01] - (Polyhedral)
-    .PolyUnknown_F2: skip $01
+    .Poly_Unknown_F2: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $F3[0x01] - (Input, NMI)
@@ -1767,7 +1767,7 @@ struct WRAM $7E0000
         ; i - ID for the controller type.
 
     ; $FA[0x02] - (Polyhedral)
-    .PolyUnknown_FA: skip $01
+    .Poly_Unknown_FA: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $FB[0x01] - (Input, NMI)
@@ -3002,36 +3002,53 @@ struct WRAM $7E0000
         ; m - Moving floor
         ; High byte unused but written.
 
-    ; $0322 - 
-        ; ????
+    ; $0322[0x01] - (Player)
+    .Unknown_0322: skip $01
+        ; TODO: Some player related bitfield flagging interaction with
+        ; MovingFloorTileAct?
 
     ; $0323[0x01] - (Player, Oam)
-        ; Mirror of $2F, which is an indicator for which direction you are
-        ; facing. Only used in the rendering of Link's OAM data in Bank 0x0D
+    .LinkHeadingMirror: skip $01
+        ; A sudo mirror of LinkHeading, which is an indicator for which
+        ; direction you are facing. Only used in the rendering of Link's OAM
+        ; data in Bank 0x0D. Has one case where it is not a 1 for 1 match with
+        ; LinkHeading in PlayerOam_Main in bank 0x0D. Explicitly set to down
+        ; (0x02) for Desert prayer.
 
-    ; $0324[0x01] - (Player)
+    ; $0324[0x01] - (Player, Item)
+    .AddSpell: skip $01
         ; A flag telling a medallion spell it's okay to proceed with the effect.
         ; If set to 1, the effect will wait until it is set to 0 to activate.
+        ; Kan: When nonzero, prevents medallion spell ancillae from being added.
+        ; Flagged by medallion use routines to prevent multiple from being added.
 
-    ; $0325[0x01] - (Free)
-        ; Free RAM, with the caveat that it is cleared in some locations in Bank
-        ; 0x08.
+    ; $0325[0x01] - (Junk)
+    .Junk_0325: skip $01
+        ; Almost free RAM but cleared by the medallion spells.
 
-    ; $0326 - 
-        ; ???? collision related?
+    ; $0326[0x02] - (Player)
+    .MomentumY: skip $02
+        ; Y momentum for ice/swimming. When a direction is released, these count
+        ; down to 0.
 
-    ; $0328 - 
-        ; ???? collision related?
+    ; $0328[0x02] - (Player)
+    .MomentumX: skip $02
+        ; X momentum for ice/swimming. When a direction is released, these count
+        ; down to 0.
 
     ; $032A[0x01] - (Player)
-        ; Seems to be nonzero when you hit a button to swim faster. zero
-        ; otherwise 
+    .LinkSwimStrokeTimerCount: skip $01
+        ; Number of times the swim stroke timer has counted down (stops at 4).
 
-    ; $032B - 
-        ; ???? collision related?
+    ; $032B[0x02] - (Player)
+    .LinkSwimY: skip $02
+        ; Used to index Y accelaration for swim thrust changes. Max expected
+        ; value is 0x0002
 
-    ; $032D - 
-        ; ???? collision related?
+    ; $032D[0x02] - (Player)
+    .LinkSwimX: skip $02
+        ; Used to index X accelaration for swim thrust changes. Max expected
+        ; value is 0x0002
 
     ; $032F - 
         ; ???? collision related?

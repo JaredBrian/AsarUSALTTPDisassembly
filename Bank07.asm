@@ -3639,7 +3639,8 @@ LinkState_Swimming:
     DEC.w $02CB : BPL .BRANCH_THETA
         LDA.b #$07 : STA.w $02CB
         
-        INC.w $032A : LDA.w $032A : CMP.b #$05 : BNE .BRANCH_THETA
+        INC.w $032A
+        LDA.w $032A : CMP.b #$05 : BNE .BRANCH_THETA
             STZ.w $032A
             
             LDA.w $034F : AND.b #$3F
@@ -6206,6 +6207,7 @@ LinkState_UsingQuake:
         
         LDA.w $0324 : BNE .BRANCH_DELTA
         CPX.b #$0B  : BNE .BRANCH_DELTA
+            ; TODO: What is this comment?
             ; "Thank you, [Name], I had a feeling you were getting close"
             ; Message.
             LDA.b #$01 : STA.w $0324

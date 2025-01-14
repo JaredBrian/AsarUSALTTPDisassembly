@@ -3291,7 +3291,7 @@ PlayerOam_Main:
         ; relevant bits are 0 and 7. They could have just used a BMI
         ; instruction.
         CPX.b #$06 : BCS .keep_lift_direction
-            ; Force player to face down...? Why?
+            ; Explicitly set to down (0x02) for Desert prayer.
             LDA.b #$02 : STA.w $0323
 
         .keep_lift_direction
