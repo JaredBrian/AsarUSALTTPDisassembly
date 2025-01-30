@@ -9404,7 +9404,8 @@ GameOver_SaveAndOrContinue:
     
     .selectButtonPressed
     
-    INC.b $B0 : LDA.b $B0 : CMP.b #$03 : BMI .BRANCH_EPSILON
+    INC.b $B0
+    LDA.b $B0 : CMP.b #$03 : BMI .BRANCH_EPSILON
         STZ.b $B0
         
         BRA .BRANCH_EPSILON
@@ -10396,7 +10397,8 @@ Polyhedral_CalculateCrossProduct:
     
     LDA.b #$00 : SBC.b #$00 : STA.w SNES.Mode7MatrixA
     
-    SEC : LDA.b $C6 : SBC.b $C4 : STA.w SNES.Mode7MatrixB
+    SEC
+    LDA.b $C6 : SBC.b $C4 : STA.w SNES.Mode7MatrixB
     
     ; Apparently it's super important to keep the I flag low
     ; for as little time as possible.
@@ -10408,11 +10410,13 @@ Polyhedral_CalculateCrossProduct:
     LDA.b $C5  : SBC.b $C3  : STA.w SNES.Mode7MatrixA
     LDA.b #$00 : SBC.b #$00 : STA.w SNES.Mode7MatrixA
     
-    SEC : LDA.b $C4 : SBC.b $C2 : STA.w SNES.Mode7MatrixB
+    SEC
+    LDA.b $C4 : SBC.b $C2 : STA.w SNES.Mode7MatrixB
     
     REP #$20
     
-    SEC : LDA.b $B0 : SBC.w SNES.MultResultLow : STA.b $B0
+    SEC
+    LDA.b $B0 : SBC.w SNES.MultResultLow : STA.b $B0
     
     SEP #$20
     CLI

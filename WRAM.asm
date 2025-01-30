@@ -207,12 +207,12 @@ struct WRAM $7E0000
         ; To be written to SNES.WindowMaskDesSubScreen during NMI.
 
     ; $20[0x02] - (Player)
-    .LinkYCoord: skip $02
-        ; Link's Y-Coordinate (mirrored at $0FC4)
+    .PlayerYCoord: skip $02
+        ; Player's Y-Coordinate (mirrored at $0FC4)
 
     ; $22[0x02] - (Player)
-    .LinkXCoord:
-        ; Link's X-Coordinate (mirrored at $0FC2)
+    .PlayerXCoord:
+        ; Player's X-Coordinate (mirrored at $0FC2)
 
     ; $22[0x01] - (Attract)
     .AttractModule: skip $01
@@ -224,8 +224,8 @@ struct WRAM $7E0000
         ; or the maiden being teleported to the Dark World.
 
     ; $24[0x02] - (Dungeon, Overworld)
-    .LinkZCoord:
-        ; 0xFFFF usually, but if Link is elevated off the ground it is
+    .PlayerZCoord:
+        ; 0xFFFF usually, but if the Player is elevated off the ground it is
         ; considered to be his Z coordinate. That is, it's his height off of
         ; the ground.
 
@@ -237,8 +237,8 @@ struct WRAM $7E0000
         ; slightly. In effect, this is to control the rate of the zooming.
 
     ; $26[0x01] - (Player)
-    .LinkPushDir:
-        ; The direction(s) that Link is pushing against.
+    .PlayerPushDir:
+        ; The direction(s) that Player is pushing against.
         ; ----udlr
         ; u - Up
         ; d - Down
@@ -251,44 +251,44 @@ struct WRAM $7E0000
         ; indexes an array of words.
 
     ; $27[0x01] - (Player)
-    .LinkYCollisionRecoil:
-        ; Link's Y Recoil. This will be reset every frame Link is not in recoil
-        ; state.
+    .PlayerYCollisionRecoil:
+        ; The player's Y Recoil. This will be reset every frame Player is not
+        ; in recoil state.
 
     ; $27[0x01] - (Attract)
     .AttractNextLegendFlag: skip $01
         ; Flag indicating whether to display a new 2bpp graphic.
 
     ; $28[0x01] - (Player)
-    .LinkXCollisionRecoil:
-        ; Link's X Recoil. This will be reset every frame Link is not in recoil
-        ; state.
+    .PlayerXCollisionRecoil:
+        ; The player's X Recoil. This will be reset every frame Player is not
+        ; in recoil state.
 
     ; $28[0x01] - (Attract)
     .AttractAgahXCoord: skip $01
         ; Agahnim's base X coordinate relative to the screen.
 
     ; $29[0x01] - (Player)
-    .LinkZRecoil:
-        ; Link's Z Recoil. This will be reset every frame Link is not in recoil
-        ; state.
+    .PlayerZRecoil:
+        ; The player's Z Recoil. This will be reset every frame Player is not
+        ; in recoil state.
 
     ; $29[0x01] - (Attract)
     .AttractAgahYCoord: skip $01
         ; Agahnim's base Y coordinate relative to the screen.
 
     ; $2A[0x01] - (Player)
-    .LinkYSubCoord: skip $01
-        ; Player's subpixel Y coordinate
+    .PlayerYSubCoord: skip $01
+        ; The player's subpixel Y coordinate
         ; TODO: Also has a use in the attract mode like most of this early WRAM.
 
     ; $2B[0x01] - (Player)
-    .LinkXSubCoord: skip $01
-        ; Player's subpixel X coordinate
+    .PlayerXSubCoord: skip $01
+        ; The player's subpixel X coordinate
 
-    ; $2C[0x01] - (Player)
-    .LinkWorthlessZero:
-        ; Only written to in one place, and it's always a zero.
+    ; $2C[0x01] - (Player, Junk)
+    .Junk_2C:
+        ; Only written to in one place in player code, and it's always a zero.
         ; Given the limited scope of this use compared to the one below, it
         ; could be considered Free RAM, so long as there's an understanding
         ; that its use is shared with attract mode (see AttractTimer).
@@ -300,8 +300,8 @@ struct WRAM $7E0000
         ; brightness by one on frames where this variable has an even value.
 
     ; $2D[0x01] - (Player)
-    .LinkAnimationTimer:
-        ; Acts as a timer for certain animations to advance LinkAnimationStep.
+    .PlayerAnimationTimer:
+        ; Acts as a timer for certain animations to advance PlayerAnimationStep.
 
     ; $2D[0x02] - (Attract)
     .AttractUnknownPtr: skip $01
@@ -309,13 +309,13 @@ struct WRAM $7E0000
         ; of usage during this mode not known at this time.
 
     ; $2E[0x01] - (Player, OAM)
-    .LinkAnimationStep: skip $01
+    .PlayerAnimationStep: skip $01
         ; Animation steps: seems to cycle from 0 to 5 then repeats. Seems that
         ; other submodes of the player logic use a different number of steps
         ; (spin attack maybe?)
 
     ; $2F[0x01] - (Player)
-    .LinkHeading: skip $01
+    .PlayerHeading: skip $01
         ; 0 - up
         ; 2 - down
         ; 4 - left
@@ -324,19 +324,19 @@ struct WRAM $7E0000
         ; considered invalid.
 
     ; $30[0x01] - (Player)
-    .LinkYVelocity: skip $01
-        ; When Link is moving down or up, this is the signed number of pixels
-        ; that his Y coordinate will change by.
+    .PlayerYVelocity: skip $01
+        ; When the player is moving down or up, this is the signed number of
+        ; pixels that his Y coordinate will change by.
 
     ; $31[0x01] - (Player)
-    .LinkXVelocity: skip $01
+    .PlayerXVelocity: skip $01
         ; Same as $30 except it's for X coordinates
 
     ; $32[0x01] - (Player)
-    .LinkCliffHoppingY: skip $02
+    .PlayerCliffHoppingY: skip $02
         ; Seems to be used in some subsection of Bank 07 that handles hopping
-        ; off cliffs in relation to link's Y coordinate. TODO: Also has a use
-        ; in the Attract Module. TODO: Figure out exact use.
+        ; off cliffs in relation to the player's Y coordinate. TODO: Also has
+        ; a use in the Attract Module. TODO: Figure out exact use.
 
     ; $34[0x01] - (Attract)
     .AttractAgahCueFlag: skip $01
@@ -345,20 +345,12 @@ struct WRAM $7E0000
         ; causing advancement to the next subsequence of this sequence
         ; (Agahnim walking towards Zelda's cell and the text appearing.)
 
-    ; $35[0x01] - (Free)
-    .Free_35: skip $01
-        ; Free RAM
-
-    ; $36[0x01] - (Free)
-    .Free_36: skip $01
-        ; Free RAM
-
-    ; $37[0x01] - (Free)
-    .Free_37: skip $01
+    ; $35[0x03] - (Free)
+    .Free_35: skip $03
         ; Free RAM
 
     ; $38[0x02] - (Player)
-    .LinkDWallCalc: skip $02
+    .PlayerDWallCalc: skip $02
         ; Seems to be set some of the time when going up diagonal walls.
         ; It's a bitfield for tiles type 0x10 through 0x13. TODO: Confirm
         ; this name.
@@ -367,9 +359,9 @@ struct WRAM $7E0000
     ; TILE ACT NOTES
 
     ; For tile act bitfields, each property is flagged with 4 bits.
-    ; These bits indicate which tile relative Link the tile was found.
+    ; These bits indicate which tile relative the player the tile was found.
     ;  a b
-    ;   L
+    ;   P
     ;  c d
     ;
     ; abcd
@@ -378,7 +370,7 @@ struct WRAM $7E0000
     ;   c - Found to the south west
     ;   d - Found to the south east
     ;
-    ;   L - Link
+    ;   P - Player
 
     ; $3A[0x01] - (Input)
     .BAndYInputField: skip $01
@@ -407,29 +399,29 @@ struct WRAM $7E0000
         ;   t - How many frames the B button has been held, approximately.
 
     ; $3D[0x01] - (Player, OAM)
-    .LinkAnimationTimer: skip $01
+    .PlayerAnimationTimer: skip $01
         ; A delay timer for the spin attack. Used between shifts to make the
         ; animation flow with the flash effect. Also used for delays between
         ; different graphics when swinging the sword.
 
     ; $3E[0x01] - (Player)
-    .LinkCalcYLow: skip $01
+    .PlayerCalcYLow: skip $01
         ; Y coordinate related variable (low byte)
 
     ; $3F[0x01] - (Player)
-    .LinkCalcXLow: skip $01
+    .PlayerCalcXLow: skip $01
         ; X coordinate related variable (low byte)
 
     ; $40[0x01] - (Player)
-    .LinkCalcYHigh: skip $01
+    .PlayerCalcYHigh: skip $01
         ; Y coordinate related variable (high byte)
 
     ; $41[0x01] - (Player)
-    .LinkCalcXHigh: skip $01
+    .PlayerCalcXHigh: skip $01
         ; X coordinate related variable (high byte)
 
     ; $42[0x01] - (Player)
-    .LinkObstructV: skip $01
+    .PlayerObstructV: skip $01
         ; Appears to flag directions for freedom for vertical. Flags are set
         ; when there's no obstruction. TODO: Of movement? or for freedom of what?
         ; (0: obstructed | 1: unobstructed)
@@ -440,7 +432,7 @@ struct WRAM $7E0000
         ;   r - rightwards
 
     ; $43[0x01] - (Player)
-    .LinkObstructD: skip $01
+    .PlayerObstructD: skip $01
         ; Appears to flag directions for freedom for diagonal. Flags are set
         ; when there's no obstruction. TODO: Of movement? or for freedom of what?
         ; (0: obstructed | 1: unobstructed)
@@ -461,16 +453,16 @@ struct WRAM $7E0000
         ; x offset. TODO: Not fully confirmed.
 
     ; $46[0x01] - (Player)
-    .LinkRecoilTimer: skip $01
-        ; A countdown timer that incapacitates Link when damaged or in recoil
-        ; state. If nonzero, no movement input is recorded for Link.
+    .PlayerRecoilTimer: skip $01
+        ; A countdown timer that incapacitates the player when damaged or in
+        ; recoil state. If nonzero, no movement input is recorded for the player.
 
     ; $47[0x01] - (Player)
     .WeapponTinkTimer: skip $01
         ; Weapon tink spark timer.
 
     ; $48[0x01] - (Player, OAM)
-    .LinkPushAction: skip $01
+    .PlayerPushAction: skip $01
         ; If set, when the A button is pressed, the player sprite will enter the
         ; "grabbing at something" state.
         ; Bitfield for push actions
@@ -482,10 +474,10 @@ struct WRAM $7E0000
         ;   t - harder push
 
     ; $49[0x02] - (Player)
-    .LinkForceMove: skip $01
-        ; This address is written to make Link move in any given direction. When 
-        ; indoors, it is cleared every frame. When outdoors, it is not cleared
-        ; every frame so watch out. Also any value besides 0 it overwrites
+    .PlayerForceMove: skip $01
+        ; This address is written to make the player move in any given direction.
+        ; When indoors, it is cleared every frame. When outdoors, it is not
+        ; cleared every frame so watch out. Also any value besides 0 it overwrites
         ; player directional input.
 
         ; 0x00 - Nothing
@@ -510,8 +502,9 @@ struct WRAM $7E0000
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $4B[0x01] - (Player)
-    .LinkVisible: skip $01
-        ; Link's visibility status. If set to 0x0C, Link will disappear.
+    .PlayerVisible: skip $01
+        ; The player's visibility status. If set to 0x0C, the player will
+        ; disappear.
 
     ; $4C[0x01] - (Item)
     .CapeDrainTimer: skip $01
@@ -521,8 +514,8 @@ struct WRAM $7E0000
         ; table in Bank 07 that determines this.
 
     ; $4D[0x01] - (Player)
-    .LinkAuxState: skip $01
-        ; An Auxiliary Link handler.
+    .PlayerAuxState: skip $01
+        ; An Auxiliary player handler.
         ; As far as I know:
         ; 0x00 - ground state (normal)
         ; 0x01 - the recoil status
@@ -563,10 +556,10 @@ struct WRAM $7E0000
         ; value, no sound occurs.
 
     ; $50[0x01] - (Player)
-    .LinkStrafeFlag: skip $01
-        ; A flag indicating whether a change of the direction Link is facing is
-        ; possible. For example, when the B button is held down with a sword.
-        ; When non 0, strafe.
+    .PlayerStrafeFlag: skip $01
+        ; A flag indicating whether a change of the direction the player is
+        ; facing is possible. For example, when the B button is held down with a
+        ; sword. When non 0, strafe.
         ; .... .bps
         ;   s - the bit generally flagged
         ;   p - flagged during rupee pull and perpendicular door movement
@@ -577,8 +570,8 @@ struct WRAM $7E0000
         ; TODO: Has some use in attract mode.
 
     ; $51[0x02] - (Player)
-    .LinkTargetY: skip $01
-        ; Used as a buffer to store the Y position where link is supposed to
+    .PlayerTargetY: skip $01
+        ; Used as a buffer to store the Y position where the player is supposed to
         ; land to when falling in a hole.
 
     ; $52[0x01] - (Attract)
@@ -592,24 +585,24 @@ struct WRAM $7E0000
         ; cosine value.
 
     ; $53[0x02] - (Player)
-    .LinkTargetX: skip $02
-        ; Used as a buffer to store the X position where link is supposed to
+    .PlayerTargetX: skip $02
+        ; Used as a buffer to store the X position where the player is supposed to
         ; land to when falling in a hole.
 
     ; $55[0x01] - (Player)
-    .LinkCapeOn: skip $01
+    .PlayerCapeOn: skip $01
         ; Cape flag, when set, makes you invisible and invincible. You can
         ; also go through objects, such as bungies.
 
     ; $56[0x01] - (Player, OAM)
-    .LinkIsBunny: skip $01
-        ; Link's graphic status.
-        ; 0 - real link.
-        ; 1 - bunny link
+    .PlayerIsBunny: skip $01
+        ; The player's graphic status.
+        ; 0 - real Link.
+        ; 1 - bunny Link
 
     ; $57[0x01] - (Player)
-    .LinkSpeedModifier: skip $01
-        ; Modifier for Link's movement speed. Counts up to 0x10 to
+    .PlayerSpeedModifier: skip $01
+        ; Modifier for the player's movement speed. Counts up to 0x10 to
         ; induce slower speed on stairs. Famously uncleared after spiral stairs.
         ; 0            - normal
         ; 0x01 to 0x0F - slow
@@ -617,41 +610,39 @@ struct WRAM $7E0000
         ; Negative values actually reverse your direction.
 
     ; $58[0x01] - (Player)
-    .LinkStairTile: skip $01
+    .PlayerStairTile: skip $01
         ; Bitfield describing insteractions with stairs tiles.
-        ; uuuussss
+        ; ....ssss
         ; s - Stair tiles
-        ; u - Free RAM
-        ; If this masked with 0x07 equals 0x07, Link moves slowly, like he's on
-        ; a small staircase. $02C0 also needs this variable to be nonzero to
-        ; trigger.
+        ; If this masked with 0x07 equals 0x07, the player moves slowly, like
+        ; he's on a small staircase. $02C0 also needs this variable to be nonzero
+        ; to trigger.
         ; SEE TILE ACT NOTES
 
     ; $59[0x01] - (Player)
-    .LinkPitTile: skip $01
+    .PlayerPitTile: skip $01
         ; Bitfield for pit tile interaction.
-        ; uuuupppp
-        ; u - Free RAM
+        ; ....pppp
         ; p - pit tile detected
         ; SEE TILE ACT NOTES
 
     ; $5A[0x01] - (Player)
-    .LinkFallPose: skip $01
+    .PlayerFallPose: skip $01
         ; Pose when landing from a pit fall in underworld.
 
     ; $5B[0x01] - (Player)
-    .LinkPitSlipping: skip $01
+    .PlayerPitSlipping: skip $01
         ; 0 - Indicates nothing
         ; 1 - Player is dangerously near the edge of a pit
         ; 2 - Player is falling
         ; 3 - Player is falling into a hole, part 2?
 
     ; $5C[0x01] - (Player)
-    .LinkFallTimer: skip $01
+    .PlayerFallTimer: skip $01
        ; Timer for the falling animation.
 
     ; $5D[0x01] - (Player)
-    .LinkState: skip $01
+    .PlayerState: skip $01
         ; Player Handler or "State"
         ; 0x00 - ground state
         ; 0x01 - falling into a hole
@@ -688,9 +679,9 @@ struct WRAM $7E0000
         ; 0x1E - The actual spin attack motion.
 
     ; $5E[0x01] - (Player)
-    .LinkSpeed: skip $01
-        ; Speed setting for Link. The different values this can be set to index
-        ; into a table that sets his real speed. Some common values:
+    .PlayerSpeed: skip $01
+        ; Speed setting for the player. The different values this can be set
+        ; to index into a table that sets his real speed. Some common values:
         ; 0x00 - Normal walking speed
         ; 0x02 - Walking (or dashing) on stairs
         ; 0x10 - Dashing
@@ -742,7 +733,7 @@ struct WRAM $7E0000
         ; Zeroed by DoorHFlag during normal gameplay.
 
     ; $64[0x02] - 
-    .LinkOAMPriority: skip $01
+    .PlayerOAMPriority: skip $01
         ; Used to ORA in OAM priority, but only high byte seems used for that.
         ; 0x1000 if $EE = 1, 0x2000 if $EE = 0.
 
@@ -751,8 +742,8 @@ struct WRAM $7E0000
         ; Used as a timer for Agahnim text display in attract mode.
 
     ; $66[0x01] - (Player)
-    .LinkLastDir: skip $01
-        ; Indicates the last direction Link moved towards.
+    .PlayerLastDir: skip $01
+        ; Indicates the last direction the player moved towards.
         ; Value-wise:
         ; 0 - Up
         ; 1 - Down
@@ -760,8 +751,9 @@ struct WRAM $7E0000
         ; 3 - Right
 
     ; $67[0x01] - (Player)
-    .LinkDir: skip $01
-        ; Indicates which direction Link is walking (even if not going anywhere).
+    .PlayerDir: skip $01
+        ; Indicates which direction the player is walking (even if not going
+        ; anywhere).
         ; ----udlr.
         ; u - Up
         ; d - Down
@@ -769,7 +761,7 @@ struct WRAM $7E0000
         ; r - Right
 
     ; $68[0x01] - (Player)
-    .LinkYDiff: skip $01
+    .PlayerYDiff: skip $01
         ; When the player moves in room, this is the difference between their
         ; new Y coordinate and their old one (Y_new - Y_old).
         ; For example, a value of 1 would indicate that the player has moved
@@ -777,7 +769,7 @@ struct WRAM $7E0000
         ; movement in the Y axis.
 
     ; $69[0x01] - (Player)
-    .LinkXDiff: skip $01
+    .PlayerXDiff: skip $01
         ; When the player moves in room, this is the difference between their
         ; new and old X coordinates (X_new - X_old).
         ; For example, a value of -2 would indicates that the player has
@@ -785,7 +777,7 @@ struct WRAM $7E0000
         ; movement in the X axis.
 
     ; $6A[0x01] - (Player)
-    .LinkOrthogonalDir: skip $01
+    .PlayerOrthogonalDir: skip $01
         ; Indicates the number of orthogonal directions the player is moving
         ; in simultaneously. This does not include the rarely used Z axis
         ; (altitude).
@@ -794,7 +786,7 @@ struct WRAM $7E0000
         ; 2 - moving both horizontally and vertically
 
     ; $6B[0x01] - (Player)
-    .LinkDWallDir: skip $01
+    .PlayerDWallDir: skip $01
         ;         ..hv udlr
         ;   0x15  ...1 .1.1  ◣ down
         ;   0x16  ...1 .11.  ◢ down
@@ -812,20 +804,20 @@ struct WRAM $7E0000
         ; r - Change of direction into the slope has a right vector
 
     ; $6C[0x01] - (Dungeon, Player)
-    .LinkInDoor: skip $01
+    .PlayerInDoor: skip $01
         ; Indicates whether you are standing in a doorway
         ; 0 - not standing in a doorway. 
         ; 1 - standing in a vertical doorway 
         ; 2 - standing in a horizontal door way
 
     ; $6D[0x01] - (Player)
-    .LinkDWallFail: skip $01
+    .PlayerDWallFail: skip $01
         ; When you are moving against a diagonal wall and you are deadlocked.
         ; I.e. you are pressing against it directly, but aren't going anywhere,
         ; this will contain the value that $6B would have.
 
     ; $6E[0x02] - (Player, Tile Attribute)
-    .LinkDWallTile: skip $01
+    .PlayerDWallTile: skip $01
         ; Tile act bitfield used by slopes.
         ; High byte has an explicit STZ as well, but it is never used.
         ; .... ssss
@@ -835,12 +827,8 @@ struct WRAM $7E0000
         ; Moving against a / wall from above: 6
         ; SEE TILE ACT NOTES
 
-    ; $70[0x01] - (Free)
-    .Free_70: skip $01
-        ; Free RAM
-
-    ; $71[0x01] - (Free)
-    .Free_71: skip $01
+    ; $70[0x02] - (Free)
+    .Free_70: skip $02
         ; Free RAM
 
     ; $72[0x04] - (Main)
@@ -848,12 +836,12 @@ struct WRAM $7E0000
         ; Used as general scratch space in a variety of different routines.
 
     ; $76[0x02] - (Player, Tile Attribute)
-    .LinkInteractTile: skip $02
+    .PlayerInteractTile: skip $02
         ; When object, such as the player, interact with certain tile types, 
         ; the index of that tile gets stored here.
 
     ; $78[0x01] - (Player)
-    .LinkJumpScroll: skip $01
+    .PlayerJumpScroll: skip $01
         ; Seems to flag non-north hops in the overworld. Messes with camera
         ; scroll. Kept in sync with NOHURT.
         ; From MoN but I can find no evidence of:
@@ -875,40 +863,12 @@ struct WRAM $7E0000
         ; Often used for temporary calculations, so don't expect it to be
         ; reflective of the current status of the player at all times.
 
-    ; $7C[0x01] - (Free)
-    .Free_7C: skip $01
-        ; Free RAM
-
-    ; $7D[0x01] - (Free)
-    .Free_7D: skip $01
-        ; Free RAM
-
-    ; $7E[0x01] - (Free)
-    .Free_7E: skip $01
-        ; Free RAM
-
-    ; $7F[0x01] - (Free)
-    .Free_7F: skip $01
-        ; Free RAM
-
-    ; $80[0x01] - (Free)
-    .Free_80: skip $01
-        ; Free RAM
-
-    ; $81[0x01] - (Free)
-    .Free_81: skip $01
-        ; Free RAM
-
-    ; $82[0x01] - (Free)
-    .Free_82: skip $01
-        ; Free RAM
-
-    ; $83[0x01] - (Free)
-    .Free_83: skip $01
+    ; $7C[0x08] - (Free)
+    .Free_7C: skip $08
         ; Free RAM
 
     ; $84[0x02] - (Overworld)
-    .OWTMIndex:
+    .OWTMIndex: skip $02
         ; Index for overworld map16 buffer to load new graphics when scrolling.
 
     ; $86[0x02] - (Overworld)
@@ -936,12 +896,8 @@ struct WRAM $7E0000
         ; Seems to be some kind of step counter for drawing ripples and thick
         ; grass around the player sprite (see Bank 0x0D).
 
-    ; $8E[0x01] - (Free)
-    .Free_8E: skip $01
-        ; Free RAM
-
-    ; $8F[0x01] - (Free)
-    .Free_8F: skip $01
+    ; $8E[0x02] - (Free)
+    .Free_8E: skip $02
         ; Free RAM
 
     ; OAM consists of 0x220 bytes of data, split unevenly into 2 tables. The
@@ -1065,7 +1021,7 @@ struct WRAM $7E0000
 
     ; $A4[0x02] - 
     .DunFloor: skip $02
-        ; Indicates the current floor Link is on in a dungeon.
+        ; Indicates the current floor the player is on in a dungeon.
         ;   0x00 - Floor 1
         ;   Positive values indingating floors above the ground floor.
         ;   Negative values indicate basement floors.
@@ -1093,21 +1049,17 @@ struct WRAM $7E0000
         ; u - Unused
 
     ; $A9[0x01] - (Dungeon, Player)
-    .LinkQuadrantH: skip $01
+    .PlayerQuadrantH: skip $01
         ; 0 if you are on the left half of the room.
         ; 1 if you are on the right half.
 
     ; $AA[0x01] - (Dungeon, Player)
-    .LinkQuadrantV: skip $01
+    .PlayerQuadrantV: skip $01
         ; 2 if you are the lower half of the room.
         ; 0 if you are on the upper half.
 
-    ; $AB[0x01] - (Free)
-    .Free_AB: skip $01
-        ; Free RAM
-
-    ; $AC[0x01] - (Free)
-    .Free_AC: skip $01
+    ; $AB[0x02] - (Free)
+    .Free_AB: skip $02
         ; Free RAM
 
     ; $AD[0x01] - (Dungeon)
@@ -1131,10 +1083,10 @@ struct WRAM $7E0000
     .SunSubmodule: skip $01
         ; Sub-submodule index. (Submodules of the $11 submodule index.)
 
-    ; $B1[0x01] - (Free)
-    .Free_B1: skip $01
-        ; Free RAM?
-        ; TODO: Confirm is unused.
+    ; $B1[0x01] - (Junk)
+    .Junk_B1: skip $01
+        ; Is written to once in Poly code but does not seem to be used anywhere.
+        ; TODO: Confirm this.
 
     ; $B2[0x02] - (Dungeon)
     .DunDrawOBJWidth: skip $02
@@ -1559,7 +1511,7 @@ struct WRAM $7E0000
         ; The high byte of CollisionType.
 
     ; $EE[0x01] - (Dungeon, Player)
-    .LinkDunLayer:
+    .PlayerDunLayer:
         ; What layer in dungeons the player is currently on. Used to determine
         ; draw, tile interactions, and collision calculations mostly.
         ; 0 Means you're on the upper level (BG2). 
@@ -1816,19 +1768,19 @@ struct WRAM $7E0000
     ; $7EXXXX until you reach bank $7F.
 
     ; $0100[0x02] - (Player, GFX)
-    .LinkPoseChrIndex: skip $02
-        ; An index that controls the graphics that need to be loaded for Link's
-        ; head and body during NMI. The Chr is stored into $0ACC.
+    .PlayerPoseChrIndex: skip $02
+        ; An index that controls the graphics that need to be loaded for the
+        ; player's head and body during NMI. The Chr is stored into $0ACC.
 
     ; $0102[0x02] - (Player, GFX)
-    .LinkAuxAChrIndex: skip $02
+    .PlayerAuxAChrIndex: skip $02
         ; The first index that controls the graphics that need to be loaded for
-        ; Link's auxiliary during NMI. The Chr is stored into $0AD4.
+        ; the player's auxiliary during NMI. The Chr is stored into $0AD4.
 
     ; $0104[0x02] - (Player, GFX)
-    .LinkAuxBChrIndex: skip $02
+    .PlayerAuxBChrIndex: skip $02
         ; The second index that controls the graphics that need to be loaded
-        ; for Link's auxiliary during NMI. The Chr is stored into $0AD6.
+        ; for the player's auxiliary during NMI. The Chr is stored into $0AD6.
 
     ; $0106[0x01] - (Free)
     .Free_0106: skip $01
@@ -1836,23 +1788,23 @@ struct WRAM $7E0000
 
     ; $0107[0x01] - (Player, GFX)
     .SwordChrIndex: skip $01
-        ; An index that controls the graphics that need to be loaded for Link's
-        ; sword during NMI. The Chr is stored into $0AC0.
+        ; An index that controls the graphics that need to be loaded for the
+        ; player's sword during NMI. The Chr is stored into $0AC0.
 
     ; $0108[0x01] - (Player, GFX)
     .SheildChrIndex: skip $01
-        ; An index that controls the graphics that need to be loaded for Link's
-        ; shield during NMI. The Chr is stored into $0AC4.
+        ; An index that controls the graphics that need to be loaded for the
+        ; player's shield during NMI. The Chr is stored into $0AC4.
 
     ; $0109[0x01] - (Player, GFX)
     .ItemChrIndex: skip $01
-        ; An index that controls the graphics that need to be loaded for Link's
-        ; shield during NMI. The Chr is stored into $0AC8.
+        ; An index that controls the graphics that need to be loaded for the
+        ; player's shield during NMI. The Chr is stored into $0AC8.
 
     ; $010A[0x01] - (Dungeon)
     .DeathLoad: skip $01
-        ; Set to nonzero when Link incurs death. Used if the player saved and
-        ; continued (or just continued) after dying, indicating that the
+        ; Set to nonzero whenthe player incurs death. Used if the player saved
+        ; and continued (or just continued) after dying, indicating that the
         ; dungeon loading process will be slightly different.
 
     ; $010B[0x01] - (Free)
@@ -1899,9 +1851,9 @@ struct WRAM $7E0000
 
     ; $0114[0x02] - (Dungeon)
     .DunCurrentTileType: skip $02
-        ; Value of the type of tile Link is currently standing on. Only the
+        ; Value of the type of tile the player is currently standing on. Only the
         ; lower byte contains the actual tile, the high byte is always 00.
-        ; The high byte could almost be free RAM but 00 is written to it
+        ; The high byte could almost be free RAM (Junk) but 00 is written to it
         ; constantly in dungeons.
 
     ; $0116[0x02] - (NMI, Tilemap)
@@ -2011,7 +1963,7 @@ struct WRAM $7E0000
         ; 0x01 - Triforce opening
         ; 0x02 - Light world
         ; 0x03 - Legend theme
-        ; 0x04 - Bunny link
+        ; 0x04 - Bunny Link
         ; 0x05 - Lost woods
         ; 0x06 - Legend theme
         ; 0x07 - Kakkariko village
@@ -2084,7 +2036,7 @@ struct WRAM $7E0000
         ; 0x03 - medium sword swing 1 (Master Sword and up)
         ; 0x04 - fierce sword swing 2 (Master Sword and up)
         ; 0x05 - object clinking against the wall
-        ; 0x06 - object clinking Link's shield or a hollow door when poked
+        ; 0x06 - object clinking the player's shield or a hollow door when poked
         ; 0x07 - shooting arrow (or red Goriyas shooting fireballs)
         ; 0x08 - arrow hitting wall
         ; 0x09 - really quiet sound
@@ -2098,26 +2050,26 @@ struct WRAM $7E0000
         ; 0x11 - hammer pounding down stake
         ; 0x12 - really familiar but can't place it exactly  ; Shovel digging noise
         ; 0x13 - playing the flute
-        ; 0x14 - Link picking something small up?
+        ; 0x14 - the player picking something small up?
         ; 0x15 - Weird zapping noise   ; bunny link turning back into a bunny
-        ; 0x16 - Link walking up staircase 1        ;  
-        ; 0x17 - Link walking up staircase 2 (finishing on next floor)
-        ; 0x18 - Link walking down staircase 1
-        ; 0x19 - Link walking down staircase 2 (finishing on next floor)
-        ; 0x1A - Link walking through grass?
+        ; 0x16 - The player walking up staircase 1        ;  
+        ; 0x17 - The player walking up staircase 2 (finishing on next floor)
+        ; 0x18 - The player walking down staircase 1
+        ; 0x19 - The player walking down staircase 2 (finishing on next floor)
+        ; 0x1A - The player walking through grass?
         ; 0x1B - sounds like a faint splash or thud
-        ; 0x1C - Link walking in shallow water
+        ; 0x1C - The player walking in shallow water
         ; 0x1D - picking an object up
         ; 0x1E - some sort of hissing (walking through grass maybe?)
         ; 0x1F - object smashing to bits
         ; 0x20 - item falling into a pit
-        ; 0x21 - link landing sound/ boss stepping sound
+        ; 0x21 - The player landing sound/ boss stepping sound
         ; 0x22 - loud thunderous noise
         ; 0x23 - pegasus boots slippy sound
-        ; 0x24 - Link making a splash in deep water (but having to come back out)
-        ; 0x25 - Link walking through swampy water
-        ; 0x26 - Link taking damage
-        ; 0x27 - Link passing out
+        ; 0x24 - The player making a splash in deep water (but having to come back out)
+        ; 0x25 - The player walking through swampy water
+        ; 0x26 - The player taking damage
+        ; 0x27 - The player passing out
         ; 0x28 - item falling onto shallow water
         ; 0x29 - rupees refill sound
         ; 0x2A - whiffy sound    ; aslo fire rod sound?
@@ -2189,7 +2141,7 @@ struct WRAM $7E0000
         ; 0x28 - Agahnim / Ganon teleporting
         ; 0x29 - Agahnim shooting a beam
         ; 0x2A - tougher enemy taking damage.
-        ; 0x2B - Link getting electromucuted
+        ; 0x2B - The player getting electrocuted
         ; 0x2C - bees buzzing
         ; 0x2D - Major achievement completed (e.g. getting a piece of heart)
         ; 0x2E - Major item obtained (e.g. Pendant or Heart Container)
@@ -2366,7 +2318,7 @@ struct WRAM $7E0000
     ; $0211[0x02] - (Dungeon map)
     .DunMapCurrentFloor: skip $02
         ; Of the two floors shown on a dungeon map, this indicates which one is
-        ; of the floor Link is currently on. High byte isn't relevant and is
+        ; of the floor the player is currently on. High byte isn't relevant and is
         ; zeroed during drawing.
         ;   0x00 - top map
         ;   0x02 - bottom map
@@ -2377,22 +2329,22 @@ struct WRAM $7E0000
         ; used as a Y velocity for the scrolling in an unused function as well.
 
     ; $0215[0x02] - (Dungeon map)
-    .DunMapLinkXPos: skip $02
+    .DunMapPlayerXPos: skip $02
         ; The X position to draw the flashing red/yellow/white dot showing where
-        ; link is on the map grid. This also controls the X position of the
+        ; the player is on the map grid. This also controls the X position of the
         ; blinking red/white room cross hair box also showing what room the
         ; player is.
 
     ; $0217[0x02] - (Dungeon map)
-    .DunMapLinkYPos: skip $01
+    .DunMapPlayerYPos: skip $01
         ; The Y position to draw the flashing red/yellow/white dot showing where
-        ; link is on the map grid. Unlike the X position, this does NOT control
-        ; the Y position of the blinking red/white room cross hair box. That is
-        ; instead controlled by $0CF5.
+        ; the player is on the map grid. Unlike the X position, this does NOT
+        ; control the Y position of the blinking red/white room cross hair box.
+        ; That is instead controlled by $0CF5.
 
     ; $0218[0x01] - (Dungeon map)
-    .DunMapLinkYPosHigh: skip $01
-        ; The high byte of DunMapLinkYPos.
+    .DunMapPlayerYPosHigh: skip $01
+        ; The high byte of DunMapPlayerYPos.
 
     ; $0219[0x02] - (HUD, Tilemap)
     .HUDTileMapLocation: skip $02
@@ -2400,44 +2352,27 @@ struct WRAM $7E0000
         ; the BG3 tilemap. $6040 is written to this once during save file
         ; loading and then stays that way for the rest of the game.
 
-    ; $021B[0x01] - (Free)
-    .Free_021B: skip $01
+    ; $021B[0x02] - (Free)
+    .Free_021B: skip $02
         ; Free RAM
         ; According to Kan: Unused but referenced in an unused table entry
         ; indicating this address would have been used for stripes data of
         ; some sort...?
 
-    ; $021C[0x01] - (Free)
-    .Free_021C: skip $01
-        ; Free RAM
-        ; See the note from Free_021B.
-
-    ; $021D[0x01] - (Free)
-    .Free_021D: skip $01
+    ; $021D[0x02] - (Free, Junk)
+    .Free_021D: skip $02
         ; The value 0x4841 is written to this and Free_021E once during file
         ; loading and then never used again. Can be reasonably used as free RAM.
 
-    ; $021E[0x01] - (Free)
-    .Free_021E: skip $01
-        ; See the note for Free_021D.
-
-    ; $021F[0x01] - (Free)
-    .Free_021F: skip $01
+    ; $021F[0x02] - (Free)
+    .Free_021F: skip $02
         ; The value 0x007F is written to this and Free_0220 once during file
         ; loading and then never used again. Can be reasonably used as free RAM.
 
-    ; $0220[0x01] - (Free)
-    .Free_0220: skip $01
-        ; See the note for Free_021F.
-
-    ; $0221[0x01] - (Free)
-    .Free_0221: skip $01
+    ; $0221[0x02] - (Free)
+    .Free_0221: skip $02
         ; The value 0xFFFF is written to this and Free_0222 once during file
         ; loading and then never used again. Can be reasonably used as free RAM.
-
-    ; $0222[0x01] - (Free)
-    .Free_0222: skip $01
-        ; See the note for Free_0221.
 
     ; $0223[0x01] - (Junk)
     .Junk_0223: skip $01
@@ -2486,8 +2421,8 @@ struct WRAM $7E0000
     ; $02C0[0x02] - (Dungeon)
     .TileActAutoStairs: skip $02
         ; Tile act bitfield used by intraroom stairs. If this variable masked
-        ; with s is nonzero, Link moves as though he's on an in-room south
-        ; staircase If this variable masked with n is nonzero, Link moves
+        ; with s is nonzero, the player moves as though he's on an in-room south
+        ; staircase If this variable masked with n is nonzero, the player moves
         ; as though he's on an in-room north staircase. High byte unused but
         ; written.
         ; .... .... sss. nnn.
@@ -2509,30 +2444,30 @@ struct WRAM $7E0000
         ; A timer used to control push blocks.
 
     ; $02C5[0x01] - (Player)
-    .LinkJumpDelay: skip $01
-        ; Related to LinkRecoilTimer. Some weird timer/flag when doing very long
-        ; jumps or recoils. Seems to cause Link to hesitate briefly before
+    .PlayerJumpDelay: skip $01
+        ; Related to PlayerRecoilTimer. Some weird timer/flag when doing very long
+        ; jumps or recoils. Seems to cause the player to hesitate briefly before
         ; actually jumping.
 
     ; $02C6[0x01] - (Player)
     .BounceShift: skip $01
-        ; Seems to be a counter for Link's bouncing and how many shifts right to
-        ; perform.
+        ; Seems to be a counter for the player's bouncing and how many shifts
+        ; right to perform.
 
     ; $02C7[0x01] - (Player)
-    .LinkRecoilTimerTemp: skip $01
-        ; A value to be eventually manipulated and stored into LinkRecoilTimer.
+    .PlayerRecoilTimerTemp: skip $01
+        ; A value to be eventually manipulated and stored into PlayerRecoilTimer.
 
     ; $02C8[0x01] - (Free)
     .Free_02C8: skip $01
         ; Free RAM.
 
-    ; $02C9 - (Player)
-    .LinkPitFallAnimation: skip $01
+    ; $02C9 - (Player, Junk)
+    .PlayerPitFallAnimation: skip $01
         ; Used to temporarily store the index of the pit fall animation. Only
         ; written to once and read from very shortly after. Could be used as
-        ; free ram as long as its not in a room or area with pits. You could
-        ; also just use a PHX and PLX instead.
+        ; free RAM (Junk) as long as its not in a room or area with pits. You
+        ; could also just use a PHX and PLX instead.
 
     ; $02CA - (Player)
     .PushFallTimer: skip $01
@@ -2541,12 +2476,12 @@ struct WRAM $7E0000
         ; case where the player goes straight from pushing a block into falling.
 
     ; $02CB[0x01] - (Player)
-    .LinkSwimStrokeTimer: skip $01
-        ; A timer that controls the length of link's swim stroke.
+    .PlayerSwimStrokeTimer: skip $01
+        ; A timer that controls the length of the player's swim stroke.
         ; TODO: Confirm this.
 
     ; $02CC[0x01] - (Player)
-    .LinkSwimAnimationOffset: skip $01
+    .PlayerSwimAnimationOffset: skip $01
         ; Acts as a step offset for swimming.
         ; 0 - 
         ; 1 - 
@@ -2618,8 +2553,8 @@ struct WRAM $7E0000
         ; Written to with a value of 0x60 when receiving an item, but never read.
 
     ; $02DA[0x01] - (Player)
-    .LinkItemPose: skip $01
-        ; Flag indicating whether Link is in the pose used to hold an item
+    .PlayerItemPose: skip $01
+        ; Flag indicating whether the player is in the pose used to hold an item
         ; or not.
         ; 0x00            - No extra pose.
         ; 0x01, 0x03-0xFF - Holding up item with one hand pose
@@ -2636,26 +2571,26 @@ struct WRAM $7E0000
         ; was specialized in order to do so.
 
     ; $02DC[0x02] - (Player)
-    .LinkXCoordCache: skip $01
-        ; Mirror of Link's X coordinate which is used in a Bank 07 function
+    .PlayerXCoordCache: skip $01
+        ; Mirror of the player's X coordinate which is used in a Bank 07 function
         ; Link_HandleDiagonalKickback.
 
     ; $02DD[0x01] - (Player)
-    .LinkXCoordCacheHigh: skip $01
-        ; The high byte of LinkXCoordCache.
+    .PlayerXCoordCacheHigh: skip $01
+        ; The high byte of PlayerXCoordCache.
 
     ; $02DE[0x02] - (Player)
-    .LinkYCoordCache: skip $02
-        ; Mirror of Link's Y coordinate which is used in a Bank 07 function
+    .PlayerYCoordCache: skip $02
+        ; Mirror of the player's Y coordinate which is used in a Bank 07 function
         ; Link_HandleDiagonalKickback.
 
     ; $02DF[0x01] - (Player)
-    .LinkYCoordCache: skip $01
-        ; The high byte of LinkYCoordCache.
+    .PlayerYCoordCache: skip $01
+        ; The high byte of PlayerYCoordCache.
 
     ; $02E0[0x01] - (Player)
-    .LinkIsBunny2: skip $01
-        ; Flag for Link's graphics set. Mirrored at LinkIsBunny, One of the 2
+    .PlayerIsBunny2: skip $01
+        ; Flag for Player's graphics set. Mirrored at PlayerIsBunny, One of the 2
         ; could just be removed as they appear to always be eqaul.
         ; 0 - Normal Link.
         ; 1 - Bunny Link.
@@ -2663,12 +2598,12 @@ struct WRAM $7E0000
 
     ; $02E1[0x01] - (Player)
     .IsPoofing: skip $01
-        ; Link is transforming? Poofing in a cloud to transform into the bunny
-        ; or when using the cape.
+        ; The player is transforming? Poofing in a cloud to transform into the
+        ; bunny or when using the cape.
 
     ; $02E2[0x01] - (Player)
     .PoofTimer: skip $01
-        ; Timer for when Link is poofing.
+        ; Timer for when the player is poofing.
 
     ; $02E3[0x01] - (Player)
     .SwordCoolDown: skip $01
@@ -2677,9 +2612,9 @@ struct WRAM $7E0000
 
     ; $02E4[0x01] - (Player, Tagalong, Equipment)
     .CutsceneFlag: skip $01
-        ; Flag that, if nonzero, will not allow Link to move, tagalongs to move,
-        ; will not allow entering the equipment menu, etc. Generally used during
-        ; cutscenes such as talking to any npc with an event (zelda, kiki,
+        ; Flag that, if nonzero, will not allow the player to move, tagalongs to
+        ; move, will not allow entering the equipment menu, etc. Generally used
+        ; during cutscenes such as talking to any npc with an event (zelda, kiki,
         ; priest, etc.)
 
     ; $02E5[0x02] - (Player, Tile Attribute)
@@ -2718,12 +2653,12 @@ struct WRAM $7E0000
 
     ; $02EC[0x01] - (Player, Ancilla) 
     .LiftableID: skip $01
-        ; When Link is near a liftable ancilla, this holds its slot+1. Often
-        ; just used as a non-0 check to see if Link can lift something.
+        ; When the player is near a liftable ancilla, this holds its slot+1. Often
+        ; just used as a non-0 check to see if the player can lift something.
 
     ; $02ED[0x01] - (Player, Tile Attribute, DesertBarrier) 
     .NearPlaque: skip $01
-        ; If nonzero, it indicates that Link is near the plaque tile that
+        ; If nonzero, it indicates that the player is near the plaque tile that
         ; triggers the Desert Palace opening with the Book of Mudora. TODO:
         ; Check if this is only the desert palace plaque or if its all plaques.
 
@@ -2744,13 +2679,13 @@ struct WRAM $7E0000
 
     ; $02F0[0x01] - (DesertBarrier)
     .DesertBarrierFlag: skip $01
-        ; When nonzero, the Desert Barrier activates and allows link to progress
-        ; into the Desert Palace.
+        ; When nonzero, the Desert Barrier activates and allows the player to
+        ; progress into the Desert Palace.
 
     ; $02F1[0x01] - (Player)
     .DashStop: skip $01
         ; Related to dashing. Set to 0x40 at start, counts down to 0x20. If it
-        ; could reach 0x0F (which it can't), Link would stop moving. TODO:
+        ; could reach 0x0F (which it can't), the player would stop moving. TODO:
         ; Figure out exact use.
 
     ; $02F2[0x01] - (Tagalong)
@@ -2771,7 +2706,7 @@ struct WRAM $7E0000
         ; A button press.
 
     ; $02F5[0x01] - (Player, Somaria)
-    .LinkOnSomaria: skip $01
+    .PlayerOnSomaria: skip $01
         ; 0 - Not on a Somaria platform.
         ; 1 - On a Somaria platform.
         ; 2 - On a Somaria platform and moving.
@@ -2793,9 +2728,9 @@ struct WRAM $7E0000
         ; SEE TILE ACT NOTES
 
     ; $02F8[0x01] - (Player)
-    .LinkThud: skip $01
-        ; Flag used to make Link make a noise when he gets done bouncing after
-        ; a wall he's dashed into. Thus, it only has any use in relation to
+    .PlayerThud: skip $01
+        ; Flag used to make the player make a noise when he gets done bouncing
+        ; after a wall he's dashed into. Thus, it only has any use in relation to
         ; dashing.
 
     ; $02F9[0x01] - (Tagalong)
@@ -2803,9 +2738,9 @@ struct WRAM $7E0000
         ; When set, prevents follower from drawing and forces a game mode check.
 
     ; $02FA[0x01] - (Player, Statue)
-    .LinkDrag: skip $01
+    .PlayerDrag: skip $01
         ; Flag that is set if you are near a moveable statue (close enough to
-        ; grab it) causes Link to drag.
+        ; grab it) causes the player to drag.
 
     ; $02FB[0x05] - (Free)
     .Free_02FB: skip $05
@@ -2826,8 +2761,8 @@ struct WRAM $7E0000
     ; $0301[0x01] - (Player, Item)
     .ItemUseFlag: skip $01
         ; bp.aethr
-        ; When non zero, Link has something in his hand, poised to strike. It's
-        ; intended that only one bit in this flag be set at any time.
+        ; When non zero, the player has something in his hand, poised to strike.
+        ; It's intended that only one bit in this flag be set at any time.
         ; b - Boomerang
         ; p - Magic Powder
         ; a - Bow and Arrow
@@ -2911,8 +2846,8 @@ struct WRAM $7E0000
 
     ; $030A[0x01] - (Player, OAM)
     .PlayerStrainAnimation: skip $01
-        ; Indexes Link's grab animation, but all nonzero values seem to behave the
-        ; same way. Used with $030B.
+        ; Indexes the player's grab animation, but all nonzero values seem to
+        ; behave the same way. Used with $030B.
         
         ; TODO: Investigate this.
         ; Also, $030A-B seem to be used for the opening of the desert palace.
@@ -2948,12 +2883,12 @@ struct WRAM $7E0000
 
     ; $0314[0x01] - (Player, Sprite)
     .SpriteLift: skip $01
-        ; The index (the X in $0DD0 for example) of a liftable sprite that Link is
-        ; near, +1.
+        ; The index (the X in $0DD0 for example) of a liftable sprite that the
+        ; player is near, +1.
 
     ; $0315[0x01] - (Player)
     .UnknownCollisionFlag: skip $01
-        ; Seems to be a flag that is set to 0 if Link is not moving, 
+        ; Seems to be a flag that is set to 0 if the player is not moving, 
         ; and 1 if he is moving. However it doesn't seem to get reset to zero.
         ; Set to 2 in certain scenarios, appears to be used in collision checks.
         ; TODO: Confirm uses.
@@ -2966,13 +2901,13 @@ struct WRAM $7E0000
 
     ; $0318[0x02] - (Player, Dungeon)
     .FloorY: skip $02
-        ; Scratch spaced used for caching Link's Y coordinate during moving floor
-        ; routines.
+        ; Scratch spaced used for caching the player's Y coordinate during moving
+        ; floor routines.
 
     ; $031A[0x02] - (Player, Dungeon)
     .FloorX: skip $02
-        ; Scratch spaced used for caching Link's X coordinate during moving floor
-        ; routines.
+        ; Scratch spaced used for caching the player's X coordinate during moving
+        ; floor routines.
 
     ; $031C[0x01] - (Player, OAM)
     .PlayerSpinGFX: skip $01
@@ -2985,7 +2920,7 @@ struct WRAM $7E0000
     ; $031E[0x01] - (Player, OAM)
     .PlayerSpinStepOff: skip $01
         ; Used as an offset for a table to retrieve values for $031C. The offset
-        ; comes in increments of four, depending on which direction Link is
+        ; comes in increments of four, depending on which direction the player is
         ; facing when he begins to spin. This makes sense, given that he always
         ; spins the same direction, and allows for reusability between the
         ; different directions, each one being a sub set of the full sequence.
@@ -3008,11 +2943,11 @@ struct WRAM $7E0000
         ; MovingFloorTileAct?
 
     ; $0323[0x01] - (Player, Oam)
-    .LinkHeadingMirror: skip $01
-        ; A sudo mirror of LinkHeading, which is an indicator for which
-        ; direction you are facing. Only used in the rendering of Link's OAM
+    .PlayerHeadingMirror: skip $01
+        ; A sudo mirror of PlayerHeading, which is an indicator for which
+        ; direction you are facing. Only used in the rendering of the player's OAM
         ; data in Bank 0x0D. Has one case where it is not a 1 for 1 match with
-        ; LinkHeading in PlayerOam_Main in bank 0x0D. Explicitly set to down
+        ; PlayerHeading in PlayerOam_Main in bank 0x0D. Explicitly set to down
         ; (0x02) for Desert prayer.
 
     ; $0324[0x01] - (Player, Item)
@@ -3027,74 +2962,92 @@ struct WRAM $7E0000
         ; Almost free RAM but cleared by the medallion spells.
 
     ; $0326[0x02] - (Player)
-    .MomentumY: skip $02
+    .PlayerMomentumY: skip $02
         ; Y momentum for ice/swimming. When a direction is released, these count
         ; down to 0.
 
     ; $0328[0x02] - (Player)
-    .MomentumX: skip $02
+    .PlayerMomentumX: skip $02
         ; X momentum for ice/swimming. When a direction is released, these count
         ; down to 0.
 
     ; $032A[0x01] - (Player)
-    .LinkSwimStrokeTimerCount: skip $01
+    .SwimStrokeTimerCount: skip $01
         ; Number of times the swim stroke timer has counted down (stops at 4).
 
     ; $032B[0x02] - (Player)
-    .LinkSwimY: skip $02
+    .PlayerSwimY: skip $02
         ; Used to index Y accelaration for swim thrust changes. Max expected
         ; value is 0x0002
 
     ; $032D[0x02] - (Player)
-    .LinkSwimX: skip $02
+    .PlayerSwimX: skip $02
         ; Used to index X accelaration for swim thrust changes. Max expected
         ; value is 0x0002
 
-    ; $032F - 
-        ; ???? collision related?
+    ; $032F[0x02] - (Player)
+    .PlayerSwimYAccReset: skip $02
+        ; Flag checking swim Y accleration resets
 
-    ; $0331 - 
-        ; ???? collision related?
+    ; $0331[0x02] - (Player)
+    .PlayerSwimXAccReset: skip $02
+        ; Flag checking swim Y accleration resets
 
-    ; $0333 - 
+    ; $0333[0x01] - (Torch)
+    .TorchTileType: skip $01
         ; Stores the tile type that the lantern fire or fire rod shot is
         ; currently interacting with.
 
-    ; $0334 - 
-        ; ???? collision related?
+    ; $0334[0x02] - (Player)
+    .PlayerMaxSwimYAcc: skip $01
+        ; The max Y accelaration when swimming.
 
-    ; $0336 - 
-        ; ???? collision related?
+    ; $0336[0x02] - (Player)
+    .PlayerMaxSwimXAcc: skip $01
+        ; The max X accelaration when swimming.
 
-    ; $0338 - 
-        ; ???? collision related?
+    ; $0338[0x02] - (Player, Junk)
+    .PlayerSwimYAccFlag: skip $02
+        ; Seems to flag acceleration to have on the Y axis while swimming.
+        ; The high byte is always written to as 00 and never read.
 
-    ; $033A - 
-        ; ???? collision related?
+    ; $033A[0x02] - (Player, Junk)
+    .PlayerSwimXAccFlag: skip $02
+        ; Seems to flag acceleration to have on the X axis while swimming.
+        ; The high byte is always written to as 00 and never read.
 
-    ; $033C[0x02] - 
-        ; ???? collision related?
+    ; $033C[0x02] - (Player)
+    .PlayerSwimYAcc: skip $02
+        ; Y swim acceleration.
 
-    ; $033E[0x02] - 
-        ; ???? collision related?
+    ; $033E[0x02] - (Player)
+    .PlayerSwimXAcc: skip $02
+        ; X swim acceleration.
 
     ; $0340[0x01] - (Player)
-        ; Seems to be very closely related to $26 and $67, though the exact
-        ; connection is not yet clear. Perhaps it is a scratch variable for
-        ; internal calculations during the player logic?
+    .PlayerSwimDir: skip $01
+        ; Bitfield for swim direction:
+        ; .... udlr
+        ;   u - up
+        ;   d - down
+        ;   l - left
+        ;   r - right
 
-    ; $0341 - 
-        ; Bitfield for interaction with deep water and ??? tiles
-        ; uuuuuuuu ffffwwww
-        ; f - ??? (waterfall maybe?)
-        ; u - Free RAM
-        ; w - deep water
+    ; $0341[0x01] - (Player, Tile Attribute)
+    .PlayerSwimTileAct: skip $01
+        ; Tile act bitfield used by water:
+        ; bbbb dddd
+        ;   b - tile 0B Waterfall? TODO: Verify this.
+        ;   d - deep water
+        ; SEE TILE ACT NOTES
 
-    ; $0343 - 
-        ; Bitfield for interaction with normal tiles
-        ; 
+    ; $0342[0x01] - (Player, Tile Attribute, Junk)
+    .Junk_0342: skip $01
+        ; Unused but is set to 00 as the high byte of PlayerSwimTileAct.
+
+    ; $0343[0x02] - 
+        ; Bitfield for interaction with normal tiles:
         ; uuuuuuuu uuuunnnn
-        ; 
         ; n - normal tile
         ; u - Free RAM
 
