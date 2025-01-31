@@ -732,7 +732,7 @@ struct WRAM $7E0000
         ; Used for spell timer for Agahnim in attract mode.
         ; Zeroed by DoorHFlag during normal gameplay.
 
-    ; $64[0x02] - 
+    ; $64[0x02] - (Player, OAM)
     .PlayerOAMPriority: skip $01
         ; Used to ORA in OAM priority, but only high byte seems used for that.
         ; 0x1000 if $EE = 1, 0x2000 if $EE = 0.
@@ -2942,7 +2942,7 @@ struct WRAM $7E0000
         ; TODO: Some player related bitfield flagging interaction with
         ; MovingFloorTileAct?
 
-    ; $0323[0x01] - (Player, Oam)
+    ; $0323[0x01] - (Player, OAM)
     .PlayerHeadingMirror: skip $01
         ; A sudo mirror of PlayerHeading, which is an indicator for which
         ; direction you are facing. Only used in the rendering of the player's OAM
@@ -3039,146 +3039,205 @@ struct WRAM $7E0000
         ; bbbb dddd
         ;   b - tile 0B Waterfall? TODO: Verify this.
         ;   d - deep water
-        ; SEE TILE ACT NOTES
+        ; SEE TILE ACT NOTES.
 
     ; $0342[0x01] - (Player, Tile Attribute, Junk)
     .Junk_0342: skip $01
         ; Unused but is set to 00 as the high byte of PlayerSwimTileAct.
 
-    ; $0343[0x02] - 
-        ; Bitfield for interaction with normal tiles:
-        ; uuuuuuuu uuuunnnn
+    ; $0343[0x01] - (Player, Tile Attribute)
+    .PlayerDiveTileAct: skip $01
+        ; Tile act bitfield used by tile 0A and another nothing. Used to detect
+        ; whether the player should jump in or out of water.
+        ; .... nnnn
         ; n - normal tile
-        ; u - Free RAM
+        ; SEE TILE ACT NOTES.
+        
+    ; $0344[0x01] - (Player, Tile Attribute, Junk)
+    .Junk_0344: skip $01
+        ; Unused but is set to 00 as the high byte of PlayerDiveTileAct.
 
     ; $0345[0x01] - (Player)
-
+    .InDeepWater: skip $01
         ; Set to 1 when we are in deep water. 0 otherwise.
 
-    ; $0346[0x02] -
-
+    ; $0346[0x02] - (Player, Palette)
+    .PlayerPalette: skip $02
         ; Exclusively used in Bank 0x0D for the purposes of drawing Link. This
-        ; value gets bitwise ORed in to supply the palette bits of Link's
-        ; sprite. It's only intended to take on one of two values - 0x000E, or
+        ; value gets bitwise OR-ed in to supply the palette bits of Link's
+        ; sprite. It's only intended to take on one of two values - 0x0E00, or
         ; 0x0000. 0x0E00 indicates that palette 7 is being used, and 0x0000
         ; indicates that palette 0 is being used. Sometimes Link's palette swaps
         ; so that Link won't turn translucent when color addition is active. An
         ; example of this would be in the Flute Boy's meadow when he disappears.
         ; See $0ABD for more info.
 
-    ; $0348[0x02] - (Player)
+    ; $0348[0x01] - (Player, Tile Attribute)
+    .PlayerIceTileAct:
         ; Bitfield for interaction with icy floor tiles
-        ; uuuuuuuu jjjjiiii
-        ; u - Free RAM
-        ; i - icy tile 1
-        ; j - icy tile 2 (distinction is not quite understood right now)
-        ; Update: It appears that the 'i' tiles aren't actually .... ice? If
-        ; they are used for something else, or at all, we'll have to find that
-        ; out eventually.
+        ; jjjj iiii
+        ; i - Ice palace icy tile 1
+        ; j - Ganon's Tower icy tile 2
+        ; SEE TILE ACT NOTES.
 
-    ; $034A[0x01] - (Player)
+    ; $0349[0x01] - (Player, Tile Attribute, Junk)
+    .Junk_0349: skip $01
+        ; Unused but is set to 00 as the high byte of PlayerIceTileAct.
+
+    ; $034A[0x01] - (Player, Tile Attribute)
+    .PlayerIceWalking:
         ; Flag indicating whether Link is moving or not. (I think)
+        ; Kan Appears to flag what type of ice floor Link is walking on.
+        ; TODO: Confirm this.
 
-    ; $034B - 
-        ; Debug variable, as it is never read, and only written to in the
-        ; equipment screen code.
+    ; $034B[0x01] - (Player, Tile Attribute, Junk)
+    .Junk_034B: skip $01
+        ; Unused but is set to 00 as the high byte of PlayerIceWalking.
+        ; Is also a possible debug variable set when using one of the rods.
+        ; However it is only written to and never read.
 
-    ; $034C - 
-        ; Bitfield for the top of water staircase tile interactions
-        ; uuuuuuuu uuuussss
-        ; s - water staircase
-        ; u - Free RAM
+    ; $034C[0x01] - (Player, Tile Attribute)
+    .PlayerWaterStairTileAct:
+        ; Tile act bitfield for the top of water staircase tile interactions
+        ; (overlay mask 1C)
+        ; ....ssss
+        ; s - Water staircase
+        ; SEE TILE ACT NOTES.
 
-    ; $034E[0x01] -
+    ; $034D[0x01] - (Player, Tile Attribute, Junk)
+    .Junk_034D: skip $01
+        ; Unused but is set to 00 as the high byte of PlayerWaterStairTileAct.
 
-        ; Definitely related to Cane of Somaria and how Link is displayed when
-        ; on a Somaria platform
+    ; $034E[0x01] - (Player)
+    .PlayerSomariaDraw: skip $01
+        ; TODO: Definitely related to Somaria platforms and how the player is
+        ; displayed when on a Somaria platform.
 
     ; $034F[0x01] - (Player)
-        ; If nonzero, Link does the harder stroke while swimming. This is
+    .PlayerStroke: skip $01
+        ; If nonzero, the player does the harder stroke while swimming. This is
         ; triggered by pressing the A, B, or Y buttons while swimming, but ends
         ; shortly. It has no bearing on his swimming speed, though.
 
-    ; $0350[0x01] - (WriteOnly)
-        ; Free RAM, though it would need to be reclaimed from the game engine
-        ; as it's currently used in several places as an apparent debug variable.
-        ; Specifically, it always written to, but never read.
+    ; $0350[0x01] - (Junk)
+    .Junk_0350: skip $01
+        ; A possible debug variable that is written to in several places but
+        ; never read from.
 
-    ; $0351[0x01] - (PlayerOam)
-        ; Value that, if set to 1, draws the water ripples around the player
-        ; sprite while standing in water. The drawing, of course, uses sprites.
-        ; If the value is 2, then a patch of tall grass is instead. Any value
-        ; other than 2 (besides 0) produces the water effect.
+    ; $0351[0x01] - (Player, OAM)
+    .PlayerShadowGFX: skip $01
+        ; Controls the graphical effect around Link's feet:
+        ;   0x00 - Regular shadow
+        ;   0x01 - Water ripple
+        ;   0x02 - Tall grass
+        ;   Everything after 0x02 is also the water ripple.
 
-    ; $0352[0x02] - (PlayerOam)
-        ; Used exclusively during writing Link's OAM data (bank 0x0D) as an
-        ; offset into the OAM buffer ($0800)
+    ; $0352[0x02] - (Player, OAM)
+    .PlayerOAMOffset: skip $02
+        ; Used exclusively during writing the player's OAM data (bank 0x0D) as an
+        ; offset into the OAM buffer ($0800).
 
-    ; $0354[0x01] - (PlayerOam)
-        ; Used exclusively during writing Link's OAM data for currently unknown
-        ; purposes.
+    ; $0354[0x01] - (Player, OAM)
+    .PlayerAuxAnimationIndex: skip $01
+        ; Index of animation for the Player's auxiliary sprite objects.
 
-    ; $0355[0x01] - (PlayerOam)
+    ; $0355[0x01] - (Player, OAM)
+    .PlayerShadowAnimationStep: skip $01
         ; Secondary water / grass timer. Increments when $0356 reaches 9. Values
         ; range from 0 to 2, and gets set back to 0 when it reaches 3.
 
-    ; $0356[0x01] - (PlayerOam)
+    ; $0356[0x01] - (Player, OAM)
+    .PlayerShadowAnimationTimer: skip $01
         ; Primary water / grass timer. Valuess range from 0 to 8, and gets set
         ; back to 0 when it reaches 9.
 
-    ; $0357 - 
-        ; Bitfield for interaction with thick Grass / warp tiles
-        ; uuuuuuuu wwwwgggg
+    ; $0357[0x01] - (Player, Tile Attribute)
+    .PlayerGrassWarpTileAct: skip $01
+        ; Bitfield for interaction with thick grass / warp tiles.
+        ; wwww gggg
         ; g - bits are for thick grass tiles
         ; w - bits are for warp tiles (blue on OW, orange in dungeons)
-        ; u - Free RAM
+        ; SEE TILE ACT NOTES.
 
-    ; $0359 - 
-        ; Bitfield for interaction with shallow water tiles
-        ; uuuuuuuu uuuuwwww
-        ; w - water tiles
-        ; u - Free RAM
+    ; $0358[0x01] - (Player, Tile Attribute, Junk)
+    .Junk_0358: skip $01
+        ; Unused but is set to 00 as the high byte of PlayerGrassWarpTileAct.
 
-    ; $035B - 
-        ; Bitfield for interaction with destruction aftermath tiles
-        ; (bushes, rockpiles, etc).
-        ; uuuuuuuu uuuuaaaa
+    ; $0359[0x01] - (Player, Tile Attribute)
+    .PlayerShallowWaterTileAct: skip $01
+        ; Bitfield for interaction with shallow water tiles.
+        ; .... wwww
+        ; w - Shallow water tiles
+        ; SEE TILE ACT NOTES.
+
+    ; $035A[0x01] - (Player, Tile Attribute, Junk)
+    .Junk_035A: skip $01
+        ; Unused but is set to 00 as the high byte of PlayerShallowWaterTileAct.
+
+    ; $035B[0x01] - (Player, Tile Attribute)
+    .PlayerDiggableTileAct: skip $01
+        ; Bitfield for interaction with destruction aftermath tiles (bushes,
+        ; rockpiles, etc). Kan: Tile act bitfield used by diggable ground.
+        ; TODO: Confirm which is true. 
+        ; .... aaaa
         ; a - aftermath tiles
-        ; u - Free RAM
+        ; SEE TILE ACT NOTES.
 
-    ; $035D - 
-        ; Used exclusively during writing Link's OAM data (bank 0x0D).
-        ; Bitwise ORed in for some of the OAM data.
+    ; $035C[0x01] - (Player, Tile Attribute, Junk)
+    .Junk_035C: skip $01
+        ; Unused but is set to 00 as the high byte of PlayerDiggableTileAct.
 
-    ; $035F[0x01] - (Boomerang)
-        ; Seems to be a flag indicating that the boomerang is in play. It shows
-        ; up in many places so far. Not even sure why it needs this flag...
-        ; maybe hackish coding by Nintendo?
+    ; $035D[0x02] - (Player, OAM)
+    .PlayerShadowProp: skip $02
+        ; OAM properties of the player's shadow / water ripples / tall grass.
 
-    ; $0360[0x01] - 
+    ; $035F[0x01] - (Item)
+    .BoomerangActive:
+        ; A flag indicating the boomerang is active.
+
+    ; $035F[0x01] - (Game Over)
+    .GameOverText: skip $01
+        ; Used by GAME OVER text for indexing.
+
+    ; $0360[0x01] - (Player)
+    .PlayerZapRecoil: skip $01
         ; A flag that, when nonzero, causes Link to be electrocuted when
-        ; touching an enemy. This seems counterintuitive to me, but
-        ; whatever.
+        ; touching an enemy.
 
-    ; $0361 - 
-        ; Free RAM
+    ; $0361[0x01] - (Free RAM)
+    .Free_0361: skip $01
+        ; Free RAM.
 
-    ; $0362 - 
-        ; ????
+    ; $0362[0x01] - (Player)
+    .PlayerHopZSpeed1: skip $01
+        ; Something to do with the player's Z speed while hopping off cliffs.
+        ; TODO: Confirm this.
 
-    ; $0363 - 
-        ; ????
+    ; $0363[0x01] - (Player)
+    .PlayerHopZSpeed2: skip $01
+        ; Something to do with the player's Z speed while hopping off cliffs.
+        ; Often appears as the same value as PlayerHopZSpeed1 a lot but not
+        ; always.
+        ; TODO: Confirm this.
 
-    ; $0364 - 
-        ; ???? (relates to Link's sprites's object priority somehow?)
-        ; Hard to say if $0365 is coupled or separate from this variable
-        ; at this point.
+    ; $0364[0x02] - (Player)
+    .PlayerHopZ: skip $02
+        ; Acts as a Z-coordinate sort of when jumping ledges.
 
-    ; $0366 - 
-        ; Flag stating that Link is about to read something (assuming he's
-        ; facing north) Used with telepath tiles (dungeon), and signs (overworld)
+    ; $0366[0x01] - (Player, Tile Attribute)
+    .PlayerReadableTileAct: skip $01
+        ; Flag stating that the player is about to read something (assuming
+        ; they're facing north) Used with telepath tiles and signs.
+        ; Kan: Tile act bitfield used by liftables in some weird way??
+        ; .... llll
+        ; SEE TILE ACT NOTES
+        ; TODO: Confirm which is correct.
 
-    ; $0368 - 
+    ; $0367[0x01] - (Player, Tile Attribute, Junk)
+    .Junk_0367: skip $01
+        ; Unused but is set to 00 as the high byte of PlayerReadableTileAct.
+
+    ; $0368[0x01] - 
         ; The value of $036A shifted right once (divided by two).
         ; Used in the context of lifting tiles like bushes, rocks, etc.
         ; 0x00 - sign
@@ -3189,7 +3248,7 @@ struct WRAM $7E0000
         ; 0x05 - large light rock
         ; 0x06 - large heavy rock
 
-    ; $0369 - 
+    ; $0369[0x01] - 
         ; The value of $036A shifted left once (multiplied by two).
         ; While this variable may at first glance appear to be used, its
         ; value is never meaningfully inspected or put to good use.
@@ -3197,7 +3256,7 @@ struct WRAM $7E0000
         ; modder would have to remove the current (useless) references to
         ; the variable, which number all of 2 times.
 
-    ; $036A - 
+    ; $036A[0x01] - 
         ; When interacting with liftable tiles, this is an index that which type.
         ; Note: This value is always even, for whatever reason.
         ; 0x00 - sign
@@ -3208,7 +3267,7 @@ struct WRAM $7E0000
         ; 0x0A - large light rock
         ; 0x0C - large heavy rock
 
-    ; $036B - 
+    ; $036B[0x01] - 
         ; ????
 
     ; $036C[0x01] - 
@@ -3411,7 +3470,7 @@ struct WRAM $7E0000
     ; $03EA - 
         ; special effect ???
 
-    ; $03EF[0x01] - (Player, PlayerOam)
+    ; $03EF[0x01] - (Player, OAM)
         ; Normally zero. If set to nonzero, it forces Link to the pose
         ; where he is holding his sword up. One example of where this is
         ; used is right after Ganon is defeated.

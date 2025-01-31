@@ -1628,6 +1628,7 @@ LinkState_HoppingSouthOW:
 ; $038A05-$038AC8 LOCAL JUMP LOCATION
 LinkState_HandlingJump:
 {
+    ; OPTIMIZE: You don't need to load this value twice.
     LDA.w $0362 : STA.b $29
     LDA.w $0362 : STA.w $02C7
     LDA.w $0364 : STA.b $24
@@ -7805,9 +7806,7 @@ Link_Lift:
         
         .openSpriteSlot
         
-        LDA.w $0368
-        
-        CMP.b #$05 : BEQ .isLargeRock
+        LDA.w $0368 : CMP.b #$05 : BEQ .isLargeRock
             CMP.b #$06 : BNE .notLargeRock
         
         .isLargeRock
@@ -14669,10 +14668,10 @@ TileBehavior_ThickGrass:
     RTS
 }
 
+; Aftermath tiles from destroying / picking things up?
 ; $03DE67-$03DE6F LOCAL JUMP LOCATION
 TileBehavior_DiggableGround:
 {
-    ; Aftermath tiles from destroying / picking things up?
     LDA.b $0A : TSB.w $035B : TSB.w $0343
     
     RTS
