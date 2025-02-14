@@ -2798,12 +2798,11 @@ LinkState_ExitingDash:
 
 ; ==============================================================================
 
+; Routine essentially stops all dashing activities, usually due to some
+; specific cause, like getting too near to water or a sprite.
 ; $039195-$0391B8 LOCAL JUMP LOCATION
 Player_HaltDashAttack:
 {
-    ; Routine essentially stops all dashing activities, usually due to some
-    ; specific cause, like getting too near to water or a sprite.
-    
     ; Is Link going to collide?
     LDA.w $0372 : BEQ .notDashing
         PHX
@@ -4549,14 +4548,14 @@ Pool_Link_APress_PerformBasic:
     
     ; Using the A button, Link:
     
-    dw Link_PerformDesertPrayer ; $AA6C
-    dw Link_Lift ; Picks up a pot or bush.
-    dw $B281 ; $03B281 Starts dashing
-    dw $B2EE ; $03B2EE Grabs a wall
-    dw Link_Read ; B527 Reads a sign.
-    dw Link_Chest ; Opens a chest.
-    dw Link_MovableStatue ; Grabs a Moveable Statue
-    dw $B3E5 ; $03B3E5 Pull For Rupees / DW Dungeon 4 entrance
+    dw Link_PerformDesertPrayer ; 0x00 $AA6C
+    dw Link_Lift                ; 0x01 $B11C - Picks up a pot or bush.
+    dw Link_PerformDash         ; 0x02 $B281 - Starts dashing
+    dw Link_PerformGrab         ; 0x03 $B2EE - Grabs a wall
+    dw Link_Read                ; 0x04 $B527 - Reads a sign.
+    dw Link_Chest               ; 0x05 $B574 - Opens a chest.
+    dw Link_MovableStatue       ; 0x06 $B373 - Grabs a Moveable Statue.
+    dw Link_PerformRupeePull    ; 0x07 $B3E5 - Pull For Rupees / DW Dungeon 4 entrance.
 }
 
 ; $039C5F-$039C61 LOCAL JUMP LOCATION

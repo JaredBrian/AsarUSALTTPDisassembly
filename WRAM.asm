@@ -2759,10 +2759,11 @@ struct WRAM $7E0000
         ; Step counter for item animations.
 
     ; $0301[0x01] - (Player, Item)
-    .ItemUseFlag: skip $01
-        ; bp.aethr
+    .ItemUseFlag1: skip $01
         ; When non zero, the player has something in his hand, poised to strike.
         ; It's intended that only one bit in this flag be set at any time.
+        ; Also see ItemUseFlag2
+        ; bp.a ethr
         ; b - Boomerang
         ; p - Magic Powder
         ; a - Bow and Arrow
@@ -3237,7 +3238,8 @@ struct WRAM $7E0000
     .Junk_0367: skip $01
         ; Unused but is set to 00 as the high byte of PlayerReadableTileAct.
 
-    ; $0368[0x01] - 
+    ; $0368[0x01] - (Player, Tile)
+    .LiftedTypeRight: skip $01
         ; The value of $036A shifted right once (divided by two).
         ; Used in the context of lifting tiles like bushes, rocks, etc.
         ; 0x00 - sign
@@ -3247,16 +3249,16 @@ struct WRAM $7E0000
         ; 0x04 - small heavy rock
         ; 0x05 - large light rock
         ; 0x06 - large heavy rock
+        ; TODO: Verify these values. See $03D37C
 
-    ; $0369[0x01] - 
+    ; $0369[0x01] - (Player, Tile)
+    .Junk_0369: skip $01
         ; The value of $036A shifted left once (multiplied by two).
-        ; While this variable may at first glance appear to be used, its
-        ; value is never meaningfully inspected or put to good use.
-        ; Thus we'll categorize it as "Free RAM" with the caveat that the
-        ; modder would have to remove the current (useless) references to
-        ; the variable, which number all of 2 times.
+        ; Would be considered the "LiftedTypeLeft" but this is never actually
+        ; read from.
 
-    ; $036A[0x01] - 
+    ; $036A[0x01] - (Player, Tile)
+    .LiftedType: skip $01
         ; When interacting with liftable tiles, this is an index that which type.
         ; Note: This value is always even, for whatever reason.
         ; 0x00 - sign
@@ -3267,84 +3269,114 @@ struct WRAM $7E0000
         ; 0x0A - large light rock
         ; 0x0C - large heavy rock
 
-    ; $036B[0x01] - 
-        ; ????
+    ; $036B[0x01] - (Player, Death)
+    .DeathSpin: skip $01
+        ; Flags that the player is in the death spin animation.
+        ; This is also set to 00 as the high byte of LiftedType. But this is
+        ; never read as the high byte.
 
-    ; $036C[0x01] - 
-        ; Action index when interacting with tiles, like pots, rocks, or chests.
-        ; 0 - ???
-        ; 1 - Picks up a pot or bush.
-        ; 2 - Starts dashing
-        ; 3 - Grabs a wall
-        ; 4 - Reads a sign.
-        ; 5 - Opens a chest.
-        ; 6 - ???
-        ; 7 - ???
+    ; $036C[0x01] - (Player)
+    AActionIndex: skip $01
+        ; Index for which action to perform when A is pressed. See $039C4F
+        ; in Bank 0x07.
+        ;   0x00 - Prayer (unused)
+        ;   0x01 - Lift/Carry/Throw
+        ;   0x02 - Dash
+        ;   0x03 - Grab
+        ;   0x04 - Read
+        ;   0x05 - Open chest
+        ;   0x06 - Drag statue
+        ;   0x07 - Rupee pull (not actually set)
 
-    ; $036D[0x01] - (TileDetect)
-        ; Detection bitfield for vertical ledge tiles
-        ; dddduuuu 
-        ; - d bits are for ledge tiles facing down
-        ; - u bits are for ledge tiles facing up
+    ; $036D[0x01] - (Tile Attribute)
+    .LedgeTileAct: skip $01
+        ; Detection bitfield for vertical ledge tiles.
+        ; dddd uuuu 
+        ; d - bits are for ledge tiles facing down
+        ; u - bits are for ledge tiles facing up
+        ; SEE TILE ACT NOTES
 
-    ; $036E[0x01] - (TileDetect)
+    ; $036E[0x01] - (Tile Attribute)
+    .DiagonalTileAct1: skip $01
         ; Detection bitfield for horizontal ledge tiles and up + horizontal
         ; ledge tiles.
-        ; ddddhhhh
+        ; dddd hhhh
         ; h - Ledge tiles facing left or right
         ; d - Ledge tiles facing up + left or up + right
+        ; SEE TILE ACT NOTES
 
-    ; $036F[0x01] - (TileDetect)
-        ; Detection bitfield for down + horizontal ledge tiles
-        ; uuuudddd
+    ; $036F[0x01] - (Tile Attribute)
+    .DiagonalTileAct2: skip $01
+        ; Detection bitfield for down + horizontal ledge tiles.
+        ; .... dddd
         ; d - Ledge tiles facing down + left or down + right
-        ; u - Free RAM
+        ; SEE TILE ACT NOTES
 
-    ; $0370[0x01] - (TileDetect)
-        ; Bitfield for interaction with unknown tile types
-        ; bbbbaaaa
+    ; $0370[0x01] - (Tile Attribute)
+    .EPTileAct: skip $01
+        ; Bitfield for interaction with unknown tile types. Kan: Tile act
+        ; bitfield used by weird things in EP (Eastern Palace?).
+        ; TODO: Confirm this.
+        ; bbbb aaaa
         ; a - type 0x4C and 0x4D tiles (Overworld only)
         ; b - type 0x4E and 0x4F tiles (Overworld only)
+        ; SEE TILE ACT NOTES
 
     ; $0371[0x01] - (Player)
-        ; Countdown timer for frames it will take Link to become tired pushing
-        ; against something solid. Once counted down, his appearance will look
-        ; flushed and like he's dragging ass. Resets once you stop pushing or
-        ; moving.
+    .PushAnimationTimer: skip $01
+        ; Timer used to start and restart Link's pushing animation.
 
-    ; $0372 - 
-        ; Flag indicating whether Link will bounce off if he touches a wall.
+    ; $0372[0x01] - (Player)
+    .IsDashing: skip $01
+        ; A flag indicating whether the player is dashing.
 
     ; $0373[0x01] - (Player)
+    .PlayerDamage: skip $01
         ; Putting a non zero value here indicates how much life to subtract from
-        ; Link. (quick reference: 0x08 = one heart)
+        ; the player.
+        ; 0x08 = one heart
 
-    ; $0374 - 
-        ; Countdown timer for when Link is about to dash. When it reaches
-        ; 0 he starts dashing. starts as 0x1D
+    ; $0374[0x01] - (Player)
+    .DashChargeTimer: skip $01
+        ; Countdown timer for when the player is charging up for a dash.
+        ; Starts as 0x1D, when this reaches 0, start the dash. 
 
-    ; $0375[0x01] - 
-        ; This is the timer the is used to count down how long it takes before
-        ; Link can jump off a ledge. It is typically set to 19 (0x13) frames,
-        ; though I don't believe it decrements every frame.
+    ; $0375[0x01] - (Player)
+    .LedgeHopTimer: skip $01
+        ; This is the timer that is used to count down how long it takes before
+        ; the player can jump off a ledge. Starts at 0x13, though it doesn't
+        ; appear to decrement every frame.
 
-    ; $0376 - 
-        ; bit 0: Link is grabbing a wall.
+    ; $0376[0x01] - (Player)
+    .PlayerGrabbing: skip $01
+        ; .... ..sw
+        ; s - grabbing statue
+        ; w - grabbing wall
 
     ; $0377[0x01] - (Player)
-        ; Related to the Master Sword ceremony somehow. Maybe other uses.
+    .PlayerGrabbingAnimation: skip $01
+        ; The animation state of the player while grabbing. Used in the
+        ; Master Sword ceremony.
 
-    ; $0378[0x01] - 
-        ; Apparently a countdown timer of some sort. Only seen in Bank
-        ; 0x07. Two domains of usage seem to be climing staircases and
-        ; pushing walls.
+    ; $0378[0x01] - (Player)
+    .StairFaceTimer: skip $01
+        ; A timer that runs while going on spiral staircases that controls
+        ; when to change the player's facing direction.
 
-    ; $0379 - 
-        ; Flag that, if set, A button isn't read.
+    ; $0379[0x01] - (Player)
+    .PreventAAction: skip $01
+        ; If non-zero, this will prevent A button actions.
 
     ; $037A[0x01] - (Player)
-        ; Puts Link in various positions, 1 - shovel, 2 - praying, etc...
-        ; cane of somaria. May also have something to do with bombs?
+    .ItemUseFlag2: skip $01
+        ; Bitfield for Y-item usage.
+        ; See also: ItemUseFlag1
+        ; ..bn ch.s
+        ;   b - book
+        ;   n - net
+        ;   c - canes
+        ;   h - hookshot
+        ;   s - shovel
 
     ; $037B[0x01] - (Player)
         ; If nonzero, disables Link's ability to receive hits from
