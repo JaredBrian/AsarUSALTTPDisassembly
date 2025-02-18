@@ -4209,9 +4209,9 @@ Link_TuckIntoBed:
 ; $039A54-$039A59 JUMP TABLE
 Pool_LinkState_Sleeping:
 {
-    dw Link_SnoringInBed
-    dw Link_SittingUpInBed
-    dw Link_JumpingOutOfBed
+    dw Link_SnoringInBed    ; 0x00 - $9A62
+    dw Link_SittingUpInBed  ; 0x01 - $9A71
+    dw Link_JumpingOutOfBed ; 0x02 - $9AA1
 }
 
 ; Link mode 0x16 (asleep in bed)
@@ -4220,7 +4220,7 @@ LinkState_Sleeping:
 {
     LDA.w $037C : ASL A : TAX
     
-    JMP ($9A54, X)
+    JMP (Pool_LinkState_Sleeping, X)
 }
 
 ; $039A62-$039A70 JUMP LOCATION

@@ -3379,43 +3379,56 @@ struct WRAM $7E0000
         ;   s - shovel
 
     ; $037B[0x01] - (Player)
+    .PlayerInvulnerable: skip $01
         ; If nonzero, disables Link's ability to receive hits from
         ; sprites. (But not pits)
 
-    ; $037C - 
-        ; Determines the player's behavior during "player behavior" mode
-        ; 0x16 (see variable $5D). Somewhat parallels $037D as it only
-        ; is intended to have 3 states (0 through 2, inclusive).
+    ; $037C[0x01] - (Player, Free, Junk)
+    .PlayerSleepModule: skip $01
+        ; Submodule index for the player asleep in bed state at the beginning of
+        ; the game (State 0x16). See LinkState_Sleeping for more details. This
+        ; Could be used as Free RAM under the condition its not used while Link
+        ; is asleep.
 
     ; $037D[0x01] - (Player)
+    .PlayerSleepPose: skip $01
         ; Used to determine the player sprite's pose during the opening
-        ; sequence. It only takes on 3 values:
+        ; sequence. This value also affects the player's bedspread (unfurls the
+        ; covers after hitting state 1).
         ; 0 - Player is in bed with eyes shut.
         ; 1 - Player is in bed with eyes open.
         ; 2 - Player is jumping out of bed.
-        ; This value also affects the player's bedspread (unfurls the
-        ; covers once hitting state 1).
 
-    ; $037E[0x01] - (Player), (Hookshot)
-        ; Bit 0 - Hookshot is dragging Link somewhere.
-        ; Bit 1 - ???? seems like it gets toggled every 3 frames, or
-        ; something like that.
+    ; $037E[0x01] - (Player, Item)
+    .HookshotDrag: skip $01
+        ; Bitfield for hookshot drag stuff.
+        ; .... ..ld
+        ;   d - Hookshot drag in effect
+        ;   l - Set when crossing a hop tile. Seems to flag which layer to read
+        ;       from.
 
-    ; $037F[0x01] - 
-        ; Walk through walls and anytime warping in outdoors.
-        ; Apparently if nonzero, all tile attributes are $00 (nothing / passable)
+    ; $037F[0x01] - (Player, Cheat)
+    .CheatWallsWarp: skip $01
+        ; When nonzero, allow walk through walls and 2-way overworld warping.
 
     ; $0380[0x05] - (Ancilla)
-        ; ???? Special effect related, of course.
+    .AncillaMiscA: skip $05
+        ; A misc variable used by ancillas. Only intended to be used by the
+        ; first 5 slots.
 
-    ; $0385 - 
-        ; special effect ???
+    ; $0385[0x0A] - (Ancilla)
+    .AncillaMiscB: skip $0A
+        ; A misc variable used by ancillas.
 
-    ; $038F - 
-        ; special effect ???
+    ; $038F[0x05] - (Ancilla)
+    .AncillaMiscC: skip $05
+        ; A misc variable used by ancillas. Only intended to be used by the
+        ; first 5 slots. Only used by hammer hit stars and gravestones.
 
     ; $0394[0x05] - (Ancilla)
-        ; special effect ???
+    .AncillaMiscD: skip $05
+        ; A misc variable used by ancillas. Only intended to be used by the
+        ; first 5 slots. Often used as a timer.
 
     ; $0399[0x02] - (Boomerang), (Wtf)
         ; Used as a temporary copy of the boomerang's y coordinate when
