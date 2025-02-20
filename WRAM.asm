@@ -2504,11 +2504,11 @@ struct WRAM $7E0000
         ; 0x00-0x13
         ; TODO: Add each animation step.
 
-    ; $02D0[0x01] - (Tagalong)
+    ; $02D0[0x01] - (Tagalong, Hookshot)
     .TagalongHookshot: skip $01
         ; Flag set when using hookshot with a tagalong. Forces game mode check.
 
-    ; $02D1[0x01] - (Tagalong)
+    ; $02D1[0x01] - (Tagalong, Hookshot)
     .TagalongAnimationWriteChache: skip $01
         ; Temprary cache location for TagalongAnimationWrite after the hookshot
         ; is finished.
@@ -2644,7 +2644,7 @@ struct WRAM $7E0000
         ; 0 - Receiving item from an NPC or message
         ; 1 - Receiving item from a chest
         ; 2 - Receiving item that was spawned in the game by a sprite
-        ; 3 - Receiving item that was spawned by a special object.
+        ; 3 - Receiving item that was spawned by a ancilla.
 
     ; $02EA[0x02] - (Player, Tile Attribute)
     .ChestTileType: skip $02
@@ -2711,7 +2711,7 @@ struct WRAM $7E0000
         ; 1 - On a Somaria platform.
         ; 2 - On a Somaria platform and moving.
 
-    ; $02F6[0x01] - (Player, Tile Attribute)
+    ; $02F6[0x01] - (Player, Tile Attribute, Hookshot)
     .TileActHookshotDoor: skip $01
         ; Bitfield for interaction with hookshot grabbable and key/flagable door
         ; tiles.
@@ -3367,7 +3367,7 @@ struct WRAM $7E0000
     .PreventAAction: skip $01
         ; If non-zero, this will prevent A button actions.
 
-    ; $037A[0x01] - (Player)
+    ; $037A[0x01] - (Player, Item)
     .ItemUseFlag2: skip $01
         ; Bitfield for Y-item usage.
         ; See also: ItemUseFlag1
@@ -3399,7 +3399,7 @@ struct WRAM $7E0000
         ; 1 - Player is in bed with eyes open.
         ; 2 - Player is jumping out of bed.
 
-    ; $037E[0x01] - (Player, Item)
+    ; $037E[0x01] - (Player, Item, Hookshot)
     .HookshotDrag: skip $01
         ; Bitfield for hookshot drag stuff.
         ; .... ..ld
@@ -3430,82 +3430,142 @@ struct WRAM $7E0000
         ; A misc variable used by ancillas. Only intended to be used by the
         ; first 5 slots. Often used as a timer.
 
-    ; $0399[0x02] - (Boomerang), (Wtf)
-        ; Used as a temporary copy of the boomerang's y coordinate when
+    ; $0399[0x02] - (Item, Boomerang, Junk)
+    .BoomerangWallSparkY: skip $02
+        ; Used as a temporary copy of the boomerang's Y coordinate when
         ; calculating where to place the wall hit object that results from the
-        ; boomerang hitting a wall. No other uses.
+        ; boomerang hitting a wall. This could easily be moved to some temp work
+        ; RAM rather than reserving a whole address for this.
 
-    ; $039B[0x02] - (Boomerang), (Wtf)
-        ; Used as a temporary copy of the boomerang's y coordinate when
+    ; $039B[0x02] - (Item, Boomerang, Junk)
+    .BoomerangWallSparkY: skip $02
+        ; Used as a temporary copy of the boomerang's X coordinate when
         ; calculating where to place the wall hit object that results from the
-        ; boomerang hitting a wall. No other uses.
+        ; boomerang hitting a wall. This could easily be moved to some temp work
+        ; RAM rather than reserving a whole address for this.
 
-    ; $039D[0x01] - (Hookshot), (Boomerang)
-        ; Index of the hookshot effect so that the player module can use it to
-        ; help move the player if
+    ; $039D[0x01] - (Item, Hookshot)
+    .HookshotIndex:
+        ; The slot index of the hookshot ancilla in the ancilla table.
 
-    ; $039E - 
+    ; $039D[0x01] - (Item, Boomerang)
+    .BoomerangInitDirection:
+        ; Stores the direction of the boomerang when it is initially thrown.
+        ; TODO: Verify these directions
+        ; .... uplr
+        ; u - Up
+        ; d - Down
+        ; l - Left
+        ; r - Right
+
+    ; $039D[0x01] - (Game Over)
+    .GameOverLetterFollowers: skip $01
+        ; This is how many letters will be following the "leader" letter as the
+        ; GAME OVER text slides across the screen. This is the G when moving left
+        ; and then the R when moving right.
+
+    ; $039E[0x01] - (Free)
+    .Free_039E: skip $01
         ; Free RAM
 
-    ; $039F - 
-        ; Special Effect Timers
+    ; $039F[0x05] - (Ancilla)
+    .AncillaMiscE: skip $05
+        ; A misc variable used by ancillas. Only intended to be used by the
+        ; first 5 slots. Often used as a timer.
 
-    ; $03A4[0x0?] - 
-        ; Referenced in receive item initializer  
+    ; $03A4[0x05] - (Ancilla)
+    .AncillaMiscF: skip $05
+        ; A misc variable used by ancillas. Only intended to be used by the
+        ; first 5 slots.
 
     ; $03A9[0x05] - (Ancilla)
-        ; Special effect ???
+    .AncillaMiscG: skip $05
+        ; A misc variable used by ancillas. Only intended to be used by the
+        ; first 5 slots.
 
-    ; $03AE - 
-        ; Free RAM (Though I am not sure of this entirely)
+    ; $03AE[0x03] - (Free)
+    .Free_03AE: skip $03
+        ; Free RAM
 
-    ; $03B1[0x05] - 
-        ; countdown timer for special objects (note that there are only 5 of
-        ; these whereas there's usually 10 slots for special objects)
+    ; $03B1[0x05] - (Ancilla)
+    .AncillaMiscH: skip $05
+        ; A misc variable used by ancillas. Only intended to be used by the
+        ; first 5 slots. Often used as a timer.
 
-    ; $03B6 - 
-        ; 16-bit values relating to bomb doors
+    ; $03B6[0x04] - (Grave)
+    .GraveOpenTargetHigh:
+        ; The high byte of where the grave tile should be placed after its open.
+        ; TODO: Total of 4 slots? Unsure.
+
+    ; $03B6[0x04] - (Door, Ancilla)
+    .BombDoorDebrisTargetX: skip $04
+        ; 16-bit X value storing where the debris should draw. Total of 2 slots.
+
+    ; $03BA[0x04] - (Grave)
+    .GraveOpenTargetLow:
+        ; The low byte of where the grave tile should be placed after its open.
+        ; TODO: Total of 4 slots? Unsure.
         
-    ; $03BA - 
-        ; 16-bit values relating to bomb doors
+    ; $03BA[0x04] - (Door, Ancilla)
+    .BombDoorDebrisTargetY: skip $04
+        ; 16-bit Y value storing where the debris should draw. Total of 2 slots.
 
-    ; $03BE - 
-        ; 8-bit values relating to bomb doors
+    ; $03BE[0x02] - (Door, Ancilla)
+    .BombDoorDebrisDir: skip $02
+        ; Bomb door direction value, used to determine which was the debris
+        ; should draw. Total of 2 slots.
+        ; 0 - Up
+        ; 1 - Down
+        ; 2 - Left
+        ; 3 - Right
 
-    ; $03C0 - 
-        ; Reserved for rock debris special object (0x08)
+    ; $03C0[0x02] - (Door, Ancilla)
+    .BombDoorDebrisTimer: skip $02
+        ; A timer used to keep track of how long bomb door rock debris
+        ; ancillas draw.
 
-    ; $03C2 - 
-        ; Reserved for rock debris special object (0x08)
+    ; $03C2[0x0?] - (Ancilla)
+    .AncillaMiscI:
+        ; A misc variable used by ancillas.
+        ; TODO: Verify the size of this var. Has several uses with X although its
+        ; exact use is unclear. If it is more than 2, then it overlaps with some
+        ; of the later vars.
+
+    ; $03C2[0x02] - (Door, Ancilla)
+    .BombDoorDebrisCounter: : skip $02
+        ; A step counter used by the bomb door debris.
 
     ; $03C4[0x01] - (Ancilla)
-        ; Reserved for rock debris special object (0x08) and maybe bombs too.
+    .AncillaSearch: skip $01
+        ; Used to search through ancilla when every front slot is occupied.
 
     ; $03C5[0x05] - (Ancilla)
-
-        ; Special Object WRAM.
+    .AncillaMiscJ: skip $05
+        ; A misc variable used by ancillas. Only intended to be used by the
+        ; first 5 slots.
 
     ; $03CA[0x05] - (Ancilla)
-
-        ; Used by some special objects as the pseudo bg selector.
+    .AncillaMiscK: skip $05
+        ; A misc variable used by ancillas. Only intended to be used by the
+        ; first 5 slots. Mostly used as a pseudo bg selector.
 
     ; $03CF - 
-        ; Special Object WRAM.
+        ; Ancilla WRAM.
 
     ; $03D2 - 
-        ; Special Object WRAM.
+        ; Ancilla WRAM.
 
     ; $03D5 - 
-        ; Special Object WRAM.
+        ; Ancilla WRAM.
 
     ; $03DB[0x06] - (Ancilla)
-        ; Special Object WRAM.
+        ; Ancilla WRAM.
 
     ; $03E1 - 
-        ; Special Object WRAM.
+        ; Ancilla WRAM.
 
     ; $03E4 - 
-        ; Special object WRAM for tile interactions. Bombs and ice rod
+        ; Ancilla WRAM for tile interactions. Bombs and ice rod
         ; shots in particular use this.
 
     ; $03E9[0x01] - 
@@ -4420,7 +4480,7 @@ struct WRAM $7E0000
     ; $069F[0x01] - 
         ; ????
 
-    ; $06A0[0x0?] - (Dungeon) Special object slots for stars type 1.2.0x1F.
+    ; $06A0[0x0?] - (Dungeon) Ancilla slots for stars type 1.2.0x1F.
 
     ; $06A0[0x02] - (Overworld) Magic mirror module variable that toggles between 0
         ; and 2 whenever accessed.
@@ -4447,12 +4507,12 @@ struct WRAM $7E0000
         ; ????
 
     ; $06B0 - 
-        ; special object slots for type 1.3.0x1E,0x1F,0x20,0x21
+        ; Ancilla slots for type 1.3.0x1E,0x1F,0x20,0x21
         ; and 1.2.0x2D,0x2E,0x2F,0x38,0x39,0x3A,0x3B objects
 
     ; $06B8[0x08] - (Dungeon)
         ; 
-        ; special object slots for type 1.3.0x1B and 1.2.0x30,0x31,0x32,0x33,0x35,0x36
+        ; Ancilla slots for type 1.3.0x1B and 1.2.0x30,0x31,0x32,0x33,0x35,0x36
 
     ; $06BA[0x01] - (MirrorWarp)
         ; 
@@ -4484,7 +4544,7 @@ struct WRAM $7E0000
         ; Note: If the top bit is set, it's a Big Key lock, otherwise it's one of the chest types.
 
     ; $06EC - 
-        ; special object slots for 1.3.0x1C,0x1D,0x33
+        ; Ancilla slots for 1.3.0x1C,0x1D,0x33
 
     ; $06F8 - 
         ; Free RAM
@@ -4884,7 +4944,7 @@ struct WRAM $7E0000
     ; $0B68[0x01] - (RepulseSpark)
 
         ; Location to cache Link's or sprite's floor status. It seems it later gets
-        ; used with special objects in Bank 0x08.
+        ; used with ancillas in Bank 0x08.
 
     ; $0B69[0x01] - 
         ; Variable that tutorial soldiers and Blind use. Since it's not reinitialized when you save and quit,
@@ -4974,7 +5034,7 @@ struct WRAM $7E0000
         ; Update: Seems to indicate that it ignores all projectile interactions if set. ; causes arrows to not hit
 
     ; $0BB0 - 
-        ; For sprites that interact with speical objects (arrows in particular), the special object
+        ; For sprites that interact with speical objects (arrows in particular), the ancilla
         ; will identify its type to the sprite via this location.
 
     ; $0BC0[0x20] - (Sprite / Dungeon?)
@@ -5104,7 +5164,7 @@ struct WRAM $7E0000
 
     ; $0C68[0x0A] - (Ancilla)
 
-        ; Autodecrementing timer that any special object can make use of. Its value
+        ; Autodecrementing timer that any ancilla can make use of. Its value
         ; decrements by one each frame. It halts at the value zero, but will resume
         ; decrementing if a nonzero value is written to it on subsequent frames. 
 
@@ -5114,7 +5174,7 @@ struct WRAM $7E0000
 
     ; $0C7C[0x0A] - (Ancilla)
 
-        ; Special object floor selector (BG2 or BG1). Analogue for sprite objects 
+        ; Ancilla floor selector (BG2 or BG1). Analogue for sprite objects 
         ; would be $0F20[0x10].
 
     ; $0C86 - 
@@ -6878,7 +6938,7 @@ struct WRAM $7E0000
         ; SP-0 (second half)  - heavy rocks
         ; SP-1 (first half)   - apples from trees, part of master sword beam, grass around your legs, off color bushes
         ; SP-1 (second half)  - red rupees, small hearts, red potion in shops, some shadows, link's bow
-        ; SP-2 (first half)   - numerous special objects (dash dush from boots, sparkles, death / transformation poof), warp whirlpool
+        ; SP-2 (first half)   - numerous ancillas (dash dush from boots, sparkles, death / transformation poof), warp whirlpool
         ; SP-2 (second half)  - blue rupees
         ; SP-3 (first half)   - red soldiers, bees, 
         ; SP-3 (second half)  - usually set to all dark grey colors, but can be swapped with SP-5 (second half)
