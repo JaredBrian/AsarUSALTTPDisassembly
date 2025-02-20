@@ -3939,7 +3939,7 @@ AddGravestone:
     
     .success
     
-    LDA.w Pool_AddGravestone_tilemapPosition, Y  : STA.w $0698
+    LDA.w Pool_AddGravestone_tilemapPosition, Y : STA.w $0698
     
     SEC : SBC.w #$0080 : STA $72
     
@@ -4226,7 +4226,7 @@ AddDoorDebris:
     JSR.w AddAncilla : BCS .spawn_failed
         STZ.w $03C2, X
         
-        LDA #$07 : STA.w $03C0, X
+        LDA.b #$07 : STA.w $03C0, X
         
         ; Callers of this function need to know the result of whether it could
         ; be added or not.
