@@ -5729,7 +5729,8 @@ LinkItem_Shovel:
 LinkItem_Flute:
 {
     BIT.b $3A : BVC .y_button_not_held
-        DEC.w $03F0 : LDA.w $03F0 : BNE LinkItem_Shovel_return
+        DEC.w $03F0
+        LDA.w $03F0 : BNE LinkItem_Shovel_return
             LDA.b $3A : AND.b #$BF : STA.b $3A
     
     .y_button_not_held
@@ -9384,9 +9385,7 @@ StartMovementCollisionChecks_Vertical:
 
     LDY.b #$01
     
-    LDA.w $03F1
-    
-    AND.b #$22 : BEQ .BRANCH_BETA2
+    LDA.w $03F1 : AND.b #$22 : BEQ .BRANCH_BETA2
         AND.b #$20 : BEQ .BRANCH_GAMMA2
             LDY.b #$02
 
@@ -9400,9 +9399,7 @@ StartMovementCollisionChecks_Vertical:
 
     LDY.b #$03
     
-    LDA.w $03F2
-    
-    AND.b #$22 : BEQ .BRANCH_EPSILON2
+    LDA.w $03F2 : AND.b #$22 : BEQ .BRANCH_EPSILON2
         AND.b #$20 : BEQ .BRANCH_ZETA2
             LDY.b #$04
 
@@ -10928,9 +10925,7 @@ StartMovementCollisionChecks_Horizontal:
 
     LDY.b #$01
     
-    LDA.w $03F1
-    
-    AND.b #$22 : BEQ .BRANCH_DEL
+    LDA.w $03F1 : AND.b #$22 : BEQ .BRANCH_DEL
         AND.b #$20 : BEQ .BRANCH_THEL
             LDY.b #$02
 
@@ -10947,9 +10942,7 @@ StartMovementCollisionChecks_Horizontal:
 
     LDY.b #$03
     
-    LDA.w $03F2
-    
-    AND.b #$22 : BEQ .BRANCH_SHIN
+    LDA.w $03F2 : AND.b #$22 : BEQ .BRANCH_SHIN
         AND.b #$20 : BEQ .BRANCH_SOD
             LDY.b #$04
 

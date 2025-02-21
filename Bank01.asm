@@ -4168,8 +4168,8 @@ Object_Watergate:
 ; $009C3B-$009C43 JUMP LOCATION
 RoomDraw_SomariaLine_increment_count:
 {
-    ; TODO: Investigate this.
-    INC.w $03F4 ; WTF is this?
+    ; Increase the amount of somaria lines in the current room by 1.
+    INC.w $03F4
 
     ; Bleeds into the next function.
 }

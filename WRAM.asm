@@ -3549,54 +3549,102 @@ struct WRAM $7E0000
         ; A misc variable used by ancillas. Only intended to be used by the
         ; first 5 slots. Mostly used as a pseudo bg selector.
 
-    ; $03CF - 
-        ; Ancilla WRAM.
+    ; $03CF[0x06] - (Ancilla)
+    .AncillaMiscL: skip $03
+        ; A misc variable used by ancillas. Only intended to be used by the
+        ; first 6 slots.
 
-    ; $03D2 - 
-        ; Ancilla WRAM.
+    ; $03D2[0x0?] - (Ancilla, Bomb)
+    .BombWaterRippleAnimationStep:
+        ; Used as an animation step counter for water ripples under bombs
+        ; that are sitting in shallow water. Probably only intended to be
+        ; used by the first 5 slots, but this overlaps with the next vars.
+        ; TODO: Confirm.
 
-    ; $03D5 - 
-        ; Ancilla WRAM.
+    ; $03D5[0x06] - (Ancilla, Bomb, Somaria)
+    .AncillaThrownOffEdge: skip $05
+        ; A flag when nonzero causes liftable ancillas such as bombs and somaria
+        ; blocks to transition to BG1 (meaning they were thrown off an edge).
+        ; Only intended to be used by the first 6 slots.
 
-    ; $03DB[0x06] - (Ancilla)
-        ; Ancilla WRAM.
+    ; $03DB[0x06] - (Ancilla, Somaria, Junk)
+    .SomariaOnButtonTiles: skip $06
+        ; A count of how many button tiles a Somaria block is covering on
+        ; the floor. This could easily be replaced by a temporary RAM value.
 
-    ; $03E1 - 
-        ; Ancilla WRAM.
+    ; $03E1[0x0?] - (Ancilla, Bomb)
+    .BombWaterRippleAnimationTimer: skip $03
+        ; Used as an animation timer for water riplles under bombs that
+        ; ast sitting in shallow water. Probably only intended to be
+        ; used by the first 5 slots, but this overlaps with the next vars.
+        ; TODO: Confirm.
 
-    ; $03E4 - 
-        ; Ancilla WRAM for tile interactions. Bombs and ice rod
-        ; shots in particular use this.
+    ; $03E4[0x05] - (Ancilla)
+    .AncillaTileInteraction: skip $05
+        ; Used by the ancilla check tile collision function to store what
+        ; tile the ancilla has interacted with. Only intended to be used by
+        ; the first 5 slots.
 
-    ; $03E9[0x01] - 
-        ; Flag that seems to set when moving gravestones are in play and puzzle
-        ; sound is playing.
+    ; $03E9[0x01] - (Ancilla, Grave)
+    .GraveActive: skip $01
+        ; A flag when nonzero indicates that a gravestone is active.
 
-    ; $03EA - 
-        ; special effect ???
+    ; $03EA[0x05] - (Ancilla)
+    .AncillaPreventLift: skip $05
+        ; A flag when nonzero prevents ancillas from being picked up. This
+        ; only really applies to ancillas that could be picked up in the
+        ; first place like bombs and somaria blocks. Only intended to be
+        ; used by the first 5 slots.
 
     ; $03EF[0x01] - (Player, OAM)
-        ; Normally zero. If set to nonzero, it forces Link to the pose
-        ; where he is holding his sword up. One example of where this is
-        ; used is right after Ganon is defeated.
+    .PlayerSwordUp: skip $01
+        ; A flag when nonzero, forces Link to the pose where he is holding
+        ; his sword up. One example of where this is used is right after
+        ; Ganon is defeated.
 
     ; $03F0[0x01] - (Flute)
+    .FluteTimer: skip $01
         ; Countdown timer for playing the flute. Prevents it from being played
         ; less than 0x80 frames apart.
 
-    ; $03F3 - 
-        ; ????
+    ; $03F1[0x01] - (Tile Attribute)
+    .ConveyorTileActUpDown: skip $01
+        ; Tile act bitfield used by up and down conveyor belts.
+        ; dddd uuuu
+        ;   u - upwards
+        ;   d - downwards
+        ; SEE TILE ACT NOTES
 
-    ; $03F4 - 
-        ; Seems related to Cane of Somaria somehow
+    ; $03F2[0x01] - (Conveyor, Tile Attribute)
+    .ConveyorTileActRightLeft: skip $01
+        ; Tile act bitfield used by left and right conveyor belts.
+        ; rrrr llll
+        ;   l - leftwards
+        ;   r - rightwards
+        ; SEE TILE ACT NOTES
+
+    ; $03F3[0x01] - (Conveyor, Tile Attribute)
+    .ConveyorType: skip $01
+        ; The conveyor type the player is standing on if any.
+        ;   0x00 - none
+        ;   0x01 - up
+        ;   0x02 - down
+        ;   0x03 - left
+        ;   0x04 - right
+
+    ; $03F4[0x01] - (Item, Somaria)
+    .SomariaLineCount: skip $01
+        ; A count of all Somaria lines in the current room. This is used as
+        ; a way to skip some logic while using the cane of Somaria in rooms
+        ; with no lines to place a platform on.
 
     ; $03F5[0x02] - (Player)
-        ; The timer for Link's tempbunny state. 
-        ; When it counts down he returns to his normal state. When Link is hit it
-        ; always falls to zero. Is always set to 0x100 when a yellow hunter
-        ; (transformer) hits him. If Link is not in a normal mode, however, it
-        ; will have no effect on him. The value is given in frames, so if the
-        ; value written is 0x80, you will be a bunny for 128 frames.
+    .PlayerBunnyTimer: skip $02
+        ; The timer for the player's tempbunny state. When it reaches zero you
+        ; returns to the normal Link state. When the player is hit, this timer
+        ; is always reset to zero. This is always set to 0x100 when a yellow
+        ; hunter (transformer) hits him. If the player is not in a normal mode,
+        ; however, it will have no effect on him.
 
     ; $03F7[0x01] - (Player)
         ; Flag indicating whether the "poof" needs to occur for Link to transform
