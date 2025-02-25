@@ -418,7 +418,7 @@ Overworld_Hole:
                 .wrongMap16
     DEX #2 : BPL .nextHole
     
-    ; Send us to the Chris Houlihan room  .      
+    ; Send us to the Chris Houlihan room.      
     LDX.w #$0026
     
     SEP #$20

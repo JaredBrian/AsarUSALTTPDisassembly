@@ -381,7 +381,8 @@ Overworld_SubstituteAlternateSecret:
                 
                 LDA.w $040A : AND.b #$3F : TAX
                 
-                LDA Pool_Overworld_SubstituteAlternateSecret_AreaIndex, X : AND .AreaMask, Y : BNE .BRANCH_EPSILON
+                LDA Pool_Overworld_SubstituteAlternateSecret_AreaIndex, X
+                AND .AreaMask, Y : BNE .BRANCH_EPSILON
                     LDA Pool_Overworld_SubstituteAlternateSecret_ItemPool, Y : STA.w $0B9C
                 
                 .BRANCH_EPSILON

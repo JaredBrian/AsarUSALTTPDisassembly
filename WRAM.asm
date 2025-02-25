@@ -881,11 +881,14 @@ struct WRAM $7E0000
 
     ; $8A[0x02] - (Overworld)
     .OWAreaIndex: skip $02
-        ; Overworld Area Index. Occasionally $8A is used to read underworld
-        ; screens. In practice bit 6 indicates a Dark World area, and bit 7
-        ; indicates special overworld. As the highest screen ID is 0x81, $8B
-        ; is essentially unused in the overworld. However, reads and writes for
-        ; screen ID are often 16-bit.
+        ; Overworld Area Index. The high byte is unused but written to.
+        ; In practice the only 2 special areas that can be accessed are 0x80
+        ; and 0x81 however higher values occasionally appear when loading sub
+        ; screen overlays.
+        ; 0x00-0x3F - Light world areas
+        ; 0x40-0x7F - Dark world areas
+        ; 0x80-0x9F - Special areas
+        ; 0xA0 and above are unused
 
     ; $8C[0x01] - (Overworld)
     .OverlayIndex: skip $01
@@ -3641,98 +3644,125 @@ struct WRAM $7E0000
     ; $03F5[0x02] - (Player)
     .PlayerBunnyTimer: skip $02
         ; The timer for the player's tempbunny state. When it reaches zero you
-        ; returns to the normal Link state. When the player is hit, this timer
+        ; returns to the normal Player state. When the player is hit, this timer
         ; is always reset to zero. This is always set to 0x100 when a yellow
         ; hunter (transformer) hits him. If the player is not in a normal mode,
         ; however, it will have no effect on him.
 
     ; $03F7[0x01] - (Player)
-        ; Flag indicating whether the "poof" needs to occur for Link to transform
-        ; into the tempbunny.
+    .PlayerBunnyFlag: skip $01
+        ; Flag when nonzero indicating the "poof" needs to occur for the player
+        ; to transform to or from the tempbunny.
 
-    ; $03F8[0x01] - 
-        ; Flag set if you are near a PullForRupees sprite
+    ; $03F8[0x01] - (Player)
+    .PlayerPullAndRoll:
+        ; A flag when nonzero means you are near a PullForRupees or gargoyle
+        ; grate sprite and can perform the pulling and rolling backwards action.
 
-    ; $03F9[0x01] - 
-        ; ???? Something to do with the Hookshot.
+    ; $03F9[0x01] - (Player, Hookshot)
+    .HookshotDragTimer: skip $01
+        ; A timer that counts down from 4 to prevent toggling bit 1 of
+        ; HookshotDrag. Used to preven the hookshot drag from triggering
+        ; every frame.
 
-    ; $03FA[0x02] - 
+    ; $03FA[0x02] - (Player, OAM)
+    .SwordShiledExtraOAMX: skip $02
+        ; The 9th bit of OAM X coordinate for drawing Link's sword and shield.
+        ; Used to put the player's sword and sheild off-screen when you don't
+        ; have the sheild or are not currently using your sword.
 
-        ; Relates to Link's OAM routine in Bank 0D somehow. Appears to be the
-        ; 9th bit of the X coordinate of some sprite(s).
+    ; $03FC[0x01] - (Item, Minigame)
+    .SelectedYItemOverride: skip $01
+        ; If nonzero, this value will override the player's currently selected
+        ; Y-item for use in minigames such as the digging game or the arrow
+        ; shooting game.
+        ; 0x00 - Selected item
+        ; 0x01 - Shovel
+        ; 0x02 - Bow
+        ; Everything else after 0x02 will be the shovel.
 
-    ; $03FC - 
-        ; ????
+    ; $03FD[0x01] - (Travel Bird, Dungeon)
+    .UsingTravelBirdInside: skip $01
+        ; A flag when nonzero indicates that the travel bird is in use indoors,
+        ; which under vanilla circumstances is only in Agahnim's second boss
+        ; fight room.
 
-    ; $03FD[0x01] - (TravelBird)
-        ; This is a flag that is set when the travel bird shows up indoors, which
-        ; under vanilla circumstances is only in Agahnim's second boss fight
-        ; room.
-
-    ; $03FE - 
+    ; $03FE[0x02] - (Free)
+    .Free_03FE: skip $02
         ; Free RAM.
 
     ; ===========================================================================
     ; Page 0x04
     ; ===========================================================================
 
-    ; For a break down on how room data gets saved, see the SRAM Document.
+    ; $0400[0x02] - (Dungeon, Junk)
+    .UnlockedDoors: skip $02
+        ; In the current room, each bit corresponds to a door being opened. If
+        ; set, it has been opened by some means (bomb, key, etc.) The high byte
+        ; is written to but unused.
+        ; dddd .... .... ....
+        ; d - Door
 
-    ; $0400 - 
-        ; Tops four bits: In a given room, each bit corresponds to a
-        ; door being opened. If set, it has been opened by some means
-        ; (bomb, key, etc.)
+    ; $0402[0x01] - (Dungeon)
+    .OpenDoors
+        ; Doors opened (not necessarily unlocked) in a given room
+        ; Not a very consistent reference.
+        ; Definitely flags the TR eye door and some shutters
 
-    ; $0402 - 
-        ; Certainly related to $0403, but contains other information I haven't
-        ; looked at yet.
-
-    ; $0403 - 
+    ; $0403[0x01] - 
         ; Contains room information, such as whether the boss in this room
         ; has been defeated. Loaded on every room load according to map
         ; information that is stored as you play the game.
-        ; Bit 0: Chest 1
-        ; Bit 1: Chest 2
-        ; Bit 2: Chest 3
-        ; Bit 3: Chest 4
-        ; Bit 4: Chest 5
-        ; Bit 5: Chest 6 / A second Key. Having 2 keys and 6 chests will cause conflicts here.
-        ; Bit 6: A key has been obtained in this room.
-        ; Bit 7: Heart Piece has been obtained in this room.
+        ; bk54 3210
+        ;   b - Boss kill / heart container / prevent damage
+        ;   k - Key / heart piece / crystal
+        ;       (unused for crystals, but prevents them from dropping)
+        ;   5 - Chest 5 / 2nd key / heart piece
+        ;   4 - Chest 4 / rupee floor / swamp drains / bombable floor / mire wall
+        ;   3 - Chest 3 / pod or desert wall
+        ;   2 - Chest 2
+        ;   1 - Chest 1
+        ;   0 - Chest 0
 
-    ; $0404 - 
-        ; Free RAM
+    ; $0404[0x01] - (Free)
+    .Free_0404: skip $01
+        ; Free RAM.
 
-    ; $0405 - 
-        ; Free RAM? Never written to, but read in one instance in bank
-        ; 0x00.
+    ; $0405[0x01] - (Junk)
+    .Junk_0405: skip $01
+        ; Would be Free RAM becuase its never written to, but it is read
+        ; once in bank 0x00.
 
-    ; $0406 - 
-        ; Free RAM
+    ; $0406[0x02] - (Free)
+    .Free_0406: skip $02
+        ; Free RAM.
 
-    ; $0408 - 
-        ; Only lowest 4 bits are used. Record of the quadrants that Link
-        ; has visited in the current room.
+    ; $0408[0x02] - (Dungeon)
+    .VisitedQuad: skip $02
+        ; Only low byte is used. This is a record of the quadrants that
+        ; the player has visited in the current room.
         ; This is written back to SRAM when the player leaves the current
         ; room. Specifically, the lowest 4 bits are bitwise ORed back
-        ; into the SRAM location for the room ($7ef000[0x280]).
+        ; into the SRAM location for the room ($7EF000[0x280]).
+        ; .... .... .... abcd
+        ;   a - north west
+        ;   b - north east
+        ;   c - south west
+        ;   d - south east
 
-    ; $040A - 
-        ; Area Index for the Overworld. Although there are 0xC0 different
-        ; possible values, the larger maps seem to take up more of these
-        ; values so that coordinate addresses can be more easily
-        ; calculated, and scrolling eliminated at times.
-
-    ; $040B - 
-        ; Free RAM
+    ; $040A[0x02] - (Overworld)
+    .OWAreaIndex2: skip $02
+        ; Most of the time is a mirror of OWAreaIndex, however there are cases
+        ; where they are not equal. Such as when exiting a special area and when
+        ; exiting certain simple dungeon exits.
 
     ; $040C[0x02] - (Dungeon)
-        ; Dungeon ID / Dungeon index. If it's equal to 0xFF, that means there
-        ; is no map for that area.
+    .DungeonIndex: skip $02
+        ; Dungeon ID / Dungeon index multiplied by 2. If it's equal to 0xFF, that means there
+        ; is no map, keys, boss, etc. for that section of the underworld.
         ; There is a data table of values, probably depends on the
         ; entrance you go in how this gets selected. Notably used in
-        ; Ganon's Tower for minibosses.  Note that the value held here is
-        ; the dungeon's intuitive index multiplied by 2.
+        ; Ganon's Tower for minibosses.
         ; Hence, this value is always even.
         ; 0x00 - Sewer Passage
         ; 0x02 - Hyrule Castle
@@ -3750,6 +3780,7 @@ struct WRAM $7E0000
         ; 0x1A - Ganon's Tower
         ; 0x1C - ??? possibly unused. (Were they planning two extra dungeons perhaps?)
         ; 0x1E - ??? possibly unused.
+        ; 0xFF - Caves, Houses, and other inside areas that don't have an assigned dungeon.
 
     ; $040E - 
         ; Contains the layout and starting quadrant info

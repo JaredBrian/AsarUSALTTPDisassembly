@@ -11699,7 +11699,7 @@ Equipment_DrawEquipment:
         LDA ItemMenu_DUNGEONITEM, X : AND.b $00 : STA.w $16AC, X
     INX #2 : DEY : BPL .drawBoxTitle
     
-    ; Check if we're in a real dungeon (palace) as opposed to just some
+    ; Check if we're in a real dungeon as opposed to just some
     ; house or cave.
     LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BNE .inSpecificDungeon
         LDX.w #$0000
@@ -11778,10 +11778,10 @@ Equipment_DrawMapAndBigKey:
 {
     REP #$30
     
-    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalace
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInDungeon
         LSR A : TAX
         
-        ; Check if we have the big key in this palace
+        ; Check if we have the big key in this dungeon.
         LDA.l $7EF366
         
         .locateBigKeyFlag
@@ -11802,9 +11802,9 @@ Equipment_DrawMapAndBigKey:
             JSR.w DrawItem
         
         .dontHaveBigKey
-    .notInPalace
+    .notInDungeon
     
-    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalaceAgain
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInDungeonAgain
         LSR A : TAX
         
         ; Check if we have the map in this dungeon.
@@ -11824,7 +11824,7 @@ Equipment_DrawMapAndBigKey:
             JSR.w DrawItem
         
         .dontHaveMap
-    .notInPalaceAgain
+    .notInDungeonAgain
     
     SEP #$30
     
@@ -11982,7 +11982,7 @@ Equipment_DrawCompass:
 {
     REP #$30
     
-    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalace
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInDungeon
         LSR A : TAX
         
         LDA.l $7EF364
@@ -12000,7 +12000,7 @@ Equipment_DrawCompass:
             JSR.w DrawItem
             
         .dontHaveCompass
-    .notInPalace
+    .notInDungeon
     
     SEP #$30
     

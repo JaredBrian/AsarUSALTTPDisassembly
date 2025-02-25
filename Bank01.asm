@@ -3633,7 +3633,7 @@ Object_BigKeyLock:
     
     TYA : STA.w $06E0, X
     
-    LDA.w $0402 : AND.w $0, X : BNE .alreadyOpened
+    LDA.w $0402 : AND.w RoomFlagMask, X : BNE .alreadyOpened
         INX #2 : STX.w $0498
         
         LDX.w #$1494
@@ -3646,6 +3646,7 @@ Object_BigKeyLock:
     
     INX #2 : STX.w $0498
     
+    ; $0098CF ALTERNATE ENTRY POINT 
     .easyOut
     
     RTS
@@ -15454,6 +15455,8 @@ Dungeon_OpenKeyedObject:
     
     PLX
     
+    ; TODO: Check whether this refference and all other references to
+    ; RoomFlagMask should be long or not.
     ; Load room information about chests. Indicate to the game that this chest
     ; has been opened.
     LDA.w $0402 : ORA RoomFlagMask, Y : STA.w $0402

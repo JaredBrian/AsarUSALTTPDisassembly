@@ -399,7 +399,7 @@ Module_PreDungeon:
 
     ; Tell me what level I'm in. (swamp palace, misery mire, etc.)
     ; 0xff means it's not a true dungeon. Don't need keys. Etc..
-    LDA.w $040C : CMP.b #$FF : BEQ .notPalace
+    LDA.w $040C : CMP.b #$FF : BEQ .notDungeon
         ; Is it Hyrule Castle 1?
         CMP.b #$02 : BNE .notHyruleCastle
             ; I guess we treat the Hyrule castle keys the same as the Sewer
@@ -414,7 +414,7 @@ Module_PreDungeon:
         ; Load the number of keys for this dungeon from gameplay data.
         LDA.l $7EF37C, X
 
-    .notPalace
+    .notDungeon
 
     JSL.l RebuildHUD_Keys
 
@@ -2634,7 +2634,7 @@ Dungeon_FallingTransition_FallingFadeIn:
         CMP.b #$89 : BEQ Dungeon_PlayBlipAndCacheQuadrantVisits_exit
         CMP.b #$4F : BEQ Dungeon_PlayBlipAndCacheQuadrantVisits_exit
             CMP.b #$A7 : BEQ Dungeon_PlayBlipAndCacheQuadrantVisits_is_hera_fairies
-                ; Drop one level in the palace / dungeon.
+                ; Drop one level in the dungeon.
                 DEC.b $A4
 
                 ; Bleeds into the next function.
@@ -4811,7 +4811,7 @@ HoleToDungeon_LoadDungeon:
 
     JSR.w Dungeon_LoadEntrance
 
-    LDA.w $040C : CMP.b #$FF : BEQ .not_palace
+    LDA.w $040C : CMP.b #$FF : BEQ .not_dungeon
         CMP.b #$02 : BNE .not_sewer
             LDA.b #$00
 
@@ -4821,9 +4821,9 @@ HoleToDungeon_LoadDungeon:
 
         LDA.l $7EF37C, X
 
-    .not_palace
+    .not_dungeon
 
-    JSL.l HUD.RebuildIndoor_palace
+    JSL.l HUD_RebuildIndoor_palace
 
     LDA.b #$04 : STA.b $5A
     LDA.b #$03 : STA.b $5B
@@ -6034,7 +6034,7 @@ Pool_MilestoneItem_Flags:
 ; $0121B1-$0121E4 LONG JUMP LOCATION
 Dungeon_SaveRoomData:
 {
-    LDA.w $040C : CMP.b #$FF : BEQ .notInPalace
+    LDA.w $040C : CMP.b #$FF : BEQ .notInDungeon
         LDA.b #$19 : STA.b $11
 
         STZ.b $B0
@@ -6046,7 +6046,7 @@ Dungeon_SaveRoomData:
         ; $0121C7 ALTERNATE ENTRY POINT
         .justKeys
 
-        ; Branch if in a non palace interior.
+        ; Branch if in a non dungeon interior.
         LDA.w $040C : CMP.b #$FF : BEQ .return
             ; Is it the Sewer?
             CMP.b #$02 : BNE .notSewer
@@ -6066,7 +6066,7 @@ Dungeon_SaveRoomData:
 
         RTL
 
-    .notInPalace
+    .notInDungeon
 
     ; Play the error sound effect.
     LDA.b #$3C : STA.w $012E
@@ -9196,9 +9196,9 @@ HandleEdgeTransitionMovementNorth:
 
         .noFloorToggle
 
-        ; Do we need to do a transition between sewer / HC
+        ; Do we need to do a transition between sewer / HC?
         LDA.b $EF : AND.b #$02 : BEQ .noPalaceToggle
-            ; Toggle between sewer / HC
+            ; Toggle between sewer / HC.
             LDA.w $040C : EOR.b #$02 : STA.w $040C
 
         .noPalaceToggle
@@ -11729,7 +11729,7 @@ EntranceData:
     db $FF, $FF, $FF, $00, $00
     
     ; $01548B
-    .palace
+    .dungeonID
     db $FF, $FF, $00, $02, $02, $02, $FF, $FF
     db $04, $06, $06, $06, $06, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FF, $18, $FF, $FF
@@ -12037,8 +12037,8 @@ Dungeon_LoadEntrance:
 
     LDA.w EntranceData_startingFloor, X : STA.b $A4
 
-    ; Load the palace number.
-    LDA.w EntranceData_palace, X : STA.w $040C
+    ; Load the dungeon ID.
+    LDA.w EntranceData_dungeonID, X : STA.w $040C
 
     ; Interestingly enough, this could allow for horizontal doorways?
     LDA.w EntranceData_doorwayOrientation, X : STA.b $6C
@@ -12204,7 +12204,7 @@ SpawnPointData:
     db $00, $00, $FD, $FF, $01, $00, $00
 
     ; $015C16
-    .palace
+    .dungeonID
     db $FF, $00, $02, $FF, $02, $FF, $FF
 
     ; $015C1D
@@ -12307,8 +12307,9 @@ Dungeon_LoadStartingPoint:
     ; Set starting floor.
     LDA.w SpawnPointData_floor, X : STA.b $A4
 
-    ; Set palace Link is in, if any.
-    LDA.w SpawnPointData_dungeon_id, X : STA.w $040C
+    ; TODO: Confirm this reference is correct.
+    ; Set the dungeon Link is in, if any.
+    LDA.w SpawnPointData_dungeonID, X : STA.w $040C
 
     ; Start off by not being in a doorway.
     STZ.b $6C
@@ -13437,7 +13438,7 @@ Overworld_LoadExitData:
     ; Something relating to fixed color
     LDA.w #$0000 : STA.l $7EC017
 
-    ; Since we're not in a dungeon, set our palace index to -1
+    ; Since we're not in a dungeon, set our dungeon index to 0xFF.
     LDA.w #$00FF : STA.w $040C
 
     ; Reset the variable that tracks tile modifications to the current area
@@ -13515,9 +13516,7 @@ Overworld_LoadExitData:
     LDA.w UnderworldExitData_overworld_id, X : STA.b $8A : STA.w $040A
 
     ; Zero out the upper byte of the area index.
-    STZ.b $8B
-
-    STZ.w $040B
+    STZ.b $8B : STZ.w $040B
 
     LDA.w UnderworldExitData_scroll_mod_y, X : STA.w $0624
     STZ.w $0625 : ASL A : BCC .positive1
@@ -13595,14 +13594,13 @@ Overworld_LoadNewScreenProperties:
 
 ; ==============================================================================
 
+; Unlike some dungeon rooms that have specific exit data attached to them
+; this type of exit merely restores data that was cached away when the
+; player entered the dungeon room. In other words, we are merely
+; going back to the overworld area we came in from.
 ; $0165D4-$0166E0 LOCAL JUMP LOCATION
 Overworld_SimpleExit:
 {
-    ; Unlike some dungeon rooms that have specific exit data attached to them
-    ; this type of exit merely restores data that was cached away when the
-    ; player entered the dungeon room. In other words, we are merely
-    ; going back to the overworld area we came in from.
-
     REP #$20
 
     LDA.l $7EC140 : STA.w $040A

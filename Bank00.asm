@@ -885,7 +885,7 @@ Main_PrepSpritesForNmi:
 
         STA.l $7EC00D
         
-        ; Increment the animated tiles counter. $0400 for each frame.
+        ; Increment the animated tiles counter. #$0400 for each frame.
         LDA.l $7EC00F : CLC : ADC.w #$0400 : CMP.w #$0C00 : BNE .BRANCH_1C
             LDA.w #$0000
         

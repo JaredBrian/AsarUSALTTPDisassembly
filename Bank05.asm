@@ -2129,11 +2129,11 @@ JavelinTrooper_Agitated:
         
         .is_archer
         
-        LDA.b $2222 : CLC : ADC .x_offsets_low, Y  : STA.b $0404
+        LDA.b $2222 : CLC : ADC .x_offsets_low, Y  : STA.b $04
         LDA.b $23 :         ADC .x_offsets_high, Y : STA.b $05
         
         LDA.b $20 : CLC : ADC .y_offsets_low, Y  : STA.b $06
-        LDA.b $21 :       ADC .y_offsets_high, Y : STA.b $0707
+        LDA.b $21 :       ADC .y_offsets_high, Y : STA.b $07
         
         LDA.b #$18
         
