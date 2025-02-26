@@ -11439,7 +11439,7 @@ SheetsTable_0AA2:
 ; ==============================================================================
 
 ; $005EDF-$005EFE DATA
-Pool_Graphics_IncrementalVramUpload:
+Pool_Graphics_IncrementalVRAMUpload:
 {
     ; $005EDF
     .VRAM_address_high
@@ -11483,15 +11483,15 @@ Pool_Graphics_IncrementalVramUpload:
 ; ==============================================================================
 
 ; $005EFF-$005F19 LONG JUMP LOCATION
-Graphics_IncrementalVramUpload:
+Graphics_IncrementalVRAMUpload:
 {
     LDX.w $0412 : CPX.b #$10 : BEQ .finished
-        LDA.l Pool_Graphics_IncrementalVramUpload_VRAM_address_high, X
+        LDA.l Pool_Graphics_IncrementalVRAMUpload_VRAM_address_high, X
         STA.b $19
         
         STZ.w $0118
         
-        LDA.l Pool_Graphics_IncrementalVramUpload_buffer_address_high, X
+        LDA.l Pool_Graphics_IncrementalVRAMUpload_buffer_address_high, X
         STA.w $0119
         
         INC.w $0412

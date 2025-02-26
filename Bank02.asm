@@ -1790,7 +1790,7 @@ Dungeon_InterRoomTrans:
 
     LDA.b $B0 : BEQ .alpha
         CMP.b #$07 : BCC .beta
-            JSL.l Graphics_IncrementalVramUpload
+            JSL.l Graphics_IncrementalVRAMUpload
 
         .beta
 
@@ -1967,7 +1967,8 @@ Dungeon_ResetTorchBackgroundAndPlayer:
     LDY.b #$16
 
     ; Load BG1 properties setting.
-    LDX.w $0414 : LDA.w Dungeon_SubscreenEnable, X : BPL .bg1OnSubscreen
+    LDX.w $0414
+    LDA.w Dungeon_SubscreenEnable, X : BPL .bg1OnSubscreen
         ; This setting corresponds to the "on top" setting for BG1.
         LDY.b #$17
         LDA.b #$00
@@ -2210,7 +2211,7 @@ Dungeon_FatInterRoomStairs:
     .BRANCH_ALPHA
 
     LDA.b $B0 : CMP.b #$0D : BCC .BRANCH_BETA
-        JSL.l Graphics_IncrementalVramUpload
+        JSL.l Graphics_IncrementalVRAMUpload
 
         LDA.w $0464 : BEQ .BRANCH_GAMMA
             DEC.w $0464
@@ -2393,7 +2394,6 @@ DungeonTransition_AdjustForFatStairScroll:
     LDY.b #$16
 
     LDX.w $0414
-
     LDA.w Dungeon_SubscreenEnable, X : BPL .BRANCH_ALPHA
         LDY.b #$17
         LDA.b #$00
@@ -2531,7 +2531,7 @@ DungeonTransition_TriggerBGC56UpdateAndAdvance:
 Dungeon_FallingTransition:
 {
     LDA.b $B0 : CMP.b #$06 : BCC .alpha
-        JSL.l Graphics_IncrementalVramUpload
+        JSL.l Graphics_IncrementalVRAMUpload
         JSL.l Dungeon_LoadAttrSelectable
         JSL.l Dungeon_ApproachFixedColor
 
@@ -2595,7 +2595,6 @@ Dungeon_FallingTransition_SyncBG1andBG2:
     LDY.b #$16
 
     LDX.w $0414
-
     LDA.w Dungeon_SubscreenEnable, X : BPL .BRANCH_ALPHA
         LDY.b #$17
         LDA.b #$00
@@ -2959,7 +2958,7 @@ Dungeon_Watergate:
 Dungeon_SpiralStaircase:
 {
     LDA.b $B0 : CMP.b #$07 : BCC .BRANCH_ALPHA
-        JSL.l Graphics_IncrementalVramUpload
+        JSL.l Graphics_IncrementalVRAMUpload
         JSL.l Dungeon_LoadAttrSelectable
 
     .BRANCH_ALPHA
@@ -3089,7 +3088,6 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
     LDY.b #$16
 
     LDX.w $0414
-
     LDA.w Dungeon_SubscreenEnable, X : BPL .BRANCH_DELTA
         LDY.b #$17
         LDA.b #$00
@@ -3454,7 +3452,7 @@ Dungeon_StraightStairs:
     .doneWithAttrLoads
 
     LDA.b $B0 : CMP.b #$0D : BCC .waitForVramConfig
-        JSL.l Graphics_IncrementalVramUpload
+        JSL.l Graphics_IncrementalVRAMUpload
 
     .waitForVramConfig
 
@@ -3619,7 +3617,6 @@ StraightStairs_11:
     LDY.b #$16
 
     LDX.w $0414
-
     LDA.w Dungeon_SubscreenEnable, X : BPL .subscreenEnabled
         LDY.b #$17
         LDA.b #$00
@@ -3954,7 +3951,7 @@ RecoverPositionAfterDrowning:
 Dungeon_Teleport:
 {
     LDA.b $B0 : CMP.b #$03 : BCC .alpha
-        JSL.l Graphics_IncrementalVramUpload
+        JSL.l Graphics_IncrementalVRAMUpload
         JSL.l Dungeon_LoadAttrSelectable
 
     .alpha
@@ -4009,7 +4006,6 @@ Module07_15_04_SyncRoomPropsAndBuildOverlay:
     LDY.b #$16
 
     LDX.w $0414
-
     LDA.w Dungeon_SubscreenEnable, X : BPL .subscreenEnabled
         LDY.b #$17
         LDA.b #$00
@@ -7068,7 +7064,7 @@ Overworld_LoadNewMapAndGfx:
 Overworld_RunScrollTransition:
 {
     JSL.l Link_HandleMovingAnimation_FullLongEntry
-    JSL.l Graphics_IncrementalVramUpload
+    JSL.l Graphics_IncrementalVRAMUpload
     JSR.w OverworldScrollTransition
 
     AND.b #$0F : BEQ .alpha
@@ -7970,7 +7966,7 @@ OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic:
 ; $013195-$01319D LOCAL JUMP LOCATION
 OverworldMosaicTransition_FilterAndLoadGraphics:
 {
-    JSL.l Graphics_IncrementalVramUpload
+    JSL.l Graphics_IncrementalVRAMUpload
     JSL.l PaletteFilter_doFiltering
 
     RTS
@@ -8427,7 +8423,7 @@ Whirlpool_MoreBlue:
 ; $013456-$01345E LOCAL JUMP LOCATION
 Module09_2E_0B:
 {
-    JSL.l Graphics_IncrementalVramUpload
+    JSL.l Graphics_IncrementalVRAMUpload
     JSL.l WhirlpoolRestoreBlue
 
     RTS
@@ -9637,10 +9633,10 @@ Underworld_HandleCamera:
 
     LDA.b $A0 : CMP.w #$FFFF : BEQ .BRANCH_RHO
         LDX.w $0414  : BEQ .BRANCH_SIGMA
-        CPX.b #$06 : BCS .BRANCH_SIGMA
-        CPX.b #$04 : BEQ .BRANCH_SIGMA
-        CPX.b #$03 : BEQ .BRANCH_SIGMA
-        CPX.b #$02 : BNE .BRANCH_RHO
+          CPX.b #$06 : BCS .BRANCH_SIGMA
+          CPX.b #$04 : BEQ .BRANCH_SIGMA
+          CPX.b #$03 : BEQ .BRANCH_SIGMA
+          CPX.b #$02 : BNE .BRANCH_RHO
             .BRANCH_SIGMA
 
             ; $013B7B ALTERNATE ENTRY POINT
@@ -11728,6 +11724,22 @@ EntranceData:
     db $FF, $FF, $FF, $01, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $00, $00
     
+    ; 0x00 - Sewer Passage
+    ; 0x02 - Hyrule Castle
+    ; 0x04 - Eastern Palace
+    ; 0x06 - Desert Palace
+    ; 0x08 - Hyrule Castle Tower (Agahnim 1)
+    ; 0x0A - Swamp Palace
+    ; 0x0C - Dark Palace
+    ; 0x0E - Misery Mire
+    ; 0x10 - Skull Woods
+    ; 0x12 - Ice Palace
+    ; 0x14 - Tower of Hera
+    ; 0x16 - Gargoyle's Domain
+    ; 0x18 - Turtle Rock
+    ; 0x1A - Ganon's Tower
+    ; 0xFF - Caves, Houses, and other inside areas that don't have an
+    ;        assigned dungeon.
     ; $01548B
     .dungeonID
     db $FF, $FF, $00, $02, $02, $02, $FF, $FF
@@ -13810,13 +13822,17 @@ LoadSpecialOverworld:
     LDA.b $A0 : PHA : SEC : SBC.b #$80 : STA.b $A0 : TAX
 
     ; Direction
-    LDA.l Pool_LoadSpecialOverworld_direction, X : STA.b $2F : STZ.w $0412
+    LDA.l Pool_LoadSpecialOverworld_direction, X : STA.b $2F
+    
+    STZ.w $0412
 
     ; GFX $0AA3
     LDA.l Pool_LoadSpecialOverworld_gfx_0AA3, X : STA.w $0AA3
 
     ; GFX $0AA2
-    LDA.l Pool_LoadSpecialOverworld_gfx_0AA2, X : STA.w $0AA2 : PHX
+    LDA.l Pool_LoadSpecialOverworld_gfx_0AA2, X : STA.w $0AA2
+    
+    PHX
 
     ; Palette property b
     LDA.l Pool_LoadSpecialOverworld_palette_prop_b, X : STA.b $00
@@ -13838,8 +13854,7 @@ LoadSpecialOverworld:
 
     LDA.l Pool_LoadSpecialOverworld_camera70C, X : LSR #3 : STA.w $070C
 
-    LDA.b $00 : STA.w $070A
-
+    LDA.b $00          : STA.w $070A
     LDA.b $00 : LSR #3 : STA.w $070E
 
     LDA.b $A0 : ASL A : TAY

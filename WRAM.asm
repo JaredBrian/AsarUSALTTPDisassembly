@@ -10,7 +10,7 @@
 ; Anc = Ancilla
 ; APU = Audio Processing Unit
 ; AUX = Auxiliary
-; BG = BackGround
+; BG = Background
 ; Calc = Calculate/Calculation
 ; CGRAM = Color Generator RAM
 ; Coord = Coordinate
@@ -152,9 +152,9 @@ struct WRAM $7E0000
 
     ; $19[0x01] - (GFX, Main, NMI)
     .VRAMIncramentalUpload: skip $01
-        ; When nonzero, will trigger a transfer from $7FXXXX to vram
+        ; When nonzero, will trigger a transfer from $7FXXXX to VRAM
         ; address $YY00
-        ; XXXX is specified by variable $0118
+        ; XXXX is specified by variable IncramentalUploadBufferLow
         ; YY   is specified by this variable
         ; Seems to be used primarily for updating a strip of tilemap
         ; data, as it can only trigger a transfer of 0x200 bytes. That would
@@ -176,8 +176,7 @@ struct WRAM $7E0000
     .MainScreenDes: skip $01
         ; Main Screen Designation (TM / $212C)
         ; To be written to SNES.BGAndOBJEnableMainScreen during NMI.
-        ; uuuo 4321
-        ; u - Unused enabled
+        ; ...o 4321
         ; o - OAM layer enabled
         ; 1 - BG1 enabled
         ; 2 - BG2 enabled
@@ -188,8 +187,7 @@ struct WRAM $7E0000
     .SubScreenDes: skip $01
         ; Sub Screen Designation (TS / $212D)
         ; To be written to SNES.BGAndOBJEnableSubScreen during NMI.
-        ; uuuo 4321
-        ; u - Unused
+        ; ...o 4321
         ; o - OAM layer enabled
         ; 1 - BG4 enabled
         ; 2 - BG3 enabled
@@ -3758,17 +3756,16 @@ struct WRAM $7E0000
 
     ; $040C[0x02] - (Dungeon)
     .DungeonIndex: skip $02
-        ; Dungeon ID / Dungeon index multiplied by 2. If it's equal to 0xFF, that means there
-        ; is no map, keys, boss, etc. for that section of the underworld.
-        ; There is a data table of values, probably depends on the
-        ; entrance you go in how this gets selected. Notably used in
-        ; Ganon's Tower for minibosses.
-        ; Hence, this value is always even.
+        ; Dungeon ID / Dungeon index multiplied by 2. If it's equal to 0xFF,
+        ; that means there is no map, keys, boss, etc. for that section of the
+        ; underworld. There is a data table of values that depend on the
+        ; entrance you go in how this gets selected. The high byte is unused
+        ; technically but is zeroed out and is read from.
         ; 0x00 - Sewer Passage
         ; 0x02 - Hyrule Castle
         ; 0x04 - Eastern Palace
         ; 0x06 - Desert Palace
-        ; 0x08 - Hyrule Castle 2
+        ; 0x08 - Hyrule Castle Tower (Agahnim 1)
         ; 0x0A - Swamp Palace
         ; 0x0C - Dark Palace
         ; 0x0E - Misery Mire
@@ -3778,72 +3775,102 @@ struct WRAM $7E0000
         ; 0x16 - Gargoyle's Domain
         ; 0x18 - Turtle Rock
         ; 0x1A - Ganon's Tower
-        ; 0x1C - ??? possibly unused. (Were they planning two extra dungeons perhaps?)
-        ; 0x1E - ??? possibly unused.
-        ; 0xFF - Caves, Houses, and other inside areas that don't have an assigned dungeon.
+        ; 0xFF - Caves, Houses, and other inside areas that don't have an
+        ;        assigned dungeon.
 
-    ; $040E - 
-        ; Contains the layout and starting quadrant info
-        ; (from dungeon header)
+    ; $040E[0x01] - (Dungeon)
+    .DungeonQuadrant: skip $01
+        ; Contains the layout and starting quadrant info from dungeon header.
 
-    ; $040F - 
-        ; Zeroed by a 16-bit write to $040E in only one location.
+    ; $040F[0x01] - (Junk)
+    .Junk_040F: skip $01
+        ; Zeroed by a 16-bit write to DungeonQuadrant in one location.
         ; Otherwise, it could technically be considered Free RAM.
 
-    ; $0410 - 
-        ; -------- ----udlr   Screen transition direction bitfield
-        ; When the overworld is transitioning screens, only one of the "udlr"
-        ; bits will be set.
+    ; $0410[0x02] - (Overworld)
+    .OWTransitionDirection: skip $02
+        ; Screen transition direction bitfield. When the overworld is
+        ; transitioning, only one of the "udlr" bits will be set. The high byte
+        ; is unused but written to.
+        ; .... udlr
+        ; u - Up
+        ; d - Down
+        ; l - Left
+        ; r - Right
 
-    ; $0412 - 
+    ; $0412[0x01] - (GFX, Main, NMI)
+    .VRAMIncramentalUploadStep: skip $01
         ; Index used during screen transitions to gradually, over the
         ; course of several frames, transmit data to VRAM.
-        ; See variables $19 and $0118
+        ; See variables VRAMIncramentalUpload and IncramentalUploadBufferLow
 
-    ; $0414 - 
-        ; BG2 properties in Hyrule Magic
-        ; Detailed description of CGADDSUB properties per type:
-        ; Note that both parallax modes are the same from the register standpoint
-        ; 0 - "Off"        ;    - Main: BG2, BG3, Obj;  Sub: None; +/-: background
-        ; 1 - "Parallaxing"   - Main: BG2, BG3, Obj;  Sub: BG1; +/-: background
-        ; 2 - "Dark Room"     - Main: BG2, BG3, Obj;  Sub: BG1, BG1; +/-: background
-        ; 3 - "On top"        ; - Main: BG1, BG2, BG2, Obj; Sub: None; +/-: background
-        ; 4 - "Translucent"   - Main: BG2, BG3, Obj;  Sub: BG1; +/-: (1/2 +) back. BG1
-        ; 5 - "Parallaxing 2" - Main: BG2, BG3, Obj;  Sub: BG1; +/-: background
-        ; 6 - "Normal"        ; - Main: BG2, BG3, Obj;  Sub: BG1; +/-: background
-        ; 7 - "Addition"      - Main: BG2, BG3, Obj;  Sub: BG1; +/-: (full +) back. BG1
-
-    ; $0416 - 
-        ; -------- ----udlr   Screen transition direction bitfield 2
-        ; When the overworld is transitioning screens, only one of the "udlr" bits
-        ; will be set.
-        ; 
-
-    ; $0418 - 
-        ; 0 - Overworld screen transition up
-        ; 1 - Overworld screen transition down
-        ; 2 - Overworld screen transition left
-        ; 3 - Overworld screen transition right
-        ; 
-        ; Values greater than 3 should not show up
-
-    ; $041A - 
-        ; vvvvvvvv vvvvvvid
-
-        ; d - disable horizontal and vertical 
-        ; i - inverts the direction of the floor movement, specified by $0310 / $0312
-        ; v - if any of these bits are set, the floor movement will be vertical. Otherwise it will be horizontal
-
-    ; $041C - 
-        ; ??? referenced in trick hidden walls
-        ; The value of this is used by various "Effect" settings in the dungeons
-
-    ; $041E - 
-        ; ???
-
-    ; $0420 - 
-        ; Zeroed at one location, but could otherwise be considered
+    ; $0413[0x01] - (Free)
+    .Free_0413: skip $01
         ; Free RAM.
+
+    ; $0414[0x02] - (Dungeon)
+    .DunBG2Properties: skip $02
+        ; BG2 properties in Hyrule Magic. TODO: Make ZS. The high byte is unused but written to.
+        ; Detailed description of MainScreenDes and SubScreenDes properties per type:
+        ; Note that both parallax modes are the same from the register standpoint.
+        ; 0 - "Off"           - Main:      BG2, BG3, Obj | Sub:     None | +/-: background
+        ; 1 - "Parallaxing"   - Main:      BG2, BG3, Obj | Sub:      BG1 | +/-: background
+        ; 2 - "Dark Room"     - Main:      BG2, BG3, Obj | Sub: BG1, BG1 | +/-: background
+        ; 3 - "On top"        - Main: BG1, BG2, BG2, Obj | Sub:     None | +/-: background
+        ; 4 - "Translucent"   - Main:      BG2, BG3, Obj | Sub:      BG1 | +/-: (1/2 +) back. BG1
+        ; 5 - "Parallaxing 2" - Main:      BG2, BG3, Obj | Sub:      BG1 | +/-: background
+        ; 6 - "Normal"        - Main:      BG2, BG3, Obj | Sub:      BG1 | +/-: background
+        ; 7 - "Addition"      - Main:      BG2, BG3, Obj | Sub:      BG1 | +/-: (full +) back. BG1
+
+    ; $0416[0x02] - (Overworld)
+    .OWTransitionDirection2: skip $02
+        ; Screen transition direction bitfield 2. When the overworld is transitioning screens,
+        ; only one of the "udlr" bits will be set. TODO: The difference between this and
+        ; OWTransitionDirection appears to be that this one appears to be used while moving
+        ; within a large area as well to update the tile map? Unsure. The high byte is unused but
+        ; written to.
+        ; .... udlr
+        ; u - Up
+        ; d - Down
+        ; l - Left
+        ; r - Right
+
+    ; $0418[0x02] - (Dungeon, Overworld)
+    .TransitionDirection: skip $02
+        ; The direction of the current dungeon or overworld transition.
+        ; For some reason, parity is flipped between overworld and underworld.
+        ; The high byte is zeroed but not read.
+        ;          Overworld   Underworld
+        ;   0x00 - North       South
+        ;   0x01 - South       North
+        ;   0x02 - West        East
+        ;   0x03 - East        West
+
+    ; $041A[0x02] - (Dungeon)
+    .MovingWallFlag: 
+        ; When nonzero, idicates that a wall needs to move or is currently moving. The high
+        ; byte is written to but unused.
+
+    ; $041A[0x02] - (Dungeon)
+    .MovingFloor: skip $02
+        ; The direction and state of a moving floor. The high byte is unused but written to.
+        ; vvvvvvvv vvvvvvid
+        ; v - If any of these bits are set, the floor movement will be vertical.
+        ; i - Inverts the direction of the floor movement, specified by FloorVelocityY and
+        ;     FloorVelocityX.
+        ; d - Disable all movement.
+        
+    ; $041C[0x02] - (Dungeon)
+    .SubPixelMovement: skip $02
+        ; Sub-pixel movement for moving walls, moving floors, and moving water in dungeons.
+
+    ; $041E[0x02] - (Dungeon)
+    .MovingWallIndex: skip $02
+        ; Used to saved an index value for moving walls.
+
+    ; $0420[0x02] - (Junk)
+    .Junk_0420: skip $02
+        ; Zeroed on dungeon room load but never read.
 
     ; $0422[0x02] - 
         ; X offset of the moving floor. (Also used to position the crystal

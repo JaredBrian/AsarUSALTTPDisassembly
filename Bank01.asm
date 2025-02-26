@@ -2588,9 +2588,7 @@ RoomDraw_CheckIfWallIsMoved:
     
     LDX.b #$00 : TXY
     
-    LDA.b $AE
-    
-    CMP.b #$1C : BCC .tryScript2
+    LDA.b $AE : CMP.b #$1C : BCC .tryScript2
         CMP.b #$20 : BCC .isHiddenWallScript
     
     .tryScript2
@@ -2600,10 +2598,8 @@ RoomDraw_CheckIfWallIsMoved:
     INX
     
     ; Load the Tag2 (other properties 2) setting for the room.
-    LDA.b $AF
-    
-    CMP.b #$1C : BCC .notHiddenWallScript
-    CMP.b #$20 : BCS .notHiddenWallScript
+    LDA.b $AF : CMP.b #$1C : BCC .notHiddenWallScript
+                CMP.b #$20 : BCS .notHiddenWallScript
         .isHiddenWallScript
     
         LDA.w $0403 : AND.w DoorFlagMasks-1, Y : BEQ .notYetTriggered
@@ -7867,13 +7863,13 @@ Dungeon_LoadHeader:
     ; $0D = $04XXXX. I.e. $0F contains the bank number.
     LDA.b #$04 : STA.b $0F
     
-    ; Save whatever this value is...
+    ; TODO: Save whatever this value is...
     LDA.w $0414 : STA.l $7EC208
     
     LDY.w #$0000
     
     ; Load the 0th (first) byte of the header.
-    ; "BG2" in HM
+    ; "BG2" in HM. TODO: Change to ZS.
     LDA [$0D], Y : AND.b #$E0 : ASL A : ROL #3 : STA.w $0414
     
     ; "collision" in HM
@@ -10516,7 +10512,7 @@ RoomTag_MovingWall_East:
                 ; Play the puzzle solved sound.
                 LDX.b #$1B : STX.w $012F
                 
-                ; "silence" ambient sfx
+                ; "silence" ambient sfx.
                 LDX.b #$05 : STX.w $012D
                 
                 LDX.b $0E
@@ -16159,7 +16155,9 @@ Underworld_FloodSwampWater_CoverFloor:
     CMP.b $00 : BCC .alpha
         SEP #$20
         
-        LDA.b #$07 : STA.w $0414 ; Make BG1 full addition.
+        ; TOOD: I'm pretty sure this is supposed to be BG2.
+        ; Make BG1 full addition.
+        LDA.b #$07 : STA.w $0414
         
         INC.b $B0
     
