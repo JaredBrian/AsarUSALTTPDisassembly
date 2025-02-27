@@ -4271,9 +4271,9 @@ struct WRAM $7E0000
         ; room. Note that this range indicates we can have up to 16 torches in
         ; an area.
 
-    =============================================================================
-    = Page 0x05
-    =============================================================================
+    ; =============================================================================
+    ; = Page 0x05
+    ; =============================================================================
 
     ; $0500[0x20] - 
         ; replacement tile attributes for moveable/liftable/poundable objects.
@@ -4655,9 +4655,9 @@ struct WRAM $7E0000
     ; $06F8 - 
         ; Free RAM
 
-    ============================================================================================================================
-    = Page 0x07 ================================================================================================================
-    ============================================================================================================================
+    ; ============================================================================================================================
+    ; = Page 0x07 ================================================================================================================
+    ; ============================================================================================================================
 
     ; $0700 - 
         ; Generally is equal to the area number you are in currently in 
@@ -4736,15 +4736,15 @@ struct WRAM $7E0000
     ; $0728 - 
         ; Free RAM
 
-    ============================================================================================================================
-    = Pages 0x08, 0x09 and 0x0A ================================================================================================
-    ============================================================================================================================
+    ; ============================================================================================================================
+    ; = Pages 0x08, 0x09 and 0x0A ================================================================================================
+    ; ============================================================================================================================
 
-    OAM Basic 512 byte table:
+    ; OAM Basic 512 byte table:
 
     ; $0800[0x200] - OAM data. This is blitted to VRAM every frame via DMA.
 
-    How OAM works:
+    ; How OAM works:
 
         ; Byte1: X coordinate on screen in pixels. This is the lower 8 bits. See Extended OAM table below
         ; Byte2: Y coordinate on screen in pixels.
@@ -4755,7 +4755,7 @@ struct WRAM $7E0000
         ; p - priority bits
         ; c - the 9th (and most significant) bit of the character number for this sprite.
 
-    Extended OAM 32 byte table:
+    ; Extended OAM 32 byte table:
 
     ; $0A00 - 
         ; Each byte contains information for 4 sprites (in the same order
@@ -4772,7 +4772,7 @@ struct WRAM $7E0000
         ; and ORed in later to form the data that will get blitted to
         ; VRAM.
 
-    Apparently Palette Related, but details lacking:
+    ; Apparently Palette Related, but details lacking:
 
     ; $0AA0 - 
         ; Seesms as though this variable is cached at various points in
@@ -4890,7 +4890,7 @@ struct WRAM $7E0000
         ; It's also used to make sure you didn't cheat during the
         ; heart piece maze game in Kakkariko.
 
-    DMA Variables: To see these in action, look up routine $9E0 in the banks files. These are all Word values.
+    ; DMA Variables: To see these in action, look up routine $9E0 in the banks files. These are all Word values.
 
     ; $0AC0 - 
         ; ROM Address for certain DMA transfers from bank $7E. The value stored here is grabbed from a table indexed by address $0107.
@@ -4978,11 +4978,11 @@ struct WRAM $7E0000
     ; $0AFA - 
         ; Free RAM
 
-    ============================================================================================================================
-    = Pages 0x0B and 0x0C ======================================================================================================
-    ============================================================================================================================
+    ; ============================================================================================================================
+    ; = Pages 0x0B and 0x0C ======================================================================================================
+    ; ============================================================================================================================
 
-    Overlord Model (Most if not all arrays are 8 bytes in length)
+    ; Overlord Model (Most if not all arrays are 8 bytes in length)
 
     ; $0B00 - 
         ; Overlord types for this room.
@@ -5290,12 +5290,12 @@ struct WRAM $7E0000
     ; $0C90[0x0A] - (Ancilla)
         ; Number of sprites the special effects uses * 4
 
-    # ==============================================================================
-    # The Sprite Object Model. All arrays are 16 bytes long since there are 16 
-    # sprites per room.
-    #
-    # Note: also see $0BE0
-    # ==============================================================================
+    ; ==============================================================================
+    ; The Sprite Object Model. All arrays are 16 bytes long since there are 16 
+    ; sprites per room.
+    ;
+    ; Note: also see $0BE0
+    ; ==============================================================================
 
     ; $0C9A - 
         ; Room or Area number that the sprite has been loaded to. (If in a dungeon, only contains the lower byte)
@@ -5448,9 +5448,9 @@ struct WRAM $7E0000
         ; Used to override the palette of a sprite that is frozen. When
         ; nonzero, this sets the forces the sprite's palette index to 2.
 
-    ============================================================================================================================
-    = Page 0x0D ================================================================================================================
-    ============================================================================================================================
+    ; ============================================================================================================================
+    ; = Page 0x0D ================================================================================================================
+    ; ============================================================================================================================
 
     ; $0D00 - 
         ; The lower byte of a sprite's Y - coordinate. ; functions
@@ -6168,9 +6168,9 @@ struct WRAM $7E0000
     ; $0FFF - 
         ; Indicates whether you are in the light world or dark world (0,1 respectively)
 
-    ============================================================================================================================
-    = Pages 0x10 to 0x17 =======================================================================================================
-    ============================================================================================================================
+    ;============================================================================================================================
+    ; = Pages 0x10 to 0x17 =======================================================================================================
+    ; ============================================================================================================================
 
     ; $1000[0x0980] - Placeholder just to indicate the overall buffer size for now.
 
@@ -6207,12 +6207,12 @@ struct WRAM $7E0000
 
 
 
-    Setup for making overlaid tiles appear (word addresses):
+    ; Setup for making overlaid tiles appear (word addresses):
 
-    Notes on converting in game tile positions into VRAM positions:
+    ; Notes on converting in game tile positions into VRAM positions:
 
-    In game layout: (u = unused?)       uuddaaaa abcccccc
-    Translated into VRAM base address:  uuuddbaa aaaccccc
+    ; In game layout: (u = unused?)       uuddaaaa abcccccc
+    ; Translated into VRAM base address:  uuuddbaa aaaccccc
 
     ; $1100 - 
         ; Target VRAM address for the transfer
@@ -6307,7 +6307,7 @@ struct WRAM $7E0000
     ; $1CC0 - 
         ; Free RAM
 
-    Text related variables ($1CD0[0x20])
+    ; Text related variables ($1CD0[0x20])
 
     ; $1CD0 - 
         ; When drawing the message box border, the value of $1CD2 gets
@@ -6556,17 +6556,17 @@ struct WRAM $7E0000
 
         ; When written, this register writes a byte or word to VRAM.  The address is incremented (or not, as the case may be) according to register $2115. 
 
-    ============================================================================================================================
-    = Start of unmirrored WRAM ================================================================================================
-    ============================================================================================================================
+    ; ============================================================================================================================
+    ; = Start of unmirrored WRAM ================================================================================================
+    ; ============================================================================================================================
 
-    Tile Tilemap Format: Vhopppcc cccccccc
+    ; Tile Tilemap Format: Vhopppcc cccccccc
 
-    Overworld:
+    ; Overworld:
     ; $7E2000[0x2000] - Map16 tile data for the overworld. Supports up to 1024x1024 pixels of tiles
-    Note that this is handled somewhat differently than the Map8 data in the dungeons which supports up to 512x512
+    ; Note that this is handled somewhat differently than the Map8 data in the dungeons which supports up to 512x512
 
-    Dungeons:
+    ; Dungeons:
     ; $7E2000[0x2000] - when loading dungeon graphics, contains the (map8) tilemap for BG2.
 
     ; $7E4000[0x2000] - when loading dungeon graphics, contains the (map8) tilemap for BG1.
@@ -6644,7 +6644,7 @@ struct WRAM $7E0000
 
     ; $7EBE00[0x200] - possibly Free RAM
 
-    Values related to Dungeon Headers:
+    ; Values related to Dungeon Headers:
 
     ; $7EC000 - 
         ; The dungeon header can have up to five destinations for you to travel to 
@@ -7128,5 +7128,730 @@ struct WRAM $7E0000
         ; Also see routine $0717D9 in the Banks files (if you have them) and $71659 in Zelda3_ROM.log.
 }
 endstruct
+
+; ==============================================================================
+
+struct WRAM $7F0000
+{
+    ; ============================================================================================================================
+    ; = Start of bank 0x7F =======================================================================================================
+    ; ============================================================================================================================
+
+    ; $7F0000[0x2000] -   (NMI)
+
+        ; Decompression buffer for CHR updates.
+
+    ; $7F0000[0x7E0] -    tile index buffer for text
+
+    ; $7F0000[0x850] - no idea
+
+    ; $7F07E0[???] - ????
+
+    ; $7F1200[0x800] -    (Messaging) Text buffer for character data, using pointers
+                        ; loaded from the table at $7F71C0
+
+
+    ; $7F2000[0x2000] -   at some point carries the tile map data for the rain overlay.
+
+    ; $7F2000[0x1000] -   (Dungeon)
+
+        ; BG2 tile attribute table - (after the level/room has loaded), tile information for the room/map.
+        ; In particular tells the game how to handle each 8x8 tile.
+        ; For example, a chest will have the value 0x58 (or something similar) in 4 different locations, interlaced of course.
+        
+        ; List of Tile types:
+        
+        ; 0x00 - normal?
+        ; 0x01 - collide
+        ; 0x02 - ???
+        ; 0x03 - ???? what is this?
+        
+        ; 0x08 - swim / deep water
+        ; 0x09 - shallow water (not swimmable)
+        
+        ; 0x0A - ????
+        
+        ; 0x0B - ???? 
+        
+        ; 0x0C - moving floor (Mothula's room)
+        ; 0x0D - spike floor (hurts)
+        ; 0x0E - ice floor
+        ; 0x0F - more ice floor?
+        
+        ; 0x1C - top of water staircase
+        ; 0x1D - in room staircase
+        ; 0x1E - in room staircase
+        ; 0x1F - in room staircase
+        
+        ; 0x20 - Pit / Hole tiles
+        
+        ; 0x21 - ????
+        
+        ; 0x22 - stairs that slow you down
+        
+        ; 0x23 - Lower half of trigger tile (Object 1.1.0x35 also uses it, but it seems like a broken mess)
+        ; 0x24 - Upper half of trigger tile
+        
+        ; 0x26 - Boundary tile for In-floor inter-room staircases
+        ; 0x27 - white statues (dungeons) / fences (overworld)
+        
+        ; 0x28 - Ledge leading up
+        ; 0x29 - Ledge leading down
+        ; 0x2A - Ledge leading left
+        ; 0x2B - Ledge leading right
+        ; 0x2C - Ledge leading up + left
+        ; 0x2D - Ledge leading down + left
+        ; 0x2E - Ledge leading up + right
+        ; 0x2F - Ledge leading down + right
+        
+        ; 0x30 - Up Staircase to room 1  of 5
+        ; 0x31 - Up Staircase to room 2 ( " )
+        ; 0x32 - Up Staircase to room 3 ( " )
+        ; 0x33 - Up Staircase to room 4 ( " )
+        
+        ; 0x34 - Down Staircase to room 1  of 5
+        ; 0x35 - Down Staircase to room 2 ( " )
+        ; 0x36 - Down Staircase to room 3 ( " )
+        ; 0x37 - Down Staircase to room 4 ( " )
+        
+        ; 0x38 - Boundary tile for straight up inter-room staircases
+        ; 0x39 - Boundary tile for sraightt up inter-room staircases
+        
+        ; 0x3A - Star switch tile
+            ; (At load time, the inactive star tiles have this
+            ; attribute, but once the state has swapped these tiles
+            ; become active.)
+            
+        ; 0x3B - Star switch tile
+            ; (Active star tiles have this attribute at load time.)
+        
+        ; 0x3C - ????
+        
+        ; 0x3D - inter-floor staircases?
+        ; 0x3E - inter-floor staircases?
+        ; 0x3F - inter-floor staircases?
+        
+        ; 0x40 - Thick Grass (and smashed in moles?)
+        
+        ; 0x42 - Gravestone
+        
+        ; 0x44 - Spike Block (dungeon) / Cactus (overworld)
+        
+        ; 0x48 - (overworld) Normal blank ground
+        ; 0x4A - ????
+        
+        ; 0x4B - Orange Warp Tile (Dungeons) / Blue Warp Tile (Overworld)
+        
+        ; 0x4C - ????
+        ; 0x4D - ????
+        ; 0x4E - Mountain rock tile found in only a few select areas
+        ; 0x4F - Mountaon rock tile found in only a few select areas
+        
+        ; 0x50 - (overworld) bush
+        ; 0x51 - (overworld) off color bush
+        ; 0x52 - (overworld) small light rock
+        ; 0x53 - (overworld) small heavy rock
+        ; 0x54 - (overworld) sign
+        ; 0x55 - (overworld) large light rock
+        ; 0x56 - (overworld) large heavy rock
+        ; 0x57 - (overworld) rock pile
+        
+        ; 0x58 - chest 0
+        ; 0x59 - chest 1
+        ; 0x5A - chest 2
+        ; 0x5B - chest 3
+        ; 0x5C - chest 4
+        ; 0x5D - chest 5
+        
+        ; 0x5E - upward staircase tile
+        
+        ; 0x61 - 
+        
+        ; 0x60 - Blue Rupee Tile (n.b. Not a sprite tile in this case!)
+        
+        ; 0x62 - bombable cracked floor
+        
+        ; 0x63 - minigame chests?
+        
+        ; 0x66 - blue / orange block that is down
+        ; 0x67 - blue / orange block that is up
+        
+        ; 0x68 - conveyor belt
+        ; 0x69 - conveyor belt
+        ; 0x6A - conveyor belt
+        ; 0x6B - conveyor belt
+        
+        ; 0x70 - pot or bush (or mole?)
+        ; 0x71 - pot or bush
+        ; 0x72 - pot or bush
+        ; 0x73 - pot or bush
+        ; 0x74 - pot or bush
+        ; 0x75 - pot or bush
+        ; 0x76 - pot or bush
+        ; 0x77 - pot or bush
+        ; 0x78 - pot or bush
+        ; 0x79 - pot or bush
+        ; 0x7A - pot or bush
+        ; 0x7B - pot or bush
+        ; 0x7C - pot or bush
+        ; 0x7D - pot or bush
+        ; 0x7E - pot or bush
+        ; 0x7F - pot or bush
+        
+        ; 0x80 - open door?
+        
+        ; 0x89 - (dungeon) Room Link door
+        
+        ; 0x8E - (dungeon) Overworld Link door (exit to Overworld)
+        ; 0x8E - (overworld) unused?
+        
+        ; 0x90 - screen transition with BG toggle (BG1 <-> BG2)
+        ; 0x91 - screen transition with BG toggle (BG1 <-> BG2)
+        ; 0x92 - screen transition with BG toggle (BG1 <-> BG2)
+        ; 0x93 - screen transition with BG toggle (BG1 <-> BG2)
+        ; 0x94 - screen transition with BG toggle (BG1 <-> BG2)
+        ; 0x95 - screen transition with BG toggle (BG1 <-> BG2)
+        ; 0x96 - screen transition with BG toggle (BG1 <-> BG2)
+        ; 0x97 - screen transition with BG toggle (BG1 <-> BG2)
+        
+        ; 0xA0 - screen transition with dungeon toggle
+        ; 0xA1 - screen transition with dungeon toggle
+        ; 0xA2 - screen transition with dungeon toggle
+        ; 0xA3 - screen transition with dungeon toggle
+        ; 0xA4 - screen transition with dungeon toggle
+        ; 0xA5 - screen transition with dungeon toggle
+        
+        ; 0xB0 - Cane of Somaria line (up/down)
+        ; 0xB1 - Cane of Somaria line (left/right)
+        ; 0xB2 - ???
+        ; 0xB6 - Cane of Somaria line node (question mark shaped)
+        
+        ; 0xBE - Pipe tile?
+        
+        ; 0xC0 - Torch 0x00
+        ; 0xC1 - Torch 0x01
+        ; 0xC2 - Torch 0x02
+        ; 0xC3 - Torch 0x03
+        ; 0xC4 - Torch 0x04
+        ; 0xC5 - Torch 0x05
+        ; 0xC6 - Torch 0x06
+        ; 0xC7 - Torch 0x07
+        ; 0xC8 - Torch 0x08
+        ; 0xC9 - Torch 0x09
+        ; 0xCA - Torch 0x0A
+        ; 0xCB - Torch 0x0B
+        ; 0xCC - Torch 0x0C
+        ; 0xCD - Torch 0x0D
+        ; 0xCE - Torch 0x0E
+        ; 0xCF - Torch 0x0F
+        
+        ; 0x0D0 - ????
+
+        ; 0xF0 - Key door 1
+        ; 0xF1 - Key door 2
+        ; 0xF2 - Key door 3
+        ; 0xF3 - Key door 4
+        ; 0xF4 - ????
+
+    ; $7F3000[0x1000] -   Tile Attribute table for BG1. Same as $7F2000 but for a different background.
+
+    ; $7F4000[0x800] -    Decompression buffer for.... sprite stats and perhaps other
+                        ; crap too.
+    ; $7F5000[0x800] -    free ram
+
+    ; $7F5800[0x0C] - (HappinessPondRupees)
+        
+        ; Y speed of rupee.
+
+    ; $7F580A[0x0C] - (HappinessPondRupees)
+        
+        ; X speed of rupee.
+
+    ; $7F5818[0x0C] - (HappinessPondRupees)
+        
+        ; Z speed of rupee.
+
+    ; $7F5824[0x0C] - (HappinessPondRupees)
+        
+        ; Low byte of rupee's Y coordinate.
+
+    ; $7F5830[0x0C] - (HappinessPondRupees)
+        
+        ; High byte of rupee's Y coordinate.
+
+    ; $7F583C[0x0C] - (HappinessPondRupees)
+        
+        ; Low byte of rupee's X coordinate.
+
+    ; $7F5848[0x0C] - (HappinessPondRupees)
+        
+        ; High byte of rupee's X coordinate.
+
+    ; $7F5860[0x0C] - (HappinessPondRupees)
+        
+        ; Countdown autotimer.
+        
+    ; $7F586C[0x0C] - (HappinessPondRupees)
+        
+        ; Indicates whether this rupee is active or not.
+
+    ; $7F586E[0x02] - (HappinessPondRupees)
+        
+        ; Mysteriously unallocated... there's a gap
+
+    ; $7F587A[0x0C] - (HappinessPondRupees)
+        
+        ; Animation index for splash state of the rupee.
+
+    ; $7F5886[0x0C] - (HappinessPondRupees)
+        
+        ; Subpixel portion of rupee's Y coordinate.
+
+    ; $7F5892[0x0C] - (HappinessPondRupees)
+        
+        ; Subpixel portion of rupee's X coordinate.
+
+    ; $7F589E[0x0C] - (HappinessPondRupees)
+    
+        ; Subpixel portion of rupee's Z coordinate.
+
+    ; $7F58AA[0x0C] - (HappinessPondRupees)
+        
+        ; 0 - In item state.
+        ; 1 - In splash state.
+        ; 2 - Scheduled for deactivation.
+
+    ; $7F5817[0x08] - (BreakTowerSeal)
+        
+        ; Low byte of Y coordinate of the crystals. Note that this has 8 entries,
+        ; though only 7 crystals are in the game both plot-wise and in general.
+
+    ; $7F581F[0x08] - (BreakTowerSeal)
+        
+        ; High byte of Y coordinate of the crystals. Note that this has 8 entries,
+        ; though only 7 crystals are in the game both plot-wise and in general.
+
+    ; $7F5827[0x08] - (BreakTowerSeal)
+        
+        ; Low byte of X coordinate of the crystals. Note that this has 8 entries,
+        ; though only 7 crystals are in the game both plot-wise and in general.
+
+    ; $7F582F[0x08] - (BreakTowerSeal)
+        
+        ; High byte of X coordinate of the crystals. Note that this has 8 entries,
+        ; though only 7 crystals are in the game both plot-wise and in general.
+
+    ; $7F5837[0x18] - (BreakTowerSeal)
+
+        ; Animation index for the sparkles that are generated near the swirling
+        ; crystals.
+
+    ; $7F584F[0x18] - (BreakTowerSeal)
+        
+        ; Low byte of Y coordinate for the sparkles that are generated near the
+        ; swirling crystals.
+
+    ; $7F5867[0x18] - (BreakTowerSeal)
+        
+        ; High byte of Y coordinate for the sparkles that are generated near the
+        ; swirling crystals.
+
+    ; $7F587F[0x18] - (BreakTowerSeal)
+        
+        ; Low byte of X coordinate for the sparkles that are generated near the
+        ; swirling crystals.
+
+    ; $7F5897[0x18] - (BreakTowerSeal)
+        
+        ; High byte of X coordinate for the sparkles that are generated near the
+        ; swirling crystals.
+
+    ; $7F58AF[0x18] - (BreakTowerSeal)
+        
+        ; Countdown timer for the sparkles generated near the swirling crystals.
+        ; It's exact purpose is to provide the delay between changes of chr
+        ; and property states for the crystals (See $7F5837)
+
+    ; $7F5934[0x01] - (BombosSpell)
+        
+        ; Overall state indicator for the Bombos Spell.
+        ; Only takes on values 0 through 2, but needs more research to find out what
+        ; they mean.
+        
+        ; 0 - Spawning of flame columns as they expand out.
+        ; 1 - Wrap up flame column animation then transition to the blast phase.
+        ; 2 - Blast phase
+
+    ; $7F5935[0x10] - (BombosSpell)
+        
+        ; Animation index of Bombos blasts (explosions). Ranges from 0 to 8.
+        ; 8 indicates an inactive state waiting to be reset.
+        
+    ; $7F5B00[0xA0] -
+
+        ; Array of sound settings for overworld areas. Each entry (byte) has the
+        ; following format:
+        
+        ; aaaammmm
+        
+            ; aaaa - ambient sound effect number to play in that area ($012D).
+            ; mmmm - song number to play in that area ($012C).
+        
+        ; This array is preloaded with differing values depending on which stage of
+        ; the game you're in. The stages are determined by $7EF3C5.
+        ; (See $3C5 in Zelda_3_SRM.log) 
+
+    ; $7F5BA0[0x60] -    free ram
+
+    ; $7F6000[0x1000] -  enemy damage related
+
+    ; $7F7000[0x1C0] -    Used to generate the hdma table that the intro and outro spotlight effect uses
+
+    ; $7F71C0[0x4A7] -    text / dialogue pointers (all of them!). Each one is a 3 byte long pointer.
+
+    ; $7F7667[0x6719] -   free ram
+
+    ; $7FDD80[0x200] -    
+
+        ; Serves as a temporary buffer for storing a copy of the current palette buffer.
+        ; Sometimes the contents of $7EC500 gets stored here, and other times it's $7EC300
+        ; being preserved. The general idea here is that the game hopes to eventually
+        ; (optionally) restore the palette to this set of colors later.
+
+    ; $7FDE00[0x180?] -   ???
+
+    ; $7FDF80[0x0280] -   (indoors) I think this is used to describe which rooms have had their sprites loaded (while in a dungeon)
+    ; $7FDF80[0x1000] -   (outdoors) Memory region that indicates where sprites are in the currently loaded overworld map (which map16 tile they're on)
+
+    ; $7FE200 - 
+
+    ; $7FEF80[0x200] -    
+        
+        ; death status for the overworld sprites?
+
+    ; $7FF180[0x680] -    
+        
+        ; free ram? Can't be 100% certain yet.
+
+    ; $7FF800[0x1E] - (Garnish)
+        
+        ; Mostly superficial graphical entities (hence, "Garnish"). The only one that
+        ; is known to damage the player are the Ganon Bat Flames.
+        
+        ; 0x00 - Garnish is considered inactive if it has this value.
+        
+        ; 0x01 - Winder fireball trails (which is why only the front fireball of the
+            ; Winder is harmful to the player).
+        
+        ; 0x02 - Mothula Beam Trail.
+        
+        ; 0x03 - Falling tile? Or the effect after the tile has falling of it disappearing?
+        
+        ; 0x04 - Seems to be the trailing portions of the laser beams that laser eyes
+            ; shoot.
+        
+        ; 0x05 - one sparkling point produced when you freeze an enemy and as while 
+            ; it's frozen periodically
+        
+        ; 0x06 - Zoro Dander. (Dust that trails behind them.)
+        
+        ; 0x07 - Kholdstare nebule trails.
+        
+        ; 0x08 - Fireball sprite from zora or evil face things. Maybe the trails of those instead?
+        
+        ; 0x09 - Something to do with Vitreous... maybe his lightning
+        
+        ; 0x0A - bush clippings scattering (also used for grass
+            ; Update: trying to figure out how I ever thought this was the case...
+        
+        ; 0x0B - Pirogusu splashes.
+        
+        ; 0x0C - Trinexx related...?
+        
+        ; 0x0D - Invalid, don't use this animation as it will certainly crash the game. (It's a null pointer)
+        
+        ; 0x0E - Trinexx related... ?
+        
+        ; 0x0F - Blind related... maybe has to do with his laser eye shot.
+        
+        ; 0x10 - Something to do with Trinexx... perhaps fire or ice blasts.
+            ; Also related to Ganon's firebats that spawn fireballs.
+            ; I think it's pretty clear it's those fireballs
+        
+        ; 0x11 - Spawned from special animation 0x0E...
+        
+        ; 0x12 - A faster sparkle
+        
+        ; 0x13 - The Ganon bat smashing into the pyramid of power
+        
+        ; 0x14 - Running Man dash poofs
+        
+        ; 0x15 - Arghus splashes?
+        
+        ; 0x16 - Scattering pieces of a pot, bush, grass, sign, rock, or related
+            ; tile objects being broken.
+
+    ; $7FF81E[0x1E] - (Garnish)
+        
+        ; Low byte of Y coordinate.
+
+    ; $7FF83C[0x1E] - (Garnish)
+        
+        ; Low byte of X coordinate.
+        
+    ; $7FF85A[0x1E] - (Garnish)
+        
+        ; High byte of Y coordinate.
+
+    ; $7FF878[0x1E] - (Garnish)
+        
+        ; High byte of X coordinate.
+
+    ; $7FF896[0x1E] - (Garnish)
+        
+        ; Y velocity of object.
+        
+    ; $7FF8B4[0x1E] - (Garnish)
+        
+        ; X velocity of object.
+
+    ; $7FF8D2[0x1E] - special animation unknown 3
+    ; $7FF8F0[0x1E] - special animation unknown 4
+
+    ; $7FF90E[0x1E] - (Garnish)
+        
+        ; Countdown timer. Most Garnish objects just self terminate once this
+        ; counts down.
+
+    ; $7FF92C[0x1E] - (Garnish)
+        
+        ; The index of the object's parent sprite object, if applicable.
+        
+        ; Some garnish objects use this as the floor designator, but they are far
+        ; in the minority. Most use $7FF968 instead.
+        
+    ; $7FF94A[0x1E] - special animation unknown 5
+
+    ; $7FF968[0x1E] - (Garnish)
+        
+        ; Floor selector for garnish objects. Analogous to the the kinds of config
+        ; data that Ancilla ( $0C7C, X ) and Sprite ( $0F20, X ) have.
+        
+        ; 0 - BG2
+        ; 1 - BG1
+        
+    ; $7FF986[0x1E] - special animation unknown 7
+    ; $7FF9A4[0x1E] - special animation unknown 8
+
+    ; $7FF9C2[0x10] - (Sprite, Garnish?)
+        
+        ; Sprite tile interaction value. Acquires its value from $0FA5.
+
+    ; $7FF9D2[0x2C] - Free ram?
+
+    ; $7FF9FE[0x1E] - (Garnish)
+        
+        ; special animation unknown B
+
+    ; Holdable objects
+
+    ; $7FFA1C[0x10] - Array that seems to handle the objects you hold above your head?
+    ; $7FFA2C[0x10] - 
+    ; $7FFA3C[0x10] - Indicates stunned and frozen sprite?
+    ; $7FFA4C[0x10] -
+    ; $7FFA5C[0x10] -
+    ; $7FFA6C[0x10] -
+    ; $7FFA7C[0x10] -
+    ; $7FFA8C[0x10] -
+    ; $7FFA9C[0x10] -
+    ; $7FFAAC[0x10] -
+    ; $7FFABC[0x10] - 
+
+        ; ????
+
+    ; $7FFACC[0x10] -
+    ; $7FFADC[0x10] -
+    ; $7FFAEC[0x10] - free ram?
+    ; $7FFAFC[0x10] - free ram?
+    ; $7FFB0C[0x10] - free ram?
+    ; $7FFB1C[0x10] - used, but unknown
+    ; $7FFBDC[0x10] - used, but unknown
+    ; 
+    ; most of these seem to be referenced for Helmasaur King's tail (maybe other bosses too)
+
+    ; $7FFC00[??] - unknown
+    ; $7FFC80[??] - unknown
+
+    ; $7FFC9C[0x10?] - used, but unknown
+
+    ; $7FFD00[??] - unknown
+
+    ; $7FFD5C[0x01] - apparently Ganon related 
+    ; $7FFD68[0x01] - apparently Ganon related
+
+    ; $7FFC00[0x0080] - (Unknown)
+
+        ; ????
+
+    ; $7FFC80[0x0080] - (Unknown)
+
+        ; ????
+
+    ; $7FFD00[0x0080] - (Unknown)
+
+        ; ????
+
+    ; $7FFD80[0x0080] - unknown
+
+        ; X coordinate low byte for laser sprites.
+
+    ; $7FFE00[0x0080] -   (Statue Sentry)
+
+        ; X coordinate high byte for laser sprites.
+
+    ; $7FFE80[0x0080] -   (Statue Sentry)
+
+        ; Y coordinate low byte for laser sprites.
+
+    ; $7FFF00[0x0080] -   (Statue Sentry)
+
+        ; Y coordinate high byte for laser sprites.
+
+    ; $7FFE00[0x0100] -   (Lanmolas)
+
+        ; Display of rock sprites, I think
+
+    ; $7FFF00[0x0100] -   (Lanmolas)
+
+        ; Lanmolas use it for display of its rock sprites, I think.
+
+    ; -------------End of variables------------------------
+    ; Routines:
+
+    ; $333
+    ; While this routine appears to be complicated and technical, it really serves two purposes.
+    ; Depending upon the entry point to the routine, two 16 bit values will be written to VRAM. The value at $00 goes to $0000-$1FFF and the one in $02 goes to $6000-$67FF. That's it. The values are written non-incrementally, so it's just those two values getting written over and over again.
+
+    ; $07C0
+    ; Zeroes out the first $2000 bytes of WRAM.
+    ; Checks the checksums on your save files to see if they are valid. Erases them if not.
+
+    ; $00082E
+
+
+    ; $0888
+    ; Loads SPC with data at specified address
+
+    ; $0901
+    ; Sets up address for $8888
+    ; Address = $198000 => $0C8000
+
+    ; $093D
+    ; Initializes the Screen
+
+    ; $094A
+    ; Saves your game.
+
+    ; $07C0
+    ; Sets up address for $8888
+    ; Address = $1A9EF5 => $D1EF5
+
+    ; $12A1
+    ; Upon starting this routine, inspect the 8-bit value at the long address [$00], Y
+    ; If it is positive, that value is stored at $04, Y is incremented, and the next value is stored at $03. Y increments.
+    ; If the next value at [$00], Y is negative (AND 0x80 tells us this) then A will end up as 0x1, and 0x0 is the value was positive.
+    ; This is stored at $07.
+    ; The very same value is read in but this time we AND with 0x40, STA.b $05, and LSR A three times.
+    ; The AND left a nonzero result, we will have A = 0x80, and if not, A = 0x00.
+    ; Ultimately either are ORed with 0x01 so we have A = 0x81 or 0x01.
+    ; The 0x01 tells us data will be being transferred in Mode 2 (a la register $4310).
+    ; Data from the source is written to $2118. 
+
+    ; Summary:    1st Value read: XXXX XXXX (If negative, the SR exits) -> $04
+                ; 2nd Value read: XXXX XXXX -> $03
+                ; 3rd Value read: AXXX XXXX (A = 0: 
+
+
+    ; $D81B
+    ; If NOPed, you will not be able to pick up some types of pots in dungeons.
+
+    ; $10054
+    ; The subroutine is used to verify that all the save files are uncorrupted. Each save file has one mirrored slot 0xF00 bytes offset from the original. If the first file is corrupt and the mirror is fine, it will copy the mirror to the original and use it. Basically it checks if the 0x500 bytes in the slot add up to 0x5A5A. When save files are saved a checksum is calculated to make sure this constraint is met.
+
+    ; $17EBB
+    ; I'm going to generalize this subroutine because the data extraction method is cumbersome to figure out at a moment's glance. Sub $175F5 is used to get a sequence of codes, and after each code follows data to be put in memory at $7F4000, Y. Update: After some serious thought, I've begun to think of this as a decompression routine, possibly for OAM data.
+
+    ; The way the data is handled depends on the three most significant bits of the code. The number of bytes to write is determined by the five least significant bits of the code plus one. Let this number be called R.
+
+    ; [XXX | XXXXX]
+    ; (Code), (R - 1)
+
+    ; Example:
+    ; [010 | 10001]
+    ; Code = 010
+    ; R = 10001 + 1 = 10010 = 18d (d for decimal)
+
+    ; Codes:
+    ; [000] : Write R bytes after the code. For instance, 03 11 12 13 14 would have you write 11, 12, 13, and 14 in succession into memory.
+
+    ; [001] : Write the one byte after the code R times. 23 15 would make you write 15 four times into memory.
+
+    ; [100], [110], [101] : After the code is a 16-bit index. This means copy memory from $7F4000 + (the Index). You will copy R bytes of course
+
+    ; [010] : This code is used for repeatedly storing a 16-bit number, rather than the [001] case. Over all R bytes will still be written.
+
+    ; [011] : Whatever value is picked after the code will be incremented (R - 1) times and written R times. 34 01 for example would write 01 02 03 04 05
+
+    ; $6FE77-$6FFC0 Template for the status bar. That is, set of tile indices. When the game begins these are mapped to $7EC700-$7EC849
+
+    ; $3E245 Controls Link's movement, i.e. his speeds and different movement events, such as swimming and dashing.
+
+    ; ================================================================================
+
+    ; Credits / Citations / Helped With:
+
+    ; Euclid: 
+
+    ; - Figuring out what $1B[0x01] ($7E001B[0x01]) was for.
+        
+    ; - Finding the Overlay index $8C[0x01] ($7E008C[0x01]).
+        
+    ; - Purpose of $0202[0x01] ($7E0202[0x01])
+        
+    ; - Extra information regarding $02E4[0x01] ($7E02E4[0x01])
+        ; Specifically, that it is set to 0x1A after you kill Ganon.
+        
+    ; - Documentation of $0CD2[x10] ($7E0CD2[0x10])
+
+    ; assassin17:
+        
+    ; - Bits 'p' of $0BE0[0x10] ($7E0BE0[0x10]), prize pack from killing an enemy.
+        
+    ; - Bit 'd' of sprite varaible $0CAA[0x10] ($7E0CAA[0x10])
+        ; Documentation is copied verbatim, for now.
+    
+    ; - Documentation of $0CF9[0x01] ($7E0CF9[0x01])
+
+    ; PARCCC (of gshi, a PAR code community):
+
+    ; - Documentation of $79 ($7E0079[0x01])
+
+
+        ; link's starting position from zarby
+    ; 0x039A37 ; Link LOW X Position
+    ; 0x039A32 ; Link LOW Y Position
+    ; 0x039A38 ; Link HIGH X Position reset(used to change quadrant) -1 to move left portion
+    ; 0x039A33 ; Link HIGH Y Position reset(used to change quadrant) -1 to move top portion
+
+    ; 0x02DE53 ; Link LOW X Position reset
+    ; 0x02DE5D ; Link LOW Y Position reset
+    ; 0x02DE58 ; Link HIGH X Position reset(used to change quadrant) -1 to move left portion
+    ; 0x02DE62 ; Link HIGH Y Position reset(used to change quadrant) -1 to move top portion
+
+    ; 0x0480BD ; Bed Sheet LOW X
+    ; 0x0480B8 ; Bed Sheet LOW Y
+    ; 0x0480BE ; High X(used to change quadrant) -1 to move left portion
+    ; 0x0480B9 ; High Y(used to change quadrant) -1 to move top portion
+}
 
 ; ==============================================================================
