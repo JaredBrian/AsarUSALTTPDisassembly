@@ -404,19 +404,19 @@ struct WRAM $7E0000
 
     ; $3E[0x01] - (Player)
     .PlayerCalcYLow: skip $01
-        ; Y coordinate related variable (low byte)
+        ; Y coordinate related variable (low byte).
 
     ; $3F[0x01] - (Player)
     .PlayerCalcXLow: skip $01
-        ; X coordinate related variable (low byte)
+        ; X coordinate related variable (low byte).
 
     ; $40[0x01] - (Player)
     .PlayerCalcYHigh: skip $01
-        ; Y coordinate related variable (high byte)
+        ; Y coordinate related variable (high byte).
 
     ; $41[0x01] - (Player)
     .PlayerCalcXHigh: skip $01
-        ; X coordinate related variable (high byte)
+        ; X coordinate related variable (high byte).
 
     ; $42[0x01] - (Player)
     .PlayerObstructV: skip $01
@@ -814,7 +814,7 @@ struct WRAM $7E0000
         ; I.e. you are pressing against it directly, but aren't going anywhere,
         ; this will contain the value that $6B would have.
 
-    ; $6E[0x02] - (Player, Tile Attribute)
+    ; $6E[0x02] - (Player, Tile Attribute, High Junk)
     .PlayerDWallTile: skip $01
         ; Tile act bitfield used by slopes.
         ; High byte has an explicit STZ as well, but it is never used.
@@ -877,7 +877,7 @@ struct WRAM $7E0000
     .OWTMVScroll: skip $02
         ; Overworld vertical scroll position. Used to index $0500 and tilemap.
 
-    ; $8A[0x02] - (Overworld)
+    ; $8A[0x02] - (Overworld, High Junk)
     .OWAreaIndex: skip $02
         ; Overworld Area Index. The high byte is unused but written to.
         ; In practice the only 2 special areas that can be accessed are 0x80
@@ -1065,8 +1065,15 @@ struct WRAM $7E0000
 
     ; $AD[0x01] - (Dungeon)
     .LayerFloorEffect: skip $01
-        ; Original MoN comment: ??? collision?
-        ; Kan: Holds layer floor effect index
+        ; Holds layer floor effect index. TODO: Insert what that is called in ZS.
+        ; 0x00 - Nothing           
+        ; 0x01 - Nothing            
+        ; 0x02 - Moving Floor       
+        ; 0x03 - Moving Water       
+        ; 0x04 - Moving Floor 2 (Not sure if this is used anywhere)
+        ; 0x05 - Red Flashes (Agahnim's room in Ganon's tower)
+        ; 0x06 - Torch Hidden Tiles 
+        ; 0x07 - Torch Ganon Room   
 
     ; $AE[0x01] - (Dungeon)
     .DunTag1: skip $01
@@ -1847,8 +1854,7 @@ struct WRAM $7E0000
 
     ; $0113[0x01] - (Free)
     .Free_0113: skip $01
-        ; Free RAM. This was marked as the high byte for MedallionScene but
-        ; Kan's disassembly confirms that it is never written to.
+        ; Free RAM.
 
     ; $0114[0x02] - (Dungeon)
     .DunCurrentTileType: skip $02
@@ -1859,7 +1865,7 @@ struct WRAM $7E0000
 
     ; $0116[0x02] - (NMI, Tilemap)
     .ArbitraryTileMapAddress: skip $02
-        ; The index for high bytes for VRAM tile map uploads. Also used as the
+        ; The index for high bytes of VRAM tile map uploads. Also used as the
         ; high byte for VRAM addresses for various other uploads.
 
     ; $0118[0x01] - (NMI)
@@ -2227,16 +2233,10 @@ struct WRAM $7E0000
         ; (Bank 0x0C) Used as a timer to keep track of how long to show each BG3
         ; "legend" image.
 
-    ; $0202[0x01] - (Equipment)
-    .SelectedYItem: skip $01
-        ; The currently selected Y button item.
+    ; $0202[0x02] - (Equipment, High Junk)
+    .SelectedYItem: skip $02
+        ; The currently selected Y button item. The High byte is written to but unused.
         ; TODO: Put in all of the valid items here.
-
-    ; $0203[0x01] - (Equipment, Junk)
-    .Junk_0203: skip $01
-        ; Technically the high byte of SelectedYItem but is only ever set to 00
-        ; and is read once in HUD_UpdateItemBox even though it doesn't need to
-        ; be.
 
     ; $0204[0x01] - (File, Equipment, Junk)
     .Junk_0204: skip $01
@@ -2316,7 +2316,7 @@ struct WRAM $7E0000
         ; 0 - Will read input
         ; 1 - Will not read input
 
-    ; $0211[0x02] - (Dungeon map)
+    ; $0211[0x02] - (Dungeon map, High Junk)
     .DunMapCurrentFloor: skip $02
         ; Of the two floors shown on a dungeon map, this indicates which one is
         ; of the floor the player is currently on. High byte isn't relevant and is
@@ -2419,7 +2419,7 @@ struct WRAM $7E0000
     .Free_02B2: skip $0E
         ; Free RAM.
 
-    ; $02C0[0x02] - (Dungeon)
+    ; $02C0[0x02] - (Dungeon, High Junk)
     .TileActAutoStairs: skip $02
         ; Tile act bitfield used by intraroom stairs. If this variable masked
         ; with s is nonzero, the player moves as though he's on an in-room south
@@ -2618,7 +2618,7 @@ struct WRAM $7E0000
         ; during cutscenes such as talking to any npc with an event (zelda, kiki,
         ; priest, etc.)
 
-    ; $02E5[0x02] - (Player, Tile Attribute)
+    ; $02E5[0x02] - (Player, Tile Attribute, High Junk)
     .TileActChest: skip $02
         ; Bitfield for chest interaction. High byte unused but written. SEE TILE
         ; ACT NOTES.
@@ -2647,7 +2647,7 @@ struct WRAM $7E0000
         ; 2 - Receiving item that was spawned in the game by a sprite
         ; 3 - Receiving item that was spawned by a ancilla.
 
-    ; $02EA[0x02] - (Player, Tile Attribute)
+    ; $02EA[0x02] - (Player, Tile Attribute, High Junk)
     .ChestTileType: skip $02
         ; Tile type of chests referenced when opening a chest. High byte unused
         ; but written.
@@ -2932,7 +2932,7 @@ struct WRAM $7E0000
         ; Countdown timer for invulnerability frames. Causes the player's sprite to
         ; flash on and off.
 
-    ; $0320[0x02] - (Tile Attribute)
+    ; $0320[0x02] - (Tile Attribute, High Junk)
     .MovingFloorTileAct:
         ; Bitfield for interaction with moving floor tiles
         ; ........ ....mmmm
@@ -3008,12 +3008,12 @@ struct WRAM $7E0000
     .PlayerMaxSwimXAcc: skip $01
         ; The max X accelaration when swimming.
 
-    ; $0338[0x02] - (Player, Junk)
+    ; $0338[0x02] - (Player, High Junk)
     .PlayerSwimYAccFlag: skip $02
         ; Seems to flag acceleration to have on the Y axis while swimming.
         ; The high byte is always written to as 00 and never read.
 
-    ; $033A[0x02] - (Player, Junk)
+    ; $033A[0x02] - (Player, High Junk)
     .PlayerSwimXAccFlag: skip $02
         ; Seems to flag acceleration to have on the X axis while swimming.
         ; The high byte is always written to as 00 and never read.
@@ -3035,29 +3035,22 @@ struct WRAM $7E0000
         ;   l - left
         ;   r - right
 
-    ; $0341[0x01] - (Player, Tile Attribute)
-    .PlayerSwimTileAct: skip $01
-        ; Tile act bitfield used by water:
+    ; $0341[0x02] - (Player, Tile Attribute, High Junk)
+    .PlayerSwimTileAct: skip $02
+        ; Tile act bitfield used by water. The high byte is written to but never used.
         ; bbbb dddd
         ;   b - tile 0B Waterfall? TODO: Verify this.
         ;   d - deep water
         ; SEE TILE ACT NOTES.
 
-    ; $0342[0x01] - (Player, Tile Attribute, Junk)
-    .Junk_0342: skip $01
-        ; Unused but is set to 00 as the high byte of PlayerSwimTileAct.
-
-    ; $0343[0x01] - (Player, Tile Attribute)
-    .PlayerDiveTileAct: skip $01
+    ; $0343[0x02] - (Player, Tile Attribute, High Junk)
+    .PlayerDiveTileAct: skip $02
         ; Tile act bitfield used by tile 0A and another nothing. Used to detect
-        ; whether the player should jump in or out of water.
+        ; whether the player should jump in or out of water. The high byte is
+        ; written to but never used.
         ; .... nnnn
         ; n - normal tile
         ; SEE TILE ACT NOTES.
-        
-    ; $0344[0x01] - (Player, Tile Attribute, Junk)
-    .Junk_0344: skip $01
-        ; Unused but is set to 00 as the high byte of PlayerDiveTileAct.
 
     ; $0345[0x01] - (Player)
     .InDeepWater: skip $01
@@ -3074,41 +3067,28 @@ struct WRAM $7E0000
         ; example of this would be in the Flute Boy's meadow when he disappears.
         ; See $0ABD for more info.
 
-    ; $0348[0x01] - (Player, Tile Attribute)
-    .PlayerIceTileAct:
-        ; Bitfield for interaction with icy floor tiles
+    ; $0348[0x02] - (Player, Tile Attribute, High Junk)
+    .PlayerIceTileAct: skip $02
+        ; Bitfield for interaction with icy floor tiles. The high byte is
+        ; written to but never used.
         ; jjjj iiii
         ; i - Ice palace icy tile 1
         ; j - Ganon's Tower icy tile 2
         ; SEE TILE ACT NOTES.
 
-    ; $0349[0x01] - (Player, Tile Attribute, Junk)
-    .Junk_0349: skip $01
-        ; Unused but is set to 00 as the high byte of PlayerIceTileAct.
-
-    ; $034A[0x01] - (Player, Tile Attribute)
-    .PlayerIceWalking:
+    ; $034A[0x02] - (Player, Tile Attribute, High Junk)
+    .PlayerIceWalking: skip $02
         ; Flag indicating whether Link is moving or not. (I think)
         ; Kan Appears to flag what type of ice floor Link is walking on.
-        ; TODO: Confirm this.
+        ; TODO: Confirm this. The high byte is written to but never used.
 
-    ; $034B[0x01] - (Player, Tile Attribute, Junk)
-    .Junk_034B: skip $01
-        ; Unused but is set to 00 as the high byte of PlayerIceWalking.
-        ; Is also a possible debug variable set when using one of the rods.
-        ; However it is only written to and never read.
-
-    ; $034C[0x01] - (Player, Tile Attribute)
-    .PlayerWaterStairTileAct:
+    ; $034C[0x02] - (Player, Tile Attribute, High Junk)
+    .PlayerWaterStairTileAct: skip $02
         ; Tile act bitfield for the top of water staircase tile interactions
-        ; (overlay mask 1C)
+        ; (overlay mask 1C). The high byte is written to but never used.
         ; ....ssss
         ; s - Water staircase
         ; SEE TILE ACT NOTES.
-
-    ; $034D[0x01] - (Player, Tile Attribute, Junk)
-    .Junk_034D: skip $01
-        ; Unused but is set to 00 as the high byte of PlayerWaterStairTileAct.
 
     ; $034E[0x01] - (Player)
     .PlayerSomariaDraw: skip $01
@@ -3153,41 +3133,31 @@ struct WRAM $7E0000
         ; Primary water / grass timer. Valuess range from 0 to 8, and gets set
         ; back to 0 when it reaches 9.
 
-    ; $0357[0x01] - (Player, Tile Attribute)
-    .PlayerGrassWarpTileAct: skip $01
-        ; Bitfield for interaction with thick grass / warp tiles.
+    ; $0357[0x02] - (Player, Tile Attribute, High Junk)
+    .PlayerGrassWarpTileAct: skip $02
+        ; Bitfield for interaction with thick grass / warp tiles. The high byte
+        ; is written to but never used.
         ; wwww gggg
         ; g - bits are for thick grass tiles
         ; w - bits are for warp tiles (blue on OW, orange in dungeons)
         ; SEE TILE ACT NOTES.
 
-    ; $0358[0x01] - (Player, Tile Attribute, Junk)
-    .Junk_0358: skip $01
-        ; Unused but is set to 00 as the high byte of PlayerGrassWarpTileAct.
-
-    ; $0359[0x01] - (Player, Tile Attribute)
-    .PlayerShallowWaterTileAct: skip $01
-        ; Bitfield for interaction with shallow water tiles.
+    ; $0359[0x02] - (Player, Tile Attribute, High Junk)
+    .PlayerShallowWaterTileAct: skip $02
+        ; Bitfield for interaction with shallow water tiles. The high byte is
+        ; written to but never used.
         ; .... wwww
         ; w - Shallow water tiles
         ; SEE TILE ACT NOTES.
 
-    ; $035A[0x01] - (Player, Tile Attribute, Junk)
-    .Junk_035A: skip $01
-        ; Unused but is set to 00 as the high byte of PlayerShallowWaterTileAct.
-
-    ; $035B[0x01] - (Player, Tile Attribute)
-    .PlayerDiggableTileAct: skip $01
+    ; $035B[0x02] - (Player, Tile Attribute, High Junk)
+    .PlayerDiggableTileAct: skip $02
         ; Bitfield for interaction with destruction aftermath tiles (bushes,
         ; rockpiles, etc). Kan: Tile act bitfield used by diggable ground.
-        ; TODO: Confirm which is true. 
+        ; TODO: Confirm which is true. The high byte is written to but never used.
         ; .... aaaa
         ; a - aftermath tiles
         ; SEE TILE ACT NOTES.
-
-    ; $035C[0x01] - (Player, Tile Attribute, Junk)
-    .Junk_035C: skip $01
-        ; Unused but is set to 00 as the high byte of PlayerDiggableTileAct.
 
     ; $035D[0x02] - (Player, OAM)
     .PlayerShadowProp: skip $02
@@ -3226,18 +3196,15 @@ struct WRAM $7E0000
     .PlayerHopZ: skip $02
         ; Acts as a Z-coordinate sort of when jumping ledges.
 
-    ; $0366[0x01] - (Player, Tile Attribute)
-    .PlayerReadableTileAct: skip $01
+    ; $0366[0x02] - (Player, Tile Attribute, High Junk)
+    .PlayerReadableTileAct: skip $02
         ; Flag stating that the player is about to read something (assuming
-        ; they're facing north) Used with telepath tiles and signs.
+        ; they're facing north) Used with telepath tiles and signs. The high byte
+        ; is written to but never used.
         ; Kan: Tile act bitfield used by liftables in some weird way??
         ; .... llll
         ; SEE TILE ACT NOTES
         ; TODO: Confirm which is correct.
-
-    ; $0367[0x01] - (Player, Tile Attribute, Junk)
-    .Junk_0367: skip $01
-        ; Unused but is set to 00 as the high byte of PlayerReadableTileAct.
 
     ; $0368[0x01] - (Player, Tile)
     .LiftedTypeRight: skip $01
@@ -3258,7 +3225,7 @@ struct WRAM $7E0000
         ; Would be considered the "LiftedTypeLeft" but this is never actually
         ; read from.
 
-    ; $036A[0x01] - (Player, Tile)
+    ; $036A[0x01] - (Player, Tile, High Junk)
     .LiftedType: skip $01
         ; When interacting with liftable tiles, this is an index that which type.
         ; Note: This value is always even, for whatever reason.
@@ -3693,10 +3660,10 @@ struct WRAM $7E0000
     ; Page 0x04
     ; ===========================================================================
 
-    ; $0400[0x02] - (Dungeon, Junk)
+    ; $0400[0x02] - (Dungeon, Low Junk)
     .UnlockedDoors: skip $02
         ; In the current room, each bit corresponds to a door being opened. If
-        ; set, it has been opened by some means (bomb, key, etc.) The high byte
+        ; set, it has been opened by some means (bomb, key, etc.) The low byte
         ; is written to but unused.
         ; dddd .... .... ....
         ; d - Door
@@ -3754,7 +3721,7 @@ struct WRAM $7E0000
         ; where they are not equal. Such as when exiting a special area and when
         ; exiting certain simple dungeon exits.
 
-    ; $040C[0x02] - (Dungeon)
+    ; $040C[0x02] - (Dungeon, High Junk)
     .DungeonIndex: skip $02
         ; Dungeon ID / Dungeon index multiplied by 2. If it's equal to 0xFF,
         ; that means there is no map, keys, boss, etc. for that section of the
@@ -3787,7 +3754,7 @@ struct WRAM $7E0000
         ; Zeroed by a 16-bit write to DungeonQuadrant in one location.
         ; Otherwise, it could technically be considered Free RAM.
 
-    ; $0410[0x02] - (Overworld)
+    ; $0410[0x02] - (Overworld, High Junk)
     .OWTransitionDirection: skip $02
         ; Screen transition direction bitfield. When the overworld is
         ; transitioning, only one of the "udlr" bits will be set. The high byte
@@ -3808,7 +3775,7 @@ struct WRAM $7E0000
     .Free_0413: skip $01
         ; Free RAM.
 
-    ; $0414[0x02] - (Dungeon)
+    ; $0414[0x02] - (Dungeon, High Junk)
     .DunBG2Properties: skip $02
         ; BG2 properties in Hyrule Magic. TODO: Make ZS. The high byte is unused but written to.
         ; Detailed description of MainScreenDes and SubScreenDes properties per type:
@@ -3822,7 +3789,7 @@ struct WRAM $7E0000
         ; 6 - "Normal"        - Main:      BG2, BG3, Obj | Sub:      BG1 | +/-: background
         ; 7 - "Addition"      - Main:      BG2, BG3, Obj | Sub:      BG1 | +/-: (full +) back. BG1
 
-    ; $0416[0x02] - (Overworld)
+    ; $0416[0x02] - (Overworld, High Junk)
     .OWTransitionDirection2: skip $02
         ; Screen transition direction bitfield 2. When the overworld is transitioning screens,
         ; only one of the "udlr" bits will be set. TODO: The difference between this and
@@ -3835,7 +3802,7 @@ struct WRAM $7E0000
         ; l - Left
         ; r - Right
 
-    ; $0418[0x02] - (Dungeon, Overworld)
+    ; $0418[0x02] - (Dungeon, Overworld, High Junk)
     .TransitionDirection: skip $02
         ; The direction of the current dungeon or overworld transition.
         ; For some reason, parity is flipped between overworld and underworld.
@@ -3851,7 +3818,7 @@ struct WRAM $7E0000
         ; When nonzero, idicates that a wall needs to move or is currently moving. The high
         ; byte is written to but unused.
 
-    ; $041A[0x02] - (Dungeon)
+    ; $041A[0x02] - (Dungeon, High Junk)
     .MovingFloor: skip $02
         ; The direction and state of a moving floor. The high byte is unused but written to.
         ; vvvvvvvv vvvvvvid
@@ -3872,38 +3839,47 @@ struct WRAM $7E0000
     .Junk_0420: skip $02
         ; Zeroed on dungeon room load but never read.
 
-    ; $0422[0x02] - 
-        ; X offset of the moving floor. (Also used to position the crystal
-        ; maidens during the 3D sequence)
+    ; $0422[0x02] - (Dungeon)
+    .FloorOffsetX: skip $02
+        ; X offset of the moving floor, see FloorVelocityX. Also used to position the crystal
+        ; maidens during the 3D sequence and to move Kholdstare's shell.
 
-    ; $0424[0x02] - 
-        ; Y offset of the moving floor. ""
+    ; $0424[0x02] - (Dungeon)
+    .FloorOffsetY: skip $02
+        ; Y offset of the moving floor, see FloorVelocityY. (Also used to position the crystal
+        ; maidens during the 3D sequence and to move Kholdstare's shell.
 
-    ; $0426 - 
-        ; Free RAM
+    ; $0426[0x02] - (Free)
+    .Free_0426: skip $02
+        ; Free RAM.
 
-    ; $0428[0x01] - 
-        ; Mirror of $AD, which is "Collision" in Hyrule Magic. This is an
-        ; independent flag that determines how scrolling of the BGs occurs in
-        ; the dungeon submodule.
+    ; $0428[0x02] - (Dungeon, High Junk)
+    .FloorOffsetFlag: skip $02
+        ; Equal to $AD most of the time but is manually changed by moving walls, Kholdstare,
+        ; Trinexx, and the crystal maidens. When nonzero, this tells the game that the
+        ; FloorOffsetX and FloorOffsetY should be applied. The high byte is written to
+        ; but usused.
 
-    ; $0429 - 
-        ; Free RAM?
+    ; $042A[0x02] - (Dungeon)
+    .MovingWallTilemapAddr: skip $02
+        ; Tilemap address of moving walls. Adjusted and written to
+        ; ArbitraryTileMapAddress eventually.
 
-    ; $042A - 
-        ; Used with Hidden walls? Maybe other uses. See bank $01
-
-    ; $042C - 
-        ; Types that use this index: moveable blocks, pots and other liftable
-        ; objects, breakable floors, and moles. Collectively the limit for these
-        ; types of objects is 16 per room. Notes about cracked floors so I don't
-        ; go insane: The breakable floor that is first in the object list is the
-        ; the one that will open up. (Do ctrl-B on a cracked floor among others
-        ; in hyrule magic if you don't believe me). Okay... so why does only one
-        ; cracked floor open up? It doesn't make any sense right? The tile type
+    ; $042C[0x02] - (Dungeon, Objects)
+    .ManipulableIndex: skip $02
+        ; The manipulable objects index. This is for objects such as: moveable blocks,
+        ; pots, other liftable objects, breakable floors, and moles. Collectively the
+        ; limit for these types of objects is 16 per room.
+        
+        ; Another note from MoN that is interesting but should maybe be moved
+        ; somewhere else:
+        ; Notes about cracked floors: The breakable floor that is first in the object
+        ; list is the the one that will open up. (Do ctrl-B on a cracked floor among
+        ; others in hyrule magic if you don't believe me). Okay... so why does only
+        ; one cracked floor open up? It doesn't make any sense right? The tile type
         ; is 62 for all cracked floors post load.
 
-    ; $042E - 
+    ; $042E[0x02] - 
         ; Index of torches in the room (since blocks are loaded first this value
         ; gets updated after the fact.)
 
