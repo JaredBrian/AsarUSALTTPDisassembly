@@ -4447,6 +4447,7 @@ PaletteData:
     ; ===============================================================
 
     ; $0DD218
+    .sprite
     .sprite_00
     ;          F8F8F8, C83010, 388038, 50B090, 282828, F8C820, F87030
     ;  000000, F8F8F8, C85830, B02828, E07070, 282828, B8B8C8, 787888
@@ -4558,6 +4559,7 @@ PaletteData:
     ; ===============================================================
 
     ; $0DD39E
+    .spritepal0
     .spritepal0_00
     ;  303020, A08020, E8C870, F0B0C8, C880A0, 68B880, 488848
     dw  $10C6,  $1214,  $3B3D,  $66DE,  $5219,  $42ED,  $2629
@@ -4622,6 +4624,7 @@ PaletteData:
     ; ===============================================================
 
     ; $0DD446
+    .environment
     .environment_00
     ;  203028, 585858, 7048C0, A068B8, C8B0F0, E8E8E8, A0A0A0
     dw  $14C4,  $2D6B,  $612E,  $5DB4,  $7AD9,  $77BD,  $5294
@@ -4681,6 +4684,7 @@ PaletteData:
     ; ===============================================================
 
     ; $0DD4E0
+    .spriteaux
     .spriteaux_00
     ;  F8F8F8, A0C0F0, 9020B8, D040F0, 282828, F8A800, E86820
     dw  $7FFF,  $7B14,  $5C92,  $791A,  $14A5,  $02BF,  $11BD
@@ -4850,6 +4854,7 @@ PaletteData:
     ; ===============================================================
 
     ; $0DD660
+    .hud
     .hud_00
     ;  000000, C06000, A8A8A8, 000000
     dw  $0000,  $0198,  $56B5,  $0000
@@ -5616,6 +5621,7 @@ PaletteData:
     ; ===============================================================
 
     ; $0DE6C8
+    .owmain
     .owmain_00
     ;  282828, 483828, 604828, 786038, 307030, 489848, 887848
     ;  282828, 483828, 604828, 786038, 686028, 888040, 887848
@@ -5698,6 +5704,7 @@ PaletteData:
     ; ===============================================================
 
     ; $0DE86C
+    .owaux
     .owaux_00
     ; #RRGGBB :  283028, 705840, 987850, B89868, 683838, 905050, B8B088
     ; #RRGGBB :  283028, 508070, 78B890, B0E8B8, D0F0D0, 307030, 489848
@@ -5972,7 +5979,7 @@ UnusedPaletteOffsets:
 }
     
 ; $0DEC13-$0DEC3A DATA
-PaletteIDtoOffset_OW:
+PaletteIDtoOffset_OW_AUX:
 {
     dw $0000 ; 0x00*42
     dw $002A ; 0x01*42
@@ -5997,7 +6004,7 @@ PaletteIDtoOffset_OW:
 }
     
 ; $0DEC3B-$0DEC46 DATA
-PaletteIDtoOffset_OW2:
+PaletteIDtoOffset_OW_Main:
 {
     dw $0000 ; 0x00*70
     dw $0046 ; 0x01*70
@@ -6055,7 +6062,8 @@ Palette_SpriteAux3:
     ; Palette 1
     LDX.w $0AAC
     
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D39E : STA.b $00
+    LDA PaletteIDtoOffset, X : AND.w #$00FF
+    ADC.w PaletteData_spritepal0 : STA.b $00
     
     REP #$10
     
@@ -6099,8 +6107,7 @@ Palette_MainSpr:
     .lightWorld
     
     ; TODO: See if there is a way to reference the address directly here.
-    ; #$D218 refers to the address of PaletteData.
-    LDA PaletteWorldIDtoOffset, X : ADC.w #$D218 : STA.b $00
+    LDA PaletteWorldIDtoOffset, X : ADC.w PaletteData_sprite : STA.b $00
     
     REP #$10
     
@@ -6128,8 +6135,7 @@ Palette_SpriteAux1:
     LDA.w $0AAD : AND.w #$00FF : ASL A : TAX
     
     ; TODO: See if there is a way to reference the address directly here.
-    ; #$D4E0 is the address for PaletteData_spriteaux_00.
-    LDA PaletteIDtoOffset, X : ADC.w #$D4E0 : STA.b $00
+    LDA PaletteIDtoOffset, X : ADC.w PaletteData_spriteaux : STA.b $00
     
     LDA.w #$01A2 ; Target SP-5 (first half)
     LDX.w #$0006 ; Palette has 7 colors
@@ -6152,8 +6158,7 @@ Palette_SpriteAux2:
     LDA.w $0AAE : AND.w #$00FF : ASL A : TAX
     
     ; TODO: See if there is a way to reference the address directly here.
-    ; #$D4E0 is the address for PaletteData_spriteaux_00.
-    LDA PaletteIDtoOffset, X : ADC.w #$D4E0 : STA.b $00
+    LDA PaletteIDtoOffset, X : ADC.w PaletteData_spriteaux : STA.b $00
     
     LDA.w $01C2    ; Target SP-6 (first half)
     LDX.w #$0006 ; Palette has 7 colors
@@ -6178,8 +6183,8 @@ Palette_Sword:
     LDA.l $7EF359 : AND.w #$00FF : TAX
     
     ; TODO: See if there is a way to reference the address directly here.
-    ; #$D630 is the address for PaletteData_sword.
-    LDA SwordPaletteOffsets, X : AND.w #$00FF : ADC.w #$D630 : STA.b $00
+    LDA SwordPaletteOffsets, X : AND.w #$00FF
+    ADC.w PaletteData_sword : STA.b $00
     
     REP #$10
     
@@ -6207,7 +6212,8 @@ Palette_Shield:
     ; Figure out what kind of shield Link has.
     LDA.l $7EF35A : AND.w #$00FF : TAX
     
-    LDA ShieldPaletteOffsets, X : AND.w #$00FF : ADC.w #$D648 : STA.b $00
+    LDA ShieldPaletteOffsets, X : AND.w #$00FF
+    ADC.w PaletteData_shield : STA.b $00
     
     REP #$10
     
@@ -6236,7 +6242,8 @@ Palette_Unused:
     
     LDX.w $0AB0
     
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D446 : STA.b $00
+    LDA PaletteIDtoOffset, X : AND.w #$00FF
+    ADC.w PaletteData_environment : STA.b $00
     
     REP #$10
     
@@ -6267,7 +6274,7 @@ Palette_MiscSpr:
         
         LDA PaletteIDtoOffset, X : AND.w #$00FF
         
-        ADC.w #$D446 : STA.b $00
+        ADC.w PaletteData_environment : STA.b $00
         
         REP #$10
         
@@ -6297,7 +6304,8 @@ Palette_MiscSpr:
     PHX
     
     ; X = 0x07 or 0x09
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D446 : STA.b $00
+    LDA PaletteIDtoOffset, X : AND.w #$00FF
+    ADC.w PaletteData_environment : STA.b $00
     
     REP #$10
     
@@ -6318,7 +6326,8 @@ Palette_MiscSpr:
     
     PLX : DEX
     
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : CLC : ADC.w #$D446 : STA.b $00
+    LDA PaletteIDtoOffset, X : AND.w #$00FF : CLC
+    ADC.w PaletteData_environment : STA.b $00
     
     REP #$10
     
@@ -6342,7 +6351,7 @@ Palette_PalaceMapSpr:
     REP #$21
     
     ; Load palettes from $1BD70A
-    LDA.w #$D70A : STA.b $00
+    LDA.w PaletteData_dungeonmap_sprites_00 : STA.b $00
     
     REP #$10
     
@@ -6365,19 +6374,19 @@ Palettes_LinkGloveColors:
 {
     dw $52F6, $0376
 }
-    
+
+; Load armor palette
 ; $0DEDF9-$0DEE39 LONG JUMP LOCATION
 ; Palette_ChangeGloveColor:
 Palette_ArmorAndGloves:
 {
-    ; Load armor palette
-    
     REP #$21
     
     ; Check what Link's armor value is.
     LDA.l $7EF35B : AND.w #$00FF : TAX
     
-    LDA PaletteIDtoOffset_16bit, X : AND.w #$00FF : ASL A : ADC.w #$D308 : STA.b $00
+    LDA PaletteIDtoOffset_16bit, X : AND.w #$00FF : ASL A
+    ADC.w PaletteData_Link : STA.b $00
     
     REP #$10
     
@@ -6417,7 +6426,7 @@ Palette_PalaceMapBg:
     
     ; Sets source address to $1BE544 (cpu address)
     ; The bank of 0x1B is plugged in by Palette_MultiLoad
-    LDA.w #$E544 : STA.b $00
+    LDA.w PaletteData_dungeonmap_bg_00 : STA.b $00
     
     REP #$10
     
@@ -6441,7 +6450,8 @@ Palette_Hud:
     
     LDX.w $0AB2
     
-    LDA PaletteIDtoOffset_HUD, X : AND.w #$00FF : ADC.w #$D660 : STA.b $00
+    LDA PaletteIDtoOffset_HUD, X : AND.w #$00FF
+    ADC.w PaletteData_hud : STA.b $00
     
     ; X/Y registers are 8-bit
     REP #$10
@@ -6515,7 +6525,8 @@ Palette_OverworldBgAux3:
     
     LDX.w $0AB8
     
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$E604 : STA.b $00
+    LDA PaletteIDtoOffset, X : AND.w #$00FF
+    ADC.w PaletteData_owanim : STA.b $00
     
     REP #$10
     
@@ -6538,7 +6549,8 @@ Palette_OverworldBgMain:
     
     LDA.w $0AB3 : ASL A : TAX
     
-    LDA PaletteIDtoOffset_OW2, X : ADC.w #$E6C8 : STA.b $00
+    LDA PaletteIDtoOffset_OW_Main, X
+    ADC.w PaletteData_owmain : STA.b $00
     
     REP #$10
     
@@ -6565,7 +6577,7 @@ Palette_OverworldBgAux1:
     
     LDA.w $0AB4 : AND.w #$00FF : ASL A : TAX
     
-    LDA PaletteIDtoOffset_OW, X : ADC.w #$E86C : STA.b $00
+    LDA.l PaletteIDtoOffset_OW_AUX, X : ADC.w #PaletteData_owaux : STA.b $00
     
     REP #$10
     
@@ -6589,7 +6601,7 @@ Palette_OverworldBgAux2:
     
     LDA.w $0AB5 : AND.w #$00FF : ASL A : TAX
     
-    LDA PaletteIDtoOffset_OW, X : ADC.w #$E86C : STA.b $00
+    LDA.l PaletteIDtoOffset_OW_AUX, X : ADC.w #PaletteData_owaux : STA.b $00
     
     REP #$10
     
@@ -6651,7 +6663,7 @@ Palette_MultiLoad:
     STY.b $08
     
     ; The absolute address at $00 was planted in the calling function. This
-    ; value is the bank #$1B ( => D in Rom) The address is found from $0AB6.
+    ; value is the bank #$1B. The address is found from $0AB6.
     LDA.w #$001B
     STA.b $02 ; And of course, store it at $02
     
