@@ -7056,7 +7056,7 @@ Door_Register:
     
     .BRANCH_ALPHA
     
-    ; Load the door type
+    ; Load the door type.
     LDY.b $0A
     
     INX #2 : STX.w $0460
@@ -7069,14 +7069,14 @@ Door_Register:
             ; to set a breakpoint here and have this never really... fire?
             ; Find out!
             
-            ; Check Link's direction
+            ; Check Link's direction.
             LDA.b $2F : AND.w #$00FF : STA.b $0A
             
             DEX #2
             
             TXA : XBA : STA.w $0436
             
-            ; Load the direction of the door
+            ; Load the direction of the door.
             LDA.b $00 : AND.w #$0003 : ASL A : ORA.w $0436 : STA.w $0436
             
             AND.w #$00FF : CMP.b $0A : BNE .BRANCH_ZETA

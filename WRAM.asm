@@ -3791,11 +3791,12 @@ struct WRAM $7E0000
 
     ; $0416[0x02] - (Overworld, High Junk)
     .OWTransitionDirection2: skip $02
-        ; Screen transition direction bitfield 2. When the overworld is transitioning screens,
-        ; only one of the "udlr" bits will be set. TODO: The difference between this and
-        ; OWTransitionDirection appears to be that this one appears to be used while moving
-        ; within a large area as well to update the tile map? Unsure. The high byte is unused but
-        ; written to.
+        ; Screen transition direction bitfield 2. When the overworld is
+        ; transitioning screens, only one of the "udlr" bits will be set.
+        ; TODO: The difference between this and OWTransitionDirection appears
+        ; to be that this one appears to be used while moving within a large
+        ; area as well to update the tile map? Unsure. The high byte is
+        ; unused but written to.
         ; .... udlr
         ; u - Up
         ; d - Down
@@ -3815,21 +3816,23 @@ struct WRAM $7E0000
 
     ; $041A[0x02] - (Dungeon)
     .MovingWallFlag: 
-        ; When nonzero, idicates that a wall needs to move or is currently moving. The high
-        ; byte is written to but unused.
+        ; When nonzero, idicates that a wall needs to move or is currently
+        ; moving. The high byte is written to but unused.
 
     ; $041A[0x02] - (Dungeon, High Junk)
     .MovingFloor: skip $02
-        ; The direction and state of a moving floor. The high byte is unused but written to.
+        ; The direction and state of a moving floor. The high byte is unused
+        ; but written to.
         ; vvvvvvvv vvvvvvid
         ; v - If any of these bits are set, the floor movement will be vertical.
-        ; i - Inverts the direction of the floor movement, specified by FloorVelocityY and
-        ;     FloorVelocityX.
+        ; i - Inverts the direction of the floor movement, specified by
+        ;     FloorVelocityY and FloorVelocityX.
         ; d - Disable all movement.
         
     ; $041C[0x02] - (Dungeon)
     .SubPixelMovement: skip $02
-        ; Sub-pixel movement for moving walls, moving floors, and moving water in dungeons.
+        ; Sub-pixel movement for moving walls, moving floors, and moving
+        ; water in dungeons.
 
     ; $041E[0x02] - (Dungeon)
     .MovingWallIndex: skip $02
@@ -3841,13 +3844,15 @@ struct WRAM $7E0000
 
     ; $0422[0x02] - (Dungeon)
     .FloorOffsetX: skip $02
-        ; X offset of the moving floor, see FloorVelocityX. Also used to position the crystal
-        ; maidens during the 3D sequence and to move Kholdstare's shell.
+        ; X offset of the moving floor, see FloorVelocityX. Also used to
+        ; position the crystal maidens during the 3D sequence and to move
+        ; Kholdstare's shell.
 
     ; $0424[0x02] - (Dungeon)
     .FloorOffsetY: skip $02
-        ; Y offset of the moving floor, see FloorVelocityY. (Also used to position the crystal
-        ; maidens during the 3D sequence and to move Kholdstare's shell.
+        ; Y offset of the moving floor, see FloorVelocityY. Also used to
+        ; position the crystal maidens during the 3D sequence and to move
+        ; Kholdstare's shell.
 
     ; $0426[0x02] - (Free)
     .Free_0426: skip $02
@@ -3855,10 +3860,10 @@ struct WRAM $7E0000
 
     ; $0428[0x02] - (Dungeon, High Junk)
     .FloorOffsetFlag: skip $02
-        ; Equal to $AD most of the time but is manually changed by moving walls, Kholdstare,
-        ; Trinexx, and the crystal maidens. When nonzero, this tells the game that the
-        ; FloorOffsetX and FloorOffsetY should be applied. The high byte is written to
-        ; but usused.
+        ; Equal to $AD most of the time but is manually changed by moving
+        ; walls, Kholdstare, Trinexx, and the crystal maidens. When nonzero,
+        ; this tells the game that the FloorOffsetX and FloorOffsetY should be
+        ; applied. The high byte is written to but usused.
 
     ; $042A[0x02] - (Dungeon)
     .MovingWallTilemapAddr: skip $02
@@ -3867,38 +3872,45 @@ struct WRAM $7E0000
 
     ; $042C[0x02] - (Dungeon, Objects)
     .ManipulableIndex: skip $02
-        ; The manipulable objects index. This is for objects such as: moveable blocks,
-        ; pots, other liftable objects, breakable floors, and moles. Collectively the
-        ; limit for these types of objects is 16 per room.
+        ; The manipulable objects index. This is for objects such as: moveable
+        ; blocks, pots, other liftable objects, breakable floors, and moles.
+        ; Collectively the limit for these types of objects is 16 per room.
         
         ; Another note from MoN that is interesting but should maybe be moved
         ; somewhere else:
-        ; Notes about cracked floors: The breakable floor that is first in the object
-        ; list is the the one that will open up. (Do ctrl-B on a cracked floor among
-        ; others in hyrule magic if you don't believe me). Okay... so why does only
-        ; one cracked floor open up? It doesn't make any sense right? The tile type
-        ; is 62 for all cracked floors post load.
+        ; Notes about cracked floors: The breakable floor that is first in
+        ; the object list is the the one that will open up. (Do ctrl-B on a
+        ; cracked floor among others in hyrule magic if you don't believe me).
+        ; Okay... so why does only one cracked floor open up? It doesn't make
+        ; any sense right? The tile type is 62 for all cracked floors post load.
 
-    ; $042E[0x02] - 
-        ; Index of torches in the room (since blocks are loaded first this value
-        ; gets updated after the fact.)
+    ; $042E[0x02] - (Dungeon, Torch)
+    .TorchLoadIndex: skip $01
+        ; Used to index torches when building rooms (since blocks are
+        ; loaded first this value gets updated after the fact.)
 
-    ; $0430 - 
-        ; Flag that is nonzero when Link has triggered a floor switch and is
-        ; still standing on it. When he walks away from it, this flag will
-        ; reset to zero.
+    ; $0430[0x02] - (Dungeon, Tag, High Junk)
+    .PlayerOnToggleSwitch: skip $02
+        ; A flag that is nonzero when the player is standing on a toggle
+        ; floor switch. This is used to prevent the button from toggling
+        ; repeatedly while the player is still standing on the button.
+        ; The high byte is written to but usused.
 
-    ; $0432 - 
-        ; number of star shaped switches in a room
+    ; $0432[0x02] - (Dungeon, Object)
+    .StarTileCount: skip $02
+        ; The amount of start tiles in a room. Used to index star tile
+        ; arrays when building rooms.
 
-    ; $0434 - 
-        ; Free RAM?
+    ; $0434[0x02] - (Free)
+    .Free_0436: skip $02
+        ; Free RAM.
 
-    ; $0436[0x01] - 
-        ; ????
-
-    ; $0437[0x01] - 
-        ; ????
+    ; $0436[0x02] - (Dungeon, Door)
+    .EyeDoorFlag: skip $02
+        ; Works as a flag for the eye door in turtle rock blocking your exit
+        ; from the compass room. When non 0xFFFF, this indicates that there
+        ; is an eye door present. The high byte is the index of the door in
+        ; the room and the low byte is the direction the door is facing.
 
     ; $0438 - 
         ; number of in-floor inter-room up-north staircases (1.2.0x2D)
