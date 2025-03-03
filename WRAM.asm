@@ -3912,48 +3912,73 @@ struct WRAM $7E0000
         ; is an eye door present. The high byte is the index of the door in
         ; the room and the low byte is the direction the door is facing.
 
-    ; $0438 - 
-        ; number of in-floor inter-room up-north staircases (1.2.0x2D)
+    ; TODO: There are some duplicate stair count names here, verify what
+    ; they actually are with ZS.
+    ; $0438[0x02] - (Dungeon, Object)
+    .Stair2DCount: skip $02
+        ; The number of in-floor inter-room up-north staircases (1.2.0x2D).
 
-    ; $043A - 
-        ; number of in-floor inter-room down-south staircases
-        ; (1.2.0x2E, 1.2.0x2F)
+    ; $043A[0x02] - (Dungeon, Object)
+    .Stair2E2FCount: skip $02
+        ; The number of in-floor inter-room down-south staircases
+        ; (1.2.0x2E, 1.2.0x2F).
 
-    ; $043C - 
-        ; number of in-room up-north staircases (1.2.0x30)
+    ; $043C[0x02] - (Dungeon, Object)
+    .Stair30Count: skip $02
+        ; The number of in-room up-north staircases (1.2.0x30).
 
-    ; $043E - 
-        ; number of in-room up-north staircases (1.2.0x31)
+    ; $043E[0x02] - (Dungeon, Object)
+    .Stair31Count: skip $02
+        ; The number of in-room up-north staircases (1.2.0x31).
 
-    ; $0440 - 
-        ; number of inter-pseudo-bg up-north staircases (1.2.0x32)
+    ; $0440[0x02] - (Dungeon, Object)
+    .Stair32Count: skip $02
+        ; The number of inter-pseudo-bg up-north staircases (1.2.0x32).
 
-    ; $0442 - 
-        ; number of in-room up-north staircases (1_2.0x33) (for use in water
-        ; rooms)
+    ; $0442[0x02] - (Dungeon, Object)
+    .Stair33Count: skip $02
+        ; The number of in-room up-north staircases (1_2.0x33) (for use in water
+        ; rooms).
 
-    ; $0444 - 
-        ; number of activated water ladders (1.2.0x35)
+    ; $0444[0x02] - (Dungeon, Object)
+    .Stair35Count: skip $02
+        ; The number of activated water ladders (1.2.0x35).
 
-    ; $0446 - 
-        ; number of water ladders (1.2.0x36)
+    ; $0446[0x02] - (Dungeon, Object)
+    .Stair36Count: skip $02
+        ; The number of water ladders (1.2.0x36).
 
-    ; $0448 - 
+    ; $0448[0x02] - (Dungeon, Object)
+    .WaterStairCount: skip $02
+        ; TODO: Investigate this further, here is my best guess for now:
+        ; A combination of several of the stair counts above, used in the
+        ; Swamp Palace when changing stairs from normal stairs to water ledge
+        ; stairs.
+
+        ; Here is the orignila MoN comment:
         ; This is tracking variable for dungeon objects with the catch that
         ; it is only used in rooms that have water objects (not 100% sure of
         ; this.) But it seems to be the activator that converts normal inter-bg
         ; type staircases to ones that let you jump into water, like in the
         ; Swamp Palace.
 
-    ; $044A[0x02] - 
-        ; Something to do with in-room staircases, but I'm otherwise clueless
+    ; $044A[0x02] - (Dungeon, High Junk)
+    .LayerInteraction: skip $02
+        ; Identifies the layer interaction behavior of a room. Such as 2 layers
+        ; are considered "merged" or separate. TODO: High byte apears unused.
+        ; 0x00 - TODO: These are the values I can see in the ROM but I need
+        ; 0x01 - to see what they actually mean while testing.
+        ; 0x02 - 
 
-    ; $044C - 
-        ; Free RAM
+    ; $044C[0x02] - (Free)
+    .Free_044C: skip $02
+        ; Free RAM.
 
-    ; $044E - 
-        ; Number of "toggle floor" door properties that are in the
-        ; array $06C0. This number shouldn't exceed 8.
+    ; $044E[0x02] - (Dungeon, Door)
+    .ToggleDoorCount: skip $02
+        ; The number of toggle doors times 2 that are in the current room.
+        ; Also in array $06C0. This number shouldn't exceed 8. This is used to
+        ; toggle all doors when a toggle switch is pressed.
 
     ; $0450 - 
         ; Number of "toggle palace" door properties that are in the
@@ -4619,7 +4644,7 @@ struct WRAM $7E0000
         ; the floor toggle property should be applied to actual doors.
         ; 
         ; The number of populated slots in this array is determined by
-        ; ; $044E
+        ; $044E
 
     ; $06D0 - 
         ; Slots for palace toggle door properties (type 0x14 "doors").

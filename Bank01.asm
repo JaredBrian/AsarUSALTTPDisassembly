@@ -8600,8 +8600,8 @@ Dungeon_LoadObjAttr:
         LDA.w #$0001 : STA.l $7F2040, X : STA.l $7F3080, X
         XBA          : STA.l $7F2042, X : STA.l $7F3082, X
         
-        LDA.b $00 : STA.l $7F2041, X : STA.l $7F3041, X 
-                    STA.l $7F2081, X : STA.l $7F3081, X
+        LDA.b $00    : STA.l $7F2041, X : STA.l $7F3041, X 
+                       STA.l $7F2081, X : STA.l $7F3081, X
     INY #2 : CPY.b $02 : BNE .aleph
     
     .ultima
@@ -8615,7 +8615,7 @@ Dungeon_LoadObjAttr:
             
             LDA.w #$0A03 : STA.l $7F2000, X : STA.l $7F3000, X
             
-            XBA : STA.l $7F2002, X : STA.l $7F3002, X
+            XBA          : STA.l $7F2002, X : STA.l $7F3002, X
             
             LDA.w #$0803 : STA.l $7F2040, X
             
@@ -12259,8 +12259,8 @@ Dungeon_LoadToggleDoorAttr:
     ; $00D51F ALTERNATE ENTRY POINT
     .extern
     
-    ; Do attributes for floor toggling doors
-    ; (doors that toggle which floor Link is on)
+    ; Do attributes for floor toggling doors (doors that toggle which
+    ; floor the player is on).
     LDX.w $044E : BEQ .doneWithFloorToggleDoors
         LDY.w #$0000
         
