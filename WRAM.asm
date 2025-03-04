@@ -3979,25 +3979,48 @@ struct WRAM $7E0000
         ; The number of toggle doors times 2 that are in the current room.
         ; Also in array $06C0. This number shouldn't exceed 8. This is used to
         ; toggle all doors when a toggle switch is pressed.
+        ; TODO: Verify what this door actually is with ZS.
 
-    ; $0450 - 
-        ; Number of "toggle palace" door properties that are in the
-        ; array $06D0. This number shouldn't exceed 8.
+    ; $0450[0x02] - (Dungeon, Door)
+    .ToggleDungeonDoorCount: skip $02
+        ; The number of "toggle dungeon" door properties times 2 that are in the
+        ; current room. Also in array $06D0. This number shouldn't exceed 8.
+        ; TODO: Verify what this door actually is with ZS.
 
-    ; $0452 - 
-        ; ???? seen used with blast walls but otherwise, not sure
+    ; $0452[0x02] - (Dungeon, Door)
+    .BlastWallLayoutChange: skip $02
+        ; Flags that DunRoomLayout needs to change after activating a blast
+        ; wall. Comments in bank 0x01 seem to imply that the low byte is for
+        ; vertical blast walls and the high byte is for horizontal ones even
+        ; though there are no horizontal walls in the game. However I'm not
+        ; convinced as this byte is actually set within the ROM as well.
+        ; TODO: Investigate further.
 
-    ; $0454[0x02] - (Dungeon)
-        ; Seems to indicate the state of a blast wall being opened. Ranges from
-        ; 0x01 to 0x15. The numerical value probably is used to pick which
-        ; section of the wall to blast open on a given frame.
+    ; $0454[0x02] - (Dungeon, Door)
+    .BlastWallStep: skip $02
+        ; Both a flag to indicate an exploding wall is active or should start
+        ; exploding and a step counter to control which section of the wall
+        ; needs to be exploded next.
+        ; 0x00 - No exploding wall is active.
+        ; 0x01 - Wall needs to start exploding.
+        ; 0x03-0x13 - Increased by 2 every step, indicates a new section of the
+        ;             wall needs to be removed.
+        ; 0x15 - Wall is done exploding.
 
-    ; $0456 - 
-        ; Used by doors system? Not sure how exactly.
+    ; $0456[0x02] - (Dungeon, Door, High Junk)
+    .BlastWallIndex: skip $02
+        ; The index of an exploding door in a room. Only set after it has
+        ; started exploding. TODO: I'm pretty sure the high byte is junk
+        ; as there can only be 0x10 doors in one room.
 
-    ; $0458[0x02] - (Dungeon)
-        ; 0 - In a dark room
-        ; 1 - you're in a dark room and have the lantern
+    ; $0458[0x02] - (Dungeon, High Junk)
+    .HaveLampInDarkRoom: skip $02
+        ; A flag when non-zero indicates you are both in a dark room and have
+        ; the lantern. Used to tell the game when to orient the lamp outline
+        ; on BG2 (TODO: BG2? BG1?) The high byte is always 0x00 but is read
+        ; from in 16bit operations.
+        ; 0 - You're in a dark room
+        ; 1 - You're in a dark room and have the lantern
 
     ; $045A[0x01] - 
         ; Seems to be the number of torches that are lit in a dark room.

@@ -14871,105 +14871,103 @@ OrientLampBg:
 {
     ; This variable is nonzero if Link has the lantern and the room is dark.
     LDA.w $0458 : BEQ .easyOut
-    
-    LDA.b $11 : CMP.b #$14 : BEQ .easyOut
-    
-    REP #$30
-    
-    ; $00 = X = direction Link is facing.
-    LDA.b $2F : AND.w #$00FF : STA.b $00 : TAX
-    
-    LDA.b $6C : AND.w #$00FF : BEQ .notInDoorway
-        AND.w #$00FE : ASL A : TAX : BEQ .verticalDoorway
-            LDA.b $00 : CMP.w #$0004 : BCS .facingLeftOrRight
-                LDA.b $22 : CLC : ADC.w #$0008 : AND.w #$00FF
+        LDA.b $11 : CMP.b #$14 : BEQ .easyOut
+            REP #$30
+            
+            ; $00 = X = direction Link is facing.
+            LDA.b $2F : AND.w #$00FF : STA.b $00 : TAX
+            
+            LDA.b $6C : AND.w #$00FF : BEQ .notInDoorway
+                AND.w #$00FE : ASL A : TAX : BEQ .verticalDoorway
+                    LDA.b $00 : CMP.w #$0004 : BCS .facingLeftOrRight
+                        LDA.b $22 : CLC : ADC.w #$0008 : AND.w #$00FF
+                        
+                        BRA .BRANCH_DELTA
+
+                    .facingLeftOrRight
+
+                        TAX
+                        
+                        BRA .notInDoorway
+
+                        .verticalDoorway
+                    LDA.b $00 : CMP.w #$0004 : BCC .facingLeftOrRight
                 
-                BRA .BRANCH_DELTA
+                    LDA.b $20 : AND.w #$00FF
 
-            .facingLeftOrRight
+                .BRANCH_DELTA
 
-                TAX
+                CMP.w #$0080 : BCC .notInDoorway
+                    INX #2
+
+            .notInDoorway
+
+            CPX.w #$0004 : BCS .facingLeftOrRight2
+                LDA.b $22 : SEC : SBC.w #$0077 : STA.b $00
                 
-                BRA .notInDoorway
+                ; BG1HOFS mirror = BG2HOFS mirror - Link's X coordinate + 0x77 +
+                ; $00F43E, X.
+                LDA.b $E2 : SEC : SBC.b $00
+                CLC : ADC.l OrientLampData_horizontal, X : STA.b $E0
+                
+                LDA.b $20 : SEC : SBC.w #$0058 : STA.b $00
+                
+                ; A = BG2VOFS mirror - Link's Y coordinate + 0x58 + bunch of stuff.
+                LDA.b $E8 : SEC : SBC.b $00
+                CLC : ADC.l OrientLampData_vertical, X 
+                CLC : ADC.l OrientLampData_adjustment, X
+                CLC : ADC.l OrientLampData_margin, X
+                
+                BPL .positive
+                
+                ; Don't allow the vertical offset to be negative.
+                LDA.w #$0000
 
-                .verticalDoorway
-            LDA.b $00 : CMP.w #$0004 : BCC .facingLeftOrRight
-        
-            LDA.b $20 : AND.w #$00FF
+                .positive
 
-        .BRANCH_DELTA
+                CMP.l OrientLampData_maxima, X : BCC .inBounds
+                    LDA.l OrientLampData_maxima, X
 
-        CMP.w #$0080 : BCC .notInDoorway
-            INX #2
+                .inBounds
 
-    .notInDoorway
+                ; BG1VOFS mirror = the bounds-checked result of the eaarlier operations.
+                SEC : SBC.l OrientLampData_margin, X : STA.b $E6
+                
+                SEP #$30
+                
+                RTL
 
-    CPX.w #$0004 : BCS .facingLeftOrRight2
-        LDA.b $22 : SEC : SBC.w #$0077 : STA.b $00
-        
-        ; BG1HOFS mirror = BG2HOFS mirror - Link's X coordinate + 0x77 +
-        ; $00F43E, X.
-        LDA.b $E2 : SEC : SBC.b $00
-        CLC : ADC.l OrientLampData_horizontal, X : STA.b $E0
-        
-        LDA.b $20 : SEC : SBC.w #$0058 : STA.b $00
-        
-        ; A = BG2VOFS mirror - Link's Y coordinate + 0x58 + bunch of stuff.
-        LDA.b $E8 : SEC : SBC.b $00
-        CLC : ADC.l OrientLampData_vertical, X 
-        CLC : ADC.l OrientLampData_adjustment, X
-        CLC : ADC.l OrientLampData_margin, X
-        
-        BPL .positive
-        
-        ; Don't allow the vertical offset to be negative.
-        LDA.w #$0000
+            .facingLeftOrRight2
 
-        .positive
+            LDA.b $20 : SEC : SBC.w #$0072 : STA.b $00
+            
+            ; BG1VOFS mirror = BG2VOFS mirror - Link's Y coordinate + 0x72 + $00F546, X.
+            LDA.b $E8 : SEC : SBC.b $00
+            CLC : ADC.l OrientLampData_vertical, X : STA.b $E6
+            
+            LDA.b $22 : SEC : SBC.w #$0058 : STA.b $00
+            
+            ; A = BG2HOFS mirror - Link's X coordinate + 0x58 + bunch of stuff...
+            LDA.b $E2 : SEC : SBC.b $00
+            CLC : ADC.l OrientLampData_horizontal, X 
+            CLC : ADC.l OrientLampData_adjustment, X
+            CLC : ADC.l OrientLampData_margin, X
+            
+            BPL .positive2
+                LDA.w #$0000
 
-        CMP.l OrientLampData_maxima, X : BCC .inBounds
-            LDA.l OrientLampData_maxima, X
+            .positive2
 
-        .inBounds
+            CMP.l OrientLampData_maxima, X : BCC .inBounds2
+                LDA.l OrientLampData_maxima, X
 
-        ; BG1VOFS mirror = the bounds-checked result of the eaarlier operations.
-        SEC : SBC.l OrientLampData_margin, X : STA.b $E6
-        
-        SEP #$30
-        
-        RTL
+            .inBounds2
 
-    .facingLeftOrRight2
-
-    LDA.b $20 : SEC : SBC.w #$0072 : STA.b $00
-    
-    ; BG1VOFS mirror = BG2VOFS mirror - Link's Y coordinate + 0x72 + $00F546, X.
-    LDA.b $E8 : SEC : SBC.b $00
-    CLC : ADC.l OrientLampData_vertical, X : STA.b $E6
-    
-    LDA.b $22 : SEC : SBC.w #$0058 : STA.b $00
-    
-    ; A = BG2HOFS mirror - Link's X coordinate + 0x58 + bunch of stuff...
-    LDA.b $E2 : SEC : SBC.b $00
-    CLC : ADC.l OrientLampData_horizontal, X 
-    CLC : ADC.l OrientLampData_adjustment, X
-    CLC : ADC.l OrientLampData_margin, X
-    
-    BPL .positive2
-        LDA.w #$0000
-
-    .positive2
-
-    CMP.l OrientLampData_maxima, X : BCC .inBounds2
-        LDA.l OrientLampData_maxima, X
-
-    .inBounds2
-
-    SEC : SBC OrientLampData_margin, X : STA.b $E0
-    
-    SEP #$30
-    
-    RTL
+            SEC : SBC OrientLampData_margin, X : STA.b $E0
+            
+            SEP #$30
+            
+            RTL
 }
 
 ; ==============================================================================

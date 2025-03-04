@@ -5707,7 +5707,7 @@ Door_Up:
     CMP.w #$0014 : BNE .notPalaceToggleProperty
         TYA : SEC : SBC.w #$00FE
         
-        JMP Door_AddPalaceToggleProperty
+        JMP Door_AddDungeonToggleProperty
     
     .notPalaceToggleProperty
     
@@ -5912,7 +5912,7 @@ Door_Down:
     CMP.w #$0014 : BNE .notPalaceToggleProperty
         TYA : CLC : ADC.w #$0202
         
-        JMP Door_AddPalaceToggleProperty
+        JMP Door_AddDungeonToggleProperty
     
     .notPalaceToggleProperty
     
@@ -6118,7 +6118,7 @@ Door_Left:
     CMP.w #$0014 : BNE .notPalaceToggleProperty
         TYA : CLC : ADC.w #$007C
         
-        JMP Door_AddPalaceToggleProperty
+        JMP Door_AddDungeonToggleProperty
     
     .notPalaceToggleProperty
     
@@ -6245,7 +6245,7 @@ Door_Right:
     CMP.w #$0014 : BNE .notPalaceToggleProperty
         TYA : CLC : ADC.w #$0088
         
-        JMP Door_AddPalaceToggleProperty
+        JMP Door_AddDungeonToggleProperty
     
     .notPalaceToggleProperty
     
@@ -6398,8 +6398,7 @@ Door_BlastWall:
     TXA : LSR A : XBA : ORA.w #$0030 : STA.w $1980, X
     
     TXA : AND.w #$000F : TAY
-        LDA.w $068C : AND.w DungeonMask, Y : BEQ Door_UntouchedBlastWall
-        
+    LDA.w $068C : AND.w DungeonMask, Y : BEQ Door_UntouchedBlastWall
         ; The "door" (wall, more like it) has been opened, so we draw that
         ; instead.
         SEP #$30
@@ -6918,7 +6917,7 @@ RoomDraw_MakeDoorHighPriority_East:
 ; ==============================================================================
 
 ; $00B092-$00B09E JUMP LOCATION
-Door_AddPalaceToggleProperty:
+Door_AddDungeonToggleProperty:
 {
     LDX.w $0450
     
@@ -12429,8 +12428,7 @@ Door_BlastWallExploding:
         
         LDA.w #$FFFF : STA.w $1100, Y : STA.w $0710
         
-        INC.w $0454
-        INC.w $0454
+        INC.w $0454 : INC.w $0454
         
         LDA.w $0454 : CMP.w #$0015 : BNE .notDoneExploding
             LDY.w $0456
@@ -17685,20 +17683,19 @@ ClearExplodingWallFromTilemap:
     JSR.w ClearExplodingWallFromTilemap_ClearOnePair
     
     LDA.w $0454 : DEC A : STA.b $0E : BEQ .skip
-    
-    LDA.w RoomDrawObjectData+00, Y
-    
-    .nextColumn
-    
-        STA.l $7E2000, X : STA.l $7E2080, X
-        STA.l $7E2100, X : STA.l $7E2180, X
-        STA.l $7E2200, X : STA.l $7E2280, X
-        STA.l $7E2300, X : STA.l $7E2380, X
-        STA.l $7E2400, X : STA.l $7E2480, X
-        STA.l $7E2500, X : STA.l $7E2580, X
+        LDA.w RoomDrawObjectData+00, Y
         
-        INX #2
-    DEC.b $0E : BNE .nextColumn
+        .nextColumn
+        
+            STA.l $7E2000, X : STA.l $7E2080, X
+            STA.l $7E2100, X : STA.l $7E2180, X
+            STA.l $7E2200, X : STA.l $7E2280, X
+            STA.l $7E2300, X : STA.l $7E2380, X
+            STA.l $7E2400, X : STA.l $7E2480, X
+            STA.l $7E2500, X : STA.l $7E2580, X
+            
+            INX #2
+        DEC.b $0E : BNE .nextColumn
     
     .skip
     

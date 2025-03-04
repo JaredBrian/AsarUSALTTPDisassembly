@@ -12847,8 +12847,9 @@ RestoreTorchBackground:
     LDA.l $7EF34A : BEQ .doNothing
         ; See if this room has the 'lights out' property.
         LDA.l $7EC005 : BEQ .doNothing
-            ; The rest of these variables, I'm not too sure about. Probably
-            ; indicate that a lamp bg object was place in the dungeon room.
+            ; TODO: The rest of these variables, I'm not too sure about.
+            ; Probably indicate that a lamp bg object was place in the
+            ; dungeon room.
             LDA.w $0458 : BNE .doNothing
                 LDA.w $045A : BNE .doNothing
                     INC.w $0458
