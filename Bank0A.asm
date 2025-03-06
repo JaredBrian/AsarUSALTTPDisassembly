@@ -3804,35 +3804,35 @@ NULL_0AE0A7:
 ; ==============================================================================
 
 ; $0560B0-$0560D1 JUMP LOCATION (LONG)
-Messaging_PalaceMap:
+Messaging_DungeonMap:
 {
     LDA.w $0200 ; An index into what type of display to use.
     JSL.l UseImplicitRegIndexedLongJumpTable
-    dl PalaceMap_Backup               ; 0x00 - $0ED94C Fade to full darkness (amidst other things)
-    dl PalaceMap_Init                 ; 0x01 - $0AE0DC Loading Dungeon Map
-    dl PalaceMap_LightenUpMap         ; 0x02 - $0ED940 Fade to full brightness
-    dl PalaceMap_3                    ; 0x03 - $0AE954 Dungeon map Mode
-    dl PalaceMap_4                    ; 0x04 - $0AEEF6  
-    dl PalaceMap_FadeMapToBlack       ; 0x05 - $0EDA37
-    dl PalaceMap_RestoreGraphics      ; 0x06 - $0AEF19
-    dl PalaceMap_RestoreStarTileState ; 0x07 - $0AEFC9
-    dl PalaceMap_LightenUpDungeon     ; 0x08 - $0EDA79
+    dl DungeonMap_Backup               ; 0x00 - $0ED94C Fade to full darkness (amidst other things)
+    dl DungeonMap_Init                 ; 0x01 - $0AE0DC Loading Dungeon Map
+    dl DungeonMap_LightenUpMap         ; 0x02 - $0ED940 Fade to full brightness
+    dl DungeonMap_3                    ; 0x03 - $0AE954 Dungeon map Mode
+    dl DungeonMap_4                    ; 0x04 - $0AEEF6  
+    dl DungeonMap_FadeMapToBlack       ; 0x05 - $0EDA37
+    dl DungeonMap_RestoreGraphics      ; 0x06 - $0AEF19
+    dl DungeonMap_RestoreStarTileState ; 0x07 - $0AEFC9
+    dl DungeonMap_LightenUpDungeon     ; 0x08 - $0EDA79
 }
 
 ; ==============================================================================
 
 ; $0560D2-$0560DB Jump Table
-PalaceMap_Init_JumpTable:
+DungeonMap_Init_JumpTable:
 {
-    dw PalaceMap_SetupGraphics              ; 0x00 - $E0E4
-    dw PalaceMap_OptionalGraphic            ; 0x01 - $E1A4
+    dw DungeonMap_SetupGraphics             ; 0x00 - $E0E4
+    dw DungeonMap_OptionalGraphic           ; 0x01 - $E1A4
     dw Module0E_03_01_02_DrawFloorsBackdrop ; 0x02 - $E1F3
     dw Module0E_03_01_03_DrawRooms          ; 0x03 - $E384
     dw DungeonMap_DrawRoomMarkers           ; 0x04 - $E823
 }
 
 ; $0560DC-$0560E3 JUMP LOCATION (LONG)
-PalaceMap_Init:
+DungeonMap_Init:
 {
     LDA.w $020D : ASL A : TAX
     JMP (.JumpTable, X)
@@ -3841,7 +3841,7 @@ PalaceMap_Init:
 ; ==============================================================================
 
 ; $0560E4-$056159 JUMP LOCATION (LONG)
-PalaceMap_SetupGraphics:
+DungeonMap_SetupGraphics:
 {
     ; Cache HDMA settings elsewhere and turn off HDMA for the time being.
     LDA.b $9B : PHA : STZ.w SNES.HDMAChannelEnable : STZ.b $9B
@@ -3906,7 +3906,7 @@ PalaceMap_SetupGraphics:
 
 ; Module0E_03_01_01_DrawLEVEL
 ; $05615A-$0561A3 DATA
-Pool_PalaceMap_OptionalGraphic:
+Pool_DungeonMap_OptionalGraphic:
 {
     ; $05615A
     .LEVEL_top
@@ -3950,7 +3950,7 @@ Pool_PalaceMap_OptionalGraphic:
 
 ; Module0E_03_01_01_DrawLEVEL
 ; $0561A4-$0561E0 JUMP LOCATION (LONG)
-PalaceMap_OptionalGraphic:
+DungeonMap_OptionalGraphic:
 {
     PHB : PHK : PLB
     
@@ -3965,8 +3965,8 @@ PalaceMap_OptionalGraphic:
         
         REP #$20
         
-        LDA.w Pool_PalaceMap_OptionalGraphic_numerals_top, Y    : STA.w $1002, X
-        LDA.w Pool_PalaceMap_OptionalGraphic_numerals_bottom, Y : STA.w $1012, X
+        LDA.w Pool_DungeonMap_OptionalGraphic_numerals_top, Y    : STA.w $1002, X
+        LDA.w Pool_DungeonMap_OptionalGraphic_numerals_bottom, Y : STA.w $1012, X
         
         SEP #$20
         
@@ -3974,10 +3974,10 @@ PalaceMap_OptionalGraphic:
 
         .copyTiles
 
-            LDA.w Pool_PalaceMap_OptionalGraphic_LEVEL_top, X
+            LDA.w Pool_DungeonMap_OptionalGraphic_LEVEL_top, X
             STA.w $1002, X
 
-            LDA.w Pool_PalaceMap_OptionalGraphic_LEVEL_bottom, X
+            LDA.w Pool_DungeonMap_OptionalGraphic_LEVEL_bottom, X
             STA.w $1012, X
         DEX : BPL .copyTiles
         
@@ -5094,7 +5094,7 @@ DungeonMap_DrawRoomMarkers:
 ; ==============================================================================
 
 ; $056954-$05695A JUMP LOCATION
-PalaceMap_3:
+DungeonMap_3:
 {
     JSL.l DungeonMap_HandleInput
     JMP.w DungeonMap_DrawSprites
@@ -5981,7 +5981,7 @@ PalaceMap_DrawBossFloorIndicator:
 
 ; UNUSED:
 ; $056EF6-$056F18 JUMP LOCATION (LONG)
-PalaceMap_4:
+DungeonMap_4:
 {
     REP #$30
     
@@ -6003,7 +6003,7 @@ PalaceMap_4:
 ; ==============================================================================
 
 ; $056F19-$056FC8 JUMP LOCATION (LONG)
-PalaceMap_RestoreGraphics:
+DungeonMap_RestoreGraphics:
 {
     LDA.b $9B : PHA
     
@@ -6088,7 +6088,7 @@ PalaceMap_RestoreGraphics:
 ; ==============================================================================
 
 ; $056FC9-$056FD0 JUMP LOCATION (LONG)
-PalaceMap_RestoreStarTileState:
+DungeonMap_RestoreStarTileState:
 {
     JSL.l Dungeon_RestoreStarTileChr
     

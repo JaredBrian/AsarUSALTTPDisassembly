@@ -9565,14 +9565,14 @@ Dungeon_DetectStaircase:
                 
                 LDA.w $0FC4 : STA.b $20
                 
-                ; Abort mission! Link is holding a pot ohnoesZ!
+                ; Abort mission! Link is holding a pot.
                 BRA Dungeon_DetectStaircaseEasyOut_2
             
             .notHoldingPot
             
             REP #$20
             
-            ; Store which staircase it is... (0x30 to 0x37)
+            ; Store which staircase it is (0x30 to 0x37).
             STY.w $0462
             
             ; Cache the current room number
@@ -16492,11 +16492,11 @@ Dungeon_LightTorch:
         
         ; Branch if torch is already lit.
         LDA.w $0540, Y : ASL A : BCS .return
-            ; Light the torch?
+            ; TODO: Light the torch?
             LSR A : ORA.w #$8000 : STA.w $0540, Y
             
             LDA.b $08 : BNE .notZero
-                ; Why would this ever happen give the code base we have?
+                ; TODO: Why would this ever happen give the code base we have?
                 ; Seems like this would permanently light the torch?
                 LDA.w $0540, Y : STA.l $7EFB40, X
                 
@@ -16528,7 +16528,8 @@ Dungeon_LightTorch:
                 LDA.w $045A : INC.w $045A : CMP.b #$03 : BCS .dontDisableTorchBg
                     STZ.b $1D
                     
-                    LDX.w $045A : LDA.l RoomEffectFixedColors, X : STA.l $7EC017
+                    LDX.w $045A
+                    LDA.l RoomEffectFixedColors, X : STA.l $7EC017
                     
                     LDA.b #$0A : STA.b $11
                     
@@ -16621,7 +16622,6 @@ Dungeon_ExtinguishTorch:
                 .notFullyDark
 
                 LDX.w $045A
-                
                 LDA.l RoomEffectFixedColors, X : STA.l $7EC017
                 
                 LDA.b #$0A : STA.b $11
@@ -16647,7 +16647,6 @@ Dungeon_ElevateStaircasePriority:
 {
     REP #$30
     
-    ; Limits us to 4... staircases?
     LDA.w $0462 : AND.w #$0003 : ASL A : TAY
     
     LDA.w $06B0, Y : ASL A : SEC : SBC.w #$0008 : TAX

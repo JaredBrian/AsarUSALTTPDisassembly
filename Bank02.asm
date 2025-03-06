@@ -4846,8 +4846,7 @@ HoleToDungeon_LoadDungeon:
 
     LDA.b $B0 : PHA
 
-    STZ.w $045A
-    STZ.w $0458
+    STZ.w $045A : STZ.w $0458
 
     JSR.w Dungeon_LoadAndDrawRoom
     JSL.l Dungeon_LoadCustomTileAttr

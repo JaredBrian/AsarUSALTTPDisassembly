@@ -2294,7 +2294,7 @@ struct WRAM $7E0000
 
     ; $020D[0x01] - (Dungeon map)
     .DunMapInitSubmodule: skip $01
-        ; Used as a submodule for the dungeon map function: PalaceMap_Init.
+        ; Used as a submodule for the dungeon map function: DungeonMap_Init.
 
     ; $020E[0x01] - (Dungeon map)
     .DunMapFloor: skip $01
@@ -4022,32 +4022,50 @@ struct WRAM $7E0000
         ; 0 - You're in a dark room
         ; 1 - You're in a dark room and have the lantern
 
-    ; $045A[0x01] - 
-        ; Seems to be the number of torches that are lit in a dark room.
-        ; Torch objects during load can be set to be permanently lit,
-        ; so this can affect how the room's lighting behaves.
+    ; $045A[0x02] - (Dungeon, High Junk)
+    .LitTorchCount: skip $02
+        ; The number of torches that are lit in a room. Torch objects during
+        ; load can be set to be permanently lit so this can affect how the
+        ; room's lighting behaves. This is used to determine the light level
+        ; in dark rooms. See RoomEffectFixedColors for the light levels. The
+        ; high byte is set to 0 and always expected to be 0.
+        ; 0x00 - 0 torches lit / fully dark.
+        ; 0x01 - 1 torch lit.
+        ; 0x02 - 2 torches lit
+        ; 0x03 - 3 torches lit / fully bright.
+        ; Every other value is fully bright.
 
-    ; $045B - 
-        ; ????
+    ; $045C[0x02] - (Dungeon, High Junk)
+    .DunQuadBuild: skip $01
+        ; Used in increments of 0x04 to build quadrants. The high byte is
+        ; set to 0 and always expected to be 0.
 
-    ; $045C - 
-        ; ????
+    ; $045E[0x02] - (Junk, Unused)
+    .Junk_045E: skip $02
+        ; This indexes a room object with an unreachable routine making
+        ; it unused. It is set to 0 in a bunch of places.
 
-    ; $045E - 
-        ; Free RAM
+    ; $0460[0x02] - (Dungeon, Door)
+    .DoorIndex: skip $02
+        ; Indexes doors while building rooms. TODO: Possibly not just while
+        ; building.
 
-    ; $0460 - 
-        ; Number of Locked doors? (range 0 - 3?) Number of doors that have been
-        ; loaded in the room?
+    ; $0462[0x02] - (Dungeon, Stairs, High Junk)
+    .DunStairType: skip $02
+        ; Stores which staircase it is (0x30 to 0x37). This variable is
+        ; usually only tested for the 3rd bit for whether the stairs are
+        ; going up or down. The high byte is written to 0 but is never
+        ; meaningfully read.
+        ; .... .u..
+        ; u - Stairs are going up.
 
-    ; $0462[0x02] - 
-        ; ??? related to submodule 12 of modules 7 and 9
-        ; With staircases, indicates a value of 0 to 7 of which staircase it is.
-        ; Specifically, a the straight up staircases will signal with a
-        ; value ranging from 0 to 3. Straight down staircases use 4 to 7.
-
-    ; $0464 - 
-        ; ????
+    ; $0464[0x02] - (Dungeon, Stairs, High Junk)
+    .StairStepCounter: skip $02
+        ; A step counter for climbing up or down stairs. This is used to control
+        ; how long to ignore player input and what the light level of the room
+        ; should be when going between rooms. Different starting values are
+        ; used when using different stair types. TODO: Find these values.
+        ; TODO: Confirm: The high byte appears to be unused.
 
     ; $0466 - 
         ; Seems to be related to trap doors or switches somehow...
