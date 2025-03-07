@@ -733,7 +733,7 @@ struct WRAM $7E0000
     ; $64[0x02] - (Player, OAM)
     .PlayerOAMPriority: skip $01
         ; Used to ORA in OAM priority, but only high byte seems used for that.
-        ; 0x1000 if $EE = 1, 0x2000 if $EE = 0.
+        ; 0x1000 if PlayerDunLayer = 1, 0x2000 if PlayerDunLayer = 0.
 
     ; $64[0x02] - (Attract)
     .AttractTimer2: skip $02
@@ -2980,20 +2980,20 @@ struct WRAM $7E0000
     ; $032B[0x02] - (Player)
     .PlayerSwimY: skip $02
         ; Used to index Y accelaration for swim thrust changes. Max expected
-        ; value is 0x0002
+        ; value is 0x0002.
 
     ; $032D[0x02] - (Player)
     .PlayerSwimX: skip $02
         ; Used to index X accelaration for swim thrust changes. Max expected
-        ; value is 0x0002
+        ; value is 0x0002.
 
     ; $032F[0x02] - (Player)
     .PlayerSwimYAccReset: skip $02
-        ; Flag checking swim Y accleration resets
+        ; Flag checking swim Y accleration resets.
 
     ; $0331[0x02] - (Player)
     .PlayerSwimXAccReset: skip $02
-        ; Flag checking swim Y accleration resets
+        ; Flag checking swim Y accleration resets.
 
     ; $0333[0x01] - (Torch)
     .TorchTileType: skip $01
@@ -3914,41 +3914,41 @@ struct WRAM $7E0000
 
     ; TODO: There are some duplicate stair count names here, verify what
     ; they actually are with ZS.
-    ; $0438[0x02] - (Dungeon, Object)
+    ; $0438[0x02] - (Dungeon, Stairs)
     .Stair2DCount: skip $02
         ; The number of in-floor inter-room up-north staircases (1.2.0x2D).
 
-    ; $043A[0x02] - (Dungeon, Object)
+    ; $043A[0x02] - (Dungeon, Stairs)
     .Stair2E2FCount: skip $02
         ; The number of in-floor inter-room down-south staircases
         ; (1.2.0x2E, 1.2.0x2F).
 
-    ; $043C[0x02] - (Dungeon, Object)
+    ; $043C[0x02] - (Dungeon, Stairs)
     .Stair30Count: skip $02
         ; The number of in-room up-north staircases (1.2.0x30).
 
-    ; $043E[0x02] - (Dungeon, Object)
+    ; $043E[0x02] - (Dungeon, Stairs)
     .Stair31Count: skip $02
         ; The number of in-room up-north staircases (1.2.0x31).
 
-    ; $0440[0x02] - (Dungeon, Object)
+    ; $0440[0x02] - (Dungeon, Stairs)
     .Stair32Count: skip $02
         ; The number of inter-pseudo-bg up-north staircases (1.2.0x32).
 
-    ; $0442[0x02] - (Dungeon, Object)
+    ; $0442[0x02] - (Dungeon, Stairs)
     .Stair33Count: skip $02
         ; The number of in-room up-north staircases (1_2.0x33) (for use in water
         ; rooms).
 
-    ; $0444[0x02] - (Dungeon, Object)
+    ; $0444[0x02] - (Dungeon, Stairs)
     .Stair35Count: skip $02
         ; The number of activated water ladders (1.2.0x35).
 
-    ; $0446[0x02] - (Dungeon, Object)
+    ; $0446[0x02] - (Dungeon, Stairs)
     .Stair36Count: skip $02
         ; The number of water ladders (1.2.0x36).
 
-    ; $0448[0x02] - (Dungeon, Object)
+    ; $0448[0x02] - (Dungeon, Stairs)
     .WaterStairCount: skip $02
         ; TODO: Investigate this further, here is my best guess for now:
         ; A combination of several of the stair counts above, used in the
@@ -4022,7 +4022,7 @@ struct WRAM $7E0000
         ; 0 - You're in a dark room
         ; 1 - You're in a dark room and have the lantern
 
-    ; $045A[0x02] - (Dungeon, High Junk)
+    ; $045A[0x02] - (Dungeon)
     .LitTorchCount: skip $02
         ; The number of torches that are lit in a room. Torch objects during
         ; load can be set to be permanently lit so this can affect how the
@@ -4035,7 +4035,7 @@ struct WRAM $7E0000
         ; 0x03 - 3 torches lit / fully bright.
         ; Every other value is fully bright.
 
-    ; $045C[0x02] - (Dungeon, High Junk)
+    ; $045C[0x02] - (Dungeon)
     .DunQuadBuild: skip $01
         ; Used in increments of 0x04 to build quadrants. The high byte is
         ; set to 0 and always expected to be 0.
@@ -4059,82 +4059,144 @@ struct WRAM $7E0000
         ; .... .u..
         ; u - Stairs are going up.
 
-    ; $0464[0x02] - (Dungeon, Stairs, High Junk)
-    .StairStepCounter: skip $02
+    ; $0464[0x01] - (Dungeon, Stairs)
+    .StairStepCounter: skip $01
         ; A step counter for climbing up or down stairs. This is used to control
         ; how long to ignore player input and what the light level of the room
         ; should be when going between rooms. Different starting values are
         ; used when using different stair types. TODO: Find these values.
         ; TODO: Confirm: The high byte appears to be unused.
 
-    ; $0466 - 
-        ; Seems to be related to trap doors or switches somehow...
+    ; $0465[0x01] - (Free)
+    .Free_0465: skip $01
+        ; Free RAM.
 
-    ; $0468[0x02] - 
-        ; Flag that is set when trap doors are down.
+    ; $0466[0x02] - (Dungeon, Door, Block, High Junk)
+    .BlockCoveringSwitch: skip $02
+        ; Used to indicate when a push block is on top of a switch. Flips the
+        ; 0th bit of TrapDoorsDown as its value while on a switch.
+        ; TODO: Confirm: But this is only set when on a switch? so will this
+        ; value always be set?
 
-    ; $046A - 
-        ; Similar to $0490, this is Floor 2 in Hyrule Magic
+    ; $0468[0x02] - (Dungeon, Door, High Junk)
+    .TrapDoorsDown: skip $02
+        ; A flag that when non zero means that the trap doors are down.
 
-    ; $046C - 
-        ; "Collision" in Hyrule Magic.
+    ; $046A[0x02] - (Dungeon)
+    .Floor1Draw: skip $02
+        ; Similar to $0490, this is Floor 1 in Hyrule Magic. TODO: Change
+        ; for ZS. The high byte is always 0 and is expected to be 0.
 
-    ; $046D - 
-        ; Free RAM
+    ; $046[0x01]C - (Dungeon)
+    .DubBG1Collision: skip $01
+        ; "Collision" in Hyrule Magic. TODO: ZS-ify.
+        ; TODO: Add all the valid types of collision here.
 
-    ; $0470[0x02] - 
+    ; $046D[0x03] - (Free)
+    .Free_046D: skip $03
+        ; Free RAM.
 
-    ; $0472 - 
+    ; $0470[0x02] - (Dungeon)
+    .FloodStepCounter: skip $01
+        ; Used for indexing the dam flood. Counts up from 0x0F to 0x40.
+
+    ; $0472[0x02] - (Dungeon)
+    .WaterGateTileMapAdd: skip $02
         ; This is the tilemap address of the watergate barrier, and it is
-        ; only written to if the watergate is unopened. The submodule
-        ; (0x0d) of the dungeon module (0x07) whose responsibility it is
-        ; to open the watergate uses this.
+        ; only written to if the watergate is unopened. This is used to
+        ; know where to place the gate opening animation tiles.
 
-    ; $0474 - 
-        ; Limited use between Bank 0x01 and 0x07.
+    ; $0474[0x02] - (Dungeon, Block, High Junk)
+    .PushBlockDirection: skip $02
+        ; The direction a push block has been pushed. The high byte is never
+        ; written to and is expected to always be 0.
 
-    ; $0476[0x02] - 
+    ; $0476[0x01] - (Dungeon, Player)
+    .SudoPlayerDunLayer: skip $01
+        ; TODO: A different version of the player BG level. This is sometimes
+        ; the same as PlayerDunLayer but not always. Appears in a lot of
+        ; ancilla, stairs, and edge transition code. The exact use of this
+        ; however needs to be investigated.
+
+        ; MoN comment:
         ; Pseudo bg level. Indicates which "level" you are on, either BG1 or
         ; BG2. BG1 is considered 1 in many cases. However, there is no need for
         ; BG1 necessarily. When Link can interact with BG1, this value should
-        ; match $00EE, I think. This mostly applies to staircases in rooms that
-        ; only use one BG to interact with.
+        ; match PlayerDunLayer, I think. This mostly applies to staircases in
+        ; rooms that only use one BG to interact with.
 
-    ; $0478 - 
-        ; ????
+    ; $0477[0x01] - (Free)
+    .Free_0477: skip $01
+        ; Free RAM.
 
-    ; $047A[0x02] - 
-        ; Flag that goes high when the player is jumping off of a ledge. Used to
-        ; signal that a layer adjustment is necessary for the player, and maybe
-        ; other stuff too...
+    ; $0478[0x02] - (Dungeon, Object)
+    .ManipulableCount: skip $02
+        ; The number of manipulable objects in a room, x2. ManipulableIndex
+        ; is copied here during dungeon room load and then not changed again.
 
-    ; $047C - 
-        ; Used with doors.
+    ; $047A[0x01] - (Overworld, Dungeon, Player)
+    .LayerChangeNeeded: skip $01
+        ; A flag that when non zero, indicates that a layer adjustment may
+        ; be necessary for the player. This is induced by the player jumping
+        ; off ledges. TODO: Check whether this is set even for ledges that
+        ; do not need a layer change.
 
-    ; checked first?
+    ; $047B[0x01] - (Free)
+    .Free_047B: skip $01
+        ; Free RAM.
 
-    ; $047E - 
-        ; number of wall up-north spiral staircases (1.2.0x38)
+    ; $047C[0x02] - (Dungeon, Object)
+    .WaterFaceTileAddr: skip $02
+        ; Stores the tilemap address of an empty water face object so that
+        ; it can be draw vomiting water later when a lever is flipped. Used
+        ; in the Swamp Palace. TODO: Confirm this.
 
-    ; $0480 - 
-        ; number of wall down-north spiral staircases (1.2.0x39)
+    ; TODO: There are some duplicate stair count names here, verify what
+    ; they actually are with ZS.
+    ; $047E[0x02] - (Dungeon, Stairs)
+    .Stair38Count: skip $02
+        ; The number of wall up-north spiral staircases (1.2.0x38).
 
-    ; $0482 - 
-        ; number of wall up-north spiral staircases (1.2.0x3A)
+    ; $0480[0x02] - (Dungeon, Stairs)
+    .Stair39Count: skip $02
+        ; The number of wall down-north spiral staircases (1.2.0x39).
 
-    ; $0484 - 
-        ; number of wall down-north spiral staircases (1.2.0x3B)
+    ; $0482[0x02] - (Dungeon, Stairs)
+    .Stair3ACount: skip $02
+        ; The number of wall up-north spiral staircases (1.2.0x3A).
 
-    ; $0486 - 
-        ; ????
-    ; $0488 - 
-        ; ????
+    ; $0484[0x02] - (Dungeon, Stairs)
+    .Stair3BCount: skip $02
+        ; The number of wall down-north spiral staircases (1.2.0x3B).
 
-    ; $048A - 
-        ; Relates to the plane variables ($063C-$0640)
+    ; $0486[0x02] - (Overworld, Junk)
+    .OWBombWallX: skip $02
+        ; The X tilemap coordinate of bomb walls on the overworld. This is
+        ; set by the bomb ancillas when cheching for a bomb wall which is
+        ; then used to place the "opened" tiles. This is only used across
+        ; one frame and could be easily switched to use work RAM.
 
-    ; $048C - 
-        ; ????
+    ; $0488[0x02] - (Overworld, Junk)
+    .OWBombWallY: skip $02
+        ; The Y tilemap coordinate of bomb walls on the overworld. This is
+        ; set by the bomb ancillas when cheching for a bomb wall which is
+        ; then used to place the "opened" tiles. This is only used across
+        ; one frame and could be easily switched to use work RAM.
+
+    ; $048A[0x01] - (Dungeon, Stairs)
+    .TargetStairRoom: skip $01
+        ; Gets the target room value from one of the staircase settings
+        ; stored in $063D-$0640 based on the bottom 2 bits of DunStairType.
+
+    ; $048B[0x01] - (Free)
+    .Free_048B: skip $01
+        ; Free RAM.
+
+    ; $048C[0x02] - (Dungeon, Stairs)
+    .StairTilemapAddr: skip $02 
+        ; A tilemap position taken from $06B0 and shifted down by 0x08.
+        ; TODO: The comment on $06B0 in kan's dissasm suggests that this
+        ; is only for interroom stairs but this needs to be confirmed.
 
     ; $048E[0x02] - 
         ; Room index in dungeons?

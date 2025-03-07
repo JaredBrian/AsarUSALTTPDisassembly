@@ -9339,7 +9339,7 @@ NULL_0ED91A:
 ; ==============================================================================
 
 ; $075940-$07594B JUMP LOCATION (LONG)
-PalaceMap_LightenUpMap:
+DungeonMap_LightenUpMap:
 {
     INC.b $13
         
@@ -9356,11 +9356,11 @@ PalaceMap_LightenUpMap:
 ; ==============================================================================
     
 ; $07594C-$075A36 JUMP LOCATION (LONG)
-PalaceMap_Backup:
+DungeonMap_Backup:
 {
     ; Darken the screen until it's fully dark.
     ; Then we can do some actual work.
-    DEC.b $13 : BNE PalaceMap_LightenUpMap_return
+    DEC.b $13 : BNE DungeonMap_LightenUpMap_return
         ; Turn off mosaic on BG1 and BG2.
         LDA.b #$03 : STA.b $95
             
@@ -9449,7 +9449,7 @@ PalaceMap_Backup:
 ; =============================================
 
 ; $075A37-$075A78 JUMP LOCATION (LONG)
-PalaceMap_FadeMapToBlack:
+DungeonMap_FadeMapToBlack:
 {
     DEC.b $13 : BNE .notDoneDarkening
         
@@ -9484,7 +9484,7 @@ PalaceMap_FadeMapToBlack:
 ; ==============================================================================
 
 ; $075A79-$075A9B JUMP LOCATION (LONG)
-PalaceMap_LightenUpDungeon:
+DungeonMap_LightenUpDungeon:
 {
     JSL.l OrientLampBg
         
@@ -9906,7 +9906,8 @@ Overworld_CheckForSpecialOverworldTrigger:
         
     ; Sets the direction Link will face when he comes in or out of the special
     ; area.
-    LDA.l Pool_Overworld_CheckForSpecialOverworldTrigger_direction, X : STA.b $67 : STA.w $0410 : STA.w $0416
+    LDA.l Pool_Overworld_CheckForSpecialOverworldTrigger_direction, X
+    STA.b $67 : STA.w $0410 : STA.w $0416
         
     LDX.w #$0004
     

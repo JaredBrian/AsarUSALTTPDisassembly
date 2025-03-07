@@ -1107,7 +1107,7 @@ Dungeon_DrawFloors:
     
     STZ.b $0C
     
-    ; Y = 0 here always, Floor 2 in Hyrule Magic.
+    ; Y = 0 here always, Floor 1 draw.
     LDA [$B7], Y : PHA : AND.w #$00F0 : STA.w $0490 : TAX
     
     ; Draws a 32 x 32 block of tiles to screen.
@@ -1123,7 +1123,7 @@ Dungeon_DrawFloors:
     
     STZ.b $0C
     
-    ; Floor 1 in Hyrule Magic.
+    ; Floor 1 draw.
     PLA : AND.w #$000F : ASL #4 : STA.w $046A : TAX
     
     ; $008A1F ALTERNATE ENTRY POINT
@@ -7871,6 +7871,7 @@ Dungeon_LoadHeader:
     ; "BG2" in HM. TODO: Change to ZS.
     LDA [$0D], Y : AND.b #$E0 : ASL A : ROL #3 : STA.w $0414
     
+    ; TODO: ZS-ify.
     ; "collision" in HM
     LDA [$0D], Y : AND.b #$1C : LSR #2 : STA.w $046C
     
@@ -12556,10 +12557,9 @@ PushBlock_Main:
             CMP.w #$0001 : BNE .not_block_phase_1
                 JSR.w Dungeon_EraseInteractive2x2
                 
-                LDX.w $0474
-                
                 ; Move the block's tilemap position 2 tiles in the
                 ; appropriate direction.
+                LDX.w $0474
                 LDA.w $0540, Y : CLC : ADC .move_distances, X : STA.w $0540, Y
                 
                 BRA .increment_object_state
@@ -16089,9 +16089,9 @@ Underworld_AdjustWaterVomit:
     
         LDX.b $08
         
-        TXA : AND.w #$0040 : LSR #4 : XBA     : STA.b $00
-        TXA : AND.w #$303F : LSR A  : ORA.b $00 : STA.b $00
-        TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : XBA     : STA.w $1002, Y
+        TXA : AND.w #$0040 : LSR #4             : XBA : STA.b $00
+        TXA : AND.w #$303F : LSR A  : ORA.b $00       : STA.b $00
+        TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : XBA : STA.w $1002, Y
         
         LDA.w #$0980 : STA.w $1004, Y
         

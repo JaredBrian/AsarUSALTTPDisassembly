@@ -4963,6 +4963,7 @@ Bomb_CheckUndersideSpriteStatus:
             INC.w $03D2, X
             
             LDA.w $03D2, X : CMP.b #$03 : BNE .anoreset_ripple_animation_index
+                ; OPTIMIZE: STZ instead.
                 LDA.b #$00 : STA.w $03D2, X
 
             .anoreset_ripple_animation_index

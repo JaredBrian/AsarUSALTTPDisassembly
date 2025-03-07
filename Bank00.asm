@@ -15264,7 +15264,7 @@ Messaging_MainJumpTable:
     db Messaging_Equipment>>0        ; 0x01 - $0DDD2A Link's item submenu
                                      ;        (press start).
     db Messaging_Text>>0             ; 0x02 - $0EC440 Dialogue Mode.
-    db Messaging_PalaceMap>>0        ; 0x03 - $0AE0B0 Dungeon Map Mode.
+    db Messaging_DungeonMap>>0        ; 0x03 - $0AE0B0 Dungeon Map Mode.
     db RefillHeathFromRedPotion>>0   ; 0x04 - $00F8FB Fills life (red potion).
     db Messaging_PrayingPlayer>>0    ; 0x05 - $00F8B1 Praying at desert palace
                                      ;        before it opens.
@@ -15284,7 +15284,7 @@ Messaging_MainJumpTable:
     db Module_Messaging_doNothing>>8
     db Messaging_Equipment>>8
     db Messaging_Text>>8
-    db Messaging_PalaceMap>>8
+    db Messaging_DungeonMap>>8
     db RefillHeathFromRedPotion>>8
     db Messaging_PrayingPlayer>>8
     db Module0E_06_Unused>>8
@@ -15299,7 +15299,7 @@ Messaging_MainJumpTable:
     db Module_Messaging_doNothing>>16
     db Messaging_Equipment>>16
     db Messaging_Text>>16
-    db Messaging_PalaceMap>>16
+    db Messaging_DungeonMap>>16
     db RefillHeathFromRedPotion>>16
     db Messaging_PrayingPlayer>>16
     db Module0E_06_Unused>>16

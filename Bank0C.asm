@@ -2685,7 +2685,7 @@ FileSelect_HandleInput:
     
         STX.b $00
         
-        ; $048C, X; It holds the SRAM offsets.
+        ; SaveFileCopyOffsets holds the SRAM offsets.
         ; X = #$0, #$500, #$A00
         LDA.l SaveFileCopyOffsets, X : TAX
         

@@ -9474,9 +9474,7 @@ GameOver_FadeAndRevive:
         
     LDA.l MaxHealthBasedSpawnHP, X : STA.l $7EF36D : STA.w $04AA
         
-    LDA.w $040C
-        
-    CMP.b #$FF : BEQ .BRANCH_MU
+    LDA.w $040C : CMP.b #$FF : BEQ .BRANCH_MU
         CMP.b #$02 : BNE .BRANCH_NU
             LDA.b #$00
         

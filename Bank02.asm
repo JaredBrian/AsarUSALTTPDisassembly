@@ -3059,7 +3059,6 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
     SEP #$30
 
     LDX.w $048A
-
     LDA.l LayerOfDestination_for_EE, X : STA.b $EE
 
     JSR.w SpiralStairs_MakeNearbyWallsHighPriority_Exiting
@@ -3230,7 +3229,6 @@ Module07_0E_00_InitPriorityAndScreens:
 Module07_0E_13_SetRoomAndLayerAndCache:
 {
     LDX.w $048A
-
     LDA.l LayerOfDestination_for_0476, X : STA.w $0476
 
     LDA.l LayerOfDestination_for_EE, X : STA.b $EE
@@ -3672,7 +3670,6 @@ StraightStairs_11:
     .onBg2
 
     LDX.w $048A
-
     LDA.l LayerOfDestination_for_0476, X : STA.w $0476
 
     LDA.l LayerOfDestination__for_EE, X : STA.b $EE : BEQ .BRANCH_EPSILON

@@ -8859,7 +8859,7 @@ Link_HandleCardinalCollision:
     .BRANCH_ALPHA
     
     JSR.w CheckIfRoomNeedsDoubleLayerCheck : BCC .BRANCH_BETA
-        ; "Check collision" as named in Hyrule Magic
+        ; "Check collision" as named in Hyrule Magic. TODO: ZS-ify.
         ; Keep in mind that outdoors, collisions are always 0, i.e. "normal"
         ; Why load it twice?
         LDA.w $046C : CMP.b #$02 : BCC .BRANCH_GAMMA
@@ -8913,6 +8913,7 @@ Link_HandleCardinalCollision:
     
     .BRANCH_BETA
     
+    ; TODO: ZS-ify.
     ; Check the "collision" value (as in Hyrule Magic).
     LDA.w $046C
     
