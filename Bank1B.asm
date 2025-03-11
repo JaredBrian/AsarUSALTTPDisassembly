@@ -1060,7 +1060,7 @@ Overworld_Map16_ToolInteraction:
     
     REP #$30
     
-    ; Zero out ??? affected when dashing apparently, Zero out tile interaction
+    ; Zero out ??? affected when dashing apparently, Zero out tile interaction.
     STZ.w $04B2 : STZ.b $76
     
     LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $06

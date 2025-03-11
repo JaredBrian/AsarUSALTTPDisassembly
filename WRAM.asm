@@ -4084,8 +4084,8 @@ struct WRAM $7E0000
 
     ; $046A[0x02] - (Dungeon)
     .Floor1Draw: skip $02
-        ; Similar to $0490, this is Floor 1 in Hyrule Magic. TODO: Change
-        ; for ZS. The high byte is always 0 and is expected to be 0.
+        ; This is Floor 1 in Hyrule Magic. TODO: Change for ZS. The
+        ; high byte is always 0 and is expected to be 0.
 
     ; $046[0x01]C - (Dungeon)
     .DubBG1Collision: skip $01
@@ -4117,6 +4117,9 @@ struct WRAM $7E0000
         ; the same as PlayerDunLayer but not always. Appears in a lot of
         ; ancilla, stairs, and edge transition code. The exact use of this
         ; however needs to be investigated.
+        ; After looking at StairsTargetLayer, this might actually be used as
+        ; the target layer for where the player should end up when leaving
+        ; stairs.
 
         ; MoN comment:
         ; Pseudo bg level. Indicates which "level" you are on, either BG1 or
@@ -4198,91 +4201,126 @@ struct WRAM $7E0000
         ; TODO: The comment on $06B0 in kan's dissasm suggests that this
         ; is only for interroom stairs but this needs to be confirmed.
 
-    ; $048E[0x02] - 
-        ; Room index in dungeons?
+    ; $048E[0x02] - (Dungeon, Mirror)
+    .DunRoomIndexMirror: skip $02
+        ; This is a mirror of DunRoomIndex. TODO: This may not always
+        ; match it though, double check.
 
-    ; $0490 - 
-        ; In a dungeon room, provides the type of filler tiles (Floor 1 in
-        ; Hyrule Magic)
+    ; $0490[0x02] - (Dungeon)
+    .Floor2Draw: skip $02
+        ; This is Floor 2 in Hyrule Magic. TODO: Change for ZS. The
+        ; high byte is always 0 and is expected to be 0.
 
-    ; $0492 - 
-        ; ????
-    ; $0494 - 
-        ; ????
+    ; $0492[0x01] - (Dungeon, Stairs)
+    .StairsTargetLayer: skip $01
+        ; This is the layer target where the player should land after leaving
+        ; certain stairs. TODO: SudoPlayerDunLayer Also affects this.
+        ; 0x00 - The player will land on the higher level. 
+        ; 0x02 - The player will land on the lower level.
+        ; All other values are invalid.
 
-    ; $0496[0x02] - (Dungeon)
-        ; Used to track the number of chests in the current room. Because it
-        ; indexes into an array of 16-bit values, it is always twice the actual
-        ; number of chests present.
+    ; $0493[0x01] - (Free)
+    .Free_0493: skip $01
+        ; Free RAM.
 
-    ; $0498[0x02] - (Dungeon)
-        ; Used to track the number of big key lock blocks in the current room.
-        ; It is equal to twice the number of chests plus twice the number of big
-        ; key locks. This is due to the fact that it indexes into an array of
-        ; 16-bit tilemap addresses, and that this array of addresses is shared
-        ; between chests and the big key locks.
+    ; $0494[0x01] - (Overworld, Overlay)
+    .RainAnimationTimer: skip $01
+        ; A timer used to animate the overworld rain overlay. Counts up
+        ; from 0x00 to 0x03.
 
-    ; $049A - 
-        ; number of 1.3.0x1B objects
+    ; $0495[0x01] - (Free)
+    .Free_0495: skip $01
+        ; Free RAM.
 
-    ; $049C - 
-        ; number of 1.3.0x1C objects
+    ; $0496[0x02] - (Dungeon, Object)
+    .ChestCount: skip $02
+        ; Used to track the number of chests in the current room x2. Because
+        ; it indexes into an array of 16-bit values ($06E0), it is always
+        ; twice the actual number of chests present.
 
-    ; $049E - 
-        ; number of 1.3.0x1D objects
+    ; $0498[0x02] - (Dungeon, Object)
+    .BigKeyLockCount: skip $02
+        ; Used to track the number of big key lock blocks in the current room
+        ; x2. It is equal to twice the number of chests plus twice the number
+        ; of big key locks. This is due to the fact that it indexes into an
+        ; array of 16-bit tilemap addresses ($06E0), and that this array of
+        ; addresses is shared between chests and the big key locks.
 
-    ; $04A0 - 
-        ; Countup timer that stops at 0xC0. While running, the floor that Link
-        ; is on in a dungeon is displayed.
+    ; TODO: There are some duplicate stair count names here, verify what
+    ; they actually are with ZS.
+    ; $049A[0x02] - (Dungeon, Object)
+    .Stair1BCount: skip $02
+        ; The number of 1.3.0x1B inter room stairs objects.
 
-    ; $04A1 - 
-        ; Free RAM, probably
+    ; $049C[0x02] - (Dungeon, Object)
+    .Stair1CCount: skip $02
+        ; The number of 1.3.0x1C inter room stairs objects.
 
-    ; $04A2 - 
+    ; $049E[0x02] - (Dungeon, Object)
+    .Stair1DCount: skip $02
+        ; The number of 1.3.0x1D inter room stairs objects.
+
+    ; $04A0 - (Dungeon, HUD, High Junk)
+    .FloorIndicatorTimer: skip $01
+        ; A timer that when non zero, causes the floor indicator in dungeons
+        ; to appear on the HUD. Is set to 0x01 and then counts up to 0xC0
+        ; at which point is reset back to 0x00. The high byte is set to zero
+        ; but never actually used.
+
+    ; TODO: There are some duplicate stair count names here, verify what
+    ; they actually are with ZS.
+    ; $04A2[0x02] - (Dungeon, Object)
+    .Stair26Count: skip $02
         ; number of in-wall inter-room up-north straight staircases
-        ; (1.3.0x1E, 0x26)
+        ; (1.3.0x1E, 0x26).
 
-    ; $04A4 - 
+    ; $04A4[0x02] - (Dungeon, Object)
+    .Stair28Count: skip $02
         ; number of in-wall inter-room up-south straight staircases
-        ; (1.3.0x20, 0x28)
+        ; (1.3.0x20, 0x28).
 
-    ; $04A6 - 
+    ; $04A6[0x02] - (Dungeon, Object)
+    .Stair27Count: skip $02
         ; number of in-wall inter-room down-north straight staircases
-        ; (1.3.0x1F, 0x27)
+        ; (1.3.0x1F, 0x27).
 
-    ; $04A8 - 
+    ; $04A8[0x02] - (Dungeon, Object)
+    .Stair29Count: skip $02
         ; number of in-wall inter-room down-south straight staircases
-        ; (1.3.0x21, 0x29)
+        ; (1.3.0x21, 0x29).
 
-    ; $04AA[0x02] - (conflict)
-        ; Flag, that if nonzero, tells us to load using a starting point
-        ; entrance value rather than a normal entrance value.
+    ; $04AA[0x02] - (Dungeon, Game Over, High Junk)
+    .LoadStartingPoint: skip $01
+        ; Flag, that if nonzero, tells the game to load using a starting point
+        ; entrance value rather than a normal entrance value. This is used when
+        ; first loading up a save for example when you can spawn in link's
+        ; house, the sanctuary, or the old man's cave. The high byte is never
+        ; written to but is always expected to be 0.
 
-    ; $04AA - 
-        ; This is used when you die and choose to save & continue
-        ; It is the dungeon entrance to put Link into.
-        ; This variable is only used if you die in a dungeon, and is set to the
-        ; last dungeon entrance you went into.
+    ; $04AC[0x02] - (Overworld, Tilemap)
+    .OWModifiedTile16Count: skip $02
+        ; When most tile16 are changed in a particular overworld screen
+        ; this value is incremented by 2. Then $7EF800 and $7EFA00 are
+        ; updated to contain the address of the modification and the tile16
+        ; used to replace it. This only comes into play when a warp between
+        ; the DW or the LW fails and you have to warp back. This prevents
+        ; and infinite loop where you pick up a rock and try to warp where
+        ; it was. If the warp failed, and the game sends you back to the
+        ; LW you would spawn on top of the rock again and get stuck. See
+        ; Overworld_RestoreFailedWarpMap16 in bank 0x02 for more details.
 
-    ; $04AB - 
-        ; Free RAM (disputed, see $04AA[0x02])
-
-    ; $04AC - 
-        ; When most tiles are changed in a particular overworld screen
-        ; this value is incremented by 2 and $7EF800 and $7EFA00 are
-        ; updated to contain the address of the modification and the tile
-        ; (map16) used to replace it.  This only comes into play when a
-        ; warp between the DW or the LW fails and you have to warp back.
-
-    ; $04AE - 
+    ; TODO: There are some duplicate stair count names here, verify what
+    ; they actually are with ZS.
+    ; $04AE[0x02] - (Dungeon, Object)
+    .Stair33Count: skip $02
         ; number of in-room up-south staircases (1.3.0x33) (for use in
         ; water rooms)
 
-    ; $04B0 - 
-        ; ???? Relates to object type 1.1.0x35
-        ; Which, by the way, seems to be unused... and buggy.
-        ; If it were used, this would appear to be a tilemap address,
-        ; with an extra bit at the top for... unknown reasons.
+    ; $04B0[0x02] - (Dungeon, Object)
+    .Stair35Count: skip $02
+        ; Relates to object type 1.1.0x35. Which seem to be unused and buggy.
+        ; If it were used, this would appear to be a tilemap address, with
+        ; an extra bit at the top for unknown reasons. TODO: Find the reasons.
 
     ; $04B2 - 
         ; Related to shovel, but not entirely clear yet how. Sometimes

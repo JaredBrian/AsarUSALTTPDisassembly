@@ -6682,8 +6682,9 @@ LinkState_CrossingWorlds:
     STZ.b $27
     
     LDA.b $8A : AND.b #$40 : CMP.b $7B : BEQ .BRANCH_XI
-        STZ.w $04AC
-        STZ.w $04AD
+        ; Reset tile modification index (keeps track of modified tiles
+        ; when warping between worlds).
+        STZ.w $04AC : STZ.w $04AD
     
     .BRANCH_XI
     

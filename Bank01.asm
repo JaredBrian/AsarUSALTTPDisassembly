@@ -8714,7 +8714,7 @@ Dungeon_LoadObjAttr:
             CMP.w #$0033 : BCC .hasHiddenChest
                 .checkTag2
                 
-                ; Load Tag2 properties
+                ; Load Tag2 properties.
                 LDA.b $AF : AND.w #$00FF
                 
                 CMP.w #$0027 : BEQ .hasHiddenChest
@@ -8729,7 +8729,7 @@ Dungeon_LoadObjAttr:
     
     .noChests
     
-    ; Number of Big Key Locks
+    ; Number of Big Key Locks:
     CPY.w $0498 : BEQ .noBigKeyLocks
         .nextBigKeyLock
         

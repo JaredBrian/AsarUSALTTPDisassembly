@@ -366,7 +366,7 @@ LoadDungeonRoomRebuildHUD:
     ORA.b #$07 : STA.b $95
 
     JSL.l Equipment_DrawItem
-    JSL.l HUD.RebuildLong2
+    JSL.l HUD_RebuildLong2
     JSL.l Equipment_UpdateEquippedItemLong
 
     ; Bleed into the next function.
@@ -1830,6 +1830,7 @@ Dungeon_InterRoomTrans_LoadNextRoom:
 
     STZ.w $0200
 
+    ; OPTIMIZE: Wtf is this PHA for? Its loaded again right after?
     LDA.b $A2 : PHA
 
     LDA.b $A0 : STA.w $048E
@@ -13449,12 +13450,12 @@ Overworld_LoadExitData:
     ; Since we're not in a dungeon, set our dungeon index to 0xFF.
     LDA.w #$00FF : STA.w $040C
 
-    ; Reset the variable that tracks tile modifications to the current area
+    ; Reset the variable that tracks tile modifications to the current area.
     STZ.w $04AC
 
     ; If we're exiting Link's house...
     LDA.b $A0 : CMP.w #$0104 : BEQ .hasExitData
-        ; Special outdoor areas like Zora falls
+        ; Special outdoor areas like Zora falls:
         CMP.w #$0180 : BCS .hasExitData
             ; Rooms less than 0x0100 can have exit data (though they don't
             ; Necessarily have any.
@@ -16254,7 +16255,7 @@ Map16ChunkToMap8:
 
 ; ==============================================================================
 
-; When Link warps between worlds and the warp fails, he has to warp  back to
+; When Link warps between worlds and the warp fails, he has to warp back to
 ; the world he came from. This routine ensures that any rocks, bushes, signs
 ; Link picked up before he warped retain that state after he gets warped back.
 ; If the warp was successful, however, this routine will not be used. This

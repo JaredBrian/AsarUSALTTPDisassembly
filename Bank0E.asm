@@ -9696,11 +9696,10 @@ NULL_0EDD31:
 
 ; ==============================================================================
 
+; Keeps track of map modifications for when warping between worlds.
 ; $075D40-$075D60 LONG JUMP LOCATION
 Overworld_Memorize_Map16_Change:
 {
-    ; Keeps track of map modifications for when warping between worlds.
-        
     ; Shovel hole
     CMP.w #$0DC5 : BEQ .dontRemember
         ; Hole from picking up a bush / rock.
