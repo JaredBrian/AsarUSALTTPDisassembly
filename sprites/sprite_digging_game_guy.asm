@@ -175,6 +175,7 @@ DiggingGameGuy_TerminateMinigame:
         LDA.b #$8A : STA.w $1CF0
         LDA.b #$01 : JSR.w Sprite4_ShowMessageMinimal
         
+        ; Set the HUD timer to inactive.
         LDA.b #$FE : STA.w $04B4
         
     .wait_till_shoveling_finished

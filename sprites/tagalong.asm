@@ -334,7 +334,12 @@ Tagalong_NoTimedMessage:
             CMP.b #$09 : BEQ Tagalong_CheckGameMode
             CMP.b #$0A : BEQ Tagalong_CheckGameMode
 
+            ; Initiate the super bomb timer.
             LDA.b #$03 : STA.w $04B4
+
+            ; The HUD_SuperBombIndicator function sets the frame count to 0x3E
+            ; (62 frames). Meaning that this first "second" is actually pretty
+            ; close to 3 seconds (187 frames)
             LDA.b #$BB : STA.w $04B5
     
     .not_superbomb_outdoors
@@ -611,8 +616,9 @@ Tagalong_NotFollowing:
             LDA.b $1B : STA.l $7EF3D1
             
             LDA.l $7EF3CC : CMP.b #$0D : BNE .not_superbomb
+                ; Set the HUD timer to inactive.
                 LDA.b #$FE : STA.w $04B4
-                STZ.w $04B5
+                             STZ.w $04B5
                 
             .not_superbomb
             
@@ -1025,7 +1031,7 @@ Tagalong_HandleTrigger:
         
         LDA.l $7EF3CC : AND.w #$00FF
         CMP.w Tagalong_TriggerDataarea_data_1+8, X : BNE .not_area_data_match
-            LDA.w Tagalong_TriggerData_area_data_1, X   : STA.b $00
+            LDA.w Tagalong_TriggerData_area_data_1+0, X : STA.b $00
             LDA.w Tagalong_TriggerData_area_data_1+2, X : STA.b $02
             LDA.w Tagalong_TriggerData_area_data_1+4, X : STA.b $06
             LDA.w Tagalong_TriggerData_area_data_1+6, X : STA.b $04
