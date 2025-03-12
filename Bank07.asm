@@ -6755,9 +6755,9 @@ HandleFollowersAfterMirroring:
     
     LDA.l $7EF3CC : CMP.b #$0C : BEQ .thiefChest
         CMP.b #$0D : BNE .notSuperBomb
+            ; Set the HUD timer to inactive.
             LDA.b #$FE : STA.w $04B4
-            
-            STZ.w $04B5
+                         STZ.w $04B5
         
     .thiefChest
     

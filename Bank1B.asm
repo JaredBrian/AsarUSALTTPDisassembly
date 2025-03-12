@@ -1048,11 +1048,10 @@ Overworld_Entrance:
 
 ; ==============================================================================
 
+; Handles Map16 interactions with sword, hammer, shovel, magic powder, etc.
 ; $0DBD7A-$0DBF1D LONG JUMP LOCATION
 Overworld_Map16_ToolInteraction:
 {
-    ; Handles Map16 interactions with sword, hammer, shovel, magic powder, etc
-    
     LDA.b $1B : BEQ .outdoors ; Yes... branch
         JML Dungeon_ToolAndTileInteraction
     

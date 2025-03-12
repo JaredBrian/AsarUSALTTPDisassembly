@@ -519,6 +519,7 @@ Module_PreDungeon:
         ; gone.
         LDA.b #$00 : STA.l $7EF3CC
 
+        ; OPTIMIZE: STA.w instead.
         STZ.w $04B4
 
         JSL.l FloorIndicator_hideIndicator

@@ -7187,6 +7187,8 @@ FloorIndicator:
 
 ; ==============================================================================
 
+; TODO: Change the name of this function becuase it is used for the digging guy
+; minigame too.
 ; $057DA8-$057E17 LONG JUMP LOCATION
 HUD_SuperBombIndicator:
 {
@@ -7194,6 +7196,8 @@ HUD_SuperBombIndicator:
         LDA.w $04B4 : BMI .BRANCH_BETA
             DEC.w $04B4
             
+            ; Reset the frame counter to 62 frames.
+            ; TODO: Does the SNES run at 62 fps?
             LDA.b #$3E : STA.w $04B5
 
     .BRANCH_ALPHA
@@ -7203,6 +7207,7 @@ HUD_SuperBombIndicator:
     LDA.w $04B4 : BPL .BRANCH_GAMMA
         .BRANCH_BETA
 
+        ; Set the HUD timer to inactive.
         LDA.b #$FF : STA.w $04B4
         
         REP #$30
@@ -7212,7 +7217,7 @@ HUD_SuperBombIndicator:
     .BRANCH_GAMMA
 
     LDA.w $04B4 : STA.w SNES.DividendLow
-                STZ.w SNES.DividendHigh
+                  STZ.w SNES.DividendHigh
     
     LDA.b #$0A : STA.w SNES.DivisorB
     

@@ -4320,18 +4320,38 @@ struct WRAM $7E0000
     .Stair35Count: skip $02
         ; Relates to object type 1.1.0x35. Which seem to be unused and buggy.
         ; If it were used, this would appear to be a tilemap address, with
-        ; an extra bit at the top for unknown reasons. TODO: Find the reasons.
+        ; an extra bit at the top for unknown reasons. TODO: Find the reasons
+        ; and what this object actually is in game.
 
-    ; $04B2 - 
-        ; Related to shovel, but not entirely clear yet how. Sometimes
-        ; this is handled as a 16-bit value, and others as an 8-bit
-        ; value.
+    ; $04B2[0x02] - (Item, High Junk)
+    .ShovelSpawnFlute: skip $02
+        ; When non zero, makes using the shovel spawn the flute. This is only
+        ; ever set to 0x0492 which is the tilemap position of where the flute
+        ; is hidden. The high byte is written to but never read.
 
-    ; $04B4 - 
-        ; see overworld module submodule 0x00
+    ; $04B4[0x01] - (HUD)
+    .HUDTimer: skip $01
+        ; The super bomb and minigame HUD timer. When non zero, displays
+        ; the timer on the HUD. Since 00 needs to be displayed on the timer
+        ; as well, 0xFE and 0xFF are sometimes used as inactive instead.
+        ; This depends on the use case but 0x00 is also written sometimes
+        ; when there is an area reset or if a tagalong that is not the super
+        ; bomb is present. See HUD_SuperBombIndicator for more details.
+        ; 0x00 - Timer inactive: other tagalongs.
+        ; 0x03 - Super bomb count down - 3 seconds.
+        ; 0x1E - Digging guy minigame - 30 seconds.
+        ; 0xFE - Timer inactive: super bomb.
+        ; 0xFF - Timer inactive: super bomb, digging game.
 
-    ; $04B5 - 
-        ; ????
+    ; $04B5[0x01] - (HUD)
+    .HUDTimerFrameCount: skip $01
+        ; This is the amount of frames per one second of HUDTimer time. This
+        ; is usually set to 0x3E which is 62 frames or to 0xBB during the first
+        ; second of the super bomb timer. Meaning that the first "second" of
+        ; the super bomb timer is actually pretty clsoe to 3 seconds of real
+        ; time. TODO: Investigate: Does the SNES run at 62 FPS?
+        ; 0xBB - Super bomb first second.
+        ; 0x3E - Regular second.
 
     ; $04B6 - 
         ; Position in tile attribute buffer where trigger tile was hit.
