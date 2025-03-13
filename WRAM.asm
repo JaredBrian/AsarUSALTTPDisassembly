@@ -4349,20 +4349,24 @@ struct WRAM $7E0000
         ; is usually set to 0x3E which is 62 frames or to 0xBB during the first
         ; second of the super bomb timer. Meaning that the first "second" of
         ; the super bomb timer is actually pretty clsoe to 3 seconds of real
-        ; time. TODO: Investigate: Does the SNES run at 62 FPS?
+        ; time. TODO: Investigate: Does the SNES or alttp run at 62 FPS?
         ; 0xBB - Super bomb first second.
         ; 0x3E - Regular second.
 
-    ; $04B6 - 
-        ; Position in tile attribute buffer where trigger tile was hit.
-        ; Also used with star tiles.
+    ; $04B6[0x02] - (Dungeon, Tilemap) 
+    .ButtonTilemapPos: skip $02
+        ; The tilemap position where a floor button/preassure plate tile
+        ; was hit. 
+        ; TODO: MoN comment but I see no evidence for: Also used with star tiles.
 
-    ; $04B8 - 
-        ; Flag that indicates you are close to a big key door, and the
-        ; text message saying you don't have a key has already triggered.
-        ; It resets when you move away from the door.
-        ; Also used outdoors when a door tells you you can't enter with
-        ; stuff following you.
+    ; $04B8[0x02] - (Door, Message, Tagalong, High Junk)
+    .DoorMessageFlag: skip $01
+        ; Flag that when non zero, indicates you are close to a big key door
+        ; and the text message saying you don't have a key has already
+        ; triggered. It resets when you move away from the door. Also used
+        ; outdoors when a door tells you you can't enter with a tagalong
+        ; following you. The high byte is written and read but it doesn't
+        ; need to be.
 
     ; $04BA - 
         ; Index of overlay to load in a dungeon room
