@@ -3126,29 +3126,25 @@ Overworld_DrawWarpTile:
 ; ==============================================================================
 
 ; $0DCABA-$0DCAC3 JUMP TABLE
-Pool_Overworld_EntranceSequence:
+Overworld_EntranceSequence_handlers:
 {
-    .handlers
-    dw DarkPalaceEntrance_Main
-    dw $CBA6 ; = $DCBA6 ; Skull Woods Entrance Animation
-    dw MiseryMireEntrance_Main
-    dw TurtleRockEntrance_Main
-    dw $CFD9 ; = $DCFD9 ; Ganon's Tower Entrance Animation
+    dw DarkPalaceEntrance_Main               ; 0x00 - $CADE
+    dw Overworld_AnimateEntrance_Skull       ; 0x01 - $CBA6
+    dw MiseryMireEntrance_Main               ; 0x02 - $CCD4
+    dw TurtleRockEntrance_Main               ; 0x03 - $CE28
+    dw Overworld_AnimateEntrance_GanonsTower ; 0x04 - $CFD9
 }
 
+; A = $04C6 or the index of the entrance animation +1.
 ; $0DCAC4-$0DCAD3 LONG JUMP LOCATION
 Overworld_EntranceSequence:
 {
-    ; The input to the function is which animation is currently ongoing
-    ; ($04C6 I think)
-    
     STA.w $02E4 ; Link can't move.
-    STA.w $0FC1 ; Not sure...
-    STA.w $0710 ; There is a special graphical effect about to happen
+    STA.w $0FC1 ; TODO: Not sure...
+    STA.w $0710 ; There is a special graphical effect about to happen.
     
     DEC A : ASL A : TAX
-    
-    JSR.w (Pool_Overworld_EntranceSequence_handlers, X)
+    JSR.w (.handlers, X)
     
     RTL
 }
@@ -3156,9 +3152,8 @@ Overworld_EntranceSequence:
 ; ==============================================================================
 
 ; $0DCAD4-$0DCADD JUMP TABLE
-Pool_DarkPalaceEntrance_Main:
+DarkPalaceEntrance_Main_handlers:
 {
-    .handlers
     dw AnimateEntrance_PoD_step1
     dw AnimateEntrance_PoD_step2
     dw AnimateEntrance_PoD_step3
@@ -3171,7 +3166,7 @@ DarkPalaceEntrance_Main:
 {
     LDA.b $B0 : ASL A : TAX
     
-    JMP (Pool_DarkPalaceEntrance_Main_handlers, X)
+    JMP (.handlers, X)
 }
 
 ; ==============================================================================
@@ -3315,9 +3310,8 @@ AnimateEntrance_PoD_step5:
 ; ==============================================================================
 
 ; $0DCB9C-$0DCBA5 JUMP TABLE
-Pool_Overworld_AnimateEntrance_Skull:
+Overworld_AnimateEntrance_Skull_handlers:
 {
-    .handlers
     dw AnimateEntrance_Skull_step1
     dw AnimateEntrance_Skull_step2
     dw AnimateEntrance_Skull_step3
@@ -3330,7 +3324,7 @@ Overworld_AnimateEntrance_Skull:
 {
     LDA.b $B0 : ASL A : TAX
     
-    JMP (Pool_Overworld_AnimateEntrance_Skull_handlers, X)
+    JMP (.handlers, X)
 }
 
 ; ==============================================================================

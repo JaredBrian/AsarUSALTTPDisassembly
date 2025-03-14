@@ -9781,7 +9781,6 @@ HandlePegPuzzles:
     
     CMP.w #$0062 : BNE .notDwSmithyHouse
         INC.w $04C8
-        
         LDA.w $04C8 : CMP.w #$0016 : BNE .notEnoughPegs
             PHX
             
@@ -11598,9 +11597,9 @@ Overworld_DwDeathMountainPaletteAnimation_easyOut:
     RTL
 }
 
-; $077582-$077651 LONG JUMP LOCATION
-; This function controls the lighting flashing int he background of DW death
+; This function controls the lighting flashing in the background of DW death
 ; mountain as well as the Ganon's tower palette cycling.
+; $077582-$077651 LONG JUMP LOCATION
 Overworld_DwDeathMountainPaletteAnimation:
 {
     LDA.w $04C6 : BNE .easyOut

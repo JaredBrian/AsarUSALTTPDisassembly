@@ -7041,7 +7041,7 @@ Overworld_FinishTransGfx:
 Overworld_TransMapData:
 Overworld_LoadNewMapAndGfx:
 {
-    ; Unknown variables
+    ; Reset the peg puzzle count var.
     STZ.w $04C8 : STZ.w $04C9
 
     JSR.w Overworld_LoadTransMapData
@@ -8111,8 +8111,7 @@ Overworld_InitMirrorWarp:
     ; SWAP DARKWORLD / LIGHTWORLD STATUS
     LDA.l $7EF3CA : EOR.b #$40 : STA.l $7EF3CA
 
-    STZ.w $04C8
-    STZ.w $04C9
+    STZ.w $04C8 : STZ.w $04C9
 
     LDA.b $8A : AND.b #$3F : ORA.l $7EF3CA : STA.b $8A : STA.w $040A
 

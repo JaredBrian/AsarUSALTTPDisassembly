@@ -4368,62 +4368,80 @@ struct WRAM $7E0000
         ; following you. The high byte is written and read but it doesn't
         ; need to be.
 
-    ; $04BA - 
-        ; Index of overlay to load in a dungeon room
-        ; (in response to an event, typically).
+    ; $04BA[0x02] - (Dungeon, Overlay, High Junk)
+    .DunOverlayIndex: skip $02
+        ; Index of the overlay (star tile holes, chest holes, etc.) to load
+        ; in a dungeon room. See OverlayDataPointers for the possible overlays.
+        ; Set by trapped chests and star tiles mostly. The high byte is set to
+        ; zero and is always expected to be zero.
 
-    ; $04BC - 
-        ; Seems to be a toggle between two different states of holes in a room.
-        ; (For rooms that can switch back and forth?)
+    ; $04BC[0x02] - (Dungeon, Overlay, High Junk)
+    .StarTileState: skip $01
+        ; This is the state of the star tile switch overlay. Toggles back and
+        ; forth between 0x01 and 0x00. The high byte is set to zero but never
+        ; read.
 
-    ; $04BE - 
-        ; Countdown timer for trinexx red dragon head palette transitioning
-    ; $04BF - 
-        ; Countdown timer for trinexx blue dragon head palette transitioning
+    ; $04BE[0x01] - (Sprite, Boss)
+    .TrinexxFireHeadTimer: skip $01
+        ; Countdown timer for the trinexx fire head palette transitioning.
 
-    ; $04C0 - 
-        ; Relates to trinexx red dragon head palette transition state
-    ; $04C1 - 
-        ; Relates to trinexx blue dragon head palette transition state
+    ; $04BF[0x01] - (Sprite, Boss)
+    .TrinexxIceHeadTimer: skip $01
+        ; Countdown timer for the trinexx ice head palette transitioning.
 
-    ; $04C2[0x01] - (Dungeon)
-        ; Its only use is as a delay timer for falling milestone objects after a
-        ; boss fight. Specifically, crystals and pendants.
-        ; Note: It's well known among glitchers that beating a boss from one
-        ; palace when having entered a different palace can cause the ether
-        ; medallion to fall instead of the proper item for that boss. This is
-        ; due to the fact that the same object is used for granting the Bombos
-        ; and Ether medallions (from the sky in that case.) The game just gets
-        ; confused.
+    ; $04C0[0x01] - (Sprite, Boss)
+    .TrinexxFireHeadStep: skip $01
+        ; The step counter for the trinexx fire head palette transitioning.
 
-    ; $04C3 - 
-        ; Free RAM
+    ; $04C1[0x01] - (Sprite, Boss)
+    .TrinexxIceHeadStep: skip $01
+        ; The step counter for the trinexx ice head palette transitioning.
 
-    ; $04C4[0x01] - (Undesignated)
-        ; Number of credits left for opening minigame chests 0xFF if entirely
-        ; disabled
+    ; $04C2[0x01] - (Dungeon, Item)
+    .FallingItemTimer: skip $01
+        ; Its only use is as a delay timer for falling crystals and pendants
+        ; after a boss fight.
+        
+    ; $04C3[0x01] - (Free)
+    .Free_04C3: skip $01
+        ; Free RAM.
 
-    ; $04C5 - 
-        ; State dealing with Ganon's fight:
-        ; 2 - you can hit him,
-        ; 1 - he's translucent
-        ; 0 - invisible
+    ; $04C4[0x01] - (Minigame)
+    .MinigameCredits: skip $01
+        ; The number of credits left for opening minigame chests. 0xFF if
+        ; entirely disabled.
 
-    ; $04C6 - 
-        ; Trigger for special animations
-        ; 0 - nothing
-        ; 1 - Dark Palace entrance
-        ; 2 - Skull Woods entrance (when it burns)
-        ; 3 - Misery Mire entrance
-        ; 4 - Turtle Rock entrance
-        ; 5 - Ganon's Tower entrance
+    ; $04C5[0x01] - (Sprite, Boss)
+    .GanonIntangibleState: skip $01
+        ; State dealing with Ganon's fight. This reflects the number of
+        ; torches are lit and is used to control ganon's transparency and
+        ; whether or he can take damage.
+        ; 0x02 - You can hit ganon, he is fuly opaque, both torches are lit.
+        ; 0x01 - You cannot hit ganon, he's translucent, one torch is lit.
+        ; 0x00 - You cannot hit ganon, he's invisible, no torches are lit.
 
-    ; $04C7 - 
-        ; Appears to serve as a barrier variable for tag related logic in
-        ; Dungeon rooms when set.
-        ; Also prevents traveling on staircases and other such things.
+    ; $04C6[0x01] - (Overworld, Entrance, Event)
+    .OWSpecialAnimation: skip $01
+        ; Trigger for special overworld animations.
+        ; See Overworld_EntranceSequencefor more details.
+        ; 0x00 - Nothing
+        ; 0x01 - Dark Palace entrance opening
+        ; 0x02 - Skull Woods entrance opening
+        ; 0x03 - Misery Mire entrance opening
+        ; 0x04 - Turtle Rock entrance opening
+        ; 0x05 - Ganon's Tower entrance opening
 
-    ; $04C8 - 
+    ; $04C7[0x01] - (Dungeon, Tag)
+    .DunPreventTagAndStairs: skip $01
+        ; When nonzero, prevents dungeon tags and stair checks from executing.
+        ; This is immediately reset to zero after checking whether to run
+        ; the tags and stair checks. Meaning this will only be set for one
+        ; frame. This is set when entering dungeons to prevent the tag and
+        ; stair code from running before the player has actually entered
+        ; the room.
+
+    ; $04C8[0x02] - (Dungeon, Event)
+    .PegPuzzleCount: skip $02
         ; Only used in peg puzzles as an index of which or how many peg
         ; tiles have been hammered down.
         ; 
@@ -4435,11 +4453,13 @@ struct WRAM $7E0000
         ; In the case of the Dark World peg puzzle near the ruined Smithy
         ; house, it's just the number of pegs hammered so far.
 
-    ; $04CA[0x01] - 
-        ; When you are low on life, this is used as a timer. It loops between
-        ; 0x1F down to 0x00. When it reaches zero, the low life beep happens.
+    ; $04CA[0x01] - (Player, HUD, SFX)
+    .LifeBeepTimer: skip $01
+        ; This timer controlls how long to wait between low life beeps.
+        ; Counts down from 0x1F to 0x00. When it reaches zero, the beep happens.
 
-    ; $04CB[0x25] - 
+    ; $04CB[0x25] - (Free)
+    .Free_04CB: skip $25
         ; Free RAM.
 
     ; $04F0[0x10] - (Dungeon)

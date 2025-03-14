@@ -7894,19 +7894,24 @@ Dungeon_LoadHeader:
     LDA.l UnderworldPaletteSets+3, X : STA.w $0AAE  ; SP index 2
     
     ; Move to byte 2. (Sprite graphics index)
-    INY : LDA [$0D], Y : STA.w $0AA2
+    INY
+    LDA [$0D], Y : STA.w $0AA2
     
     ; Move to byte 3. (BG graphics index)
-    INY : LDA [$0D], Y : CLC : ADC.b #$40 : STA.w $0AA3
+    INY
+    LDA [$0D], Y : CLC : ADC.b #$40 : STA.w $0AA3
     
     ; Move to byte 4. Basically sets uh.... moving floor settings.
-    INY : LDA [$0D], Y : STA.b $AD
+    INY
+    LDA [$0D], Y : STA.b $AD
     
     ; Move to byte 5. Corresponds to Tag1 in Hyrule Magic.
-    INY : LDA [$0D], Y : STA.b $AE
+    INY
+    LDA [$0D], Y : STA.b $AE
     
     ; Move to byte 6. Corresponds to Tag2 in Hyrule Magic
-    INY : LDA [$0D], Y : STA.b $AF
+    INY
+    LDA [$0D], Y : STA.b $AF
     
     ; Move to byte 7.
     INY
@@ -7923,23 +7928,29 @@ Dungeon_LoadHeader:
     ; Staircase 3 / Door plane
     LDA [$0D], Y : AND.b #$C0 : ASL A : ROL A : ROL A : STA.w $063F
     
-    ; Move to byte 8. (Staircase 4 / Door plane)
-    INY : LDA [$0D], Y : AND.b #$03 : STA.w $0640
+    ; Move to byte 8. (Staircase 4 / Door plane).
+    INY
+    LDA [$0D], Y : AND.b #$03 : STA.w $0640
     
-    ; Move to byte 9 (Teleporter room)
-    INY : LDA [$0D], Y : STA.l $7EC000
+    ; Move to byte 9 (Teleporter room).
+    INY
+    LDA [$0D], Y : STA.l $7EC000
     
-    ; Move to byte A (Staircase 1 room)
-    INY : LDA [$0D], Y : STA.l $7EC001
+    ; Move to byte A (Staircase 1 room).
+    INY
+    LDA [$0D], Y : STA.l $7EC001
     
-    ; Move to byte B (Staircase 2 room)
-    INY : LDA [$0D], Y : STA.l $7EC002
+    ; Move to byte B (Staircase 2 room).
+    INY
+    LDA [$0D], Y : STA.l $7EC002
     
-    ; Move to byte C (Staircase 3 / Door room)
-    INY : LDA [$0D], Y : STA.l $7EC003
+    ; Move to byte C (Staircase 3 / Door room).
+    INY
+    LDA [$0D], Y : STA.l $7EC003
     
-    ; Move to byte D (Staircase 4 / Door room)
-    INY : LDA [$0D], Y : STA.l $7EC004
+    ; Move to byte D (Staircase 4 / Door room).
+    INY
+    LDA [$0D], Y : STA.l $7EC004
     
     ; We're done with the header after reading out 14 (0x0E) bytes.
     
@@ -7948,7 +7959,7 @@ Dungeon_LoadHeader:
     ; Put trap doors down initially.
     LDA.w #$0001 : STA.w $0468
     
-    ; Initialize dungeon overlay variable to default
+    ; Initialize dungeon overlay variable to default.
     STZ.w $04BA
     
     ; X = $0110 = ($A0 * 3)
@@ -7959,7 +7970,7 @@ Dungeon_LoadHeader:
     
     LDA.b $A0 : ASL A : TAX
     
-    ; Access the dungeon room's saved data (1 word)
+    ; Access the dungeon room's saved data (1 word).
     LDA.l $7EF000, X : AND.w #$F000 : STA.w $0400
     
     ORA.w #$0F00 : STA.w $068C
@@ -7990,7 +8001,7 @@ Dungeon_LoadHeader:
     
     LDA.b $A0 : DEC A : TAX
     
-    ; Checks to see if the room is a multiple of 0x10
+    ; Checks to see if the room is a multiple of 0x10.
     ; Room is a multiple of $10
     AND.w #$000F : CMP.w #$000F : BEQ .divisible_by_16
         ; All others
@@ -8012,7 +8023,7 @@ Dungeon_LoadHeader:
     
     .endsInF
     
-    ; Checks to see if it's one of the first $F rooms
+    ; Checks to see if it's one of the first $F rooms.
     LDA.b $A0 : SEC : SBC.w #$0010 : TAX : BMI .first_F_rooms
         LDA.w #$000C
         
@@ -8022,7 +8033,7 @@ Dungeon_LoadHeader:
     
     LDA.b $A0 : CLC : ADC.w #$0010 : TAX
     
-    ; If room is one of the last $F rooms
+    ; If room is one of the last $F rooms.
     CMP.w #$0140 : BCS .last_F_rooms
         LDA.w #$0000
         
@@ -8171,9 +8182,13 @@ Dungeon_ApplyOverlay:
         ; X = $04BA * 3.
         LDA.w $04BA : ASL A : CLC : ADC.w $04BA : TAX
         
-        ; Dungeon overlay data
-        LDA.l .ptr_table + 1, X : STA.b $B8
-        LDA.l .ptr_table + 0, X : STA.b $B7
+        ; Dungeon overlay data.
+        ; OPTIMIZE: The OverlayDataPointers themselves are stored as longs but
+        ; only the word is used here. Could the pointers themselves be shortened
+        ; to save space, or could the long be loaded here to allow for expanded
+        ; space for overlays?
+        LDA.l OverlayDataPointers + 1, X : STA.b $B8
+        LDA.l OverlayDataPointers + 0, X : STA.b $B7
         
         JSR.w Dungeon_DrawOverlay
         
@@ -10224,7 +10239,8 @@ RoomTag_GetHeartForPrize:
             
             LDA.w $040C : LSR A : TAX
             
-            LDA.l Pool_RoomTag_GetHeartForPrize, X : JSL.l Sprite_SpawnFallingItem
+            LDA.l Pool_RoomTag_GetHeartForPrize, X
+            JSL.l Sprite_SpawnFallingItem
             
             PLA : STA.b $0E
         
@@ -11046,6 +11062,7 @@ RoomTag_OperateChestHoles:
         ; Tell the "show dungeon overlay" submodule which overlay to use.
         STY.w $04BA
         
+        ; OPTIMIZE: Is this SEP necessary?
         SEP #$30
         
         STZ.b $BA

@@ -4867,7 +4867,7 @@ NULL_04EC1C:
 ; $026CC0-$026CF8 DATA
 OverlayDataPointers:
 {
-    OverlayDataPointers:
+    ; TODO: Document what each of these overlays are.
     dl OverlayData_00
     dl OverlayData_01
     dl OverlayData_02
@@ -4912,15 +4912,15 @@ OverlayData_00:
 ; $026D25-$026D4D DATA
 OverlayData_01:
 {
-    db $58, $58, $A4 ; 0x0A4: Pit ⇲ | { 16, 16 } | Size: 00
-    db $A8, $58, $A4 ; 0x0A4: Pit ⇲ | { 2A, 16 } | Size: 00
-    db $C8, $58, $A4 ; 0x0A4: Pit ⇲ | { 32, 16 } | Size: 00
-    db $C8, $A0, $A4 ; 0x0A4: Pit ⇲ | { 32, 28 } | Size: 00
-    db $D8, $B0, $A4 ; 0x0A4: Pit ⇲ | { 36, 2C } | Size: 00
-    db $C8, $C0, $A4 ; 0x0A4: Pit ⇲ | { 32, 30 } | Size: 00
-    db $30, $58, $A4 ; 0x0A4: Pit ⇲ | { 0C, 16 } | Size: 00
-    db $48, $58, $A4 ; 0x0A4: Pit ⇲ | { 12, 16 } | Size: 00
-    db $A0, $C8, $A4 ; 0x0A4: Pit ⇲ | { 28, 32 } | Size: 00
+    db $58, $58, $A4 ; 0x0A4: Pit ⇲     | { 16, 16 } | Size: 00
+    db $A8, $58, $A4 ; 0x0A4: Pit ⇲     | { 2A, 16 } | Size: 00
+    db $C8, $58, $A4 ; 0x0A4: Pit ⇲     | { 32, 16 } | Size: 00
+    db $C8, $A0, $A4 ; 0x0A4: Pit ⇲     | { 32, 28 } | Size: 00
+    db $D8, $B0, $A4 ; 0x0A4: Pit ⇲     | { 36, 2C } | Size: 00
+    db $C8, $C0, $A4 ; 0x0A4: Pit ⇲     | { 32, 30 } | Size: 00
+    db $30, $58, $A4 ; 0x0A4: Pit ⇲     | { 0C, 16 } | Size: 00
+    db $48, $58, $A4 ; 0x0A4: Pit ⇲     | { 12, 16 } | Size: 00
+    db $A0, $C8, $A4 ; 0x0A4: Pit ⇲     | { 28, 32 } | Size: 00
     db $B8, $80, $C7 ; 0x0C7: Floor 4 ⇲ | { 2E, 20 } | Size: 00
     db $C8, $B0, $C7 ; 0x0C7: Floor 4 ⇲ | { 32, 2C } | Size: 00
     db $18, $48, $C7 ; 0x0C7: Floor 4 ⇲ | { 06, 12 } | Size: 00
@@ -4931,10 +4931,10 @@ OverlayData_01:
 ; $026D4E-$026D76 DATA
 OverlayData_02:
 {
-    db $B8, $80, $A4 ; 0x0A4: Pit ⇲ | { 2E, 20 } | Size: 00
-    db $C8, $B0, $A4 ; 0x0A4: Pit ⇲ | { 32, 2C } | Size: 00
-    db $18, $48, $A4 ; 0x0A4: Pit ⇲ | { 06, 12 } | Size: 00
-    db $A0, $D8, $A4 ; 0x0A4: Pit ⇲ | { 28, 36 } | Size: 00
+    db $B8, $80, $A4 ; 0x0A4: Pit ⇲     | { 2E, 20 } | Size: 00
+    db $C8, $B0, $A4 ; 0x0A4: Pit ⇲     | { 32, 2C } | Size: 00
+    db $18, $48, $A4 ; 0x0A4: Pit ⇲     | { 06, 12 } | Size: 00
+    db $A0, $D8, $A4 ; 0x0A4: Pit ⇲     | { 28, 36 } | Size: 00
     db $30, $58, $C7 ; 0x0C7: Floor 4 ⇲ | { 0C, 16 } | Size: 00
     db $48, $58, $C7 ; 0x0C7: Floor 4 ⇲ | { 12, 16 } | Size: 00
     db $A0, $C8, $C7 ; 0x0C7: Floor 4 ⇲ | { 28, 32 } | Size: 00
@@ -4950,14 +4950,14 @@ OverlayData_02:
 ; $026D77-$026D9F DATA
 OverlayData_03:
 {
-    db $B8, $38, $A4 ; 0x0A4: Pit ⇲ | { 2E, 0E } | Size: 00
-    db $98, $50, $A4 ; 0x0A4: Pit ⇲ | { 26, 14 } | Size: 00
-    db $D8, $50, $A4 ; 0x0A4: Pit ⇲ | { 36, 14 } | Size: 00
-    db $B8, $A0, $A4 ; 0x0A4: Pit ⇲ | { 2E, 28 } | Size: 00
-    db $20, $A0, $A4 ; 0x0A4: Pit ⇲ | { 08, 28 } | Size: 00
-    db $30, $B0, $A4 ; 0x0A4: Pit ⇲ | { 0C, 2C } | Size: 00
-    db $40, $B0, $A4 ; 0x0A4: Pit ⇲ | { 10, 2C } | Size: 00
-    db $50, $A0, $A4 ; 0x0A4: Pit ⇲ | { 14, 28 } | Size: 00
+    db $B8, $38, $A4 ; 0x0A4: Pit ⇲     | { 2E, 0E } | Size: 00
+    db $98, $50, $A4 ; 0x0A4: Pit ⇲     | { 26, 14 } | Size: 00
+    db $D8, $50, $A4 ; 0x0A4: Pit ⇲     | { 36, 14 } | Size: 00
+    db $B8, $A0, $A4 ; 0x0A4: Pit ⇲     | { 2E, 28 } | Size: 00
+    db $20, $A0, $A4 ; 0x0A4: Pit ⇲     | { 08, 28 } | Size: 00
+    db $30, $B0, $A4 ; 0x0A4: Pit ⇲     | { 0C, 2C } | Size: 00
+    db $40, $B0, $A4 ; 0x0A4: Pit ⇲     | { 10, 2C } | Size: 00
+    db $50, $A0, $A4 ; 0x0A4: Pit ⇲     | { 14, 28 } | Size: 00
     db $A0, $70, $C7 ; 0x0C7: Floor 4 ⇲ | { 28, 1C } | Size: 00
     db $B8, $70, $C7 ; 0x0C7: Floor 4 ⇲ | { 2E, 1C } | Size: 00
     db $D0, $70, $C7 ; 0x0C7: Floor 4 ⇲ | { 34, 1C } | Size: 00
@@ -4969,11 +4969,11 @@ OverlayData_03:
 ; $026DA0-$026DC8 DATA
 OverlayData_04:
 {
-    db $A0, $70, $A4 ; 0x0A4: Pit ⇲ | { 28, 1C } | Size: 00
-    db $B8, $70, $A4 ; 0x0A4: Pit ⇲ | { 2E, 1C } | Size: 00
-    db $D0, $70, $A4 ; 0x0A4: Pit ⇲ | { 34, 1C } | Size: 00
-    db $A0, $B0, $A4 ; 0x0A4: Pit ⇲ | { 28, 2C } | Size: 00
-    db $D0, $B0, $A4 ; 0x0A4: Pit ⇲ | { 34, 2C } | Size: 00
+    db $A0, $70, $A4 ; 0x0A4: Pit ⇲     | { 28, 1C } | Size: 00
+    db $B8, $70, $A4 ; 0x0A4: Pit ⇲     | { 2E, 1C } | Size: 00
+    db $D0, $70, $A4 ; 0x0A4: Pit ⇲     | { 34, 1C } | Size: 00
+    db $A0, $B0, $A4 ; 0x0A4: Pit ⇲     | { 28, 2C } | Size: 00
+    db $D0, $B0, $A4 ; 0x0A4: Pit ⇲     | { 34, 2C } | Size: 00
     db $20, $A0, $C7 ; 0x0C7: Floor 4 ⇲ | { 08, 28 } | Size: 00
     db $30, $B0, $C7 ; 0x0C7: Floor 4 ⇲ | { 0C, 2C } | Size: 00
     db $40, $B0, $C7 ; 0x0C7: Floor 4 ⇲ | { 10, 2C } | Size: 00
@@ -4995,16 +4995,16 @@ OverlayData_05:
 ; $026DCE-$04EE02 DATA
 OverlayData_06:
 {
-    db $28, $9C, $A4 ; 0x0A4: Pit ⇲ | { 0A, 27 } | Size: 00
-    db $38, $9C, $A4 ; 0x0A4: Pit ⇲ | { 0E, 27 } | Size: 00
-    db $38, $AC, $A4 ; 0x0A4: Pit ⇲ | { 0E, 2B } | Size: 00
-    db $18, $AC, $A4 ; 0x0A4: Pit ⇲ | { 06, 2B } | Size: 00
-    db $18, $BC, $A4 ; 0x0A4: Pit ⇲ | { 06, 2F } | Size: 00
-    db $18, $CC, $A4 ; 0x0A4: Pit ⇲ | { 06, 33 } | Size: 00
-    db $38, $CC, $A4 ; 0x0A4: Pit ⇲ | { 0E, 33 } | Size: 00
-    db $48, $BC, $A4 ; 0x0A4: Pit ⇲ | { 12, 2F } | Size: 00
-    db $58, $AC, $A4 ; 0x0A4: Pit ⇲ | { 16, 2B } | Size: 00
-    db $58, $CC, $A4 ; 0x0A4: Pit ⇲ | { 16, 33 } | Size: 00
+    db $28, $9C, $A4 ; 0x0A4: Pit ⇲     | { 0A, 27 } | Size: 00
+    db $38, $9C, $A4 ; 0x0A4: Pit ⇲     | { 0E, 27 } | Size: 00
+    db $38, $AC, $A4 ; 0x0A4: Pit ⇲     | { 0E, 2B } | Size: 00
+    db $18, $AC, $A4 ; 0x0A4: Pit ⇲     | { 06, 2B } | Size: 00
+    db $18, $BC, $A4 ; 0x0A4: Pit ⇲     | { 06, 2F } | Size: 00
+    db $18, $CC, $A4 ; 0x0A4: Pit ⇲     | { 06, 33 } | Size: 00
+    db $38, $CC, $A4 ; 0x0A4: Pit ⇲     | { 0E, 33 } | Size: 00
+    db $48, $BC, $A4 ; 0x0A4: Pit ⇲     | { 12, 2F } | Size: 00
+    db $58, $AC, $A4 ; 0x0A4: Pit ⇲     | { 16, 2B } | Size: 00
+    db $58, $CC, $A4 ; 0x0A4: Pit ⇲     | { 16, 33 } | Size: 00
     db $28, $AC, $C7 ; 0x0C7: Floor 4 ⇲ | { 0A, 2B } | Size: 00
     db $28, $BC, $C7 ; 0x0C7: Floor 4 ⇲ | { 0A, 2F } | Size: 00
     db $28, $CC, $C7 ; 0x0C7: Floor 4 ⇲ | { 0A, 33 } | Size: 00
@@ -5018,13 +5018,13 @@ OverlayData_06:
 ; $04EE03-$04EE37 DATA
 OverlayData_07:
 {
-    db $28, $AC, $A4 ; 0x0A4: Pit ⇲ | { 0A, 2B } | Size: 00
-    db $28, $BC, $A4 ; 0x0A4: Pit ⇲ | { 0A, 2F } | Size: 00
-    db $28, $CC, $A4 ; 0x0A4: Pit ⇲ | { 0A, 33 } | Size: 00
-    db $28, $DC, $A4 ; 0x0A4: Pit ⇲ | { 0A, 37 } | Size: 00
-    db $48, $CC, $A4 ; 0x0A4: Pit ⇲ | { 12, 33 } | Size: 00
-    db $48, $DC, $A4 ; 0x0A4: Pit ⇲ | { 12, 37 } | Size: 00
-    db $48, $9C, $A4 ; 0x0A4: Pit ⇲ | { 12, 27 } | Size: 00
+    db $28, $AC, $A4 ; 0x0A4: Pit ⇲     | { 0A, 2B } | Size: 00
+    db $28, $BC, $A4 ; 0x0A4: Pit ⇲     | { 0A, 2F } | Size: 00
+    db $28, $CC, $A4 ; 0x0A4: Pit ⇲     | { 0A, 33 } | Size: 00
+    db $28, $DC, $A4 ; 0x0A4: Pit ⇲     | { 0A, 37 } | Size: 00
+    db $48, $CC, $A4 ; 0x0A4: Pit ⇲     | { 12, 33 } | Size: 00
+    db $48, $DC, $A4 ; 0x0A4: Pit ⇲     | { 12, 37 } | Size: 00
+    db $48, $9C, $A4 ; 0x0A4: Pit ⇲     | { 12, 27 } | Size: 00
     db $18, $AC, $C7 ; 0x0C7: Floor 4 ⇲ | { 06, 2B } | Size: 00
     db $18, $BC, $C7 ; 0x0C7: Floor 4 ⇲ | { 06, 2F } | Size: 00
     db $18, $CC, $C7 ; 0x0C7: Floor 4 ⇲ | { 06, 33 } | Size: 00
@@ -5041,8 +5041,8 @@ OverlayData_07:
 ; $04EE38-$04EE48 DATA
 OverlayData_08:
 {
-    db $30, $68, $A4 ; 0x0A4: Pit ⇲ | { 0C, 1A } | Size: 00
-    db $30, $A0, $A4 ; 0x0A4: Pit ⇲ | { 0C, 28 } | Size: 00
+    db $30, $68, $A4 ; 0x0A4: Pit ⇲     | { 0C, 1A } | Size: 00
+    db $30, $A0, $A4 ; 0x0A4: Pit ⇲     | { 0C, 28 } | Size: 00
     db $30, $78, $C7 ; 0x0C7: Floor 4 ⇲ | { 0C, 1E } | Size: 00
     db $30, $90, $C7 ; 0x0C7: Floor 4 ⇲ | { 0C, 24 } | Size: 00
     db $78, $48, $C7 ; 0x0C7: Floor 4 ⇲ | { 1E, 12 } | Size: 00
@@ -5052,9 +5052,9 @@ OverlayData_08:
 ; $04EE49-$04EE59 DATA
 OverlayData_09:
 {
-    db $30, $78, $A4 ; 0x0A4: Pit ⇲ | { 0C, 1E } | Size: 00
-    db $30, $90, $A4 ; 0x0A4: Pit ⇲ | { 0C, 24 } | Size: 00
-    db $78, $48, $A4 ; 0x0A4: Pit ⇲ | { 1E, 12 } | Size: 00
+    db $30, $78, $A4 ; 0x0A4: Pit ⇲     | { 0C, 1E } | Size: 00
+    db $30, $90, $A4 ; 0x0A4: Pit ⇲     | { 0C, 24 } | Size: 00
+    db $78, $48, $A4 ; 0x0A4: Pit ⇲     | { 1E, 12 } | Size: 00
     db $30, $68, $C7 ; 0x0C7: Floor 4 ⇲ | { 0C, 1A } | Size: 00
     db $30, $A0, $C7 ; 0x0C7: Floor 4 ⇲ | { 0C, 28 } | Size: 00
     db $FF, $FF ; End
@@ -5063,7 +5063,7 @@ OverlayData_09:
 ; $04EE5A-$04EE61 DATA
 OverlayData_0A:
 {
-    db $78, $58, $A4 ; 0x0A4: Pit ⇲ | { 1E, 16 } | Size: 00
+    db $78, $58, $A4 ; 0x0A4: Pit ⇲     | { 1E, 16 } | Size: 00
     db $78, $38, $C7 ; 0x0C7: Floor 4 ⇲ | { 1E, 0E } | Size: 00
     db $FF, $FF ; End
 }
@@ -5071,7 +5071,7 @@ OverlayData_0A:
 ; $04EE62-$04EE69 DATA
 OverlayData_0B:
 {
-    db $78, $38, $A4 ; 0x0A4: Pit ⇲ | { 1E, 0E } | Size: 00
+    db $78, $38, $A4 ; 0x0A4: Pit ⇲     | { 1E, 0E } | Size: 00
     db $78, $58, $C7 ; 0x0C7: Floor 4 ⇲ | { 1E, 16 } | Size: 00
     db $FF, $FF ; End
 }
@@ -5079,14 +5079,14 @@ OverlayData_0B:
 ; $04EE6A-$04EE8F DATA
 OverlayData_0C:
 {
-    db $28, $B0, $A4 ; 0x0A4: Pit ⇲ | { 0A, 2C } | Size: 00
-    db $38, $C8, $A4 ; 0x0A4: Pit ⇲ | { 0E, 32 } | Size: 00
+    db $28, $B0, $A4 ; 0x0A4: Pit ⇲     | { 0A, 2C } | Size: 00
+    db $38, $C8, $A4 ; 0x0A4: Pit ⇲     | { 0E, 32 } | Size: 00
     db $40, $B0, $C7 ; 0x0C7: Floor 4 ⇲ | { 10, 2C } | Size: 00
     db $50, $D0, $C7 ; 0x0C7: Floor 4 ⇲ | { 14, 34 } | Size: 00
-    db $1C, $58, $A4 ; 0x0A4: Pit ⇲ | { 07, 16 } | Size: 00
-    db $58, $38, $A4 ; 0x0A4: Pit ⇲ | { 16, 0E } | Size: 00
-    db $78, $58, $A4 ; 0x0A4: Pit ⇲ | { 1E, 16 } | Size: 00
-    db $A0, $38, $A4 ; 0x0A4: Pit ⇲ | { 28, 0E } | Size: 00
+    db $1C, $58, $A4 ; 0x0A4: Pit ⇲     | { 07, 16 } | Size: 00
+    db $58, $38, $A4 ; 0x0A4: Pit ⇲     | { 16, 0E } | Size: 00
+    db $78, $58, $A4 ; 0x0A4: Pit ⇲     | { 1E, 16 } | Size: 00
+    db $A0, $38, $A4 ; 0x0A4: Pit ⇲     | { 28, 0E } | Size: 00
     db $38, $38, $C7 ; 0x0C7: Floor 4 ⇲ | { 0E, 0E } | Size: 00
     db $58, $48, $C7 ; 0x0C7: Floor 4 ⇲ | { 16, 12 } | Size: 00
     db $B0, $38, $C7 ; 0x0C7: Floor 4 ⇲ | { 2C, 0E } | Size: 00
@@ -5097,14 +5097,14 @@ OverlayData_0C:
 ; $04EE90-$04EEB5 DATA
 OverlayData_0D:
 {
-    db $40, $B0, $A4 ; 0x0A4: Pit ⇲ | { 10, 2C } | Size: 00
-    db $50, $D0, $A4 ; 0x0A4: Pit ⇲ | { 14, 34 } | Size: 00
+    db $40, $B0, $A4 ; 0x0A4: Pit ⇲     | { 10, 2C } | Size: 00
+    db $50, $D0, $A4 ; 0x0A4: Pit ⇲     | { 14, 34 } | Size: 00
     db $28, $B0, $C7 ; 0x0C7: Floor 4 ⇲ | { 0A, 2C } | Size: 00
     db $38, $C8, $C7 ; 0x0C7: Floor 4 ⇲ | { 0E, 32 } | Size: 00
-    db $38, $38, $A4 ; 0x0A4: Pit ⇲ | { 0E, 0E } | Size: 00
-    db $58, $48, $A4 ; 0x0A4: Pit ⇲ | { 16, 12 } | Size: 00
-    db $B0, $38, $A4 ; 0x0A4: Pit ⇲ | { 2C, 0E } | Size: 00
-    db $D0, $58, $A4 ;  DATA
+    db $38, $38, $A4 ; 0x0A4: Pit ⇲     | { 0E, 0E } | Size: 00
+    db $58, $48, $A4 ; 0x0A4: Pit ⇲     | { 16, 12 } | Size: 00
+    db $B0, $38, $A4 ; 0x0A4: Pit ⇲     | { 2C, 0E } | Size: 00
+    db $D0, $58, $A4 ; DATA
     db $1C, $58, $C7 ; 0x0C7: Floor 4 ⇲ | { 07, 16 } | Size: 00
     db $58, $38, $C7 ; 0x0C7: Floor 4 ⇲ | { 16, 0E } | Size: 00
     db $78, $58, $C7 ; 0x0C7: Floor 4 ⇲ | { 1E, 16 } | Size: 00
@@ -5115,11 +5115,11 @@ OverlayData_0D:
 ; $04EEB6-$04EED2 DATA
 OverlayData_0E:
 {
-    db $30, $48, $A4 ; 0x0A4: Pit ⇲ | { 0C, 12 } | Size: 00
-    db $40, $48, $A4 ; 0x0A4: Pit ⇲ | { 10, 12 } | Size: 00
-    db $50, $48, $A4 ; 0x0A4: Pit ⇲ | { 14, 12 } | Size: 00
-    db $A0, $48, $A4 ; 0x0A4: Pit ⇲ | { 28, 12 } | Size: 00
-    db $B8, $A8, $A4 ; 0x0A4: Pit ⇲ | { 2E, 2A } | Size: 00
+    db $30, $48, $A4 ; 0x0A4: Pit ⇲     | { 0C, 12 } | Size: 00
+    db $40, $48, $A4 ; 0x0A4: Pit ⇲     | { 10, 12 } | Size: 00
+    db $50, $48, $A4 ; 0x0A4: Pit ⇲     | { 14, 12 } | Size: 00
+    db $A0, $48, $A4 ; 0x0A4: Pit ⇲     | { 28, 12 } | Size: 00
+    db $B8, $A8, $A4 ; 0x0A4: Pit ⇲     | { 2E, 2A } | Size: 00
     db $68, $38, $C7 ; 0x0C7: Floor 4 ⇲ | { 1A, 0E } | Size: 00
     db $78, $38, $C7 ; 0x0C7: Floor 4 ⇲ | { 1E, 0E } | Size: 00
     db $88, $38, $C7 ; 0x0C7: Floor 4 ⇲ | { 22, 0E } | Size: 00
@@ -5130,10 +5130,10 @@ OverlayData_0E:
 ; $04EED3-$04EEEF DATA
 OverlayData_0F:
 {
-    db $68, $38, $A4 ; 0x0A4: Pit ⇲ | { 1A, 0E } | Size: 00
-    db $78, $38, $A4 ; 0x0A4: Pit ⇲ | { 1E, 0E } | Size: 00
-    db $88, $38, $A4 ; 0x0A4: Pit ⇲ | { 22, 0E } | Size: 00
-    db $B8, $38, $A4 ; 0x0A4: Pit ⇲ | { 2E, 0E } | Size: 00
+    db $68, $38, $A4 ; 0x0A4: Pit ⇲     | { 1A, 0E } | Size: 00
+    db $78, $38, $A4 ; 0x0A4: Pit ⇲     | { 1E, 0E } | Size: 00
+    db $88, $38, $A4 ; 0x0A4: Pit ⇲     | { 22, 0E } | Size: 00
+    db $B8, $38, $A4 ; 0x0A4: Pit ⇲     | { 2E, 0E } | Size: 00
     db $30, $48, $C7 ; 0x0C7: Floor 4 ⇲ | { 0C, 12 } | Size: 00
     db $40, $48, $C7 ; 0x0C7: Floor 4 ⇲ | { 10, 12 } | Size: 00
     db $50, $48, $C7 ; 0x0C7: Floor 4 ⇲ | { 14, 12 } | Size: 00
@@ -5145,8 +5145,8 @@ OverlayData_0F:
 ; $04EEF0-$04EF03 DATA
 OverlayData_10:
 {
-    db $98, $30, $A4 ; 0x0A4: Pit ⇲ | { 26, 0C } | Size: 00
-    db $98, $48, $A4 ; 0x0A4: Pit ⇲ | { 26, 12 } | Size: 00
+    db $98, $30, $A4 ; 0x0A4: Pit ⇲     | { 26, 0C } | Size: 00
+    db $98, $48, $A4 ; 0x0A4: Pit ⇲     | { 26, 12 } | Size: 00
     db $A0, $A0, $C7 ; 0x0C7: Floor 4 ⇲ | { 28, 28 } | Size: 00
     db $B0, $A0, $C7 ; 0x0C7: Floor 4 ⇲ | { 2C, 28 } | Size: 00
     db $C8, $D8, $C7 ; 0x0C7: Floor 4 ⇲ | { 32, 36 } | Size: 00
@@ -5159,10 +5159,10 @@ OverlayData_11:
 {
     db $98, $30, $C7 ; 0x0C7: Floor 4 ⇲ | { 26, 0C } | Size: 00
     db $98, $48, $C7 ; 0x0C7: Floor 4 ⇲ | { 26, 12 } | Size: 00
-    db $A0, $A0, $A4 ; 0x0A4: Pit ⇲ | { 28, 28 } | Size: 00
-    db $B0, $A0, $A4 ; 0x0A4: Pit ⇲ | { 2C, 28 } | Size: 00
-    db $C8, $D8, $A4 ; 0x0A4: Pit ⇲ | { 32, 36 } | Size: 00
-    db $D8, $D8, $A4 ; 0x0A4: Pit ⇲ | { 36, 36 } | Size: 00
+    db $A0, $A0, $A4 ; 0x0A4: Pit ⇲     | { 28, 28 } | Size: 00
+    db $B0, $A0, $A4 ; 0x0A4: Pit ⇲     | { 2C, 28 } | Size: 00
+    db $C8, $D8, $A4 ; 0x0A4: Pit ⇲     | { 32, 36 } | Size: 00
+    db $D8, $D8, $A4 ; 0x0A4: Pit ⇲     | { 36, 36 } | Size: 00
     db $FF, $FF ; End
 }
 

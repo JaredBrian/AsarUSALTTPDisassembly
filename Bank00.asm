@@ -14358,8 +14358,8 @@ PaletteFilter_IncreaseTrinexxRed:
         SEP #$20
         
         INC.b $15
-        INC.w $04C0
         
+        INC.w $04C0
         LDA.w $04C0 : CMP.b #$0C : BCS .finished
             LDA.b #$03 : STA.w $04BE
 
@@ -14384,26 +14384,25 @@ PaletteFilter_IncreaseTrinexxRed:
 PaletteFilter_RestoreTrinexxRed:
 {
     LDA.w $04BE : BNE IncreaseTrinexxRed_countdown
-    
-    REP #$20
-    
-    LDX.b #$00
-
-    .nextColor
-
-        LDA.l $7EC382, X : AND.w #$001F : STA.b $0C
+        REP #$20
         
-        LDA.l $7EC582, X : AND.w #$001F : CMP.b $0C : BEQ .redMatch
-            SEC : SBC.w #$0001
+        LDX.b #$00
 
-        .redMatch
+        .nextColor
 
-        STA.b $00
+            LDA.l $7EC382, X : AND.w #$001F : STA.b $0C
+            
+            LDA.l $7EC582, X : AND.w #$001F : CMP.b $0C : BEQ .redMatch
+                SEC : SBC.w #$0001
+
+            .redMatch
+
+            STA.b $00
+            
+            LDA.l $7EC582, X : AND.w #$FFE0 : ORA.b $00 : STA.l $7EC582, X
+        INX #2 : CPX.b #$0E : BNE .nextColor
         
-        LDA.l $7EC582, X : AND.w #$FFE0 : ORA.b $00 : STA.l $7EC582, X
-    INX #2 : CPX.b #$0E : BNE .nextColor
-    
-    BRA IncreaseTrinexxRed_finished
+        BRA IncreaseTrinexxRed_finished
 }
 
 ; ==============================================================================
