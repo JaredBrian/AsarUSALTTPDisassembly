@@ -485,6 +485,7 @@ Kiki_WalkOnRoof:
     STZ.w $0D50, X
     STZ.w $0D40, X
     
+    ; Initiate the palace of darkness opening animation.
     LDA.b #$01 : STA.w $04C6
     
     STZ.b $B0
