@@ -1,5 +1,12 @@
 ; ==============================================================================
 
+; Note: It's well known among glitchers that beating a boss from one
+; dungeon when having entered a different dungeon can cause the ether
+; medallion to fall instead of the proper item for that boss. This is
+; due to the fact that the same object is used for granting the Bombos
+; and Ether medallions (from the sky in that case.) The game just gets
+; confused.
+
 ; $044A85-$044A8B DATA
 Pool_Ancilla_ReceiveItem:
 Pool_Ancilla_MilestoneItem:

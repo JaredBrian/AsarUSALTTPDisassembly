@@ -67,6 +67,7 @@ Ancilla_QuakeSpell:
             LDY.b #$03 : JSR.w Ancilla_CheckIfEntranceTriggered
             
             BCC .not_turtle_rock_trigger
+                ; Initiate the turtle rock opening animation.
                 LDA.b #$04 : STA.w $04C6
                 
                 STZ $B0

@@ -319,7 +319,7 @@ EtherSpell_RadialStates:
             ; We might reveal it, but you have to be in the trigger window.
             LDY.b #$02
             JSR.w Ancilla_CheckIfEntranceTriggered : BCC .untriggered
-                ; Do the 3rd animation for opening entrances.
+                ; Do the Misery Mire animation entrance opening.
                 LDA.b #$03 : STA.w $04C6
                 
                 STZ $B0 ; Reset the sub submodule index.
