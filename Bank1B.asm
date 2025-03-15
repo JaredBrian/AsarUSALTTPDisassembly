@@ -6542,8 +6542,7 @@ Palette_OverworldBgMain:
     
     LDA.w $0AB3 : ASL A : TAX
     
-    LDA PaletteIDtoOffset_OW_Main, X
-    ADC.w PaletteData_owmain : STA.b $00
+    LDA.l PaletteIDtoOffset_OW_Main, X : ADC.w #PaletteData_owmain : STA.b $00
     
     REP #$10
     
