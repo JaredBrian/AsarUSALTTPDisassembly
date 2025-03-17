@@ -189,10 +189,10 @@ struct WRAM $7E0000
         ; To be written to SNES.BGAndOBJEnableSubScreen during NMI.
         ; ...o 4321
         ; o - OAM layer enabled
-        ; 1 - BG4 enabled
-        ; 2 - BG3 enabled
-        ; 3 - BG2 enabled
-        ; 4 - BG1 enabled
+        ; 1 - BG1 enabled
+        ; 2 - BG2 enabled
+        ; 3 - BG3 enabled
+        ; 4 - BG4 enabled
 
     ; $1E[0x01] - (Main, NMI)
     .MainWindowMaskDes: skip $01
@@ -7131,7 +7131,8 @@ struct WRAM $7E0000
         ; Mirror of $1D
 
     ; $7EC213 - 
-        ; Mirror of $8A ; Only written to when exiting a dungeon
+        ; Mirror of $8A ; Only written to when exiting a dungeon ; This is incorrect
+        ; it is also written to on warp.
     ; $7EC215 - 
         ; Mirror of $84
     ; $7EC217 - 

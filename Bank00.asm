@@ -13919,8 +13919,10 @@ Palette_InitWhiteFilter:
         
     ; ZS writes here.
     ; $006EBB - ZS Custom Overworld
-    ; If we are going to the pyramid area set the BG color to transparent so
-    ; the background can appear there.
+    ; If we are warping from an area with the pyramid BG, set the BG color to
+    ; transparent. This is done to prevent a case where the black transparent color
+    ; is faded to white on top of the pyramid BG, resulting in a double faded
+    ; effect on transparent tiles.
     LDA.b $8A : CMP.w #$001B : BNE .notHyruleCastle
         LDA.w #$0000
         STA.l $7EC300 : STA.l $7EC340 : STA.l $7EC500 : STA.l $7EC540
@@ -13930,8 +13932,7 @@ Palette_InitWhiteFilter:
     SEP #$20
         
     LDA.b #$08 : STA.w $06BB
-        
-    STZ.w $06BA
+                 STZ.w $06BA
         
     RTL
 }

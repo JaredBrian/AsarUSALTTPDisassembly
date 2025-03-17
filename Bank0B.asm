@@ -1208,11 +1208,12 @@ Overworld_SetFixedColorAndScroll:
     .setBgColor
     
     TXA
-    STA.l $7EC500 : STA.l $7EC300 ; Old ZS function call written here.
+
+    ; ZS starts replacing from here.
+    ; $05FEB6 - ZS Custom Overworld
+    STA.l $7EC500 : STA.l $7EC300
     STA.l $7EC540 : STA.l $7EC340
     
-    ; ZS starts replacing from here.
-    ; $05FEC6 - ZS Custom Overworld
     ; Set fixed color to neutral.
     LDA.w #$4020 : STA.b $9C
     LDA.w #$8040 : STA.b $9D
@@ -1317,6 +1318,7 @@ Overworld_SetFixedColorAndScroll:
     ; Put BG0 on the subscreen.
     LDA.b #$01 : STA.b $1D
         
+    ; OPTIMIZE: Useless SEP? Why not just set the one above to #$30?
     SEP #$30
         
     ; Update palette.

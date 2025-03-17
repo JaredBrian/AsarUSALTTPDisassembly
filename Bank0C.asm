@@ -6286,7 +6286,7 @@ InitializeTriforceIntro:
     INC.w $0710
     
     JSL.l Intro_LoadTitleGraphics_noWait
-    JSL.l Intro_LoadTextPointersAndPalettes_justPalettes
+    JSL.l Intro_LoadPalettes_LONG
     
     STZ.b $EA
     
