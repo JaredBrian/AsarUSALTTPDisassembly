@@ -7427,7 +7427,7 @@ Object_LargeLiftableBlock:
     JSR.w .drawQuadrant
     
     LDX.w #$0E6A
-    LDA.w #SNES.CGRAMWriteAddr
+    LDA.w #$2121
     JSR.w .drawQuadrant
     
     LDA.b $08 : CLC : ADC.w #$0100 : TAY
@@ -11380,9 +11380,9 @@ Dungeon_ProcessTorchAndDoorInteractives:
                         JSL.l Dungeon_ExtinguishTorch
                         
                         PLX
-                    
-                    .torch_already_out
-                .torch_still_lit
+                     
+                    .torch_still_lit
+                .torch_already_out
             ; Move on to the next torch.
             INX : CPX.b #$10 : BNE .next_torch
     

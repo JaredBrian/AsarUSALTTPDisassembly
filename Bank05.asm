@@ -1384,7 +1384,7 @@ Guard_AnimateBody:
     
     .epsilon
     
-    LDA.w Pool_GuardBody_ObjectFlip, X : ORA.b $0505 : BCS .zeta
+    LDA.w Pool_GuardBody_ObjectFlip, X : ORA.b $05 : BCS .zeta
         AND.b #$F1 : ORA.b $0D0D
     
     .zeta

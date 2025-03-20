@@ -15277,7 +15277,7 @@ Overworld_DrawHorizontalStrip:
 
     .fillBuffer
 
-        ; Populate the buffer ( $0500[0x40] ) with 0x10 map16 entries (256
+        ; Populate the buffer ($0500[0x40]) with 0x10 map16 entries (256
         ; pixels)
         LDA.b [$00], Y : STA.w $0500, X : INX #2
 
