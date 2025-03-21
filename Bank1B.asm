@@ -6656,8 +6656,8 @@ Palette_MultiLoad:
     STY.b $08
     
     ; The absolute address at $00 was planted in the calling function. This
-    ; value is the bank #$1B. The address is found from $0AB6.
-    LDA.w #$001B
+    ; value is the bank 0x1B. The address is found from $0AB6.
+    LDA.w #pc()>>16 ; #$001B
     STA.b $02 ; And of course, store it at $02
     
     .nextPalette
