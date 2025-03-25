@@ -11,7 +11,10 @@
 ; APU = Audio Processing Unit
 ; AUX = Auxiliary
 ; BG = Background
+; BL = Bottom Left
+; BR = Bottom Right
 ; Calc = Calculate/Calculation
+; Cam = Camera
 ; CGRAM = Color Generator RAM
 ; Coord = Coordinate
 ; Decomp = Decompress/Decompression
@@ -30,10 +33,10 @@
 ; IRQ = Interupt ReQuest
 ; NMI = Non-Maskable Interupt
 ; Num = Number
-; Manip = Manipulate
+; Manip = Manipulate/Manipuable
 ; MULT = Multiply/Multiplication
 ; OAM = Object Attribute Memory
-; OBJ = Object
+; Obj = Object
 ; OW = Overworld
 ; Poly = Polyhedral
 ; Pos = Position
@@ -41,7 +44,9 @@
 ; Ptr = Pointer
 ; SFX = Sound Effects
 ; Src = Source
+; TL = Top Left
 ; TM = Tile Map
+; TR = Top Right
 ; V = Vertical
 ; Val = Value
 ; VRAM = Video RAM
@@ -976,7 +981,7 @@ struct WRAM $7E0000
         ; To be written to SNES.BG3And4WindowMask during NMI.
 
     ; $98[0x01] - (NMI)
-    .OBJAndColor: skip $01
+    .ObjAndColor: skip $01
         ; Window Masks for Obj and Color Add/Subtraction Layers
         ; (OBJAndColorWindow / $2125). To be written to SNES.OBJAndColorWindow
         ; during NMI.
@@ -1099,11 +1104,11 @@ struct WRAM $7E0000
         ; TODO: Confirm this.
 
     ; $B2[0x02] - (Dungeon)
-    .DunDrawOBJWidth: skip $02
+    .DunDrawObjWidth: skip $02
         ; Width indicator for drawing dungeon objects.
 
     ; $B4[0x02] - (Dungeon)
-    .DunDrawOBJHeight: skip $02
+    .DunDrawObjHeight: skip $02
         ; Height indicator for drawing dungeon objects.
 
     ; $B6[0x01] - (Free)
@@ -1111,15 +1116,15 @@ struct WRAM $7E0000
         ; Free RAM
 
     ; $B7[0x03] - (Dungeon)
-    .DunOBJPtr: skip $01
+    .DunObjPtr: skip $01
         ; Used as a 3 byte pointer to be indirectly accessed during dungeon
         ; room loading.
         ; TODO: Also something with palettes?
 
     ; $BA[0x02] - (Dungeon)
-    .DunOBJPtrOff: skip $01
+    .DunObjPtrOff: skip $01
         ; Often used as a position into a buffer of data during dungeon room
-        ; loading. Used as an offset for DunOBJPtr.
+        ; loading. Used as an offset for DunObjPtr.
 
     ; $BC[0x01] - (Free)
     .Free_BC: skip $01
@@ -1159,22 +1164,22 @@ struct WRAM $7E0000
         ; See ValidFileArray2 and ValidFileArray3.
 
     ; $BF[0x1E] - (Dungeon)
-    .DunDrawOBJAddLow: 
+    .DunDrawObjAddLow: 
         ; (Bank 0x01) 10 entries of 3 bytes each. Used as a series of long
         ; pointers to tilemap buffer offsets. Generally, they point to locations
         ; in the range $7E2000 - $7E5FFF. Used to draw objects on different BGs 
-        ; than where they were placed or on multiple BGs. See DunDrawOBJAddHigh.
+        ; than where they were placed or on multiple BGs. See DunDrawObjAddHigh.
 
     ; $BF[0x01] - (Polyhedral)
     .Poly_Unknown_BF: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $C0[0x1E] - (Dungeon)
-    .DunDrawOBJAddHigh: 
+    .DunDrawObjAddHigh: 
         ; (Bank 0x01) 10 entries of 3 bytes each. Used as a series of long
         ; pointers to tilemap buffer offsets. Generally, they point to locations
         ; in the range $7E2000 - $7E5FFF. Used to draw objects on different BGs 
-        ; than where they were placed or on multiple BGs. See DunDrawOBJAddLow.
+        ; than where they were placed or on multiple BGs. See DunDrawObjAddLow.
 
     ; $C0[0x01] - (Polyhedral)
     .Poly_Unknown_C0: skip $01
@@ -4481,7 +4486,7 @@ struct WRAM $7E0000
         ; confilicting info.
 
     ; $0500[0x20] - (Dungeon, Objects)
-    .DunManipObjectProp: skip $20
+    .DunManipObjProp: skip $20
         ; Properties for manipulable objects. 2 bytes allotted for each. Used
         ; in banks 0x01 and 0x07. TODO: Confirm big gray rock quadrants. Also
         ; investigate the use case a bit more.
@@ -4504,82 +4509,123 @@ struct WRAM $7E0000
         ; 0x3333 - Bombable floor
         ; 0x4040 - Hammer peg
 
-    ; $0520[0x20] - 
-        ; Object's position in the object data itself (multiplied by 3)
+    ; $0520[0x20] - (Dungeon, Objects)
+    .DunManipObjROMOffset: skip $20
+        ; Stores an object's offset in ROM data for certain manipulable objects.
+        ; Stores the positions of pots, bombable floors, single moles, push
+        ; blocks, and torches. However the positions are only ever read for
+        ; push blocks and torches. These values are always taken from DunObjPtrOff
+        ; in some form and then used to parse $7EF940 for push blocks and $7EFB40
+        ; for torches. TODO: Determine if the game actually doesn't use the offsets
+        ; stored for post, bombable floors, and single moles. I'm pretty sure it
+        ; doesn't.
 
-    ; $0540[0x20] - 
-        ; Object's tilemap position
+    ; $0540[0x20] - (Dungeon, Objects)
+    .DunManipObjTMPos: skip $20
+        ; Manipuable object's tilemap positions.
 
-    ; $0560[0x20] - 
-        ; replacement tilemap value (upper left 8x8 tile)
+    ; $0560[0x20] - (Dungeon, Objects)
+    .DunManipObjTLTile: skip $20
+        ; Replacement top left 8x8 tile value for manipuable objects.
 
-    ; $0580[0x20] - 
-        ; replacement tilemap value (lower left 8x8 tile)
+    ; $0580[0x20] - (Dungeon, Objects)
+    .DunManipObjBLTile: skip $20
+        ; Replacement bottom left 8x8 tile value manipuable objects.
 
-    ; $05A0[0x20] - 
-        ; replacement tilemap value (upper right 8x8 tile)
+    ; $05A0[0x20] - (Dungeon, Objects)
+    .DunManipObjTRTile: skip $20
+        ; Replacement top right 8x8 tile value manipuable objects.
 
-    ; $05C0[0x20] - 
-        ; replacement tilemap value (lower right 8x8 tile)
+    ; $05C0[0x20] - (Dungeon, Objects)
+    .DunManipObjBRTile: skip $20
+        ; Replacement bottom right 8x8 tile value manipuable objects. 
 
-    ; $05E0[0x04] - 
-        ; see routine $3ED3F
+    ; TODO: Investigate. Each of these arrays appear to only use every other slot
+    ; maybe as an old way to have high bytes in the same array but they are
+    ; currently unused.
+    ; $05E0[0x04] - (Push Blocks, Junk)
+    .PushBlockXHigh: skip $04
+        ; The high x coordinate of push blocks. 
 
-    ; $05E4[0x04] - 
-        ; see routine $3ED3F
+    ; $05E4[0x04] - (Push Blocks, Junk)
+    .PushBlockXLow: skip $04
+        ; The low x coordinate of push blocks. 
 
-    ; $05E8[0x04] - 
-        ; see routine $3ED3F
+    ; $05E8[0x04] - (Push Blocks, Junk)
+    .PushBlockTargetDir: skip $04
+        ; The target coordinate in direction of push blocks masked with 0x0F.
 
-    ; $05EC[0x04] - 
-        ; see routine $3ED3F
+    ; $05EC[0x04] - (Push Blocks, Junk)
+    .PushBlockYHigh: skip $04
+        ; The high y coordinate of push blocks. 
 
-    ; $05F0[0x04] - 
-        ; see routine $3ED3F
+    ; $05F0[0x04] - (Push Blocks, Junk)
+    .PushBlockYLow: skip $04
+        ; The low y coordinate of push blocks. 
 
-    ; $05F4[0x04] - 
-        ; see routine $3ED3F
+    ; $05F4[0x04] - (Push Blocks, Junk)
+    .Junk_05F4: skip $04
+        ; Possibly a pushblock vestigial subpixel value? Written to but never read.
 
-    ; $05F8[0x04] - 
-        ; see routine $3ED3F
+    ; $05F8[0x04] - (Push Blocks, Junk)
+    .PushBlockDir: skip $04
+        ; The direction a push block is moving.
 
-    ; $05FC[0x02] - 
-        ; Two byte array. Each one contains the index of a dungeon object that
-        ; could potentially be changed. Examples include pots and moveable
-        ; blocks. The value stored is the index of the object plus one, because
-        ; a value of 0 means that a slot is empty. When comparisons are done,
-        ; the value is read out and decremented by one before comparison.
+    ; $05FC[0x02] - (Push Blocks)
+    .PushBlockIndex: skip $02
+        ; A two byte array. Each one contains the index of a push block. The
+        ; value stored is the index of the object plus one, because a value of
+        ; 0 means that a slot is empty. When comparisons are done, the value
+        ; is read out and decremented by one before comparison.
+
+    ; $05FE[0x02] - (Free)
+    .Free_05FE: skip $02
+        ; Free RAM.
 
     ; ===========================================================================
     ; Page 0x06
     ; ===========================================================================
 
-    ; $0600 - 
-        ; ??? These four are Y coordinate related
+    ; Camera scroll boundaries for big and small dungeon rooms.
+    ; $0600[0x02] - (Dungeon, Camera)
+    .CamScrollBoundNSmall: skip $02
+        ; The northern camera scroll boundary for small dungeon rooms.
 
-    ; $0602 - 
-        ; ??? ''
+    ; $0602[0x02] - (Dungeon, Camera)
+    .CamScrollBoundNBig: skip $02
+        ; The northern camera scroll boundary for big dungeon rooms.
 
-    ; $0604 - 
-        ; ??? ''
+    ; $0604[0x02] - (Dungeon, Camera)
+    .CamScrollBoundSSmall: skip $02
+        ; The southern camera scroll boundary for small dungeon rooms.
 
-    ; $0606 - 
-        ; ??? ''
+    ; $0606[0x02] - (Dungeon, Camera)
+    .CamScrollBoundSBig: skip $02
+        ; The southern camera scroll boundary for big dungeon rooms.
 
-    ; $0608 - 
-        ; ???? These four are X coordinate related
+    ; $0608[0x02] - (Dungeon, Camera)
+    .CamScrollBoundWSmall: skip $02
+        ; The western camera scroll boundary for small dungeon rooms.
 
-    ; $060A - 
-        ; ????
+    ; $060A[0x02] - (Dungeon, Camera)
+    .CamScrollBoundWBig: skip $02
+        ; The western camera scroll boundary for big dungeon rooms.
+        ; TODO: The low byte is never read?
 
-    ; $060C - 
-        ; ????
+    ; $060C[0x02] - (Dungeon, Camera)
+    .CamScrollBoundESmall: skip $02
+        ; The eastern camera scroll boundary for small dungeon rooms.
+        ; TODO: The low byte is never read?
 
-    ; $060E - 
-        ; ????
+    ; $060E[0x02] - (Dungeon, Camera)
+    .CamScrollBoundEBig: skip $02
+        ; The eastern camera scroll boundary for big dungeon rooms.
+        ; TODO: The low byte is never read?
+
+    ; TODO: Add the overworld labels for the above.
 
     ; $0610 - 
-        ; ??? Up    room transition scroll target
+        ; ??? Up room transition scroll target
 
     ; $0612 - 
         ; ??? Down  ""

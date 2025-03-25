@@ -7518,14 +7518,14 @@ Object_Pot:
     
     LDA.w #$1111 : STA.w $0500, X
     
-    ; Store this object's position in the object buffer to $0520, X
+    ; Store this object's position in the object buffer to $0520, X.
     LDA.b $BA : STA.w $0520, X
     
     ; Store it's tilemap position.
     TYA : STA.w $0540, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBg2
-        ; If it's destined for BG0 make a note of that
+        ; If it's destined for BG0 make a note of that.
         TYA : ORA.w #$2000 : STA.w $0540, X
     
     .onBg2
@@ -7597,14 +7597,14 @@ Object_BombableFloor:
     ; Store the tile attributes here.
     STA.w $0500, X
     
-    ; Index into the next "object" that sets its own tile type
+    ; Index into the next "object" that sets its own tile type.
     INC.w $042C : INC.w $042C
     
-    ; Save our position in the object stream
+    ; Save our position in the object stream.
     ; (into $0520,X apparently)
     LDA.b $BA : STA.w $0520, X
     
-    ; Store the tilemap position of the object
+    ; Store the tilemap position of the object.
     TYA : STA.w $0540, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2
@@ -12726,8 +12726,8 @@ PushBlock_StoppedMoving:
         
         STY.b $72
         
+        ; OPTIMIZE: Hardcoded X? Why not just LDA.w $05FD?
         LDX.w #$0001
-        
         LDA.w $05FC, X : DEC A : ASL A : CMP.b $72 : BEQ .correct_index
             LDX.w #$0000
         

@@ -17046,7 +17046,6 @@ PushBlock_ApplyVelocity:
     LDA.b #$02 : STA.b $0D
     
     LDA.w $05F8, Y : LSR A : TAX
-    
     LDA.w Pool_PushBlock_ApplyVelocity_direction_mask, X : STA.b $00
     
     LDX.b #$01
@@ -17073,6 +17072,7 @@ PushBlock_ApplyVelocity:
     
     .BRANCH_GAMMA
     
+    ; OPTIMIZE: $05F4 is never read from.
     LDA.b $27, X : ASL #4 : CLC : ADC.w $05F4, Y : STA.w $05F4, Y
     
     PHP
