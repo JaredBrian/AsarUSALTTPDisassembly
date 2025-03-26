@@ -4586,45 +4586,63 @@ struct WRAM $7E0000
     ; Page 0x06
     ; ===========================================================================
 
-    ; Camera scroll boundaries for big and small dungeon rooms.
+    ; $0600[0x02] - (Overworld, Camera)
+    .OWCamScrollBoundN:
+        ; The northern camera scroll boundary for overworld areas.
+
     ; $0600[0x02] - (Dungeon, Camera)
-    .CamScrollBoundNSmall: skip $02
+    .DunCamScrollBoundNSmall: skip $02
         ; The northern camera scroll boundary for small dungeon rooms.
 
+    ; $0602[0x02] - (Overworld, Camera)
+    .OWCamScrollVSize:
+        ; The vertical boundary size of overworld areas. Instead of just
+        ; storing the "south" boundary like in dungeons, this is an offset 
+        ; from the north boundary.  
+
     ; $0602[0x02] - (Dungeon, Camera)
-    .CamScrollBoundNBig: skip $02
+    .DunCamScrollBoundNBig: skip $02
         ; The northern camera scroll boundary for big dungeon rooms.
 
+    ; $0604[0x02] - (Overworld, Camera)
+    .OWCamScrollBoundW:
+        ; The western camera scroll boundary for overworld areas.
+
     ; $0604[0x02] - (Dungeon, Camera)
-    .CamScrollBoundSSmall: skip $02
+    .DunCamScrollBoundSSmall: skip $02
         ; The southern camera scroll boundary for small dungeon rooms.
 
+    ; $0606[0x02] - (Overworld, Camera)
+    .OWCamScrollHSize:
+        ; The horizontal boundary size of overworld areas. Instead of just
+        ; storing the "east" boundary like in dungeons, this is an offset
+        ; from the north boundary.  
+
     ; $0606[0x02] - (Dungeon, Camera)
-    .CamScrollBoundSBig: skip $02
+    .DunCamScrollBoundSBig: skip $02
         ; The southern camera scroll boundary for big dungeon rooms.
 
     ; $0608[0x02] - (Dungeon, Camera)
-    .CamScrollBoundWSmall: skip $02
+    .DunCamScrollBoundWSmall: skip $02
         ; The western camera scroll boundary for small dungeon rooms.
 
     ; $060A[0x02] - (Dungeon, Camera)
-    .CamScrollBoundWBig: skip $02
+    .DunCamScrollBoundWBig: skip $02
         ; The western camera scroll boundary for big dungeon rooms.
         ; TODO: The low byte is never read?
 
     ; $060C[0x02] - (Dungeon, Camera)
-    .CamScrollBoundESmall: skip $02
+    .DunCamScrollBoundESmall: skip $02
         ; The eastern camera scroll boundary for small dungeon rooms.
         ; TODO: The low byte is never read?
 
     ; $060E[0x02] - (Dungeon, Camera)
-    .CamScrollBoundEBig: skip $02
+    .DunCamScrollBoundEBig: skip $02
         ; The eastern camera scroll boundary for big dungeon rooms.
         ; TODO: The low byte is never read?
 
-    ; TODO: Add the overworld labels for the above.
-
-    ; $0610 - 
+    ; $0610 - (Dungeon, Overworld, Camera)
+    .CamTargetNorth: skip $02
         ; ??? Up room transition scroll target
 
     ; $0612 - 
