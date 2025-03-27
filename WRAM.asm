@@ -4641,53 +4641,103 @@ struct WRAM $7E0000
         ; The eastern camera scroll boundary for big dungeon rooms.
         ; TODO: The low byte is never read?
 
-    ; $0610 - (Dungeon, Overworld, Camera)
+    ; $0610[0x02] - (Dungeon, Overworld, Camera)
     .CamTargetNorth: skip $02
-        ; ??? Up room transition scroll target
+        ; The position that the camera will move to when transitioning north
+        ; both on the overworld and in dungeons.
 
-    ; $0612 - 
-        ; ??? Down  ""
+    ; $0612[0x02] - (Dungeon, Overworld, Camera)
+    .CamTargetSouth: skip $02
+        ; The position that the camera will move to when transitioning south
+        ; both on the overworld and in dungeons.
 
-    ; $0614 - 
-        ; ??? Left  ""
+    ; $0614[0x02] - (Dungeon, Overworld, Camera)
+    .CamTargetWest: skip $02
+        ; The position that the camera will move to when transitioning west
+        ; both on the overworld and in dungeons.
 
-    ; $0616 - 
-        ; ??? Right ""
+    ; $0616[0x02] - (Dungeon, Overworld, Camera)
+    .CamTargetEast: skip $02
+        ; The position that the camera will move to when transitioning east
+        ; both on the overworld and in dungeons.
 
-    ; Camera Variables:
+    ; $0618[0x02] - (Dungeon, Overworld, Camera)
+    .CamScrollTriggerN: skip $02
+        ; The north boundary trigger for camera scrolling. This value is
+        ; compared with the player's coordinates to determine whether to
+        ; trigger a northern scroll transition both on the overworld and
+        ; in dungeons.
 
-    ; $0618 - 
-        ; Y coordinate of the scrolling camera. Probably the lower bound
-         ;for scrolling.
+    ; $061A[0x02] - (Dungeon, Overworld, Camera)
+    .CamScrollTriggerS: skip $02
+        ; The south boundary trigger for camera scrolling. This value is
+        ; compared with the player's coordinates to determine whether to
+        ; trigger a southern scroll transition both on the overworld and
+        ; in dungeons.
 
-    ; $061A - 
-        ; Y coordinate of the upper bounds of scrolling.
+    ; $061C[0x02] - (Dungeon, Overworld, Camera)
+    .CamScrollTriggerW: skip $02
+        ; The west boundary trigger for camera scrolling. This value is
+        ; compared with the player's coordinates to determine whether to
+        ; trigger a western scroll transition both on the overworld and
+        ; in dungeons.
 
-    ; $061C - 
-        ; X coordinate of the lower bounds of scrolling.
+    ; $061E[0x02] - (Dungeon, Overworld, Camera)
+    .CamScrollTriggerE: skip $02
+        ; The east boundary trigger for camera scrolling. This value is
+        ; compared with the player's coordinates to determine whether to
+        ; trigger an eastern scroll transition both on the overworld and
+        ; in dungeons.
 
-    ; $061E - 
-        ; X coordinate of the upper bounds of scrolling.
+    ; TODO: A note from Kan in relation to the 4 variables above that I don't
+    ; understand:
+    ; "The higher boundary should always be +2 from the lower in underworld
+    ; and -2 in overworld."
 
     ; Ending Sequence Variables:
 
-    ; $0620 - 
-        ; ????
+    ; $0620[0x02] - (Dungeon, Overworld, Camera)
+    .OverlaySubPixelX: skip $02
+        ; According to Kan "[This] behaves as a subpixel for background 1 overlay
+        ; scroll on overworld". However, after looking at its use this doesn't to
+        ; ever actually be read in a meaningful way. It is read so that values
+        ; can be added to it but then is never compared or stored to any other
+        ; value. TODO: Confirm that this is never actually meaningfully used.
 
-    ; $0622 - 
-        ; ????
+    ; $0622[0x02] - (Dungeon, Overworld, Camera)
+    .OverlaySubPixelY: skip $02
+        ; According to Kan "[This] behaves as a subpixel for background 1 overlay
+        ; scroll on overworld". However, after looking at its use this doesn't to
+        ; ever actually be read in a meaningful way. It is read so that values
+        ; can be added to it but then is never compared or stored to any other
+        ; value. TODO: Confirm that this is never actually meaningfully used.
 
-    ; $0624 - 
-        ; ????
+    ; $0624[0x02] - (Overworld, Camrea, Credits)
+    .OWCamOffsetY: skip $02
+        ; UnderworldExitData_scroll_mod_y,
+        ; Pool_BirdTravel_LoadTargetAreaData_scroll_mod_y, OWTransitionDirection2
+        ; TODO: Look at what ZS saves to the bird and exit data listed above.
+        ; My current guess is that this is an offset applied to the camera when
+        ; exiting or using bird travel. This is used to determine where to update
+        ; the tilemap while moving around on the OW. Also has a credits use in
+        ; bank 0x0E but it could be the same function.
 
-    ; $0626 - 
-        ; ????
+    ; $0626[0x02] - (Overworld, Camrea)
+    .OWCamOffsetYInverse: skip $02
+        ; The the additive inverse of OWCamOffsetY.
 
-    ; $0628 - 
-        ; ????
+    ; $0628[0x02] - (Overworld, Camrea)
+    .OWCamOffsetX: skip $02
+        ; UnderworldExitData_scroll_mod_x,
+        ; Pool_BirdTravel_LoadTargetAreaData_scroll_mod_x, OWTransitionDirection2
+        ; TODO: Look at what ZS saves to the bird and exit data listed above.
+        ; My current guess is that this is an offset applied to the camera when
+        ; exiting or using bird travel. This is used to determine where to update
+        ; the tilemap while moving around on the OW.
 
-    ; $062A - 
-        ; ????
+    ; $062A[0x02] - (Overworld, Camrea)
+    .OWCamOffsetXInverse: skip $02
+        ; The the additive inverse of OWCamOffsetX.
 
     ; $062C - 
         ; In loading dungeons, contains the upper even byte of the BG1 H 
@@ -5646,25 +5696,25 @@ struct WRAM $7E0000
         ; subtract from the sprite's HP. Certain values also have other effects, such as inserting #$FF stuns the sprite like the hookshot or boomerang
 
         ; Special Effects:
-        ; ; 0xFF - Target is stunned for 0xFF frames (Hookshot/boomerang).
-        ; ; 0xFE - Target becomes frozen (Ice Rod effect).
-        ; ; 0xFD - Target is incinerated (Fire Rod effect).
-        ; ; 0xFC - Target is stunned for 0x80 frames (Hookshot/boomerang).
-        ; ; 0xFB - Target is stunned for 0x20 frames (Hookshot/boomerang).
-        ; ; 0xFA - Target becomes a blob (Magic Powder).
-        ; ; 0xF9 - Target becomes a fairy (Magic Powder).
+        ; 0xFF - Target is stunned for 0xFF frames (Hookshot/boomerang).
+        ; 0xFE - Target becomes frozen (Ice Rod effect).
+        ; 0xFD - Target is incinerated (Fire Rod effect).
+        ; 0xFC - Target is stunned for 0x80 frames (Hookshot/boomerang).
+        ; 0xFB - Target is stunned for 0x20 frames (Hookshot/boomerang).
+        ; 0xFA - Target becomes a blob (Magic Powder).
+        ; 0xF9 - Target becomes a fairy (Magic Powder).
 
         ; These are the rest of the values that appear in vanilla but all just do that amount of damage to the sprite.
-        ; ; 0x64
-        ; ; 0x40
-        ; ; 0x20
-        ; ; 0x18
-        ; ; 0x10
-        ; ; 0x08
-        ; ; 0x04
-        ; ; 0x02
-        ; ; 0x01
-        ; ; 0x00 
+        ; 0x64
+        ; 0x40
+        ; 0x20
+        ; 0x18
+        ; 0x10
+        ; 0x08
+        ; 0x04
+        ; 0x02
+        ; 0x01
+        ; 0x00 
 
     ; $0CF2[0x01] - (Sprite)
         ; Damage type determiner
@@ -5828,15 +5878,22 @@ struct WRAM $7E0000
         ; 14 - Northeast
         ; 15 - East-Northeast
         ; Or diagramatically:
-        ; 12        ;    
-        ; 11     |     13        ;  
-        ; 10        ;    |        ;   14    
-        ; |        ; 9        ;   |        ;  15 
-        ; |        ; |        ; 8 --------------+-------------- 0
-        ; |        ; |        ; 7        ;   |        ;  1  
-        ; |        ; 6        ;  |        ;  2      
-        ; 5    |    3        ;    
-        ; 4        ; Distances are of course rough, and relative, as this is text, and the
+        ;                 12               
+        ;          11     |     13         
+        ;    10           |          14    
+        ;                 |                
+        ;  9              |             15 
+        ;                 |                
+        ;                 |                
+        ; 8 --------------+-------------- 0
+        ;                 |                
+        ;                 |                
+        ;  7              |             1  
+        ;                 |                
+        ;       6         |         2      
+        ;            5    |    3           
+        ;                 4    
+        ; Distances are of course rough, and relative, as this is text, and the
         ; relative distances may appear differently on various displays and editors.
         ; The Statue Sentry sprite has an even more finely grained direction system
         ; that uses this same variable as its indicator. It has 0x40 states, where
@@ -6889,20 +6946,20 @@ struct WRAM $7E0000
         ; WRAM and VRAM. e.g. X or Y registers would be the offset in WRAM and your DMA 
         ; controls registers would handle the problem for DMA.
         ; WRAM  -> VRAM
-        ; ; $0    -> $0 
-        ; ; $40   -> $800
-        ; ; $80   -> $40
-        ; ; $C0   -> $840
-        ; ; $100  -> $80
-        ; ; $140  -> $880
-        ; ; $180  -> $C0
-        ; ; $1C0  -> $8C0
-        ; ; $280-$2BF -> $140-$17F
+        ; $0    -> $0 
+        ; $40   -> $800
+        ; $80   -> $40
+        ; $C0   -> $840
+        ; $100  -> $80
+        ; $140  -> $880
+        ; $180  -> $C0
+        ; $1C0  -> $8C0
+        ; $280-$2BF -> $140-$17F
         ; ...       -> ...
-        ; ; $1000 -> $1000
-        ; ; $1040 -> $1800
-        ; ; $1080 -> $1040
-        ; ; $10C0 -> $1840
+        ; $1000 -> $1000
+        ; $1040 -> $1800
+        ; $1080 -> $1040
+        ; $10C0 -> $1840
         ; etc.  -> etc.
 
     ; $7E6000[0x3000] - Scratch space where decompressed data is stored temporarily
