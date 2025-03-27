@@ -1660,8 +1660,9 @@ Sprite_ActivateWhenProximal_Vertical:
 
 ; $04 = Large area
 ; $02 = Small area
-; These are mostly known to be map sizes. I think some of these values are
-; wrong as they do not seem to line up with the areas in the game.
+; These are map sizes. Some of these values are wrong as they do not seem
+; to line up with the areas in the game. For example area 0x0A is wrong and
+; the table for the SW does not line up with in game data.
 
 ; Later note: Area 0x0A and 0x0F are incorrect. ZS overwrites this table as
 ; part of its ability to change which areas are large and when these 2

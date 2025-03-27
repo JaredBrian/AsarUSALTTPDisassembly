@@ -6598,7 +6598,16 @@ Overworld_ActualScreenID:
 ; $01262C-$012833 DATA
 OverworldScreenTileMapChange:
 {
+    ; These masks remove the offset stored in $84 caused by moving around in
+    ; large areas. In the vanilla game this causes a bug where you cannot
+    ; transition between 2 large areas that are right next to each other.
+    ; ZScream fixes this by changing these masks and then just applying an
+    ; offset to the "ByScreen" tables below based on where the player enters
+    ; the area.
+
+    ; ZScream: Changes these 4 masks.
     ; $01262C
+    .Masks
     dw $0F80, $0F80, $003F, $003F
 
     ; $012634 transitioning right
@@ -6661,7 +6670,8 @@ OverworldMixedCoordsChange:
 ; $012844-$012883 DATA
 OverworldScreenSizeFlag:
 {
-    .overworldMapSize
+    ; 0x00 - Small map
+    ; 0x20 - Large map
     db $20, $20, $00, $20, $20, $20, $20, $00
     db $20, $20, $00, $20, $20, $20, $20, $00
     db $00, $00, $00, $00, $00, $00, $00, $00
@@ -6675,6 +6685,8 @@ OverworldScreenSizeFlag:
 ; $012884-0128C3 DATA
 OverworldScreenSizeHighByte:
 {
+    ; 0x01 - Small map
+    ; 0x03 - Large map
     db $03, $03, $01, $03, $03, $03, $03, $01
     db $03, $03, $01, $03, $03, $03, $03, $01
     db $01, $01, $01, $01, $01, $01, $01, $01
@@ -6775,7 +6787,8 @@ OverworldHandleTransitions:
         REP #$31
 
         ; Remove potential large world offest.
-        LDX.b $02 : LDA.b $84 : AND.l OverworldScreenTileMapChange, X : STA.b $84
+        LDX.b $02
+        LDA.b $84 : AND.l OverworldScreenTileMapChange_Masks, X : STA.b $84
 
         LDA.w $0700
         CLC : ADC.w OverworldScreenIDChange, X : PHA
@@ -15871,7 +15884,8 @@ Pool_BufferAndBuildMap16Stripes:
     .Map16BufferOffsetHigh
     dw $0020
 
-    ; Has something to do with seeing whether an area is 2x2 or not?
+    ; 0x00 - Large area
+    ; 0x01 - Small area
     ; $01788D
     .overworldScreenSize
     ; LW
