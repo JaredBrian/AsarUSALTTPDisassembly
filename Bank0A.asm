@@ -1291,7 +1291,7 @@ WorldMap_SetUpHDMA:
 
     LDA.b #$04 : STA.w $0635
     LDA.b #$21 : STA.w $0637
-               : STZ.w $0636
+                 STZ.w $0636
     
     REP #$21
     
