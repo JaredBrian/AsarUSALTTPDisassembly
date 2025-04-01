@@ -6580,8 +6580,9 @@ Overworld_PlayerControl:
 
 ; ==============================================================================
 
-; Has something to do with how the lightworld moving from one area to another
-; works.
+; Tells the game what each area's "parent" area is. For small areas this is it's
+; own idea. For large areas this is the top left area in the 2x2 grid.
+; ZSCREAM: This table is updated by ZS to allow map layout changes.
 ; $0125EC-$01262B DATA
 Overworld_ActualScreenID:
 {
@@ -6600,16 +6601,17 @@ OverworldScreenTileMapChange:
 {
     ; These masks remove the offset stored in $84 caused by moving around in
     ; large areas. In the vanilla game this causes a bug where you cannot
-    ; transition between 2 large areas that are right next to each other.
-    ; ZScream fixes this by changing these masks and then just applying an
-    ; offset to the "ByScreen" tables below based on where the player enters
-    ; the area.
+    ; transition twords the center of 2 large areas that are right next to
+    ; each other. ZScream fixes this by changing these masks and then just
+    ; applying an offset to the "ByScreen" tables below based on where the
+    ; player enters the area.
 
-    ; ZScream: Changes these 4 masks.
+    ; ZSCREAM: Changes these 4 masks to: $1F80, $1F80, $007F, $007F.
     ; $01262C
     .Masks
     dw $0F80, $0F80, $003F, $003F
 
+    ; ZSCREAM: This table is updated by ZS to allow layout changes.
     ; $012634 transitioning right
     .ByScreen1
     dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060
@@ -6621,6 +6623,7 @@ OverworldScreenTileMapChange:
     dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060
     dw $0060, $0060, $0060, $0060, $0060, $1060, $1060, $0060
 
+    ; ZSCREAM: This table is updated by ZS to allow layout changes.
     ; $0126B4 transitioning left
     .ByScreen2
     dw $0080, $0080, $0040, $0080, $0080, $0080, $0080, $0040
@@ -6632,6 +6635,7 @@ OverworldScreenTileMapChange:
     dw $0080, $0080, $0040, $0040, $0040, $0080, $0080, $0040
     dw $1080, $1080, $0040, $0040, $0040, $1080, $1080, $0040
 
+    ; ZSCREAM: This table is updated by ZS to allow layout changes.
     ; $012734 transitioning down
     .ByScreen3
     dw $1800, $1840, $1800, $1800, $1840, $1800, $1840, $1800
@@ -6643,6 +6647,7 @@ OverworldScreenTileMapChange:
     dw $1800, $1840, $1800, $1800, $1800, $1800, $1840, $1800
     dw $1800, $1840, $1800, $1800, $1800, $1800, $1840, $1800
 
+    ; ZSCREAM: This table is updated by ZS to allow layout changes.
     ; $0127B4 transitioning up
     .ByScreen4
     dw $2000, $2040, $1000, $2000, $2040, $2000, $2040, $1000
@@ -6667,6 +6672,7 @@ OverworldMixedCoordsChange:
     dw $FFF0, $0010, $FFFE, $0002
 }
 
+; ZSCREAM: This table is updated by ZS to allow layout changes.
 ; $012844-$012883 DATA
 OverworldScreenSizeFlag:
 {
@@ -6682,6 +6688,7 @@ OverworldScreenSizeFlag:
     db $20, $20, $00, $00, $00, $20, $20, $00
 }
 
+; ZSCREAM: This table is updated by ZS to allow layout changes.
 ; $012884-0128C3 DATA
 OverworldScreenSizeHighByte:
 {
@@ -6697,6 +6704,7 @@ OverworldScreenSizeHighByte:
     db $03, $03, $01, $01, $01, $03, $03, $01
 }
 
+; ZSCREAM: This table is updated by ZS to allow layout changes.
 ; $0128C4-$012943 DATA
 OverworldTransitionPositionY:
 {
@@ -6710,6 +6718,7 @@ OverworldTransitionPositionY:
     dw $0C00, $0C00, $0E00, $0E00, $0E00, $0C00, $0C00, $0E00
 }
 
+; ZSCREAM: This table is updated by ZS to allow layout changes.
 ; $012944-$0129C3
 OverworldTransitionPositionX:
 {
@@ -6811,7 +6820,6 @@ OverworldHandleTransitions:
 
         .notFluteBoyGrove
 
-        ; The "custom lost woods" asm hooks in right here.
         ; $012A7D Sets the OW area number
         LDA.l Overworld_ActualScreenID, X : ORA.l $7EF3CA
         STA.b $8A : STA.w $040A : TAX
@@ -6907,8 +6915,8 @@ Overworld_LoadMapProperties:
     LDA.w $0712 : STA.w $0714
 
     ; Sets width and height of the OW area (512x512 or 1024x1024).
-    LDA.w OverworldScreenSizeFlag, X     : STA.w $0712
-    LDA.w OverworldScreenSizeHighByte, X : STA.w $0717
+    LDA.l OverworldScreenSizeFlag, X     : STA.w $0712
+    LDA.l OverworldScreenSizeHighByte, X : STA.w $0717
 
     LDY.b #$20 : LDX.b #$00
 
@@ -6935,7 +6943,9 @@ Overworld_LoadMapProperties:
 
     LDA.w OverworldTransitionPositionX, X : LSR #3 : STA.w $070C
 
-    LDA.w #$03F0 : LDX.w $0712 : BNE .largeOwMap
+    LDA.w #$03F0
+
+    LDX.w $0712 : BNE .largeOwMap
         LDA.w #$01F0 ; The 512x512 maps have smaller limits of course.
 
     .largeOwMap
@@ -7141,7 +7151,8 @@ Overworld_EaseOffScrollTransition:
     .largeArea
 
     ; $B0 is used as an index counter.
-    INC.b $B0 : LDA.b $B0 : CMP.b #$08 : BCC .return
+    INC.b $B0
+    LDA.b $B0 : CMP.b #$08 : BCC .return
         LDX.w $0410 : CPX.b #$08 : BEQ .scrollUpOrLeft
             CPX.b #$02 : BNE .scrollDownOrRight
 
@@ -8231,14 +8242,14 @@ MirrorWarp_LoadSpritesAndColors:
 
     LDX.b $8A
 
-    LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .BRANCH_ALPHA
+    LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
         SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
 
         LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
 
-    .BRANCH_ALPHA
+    .large_area
 
     SEP #$20
 
@@ -10123,6 +10134,7 @@ Pool_Overworld_SetCameraBounds:
     dw $FE00, $0200, $FE00, $0200
     dw $0018, $00E8, $0008, $00E8
 
+    ; ZSCREAM: This table is updated by ZS to allow layout changes.
     ; $013EE2
     .trans_target_north
     dw $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20
@@ -10134,6 +10146,7 @@ Pool_Overworld_SetCameraBounds:
     dw $0B20, $0B20, $0B20, $0B20, $0B20, $0B20, $0B20, $0B20
     dw $0B20, $0B20, $0D20, $0D20, $0D20, $0B20, $0B20, $0D20
 
+    ; ZSCREAM: This table is updated by ZS to allow layout changes.
     ; $013F62
     .trans_target_west
     dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0900, $0D00
@@ -10305,7 +10318,9 @@ OverworldScrollTransition:
 }
 
 ; Inputs:
-; Y - an overworld area number * 2
+; Y - The overworld area number * 2 we are going to. Note: NOT the parent
+;     number. Meaning if you are going to hyrule castle from Link's house,
+;     this will be 0x48 (0x24 * 2) and not 0x36 (0x1B * 2).
 ; X - 0 for small map, 2 for large map
 ; $0140C3-$0140F7 LOCAL JUMP LOCATION
 Overworld_SetCameraBounds:
@@ -10315,25 +10330,25 @@ Overworld_SetCameraBounds:
     LDA.w OverworldTransitionPositionY, Y
     STA.w $0600
 
-    CLC : ADC Pool_Overworld_SetCameraBounds_boundary_y_size, X
+    CLC : ADC.w Pool_Overworld_SetCameraBounds_boundary_y_size, X
     STA.w $0602
     
     LDA.w OverworldTransitionPositionX, Y
     STA.w $0604
 
-    CLC : ADC Pool_Overworld_SetCameraBounds_boundary_x_size, X
+    CLC : ADC.w Pool_Overworld_SetCameraBounds_boundary_x_size, X
     STA.w $0606
 
     LDA.w Pool_Overworld_SetCameraBounds_trans_target_north, Y
     STA.w $0610
 
-    CLC : ADC Pool_Overworld_SetCameraBounds_trans_target_south_offset, X
+    CLC : ADC.w Pool_Overworld_SetCameraBounds_trans_target_south_offset, X
     STA.w $0612
 
     LDA.w Pool_Overworld_SetCameraBounds_trans_target_west, Y
     STA.w $0614
 
-    CLC : ADC Pool_Overworld_SetCameraBounds_trans_target_east_offset, X
+    CLC : ADC.w Pool_Overworld_SetCameraBounds_trans_target_east_offset, X
     STA.w $0616
 
     RTS
@@ -13526,7 +13541,7 @@ Overworld_LoadExitData:
     ; Bleeds into the next function.
 }
 
-; $0165D3-$01658B JUMP LOCATION
+; $01658B-$0165D3 JUMP LOCATION
 Overworld_LoadNewScreenProperties:
 {
     ; $EC = -8. Will be used during tilemap calculations to provide granularity
@@ -15151,7 +15166,7 @@ CheckForNewlyLoadedMapAreas_South:
 
     LDA.b $84 : CMP.w #$1800 : BCS .BRANCH_ALPHA
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BNE .BRANCH_BETA
+        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BNE .small_area
             ; $017325 ALTERNATE ENTRY POINT
             .NewStripe
 
@@ -15165,7 +15180,7 @@ CheckForNewlyLoadedMapAreas_South:
 
             JSR.w Overworld_DrawVerticalStrip
 
-        .BRANCH_BETA
+        .small_area
 
         LDA.b $84 : CLC : ADC.w #$0080 : STA.b $84
 
@@ -15194,7 +15209,7 @@ CheckForNewlyLoadedMapAreas_West:
 
     CMP.w #$0000 : BEQ .BRANCH_GAMMA
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BNE .BRANCH_DELTA
+        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BNE .small_area
             ; $017363 ALTERNATE ENTRY POINT
             .NewStripe
 
@@ -15206,7 +15221,7 @@ CheckForNewlyLoadedMapAreas_West:
 
             JSR.w Overworld_DrawHorizontalStrip
 
-        .BRANCH_DELTA
+        .small_area
 
         DEC.b $84 : DEC.b $84
 
@@ -15237,7 +15252,7 @@ CheckForNewlyLoadedMapAreas_East:
 
     CMP.w #$0060 : BCS .BRANCH_GAMMA
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BNE .BRANCH_DELTA
+        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BNE .small_area
             ; $01739D ALTERNATE ENTRY POINT
             .NewStripe
 
@@ -15249,7 +15264,7 @@ CheckForNewlyLoadedMapAreas_East:
 
             JSR.w Overworld_DrawHorizontalStrip
 
-        .BRANCH_DELTA
+        .small_area
 
         INC.b $84 : INC.b $84
 
@@ -15884,6 +15899,7 @@ Pool_BufferAndBuildMap16Stripes:
     .Map16BufferOffsetHigh
     dw $0020
 
+    ; ZSCREAM: This table is updated by ZS to allow layout changes.
     ; 0x00 - Large area
     ; 0x01 - Small area
     ; $01788D

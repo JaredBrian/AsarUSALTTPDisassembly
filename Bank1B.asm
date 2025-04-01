@@ -1341,13 +1341,12 @@ Overworld_GetLinkMap16Coords:
 
     LDA.b $20
     CLC : ADC.l Liftable_CheckOffset_Y, X : AND.w #$FFF0 : STA.b $00
-    SEC : SBC.w $0708      : AND.w $070A  : ASL #3
+    SEC : SBC.w $0708                     : AND.w $070A  : ASL #3
     STA.b $06
 
     LDA.b $22
     CLC : ADC.l Liftable_CheckOffset_X, X : AND.w #$FFF0 : STA.b $02
-    LSR #3
-    SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $06
+    LSR #3 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $06
     TAX
     
     RTS

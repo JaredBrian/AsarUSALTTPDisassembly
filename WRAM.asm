@@ -4951,7 +4951,7 @@ struct WRAM $7E0000
 
     ; $0700 - 
         ; Generally is equal to the area number you are in currently in 
-        ; times two.Only bottom byte is used, and consists of the
+        ; times two. Only bottom byte is used, and consists of the
         ; following pattern:
         ; 
         ; yyyzxxx0
@@ -4992,19 +4992,22 @@ struct WRAM $7E0000
     ; $0711 - 
         ; Free RAM
 
-    ; $0712 - 
-        ; If nonzero, seems to indicate that it's a smaller overworld area
-        ; (512x512 pixels instead of 1024x1024).
+    ; $0712[0x02] - (Overworld, High Junk)
+    .OWIsLargeArea: skip $02
+        ; If nonzero, indicates that the current area is a large area. The
+        ; high byte is set to 0 and is expected to always be 0.
+        ; 0x00 - Small map
+        ; 0x20 - Large map
 
-    ; $0714 - 
-        ; Cache of previous dimension setting (from $0712)
+    ; $0714[0x01] - (Overworld, Junk)
+    .Junk_0714: skip $01
+        ; The OWIsLargeArea of the previous area. Only written to once and
+        ; is never read.
 
-    ; $0716 - 
+    ; $0716[0x02] - (Overworld)
         ; Forms right and bottom bounding value for where scroll
-        ; activates for player?
-
-    ; $0717 - 
-        ; ???? Overworld related for sure...
+        ; activates for player? The high byte is written separatly as $0717.
+        ; The low byte is only ever 0xE4.
 
     ; $0718 - 
         ; Free RAM

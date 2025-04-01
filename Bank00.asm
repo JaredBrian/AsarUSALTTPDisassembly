@@ -1081,7 +1081,7 @@ Overworld_GetTileAttrAtLocation:
 {
     REP #$30
     
-    LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3  : STA.b $06
+    LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3    : STA.b $06
     LDA.b $02 : SEC : SBC.w $070C : AND.w $070E : ORA.b $06 : TAX
     
     LDA.l $7E2000, X : ASL #2 : STA.b $06
