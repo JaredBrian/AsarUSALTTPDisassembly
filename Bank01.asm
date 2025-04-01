@@ -7803,10 +7803,10 @@ Dungeon_LoadHeader:
     
     ; Load submodule index
     LDA.b $11 : AND.w #$00FF : BNE .nonDefaultSubmodule
-        ; BG1 horizontal scroll register.
+        ; BG2 horizontal scroll register.
         LDA.b $E2 : AND.w #$FE00 : STA.w $062C
         
-        ; BG1 vertical scroll register.
+        ; BG2 vertical scroll register.
         LDA.b $E8
         
         BRA .setLowerBoundY
@@ -10176,7 +10176,7 @@ RoomTag_PullSwitchExplodingWall:
         
         SEP #$30
         
-        ; Play "puzzle solved" sound effect
+        ; Play "puzzle solved" sound effect.
         LDA.b #$1B : STA.w $012F
         
         LDA.b #$01 : STA.w $0454
@@ -11527,6 +11527,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
             
             LDA.w $19A0, Y : AND.w #$007E : ASL #2
             CLC : ADC.w $062C : STA.w $03B6, X
+            
             LDA.w $19A0, Y : AND.w #$1F80 : LSR #4
             CLC : ADC.w $062E : STA.w $03BA, X
         
@@ -11852,6 +11853,7 @@ Bomb_CheckForVulnerableTileObjects:
         
         LDA.w $19A0, Y : AND.w #$007E : ASL #2
         CLC : ADC.w $062C : STA.w $03B6, X
+
         LDA.w $19A0, Y : AND.w #$1F80 : LSR #4 
         CLC : ADC.w $062E : STA.w $03BA, X
 

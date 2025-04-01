@@ -6395,15 +6395,12 @@ Attract_Legend:
 
 ; ==============================================================================
 
+; Zoom into hyrule castle on the mode 7 overworld map.
 ; $067176-$0671AD LONG JUMP LOCATION
 Attract_MapZoom:
 {
-    ; Zoom into hyrule castle on the mode 7 overworld map.
-    
-    LDA.w $0637
-    
-    CMP.b #$00 : BEQ .advanceToNextSequence
-    CMP.b #$0F : BCS .dontFadeThisFrame
+    LDA.w $0637 : CMP.b #$00 : BEQ .advanceToNextSequence
+                  CMP.b #$0F : BCS .dontFadeThisFrame
         DEC.b $13
         
         .dontFadeThisFrame
@@ -6413,7 +6410,7 @@ Attract_MapZoom:
         DEC.b $25 : BNE .noZoomAdjustThisFrame
             STY.b $25
             
-            ; Decrement the timer by one.
+            ; Decrement the timer/zoom modifier by one.
             LDA.w $0637 : SEC : SBC.b #$01 : STA.w $0637
             
             JSR.w Attract_AdjustMapZoom

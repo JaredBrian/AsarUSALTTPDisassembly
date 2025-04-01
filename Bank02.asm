@@ -9515,8 +9515,7 @@ Underworld_HandleCamera:
             LDX.b $A7
 
             LDA.b $30 : AND.w #$00FF : CMP.w #$0080 : BCC .BRANCH_DELTA
-
-            LDA.w $0618 : CMP.b $0E : BCS .BRANCH_EPSILON  BCC .BRANCH_ZETA
+            LDA.w $0618 : CMP.b $0E : BCS .BRANCH_EPSILON : BCC .BRANCH_ZETA
                 .BRANCH_DELTA
 
                 LDA.b $0E : CMP.w $061A : BCC .BRANCH_ZETA
@@ -9524,7 +9523,7 @@ Underworld_HandleCamera:
 
                     .BRANCH_EPSILON
 
-                    ; Comapare against y coordinate limits
+                    ; Comapare against y coordinate limits:
                     LDA.b $E8 : CMP.w $0600, X : BEQ .BRANCH_ZETA
                         CLC : ADC.b $00 : STA.b $E8
 
@@ -9892,12 +9891,12 @@ OverworldHandleBGOverlayScroll:
 ; $013D62-$013DBF LOCAL JUMP LOCATION
 OverworldCameraBoundaryCheck:
 {
-    ; Compare X or Y scroll coordinate to the current position coordinate
+    ; Compare X or Y scroll coordinate to the current position coordinate:
     LDA.b $E2, X : CMP.w $0600, Y : BNE .BRANCH_ALPHA
         TYA : EOR.w #$0002 : TAX
 
-        ; Clears out both $0624 and $0626 (this is a silly trick, they could
-        ; have just done STZ.w $0624 : STZ.w $0626)
+        ; OPTIMIZE: Clears out both $0624 and $0626 (this is a silly trick,
+        ; they could have just done STZ.w $0624 : STZ.w $0626).
         LDA.w #$0000 : STA.w $0624, Y : STA.w $0624, X
 
         RTS
@@ -9915,8 +9914,9 @@ OverworldCameraBoundaryCheck:
 
     TYA : EOR.w #$0002 : TAX
 
-    ; A coordinate that is not on the 16 pixel grid
-    LDA.w $0624, Y : INC A : STA.w $0624, Y : CMP.w #$0010 : BMI .notGrid
+    ; A coordinate that is not on the 16 pixel grid.
+    LDA.w $0624, Y : INC A : STA.w $0624, Y
+    CMP.w #$0010 : BMI .notGrid
         SEC : SBC.w #$0010 : STA.w $0624, Y
 
         ; Sets the side (east , north, etc) the tilemap needs to be updated on.
@@ -9924,7 +9924,7 @@ OverworldCameraBoundaryCheck:
 
     .notGrid
 
-    ; $0624,X = -($0624,Y)
+    ; $0624, X = -($0624, Y)
     LDA.w #$0000 : SEC : SBC.w $0624, Y : STA.w $0624, X
 
     RTS
@@ -13461,7 +13461,7 @@ Overworld_LoadExitData:
 
     .hasExitData
 
-    ; Search for an exit from this overworld area
+    ; Search for an exit from this overworld area:
     LDX.b #$9E
 
     .findRoomExit
@@ -13469,8 +13469,8 @@ Overworld_LoadExitData:
         DEX #2
 
         ; Tries to find the appropriate room in a large array.
-        ; X in this case becomes the exit number * 2
-        ; Note the lack of any kind of error handling here, which can lead
+        ; X in this case becomes the exit number * 2.
+        ; BUG: Note the lack of any kind of error handling here, which can lead
         ; to infinite loops in hacked or unintentionally corrupted games.
         ; In other words, in Vanilla ALTTP, if your room has a door that exits
         ; to the overworld, it had better be in this list.

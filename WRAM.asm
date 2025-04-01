@@ -236,7 +236,7 @@ struct WRAM $7E0000
 
     ; $25[0x01] - (Attract)
     .AttractZoomControl: skip $01
-        ; 1. During the mode 7 zoom in on Hyrule Castle, this acts as a barrier
+        ; During the mode 7 zoom in on Hyrule Castle, this acts as a barrier
         ; for another counter ($0637) that toggles between 0 and 1 every other
         ; frame. When 0, $0637 is decremented and the zoom is increased
         ; slightly. In effect, this is to control the rate of the zooming.
@@ -1426,25 +1426,26 @@ struct WRAM $7E0000
     ;     Title: Title text
     ;     File: Border box
     ;     Attract: The moving bubble BG that goes North West
-    ;     Dungeon map: Levels background, and layout grid
-    ;     Overworld map: Mode 7 map
+    ;     Dungeon Map: Levels background, and layout grid
+    ;     Overworld Map: Mode 7 map
     ; BG2:
     ;     Dungeon: Upper level objects
     ;     Overworld: Main tile map
     ;     Title: Castle, lake, forrest, and mountain Background
     ;     Attract: The moving bubble BG that goes North East
-    ;     Dungeon map: Map layout and level box
+    ;     Dungeon Map: Map layout and level box
     ;     Credits: Mountain background
     ; BG3:
     ;     Everywhere: Text
     ;     Dungeon and Overworld: Item menu
     ;     Attract: History depictions
-    ;     Dungeon map: Outer box + "Map" label on the top left
+    ;     Dungeon Map: Outer box + "Map" label on the top left
+    ;     Save file naming and erasing: TODO: Find out.
 
     ; BG scroll registers / positions
 
     ; $E0[0x02] - (Main)
-    .BG1HPosLow: skip $01
+    .BG1HPos: skip $02
         ; The BG1 horizontal position. This is almost the BG1 horizontal scroll
         ; register (SNES.BG1HScrollOffset / $210D). $E0 is written to as if it
         ; were the scroll register most of the time. However, its value is
@@ -1452,12 +1453,8 @@ struct WRAM $7E0000
         ; horizontal scroll register. Functionally this means this is the X
         ; position of BG1 relative to the camera.
 
-    ; $E1[0x01] - (Main)
-    .BG1HPosHigh: skip $01
-        ; The high byte of BG1HPosLow.
-
     ; $E2[0x02] - (Main)
-    .BG2HPosLow: skip $01
+    .BG2HPos: skip $02
         ; The BG2 horizontal position. This is almost the BG1 horizontal scroll
         ; register (SNES.BG2HScrollOffset / $210F). $E2 is written to as if it
         ; were the scroll register most of the time. However, its value is
@@ -1465,22 +1462,14 @@ struct WRAM $7E0000
         ; horizontal scroll register. Functionally this means this is the X
         ; position of BG2 relative to the camera.
 
-    ; $E3[0x01] - (Main)
-    .BG2HPosHigh: skip $01
-        ; The high byte of BG2HPosLow.
-
     ; $E4[0x02] - (Main, NMI)
-    .BG3HScrollLow: skip $01
+    .BG3HScroll: skip $02
         ; The BG3 horizontal scroll register (SNES.BG3HScrollOffset / $2111).
         ; Functionally this means this is the X position of BG3 relative to the 
         ; camera.
 
-    ; $35[0x01] - (Main, NMI)
-    .BG3HScrollHigh: skip $01
-        ; The high byte of BG3HScrollLow.
-
     ; $E6[0x02] - (Main)
-    .BG1VPosLow: skip $01
+    .BG1VPosLow: skip $02
         ; The BG1 vertical position. This is almost the BG1 vertical scroll
         ; register (SNES.BG1VScrollOffset / $210E). $E6 is written to as if it
         ; were the scroll register most of the time. However, its value is
@@ -1488,12 +1477,8 @@ struct WRAM $7E0000
         ; vertical scroll register. Functionally this means this is the Y
         ; position of BG1 relative to the camera.
 
-    ; $E7[0x01] - (Main)
-    .BG1VPosHigh: skip $01
-        ; The high byte of BG1VPosLow.
-
     ; $E8[0x02] - (Main)
-    .BG2VPosLow: skip $01
+    .BG2VPos: skip $02
         ; The BG2 vertical position. This is almost the BG2 vertical scroll
         ; register (SNES.BG2VScrollOffset / $2110). $E8 is written to as if it
         ; were the scroll register most of the time. However, its value is
@@ -1501,19 +1486,11 @@ struct WRAM $7E0000
         ; vertical scroll register. Functionally this means this is the Y
         ; position of BG2 relative to the camera.
 
-    ; $E9[0x01] - (Main)
-    .BG2VPosHigh: skip $01
-        ; The high byte of BG2VPosLow.
-
     ; $EA[0x02] - (Main, NMI)
-    .BG3HScrollLow: skip $01
+    .BG3VScroll: skip $02
         ; The BG3 vertical scroll register (SNES.BG3VScrollOffset / $2112).
         ; Functionally this means this is the Y position of BG3 relative to the 
         ; camera.
-    
-    ; $EB[0x01] - (Main, NMI)
-    .BG3HScrollHigh: skip $01
-        ; The high byte of BG3VScrollLow.
 
     ; $EC[0x02] - (Overworld, Dungeon)
     .CollisionType: skip $01
@@ -2299,11 +2276,11 @@ struct WRAM $7E0000
     .Free_020C: skip $01
         ; Free RAM
 
-    ; $020D[0x01] - (Dungeon map)
+    ; $020D[0x01] - (Dungeon Map)
     .DunMapInitSubmodule: skip $01
         ; Used as a submodule for the dungeon map function: DungeonMap_Init.
 
-    ; $020E[0x01] - (Dungeon map)
+    ; $020E[0x01] - (Dungeon Map)
     .DunMapFloor: skip $01
         ; Floor index for the selected floor in the dungeon map. Starts off
         ; being equal to DunFloor and is then changed by the player pressing up
@@ -2316,14 +2293,14 @@ struct WRAM $7E0000
     .Junk_020F: skip $01
         ; Set to 00 once in the dungeon map code in Bank 0x0A but is never read.
 
-    ; $0210[0x01] - (Dungeon map)
+    ; $0210[0x01] - (Dungeon Map)
     .DunMapInputFlag: skip $01
         ; Used to prevent reading input while scrolling between floors in the
         ; dungeon map.
         ; 0 - Will read input
         ; 1 - Will not read input
 
-    ; $0211[0x02] - (Dungeon map, High Junk)
+    ; $0211[0x02] - (Dungeon Map, High Junk)
     .DunMapCurrentFloor: skip $02
         ; Of the two floors shown on a dungeon map, this indicates which one is
         ; of the floor the player is currently on. High byte isn't relevant and is
@@ -2331,26 +2308,26 @@ struct WRAM $7E0000
         ;   0x00 - top map
         ;   0x02 - bottom map
 
-    ; $0213[0x02] - (Dungeon map)
+    ; $0213[0x02] - (Dungeon Map)
     .DunMapScrollTarget: skip $02
         ; Acts as the Y target for dungeon map scrolling. Appears to have been
         ; used as a Y velocity for the scrolling in an unused function as well.
 
-    ; $0215[0x02] - (Dungeon map)
+    ; $0215[0x02] - (Dungeon Map)
     .DunMapPlayerXPos: skip $02
         ; The X position to draw the flashing red/yellow/white dot showing where
         ; the player is on the map grid. This also controls the X position of the
         ; blinking red/white room cross hair box also showing what room the
         ; player is.
 
-    ; $0217[0x02] - (Dungeon map)
+    ; $0217[0x02] - (Dungeon Map)
     .DunMapPlayerYPos: skip $01
         ; The Y position to draw the flashing red/yellow/white dot showing where
         ; the player is on the map grid. Unlike the X position, this does NOT
         ; control the Y position of the blinking red/white room cross hair box.
         ; That is instead controlled by $0CF5.
 
-    ; $0218[0x01] - (Dungeon map)
+    ; $0218[0x01] - (Dungeon Map)
     .DunMapPlayerYPosHigh: skip $01
         ; The high byte of DunMapPlayerYPos.
 
@@ -3681,7 +3658,8 @@ struct WRAM $7E0000
         ; Not a very consistent reference.
         ; Definitely flags the TR eye door and some shutters
 
-    ; $0403[0x01] - 
+    ; $0403[0x01] - (Dungeon, Objects)
+    .DunRoomInfo: skip $01
         ; Contains room information, such as whether the boss in this room
         ; has been defeated. Loaded on every room load according to map
         ; information that is stored as you play the game.
@@ -4641,104 +4619,159 @@ struct WRAM $7E0000
         ; The eastern camera scroll boundary for big dungeon rooms.
         ; TODO: The low byte is never read?
 
-    ; $0610 - (Dungeon, Overworld, Camera)
+    ; $0610[0x02] - (Dungeon, Overworld, Camera)
     .CamTargetNorth: skip $02
-        ; ??? Up room transition scroll target
+        ; The position that the camera will move to when transitioning north
+        ; both on the overworld and in dungeons.
 
-    ; $0612 - 
-        ; ??? Down  ""
+    ; $0612[0x02] - (Dungeon, Overworld, Camera)
+    .CamTargetSouth: skip $02
+        ; The position that the camera will move to when transitioning south
+        ; both on the overworld and in dungeons.
 
-    ; $0614 - 
-        ; ??? Left  ""
+    ; $0614[0x02] - (Dungeon, Overworld, Camera)
+    .CamTargetWest: skip $02
+        ; The position that the camera will move to when transitioning west
+        ; both on the overworld and in dungeons.
 
-    ; $0616 - 
-        ; ??? Right ""
+    ; $0616[0x02] - (Dungeon, Overworld, Camera)
+    .CamTargetEast: skip $02
+        ; The position that the camera will move to when transitioning east
+        ; both on the overworld and in dungeons.
 
-    ; Camera Variables:
+    ; $0618[0x02] - (Dungeon, Overworld, Camera)
+    .CamScrollTriggerN: skip $02
+        ; The north boundary trigger for camera scrolling. This value is
+        ; compared with the player's coordinates to determine whether to
+        ; trigger a northern scroll transition both on the overworld and
+        ; in dungeons.
 
-    ; $0618 - 
-        ; Y coordinate of the scrolling camera. Probably the lower bound
-         ;for scrolling.
+    ; $061A[0x02] - (Dungeon, Overworld, Camera)
+    .CamScrollTriggerS: skip $02
+        ; The south boundary trigger for camera scrolling. This value is
+        ; compared with the player's coordinates to determine whether to
+        ; trigger a southern scroll transition both on the overworld and
+        ; in dungeons.
 
-    ; $061A - 
-        ; Y coordinate of the upper bounds of scrolling.
+    ; $061C[0x02] - (Dungeon, Overworld, Camera)
+    .CamScrollTriggerW: skip $02
+        ; The west boundary trigger for camera scrolling. This value is
+        ; compared with the player's coordinates to determine whether to
+        ; trigger a western scroll transition both on the overworld and
+        ; in dungeons.
 
-    ; $061C - 
-        ; X coordinate of the lower bounds of scrolling.
+    ; $061E[0x02] - (Dungeon, Overworld, Camera)
+    .CamScrollTriggerE: skip $02
+        ; The east boundary trigger for camera scrolling. This value is
+        ; compared with the player's coordinates to determine whether to
+        ; trigger an eastern scroll transition both on the overworld and
+        ; in dungeons.
 
-    ; $061E - 
-        ; X coordinate of the upper bounds of scrolling.
+    ; TODO: A note from Kan in relation to the 4 variables above that I don't
+    ; understand:
+    ; "The higher boundary should always be +2 from the lower in underworld
+    ; and -2 in overworld."
 
     ; Ending Sequence Variables:
 
-    ; $0620 - 
-        ; ????
+    ; $0620[0x02] - (Dungeon, Overworld, Camera)
+    .OverlaySubPixelX: skip $02
+        ; According to Kan "[This] behaves as a subpixel for background 1 overlay
+        ; scroll on overworld". However, after looking at its use this doesn't to
+        ; ever actually be read in a meaningful way. It is read so that values
+        ; can be added to it but then is never compared or stored to any other
+        ; value. TODO: Confirm that this is never actually meaningfully used.
 
-    ; $0622 - 
-        ; ????
+    ; $0622[0x02] - (Dungeon, Overworld, Camera)
+    .OverlaySubPixelY: skip $02
+        ; According to Kan "[This] behaves as a subpixel for background 1 overlay
+        ; scroll on overworld". However, after looking at its use this doesn't to
+        ; ever actually be read in a meaningful way. It is read so that values
+        ; can be added to it but then is never compared or stored to any other
+        ; value. TODO: Confirm that this is never actually meaningfully used.
 
-    ; $0624 - 
-        ; ????
+    ; $0624[0x02] - (Overworld, Camrea, Credits)
+    .OWCamOffsetY: skip $02
+        ; UnderworldExitData_scroll_mod_y,
+        ; Pool_BirdTravel_LoadTargetAreaData_scroll_mod_y, OWTransitionDirection2
+        ; TODO: Look at what ZS saves to the bird and exit data listed above.
+        ; My current guess is that this is an offset applied to the camera when
+        ; exiting or using bird travel. This is used to determine where to update
+        ; the tilemap while moving around on the OW. Also has a credits use in
+        ; bank 0x0E but it could be the same function.
 
-    ; $0626 - 
-        ; ????
+    ; $0626[0x02] - (Overworld, Camrea)
+    .OWCamOffsetYInverse: skip $02
+        ; The the additive inverse of OWCamOffsetY.
 
-    ; $0628 - 
-        ; ????
+    ; $0628[0x02] - (Overworld, Camrea)
+    .OWCamOffsetX: skip $02
+        ; UnderworldExitData_scroll_mod_x,
+        ; Pool_BirdTravel_LoadTargetAreaData_scroll_mod_x, OWTransitionDirection2
+        ; TODO: Look at what ZS saves to the bird and exit data listed above.
+        ; My current guess is that this is an offset applied to the camera when
+        ; exiting or using bird travel. This is used to determine where to update
+        ; the tilemap while moving around on the OW.
 
-    ; $062A - 
-        ; ????
+    ; $062A[0x02] - (Overworld, Camrea)
+    .OWCamOffsetXInverse: skip $02
+        ; The the additive inverse of OWCamOffsetX.
 
-    ; $062C - 
-        ; In loading dungeons, contains the upper even byte of the BG1 H 
-        ; scroll reg.
+    ; $062C[0x02] - (Dungeon, Objects)
+    .DunBG2HHighPos: skip $02
+        ; In loading dungeons, sometimes contains the upper even byte of BG2HPos.
+        ; This is used for some sort of effect relating to water object, bomb
+        ; doors, explosion doors, and the water gate. TODO: Figure out exact uses.
 
-    ; $062E - 
-        ; In loading dungeons, contains the upper even byte of the BG1 V
-        ; scroll reg. note: upper even byte refers to the operation
-        ; (argument & 0xFE00)
+    ; $062E[0x02] - (Dungeon, Objects)
+    .DunBG2VHighPos: skip $02
+        ; In loading dungeons, contains the upper even byte of BG2VPos. 
+        ; This is used for some sort of effect relating to water object, bomb
+        ; doors, explosion doors, and the water gate. TODO: Figure out exact uses.
+        ; Note: The upper even byte refers to the operation (argument & 0xFE00).
 
-    ; BG3 V-IRQ Values:
+    ; $0630[0x02] - (IRQ)
+    .BG3HScrollIRQ: skip $02
+        ; Writes to SNES.BG3HScrollOffset or the BG3 Hscroll Register during V-IRQ.
+        ; Used exclusivly during the save file naming/erasing routines. TODO:
+        ; Kan's dissasembly claims this is used during the credits routine but
+        ; I don't see any evidence of this. Confirm.
 
-    ; $0630 - 
-        ; During V-IRQ or H-IRQ (not sure if this game uses H-IRQ), these
-        ; are the values of the BG3 Hscroll Register.
+    ; $0632[0x03] - (Free)
+    .Free_0632: skip $03
+        ; Free RAM.
 
-    ; $0631 - 
-        ; This is the upper byte of the previous address.
-
-    ; $0632 - 
-        ; Free RAM
-
-    ; $0635[0x01] - (Overworld_Map)
+    ; $0635[0x01] - (Overworld Map, Junk)
+    .Junk_0635: skip $01
         ; Written to twice in bank 0x0A, but seems to never be read or used
         ; for anything. Perhaps this was part of an unimplemented additional
         ; feature of the overworld map.
 
-    ; $0636[0x01] - (Overworld_Map)
+    ; $0636[0x01] - (Overworld Map)
+    .OWMapZoomToggle: skip $01
         ; Bit layout:
-        ; t-------s
-        ; 
-        ; s - Selects between hdma table low byte A bus addresses for the
-        ; hdma table responsible for mode 7 manipulation.
-        ; 
+        ; t... ...s
+        ; s - Selects between HDMA table low byte A bus addresses for the
+        ;     HDMA table responsible for mode 7 manipulation.
         ; t - Set in order to indicate that the zoom mode needs to be
-        ; toggled. It will be unset once the toggling is completed.
+        ;     toggled. It will be unset once the toggling is completed.
 
-    ; $0637[0x01] - (Overworld_Map)
+    ; $0637[0x01] - (Overworld Map)
+    .OWMapZoomModifier:
         ; While it appears to be set in a manner that is consistent with the
         ; Attract Mode usage of this same variable, it is not actually used at
         ; all in this submodule of the messaging module.
 
     ; $0637[0x01] - (Attract)
+    .AttractZoomTimer: skip $01
         ; Timer for the Mode 7 zoom in sequence. Affects the zoom level
         ; indirectly by serving as the value that a table of values gets
         ; multiplied by to produce an hdma table.
 
-    ; $0638[0x02] - (Overworld_Map, Attract)
+    ; $0638[0x02] - (Overworld Map, Attract)
         ; Mirror of $211F (M7X)
 
-    ; $063A[0x02] - (Overworld_Map, Attract)
+    ; $063A[0x02] - (Overworld Map, Attract)
         ; Mirror of $2120 (M7Y)
 
     ; $063C - 
@@ -5649,25 +5682,25 @@ struct WRAM $7E0000
         ; subtract from the sprite's HP. Certain values also have other effects, such as inserting #$FF stuns the sprite like the hookshot or boomerang
 
         ; Special Effects:
-        ; ; 0xFF - Target is stunned for 0xFF frames (Hookshot/boomerang).
-        ; ; 0xFE - Target becomes frozen (Ice Rod effect).
-        ; ; 0xFD - Target is incinerated (Fire Rod effect).
-        ; ; 0xFC - Target is stunned for 0x80 frames (Hookshot/boomerang).
-        ; ; 0xFB - Target is stunned for 0x20 frames (Hookshot/boomerang).
-        ; ; 0xFA - Target becomes a blob (Magic Powder).
-        ; ; 0xF9 - Target becomes a fairy (Magic Powder).
+        ; 0xFF - Target is stunned for 0xFF frames (Hookshot/boomerang).
+        ; 0xFE - Target becomes frozen (Ice Rod effect).
+        ; 0xFD - Target is incinerated (Fire Rod effect).
+        ; 0xFC - Target is stunned for 0x80 frames (Hookshot/boomerang).
+        ; 0xFB - Target is stunned for 0x20 frames (Hookshot/boomerang).
+        ; 0xFA - Target becomes a blob (Magic Powder).
+        ; 0xF9 - Target becomes a fairy (Magic Powder).
 
         ; These are the rest of the values that appear in vanilla but all just do that amount of damage to the sprite.
-        ; ; 0x64
-        ; ; 0x40
-        ; ; 0x20
-        ; ; 0x18
-        ; ; 0x10
-        ; ; 0x08
-        ; ; 0x04
-        ; ; 0x02
-        ; ; 0x01
-        ; ; 0x00 
+        ; 0x64
+        ; 0x40
+        ; 0x20
+        ; 0x18
+        ; 0x10
+        ; 0x08
+        ; 0x04
+        ; 0x02
+        ; 0x01
+        ; 0x00 
 
     ; $0CF2[0x01] - (Sprite)
         ; Damage type determiner
@@ -5831,15 +5864,22 @@ struct WRAM $7E0000
         ; 14 - Northeast
         ; 15 - East-Northeast
         ; Or diagramatically:
-        ; 12        ;    
-        ; 11     |     13        ;  
-        ; 10        ;    |        ;   14    
-        ; |        ; 9        ;   |        ;  15 
-        ; |        ; |        ; 8 --------------+-------------- 0
-        ; |        ; |        ; 7        ;   |        ;  1  
-        ; |        ; 6        ;  |        ;  2      
-        ; 5    |    3        ;    
-        ; 4        ; Distances are of course rough, and relative, as this is text, and the
+        ;                 12               
+        ;          11     |     13         
+        ;    10           |          14    
+        ;                 |                
+        ;  9              |             15 
+        ;                 |                
+        ;                 |                
+        ; 8 --------------+-------------- 0
+        ;                 |                
+        ;                 |                
+        ;  7              |             1  
+        ;                 |                
+        ;       6         |         2      
+        ;            5    |    3           
+        ;                 4    
+        ; Distances are of course rough, and relative, as this is text, and the
         ; relative distances may appear differently on various displays and editors.
         ; The Statue Sentry sprite has an even more finely grained direction system
         ; that uses this same variable as its indicator. It has 0x40 states, where
@@ -6892,20 +6932,20 @@ struct WRAM $7E0000
         ; WRAM and VRAM. e.g. X or Y registers would be the offset in WRAM and your DMA 
         ; controls registers would handle the problem for DMA.
         ; WRAM  -> VRAM
-        ; ; $0    -> $0 
-        ; ; $40   -> $800
-        ; ; $80   -> $40
-        ; ; $C0   -> $840
-        ; ; $100  -> $80
-        ; ; $140  -> $880
-        ; ; $180  -> $C0
-        ; ; $1C0  -> $8C0
-        ; ; $280-$2BF -> $140-$17F
+        ; $0    -> $0 
+        ; $40   -> $800
+        ; $80   -> $40
+        ; $C0   -> $840
+        ; $100  -> $80
+        ; $140  -> $880
+        ; $180  -> $C0
+        ; $1C0  -> $8C0
+        ; $280-$2BF -> $140-$17F
         ; ...       -> ...
-        ; ; $1000 -> $1000
-        ; ; $1040 -> $1800
-        ; ; $1080 -> $1040
-        ; ; $10C0 -> $1840
+        ; $1000 -> $1000
+        ; $1040 -> $1800
+        ; $1080 -> $1040
+        ; $10C0 -> $1840
         ; etc.  -> etc.
 
     ; $7E6000[0x3000] - Scratch space where decompressed data is stored temporarily
