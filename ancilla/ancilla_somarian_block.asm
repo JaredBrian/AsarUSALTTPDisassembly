@@ -160,7 +160,7 @@ Ancilla_SomarianBlock:
         
         ; WTF: Does this routine check against star tiles? Could I use this
         ; to trigger doors in dungeon by putting a block on a star tile?
-        ; (or whatever 0x3b is?)
+        ; (or whatever 0x3B is?)
         JSR.w SomarianBlock_CheckCoveredTileTrigger : BCS .tile_collision_logic
             LDA.w $029E, X : BEQ .set_tile_trigger_flag
                 CMP.b #$FF : BNE .tile_collision_logic
