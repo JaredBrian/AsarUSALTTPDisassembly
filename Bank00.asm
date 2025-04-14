@@ -14616,7 +14616,6 @@ ConfigureSpotlightTable:
     LDA.w #$00FF : STA.b $08
     
     LDA.b $06 : CMP.w $0676 : BCS .BRANCH_BETA
-    
         LDA.w $067A : BEQ .BRANCH_GAMMA
             DEC.w $067A
 
@@ -15122,45 +15121,45 @@ FloodDam_PrepFloodHDMA:
     
     REP #$30
     
-    STZ !scanline
+    STZ.b !scanline
     
     ; $0674 = $0682 - BG2VOFS mirror.
     ; $0670 = $0680 - BG2HOFS mirror.
     LDA.w $0682 : SEC : SBC.b $E8 : STA.w $0674
-    LDA.w $0680 : SEC : SBC.b $E2 : STA !leftBase
+    LDA.w $0680 : SEC : SBC.b $E2 : STA.w !leftBase
     
     ; $0E = $0686 ^ 0x0001.
-    LDA !lineOffset : EOR.w #$0001 : STA.b $0E
+    LDA.w !lineOffset : EOR.w #$0001 : STA.b $0E
     
     ; $02 = $0E + $0670.
-    CLC : ADC !leftBase : STA.b $02
+    CLC : ADC.w !leftBase : STA.b $02
     
-    LDA !leftBase : SEC : SBC.b $0E : AND.w #$00FF : STA !leftFinal
+    LDA.w !leftBase : SEC : SBC.b $0E : AND.w #$00FF : STA.b !leftFinal
     
-    LDA.b $02 : AND.w #$00FF : XBA : ORA !leftFinal : STA !lineBounds
+    LDA.b $02 : AND.w #$00FF : XBA : ORA.b !leftFinal : STA.b !lineBounds
 
     .disableLoop
 
-        LDA !scanline : ASL A : TAX
+        LDA.b !scanline : ASL A : TAX
         
         LDA.w #$FF00 : STA.w $1B00, X
         
-        ; $0676 was determined when the watergate barrier was placed.
-    INC !scanline : LDA !scanline : CMP !startLine : BNE .disableLoop
+        ; $0676 / !startLine was determined when the watergate barrier was placed.
+    INC.b !scanline : LDA.b !scanline : CMP.w !startLine : BNE .disableLoop
     
-    LDA.b $0E : SEC : SBC.w #$0007 : CLC : ADC.w #$0008 : STA !lineBounds
+    LDA.b $0E : SEC : SBC.w #$0007 : CLC : ADC.w #$0008 : STA.b !lineBounds
     
-    CLC : ADC !leftBase : STA.b $02
+    CLC : ADC.w !leftBase : STA.b $02
     
-    LDA !leftBase : SEC : SBC !lineBounds : AND.w #$00FF : STA !leftFinal
+    LDA.w !leftBase : SEC : SBC.b !lineBounds : AND.w #$00FF : STA.b !leftFinal
     
-    LDA.b $02 : AND.w #$00FF : XBA : ORA !leftFinal : STA !lineBounds
+    LDA.b $02 : AND.w #$00FF : XBA : ORA.b !leftFinal : STA.b !lineBounds
     
-    LDA !startLine : CLC : ADC.w $0684 : EOR.w #$0001 : STA.b $0A
+    LDA.w !startLine : CLC : ADC.w $0684 : EOR.w #$0001 : STA.b $0A
 
     .nextScanline
 
-        LDA !scanline : CMP.b $0A : BCC .beta
+        LDA.b !scanline : CMP.b $0A : BCC .beta
             ASL A : TAX
             
             LDA.w #$00FF

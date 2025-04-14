@@ -3368,10 +3368,8 @@ Link_HandleFallingInPit:
 HandleLayerOfDestination:
 {
     LDX.w $063C
-    
     LDA.l LayerOfDestination_for_0476, X : STA.w $0476
-    
-    LDA.l LayerOfDestination_for_EE, X : STA.b $EE
+    LDA.l LayerOfDestination_for_EE, X   : STA.b $EE
     
     RTS
     
@@ -16489,7 +16487,7 @@ ApplyLinksMovementToCamera:
 
 ; ==============================================================================
 
-; This routine initializes the hdma table for Link praying to open
+; This routine initializes the HDMA table for Link praying to open
 ; the desert barrier. This code is not the same as that used to create
 ; the spotlight effects of entering or leaving a dungeon. That can
 ; be found in bank 0x00.
@@ -16527,13 +16525,12 @@ DesertPrayerAnimationTimer:
 
 ; ==============================================================================
 
+; TODO: Name and description miss match.
+; This routine seems to construct the HDMA table that zeroes in or out
+; on the player's position (e.g. when leaving a dungeon or entering one).
 ; $03EA27-$03EBD9 LONG JUMP LOCATION
 DesertPrayer_BuildIrisHDMATable:
 {
-    ; This routine seems to construct the hdma table that zeroes in or out
-    ; on the player's position (e.g. when leaving a dungeon or entering
-    ; one).
-    
     PHB : PHK : PLB
     
     REP #$30
@@ -16559,7 +16556,6 @@ DesertPrayer_BuildIrisHDMATable:
         
         LDA.w $0674 : BMI .BRANCH_BETA
             LDA.b $04
-            
             CMP.w $0674 : BCC .BRANCH_GAMMA
             CMP.w $0676 : BCS .BRANCH_GAMMA
         

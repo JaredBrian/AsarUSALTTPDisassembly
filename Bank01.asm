@@ -7801,7 +7801,7 @@ Dungeon_LoadHeader:
     
     REP #$30
     
-    ; Load submodule index
+    ; Load submodule index:
     LDA.b $11 : AND.w #$00FF : BNE .nonDefaultSubmodule
         ; BG2 horizontal scroll register.
         LDA.b $E2 : AND.w #$FE00 : STA.w $062C
@@ -7853,7 +7853,7 @@ Dungeon_LoadHeader:
     ; Load the dungeon room offset.
     LDA.b $A0 : ASL A : TAX
     
-    ; Get the offset for the base header information    
+    ; Get the offset for the base header information. 
     LDA.l RoomHeader_RoomToPointer, X : STA.b $0D
     
     SEP #$20
@@ -7882,12 +7882,12 @@ Dungeon_LoadHeader:
     
     REP #$20
     
-    ; Move to byte 1. Loads a master palette number
+    ; Move to byte 1. Loads a master palette number.
     INY : LDA [$0D], Y : AND.w #$00FF : ASL #2 : TAX
     
     SEP #$20
     
-    ; Load Palette indices
+    ; Load Palette indices.
     LDA.l UnderworldPaletteSets+0, X : STA.w $0AB6  ; BG Palette index
     LDA.l UnderworldPaletteSets+1, X : STA.w $0AAC  ; SP index 0
     LDA.l UnderworldPaletteSets+2, X : STA.w $0AAD  ; SP index 1
@@ -7909,7 +7909,7 @@ Dungeon_LoadHeader:
     INY
     LDA [$0D], Y : STA.b $AE
     
-    ; Move to byte 6. Corresponds to Tag2 in Hyrule Magic
+    ; Move to byte 6. Corresponds to Tag2 in Hyrule Magic.
     INY
     LDA [$0D], Y : STA.b $AF
     
@@ -8002,7 +8002,7 @@ Dungeon_LoadHeader:
     LDA.b $A0 : DEC A : TAX
     
     ; Checks to see if the room is a multiple of 0x10.
-    ; Room is a multiple of $10
+    ; Room is a multiple of $10.
     AND.w #$000F : CMP.w #$000F : BEQ .divisible_by_16
         ; All others
         LDA.w #$0024
@@ -8014,7 +8014,7 @@ Dungeon_LoadHeader:
     LDA.b $A0 : INC A : TAX
     
     ; Checks to see if the room is right before a room that's a multiple of
-    ; 0x10. I.e. ends in 0xF
+    ; 0x10. I.e. ends in 0xF.
     AND.w #$000F : BEQ .endsInF
         ; All others
         LDA.w #$0018
@@ -10857,13 +10857,13 @@ Tag_Watergate:
             ; to another area.
             LDA.w $0403 : ORA.l DoorFlagMasks+1 : STA.w $0403
             
-            ; Reset the lever trigger
+            ; Reset the lever trigger.
             STZ.w $0642
             
             ; Reset some hdma stuff?
             STZ.w $0684 : STZ.w $067A
             
-            ; Adjust window mask settings
+            ; Adjust window mask settings.
             LDA.b #$03 : STA.b $96
             
             STZ.b $97 : STZ.b $98
@@ -12701,11 +12701,16 @@ Dungeon_EraseInteractive2x2:
 ; $00D8D4-$00D98D LOCAL JUMP LOCATION
 PushBlock_StoppedMoving:
 {
+    ; Have we already pushed a block?
     LDA.w $0540, Y : AND.w #$4000 : BNE .blockTriggersSomething
+        ; OPTIMIZE: This can't ever be flipped again based on the logic here
+        ; So instead of checking $0540 and flipping this bit we could just set
+        ; $0641 to 0x01.
         LDA.w $0641 : EOR.w #$0001 : STA.w $0641
     
     .blockTriggersSomething
     
+    ; Indicate that we have already pushed a block.
     LDA.w $0540, Y : AND.w #$3FFF : LSR A : TAX
     
     ; Check if the block landed on a pit tile.
@@ -16445,7 +16450,6 @@ FloodDam_Fill:
     INC.w $0684
     
     LDA.w $0684 : CLC : ADC.w $0676 : CMP.b #$E1 : BCC .alpha
-
         STZ.w $045C
         STZ.b $11
         STZ.b $B0
@@ -17847,7 +17851,7 @@ Dungeon_ApproachFixedColor:
 Player_SetElectrocutionMosaicLevel:
 {
     LDA.w $0647 : BNE .mosaic_decreasing
-        ; Add to mosaic? seems related to electrocution (it almost certainly
+        ; TODO: Add to mosaic? seems related to electrocution (it almost certainly
         ; is).
         LDA.l $7EC011 : CLC : ADC.b #$10 : CMP.b #$C0 : BNE .mosaic_not_at_target
             INC.w $0647

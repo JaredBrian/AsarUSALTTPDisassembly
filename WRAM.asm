@@ -181,8 +181,8 @@ struct WRAM $7E0000
 
     ; $1C[0x01] - (Main, NMI)
     .MainScreenDes: skip $01
-        ; Main Screen Designation (TM / $212C)
-        ; To be written to SNES.BGAndOBJEnableMainScreen during NMI.
+        ; Main Screen Designation. To be written to SNES.BGAndOBJEnableMainScreen
+        ; during NMI.
         ; ...o 4321
         ; o - OAM layer enabled
         ; 1 - BG1 enabled
@@ -192,8 +192,8 @@ struct WRAM $7E0000
 
     ; $1D[0x01] - (Main, NMI)
     .SubScreenDes: skip $01
-        ; Sub Screen Designation (TS / $212D)
-        ; To be written to SNES.BGAndOBJEnableSubScreen during NMI.
+        ; Sub Screen Designation. To be written to SNES.BGAndOBJEnableSubScreen
+        ; during NMI.
         ; ...o 4321
         ; o - OAM layer enabled
         ; 1 - BG1 enabled
@@ -203,21 +203,21 @@ struct WRAM $7E0000
 
     ; $1E[0x01] - (Main, NMI)
     .MainWindowMaskDes: skip $01
-        ; Window Mask Activation (TMW / $212E)
-        ; To be written to SNES.WindowMaskDesMainScreen during NMI.
+        ; Window Mask Activation. To be written to SNES.WindowMaskDesMainScreen
+        ; during NMI.
 
     ; $1F[0x01] - (Main, NMI)
     .SubWindowMaskDes: skip $01
-        ; Subscreen Window Mask Activation (TSW / $212F)
-        ; To be written to SNES.WindowMaskDesSubScreen during NMI.
+        ; Subscreen Window Mask Activation. To be written to
+        ; SNES.WindowMaskDesSubScreen during NMI.
 
     ; $20[0x02] - (Player)
     .PlayerYCoord: skip $02
-        ; Player's Y-Coordinate (mirrored at $0FC4)
+        ; Player's Y-Coordinate (mirrored at $0FC4).
 
     ; $22[0x02] - (Player)
     .PlayerXCoord:
-        ; Player's X-Coordinate (mirrored at $0FC2)
+        ; Player's X-Coordinate (mirrored at $0FC2).
 
     ; $22[0x01] - (Attract)
     .AttractModule: skip $01
@@ -379,10 +379,10 @@ struct WRAM $7E0000
 
     ; $3A[0x01] - (Input)
     .BAndYInputField: skip $01
-        ; Bitfield for the B and Y buttons
+        ; Bitfield for the B and Y buttons.
         ; hymuunub
         ; b - B button was pressed this frame, and not held down during the
-        ; previous frame.
+        ;     previous frame.
         ; m - Checked in one place, but not sure if it's ever set.
         ; n - Possible to be set, but not sure what it does
         ; h - The B button has been held down for one or more frames.
@@ -537,17 +537,16 @@ struct WRAM $7E0000
         ; player lands on after the transition. It can only take on a value
         ; between 0 and 4, inclusive.
         ; ------+-------------------------------------------------------------
-        ; 0     | 0x00, 0x09
+        ; 0 | 0x00, 0x09
         ;   |
-        ; 1     | 0x80, 0x81, 0x90, 0x91, ..., 0xE0, 0xE1, 0xF0, 0xF1
+        ; 1 | 0x80, 0x81, 0x90, 0x91, ..., 0xE0, 0xE1, 0xF0, 0xF1
         ;   |
-        ; 2     | 0x82, 0x83, 0x92, 0x93, ..., 0xE2, 0xE3, 0xF2, 0xF3, and
+        ; 2 | 0x82, 0x83, 0x92, 0x93, ..., 0xE2, 0xE3, 0xF2, 0xF3, and
         ;   | any values not covered by the other tile attribute numbers.
         ;   | 
-        ; 3     | 0x84, 0x85, 0x88, 0x89, ..., 0xF4, 0xF5, 0xF8, 0xF9
+        ; 3 | 0x84, 0x85, 0x88, 0x89, ..., 0xF4, 0xF5, 0xF8, 0xF9
         ;   |
-        ; 4     | 0x86, 0x87, 0x96, 0x97, ..., 0xE6, 0xE7, 0xF6, 0xF7
-
+        ; 4 | 0x86, 0x87, 0x96, 0x97, ..., 0xE6, 0xE7, 0xF6, 0xF7
         ; According to Kan:
         ;   0x00 - Shallow water/Nothing
         ;   0x01 - Normal door
@@ -665,11 +664,11 @@ struct WRAM $7E0000
         ; 0x0D - Jumping off of a ledge diagonally up and left / right.
         ; 0x0E - Jumping off of a ledge diagonally down and left / right.
         ; 0x0F - More jumping off of a ledge but with dashing maybe + some
-        ;    directions.
+        ;        directions.
         ; 0x10 - Same or similar to 0x0F?
         ; 0x11 - Falling off a ledge
         ; 0x12 - Used when coming out of a dash by pressing a direction other 
-        ;    than the dash direction.
+        ;        than the dash direction.
         ; 0x13 - hookshot
         ; 0x14 - magic mirror
         ; 0x15 - holding up an item
@@ -949,7 +948,7 @@ struct WRAM $7E0000
         ; vertical flipping. However ALTTP never changes this and only uses the
         ; first option of 8x8 and 16x16
         ; The sizes are as follows:
-        ;  | Small | Large |
+        ;      | Small | Large |
         ; 0x00 |  8x8  | 16x16 |
         ; 0x01 |  8x8  | 32x32 |
         ; 0x02 |  8x8  | 64x64 |
@@ -961,40 +960,37 @@ struct WRAM $7E0000
 
     ; $94[0x01] - (NMI, Overworld)
     .BGMode: skip $01
-        ; Screen Mode Register (BGModeAndTileSize / $2105).
-        ; To be written to SNES.BGModeAndTileSize during NMI. Also written
-        ; to when entering and exiting the overworld map mode.
+        ; Screen Mode Register. To be written to SNES.BGModeAndTileSize during
+        ; NMI. Also written to when entering and exiting the overworld map mode.
 
     ; $95[0x01] - (NMI)
     .MosaicSetting: skip $01
-        ; Mosaic Settings (MosaicAndBGEnable / $2106).
-        ; To be written to SNES.MosaicAndBGEnable during NMI.
+        ; Mosaic Settings. To be written to SNES.MosaicAndBGEnable during NMI.
 
     ; $96[0x01] - (NMI)
     .BG12WindowMask: skip $01
-        ; Window Masks for Backgrounds 1 and 2 (BG1And2WindowMask / $2123).
-        ; To be written to SNES.BG1And2WindowMask during NMI.
+        ; Window Masks for Backgrounds 1 and 2. To be written to
+        ; SNES.BG1And2WindowMask during NMI.
 
     ; $97[0x01] - (NMI)
     .BG34WindowMask: skip $01
-        ; Window Masks for Backgrounds 3 and 4 (BG3And4WindowMask / $2124).
-        ; To be written to SNES.BG3And4WindowMask during NMI.
+        ; Window Masks for Backgrounds 3 and 4. To be written to
+        ; SNES.BG3And4WindowMask during NMI.
 
     ; $98[0x01] - (NMI)
     .ObjAndColor: skip $01
-        ; Window Masks for Obj and Color Add/Subtraction Layers
-        ; (OBJAndColorWindow / $2125). To be written to SNES.OBJAndColorWindow
-        ; during NMI.
+        ; Window Masks for Obj and Color Add/Subtraction Layers.
+        ; To be written to SNES.OBJAndColorWindow during NMI.
 
     ; $99[0x01] - (NMI)
     .EnableFixedColor: skip $01
-        ; Enable Fixed Color +/- (InitColorAddition / $2130).
-        ; To be written to SNES.InitColorAddition during NMI.
+        ; Enable Fixed Color +/-. To be written to SNES.InitColorAddition
+        ; during NMI.
 
     ; $9A[0x01] - (NMI)
     .AddSubSelect: skip $01
-        ; Enable +/- per layer (AddSubtractSelectAndEnable / $2131).
-        ; To be written to SNES.AddSubtractSelectAndEnable during NMI.
+        ; Enable +/- per layer. To be written to SNES.AddSubtractSelectAndEnable
+        ; during NMI.
 
     ; $9B[0x01] - (NMI)
     .HDMAEnable: skip $01
@@ -1447,50 +1443,48 @@ struct WRAM $7E0000
     ; $E0[0x02] - (Main)
     .BG1HPos: skip $02
         ; The BG1 horizontal position. This is almost the BG1 horizontal scroll
-        ; register (SNES.BG1HScrollOffset / $210D). $E0 is written to as if it
-        ; were the scroll register most of the time. However, its value is
-        ; occasionally changed and then written to $0120 which is the true BG1
-        ; horizontal scroll register. Functionally this means this is the X
-        ; position of BG1 relative to the camera.
+        ; register SNES.BG1HScrollOffset. $E0 is written to as if it were the
+        ; scroll register most of the time. However, its value is occasionally
+        ; changed and then written to $0120 which is the true BG1 horizontal
+        ; scroll register. Functionally this means this is the X position of
+        ; BG1 relative to the camera.
 
     ; $E2[0x02] - (Main)
     .BG2HPos: skip $02
         ; The BG2 horizontal position. This is almost the BG1 horizontal scroll
-        ; register (SNES.BG2HScrollOffset / $210F). $E2 is written to as if it
-        ; were the scroll register most of the time. However, its value is
-        ; occasionally changed and then written to $011E which is the true BG2
-        ; horizontal scroll register. Functionally this means this is the X
-        ; position of BG2 relative to the camera.
+        ; register SNES.BG2HScrollOffset. $E2 is written to as if it were the
+        ; scroll register most of the time. However, its value is occasionally
+        ; changed and then written to $011E which is the true BG2 horizontal
+        ; scroll register. Functionally this means this is the X position of
+        ; BG2 relative to the camera.
 
     ; $E4[0x02] - (Main, NMI)
     .BG3HScroll: skip $02
-        ; The BG3 horizontal scroll register (SNES.BG3HScrollOffset / $2111).
-        ; Functionally this means this is the X position of BG3 relative to the 
-        ; camera.
+        ; The BG3 horizontal scroll register SNES.BG3HScrollOffset. Functionally
+        ; this means this is the X position of BG3 relative to the camera.
 
     ; $E6[0x02] - (Main)
     .BG1VPosLow: skip $02
         ; The BG1 vertical position. This is almost the BG1 vertical scroll
-        ; register (SNES.BG1VScrollOffset / $210E). $E6 is written to as if it
-        ; were the scroll register most of the time. However, its value is
-        ; occasionally changed and then written to $0124 which is the true BG1
-        ; vertical scroll register. Functionally this means this is the Y
-        ; position of BG1 relative to the camera.
+        ; register SNES.BG1VScrollOffset. $E6 is written to as if it were the
+        ; scroll register most of the time. However, its value is occasionally
+        ; changed and then written to $0124 which is the true BG1 vertical scroll
+        ; register. Functionally this means this is the Y position of BG1 relative
+        ; to the camera.
 
     ; $E8[0x02] - (Main)
     .BG2VPos: skip $02
         ; The BG2 vertical position. This is almost the BG2 vertical scroll
-        ; register (SNES.BG2VScrollOffset / $2110). $E8 is written to as if it
-        ; were the scroll register most of the time. However, its value is
-        ; occasionally changed and then written to $0124 which is the true BG2
-        ; vertical scroll register. Functionally this means this is the Y
-        ; position of BG2 relative to the camera.
+        ; register SNES.BG2VScrollOffset. $E8 is written to as if it were the
+        ; scroll register most of the time. However, its value is occasionally
+        ; changed and then written to $0124 which is the true BG2 vertical scroll
+        ; register. Functionally this means this is the Y position of BG2 relative
+        ; to the camera.
 
     ; $EA[0x02] - (Main, NMI)
     .BG3VScroll: skip $02
-        ; The BG3 vertical scroll register (SNES.BG3VScrollOffset / $2112).
-        ; Functionally this means this is the Y position of BG3 relative to the 
-        ; camera.
+        ; The BG3 vertical scroll register SNES.BG3VScrollOffset. Functionally
+        ; this means this is the Y position of BG3 relative to the camera.
 
     ; $EC[0x02] - (Overworld, Dungeon)
     .CollisionType: skip $01
@@ -1556,7 +1550,7 @@ struct WRAM $7E0000
 
     ; $F0[0x01] - (Input, NMI)
     .Joypad1High:
-        ; Unfiltered Joypad 1 high Register (SNES.JoyPad1DataHigh / $4219).
+        ; Unfiltered Joypad 1 high Register SNES.JoyPad1DataHigh.
         ; Updated once per frame during NMI.
         ; BYsS udlr
         ; B - B button
@@ -1574,7 +1568,7 @@ struct WRAM $7E0000
 
     ; $F1[0x01] - (Input, NMI)
     .Joypad2High: skip $01
-        ; Unfiltered Joypad 2 high Register (SNES.JoyPad2DataHigh / $421B).
+        ; Unfiltered Joypad 2 high Register SNES.JoyPad2DataHigh.
         ; Input from joypad 2 is not read unless you do some ASM hacking.
         ; BYsS udlr
         ; B - B button
@@ -1588,7 +1582,7 @@ struct WRAM $7E0000
 
     ; $F2[0x01] - (Input, NMI)
     .Joypad1Low:
-        ; Unfiltered Joypad 1 low Register (SNES.JoyPad1DataLow / $4218)
+        ; Unfiltered Joypad 1 low Register SNES.JoyPad1DataLow.
         ; Updated once per frame during NMI.
         ; AXLR iiii
         ; A - A button
@@ -1603,7 +1597,7 @@ struct WRAM $7E0000
 
     ; $F3[0x01] - (Input, NMI)
     .Joypad2Low: skip $01
-        ; Unfiltered Joypad 2 low Register (SNES.JoyPad2DataLow / $421A)
+        ; Unfiltered Joypad 2 low Register SNES.JoyPad2DataLow.
         ; Input from joypad 2 is not read unless you do some ASM hacking.
         ; AXLR iiii
         ; A - A button
@@ -1614,7 +1608,7 @@ struct WRAM $7E0000
 
     ; $F4[0x01] - (Input, NMI)
     .Joypad1PressedHigh: skip $01
-        ; Pressed Joypad 1 high Register (SNES.JoyPad1DataHigh / $4219).
+        ; Pressed Joypad 1 high Register SNES.JoyPad1DataHigh.
         ; This is a rising edge trigger for the current state of the input.
         ; Meaning when a button is held down it will only appear for one frame
         ; here. Updated once per frame during NMI.
@@ -1630,7 +1624,7 @@ struct WRAM $7E0000
 
     ; $F5[0x01] - (Input, NMI)
     .Joypad2PressedHigh: skip $01
-        ; Pressed Joypad 2 high Register (SNES.JoyPad2DataHigh / $421B).
+        ; Pressed Joypad 2 high Register SNES.JoyPad2DataHigh.
         ; This is a rising edge trigger for the current state of the input.
         ; Meaning when a button is held down it will only appear for one frame
         ; here. Input from joypad 2 is not read unless you do some ASM hacking.
@@ -1646,7 +1640,7 @@ struct WRAM $7E0000
 
     ; $F6[0x01] - (Input, NMI)
     .Joypad1PressedLow: skip $01
-        ; Pressed Joypad 1 low Register (SNES.JoyPad1DataLow / $4218)
+        ; Pressed Joypad 1 low Register SNES.JoyPad1DataLow.
         ; This is a rising edge trigger for the current state of the input.
         ; Meaning when a button is held down it will only appear for one frame
         ; here. Updated once per frame during NMI.
@@ -1659,7 +1653,7 @@ struct WRAM $7E0000
 
     ; $F7[0x01] - (Input, NMI)
     .Joypad2PressedLow: skip $01
-        ; Pressed Joypad 2 low Register (SNES.JoyPad2DataLow / $421A)
+        ; Pressed Joypad 2 low Register SNES.JoyPad2DataLow.
         ; This is a rising edge trigger for the current state of the input.
         ; Meaning when a button is held down it will only appear for one frame
         ; here. Input from joypad 2 is not read unless you do some ASM hacking.
@@ -1672,8 +1666,8 @@ struct WRAM $7E0000
 
     ; $F8[0x01] - (Input, NMI)
     .Joypad1LastHigh: skip $01
-        ; Unfiltered Joypad 1 high Register (SNES.JoyPad1DataHigh / $4219) from
-        ; the previous frame. Updated once per frame during NMI.
+        ; Unfiltered Joypad 1 high Register SNES.JoyPad1DataHigh from the previous
+        ; frame. Updated once per frame during NMI.
         ; BYsS udlr
         ; B - B button
         ; Y - Y button
@@ -1686,9 +1680,8 @@ struct WRAM $7E0000
 
     ; $F9[0x01] - (Input, NMI)
     .Joypad2LastHigh: skip $01
-        ; Unfiltered Joypad 2 high Register (SNES.JoyPad2DataHigh / $421B) from
-        ; the previous frame. Input from joypad 2 is not read unless you do some
-        ; ASM hacking.
+        ; Unfiltered Joypad 2 high Register SNES.JoyPad2DataHigh from the previous
+        ; frame. Input from joypad 2 is not read unless you do some ASM hacking.
         ; BYsS udlr
         ; B - B button
         ; Y - Y button
@@ -1701,8 +1694,8 @@ struct WRAM $7E0000
 
     ; $FA[0x01] - (Input, NMI)
     .Joypad1LastLow: skip $01
-        ; Unfiltered Joypad 1 low Register (SNES.JoyPad1DataLow / $4218) from
-        ; the previous frame. Updated once per frame during NMI.
+        ; Unfiltered Joypad 1 low Register SNES.JoyPad1DataLow from the previous
+        ; frame. Updated once per frame during NMI.
         ; AXLR iiii
         ; A - A button
         ; X - X button
@@ -1716,9 +1709,8 @@ struct WRAM $7E0000
 
     ; $FB[0x01] - (Input, NMI)
     .Joypad2LastLow:
-        ; Unfiltered Joypad 2 low Register (SNES.JoyPad2DataLow / $421A) from
-        ; the previous frame. Input from joypad 2 is not read unless you do some
-        ; ASM hacking.
+        ; Unfiltered Joypad 2 low Register SNES.JoyPad2DataLow from the previous
+        ; frame. Input from joypad 2 is not read unless you do some ASM hacking.
         ; AXLR iiii
         ; A - A button
         ; X - X button
@@ -1742,10 +1734,10 @@ struct WRAM $7E0000
 
     ; $FF[0x01] - (NMI)
     .VCountTarget: skip $01
-        ; Vertical IRQ Trigger register (SNES.VCountTImer / $4209). If the
-        ; vertical scan line equals SNES.VCountTImer then it will trigger the
-        ; IRQ. Is only set to 0x90 or 0x30 but SNES.VCountTImer is also set
-        ; manually during NMI to 0x80.
+        ; Vertical IRQ Trigger register SNES.VCountTImer. If the vertical scan
+        ; line equals SNES.VCountTImer then it will trigger the IRQ. Is only set
+        ; to 0x90 or 0x30 but SNES.VCountTImer is also set manually during NMI
+        ; to 0x80.
         ; 0x90 - Set during the 3D triforce setup.
         ; 0x30 - When loading a save file (and it probably stays that way for
         ;        most of the game)
@@ -1881,7 +1873,7 @@ struct WRAM $7E0000
     ; the regesters at $E0-$EA should be used instead of these.
     ; $011E[0x02] - (Main)
     .BG2HScrollLow: skip $01
-        ; BG2 Horizontal Scroll Register (SNES.BG2HScrollOffset / $210F).
+        ; BG2 Horizontal Scroll Register SNES.BG2HScrollOffset.
         ; See BG2HPosLow and BGHShake for more details.
 
     ; $011F[0x01] - (Main)
@@ -1890,7 +1882,7 @@ struct WRAM $7E0000
 
     ; $0120[0x02] - (Main)
     .BG1HScrollLow: skip $01
-        ; BG1 Horizontal Scroll Register (SNES.BG1HScrollOffset / $210D)
+        ; BG1 Horizontal Scroll Register SNES.BG1HScrollOffset.
         ; See BG1HPosLow and BGHShake for more details.
 
     ; $0121[0x01] - (Main)
@@ -1899,7 +1891,7 @@ struct WRAM $7E0000
 
     ; $0122[0x02] - (Main)
     .BG2VScrollLow: skip $01
-        ; BG2 Vertical Scroll Register (SNES.BG2VScrollOffset / $2110)
+        ; BG2 Vertical Scroll Register SNES.BG2VScrollOffset.
         ; See BG2VPosLow and BGVShake for more details.
 
     ; $0123[0x01] - (Main)
@@ -1908,7 +1900,7 @@ struct WRAM $7E0000
 
     ; $0124[0x02] - (Main)
     .BG1VScrollLow: skip $01
-        ; BG1 Vertical Scroll Register (SNES.BG1VScrollOffset / $210E)
+        ; BG1 Vertical Scroll Register SNES.BG1VScrollOffset.
         ; See BG1VPosLow and BGVShake for more details.
 
     ; $0125[0x01] - (Main)
@@ -2420,11 +2412,11 @@ struct WRAM $7E0000
         ; The value of AttractBrightnessFlag gets cached here in a couple places
         ; but it is never read from.
 
-    ; $02C3[0x01] - (Block, Dungeon)
+    ; $02C3[0x01] - (Push Block, Dungeon)
     .PushBlockStep: skip $01
         ; The step counter for push blocks.
 
-    ; $02C4[0x01] - (Block, Dungeon)
+    ; $02C4[0x01] - (Push Block, Dungeon)
     .PushBlockTimer: skip $01
         ; A timer used to control push blocks.
 
@@ -4056,7 +4048,7 @@ struct WRAM $7E0000
     .Free_0465: skip $01
         ; Free RAM.
 
-    ; $0466[0x02] - (Dungeon, Door, Block, High Junk)
+    ; $0466[0x02] - (Dungeon, Door, Push Block, High Junk)
     .BlockCoveringSwitch: skip $02
         ; Used to indicate when a push block is on top of a switch. Flips the
         ; 0th bit of TrapDoorsDown as its value while on a switch.
@@ -4091,7 +4083,7 @@ struct WRAM $7E0000
         ; only written to if the watergate is unopened. This is used to
         ; know where to place the gate opening animation tiles.
 
-    ; $0474[0x02] - (Dungeon, Block, High Junk)
+    ; $0474[0x02] - (Dungeon, Push Block, High Junk)
     .PushBlockDirection: skip $02
         ; The direction a push block has been pushed. The high byte is never
         ; written to and is expected to always be 0.
@@ -4766,84 +4758,131 @@ struct WRAM $7E0000
     .AttractZoomTimer: skip $01
         ; Timer for the Mode 7 zoom in sequence. Affects the zoom level
         ; indirectly by serving as the value that a table of values gets
-        ; multiplied by to produce an hdma table.
+        ; multiplied by to produce an HDMA table.
 
     ; $0638[0x02] - (Overworld Map, Attract)
-        ; Mirror of $211F (M7X)
+    .Mode7CenterPosX: skip $02
+        ; Mode 7 Center X Position register. Writes to SNES.Mode7CenterPosX
+        ; during NMI.
 
     ; $063A[0x02] - (Overworld Map, Attract)
-        ; Mirror of $2120 (M7Y)
+    .Mode7CenterPosY: skip $02
+        ; Mode 7 Center Y Position register. Writes to SNES.Mode7CenterPosY
+        ; during NMI.
 
-    ; $063C - 
-        ; Hole / Teleporter plane 
+    ; $063C[0x01] - (Dungeon)
+    .DunHoleTargetLayer: skip $01
+        ; Hole / Teleporter target layer.
 
-    ; $063D - 
-        ; Staircase 1 plane
+    ; $063D[0x01] - (Dungeon)
+    .DunStair1TargetLayer: skip $01
+        ; Staircase 1 target layer.
 
-    ; $063E - 
-        ; Staircase 2 plane
+    ; $063E[0x01] - (Dungeon)
+    .DunStair2TargetLayer: skip $01
+        ; Staircase 2 target layer.
 
-    ; $063F - 
-        ; Staircase 3 / door plane
+    ; $063F[0x01] - (Dungeon)
+    .DunStair3TargetLayer: skip $01
+        ; Staircase 3 / door target layer.
 
-    ; $0640 - 
-        ; Staircase 4 / door plane
+    ; $0640[0x01] - (Dungeon)
+    .DunStair4TargetLayer: skip $01
+        ; Staircase 4 / door target layer.
 
-    ; $0641 - 
-        ; Flag that is nonzero when a moveable block that triggers something
-        ; is pushed in a dungeon room.
+    ; $0641[0x01] - (Dungeon, Push Block, Tag)
+    .PushBlockPushed: skip $01
+        ; A flag that when nonzero indicates a block has been pushed. Used to check
+        ; if we need to open some doors or make a chest appear based on the room
+        ; tags.
 
-    ; $0642 - 
-        ; apparently a flag for indicating a state change in water puzzle rooms.
-        ; (And hidden wall rooms?)
+    ; $0642[0x01] - (Dungeon, Tag)
+    .SpriteActivateTag: skip $01
+        ; A flag that when nonzero indicates that one of several sprites has been
+        ; triggered and a tag needs to activate. Used by push and pull switches,
+        ; arrow targets, and moveable statues.
 
-    ; $0643 - 
-        ; Free RAM?
+    ; $0643[0x03] -  (Free)
+    .Free_0643: skip $03
+        ; Free RAM.
 
-    ; $0646[0x01] - (Dungeon)
-        ; Educated guess: this is a flag that is nonzero when a cane of Somaria
-        ; block is on top of a switch that needs to be weighed down.
+    ; $0646[0x01] - (Dungeon, Tag, Item)
+    .SomariaPressingSwitch: skip $01
+        ; A flag that when nonzero indicates that a cane of Somaria block is
+        ; on top of a switch that needs to be weighed down.
 
     ; $0647[0x01] - (Player) 
-        ; Used exclusively with electrocution mosaic logic as a flag.
-        ; 0       - Mosaic increases each frame.
+    .ElectrocutionMosaic: skip $01
+        ; Used as a flag exclusively with electrocution mosaic logic.
+        ; 0x00    - Mosaic increases each frame.
         ; Nonzero - Mosaic decreases each frame.
 
-    ; $0648[0x28] - 
-        ; Free RAM
+    ; $0648[0x28] - (Free)
+    .Free_0648: skip $28
+        ; Free RAM.
 
-    ; $0670 - 
-        ; presumably all related to spotlight hdma or the setup of it
-        ; $0670[0x02] - 
-        ; $0672 - 
-        ; Free RAM
-        ; $0674 - 
-        ; Y lower range (around player)
-        ; $0676 - 
-        ; Y upper range (around player)
-        ; $0678[0x02] - 
-        ; $067A - 
-        ; Dividend of some sort
-        ; $067C - 
-        ; Divisor of some sort
-        ; $067E[0x02] - 
+    ; $0670[0x02] - (HDMA)
+    .HDMALeftBase:
+        ; Used as the left base for the spotlight HDMA effect used when
+        ; entering/exiting a dungeon and praying at the Desert Palace. This
+        ; is also used during the dungeon water flowing HDMA effect.
+        
+    ; $0672[0x02] - (Free)
+    .Free_0672: skip $02
+        ; Free RAM.
 
-    ; $0680 - 
+    ; $0674[0x02] - (HDMA)
+    .HDMATopBase: skip $02
+        ; Used as the top base for the spotlight HDMA effect used when
+        ; entering/exiting a dungeon and praying at the Desert Palace. This
+        ; is also used during the dungeon water flowing HDMA effect.
+        ; TODO: Confirm use.
+    
+    ; $0676[0x02] - (HDMA)
+    .HDMABottomBase: skip $02
+        ; Used as the bottom base for the spotlight HDMA effect used when
+        ; entering/exiting a dungeon and praying at the Desert Palace. This
+        ; is also used as the starting positions of the water gate.
+        ; TODO: Confirm use.
+    
+    ; $0678[0x02] - (HDMA)
+    .HDMATimerV: skip $02
+        ; Starts at the Y position of the water gate and is then decremented down
+        ; until it hits 0x0000 after the gate opens. It is then stored into
+        ; HDMABottomBase to control where the HDMA stops on the bottom.
+    
+    ; $067A[0x02] - (HDMA)
+    .IrisDividend: skip $02
+        ; A dividend of some sort. Used to determine how wide/tall the spotlight
+        ; is while opening/closing. TODO: Confirm.
+    
+    ; $067C[0x02] - (HDMA)
+    .IrisDivisor: skip $02
+        ; A divisor of some sort. Used to determine how wide/tall the spotlight
+        ; is while opening/closing. TODO: Confirm.
+    
+    ; $067E[0x02] - 
+    .IrisType: skip $02
+        ; A flag that indicates whether the spotlight HDMA is opening or closing.
+        ; 0x00    - The spotlight is closing.
+        ; nonzero - The spotlight is opening.
+
+    ; $0680[0x02] - 
         ; Water hdma related...
 
-    ; $0682 - 
+    ; $0682[0x02] - 
         ; Water hdma related...
 
-    ; $0684 - 
+    ; $0684[0x02] - 
         ; Water hdma related...
 
-    ; $0686 - 
+    ; $0686[0x02] - 
         ; Water hdma related...
 
-    ; $0688 - 
+    ; $0688[0x02] - 
         ; Watergate hdma related...
 
-    ; $068A - 
+    ; $068A[0x02] - 
         ; Watergate hdma related...
 
     ; $068C[0x02] - 
