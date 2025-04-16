@@ -3101,6 +3101,7 @@ Object_Water:
 {
     LDA.b $B2 : ASL A : TAX
     
+    ; Use the initial height to index into a table to get the actual height.
     LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B2
     
     LDA.w WaterOverlayHDMASize, X : STA.w $0686
@@ -3109,9 +3110,9 @@ Object_Water:
     
     LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B4
     
-    ; Looks like all these $06xx addreses are calculated for hdma of the 
+    ; Looks like all these $06xx addreses are calculated for HDMA of the 
     ; water (for rooms that have a script for that).
-    LDA.w WaterOverlayHDMASize, X  : STA.w $0684
+    LDA.w WaterOverlayHDMASize, X : STA.w $0684
     SEC : SBC.w #$0018 : STA.w $0688
     
     TYA : AND.w #$007E : ASL #2 : STA.w $0680
@@ -3212,7 +3213,6 @@ RoomDraw_WaterOverlayB8x8_1to16:
     LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B4
     
     LDA.w WaterOverlayHDMASize, X : SEC : SBC.w #$0008 : STA.w $0688
-    
     SEC : SBC.w #$0018 : STA.w $0684
     
     STZ.w $068A
@@ -3223,8 +3223,7 @@ RoomDraw_WaterOverlayB8x8_1to16:
     
     TYA : CLC : ADC.w #$1F80 : LSR #4 : STA.w $0682
     
-    LDA.b $B4 : ASL #4
-    CLC : ADC.w $062E : CLC : ADC.w $0682
+    LDA.b $B4 : ASL #4 : CLC : ADC.w $062E : CLC : ADC.w $0682
     SEC : SBC.w #$0008 : STA.w $0682
     
     SEP #$30
@@ -5679,7 +5678,7 @@ Object_Draw10x20_With4x4:
 Door_Up:
 {
     ; Determine the position for the door from a table
-    LDY.w DoorTilemapPositions_NorthWall, X : STY !tilemap_pos
+    LDY.w DoorTilemapPositions_NorthWall, X : STY.b !tilemap_pos
     
     CMP.w #$0030 : BNE .notBlastWall
         JMP Door_BlastWall
@@ -5759,7 +5758,7 @@ Door_Up:
             
             LDA.w DungeonMask, Y
             
-            LDY !tilemap_pos
+            LDY.b !tilemap_pos
             
             AND.w $068C : BEQ .BRANCH_NU
                 INX #2 : STX.w $0460
@@ -5772,7 +5771,7 @@ Door_Up:
             ; Branch here if it's a locked door and hasn't been unlocked.
             
             LDA.b $04 : CMP.w #$0024 : BCC RoomDraw_NormalRangedDoors_North_BRANCH_RHO
-                STX !tilemap_pos
+                STX.b !tilemap_pos
                 
                 LDX.w $0460
                 
@@ -5782,7 +5781,7 @@ Door_Up:
                 
                 LDA.w DoorGFXDataOffset_North, Y : TAY
                 
-                LDX !tilemap_pos
+                LDX.b !tilemap_pos
                 
                 LDA.w #$0004 : STA.b $0E
                 
@@ -5822,7 +5821,7 @@ RoomDraw_NormalRangedDoors_North:
 {
     ; Check the door's "Pos" or "location"
     ; If pos < 0x0C (6 in HM)
-    LDX !door_position : CPX.w #$000C : BCC .BRANCH_RHO
+    LDX.b !door_position : CPX.w #$000C : BCC .BRANCH_RHO
         PHY
         
         LDA.w $0460 : PHA
@@ -5843,7 +5842,7 @@ RoomDraw_NormalRangedDoors_North:
     
     .BRANCH_RHO
     
-    STY !tilemap_pos
+    STY.b !tilemap_pos
     
     LDX.w $0460
     
@@ -5869,7 +5868,7 @@ RoomDraw_NormalRangedDoors_North:
         
         LDX.w DoorGFXDataOffset_North, Y
         
-        LDY !tilemap_pos
+        LDY.b !tilemap_pos
         
         LDA.w #$0004 : STA.b $0E
         
@@ -6146,7 +6145,7 @@ Door_Left:
 ; $00AB1F-$00AB77 ALTERNATE ENTRY POINT
 RoomDraw_NormalRangedDoors_West:
 {
-    LDX !door_position : CPX.w #$000C : BCC .BRANCH_THETA
+    LDX.b !door_position : CPX.w #$000C : BCC .BRANCH_THETA
         PHY
         
         LDA.w $0460 : PHA
@@ -10835,11 +10834,11 @@ Tag_TurnOnWater:
 
 ; ==============================================================================
 
-; Routine 0x1A - watergate room
+; Routine 0x1A - Watergate room
 ; $00CB49-$00CBFF JUMP LOCATION
 Tag_Watergate:
 {
-    ; Ignore this routine because the water is already present
+    ; Ignore this routine because the water is already present.
     LDA.w $0403 : AND.l DoorFlagMasks+1 : BNE Tag_TurnOnWater_return
         ; Ignore this routine until the player pulls the lever to let water
         ; enter the room.
@@ -10860,7 +10859,7 @@ Tag_Watergate:
             ; Reset the lever trigger.
             STZ.w $0642
             
-            ; Reset some hdma stuff?
+            ; Reset some HDMA stuff?
             STZ.w $0684 : STZ.w $067A
             
             ; Adjust window mask settings.
@@ -10875,7 +10874,7 @@ Tag_Watergate:
             LDA.b #$62 : STA.b $9A
             
             ; Set the overworld flags so that the LW and DW areas outside the
-            ; watergate have the water emptied
+            ; watergate have the water emptied.
             LDA.l $7EF2BB : ORA.b #$20 : STA.l $7EF2BB
             LDA.l $7EF2FB : ORA.b #$20 : STA.l $7EF2FB
             
@@ -10894,15 +10893,13 @@ Tag_Watergate:
             
             REP #$30
             
-            ; Get the X position of the watergate barrier (in pixels)
+            ; Get the X position of the watergate barrier (in pixels).
             LDA.w $0472 : AND.w #$007E : ASL #2 : STA.w $0680
             
             ; Make the X position grid adjusted and move it 5 tiles to the right
             ; (the watergate is 10 tiles wide, so this puts it at the midpoint).
-            LDA.b $B2 : ASL #4
-            CLC : ADC.w $062C
-            CLC : ADC.w $0680
-            CLC : ADC.w #$0028
+            LDA.b $B2 : ASL #4 : CLC : ADC.w $062C
+            CLC : ADC.w $0680  : CLC : ADC.w #$0028
             STA.w $0680
             
             ; Get the Y position of the watergate barrier.
@@ -11431,7 +11428,6 @@ Dungeon_ProcessTorchAndDoorInteractives:
     LDA.w $19C0, Y : AND.w #$0003 : ASL A : CMP.b $08 : BNE .not_openable_door
         ; Check if it's a breakable wall
         LDA.w $1980, Y : AND.w #$00FE
-        
         CMP.w #$0028 : BEQ .is_breakable_wall
             CMP.w #$001C : BEQ .isSmallKeyDoor ; Is it a small key door?
                 CMP.w #$001E : BNE .notBigKeyDoor ; Is it a big key door?
@@ -11497,7 +11493,6 @@ Dungeon_ProcessTorchAndDoorInteractives:
             LDA.b #$14 : STA.b $00
             
             LDX.w $0694
-            
             LDA.w $19C0, X : AND.b #$03 : TAX
             
             ; Play a sound effect because the door opened.
@@ -11932,13 +11927,13 @@ DrawDoorOpening_Step1:
 ; $00D311-$00D339 LOCAL JUMP LOCATION
 DrawShutterDoorSteps:
 {
-    ; Load door's tilemap address
+    ; Load door's tilemap address.
     LDX.w $19A0, Y : STX.b $08
     
     ; Store its position in the door arrays.
     STY.w $0460
     STY.w $0694
-    
+
     LDA.w $19C0, Y : AND.w #$0003 : BNE .not_up
         JMP.w GetDoorDrawDataIndex_North_clean_door_index
     
@@ -12034,7 +12029,6 @@ Dungeon_AnimateTrapDoors:
     STZ.b $0C
     
     INC.w $0690
-    
     LDA.w $0690
     
     LDY.w $0468 : BNE .trap_doors_are_down
@@ -12190,7 +12184,6 @@ Dungeon_AnimateOpeningLockedDoor:
     LDY.w #$0002
     
     INC.w $0690
-    
     LDA.w $0690 : CMP.w #$0004 : BEQ .halfOpenDoor
         INY #2
         
@@ -12198,7 +12191,6 @@ Dungeon_AnimateOpeningLockedDoor:
             .set_event_flags
             
             LDX.w $068E
-            
             LDA.l $7F2000, X : AND.w #$0007 : ASL A : TAX
             
             LDA.w $068C : ORA.w DungeonMask, X : STA.w $068C
@@ -12212,7 +12204,6 @@ Dungeon_AnimateOpeningLockedDoor:
     STZ.b $0C
     
     LDX.w $068E
-    
     LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
     
     JSR.w DrawDoorOpening_Step1
@@ -12237,7 +12228,6 @@ Dungeon_AnimateOpeningLockedDoor:
         JSR.w Dungeon_LoadToggleDoorAttr
         
         LDX.w $068E
-        
         LDA.l $7F2000, X : AND.w #$00FF : CMP.w #$00F0 : BCC .notKeyDoor
             AND.w #$000F : ASL A : TAY
             
@@ -12454,7 +12444,6 @@ Door_BlastWallExploding:
             LDY.w $0456
             
             LDA.w $068C : ORA.w DungeonMask, Y : STA.w $068C
-            
             LDA.w $0400 : ORA.w DungeonMask, Y : STA.w $0400
             
             LDX.w #$0001
@@ -16357,13 +16346,11 @@ FloodDam_Expand:
     INC.w $0470
     
     LDA.w $0470 : LSR A : STA.w $0686
-    
     SEC : SBC.b #$08 : STA.b $00
     
     LDA.w $0678 : STA.w $0676
     
     LDA.w $067A : CLC : ADC.b #$01 : STA.w $067A
-    
     CLC : ADC.b $00 : STA.w $0684
     
     LDA.w $0470 : AND.b #$0F : BNE Watergate_Main_easyOut
@@ -16448,7 +16435,6 @@ FloodDam_PrepTiles:
 FloodDam_Fill:
 {
     INC.w $0684
-    
     LDA.w $0684 : CLC : ADC.w $0676 : CMP.b #$E1 : BCC .alpha
         STZ.w $045C
         STZ.b $11

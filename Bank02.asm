@@ -7357,7 +7357,8 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     ; Load a map16 tile type based on this input and store it to the tile map.
     ; A here is the tile16, X is the location on the tilemap.
-    LDY.w $0692 : LDA.w Map32UpdateTiles_0, Y : STA.l $7E2000, X
+    LDY.w $0692
+    LDA.w Map32UpdateTiles_0, Y : STA.l $7E2000, X
 
     ; Store the actual map16 value to our array for failed warps.
     LDX.w $04AC : STA.l $7EFA00, X
@@ -7369,7 +7370,9 @@ Overworld_DoMapUpdate32x32_16bit_already:
     LDA.w $0698 : LDX.w $04AC : INC #2 : STA.l $7EF802, X
 
     ; Load the next tile type. Store it to the next location in the tilemap.
-    LDX.w $0698 : LDY.w $0692 : LDA.w Map32UpdateTiles_1, Y : STA.l $7E2002, X
+    LDX.w $0698
+    LDY.w $0692
+    LDA.w Map32UpdateTiles_1, Y : STA.l $7E2002, X
 
     LDX.w $04AC : STA.l $7EFA02, X
 
@@ -7381,7 +7384,9 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     ; Load the third tile (block?) type, and then store in a place to be
     ; blitted to VRAM.
-    LDX.w $0698 : LDY.w $0692 : LDA.w Map32UpdateTiles_2, Y : STA.l $7E2080, X
+    LDX.w $0698
+    LDY.w $0692
+    LDA.w Map32UpdateTiles_2, Y : STA.l $7E2080, X
 
     LDX.w $04AC : STA.l $7EFA04, X
 
@@ -7391,7 +7396,9 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     LDA.w $0698 : LDX.w $04AC : CLC : ADC.w ADC #$0082 : STA.l $7EF806, X
 
-    LDX.w $0698 : LDY.w $0692 : LDA.w Map32UpdateTiles_3, Y : STA.l $7E2082, X
+    LDX.w $0698
+    LDY.w $0692
+    LDA.w Map32UpdateTiles_3, Y : STA.l $7E2082, X
 
     LDX.w $04AC : STA.l $7EFA06, X
 
@@ -11280,13 +11287,13 @@ Overworld_CgramAuxToMain:
 
 ; ==============================================================================
 
-; Seems mode7 related... (hdma for mode 7 manipulation, I mean).
+; Seems mode7 related... (HDMA for mode 7 manipulation, I mean).
 ; $0147B8-$0147F1 LONG JUMP LOCATION
 CleanUpAndPrepDesertPrayerHDMA:
 {
     PHB : PHK : PLB
 
-    ; Set up this channel we'll be using for hdma (spotlight?).
+    ; Set up this channel we'll be using for HDMA (spotlight?).
     LDX.b #$04
 
     .configure_dma_channel
@@ -11330,7 +11337,7 @@ CleanUpAndPrepDesertPrayerHDMA:
 UNUSED_$02C7F2:
 {
     ; Seems to be unreferenced data, but what is interesting is it appears to
-    ; be some sort of .... disabled hdma table (note the presence of $1B00 and
+    ; be some sort of .... disabled HDMA table (note the presence of $1B00 and
     ; $1BF0 in this data) this information appears to be unused in the final
     ; product.
     .unused_hdma_data

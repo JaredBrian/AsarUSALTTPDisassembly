@@ -9501,7 +9501,7 @@ DungeonMap_LightenUpDungeon:
         ; Bring screen brightness to full.
         LDA.b #$0F : STA.b $13
     
-        ; Restore hdma settings from before being in map mode.
+        ; Restore HDMA settings from before being in map mode.
         LDA.l $7EC229 : STA.b $9B
     
     .notDoneBrightening

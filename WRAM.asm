@@ -4861,61 +4861,80 @@ struct WRAM $7E0000
         ; A divisor of some sort. Used to determine how wide/tall the spotlight
         ; is while opening/closing. TODO: Confirm.
     
-    ; $067E[0x02] - 
+    ; $067E[0x02] - (HDMA)
     .IrisType: skip $02
         ; A flag that indicates whether the spotlight HDMA is opening or closing.
         ; 0x00    - The spotlight is closing.
         ; nonzero - The spotlight is opening.
 
-    ; $0680[0x02] - 
-        ; Water hdma related...
+    ; $0680[0x02] - (Dungeon, HDMA)
+    .WaterGateLeftHDMA: skip $02
+        ; The water gate HMDA left boundary. TODO: Confirm use.
 
-    ; $0682[0x02] - 
-        ; Water hdma related...
+    ; $0682[0x02] - (Dungeon, HDMA)
+    .WaterGateTopHDMA: skip $02
+        ; The water gate HMDA top boundary. TODO: Confirm use.
 
-    ; $0684[0x02] - 
-        ; Water hdma related...
+    ; $0684[0x02] - (Dungeon, HDMA)
+    .WaterGateVSizeHDMA: : skip $02
+        ; The vertical size for the water gate HDMA. TODO: Confirm use.
 
-    ; $0686[0x02] - 
-        ; Water hdma related...
+    ; $0686[0x02] - (Dungeon, HDMA)
+    .WaterGateHSizeHDMA: : skip $02
+        ; The horizontal size for the water gate HDMA. TODO: Confirm use.
 
-    ; $0688[0x02] - 
-        ; Watergate hdma related...
+    ; $0688[0x02] - (Dungeon, HDMA)
+    .WaterGateMaxHSizeHDMA: : skip $02
+        ; The max horizontal size for the water gate HDMA. TODO: Confirm use.
 
-    ; $068A[0x02] - 
-        ; Watergate hdma related...
+    ; $068A[0x02] - (Dungeon, HDMA)
+    .WaterGateMaxVSizeHDMA: : skip $02
+        ; The max vertical size for the water gate HDMA. TODO: Confirm use.
 
-    ; $068C[0x02] - 
+    ; $068C[0x02] - (Dungeon, Door)
+    .DoorsOpen: skip $02
+        ; Stores which doors are open during transitions. Probably used to draw
+        ; doors in the correct state while transitioning. Interacts with
+        ; DungeonMask a lot and I'm not sure why. TODO: Confirm this is the 
+        ; correct use. MoN comment:
         ; Top 4 bits hold information about which doors have been opened.
         ; Update: Or are currently open? Man, what a miserable system!
 
-    ; $068E[0x02] - (Dungeon)
-        ; ???? related to trap doors and if they are open ; possibly bomb doors
-        ; too? Update: module 0x07.0x4 probably uses this to know whether it's
-        ; a key door or big key door to open.
+    ; $068E[0x02] - (Dungeon, Door)
+    .DoorTileMapPos: skip $02
+        ; The tilemap position of the current door.
 
-    ; $0690[0x02] - (Overworld)
+    ; $0690[0x02] - (Overworld, Door)
+    .OWDoorTimer:
         ; Generally is used as an animation step indicator, only for doors that
-        ; animate when they open, such as the Santuary and Hyrule Castle doors.
-        ; This variable is incremented up to a value of 3, at which point a
-        ; logic check kicks in and stops animating the opening of a door.
+        ; animate when they open, such as the Santuary and Hyrule Castle doors
+        ; This variable is incremented up to a value of 3, at which point a logic
+        ; check kicks in and stops animating the opening of a door.
 
-    ; $0690[0x03] - (Dungeon)
+    ; $0690[0x02] - (Dungeon, Door)
+    .DunDoorTimer: skip $02
         ; Similarly to the overworld version of this variable, it's used in the
         ; animation of doors opening. However, it's also used for doors closing,
         ; and in particular the types of doors we're talking about are the trap
         ; doors that look like nasty skull faces. Values range from 0 (closed) to
         ; 7 (open).
 
-    ; $0692[0x02] - (Overworld)
-        ; Contains the resultant map16 value of the most recently modified map16
-        ; tile. (i.e. when picking up a bush/rock) 
+    ; $0692[0x02] - (Overworld, Tile32)
+    .OWNewTile32:
+        ; Contains the index of a new tile32 to place on the map. This is used
+        ; by things like graves when they are moved, and the DW smithy house
+        ; peg puzzle.
 
-    ; $0692[0x02] - (Dungeon)
-        ; Relates to doors being opened or closed.
+    ; $0692[0x02] - (Dungeon, Door)
+    .DunDoorAni: skip $02
+        ; The animation state of a door opening or closing.
+        ; 0x00 - Fully open
+        ; 0x02 - Half open
+        ; 0x04 - Fully shut
 
-    ; $0694 - 
-        ; ????
+    ; $0694[0x02] - (Dungeon, Door)
+    .DoorTypeCache: skip $02
+        ; A temporary cache of the current door type.
 
     ; $0696 - 
         ; Entrance value. If 0x0000 indicates no doorway on OW.
@@ -7878,7 +7897,7 @@ struct WRAM $7F0000
 
     ; $7F6000[0x1000] -  enemy damage related
 
-    ; $7F7000[0x1C0] -    Used to generate the hdma table that the intro and outro spotlight effect uses
+    ; $7F7000[0x1C0] -    Used to generate the HDMA table that the intro and outro spotlight effect uses
 
     ; $7F71C0[0x4A7] -    text / dialogue pointers (all of them!). Each one is a 3 byte long pointer.
 

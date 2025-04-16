@@ -940,8 +940,7 @@ Overworld_Entrance:
     AND.w #$03FF : CMP.w #$0169 : BNE .BRANCH_IOTA
         ; Check if we've beaten agahnim, and if so, don't open the door.
         LDA.l $7EF3C5 : AND.w #$000F : CMP.w #$0003 : BCS .BRANCH_EPSILON
-        
-        LDA.w #$0018 : STA.w $0692
+            LDA.w #$0018 : STA.w $0692
     
     .BRANCH_IOTA
     
@@ -1719,15 +1718,14 @@ Overworld_ApplyBombToTile:
 
 ; ==============================================================================
 
+; Called when the weather vane is about exploded.
+; Draws fresh tiles over the weathercock and displays the N (north) 
+; symbol by blitting them to VRAM, and setting $14 to 1, so it will
+; register. But note that in order for this to work you have to use the
+; array starting at $1000 in WRAM, which this routine does.
 ; $0DC21D-$0DC263 LONG JUMP LOCATION
 Overworld_AlterWeathervane:
 {
-    ; Called when the weather vane is about exploded.
-    ; Draws fresh tiles over the weathercock and displays the N (north) 
-    ; symbol by blitting them to VRAM, and setting $14 to 1, so it will
-    ; register. But note that in order for this to work you have to use the
-    ; array starting at $1000 in WRAM, which this routine does.
-    
     REP #$30
     
     ; The replacement map16 tile to use?

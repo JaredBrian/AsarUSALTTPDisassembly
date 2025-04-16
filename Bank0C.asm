@@ -5879,7 +5879,7 @@ Attract_InitGraphics:
     STZ.w SNES.BG123And4WindowLogic
     STZ.w SNES.ColorAndOBJWindowLogic
     
-    ; Resume hdma next frame using channels 6 and 7.
+    ; Resume HDMA next frame using channels 6 and 7.
     LDA.b #$C0 : STA.b $9B
     
     ; Play "Legend" theme music.
@@ -7770,7 +7770,7 @@ Attract_WindowingHDMA:
     db $01 : db $FF, $00
     db $00
     
-    ; Use direct hdma to write from A bus to registers $2126 and $2127,
+    ; Use direct HDMA to write from A bus to registers $2126 and $2127,
     ; alternating on channel 6.
     ; $067A9E
     .settings
@@ -7779,7 +7779,7 @@ Attract_WindowingHDMA:
     dl .table_a ; $0CFA87
 }
 
-; Note: This sets up the windowing via hdma for the legend sequence.
+; Note: This sets up the windowing via HDMA for the legend sequence.
 ; $067AA3-$067AC1 LOCAL JUMP LOCATION
 Attract_SetupHdma:
 {

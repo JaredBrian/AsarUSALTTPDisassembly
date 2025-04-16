@@ -736,7 +736,7 @@ OverworldMap_Backup:
 {
     ; Darken the screen until it's fully black.
     DEC.b $13 : BNE OverworldMap_KeepDarkening
-        ; Cache hdma settings.
+        ; Cache HDMA settings.
         LDA.b $9B : STA.l $7EC229
         
         JSL.l EnableForceBlank
@@ -975,7 +975,7 @@ OverworldMap_Main:
         ; We got rid of bit 7 of $0636.
         LSR A : STA.w $0636
         
-        ; Change the matrix multiplication done via hdma (changes from
+        ; Change the matrix multiplication done via HDMA (changes from
         ; closeup to full view).
         LDA.l Pool_OverworldMap_Main_HDMAZoomPointers, X
         STA.w DMA.6_SourceAddrOffsetLow : STA.w DMA.7_SourceAddrOffsetLow
@@ -1144,7 +1144,7 @@ OverworldMap_PrepExit:
         
         SEP #$30
         
-        ; Enable hdma only on channel 7 (for spotlight effect).
+        ; Enable HDMA only on channel 7 (for spotlight effect).
         LDA.b #$80 : STA.b $9B
         
         ; Return to screen mode 1 (with priority bit enabled).
@@ -1306,7 +1306,7 @@ WorldMap_SetUpHDMA:
     
     SEP #$20
     
-    ; Enable hdma transfers on channels 6 and 7.
+    ; Enable HDMA transfers on channels 6 and 7.
     LDA.b #$C0 : STA.b $9B
     
     RTS

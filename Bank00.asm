@@ -1298,7 +1298,7 @@ EnableForceBlank:
     ; Screen state is mirrored at $13.
     LDA.b #$80 : STA.w SNES.ScreenDisplay : STA.b $13
     
-    ; Disable hdma transfers on all channels.
+    ; Disable HDMA transfers on all channels.
     STZ.w SNES.HDMAChannelEnable : STZ.b $9B
     
     RTL
@@ -14517,7 +14517,7 @@ Spotlight:
     LDX.w #$2641
     STX.w DMA.6_TransferParameters : STX.w DMA.7_TransferParameters
     
-    ; The source address of the indirect hdma table.
+    ; The source address of the indirect HDMA table.
     LDX.w #.hdma_table : STX.w DMA.6_SourceAddrOffsetLow
                          STX.w DMA.7_SourceAddrOffsetLow
     
@@ -15966,7 +15966,7 @@ Mirror_InitHdmaSettings:
     
     SEP #$20
     
-    ; Enable hdma channels 6 and 7.
+    ; Enable HDMA channels 6 and 7.
     LDA.b #$C0 : STA.b $9B
     
     .easy_out
@@ -15981,7 +15981,7 @@ MirrorHDMA:
 {
     INC.b $B0
     
-    ; Enable hdma (though I thought it already would be at this point).
+    ; Enable HDMA (though I thought it already would be at this point).
     LDA.b #$C0 : STA.b $9B
 
     ; Bleeds into the next function.
