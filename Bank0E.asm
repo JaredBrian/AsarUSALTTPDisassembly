@@ -9794,7 +9794,6 @@ HandlePegPuzzles:
             
             LDA.w #$0050 : STA.w $0692
             LDA.w #$0D20 : STA.w $0698
-            
             JSL.l Overworld_DoMapUpdate32x32_Long
             
             REP #$30
@@ -9894,7 +9893,8 @@ Overworld_CheckForSpecialOverworldTrigger:
     ; Compare the area number, because only specific locations lead to the
     ; special OW areas. The CHR value and the area number must match for a warp
     ; to occur. (this is bizarre, I know.)
-    LDA.b $8A : CMP.l Pool_Overworld_CheckForSpecialOverworldTrigger_screen_id, X : BNE .matchFailed
+    LDA.b $8A
+    CMP.l Pool_Overworld_CheckForSpecialOverworldTrigger_screen_id, X : BNE .matchFailed
         
     ; Loads the exit number to use (so that we can get to the proper
     ; destination).
@@ -10022,9 +10022,9 @@ SpecialOverworld_CheckForReturnTrigger:
         
     LDX.b #$04
     
-    ; Same idea here but for Link's walking direction. This loops is actually
-    ; pointless and redundant because it generates the exact same result as the
-    ; previous one.
+    ; Same idea here but for Link's walking direction.
+    ; OPTIMIZE: This loops is actually pointless and redundant because it
+    ; generates the exact same result as the previous one.
     .convertLoop2
     
         DEX

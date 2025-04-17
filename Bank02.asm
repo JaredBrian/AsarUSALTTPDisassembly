@@ -6849,9 +6849,10 @@ OverworldHandleTransitions:
 
         LDX.b #$04
 
+        ; Converts a bitwise direction indicator to a value based one.
         .BRANCH_LAMBDA
-            ; Doing a weird math loop here.
-        DEX : LSR A : BCC .BRANCH_LAMBDA
+            DEX
+        LSR A : BCC .BRANCH_LAMBDA
 
         STX.w $0418 : STX.w $069C
 
@@ -7364,46 +7365,39 @@ Overworld_DoMapUpdate32x32_16bit_already:
     LDX.w $04AC : STA.l $7EFA00, X
 
     LDY.w #$0000 : LDX.w $0698
-
     JSL.l Overworld_DrawMap16_Anywhere
 
     LDA.w $0698 : LDX.w $04AC : INC #2 : STA.l $7EF802, X
 
     ; Load the next tile type. Store it to the next location in the tilemap.
-    LDX.w $0698
-    LDY.w $0692
+    LDX.w $0698 : LDY.w $0692
     LDA.w Map32UpdateTiles_1, Y : STA.l $7E2002, X
 
     LDX.w $04AC : STA.l $7EFA02, X
 
     LDY.w #$0002 : LDX.w $0698
-
     JSL.l Overworld_DrawMap16_Anywhere
 
     LDA.w $0698 : LDX.w $04AC : CLC : ADC.w #$0080 : STA.l $7EF804, X
 
     ; Load the third tile (block?) type, and then store in a place to be
     ; blitted to VRAM.
-    LDX.w $0698
-    LDY.w $0692
+    LDX.w $0698 : LDY.w $0692
     LDA.w Map32UpdateTiles_2, Y : STA.l $7E2080, X
 
     LDX.w $04AC : STA.l $7EFA04, X
 
     LDY.w #$0080 : LDX.w $0698
-
     JSL.l Overworld_DrawMap16_Anywhere
 
     LDA.w $0698 : LDX.w $04AC : CLC : ADC.w ADC #$0082 : STA.l $7EF806, X
 
-    LDX.w $0698
-    LDY.w $0692
+    LDX.w $0698 : LDY.w $0692
     LDA.w Map32UpdateTiles_3, Y : STA.l $7E2082, X
 
     LDX.w $04AC : STA.l $7EFA06, X
 
     LDY.w #$0082 : LDX.w $0698
-
     JSL.l Overworld_DrawMap16_Anywhere
 
     ; Put the finishing touches on the VRAM package that will be sent.
@@ -10637,13 +10631,10 @@ Overworld_FinalizeEntryOntoScreen:
     .BRANCH_GAMMA
 
     CLC : ADC.b $20, X : STA.b $20, X
-
     TYA : ADC.b $21, X : STA.b $21, X
 
     LDA.b $20, X
-
     LDX.w $069C
-
     AND.b #$FE : CMP.l .song_change_directions, X : BNE .BRANCH_DELTA
         ; Return to normal overworld operating mode
         STZ.b $11
@@ -12137,7 +12128,7 @@ SpawnPointData:
     dw $00E4 ; 0x06 - Old man home - ROOM 00E4
 
     ; 0x00 - Link's house
-    ; $015B7C To $0600
+    ; $015B7C
     .relativeCoords_0 
     db $21
 
@@ -12179,63 +12170,153 @@ SpawnPointData:
 
     ; $015BB4
     .scrollX
-    dw $0900, $0480, $00DB, $0A8E, $0280, $0100, $0800
+    dw $0900 ; 0x00 - Link's house
+    dw $0480 ; 0x01 - Sanctuary
+    dw $00DB ; 0x02 - Prison
+    dw $0A8E ; 0x03 - Uncle
+    dw $0280 ; 0x04 - Throne
+    dw $0100 ; 0x05 - Old man cave
+    dw $0800 ; 0x06 - Old man home
 
     ; $015BC2
     .scrollY
-    dw $2110, $0231, $1000, $0A03, $0A22, $1E8C, $1D10
+    dw $2110 ; 0x00 - Link's house
+    dw $0231 ; 0x01 - Sanctuary
+    dw $1000 ; 0x02 - Prison
+    dw $0A03 ; 0x03 - Uncle
+    dw $0A22 ; 0x04 - Throne
+    dw $1E8C ; 0x05 - Old man cave
+    dw $1D10 ; 0x06 - Old man home
 
     ; $015BD0
     .linkY
-    dw $0978, $04F8, $0160, $0B06, $02F8, $01A8, $0878
+    dw $2178 ; 0x00 - Link's house
+    dw $029C ; 0x01 - Sanctuary
+    dw $1041 ; 0x02 - Prison
+    dw $0A70 ; 0x03 - Uncle
+    dw $0A8F ; 0x04 - Throne
+    dw $1EF8 ; 0x05 - Old man cave
+    dw $1D98 ; 0x06 - Old man home
 
     ; $015BDE
     .linkX
-    dw $2178, $029C, $1041, $0A70, $0A8F, $1EF8, $1D98
+    dw $0978 ; 0x00 - Link's house
+    dw $04F8 ; 0x01 - Sanctuary
+    dw $0160 ; 0x02 - Prison
+    dw $0B06 ; 0x03 - Uncle
+    dw $02F8 ; 0x04 - Throne
+    dw $01A8 ; 0x05 - Old man cave
+    dw $0878 ; 0x06 - Old man home
 
     ; $015BEC
     .cameraY
-    dw $017F, $00FF, $0167, $010D, $00FF, $017F, $007F
+    dw $017F ; 0x00 - Link's house
+    dw $00A7 ; 0x01 - Sanctuary
+    dw $0083 ; 0x02 - Prison
+    dw $007B ; 0x03 - Uncle
+    dw $009A ; 0x04 - Throne
+    dw $0103 ; 0x05 - Old man cave
+    dw $0187 ; 0x06 - Old man home
 
     ; $015BFA
     .cameraX
-    dw $017F, $00A7, $0083, $007B, $009A, $0103, $0187
+    dw $017F ; 0x00 - Link's house
+    dw $00FF ; 0x01 - Sanctuary
+    dw $0167 ; 0x02 - Prison
+    dw $010D ; 0x03 - Uncle
+    dw $00FF ; 0x04 - Throne
+    dw $017F ; 0x05 - Old man cave
+    dw $007F ; 0x06 - Old man home
 
     ; $015C08
     .mainGraphics
-    db $03, $04, $04, $01, $04, $06, $14
+    db $03 ; 0x00 - Link's house
+    db $04 ; 0x01 - Sanctuary
+    db $04 ; 0x02 - Prison
+    db $01 ; 0x03 - Uncle
+    db $04 ; 0x04 - Throne
+    db $06 ; 0x05 - Old man cave
+    db $14 ; 0x06 - Old man home
 
     ; $015C0F
     .startingFloor
-    db $00, $00, $FD, $FF, $01, $00, $00
+    db $00 ; 0x00 - Link's house
+    db $00 ; 0x01 - Sanctuary
+    db $FD ; 0x02 - Prison
+    db $FF ; 0x03 - Uncle
+    db $01 ; 0x04 - Throne
+    db $00 ; 0x05 - Old man cave
+    db $00 ; 0x06 - Old man home
 
     ; $015C16
     .dungeonID
-    db $FF, $00, $02, $FF, $02, $FF, $FF
+    db $FF ; 0x00 - Link's house
+    db $00 ; 0x01 - Sanctuary
+    db $02 ; 0x02 - Prison
+    db $FF ; 0x03 - Uncle
+    db $02 ; 0x04 - Throne
+    db $FF ; 0x05 - Old man cave
+    db $FF ; 0x06 - Old man home
 
     ; $015C1D
     .startingBg
-    db $00, $00, $00, $01, $00, $00, $01
+    db $00 ; 0x00 - Link's house
+    db $00 ; 0x01 - Sanctuary
+    db $00 ; 0x02 - Prison
+    db $01 ; 0x03 - Uncle
+    db $00 ; 0x04 - Throne
+    db $00 ; 0x05 - Old man cave
+    db $01 ; 0x06 - Old man home
 
     ; $015C24
     .quadrant1
-    db $00, $22, $20, $20, $22, $22, $02
+    db $00 ; 0x00 - Link's house
+    db $22 ; 0x01 - Sanctuary
+    db $20 ; 0x02 - Prison
+    db $20 ; 0x03 - Uncle
+    db $22 ; 0x04 - Throne
+    db $22 ; 0x05 - Old man cave
+    db $02 ; 0x06 - Old man home
 
     ; $015C2B
     .quadrant2
-    db $02, $00, $10, $10, $00, $10, $02
+    db $02 ; 0x00 - Link's house
+    db $00 ; 0x01 - Sanctuary
+    db $10 ; 0x02 - Prison
+    db $10 ; 0x03 - Uncle
+    db $00 ; 0x04 - Throne
+    db $10 ; 0x05 - Old man cave
+    db $02 ; 0x06 - Old man home
 
     ; $015C32
-    .doorSettings
-    dw $0816, $0000, $0000, $0000, $0000, $0000, $0000
+    .overworld_door_tilemap
+    dw $0816 ; 0x00 - Link's house
+    dw $0000 ; 0x01 - Sanctuary
+    dw $0000 ; 0x02 - Prison
+    dw $0000 ; 0x03 - Uncle
+    dw $0000 ; 0x04 - Throne
+    dw $0000 ; 0x05 - Old man cave
+    dw $0000 ; 0x06 - Old man home
 
     ; $015C40
     .entrance_id
-    dw $0000, $0002, $0002, $0032, $0004, $0006, $0030
+    dw $0000 ; 0x00 - Link's house
+    dw $0002 ; 0x01 - Sanctuary
+    dw $0002 ; 0x02 - Prison
+    dw $0032 ; 0x03 - Uncle
+    dw $0004 ; 0x04 - Throne
+    dw $0006 ; 0x05 - Old man cave
+    dw $0030 ; 0x06 - Old man home
 
     ; $015C4E
     .song
-    db $07, $14, $10, $03, $10, $12, $12
+    db $07 ; 0x00 - Link's house - SONG 07
+    db $14 ; 0x01 - Sanctuary    - SONG 14
+    db $10 ; 0x02 - Prison       - SONG 10
+    db $03 ; 0x03 - Uncle        - SONG 03
+    db $10 ; 0x04 - Throne       - SONG 10
+    db $12 ; 0x05 - Old man cave - SONG 12
+    db $12 ; 0x06 - Old man home - SONG 12
 }
 
 ; $015C55-$015D89 LOCAL JUMP LOCATION
@@ -13259,6 +13340,7 @@ UnderworldExitData:
     db $F2 ; 0x4D
     db $00 ; 0x4E
 
+    ; TODO: I think this is a miss-leading label. This might just be settings.
     ; $016367
     .door_graphic
     dw $0816 ; 0x00
@@ -14430,7 +14512,7 @@ Overworld_LoadMapData:
         ; 0xFFFF indicates you will come out of the building heading north
         ; rather than south (but it still doesn't draw a door frame).
         CPX.w #$FFFF : BEQ .noDoor
-            ; If $0696 > 0x8000 we'll draw a bombable door.
+            ; If $0696 >= 0x8000 we'll draw a bombable door.
             CPX.w #$8000 : BCS .drawBombableDoor
                 LDA.w #$0DA4 : STA.l $7E2000, X
 

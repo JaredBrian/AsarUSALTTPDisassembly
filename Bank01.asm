@@ -11475,7 +11475,6 @@ Dungeon_ProcessTorchAndDoorInteractives:
         .isSmallKeyDoor
         
         LDA.l $7EF36F : AND.w #$00FF : BEQ .skipDoorProcessing
-        
             LDA.l $7EF36F : DEC A : STA.l $7EF36F
             
             .haveKeyToOpenDoor

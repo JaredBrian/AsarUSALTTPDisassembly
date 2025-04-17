@@ -912,7 +912,6 @@ Overworld_Entrance:
     LDA.w #$0DA6 : STA.l $7E2002, X
     
     LDY.w #$0002
-    
     JSL.l Overworld_DrawMap16_Anywhere
     
     SEP #$30
@@ -1649,7 +1648,6 @@ Overworld_ApplyBombToTile:
         JSL.l Overworld_Memorize_Map16_Change
         
         LDY.w #$0000
-        
         JSL.l Overworld_DrawMap16_Anywhere
         
         PLA         : AND.w #$FFF8 : STA.b $00
@@ -1689,7 +1687,6 @@ Overworld_ApplyBombToTile:
     JSL.l Overworld_Memorize_Map16_Change
     
     LDY.w #$0000
-    
     JSL.l Overworld_DrawMap16_Anywhere
     
     LDA.w #$0DB5 : STA.l $7E2002, X
@@ -1697,7 +1694,6 @@ Overworld_ApplyBombToTile:
     JSL.l Overworld_Memorize_Map16_Change
     
     LDY.w #$0002
-    
     JSL.l Overworld_DrawMap16_Anywhere
     
     STZ.b $0E
@@ -1733,7 +1729,6 @@ Overworld_AlterWeathervane:
     
     ; The index in the tile map to start from.
     LDA.w #$0C3E : STA.w $0698
-    
     JSL.l Overworld_DoMapUpdate32x32_Long
     
     REP #$30
@@ -1743,7 +1738,6 @@ Overworld_AlterWeathervane:
     LDA.w #$0E21 : STA.l $7E2000, X
     
     LDY.w #$0000
-    
     JSL.l Overworld_DrawMap16_Anywhere
     
     LDX.w #$0CC0
@@ -1751,7 +1745,6 @@ Overworld_AlterWeathervane:
     LDA.w #$0E25 : STA.l $7E2002, X
     
     LDY.w #$0002
-    
     JSL.l Overworld_DrawMap16_Anywhere
     
     SEP #$30

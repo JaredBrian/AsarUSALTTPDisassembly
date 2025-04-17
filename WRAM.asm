@@ -3732,7 +3732,7 @@ struct WRAM $7E0000
         ; Otherwise, it could technically be considered Free RAM.
 
     ; $0410[0x02] - (Overworld, High Junk)
-    .OWTransitionDirection: skip $02
+    .OWTransitionDir: skip $02
         ; Screen transition direction bitfield. When the overworld is
         ; transitioning, only one of the "udlr" bits will be set. The high byte
         ; is unused but written to.
@@ -3767,10 +3767,10 @@ struct WRAM $7E0000
         ; 7 - "Addition"      - Main:      BG2, BG3, Obj | Sub:      BG1 | +/-: (full +) back. BG1
 
     ; $0416[0x02] - (Overworld, High Junk)
-    .OWTransitionDirection2: skip $02
+    .OWTransitionDir2: skip $02
         ; Screen transition direction bitfield 2. When the overworld is
         ; transitioning screens, only one of the "udlr" bits will be set.
-        ; TODO: The difference between this and OWTransitionDirection appears
+        ; TODO: The difference between this and OWTransitionDir appears
         ; to be that this one appears to be used while moving within a large
         ; area as well to update the tile map? Unsure. The high byte is
         ; unused but written to.
@@ -3781,7 +3781,7 @@ struct WRAM $7E0000
         ; r - Right
 
     ; $0418[0x02] - (Dungeon, Overworld, High Junk)
-    .TransitionDirection: skip $02
+    .TransitionDir: skip $02
         ; The direction of the current dungeon or overworld transition.
         ; For some reason, parity is flipped between overworld and underworld.
         ; The high byte is zeroed but not read.
@@ -4685,7 +4685,7 @@ struct WRAM $7E0000
     ; $0624[0x02] - (Overworld, Camrea, Credits)
     .OWCamOffsetY: skip $02
         ; UnderworldExitData_scroll_mod_y,
-        ; Pool_BirdTravel_LoadTargetAreaData_scroll_mod_y, OWTransitionDirection2
+        ; Pool_BirdTravel_LoadTargetAreaData_scroll_mod_y, OWTransitionDir2
         ; TODO: Look at what ZS saves to the bird and exit data listed above.
         ; My current guess is that this is an offset applied to the camera when
         ; exiting or using bird travel. This is used to determine where to update
@@ -4699,7 +4699,7 @@ struct WRAM $7E0000
     ; $0628[0x02] - (Overworld, Camrea)
     .OWCamOffsetX: skip $02
         ; UnderworldExitData_scroll_mod_x,
-        ; Pool_BirdTravel_LoadTargetAreaData_scroll_mod_x, OWTransitionDirection2
+        ; Pool_BirdTravel_LoadTargetAreaData_scroll_mod_x, OWTransitionDir2
         ; TODO: Look at what ZS saves to the bird and exit data listed above.
         ; My current guess is that this is an offset applied to the camera when
         ; exiting or using bird travel. This is used to determine where to update
@@ -4901,7 +4901,7 @@ struct WRAM $7E0000
         ; Update: Or are currently open? Man, what a miserable system!
 
     ; $068E[0x02] - (Dungeon, Door)
-    .DoorTileMapPos: skip $02
+    .DunDoorTileMapPos: skip $02
         ; The tilemap position of the current door.
 
     ; $0690[0x02] - (Overworld, Door)
@@ -4936,29 +4936,50 @@ struct WRAM $7E0000
     .DoorTypeCache: skip $02
         ; A temporary cache of the current door type.
 
-    ; $0696 - 
-        ; Entrance value. If 0x0000 indicates no doorway on OW.
-        ; Values < 0x8000 indicate tilemap coordinates for a wooden doorway.
-        ; 0xFFFF indicates there is no doorway and you will come out facing the opposite direction (see north exit of bottle house in Kakkariko).
-        ; Possibly also used for pits? Values >= 0x8000 indicate a special type of door + coordinates ranging from 0x0000 to 0x1FFF,
-        ; found by bitwise AND with the value and 0x1FFF. (i.e. if( b >= 0x8000) { tilemapAddr = b & 0x1FFF ; type = special; }
-        ; This is also the thing HM seems to have so much trouble editing.
+    ; $0696[0x02] - (Overworld, Door, Tilemap)
+    .OWDoorTileMapPos: skip $02
+        ; When using an entrance or exit on the overworld, this is the tilemap
+        ; location of where the opening animation tiles need to be placed i.e. a
+        ; wooden door opening or the sanctuary and hyrule castle doors opening.
+        ; This has a secondary use of dertimining certain aspects of the entrance =
+        ; for example 0xFFFF indicates the north facing entrance in kakariko
+        ; village. Values < 0x8000 indicate tilemap coordinates for a wooden
+        ; doorway and values >= 0x8000 indicate a bombable wall hole.
+        ; 0x0000           - No doorway
+        ; 0x0001 to 0x7FFF - Wooden doorway
+        ; 0x8000 to 0xFFFE - Bombable doorway
+        ; 0xFFFF           - North facing doorway
 
-    ; $0698[0x02] - (Overworld)
-        ; When lifting a big rock, this is the starting address of where the hole
-        ; graphic will get stored to.
+    ; $0698[0x02] - (Overworld, Tilemap)
+    .OWPlaceTile32TileMapPos: skip $02
+        ; Tilemap location of new tile32 that are being placed such as from
+        ; graves, dash rock piles, weathervane and sometimes entrances.
+        ; TODO: Investigate when it is used by entrances. It appears to have one
+        ; special case and then when exiting/entering but that is different from
+        ; OWDoorTileMapPos.
 
     ; $069A[0x01] - (Overworld)
-        ; Countdown timer for certain overworld transitions, during which the player
-        ; sprite will continue to move. These transitions include coming out of doors
-        ; from the indoor areas, as well as transitions between the normal overworld
-        ; and special overworld areas.
+    .PlayerExitTimer: skip $01
+        ; Countdown timer for certain overworld transitions, during which the
+        ; player sprite will continue to move. These transitions include coming
+        ; out of doors from the indoor areas, as well as transitions between the
+        ; normal overworld and special overworld areas.
+        ; 0x10 - When exiting a dungeon.
+        ; 0x0C - When leaving a special overworld.
+        ; 0x24 - When exiting a dungeon with a big door.
+        ; TODO: 0x0C also possibly includes when coming from an area with a mosaic.
 
-    ; $069B - 
-        ; Free RAM
+    ; $069B[0x01] - (Free)
+    .Free_069B: skip $01
+        ; Free RAM.
 
-    ; $069C - 
-        ; ???? Seems to be sometimes used as 16-bit, others as 8-bit.
+    ; $069C[0x02] - (Overworld, High Junk)
+    .SpecialTransitionDir: skip $02
+        ; Appears to be an Overworld specific version of TransitionDir but
+        ; this one is not changed while loading and is only used when coming out
+        ; of special areas TODO: and possibly when leaving mosaic areas. It is
+        ; possible that you could just replace this with TransitionDir. The
+        ; high byte is written to but never read.
 
     ; $069E - 
         ; ???? 
