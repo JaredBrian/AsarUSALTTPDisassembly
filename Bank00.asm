@@ -15948,6 +15948,7 @@ Mirror_InitHdmaSettings:
     LDA.w #$FE00 : STA.w $06A2
     LDA.w #$0200 : STA.w $06A4
     
+    ; OPTIMIZE: You already set this to 0 lol.
     STZ.w $06AC : STZ.w $06AE
     
     LDA.w #$0F42 : STA.w DMA.7_TransferParameters
@@ -16027,8 +16028,6 @@ MirrorWarp_BuildWavingHDMATable:
     CPY.w #$0000 : BNE .gamma
     
     LDX.w $06A0
-    
-    ; Is it just me, or is this a really weird set of formulas?
     LDA.w $06AC : CLC : ADC.w $06A6, X : PHA
     SEC : SBC.w $06A2, X : EOR.w $06A2, X : BMI .delta
         STZ.w $06AA

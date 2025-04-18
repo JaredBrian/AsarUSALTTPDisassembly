@@ -1464,7 +1464,7 @@ struct WRAM $7E0000
         ; this means this is the X position of BG3 relative to the camera.
 
     ; $E6[0x02] - (Main)
-    .BG1VPosLow: skip $02
+    .BG1VPos: skip $02
         ; The BG1 vertical position. This is almost the BG1 vertical scroll
         ; register SNES.BG1VScrollOffset. $E6 is written to as if it were the
         ; scroll register most of the time. However, its value is occasionally
@@ -4981,35 +4981,52 @@ struct WRAM $7E0000
         ; possible that you could just replace this with TransitionDir. The
         ; high byte is written to but never read.
 
-    ; $069E - 
-        ; ???? 
-        ; Overworld horizontal scroll related?
+    ; $069E[0x01] - (Overworld, Tilemap, Sprite)
+    .BG1VScrollRelativeBG2Off: 
+        ; TODO: This needs to be confirmed, but my best guess right now is that
+        ; this is an offset used to change the vertical position of BG1 relative
+        ; to the BG2 position. This is used by subscreen overlays, credits and
+        ; certain sprites.
 
-    ; $069F[0x01] - 
-        ; ????
+    ; $069F[0x01] - (Overworld, Tilemap, Sprite)
+    .BG1HScrollRelativeBG2Off: 
+        ; TODO: This needs to be confirmed, but my best guess right now is that
+        ; this is an offset used to change the horizontal position of BG1 relative
+        ; to the BG2 position. This is used by subscreen overlays, credits and
+        ; certain sprites.
 
-    ; $06A0[0x0?] - (Dungeon) Ancilla slots for stars type 1.2.0x1F.
+    ; $06A0[0x0?] - (Dungeon, Object)
+    .StarTileTilemapAddr: 
+        ; This array stores the tilemap addresses of star tiles. The size of this
+        ; array is whatever StarTileCount is, which appears to not have a limit.
+        ; TODO: Does this mean if we kept adding star tiles that we would
+        ; eventually write into space we aren't supposed to?
 
-    ; $06A0[0x02] - (Overworld) Magic mirror module variable that toggles between 0
-        ; and 2 whenever accessed.
+    ; $06A0[0x02] - (Overworld, Mirror, HDMA)
+    .WarpIndex06A2: skip $02
+        ; Magic mirror module variable that toggles between 0x00 and 0x02. Used
+        ; to index $06A2 and $06A6. TODO: Update name.
 
-    ; $06A2 - 
-        ; ????
+    ; $06A2[0x04] - (Overworld, Mirror, HDMA)
+        ; Mirror HDMA related. Can be stored into $06AC under certain conditions.
+        ; $06A2: Init: 0xFE00 Wave: 0xFF00
+        ; $06A4: Init: 0x0200 Wave: 0x0100
 
-    ; $06A4 - 
-        ; ????
+    ; $06A6[0x04] - (Overworld, Mirror, HDMA)
+        ; Mirror HDMA related. Can be stored into $06AC under certain conditions.
+        ; Only set once during mirror init. Could be a ROM table instead.
+        ; $06A6: Init: 0xFFC0
+        ; $06A8: Init: 0x0040
 
-    ; $06A6 - 
-        ; ????
+    ; $06AA[0x02] - (Overworld, Mirror, HDMA)
+        ; Mirror HDMA related. After some math, stored into $1B00, $1B04, $1B08,
+        ; and $1B0C.
+        ; $06AA: Init: 0x0000
 
-    ; $06A8 - 
-        ; ????
-
-    ; $06AA - 
-        ; ????
-
-    ; $06AC - 
-        ; ????
+    ; $06AC[0x02] - (Overworld, Mirror, HDMA)
+        ; Mirror HDMA related. Either has $06A6 added to it or take the value from
+        ; $06A2 based on certain conditions.
+        ; Init: 0x0000
 
     ; $06AE - 
         ; ????
@@ -6714,7 +6731,7 @@ struct WRAM $7E0000
 
     ; $1B00[0x1C0] - (HDMA)
         ; Indirect HDMA pointers for the spotlights that open and close
-        ; when leaving / entering doors.
+        ; when leaving / entering doors and for the mirror warp wavyness.
 
     ; $1CC0 - 
         ; Free RAM

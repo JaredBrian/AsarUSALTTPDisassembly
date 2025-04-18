@@ -9855,10 +9855,12 @@ OverworldHandleBGOverlayScroll:
 
                     LDA.w $0622 : CLC : ADC.w #$2000 : STA.w $0622
 
+                    ; OPTIMIZE: Add 0?
                     LDA.b $E6 : ADC.w #$0000 : STA.b $E6
 
                     LDA.w $0620 : CLC : ADC.w #$2000 : STA.w $0620
 
+                    ; OPTIMIZE: Add 0?
                     LDA.b $E0 : ADC.w #$0000 : STA.b $E0
 
                     BRA .BRANCH_OMEGA
@@ -9867,6 +9869,7 @@ OverworldHandleBGOverlayScroll:
 
         LDA.w $0622 : SEC : SBC.w #$2000 : STA.w $0622
 
+        ; OPTIMIZE: Subtract 0?
         LDA.b $E6 : SBC.w #$0000 : CLC : ADC.w $069E : STA.b $E6
 
         LDA.b $E2 : STA.b $E0

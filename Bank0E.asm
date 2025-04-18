@@ -3646,6 +3646,7 @@ Credits_HandleCameraScrollControl:
     
     LDA.w $0622 : SEC : SBC.w #$2000 : STA.w $0622
         
+    ; OPTIMIZE: Subtract 0?
     LDA.b $E6 : SEC : SBC.w #$0000 : CLC : ADC.w $069E : STA.b $E6
     LDA.b $E2                                          : STA.b $E0
     

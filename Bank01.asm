@@ -1053,7 +1053,7 @@ Dungeon_LoadType1Object:
     
     LDA [$B7], Y : XBA : AND.w #$003F
     
-    ; Look ahead to the next object but we're not done with this one yet ; ).
+    ; Look ahead to the next object but we're not done with this one yet.
     INY #2 : STY.b $BA
     
     ASL A : TAX
@@ -8412,7 +8412,7 @@ Dungeon_LoadObjAttr:
 {
     REP #$30
     
-    ; Tell me how many stars there are
+    ; Tell me how many stars there are:
     LDX.w $0432 : BEQ .noStars
         LDY.w #$0000
         LDA.w #$3B3B
