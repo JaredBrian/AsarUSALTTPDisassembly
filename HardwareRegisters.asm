@@ -6,6 +6,7 @@
 ; BG = BackGround
 ; CGRAM = Color Generator RAM
 ; Des = Designation
+; DMA = Direct Memory Access
 ; H = Horizontal
 ; HDMA = Horizontal Direct Memory Access
 ; HV = H/V or Horizontal/Vertical
@@ -129,9 +130,9 @@ struct SNES $21
     .DividendHigh:              skip $01 ; $4205
     .DivisorB:                  skip $01 ; $4206
     .HCountTimer:               skip $01 ; $4207
-    .HCountTimerHigh:            skip $01 ; $4208
+    .HCountTimerHigh:           skip $01 ; $4208
     .VCountTImer:               skip $01 ; $4209
-    .VCountTimerHigh:            skip $01 ; $420A
+    .VCountTimerHigh:           skip $01 ; $420A
 
     .DMAChannelEnable:          skip $01 ; $420B
     .HDMAChannelEnable:         skip $01 ; $420C

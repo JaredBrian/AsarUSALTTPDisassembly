@@ -5008,28 +5008,38 @@ struct WRAM $7E0000
         ; to index $06A2 and $06A6. TODO: Update name.
 
     ; $06A2[0x04] - (Overworld, Mirror, HDMA)
+    .WarpIndex06A4: skip $02
         ; Mirror HDMA related. Can be stored into $06AC under certain conditions.
+        ; TODO: Update name.
         ; $06A2: Init: 0xFE00 Wave: 0xFF00
         ; $06A4: Init: 0x0200 Wave: 0x0100
 
     ; $06A6[0x04] - (Overworld, Mirror, HDMA)
+    .WarpIndex06A6: skip $02
         ; Mirror HDMA related. Can be stored into $06AC under certain conditions.
         ; Only set once during mirror init. Could be a ROM table instead.
+        ; TODO: Update name.
         ; $06A6: Init: 0xFFC0
         ; $06A8: Init: 0x0040
 
     ; $06AA[0x02] - (Overworld, Mirror, HDMA)
+    .WarpIndex06AA: skip $02
         ; Mirror HDMA related. After some math, stored into $1B00, $1B04, $1B08,
-        ; and $1B0C.
+        ; and $1B0C. This appears to be the only meaningful var. The rest are only
+        ; keeping track of steps and sizes of the HDMA? TODO: Update name.
         ; $06AA: Init: 0x0000
 
     ; $06AC[0x02] - (Overworld, Mirror, HDMA)
-        ; Mirror HDMA related. Either has $06A6 added to it or take the value from
-        ; $06A2 based on certain conditions.
+    .WarpIndex06AC: skip $02
+        ; Mirror HDMA related. Either has $06A6 added to it or takes the value from
+        ; $06A2 based on certain conditions. TODO: Update name.
         ; Init: 0x0000
 
-    ; $06AE - 
-        ; ????
+    ; $06AE[0x02] - (Overworld, Mirror, HDMA)
+    .WarpIndex06AE: skip $02
+        ; Mirror HDMA related. Adds $06AC to itself and then cuts out the high
+        ; byte. TODO: Update name.
+        ; Init: 0x0000
 
     ; $06B0 - 
         ; Ancilla slots for type 1.3.0x1E,0x1F,0x20,0x21

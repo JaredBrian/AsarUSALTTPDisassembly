@@ -15948,7 +15948,7 @@ Mirror_InitHdmaSettings:
     LDA.w #$FE00 : STA.w $06A2
     LDA.w #$0200 : STA.w $06A4
     
-    ; OPTIMIZE: You already set this to 0 lol.
+    ; OPTIMIZE: You already set these two to 0x00 lol.
     STZ.w $06AC : STZ.w $06AE
     
     LDA.w #$0F42 : STA.w DMA.7_TransferParameters
@@ -15970,6 +15970,7 @@ Mirror_InitHdmaSettings:
     ; Enable HDMA channels 6 and 7.
     LDA.b #$C0 : STA.b $9B
     
+    ; $007E5D ALTERNATE ENTRY POINT 
     .easy_out
     
     RTL
@@ -15995,90 +15996,89 @@ MirrorWarp_BuildWavingHDMATable:
     
     ; Only do something every other frame.
     LDA.b $1A : LSR A : BCS Mirror_InitHdmaSettings_easy_out
-    
-    REP #$30
-    
-    LDX.w #$01A0
-    LDY.w #$01B0
-    
-    LDA.w #$0002 : STA.b $00
-    
-    LDA.w #$0003 : STA.b $02
-
-    .gamma
-
-        LDA.w $1B00, X
+        REP #$30
         
-        STA.w $1B00, Y : STA.w $1B04, Y
-        STA.w $1B08, Y : STA.w $1B0C, Y
+        LDX.w #$01A0
+        LDY.w #$01B0
         
-        TXA : SEC : SBC.w #$0010 : TAX
+        LDA.w #$0002 : STA.b $00
         
-        DEC.b $00 : BNE .alpha
-            LDA.w #$0008 : STA.b $00
+        LDA.w #$0003 : STA.b $02
 
-        .alpha
+        .gamma
 
-        TYA : SEC : SBC.w #$0010 : TAY
-        
-        DEC.b $02 : BNE .beta
-            LDA.w #$0008 : STA.b $02
-
-        .beta
-    CPY.w #$0000 : BNE .gamma
-    
-    LDX.w $06A0
-    LDA.w $06AC : CLC : ADC.w $06A6, X : PHA
-    SEC : SBC.w $06A2, X : EOR.w $06A2, X : BMI .delta
-        STZ.w $06AA
-        STZ.w $06AE
-        
-        ; Toggle this variable's state.
-        LDA.w $06A0 : EOR.w #$0002 : STA.w $06A0
-        
-        ; Replace the value on the stack with this.
-        PLA : LDA.w $06A2, X : PHA
-
-    .delta
-
-    PLA : STA.w $06AC
-    
-    CLC : ADC.w $06AE : PHA : AND.w #$00FF : STA.w $06AE
-    
-    PLA : BPL .epsilon
-        ORA.w #$00FF
-        
-        BRA .zeta
-
-    .epsilon
-
-    AND.w #$FF00
-
-    .zeta
-
-    XBA : CLC : ADC.w $06AA : STA.w $06AA : TAX
-    
-    LDA.l $7EC007 : CMP.w #$0030 : BCC .BRANCH_THETA
-        TXA : AND.w #$FFF8 : BNE .BRANCH_THETA
-            LDA.w #$FF00 : STA.w $06A2
+            LDA.w $1B00, X
             
-            LDA.w #$0100 : STA.w $06A4
+            STA.w $1B00, Y : STA.w $1B04, Y
+            STA.w $1B08, Y : STA.w $1B0C, Y
             
-            LDX.w #$0000
+            TXA : SEC : SBC.w #$0010 : TAX
             
-            INC.b $B0
+            DEC.b $00 : BNE .alpha
+                LDA.w #$0008 : STA.b $00
 
-    .BRANCH_THETA
+            .alpha
 
-    TXA : CLC : ADC.b $E2
-    STA.w $1B00 : STA.w $1B04 : STA.w $1B08 : STA.w $1B0C
-    
-    SEP #$30
+            TYA : SEC : SBC.w #$0010 : TAY
+            
+            DEC.b $02 : BNE .beta
+                LDA.w #$0008 : STA.b $02
 
-    ; $007F2E ALTERNATE ENTRY POINT
-    .return
+            .beta
+        CPY.w #$0000 : BNE .gamma
+        
+        LDX.w $06A0
+        LDA.w $06AC : CLC : ADC.w $06A6, X : PHA
+        SEC : SBC.w $06A2, X : EOR.w $06A2, X : BMI .delta
+            STZ.w $06AA
+            STZ.w $06AE
+            
+            ; Toggle this variable's state.
+            LDA.w $06A0 : EOR.w #$0002 : STA.w $06A0
+            
+            ; Replace the value on the stack with this.
+            PLA : LDA.w $06A2, X : PHA
 
-    RTL
+        .delta
+
+        PLA : STA.w $06AC
+        
+        CLC : ADC.w $06AE : PHA : AND.w #$00FF : STA.w $06AE
+        
+        PLA : BPL .epsilon
+            ORA.w #$00FF
+            
+            BRA .zeta
+
+        .epsilon
+
+        AND.w #$FF00
+
+        .zeta
+
+        XBA : CLC : ADC.w $06AA : STA.w $06AA : TAX
+        
+        LDA.l $7EC007 : CMP.w #$0030 : BCC .BRANCH_THETA
+            TXA : AND.w #$FFF8 : BNE .BRANCH_THETA
+                LDA.w #$FF00 : STA.w $06A2
+                
+                LDA.w #$0100 : STA.w $06A4
+                
+                LDX.w #$0000
+                
+                INC.b $B0
+
+        .BRANCH_THETA
+
+        TXA : CLC : ADC.b $E2
+        STA.w $1B00 : STA.w $1B04 : STA.w $1B08 : STA.w $1B0C
+        
+        SEP #$30
+
+        ; $007F2E ALTERNATE ENTRY POINT
+        .return
+
+        RTL
 }
 
 ; ZS rewrites part of this function. - ZS Custom Overworld
