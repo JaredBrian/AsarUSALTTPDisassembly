@@ -5002,6 +5002,9 @@ struct WRAM $7E0000
         ; TODO: Does this mean if we kept adding star tiles that we would
         ; eventually write into space we aren't supposed to?
 
+    ; TODO: I'll have to open an emulator and watch what these HDMA vars actually
+    ; do to document them further.
+
     ; $06A0[0x02] - (Overworld, Mirror, HDMA)
     .WarpIndex06A2: skip $02
         ; Magic mirror module variable that toggles between 0x00 and 0x02. Used
@@ -5041,9 +5044,12 @@ struct WRAM $7E0000
         ; byte. TODO: Update name.
         ; Init: 0x0000
 
-    ; $06B0 - 
-        ; Ancilla slots for type 1.3.0x1E,0x1F,0x20,0x21
-        ; and 1.2.0x2D,0x2E,0x2F,0x38,0x39,0x3A,0x3B objects
+    ; $06B0[0x08] - (Stair, Tilemap, Dungeon)]
+    .StairSlots: skip $08
+        ; Tilemap positions of interroom stairs: 
+        ; 1.2.0x2D, 1.2.0x2E, 1.2.0x2F, 1.2.0x38, 1.2.0x39, 1.2.0x3A, 1.2.0x3B
+        ; 1.3.0x1E, 1.3.0x1F, 1.3.0x20, 1.3.0x21, 1.3.0x26, 1.3.0x27, 1.3.0x28
+        ; 1.3.0x29
 
     ; $06B8[0x08] - (Dungeon)
         ; 

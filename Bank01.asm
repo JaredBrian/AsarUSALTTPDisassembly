@@ -8422,7 +8422,6 @@ Dungeon_LoadObjAttr:
             ; Place 0x3B tiles attributes in a square matching the position of
             ; the star.
             LDX.w $06A0, Y
-            
             STA.l $7F2000, X : STA.l $7F2040, X
         INY #2 : CPY.w $0432 : BNE .nextStar
     
@@ -8437,7 +8436,6 @@ Dungeon_LoadObjAttr:
         .nextInRoomUpStaircase
         
             LDX.w $06B0, Y
-            
             LDA.w #$0000 : STA.l $7F2081, X
             LDA.w #$2626 : STA.l $7F2001, X
             
@@ -8452,12 +8450,9 @@ Dungeon_LoadObjAttr:
         .nextSpiralUpStaircases
         
             LDX.w $06B0, Y
-            
-            LDA.w #$5E5E
-            STA.l $7F2001, X : STA.l $7F2081, X : STA.l $7F20C1, X
-            
+            LDA.w #$5E5E : STA.l $7F2001, X : STA.l $7F2081, X : STA.l $7F20C1, X
+
             LDA.b $00 : STA.l $7F2041, X
-            
             CLC : ADC.w #$0101 : STA.b $00
         INY #2 : CPY.w $047E : BNE .nextSpiralUpStaircases
     
@@ -8468,11 +8463,10 @@ Dungeon_LoadObjAttr:
         .nextSpiralUpStaircase2
         
             LDX.w $06B0, Y
-            
-            LDA.w #$5F5F
-            STA.l $7F2001, X : STA.l $7F2081, X : STA.l $7F20C1, X
-            
-            LDA.b $00 : STA.l $7F2041, X : CLC : ADC.w #$0101 : STA.b $00
+            LDA.w #$5F5F : STA.l $7F2001, X : STA.l $7F2081, X : STA.l $7F20C1, X
+
+            LDA.b $00 : STA.l $7F2041, X
+            CLC : ADC.w #$0101 : STA.b $00
         INY #2 : CPY.w $0482 : BNE .nextSpiralUpStaircase2
     
     .noSpiralUpStaircases2
@@ -8482,11 +8476,12 @@ Dungeon_LoadObjAttr:
         .nextStraightUpStaircase
         
             LDX.w $06B0, Y
-            
             LDA.w #$0000 : STA.l $7F2081, X : STA.l $7F20C1, X
+
             LDA.w #$3838 : STA.l $7F2001, X
-            
-            LDA.b $00 : STA.l $7F2041, X : CLC : ADC.w #$0101 : STA.b $00
+
+            LDA.b $00 : STA.l $7F2041, X
+            CLC : ADC.w #$0101 : STA.b $00
         INY #2 : CPY.w $04A2 : BNE .nextStraightUpStaircase
     
     .noStraightUpStaircases   
@@ -8496,12 +8491,12 @@ Dungeon_LoadObjAttr:
         .nextStraightUpSouthStaircase
         
             LDX.w $06B0, Y
-            
             LDA.w #$0000 : STA.l $7F2001, X : STA.l $7F2041, X
-            
+
             LDA.w #$3939 : STA.l $7F20C1, X
-            
-            LDA.b $00 : STA.l $7F2081, X : CLC : ADC.w #$0101 : STA.b $00
+
+            LDA.b $00 : STA.l $7F2081, X
+            CLC : ADC.w #$0101 : STA.b $00
         INY #2 : CPY.w $04A4 : BNE .nextStraightUpSouthStaircase
     
     .noStraightUpSouthStaircases
@@ -8513,10 +8508,10 @@ Dungeon_LoadObjAttr:
         .nextInRoomDownSouthStaircase
         
             LDX.w $06B0, Y
-            
             LDA.w #$2626 : STA.l $7F20C1, X
-            
-            LDA.b $00 : STA.l $7F2081, X : CLC : ADC.w #$0101 : STA.b $00
+
+            LDA.b $00 : STA.l $7F2081, X
+            CLC : ADC.w #$0101 : STA.b $00
         INY #2 : CPY.w $043A : BNE .nextInRoomDownSouthStaircase
     
     .noInRoomDownSouthStaircases
@@ -8526,11 +8521,10 @@ Dungeon_LoadObjAttr:
         .nextSpiralDownNorthStaircase
         
             LDX.w $06B0, Y
-            
-            LDA.w #$5E5E
-            STA.l $7F2001, X : STA.l $7F2081, X : STA.l $7F20C1, X
-            
-            LDA.b $00 : STA.l $7F2041, X : CLC : ADC.w #$0101 : STA.b $00
+            LDA.w #$5E5E : STA.l $7F2001, X : STA.l $7F2081, X : STA.l $7F20C1, X
+
+            LDA.b $00 : STA.l $7F2041, X
+            CLC : ADC.w #$0101 : STA.b $00
         INY #2 : CPY.w $0480 : BNE .nextSpiralDownNorthStaircase
     
     .noSpiralDownNorthStaircases
@@ -8540,11 +8534,10 @@ Dungeon_LoadObjAttr:
         .nextSpiralDownNorthStaircase2
         
             LDX.w $06B0, Y
-            
-            LDA.w #$5F5F
-            STA.l $7F2001, X : STA.l $7F2081, X : STA.l $7F20C1, X
-            
-            LDA.b $00 : STA.l $7F2041, X : CLC : ADC.w #$0101 : STA.b $00
+            LDA.w #$5F5F : STA.l $7F2001, X : STA.l $7F2081, X : STA.l $7F20C1, X
+
+            LDA.b $00 : STA.l $7F2041, X
+            CLC : ADC.w #$0101 : STA.b $00
         INY #2 : CPY.w $0484 : BNE .nextSpiralDownNorthStaircase2
         
     .noSpiralDownNorthStaircases2
@@ -8554,12 +8547,12 @@ Dungeon_LoadObjAttr:
         .nextStraightDownNorthStaircase
         
             LDX.w $06B0, Y
-            
             LDA.w #$0000 : STA.l $7F2081, X : STA.l $7F20C1, X
-            
+
             LDA.w #$3838 : STA.l $7F2001, X
-            
-            LDA.b $00 : STA.l $7F2041, X : CLC : ADC.w #$0101 : STA.b $00
+
+            LDA.b $00 : STA.l $7F2041, X
+            CLC : ADC.w #$0101 : STA.b $00
         INY #2 : CPY.w $04A6 : BNE .nextStraightDownNorthStaircase
     
     .noStraightDownNorthStaircases
@@ -8569,12 +8562,12 @@ Dungeon_LoadObjAttr:
         .nextStraightDownSouthStaircase
         
             LDX.w $06B0, Y
-            
             LDA.w #$0000 : STA.l $7F2001, X : STA.l $7F2041, X
-            
+
             LDA.w #$3939 : STA.l $7F20C1, X
-            
-            LDA.b $00 : STA.l $7F2081, X : CLC : ADC.w #$0101 : STA.b $00
+
+            LDA.b $00 : STA.l $7F2081, X
+            CLC : ADC.w #$0101 : STA.b $00
         INY #2 : CPY.w $04A8 : BNE .nextStraightDownSouthStaircase
     
     .noStraightDownSouthStaircases
@@ -12341,10 +12334,10 @@ Object_RefreshStaircaseAttr:
         .nextStaircase2
         
             LDX.w $06B0, Y
-            
             LDA.w #$5E5E : STA.l $7F2001, X
             
-            LDA.b $00 : STA.l $7F2041, X : CLC : ADC.w #$0101 : STA.b $00
+            LDA.b $00 : STA.l $7F2041, X
+            CLC : ADC.w #$0101 : STA.b $00
             
             LDA.w #$0000 : STA.l $7F2081, X : STA.l $7F20C1, X
         INY #2 : CPY.w $047E : BNE .nextStaircase2
@@ -12355,10 +12348,10 @@ Object_RefreshStaircaseAttr:
         .nextStaircase3
         
             LDX.w $06B0, Y
-            
             LDA.w #$5F5F : STA.l $7F2001, X
             
-            LDA.b $00 : STA.l $7F2041, X : CLC : ADC.w #$0101 : STA.b $00
+            LDA.b $00 : STA.l $7F2041, X
+            CLC : ADC.w #$0101 : STA.b $00
             
             LDA.w #$0000 : STA.l $7F2081, X : STA.l $7F20C1, X
         INY #2 : CPY.w $0482 : BNE .nextStaircase3
@@ -12395,10 +12388,10 @@ Object_RefreshStaircaseAttr:
         .nextStaircase7
         
             LDX.w $06B0, Y
-            
             LDA.w #$5E5E : STA.l $7F2001, X
             
-            LDA.b $00 : STA.l $7F2041, X : CLC : ADC.w #$0101 : STA.b $00
+            LDA.b $00 : STA.l $7F2041, X
+            CLC : ADC.w #$0101 : STA.b $00
             
             LDA.w #$0000 : STA.l $7F2081, X : STA.l $7F20C1, X
         INY #2 : CPY.w $0480 : BNE .nextStaircase7
@@ -12409,7 +12402,6 @@ Object_RefreshStaircaseAttr:
         .nextStaircase8
         
             LDX.w $06B0, Y
-            
             LDA.w #$5F5F : STA.l $7F2001, X
             
             LDA.b $00 : STA.l $7F2041, X
