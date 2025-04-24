@@ -12268,7 +12268,6 @@ Dungeon_LoadToggleDoorAttr:
         .nextFloorToggleDoor
         
                 LDX.w $06C0, Y
-                
                 LDA.l $7F2000, X : AND.w #$00F0 : CMP.w #$0080 : BNE .skipFloorToggleDoor
                     LDA.l $7F2000, X : ORA.w #$1010
                     STA.l $7F2000, X : STA.l $7F2040, X

@@ -5005,19 +5005,19 @@ struct WRAM $7E0000
     ; TODO: I'll have to open an emulator and watch what these HDMA vars actually
     ; do to document them further.
 
-    ; $06A0[0x02] - (Overworld, Mirror, HDMA)
+    ; $06A0[0x02] - (Overworld, Warp, HDMA)
     .WarpIndex06A2: skip $02
         ; Magic mirror module variable that toggles between 0x00 and 0x02. Used
         ; to index $06A2 and $06A6. TODO: Update name.
 
-    ; $06A2[0x04] - (Overworld, Mirror, HDMA)
+    ; $06A2[0x04] - (Overworld, Warp, HDMA)
     .WarpIndex06A4: skip $02
-        ; Mirror HDMA related. Can be stored into $06AC under certain conditions.
-        ; TODO: Update name.
+        ; Mirror warp HDMA related. Can be stored into $06AC under certain
+        ; conditions. TODO: Update name.
         ; $06A2: Init: 0xFE00 Wave: 0xFF00
         ; $06A4: Init: 0x0200 Wave: 0x0100
 
-    ; $06A6[0x04] - (Overworld, Mirror, HDMA)
+    ; $06A6[0x04] - (Overworld, Warp, HDMA)
     .WarpIndex06A6: skip $02
         ; Mirror HDMA related. Can be stored into $06AC under certain conditions.
         ; Only set once during mirror init. Could be a ROM table instead.
@@ -5025,48 +5025,77 @@ struct WRAM $7E0000
         ; $06A6: Init: 0xFFC0
         ; $06A8: Init: 0x0040
 
-    ; $06AA[0x02] - (Overworld, Mirror, HDMA)
+    ; $06AA[0x02] - (Overworld, Warp, HDMA)
     .WarpIndex06AA: skip $02
-        ; Mirror HDMA related. After some math, stored into $1B00, $1B04, $1B08,
-        ; and $1B0C. This appears to be the only meaningful var. The rest are only
+        ; Mirror warp HDMA related. After some math, stored into $1B00, $1B04,
+        ; $1B08, and $1B0C. This appears to be the only meaningful var. The rest are only
         ; keeping track of steps and sizes of the HDMA? TODO: Update name.
         ; $06AA: Init: 0x0000
 
-    ; $06AC[0x02] - (Overworld, Mirror, HDMA)
+    ; $06AC[0x02] - (Overworld, Warp, HDMA)
     .WarpIndex06AC: skip $02
-        ; Mirror HDMA related. Either has $06A6 added to it or takes the value from
-        ; $06A2 based on certain conditions. TODO: Update name.
+        ; Mirror warp HDMA related. Either has $06A6 added to it or takes the
+        ; value from $06A2 based on certain conditions. TODO: Update name.
         ; Init: 0x0000
 
-    ; $06AE[0x02] - (Overworld, Mirror, HDMA)
+    ; $06AE[0x02] - (Overworld, Warp, HDMA)
     .WarpIndex06AE: skip $02
-        ; Mirror HDMA related. Adds $06AC to itself and then cuts out the high
+        ; Mirror warp HDMA related. Adds $06AC to itself and then cuts out the high
         ; byte. TODO: Update name.
         ; Init: 0x0000
 
-    ; $06B0[0x08] - (Stair, Tilemap, Dungeon)]
-    .StairSlots: skip $08
-        ; Tilemap positions of interroom stairs: 
+    ; $06B0[0x0?] - (Stair, Tilemap, Dungeon)
+    .InterStairSlots: skip $02
+        ; Tilemap positions of interroom stairs. The size of the array depends
+        ; on Stair2E2FCount.
         ; 1.2.0x2D, 1.2.0x2E, 1.2.0x2F, 1.2.0x38, 1.2.0x39, 1.2.0x3A, 1.2.0x3B
         ; 1.3.0x1E, 1.3.0x1F, 1.3.0x20, 1.3.0x21, 1.3.0x26, 1.3.0x27, 1.3.0x28
-        ; 1.3.0x29
+        ; 1.3.0x29 TODO: Find the actual name for these.
 
-    ; $06B8[0x08] - (Dungeon)
-        ; 
-        ; Ancilla slots for type 1.3.0x1B and 1.2.0x30,0x31,0x32,0x33,0x35,0x36
+    ; $06B2[0x02] - (Overworld, Warp, HDMA)
+    .WarpIndex06B2: skip $02
+        ; Mirror warp HDMA related. May just be junk, its initialized to 0x0015 but
+        ; then doesn't appear to be used.
 
-    ; $06BA[0x01] - (MirrorWarp)
-        ; 
-        ; Seems to be a delay counter that waits for 0x20 frames before
-        ; starting the mirror warp sequence in earnest.
+    ; $06B4[0x02] - (Overworld, Warp, HDMA)
+    .WarpIndex06B4: skip $02
+        ; Mirror warp HDMA related. May just be junk, its initialized to 0x0008 but
+        ; then doesn't appear to be used.
 
-    ; $06C0 - 
+    ; $06B6[0x02] - (Overworld, Warp, HDMA)
+    .WarpIndex06B6: skip $02
+        ; Mirror warp HDMA related. May just be junk, its initialized to 0x0008 but
+        ; then doesn't appear to be used.
+
+    ; $06B8[0x0?] - (Stair, Tilemap, Dungeon)
+    .IntraStairSlots: skip $02
+        ; Tilemap positions of intraroom stairs: The size of the array depends
+        ; on Stair36Count.
+        ; Ancilla slots for type 1.2.0x30, 1.2.0x31, 1.2.0x32, 1.2.0x33, 1.2.0x35,
+        ; 1.2.0x36, 1.3.0x1B TODO: Find the actual name for these.
+
+    ; $06BA[0x01] - (Warp)
+    .WarpTimer1: skip $01
+        ; A timer that is used to load overworld data when being warped away from
+        ; Agahnim 1. It starts at 0x00 and is incremented to 0x20.
+
+    ; $06BB[0x01] - (Warp)
+    .WarpTimer2: skip $03
+        ; A timer that is used to control some warp animations. It can start at
+        ; 0x08, 0x02, and 0x20 and is decremented to 0x20.
+
+    ; $06BE[0x02] - (Junk)
+    .Junk_06BE: skip $02
+        ; Zeroed out once in bank 0x0E, seems to be junk but this overlaps with
+        ; IntraStairSlots. So this should not be used for hacking.
+
+    ; $06C0[0x0?] - (Door, Dungeon)
+    .DoorToggleTilemapPos: skip $02
         ; Slots for floor toggle door properties (type 0x16 "doors").
         ; These are not actually doors, but rather the coordinates where
         ; the floor toggle property should be applied to actual doors.
-        ; 
-        ; The number of populated slots in this array is determined by
-        ; $044E
+        ; The size of this array is determined by $044E.
+        ; TODO: Find the actual name for this door.
 
     ; $06D0 - 
         ; Slots for palace toggle door properties (type 0x14 "doors").
@@ -5074,7 +5103,8 @@ struct WRAM $7E0000
         ; the palace toggle property should be applied to actual doors.
         ; 
         ; The number of populated slots in this array is determined by
-        ; ; $0450.
+        ; $0450.
+        ; TODO: Find the actual name for this door.
 
     ; $06E0 - 
         ; Stores tilemap positions of chests, big key chests,

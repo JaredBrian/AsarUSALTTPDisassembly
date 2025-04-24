@@ -10601,7 +10601,8 @@ AnimateMirrorWarp:
 ; $005892-$0058A4 JUMP LOCATION (LONG)
 AnimateMirrorWarp_LoadPyramidIfAga:
 {
-    INC.w $06BA : LDA.w $06BA : CMP.b #$20 : BEQ .ready
+    INC.w $06BA
+    LDA.w $06BA : CMP.b #$20 : BEQ .ready
         STZ.w $0200
         
         RTL
@@ -13920,9 +13921,9 @@ Palette_InitWhiteFilter:
     ; ZS writes here.
     ; $006EBB - ZS Custom Overworld
     ; If we are warping from an area with the pyramid BG, set the BG color to
-    ; transparent. This is done to prevent a case where the black transparent color
-    ; is faded to white on top of the pyramid BG, resulting in a double faded
-    ; effect on transparent tiles.
+    ; transparent. This is done to prevent a case where the black transparent
+    ; color is faded to white on top of the pyramid BG, resulting in a double
+    ; faded effect on transparent tiles.
     LDA.b $8A : CMP.w #$001B : BNE .notHyruleCastle
         LDA.w #$0000
         STA.l $7EC300 : STA.l $7EC340 : STA.l $7EC500 : STA.l $7EC540
