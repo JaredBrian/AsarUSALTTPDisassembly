@@ -3625,7 +3625,6 @@ Object_Draw2x2:
 Object_BigKeyLock:
 {
     LDX.w $0498
-    
     TYA : STA.w $06E0, X
     
     LDA.w $0402 : AND.w RoomFlagMask, X : BNE .alreadyOpened
@@ -4980,7 +4979,6 @@ RoomDraw_AutoStairs_South_MultiLayer_B:
     PHX
     
     LDX.w $049C
-    
     TYA : LSR A : STA.w $06EC, X
     
     INX #2 : STX.w $049C

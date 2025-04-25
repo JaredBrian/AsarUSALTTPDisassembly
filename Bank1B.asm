@@ -1061,7 +1061,6 @@ Overworld_Map16_ToolInteraction:
     STZ.w $04B2 : STZ.b $76
     
     LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $06
-    
     LDA.b $02 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $06 : TAX
     
     ; Is Link using the hammer?
@@ -1584,15 +1583,12 @@ Overworld_ApplyBombToTiles:
         LDA.w $0488 : SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $CA
         
         LDA.w $0486
-        
         JSR.w Overworld_ApplyBombToTile
         
         LDA.w $0486 : CLC : ADC.w #$0010
-        
         JSR.w Overworld_ApplyBombToTile
-        
+
         LDA.w $0486 : CLC : ADC.w #$0020
-        
         JSR.w Overworld_ApplyBombToTile
         
         LDA.w $0488 : CLC : ADC.w #$0010 : STA.w $0488

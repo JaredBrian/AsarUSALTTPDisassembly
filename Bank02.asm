@@ -6750,7 +6750,8 @@ OverworldHandleTransitions:
         ; Check if link is moving up/down.
         LDA.b $67 : AND.w #$000C : STA.b $00
 
-        LDX.w $0700 : LDA.b $20 : SEC : SBC OverworldTransitionPositionY, X
+        LDX.w $0700
+        LDA.b $20 : SEC : SBC OverworldTransitionPositionY, X
 
         LDY.b #$06 : LDX.b #$08
 
@@ -6766,7 +6767,8 @@ OverworldHandleTransitions:
 
         LDA.b $67 : AND.w #$0003 : STA.b $00
 
-        LDX.w $0700 : LDA.b $22 : SEC : SBC OverworldTransitionPositionX, X
+        LDX.w $0700
+        LDA.b $22 : SEC : SBC OverworldTransitionPositionX, X
 
         LDY.b #$02 : LDX.b #$02 : CMP.w #$0006 : BCC .BRANCH_GAMMA
             LDY.b #$00 : LDX.b #$01 : CMP.b $02 : BCC .BRANCH_DELTA
@@ -6799,14 +6801,12 @@ OverworldHandleTransitions:
         LDX.b $02
         LDA.b $84 : AND.l OverworldScreenTileMapChange_Masks, X : STA.b $84
 
-        LDA.w $0700
-        CLC : ADC.w OverworldScreenIDChange, X : PHA
-        STA.b $04
+        LDA.w $0700 : CLC : ADC.w OverworldScreenIDChange, X : PHA
+                                                               STA.b $04
 
         TXA : ASL #6 : ORA.b $04 : TAX
 
-        LDA.b $84
-        CLC : ADC.w OverworldScreenTileMapChange_ByScreen1, X
+        LDA.b $84 : CLC : ADC.w OverworldScreenTileMapChange_ByScreen1, X
         STA.b $84
 
         PLA : LSR A : TAX
@@ -6940,8 +6940,7 @@ Overworld_LoadMapProperties:
     ; This is misleading as the subsequent arrays are only 0x80 bytes.
     LDA.b $8A : AND.w #$00BF : ASL A : TAX
 
-    LDA.w OverworldTransitionPositionY, X : STA.w $0708
-
+    LDA.w OverworldTransitionPositionY, X          : STA.w $0708
     LDA.w OverworldTransitionPositionX, X : LSR #3 : STA.w $070C
 
     LDA.w #$03F0
@@ -13929,8 +13928,7 @@ LoadSpecialOverworld:
 
     LDA.b $A0 : AND.w #$003F : ASL A : TAX
 
-    LDA.l Pool_LoadSpecialOverworld_camera600, X : STA.w $0708
-
+    LDA.l Pool_LoadSpecialOverworld_camera600, X          : STA.w $0708
     LDA.l Pool_LoadSpecialOverworld_camera70C, X : LSR #3 : STA.w $070C
 
     LDA.b $00          : STA.w $070A

@@ -1031,7 +1031,7 @@ struct WRAM $7E0000
         ;   Negative values indicate basement floors.
 
     ; $A6[0x01] - (Dungeon)
-    .CameraBoundsX: skip $01
+    .DunCameraBoundsX: skip $01
         ; Set to 0 or 2, but it depends upon the dungeon room's layout
         ; and the quadrant it was entered from. Further investigation seems
         ; to indicate that its purpose is to control the camera / scrolling
@@ -1039,7 +1039,7 @@ struct WRAM $7E0000
         ; possibly in special areas. TODO: Confirm this.
 
     ; $A7[0x01] - (Dungeon)
-    .CameraBoundsY: skip $01
+    .DunCameraBoundsY: skip $01
         ; Same as CameraBoundsX, but for vertical camera scrolling.
 
     ; $A8[0x01] - (Dungeon)
@@ -1719,13 +1719,13 @@ struct WRAM $7E0000
         ; i - ID for the controller type.
 
     ; $FC[0x01] - (Dungeon)
-    .CameraBoundsXOverride: skip $01
-        ; Overrides CameraBoundsX if non 0. This is only set when a blast wall
+    .DunCameraBoundsXOverride: skip $01
+        ; Overrides DunCameraBoundsX if non 0. This is only set when a blast wall
         ; is triggered.
 
     ; $FD[0x01] - (Dungeon)
-    .CameraBoundsYOverride: skip $01
-        ; Overrides CameraBoundsY if non 0. This is only set when a blast wall
+    .DunCameraBoundsYOverride: skip $01
+        ; Overrides DunCameraBoundsY if non 0. This is only set when a blast wall
         ; is triggered.
 
     ; $FE[0x01] - (Free)
@@ -5000,7 +5000,8 @@ struct WRAM $7E0000
         ; This array stores the tilemap addresses of star tiles. The size of this
         ; array is whatever StarTileCount is, which appears to not have a limit.
         ; TODO: Does this mean if we kept adding star tiles that we would
-        ; eventually write into space we aren't supposed to?
+        ; eventually write into space we aren't supposed to? TODO: Test if there
+        ; is a max array size.
 
     ; TODO: I'll have to open an emulator and watch what these HDMA vars actually
     ; do to document them further.
@@ -5028,8 +5029,8 @@ struct WRAM $7E0000
     ; $06AA[0x02] - (Overworld, Warp, HDMA)
     .WarpIndex06AA: skip $02
         ; Mirror warp HDMA related. After some math, stored into $1B00, $1B04,
-        ; $1B08, and $1B0C. This appears to be the only meaningful var. The rest are only
-        ; keeping track of steps and sizes of the HDMA? TODO: Update name.
+        ; $1B08, and $1B0C. This appears to be the only meaningful var. The rest
+        ; are only keeping track of steps and sizes of the HDMA? TODO: Update name.
         ; $06AA: Init: 0x0000
 
     ; $06AC[0x02] - (Overworld, Warp, HDMA)
@@ -5047,7 +5048,7 @@ struct WRAM $7E0000
     ; $06B0[0x0?] - (Stair, Tilemap, Dungeon)
     .InterStairSlots: skip $02
         ; Tilemap positions of interroom stairs. The size of the array depends
-        ; on Stair2E2FCount.
+        ; on Stair2E2FCount. TODO: Test if there is a max array size.
         ; 1.2.0x2D, 1.2.0x2E, 1.2.0x2F, 1.2.0x38, 1.2.0x39, 1.2.0x3A, 1.2.0x3B
         ; 1.3.0x1E, 1.3.0x1F, 1.3.0x20, 1.3.0x21, 1.3.0x26, 1.3.0x27, 1.3.0x28
         ; 1.3.0x29 TODO: Find the actual name for these.
@@ -5070,7 +5071,7 @@ struct WRAM $7E0000
     ; $06B8[0x0?] - (Stair, Tilemap, Dungeon)
     .IntraStairSlots: skip $02
         ; Tilemap positions of intraroom stairs: The size of the array depends
-        ; on Stair36Count.
+        ; on Stair36Count. TODO: Test if there is a max array size.
         ; Ancilla slots for type 1.2.0x30, 1.2.0x31, 1.2.0x32, 1.2.0x33, 1.2.0x35,
         ; 1.2.0x36, 1.3.0x1B TODO: Find the actual name for these.
 
@@ -5089,65 +5090,100 @@ struct WRAM $7E0000
         ; Zeroed out once in bank 0x0E, seems to be junk but this overlaps with
         ; IntraStairSlots. So this should not be used for hacking.
 
-    ; $06C0[0x0?] - (Door, Dungeon)
-    .DoorToggleTilemapPos: skip $02
+    ; $06C0[0x0?] - (Dungeon)
+    .FoorToggleTilemapPos: skip $0E
         ; Slots for floor toggle door properties (type 0x16 "doors").
         ; These are not actually doors, but rather the coordinates where
         ; the floor toggle property should be applied to actual doors.
-        ; The size of this array is determined by $044E.
-        ; TODO: Find the actual name for this door.
+        ; The size of this array is determined by $044E. TODO: Find the actual
+        ; name for this door. TODO: Test if there is a max array size.
 
-    ; $06D0 - 
-        ; Slots for palace toggle door properties (type 0x14 "doors").
+    ; $06CE[0x02] - (Junk)
+    .Junk_06CE: skip $02
+        ; Zeroed out once in bank 0x0E, seems to be junk but this overlaps with
+        ; FoorToggleTilemapPos. So this should not be used for hacking.
+
+    ; $06D0[0x0?] - (Door, Dungeon)
+    .DunToggleTilemapPos: skip $0E
+        ; Slots for dungeon toggle door properties (type 0x14 "doors").
         ; These are not actually doors, but rather the coordinates where
-        ; the palace toggle property should be applied to actual doors.
-        ; 
+        ; the dungeon toggle property should be applied to actual doors.
         ; The number of populated slots in this array is determined by
-        ; $0450.
-        ; TODO: Find the actual name for this door.
+        ; $0450. TODO: Test if there is a max array size. TODO: Find the actual
+        ; name for this door.
 
-    ; $06E0 - 
-        ; Stores tilemap positions of chests, big key chests,
-        ; and big key locks. The array is 12 bytes long, and you can
-        ; only have 6 chests in one room. 
-        ; (because of the layout of save game WRAM and associated code)
-        ; 
-        ; Note: If the top bit is set, it's a Big Key lock, otherwise it's one of the chest types.
+    ; $06DE[0x02] - (Junk)
+    .Junk_06DE: skip $02
+        ; Zeroed out once in bank 0x0E, seems to be junk but this overlaps with
+        ; DunToggleTilemapPos. So this should not be used for hacking.
 
-    ; $06EC - 
-        ; Ancilla slots for 1.3.0x1C,0x1D,0x33
+    ; $06E0[0x0C] - (Dungeon)
+    .ChestTilemapPost: skip $0C
+        ; Stores tilemap positions of chests, big key chests, and big key cell
+        ; locks. If the top bit is set, it's a Big Key lock, otherwise it's one
+        ; of the chest types. The size of the array depends on $0496 and $0498
+        ; but will typically only be 12 bytes long since you can only have 6
+        ; chests in one room (because of the layout of save game WRAM and
+        ; associated code).
 
-    ; $06F8 - 
-        ; Free RAM
+    ; $06EC[0x0?] - (Stair, Tilemap, Dungeon)
+    .MergedLayerStairSlots: skip $02
+        ; Tilemap positions for 1.3.0x1C, 1.3.0x1D, 1.3.0x33. The size of the
+        ; array depends on $049C. TODO: Test if there is a max array size.
+
+    ; $06EE[0x02] - (Junk)
+    .Junk_06EE: skip $02
+        ; Zeroed out once in bank 0x0E, seems to be junk but this overlaps with
+        ; MergedLayerStairSlots. So this should not be used for hacking.
+
+    ; $06F8[0x06] - (Free)
+    .Free_06F8: skip $06
+        ; Marked as free RAM but this needs to be double checked just in case
+        ; MergedLayerStairSlots can bleed into this space.
+
+    ; $06FE[0x02] - (Junk)
+    .Junk_06FE: skip $02
+        ; Zeroed out once in bank 0x0E, seems to be junk but this may overlap with
+        ; MergedLayerStairSlots. So this should not be used for hacking.
 
     ; ===========================================================================
     ; Page 0x07
     ; ===========================================================================
 
-    ; $0700 - 
+    ; $0700[0x02] - (Overworld)
+    .PlayerOWPos: skip $02
         ; Generally is equal to the area number you are in currently in 
-        ; times two. Only bottom byte is used, and consists of the
-        ; following pattern:
-        ; 
-        ; yyyzxxx0
-        ; 
-        ; y - obtained by masking Link's Y coordinate ($20) with 0x1E00,
-        ; shifting left three times
-        ; x - obaained by masking Link's X coordinate ($22) with 0x1E00,
-        ; and bitwise ORing it with the the y bits.
-        ; z - this is the overlap of the x and y bits described above.
+        ; times two. This is calculated from the player's coords.
+        ; yyyzxxx.
+        ; y - Obtained by masking Link's Y coordinate ($20) with 0x1E00,
+        ;     shifting left three times.
+        ; x - Obaained by masking Link's X coordinate ($22) with 0x1E00,
+        ;     and bitwise ORing it with the the y bits.
+        ; z - This is the overlap of the x and y bits described above.
 
-    ; $0702 - 
-        ; Free RAM
+    ; $0702[0x06] - (Free)
+    .Free_0702: skip $06
+        ; Free RAM.
 
-    ; $0708 - 
-        ; ???? I'm too lazy to document these 4 values, but essentially 
-    ; $070A - 
-        ; ???? they're masks that determinethe size of each overworld 
-    ; $070C - 
-        ; ???? "block"
-    ; $070E - 
-        ; ????
+    ; $0708[0x02] - (Overworld, Camera)
+    .OWCameraBoundsY: skip $02
+        ; Overworld camera northern Y boundary.
+        
+    ; $070A[0x02] - (Overworld, Camera)
+    .OWCameraBoundsSize: skip $02
+        ; Overworld camera Y boundary size.
+        ; 0x01F0 - Small screens
+        ; 0x03F0 - Big screens
+
+    ; $070C[0x02] - (Overworld, Camera)
+    .OWCameraBoundsX: skip $02
+        ; Overworld camera western X boundary.
+
+    ; $070E[0x02] - (Overworld, Camera)
+    .OWCameraBoundsSize: skip $02
+        ; Overworld camera X boundary size.
+        ; 0x003E on small screens
+        ; 0x007E on big screens
 
     ; $0710[0x01] - (NMI) Flag for disabling update of core sprite animation for
         ; the current frame, when set to a nonzero value.
