@@ -519,7 +519,7 @@ Bomb_CheckSpriteDamage:
                 ; Setting up variables for use with collision detection.
                 
                 LDA.w $0C04, X : SEC : SBC.b #$18 : STA.b $00
-                LDA.w $0C18, X : SBC.b #$00 : STA.b $08
+                LDA.w $0C18, X       : SBC.b #$00 : STA.b $08
                 
                 LDA.w $0BFA, X : SEC : SBC.b #$18
                 
