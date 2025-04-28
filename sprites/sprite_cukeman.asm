@@ -75,7 +75,7 @@ Sprite_Cukeman:
 ; ==============================================================================
 
 ; $0D7A7E-$0D7B0D DATA
-Pool_Cukeman_Draw_oam_groups:
+Pool_Cukeman_Draw_OAM_groups:
 {
     dw  0,  0 : db $F3, $01, $00, $00
     dw  7,  0 : db $F3, $41, $00, $00
@@ -109,7 +109,7 @@ Cukeman_Draw:
     
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
     
-    ASL A : ADC.b $00 : ADC.w # .oam_groups : STA.b $08
+    ASL A : ADC.b $00 : ADC.w # .OAM_groups : STA.b $08
     
     SEP #$20
     

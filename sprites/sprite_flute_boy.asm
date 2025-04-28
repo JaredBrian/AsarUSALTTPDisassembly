@@ -110,7 +110,7 @@ FltueBoy_PrepPhaseOut:
         
         INC.w $0D80, X
         
-        ; .... What? TODO: Does this quiet sfx1 down?
+        ; .... What? TODO: Does this quiet SFX1 down?
         LDA.b #$80 : STA.w $012D
         
         LDA.b #$33 : JSL.l Sound_SetSfx2PanLong
@@ -345,10 +345,10 @@ FluteAardvark_WaitForPlayerMusic:
 FluteAardvark_Arborating:
 {
     LDA.w $0DF0, X : BNE .delay
-        LDA.w $0D90, X : CMP.b #$03 : BCC .anoplay_sfx
+        LDA.w $0D90, X : CMP.b #$03 : BCC .anoplay_SFX
             LDA.b #$33 : JSL.l Sound_SetSfx2PanLong
         
-        .anoplay_sfx
+        .anoplay_SFX
         
         LDA.w $0D90, X : TAY : INC A : STA.w $0D90, X
         

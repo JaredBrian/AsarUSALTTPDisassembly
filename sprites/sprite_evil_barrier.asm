@@ -70,7 +70,7 @@ Sprite_EvilBarrier:
 ; ==============================================================================
 
 ; $0EF0E1-$0EF248 DATA
-Pool_EvilBarrier_Draw_oam_groups:
+Pool_EvilBarrier_Draw_OAM_groups:
 {
     dw   0,  0 : db $E8, $00, $00, $02
     dw -29,  3 : db $CA, $00, $00, $00
@@ -129,7 +129,7 @@ EvilBarrier_Draw:
     LDA.b #$00 : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
     
-    ASL #3 : CLC : ADC.b $00 : ADC.w #.oam_groups : STA.b $08
+    ASL #3 : CLC : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
     
     LDA.w $0FDA : CLC : ADC.w #$0008 : STA.w $0FDA
     

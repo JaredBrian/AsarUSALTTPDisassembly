@@ -64,7 +64,7 @@ Landmine_Detonating:
 ; ==============================================================================
 
 ; $0E80FC-$0E810B DATA
-Landmine_Draw_oam_groups:
+Landmine_Draw_OAM_groups:
 {
     dw 0, 4 : db $70, $00, $00, $00
     dw 8, 4 : db $70, $40, $00, $00
@@ -75,16 +75,16 @@ Landmine_Draw:
 {
     LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
     
-    LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
+    LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_GFX_loaded
         REP #$20
         
-        LDA.w #.oam_groups : STA.b $08
+        LDA.w #.OAM_groups : STA.b $08
         
         SEP #$20
         
         LDA.b #$02 : JSL.l Sprite_DrawMultiple
     
-    .invalid_gfx_loaded
+    .invalid_GFX_loaded
     
     RTS
 }

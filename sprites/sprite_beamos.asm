@@ -191,7 +191,7 @@ Beamos_Draw:
         ; In this case the eyeball appears on top of the statue.
         LDA.b #$0C : JSL.l OAM_AllocateFromRegionB
         
-        LDY.b #$04 : BRA .oam_has_been_allocated
+        LDY.b #$04 : BRA .OAM_has_been_allocated
     
     ; Since the eyeball is further around, you have to flip the sprite display
     ; priorities.
@@ -201,7 +201,7 @@ Beamos_Draw:
     
     LDY.b #$00
     
-    .oam_has_been_allocated
+    .OAM_has_been_allocated
     
     PHX
     

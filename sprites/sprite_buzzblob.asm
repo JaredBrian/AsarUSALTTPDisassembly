@@ -120,7 +120,7 @@ Pool_Buzzblob_Draw:
     db $40, $40, $40
     
     ; $035950
-    .oam_sizes
+    .OAM_sizes
     db $00, $00, $02
 }
 
@@ -135,7 +135,7 @@ BuzzBlob_Draw:
     
     LDX.b #$02
     
-    .next_oam_entry
+    .next_OAM_entry
     
         PHX
         
@@ -160,14 +160,14 @@ BuzzBlob_Draw:
         
         INY
         
-        LDA.w .chr, X : STA ($90), Y : BNE .dont_skip_oam_entry
+        LDA.w .chr, X : STA ($90), Y : BNE .dont_skip_OAM_entry
             DEY
             
             LDA.b #$F0 : STA ($90), Y
             
             INY
         
-        .dont_skip_oam_entry
+        .dont_skip_OAM_entry
         
         LDA Pool_Buzzblob_Draw_properties, X : ORA.b $05 : INY : STA ($90), Y
         
@@ -177,10 +177,10 @@ BuzzBlob_Draw:
         
         TYA : LSR #2 : TAY
         
-        LDA Pool_Buzzblob_Draw_oam_sizes, X : ORA.b $0F : STA ($92), Y
+        LDA Pool_Buzzblob_Draw_OAM_sizes, X : ORA.b $0F : STA ($92), Y
         
         PLY : INY
-    DEX : BPL .next_oam_entry
+    DEX : BPL .next_OAM_entry
     
     PLX
     

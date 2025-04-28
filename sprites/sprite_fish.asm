@@ -4,10 +4,10 @@
 Sprite_Fish:
 {
     ; Check if if the right graphics are loaded to be able to draw.
-    LDA.w $0FC6 : CMP.b #$03 : BCS .improper_gfx_pack_loaded
+    LDA.w $0FC6 : CMP.b #$03 : BCS .improper_GFX_pack_loaded
         JSR.w Fish_Draw
     
-    .improper_gfx_pack_loaded
+    .improper_GFX_pack_loaded
     
     LDA.w $0DD0, X : CMP.b #$0A : BNE .not_held_by_player
         ; Can only wriggle while being held.
@@ -250,7 +250,7 @@ Fish_FlopAround:
 Pool_Fish_Draw:
 {
     ; $0E83B6
-    .oam_groups
+    .OAM_groups
     dw -4,  8 : db $5E, $04, $00, $00
     dw  4,  8 : db $5F, $04, $00, $00
     
@@ -276,7 +276,7 @@ Pool_Fish_Draw:
     dw  0,  8 : db $61, $C4, $00, $00
     
     ; $0E8436
-    .shadow_oam_groups
+    .shadow_OAM_groups
     dw -2, 11 : db $38, $04, $00, $00
     dw  0, 11 : db $38, $04, $00, $00
     dw  2, 11 : db $38, $04, $00, $00
@@ -307,7 +307,7 @@ Fish_Draw:
         
         REP #$20
         
-        ASL #4 : ADC.w #(Pool_Fish_Draw_oam_groups) : STA.b $08
+        ASL #4 : ADC.w #(Pool_Fish_Draw_OAM_groups) : STA.b $08
         
         LDA.w $0FD8 : CLC : ADC.w #$0004 : STA.w $0FD8
         
@@ -320,15 +320,15 @@ Fish_Draw:
         
         LDA.b #$00 : XBA
         
-        LDA.w $0F70, X : LSR #2 : CMP.b #$02 : BCC .shadow_oam_groups
-            ; Use the smallest shadow oam group if the sprite is way up.
+        LDA.w $0F70, X : LSR #2 : CMP.b #$02 : BCC .shadow_OAM_groups
+            ; Use the smallest shadow OAM group if the sprite is way up.
             LDA.b #$02
         
-        .shadow_oam_groups
+        .shadow_OAM_groups
         
         REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
         
-        ADC.w #Pool_Fish_Draw_shadow_oam_groups : STA.b $08
+        ADC.w #Pool_Fish_Draw_shadow_OAM_groups : STA.b $08
         
         LDA.b $90 : CLC : ADC.w #$0008 : STA.b $90
         

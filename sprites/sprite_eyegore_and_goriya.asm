@@ -319,7 +319,7 @@ Eyegore_ClosingEye:
 ; ==============================================================================
 
 ; $0F494F-$0F4ACE DATA
-Eyegore_Draw_oam_groups:
+Eyegore_Draw_OAM_groups:
 {
     dw -4, -4 : db $A2, $00, $00, $02
     dw  4, -4 : db $A2, $40, $00, $02
@@ -386,7 +386,7 @@ Eyegore_Draw_oam_groups:
 Eyegore_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     

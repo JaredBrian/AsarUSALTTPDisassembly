@@ -223,7 +223,7 @@ Pool_DebirandoPit_Draw:
     db $00, $40, $80, $C0, $00, $40, $80, $C0
     
     ; $0286DE
-    .oam_sizes
+    .OAM_sizes
     db $02, $02, $02, $00, $00, $02
 }
 
@@ -238,7 +238,7 @@ DebirandoPit_Draw:
         
         TAX
         
-        LDA Pool_DebirandoPit_Draw_oam_sizes, X : STA.b $0D
+        LDA Pool_DebirandoPit_Draw_OAM_sizes, X : STA.b $0D
         
         TXA : ASL #2 : STA.b $06
         

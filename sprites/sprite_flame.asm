@@ -72,7 +72,7 @@ Flame_Halted:
 ; ==============================================================================
 
 ; $0F42FC-$0F435B DATA
-Flame_Draw_oam_groups:
+Flame_Draw_OAM_groups:
 {
     dw 0,  0 : db $8E, $01, $00, $02
     dw 0,  0 : db $8E, $01, $00, $02
@@ -99,7 +99,7 @@ Flame_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     

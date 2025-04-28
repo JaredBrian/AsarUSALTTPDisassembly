@@ -239,7 +239,7 @@ BombShopGuy_SpawnSnoutPuff:
 Pool_BombShopEntity_Draw:
 {
     ; $0F6296
-    .oam_groups
+    .OAM_groups
     db 0, 0, $48, $0A, $00, $02
     db 0, 0, $4C, $0A, $00, $02
     
@@ -262,8 +262,8 @@ BombShopEntity_Draw:
     
     LDA.w $0E80, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #(Pool_BombShopEntity_Draw_oam_groups >> 0)              : STA.b $08
-    LDA.b #(Pool_BombShopEntity_Draw_oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(Pool_BombShopEntity_Draw_OAM_groups >> 0)              : STA.b $08
+    LDA.b #(Pool_BombShopEntity_Draw_OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong

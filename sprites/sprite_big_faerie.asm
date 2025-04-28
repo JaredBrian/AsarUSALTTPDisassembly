@@ -30,10 +30,10 @@ Sprite_FairyCloud:
     
     JSR.w FairyCloud_Draw 
     
-    LDA.w $0E80, X : AND.b #$1F : BNE .delay_healing_sfx
+    LDA.w $0E80, X : AND.b #$1F : BNE .delay_healing_SFX
         LDA.b #$31 : JSL.l Sound_SetSfx2PanLong
     
-    .delay_healing_sfx
+    .delay_healing_SFX
     
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
@@ -214,7 +214,7 @@ BigFairy_Dormant:
 ; ==============================================================================
 
 ; $0EC550-$0EC5CF DATA
-BigFairy_Draw_oam_groups:
+BigFairy_Draw_OAM_groups:
 {
     dw -4, -8 : db $8E, $00, $00, $02
     dw  4, -8 : db $8E, $40, $00, $02
@@ -241,7 +241,7 @@ BigFairy_Draw_oam_groups:
 BigFairy_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
@@ -283,7 +283,7 @@ Pool_FairyCloud_Draw:
 
 ; This apparently randomly generates the fairy cloud sparkles.
 ; It's not draw in a literal sense, but it spawns garnish entities
-; that themselves draw sparkles via oam.
+; that themselves draw sparkles via OAM.
 ; $0EC616-$0EC64E LOCAL JUMP LOCATION
 FairyCloud_Draw:
 {

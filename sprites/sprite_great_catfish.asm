@@ -40,11 +40,11 @@ Sprite_GreatCatfish:
         .dont_grant_item
     .aloft
     
-    LDA !timer_3, X : BEQ .dont_use_different_oam_region
+    LDA !timer_3, X : BEQ .dont_use_different_OAM_region
         ; TODO: Identify when this happens.
         LDA.b #$08 : JSL.l OAM_AllocateFromRegionC
     
-    .dont_use_different_oam_region
+    .dont_use_different_OAM_region
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong
     JSR.w Sprite4_CheckIfActive
@@ -512,7 +512,7 @@ Sprite_SpawnWaterSplash:
 ; ==============================================================================
 
 ; $0EE240-$0EE31F DATA
-GreatCatfish_Draw_oam_groups:
+GreatCatfish_Draw_OAM_groups:
 {
     dw -4,  4 : db $8C, $00, $00, $02
     dw  4,  4 : db $8D, $00, $00, $02
@@ -556,7 +556,7 @@ GreatCatfish_Draw:
     LDA.b #$00 : XBA
     
     LDA.w $0DC0, X : BEQ .dont_draw
-        DEC A : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
+        DEC A : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
         
         SEP #$20
         
@@ -570,7 +570,7 @@ GreatCatfish_Draw:
 ; ==============================================================================
 
 ; $0EE33D-$0EE37C DATA
-Sprite_WaterSplash_oam_groups:
+Sprite_WaterSplash_OAM_groups:
 {
     dw -8, -4 : db $80, $00, $00, $00
     dw 18, -7 : db $80, $00, $00, $00
@@ -595,7 +595,7 @@ Sprite_WaterSplash:
     
     .self_termination_delay
     
-    LSR #3 : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
+    LSR #3 : REP #$20 : ASL #4 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

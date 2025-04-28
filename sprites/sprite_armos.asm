@@ -98,7 +98,7 @@ Sprite_Armos:
 ; ==============================================================================
 
 ; $02B7DF-$02B7EE DATA
-Armos_Draw_oam_groups:
+Armos_Draw_OAM_groups:
 {
     dw 0, -16 : db $C0, $00, $00, $02
     dw 0,   0 : db $E0, $00, $00, $02
@@ -108,15 +108,15 @@ Armos_Draw_oam_groups:
 Armos_Draw:
 {
     ; TODO: Find out why it would only prep sometimes. Does it use a
-    ; different oam region when it's not fully activated?
-    LDA.w $0D80, X : BNE .use_low_priority_oam_region
+    ; different OAM region when it's not fully activated?
+    LDA.w $0D80, X : BNE .use_low_priority_OAM_region
         JSR.w Sprite2_PrepOamCoord
     
-    .use_low_priority_oam_region
+    .use_low_priority_OAM_region
     
     REP #$20
     
-    LDA.w #.oam_groups : STA.b $08
+    LDA.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

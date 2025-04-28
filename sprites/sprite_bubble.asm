@@ -16,14 +16,14 @@ Sprite_Bubble:
         LDA.l $7EF36E : SEC : SBC.b #$08 : BCS .player_has_at_least_eight_mp
             LDA.b #$00
             
-            BRA .anoplay_drain_sfx
+            BRA .anoplay_drain_SFX
         
         .player_has_at_least_eight_mp
         
         ; Play the magic draining sound.
         LDY.b #$1D : STY.w $012F
         
-        .anoplay_drain_sfx
+        .anoplay_drain_SFX
         
         STA.l $7EF36E
     

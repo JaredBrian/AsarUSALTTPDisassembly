@@ -107,11 +107,11 @@ Sprite_Absorbable_draw_logic_finished:
         .not_water_tile
         
         ; Is the sprite an item or other upper echelon sprite?
-        LDA.w $0E20, X : CMP.b #$E4 : BCC .dont_play_clink_sfx
-            LDA.b $1B : BEQ .dont_play_clink_sfx
+        LDA.w $0E20, X : CMP.b #$E4 : BCC .dont_play_clink_SFX
+            LDA.b $1B : BEQ .dont_play_clink_SFX
                 LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
                 
-        .dont_play_clink_sfx
+        .dont_play_clink_SFX
     .aloft
 
     .finished_bounce_logic
@@ -184,7 +184,7 @@ Sprite_HandleAbsorptionByPlayerLong:
 ; ==============================================================================
 
 ; $03512D-$03513B DATA
-Sprite_HandleAbsorptionByPlayer_sfx:
+Sprite_HandleAbsorptionByPlayer_SFX:
 {
     db $0B, $0A, $0A, $0A, $0B, $0B, $0B, $0B
     db $0B, $0B, $0B, $0B, $2F, $2F, $0B
@@ -197,7 +197,7 @@ Sprite_HandleAbsorptionByPlayer:
     
     LDA.w $0E20, X : SEC : SBC.b #$D8 : TAY
     
-    LDA.w .sfx, Y : JSL.l Sound_SetSfx3PanLong
+    LDA.w .SFX, Y : JSL.l Sound_SetSfx3PanLong
     
     TYA
     JSL.l UseImplicitRegIndexedLocalJumpTable
@@ -401,7 +401,7 @@ TenArrowRefill_AbsorptionByPlayer:
 ; $03520D-$03522E DATA
 Pool_Sprite_DrawTransientAbsorbable:
 {
-    .gfx_shape
+    .GFX_shape
     db $00 ; Heart
     db $01 ; Green rupee
     db $01 ; Blue rupee
@@ -465,10 +465,10 @@ Sprite_DrawAbsorbable:
     .dont_use_super_priority
     
     LDA.w $0FC6 : CMP.b #$03 : BCS .improper_graphics_pack_loaded
-        LDA.w $0E10, X : BEQ .dont_use_special_oam_region
+        LDA.w $0E10, X : BEQ .dont_use_special_OAM_region
             LDA.b #$0C : JSL.l OAM_AllocateFromRegionC
             
-        .dont_use_special_oam_region
+        .dont_use_special_OAM_region
         
         ; TODO: find out under which circumstances this branch would be taken.
         LDA.w $0E90, X : BNE .easly_return_caller
@@ -479,10 +479,10 @@ Sprite_DrawAbsorbable:
                 
             .not_suffixed_with_number
             
-            LDA.w .gfx_shape-$D8, Y : BNE .not_single_small_oam_entry
+            LDA.w .GFX_shape-$D8, Y : BNE .not_single_small_OAM_entry
                 JMP Sprite_PrepAndDrawSingleSmall
                 
-            .not_single_small_oam_entry
+            .not_single_small_OAM_entry
             
             CMP.b #$02 : BNE .is_thin_and_tall
                 LDA.w $0E20, X : CMP.b #$E6 : BNE .not_shield_pickup
@@ -546,7 +546,7 @@ Pool_Sprite_DrawNumberedAbsorbable:
     db $73, $73
     
     ; $0352E8
-    .oam_sizes
+    .OAM_sizes
     db $02, $02, $00, $02, $02, $00, $02, $02
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00
@@ -572,7 +572,7 @@ Sprite_DrawNumberedAbsorbable:
     
     .has_number
 
-    .next_oam_entry
+    .next_OAM_entry
     
         PHX
         
@@ -606,11 +606,11 @@ Sprite_DrawNumberedAbsorbable:
         
         TYA : LSR A : LSR A : TAY
         
-        LDA.w Pool_Sprite_DrawNumberedAbsorbable_oam_sizes, X 
+        LDA.w Pool_Sprite_DrawNumberedAbsorbable_OAM_sizes, X 
         ORA.b $0F : STA ($92), Y
         
         PLY : INY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     PLX
     

@@ -247,7 +247,7 @@ Chicken_DrawDistressMarker:
 ; ==============================================================================
 
 ; Draws the 4 little dots that appear above the cucco when you hit them.
-; Each dot is 1 8x8 oam tile for a total of 4.
+; Each dot is 1 8x8 OAM tile for a total of 4.
 ; $03272F-$032732 LONG JUMP LOCATION
 Sprite_DrawDistressMarker:
 {
@@ -259,7 +259,7 @@ Sprite_DrawDistressMarker:
 ; $032733-$03278D LONG JUMP LOCATION
 Sprite_CustomTimedDrawDistressMarker:
 {
-    ; Allocate some oam space...
+    ; Allocate some OAM space...
     LDA.b #$10 : JSL.l OAM_AllocateFromRegionA
     
     LDA.b $06 : AND.b #$18 : BEQ .return
@@ -268,7 +268,7 @@ Sprite_CustomTimedDrawDistressMarker:
         LDX.b #$03
         LDY.b #$00
         
-        .next_oam_entry
+        .next_OAM_entry
         
             PHX : PHX
             
@@ -301,7 +301,7 @@ Sprite_CustomTimedDrawDistressMarker:
             LDA.b $0F : STA ($92), Y
             
             PLY : INY
-        PLX : DEX : BPL .next_oam_entry
+        PLX : DEX : BPL .next_OAM_entry
         
         PLX
         

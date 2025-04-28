@@ -597,7 +597,7 @@ DW_FortuneTeller_DoNothing:
 ; ==============================================================================
 
 ; $06CAA1-$06CB00 DATA
-FortuneTeller_Draw_oam_groups:
+FortuneTeller_Draw_OAM_groups:
 {
     dw  0, -48 : db $0C, $00, $00, $02
     dw  0, -32 : db $2C, $00, $00, $00
@@ -624,8 +624,8 @@ FortuneTeller_Draw:
     ASL A : ADC.b $00 : ADC.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
     ; $6CAA1
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$03 : JSL.l Sprite_DrawMultiple
     

@@ -245,7 +245,7 @@ SeekerEnergyBall_SplitIntoSixSmaller:
 ; ==============================================================================
 
 ; $0F5BFE-$0F5C3D DATA
-Pool_SeekerEnergyBall_Draw_oam_groups:
+Pool_SeekerEnergyBall_Draw_OAM_groups:
 {
     dw  4, -3 : db $CE, $00, $00, $00
     dw 11,  4 : db $CE, $00, $00, $00
@@ -264,7 +264,7 @@ SeekerEnergyBall_Draw:
     LDA.b #$00 : XBA
     LDA.w $0E80, X : LSR #2 : AND.b #$01 : REP #$20 : ASL #5
     
-    ADC.w #.oam_groups : STA.b $08
+    ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

@@ -253,7 +253,7 @@ RedBari_Split:
 ; ==============================================================================
 
 ; $03239C-$0323DB DATA
-RedBari_Draw_oam_groups:
+RedBari_Draw_OAM_groups:
 {
     dw 0, 0 : db $22, $00, $00, $00
     dw 8, 0 : db $22, $40, $00, $00
@@ -271,7 +271,7 @@ RedBari_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

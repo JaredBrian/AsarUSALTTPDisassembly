@@ -104,7 +104,7 @@ Sprite_GanonBat:
 ; ==============================================================================
 
 ; $0E89BB-$0E89EA DATA
-GanonBat_Draw_oam_groups:
+GanonBat_Draw_OAM_groups:
 {
     dw -8, 0 : db $60, $05, $00, $02
     dw  8, 0 : db $60, $45, $00, $02
@@ -121,7 +121,7 @@ GanonBat_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : CLC : ADC.w #.oam_groups : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : CLC : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

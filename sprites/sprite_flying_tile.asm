@@ -134,10 +134,10 @@ FlyingTile_NoisilyAnimate:
 {
     INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
-    TXA : EOR.b $1A : AND.b #$07 : BNE .delay_sfx
+    TXA : EOR.b $1A : AND.b #$07 : BNE .delay_SFX
         LDA.b #$07 : JSL.l Sound_SetSfx2PanLong
     
-    .delay_sfx
+    .delay_SFX
     
     RTS
 }
@@ -145,7 +145,7 @@ FlyingTile_NoisilyAnimate:
 ; ==============================================================================
 
 ; $0F3C8A-$0F3CC9 DATA
-FlyingTile_Draw_oam_groups:
+FlyingTile_Draw_OAM_groups:
 {
     dw 0, 0 : db $D3, $00, $00, $00
     dw 8, 0 : db $D3, $40, $00, $00
@@ -162,7 +162,7 @@ FlyingTile_Draw_oam_groups:
 FlyingTile_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     

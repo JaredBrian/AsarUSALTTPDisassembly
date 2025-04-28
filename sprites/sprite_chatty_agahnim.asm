@@ -163,14 +163,14 @@ ChattyAgahnim_DoTelewarpSpell:
 {
     LDA !timer_0, X : BEQ .advance_ai_state
         CMP.b #$78 : BEQ .start_flash_effect
-            CMP.b #$80 : BCS .anoplay_spell_sfx
-                AND.b #$03 : BNE .anoplay_spell_sfx
+            CMP.b #$80 : BCS .anoplay_spell_SFX
+                AND.b #$03 : BNE .anoplay_spell_SFX
                     LDA.b #$2B : STA.w $012F
                     
-                    LDA.w $0E80, X : CMP.b #$0E : BEQ .anoplay_spell_sfx
+                    LDA.w $0E80, X : CMP.b #$0E : BEQ .anoplay_spell_SFX
                         CLC : ADC.b #$04 : STA.w $0E80, X
                 
-            .anoplay_spell_sfx
+            .anoplay_spell_SFX
             
             RTS
             
@@ -244,10 +244,10 @@ ChattyAgahnim_Epiblab:
 ; $0ED36B-$0ED391 JUMP LOCATION
 ChattyAgahnim_TeleportTowardCurtains:
 {
-    LDA !timer_0, X : DEC A : BNE .delay_sfx
+    LDA !timer_0, X : DEC A : BNE .delay_SFX
         LDA.b #$28 : STA.w $012F
     
-    .delay_sfx
+    .delay_SFX
     
     LDA.b #$E0 : STA.w $0D40, X
     
@@ -313,7 +313,7 @@ ChattyAgahnim_LingerThenTerminate:
 ; ==============================================================================
 
 ; $0ED3D1-$0ED450 DATA
-ChattyAgahnim_Draw_oam_groups:
+ChattyAgahnim_Draw_OAM_groups:
 {
     dw -8, -8 : db $82, $0B, $00, $02
     dw  8, -8 : db $82, $4B, $00, $02
@@ -345,16 +345,16 @@ ChattyAgahnim_Draw:
         
         LDA.b #$00 : XBA
         
-        LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
+        LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
         
-        LDA.b $00 : BNE .typical_oam_positioning
+        LDA.b $00 : BNE .typical_OAM_positioning
             ; Use special position for OAM (for after image version of the guy).
-            ; HARDCODED: Assumes these oam slots are unoccupied.
+            ; HARDCODED: Assumes these OAM slots are unoccupied.
             LDA.w #$0900 : STA.b $90
             
             LDA.w #$0A60 : STA.b $92
             
-        .typical_oam_positioning
+        .typical_OAM_positioning
         
         SEP #$20
         
@@ -373,7 +373,7 @@ ChattyAgahnim_Draw:
 Pool_ChattyAgahnim_DrawTelewarpSpell:
 {
     ; $0ED48D
-    .oam_groups
+    .OAM_groups
     db -10, -16 : db $CE, $06
     db  18,  16 : db $CE, $06
     db  20, -13 : db $26, $06
@@ -412,12 +412,12 @@ Pool_ChattyAgahnim_DrawTelewarpSpell:
     db   8,  16 : db $20, $C4
     
     ; $0ED4FD
-    .oam_sizes
+    .OAM_sizes
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $02, $02, $02, $02
     
     ; $0ED50B
-    .oam_offset
+    .OAM_offset
     db $00, $04, $08, $0C, $10, $14, $18, $1C
     db $20, $24, $28
 }
@@ -434,14 +434,14 @@ ChattyAgahnim_DrawTelewarpSpell:
     REP #$20
 
     ; OPTIMIZE: Unused branch? theres no , X or , Y so this will always be true?
-    LDA.w #$Pool_ChattyAgahnim_DrawTelewarpSpell_oam_groups : BCS .use_first_oam_group
+    LDA.w #$Pool_ChattyAgahnim_DrawTelewarpSpell_OAM_groups : BCS .use_first_OAM_group
         ADC.w #$0038
     
-    .use_first_oam_group
+    .use_first_OAM_group
     
     STA.b $08
     
-    LDA.w #Pool_ChattyAgahnim_DrawTelewarpSpell_Doam_sizes : STA.b $0A
+    LDA.w #Pool_ChattyAgahnim_DrawTelewarpSpell_DOAM_sizes : STA.b $0A
     
     SEP #$20
     
@@ -456,9 +456,9 @@ ChattyAgahnim_DrawTelewarpSpell:
         
         INY
         
-        LDA.w Pool_ChattyAgahnim_DrawTelewarpSpell_oam_offset, Y : TAY
+        LDA.w Pool_ChattyAgahnim_DrawTelewarpSpell_OAM_offset, Y : TAY
         
-        .next_oam_entry
+        .next_OAM_entry
             
             LDA.b $00 : CLC : ADC ($08), Y : STA ($90), Y
             
@@ -482,7 +482,7 @@ ChattyAgahnim_DrawTelewarpSpell:
             LDA ($0A), Y : STA ($92), Y
             
             PLY : INY
-        DEX : CPX.b $0D : BNE .next_oam_entry
+        DEX : CPX.b $0D : BNE .next_OAM_entry
         
         PLX
         
@@ -504,7 +504,7 @@ Sprite_AltarZelda:
 ; ==============================================================================
 
 ; $0ED581-$0ED5A0 DATA
-AltarZelda_Main_oam_groups:
+AltarZelda_Main_OAM_groups:
 {
     dw -4, 0 : db $03, $01, $00, $02
     dw  4, 0 : db $04, $01, $00, $02
@@ -537,7 +537,7 @@ AltarZelda_Main:
     
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
@@ -595,7 +595,7 @@ AltarZelda_DrawBody:
         
     .on_screen_y
     
-    ; Writ chr and properties bytes to oam entry.
+    ; Writ chr and properties bytes to OAM entry.
     LDA.b #$6C : LDY.b #$02 : STA ($90), Y
                  LDY.b #$06 : STA ($90), Y
     LDA.b #$24 : LDY.b #$03 : STA ($90), Y
@@ -611,7 +611,7 @@ AltarZelda_DrawBody:
 ; ==============================================================================
 
 ; $0ED661-$0ED6B0 DATA
-AltarZelda_DrawWarpEffect_oam_groups:
+AltarZelda_DrawWarpEffect_OAM_groups:
 {
     dw  4, 4 : db $80, $04, $00, $00
     dw  4, 4 : db $80, $04, $00, $00
@@ -638,7 +638,7 @@ AltarZelda_DrawWarpEffect:
     
     LDA !timer_0, X : LSR #2 : REP #$20 : ASL #4
     
-    ADC.w #.oam_groups : STA.b $08
+    ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

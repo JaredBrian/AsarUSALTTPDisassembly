@@ -143,7 +143,7 @@ Sprite_HardHatBeetle:
 ; ==============================================================================
 
 ; $0324D2-$0324F1 DATA
-HardHatBeetle_Draw_oam_groups:
+HardHatBeetle_Draw_OAM_groups:
 {
     dw 0, -4 : db $40, $01, $00, $02
     dw 0,  2 : db $42, $01, $00, $02
@@ -159,8 +159,8 @@ HardHatBeetle_Draw:
 {
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #.oam_groups                 : STA.b $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
+    ADC.b #.OAM_groups                 : STA.b $08
+    LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
     LDA.b #$02 : JSL.l Sprite_DrawMultiple
     

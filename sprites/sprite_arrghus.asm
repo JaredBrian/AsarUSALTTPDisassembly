@@ -564,7 +564,7 @@ Arrghus_HandlePuffs:
 ; ==============================================================================
 
 ; $0F3818-$0F383F DATA
-Arrghus_Draw_oam_groups:
+Arrghus_Draw_OAM_groups:
 {
     dw -8, -4 : db $80, $00, $00, $02
     dw  8, -4 : db $80, $40, $00, $02
@@ -578,7 +578,7 @@ Arrghus_Draw:
 {
     REP #$20
     
-    LDA.w #(.oam_groups) : STA.b $08
+    LDA.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     

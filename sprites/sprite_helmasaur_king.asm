@@ -639,7 +639,7 @@ HelmasaurKing_ChipAwayAtMask:
     
     JSR.w HelmasaurKing_SpawnMaskDebris
     
-    BRA HelmasaurKing_ExplodeMask_make_sfx
+    BRA HelmasaurKing_ExplodeMask_make_SFX
 }
 
 ; $0F048C-$0F04A9 LOCAL JUMP LOCATION
@@ -661,7 +661,7 @@ HelmasaurKing_ExplodeMask:
     DEC.w $0FB5 : BPL .BRANCH_GAMMA
     
     ; $0F04A3 ALTERNATE ENTRY POINT
-    .make_sfx
+    .make_SFX
     
     LDA.b #$1F : JSL.l Sound_SetSfx2PanLong
     

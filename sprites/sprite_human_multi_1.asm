@@ -160,7 +160,7 @@ Sprite_FluteBoyFather:
 ; ==============================================================================
 
 ; $06C3B1-$06C3E0 DATA
-FluteBoyFather_Draw_oam_groups:
+FluteBoyFather_Draw_OAM_groups:
 {
     dw 0, -7 : db $86, $00, $00, $02
     dw 0,  0 : db $88, $00, $00, $02
@@ -180,8 +180,8 @@ FluteBoyFather_Draw:
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong
@@ -192,7 +192,7 @@ FluteBoyFather_Draw:
 ; ==============================================================================
 
 ; $06C401-$06C480 DATA
-Pool_BlindHideoutGuy_Draw_oam_groups:
+Pool_BlindHideoutGuy_Draw_OAM_groups:
 {
     dw 0, -8 : db $0C, $00, $00, $02
     dw 0,  0 : db $CA, $00, $00, $02
@@ -229,8 +229,8 @@ BlindHideoutGuy_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong

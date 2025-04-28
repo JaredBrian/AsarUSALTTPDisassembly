@@ -88,7 +88,7 @@ Sprite_Bumper:
 ; ==============================================================================
 
 ; $0F2A4B-$0F2A8A DATA
-Bumper_Draw_oam_groups:
+Bumper_Draw_OAM_groups:
 {
     dw -8, -8 : db $EC, $00, $00, $02
     dw  8, -8 : db $EC, $40, $00, $02
@@ -107,7 +107,7 @@ Bumper_Draw:
     LDA.b #$00   : XBA
     LDA.w $0DF0, X : LSR A : AND.b #$01 : REP #$20 : ASL #5
     
-    ADC.w #(.oam_groups) : STA.b $08
+    ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     

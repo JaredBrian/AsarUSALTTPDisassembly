@@ -44,13 +44,13 @@ Sprite_DeadRock:
     JSR.w Sprite_PrepAndDrawSingleLarge
     JSR.w Sprite_CheckIfActive
     
-    LDA.w $0EA0, X : BNE .anoplay_sfx
-        JSR.w Sprite_CheckDamageFromPlayer : BCC .anoplay_sfx
-            LDA.w $012E : BNE .anoplay_sfx
+    LDA.w $0EA0, X : BNE .anoplay_SFX
+        JSR.w Sprite_CheckDamageFromPlayer : BCC .anoplay_SFX
+            LDA.w $012E : BNE .anoplay_SFX
 
                 LDA.b #$0B : JSL.l Sound_SetSfx2PanLong
     
-    .anoplay_sfx
+    .anoplay_SFX
     
     JSR.w Sprite_CheckDamageToPlayer_same_layer : BCC .no_player_collision
         JSL.l Sprite_NullifyHookshotDrag

@@ -1224,7 +1224,7 @@ Blind_SpawnLaser:
 ; ==============================================================================
 
 ; $0EA7AA-$0EAAF1 DATA
-Blind_Draw_oam_groups:
+Blind_Draw_OAM_groups:
 {
     dw  -8,   7 : db $8E, $0C, $00, $02
     dw   8,   7 : db $8E, $4C, $00, $02
@@ -1351,7 +1351,7 @@ Blind_Draw_oam_groups:
 BlindPoof_Draw:
 {
     ; $0EAAF2
-    .oam_groups
+    .OAM_groups
     .group00
     dw -16, -20 : db $86, $05, $00, $02
 
@@ -1410,7 +1410,7 @@ BlindPoof_Draw:
     dw   0,  23 : db $22, $0B, $00, $02
 
     ; $0EAC1A
-    .oam_group_pointer
+    .OAM_group_pointer
     dw .group00
     dw .group01
     dw .group02
@@ -1420,7 +1420,7 @@ BlindPoof_Draw:
     dw .group06
 
     ; $0EAC28
-    .oam_group_size
+    .OAM_group_size
     db  1 ; Group00
     db  4 ; Group01
     db  8 ; Group02
@@ -1441,13 +1441,13 @@ BlindPoof_Draw:
     
     REP #$20
     
-    LDA BlindPoof_Draw_oam_group_pointer-$1E, Y : STA.b $08
+    LDA BlindPoof_Draw_OAM_group_pointer-$1E, Y : STA.b $08
     
     SEP #$20
     
     PLY
     
-    LDA BlindPoof_Draw_oam_group_size-$0F, Y : JMP Sprite4_DrawMultiple
+    LDA BlindPoof_Draw_OAM_group_size-$0F, Y : JMP Sprite4_DrawMultiple
 }
 
 ; ==============================================================================
@@ -1481,7 +1481,7 @@ Blind_Draw:
         ASL #3 : STA.b $00
         
         ASL #3 : SEC : SBC.b $00
-        CLC : ADC.w #.oam_groups : STA.b $08
+        CLC : ADC.w #.OAM_groups : STA.b $08
         
         SEP #$20
         

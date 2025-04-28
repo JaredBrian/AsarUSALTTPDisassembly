@@ -123,7 +123,7 @@ ElderWife_GoAwayFindTheOldMan:
 ; ==============================================================================
 
 ; $02F4E5-$02F504 DATA
-ElderWife_Draw_oam_groups:
+ElderWife_Draw_OAM_groups:
 {
     dw 0, -5 : db $8E, $00, $00, $02
     dw 0,  5 : db $28, $00, $00, $02
@@ -140,8 +140,8 @@ ElderWife_Draw:
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b ((.oam_groups >> 0 & $FF))              : STA.b $08
-    LDA.b ((.oam_groups >> 8 & $FF)) : ADC.b #$00 : STA.b $09
+    ADC.b ((.OAM_groups >> 0 & $FF))              : STA.b $08
+    LDA.b ((.OAM_groups >> 8 & $FF)) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     

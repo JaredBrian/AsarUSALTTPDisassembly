@@ -624,7 +624,7 @@ Pool_Kiki_Draw:
     dw $C020, $C020, $A000, $A000, $8040, $6040, $8040, $6040
     
     ; $0F66F9
-    .oam_groups
+    .OAM_groups
     dw  0, -6 : db $20, $00, $00, $02
     dw  0,  0 : db $22, $00, $00, $02
     dw  0, -6 : db $20, $00, $00, $02
@@ -659,7 +659,7 @@ Pool_Kiki_Draw:
     dw  0,  0 : db $EC, $41, $00, $02
     
     ; $0F67F9
-    .oam_groups_2
+    .OAM_groups_2
     dw 0, -6 : db $CA, $01, $00, $00
     dw 8, -6 : db $CA, $41, $00, $00
     dw 0,  2 : db $DA, $01, $00, $00
@@ -686,8 +686,8 @@ Kiki_Draw:
         
         TYA : ASL #3
         
-        ADC.b #(Pool_Kiki_Draw_oam_groups >> 8)              : STA.b $08
-        LDA.b #(Pool_Kiki_Draw_oam_groups >> 8) : ADC.b #$00 : STA.b $09
+        ADC.b #(Pool_Kiki_Draw_OAM_groups >> 8)              : STA.b $08
+        LDA.b #(Pool_Kiki_Draw_OAM_groups >> 8) : ADC.b #$00 : STA.b $09
         
         LDA.b #$02 : JSR.w Sprite3_DrawMultiple
         
@@ -702,8 +702,8 @@ Kiki_Draw:
     
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(Pool_Kiki_Draw_oam_groups_2 >> 0)              : STA.b $08
-    LDA.b #(Pool_Kiki_Draw_oam_groups_2 >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(Pool_Kiki_Draw_OAM_groups_2 >> 0)              : STA.b $08
+    LDA.b #(Pool_Kiki_Draw_OAM_groups_2 >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$06
     

@@ -250,7 +250,7 @@ Gibo_PursueNucleus:
 ; ==============================================================================
 
 ; $0ECE5E-$0ECF5D DATA
-Gibo_Draw_oam_groups:
+Gibo_Draw_OAM_groups:
 {
     dw  4, -4 : db $8A, $40, $00, $02
     dw -4, -4 : db $8F, $40, $00, $00
@@ -327,7 +327,7 @@ Gibo_Draw:
     
     REP #$20
     
-    ASL #5 : ADC.w #.oam_groups : STA.b $08
+    ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     REP #$20
     

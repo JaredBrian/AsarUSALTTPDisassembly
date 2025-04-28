@@ -81,7 +81,7 @@ FluteBoyOstrich_RunAway:
 ; ==============================================================================
 
 ; $0F19CB-$0F1A4A DATA
-FluteBoyOstrich_Draw_oam_groups:
+FluteBoyOstrich_Draw_OAM_groups:
 {
     dw -4, -8 : db $80, $00, $00, $02
     dw  4, -8 : db $81, $00, $00, $02
@@ -108,7 +108,7 @@ FluteBoyOstrich_Draw_oam_groups:
 FluteBoyOstrich_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     

@@ -156,7 +156,7 @@ Pool_FireBat_Draw:
     db -8, 8
     
     ; These are laid out this way for a reason. The vh_flip data is in pairs
-    ; because the sprite consists of pairs of oam entries.
+    ; because the sprite consists of pairs of OAM entries.
     ; $0E8C92
     .chr
     db $88
@@ -191,7 +191,7 @@ FireBat_Draw:
     
     LDX.b #$01
     
-    .next_oam_entry
+    .next_OAM_entry
         
         PHX
         
@@ -223,7 +223,7 @@ FireBat_Draw:
         LDA.b #$02 : ORA.b $0F : STA ($92), Y
         
         PLY : INY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     PLX
     

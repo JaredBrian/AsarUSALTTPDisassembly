@@ -32,10 +32,10 @@ Sprite_Shrapnel:
     ; This sprite manifests as a boulder outdoors, and as shrapnel indoors.
     LDA.b $1B : BEQ Boulder_Main
         ; Check if we can draw.
-        LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
+        LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_GFX_loaded
             JSL.l Sprite_PrepAndDrawSingleSmallLong
         
-        .invalid_gfx_loaded
+        .invalid_GFX_loaded
         
         JSR.w Sprite4_CheckIfActive
         
@@ -74,7 +74,7 @@ Sprite_Shrapnel:
 ; $0ED02A-$0ED087 BRANCH LOCATION
 Boulder_Main:
 {
-    ; Uses super priority for oam.
+    ; Uses super priority for OAM.
     LDA.b #$30 : STA.w $0B89, X
     
     JSR.w Boulder_Draw
@@ -127,7 +127,7 @@ Boulder_Main:
 ; ==============================================================================
 
 ; $0ED088-$0ED107 DATA
-Boulder_Draw_oam_groups:
+Boulder_Draw_OAM_groups:
 {
     dw -8, -8 : db $CC, $01, $00, $02
     dw  8, -8 : db $CE, $01, $00, $02
@@ -154,7 +154,7 @@ Boulder_Draw_oam_groups:
 Pool_Sprite_DrawLargeShadow:
 {
     ; $0ED108
-    .oam_groups
+    .OAM_groups
     .group00
     dw -6, 19 : db $6C, $08, $00, $02
     dw  0, 19 : db $6C, $08, $00, $02
@@ -199,7 +199,7 @@ Boulder_Draw:
     LDA.b #$00   : XBA
     LDA.w $0E80, X : LSR #3 : AND.b #$03 : REP #$20 : ASL #5
     
-    ADC.w #(.oam_groups) : STA.b $08
+    ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -247,7 +247,7 @@ Sprite_DrawVariableSizedShadow:
     
     LDA.b $92 : CLC : ADC.w #$0004 : STA.b $92
     
-    LDA.w #(Pool_Sprite_DrawLargeShadow_oam_groups) : CLC : ADC.w $00 : STA.b $08
+    LDA.w #(Pool_Sprite_DrawLargeShadow_OAM_groups) : CLC : ADC.w $00 : STA.b $08
     
     SEP #$20
     

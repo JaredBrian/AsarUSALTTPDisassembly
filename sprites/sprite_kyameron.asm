@@ -304,7 +304,7 @@ Sprite_SpawnSimpleSparkleGarnish:
 Pool_Kyameron_Draw:
 {
     ; $0F206C
-    .oam_groups
+    .OAM_groups
     dw  1,   8 : db $B4, $00, $00, $00
     dw  7,   8 : db $B5, $00, $00, $00
     dw  4,  -3 : db $86, $00, $00, $00
@@ -368,7 +368,7 @@ Kyameron_Draw:
     
     LDA.b #$00 : XBA
     
-    TYA : REP #$20 : ASL #5 : ADC.w #Pool_Kyameron_Draw_oam_groups : STA.b $08
+    TYA : REP #$20 : ASL #5 : ADC.w #Pool_Kyameron_Draw_OAM_groups : STA.b $08
     
     SEP #$20
     

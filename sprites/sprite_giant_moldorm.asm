@@ -312,7 +312,7 @@ GiantMoldorm_IncrementalSegmentExplosion:
 ; ==============================================================================
 
 ; $0ED913-$0ED992 DATA
-GiantMoldorm_DrawHead_oam_groups:
+GiantMoldorm_DrawHead_OAM_groups:
 {
     dw -8, -8 : db $80, $00, $00, $02
     dw  8, -8 : db $82, $00, $00, $02
@@ -346,7 +346,7 @@ GiantMoldorm_DrawHead:
     
     REP #$20
     
-    ASL #5 : ADC.w #.oam_groups : STA.b $08
+    ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
@@ -356,7 +356,7 @@ GiantMoldorm_DrawHead:
 ; ==============================================================================
 
 ; $0ED9B8-$0ED9F7 DATA
-GiantMoldorm_DrawLargeSegment_oam_groups:
+GiantMoldorm_DrawLargeSegment_OAM_groups:
 {
     dw -8, -8 : db $84, $00, $00, $02
     dw  8, -8 : db $86, $00, $00, $02
@@ -401,7 +401,7 @@ GiantMoldorm_DrawLargeSegment:
     
     REP #$20
     
-    ASL #5 : ADC.w #.oam_groups : STA.b $08
+    ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     REP #$20
     

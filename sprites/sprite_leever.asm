@@ -252,7 +252,7 @@ Pool_Leever_Draw:
     db $06, $01, $01, $00, $06, $01, $01, $00
     
     ; $034DFF
-    .oam_sizes
+    .OAM_sizes
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00, $00, $02, $02, $00, $00
@@ -262,7 +262,7 @@ Pool_Leever_Draw:
     db $02, $02, $02, $00, $02, $02, $02, $00
     
     ; $034E37
-    .num_oam_entries
+    .num_OAM_entries
     db 1, 1, 1, 3, 3, 3, 3, 3
     db 3, 1, 1, 1, 1, 1
 }
@@ -276,11 +276,11 @@ Leever_Draw:
     
     PHX
     
-    LDX.w Pool_Leever_Draw_num_oam_entries, Y
+    LDX.w Pool_Leever_Draw_num_OAM_entries, Y
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
         PHX
         
@@ -325,10 +325,10 @@ Leever_Draw:
         
         TYA : LSR #2 : TAY
         
-        LDA.w Pool_Leever_oam_sizes, X : ORA.b $0F : STA ($92), Y
+        LDA.w Pool_Leever_OAM_sizes, X : ORA.b $0F : STA ($92), Y
         
         PLY : INY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     PLX
     

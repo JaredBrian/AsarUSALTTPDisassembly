@@ -133,7 +133,7 @@ Gibdo_CanMove:
 ; ==============================================================================
 
 ; $0F3A60-$0F3B1F DATA
-Pool_Gibdo_Draw_oam_groups:
+Pool_Gibdo_Draw_OAM_groups:
 {
     dw 0, -9 : db $80, $00, $00, $02
     dw 0,  0 : db $8A, $00, $00, $02
@@ -179,7 +179,7 @@ Gibdo_Draw:
     LDA.w $0DC0, X
 
     REP #$20
-    ASL #4 : ADC.w .oam_groups : STA.b $08
+    ASL #4 : ADC.w .OAM_groups : STA.b $08
     SEP #$20
     
     LDA.b #$02 : JSR.w Sprite3_DrawMultiple

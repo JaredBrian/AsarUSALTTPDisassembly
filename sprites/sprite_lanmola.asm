@@ -412,11 +412,11 @@ Pool_Lanmola_Draw:
     db $02, $02, $02, $02, $02, $02, $00, $00
        
     ; $02A63A
-    .oamCoord90
+    .OAMCoord90
     db $30, $09, $F0, $08, $B0, $08, $70, $08
 
     ; $02A642
-    .oamCoord92
+    .OAMCoord92
     db $6C, $0A, $5C, $0A, $4C, $0A, $3C, $0A
 }
 
@@ -427,8 +427,8 @@ Lanmola_Draw:
     
     REP #$20
     
-    LDA Pool_Lanmola_Draw_oamCoord90, Y : STA.b $90
-    LDA Pool_Lanmola_Draw_oamCoord92, Y : STA.b $92
+    LDA Pool_Lanmola_Draw_OAMCoord90, Y : STA.b $90
+    LDA Pool_Lanmola_Draw_OAMCoord92, Y : STA.b $92
     
     SEP #$20
     

@@ -248,11 +248,11 @@ Pool_ArmosKnight_Draw:
     db $00, $00, $00, $00
     
     ; $02A25C
-    .oam_a_loc
+    .OAM_a_loc
     dw $0930, $0938, $0940, $0948, $0950, $0958
     
     ; $02A268
-    .oam_b_loc
+    .OAM_b_loc
     dw $0A6C, $0A6E, $0A70, $0A72, $0A74, $0A76        
 }
 
@@ -324,8 +324,8 @@ ArmosKnight_Draw:
         
         REP #$20
         
-        LDA.w Pool_ArmosKnight_Draw_oam_a_loc, Y : STA.b $90
-        LDA.w Pool_ArmosKnight_Draw_oam_b_loc, Y : STA.b $92
+        LDA.w Pool_ArmosKnight_Draw_OAM_a_loc, Y : STA.b $90
+        LDA.w Pool_ArmosKnight_Draw_OAM_b_loc, Y : STA.b $92
         
         SEP #$20
         

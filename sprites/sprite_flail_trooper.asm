@@ -351,7 +351,7 @@ Pool_FlailTrooper_DrawBody:
     db $02, $02, $02, $02, $01, $01, $01, $01
     
     ; $02B3B3
-    .oam_offset_adjustment
+    .OAM_offset_adjustment
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00, $00, $08, $08, $08, $08
@@ -380,7 +380,7 @@ SpriteDraw_GuardBody:
     
     LDA.w $0DC0, X : TAX
     
-    TYA : CLC : ADC Pool_FlailTrooper_DrawBody_oam_offset_adjustment, X : TAY
+    TYA : CLC : ADC Pool_FlailTrooper_DrawBody_OAM_offset_adjustment, X : TAY
     
     LDA.w Pool_FlailTrooper_DrawBody_num_subsprites, X : TAX
     

@@ -261,7 +261,7 @@ Hinox_Walk:
 Pool_Hinox_Draw:
 {
     ; $032065
-    .oam_groups
+    .OAM_groups
     dw   0, -13 : db $00, $06, $00, $02
     dw  -8,  -5 : db $24, $06, $00, $02
     dw   8,  -5 : db $24, $46, $00, $02
@@ -321,12 +321,12 @@ Pool_Hinox_Draw:
     dw   0,  -8 : db $0C, $46, $00, $02 
     
     ; $0321D5
-    .oam_group_pointers
+    .OAM_group_pointers
     dw $A065, $A085, $A0A5, $A0C5, $A0E5, $A0FD, $A115, $A12D
     dw $A145, $A16D, $A195, $A1B5
     
     ; $0321ED
-    .num_oam_entries
+    .num_OAM_entries
     db 4, 4, 4, 4, 3, 3, 3, 3
     db 5, 5, 4, 4
 }
@@ -342,13 +342,13 @@ Hinox_Draw:
     
     REP #$20
     
-    LDA.w Pool_Hinox_Draw_oam_group_pointers, Y : STA.b $08
+    LDA.w Pool_Hinox_Draw_OAM_group_pointers, Y : STA.b $08
     
     SEP #$20
     
     PLY
     
-    LDA.w Pool_Hinox_Draw_num_oam_entries, Y : JSL.l Sprite_DrawMultiple
+    LDA.w Pool_Hinox_Draw_num_OAM_entries, Y : JSL.l Sprite_DrawMultiple
     
     JMP Sprite_DrawShadow
 }

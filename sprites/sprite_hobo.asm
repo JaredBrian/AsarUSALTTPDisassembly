@@ -244,8 +244,8 @@ Hobo_SpawnBubble:
 ; $033F0F-$033F14 LOCAL JUMP LOCATION
 Sprite_ZeroOamAllocation:
 {     
-    ; Zeroes out the sprite's oam slot allocation making it impossible to
-    ; store any entries to the oam buffer, sort of...
+    ; Zeroes out the sprite's OAM slot allocation making it impossible to
+    ; store any entries to the OAM buffer, sort of...
     ; This seems to suggest that sprites that call this have manual
     ; OAM allocation somewhere in their logic.
     LDA.b #$00 : STA.w $0E40, Y

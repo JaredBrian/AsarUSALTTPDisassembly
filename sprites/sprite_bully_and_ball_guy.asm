@@ -53,10 +53,10 @@ Sprite_BallGuy:
         
         LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X
         
-        AND.b #$FC : BEQ .dont_play_sfx
+        AND.b #$FC : BEQ .dont_play_SFX
             JSR.w BallGuy_PlayBounceNoise
         
-        .dont_play_sfx
+        .dont_play_SFX
         
         JSR.w BallGuy_Friction
     
@@ -297,7 +297,7 @@ Bully_Waiting:
 ; ==============================================================================
 
 ; $0F6D5E-$0F6D9D DATA
-Pool_Bully_Draw_oam_groups:
+Pool_Bully_Draw_OAM_groups:
 {
     dw 0, -7 : db $E0, $46, $00, $02
     dw 0,  0 : db $E2, $46, $00, $02
@@ -320,8 +320,8 @@ Bully_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong
@@ -391,10 +391,10 @@ BallGuy_Dialogue:
             
             LDA.w $0D40, X : EOR.b #$FF : STA.w $0D40, X
             
-            LDA.w $0E90, X : BEQ .dont_play_sfx
+            LDA.w $0E90, X : BEQ .dont_play_SFX
                 JSR.w BallGuy_PlayBounceNoise
             
-            .dont_play_sfx
+            .dont_play_SFX
             
             LDA.b #$40 : STA.w $0F10, X
             

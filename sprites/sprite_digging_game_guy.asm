@@ -329,7 +329,7 @@ DiggingGameGuy_GiveItem_spawn_item:
 ; ==============================================================================
 
 ; $0EFE03-$0EFE4A DATA
-DiggingGameGuy_Draw_oam_groups:
+DiggingGameGuy_Draw_OAM_groups:
 {
     dw  0, -8 : db $40, $0A, $00, $02
     dw  4,  9 : db $56, $0C, $00, $00
@@ -353,8 +353,8 @@ DiggingGameGuy_Draw:
     ; ptr = 0xFE03 + (i*24);
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #.oam_groups                 : STA.b $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
+    ADC.b #.OAM_groups                 : STA.b $08
+    LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong

@@ -322,7 +322,7 @@ LaserEye_SpawnBeam:
 ; ==============================================================================
 
 ; $0F2648-$0F2707 DATA
-LaserEye_Draw_oam_groups:
+LaserEye_Draw_OAM_groups:
 {
     dw  8, -4 : db $C8, $40, $00, $00
     dw  8,  4 : db $D8, $40, $00, $00
@@ -378,7 +378,7 @@ LaserEye_Draw:
     
     REP #$20
     
-    ASL #3 : STA.b $00 : ASL A  : ADC.b $00 : ADC.w #.oam_groups : STA.b $08
+    ASL #3 : STA.b $00 : ASL A  : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
