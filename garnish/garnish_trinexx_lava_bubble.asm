@@ -22,7 +22,7 @@ Garnish_TrinexxLavaBubble:
     
     LDA.l $7FF92C, X : TAY
     
-    ; Copy palette and other oam properties from the parent sprite object.
+    ; Copy palette and other OAM properties from the parent sprite object.
     LDA.w $0F50, Y : ORA.w $0B89, Y : AND.b #$F0 : ORA.b #$0E
     
     PLY

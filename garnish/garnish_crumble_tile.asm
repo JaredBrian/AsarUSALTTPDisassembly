@@ -12,7 +12,7 @@ Pool_Garnish_CrumbleTile:
     db $30, $31, $31, $31, $31
     
     ; $04B61D
-    .oam_sizes
+    .OAM_sizes
     db $00, $02, $02, $02, $02
     
     ; NOTE: The x and y offset is considered the same for this object, no
@@ -53,7 +53,7 @@ Garnish_CrumbleTile:
     
     LDA.w Pool_Garnish_CrumbleTile_chr, Y        : STA.b $03
     LDA.w Pool_Garnish_CrumbleTile_properties, Y : STA.b $05
-    LDA.w Pool_Garnish_CrumbleTile_oam_sizes, Y  : STA.b $06
+    LDA.w Pool_Garnish_CrumbleTile_OAM_sizes, Y  : STA.b $06
     
     LDA.l $7FF83C, X : SEC : SBC.b $E2 : PHP
     CLC : ADC Pool_Garnish_CrumbleTile_xy_offsets, Y : STA.b $00

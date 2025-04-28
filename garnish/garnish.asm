@@ -108,7 +108,7 @@ Garnish_ExecuteLowerSlots:
 ; ==============================================================================
 
 ; $04B0A0-$04B0B5 DATA
-Garnish_ExecuteSingle_oam_allocation:
+Garnish_ExecuteSingle_OAM_allocation:
 {
     db  4,  4,  4,  4,  4,  4,  4,  4
     db  4,  4,  4,  4,  4,  4,  4,  4
@@ -138,7 +138,7 @@ Garnish_ExecuteSingle:
             LDA.l $7FF968, X : BEQ .on_bg2
                 LDA.l $7FF800, X : TAY
                 
-                LDA.w .oam_allocation-1, Y : JSL.l OAM_AllocateFromRegionF
+                LDA.w .OAM_allocation-1, Y : JSL.l OAM_AllocateFromRegionF
                 
                 BRA .execute_handler
             
@@ -146,7 +146,7 @@ Garnish_ExecuteSingle:
             
             LDA.l $7FF800, X : TAY
             
-            LDA.w .oam_allocation-1, Y : JSL.l OAM_AllocateFromRegionD
+            LDA.w .OAM_allocation-1, Y : JSL.l OAM_AllocateFromRegionD
             
             BRA .execute_handler
         
@@ -154,7 +154,7 @@ Garnish_ExecuteSingle:
         
         LDA.l $7FF800, X : TAY
         
-        LDA.w .oam_allocation-1, Y : JSL.l OAM_AllocateFromRegionA
+        LDA.w .OAM_allocation-1, Y : JSL.l OAM_AllocateFromRegionA
         
         .execute_handler
         

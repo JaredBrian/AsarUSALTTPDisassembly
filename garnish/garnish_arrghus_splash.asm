@@ -20,7 +20,7 @@ Pool_Garnish_ArrghusSplash:
     db $34, $74, $34, $74, $34, $74, $34, $74
     
     ; $04B170
-    .oam_sizes
+    .OAM_sizes
     db $00, $00, $02, $02, $02, $02, $02, $02
 }
 
@@ -36,7 +36,7 @@ Garnish_ArrghusSplash:
     
     PHX
     
-    .next_oam_entry
+    .next_OAM_entry
         
         LDA.b $06 : ORA.b $07 : TAX
         
@@ -53,10 +53,10 @@ Garnish_ArrghusSplash:
         
         TYA : LSR #2 : TAY
         
-        LDA.w Pool_Garnish_ArrghusSplash_oam_sizes, X : STA ($92), Y
+        LDA.w Pool_Garnish_ArrghusSplash_OAM_sizes, X : STA ($92), Y
         
         PLY : INY
-    DEC.b $07 : BPL .next_oam_entry
+    DEC.b $07 : BPL .next_OAM_entry
     
     PLX
     
