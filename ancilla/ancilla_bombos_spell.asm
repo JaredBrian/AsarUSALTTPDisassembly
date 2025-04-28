@@ -327,12 +327,12 @@ Bombos_ExecuteFlameColumns:
                 
                 SEP #$20
                 
-                LDA $05 : BNE .not_flame_sfx
+                LDA $05 : BNE .not_flame_SFX
                     LDA $04 : LSR #5 : TAX
                     
                     LDA.l AncillaPanValues, X : ORA.b #$2A : STA.w $012E
                 
-                .not_flame_sfx
+                .not_flame_SFX
                 
                 PLX
         
@@ -514,9 +514,9 @@ BombosSpell_DrawFireColumn:
             
             STZ $08
             
-            .next_oam_entry
+            .next_OAM_entry
                 
-                LDA.w Pool_BombosSpell_DrawFireColumn_char, X : CMP.b #$FF : BEQ .skip_oam_entry
+                LDA.w Pool_BombosSpell_DrawFireColumn_char, X : CMP.b #$FF : BEQ .skip_OAM_entry
                     PHX
                     
                     LDX $75
@@ -559,12 +559,12 @@ BombosSpell_DrawFireColumn:
                     
                     PLY
                     
-                .skip_oam_entry
+                .skip_OAM_entry
                 
                 JSR.w Ancilla_CustomAllocateOam
                 
                 DEX
-            INC $08 : LDA $08 : CMP.b #$03 : BNE .next_oam_entry
+            INC $08 : LDA $08 : CMP.b #$03 : BNE .next_OAM_entry
         
         .inactive_flame_column
         
@@ -821,9 +821,9 @@ BombosSpell_DrawBlast:
         
         LDA.l $7F5935, X : ASL #2 : CLC : ADC.b #$03 : STA $73 : TAX
         
-        .next_oam_entry
+        .next_OAM_entry
             
-            LDA.w Pool_BombosSpell_DrawFireColumn_char, X : CMP.b #$FF : BEQ .skip_oam_entry
+            LDA.w Pool_BombosSpell_DrawFireColumn_char, X : CMP.b #$FF : BEQ .skip_OAM_entry
                 PHX : TXA : ASL A : TAX
                 
                 REP #$20
@@ -852,12 +852,12 @@ BombosSpell_DrawBlast:
                 
                 PLY
                 
-            .skip_oam_entry
+            .skip_OAM_entry
             
             JSR.w Ancilla_CustomAllocateOam
             
             DEX
-        DEC $0C : BPL .next_oam_entry
+        DEC $0C : BPL .next_OAM_entry
     
     .inactive_blast
     

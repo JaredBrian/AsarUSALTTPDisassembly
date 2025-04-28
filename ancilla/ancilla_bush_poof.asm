@@ -71,7 +71,7 @@ Ancilla_BushPoof:
     
     LDA.w $0C5E, X : ASL #2 : TAX
     
-    .next_oam_entry
+    .next_OAM_entry
     
         LDA $06 : CLC : ADC Pool_Ancilla_BushPoof_y_offsets_low,  X : STA $00
         LDA $07       : ADC Pool_Ancilla_BushPoof_y_offsets_high, X : STA $01
@@ -95,7 +95,7 @@ Ancilla_BushPoof:
         PLY
         
         INX
-    INC $08 : LDA $08 : CMP.b #$04 : BNE .next_oam_entry
+    INC $08 : LDA $08 : CMP.b #$04 : BNE .next_OAM_entry
     
     BRL Ancilla_RestoreIndex
 }

@@ -113,10 +113,10 @@ Ancilla_Arrow:
     
     .transmute_to_halted_arrow
     
-    LDA.w $0E20, Y : CMP.b #$1B : BEQ .hit_enemy_arrow_no_sfx
+    LDA.w $0E20, Y : CMP.b #$1B : BEQ .hit_enemy_arrow_no_SFX
         LDA.b #$08 : JSR.w Ancilla_DoSfx2
     
-    .hit_enemy_arrow_no_sfx
+    .hit_enemy_arrow_no_SFX
     
     STZ.w $0C5E, X
     
@@ -326,9 +326,9 @@ Arrow_Draw:
     
     STZ $06
     
-    .next_oam_entry
+    .next_OAM_entry
     
-        LDA.w Pool_Arrow_Draw_chr_and_properties, X : CMP.b #$FF : BEQ .skip_oam_entry
+        LDA.w Pool_Arrow_Draw_chr_and_properties, X : CMP.b #$FF : BEQ .skip_OAM_entry
             STA $72
             
             PHX : TXA : ASL A : TAX
@@ -358,12 +358,12 @@ Arrow_Draw:
             
             PLY
         
-        .skip_oam_entry
+        .skip_OAM_entry
         
         INX #2
         
         INC $06 : LDA $06 : CMP.b #$02 : BEQ .finished_drawing
-    BRL .next_oam_entry
+    BRL .next_OAM_entry
     
     .finished_drawing
     

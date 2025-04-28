@@ -31,13 +31,13 @@ Ancilla_BedSpread:
     LDA.w $037D : BNE .player_eyes_not_shut
         LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
         
-        BRA .oam_allocation_set
+        BRA .OAM_allocation_set
     
     .player_eyes_not_shut
     
     LDA.b #$10 : JSL.l OAM_AllocateFromRegionA
     
-    .oam_allocation_set
+    .OAM_allocation_set
     
     LDA.w $037D : BEQ .player_eyes_shut
         LDA.b #$04
@@ -50,7 +50,7 @@ Ancilla_BedSpread:
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
             JSR.w Ancilla_SetOam_XY
             
@@ -78,7 +78,7 @@ Ancilla_BedSpread:
             SEP #$20
             
             DEC $0A : BMI .done_drawing
-        LDA $0A : CMP.b #$01 : BNE .next_oam_entry
+        LDA $0A : CMP.b #$01 : BNE .next_OAM_entry
         
         REP #$20
         
@@ -87,7 +87,7 @@ Ancilla_BedSpread:
         LDA $04 : CLC : ADC.w #$0008 : STA $00
         
         SEP #$20
-    BRA .next_oam_entry
+    BRA .next_OAM_entry
     
     .done_drawing
     

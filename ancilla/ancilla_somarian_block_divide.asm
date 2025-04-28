@@ -56,7 +56,7 @@ Ancilla_SomarianBlockDivide:
     
     LDY.b #$00 : STY.b $08
     
-    .next_oam_entry
+    .next_OAM_entry
     
         REP #$20
         
@@ -85,7 +85,7 @@ Ancilla_SomarianBlockDivide:
         LDA.b #$00 : STA ($92), Y
         
         PLY : INX
-    INC.b $08 : LDA.b $08 : CMP.b #$08 : BNE .next_oam_entry
+    INC.b $08 : LDA.b $08 : CMP.b #$08 : BNE .next_OAM_entry
     
     PLX
     

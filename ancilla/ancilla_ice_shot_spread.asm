@@ -60,7 +60,7 @@ IceShotSpread_Draw:
     
     STZ $04
     
-    .next_oam_entry
+    .next_OAM_entry
     
         REP #$20
         
@@ -121,7 +121,7 @@ IceShotSpread_Draw:
         INC $04
         
         LDA $04 : CMP.b #$04 : BEQ .done_drawing
-    BRL .next_oam_entry
+    BRL .next_OAM_entry
     
     .done_drawing
     

@@ -62,7 +62,7 @@ Ancilla_WishPondItem:
     ; (level 2 only), but I can't say for sure what the purpose of this
     ; is...
     LDA.w $0C5E, X : CMP.b #$01 : BNE .unknown
-        LDA.w Pool_Ancilla_ReceiveItem_default_oam_properties : STA.w $0BF0, X
+        LDA.w Pool_Ancilla_ReceiveItem_default_OAM_properties : STA.w $0BF0, X
     
     .unknown
     

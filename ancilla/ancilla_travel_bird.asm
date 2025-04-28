@@ -68,12 +68,12 @@ Ancilla_TravelBird:
     
     .ready_to_seek_player
     
-    DEC.w $0394, X : BPL .flapping_sfx_delay
+    DEC.w $0394, X : BPL .flapping_SFX_delay
         LDA.b #$28 : STA.w $0394, X
         
         LDA.b #$1E : JSR.w Ancilla_DoSfx3
     
-    .flapping_sfx_delay
+    .flapping_SFX_delay
     
     LDY.w $0385, X : BNE .dropping_off_so_swoop_down
         LDA.w $0C54, X : BEQ .maintain_current_altitude
@@ -286,7 +286,7 @@ Ancilla_TravelBird:
     
     LDY.b #$00 : TYX
     
-    .next_oam_entry
+    .next_OAM_entry
         
         REP #$20
         
@@ -327,7 +327,7 @@ Ancilla_TravelBird:
         PLY
         
         INX
-    CPY.b $08 : BNE .next_oam_entry
+    CPY.b $08 : BNE .next_OAM_entry
     
     REP #$20
     

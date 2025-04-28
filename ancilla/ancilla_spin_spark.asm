@@ -175,7 +175,7 @@ Ancilla_SpinSpark:
 ; ==============================================================================
 
 ; NOTE: Takes the calculated radial projection and converts the values
-; to screen relative coordinates (oam coordinates)
+; to screen relative coordinates (OAM coordinates)
 ; $045A17-$045A4B LONG JUMP LOCATION
 Sparkle_PrepOamCoordsFromRadialProjection:
 {
@@ -235,7 +235,7 @@ SpinSpark_ExecuteClosingSpark:
     
     LDA.w $0C5E, X : CLC : ADC.b #$04 : ASL #2 : TAX
     
-    BRL Ancilla_InitialSpinSpark_oam_commit_loop
+    BRL Ancilla_InitialSpinSpark_OAM_commit_loop
 }
 
 ; ==============================================================================

@@ -38,7 +38,7 @@ Ancilla_BreakTowerSeal:
             ; Move to the next state.
             INC.w $0C54, X
             
-            ; Turn off ambient sfx.
+            ; Turn off ambient SFX.
             LDA.b #$05 : STA.w $012D
             
             ; Fade out music.

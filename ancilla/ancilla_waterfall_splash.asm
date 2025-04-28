@@ -12,7 +12,7 @@ Pool_Ancilla_WaterfallSplash:
     db $84, $FF, $84, $C4, $84, $C4, $84, $C4
     
     ; $046C87
-    .oam_sizes
+    .OAM_sizes
     db $02, $FF, $02, $02, $02, $02, $00, $00
     
     ; $046C8F
@@ -108,9 +108,9 @@ Ancilla_WaterfallSplash:
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
-        LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+        LDA.w .chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
             LDA.w Pool_Ancilla_WaterfallSplash_y_offsets_low, X
             CLC : ADC.b $06 : STA.b $00
 
@@ -134,12 +134,12 @@ Ancilla_WaterfallSplash:
             
             PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
             
-            LDA.w Pool_Ancilla_WaterfallSplash_oam_sizes, X : STA ($92), Y
+            LDA.w Pool_Ancilla_WaterfallSplash_OAM_sizes, X : STA ($92), Y
             
             PLY
             
-        .skip_oam_entry
-    INX : TXA : AND.b #$01 : BNE .next_oam_entry
+        .skip_OAM_entry
+    INX : TXA : AND.b #$01 : BNE .next_OAM_entry
     
     BRL Ancilla_RestoreIndex
 }

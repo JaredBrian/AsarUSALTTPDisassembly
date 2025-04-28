@@ -55,9 +55,9 @@ Ancilla_VictorySparkle:
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
-        LDA.w Pool_Ancilla_VictorySparkle_chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+        LDA.w Pool_Ancilla_VictorySparkle_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
             REP #$20
             
             PHX : TXA : ASL A : TAX
@@ -87,10 +87,10 @@ Ancilla_VictorySparkle:
             
             PLY
         
-        .skip_oam_entry
+        .skip_OAM_entry
         
         INX
-    DEC !numSprites : BPL .next_oam_entry
+    DEC !numSprites : BPL .next_OAM_entry
     
     PLX
     

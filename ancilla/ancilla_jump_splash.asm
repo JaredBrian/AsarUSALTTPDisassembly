@@ -78,7 +78,7 @@ Ancilla_JumpSplash:
     
     LDY.b #$00 : STY $0C
     
-    .next_oam_entry
+    .next_OAM_entry
     
         JSR.w Ancilla_SetOam_XY
         
@@ -96,9 +96,9 @@ Ancilla_JumpSplash:
         LDA $08 : STA $02
         
         LDA.b #$40 : STA $0C
-    DEC $72 : BPL .next_oam_entry
+    DEC $72 : BPL .next_OAM_entry
     
-    ; Commit one more sprite to the oam buffer.
+    ; Commit one more sprite to the OAM buffer.
     LDA $06 : STA $02
     
     JSR.w Ancilla_SetOam_XY

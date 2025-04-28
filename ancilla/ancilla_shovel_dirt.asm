@@ -57,7 +57,7 @@ Ancilla_ShovelDirt:
     
     LDY.b #$00 : STY.b $72
     
-    .next_oam_entry
+    .next_OAM_entry
         
         JSR.w Ancilla_SetOam_XY
         
@@ -77,7 +77,7 @@ Ancilla_ShovelDirt:
         
         LDA.b $04 : STA.b $02
         LDA.b $05 : STA.b $03
-    INC.b $72 : LDA.b $72 : CMP.b #$02 : BNE .next_oam_entry
+    INC.b $72 : LDA.b $72 : CMP.b #$02 : BNE .next_OAM_entry
     
     PLX
     

@@ -232,13 +232,13 @@ RevivalFairy_Dust:
             LDY.w $0FB3 : BNE .sort_sprites
                 JSL.l OAM_AllocateFromRegionA
                 
-                BRA .oam_allocated
+                BRA .OAM_allocated
             
             .sort_sprites
             
             JSL.l OAM_AllocateFromRegionD
             
-            .oam_allocated
+            .OAM_allocated
             
             DEC.w $03B1, X : BPL .animation_delay
                 LDA.b #$03 : STA.w $03B1, X

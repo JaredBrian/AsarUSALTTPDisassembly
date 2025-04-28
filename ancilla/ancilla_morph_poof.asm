@@ -8,7 +8,7 @@ Pool_MorphPoof_Draw:
     db $86, $A9, $9B
     
     ; $04537D
-    .oam_size
+    .OAM_size
     db $02, $00, $00
 
     ; $045380
@@ -75,11 +75,11 @@ Ancilla_MorphPoof:
 ; $0453FD-$045499 ALTERNATE ENTRY POINT
 MorphPoof_Draw:
 {
-    LDA.w $0FB3 : BEQ .use_default_oam_region
-        LDA.w $0C7C, X : BEQ .use_default_oam_region
+    LDA.w $0FB3 : BEQ .use_default_OAM_region
+        LDA.w $0C7C, X : BEQ .use_default_OAM_region
             ; WTF: Why would we care if the boomerang is in play?
             LDA.w $035F : BEQ .no_boomerang_in_play
-                LDA $1A : AND.b #$01 : BNE .use_default_oam_region
+                LDA $1A : AND.b #$01 : BNE .use_default_OAM_region
             
             .no_boomerang_in_play
             
@@ -91,7 +91,7 @@ MorphPoof_Draw:
             
             SEP #$20
         
-    .use_default_oam_region
+    .use_default_OAM_region
     
     JSR.w Ancilla_PrepOamCoord
     
@@ -106,7 +106,7 @@ MorphPoof_Draw:
     
     LDY.w $0C5E, X
     
-    LDA.w Pool_MorphPoof_Draw_oam_size, Y : STA $08
+    LDA.w Pool_MorphPoof_Draw_OAM_size, Y : STA $08
     
     LDA.w Pool_MorphPoof_Draw_chr, Y : STA $0C
     
@@ -114,7 +114,7 @@ MorphPoof_Draw:
     
     LDY.b #$00 : STY $0A
     
-    .next_oam_entry
+    .next_OAM_entry
     
         LDA $0E : CLC : ADC $0A : ASL A : TAX
         
@@ -141,12 +141,12 @@ MorphPoof_Draw:
         PLY
         
         ; The one state of the poof that has a large sprite size also only
-        ; commits one oam entry to the buffer.
-        CMP.b #$02 : BEQ .large_oam_size
-    ; We're finished after committing 4 oam entries to the buffer.
-    INC $0A : LDA $0A : CMP.b #$04 : BNE .next_oam_entry
+        ; commits one OAM entry to the buffer.
+        CMP.b #$02 : BEQ .large_OAM_size
+    ; We're finished after committing 4 OAM entries to the buffer.
+    INC $0A : LDA $0A : CMP.b #$04 : BNE .next_OAM_entry
     
-    .large_oam_size
+    .large_OAM_size
     
     PLX
     

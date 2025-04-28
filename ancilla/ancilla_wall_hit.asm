@@ -95,7 +95,7 @@ WallHit_Draw:
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
         LDA.w Pool_WallHit_Draw_chr, X : BEQ .skip_entry
             PHX
@@ -130,7 +130,7 @@ WallHit_Draw:
         JSR.w Ancilla_CustomAllocateOam
         
         INX
-    DEC.b $08 : BPL .next_oam_entry
+    DEC.b $08 : BPL .next_OAM_entry
     
     PLX
     

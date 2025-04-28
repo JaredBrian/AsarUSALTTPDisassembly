@@ -18,10 +18,10 @@ Pool_Ancilla_TravelBirdIntro:
 Ancilla_TravelBirdIntro:
 {
     ; Check the frame index.
-    LDA.b $1A : AND.b #$1F : BNE .no_flutter_sfx
+    LDA.b $1A : AND.b #$1F : BNE .no_flutter_SFX
         LDA.b #$1E : JSR.w Ancilla_DoSfx3
         
-    .no_flutter_sfx
+    .no_flutter_SFX
     
     DEC.w $039F, X : BPL .flap_delay
         LDA.b #$03 : STA.w $039F, X

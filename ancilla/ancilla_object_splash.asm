@@ -106,9 +106,9 @@ Ancilla_ObjectSplash_Draw:
     
     LDA.w $0C5E, X : ASL A : TAX
     
-    .next_oam_entry
+    .next_OAM_entry
     
-        LDA.w Pool_Ancilla_ObjectSplash_Draw_char, X : CMP.b #$FF : BEQ .skip_oam_entry
+        LDA.w Pool_Ancilla_ObjectSplash_Draw_char, X : CMP.b #$FF : BEQ .skip_OAM_entry
             PHX : TXA : ASL A : TAX
             
             REP #$20
@@ -134,10 +134,10 @@ Ancilla_ObjectSplash_Draw:
             
             PLY
         
-        .skip_oam_entry
+        .skip_OAM_entry
         
         INX
-    INC.b $0C : LDA.b $0C : CMP.b #$02 : BNE .next_oam_entry
+    INC.b $0C : LDA.b $0C : CMP.b #$02 : BNE .next_OAM_entry
     
     PLX
     

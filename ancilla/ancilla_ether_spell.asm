@@ -689,7 +689,7 @@ EtherSpell_DrawBlitzOrb:
     
     LDA.w $0C5E, X : ASL #2 : STA $06
     
-    .next_oam_entry
+    .next_OAM_entry
         
         JSR.w Ancilla_SetOam_XY
         
@@ -722,7 +722,7 @@ EtherSpell_DrawBlitzOrb:
             .dont_prep_right_half
             
             SEP #$20
-    BRA .next_oam_entry
+    BRA .next_OAM_entry
     
     .done_drawing
     

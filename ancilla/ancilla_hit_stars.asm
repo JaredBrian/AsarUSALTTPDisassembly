@@ -58,10 +58,10 @@ Ancilla_HitStars:
     
     SEP #$20
     
-    LDA.w $0C54, X : CMP.b #$02 : BNE .dont_alter_oam_allocation
+    LDA.w $0C54, X : CMP.b #$02 : BNE .dont_alter_OAM_allocation
         LDA.b #$08 : JSR.w Ancilla_AllocateOam_B_or_E
     
-    .dont_alter_oam_allocation
+    .dont_alter_OAM_allocation
     
     PHX
     
@@ -71,7 +71,7 @@ Ancilla_HitStars:
     
     LDY.b #$00 : STY $73
     
-    .next_oam_entry
+    .next_OAM_entry
     
         JSR.w Ancilla_SetOam_XY
         
@@ -95,7 +95,7 @@ Ancilla_HitStars:
         ; Use a different x coordinate on the second iteration. (One which
         ; is in a different direction from the first).
         LDA $08 : STA $02
-    DEC $72 : BPL .next_oam_entry
+    DEC $72 : BPL .next_OAM_entry
     
     PLX
     

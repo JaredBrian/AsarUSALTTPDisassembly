@@ -96,9 +96,9 @@ Ancilla_SomarianBlockFizzle:
     
     LDY.b #$00 : STY.b $08
     
-    .next_oam_entry
+    .next_OAM_entry
     
-        LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+        LDA.w .chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
             REP #$20
             
             PHX : TXA : ASL A : TAX
@@ -128,10 +128,10 @@ Ancilla_SomarianBlockFizzle:
             
             PLY
             
-        .skip_oam_entry
+        .skip_OAM_entry
         
         INX
-    INC.b $08 : LDA.b $08 : CMP.b #$02 : BNE .next_oam_entry
+    INC.b $08 : LDA.b $08 : CMP.b #$02 : BNE .next_OAM_entry
     
     PLX
     

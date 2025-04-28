@@ -48,7 +48,7 @@ Ancilla_BeamHit:
     LDX.b #$03
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
         STX $03
         
@@ -67,7 +67,7 @@ Ancilla_BeamHit:
         ORA.b #$02 : ORA $04 : INY : STA ($90), Y
         
         INY
-    LDX $03 : DEX : BPL .next_oam_entry
+    LDX $03 : DEX : BPL .next_OAM_entry
     
     LDX.w $0FA0
     

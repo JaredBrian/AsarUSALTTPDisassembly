@@ -281,7 +281,7 @@ QuakeSpell_DrawFirstGroundBolts:
         ; Store properties.
         LDY.b #$00 : STA ($90), Y : INC $90
         
-        ; Store oam size.
+        ; Store OAM size.
         LDY.b #$00 : LDA.b #$02 : STA ($92), Y : INC $92
         
         INX : CPX $74 : BEQ .done_drawing
@@ -347,14 +347,14 @@ QuakeSpell_DrawGroundBolts:
     
     REP #$20
     
-    ; Calculates the number of oam entries to commit.
+    ; Calculates the number of OAM entries to commit.
     LDA $74 : SEC : SBC $72 : STA $74
     
     SEP #$20
     
     LDX.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
         TXY
         
@@ -384,13 +384,13 @@ QuakeSpell_DrawGroundBolts:
         
         TXY
         
-        ; Store oam size.
+        ; Store OAM size.
         LDA ($72), Y : AND.b #$30 : LSR #4
         
         LDY.b #$00 : STA ($92), Y : INC $92
         
         JSR.w Ancilla_CustomAllocateOam
-    INX : CPX $74 : BNE .next_oam_entry
+    INX : CPX $74 : BNE .next_OAM_entry
     
     PLX
     

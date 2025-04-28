@@ -53,12 +53,12 @@ Ancilla_Hookshot:
 {
     LDA $11 : BNE .just_draw
         ; Branch if no sound effect this frame...
-        LDA.w $0C68, X : BNE .chain_sfx_delay
+        LDA.w $0C68, X : BNE .chain_SFX_delay
             LDA.b #$07 : STA.w $0C68, X
             
             LDA.b #$0A : JSR.w Ancilla_DoSfx2
             
-        .chain_sfx_delay
+        .chain_SFX_delay
         
         ; In this situation, the player module is moving the player towards
         ; a location so we don't actually have to move the head of the
@@ -271,11 +271,11 @@ Ancilla_Hookshot:
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
             LDX $0A
             
-            LDA.w .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+            LDA.w .chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
                 JSR.w Ancilla_SetOam_XY
                 
                 LDX $0A
@@ -293,19 +293,19 @@ Ancilla_Hookshot:
                 
                 PLY
             
-            .skip_oam_entry
+            .skip_OAM_entry
             
             INC $0A
             
             LDA $02 : CLC : ADC.b #$08 : STA $02
             
             DEC $08 : BMI .draw_chain_links
-        LDA $08 : BNE .next_oam_entry
+        LDA $08 : BNE .next_OAM_entry
         
         LDA $00 : CLC : ADC.b #$08 : STA $00
         
         LDA $06 : STA $02
-    BRA .next_oam_entry
+    BRA .next_OAM_entry
     
     .draw_chain_links
     
@@ -391,7 +391,7 @@ Ancilla_Hookshot:
         SEP #$20
         
         ; If the chain's calculated position is too close to the player,
-        ; it is omitted from the oam buffer.
+        ; it is omitted from the OAM buffer.
         JSR.w Hookshot_CheckChainLinkProximityToPlayer : BCS .chain_link_too_close
             JSR.w Ancilla_SetOam_XY
             

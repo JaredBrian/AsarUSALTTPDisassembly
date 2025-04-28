@@ -830,7 +830,7 @@ AddReceivedItem:
     
     .doneWithValue
     
-    BRL .gfxHandling
+    BRL .GFXHandling
         .notGloves
     
         LDX.b #$04
@@ -893,7 +893,7 @@ AddReceivedItem:
                 
                 ; Don't have a good name for this but it basically means move
                 ; on, we're done here.
-                BRL .gfxHandling
+                BRL .GFXHandling
         
         .notPalaceItem
     
@@ -952,7 +952,7 @@ AddReceivedItem:
                 
                 PLX : PLY
                 
-                BRL .gfxHandling
+                BRL .GFXHandling
             .notInCapeMode
         .notCrystal2
         
@@ -997,7 +997,7 @@ AddReceivedItem:
         
         JSL.l HUD.RebuildLong
     
-        BRA .gfxHandling
+        BRA .GFXHandling
         
         .notFillerItem
         .receivingFromSprite
@@ -1010,7 +1010,7 @@ AddReceivedItem:
             
             ORA.b #$2D : STA.w $012F
             
-            BRA .gfxHandling
+            BRA .GFXHandling
         
         .notPieceOfHeart
         
@@ -1026,7 +1026,7 @@ AddReceivedItem:
         
         JSR.w GiveBottledItem
     
-    .gfxHandling
+    .GFXHandling
     
     LDY.w $02D8
     
@@ -3464,7 +3464,7 @@ AddBlastWall:
         
         SEP #$20
         
-        LDA $01 : BNE .off_screen_so_no_sfx
+        LDA $01 : BNE .off_screen_so_no_SFX
             PHY : PHX
             
             LDA $00 : LSR #5 : TAX
@@ -3473,7 +3473,7 @@ AddBlastWall:
             
             PLX : PLY
         
-        .off_screen_so_no_sfx
+        .off_screen_so_no_SFX
         
         INY #4
     DEX #2 : BPL .init_component_loop
@@ -3853,7 +3853,7 @@ Pool_AddGravestone:
     dw $0796, $079E, $07A4, $07AA, $0690, $05B2, $0508
     
     ; $0499C2
-    .gfx
+    .GFX
     dw $0030, $0030, $0030, $0030, $0030, $0030, $0030, $0030
     dw $0030, $0030, $0030, $0030, $0030, $0038, $0058
 
@@ -3943,7 +3943,7 @@ AddGravestone:
     
     SEC : SBC.w #$0080 : STA $72
     
-    LDA.w Pool_AddGravestone_gfx, Y : STA.w $0692
+    LDA.w Pool_AddGravestone_GFX, Y : STA.w $0692
     CMP.w #$0058 : BEQ .holeUnderGrave
         CMP.w #$0038 : BNE .notStairsUnderGrave
             SEP #$30

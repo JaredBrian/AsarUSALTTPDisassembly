@@ -104,11 +104,11 @@ Ancilla_DashDust:
         
         LDY.b #$00
         
-        .next_oam_entry
+        .next_OAM_entry
         
             LDX $04
             
-            LDA.w Pool_Ancilla_DashDust_chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+            LDA.w Pool_Ancilla_DashDust_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
                 TXA : ASL A : TAX
                 
                 REP #$20
@@ -137,10 +137,10 @@ Ancilla_DashDust:
                 
                 PLY
             
-            .skip_oam_entry
+            .skip_OAM_entry
             
             INC $04
-        DEC $72 : BPL .next_oam_entry
+        DEC $72 : BPL .next_OAM_entry
         
         PLX
         

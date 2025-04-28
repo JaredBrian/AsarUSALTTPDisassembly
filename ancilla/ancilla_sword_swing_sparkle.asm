@@ -95,7 +95,7 @@ Pool_Ancilla_SwordSwingSparkle:
     db  30,  -1,  -1    
     
     ; $045656
-    .directed_oam_group
+    .directed_OAM_group
     db 0, 12, 24, 36
 }
 
@@ -135,13 +135,13 @@ Ancilla_SwordSwingSparkle:
     LDY.w $0C72, X
     
     LDA.w $0C5E, X : ASL A : CLC : ADC.w $0C5E, X
-    CLC : ADC Pool_Ancilla_SwordSwingSparkle_directed_oam_group, Y : TAX
+    CLC : ADC Pool_Ancilla_SwordSwingSparkle_directed_OAM_group, Y : TAX
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
         
-        LDA.w Pool_Ancilla_SwordSwingSparkle_chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+        LDA.w Pool_Ancilla_SwordSwingSparkle_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
         
             REP #$20
             
@@ -176,11 +176,11 @@ Ancilla_SwordSwingSparkle:
             
             PLY
         
-        .skip_oam_entry
+        .skip_OAM_entry
         
         INX
     
-    DEC.b $08 : BPL .next_oam_entry
+    DEC.b $08 : BPL .next_OAM_entry
     
     PLX
     

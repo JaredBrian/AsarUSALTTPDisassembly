@@ -186,11 +186,11 @@ SomarianBlast_Draw:
     LDA.w Pool_SomarianBlast_Draw_x_offsets_b, X : CLC : ADC.b $00
     LDY.b #$04 : STA ($90), Y
     
-    ; The sprite consists of two oam entries, and we're calling them
+    ; The sprite consists of two OAM entries, and we're calling them
     ; "part a" and "part b" here. Since this object encompasses both the
     ; separation of the somarian block into blasts and the blasts themselves,
     ; it's natural not all of the states of this object will necessarily use
-    ; oam entries.
+    ; OAM entries.
     LDA.w Pool_SomarianBlast_Draw_y_offsets_a, X : BMI .hide_part_a
         CLC : ADC.b $01 : LDY.b #$01 : STA ($90), Y
     
@@ -217,7 +217,7 @@ SomarianBlast_Draw:
     ; BUG: Not a serious bug, but if it's true, it might mean that its
     ; calculations near screen edges are not quite accurate, because it's
     ; assuming that the 9th X bit is always zero.
-    ; aka shoddy oam offset calculation. However, there might be other safe
+    ; aka shoddy OAM offset calculation. However, there might be other safe
     ; safeguards in place that kill the sprite before it ever gets in that
     ; situation anyway.
     LDY #$00 : TYA : STA ($92), Y

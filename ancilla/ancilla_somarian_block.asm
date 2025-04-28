@@ -423,15 +423,15 @@ Ancilla_SomarianBlock_damage_logic:
 ; $04661B-$04674B JUMP LOCATION
 SomarianBlock_Draw:
 {
-    TXY : INY : CPY.w $02EC : BNE .no_special_oam_allocation
-        LDA.w $0308 : BPL .no_special_oam_allocation
-            LDA.w $0380, X : CMP.b #$03 : BEQ .no_special_oam_allocation
-                LDA.b $2F : BNE .no_special_oam_allocation
+    TXY : INY : CPY.w $02EC : BNE .no_special_OAM_allocation
+        LDA.w $0308 : BPL .no_special_OAM_allocation
+            LDA.w $0380, X : CMP.b #$03 : BEQ .no_special_OAM_allocation
+                LDA.b $2F : BNE .no_special_OAM_allocation
                     LDA.w $0C90, X : JSR.w Ancilla_AllocateOam_B_or_E
                     
                     BRA .prep_coords
                 
-    .no_special_oam_allocation
+    .no_special_OAM_allocation
         
     LDA.w $0FB3 : BEQ .prep_coords
         LDA.w $0C7C, X : BEQ .prep_coords
@@ -486,7 +486,7 @@ SomarianBlock_Draw:
         
     LDY.b #$00
         
-    .next_oam_entry
+    .next_OAM_entry
         
         REP #$20
         
@@ -520,7 +520,7 @@ SomarianBlock_Draw:
         PLY
         
         INX
-    INC.b $08 : LDA.b $08 : AND.b #$03 : BNE .next_oam_entry
+    INC.b $08 : LDA.b $08 : AND.b #$03 : BNE .next_OAM_entry
         
     PLX
         
@@ -529,21 +529,21 @@ SomarianBlock_Draw:
         
         LDY.b #$01
         
-        .find_on_screen_y_oam_entry
+        .find_on_screen_y_OAM_entry
         
-            LDA ($90), Y : CMP.b #$F0 : BNE .oam_entry_not_off_screen_y
-        INY #4 : CPY.b #$11 : BNE .find_on_screen_y_oam_entry
+            LDA ($90), Y : CMP.b #$F0 : BNE .OAM_entry_not_off_screen_y
+        INY #4 : CPY.b #$11 : BNE .find_on_screen_y_OAM_entry
         
         BRA .terminate_per_off_screen
         
-        .oam_entry_not_off_screen_y
+        .OAM_entry_not_off_screen_y
         
         LDY.b #$00
         
-        .find_on_screen_x_oam_entry
+        .find_on_screen_x_OAM_entry
         
             LDA ($92), Y : AND.b #$01 : BEQ .return
-        INY : CPY.b #$04 : BNE .find_on_screen_x_oam_entry
+        INY : CPY.b #$04 : BNE .find_on_screen_x_OAM_entry
         
         .terminate_per_off_screen
         
@@ -817,12 +817,12 @@ SomarianBlock_PlayerInteraction:
                 ; TODO: Also, investigate why throwing a block and then dashing
                 ; before it stops bouncing slows down the player's dash speed to
                 ; that of holding a block and walking.)
-                LDA.w $0308 : AND.b #$80 : BNE .no_push_sfx
+                LDA.w $0308 : AND.b #$80 : BNE .no_push_SFX
                     INC.w $038A, X : STA.w $038A, X
-                    AND.b #$07 : BNE .no_push_sfx
+                    AND.b #$07 : BNE .no_push_SFX
                         LDA.b $22 : JSR.w Ancilla_DoSfx2
                 
-                .no_push_sfx
+                .no_push_SFX
             .no_tile_collision
             
             LDA.b #$81 : STA.b $48

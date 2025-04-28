@@ -92,11 +92,11 @@ Ancilla_InitialSpinSpark:
         LDA.w $0C5E, X : DEC A : ASL #2 : TAX
         
         ; $045802 ALTERNATE ENTRY POINT
-        .oam_commit_loop
+        .OAM_commit_loop
         
-        .next_oam_entry
+        .next_OAM_entry
             
-            LDA.w Pool_Ancilla_InitialSpinSpark_chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+            LDA.w Pool_Ancilla_InitialSpinSpark_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
                 REP #$20
                 
                 PHX : TXA : ASL A : TAX
@@ -126,10 +126,10 @@ Ancilla_InitialSpinSpark:
                 
                 PLY
             
-            .skip_oam_entry
+            .skip_OAM_entry
             
             INX
-        INC $04 : LDA $04 : AND.b #$03 : BNE .next_oam_entry
+        INC $04 : LDA $04 : AND.b #$03 : BNE .next_OAM_entry
         
         PLX
     

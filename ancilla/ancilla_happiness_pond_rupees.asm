@@ -51,7 +51,7 @@ Ancilla_HappinessPondRupees:
 ; $044819-$0448BD LOCAL JUMP LOCATION
 HappinessPondRupees_ExecuteRupee:
 {
-    ; WTF: Wait, why does this need 4 oam slots exactly?
+    ; WTF: Wait, why does this need 4 OAM slots exactly?
     LDA.b #$10 : JSR.w Ancilla_AllocateOam
     
     PHX

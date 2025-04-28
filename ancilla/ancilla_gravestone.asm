@@ -24,7 +24,6 @@ Gravestone_Move:
         ; This only works because... eh. Have to see this in action. Seems
         ; like there would be a sudden change in the underlying tiles.
         LDA $02 : CMP $00 : SEP #$20 : BCS .return
-            
             STZ.w $0C4A, X
             STZ.w $03E9
             
@@ -43,13 +42,11 @@ Gravestone_Move:
             
             ; Grave Special Stairs.
             CMP.w #$0532 : BEQ .not_particular_addresses
-            
-            LDY.b #$60
-            
-            ; Grave Special Hole.
-            CMP.w #$0488 : BEQ .not_particular_addresses
-            
-            LDY.b #$40
+                LDY.b #$60
+                
+                ; Grave Special Hole.
+                CMP.w #$0488 : BEQ .not_particular_addresses
+                    LDY.b #$40
             
             .not_particular_addresses
             
@@ -108,7 +105,7 @@ Ancilla_Gravestone:
     
     LDY.b #$00 : TYX
     
-    .next_oam_entry
+    .next_OAM_entry
     
         JSR.w Ancilla_SetOam_XY
         
@@ -138,7 +135,7 @@ Ancilla_Gravestone:
         .still_drawing_left_half
         
         SEP #$20
-    CPX.b #$04 : BNE .next_oam_entry
+    CPX.b #$04 : BNE .next_OAM_entry
     
     PLX
     

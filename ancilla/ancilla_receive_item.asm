@@ -91,7 +91,7 @@ Pool_Ancilla_ReceiveItem:
     db 9, 5, 5
     
     ; $04437B
-    .default_oam_properties
+    .default_OAM_properties
     db $05, $01, $04
     
     ; $04437E
@@ -481,7 +481,7 @@ Ancilla_ReceiveItem:
     SEP #$20
     
     LDA.w $0C5E, X : CMP.b #$01 : BNE .checkIfRupee
-        LDA.w .default_oam_properties : STA.w $0BF0, X
+        LDA.w .default_OAM_properties : STA.w $0BF0, X
         
         LDA.w $0C54, X : CMP.b #$02 : BEQ .dontAnimateMasterSword
             LDA.w $0C68, X : CMP.b #$10 : BCC .waitAnimateMasterSword
@@ -499,7 +499,7 @@ Ancilla_ReceiveItem:
         
             STA.w $03A4, X : TAY
         
-            LDA.w .default_oam_properties, Y : STA.w $0BF0, X
+            LDA.w .default_OAM_properties, Y : STA.w $0BF0, X
         
         .dontAnimateMasterSword
     .checkIfRupee

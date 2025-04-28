@@ -112,7 +112,7 @@ FireShot_Draw:
     LDX.b #$02
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
         STX $03
         
@@ -134,7 +134,7 @@ FireShot_Draw:
         LDA.b #$00 : STA ($92), Y
         
         PLY : INY
-    DEX : BPL .next_oam_entry
+    DEX : BPL .next_OAM_entry
     
     PLX
     

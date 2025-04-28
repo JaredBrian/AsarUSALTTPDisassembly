@@ -149,7 +149,7 @@ MagicPowder_Draw:
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
         LDX $04
         
@@ -185,7 +185,7 @@ MagicPowder_Draw:
         INC $04 : INC $04
         
         INC $0A
-    DEC $72 : BPL .next_oam_entry
+    DEC $72 : BPL .next_OAM_entry
     
     PLX
     

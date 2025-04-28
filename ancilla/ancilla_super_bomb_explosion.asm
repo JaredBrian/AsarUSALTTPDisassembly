@@ -17,10 +17,10 @@ Ancilla_SuperBombExplosion:
 {
     LDA.b $11 : BNE .draw
         DEC.w $039F, X : LDA.w $039F, X : BNE .draw
-            INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$02 : BNE .blast_sfx_delay
+            INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$02 : BNE .blast_SFX_delay
                 LDA.b #$0C : JSR.w Ancilla_DoSfx2
             
-            .blast_sfx_delay
+            .blast_SFX_delay
             
             LDA.w $0C5E, X : CMP.b #$0B : BNE .not_fully_exploded
                 STZ.w $0C4A, X
@@ -45,7 +45,7 @@ Ancilla_SuperBombExplosion:
     
     LDA.w $0C5E, X : TAY
     
-    LDA Bomb_Draw_num_oam_entries, Y : STA.b $08
+    LDA Bomb_Draw_num_OAM_entries, Y : STA.b $08
     
     LDA Ancilla_Bomb_chr_groups, Y : TAY
     

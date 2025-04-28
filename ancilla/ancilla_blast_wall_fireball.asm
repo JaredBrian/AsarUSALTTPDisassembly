@@ -29,13 +29,13 @@ Ancilla_BlastWallFireball:
     LDY.w $0FB3 : BEQ .dont_sort_sprites
         JSL.l OAM_AllocateFromRegionD
         
-        BRA .oam_allocation_determined
+        BRA .OAM_allocation_determined
     
     .dont_sort_sprites
     
     JSL.l OAM_AllocateFromRegionA
     
-    .oam_allocation_determined
+    .OAM_allocation_determined
     
     LDY.b #$00
     

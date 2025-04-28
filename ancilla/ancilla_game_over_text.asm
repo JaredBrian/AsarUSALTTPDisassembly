@@ -202,7 +202,7 @@ GameOverText_Draw_chr:
 ; $0475C4-$047623 LONG BRANCH LOCATION
 GameOverText_Draw:
 {
-    ; Start the oam buffer from scratch.
+    ; Start the OAM buffer from scratch.
     LDA.b #$00 : STA $90
     LDA.b #$08 : STA $91
     
@@ -213,7 +213,7 @@ GameOverText_Draw:
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
         PHX
         
@@ -244,7 +244,7 @@ GameOverText_Draw:
         INY : STA ($92), Y
         
         PLY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     RTS
 }

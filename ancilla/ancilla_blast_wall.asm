@@ -120,14 +120,14 @@ Ancilla_BlastWall:
                 
                 SEP #$20
                 
-                ; The explosion would be off screen, so don't play the sfx.
-                LDA $73 : BNE .anoplay_explosion_sfx
+                ; The explosion would be off screen, so don't play the SFX.
+                LDA $73 : BNE .anoplay_explosion_SFX
                     LDA $72
                     
                     JSR.w Ancilla_SetSfxPan_NearEntity
                     ORA.b #$0C : STA.w $012E
                     
-                .anoplay_explosion_sfx
+                .anoplay_explosion_SFX
                 
                 LDX $04
             DEC $06 : BPL .adjust_next_explosion_position
@@ -209,7 +209,7 @@ BlastWall_DrawExplosion:
     
     LDA.l $7F0000, X : TAY
     
-    LDA Bomb_Draw_num_oam_entries, Y : STA $08
+    LDA Bomb_Draw_num_OAM_entries, Y : STA $08
     
     LDA Ancilla_Bomb_chr_groups, Y : TAY
     
@@ -259,9 +259,9 @@ BlastWall_DrawExplosion:
 ; $0427AB-$04280C LOCAL JUMP LOCATION
 Bomb_DrawExplosion:
 {
-    .next_oam_entry
+    .next_OAM_entry
     
-        LDA.w Pool_Bomb_Draw_chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+        LDA.w Pool_Bomb_Draw_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
             ; Offset index for placing the sprites?
             STX $72
             
@@ -292,16 +292,16 @@ Bomb_DrawExplosion:
             
             TXA : LSR A : TAX
             
-            LDA.w Pool_Bomb_Draw_oam_sizes, X : ORA $75 : STA ($92), Y
+            LDA.w Pool_Bomb_Draw_OAM_sizes, X : ORA $75 : STA ($92), Y
             
             LDX $73
             LDY $72
         
-        .skip_oam_entry
+        .skip_OAM_entry
         
         INX #2
     ; Compare with the number of sprites needed for the bomb.
-    INC $06 : LDA $06 : CMP $08 : BNE .next_oam_entry
+    INC $06 : LDA $06 : CMP $08 : BNE .next_OAM_entry
     
     RTS
 }

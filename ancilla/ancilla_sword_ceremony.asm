@@ -63,7 +63,7 @@ Ancilla_SwordCeremony:
         
         LDY.b #$00
         
-        .next_oam_entry
+        .next_OAM_entry
         
             PHX : TXA : ASL A : TAX
             
@@ -96,7 +96,7 @@ Ancilla_SwordCeremony:
             PLY
             
             INX
-        INC.b $08 : LDA.b $08 : CMP.b #$04 : BNE .next_oam_entry
+        INC.b $08 : LDA.b $08 : CMP.b #$04 : BNE .next_OAM_entry
     
     .nothing_to_draw
     

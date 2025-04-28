@@ -34,7 +34,7 @@ Pool_Ancilla_SkullWoodsFire:
     db $80, $40, $40, $80, $40, $00
     
     ; $046F1E
-    .blast_oam_sizes
+    .blast_OAM_sizes
     db $02, $02, $02, $02, $01, $01
     db $02, $02, $02, $02, $02, $02
     db $02, $02, $02, $02, $02, $02
@@ -102,19 +102,19 @@ Ancilla_SkullWoodsFire:
             
             LDA.l $7F0018 : SEC : SBC.w #$0008 : STA.l $7F0018
             
-            CMP.w #$00C8 : BCS .dont_play_thud_sfx
+            CMP.w #$00C8 : BCS .dont_play_thud_SFX
                 LDA.w #$0098 : SEC : SBC.b $E2 : STA.b $00
                 
                 SEP #$20
                 
-                LDA.l $7F0010 : CMP.b #$01 : BEQ .dont_play_thud_sfx
+                LDA.l $7F0010 : CMP.b #$01 : BEQ .dont_play_thud_SFX
                     ; Activate the blast component of this object.
                     LDA.b #$01 : STA.l $7F0010
                     
                     LDA.b $00 : JSR.w Ancilla_SetSfxPan_NearEntity
                     ORA.b #$0C : STA.w $012E
                 
-            .dont_play_thud_sfx
+            .dont_play_thud_SFX
             
             REP #$20
             
@@ -132,12 +132,12 @@ Ancilla_SkullWoodsFire:
             
             SEP #$20
             
-            LDA.w $012E : BNE .sfx2_already_set
+            LDA.w $012E : BNE .SFX2_already_set
                 LDA.l $7F001A : SEC : SBC.b $E2
                 
                 JSR.w Ancilla_SetSfxPan_NearEntity : ORA.b #$2A : STA.w $012E
                 
-            .sfx2_already_set
+            .SFX2_already_set
         .draw_flames_logic
         
         SEP #$20
@@ -185,7 +185,7 @@ Ancilla_SkullWoodsFire:
         
         PLY
         
-        CMP.b #$02 : BEQ .large_oam_entry
+        CMP.b #$02 : BEQ .large_OAM_entry
             REP #$20
             
             LDA.b $08 : STA.b $02
@@ -208,7 +208,7 @@ Ancilla_SkullWoodsFire:
             
             PLY
             
-        .large_oam_entry
+        .large_OAM_entry
 
         .inactive_flame
         
@@ -242,9 +242,9 @@ Ancilla_SkullWoodsFire:
             
             STZ.b $08
             
-            .next_blast_oam_entry
+            .next_blast_OAM_entry
                 
-                LDA.w .blast_chr, X : CMP.b #$FF : BEQ .skip_blast_oam_entry
+                LDA.w .blast_chr, X : CMP.b #$FF : BEQ .skip_blast_OAM_entry
                     PHX
                     
                     TXA : ASL A : TAX
@@ -273,16 +273,16 @@ Ancilla_SkullWoodsFire:
                     
                     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
                     
-                    LDA.w Pool_Ancilla_SkullWoodsFire_blast_oam_sizes, X : STA ($92), Y
+                    LDA.w Pool_Ancilla_SkullWoodsFire_blast_OAM_sizes, X : STA ($92), Y
                     
                     PLY
                     
-                .skip_blast_oam_entry
+                .skip_blast_OAM_entry
                 
                 INX
                 
                 INC.b $08
-            LDA.b $08 : CMP.b #$06 : BNE .next_blast_oam_entry
+            LDA.b $08 : CMP.b #$06 : BNE .next_blast_OAM_entry
         
     .blast_logic_inactive
     

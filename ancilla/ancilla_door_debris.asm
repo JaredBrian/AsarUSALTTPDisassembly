@@ -74,7 +74,7 @@ DoorDebris_Draw:
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
         
         PHX
         
@@ -113,7 +113,7 @@ DoorDebris_Draw:
         PLY : JSR.w Ancilla_CustomAllocateOam
         
         INX #2
-    LDA $06 : INC A : STA $06 : CMP.b #$02 : BNE .next_oam_entry
+    LDA $06 : INC A : STA $06 : CMP.b #$02 : BNE .next_OAM_entry
     
     PLX
     

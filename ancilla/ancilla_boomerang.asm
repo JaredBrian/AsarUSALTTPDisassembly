@@ -358,7 +358,7 @@ Pool_Boomerang_Draw:
     dw -2, -2
     
     ; $041332
-    .oam_base
+    .OAM_base
     dw $0180, $00D0
     
     ; $041336
@@ -425,16 +425,16 @@ Boomerang_Draw:
     LDA.w Pool_Boomerang_Draw_xy_offsets+0, Y : CLC : ADC $00           : STA $00
     LDA.w Pool_Boomerang_Draw_xy_offsets+2, Y : CLC : ADC $02 : STA $02 : STA $04
     
-    LDA.w $03B1, X : AND.w #$00FF : BNE .use_general_oam_base
+    LDA.w $03B1, X : AND.w #$00FF : BNE .use_general_OAM_base
         LDA.w $0FB3 : AND.w #$00FF : ASL A : TAX
         
-        LDA.w Pool_Boomerang_Draw_oam_base, X : PHA
+        LDA.w Pool_Boomerang_Draw_OAM_base, X : PHA
         
         LSR #2 : CLC : ADC.w #$0A20 : STA $92
         
         PLA : CLC : ADC.w #$0800 : STA $90
     
-    .use_general_oam_base
+    .use_general_OAM_base
     
     SEP #$20
     

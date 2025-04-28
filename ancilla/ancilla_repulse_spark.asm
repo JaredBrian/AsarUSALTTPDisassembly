@@ -90,7 +90,7 @@ Ancilla_RepulseSpark:
         
         .later_states
         
-        ; The last three states of this object use more oam entries than the
+        ; The last three states of this object use more OAM entries than the
         ; earlier ones.
         
         LDA.b $00 : SEC : SBC.b #$04 : LDY.b #$00 : STA ($90), Y

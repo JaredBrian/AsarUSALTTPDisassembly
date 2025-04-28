@@ -124,7 +124,7 @@ Ancilla_InitialCaneSpark:
             ; Chr group here is 0x01 or 0x02.
             AND.b #$01 : INC A : STA $0A
             
-            BRA .start_oam_commit_loop
+            BRA .start_OAM_commit_loop
             
         .use_last_chr_group
         
@@ -132,15 +132,15 @@ Ancilla_InitialCaneSpark:
         LDA.b #$03 : STA $0A
     
     .use_first_chr_group
-    .start_oam_commit_loop
+    .start_OAM_commit_loop
     
     LDA $0A : ASL #2 : TAX
     
     LDY.b #$00 : STY $04
     
-    .next_oam_entry
+    .next_OAM_entry
     
-        LDA.w Pool_Ancilla_InitialCaneSpark_chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+        LDA.w Pool_Ancilla_InitialCaneSpark_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
             REP #$20
             
             PHX
@@ -173,10 +173,10 @@ Ancilla_InitialCaneSpark:
             
             PLY
             
-        .skip_oam_entry
+        .skip_OAM_entry
         
         INX
-    INC $04 : LDA $04 : AND.b #$03 : BNE .next_oam_entry
+    INC $04 : LDA $04 : AND.b #$03 : BNE .next_OAM_entry
     
     PLX
     
@@ -361,12 +361,12 @@ Ancilla_CaneSpark:
     
     SEP #$20
     
-    LDA.w $0C68, X : BNE .sfx_delay
+    LDA.w $0C68, X : BNE .SFX_delay
         LDA.b #$15 : STA.w $0C68, X
         
         LDA.b #$30 : JSR.w Ancilla_DoSfx3_NearPlayer
         
-    .sfx_delay
+    .SFX_delay
     
     STX $74
     
@@ -374,7 +374,7 @@ Ancilla_CaneSpark:
     
     LDA.w $0C54, X : TAX
     
-    .next_oam_entry
+    .next_OAM_entry
     
         STX $72
         
@@ -428,7 +428,7 @@ Ancilla_CaneSpark:
         JSR.w Ancilla_CheckSpriteCollision
         
         PLY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     PLX
     

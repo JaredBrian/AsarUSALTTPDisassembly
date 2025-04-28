@@ -36,13 +36,13 @@ Ancilla_WeathervaneExplosion:
         ; Otherwise, put one frame back on the timer.
         INC A : STA.w $0394, X
         
-        LDA.w $039F, X : BNE .explosion_sfx_already_played
+        LDA.w $039F, X : BNE .explosion_SFX_already_played
             ; This code should only get executed once?
             INC A : STA.w $039F, X
             
             LDA.b #$0C : JSR.w Ancilla_DoSfx2_NearPlayer
             
-        .explosion_sfx_already_played
+        .explosion_SFX_already_played
         
         ; Which step of the effect are we in?
         LDA.w $0C54, X : BNE .past_first_step

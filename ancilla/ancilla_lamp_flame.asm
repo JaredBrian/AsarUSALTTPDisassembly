@@ -47,9 +47,9 @@ Ancilla_LampFlame:
     
     AND.b #$F8 : LSR A : TAX
     
-    .next_oam_entry
+    .next_OAM_entry
     
-    LDA.w Pool_Ancilla_LampFlame_chr, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w Pool_Ancilla_LampFlame_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
         LDA.w Pool_Ancilla_LampFlame_y_offsets_low, X : CLC : ADC $06 : STA $00
         LDA $07 : ADC .y_offsets_high, X : STA $01
         
@@ -70,9 +70,9 @@ Ancilla_LampFlame:
         
         PLY
     
-    .skip_oam_entry
+    .skip_OAM_entry
     
-    INX : TXA : AND.b #$03 : BNE .next_oam_entry
+    INX : TXA : AND.b #$03 : BNE .next_OAM_entry
     
     BRL Ancilla_RestoreIndex
 }

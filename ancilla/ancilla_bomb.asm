@@ -715,11 +715,11 @@ Ancilla_LiftableObjectLogic:
     LDA.w $0309 : CMP.b #$02 : BEQ .throw_logic
         LDA.w $02EC : BEQ .throw_logic
             LDY.w $0380, X : CPY.b #$03 : BEQ .throw_logic
-                CPY.b #$00 : BNE .dont_play_lift_sfx
-                    LDA.w $03B1, X : CMP.b #$10 : BNE .dont_play_lift_sfx
+                CPY.b #$00 : BNE .dont_play_lift_SFX
+                    LDA.w $03B1, X : CMP.b #$10 : BNE .dont_play_lift_SFX
                         LDA.b #$1D : JSR.w Ancilla_DoSfx2
                     
-                .dont_play_lift_sfx
+                .dont_play_lift_SFX
                 
                 DEC.w $03B1, X : BPL Ancilla_PegCoordsToPlayer
                     ; Make Link pick up the bomb (1 all the way to 3).
@@ -1286,7 +1286,7 @@ Pool_Bomb_DrawExplosion:
     ; NOTE: The entries that are '1' are designed to push the sprite
     ; off screen, as in disable it from being viewed.
     ; $041E54
-    .oam_sizes
+    .OAM_sizes
     db 2, 1, 1, 1, 1, 1
     db 0, 0, 0, 0, 1, 1
     db 2, 2, 2, 2, 1, 1
@@ -1302,7 +1302,7 @@ Pool_Bomb_DrawExplosion:
     db 0, 6, 12, 18, 24, 30, 36, 42, 48
     
     ; $041E93
-    .num_oam_entries
+    .num_OAM_entries
     db 1, 4, 4, 4, 4, 4, 5, 4, 6, 6, 6
 }
 
@@ -1319,13 +1319,13 @@ Bomb_Draw:
     
     .sign_ext_z_coord
     
-    STA.b $04 : BEQ .not_max_oam_priority
-        CMP.w #$FFFF : BEQ .not_max_oam_priority
-            LDA.w $0380, X : AND.w #$00FF : CMP.w #$0003 : BEQ .not_max_oam_priority
-                LDA.w $0280, X : AND.w #$00FF : BEQ .not_max_oam_priority
+    STA.b $04 : BEQ .not_max_OAM_priority
+        CMP.w #$FFFF : BEQ .not_max_OAM_priority
+            LDA.w $0380, X : AND.w #$00FF : CMP.w #$0003 : BEQ .not_max_OAM_priority
+                LDA.w $0280, X : AND.w #$00FF : BEQ .not_max_OAM_priority
                     LDA.w #$3000 : STA.b $64
         
-    .not_max_oam_priority
+    .not_max_OAM_priority
     
     LDA.w #$0000 : CLC : ADC.b $04 : EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $00
     
@@ -1384,11 +1384,11 @@ Bomb_Draw:
         
         LDA.w $0FB3 : BEQ .determine_underside_sprite
             LDA.w $0C7C, X : BEQ .determine_underside_sprite
-                LDA.w $0385, X : BNE .use_specific_oam_region
+                LDA.w $0385, X : BNE .use_specific_OAM_region
                     TXY : INY : CPY.w $02EC : BNE .determine_underside_sprite
                         LDA.w $0308 : BPL .determine_underside_sprite
                         
-                .use_specific_oam_region
+                .use_specific_OAM_region
                 
                 REP #$20
                 
@@ -1403,7 +1403,7 @@ Bomb_Draw:
     ; Load the current state of the bomb.
     LDY.b $08
     
-    LDA.w .num_oam_entries, Y : STA.b $08
+    LDA.w .num_OAM_entries, Y : STA.b $08
     
     CPY.b #$00 : BNE .no_underside_sprite
         ; Is the type of tile it's standing on a 0x09 type?
