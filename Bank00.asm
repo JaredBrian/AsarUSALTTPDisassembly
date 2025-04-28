@@ -56,10 +56,10 @@ Vector_Reset:
     ; This register tracks whether NMI is enabled.
     LDA.b #$81 : STA.w SNES.NMIVHCountJoypadEnable
 
-    .nmi_wait_loop
+    .NMI_wait_loop
 
             ; This loop doesn't normally exit unless NMI is enabled!
-        LDA.b $12 : BEQ .nmi_wait_loop
+        LDA.b $12 : BEQ .NMI_wait_loop
 
         CLI ; Clear the interrupt disable bit.
 
@@ -94,7 +94,7 @@ Vector_Reset:
 
             ; Start the NMI Wait loop again.
             STZ.b $12
-    BRA .nmi_wait_loop
+    BRA .NMI_wait_loop
 }
 
 ; ==============================================================================
@@ -223,7 +223,7 @@ Vector_NMI:
     STZ.w $012E
     STZ.w $012F
     
-    ; Bring the screen into forceblank (forced vblank).
+    ; Bring the screen into forceblank (forced VBlank).
     LDA.b #$80 : STA.w SNES.ScreenDisplay
     
     ; Disable all DMA transfers.
@@ -305,7 +305,7 @@ Vector_NMI:
 
     .notInMode7
 
-    LDA.w $0128 : BEQ .irqInactive
+    LDA.w $0128 : BEQ .IRQInactive
         ; Clear the IRQ line if one is pending? (reset latch).
         LDA.w SNES.IRQFlagByHVCountTimer
         
@@ -321,7 +321,7 @@ Vector_NMI:
         ; Will enable NMI, and Joypad, and vertical IRQ trigger.
         LDA.b #$A1 : STA.w SNES.NMIVHCountJoypadEnable ; #$A1 = #%10100001
 
-    .irqInactive
+    .IRQInactive
 
     ; $13 holds the screen state.
     LDA.b $13 : STA.w SNES.ScreenDisplay
@@ -912,17 +912,17 @@ Main_PrepSpritesForNmi:
 
     .ignoreSpriteAnimation
 
-    ; Setup tagalong sprite for dma transfer.
+    ; Setup tagalong sprite for DMA transfer.
     LDA.w $0AE8  : ASL A
     ADC.w #$B940 : STA.w $0AEC
     ADC.w #$0200 : STA.w $0AEE
         
-    ; Setup tagalong sprite's other component for dma transfer?
+    ; Setup tagalong sprite's other component for DMA transfer?
     LDA.w $0AEA  : ASL A
     ADC.w #$B940 : STA.w $0AF0
     ADC.w #$0200 : STA.w $0AF2
         
-    ; Setup dma transfer for bird's sprite slot.
+    ; Setup DMA transfer for bird's sprite slot.
     LDA.w $0AF4  : ASL A
     ADC.w #$B540 : STA.w $0AF6
     ADC.w #$0200 : STA.w $0AF8
@@ -1401,7 +1401,7 @@ NMI_DoUpdates:
     ; rupees, tagalongs, and optionally the bird's sprite gets updated
     ; (copied to VRAM).
     
-    ; Base dma register is $2118, write two registers once mode ($2118/$2119),
+    ; Base DMA register is $2118, write two registers once mode ($2118/$2119),
     ; with autoincrementing source addr. Why isn't DMA.2_TransferParameters
     ; set?
     LDX.w #$1801
@@ -1419,7 +1419,7 @@ NMI_DoUpdates:
     ; The VRAM target address is $4100 (word).
     LDY.w #$4100 : STY.w SNES.VRAMAddrReadWriteLow
     
-    ; Sets a source address for dma channel 0.
+    ; Sets a source address for DMA channel 0.
     LDY.w $0ACE : STY.w DMA.0_SourceAddrOffsetLow
     
     ; Going to write 0x40 bytes on channel 0.
@@ -1781,7 +1781,7 @@ NMI_DoUpdates:
 
 ; ==============================================================================
 
-; General purpose dma transfer for updating tilemaps, though I suppose you
+; General purpose DMA transfer for updating tilemaps, though I suppose you
 ; could use it to update graphics too.
 ; $000CB0-$000CE3 JUMP LOCATION
 NMI_UploadTilemap:
@@ -2055,7 +2055,7 @@ NMI_UpdateBG1Wall:
 {
     REP #$20
     
-    ; Target dma address is $2118, write two registers once mode, auto
+    ; Target DMA address is $2118, write two registers once mode, auto
     ; increment source address.
     LDA.w #$1801 : STA.w DMA.0_TransferParameters
     
@@ -2453,7 +2453,7 @@ NMI_DarkWorldMode7Tilemap:
     
     REP #$20
     
-    ; Set dma target register to $2118.
+    ; Set DMA target register to $2118.
     LDA.w #$1800 : STA.w DMA.0_TransferParameters
     
     STZ.b $02
@@ -2474,7 +2474,7 @@ NMI_DarkWorldMode7Tilemap:
         ; Transfering 0x20 bytes.
         LDA.w #$0020 : STA.w DMA.0_TransferSizeLow
         
-        ; Perform dma transfer.
+        ; Perform DMA transfer.
         STY.w SNES.DMAChannelEnable
         
         ; Increment source address by 0x20 bytes each iteration.
@@ -9860,7 +9860,7 @@ LoadItemGFX_Auxiliary:
 ; ==============================================================================
 
 ; $005407-$005422 DATA
-LoadFollowerGraphics_gfx_offset:
+LoadFollowerGraphics_GFX_offset:
 {
     dw $0000 ; 0x00 - No follower
     dw $0600 ; 0x01 - Zelda
@@ -9905,7 +9905,7 @@ Tagalong_LoadGfx:
     
     JSR.w Decomp_spr_high
     
-    LDY.b #$65 ; Loads up graphics for the old man and maiden gfx.
+    LDY.b #$65 ; Loads up graphics for the old man and maiden GFX.
     
     JSR.w Decomp_spr_low
     
@@ -9913,7 +9913,7 @@ Tagalong_LoadGfx:
     
     LDA.l $7EF3CC : AND.w #$00FF : ASL A : TAX
     
-    LDA.b $00 : CLC : ADC.l .gfx_offset, X
+    LDA.b $00 : CLC : ADC.l .GFX_offset, X
     
     LDY.w #$0020
     LDX.w #$2940
@@ -10210,7 +10210,7 @@ Do3To4HighAnimated:
         TXA : CLC : ADC.w #$0010 : TAX
         
         LDA.b $03 : AND.w #$0078 : BNE .noAdjust
-            ; Since we're most likely working with sprite gfx we have to adjust
+            ; Since we're most likely working with sprite GFX we have to adjust
             ; by 0x10 tiles to get to the next line.
             LDA.b $03 : CLC : ADC.w #$0180 : STA.b $03
 
@@ -10521,7 +10521,7 @@ Attract_DecompressStoryGfx:
 ; ==============================================================================
 
 ; $005837-$005854 Jump Table
-; Overworld mirror warp gfx decompression.
+; Overworld mirror warp GFX decompression.
 Pool_AnimateMirrorWarp:
 {
     ; $005837
@@ -11007,7 +11007,7 @@ AnimateMirrorWarp_DecompressBackgroundsC:
 ; ZS replaces this whole function. - ZS Custom Overworld
 ; The first half of this function enables or disables BG1 for subscreen overlay
 ; use depending on the area. The second half reloads global sprite #2 sheet
-; (rock vs skulls, different bush gfx, fish vs bone fish, etc.) based on what
+; (rock vs skulls, different bush GFX, fish vs bone fish, etc.) based on what
 ; world we are in.
 ; $005A63-$005ABA JUMP LOCATION (LONG)
 AnimateMirrorWarp_LoadSubscreen:
@@ -11052,7 +11052,7 @@ AnimateMirrorWarp_LoadSubscreen:
         
     LDA.b $00
         
-    ; Convert the gfx to 4bpp.
+    ; Convert the GFX to 4bpp.
     JSR.w Do3To4High16Bit
         
     SEP #$30
@@ -12064,7 +12064,7 @@ DecompAndDirectCopy:
     ; Inputs:
     ; Y - graphics pack to decompress.
     ; Target VRAM address is determined by calling functions,
-    ; decompresses a sprite gfx pack and directly copies it to VRAM.
+    ; decompresses a sprite GFX pack and directly copies it to VRAM.
     
     JSR.w Decomp_spr_low
     
@@ -12137,7 +12137,7 @@ Graphics_LoadCommonSprLong:
 ; TODO: Decent name?
 ; Appears to write the mode 7 chr data to VRAM, however, it would be much
 ; faster to do this via DMA. in fact, in another place this operation is
-; performed with dma, if I'm not mistaken.
+; performed with DMA, if I'm not mistaken.
 ; $006399-$0063D1 LONG JUMP LOCATION
 CopyMode7Chr:
 {
@@ -12397,7 +12397,7 @@ LoadSelectScreenGfx:
     
     PHB : PHK : PLB     
     
-    ; Decompress sprite gfx pack 0x5E, which contains 0x40 tiles, and convert
+    ; Decompress sprite GFX pack 0x5E, which contains 0x40 tiles, and convert
     ; from 3bpp to 4bpp (high).
     LDY.b #$5E
     
@@ -12409,7 +12409,7 @@ LoadSelectScreenGfx:
     
     JSR.w Do3To4High
     
-    ; Decompress sprite gfx pack 0x5F, which contains 0x40 tiles, and convert
+    ; Decompress sprite GFX pack 0x5F, which contains 0x40 tiles, and convert
     ; from 3bpp to 4bpp (high).
     LDY.b #$5F
     
@@ -14036,7 +14036,7 @@ PaletteFilter:
                     
                 LDX.b #$3E : LDA.w #$0778
                     
-                JSL.l Mirror_InitHdmaSettings_init_hdma_table
+                JSL.l Mirror_InitHDMASettings_init_HDMA_table
                     
                 INC.b $15
 
@@ -14512,14 +14512,14 @@ Spotlight:
     
     STZ.w SNES.HDMAChannelEnable
     
-    ; Target dma register is $2126 (WH0), Window 1 Left Position. $2127 (WH1)
+    ; Target DMA register is $2126 (WH0), Window 1 Left Position. $2127 (WH1)
     ; will also be written because of the mode. Indirect HDMA is being used as
     ; well. transfer mode is write two registers once, ($2126 / $2127).
     LDX.w #$2641
     STX.w DMA.6_TransferParameters : STX.w DMA.7_TransferParameters
     
     ; The source address of the indirect HDMA table.
-    LDX.w #.hdma_table : STX.w DMA.6_SourceAddrOffsetLow
+    LDX.w #.HDMA_table : STX.w DMA.6_SourceAddrOffsetLow
                          STX.w DMA.7_SourceAddrOffsetLow
     
     ; Source bank is bank $00.
@@ -14555,7 +14555,7 @@ Spotlight:
     
     RTL
 
-    .hdma_table
+    .HDMA_table
     dw $F8    ; Line count with repeat flag set.
     dw $1B00  ; Address of the data for the first 120 scanlines.
     db $F8    ; Line count with repeat flag set.
@@ -14973,7 +14973,7 @@ OrientLampBg:
 ; ==============================================================================
 
 ; $007649-$00765F LONG JUMP LOCATION
-Hdma_ConfigureWaterTable:
+HDMA_ConfigureWaterTable:
 {
     REP #$30
     
@@ -15932,7 +15932,7 @@ Dungeon_InitStarTileChr:
 ; ==============================================================================
 
 ; $007DEE-$007E5D LONG JUMP LOCATION
-Mirror_InitHdmaSettings:
+Mirror_InitHDMASettings:
 {
     STZ.b $9B
     
@@ -15960,11 +15960,11 @@ Mirror_InitHdmaSettings:
     LDA.b $E2
 
     ; $007E3E ALTERNATE ENTRY POINT
-    .init_hdma_table
+    .init_HDMA_table
 
         STA.w $1B00, X : STA.w $1B40, X : STA.w $1B80, X : STA.w $1BC0, X
         STA.w $1C00, X : STA.w $1C40, X : STA.w $1C80, X
-    DEX #2 : BPL .init_hdma_table
+    DEX #2 : BPL .init_HDMA_table
     
     SEP #$20
     
@@ -15996,7 +15996,7 @@ MirrorWarp_BuildWavingHDMATable:
     JSL.l MirrorWarp_RunAnimationSubmodules
     
     ; Only do something every other frame.
-    LDA.b $1A : LSR A : BCS Mirror_InitHdmaSettings_easy_out
+    LDA.b $1A : LSR A : BCS Mirror_InitHDMASettings_easy_out
         REP #$30
         
         LDX.w #$01A0

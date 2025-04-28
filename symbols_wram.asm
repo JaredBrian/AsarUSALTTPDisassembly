@@ -21,7 +21,7 @@
 ;
 ; For documentation on hardware registers, see «registers.asm»
 ; For documentation on save game data, see «symbols_SRAM.asm»
-; For documentation on APU addresses, see «symbols_apu.asm»
+; For documentation on APU addresses, see «symbols_APU.asm»
 ;===================================================================================================
 
 ;===================================================================================================
@@ -832,7 +832,7 @@ IRQTHREAD       = $7E012A
 UNUSED_7E012B   = $7E012B
 
 ; APU I/O queues handled during NMI
-; See sfx.txt and music.txt for expected values
+; See SFX.txt and music.txt for expected values
 SONG            = $7E012C
 SFX1            = $7E012D
 SFX2            = $7E012E
@@ -3007,7 +3007,7 @@ UNUSED_7E0AE5   = $7E0AE5
 UNUSED_7E0AE6   = $7E0AE6
 UNUSED_7E0AE7   = $7E0AE7
 
-; Follower head/body gfx offsets
+; Follower head/body GFX offsets
 FLWHO           = $7E0AE8
 FLWHOH          = $7E0AE9
 FLWBO           = $7E0AEA
@@ -3371,7 +3371,7 @@ SPRFOWDH        = $7E0BDF
 ;   i - disable tile interaction
 ;   w - something water
 ;   b - sprite is blocked by shield
-;   s - taking damage sfx to use TODO name
+;   s - taking damage SFX to use TODO name
 ;   p - prize pack
 SPR0PRIZE       = $7E0BE0
 SPR1PRIZE       = $7E0BE1
@@ -4154,7 +4154,7 @@ SPRF_AUXS       = $7E0E3F
 ;   h - harmless sprite
 ;   m - something with mastersword TODO
 ;   w - something with walls? TODO
-;   o - oam allocation
+;   o - OAM allocation
 SPR0_OAMHARM    = $7E0E40
 SPR1_OAMHARM    = $7E0E41
 SPR2_OAMHARM    = $7E0E42

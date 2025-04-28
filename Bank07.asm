@@ -45,7 +45,7 @@ Player_Main:
 
 ; ==============================================================================
 
-; UNUSED: Much like the Ancilla version of this routine, seems like ambient sfx
+; UNUSED: Much like the Ancilla version of this routine, seems like ambient SFX
 ; gets no love.
 ; $038021-$038027 LOCAL JUMP LOCATION
 Player_DoSfx1:
@@ -16695,7 +16695,7 @@ DesertPrayer_BuildIrisHDMATable:
                 ; Return music volume to full.
                 LDA.b #$F3 : STA.w $012C
                 
-                ; Reset ambient sfx.
+                ; Reset ambient SFX.
                 LDA.b #$00 : STA.w $012D
                 
                 STZ.w $0FC1

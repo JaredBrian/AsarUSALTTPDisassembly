@@ -106,7 +106,7 @@ incsrc "Bank0F.asm"
 warnpc $108000
 
 ; Graphics and Music Data Banks
-; TODO: Add the tables or include a way to import gfx data
+; TODO: Add the tables or include a way to import GFX data
 
 ; org $108000
 

@@ -614,7 +614,7 @@ Ancilla_ExecuteObject:
     PHA
     
     ; If X >= 6, then...
-    CPX.b #$06 : BCS .ignore_oam_allocation
+    CPX.b #$06 : BCS .ignore_OAM_allocation
         ; This is the number of sprites allocated for the s.o. at init.
         LDA.w $0C90, X
         
@@ -626,25 +626,25 @@ Ancilla_ExecuteObject:
                 ; Floor 1 sprites...
                 JSL.l OAM_AllocateFromRegionD
                 
-                BRA .record_starting_oam_position
+                BRA .record_starting_OAM_position
             
             .on_bg1
             
             ; Floor 2 sprites...
             JSL.l OAM_AllocateFromRegionF
             
-            BRA .record_starting_oam_position
+            BRA .record_starting_OAM_position
             
             .sortSprites
             
             JSL.l OAM_AllocateFromRegionA
             
-            .record_starting_oam_position
+            .record_starting_OAM_position
             
             ; The starting place in the OAM Buffer for the special effect.
             TYA : STA.w $0C86, X
     
-    .ignore_oam_allocation
+    .ignore_OAM_allocation
     
     ; We're not in the standard submodule.
     LDY.b $11 : BNE .dont_tick_timer
@@ -2596,7 +2596,7 @@ Ancilla_DrawShadow:
     
     SEP #$20
     
-    LDA.w Pool_Ancilla_DrawShadow_chr+1, X : CMP.b #$FF : BEQ .only_one_oam_entry
+    LDA.w Pool_Ancilla_DrawShadow_chr+1, X : CMP.b #$FF : BEQ .only_one_OAM_entry
         STZ.b $74
         STZ.b $75
         
@@ -2615,7 +2615,7 @@ Ancilla_DrawShadow:
         
         PLY
     
-    .only_one_oam_entry
+    .only_one_OAM_entry
     
     RTS
 }
@@ -2736,26 +2736,26 @@ Ancilla_CustomAllocateOam:
     TYA : AND.w #$00FF : CLC : ADC.b $90
     
     LDX.w $0FB3 : BEQ .unsorted_sprites
-        ; Is it in the second half of the oam buffer?
+        ; Is it in the second half of the OAM buffer?
         CMP.w #$0900 : BCS .upper_region
             CMP.w #$08E0 : BCC .reset_unneeded
                 LDA.w #$0820
                 
-                BRA .set_oam_pointer
+                BRA .set_OAM_pointer
                 
         .upper_region
         
         CMP.w #$09D0 : BCC .reset_unneeded
             LDA.w #$0940
             
-            BRA .set_oam_pointer
+            BRA .set_OAM_pointer
         
     .unsorted_sprites
     
     CMP.w #$0990 : BCC .reset_unneeded
         LDA.w #$0820
         
-        .set_oam_pointer
+        .set_OAM_pointer
         
         STA.b $90
         
@@ -2784,14 +2784,14 @@ HitStars_UpdateOamBufferPosition:
     TYA : AND.w #$00FF : CLC : ADC.b $90
     
     LDX.w $0FB3 : BNE .sort_sprites
-        CMP.w #$09D0 : BCC .dont_reset_oam_pointer
+        CMP.w #$09D0 : BCC .dont_reset_OAM_pointer
             LDA.w #$0820 : STA.b $90
             
             SEC : SBC.w #$0800 : LSR #2 : CLC : ADC.w #$0A20 : STA.b $92
             
             LDY.b #$00
 
-        .dont_reset_oam_pointer
+        .dont_reset_OAM_pointer
     .sort_sprites
     
     SEP #$20
@@ -2988,7 +2988,7 @@ BeamHit_Unknown:
     
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
     
         PHY
         
@@ -3042,7 +3042,7 @@ BeamHit_Unknown:
         .onscreen_y
         
         INY #3
-    DEC.b $08 : BPL .next_oam_entry
+    DEC.b $08 : BPL .next_OAM_entry
     
     BRL Ancilla_RestoreIndex
 }

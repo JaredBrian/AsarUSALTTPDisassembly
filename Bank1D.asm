@@ -809,11 +809,11 @@ Pool_Sprite_SimulateSoldier:
     db $0B, $04, $00, $07
 
     ; $0EEB6C
-    .oam_a
+    .OAM_a
     dw $0800, $0820, $0840, $0860, $0880, $08A0
 
     ; $0EEB78
-    .oam_b
+    .OAM_b
     dw $0A20, $0A28, $0A30, $0A38, $0A40, $0A48
 }
 
@@ -858,8 +858,8 @@ Sprite_SimulateSoldier:
     
     REP #$20
     
-    LDA.w Pool_Sprite_SimulateSoldier_oam_a, Y : STA.b $90
-    LDA.w Pool_Sprite_SimulateSoldier_oam_b, Y : STA.b $92
+    LDA.w Pool_Sprite_SimulateSoldier_OAM_a, Y : STA.b $90
+    LDA.w Pool_Sprite_SimulateSoldier_OAM_b, Y : STA.b $92
     
     SEP #$20
     
@@ -919,7 +919,7 @@ Moldorm_Initialize:
 Pool_Sprite_DrawFourAroundOne:
 {
     ; $0EF2A5
-    .oam_groups
+    .OAM_groups
     dw   4,   2 : db $E1, $02, $00, $00
     dw   4,  -3 : db $E3, $02, $00, $00
     dw  -1,   2 : db $E3, $02, $00, $00
@@ -1060,7 +1060,7 @@ Toppo_Flustered:
 Pool_Goriya_Draw:
 {
     ; $0EF44D
-    .oam_groups
+    .OAM_groups
     .group00
     dw  -4,  -8 : db $44, $00, $00, $02
     dw  12,  -8 : db $44, $40, $00, $00
@@ -1693,7 +1693,7 @@ Moldorm_Draw:
     
     LDX.b #$01
     
-    .next_oam_entry
+    .next_OAM_entry
     
         LDA.b $06 : AND.b #$0F : ASL A
         
@@ -1726,7 +1726,7 @@ Moldorm_Draw:
         LDA.b $06 : CLC : ADC.b #$02 : STA.b $06
         
         PLY : INY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     PLX
     
@@ -1752,7 +1752,7 @@ Moldorm_Draw:
     
     LDY.b #$00
     
-    .next_oam_entry_2
+    .next_OAM_entry_2
     
         PHY
         
@@ -1804,7 +1804,7 @@ Moldorm_Draw:
         LDA.w Pool_Moldorm_Draw_prop, X : ORA.b $0F : STA ($92), Y
         
         PLY : INY
-    DEC.b $06 : BPL .next_oam_entry_2
+    DEC.b $06 : BPL .next_OAM_entry_2
     
     LDX.w $0FA0
     
@@ -1941,8 +1941,8 @@ Pool_OldMountainMan_Draw:
     dw  0, 9 : db $22, $41, $00, $02        
     
     ; $0EFEFE
-    .dma_config
-    .follower_gfx_offset
+    .DMA_config
+    .follower_GFX_offset
     dw $20, $C0, $20, $C0, $00, $A0, $00, $A0
     db $40, $80, $40, $60, $40, $80, $40, $60
 
@@ -1962,9 +1962,9 @@ OldMountainMan_Draw:
         LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
         
         ; Wait... so the Old Man's graphics are updated dynamically? Why?
-        LDA.w .dma_config, Y     : STA.w $0AE8
+        LDA.w .DMA_config, Y     : STA.w $0AE8
         
-        LDA.w .dma_config + 1, Y : STA.w $0AEA
+        LDA.w .DMA_config + 1, Y : STA.w $0AEA
         
         TYA : ASL #3
         
@@ -2028,7 +2028,7 @@ SpriteBurn_Execute:
     
     REP #$20
     
-    ; Flame sprite took up 2 oam entries.
+    ; Flame sprite took up 2 OAM entries.
     LDA.b $90 : CLC : ADC.w #$0008 : STA.b $90
     
     INC.b $92 : INC.b $92

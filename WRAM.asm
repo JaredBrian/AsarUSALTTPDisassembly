@@ -449,12 +449,12 @@ struct WRAM $7E0000
 
     ; $44[0x01] - (Player)
     .AttackOAMOffsetY: skip $01
-        ; Set to 0x80 during preoverworld. Seems to be an offset for player oam
+        ; Set to 0x80 during preoverworld. Seems to be an offset for player OAM
         ; y offset. TODO: Not fully confirmed.
 
     ; $45[0x01] - (Player)
     .AttackOAMOffsetX: skip $01
-        ; Set to 0x80 during preoverworld. Seems to be an offset for player oam
+        ; Set to 0x80 during preoverworld. Seems to be an offset for player OAM
         ; x offset. TODO: Not fully confirmed.
 
     ; $46[0x01] - (Player)
@@ -4869,11 +4869,11 @@ struct WRAM $7E0000
 
     ; $0680[0x02] - (Dungeon, HDMA)
     .WaterGateLeftHDMA: skip $02
-        ; The water gate HMDA left boundary. TODO: Confirm use.
+        ; The water gate HDMA left boundary. TODO: Confirm use.
 
     ; $0682[0x02] - (Dungeon, HDMA)
     .WaterGateTopHDMA: skip $02
-        ; The water gate HMDA top boundary. TODO: Confirm use.
+        ; The water gate HDMA top boundary. TODO: Confirm use.
 
     ; $0684[0x02] - (Dungeon, HDMA)
     .WaterGateVSizeHDMA: : skip $02
@@ -5185,23 +5185,24 @@ struct WRAM $7E0000
         ; 0x003E on small screens
         ; 0x007E on big screens
 
-    ; $0710[0x01] - (NMI) Flag for disabling update of core sprite animation for
-        ; the current frame, when set to a nonzero value.
-        ; 
-        ; The point of this is that the NMI interrupt service routine,
-        ; even using DMA, can only transfer so many bytes during the
+    ; $0710[0x01] - (NMI, OAM)
+    .OAMChrUpdateSkip: skip $01
+        ; A flag that when nonzero, prevents certain OAM chr updates from
+        ; occuring during NMI. This is done because the NMI interrupt service
+        ; routine, even using DMA, can only transfer so many bytes during the
         ; vertical blanking period (roughly 0x1800 bytes at an absolute
-        ; maximum), so we can elect to disable many of the low priority
-        ; sprite chr updates if we need to move a lot of bytes during NMI
-        ; with some specialized routine.
-        ; 
-        ; Generally speaking, $17 indexes some subroutines that require
-        ; this flag to be set, or else we'd run past the blanking period
-        ; trying to blit everything to VRAM / oam / CGRAM, etc. Other
-        ; operations may also require setting this flag.
+        ; maximum), so we can elect to disable many of the low priority sprite
+        ; chr updates if we need to move a lot of bytes during NMI with some
+        ; specialized routines. If we run past the blanking period while trying
+        ; to transfer everything to VRAM, OAM, CGRAM, etc. you will see black lines
+        ; or bars flicker on the screen. In the vanilla game this can be seen
+        ; after stepping on a star tile in certain rooms. Some of these routines
+        ; are indexed or indicated by DMAMask, $1100, and BG3TileMapUpdateFlag 
+        ; but there may be more.
 
-    ; $0711 - 
-        ; Free RAM
+    ; $0711[0x01] - (Junk)
+    .Junk_0711: skip $01
+        ; Set to $FF by exploding walls for some reason but never read.
 
     ; $0712[0x02] - (Overworld, High Junk)
     .OWIsLargeArea: skip $02
@@ -5212,8 +5213,12 @@ struct WRAM $7E0000
 
     ; $0714[0x01] - (Overworld, Junk)
     .Junk_0714: skip $01
-        ; The OWIsLargeArea of the previous area. Only written to once and
-        ; is never read.
+        ; The low byte of OWIsLargeArea from the previous area. Only written to
+        ; once and is never read.
+
+    ; $0715[0x01] - (Free)
+    .Free_0715: skip $01
+        ; Free RAM.
 
     ; $0716[0x02] - (Overworld)
         ; Forms right and bottom bounding value for where scroll
@@ -5789,7 +5794,7 @@ struct WRAM $7E0000
 
     ; $0C86 - 
         ; Free RAM?
-        ; Starting offset into oam buffer on any particular frame.
+        ; Starting offset into OAM buffer on any particular frame.
 
     ; $0C90[0x0A] - (Ancilla)
         ; Number of sprites the special effects uses * 4
@@ -6696,7 +6701,7 @@ struct WRAM $7E0000
         ; address.
 
     ; $1004 - 
-        ; dma configuration
+        ; DMA configuration
 
         ; ssssssss wftttttt
         ; 

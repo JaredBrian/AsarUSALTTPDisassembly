@@ -14,7 +14,7 @@ org $0E8000
 ; ==============================================================================
 
 ; $070000-$070FFF
-incbin "binary_files/font_gfx.bin"
+incbin "binary_files/font_GFX.bin"
 
 ; ==============================================================================
 
@@ -1620,11 +1620,11 @@ CreditsOAMGroup1:
     db 48, 16
     
     ; $0720D2
-    .oam_pointers
+    .OAM_pointers
     db $28, $2A, $2C, $2E, $2C
     
     ; $0720D7
-    .num_oam_entries
+    .num_OAM_entries
     db 3, 3, 3, 3, 3
     
     ; $0720DC
@@ -1695,8 +1695,8 @@ Credits_SpriteDraw_Kakariko1:
     
         LDA.b #$31 : STA.w $0F50, X
         
-        LDY.w CreditsOAMGroup1_oam_pointers, X
-        LDA.w CreditsOAMGroup1_num_oam_entries, X
+        LDY.w CreditsOAMGroup1_OAM_pointers, X
+        LDA.w CreditsOAMGroup1_num_OAM_entries, X
         
         JSR.w Credits_SpriteDraw_Single
         JSR.w Credits_SpriteDraw_DrawShadow_priority_set
@@ -1759,7 +1759,7 @@ CreditsOAMGroup2:
     dw   0,   1 : db $02, $4E, $00, $02
 
     ; $072274
-    .link_gfx
+    .link_GFX
     db $00 ; Link standing
     db $04 ; Link brandishing
 
@@ -1825,7 +1825,7 @@ Credits_SpriteDraw_House:
         
     STZ.w $0107
         
-    LDA.w CreditsOAMGroup2_link_gfx, Y : STA.w $0108
+    LDA.w CreditsOAMGroup2_link_GFX, Y : STA.w $0108
         
     LDA.b #$30 : STA.w $0F50, X
         
@@ -2363,8 +2363,8 @@ Pool_Credits_SpriteDraw_Single:
 
 ; ==============================================================================
 
-; A number of oam entries to allocate for and to draw.
-; Y Index into above pointer table to use for drawing oam
+; A number of OAM entries to allocate for and to draw.
+; Y Index into above pointer table to use for drawing OAM
 ; entries.
 ; $072703-$07273C LOCAL JUMP LOCATION
 Credits_SpriteDraw_Single:
@@ -4705,7 +4705,7 @@ Credits_InitializeTheActualCredits:
     
     .BRANCH_BETA
     
-        LDA.w .hdma_data, X : STA.w DMA.7_TransferParameters, X
+        LDA.w .HDMA_data, X : STA.w DMA.7_TransferParameters, X
     DEX : BPL .BRANCH_BETA
         
     STZ.w DMA.7__DataBank
@@ -4715,7 +4715,7 @@ Credits_InitializeTheActualCredits:
     BRL Credits_FadeColorAndBeginAnimating_return
 
     ; $073D4E
-    .hdma_data
+    .HDMA_data
     db $42     ; -> DMAP7
     db $0F     ; -> BBAD7
     dl $0EBD53 ; -> A1T7 and A1B7
@@ -5018,7 +5018,7 @@ Credits_AddNextAttribution:
 Pool_Credits_AddEndingSequenceText:
 {
     ; $073F4C
-    .chargfx_castle
+    .charGFX_castle
     ; SMALL: THE RETURN OF THE KING
     dw $6562, $2B00 ; VRAM $C4CA | 44 bytes
     db $2D, $21, $1E, $9F, $2B, $1E, $2D, $2E
@@ -5037,7 +5037,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $073F88
-    .chargfx_sanc
+    .charGFX_sanc
     ; SMALL: THE LOYAL SAGE
     dw $6862, $1B00 ; VRAM $C4D0 | 28 bytes
     db $2D, $21, $1E, $9F, $25, $28, $32, $1A
@@ -5055,7 +5055,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $073FB4
-    .chargfx_kak1
+    .charGFX_kak1
     ; SMALL: , (top of apostrophe)
     dw $4F62, $0100 ; VRAM $C49E | 2 bytes
     db $34
@@ -5078,7 +5078,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $073FF6
-    .chargfx_desert
+    .charGFX_desert
     ; SMALL: VULTURES RULE THE DESERT
     dw $6462, $2F00 ; VRAM $C4C8 | 48 bytes
     db $2F, $2E, $25, $2D, $2E, $2B, $1E, $2C
@@ -5097,7 +5097,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $074034
-    .chargfx_hera
+    .charGFX_hera
     ; SMALL: THE BULLY MAKES A FRIEND
     dw $6462, $2F00 ; VRAM $C4C8 | 48 bytes
     db $2D, $21, $1E, $9F, $1B, $2E, $25, $25
@@ -5116,7 +5116,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $074074
-    .chargfx_house
+    .charGFX_house
     ; SMALL: YOUR UNCLE RECOVERS
     dw $6662, $2500 ; VRAM $C4CC | 38 bytes
     db $32, $28, $2E, $2B, $9F, $2E, $27, $1C
@@ -5135,7 +5135,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $0740A7
-    .chargfx_zora
+    .charGFX_zora
     ; SMALL: FLIPPERS FOR SALE
     dw $6662, $2100 ; VRAM $C4CC | 34 bytes
     db $1F, $25, $22, $29, $29, $1E, $2B, $2C
@@ -5154,7 +5154,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $0740E4
-    .chargfx_witch
+    .charGFX_witch
     ; SMALL: THE WITCH AND ASSISTANT
     dw $6462, $2D00 ; VRAM $C4C8 | 46 bytes
     db $2D, $21, $1E, $9F, $30, $22, $2D, $1C
@@ -5173,7 +5173,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $07411B
-    .chargfx_lumberjack
+    .charGFX_lumberjack
     ; SMALL: TWIN LUMBERJACKS
     dw $6862, $1F00 ; VRAM $C4D0 | 32 bytes
     db $2D, $30, $22, $27, $9F, $25, $2E, $26
@@ -5191,7 +5191,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $074153
-    .chargfx_grove
+    .charGFX_grove
     ; SMALL: FLUTE BOY PLAYS AGAIN
     dw $6462, $2900 ; VRAM $C4C8 | 42 bytes
     db $1F, $25, $2E, $2D, $1E, $9F, $1B, $28
@@ -5210,7 +5210,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $07418E
-    .chargfx_venus
+    .charGFX_venus
     ; SMALL: VENUS. QUEEN OF FAERIES
     dw $6462, $2D00 ; VRAM $C4C8 | 46 bytes
     db $2F, $1E, $27, $2E, $2C, $37, $9F, $2A
@@ -5229,7 +5229,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $0741C9
-    .chargfx_smithy
+    .charGFX_smithy
     ; SMALL: THE DWARVEN SWORDSMITHS
     dw $6462, $2D00 ; VRAM $C4C8 | 46 bytes
     db $2D, $21, $1E, $9F, $1D, $30, $1A, $2B
@@ -5246,7 +5246,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $0741FC
-    .chargfx_kak2
+    .charGFX_kak2
     ; SMALL: THE BUG-CATCHING KID
     dw $6662, $2700 ; VRAM $C4CC | 40 bytes
     db $2D, $21, $1E, $9F, $1B, $2E, $20, $36
@@ -5265,7 +5265,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $074236
-    .chargfx_deathmountain
+    .charGFX_deathmountain
     ; SMALL: THE LOST OLD MAN
     dw $4862, $1F00 ; VRAM $C490 | 32 bytes
     db $2D, $21, $1E, $9F, $25, $28, $2C, $2D
@@ -5283,7 +5283,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $07426E
-    .chargfx_lostwoods
+    .charGFX_lostwoods
     ; SMALL: THE FOREST THIEF
     dw $6862, $1F00 ; VRAM $C4D0 | 32 bytes
     db $2D, $21, $1E, $9F, $1F, $28, $2B, $1E
@@ -5301,7 +5301,7 @@ Pool_Credits_AddEndingSequenceText:
 
 
     ; $07429E
-    .chargfx_pedestal
+    .charGFX_pedestal
     ; SMALL: AND THE MASTER SWORD
     dw $6662, $2700 ; VRAM $C4CC | 40 bytes
     db $1A, $27, $1D, $9F, $2D, $21, $1E, $9F
@@ -5323,23 +5323,23 @@ Pool_Credits_AddEndingSequenceText:
 
     ; $0742E1
     .offset
-    dw .chargfx_castle-.chargfx        ; $0000
-    dw .chargfx_sanc-.chargfx          ; $003C
-    dw .chargfx_kak1-.chargfx          ; $0068
-    dw .chargfx_desert-.chargfx        ; $00AA
-    dw .chargfx_hera-.chargfx          ; $00E8
-    dw .chargfx_house-.chargfx         ; $0128
-    dw .chargfx_zora-.chargfx          ; $015B
-    dw .chargfx_witch-.chargfx         ; $0198
-    dw .chargfx_lumberjack-.chargfx    ; $01CF
-    dw .chargfx_grove-.chargfx         ; $0207
-    dw .chargfx_venus-.chargfx         ; $0242
-    dw .chargfx_smithy-.chargfx        ; $027D
-    dw .chargfx_kak2-.chargfx          ; $02B0
-    dw .chargfx_deathmountain-.chargfx ; $02EA
-    dw .chargfx_lostwoods-.chargfx     ; $0322
-    dw .chargfx_pedestal-.chargfx      ; $0352
-    dw .offset-.chargfx                ; $0395
+    dw .charGFX_castle-.charGFX        ; $0000
+    dw .charGFX_sanc-.charGFX          ; $003C
+    dw .charGFX_kak1-.charGFX          ; $0068
+    dw .charGFX_desert-.charGFX        ; $00AA
+    dw .charGFX_hera-.charGFX          ; $00E8
+    dw .charGFX_house-.charGFX         ; $0128
+    dw .charGFX_zora-.charGFX          ; $015B
+    dw .charGFX_witch-.charGFX         ; $0198
+    dw .charGFX_lumberjack-.charGFX    ; $01CF
+    dw .charGFX_grove-.charGFX         ; $0207
+    dw .charGFX_venus-.charGFX         ; $0242
+    dw .charGFX_smithy-.charGFX        ; $027D
+    dw .charGFX_kak2-.charGFX          ; $02B0
+    dw .charGFX_deathmountain-.charGFX ; $02EA
+    dw .charGFX_lostwoods-.charGFX     ; $0322
+    dw .charGFX_pedestal-.charGFX      ; $0352
+    dw .offset-.charGFX                ; $0395
 }
 
 ; ==============================================================================
@@ -8351,7 +8351,7 @@ Text_DrawBorderRow:
     ; Our VRAM address will be moving "down", so increment by 32 words.
     XBA : CLC : ADC.w #$0020 : STA.w $1CD0
     
-    ; Write 0x30 bytes, use incrementing dma mode, increment on writes to $2119.
+    ; Write 0x30 bytes, use incrementing DMA mode, increment on writes to $2119.
     LDA.w #$2F00 : STA.w $1002, X : INX #2
     
     LDA Text_BorderTiles, Y : STA.w $1002, X : INX #2
@@ -8438,12 +8438,12 @@ Text_DrawCharacterTilemap:
         ; good to do that).
         LDA.w $1CD0 : XBA : STA.w $1002, X
         
-        ; Make it so the dma will start one row down from this one (adding 0x20
+        ; Make it so the DMA will start one row down from this one (adding 0x20
         ; to a VRAM address typically accopmlishes this if you can be sure that
         ; you'll remain in the same tilemap).
         XBA : CLC : ADC.w #$0020 : STA.w $1CD0
         
-        ; dma will transfer 0x2a bytes (which is twice 0x15 or 21). Each row is
+        ; DMA will transfer 0x2a bytes (which is twice 0x15 or 21). Each row is
         ; 21 tiles, so this makes sense.
         INX #2 : LDA.w #$2900 : STA.w $1002, X
         INX #2

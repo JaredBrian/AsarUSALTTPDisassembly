@@ -4568,7 +4568,7 @@ SmoothCurve:
 ; $026A00-$026A5F DATA
 Pool_Hobo_Draw:
 {
-    .oam_groups
+    .OAM_groups
     dw -5,   3 : db $A6, $00, $00, $02
     dw  3,   3 : db $A7, $00, $00, $02
     dw -5,   3 : db $A6, $00, $00, $02
@@ -4595,8 +4595,8 @@ Hobo_Draw:
     
     LDA.w $0DC0, X : ASL #5
     
-    ADC.b #.oam_groups                 : STA.b $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
+    ADC.b #.OAM_groups                 : STA.b $08
+    LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     
@@ -4787,7 +4787,7 @@ Bomb_ProjectReflexiveSpeedOntoSpriteLong:
 ; $026BB3-$026BE4 DATA
 Pool_Sprite_DrawLargeWaterTurbulence:
 {
-    .oam_groups
+    .OAM_groups
     dw -10, 14 : db $C0, $00, $00, $02
     dw  -5, 16 : db $C0, $40, $00, $02
     dw  -2, 18 : db $C0, $00, $00, $02
@@ -4821,7 +4821,7 @@ Sprite_DrawLargeWaterTurbulence:
     
     REP #$20
     
-    LDA.w #(.oam_groups) : STA.b $08
+    LDA.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     

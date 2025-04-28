@@ -3920,7 +3920,7 @@ Ancilla_CheckForAvailableSlot:
 Pool_Death_PlayerSwoon:
 {
     ; $07F5C3
-    .player_oam_states
+    .player_OAM_states
     db 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 5
     
     ; $07F5D2
@@ -3950,7 +3950,7 @@ Death_PlayerSwoon:
             
             STX.w $030D
             
-            LDA.w .player_oam_states, X : STA.w $030A
+            LDA.w .player_OAM_states, X : STA.w $030A
             
             LDA.w .timers, X : STA.w $030B
         
@@ -4147,10 +4147,10 @@ SwordBeam:
     LDA.w $0C04, X : STA.l $7F580E
     LDA.w $0C18, X : STA.l $7F580F
     
-    LDA.w $0394, X : AND.b #$0F : BNE .sfx_delay
+    LDA.w $0394, X : AND.b #$0F : BNE .SFX_delay
         JSL.l Sound_SfxPanObjectCoords : ORA.b #$01 : STA.w $012F
     
-    .sfx_delay
+    .SFX_delay
     
     INC.w $0394, X
     
@@ -4169,7 +4169,7 @@ SwordBeam:
         ; Transmute into a beam hit object.
         LDA.b #$04 : STA.w $0C4A, X
         
-        ; Set timer and oam allocation for this tranmuted little guy.
+        ; Set timer and OAM allocation for this tranmuted little guy.
         LDA.b #$07 : STA.w $0C68, X
         LDA.b #$10 : STA.w $0C90, X
         
@@ -4189,7 +4189,7 @@ SwordBeam:
     LDY.b #$00
     LDX.b #$03
     
-    .next_oam_entry
+    .next_OAM_entry
     
         STX.b $72
         
@@ -4224,7 +4224,7 @@ SwordBeam:
         LDA.b #$00 : STA ($92), Y
         
         PLY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     PLX : PHX
     
@@ -4972,10 +4972,10 @@ Bomb_CheckUndersideSpriteStatus:
         ; Puts a water ripple around the bomb.
         LDA.w $03D2, X : CLC : ADC.b #$04 : STA.b $0A
         
-        LDA.w $012E : AND.b #$3F : CMP.b #$0B : BEQ .sfx_can_be_overriden
+        LDA.w $012E : AND.b #$3F : CMP.b #$0B : BEQ .SFX_can_be_overriden
             CMP.b #$21 : BNE .shadow_size_logic
         
-        .sfx_can_be_overriden
+        .SFX_can_be_overriden
         
         STZ.w $012E
         
@@ -5010,10 +5010,10 @@ Bomb_CheckUndersideSpriteStatus:
     .not_nearest_to_player
     
     ; WTF: What's the point of this?
-    CPY.b #$04 : BEQ .oam_slot_is_four_yeah_ok_whatever
+    CPY.b #$04 : BEQ .OAM_slot_is_four_yeah_ok_whatever
         LDY.b #$00
     
-    .oam_slot_is_four_yeah_ok_whatever
+    .OAM_slot_is_four_yeah_ok_whatever
     
     REP #$20
     

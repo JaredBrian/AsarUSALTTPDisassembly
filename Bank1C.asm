@@ -548,7 +548,7 @@ Message_Data:
     db $73 ; Scroll text
     db $A8, $59, $E3, $59, $27, $28, $30, $3E ; [for]⎵[you]⎵now!
     db $8A, $43, $88, $43, $88, $43 ; [  ]…[    ]…[    ]…
-    db $79, $2D ; Play sfx
+    db $79, $2D ; Play SFX
     db $73 ; Scroll text
     db $08, $59, $E2, $25, $25, $59, $B0, $1D ; I⎵[wi]ll⎵[hi]d
     db $1E, $59, $0F, $2B, $B4, $1C, $1E, $2C ; e⎵Pr[in]ces
@@ -1541,7 +1541,7 @@ Message_Data:
     db $AA, $E3, $59, $1A, $59, $BD, $20, $22 ; [give ][you]⎵a⎵[ma]gi
     db $1C, $1A, $25, $59, $1A, $2B, $2D, $22 ; cal⎵arti
     db $1F, $1A, $1C, $2D, $41 ; fact.
-    db $79, $2D ; Play sfx
+    db $79, $2D ; Play SFX
     db $7E ; Wait for key
     db $73 ; Scroll text
     db $0D, $28, $30, $42, $59, $AC, $59, $A8 ; Now,⎵[go]⎵[for]
@@ -1707,7 +1707,7 @@ Message_Data:
     db $97, $59, $E3, $2B, $59, $1F, $22, $2B ; [be]⎵[you]r⎵fir
     db $D3, $59, $AC, $1A, $25, $59, $B4, $59 ; [st]⎵[go]al⎵[in]⎵
     db $D9, $2C, $59, $30, $C8, $25, $1D, $3E ; [thi]s⎵w[or]ld!
-    db $79, $2D ; Play sfx
+    db $79, $2D ; Play SFX
     db $73 ; Scroll text
     db $6A, $42, $59, $08, $59, $99, $CE, $B9 ; [LINK],⎵I⎵[can ][re][ly ]
     db $C7, $59, $C7, $25, $32 ; [on]⎵[on]ly
@@ -8493,7 +8493,7 @@ Message_Data:
     db $73 ; Scroll text
     db $59, $43, $59, $43, $59, $43, $59, $43 ; ⎵…⎵…⎵…⎵…
     db $59, $43 ; ⎵…
-    db $79, $2D ; Play sfx
+    db $79, $2D ; Play SFX
     db $7F ; End of message
 
     ; ==========================================================================
@@ -9207,7 +9207,7 @@ Message_Data:
     db $59, $DE, $C5, $1F, $1A, $22, $25, $43 ; ⎵[with][out ]fail…
     db $73 ; Scroll text
     db $43, $8A, $43, $8A, $43 ; …[  ]…[  ]…
-    db $79, $2D ; Play sfx
+    db $79, $2D ; Play SFX
     db $7F ; End of message
 
     ; ==========================================================================
@@ -9798,7 +9798,7 @@ Message_Data:
     db $73 ; Scroll text
     db $BD, $29, $41, $8A, $E4, $1E, $59, $E3 ; [ma]p.[  ][Her]e⎵[you]
     db $59, $1A, $CE, $43 ; ⎵a[re]…
-    db $79, $2D ; Play sfx
+    db $79, $2D ; Play SFX
     db $7F ; End of message
 
     ; ==========================================================================

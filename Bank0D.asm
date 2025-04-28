@@ -17,8 +17,8 @@ org $0D8000
 ; y, x, ab
 ;   y - y offset of head
 ;   x - x offset of head
-;   a - head oam props high nibble
-;   b - body oam props high nibble
+;   a - head OAM props high nibble
+;   b - body OAM props high nibble
 ;   F - don't draw
 ; ==============================================================================
 
@@ -2935,7 +2935,7 @@ LinkOAM_ObjectPriority:
 ; $06A12E-$06A130 DATA
 PlayerOam_RodTypeID:
 {
-    ; Has to do with fire rod and ice rod oam handling...
+    ; Has to do with fire rod and ice rod OAM handling...
     db $02, $04, $04
 }
 
@@ -3587,7 +3587,7 @@ PlayerOam_Main:
     LDA.w $0309 : AND.w #$0004 : BEQ .always_taken
         JSR.w PlayerOam_UnusedWeaponSettings
         
-        BRA .skip_sword_vram
+        BRA .skip_sword_VRAM
 
     .always_taken
 
@@ -3600,20 +3600,20 @@ PlayerOam_Main:
     CMP.w #$001E : BEQ .is_spinning_mode
         LDA.w $0308 : AND.w #$00FF : BNE .holding_hands_up
             LDA.w $03EF : ORA.w $0360 : AND.w #$00FF : BNE .holding_hands_up
-                LDA.w $0301 : AND.w #$0040 : BNE .skip_sword_vram
+                LDA.w $0301 : AND.w #$0040 : BNE .skip_sword_VRAM
                     LDA.w $037A : AND.w #$003D : BNE .using_some_item
                         LDA.w $0301 : AND.w #$0093 : BNE .using_some_item
-                            LDA.b $3A : AND.w #$0080 : BEQ .skip_sword_vram
+                            LDA.b $3A : AND.w #$0080 : BEQ .skip_sword_VRAM
 
         .holding_hands_up
     .is_spinning_mode
 
-    LDA.l $7EF359 : INC A : AND.w #$00FE : BEQ .skip_sword_vram
+    LDA.l $7EF359 : INC A : AND.w #$00FE : BEQ .skip_sword_VRAM
         .using_some_item
 
         JSR.w PlayerOam_SetWeaponVRAMOffsets : BCC .continue_with_weapon
 
-    .skip_sword_vram
+    .skip_sword_VRAM
 
     BRL .PlayerOam_DrawShield
 
@@ -7511,7 +7511,7 @@ GetRandomInt:
 ; ==============================================================================
 
 ; $06BA80-$06BB5A
-incsrc "sprite_oam_allocation.asm"
+incsrc "sprite_OAM_allocation.asm"
 
 ; ==============================================================================
 
@@ -7675,7 +7675,7 @@ Sound_GetFineSfxPan:
 ; ==============================================================================
 
 ; $06BBE0-$06BD1F DATA
-Babusu_Draw_oam_groups:
+Babusu_Draw_OAM_groups:
 {
     dw  0,  4 : db $80, $43, $00, $00
     dw  0,  4 : db $80, $43, $00, $00
@@ -7748,7 +7748,7 @@ Babusu_Draw:
     LDA.w $0DC0, X : BMI .invalid_animation_state
         REP #$20
         
-        ASL #4 : ADC.w #(.oam_groups) : STA.b $08
+        ASL #4 : ADC.w #(.OAM_groups) : STA.b $08
         
         SEP #$20
         
@@ -7769,7 +7769,7 @@ Babusu_Draw:
 ; ==============================================================================
 
 ; $06BD46-$06BE05 DATA
-Wizzrobe_Draw_oam_groups:
+Wizzrobe_Draw_OAM_groups:
 {
     dw 0, -8 : db $B2, $00, $00, $00
     dw 8, -8 : db $B3, $00, $00, $00
@@ -7812,7 +7812,7 @@ Wizzrobe_Draw:
     LDA.b #$00 : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
     
-    ASL A : ADC.b $00 : ADC.w #(.oam_groups) : STA.b $08
+    ASL A : ADC.b $00 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -7826,7 +7826,7 @@ Wizzrobe_Draw:
 ; ==============================================================================
 
 ; $06BE28-$06BE67 DATA
-Wizzbeam_Draw_oam_groups:
+Wizzbeam_Draw_OAM_groups:
 {
     dw  0, -4 : db $C5, $00, $00, $00
     dw  0,  4 : db $C5, $80, $00, $00
@@ -7847,7 +7847,7 @@ Wizzbeam_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00 : XBA
-    LDA.w $0DE0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA.b $08
+    LDA.w $0DE0, X : REP #$20 : ASL #4 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -7864,7 +7864,7 @@ Wizzbeam_Draw:
 Pool_Freezor_Draw:
 {
     ; $06BE86
-    .death_oam_groups
+    .death_OAM_groups
     dw -8,  0 : db $A6, $00, $00, $02
     dw  8,  0 : db $A6, $40, $00, $02
     dw -8,  0 : db $A6, $00, $00, $02
@@ -7901,7 +7901,7 @@ Pool_Freezor_Draw:
     dw  8,  8 : db $AA, $40, $00, $00
     
     ; $06BF66
-    .normal_oam_group
+    .normal_OAM_group
     dw  0, 0 : db $AE, $00, $00, $00
     dw  8, 0 : db $AE, $40, $00, $00
     dw  0, 8 : db $BE, $00, $00, $00
@@ -7918,8 +7918,8 @@ Freezor_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : CMP.b #$07 : BEQ .use_normal_oam_groups
-        REP #$20 : ASL #5 : ADC.w #(Pool_Freezor_Draw_death_oam_groups) : STA.b $08
+    LDA.w $0DC0, X : CMP.b #$07 : BEQ .use_normal_OAM_groups
+        REP #$20 : ASL #5 : ADC.w #(Pool_Freezor_Draw_death_OAM_groups) : STA.b $08
         
         SEP #$20
         
@@ -7933,11 +7933,11 @@ Freezor_Draw:
         
         RTL
     
-    .use_normal_oam_groups
+    .use_normal_OAM_groups
     
     REP #$20
     
-    LDA.w #(Pool_Freezor_Draw_normal_oam_group) : STA.b $08
+    LDA.w #(Pool_Freezor_Draw_normal_OAM_group) : STA.b $08
     
     SEP #$20
     
@@ -7952,7 +7952,7 @@ Freezor_Draw:
 Pool_Zazak_Draw:
 {
     ; $06BFD6
-    .oam_groups
+    .OAM_groups
     dw  0, -8 : db $08, $00, $00, $02
     dw -4,  0 : db $A0, $00, $00, $02
     dw  4,  0 : db $A1, $00, $00, $02
@@ -8004,7 +8004,7 @@ Zazak_Draw:
     LDA.b #$00   : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
     
-    ADC.w #(.oam_groups) : STA.b $08
+    ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -8039,7 +8039,7 @@ Zazak_Draw:
 Pool_Stalfos_Draw:
 {
     ; $06C0F3
-    .oam_groups
+    .OAM_groups
     dw  0, -10 : db $00, $00, $00, $02
     dw  0,   0 : db $06, $00, $00, $02
     dw  0,   0 : db $06, $00, $00, $02
@@ -8110,7 +8110,7 @@ Stalfos_Draw:
         LDA.b #$00 : XBA
         LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
         
-        ADC.w #(Pool_Stalfos_Draw_oam_groups) : STA.b $08
+        ADC.w #(Pool_Stalfos_Draw_OAM_groups) : STA.b $08
         
         SEP #$20
         
@@ -8230,7 +8230,7 @@ incsrc "sprite_maze_game_guy.asm"
 Pool_CrystalMaiden_Draw:
 {
     ; $06CDCF
-    .oam_groups
+    .OAM_groups
     dw 1, -7 : db $20, $01, $00, $02
     dw 1,  3 : db $22, $01, $00, $02
     
@@ -8283,8 +8283,8 @@ CrystalMaiden_Draw:
     ; Crystal maidens?
     TYA : ASL #3
     
-    ADC.b #(Pool_CrystalMaiden_Draw_oam_groups >> 0)              : STA.b $08
-    LDA.b #(Pool_CrystalMaiden_Draw_oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(Pool_CrystalMaiden_Draw_OAM_groups >> 0)              : STA.b $08
+    LDA.b #(Pool_CrystalMaiden_Draw_OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     
@@ -8296,7 +8296,7 @@ CrystalMaiden_Draw:
 ; ==============================================================================
 
 ; $06CE91-$06CF30 DATA
-Pool_Priest_Draw_oam_groups:
+Pool_Priest_Draw_OAM_groups:
 {
     dw  0, -8 : db $20, $0E, $00, $02
     dw  0,  0 : db $26, $0E, $00, $02
@@ -8337,8 +8337,8 @@ Priest_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-                 ADC.b #(.oam_groups >. 0) : STA.b $08
-    LDA.b #$00 : ADC.b #(.oam_groups >> 8) : STA.b $09
+                 ADC.b #(.OAM_groups >. 0) : STA.b $08
+    LDA.b #$00 : ADC.b #(.OAM_groups >> 8) : STA.b $09
     
     LDA.b #$02 : STA.b $06
                  STZ.b $07
@@ -8354,7 +8354,7 @@ Priest_Draw:
 ; ==============================================================================
 
 ; $06CF59-$06CFD8 DATA
-Pool_FluteBoy_Draw_oam_groups:
+Pool_FluteBoy_Draw_OAM_groups:
 {
     dw -1,  -1 : db $BE, $0A, $00, $00
     dw  0,   0 : db $AA, $0A, $00, $02
@@ -8386,8 +8386,8 @@ FluteBoy_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #5
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam-groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM-groups >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$04 : JSL.l Sprite_DrawMultiple
     
@@ -8399,7 +8399,7 @@ FluteBoy_Draw:
 ; ==============================================================================
 
 ; $06D000-$06D03F DATA
-FluteAardvark_Draw_oam_groups:
+FluteAardvark_Draw_OAM_groups:
 {
     db 0, -10, $E6, $06, $00, $02
     db 0,  -8, $C8, $06, $00, $02
@@ -8424,8 +8424,8 @@ FluteAardvark_Draw:
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam-groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM-groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     
@@ -8437,7 +8437,7 @@ FluteAardvark_Draw:
 ; ==============================================================================
 
 ; $06D060-$06D11F DATA
-DustCloud_Draw_oam_groups:
+DustCloud_Draw_OAM_groups:
 {
     db  0, -3 : db $8B, $00, $00, $00
     db  3,  0 : db $9B, $00, $00, $00
@@ -8480,8 +8480,8 @@ DustCloud_Draw:
     
     LDA.w $0DC0, X : ASL #5
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$04 : JSL.l Sprite_DrawMultiple
     
@@ -8493,7 +8493,7 @@ DustCloud_Draw:
 ; ==============================================================================
 
 ; $06D142-$06D1E1 DATA
-MedallionTablet_Draw_oam_groups:
+MedallionTablet_Draw_OAM_groups:
 {
     dw -8, -16 : $8C, $00, $00, $02
     dw  8, -16 : $8C, $40, $00, $02
@@ -8528,8 +8528,8 @@ MedallionTablet_Draw:
     
     LDA.w $0DC0, X : ASL #5
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$04 : STA.b $06
                  STZ.b $07
@@ -8547,7 +8547,7 @@ MedallionTablet_Draw:
 Pool_Uncle_Draw:
 {
     ; $06D203
-    .oam_groups
+    .OAM_groups
     dw   0, -10 : db $00, $0E, $00, $02
     dw   0,   0 : db $06, $0C, $00, $02
     dw   0, -10 : db $00, $0E, $00, $02
@@ -8623,7 +8623,7 @@ Uncle_Draw:
     ; or... 96v2 + 48v0. wtf is this for?
     ASL A : ADC.b $02 : ADC.b $00 : ASL A : ADC.b $00 : ASL #4
     
-    ADC.w #(.oam_groups) : STA.b $08
+    ADC.w #(.OAM_groups) : STA.b $08
     
     LDA.w #$0006 : STA.b $06
     
@@ -8654,7 +8654,7 @@ Uncle_Draw:
 ; ==============================================================================
 
 ; $06D3EB-$06D47A DATA
-BugKidNet_Draw_oam_groups:
+BugKidNet_Draw_OAM_groups:
 {
     dw  4,  0 : db $27, $00, $00, $00
     dw  0, -5 : db $0E, $00, $00, $02
@@ -8689,8 +8689,8 @@ BugNetKid_Draw:
     ; Multiples of 0x30.
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     
@@ -8723,7 +8723,7 @@ Sprite5_CheckIfActive:
 ; ==============================================================================
 
 ; $06D4BC-$06D56B DATA
-Bomber_Draw_oam_groups:
+Bomber_Draw_OAM_groups:
 {
     dw  0, 0 : db $C6, $40, $00, $02
     dw  0, 0 : db $C6, $40, $00, $02
@@ -8766,7 +8766,7 @@ Bomber_Draw:
     
     LDA.b #$00 : XBA : LDA.w $0DC0, X : REP #$20 : ASL #4
     
-    ADC.w #(.oam_groups) : STA.b $08
+    ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -8782,7 +8782,7 @@ Bomber_Draw:
 ; ==============================================================================
 
 ; $06D58E-$06D605 DATA
-BomberPellet_DrawExplosion_oam_groups:
+BomberPellet_DrawExplosion_OAM_groups:
 {
     dw -11,   0 : db $9B, $01, $00, $00
     dw   0,  -8 : db $9B, $C1, $00, $00
@@ -8818,7 +8818,7 @@ BomberPellet_DrawExplosion:
     ; Multiply by 24 and add 0xD58E...
     LSR #2 : PHA : LDA.b #$00 : XBA : PLA : REP #$20 : ASL #3 : STA.b $00
     
-    ASL A : ADC.b $00 : ADC.w #(.oam_groups) : STA.b $08
+    ASL A : ADC.b $00 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -8893,7 +8893,7 @@ GoodBee_AttackOtherSprite:
 ; ==============================================================================
 
 ; $06D6A6-$06D6E5 DATA
-Pool_Pikit_Draw_oam_groups:
+Pool_Pikit_Draw_OAM_groups:
 {
     dw  0, 0 : db $C8, $00, $00, $02
     dw  0, 0 : db $C8, $00, $00, $02
@@ -8921,7 +8921,7 @@ Pikit_Draw:
     LDA ($90), Y : STA.w $0FB6
     
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.OAM_groups) : STA.b $08
     
     LDA.b $90 : CLC : ADC.w #$0018 : STA.b $90
     
@@ -9162,7 +9162,7 @@ Pikit_DrawGrabbedItem:
 Pool_Kholdstare_Draw:
 {
     ; $06D8AF
-    .oam_groups
+    .OAM_groups
     dw -8, -8 : db $80, $00, $00, $02
     dw  8, -8 : db $82, $00, $00, $02
     dw -8,  8 : db $A0, $00, $00, $02
@@ -9239,7 +9239,7 @@ Kholdstare_Draw:
         
         LDA.b #$00 : XBA
         
-        LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(Pool_Kholdstare_Draw_oam_groups) : STA.b $08
+        LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(Pool_Kholdstare_Draw_OAM_groups) : STA.b $08
         
         LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
         
@@ -12236,7 +12236,7 @@ HUD_AnimateHeartRefill:
 {
     SEP #$30
     
-    ; $00[3] = $7EC768 (wram address of first row of hearts in tilemap buffer)
+    ; $00[3] = $7EC768 (WRAM address of first row of hearts in tilemap buffer)
     LDA.b #$68 : STA.b $00
     LDA.b #$C7 : STA.b $01
     LDA.b #$7E : STA.b $02
@@ -12249,7 +12249,7 @@ HUD_AnimateHeartRefill:
         CMP.w #$0014 : BCC .halfHealthOrLess
             SBC.w #$0014 : TAY
             
-            ; $00[3] = $7EC7A8 (wram address of second row of hearts)
+            ; $00[3] = $7EC7A8 (WRAM address of second row of hearts)
             LDA.b $00 : CLC : ADC.w #$0040 : STA.b $00
 
         .halfHealthOrless
@@ -13068,7 +13068,7 @@ HUD_UpdateItemBox:
         
         STA.b $02
 
-        ; Insert jump here check for 0x15 in X then branch off, interject gfx,
+        ; Insert jump here check for 0x15 in X then branch off, interject GFX,
         ; and return to .noEquippedItem, otherwise insert the next line again 
         ; and return to LDA.w ItemMenu_ItemGFXPointers.
         TXA : DEC A : ASL A : TAX ; (x-1)*2.

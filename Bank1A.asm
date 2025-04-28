@@ -55,7 +55,7 @@ NULL_1AF430:
 ; ==============================================================================
 
 ; $0D7500-$0D758F DATA
-SpriteDraw_BatCrash_oam_group:
+SpriteDraw_BatCrash_OAM_group:
 {
     ; $0D7500
     .00
@@ -135,7 +135,7 @@ incsrc "sprite_retreat_bat.asm"
 ; $0D785C-$0D788B DATA
 Pool_DrinkingGuy_Draw:
 {
-    .oam_groups
+    .OAM_groups
     dw 8,  2 : db $AE, $00, $00, $00
     dw 0, -9 : db $22, $08, $00, $02
     dw 0,  0 : db $06, $00, $00, $02
@@ -154,8 +154,8 @@ DrinkingGuy_Draw:
     
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #(.oam_groups)              : STA.b $08
-    LDA.b #(.oam_groups) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups)              : STA.b $08
+    LDA.b #(.OAM_groups) : ADC.b #$00 : STA.b $09
     
     LDA.b #$03 : STA.b $06
                  STZ.b $07
@@ -406,7 +406,7 @@ incsrc "sprite_movable_mantle.asm"
 ; $0D7CED-$0D7DAC DATA
 Pool_Mothula_Draw:
 {
-    .oam_groups
+    .OAM_groups
     dw -24,  -8 : db $80, $00, $00, $02
     dw  -8,  -8 : db $82, $00, $00, $02
     dw   8,  -8 : db $82, $40, $00, $02
@@ -478,7 +478,7 @@ Mothula_Draw:
         LDY.b #$28
         LDX.b #$08
 
-        .next_oam_entry
+        .next_OAM_entry
 
             PHX
             
@@ -514,7 +514,7 @@ Mothula_Draw:
             LDA.b #$02 : ORA.b $0F : STA ($92), Y
             
             PLY : INY
-        PLX : DEX : BPL .next_oam_entry
+        PLX : DEX : BPL .next_OAM_entry
         
         PLX
     

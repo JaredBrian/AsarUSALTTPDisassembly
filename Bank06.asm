@@ -735,7 +735,7 @@ Oam_ResetRegionBases_bases:
 
 ; ==============================================================================
 
-; NOTE: Appears to reset oam regions every frame that the sprite handlers are
+; NOTE: Appears to reset OAM regions every frame that the sprite handlers are
 ; active. Whether these are just for sprites themselves and not object
 ; handlers, I dunno.
 ; $0303D3-$0303E5 LOCAL JUMP LOCATION
@@ -745,10 +745,10 @@ Oam_ResetRegionBases:
     
     REP #$20
     
-    .next_oam_region
+    .next_OAM_region
     
         LDA.w .bases, Y : STA.w $0FE0, Y
-    INY #2 : CPY.b #$0B : BCC .next_oam_region
+    INY #2 : CPY.b #$0B : BCC .next_OAM_region
     
     SEP #$20
     
@@ -1060,7 +1060,7 @@ SpriteExplode_Main:
 Pool_SpriteDrown_Main:
 {
     ; $03054D
-    .oam_groups
+    .OAM_groups
     dw -7, -7 : db $80, $04, $00, $00
     dw 14, -6 : db $83, $04, $00, $00
     
@@ -1177,7 +1177,7 @@ Drowning_DrawSprite:
     
     REP #$20
     
-    ASL A : AND.w #$00F8 : ASL A : ADC.w #Pool_SpriteDrown_Main_oam_groups : STA.b $08
+    ASL A : AND.w #$00F8 : ASL A : ADC.w #Pool_SpriteDrown_Main_OAM_groups : STA.b $08
     
     SEP #$20
     
@@ -3969,7 +3969,7 @@ Pool_SpritePoof_Main:
     db $24, $E4, $E4, $E4
     db $24, $E4, $E4, $E4
     
-    .oam_sizes
+    .OAM_sizes
     db $00, $00, $00, $00
     db $00, $00, $00, $00
     db $02, $02, $02, $02
@@ -4022,7 +4022,7 @@ SpritePoof_Main:
     
     LDX.b #$03
     
-    .next_oam_entry
+    .next_OAM_entry
     
         PHX
         
@@ -4037,10 +4037,10 @@ SpritePoof_Main:
         
         TYA : LSR #2 : TAY
         
-        LDA.w .oam_sizes, X : STA ($92), Y
+        LDA.w .OAM_sizes, X : STA ($92), Y
         
         PLY : INY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     PLX
     
@@ -8162,7 +8162,7 @@ SpriteDeath_DrawPerishingOverlay:
     
     LDA.w $0DF0, X : AND.b #$1C : EOR.b #$1C : CLC : ADC.b $00 : TAX
     
-    .next_oam_entry
+    .next_OAM_entry
     
         PHY
         
@@ -8187,7 +8187,7 @@ SpriteDeath_DrawPerishingOverlay:
         PLY : INY #4
         
         DEX
-    DEC.b $00 : BPL .next_oam_entry
+    DEC.b $00 : BPL .next_OAM_entry
     
     PLX
     
@@ -8475,7 +8475,7 @@ SpriteDraw_FallingHumanoid:
     
     STX.b $07
     
-    .next_oam_entry
+    .next_OAM_entry
     
         PHX
         
@@ -8500,7 +8500,7 @@ SpriteDraw_FallingHumanoid:
         LDA.w Pool_SpriteDraw_FallingHumanoid_size, X : STA ($92), Y
         
         PLY : INY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     PLX
     
@@ -8551,7 +8551,7 @@ Sprite_CorrectOamEntries:
     
     LDX.b $92 : STX.b $0E
     
-    .next_oam_entry
+    .next_OAM_entry
     
         LDX.b $0E
         
@@ -8581,7 +8581,7 @@ Sprite_CorrectOamEntries:
             
             ; Restore the X bit, as it's been show to be in exceess of 0x100...
             ; This whole routine is kind of wonky and I have to wonder if it's
-            ; buggy as well? (Compared to other oam handler code I've seen.)
+            ; buggy as well? (Compared to other OAM handler code I've seen.)
             INC.b $00, X
         
         .on_screen_x
@@ -8606,7 +8606,7 @@ Sprite_CorrectOamEntries:
         INX #3 : STX.b $0C
         
         INC.b $0E
-    DEC.b $08 : BPL .next_oam_entry
+    DEC.b $08 : BPL .next_OAM_entry
     
     SEP #$10
     

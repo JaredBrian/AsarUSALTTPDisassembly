@@ -2347,7 +2347,7 @@ RoomDraw_DoorSwitcherer:
     
     ; Check to see which BG we're on.
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2
-        ; Using BG1 so use an address that indexes into its wram tilemap.
+        ; Using BG1 so use an address that indexes into its WRAM tilemap.
         TYA : ORA.w #$2000 : STA.w $04B0 : TAY
     
     .onBG2
@@ -10518,7 +10518,7 @@ RoomTag_MovingWall_East:
                 ; Play the puzzle solved sound.
                 LDX.b #$1B : STX.w $012F
                 
-                ; "silence" ambient sfx.
+                ; "silence" ambient SFX.
                 LDX.b #$05 : STX.w $012D
                 
                 LDX.b $0E
@@ -10615,7 +10615,7 @@ RoomTag_MovingWall_West:
                 ; Play the puzzle solved sound.
                 LDX.b #$1B : STX.w $012F
                 
-                ; "silence" ambient sfx.
+                ; "silence" ambient SFX.
                 LDX.b #$05 : STX.w $012D
                 
                 LDX.b $0E
@@ -10751,7 +10751,7 @@ RoomTag_WaterOff:
         
         LDA.b #$01 : STA.w $0424
         
-        JSL.l Hdma_ConfigureWaterTable
+        JSL.l HDMA_ConfigureWaterTable
         
         ; Change to "Turn off Water" dungeon submodule.
         LDA.b #$0B : STA.b $11
@@ -12664,7 +12664,7 @@ Dungeon_EraseInteractive2x2:
     
     SEP #$20
     
-    ; A dma transfer should trigger during the next frame that will
+    ; A DMA transfer should trigger during the next frame that will
     ; update the 4 tilemap entries we have indicated in VRAM.
     LDA.b #$01 : STA.b $14
     
@@ -15508,7 +15508,7 @@ Dungeon_OpenKeyedObject:
     LDA.b $06 : STA.w $1012, X
     LDA.b $08 : STA.w $1018, X
     
-    ; Two bytes for each dma transfer. Source address increment mode is
+    ; Two bytes for each DMA transfer. Source address increment mode is
     ; incremental, VRAM address increment mode is horizontal.
     LDA.w #$0100
     STA.w $1004, X : STA.w $100A, X : STA.w $1010, X : STA.w $1016, X
@@ -15525,11 +15525,11 @@ Dungeon_OpenKeyedObject:
     JSR.w Dungeon_SaveRoomQuadrantData
     
     ; Is there a sound channel available?
-    LDA.w $012F : BNE .sfx3ChannelNotAvailable
+    LDA.w $012F : BNE .SFX3ChannelNotAvailable
         ; Make the "chest opening" noise.
         LDA.b #$0E : STA.w $012F
     
-    .sfx3ChannelNotAvailable
+    .SFX3ChannelNotAvailable
     
     REP #$30
     
@@ -15881,7 +15881,7 @@ IncrementallyDrainSwampPool:
             
             INC.w $0424
             
-            JSL.l Hdma_ConfigureWaterTable
+            JSL.l HDMA_ConfigureWaterTable
             
             RTL
     
@@ -15891,7 +15891,7 @@ IncrementallyDrainSwampPool:
     
     INC.w $0424
     
-    JSL.l Hdma_ConfigureWaterTable
+    JSL.l HDMA_ConfigureWaterTable
     
     RTL
     
@@ -16214,7 +16214,7 @@ Underworld_FloodSwampWater_RiseInLevel:
     
     INC.w $0424
     
-    JSL.l Hdma_ConfigureWaterTable
+    JSL.l HDMA_ConfigureWaterTable
     
     RTL
     
@@ -16671,7 +16671,7 @@ Dungeon_ElevateStaircasePriority:
     
     JSR.w Dungeon_PrepOverlayDma_nextPrep
     
-    ; Finalizes oam buffer...
+    ; Finalizes OAM buffer...
     JMP.w RoomDraw_CloseStripes
 }
 
@@ -16903,7 +16903,7 @@ Dungeon_PrepOverlayDma:
     
     ; If A < 0x3A.
     LDA.b $08 : AND.w #$003F : CMP.w #$003A : BCC .useHorizontalDma
-        ; As opposed to vertical dma (VRAM).
+        ; As opposed to vertical DMA (VRAM).
         INC.b $06
 
     .useHorizontalDma
@@ -16961,7 +16961,7 @@ ClearAndStripeExplodingWall_offset:
     dw $0500, $0600, $0700, $0800
 }
 
-; Routine used with blast walls to prep VRAM updates for nmi.
+; Routine used with blast walls to prep VRAM updates for NMI.
 ; $00F811-$00F907 LOCAL JUMP LOCATION
 ClearAndStripeExplodingWall:
 {

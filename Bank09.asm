@@ -8398,7 +8398,7 @@ RoomData_Sprites_Empty:
 ; ==============================================================================
 
 ; $04EC9F-$04ED9E DATA
-SpriteExplode_Execute_oam_groups:
+SpriteExplode_Execute_OAM_groups:
 {
     dw  0,  0 : db $60, $00, $00, $02
     dw  0,  0 : db $60, $00, $00, $02
@@ -8490,7 +8490,7 @@ SpriteExplode_Execute:
         
         REP #$20
         
-        ASL #5 : ADC.w #Pool_SpriteExplode_Execute_oam_groups : STA.b $08
+        ASL #5 : ADC.w #Pool_SpriteExplode_Execute_OAM_groups : STA.b $08
         
         SEP #$20
         
@@ -8628,17 +8628,17 @@ Explode_SpawnExplosion:
     
     .not_helmasaur_king
     
-    LDA.w $0DF0, X : CMP.b #$C0 : BCC .generate_explosion_sfx_and_sprites
+    LDA.w $0DF0, X : CMP.b #$C0 : BCC .generate_explosion_SFX_and_sprites
         RTS
     
-    .generate_explosion_sfx_and_sprites
+    .generate_explosion_SFX_and_sprites
     
     PHA
     
-    AND.b #$03 : BNE .explosion_sfx_delay
+    AND.b #$03 : BNE .explosion_SFX_delay
         LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
     
-    .explosion_sfx_delay
+    .explosion_SFX_delay
     
     PLA : AND.b $0E : BNE .anospawn_explosion_sprite
         ; Spawn a moveable statue.
@@ -8917,7 +8917,7 @@ ScatterDebris_Draw:
     
     LDX.b #$02
     
-    .next_oam_entry
+    .next_OAM_entry
     
         PHX
         
@@ -8949,7 +8949,7 @@ ScatterDebris_Draw:
         LDA.b $0F : STA ($92), Y
         
         PLY : INY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     PLX
     

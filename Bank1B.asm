@@ -3909,12 +3909,12 @@ AnimateEntrance_TurtleRock_step6:
 AnimateEntrance_TurtleRock_step7:
 {
     LDA.b $1A : LSR A : BCS .exit
-        LDA.b $C8 : AND.b #$07 : BNE .skip_sfx7
+        LDA.b $C8 : AND.b #$07 : BNE .skip_SFX7
             JSL.l PaletteFilter_Restore
             
             LDA.b #$02 : STA.w $012F
         
-        .skip_sfx7
+        .skip_SFX7
         
         DEC.b $C8 : BNE .exit
             LDA.b #$30 : STA.b $C8
@@ -4047,7 +4047,7 @@ Pool_Overworld_AnimateEntrance_GanonsTower:
     dw AnimateEntrance_GanonsTower_step09
     dw AnimateEntrance_GanonsTower_step10
     dw AnimateEntrance_GanonsTower_step11 ; Place the last step of Ganon's Tower.
-    dw AnimateEntrance_GanonsTower_step12 ; Restore music, play some sfx, and let Link move again.
+    dw AnimateEntrance_GanonsTower_step12 ; Restore music, play some SFX, and let Link move again.
 }
 
 ; $0DCFD9-$0DCFDF JUMP LOCATION

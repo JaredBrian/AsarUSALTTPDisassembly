@@ -694,7 +694,7 @@ Intro_Init:
 
 ; ==============================================================================
 
-; Zerores out a 0x400 byte chunk of wram.
+; Zerores out a 0x400 byte chunk of WRAM.
 ; $0641A0-$0641F4 JUMP LOCATION
 Intro_InitWram:
 {
@@ -2862,7 +2862,7 @@ CopySaveToWRAM:
     ; The SRAM offset based on which save slot you picked.
     LDY.w #$0000 : LDX.b $00
     
-    .sramLoadLoop
+    .SRAMLoadLoop
     
         ; Loads the save file from SRAM into WRAM ($7EF000-$7EF4FF).
         LDA.l $700000, X : STA.w $F000, Y
@@ -2872,7 +2872,7 @@ CopySaveToWRAM:
         LDA.l $700400, X : STA.w $F400, Y
         
         INX #2
-    INY #2 : CPY.w #$0100 : BNE .sramLoadLoop
+    INY #2 : CPY.w #$0100 : BNE .SRAMLoadLoop
 
     ; Restore the previous bank.
     PLB
@@ -3975,20 +3975,20 @@ Pool_FileSelect_DrawLink:
     db $83 ; File 3
 
     ; $06569C
-    .oam_offset
+    .OAM_offset
     db $28 ; File 1
     db $3C ; File 2
     db $50 ; File 3
 
     ; $06569F
-    .sword_gfx
+    .sword_GFX
     db $85 ; Fighter sword
     db $A1 ; Master sword
     db $A1 ; Tempered sword
     db $A1 ; Gold sword
 
     ; $0656A3
-    .shield_gfx
+    .shield_GFX
     db $C4 ; Fighter shield
     db $CA ; Fire shield
     db $E0 ; Mirror shield
@@ -4033,7 +4033,7 @@ FileSelect_DrawLink:
     LDA.b $00 : LSR A : TAY
     
     ; A -> #$28, #$3C, #$50 in Decimal 40, 60, 80.
-    LDA.w Pool_FileSelect_DrawLink_oam_offset, Y : TAX
+    LDA.w Pool_FileSelect_DrawLink_OAM_offset, Y : TAX
     
     ; $D698 -> $65698 #$34 = 52
     ; A -> #$40 = 64
@@ -4079,7 +4079,7 @@ FileSelect_DrawLink:
     
     ; A -> #$85, #$A1, #$A1, #$A1 (#$85 is for the fighter sword shape).
     ; I guess this is where the sprite data for the sword is kept.
-    LDA.w Pool_FileSelect_DrawLink_sword_gfx, Y : STA.w $0802, X
+    LDA.w Pool_FileSelect_DrawLink_sword_GFX, Y : STA.w $0802, X
     
     ; Adding 0x10 gives you the lower part of the sword. (0x95 or 0xB1)
     ; So this is also tile data apparently.
@@ -4134,7 +4134,7 @@ FileSelect_DrawLink:
     .hasShield
     
     ; Tells us which graphic to use for the shield.
-    LDA.w Pool_FileSelect_DrawLink_shield_gfx, Y : STA.w $0802, X
+    LDA.w Pool_FileSelect_DrawLink_shield_GFX, Y : STA.w $0802, X
     
     ; We're back to Y = 0x0, 0x1, or 0x2.
     PLY
@@ -5860,7 +5860,7 @@ Attract_InitGraphics:
     
     SEP #$10
     
-    JSR.w Attract_SetupHdma
+    JSR.w Attract_SetupHDMA
     
     STZ.b $96
     STZ.b $97
@@ -6277,7 +6277,7 @@ AttractScene_EndOfStory:
 {
     REP #$20
     
-    JSL.l OverworldMap_PrepExit_restoreHdmaSettings
+    JSL.l OverworldMap_PrepExit_restoreHDMASettings
 }
 
 ; $0670E2-$067114 LONG JUMP LOCATION
@@ -6471,7 +6471,7 @@ Pool_Attract_ThroneRoom:
     db $20 ; Mantle
     
     ; $0671C6
-    .oam_count
+    .OAM_count
     db $03 ; King
     db $05 ; Mantle
 }
@@ -6550,7 +6550,7 @@ Attract_ThroneRoom:
             
             LDA.b $00 : STA.b $29
             
-            LDA.l Pool_Attract_ThroneRoom_oam_count, X : TAY
+            LDA.l Pool_Attract_ThroneRoom_OAM_count, X : TAY
             
             JSR.w Attract_DrawSpriteSet
         
@@ -6657,7 +6657,7 @@ Attract_ZeldaPrison:
         JSL.l Sprite_ResetProperties
         
         ; I think that this animates the soldiers leading the prisoner away.
-        ; As in, generates their appearance and puts it into oam and such.
+        ; As in, generates their appearance and puts it into OAM and such.
         ; Kind of like a marionette being controlled by a puppeteer, but one
         ; frame at a time.
         JSL.l Sprite_SimulateSoldier
@@ -7082,7 +7082,7 @@ DramagahnimSpellPropPointer:
 }
 
 ; $06758A-$067591 DATA
-Dramagahnim_ReadySpell_oam_count:
+Dramagahnim_ReadySpell_OAM_count:
 {
     db  1
     db  1
@@ -7115,7 +7115,7 @@ Dramagahnim_ReadySpell:
     
     LDA.b $51 : LSR A : AND.b #$07 : TAX
     
-    LDA.l Dramagahnim_ReadySpell_oam_count, X : TAY
+    LDA.l Dramagahnim_ReadySpell_OAM_count, X : TAY
     
     JSR.w Attract_DrawSpriteSet
     
@@ -7155,7 +7155,7 @@ Dramagahnim_ReadySpell:
 Pool_Dramagahnim_CastSpell:
 {
     ; $0675FB
-    .oam_count
+    .OAM_count
     db  3
     db  3
     db  7
@@ -7207,7 +7207,7 @@ Dramagahnim_CastSpell:
     
     LDX.b $00
     
-    LDA.w Pool_Dramagahnim_CastSpell_oam_count, X : TAY
+    LDA.w Pool_Dramagahnim_CastSpell_OAM_count, X : TAY
     
     JSR.w Attract_DrawSpriteSet
     
@@ -7344,7 +7344,7 @@ Attract_Exit:
         
         REP #$20
         
-        JSL.l OverworldMap_PrepExit_restoreHdmaSettings
+        JSL.l OverworldMap_PrepExit_restoreHDMASettings
         
         REP #$20
         
@@ -7450,7 +7450,7 @@ Attract_AdjustMapZoom:
     
     LDX.w #$01BE
     
-    .adjustHdmaTableLoop
+    .adjustHDMATableLoop
     
         LDA.l WorldMapHDMA_ZoomedOut_Part1+0, X : STA.w SNES.MultiplierB
         
@@ -7466,7 +7466,7 @@ Attract_AdjustMapZoom:
         ; multiplying $0637 (byte) by the current word from the table.
         LDA.b $00   : CLC : ADC.w SNES.RemainderResultLow  : STA.w $1B00, X
         LDA.w SNES.RemainderResultHigh : ADC.b #$00 : STA.w $1B01, X
-    DEX #2 : BPL .adjustHdmaTableLoop
+    DEX #2 : BPL .adjustHDMATableLoop
     
     SEP #$10
     
@@ -7781,7 +7781,7 @@ Attract_WindowingHDMA:
 
 ; Note: This sets up the windowing via HDMA for the legend sequence.
 ; $067AA3-$067AC1 LOCAL JUMP LOCATION
-Attract_SetupHdma:
+Attract_SetupHDMA:
 {
     LDX.b #$04
     

@@ -371,7 +371,7 @@ Messaging_BirdTravel:
     LDA.w $0200
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw OverworldMap_Backup           ; 0x00 - $B9A3 Also handles fading to black
-    dw BirdTravel_InitGfx            ; 0x01 - $B74B On the last frame of fading load the map gfx
+    dw BirdTravel_InitGfx            ; 0x01 - $B74B On the last frame of fading load the map GFX
     dw OverworldMap_LoadSprGfx       ; 0x02 - $BA9A
     dw OverworldMap_BrightenScreen   ; 0x03 - $BAAA
     dw BirdTravel_InitCounter        ; 0x04 - $B753
@@ -1133,7 +1133,7 @@ OverworldMap_PrepExit:
         LDA.l $7EC211 : STA.b $1C
 
         ; $053C33 ALTERNATE ENTRY POINT
-        .restoreHdmaSettings
+        .restoreHDMASettings
 
         ; Restore HDMA settings on channel 7.
         
@@ -1836,7 +1836,7 @@ WorldMap_HandleSprites:
 
     LDX.b #$01
     
-    JSR.w Overworldmap_CheckPendant : BCS .BRANCH_MU
+    JSR.w OverworlDMAp_CheckPendant : BCS .BRANCH_MU
         JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_MU
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
@@ -1891,7 +1891,7 @@ WorldMap_HandleSprites:
 
     LDX.b #$02
     
-    JSR.w Overworldmap_CheckPendant : BCS .BRANCH_RHO
+    JSR.w OverworlDMAp_CheckPendant : BCS .BRANCH_RHO
         JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_RHO
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
@@ -2522,7 +2522,7 @@ OverworldMap_CheckForPendant_bit:
 }
 
 ; $0545A9-$0545BE LOCAL JUMP LOCATION
-Overworldmap_CheckPendant:
+OverworlDMAp_CheckPendant:
 {
     ; X is an input variable to this function.
     
@@ -5733,7 +5733,7 @@ DungeonMap_DrawFloorBlinker:
         RTS
 
     ; $056D4E
-    .oam_data_offset
+    .OAM_data_offset
     db $00, $08
 
     ; $056D50
@@ -5769,7 +5769,7 @@ DungeonMap_DrawFloorBlinker:
         LDA.b #$03 : STA.b $0C
         
         LDX.b $0D
-        LDA.w DungeonMap_DrawFloorBlinker_oam_data_offset, X : TAY
+        LDA.w DungeonMap_DrawFloorBlinker_OAM_data_offset, X : TAY
 
         .BRANCH_GAMMA
 

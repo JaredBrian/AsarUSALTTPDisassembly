@@ -2825,7 +2825,7 @@ Pool_SpriteDraw_Archer_Weapon:
     db $4D, $CD, $CD, $CD
 
     ; $02D4D0
-    .oam_offset
+    .OAM_offset
     db $09
     db $03
     db $00
@@ -2840,7 +2840,7 @@ SpriteDraw_Archer_Weapon:
         
         LDY.w $0DE0, X
         
-        LDA.w Pool_SpriteDraw_Archer_Weapon_oam_offset, Y
+        LDA.w Pool_SpriteDraw_Archer_Weapon_OAM_offset, Y
         
         PLY
         
@@ -2920,14 +2920,14 @@ Sprite_DrawMultiple:
     ; $02DF70 ALTERNATE ENTRY POINT
     .quantity_preset
     
-    JSR.w SpriteDraw_Tabulated_prep_oam
+    JSR.w SpriteDraw_Tabulated_prep_OAM
     
     BRA .moving_on
     
     ; $02DF75 ALTERNATE ENTRY POINT
     .player_deferred
     
-    JSR.w SpriteDraw_Tabulated_prep_oam_deferred
+    JSR.w SpriteDraw_Tabulated_prep_OAM_deferred
     
     .moving_on
     
@@ -2944,7 +2944,7 @@ Sprite_DrawMultiple:
     
     LDX.w $0090
     
-    .next_oam_entry
+    .next_OAM_entry
     
         LDA ($08), Y : CLC : ADC.b $00 : STA.w $0000, X
         AND.w #$0100 : STA.b $0C
@@ -2987,7 +2987,7 @@ Sprite_DrawMultiple:
         INY
         
         INX #4
-    DEC.b $06 : BNE .next_oam_entry
+    DEC.b $06 : BNE .next_OAM_entry
     
     SEP #$30
     
@@ -3002,7 +3002,7 @@ Sprite_DrawMultiple:
 
 ; Has two return values (CLC and SEC)
 ; $02DFE5-$02DFE8 LOCAL JUMP LOCATION
-SpriteDraw_Tabulated_prep_oam_deferred:
+SpriteDraw_Tabulated_prep_OAM_deferred:
 {
     ; Optinally alter OAM allocation region.
     JSL.l Sprite_OAM_AllocateDeferToPlayerLong
@@ -3011,7 +3011,7 @@ SpriteDraw_Tabulated_prep_oam_deferred:
 }
     
 ; $02DFE9-$02E00A LOCAL JUMP LOCATION
-SpriteDraw_Tabulated_prep_oam:
+SpriteDraw_Tabulated_prep_OAM:
 {
     ; Note: it is possible for this callee to abort the caller (namely, the
     ; routine we are in right now).

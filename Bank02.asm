@@ -447,10 +447,10 @@ Module_PreDungeon:
 
     JSR.w Dungeon_LoadPalettes
 
-    LDA.w $02E0 : ORA.b $56 : BEQ .player_not_using_bunny_gfx
+    LDA.w $02E0 : ORA.b $56 : BEQ .player_not_using_bunny_GFX
         JSL.l LoadGearPalettes_bunny
 
-    .player_not_using_bunny_gfx
+    .player_not_using_bunny_GFX
 
     REP #$30
 
@@ -1029,7 +1029,7 @@ Credits_LoadScene_PrepGFX:
     dw $0180 ; Master Sword
 
     ; $0105E2
-    .sprite_gfx
+    .sprite_GFX
     dw $4628
     dw $2E27
     dw $2B2B
@@ -1111,7 +1111,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     LDA.b $11 : LSR A : TAX
 
-    LDA.l Credits_LoadScene_PrepGFX_sprite_gfx, X : STA.w $0AA3
+    LDA.l Credits_LoadScene_PrepGFX_sprite_GFX, X : STA.w $0AA3
 
     LDA.l Credits_LoadScene_PrepGFX_sprite_palette, X : PHA
 
@@ -1271,7 +1271,7 @@ Credits_LoadScene_Dungeon:
 
     LDA.b $11 : LSR A : TAX
 
-    LDA.l Credits_LoadScene_PrepGFX_sprite_gfx, X
+    LDA.l Credits_LoadScene_PrepGFX_sprite_GFX, X
     STA.w $0AA3
 
     LDA.l Credits_LoadScene_PrepGFX_sprite_palette, X
@@ -4870,10 +4870,10 @@ HoleToDungeon_LoadDungeon:
 
     JSR.w Dungeon_ResetTorchBackgroundAndPlayer
 
-    LDA.w $02E0 : BEQ .using_normal_player_gfx
+    LDA.w $02E0 : BEQ .using_normal_player_GFX
         JSL.l LoadGearPalettes_bunny
 
-    .using_normal_player_gfx
+    .using_normal_player_GFX
 
     LDA.b #$80 : STA.b $9B
 
@@ -5152,7 +5152,7 @@ Mirror_Init:
     LDA.b #$08 : STA.w $012C
                  STA.w $0410
 
-    JSL.l Mirror_InitHdmaSettings
+    JSL.l Mirror_InitHDMASettings
 
     STZ.w $0200
 
@@ -6314,13 +6314,13 @@ Module_OverworldTable:
     dw Overworld_StartMosaicTransition      ; 0x17 #$17 - #$1C occurs entering Master Sword area.
     dw Module09_18                          ; 0x18 Load exit data and palettes for special areas?
     dw Module09_19                          ; 0x19 Loads map data for module B?
-    dw Overworld_LoadTransGfx               ; 0x1A Starts loading new gfx on a module B scrolling transition ; Run when entering a special area.
-    dw Overworld_FinishTransGfx             ; 0x1B Finishes loading new gfx.
+    dw Overworld_LoadTransGfx               ; 0x1A Starts loading new GFX on a module B scrolling transition ; Run when entering a special area.
+    dw Overworld_FinishTransGfx             ; 0x1B Finishes loading new GFX.
     dw Module09_1C                          ; 0x1C $013150
     dw Module09_1D                          ; 0x1D $012ECE
     dw Module09_1E                          ; 0x1E $012EEA
     dw Module09_1F                          ; 0x1F $0142A4 Coming out of Lost woods.
-    dw Overworld_ReloadSubscreenOverlay     ; 0x20 Coming back from Overworld Map.... reloads subscreen overlay to wram?
+    dw Overworld_ReloadSubscreenOverlay     ; 0x20 Coming back from Overworld Map.... reloads subscreen overlay to WRAM?
     dw Overworld_LoadAmbientOverlay         ; 0x21 Coming back from Overworld Map.... sends command to reupload subscreen overlay to VRAM?
     dw Overworld_BrightenScreen             ; 0x22 $0131BB - Brightens screen.
     dw Overworld_MirrorWarp                 ; 0x23 Magic Mirror routine (normal warp between worlds).
@@ -7049,7 +7049,7 @@ Overworld_LoadNewMapAndGfx:
 
     ; This mess all looks like it does map16 to map8 conversion, and the
     ; subsequent one sets up the system to blit it to VRAM during the next
-    ; vblank.
+    ; VBlank.
     JSR.w Overworld_StartTransMapUpdate
 
     JSL.l LoadNewSpriteGFXSet
@@ -8088,7 +8088,7 @@ Overworld_InitMirrorWarp:
 
     LDA.b #$90 : STA.w $031F
 
-    JSL.l Mirror_InitHdmaSettings
+    JSL.l Mirror_InitHDMASettings
 
     ; SWAP DARKWORLD / LIGHTWORLD STATUS
     LDA.l $7EF3CA : EOR.b #$40 : STA.l $7EF3CA
@@ -8120,13 +8120,13 @@ Overworld_FinishMirrorWarp:
 
     LDA.w #$FF00
 
-    .clear_hdma_table
+    .clear_HDMA_table
 
         STA.w $1B00, X : STA.w $1B40, X
         STA.w $1B80, X : STA.w $1BC0, X
         STA.w $1C00, X : STA.w $1C40, X
         STA.w $1C80, X
-    DEX #2 : BPL .clear_hdma_table
+    DEX #2 : BPL .clear_HDMA_table
 
     LDA.w #$0000 : STA.l $7EC007 : STA.l $7EC009
 
@@ -8348,7 +8348,6 @@ Overworld_Whirlpool:
     INC.w $0710
 
     LDA.b $B0
-
     JSL.l UseImplicitRegIndexedLocalJumpTable
 
     dw Whirlpool_InitWhirlpool        ; 0x00 - $B432
@@ -9219,7 +9218,7 @@ AdjustQuadrantAndCamera_right:
     ; Bleeds into the next function.
 }
 
-; Update qudrants visited and store to srams
+; Update qudrants visited and store to SRAMs
 ; $0138CB-$0138E4 LONG JUMP LOCATION
 SetAndSaveVisitedQuadrantFlags:
 {
@@ -11289,11 +11288,11 @@ CleanUpAndPrepDesertPrayerHDMA:
     ; Set up this channel we'll be using for HDMA (spotlight?).
     LDX.b #$04
 
-    .configure_dma_channel
+    .configure_DMA_channel
 
-        LDA.w Pool_CleanUpAndPrepDesertPrayerHDMA_hdma_props, X
+        LDA.w Pool_CleanUpAndPrepDesertPrayerHDMA_HDMA_props, X
         STA.w DMA.7_TransferParameters, X
-    DEX : BPL .configure_dma_channel
+    DEX : BPL .configure_DMA_channel
 
     LDA.b #$00 : STA.w DMA.7__DataBank
 
@@ -11333,7 +11332,7 @@ UNUSED_$02C7F2:
     ; be some sort of .... disabled HDMA table (note the presence of $1B00 and
     ; $1BF0 in this data) this information appears to be unused in the final
     ; product.
-    .unused_hdma_data
+    .unused_HDMA_data
     db $01 : dw $FF00 ; 1 line
     db $01 : dw $FF00 ; 1 line
     db $01 : dw $FF00 ; 1 line
@@ -11341,7 +11340,7 @@ UNUSED_$02C7F2:
     db $81 : dw $0000 ; 1 line continuous
     db $00 ; End
 
-    .unused_hdma_props
+    .unused_HDMA_props
     db $01 ; Direct transfer, 2 registers write once
     db $26
     dl $001B00 ; Table location
@@ -11350,7 +11349,7 @@ UNUSED_$02C7F2:
 ; $014807-$014812 DATA TABLE
 Pool_CleanUpAndPrepDesertPrayerHDMA:
 {
-    .hdma_props
+    .HDMA_props
     db $41 ; Indirect transfer, 2 registers write once
     db $26
     dl .indirect_table
@@ -13820,12 +13819,12 @@ Pool_LoadSpecialOverworld:
     db $00, $00, $00, $00, $00, $00, $00, $00
 
     ; $016811
-    .gfx_0AA3
+    .GFX_0AA3
     db $0C, $0C, $0E, $0E, $0E, $10, $10, $10
     db $0E, $0E, $0E, $0E, $10, $10, $10, $10
 
     ; $016821
-    .gfx_0AA2
+    .GFX_0AA2
     db $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F
     db $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F
 
@@ -13905,10 +13904,10 @@ LoadSpecialOverworld:
     STZ.w $0412
 
     ; GFX $0AA3
-    LDA.l Pool_LoadSpecialOverworld_gfx_0AA3, X : STA.w $0AA3
+    LDA.l Pool_LoadSpecialOverworld_GFX_0AA3, X : STA.w $0AA3
 
     ; GFX $0AA2
-    LDA.l Pool_LoadSpecialOverworld_gfx_0AA2, X : STA.w $0AA2
+    LDA.l Pool_LoadSpecialOverworld_GFX_0AA2, X : STA.w $0AA2
     
     PHX
 
@@ -15456,7 +15455,7 @@ CreateMap16Stripes_Horizontal:
     DEC.b $06 : BNE .copyToNmiBuf
 
     ; 0x10 map16 tiles = 0x40 bytes of map8 data
-    ; And there's also 2 bytes of header information in the nmi buffer, so
+    ; And there's also 2 bytes of header information in the NMI buffer, so
     ; we advance by that much.
     TYA : CLC : ADC.w #$0042 : STA.b $0E
 
@@ -16152,7 +16151,7 @@ LoadSubscreenOverlay:
     JSR.w Map16ToMap8_subscreenOverlay
 
     ; Trigger an NMI routine that will upload the subscreen overlay to
-    ; VRAM during vblank.
+    ; VRAM during VBlank.
     LDA.b #$04 : STA.b $17 : STA.w $0710
 
     INC.b $11
