@@ -337,7 +337,7 @@ YellowStalfos_DetachHead:
 ; ==============================================================================
 
 ; $0F45A5-$0F4654 DATA
-YellowStalfos_Draw_oam_groups:
+YellowStalfos_Draw_OAM_groups:
 {
     dw 0, 0 : db $0A, $00, $00, $02
     dw 0, 0 : db $0A, $00, $00, $02
@@ -377,7 +377,7 @@ YellowStalfos_Draw_oam_groups:
 YellowStalfos_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.OAM_groups : STA.b $08
     
     LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     

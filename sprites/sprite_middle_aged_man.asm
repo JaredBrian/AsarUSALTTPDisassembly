@@ -175,7 +175,7 @@ MiddleAgedMan_SilenceDueToOtherTagalong:
 ; ==============================================================================
 
 ; $033D9C-$033DAB DATA
-MiddleAgedMan_Draw_oam_groups:
+MiddleAgedMan_Draw_OAM_groups:
 {
     dw 0, -8 : db $EA, $00, $00, $02
     dw 0,  0 : db $EC, $00, $00, $02
@@ -187,8 +187,8 @@ MiddleAgedMan_Draw:
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     
-    LDA.b #.oam_groups    : STA.b $08
-    LDA.b #.oam_groups>>8 : STA.b $09
+    LDA.b #.OAM_groups    : STA.b $08
+    LDA.b #.OAM_groups>>8 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JMP Sprite_DrawShadow

@@ -18,7 +18,7 @@ Sprite_MadBatterBoltLong:
 Sprite_MadBatterBolt:
 {
     LDA.w $0E80, X : AND.b #$10 : BEQ .in_front_of_player
-        ; NOTE: Seems we have some confirmation that this oam region is for
+        ; NOTE: Seems we have some confirmation that this OAM region is for
         ; putting sprites behind the player...
         LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
     
@@ -60,10 +60,10 @@ MadBatterBolt_Active:
     
     .dont_self_terminate
     
-    INC.w $0E80, X : LDA.w $0E80, X : PHA : AND.b #$07 : BNE .dont_play_sfx
+    INC.w $0E80, X : LDA.w $0E80, X : PHA : AND.b #$07 : BNE .dont_play_SFX
         LDA.b #$30 : STA.w $012F
     
-    .dont_play_sfx
+    .dont_play_SFX
     
     PLA : LSR #2 : PHA : AND.b #$07 : TAY
     

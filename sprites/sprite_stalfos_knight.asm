@@ -362,7 +362,7 @@ StalfosKnight_CelebrateStandingUp:
 ; ==============================================================================
 
 ; $0F2CEC-$0F2E03 DATA
-StalfosKnight_Draw_oam_groups:
+StalfosKnight_Draw_OAM_groups:
 {
     dw -4, -8 : db $64, $00, $00, $00
     dw -4,  0 : db $61, $00, $00, $02
@@ -416,7 +416,7 @@ StalfosKnight_Draw:
     LDA.b #$00 : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL #2 : ADC.b $00
     
-    ADC.w #.oam_groups : STA.b $08
+    ADC.w #.OAM_groups : STA.b $08
     
     LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     

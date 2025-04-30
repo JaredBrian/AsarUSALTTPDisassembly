@@ -176,7 +176,7 @@ Lynel_Attack:
 ; ==============================================================================
 
 ; $0E8778-$0E887F DATA
-Lynel_Draw_oam_groups:
+Lynel_Draw_OAM_groups:
 {
     dw -5,  -5 : db $CC, $00, $00, $02
     dw -4,   0 : db $E4, $00, $00, $02
@@ -231,7 +231,7 @@ Lynel_Draw:
     LDA.b #$00   : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
     
-    ADC.w #.oam_groups : STA.b $08
+    ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

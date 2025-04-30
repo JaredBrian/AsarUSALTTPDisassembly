@@ -202,7 +202,7 @@ Sprite_MagicPowderItem:
 ; ==============================================================================
 
 ; $02F66B-$02F67A DATA
-MagicPowderItem_Draw_oam_groups:
+MagicPowderItem_Draw_OAM_groups:
 {
     dw 0, 0 : db $E6, $04, $00, $02
     dw 0, 0 : db $E6, $04, $00, $02
@@ -216,8 +216,8 @@ MagicPowderItem_Draw:
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     
-    LDA.b #(.oam_groups >> 0) : STA.b $08
-    LDA.b #(.oam_groups >> 8) : STA.b $09
+    LDA.b #(.OAM_groups >> 0) : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     
@@ -290,7 +290,7 @@ Sprite_GreenPotionItem:
 ; ==============================================================================
 
 ; $02F700-$02F717 DATA
-GreenPotionItem_Draw_oam_groups:
+GreenPotionItem_Draw_OAM_groups:
 {
     dw  0,  0 : db $C0, $08, $00, $02
     dw  8, 18 : db $30, $0A, $00, $00
@@ -303,8 +303,8 @@ GreenPotionItem_Draw:
     LDA.b #$03 : STA.b $06
                  STZ.b $07
     
-    LDA.b #(.oam_groups >> 0) : STA.b $08
-    LDA.b #(.oam_groups >> 8) : STA.b $09
+    LDA.b #(.OAM_groups >> 0) : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     
@@ -374,7 +374,7 @@ Sprite_BluePotionItem:
 ; ==============================================================================
 
 ; $02F79D-$02F7BC DATA
-BluePotionItem_Draw_oam_groups:
+BluePotionItem_Draw_OAM_groups:
 {
     dw  0,  0 : db $C0, $04, $00, $02
     dw 13, 18 : db $30, $0A, $00, $00
@@ -388,8 +388,8 @@ BluePotionItem_Draw:
     LDA.b #$04 : STA.b $06
                  STZ.b $07
     
-    LDA.b #(.oam_groups >> 0) : STA.b $08
-    LDA.b #(.oam_groups >> 8) : STA.b $09
+    LDA.b #(.OAM_groups >> 0) : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     
@@ -475,7 +475,7 @@ PotionItem_ErrorSfx:
 ; ==============================================================================
 
 ; $02F84D-$02F86C DATA
-RedPotionItem_Draw_oam_groups:
+RedPotionItem_Draw_OAM_groups:
 {
     dw  0,  0 : db $C0, $02, $00, $02
     dw 13, 18 : db $30, $0A, $00, $00
@@ -489,8 +489,8 @@ RedPotionItem_Draw:
     LDA.b #$04 : STA.b $06
                  STZ.b $07
     
-    LDA.b #(.oam_groups >> 0) : STA.b $08
-    LDA.b #(.oam_groups >> 8) : STA.b $09
+    LDA.b #(.OAM_groups >> 0) : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     
@@ -560,7 +560,7 @@ Sprite_WitchAssistant:
 ; ==============================================================================
 
 ; $02F8FB-$02F91A DATA
-Shopkeeper_Draw_oam_groups:
+Shopkeeper_Draw_OAM_groups:
 {
     dw 0, -8 : db $00, $0C, $00, $02
     dw 0,  0 : db $10, $0C, $00, $02
@@ -579,8 +579,8 @@ Shopkeeper_Draw:
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong

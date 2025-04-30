@@ -66,7 +66,7 @@ incsrc "sprite_ganon_bat.asm"
 ; ==============================================================================
 
 ; $0E8A04-$0E8A83 DATA
-PhantomGanon_Draw_oam_groups:
+PhantomGanon_Draw_OAM_groups:
 {
     dw -16, -8 : db $46, $0D, $00, $02
     dw  -8, -8 : db $47, $0D, $00, $02
@@ -91,7 +91,7 @@ PhantomGanon_Draw_oam_groups:
 PhantomGanon_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #6 : CLC : ADC.w #(.oam_groups) : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #6 : CLC : ADC.w #(.OAM_groups) : STA.b $08
     
     LDA.w #$0950 : STA.b $90
     

@@ -80,7 +80,7 @@ Sprite_Poe:
     JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Poe_SelectVerticalDirection ; 0x00 - $971F
-    dw Poe_Roaming                 ; 0x00 - $9741
+    dw Poe_ROAMing                 ; 0x00 - $9741
 
     ; $031715
     .acceleration
@@ -133,13 +133,13 @@ Poe_SelectVerticalDirection:
 ; ==============================================================================
 
 ; $03173F-$031740 DATA
-Poe_Roaming_y_speeds:
+Poe_ROAMing_y_speeds:
 {
     db 8, -8
 }
 
 ; $031741-$03177D JUMP LOCATION
-Poe_Roaming:
+Poe_ROAMing:
 {
     LDA.w $001A : LSR A : BCS .adjust_speed_delay
         ; Why are we adding the light world / dark world distinctifier?

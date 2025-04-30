@@ -24,10 +24,10 @@ Sprite_Zol:
 
     .skip_initial_collision_check
 
-    LDA.w $0DB0, X : BEQ .use_oam_normal_priority_scheme
+    LDA.w $0DB0, X : BEQ .use_OAM_normal_priority_scheme
         LDA.b #$30 : STA.w $0B89, X
 
-    .use_oam_normal_priority_scheme
+    .use_OAM_normal_priority_scheme
 
     JSR.w Zol_Draw
     JSR.w Sprite3_CheckIfActive
@@ -100,7 +100,7 @@ Zol_PoppingOut:
         
         LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
-        ; Play popping out of ground sfx.
+        ; Play popping out of ground SFX.
         LDA.b #$30 : JSL.l Sound_SetSfx3PanLong
         
         RTS
@@ -297,7 +297,7 @@ Zol_Draw:
 ; =============================================================================
 
 ; $0F3214-$0F3253 DATA
-Zol_DrawMultiple_oam_groups:
+Zol_DrawMultiple_OAM_groups:
 {
     dw 0, 8 : db $6C, $03, $00, $00
     dw 8, 8 : db $6D, $03, $00, $00
@@ -315,7 +315,7 @@ Zol_DrawMultiple:
     LDA.b #$00 : XBA
     LDA.w $0DC0, X : SEC : SBC.b #$04 : REP #$20 : ASL #4
     
-    ADC.w #Pool_Zol_DrawMultiple_oam_groups : STA.b $08
+    ADC.w #Pool_Zol_DrawMultiple_OAM_groups : STA.b $08
     
     SEP #$20
     

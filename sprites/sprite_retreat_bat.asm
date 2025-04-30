@@ -219,7 +219,7 @@ GanonEmerges_SpawnRetreatBat:
 ; ==============================================================================
 
 ; $0D7730-$0D774F DATA
-RetreatBat_DrawOAMMask_oam_entries:
+RetreatBat_DrawOAMMask_OAM_entries:
 {
     db $68, $97, $57, $01
     db $78, $97, $57, $01
@@ -243,20 +243,20 @@ RetreatBat_DrawOAMMask:
     
     LDY.b #$20
     
-    .write_oam_low_buffer_entries
+    .write_OAM_low_buffer_entries
     
-        LDA.w .oam_entries - 2, Y : STA.w $092E, Y
-    DEY #2 : BNE .write_oam_low_buffer_entries
+        LDA.w .OAM_entries - 2, Y : STA.w $092E, Y
+    DEY #2 : BNE .write_OAM_low_buffer_entries
     
     LDY.b #$08
     
-    ; Use all large oam-sized sprites.
+    ; Use all large OAM-sized sprites.
     LDA.w #$0202
     
-    .write_oam_high_buffer_entries
+    .write_OAM_high_buffer_entries
     
         STA.w $0A6C, Y
-    DEY #2 : BPL .write_oam_high_buffer_entries
+    DEY #2 : BPL .write_OAM_high_buffer_entries
     
     SEP #$30
     
@@ -341,7 +341,7 @@ Pool_RetreatBat_Draw:
     db $F5
     
     ; $0D781F
-    .num_oam_entries
+    .num_OAM_entries
     db 1, 1, 1, 1, 1, 1, 1, 1
     db 2, 2, 2, 2, 2, 2, 2, 2
     db 4, 4, 4, 4
@@ -362,7 +362,7 @@ RetreatBat_Draw:
     LDA.w Pool_RetreatBat_Draw_ptr_low_bytes, Y : STA.b $08
     LDA.w Pool_RetreatBat_Draw_ptr_high_byte    : STA.b $09
     
-    LDA.w Pool_RetreatBat_Draw_num_oam_entries, Y : JSL.l Sprite_DrawMultiple
+    LDA.w Pool_RetreatBat_Draw_num_OAM_entries, Y : JSL.l Sprite_DrawMultiple
     
     RTS
 }

@@ -830,7 +830,7 @@ ShopKeeper_TryToGetPaid:
 ; ==============================================================================
 
 ; $0F73B6-$0F74CD DATA
-ShopKeeper_DrawItemWithPrice_oam_groups:
+ShopKeeper_DrawItemWithPrice_OAM_groups:
 {
     dw -4, 16 : db $31, $02, $00, $00
     dw  4, 16 : db $13, $02, $00, $00
@@ -883,7 +883,7 @@ ShopKeeper_DrawItemWithPrice:
     AND.w #$00FF : STA.b $00
 
     ASL #2 : ADC.b $00 : ASL #3
-    ADC.w #.oam_groups : STA.b $08
+    ADC.w #.OAM_groups : STA.b $08
     
     LDA.w #$0005 : STA.b $06
     

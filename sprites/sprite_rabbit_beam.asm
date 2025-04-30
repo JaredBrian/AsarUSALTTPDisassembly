@@ -1,7 +1,7 @@
 ; ==============================================================================
 
 ; $0E84F1-$0E8530 DATA
-ChimneySmoke_Draw_oam_groups:
+ChimneySmoke_Draw_OAM_groups:
 {
     dw 0, 0 : db $86, $00, $00, $00
     dw 8, 0 : db $87, $00, $00, $00
@@ -21,7 +21,7 @@ ChimneySmoke_Draw:
     
     LDA.w $0DC0, X : AND.b #$01 : REP #$20 : ASL #5
     
-    ADC.w #.oam_groups : STA.b $08
+    ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
@@ -153,13 +153,13 @@ RabbitBeam_Active:
         
         LDY.b #$00
         
-        .next_oam_entry
+        .next_OAM_entry
         
             ; Force the chr to a certain value, and the palette of each entry
             ; to palette 1 (name table is also forced to 0 here).
             INY #2 : LDA.b $00                              : STA ($90), Y
             INY    : LDA ($90), Y : AND.b #$F0 : ORA.b #$02 : STA ($90), Y
-        INY : CPY.b #$14 : BCC .next_oam_entry
+        INY : CPY.b #$14 : BCC .next_OAM_entry
     
     .sprite_is_paused
     

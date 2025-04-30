@@ -171,7 +171,7 @@ SmithyFrog_Main:
 Pool_ReturningSmithy_Draw:
 {
     ; $0332C0
-    .oam_groups
+    .OAM_groups
     dw 0, 0 : db $22, $41, $00, $02
     
     dw 0, 0 : db $22, $01, $00, $02
@@ -207,8 +207,8 @@ ReturningSmithy_Draw:
     
     TYA : ASL #3
     
-    ADC.b #Pool_ReturningSmithy_Draw_oam_groups                 : STA.b $08
-    LDA.b #Pool_ReturningSmithy_Draw_oam_groups>>8 : ADC.b #$00 : STA.b $09
+    ADC.b #Pool_ReturningSmithy_Draw_OAM_groups                 : STA.b $08
+    LDA.b #Pool_ReturningSmithy_Draw_OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JMP Sprite_DrawShadow
@@ -217,7 +217,7 @@ ReturningSmithy_Draw:
 ; ==============================================================================
 
 ; $033331-$033338 DATA
-SmithyFrog_Draw_oam_groups:
+SmithyFrog_Draw_OAM_groups:
 {
     dw 0, 0 : db $C8, $00, $00, $02
 }
@@ -228,8 +228,8 @@ SmithyFrog_Draw:
     LDA.b #$01 : STA.b $06
                  STZ.b $07
     
-    LDA.b #.oam_groups    : STA.b $08
-    LDA.b #.oam_groups>>8 : STA.b $09
+    LDA.b #.OAM_groups    : STA.b $08
+    LDA.b #.OAM_groups>>8 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
 
@@ -666,7 +666,7 @@ Smithy_SpawnOtherSmithy:
 ; ==============================================================================
 
 ; $0335D3-$033672 DATA
-Pool_Smithy_Draw_oam_groups:
+Pool_Smithy_Draw_OAM_groups:
 {
     dw   1,   0 : db $40, $40, $00, $02
     dw -11, -10 : db $60, $40, $00, $02
@@ -707,8 +707,8 @@ Smithy_Draw:
     
     LDA.w $0DC0, X : ASL A : ADC.w $0DE0, X : ASL #4
     
-    ADC.b #oam_groups                 : STA.b $08
-    LDA.b #oam_groups>>8 : ADC.b #$00 : STA.b $09
+    ADC.b #OAM_groups                 : STA.b $08
+    LDA.b #OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSR.w Sprite_DrawShadow
@@ -793,7 +793,7 @@ SmithyBros_SpawnSmithySpark:
 ; ==============================================================================
 
 ; $0336FC-$03372B DATA
-SmithySpark_Draw_oam_groups:
+SmithySpark_Draw_OAM_groups:
 {
     dw  0,  3 : db $AA, $41, $00, $02
     dw  0, -1 : db $AA, $41, $00, $02
@@ -812,8 +812,8 @@ SmithySpark_Draw:
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #.oam_groups                 : STA.b $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
+    ADC.b #.OAM_groups                 : STA.b $08
+    LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
     LDA.b #$02 : JSL.l Sprite_DrawMultiple
     

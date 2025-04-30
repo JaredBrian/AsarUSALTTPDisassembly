@@ -337,7 +337,7 @@ Pool_SpriteDraw_TrinexxRockSnake:
     db   $00,   $00,   $00,   $00
 
     ; $0EAF54
-    .oam_offset
+    .OAM_offset
     dw $0010, $0004, $0004, $0004
     dw $0010, $0010, $0010, $0004
     dw $0004, $0004, $0004, $0004
@@ -403,10 +403,10 @@ SpriteDraw_TrinexxRockSnake:
 
         .BRANCH_BETA
 
-        LDA.b $90 : CLC : ADC.w Pool_SpriteDraw_TrinexxRockSnake_oam_offset, Y
+        LDA.b $90 : CLC : ADC.w Pool_SpriteDraw_TrinexxRockSnake_OAM_offset, Y
         STA.b $90
         
-        LDA.w Pool_SpriteDraw_TrinexxRockSnake_oam_offset, Y : LSR #2 : CLC : ADC.b $92 : STA.b $92
+        LDA.w Pool_SpriteDraw_TrinexxRockSnake_OAM_offset, Y : LSR #2 : CLC : ADC.b $92 : STA.b $92
         
         SEP #$20
         
@@ -945,7 +945,7 @@ Trinexx_HandleShellCollision:
 }
 
 ; $0EB440-$0EB55F DATA
-TrinexxHeadAndSnakeDraw_oam_groups:
+TrinexxHeadAndSnakeDraw_OAM_groups:
 {
     dw $FFF8, $FFF8, $40C0, $0200, $0008, $FFF8, $00C0, $0200
     dw $FFF8, $0008, $40E0, $0200, $0008, $0008, $00E0, $0200
@@ -972,7 +972,7 @@ TrinexxHeadAndSnakeDraw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

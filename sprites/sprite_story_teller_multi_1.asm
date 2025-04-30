@@ -253,8 +253,8 @@ StoryTeller_1_Draw:
 {
     LDA.w $0E80, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #.oam_groups                 : STA.b $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
+    ADC.b #.OAM_groups                 : STA.b $08
+    LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
     LDA.b #$01 : STA.b $06
                  STZ.b $07

@@ -160,7 +160,7 @@ Wallmaster_Ascend:
 ; ==============================================================================
 
 ; $0F2FA4-$0F2FE3 DATA
-WallMaster_Draw_oam_groups:
+WallMaster_Draw_OAM_groups:
 {
     dw  -4,   0 : db $A6, $01, $00, $02
     dw  12,   0 : db $AA, $01, $00, $00

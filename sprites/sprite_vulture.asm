@@ -102,7 +102,7 @@ Vulture_Circling:
 ; ==============================================================================
 
 ; $0EDD1E-$0EDD5D DATA
-Vulture_Draw_oam_groups:
+Vulture_Draw_OAM_groups:
 {
     dw -8,  0 : db $86, $00, $00, $02
     dw  8,  0 : db $86, $40, $00, $02
@@ -122,7 +122,7 @@ Vulture_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

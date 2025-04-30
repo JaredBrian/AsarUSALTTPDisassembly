@@ -225,7 +225,7 @@ Witch_PlayerHandsMushroomOver:
 Pool_Witch_Draw:
 {
     ; $02E509
-    .stirring_oam_groups
+    .stirring_OAM_groups
     db  -3,  8 : db $AE, $00
     db  -3, 16 : db $BE, $00
     
@@ -251,13 +251,13 @@ Pool_Witch_Draw:
     db  -3, 17 : db $BE, $00
     
     ; $02E549
-    .body_and_cauldron_oam_groups
+    .body_and_cauldron_OAM_groups
     db   0, -4 : db $80, $00
     db -11, 15 : db $86, $04
     db  -3, 15 : db $86, $44
     
     ; $02E555
-    .cloak_oam_groups
+    .cloak_OAM_groups
     db   0,  4 : db $84, $00
     db   0,  4 : db $82, $00       
 }
@@ -279,22 +279,22 @@ Witch_Draw:
     
     LDY.b $90
     
-    LDA.w Pool_Witch_Draw_stirring_oam_groups+0, X
+    LDA.w Pool_Witch_Draw_stirring_OAM_groups+0, X
     CLC : ADC.w $0FA8 : STA.w $0000, Y
 
-    LDA.w Pool_Witch_Draw_stirring_oam_groups+1, X
+    LDA.w Pool_Witch_Draw_stirring_OAM_groups+1, X
     CLC : ADC.w $0FA9 : STA.w $0001, Y
 
-    LDA.w Pool_Witch_Draw_stirring_oam_groups+2, X
+    LDA.w Pool_Witch_Draw_stirring_OAM_groups+2, X
     ORA.b $04 : STA.w $0002, Y
 
-    LDA.w Pool_Witch_Draw_stirring_oam_groups+4, X
+    LDA.w Pool_Witch_Draw_stirring_OAM_groups+4, X
     CLC : ADC.w $0FA8 : STA.w $0004, Y
 
-    LDA.w Pool_Witch_Draw_stirring_oam_groups+5, X
+    LDA.w Pool_Witch_Draw_stirring_OAM_groups+5, X
     CLC : ADC.w $0FA9 : STA.w $0005, Y
 
-    LDA.w Pool_Witch_Draw_stirring_oam_groups+6, X
+    LDA.w Pool_Witch_Draw_stirring_OAM_groups+6, X
     ORA.b $04 : STA.w $0006, Y
     
     LDX.w #$0000
@@ -303,13 +303,13 @@ Witch_Draw:
     
     .draw_body_and_cauldron
         
-        LDA.w Pool_Witch_Draw_body_and_cauldron_oam_groups+0, X
+        LDA.w Pool_Witch_Draw_body_and_cauldron_OAM_groups+0, X
         CLC : ADC.w $0FA8 : STA.w $0008, Y
         
-        LDA.w Pool_Witch_Draw_body_and_cauldron_oam_groups+1, X
+        LDA.w Pool_Witch_Draw_body_and_cauldron_OAM_groups+1, X
               ADC.w $0FA9 : STA.w $0009, Y
         
-        LDA.w Pool_Witch_Draw_body_and_cauldron_oam_groups+2, X
+        LDA.w Pool_Witch_Draw_body_and_cauldron_OAM_groups+2, X
         EOR.b $04 : STA.w $000A, Y
         
         INX #4
@@ -328,18 +328,18 @@ Witch_Draw:
     
     .draw_cloak
     
-    LDA.w Pool_Witch_Draw_cloak_oam_groups+0, X
+    LDA.w Pool_Witch_Draw_cloak_OAM_groups+0, X
     CLC : ADC.w $0FA8 : STA.w $0008, Y
     
-    LDA.w Pool_Witch_Draw_cloak_oam_groups+1, X
+    LDA.w Pool_Witch_Draw_cloak_OAM_groups+1, X
     CLC : ADC.w $0FA9 : STA.w $0009, Y
     
-    LDA.w Pool_Witch_Draw_cloak_oam_groups+2, X
+    LDA.w Pool_Witch_Draw_cloak_OAM_groups+2, X
     ORA.b $04 : STA.w $000A, Y
     
     LDY.b $92
     
-    ; Set oam sizes (8x8 vs. 16x16).
+    ; Set OAM sizes (8x8 vs. 16x16).
     LDA.w #$0000 : STA.w $0000, Y
     LDA.w #$0202 : STA.w $0002, Y : STA.w $0004, Y
     

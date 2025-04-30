@@ -306,7 +306,7 @@ Thief_AttemptBootyGrab:
             
             LDA.w $0E20, Y : SEC : SBC.b #$D8 : TAX
             
-            LDA.l Sprite_HandleAbsorptionByPlayer_sfx, X
+            LDA.l Sprite_HandleAbsorptionByPlayer_SFX, X
             JSL.l Sound_SetSfx3PanLong
             
             PLX
@@ -474,7 +474,7 @@ Thief_DislodgePlayerItems:
 Pool_Thief_Draw:
 {
     ; $0ECBD6
-    .oam_groups
+    .OAM_groups
     dw 0, -6 : db $00, $00, $00, $02
     dw 0,  0 : db $06, $00, $00, $02
     dw 0, -6 : db $00, $00, $00, $02
@@ -518,7 +518,7 @@ Thief_Draw:
     LDA.w $0DC0, X
 
     REP #$20
-    ASL #4 : ADC.w #Pool_Thief_Draw_oam_groups : STA.b $08
+    ASL #4 : ADC.w #Pool_Thief_Draw_OAM_groups : STA.b $08
     SEP #$20
     
     LDA.b #$02 : JSR.w Sprite4_DrawMultiple

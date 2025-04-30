@@ -280,7 +280,7 @@ CoveredRupeeCrab_Draw:
 {
     JSR.w Sprite_PrepOamCoord
     
-    LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
+    LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_GFX_loaded
         STZ.b $07
         
         LDA.w $0E20, X : CMP.b #$17 : BNE .under_rock
@@ -337,7 +337,7 @@ CoveredRupeeCrab_Draw:
         
         PLX
     
-    .invalid_gfx_loaded
+    .invalid_GFX_loaded
     
     RTS
 }

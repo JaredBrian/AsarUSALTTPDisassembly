@@ -19,10 +19,10 @@ Sprite_StalfosHead:
     ; NOTE: This is somewhat unusual.
     LDA.b $EE : STA.w $0F20, X
     
-    LDA.w $0E00, X : BEQ .use_typical_oam_region
+    LDA.w $0E00, X : BEQ .use_typical_OAM_region
         LDA.b #$08 : JSL.l OAM_AllocateFromRegionC
     
-    .use_typical_oam_region
+    .use_typical_OAM_region
     
     LDA.w $0E80, X : LSR #3 : AND.b #$03 : TAY
     

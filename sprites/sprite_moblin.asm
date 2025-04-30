@@ -240,7 +240,7 @@ Moblin_SpawnThrownSpear:
 Pool_Moblin_Draw:
 {
     ; $031A30
-    .oam_groups
+    .OAM_groups
     dw -2,   3 : db $91, $80, $00, $00
     dw -2,  11 : db $90, $80, $00, $00
     dw  0, -10 : db $86, $00, $00, $02
@@ -302,7 +302,7 @@ Pool_Moblin_Draw:
     dw  0,   0 : db $A2, $40, $00, $02    
     
     ; $031BB0
-    .oam_buffer_offsets
+    .OAM_buffer_offsets
     db $08, $08, $00, $00, $08, $08, $08, $08
     db $08, $08, $08, $08
     
@@ -324,7 +324,7 @@ Moblin_Draw:
     
     REP #$20
     
-    ASL #5 : ADC.w #Pool_Moblin_Draw_oam_groups : STA.b $08
+    ASL #5 : ADC.w #Pool_Moblin_Draw_OAM_groups : STA.b $08
     
     SEP #$20
     
@@ -334,13 +334,13 @@ Moblin_Draw:
         LDA.w $0E00, X : BEQ .not_throwing_spear
             LDY.b #$03
             
-            .next_oam_entry
+            .next_OAM_entry
                 
-                ; This loop tries to identify small oam entries in the oam
+                ; This loop tries to identify small OAM entries in the OAM
                 ; entries that make up the moblin, and.... disable them by
                 ; pushing them off screen. WTF: Why is this needed?
                 
-                LDA ($92), Y : AND.b #$02 : BNE .is_large_oam_sprite
+                LDA ($92), Y : AND.b #$02 : BNE .is_large_OAM_sprite
                     PHY
                     
                     TYA : ASL #2 : TAY
@@ -351,14 +351,14 @@ Moblin_Draw:
                     
                     PLY
                     
-                .is_large_oam_sprite
-            DEY : BPL .next_oam_entry
+                .is_large_OAM_sprite
+            DEY : BPL .next_OAM_entry
         
         .not_throwing_spear
         
         LDY.w $0DC0, X
         
-        LDA.w Pool_Moblin_Draw_oam_buffer_offsets, Y : TAY
+        LDA.w Pool_Moblin_Draw_OAM_buffer_offsets, Y : TAY
         
         PHX
         

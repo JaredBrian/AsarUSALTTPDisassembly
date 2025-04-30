@@ -173,7 +173,7 @@ MasterSword_GrantToPlayer:
         ; Change Overworld map icon set.
         LDA.b #$05 : STA.l $7EF3C7
         
-        ; Disable this, whatever it was (probably player oam related).
+        ; Disable this, whatever it was (probably player OAM related).
         STZ.w $0377
         
         INC.w $0D80, X
@@ -409,11 +409,11 @@ Pool_MasterSword_SpawnLightBeams:
     db $03, $02
     
     ; $028B1C
-    .oam_properties_1
+    .OAM_properties_1
     db $05, $45
     
     ; $028B1E
-    .oam_properties_2
+    .OAM_properties_2
     db $05, $05
 }
 
@@ -479,7 +479,7 @@ MasterSword_SpawnLightBeams:
     LDA.w Pool_MasterSword_SpawnLightBeams_y_speeds_1, X : STA.w $0D40, Y
     
     LDA.w Pool_MasterSword_SpawnLightBeams_animation_states_1, X : STA.w $0DC0, Y
-    LDA.w Pool_MasterSword_SpawnLightBeams_oam_properties_1, X : STA.w $0F50, Y
+    LDA.w Pool_MasterSword_SpawnLightBeams_OAM_properties_1, X : STA.w $0F50, Y
     
     TXA
     
@@ -518,7 +518,7 @@ MasterSword_SpawnLightBeams:
     LDA.w Pool_MasterSword_SpawnLightBeams_y_speeds_2, X : STA.w $0D40, Y
     
     LDA.w Pool_MasterSword_SpawnLightBeams_animation_states_1, X : STA.w $0DC0, Y
-    LDA.w Pool_MasterSword_SpawnLightBeams_oam_properties_1, X : STA.w $0F50, Y
+    LDA.w Pool_MasterSword_SpawnLightBeams_OAM_properties_1, X : STA.w $0F50, Y
     
     TXA
     
@@ -557,7 +557,7 @@ MasterSword_SpawnLightBeams:
     LDA.w Pool_MasterSword_SpawnLightBeams_y_speeds_3, X : STA.w $0D40, Y
     
     LDA.w Pool_MasterSword_SpawnLightBeams_animation_states_2, X : STA.w $0DC0, Y
-    LDA.w Pool_MasterSword_SpawnLightBeams_oam_properties_2, X : STA.w $0F50, Y
+    LDA.w Pool_MasterSword_SpawnLightBeams_OAM_properties_2, X : STA.w $0F50, Y
     
     TXA
     
@@ -594,7 +594,7 @@ MasterSword_SpawnLightBeams:
         LDA.w Pool_MasterSword_SpawnLightBeams_y_speeds_4, X : STA.w $0D40, Y
         
         LDA.w Pool_MasterSword_SpawnLightBeams_animation_states_2, X : STA.w $0DC0, Y
-        LDA.w Pool_MasterSword_SpawnLightBeams_oam_properties_2, X : STA.w $0F50, Y
+        LDA.w Pool_MasterSword_SpawnLightBeams_OAM_properties_2, X : STA.w $0F50, Y
         
         TXA
         

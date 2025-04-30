@@ -25,7 +25,7 @@ Sprite_StalfosBone:
 ; ==============================================================================
 
 ; $0F1000-$0F103F DATA
-StalfosBone_Draw_oam_groups:
+StalfosBone_Draw_OAM_groups:
 {
     dw -4, -2 : db $2F, $80, $00, $00
     dw  4,  2 : db $2F, $40, $00, $00
@@ -49,7 +49,7 @@ StalfosBone_Draw:
     
     LDA.w $0E80, X : LSR #2 : AND.b #$03 : REP #$20 : ASL #4
     
-    ADC.w #(.oam_groups) : STA.b $08
+    ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -549,7 +549,7 @@ Stalfos_ThrowBoneAtPlayer:
 ; ==============================================================================
 
 ; $0F13C3-$0F1442 DATA
-FirePhlegm_Draw_oam_entries:
+FirePhlegm_Draw_OAM_entries:
 {
     dw  0,  0 : db $C3, $00, $00, $00
     dw -8,  0 : db $C2, $00, $00, $00
@@ -584,7 +584,7 @@ FirePhlegm_Draw:
     LDA.b #$00 : XBA
     LDA.w $0DE0, X : ASL A : CLC : ADC.w $0DC0, X : REP #$20 : ASL #4
     
-    ADC.w #.oam_entries : STA.b $08
+    ADC.w #.OAM_entries : STA.b $08
     
     SEP #$20
     

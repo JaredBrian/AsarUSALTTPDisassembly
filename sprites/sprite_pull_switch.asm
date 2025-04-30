@@ -195,7 +195,7 @@ BadPullDownSwitch_Draw:
     LDX.b #$04
     LDY.b #$00
     
-    .next_oam_entry
+    .next_OAM_entry
         
         LDA.b $00 : CLC : ADC.w Pool_BadPullDownSwitch_Draw_x_offsets, X
         STA ($90), Y
@@ -222,7 +222,7 @@ BadPullDownSwitch_Draw:
         LDA.w Pool_BadPullDownSwitch_Draw_properties, X : STA ($92), Y
         
         PLY : INY
-    DEX : BPL .next_oam_entry
+    DEX : BPL .next_OAM_entry
     
     PLX
     

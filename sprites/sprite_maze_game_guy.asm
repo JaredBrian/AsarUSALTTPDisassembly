@@ -227,7 +227,7 @@ MazeGameGuy_NothingMoreToGive:
 ; ==============================================================================
 
 ; $06CD27-$06CDA6 DATA
-MazeGameGuy_Draw_oam_groups:
+MazeGameGuy_Draw_OAM_groups:
 {
     dw 0, -10 : db $00, $00, $00, $02
     dw 0,   0 : db $20, $00, $00, $02
@@ -264,8 +264,8 @@ MazeGameGuy_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong

@@ -261,7 +261,7 @@ Toppo_Draw:
     
     LDX.b #$02
     
-    .next_oam_entry
+    .next_OAM_entry
         
         PHX : TXA : CLC : ADC.b $08 : PHA : TAX
         
@@ -311,7 +311,7 @@ Toppo_Draw:
         LDA.b $0C : ORA.b $0F : STA ($92), Y
         
         PLY : INY
-    PLX : DEX : BPL .next_oam_entry
+    PLX : DEX : BPL .next_OAM_entry
     
     PLX
     

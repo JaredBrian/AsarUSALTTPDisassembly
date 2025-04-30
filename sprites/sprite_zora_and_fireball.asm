@@ -41,10 +41,10 @@ Sprite_ZoraAndFireball:
     
     STA.w $0BA0, X
     
-    LDA.w $0DF0, X : BEQ .dont_allocate_oam
+    LDA.w $0DF0, X : BEQ .dont_allocate_OAM
         LDA.b #$04 : JSL.l OAM_AllocateFromRegionC
     
-    .dont_allocate_oam
+    .dont_allocate_OAM
     
     JSL.l Sprite_PrepAndDrawSingleSmallLong
     JSR.w Sprite2_CheckIfActive

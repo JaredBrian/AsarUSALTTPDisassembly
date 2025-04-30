@@ -204,7 +204,7 @@ Pengator_SlideAndSparkle:
 Pool_Pengator_Draw:
 {
     ; $0F22B5
-    .oam_groups
+    .OAM_groups
     dw -1, -8 : db $82, $00, $00, $02
     dw  0,  0 : db $88, $00, $00, $02
     dw -1, -7 : db $82, $00, $00, $02
@@ -247,7 +247,7 @@ Pool_Pengator_Draw:
     dw  8,  0 : db $A0, $40, $00, $02
     
     ; $0F23F5
-    .oam_groups_2
+    .OAM_groups_2
     dw  0, 16 : db $B5, $00, $00, $00
     dw  8, 16 : db $B5, $40, $00, $00
     dw  0, -8 : db $A5, $00, $00, $00
@@ -261,7 +261,7 @@ Pengator_Draw:
     LDA.w $0DC0, X
 
     REP #$20
-    ASL #4 : ADC.w #Pool_Pengator_Draw_oam_groups : STA.b $08
+    ASL #4 : ADC.w #Pool_Pengator_Draw_OAM_groups : STA.b $08
     SEP #$20
     
     LDA.b #$02 : JSR.w Sprite3_DrawMultiple
@@ -281,7 +281,7 @@ Pengator_Draw:
     
     REP #$20
     
-    ASL #4 : ADC.w #Pool_Pengator_Draw_oam_groups_2 : STA.b $08
+    ASL #4 : ADC.w #Pool_Pengator_Draw_OAM_groups_2 : STA.b $08
     
     LDA.b $90 : CLC : ADC.w #$0008 : STA.b $90
     

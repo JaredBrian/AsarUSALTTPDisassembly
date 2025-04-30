@@ -100,7 +100,7 @@ SpikeTrap_InMotion:
 ; ==============================================================================
 
 ; $0F4FDF-$0F4FFE DATA
-SpikeTrap_Draw_oam_groups:
+SpikeTrap_Draw_OAM_groups:
 {
     dw -8, -8 : db $C4, $00, $00, $02
     dw  8, -8 : db $C4, $40, $00, $02
@@ -113,7 +113,7 @@ SpikeTrap_Draw:
 {
     REP #$20
     
-    LDA.w #(.oam_groups) : STA.b $08
+    LDA.w #(.OAM_groups) : STA.b $08
     
     LDA.w #$0004 : STA.b $06
     

@@ -157,7 +157,7 @@ SnapDragon_Attack:
 ; ==============================================================================
 
 ; $031D02-$031E01 DATA
-SnapDragon_Draw_oam_groups:
+SnapDragon_Draw_OAM_groups:
 {
     dw  4, -8 : db $8F, $00, $00, $00
     dw 12, -8 : db $9F, $00, $00, $00
@@ -205,7 +205,7 @@ SnapDragon_Draw:
 {
     LDA #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

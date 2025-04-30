@@ -44,7 +44,7 @@ Sprite_UnusedTelepath:
 ; ==============================================================================
 
 ; $06C707-$06C736 DATA
-Pool_UnusedTelepath_Draw_oam_groups:
+Pool_UnusedTelepath_Draw_OAM_groups:
 {
     dw 4, -14 : db $AE, $00, $00, $00
     dw 0, -16 : db $82, $00, $00, $02
@@ -63,8 +63,8 @@ UnusedTelepath_Draw:
     
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong

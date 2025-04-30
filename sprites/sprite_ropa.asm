@@ -70,7 +70,7 @@ Ropa_Pounce:
 ; ==============================================================================
 
 ; $031E85-$031EE4 DATA
-Ropa_Draw_oam_groups:
+Ropa_Draw_OAM_groups:
 {
     dw 0, -8 : db $26, $00, $00, $00
     dw 8, -8 : db $27, $00, $00, $00
@@ -98,7 +98,7 @@ Ropa_Draw:
     
     REP #$20
     
-    ASL #3 : STA.b $00 : ASL A : ADC.b $00 : ADC.w #.oam_groups : STA.b $08
+    ASL #3 : STA.b $00 : ASL A : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

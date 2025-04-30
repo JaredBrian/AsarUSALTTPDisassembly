@@ -46,10 +46,10 @@ Sprite_MovableMantle:
                             ; Start playing dragging sound after 8 pixels of
                             ; movement.
                             LDA.w $0ED0, X : CMP.b #$08 : BCC .return
-                                LDA.w $012E : BNE .sfx_slot_in_use
+                                LDA.w $012E : BNE .SFX_slot_in_use
                                     LDA.b #$22 : STA.w $012E
                                 
-                                .sfx_slot_in_use
+                                .SFX_slot_in_use
                                 
                                 LDA.b #$02 : STA.w $0D50, X
                                 

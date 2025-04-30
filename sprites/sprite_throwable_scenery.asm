@@ -13,11 +13,11 @@ Pool_Sprite_ThrowableScenery:
     db $0C, $0C, $0C, $00, $00, $00
     
     ; $032AD0
-    .main_oam_table_offsets
+    .main_OAM_table_offsets
     dw $08B0, $08B4, $08B8, $08BC
     
     ; $032AD8
-    .high_oam_table_offsets
+    .high_OAM_table_offsets
     dw $0A4C, $0A4D, $0A4E, $0A4F
 }
 
@@ -28,19 +28,19 @@ Sprite_ThrowableScenery:
 {
 	; If($0FC6 >= 0x03)
     LDA.w $0FC6 : CMP.b #$03 : BCS .cant_draw
-        LDA.w $0FB3 : BEQ .dont_use_reserved_oam_slots
-            LDA.w $0F20, X : BEQ .dont_use_reserved_oam_slots
+        LDA.w $0FB3 : BEQ .dont_use_reserved_OAM_slots
+            LDA.w $0F20, X : BEQ .dont_use_reserved_OAM_slots
                 TXA : AND.b #$03 : ASL A : TAY
                 
                 REP #$20
                 
-                LDA.w Pool_Sprite_ThrowableScenery_main_oam_table_offsets, Y : STA.b $90
+                LDA.w Pool_Sprite_ThrowableScenery_main_OAM_table_offsets, Y : STA.b $90
                 
-                LDA.w Pool_Sprite_ThrowableScenery_high_oam_table_offsets, Y : STA.b $92
+                LDA.w Pool_Sprite_ThrowableScenery_high_OAM_table_offsets, Y : STA.b $92
                 
                 SEP #$20
                 
-        .dont_use_reserved_oam_slots
+        .dont_use_reserved_OAM_slots
         
         LDA.w $0DD0, X : STA.w $0BA0, X
         
@@ -130,7 +130,7 @@ ThrowableScenery_DrawLarge:
     
     LDX.b #$03
     
-    .next_oam_entry
+    .next_OAM_entry
     
         PHX
         
@@ -165,7 +165,7 @@ ThrowableScenery_DrawLarge:
         LDA.b #$02 : ORA.b $0F : STA ($92), Y
         
         PLY : INY
-    DEX : BPL .next_oam_entry
+    DEX : BPL .next_OAM_entry
     
     PLX
     
@@ -180,7 +180,7 @@ ThrowableScenery_DrawLarge:
     
     LDX.b #$02
     
-    .next_shadow_oam_entry
+    .next_shadow_OAM_entry
     
         PHX
         
@@ -212,7 +212,7 @@ ThrowableScenery_DrawLarge:
         LDA.b #$02 : ORA.b $0F : STA ($92), Y
         
         PLY : INY
-    DEX : BPL .next_shadow_oam_entry
+    DEX : BPL .next_shadow_OAM_entry
     
     PLX
     

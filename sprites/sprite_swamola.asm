@@ -362,7 +362,7 @@ Sprite_SwamolaRipples:
 ; ==============================================================================
 
 ; $0E9EDD-$0E9F1C DATA
-SwamolaRipples_Draw_oam_groups:
+SwamolaRipples_Draw_OAM_groups:
 {
     dw 0, 4 : db $D8, $00, $00, $00
     dw 8, 4 : db $D8, $40, $00, $00
@@ -385,7 +385,7 @@ SwamolaRipples_Draw:
     LDA.b #$00 : XBA
     LDA.w $0DF0, X : AND.b #$0C : REP #$20 : ASL #2
     
-    CLC : ADC.w #.oam_groups : STA.b $08
+    CLC : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

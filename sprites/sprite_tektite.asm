@@ -216,7 +216,7 @@ Tektite_RepeatingHop:
 ; ==============================================================================
 
 ; $0EC3C5-$0EC3F4 DATA
-Tektite_Draw_oam_groups:
+Tektite_Draw_OAM_groups:
 {
     dw -8,  0 : db $C8, $00, $00, $02
     dw  8,  0 : db $C8, $40, $00, $02
@@ -229,7 +229,7 @@ Tektite_Draw_oam_groups:
 Tektite_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

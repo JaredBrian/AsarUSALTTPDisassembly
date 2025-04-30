@@ -267,7 +267,7 @@ RunningMan_RunFullSpeed:
 ; ==============================================================================
 
 ; $02E9CD-$02EA4C DATA
-RunningMan_Draw_oam_groups:
+RunningMan_Draw_OAM_groups:
 {
     dw 0, -8 : db $2C, $00, $00, $02
     dw 0,  0 : db $EE, $08, $00, $02
@@ -303,8 +303,8 @@ RunningMan_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong

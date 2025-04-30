@@ -29,7 +29,7 @@ Sprite_YoungSnitchLady:
 ; ==============================================================================
 
 ; $02E2FF-$02E37E DATA
-Pool_YoungSnitchLady_Draw_oam_groups:
+Pool_YoungSnitchLady_Draw_OAM_groups:
 {
     dw 0, -8 : db $26, $00, $00, $02
     dw 0,  0 : db $E8, $00, $00, $02
@@ -57,8 +57,8 @@ YoungSnitchLady_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam-groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM-groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong

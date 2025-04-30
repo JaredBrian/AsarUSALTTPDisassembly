@@ -323,7 +323,7 @@ Pool_SpriteDraw_FairyPondItem:
     dw 32, -64 : db $24, $00, $00, $02
     
     ; $0344B1
-    .oam_group_pointers
+    .OAM_group_pointers
     dw $C471, $C491
 }
 
@@ -359,8 +359,8 @@ SpriteDraw_FairyPondItem:
         
         LDA AddReceiveItem_wide_item_flag, X : TAY
         
-        LDA.w Pool_SpriteDraw_FairyPondItem_oam_group_pointers+0, Y : STA.b $08
-        LDA.w Pool_SpriteDraw_FairyPondItem_oam_group_pointers+1, Y : STA.b $09
+        LDA.w Pool_SpriteDraw_FairyPondItem_OAM_group_pointers+0, Y : STA.b $08
+        LDA.w Pool_SpriteDraw_FairyPondItem_OAM_group_pointers+1, Y : STA.b $09
         
         LDA.b #$04
         
@@ -1370,13 +1370,13 @@ Pool_FairyQueen_Draw:
     db $40, $40, $00, $00, $40, $40, $00, $40
     
     ; $034A6E
-    .oam_sizes
+    .OAM_sizes
     db $02, $02, $00, $00, $00, $00, $00, $00
     db $00, $00, $02, $02, $02, $02, $00, $00
     db $00, $00, $00, $00, $00, $00, $02, $02
     
     ; $034A86
-    .oam_groups
+    .OAM_groups
     dw  0,  0 : db $E9, $00, $00, $02
     dw 16,  0 : db $E9, $40, $00, $02
     dw  0,  0 : db $E9, $00, $00, $02
@@ -1414,7 +1414,7 @@ FairyQueen_Draw:
         
         LDX.b #$0B
     
-        .next_oam_entry
+        .next_OAM_entry
         
             PHX
             
@@ -1434,10 +1434,10 @@ FairyQueen_Draw:
             
             TYA : LSR #2 : TAY
             
-            LDA.w Pool_FairyQueen_Draw_oam_sizes, X : STA ($92), Y
+            LDA.w Pool_FairyQueen_Draw_OAM_sizes, X : STA ($92), Y
             
             PLY : INY
-        PLX : DEX : BPL .next_oam_entry
+        PLX : DEX : BPL .next_OAM_entry
         
         PLX
         
@@ -1455,8 +1455,8 @@ FairyQueen_Draw:
     
     LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #Pool_FairyQueen_Draw_oam_groups                 : STA.b $08
-    LDA.b #Pool_FairyQueen_Draw_oam_groups>>8 : ADC.b #$00 : STA.b $09
+    ADC.b #Pool_FairyQueen_Draw_OAM_groups                 : STA.b $08
+    LDA.b #Pool_FairyQueen_Draw_OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_quantity_preset
     

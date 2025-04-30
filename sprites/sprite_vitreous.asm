@@ -266,7 +266,7 @@ Sprite_SpawnLightning:
 ; ==============================================================================
 
 ; $0EE656-$0EE715 DATA
-Vitreous_Draw_oam_groups:
+Vitreous_Draw_OAM_groups:
 {
     dw  -8,  -8 : db $C0, $01, $00, $02
     dw   8,  -8 : db $C0, $41, $00, $02
@@ -304,16 +304,16 @@ Vitreous_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
-    LDA.w $0D80, X : AND.w #$00FF : CMP.w #2 : BNE .use_standard_oam_region
-        LDA.w $0DD0, X : AND.w #$00FF : CMP.w #9 : BNE .use_standard_oam_region
-            ; This is a high priority oam region (start of oam is like that!).
+    LDA.w $0D80, X : AND.w #$00FF : CMP.w #2 : BNE .use_standard_OAM_region
+        LDA.w $0DD0, X : AND.w #$00FF : CMP.w #9 : BNE .use_standard_OAM_region
+            ; This is a high priority OAM region (start of OAM is like that!).
             LDA.w #$0800 : STA.b $90
             
             LDA.w #$0A20 : STA.b $92
     
-    .use_standard_oam_region
+    .use_standard_OAM_region
     
     SEP #$20
     

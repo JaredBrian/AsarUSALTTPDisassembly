@@ -48,7 +48,7 @@ Sprite_TroughBoy:
 ; ==============================================================================
 
 ; $02FF9F-$02FFDE LOCAL JUMP LOCATION
-TroughBoy_Draw_oam_groups:
+TroughBoy_Draw_OAM_groups:
 {
     dw 0, -8 : db $82, $08, $00, $02
     dw 0,  0 : db $AA, $0A, $00, $02
@@ -71,8 +71,8 @@ TroughBoy_Draw:
     
     LDA.w $0DE0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong

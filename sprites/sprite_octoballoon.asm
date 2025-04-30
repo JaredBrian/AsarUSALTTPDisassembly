@@ -163,7 +163,7 @@ Octoballoon_Draw:
     
     CLC : ADC.b $0A : TAX
     
-    .next_oam_entry
+    .next_OAM_entry
         
         PHX
         
@@ -196,7 +196,7 @@ Octoballoon_Draw:
         PLY : INY
         
         DEX
-    DEC.b $0B : BPL .next_oam_entry
+    DEC.b $0B : BPL .next_OAM_entry
     
     PLX
     

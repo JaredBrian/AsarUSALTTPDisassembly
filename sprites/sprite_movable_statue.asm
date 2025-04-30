@@ -221,7 +221,7 @@ MovableStatue_CheckFullSwitchCovering:
 ; ==============================================================================
 
 ; $03424C-$034263 DATA
-MovableStatue_Draw_oam_groups:
+MovableStatue_Draw_OAM_groups:
 {
     dw 0, -8 : db $C2, $00, $00, $00
     dw 8, -8 : db $C2, $40, $00, $00
@@ -233,7 +233,7 @@ MovableStatue_Draw:
 {
     REP #$20
     
-    LDA.w #.oam_groups : STA.b $08
+    LDA.w #.OAM_groups : STA.b $08
     
     LDA.w #$0003 : STA.b $06
     

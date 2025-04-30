@@ -1244,12 +1244,12 @@ TagalongDraw_Drawing:
     db $CA, $22, $CA, $62
 
     ; $04A8F1
-    .oam_region_offsets_a
+    .OAM_region_offsets_a
     dw $0170
     dw $00C0
 
     ; $04A8F5
-    .oam_region_offsets_b
+    .OAM_region_offsets_b
     dw $01C0
     dw $0110
 
@@ -1424,12 +1424,12 @@ TagalongDraw_Drawing:
     LDA.b $05 : AND.w #$0003 : BNE .use_region_b
         .use_region_a
 
-        LDA.w .oam_region_offsets_a, Y
+        LDA.w .OAM_region_offsets_a, Y
         BRA   .set_region
 
     .use_region_b
 
-    LDA.w .oam_region_offsets_b, Y
+    LDA.w .OAM_region_offsets_b, Y
 
     .set_region
 

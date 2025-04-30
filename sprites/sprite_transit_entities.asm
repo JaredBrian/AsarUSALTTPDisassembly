@@ -251,7 +251,7 @@ SomariaPlatformAndPipe_CheckTile:
 ; ==============================================================================
 
 ; $0F77E0-$0F785F DATA
-SpriteDraw_SomariaPlatform_oam_groups:
+SpriteDraw_SomariaPlatform_OAM_groups:
 {
     dw -16, -16 : db $AC, $00, $00, $02
     dw   0, -16 : db $AC, $40, $00, $02
@@ -281,8 +281,8 @@ SpriteDraw_SomariaPlatform:
     
     LDA.w $0F10, X : AND.b #$0C : ASL #3
     
-    ADC.b #.oam_groups                 : STA.b $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
+    ADC.b #.OAM_groups                 : STA.b $08
+    LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
     LDA.b #$04 : JMP Sprite3_DrawMultiple
 }

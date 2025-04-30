@@ -3,15 +3,15 @@
 ; $0E8129-$0E814E JUMP LOCATION
 Sprite_Stal:
 {
-    LDA.w $0FC6 : CMP.b #$03 : BCS .improper_gfx_set_loaded
-        LDA.w $0D80, X : BNE .ignore_player_oam_overlap
+    LDA.w $0FC6 : CMP.b #$03 : BCS .improper_GFX_set_loaded
+        LDA.w $0D80, X : BNE .ignore_player_OAM_overlap
             LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
         
-        .ignore_player_oam_overlap
+        .ignore_player_OAM_overlap
         
         JSR.w Stal_Draw
     
-    .improper_gfx_set_loaded
+    .improper_GFX_set_loaded
     
     JSR.w Sprite4_CheckIfActive
     JSR.w Sprite4_CheckIfRecoiling
@@ -114,7 +114,7 @@ Stal_Active:
 ; ==============================================================================
 
 ; $0E81DC-$0E820B DATA
-Stal_Draw_oam_groups:
+Stal_Draw_OAM_groups:
 {
     dw 0,  0 : db $44, $00, $00, $02
     dw 4, 11 : db $70, $00, $00, $00

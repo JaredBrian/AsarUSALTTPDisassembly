@@ -332,7 +332,7 @@ WalkingZora_Draw:
 Pool_Sprite_DrawWaterRipple:
 {
     ; $029FAC
-    .oam_groups
+    .OAM_groups
     dw 0, 10 : db $D8, $01, $00, $00
     dw 8, 10 : db $D8, $41, $00, $00
     
@@ -389,11 +389,11 @@ Sprite_DrawWaterRipple:
     
     LDA.w Pool_Sprite_DrawWaterRipple_animation_states, Y
     
-    CLC : ADC.b ((Pool_Sprite_DrawWaterRipple_oam_groups >> 0) & $FF)
+    CLC : ADC.b ((Pool_Sprite_DrawWaterRipple_OAM_groups >> 0) & $FF)
     STA.b $08
 
     ; OPTIMIZE: Add #$00?
-    LDA.b ((Pool_Sprite_DrawWaterRipple_oam_groups >> 8) & $FF)
+    LDA.b ((Pool_Sprite_DrawWaterRipple_OAM_groups >> 8) & $FF)
     ADC.b #$00 : STA.b $09
     
     LDA.b #$02

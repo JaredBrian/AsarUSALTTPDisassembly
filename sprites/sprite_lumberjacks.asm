@@ -124,7 +124,7 @@ Lumberjacks_CheckProximity:
 ; ==============================================================================
 
 ; $06C5B2-$06C6B9 DATA
-Lumberjacks_Draw_oam_groups:
+Lumberjacks_Draw_OAM_groups:
 {
     dw -23,  5 : db $BE, $02, $00, $00
     dw -15,  5 : db $BF, $02, $00, $00
@@ -171,8 +171,8 @@ Lumberjacks_Draw:
     
     LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_quantity_preset
     

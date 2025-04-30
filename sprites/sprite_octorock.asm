@@ -29,14 +29,14 @@ Pool_Sprite_Octorock:
 !graphic   = $0DC0
 !direction = $0DE0
 !type      = $0E20
-!oam_4     = $0F50
+!OAM_4     = $0F50
     
 ; Octorock Routine (Sprites 0x08 and 0x0A)
 ; $035377-$035450 JUMP LOCATION
 Sprite_Octorock:
 {
     !force_hflip = $00
-    !gfx_vert    = $00
+    !GFX_vert    = $00
     
     ; ------------------------------
     
@@ -54,9 +54,9 @@ Sprite_Octorock:
     
     .no_forced_hflip
     
-    LDA !oam_4, X : AND.b #$BF
+    LDA !OAM_4, X : AND.b #$BF
     
-    ORA.w .h_flip, Y : ORA !force_hflip : STA !oam_4, X
+    ORA.w .h_flip, Y : ORA !force_hflip : STA !OAM_4, X
     
     JSR.w Octorock_Draw
     
@@ -68,11 +68,11 @@ Sprite_Octorock:
     JSR.w Sprite_CheckDamage
     
     LDA !ai_state, X : AND.b #$01 : BNE .stop_and_spit_maybe
-        LDA !direction, X : AND.b #$02 : ASL A : STA !gfx_vert
+        LDA !direction, X : AND.b #$02 : ASL A : STA !GFX_vert
         
         INC.w $0E80, X
         
-        LDA.w $0E80, X : LSR #3 : AND.b #$03 : ORA !gfx_vert : STA !graphic, X
+        LDA.w $0E80, X : LSR #3 : AND.b #$03 : ORA !GFX_vert : STA !graphic, X
         
         LDA !timer_0, X : BNE .wait_1
             ; Switch to the other main AI state.

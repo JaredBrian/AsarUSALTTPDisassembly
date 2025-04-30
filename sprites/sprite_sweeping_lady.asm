@@ -38,7 +38,7 @@ Sprite_SweepingLady:
 ; ==============================================================================
 
 ; $06C4CB-$06C4EA DATA
-SweepingLady_Draw_oam_groups:
+SweepingLady_Draw_OAM_groups:
 {
     dw 0, -7 : db $8E, $00, $00, $02
     dw 0,  5 : db $8A, $00, $00, $02
@@ -56,8 +56,8 @@ SweepingLady_Draw:
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA.b $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
+    ADC.b #(.OAM_groups >> 0)              : STA.b $08
+    LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong
