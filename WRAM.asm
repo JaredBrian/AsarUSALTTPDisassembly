@@ -5220,23 +5220,29 @@ struct WRAM $7E0000
     .Free_0715: skip $01
         ; Free RAM.
 
-    ; $0716[0x02] - (Overworld)
-        ; Forms right and bottom bounding value for where scroll
-        ; activates for player? The high byte is written separatly as $0717.
-        ; The low byte is only ever 0xE4.
+    ; $0716[0x02] - (Overworld, Camera)
+    .OWCameraBoundsSE: skip $02
+        ; Forms east and south bounding value for where scroll transition
+        ; activates for the  player. The low byte is only ever 0xE4.
 
-    ; $0718 - 
-        ; Free RAM
+    ; $0718[0x02] - (Free)
+    .Free_0718: skip $02
+        ; Free RAM.
 
-    ; $0720 - 
-        ; flag that if raised means to move to the next line. When text scrolls, this flag also raises but text
-        ; remains on the 3rd line unless some command forces it to another line (e.g. [0x01], [2] in the monologue editor.)
+    ; $0720[0x02] - (Text)
+    .TextMoveLine: skip $02
+        ; A flag that if nonzero tells the game to move to the next line of text.
 
-    ; $0722 - 
-        ; used to indicate which line the VWF is generating text on. (values = 0, 2, or 4)
+    ; $0722[0x02] - (Text)
+    .TextCurrentLine: skip $02
+        ; Used to indicate which line the VWF is generating text on.
+        ; 0x0000 - First line
+        ; 0x0002 - Second line
+        ; 0x0004 - Third line
+        ; TODO: Verify the line values.
 
-    ; $0724 - 
-        ; used to step through $7EC230[0xC0?] in VWF text generation (start values are 0, 0x40, or 0x80)
+    ; $0724[0x02] - (Text)
+        ; used to step through $7EC230[0xC0?] in VWF text generation (start values are 0x0000, 0x0040, or 0x0080)
 
     ; $0726 - 
         ; base position in $7F0000[0x7E0]. Only has 3 possible values (0, 0x02A0, and 0x0540) These correspond to

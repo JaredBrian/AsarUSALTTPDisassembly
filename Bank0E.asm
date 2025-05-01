@@ -7080,46 +7080,46 @@ VWF_RenderCharacter:
     
     REP #$20
     
-    LDA !changeRowFlag : BEQ .notChangingRow
+    LDA.w !changeRowFlag : BEQ .notChangingRow
         ; Index of the line text is being generated on.
-        LDY !rowIndex
+        LDY.w !rowIndex
+        LDA.w .renderPositions, Y : STA.w !renderBase
+        LDA.w .linePositions, Y   : STA.w !cumulativePosIndex
         
-        LDA.w .renderPositions, Y : STA !renderBase
-        LDA.w .linePositions, Y   : STA !cumulativePosIndex
-        
-        STZ !changeRowFlag
+        STZ.w !changeRowFlag
     
     .notChangingRow
     
     SEP #$20
     REP #$10
     
-    STZ !charWidthCounter
+    STZ.b !charWidthCounter
     
     LDX.w $1CD9
-    
     LDA.l $7F1200, X ; Load the character value.
     
     SEP #$10
     
     ; Y = the character value.
-    TAY : LDA.w .widths, Y : STA !charWidth
+    TAY
+    LDA.w .widths, Y : STA.b !charWidth
     
-    ; Take our current (H) position in the tile, add the width of the last
-    ; character, store it as the our h pixel position on the line as a whole
+    ; Take our current H position in the tile, add the width of the last
+    ; character, store it as the our H pixel position on the line as a whole
     ; and then moves on to the next character's cumulative position index.
-    LDX !cumulativePosIndex : CLC : ADC.l $7EC230, X : STA.l $7EC231, X
+    LDX.w !cumulativePosIndex
+    CLC : ADC.l $7EC230, X : STA.l $7EC231, X
     
-    INX : STX !cumulativePosIndex
+    INX : STX.w !cumulativePosIndex
     
     ; Multiply the character value's upper nybble by 2 (0x62 -> 0xE2, etc).
     TYA : AND.b #$F0 : ASL A     : STA.b $00
-    TYA : AND.b #$0F : ORA.b $00 : STA !fontTileOffset : STZ !fontTileOffset+1
+    TYA : AND.b #$0F : ORA.b $00 : STA.b !fontTileOffset : STZ.b !fontTileOffset+1
     
     REP #$20
     
-    LDA.w #$8000 : STA !fontBase
-    LDY.b #$0E   : STY !fontBase+2
+    LDA.w #$8000 : STA.b !fontBase
+    LDY.b #$0E   : STY.b !fontBase+2
     
     REP #$10
     
@@ -7130,7 +7130,7 @@ VWF_RenderCharacter:
     
     ; Shift left by 4 to express the offset in 2bpp tiles (each is 16 bytes
     ; long).
-    LDA !fontTileOffset : ASL #4 : TAY
+    LDA.b !fontTileOffset : ASL #4 : TAY
     
     .topHalf_nextSourceRow
     
@@ -7138,18 +7138,18 @@ VWF_RenderCharacter:
         ; This VWF copies them byte by byte based on a width value.
         
         ; A = value at ($0E:8000 + Y).
-        LDA [!fontBase], Y : STA !rowOfPixels
+        LDA.b [!fontBase], Y : STA.b !rowOfPixels
         
         PHY
         
         ; X is um....
-        STX !charLinePos
+        STX.b !charLinePos
         
         ; $00[2] is the width we have remaining for this particular CHR?
-        LDA.b $00 : CLC : ADC !renderBase : TAY
+        LDA.b $00 : CLC : ADC.w !renderBase : TAY
         
         ; This AND operation tells us which tile in the vwfBuffer to draw to.
-        AND.w #$0FF0 : CLC : ADC !charLinePos : TAX
+        AND.w #$0FF0 : CLC : ADC.b !charLinePos : TAX
         
         ; A = pixel position in the vwfBuffer (mod 8 because we're only
         ; concerned about the current tile).
@@ -7157,13 +7157,13 @@ VWF_RenderCharacter:
         
         SEP #$20
         
-        LDA !charWidth : STA !charWidthCounter
+        LDA.b !charWidth : STA.b !charWidthCounter
         
         .topHalf_notAtTargetTileBoundary
         
                 ; Cycle through each bit.
                 ; If the bit is clear branch.
-                ASL !rowOfPixels : BCC .topHalf_unsetPlane0
+                ASL.b !rowOfPixels : BCC .topHalf_unsetPlane0
                     LDA.l $7F0000, X : EOR .setMasks, Y : STA.l $7F0000, X
                     
                     BRA .topHalf_doPlane1
@@ -7176,7 +7176,7 @@ VWF_RenderCharacter:
                 
                 .topHalf_doPlane1
                 
-                ASL !rowOfPixels+1 : BCC .topHalf_unsetPlane1
+                ASL.b !rowOfPixels+1 : BCC .topHalf_unsetPlane1
                     LDA.l $7F0001, X : EOR .setMasks, Y : STA.l $7F0001, X
                     
                     BRA .topHalf_decWidthCounter
@@ -7187,7 +7187,7 @@ VWF_RenderCharacter:
                 
                 .topHalf_decWidthCounter
                 
-                DEC !charWidthCounter : BEQ .topHalf_outOfWidth
+                DEC.b !charWidthCounter : BEQ .topHalf_outOfWidth
                     ; See if there's still room in the current tile. Yep,
                     ; there's still room, so branch up and handle the next bit
                     ; in the data.
@@ -7203,48 +7203,48 @@ VWF_RenderCharacter:
         ; (possibly to the next line in some cases).
         TXA : CLC : ADC.w #$0010 : TAX
         
-        LDA !rowOfPixels : BEQ .topHalf_noRemainingSetPixels
+        LDA.b !rowOfPixels : BEQ .topHalf_noRemainingSetPixels
             STA.l $7F0000, X
         
         .topHalf_noRemainingSetPixels
         
         PLY : INY #2
-    LDX !charLinePos : INX #2 : CPX.w #$0010 : BNE .topHalf_nextSourceRow
+    LDX.b !charLinePos : INX #2 : CPX.w #$0010 : BNE .topHalf_nextSourceRow
     
     ; Positions us on the lower half of the text line.
-    LDA !renderBase : CLC : ADC.w #$0150 : STA.b $08
+    LDA.w !renderBase : CLC : ADC.w #$0150 : STA.b $08
     
     LDX.w #$0000
     
     ; Increment the row, then shift left 4 times (this grabs the next tile
     ; down).
-    LDA !fontTileOffset : CLC : ADC.w #$0010 : ASL #4 : TAY
+    LDA.b !fontTileOffset : CLC : ADC.w #$0010 : ASL #4 : TAY
     
     .bottomHalf_NextSourceRow
     
     ; Handles the lower half of the character.
     ; A = value at ($0E:8000 + Y)
-    LDA [!fontBase], Y : STA !rowOfPixels
+    LDA [!fontBase], Y : STA.b !rowOfPixels
     
     PHY
     
-    STX !charLinePos
+    STX.b !charLinePos
     
-    LDX !cumulativePosIndex
+    LDX.w !cumulativePosIndex
     LDA.l $7EC22F, X : AND.w #$00FF : ASL A : CLC : ADC.b $08 : TAY
     
-    AND.w #$0FF0 : CLC : ADC !charLinePos : TAX
+    AND.w #$0FF0 : CLC : ADC.b !charLinePos : TAX
     
     TYA : LSR A : AND.w #$0007 : TAY
     
     SEP #$20
     
-    LDA !charWidth : STA !charWidthCounter
+    LDA.b !charWidth : STA.b !charWidthCounter
     
     .bottomHalf_notAtTargetTileBoundary
     
         ; Shift through the next bit in the line of 2bpp pixel data.
-        ASL !rowOfPixels : BCC .bottomHalf_unsetPlane0
+        ASL.b !rowOfPixels : BCC .bottomHalf_unsetPlane0
             ; Set a bit in the bitmap.
             LDA.l $7F0000, X : EOR .setMasks, Y : STA.l $7F0000, X
             
@@ -7258,7 +7258,7 @@ VWF_RenderCharacter:
         .bottomHalf_doPlane1
         
         ; Shift through the next bit in the "line" of 2bpp pixel data.
-        ASL !rowOfPixels+1 : BCC .bottomHalf_unsetPlane1
+        ASL.b !rowOfPixels+1 : BCC .bottomHalf_unsetPlane1
             ; Set a bit in the bitmap.
             LDA.l $7F0001, X : EOR .setMasks, Y : STA.l $7F0001, X
             
@@ -7271,7 +7271,7 @@ VWF_RenderCharacter:
         
         .bottomHalf_decWidthCounter
         
-        DEC !charWidthCounter : BEQ .bottomHalf_outOfWidth
+        DEC.b !charWidthCounter : BEQ .bottomHalf_outOfWidth
             ; If not, see if we've run out of room in the current tile.
             ; We still have room in the current tile, so branch.
     INY : CPY.w #$0008 : BNE .bottomHalf_notAtTargetTileBoundary
@@ -7287,7 +7287,7 @@ VWF_RenderCharacter:
     
     ; See if there is any pixel data left in the current line.
     ; if there's only transparent pixels left, there's no need to keep drawing.
-    LDA !rowOfPixels : BEQ .bottomHalf_noRemainingSetPixels
+    LDA.b !rowOfPixels : BEQ .bottomHalf_noRemainingSetPixels
         ; If there still is pixel data, the "remainder" will end up in the next
         ; tile.
         STA.l $7F0000, X
@@ -7296,7 +7296,7 @@ VWF_RenderCharacter:
     
     PLY : INY #2
     
-    LDX !charLinePos : INX #2 : CPX.w #$0010 : BEQ .characterFinished
+    LDX.b !charLinePos : INX #2 : CPX.w #$0010 : BEQ .characterFinished
         BRL .bottomHalf_NextSourceRow
     
     .characterFinished
