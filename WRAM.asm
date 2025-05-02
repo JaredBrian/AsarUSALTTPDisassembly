@@ -914,8 +914,8 @@ struct WRAM $7E0000
 
     ; $90[0x02] - (OAM)
     .OAMLowPtr: skip $02
-        ; Points to current position in the low OAM buffer (the first 0x200
-        ; bytes). Each entry is 4-bytes per OAM tile. This will be written to
+        ; Points to current position in the low OAM buffer ($0800).
+        ; Each entry is 4-bytes per OAM tile. This will be written to
         ; SNES.OMADataWrite during NMI.   
         ; Byte 0: xxxxxxxx
         ; Byte 1: yyyyyyyy
@@ -935,9 +935,9 @@ struct WRAM $7E0000
 
     ; $92[0x02] - (OAM)
     .OAMHighPtr: skip $02
-        ; Points to current position in the high OAM table buffer (latter 0x20
-        ; bytes). Each entry is 2 bits per OAM tile. This will be written to
-        ; SNES.OMADataWrite during NMI.
+        ; Points to current position in the high OAM table buffer ($0A00). Each
+        ; entry is 2 bits per OAM tile. This will be written to SNES.OMADataWrite
+        ; during NMI.
         ; sx sx sx sx
         ; x - The X coordinate's 9th bit.
         ; s - OAM size: 0 - small size, 1 - large size)
@@ -3093,7 +3093,7 @@ struct WRAM $7E0000
     ; $0352[0x02] - (Player, OAM)
     .PlayerOAMOffset: skip $02
         ; Used exclusively during writing the player's OAM data (bank 0x0D) as an
-        ; offset into the OAM buffer ($0800).
+        ; offset into the low OAM buffer ($0800).
 
     ; $0354[0x01] - (Player, OAM)
     .PlayerAuxAnimationIndex: skip $01
@@ -5229,6 +5229,10 @@ struct WRAM $7E0000
     .Free_0718: skip $02
         ; Free RAM.
 
+    ; $071E[0x02] - (Junk)
+    .Junk_071E: skip $02
+        ; Zeroed out once in bank 0x0E.
+
     ; $0720[0x02] - (Text)
     .TextMoveLine: skip $02
         ; A flag that if nonzero tells the game to move to the next line of text.
@@ -5242,14 +5246,125 @@ struct WRAM $7E0000
         ; TODO: Verify the line values.
 
     ; $0724[0x02] - (Text)
-        ; used to step through $7EC230[0xC0?] in VWF text generation (start values are 0x0000, 0x0040, or 0x0080)
+    .TextLineStartHPost: skip $02
+        ; The starting H position of lines in text. Used to step through $7EC230
+        ; in VWF text generation. $7EC230 is only referenced once so its hard to
+        ; say just looking at the code. My guess is that this is some sort of H
+        ; tilemap position buffer. TODO: Its exact use needs to be investigated.
+        ; 0x0000 - First line
+        ; 0x0040 - Second line
+        ; 0x0080 - Third line
 
-    ; $0726 - 
-        ; base position in $7F0000[0x7E0]. Only has 3 possible values (0, 0x02A0, and 0x0540) These correspond to
-        ; the current line the game is generating text on. It is held constant while an individual line is rendering.
+    ; $0726[0x02] - (Text)
+    .TextCurrentTilemapPos: skip $02
+        ; The actual tilemap position the game is generating text on. Base
+        ; position in $7F0000[0x7E0]. It is held constant while an individual
+        ; line is rendering. TODO: Verify the values.
+        ; 0x0000 - First line
+        ; 0x02A0 - Second line
+        ; 0x0540 - Third line
 
-    ; $0728 - 
-        ; Free RAM
+    ; $0728[0x06] - (Free)
+    .Free_0728: skip $06
+        ; Free RAM.
+
+    ; $072E[0x02] - (Junk)
+    .Junk_072E: skip $02
+        ; Zeroed out once in bank 0x0E. As you can see there is a pattern here.
+        ; For some reason every "E" address from $069E to $07DE is zeroed out in
+        ; the same spot. This is probably just left over from some unused feature.
+
+    ; $0730[0x0E] - (Free)
+    .Free_0730: skip $0E
+        ; Free RAM.
+
+    ; $073E[0x02] - (Junk)
+    .Junk_073E: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $0740[0x0E] - (Free)
+    .Free_0740: skip $0E
+        ; Free RAM.
+
+    ; $074E[0x02] - (Junk)
+    .Junk_074E: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $0750[0x0E] - (Free)
+    .Free_0750: skip $0E
+        ; Free RAM.
+
+    ; $075E[0x02] - (Junk)
+    .Junk_075E: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $0760[0x0E] - (Free)
+    .Free_0760: skip $0E
+        ; Free RAM.
+
+    ; $076E[0x02] - (Junk)
+    .Junk_076E: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $0770[0x0E] - (Free)
+    .Free_0770: skip $0E
+        ; Free RAM.
+
+    ; $077E[0x02] - (Junk)
+    .Junk_077E: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $0780[0x0E] - (Free)
+    .Free_0780: skip $0E
+        ; Free RAM.
+
+    ; $078E[0x02] - (Junk)
+    .Junk_078E: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $0790[0x0E] - (Free)
+    .Free_0790: skip $0E
+        ; Free RAM.
+
+    ; $079E[0x02] - (Junk)
+    .Junk_079E: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $07A0[0x0E] - (Free)
+    .Free_07A0: skip $0E
+        ; Free RAM.
+
+    ; $07AE[0x02] - (Junk)
+    .Junk_07AE: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $07B0[0x0E] - (Free)
+    .Free_07B0: skip $0E
+        ; Free RAM.
+        
+    ; $07BE[0x02] - (Junk)
+    .Junk_07BE: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $07C0[0x0E] - (Free)
+    .Free_07C0: skip $0E
+        ; Free RAM.
+
+    ; $07CE[0x02] - (Junk)
+    .Junk_07CE: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $07D0[0x0E] - (Free)
+    .Free_07D0: skip $0E
+        ; Free RAM.
+
+    ; $07DE[0x02] - (Junk)
+    .Junk_07CE: skip $02
+        ; Zeroed out once in bank 0x0E.
+
+    ; $07F0[0x30] - (Free)
+    .Free_07D0: skip $30
+        ; Free RAM.
 
     ; ===========================================================================
     ; Pages 0x08, 0x09 and 0x0A
@@ -5257,27 +5372,41 @@ struct WRAM $7E0000
 
     ; OAM Basic 512 byte table:
 
-    ; $0800[0x200] - OAM data. This is blitted to VRAM every frame via DMA.
+    ; $0800[0x0200] - (OAM)
+    .OAMLowBuffer: skip $0200
+        ; The low OAM buffer. This is written to SNES.OMADataWrite via DMA during
+        ; NMI. This isn't written to directly most of the time and is instead
+        ; written to via OAMLowPtr. Each OAM entry is 4 bytes.
+        ; Byte 0: xxxxxxxx
+        ; Byte 1: yyyyyyyy
+        ; Byte 2: cccccccc
+        ; Byte 3: vhoopppc
+        ; x - X coordinate
+        ; y - Y coordinate
+        ; c - Character in VRAM
+        ; v - Vertical flip
+        ; h - Horizontal flip
+        ; o - Priority
+        ; p - Palette
 
-    ; How OAM works:
+        ; Some examples of OAM tiles that are written here directly are the 
+        ; file select Link head/death count, the file select indicatior fairy,
+        ; dungeon map icons/indicators, the overworld blinking icons, the
+        ; intro Nintendo logo, and some smaller player OAM tiles. There are more
+        ; that use later addresses such as $0802, $0804, ect. 
 
-        ; Byte1: X coordinate on screen in pixels. This is the lower 8 bits. See Extended OAM table below
-        ; Byte2: Y coordinate on screen in pixels.
-        ; Byte3: Character number to use. This is the lower 8 bits. See Byte 4
-        ; Byte4: vhoopppc (source: Qwertie's guide)
-        ; v - vertical flip
-        ; h - horizontal flip
-        ; p - priority bits
-        ; c - the 9th (and most significant) bit of the character number for this sprite.
-
-    ; Extended OAM 32 byte table:
+        ; TODO: Keep checking values starting at $0900
 
     ; $0A00 - 
         ; Each byte contains information for 4 sprites (in the same order
         ; as the normal OAM table.) So, for each sprite:
 
-        ; bit0 : size toggle bit. (this can mean 8x8 or 16x16, or 8x8 or 32x32, etc.
-        ; bit1 : 9th (and most significant) bit of the X coordinate.
+        ; Points to current position in the high OAM table buffer (latter 0x20
+        ; bytes). Each entry is 2 bits per OAM tile. This will be written to
+        ; SNES.OMADataWrite during NMI.
+        ; sx sx sx sx
+        ; x - The X coordinate's 9th bit.
+        ; s - OAM size: 0 - small size, 1 - large size)
 
     ; $0A20 - 
         ; Apparently contains bits of data to combine and write to $0A00

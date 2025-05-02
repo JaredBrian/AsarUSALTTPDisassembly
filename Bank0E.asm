@@ -7148,10 +7148,10 @@ VWF_RenderCharacter:
         ; $00[2] is the width we have remaining for this particular CHR?
         LDA.b $00 : CLC : ADC.w !renderBase : TAY
         
-        ; This AND operation tells us which tile in the vwfBuffer to draw to.
+        ; This AND operation tells us which tile in the VWFBuffer to draw to.
         AND.w #$0FF0 : CLC : ADC.b !charLinePos : TAX
         
-        ; A = pixel position in the vwfBuffer (mod 8 because we're only
+        ; A = pixel position in the VWFBuffer (mod 8 because we're only
         ; concerned about the current tile).
         TYA : LSR A : AND.w #$0007 : TAY
         
@@ -7161,36 +7161,36 @@ VWF_RenderCharacter:
         
         .topHalf_notAtTargetTileBoundary
         
-                ; Cycle through each bit.
-                ; If the bit is clear branch.
-                ASL.b !rowOfPixels : BCC .topHalf_unsetPlane0
-                    LDA.l $7F0000, X : EOR .setMasks, Y : STA.l $7F0000, X
+            ; Cycle through each bit.
+            ; If the bit is clear branch.
+            ASL.b !rowOfPixels : BCC .topHalf_unsetPlane0
+                LDA.l $7F0000, X : EOR .setMasks, Y : STA.l $7F0000, X
                     
-                    BRA .topHalf_doPlane1
+                BRA .topHalf_doPlane1
                 
-                .topHalf_unsetPlane0
+            .topHalf_unsetPlane0
                 
-                ; Use masks to "erase" a dot.
-                ; Unset a bit in the bitmap.
-                LDA.l $7F0000, X : AND .unsetMasks, Y : STA.l $7F0000, X
+            ; Use masks to "erase" a dot.
+            ; Unset a bit in the bitmap.
+            LDA.l $7F0000, X : AND .unsetMasks, Y : STA.l $7F0000, X
                 
-                .topHalf_doPlane1
+            .topHalf_doPlane1
                 
-                ASL.b !rowOfPixels+1 : BCC .topHalf_unsetPlane1
-                    LDA.l $7F0001, X : EOR .setMasks, Y : STA.l $7F0001, X
+            ASL.b !rowOfPixels+1 : BCC .topHalf_unsetPlane1
+                LDA.l $7F0001, X : EOR .setMasks, Y : STA.l $7F0001, X
                     
-                    BRA .topHalf_decWidthCounter
+                BRA .topHalf_decWidthCounter
                 
-                .topHalf_unsetPlane1
+            .topHalf_unsetPlane1
                 
-                LDA.l $7F0001, X : AND .unsetMasks, Y : STA.l $7F0001, X
+            LDA.l $7F0001, X : AND .unsetMasks, Y : STA.l $7F0001, X
                 
-                .topHalf_decWidthCounter
+            .topHalf_decWidthCounter
                 
-                DEC.b !charWidthCounter : BEQ .topHalf_outOfWidth
-                    ; See if there's still room in the current tile. Yep,
-                    ; there's still room, so branch up and handle the next bit
-                    ; in the data.
+            DEC.b !charWidthCounter : BEQ .topHalf_outOfWidth
+                ; See if there's still room in the current tile. Yep,
+                ; there's still room, so branch up and handle the next bit
+                ; in the data.
         INY : CPY.w #$0008 : BNE .topHalf_notAtTargetTileBoundary
         
         .topHalf_outOfWidth
