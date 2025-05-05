@@ -915,8 +915,7 @@ struct WRAM $7E0000
     ; $90[0x02] - (OAM)
     .OAMLowPtr: skip $02
         ; Points to current position in the low OAM buffer ($0800).
-        ; Each entry is 4-bytes per OAM tile. This will be written to
-        ; SNES.OMADataWrite during NMI.   
+        ; Each entry is 4-bytes per OAM tile.  
         ; Byte 0: xxxxxxxx
         ; Byte 1: yyyyyyyy
         ; Byte 2: cccccccc
@@ -935,10 +934,12 @@ struct WRAM $7E0000
 
     ; $92[0x02] - (OAM)
     .OAMHighPtr: skip $02
-        ; Points to current position in the high OAM table buffer ($0A00). Each
-        ; entry is 2 bits per OAM tile. This will be written to SNES.OMADataWrite
-        ; during NMI.
-        ; sx sx sx sx
+        ; Points to current position in the uncompressed high OAM buffer ($0A20).
+        ; Normally, Each entry is 2 bits per OAM tile, however the array this is
+        ; written to uses a whole byte per OAM tile. The array is then compressed
+        ; down to 4 tiles per byte and stored into $0A00 which is the true OAM
+        ; high buffer. This is done to save time during draw functions.
+        ; .... ..sx
         ; x - The X coordinate's 9th bit.
         ; s - OAM size: 0 - small size, 1 - large size)
 
@@ -946,7 +947,7 @@ struct WRAM $7E0000
         ; SNES.OAMSizeAndDataDes. Only the first 6 options were intended to be
         ; used. Tthe last 2 are rectangular shaped and behave oddly with
         ; vertical flipping. However ALTTP never changes this and only uses the
-        ; first option of 8x8 and 16x16
+        ; first option of 8x8 and 16x16.
         ; The sizes are as follows:
         ;      | Small | Large |
         ; 0x00 |  8x8  | 16x16 |
@@ -5395,69 +5396,92 @@ struct WRAM $7E0000
         ; intro Nintendo logo, and some smaller player OAM tiles. There are more
         ; that use later addresses such as $0802, $0804, ect. 
 
-        ; TODO: Keep checking values starting at $0900
-
-    ; $0A00 - 
-        ; Each byte contains information for 4 sprites (in the same order
-        ; as the normal OAM table.) So, for each sprite:
-
-        ; Points to current position in the high OAM table buffer (latter 0x20
-        ; bytes). Each entry is 2 bits per OAM tile. This will be written to
-        ; SNES.OMADataWrite during NMI.
+    ; $0A00[0x20] - (OAM)
+    .OAMHighBuffer: skip $20
+        ; The high OAM buffer. Each entry is 2 bits per OAM tile. This will be
+        ; written to SNES.OMADataWrite during NMI.
         ; sx sx sx sx
         ; x - The X coordinate's 9th bit.
         ; s - OAM size: 0 - small size, 1 - large size)
 
-    ; $0A20 - 
-        ; Apparently contains bits of data to combine and write to $0A00
-        ; to $0A1F later.
-        ; 
-        ; Thus, the individual properties are stored in this array,
-        ; and ORed in later to form the data that will get blitted to
-        ; VRAM.
+    ; $0A20[0x80] - (OAM)
+    .OAMHighBufferUncompressed: skip $80
+        ; The uncompressed high OAM buffer. Each entry is 1 OAM tile per byte.
+        ; This will be compressed down to 4 tiles per byte and then stored down
+        ; into OAMHighBuffer during NMI.
+        ; .... ..sx
+        ; x - The X coordinate's 9th bit.
+        ; s - OAM size: 0 - small size, 1 - large size)
 
-    ; Apparently Palette Related, but details lacking:
+        ; Some OAM tiles are written here directly just as they are to the low
+        ; buffer. See OAMLowBuffer for more details.
 
-    ; $0AA0 - 
-        ; Seesms as though this variable is cached at various points in
-        ; the code, though it doesn't seem to be used for anything
-        ; meaningful. Free RAM, perhaps, if the existing code is modified.
+    ; $0AA0[0x01] - (GFX, Junk)
+    .Junk_0AA0: skip $01
+        ; Appears to have been a GFX sheet index at some point like $0AA1 as it
+        ; is cached in the same spots as $0AA1 to $7EC164 and $7EC124. However it 
+        ; is never actually written other than from $7EC164 and $7EC124 so it is
+        ; always zero.
 
-    ; $0AA1[0x01] - (Graphics)
-        ; Main Tile Theme index.
-        ; Altering this has far more effect than $0AA2.
-        ; There are 0x25 (37) main BG tile themes.
+    ; $0AA1[0x01] - (GFX)
+    .GFXTileSheetIndexMain: skip $01
+        ; The main tile set index. This corrisponds to the "Main" blockset in the
+        ; ZS GFX Manager or sheets 0-7 of the dungeon and overworld BG tiles.
+        ; Sheets 3-6 can be overwritten by the value set in $0AA2 room to room or
+        ; area to area but 0, 1, 2, and the first half of 7 will stay the same.
+        ; The second half of sheet 7 will be overwritten by the "animated" sheet.
+        ; See SheetsTable_0AA1 in Bank 0x00 for more details.
+        ; There are 0x25 main BG tile sets:
+        ; TODO: Document the tile sets here.
 
-    ; $0AA2 - 
-        ; Auxiliary Tile Theme index.
-        ; There are 0x52 (82) auxiliary BG tile themes.
+    ; $0AA2[0x01] - (GFX)
+    .GFXTileSheetIndexAux: skip $01
+        ; The auxiliary tile set index. This is the "Rooms" blockset in the ZS
+        ; Graphics Manager. Also the overworld GFX number. This controls sheets
+        ; 3, 4, 5, and 6 which are the "variable" dungeon and overworld tile
+        ; sheets which These sheets can change from room to room or OW area to OW
+        ; area.
+        ; There are 0x52 auxiliary BG tile themes:
+        ; TODO: Document the tile sets here.
 
-    ; $0AA3 - 
-        ; Sprite Graphics index. Note that when in a dungeon, this value is the number
-        ; found in the dungeon header, plus $40. Overworlds do not have this complication.
+    ; $0AA3[0x01] - (GFX)
+    .GFXSpriteSheetIndexAux: skip $01
+        ; The aux sprite tile set index. This is the "Sprites" tile set in the ZS
+        ; Graphics Manager. This controls sheets C, D, E, and F which are the
+        ; "variable" sprite sheets. These sheets can change from room to room
+        ; or OW area to OW area. Note that when in a dungeon, this value is the
+        ; number found in the dungeon header, plus $40. Overworlds do not have
+        ; this complication.
+        ; TODO: Document the tile sets here.
 
-    ; $0AA4[0x01] - (Graphics)
-        ; Misc. Sprite Graphics index. Valid values are: 0x01, 0x0A, or 0x0B.
+    ; $0AA4[0x01] - (GFX)
+    .GFXSpriteSheetIndexMain: skip $01
+        ; The main sprite tile set index. TODO: Find out if this has a ZS
+        ; equivilant. This controls sheets 8, 9, A, and B which are the "global"
+        ; sprites sheets. These sheets are the same for the whole LW, whole DW, or
+        ; all dungeons. This sheet is also used to load some polyhedral sheets.
         ; 0x01 - Light world Overworld
+        ; 0x08 - Polyhedral
         ; 0x0A - Dungeons
         ; 0x0B - Dark World Overworld
-        ; All other values are so far assumed to decompress the wrong type of graphics.
-        ; I.e., not all the graphics in the rom are de facto compressed. Some are just stored in a
-        ; proprietary 3bpp format.
 
-    ; $0AA5 - 
-        ; Free RAM
+    ; $0AA5[0x01] - (Free)
+    .Free_0AA5: skip $01
+        ; Free RAM.
 
-    ; $0AA6 - 
-        ; Unused? (but referenced in a few places). It's location would indicate that at one point it
-        ; would have been a variable used to configure graphics.
+    ; $0AA6[0x02] - (Junk)
+    .Junk_0AA6: skip $02
+        ; It's location would indicate that at one point it would have been a 
+        ; variable used to configure graphics. Zeroed but never read.
 
-    ; $0AA8 - 
-        ; Note: typically only the high byte ($0AA9) of this variable is modified.
-        ; By design this variable is only ever set to two values: 0x0000 and 0x0200.
-        ; It's used during palette loading to select between the auxiliary palette buffer ($7EC300) and
-        ; the main palette buffer ($7EC500) as targets to write colors to.
-        ; Only really used in bank $1B
+    ; $0AA8[0x02] - (Palettes)
+    .PalLoadBuffer: skip $02
+        ; It's used during palette loading to select between the auxiliary palette
+        ; buffer ($7EC300) and the main palette buffer ($7EC500) as targets to
+        ; write colors to. Typically only the high byte of this variable is
+        ; modified.
+        ; 0x0000 - Load into $7EC300
+        ; 0x0200 - Load into $7EC500
 
     ; $0AAA[0x01] - 
         ; Confusing variable, relates to $0FC6 somehow

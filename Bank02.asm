@@ -432,7 +432,6 @@ Module_PreDungeon:
 
     ; Derived from entrance index.
     LDX.w $0AA1
-
     LDA.l AnimatedTileSheets, X : TAY
 
     JSL.l DecompDungAnimatedTiles
@@ -1265,7 +1264,8 @@ Credits_LoadScene_Dungeon:
 
     JSR.w Dungeon_LoadAndDrawRoom
 
-    LDX.w $0AA1 : LDA.l AnimatedTileSheets, X : TAY
+    LDX.w $0AA1
+    LDA.l AnimatedTileSheets, X : TAY
 
     JSL.l DecompDungAnimatedTiles
 
@@ -1274,9 +1274,7 @@ Credits_LoadScene_Dungeon:
     LDA.l Credits_LoadScene_PrepGFX_sprite_GFX, X
     STA.w $0AA3
 
-    LDA.l Credits_LoadScene_PrepGFX_sprite_palette, X
-    ASL #2 : TAX
-
+    LDA.l Credits_LoadScene_PrepGFX_sprite_palette, X : ASL #2 : TAX
     LDA.l UnderworldPaletteSets+2, X : STA.w $0AAD
     LDA.l UnderworldPaletteSets+3, X : STA.w $0AAE
 
@@ -1702,8 +1700,8 @@ Dungeon_IntraRoomTransInit:
 
     LDA.w #$001F : STA.l $7EC00B
 
-    ; While this variable is zeroed a few places around the rom,
-    ; no sign that it's actually used anywhere.
+    ; OPTIMIZE: While this variable is zeroed a few places around the ROM,
+    ; there is no sign that it's actually used anywhere.
     STZ.w $0AA6
 
     SEP #$20
@@ -6925,14 +6923,14 @@ Overworld_LoadMapProperties:
         ; $0AA1 = 0x21 for dark world, 0x20 for light world.
         INY
 
-        ; $0AA4 = 0x08 for dark world, 0x00 for light world.
+        ; 0x08 for dark world, 0x00 for light world.
         LDX.b #$08
 
     .lightWorld
 
     STY.w $0AA1
 
-    ; $0AA4 = 0x01 in LW, 0x0B in DW.
+    ; X = 0x01 in LW, 0x0B in DW.
     LDA.l SheetsTable_0AA4, X : STA.w $0AA4
 
     REP #$30

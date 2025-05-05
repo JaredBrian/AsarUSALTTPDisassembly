@@ -6599,9 +6599,9 @@ Palette_OverworldBgAux2:
 
 ; Unlike like the Subroutine after this one, it only loads one palette to
 ; memory.
-; Parameters: X = number of colors (i.e. number of words/16-bit values to
-;                 write)
-;             A = offset for placing palette in memory.
+; Parameters:
+; X = number of colors (i.e. number of words/16-bit values to write)
+; A = offset for placing palette in memory.
 ; $0DEF30-$0DEF4A LOCAL JUMP LOCATION
 Palette_SingleLoad:
 {

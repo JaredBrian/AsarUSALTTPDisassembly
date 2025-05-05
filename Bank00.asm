@@ -10702,7 +10702,7 @@ AnimateMirrorWarp_DecompressAnimatedTiles:
 ; ==============================================================================
     
 ; The next 4 tables are actually only 2 but the way the data is laid out is
-; weird. These values are loaded from functios where if X = 0 we are in the LW
+; weird. These values are loaded from functions where if X = 0 we are in the LW
 ; and X = 8 if we are in the DW. So SheetsTable_Mirror and SheetsTable_0AA4
 ; will be read from in the LW and SheetsTable_Mirror2 and SheetsTable_0AA4_2 in
 ; the DW. So it was nice for them to lay it out this way so that they could
@@ -11708,9 +11708,11 @@ LoadNewSpriteGFXSet:
 
 ; Primary and default BG tilesets contains 0x25 8-byte entries indexed by
 ; $0AA1 *8. This is the "Main" blockset in the ZS GFX Manager. This controls
-; sheets 0-7 of the dungeon and overworld tiles. 3-6 can be overwritten by the
-; SheetsTable_0AA2 table room to room or area to area but 0, 1, 2 will stay the
-; same. Sheet 7 will be overwritten by the "animated" sheet.
+; sheets 0-7 of the dungeon and overworld BG tiles. Sheets 3-6 can be overwritten
+; by the SheetsTable_0AA2 table room to room or area to area but 0, 1, 2, and the
+; first half of 7 will stay the same. The second half of sheet 7 will be
+; overwritten by the "animated" sheet.
+; TODO: Doccument what each entry is used for.
 ; $006073-$00619A
 SheetsTable_0AA1:
 {
@@ -12230,9 +12232,8 @@ Pool_Graphics_LoadChrHalfSlot:
 
 ; ==============================================================================
 
-; Okay, so months later I'm back, and this seems to upload 0x20
-; tiles to one of two locations in the sprite region of VRAM - 
-; 0x4400 or 0x4600. Generally I guess you could say that it's designed
+; This seems to upload 0x20 tiles to one of two locations in the sprite region
+; of VRAM - 0x4400 or 0x4600. Generally I guess you could say that it's designed
 ; to load "half slots" or half graphics packs.
 ; $0063FA-$0064E8 LONG JUMP LOCATION
 Graphics_LoadChrHalfSlot:
@@ -12637,8 +12638,6 @@ LoadBgGFX:
     .typicalGfxPack
 
     LDX.b $0F : CPX.b #$04 : BCS .high
-        ; There should be a JMP to Do3To4Low here...
-
         ; Bleeds into the next function.
 }
   
@@ -12689,7 +12688,6 @@ LoadCommonSprGfx:
     ; Loads basic sprite graphics using $0AA4.
     ; Loads more sprite graphics using index #$06.
     LDY.w $0AA4
-    
     LDA.w GFXSheetPointers_sprite_bank, Y : STA.b $02    
     LDA.w GFXSheetPointers_sprite_high, Y : STA.b $01
     LDA.w GFXSheetPointers_sprite_low, Y  : STA.b $00
