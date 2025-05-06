@@ -9293,9 +9293,8 @@ GameOver_SplatAndFade:
     ; Switch to a different fricken submode of this module?
     LDA.b #$0C : STA.b $C8
     
-    LDA.b #$0F : STA.w $0AAA
-    
     ; Grab a half pack of graphics and expand to 4bpp.
+    LDA.b #$0F : STA.w $0AAA
     JSL.l Graphics_LoadChrHalfSlot
     
     STZ.w $0AAA
@@ -9309,8 +9308,8 @@ GameOver_SplatAndFade:
 GameOver_LoadGAMEOVR:
 {
     LDA.b #$0C : STA.b $C8
+
     LDA.b #$0F : STA.w $0AAA
-    
     JSL.l Graphics_LoadChrHalfSlot
     
     STZ.w $0AAA
@@ -9721,7 +9720,6 @@ GameOver_Restore0D:
     LDA.w $020A : BNE GameOver_RunFairyRefill
     
     LDA #$01 : STA.w $0AAA
-    
     JSL.l Graphics_LoadChrHalfSlot
     
     LDA.l $7EC017

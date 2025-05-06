@@ -6040,7 +6040,6 @@ Palette_SpriteAux3:
     
     ; Palette 1
     LDX.w $0AAC
-    
     LDA PaletteIDtoOffset, X : AND.w #$00FF
     ADC.w PaletteData_spritepal0 : STA.b $00
     

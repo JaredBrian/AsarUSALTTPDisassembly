@@ -896,7 +896,6 @@ OverworldMap_DarkWorldTilemap:
 OverworldMap_LoadSprGfx:
 {
     LDA.b #$10 : STA.w $0AAA
-    
     JSL.l Graphics_LoadChrHalfSlot
     
     STZ.w $0AAA

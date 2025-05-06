@@ -12240,144 +12240,143 @@ Graphics_LoadChrHalfSlot:
 {
     ; $AAA is 0, return.
     LDX.w $0AAA : BEQ CopyMode7Chr_easyOut
-    
-    PHB : PHK : PLB
-    
-    LDA.w Pool_Graphics_LoadChrHalfSlot_palette_id-1, X : BMI .negative
-        STA.w $0AB1 ; $0AB1 can be derived from $0AAA.
+        PHB : PHK : PLB
         
-        CPX.b #$01 : BNE .notSlot1
-            ; As far as I can tell, this line is totally redundant. It should
-            ; already be set to 0x0a (10 decimal).
-            LDA.b #$0A : STA.w $0AB1
+        LDA.w Pool_Graphics_LoadChrHalfSlot_palette_id-1, X : BMI .negative
+            STA.w $0AB1 ; $0AB1 can be derived from $0AAA.
             
+            CPX.b #$01 : BNE .notSlot1
+                ; As far as I can tell, this line is totally redundant. It should
+                ; already be set to 0x0a (10 decimal).
+                LDA.b #$0A : STA.w $0AB1
+                
+                LDA.b #$02 : STA.w $0AA9
+                
+                JSL.l Palette_MiscSprite
+                
+                ; Signal to update CGRAM this frame.
+                INC.b $15
+                
+                BRA .loadGraphics
+
+            .notSlot1
+
             LDA.b #$02 : STA.w $0AA9
             
-            JSL.l Palette_MiscSprite
+            JSL.l Palette_MiscSpr_justSP6
             
             ; Signal to update CGRAM this frame.
             INC.b $15
-            
-            BRA .loadGraphics
 
-        .notSlot1
+        .negative
 
-        LDA.b #$02 : STA.w $0AA9
+        .loadGraphics
+
+        LDX.w $0AAA
         
-        JSL.l Palette_MiscSpr_justSP6
+        LDY.b #$44
         
-        ; Signal to update CGRAM this frame.
-        INC.b $15
-
-    .negative
-
-    .loadGraphics
-
-    LDX.w $0AAA
-    
-    LDY.b #$44
-    
-    STZ.b $08 : STZ.b $09
-    
-    ; Toggle Even-Odd state of $0AAA.
-    INC.w $0AAA
-    
-    ; Branch if the new value of $0AAA is even.
-    LDA.w $0AAA : LSR A : BCC .even
-        STZ.w $0AAA
+        STZ.b $08 : STZ.b $09
         
-        ; Check the previous value of $0AAA, before all the shenanigans.
-        CPX.b #$12 : BEQ .specificValues
-            LDA.b #$03 : STA.b $09
-            
-            LDY.b #$46
-            
-            CPX.b #$02 : BNE .specificValues
-                ; TODO: Unknown usage.
-                STZ.w $0112
-
-        .specificValues
-    .even
-
-    STY.w $0116
-    
-    ; Graphics flag.
-    LDA.b #$0B : STA.b $17
-    
-    LDY.w Pool_Graphics_LoadChrHalfSlot_sheet_id, X : CPY.b #$01 : BNE .dontUseDefault
-        ; Just load the typical misc sprite graphics in this case.
-        LDY.w $0AA4
-
-    .dontUseDefault
-
-    ; Y = sprite graphics pack to load. Note that decompression will not be
-    ; occuring, just conversion to 4bpp from 3bpp.
-    
-    LDA.w GFXSheetPointers_sprite_bank, Y : STA.b $02 : STA.b $05
-    LDA.w GFXSheetPointers_sprite_high, Y : STA.b $01
-    LDA.w GFXSheetPointers_sprite_low, Y  : STA.b $00
-    
-    REP #$31
-    
-    LDY.w #$0020 : STY.b $0C ; $0C serves as a counter here.
-    
-    LDX.w #$0000
-    
-    LDA.b $00 : ADC.b $08
-
-    .nextTile
-
-        STA.b $00
+        ; Toggle Even-Odd state of $0AAA.
+        INC.w $0AAA
         
-        CLC : ADC.w #$0010 : BNE .notAtBankEdge
-            LDA.w #$8000
+        ; Branch if the new value of $0AAA is even.
+        LDA.w $0AAA : LSR A : BCC .even
+            STZ.w $0AAA
             
-            INC.b $05
-
-        .notAtBankEdge
-
-        STA.b $03
-        
-        LDY.w #$0007 ; In this case it seems obvious only 8 loops occur.
-
-        .nextBitplane
-
-            LDA [$00] : STA.l $7F1000, X
-            XBA : ORA [$00] : AND.w #$00FF : STA.b $08 
-            
-            INC.b $00 : INC.b $00 : BNE .notAtBankEdge2
-                LDA.b $03 : INC A : STA.b $00
+            ; Check the previous value of $0AAA, before all the shenanigans.
+            CPX.b #$12 : BEQ .specificValues
+                LDA.b #$03 : STA.b $09
                 
-                INC.b $02
+                LDY.b #$46
                 
-                LDA.b $02 : STA.b $05
+                CPX.b #$02 : BNE .specificValues
+                    ; TODO: Unknown usage.
+                    STZ.w $0112
 
-            .notAtBankEdge2
+            .specificValues
+        .even
 
-            LDA [$03] : AND.w #$00FF : STA.b $0A
-            ORA.b $08 : XBA : ORA.b $0A : STA.l $7F1010, X
-            
-            INC.b $03 : BNE .notAtBankEdge3
-                LDA.w #$8000 : STA.b $00
-                LDA.w #$8010 : STA.b $03
-                
-                INC.b $02 : INC.b $05
-
-            .notAtBankEdge3
-        INX #2 : DEY : BPL .nextBitplane
-            
-        TXA : CLC : ADC.w #$0010 : TAX
+        STY.w $0116
         
-        LDA.b $03
-    
-    ; This memory location holds a counter.
-    DEC.b $0C : BNE .nextTile
-    
-    SEP #$30
-    
-    PLB
-    
-    RTL
+        ; Graphics flag.
+        LDA.b #$0B : STA.b $17
+        
+        LDY.w Pool_Graphics_LoadChrHalfSlot_sheet_id, X : CPY.b #$01 : BNE .dontUseDefault
+            ; Just load the typical misc sprite graphics in this case.
+            LDY.w $0AA4
+
+        .dontUseDefault
+
+        ; Y = sprite graphics pack to load. Note that decompression will not be
+        ; occuring, just conversion to 4bpp from 3bpp.
+        
+        LDA.w GFXSheetPointers_sprite_bank, Y : STA.b $02 : STA.b $05
+        LDA.w GFXSheetPointers_sprite_high, Y : STA.b $01
+        LDA.w GFXSheetPointers_sprite_low, Y  : STA.b $00
+        
+        REP #$31
+        
+        LDY.w #$0020 : STY.b $0C ; $0C serves as a counter here.
+        
+        LDX.w #$0000
+        
+        LDA.b $00 : ADC.b $08
+
+        .nextTile
+
+            STA.b $00
+            
+            CLC : ADC.w #$0010 : BNE .notAtBankEdge
+                LDA.w #$8000
+                
+                INC.b $05
+
+            .notAtBankEdge
+
+            STA.b $03
+            
+            LDY.w #$0007 ; In this case it seems obvious only 8 loops occur.
+
+            .nextBitplane
+
+                LDA [$00] : STA.l $7F1000, X
+                XBA : ORA [$00] : AND.w #$00FF : STA.b $08 
+                
+                INC.b $00 : INC.b $00 : BNE .notAtBankEdge2
+                    LDA.b $03 : INC A : STA.b $00
+                    
+                    INC.b $02
+                    
+                    LDA.b $02 : STA.b $05
+
+                .notAtBankEdge2
+
+                LDA [$03] : AND.w #$00FF : STA.b $0A
+                ORA.b $08 : XBA : ORA.b $0A : STA.l $7F1010, X
+                
+                INC.b $03 : BNE .notAtBankEdge3
+                    LDA.w #$8000 : STA.b $00
+                    LDA.w #$8010 : STA.b $03
+                    
+                    INC.b $02 : INC.b $05
+
+                .notAtBankEdge3
+            INX #2 : DEY : BPL .nextBitplane
+                
+            TXA : CLC : ADC.w #$0010 : TAX
+            
+            LDA.b $03
+        
+        ; This memory location holds a counter.
+        DEC.b $0C : BNE .nextTile
+        
+        SEP #$30
+        
+        PLB
+        
+        RTL
 }
 
 ; ==============================================================================

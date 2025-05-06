@@ -5483,16 +5483,43 @@ struct WRAM $7E0000
         ; 0x0000 - Load into $7EC300
         ; 0x0200 - Load into $7EC500
 
-    ; $0AAA[0x01] - 
-        ; Confusing variable, relates to $0FC6 somehow
+    ; $0AAA[0x01] - (GFX)
+    .GFXSpriteSheetIndexTemp: skip $01
+        ; Used in conjuction with Graphics_LoadChrHalfSlot to load half sheets on
+        ; demand. Typically used for sprite tiles that don't need to be use all
+        ; the time like the medallion effects and the nintendo logo at the
+        ; beginning. See Graphics_LoadChrHalfSlot for more details.
+        ; 0x00 - Overworld common
+        ; 0x01 - Overworld common
+        ; 0x02 - Intro
+        ; 0x03 - Intro
+        ; 0x04 - Unused
+        ; 0x05 - Unused
+        ; 0x06 - Ether
+        ; 0x07 - Ether
+        ; 0x08 - Ether
+        ; 0x09 - Ether
+        ; 0x0A - Bombos
+        ; 0x0B - Bombos
+        ; 0x0C - Quake
+        ; 0x0D - Quake
+        ; 0x0E - Game over
+        ; 0x0F - Game over
+        ; 0x10 - Intro
+        ; 0x11 - Intro
+        ; 0x12 - Intro
+        ; 0x13 - Intro
 
-    ; $0AAB - 
-        ; Free RAM?
+    ; $0AAB[0x01] - (Free)
+    .Free_0AAB: skip $01
+        ; Free RAM.
 
     ; $0AAC - 
-        ; Used to load SP-0 (first half) Usually inanimate object sprites. Valid values are 0x00 to 0x0B
+        ; Used to load SP-0 (first half) Usually inanimate object sprites. Valid values are 0x00 to 0x0B. Palette_SpriteAux3
+
     ; $0AAD - 
         ; Used to load SP-5 (first half) Usually for sprites specific to an area / room. Valid values are 0x00 to 0x17
+
     ; $0AAE - 
         ; Used to load SP-6 (first half) Usually for sprites specific to an area / room. Valid values are 0x00 to 0x17
 

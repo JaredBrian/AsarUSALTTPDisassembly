@@ -47,7 +47,6 @@ Intro_SetupScreen:
 
     ; This selects the offset to load the "Nintendo" sprite graphics pack.
     LDA.b #$14 : STA.w $0AAA
-
     JSL.l Graphics_LoadChrHalfSlot
 
     ; Reset this setting because we only needed it for loading the "Nintendo" logo.
@@ -2675,7 +2674,6 @@ Dungeon_FallingTransition_LandLinkFromFalling:
         LDA.b #$11 : STA.b $B0
 
         LDA.b #$01 : STA.w $0AAA
-
         JSL.l Graphics_LoadChrHalfSlot
 
     .BRANCH_ALPHA
