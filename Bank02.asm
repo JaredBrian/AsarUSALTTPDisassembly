@@ -2463,11 +2463,13 @@ ResetThenCacheRoomEntryProperties:
 ; $010D81-$010E0E LOCAL JUMP LOCATION
 CacheRoomEntryProperties:
 {
+    ; OPTIMIZE: We may be able to remove this routine in favor of
+    ; Player_CacheStatePriorToHandler or vis versa.
+
     REP #$20
 
     LDA.b $E2 : STA.l $7EC180
     LDA.b $E8 : STA.l $7EC182
-
     LDA.b $20 : STA.l $7EC184
     LDA.b $22 : STA.l $7EC186
 
@@ -10255,64 +10257,63 @@ OverworldScrollTransition:
     .dontMoveLink
 
     ; Return
-    LDA.b $00 : CMP.w $0610, Y : BNE .BRANCH_$13FFA
+    LDA.b $00 : CMP.w $0610, Y : BNE OverworldScrollTransition_dirty_exit
+        LDA.w $0418 : AND.w #$00FF : BNE .notUpScroll
+            LDA.b $E8 : SEC : SBC.w #$0002 : STA.b $E8
 
-    LDA.w $0418 : AND.w #$00FF : BNE .notUpScroll
-        LDA.b $E8 : SEC : SBC.w #$0002 : STA.b $E8
+        .notUpScroll
 
-    .notUpScroll
+        ; Snap Link's coordinate to an 8-pixel grid
+        LDA.b $20, X : AND.w #$FFF8 : STA.b $20, X
+        CLC : ADC.w Pool_Overworld_SetCameraBounds_boundary_delta, Y : PHA
 
-    ; Snap Link's coordinate to an 8-pixel grid
-    LDA.b $20, X : AND.w #$FFF8 : STA.b $20, X
-    CLC : ADC.w Pool_Overworld_SetCameraBounds_boundary_delta, Y : PHA
+        ; X = 0x00 or 0x04
+        TXA : ASL A : TAX
 
-    ; X = 0x00 or 0x04
-    TXA : ASL A : TAX
+        PLA : CLC : ADC.w #$000B : STA.w $061A, X
 
-    PLA : CLC : ADC.w #$000B : STA.w $061A, X
+        INC #2 : STA.w $0618, X
 
-    INC #2 : STA.w $0618, X
+        PHX
 
-    PHX
+        LDX.b #$00
 
-    LDX.b #$00
+        LDA.w $0712 : BEQ .largeOwMap
+            INX #2
 
-    LDA.w $0712 : BEQ .largeOwMap
-        INX #2
+        .largeOwMap
 
-    .largeOwMap
+        LDA.w $0700 : CLC : ADC.w OverworldMixedCoordsChange, Y : TAY
 
-    LDA.w $0700 : CLC : ADC.w OverworldMixedCoordsChange, Y : TAY
+        JSR.w Overworld_SetCameraBounds
 
-    JSR.w Overworld_SetCameraBounds
+        PLX
 
-    PLX
+        STZ.w $0624, X : STZ.w $0626, X
 
-    STZ.w $0624, X : STZ.w $0626, X
+        SEP #$20
 
-    SEP #$20
+        LDA.b #$01 : STA.w $0ABF
 
-    LDA.b #$01 : STA.w $0ABF
+        LDX.w $0410
 
-    LDX.w $0410
+        ; Move on to next submodule.
+        INC.b $11
 
-    ; Move on to next submodule.
-    INC.b $11
+        STZ.b $B0
+        STZ.w $0126
 
-    STZ.b $B0
-    STZ.w $0126
+        PLB
 
-    PLB
+        LDA.b $00
 
-    LDA.b $00
+        PHA : PHX
 
-    PHA : PHX
+        JSL.l InitSpriteSlots
 
-    JSL.l InitSpriteSlots
+        PLX : PLA
 
-    PLX : PLA
-
-    RTS
+        RTS
 }
 
 ; Inputs:
@@ -10323,8 +10324,6 @@ OverworldScrollTransition:
 ; $0140C3-$0140F7 LOCAL JUMP LOCATION
 Overworld_SetCameraBounds:
 {
-    ; ADDs are from $013FE2-$013FF1
-
     LDA.w OverworldTransitionPositionY, Y
     STA.w $0600
 
@@ -12328,7 +12327,7 @@ Dungeon_LoadStartingPoint:
     ; Load the dungeon room index.
     LDA.w SpawnPointData_room_id, X : STA.b $A0 : STA.w $048E
 
-    ; Load Camera Y and X coordinates.
+    ; Load camera Y and X coordinates.
     LDA.w SpawnPointData_vertical_scroll, X
     STA.b $E8 : STA.b $E6 : STA.w $0122 : STA.w $0124
 
@@ -13609,8 +13608,8 @@ Overworld_LoadExitData:
 
     .positive1
 
-    LDA.w UnderworldExitData_scroll_mod_x, X : STA.w $0628
-    STZ.w $0629 : ASL A : BCC .positive2
+    LDA.w UnderworldExitData_scroll_mod_x, X : STA.w $0628 : STZ.w $0629
+    ASL A : BCC .positive2
         DEC.w $0629 ; Sign extend to 16-bit.
 
     .positive2

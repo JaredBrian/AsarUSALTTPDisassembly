@@ -17893,8 +17893,8 @@ Player_LedgeJumpInducedLayerChange:
 ; $00FF28-$00FFB5 LONG JUMP LOCATION
 Player_CacheStatePriorToHandler:
 {
-    ; OPTIMIZE: We may be able to remove this routine...
-    ; OPTIMIZE: Changing the B register would speed it up a lot.
+    ; OPTIMIZE: We may be able to remove this routine in favor of
+    ; CacheRoomEntryProperties or vis versa.
     
     REP #$20
     

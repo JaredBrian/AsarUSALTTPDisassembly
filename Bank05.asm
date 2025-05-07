@@ -1771,7 +1771,7 @@ SpriteDraw_GuardSpear:
     
     LDA.w $0E20, X : STA.b $08
     
-    LDA.w $0DE0, X : ASL #2 : ORA.b $06 : STA.b $0606
+    LDA.w $0DE0, X : ASL #2 : ORA.b $06 : STA.b $06
     
     PHX
     

@@ -1908,9 +1908,9 @@ struct WRAM $7E0000
     .BG1VScrollHigh: skip $01
         ; The high byte for BG1VScrollLow.
 
-    ; $0126[0x01] - (Dungeon, Overworld)
+    ; $0126[0x01] - (Dungeon, Overworld, Camera)
     .TransitionStepCounter: skip $01
-        ; Used as a counter during Dungeon and Overworld transitions to count how
+        ; Used as a counter during dungeon and overworld transitions to count how
         ; many steps or how many times we've moved the camera over to the target
         ; area or room.
 
@@ -5171,7 +5171,7 @@ struct WRAM $7E0000
         ; Overworld camera northern Y boundary.
         
     ; $070A[0x02] - (Overworld, Camera)
-    .OWCameraBoundsSize: skip $02
+    .OWCameraYBoundsSize: skip $02
         ; Overworld camera Y boundary size.
         ; 0x01F0 - Small screens
         ; 0x03F0 - Big screens
@@ -5181,7 +5181,7 @@ struct WRAM $7E0000
         ; Overworld camera western X boundary.
 
     ; $070E[0x02] - (Overworld, Camera)
-    .OWCameraBoundsSize: skip $02
+    .OWCameraXBoundsSize: skip $02
         ; Overworld camera X boundary size.
         ; 0x003E on small screens
         ; 0x007E on big screens
@@ -7857,8 +7857,7 @@ struct WRAM $7F0000
     ; $7F2000[0x2000] -   at some point carries the tile map data for the rain overlay.
 
     ; $7F2000[0x1000] -   (Dungeon)
-
-        ; BG2 tile attribute table - (after the level/room has loaded), tile information for the room/map.
+        ; BG2 tile attribute/collision table - (after the level/room has loaded), tile information for the room/map.
         ; In particular tells the game how to handle each 8x8 tile.
         ; For example, a chest will have the value 0x58 (or something similar) in 4 different locations, interlaced of course.
         
@@ -8056,7 +8055,7 @@ struct WRAM $7F0000
         ; 0xF3 - Key door 4
         ; 0xF4 - ????
 
-    ; $7F3000[0x1000] -   Tile Attribute table for BG1. Same as $7F2000 but for a different background.
+    ; $7F3000[0x1000] -   Tile attribute/collision table for BG1. Same as $7F2000 but for a different background.
 
     ; $7F4000[0x800] -    Decompression buffer for.... sprite stats and perhaps other
                         ; crap too.
