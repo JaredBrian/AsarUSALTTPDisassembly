@@ -6768,8 +6768,12 @@ OverworldHandleTransitions:
         LDX.w $0700
         LDA.b $22 : SEC : SBC OverworldTransitionPositionX, X
 
-        LDY.b #$02 : LDX.b #$02 : CMP.w #$0006 : BCC .BRANCH_GAMMA
-            LDY.b #$00 : LDX.b #$01 : CMP.b $02 : BCC .BRANCH_DELTA
+        LDY.b #$02 : LDX.b #$02
+        
+        CMP.w #$0006 : BCC .BRANCH_GAMMA
+            LDY.b #$00 : LDX.b #$01
+            
+            CMP.b $02 : BCC .BRANCH_DELTA
 
     .BRANCH_GAMMA
 
@@ -7139,7 +7143,7 @@ OverworldTranScrollSet:
 Overworld_EaseOffScrollTransition:
 {
     LDX.b $8A
-    LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : BEQ .largeArea
+    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : BEQ .largeArea
         LDX.w $0410 : STX.w $0416
 
         JSR.w OverworldTransitionScrollAndLoadMap
@@ -7164,7 +7168,7 @@ Overworld_EaseOffScrollTransition:
 
             LDX.b $8A
 
-            LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : BEQ .largeArea2
+            LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : BEQ .largeArea2
                 REP #$20
 
                 LDA.l $7EC172 : STA.b $84
@@ -8190,7 +8194,7 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
 
     LDX.b $8A
 
-    LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area
+    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
         SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
@@ -8240,7 +8244,7 @@ MirrorWarp_LoadSpritesAndColors:
 
     LDX.b $8A
 
-    LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area
+    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
         SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
@@ -14368,7 +14372,7 @@ Overworld_LoadAmbientOverlay:
 
     LDX.b $8A
 
-    LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
     AND.w #$00FF : BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
@@ -14390,7 +14394,7 @@ Overworld_LoadAmbientOverlay:
 
         ; X = Area number
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area_2
+        LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area_2
             LDA.w #$0390 : STA.b $84
 
             SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
@@ -14738,7 +14742,7 @@ Overworld_StartTransMapUpdate:
 
     ; Performa a different routine depending on whether the area is 512x512 or
     ; 1024x1024.
-    LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : BNE .smallArea
+    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : BNE .smallArea
         LDA.w $0416 : ASL A : TAX
 
         JMP (Overworld_LargeTransTable, X)
@@ -15220,7 +15224,8 @@ CheckForNewlyLoadedMapAreas_North:
 
     LDA.b $84 : CMP.w #$0080 : BMI .BRANCH_ALPHA
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BNE .BRANCH_BETA
+        LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+        AND.w #$00FF : BNE .smallArea
             ; $0172F1 ALTERNATE ENTRY POINT
             .NewStripe
 
@@ -15238,7 +15243,7 @@ CheckForNewlyLoadedMapAreas_North:
 
         LDA.b $88 : DEC A : AND.w #$001F : STA.b $88
 
-    .BRANCH_ALPHA
+    .smallArea
 
     RTS
 }
