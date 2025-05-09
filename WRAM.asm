@@ -2632,7 +2632,7 @@ struct WRAM $7E0000
     ; $02EC[0x01] - (Player, Ancilla) 
     .LiftableID: skip $01
         ; When the player is near a liftable ancilla, this holds its slot+1. Often
-        ; just used as a non-0 check to see if the player can lift something.
+        ; just used as a non zero check to see if the player can lift something.
 
     ; $02ED[0x01] - (Player, Tile Attribute, DesertBarrier) 
     .NearPlaque: skip $01
@@ -5514,11 +5514,56 @@ struct WRAM $7E0000
     .Free_0AAB: skip $01
         ; Free RAM.
 
-    ; $0AAC - 
-        ; Used to load SP-0 (first half) Usually inanimate object sprites. Valid values are 0x00 to 0x0B. Palette_SpriteAux3
+    ; $0AAC[0x01] - (Palette)
+    .SprAux3Pal: skip $01
+        ; Used to load a 7 color palette to the first half of SP-0 if $0ABD is
+        ; zero or the first half of SP-7 if $0ABD is non zero. See the definition
+        ; of $7EC500 for palette descriptions. See Palette_SpriteAux3 for more
+        ; details.
+        ; The valid values are: TODO: Document these values.
+        ; 0x00 - 
+        ; 0x01 - LW default
+        ; 0x02 - 
+        ; 0x03 - DW default
+        ; 0x04 - 
+        ; 0x05 - 
+        ; 0x06 - 
+        ; 0x07 - 
+        ; 0x08 - 
+        ; 0x09 - 
+        ; 0x0A - 
+        ; 0x0B - Intro sword palette
 
-    ; $0AAD - 
-        ; Used to load SP-5 (first half) Usually for sprites specific to an area / room. Valid values are 0x00 to 0x17
+    ; $0AAD[0x01] - (Palette)
+    .SprAux1Pal: skip $01
+        ; Used to load a 7 color palette the first half of SP-5. Usually for
+        ; sprites specific to an area / room. See the definition of $7EC500 for
+        ; palette descriptions. See Palette_SpriteAux1 for more details.
+        ; Valid values are
+        ; 0x00
+        ; 0x01
+        ; 0x02
+        ; 0x03
+        ; 0x04
+        ; 0x05
+        ; 0x06
+        ; 0x07
+        ; 0x08
+        ; 0x09
+        ; 0x0A
+        ; 0x0B
+        ; 0x0C
+        ; 0x0D
+        ; 0x0E
+        ; 0x0F
+        ; 0x10
+        ; 0x11
+        ; 0x12
+        ; 0x13
+        ; 0x14
+        ; 0x15
+        ; 0x16
+        ; 0x17
 
     ; $0AAE - 
         ; Used to load SP-6 (first half) Usually for sprites specific to an area / room. Valid values are 0x00 to 0x17
@@ -7743,7 +7788,7 @@ struct WRAM $7E0000
         ; BP-7 (second half)  - Overworld:  cloud tiles (some), rope bridges
         ; Dungeons:   Ceilings
         ; SP-0 (first half)   - Sanctuary and Hyrule Castle Mantle, old guy at the bar in Kakkariko's body,
-        ; weird head looking things at the entrance to the Desert Palace, bombos and ether tablets
+        ; weird head looking things at the entrance to the Desert Palace, bombos and ether tablets, intro sword
         ; SP-0 (second half)  - heavy rocks
         ; SP-1 (first half)   - apples from trees, part of master sword beam, grass around your legs, off color bushes
         ; SP-1 (second half)  - red rupees, small hearts, red potion in shops, some shadows, link's bow

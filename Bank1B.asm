@@ -6057,7 +6057,6 @@ Palette_SpriteAux3:
     
     ; Write a palette consisting of 7 colors to CGRAM buffer
     LDX.w #$0006
-    
     JSR.w Palette_SingleLoad
     
     SEP #$30
@@ -6094,7 +6093,6 @@ Palette_MainSpr:
     LDA.w #$0122
     LDX.w #$000E
     LDY.w #$0003
-    
     JSR.w Palette_MultiLoad
     
     SEP #$30
@@ -6111,13 +6109,10 @@ Palette_SpriteAux1:
     
     ; Load sprite palette 2 value
     LDA.w $0AAD : AND.w #$00FF : ASL A : TAX
-    
-    ; TODO: See if there is a way to reference the address directly here.
     LDA PaletteIDtoOffset, X : ADC.w PaletteData_spriteaux : STA.b $00
     
     LDA.w #$01A2 ; Target SP-5 (first half)
     LDX.w #$0006 ; Palette has 7 colors
-    
     JSR.w Palette_SingleLoad
     
     SEP #$30
@@ -6134,13 +6129,10 @@ Palette_SpriteAux2:
     
     ; Load sprite palette 3 value
     LDA.w $0AAE : AND.w #$00FF : ASL A : TAX
-    
-    ; TODO: See if there is a way to reference the address directly here.
     LDA PaletteIDtoOffset, X : ADC.w PaletteData_spriteaux : STA.b $00
     
-    LDA.w $01C2    ; Target SP-6 (first half)
+    LDA.w $01C2  ; Target SP-6 (first half)
     LDX.w #$0006 ; Palette has 7 colors
-    
     JSR.w Palette_SingleLoad
     
     SEP #$30
@@ -6159,8 +6151,6 @@ Palette_Sword:
     
     ; Figure out what kind of sword Link has.
     LDA.l $7EF359 : AND.w #$00FF : TAX
-    
-    ; TODO: See if there is a way to reference the address directly here.
     LDA SwordPaletteOffsets, X : AND.w #$00FF
     ADC.w PaletteData_sword : STA.b $00
     
@@ -6168,7 +6158,6 @@ Palette_Sword:
     
     LDA.w #$01B2 ; Target SP-5 (second half)
     LDX.w #$0002 ; Palette has 3 colors
-    
     JSR.w Palette_ArbitraryLoad
     
     SEP #$30
@@ -6189,7 +6178,6 @@ Palette_Shield:
     
     ; Figure out what kind of shield Link has.
     LDA.l $7EF35A : AND.w #$00FF : TAX
-    
     LDA ShieldPaletteOffsets, X : AND.w #$00FF
     ADC.w PaletteData_shield : STA.b $00
     
@@ -6198,7 +6186,6 @@ Palette_Shield:
     ; Target SP-5 (second half), load 4 colors
     LDA.w #$01B8
     LDX.w #$0003
-    
     JSR.w Palette_ArbitraryLoad
     
     SEP #$30
@@ -6219,7 +6206,6 @@ Palette_Unused:
     REP #$21
     
     LDX.w $0AB0
-    
     LDA PaletteIDtoOffset, X : AND.w #$00FF
     ADC.w PaletteData_environment : STA.b $00
     
@@ -6228,7 +6214,6 @@ Palette_Unused:
     ; Target SP-6 (first half)
     LDA.w #$01C2
     LDX.w #$0006
-    
     JSR.w Palette_SingleLoad
     
     SEP #$30
@@ -6249,16 +6234,13 @@ Palette_MiscSpr:
         REP #$21
         
         LDX.w $0AB1
-        
         LDA PaletteIDtoOffset, X : AND.w #$00FF
-        
         ADC.w PaletteData_environment : STA.b $00
         
         REP #$10
         
         LDA.w #$01D2  ; Target SP-6 (second half)
         LDX.w #$0006  ; Palette has 7 colors
-        
         JSR.w Palette_SingleLoad
         
         SEP #$30
@@ -6297,7 +6279,6 @@ Palette_MiscSpr:
     .useSP0
     
     LDX.w #$0006 ; 7 color palette
-    
     JSR.w Palette_SingleLoad
     
     SEP #$10

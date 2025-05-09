@@ -6225,7 +6225,6 @@ Attract_PrepMaidenWarp:
     STZ.w $0AAC
     
     LDA.b #$0E : STA.w $0AAD
-    
     LDA.b #$03 : STA.w $0AAE
     
     STZ.w $0AA9
