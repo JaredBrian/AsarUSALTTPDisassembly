@@ -3,6 +3,11 @@
 ; WRAM Map
 ; WIP will eventually replace the WRAM.log
 
+; https://github.com/spannerisms/jpdasm/blob/master/symbols_wram.asm
+; Other sources to look at:
+; https://www.p4plus2.com/Zelda%20Dissasembly.txt
+; https://www.p4plus2.com/zelda/ram.php
+
 ; ===============================================================================
 
 ; Shorthand legend:
@@ -4725,10 +4730,10 @@ struct WRAM $7E0000
 
     ; $0630[0x02] - (IRQ)
     .BG3HScrollIRQ: skip $02
-        ; Writes to SNES.BG3HScrollOffset or the BG3 Hscroll Register during V-IRQ.
-        ; Used exclusivly during the save file naming/erasing routines. TODO:
+        ; Writes to SNES.BG3HScrollOffset or the BG3 Hscroll Register during 
+        ; V-IRQ. Used exclusivly during the save file naming/erasing routines.
         ; Kan's dissasembly claims this is used during the credits routine but
-        ; I don't see any evidence of this. Confirm.
+        ; I don't see any evidence of this.
 
     ; $0632[0x03] - (Free)
     .Free_0632: skip $03
