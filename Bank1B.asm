@@ -6198,11 +6198,10 @@ Palette_Shield:
 
 ; ==============================================================================
 
+; UNUSED: This routine isn't referenced anywhere in the game... that i can tell...
 ; $0DED4F-$0DED6D
 Palette_Unused:
 {
-    ; This routine isn't referenced anywhere in the game... that i can tell...
-    
     REP #$21
     
     LDX.w $0AB0

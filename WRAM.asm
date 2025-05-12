@@ -5524,7 +5524,7 @@ struct WRAM $7E0000
         ; Used to load a 7 color palette to the first half of SP-0 if $0ABD is
         ; zero or the first half of SP-7 if $0ABD is non zero. See the definition
         ; of $7EC500 for palette descriptions. See Palette_SpriteAux3 for more
-        ; details.
+        ; details. TODO: Find the ZS reference.
         ; The valid values are: TODO: Document these values.
         ; 0x00 - 
         ; 0x01 - LW default
@@ -5541,47 +5541,99 @@ struct WRAM $7E0000
 
     ; $0AAD[0x01] - (Palette)
     .SprAux1Pal: skip $01
-        ; Used to load a 7 color palette the first half of SP-5. Usually for
+        ; Used to load a 7 color palette to the first half of SP-5. Usually for
         ; sprites specific to an area / room. See the definition of $7EC500 for
-        ; palette descriptions. See Palette_SpriteAux1 for more details.
-        ; Valid values are
-        ; 0x00
-        ; 0x01
-        ; 0x02
-        ; 0x03
-        ; 0x04
-        ; 0x05
-        ; 0x06
-        ; 0x07
-        ; 0x08
-        ; 0x09
-        ; 0x0A
-        ; 0x0B
-        ; 0x0C
-        ; 0x0D
-        ; 0x0E
-        ; 0x0F
-        ; 0x10
-        ; 0x11
-        ; 0x12
-        ; 0x13
-        ; 0x14
-        ; 0x15
-        ; 0x16
-        ; 0x17
+        ; palette descriptions. See Palette_SpriteAux1 for more details. TODO:
+        ; Find the ZS reference.
+        ; Valid values are: TODO: Document these values.
+        ; 0x00 - 
+        ; 0x01 - 
+        ; 0x02 - 
+        ; 0x03 - 
+        ; 0x04 - 
+        ; 0x05 - 
+        ; 0x06 - 
+        ; 0x07 - 
+        ; 0x08 - 
+        ; 0x09 - 
+        ; 0x0A - 
+        ; 0x0B - 
+        ; 0x0C - 
+        ; 0x0D - 
+        ; 0x0E - 
+        ; 0x0F - 
+        ; 0x10 - 
+        ; 0x11 - 
+        ; 0x12 - 
+        ; 0x13 - 
+        ; 0x14 - 
+        ; 0x15 - 
+        ; 0x16 - 
+        ; 0x17 - 
 
-    ; $0AAE - 
-        ; Used to load SP-6 (first half) Usually for sprites specific to an area / room. Valid values are 0x00 to 0x17
+    ; $0AAE[0x01] - (Palette)
+    .SprAux2Pal: skip $01
+        ; Used to load a 7 color palette to the first half of SP-6. Usually for
+        ; sprites specific to an area / room. See the definition of $7EC500 for
+        ; palette descriptions. See Palette_SpriteAux2 for more details. TODO:
+        ; Find the ZS reference.
+        ; Valid values are: TODO: Document these values, are they the same as AUX1?
+        ; 0x00 - 
+        ; 0x01 - 
+        ; 0x02 - 
+        ; 0x03 - 
+        ; 0x04 - 
+        ; 0x05 - 
+        ; 0x06 - 
+        ; 0x07 - 
+        ; 0x08 - 
+        ; 0x09 - 
+        ; 0x0A - 
+        ; 0x0B - 
+        ; 0x0C - 
+        ; 0x0D - 
+        ; 0x0E - 
+        ; 0x0F - 
+        ; 0x10 - 
+        ; 0x11 - 
+        ; 0x12 - 
+        ; 0x13 - 
+        ; 0x14 - 
+        ; 0x15 - 
+        ; 0x16 - 
+        ; 0x17 - 
 
-    ; $0AAF - 
-        ; Free RAM
+    ; $0AAF[0x01] - (Free)
+    .Free_0AAF: skip $01
+        ; Free RAM.
 
-    ; $0AB0 - 
-        ; So far only seen referenced in an unreferenced palette routine.
-        ; Thus, can be considered Free RAM for now.
+    ; $0AB0[0x01] - (Free, Palette)
+    .Free_0AB0: skip $01
+        ; Only seen once in an unreferenced routine: Palette_Unused. This function
+        ; would have been used to load a 7 color palette to the first half SP-6.
 
     ; $0AB1[0x01] - (Palette)
-        ; Used to load SP-6 (second half) Used for the palette for throwable objects
+        ; Used to load a 7 color palette to the second half of SP-6. Used for the
+        ; palette for throwable objects. See the definition of $7EC500 for palette
+        ; descriptions. See Palette_MiscSpr_justSP6 for more details. TODO: Find
+        ; the ZS reference.
+        ; Valid values are: TODO: Document these values.
+        ; 0x00 - 
+        ; 0x01 - 
+        ; 0x02 - 
+        ; 0x03 - 
+        ; 0x04 - 
+        ; 0x05 - 
+        ; 0x06 - 
+        ; 0x07 - 
+        ; 0x08 - 
+        ; 0x09 - 
+        ; 0x0A - 
+        ; 0x0B - 
+        ; 0x0C - 
+        ; 0x0D - 
+        ; 0x0E - 
+        ; 0x0F - 
 
     ; $0AB2 - 
         ; Used to select the first palette in CGRAM (the screen's background is its first color)
