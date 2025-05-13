@@ -2429,7 +2429,7 @@ FileSelect_InitializeGFX:
     
     LDA.b #$00 : STA.w $0AB2
     
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
     
     STZ.w $0202
     
@@ -5826,12 +5826,12 @@ Attract_InitGraphics:
     
     STZ.w $0AA9
     
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
     
     LDA.b #$02 : STA.w $0AA9
     
     JSL.l Palette_OverworldBgMain
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
     JSL.l Palette_ArmorAndGloves
     
     LDA.b #$00 : STA.l $7EC53A

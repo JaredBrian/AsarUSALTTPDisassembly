@@ -1128,7 +1128,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     LDA.b #$01 : STA.w $0AB2
 
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
 
     LDA.b $11 : BNE .BRANCH_4
         JSL.l CopyFontToVram
@@ -8496,7 +8496,7 @@ Whirlpool_LoadPalettes:
     JSL.l Palette_MainSpr
     JSL.l Palette_MiscSpr
     JSL.l Palette_SpriteAux3
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
     JSL.l Palette_OverworldBgMain
 
     LDX.b $8A
@@ -10961,7 +10961,7 @@ Attract_LoadDungeonGfxAndTiles:
     JSL.l Palette_SpriteAux1
     JSL.l Palette_SpriteAux2
     JSL.l Palette_MiscSpr_justSp6
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
     JSL.l Palette_DungBgMain
 
     RTL
@@ -11053,7 +11053,7 @@ Intro_LoadPalettes:
     JSL.l Palette_OverworldBgAux2
     JSL.l Palette_OverworldBgAux3
     JSL.l Palette_MiscSpr_justSp6
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
 
     REP #$20
 
@@ -11087,7 +11087,7 @@ Dungeon_LoadPalettes:
     JSL.l Palette_Shield
     JSL.l Palette_MiscSpr
     JSL.l Palette_ArmorAndGloves
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
     JSL.l Palette_DungBgMain
 
     ; Bleeds into the next function.
@@ -11193,7 +11193,7 @@ Overworld_LoadAreaPalettes:
     JSL.l Palette_SpriteAux3
 
     ; Load BP0 and BP1 (first halves)
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
 
     ; Load BP2 through BP5 (first halves)
     JSL.l Palette_OverworldBgMain

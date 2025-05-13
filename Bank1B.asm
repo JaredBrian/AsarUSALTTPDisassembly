@@ -6045,13 +6045,11 @@ Palette_SpriteAux3:
     
     REP #$10
     
-    ; Target SP-0 (first half)
-    LDA.w #$0102
+    LDA.w #$0102 ; Target SP-0 (first half)
     
     ; Depending on this flag, use different palette areas.
     LDX.w $0ABD : BEQ .useSP0
-        ; Target SP-7 (first half) instead
-        LDA.w #$01E2
+        LDA.w #$01E2 ; Target SP-7 (first half)
     
     .useSP0
     
@@ -6083,16 +6081,13 @@ Palette_MainSpr:
     
     .lightWorld
     
-    ; TODO: See if there is a way to reference the address directly here.
     LDA PaletteWorldIDtoOffset, X : ADC.w PaletteData_sprite : STA.b $00
     
     REP #$10
     
-    ; Target SP-1 through SP-4 (full), Each palette has 15 colors, Load 4
-    ; palettes.
-    LDA.w #$0122
-    LDX.w #$000E
-    LDY.w #$0003
+    LDA.w #$0122 ; Target SP-1 through SP-4 (full)
+    LDX.w #$000E ; Load 15 colors
+    LDY.w #$0003 ; Load 4 palettes
     JSR.w Palette_MultiLoad
     
     SEP #$30
@@ -6183,9 +6178,8 @@ Palette_Shield:
     
     REP #$10
     
-    ; Target SP-5 (second half), load 4 colors
-    LDA.w #$01B8
-    LDX.w #$0003
+    LDA.w #$01B8 ; Target SP-5 (second half)
+    LDX.w #$0003 ; Load 4 colors
     JSR.w Palette_ArbitraryLoad
     
     SEP #$30
@@ -6210,9 +6204,8 @@ Palette_Unused:
     
     REP #$10
     
-    ; Target SP-6 (first half)
-    LDA.w #$01C2
-    LDX.w #$0006
+    LDA.w #$01C2 ; Target SP-6 (first half)
+    LDX.w #$0006 ; 7 colors
     JSR.w Palette_SingleLoad
     
     SEP #$30
@@ -6238,8 +6231,8 @@ Palette_MiscSpr:
         
         REP #$10
         
-        LDA.w #$01D2  ; Target SP-6 (second half)
-        LDX.w #$0006  ; Palette has 7 colors
+        LDA.w #$01D2 ; Target SP-6 (second half)
+        LDX.w #$0006 ; Palette has 7 colors
         JSR.w Palette_SingleLoad
         
         SEP #$30
@@ -6268,12 +6261,11 @@ Palette_MiscSpr:
     
     REP #$10
     
-    ; Target SP-0 (second half)
-    LDA.w #$0112
+    LDA.w #$0112 ; Target SP-0 (second half)
     
     ; Not sure but it's definitely palette related.
     LDX.w $0ABD : BEQ .useSP0
-        LDA.w #$01F2 ; Target SP-7 (second half) instead
+        LDA.w #$01F2 ; Target SP-7 (second half)
     
     .useSP0
     
@@ -6291,7 +6283,6 @@ Palette_MiscSpr:
     
     LDA.w #$01D2 ; Target SP-6 (second half)
     LDX.w #$0006 ; 7 color palette
-    
     JSR.w Palette_SingleLoad
     
     REP #$30
@@ -6313,11 +6304,9 @@ Palette_PalaceMapSpr:
     
     REP #$10
     
-    ; Starting target palette is SP4, 7 colors each, load 3 palettes
-    LDA.w #$0182
-    LDX.w #$0006
-    LDY.w #$0002
-    
+    LDA.w #$0182 ; Starting target palette is SP4
+    LDX.w #$0006 ; 7 colors
+    LDY.w #$0002 ; Load 3 palettes
     JSR.w Palette_MultiLoad
     
     SEP #$30
@@ -6350,7 +6339,6 @@ Palette_ArmorAndGloves:
     
     LDA.w #$01E2 ; Target SP-7 (sprite palette 6)
     LDX.w #$000E ; Palette has 15 colors
-    
     JSR.w Palette_ArbitraryLoad
     
     ; $0DEE1B ALTERNATE ENTRY POINT
@@ -6391,7 +6379,6 @@ Palette_PalaceMapBg:
     LDA.w #$0040 ; Starting target palette is BP-2
     LDX.w #$000F ; Each palette has 16 colors
     LDY.w #$0005 ; Load 6 palettes
-    
     JSR.w Palette_MultiLoad
     
     SEP #$30
@@ -6402,25 +6389,20 @@ Palette_PalaceMapBg:
 ; =============================================
 
 ; $0DEE52-$0DEE73 LONG JUMP LOCATION
-Palette_Hud:
+Palette_HUD:
 {
     REP #$21
     
     LDX.w $0AB2
-    
     LDA PaletteIDtoOffset_HUD, X : AND.w #$00FF
     ADC.w PaletteData_hud : STA.b $00
     
     ; X/Y registers are 8-bit
     REP #$10
     
-    ; Target BP0 through BP1 (full)
-    ; Each palette has 16 colors.
-    ; Load 2 palettes
-    LDA.w #$0000
-    LDX.w #$000F
-    LDY.w #$0001
-    
+    LDA.w #$0000 ; Target BP0 through BP1 (full)
+    LDX.w #$000F ; Each palette has 16 colors.
+    LDY.w #$0001 ; Load 2 palettes.
     JSR.w Palette_MultiLoad
     
     SEP #$30
@@ -6438,15 +6420,13 @@ Palette_DungBgMain:
     
     ; This is the palette index for a certain background
     LDX.w $0AB6
-    
     LDA PaletteIDtoOffset_UW, X : ADC.w #$D734 : STA.b $00 : PHA
     
     REP #$10
     
     LDA.w #$0042 ; Target BP-2 through BP-7 (full)
-    LDX.w #$000E ; (Length - 1) (in words) of the palettes.
+    LDX.w #$000E ; Load 15 colors
     LDY.w #$0005 ; Load 6 palettes
-    
     JSR.w Palette_MultiLoad
     
     ; Now get that value of A before the subroutine.
@@ -6455,18 +6435,15 @@ Palette_DungBgMain:
     ; Reload it to $00.
     STA.b $00
     
-    ; Target SP-0 (second half)
-    LDA.w #$0112
+    LDA.w #$0112 ; Target SP-0 (second half)
     
     ; Unknown variable
     LDX.w $0ABD : BEQ .useSP0
-        ; Target SP-7 (second half)
-        LDA.w #$01F2
+        LDA.w #$01F2 ; Target SP-7 (second half)
     
     .useSP0
     
-    LDX.w #$0006
-    
+    LDX.w #$0006 ; Load 7 colors
     JSR.w Palette_SingleLoad
     
     SEP #$30
@@ -6482,15 +6459,13 @@ Palette_OverworldBgAux3:
     REP #$21
     
     LDX.w $0AB8
-    
     LDA PaletteIDtoOffset, X : AND.w #$00FF
     ADC.w PaletteData_owanim : STA.b $00
     
     REP #$10
     
     LDA.w #$00E2 ; Target BP-7 (first half)
-    LDX.w #$0006
-    
+    LDX.w #$0006 ; Load 7 colors
     JSR.w Palette_SingleLoad
     
     SEP #$30
@@ -6506,19 +6481,13 @@ Palette_OverworldBgMain:
     REP #$21
     
     LDA.w $0AB3 : ASL A : TAX
-    
-    LDA PaletteIDtoOffset_OW_Main, X
-    ADC.w PaletteData_owmain : STA.b $00
+    LDA PaletteIDtoOffset_OW_Main, X : ADC.w PaletteData_owmain : STA.b $00
     
     REP #$10
     
-    ; Target BP2 through BP6 (first halves)
-    ; each palette has 7 colors
-    ; Load 5 palettes
-    LDA.w #$0042
-    LDX.w #$0006
-    LDY.w #$0004
-    
+    LDA.w #$0042 ; Target BP2 through BP6 (first halves)
+    LDX.w #$0006 ; each palette has 7 colors
+    LDY.w #$0004 ; Load 5 palettes
     JSR.w Palette_MultiLoad
     
     SEP #$30
@@ -6534,7 +6503,6 @@ Palette_OverworldBgAux1:
     REP #$21
     
     LDA.w $0AB4 : AND.w #$00FF : ASL A : TAX
-    
     LDA.l PaletteIDtoOffset_OW_AUX, X : ADC.w #PaletteData_owaux : STA.b $00
     
     REP #$10
@@ -6542,7 +6510,6 @@ Palette_OverworldBgAux1:
     LDA.w #$0052 ; Target BP-2 through BP-4 (second halves)
     LDX.w #$0006 ; Each one has 7 colors
     LDY.w #$0002 ; Load 3 palettes
-    
     JSR.w Palette_MultiLoad
     
     REP #$30
@@ -6558,7 +6525,6 @@ Palette_OverworldBgAux2:
     REP #$21
     
     LDA.w $0AB5 : AND.w #$00FF : ASL A : TAX
-    
     LDA.l PaletteIDtoOffset_OW_AUX, X : ADC.w #PaletteData_owaux : STA.b $00
     
     REP #$10
@@ -6566,7 +6532,6 @@ Palette_OverworldBgAux2:
     LDA.w #$00B2 ; Target BP-5 through BP-7 (second halves)
     LDX.w #$0006 ; Each one has 7 colors
     LDY.w #$0002 ; Load 3 palettes
-    
     JSR.w Palette_MultiLoad
     
     SEP #$30
@@ -6694,7 +6659,6 @@ Palette_SelectScreen:
     REP #$30
     
     ; Save slot 1.
-    
     LDX.w #$0000
     
     ; This tells us what kind of gloves link has.
@@ -6706,19 +6670,14 @@ Palette_SelectScreen:
     JSR.w Palette_SelectScreenArmor
     
     LDX.w #$0000
-    
     LDA.l $700359
-    
     JSR.w Palette_SelectScreenSword
     
     LDX.w #$0000
-    
     LDA.l $70035A
-    
     JSR.w Palette_SelectScreenShield
     
     ; Save slot two.
-    
     LDX.w #$0040
     
     ; Again we need the palette for his gloves.
@@ -6726,23 +6685,17 @@ Palette_SelectScreen:
     
     ; The value for the armor.
     LDA.l $70085B
-    
     JSR.w Palette_SelectScreenArmor
     
     LDX.w #$0040
-    
     LDA.l $700859
-    
     JSR.w Palette_SelectScreenSword
     
     LDX.w #$0040
-    
     LDA.l $70085A
-    
     JSR.w Palette_SelectScreenShield
     
     ; Save slot three.
-    
     LDX.w #$0080
     
     ; Again we need the palette for his gloves.
@@ -6753,15 +6706,11 @@ Palette_SelectScreen:
     JSR.w Palette_SelectScreenArmor
     
     LDX.w #$0080
-    
     LDA.l $700D59
-    
     JSR.w Palette_SelectScreenSword
     
     LDX.w #$0080
-    
     LDA.l $700D5A
-    
     JSR.w Palette_SelectScreenShield
     
     LDY.w #$0000

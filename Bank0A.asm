@@ -3884,7 +3884,7 @@ DungeonMap_SetupGraphics:
     LDA.b #$01 : STA.w $0AB2
     
     ; Load palettes for BG3 (2bpp) graphics.
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
     
     JSL.l LoadActualGearPalettes
     

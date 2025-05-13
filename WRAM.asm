@@ -3040,14 +3040,14 @@ struct WRAM $7E0000
 
     ; $0346[0x02] - (Player, Palette)
     .PlayerPalette: skip $02
-        ; Exclusively used in Bank 0x0D for the purposes of drawing Link. This
-        ; value gets bitwise OR-ed in to supply the palette bits of Link's
+        ; Exclusively used in Bank 0x0D for the purposes of drawing the player. This
+        ; value gets bitwise OR-ed in to supply the palette bits of the player's
         ; sprite. It's only intended to take on one of two values - 0x0E00, or
         ; 0x0000. 0x0E00 indicates that palette 7 is being used, and 0x0000
-        ; indicates that palette 0 is being used. Sometimes Link's palette swaps
-        ; so that Link won't turn translucent when color addition is active. An
-        ; example of this would be in the Flute Boy's meadow when he disappears.
-        ; See $0ABD for more info.
+        ; indicates that palette 0 is being used. Sometimes the player's palette
+        ; swaps so that the player won't turn translucent when color addition is
+        ; active. An example of this would be in the Flute Boy's meadow when he
+        ; disappears. See $0ABD for more info.
 
     ; $0348[0x02] - (Player, Tile Attribute, High Junk)
     .PlayerIceTileAct: skip $02
@@ -5519,12 +5519,14 @@ struct WRAM $7E0000
     .Free_0AAB: skip $01
         ; Free RAM.
 
+    ; A bunch of palette vars. See the definition of $7EC500 for palette
+    ; descriptions.
+
     ; $0AAC[0x01] - (Palette)
     .SprAux3Pal: skip $01
         ; Used to load a 7 color palette to the first half of SP-0 if $0ABD is
-        ; zero or the first half of SP-7 if $0ABD is non zero. See the definition
-        ; of $7EC500 for palette descriptions. See Palette_SpriteAux3 for more
-        ; details. TODO: Find the ZS reference.
+        ; zero or the first half of SP-7 if $0ABD is non zero. See
+        ; Palette_SpriteAux3 for more details. TODO: Find the ZS reference.
         ; The valid values are: TODO: Document these values.
         ; 0x00 - 
         ; 0x01 - LW default
@@ -5542,9 +5544,8 @@ struct WRAM $7E0000
     ; $0AAD[0x01] - (Palette)
     .SprAux1Pal: skip $01
         ; Used to load a 7 color palette to the first half of SP-5. Usually for
-        ; sprites specific to an area / room. See the definition of $7EC500 for
-        ; palette descriptions. See Palette_SpriteAux1 for more details. TODO:
-        ; Find the ZS reference.
+        ; sprites specific to an area / room. See Palette_SpriteAux1 for more
+        ; details. TODO: Find the ZS reference.
         ; Valid values are: TODO: Document these values.
         ; 0x00 - 
         ; 0x01 - 
@@ -5574,9 +5575,8 @@ struct WRAM $7E0000
     ; $0AAE[0x01] - (Palette)
     .SprAux2Pal: skip $01
         ; Used to load a 7 color palette to the first half of SP-6. Usually for
-        ; sprites specific to an area / room. See the definition of $7EC500 for
-        ; palette descriptions. See Palette_SpriteAux2 for more details. TODO:
-        ; Find the ZS reference.
+        ; sprites specific to an area / room. See Palette_SpriteAux2 for more
+        ; details. TODO: Find the ZS reference.
         ; Valid values are: TODO: Document these values, are they the same as AUX1?
         ; 0x00 - 
         ; 0x01 - 
@@ -5613,10 +5613,10 @@ struct WRAM $7E0000
         ; would have been used to load a 7 color palette to the first half SP-6.
 
     ; $0AB1[0x01] - (Palette)
+    .SprLiftPal: skip $01
         ; Used to load a 7 color palette to the second half of SP-6. Used for the
-        ; palette for throwable objects. See the definition of $7EC500 for palette
-        ; descriptions. See Palette_MiscSpr_justSP6 for more details. TODO: Find
-        ; the ZS reference.
+        ; palette for throwable objects. See Palette_MiscSpr_justSP6 for more
+        ; details. TODO: Find the ZS reference.
         ; Valid values are: TODO: Document these values.
         ; 0x00 - 
         ; 0x01 - 
@@ -5635,13 +5635,19 @@ struct WRAM $7E0000
         ; 0x0E - 
         ; 0x0F - 
 
-    ; $0AB2 - 
-        ; Used to select the first palette in CGRAM (the screen's background is its first color)
-        ; As far as I know, this value is only 0 or 1. 1 seems to be for special modes like the ending sequence.
-        ; The first palette is by default in LTTP used for the HUD.
+    ; $0AB2[0x01] - (Palette, HUD)
+    .HUDPal: skip $02
+        ; Used to to load a 32 color palette to BP-0 and BP-1. Used for the HUD.
+        ; See Palette_HUD for more details.
+        ; Valid values are: TODO: Document these values.
+        ; 0x00 - 
+        ; 0x01 - 
 
-    ; $0AB3 - 
-        ; Selects BP-2 through BP-6 (first halves)
+    ; $0AB3[0x01] - (Palette, Overworld)
+    .OWMainPal: skip $01
+        ; Loads a 35 color palette to the first halves of BP-2 through BP-6. Used
+        ; as the "main" overworld palette which consists mostly of grass, pahts,
+        ; normals trees, cliffs, etc. See Palette_OverworldBgMain for more details.
         ; 0 - Light World
         ; 1 - Dark World
         ; 2 - Light World Death Mountain
@@ -5649,31 +5655,98 @@ struct WRAM $7E0000
         ; 4 - Used during history mode
         ; 5 - Seems to be used during initialization
 
-    ; $0AB4 - 
-        ; Selects BP-2 through BP-4 (second halves). Values 0x00 to 0x13 are valid. Only used during loading the overworld and the title screen.
-    ; $0AB5 - 
-        ; Selects BP-5 through BP-7 (second halves). Values 0x00 to 0x13 are valid. Only used during loading the overworld and the title screen.
+    ; $0AB4[0x01] - (Palette, Overworld)
+    .OWAUX1Pal: skip $01
+        ; Used to load a 21 color palete to the second halves of BP-2 through BP-4.
+        ; Only used during loading the overworld and the title screen. TODO: Find
+        ; the ZS reference. See Palette_OverworldBgAux1 for more details.
+        ; Valid values are: TODO: Document these values.
+        ; 0x00 - 
+        ; 0x01 - 
+        ; 0x02 - 
+        ; 0x03 - 
+        ; 0x04 - 
+        ; 0x05 - 
+        ; 0x06 - 
+        ; 0x07 - 
+        ; 0x08 - 
+        ; 0x09 - 
+        ; 0x0A - 
+        ; 0x0B - 
+        ; 0x0C - 
+        ; 0x0D - 
+        ; 0x0E - 
+        ; 0x0F - 
+        ; 0x10 - 
+        ; 0x11 - 
+        ; 0x12 - 
+        ; 0x13 - 
 
-    ; $0AB6[0x01] - (Dungeon) Controls all 6 of the 4bpp background palettes (BP-2
-        ; through BP-7)
-        ; 
-        ; Note: The 2bpp background palette controller is $0AB2.
+    ; $0AB5[0x01] - (Palette, Overworld)
+    .OWAUX2Pal: skip $01
+        ; Used to load a 21 color palette to the second halves of BP-5 through BP-7.
+        ; Only used during loading the overworld and the title screen. TODO: Find
+        ; the ZS reference. See Palette_OverworldBgAux2 for more details.
+        ; Valid values are: TODO: Document these values.
+        ; 0x00 - 
+        ; 0x01 - 
+        ; 0x02 - 
+        ; 0x03 - 
+        ; 0x04 - 
+        ; 0x05 - 
+        ; 0x06 - 
+        ; 0x07 - 
+        ; 0x08 - 
+        ; 0x09 - 
+        ; 0x0A - 
+        ; 0x0B - 
+        ; 0x0C - 
+        ; 0x0D - 
+        ; 0x0E - 
+        ; 0x0F - 
+        ; 0x10 - 
+        ; 0x11 - 
+        ; 0x12 - 
+        ; 0x13 - 
 
-    ; $0AB7 - 
-        ; While only referenced as being cached to $7EC20C,
-        ; it is seemingly unused in practice
+    ; $0AB6[0x01] - (Palette, Dungeon)
+    .DunMainPal: skip $01
+        ; Loads a 90 color palette to all of BP-2 through BP-7. See
+        ; Palette_DungBgMain for more details. TODO: Find the ZS reference.
+        ; Valid values are: TODO: Document these values.
 
-    ; $0AB8 - 
-        ; Selects BP-7 (first half). Only valid for values 0x00 to 0x0D
+    ; $0AB7[0x01] - (Junk)
+    .Junk_0AB7: skip $01
+        ; Read and stored into $7EC20C but is never written to. $7EC20C is also
+        ; unused.
 
-    ; $0AB9 - 
-        ; Free RAM
+    ; $0AB8[0x01] - (Palette, Overworld)
+    .OWAniPal: skip $01
+        ; Loads a 7 color palette to the first half of BP-7. TODO: Find the ZS
+        ; reference (pretty sure this is the water/animated colors). See
+        ; Palette_OverworldBgAux3 for more details.
+        ; Valid values are:
+        ; 0x00 - 
+        ; 0x01 - 
+        ; 0x02 - 
+        ; 0x03 - 
+        ; 0x04 - 
+        ; 0x05 - 
+        ; 0x06 - 
+        ; 0x07 - 
+        ; 0x08 - 
+        ; 0x09 - 
+        ; 0x0A - 
+        ; 0x0B - 
+        ; 0x0C - 
+        ; 0x0D - 
+
+    ; $0AB9[0x04] - (Free)
+    .Free_0AB9: skip $04
+        ; Free RAM.
 
     ; $0ABD[0x01] - (Palette)
-        ; Used in order to swap palettes under certain special circumstances.
-        ; Apparently related almost entirely to the flute boy ghost and the ponds of wishing.
-        ; When zero, doesn't induce any behavior change, but when nonzero, it will cause
-        ; SP-0 and SP-7 (full) to swap and SP-5 and SP-3 (second halves) to swap.
+        ; Used in order to swap palettes under certain special circumstances. Apparently related almost entirely to the flute boy ghost and the ponds of wishing. When zero, doesn't induce any behavior change, but when nonzero, it will cause SP-0 and SP-7 (full) to swap and SP-5 and SP-3 (second halves) to swap.
 
     ; $0ABE - 
         ; Free RAM
@@ -7821,6 +7894,7 @@ struct WRAM $7E0000
         ; HUD-5        ;    - Pegasus boots on menu window
         ; HUD-6        ;    - Dialogue text,
         ; HUD-7        ;    - Magic meter (green) and rupee icon
+        ; BP-0 and BP-1       - HUD: The HUD could also be refered to as the first 2 rows of the background palettes.
         ; BP-2 (first half)   - Overworld:  Green / Tan ground, most of the rock and related colors on Death Mountain
         ; Dungeons:   Misc things in dungeons, like edges of pits, parts of doors, boundaries for doors, boundaries of torches
         ; BP-2 (second half)  - Overworld:  Houses, urns, tops of wooden gates, 

@@ -4624,7 +4624,7 @@ Credits_InitializeTheActualCredits:
     ; Load a couple of palettes.
     LDA.b #$01 : STA.w $0AB2
         
-    JSL.l Palette_Hud
+    JSL.l Palette_HUD
         
     ; Note that CGRAM should be updated for the next frame.
     INC.b $15
@@ -8949,6 +8949,12 @@ Palette_AssertTranslucencySwap:
     ; Bleed into the next function.
 }
 
+; Description: the below swaps memory regions $7EC400-$7EC41F and
+; $7EC4B0-$7EC4BF with $7EC4E0-$7EC4FF and $7EC470-$7EC47F,
+; respectively. This suggests 3bpp since each 0x10 byte region could be 
+; considered a full palette.
+; At the same time, it also copies this info in the Main palette 
+; buffer and the Auxiliary palette buffer.
 ; $07565C-$0756B8 LOCAL JUMP LOCAION
 Palette_PerformTranslucencySwap:
 {
@@ -8958,14 +8964,6 @@ Palette_PerformTranslucencySwap:
     
     .swap_palettes
     
-        ; e.g. $415 means $7EC415, for your reference
-        ; Description: the below swaps memory regions $7EC400-$7EC41F and
-        ; $7EC4B0-$7EC4BF with $7EC4E0-$7EC4FF and $7EC470-$7EC47F,
-        ; respectively. This suggests 3bpp since each 0x10 byte region could be 
-        ; considered a full palette.
-        ; At the same time, it also copies this info in the Main palette 
-        ; buffer and the Auxiliary palette buffer.
-        
         ; OPTIMIZE: This could, at the very least, utilize a data bank value of
         ; 0x7E to speed things up and save space.
         
@@ -8975,8 +8973,8 @@ Palette_PerformTranslucencySwap:
         LDA.l $7EC4E0, X : STA.l $7EC400, X
                            STA.l $7EC600, X
         
-        PLA : STA.l $7EC4E0, X
-              STA.l $7EC6E0, X
+        PLA              : STA.l $7EC4E0, X
+                           STA.l $7EC6E0, X
         
         ; Swap SP0_H with SP7_H.
         LDA.l $7EC410, X : PHA
@@ -8984,8 +8982,8 @@ Palette_PerformTranslucencySwap:
         LDA.l $7EC4F0, X : STA.l $7EC410, X
                            STA.l $7EC610, X
         
-        PLA : STA.l $7EC4F0, X
-              STA.l $7EC6F0, X
+        PLA              : STA.l $7EC4F0, X
+                           STA.l $7EC6F0, X
         
         ; Swap SP5_H with SP3_H.
         LDA.l $7EC4B0, X : PHA
@@ -8993,8 +8991,8 @@ Palette_PerformTranslucencySwap:
         LDA.l $7EC470, X : STA.l $7EC4B0, X
                            STA.l $7EC6B0, X
         
-        PLA : STA.l $7EC470, X
-              STA.l $7EC670, X
+        PLA              : STA.l $7EC470, X
+                           STA.l $7EC670, X
     INX #2 : CPX.b #$10 : BNE .swap_palettes
         
     SEP #$20
