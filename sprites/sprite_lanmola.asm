@@ -333,9 +333,9 @@ Lanmola_Death:
             
             LDA.b #$1F : STA.w $0DF0, Y : STA.w $0D90, Y
             
-            LDA.b $0A : CLC : ADC.b $E2    : STA.w $0D10, Y
+            LDA.b $0A : CLC : ADC.b $E2  : STA.w $0D10, Y
             LDA.b $E3 :       ADC.b #$00 : STA.w $0D30, Y
-            LDA.b $0B : CLC : ADC.b $E8    : STA.w $0D00, Y
+            LDA.b $0B : CLC : ADC.b $E8  : STA.w $0D00, Y
             LDA.b $E9 :       ADC.b #$00 : STA.w $0D20, Y
             
             LDA.b #$03 : STA.w $0E40, Y
