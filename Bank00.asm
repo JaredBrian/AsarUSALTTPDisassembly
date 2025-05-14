@@ -860,7 +860,6 @@ Main_PrepSpritesForNmi:
     LDA.w $0109 : AND.w #$00F8 : LSR #2 : TAY
         
     LDA.w $0109 : ASL A : TAX
-        
     LDA.w DynamicOAM_LinkItemAddresses, X : STA.w $0AC8
         
     CLC : TYX : ADC.w DynamicOAM_LinkItemAddresses_offsets, X : STA.w $0ACA
@@ -1487,7 +1486,7 @@ NMI_DoUpdates:
     ; Store 0x20 bytes.
     LDY.w #$0020 : STY.w DMA.3_TransferSizeLow
     
-    ; Use as a Rom local source address (channel 5).
+    ; Use as a ROM local source address (channel 5).
     LDY.w $0AD8 : STY.w DMA.4_SourceAddrOffsetLow
     
     STX.w DMA.4_TransferSizeLow ; Store 64 bytes.

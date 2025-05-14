@@ -1780,6 +1780,7 @@ struct WRAM $7E0000
     .SwordChrIndex: skip $01
         ; An index that controls the graphics that need to be loaded for the
         ; player's sword during NMI. The Chr is stored into $0AC0.
+        ; TODO: Document the valid values.
 
     ; $0108[0x01] - (Player, GFX)
     .SheildChrIndex: skip $01
@@ -5712,7 +5713,9 @@ struct WRAM $7E0000
     ; $0AB6[0x01] - (Palette, Dungeon)
     .DunMainPal: skip $01
         ; Loads a 90 color palette to all of BP-2 through BP-7. See
-        ; Palette_DungBgMain for more details. TODO: Find the ZS reference.
+        ; Palette_DungBgMain for more details. Also will load a 7 color palette
+        ; to the second half of SP-0 if $0AB6 is zero or the second half of SP-7
+        ; if $0ABD is non zero. TODO: Find the ZS reference.
         ; Valid values are: TODO: Document these values.
 
     ; $0AB7[0x01] - (Junk)
@@ -5746,44 +5749,79 @@ struct WRAM $7E0000
         ; Free RAM.
 
     ; $0ABD[0x01] - (Palette)
-        ; Used in order to swap palettes under certain special circumstances. Apparently related almost entirely to the flute boy ghost and the ponds of wishing. When zero, doesn't induce any behavior change, but when nonzero, it will cause SP-0 and SP-7 (full) to swap and SP-5 and SP-3 (second halves) to swap.
+    .TransparentPalSwap: skip $01
+        ; When non zero, this causes palettes SP-0 and SP-7 and the second half
+        ; of SP-3 and the second half of SP-5 to swap. This is done for events
+        ; that require sprite transparency such as the flute boy ghost and the
+        ; ponds of wishing. This is because of a hardware limitation where only
+        ; SP-4 through SP-7 can have sprite transparency. This also changes how
+        ; certain sprites, including the player, are drawn that use these palettes
+        ; to use the new correct palette.
 
-    ; $0ABE - 
-        ; Free RAM
+    ; $0ABE[0x01] - (Free)
+    .Free_0ABE: skip $01
+        ; Free RAM.
 
-    ; $0ABF[0x01] -
-
+    ; $0ABF[0x01] - (Sprite, Event)
+    .OWAreaEventFlag: skip $01
         ; Set to zero when an event is initialized, and will be set to 1 the next
         ; time a change of overworld area occurs. This is used to trigger the magic
-        ; powder showing up in the Witch's hut, as well as the finishing of your
-        ; sword being tempered.
-        ; It's also used to make sure you didn't cheat during the
-        ; heart piece maze game in Kakkariko.
+        ; powder showing up in the Witch's Hut, when your sword is finished being
+        ; tempered, and also used to make sure you didn't cheat during the heart
+        ; piece maze game in Kakkariko.
+        ; 0x00    - Indicates that an overworld transition needs to occur before
+        ;           an event can happen.
+        ; Nonzero - Indicates that an overworld transition has occured and the 
+        ;           event can happen now.
 
-    ; DMA Variables: To see these in action, look up routine $9E0 in the banks files. These are all Word values.
 
-    ; $0AC0 - 
-        ; ROM Address for certain DMA transfers from bank $7E. The value stored here is grabbed from a table indexed by address $0107.
-    ; $0AC2 - 
-        ; Also a ROM Address for DMA transfers, usually is 0x180 higher than $0AC0
+    ; DMA Variables: To see these in action, see NMI_DoUpdates in the bank 0x00.
 
-    ; $0AC4 - 
-        ; ROM Address for certain DMA transfers from bank $7E. The value stored here is grabbed from a table indexed by address $0108.
-    ; $0AC6 - 
-        ; Also a ROM Address for DMA transfers, usually is 0xC0 higher than $0AC4
+    ; $0AC0[0x02] - (NMI, GFX)
+    .SwordChrAddressTop: skip $02
+        ; The ROM Address for the top sword GFX tile DMA transfer during NMI. The
+        ; value stored here is grabbed from a table indexed by SwordChrIndex.
 
-    ; $0AC8 - 
-        ; ROM Address for certain DMA transfers from bank $7E. The value stored here is grabbed from a table indexed by address $0109.
-    ; $0ACA - 
-        ; Also a ROM Address for DMA transfers, is a fixed distance from $0AC8 which is also determined using a table indexed by $0109.
+    ; $0AC2[0x02] - (NMI, GFX)
+    .SwordChrAddressBottom: skip $02
+        ; The ROM Address for the bottom sword GFX tile DMA transfer during NMI.
+        ; The value stored here is always SwordChrAddressTop + 0x0180.
 
-    ; $0ACC - 
-        ; ROM Address for certain DMA transfers from bank $10. The value stored here is grabbed from a table indexed by address $0100
-    ; $0ACE - 
-        ; Also a ROM Address for DMA transfers, usually is 0x200 higher than $0ACC
+    ; $0AC4[0x02] - (NMI, GFX)
+    .ShieldChrAddressTop: skip $02
+        ; The ROM Address for the top shield GFX tile DMA transfer during NMI. The
+        ; value stored here is grabbed from a table indexed by SheildChrIndex.
+
+    ; $0AC6[0x02] - (NMI, GFX)
+    .ShieldChrAddressBottom: skip $02
+        ; The ROM Address for the bottom shield GFX tile DMA transfer during NMI. 
+        ; The value stored here is always ShieldChrAddressTop + 0x00C0.
+
+    ; $0AC8[0x02] - (NMI, GFX)
+    .ItemChrAddressTop: skip $02
+        ; The ROM Address for the top item GFX tile DMA transfer during NMI. The
+        ; value stored here is grabbed from a table indexed by ItemChrIndex.
+
+    ; $0ACA[0x02] - (NMI, GFX)
+    .ItemChrAddressBottom: skip $02
+        ; The ROM Address for the bottom item GFX tile DMA transfer during NMI. 
+        ; The value stored here is always ItemChrAddressTop + an offset from a
+        ; table also indexed by ItemChrIndex.
+
+    ; $0ACC[0x02] - (NMI, GFX)
+    .HeadChrAddressTop: skip $02
+        ; The ROM Address for the top player head GFX tile DMA transfer during NMI.
+        ; The value stored here is grabbed from a table indexed by
+        ; PlayerPoseChrIndex.
+
+    ; $0ACE[0x02] - (NMI, GFX)
+    .HeadChrAddressBottom: skip $02
+        ; The ROM Address for the bottom player head GFX tile DMA transfer during
+        ; NMI. The value stored here is always HeadChrAddressTop + 0x0200.
 
     ; $0AD0 - 
         ; ROM Address for certain DMA transfers from bank $10. The value stored here is grabbed from a table indexed by address $0100
+
     ; $0AD2 - 
         ; Also a ROM Address for DMA transfers, usually is 0x200 higher than $0AD0
 
@@ -5799,6 +5837,7 @@ struct WRAM $7E0000
 
     ; $0AD8 - 
         ; ROM Address for certain DMA transfers from bank $7E. The value stored here is grabbed from a table indexed by address $02C3
+
     ; $0ADA - 
         ; Also a ROM Address for DMA transfers, usually is 0x100 higher than $0AD0
 
@@ -5813,6 +5852,7 @@ struct WRAM $7E0000
 
     ; $0AE0 - 
         ; ROM Address for certain DMA transfers from bank $7E. The value stored here is determined like this: the value in the table at $0085DE indexed by $7EC015 + the fixed value 0xB280.
+
     ; $0AE2 - 
         ; Also a ROM Address for DMA transfers, usually is 0x100 higher than $0AE0
 
@@ -5821,15 +5861,19 @@ struct WRAM $7E0000
 
     ; $0AE8 - 
         ; Used as an offset for $0AEC.
+
     ; $0AEA - 
         ; Used as an offset for $0AF0.
+
     ; $0AEC - 
         ; ROM Address for certain DMA transfers from bank $7E. The value stored is determined like this: the value at $0AE8 + the fixed value 0xB940
+
     ; $0AEE - 
         ; Also a ROM Address for DMA transfers, usually is 0x200 higher than $0AEC
 
     ; $0AF0 - 
         ; ROM Address for certain DMA transfers from bank $7E. The value stored is determined like this: the value at $0AEA + the fixed value 0xB940
+
     ; $0AF2 - 
         ; Also a ROM Address for DMA transfers, usually is 0x200 higher than $0AF0
 
@@ -5842,6 +5886,7 @@ struct WRAM $7E0000
 
     ; $0AF6 - 
         ; ROM Address for certain DMA transfers from bank $7E. The value stored is determined like this: the value at $0AF4 + the fixed value 0xB540
+        
     ; $0AF8 - 
         ; Also a ROM Address for DMA transfers, usually is 0x200 higher than $0AF6
 
