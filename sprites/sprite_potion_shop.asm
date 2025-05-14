@@ -550,6 +550,7 @@ Sprite_WitchAssistant:
     
     .gamma
     
+    ; TODO: Confrim what message this is.
     LDA.b #$4E
     LDY.b #$00
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
