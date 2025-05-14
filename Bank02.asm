@@ -6578,8 +6578,9 @@ Overworld_PlayerControl:
 
 ; ==============================================================================
 
-; Tells the game what each area's "parent" area is. For small areas this is it's
-; own idea. For large areas this is the top left area in the 2x2 grid.
+; This tells the game what each area's "parent" area is. For small areas this
+; is it's own area number. For large areas this is the top left area in the
+; 2x2 grid.
 ; ZSCREAM: This table is updated by ZS to allow map layout changes.
 ; $0125EC-$01262B DATA
 Overworld_ActualScreenID:
@@ -6600,7 +6601,8 @@ OverworldScreenTileMapChange:
     ; These masks remove the offset stored in $84 caused by moving around in
     ; large areas. In the vanilla game this causes a bug where you cannot
     ; transition twords the center of 2 large areas that are right next to
-    ; each other. ZScream fixes this by changing these masks and then just
+    ; each other or from a corner of a large area to another offset large area.
+    ; ZScream fixes this by changing these masks and then just
     ; applying an offset to the "ByScreen" tables below based on where the
     ; player enters the area.
 
@@ -6608,6 +6610,48 @@ OverworldScreenTileMapChange:
     ; $01262C
     .Masks
     dw $0F80, $0F80, $003F, $003F
+
+    ; Examples:
+    ; These work in vanilla: │ These do not:
+    ; ───────────────────────┼───────────────
+    ; ┌──┬──┐   ┌──┬──┐      │ ┌──┬──┐   ┌──┬──┐
+    ; │  │  │<->│  │  │      │ │  │  │   │  │  │
+    ; ├──┼──┤   ├──┼──┤      │ ├──┼──┤<->├──┼──┤
+    ; │  │  │<->│  │  │      │ │  │  │   │  │  │
+    ; └──┴──┘   └──┴──┘      │ └──┴──┘   └──┴──┘
+    ; ┌──┬──┐                │ ┌──┬──┐
+    ; │  │  │                │ │  │  │
+    ; ├──┼──┤                │ ├──┼──┤
+    ; │  │  │                │ │  │  │
+    ; └──┴──┘                │ └──┴──┘
+    ;  ↕   ↕                 │    ↕
+    ; ┌──┬──┐                │ ┌──┬──┐
+    ; │  │  │                │ │  │  │
+    ; ├──┼──┤                │ ├──┼──┤
+    ; │  │  │                │ │  │  │
+    ; └──┴──┘                │ └──┴──┘
+    ; See the layout of Zelda: Interconnected Strongholds.
+    ; 
+    ; None of these work in vanilla:
+    ; ┌──┬──┐                          ┌──┬──┐
+    ; │  │  │                          │  │  │
+    ; ├──┼──┤   ┌──┬──┐      ┌──┬──┐   ├──┼──┤
+    ; │  │  │<->│  │  │      │  │  │<->│  │  │
+    ; └──┴──┘   ├──┼──┤      ├──┼──┤   └──┴──┘
+    ;           │  │  │      │  │  │
+    ;           └──┴──┘      └──┴──┘
+    ; ┌──┬──┐                    ┌──┬──┐
+    ; │  │  │                    │  │  │
+    ; ├──┼──┤                    ├──┼──┤
+    ; │  │  │                    │  │  │
+    ; └──┴──┘                    └──┴──┘
+    ;      ↕                      ↕
+    ;    ┌──┬──┐             ┌──┬──┐
+    ;    │  │  │             │  │  │
+    ;    ├──┼──┤             ├──┼──┤
+    ;    │  │  │             │  │  │
+    ;    └──┴──┘             └──┴──┘
+    ; As of 05/13/25 there arn't any released hacks that use this kind of layout.
 
     ; ZSCREAM: This table is updated by ZS to allow layout changes.
     ; $012634 transitioning right

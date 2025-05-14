@@ -1461,7 +1461,10 @@ LoadOverworldSprites:
         ; The sprite / overlord index as stored as one plus it's normal index.
         ; Don't ask me why yet. Load them into what I guess you might call a
         ; sprite map.
-        INY : LDA ($00), Y : LDX.b $05 : INC A : STA.l $7FDF80, X
+        INY : LDA ($00), Y
+        
+        LDX.b $05
+        INC A : STA.l $7FDF80, X
         
         ; Move on to the next sprite / overlord.
         INY
