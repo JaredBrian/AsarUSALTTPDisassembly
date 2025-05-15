@@ -5777,75 +5777,88 @@ struct WRAM $7E0000
 
     ; DMA Variables: To see these in action, see NMI_DoUpdates in the bank 0x00.
 
-    ; $0AC0[0x02] - (NMI, GFX)
+    ; $0AC0[0x02] - (NMI, GFX, OAM)
     .SwordChrAddressTop: skip $02
-        ; The ROM Address for the top sword GFX tile DMA transfer during NMI. The
-        ; value stored here is grabbed from a table indexed by SwordChrIndex.
+        ; The ROM Address for the top sword GFX tile DMA transfer during NMI.
+        ; The value stored here is grabbed from a table indexed by SwordChrIndex.
 
-    ; $0AC2[0x02] - (NMI, GFX)
+    ; $0AC2[0x02] - (NMI, GFX, OAM)
     .SwordChrAddressBottom: skip $02
         ; The ROM Address for the bottom sword GFX tile DMA transfer during NMI.
         ; The value stored here is always SwordChrAddressTop + 0x0180.
 
-    ; $0AC4[0x02] - (NMI, GFX)
+    ; $0AC4[0x02] - (NMI, GFX, OAM)
     .ShieldChrAddressTop: skip $02
-        ; The ROM Address for the top shield GFX tile DMA transfer during NMI. The
-        ; value stored here is grabbed from a table indexed by SheildChrIndex.
+        ; The ROM Address for the top shield GFX tile DMA transfer during NMI.
+        ; The value stored here is grabbed from a table indexed by SheildChrIndex.
 
-    ; $0AC6[0x02] - (NMI, GFX)
+    ; $0AC6[0x02] - (NMI, GFX, OAM)
     .ShieldChrAddressBottom: skip $02
-        ; The ROM Address for the bottom shield GFX tile DMA transfer during NMI. 
-        ; The value stored here is always ShieldChrAddressTop + 0x00C0.
+        ; The ROM Address for the bottom shield GFX tile DMA transfer during
+        ; NMI. The value stored here is always ShieldChrAddressTop + 0x00C0.
 
-    ; $0AC8[0x02] - (NMI, GFX)
+    ; $0AC8[0x02] - (NMI, GFX, OAM)
     .ItemChrAddressTop: skip $02
-        ; The ROM Address for the top item GFX tile DMA transfer during NMI. The
-        ; value stored here is grabbed from a table indexed by ItemChrIndex.
+        ; The ROM Address for the top item GFX tile DMA transfer during NMI.
+        ; The value stored here is grabbed from a table indexed by ItemChrIndex.
 
-    ; $0ACA[0x02] - (NMI, GFX)
+    ; $0ACA[0x02] - (NMI, GFX, OAM)
     .ItemChrAddressBottom: skip $02
         ; The ROM Address for the bottom item GFX tile DMA transfer during NMI. 
         ; The value stored here is always ItemChrAddressTop + an offset from a
         ; table also indexed by ItemChrIndex.
 
-    ; $0ACC[0x02] - (NMI, GFX)
+    ; $0ACC[0x02] - (NMI, GFX, OAM)
     .HeadChrAddressTop: skip $02
-        ; The ROM Address for the top player head GFX tile DMA transfer during NMI.
-        ; The value stored here is grabbed from a table indexed by
+        ; The ROM Address for the top player head GFX tile DMA transfer during
+        ; NMI. The value stored here is grabbed from a table indexed by
         ; PlayerPoseChrIndex.
 
-    ; $0ACE[0x02] - (NMI, GFX)
+    ; $0ACE[0x02] - (NMI, GFX, OAM)
     .HeadChrAddressBottom: skip $02
         ; The ROM Address for the bottom player head GFX tile DMA transfer during
         ; NMI. The value stored here is always HeadChrAddressTop + 0x0200.
 
-    ; $0AD0 - 
-        ; ROM Address for certain DMA transfers from bank $10. The value stored here is grabbed from a table indexed by address $0100
+    ; $0AD0[0x02] - (NMI, GFX, OAM)
+    .BodyChrAddressTop: skip $02
+        ; The ROM Address for the top player body GFX tile DMA transfer during
+        ; NMI. The value stored here is grabbed from a table indexed by
+        ; PlayerPoseChrIndex.
 
-    ; $0AD2 - 
-        ; Also a ROM Address for DMA transfers, usually is 0x200 higher than $0AD0
+    ; $0AD2[0x02] - (NMI, GFX, OAM)
+    .BodyChrAddressBottom: skip $02
+        ; The ROM Address for the bottom player body GFX tile DMA transfer during
+        ; NMI. The value stored here is always BodyChrAddressTop + 0x0200.
 
-    ; $0AD4 - 
-        ; ROM Address for certain DMA transfers from bank $10.
-        ; The value stored here is grabbed from a table indexed by
-        ; address $0102.
+    ; $0AD4[0x02] - (NMI, GFX, OAM)
+    .PlayerAuxChrAddressA: skip $02
+        ; The ROM Address for the first player Aux GFX tile DMA transfer during
+        ; NMI. The value stored here is grabbed from a table indexed by
+        ; PlayerAuxAChrIndex.
 
-    ; $0AD6 - 
-        ; ROM Address for certain DMA transfers from bank $10.
-        ; The value stored here is grabbed from a table indexed by
-        ; address $0104.
+    ; $0AD6[0x02] - (NMI, GFX, OAM)
+    .PlayerAuxChrAddressB: skip $02
+        ; The ROM Address for the second player Aux GFX tile DMA transfer during
+        ; NMI. The value stored here is grabbed from a table indexed by
+        ; PlayerAuxBChrIndex.
 
-    ; $0AD8 - 
-        ; ROM Address for certain DMA transfers from bank $7E. The value stored here is grabbed from a table indexed by address $02C3
+    ; $0AD8[0x02] - (NMI, GFX, OAM)
+    .PushBlockChrAddressTop: skip $02
+        ; The ROM Address for the top push block GFX tile DMA transfer during
+        ; NMI. The value stored here is grabbed from a table indexed by
+        ; PushBlockStep.
 
-    ; $0ADA - 
-        ; Also a ROM Address for DMA transfers, usually is 0x100 higher than $0AD0
+    ; $0ADA[0x02] - (NMI, GFX, OAM)
+    .BodyChrAddressBottom: skip $02
+        ; The ROM Address for the bottom push block GFX tile DMA transfer during
+        ; NMI. The value stored here is always PushBlockChrAddressTop + 0x0100.
 
-    ; $0ADC - 
-        ; ROM Address for certain DMA transfers from bank $7E.
-        ; The value stored here is determined like this: the value at
-        ; ; $7EC00F + the fixed value 0xA680.
+    ; $0ADC[0x02] - (NMI, GFX, OAM)
+    .BGRupeeChrAddress: skip $02
+        ; The ROM Address for the BG rupee GFX tile DMA transfer during
+        ; NMI. The value stored here is always $7EC00F + 0xA680.
         ; Used in transfering the animated OW tiles.
+        ; TODO: Possibly some other OW use.
 
     ; $0ADE - 
         ; Free RAM
