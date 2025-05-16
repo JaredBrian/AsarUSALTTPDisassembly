@@ -7435,7 +7435,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
     LDY.w #$0080 : LDX.w $0698
     JSL.l Overworld_DrawMap16_Anywhere
 
-    LDA.w $0698 : LDX.w $04AC : CLC : ADC.w ADC #$0082 : STA.l $7EF806, X
+    LDA.w $0698 : LDX.w $04AC : CLC : ADC.w #$0082 : STA.l $7EF806, X
 
     LDX.w $0698 : LDY.w $0692
     LDA.w Map32UpdateTiles_3, Y : STA.l $7E2082, X
