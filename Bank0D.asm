@@ -8277,8 +8277,8 @@ CrystalMaiden_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
     
-    LDA.w Pool_CrystalMaiden_Draw_VRAM_source_indices + 0, Y : STA.w $0AE8
-    LDA.w Pool_CrystalMaiden_Draw_VRAM_source_indices + 1, Y : STA.w $0AEA
+    LDA.w Pool_CrystalMaiden_Draw_VRAM_source_indices+0, Y : STA.w $0AE8
+    LDA.w Pool_CrystalMaiden_Draw_VRAM_source_indices+1, Y : STA.w $0AEA
     
     ; Crystal maidens?
     TYA : ASL #3

@@ -911,17 +911,17 @@ Main_PrepSpritesForNmi:
 
     .ignoreSpriteAnimation
 
-    ; Setup tagalong sprite for DMA transfer.
+    ; Setup tagalong head GFX chr for DMA transfer.
     LDA.w $0AE8  : ASL A
     ADC.w #$B940 : STA.w $0AEC
     ADC.w #$0200 : STA.w $0AEE
         
-    ; Setup tagalong sprite's other component for DMA transfer?
+    ; Setup tagalong body GFX chr for DMA transfer.
     LDA.w $0AEA  : ASL A
     ADC.w #$B940 : STA.w $0AF0
     ADC.w #$0200 : STA.w $0AF2
         
-    ; Setup DMA transfer for bird's sprite slot.
+    ; Setup DMA transfer for bird's GFX chr slot.
     LDA.w $0AF4  : ASL A
     ADC.w #$B540 : STA.w $0AF6
     ADC.w #$0200 : STA.w $0AF8

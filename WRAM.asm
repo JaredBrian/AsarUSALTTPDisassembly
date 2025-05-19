@@ -61,7 +61,6 @@
 ; ===============================================================================
 struct WRAM $7E0000
 {
-    
     ; ===========================================================================
     ; Page 0x00
     ; ===========================================================================
@@ -5862,7 +5861,7 @@ struct WRAM $7E0000
         ; TODO: Document the values.
 
     ; $0ADA[0x02] - (NMI, GFX, OAM)
-    .BodyChrAddressBottom: skip $02
+    .PushBlockChrAddressBottom: skip $02
         ; The ROM Address for the bottom push block GFX tile DMA transfer during
         ; NMI. The value stored here is always PushBlockChrAddressTop + 0x0100.
         ; TODO: Document the values.
@@ -5894,16 +5893,25 @@ struct WRAM $7E0000
     .Free_0AE4: skip $04
         ; Free RAM.
 
-    ; $0AE8[0x02] - (NMI, GFX, OAM)
-        ; Used to offset the value stored into $0AEC.
+    ; $0AE8[0x02] - (GFX, OAM, Tagalong)
+    .TagalongHeadPoseChrIndex: skip $02
+        ; An index that controls the graphics that need to be loaded for the
+        ; current tagalong's head during NMI. The Chrs are stored into
+        ; TagalongHeadChrAddressTop and TagalongHeadChrAddressBottom.
+        ; TODO: Document the values.
 
-    ; $0AEA[0x02] - (NMI, GFX, OAM)
-        ; Used to offset the value stored into $0AEC.
+    ; $0AEA[0x02] - (GFX, OAM, Tagalong)
+    .TagalongHeadPoseChrIndex: skip $02
+        ; An index that controls the graphics that need to be loaded for the
+        ; current tagalong's head during NMI. The Chrs are stored into
+        ; TagalongBodyChrAddressTop and TagalongBodyChrAddressBottom.
+        ; TODO: Document the values.
 
     ; $0AEC[0x02] - (NMI, GFX, OAM)
     .TagalongHeadChrAddressTop: skip $02
         ; The ROM Address for the top tagalong head GFX tile DMA transfer during
-        ; NMI. The value stored here is $0AE8 + 0xB940. TODO: Document the values.
+        ; NMI. The value stored here is TagalongHeadPoseChrIndex + 0xB940.
+        ; TODO: Document the values.
 
     ; $0AEE[0x02] - (NMI, GFX, OAM)
     .TagalongHeadChrAddressBottom: skip $02
@@ -5911,48 +5919,67 @@ struct WRAM $7E0000
         ; NMI. The value stored here is TagalongHeadChrAddressTop + 0x0200.
         ; TODO: Document the values.
 
-    ; $0AF0 - 
-        ; ROM Address for certain DMA transfers from bank $7E. The value stored is determined like this: the value at $0AEA + the fixed value 0xB940
+    ; $0AF0[0x02] - (NMI, GFX, OAM)
+    .TagalongBodyChrAddressTop: skip $02
+        ; The ROM Address for the top tagalong body GFX tile DMA transfer during
+        ; NMI. The value stored here is TagalongHeadPoseChrIndex + 0xB940.
+        ; TODO: Document the values.
 
-    ; $0AF2 - 
-        ; Also a ROM Address for DMA transfers, usually is 0x200 higher than $0AF0
+    ; $0AF2[0x02] - (NMI, GFX, OAM)
+    .TagalongBodyChrAddressBottom: skip $02
+        ; The ROM Address for the bottom tagalong body GFX tile DMA transfer during
+        ; NMI. The value stored here is TagalongBodyChrAddressTop + 0x0200.
+        ; TODO: Document the values.
 
-    ; $0AF4[0x02] - (NMI, TravelBird)
-        ; Used as a VRAM selector for the travel bird. Since that VRAM region
-        ; is updated during every screen update (usually every frame), this
-        ; effectively controls the animation state of the bird. Its 
-        ; Note: While this is read as a 16-bit value usually, it's only written as
-        ; an 8-bit value, with the top byte being assumed as zero.
+    ; $0AF4[0x02] - (GFX, OAM, Bird)
+    .BirdPoseChrIndex: skip $02
+        ; An index that controls the graphics that need to be loaded for the 
+        ; travel bird during NMI. Different to the other Chr indexes this one
+        ; is only updated if it is non zero. The high byte is never written to
+        ; but is assumed to always be zero. The Chrs are stored into
+        ; BirdChrAddressTop and BirdChrAddressBottom.
+        ; TODO: Document the values.
 
-    ; $0AF6 - 
-        ; ROM Address for certain DMA transfers from bank $7E. The value stored is determined like this: the value at $0AF4 + the fixed value 0xB540
+    ; $0AF6[0x02] - (NMI, GFX, OAM)
+    .BirdChrAddressTop: skip $02
+        ; The ROM Address for the travel brid GFX tile DMA transfer during
+        ; NMI. The value stored here is BirdPoseChrIndex + 0xB540.
+        ; TODO: Document the values.
         
-    ; $0AF8 - 
-        ; Also a ROM Address for DMA transfers, usually is 0x200 higher than $0AF6
+    ; $0AF8[0x02] - (NMI, GFX, OAM)
+    .BirdChrAddressBottom: skip $02
+        ; The ROM Address for the travel bird GFX tile DMA transfer during
+        ; NMI. The value stored here is BirdChrAddressTop + 0x0200.
+        ; TODO: Document the values.
 
-    ; $0AFA - 
+    ; $0AFA[0x06] - (Free)
+    .Free_0AFA: skip $06
         ; Free RAM
 
     ; ===========================================================================
     ; Pages 0x0B and 0x0C
     ; ===========================================================================
 
-    ; Overlord Model (Most if not all arrays are 8 bytes in length)
+    ; Overlord Vars:
+    ; "Overlords" are a sub type of sprites who's purpose is to control other
+    ; sprites. Most, if not all, (TODO: Verify) of these do not have a draw and
+    ; function almost as a sudo dungeon tag. If a sprite's subtype is a multiple
+    ; of 0x07 it will spawn as an overlord.
 
-    ; $0B00 - 
-        ; Overlord types for this room.
+    ; $0B00[0x08] - (Overlord)
+    .OverlordTypeIndex: skip $08
+        ; An array of the Overlords loaded in the current room.
 
         ; List of overlord types:
-
-        ; 0x00 - Inactive
+        ; 0x00 - Inactive/Dead
         ; 0x01 - Metal Ball Generator?
         ; 0x02 - Cannon Room
         ; 0x03 - Cannon Balls?
         ; 0x04 - Snake Trap
         ; 0x05 - Stalfos Trap
-        ; 0x06 - ???
+        ; 0x06 - TODO: ???
         ; 0x07 - Moving Floor
-        ; 0x08 - Transformer (HM name) but I think it's the blobs that fall from the ceiling in the room right before the boss of Misery Mire.
+        ; 0x08 - Transformer TODO: (HM name) but I think it's the blobs that fall from the ceiling in the room right before the boss of Misery Mire.
         ; 0x09 - Wallmaster Overlord
         ; 0x0A - Falling tiles Overlord
         ; 0x0B - Falling tiles Overlord 2
@@ -5968,20 +5995,37 @@ struct WRAM $7E0000
         ; 0x15 - Wizzrobe Spawner
         ; 0x16 - Zoro Spawner
         ; 0x17 - Pot Trap
-        ; 0x18 - Stalfos that Materialize (a la Eastern Palace)
+        ; 0x18 - Stalfos that Materialize (a la Eastern Palace) TODO: Is this different than 0x05 Stalfos trap?
         ; 0x19 - Armos Knights Handler
-        ; 0x1A - ???
+        ; 0x1A - TODO: ???
+        ; TODO: Are there any more that should be here?
 
     ; $0B08[0x08] - (Overlord)
-        ; X coordinate low byte.
+    .OverlordXCoordLow: skip $08
+        ; Overlord X coordinate low byte.
 
     ; $0B10[0x08] - (Overlord)
-        ; X coordinate high byte.
+    .OverlordXCoordHigh:
+        ; Overlord X coordinate high byte.
+
+    ; $0B10[0x01] - (File Select)
+    .FileNameCursorXCoord: skip $01
+        ; Used in bank 0x0C as the cursor X coordinate in the file naming screen.
+
+    ; $0B11[0x01] - (File Select)
+    .FileNameCursorYCoord: skip $07
+        ; Used in bank 0x0C as the cursor Y coordinate in the file naming screen.
+        ; TODO: I'm less sure this is accurate.
+
+    ; $0B12[0x01] - (File Select)
+
     ; $0B18[0x08] - (Overlord)
-        ; Y coordinate low byte.
+    .OverlordYCoordLow: skip $08
+        ; Overlord Y coordinate low byte.
 
     ; $0B20[0x08] - (Overlord)
-        ; Y coordinate high byte.
+    .OverlordYCoordHigh: skip $08
+        ; Overlord Y coordinate high byte.
 
     ; $0B28[0x08] - (Overlord)
         ; Timer / General.
@@ -6460,6 +6504,7 @@ struct WRAM $7E0000
         ; 0x09 - Sprite is in the normal, active mode.
         ; 0x0A - Sprite is being carried by the player.
         ; 0x0B - Sprite is frozen and / or stunned.
+
     ; $0DE0[0x10] - (Sprite) ; functions
         ; A position counter for the statue sentry? May have other uses
         ; Seems that some sprites use this as an indicator for cardinal direction?

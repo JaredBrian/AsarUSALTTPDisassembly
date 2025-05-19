@@ -4655,7 +4655,6 @@ NameFile_DoTheNaming:
     PHX
     
     LDX.w $0B12
-    
     LDA.l Pool_NameFile_HeartXPosition, X : STA.w $0800, Y
     
     LDA.b #$58 : STA.w $0801, Y
@@ -4688,7 +4687,6 @@ NameFile_DoTheNaming:
     REP #$30
     
     LDA.w $0B15 : AND.w #$00FF : ASL A : TAX
-    
     LDA.l Pool_NameFile_YtoXIndexOffset, X : CLC : ADC.w $0B10 : AND.w #$00FF : TAX
     
     SEP #$20
@@ -4719,7 +4717,6 @@ NameFile_DoTheNaming:
     .BRANCH_18
     
     INC.w $0B12
-    
     LDA.w $0B12 : CMP.b #$06 : BNE .BRANCH_19
         STZ.w $0B12
     
@@ -4944,7 +4941,6 @@ NameFile_CheckForScrollInputY:
                     STA.b $01
                     
                     LDX.w $0B15
-                    
                     LDA.l Pool_NameFile_YtoXIndexOffset, X : CLC : ADC.w $0B10 : AND.b #$FF : TAX
                     
                     LDA.l Pool_NameFile_CharacterLayout, X

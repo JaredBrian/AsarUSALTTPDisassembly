@@ -1961,10 +1961,8 @@ OldMountainMan_Draw:
         
         LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
         
-        ; Wait... so the Old Man's graphics are updated dynamically? Why?
-        LDA.w .DMA_config, Y     : STA.w $0AE8
-        
-        LDA.w .DMA_config + 1, Y : STA.w $0AEA
+        LDA.w .DMA_config+0, Y : STA.w $0AE8
+        LDA.w .DMA_config+1, Y : STA.w $0AEA
         
         TYA : ASL #3
         
