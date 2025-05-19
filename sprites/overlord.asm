@@ -726,7 +726,6 @@ Overlord_CrumbleTilePath:
     INC.w $0B28, X
     
     LDA.w $0B00, X : SEC : SBC.b #$0A : TAY
-    
     LDA.w Pool_Overlord_CrumbleTilePath_pointers_low, Y  : STA.b $00
     LDA.w Pool_Overlord_CrumbleTilePath_pointers_high, Y : STA.b $01
     

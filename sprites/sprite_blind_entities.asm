@@ -767,7 +767,6 @@ Blind_SpawnFireball:
 Blind_BlindedByTheLight:
 {   
     LDA.b #$00 : STA.w $0AE8
-    
     LDA.b #$A0 : STA.w $0AEA
     
     LDA !timer_2, X : BNE .anoadvance_ai_state
