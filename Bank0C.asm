@@ -4796,7 +4796,7 @@ NameFile_DoTheNaming:
     ; Branch if it's not the first save game slot.
     LDY.w #$003C : CPX.w #$0000 : BNE .loadInitialEquipment
         ; OPTIMIZE: Just add a BRA.
-        ; Lol.... wow, this is checking if the end of the "get joypad input"
+        ; DEBUG: Lol.... wow, this is checking if the end of the "get joypad input"
         ; routine ends with an RTS instruction or not. In otherwords, it's
         ; checking the game's own code to determine if the player 2 joypad is
         ; enabled interesting manuever, I must say.

@@ -6009,15 +6009,34 @@ struct WRAM $7E0000
         ; Overlord X coordinate high byte.
 
     ; $0B10[0x01] - (File Select)
-    .FileNameCursorXCoord: skip $01
-        ; Used in bank 0x0C as the cursor X coordinate in the file naming screen.
+    .FileNameCharSelectX: skip $01
+        ; Used in bank 0x0C as the charactor selector X coordinate in the file
+        ; naming screen.
 
     ; $0B11[0x01] - (File Select)
-    .FileNameCursorYCoord: skip $07
-        ; Used in bank 0x0C as the cursor Y coordinate in the file naming screen.
-        ; TODO: I'm less sure this is accurate.
+    .FileNameCharSelectY: skip $01
+        ; Used in bank 0x0C as the charactor selector Y coordinate in the file
+        ; naming screen. TODO: I'm less sure this one is accurate.
 
     ; $0B12[0x01] - (File Select)
+    .FileNameCrusor: skip $01
+        ; Used in bank 0x0C as the cursor. TOOD: Verify.
+
+    ; $0B13[0x01] - (File Select)
+    .FileNameTimer: skip $01
+        ; Used in bank 0x0C as a timer for the file name screen? TODO: Unsure.
+
+    ; $0B14[0x01] - (File Select)
+    .FileNameUnknown01: skip $01
+        ; Used in bank 0x0C for some file naming screen var.
+
+    ; $0B15[0x01] - (File Select)
+    .FileNameUnknown02: skip $01
+        ; Used in bank 0x0C for some file naming screen var.
+
+    ; $0B16[0x02] - (File Select)
+    .FileNameUnknown03: skip $02
+        ; Used in bank 0x0C for some file naming screen var.
 
     ; $0B18[0x08] - (Overlord)
     .OverlordYCoordLow: skip $08
@@ -6028,17 +6047,22 @@ struct WRAM $7E0000
         ; Overlord Y coordinate high byte.
 
     ; $0B28[0x08] - (Overlord)
-        ; Timer / General.
+    .OverlordTimer1: skip $08
+        ; Overlord general purpose timer 1.
 
     ; $0B30[0x08] - (Overlord)
-        ; Timer / General.
+    .OverlordTimer2: skip $08
+        ; Overlord general purpose timer 2.
 
     ; $0B38[0x08] - (Overlord)
-        ; Timer / General.
+    .OverlordTimer3: skip $08
+        ; Overlord general purpose timer 3.
 
     ; $0B40[0x08] - (Overlord)
-
-        ; Floor selector.
+    .OverlordFloor: skip $08
+        ; The overlord floor selector.
+        ; 0x00 - Upper
+        ; 0x01 - Lower
 
     ; $0B48[0x10] - (Overlord)
         ; Offset in the overworld sprite position buffer (see $7FDF80)
