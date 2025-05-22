@@ -5658,6 +5658,8 @@ SpecialUnderworldObjects_torch:
 ; $02748A-$027501 DATA
 DefaultSaveFileItems:
 {
+    ; DEBUG: This is the debug loadout when using a "B" name in the first slot
+    ; with joypad 2 enabled.
     .bage
     db $01 ; $x340 - bow (normal)
     db $01 ; $x341 - blue boom

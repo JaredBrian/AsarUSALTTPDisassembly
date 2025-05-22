@@ -54,3 +54,7 @@ Find given RAM address use:
 
 Find opcodes missing .l .w .b and extra spaces
 ([A-Z])([A-Z])([A-Z]) [^.:#$+;]
+
+; Expression for placing ", $" 
+; ([^, ])(\s)([^$ ])
+; $1, \$$3

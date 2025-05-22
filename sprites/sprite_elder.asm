@@ -71,6 +71,7 @@ Sprite_Aginah:
     
     .alpha
     
+    ; "I am Aginah..."
     LDA.b #$25
     LDY.b #$01
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing

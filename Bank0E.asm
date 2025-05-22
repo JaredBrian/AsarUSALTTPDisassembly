@@ -4631,7 +4631,7 @@ Credits_InitializeTheActualCredits:
         
     REP #$20
         
-    ; Zero out the Hyrule Castle 2 death counter? why?
+    ; BUG: Zero out the Hyrule Castle 2 death counter? Why?
     LDA.w #$0000 : STA.l $7EF3EF
         
     ; The counter for the number of times you've saved/died.
@@ -4747,27 +4747,35 @@ Credits_InitializeTheActualCredits:
 ; $073D66-$073D8A LOCAL JUMP LOCATION
 Credits_FadeOutFixedCol:
 {  
-    DEC.b $B0 : BNE .BRANCH_ALPHA
+    DEC.b $B0 : BNE .dontUpdate
+        ; Reset the timer.
         LDA.b #$10 : STA.b $B0
         
-        LDA.b $9C : CMP.b #$20 : BEQ .BRANCH_BETA
+        ; Count down red from 0x3F until the default value of 0x20 is
+        ; reached:
+        LDA.b $9C : CMP.b #$20 : BEQ .dontUpdateRed
             DEC.b $9C
             
-            BRA .BRANCH_ALPHA
-    
-    .BRANCH_BETA
-    
-    LDA.b $9D : CMP.b #$40 : BEQ .BRANCH_GAMMA
-        DEC.b $9D
+            BRA .dontUpdate
         
-        BRA .BRANCH_ALPHA
-    
-    .BRANCH_GAMMA
-    
-    LDA.b $9E : CMP.b #$80 : BEQ .BRANCH_ALPHA
-        DEC.b $9E
-    
-    .BRANCH_ALPHA
+        .dontUpdateRed
+        
+        ; Then count down green from 0x5F until the default value of 0x40 is
+        ; reached:
+        LDA.b $9D : CMP.b #$40 : BEQ .dontUpdateGreen
+            DEC.b $9D
+            
+            BRA .dontUpdate
+        
+        .dontUpdateGreen
+        
+        ; Then count down blue from 0x9F until the default value of 0x80 is
+        ; reached:
+        LDA.b $9E : CMP.b #$80 : BEQ .dontUpdateBlue
+            DEC.b $9E
+
+        .dontUpdateBlue
+    .dontUpdate
     
     RTS
 }
