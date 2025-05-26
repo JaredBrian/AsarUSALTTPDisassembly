@@ -131,14 +131,16 @@ Stal_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #$81DC : STA.b $08
-    
+    LDA.w $0DC0, X
+    REP #$20
+    ASL #4 : ADC.w #Stal_Draw_OAM_groups : STA.b $08
     SEP #$20
     
+    ; Load 3 tiles.
     LDA.b #$02
-    
     LDY.w $0D80, X : BNE .active
-        DEC A
+        ; Only load 2 tiles.
+        DEC
     
     .active
     

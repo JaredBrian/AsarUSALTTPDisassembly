@@ -5298,7 +5298,7 @@ SpriteData_OAMHarm:
     db $00 ; ... $00 | 0xC6 - 4WAY SHOOTER
     db $05 ; ... $05 | 0xC7 - POKEY
     db $04 ; ... $04 | 0xC8 - BIG FAIRY
-    db $04 ; ... $04 | 0xC9 - TEKTITE / FIREBAT
+    db $04 ; ... $04 | 0xC9 - TEKTITE / FIREBAT / PITCHFORK
     db $07 ; ... $07 | 0xCA - CHAIN CHOMP
     db $0B ; ... $0B | 0xCB - TRINEXX ROCK HEAD
     db $0C ; ... $0C | 0xCC - TRINEXX FIRE HEAD
@@ -5547,7 +5547,7 @@ SpriteData_Health:
     db $00 ; 0xC6 - 4WAY SHOOTER
     db $20 ; 0xC7 - POKEY
     db $00 ; 0xC8 - BIG FAIRY
-    db $08 ; 0xC9 - TEKTITE / FIREBAT
+    db $08 ; 0xC9 - TEKTITE / FIREBAT / PITCHFORK
     db $05 ; 0xCA - CHAIN CHOMP
     db $28 ; 0xCB - TRINEXX ROCK HEAD
     db $28 ; 0xCC - TRINEXX FIRE HEAD
@@ -5796,7 +5796,7 @@ SpriteData_Bump:
     db $00 ; .... $0 | 0xC6 - 4WAY SHOOTER
     db $06 ; .... $6 | 0xC7 - POKEY
     db $00 ; .... $0 | 0xC8 - BIG FAIRY
-    db $05 ; .... $5 | 0xC9 - TEKTITE / FIREBAT
+    db $05 ; .... $5 | 0xC9 - TEKTITE / FIREBAT / PITCHFORK
     db $07 ; .... $7 | 0xCA - CHAIN CHOMP
     db $17 ; ...d $7 | 0xCB - TRINEXX ROCK HEAD
     db $17 ; ...d $7 | 0xCC - TRINEXX FIRE HEAD
@@ -6046,7 +6046,7 @@ SpriteData_OAMProp:
     db $00 ; .... $0, 0 | 0xC6 - 4WAY SHOOTER
     db $0D ; .... $5, 1 | 0xC7 - POKEY
     db $4B ; .i.. $3, 1 | 0xC8 - BIG FAIRY
-    db $0B ; .... $3, 1 | 0xC9 - TEKTITE / FIREBAT
+    db $0B ; .... $3, 1 | 0xC9 - TEKTITE / FIREBAT / PITCHFORK
     db $59 ; .i.s $1, 1 | 0xCA - CHAIN CHOMP
     db $41 ; .i.. $1, 1 | 0xCB - TRINEXX ROCK HEAD
     db $0B ; .... $3, 1 | 0xCC - TRINEXX FIRE HEAD
@@ -6295,7 +6295,7 @@ SpriteData_HitBox:
     db $40 ; .s. $00 | 0xC6 - 4WAY SHOOTER
     db $00 ; ... $00 | 0xC7 - POKEY
     db $00 ; ... $00 | 0xC8 - BIG FAIRY
-    db $00 ; ... $00 | 0xC9 - TEKTITE / FIREBAT
+    db $00 ; ... $00 | 0xC9 - TEKTITE / FIREBAT / PITCHFORK
     db $00 ; ... $00 | 0xCA - CHAIN CHOMP
     db $89 ; i.. $09 | 0xCB - TRINEXX ROCK HEAD
     db $80 ; i.. $00 | 0xCC - TRINEXX FIRE HEAD
@@ -6544,7 +6544,7 @@ SpriteData_TileInteraction:
     db $00 ; .... $0 | 0xC6 - 4WAY SHOOTER
     db $00 ; .... $0 | 0xC7 - POKEY
     db $00 ; .... $0 | 0xC8 - BIG FAIRY
-    db $00 ; .... $0 | 0xC9 - TEKTITE / FIREBAT
+    db $00 ; .... $0 | 0xC9 - TEKTITE / FIREBAT / PITCHFORK
     db $00 ; .... $0 | 0xCA - CHAIN CHOMP
     db $02 ; ..b. $0 | 0xCB - TRINEXX ROCK HEAD
     db $02 ; ..b. $0 | 0xCC - TRINEXX FIRE HEAD
@@ -6793,7 +6793,7 @@ SpriteData_PrizePack:
     db $00 ; .... $0 | 0xC6 - 4WAY SHOOTER
     db $17 ; ...s $7 | 0xC7 - POKEY
     db $00 ; .... $0 | 0xC8 - BIG FAIRY
-    db $12 ; ...s $2 | 0xC9 - TEKTITE / FIREBAT
+    db $12 ; ...s $2 | 0xC9 - TEKTITE / FIREBAT / PITCHFORK
     db $00 ; .... $0 | 0xCA - CHAIN CHOMP
     db $00 ; .... $0 | 0xCB - TRINEXX ROCK HEAD
     db $00 ; .... $0 | 0xCC - TRINEXX FIRE HEAD
@@ -7042,7 +7042,7 @@ SpriteData_Deflection:
     db $00 ; .... .... | 0xC6 - 4WAY SHOOTER
     db $00 ; .... .... | 0xC7 - POKEY
     db $00 ; .... .... | 0xC8 - BIG FAIRY
-    db $00 ; .... .... | 0xC9 - TEKTITE / FIREBAT
+    db $00 ; .... .... | 0xC9 - TEKTITE / FIREBAT / PITCHFORK
     db $04 ; .... .h.. | 0xCA - CHAIN CHOMP
     db $05 ; .... .h.x | 0xCB - TRINEXX ROCK HEAD
     db $05 ; .... .h.x | 0xCC - TRINEXX FIRE HEAD
@@ -11834,7 +11834,6 @@ Equipment_DrawMapAndBigKey:
 ; ==============================================================================
 
 ; $06EEB6-$06EEDB LOCAL JUMP LOCATION
-Equipment_CheckPalaceItemPossession:
 ItemMenu_CheckForDungeonPrize:
 {
     SEP #$30
@@ -11843,19 +11842,19 @@ ItemMenu_CheckForDungeonPrize:
     JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ItemMenu_NoPrizeHad           ; 0x00 - $EEDC Sewers
-    dw ItemMenu_NoPrizeHad           ; 0x00 - $EEDC Hyrule Castle
-    dw ItemMenu_CheckForBow          ; 0x00 - $EEE1 Eastern Palace
-    dw ItemMenu_CheckForGloves       ; 0x00 - $EEEE Desert Palace
-    dw ItemMenu_NoPrizeHad           ; 0x00 - $EEDC Agahnim's Tower
-    dw ItemMenu_CheckForHookshot     ; 0x00 - $EEF4 Swamp Palace
-    dw ItemMenu_CheckForHammer       ; 0x00 - $EEFA Palace of Darkness
-    dw ItemMenu_CheckForSomaria      ; 0x00 - $EF00 Misery Mire
-    dw ItemMenu_CheckForFireRod      ; 0x00 - $EF06 Skull Woods
-    dw ItemMenu_CheckForBlueMail     ; 0x00 - $EF0C Ice Palace
-    dw ItemMenu_CheckForMoonPearl    ; 0x00 - $EF12 Tower of Hera
-    dw ItemMenu_CheckForTitansMitt   ; 0x00 - $EF18 Thieves' Town
-    dw ItemMenu_CheckForMirrorShield ; 0x00 - $EF1F Turtle Rock
-    dw ItemMenu_CheckForRedMail      ; 0x00 - $EF2C Ganon's Tower
+    dw ItemMenu_NoPrizeHad           ; 0x01 - $EEDC Hyrule Castle
+    dw ItemMenu_CheckForBow          ; 0x02 - $EEE1 Eastern Palace
+    dw ItemMenu_CheckForGloves       ; 0x03 - $EEEE Desert Palace
+    dw ItemMenu_NoPrizeHad           ; 0x04 - $EEDC Agahnim's Tower
+    dw ItemMenu_CheckForHookshot     ; 0x05 - $EEF4 Swamp Palace
+    dw ItemMenu_CheckForHammer       ; 0x06 - $EEFA Palace of Darkness
+    dw ItemMenu_CheckForSomaria      ; 0x07 - $EF00 Misery Mire
+    dw ItemMenu_CheckForFireRod      ; 0x08 - $EF06 Skull Woods
+    dw ItemMenu_CheckForBlueMail     ; 0x09 - $EF0C Ice Palace
+    dw ItemMenu_CheckForMoonPearl    ; 0x0A - $EF12 Tower of Hera
+    dw ItemMenu_CheckForTitansMitt   ; 0x0B - $EF18 Thieves' Town
+    dw ItemMenu_CheckForMirrorShield ; 0x0C - $EF1F Turtle Rock
+    dw ItemMenu_CheckForRedMail      ; 0x0D - $EF2C Ganon's Tower
 }
 
 ; $06EEDC-$06EEE0 LOCAL JUMP LOCATION

@@ -15087,7 +15087,7 @@ Dungeon_PrepSpriteInducedDma_replacement_tiles:
 
 ; ==============================================================================
 
-; Somehow this routine is related to ice men, moving spike blocks, and
+; Somehow this routine is related to freezors, moving spike blocks, and
 ; laser eye that can turn into doorways. Could you really pick a stranger
 ; bunch? The unifying quality is that you all have tilemap entries changing
 ; and sometimes turning into sprites. Other things this is related to:
