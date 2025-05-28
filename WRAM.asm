@@ -6064,8 +6064,12 @@ struct WRAM $7E0000
         ; 0x00 - Upper
         ; 0x01 - Lower
 
-    ; $0B48[0x10] - (Overlord)
-        ; Offset in the overworld sprite position buffer (see $7FDF80)
+    ; $0B48[0x10] - (Overworld, Overlord)
+    .OverlordOWTile: skip $10
+        ; Tile offset in the overworld sprite position buffer (see $7FDF80).
+        ; Used to keep track of the overlord's position when cheching if the plyare
+        ; is far enough away for it to deactivate its children sprites.
+        ; TODO: Confirm this.
 
     ; $0B58[0x10] - (Sprite)
         ; Timers for stunned enemies. Counts down from 0xFF.

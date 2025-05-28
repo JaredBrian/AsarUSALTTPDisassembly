@@ -740,7 +740,7 @@ Overlord_CheckInRangeStatus_easy_out:
 }
 
 ; I think this... might terminate overlord sprites on the overworld.
-; But we don't realy use them there anyways...
+; Such as the boulder spawner on the LW death mountain?
 ; $04C08D-$04C113 LOCAL JUMP LOCATION
 Overlord_CheckInRangeStatus:
 {
@@ -799,7 +799,7 @@ Overlord_CheckInRangeStatus:
             
             LDA.b $00 : AND.b #$07 : TAY
             
-            LDA [$01] : AND.w SpriteDeathMasks, Y : STA [$01]
+            LDA.b [$01] : AND.w SpriteDeathMasks, Y : STA.b [$01]
         
         .not_participating_in_death_buffer
         .in_range_xy
