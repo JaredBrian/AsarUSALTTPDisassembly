@@ -622,7 +622,7 @@ Module_PreOverworld:
 ; ==============================================================================
 
 ; Module 0x08.0x00, 0x0A.0x00 - Loads palettes.
-; ZS overwrites most of this function. - ZS Custom Overworld
+; ZS overwrites most of this function. - ZScream Custom Overworld
 ; $0103C7-$01054B LOCAL JUMP LOCATION
 PreOverworld_LoadProperties:
 {
@@ -658,7 +658,7 @@ PreOverworld_LoadProperties:
     JSL.l HUD_RefillLogicLong
 
     ; ZS starts writing here.
-    ; $0103EE - ZS Custom Overworld
+    ; $0103EE - ZScream Custom Overworld
     ; This is for later on when we load the animated tiles. Loads the clouds.
     LDY.b #$58
 
@@ -1052,7 +1052,7 @@ Credits_LoadScene_PrepGFX:
 
 ; ==============================================================================
 
-; ZS rewrites the latter half of this function. - ZS Custom Overworld
+; ZS rewrites the latter half of this function. - ZScream Custom Overworld
 ; $010604-$010696 LOCAL JUMP LOCATION
 Credits_LoadScene_Overworld_PrepGFX:
 {
@@ -1091,7 +1091,7 @@ Credits_LoadScene_Overworld_PrepGFX:
     STZ.w $012D ; No change of sound effects.
 
     ; ZS starts writing here.
-    ; $010632 - ZS Custom Overworld
+    ; $010632 - ZScream Custom Overworld
     LDY.b #$58
 
     ; 0x03, 0x05, and 0x07 are all mountain areas.
@@ -4597,7 +4597,7 @@ Dungeon_PrepExitWithSpotlight:
 }
 
 ; $011A19-$011AD2 LOCAL JUMP LOCATION
-; ZS rewrites part of this function. - ZS Custom Overworld
+; ZS rewrites part of this function. - ZScream Custom Overworld
 Spotlight_ConfigureTableAndControl:
 {
     JSL.l ConfigureSpotlightTable
@@ -4675,7 +4675,7 @@ Spotlight_ConfigureTableAndControl:
     REP #$30
 
     ; ZS starts writing here.
-    ; $011AA6 - ZS Custom Overworld
+    ; $011AA6 - ZScream Custom Overworld
     ; Setup fixed color values based on area number.
     LDX.w #$4C26
     LDY.w #$8C4C
@@ -5752,7 +5752,7 @@ TriforceRoom_Step2:
     BRA RefreshTriforceModule
 }
 
-; ZS overwrites part of this function. - ZS Custom Overworld
+; ZS overwrites part of this function. - ZScream Custom Overworld
 ; Module 0x19.0x03
 ; $012065-$012088 LOCAL JUMP LOCATION
 TriforceRoom_Step3:
@@ -5765,7 +5765,7 @@ TriforceRoom_Step3:
 
     LDX.b #$04
 
-    ; ZS writes here. - ZS Custom Overworld
+    ; ZS writes here. - ZScream Custom Overworld
     ; $01207A
     JSR.w Overworld_LoadAreaPalettes_preloaded
 
@@ -6348,7 +6348,7 @@ OWOverlay:
     db  0, 17,  0, 17
 }
 
-; ZS overwrites the latter half of this function. - ZS Custom Overworld
+; ZS overwrites the latter half of this function. - ZScream Custom Overworld
 ; Module 0x09, 0x0B - Overworld Module (0x09) and Overworld Module for special
 ; overworlds (0x0B).
 ; $012475-$01252C LONG JUMP LOCATION
@@ -6358,7 +6358,6 @@ Module_Overworld:
 
     ; Submodule index
     LDA.b $11 : ASL A : TAX
-
     JSR.w (Module_OverworldTable, X)
 
     REP #$21
@@ -6384,7 +6383,7 @@ Module_Overworld:
     JSL.l PlayerOam_Main
     JSL.l HUD_RefillLogicLong
 
-    ; $0124CD ALTERNATE ENTRY POINT - ZS Custom Overworld
+    ; $0124CD ALTERNATE ENTRY POINT - ZScream Custom Overworld
     ; ZS only overwrites the rest of this function.
     .rainAnimation
 
@@ -6776,7 +6775,7 @@ OverworldTransitionPositionX:
 
 ; ==============================================================================
 
-; ZS modifies part of this function. - ZS Custom Overworld
+; ZS modifies part of this function. - ZScream Custom Overworld
 ; $0129C4-$012B07 LOCAL JUMP LOCATION
 OverworldHandleTransitions:
 {
@@ -6906,7 +6905,7 @@ OverworldHandleTransitions:
 
         PLA
 
-        ; ZS writes a jump here. - ZS Custom Overworld
+        ; ZS writes a jump here. - ZScream Custom Overworld
         ; $012ADB
         AND.b #$3F : BEQ .BRANCH_MU ; Area it was
             LDA.b $8A : AND.b #$BF : BNE .BRANCH_NU ; Area it is.
@@ -7054,7 +7053,7 @@ Overworld_LoadTransGfx:
 
 ; ==============================================================================
 
-; ZS overwrites most of this function. - ZS Custom Overworld
+; ZS overwrites most of this function. - ZScream Custom Overworld
 ; The purpose of this submodule is to finish blitting the rest of the
 ; graphics that were decompressed in the previous module to VRAM (from the
 ; $7F0000 buffer).
@@ -7066,7 +7065,7 @@ Overworld_FinishTransGfx:
     ; Trigger NMI module: NMI_UpdateBgChrSlots_5_to_6.
     LDA.b #$0A
 
-    ; ZS starts writing here. - ZS Custom Overworld
+    ; ZS starts writing here. - ZScream Custom Overworld
     ; $012BBE ALTERNATE ENTRY POINT
     .firstHalf
 
@@ -7520,7 +7519,7 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
     STZ.b $B0
 
     ; Forest areas are 0x00 and 0x40.
-    ; $012E8C - ZS Custom Overworld? - Loads some sort of animated tile, needs
+    ; $012E8C - ZScream Custom Overworld? - Loads some sort of animated tile, needs
     ; more investigation.
     LDA.b $8A : AND.b #$3F : BNE .notForestArea 
         LDA.b #$1E
@@ -7554,7 +7553,7 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
     LDA.b $11 : CMP.b #$24 : BNE .BRANCH_GAMMA
         JSR.w LoadOverworldFromSpecialOverworld
 
-        ; $012EBF - ZS Custom Overworld? - loads some sort of animated tile,
+        ; $012EBF - ZScream Custom Overworld? - loads some sort of animated tile,
         ; needs more investigation.
         LDA.b $8A : AND.b #$3F : BNE .BRANCH_GAMMA 
             LDA.b #$1E
@@ -7621,7 +7620,7 @@ Module09_1E_02_FBlankAndLoadSPOW:
 
 ; ==============================================================================
 
-; ZS rewrites most of this function. - ZS Custom Overworld
+; ZS rewrites most of this function. - ZScream Custom Overworld
 ; $012F0B-$012F18 LOCAL JUMP LOCATION
 OverworldLoadSubScreenOverlay:
 {
@@ -7665,7 +7664,7 @@ Overworld_ReloadSubscreenOverlay:
     LDY.w #$0390
 
     ; ZS starts writing here.
-    ; $012F58 - ZS Custom Overworld
+    ; $012F58 - ZScream Custom Overworld
     ; Check to see if we are in a SW overworld area.
     LDA.b $8A : CMP.w #$0080 : BCC .notExtendedArea
         ; The first fog overlay.
@@ -8208,7 +8207,7 @@ Overworld_FinishMirrorWarp:
 
 ; ==============================================================================
 
-; ZS replaces this whole function. - ZS Custom Overworld
+; ZS replaces this whole function. - ZScream Custom Overworld
 ; $0132D4-$0132E5 LONG JUMP LOCATION
 MirrorWarp_HandleCastlePyramidSubscreen:
 {
@@ -8270,7 +8269,7 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
 
 ; ==============================================================================
 
-; ZS rewrites part of this function. - ZS Custom Overworld
+; ZS rewrites part of this function. - ZScream Custom Overworld
 ; $013334-$013409 LONG JUMP LOCATION
 MirrorWarp_LoadSpritesAndColors:
 {
@@ -8322,7 +8321,7 @@ MirrorWarp_LoadSpritesAndColors:
     JSL.l Overworld_SetFixedColorAndScroll
 
     ; ZS starts writing here.
-    ; $0133A1 - ZS Custom Overworld
+    ; $0133A1 - ZScream Custom Overworld
     LDA.b $8A
     CMP.b #$1B : BEQ .activateSubscreenBg0
         CMP.b #$5B : BNE .ignoreBg0
@@ -8465,7 +8464,7 @@ Module09_2E_0A:
 }
 
 ; $01346E-$013489 LOCAL JUMP LOCATION
-Module09_2E_03_FindDestination:
+Whirlpool_FindDestination:
 {
     LDA.b #$9F : STA.b $9E
 
@@ -8493,8 +8492,10 @@ Module09_2E_04:
     BRA Whirlpool_LoadPalettes_BRANCH_ALPHA
 }
 
+; ZScream Custom Overworld
+; ZS hooks into into this function.
 ; $013490-$013499 LOCAL JUMP LOCATION
-Module09_2E_05_LoadDestinationMap:
+Whirlpool_LoadDestinationMap:
 {
     JSL.l BirdTravel_LoadAmbientOverlay
 
@@ -8504,7 +8505,7 @@ Module09_2E_05_LoadDestinationMap:
 }
 
 ; $01349A-$01349E LOCAL JUMP LOCATION
-Module09_2E_07_LoadAuxGraphics:
+Whirlpool_LoadAuxGraphics:
 {
     JSR.w Overworld_LoadTransGfx
 
@@ -9687,7 +9688,7 @@ OverworldTransitionDirections:
 
 ; ==============================================================================
 
-; ZS rewrites part of this function. - ZS Custom Overworld
+; ZS rewrites part of this function. - ZScream Custom Overworld
 ; $013B90-$013CFA LOCAL JUMP LOCATION
 Overworld_OperateCameraScroll:
 {
@@ -9784,7 +9785,7 @@ Overworld_OperateCameraScroll:
             LDA.b $E6 : ADC.b $06 : STA.b $E6
 
             ; ZS writes here.
-            ; $013C44 - ZS Custom Overworld
+            ; $013C44 - ZScream Custom Overworld
             LDA.b $8A : AND.w #$003F : CMP.w #$001B : BNE .handle_x_camera
                 ; Don't let the BG scroll down further than the "top" of the bg when
                 ; walking up.
@@ -9886,7 +9887,7 @@ Overworld_OperateCameraScroll:
 ; $013CFB-$013D61 LOCAL JUMP LOCATION
 OverworldHandleBGOverlayScroll:
 {
-    ; $013CFB - ZS Custom Overworld? - This one seems to control some sort of
+    ; $013CFB - ZScream Custom Overworld? - This one seems to control some sort of
     ; subscreen movement but only for turtle rock. This will need to be
     ; investigated further as to why.
     LDX.b $8A : CPX.b #$47 : BEQ .BRANCH_OMEGA
@@ -10240,7 +10241,7 @@ OverworldScrollTransition_dirty_exit:
 }
 
 ; $014001-$0140C2 LOCAL JUMP LOCATION
-; ZS rewrites part of this function. - ZS Custom Overworld
+; ZS rewrites part of this function. - ZScream Custom Overworld
 OverworldScrollTransition:
 {
     PHB : PHK : PLB
@@ -10274,7 +10275,7 @@ OverworldScrollTransition:
     CLC : ADC.w Pool_Overworld_SetCameraBounds_coordinate_camera_adjust, Y
     STA.b $E2, X
 
-    ; $01402D ZS writes here. - ZS Custom Overworld
+    ; $01402D ZS writes here. - ZScream Custom Overworld
     ; Hyrule Castle and Pyramid of Power have special BG1 overlays
     ; that must remain in fixed scroll position
     LDY.b $8A
@@ -11167,7 +11168,7 @@ Overworld_LoadAreaPalettesLong:
 
 ; ==============================================================================
 
-; ZS rewrites this whole function. - ZS Custom Overworld
+; ZS rewrites this whole function. - ZScream Custom Overworld
 ; $014692-$0146EA LOCAL JUMP LOCATION
 Overworld_LoadAreaPalettes:
 {
@@ -14369,14 +14370,14 @@ BirdTravel_LoadTargetAreaPalettes:
 ; $016CF8-$016D07 DATA TABLE
 Whirlpool_LookUpAndLoadTargetArea_my_screen_id:
 {
-    dw $000F ; OW 0F - Lake Hylia whirlpool
-    dw $0035 ; OW 35 - Waterfall of Wishing whirlpool
-    dw $0033 ; OW 33 - Witch whirlpool
-    dw $0015 ; OW 15 - South of Link's house whirlpool
-    dw $003F ; OW 3F - Death Mountain whirlpool
-    dw $0012 ; OW 12 - Lake Hylia falls whirlpool
-    dw $007F ; OW 7F - Dark witch whirlpool
-    dw $0055 ; OW 55 - Dark Lake Hylia falls whirlpool
+    dw $000F ; 0x00 - OW 0x0F - Lake Hylia whirlpool
+    dw $0035 ; 0x01 - OW 0x35 - Waterfall of Wishing whirlpool
+    dw $0033 ; 0x02 - OW 0x33 - Witch whirlpool
+    dw $0015 ; 0x03 - OW 0x15 - South of Link's house whirlpool
+    dw $003F ; 0x04 - OW 0x3F - Death Mountain whirlpool
+    dw $0012 ; 0x05 - OW 0x12 - Lake Hylia falls whirlpool
+    dw $007F ; 0x06 - OW 0x7F - Dark witch whirlpool
+    dw $0055 ; 0x07 - OW 0x55 - Dark Lake Hylia falls whirlpool
 }
 
 ; $016D08-$016D24 LONG JUMP LOCATION
@@ -14399,7 +14400,7 @@ Whirlpool_LookUpAndLoadTargetArea:
 
     STZ.w $04AC
 
-    JMP Whirlpool_LoadTargetAreaData
+    JMP.w Whirlpool_LoadTargetAreaData
 }
 
 ; ==============================================================================

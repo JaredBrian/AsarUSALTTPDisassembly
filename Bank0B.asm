@@ -1210,7 +1210,7 @@ Overworld_SetFixedColorAndScroll:
     TXA
 
     ; ZS starts replacing from here.
-    ; $05FEB6 - ZS Custom Overworld
+    ; $05FEB6 - ZScream Custom Overworld
     STA.l $7EC500 : STA.l $7EC300
     STA.l $7EC540 : STA.l $7EC340
     

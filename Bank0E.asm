@@ -8907,7 +8907,7 @@ Palette_GetOwBgColor:
     LDX.w #$2669
         
     ; ZS writes here.
-    ; $075627 - ZS Custom Overworld
+    ; $075627 - ZScream Custom Overworld
     ; If area number < 0x80
     LDA.b $8A : CMP.w #$0080 : BCC .notSpecialArea
         ; Check for special areas
@@ -9267,7 +9267,7 @@ Palette_Restore_BG_From_Flash:
     ; Bleeds into the next function.
 }
 
-; ZS replaces this whole function. - ZS Custom Overworld
+; ZS replaces this whole function. - ZScream Custom Overworld
 ; $0758AE-$0758FA LONG JUMP LOCATION
 Palette_RestoreFixedColor:
 {

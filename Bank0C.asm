@@ -1506,10 +1506,12 @@ SceneSprite_TitleCard:
 ; $064850-$064863 JUMP LOCATION
 InitializeSceneSprite_Copyright:
 {
+    ; Set the starting X position for the draw.
     LDA.b #$4C : STA.w $1E30, X
     
     STZ.w $1E38, X
     
+    ; Set the starting Y position for the draw.
     LDA.b #$B8 : STA.w $1E48, X
     
     STZ.w $1E50, X
@@ -1527,6 +1529,7 @@ AnimateSceneSprite_Copyright:
     RTS
 }
 
+; $064868-$0648CF DATA
 Pool_AnimateSceneSprite_DrawCopyright:
 {
     .groups
@@ -1548,10 +1551,12 @@ Pool_AnimateSceneSprite_DrawCopyright:
 ; $0648D0-$0648E1 LOCAL JUMP LOCATION
 AnimateSceneSprite_DrawCopyright:
 {
+    ; Set the amount of tiles to be drawn.
     LDA.b #$0D : STA.b $06
                  STZ.b $07
-    LDA.b #$68 : STA.b $08
-    LDA.b #$C8 : STA.b $09
+
+    LDA.b #groups    : STA.b $08
+    LDA.b #groups>>8 : STA.b $09
     
     JSR.w AnimateSceneSprite_AddObjectsToOAMBuffer
     
@@ -5707,7 +5712,7 @@ Intro_DisplayNintendoLogo:
         LDA.w Pool_Intro_DisplayLogo_object_a, Y : STA.w $0800, X
         
         ; The (hardcoded) Y coordinate for the Nintendo Logo sprites.
-        LDA.b #$68   : STA.w $0801, X
+        LDA.b #$68 : STA.w $0801, X
         
         ; The sprite index (which sprite CHR is used.
         LDA.w Pool_Intro_DisplayLogo_object_b, Y : STA.w $0802, X

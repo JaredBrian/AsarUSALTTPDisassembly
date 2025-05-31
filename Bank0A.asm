@@ -597,7 +597,7 @@ BirdTravel_LoadTargetArea:
     JSL.l BirdTravel_LoadTargetAreaPalettes
     
     ; ZS starts writing here.
-    ; $0538F5 - ZS Custom Overworld
+    ; $0538F5 - ZScream Custom Overworld
     ; Load differnt animated tiles for certain areas.
     LDY.b #$58
         

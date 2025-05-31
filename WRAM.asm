@@ -5867,11 +5867,12 @@ struct WRAM $7E0000
         ; TODO: Document the values.
 
     ; $0ADC[0x02] - (NMI, GFX, OAM)
-    .BGRupeeChrAddress: skip $02
-        ; The ROM Address for the BG rupee GFX tile DMA transfer during
-        ; NMI. The value stored here is always $7EC00F + 0xA680.
-        ; Used in transfering the animated OW tiles.
-        ; TODO: Possibly some other OW use. TODO: Document the values.
+    .BGAnimatedChrAddress: skip $02
+        ; The ROM Address for animated tiles DMA transfer during NMI. The value
+        ; stored here is always $7EC00F + 0xA680. Used for the the BG rupee GFX
+        ; tiles in dungeons. Used in transfering the animated OW tiles on the
+        ; Overworld.
+        ; TODO: Document the values.
 
     ; $0ADE[0x02] - (Free)
     .Free_0ADE: skip $02

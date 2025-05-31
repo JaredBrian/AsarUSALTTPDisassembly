@@ -1570,6 +1570,7 @@ NMI_DoUpdates:
 
     .noBirdSpriteUpdate
 
+    ; Set the animated tile address.
     LDX.w $0ADC : STX.w DMA.0_SourceAddrOffsetLow
     
     ; Set the target VRAM address.
@@ -1757,7 +1758,7 @@ NMI_DoUpdates:
     dw NMI_UpdateScrollingOwMap              ; 0x03 - $8D13
     dw NMI_UploadSubscreenOverlay            ; 0x04 - $8D62
     dw NMI_UpdateBG1Wall                     ; 0x05 - $8E09 Used in the moving wall code
-    dw NMI_DoNothing                         ; 0x06 - $8E4B Just and RTS ; Replaced by ZS - ZS Custom Overworld
+    dw NMI_DoNothing                         ; 0x06 - $8E4B Just and RTS ; Replaced by ZS - ZScream Custom Overworld
     dw NMI_LightWorldMode7Tilemap            ; 0x07 - $8E54 Transfers mode 7 tilemap
     dw NMI_UpdateLeftBg2Tilemaps             ; 0x08 - $8EA9 Transfers 0x1000 bytes from $7F0000 to VRAM $0000
     dw NMI_UpdateBgChrSlots_3_to_4           ; 0x09 - $8EE7 Transfers 0x1000 bytes from $7F0000 to VRAM $2C00
@@ -10223,7 +10224,7 @@ Do3To4HighAnimated:
 
 ; ==============================================================================
 
-; ZS Interupts this function. - ZS Custom Overworld
+; ZS Interupts this function. - ZScream Custom Overworld
 ; $00566E-$0056F8 LONG JUMP LOCATION
 LoadTransAuxGFX:
 {
@@ -10234,7 +10235,7 @@ LoadTransAuxGFX:
     STZ.b $00
 
     ; ZS writes a call here.
-    ; $005673 - ZS Custom Overworld
+    ; $005673 - ZScream Custom Overworld
     LDA.b #$60 : STA.b $01
     LDA.b #$7E : STA.b $02
     
@@ -10676,7 +10677,7 @@ AnimateMirrorWarp_TriggerBGChar0:
 ; ==============================================================================
 
 ; Updates animated tiles durring mirror warp. May have other uses.
-; ZS replaces this whole function. - ZS Custom Overworld
+; ZS replaces this whole function. - ZScream Custom Overworld
 ; $0058D5-$0058ED JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressAnimatedTiles:
 {
@@ -10762,7 +10763,7 @@ SheetsTable_0AA4_2:
 
 ; ==============================================================================
 
-; ZS Overwrites part of this function. - ZS Custom Overworld
+; ZS Overwrites part of this function. - ZScream Custom Overworld
 ; Gets ready to decompress typical graphics...
 ; $0058FE-$0059B8 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressNewTileSets:
@@ -10773,7 +10774,7 @@ AnimateMirrorWarp_DecompressNewTileSets:
     
     REP #$30
     
-    ; $005904 ZS writes here. - ZS Custom Overworld
+    ; $005904 ZS writes here. - ZScream Custom Overworld
     LDA.w $0AA1 : AND.w #$00FF : ASL #3 : TAX
     LDA.w $0AA2 : AND.w #$00FF : ASL #2 : TAY
     
@@ -10837,7 +10838,7 @@ AnimateMirrorWarp_DecompressNewTileSets:
     
     PLX
     
-    ; $00597D ZS writes here. - ZS Custom Overworld
+    ; $00597D ZS writes here. - ZScream Custom Overworld
     LDA.l SheetsTable_Mirror_sheet1, X : STA.b $08
     LDA.l SheetsTable_Mirror_sheet0, X : TAY
     
@@ -10878,14 +10879,14 @@ AnimateMirrorWarp_DecompressNewTileSets:
 
 ; ==============================================================================
 
-; ZS overwrites part of this function. - ZS Custom Overworld
+; ZS overwrites part of this function. - ZScream Custom Overworld
 ; More decompression...
 ; $0059B9-$0059F7 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressBackgroundsA:
 {
     PHB : PHK : PLB
     
-    ; $0059BC ZS writes here. - ZS Custom Overworld
+    ; $0059BC ZS writes here. - ZScream Custom Overworld
     LDA.l SheetsTable_Mirror_sheet3, X : STA.b $08
     LDA.l SheetsTable_Mirror_sheet2, X : TAY
     
@@ -10963,13 +10964,13 @@ AnimateMirrorWarp_DecompressBackgroundsB:
 
 ; ==============================================================================
 
-; ZS Interupts this function. - ZS Custom Overworld
+; ZS Interupts this function. - ZScream Custom Overworld
 ; $005A2C-$005A62 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressBackgroundsC:
 {
     PHB : PHK : PLB
     
-    ; $005A2F ZS writes here. - ZS Custom Overworld
+    ; $005A2F ZS writes here. - ZScream Custom Overworld
     LDA.l SheetsTable_Mirror_sheet5, X : STA.b $08
     LDA.l SheetsTable_Mirror_sheet4, X : TAY
     
@@ -11003,7 +11004,7 @@ AnimateMirrorWarp_DecompressBackgroundsC:
 
 ; ==============================================================================
 
-; ZS replaces this whole function. - ZS Custom Overworld
+; ZS replaces this whole function. - ZScream Custom Overworld
 ; The first half of this function enables or disables BG1 for subscreen overlay
 ; use depending on the area. The second half reloads global sprite #2 sheet
 ; (rock vs skulls, different bush GFX, fish vs bone fish, etc.) based on what
@@ -11795,7 +11796,7 @@ SheetsTable_0AA1:
 ; Summary of this routine:
 ; Uses $0AA4 to load the sprite graphics for misc. items.
 ; Uses $0AA3 to load sprite graphics.
-; ZS overwrites part of this function. - ZS Custom Overworld
+; ZS overwrites part of this function. - ZScream Custom Overworld
 ; $00619B-$0062CF LONG JUMP LOCATION
 InitTilesets:
 {
@@ -11878,7 +11879,7 @@ InitTilesets:
     LDA.w #$2000 : STA.w SNES.VRAMAddrReadWriteLow
 
     ; ZS starts writing here.
-    ; $006221 - ZS Custom Overworld
+    ; $006221 - ZScream Custom Overworld
     LDA.w $0AA1 : AND.w #$00FF : ASL #3 : TAY
     LDA.w $0AA2 : AND.w #$00FF : ASL #2 : TAX
     
@@ -11920,7 +11921,7 @@ InitTilesets:
     
     LDA.w SheetsTable_0AA1_sheet7, Y : STA.b $06
 
-    ; $006282 ZS Returns here. - ZS Custom Overworld
+    ; $006282 ZS Returns here. - ZScream Custom Overworld
     
     SEP #$10
     
@@ -13891,7 +13892,7 @@ RestorePaletteSubtractive:
 ; ==============================================================================
 
 ; $006E78-$006EDF JUMP LOCATION
-; ZS intercepts this function. - ZS Custom Overworld
+; ZS intercepts this function. - ZScream Custom Overworld
 Palette_InitWhiteFilter:
 {
     REP #$20
@@ -13915,7 +13916,7 @@ Palette_InitWhiteFilter:
     LDA.w #$0002 : STA.l $7EC009
         
     ; ZS writes here.
-    ; $006EBB - ZS Custom Overworld
+    ; $006EBB - ZScream Custom Overworld
     ; If we are warping from an area with the pyramid BG, set the BG color to
     ; transparent. This is done to prevent a case where the black transparent
     ; color is faded to white on top of the pyramid BG, resulting in a double
@@ -15438,7 +15439,7 @@ Module0E_09_BluePotion:
 ; ==============================================================================
 
 ; $00792D-$007944 DATA
-; See ZScream "Dungeon Properties". - ZS Custom Overworld
+; See ZScream "Dungeon Properties". - ZScream Custom Overworld
 Pool_PrepareDungeonExitFromBossFight:
 {
     ; $00792D
@@ -16078,7 +16079,7 @@ MirrorWarp_BuildWavingHDMATable:
         RTL
 }
 
-; ZS rewrites part of this function. - ZS Custom Overworld
+; ZS rewrites part of this function. - ZScream Custom Overworld
 ; $007F2F-$007FB6 JUMP LOCATION (LONG)
 MirrorWarp_BuildDewavingHDMATable:
 {
@@ -16114,7 +16115,7 @@ MirrorWarp_BuildDewavingHDMATable:
         CPY.w #$0000 : BNE .BRANCH_GAMMA
             
         ; ZS starts writing here.
-        ; $007F7C - ZS Custom Overworld
+        ; $007F7C - ZScream Custom Overworld
         LDA.w $1C80 : ORA.w $1C90 : ORA.w $1CA0 : ORA.w $1CB0 : CMP.b $E2 : BNE .BRANCH_DELTA
             SEP #$20
             
