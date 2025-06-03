@@ -6588,10 +6588,10 @@ Overworld_PlayerControl:
 
 ; ==============================================================================
 
+; ZSCREAM: This table is updated by ZS to allow map layout changes.
 ; This tells the game what each area's "parent" area is. For small areas this
 ; is it's own area number. For large areas this is the top left area in the
 ; 2x2 grid.
-; ZSCREAM: This table is updated by ZS to allow map layout changes.
 ; $0125EC-$01262B DATA
 Overworld_ActualScreenID:
 {
@@ -6806,9 +6806,11 @@ OverworldHandleTransitions:
         LDX.w $0700
         LDA.b $20 : SEC : SBC OverworldTransitionPositionY, X
 
+        ; Transitioning up.
         LDY.b #$06 : LDX.b #$08
 
         CMP.w #$0004 : BCC .BRANCH_GAMMA
+            ; Transitioning down.
             LDY.b #$04 : LDX.b #$04
 
             CMP.w $0716 : BCS .BRANCH_GAMMA
@@ -6825,9 +6827,11 @@ OverworldHandleTransitions:
         LDX.w $0700
         LDA.b $22 : SEC : SBC OverworldTransitionPositionX, X
 
+        ; Transitioning left.
         LDY.b #$02 : LDX.b #$02
         
         CMP.w #$0006 : BCC .BRANCH_GAMMA
+            ; Transitioning right.
             LDY.b #$00 : LDX.b #$01
             
             CMP.b $02 : BCC .BRANCH_DELTA
@@ -6864,10 +6868,10 @@ OverworldHandleTransitions:
                                                                STA.b $04
 
         TXA : ASL #6 : ORA.b $04 : TAX
-
         LDA.b $84 : CLC : ADC.w OverworldScreenTileMapChange_ByScreen1, X
         STA.b $84
 
+        ; OPTIMIZE: Why not just LDA.b $04?
         PLA : LSR A : TAX
 
         SEP #$30
@@ -6879,13 +6883,14 @@ OverworldHandleTransitions:
 
         .notFluteBoyGrove
 
-        ; $012A7D Sets the OW area number
+        ; Sets the OW area number.
+        ; $012A7D
         LDA.l Overworld_ActualScreenID, X : ORA.l $7EF3CA
         STA.b $8A : STA.w $040A : TAX
 
         LDA.l $7EF3CA : BEQ .lightWorld
             ; Check for moon pearl.
-            LDA.l $7EF357 : BEQ .BRANCH_IOTA
+            LDA.l $7EF357 : BEQ .noMusicChange
 
         .lightWorld
 
@@ -6898,7 +6903,7 @@ OverworldHandleTransitions:
         LDA.l $7F5B00, X : AND.b #$0F : CMP.w $0130 : BEQ .noMusicChange
             LDA.b #$F1 : STA.w $012C
 
-        .noMusicChange ; BANCH_IOTA
+        .noMusicChange
 
         JSR.w Overworld_LoadMapProperties
 

@@ -10677,8 +10677,8 @@ AnimateMirrorWarp_TriggerBGChar0:
 
 ; ==============================================================================
 
-; Updates animated tiles durring mirror warp. May have other uses.
 ; ZSCREAM: ZS replaces this whole function.
+; Updates animated tiles durring mirror warp. May have other uses.
 ; $0058D5-$0058ED JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressAnimatedTiles:
 {
@@ -11798,10 +11798,10 @@ SheetsTable_0AA1:
 
 ; ==============================================================================
 
+; ZSCREAM: ZS overwrites part of this function.
 ; Summary of this routine:
 ; Uses $0AA4 to load the sprite graphics for misc. items.
 ; Uses $0AA3 to load sprite graphics.
-; ZSCREAM: ZS overwrites part of this function.
 ; $00619B-$0062CF LONG JUMP LOCATION
 InitTilesets:
 {
@@ -15443,7 +15443,7 @@ Module0E_09_BluePotion:
 
 ; ==============================================================================
 
-; ZScream: See ZScream "Dungeon Properties". 
+; ZSCREAM: See ZScream "Dungeon Properties". 
 ; $00792D-$007944 DATA
 Pool_PrepareDungeonExitFromBossFight:
 {

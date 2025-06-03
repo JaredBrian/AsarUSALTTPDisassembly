@@ -5163,7 +5163,7 @@ struct WRAM $7E0000
         ; yyyzxxx.
         ; y - Obtained by masking Link's Y coordinate ($20) with 0x1E00,
         ;     shifting left three times.
-        ; x - Obaained by masking Link's X coordinate ($22) with 0x1E00,
+        ; x - Obtained by masking Link's X coordinate ($22) with 0x1E00,
         ;     and bitwise ORing it with the the y bits.
         ; z - This is the overlap of the x and y bits described above.
 
