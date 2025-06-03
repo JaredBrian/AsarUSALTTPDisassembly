@@ -1171,46 +1171,51 @@ NULL_0BFE5E:
 
 ; ==============================================================================
 
-; ZS replaces the latter half of this function.
+; ZSCREAM: ZS replaces the first and struction and the latter
+; half of this function.
 ; $05FE70-$05FFA7 LONG JUMP LOCATION
 Overworld_SetFixedColorAndScroll:
 {
+    ; ZSCREAM: ZS NOPs out this STZ.b $1D.
     ; Turn the subscreen off for the moment.
+    ; $05FE70
     STZ.b $1D
         
     REP #$30
         
+    ; Default dark green color for the special world.
     LDX.w #$19C6
-        LDA.b $8A : CMP.w #$0080 : BNE .notMasterSwordArea
-            LDA.b $A0 : CMP.w #$0181 : BNE .setBgColor
-                INC.b $1D
+    LDA.b $8A : CMP.w #$0080 : BNE .notMasterSwordArea
+        LDA.b $A0 : CMP.w #$0181 : BNE .setBgColor
+            INC.b $1D
             
-                BRA .useDefaultGreen
+            BRA .useDefaultGreen
     
-        .notMasterSwordArea
+    .notMasterSwordArea
     
-        ; If area == 0x81 branch
-        CMP.w #$0081 : BEQ .setBgColor
-            LDX.w #$0000
+    ; If area == 0x81 branch
+    CMP.w #$0081 : BEQ .setBgColor
+        LDX.w #$0000
             
-            CMP.w #$005B                : BEQ .setBgColor
-            AND.w #$00BF : CMP.w #$0003 : BEQ .setBgColor
-            CMP.w #$0005                : BEQ .setBgColor
-            CMP.w #$0007                : BEQ .setBgColor
-                .useDefaultGreen
+        CMP.w #$005B                : BEQ .setBgColor
+        AND.w #$00BF : CMP.w #$0003 : BEQ .setBgColor
+        CMP.w #$0005                : BEQ .setBgColor
+        CMP.w #$0007                : BEQ .setBgColor
+            .useDefaultGreen
             
-                LDX.w #$2669
+            ; Default green color for the light world.
+            LDX.w #$2669
                 
-                LDA.b $8A : AND.w #$0040 : BEQ .setBgColor
-                    ; Default tan color for the dark world.
-                    LDX.w #$2A32
+            LDA.b $8A : AND.w #$0040 : BEQ .setBgColor
+                ; Default tan color for the dark world.
+                LDX.w #$2A32
             
     .setBgColor
     
     TXA
 
-    ; ZS starts replacing from here.
-    ; $05FEB6 - ZScream Custom Overworld
+    ; ZSCREAM: ZS replaces the rest of this function.
+    ; $05FEB6
     STA.l $7EC500 : STA.l $7EC300
     STA.l $7EC540 : STA.l $7EC340
     

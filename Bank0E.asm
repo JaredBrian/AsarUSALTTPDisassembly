@@ -8836,6 +8836,9 @@ Overworld_LoadPalettes:
     
     JSL.l Palette_OverworldBgAux1
     JSL.l Palette_OverworldBgAux2
+
+    ; ZSCREAM: ZS USED to make a jump here but no longer does.
+    ; $0755E7
     JSL.l Palette_OverworldBgAux3
     JSL.l Palette_SpriteAux1
     JSL.l Palette_SpriteAux2
@@ -8897,8 +8900,8 @@ Overworld_SetScreenBGColorCacheOnly:
     BRA SetBGColorCacheOnly
 }
 
+; ZSCREAM: ZS changes this function.
 ; $075622-$075652 LOCAL JUMP LOCATION
-; ZS changes this function.
 Palette_GetOwBgColor:
 {
     REP #$30
@@ -8906,8 +8909,8 @@ Palette_GetOwBgColor:
     ; Default green color
     LDX.w #$2669
         
-    ; ZS writes here.
-    ; $075627 - ZScream Custom Overworld
+    ; ZSCREAM: ZS writes here.
+    ; $075627
     ; If area number < 0x80
     LDA.b $8A : CMP.w #$0080 : BCC .notSpecialArea
         ; Check for special areas
@@ -9267,7 +9270,7 @@ Palette_Restore_BG_From_Flash:
     ; Bleeds into the next function.
 }
 
-; ZS replaces this whole function. - ZScream Custom Overworld
+; ZSCREAM: ZS replaces this whole function.
 ; $0758AE-$0758FA LONG JUMP LOCATION
 Palette_RestoreFixedColor:
 {

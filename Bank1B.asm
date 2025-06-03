@@ -4054,7 +4054,6 @@ Pool_Overworld_AnimateEntrance_GanonsTower:
 Overworld_AnimateEntrance_GanonsTower:
 {
     LDA.b $B0 : ASL A : TAX
-
     JMP (Pool_Overworld_AnimateEntrance_GanonsTower_handlers, X)
 }
 
@@ -4062,7 +4061,6 @@ Overworld_AnimateEntrance_GanonsTower:
 AnimateEntrance_GanonsTower_step01:
 {
     LDX.b $8A
-    
     LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
     
     JSL.l HandleStakeField
@@ -6074,7 +6072,7 @@ Palette_MainSpr:
     ; X = 0x00 for light world
     LDX.b #$00
     
-    ; - ZScream Custom Overworld? not sure, needs investigation.
+    ; ZScream Custom Overworld? not sure, needs investigation.
     LDA.b $8A : AND.w #$0040 : BEQ .lightWorld
         ; X = 0x02 for dark world
         INX #2
@@ -6247,7 +6245,7 @@ Palette_MiscSpr:
     LDX.w #$07
     
     ; See if we're in the dark world.
-    ; - ZScream Custom Overworld? not sure, needs investigation.
+    ; ZScream Custom Overworld? not sure, needs investigation.
     LDA.b $8A : AND.w #$0040 : BEQ .lightWorld
         INX #2
     

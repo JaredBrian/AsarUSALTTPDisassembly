@@ -580,7 +580,7 @@ BirdTravel_Main:
 
 ; ==============================================================================
 
-; ZS replaces most of this function.
+; ZSCREAM: ZS replaces most of this function.
 ; $0538C5-$053947 LONG JUMP LOCATION
 BirdTravel_LoadTargetArea:
 {
@@ -596,9 +596,9 @@ BirdTravel_LoadTargetArea:
     JSL.l BirdTravel_LoadTargetAreaData
     JSL.l BirdTravel_LoadTargetAreaPalettes
     
-    ; ZS starts writing here.
-    ; $0538F5 - ZScream Custom Overworld
+    ; ZSCREAM: ZS starts writing here.
     ; Load differnt animated tiles for certain areas.
+    ; $0538F5
     LDY.b #$58
         
     LDA.b $8A : AND.b #$BF
@@ -1167,9 +1167,8 @@ OverworldMap_RestoreGfx:
     STZ.w $0AA9
     STZ.w $0AB2
         
-    ; ZS writes here.
+    ; ZSCREAM: ZS writes here.
     ; $053C5A
-
     JSL.l InitTilesets
         
     ; Update CGRAM this frame.

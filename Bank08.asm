@@ -2803,6 +2803,7 @@ HitStars_UpdateOamBufferPosition:
 
 ; ==============================================================================
 
+; ZSCREAM: ZS modifies part of this function.
 ; $047A2D-$047ADC LOCAL JUMP LOCATION
 Hookshot_IsCollisionCheckFutile:
 {
@@ -2830,6 +2831,8 @@ Hookshot_IsCollisionCheckFutile:
         LDX.w $0700
         LDA.b $02 : SEC : SBC.l OverworldTransitionPositionX, X
         CMP.w #$0006 : BCC .off_screen
+            ; ZSCREAM: ZS makes a change here.
+            ; $047A76
             CMP.w $0716 : BCC .not_at_screen_edge
         
         .off_screen

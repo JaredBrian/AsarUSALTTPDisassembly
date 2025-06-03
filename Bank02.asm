@@ -52,6 +52,8 @@ Intro_SetupScreen:
     ; Reset this setting because we only needed it for loading the "Nintendo" logo.
     STZ.w $0AAA
 
+    ; ZSCREAM: This function gets updated to its new location.
+    ; $010027
     JSR.w Overworld_LoadMusicIfNeeded
 
     REP #$20
@@ -621,8 +623,8 @@ Module_PreOverworld:
 
 ; ==============================================================================
 
+; ZSCREAM: ZS overwrites most of this function.
 ; Module 0x08.0x00, 0x0A.0x00 - Loads palettes.
-; ZS overwrites most of this function. - ZScream Custom Overworld
 ; $0103C7-$01054B LOCAL JUMP LOCATION
 PreOverworld_LoadProperties:
 {
@@ -657,8 +659,8 @@ PreOverworld_LoadProperties:
 
     JSL.l HUD_RefillLogicLong
 
-    ; ZS starts writing here.
-    ; $0103EE - ZScream Custom Overworld
+    ; ZSCREAM: ZS starts writing here.
+    ; $0103EE
     ; This is for later on when we load the animated tiles. Loads the clouds.
     LDY.b #$58
 
@@ -882,7 +884,9 @@ PreOverworld_LoadProperties:
     ; Bleeds into the next function.
 }
 
-; $01054C-$010569 LOCAL JUMP LOCATION=
+; ZSCREAM: This function gets shifted because the one above
+; gets overwritten. Otherwise its functionally the same.
+; $01054C-$010569 LOCAL JUMP LOCATION
 Overworld_LoadMusicIfNeeded:
 {
     LDA.w $0136 : BEQ .no_music_load_needed
@@ -1052,7 +1056,7 @@ Credits_LoadScene_PrepGFX:
 
 ; ==============================================================================
 
-; ZS rewrites the latter half of this function. - ZScream Custom Overworld
+; ZSCREAM: ZS rewrites the latter half of this function.
 ; $010604-$010696 LOCAL JUMP LOCATION
 Credits_LoadScene_Overworld_PrepGFX:
 {
@@ -1090,8 +1094,8 @@ Credits_LoadScene_Overworld_PrepGFX:
     STZ.w $012C ; No change of music.
     STZ.w $012D ; No change of sound effects.
 
-    ; ZS starts writing here.
-    ; $010632 - ZScream Custom Overworld
+    ; ZSCREAM: ZS starts writing here.
+    ; $010632
     LDY.b #$58
 
     ; 0x03, 0x05, and 0x07 are all mountain areas.
@@ -4596,8 +4600,8 @@ Dungeon_PrepExitWithSpotlight:
     RTS
 }
 
+; ZSCREAM: ZS rewrites part of this function.
 ; $011A19-$011AD2 LOCAL JUMP LOCATION
-; ZS rewrites part of this function. - ZScream Custom Overworld
 Spotlight_ConfigureTableAndControl:
 {
     JSL.l ConfigureSpotlightTable
@@ -4674,8 +4678,8 @@ Spotlight_ConfigureTableAndControl:
 
     REP #$30
 
-    ; ZS starts writing here.
-    ; $011AA6 - ZScream Custom Overworld
+    ; ZSCREAM: ZS starts writing here.
+    ; $011AA6
     ; Setup fixed color values based on area number.
     LDX.w #$4C26
     LDY.w #$8C4C
@@ -4914,6 +4918,8 @@ Dungeon_LoadSongBankIfNeeded:
 
     .song_is_in_outdoor_bank
 
+    ; ZSCREAM: This function gets updated to its new location.
+    ; $011C0C
     JMP Overworld_LoadMusicIfNeeded
 }
 
@@ -5136,6 +5142,8 @@ Mirror_LoadMusic:
     INC.w $0200
     INC.b $11
 
+    ; ZSCREAM: This function gets updated to its new location.
+    ; $011D1E
     JSR.w Overworld_LoadMusicIfNeeded
 
     RTS
@@ -5563,6 +5571,9 @@ GanonEmerges_LOadPyramidArea:
                  STZ.w $1AF1
 
     JSL.l BirdTravel_LoadTargetArea
+
+    ; ZSCREAM: This function gets updated to its new location.
+    ; $011F82
     JSR.w Overworld_LoadMusicIfNeeded
 
     ; Load the dark world music.
@@ -5752,7 +5763,7 @@ TriforceRoom_Step2:
     BRA RefreshTriforceModule
 }
 
-; ZS overwrites part of this function. - ZScream Custom Overworld
+; ZSCREAM: ZS overwrites part of this function.
 ; Module 0x19.0x03
 ; $012065-$012088 LOCAL JUMP LOCATION
 TriforceRoom_Step3:
@@ -5765,7 +5776,7 @@ TriforceRoom_Step3:
 
     LDX.b #$04
 
-    ; ZS writes here. - ZScream Custom Overworld
+    ; ZSCREAM: ZS writes here.
     ; $01207A
     JSR.w Overworld_LoadAreaPalettes_preloaded
 
@@ -6348,7 +6359,7 @@ OWOverlay:
     db  0, 17,  0, 17
 }
 
-; ZS overwrites the latter half of this function. - ZScream Custom Overworld
+; ZSCREAM: ZS overwrites the latter half of this function.
 ; Module 0x09, 0x0B - Overworld Module (0x09) and Overworld Module for special
 ; overworlds (0x0B).
 ; $012475-$01252C LONG JUMP LOCATION
@@ -6383,8 +6394,8 @@ Module_Overworld:
     JSL.l PlayerOam_Main
     JSL.l HUD_RefillLogicLong
 
-    ; $0124CD ALTERNATE ENTRY POINT - ZScream Custom Overworld
-    ; ZS only overwrites the rest of this function.
+    ; ZSCREAM: ZS overwrites the rest of this function.
+    ; $0124CD ALTERNATE ENTRY POINT
     .rainAnimation
 
     LDA.b $8A : CMP.b #$70 : BEQ .evilSwamp
@@ -6594,6 +6605,7 @@ Overworld_ActualScreenID:
     db $30, $30, $3A, $3B, $3C, $35, $35, $3F
 }
 
+; ZSCREAM: All of these tables are overwritten.
 ; $01262C-$012833 DATA
 OverworldScreenTileMapChange:
 {
@@ -6775,7 +6787,7 @@ OverworldTransitionPositionX:
 
 ; ==============================================================================
 
-; ZS modifies part of this function. - ZScream Custom Overworld
+; ZSCREAM: ZS modifies parts of this function.
 ; $0129C4-$012B07 LOCAL JUMP LOCATION
 OverworldHandleTransitions:
 {
@@ -6804,6 +6816,8 @@ OverworldHandleTransitions:
     .noDeltaY
 
     LDA.b $31 : AND.w #$00FF : BEQ .noDeltaX
+        ; ZSCREAM: ZS writes here.
+        ; $0129FF
         LDA.w $0716 : CLC : ADC.w #$0004 : STA.b $02
 
         LDA.b $67 : AND.w #$0003 : STA.b $00
@@ -6905,7 +6919,7 @@ OverworldHandleTransitions:
 
         PLA
 
-        ; ZS writes a jump here. - ZScream Custom Overworld
+        ; ZSCREAM: ZS writes a jump here.
         ; $012ADB
         AND.b #$3F : BEQ .BRANCH_MU ; Area it was
             LDA.b $8A : AND.b #$BF : BNE .BRANCH_NU ; Area it is.
@@ -6938,6 +6952,7 @@ OverworldHandleTransitions:
 
 ; ==============================================================================
 
+; ZSCREAM: ZS interupts this function.
 ; $012B08-$012B7A LOCAL JUMP LOCATION
 Overworld_LoadMapProperties:
 {
@@ -6954,7 +6969,9 @@ Overworld_LoadMapProperties:
     ; $0AA2 is the secondary background graphics index.
     LDA.l GFXAA2ValsOW, X : STA.w $0AA2
 
+    ; ZSCREAM: ZS overwrites a bit of code here.
     ; Overworld screen widths and heights match for DW and LW.
+    ; $012B1B
     TXA : AND.b #$3F : TAX
 
     ; Cache previous dimension setting in $0714.
@@ -6988,8 +7005,9 @@ Overworld_LoadMapProperties:
     LDA.w OverworldTransitionPositionY, X          : STA.w $0708
     LDA.w OverworldTransitionPositionX, X : LSR #3 : STA.w $070C
 
+    ; ZSCREAM: ZS makes a jump here.
+    ; $012B64
     LDA.w #$03F0
-
     LDX.w $0712 : BNE .largeOwMap
         LDA.w #$01F0 ; The 512x512 maps have smaller limits of course.
 
@@ -7020,6 +7038,7 @@ ScrollAndCheckForSOWExit:
 
 ; ==============================================================================
 
+; ZSCREAM: ZS makes a jump in this function.
 ; Module 0x09.0x01, 0x09.0x0F, 0x09.0x1A, 0x09.0x26
 ; Also referenced one other place.
 ; $012B88-$012BBB LOCAL JUMP LOCATION
@@ -7040,12 +7059,16 @@ Overworld_LoadTransGfx:
     ; Load the graphics that have changed during the screen transition.
     JSL.l LoadTransAuxGFX
 
+    ; ZSCREAM: ZS makes a jump here.
     ; Convert those graphics to 4bpp while copying them into the buffer
     ; starting at $7F0000. It's necessary to do it this way because we can't
     ; blank the screen (no screen fade / darkness).
+    ; $012BB4
     JSL.l PrepTransAuxGFX
 
+    ; ZSCREAM: ZS USED to write here but no longer does.
     ; Trigger NMI module: NMI_UpdateBgChrSlots_3_to_4.
+    ; $012BB8
     LDA.b #$09
 
     BRA Overworld_FinishTransGfx_firstHalf
@@ -7053,7 +7076,7 @@ Overworld_LoadTransGfx:
 
 ; ==============================================================================
 
-; ZS overwrites most of this function. - ZScream Custom Overworld
+; ZSCREAM: ZS overwrites most of this function.
 ; The purpose of this submodule is to finish blitting the rest of the
 ; graphics that were decompressed in the previous module to VRAM (from the
 ; $7F0000 buffer).
@@ -7065,7 +7088,7 @@ Overworld_FinishTransGfx:
     ; Trigger NMI module: NMI_UpdateBgChrSlots_5_to_6.
     LDA.b #$0A
 
-    ; ZS starts writing here. - ZScream Custom Overworld
+    ; ZSCREAM: ZS starts writing here.
     ; $012BBE ALTERNATE ENTRY POINT
     .firstHalf
 
@@ -7182,11 +7205,16 @@ OverworldTranScrollSet:
 
 ; ==============================================================================
 
+; ZSCREAM: ZS modifies this function.
 ; $012C3A-$012C8E LOCAL JUMP LOCATION
 Overworld_EaseOffScrollTransition:
 {
     LDX.b $8A
-    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : BEQ .largeArea
+    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+    
+    ; ZSCREAM: ZS Changes this BEQ to a BNE.
+    ; $012C40
+    BEQ .largeArea
         LDX.w $0410 : STX.w $0416
 
         JSR.w OverworldTransitionScrollAndLoadMap
@@ -7210,8 +7238,11 @@ Overworld_EaseOffScrollTransition:
             STZ.w $0410
 
             LDX.b $8A
+            LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
 
-            LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : BEQ .largeArea2
+            ; ZSCREAM: ZS Changes this BEQ to a BNE.
+            ; $012C70
+            BEQ .largeArea2
                 REP #$20
 
                 LDA.l $7EC172 : STA.b $84
@@ -7517,10 +7548,11 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
     LDA.b #$80 : STA.b $13
 
     STZ.b $B0
-
-    ; Forest areas are 0x00 and 0x40.
-    ; $012E8C - ZScream Custom Overworld? - Loads some sort of animated tile, needs
+    
+    ; ZScream Custom Overworld? - Loads some sort of animated tile, needs
     ; more investigation.
+    ; Forest areas are 0x00 and 0x40.
+    ; $012E8C
     LDA.b $8A : AND.b #$3F : BNE .notForestArea 
         LDA.b #$1E
 
@@ -7553,8 +7585,9 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
     LDA.b $11 : CMP.b #$24 : BNE .BRANCH_GAMMA
         JSR.w LoadOverworldFromSpecialOverworld
 
-        ; $012EBF - ZScream Custom Overworld? - loads some sort of animated tile,
-        ; needs more investigation.
+        ; ZScream Custom Overworld? - loads some sort of animated tile, needs
+        ; more investigation.
+        ; $012EBF
         LDA.b $8A : AND.b #$3F : BNE .BRANCH_GAMMA 
             LDA.b #$1E
 
@@ -7620,7 +7653,7 @@ Module09_1E_02_FBlankAndLoadSPOW:
 
 ; ==============================================================================
 
-; ZS rewrites most of this function. - ZScream Custom Overworld
+; ZSCREAM: ZS rewrites most of this function.
 ; $012F0B-$012F18 LOCAL JUMP LOCATION
 OverworldLoadSubScreenOverlay:
 {
@@ -7663,9 +7696,9 @@ Overworld_ReloadSubscreenOverlay:
 
     LDY.w #$0390
 
-    ; ZS starts writing here.
-    ; $012F58 - ZScream Custom Overworld
+    ; ZSCREAM: ZS starts writing here.
     ; Check to see if we are in a SW overworld area.
+    ; $012F58
     LDA.b $8A : CMP.w #$0080 : BCC .notExtendedArea
         ; The first fog overlay.
         LDX.w #$0097
@@ -8207,7 +8240,7 @@ Overworld_FinishMirrorWarp:
 
 ; ==============================================================================
 
-; ZS replaces this whole function. - ZScream Custom Overworld
+; ZSCREAM: ZS replaces this whole function.
 ; $0132D4-$0132E5 LONG JUMP LOCATION
 MirrorWarp_HandleCastlePyramidSubscreen:
 {
@@ -8226,6 +8259,7 @@ MirrorWarp_HandleCastlePyramidSubscreen:
 
 ; ==============================================================================
 
+; ZSCREAM: ZS modifies this function.
 ; $0132E6-$013333 LONG JUMP LOCATION
 Overworld_DrawScreenAtCurrentMirrorPosition:
 {
@@ -8237,7 +8271,11 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
 
     LDX.b $8A
 
-    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area
+    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
+
+    ; ZSCREAM: ZS Changes this BEQ to a BNE.
+    ; $0132FA
+    BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
         SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
@@ -8269,7 +8307,7 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
 
 ; ==============================================================================
 
-; ZS rewrites part of this function. - ZScream Custom Overworld
+; ZSCREAM: ZS rewrites part of this function.
 ; $013334-$013409 LONG JUMP LOCATION
 MirrorWarp_LoadSpritesAndColors:
 {
@@ -8287,7 +8325,11 @@ MirrorWarp_LoadSpritesAndColors:
 
     LDX.b $8A
 
-    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area
+    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
+
+    ; ZSCREAM: ZS Changes this BEQ to a BNE.
+    ; $013356
+    BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
         SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
@@ -8320,8 +8362,8 @@ MirrorWarp_LoadSpritesAndColors:
     JSL.l Overworld_SetScreenBGColorCacheOnly
     JSL.l Overworld_SetFixedColorAndScroll
 
-    ; ZS starts writing here.
-    ; $0133A1 - ZScream Custom Overworld
+    ; ZSCREAM: ZS starts writing here.
+    ; $0133A1
     LDA.b $8A
     CMP.b #$1B : BEQ .activateSubscreenBg0
         CMP.b #$5B : BNE .ignoreBg0
@@ -8492,11 +8534,11 @@ Module09_2E_04:
     BRA Whirlpool_LoadPalettes_BRANCH_ALPHA
 }
 
-; ZScream Custom Overworld
-; ZS hooks into into this function.
+; ZSCREAM: ZS hooks into into this function.
 ; $013490-$013499 LOCAL JUMP LOCATION
 Whirlpool_LoadDestinationMap:
 {
+    ; ZSCREAM: ZS makes a jump here.
     JSL.l BirdTravel_LoadAmbientOverlay
 
     LDA.b #$0C : STA.b $17
@@ -9688,7 +9730,7 @@ OverworldTransitionDirections:
 
 ; ==============================================================================
 
-; ZS rewrites part of this function. - ZScream Custom Overworld
+; ZSCREAM: ZS rewrites part of this function.
 ; $013B90-$013CFA LOCAL JUMP LOCATION
 Overworld_OperateCameraScroll:
 {
@@ -9784,8 +9826,8 @@ Overworld_OperateCameraScroll:
 
             LDA.b $E6 : ADC.b $06 : STA.b $E6
 
-            ; ZS writes here.
-            ; $013C44 - ZScream Custom Overworld
+            ; ZSCREAM: ZS writes here.
+            ; $013C44
             LDA.b $8A : AND.w #$003F : CMP.w #$001B : BNE .handle_x_camera
                 ; Don't let the BG scroll down further than the "top" of the bg when
                 ; walking up.
@@ -9887,9 +9929,10 @@ Overworld_OperateCameraScroll:
 ; $013CFB-$013D61 LOCAL JUMP LOCATION
 OverworldHandleBGOverlayScroll:
 {
-    ; $013CFB - ZScream Custom Overworld? - This one seems to control some sort of
+    ; ZScream Custom Overworld? This one seems to control some sort of
     ; subscreen movement but only for turtle rock. This will need to be
     ; investigated further as to why.
+    ; $013CFB
     LDX.b $8A : CPX.b #$47 : BEQ .BRANCH_OMEGA
         LDX.b $8C
 
@@ -10240,8 +10283,8 @@ OverworldScrollTransition_dirty_exit:
     RTS
 }
 
+; ZSCREAM: ZS rewrites part of this function.
 ; $014001-$0140C2 LOCAL JUMP LOCATION
-; ZS rewrites part of this function. - ZScream Custom Overworld
 OverworldScrollTransition:
 {
     PHB : PHK : PLB
@@ -10275,9 +10318,10 @@ OverworldScrollTransition:
     CLC : ADC.w Pool_Overworld_SetCameraBounds_coordinate_camera_adjust, Y
     STA.b $E2, X
 
-    ; $01402D ZS writes here. - ZScream Custom Overworld
+    ; ZSCREAM: ZS writes here.
     ; Hyrule Castle and Pyramid of Power have special BG1 overlays
     ; that must remain in fixed scroll position
+    ; $01402D
     LDY.b $8A
 
     CPY.b #$1B : BEQ .dontMoveBg1
@@ -10365,6 +10409,7 @@ OverworldScrollTransition:
         RTS
 }
 
+; ZSCREAM: ZS overwrites this whole function.
 ; Inputs:
 ; Y - The overworld area number * 2 we are going to. Note: NOT the parent
 ;     number. Meaning if you are going to hyrule castle from Link's house,
@@ -11168,7 +11213,7 @@ Overworld_LoadAreaPalettesLong:
 
 ; ==============================================================================
 
-; ZS rewrites this whole function. - ZScream Custom Overworld
+; ZSCREAM: ZS rewrites this whole function.
 ; $014692-$0146EA LOCAL JUMP LOCATION
 Overworld_LoadAreaPalettes:
 {
@@ -13675,6 +13720,7 @@ Overworld_LoadExitData:
     ; Bleeds into the next function.
 }
 
+; ZSCREAM: ZS interupts this function.
 ; $01658B-$0165D3 JUMP LOCATION
 Overworld_LoadNewScreenProperties:
 {
@@ -13689,6 +13735,8 @@ Overworld_LoadNewScreenProperties:
 
     JSR.w Overworld_LoadMapProperties
 
+    ; ZSCREAM: ZS makes a jump here.
+    ; $016598
     LDA.b #$E4 : STA.w $0716
 
     STZ.w $0713
@@ -13961,6 +14009,8 @@ LoadSpecialOverworld:
     ; Property property a
     LDA.l Pool_LoadSpecialOverworld_palette_prop_a, X
 
+    ; ZSCREAM: ZS USED to make a jump here but no longer does
+    ; $01694A
     JSL.l Overworld_LoadPalettes
 
     PLX
@@ -14001,6 +14051,7 @@ LoadSpecialOverworld:
     RTS
 }
 
+; ZSCREAM: ZS interupts this function.
 ; Returns from a special area to a normal overworld area.
 ; $0169BC-$016AE4 LOCAL JUMP LOCATION
 LoadOverworldFromSpecialOverworld:
@@ -14020,7 +14071,8 @@ LoadOverworldFromSpecialOverworld:
     LDA.l $7EC10A : STA.b $22
     LDA.l $7EC10C : STA.b $8A
 
-    LDA.l $7EC10E : STA.b $84 : SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
+    LDA.l $7EC10E : STA.b $84
+    SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
 
     LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
 
@@ -14067,6 +14119,8 @@ LoadOverworldFromSpecialOverworld:
     JSL.l Player_ResetSwimState
     JSR.w Overworld_LoadMapProperties
 
+    ; ZSCREAM: ZS makes a jump here.
+    ; $016ADC
     LDA.b #$E4 : STA.w $0716
 
     STZ.w $0713
@@ -14406,6 +14460,7 @@ Whirlpool_LookUpAndLoadTargetArea:
 ; ==============================================================================
 
 ; TODO: This and its companion routines probably need better naming.
+; ZSCREAM: ZS modifies this function.
 ; $016D25-$016DB8 LOCAL JUMP LOCATION
 Overworld_LoadAmbientOverlay:
 {
@@ -14416,9 +14471,12 @@ Overworld_LoadAmbientOverlay:
     LDA.b $88 : PHA
 
     LDX.b $8A
-
     LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
-    AND.w #$00FF : BEQ .large_area
+    AND.w #$00FF
+    
+    ; ZSCREAM: ZS Changes this BEQ to a BNE.
+    ; $016D39
+    BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
         SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
@@ -14439,7 +14497,12 @@ Overworld_LoadAmbientOverlay:
 
         ; X = Area number
         LDX.b $8A
-        LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BEQ .large_area_2
+        LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+        AND.w #$00FF
+        
+        ; ZSCREAM: ZS Changes this BEQ to a BNE.
+        ; $016D6D
+        BEQ .large_area_2
             LDA.w #$0390 : STA.b $84
 
             SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
@@ -14778,6 +14841,7 @@ Overworld_SmallTransTable:
     dw Overworld_SmallTransUp    ; 0x08 - $F10F
 }
 
+; ZSCREAM: ZS modifies this function.
 ; $017031-$01704A LOCAL JUMP LOCATION
 Overworld_StartTransMapUpdate:
 {
@@ -14787,7 +14851,11 @@ Overworld_StartTransMapUpdate:
 
     ; Performa a different routine depending on whether the area is 512x512 or
     ; 1024x1024.
-    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : BNE .smallArea
+    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+    
+    ; ZSCREAM: ZS Changes this BNE to a BEQ.
+    ; $017039
+    BNE .smallArea
         LDA.w $0416 : ASL A : TAX
 
         JMP (Overworld_LargeTransTable, X)
@@ -15262,6 +15330,7 @@ MapScroll_NorthAndClear:
     RTS
 }
 
+; ZSCREAM: ZS modifies this function.
 ; $0172DD-$017310 LOCAL JUMP LOCATION
 CheckForNewlyLoadedMapAreas_North:
 {
@@ -15270,7 +15339,11 @@ CheckForNewlyLoadedMapAreas_North:
     LDA.b $84 : CMP.w #$0080 : BMI .BRANCH_ALPHA
         LDX.b $8A
         LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
-        AND.w #$00FF : BNE .smallArea
+        AND.w #$00FF
+        
+        ; ZSCREAM: ZS Changes this BNE to a BEQ.
+        ; $0172EF
+        BNE .smallArea
             ; $0172F1 ALTERNATE ENTRY POINT
             .NewStripe
 
@@ -15293,6 +15366,7 @@ CheckForNewlyLoadedMapAreas_North:
     RTS
 }
 
+; ZSCREAM: ZS modifies this function.
 ; $017311-$017344 LOCAL JUMP LOCATION
 CheckForNewlyLoadedMapAreas_South:
 {
@@ -15300,7 +15374,12 @@ CheckForNewlyLoadedMapAreas_South:
 
     LDA.b $84 : CMP.w #$1800 : BCS .BRANCH_ALPHA
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BNE .small_area
+        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+        AND.w #$00FF
+        
+        ; ZSCREAM: ZS Changes this BNE to a BEQ.
+        ; $017323
+        BNE .small_area
             ; $017325 ALTERNATE ENTRY POINT
             .NewStripe
 
@@ -15325,6 +15404,7 @@ CheckForNewlyLoadedMapAreas_South:
     RTS
 }
 
+; ZSCREAM: ZS modifies this function.
 ; $017345-$01737E LOCAL JUMP LOCATION
 CheckForNewlyLoadedMapAreas_West:
 {
@@ -15343,7 +15423,12 @@ CheckForNewlyLoadedMapAreas_West:
 
     CMP.w #$0000 : BEQ .BRANCH_GAMMA
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BNE .small_area
+        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+        AND.w #$00FF
+        
+        ; ZSCREAM: ZS Changes this BNE to a BEQ.
+        ; $017361
+        BNE .small_area
             ; $017363 ALTERNATE ENTRY POINT
             .NewStripe
 
@@ -15386,7 +15471,12 @@ CheckForNewlyLoadedMapAreas_East:
 
     CMP.w #$0060 : BCS .BRANCH_GAMMA
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF : BNE .small_area
+        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X 
+        AND.w #$00FF
+        
+        ; ZSCREAM: ZS Changes this BNE to a BEQ.
+        ; $01739B
+        BNE .small_area
             ; $01739D ALTERNATE ENTRY POINT
             .NewStripe
 
@@ -16034,6 +16124,7 @@ Pool_BufferAndBuildMap16Stripes:
     dw $0020
 
     ; ZSCREAM: This table is updated by ZS to allow layout changes.
+    ; NOTE: ZS also flips these 2 values, so 00 is small and 01 is large.
     ; 0x00 - Large area
     ; 0x01 - Small area
     ; $01788D

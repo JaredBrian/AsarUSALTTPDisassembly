@@ -1379,6 +1379,7 @@ Sprite_LoadAll_Overworld:
 
 ; ==============================================================================
 
+; ZSCREAM: ZS modifies part of this function.
 ; Loads overworld sprite information into memory ($7FDF80, X is one such array).
 ; $04C4AC-$04C55D LOCAL JUMP LOCATION
 LoadOverworldSprites:
@@ -1389,8 +1390,10 @@ LoadOverworldSprites:
     ; Calculate lower bounds for Y coordinates in this map.
     LDA.w $040A : AND.b #$3F : LSR #2 : AND.b #$0E : STA.w $0FBF : STZ.w $0FBE
     
+    ; OPTIMIZE: Why not just LDY.w $040A? or later skip loading the $040A again?
+    ; ZSCREAM: ZS makes some code changes here.
+    ; $04C4C7
     LDA.w $040A : TAY
-    
     LDX.w OverworldScreenSizeForLoading, Y : STX.w $0FB9 : STZ.w $0FB8 
                                              STX.w $0FBB : STZ.w $0FBA
     
@@ -1661,12 +1664,12 @@ Sprite_ActivateWhenProximal_Vertical:
 
 ; ==============================================================================
 
-; $04 = Large area
-; $02 = Small area
-; These are map sizes.
 ; ZSCREAM: Area 0x0A and 0x0F are incorrect. ZS overwrites this table as
 ; part of its ability to change which areas are large and when these 2
 ; values are correct it does not break anything in game.
+; $04 = Large area
+; $02 = Small area
+; These are map sizes.
 ; $04C635-$04C6F4 DATA
 OverworldScreenSizeForLoading:
 {
