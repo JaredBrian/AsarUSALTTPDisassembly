@@ -9,10 +9,10 @@ Ancilla_BlastWall:
 {
     LDA $11 : BNE .state_logic_finished
         LDA.l $7F0000, X : BEQ .inactive_component
-            LDA.l $7F0008, X : DEC A : STA.l $7F0008, X
+            LDA.l $7F0008, X : DEC : STA.l $7F0008, X
 
             BNE .state_logic_finished
-                LDA.l $7F0000, X : INC A : STA.l $7F0000, X
+                LDA.l $7F0000, X : INC : STA.l $7F0000, X
 
                 BEQ .anospawn_fireball
                 CMP.b #$09 : BCS .anospawn_fireball
@@ -57,7 +57,7 @@ Ancilla_BlastWall:
             ; spawn point? Multiple blast wall objects working at once?
             LDX.w $0380
             
-            LDA.w $0C5E : INC A : CMP.b #$07 : BCC .reset_inactive_component
+            LDA.w $0C5E : INC : CMP.b #$07 : BCC .reset_inactive_component
                 BRL .draw
             
             .reset_inactive_component
@@ -102,14 +102,14 @@ Ancilla_BlastWall:
                     ; this is to allow the explosions to diverge out in
                     ; opposing directions.
                     ; OPTIMIZE: Maybe do this in 16-bit logic.
-                    LDA $00, X : EOR.b #$FF : INC A : STA $00, X
+                    LDA $00, X : EOR.b #$FF : INC : STA $00, X
                                  LDA.b #$FF         : STA $01, X
                     
                 .first_two_adjustments
                 
                 LDA $04 : ASL #3 : STA $08
                 
-                LDA $06 : ASL A : CLC : ADC $08 : TAX
+                LDA $06 : ASL : CLC : ADC $08 : TAX
                 
                 REP #$20
                 
@@ -153,7 +153,7 @@ Ancilla_BlastWall:
         
             PHY : PHX
             
-            TYA : ASL A : TAX
+            TYA : ASL : TAX
             
             REP #$20
             
@@ -213,9 +213,9 @@ BlastWall_DrawExplosion:
     
     LDA Ancilla_Bomb_chr_groups, Y : TAY
     
-    LDA Bomb_Draw_chr_start_offset, Y : ASL A : TAX
+    LDA Bomb_Draw_chr_start_offset, Y : ASL : TAX
     
-    ASL A : STA $04
+    ASL : STA $04
             STZ $05
     
     STZ $0A
@@ -290,7 +290,7 @@ Bomb_DrawExplosion:
             
             TYA : SEC : SBC.b #$04 : LSR #2 : TAY
             
-            TXA : LSR A : TAX
+            TXA : LSR : TAX
             
             LDA.w Pool_Bomb_Draw_OAM_sizes, X : ORA $75 : STA ($92), Y
             

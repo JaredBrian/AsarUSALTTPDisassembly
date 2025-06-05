@@ -45,7 +45,7 @@ Ancilla_LampFlame:
         
     .termination_delay
     
-    AND.b #$F8 : LSR A : TAX
+    AND.b #$F8 : LSR : TAX
     
     .next_OAM_entry
     

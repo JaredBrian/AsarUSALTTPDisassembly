@@ -17,7 +17,7 @@ Sprite_Sluggula:
 {
     LDA.w $0E80, X : AND.b #$08 : LSR #3 : STA.b $00
     
-    LDA.w $0DE0, X : ASL A : ORA.b $00 : TAY
+    LDA.w $0DE0, X : ASL : ORA.b $00 : TAY
     
     LDA.w Pool_Sprite_Sluggula_animation_states, Y : STA.w $0DC0, X
     
@@ -77,7 +77,7 @@ Sluggula_Normal:
     
     CMP.b #$10 : BNE .return
     
-    JSL.l GetRandomInt : LSR A : BCS Sluggula_BreakFromBombing_return
+    JSL.l GetRandomInt : LSR : BCS Sluggula_BreakFromBombing_return
         JMP Sluggula_LayBomb
 }
     

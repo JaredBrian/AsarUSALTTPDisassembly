@@ -1268,7 +1268,7 @@ Overworld_SetFixedColorAndScroll:
             
         ; Are we at Hyrule Castle or Pyramid of Power?
         CMP.w #$001B : BNE .subscreenOnAndReturn
-            LDA.b $E2 : SEC : SBC.w #$0778 : LSR A : TAY
+            LDA.b $E2 : SEC : SBC.w #$0778 : LSR : TAY
             AND.w #$4000 : BEQ .BRANCH_7
                 TYA : ORA.w #$8000 : TAY
             
@@ -1280,7 +1280,7 @@ Overworld_SetFixedColorAndScroll:
                 
             LDA.b $E6 : CMP.w #$06C0 : BCC .BRANCH_9
                 SEC : SBC.w #$0600 : AND.w #$03FF : CMP.w #$0180 : BCS .BRANCH_8
-                    LSR A : ORA.w #$0600
+                    LSR : ORA.w #$0600
                 
                     BRA .BRANCH_10
             
@@ -1292,7 +1292,7 @@ Overworld_SetFixedColorAndScroll:
             
             .BRANCH_9
 
-            LDA.b $E6 : AND.w #$00FF : LSR A : ORA.w #$0600
+            LDA.b $E6 : AND.w #$00FF : LSR : ORA.w #$0600
             
             .BRANCH_10
             

@@ -68,7 +68,7 @@ Sprite_Octorock:
     JSR.w Sprite_CheckDamage
     
     LDA !ai_state, X : AND.b #$01 : BNE .stop_and_spit_maybe
-        LDA !direction, X : AND.b #$02 : ASL A : STA !GFX_vert
+        LDA !direction, X : AND.b #$02 : ASL : STA !GFX_vert
         
         INC.w $0E80, X
         
@@ -133,9 +133,9 @@ Sprite_Octorock:
     
     .wait_2
     
-    LDA !type, X : SEC : SBC.b #$08 : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA !type, X : SEC : SBC.b #$08 : REP #$30 : AND.w #$00FF : ASL : TAY
     
-    LDA.w Octorock_AI_Table, Y : DEC A : PHA
+    LDA.w Octorock_AI_Table, Y : DEC : PHA
     
     SEP #$30
     
@@ -327,11 +327,11 @@ Octorock_Draw:
     ; Perhaps this draws the octorock's snout?
     LDA !direction, X : CMP.b #$03 : BEQ .dont_draw_this_part
         ; $07 = [3 * $0DB0, X] + !direction
-        LDA.w $0DB0, X : ASL A : ADC.w $0DB0, X : ADC !direction, X : STA.b $07
+        LDA.w $0DB0, X : ASL : ADC.w $0DB0, X : ADC !direction, X : STA.b $07
         
         PHX : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         

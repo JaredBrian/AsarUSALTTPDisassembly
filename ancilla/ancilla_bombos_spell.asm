@@ -90,7 +90,7 @@ AddBombosSpell:
         
         PHX
         
-        TXA : LSR A : TAX
+        TXA : LSR : TAX
         
         LDA.b #$10 : STA $08 : STA.l $7F5A57
         
@@ -218,7 +218,7 @@ Bombos_ExecuteFlameColumns:
     
     .active_column
     
-    LDA.l $7F5800, X : DEC A : STA.l $7F5800, X : BMI .timer_expired
+    LDA.l $7F5800, X : DEC : STA.l $7F5800, X : BMI .timer_expired
         .dont_activate_another_column
         
         BRL .just_draw_column
@@ -227,7 +227,7 @@ Bombos_ExecuteFlameColumns:
     
     LDA.b #$03 : STA.l $7F5800, X
     
-    LDA.l $7F5810, X : INC A : STA.l $7F5810, X
+    LDA.l $7F5810, X : INC : STA.l $7F5810, X
     
     CMP.b #$0D : BEQ .inactive_column
         CMP.b #$02 : BNE .dont_activate_another_column
@@ -278,7 +278,7 @@ Bombos_ExecuteFlameColumns:
                     
                     JSR.w Ancilla_GetRadialProjection
                     
-                    TXA : ASL A : TAX
+                    TXA : ASL : TAX
                     
                     REP #$20
                     
@@ -379,11 +379,11 @@ BombosSpell_WrapUpFlameColumns:
     
     .next_fire_column
     
-        LDA.l $7F5800, X : DEC A : STA.l $7F5800, X
+        LDA.l $7F5800, X : DEC : STA.l $7F5800, X
         BPL .delay
             LDA.b #$03 : STA.l $7F5800, X
             
-            LDA.l $7F5810, X : INC A : STA.l $7F5810, X
+            LDA.l $7F5810, X : INC : STA.l $7F5810, X
             CMP.b #$0D : BCC .not_inactive
                 ; Keep the flame column inactive if it has already reached
                 ; that state.
@@ -510,7 +510,7 @@ BombosSpell_DrawFireColumn:
         PHX
         
         LDA.l $7F5810, X : CMP.b #$0D : BEQ .inactive_flame_column
-            ASL A : CLC : ADC.l $7F5810, X : CLC : ADC.b #$02 : TAX
+            ASL : CLC : ADC.l $7F5810, X : CLC : ADC.b #$02 : TAX
             
             STZ $08
             
@@ -529,7 +529,7 @@ BombosSpell_DrawFireColumn:
                     
                     PLX : PHX
                     
-                    TXA : ASL A : TAX
+                    TXA : ASL : TAX
                     
                     REP #$20
                     
@@ -598,7 +598,7 @@ BombosSpell_ExecuteBlasts:
     .next_blast
     
         LDA.l $7F5935, X : CMP.b #$08 : BEQ .inactive_blast
-            LDA.l $7F5945, X : DEC A : STA.l $7F5945, X
+            LDA.l $7F5945, X : DEC : STA.l $7F5945, X
             BMI .expired_delay_timer
             
         .inactive_blast
@@ -610,7 +610,7 @@ BombosSpell_ExecuteBlasts:
         
         LDA.b #$03 : STA.l $7F5945, X
         
-        LDA.l $7F5935, X : INC A : STA.l $7F5935, X
+        LDA.l $7F5935, X : INC : STA.l $7F5935, X
         
         CMP.b #$01 : BNE .dont_activate_new_blast
             ; This flag indicates that the effect should absolutely not convert
@@ -619,7 +619,7 @@ BombosSpell_ExecuteBlasts:
                 PHX
                 
                 LDA $72 : CMP.b #$0F : BEQ .maxed_blast_count
-                    LDA $72 : INC A : CMP.b #$10 : BNE .not_maxed_blast_count
+                    LDA $72 : INC : CMP.b #$10 : BNE .not_maxed_blast_count
                         LDA.b #$0F
                     
                     .not_maxed_blast_count
@@ -644,7 +644,7 @@ BombosSpell_ExecuteBlasts:
                 
                 PHY
                 
-                TXA : ASL A : TAY
+                TXA : ASL : TAY
                 
                 ; Determine the x and y coordinates of the blast. was wondering
                 ; where that was done at. This is essentially an even simpler
@@ -737,7 +737,7 @@ BombosSpell_ExecuteBlasts:
     
     .tick_blast_timer
     
-    LDA.l $7F5A55 : DEC A : STA.l $7F5A55
+    LDA.l $7F5A55 : DEC : STA.l $7F5A55
     BNE .not_expired
         LDA.b #$01 : STA.l $7F5A56
                      STA.l $7F5A55
@@ -804,7 +804,7 @@ BombosSpell_DrawBlast:
     
     LDA.b #$03 : STA $0C
     
-    PHX : TXA : ASL A : TAX
+    PHX : TXA : ASL : TAX
     
     LDA.l $7F5955, X : STA $08
     LDA.l $7F5956, X : STA $09
@@ -824,7 +824,7 @@ BombosSpell_DrawBlast:
         .next_OAM_entry
             
             LDA.w Pool_BombosSpell_DrawFireColumn_char, X : CMP.b #$FF : BEQ .skip_OAM_entry
-                PHX : TXA : ASL A : TAX
+                PHX : TXA : ASL : TAX
                 
                 REP #$20
                 

@@ -15,7 +15,7 @@ Pool_Sprite_Helmasaur:
 ; $032409-$03245F JUMP LOCATION
 Sprite_Helmasaur:
 {
-    LDA.w $0DE0, X : ASL A : STA.b $00
+    LDA.w $0DE0, X : ASL : STA.b $00
     
     LDA.w $0E80, X : LSR #2 : AND.b #$01 : ORA.b $00 : TAY
     

@@ -21,7 +21,7 @@ Ancilla_DashTremor:
         LDA $00 : STA.w $011A, Y
         LDA $01 : STA.w $011B, Y
         
-        TYA : LSR A : EOR.b #$01 : TAY
+        TYA : LSR : EOR.b #$01 : TAY
         
         LDA.w $0030, Y : CLC : ADC $00 : STA.w $0030, Y
         

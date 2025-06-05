@@ -49,9 +49,9 @@ Ancilla_SuperBombExplosion:
     
     LDA Ancilla_Bomb_chr_groups, Y : TAY
     
-    LDA Bomb_Draw_chr_start_offset, Y : ASL A : TAY
+    LDA Bomb_Draw_chr_start_offset, Y : ASL : TAY
     
-    ASL A : STA.b $04
+    ASL : STA.b $04
             STZ.b $05
     
     TYA : STA.w $0C54, X
@@ -68,7 +68,7 @@ Ancilla_SuperBombExplosion:
         LDA.w $0C04, X : STA.b $02
         LDA.w $0C18, X : STA.b $03
         
-        LDA.b $09 : ASL A : TAY
+        LDA.b $09 : ASL : TAY
         
         REP #$20
         

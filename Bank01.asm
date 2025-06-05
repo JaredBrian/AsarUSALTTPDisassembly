@@ -810,7 +810,7 @@ Dungeon_LoadRoom:
     LDA [$B7], Y : AND.w #$00FF : STA.w $040E
     
     ; X = 3 * $00
-    LSR #2 : STA.b $00 : ASL A : CLC : ADC.b $00 : TAX
+    LSR #2 : STA.b $00 : ASL : CLC : ADC.b $00 : TAX
     
     ; The offset to the pointers for each layout.
     LDA.l RoomDraw_LayoutPointers+1, X : STA.b $B8
@@ -978,7 +978,7 @@ Dungeon_LoadType2Object:
     LDA.b $00 : XBA : AND.w #$00FF : STA.b $0A : STA.b $04
     
     ; X will be even and at most 6.
-    LDA.b $00 : AND.w #$0003 : ASL A : TAX
+    LDA.b $00 : AND.w #$0003 : ASL : TAX
     
     LDA DoorObjectRoutines, X : STA.b $0E
     
@@ -1028,7 +1028,7 @@ Dungeon_LoadType1Object:
         
         ; Load the object type, multiply by two.
         ; If object type >= 0xF8 goto subtype 3 objects.
-        LDA.b $04 : ASL A : CMP.w #$01F0 : BCS .subtype3Object
+        LDA.b $04 : ASL : CMP.w #$01F0 : BCS .subtype3Object
             ; Handles subtype 1 objects.
             TAX
             
@@ -1049,14 +1049,14 @@ Dungeon_LoadType1Object:
     
     INY
     
-    LDA [$B7], Y : XBA : AND.w #$0FC0 : ASL A : ORA.b $08 : STA.b $08
+    LDA [$B7], Y : XBA : AND.w #$0FC0 : ASL : ORA.b $08 : STA.b $08
     
     LDA [$B7], Y : XBA : AND.w #$003F
     
     ; Look ahead to the next object but we're not done with this one yet.
     INY #2 : STY.b $BA
     
-    ASL A : TAX
+    ASL : TAX
     
     LDA Subtype2Routines, X : STA.b $0E
     
@@ -1074,7 +1074,7 @@ Dungeon_LoadType1Object:
     
     ; A is even and at most 0xE0, Use A as an index into the following jump
     ; table.
-    LDA.b $04 : ASL A : TAX
+    LDA.b $04 : ASL : TAX
     
     ; The basis for a jump table.
     LDA Subtype3Routines, X : STA.b $0E
@@ -1651,7 +1651,7 @@ RoomDraw_ChestPlatformHorizontalWallWithCorners:
 RoomDraw_Rightwards1x2_1to16_plus2:
 {
     ; Widths range in { 0x01, 0x03, 0x05, ..., 0x1D, 0x1F }.
-    LDA.b $B2 : ASL #2 : ORA.b $B4 : ASL A : INC A : STA.b $B2
+    LDA.b $B2 : ASL #2 : ORA.b $B4 : ASL : INC : STA.b $B2
     
     LDA.w #$0002
     
@@ -2419,13 +2419,13 @@ Object_HiddenWallRight:
     ; Link is on BG2.
     INC.w $0428
     
-    LDA.b $B2 : ASL A : TAY
+    LDA.b $B2 : ASL : TAY
     
     LDA.w RoomDraw_MovingWallDirection, Y : PHA
     
-    ASL A : ADC.w #$0004 : STA.b $0E
+    ASL : ADC.w #$0004 : STA.b $0E
     
-    LDA.b $B4 : ASL A : STA.w $041E : TAY
+    LDA.b $B4 : ASL : STA.w $041E : TAY
     
     LDA.w MovingWallObjectCount, Y : STA.b $0C : TAY
     
@@ -2525,7 +2525,7 @@ Object_HiddenWallLeft:
     
     JSR.w RoomDraw_ChestPlatformCorner
     
-    LDA.b $B2 : ASL A : TAY
+    LDA.b $B2 : ASL : TAY
     
     LDA.w RoomDraw_MovingWallDirection, Y : STA.b $0E : PHA
     
@@ -2540,9 +2540,9 @@ Object_HiddenWallLeft:
     
     JSR.w RoomDraw_ChestPlatformCorner_advance_from_X
     
-    PLA : ASL A : ADC.w #$0004 : STA.b $0E
+    PLA : ASL : ADC.w #$0004 : STA.b $0E
     
-    LDA.b $B4 : ASL A : STA.w $041E : TAY
+    LDA.b $B4 : ASL : STA.w $041E : TAY
     
     LDA.w MovingWallObjectCount, Y : STA.b $0C
     
@@ -2635,7 +2635,7 @@ MovingWall_FillReplacementBuffer:
         STA.l $7EC880, X
     DEX #2 : BPL .fill_with_value
     
-    LDA.b $06 : AND.w #$003F : LSR A : STA.b $0A
+    LDA.b $06 : AND.w #$003F : LSR : STA.b $0A
     
     TYA : AND.w #$0040 : BEQ .BRANCH_BETA
         LDA.w #$0400 : TSB.b $0A
@@ -3099,14 +3099,14 @@ RoomDraw_RightwardsShelf4x4_1to16:
 ; $009501-$00959F JUMP LOCATION
 Object_Water:
 {
-    LDA.b $B2 : ASL A : TAX
+    LDA.b $B2 : ASL : TAX
     
     ; Use the initial height to index into a table to get the actual height.
     LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B2
     
     LDA.w WaterOverlayHDMASize, X : STA.w $0686
     
-    LDA.b $B4 : ASL A : TAX
+    LDA.b $B4 : ASL : TAX
     
     LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B4
     
@@ -3142,11 +3142,11 @@ Object_Water:
         
         STZ.w $04AE
         
-        LDA.b $B2 : DEC A : ASL #2 : STA.b $0E
+        LDA.b $B2 : DEC : ASL #2 : STA.b $0E
         
         LDA.b $08 : ADC.b $0E : STA.b $08
         
-        LDA.b $B4 : DEC A : XBA : STA.b $0E
+        LDA.b $B4 : DEC : XBA : STA.b $0E
         
         LDA.b $08 : ADC.b $0E : TAX
 
@@ -3201,14 +3201,14 @@ RoomTag_WaterOff_notTriggered:
 ; $0095EF-$0096DB JUMP LOCATION
 RoomDraw_WaterOverlayB8x8_1to16:
 {
-    LDA.b $B2 : ASL A : TAX
+    LDA.b $B2 : ASL : TAX
     
     ; Use the initial height to index into a table to get the actual height.
     LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B2
     
     LDA.w WaterOverlayHDMASize, X : SEC : SBC.w #$0018 : STA.w $0686
     
-    LDA.b $B4 : ASL A : TAX
+    LDA.b $B4 : ASL : TAX
     
     LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B4
     
@@ -3252,7 +3252,7 @@ RoomDraw_WaterOverlayB8x8_1to16:
     
     REP #$30
     
-    LDA.b $B4 : ASL A : TAX
+    LDA.b $B4 : ASL : TAX
     
     LDA.w WaterOverlayObjectCount, X : STA.b $04
     
@@ -3400,7 +3400,7 @@ RoomDraw_OpenChestPlatform:
     INC.b $B2
     
     ; $B4 = ($B4 * 2) + 5.
-    LDA.b $B4 : ASL A : CLC : ADC.w #$0005 : STA.b $B4
+    LDA.b $B4 : ASL : CLC : ADC.w #$0005 : STA.b $B4
     
     .BRANCH_DELTA
     
@@ -3901,10 +3901,10 @@ Object_StarTile:
     
     LDX.w $0432
     
-    TYA : LSR A : STA.w $06A0, X
+    TYA : LSR : STA.w $06A0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBg2
-        TYA : ORA.w #$2000 : LSR A : STA.w $06A0, X
+        TYA : ORA.w #$2000 : LSR : STA.w $06A0, X
     
     .onBg2
     
@@ -4016,7 +4016,7 @@ Object_WaterLadder:
 {
     ; Branch if not the water twin tag
     LDA.b $AF : AND.w #$00FF : CMP.w #$001B : BNE .alpha
-        LDA.b $A0 : ASL A : TAX
+        LDA.b $A0 : ASL : TAX
         
         LDA.l $7EF000, X : AND.w #$0100 : BNE .alpha
             JMP Object_InactiveWaterLadder
@@ -4025,7 +4025,7 @@ Object_WaterLadder:
     
     LDX.w $0444
     
-    TYA : LSR A : STA.w $06B8, X
+    TYA : LSR : STA.w $06B8, X
     
     INX #2
     
@@ -4299,7 +4299,7 @@ RoomDraw_EmptyWaterFace:
 {
     ; Check if tag2 is water twin
     LDA.b $AF : AND.w #$00FF : CMP.w #$001B : BNE .notWaterTwinTag
-        LDA.b $A0 : ASL A : TAX
+        LDA.b $A0 : ASL : TAX
         
         ; Directly compare with the save data
         LDA.l $7EF000, X : AND.w #$0100 : BNE RoomDraw_SpittingWaterFace
@@ -4376,7 +4376,7 @@ Object_Draw8xN:
 Object_KholdstareShell:
 {
     ; Check the 0x8000 bit if it was set, don't draw at all.
-    LDA.w $0402 : ASL A : BCS .boss_defeated
+    LDA.w $0402 : ASL : BCS .boss_defeated
         LDY.w #$1DFA
         LDA.w #$000A
         
@@ -4418,7 +4418,7 @@ Object_KholdstareShell:
 ; $009DD9-$019DE5 JUMP LOCATION
 Object_TrinexxShell:
 {
-    LDA.w $0402 : ASL A : BCS Object_Draw8xN_boss_defeated
+    LDA.w $0402 : ASL : BCS Object_Draw8xN_boss_defeated
         TXY
         
         LDA.w #$000A
@@ -4854,7 +4854,7 @@ RoomDraw_AutoStairs_North_MultiLayer_A:
     
     LDX.w $043C
     
-    TYA : LSR A : STA.w $06B8, X
+    TYA : LSR : STA.w $06B8, X
     
     INX #2 : STX.w $043C
     
@@ -4869,7 +4869,7 @@ RoomDraw_AutoStairs_North_MultiLayer_B:
     
     LDX.w $043E
     
-    TYA : LSR A : STA.w $06B8, X
+    TYA : LSR : STA.w $06B8, X
     
     INX #2 : STX.w $043E
     
@@ -4919,7 +4919,7 @@ RoomDraw_AutoStairs_North_MergedLayer_A:
     
     LDX.w $0440
     
-    TYA : LSR A : STA.w $06B8, X
+    TYA : LSR : STA.w $06B8, X
     
     INX #2
     
@@ -4937,7 +4937,7 @@ RoomDraw_AutoStairs_North_MergedLayer_A:
 RoomDraw_AutoStairs_North_MergedLayer_B:
 {
     LDA.b $AF : AND.w #$00FF : CMP.w #$001B : BNE .notWaterTwin
-        LDA.b $A0 : ASL A : TAX
+        LDA.b $A0 : ASL : TAX
         
         LDA.l $7EF000, X : AND.w #$0100 : BEQ AutoStairsNorthMergedStart
     
@@ -4945,7 +4945,7 @@ RoomDraw_AutoStairs_North_MergedLayer_B:
     
     LDX.w $0442
     
-    TYA : LSR A : STA.w $06B8, X
+    TYA : LSR : STA.w $06B8, X
     
     INX #2
     
@@ -4965,7 +4965,7 @@ RoomDraw_AutoStairs_South_MultiLayer_A:
     
     LDX.w $049A
     
-    TYA : LSR A : STA.w $06B8, X
+    TYA : LSR : STA.w $06B8, X
     
     INX #2 : STX.w $049A
     
@@ -4979,7 +4979,7 @@ RoomDraw_AutoStairs_South_MultiLayer_B:
     PHX
     
     LDX.w $049C
-    TYA : LSR A : STA.w $06EC, X
+    TYA : LSR : STA.w $06EC, X
     
     INX #2 : STX.w $049C
     
@@ -5025,7 +5025,7 @@ RoomDraw_AutoStairs_South_MultiLayer_C:
     
     LDX.w $049E
     
-    TYA : LSR A : STA.w $06EC, X
+    TYA : LSR : STA.w $06EC, X
     
     INX #2 : STX.w $049E
     
@@ -5041,7 +5041,7 @@ RoomDraw_AutoStairs_South_MergedLayer:
     PHX
     
     LDA.b $AF : AND.w #$00FF : CMP.w #$001B : BNE .indoors
-        LDA.b $A0 : ASL A : TAX
+        LDA.b $A0 : ASL : TAX
         
         LDA.l $7EF000, X : AND.w #$0100 : BEQ .BRANCH_$A36A
             LDA.w #$6202 : STA.b $99
@@ -5050,7 +5050,7 @@ RoomDraw_AutoStairs_South_MergedLayer:
     
     LDX.w $04AE
     
-    TYA : LSR A : STA.w $06EC, X
+    TYA : LSR : STA.w $06EC, X
     
     INX #2 : STX.w $04AE
     
@@ -5065,7 +5065,7 @@ Object_InactiveWaterLadder:
 {
     LDX.w $0446
     
-    TYA : LSR A : STA.w $06B8, X
+    TYA : LSR : STA.w $06B8, X
     
     INX #2
     
@@ -5094,10 +5094,10 @@ RoomDraw_InterRoomFatStairsUp:
 {
     LDX.w $0438
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBg2
-        TYA : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBg2
     
@@ -5125,10 +5125,10 @@ RoomDraw_InterRoomFatStairsDown_A:
 {
     LDX.w $043A
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2
-        TYA : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBG2
     
@@ -5151,10 +5151,10 @@ RoomDraw_InterRoomFatStairsDown_B:
 {
     LDX.w $043A
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2
-        TYA : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBG2
     
@@ -5177,10 +5177,10 @@ RoomDraw_SpiralStairsGoingUpUpper:
 {
     LDX.w $047E
     
-    TYA : SEC : SBC.w #$0080 : LSR A : STA.w $06B0, X
+    TYA : SEC : SBC.w #$0080 : LSR : STA.w $06B0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2
-        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBG2
     
@@ -5209,10 +5209,10 @@ RoomDraw_SpiralStairsGoingUpLower:
 {
     LDX.w $0482
     
-    TYA : SEC : SBC.w #$0080 : LSR A : STA.w $06B0, X
+    TYA : SEC : SBC.w #$0080 : LSR : STA.w $06B0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2_2
-        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBG2_2
     
@@ -5240,13 +5240,13 @@ RoomDraw_SpiralStairsGoingDownUpper:
     
     ; Take the tilemap address and load it into A
     ; $06B0, X = tilemap addr of the object - 1 line (which is 0x80 bytes)
-    TYA : SEC : SBC.w #$0080 : LSR A : STA.w $06B0, X
+    TYA : SEC : SBC.w #$0080 : LSR : STA.w $06B0, X
     
     ; Check which BG we're drawing to.
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2_3
         ; We're on BG1 and we need to indicate that to whatever tracks this object
         ; This is the same as the previous write except it would modify it to be on BG0
-        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBG2_3
     
@@ -5280,10 +5280,10 @@ RoomDraw_SpiralStairsGoingDownLower:
 {
     LDX.w $0484
     
-    TYA : SEC : SBC.w #$0080 : LSR A : STA.w $06B0, X
+    TYA : SEC : SBC.w #$0080 : LSR : STA.w $06B0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBg2_4
-        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBg2_4
     
@@ -5319,7 +5319,7 @@ RoomDraw_StraightInterroomStairsGoingUpNorthUpper:
     
     LDX.w $04A2
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     INX #2
     
@@ -5342,7 +5342,7 @@ RoomDraw_StraightInterroomStairsGoingDownNorthUpper:
     
     LDX.w $04A6
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     INX #2
     
@@ -5360,7 +5360,7 @@ RoomDraw_StraightInterroomStairsGoingUpSouthUpper:
     
     LDX.w $04A4
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     INX #2
     
@@ -5382,7 +5382,7 @@ RoomDraw_StraightInterroomStairsGoingDownSouthUpper:
     
     LDX.w $04A8
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     INX #2
     
@@ -5422,10 +5422,10 @@ RoomDraw_StraightInterroomStairsGoingUpNorthLower:
     
     LDX.w $04A2
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2
-        TYA : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBG2
     
@@ -5450,10 +5450,10 @@ RoomDraw_StraightInterroomStairsGoingDownNorthLower:
     
     LDX.w $04A6
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2_2
-        TYA : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBG2_2
     
@@ -5509,10 +5509,10 @@ RoomDraw_StraightInterroomStairsGoingUpSouthLower:
     
     LDX.w $04A4
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2
-        TYA : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBG2
     
@@ -5536,10 +5536,10 @@ RoomDraw_StraightInterroomStairsGoingDownSouthLower:
     
     LDX.w $04A8
     
-    TYA : LSR A : STA.w $06B0, X
+    TYA : LSR : STA.w $06B0, X
     
     LDA.b $BF : CMP.w #$4000 : BNE .onBG2_2
-        TYA : ORA.w #$2000 : LSR A : STA.w $06B0, X
+        TYA : ORA.w #$2000 : LSR : STA.w $06B0, X
     
     .onBG2_2
     
@@ -5750,7 +5750,7 @@ Door_Up:
             TYA : STA.w $19A0, X
             
             ; Store type and position (0000pppp tttttttt)
-            TXA : LSR A : XBA : ORA.b $04 : STA.w $1980, X
+            TXA : LSR : XBA : ORA.b $04 : STA.w $1980, X
             
             TXA : AND.w #$000F : TAY
             
@@ -6374,7 +6374,7 @@ Door_UntouchedBlastWall:
     
     STZ.w $19C0, X
     
-    TXA : LSR A : XBA : ORA.w #$0030 : STA.w $1980, X
+    TXA : LSR : XBA : ORA.w #$0030 : STA.w $1980, X
     
     INX #2 : STX.w $0460
     
@@ -6392,7 +6392,7 @@ Door_BlastWall:
     
     LDA.b $08 : CLC : ADC.w #$0014 : STA.w $19A0, X
     
-    TXA : LSR A : XBA : ORA.w #$0030 : STA.w $1980, X
+    TXA : LSR : XBA : ORA.w #$0030 : STA.w $1980, X
     
     TXA : AND.w #$000F : TAY
     LDA.w $068C : AND.w DungeonMask, Y : BEQ Door_UntouchedBlastWall
@@ -6918,7 +6918,7 @@ Door_AddDungeonToggleProperty:
 {
     LDX.w $0450
     
-    LSR A : STA.w $06D0, X
+    LSR : STA.w $06D0, X
     
     INX #2 : STX.w $0450
     
@@ -6932,7 +6932,7 @@ Door_AddFloorToggleProperty:
 {
     LDX.w $044E
     
-    LSR A : STA.w $06C0, X
+    LSR : STA.w $06C0, X
     
     INX #2 : STX.w $044E
     
@@ -7017,7 +7017,7 @@ Door_Register:
     TYA : STA.w $19A0, X
     
     ; High byte is the object's slot in door memory, the low byte its type.
-    TXA : LSR A : XBA : ORA.b $04 : STA.w $1980, X
+    TXA : LSR : XBA : ORA.b $04 : STA.w $1980, X
     
     ; If index >= 0x04
     TXA : AND.w #$000F : TAY : CPY.w #$0008 : BCS .BRANCH_ALPHA
@@ -7073,7 +7073,7 @@ Door_Register:
             TXA : XBA : STA.w $0436
             
             ; Load the direction of the door.
-            LDA.b $00 : AND.w #$0003 : ASL A : ORA.w $0436 : STA.w $0436
+            LDA.b $00 : AND.w #$0003 : ASL : ORA.w $0436 : STA.w $0436
             
             AND.w #$00FF : CMP.b $0A : BNE .BRANCH_ZETA
                 EOR.w #$0002 : CMP.b $0A : BEQ .BRANCH_DELTA
@@ -7743,7 +7743,7 @@ Dungeon_LoadTorch:
     
     LDX.w #$0EC2
     
-    LDA.b $08 : ASL A : BCC .notPermanentlyLit
+    LDA.b $08 : ASL : BCC .notPermanentlyLit
         ; Permanently lit torch like in Ganon's room? (or in place where your
         ; uncle dies?)
         LDX.w #$0ECA
@@ -7822,8 +7822,8 @@ Dungeon_LoadHeader:
     
     .noSpecialAdjustX
     
-    LDA.b $67 : AND.w #$000F : LSR A : CMP.w #$0002 : BCS .walkingUpOrDown
-        ASL A : TAX
+    LDA.b $67 : AND.w #$000F : LSR : CMP.w #$0002 : BCS .walkingUpOrDown
+        ASL : TAX
         
         LDA.b $E2 : CLC : ADC.l DungeonHeader_SpecialAdjustment, X
         
@@ -7848,7 +7848,7 @@ Dungeon_LoadHeader:
     AND.w #$FE00 : STA.w $062E
     
     ; Load the dungeon room offset.
-    LDA.b $A0 : ASL A : TAX
+    LDA.b $A0 : ASL : TAX
     
     ; Get the offset for the base header information. 
     LDA.l RoomHeader_RoomToPointer, X : STA.b $0D
@@ -7866,7 +7866,7 @@ Dungeon_LoadHeader:
     
     ; Load the 0th (first) byte of the header.
     ; "BG2" in HM. TODO: Change to ZS.
-    LDA [$0D], Y : AND.b #$E0 : ASL A : ROL #3 : STA.w $0414
+    LDA [$0D], Y : AND.b #$E0 : ASL : ROL #3 : STA.w $0414
     
     ; TODO: ZS-ify.
     ; "collision" in HM
@@ -7923,7 +7923,7 @@ Dungeon_LoadHeader:
     LDA [$0D], Y : AND.b #$30 : LSR #4 : STA.w $063E
     
     ; Staircase 3 / Door plane
-    LDA [$0D], Y : AND.b #$C0 : ASL A : ROL A : ROL A : STA.w $063F
+    LDA [$0D], Y : AND.b #$C0 : ASL : ROL : ROL : STA.w $063F
     
     ; Move to byte 8. (Staircase 4 / Door plane).
     INY
@@ -7960,12 +7960,12 @@ Dungeon_LoadHeader:
     STZ.w $04BA
     
     ; X = $0110 = ($A0 * 3)
-    LDA.b $A0 : ASL A : CLC : ADC.b $A0 : STA.w $0110 : TAX
+    LDA.b $A0 : ASL : CLC : ADC.b $A0 : STA.w $0110 : TAX
     
     LDA.l RoomData_DoorDataPointers+1, X : STA.b $B8
     LDA.l RoomData_DoorDataPointers+0, X : STA.b $B7
     
-    LDA.b $A0 : ASL A : TAX
+    LDA.b $A0 : ASL : TAX
     
     ; Access the dungeon room's saved data (1 word).
     LDA.l $7EF000, X : AND.w #$F000 : STA.w $0400
@@ -7996,7 +7996,7 @@ Dungeon_LoadHeader:
     
     .nullDoor
     
-    LDA.b $A0 : DEC A : TAX
+    LDA.b $A0 : DEC : TAX
     
     ; Checks to see if the room is a multiple of 0x10.
     ; Room is a multiple of $10.
@@ -8008,7 +8008,7 @@ Dungeon_LoadHeader:
     
     .divisible_by_16
     
-    LDA.b $A0 : INC A : TAX
+    LDA.b $A0 : INC : TAX
     
     ; Checks to see if the room is right before a room that's a multiple of
     ; 0x10. I.e. ends in 0xF.
@@ -8129,12 +8129,12 @@ Dungeon_LoadAdjacentRoomDoors:
     STX.b $0E
     
     ; X = the other room's index multiplied by 3.
-    TXA : ASL A : CLC : ADC.b $0E : TAX
+    TXA : ASL : CLC : ADC.b $0E : TAX
     
     LDA.l RoomData_DoorDataPointers+1, X : STA.b $B8
     LDA.l RoomData_DoorDataPointers+0, X : STA.b $B7
     
-    LDA.b $0E : ASL A : TAX
+    LDA.b $0E : ASL : TAX
     
     ; Obtain the door data for the given room.
     LDA.l $7EF000, X : AND.w #$F000 : ORA.w #$0F00 : STA.w $1100
@@ -8177,7 +8177,7 @@ Dungeon_ApplyOverlay:
         STZ.w $045E
         
         ; X = $04BA * 3.
-        LDA.w $04BA : ASL A : CLC : ADC.w $04BA : TAX
+        LDA.w $04BA : ASL : CLC : ADC.w $04BA : TAX
         
         ; Dungeon overlay data.
         ; OPTIMIZE: The OverlayDataPointers themselves are stored as longs but
@@ -8261,7 +8261,7 @@ Dungeon_LoadAttrSelectable_jumpTable:
 ; $00B8B4-$00B8BE LONG JUMP LOCATION
 Dungeon_LoadAttrSelectable:
 {
-    LDA.w $0200 : ASL A : TAX
+    LDA.w $0200 : ASL : TAX
     
     JSR.w (.jumpTable, X)
     
@@ -8360,7 +8360,7 @@ Dungeon_LoadBasicAttr:
             CMP.b #$1C : BCS .tileIgnoresFlip
                 ; Tile types >= $10 and < $1C pay attention to
                 ; v and hflip properties.
-                LDA.l $7E2001, X : ASL A : ROL A : ROL A
+                LDA.l $7E2001, X : ASL : ROL : ROL A
                 AND.b #$03 : ORA.w $FE00, Y
         
         .tileIgnoresFlip
@@ -8372,7 +8372,7 @@ Dungeon_LoadBasicAttr:
         
         CMP.b #$10 : BCC .tileIgnoresFlip2
         CMP.b #$1C : BCS .tileIgnoresFlip2
-            LDA.l $7E2003, X : ASL A : ROL #2 : AND.w #$03 : ORA !rightTileAttr
+            LDA.l $7E2003, X : ASL : ROL #2 : AND.w #$03 : ORA !rightTileAttr
         
         .tileIgnoresFlip2
         
@@ -8674,7 +8674,7 @@ Dungeon_LoadObjAttr:
             ; If attribute & 0xF0 == 0x30, skip
             LDA.w $0500, Y : AND.w #$00F0 : CMP.w #$0030 : BEQ .skipMiscObject
                 ; Check the tilemap address
-                LDA.w $0540, Y : AND.w #$3FFF : LSR A : TAX
+                LDA.w $0540, Y : AND.w #$3FFF : LSR : TAX
                 
                 LDA.b $00 : STA.l $7F2000, X : STA.l $7F2040, X
                 
@@ -8692,7 +8692,7 @@ Dungeon_LoadObjAttr:
         
         .nextTorch
         
-            LDA.w $0540, Y : AND.w #$3FFF : LSR A : TAX
+            LDA.w $0540, Y : AND.w #$3FFF : LSR : TAX
             
             LDA.b $00 : STA.l $7F2000, X : STA.l $7F2040, X
             
@@ -8742,7 +8742,7 @@ Dungeon_LoadObjAttr:
         ; big chest.
         LDA.w $06E0, Y : ORA.w #$8000 : STA.w $06E0, Y
         
-        AND.w #$7FFF : LSR A : TAX
+        AND.w #$7FFF : LSR : TAX
         
         LDA.b $00 : STA.l $7F2000, X : STA.l $7F2040, X
         
@@ -8825,15 +8825,15 @@ Dungeon_SetChestAttr:
     .nextChest
     
         LDA.w $06E0, Y : BEQ .getNextChestAttr
-            AND.w #$7FFF : LSR A : TAX
+            AND.w #$7FFF : LSR : TAX
             
             ; Write the tile type to memory. (In my case, chests); So it would
             ; look like 0x5858, 0x5959, etc.
             LDA.b $00 : STA.l $7F2000, X : STA.l $7F2040, X
             
-            LDA.w $06E0, Y : ASL A : BCC .getNextChestAttr
+            LDA.w $06E0, Y : ASL : BCC .getNextChestAttr
                 ; It's a big chest, handle it appropriately.
-                LSR A : STA.w $06E0, Y
+                LSR : STA.w $06E0, Y
                 
                 ; Must apply this property over a larger area.
                 LDA.b $00
@@ -8933,11 +8933,11 @@ Dungeon_LoadSingleDoorAttr:
         LDA.w $068C : AND.w DungeonMask, X : BNE .BRANCH_ALPHA
             SEP #$20
             
-            TYA : LSR A : ORA.b #$F0 : STA.b $00 : STA.b $01
+            TYA : LSR : ORA.b #$F0 : STA.b $00 : STA.b $01
             
             REP #$20
             
-            LDA.w $19A0, Y : LSR A : TAX
+            LDA.w $19A0, Y : LSR : TAX
             
             LDA.b $00 : STA.l $7F2041, X : STA.l $7F2081, X
             
@@ -8972,7 +8972,7 @@ Dungeon_LoadSingleDoorAttr:
             
             .notUpExitDoor
         
-        LSR A : TAX
+        LSR : TAX
         
         LDA.b $00        : STA.l $7F2001, X
         STA.l $7F2041, X : STA.l $7F2081, X
@@ -9001,7 +9001,7 @@ Dungeon_LoadSingleDoorAttr:
         
                 .notDownExitDoor
         
-                LSR A : TAX
+                LSR : TAX
                 
                 LDA.b $00        : STA.l $7F2041, X
                 STA.l $7F2081, X : STA.l $7F20C1, X
@@ -9012,7 +9012,7 @@ Dungeon_LoadSingleDoorAttr:
     .notDownDoor
     
     CMP.w #$0002 : BNE .notLeftDoor
-        LDA.w $19A0, Y : LSR A : AND.w #$FFE0 : TAX
+        LDA.w $19A0, Y : LSR : AND.w #$FFE0 : TAX
         
         LDA.b $00 : CLC : ADC.w #$0101
         
@@ -9025,7 +9025,7 @@ Dungeon_LoadSingleDoorAttr:
     
     .notLeftDoor
     
-    LDA.w $19A0, Y : LSR A : TAX
+    LDA.w $19A0, Y : LSR : TAX
     
     LDA.b $00 : CLC : ADC.w #$0101
     
@@ -9069,7 +9069,7 @@ UNREACHABLE_01BFB3:
 Door_LoadBlastWallAttr:
 {
     LDA.w $19C0, Y : AND.w #$0002 : BNE .leftOrRightDoor
-        LDA.w $19A0, Y : LSR A : TAX
+        LDA.w $19A0, Y : LSR : TAX
         
         LDA.w #$000C : STA.b $00
         
@@ -9098,7 +9098,7 @@ Door_LoadBlastWallAttr:
     ; the only blast wall type door only takes on a blast wall appearance
     ; when the door direction is up. Perhaps Hyrule Magic is mistaken
     ; though? Wouldn't be the first time.
-    LDA.w $19A0, Y : LSR A : TAX
+    LDA.w $19A0, Y : LSR : TAX
     
     LDA.w #$0005 : STA.b $00
     
@@ -9139,11 +9139,11 @@ AddDoorwayPropsForWeirdos:
             
             ; The low nybble of the attribute corresponds to the door's
             ; position in the door slots (array of door information).
-            TYA : LSR A : ORA.b #$F0 : STA.b $00 : STA.b $01
+            TYA : LSR : ORA.b #$F0 : STA.b $00 : STA.b $01
             
             REP #$20
             
-            LDA.w $19A0, Y : LSR A : TAX
+            LDA.w $19A0, Y : LSR : TAX
             
             ; In the center (2x2) of the door, write this tile attribute value,
             ; which seems to always have upper nybble 0xf.
@@ -9166,7 +9166,7 @@ AddFullLongDoorDoorwayProps:
     LDA.w DoorwayTileProperties, X : STA.b $00
     
     LDA.w $19C0, Y : AND.w #$0003 : BNE .notUpDoor
-        LDA.w $19A0, Y : LSR A : AND.w #$783F : TAX
+        LDA.w $19A0, Y : LSR : AND.w #$783F : TAX
         
         LDA.b $00
         
@@ -9196,7 +9196,7 @@ AddFullLongDoorDoorwayProps:
             
             .notExitDoor
         
-            LDA.w $19A0, Y : LSR A : CLC : ADC.w #$0040 : TAX
+            LDA.w $19A0, Y : LSR : CLC : ADC.w #$0040 : TAX
             
             LDA.b $00
             
@@ -9210,7 +9210,7 @@ AddFullLongDoorDoorwayProps:
     .notDownDoor
     
     CMP.w #$0002 : BNE .notLeftDoor
-        LDA.w $19A0, Y : LSR A : AND.w #$FFE0 : TAX
+        LDA.w $19A0, Y : LSR : AND.w #$FFE0 : TAX
         
         LDA.b $00 : CLC : ADC.w #$0101
         
@@ -9223,7 +9223,7 @@ AddFullLongDoorDoorwayProps:
     
     .notLeftDoor
     
-    LDA.w $19A0, Y : LSR A : INC A : TAX
+    LDA.w $19A0, Y : LSR : INC : TAX
     
     LDA.b $00 : CLC : ADC.w #$0101
     
@@ -9243,11 +9243,11 @@ ChangeDoorToSwitch:
     REP #$30
     
     LDA.w $04B0 : BEQ .return
-        LDA.w $04B0 : AND.w #$3FFF : LSR A : TAX
+        LDA.w $04B0 : AND.w #$3FFF : LSR : TAX
         
         LDY.w #$0004
         
-        LDA.w $04B0 : ASL A : BCC .normalSize
+        LDA.w $04B0 : ASL : BCC .normalSize
             ; Add one column of 16 pixels to this attribute mapping.
             INY
         
@@ -9451,7 +9451,7 @@ Dungeon_CheckStairsAndRunScripts:
         
         STZ.b $0E
         
-        LDA.b $AE : ASL A : TAX
+        LDA.b $AE : ASL : TAX
         
         ; Handle tag1 routine.
         JSR.w (Dungeon_TagRoutines, X)
@@ -9459,7 +9459,7 @@ Dungeon_CheckStairsAndRunScripts:
         ; Based on the whether it's tag1 or tag2, execute different routines.
         LDA.b #$01 : STA.b $0E
         
-        LDA.b $AF : ASL A : TAX
+        LDA.b $AF : ASL : TAX
         
         ; Handle tag2 routine.
         JSR.w (Dungeon_TagRoutines, X)
@@ -9686,7 +9686,7 @@ Dungeon_DetectStaircase:
 RoomTag_NorthWestTrigger:
 {
     ; Branch if Link is in the left two quadrants
-    LDA.b $23 : LSR A : BCC RoomTag_NorthTrigger
+    LDA.b $23 : LSR : BCC RoomTag_NorthTrigger
         RTS
 }
 
@@ -9697,14 +9697,14 @@ RoomTag_NorthWestTrigger:
 RoomTag_NorthEastTrigger:
 {
     ; Branch if Link in the right two quadrants
-    LDA.b $23 : LSR A : BCS RoomTag_NorthTrigger
+    LDA.b $23 : LSR : BCS RoomTag_NorthTrigger
         RTS
 }
 
 ; $00C43E-$00C443 LOCAL JUMP LOCATION
 RoomTag_SouthWestTrigger:
 {
-    LDA.b $23 : LSR A : BCC RoomTag_SouthTrigger
+    LDA.b $23 : LSR : BCC RoomTag_SouthTrigger
         RTS
 }
 
@@ -9713,7 +9713,7 @@ RoomTag_SouthWestTrigger:
 ; $00C444-$00C449 LOCAL JUMP LOCATION
 RoomTag_SouthEastTrigger:
 {
-    LDA.b $23 : LSR A : BCS RoomTag_SouthTrigger
+    LDA.b $23 : LSR : BCS RoomTag_SouthTrigger
         RTS
 }
 
@@ -9722,14 +9722,14 @@ RoomTag_SouthEastTrigger:
 ; $00C44A-$00C44F LOCAL JUMP LOCATION
 RoomTag_WestTrigger:
 {
-    LDA.b $23 : LSR A : BCC RoomTag_QuadrantTrigger
+    LDA.b $23 : LSR : BCC RoomTag_QuadrantTrigger
         RTS
 }
         
 ; $00C450-$00C45B LOCAL JUMP LOCATION
 RoomTag_EastTrigger:
 {
-    LDA.b $23 : LSR A : BCS RoomTag_QuadrantTrigger
+    LDA.b $23 : LSR : BCS RoomTag_QuadrantTrigger
         RTS
 }
     
@@ -9737,7 +9737,7 @@ RoomTag_EastTrigger:
 RoomTag_NorthTrigger:
 {
     ; Branch if Link is in the upper two quadrants
-    LDA.b $21 : LSR A : BCC RoomTag_QuadrantTrigger
+    LDA.b $21 : LSR : BCC RoomTag_QuadrantTrigger
         ; $00C45B ALTERNATE ENTRY POINT
         .coordFail
         
@@ -9747,7 +9747,7 @@ RoomTag_NorthTrigger:
 ; $00C45C-$00C460 LOCAL JUMP LOCATION
 RoomTag_SouthTrigger:
 {
-    LDA.b $21 : LSR A : BCC RoomTag_NorthTrigger_coordFail
+    LDA.b $21 : LSR : BCC RoomTag_NorthTrigger_coordFail
         ; Bleeds into the next function.
 }
 
@@ -9889,7 +9889,7 @@ RoomTag_PullSwitchDoor:
 RoomTag_PrizeTriggerDoorDoor:
 {
     ; Load the dungeon index.
-    LDA.w $040C : LSR A : TAX
+    LDA.w $040C : LSR : TAX
     
     ; Which world are we in?
     LDA.l $7EF3CA : BNE .inDarkWorld
@@ -10073,7 +10073,7 @@ RoomTag_TorchPuzzleDoor:
     
     .BRANCH_BETA
     
-        LDA.w $0540, X : ASL A : BCC .BRANCH_ALPHA
+        LDA.w $0540, X : ASL : BCC .BRANCH_ALPHA
             INC.b $00
         
         .BRANCH_ALPHA
@@ -10149,10 +10149,10 @@ RoomTag_PullSwitchExplodingWall:
         
         ; WTF: Based on this logic, wouldn't index 6 never get used in the
         ; tables below?
-        LDA.b $21 : AND.w #$0001 : INC A : ASL #2 : TAX
+        LDA.b $21 : AND.w #$0001 : INC : ASL #2 : TAX
         
         LDA.w $19C0, Y : AND.w #$0002 : BEQ .BRANCH_DELTA
-            LDA.b $23 : AND.w #$0001 : ASL A : TAX
+            LDA.b $23 : AND.w #$0001 : ASL : TAX
         
         .BRANCH_DELTA
         
@@ -10210,7 +10210,7 @@ RoomTag_GetHeartForPrize:
     ; picked up in this room?)
     LDA.w $0403 : AND.b #$80 : BEQ .heartPieceStillExists
         ; Load the dungeon index, divide by 2.
-        LDA.w $040C : LSR A : TAX
+        LDA.w $040C : LSR : TAX
         
         ; Are we in the dark world?
         LDA.l $7EF3CA : BNE .inDarkWorld
@@ -10227,7 +10227,7 @@ RoomTag_GetHeartForPrize:
             
             LDA.b $0E : PHA
             
-            LDA.w $040C : LSR A : TAX
+            LDA.w $040C : LSR : TAX
             
             LDA.l Pool_RoomTag_GetHeartForPrize, X
             JSL.l Sprite_SpawnFallingItem
@@ -10253,7 +10253,7 @@ RoomTag_Agahnim:
     ; Has Ganon busted a nut on it yet? (broken in)
     LDA.l $7EF2DB : AND.b #$20 : BNE .return
         ; And it's checking if we have beaten Agahnim yet.
-        LDA.w $0403 : ASL A : BCC .return
+        LDA.w $0403 : ASL : BCC .return
             ; Otherwise do some swapping to the palettes in memory.
             JSL.l Palette_RevertTranslucencySwap
             
@@ -10312,8 +10312,8 @@ RoomTag_GanonDoor:
 ; $00C7A2-$00C7C1 JUMP LOCATION
 RoomTag_KillRoomBlock:
 {
-    LDA.b $23 : LSR A : BCC .return
-        LDA.b $21 : LSR A : BCC .return
+    LDA.b $23 : LSR : BCC .return
+        LDA.b $21 : LSR : BCC .return
             LDA.b $0E : PHA
             
             JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .someSpritesAlive
@@ -10398,7 +10398,7 @@ RoomTag_OperateChestReveal:
     
     LDY.w $0200
     
-    LDA.w $06E0, Y : AND.w #$3FFF : LSR A : TAX
+    LDA.w $06E0, Y : AND.w #$3FFF : LSR : TAX
     
     LDA.b $0C : STA.l $7F2000, X : STA.l $7F2040, X
 
@@ -10462,7 +10462,7 @@ RoomTag_TorchPuzzleChest:
     
     .nextObject
     
-        LDA.w $0540, X : ASL A : BCC .torchNotLit
+        LDA.w $0540, X : ASL : BCC .torchNotLit
             INC.b $00
         
         .torchNotLit
@@ -10562,7 +10562,7 @@ OverworldShake_Offsets:
 ; $00C969-$00C98A LOCAL JUMP LOCATION
 RoomTag_MovingWallShakeItUp:
 {
-    LDA.b $1A : AND.w #$0001 : ASL A : TAX
+    LDA.b $1A : AND.w #$0001 : ASL : TAX
     
     LDA.l OverworldShake_Offsets_Y, X : STA.w $011A
     LDA.l OverworldShake_Offsets_X, X : STA.w $011C
@@ -10657,7 +10657,7 @@ RoomTag_MovingWallTorchesCheck:
         
         .nextObject
         
-            LDA.w $0540, X : ASL A : BCC .torchNotLit
+            LDA.w $0540, X : ASL : BCC .torchNotLit
                 INC.b $00
             
             .torchNotLit
@@ -10673,7 +10673,7 @@ RoomTag_MovingWallTorchesCheck:
     
     SEP #$20
     
-    LDA.b $0E : ASL A : TAX
+    LDA.b $0E : ASL : TAX
     
     LDA.w $0403 : ORA.w DoorFlagMasks-1, X : STA.w $0403
     
@@ -10699,7 +10699,7 @@ MovingWall_MoveALittle:
 {
     LDA.w #$2200 : CLC : ADC.w $041C : STA.w $041C
     
-    ROL A : AND.w #$0001
+    ROL : AND.w #$0001
     
     RTS
 }
@@ -11118,8 +11118,8 @@ Object_WatergateChannelWater:
         
         AND.b #$FC : STA !startPos
         
-        LDA.b $00 : AND.b #$03 : INC A : STA.b $B2
-        LDA.b $01 : AND.b #$03 : INC A : STA.b $B4
+        LDA.b $00 : AND.b #$03 : INC : STA.b $B2
+        LDA.b $01 : AND.b #$03 : INC : STA.b $B4
         
         INY #3 : STY.b $BA
         
@@ -11414,9 +11414,9 @@ Dungeon_ProcessTorchAndDoorInteractives:
     
     .is_openable_door
     
-    LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY : STY.w $0694
+    LDA.l $7F2000, X : AND.w #$000F : ASL : TAY : STY.w $0694
     
-    LDA.w $19C0, Y : AND.w #$0003 : ASL A : CMP.b $08 : BNE .not_openable_door
+    LDA.w $19C0, Y : AND.w #$0003 : ASL : CMP.b $08 : BNE .not_openable_door
         ; Check if it's a breakable wall
         LDA.w $1980, Y : AND.w #$00FE
         CMP.w #$0028 : BEQ .is_breakable_wall
@@ -11466,7 +11466,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
         .isSmallKeyDoor
         
         LDA.l $7EF36F : AND.w #$00FF : BEQ .skipDoorProcessing
-            LDA.l $7EF36F : DEC A : STA.l $7EF36F
+            LDA.l $7EF36F : DEC : STA.l $7EF36F
             
             .haveKeyToOpenDoor
             
@@ -11506,7 +11506,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
             
             LDA.w $19C0, Y : AND.b #$03 : STA.w $03BE, X
             
-            TXA : ASL A : TAX
+            TXA : ASL : TAX
             
             REP #$20
             
@@ -11597,7 +11597,7 @@ DontOpenDoor:
     
     SEP #$30
     
-    LDA.b $3A : ASL A : BCC Dungeon_ProcessTorchAndDoorInteractives_BRANCH_TAU
+    LDA.b $3A : ASL : BCC Dungeon_ProcessTorchAndDoorInteractives_BRANCH_TAU
     
         LDA.b $3C : CMP.b #$04 : BNE Dungeon_ProcessTorchAndDoorInteractives_BRANCH_TAU
         
@@ -11676,13 +11676,13 @@ DontOpenDoor:
             
             .BRANCH_ALTIMA
             
-            TXA : SEC : SBC.w #$0041 : ASL A : STA.b $08
+            TXA : SEC : SBC.w #$0041 : ASL : STA.b $08
             
             LDA.l $7F2000, X : PHA
             
             LDA.w #$0202 : STA.l $7F2000, X : STA.l $7F2040, X
             
-            PLA : AND.w #$0003 : ASL A : TAX
+            PLA : AND.w #$0003 : ASL : TAX
             
             LDA.l VineDoorGFXOffset, X : TAY
             
@@ -11707,7 +11707,7 @@ DontOpenDoor:
             ; $00D18A ALTERNATE ENTRY POINT
             .not_vines
             
-            LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
+            LDA.l $7F2000, X : AND.w #$000F : ASL : TAY
             
             STX.w $068E
             
@@ -11821,7 +11821,7 @@ Bomb_CheckForVulnerableTileObjects:
         
         .BRANCH_GAMMA
         
-        LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
+        LDA.l $7F2000, X : AND.w #$000F : ASL : TAY
         
         ; This whole section is about bombable doors, so it needs to draw a door
         ; This handles the various kinds of tiles that will get replaced in a
@@ -11834,7 +11834,7 @@ Bomb_CheckForVulnerableTileObjects:
         
         STX.w $068E
         
-        LDA.b $0E : ASL A : TAX
+        LDA.b $0E : ASL : TAX
         
         LDA.w $19A0, Y : AND.w #$007E : ASL #2
         CLC : ADC.w $062C : STA.w $03B6, X
@@ -12181,7 +12181,7 @@ Dungeon_AnimateOpeningLockedDoor:
             .set_event_flags
             
             LDX.w $068E
-            LDA.l $7F2000, X : AND.w #$0007 : ASL A : TAX
+            LDA.l $7F2000, X : AND.w #$0007 : ASL : TAX
             
             LDA.w $068C : ORA.w DungeonMask, X : STA.w $068C
             LDA.w $0400 : ORA.w DungeonMask, X : STA.w $0400
@@ -12194,7 +12194,7 @@ Dungeon_AnimateOpeningLockedDoor:
     STZ.b $0C
     
     LDX.w $068E
-    LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
+    LDA.l $7F2000, X : AND.w #$000F : ASL : TAY
     
     JSR.w DrawDoorOpening_Step1
     JSR.w Dungeon_PrepOverlayDma_nextPrep
@@ -12219,7 +12219,7 @@ Dungeon_AnimateOpeningLockedDoor:
         
         LDX.w $068E
         LDA.l $7F2000, X : AND.w #$00FF : CMP.w #$00F0 : BCC .notKeyDoor
-            AND.w #$000F : ASL A : TAY
+            AND.w #$000F : ASL : TAY
             
             LDA.w $1980, Y : AND.w #$00FF
             
@@ -12248,7 +12248,7 @@ Dungeon_LoadToggleDoorAttr:
 {
     LDX.w $068E
     
-    LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
+    LDA.l $7F2000, X : AND.w #$000F : ASL : TAY
 
     ; $00D51C ALTERNATE ENTRY POINT
     .from_parameter
@@ -12502,7 +12502,7 @@ Dungeon_QueryIfTileLiftable:
     
     ; Um... I'm guessing it's checking to see if it's a pot or bush.
     LDA.l $7F2000, X : AND.w #$00F0 : CMP.w #$0070 : BNE .not_liftable
-        LDA.l $7F2000, X : AND.w #$000F : ASL A : TAX
+        LDA.l $7F2000, X : AND.w #$000F : ASL : TAX
         
         ; Means the tile looks like a pot, but has no replacement tile and thus
         ; can't be picked up
@@ -12510,7 +12510,7 @@ Dungeon_QueryIfTileLiftable:
             LDY.w #$0055
             
             AND.w #$F0F0 : CMP.w #$2020 : BEQ .large_block
-                LDA.w $0500, X : AND.w #$000F : ASL A : TAX
+                LDA.w $0500, X : AND.w #$000F : ASL : TAX
                 
                 LDA.l Pool_Dungeon_RevealCoveredTiles_tile_01d9e0, X : TAY
             
@@ -12627,7 +12627,7 @@ Dungeon_EraseInteractive2x2:
     
     LDA.l $7EFE00, X : AND.w #$00FF : STA.b $00 : STA.b $01
     
-    LDA.w $0540, Y : AND.w #$3FFF : LSR A : TAX
+    LDA.w $0540, Y : AND.w #$3FFF : LSR : TAX
     
     LDA.b $00
     
@@ -12688,7 +12688,7 @@ PushBlock_StoppedMoving:
     .blockTriggersSomething
     
     ; Indicate that we have already pushed a block.
-    LDA.w $0540, Y : AND.w #$3FFF : LSR A : TAX
+    LDA.w $0540, Y : AND.w #$3FFF : LSR : TAX
     
     ; Check if the block landed on a pit tile.
     LDA.l $7F2000, X : AND.w #$00FF : CMP.w #$0020 : BEQ .blockFellIntoPit
@@ -12698,13 +12698,13 @@ PushBlock_StoppedMoving:
         
         ; Doing preliminary work to update the tilemap with the rematerializing
         ; block that has since moved by 2 tiles in some direction.
-        LDA.w #$0922 : STA.w $1006, X : INC A : STA.w $1012, X
-        LDA.w #$0932 : STA.w $100C, X : INC A : STA.w $1018, X
+        LDA.w #$0922 : STA.w $1006, X : INC : STA.w $1012, X
+        LDA.w #$0932 : STA.w $100C, X : INC : STA.w $1018, X
         
         LDA.w $0540, Y : AND.w #$3FFF : TAX
         
-        LDA.w #$0922 : STA.l $7E2000, X : INC A : STA.l $7E2002, X
-        LDA.w #$0932 : STA.l $7E2080, X : INC A : STA.l $7E2082, X
+        LDA.w #$0922 : STA.l $7E2000, X : INC : STA.l $7E2002, X
+        LDA.w #$0932 : STA.l $7E2080, X : INC : STA.l $7E2082, X
         
         SEP #$20
         
@@ -12712,7 +12712,7 @@ PushBlock_StoppedMoving:
         
         ; OPTIMIZE: Hardcoded X? Why not just LDA.w $05FD?
         LDX.w #$0001
-        LDA.w $05FC, X : DEC A : ASL A : CMP.b $72 : BEQ .correct_index
+        LDA.w $05FC, X : DEC : ASL : CMP.b $72 : BEQ .correct_index
             LDX.w #$0000
         
         .correct_index
@@ -12778,7 +12778,7 @@ Dungeon_GetInteractiveVramAddr:
     LDA.w $0540, Y : AND.w #$3FFF : CLC : ADC !tile_offset : STA !tile_offset
     
                        AND.w #$0040 : LSR #4 : XBA       : STA.b $00
-    LDA !tile_offset : AND.w #$303F : LSR A  : ORA.b $00 : STA.b $00
+    LDA !tile_offset : AND.w #$303F : LSR  : ORA.b $00 : STA.b $00
     LDA !tile_offset : AND.w #$0F80 : LSR #2 : ORA.b $00 : XBA
     
     RTS
@@ -12853,7 +12853,7 @@ Dungeon_RevealCoveredTiles:
     LDX.b $06
     
     ; Examine the tile type at this target location
-    LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
+    LDA.l $7F2000, X : AND.w #$000F : ASL : TAY
     
     ; Check replaceable tile attributes
     ; See if they're in the 0x10 to 0x1F range (I think?)
@@ -12872,7 +12872,7 @@ Dungeon_RevealCoveredTiles:
         
         JSR.w Dungeon_EraseInteractive2x2
         
-        PLA : AND.w #$000F : ASL A : TAX
+        PLA : AND.w #$000F : ASL : TAX
         
         LDA.l Pool_Dungeon_RevealCoveredTiles_tile_01d9e0, X : STA.b $06
         
@@ -12881,7 +12881,7 @@ Dungeon_RevealCoveredTiles:
     .not_pot_tiles
     
     CMP.w #$2020 : BNE Pool_Dungeon_ToolAndTileInteraction
-        LDA.w $0500, Y : AND.w #$000F : ASL A : STA.b $00
+        LDA.w $0500, Y : AND.w #$000F : ASL : STA.b $00
         
         TYA : SEC : SBC.b $00
 
@@ -12962,7 +12962,7 @@ Dungeon_ToolAndTileInteraction:
         LDX.b $06
         
         LDA.l $7F2000, X : AND.w #$00F0 : CMP.w #$0070 : BNE .easy_out
-            LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
+            LDA.l $7F2000, X : AND.w #$000F : ASL : TAY
             
             LDA.w $0500, Y : AND.w #$F0F0 : CMP.w #$4040 : BNE .not_mole
                 LDA.w $0500, Y : PHA
@@ -13021,7 +13021,7 @@ Dungeon_GetUprootedTerrainSpawnCoords:
     
     LDA.b $22 : AND.w #$FE00 : TSB.b $00
     
-    PLA : AND.w #$1F80 : ASL A : XBA : ASL #3 : STA.b $02
+    PLA : AND.w #$1F80 : ASL : XBA : ASL #3 : STA.b $02
     
     LDA.b $20 : AND.w #$FE00 : TSB.b $02
     
@@ -14949,7 +14949,7 @@ Dungeon_LoadSecret:
     LDA.w $0B9C : AND.w #$FF00 : STA.w $0B9C
     
     ; Load the room, multiply by 2, send to X register.
-    LDA.b $A0 : ASL A : TAX
+    LDA.b $A0 : ASL : TAX
     
     ; Secrets pointer array (16-bit local pointer for each of the 0x140 rooms).
     LDA.l RoomData_PotItems_Pointers, X : STA.b $00
@@ -14989,7 +14989,7 @@ Dungeon_LoadSecret:
                 TXY
                 
                 ; X = room index * 2.
-                LDA.b $A0 : ASL A : TAX
+                LDA.b $A0 : ASL : TAX
                 
                 STZ.b $00
                 
@@ -15021,9 +15021,9 @@ Dungeon_LoadSecret:
         
         LDX.b $06
         
-        LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
+        LDA.l $7F2000, X : AND.w #$000F : ASL : TAY
         
-        LDA.w $0500, Y : AND.w #$000F : ASL A : STA.b $00
+        LDA.w $0500, Y : AND.w #$000F : ASL : STA.b $00
         
         TYA : SEC : SBC.b $00 : STA.w $042C : TAY
         
@@ -15141,8 +15141,8 @@ Dungeon_SpriteInducedTilemapUpdate:
 Dungeon_PrepSpriteInducedDma:
 {
     ; Convert coordiates to tilemap position.
-    LDA.b $02 : INC A : AND.w #$01F8 : ASL #3 : STA.b $06
-    LDA.b $00         : AND.w #$01F8 : LSR #3 : ORA.b $06 : ASL A : STA.b $06
+    LDA.b $02 : INC : AND.w #$01F8 : ASL #3 : STA.b $06
+    LDA.b $00         : AND.w #$01F8 : LSR #3 : ORA.b $06 : ASL : STA.b $06
     
     LDX.b $0E
     
@@ -15166,7 +15166,7 @@ Dungeon_PrepSpriteInducedDma:
     
     LDA.l $7EFE00, X : AND.w #$00FF : STA.b $08 : STA.b $09
     
-    LDA.b $06 : LSR A : TAX
+    LDA.b $06 : LSR : TAX
     
     LDA.b $08 : STA.l $7F2000, X
               STA.l $7F2040, X
@@ -15216,7 +15216,7 @@ Dungeon_GetRelativeVramAddr_2:
     CLC : ADC.b $06 : STA.b $0E
     
                 AND.w #$0040 : LSR #4 : XBA       : STA.b $08
-    LDA.b $0E : AND.w #$303F : LSR A  : ORA.b $08 : STA.b $08
+    LDA.b $0E : AND.w #$303F : LSR  : ORA.b $08 : STA.b $08
     LDA.b $0E : AND.w #$0F80 : LSR #2 : ORA.b $08 : XBA
     
     RTS
@@ -15232,7 +15232,7 @@ Dungeon_ClearRupeeTile:
     REP #$30
     
     LDA.b $00 : AND.w #$01F8 : ASL #3 : STA.b $06
-    LDA.b $02 : AND.w #$01F8 : LSR #3 : ORA.b $06 : ASL A : STA.b $06
+    LDA.b $02 : AND.w #$01F8 : LSR #3 : ORA.b $06 : ASL : STA.b $06
     
     LDX.w $1000
     
@@ -15246,7 +15246,7 @@ Dungeon_ClearRupeeTile:
     
     LDA.l $7EFE00, X : AND.w #$00FF : STA.b $08 : STA.b $09
     
-    LDA.b $06 : LSR A : TAX
+    LDA.b $06 : LSR : TAX
     
     LDA.b $08 : STA.l $7F2000, X : STA.l $7F2040, X
     
@@ -15285,7 +15285,7 @@ Dungeon_GetRelativeVramAddr:
     CLC : ADC.b $06 : STA.b $0C
     
                 AND.w #$0040 : LSR #4 : XBA       : STA.b $08
-    LDA.b $0C : AND.w #$303F : LSR A  : ORA.b $08 : STA.b $08
+    LDA.b $0C : AND.w #$303F : LSR  : ORA.b $08 : STA.b $08
     LDA.b $0C : AND.w #$0F80 : LSR #2 : ORA.b $08 : XBA
     
     RTS
@@ -15340,7 +15340,7 @@ Dungeon_OpenKeyedObject:
     ; Obtain the tile type of the object and put it in the {0..5} range.
     AND.w #$00FF : SEC : SBC.w #$0058 : STA.b $0E
     
-    ASL A : PHA : TAY : PHY
+    ASL : PHA : TAY : PHY
     
     ; If it's not a big key lock.
     LDA.w $06E0, Y : CMP.w #$8000 : BCC .notBigKeyLock
@@ -15419,7 +15419,7 @@ Dungeon_OpenKeyedObject:
     LDA Dungeon_ChestData+2, X : STA.b $0C
     
     ; Load the room index for the chest.
-    LDA Dungeon_ChestData, X : ASL A : BCC .smallChest
+    LDA Dungeon_ChestData, X : ASL : BCC .smallChest
         ; Otherwise it's a (you guessed it...) Big Chest.
         LDX.w $040C
         
@@ -15481,7 +15481,7 @@ Dungeon_OpenKeyedObject:
     
     .notBigKeyLock2
     
-    LSR A : TAX
+    LSR : TAX
     
     LDA.b $00 : STA.l $7F2000, X : STA.l $7F2040, X
     
@@ -15585,7 +15585,7 @@ Dungeon_OpenBigChest:
     
     INC #2 : STA.b $72
     
-    PLA : LSR A : TAX
+    PLA : LSR : TAX
     
     LDA.w #$2727
     STA.l $7F2000, X : STA.l $7F2002, X : STA.l $7F2040, X 
@@ -15690,7 +15690,7 @@ Dungeon_OpenMiniGameChest:
             ; Make chest tiles impassible now.
             LDA.w #$0202 : STA.l $7F2000, X : STA.l $7F2040, X
             
-            TXA : ASL A : STA.b $72
+            TXA : ASL : STA.b $72
             
             CLC : ADC.w #$0100 : TAX : STA.b $0C
             
@@ -15747,7 +15747,7 @@ Dungeon_OpenMiniGameChest:
                     CPX.b #$02 : BCC .BRANCH_BETA
                         ; Make sure it's not the same thing we got last time?
                         CPX.b $C8 : BNE .BRANCH_BETA
-                            TXA : INC A : AND.b #$07 : TAX
+                            TXA : INC : AND.b #$07 : TAX
                     
                     .BRANCH_BETA
                     
@@ -15847,7 +15847,7 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
     CLC : ADC.w $06E0, Y : STA.b $0E
     
                 AND.w #$0040 : LSR #4 : XBA       : STA.b $0A
-    LDA.b $0E : AND.w #$303F : LSR A  : ORA.b $0A : STA.b $0A
+    LDA.b $0E : AND.w #$303F : LSR  : ORA.b $0A : STA.b $0A
     LDA.b $0E : AND.w #$0F80 : LSR #2 : ORA.b $0A : XBA
     
     RTS
@@ -15868,7 +15868,7 @@ IncrementallyDrainSwampPool_window_direction:
 IncrementallyDrainSwampPool:
 {
     LDA.w $0424 : AND.b #$07 : BNE .BRANCH_ALPHA
-        LDA.w $0424 : AND.b #$0C : LSR A : TAX
+        LDA.w $0424 : AND.b #$0C : LSR : TAX
         
         REP #$20
         
@@ -16033,7 +16033,7 @@ Dungeon_TurnOnWaterLong_handlers:
 ; $00F093-$00F09A LONG JUMP LOCATION
 Dungeon_TurnOnWaterLong:
 {
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
     
     JMP (.handlers, X)
 
@@ -16091,7 +16091,7 @@ Underworld_AdjustWaterVomit:
         LDX.b $08
         
         TXA : AND.w #$0040 : LSR #4             : XBA : STA.b $00
-        TXA : AND.w #$303F : LSR A  : ORA.b $00       : STA.b $00
+        TXA : AND.w #$303F : LSR  : ORA.b $00       : STA.b $00
         TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : XBA : STA.w $1002, Y
         
         LDA.w #$0980 : STA.w $1004, Y
@@ -16142,7 +16142,7 @@ Underworld_FloodSwampWater_SpillToFloor:
 ; $00F18C-$00F1E0 ALTERNATE ENTRY POINT
 Underworld_FloodSwampWater_CoverFloor:
 {
-    LDA.w $0424 : AND.b #$03 : ASL A : TAX
+    LDA.w $0424 : AND.b #$03 : ASL : TAX
     
     REP #$20
     
@@ -16180,7 +16180,7 @@ Underworld_FloodSwampWater_CoverFloor:
 Underworld_FloodSwampWater_RiseInLevel:
 {
     LDA.w $0424 : AND.b #$07 : BNE .BRANCH_ALPHA
-        LDA.w $0424 : AND.b #$0C : LSR A : TAX
+        LDA.w $0424 : AND.b #$0C : LSR : TAX
         
         REP #$20
         
@@ -16333,7 +16333,7 @@ FloodDam_Expand:
 {
     INC.w $0470
     
-    LDA.w $0470 : LSR A : STA.w $0686
+    LDA.w $0470 : LSR : STA.w $0686
     SEC : SBC.b #$08 : STA.b $00
     
     LDA.w $0678 : STA.w $0676
@@ -16483,14 +16483,14 @@ Dungeon_LightTorch:
         
         REP #$30
         
-        LDA.w $0333 : AND.w #$000F : ASL A : CLC : ADC.w $0478 : TAY
+        LDA.w $0333 : AND.w #$000F : ASL : CLC : ADC.w $0478 : TAY
         
         LDA.w $0520, Y : AND.w #$00FF : TAX
         
         ; Branch if torch is already lit.
-        LDA.w $0540, Y : ASL A : BCS .return
+        LDA.w $0540, Y : ASL : BCS .return
             ; TODO: Light the torch?
-            LSR A : ORA.w #$8000 : STA.w $0540, Y
+            LSR : ORA.w #$8000 : STA.w $0540, Y
             
             LDA.b $08 : BNE .notZero
                 ; TODO: Why would this ever happen give the code base we have?
@@ -16588,7 +16588,7 @@ Dungeon_ExtinguishTorch:
     
     REP #$30
     
-    LDA.w $0333 : AND.w #$000F : ASL A : CLC : ADC.w $0478 : TAY
+    LDA.w $0333 : AND.w #$000F : ASL : CLC : ADC.w $0478 : TAY
     
     LDA.w $0520, Y : AND.w #$00FF : TAX
     
@@ -16612,7 +16612,7 @@ Dungeon_ExtinguishTorch:
     
     LDA.l $7EC005 : BEQ .noLightLevelChange
         LDA.w $045A : BEQ .noLightLevelChange
-            DEC A : STA.w $045A : CMP.b #$03 : BCS .noLightLevelChange
+            DEC : STA.w $045A : CMP.b #$03 : BCS .noLightLevelChange
                 CMP.b #$00 : BNE .notFullyDark
                     LDA.b #$01 : STA.b $1D
 
@@ -16644,9 +16644,9 @@ Dungeon_ElevateStaircasePriority:
 {
     REP #$30
     
-    LDA.w $0462 : AND.w #$0003 : ASL A : TAY
+    LDA.w $0462 : AND.w #$0003 : ASL : TAY
     
-    LDA.w $06B0, Y : ASL A : SEC : SBC.w #$0008 : TAX
+    LDA.w $06B0, Y : ASL : SEC : SBC.w #$0008 : TAX
     STX.w $048C : STX.b $08 : PHX
     
     LDY.w #$0004
@@ -16746,7 +16746,7 @@ Object_OpenGanonDoor:
     LDA.b $B0 : AND.b #$03 : BNE Object_OpenGanonDoor_easyOut
         REP #$30
         
-        LDA.b $B0 : SEC : SBC.w #$0004 : LSR A : TAX
+        LDA.b $B0 : SEC : SBC.w #$0004 : LSR : TAX
         
         LDA.l .tile_offset, X : TAY
         
@@ -16832,7 +16832,7 @@ UNREACHABLE_01F6B4:
     LDX.b $08
     
     TXA : AND.w #$0040 : LSR #4 : XBA     : STA.b $00
-    TXA : AND.w #$303F : LSR A            : STA.b $02
+    TXA : AND.w #$303F : LSR            : STA.b $02
     TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : ORA.b $02 : STA.w $1100, Y
     
     LDX.w $045E
@@ -16841,7 +16841,7 @@ UNREACHABLE_01F6B4:
     
     LDA.b $06 : STA.w $1102, Y
     
-    LSR A : BCS .BRANCH_BETA
+    LSR : BCS .BRANCH_BETA
         LDA.w $1602, X : STA.w $1106, Y
         LDA.w $1604, X : STA.w $1108, Y
         LDA.w $1606, X : STA.w $110A, Y
@@ -16915,7 +16915,7 @@ Dungeon_PrepOverlayDma:
         LDX.b $08
         
         TXA : AND.w #$0040 : LSR #4 : XBA     : STA.b $00
-        TXA : AND.w #$303F : LSR A  : ORA.b $00 : STA.b $00
+        TXA : AND.w #$303F : LSR  : ORA.b $00 : STA.b $00
         TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : STA.w $1100, Y
         
         ; The data to write to VRAM.
@@ -16923,7 +16923,7 @@ Dungeon_PrepOverlayDma:
         
         LDA.b $06 : STA.w $1102, Y
         
-        LSR A : BCS .vertical
+        LSR : BCS .vertical
             LDA.l $7E2002, X : STA.w $1106, Y
             LDA.l $7E2004, X : STA.w $1108, Y
             LDA.l $7E2006, X : STA.w $110A, Y
@@ -16994,7 +16994,7 @@ ClearAndStripeExplodingWall:
     LDX.b $08
     
     TXA : AND.w #$0040 : LSR #4 : XBA     : STA.b $00
-    TXA : AND.w #$303F : LSR A  : ORA.b $00 : STA.b $00
+    TXA : AND.w #$303F : LSR  : ORA.b $00 : STA.b $00
     TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : STA.w $1100, Y : PHA
     
     LDA.l $7E2000, X : STA.w $1104, Y
@@ -17030,7 +17030,7 @@ ClearAndStripeExplodingWall:
         
         LDX.b $02
         
-        LDA.b $06 : LSR A : BCS .epsilon
+        LDA.b $06 : LSR : BCS .epsilon
             TXA : CLC : ADC.w #$0010 : TAX
         
         .epsilon
@@ -17066,7 +17066,7 @@ UNREACHABLE_01F908:
     .BRANCH_ALPHA
     
             TXA : AND.w #$0040 : LSR #4 : XBA : STA.b $00
-            TXA : AND.w #$303F : LSR A  : STA.b $02
+            TXA : AND.w #$303F : LSR  : STA.b $02
             TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : ORA.b $02 : XBA : STA.w $1002, Y
             
             LDA.w #$0100 : STA.w $1004, Y
@@ -17678,7 +17678,7 @@ ClearExplodingWallFromTilemap:
     LDY.w #$31EA
     JSR.w ClearExplodingWallFromTilemap_ClearOnePair
     
-    LDA.w $0454 : DEC A : STA.b $0E : BEQ .skip
+    LDA.w $0454 : DEC : STA.b $0E : BEQ .skip
         LDA.w RoomDrawObjectData+00, Y
         
         .nextColumn
@@ -17764,7 +17764,7 @@ Dungeon_ApplyOverlayAttr:
             .notPitTile
         DEX #2 : BPL .nextTile
         
-        LDA.b $08 : LSR A : TAX
+        LDA.b $08 : LSR : TAX
         
         SEP #$20
         
@@ -17796,9 +17796,9 @@ Dungeon_ApproachFixedColor:
 {
     LDA.b $9C : AND.b #$1F : CMP.l $7EC017 : BEQ .targetReached
         ; This coding scheme allows $9C to approach $7EC017 from above or below.
-        DEC A : BCS .aboveTarget
+        DEC : BCS .aboveTarget
             ; (belowTarget)
-            INC A : INC A
+            INC : INC A
         
         .aboveTarget
         
@@ -17849,7 +17849,7 @@ Player_SetElectrocutionMosaicLevel:
     
     LDA.b #$09 : STA.b $94
     
-    LDA.l $7EC011 : LSR A : ORA.b #$03 : STA.b $95
+    LDA.l $7EC011 : LSR : ORA.b #$03 : STA.b $95
     
     RTL
 }

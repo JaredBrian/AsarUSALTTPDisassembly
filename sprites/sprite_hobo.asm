@@ -236,7 +236,7 @@ Hobo_SpawnBubble:
         
         LDA.b #$60 : STA.w $0DF0, Y
         
-        LSR A : STA.w $0E00, Y : STA.w $0BA0, Y
+        LSR : STA.w $0E00, Y : STA.w $0BA0, Y
 
         ; Bleeds into the next function.
 }

@@ -96,7 +96,7 @@ Sprite_Rope:
         .player_not_on_sightline
     .delay
     
-    LDA.b $1A : LSR #4 : LDA.w $0DE0, X : ROL A : TAY
+    LDA.b $1A : LSR #4 : LDA.w $0DE0, X : ROL : TAY
     
     LDA.w Pool_Sprite_Rope_animation_control, Y : STA.w $0D90, X
     
@@ -153,7 +153,7 @@ Rope_Moving:
     
     .moving_fast
     
-    LSR #2 : LDA.w $0DE0, X : ROL A : TAY
+    LSR #2 : LDA.w $0DE0, X : ROL : TAY
     
     LDA.w Pool_Rope_Moving_sanimation_control, Y : STA.w $0D90, X
     

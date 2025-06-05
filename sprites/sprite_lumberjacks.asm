@@ -54,7 +54,7 @@ Sprite_Lumberjacks:
         
         JSR.w Lumberjacks_CheckProximity : BCS .dont_speak
             LDA.b $F6 : AND.b #$80 : BEQ .dont_speak
-                LDA.b $22 : CMP.w $0D10, X : ROL A : AND.b #$01 : STA.b $00
+                LDA.b $22 : CMP.w $0D10, X : ROL : AND.b #$01 : STA.b $00
                 STZ.b $01
                 
                 LDA.l $7EF359 : CMP.b #$02 : BCC .player_doesnt_have_master_sword
@@ -169,7 +169,7 @@ Lumberjacks_Draw:
     LDA.b #$0B : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
+    LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
     
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09

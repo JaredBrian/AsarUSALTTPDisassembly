@@ -29,7 +29,7 @@ Ancilla_Bomb:
         .not_in_room_staircase_submode
         
         ; Is Link close to the bomb? If not, branch.
-        TXA : INC A : CMP.w $02EC : BNE .just_draw
+        TXA : INC : CMP.w $02EC : BNE .just_draw
             ; Is Link carrying the bomb?
             LDA.w $0380, X : BEQ .just_draw
                 CMP.b #$03 : BEQ .player_fully_holding
@@ -155,7 +155,7 @@ Ancilla_Bomb:
         
         ; This branch is taken if collision with a wall was not detected.
         
-        TXA : INC A : CMP.w $02EC : BNE .player_not_touching_object
+        TXA : INC : CMP.w $02EC : BNE .player_not_touching_object
             BIT.w $0308 : BMI .ignore_tile_collision_results
         
         .player_not_touching_object
@@ -221,7 +221,7 @@ Ancilla_Bomb:
         
         ; Kills the bomb because it fell in water, then it makes a splash.
         
-        TXA : INC A : CMP.w $02EC : BNE .water_tile_reset_player_proximity
+        TXA : INC : CMP.w $02EC : BNE .water_tile_reset_player_proximity
             ; Don't get the game's hopes up that you can pick up this bomb,
             ; it's set for termination soon!
             STZ.w $02EC
@@ -240,7 +240,7 @@ Ancilla_Bomb:
             LDA.w $0308 : BMI .state_logic
                 STX.b $04
                 
-                LDA.w $02EC : DEC A : CMP.b $04 : BNE .pit_tile_reset_player_proximity
+                LDA.w $02EC : DEC : CMP.b $04 : BNE .pit_tile_reset_player_proximity
                     ; Same as with water tiles, reset this state if necessary.
                     STZ.w $02EC
                     
@@ -294,7 +294,7 @@ Ancilla_Bomb:
             LDA.b #$0C : JSR.w Ancilla_DoSfx2
             
             ; Did Link come in contact with the explosion?
-            TXA : INC A : CMP.w $02EC : BNE .dont_reset_player_lift_state
+            TXA : INC : CMP.w $02EC : BNE .dont_reset_player_lift_state
                 ; Link has been hit by this bomb.
                 STZ.w $02EC
                 
@@ -349,14 +349,14 @@ Ancilla_Bomb:
             
             STX.b $0E
             
-            TXA : ASL A : TAX
+            TXA : ASL : TAX
             
             STZ.w $03B6, X
             STZ.w $03B7, X
             
             JSL.l Bomb_CheckForVulnerableTileObjects
             
-            PLX : TXY : TXA : ASL A : TAX
+            PLX : TXY : TXA : ASL : TAX
             
             LDA.w $03B6, X : ORA.w $03B7, X : BEQ .didnt_blow_open_door
                 TYX
@@ -446,7 +446,7 @@ Bomb_CheckSpriteAndPlayerDamage:
             JSR.w Bomb_CheckSpriteDamage
             
             LDA.w $037B : BEQ .player_not_using_invincibility_item
-                TXA : INC A : CMP.w $02EC : BNE Ancilla_Bomb_return
+                TXA : INC : CMP.w $02EC : BNE Ancilla_Bomb_return
                     ; If the player is holding the bomb that is exploding, take
                     ; the player out of the "holding something over head" state.
                     LDA.w $0308 : AND.b #$80 : BEQ Ancilla_Bomb_return
@@ -615,7 +615,7 @@ Ancilla_LiftableObjectLogic:
         ; This is set to the special effect index + 1 of a detected collision.
         LDA.w $02EC : BEQ .player_not_near_to_any_object
             ; This branch fails if some other sprite triggered $02EC.
-            DEC A : CMP.b $00 : BEQ .closest_liftable_object_to_player
+            DEC : CMP.b $00 : BEQ .closest_liftable_object_to_player
                 RTS
             
             .closest_liftable_object_to_player
@@ -696,7 +696,7 @@ Ancilla_LiftableObjectLogic:
                         .begin_lifting
                         
                         ; Collision detected?
-                        TXA : INC A : STA.w $02EC
+                        TXA : INC : STA.w $02EC
                         
                         STZ.w $0380, X
                         
@@ -774,7 +774,7 @@ Ancilla_LiftableObjectLogic:
     
     .throwing_object
     
-    LDA.b $2F : LSR A : STA.w $0C72, X : TAY
+    LDA.b $2F : LSR : STA.w $0C72, X : TAY
     
     ; Gives the object 0x18 points of lift.
     LDA.b #$18 : STA.w $0294, X
@@ -787,7 +787,7 @@ Ancilla_LiftableObjectLogic:
     LDA.b #$02 : STA.w $0309
     
     ; Indicate that the object is in motion.
-    DEC A : STA.w $0385, X
+    DEC : STA.w $0385, X
     
     ; Player is not colliding with the object.
     STZ.w $02EC
@@ -930,7 +930,7 @@ Ancilla_LiftableObjectLogic:
         LDA.b $5B : CMP.b #$02 : BCC .player_not_falling
             STZ.b $5E
             
-            TXA : INC A : CMP.w $02EC : BNE .player_not_falling_with_this_object
+            TXA : INC : CMP.w $02EC : BNE .player_not_falling_with_this_object
                 STZ.w $02EC
                 
                 ; Just terminate the held ancilla if the player is falling
@@ -954,7 +954,7 @@ Ancilla_LiftableObjectLogic:
 Ancilla_SetPlayerHeldPosition:
 {  
     ; Link's animation status.
-    LDA.b $2E : ASL A : TAY
+    LDA.b $2E : ASL : TAY
         
     ; Slow player down because they're carrying something.
     LDA.b #$0C : STA.b $5E
@@ -1044,7 +1044,7 @@ Ancilla_Adjust_Y_CoordByAltitude:
     STZ.b $0C
     
     ; 'Down' here means in the y axis, akin to 'southern direction'.
-    LDA.w $0C72, X : ASL A : TAY : CMP.b #$02 : BNE .not_oriented_down
+    LDA.w $0C72, X : ASL : TAY : CMP.b #$02 : BNE .not_oriented_down
         LDA.w $029E, X : STA.b $0C : BPL .positive_altitude
             LDA.b #$FF : STA.b $0D
         
@@ -1058,7 +1058,7 @@ Ancilla_Adjust_Y_CoordByAltitude:
     
     .not_hitting_ground
     
-    EOR.w #$FFFF : INC A : CLC : ADC.b $72 : STA.b $0E
+    EOR.w #$FFFF : INC : CLC : ADC.b $72 : STA.b $0E
     
     SEP #$20
     
@@ -1327,7 +1327,7 @@ Bomb_Draw:
         
     .not_max_OAM_priority
     
-    LDA.w #$0000 : CLC : ADC.b $04 : EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $00
+    LDA.w #$0000 : CLC : ADC.b $04 : EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $00
     
     SEP #$20
     
@@ -1336,9 +1336,9 @@ Bomb_Draw:
     
     LDA Ancilla_Bomb_chr_groups, Y : TAY
     
-    LDA Bomb_Draw_chr_start_offset, Y : ASL A : TAY
+    LDA Bomb_Draw_chr_start_offset, Y : ASL : TAY
     
-    ASL A : STA.b $04 : STZ.b $05
+    ASL : STA.b $04 : STZ.b $05
     
     STZ.b $0A
     

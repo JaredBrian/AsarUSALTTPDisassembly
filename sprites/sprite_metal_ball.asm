@@ -22,7 +22,7 @@ Sprite_MetalBall:
     JSR.w Sprite2_Move
     
     LDA.w $0DF0, X : BEQ .termination_timer_not_running
-        DEC A : BNE .dont_self_terminate
+        DEC : BNE .dont_self_terminate
             STZ.w $0DD0, X
         
         .dont_self_terminate
@@ -80,7 +80,7 @@ MetalBall_DrawLargerVariety:
     
         PHX
         
-        PHX : TXA : ASL A : TAX
+        PHX : TXA : ASL : TAX
         
         REP #$20
         

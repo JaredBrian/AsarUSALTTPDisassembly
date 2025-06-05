@@ -98,7 +98,7 @@ Sprite_FluteBoyFather:
     
     .dozing
     
-    ASL A : ROL A : AND.b #$01
+    ASL : ROL : AND.b #$01
     
     .not_dozing
     
@@ -227,7 +227,7 @@ BlindHideoutGuy_Draw:
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
     
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09

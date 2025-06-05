@@ -127,7 +127,7 @@ Garnish_ExecuteSingle:
         .ignore_submodule
         
         LDA.l $7FF90E, X : BEQ .dont_self_terminate
-            DEC A : STA.l $7FF90E, X : BNE .dont_self_terminate
+            DEC : STA.l $7FF90E, X : BNE .dont_self_terminate
                 STA.l $7FF800, X
                 
                 BRA .return
@@ -162,10 +162,10 @@ Garnish_ExecuteSingle:
         
         REP #$30
         
-        AND.w #$00FF : ASL A : TAY
+        AND.w #$00FF : ASL : TAY
         
         ; These sneaky hidden jump tables, I swear...
-        LDA.w .handlers, Y : DEC A : PHA
+        LDA.w .handlers, Y : DEC : PHA
         
         SEP #$30
     

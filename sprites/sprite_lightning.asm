@@ -28,7 +28,7 @@ Pool_Sprite_BF_Lightning:
 ; $0EE3ED-$0EE475 JUMP LOCATION
 Sprite_Lightning:
 {
-    LDA.b $1A : ASL A : AND.b #$0E : STA.b $00
+    LDA.b $1A : ASL : AND.b #$0E : STA.b $00
     
     LDY.w $0D90, X
     

@@ -14,7 +14,7 @@ Sprite_Trident:
     LDA.w GanonTrident_Timers_facing_down, Y : STA.w $0ED0, X
     
     LDA.w $0DF0, X : BEQ Trident_AimForParentPosition
-        LSR A : BCS GanonTrident_AdjustVelocity_exit
+        LSR : BCS GanonTrident_AdjustVelocity_exit
             LDA.b #$20
             
             JSL.l Sprite_ProjectSpeedTowardsPlayerLong

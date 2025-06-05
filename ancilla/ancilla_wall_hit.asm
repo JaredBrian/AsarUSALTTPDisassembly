@@ -4,7 +4,7 @@
 Ancilla_WallHit:
 {
     DEC.w $039F, X : BPL .delay
-        LDA.w $0C5E, X : INC A : CMP.b #$05 : BEQ .self_terminate
+        LDA.w $0C5E, X : INC : CMP.b #$05 : BEQ .self_terminate
             STA.w $0C5E, X
             
             ; Reset the countdown tiemr to 1.
@@ -19,7 +19,7 @@ Ancilla_SwordWallHit:
     JSR.w Ancilla_AlertSprites
     
     DEC.w $03B1, X : BPL .delay
-        LDA.w $0C5E, X : INC A : CMP.b #$08 : BEQ Ancilla_WallHit_self_terminate
+        LDA.w $0C5E, X : INC : CMP.b #$08 : BEQ Ancilla_WallHit_self_terminate
             STA.w $0C5E, X
             
             ; Reset the countdown timer to 1.
@@ -100,7 +100,7 @@ WallHit_Draw:
         LDA.w Pool_WallHit_Draw_chr, X : BEQ .skip_entry
             PHX
             
-            TXA : ASL A : TAX
+            TXA : ASL : TAX
             
             REP #$20
             

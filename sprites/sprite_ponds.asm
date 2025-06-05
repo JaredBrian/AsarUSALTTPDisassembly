@@ -355,7 +355,7 @@ SpriteDraw_FairyPondItem:
             
         .valid_upper_properties
         
-        AND.b #$07 : ASL A : STA.w $0F50, Y
+        AND.b #$07 : ASL : STA.w $0F50, Y
         
         LDA AddReceiveItem_wide_item_flag, X : TAY
         
@@ -643,7 +643,7 @@ LakeHyliaFairy_UpgradeBombs:
     INC.w $0D80, X
     
     LDA.l $7EF370 : CMP.b #$07 : BEQ .BRANCH_ALPHA
-        INC A : STA.l $7EF370
+        INC : STA.l $7EF370
         
         PHX
         
@@ -738,7 +738,7 @@ LakeHyliaFairy_UpgradeArrows:
     LDA.b #$09 : STA.w $0D80, X
     
     LDA.l $7EF371 : CMP.b #$07 : BEQ .BRANCH_ALPHA
-        INC A : STA.l $7EF371
+        INC : STA.l $7EF371
         
         PHX
         
@@ -894,7 +894,7 @@ SpawnThrownItem:
     
     ; Get the item selected.
     LDA.w $1CE8 : STA.w $0DB0, X : TAX
-    ASL A : TAY
+    ASL : TAY
     
     LDA.w FairyPond_TossGFXID_ItemPointer+0, Y : STA.b $00
     LDA.w FairyPond_TossGFXID_ItemPointer+1, Y : STA.b $01
@@ -1276,7 +1276,7 @@ ShowNewItemMessage:
 {
     ; Check if we need to show a new item message:
     LDA.w $0EB0, X : BEQ .NotNewItem
-        DEC A : TAY
+        DEC : TAY
         
         LDA.w Pool_ShowNewItemMessage_message_ids_low, Y        : XBA
         LDA.w Pool_ShowNewItemMessage_message_ids_high, Y : TAY : XBA

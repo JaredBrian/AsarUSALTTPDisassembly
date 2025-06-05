@@ -76,7 +76,7 @@ Crab_Draw:
 {
     JSR.w Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL A : STA.b $06
+    LDA.w $0DC0, X : ASL : STA.b $06
     
     PHX
     
@@ -86,7 +86,7 @@ Crab_Draw:
         
         PHX
         
-        TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC.b $06 : PHA : ASL : TAX
         
         REP #$20
         

@@ -277,7 +277,7 @@ AddFireRodShot:
     LDA.b #$00
     STA.w $0C54, Y : STA.w $0C5E, Y : STA.w $0280, Y : STA.w $028A, Y
     
-    LDA.b $2F : LSR A : STA.w $0C72, Y : TAX
+    LDA.b $2F : LSR : STA.w $0C72, Y : TAX
     
     PHY : PHX : TYX
     
@@ -571,8 +571,8 @@ Bomb_CheckSpriteDamage:
                     ; Reverse those speeds so that we are projecting the speed
                     ; away from the Ancilla. In other words, we are causing the
                     ; sprite to recoil from some damage.
-                    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0F30, Y
-                    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0F40, Y
+                    LDA.b $00 : EOR.b #$FF : INC : STA.w $0F30, Y
+                    LDA.b $01 : EOR.b #$FF : INC : STA.w $0F40, Y
             
             .sprite_undamaged
             
@@ -657,7 +657,7 @@ Ancilla_ExecuteObject:
     
     ; Note the subtraction before ASL.
     ; Load a subroutine based on the anillary object's index.
-    PLA : DEC A : ASL A : TAY
+    PLA : DEC : ASL : TAY
     
     LDA.w .object_routines+0, Y : STA.b $00
     LDA.w .object_routines+1, Y : STA.b $01
@@ -666,7 +666,7 @@ Ancilla_ExecuteObject:
     
     .object_routines
     
-    ; NOTE: PARAMETER A IS ACTUALLY object type - 1, SINCE 0 WOULD INDICATE
+    ; NOTE: PARAMETER IS ACTUALLY object type - 1, SINCE 0 WOULD INDICATE
     ; NO EFFECT ; SOURCE : $0C4A, X
     dw Ancilla_SomarianBlast        ; 0x01 - Both the pieces of somarian block
                                     ;        splitting and the fireballs).
@@ -880,7 +880,7 @@ Pool_Ancilla_CheckTileCollisionStaggered:
 ; $04097B-$040980 LOCAL JUMP LOCATION
 Ancilla_CheckTileCollisionStaggered:
 {
-    TXA : EOR.b $1A : LSR A : BCC Ancilla_CheckTileCollision_skip_even_frames
+    TXA : EOR.b $1A : LSR : BCC Ancilla_CheckTileCollision_skip_even_frames
 
     ; Bleeds into the next function.
 }
@@ -956,7 +956,7 @@ Ancilla_CheckTileCollision:
         
         ; Takes the previous carry flag state, rolls in the current carry flag
         ; state (Has to detect on BG0 for the carry to be set).
-        PLA : AND.b #$01 : ROL A : CMP.b #$01
+        PLA : AND.b #$01 : ROL : CMP.b #$01
         
         PLY
         
@@ -1185,7 +1185,7 @@ Ancilla_CheckTileCollision_Class2:
         
         JSR.w .check_basic_collision
         
-        PLA : AND.b #$01 : ROL A : CMP.b #$01
+        PLA : AND.b #$01 : ROL : CMP.b #$01
         
         PLY
         
@@ -1436,7 +1436,7 @@ Ancilla_CheckIndividualSpriteCollision:
             .is_arrghus_spawn
             
             ; Initiate dragging the sprite with the hookshot or boomerang?
-            TXA : INC A : STA.w $0DA0, Y
+            TXA : INC : STA.w $0DA0, Y
             
             BRA .indicate_dragging_ancilla
             
@@ -1639,14 +1639,14 @@ Ancilla_ProjectSpeedTowardsPlayer:
     LDA.b $00
     
     LDY.b $02 : BEQ .y_polarity_correct
-        EOR.b #$FF : INC A : STA.b $00
+        EOR.b #$FF : INC : STA.b $00
     
     .y_polarity_correct
     
     LDA.b $01
     
     LDY.b $03 : BEQ .x_polarity_correct
-        EOR.b #$FF : INC A : STA.b $01
+        EOR.b #$FF : INC : STA.b $01
     
     .x_polarity_correct
     
@@ -2383,7 +2383,7 @@ Pool_Ancilla_CheckPlayerCollision:
 Ancilla_CheckPlayerCollision:
 {
     ; Y is probably a selector for different hit box sizes.
-    TYA : ASL A : TAY
+    TYA : ASL : TAY
     
     ; $00 = Y coordinate
     LDA.w $0BFA, X : STA.b $00
@@ -2496,7 +2496,7 @@ Pool_Ancilla_CheckIfEntranceTriggered:
 Ancilla_CheckIfEntranceTriggered:
 {
     ; Y is the index into the coordinates where the trigger blocks are.
-    TYA : ASL A : TAY
+    TYA : ASL : TAY
     
     REP #$20
     
@@ -2570,7 +2570,7 @@ Ancilla_DrawShadow:
     
     .not_small_shadow
     
-    TXA : ASL A : TAX
+    TXA : ASL : TAX
     
     STZ.b $74
     STZ.b $75

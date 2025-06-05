@@ -79,7 +79,7 @@ Sprite_TutorialEntities:
         JSL.l Sprite_ShowMessageIfPlayerTouching
         
         PLA : BCC .message_not_shown
-            INC A : CMP.b #$07 : BNE .no_message_index_reset
+            INC : CMP.b #$07 : BNE .no_message_index_reset
                 LDA.b #$00
             
             .no_message_index_reset
@@ -153,7 +153,7 @@ TutorialSoldier_Draw:
         
         TXA : CLC : ADC.b $06 : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         
@@ -185,7 +185,7 @@ TutorialSoldier_Draw:
         
         PHY
         
-        TYA : LSR A : LSR A : TAY
+        TYA : LSR : LSR : TAY
         
         LDA.w Pool_TutorialSoldier_Draw_sizes, X : ORA.b $0F : STA ($92), Y
         

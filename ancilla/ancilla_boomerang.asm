@@ -86,7 +86,7 @@ Ancilla_Boomerang:
     ; 0 - Moving away from Link, 1 - Moving towards Link
     LDA.w $0C5E, X : BEQ .move_away_from_link
         LDA.w $0380, X : BEQ .not_recovering_from_deceleration
-            INC A : STA.w $0380, X
+            INC : STA.w $0380, X
         
         .not_recovering_from_deceleration
         
@@ -426,7 +426,7 @@ Boomerang_Draw:
     LDA.w Pool_Boomerang_Draw_xy_offsets+2, Y : CLC : ADC $02 : STA $02 : STA $04
     
     LDA.w $03B1, X : AND.w #$00FF : BNE .use_general_OAM_base
-        LDA.w $0FB3 : AND.w #$00FF : ASL A : TAX
+        LDA.w $0FB3 : AND.w #$00FF : ASL : TAX
         
         LDA.w Pool_Boomerang_Draw_OAM_base, X : PHA
         

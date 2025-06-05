@@ -55,7 +55,7 @@ Ancilla_Arrow:
         
         TYA : STA.w $03C5, X
         
-        LDA.w $0C72, X : AND.b #$03 : ASL A : TAY
+        LDA.w $0C72, X : AND.b #$03 : ASL : TAY
         
         LDA.w Pool_Ancilla_Arrow_y_offsets+0, Y
         CLC : ADC.w $0BFA, X : STA.w $0BFA, X
@@ -99,7 +99,7 @@ Ancilla_Arrow:
             
             LDA.w $0B88 : STA.w $0DA0, Y
             
-            LDA.w $0ED0, Y : INC A : STA.w $0ED0, Y
+            LDA.w $0ED0, Y : INC : STA.w $0ED0, Y
             
             BRA .transmute_to_halted_arrow
         
@@ -331,7 +331,7 @@ Arrow_Draw:
         LDA.w Pool_Arrow_Draw_chr_and_properties, X : CMP.b #$FF : BEQ .skip_OAM_entry
             STA $72
             
-            PHX : TXA : ASL A : TAX
+            PHX : TXA : ASL : TAX
             
             REP #$20
             

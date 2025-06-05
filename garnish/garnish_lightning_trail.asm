@@ -36,7 +36,7 @@ Garnish_LightningTrail:
     
     INY : STA ($90), Y
     
-    LDA.b $1A : ASL A : AND.b #$0E : ORA Pool_Garnish_LightningTrail_properties, X
+    LDA.b $1A : ASL : AND.b #$0E : ORA Pool_Garnish_LightningTrail_properties, X
     
     PLX
     

@@ -150,7 +150,7 @@ ArmosCoordinator_CascadeKnightsToFrontWall:
         
         .next_knight
         
-        LDA !puppet_y_low, Y : INC A : STA !puppet_y_low, Y
+        LDA !puppet_y_low, Y : INC : STA !puppet_y_low, Y
         
         ; UNUSED: Wait.... is this at all useful useful?
         CPY.b #$00
@@ -158,7 +158,7 @@ ArmosCoordinator_CascadeKnightsToFrontWall:
         CMP.b #$C0 : BNE .not_at_front_wall_yet
             LDA.b #$01 : STA !coordinator_ai_state, X
             
-            LDA !angle_step, X : EOR.b #$FF : INC A : STA !angle_step, X
+            LDA !angle_step, X : EOR.b #$FF : INC : STA !angle_step, X
             
             JSR.w ArmosCoordinator_DisableKnights_XY_Coercion
             JSR.w ArmosCoordinator_Rotate
@@ -179,7 +179,7 @@ ArmosCoordinator_CascadeKnightsToFrontWall:
 ; $0EEC96-$0EECAA JUMP LOCATION
 ArmosCoordinator_RadialContraction:
 {
-    LDA !radius : DEC A : STA !radius : CMP.b #$20 : BNE .await_contraction
+    LDA !radius : DEC : STA !radius : CMP.b #$20 : BNE .await_contraction
         INC !coordinator_ai_state, X
         
         LDA.b #$40 : STA !state_timer, X
@@ -194,7 +194,7 @@ ArmosCoordinator_RadialContraction:
 ; $0EECAB-$0EECBF JUMP LOCATION
 ArmosCoordinator_RadialDilation:
 {
-    LDA !radius : INC A : STA !radius : CMP.b #$40 : BNE .await_dilation
+    LDA !radius : INC : STA !radius : CMP.b #$40 : BNE .await_dilation
         INC !coordinator_ai_state, X
         
         LDA.b #$40 : STA !state_timer, X
@@ -244,7 +244,7 @@ ArmosCoordinator_Rotate:
     
     .next_knight
     
-        LDA.w $0FB5 : PHA : ASL A : TAY
+        LDA.w $0FB5 : PHA : ASL : TAY
         
         REP #$20
         
@@ -260,13 +260,13 @@ ArmosCoordinator_Rotate:
         
         REP #$30
         
-        LDA.b $00 : AND.w #$00FF : ASL A : TAX
+        LDA.b $00 : AND.w #$00FF : ASL : TAX
         
         LDA.l SmoothCurve, X : STA.b $04
         
         LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02
         
-        AND.w #$00FF : ASL A : TAX
+        AND.w #$00FF : ASL : TAX
         
         LDA.l SmoothCurve, X : STA.b $06
         

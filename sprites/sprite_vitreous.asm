@@ -148,7 +148,7 @@ Vitreous_PursuePlayer:
     
     LDA.w $0DF0, X : BEQ .bouncing_around
         ; Shake a bit before coming out to face the player.
-        AND.b #$02 : LSR A : TAY
+        AND.b #$02 : LSR : TAY
         
         LDA.w .x_shake_speeds, Y : STA.w $0D50, X
         
@@ -196,7 +196,7 @@ Vitreous_SelectVitreolusToActivate:
         
         LDA.w Vitreous_EyeballRoster, Y : TAY
         LDA.w $0D80, Y : BNE .already_activated
-            INC A : STA.w $0D80, Y
+            INC : STA.w $0D80, Y
             
             LDA.b #$15 : STA.w $012E
     

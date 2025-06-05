@@ -104,7 +104,7 @@ Kyameron_Coagulate:
     
     	JSR.w Sprite3_IsBelowPlayer
     
-    	TYA : ASL A : STA.b $00
+    	TYA : ASL : STA.b $00
     
     	JSR.w Sprite3_IsToRightOfPlayer
     
@@ -152,7 +152,7 @@ Kyameron_Moving:
     	JSR.w Sprite3_Move
     
     	JSR.w Sprite3_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
-       	    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+       	    LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
     
     	    ; After accumulating 3 
     	    INC.w $0EC0, X
@@ -163,7 +163,7 @@ Kyameron_Moving:
     	.no_horiz_collision
     
     	LDA.w $0E70, X : AND.b #$0C : BEQ .no_vert_collision
-    	    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+    	    LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
     
     	    INC.w $0EC0, X
     

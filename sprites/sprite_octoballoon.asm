@@ -151,7 +151,7 @@ Octoballoon_Draw:
         
         .dont_spawn_babies
         
-        LDA.w $0DF0, X : LSR A : AND.b #$04 : CLC : ADC.b #$04 : STA.b $0A
+        LDA.w $0DF0, X : LSR : AND.b #$04 : CLC : ADC.b #$04 : STA.b $0A
     
     .not_dying
     
@@ -167,7 +167,7 @@ Octoballoon_Draw:
         
         PHX
         
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         REP #$20
         

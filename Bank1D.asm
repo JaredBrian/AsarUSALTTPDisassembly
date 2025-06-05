@@ -46,7 +46,7 @@ Pool_Sprite_ApplyConveyorAdjustment:
 ; $0E8010-$0E803F LONG JUMP LOCATION
 Sprite_ApplyConveyorAdjustment:
 {
-    LDA.b $1A : LSR A : BCC .return
+    LDA.b $1A : LSR : BCC .return
         PHB : PHK : PLB
         
         ; I think it is perhaps possible that the low byte offset is an
@@ -218,10 +218,10 @@ SpriteActive4_MainLong:
 SpriteActive4_Main:
 {
     ; Ranges from 0 to 0x1A (since highest pointer is 0xD7).
-    LDA.w $0E20, X : SEC : SBC.b #$BD : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$BD : REP #$30 : AND.w #$00FF : ASL : TAY
     
     ; Again, we have a subtle jump table by means of stack manipulation.
-    LDA.w .handlers, Y : DEC A : PHA
+    LDA.w .handlers, Y : DEC : PHA
     
     SEP #$30
     
@@ -854,7 +854,7 @@ Sprite_SimulateSoldier:
     
     LDA.b #$07 : STA.w $0E40, X
     
-    TXA : ASL A : TAY
+    TXA : ASL : TAY
     
     REP #$20
     
@@ -1178,7 +1178,7 @@ Goriya_Draw:
     
     LDA.w $0E00, X : BEQ .not_firing_fire_pleghm
         LDA.w $0DE0, X : CMP.b #$03 : BEQ .facing_right
-            ASL A : TAY
+            ASL : TAY
             
             REP #$20
             
@@ -1191,7 +1191,7 @@ Goriya_Draw:
         .facing_right
     .not_firing_fire_pleghm
     
-    LDA.w $0DC0, X : PHA : ASL A : TAY
+    LDA.w $0DC0, X : PHA : ASL : TAY
     
     REP #$20
     
@@ -1255,12 +1255,12 @@ Sprite_ConvertVelocityToAngle:
     PHB : PHK : PLB
     
     ; Take Y speed and extract its sign to $08.
-    LDA.b $00 : ASL A : ROL A : STA.b $08
+    LDA.b $00 : ASL : ROL : STA.b $08
     
     ; Extract the X speed's sign bit too, shift it left once, OR in the
     ; Y speed's sign bit and then isolate them to $0A. So $0A looks like
     ; 000st000, where s and y indicate the respective sign bits of x and y.
-    LDA.b $01 : ASL A : ROL A : ASL A : ORA.b $08
+    LDA.b $01 : ASL : ROL : ASL : ORA.b $08
     AND.b #$03 : ASL #3 : STA !sign_bits
     
     LDA.b $01 : BPL .positive_x_speed
@@ -1348,7 +1348,7 @@ Sprite_SpawnDynamically:
     JSL.l Sprite_LoadProperties
     
     LDA.b $1B : BNE .indoors
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         LDA.b #$FF : STA.w $0BC1, X
     
@@ -1775,7 +1775,7 @@ Moldorm_Draw:
         
         PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         
@@ -1959,7 +1959,7 @@ OldMountainMan_Draw:
         LDA.b #$02 : STA.b $06
                     STZ.b $07
         
-        LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
+        LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL : TAY
         
         LDA.w .DMA_config+0, Y : STA.w $0AE8
         LDA.w .DMA_config+1, Y : STA.w $0AEA
@@ -1997,7 +1997,7 @@ SpriteBurn_Execute:
     
     STZ.w $0EF0, X
     
-    LDA.w $0DF0, X : DEC A : BNE .delay
+    LDA.w $0DF0, X : DEC : BNE .delay
         ; Do this when the timer is at 0x01.
         JSL.l Sprite_DoTheDeath_long
         

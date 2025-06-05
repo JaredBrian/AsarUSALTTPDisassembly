@@ -131,7 +131,7 @@ Trinexx_FinalPhase:
     
     LDA.w $0D50, X : STA.b $01
     
-    JSL.l Sprite_ConvertVelocityToAngle : LSR A : TAY
+    JSL.l Sprite_ConvertVelocityToAngle : LSR : TAY
     
     LDA.w Pool_Trinexx_FinalPhase_draw_angle, Y : STA.w $0DC0, X
     
@@ -231,7 +231,7 @@ Trinexx_Phase2_SnekAlongWall:
     JSL.l Sprite_Get_16_bit_CoordsLong
     
     JSR.w Sprite4_CheckTileCollision : BEQ .BRANCH_BETA
-        LDA.w $0DE0, X : INC A : AND.b #$03 : STA.w $0DE0, X
+        LDA.w $0DE0, X : INC : AND.b #$03 : STA.w $0DE0, X
         
         LDA.b #$08 : STA.w $0E00, X
         
@@ -263,7 +263,7 @@ Trinexx_CircleLink:
     
     LDA.b $00 : STA.w $0D50, X
     
-    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D40, X
+    LDA.b $01 : EOR.b #$FF : INC : STA.w $0D40, X
     
     LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .beta
         LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .beta
@@ -272,10 +272,10 @@ Trinexx_CircleLink:
     .beta
     
     LDA.b $00 : ASL.b $00 : PHP : ROR A
-                            PLP : ROR A : CLC : ADC.w $0D40, X : STA.w $0D40, X
+                            PLP : ROR : CLC : ADC.w $0D40, X : STA.w $0D40, X
     
     LDA.b $01 : ASL.b $01 : PHP : ROR A
-                            PLP : ROR A : CLC : ADC.w $0D50, X : STA.w $0D50, X
+                            PLP : ROR : CLC : ADC.w $0D50, X : STA.w $0D50, X
     
     RTS
 }
@@ -378,7 +378,7 @@ SpriteDraw_TrinexxRockSnake:
         
         PLX
         
-        PHY : TYA : ASL A : TAY
+        PHY : TYA : ASL : TAY
         
         REP #$20
         
@@ -865,9 +865,9 @@ Trinexx_LungeHead:
     .BRANCH_ALPHA
     
     CMP.b #$20 : BNE .BRANCH_BETA
-        LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+        LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
         
-        LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+        LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
     
     .BRANCH_BETA
     
@@ -1165,7 +1165,7 @@ SpriteDraw_TrinexxRockHeadAndBody:
 
             PHX
             
-            TXA : CLC : ADC.b $06 : ASL A : TAX
+            TXA : CLC : ADC.b $06 : ASL : TAX
             
             REP #$20
             

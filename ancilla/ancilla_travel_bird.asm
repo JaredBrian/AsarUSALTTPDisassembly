@@ -160,13 +160,13 @@ Ancilla_TravelBird:
             
             LDA.b #$00 : STA.b $5D
             
-            INC A : STA.w $02DA
+            INC : STA.w $02DA
                     STA.w $02E4
                     STA.w $037B
                     STA.w $02F9
             
             ; Begin rising now that the player has been picked up.
-            INC A : STA.w $0C54, X
+            INC : STA.w $0C54, X
             
             INC.w $0FC1
             
@@ -282,7 +282,7 @@ Ancilla_TravelBird:
     
     PHX
     
-    LDA.w $0C54, X : INC A : STA.b $08
+    LDA.w $0C54, X : INC : STA.b $08
     
     LDY.b #$00 : TYX
     

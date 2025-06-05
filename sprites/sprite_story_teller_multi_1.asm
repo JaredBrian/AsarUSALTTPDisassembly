@@ -167,7 +167,7 @@ Broccoli:
 ; $032E5B-$032E8D JUMP LOCATION
 Watto:
 {
-    LDA.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR : AND.b #$01 : STA.w $0DC0, X
     
     JSR.w Sprite_MoveAltitude
     
@@ -176,7 +176,7 @@ Watto:
     
     .BRANCH_ALPHA
     
-    LDA.w $0F70, X : CMP.b #$04 : ROL A : AND.b #$01 : TAY
+    LDA.w $0F70, X : CMP.b #$04 : ROL : AND.b #$01 : TAY
     
     LDA.w $0F80, X
     CLC : ADC.w Pool_Sprite_RedBari_rotation_speeds, Y : STA.w $0F80, X
@@ -251,7 +251,7 @@ Pool_StoryTeller_1_Draw:
 ; $032F1A-$032F3A LOCAL JUMP LOCATION
 StoryTeller_1_Draw:
 {
-    LDA.w $0E80, X : ASL A : ADC.w $0DC0, X : ASL #3
+    LDA.w $0E80, X : ASL : ADC.w $0DC0, X : ASL #3
     
     ADC.b #.OAM_groups                 : STA.b $08
     LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09

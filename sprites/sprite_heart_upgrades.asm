@@ -127,7 +127,7 @@ Sprite_HeartContainer:
     LDA.w $0F70, X : BPL .delta
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR #2 : STA.w $0F80, X
         
         LDA.w $048E : CMP.b #$06 : BNE .delta
             LDA.w $0E30, X : BNE .delta
@@ -270,7 +270,7 @@ Sprite_HeartPiece:
             ; moving. Also, it seemed that moving the heart piece too fast in
             ; the horizontal directions could get it stuck in walls. Not exactly
             ; Newtonian physics here I guess...
-            LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+            LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
             
         .no_horiz_tile_collision
         
@@ -282,10 +282,10 @@ Sprite_HeartPiece:
         LDA.w $0F70, X : BPL .no_bounce
             STZ.w $0F70, X
             
-            LDA.w $0F80, X : EOR.b #$FF : AND.b #$F8 : LSR A : STA.w $0F80, X
+            LDA.w $0F80, X : EOR.b #$FF : AND.b #$F8 : LSR : STA.w $0F80, X
             
             LDA.w $0D50, X : BEQ .no_bounce
-                CMP.b #$7F : ROR A : STA.w $0D50, X : CMP.b #$FF : BNE .no_bounce
+                CMP.b #$7F : ROR : STA.w $0D50, X : CMP.b #$FF : BNE .no_bounce
                     INC.w $0D50, X
         
         .no_bounce
@@ -301,7 +301,7 @@ Sprite_HeartPiece:
     .had_player_contact
     
     ; Increment number of heart pieces acquired.
-    LDA.l $7EF36B : INC A : AND.b #$03 : STA.l $7EF36B
+    LDA.l $7EF36B : INC : AND.b #$03 : STA.l $7EF36B
     BNE .got_4_pieces
         PHX
         

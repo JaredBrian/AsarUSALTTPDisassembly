@@ -50,7 +50,7 @@ Sprite_Beamos:
             .dont_fire_beam
             
             ; Change the palette to the next in the cycle.
-            LSR A : AND.b #$0E : EOR.w $0F50, X : STA.w $0F50, X
+            LSR : AND.b #$0E : EOR.w $0F50, X : STA.w $0F50, X
             
             RTS
             
@@ -212,7 +212,7 @@ Beamos_Draw:
     .next_subsprite
     
         ; Save the loop counter.
-        PHX : TXA : ASL A : TAX
+        PHX : TXA : ASL : TAX
         
         REP #$20
         
@@ -297,7 +297,7 @@ Beamos_DrawEyeball:
     STX.b $0E : STZ.b $0F
     
     ; Divide the rotation counter in half store it at $06.
-    LSR A : STA.b $06
+    LSR : STA.b $06
     
     PHX
     
@@ -393,7 +393,7 @@ Sprite_BeamosLaser:
         PLY : DEY : BPL .move_next_subsprite
         
         LDA.w $0DF0, X : BEQ .capable_of_damage
-            DEC A : BNE .wait
+            DEC : BNE .wait
                 STZ.w $0DD0, X
                 
                 ; Make a slot available since the beam has been destroyed.
@@ -536,7 +536,7 @@ Sprite_BeamosLaserHit:
     
     .next_subsprite
     
-        PHX : TXA : ASL A : TAX
+        PHX : TXA : ASL : TAX
         
         REP #$20
         

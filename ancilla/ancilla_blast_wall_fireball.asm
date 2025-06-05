@@ -16,7 +16,7 @@ Ancilla_BlastWallFireball:
         JSR.w Ancilla_MoveVert
         JSR.w Ancilla_MoveHoriz
         
-        LDA.l $7F0040, X : DEC A : STA.l $7F0040, X : BPL .still_active
+        LDA.l $7F0040, X : DEC : STA.l $7F0040, X : BPL .still_active
             STZ.w $0C4A, X
             
             RTS

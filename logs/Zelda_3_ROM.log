@@ -1584,7 +1584,7 @@ Type 2 Object Structure: (2 bytes)
 			The c bits are shifted into the lower byte and stored to $04 -> A and $0A. This
 			is later used to grab the tiles used to draw the door and the area below it.
 			In Hyrule Magic, corresponds to "type". Note the type is 1/2 of the number listed here.
-			This is because to avoid using an ASL A command, the c bits are always even.
+			This is because to avoid using an ASL command, the c bits are always even.
 			
 			The d bits are unused.
 

@@ -75,7 +75,7 @@ Ancilla_WishPondItem:
     
     STA.b $04
     
-    EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $00 : STA.b $06
+    EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $00 : STA.b $06
     
     CLC : ADC.w #$0008 : STA.b $08
     

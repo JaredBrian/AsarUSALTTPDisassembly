@@ -32,7 +32,7 @@ AddSomarianBlock:
             LDA.w $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
                 STX $02
                 
-                LDA.w $02EC : DEC A : CMP $02 : BNE .not_closest_carryable_ancilla
+                LDA.w $02EC : DEC : CMP $02 : BNE .not_closest_carryable_ancilla
                     ; Zero that index anyways so the player can't pick it up
                     ; (it's being terminated anyways).
                     STZ.w $02EC
@@ -84,7 +84,7 @@ AddSomarianBlock:
     
     STZ.w $03D5, X
     
-    LDA $2F : LSR A : STA.w $0C72, X
+    LDA $2F : LSR : STA.w $0C72, X
     
     JSL.l Ancilla_CheckInitialTileCollision_Class2 : BCC .enough_space
         ; Basically, if the player is so close to a collision surface that

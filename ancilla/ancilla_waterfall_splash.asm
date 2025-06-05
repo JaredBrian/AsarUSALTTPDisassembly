@@ -70,7 +70,7 @@ Ancilla_WaterfallSplash:
     LDA.w $0C68, X : BNE .animation_delay
         LDA.b #$02 : STA.w $0C68, X
         
-        LDA.w $0C5E, X : INC A : AND.b #$03 : STA.w $0C5E, X
+        LDA.w $0C5E, X : INC : AND.b #$03 : STA.w $0C5E, X
         
     .animation_delay
     
@@ -100,11 +100,11 @@ Ancilla_WaterfallSplash:
     
     REP #$20
     
-    AND.w #$00FF : EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $00 : STA.b $06
+    AND.w #$00FF : EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $00 : STA.b $06
     
     SEP #$20
     
-    LDA.w $0C5E, X : ASL A : TAX
+    LDA.w $0C5E, X : ASL : TAX
     
     LDY.b #$00
     

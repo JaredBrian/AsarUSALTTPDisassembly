@@ -295,7 +295,7 @@ ZoraKing_Submerge:
         
     .dont_submerge_yet
     
-    LSR A : TAY
+    LSR : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -522,7 +522,7 @@ ZoraKing_Draw:
     .draw_whirlpool_instead
     
     LDA.w $0E10, X : BEQ .return
-        LSR A : AND.b #$04 : STA.b $06
+        LSR : AND.b #$04 : STA.b $06
         
         LDA.b #$10 : JSL.l OAM_AllocateFromRegionC
         

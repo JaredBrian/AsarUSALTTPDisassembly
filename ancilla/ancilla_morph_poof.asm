@@ -39,7 +39,7 @@ Ancilla_MorphPoof:
         LDA.b #$07 : STA.w $03B1, X
         
         ; Tick the animation index and self terminate if at index 3.
-        LDA.w $0C5E, X : INC A : STA.w $0C5E, X : CMP.b #$03 : BNE MorphPoof_Draw
+        LDA.w $0C5E, X : INC : STA.w $0C5E, X : CMP.b #$03 : BNE MorphPoof_Draw
             STZ.w $0C4A, X
             STZ.w $02E1
             STZ $50
@@ -116,7 +116,7 @@ MorphPoof_Draw:
     
     .next_OAM_entry
     
-        LDA $0E : CLC : ADC $0A : ASL A : TAX
+        LDA $0E : CLC : ADC $0A : ASL : TAX
         
         REP #$20
         
@@ -129,7 +129,7 @@ MorphPoof_Draw:
         
         LDA $0C : STA ($90), Y : INY
         
-        TXA : LSR A : TAX
+        TXA : LSR : TAX
         
         LDA.w Pool_MorphPoof_Draw_prop, X : ORA.b #$04 : ORA $65 : STA ($90), Y
         INY : PHY

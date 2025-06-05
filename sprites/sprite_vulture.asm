@@ -59,7 +59,7 @@ Vulture_Circling_animation_states:
 ; $0EDCB9-$0EDD1D JUMP LOCATION
 Vulture_Circling:
 {
-    LDA.b $1A : LSR A : AND.b #$03 : TAY
+    LDA.b $1A : LSR : AND.b #$03 : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -75,7 +75,7 @@ Vulture_Circling:
         
         JSL.l Sprite_ProjectSpeedTowardsPlayerLong
         
-        LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D50, X
+        LDA.b $00 : EOR.b #$FF : INC : STA.w $0D50, X
         
         LDA.b $01 : STA.w $0D40, X
         
@@ -90,11 +90,11 @@ Vulture_Circling:
     
     ; This mess o' logic keep the vulture from going too far from the
     ; player by apparently reversing somewhat...
-    LDA.b $00 : ASL.b $00 : PHP : ROR A : PLP
-    ROR A : CLC : ADC.w $0D40, X : STA.w $0D40, X
+    LDA.b $00 : ASL.b $00 : PHP : ROR : PLP
+    ROR : CLC : ADC.w $0D40, X : STA.w $0D40, X
     
-    LDA.b $01 : ASL.b $01 : PHP : ROR A : PLP
-    ROR A : CLC : ADC.w $0D50, X : STA.w $0D50, X
+    LDA.b $01 : ASL.b $01 : PHP : ROR : PLP
+    ROR : CLC : ADC.w $0D50, X : STA.w $0D50, X
     
     RTS
 }

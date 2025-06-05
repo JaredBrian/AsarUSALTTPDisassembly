@@ -430,7 +430,7 @@ Overworld_Hole:
 
     SEP #$30
     
-    TXA : LSR A : TAX
+    TXA : LSR : TAX
     
     ; Set an entrance index...
     LDA.w Pool_Overworld_Hole_entrance, X : STA.w $010E
@@ -1022,7 +1022,7 @@ Overworld_Entrance:
     
     .BRANCH_RHO
 
-    TXA : LSR A : TAX
+    TXA : LSR : TAX
     
     SEP #$30
     
@@ -1238,7 +1238,7 @@ Overworld_Map16_ToolInteraction:
     
     LDA.b $00 : AND.w #$0008 : LSR #2 : TSB.b $06
     
-    LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL A : TAX
+    LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL : TAX
     
     LDA.l Map16Definitions, X : AND.w #$01FF : TAX
     
@@ -1444,7 +1444,7 @@ Overworld_LiftableTiles:
     
     LDA.b $02 : AND.w #$0008 : LSR #2 : TSB.b $06
     
-    LDA.b $00 : LSR #3 : AND.w #$0001 : ORA.b $06 : ASL A : TAX
+    LDA.b $00 : LSR #3 : AND.w #$0001 : ORA.b $06 : ASL : TAX
     
     LDA.l Map16Definitions, X : AND.w #$01FF : TAX
     
@@ -2812,7 +2812,7 @@ Overworld_RevealSecret:
     ; Special areas don't have secrets.
     LDA.b $8A : CMP.w #$0080 : BCS .failure
     
-        ASL A : TAX
+        ASL : TAX
         
         ; Get pointer to secrets data for this area.
         LDA.l OverworldData_HiddenItems, X : STA.b $00
@@ -3031,7 +3031,7 @@ Overworld_AlterTileHardcore:
     
     LDA.b $00 : AND.w #$001F : ADC.b $02 : STA.b $02
     
-    LDA.b $00 : AND.w #$0780 : LSR A : ADC.b $02 : STA.b $02
+    LDA.b $00 : AND.w #$0780 : LSR : ADC.b $02 : STA.b $02
     
     LDY.w $1000
     
@@ -3082,7 +3082,7 @@ Overworld_FindMap16VRAMAddress:
     
     LDA.b $00 : AND.w #$001F : ADC.b $02 : STA.b $02
     
-    LDA.b $00 : AND.w #$0780 : LSR A : ADC.b $02 : STA.b $02
+    LDA.b $00 : AND.w #$0780 : LSR : ADC.b $02 : STA.b $02
     
     RTS
 }
@@ -3129,7 +3129,7 @@ Overworld_EntranceSequence:
     STA.w $0FC1 ; TODO: Not sure...
     STA.w $0710 ; There is a special graphical effect about to happen.
     
-    DEC A : ASL A : TAX
+    DEC : ASL : TAX
     JSR.w (.handlers, X)
     
     RTL
@@ -3150,7 +3150,7 @@ DarkPalaceEntrance_Main_handlers:
 ; $0DCADE-$0DCAE4 JUMP LOCATION
 DarkPalaceEntrance_Main:
 {
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
     
     JMP (.handlers, X)
 }
@@ -3308,7 +3308,7 @@ Overworld_AnimateEntrance_Skull_handlers:
 ; $0DCBA6-$0DCBAC JUMP LOCATION
 Overworld_AnimateEntrance_Skull:
 {
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
     
     JMP (.handlers, X)
 }
@@ -3530,7 +3530,7 @@ MiseryMireEntrance_Main:
         REP #$20
         
         ; Load the frame counter.
-        LDA.b $1A : AND.w #$0001 : ASL A : TAX
+        LDA.b $1A : AND.w #$0001 : ASL : TAX
         
         ; Shake the earth! This is the earthquake type effect.
         LDA.l OverworldShake_Offsets_Y, X : STA.w $011A
@@ -3540,7 +3540,7 @@ MiseryMireEntrance_Main:
     
     .anoshake_screen
     
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
     
     JMP (.handlers, X)
 }
@@ -3573,7 +3573,7 @@ MiseryMireEntrance_PhaseOutRain:
         
         .not_next_step_yet
         
-        PHA : AND.b #$07 : ASL A : TAY
+        PHA : AND.b #$07 : ASL : TAY
         
         PLA : AND.b #$F8 : LSR #3 : TAX
         
@@ -3722,7 +3722,7 @@ AnimateEntrance_Mire_step4:
 AnimateEntrance_Mire_step5:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$80 : BNE .BRANCH_ALPHA
-        ; CLEAN UP, PLAY A SOUND AND RETURN NORMALCY.
+        ; CLEAN UP, PLAY SOUND AND RETURN NORMALCY.
         JSR.w OverworldEntrance_PlayJingle
         
         LDA.b #$05 : STA.w $012D
@@ -3755,7 +3755,7 @@ TurtleRockEntrance_Main:
 {
     REP #$20
     
-    LDA.b $1A : AND.w #$0001 : ASL A : TAX
+    LDA.b $1A : AND.w #$0001 : ASL : TAX
     
     LDA.l OverworldShake_Offsets_Y, X : STA.w $011A
     
@@ -3908,7 +3908,7 @@ AnimateEntrance_TurtleRock_step6:
 ; $0DCEF8-$0DCF16 JUMP LOCATION
 AnimateEntrance_TurtleRock_step7:
 {
-    LDA.b $1A : LSR A : BCS .exit
+    LDA.b $1A : LSR : BCS .exit
         LDA.b $C8 : AND.b #$07 : BNE .skip_SFX7
             JSL.l PaletteFilter_Restore
             
@@ -3931,7 +3931,7 @@ AnimateEntrance_TurtleRock_step7:
 ; $0DCF17-$0DCF3F JUMP LOCATION
 AnimateEntrance_TurtleRock_step8:
 {
-    LDA.b $1A : LSR A : BCS .alpha
+    LDA.b $1A : LSR : BCS .alpha
         LDA.b $C8 : AND.b #$07 : BNE .alpha
             LDA.b #$02 : STA.w $012F
     
@@ -4053,7 +4053,7 @@ Pool_Overworld_AnimateEntrance_GanonsTower:
 ; $0DCFD9-$0DCFDF JUMP LOCATION
 Overworld_AnimateEntrance_GanonsTower:
 {
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
     JMP (Pool_Overworld_AnimateEntrance_GanonsTower_handlers, X)
 }
 
@@ -6101,7 +6101,7 @@ Palette_SpriteAux1:
     REP #$31
     
     ; Load sprite palette 2 value
-    LDA.w $0AAD : AND.w #$00FF : ASL A : TAX
+    LDA.w $0AAD : AND.w #$00FF : ASL : TAX
     LDA PaletteIDtoOffset, X : ADC.w PaletteData_spriteaux : STA.b $00
     
     LDA.w #$01A2 ; Target SP-5 (first half)
@@ -6121,7 +6121,7 @@ Palette_SpriteAux2:
     REP #$31
     
     ; Load sprite palette 3 value
-    LDA.w $0AAE : AND.w #$00FF : ASL A : TAX
+    LDA.w $0AAE : AND.w #$00FF : ASL : TAX
     LDA PaletteIDtoOffset, X : ADC.w PaletteData_spriteaux : STA.b $00
     
     LDA.w $01C2  ; Target SP-6 (first half)
@@ -6347,7 +6347,7 @@ Palette_ArmorAndGloves:
     ; Check what type of Gloves Link has.
     ; If Link has no special gloves I guess you use a default?
     LDA.l $7EF354 : AND.w #$00FF : BEQ .defaultGloveColor
-        DEC A : ASL A : TAX
+        DEC : ASL : TAX
         
         LDA Palettes_LinkGloveColors, X : STA.l $7EC4FA : STA.l $7EC6FA
     
@@ -6478,7 +6478,7 @@ Palette_OverworldBgMain:
 {
     REP #$21
     
-    LDA.w $0AB3 : ASL A : TAX
+    LDA.w $0AB3 : ASL : TAX
     LDA PaletteIDtoOffset_OW_Main, X : ADC.w PaletteData_owmain : STA.b $00
     
     REP #$10
@@ -6500,7 +6500,7 @@ Palette_OverworldBgAux1:
 {
     REP #$21
     
-    LDA.w $0AB4 : AND.w #$00FF : ASL A : TAX
+    LDA.w $0AB4 : AND.w #$00FF : ASL : TAX
     LDA.l PaletteIDtoOffset_OW_AUX, X : ADC.w #PaletteData_owaux : STA.b $00
     
     REP #$10
@@ -6522,7 +6522,7 @@ Palette_OverworldBgAux2:
 {
     REP #$21
     
-    LDA.w $0AB5 : AND.w #$00FF : ASL A : TAX
+    LDA.w $0AB5 : AND.w #$00FF : ASL : TAX
     LDA.l PaletteIDtoOffset_OW_AUX, X : ADC.w #PaletteData_owaux : STA.b $00
     
     REP #$10
@@ -6745,7 +6745,7 @@ Palette_SelectScreenArmor:
     PHX
     
     ;  Varies among #$00, #$40, #$80
-    AND.w #$00FF : ASL A : TAY
+    AND.w #$00FF : ASL : TAY
     
     ; Will be 0, 30, or 60
     LDA.w PaletteIDtoOffset_16bit, Y : AND.w #$00FF : CLC : ADC.w #$00F0 : TAY
@@ -6769,7 +6769,7 @@ Palette_SelectScreenArmor:
     LDA.b $0C : AND.w #$00FF : BEQ .defaultGloveColor
         ; We're here if $0C was nonzero.
         ; Y = 2*(A - 1)
-        DEC A : ASL A : TAY
+        DEC : ASL : TAY
         
         ; X will be #$00, #$40, #$80...
         LDA.w Palettes_LinkGloveColors, Y : STA.l $7EC41A, X : STA.l $7EC61A, X

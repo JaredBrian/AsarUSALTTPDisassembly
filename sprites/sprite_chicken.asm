@@ -27,7 +27,7 @@ Sprite_Chicken:
 {
     LDA.w $0D50, X : BEQ .x_speed_at_rest
         ; Change h-flip status mainly when.
-        ASL A : ROL A : AND.b #$01 : TAY
+        ASL : ROL : AND.b #$01 : TAY
         
         LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
         
@@ -157,7 +157,7 @@ Chicken_CheckIfLifted:
 ; $0326B1-$0326E1 BRANCH LOCATION
 Chicken_Hopping:
 {
-    TXA : EOR.b $1A : LSR A : BCC .skip_tile_collision_logic
+    TXA : EOR.b $1A : LSR : BCC .skip_tile_collision_logic
         JSR.w Chicken_Move_XY_AndCheckTileCollision : BEQ .no_tile_collision
             STZ.w $0D80, X
         
@@ -222,8 +222,8 @@ Chicken_SetFleePlayerSpeeds:
 {
     LDA.b #$10 : JSR.w Sprite_ProjectSpeedTowardsPlayer
     
-    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
-    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+    LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
+    LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
     
     ; $032721 ALTERNATE ENTRY POINT
     .flee_delay
@@ -272,7 +272,7 @@ Sprite_CustomTimedDrawDistressMarker:
         
             PHX : PHX
             
-            TXA : ASL A : TAX
+            TXA : ASL : TAX
             
             REP #$20
             

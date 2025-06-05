@@ -894,11 +894,11 @@ AgahDraw:
     LDY.b #$00
     
     LDA.w $0EB0, X : BEQ .BRANCH_THETA
-        DEC A : STA.b $0C
+        DEC : STA.b $0C
         
-        ASL A : STA.b $06
+        ASL : STA.b $06
         
-        LDA.b $1A : LSR A : AND.b #$02 : INC #2 : ORA.b #$31 : STA.b $0D
+        LDA.b $1A : LSR : AND.b #$02 : INC #2 : ORA.b #$31 : STA.b $0D
         
         PHX
         

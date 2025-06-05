@@ -203,7 +203,7 @@ DiggingGameGuy_AttemptPrizeSpawnLong:
 {
     PHB : PHK : PLB
     
-    LDA.l $7FFE01 : INC A : STA.l $7FFE01
+    LDA.l $7FFE01 : INC : STA.l $7FFE01
     
     JSR.w DiggingGameGuy_AttemptPrizeSpawn
     
@@ -351,7 +351,7 @@ DiggingGameGuy_Draw:
                  STZ.b $07
     
     ; ptr = 0xFE03 + (i*24);
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
+    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
     
     ADC.b #.OAM_groups                 : STA.b $08
     LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09

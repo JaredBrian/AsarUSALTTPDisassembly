@@ -244,7 +244,7 @@ ChattyAgahnim_Epiblab:
 ; $0ED36B-$0ED391 JUMP LOCATION
 ChattyAgahnim_TeleportTowardCurtains:
 {
-    LDA !timer_0, X : DEC A : BNE .delay_SFX
+    LDA !timer_0, X : DEC : BNE .delay_SFX
         LDA.b #$28 : STA.w $012F
     
     .delay_SFX
@@ -452,7 +452,7 @@ ChattyAgahnim_DrawTelewarpSpell:
         
         PHX
         
-        DEC A : TAX
+        DEC : TAX
         
         INY
         
@@ -571,7 +571,7 @@ AltarZelda_DrawBody:
     
     .z_coord_not_maxed
     
-    LSR A : TAY
+    LSR : TAY
     
     LDA.w .xy_offsets, Y : STA.b $07
     

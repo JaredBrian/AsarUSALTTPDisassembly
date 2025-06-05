@@ -64,13 +64,13 @@ Octostone_DrawCrumbling:
     
     LDA.b #$03 : STA.b $06
     
-    LDA.w $0DF0, X : LSR A : AND.b #$0C : EOR.b #$0C : CLC : ADC.b $06 : TAX
+    LDA.w $0DF0, X : LSR : AND.b #$0C : EOR.b #$0C : CLC : ADC.b $06 : TAX
     
     .next_OAM_entry
     
         PHX
         
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         REP #$20
         

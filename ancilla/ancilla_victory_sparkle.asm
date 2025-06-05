@@ -60,7 +60,7 @@ Ancilla_VictorySparkle:
         LDA.w Pool_Ancilla_VictorySparkle_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
             REP #$20
             
-            PHX : TXA : ASL A : TAX
+            PHX : TXA : ASL : TAX
             
             LDA.b $20 : CLC : ADC Pool_Ancilla_VictorySparkle_y_offsets, X
             SEC : SBC.b $E8 : STA.b $00

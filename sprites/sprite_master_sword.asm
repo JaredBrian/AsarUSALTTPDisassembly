@@ -638,7 +638,7 @@ MasterSword_SpawnPendant:
     
     PHX
     
-    LDA.w $0F50, Y : LSR A : AND.b #$03 : TAX
+    LDA.w $0F50, Y : LSR : AND.b #$03 : TAX
     
     LDA.w .x_speeds, X : STA.w $0D50, Y
     
@@ -699,7 +699,7 @@ MasterSwordPendant_Flashing:
 {
     LDA.w $0F50, X : AND.b #$F1 : STA.w $0F50, X
     
-    TXA : ASL A : EOR.b $1A : AND.b #$0E : ORA.w $0F50, X : STA.w $0F50, X
+    TXA : ASL : EOR.b $1A : AND.b #$0E : ORA.w $0F50, X : STA.w $0F50, X
     
     LDA.w $0DF0, X : BNE .wait
         INC.w $0D80, X

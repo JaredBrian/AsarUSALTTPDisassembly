@@ -57,9 +57,9 @@ Sprite_GreatCatfish:
         STZ.w $0F70, X
         
         ; Halve x and y speeds upon bounce.
-        LDA.w $0D50, X : ASL A : ROR.w $0D50, X
+        LDA.w $0D50, X : ASL : ROR.w $0D50, X
         
-        LDA.w $0D40, X : ASL A : ROR.w $0D40, X
+        LDA.w $0D40, X : ASL : ROR.w $0D40, X
         
         LDY.w $0D80, X : CPY.b #$04 : BNE .not_final_bounce
             STZ.w $0D50, X
@@ -556,7 +556,7 @@ GreatCatfish_Draw:
     LDA.b #$00 : XBA
     
     LDA.w $0DC0, X : BEQ .dont_draw
-        DEC A : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
+        DEC : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
         
         SEP #$20
         

@@ -152,7 +152,7 @@ DrinkingGuy_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
+    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
     
     ADC.b #(.OAM_groups)              : STA.b $08
     LDA.b #(.OAM_groups) : ADC.b #$00 : STA.b $09
@@ -175,7 +175,7 @@ Lady_Draw:
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
     
     ; $0D78AC
     ADC.b #$AC              : STA.b $08
@@ -251,7 +251,7 @@ Lanmola_SpawnShrapnel:
         
         LDA.b #$01 : STA.w $0BA0, Y : STA.w $0CD2, Y : STA.w $0F60, Y
         
-        DEC A : STA.w $0F70, Y
+        DEC : STA.w $0F70, Y
         
         LDA.b #$20 : STA.w $0E40, Y
         
@@ -482,7 +482,7 @@ Mothula_Draw:
 
             PHX
             
-            TXA : CLC : ADC.b $06 : ASL A : TAX
+            TXA : CLC : ADC.b $06 : ASL : TAX
             
             REP #$20
             

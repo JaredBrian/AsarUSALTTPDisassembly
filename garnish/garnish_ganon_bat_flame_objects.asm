@@ -43,7 +43,7 @@ Garnish_GanonBatFlameout:
     CLC : ADC.b #$08  : STA.w $0004, Y
     LDA.b $02         : STA.w $0001, Y : STA.w $0005, Y
     LDA.b #$A4        : STA.w $0002, Y
-    INC A             : STA.w $0006, Y
+    INC             : STA.w $0006, Y
     LDA.b #$22        : STA.w $0003, Y : STA.w $0007, Y 
     
     LDY.b $92

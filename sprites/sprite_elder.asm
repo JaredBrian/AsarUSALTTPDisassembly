@@ -129,7 +129,7 @@ Sahasrahla_Dialogue:
     .has_third_pendant
     
     LDA.l $7EF355 : BNE .has_boots
-        LDA.l $7EF3C7 : CMP.b #$03 : ROL A : AND.b #$01 : TAY
+        LDA.l $7EF3C7 : CMP.b #$03 : ROL : AND.b #$01 : TAY
         
         LDA.w Pool_Sahasrahla_Dialogue_messages_low, Y  : XBA
         LDA.w Pool_Sahasrahla_Dialogue_messages_high, Y : TAY : XBA

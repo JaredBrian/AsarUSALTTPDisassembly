@@ -18,10 +18,10 @@ Sprite_WalkingZora:
         LDA.b #$C0 : STA.w $0ED0, X
         
         LDA.w $0F40, X : STA.w $0D50, X
-        ASL A          : ROR.w $0D50, X
+        ASL          : ROR.w $0D50, X
         
         LDA.w $0F30, X : STA.w $0D40, X
-        ASL A          : ROR.w $0D40, X
+        ASL          : ROR.w $0D40, X
         
     .not_recoiling
     
@@ -89,7 +89,7 @@ WalkingZora_Surfacing:
 ; $029DD6-$029E65 JUMP LOCATION
 WalkingZora_Ambulating:
 {
-    LDA.w $0E80, X : AND.b #$08 : LSR A : ADC.w $0DE0, X : TAY
+    LDA.w $0E80, X : AND.b #$08 : LSR : ADC.w $0DE0, X : TAY
     
     LDA Sprite_Recruit_animation_states, Y : STA.w $0DC0, X
     
@@ -100,7 +100,7 @@ WalkingZora_Ambulating:
     
     LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
     
-    LDA.w $0F70, X : DEC A : BPL .in_air
+    LDA.w $0F70, X : DEC : BPL .in_air
         LDA.w $0F80, X : CMP.b #$F0 : BPL .beta
             ; Hold x / y velocities at zero while the Zora is popping out of the
             ; water.
@@ -125,7 +125,7 @@ WalkingZora_Ambulating:
     JSR.w Sprite2_Move
     JSR.w Sprite2_CheckTileCollision
     
-    LDA.w $0F70, X : DEC A : BPL .in_air_2
+    LDA.w $0F70, X : DEC : BPL .in_air_2
         JSR.w WalkingZora_DetermineShadowStatus
         
         LDA.w $0FA5 : CMP.b #$08 : BNE .not_in_deep_water
@@ -175,7 +175,7 @@ WalkingZora_Depressed:
     
     LDA.w $0ED0, X : CMP.b #$30 : BCS .beta
         LDA.b $1A : AND.b #$01 : BNE .beta
-            LDA.b $1A : LSR A : AND.b #$01 : TAY
+            LDA.b $1A : LSR : AND.b #$01 : TAY
             
             LDA ZoraKing_RumblingGround_offsets_low, Y
             CLC : ADC.w $0D10, X : STA.w $0D10, X
@@ -290,7 +290,7 @@ WalkingZora_Draw:
     
     LDA.b $06 : PHA
     
-    ASL A : TAX
+    ASL : TAX
     
     REP #$20
     

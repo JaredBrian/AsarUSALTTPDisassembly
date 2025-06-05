@@ -54,7 +54,7 @@ Flame_Halted:
         
     .player_didnt_damage
     
-    LDA.w $0DF0, X : DEC A : BNE .still_burning
+    LDA.w $0DF0, X : DEC : BNE .still_burning
         .self_terminate
         
         STZ.w $0DD0, X

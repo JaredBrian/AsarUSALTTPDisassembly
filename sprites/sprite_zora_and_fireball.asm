@@ -90,7 +90,7 @@ Sprite_ZoraAndFireball:
                     ; duplicated here in a slightly altered fashion.
                     
                     ; Which direction is Link facing?
-                    LDA.b $2F : LSR A : TAY
+                    LDA.b $2F : LSR : TAY
                     
                     LDA.b $3C : BEQ .shield_not_to_the_side
                         LDA.w Pool_Sprite_ZoraAndFireball_shield_to_the_side_indices, Y
@@ -151,8 +151,8 @@ Sprite_Zora:
     JSR.w Sprite2_CheckIfActive
     
     LDA.w $0D80, X : BEQ Zora_ChooseSurfacingLocation
-        DEC A : BEQ .surfacing
-            DEC A : BEQ .attack
+        DEC : BEQ .surfacing
+            DEC : BEQ .attack
                 JMP Zora_Submerging
             
             .attack
@@ -367,7 +367,7 @@ Zora_Draw:
 {
     JSR.w Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL A : STA.b $06
+    LDA.w $0DC0, X : ASL : STA.b $06
     
     PHX
     
@@ -379,7 +379,7 @@ Zora_Draw:
         
         TXA : CLC : ADC.b $06 : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         

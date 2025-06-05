@@ -13,10 +13,10 @@ Sprite_Toppo:
     
     JSR.w Sprite2_CheckIfActive
     
-    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL : TAY
     
     ; Hidden table! gah!!!
-    LDA.w .states, Y : DEC A : PHA
+    LDA.w .states, Y : DEC : PHA
     
     SEP #$30
     
@@ -255,7 +255,7 @@ Toppo_Draw:
     LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $06
     LDA.w $0D20, X : SEC : SBC.b $E9 : STA.b $07
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $08
+    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : STA.b $08
     
     PHX
     
@@ -267,7 +267,7 @@ Toppo_Draw:
         
         LDA.w Pool_Toppo_Draw_size, X : STA.b $0C
         
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         REP #$20
         

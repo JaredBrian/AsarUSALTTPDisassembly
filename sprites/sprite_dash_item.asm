@@ -49,7 +49,7 @@ Sprite_DashKey:
         
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR #2 : STA.w $0F80, X
         
         AND.b #$FE : BEQ .beta
             LDA.b #$14 : JSL.l Sound_SetSfx3PanLong
@@ -98,7 +98,7 @@ DashKey_GiveToPlayer_room_flag:
 ; $02FC7E-$02FC9D JUMP LOCATION
 DashKey_GiveToPlayer:
 {
-    LDA.l $7EF36F : INC A : STA.l $7EF36F
+    LDA.l $7EF36F : INC : STA.l $7EF36F
     
     STZ.w $0DD0, X ; Kill the sprite.
     
@@ -135,7 +135,7 @@ Sprite_DashBookOfMudora:
         STZ.w $0D40, X
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR #2 : STA.w $0F80, X
         AND.b #$FE : BEQ .beta
             LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
             
@@ -255,7 +255,7 @@ Sprite_DashTreetop:
     LDA.w $0F70, X : BPL .beta
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR #2 : STA.w $0F80, X
         
     .beta
     
@@ -438,7 +438,7 @@ DashTreeTop_Draw:
     
     .alpha
     
-    LDA.w $0E80, X : DEC A : STA.b $00 : STZ.b $01
+    LDA.w $0E80, X : DEC : STA.b $00 : STZ.b $01
     
     REP #$10
     

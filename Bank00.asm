@@ -859,17 +859,17 @@ Main_PrepSpritesForNmi:
         
     LDA.w $0109 : AND.w #$00F8 : LSR #2 : TAY
         
-    LDA.w $0109 : ASL A : TAX
+    LDA.w $0109 : ASL : TAX
     LDA.w DynamicOAM_LinkItemAddresses, X : STA.w $0AC8
         
     CLC : TYX : ADC.w DynamicOAM_LinkItemAddresses_offsets, X : STA.w $0ACA
         
-    LDA.w $02C3 : AND.w #$0003 : ASL A : TAX
+    LDA.w $02C3 : AND.w #$0003 : ASL : TAX
         
     LDA.w DynamicOAM_PushBlockAddresses, X : STA.w $0AD8
     CLC : ADC.w #$0100 : STA.w $0ADA
         
-    LDA.l $7EC00D : DEC A : STA.l $7EC00D : BNE .ignoreTileAnimation
+    LDA.l $7EC00D : DEC : STA.l $7EC00D : BNE .ignoreTileAnimation
         ; Reset the counter for tile animation.
         LDA.w #$0009
         
@@ -894,7 +894,7 @@ Main_PrepSpritesForNmi:
 
     .ignoreTileAnimation
 
-    LDA.l $7EC013 : DEC A : STA.l $7EC013 : BNE .ignoreSpriteAnimation
+    LDA.l $7EC013 : DEC : STA.l $7EC013 : BNE .ignoreSpriteAnimation
         LDA.l $7EC015 : TAX
         
         INX #2 : CPX.b #$0C : BNE .spriteAnimationLoopIncomplete
@@ -946,7 +946,7 @@ UseImplicitRegIndexedLocalJumpTable:
     REP #$30
     
     ; Ensures offset is a Multiple of two.
-    AND.w #$00FF : ASL A : TAY
+    AND.w #$00FF : ASL : TAY
     
     ; Pull the rest of the return address onto A.
     ; Since this is a 16 bit value this ensures that the jump address is 
@@ -982,7 +982,7 @@ UseImplicitRegIndexedLongJumpTable:
     ; Shift bits left = multiply by two, since bit 15 will NOT be set.
     ; Add the original number. Essentially, this is 2N + N = 3N.
     ; In other words, Y is indexed as 3 times the value that A had.
-    ASL A : ADC.b $03 : TAY
+    ASL : ADC.b $03 : TAY
     
     ; Pull the upper return PC and return PB from the Stack.
     PLA : STA.b $03
@@ -1085,7 +1085,7 @@ Overworld_GetTileAttrAtLocation:
     
     LDA.l $7E2000, X : ASL #2 : STA.b $06
     LDA.b $00 : AND.w #$0008 : LSR #2 : TSB.b $06
-    LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL A : TAX
+    LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL : TAX
     
     LDA.l Map16Definitions, X : STA.b $06 : AND.w #$01FF : TAX
     
@@ -1097,7 +1097,7 @@ Overworld_GetTileAttrAtLocation:
     CMP.b #$1C : BCS .BRANCH_1
         STA.b $06
         
-        LDA.b $07 : AND.b #$40 : ASL A : ROL #2 : ORA.b $06
+        LDA.b $07 : AND.b #$40 : ASL : ROL #2 : ORA.b $06
 
     .BRANCH_1
 
@@ -1163,7 +1163,7 @@ Sound_LoadSongBank:
                 ; Wait for $2140 to be #$00 (we're in 8bit mode).
             CMP.w SNES.APUIOPort0 : BNE .BRANCH_WAIT_FOR_ZERO
             
-            INC A ; Increment the byte count.
+            INC ; Increment the byte count.
 
             .BRANCH_WRITE_ZERO_BYTE
 
@@ -1204,7 +1204,7 @@ Sound_LoadSongBank:
         ; Then the carry bit will be set and rotated into the accumulator
         ; (A = #$01). NOTE ANTITRACK'S DOC IS WRONG ABOUT THIS!!!
         ; He mistook #$0001 to be #$0100.
-        LDA.b #$00 : ROL A : STA.w SNES.APUIOPort1 : ADC.b #$7F
+        LDA.b #$00 : ROL : STA.w SNES.APUIOPort1 : ADC.b #$7F
         
         ; Hopefully no one was confused.
         PLA : STA.w SNES.APUIOPort0
@@ -1744,7 +1744,7 @@ NMI_DoUpdates:
     .NMI_UpdateChr_Bg2
     ; This graphics variable is not a flag but an index for which specialized
     ; graphics routine to run this frame.
-    LDA.b $17 : ASL A : TAX
+    LDA.b $17 : ASL : TAX
     
     ; Disable the variable (meaning it will have to be reenabled next frame).
     STZ.b $17
@@ -1880,7 +1880,7 @@ NMI_UpdateScrollingOwMap:
     ; and optionally write to VRAM horizontally (0x80) or vertically (0x81)
     ; It depends on how the data in the $1100 area was set up.
     LDA.w $1101
-    AND.b #$80 : ASL A : ROL A : ORA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
+    AND.b #$80 : ASL : ROL : ORA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     REP #$20
     
@@ -2675,7 +2675,7 @@ Underworld_PrepareNextRoomQuadrantUpload:
 {
     REP #$31
     
-    LDA.w $0418 : AND.w #$000F : ADC.w $045C : PHA : ASL A : TAY
+    LDA.w $0418 : AND.w #$000F : ADC.w $045C : PHA : ASL : TAY
     
     LDX.w UnderworldTilemapQuadrantOffset, Y
     
@@ -2738,7 +2738,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
     REP #$31
     
     ; It's worth noting that both $418 and $45C start off at zero.
-    LDA.w $0418 : AND.w #$000F : ADC.w $045C : PHA : ASL A : TAY
+    LDA.w $0418 : AND.w #$000F : ADC.w $045C : PHA : ASL : TAY
     
     LDX.w UnderworldTilemapQuadrantOffset, Y
     
@@ -2833,7 +2833,7 @@ HandleStripes14:
     ; If this number is negative, A will end up as 0x01, otherwise 0x00. This
     ; determines whether the transfer will write to the tilemap in a horizontal
     ; or vertical fashion.
-    INY : LDA [$00], Y : AND.b #$80 : ASL A : ROL A : STA.b $07
+    INY : LDA [$00], Y : AND.b #$80 : ASL : ROL : STA.b $07
     
     ; Check whether the source address will be fixed or incrmenting during the
     ; transfer.
@@ -2863,7 +2863,7 @@ HandleStripes14:
     LDA.b $05 : BEQ .incrementSourceAddress
         INX
         
-        TXA : LSR A : TAX : STX.w DMA.1_TransferSizeLow
+        TXA : LSR : TAX : STX.w DMA.1_TransferSizeLow
         
         SEP #$20
         
@@ -2885,7 +2885,7 @@ HandleStripes14:
         
         ; Add the original absolute address to this offset.
         ; It becomes the source address for DMA.
-        ADC.b $00 : INC A : STA.w DMA.1_SourceAddrOffsetLow
+        ADC.b $00 : INC : STA.w DMA.1_SourceAddrOffsetLow
         
         ; $03 contains the VRAM target address.
         LDA.b $03 : STA.w SNES.VRAMAddrReadWriteLow
@@ -9632,7 +9632,7 @@ DecompSwordGfx:
     REP #$21
     
     ; Load Link's sword value.
-    LDA.l $7EF359 : AND.w #$00FF : ASL A : TAY
+    LDA.l $7EF359 : AND.w #$00FF : ASL : TAY
     
     LDA.b $00 : ADC.w Pool_DecompressSwordGraphics, Y
     
@@ -9682,7 +9682,7 @@ DecompShieldGfx:
     REP #$21
     
     ; Load Link's shield value.
-    LDA.l $7EF35A : ASL A : TAY
+    LDA.l $7EF35A : ASL : TAY
     
     ; Load the index into $7E9000 to store the graphics to.
     LDA.b $00 : ADC.w .offset, Y
@@ -9911,7 +9911,7 @@ Tagalong_LoadGfx:
     
     REP #$30
     
-    LDA.l $7EF3CC : AND.w #$00FF : ASL A : TAX
+    LDA.l $7EF3CC : AND.w #$00FF : ASL : TAX
     
     LDA.b $00 : CLC : ADC.l .GFX_offset, X
     
@@ -9998,7 +9998,7 @@ GetAnimatedSpriteTile:
     
     REP #$21
     
-    AND.w #$00FF : ASL A : TAX
+    AND.w #$00FF : ASL : TAX
     
     ; Time to determine where in the decompressed buffer the graphics will
     ; be copied from.
@@ -12287,7 +12287,7 @@ Graphics_LoadChrHalfSlot:
         INC.w $0AAA
         
         ; Branch if the new value of $0AAA is even.
-        LDA.w $0AAA : LSR A : BCC .even
+        LDA.w $0AAA : LSR : BCC .even
             STZ.w $0AAA
             
             ; Check the previous value of $0AAA, before all the shenanigans.
@@ -12350,7 +12350,7 @@ Graphics_LoadChrHalfSlot:
                 XBA : ORA [$00] : AND.w #$00FF : STA.b $08 
                 
                 INC.b $00 : INC.b $00 : BNE .notAtBankEdge2
-                    LDA.b $03 : INC A : STA.b $00
+                    LDA.b $03 : INC : STA.b $00
                     
                     INC.b $02
                     
@@ -12883,7 +12883,7 @@ Decomp:
 
     .normal
 
-    INC A ; A is between 1 and 32
+    INC ; A is between 1 and 32
     STA.b $CB ; $CB = R, the number of bytes to write.
     
     SEP #$20
@@ -12892,9 +12892,9 @@ Decomp:
         ; CODES [101], [110], [100], and [111].
         BMI .copy
             ; CODE [001].
-            ASL A : BPL .repeating
+            ASL : BPL .repeating
                 ; CODE [010].
-                ASL A : BPL .repeating_word
+                ASL : BPL .repeating_word
                     ; This counts as CODE [003].
                     JSR.w .get_next_byte
                     
@@ -13076,7 +13076,7 @@ PaletteFilter:
     
     ; Perform the filtering it $1A (frame counter) is even, but don't if it's
     ; odd.
-    LDA.b $1A : LSR A : BCC .doFiltering
+    LDA.b $1A : LSR : BCC .doFiltering
         RTL
 
     ; $006914 ALTERNATE ENTRY POINT
@@ -13094,7 +13094,7 @@ PaletteFilter:
 
     STX.b $B7
     
-    AND.w #$000F : ASL A : TAX
+    AND.w #$000F : ASL : TAX
     
     ; To avoid confusion, in this routine this does in fact load from bank $00.
     ; $0C will contain a 2-byte value that consists of a single bit.
@@ -13145,7 +13145,7 @@ PaletteFilter:
     PLB
     
     LDA.l $7EC009 : BNE .lightening
-        LDA.l $7EC007 : INC A : STA.l $7EC007
+        LDA.l $7EC007 : INC : STA.l $7EC007
         CMP.l $7EC00B : BNE .stillFiltering
             .switchDirection
 
@@ -13175,7 +13175,7 @@ PaletteFilter:
     ; Screen is being ligthened rather than darkened.
     
     LDA.l $7EC007 : CMP.l $7EC00B : BEQ .switchDirection
-        LDA.l $7EC007 : DEC A : STA.l $7EC007
+        LDA.l $7EC007 : DEC : STA.l $7EC007
         
         SEP #$30
         
@@ -13261,7 +13261,7 @@ PaletteFilterUnused:
     
     STX.b $B7
     
-    AND.w #$000F : ASL A : TAX
+    AND.w #$000F : ASL : TAX
     
     LDA.w DungeonMask, X : STA.b $0C
     
@@ -13281,7 +13281,7 @@ PaletteFilterUnused:
     PLB
     
     LDA.l $7EC009 : BNE .lightening
-        LDA.l $7EC007 : INC A : STA.l $7EC007
+        LDA.l $7EC007 : INC : STA.l $7EC007
         CMP.l $7EC00B : BNE .stillFiltering
             .switchDirection
 
@@ -13305,7 +13305,7 @@ PaletteFilterUnused:
 
     LDA.l $7EC007 : CMP.l $7EC00B : BEQ .switchDirection
     
-    LDA.l $7EC007 : DEC A : STA.l $7EC007
+    LDA.l $7EC007 : DEC : STA.l $7EC007
     
     SEP #$30
     
@@ -13408,7 +13408,7 @@ PaletteFilterHistory:
 
     STX.b $B7
     
-    AND.w #$000F : ASL A : TAX
+    AND.w #$000F : ASL : TAX
     
     ; Note that this access is a long address mode, unlike the others.
     LDA.l DungeonMask, X : STA.b $0C
@@ -13433,7 +13433,7 @@ PaletteFilterHistory:
     
     PLB
     
-    LDA.l $7EC007 : INC A : STA.l $7EC007 : CMP.w #$001F : BNE .stillFiltering
+    LDA.l $7EC007 : INC : STA.l $7EC007 : CMP.w #$001F : BNE .stillFiltering
         ; At this point the.
         LDA.w #$0000 : STA.l $7EC007
         
@@ -13551,7 +13551,7 @@ Palette_Filter_SP5F:
 
         STX.b $B7
         
-        AND.w #$000F : ASL A : TAX
+        AND.w #$000F : ASL : TAX
         
         LDA.l DungeonMask, X : STA !bitFilter
         
@@ -13625,7 +13625,7 @@ KholdstareShell_PaletteFiltering:
 
             STX.b $B7
             
-            AND.w #$000F : ASL A : TAX
+            AND.w #$000F : ASL : TAX
             
             ; Get 1 << (15 - i).
             LDA.l DungeonMask, X : STA !bitFilter
@@ -13661,7 +13661,7 @@ PaletteFilter_Agahnim:
 {
     PHX
     
-    TXA : ASL A : TAX
+    TXA : ASL : TAX
     
     REP #$20
     
@@ -13687,7 +13687,7 @@ PaletteFilter_Agahnim:
     PLX
     PHX
     
-    TXA : ASL A : TAX
+    TXA : ASL : TAX
     
     REP #$20
     
@@ -13718,7 +13718,7 @@ AgahnimWarpShadowFilter_filter_one:
 
     STY.b $B7
     
-    AND.w #$000F : ASL A : TAX
+    AND.w #$000F : ASL : TAX
     
     LDA.l DungeonMask, X : STA !bitFilter
     
@@ -13742,7 +13742,7 @@ AgahnimWarpShadowFilter_filter_one:
     
     PLB
     
-    LDA.l $7EC007 : INC A : STA.l $7EC007
+    LDA.l $7EC007 : INC : STA.l $7EC007
     CMP.w #$001F : BNE .notDoneFiltering
         LDA.w #$0000 : STA.l $7EC007
         
@@ -13789,7 +13789,7 @@ IntroLogoPaletteFadeIn:
     
     SEP #$30
     
-    LDA.l $7EC007 : DEC A : STA.l $7EC007
+    LDA.l $7EC007 : DEC : STA.l $7EC007
     
     INC.b $15
     
@@ -14009,7 +14009,7 @@ PaletteFilter:
         LDA.l $7EC540 : STA.l $7EC500
             
         LDA.l $7EC009 : BNE .gamma
-            LDA.l $7EC007 : INC A : STA.l $7EC007 : CMP.w #$0042 : BNE .delta
+            LDA.l $7EC007 : INC : STA.l $7EC007 : CMP.w #$0042 : BNE .delta
                 LDA.w #$00FF : STA.l $7EC009
                     
                 SEP #$20
@@ -14026,7 +14026,7 @@ PaletteFilter:
 
         .gamma
 
-        LDA.l $7EC007 : INC A : STA.l $7EC007 : CMP.w #$001F : BNE .delta
+        LDA.l $7EC007 : INC : STA.l $7EC007 : CMP.w #$001F : BNE .delta
             LDA.l $7EC009 : EOR.w #$0002 : STA.l $7EC009
                 
             SEP #$30
@@ -14070,7 +14070,7 @@ PaletteFilter_BlindingWhiteTriforce:
 ; $006F97-$00700B LONG JUMP LOCATION
 WhirlpoolSaturateBlue:
 {
-    LDA.b $1A : LSR A : BCC .skipFrame
+    LDA.b $1A : LSR : BCC .skipFrame
         REP #$30
         
         PHB : PHK : PLB
@@ -14095,13 +14095,13 @@ WhirlpoolSaturateBlue:
         
         SEP #$20
         
-        LDA.l $7EC007 : LSR A : BCS .noMosaicIncrease
+        LDA.l $7EC007 : LSR : BCS .noMosaicIncrease
             LDA.l $7EC011 : CLC : ADC.b #$10 : STA.l $7EC011
 
         ; $006FE0 ALTERNATE ENTRY POINT
         .noMosaicIncrease
 
-        LDA.l $7EC007 : INC A : STA.l $7EC007 : CMP.b #$1F : BNE .notDone
+        LDA.l $7EC007 : INC : STA.l $7EC007 : CMP.b #$1F : BNE .notDone
             LDA.b #$00 : STA.l $7EC007
             
             INC.b $B0
@@ -14166,7 +14166,7 @@ WhirlpoolIsolateBlue:
 ; $00704A-$0070C6 LONG JUMP LOCATION
 WhirlpoolRestoreBlue:
 {
-    LDA.b $1A : LSR A : BCC .skipFrame
+    LDA.b $1A : LSR : BCC .skipFrame
         REP #$30
         
         PHB : PHK : PLB
@@ -14191,13 +14191,13 @@ WhirlpoolRestoreBlue:
         
         SEP #$20
         
-        LDA.l $7EC007 : LSR A : BCS .noMosaicDecrease
+        LDA.l $7EC007 : LSR : BCS .noMosaicDecrease
             LDA.l $7EC011 : BEQ .noMosaicDecrease
                 SEC : SBC.b #$10 : STA.l $7EC011
 
         .noMosaicDecrease
 
-        LDA.l $7EC007 : INC A : STA.l $7EC007 : CMP.b #$1F : BNE .notDone
+        LDA.l $7EC007 : INC : STA.l $7EC007 : CMP.b #$1F : BNE .notDone
             LDA.b #$00 : STA.l $7EC007 : STA.l $7EC011
             
             INC.b $B0
@@ -14255,7 +14255,7 @@ WhirlpoolRestoreRedGreen:
     
     SEP #$20
     
-    LDA.l $7EC007 : INC A : STA.l $7EC007 : CMP.b #$1F : BNE .notDone
+    LDA.l $7EC007 : INC : STA.l $7EC007 : CMP.b #$1F : BNE .notDone
         LDA.b #$00 : STA.l $7EC007
         
         INC.b $B0
@@ -14294,7 +14294,7 @@ PaletteFilter_Restore_Strictly_Bg_Subtractive:
         
         PLB
         
-        LDA.l $7EC007 : INC A : STA.l $7EC007
+        LDA.l $7EC007 : INC : STA.l $7EC007
         
         CMP.w #$0020 : BNE .not_finished
             LDA.w #$00FF : STA.l $7EC009
@@ -14327,7 +14327,7 @@ PaletteFilter_Restore_Strictly_Bg_Additive:
     
     PLB
     
-    LDA.l $7EC007 : INC A : STA.l $7EC007
+    LDA.l $7EC007 : INC : STA.l $7EC007
     
     BRA PaletteFilter_Restore_Strictly_Bg_Subtractive_not_finished
 }
@@ -14603,7 +14603,7 @@ ConfigureSpotlightTable:
     LDA.w $067C : STA.w $067A
     
     ; $06 = $0E << 1, check if >= 0xE0.
-    LDA.b $0E : ASL A : STA.b $06 : CMP.w #$00E0 : BCS .largeEnough
+    LDA.b $0E : ASL : STA.b $06 : CMP.w #$00E0 : BCS .largeEnough
         ; The length of the table must span at least 224 scanlines (0xE0).
         LDA.w #$00E0 : STA.b $06
 
@@ -14628,14 +14628,14 @@ ConfigureSpotlightTable:
 
     .BRANCH_BETA
 
-    LDA.b $04 : ASL A : CMP.w #$01C0 : BCS .BRANCH_DELTA
+    LDA.b $04 : ASL : CMP.w #$01C0 : BCS .BRANCH_DELTA
         TAX
         
         LDA.b $08 : STA.l $7F7000, X
 
     .BRANCH_DELTA
 
-    LDA.b $06 : ASL A : CMP.w #$01C0 : BCS .BRANCH_EPSILON
+    LDA.b $06 : ASL : CMP.w #$01C0 : BCS .BRANCH_EPSILON
         TAX
         
         LDA.b $08 : STA.l $7F7000, X
@@ -14880,7 +14880,7 @@ OrientLampBg:
             LDA.b $2F : AND.w #$00FF : STA.b $00 : TAX
             
             LDA.b $6C : AND.w #$00FF : BEQ .notInDoorway
-                AND.w #$00FE : ASL A : TAX : BEQ .verticalDoorway
+                AND.w #$00FE : ASL : TAX : BEQ .verticalDoorway
                     LDA.b $00 : CMP.w #$0004 : BCS .facingLeftOrRight
                         LDA.b $22 : CLC : ADC.w #$0008 : AND.w #$00FF
                         
@@ -15026,7 +15026,7 @@ AdjustWaterHDMAWindow_Horizontal:
 
     TYA : AND.w #$00FF : XBA : ORA.b $00 : STA.b $0C
     
-    LDA.b $0A : ASL A : STA.b $06 : CMP.w #$00E0 : BCS .delta
+    LDA.b $0A : ASL : STA.b $06 : CMP.w #$00E0 : BCS .delta
         LDA.w #$00E0 : STA.b $06
 
     .delta
@@ -15047,7 +15047,7 @@ AdjustWaterHDMAWindow_Horizontal:
         
         LDA.w $0674 : BMI .theta
             LDA.b $04 : CMP.w $0674 : BCS .theta
-                ASL A : TAX
+                ASL : TAX
                 
                 LDA.w #$00FF
                 
@@ -15055,7 +15055,7 @@ AdjustWaterHDMAWindow_Horizontal:
 
         .theta
 
-        LDA.b $04 : ASL A : TAX
+        LDA.b $04 : ASL : TAX
         
         LDA.b $0C
 
@@ -15072,7 +15072,7 @@ AdjustWaterHDMAWindow_Horizontal:
         .zeta
 
         LDA.b $06 : CMP.w $0676 : BCS .mu
-            ASL A : TAX
+            ASL : TAX
             
             LDA.w #$00FF
             
@@ -15086,7 +15086,7 @@ AdjustWaterHDMAWindow_Horizontal:
 
         .xi
 
-        LDA.b $06 : ASL A : TAX
+        LDA.b $06 : ASL : TAX
         
         LDA.b $0C
 
@@ -15143,7 +15143,7 @@ FloodDam_PrepFloodHDMA:
 
     .disableLoop
 
-        LDA.b !scanline : ASL A : TAX
+        LDA.b !scanline : ASL : TAX
         
         LDA.w #$FF00 : STA.w $1B00, X
         
@@ -15163,7 +15163,7 @@ FloodDam_PrepFloodHDMA:
     .nextScanline
 
         LDA.b !scanline : CMP.b $0A : BCC .beta
-            ASL A : TAX
+            ASL : TAX
             
             LDA.w #$00FF
             
@@ -15171,7 +15171,7 @@ FloodDam_PrepFloodHDMA:
 
         .beta
 
-        ASL A : TAX : CPX.w #$01C0 : BCS .beta
+        ASL : TAX : CPX.w #$01C0 : BCS .beta
 
         LDA.b $0C
 
@@ -15349,7 +15349,7 @@ PrayingPlayer_InitScene:
     JSL.l Player_InitPrayingScene_HDMA
     
     ; Reverse filtering direction?
-    LDA.l $7EC00B : DEC A : STA.l $7EC007
+    LDA.l $7EC00B : DEC : STA.l $7EC007
     
     LDA.b #$00 : STA.l $7EC00B
     LDA.b #$02 : STA.l $7EC009
@@ -15998,7 +15998,7 @@ MirrorWarp_BuildWavingHDMATable:
     JSL.l MirrorWarp_RunAnimationSubmodules
     
     ; Only do something every other frame.
-    LDA.b $1A : LSR A : BCS Mirror_InitHDMASettings_easy_out
+    LDA.b $1A : LSR : BCS Mirror_InitHDMASettings_easy_out
         REP #$30
         
         LDX.w #$01A0
@@ -16090,7 +16090,7 @@ MirrorWarp_BuildDewavingHDMATable:
 {
     JSL.l MirrorWarp_RunAnimationSubmodules
         
-    LDA.b $1A : LSR A : BCS MirrorHDMA_return
+    LDA.b $1A : LSR : BCS MirrorHDMA_return
         REP #$30
             
         LDX.w #$01A0

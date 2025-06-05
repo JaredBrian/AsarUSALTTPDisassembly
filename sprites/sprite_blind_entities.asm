@@ -235,7 +235,7 @@ Sprite_BlindHead:
     DEC !head_rotate_delay, X : BPL .anorotate
         LDA.b #$02 : STA !head_rotate_delay, X
         
-        LDA !head_angle, X : INC A : AND.b #$0F : STA !head_angle, X
+        LDA !head_angle, X : INC : AND.b #$0F : STA !head_angle, X
     
     .anorotate
     
@@ -337,14 +337,14 @@ Blind_SpawnExtraHead:
         
         LDA.b #$01 : STA.w $0E40, Y
         
-        DEC A : STA.w $0F60, Y : STA.w $0B6B, Y
+        DEC : STA.w $0F60, Y : STA.w $0B6B, Y
         
         LDA.b #$17 : STA.w $0F70, Y
         
         CLC : ADC.b $02 : STA.w $0D00, Y
         
-        LDA.b $00 : ASL A : ROL A : AND.b #$01 : STA !head_x_accel_polarity, Y
-        LDA.b $02 : ASL A : ROL A : AND.b #$01 : STA !head_y_accel_polarity, Y
+        LDA.b $00 : ASL : ROL : AND.b #$01 : STA !head_x_accel_polarity, Y
+        LDA.b $02 : ASL : ROL : AND.b #$01 : STA !head_y_accel_polarity, Y
         
         LDA.b #$30 : STA !timer_0, Y
     
@@ -662,11 +662,11 @@ Blind_Rerobe:
         ; HARDCODED: It depends upon Blind being in a 1 screen room in a corner.
         ; Set direction based on current Y position (sensible).
         LDA.w $0D00, X : ASL A
-        ROL A : AND.b #$01 : INC #2 : STA !blind_direction, X
+        ROL : AND.b #$01 : INC #2 : STA !blind_direction, X
         
         ; HARDCODED: Also.
         ; Set head orientation based on current X position?
-        LDA.w $0D10, X : ASL A : ROL A : STA !x_accel_polarity, X
+        LDA.w $0D10, X : ASL : ROL : STA !x_accel_polarity, X
         
         JSR.w Sprite4_Zero_XY_Velocity
         
@@ -706,7 +706,7 @@ Blind_FireballReprisal:
     
     PHA
     
-    AND.b #$07 : SEC : ROL A : STA.w $0F50, X
+    AND.b #$07 : SEC : ROL : STA.w $0F50, X
     
     PLA : BNE .zero_length_branch
         ; OPTIMIZE: Zero length branch.
@@ -716,7 +716,7 @@ Blind_FireballReprisal:
     DEC !head_rotate_timer, X : BPL .anorotate_head
         LDA !head_rotate_delay, X : STA !head_rotate_timer, X
         
-        LDA !head_angle, X : INC A : AND.b #$0F : STA !head_angle, X
+        LDA !head_angle, X : INC : AND.b #$0F : STA !head_angle, X
     
     .anorotate_head
     
@@ -1052,7 +1052,7 @@ Blind_WhirlAround:
             
             LDA !blind_direction, X : EOR.b #$01 : STA !blind_direction, X
             
-            LDA.w $0D10, X : ASL A : ROL A : AND.b #$01 : STA !x_accel_polarity, X
+            LDA.w $0D10, X : ASL : ROL : AND.b #$01 : STA !x_accel_polarity, X
             
             BRA .animation_logic_done
         
@@ -1436,7 +1436,7 @@ BlindPoof_Draw:
 {
     PHA
     
-    ASL A : TAY
+    ASL : TAY
     
     REP #$20
     

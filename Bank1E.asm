@@ -48,10 +48,10 @@ SpriteActive3_MainLong:
 ; $0F0B19-$0F0B2D LOCAL JUMP LOCATION
 SpriteActive3_Main:
 {
-    LDA.w $0E20, X : SEC : SBC.b #$79 : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$79 : REP #$30 : AND.w #$00FF : ASL : TAY
     
     ; Sets up a clever little jump table
-    LDA SpriteActive3_Table, Y : DEC A : PHA
+    LDA SpriteActive3_Table, Y : DEC : PHA
     
     SEP #$30
     
@@ -623,7 +623,7 @@ Sprite_DrawRippleIfInWater:
     JSL.l Sprite_DrawWaterRipple
     JSL.l Sprite_Get_16_bit_CoordsLong
     
-    LDA.w $0E40, X : AND.b #$1F : INC A : ASL #2
+    LDA.w $0E40, X : AND.b #$1F : INC : ASL #2
     
     JSL.l OAM_AllocateFromRegionA
     

@@ -170,7 +170,7 @@ GameOverText_UnfurlRight:
     
     ; As letters drop into position, less of them will be following the
     ; lead letter (which is 'R', as in the last letter of 'Game Over' )
-    LDA.w $039D : DEC A : STA $00
+    LDA.w $039D : DEC : STA $00
     
     LDX.w $035F : TXY
     
@@ -224,7 +224,7 @@ GameOverText_Draw:
         
         JSR.w Ancilla_SetOam_XY
         
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         LDA.w .chr+0, X : STA ($90), Y : INY
         LDA.b #$3C      : STA ($90), Y : INY

@@ -105,7 +105,7 @@ Bumper_Draw_OAM_groups:
 Bumper_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DF0, X : LSR A : AND.b #$01 : REP #$20 : ASL #5
+    LDA.w $0DF0, X : LSR : AND.b #$01 : REP #$20 : ASL #5
     
     ADC.w #(.OAM_groups) : STA.b $08
     

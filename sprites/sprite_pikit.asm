@@ -91,7 +91,7 @@ Pikit_FinishJumpThenAttack:
                 
                 JSL.l Sprite_ProjectSpeedTowardsPlayerLong
                 
-                JSL.l Sprite_ConvertVelocityToAngle : LSR A : STA.w $0DE0, X
+                JSL.l Sprite_ConvertVelocityToAngle : LSR : STA.w $0DE0, X
                 
                 LDA.b #$5F : STA.w $0DF0, X
                 
@@ -205,12 +205,12 @@ Pikit_AttemptItemGrab:
                     
                     ORA.b #$26 : STA.w $012E
                     
-                    JSL.l GetRandomInt : AND.b #$03 : INC A : STA.w $0ED0, X
+                    JSL.l GetRandomInt : AND.b #$03 : INC : STA.w $0ED0, X
                                                               STA.w $0E90, X
                     
                     CMP.b #$01 : BNE .not_hungry_for_bombs
                         LDA.l $7EF343 : BEQ .player_has_none
-                            DEC A : STA.l $7EF343
+                            DEC : STA.l $7EF343
                             
                             RTS
                             
@@ -227,7 +227,7 @@ Pikit_AttemptItemGrab:
                     
                     CMP.b #$02 : BNE .not_wanting_arrows
                         LDA.l $7EF377 : BEQ .player_has_none
-                            DEC A : STA.l $7EF377
+                            DEC : STA.l $7EF377
                             
                             RTS
                         
@@ -239,7 +239,7 @@ Pikit_AttemptItemGrab:
                     
                     ; Pikit steals a rupee, if any are available.
                     LDA.l $7EF360 : BEQ .player_has_none
-                        DEC A : STA.l $7EF360
+                        DEC : STA.l $7EF360
     
     .return
     

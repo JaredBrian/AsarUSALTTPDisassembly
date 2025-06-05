@@ -110,7 +110,7 @@ ChestGameGuy:
 ; $0F6FBF-$0F6FD4 JUMP LOCATION
 ChestGameGuy_OfferGame:
 {
-    LDA.w $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_ALPHA
+    LDA.w $04C4 : DEC : CMP.b #$02 : BCC .BRANCH_ALPHA
         LDA.b #$60
         LDY.b #$01
         JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
@@ -264,7 +264,7 @@ MiniChestGameGuy:
 ; $0F709C-$0F70B1 JUMP LOCATION
 MiniChestGameGuy_OfferGame:
 {
-    LDA.w $04C4 : DEC A : CMP.b #$02 : BCC .return
+    LDA.w $04C4 : DEC : CMP.b #$02 : BCC .return
         ; "Pay me 20 Rupees and I'll let you open one chest. ...
         LDA.b #$7E
         LDY.b #$01
@@ -350,7 +350,7 @@ LostWoodsChestGameGuy:
 LostWoodsChestGameGuy_OfferGame:
 {
     ; BUG: Maybe? More like unnecessary given the structure of the minigame?
-    LDA.w $04C4 : DEC A : CMP.b #$02 : BCC MiniChestGameGuy_OfferGame_return
+    LDA.w $04C4 : DEC : CMP.b #$02 : BCC MiniChestGameGuy_OfferGame_return
         ; "For 100 Rupees, I'll let you open one chest and keep the treasure..."
         LDA.b #$81
         LDY.b #$01
@@ -488,7 +488,7 @@ ShopKeeper_SpawnInventoryItem:
     
     PLA : STA.w $0E80, Y : STA.w $0BA0, Y
     
-    PLA : PHX : ASL A : TAX
+    PLA : PHX : ASL : TAX
     
     ; OPTIMIZE: Why ADC.l?
     LDA.b $00 : CLC : ADC.l .x_offsets+0, X : STA.w $0D10, Y

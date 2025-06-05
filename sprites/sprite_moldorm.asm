@@ -60,8 +60,8 @@ Sprite_Moldorm:
     JSR.w Sprite_CheckTileCollision
     
     LDA.w $0E70, X : BEQ .no_tile_collision
-        JSL.l GetRandomInt : LSR A : BCC .anotoggle_rotarity
-            LDA !rotarity, X : EOR.b #$FF : INC A : STA !rotarity, X
+        JSL.l GetRandomInt : LSR : BCC .anotoggle_rotarity
+            LDA !rotarity, X : EOR.b #$FF : INC : STA !rotarity, X
         
         .anotoggle_rotarity
         
@@ -99,7 +99,7 @@ Moldorm_ConfigureNextState:
         
         STA.w $0D80, X
         
-        JSL.l GetRandomInt : AND.b #$02 : DEC A : STA !rotarity, X
+        JSL.l GetRandomInt : AND.b #$02 : DEC : STA !rotarity, X
         
         JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
         
@@ -157,7 +157,7 @@ Moldorm_SeekPlayer:
         
         .target_angle_lesser
         
-        DEC A : AND.b #$0F : STA.w $0DE0, X
+        DEC : AND.b #$0F : STA.w $0DE0, X
     
     .delay
     

@@ -122,7 +122,7 @@ Terrorpin_Overturned:
     LDA.w $0F70, X : BPL .in_air
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC A : LSR A
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR A
         CMP.b #$09 : BCS .bounced
             LDA.b #$00
         
@@ -131,7 +131,7 @@ Terrorpin_Overturned:
         STA.w $0F80, X
         
         ; This operation arithmetically shifts right to reduce the x velocity.
-        LDA.w $0D50, X : ASL A : ROR.w $0D50, X
+        LDA.w $0D50, X : ASL : ROR.w $0D50, X
         
         LDA.w $0D50, X : CMP.b #$FF : BNE .dont_zero_x_speed
             STZ.w $0D50, X
@@ -139,7 +139,7 @@ Terrorpin_Overturned:
         .dont_zero_x_speed
         
         ; This operation arithmetically shifts right to reduce the y velocity.
-        LDA.w $0D40, X : ASL A : ROR.w $0D40, X
+        LDA.w $0D40, X : ASL : ROR.w $0D40, X
         
         LDA.w $0D40, X : CMP.b #$FF : BNE .dont_zero_y_speed
             STZ.w $0D40, X
@@ -148,7 +148,7 @@ Terrorpin_Overturned:
     .in_air
     
     LDA.w $0F10, X : CMP.b #$40 : BCS .not_struggling_hard_yet
-        LSR A : AND.b #$01 : TAY
+        LSR : AND.b #$01 : TAY
         
         LDA.w .shake_x_speeds, Y : STA.w $0D50, X
         
@@ -186,8 +186,8 @@ Terrorpin_CheckHammerHitNearby:
                     JSR.w Terrorpin_FormHammerHitBox
                     
                     JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .didnt_hit_within_box
-                        LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
-                        LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+                        LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
+                        LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
                         
                         LDA.b #$20 : STA.w $0E10, X
                         

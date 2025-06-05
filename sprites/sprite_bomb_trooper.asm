@@ -137,7 +137,7 @@ EnemyBomb_ExplosionImminent:
     
     .mu
     
-    LSR A : AND.b #$0E : STA.b $00
+    LSR : AND.b #$0E : STA.b $00
     
     LDA.w $0F50, X : AND.b #$F1 : ORA.b $00 : STA.w $0F50, X
     
@@ -356,7 +356,7 @@ BombTrooper_DrawArm:
 {
     PHX
     
-    LDA.w $0DE0, X : ASL A : ORA.w $0E80, X : ASL A : TAX
+    LDA.w $0DE0, X : ASL : ORA.w $0E80, X : ASL : TAX
     
     REP #$20
     
@@ -419,7 +419,7 @@ EnemyBomb_DrawExplosion:
 {
     JSR.w Sprite2_PrepOamCoord
     
-    LDA.w $0E00, X : LSR A : AND.b #$0C : STA.b $06
+    LDA.w $0E00, X : LSR : AND.b #$0C : STA.b $06
     
     PHX
     

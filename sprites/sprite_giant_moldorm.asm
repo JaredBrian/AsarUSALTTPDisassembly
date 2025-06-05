@@ -172,7 +172,7 @@ GiantMoldorm_StraightPath:
         STA.w $0D80, X
         
         ; NOTE: Resultant value is either 1 or -1.
-        JSL.l GetRandomInt : AND.b #$02 : DEC A : STA.w $0EB0, X
+        JSL.l GetRandomInt : AND.b #$02 : DEC : STA.w $0EB0, X
         
         JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA !timer_0, X
     
@@ -229,7 +229,7 @@ GiantMoldorm_LungeAtPlayer:
         
         .rotate_one_way
         
-        DEC A : AND.b #$0F : STA.w $0DE0, X
+        DEC : AND.b #$0F : STA.w $0DE0, X
         
     .frame_delay
     
@@ -342,7 +342,7 @@ GiantMoldorm_DrawHead:
     
     LDA !timer_1, X : AND.b #$02 : STA.b $00
     
-    LDA.w $0E80, X : LSR A : AND.b #$01 : ORA.b $00
+    LDA.w $0E80, X : LSR : AND.b #$01 : ORA.b $00
     
     REP #$20
     
@@ -397,7 +397,7 @@ GiantMoldorm_DrawLargeSegment:
     
     LDA.b #$00 : XBA
     
-    LDA.w $0E80, X : LSR A : AND.b #$01
+    LDA.w $0E80, X : LSR : AND.b #$01
     
     REP #$20
     
@@ -475,7 +475,7 @@ GiantMoldorm_PrepAndDrawSingleLargeLong:
     
     PLX
     
-    LDA.w $0E80, X : LSR A : AND.b #$03 : TAY
+    LDA.w $0E80, X : LSR : AND.b #$03 : TAY
     
     LDA.w $0F50, X : PHA
     
@@ -600,7 +600,7 @@ GiantMoldorm_DrawEyeballs:
     
     .draw_eyes_loop
     
-        LDA.b $06 : AND.b #$0F : ASL A : PHX : TAX
+        LDA.b $06 : AND.b #$0F : ASL : PHX : TAX
         
         REP #$20
         

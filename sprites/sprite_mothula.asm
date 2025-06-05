@@ -360,7 +360,7 @@ Mothula_ActivateMovingSpikeBlock:
             LDA.w .x_coords_low, X : STA.w $0D10, Y
                                    STA.w $0D90, Y
             
-            LDA.w .y_coords_low, X : DEC A : STA.w $0D00, Y
+            LDA.w .y_coords_low, X : DEC : STA.w $0D00, Y
                                            STA.w $0DA0, Y
             
             LDA.w .directions, X : STA.w $0DE0, Y

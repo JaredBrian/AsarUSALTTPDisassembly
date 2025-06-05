@@ -100,7 +100,7 @@ Zelda_TransitionFromTagalong:
     
     LDA.b #$00 : STA.l $7EF3CC
     
-    LDA.w $0BA0, Y : INC A : STA.w $0BA0, Y
+    LDA.w $0BA0, Y : INC : STA.w $0BA0, Y
     
     LDA.b #$03 : STA.w $0F60, Y
     

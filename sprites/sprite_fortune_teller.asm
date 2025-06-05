@@ -58,7 +58,7 @@ FortuneTeller_Main:
     JSR.w FortuneTeller_Draw
     JSR.w Sprite5_CheckIfActive
     
-    LDA.l $7EF3CA : ASL A : ROL #2 : AND.b #$01
+    LDA.l $7EF3CA : ASL : ROL #2 : AND.b #$01
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw FortuneTeller_LightWorld ; 0x00 - $C79A
     dw FortuneTeller_DarkWorld  ; 0x01 - $C996
@@ -94,7 +94,7 @@ LW_FortuneTeller_WaitForInquiry:
 {
     STZ.w $0DC0, X
     
-    JSL.l GetRandomInt : AND.b #$03 : ASL A : STA.w $0D90, X : TAY
+    JSL.l GetRandomInt : AND.b #$03 : ASL : STA.w $0D90, X : TAY
     
     REP #$20
     
@@ -409,7 +409,7 @@ DW_FortuneTeller_WaitForInquiry:
 {
     STZ.w $0DC0, X
     
-    JSL.l GetRandomInt : AND.b #$03 : ASL A : STA.w $0D90, X : TAY
+    JSL.l GetRandomInt : AND.b #$03 : ASL : STA.w $0D90, X : TAY
     
     REP #$20
     
@@ -619,9 +619,9 @@ FortuneTeller_Draw_OAM_groups:
 ; $06CB01-$06CB29 LOCAL JUMP LOCATION
 FortuneTeller_Draw:
 {
-    LDA.l $7EF3CA : ASL A : ROL #2 : AND.b #$01 : STA.b $00
+    LDA.l $7EF3CA : ASL : ROL #2 : AND.b #$01 : STA.b $00
     
-    ASL A : ADC.b $00 : ADC.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
+    ASL : ADC.b $00 : ADC.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
     
     ; $6CAA1
     ADC.b #(.OAM_groups >> 0)              : STA.b $08

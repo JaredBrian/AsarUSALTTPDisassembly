@@ -93,9 +93,9 @@ Sprite_HelmasaurFireball:
     ; Note that if the value were goreater than 4 it would resolve down to
     ; the final jump. This odd ordering in and of itself is blech.
     LDA.w $0D80, X : CMP.b #$04 : BEQ HelamsaurFireball_Move
-        DEC A : BEQ HelmasaurFireball_MigrateDown
-    	    DEC A : BEQ HelmasaurFireball_DelayThenTriSplit
-    		DEC A : BEQ HelmasaurFireball_DelayThenQuadSplit
+        DEC : BEQ HelmasaurFireball_MigrateDown
+    	    DEC : BEQ HelmasaurFireball_DelayThenTriSplit
+    		DEC : BEQ HelmasaurFireball_DelayThenQuadSplit
          	    JMP HelmasaurFireball_PreMigrateDown
 }
     

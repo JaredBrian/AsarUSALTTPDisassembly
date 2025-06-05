@@ -65,11 +65,11 @@ GuruguruBar_Main:
     
     LDA.b $00 : CLC : ADC.w #$0080 : AND.w #$01FF : STA.b $02
     
-    LDA.b $00 : AND.w #$00FF : ASL A : TAX
+    LDA.b $00 : AND.w #$00FF : ASL : TAX
     
     LDA.l SmoothCurve, X : STA.b $04
     
-    LDA.b $02 : AND.w #$00FF : ASL A : TAX
+    LDA.b $02 : AND.w #$00FF : ASL : TAX
     
     LDA.l SmoothCurve, X : STA.b $06
     
@@ -150,7 +150,7 @@ GuruguruBar_Main:
     
         JSR.w Sprite3_DivisionDelay
     
-        LDA.b $04 : ASL A : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_EPSILON
+        LDA.b $04 : ASL : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_EPSILON
             EOR.b #$FF : INC A
     
         .BRANCH_EPSILON
@@ -162,7 +162,7 @@ GuruguruBar_Main:
     
     	JSR.w Sprite3_DivisionDelay
     
-    	LDA.b $06 : ASL A : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_ZETA
+    	LDA.b $06 : ASL : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_ZETA
     	    EOR.b #$FF : INC A
     
     	.BRANCH_ZETA

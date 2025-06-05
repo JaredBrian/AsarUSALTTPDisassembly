@@ -42,7 +42,7 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     STZ.w $03A4, X
     STZ.w $03EA, X
     
-    TXA : INC A : CMP.w $02EC : BNE .player_wasnt_carrying_block
+    TXA : INC : CMP.w $02EC : BNE .player_wasnt_carrying_block
         STZ.w $02EC
         
         LDA.w $0308 : AND.b #$80 : STA.w $0308
@@ -58,7 +58,7 @@ Ancilla_SomarianBlockFizzle:
     DEC.w $03B1, X : BPL .animation_delay
         LDA.b #$03 : STA.w $03B1, X
         
-        LDA.w $0C5E, X : INC A : STA.w $0C5E, X
+        LDA.w $0C5E, X : INC : STA.w $0C5E, X
         CMP.b #$03 : BNE .animation_delay
             STZ.w $0C4A, X
             
@@ -84,7 +84,7 @@ Ancilla_SomarianBlockFizzle:
     
     REP #$20
     
-    LDA.b $04 : EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $04
+    LDA.b $04 : EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $04
     
     LDA.b $02 : STA.b $06
     
@@ -92,7 +92,7 @@ Ancilla_SomarianBlockFizzle:
     
     PHX
     
-    LDA.w $0C5E, X : ASL A : TAX
+    LDA.w $0C5E, X : ASL : TAX
     
     LDY.b #$00 : STY.b $08
     
@@ -101,7 +101,7 @@ Ancilla_SomarianBlockFizzle:
         LDA.w .chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
             REP #$20
             
-            PHX : TXA : ASL A : TAX
+            PHX : TXA : ASL : TAX
             
             LDA.b $04
             CLC : ADC Pool_Ancilla_SomarianBlockFizzle_y_offsets, X : STA.b $00

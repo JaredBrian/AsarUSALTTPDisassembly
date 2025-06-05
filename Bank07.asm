@@ -228,7 +228,7 @@ Link_ControlHandler:
     .inGroundState
     
     ; Link's main handling variable. This determines his actions.
-    LDA.b $5D : ASL A : TAX
+    LDA.b $5D : ASL : TAX
     
     JMP ($8041, X)
 }
@@ -1198,7 +1198,7 @@ Link_HandleRecoilAndTimer:
 
     .BRANCH_EPSILON
 
-    INC A : STA.b $46
+    INC : STA.b $46
     
     LDA.b $24 : AND.b #$FE : BEQ .BRANCH_THETA
         BPL .BRANCH_IOTA
@@ -1450,7 +1450,7 @@ LinkState_OnIce:
             
             AND.b #$0C : BEQ .BRANCH_KAPPA
                 AND.b #$08 : BEQ .BRANCH_LAMBDA
-                    TXA : EOR.b #$FF : INC A : TAX
+                    TXA : EOR.b #$FF : INC : TAX
 
                 .BRANCH_LAMBDA
 
@@ -1462,7 +1462,7 @@ LinkState_OnIce:
             
             LDA.b $67 : AND.b #$03 : BEQ .BRANCH_THETA
                 AND.b #$02 : BEQ .BRANCH_MU
-                    TXA : EOR.b #$FF : INC A : TAX
+                    TXA : EOR.b #$FF : INC : TAX
 
                 .BRANCH_MU
 
@@ -1762,7 +1762,7 @@ LinkHop_FindTileToLandOnSouth:
     
     .BRANCH_ALPHA
     
-        LDA.b $66 : ASL A : TAY
+        LDA.b $66 : ASL : TAY
         
         REP #$20
         
@@ -1802,7 +1802,7 @@ LinkHop_FindTileToLandOnSouth:
     
     .BRANCH_DELTA
     
-    LDA.b $66 : ASL A : TAY
+    LDA.b $66 : ASL : TAY
     
     REP #$20
     
@@ -1875,7 +1875,7 @@ Link_HoppingHorizontally_FindTile_Vertical:
     
     SEC : SBC.b $3E : STA.b $30
     
-    LDA.b $66 : ASL A : TAY
+    LDA.b $66 : ASL : TAY
     
     REP #$20
     
@@ -1921,7 +1921,7 @@ Link_HoppingHorizontally_FindTile_Vertical:
     
     .BRANCH_ALPHA
 
-    LDA.b $66 : ASL A : TAY
+    LDA.b $66 : ASL : TAY
     
     REP #$20
     
@@ -2021,7 +2021,7 @@ LinkState_0F:
         LDA.w $0362 : BNE .BRANCH_BETA
             LDA.b $5D : SEC : SBC.b #$0F : ASL #2 : STA.b $00
             
-            TYA : AND.b #$FD : ASL A : CLC : ADC.b $00 : TAX
+            TYA : AND.b #$FD : ASL CLC : ADC.b $00 : TAX
             
             LDA.b $22 : PHA
             LDA.b $23 : PHA
@@ -2049,7 +2049,7 @@ LinkState_0F:
 
             CLC : ADC.w Pool_LinkState_0F_offset_z, X : STA.w $0364 : STA.b $24
             
-            TXA : ASL A : TAX
+            TXA : ASL TAX
             
             REP #$20
             
@@ -2122,7 +2122,7 @@ Link_HoppingHorizontally_FindTile_Horizontal:
         
         SEP #$20
         
-        LDA.b $66 : ASL A : TAY
+        LDA.b $66 : ASL : TAY
         
         JSR.w TileDetect_Movement_Horizontal
         
@@ -2133,7 +2133,7 @@ Link_HoppingHorizontally_FindTile_Horizontal:
         
         AND.b #$07 : CMP.b #$07 : BNE .BRANCH_ALPHA
             LDA.w $0341 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_BETA
-                LDA.b #$01 : STA.w $0345 : INC A : STA.b $4D
+                LDA.b #$01 : STA.w $0345 : INC STA.b $4D
                 
                 LDA.w $0026 : STA.w $0340
                 
@@ -2335,7 +2335,7 @@ LinkHop_FindLandingSpotDiagonallyDown:
         LDA.w Pool_LinkHop_FindLandingSpotDiagonallyDown_offset_x, Y
         CLC : ADC.b $22 : STA.b $22
         
-        LDA.b $66 : AND.w #$00FF : ASL A : TAY
+        LDA.b $66 : AND.w #$00FF : ASL TAY
         
         LDA.w Pool_LinkHop_FindLandingSpotDiagonallyDown_offset_y, Y
         CLC : ADC.b $20 : STA.b $20
@@ -2344,7 +2344,7 @@ LinkHop_FindLandingSpotDiagonallyDown:
         
         JSR.w TileDetect_Movement_Vertical
         
-        PLY : TYA : LSR A : TAY
+        PLY : TYA : LSR TAY
         
         LDA.w Pool_LinkHop_FindLandingSpotDiagonallyDown_detection_masks, Y
         STA.b $72
@@ -2366,7 +2366,7 @@ LinkHop_FindLandingSpotDiagonallyDown:
 
     .BRANCH_GAMMA
 
-    LDA.b $66 : ASL A : TAY
+    LDA.b $66 : ASL : TAY
     
     REP #$20
     
@@ -2508,7 +2508,7 @@ FollowerDashReplacement:
 
 ; ==============================================================================
 
-; MODE 0x11 FALLING OFF A LEDGE / Dashing
+; MODE 0x11 FALLING OFF DGE / Dashing
 ; $038F86-$03915D LONG BRANCH LOCATION
 LinkState_Dashing:
 {
@@ -2653,7 +2653,7 @@ LinkState_Dashing:
     
     .BRANCH_OMICRON
     
-    LDA.b $2F : LSR A : TAX
+    LDA.b $2F : LSR : TAX
     
     LDA.w LinkDirections26, X
     
@@ -2706,7 +2706,7 @@ LinkState_Dashing:
     STZ.b $79
     
     ; LINK'S SWORD VALUE
-    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_PHI
+    LDA.l $7EF359 : INC : AND.b #$FE : BEQ .BRANCH_PHI
         LDY.b #$07
         
         JSR.w TileDetect_MainHandler
@@ -2721,7 +2721,7 @@ LinkState_Dashing:
 
     STZ.b $46
     
-    LDA.b $2F : LSR A : TAX
+    LDA.b $2F : LSR : TAX
     
     LDA.w LinkDirections26, X : STA.b $00
     
@@ -2740,7 +2740,7 @@ LinkState_Dashing:
     .BRANCH_PSI
     
     LDA.b $49 : AND.b #$0F : BNE .BRANCH_OMEGA
-        LDA.b $2F : LSR A : TAX
+        LDA.b $2F : LSR : TAX
         
         LDA.w LinkDirections26, X
     
@@ -2935,9 +2935,9 @@ LinkApplyTileRebound:
         
         PHX
         
-        LDA.w $034A : DEC A : ASL #3 : STA.b $08
+        LDA.w $034A : DEC : ASL #3 : STA.b $08
         
-        TXA : ASL A : CLC : ADC.b $08 : TAX
+        TXA : ASL : CLC : ADC.b $08 : TAX
         
         REP #$20
         
@@ -2982,7 +2982,7 @@ Sprite_RepelDashAttackLong:
     PHX
     
     ; Update the last direction the player moved in.
-    LDA.b $2F : LSR A : STA.b $66
+    LDA.b $2F : LSR : STA.b $66
     
     JSR.w RepelDash
     
@@ -3219,7 +3219,7 @@ Link_HandleFallingInPit:
     
     .BRANCH_PHI
     
-        LSR A : BCS .BRANCH_TAU
+        LSR : BCS .BRANCH_TAU
     DEX : BPL .BRANCH_PHI
     
     .BRANCH_TAU
@@ -3436,7 +3436,7 @@ HandleUnderworldLandingFromPit:
     
     LDA.b $20 : BPL .BRANCH_GAMMA
         LDA.b $51 : BMI .BRANCH_GAMMA
-            LDA.b $20 : EOR.w #-1 : INC A : CLC : ADC.b $51 : BMI .BRANCH_DELTA
+            LDA.b $20 : EOR.w #-1 : INC : CLC : ADC.b $51 : BMI .BRANCH_DELTA
                 BRL .BRANCH_EPSILON
     
     .BRANCH_GAMMA
@@ -3612,7 +3612,7 @@ LinkState_Swimming:
     LDA.b $2D : CMP.b #$08 : BCC .BRANCH_EPSILON
         STZ.b $2D
         
-        LDA.b $2E : INC A : AND.b #$03 : STA.b $2E : TAX
+        LDA.b $2E : INC : AND.b #$03 : STA.b $2E : TAX
         
         LDA.w LinkSwimming_anim_offset, X : STA.w $02CC
     
@@ -3805,7 +3805,7 @@ Link_SetMomentum:
             LDA.w $034A : AND.w #$00FF : BEQ .BRANCH_GAMMA
                 PHY
                 
-                DEC A : ASL A : TAY
+                DEC : ASL : TAY
                 
                 LDA.w Pool_Link_SetMomentum_momentum, Y : STA.w $0326, X
                 
@@ -4037,7 +4037,7 @@ Player_Electrocution:
         LDA.b #$02 : STA.b $3D
         
         ; $0300 is the cycle counter for the electrocution animation.
-        LDA.w $0300 : INC A : STA.w $0300 : AND.b #$01 : BEQ .use_normal_palettes
+        LDA.w $0300 : INC : STA.w $0300 : AND.b #$01 : BEQ .use_normal_palettes
             JSL.l Palette_ElectroThemedGear
             
             BRA .palette_logic_complete
@@ -4126,7 +4126,7 @@ Link_ReceiveItem:
             CPY.b #$20 : BNE .notCrystal
                 ; Up the ante or whatever >_> (Puts Link in a different pose
                 ; holding the item up with two hands).
-                INC A : STA.w $02DA
+                INC : STA.w $02DA
         
             .notCrystal
     .fromChestOrSprite
@@ -4216,7 +4216,7 @@ Pool_LinkState_Sleeping:
 ; $039A5A-$039A61 JUMP LOCATION
 LinkState_Sleeping:
 {
-    LDA.w $037C : ASL A : TAX
+    LDA.w $037C : ASL : TAX
     
     JMP (Pool_LinkState_Sleeping, X)
 }
@@ -4389,12 +4389,12 @@ Link_HandleYItem:
                 ; OPTIMIZE: Wtf? Why not just subtract 4?
                 ; Only gets triggered if the previous item was one of the rods.
                 ; This is to change differentiate which rod to use.
-                LDA.w $0304 : SEC : SBC.b #$05 : INC A : STA.w $0307
+                LDA.w $0304 : SEC : SBC.b #$05 : INC : STA.w $0307
                 
             .BRANCH_LAMBDA
                 
             DEY : BMI .BRANCH_IOTA
-                TYA : ASL A : TAX
+                TYA : ASL : TAX
                 
                 JMP (Pool_Link_HandleYItem, X)
     
@@ -4521,14 +4521,14 @@ Link_HandleAPress:
                 ; Buffer $036C with the current action index.
                 STX.w $036C
                 
-                TXA : ASL A : TAX
+                TXA : ASL : TAX
                 
                 JSR.w Link_APress_PerformBasic ; Do the action.
     
     .handsAreOccupied
     
     ; Remind me what action we just did, and mirror it to $0306.
-    LDA.w $036C : STA.w $0306 : ASL A : TAX
+    LDA.w $036C : STA.w $0306 : ASL : TAX
     
     JMP (Link_APress_vectors, X)
     
@@ -4590,7 +4590,7 @@ HandleSwordSFXAndBeam:
     ; If(actual health >= (goal health - 4))
     LDA.l $7EF36C : SEC : SBC.b #$04 : CMP.l $7EF36D : BCS .cantShootBeam
         ; Check if we have a sword that can shoot the beam.
-        LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .cantShootBeam
+        LDA.l $7EF359 : INC : AND.b #$FE : BEQ .cantShootBeam
             LDA.l $7EF359 : CMP.b #$02 : BCC .cantShootBeam
                 .nextSlot
                 
@@ -4612,7 +4612,7 @@ HandleSwordSFXAndBeam:
     
     PHA
     
-    LDA.l $7EF359 : DEC A : TAX
+    LDA.l $7EF359 : DEC : TAX
     
     PLA
     
@@ -4801,8 +4801,8 @@ Link_ResetSwordAndItemUsage:
     .BRANCH_ZETA
 
     DEC.b $3D : BPL .BRANCH_THETA
-        LDA.b $3C : INC A : CMP.b #$0D : BNE .BRANCH_KAPPA
-            LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_LAMBDA
+        LDA.b $3C : INC : CMP.b #$0D : BNE .BRANCH_KAPPA
+            LDA.l $7EF359 : INC : AND.b #$FE : BEQ .BRANCH_LAMBDA
                 LDA.b $48 : AND.b #$09 : BEQ .BRANCH_LAMBDA
                 
                 LDY.b #$01
@@ -4854,7 +4854,7 @@ Link_ResetSwordAndItemUsage:
     CMP.b #$10 : BEQ .BRANCH_RHO
         LDA.b #$0C : STA.b $5E
         
-        LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .return
+        LDA.l $7EF359 : INC : AND.b #$FE : BEQ .return
             LDX.b #$04
 
             .BRANCH_PHI
@@ -4916,7 +4916,7 @@ CalculateSwordHitbox:
                 
                 LDA.l PlayerOam_AnimationDirectionalStepIndexOffset, X : STA.b $04
                 
-                TYA : AND.w #$00FF : ASL A : CLC : ADC.b $04 : TAX
+                TYA : AND.w #$00FF : ASL : CLC : ADC.b $04 : TAX
                 
                 LDA.l PlayerOam_AnimationStepDataOffsets, X : CLC : ADC.b $02 : TAX
                 
@@ -4932,14 +4932,14 @@ CalculateSwordHitbox:
     .BRANCH_ALPHA
 
     LDA.b $3C : CMP.b #$09 : BCS .BRANCH_GAMMA
-        ASL A : STA.b $04
+        ASL : STA.b $04
         
-        LDA.b $2F : LSR A : STA.b $0E
+        LDA.b $2F : LSR : STA.b $0E
         
-        ASL #3 : CLC : ADC.b $0E : ASL A : CLC : ADC.b $04 : TAX
+        ASL #3 : CLC : ADC.b $0E : ASL : CLC : ADC.b $04 : TAX
         
         LDA.l PlayerOam_SwordSwingTipTile_up, X : CMP.b #$FF : BEQ .no_hitbox
-            TXA : LSR A : TAX
+            TXA : LSR : TAX
             
             LDA.l PlayerOam_SwordSwingTipOffsetY_up, X : STA.b $44
             LDA.l PlayerOam_SwordSwingTipOffsetX_up, X : STA.b $45
@@ -5000,7 +5000,7 @@ LinkItem_Rod:
     LDA.b $67 : AND.b #$F0 : STA.b $67
     
     DEC.b $3D : BPL .return
-        LDA.w $0300 : INC A : STA.w $0300 : TAX
+        LDA.w $0300 : INC : STA.w $0300 : TAX
         
         LDA.w RodAndCaneAnimationTimer, X : STA.b $3D
         
@@ -5036,7 +5036,7 @@ Pool_LinkItem_RodDiscriminator:
 ; $039F5D-$039F65 LOCAL JUMP LOCATION
 LinkItem_RodDiscriminator:
 {
-    LDA.w $0307 : DEC A : ASL A : TAX
+    LDA.w $0307 : DEC : ASL : TAX
     
     JMP (Pool_LinkItem_RodDiscriminator_rods, X)
 }
@@ -5107,7 +5107,7 @@ LinkItem_Hammer:
     LDA.b $67 : AND.b #$F0 : STA.b $67
     
     DEC.b $3D : BPL .return
-        LDA.w $0300 : INC A : STA.w $0300 : TAX
+        LDA.w $0300 : INC : STA.w $0300 : TAX
         
         LDA.w .timers, X : STA.b $3D
         
@@ -5178,7 +5178,7 @@ LinkItem_Bow:
     LDA.b $67 : AND.b #$F0 : STA.b $67
     
     DEC.b $3D : BPL LinkItem_Hammer_return
-        LDA.w $0300 : INC A : STA.w $0300 : TAX
+        LDA.w $0300 : INC : STA.w $0300 : TAX
         
         LDA.w .timer, X : STA.b $3D
         
@@ -5204,7 +5204,7 @@ LinkItem_Bow:
                 
                 LDA.w $0B9A : BNE .BRANCH_EPSILON
                     LDA.l $7EF377 : BEQ .BRANCH_EPSILON
-                        DEC A : STA.l $7EF377 : BNE .BRANCH_GAMMA
+                        DEC : STA.l $7EF377 : BNE .BRANCH_GAMMA
                             JSL.l HUD.RefreshIconLong
                             
                             BRA .BRANCH_GAMMA
@@ -5274,7 +5274,7 @@ LinkItem_Boomerang:
         
         DEC.b $3D : BPL .BRANCH_BETA
             LDA.b #$05 : STA.b $3D
-                LDA.w $0300 : INC A : STA.w $0300
+                LDA.w $0300 : INC : STA.w $0300
                 CMP.b #$02 : BNE .BRANCH_BETA
     
     ; $03A11F ALTERNATE ENTRY POINT
@@ -5328,7 +5328,7 @@ LinkItem_Bottle:
         LDA.b $3A : AND.b #$BF : STA.b $3A
         
         ; Check if we have a bottle or not.
-        LDA.l $7EF34F : DEC A : TAX
+        LDA.l $7EF34F : DEC : TAX
         
         LDA.l $7EF35C, X : BEQ LinkItem_Bombs_return
             CMP.b #$03 : BCC .BRANCH_ALPHA
@@ -5550,7 +5550,7 @@ LinkItem_MagicPowder:
     STZ.b $6B
     
     DEC.b $3D : BPL .return
-        LDA.w $0300 : INC A : STA.w $0300 : TAX
+        LDA.w $0300 : INC : STA.w $0300 : TAX
         
         LDA.w .timer, X : STA.b $3D
         
@@ -5861,7 +5861,7 @@ LinkItem_EtherMedallion:
         LDA.b $6C : BNE .cant_cast_play_sound
             LDA.w $0FFC : BNE .cant_cast_play_sound
                 LDA.w $0403 : AND.b #$80 : BNE .cant_cast_play_sound
-                    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .cant_cast_play_sound
+                    LDA.l $7EF359 : INC : AND.b #$FE : BEQ .cant_cast_play_sound
                         LDA.l $7EF3D3 : BEQ .attempt_cast
                             LDA.l $7EF3CC : CMP.b #$0D : BNE .attempt_cast
         
@@ -5969,7 +5969,7 @@ LinkItem_Bombos:
         LDA.b $6C : BNE .BRANCH_BETA
             LDA.w $0FFC : BNE .BRANCH_BETA
                 LDA.w $0403 : AND.b #$80 : BNE .BRANCH_BETA
-                    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_BETA
+                    LDA.l $7EF359 : INC : AND.b #$FE : BEQ .BRANCH_BETA
                         LDA.l $7EF3D3 : BEQ .BRANCH_GAMMA
                             LDA.l $7EF3CC : CMP.b #$0D : BNE .BRANCH_GAMMA
 
@@ -6079,7 +6079,7 @@ LinkItem_Quake:
         LDA.b $6C : BNE .BRANCH_BETA
             LDA.w $0FFC : BNE .BRANCH_BETA
                 LDA.w $0403 : AND.b #$80 : BNE .BRANCH_BETA
-                    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_BETA
+                    LDA.l $7EF359 : INC : AND.b #$FE : BEQ .BRANCH_BETA
                         LDA.l $7EF3D3 : BEQ .BRANCH_GAMMA
                             LDA.l $7EF3CC : CMP.b #$0D : BNE .BRANCH_GAMMA
             
@@ -6242,7 +6242,7 @@ Link_AnimateVictorySpin:
     ; Enter spin attack mode.
     LDA.b #$03 : STA.b $5D
     
-    LDA.b $2F : LSR A : TAX
+    LDA.b $2F : LSR : TAX
     
     LDA.w Pool_SpinAttack_data_offset, X : STA.w $031E : TAX
     
@@ -6408,7 +6408,7 @@ LinkState_SpinAttack:
     DEC.b $3D : BPL .return ; You need to wait to spin attack still...
         ; Step Link through the animation.
         ; On the second motion begin the spinning sound.
-        LDA.w $031D : INC A : STA.w $031D : CMP.b #$02 : BNE .BRANCH_MU
+        LDA.w $031D : INC : STA.w $031D : CMP.b #$02 : BNE .BRANCH_MU
             LDA.b #$23 : JSR.w Player_DoSfx3
         
         .BRANCH_MU
@@ -6471,7 +6471,7 @@ UNREACHABLE_07A8EC:
     
     LDA.b #$1E : STA.b $5D
     
-    LDA.b $2F : LSR A : TAX
+    LDA.b $2F : LSR : TAX
     
     LDA.w Pool_SpinAttack_data_offset, X : STA.w $031E : TAX
     
@@ -6607,7 +6607,7 @@ LinkState_CrossingWorlds:
                 
                 .BRANCH_EPSILON
                 
-                    LSR A : BCC .BRANCH_DELTA
+                    LSR : BCC .BRANCH_DELTA
                         INY
                     
                     .BRANCH_DELTA
@@ -6631,7 +6631,7 @@ LinkState_CrossingWorlds:
     
     .checkNextDeepWaterBit
     
-        LSR A : BCC .deepWaterBitNotSet
+        LSR : BCC .deepWaterBitNotSet
             INY
         
         .deepWaterBitNotSet
@@ -7242,7 +7242,7 @@ LinkItem_Cape:
         LDA.w .mp_depletion_timers, Y : STA.b $4C
         
         ; If the magic counter has totally depleted, branch.
-        LDA.l $7EF36E : DEC A : STA.l $7EF36E : BEQ .BRANCH_DELTA
+        LDA.l $7EF36E : DEC : STA.l $7EF36E : BEQ .BRANCH_DELTA
     
     .BRANCH_GAMMA
     
@@ -7345,7 +7345,7 @@ Link_HandleCape_passive:
                     LDA LinkItem_Cape_mp_depletion_timers, Y : STA.b $4C
                     
                     LDA.l $7EF36E : BEQ .BRANCH_DELTA
-                        DEC A : STA.l $7EF36E : BNE .BRANCH_DELTA
+                        DEC : STA.l $7EF36E : BNE .BRANCH_DELTA
             
             .BRANCH_GAMMA
             
@@ -7399,7 +7399,7 @@ LinkItem_CaneOfSomaria:
     LDA.b $67 : AND.b #$F0 : STA.b $67
                     
     DEC.b $3D : BPL .return           
-        LDA.w $0300 : INC A : STA.w $0300 : TAX
+        LDA.w $0300 : INC : STA.w $0300 : TAX
                     
         LDA.w RodAndCaneAnimationTimer, X : STA.b $3D
                     
@@ -7560,7 +7560,7 @@ LinkItem_Net:
     BIT.b $3A : BVS .BRANCH_ALPHA
         LDA.b $6C : BNE PlayerItem_CaneOfByrna_return
             JSR.w Link_CheckNewY_ButtonPress : BCC PlayerItem_CaneOfByrna_return
-                LDA.b $2F : LSR A : TAY
+                LDA.b $2F : LSR : TAY
                 
                 LDX.w Pool_LinkItem_Net_pose_offset, Y
                 
@@ -7589,7 +7589,7 @@ LinkItem_Net:
         
         LDA.b #$03 : STA.b $3D
         
-        LDA.b $2F : LSR A : TAY
+        LDA.b $2F : LSR : TAY
         
         LDA.w Pool_LinkItem_Net_pose_offset, Y : CLC : ADC.w $030D : TAY
         
@@ -7962,7 +7962,7 @@ Link_APress_LiftCarryThrow:
             .delta
             
             LDA.w $0300 : BEQ .BRANCH_ZETA
-                INC A : CMP.b #$09 : BEQ .BRANCH_EPSILON
+                INC : CMP.b #$09 : BEQ .BRANCH_EPSILON
                     STA.w $0300 : TAX
                     
                     LDA.w Pool_LinkToss_heavy_lift_animation_timers, X : STA.w $030B
@@ -7983,7 +7983,7 @@ Link_APress_LiftCarryThrow:
                         
                         .BRANCH_KAPPA
                         
-                        AND.b #$0F : INC A : PHA
+                        AND.b #$0F : INC : PHA
                         
                         ; Put Link into the "under a heavy rock" mode.
                         LDA.b #$18 : STA.b $5D
@@ -8148,7 +8148,7 @@ Link_APress_PullObject:
 {
     LDA.b $67 : AND.b #$F0 : STA.b $67
     
-    LDA.b $2F : LSR A : TAX
+    LDA.b $2F : LSR : TAX
     
     LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_ALPHA
         AND.w LinkPull_Directions, X : BNE .BRANCH_BETA
@@ -8215,7 +8215,7 @@ Link_APress_StatueDrag:
 {
     LDA.b #$14 : STA.b $5E
     
-    LDA.b $2F : LSR A : TAX
+    LDA.b $2F : LSR : TAX
     
     LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_ALPHA
         AND.w LinkPull_Directions, X : BNE .BRANCH_BETA
@@ -8432,7 +8432,7 @@ Link_Read:
     REP #$30
     
     LDA.b $1B : AND.w #$00FF : BEQ .outdoors
-        LDA.b $A0 : ASL A : TAY
+        LDA.b $A0 : ASL : TAY
         
         LDA Dungeon_SignText, Y
         
@@ -8449,7 +8449,7 @@ Link_Read:
     
     .savedZeldaOnce
     
-    LDA.b $8A : ASL A : TAY
+    LDA.b $8A : ASL : TAY
     
     LDA Overworld_SignText, Y
     
@@ -8522,7 +8522,7 @@ Link_Chest:
                         LDA Link_ReceiveItemAlternates, Y : STA.b $03
                         
                         CMP.b #$FF : BEQ .dontUseAlternate
-                            TYA : ASL A : TAX
+                            TYA : ASL : TAX
                             
                             ; Determine what memory location to give this item
                             ; over to. Effective address at [$00] is $7E:????
@@ -8668,7 +8668,7 @@ FlagObstructions:
     .walkingUp
 
     ; $66 = #$0 or #$1. #$1 if the down button, #$0 if the up button was pushed.
-    TYA : LSR A : STA.b $66
+    TYA : LSR STA.b $66
     
     JSR.w TileDetect_Movement_VerticalSlopes
     
@@ -8741,7 +8741,7 @@ FlagObstructions:
 
     .BRANCH_NU
 
-    TYA : LSR A : STA.b $66
+    TYA : LSR : STA.b $66
     
     JSR.w TileDetect_Movement_HorizontalSlopes
     
@@ -8952,12 +8952,12 @@ Link_HandleCardinalCollision:
         
         LDA.b $67 : BNE .BRANCH_KAPPA
             LDA.w $0310 : BEQ .BRANCH_NU
-                LDA.b $30 : EOR.b #$FF : INC A : STA.b $30
+                LDA.b $30 : EOR.b #$FF : INC STA.b $30
             
             .BRANCH_NU
             
             LDA.w $0312 : BEQ .BRANCH_KAPPA
-                LDA.b $31 : EOR.b #$FF : INC A : STA.b $31
+                LDA.b $31 : EOR.b #$FF : INC : STA.b $31
     
     .BRANCH_KAPPA
     
@@ -9024,7 +9024,7 @@ Link_HandleCardinalCollision:
                 
                 .BRANCH_CHI
                 
-                EOR.b #$FF : INC A : CLC : ADC.b $30 : BNE .BRANCH_PHI
+                EOR.b #$FF : INC : CLC : ADC.b $30 : BNE .BRANCH_PHI
                     TYA : AND.b $67 : STA.b $67
                 
                 .BRANCH_PHI
@@ -9037,7 +9037,7 @@ Link_HandleCardinalCollision:
                         
                     .BRANCH_PSI
                         
-                    EOR.b #$FF : INC A : CLC : ADC.b $31 : BNE .BRANCH_UPSILON
+                    EOR.b #$FF : INC : CLC : ADC.b $31 : BNE .BRANCH_UPSILON
                         TYA : AND.b $67 : STA.b $67
     
     .BRANCH_UPSILON
@@ -9191,7 +9191,7 @@ StartMovementCollisionChecks_Vertical:
 
     .setLastDirection
 
-    TYA : LSR A : STA.b $66
+    TYA : LSR : STA.b $66
     
     JSR.w TileDetect_Movement_Vertical
     
@@ -9361,7 +9361,7 @@ StartMovementCollisionChecks_Vertical:
         STX.b $00
         STZ.b $01
         
-        LDA.b $66 : ASL A : TAY
+        LDA.b $66 : ASL : TAY
         
         REP #$20
         
@@ -9624,7 +9624,7 @@ StartMovementCollisionChecks_Vertical:
 
                 .BRANCH_SIN
 
-                    ASL A : BCC .BRANCH_DOD
+                    ASL : BCC .BRANCH_DOD
                         PHA : PHY
                         
                         SEP #$20
@@ -9632,10 +9632,10 @@ StartMovementCollisionChecks_Vertical:
                         JSR.w FindFreeMovingBlockSlot : BCS .BRANCH_TOD
                             STX.b $0E
                             
-                            TYA : ASL A : TAX
+                            TYA : ASL : TAX
                             
                             JSR.w InitializePushBlock : BCS .BRANCH_TOD
-                                LDA.b $0E : ASL A : TAY
+                                LDA.b $0E : ASL TAY
                                 
                                 JSR.w Underworld_DrawSinglePushBlock
                                 
@@ -9643,7 +9643,7 @@ StartMovementCollisionChecks_Vertical:
                                 
                                 LDY.b $66
                                 
-                                TYA : ASL A : STA.w $05F8, X : STA.w $0478
+                                TYA : ASL : STA.w $05F8, X : STA.w $0478
                                 
                                 LDA.w $05F0, X
                                 
@@ -9781,8 +9781,8 @@ StartMovementCollisionChecks_Vertical:
 
         .BRANCH_DELTA3
 
-        LDA.b $66 : ASL A : CMP.b $2F : BNE .BRANCH_IOTA3
-            LDA.w $0315 : AND.b #$01 : ASL A : TSB.b $48
+        LDA.b $66 : ASL : CMP.b $2F : BNE .BRANCH_IOTA3
+            LDA.w $0315 : AND.b #$01 : ASL : TSB.b $48
             
             LDA.b $3C : BNE .BRANCH_KAPPA3
                 DEC.w $0371 : BPL .BRANCH_LAMBDA3
@@ -9856,7 +9856,7 @@ StartMovementCollisionChecks_Vertical_HandleOutdoors:
     .safeFromHoles
 
     LDA.w $0366 : AND.b #$02 : BEQ .notNearReadableTile
-        LDA.w $036A : LSR A : STA.w $0368
+        LDA.w $036A : LSR : STA.w $0368
         
         BRA .nearReadableTile
 
@@ -10036,7 +10036,7 @@ Link_HandleEnteringWater_Vertical:
                         LDX.b #$10
                         
                         LDA.w $036F : AND.b #$04 : BNE .BRANCH_CHI
-                            TXA : EOR.b #$FF : INC A : TAX
+                            TXA : EOR.b #$FF : INC : TAX
 
                         .BRANCH_CHI
 
@@ -10317,7 +10317,7 @@ Link_AddInVelocityYFalling:
 
     .BRANCH_ALPHA
 
-    EOR.w #$FFFF : INC A : CLC : ADC.b $20 : STA.b $20
+    EOR.w #$FFFF : INC : CLC : ADC.b $20 : STA.b $20
     
     SEP #$20
     
@@ -10470,7 +10470,7 @@ Link_AddInVelocityY:
     
     .BRANCH_ALPHA
     
-    EOR.w #$FFFF : INC A : CLC : ADC.b $20 : STA.b $20
+    EOR.w #$FFFF : INC : CLC : ADC.b $20 : STA.b $20
     
     SEP #$20
     
@@ -10515,7 +10515,7 @@ Link_HopInOrOutOfWater_Vertical:
     LDA.w Pool_Link_HopInOrOutOfWater_Vertical_speed_y, X : TAX
     
     LDA.b $66 : BNE .BRANCH_GAMMA
-        TXA : EOR.b #$FF : INC A : TAX
+        TXA : EOR.b #$FF : INC : TAX
     
     .BRANCH_GAMMA
     
@@ -10584,7 +10584,7 @@ Link_FindValidLandingTile_North:
         
         SEP #$20
         
-        LDA.b $66 : ASL A : TAY
+        LDA.b $66 : ASL TAY
         
         JSR.w TileDetect_Movement_Vertical
     LDA.w $0343 : ORA.w $035B : ORA.w $0357 : ORA.w $0341 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_ALPHA
@@ -10621,7 +10621,7 @@ Link_FindValidLandingTile_North:
     LDA.w Pool_Link_FindValidLandingTile_North_recoil_y, Y : TAX
     
     LDA.b $66 : BNE .BRANCH_GAMMA
-        TXA : EOR.b #$FF : INC A : TAX
+        TXA : EOR.b #$FF : INC TAX
     
     .BRANCH_GAMMA
     
@@ -10707,7 +10707,7 @@ Link_FindValidLandingTile_DiagonalNorth:
     SEP #$20
     
     LDA.w Pool_Link_FindValidLandingTile_DiagonalNorth_recoil_y, Y
-    EOR.b #$FF : INC A : STA.b $27
+    EOR.b #$FF : INC STA.b $27
     
     LDA.w Pool_Link_FindValidLandingTile_DiagonalNorth_recoil_x, Y
     
@@ -10759,7 +10759,7 @@ StartMovementCollisionChecks_Horizontal:
 
     .BRANCH_GAMMA
 
-    TYA : LSR A : STA.b $66
+    TYA : LSR STA.b $66
     
     ; Has to do with detecting areas around chests.
     JSR.w TileDetect_Movement_Horizontal
@@ -10902,7 +10902,7 @@ StartMovementCollisionChecks_Horizontal:
         STX.b $00
         STZ.b $01
         
-        LDA.b $66 : ASL A : TAY
+        LDA.b $66 : ASL TAY
         
         REP #$20
         
@@ -11108,7 +11108,7 @@ StartMovementCollisionChecks_Horizontal:
 
                 .BRANCH_THETA2
 
-                    ASL A : BCC .BRANCH_DELTA2
+                    ASL : BCC .BRANCH_DELTA2
                         PHA : PHY
                         
                         SEP #$20
@@ -11116,10 +11116,10 @@ StartMovementCollisionChecks_Horizontal:
                         JSR.w FindFreeMovingBlockSlot : BCS .BRANCH_EPSILON2
                             STX.b $0E
                             
-                            TYA : ASL A : TAX
+                            TYA : ASL : TAX
                             
                             JSR.w InitializePushBlock : BCS .BRANCH_EPSILON2
-                                LDA.b $0E : ASL A : TAY
+                                LDA.b $0E : ASL : TAY
                                 
                                 JSR.w Underworld_DrawSinglePushBlock
                                 
@@ -11127,7 +11127,7 @@ StartMovementCollisionChecks_Horizontal:
                                 
                                 LDY.b $66
                                 
-                                TYA : ASL A : STA.w $05F8, X : STA.w $0474
+                                TYA : ASL : STA.w $05F8, X : STA.w $0474
                                 
                                 LDA.w $05E4, X : CPY.b #$02 : BEQ .BRANCH_ZETA2
                                     DEC A
@@ -11266,8 +11266,8 @@ HandlePushingBonkingSnaps_Horizontal:
 
         .BRANCH_PHI2
 
-        LDA.b $66 : ASL A : CMP.b $2F : BNE .BRANCH_ALPHA3
-            LDA.w $0315 : AND.b #$01 : ASL A : TSB.b $48
+        LDA.b $66 : ASL : CMP.b $2F : BNE .BRANCH_ALPHA3
+            LDA.w $0315 : AND.b #$01 : ASL : TSB.b $48
             
             LDA.b $3C : BNE .BRANCH_BETA3
                 DEC.w $0371 : BPL .BRANCH_GAMMA3
@@ -11331,7 +11331,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
     .BRANCH_BETA
 
     LDA.w $0366 : AND.b #$02 : BEQ .BRANCH_DELTA
-        LDA.w $036A : ASL A : STA.w $0369
+        LDA.w $036A : ASL : STA.w $0369
         
         BRA .BRANCH_EPSILON
 
@@ -11433,7 +11433,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
             LDX.b #$10
             
             LDA.b $66 : AND.b #$01 : BNE .BRANCH_OMICRON
-                TXA : EOR.b #$FF : INC A : TAX
+                TXA : EOR.b #$FF : INC : TAX
 
             .BRANCH_OMICRON
 
@@ -11459,7 +11459,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
 
             .BRANCH_PI
 
-            LDA.b $66 : AND.b #$FD : ASL A : TAY
+            LDA.b $66 : AND.b #$FD : ASL TAY
             
             LDA.b $22 : PHA
             LDA.b $23 : PHA
@@ -11553,7 +11553,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                     LDX.b #$10
                     
                     LDA.b $66 : AND.b #$01 : BNE .BRANCH_OMEGA
-                        TXA : EOR.b #$FF : INC A : TAX
+                        TXA : EOR.b #$FF : INC TAX
 
                     .BRANCH_OMEGA
 
@@ -11643,7 +11643,7 @@ SnapOnX:
     
     .BRANCH_ALPHA
     
-    EOR.w #$FFFF : INC A : CLC : ADC.b $22 : STA.b $22
+    EOR.w #$FFFF : INC CLC : ADC.b $22 : STA.b $22
     
     SEP #$20
     
@@ -11805,7 +11805,7 @@ Link_HopInOrOutOfWater_Horizontal:
     LDA.w Pool_Link_HopInOrOutOfWater_Horizontal_speed_x, X : TAX
     
     LDA.b $66 : AND.b #$01 : BNE .BRANCH_GAMMA
-        TXA : EOR.b #$FF : INC A : TAX
+        TXA : EOR.b #$FF : INC X
     
     .BRANCH_GAMMA
     
@@ -11950,7 +11950,7 @@ Link_HandleDiagonalKickback:
                     
                     .BRANCH_IOTA
                     
-                    TYA : EOR.b #$FF : INC A : TAY
+                    TYA : EOR.b #$FF : INC TAY
                     
                     LDA.w DiagonalKickback_left, Y
                     
@@ -11974,7 +11974,7 @@ Link_HandleDiagonalKickback:
                     
                     .BRANCH_MU
                     
-                    TYA : EOR.b #$FF : INC A : TAY
+                    TYA : EOR.b #$FF : INC Y
                     
                     LDA.w DiagonalKickback_up, Y
                     
@@ -12744,7 +12744,7 @@ PushBlock_AttemptToPushTheBlock:
     
     TYA : ASL #3 : STA.b $0A
     
-    LDA.b $66 : ASL A : CLC : ADC.b $0A : TAY
+    LDA.b $66 : ASL CLC : ADC.b $0A : TAY
     
     LDA.b $00 : STA.b $08
     LDA.b $02 : STA.b $04
@@ -12929,7 +12929,7 @@ Link_HandleLiftables:
         
         .checkIfLiftingObject
         
-        LDA.w $036A : LSR A : STA.w $0368 : TAY
+        LDA.w $036A : LSR $0368 : TAY
         
         .check_lift_strength
         
@@ -13069,7 +13069,7 @@ HandleNudging:
     
     LDY.b #$00
     
-    LDA.b $00 : EOR.b #$FF : INC A : STA.b $00 : CMP.b #$80 : BCC .BRANCH_KAPPA
+    LDA.b $00 : EOR.b #$FF : INC : STA.b $00 : CMP.b #$80 : BCC .BRANCH_KAPPA
         LDY.b #$FF
     
     .BRANCH_KAPPA
@@ -13290,7 +13290,7 @@ HandleNudgingInADoor:
     
     LDY.b #$00
     
-    LDA.b $00 : EOR.b #$FF : INC A : STA.b $00
+    LDA.b $00 : EOR.b #$FF : INC : STA.b $00
     CMP.b #$80 : BCC .BRANCH_EPSILON
         LDY.b #$FF
     
@@ -13359,7 +13359,7 @@ TileDetect_SwordSwingDeepInDoor:
     
     JSR.w TileDetect_ResetState
     
-    TXA : AND.w #$00FF : DEC A : ASL #2 : TAY
+    TXA : AND.w #$00FF : DEC L #2 : TAY
     
     LDA.b $22 : CLC : ADC.w Pool_TileDetect_SwordSwingDeepInDoor_offset_x+0, Y
     AND.b $EC : LSR #3 : STA.b $02
@@ -13808,7 +13808,7 @@ TileDetect_Execute:
     
     ; Multiply this tile index by two and use it to run a service routine for.
     ; that kind of tile.
-    ASL A : TAX
+    ASL : TAX
     
     JMP (Pool_TileDetection_Execute_underworld, X)
 }
@@ -14143,7 +14143,7 @@ TileDetection_Execute_overworld:
     
     .walkThroughWallsCode
     
-    AND.w #$00FF : STA.b $06 : ASL A : TAX
+    AND.w #$00FF : STA.b $06 : ASL : TAX
     
     JMP ($DA2A, X) ; ($3DA2A, X) THAT IS
 }
@@ -14193,7 +14193,7 @@ TileBehavior_Slope:
 {
     LDA.b $0A : TSB.b $0C
     
-    LDA.b $06 : AND.w #$0003 : ASL A : TAY
+    LDA.b $06 : AND.w #$0003 : ASL : TAY
     
     LDA.w TileBehavior_Slope_masks, Y : STA.b $6E
     
@@ -14335,7 +14335,7 @@ TileBehavior_ShutterDoor:
     
     LDA.b $0A : XBA : TSB.b $0E
     
-    LDA.b $06 : AND.w #$0001 : ASL A : STA.b $62
+    LDA.b $06 : AND.w #$0001 : ASL : STA.b $62
     
     RTS
 }
@@ -14353,7 +14353,7 @@ TileBehavior_Door:
 {
     LDA.b $0A : ASL #4 : TSB.b $0E
     
-    LDA.b $06 : AND.w #$0001 : ASL A : STA.b $62
+    LDA.b $06 : AND.w #$0001 : ASL : STA.b $62
     
     RTS
 }
@@ -14394,7 +14394,7 @@ TileBehavior_ManipulablyReplaced_bitmask:
 TileBehavior_ManipulablyReplaced:
 {
     LDA.b $0A : AND.w #$0002 : BEQ .BRANCH_ALPHA
-        LDA.b $06 : AND.w #$000F : ASL A : TAY
+        LDA.b $06 : AND.w #$000F : ASL : TAY
         
         LDA.w .bitmask, Y : TSB.b $5F
     
@@ -14433,7 +14433,7 @@ TileBehavior_Chest:
     
     ; Chest tile values range from 0x58 - 0x5D, so tell me which chest in the
     ; room it is.
-    SEC : SBC.w #$0058 : ASL A : TAX
+    SEC : SBC.w #$0058 : ASL : TAX
     
     ; Load from a listing of in room chest addresses.
     ; If top bit not set, then branch.
@@ -14943,7 +14943,7 @@ FlagMovingIntoSlopes_Vertical:
 
             .BRANCH_ZETA
 
-            INC A : STA.b $00
+            INC : STA.b $00
             
             BRA .BRANCH_THETA
 
@@ -15036,7 +15036,7 @@ FlagMovingIntoSlopes_Horizontal:
 
         .BRANCH_DELTA
 
-        SEC : SBC.b #$08 : EOR.b #$FF : INC A : STA.b $02
+        SEC : SBC.b #$08 : EOR.b #$FF : INC : STA.b $02
         
         LDA.w DifferenceFor6BLowNibble, X : SEC : SBC.b $02
 
@@ -15138,9 +15138,9 @@ Link_HandleRecoiling:
     LDA.b $6B : AND.b #$0C : BEQ .BRANCH_EPSILON
         LDA.b $6B : AND.b #$03 : BEQ .BRANCH_EPSILON
             LDA.b $5D : CMP.b #$02 : BNE .BRANCH_EPSILON
-                LDA.b $28 : EOR.b #$FF : INC A : STA.b $28
+                LDA.b $28 : EOR.b #$FF : INC STA.b $28
                 
-                LDA.b $27 : EOR.b #$FF : INC A : STA.b $27
+                LDA.b $27 : EOR.b #$FF : INC STA.b $27
 
     .BRANCH_EPSILON
 
@@ -15372,7 +15372,7 @@ Link_HandleVelocity:
         
         AND.b $0C : BEQ .BRANCH_PHI
             AND.b #$0D : BEQ .BRANCH_CHI
-                LDA.b $0A, X : EOR.b #$FF : INC A : STA.b $0A, X
+                LDA.b $0A, X : EOR.b #$FF : INC STA.b $0A, X
             
             .BRANCH_CHI
             
@@ -15543,7 +15543,7 @@ HandleSwimStrokeAndSubpixels:
         
         .BRANCH_ALPHA
         
-        LDA.w $032B, X : ASL A : TAY
+        LDA.w $032B, X : ASL TAY
         
         LDA.w $034A : AND.w #$00FF : BEQ .BRANCH_BETA
             ASL #3 : STA.b $00
@@ -15578,7 +15578,7 @@ HandleSwimStrokeAndSubpixels:
         
         PHA
         
-        TXA : CLC : ADC.w $0338, X : ASL A : TAY
+        TXA : CLC : ADC.w $0338, X : ASL TAY
         
         LDA.w SwimmingThrustDirectionBit, Y : ORA.b $67 : STA.b $67
         
@@ -15601,7 +15601,7 @@ HandleSwimStrokeAndSubpixels:
         .BRANCH_THETA
         
         LDA.w $0338, X : AND.w #$00FF : BNE .BRANCH_IOTA
-            LDA.b $08, X : EOR.w #$FFFF : INC A : STA.b $08, X
+            LDA.b $08, X : EOR.w #$FFFF : INC : STA.b $08, X
         
         .BRANCH_IOTA
         
@@ -15714,7 +15714,7 @@ Link_DashInPlace:
     
     .BRANCH_DELTA
     
-        LSR A : BCS .BRANCH_GAMMA
+        LSR : BCS .BRANCH_GAMMA
     DEX : BPL .BRANCH_DELTA
     
     PLB
@@ -15990,13 +15990,13 @@ Link_HandleMovingAnimation_MainEntry:
     LDA.b $50 : BNE Link_HandleMovingAnimation_StartWithDash_check_dashing
         LDA.b $6A : BEQ .BRANCH_EPSILON
             LDA.b $6C : BEQ .BRANCH_ZETA
-                ASL A : AND.b #$FC : TAY
+                ASL : AND.b #$FC : TAY
                 
                 BRA .BRANCH_THETA
                 
             .BRANCH_ZETA
             
-            LDA.b $2F : LSR A : TAX
+            LDA.b $2F : LSR : TAX
             
             LDA.b $00 : AND.w LinkDiagonalDominantDirection, X : BNE Link_HandleMovingAnimation_StartWithDash_check_dashing
         
@@ -16043,7 +16043,7 @@ Link_HandleMovingAnimation_StartWithDash:
     
     .BRANCH_MU
     
-    LDA.b $2F : LSR A : TAX
+    LDA.b $2F : LSR : TAX
     
     LDA.b $5E : CMP.b #$06 : BNE .BRANCH_NU
         TXA : CLC : ADC.b #$04 : TAX
@@ -16098,7 +16098,7 @@ Link_HandleMovingAnimation_StartWithDash:
             LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .BRANCH_PSI
                 STZ.b $2D
                 
-                LDA.b $2E : INC A : CMP.b #$06 : BNE .BRANCH_OMEGA
+                LDA.b $2E : INC : CMP.b #$06 : BNE .BRANCH_OMEGA
     
     .BRANCH_PI
     
@@ -16134,7 +16134,7 @@ Link_HandleMovingAnimation_StartWithDash:
         LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .BRANCH_THEL
             STZ.b $2D
             
-            LDA.b $2E : INC A : CMP.b #$09 : BNE .BRANCH_RAH
+            LDA.b $2E : INC : CMP.b #$09 : BNE .BRANCH_RAH
                 LDA.b #$01
             
             .BRANCH_RAH
@@ -16158,7 +16158,7 @@ Link_HandleMovingAnimation_Bunny:
             LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .return
                 STZ.b $2D
                 
-                LDA.b $2E : INC A : CMP.b #$04 : BNE .BRANCH_SIN
+                LDA.b $2E : INC : CMP.b #$04 : BNE .BRANCH_SIN
     
     .BRANCH_ZAH
     
@@ -16182,13 +16182,13 @@ Link_HandleMovingAnimationSwimming:
         LDA.b $50 : BNE .BRANCH_ALPHA
             LDA.b $6A : BEQ .BRANCH_BETA
                 LDA.b $6C : BEQ .BRANCH_GAMMA
-                    ASL A : AND.b #$FC : TAY
+                    ASL : AND.b #$FC : TAY
                     
                     BRA .BRANCH_DELTA
                 
                 .BRANCH_GAMMA
                 
-                LDA.b $2F : LSR A : TAX
+                LDA.b $2F : LSR : TAX
                 
                 LDA.w $0340 : AND.w LinkDiagonalDominantDirection, X : BNE .BRANCH_ALPHA
             
@@ -16275,7 +16275,7 @@ Link_HandleMovingAnimation_Dash:
             CMP.b $00 : BCC .BRANCH_DELTA
                 STZ.b $2D
                 
-                LDA.b $2E : INC A : CMP.b #$09 : BNE .BRANCH_EPSILON
+                LDA.b $2E : INC : CMP.b #$09 : BNE .BRANCH_EPSILON
                     LDA.b #$01
                 
                 .BRANCH_EPSILON
@@ -16293,7 +16293,7 @@ Link_HandleMovingAnimation_Dash:
     LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .BRANCH_THETA
         STZ.b $2D
         
-        LDA.b $2E : INC A : CMP.b #$06 : BCC .BRANCH_ZETA
+        LDA.b $2E : INC : CMP.b #$06 : BCC .BRANCH_ZETA
             LDA.b #$00
         
         .BRANCH_ZETA
@@ -16588,13 +16588,13 @@ DesertPrayer_BuildIrisHDMATable:
         
         LDA.w $067A : AND.w #$00FF : STA.b $0A
         
-        LDA.b $0E : SEC : SBC.b $0A : DEC A : ASL A : TAX
+        LDA.b $0E : SEC : SBC.b $0A : DEC : ASL : TAX
         
         BRA .BRANCH_IOTA
         
         .BRANCH_GAMMA
         
-        LDA.b $04 : DEC A : ASL A : TAX
+        LDA.b $04 : DEC : ASL : TAX
         
         .BRANCH_IOTA
         
@@ -16647,9 +16647,9 @@ DesertPrayer_BuildIrisHDMATable:
         
         .BRANCH_PI
         
-        LDA.w $067A : AND.w #$00FF : DEC A : CLC : ADC.b $0E : TAX
+        LDA.w $067A : AND.w #$00FF : DEC : CLC : ADC.b $0E : TAX
         
-        DEC A : ASL A : CMP.w #$01C0 : BCS .BRANCH_SIGMA
+        DEC : ASL : CMP.w #$01C0 : BCS .BRANCH_SIGMA
             TAX
             
             LDA.b $06 : CMP.w #$FFFF : BNE .BRANCH_TAU
@@ -16847,7 +16847,7 @@ FindFreeMovingBlockSlot:
     .prev_slot
     
         LDA.w $05FC, X : BNE .nonempty_slot
-            TYA : INC A : STA.w $05FC, X
+            TYA : INC : STA.w $05FC, X
             
             CLC
             
@@ -16877,7 +16877,7 @@ InitializePushBlock:
     
     SEP #$20
     
-    LDA.b $0E : ASL A : TAX
+    LDA.b $0E : ASL : TAX
     
     LDA.b $00 : STA.w $05E4, X
     
@@ -16941,14 +16941,14 @@ PushBlock_Slide:
         
         LDX.b #$01
         
-        LDA.w $05FC, X : DEC A : ASL A : CMP.b $00 : BEQ .correct_index
+        LDA.w $05FC, X : DEC : ASL : CMP.b $00 : BEQ .correct_index
             ; Otherwise, assume the slot indicates the object we're interested
             ; in.
             LDX.b #$00
         
         .correct_index
         
-        TXA : ASL A : TAY
+        TXA : ASL : TAY
         
         LDA.b #$09 : STA.w $02C4
                      STZ.w $02C3
@@ -17002,7 +17002,7 @@ PushBlock_HandleFalling:
             
             LDX.b #$01
             
-            LDA.w $05FC, X : DEC A : ASL A : CMP.b $0E : BEQ .correct_index
+            LDA.w $05FC, X : DEC : ASL : CMP.b $0E : BEQ .correct_index
                 LDX.b #$00
             
             .correct_index
@@ -17041,7 +17041,7 @@ PushBlock_ApplyVelocity:
     LDA.b #$03 : STA.b $0C
     LDA.b #$02 : STA.b $0D
     
-    LDA.w $05F8, Y : LSR A : TAX
+    LDA.w $05F8, Y : LSR : TAX
     LDA.w Pool_PushBlock_ApplyVelocity_direction_mask, X : STA.b $00
     
     LDX.b #$01
@@ -17052,7 +17052,7 @@ PushBlock_ApplyVelocity:
         
         AND.b $0C : BEQ .BRANCH_ALPHA
             AND.b $0D : BEQ .BRANCH_BETA
-                LDA.b $0A, X : EOR.b #$FF : INC A : STA.b $0A, X
+                LDA.b $0A, X : EOR.b #$FF : INC : STA.b $0A, X
             
             .BRANCH_BETA
             
@@ -17115,9 +17115,9 @@ PushBlock_ApplyVelocity:
     TYX
     
     CMP.w $05E8, X : BNE .BRANCH_THETA
-        TXA : LSR A : TAX
+        TXA : LSR : TAX
         
-        LDA.w $05FC, X : DEC A : ASL A : TAX
+        LDA.w $05FC, X : DEC : ASL : TAX
         
         INC.w $0500, X
         
@@ -17157,7 +17157,7 @@ PushBlock_ApplyVelocity:
                     
                     PHY
                     
-                    LDA.w $05F8, Y : LSR A : TAY
+                    LDA.w $05F8, Y : LSR : TAY
                     
                     ; Push the sprite because a pushable block is colliding
                     ; with it?
@@ -17291,7 +17291,7 @@ PushBlock_HandleCollision:
     
     .BRANCH_BETA
     
-        LSR A : BCS .BRANCH_ALPHA
+        LSR : BCS .BRANCH_ALPHA
     DEY #2 : BPL .BRANCH_BETA
     
     BRL .BRANCH_GAMMA
@@ -17360,7 +17360,7 @@ PushBlock_HandleCollision:
         LDA.b $2F : AND.w #$00FF : CMP.w $05F8, X : BNE .BRANCH_ZETA
             LDY.b #$01
             
-            TXA : LSR A : TAX
+            TXA : LSR : TAX
             
             LDA.w $05FC, X : BEQ .BRANCH_THETA
                 LDY.b #$04
@@ -17378,7 +17378,7 @@ PushBlock_HandleCollision:
             
             SEC : SBC.b $0A : BCC .BRANCH_GAMMA
             CMP.w #$0008 : BCS .BRANCH_GAMMA
-                EOR.w #$FFFF : INC A : STA.b $00
+                EOR.w #$FFFF : INC : STA.b $00
                 
                 CLC : ADC ($0C) : STA ($0C)
                 
@@ -17387,7 +17387,7 @@ PushBlock_HandleCollision:
         .BRANCH_IOTA
 
         LDA.b $08 : SEC : SBC.b $0A : CMP.w #$FFF8 : BCC .BRANCH_GAMMA
-            EOR.w #$FFFF : INC A : STA.b $00
+            EOR.w #$FFFF : INC : STA.b $00
             
             CLC : ADC ($0C) : STA ($0C)
             
@@ -17429,7 +17429,7 @@ Underworld_DrawAllPushBlocks:
         .next_slot
         
             LDA.w $05FC, X : BEQ .empty_slot
-                TXA : ASL A : TAY
+                TXA : ASL : TAY
                 
                 PHX
                 
@@ -17485,7 +17485,7 @@ Underworld_DrawSinglePushBlock:
     
     REP #$20
     
-    LDA.b $00 : SEC : SBC.b $E8 : DEC A : STA.b $00
+    LDA.b $00 : SEC : SBC.b $E8 : DEC : STA.b $00
     
     LDA.b $02 : SEC : SBC.b $E2 : STA.b $02
     

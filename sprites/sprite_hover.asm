@@ -56,7 +56,7 @@ Hover_Stopped:
     
     	JSR.w Sprite3_IsBelowPlayer
     
-    	TYA : ASL A : ORA.b $0C : STA.w $0DE0, X : TAY
+    	TYA : ASL : ORA.b $0C : STA.w $0DE0, X : TAY
     
     	LDA.w $0F50, X : AND.b #$BF : ORA .vh_flip, Y : STA.w $0F50, X
     

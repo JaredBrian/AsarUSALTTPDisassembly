@@ -189,14 +189,14 @@ Sidenexx_Move:
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
         LDA.w $0DE0, X : STA.b $00
         
-        JSL.l GetRandomInt : AND.b #$07 : INC A : CMP.b #$05 : BCS .BRANCH_ALPHA
+        JSL.l GetRandomInt : AND.b #$07 : INC : CMP.b #$05 : BCS .BRANCH_ALPHA
             CMP.w $0DE0, X : BEQ .BRANCH_ALPHA
                 STA.w $0DE0, X
                 
                 INC.w $0D80, X
                 
                 LDA.b $00 : CMP.b #$01 : BNE .BRANCH_ALPHA
-                    JSL.l GetRandomInt : LSR A : BCS .BRANCH_ALPHA
+                    JSL.l GetRandomInt : LSR : BCS .BRANCH_ALPHA
                         LDA.w $0D80 : CMP.b #$02 : BCS .BRANCH_ALPHA   
                             INC.w $0DC0, X : LDA.w $0DC0, X : CMP.b #$06
                             
@@ -481,7 +481,7 @@ SpriteDraw_Sidenexx:
         TYA : CLC : ADC.w Sidenexx_SegmentIndexOffset, X : TAY
         
         CPX.b #$02 : BEQ .BRANCH_ALPHA
-            LDA   $1D10, Y : EOR.b #$FF : INC A : STA.b $06
+            LDA   $1D10, Y : EOR.b #$FF : INC : STA.b $06
             LDA.b #$01                          : STA.b $07
             
             BRA .BRANCH_BETA
@@ -498,12 +498,12 @@ SpriteDraw_Sidenexx:
         
         REP #$30
         
-        LDA.b $06 : AND.w #$00FF : ASL A : TAX
+        LDA.b $06 : AND.w #$00FF : ASL : TAX
         
         LDA.l SmoothCurve, X : STA.b $0A
         
         LDA.b $06 : CLC : ADC.w #$0080 : STA.b $08
-        AND.w #$00FF : ASL A : TAX
+        AND.w #$00FF : ASL : TAX
         
         LDA.l SmoothCurve, X : STA.b $0C
         

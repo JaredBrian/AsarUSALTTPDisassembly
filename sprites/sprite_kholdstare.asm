@@ -44,7 +44,7 @@ Pool_KholdstareShell_ShakeFromDamage:
 KholdstareShell_ShakeFromDamage:
 {
     LDA.w $0EF0, X : BEQ .not_in_recoil_state
-        AND.b #$02 : LSR A : TAY
+        AND.b #$02 : LSR : TAY
         
         LDA Pool_KholdstareShell_ShakeFromDamage_x_offsets, Y : STA.w $0422
         
@@ -155,7 +155,7 @@ Sprite_Kholdstare:
     DEC.w $0E80, X : BPL .animation_cycle_delay
         LDA.b #$0A : STA.w $0E80, X
         
-        LDA.w $0DC0, X : INC A : AND.b #$03 : STA.w $0DC0, X
+        LDA.w $0DC0, X : INC : AND.b #$03 : STA.w $0DC0, X
     
     .animation_cycle_delay
     
@@ -227,16 +227,16 @@ Kholdstare_Accelerate:
 Kholstare_CheckTileCollision:
 {
     JSR.w Sprite3_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
-        LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+        LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC A : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : STA.w $0F80, X
     
     .no_horiz_collision
     
     LDA.w $0E70, X : AND.b #$0C : BEQ .no_vert_collision
-        LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+        LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
         
-        LDA.w $0F90, X : EOR.b #$FF : INC A : STA.w $0F90, X
+        LDA.w $0F90, X : EOR.b #$FF : INC : STA.w $0F90, X
     
     .no_vert_collision
     

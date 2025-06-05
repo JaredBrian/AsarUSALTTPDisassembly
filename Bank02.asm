@@ -413,7 +413,7 @@ Module_PreDungeon:
 
         .notHyruleCastle
 
-        LSR A : TAX
+        LSR : TAX
 
         ; Load the number of keys for this dungeon from gameplay data.
         LDA.l $7EF37C, X
@@ -454,7 +454,7 @@ Module_PreDungeon:
 
     REP #$30
 
-    LDA.b $A0 : AND.w #$000F : ASL A  : XBA : STA.w $062C
+    LDA.b $A0 : AND.w #$000F : ASL  : XBA : STA.w $062C
     LDA.b $A0 : AND.w #$0FF0 : LSR #3 : XBA : STA.w $062E
 
     LDA.b $A0 : CMP.w #$0104 : BNE .notLinksHouse
@@ -614,7 +614,7 @@ PreOverworld_JumpTable:
 ; $0103BF-$0103C6 LONG JUMP LOCATION
 Module_PreOverworld:
 {
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
 
     JSR.w (PreOverworld_JumpTable, X)
 
@@ -1000,7 +1000,7 @@ Credits_LoadScene_Overworld_JumpTable:
 Credits_LoadScene_Overworld:
 {
     ; As usual, the level 2 submodule index.
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
     JSR.w (.JumpTable, X)
 
     RTL
@@ -1111,7 +1111,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     JSL.l DecompOwAnimatedTiles
 
-    LDA.b $11 : LSR A : TAX
+    LDA.b $11 : LSR : TAX
 
     LDA.l Credits_LoadScene_PrepGFX_sprite_GFX, X : STA.w $0AA3
 
@@ -1272,7 +1272,7 @@ Credits_LoadScene_Dungeon:
 
     JSL.l DecompDungAnimatedTiles
 
-    LDA.b $11 : LSR A : TAX
+    LDA.b $11 : LSR : TAX
 
     LDA.l Credits_LoadScene_PrepGFX_sprite_GFX, X
     STA.w $0AA3
@@ -1353,7 +1353,7 @@ Module_Dungeon:
 
     JSL.l Effect_Handler
 
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
 
     JSR.w (Module_DungeonTable, X)
 
@@ -1661,7 +1661,7 @@ Dungeon_IntraRoomTrans:
     ; (speculative).
     JSL.l Link_HandleMovingAnimation_FullLongEntry
 
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
 
     JMP (Dungeon_IntraRoomTrans, X)
 }
@@ -1805,7 +1805,7 @@ Dungeon_InterRoomTrans:
 
     JSL.l Link_HandleMovingAnimation_FullLongEntry
 
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
 
     JMP (Dungeon_InterRoomTransTable, X)
 }
@@ -2280,7 +2280,7 @@ Dungeon_0E_01_HandleMusicAndResetProps:
     .moldormRoom
 
     ; Check if Link has the Pendant of Courage.
-    LDA.l $7EF374 : LSR A : BCS .BRANCH_BETA
+    LDA.l $7EF374 : LSR : BCS .BRANCH_BETA
         LDX.b #$F1 : STX.w $012C
 
     .BRANCH_BETA
@@ -3154,7 +3154,7 @@ Underworld_SetBossMusicUnorthodox:
         .BRANCH_BETA
 
         LDA.w $0130 : AND.w #$00FF : CMP.w #$00F1 : BEQ .BRANCH_ALPHA
-            LDA.l $7EF374 : LSR A : BCS .BRANCH_GAMMA
+            LDA.l $7EF374 : LSR : BCS .BRANCH_GAMMA
 
     .BRANCH_ALPHA
 
@@ -3361,9 +3361,9 @@ SpiralStairs_MakeNearbyWallsHighPriority_Exiting:
         .BRANCH_BETA
 
             INX #2
-        LDA.w $06B0, X : ASL A : AND.w #$007F : CMP.b $00 : BNE .BRANCH_BETA
+        LDA.w $06B0, X : ASL : AND.w #$007F : CMP.b $00 : BNE .BRANCH_BETA
 
-        LDA.w $06B0, X : ASL A : SEC : SBC.w #$0008 : STA.w $048C : TAX
+        LDA.w $06B0, X : ASL : SEC : SBC.w #$0008 : STA.w $048C : TAX
 
         LDY.w #$0004
 
@@ -3396,7 +3396,7 @@ Dungeon_LandingWipe_Modules:
 ; $01131D-$01132C LOCAL JUMP LOCATION
 Dungeon_LandingWipe:
 {
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
 
     JSR.w (.Modules, X)
 
@@ -3812,7 +3812,7 @@ Module07_14_00_ScrollCamera:
     LDA.b $E2 : CMP.l $7EC180 : BEQ .BRANCH_ALPHA
         ; If the current value is < stored value.
         BCC .BRANCH_BETA 
-            DEC A : CMP.l $7EC180 : BEQ .BRANCH_ALPHA
+            DEC : CMP.l $7EC180 : BEQ .BRANCH_ALPHA
                 DEC A
 
                 BRA .BRANCH_ALPHA
@@ -3820,7 +3820,7 @@ Module07_14_00_ScrollCamera:
         .BRANCH_BETA
 
         ; Increment so we can back to the origin.
-        INC A : CMP.l $7EC180 : BEQ .BRANCH_ALPHA
+        INC : CMP.l $7EC180 : BEQ .BRANCH_ALPHA
             INC A
 
     .BRANCH_ALPHA
@@ -3828,14 +3828,14 @@ Module07_14_00_ScrollCamera:
     STA.b $E2
 
     LDA.b $E8 : CMP.l $7EC182 : BEQ .BRANCH_GAMMA : BCC .BRANCH_DELTA
-        DEC A : CMP.l $7EC182 : BEQ .BRANCH_GAMMA
+        DEC : CMP.l $7EC182 : BEQ .BRANCH_GAMMA
             DEC A
 
             BRA .BRANCH_GAMMA
 
     .BRANCH_DELTA
 
-    INC A : CMP.l $7EC182 : BEQ .BRANCH_GAMMA
+    INC : CMP.l $7EC182 : BEQ .BRANCH_GAMMA
         INC A
 
     .BRANCH_GAMMA
@@ -4025,7 +4025,7 @@ Module07_15_04_SyncRoomPropsAndBuildOverlay:
 ; $0116EC-$01170E LOCAL JUMP LOCATION
 Module07_15_0E_FadeInFromWarp:
 {
-    LDA.l $7EC007 : LSR A : BCC .mosaicDisabled
+    LDA.l $7EC007 : LSR : BCC .mosaicDisabled
         LDA.l $7EC011 : BEQ .mosaicDisabled
             SEC : SBC.b #$10 : STA.l $7EC011
 
@@ -4072,7 +4072,7 @@ Dungeon_UpdatePegsTable:
 Dungeon_UpdatePegs:
 {
     INC.b $B0 : LDA.b $B0 : AND.b #$03 : BNE Module07_15_0F_FinalizeAndCacheEntry_return
-        LDA.b $B0 : LSR A : TAX
+        LDA.b $B0 : LSR : TAX
 
         JMP (Dungeon_UpdatePegsTable, X)
 }
@@ -4442,7 +4442,7 @@ Module0C_RestoreSubmodule:
 ; $011938-$011950 LONG JUMP LOCATION
 Module0D_Unused:
 {
-    LDA.l $7EC007 : LSR A : BCC .BRANCH_ALPHA
+    LDA.l $7EC007 : LSR : BCC .BRANCH_ALPHA
         LDA.l $7EC011 : SEC : SBC.b #$10 : STA.l $7EC011
 
     .BRANCH_ALPHA
@@ -4507,7 +4507,7 @@ Module_CloseSpotlight:
 {
     JSL.l Sprite_Main
 
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
 
     JSR.w (.Modules, X)
 
@@ -4526,7 +4526,7 @@ Module_CloseSpotlight:
 
     .BRANCH_ALPHA
 
-    LDA.b $2F : LSR A : TAX
+    LDA.b $2F : LSR : TAX
 
     LDA.b $1B : BNE .BRANCH_GAMMA
         LDX.b #$00
@@ -4654,7 +4654,7 @@ Spotlight_ConfigureTableAndControl:
             LDA.w $0699 : BEQ .BRANCH_GAMMA
                 LDX.b #$00
 
-                ASL A : BCC .BRANCH_THETA
+                ASL : BCC .BRANCH_THETA
                     LDX.b #$18
 
                 .BRANCH_THETA
@@ -4724,7 +4724,7 @@ Module_OpenSpotlight:
 {
     JSL.l Sprite_Main
 
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
 
     JSR.w (.Modules, X)
 
@@ -4762,7 +4762,7 @@ Module_HoleToDungeon_submodules:
 ; $011AF9-$011B00 LONG JUMP LOCATION
 Module_HoleToDungeon:
 {
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
 
     JSR.w (.submodules, X)
 
@@ -4805,7 +4805,7 @@ HoleToDungeon_LoadDungeon:
 
         .not_sewer
 
-        LSR A : TAX
+        LSR : TAX
 
         LDA.l $7EF37C, X
 
@@ -4853,7 +4853,7 @@ HoleToDungeon_LoadDungeon:
     JSL.l Dungeon_LoadAttrTable
 
     ; Increment to next submodule.
-    PLA : INC A : STA.b $B0
+    PLA : INC : STA.b $B0
 
     LDA.b #$0A : STA.w $0AA4
 
@@ -4928,7 +4928,7 @@ Dungeon_LoadSongBankIfNeeded:
 ; $011C0F-$011C3D LOCAL JUMP LOCATION
 Module11_04_FadeAndLoadQuadrants:
 {
-    LDA.b $13 : INC A : AND.b #$0F : STA.b $13
+    LDA.b $13 : INC : AND.b #$0F : STA.b $13
 
     CMP.b #$0F : BNE .notFullyBright
         INC.b $B0
@@ -4972,7 +4972,7 @@ Module_BossVictory_Modules:
 ; $011C4A-$011C58 LONG JUMP LOCATION
 Module_BossVictory:
 {
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
 
     JSR.w (.Modules, X)
 
@@ -5002,7 +5002,7 @@ Module_BossVictory_Heal:
 
         LDA.b #$02 : STA.b $2F
 
-        ASL A : STA.b $26
+        ASL : STA.b $26
 
         INC.b $16 : INC.b $11
 
@@ -5052,7 +5052,7 @@ Module_BossVictory_RunSpinAnimation:
         ; What the deuce... are we supposed to be able to get. the master sword
         ; without having the original sword? The sound effect only triggers if
         ; you have the fighter sword, or the tempered sword.
-        LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .noSound
+        LDA.l $7EF359 : INC : AND.b #$FE : BEQ .noSound
             ; Play "pulling master sword out" sound.
             LDA.b #$2C : STA.w $012E
 
@@ -5113,7 +5113,7 @@ Module_MirrorTable_states:
 ; $011CFC-$011D15 LONG JUMP LOCATION
 Module_Mirror:
 {
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
 
     JSR.w (.states, X)
 
@@ -5412,7 +5412,7 @@ Module_Victory_states:
 ; $011E8A-$011E98 LONG JUMP LOCATION
 Module_Victory:
 {
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
 
     JSR.w (.states, X)
 
@@ -5494,7 +5494,7 @@ Module_GanonEmerges:
 
     SEP #$20
 
-    LDA.w $0200 : ASL A : TAX
+    LDA.w $0200 : ASL : TAX
 
     JSR.w (.submodules, X)
 
@@ -5684,7 +5684,7 @@ Module_TriforceRoom_submodules:
 ; $011FEC-$012020 LONG JUMP LOCATION
 Module_TriforceRoom:
 {
-    LDA.b $B0 : ASL A : TAX
+    LDA.b $B0 : ASL : TAX
 
     JSR.w (.submodules, X)
 
@@ -5797,7 +5797,7 @@ TriforceRoom_Step4:
 
     JSR.w PreOverworld_LoadAndAdvance
 
-    PLA : INC A : STA.b $B0
+    PLA : INC : STA.b $B0
 
     LDA.b #$0F : STA.b $13
 
@@ -5853,7 +5853,7 @@ TriforceRoom_Step5:
 ; $0120E4-$0120FF LOCAL JUMP LOCATION
 TriforceRoom_Step6:
 {
-    LDA.l $7EC007 : LSR A : BCS .BRANCH_ALPHA
+    LDA.l $7EC007 : LSR : BCS .BRANCH_ALPHA
         LDA.l $7EC011 : BEQ .BRANCH_ALPHA
             SEC : SBC.b #$10 : STA.l $7EC011
 
@@ -6040,7 +6040,7 @@ Dungeon_SaveRoomData:
 
             .notSewer
 
-            LSR A : TAX
+            LSR : TAX
 
             ; Load our current count of keys for this dungeon.
             ; Save it to an appropriate slot.
@@ -6217,7 +6217,7 @@ Dungeon_AdjustAfterSpiralStairs:
     LDA.b $A2 : AND.b #$0F : STA.b $00
 
     ; $00 = ( (prev_room & 0x0F) - (current_room & 0x0F) ) << 1
-    LDA.b $A0 : AND.b #$0F : SEC : SBC.b $00 : ASL A : STA.b $00
+    LDA.b $A0 : AND.b #$0F : SEC : SBC.b $00 : ASL : STA.b $00
 
     LDA.b $23 : CLC : ADC.b $00 : STA.b $23
     LDA.b $E3 : CLC : ADC.b $00 : STA.b $E3
@@ -6257,7 +6257,7 @@ Dungeon_AdjustCoordsForLinkedRoom:
 
     STA.w $048E : STA.b $A2
 
-    LDA.b $A2 : AND.b #$0F : ASL A : SEC : SBC.b $23 : CLC : ADC.b $00 : STA.b $00
+    LDA.b $A2 : AND.b #$0F : ASL : SEC : SBC.b $23 : CLC : ADC.b $00 : STA.b $00
 
     LDA.b $23 : CLC : ADC.b $00 : STA.b $23
     LDA.b $E3 : CLC : ADC.b $00 : STA.b $E3
@@ -6368,7 +6368,7 @@ Module_Overworld:
     REP #$30
 
     ; Submodule index
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
     JSR.w (Module_OverworldTable, X)
 
     REP #$21
@@ -6446,7 +6446,7 @@ Module_Overworld:
 
                 ; Overlay is only moved every 4th frame.
                 LDA.b $1A : AND.b #$03 : BNE .skipMovement
-                    LDA.w $0494 : INC A : AND.b #$03 : STA.w $0494 : TAX
+                    LDA.w $0494 : INC : AND.b #$03 : STA.w $0494 : TAX
 
                     LDA.b $E1 : CLC : ADC.l OWOverlay_HShift, X : STA.b $E1
                     LDA.b $E7 : CLC : ADC.l OWOverlay_VShift, X : STA.b $E7
@@ -6872,7 +6872,7 @@ OverworldHandleTransitions:
         STA.b $84
 
         ; OPTIMIZE: Why not just LDA.b $04?
-        PLA : LSR A : TAX
+        PLA : LSR : TAX
 
         SEP #$30
 
@@ -6916,7 +6916,7 @@ OverworldHandleTransitions:
         ; Converts a bitwise direction indicator to a value based one.
         .BRANCH_LAMBDA
             DEX
-        LSR A : BCC .BRANCH_LAMBDA
+        LSR : BCC .BRANCH_LAMBDA
 
         STX.w $0418 : STX.w $069C
 
@@ -7005,7 +7005,7 @@ Overworld_LoadMapProperties:
     REP #$30
 
     ; This is misleading as the subsequent arrays are only 0x80 bytes.
-    LDA.b $8A : AND.w #$00BF : ASL A : TAX
+    LDA.b $8A : AND.w #$00BF : ASL : TAX
 
     LDA.w OverworldTransitionPositionY, X          : STA.w $0708
     LDA.w OverworldTransitionPositionX, X : LSR #3 : STA.w $070C
@@ -7824,8 +7824,8 @@ Overworld_ReloadSubscreenOverlay:
 
     STX.b $8A : STX.b $8C
 
-    LDA.b $84 : SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
-    LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A       : STA.b $86
+    LDA.b $84 : SEC : SBC.w #$0400 : AND.w #$0F80 : ASL : XBA : STA.b $88
+    LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR       : STA.b $86
 
     STZ.w $0418 : STZ.w $0410 : STZ.w $0416
 
@@ -7925,7 +7925,7 @@ Overworld_ReloadSubscreenOverlay:
 ; $0130D2-$0130F2 LOCAL JUMP LOCATION
 Module09_FadeBackInFromMosaic:
 {
-    LDA.l $7EC007 : LSR A : BCC .BRANCH_ALPHA
+    LDA.l $7EC007 : LSR : BCC .BRANCH_ALPHA
         LDA.l $7EC011 : SEC : SBC.b #$10 : STA.l $7EC011
 
     .BRANCH_ALPHA
@@ -7996,7 +7996,7 @@ OverworldMosaicTransition_RecoverSongAndSetMoving:
 Module09_1C:
 {
     ; if(!($7EC007 % 2)) goto .BRANCH_ALPHA
-    LDA.l $7EC007 : LSR A : BCC .BRANCH_ALPHA
+    LDA.l $7EC007 : LSR : BCC .BRANCH_ALPHA
         ; $7EC011 -= 0x10
         LDA.l $7EC011 : SEC : SBC.b #$10 : STA.l $7EC011
 
@@ -8020,7 +8020,7 @@ OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic:
     LDA.b #$0F : STA.b $13
     LDA.b #$80 : STA.b $9B
 
-    LDA.l $7EC00B : DEC A : STA.l $7EC007
+    LDA.l $7EC00B : DEC : STA.l $7EC007
 
     LDA.b #$00 : STA.l $7EC00B
     LDA.b #$02 : STA.l $7EC009
@@ -8083,7 +8083,7 @@ Module09_18:
     JSR.w LoadSpecialOverworld
     JSR.w OverworldLoadSubScreenOverlay
 
-    PLA : INC A : STA.b $11 ; Move on to the next module (0x19)
+    PLA : INC STA.b $11 ; Move on to the next module (0x19)
     PLA :         STA.b $10
 
     RTS
@@ -8098,7 +8098,7 @@ Module09_19:
 
     JSR.w PreOverworld_LoadAndAdvance
 
-    PLA : INC A : STA.b $11
+    PLA : INC STA.b $11
     PLA : STA.b $10
 
     RTS
@@ -8283,9 +8283,9 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
     BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
-        SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
+        SEC : SBC.w #$0400 : AND.w #$0F80 : ASL : XBA : STA.b $88
 
-        LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
+        LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR : STA.b $86
 
     .large_area
 
@@ -8337,9 +8337,9 @@ MirrorWarp_LoadSpritesAndColors:
     BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
-        SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
+        SEC : SBC.w #$0400 : AND.w #$0F80 : ASL : XBA : STA.b $88
 
-        LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
+        LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR : STA.b $86
 
     .large_area
 
@@ -8684,7 +8684,7 @@ Module09_2A_00_ScrollToLand:
     LDA.b $22 : CMP.l $7EC186 : BEQ .BRANCH_ALPHA  BCC .BRANCH_BETA
         DEC.b $02
 
-        DEC A : CMP.l $7EC186 : BEQ .BRANCH_ALPHA
+        DEC CMP.l $7EC186 : BEQ .BRANCH_ALPHA
             DEC.b $02
 
             DEC A
@@ -8695,7 +8695,7 @@ Module09_2A_00_ScrollToLand:
 
     INC.b $02
 
-    INC A : CMP.l $7EC186 : BEQ .BRANCH_ALPHA
+    INC : CMP.l $7EC186 : BEQ .BRANCH_ALPHA
         INC.b $02
 
         INC A
@@ -8707,7 +8707,7 @@ Module09_2A_00_ScrollToLand:
     LDA.b $20 : CMP.l $7EC184 : BEQ .BRANCH_GAMMA  BCC .BRANCH_DELTA
         DEC.b $00
 
-        DEC A : CMP.l $7EC184 : BEQ .BRANCH_GAMMA
+        DEC : CMP.l $7EC184 : BEQ .BRANCH_GAMMA
             DEC.b $00
 
             DEC A
@@ -8718,7 +8718,7 @@ Module09_2A_00_ScrollToLand:
 
     INC.b $00
 
-    INC A : CMP.l $7EC184 : BEQ .BRANCH_GAMMA
+    INC : CMP.l $7EC184 : BEQ .BRANCH_GAMMA
         INC.b $00
 
         INC A
@@ -9317,7 +9317,7 @@ AdjustQuadrantAndCamera_right:
 SetAndSaveVisitedQuadrantFlags:
 {
     LDA.b $A7 : ASL #2 : STA.b $00
-    LDA.b $A6 : ASL A  : ORA.b $00
+    LDA.b $A6 : ASL  : ORA.b $00
     ORA.b $AA
     ORA.b $A9
 
@@ -9333,7 +9333,7 @@ SaveVisitedQuadrantFlags:
 {
     REP #$30
 
-    LDA.b $A0 : ASL A : TAX
+    LDA.b $A0 : ASL : TAX
 
     ; Save quadrants explored to save WRAM buffer
     LDA.l $7EF000, X : ORA.w $0408 : STA.l $7EF000, X
@@ -9395,7 +9395,7 @@ Dungeon_SaveRoomQuadrantData:
     LDA.b $A7 : ASL #2 : STA.b $00
 
     ; Mapped to bit 2.
-    LDA.b $A6 : ASL A : ORA.b $00
+    LDA.b $A6 : ASL : ORA.b $00
 
     ; Mapped to bit 1.
     ORA.b $AA
@@ -9423,7 +9423,7 @@ Underworld_SaveRoomData:
     REP #$30
 
     ; What room are we in... use it as an index.
-    LDA.b $A0 : ASL A : TAX
+    LDA.b $A0 : ASL : TAX
 
     ; Store other data, like chests opened, bosses killed, etc.
     LDA.w $0402 : LSR #4 : STA.b $06
@@ -9531,7 +9531,7 @@ HandleEdgeTransition_AdjustCameraBounds:
         LDA.w Pool_HandleEdgeTransition_AdjustCameraBounds_horizontal_bounds, X
         STA.w $061C
 
-        INC A : INC A : STA.w $061E
+        INC : INC : STA.w $061E
 
         SEP #$20
 
@@ -9556,7 +9556,7 @@ HandleEdgeTransition_AdjustCameraBounds:
     LDA.w Pool_HandleEdgeTransition_AdjustCameraBounds_vertical_bounds, X
     STA.w $0618
 
-    INC A : INC A : STA.w $061A
+    INC : INC : STA.w $061A
 
     SEP #$20
 
@@ -9625,7 +9625,7 @@ Underworld_HandleCamera:
 
                             STZ.b $04
 
-                            LSR A : ROR.b $04 : CMP.w #$7000 : BCC .BRANCH_THETA
+                            LSR : ROR.b $04 : CMP.w #$7000 : BCC .BRANCH_THETA
                                 ORA.w #$F000
 
                             .BRANCH_THETA
@@ -9680,7 +9680,7 @@ Underworld_HandleCamera:
                     CLC : ADC.b $00 : STA.b $E2
 
                     LDA.b $A0 : CMP.w #$FFFF : BEQ .BRANCH_XI
-                        LDA.b $00 : STZ.b $04 : LSR A : ROR.b $04 : CMP.w #$7000 : BCC .BRANCH_OMICRON
+                        LDA.b $00 : STZ.b $04 : LSR : ROR.b $04 : CMP.w #$7000 : BCC .BRANCH_OMICRON
                             ORA.w #$F000
 
                         .BRANCH_OMICRON
@@ -9805,7 +9805,7 @@ Overworld_OperateCameraScroll:
 
         STZ.b $00
 
-        LSR A : ROR.b $00
+        LSR : ROR.b $00
 
         LDX.b $8C
 
@@ -9813,7 +9813,7 @@ Overworld_OperateCameraScroll:
             CPX.b #$BE : BNE .BRANCH_LAMBDA
                 .BRANCH_KAPPA
 
-                LSR A : ROR.b $00 : CMP.w #$3000 : BCC .BRANCH_MU
+                LSR : ROR.b $00 : CMP.w #$3000 : BCC .BRANCH_MU
                     ORA.w #$F000
 
                     BRA .BRANCH_MU
@@ -9863,7 +9863,7 @@ Overworld_OperateCameraScroll:
     STZ.b $04
 
     CMP.w #$0080 : BCC .BRANCH_OMICRON
-        EOR.w #$00FF : INC A : DEC.b $00 : DEC.b $00
+        EOR.w #$00FF : INC : DEC.b $00 : DEC.b $00
 
     .BRANCH_OMICRON
 
@@ -9900,7 +9900,7 @@ Overworld_OperateCameraScroll:
     CPX.b #$97 : BEQ .BRANCH_UPSILON
     CPX.b #$9D : BEQ .BRANCH_UPSILON
         LDA.b $04 : BEQ .BRANCH_UPSILON
-            STZ.b $00 : LSR A : ROR.b $00
+            STZ.b $00 : LSR : ROR.b $00
 
             LDX.b $8C
 
@@ -9908,7 +9908,7 @@ Overworld_OperateCameraScroll:
                 CPX.b #$9E : BNE .BRANCH_CHI
                     .BRANCH_PHI
 
-                    LSR A : ROR.b $00 : CMP.w #$3000 : BCC .BRANCH_PSI
+                    LSR : ROR.b $00 : CMP.w #$3000 : BCC .BRANCH_PSI
                         ORA.w #$F000
 
                         BRA .BRANCH_PSI
@@ -10012,7 +10012,7 @@ OverworldCameraBoundaryCheck:
     TYA : EOR.w #$0002 : TAX
 
     ; A coordinate that is not on the 16 pixel grid.
-    LDA.w $0624, Y : INC A : STA.w $0624, Y
+    LDA.w $0624, Y : INC : STA.w $0624, Y
     CMP.w #$0010 : BMI .notGrid
         SEC : SBC.w #$0010 : STA.w $0624, Y
 
@@ -10065,7 +10065,7 @@ Pool_UnderworldTransition_AdjustCamera_Vertical:
 ; $013DE2-$013DF2 LOCAL JUMP LOCATION
 UnderworldTransition_AdjustCamera_Vertical:
 {
-    ASL A : TAY
+    ASL : TAY
 
     LDX.b #$00
 
@@ -10103,7 +10103,7 @@ UnderworldTransition_ScrollRoom:
     INC.w $0126
 
     ; Direction of the transition.
-    LDA.w $0418 : ASL A : TAY
+    LDA.w $0418 : ASL : TAY
 
     REP #$20
 
@@ -10183,7 +10183,7 @@ StraightStairs_10:
 
     LDA.b #$0C : STA.b $4B : STA.w $02F9
 
-    LDA.w $0418 : ASL A : TAX
+    LDA.w $0418 : ASL TAX
 
     REP #$20
 
@@ -10296,7 +10296,7 @@ OverworldScrollTransition:
 
     INC.w $0126
 
-    LDA.w $0418 : ASL A : TAY
+    LDA.w $0418 : ASL TAY
 
     LDX.b #$01
     CPY.b #$04 : BCS .horizScroll
@@ -10366,7 +10366,7 @@ OverworldScrollTransition:
         CLC : ADC.w Pool_Overworld_SetCameraBounds_boundary_delta, Y : PHA
 
         ; X = 0x00 or 0x04
-        TXA : ASL A : TAX
+        TXA : ASL TAX
 
         PLA : CLC : ADC.w #$000B : STA.w $061A, X
 
@@ -10481,7 +10481,7 @@ UnderworldTransition_FindTransitionLanding:
 
     REP #$30
 
-    LDA.b $A0 : ASL A : TAX
+    LDA.b $A0 : ASL TAX
 
     ; Save current quadrant status to save game buffer.
     LDA.l $7EF000, X : ORA.w $0408 : STA.l $7EF000, X
@@ -10592,14 +10592,14 @@ UnderworldTransition_MoveLinkOutDoor:
 
     LDY.b #$02
 
-    LDA.w $0418 : LSR A : BCC .BRANCH_ALPHA
+    LDA.w $0418 : LSR BCC .BRANCH_ALPHA
         LDY.b #$FE
 
     .BRANCH_ALPHA
 
     STY.b $00
 
-    LSR A : BCS .BRANCH_BETA
+    LSR : BCS .BRANCH_BETA
         LDY.b #$FF
 
         LDA.b $00 : BMI .BRANCH_GAMMA
@@ -10704,7 +10704,7 @@ Overworld_FinalizeEntryOntoScreen:
 
     LDY.b #$02
 
-    LDA.w $069C : LSR A : BCS .BRANCH_ALPHA
+    LDA.w $069C : LSR : BCS .BRANCH_ALPHA
         LDY.b #$FE
 
     .BRANCH_ALPHA
@@ -10713,7 +10713,7 @@ Overworld_FinalizeEntryOntoScreen:
 
     LDX.b #$02
 
-    LSR A : BCS .BRANCH_BETA
+    LSR : BCS .BRANCH_BETA
         LDX.b #$00
 
     .BRANCH_BETA
@@ -10760,7 +10760,7 @@ Module09_1F:
     JSL.l Link_HandleMovingAnimation_FullLongEntry
     LDY.b #$01
 
-    LDA.w $069C : LSR A : BCS .BRANCH_ALPHA
+    LDA.w $069C : LSR : BCS .BRANCH_ALPHA
         LDY.b #$FF
 
     .BRANCH_ALPHA
@@ -10769,7 +10769,7 @@ Module09_1F:
 
     LDX.b #$02
 
-    LSR A : BCS .BRANCH_BETA
+    LSR : BCS .BRANCH_BETA
         LDX.b #$00
 
     .BRANCH_BETA
@@ -10784,7 +10784,7 @@ Module09_1F:
     CLC : ADC.b $20, X : STA.b $20, X
     TYA : ADC.b $21, X : STA.b $21, X
 
-    TXA : LSR A : TAX
+    TXA : LSR : TAX
 
     LDA.b $00 : STA.b $30, X
 
@@ -10807,7 +10807,7 @@ Module09_1F:
 Overworld_ResetMosaic:
 {
     ; if(($7EC007 & 0x01) == 0)
-    LDA.l $7EC007 : LSR A : BCC CopyMosaicControl
+    LDA.l $7EC007 : LSR : BCC CopyMosaicControl
         ; Bleeds into the next function.
 }
 
@@ -12046,7 +12046,7 @@ Dungeon_LoadEntrance:
     .notSaveAndContinue
 
     ; Use a normal entrance instead.
-    LDA.w $010E : AND.w #$00FF : ASL A : TAX : ASL #2 : TAY
+    LDA.w $010E : AND.w #$00FF : ASL : TAX : ASL #2 : TAY
 
     LDA.w EntranceData_rooms, X
     STA.b $A0 : STA.w $048E
@@ -12418,7 +12418,7 @@ SpawnPointData:
 Dungeon_LoadStartingPoint:
 {
     ; An SRAM value that tells us what starting location to use?
-    LDA.l $7EF3C8 : AND.w #$00FF : ASL A : TAX : ASL #2 : TAY
+    LDA.l $7EF3C8 : AND.w #$00FF : ASL : TAX : ASL #2 : TAY
 
     ; Set the entrance.
     LDA.w SpawnPointData_entrance_id, X : STA.w $010E
@@ -13674,9 +13674,9 @@ Overworld_LoadExitData:
     LDA.w UnderworldExitData_x_coordinate, X : STA.b $22
 
     LDA.w UnderworldExitData_exit_VRAM_addr, X : STA.b $84
-    SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
+    SEC : SBC.w #$0400 : AND.w #$0F80 : ASL : XBA : STA.b $88
 
-    LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
+    LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR : STA.b $86
 
     LDA.w UnderworldExitData_camera_trigger_y, X : STA.w $0618
     DEC #2         : STA.w $061A
@@ -13691,7 +13691,7 @@ Overworld_LoadExitData:
 
     LDA.w UnderworldExitData_door_graphic_location, X : STA.w $0698
 
-    TXA : LSR A : TAX
+    TXA : LSR : TAX
 
     SEP #$20
 
@@ -13702,13 +13702,13 @@ Overworld_LoadExitData:
     STZ.b $8B : STZ.w $040B
 
     LDA.w UnderworldExitData_scroll_mod_y, X : STA.w $0624
-    STZ.w $0625 : ASL A : BCC .positive1
+    STZ.w $0625 : ASL : BCC .positive1
         DEC.w $0625 ; Sign extends to 16-bit.
 
     .positive1
 
     LDA.w UnderworldExitData_scroll_mod_x, X : STA.w $0628 : STZ.w $0629
-    ASL A : BCC .positive2
+    ASL : BCC .positive2
         DEC.w $0629 ; Sign extend to 16-bit.
 
     .positive2
@@ -13746,7 +13746,7 @@ Overworld_LoadNewScreenProperties:
 
     STZ.w $0713
 
-    LDA.b $8A : AND.b #$3F : ASL A : TAY
+    LDA.b $8A : AND.b #$3F : ASL : TAY
 
     REP #$20
 
@@ -13825,9 +13825,9 @@ Overworld_SimpleExit:
     LDA.l $7EC14C : STA.b $8A
 
     LDA.l $7EC14E : STA.b $84
-    SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
+    SEC : SBC.w #$0400 : AND.w #$0F80 : ASL : XBA : STA.b $88
 
-    LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
+    LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR : STA.b $86
 
     LDA.l $7EC150 : STA.w $0618 : DEC #2 : STA.w $061A
     LDA.l $7EC152 : STA.w $061C : DEC #2 : STA.w $061E
@@ -14024,7 +14024,7 @@ LoadSpecialOverworld:
 
     LDA.w #$03F0 : STA.b $00
 
-    LDA.b $A0 : AND.w #$003F : ASL A : TAX
+    LDA.b $A0 : AND.w #$003F : ASL : TAX
 
     LDA.l Pool_LoadSpecialOverworld_camera600, X          : STA.w $0708
     LDA.l Pool_LoadSpecialOverworld_camera70C, X : LSR #3 : STA.w $070C
@@ -14032,7 +14032,7 @@ LoadSpecialOverworld:
     LDA.b $00          : STA.w $070A
     LDA.b $00 : LSR #3 : STA.w $070E
 
-    LDA.b $A0 : ASL A : TAY
+    LDA.b $A0 : ASL : TAY
 
     SEP #$10
 
@@ -14077,9 +14077,9 @@ LoadOverworldFromSpecialOverworld:
     LDA.l $7EC10C : STA.b $8A
 
     LDA.l $7EC10E : STA.b $84
-    SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
+    SEC : SBC.w #$0400 : AND.w #$0F80 : ASL : XBA : STA.b $88
 
-    LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
+    LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR : STA.b $86
 
     LDA.l $7EC110 : STA.w $0618 : DEC #2 : STA.w $061A
     LDA.l $7EC112 : STA.w $061C : DEC #2 : STA.w $061E
@@ -14379,9 +14379,9 @@ Whirlpool_LoadTargetAreaData:
     STA.b $8A : STA.w $040A
 
     LDA.w Pool_BirdTravel_LoadTargetAreaData_map16_index, X : STA.b $84
-    SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
+    SEC : SBC.w #$0400 : AND.w #$0F80 : ASL : XBA : STA.b $88
 
-    LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
+    LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR : STA.b $86
 
     LDA.w Pool_BirdTravel_LoadTargetAreaData_camera_trigger_y, X
     STA.w $0618 : DEC #2 : STA.w $061A
@@ -14484,9 +14484,9 @@ Overworld_LoadAmbientOverlay:
     BEQ .large_area
         LDA.w #$0390 : STA.b $84
 
-        SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
+        SEC : SBC.w #$0400 : AND.w #$0F80 : ASL : XBA : STA.b $88
 
-        LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
+        LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR : STA.b $86
 
         BRA .load_overlay
 
@@ -14510,9 +14510,9 @@ Overworld_LoadAmbientOverlay:
         BEQ .large_area_2
             LDA.w #$0390 : STA.b $84
 
-            SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
+            SEC : SBC.w #$0400 : AND.w #$0F80 : ASL : XBA : STA.b $88
 
-            LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
+            LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR : STA.b $86
 
         .large_area_2
 
@@ -14703,7 +14703,7 @@ Overworld_LoadMapData:
     LDA.l $7EF280, X : AND.b #$02 : BEQ .noBombedDoor
         REP #$30
 
-        LDA.b $8A : ASL A : TAX
+        LDA.b $8A : ASL TAX
 
         ; Designates locations to write opened bomb doors to. i.e. it contains
         ; the map16 coordinates for them.
@@ -14742,7 +14742,7 @@ Overworld_TransVertical:
 
         LDA.b $84 : SEC : SBC.w #$0080 : STA.b $84
 
-        LDA.b $88 : DEC A : AND.w #$001F : STA.b $88
+        LDA.b $88 : DEC : AND.w #$001F : STA.b $88
     DEC.b $08 : BNE .alpha
 
     LDA.w #$FFFF : LDX.b $0E : STA.w $1100, X
@@ -14773,7 +14773,7 @@ Overworld_TransHorizontal:
 
         DEC.b $84 : DEC.b $84
 
-        LDA.b $86 : DEC A : AND.w #$001F : STA.b $86
+        LDA.b $86 : DEC AND.w #$001F : STA.b $86
     DEC.b $08 : BNE .alpha
 
     LDA.w #$FFFF : LDX.b $0E : STA.w $1100, X
@@ -14861,13 +14861,13 @@ Overworld_StartTransMapUpdate:
     ; ZSCREAM: ZS Changes this BNE to a BEQ.
     ; $017039
     BNE .smallArea
-        LDA.w $0416 : ASL A : TAX
+        LDA.w $0416 : ASL : TAX
 
         JMP (Overworld_LargeTransTable, X)
 
     .smallArea
 
-    LDA.w $0416 : ASL A : TAX
+    LDA.w $0416 : ASL TAX
 
     JMP (Overworld_SmallTransTable, X)
 }
@@ -15126,7 +15126,7 @@ OverworldTransitionScrollAndLoadMap:
 {
     SEP #$30
 
-    LDA.w $0416 : ASL A : TAX
+    LDA.w $0416 : ASL : TAX
 
     JMP (OverworldTransitionScrollAndLoadMapJumpTable, X)
 }
@@ -15229,7 +15229,7 @@ Overworld_ScrollMap:
     SEP #$30
 
     ; Based on the flags in the
-    LDA.w $0416 : ASL A : TAX
+    LDA.w $0416 : ASL : TAX
 
     JSR.w (Overworld_ScrollTable, X)
 
@@ -15364,7 +15364,7 @@ CheckForNewlyLoadedMapAreas_North:
 
         LDA.b $84 : SEC : SBC.w #$0080 : STA.b $84
 
-        LDA.b $88 : DEC A : AND.w #$001F : STA.b $88
+        LDA.b $88 : DEC : AND.w #$001F : STA.b $88
 
     .smallArea
 
@@ -15402,7 +15402,7 @@ CheckForNewlyLoadedMapAreas_South:
 
         LDA.b $84 : CLC : ADC.w #$0080 : STA.b $84
 
-        LDA.b $88 : INC A : AND.w #$001F : STA.b $88
+        LDA.b $88 : INC : AND.w #$001F : STA.b $88
 
     .BRANCH_ALPHA
 
@@ -15449,7 +15449,7 @@ CheckForNewlyLoadedMapAreas_West:
 
         DEC.b $84 : DEC.b $84
 
-        LDA.b $86 : DEC A : AND.w #$001F : STA.b $86
+        LDA.b $86 : DEC : AND.w #$001F : STA.b $86
 
     .BRANCH_GAMMA
 
@@ -15497,7 +15497,7 @@ CheckForNewlyLoadedMapAreas_East:
 
         INC.b $84 : INC.b $84
 
-        LDA.b $86 : INC A : AND.w #$001F : STA.b $86
+        LDA.b $86 : INC : AND.w #$001F : STA.b $86
 
     .BRANCH_GAMMA
 
@@ -15515,7 +15515,7 @@ Overworld_DrawHorizontalStrip:
     SEC : SBC.l Pool_BufferAndBuildMap16Stripes_verticalScrollTileOffset, X
     TAY
 
-    LDA.b $88 : ASL A : TAX
+    LDA.b $88 : ASL : TAX
 
     ; $00[3] = $7E2000
     ; $03[2] = $0010
@@ -15554,7 +15554,7 @@ Overworld_DrawHorizontalStrip:
 
     .inBounds
 
-    LDA.b $02 : ASL A : CLC : ADC.b $00    : STA.b $00
+    LDA.b $02 : ASL : CLC : ADC.b $00    : STA.b $00
                         CLC : ADC.w #$0800 : STA.b $0C
 
     LDA.l Pool_BufferAndBuildMap16Stripes_Map16BufferOffsetLow
@@ -15573,7 +15573,7 @@ CreateMap16Stripes_Horizontal:
 {
     STA.b $02
 
-    LDY.b $0E : LDA.b $00 : STA.w $1100, Y : INC A : STA.w $1142, Y : INY #2
+    LDY.b $0E : LDA.b $00 : STA.w $1100, Y : INC : STA.w $1142, Y : INY #2
 
     LDA.w #$0010 : STA.b $06
 
@@ -15607,13 +15607,13 @@ CreateMap16Stripes_Horizontal:
 ; $017482-$017509 LOCAL JUMP LOCATION
 Overworld_DrawVerticalStrip:
 {
-    LDA.w $0416 : AND.w #$0004 : LSR A : TAX
+    LDA.w $0416 : AND.w #$0004 : LSR : TAX
 
     LDA.b $84
     SEC : SBC Pool_BufferAndBuildMap16Stripes_verticalScrollTileOffset, X
     TAY
 
-    LDA.b $86 : ASL A : TAX
+    LDA.b $86 : ASL : TAX
 
     ; $00[3] = $7E2000
     LDA.w #$2000 : STA.b $00
@@ -15711,7 +15711,7 @@ CreateMap16Stripes_Vertical:
 Overworld_LoadMap32:
 {
     ; X = $8A * 3
-    LDA.b $8A : ASL A : ADC.b $8A : TAX
+    LDA.b $8A : ASL : ADC.b $8A : TAX
 
     LDA.w #$007E : STA.b $02 : STA.b $05
 
@@ -15720,7 +15720,7 @@ Overworld_LoadMap32:
     JSR.w .loadQuadrant
 
     ; X = 3 * ($8A + 1)
-    LDA.b $8A : INC A : STA.b $00 : ASL A : ADC.b $00 : TAX
+    LDA.b $8A : INC : STA.b $00 : ASL : ADC.b $00 : TAX
 
     ; This should be written as just "LDA.w #$2040"
     LDA.w #$2000 : CLC : ADC.w #$0040
@@ -15731,7 +15731,7 @@ Overworld_LoadMap32:
     LDA.b $8A : CLC : ADC.w #$0008 : STA.b $00
 
     ; X = 3 * ($8A + 8)
-    ASL A : ADC.b $00 : TAX
+    ASL : ADC.b $00 : TAX
 
     LDA.w #$3000
 
@@ -15741,7 +15741,7 @@ Overworld_LoadMap32:
     LDA.b $8A : CLC : ADC.w #$0009 : STA.b $00
 
     ; X = 3 * ($8A + 9)
-    ASL A : ADC.b $00 : TAX
+    ASL : ADC.b $00 : TAX
 
     ; This should be written as just "LDA.w #$0304"
     LDA.w #$3000 : CLC : ADC.w #$0040
@@ -15920,13 +15920,13 @@ Map32ToMap16:
     STA.w $4440
 
     ; $4442 = input >> 1
-    LSR A : STA.w $4442
+    LSR : STA.w $4442
 
     ; X = (input >> 2) + (input >> 1)
     ; Thus the formula is X = (input / 4) + (input / 2) = input * (3 / 4)
     ; The map32 to map16 conversion data is packed 12 bits at time, hence we
     ; take a 16-bit index and multiply it by (3/4) to get a 12-bit index.
-    LSR A : ADC.w $4442 : TAX
+    LSR : ADC.w $4442 : TAX
 
     SEP #$20
 
@@ -15995,7 +15995,7 @@ Map32ToMap16:
 LoadSubOverlayMap32:
 {
     ; X = (3 * $8A)
-    LDA.b $8A : ASL A : ADC.b $8A : TAX
+    LDA.b $8A : ASL : ADC.b $8A : TAX
 
     ; $00 = $7E4000, $03 = $7E4080
     LDA.w #$007E : STA.b $02 : STA.b $05
@@ -16079,7 +16079,7 @@ LoadSubOverlayMap32:
 
         .nextTile
             ; X = ($7F4000 + Y) << 1, the map32 value.
-            LDY.b $0B : LDA.b [$08], Y : ASL A : TAX
+            LDY.b $0B : LDA.b [$08], Y : ASL : TAX
 
             LDY.b $06
 
@@ -16353,13 +16353,13 @@ Map16ToMap8:
 
         ; $84 -= 0x0080, $88 = ($88 - 1) % 32
         LDA.b $84 : SEC   : SBC.w #$0080 : STA.b $84
-        LDA.b $88 : DEC A : AND.w #$001F : STA.b $88
+        LDA.b $88 : DEC : AND.w #$001F : STA.b $88
 
         JSR.w Map16ChunkToMap8
 
         ; $84 -= 0x0080, $88 = ($88 - 1) & 32
         LDA.b $84 : SEC   : SBC.w #$0080 : STA.b $84
-        LDA.b $88 : DEC A : AND.w #$001F : STA.b $88
+        LDA.b $88 : DEC : AND.w #$001F : STA.b $88
     DEC !counter : BNE .conversionLoop
 
     SEP #$30
@@ -16386,7 +16386,7 @@ Map16ChunkToMap8:
     ; X = $86 << 1
     ; $00 = 0x0010
     LDA.b $84 : SEC : SBC.w #$0410 : AND.w #$1FFF : TAY
-    LDA.b $86 : ASL A : TAX
+    LDA.b $86 : ASL : TAX
     LDA.w #$0010 : STA.b $00
 
     .getMap16Chunk
@@ -16612,7 +16612,7 @@ Overworld_Decomp_next_byte:
     .BRANCH_NORMAL
 
     ; Increment the value and save it to $CB.
-    INC A : STA.b $CB
+    INC : STA.b $CB
 
     SEP #$20 ; Return to 8-bit accumulator.
 
@@ -16621,9 +16621,9 @@ Overworld_Decomp_next_byte:
     PLA : BEQ .BRANCH_NONREPEATING
         BMI .BRANCH_COPY ; If the top most bit was set [101], [110], [100]
             ; Provided nothing shifted into the MSB [001]
-            ASL A : BPL .BRANCH_REPEATING
+            ASL : BPL .BRANCH_REPEATING
                 ; If it was negative, shift again. [010]
-                ASL A : BPL .BRANCH_REPEATINGWORD
+                ASL : BPL .BRANCH_REPEATINGWORD
                     ; And of course the last case, [011]
                     JSR.w OverworldDecomp_GetNextSourceOctet
 

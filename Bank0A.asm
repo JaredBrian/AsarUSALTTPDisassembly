@@ -463,7 +463,7 @@ BirdTravel_Main:
         BRA .BRANCH_GAMMA
 
         ; $0537A4 ALTERNATE ENTRY POINT
-        TXA : INC A : AND.b #$07 : TAX
+        TXA : INC : AND.b #$07 : TAX
     DEY : BPL .BRANCH_LAMBDA
 
     .BRANCH_GAMMA
@@ -661,7 +661,7 @@ BirdTravel_LoadAmbientOverlay:
     
     REP #$20
     
-    PLA : INC A : STA.w $0200
+    PLA : INC : STA.w $0200
     
     PLA : STA.b $10
     
@@ -968,11 +968,11 @@ Pool_OverworldMap_Main:
 ; $053AE6-$053BD5 LONG JUMP LOCATION
 OverworldMap_Main:
 {
-    LDA.w $0636 : ASL A : BCC .dontToggleZoomLevel
+    LDA.w $0636 : ASL : BCC .dontToggleZoomLevel
         TAX
         
         ; We got rid of bit 7 of $0636.
-        LSR A : STA.w $0636
+        LSR : STA.w $0636
         
         ; Change the matrix multiplication done via HDMA (changes from
         ; closeup to full view).
@@ -1072,7 +1072,7 @@ OverworldMap_Main:
         
         ; BYSTudlr -> ----lr10 -> X
         ; .... who knows what they're doing... Anyways, keep reading.
-        LDA.b $F0 : AND.b #$03 : ASL A : INC A : ASL A : TAX
+        LDA.b $F0 : AND.b #$03 : ASL : INC : ASL : TAX
         
         REP #$20
         
@@ -1741,7 +1741,7 @@ WorldMap_HandleSprites:
         
         LDA.w $1AB0, X : ORA.w $1AC0, X : ORA.w $1AD0, X : ORA.w $1AE0, X : BEQ .BRANCH_BETA
             LDA.b $1A : BNE .BRANCH_GAMMA
-                LDA.w $1AF0, X : INC A : STA.w $1AF0, X
+                LDA.w $1AF0, X : INC : STA.w $1AF0, X
 
             .BRANCH_GAMMA
 
@@ -1753,7 +1753,7 @@ WorldMap_HandleSprites:
             JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_BETA
                 LDA.b #$6A : STA.b $0D
                 
-                LDA.b $1A : LSR A : AND.b #$03 : TAX
+                LDA.b $1A : LSR : AND.b #$03 : TAX
                 
                 LDA.l WorldMap_PortalProps, X : STA.b $0C
                 
@@ -1767,7 +1767,7 @@ WorldMap_HandleSprites:
 
     LDA.l $7EF2DB : AND.b #$20 : BNE .BRANCH_DELTA
         ; Load map icon indicator variable.
-        LDA.l $7EF3C7 : CMP.b #$06 : ROL A : EOR.w $0FFF : AND.b #$01 : BEQ .lightWorldSprites
+        LDA.l $7EF3C7 : CMP.b #$06 : ROL : EOR.w $0FFF : AND.b #$01 : BEQ .lightWorldSprites
 
     .BRANCH_DELTA
 
@@ -1781,7 +1781,7 @@ WorldMap_HandleSprites:
     JSR.w OverworldMap_CheckPendant : BCS .BRANCH_ZETA
         JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_ZETA
             ; X = (map sprites indicator << 1)
-            LDA.l $7EF3C7 : ASL A : TAX
+            LDA.l $7EF3C7 : ASL : TAX
             
             LDA.l WorldMapIcon_posx_spr0-1, X : BMI .BRANCH_ZETA
                 STA.l $7EC10B
@@ -1803,7 +1803,7 @@ WorldMap_HandleSprites:
                 
                 JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_ZETA
                     ; X = (map sprites indicator << 1)
-                    LDA.l $7EF3C7 : ASL A : TAX
+                    LDA.l $7EF3C7 : ASL : TAX
                     
                     LDA.l WorldMapIcon_tile_spr0+1, X : BEQ .BRANCH_KAPPA
                         STA.b $0D
@@ -1837,7 +1837,7 @@ WorldMap_HandleSprites:
     JSR.w OverworlDMAp_CheckPendant : BCS .BRANCH_MU
         JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_MU
             ; X = (map sprites indicator << 1)
-            LDA.l $7EF3C7 : ASL A : TAX
+            LDA.l $7EF3C7 : ASL : TAX
             
             LDA.l WorldMapIcon_posx_spr1+1, X : BMI .BRANCH_MU
                 STA.l $7EC10B
@@ -1858,7 +1858,7 @@ WorldMap_HandleSprites:
 
                 JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_MU
                     ; X = (map sprites indicator << 1)
-                    LDA.l $7EF3C7 : ASL A : TAX
+                    LDA.l $7EF3C7 : ASL : TAX
                             
                     LDA.l WorldMapIcon_tile_spr1+1, X : BEQ .BRANCH_OMICRON
                         STA.b $0D
@@ -1892,7 +1892,7 @@ WorldMap_HandleSprites:
     JSR.w OverworlDMAp_CheckPendant : BCS .BRANCH_RHO
         JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_RHO
             ; X = (map sprites indicator << 1)
-            LDA.l $7EF3C7 : ASL A : TAX
+            LDA.l $7EF3C7 : ASL : TAX
             
             LDA.l WorldMapIcon_posx_spr2+1, X : BMI .BRANCH_RHO
                 STA.l $7EC10B
@@ -1914,7 +1914,7 @@ WorldMap_HandleSprites:
                             
                 JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_RHO
                     ; X = (map sprites indictaor << 1)
-                    LDA.l $7EF3C7 : ASL A : TAX
+                    LDA.l $7EF3C7 : ASL : TAX
                                 
                     LDA.l WorldMapIcon_tile_spr2+1, X : BEQ .BRANCH_UPSILON
                         STA.b $0D
@@ -1949,7 +1949,7 @@ WorldMap_HandleSprites:
     
     JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_CHI
         ; X = (map sprites indicator << 1)
-        LDA.l $7EF3C7 : ASL A : TAX
+        LDA.l $7EF3C7 : ASL : TAX
         
         LDA.l WorldMapIcon_posx_spr3+1, X : BMI .BRANCH_CHI
             STA.l $7EC10B
@@ -1971,7 +1971,7 @@ WorldMap_HandleSprites:
             
             JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_CHI
                 ; X = (map sprites indicator << 1)
-                LDA.l $7EF3C7 : ASL A : TAX
+                LDA.l $7EF3C7 : ASL : TAX
                 
                 LDA.l WorldMapIcon_tile_spr3+1, X : BEQ .BRANCH_ALTIMA
                     STA.b $0D
@@ -2004,7 +2004,7 @@ WorldMap_HandleSprites:
     
     JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_OPTIMUS
         ; X = (map sprites indicator << 1)
-        LDA.l $7EF3C7 : ASL A : TAX
+        LDA.l $7EF3C7 : ASL : TAX
         
         LDA.l WorldMapIcon_posx_spr4+1, X : BMI .BRANCH_OPTIMUS
             STA.l $7EC10B
@@ -2026,7 +2026,7 @@ WorldMap_HandleSprites:
             
             JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_OPTIMUS
                 ; X = (map sprites indicator << 1)
-                LDA.l $7EF3C7 : ASL A : TAX
+                LDA.l $7EF3C7 : ASL : TAX
                 
                 LDA.l WorldMapIcon_tile_spr4+1, X : BEQ .BRANCH_DEL
                     STA.b $0D
@@ -2059,7 +2059,7 @@ WorldMap_HandleSprites:
     LDX.b #$05
     
     JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_SIN
-        LDA.l $7EF3C7 : ASL A : TAX
+        LDA.l $7EF3C7 : ASL : TAX
         
         LDA.l WorldMapIcon_posx_spr5+1, X : BMI .BRANCH_SIN
             STA.l $7EC10B
@@ -2080,7 +2080,7 @@ WorldMap_HandleSprites:
             LDX.b #$09
             
             JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_SIN
-                LDA.l $7EF3C7 : ASL A : TAX
+                LDA.l $7EF3C7 : ASL : TAX
                 
                 LDA.l WorldMapIcon_tile_spr5+1, X : BEQ .BRANCH_DOD
                     STA.b $0D
@@ -2113,7 +2113,7 @@ WorldMap_HandleSprites:
     LDX.b #$06
     
     JSR.w OverworldMap_CheckCrystal : BCS .restore_coords_and_exit
-        LDA.l $7EF3C7 : ASL A : TAX
+        LDA.l $7EF3C7 : ASL : TAX
         
         LDA.l WorldMapIcon_posx_spr6+1, X : BMI .restore_coords_and_exit
             STA.l $7EC10B
@@ -2135,7 +2135,7 @@ WorldMap_HandleSprites:
             
             JSR.w WorldMap_CalculateOAMCoordinates : BCC .restore_coords_and_exit
                 ; X = (map sprites indicator << 1)
-                LDA.l $7EF3C7 : ASL A : TAX
+                LDA.l $7EF3C7 : ASL : TAX
                 
                 LDA.l WorldMapIcon_tile_spr6+1, X : BEQ .BRANCH_DUMMA
                     STA.b $0D
@@ -2182,7 +2182,7 @@ WorldMap_CalculateOAMCoordinates:
     LDA.w $0636 : BNE .BRANCH_ALPHA
         REP #$30
         
-        LDA.l $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : ADC.w $063A : SEC : SBC.w #$00C0 : TAX
+        LDA.l $7EC108 : LSR #4 : EOR.w #$FFFF : INC : ADC.w $063A : SEC : SBC.w #$00C0 : TAX
         
         SEP #$20
         
@@ -3832,7 +3832,7 @@ DungeonMap_Init_JumpTable:
 ; $0560DC-$0560E3 JUMP LOCATION (LONG)
 DungeonMap_Init:
 {
-    LDA.w $020D : ASL A : TAX
+    LDA.w $020D : ASL : TAX
     JMP (.JumpTable, X)
 }
 
@@ -3857,7 +3857,7 @@ DungeonMap_SetupGraphics:
     LDA.b #$20 : STA.w $0AA1
     
     ; Use the current palace we're in to determine the sprite tileset.
-    LDA.w $040C : LSR A : ORA.b #$80 : STA.w $0AA3
+    LDA.w $040C : LSR : ORA.b #$80 : STA.w $0AA3
     
     ; Set the auxiliary bg graphics tileset.
     LDA.b #$40 : STA.w $0AA2
@@ -3953,7 +3953,7 @@ DungeonMap_OptionalGraphic:
     PHB : PHK : PLB
     
     ; Load palace index.
-    LDA.w $040C : LSR A : TAX
+    LDA.w $040C : LSR : TAX
     
     ; Guessing this means that there's no special graphic for this palace.
     LDY.w .dungeon_level, X : BMI .return
@@ -4059,14 +4059,14 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     LDA.w DungeonMapFloorCountData, X : AND.w #$00FF : CMP.w #$0050 : BCC .notTower
         ; Seems to be looking for tower style levels (tower of hera, hyrule
         ; castle 2, ganon's tower).
-        LSR #4 : SEC : SBC.w #$0004 : ASL A : STA.b $00
+        LSR #4 : SEC : SBC.w #$0004 : ASL : STA.b $00
         
         BRA .setupVramTarget
 
     .notTower
 
     AND.w #$000F : CMP.w #$0005 : BCC .setupVramTarget
-        ASL A : STA.b $00
+        ASL : STA.b $00
 
     .setupVramTarget
 
@@ -4241,14 +4241,14 @@ Module0E_03_01_03_DrawRooms:
     
     LDX.w $040C
     
-    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : EOR.w #$00FF : INC A : AND.w #$00FF : CMP.b $A4 : BEQ .BRANCH_ALPHA
+    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : EOR.w #$00FF : INC : AND.w #$00FF : CMP.b $A4 : BEQ .BRANCH_ALPHA
         LDA.b $A4 : AND.w #$00FF : STA.w $020E
         
         BRA .BRANCH_BETA
 
     .BRANCH_ALPHA
 
-    LDA.b $A4 : INC A : STA.w $020E
+    LDA.b $A4 : INC : STA.w $020E
     
     INC.w $0211 : INC.w $0211
 
@@ -4447,7 +4447,7 @@ DungeonMap_DrawFloorNumbersByRoom:
 
     .BRANCH_BETA
 
-    LDA.w $020E : AND.w #$000F : ASL A : TAY
+    LDA.w $020E : AND.w #$000F : ASL : TAY
     
     LDA.w Pool_DungeonMap_DrawFloorNumbersByRoom_floor_numbers, Y
 
@@ -4460,7 +4460,7 @@ DungeonMap_DrawFloorNumbersByRoom:
     PLA : AND.b $08 : STA.l $7F0000, X
     
     LDA.w $020E : AND.w #$0080 : BEQ .BRANCH_DELTA
-        LDA.w $020E : AND.w #$00FF : EOR.w #$00FF : ASL A : TAY
+        LDA.w $020E : AND.w #$00FF : EOR.w #$00FF : ASL : TAY
         
         LDA.w Pool_DungeonMap_DrawFloorNumbersByRoom_floor_numbers, Y
         
@@ -4497,7 +4497,7 @@ DungeonMap_DrawDungeonLayout:
 
     .nextRow
 
-        LDA.b $00 : ASL A : TAX
+        LDA.b $00 : ASL : TAX
         
         LDA.w .row_offset, X : CLC : ADC.b $06 : AND.w #$0FFF : TAX
         
@@ -4540,7 +4540,7 @@ DungeonMap_DrawSingleRowOfRooms:
         
         PHX
         
-        LDA.b $00 : ASL A : TAX
+        LDA.b $00 : ASL : TAX
         
         ; $04 = column * 5.
         LDA.b $02
@@ -4553,7 +4553,7 @@ DungeonMap_DrawSingleRowOfRooms:
         ; I think this is trying to figure out the current floor against
         ; the deepest depth of the current palace.
         LDA.w DungeonMapFloorCountData, X : AND.b #$0F
-        CLC : ADC.w $020E : ASL A : STA.b $0E
+        CLC : ADC.w $020E : ASL : STA.b $0E
         TAY
         
         REP #$20
@@ -4579,9 +4579,9 @@ DungeonMap_DrawSingleRowOfRooms:
         
         AND.w #$00FF : STA.b $CA
         
-        ASL A : PHA
+        ASL : PHA
         
-        LDA.b $CA : ASL A : TAX
+        LDA.b $CA : ASL : TAX
         
         ; $0E = the quadrants Link has visited.
         LDA.l $7EF000, X : AND.w #$000F : STA.b $0E
@@ -4937,7 +4937,7 @@ DungeonMap_DrawRoomMarkers:
     LDA.b #$00 : XBA
     
     LDX.w $040C
-    LDA.w DungeonMapFloorCountData, X : AND.b #$0F : CLC : ADC.b $A4 : ASL A : TAY : STY.b $0C
+    LDA.w DungeonMapFloorCountData, X : AND.b #$0F : CLC : ADC.b $A4 : ASL : TAY : STY.b $0C
     
     REP #$20
     
@@ -5020,7 +5020,7 @@ DungeonMap_DrawRoomMarkers:
     
     REP #$20
     
-    ASL A : TAY
+    ASL : TAY
     
     LDA.w DungeonMapRoomPointers, X
     CLC : ADC.w DungeonMapFloorToDataOffset, Y : STA.b $0E
@@ -5054,7 +5054,7 @@ DungeonMap_DrawRoomMarkers:
     
     LDA.w $020E : SEC : SBC.w DungeonMap_BossRoomFloor, X : STA.b $0E
     BPL .BRANCH_MU
-        EOR.b #$FF : INC A : STA.b $0E
+        EOR.b #$FF : INC : STA.b $0E
         
         INC.b $02 : INC.b $02
 
@@ -5178,7 +5178,7 @@ DungeonMap_HandleFloorSelect:
         REP #$30
         
         LDX.w $040C
-        LDA.w DungeonMapFloorCountData, X : AND.w #$00F0 : LSR #4 : DEC A : CMP.w $020E : BNE .BRANCH_DELTA
+        LDA.w DungeonMapFloorCountData, X : AND.w #$00F0 : LSR #4 : DEC : CMP.w $020E : BNE .BRANCH_DELTA
             JMP.w DungeonMap_HandleFloorSelect_proceed_to_exit
 
         .BRANCH_DELTA
@@ -5379,7 +5379,7 @@ PalaceMap_DrawPlayerFloorIndicator:
         CLC : ADC.b $03 : STA.b $03
         
         LDA.w DungeonMapFloorCountData, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
-            SEC : SBC.b $03 : EOR.b #$FF : INC A : STA.b $03
+            SEC : SBC.b $03 : EOR.b #$FF : INC : STA.b $03
 
     .BRANCH_ALPHA
 
@@ -5515,7 +5515,7 @@ DungeonMap_DrawLocationMarker:
         
         PHY
         
-        LDA.b $0E : ASL A : TAY
+        LDA.b $0E : ASL : TAY
         
         LDA.w $0CF5 : CLC : ADC.w DungeonMapRoomMarkerYBase, Y : STA.b $0F
         
@@ -5534,7 +5534,7 @@ DungeonMap_DrawLocationMarker:
         
         INC.b $0F
         
-        LDA.w $0217 : INC A : AND.b #$F0 : CMP.b $0F : BNE .BRANCH_ALPHA
+        LDA.w $0217 : INC : AND.b #$F0 : CMP.b $0F : BNE .BRANCH_ALPHA
             LDA.w $0218 : BNE .BRANCH_ALPHA
                 INY #2
 
@@ -5592,11 +5592,11 @@ DungeonMap_DrawFloorNumberObjects:
 
     .BRANCH_ALPHA
 
-    LDA.w FloorIconOffsetY, Y : INC A : STA.b $04
+    LDA.w FloorIconOffsetY, Y : INC : STA.b $04
     
     DEC.b $02
     
-    LDA.b $03 : EOR.b #$FF : INC A : STA.b $03
+    LDA.b $03 : EOR.b #$FF : INC : STA.b $03
 
     .BRANCH_THETA
 
@@ -5633,7 +5633,7 @@ DungeonMap_DrawFloorNumberObjects:
         INC.b $00 : INC.b $00
         
         DEC.b $02
-    LDA.b $02 : INC A : CMP.b $03 : BNE .BRANCH_THETA
+    LDA.b $02 : INC : CMP.b $03 : BNE .BRANCH_THETA
     
     RTS
 }
@@ -5712,7 +5712,7 @@ DungeonMap_DrawFloorBlinker:
             CLC : ADC.b $00 : STA.b $00
             
             LDA.w DungeonMapFloorCountData, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_BETA
-                SEC : SBC.b $00 : EOR.b #$FF : INC A : STA.b $00
+                SEC : SBC.b $00 : EOR.b #$FF : INC : STA.b $00
 
         .BRANCH_BETA
 
@@ -5825,7 +5825,7 @@ DungeonMap_DrawBossIcon:
     PHX
     
     ; X = boss room of the palace.
-    LDA.w DungeonMapBossRooms, X : ASL A : TAX
+    LDA.w DungeonMapBossRooms, X : ASL : TAX
     
     SEP #$20
     
@@ -5946,7 +5946,7 @@ PalaceMap_DrawBossFloorIndicator:
         CLC : ADC.b $03 : STA.b $03
         
         LDA.w DungeonMapFloorCountData, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
-            SEC : SBC.b $03 : EOR.b #$FF : INC A : STA.b $03
+            SEC : SBC.b $03 : EOR.b #$FF : INC : STA.b $03
 
     .BRANCH_ALPHA
 
@@ -5985,7 +5985,7 @@ DungeonMap_4:
     
     LDA.w $0213 : CLC : ADC.b $E8 : STA.b $E8
     
-    LDA.w $0213 : EOR.w #$FFFF : INC A : CLC : ADC.w $0217 : STA.w $0217
+    LDA.w $0213 : EOR.w #$FFFF : INC : CLC : ADC.w $0217 : STA.w $0217
     
     SEP #$30
     
@@ -7097,7 +7097,7 @@ FloorIndicator:
     REP #$30
     
     LDA.w $04A0 : AND.w #$00FF : BEQ .hideIndicator
-        INC A : CMP.w #$00C0 : BNE .dontDisable
+        INC : CMP.w #$00C0 : BNE .dontDisable
             ; If the count up timer reaches 0x00BF frames, disable the floor
             ; indicator during the next frame.
             LDA.w #$0000
@@ -7109,8 +7109,8 @@ FloorIndicator:
         PHB : PHK : PLB
         
         LDA.w #$251E : STA.l $7EC7F2
-        INC A        : STA.l $7EC834
-        INC A        : STA.l $7EC832
+        INC        : STA.l $7EC834
+        INC        : STA.l $7EC832
         
         LDA.w #$250F : STA.l $7EC7F4
         
@@ -7156,7 +7156,7 @@ FloorIndicator:
         
         .setFloorIndicatorNumber
         
-        ASL A : TAY
+        ASL : TAY
         
         LDA FloorIndicatorNumberHigh, Y : STA.l $7EC7F2, X
         LDA FloorIndicatorNumberLow, Y  : STA.l $7EC832, X
@@ -7221,9 +7221,9 @@ HUD_SuperBombIndicator:
     
     NOP #8
     
-    LDA.w SNES.DivideResultQuotientLow : ASL A : STA.b $00
+    LDA.w SNES.DivideResultQuotientLow : ASL : STA.b $00
     
-    LDA.w SNES.RemainderResultLow : ASL A : STA.b $02
+    LDA.w SNES.RemainderResultLow : ASL : STA.b $02
     
     PHB : PHK : PLB
     
@@ -7288,7 +7288,7 @@ Death_InitializeGameOverLetters:
                  STA.w $0C1E
                  STA.w $0C1F
     
-    INC A : STA.w $0C4A
+    INC : STA.w $0C4A
     
     LDA.b #$06 : STA.w $039D
     
@@ -7324,7 +7324,7 @@ Pool_Effect_Handler:
 ; $057E80-$057E86 LONG JUMP LOCATION
 Effect_Handler:
 {
-    LDA.b $AD : ASL A : TAX
+    LDA.b $AD : ASL : TAX
     
     JMP (Pool_Effect_Handler, X)
 }
@@ -7357,16 +7357,16 @@ Effect_MovingFloor:
     
     ; Test the low bit of $041A[2].
     ; The low bit of that variable disables floor movement.
-    LDA.w $041A : LSR A : BCS .return
+    LDA.w $041A : LSR : BCS .return
         ; X = the bit 1 of $041A[2]
-        ASL A : AND.w #$0002 : TAX
+        ASL : AND.w #$0002 : TAX
         
         ; $041C[2] += 0x8000
         LDA.w $041C : CLC : ADC.w #$8000 : STA.w $041C
         
         ; If $041C[2] was negative before the addition, then A = 1, otherwise
         ; A = 0.
-        ROL A : AND.w #$0001
+        ROL : AND.w #$0001
         
         CPX.w #$0002 : BNE .notInverted
             ; Invert the accumulator, thus A = A *-1.
@@ -7485,7 +7485,7 @@ Effect_TorchHiddenTiles:
     .countLitTorches
 
         ; Special object tile position...
-        LDA.w $0540, X : ASL A : BCC .notLit
+        LDA.w $0540, X : ASL : BCC .notLit
             INC.b $00
 
         .notLit
@@ -7536,7 +7536,7 @@ Effect_TorchGanonRoom:
 
     .nextTorch
 
-        LDA.w $0540, X : ASL A : BCC .notLit
+        LDA.w $0540, X : ASL : BCC .notLit
             INC.w $04C5
 
         .notLit
@@ -7593,7 +7593,7 @@ Effect_MovingWater:
     
     ; Effectively this means that $00 alternates between being 0 and 1 each
     ; frame.
-    ROL A : AND.w #$0001 : STA.b $00
+    ROL : AND.w #$0001 : STA.b $00
     
     ; Adjust the horizontal position of the water background by either 0 or
     ; -1.

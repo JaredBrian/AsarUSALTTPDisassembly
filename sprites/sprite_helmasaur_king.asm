@@ -47,7 +47,7 @@ Sprite_HelmasaurKing:
 {
     LDA.w $0DB0, X : BPL .BRANCH_ALPHA
         LDA.w $0DF0, X : BEQ .BRANCH_BETA
-            DEC A : BNE .BRANCH_BETA
+            DEC : BNE .BRANCH_BETA
                 STZ.w $0DD0, X
             
         .BRANCH_BETA
@@ -325,9 +325,9 @@ HelmasaurKing_DecisionAway:
     
     .BRANCH_GAMMA
     
-    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
     
-    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
     
     INC.w $0D80, X
     
@@ -706,7 +706,7 @@ HelmasaurKing_SpawnMaskDebris:
         STA.w $0DC0, Y
         
         LDA.b #$80 : STA.w $0DB0, Y
-        ASL A      : STA.w $0E40, Y
+        ASL      : STA.w $0E40, Y
         
         LDA.b #$0C : STA.w $0E00, Y : STA.w $0BA0, Y
         
@@ -898,10 +898,10 @@ KingHelmasaur_CheckBombDamage:
     LDA.b #$0F : STA.b $03
     
     JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .BRANCH_ALPHA
-        LDA.w $0C2C, Y : EOR.b #$FF : INC A : STA.w $0C2C, Y
-        LDA.w $0C22, Y : EOR.b #$FF : INC A : STA.b $00
+        LDA.w $0C2C, Y : EOR.b #$FF : INC : STA.w $0C2C, Y
+        LDA.w $0C22, Y : EOR.b #$FF : INC : STA.b $00
         
-        ASL.b $00 : ROR A : STA.w $0C22, Y
+        ASL.b $00 : ROR : STA.w $0C22, Y
         
         LDA.b #$20 : STA.w $0F10, X
         
@@ -1149,13 +1149,13 @@ KingHelmasaur_OperateTail:
         
         REP #$30
         
-        LDA.b $06 : AND.w #$00FF : ASL A : TAX
+        LDA.b $06 : AND.w #$00FF : ASL : TAX
         
         LDA.l SmoothCurve, X : STA.b $0A
         
         LDA.b $06 : CLC : ADC.w #$0080 : STA.b $08
         
-        AND.w #$00FF : ASL A : TAX
+        AND.w #$00FF : ASL : TAX
         
         LDA.l SmoothCurve, X : STA.b $0C
         

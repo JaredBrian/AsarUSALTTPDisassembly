@@ -71,10 +71,10 @@ Sprite_Absorbable_draw_logic_finished:
         STZ.w $0F70, X
         
         ; Is this equivalent to an arithmetic shift right? Interesting.
-        LDA.w $0D50, X : ASL A : ROR.w $0D50, X
-        LDA.w $0D40, X : ASL A : ROR.w $0D40, X
+        LDA.w $0D50, X : ASL : ROR.w $0D50, X
+        LDA.w $0D40, X : ASL : ROR.w $0D40, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC A : LSR A
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR A
         
         CMP.b #$09 : BCS .enough_z_speed_for_bounce
             JSR.w Sprite_Zero_XYZ_Velocity
@@ -129,7 +129,7 @@ Sprite_HandleBlinkingPhaseOut:
 {
     LDA.w $0B58, X : BEQ .phase_out_not_scheduled
         LDA.b $11 : ORA.w $0FC1 : BNE .dont_blink_at_all
-            LDA.b $1A : LSR A : BCS .decrement_blink_timer_delay
+            LDA.b $1A : LSR : BCS .decrement_blink_timer_delay
                 DEC.w $0B58, X
                 
             .decrement_blink_timer_delay
@@ -140,7 +140,7 @@ Sprite_HandleBlinkingPhaseOut:
             .self_termination_delay
             
             CMP.b #$28 : BCS .dont_blink_at_all
-                LSR A : BCS .visible_this_frame
+                LSR : BCS .visible_this_frame
                     JSR.w Sprite_PrepOamCoordSafeWrapper
                     
                     PLA : PLA
@@ -250,7 +250,7 @@ BigKey_AbsorptionByPlayer:
 ; $035185-$0351A4 JUMP LOCATION
 Key_AbsorptionByPlayer:
 {
-    LDA.l $7EF36F : INC A : STA.l $7EF36F
+    LDA.l $7EF36F : INC : STA.l $7EF36F
     
     ; $03518E ALTERNATE ENTRY POINT
     .set_event_flag
@@ -555,12 +555,12 @@ Pool_Sprite_DrawNumberedAbsorbable:
 ; $0352FA-$035362 LOCAL JUMP LOCATION
 Sprite_DrawNumberedAbsorbable:
 {
-    DEC A : STA.b $06
+    DEC : STA.b $06
     
     JSR.w Sprite_PrepOamCoord
     
     ; $06 *= 3;
-    LDA.b $06 : ASL A : ADC.b $06 : STA.b $06
+    LDA.b $06 : ASL : ADC.b $06 : STA.b $06
     
     PHX
     
@@ -578,7 +578,7 @@ Sprite_DrawNumberedAbsorbable:
         
         TXA : CLC : ADC.b $06 : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         
@@ -604,7 +604,7 @@ Sprite_DrawNumberedAbsorbable:
         
         PHY
         
-        TYA : LSR A : LSR A : TAY
+        TYA : LSR : LSR : TAY
         
         LDA.w Pool_Sprite_DrawNumberedAbsorbable_OAM_sizes, X 
         ORA.b $0F : STA ($92), Y

@@ -60,7 +60,7 @@ Ancilla_DashDust:
     LDA.w $0C68, X : BNE .delay
         LDA.b #$03 : STA.w $0C68, X
         
-        LDA.w $0C5E, X : INC A : STA.w $0C5E, X
+        LDA.w $0C5E, X : INC : STA.w $0C5E, X
         CMP.b #$05 : BEQ .return
             CMP.b #$06 : BNE .delay
                 STZ.w $0C4A, X
@@ -98,7 +98,7 @@ Ancilla_DashDust:
         
         LDA.w $0C5E, X : CLC : ADC $04 : STA $04
         
-        ASL A : CLC : ADC $04 : STA $04
+        ASL : CLC : ADC $04 : STA $04
         
         LDA.b #$02 : STA $72
         
@@ -109,7 +109,7 @@ Ancilla_DashDust:
             LDX $04
             
             LDA.w Pool_Ancilla_DashDust_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
-                TXA : ASL A : TAX
+                TXA : ASL : TAX
                 
                 REP #$20
                 

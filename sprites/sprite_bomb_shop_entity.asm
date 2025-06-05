@@ -43,7 +43,7 @@ Sprite_BombShopGuy:
     LDA.w $0DF0, X : BNE .delay
         LDA.w $0E90, X : TAY
         
-        INC A : AND.b #$07 : STA.w $0E90, X
+        INC : AND.b #$07 : STA.w $0E90, X
         
         LDA.w Pool_Sprite_BombShopGuy_timers, Y : STA.w $0DF0, X
         
@@ -260,7 +260,7 @@ BombShopEntity_Draw:
     LDA.b #$01 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0E80, X : ASL A : ADC.w $0DC0, X : ASL #3
+    LDA.w $0E80, X : ASL : ADC.w $0DC0, X : ASL #3
     
     ADC.b #(Pool_BombShopEntity_Draw_OAM_groups >> 0)              : STA.b $08
     LDA.b #(Pool_BombShopEntity_Draw_OAM_groups >> 8) : ADC.b #$00 : STA.b $09

@@ -149,7 +149,7 @@ Ancilla_RevivalFairy:
     
     LDA.w $0C54, X : CMP.b #$01 : BNE .not_sprinkling_dust
         LDA.w $0385, X : BEQ .not_sprinkling_dust
-            LDA.w $0C5E, X : INC A : STA.b $0A
+            LDA.w $0C5E, X : INC : STA.b $0A
     
     .not_sprinkling_dust
     
@@ -162,14 +162,14 @@ Ancilla_RevivalFairy:
     
     .positive_altitude
     
-    EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $00
+    EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $00
     
     SEP #$20
     
     JSR.w Ancilla_SetOam_XY
     
     LDA.b $0A : BEQ .commit_fairy_chr
-        DEC A : CLC : ADC.b #$02 : TAX
+        DEC : CLC : ADC.b #$02 : TAX
         
         BRA .commit_fairy_chr
         
@@ -248,7 +248,7 @@ RevivalFairy_Dust:
                 ; Probably chr or a grouping state?
                 LDA Ancilla_MagicPowder_animation_group_offsets, Y : STA.b $00
                 
-                LDA.w $0C5E, X : INC A : CMP.b #$0A : BNE .powder_not_fully_dispersed
+                LDA.w $0C5E, X : INC : CMP.b #$0A : BNE .powder_not_fully_dispersed
                     LDA.b #$20 : STA.w $039F, X
                     
                     INC.w $0C54, X
@@ -351,7 +351,7 @@ RevivalFairy_MonitorPlayerRecovery:
     DEC.w $0380, X : BPL .delay_float_direction_toggle 
         LDA.b #$20 : STA.w $0380, X
         
-        LDA.w $0294, X : EOR.b #$FF : INC A : STA.w $0294, X
+        LDA.w $0294, X : EOR.b #$FF : INC : STA.w $0294, X
         
     .delay_float_direction_toggle
     

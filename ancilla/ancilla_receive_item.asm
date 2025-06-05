@@ -392,7 +392,7 @@ Ancilla_ReceiveItem:
         ; Determine which text message to play. I assume this has something
         ; to do with the fact that if you haven't collected all 3 pendants,
         ; it tells you to go for the last one, or whatever.
-        TYA : SEC : SBC.b #$38 : ASL A : TAY
+        TYA : SEC : SBC.b #$38 : ASL : TAY
         
         REP #$20
         
@@ -407,7 +407,7 @@ Ancilla_ReceiveItem:
         LDA.w $0C5E, X : CMP.b #$17 : BNE .defaultTextHandler
             ; Display a different text message depending on how many pieces
             ; of heart we have.
-            LDA.l $7EF36B : ASL A : TAY
+            LDA.l $7EF36B : ASL : TAY
             
             REP #$20
             
@@ -420,7 +420,7 @@ Ancilla_ReceiveItem:
         
         .defaultTextHandler
         
-        LDA.w $0C5E, X : ASL A : TAY
+        LDA.w $0C5E, X : ASL : TAY
             
         REP #$20
             
@@ -489,7 +489,7 @@ Ancilla_ReceiveItem:
                 
                 LDA.b #$02 : STA.w $039F, X
                 
-                LDA.w $03A4, X : INC A : CMP.b #$03 : BNE .dontResetSwordAnimation
+                LDA.w $03A4, X : INC : CMP.b #$03 : BNE .dontResetSwordAnimation
         
             .waitAnimateMasterSword
         
@@ -564,7 +564,7 @@ Ancilla_ReceiveItem:
     
     .valid_upper_properties
     
-    ASL A : ORA.b #$30 : STA ($90), Y : INY
+    ASL : ORA.b #$30 : STA ($90), Y : INY
     
     PHY
     
@@ -594,7 +594,7 @@ Ancilla_ReceiveItem:
         
         .valid_lower_properties
         
-        ASL A : ORA.b #$30 : STA ($90), Y 
+        ASL : ORA.b #$30 : STA ($90), Y 
         
         INY : PHY
         

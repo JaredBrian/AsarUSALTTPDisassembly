@@ -26,7 +26,7 @@ Sprite_BallGuy:
     
     JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
         AND.b #$03 : BNE .horiz_tile_collision
-            LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+            LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
             
             LDA.w $0E90, X : BEQ .not_kicked
                 JSR.w BallGuy_PlayBounceNoise
@@ -36,7 +36,7 @@ Sprite_BallGuy:
             .not_kicked
         .horiz_tile_collision
         
-        LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+        LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
         
         LDA.w $0E90, X : BEQ .not_kicked_2
             JSR.w BallGuy_PlayBounceNoise
@@ -51,7 +51,7 @@ Sprite_BallGuy:
     LDA.w $0F70, X : BPL .not_z_bouncing
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR #2 : STA.w $0F80, X
         
         AND.b #$FC : BEQ .dont_play_SFX
             JSR.w BallGuy_PlayBounceNoise
@@ -93,7 +93,7 @@ Sprite_BallGuy:
             LDA.b $00 : STA.w $0D90, X : BEQ .target_location_vertical
                 LDA.w $0F50, X : ORA.b #$40 : STA.w $0F50, X
                 
-                LDA.w $0D50, X : LSR A : AND.b #$40 : EOR.w $0F50, X : STA.w $0F50, X
+                LDA.w $0D50, X : LSR : AND.b #$40 : EOR.w $0F50, X : STA.w $0F50, X
                 
             .target_location_vertical
         .dont_pick_new_direction
@@ -154,14 +154,14 @@ BallGuy_Friction_rates:
 BallGuy_Friction:
 {
     LDA.w $0D50, X : BEQ .zero_x_velocity   
-        PHA : ASL A : ROL A : AND.b #$01 : TAY
+        PHA : ASL : ROL : AND.b #$01 : TAY
         
         PLA : CLC : ADC .rates, Y : STA.w $0D50, X
     
     .zero_x_velocity
     
     LDA.w $0D40, X : BEQ .zero_y_velocity    
-        PHA : ASL A : ROL A : AND.b #$01 : TAY
+        PHA : ASL : ROL : AND.b #$01 : TAY
         
         PLA : CLC : ADC .rates, Y : STA.w $0D40, X
     
@@ -193,13 +193,13 @@ Sprite_Bully:
     
     JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
         AND.b #$03 : BNE .horiz_tile_collision
-            LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+            LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
             
             BRA .moving_on
             
         .horiz_tile_collision
         
-        LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+        LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
         
     .no_tile_collision
 
@@ -235,7 +235,7 @@ Bully_ChaseBallGuy:
         LDA.b $00 : STA.w $0D40, X
         
         LDA.b $01 : STA.w $0D50, X : BEQ .dont_change_orientation
-            LDA.w $0D50, X : ASL A : ROL A : AND.b #$01 : STA.w $0DE0, X
+            LDA.w $0D50, X : ASL : ROL : AND.b #$01 : STA.w $0DE0, X
         
         .dont_change_orientation
     .delay
@@ -265,9 +265,9 @@ Bully_KickBallGuy:
     
     ; Specifies Ball Guy's new velocity as being double that of the bully's
     ; when he kicks him. However, this isn't arithmetically safe I guess.
-    LDA.w $0D50, X : ASL A : STA.w $0D50, Y
+    LDA.w $0D50, X : ASL : STA.w $0D50, Y
     
-    LDA.w $0D40, X : ASL A : STA.w $0D40, Y
+    LDA.w $0D40, X : ASL : STA.w $0D40, Y
     
     STZ.w $0D50, X
     STZ.w $0D40, X
@@ -318,7 +318,7 @@ Bully_Draw:
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
     
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09

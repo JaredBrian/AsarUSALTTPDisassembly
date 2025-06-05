@@ -6,7 +6,7 @@ Ancilla_SomarianBlockDivide:
     DEC.w $03B1, X : BPL .full_divide_delay
         LDA.b #$03 : STA.w $03B1, X
         
-        LDA.w $0C5E, X : INC A : STA.w $0C5E, X
+        LDA.w $0C5E, X : INC : STA.w $0C5E, X
         CMP.b #$02 : BNE .full_divide_delay
             STZ.w $0C4A, X
             
@@ -44,7 +44,7 @@ Ancilla_SomarianBlockDivide:
     
     REP #$20
     
-    LDA.b $04 : EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $04
+    LDA.b $04 : EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $04
     
     LDA.b $02 : STA.b $06
     
@@ -60,7 +60,7 @@ Ancilla_SomarianBlockDivide:
     
         REP #$20
         
-        PHX : TXA : ASL A : TAX
+        PHX : TXA : ASL : TAX
         
         LDA.b $04
         CLC : ADC Pool_Ancilla_SomarianBlockDivide_y_offsets, X : STA.b $00

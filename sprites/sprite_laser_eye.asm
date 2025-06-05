@@ -181,7 +181,7 @@ LaserEye_MonitorFiringZone:
     
     SEP #$20
     
-    LDA.b $2F : LSR A : LDY !requires_facing, X : CPY.b #$01 : TAY
+    LDA.b $2F : LSR : LDY !requires_facing, X : CPY.b #$01 : TAY
     
     LDA !laser_eye_direction, X : BCS .ignore_player_direction
         CMP .matching_directions, Y : BNE .not_in_zone
@@ -282,7 +282,7 @@ LaserEye_SpawnBeam:
     
     	LDA !laser_eye_direction, X : TAX
     
-    	AND.b #$02 : LSR A : STA.w $0DC0, Y
+    	AND.b #$02 : LSR : STA.w $0DC0, Y
     
     	LDA.b $00 : CLC : ADC Pool_LaserEye_SpawnBeam_x_offsets_low,  X : STA.w $0D10, Y
     	LDA.b $01 :       ADC Pool_LaserEye_SpawnBeam_x_offsets_high, X : STA.w $0D30, Y
@@ -374,11 +374,11 @@ LaserEye_Draw:
     
     LDA.b #$00 : XBA
     
-    LDA !laser_eye_direction, X : ASL A : ADC.w $0DC0, X
+    LDA !laser_eye_direction, X : ASL : ADC.w $0DC0, X
     
     REP #$20
     
-    ASL #3 : STA.b $00 : ASL A  : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
+    ASL #3 : STA.b $00 : ASL  : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     

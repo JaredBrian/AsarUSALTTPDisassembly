@@ -49,7 +49,7 @@ Kodondo_ChooseDirection:
     	LDA.w Pool_Kodondo_ChooseDirection_y_speeds, Y : STA.w $0D40, X
     
     	JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
-    	    LDA.w $0DE0, X : INC A : AND.b #$03 : STA.w $0DE0, X
+    	    LDA.w $0DE0, X : INC : AND.b #$03 : STA.w $0DE0, X
     
     	; BUG: I'm thinking this could potentially crash the game... (in the
     	; sense that it would be stuck in this loop, not go off the rails

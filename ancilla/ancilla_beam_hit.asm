@@ -42,7 +42,7 @@ Ancilla_BeamHit:
     
     .delay
     
-    LSR A : STA $02
+    LSR : STA $02
     
     ; Draw four sprites moving in away from another in a square pattern.
     LDX.b #$03

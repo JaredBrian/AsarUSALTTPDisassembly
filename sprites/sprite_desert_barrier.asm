@@ -121,7 +121,7 @@ DesertBarrier_Draw:
         
     .no_sound_effect
     
-    LSR A : AND.b #$01 : CLC : ADC.w $0FD8 : STA.w $0FD8
+    LSR : AND.b #$01 : CLC : ADC.w $0FD8 : STA.w $0FD8
     
     JSR.w Sprite2_DirectionToFacePlayer
     

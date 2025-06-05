@@ -36,7 +36,7 @@ Sprite_UnusedTelepath:
 
     JSL.l Sprite_PlayerCantPassThrough
     
-    LDA.b $1A : LSR A : ORA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR : ORA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -61,7 +61,7 @@ UnusedTelepath_Draw:
     LDA.b #$03 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
+    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
     
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09

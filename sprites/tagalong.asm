@@ -84,7 +84,7 @@ Tagalong_Init:
     LDA.b $23 : STA.w $1A3C
     
     ; $00 = Link's direction.
-    LDA.b $2F : LSR A : STA.b $00
+    LDA.b $2F : LSR : STA.b $00
     
     LDY.b $EE
     
@@ -257,7 +257,7 @@ Tagalong_Main:
                 
                 PHY
                 
-                TYA : AND.w #$00FF : ASL A : TAY
+                TYA : AND.w #$00FF : ASL : TAY
                 
                 LDA Tagalong_MessageTimers, Y : STA.w $02CD
                 LDA Tagalong_MessageIds,    Y : STA.w $1CF0
@@ -419,7 +419,7 @@ Tagalong_CheckGameMode:
             LDA.b $22 : STA.w $1A28, X
             LDA.b $23 : STA.w $1A3C, X
             
-            LDA.b $2F : LSR A : STA.w $1A64, X
+            LDA.b $2F : LSR : STA.w $1A64, X
             
             LDY.b $EE
             LDA Tagalong_Priorities, Y : LSR #2 : ORA.w $1A64, X : STA.w $1A64, X
@@ -452,7 +452,7 @@ Tagalong_CheckGameMode:
 ; $04A18C-$04A196 LOCAL JUMP LOCATION
 Tagalong_ExecuteAI:
 {
-    LDA.l $7EF3CC : DEC A : ASL A : TAX
+    LDA.l $7EF3CC : DEC : ASL : TAX
     
     JMP (Tagalong_MainHandlers, X)
 }
@@ -489,7 +489,7 @@ Tagalong_BasicMover:
     LDA.l $7EF3CC : CMP.b #$0A : BNE .dont_scare_kiki
         LDA.b $4D : BEQ .dont_scare_kiki
             LDA.w $031F : BEQ .dont_scare_kiki
-                LDA.w $02CF : INC A : CMP.b #$14 : BNE .no_index_wrap
+                LDA.w $02CF : INC : CMP.b #$14 : BNE .no_index_wrap
                     LDA.b #$00
 
                 .no_index_wrap
@@ -1074,7 +1074,7 @@ Tagalong_HandleTrigger:
                     
                     SEP #$20
                     
-                    LDA.w $02CF : INC A : CMP.b #$14 : BNE .tagalong_state_index_not_maxed
+                    LDA.w $02CF : INC : CMP.b #$14 : BNE .tagalong_state_index_not_maxed
                         LDA.b #$00
                     
                     .tagalong_state_index_not_maxed
@@ -1093,7 +1093,7 @@ Tagalong_HandleTrigger:
         
         SEP #$30
         
-        LDA.w $02CF : INC A : CMP.b #$14 : BNE .tagalong_state_index_not_maxed_2
+        LDA.w $02CF : INC : CMP.b #$14 : BNE .tagalong_state_index_not_maxed_2
             LDA.b #$00
         
         .tagalong_state_index_not_maxed_2
@@ -1413,7 +1413,7 @@ TagalongDraw_Drawing:
     TYA : CLC : ADC.b $04 : STA.b $04
     
     REP #$20
-    LDA.w $0FB3 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0FB3 : AND.w #$00FF : ASL : TAY
 
     LDA.b $20 : CMP $00 : BEQ .check_priority_for_region
                         BCS .use_region_b
@@ -1471,7 +1471,7 @@ TagalongDraw_Drawing:
     .not_girly_tagalong
 
     LDA.b $1A : AND.b #$07 : BNE .dont_shimmy
-        LDA.w $02D7 : INC A : CMP.b #$03 : BNE .set_repri
+        LDA.w $02D7 : INC : CMP.b #$03 : BNE .set_repri
             LDA.b #$00
 
         .set_repri
@@ -1543,11 +1543,11 @@ TagalongDraw_Drawing:
 
     .not_link_palette_a
 
-    ASL A : STA.b $72
+    ASL : STA.b $72
     
     LDA.l $7EF3CC : CMP.b #$0D : BNE .not_exploding_superbomb
         LDA.w $04B4 : CMP.b #$01 : BNE .not_exploding_superbomb
-            LDA.b $1A : AND.b #$07 : ASL A : STA.b $72
+            LDA.b $1A : AND.b #$07 : ASL : STA.b $72
 
     .not_exploding_superbomb
 
@@ -1561,7 +1561,7 @@ TagalongDraw_Drawing:
         
         LDA.b $04 : AND.w #$00FF : ASL #3 : TAY
         
-        LDA.l $7EF3CC : AND.w #$00FF : ASL A : TAX
+        LDA.l $7EF3CC : AND.w #$00FF : ASL : TAX
         
         TYA : CLC : ADC.w TagalongDraw_Drawing_char_data_offset, X : TAX
         
@@ -1578,7 +1578,7 @@ TagalongDraw_Drawing:
         
         INY
         
-        LDA.b $04 : ASL A : CLC : ADC.b $04 : TAX
+        LDA.b $04 : ASL : CLC : ADC.b $04 : TAX
         
         LDA.w TagalongDraw_Drawing_props+0, X : STA.w $0AE8
         
@@ -1600,7 +1600,7 @@ TagalongDraw_Drawing:
     
     LDA.b $04 : AND.w #$00FF : ASL #3 : TAY
     
-    LDA.l $7EF3CC : AND.w #$00FF : ASL A : TAX
+    LDA.l $7EF3CC : AND.w #$00FF : ASL : TAX
     
     TYA : CLC : ADC.w TagalongDraw_Drawing_char_data_offset, X : TAX
     
@@ -1620,7 +1620,7 @@ TagalongDraw_Drawing:
     
     INY
     
-    LDA.b $04 : ASL A : CLC : ADC.b $04 : TAX
+    LDA.b $04 : ASL : CLC : ADC.b $04 : TAX
     
     LDA.w TagalongDraw_Drawing_props+1, X : STA.w $0AEA
     

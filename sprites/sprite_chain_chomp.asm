@@ -211,9 +211,9 @@ ChainChomp_Meander:
 ChainChomp_InvertLunge:
 {
     LDA.w $0EC0, X : BNE .BRANCH_ALPHA
-        LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+        LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
         
-        LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+        LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
         
         JSR.w Sprite4_Move
         JSR.w Sprite4_Zero_XY_Velocity
@@ -353,7 +353,7 @@ ChainChomp_MoveChain:
 
             .BRANCH_ZETA
 
-            DEC A : STA.l $7FFC00, X
+            DEC : STA.l $7FFC00, X
 
         .BRANCH_EPSILON
 
@@ -363,7 +363,7 @@ ChainChomp_MoveChain:
 
             .BRANCH_IOTA
 
-            DEC A : STA.l $7FFD00, X
+            DEC : STA.l $7FFD00, X
 
         .BRANCH_THETA
 

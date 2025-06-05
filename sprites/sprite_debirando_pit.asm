@@ -250,7 +250,7 @@ DebirandoPit_Draw:
             
             TXA : CLC : ADC.b $06 : PHA
             
-            ASL A : TAX
+            ASL : TAX
             
             REP #$20
             

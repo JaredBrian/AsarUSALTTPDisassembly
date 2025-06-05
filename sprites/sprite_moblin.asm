@@ -99,7 +99,7 @@ Moblin_Walk:
     
     JSL.l GetRandomInt : AND.b #$01 : STA.b $00
     
-    LDA.w $0DE0, X : ASL A : ORA.b $00 : TAY
+    LDA.w $0DE0, X : ASL : ORA.b $00 : TAY
     
     LDA.w .direction, Y : STA.w $0EB0, X
     

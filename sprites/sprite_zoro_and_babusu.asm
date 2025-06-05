@@ -31,7 +31,7 @@ Sprite_Babusu:
     JSR.w Sprite3_CheckIfActive
     JSR.w Sprite3_CheckDamage
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$01 : STA.w $0DC0, X
+    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0E80, X : LSR #2 : AND.b #$01 : TAY
     
@@ -203,7 +203,7 @@ Babusu_ScurryAcross:
     JSR.w Sprite3_CheckDamage
     JSR.w Sprite3_Move
     
-    LDA.b $1A : LSR A : AND.b #$01
+    LDA.b $1A : LSR : AND.b #$01
     
     LDY.w $0DE0, X
     

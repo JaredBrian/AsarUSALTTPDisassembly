@@ -81,7 +81,7 @@ TalkingTree_DelayBomb:
     
     .BRANCH_ALPHA
     
-    LSR A : AND.b #$03 : STA.w $0DC0, X
+    LSR : AND.b #$03 : STA.w $0DC0, X
 
     RTS
 }
@@ -97,7 +97,7 @@ TalkingTree_SpitBomb_animation_states:
 ; $0EF9B4-$0EF9D1 JUMP LOCATION
 TalkingTree_SpitBomb:
 {
-    LDA.w $0DF0, X : LSR A : TAY
+    LDA.w $0DF0, X : LSR : TAY
     
     LDA.w .animation_states, X : STA.w $0DC0, X
     
@@ -134,7 +134,7 @@ TalkingTree_IdleWithoutBomb:
     JSR.w TalkingTree_ChooseTalkingPoint
     
     LDA.w $0DF0, X : BNE .countingDown
-        LDA.w $0DA0, X : INC A : AND.b #$07 : STA.w $0DA0, X : TAY
+        LDA.w $0DA0, X : INC : AND.b #$07 : STA.w $0DA0, X : TAY
         
         LDA.w Pool_TalkingTree_IdleWithoutBomb_animation_states, Y : STA.w $0DC0, X
         
@@ -240,7 +240,7 @@ TalkingTree_SpawnBomb:
 ; $0EFADB-$0EFAFA LOCAL JUMP LOCATION
 SpriteDraw_TalkingTree:
 {
-    LDA.w $0DC0, X : DEC A : BMI .BRANCH_ALPHA
+    LDA.w $0DC0, X : DEC : BMI .BRANCH_ALPHA
         ASL #5     : ADC.b #$7B : STA.b $08
         LDA.b #$FA : ADC.b #$00 : STA.b $09
         
@@ -306,7 +306,7 @@ TalkingTree_Eye:
     .BRANCH_ALPHA
     
     LDA.w $0DE0, X : CMP.b #$02 : BEQ .BRANCH_BETA
-        ROL A : AND.b #$01 : TAY
+        ROL : AND.b #$01 : TAY
         
         LDA.w $0DE0, X
         CLC : ADC.w Pool_Sprite_ApplyConveyorAdjustment_x_shake_values, Y

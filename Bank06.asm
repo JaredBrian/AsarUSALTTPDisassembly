@@ -208,7 +208,7 @@ Player_ApplyRumbleToSprites:
 {
     PHB : PHK : PLB
     
-    LDA.b $2F : LSR A : TAY
+    LDA.b $2F : LSR : TAY
     
     LDA.b $22
     CLC : ADC Pool_Player_ApplyRumbleToSprites_x_offsets_low, Y : STA.b $00
@@ -786,7 +786,7 @@ Sprite_TimersAndOAM:
 {
     JSR.w Sprite_Get_16_bit_Coords
     
-    LDA.w $0E40, X : AND.b #$1F : INC A : ASL #2
+    LDA.w $0E40, X : AND.b #$1F : INC : ASL #2
     
     LDY.w $0FB3 : BEQ .dontSortSprites
         LDY.w $0F20, X : BEQ .onBG2
@@ -866,7 +866,7 @@ Sprite_TimersAndOAM:
         .sprite_inactive
         
         LDA.w $0CE2, X : CMP.b #$FB : BCS .BRANCH_XI
-            LDA.w $0EF0, X : ASL A : AND.b #$0E : STA.w $0B89, X
+            LDA.w $0EF0, X : ASL : AND.b #$0E : STA.w $0B89, X
         
         .BRANCH_XI
         
@@ -1110,7 +1110,7 @@ SpriteDrown_Main:
         PHX
         
         LDA.b #$8A : BCC .timerExpired
-            LDA.w $0DF0, X : LSR A : TAX
+            LDA.w $0DF0, X : LSR : TAX
             
             STZ.b $05
             
@@ -1177,7 +1177,7 @@ Drowning_DrawSprite:
     
     REP #$20
     
-    ASL A : AND.w #$00F8 : ASL A : ADC.w #Pool_SpriteDrown_Main_OAM_groups : STA.b $08
+    ASL : AND.w #$00F8 : ASL : ADC.w #Pool_SpriteDrown_Main_OAM_groups : STA.b $08
     
     SEP #$20
     
@@ -1198,7 +1198,7 @@ incsrc "sprite_prep.asm"
 ; PARAMETER $0E20, X
 ; This is an unusual jump table. The jump values were fed onto the stack, and
 ; an RTS was used to jump there. In the above routine you will notice that the
-; accumulator was decremented (DEC A). That was intentional, since after an
+; accumulator was decremented (DEC . That was intentional, since after an
 ; RTS, the processor pulls an address off the stack and increments it by one,
 ; thereby allowing it to travel to the addresses you see.
 ; $031283-$031468 JUMP TABLE
@@ -2209,7 +2209,7 @@ Sprite_Invert_XY_Speeds:
 Sprite_InvertHorizSpeed:
 {
     ; Flip sign of X velocity
-    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
     
     RTS
 }
@@ -2220,7 +2220,7 @@ Sprite_InvertHorizSpeed:
 Sprite_InvertVertSpeed:
 {
     ; Flip sign of Y velocity
-    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
     
     RTS
 }
@@ -2925,7 +2925,7 @@ Sprite_PrepAndDrawSingleLarge:
     
     LDA.b $01 : CMP.b #$01
     
-    LDA.b #$01 : ROL A : STA ($92)
+    LDA.b #$01 : ROL : STA ($92)
     
     REP #$20
     
@@ -3018,7 +3018,7 @@ Sprite_DrawShadow:
                 ; OPTIMIZE: Simply by taking it out, saves space and time.
                 LDA ($90), Y
                 
-                      LDA.b $02  : INC A : STA ($90), Y
+                      LDA.b $02  : INC : STA ($90), Y
                 INY : LDA.b #$38         : STA ($90), Y
                 
                 LDA.b $05 : AND.b #$30 : ORA.b #$08 : INY : STA ($90), Y
@@ -3061,7 +3061,7 @@ Sprite_PrepAndDrawSingleSmall:
     
     LDA.b $01 : CMP.b #$01
     
-    LDA.b #$00 : ROL A : STA ($92)
+    LDA.b #$00 : ROL : STA ($92)
     
     REP #$20
     
@@ -3204,7 +3204,7 @@ SpriteHeld_Main:
             
             STA.w $0DF0, X
             
-            LDA.l $7FFA1C, X : INC A : STA.l $7FFA1C, X
+            LDA.l $7FFA1C, X : INC : STA.l $7FFA1C, X
         
         .delay_lift_state_transition
         
@@ -3226,13 +3226,13 @@ SpriteHeld_Main:
     ; OPTIMIZE: Use of the bit instruction and not decrementing, plus
     ; changing the order the branches are presented in would save
     ; a byte of space and a cycle or two of execution.
-    LDA.w $0F10, X : DEC A : CMP.b #$3F : BCS .dont_x_wobble
+    LDA.w $0F10, X : DEC : CMP.b #$3F : BCS .dont_x_wobble
     AND.b #$02                          : BEQ .dont_x_wobble
         INC.b $00
     
     .dont_x_wobble
     
-    LDA.b $2F : ASL A : CLC : ADC.l $7FFA1C, X : TAY
+    LDA.b $2F : ASL : CLC : ADC.l $7FFA1C, X : TAY
     
     LDA.b $22 : CLC : ADC.w Pool_SpriteHeld_Main_offset_x_low, Y : PHP : ADC.b $00 : STA.w $0D10, X
 
@@ -3262,7 +3262,7 @@ SpriteHeld_Main:
         ; what implications this has.
         JSR.w SpriteActive_Main
         
-        LDA.w $0F10, X : DEC A : BNE .dont_leap_from_player_grip
+        LDA.w $0F10, X : DEC : BNE .dont_leap_from_player_grip
             ; UNUSED: The code bracketed by the above branch label.
             ; TODO: Upon inspection, it would be interesting to know of any time
             ; this code is actually *executed* in the game. It doesn't match
@@ -3356,7 +3356,7 @@ SpriteHeld_ThrowQuery:
         
         LDA.w $0E60, X : AND.b #$EF : ORA.b $00 : STA.w $0E60, X
         
-        LDA.b $2F : LSR A : TAY
+        LDA.b $2F : LSR : TAY
         
         LDA.w .x_speeds, Y : STA.w $0D50, X
         
@@ -3463,7 +3463,7 @@ ThrownSprite_PeerInteraction:
     ; Applies gravity to the sprite
     DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA.w $0F70, X : DEC A : CMP.b #$F0 : BCS .BRANCH_THETA
+    LDA.w $0F70, X : DEC : CMP.b #$F0 : BCS .BRANCH_THETA
         JMP.w ThrownSprite_PeerInteraction_plop_in_water_check_for_freeze
     
     .BRANCH_THETA
@@ -3499,7 +3499,7 @@ ThrownSprite_PeerInteraction_not_fake_master_sword:
     JSR.w ThrowableScenery_TransmuteIfValid
 
     LDA.w $0FA5 : CMP.b #$20 : BNE .not_pit_or_too_high
-        LDA.w $0B6B, X : LSR A : BCS .not_pit_or_too_high
+        LDA.w $0B6B, X : LSR : BCS .not_pit_or_too_high
             ; Bleeds into the next function.
 }
     
@@ -3544,7 +3544,7 @@ ThrownSprite_PeerInteraction_not_pit_or_too_high:
     
     CMP.b #$08 : BNE ThrownSprite_PeerInteraction_plop_in_water_continue
         LDA.w $0E20, X : CMP.b #$D2 : BEQ .is_flopping_fish
-            JSL.l GetRandomInt : LSR A : BCC .anospawn_leaping_fish
+            JSL.l GetRandomInt : LSR : BCC .anospawn_leaping_fish
         
         .is_flopping_fish
         
@@ -3574,7 +3574,7 @@ ThrownSprite_PeerInteraction_plop_in_water:
     .continue
 
     LDA.w $0F80, X : BPL .BRANCH_OMICRON
-        EOR.b #$FF : INC A : LSR A : CMP.b #$09 : BCS .BRANCH_PI
+        EOR.b #$FF : INC : LSR : CMP.b #$09 : BCS .BRANCH_PI
             LDA.b #$00
         
         .BRANCH_PI
@@ -3584,14 +3584,14 @@ ThrownSprite_PeerInteraction_plop_in_water:
     .BRANCH_OMICRON
     
     ; Is this arithmetic shift right? Clever, if so.
-    LDA.w $0D50, X : ASL A : ROR.w $0D50, X
+    LDA.w $0D50, X : ASL : ROR.w $0D50, X
     
     LDA.w $0D50, X : CMP.b #$FF : BNE .BRANCH_RHO
         STZ.w $0D50, X
     
     .BRANCH_RHO
     
-    LDA.w $0D40, X : ASL A : ROR.w $0D40, X
+    LDA.w $0D40, X : ASL : ROR.w $0D40, X
     
     LDA.w $0D40, X : CMP.b #$FF : BNE .check_for_freeze
         STZ.w $0D40, X
@@ -3716,8 +3716,8 @@ ThrownSprite_CheckDamageToSinglePeer:
         
         PLY : PLX
         
-        LDA.w $0D50, X : ASL A : STA.w $0F40, Y
-        LDA.w $0D40, X : ASL A : STA.w $0F30, Y
+        LDA.w $0D50, X : ASL : STA.w $0F40, Y
+        LDA.w $0D40, X : ASL : STA.w $0F30, Y
         
         LDA.b #$10 : STA.w $0F10, X
 
@@ -4016,7 +4016,7 @@ SpritePoof_Main:
     
     JSR.w Sprite_PrepOamCoord
     
-    LDA.w $0DF0, X : LSR A : AND.b #$FC : STA.b $00
+    LDA.w $0DF0, X : LSR : AND.b #$FC : STA.b $00
     
     PHX
     
@@ -4511,7 +4511,7 @@ Sprite_CheckTileInDirection:
     ; to check collision in... Pretty sure anyways.
     STY.b $08
     
-    LDA.w $0B6B, X : AND.b #$F0 : LSR #2 : ADC.b $08 : ASL A : TAY
+    LDA.w $0B6B, X : AND.b #$F0 : LSR #2 : ADC.b $08 : ASL : TAY
 
     ; Bleeds into the next function.
 }
@@ -4592,7 +4592,7 @@ Sprite_CheckTileProperty:
     
     .dont_use_simplified_tile_collision
     
-    LDA.w $0BE0, X : ASL A : BPL .BRANCH_IOTA
+    LDA.w $0BE0, X : ASL : BPL .BRANCH_IOTA
         LDA.w $0E20, X : CMP.b #$D2 : BEQ .flopping_fish
             CMP.b #$8A : BNE .not_moving_spike_block
         
@@ -4664,7 +4664,7 @@ Sprite_CheckTileProperty:
             
             JSR.w .not_pit_tile
             
-            LDA.w $0E40, X : ASL A : BPL .BRANCH_PHI
+            LDA.w $0E40, X : ASL : BPL .BRANCH_PHI
                 STZ.w $0DD0, X
                 
                 CLC
@@ -4987,14 +4987,14 @@ Sprite_ProjectSpeedTowardsPlayer:
         LDA.b $00
         
         LDY.b $02 : BEQ .polarity_already_correct_1
-            EOR.b #$FF : INC A : STA.b $00
+            EOR.b #$FF : INC : STA.b $00
         
         .polarity_already_correct_1
         
         LDA.b $01
         
         LDY.b $03 : BEQ .polarity_already_correct_2
-            EOR.b #$FF : INC A : STA.b $01
+            EOR.b #$FF : INC : STA.b $01
         
         .polarity_already_correct_2
         
@@ -5138,14 +5138,14 @@ Sprite_ProjectSpeedTowardsEntity:
     LDA.b $00
     
     LDY.b $02 : BEQ .polarity_already_correct_1
-        EOR.b #$FF : INC A : STA.b $00
+        EOR.b #$FF : INC : STA.b $00
     
     .polarity_already_correct_1
     
     LDA.b $01
     
     LDY.b $03 : BEQ .polarity_already_correct_2
-        EOR.b #$FF : INC A : STA.b $01
+        EOR.b #$FF : INC : STA.b $01
     
     .polarity_already_correct_2
     
@@ -5402,8 +5402,8 @@ Guard_ParrySwordAttacks_main:
                             
                             JSR.w Sprite_ProjectSpeedTowardsPlayer
                             
-                            LDA.b $00 : EOR.b #$FF : INC A : STA.w $0F30, X
-                            LDA.b $01 : EOR.b #$FF : INC A : STA.w $0F40, X
+                            LDA.b $00 : EOR.b #$FF : INC : STA.w $0F30, X
+                            LDA.b $01 : EOR.b #$FF : INC : STA.w $0F40, X
                             
                             LDA.b #$10
                             
@@ -5481,8 +5481,8 @@ Sprite_AttemptZapDamage:
     
     JSR.w Sprite_ProjectSpeedTowardsPlayer
     
-    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0F30, X
-    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0F40, X
+    LDA.b $00 : EOR.b #$FF : INC : STA.w $0F30, X
+    LDA.b $01 : EOR.b #$FF : INC : STA.w $0F40, X
     
     JSL.l Sprite_CalculateSwordDamage
     
@@ -6007,7 +6007,7 @@ Sprite_HandleSpecialHits:
             
             ; TODO: Figure out what this means? Stunning a blue onoff makes
             ; them turn into a red one? What?
-            INC A : STA.w $0E20, X
+            INC : STA.w $0E20, X
             
             .BRANCH_EPSILON
             
@@ -6294,7 +6294,7 @@ Agahnim_ScheduleForDeath:
     
     LDA.b #$08 : STA.w $0D80, X
     
-    INC A : STA.w $0D81
+    INC : STA.w $0D81
             STA.w $0D82
     
     STZ.w $0DC1
@@ -6433,7 +6433,7 @@ Sprite_CheckDamageToPlayer:
                                             LDA.b $2F
                                             
                                             LDY.b $3C : BEQ .BRANCH_THETA
-                                                LSR A : TAY
+                                                LSR : TAY
                                                 
                                                 ; Use an alternate direction
                                                 ; when the shield is beind held
@@ -6577,13 +6577,13 @@ Sprite_CheckIfLiftedPermissive:
 { 
     LDA.w $0372 : BNE .return
         ; Check if the current sprite is the same one Link is touching.
-        LDA.w $02F4 : DEC A : CMP.w $0FA0 : BEQ .player_picks_up_sprite
+        LDA.w $02F4 : DEC : CMP.w $0FA0 : BEQ .player_picks_up_sprite
             ; Set up player's hit box.
             JSR.w Player_SetupHitBox
             JSR.w Sprite_SetupHitBox
                         
              JSR.w Utility_CheckIfHitBoxesOverlap : BCC .return
-                TXA : INC A : STA.w $0314
+                TXA : INC : STA.w $0314
                               STA.w $0FB2
                             
                 RTS
@@ -6806,7 +6806,7 @@ Sprite_CheckDamageFromPlayer:
 ; $0373CA-$0373DA JUMP LOCATION
 Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
 {
-    TXA : EOR.b $1A : LSR A : BCS Sprite_AttemptDamageToPlayerPlusRecoil_dont_damage_player
+    TXA : EOR.b $1A : LSR : BCS Sprite_AttemptDamageToPlayerPlusRecoil_dont_damage_player
         JSR.w Sprite_DoHitboxesFast
         JSR.w Player_SetupHitBox
         
@@ -6827,7 +6827,7 @@ Sprite_AttemptDamageToPlayerPlusRecoil:
                 
         ; Determine damage for Link based on his armor value.
         LDA.w $0CD2, X : AND.b #$0F : STA.b $00
-        ASL A : ADC.b $00 : CLC : ADC.l $7EF35B : TAY
+        ASL : ADC.b $00 : CLC : ADC.l $7EF35B : TAY
                 
         LDA Bump_Damage_Table, Y : STA.w $0373
                 
@@ -6835,9 +6835,9 @@ Sprite_AttemptDamageToPlayerPlusRecoil:
             LDA.w $0DB0, X : BEQ .not_beamos_laser
                 ; Double the recoil amount to the player for the beamos
                 ; laser beam.
-                LDA.w $0D50, X : ASL A : STA.b $28
+                LDA.w $0D50, X : ASL : STA.b $28
                         
-                LDA.w $0D40, X : ASL A : STA.b $27
+                LDA.w $0D40, X : ASL : STA.b $27
                 
         .not_beamos_laser
 
@@ -7261,7 +7261,7 @@ SetupActionHitbox_spinning:
     LDA.b $21 :       SBC.b #$00 : STA.b $09
     
     LDA.b #$2C : STA.b $02
-    INC A      : STA.b $03
+    INC      : STA.b $03
     
     PLX
     
@@ -7271,7 +7271,7 @@ SetupActionHitbox_spinning:
 ; $0375B7-$0375DF LOCAL JUMP LOCATION
 SetupActionHitbox_dashing:
 {
-    LDA.b $2F : LSR A : TAY
+    LDA.b $2F : LSR : TAY
     
     LDA.b $22
     CLC : ADC.w Pool_SetupActionHitbox_dashing_offset_x_low, Y  : STA.b $00
@@ -7404,7 +7404,7 @@ Sprite_ApplyRecoilToPlayer:
     LDA.b $00 : STA.b $27
     LDA.b $01 : STA.b $28
     
-    PLA : LSR A : STA.b $29 : STA.b $C7
+    PLA : LSR : STA.b $29 : STA.b $C7
     
     STZ.b $24
     STZ.b $25
@@ -7670,7 +7670,7 @@ OAM_AllocateDeferToPlayer:
             ; Proceed if the difference in the Y coordinates satisfies:
             ; [ -32 <= dY < 40 ]
             LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$48 : BCS .return
-                LDA.w $0E40, X : AND.b #$1F : INC A : ASL #2
+                LDA.w $0E40, X : AND.b #$1F : INC : ASL #2
                 
                 ; The sprite will request a different OAM range
                 ; depending on player's relative position.
@@ -7804,7 +7804,7 @@ Sprite_DoTheDeath:
         
         JSR.w Sprite_DoTheDeath_PrepareEnemyDrop
         
-        PLA : STA.w $0E30, X : DEC A : BNE .BRANCH_GAMMA
+        PLA : STA.w $0E30, X : DEC : BNE .BRANCH_GAMMA
             LDA.b #$09 : STA.w $0F50, X
             LDA.b #$F0 : STA.w $0E60, X
         
@@ -7851,7 +7851,7 @@ Sprite_DoTheDeath:
     
     ; Determine prize packs...
     LDA.w $0BE0, X : AND.b #$0F : BEQ .BRANCH_THETA
-        DEC A : PHA
+        DEC : PHA
         
         ; Check luck status:
         ; If no special luck, proceed as normal.
@@ -7885,7 +7885,7 @@ Sprite_DoTheDeath:
         
         ASL #3 : ORA.w $0FC7, Y : PHA
         
-        LDA.w $0FC7, Y : INC A : AND.b #$07 : STA.w $0FC7, Y
+        LDA.w $0FC7, Y : INC : AND.b #$07 : STA.w $0FC7, Y
         
         PLY
         
@@ -8276,7 +8276,7 @@ SpriteCustomFall_Main:
     
     .BRANCH_DELTA
     
-    LSR A : TAY
+    LSR : TAY
     
     LDA.w $0E20, X
     
@@ -8321,11 +8321,11 @@ SpriteCustomFall_Main:
         
         LDA.w $0F30, X : STA.w $0D40, X
         
-        ASL A : PHP : ROR.w $0D40, X : PLP : ROR.w $0D40, X
+        ASL : PHP : ROR.w $0D40, X : PLP : ROR.w $0D40, X
         
         LDA.w $0F40, X : STA.w $0D50, X
         
-        ASL A : PHP : ROR.w $0D50, X : PLP : ROR.w $0D50, X
+        ASL : PHP : ROR.w $0D50, X : PLP : ROR.w $0D50, X
         
         JSR.w Sprite_Move
     

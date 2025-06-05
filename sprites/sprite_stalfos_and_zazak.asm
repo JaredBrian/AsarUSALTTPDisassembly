@@ -145,7 +145,7 @@ Stalfos_Visible:
                                     CMP.b #$09 : BPL .dont_dodge
                             .dodge
                                     
-                            LDA.b $2F : LSR A : TAY
+                            LDA.b $2F : LSR : TAY
                                     
                             LDA.b $00 : CMP.w .direction, Y : BEQ .dont_dodge
                                 .face_player_then_dodge
@@ -155,9 +155,9 @@ Stalfos_Visible:
                                 LDA.b #$20
                                 JSL.l Sprite_ProjectSpeedTowardsPlayerLong
                                 
-                                LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+                                LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
                                 
-                                LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+                                LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
                                 
                                 LDA.b #$20 : STA.w $0F80, X
                                 
@@ -202,7 +202,7 @@ Stalfos_Visible:
         
         LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
         
-        LDA.w $0F70, X : DEC A : BPL .in_air
+        LDA.w $0F70, X : DEC : BPL .in_air
             STZ.w $0F70, X
             
             JSR.w Sprite3_Zero_XY_Velocity
@@ -232,7 +232,7 @@ Sprite_Zazak:
         JSR.w FirePhlegm_Draw
         JSR.w Sprite3_CheckIfActive
         
-        LDA.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
+        LDA.b $1A : LSR : AND.b #$01 : STA.w $0DC0, X
         
         JSR.w Sprite3_CheckDamageToPlayer
         JSR.w Sprite3_Move
@@ -364,7 +364,7 @@ Zazak_HaltAndPickNextDirection:
     
     STA !timer_0, X
     
-    JSL.l GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
+    JSL.l GetRandomInt : LSR : LDA.w $0DE0, X : ROL : TAY
     
     LDA.w .head_orientations, Y : STA.w $0EB0, X
     
@@ -582,7 +582,7 @@ FirePhlegm_Draw_OAM_entries:
 FirePhlegm_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0DE0, X : ASL A : CLC : ADC.w $0DC0, X : REP #$20 : ASL #4
+    LDA.w $0DE0, X : ASL : CLC : ADC.w $0DC0, X : REP #$20 : ASL #4
     
     ADC.w #.OAM_entries : STA.b $08
     

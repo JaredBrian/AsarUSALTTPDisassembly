@@ -81,7 +81,7 @@ FluteBoyBird_Rising:
         .below_rise_speed_limit
     .delay
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$01 : INC A : STA.w $0DC0, X
+    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$01 : INC : STA.w $0DC0, X
     
     RTS
 }

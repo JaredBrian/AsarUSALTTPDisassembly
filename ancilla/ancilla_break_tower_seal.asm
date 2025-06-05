@@ -98,7 +98,7 @@ Ancilla_BreakTowerSeal:
         
         CMP.b #$01 : BEQ .move_and_draw_crystals
             CMP.b #$03 : BEQ .in_final_rotational_expansion
-                LDA.l $7F5812 : DEC A : STA.l $7F5812
+                LDA.l $7F5812 : DEC : STA.l $7F5812
                 BNE .move_and_draw_crystals
                     ; Initiate the tile and palette manipulation portion of the
                     ; tower opening sequence. This is handled by another part of
@@ -168,7 +168,7 @@ Ancilla_BreakTowerSeal:
             ; one, don't rotate them.
             LDA $72 : CMP.b #$01 : BEQ .dont_increment_angle
                 LDA $1A : AND.b #$01 : BNE .dont_increment_angle
-                    LDA.l $7F5800, X : INC A : AND.b #$3F : STA.l $7F5800, X
+                    LDA.l $7F5800, X : INC : AND.b #$3F : STA.l $7F5800, X
         
         .dont_increment_angle
         
@@ -345,10 +345,10 @@ BreakTowerSeal_ExecuteSparkles:
     .check_next_sparkle
     
         LDA.l $7F5837, X : CMP.b #$FF : BEQ .inactive_sparkle
-            LDA.l $7F58AF, X : DEC A : STA.l $7F58AF, X : BPL .still_active
+            LDA.l $7F58AF, X : DEC : STA.l $7F58AF, X : BPL .still_active
                 LDA.b #$04 : STA.l $7F58AF, X
                 
-                LDA.l $7F5837, X : INC A : STA.l $7F5837, X : CMP.b #$03 : BNE .still_active
+                LDA.l $7F5837, X : INC : STA.l $7F5837, X : CMP.b #$03 : BNE .still_active
                     ; Aw, poor sparkle. You're getting deactivated. Or reset.
                     ; Whatever.
                     LDA.b #$FF : STA.l $7F5837, X

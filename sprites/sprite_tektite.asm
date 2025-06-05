@@ -89,7 +89,7 @@ Tektite_Stationary:
                     LDA.b $EE : CMP.w $0F20, X : BNE .dont_dodge
                         STY.b $00
                         
-                        LDA.b $2F : LSR A : TAY
+                        LDA.b $2F : LSR : TAY
                         
                         ; WTF: Weird directions to check against? Either a bug
                         ; or intentionally quirky logic.
@@ -97,9 +97,9 @@ Tektite_Stationary:
                             LDA.b #$20
                             JSL.l Sprite_ProjectSpeedTowardsPlayerLong
                             
-                            LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+                            LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
                             
-                            LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+                            LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
                             
                             LDA.b #$10 : STA.w $0F80, X
                             
@@ -126,7 +126,7 @@ Tektite_Stationary:
             
             JSR.w Sprite4_IsBelowPlayer
             
-            TYA : ASL A : STA.b $00
+            TYA : ASL : STA.b $00
             
             JSR.w Sprite4_IsToRightOfPlayer
             

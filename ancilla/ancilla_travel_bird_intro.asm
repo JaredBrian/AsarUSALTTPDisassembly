@@ -140,11 +140,11 @@ Ancilla_TravelBirdIntro:
     ; by the current x speed. Perhaps that's where this ellipsoid behavior
     ; originates from.
     LDA.w Pool_Ancilla_TravelBirdIntro_swirl_speeds, Y
-    SEC : SBC.b $00 : LSR A : STA.b $00
+    SEC : SBC.b $00 : LSR : STA.b $00
     
     LDA.w $0C54, X : AND.b #$02 : BEQ .lowering
         ; Or rising, in this case.
-        LDA.b $00 : EOR.b #$FF : INC A : STA.b $00
+        LDA.b $00 : EOR.b #$FF : INC : STA.b $00
         
     .lowering
     
@@ -174,7 +174,7 @@ Ancilla_TravelBirdIntro:
         
     .sign_ext_z_coord
     
-    EOR.w #$FFFF : INC A : STA.b $04
+    EOR.w #$FFFF : INC : STA.b $04
     
     LDA.b $00 : STA.b $0A
     SEC : SBC.b $04 : STA.b $04

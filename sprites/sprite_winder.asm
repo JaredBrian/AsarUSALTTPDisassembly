@@ -59,7 +59,7 @@ Winder_DefaultState:
     
     JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision_this_frame
         ; Pick a new direction at random.
-        JSL.l GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
+        JSL.l GetRandomInt : LSR : LDA.w $0DE0, X : ROL : TAY
         
         LDA.w Zazak_HaltAndPickNextDirection_head_orientations, Y : STA.w $0DE0, X
         

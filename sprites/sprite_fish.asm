@@ -13,7 +13,7 @@ Sprite_Fish:
         ; Can only wriggle while being held.
         LDA.b #$04 : STA.w $0D80, X
         
-        LDA.b $1A : LSR #3 : AND.b #$02 : LSR A : ADC.b #$03 : STA.w $0DC0, X
+        LDA.b $1A : LSR #3 : AND.b #$02 : LSR : ADC.b #$03 : STA.w $0DC0, X
         
     .not_held_by_player
     
@@ -326,7 +326,7 @@ Fish_Draw:
         
         .shadow_OAM_groups
         
-        REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
+        REP #$20 : ASL #3 : STA.b $00 : ASL : ADC.b $00
         
         ADC.w #Pool_Fish_Draw_shadow_OAM_groups : STA.b $08
         

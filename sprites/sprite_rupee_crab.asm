@@ -66,7 +66,7 @@ Sprite_CoveredRupeeCrab:
     JSR.w Sprite_CheckTileCollision
     JSR.w Sprite_CheckDamageFromPlayer
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$03 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$03 : TAY
     
     LDA.w Pool_Sprite_CoveredRupeeCrab_animation_states, Y : STA.w $0DC0, X
     
@@ -102,7 +102,7 @@ Sprite_CoveredRupeeCrab:
         LDA.b #$3E : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             JSL.l Sprite_SetSpawnedCoords
             
-            LDA.w $0E40, Y : ASL A : LSR A : STA.w $0E40, Y
+            LDA.w $0E40, Y : ASL : LSR : STA.w $0E40, Y
             
             LDA.b #$80 : STA.w $0E10, Y
             
@@ -129,7 +129,7 @@ Sprite_RupeeCrab:
     
     .BRANCH_ALPHA
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$03 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$03 : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -158,9 +158,9 @@ Sprite_RupeeCrab:
         TXA : EOR.b $1A : AND.b #$1F : BNE .BRANCH_DELTA
             LDA.b #$10 : JSR.w Sprite_ProjectSpeedTowardsPlayer
             
-            LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+            LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
             
-            LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+            LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
     
     .BRANCH_DELTA
     
@@ -288,7 +288,7 @@ CoveredRupeeCrab_Draw:
         
         .under_rock
         
-        LDA.w $0DC0, X : ASL A : STA.b $06
+        LDA.w $0DC0, X : ASL : STA.b $06
         
         PHX
         
@@ -300,7 +300,7 @@ CoveredRupeeCrab_Draw:
             
             TXA : CLC : ADC.b $06 : PHA
             
-            ASL A : TAX
+            ASL : TAX
             
             REP #$20
             

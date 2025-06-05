@@ -37,7 +37,7 @@ AddHitStars:
         STZ.w $0C2C, X
         
         LDA.w $0301 : BEQ .nothing_in_hand
-            LDA $2F : LSR A : CLC : ADC.b #$02 : TAY
+            LDA $2F : LSR : CLC : ADC.b #$02 : TAY
             
             BRA .continue
         
@@ -61,7 +61,7 @@ AddHitStars:
         LDA.w Pool_AddHitStars_xy_offsets+0, Y : CLC : ADC $20 : STA $00
         LDA.w Pool_AddHitStars_xy_offsets+2, Y : CLC : ADC $22 : STA $02
         
-        TYA : LSR A : TAY
+        TYA : LSR : TAY
         
         LDA $22 : CLC : ADC Pool_AddHitStars_unknown_offsets, Y : STA $04
         
@@ -143,7 +143,7 @@ AddLinksSleepZs:
         
         LDA.b #$F8 : STA.w $0C22, X
         
-        LDA.b #$07 : STA.w $03B1, X : INC A : STA.w $0C2C, X
+        LDA.b #$07 : STA.w $03B1, X : INC : STA.w $0C2C, X
         
         LDA.b #$FF : STA.w $0C54, X
         
@@ -204,7 +204,7 @@ AddBlueBomb:
         .player_has_bombs
         
         ; Subtract from our bomb stock by one.
-        DEC A : STA.l $7EF343 : BNE .bombs_left_over
+        DEC STA.l $7EF343 : BNE .bombs_left_over
             PHX ; If we run out of bombs select a new item.
             
             JSL.l HUD.RefreshIconLong
@@ -232,7 +232,7 @@ AddBlueBomb:
         
         ; See which direction Link is facing. The bomb keeps track of this I
         ; guess.
-        LDA $2F : LSR A : STA.w $0C72, X
+        LDA $2F : LSR : STA.w $0C72, X
         
         STZ.w $03D5, X
         STZ.w $03D2, X
@@ -347,7 +347,7 @@ AddBoomerang:
     LDA.b #$01 : STA.w $035F
     
     ; $0394, X = Which type of boomerang it is - normal or magic.
-    LDA.l $7EF341 : DEC A : STA.w $0394, X : TAY
+    LDA.l $7EF341 : DEC : STA.w $0394, X : TAY
     
     LDA.w Pool_AddBoomerang_throw_distance, Y : STA.w $0C54, X
     
@@ -365,7 +365,7 @@ AddBoomerang:
     STY $00
     
     ; Add additional offset to the index if it's the magic boomerang.
-    LDA.w $0394, X : ASL A : CLC : ADC $00 : TAY
+    LDA.w $0394, X : ASL CLC : ADC $00 : TAY
     
     LDA.w Pool_AddBoomerang_speeds, Y : STA $00 : STA.w $03C5, X
     
@@ -374,7 +374,7 @@ AddBoomerang:
     ; Check if the player is attempting to throw the boomerang in a specific
     ; direction (by holding down a directional button).
     LDA $F0 : AND.b #$0F : BNE .directional_throw
-        LDA $2F : LSR A : TAY
+        LDA $2F : LSR : TAY
         
         ; If no directional buttons are being pressed, just use the direction
         ; Link is facing to set the directional component of the throw.
@@ -393,7 +393,7 @@ AddBoomerang:
     AND.b #$0C : BEQ .nonvertical_throw
         AND.b #$08 : BEQ .down_throw
             ; Reverse the direction (velocity?) of the throw.
-            TYA : EOR.b #$FF : INC A : TAY
+            TYA : EOR.b #$FF : INC : TAY
         
         .down_throw
         
@@ -424,7 +424,7 @@ AddBoomerang:
         AND.b #$02 : BEQ .right_throw
             ; Reverse the polarity of the velocity so that the boomerang travels
             ; left which is the negative X direction.
-            TYA : EOR.b #$FF : INC A : TAY
+            TYA : EOR.b #$FF : INC : TAY
             
             BRA .set_horiz_velocity
             
@@ -466,7 +466,7 @@ AddBoomerang:
     
     LDA.w Pool_AddBoomerang_initial_rotation_state, Y : STA.w $03A4, X
     
-    TYA : ASL A : TAY : STA.w $03CF, X
+    TYA : ASL : TAY : STA.w $03CF, X
     
     LDA $3C : CMP.b #$09 : BCC .spin_attack_not_charged
         INC.w $03B1, X
@@ -783,7 +783,7 @@ AddReceivedItem:
     
     .not_uncles_gear
     
-    TYA : ASL A : TAX
+    TYA : ASL : TAX
     
     ; Tells what inventory location to write to.
     LDA.w .item_target_addr+0, X : STA $00
@@ -1004,7 +1004,7 @@ AddReceivedItem:
         
         ; Is it a piece of heart?
         CPY.b #$17 : BNE .notPieceOfHeart
-            LDA [$00] : INC A : AND.b #$03 : STA [$00]
+            LDA [$00] : INC : AND.b #$03 : STA [$00]
             
             JSL.l Sound_SetSfxPanWithPlayerCoords
             
@@ -1724,10 +1724,10 @@ AddPendantOrCrystal:
             ; Make an exception for the Tower of Hera so that the pendant isn't
             ; hard to retrieve or doesn't fall on a hole area.
             LDA.w $040C : CMP.b #$14 : BNE .notTowerOfHera
-                LDA $21 : AND.b #$FE : INC A : STA $01
+                LDA $21 : AND.b #$FE : INC : STA $01
                                                STZ $00
                 
-                LDA $23 : AND.b #$FE : INC A : STA $03
+                LDA $23 : AND.b #$FE : INC : STA $03
                                                STZ $02
                 
                 BRL Shortcut_just_coords
@@ -1735,7 +1735,7 @@ AddPendantOrCrystal:
             .notTowerOfHera
             
             ; Handle normal falling items (non medallions).
-            TYA : ASL A : TAY
+            TYA : ASL : TAY
             
             REP #$20
             
@@ -1749,7 +1749,7 @@ AddPendantOrCrystal:
         .medallion2
         
         ; Again separate out Medallions.
-        TYA : ASL A : TAY
+        TYA : ASL : TAY
         
         REP #$20
         
@@ -1954,7 +1954,7 @@ AddTravelBirdIntro:
     JSR.w Ancilla_CheckIfAlreadyExists : BCS .spawn_failed
         JSR.w AddAncilla : BCS .spawn_failed
             LDA.b #$02 : STA.w $0C72, X
-            INC A      : STA.w $039F, X
+            INC      : STA.w $039F, X
             
             STZ.w $0C54, X
             
@@ -2109,7 +2109,7 @@ Ancilla_ConfigureRevivalObjects:
     ; Working with ancilla slot 2...
 	INX
 
-	LDA.b #$02 : STA.w $0C5E, X : STA $00 : INC A : STA.w $03B1, X
+	LDA.b #$02 : STA.w $0C5E, X : STA $00 : INC : STA.w $03B1, X
 
 	LDA.b #$08 : STA.w $039F, X
 
@@ -2178,7 +2178,7 @@ AddCaneOfByrnaStart:
         ; Make Link invincible.
         LDA.b #$01 : STA.w $037B
         
-        INC A : STA.w $039F, X
+        INC : STA.w $039F, X
     
     .noOpenSlots
     
@@ -2212,7 +2212,7 @@ AddLampFlame:
         
         LDA #$17 : STA.w $0C68, X
         
-        LDA $2F : LSR A : STA.w $0C72, X
+        LDA $2F : LSR : STA.w $0C72, X
         
         LDY $2F
         
@@ -2344,7 +2344,7 @@ AddDashingDust:
         
         LDA.b #$03 : STA.w $0C68, X
         
-        LDY $2F : TYA : LSR A : STA.w $0C72, X
+        LDY $2F : TYA : LSR : STA.w $0C72, X
         
         LDA $72 : BNE .inMotion
             REP #$20
@@ -2420,7 +2420,7 @@ AddBlastWallFireball:
     
     LDA.b #$10 : STA.l $7F0040, X
     
-    LDA $1A : AND.b #$0F : ASL A : TAY
+    LDA $1A : AND.b #$0F : ASL : TAY
     
     LDA.w .xy_speeds+0, Y : STA.w $0C22, X
     LDA.w .xy_speeds+1, Y : STA.w $0C2C, X
@@ -2501,7 +2501,7 @@ AddArrow:
     
     LDA.b #$08 : STA.w $0C5E, X
     
-    LDA $76 : LSR A : TAY
+    LDA $76 : LSR : TAY
     
     ORA.b #$04 : STA.w $0C72, X
     
@@ -2720,8 +2720,8 @@ AddEtherSpell:
     STZ.w $0C54, X
     
     LDA.b #$01 : STA.w $0112
-    INC A : STA.w $03B1, X
-    INC A : STA.w $039F, X
+    INC : STA.w $03B1, X
+    INC : STA.w $039F, X
     
     LDA.b #$7F : STA.w $0C22, X
     
@@ -2773,7 +2773,7 @@ AddVictorySpinEffect:
     PHB : PHK : PLB
     
     ; Check if we have a sword.
-    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .dontHaveSword
+    LDA.l $7EF359 : INC : AND.b #$FE : BEQ .dontHaveSword
         LDY.b #$00
         LDA.b #$3B
         
@@ -2843,7 +2843,7 @@ AddMagicPowder:
     
     PHX
     
-    LDY $2F : TYA : LSR A : STA.w $0C72, X : TAX
+    LDY $2F : TYA : LSR : STA.w $0C72, X : TAX
     
     LDA.l Ancilla_MagicPowder_animation_group_offsets, X : TAX
     
@@ -2956,7 +2956,7 @@ AddSwordSwingSparkles:
         
         LDA.b #$01 : STA.w $03B1, X
         
-        LDA $2F : LSR A : STA.w $0C72, X
+        LDA $2F : LSR : STA.w $0C72, X
         
         REP #$20
         
@@ -3003,7 +3003,7 @@ AddDashTremor:
             
             STZ.w $0385, X
             
-            LDA $2F : LSR A : TAY
+            LDA $2F : LSR : TAY
             
             LDA.w Pool_AddDashTremor_axis, Y : STA.w $0C72, X : TAY
             
@@ -3016,7 +3016,7 @@ AddDashTremor:
             
             PHX
             
-            TYA : LSR A : TAX
+            TYA : LSR : TAX
             
             ; As the screen is wider than it is tall, there are different
             ; thresholds for determining the polarity of the tremor.
@@ -3133,7 +3133,7 @@ AddHookshotWallHit:
         
         JSR.w Ancilla_GetCoords
         
-        LDA.w $0C72, X : ASL A : TAY
+        LDA.w $0C72, X : ASL : TAY
         
         REP #$20
         
@@ -3257,14 +3257,14 @@ AddQuakeSpell:
                  STA.l $7F5809
                  STA.l $7F580A
     
-    INC A : STA.l $7F5800
+    INC : STA.l $7F5800
             STA.l $7F5801
             STA.l $7F5802
             STA.l $7F5803
             STA.l $7F5804 
             STA.w $0112
     
-    INC A : STA.w $0C68, X
+    INC : STA.w $0C68, X
     
     REP #$20
     
@@ -3423,7 +3423,7 @@ AddBlastWall:
                  STA.l $7F0001
                  STA.l $7F0011
     
-    INC A : STA.l $7F0000
+    INC : STA.l $7F0000
             STA.w $0112
     
     LDA.b #$03 : STA.l $7F0008
@@ -3619,7 +3619,7 @@ AddSilverArrowSparkle:
     LDA $08 : AND.b #$70 : LSR #4 : STA $06
     STZ $07
     
-    LDA.w $0C72, X : AND.b #$03 : ASL A : TAY
+    LDA.w $0C72, X : AND.b #$03 : ASL : TAY
     
     PLX
     
@@ -3690,7 +3690,7 @@ AddIceRodShot:
     LDA #$03 : STA.w $03B1, X
     LDA #$06 : STA.w $039F, X
     
-    LDA $2F : LSR A : STA.w $0C72, X : TAY
+    LDA $2F : LSR : STA.w $0C72, X : TAY
     
     LDA.w Pool_AddIceRodShot_y_speeds, Y : STA.w $0C22, X
     
@@ -3901,7 +3901,7 @@ AddGravestone:
     
     .y_coord_match
     
-    TYA : LSR A : TAY
+    TYA : LSR : TAY
     
     LDA.w Pool_AddGravestone_offset_data_x+1, Y : AND.w #$00FF : STA $00
     
@@ -4063,7 +4063,7 @@ AddHookshot:
         STZ.w $03A4, X
         STZ.w $0C68, X
         
-        LDA $2F : LSR A : STA.w $0C72, X : TAY
+        LDA $2F : LSR : STA.w $0C72, X : TAY
         
         LDA.w Pool_AddHookshot_y_speeds, Y : STA.w $0C22, X
         LDA.w Pool_AddHookshot_x_speeds, Y : STA.w $0C2C, X
@@ -4271,8 +4271,8 @@ ConsumingFire_TransmuteToSkullWoodsFire:
             PLX
             
             LDA.b #$FD : STA.l $7F0000
-            INC A      : STA.l $7F0001
-            INC A      : STA.l $7F0002
+            INC      : STA.l $7F0001
+            INC      : STA.l $7F0002
             
             LDA.b #$00 : STA.l $7F0003
                          STA.l $7F0010
@@ -4550,8 +4550,8 @@ Ancilla_CheckInitialTileCollision_Class_1:
     LDA.b #$02 : STA $72
     
     ; Y = directional value of object * 6.
-    LDA.w $0C72, X : ASL A : STA $02
-                     ASL A : CLC : ADC $02 : TAY
+    LDA.w $0C72, X : ASL : STA $02
+                     ASL : CLC : ADC $02 : TAY
     
     .next_entry
     

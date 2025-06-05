@@ -165,7 +165,7 @@ Debirando_Draw:
         
         .next_subsprite
             
-            PHX : TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
+            PHX : TXA : CLC : ADC.b $06 : PHA : ASL : TAX
             
             REP #$20
             

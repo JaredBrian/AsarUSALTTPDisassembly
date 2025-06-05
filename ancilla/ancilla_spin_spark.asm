@@ -121,7 +121,7 @@ Ancilla_SpinSpark:
         DEC.w $039F, X : BPL .extra_spark_delay
             LDA.b #$00 : STA.w $039F, X
             
-            LDA.w $03A4, X : INC A : AND.b #$03 : STA.w $03A4, X
+            LDA.w $03A4, X : INC : AND.b #$03 : STA.w $03A4, X
             
             CMP.b #$03 : BNE .extra_spark_rotation_delay
                 LDA.l $7F5804 : CLC : ADC.b #$09 : AND.b #$3F : STA.l $7F5804
@@ -212,7 +212,7 @@ SpinSpark_ExecuteClosingSpark:
     DEC.w $03B1, X : BPL .animation_delay
         LDA.b #$01 : STA.w $03B1, X
         
-        LDA.w $0C5E, X : INC A : STA.w $0C5E, X
+        LDA.w $0C5E, X : INC : STA.w $0C5E, X
         
         CMP.b #$03 : BNE .termination_delay
             STZ.w $0C4A, X

@@ -102,7 +102,7 @@ Ancilla_MagicPowder:
             
             LDA.w Pool_Ancilla_MagicPowder_animation_group_offsets, Y : STA $00
             
-            LDA.w $0C5E, X : INC A : CMP.b #$0A : BNE .dont_self_terminate
+            LDA.w $0C5E, X : INC : CMP.b #$0A : BNE .dont_self_terminate
                 STZ.w $0C4A, X
                 
                 STZ.w $0333
@@ -141,7 +141,7 @@ MagicPowder_Draw:
     
     ASL #2 : STA $0A
     
-    ASL A : STA $04
+    ASL : STA $04
     
     ; Committing 4 sprite entries.
     ; OPTIMIZE: use direct page instead.
@@ -217,7 +217,7 @@ MagicPowder_ApplySpriteDamage:
                     JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
                         LDA.w $0E20, Y : CMP.b #$0B : BNE .not_transformable_chicken
                             LDA $1B : BEQ .not_transformable_chicken
-                                LDA.w $048E : DEC A : BNE .not_transformable_chicken
+                                LDA.w $048E : DEC : BNE .not_transformable_chicken
                                     BRA .transformable_sprite
                         
                         .not_transformable_chicken

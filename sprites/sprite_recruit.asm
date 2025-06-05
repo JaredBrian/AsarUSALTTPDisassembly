@@ -30,7 +30,7 @@ Pool_Sprite_Recruit:
 ; $02BCA2-$02BD15 JUMP LOCATION
 Sprite_Recruit:
 {
-    LDA.w $0E80, X : AND.b #$08 : LSR A : ADC.w $0DE0, X : TAY
+    LDA.w $0E80, X : AND.b #$08 : LSR : ADC.w $0DE0, X : TAY
     
     LDA.w Pool_Sprite_Recruit_animation_states, Y : STA.w $0DC0, X
     
@@ -102,7 +102,7 @@ Recruit_Moving:
     
     JSL.l GetRandomInt : AND.b #$01 : STA.b $00
     
-    LDA.w $0DE0, X : ASL A : ORA.b $00 : TAY
+    LDA.w $0DE0, X : ASL : ORA.b $00 : TAY
     
     LDA.w .next_head_direction, Y : STA.w $0EB0, X
     
@@ -178,7 +178,7 @@ Recruit_Draw:
     ; Set extended X coordinate and priority settings.
     LDA.b #$02 : ORA.b $0F : STA ($92)
     
-    LDA.b $06 : PHA : ASL A : TAX
+    LDA.b $06 : PHA : ASL : TAX
     
     REP #$20
     

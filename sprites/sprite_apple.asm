@@ -106,7 +106,7 @@ Sprite_Apple:
     
     .delay_expiration_timer_tick
     
-    LDA.w $0F70, X : DEC A : BPL .aloft
+    LDA.w $0F70, X : DEC : BPL .aloft
         STZ.w $0F70, X
         
         LDA.w $0F80, X : BMI .hit_ground_this_frame
@@ -114,12 +114,12 @@ Sprite_Apple:
             
         .hit_ground_this_frame
         
-        EOR.b #$FF : INC A : LSR A : STA.w $0F80, X
+        EOR.b #$FF : INC : LSR : STA.w $0F80, X
         
         LDA.w $0D50, X : BEQ .x_speed_at_rest
             PHA
             
-            ASL A : LDA.b #$00 : ROL A : TAY
+            ASL : LDA.b #$00 : ROL : TAY
             
             PLA : CLC : ADC .speeds, Y : STA.w $0D50, X
             
@@ -128,7 +128,7 @@ Sprite_Apple:
         LDA.w $0D40, X : BEQ .y_speed_at_rest
             PHA
             
-            ASL A : LDA.b #$00 : ROL A : TAY
+            ASL : LDA.b #$00 : ROL : TAY
             
             PLA : CLC : ADC .speeds, Y : STA.w $0D40, X
             

@@ -18,7 +18,7 @@ Sprite_EnemyArrow:
     
     LDA.w $0DD0, X : CMP.b #$09 : BNE SpriteArrow_KnockedAway
         LDA.w $0DF0, X : BEQ .BRANCH_ALPHA
-            DEC A : BNE .BRANCH_BETA
+            DEC : BNE .BRANCH_BETA
                 STZ.w $0DD0, X
                 
                 RTS
@@ -27,7 +27,7 @@ Sprite_EnemyArrow:
             
             CMP.b #$20 : BCC .BRANCH_GAMMA
             AND.b #$01 : BNE .BRANCH_GAMMA
-                LDA.b $1A : ASL A : AND.b #$04 : ORA.w $0DE0, X : TAY
+                LDA.b $1A : ASL : AND.b #$04 : ORA.w $0DE0, X : TAY
                 
                 LDA Pool_Sprite_EnemyArrow_x_speeds, Y : STA.w $0D50, X
                 
@@ -178,7 +178,7 @@ EnemyArrow_Draw:
 {
     JSR.w Sprite_PrepOamCoord
     
-    LDA.w $0DE0, X : ASL A : STA.b $06
+    LDA.w $0DE0, X : ASL : STA.b $06
     
     LDA.w $0D90, X : ASL #3 : STA.b $07
     
@@ -192,7 +192,7 @@ EnemyArrow_Draw:
         
         TXA : CLC : ADC.b $06 : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         

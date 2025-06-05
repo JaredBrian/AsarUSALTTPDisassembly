@@ -20,7 +20,7 @@ Sprite_EvilBarrier:
     JSR.w EvilBarrier_Draw
     
     LDA.w $0DC0, X : CMP.b #$04 : BEQ .zap_attempt_inhibit
-        LDA.b $1A : LSR A : AND.b #$03 : STA.w $0DC0, X
+        LDA.b $1A : LSR : AND.b #$03 : STA.w $0DC0, X
         
         JSR.w Sprite4_CheckIfActive
         
@@ -46,7 +46,7 @@ Sprite_EvilBarrier:
             CMP.w #$0040 : BCS .anozap_from_player_contact
                 SEP #$20
                 
-                LDA.b $27 : DEC A : BPL .anozap_from_player_contact
+                LDA.b $27 : DEC : BPL .anozap_from_player_contact
                     LDA.b #$40 : STA.w $0360
                     
                     LDA.b #$0C : STA.b $46

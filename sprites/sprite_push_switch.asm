@@ -227,7 +227,7 @@ WaterSwitch_Main:
     
     LDY.b $90
     
-    LDA.b $01 : EOR.b #$FF : INC A : CLC : ADC.w $0FA8 : TAX
+    LDA.b $01 : EOR.b #$FF : INC : CLC : ADC.w $0FA8 : TAX
     
           CLC : ADC.w $0000, Y : STA.w $0000, Y
     TXA : CLC : ADC.w $0004, Y : STA.w $0004, Y
@@ -303,7 +303,7 @@ WaterSwitch_Main:
     
     LDA.b $0B : ADC.w $0D20, X : STA.b $0B
     
-    LDA.w $0DE0, X : ASL A : TAY
+    LDA.w $0DE0, X : ASL : TAY
     
     LDA.w WaterSwitch_HitBox+0, Y : STA.b $06
     LDA.w WaterSwitch_HitBox+1, Y : STA.b $07

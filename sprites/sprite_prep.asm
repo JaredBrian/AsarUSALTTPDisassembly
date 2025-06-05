@@ -846,7 +846,7 @@ SpritePrep_Babusu:
 ; $030AF3-$030B00 LOCAL JUMP LOCATION
 SpritePrep_Zoro:
 {
-    LDA.w $0E20, X : SEC : SBC.b #$9C : ASL A : STA.w $0DE0, X
+    LDA.w $0E20, X : SEC : SBC.b #$9C : ASL : STA.w $0DE0, X
     
     DEC.w $0DC0, X
     
@@ -2038,7 +2038,7 @@ SpritePrep_Soldier:
         LDY.b #$00
         
         AND.b #$07 : CMP.b #$05 : BCS SpritePrep_TrooperAndArcherSoldier_special_turn
-            DEC A : EOR.b #$01 : STA.w $0DE0, X
+            DEC : EOR.b #$01 : STA.w $0DE0, X
     
     .BRANCH_ALPHA
     
@@ -2141,7 +2141,7 @@ SpritePrep_FluteBoy:
 {
     INC.w $0BA0, X
     
-    LDA.l $7EF3CA : ASL A : ROL #2
+    LDA.l $7EF3CA : ASL : ROL #2
     
     AND.b #$01 : STA.w $0E80, X : BEQ .in_light_world
         ; See if the dark world flute boy has been arborated.
@@ -2662,10 +2662,10 @@ SpriteActive_Main:
     
     REP #$30
     
-    AND.w #$00FF : ASL A : TAY
+    AND.w #$00FF : ASL : TAY
     
     ; Sets up a stack jump table (Weird isn't it?).
-    LDA SpriteActive_Table, Y : DEC A : PHA
+    LDA SpriteActive_Table, Y : DEC : PHA
     
     SEP #$30
     

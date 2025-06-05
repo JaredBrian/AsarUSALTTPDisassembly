@@ -18,7 +18,7 @@ Sprite_SpikeRoller:
     LDA.w $0DE0, X : AND.b #$02 : STA.b $00
     
     ; Animation logic
-    LDA.w $0E80, X : LSR A : AND.b #$01 : ORA.b $00 : STA.w $0DC0, X
+    LDA.w $0E80, X : LSR : AND.b #$01 : ORA.b $00 : STA.w $0DC0, X
     
     JSR.w SpikeRoller_Draw
     JSR.w Sprite2_CheckIfActive
@@ -104,7 +104,7 @@ SpikeRoller_Draw:
         
         TXA : CLC : ADC.b $06 : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         

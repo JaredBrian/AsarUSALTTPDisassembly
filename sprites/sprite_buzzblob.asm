@@ -16,7 +16,7 @@ Pool_Sprite_Buzzblob:
 Sprite_Buzzblob:
 {
     LDA.w $0E00, X : BEQ .not_buzzing
-        LSR A : AND.b #$03 : TAY
+        LSR : AND.b #$03 : TAY
         
         LDA.w $0B89, X : AND.b #$F1 : ORA.w Sprite_Buzzblob_buzz_palettes, Y : STA.w $0B89, X
         
@@ -131,7 +131,7 @@ BuzzBlob_Draw:
     
     PHX
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $06
+    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : STA.b $06
     
     LDX.b #$02
     
@@ -139,7 +139,7 @@ BuzzBlob_Draw:
     
         PHX
         
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         REP #$20
         

@@ -123,9 +123,9 @@ Sprite_Spark:
     
     LDY.w $0DE0, X
     
-    LDA Probe_x_speeds, Y : ASL A : STA.w $0D50, X
+    LDA Probe_x_speeds, Y : ASL : STA.w $0D50, X
     
-    LDA Probe_y_speeds, Y : ASL A : STA.w $0D40, X
+    LDA Probe_y_speeds, Y : ASL : STA.w $0D40, X
     
     RTS
 }

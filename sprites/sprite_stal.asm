@@ -43,7 +43,7 @@ Stal_Dormant:
     .player_didnt_bump
     
     LDA.w $0DF0, X : BEQ .never_bumped
-        DEC A : BEQ .fully_activated
+        DEC : BEQ .fully_activated
             ORA.b #$40 : STA.w $0EF0, X
         
     .never_bumped

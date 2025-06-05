@@ -9,7 +9,7 @@ Ancilla_IceShot:
     .normal_submode
     
     DEC.w $03B1, X : BPL .delay
-        LDA.w $0C5E, X : INC A : STA.w $0C5E, X : AND.b #$FE : BEQ .delay_2
+        LDA.w $0C5E, X : INC : STA.w $0C5E, X : AND.b #$FE : BEQ .delay_2
             ; Once this flag goes high, it stays high, and it indicates that
             ; movement and collision checking need to begin being handled.
             ; This seems to produce that semi-halted look that the ice beam shot

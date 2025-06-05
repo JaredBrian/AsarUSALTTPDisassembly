@@ -147,7 +147,7 @@ MadBatter_PseudoAttackPlayer:
     
     .delay
     
-    LSR A : AND.b #$07 : TAY
+    LSR : AND.b #$07 : TAY
     
     LDA.w $0F50, X : AND.b #$F1 : ORA .palettes, Y : STA.w $0F50, X
     

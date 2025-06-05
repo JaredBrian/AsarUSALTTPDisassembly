@@ -88,7 +88,7 @@ SpritePrep_UncleAndSage:
     
     STA.w $0E80, X
     
-    ASL A : TAY
+    ASL : TAY
     
     LDA.w .x_offsets+0, Y : CLC : ADC.w $0D10, X : STA.w $0D10, X
     LDA.w .x_offsets+1, Y       : ADC.w $0D30, X : STA.w $0D30, X
@@ -118,7 +118,7 @@ SpritePrep_UncleAndSage:
     LDA.l $7EF3C6 : AND.b #$01 : BNE .self_terminate
         LDA.b #$03 : STA.w $0DE0, X
         
-        LSR A : STA.w $0E80, X
+        LSR : STA.w $0E80, X
         
         RTS
         

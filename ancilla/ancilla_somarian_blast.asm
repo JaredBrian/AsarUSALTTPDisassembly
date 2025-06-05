@@ -24,7 +24,7 @@ Ancilla_SomarianBlast:
             ; Reset the delay countdown timer to 3.
             LDA.b #$03 : STA.w $0C68, X
             
-            LDA.w $0C54, X : INC A : CMP.b #$06 : BCC .not_last_state
+            LDA.w $0C54, X : INC : CMP.b #$06 : BCC .not_last_state
                 ; Eventually the object will toggle between states 4 and 5.
                 LDA.b #$04
             

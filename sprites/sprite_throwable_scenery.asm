@@ -30,7 +30,7 @@ Sprite_ThrowableScenery:
     LDA.w $0FC6 : CMP.b #$03 : BCS .cant_draw
         LDA.w $0FB3 : BEQ .dont_use_reserved_OAM_slots
             LDA.w $0F20, X : BEQ .dont_use_reserved_OAM_slots
-                TXA : AND.b #$03 : ASL A : TAY
+                TXA : AND.b #$03 : ASL : TAY
                 
                 REP #$20
                 
@@ -134,7 +134,7 @@ ThrowableScenery_DrawLarge:
     
         PHX
         
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         REP #$20
         
@@ -184,7 +184,7 @@ ThrowableScenery_DrawLarge:
     
         PHX
         
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         REP #$20
         

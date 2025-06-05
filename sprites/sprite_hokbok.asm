@@ -128,7 +128,7 @@ Hokbok_ResetBounceVelocity:
     
     .delay
     
-    LSR A : TAY
+    LSR : TAY
     
     LDA.w .spacing_amounts, Y : STA.w $0DA0, X
     
@@ -160,14 +160,14 @@ Hokbok_Moving:
 Sprite4_BounceFromTileCollision:
 {
     JSR.w Sprite4_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
-        LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+        LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
     
     	INC.w $0ED0, X
     
     .no_horiz_collision
     
     LDA.w $0E70, X : AND.b #$0C : BEQ .no_vert_collision
-    	LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+    	LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
     
     	INC.w $0ED0, X
     

@@ -390,7 +390,7 @@ GoodPUllSwitch_Draw:
     
     LDA.b $00                      : STA ($90), Y
                         LDY.b #$00 : STA ($90), Y
-    LDA.b $02 : DEC A : LDY.b #$01 : STA ($90), Y
+    LDA.b $02 : DEC : LDY.b #$01 : STA ($90), Y
     CLC : ADC.b $06   : LDY.b #$05 : STA ($90), Y
     LDA.b #$CE        : LDY.b #$06 : STA ($90), Y
     LDA.b #$EE        : LDY.b #$02 : STA ($90), Y

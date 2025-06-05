@@ -128,9 +128,9 @@ Bomber_Main:
                 LDA.b #$30
                 JSL.l Sprite_ProjectSpeedTowardsPlayerLong
                 
-                LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+                LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
                 
-                LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+                LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
                 
                 LDA.b #$08 : STA.w $0DF0, X
                 
@@ -255,7 +255,7 @@ Bomber_MoveAndAnimate:
     INC.w $0E80, X
     LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA.b $00
     
-    LDA.w $0DE0, X : ASL A : ORA.b $00 : STA.w $0DC0, X
+    LDA.w $0DE0, X : ASL : ORA.b $00 : STA.w $0DC0, X
     
     RTS
 }

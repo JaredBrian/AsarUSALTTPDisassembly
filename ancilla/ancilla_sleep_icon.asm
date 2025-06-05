@@ -12,7 +12,7 @@ Ancilla_SleepIcon:
 {
     DEC.w $03B1, X : BPL .delay
         ; Don't increment the object's state beyond the value 2.
-        LDA.w $0C5E, X : INC A : CMP.b #$03 : BEQ .at_last_state
+        LDA.w $0C5E, X : INC : CMP.b #$03 : BEQ .at_last_state
             STA.w $0C5E, X
             
         .at_last_state
@@ -27,7 +27,7 @@ Ancilla_SleepIcon:
     .positive_x_speed
     
     CMP.b #$08 : BCC .dont_reverse_x_acceleration
-        LDA.w $0C54, X : EOR.b #$FF : INC A : STA.w $0C54, X
+        LDA.w $0C54, X : EOR.b #$FF : INC : STA.w $0C54, X
         
     .dont_reverse_x_acceleration
     

@@ -115,7 +115,7 @@ Sprite_ArmosKnight:
         .lambda
         
         BCS .mu
-            LSR A : EOR.w $0FA0 : AND.b #$01 : TAY
+            LSR : EOR.w $0FA0 : AND.b #$01 : TAY
             
             LDA.w Pool_Sprite_ArmosKnight_x_speeds, Y : STA.w $0D50, X
             
@@ -283,7 +283,7 @@ ArmosKnight_Draw:
     
         PHX
         
-        TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC.b $06 : PHA : ASL : TAX
         
         REP #$20
         
@@ -320,7 +320,7 @@ ArmosKnight_Draw:
     .not_dying
     
     LDA.w $0D90, X : BEQ .epsilon
-        TXA : ASL A : TAY
+        TXA : ASL : TAY
         
         REP #$20
         

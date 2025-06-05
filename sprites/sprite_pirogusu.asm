@@ -85,7 +85,7 @@ Pirogusu_Emerge:
     
     .delay
     
-    LDA.w $0DE0, X : ASL A : STA.b $00
+    LDA.w $0DE0, X : ASL : STA.b $00
     
     LDA.w $0DF0, X : LSR #3 : AND.b #$01 : ORA.b $00 : TAY
     
@@ -150,7 +150,7 @@ Pirogusu_SplashIntoPlay:
 ; $0F280A-$0F281F JUMP LOCATION
 Pirogusu_Animate:
 {
-    LDA.w $0DE0, X : ASL A : STA.b $00
+    LDA.w $0DE0, X : ASL : STA.b $00
     
     LDA.b $1A : AND.b #$04 : LSR #2 : ORA.b $00 : TAY
     
@@ -214,7 +214,7 @@ Pirogusu_Swim:
         JSR.w Sprite3_Move
         
         JSR.w Sprite3_CheckTileCollision : AND.b #$0F : BEQ .anochange_direction
-            JSL.l GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
+            JSL.l GetRandomInt : LSR : LDA.w $0DE0, X : ROL : TAY
             
             LDA.w Zazak_HaltAndPickNextDirection_head_orientations, Y
             STA.w $0DE0, X

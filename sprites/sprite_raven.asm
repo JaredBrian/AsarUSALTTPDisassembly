@@ -97,7 +97,7 @@ Raven_Ascend:
     
     INC.w $0F70, X
     
-    LDA.b $1A : LSR A : AND.b #$01 : INC A : STA.w $0DC0, X
+    LDA.b $1A : LSR : AND.b #$01 : INC : STA.w $0DC0, X
     
     RTS
 }
@@ -121,7 +121,7 @@ Raven_Attack:
     .delay_fleeing
     
     ; Delay speed analysis.
-    TXA : EOR.b $1A : LSR A : BCS Raven_Animate
+    TXA : EOR.b $1A : LSR : BCS Raven_Animate
         LDA #$20 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
 
         ; Bleeds into the next function.
@@ -161,9 +161,9 @@ Raven_AccelerateToTargetSpeed:
 ; $0EDE49-$0EDE59 JUMP LOCATION
 Raven_Animate:
 {
-    LDA.b $1A : LSR A : AND.b #$01 : INC A : STA.w $0DC0, X
+    LDA.b $1A : LSR : AND.b #$01 : INC : STA.w $0DC0, X
     
-    LDA.w $0D50, X : ASL A : ROL A : AND.b #$01 : TAY
+    LDA.w $0D50, X : ASL : ROL : AND.b #$01 : TAY
 }
     
 ; $0EDE5A-$0EDE65 JUMP LOCATION
@@ -179,12 +179,12 @@ Raven_SetHflip:
 ; $0EDE66-$0EDE81 JUMP LOCATION
 Raven_FleePlayer:
 {
-    TXA : EOR.b $1A : LSR A : BCS Raven_Animate
+    TXA : EOR.b $1A : LSR : BCS Raven_Animate
         LDA.b #$30 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
         
-        LDA.b $00 : EOR.b #$FF : INC A : STA.b $00
+        LDA.b $00 : EOR.b #$FF : INC : STA.b $00
         
-        LDA.b $01 : EOR.b #$FF : INC A : STA.b $01
+        LDA.b $01 : EOR.b #$FF : INC : STA.b $01
         
         BRA Raven_AccelerateToTargetSpeed
 }

@@ -382,8 +382,8 @@ Thief_DislodgePlayerItems:
     
         JSL.l GetRandomInt : AND.b #$03 : STA.w $0FB6
         
-        DEC A : BEQ .target_arrows
-            DEC A : BEQ .target_bombs
+        DEC : BEQ .target_arrows
+            DEC : BEQ .target_bombs
                 
                 ; Otherwise target rupees.
                 REP #$20
@@ -414,11 +414,11 @@ Thief_DislodgePlayerItems:
             LDY #$07
             
             JSL.l Sprite_SpawnDynamically_arbitrary : BMI .return
-                LDA.w $0FB6 : DEC A : BEQ .extract_arrow
-                    DEC A : BEQ .extract_bomb
+                LDA.w $0FB6 : DEC : BEQ .extract_arrow
+                    DEC : BEQ .extract_bomb
                         REP #$20
                         
-                        LDA.l $7EF360 : DEC A : STA.l $7EF360
+                        LDA.l $7EF360 : DEC : STA.l $7EF360
                         
                         SEP #$20
                         
@@ -426,13 +426,13 @@ Thief_DislodgePlayerItems:
                 
                 .extract_arrow
                 
-                LDA.l $7EF377 : DEC A : STA.l $7EF377
+                LDA.l $7EF377 : DEC : STA.l $7EF377
                 
                 BRA .spawn_extracted_item
                 
                 .extract_bomb
                 
-                LDA.l $7EF343 : DEC A : STA.l $7EF343
+                LDA.l $7EF343 : DEC : STA.l $7EF343
                 
                 .spawn_extracted_item
                 

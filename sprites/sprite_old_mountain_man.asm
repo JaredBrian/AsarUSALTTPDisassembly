@@ -215,7 +215,7 @@ OldMountainMan_GrantMagicMirror:
     
     LDA.b #$08 : STA.w $0D50, X
     
-    LSR A : STA.w $0D40, X
+    LSR : STA.w $0D40, X
     
     LDA.b #$03 : STA.w $0EB0, X : STA.w $0DE0, X
     

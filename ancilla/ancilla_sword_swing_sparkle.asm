@@ -134,7 +134,7 @@ Ancilla_SwordSwingSparkle:
     
     LDY.w $0C72, X
     
-    LDA.w $0C5E, X : ASL A : CLC : ADC.w $0C5E, X
+    LDA.w $0C5E, X : ASL : CLC : ADC.w $0C5E, X
     CLC : ADC Pool_Ancilla_SwordSwingSparkle_directed_OAM_group, Y : TAX
     
     LDY.b #$00

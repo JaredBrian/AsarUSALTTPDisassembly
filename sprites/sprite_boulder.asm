@@ -115,7 +115,7 @@ Boulder_Main:
         
         ; Choose the next polarity for the animation counter to step (Could
         ; end up the same as previous. It's random.)
-        TYA : AND.b #$02 : DEC A : STA !animation_step_polarity, X
+        TYA : AND.b #$02 : DEC : STA !animation_step_polarity, X
         
         LDA.b #$0B : JSL.l Sound_SetSfx2PanLong
     

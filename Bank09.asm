@@ -48,12 +48,12 @@ Ancilla_TerminateSelectInteractives:
         .checkIfCarryingObject
         
         LDA.w $0308 : BPL .notCarryingAnything
-            TXA : INC A : CMP.w $02EC : BEQ .spareObject
+            TXA : INC : CMP.w $02EC : BEQ .spareObject
                 BRA .terminateObject
                     
         .notCarryingAnything
         
-        TXA : INC A : CMP.w $02EC : BNE .terminateObject
+        TXA : INC : CMP.w $02EC : BNE .terminateObject
             STZ.w $02EC
         
         .terminateObject
@@ -325,7 +325,7 @@ Sprite_SpawnSuperficialBombBlast:
         
         LDA #$03 : STA.w $0DB0, Y : STA.w $0E40, Y
         
-        INC A : STA.w $0F50, Y
+        INC : STA.w $0F50, Y
         
         LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
 }
@@ -564,7 +564,7 @@ Sprite_ReinitWarpVortex:
     LDA.l $001ADF : CLC : ADC.b #$08 : STA.w $0D00, Y
     LDA.l $001AEF :       ADC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$00 : STA.w $0F20, Y : INC A : STA.w $0BA0, Y
+    LDA.b #$00 : STA.w $0F20, Y : INC : STA.w $0BA0, Y
     
     PLB
     
@@ -785,7 +785,7 @@ Overlord_CheckInRangeStatus:
         ; Terminate the overlord.
         STZ.w $0B00, X
         
-        TXA : ASL A : TAY
+        TXA : ASL : TAY
         
         REP #$20
         
@@ -846,7 +846,7 @@ Dungeon_ResetSprites:
     REP #$10
     
     LDA.b $00 : CMP.w #$FFFF : BEQ .nullEntry
-        ASL A : TAX
+        ASL : TAX
         
         ; Tells the game that next time we enter that room the sprites need
         ; a complete fresh (e.g. if any have gotten killed).
@@ -1010,7 +1010,7 @@ Dungeon_LoadSprites:
     
     REP #$30
     
-    LDA.w $048E : ASL A : TAY
+    LDA.w $048E : ASL : TAY
     
     ; (update: Black Magic ended up hooking $04C16E)
     ; RoomData_SpritePointers is the pointer table for the sprite data in
@@ -1027,7 +1027,7 @@ Dungeon_LoadSprites:
     
     ; Load the room index yet again.
     ; Used to offset the high byte of pixel addresses in rooms. (Y coord).
-    LDA.w $048E : AND.b #$0F : ASL A : STA.w $0FB0
+    LDA.w $048E : AND.b #$0F : ASL : STA.w $0FB0
     
     ; Not sure what this does yet...
     LDA (!dataPtr) : STA.w $0FB3
@@ -1073,7 +1073,7 @@ Dungeon_ManuallySetSpriteDeathFlag:
     PHB : PHK : PLB
     
     LDA.b $1B : BEQ .return
-        LDA.w $0CAA, X : LSR A : BCS .return
+        LDA.w $0CAA, X : LSR BCS .return
             LDA.w $0BC0, X : BMI .return
                 STA.b $02
                 STZ.b $03
@@ -1082,9 +1082,9 @@ Dungeon_ManuallySetSpriteDeathFlag:
                 
                 PHX
                 
-                LDA.w $048E : ASL A : TAX
+                LDA.w $048E : ASL TAX
                 
-                LDA.b $02 : ASL A : TAY
+                LDA.b $02 : ASL : TAY
                 
                 ; Keep this guy from respawning.
                 LDA.l $7FDF80, X : ORA .flags, Y : STA.l $7FDF80, X
@@ -1163,10 +1163,10 @@ Dungeon_LoadSprite:
         PHY : PHX
         
         ; Load the room index, multiply by 2.
-        LDA.w $048E : ASL A : TAX
+        LDA.w $048E : ASL TAX
         
         ; $02 is the current slot in $0E20, X to load into.
-        LDA !spriteSlot : ASL A : TAY
+        LDA !spriteSlot : ASL : TAY
         
         ; Apparently information on whether stuff has been loaded is stored for
         ; each room?
@@ -1191,7 +1191,7 @@ Dungeon_LoadSprite:
     LDA (!dataPtr), Y : STA.w $0FB5 
     
     ; Use the MSB of the Y coordinate to determine the floor the sprite is on.
-    AND.b #$80 : ASL A : ROL A : STA.w $0F20, X
+    AND.b #$80 : ASL ROROL STA.w $0F20, X
     
     ; Load the sprite's Y coordinate, multiply by 16 to give it's in-game Y
     ; coordinate. (In terms of pixels).
@@ -1264,7 +1264,7 @@ Dungeon_LoadOverlord:
     
     ; Now examine the Y coordinate.
     ; Store it's floor status here.
-    LDA (!dataPtr), Y : AND.b #$80 : ASL A : ROL A : STA.w $0B40, X
+    LDA (!dataPtr), Y : AND.b #$80 : ASL : ROL : STA.w $0B40, X
     
     ; Convert the Y coordinate to a pixel address, and store it here.
     LDA (!dataPtr), Y : ASL #4 : STA.w $0B18, X
@@ -1385,7 +1385,7 @@ Sprite_LoadAll_Overworld:
 LoadOverworldSprites:
 {
     ; Calculate lower bounds for X coordinates in this map.
-    LDA.w $040A : AND.b #$07 : ASL A : STZ.w $0FBC : STA.w $0FBD
+    LDA.w $040A : AND.b #$07 : ASL : STZ.w $0FBC : STA.w $0FBD
     
     ; Calculate lower bounds for Y coordinates in this map.
     LDA.w $040A : AND.b #$3F : LSR #2 : AND.b #$0E : STA.w $0FBF : STZ.w $0FBE
@@ -1400,7 +1400,7 @@ LoadOverworldSprites:
     REP #$30
     
     ; What Overworld area are we in?
-    LDA.w $040A : ASL A : TAY
+    LDA.w $040A : ASL : TAY
     
     SEP #$20
     
@@ -1467,7 +1467,7 @@ LoadOverworldSprites:
         INY : LDA ($00), Y
         
         LDX.b $05
-        INC A : STA.l $7FDF80, X
+        INC : STA.l $7FDF80, X
         
         ; Move on to the next sprite / overlord.
         INY
@@ -1824,7 +1824,7 @@ Overworld_LoadSprite:
     
     PHX
     
-    TXA : ASL A : TAX
+    TXA : ASL : TAX
     
     REP #$20
     
@@ -1832,7 +1832,7 @@ Overworld_LoadSprite:
     
     SEP #$20
     
-    PLX : LDA [$05] : DEC A : STA.w $0E20, X ; Load up a sprite here.
+    PLX : LDA [$05] : DEC : STA.w $0E20, X ; Load up a sprite here.
     
     LDA.b #$08 : STA.w $0DD0, X
     
@@ -1874,7 +1874,7 @@ Overworld_LoadOverlord:
     
     PHX
     
-    TXA : ASL A : TAX
+    TXA : ASL : TAX
     
     REP #$20
     
@@ -8832,7 +8832,7 @@ Garnish_ScatterDebris:
         
         TXA : CLC : ADC.b $06 : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         
@@ -8915,7 +8915,7 @@ ScatterDebris_Draw:
     
     AND.b #$0F : LSR #2 : STA.b $06
     
-    ASL A : ADC.b $06 : STA.b $06
+    ASL ADC.b $06 : STA.b $06
     
     LDY.b #$00
     
@@ -8929,7 +8929,7 @@ ScatterDebris_Draw:
         
         TXA : CLC : ADC.b $06 : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         
@@ -8978,7 +8978,7 @@ Sprite_SelfTerminate:
     ; If this flag is set, just kill the sprite?
     STZ.w $0DD0, X
     
-    TXA : ASL A : TAY
+    TXA : ASL TAY
     
     REP #$20
     
@@ -9009,7 +9009,7 @@ Sprite_SelfTerminate:
     .invalid_address
     
     LDA.b $1B : BNE .indoors_2
-        TXA : ASL A : TAY
+        TXA : ASL : TAY
         
         LDA.b #$FF : STA.w $0BC0, Y : STA.w $0BC1, Y
         
@@ -9071,7 +9071,7 @@ Module_Death_JumpTable:
 Module_Death:
 {
     ; $11 index for death module.
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
     
     JSR.w (Module_Death_JumpTable, X)
     
@@ -9360,7 +9360,7 @@ Death_ShowSaveOptionsMenu:
     
     JSL.l Messaging_Text
     
-    PLA : INC A : STA.b $11
+    PLA : INC : STA.b $11
     
     PLA : STA.b $10
     
@@ -9483,7 +9483,7 @@ GameOver_FadeAndRevive:
         
         .BRANCH_NU
         
-        LSR A : TAX
+        LSR : TAX
 
         LDA.l $7EF36F : STA.l $7EF37C, X
         
@@ -9494,7 +9494,7 @@ GameOver_FadeAndRevive:
     REP #$20
         
     LDA.l $7EF405 : CMP.w #$FFFF : BNE .playerHasDeaths
-        LDA.l $7EF403 : INC A : STA.l $7EF403
+        LDA.l $7EF403 : INC : STA.l $7EF403
         
     .playerHasDeaths
         
@@ -9803,7 +9803,7 @@ Module_Quit_submodules:
 ; $04F79F-$04F7AE LONG JUMP LOCATION
 Module_Quit:
 {
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
     
     JSR.w (.submodules, X)
     
@@ -9922,13 +9922,13 @@ Polyhedral_SetShapePointer:
 {
     REP #$30
     
-    LDA.b $02 : AND.w #$00FF : ASL A : ADC.w #$0080 : STA.b $08
+    LDA.b $02 : AND.w #$00FF : ASL : ADC.w #$0080 : STA.b $08
     
-    LDA.w $1F03 : AND.w #$00FF : ASL A : STA.b $B0
+    LDA.w $1F03 : AND.w #$00FF : ASL : STA.b $B0
     
     ; X = ( 0xFF8C + ($1F03 * 6) ).
     ; Note that $1F03 seems to always be 0 or 1.
-    ASL A : ADC.b $B0 : ADC.w #$FF8C : TAX
+    ASL : ADC.b $B0 : ADC.w #$FF8C : TAX
     
     LDY.w #$1F3F
     LDA.w #$0005
@@ -10002,7 +10002,7 @@ Polyhedral_OperateRotation:
     LDA.b $3F : TAX
     
     ; Y = 3 * $3F.
-    ASL A : ADC.b $3F : TAY
+    ASL : ADC.b $3F : TAY
     
     .alpha
     
@@ -10129,7 +10129,7 @@ Polyhedral_ProjectPoint:
         
             LSR.b $B2
             LSR.b $B0
-        LSR A : BNE .beta
+        LSR : BNE .beta
     
     .gamma
     
@@ -10177,7 +10177,7 @@ Polyhedral_ProjectPoint:
         
             LSR.b $B2
             LSR.b $B0
-        LSR A : BNE .theta
+        LSR : BNE .theta
     
     .iota
     
@@ -10227,7 +10227,7 @@ Polyhedral_DrawPolyhedron:
         
         AND.b #$7F : STA.b $B0
         
-        ASL A : STA.b $C0
+        ASL : STA.b $C0
         
         INY
         
@@ -10567,7 +10567,7 @@ Polyhedral_DrawFace:
     
     .beta
     
-    AND.b #$07 : ASL A : STA.b $B9
+    AND.b #$07 : ASL : STA.b $B9
     
     LDA.w $1FC0, Y : AND.b #$38 : BIT.b #$20 : BEQ .gamma
         EOR.b #$24
@@ -10578,7 +10578,7 @@ Polyhedral_DrawFace:
     
     STY.b $E9 : STY.b $F2
     
-    LDA.b $C0 : LSR A : STA.b $E0
+    LDA.b $C0 : LSR : STA.b $E0
     
     LDA.w $1FC0, Y : STA.b $E2 : STA.b $EB
     LDA.w $1FBF, Y : STA.b $E1 : STA.b $EA
@@ -10653,9 +10653,9 @@ UNREACHABLE_09FDCC:
 ; $04FDCF-$04FEB3 LOCAL JUMP LOCATION
 Polyhedral_FillLine:
 {
-    LDA.b $E6 : AND.b #$07 : ASL A : TAY
+    LDA.b $E6 : AND.b #$07 : ASL : TAY
     
-    LDA.b $EF : AND.b #$07 : ASL A : TAX
+    LDA.b $EF : AND.b #$07 : ASL : TAX
     
     LDA.b $E6 : AND.b #$38 : STA.b $BC
     

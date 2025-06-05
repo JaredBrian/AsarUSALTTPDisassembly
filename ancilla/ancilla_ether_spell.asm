@@ -51,7 +51,7 @@ Ancilla_EtherSpell:
         LDA.b #$02 : STA.w $03B1, X
             
         ; Has to do with the tile set for the effect.
-        LDA.w $0C5E, X : INC A : STA.w $0C5E, X : CMP.b #$02 : BNE .delay
+        LDA.w $0C5E, X : INC : STA.w $0C5E, X : CMP.b #$02 : BNE .delay
             ; Set it back down to #$01.
             DEC.w $0C5E, X
                 
@@ -103,7 +103,7 @@ Ancilla_EtherSpell:
     .calm_before_ball_scatter
     
     ; ... Count down a timer before entering the final state of the spell.
-    LDA.l $7F5812 : DEC A : STA.l $7F5812 : BNE .radial_states
+    LDA.l $7F5812 : DEC : STA.l $7F5812 : BNE .radial_states
         LDA.b #$05 : STA.w $0C54, X
         
     .radial_states
@@ -264,7 +264,7 @@ EtherSpell_RadialStates:
         LDA $72 : CMP.b #$02 : BEQ .dont_rotate_ball
                   CMP.b #$05 : BEQ .dont_rotate_ball
             ; Increment the angle of the piece.
-            LDA.l $7F5800, X : INC A : AND.b #$3F : STA.l $7F5800, X
+            LDA.l $7F5800, X : INC : AND.b #$3F : STA.l $7F5800, X
             
         .dont_rotate_ball
         
@@ -542,7 +542,7 @@ EtherSpell_DrawSplittingBlitzSegment:
     
     LDA $73 : ASL #4 : STA $0E
     
-    TXA : ASL A : CLC : ADC $0E : TAX
+    TXA : ASL : CLC : ADC $0E : TAX
     
     LDA.w Pool_EtherSpell_DrawSplittingBlitzSegment_chr, X : STA ($90), Y
     INY
@@ -632,7 +632,7 @@ EtherSpell_DrawBlitzSegments:
         
         PHX
         
-        LDA $06 : ASL A : CLC : ADC $08 : TAX
+        LDA $06 : ASL : CLC : ADC $08 : TAX
         
         LDA.w Pool_EtherSpell_DrawBlitzSegments_chr, X : STA ($90), Y
         

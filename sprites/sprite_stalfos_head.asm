@@ -88,8 +88,8 @@ Sprite_StalfosHead:
         
         JSR.w Sprite_ProjectSpeedTowardsPlayer
         
-        LDA.b $00 : EOR.b #$FF : INC A : STA.b $00
-        LDA.b $01 : EOR.b #$FF : INC A : STA.b $01
+        LDA.b $00 : EOR.b #$FF : INC : STA.b $00
+        LDA.b $01 : EOR.b #$FF : INC : STA.b $01
         
         BRA .approach_target_speed
 }

@@ -71,7 +71,7 @@ ReturningSmithy_ApproachTheBench:
         
         LDA.w $0D90, X : TAY
         
-        INC A : STA.w $0D90, X
+        INC : STA.w $0D90, X
         
         LDA.w Pool_ReturningSmithy_ApproachTheBench_timers, Y : STA.w $0DF0, X
         
@@ -199,7 +199,7 @@ ReturningSmithy_Draw:
     LDA.b #$01 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : TAY
+    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : TAY
     
     ; This sprite apparently VRAM to change appearance rather than using
     ; different sprite tile numbers.
@@ -273,7 +273,7 @@ Smithy_Main:
     LDA.w $0DA0, X : DEC.w $0DA0, X : CMP.b #$00 : BNE .animation_step_delay
         LDA.w $0D90, X : TAY
         
-        INC A : AND.b #$07 : STA.w $0D90, X
+        INC : AND.b #$07 : STA.w $0D90, X
         
         LDA.w Pool_Smithy_Main_animation_states, Y : STA.w $0DC0, X
         LDA.w Pool_Smithy_Main_animation_timers, Y : STA.w $0DA0, X
@@ -705,7 +705,7 @@ Smithy_Draw:
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DE0, X : ASL #4
+    LDA.w $0DC0, X : ASL : ADC.w $0DE0, X : ASL #4
     
     ADC.b #OAM_groups                 : STA.b $08
     LDA.b #OAM_groups>>8 : ADC.b #$00 : STA.b $09
@@ -739,7 +739,7 @@ SmithySpark_Main:
     LDA.w $0DF0, X : BNE .delay
         LDA.w $0D90, X : TAY
         
-        INC A : AND.b #$07 : STA.w $0D90, X
+        INC : AND.b #$07 : STA.w $0D90, X
         
         LDA.w Pool_SmithySpark_Main_animation_states, Y : BMI .self_terminate
             STA.w $0DC0, X

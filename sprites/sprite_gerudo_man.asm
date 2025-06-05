@@ -24,9 +24,9 @@ Sprite_GerudoMan:
     
     REP #$30
     
-    AND.w #$00FF : ASL A : TAY
+    AND.w #$00FF : ASL : TAY
     
-    LDA.w .states, Y : DEC A : PHA
+    LDA.w .states, Y : DEC : PHA
     
     SEP #$30
     
@@ -168,7 +168,7 @@ GerudoMan_Submerge:
     
     .delay
     
-    LSR A : TAY
+    LSR : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -231,7 +231,7 @@ GerudoMan_Draw:
 {
     JSR.w Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $06
+    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : STA.b $06
     
     PHX
     
@@ -243,7 +243,7 @@ GerudoMan_Draw:
     
     	TXA : CLC : ADC.b $06 : PHA
     
-    	ASL A : TAX
+    	ASL : TAX
     
     	REP #$20
     

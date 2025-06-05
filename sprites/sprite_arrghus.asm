@@ -73,13 +73,13 @@ Sprite_Arrghus:
     JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
         LDY.w $0D80, X : CPY.b #$05 : BNE .ignore_collision_result
             AND.b #$03 : BEQ .no_horiz_collision
-                LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+                LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
                 
                 BRA .run_subprogram
             
             .no_horiz_collision
             
-            LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
+            LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
             
             BRA .run_subprogram
         
@@ -157,7 +157,7 @@ Arrghus_SmooshFromAbove:
         .didnt_touch_down
     .delay
     
-    DEC A : BNE .dont_play_falling_sound
+    DEC : BNE .dont_play_falling_sound
         LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
     
     .dont_play_falling_sound
@@ -445,7 +445,7 @@ Arrghus_HandlePuffs:
     
     .next_arrgi
     
-        LDA.w $0FB5 : PHA : ASL A : TAY
+        LDA.w $0FB5 : PHA : ASL : TAY
         
         REP #$20
         
@@ -475,11 +475,11 @@ Arrghus_HandlePuffs:
         
         REP #$30
         
-        LDA.b $00 : AND.w #$00FF : ASL A : TAX
+        LDA.b $00 : AND.w #$00FF : ASL : TAX
         
         LDA.l SmoothCurve, X : STA.b $04
         
-        LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02 : AND.w #$00FF : ASL A : TAX
+        LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02 : AND.w #$00FF : ASL : TAX
         
         LDA.l SmoothCurve, X : STA.b $06
         
@@ -584,7 +584,7 @@ Arrghus_Draw:
     
     LDA.b #$05 : JSR.w Sprite3_DrawMultiple
     
-    LDA.w $0DC0, X : ASL A : STA.b $00
+    LDA.w $0DC0, X : ASL : STA.b $00
     
     LDY.b #$02
     

@@ -3020,7 +3020,7 @@ PlayerOam_Main:
 
     .frame_index_in_range
 
-    ASL A : CLC : ADC.b $00 : TAY
+    ASL : CLC : ADC.b $00 : TAY
     
     REP #$20
     
@@ -3050,11 +3050,11 @@ PlayerOam_Main:
     .not_in_water_or_grass
 
     ; 0 or 1, eh?...
-    TXA : ASL A : STA.b $72 : STZ.b $73
+    TXA : ASL : STA.b $72 : STZ.b $73
     
     REP #$20
     
-    LDA.b $EE : AND.w #$00FF : ASL A : TAX
+    LDA.b $EE : AND.w #$00FF : ASL : TAX
     
     ; Determine OAM priority from floor level the player is on (BG2 -> 0x2000,
     ; BG1 -> 0x1000, there's two other settings but not clear what they're used
@@ -3062,7 +3062,7 @@ PlayerOam_Main:
     LDA.w PlayerOam_ObjectPriority, X : STA.b $64
     
     ; Check "sort sprites" setting (HM name).
-    LDA.w $0FB3 : ASL A : TAY
+    LDA.w $0FB3 : ASL : TAY
     
     ; "sort sprites" here serves as a selector for where in the OAM buffer we
     ; want to start entering in sprite data for the player. (0x0190 or 0x00E0)
@@ -3185,7 +3185,7 @@ PlayerOam_Main:
         .no_swim_accel
 
         LDA.w $032A : BEQ .not_stroking_hard
-            DEC A : STA.b $02
+            DEC : STA.b $02
             
             LDY.b #$12
 
@@ -3426,7 +3426,7 @@ PlayerOam_Main:
     STA.b $04 ; Multiples of 0x50...
     
     ; I think Y is the "pose" for the particular direction we're facing.
-    TYA : AND.w #$00FF : ASL A : CLC : ADC.b $04 : TAY
+    TYA : AND.w #$00FF : ASL : CLC : ADC.b $04 : TAY
     
     ; $02 is probably a subpose index...
     LDA PlayerOam_AnimationStepDataOffsets, Y
@@ -3467,7 +3467,7 @@ PlayerOam_Main:
 
     .continue_aux1
 
-    ASL A : STA.w $0102
+    ASL : STA.w $0102
     
     LDX.b $72
     
@@ -3505,7 +3505,7 @@ PlayerOam_Main:
     
     LDA PlayerOam_Aux1GFXIndex, Y : AND.w #$00FF : STA.b $06
     
-    LSR A : TAY
+    LSR : TAY
     
     LDA.w PlayerOam_AuxFlip-1, Y : TAY
     
@@ -3529,7 +3529,7 @@ PlayerOam_Main:
 
     .continue_aux2
 
-    ASL A : STA.w $0104
+    ASL : STA.w $0104
     
     LDX.b $72
     
@@ -3567,7 +3567,7 @@ PlayerOam_Main:
     
     LDA PlayerOam_Aux2GFXIndex, Y : AND.w #$00FF : STA.b $06
     
-    LSR A : TAY
+    LSR : TAY
     
     LDA PlayerOam_AuxFlip-1, Y : TAY
     
@@ -3608,7 +3608,7 @@ PlayerOam_Main:
         .holding_hands_up
     .is_spinning_mode
 
-    LDA.l $7EF359 : INC A : AND.w #$00FE : BEQ .skip_sword_VRAM
+    LDA.l $7EF359 : INC : AND.w #$00FE : BEQ .skip_sword_VRAM
         .using_some_item
 
         JSR.w PlayerOam_SetWeaponVRAMOffsets : BCC .continue_with_weapon
@@ -3674,7 +3674,7 @@ PlayerOam_Main:
 
     REP #$20
     
-    LDA.b $06 : ASL A : CLC : ADC.b $06 : ASL A : TAY
+    LDA.b $06 : ASL : CLC : ADC.b $06 : ASL : TAY
     
     STZ.b $06
     
@@ -3750,7 +3750,7 @@ PlayerOam_Main:
         
         INY #2
         
-        LDA.b $06 : INC A : STA.b $06 : AND.b #$01 : BNE .no_offset
+        LDA.b $06 : INC : STA.b $06 : AND.b #$01 : BNE .no_offset
             LDA.b $0B : CLC : ADC.b #$08 : STA.b $0B
             
             LDA.b $08 : STA.b $0A
@@ -3803,7 +3803,7 @@ PlayerOam_Main:
     STA.b $0B
     
     LDA.b $01 : CLC : ADC.w PlayerOam_ShieldOffsetY, Y
-    DEC A : SEC : SBC.b $0B : STA.b $0B
+    DEC : SEC : SBC.b $0B : STA.b $0B
     
     LDA.b $00 : CLC : ADC.w PlayerOam_ShieldOffsetX, Y
     STA.b $0A : STA.b $08
@@ -3824,7 +3824,7 @@ PlayerOam_Main:
 
     REP #$30
     
-    LDA.b $06 : ASL A : CLC : ADC.b $06 : ASL A : TAY
+    LDA.b $06 : ASL : CLC : ADC.b $06 : ASL : TAY
     
     STZ.b $06
     
@@ -3929,7 +3929,7 @@ PlayerOam_Main:
             STY.b $0A
             STZ.b $0B
             
-            LDA.w $0323 : LSR A : TAY
+            LDA.w $0323 : LSR : TAY
             
             REP #$20
             
@@ -3995,11 +3995,11 @@ PlayerOam_Main:
     ; Determine the finalized offset into the OAM buffer?
     LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
     
-    LDA.b $02 : ASL A : TAY
+    LDA.b $02 : ASL : TAY
     
     LDA PlayerOam_AnimationSteps, Y : STA.b $0E
     
-    ASL A : STA.w $0100
+    ASL : STA.w $0100
     
     CLC : ADC.b $0E : TAY
     
@@ -4088,7 +4088,7 @@ PlayerOam_Main:
     
     LDA.b $11 : BNE .check_stair_visibility
         LDA.w $031F : BEQ .check_stair_visibility
-            DEC A : STA.w $031F
+            DEC : STA.w $031F
             
             CMP.b #$04 : BCC .check_stair_visibility
                 AND.b #$01 : BEQ .looks_invisible
@@ -4156,7 +4156,7 @@ PlayerOam_GetHighestSetBit:
 
     .next_bit
 
-        ASL A : BCS .bit_was_set
+        ASL : BCS .bit_was_set
     DEX : BPL .next_bit
 
     .bit_was_set
@@ -4631,11 +4631,11 @@ PlayerOam_DrawSwordSwingTip:
     CMP.w #$0001 : BEQ .give_up
         LDA.b $3A : AND.w #$0080 : BEQ .give_up
             LDA.b $3C : AND.w #$00FF : CMP.w #$0009 : BCS .give_up
-                ASL A : STA.b $0A
+                ASL : STA.b $0A
                 
-                LDA.b $2F : AND.w #$00FF : LSR A : STA.b $0E
+                LDA.b $2F : AND.w #$00FF : LSR : STA.b $0E
                 
-                ASL #3 : CLC : ADC.b $0E : ASL A : CLC : ADC.b $0A : TAY
+                ASL #3 : CLC : ADC.b $0E : ASL : CLC : ADC.b $0A : TAY
                 
                 LDA PlayerOam_SwordSwingTipTile, Y : CMP.w #$FFFF : BEQ .reset_and_exit
                     AND.w #$CFFF : ORA.b $64 : STA.w $0802, X
@@ -4645,7 +4645,7 @@ PlayerOam_DrawSwordSwingTip:
 
                     .no_palette_adjust
 
-                    TYA : LSR A : TAY
+                    TYA : LSR : TAY
                     
                     SEP #$20
                     
@@ -4814,7 +4814,7 @@ PlayerOam_DungeonFallShadow:
 
     .shadow_size_chosen
 
-    TYA : LSR A : LSR A : TAX
+    TYA : LSR : LSR : TAX
     
     LDA DungeonFallShadow_offset_x, X : STA.b $06
     
@@ -4900,13 +4900,13 @@ PlayerOam_DrawFootObject:
 {
     ; Seems like a timer to control how often to change the sprite's frame
     ; If frame counter < 9.
-    LDA.w $0356 : INC A : AND.b #$0F : STA.w $0356
+    LDA.w $0356 : INC : AND.b #$0F : STA.w $0356
     
     CMP.b #$09 : BCC .dont_reset_foot_object
 
         STZ.w $0356
         
-        LDA.w $0355 : INC A : AND.b #$03 : STA.w $0355
+        LDA.w $0355 : INC : AND.b #$03 : STA.w $0355
         
         CMP.b #$03 : BNE .dont_reset_foot_object
             STZ.w $0355
@@ -4918,7 +4918,7 @@ PlayerOam_DrawFootObject:
     
     ; See which direction Link is facing.
     ; Probably positions the water/grass sprite appropriately.
-    LDA.w $0323 : LSR A : CLC : ADC FootObject_shield_direction, Y : TAY
+    LDA.w $0323 : LSR : CLC : ADC FootObject_shield_direction, Y : TAY
     
     LDA.b $01 : CLC : ADC PlayerOam_ShadowOffset_Y, Y : STA.b $07
     LDA.b $00 : CLC : ADC PlayerOam_ShadowOffset_X, Y : STA.b $06
@@ -7812,7 +7812,7 @@ Wizzrobe_Draw:
     LDA.b #$00 : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
     
-    ASL A : ADC.b $00 : ADC.w #(.OAM_groups) : STA.b $08
+    ASL : ADC.b $00 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -8002,7 +8002,7 @@ Zazak_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL : ADC.b $00
     
     ADC.w #(.OAM_groups) : STA.b $08
     
@@ -8108,7 +8108,7 @@ Stalfos_Draw:
         PHB : PHK : PLB
         
         LDA.b #$00 : XBA
-        LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
+        LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL : ADC.b $00
         
         ADC.w #(Pool_Stalfos_Draw_OAM_groups) : STA.b $08
         
@@ -8275,7 +8275,7 @@ CrystalMaiden_Draw:
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
+    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL : TAY
     
     LDA.w Pool_CrystalMaiden_Draw_VRAM_source_indices+0, Y : STA.w $0AE8
     LDA.w Pool_CrystalMaiden_Draw_VRAM_source_indices+1, Y : STA.w $0AEA
@@ -8335,7 +8335,7 @@ Priest_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
     
                  ADC.b #(.OAM_groups >. 0) : STA.b $08
     LDA.b #$00 : ADC.b #(.OAM_groups >> 8) : STA.b $09
@@ -8384,7 +8384,7 @@ FluteBoy_Draw:
     
     LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
     
-    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #5
+    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #5
     
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM-groups >> 8) : ADC.b #$00 : STA.b $09
@@ -8621,7 +8621,7 @@ Uncle_Draw:
     
     ; This calculation is... ( ( ( ( (v2 * 2) + v2 + v0) * 2) + v0) * 16 )
     ; or... 96v2 + 48v0. wtf is this for?
-    ASL A : ADC.b $02 : ADC.b $00 : ASL A : ADC.b $00 : ASL #4
+    ASL : ADC.b $02 : ADC.b $00 : ASL : ADC.b $00 : ASL #4
     
     ADC.w #(.OAM_groups) : STA.b $08
     
@@ -8629,7 +8629,7 @@ Uncle_Draw:
     
     SEP #$30
     
-    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : TAY
+    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : TAY
     
     ; BUG: Don't have proof yet, but something tells me that if Link's uncle
     ; were ever facing to the right, it would not look correct. These tables
@@ -8687,7 +8687,7 @@ BugNetKid_Draw:
                  STZ.b $07
     
     ; Multiples of 0x30.
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #4
     
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
@@ -8818,7 +8818,7 @@ BomberPellet_DrawExplosion:
     ; Multiply by 24 and add 0xD58E...
     LSR #2 : PHA : LDA.b #$00 : XBA : PLA : REP #$20 : ASL #3 : STA.b $00
     
-    ASL A : ADC.b $00 : ADC.w #(.OAM_groups) : STA.b $08
+    ASL : ADC.b $00 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -8857,7 +8857,7 @@ GoodBee_AttackOtherSprite:
             SEP #$20
             
             LDA.w $0E20, Y : CMP.b #$75 : BNE .not_bottle_vendor
-                TXA : INC A : STA.w $0E90, Y
+                TXA : INC : STA.w $0E90, Y
                 
                 RTL
             
@@ -8876,9 +8876,9 @@ GoodBee_AttackOtherSprite:
             
             LDA.b #$0F : STA.w $0EA0, Y
             
-            LDA.w $0D50, X : ASL A : STA.w $0F40, Y
+            LDA.w $0D50, X : ASL : STA.w $0F40, Y
             
-            LDA.w $0D40, X : ASL A : STA.w $0F30, Y
+            LDA.w $0D40, X : ASL : STA.w $0F30, Y
             
             INC.w $0DA0, X
     
@@ -9029,7 +9029,7 @@ Pikit_DrawTongue:
                 
                 JSR.w Pikit_MultiplicationDelay
                 
-                LDA.b $0F : ASL A : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_DELTA
+                LDA.b $0F : ASL : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_DELTA
                     EOR.b #$FF : INC A
                 
                 .BRANCH_DELTA
@@ -9113,7 +9113,7 @@ Pool_Pikit_DrawGrabbedItem:
 Pikit_DrawGrabbedItem:
 {
     LDA.w $0ED0, X : BEQ .return
-        DEC A : CMP.b #$03 : BNE .not_shield
+        DEC : CMP.b #$03 : BNE .not_shield
             ; Indicates the shield level, which should be 1 or 2, resulting in
             ; a final value here of 3 or 4.
             LDA.w $0E30, X : CLC : ADC.b #$02
@@ -9212,7 +9212,7 @@ Kholdstare_Draw:
     JSL.l Sprite_PrepOamCoordLong : BCS .offscreen
         PHX
         
-        LDA.w $0D90, X : PHA : ASL A : TAX
+        LDA.w $0D90, X : PHA : ASL : TAX
         
         REP #$20
         
@@ -9365,7 +9365,7 @@ ArcheryGameGuy_Draw:
     JSL.l Sprite_OAM_AllocateDeferToPlayerLong
     JSL.l Sprite_PrepOamCoordLong
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $06
+    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : STA.b $06
     
     PHX
     
@@ -9495,8 +9495,8 @@ HUD_RefillLogic:
         
         .magicNotFull
         
-        LDA.l $7EF373 : DEC A : STA.l $7EF373
-        LDA.l $7EF36E : INC A : STA.l $7EF36E
+        LDA.l $7EF373 : DEC : STA.l $7EF373
+        LDA.l $7EF36E : INC : STA.l $7EF36E
         
         ; If((frame_counter % 4) != 0) don't refill this frame.
         LDA.b $1A : AND.b #$03 : BNE .doneWithMagicRefill
@@ -9517,7 +9517,7 @@ HUD_RefillLogic:
     ; catch up in the other direction.
     LDA.l $7EF362 : CMP.l $7EF360 : BEQ .doneWithRupeesRefill
         BMI .addRupees
-            DEC A : BPL .subtractRupees
+            DEC : BPL .subtractRupees
                 LDA.w #$0000 : STA.l $7EF360
                 
                 BRA .subtractRupees
@@ -9525,7 +9525,7 @@ HUD_RefillLogic:
         .addRupees
         
         ; If current rupees <= 1000 (decimal).
-        INC A : CMP.w #1000 : BCC .subtractRupees
+        INC : CMP.w #1000 : BCC .subtractRupees
             ; Otherwise just store 999 to the rupee amount.
             LDA.w #999 : STA.l $7EF360
         
@@ -9553,7 +9553,7 @@ HUD_RefillLogic:
     
     LDA.l $7EF375 : BEQ .doneRefillingBombs
         ; Decrease the bomb refill counter.
-        LDA.l $7EF375 : DEC A : STA.l $7EF375
+        LDA.l $7EF375 : DEC : STA.l $7EF375
 
         ; Use the bomb upgrade index to know what max number of bombs Link can
         ; carry is.
@@ -9562,13 +9562,13 @@ HUD_RefillLogic:
         ; If it matches the max, you can't have any more bombs.
         LDA.l $7EF343 : CMP.w HUD_CapacityUpgrades_bombs_hex, Y : BEQ .doneRefillingBombs
             ; You like bombs? I got lotsa bombs!
-            INC A : STA.l $7EF343
+            INC : STA.l $7EF343
 
     .doneRefillingBombs
 
     ; Check arrow refill counter
     LDA.l $7EF376 : BEQ .doneRefillingArrows
-        LDA.l $7EF376 : DEC A : STA.l $7EF376
+        LDA.l $7EF376 : DEC : STA.l $7EF376
         
         ; Check arrow upgrade index to see how our max limit on arrows, just
         ; like bombs.
@@ -9576,7 +9576,7 @@ HUD_RefillLogic:
         
         ; I reckon you get no more arrows, pardner.
         LDA.l $7EF377 : CMP.w HUD_CapacityUpgrades_arrows_hex, Y : BEQ .arrowsAtMax
-            INC A : STA.l $7EF377
+            INC : STA.l $7EF377
 
         .arrowsAtMax
 
@@ -9585,7 +9585,7 @@ HUD_RefillLogic:
             AND.b #$01 : CMP.b #$01 : BNE .doneRefillingArrows
                 ; Changes the icon from a bow without arrows to a bow with
                 ; arrows.
-                LDA.l $7EF340 : INC A : STA.l $7EF340
+                LDA.l $7EF340 : INC : STA.l $7EF340
                 
                 JSL.l RefreshIconLong
 
@@ -10002,7 +10002,7 @@ Equipment_DoWeHaveThisItem:
 ; $06DEBD-$06DECA LOCAL JUMP LOCATION
 Equipment_GoToPrevItem:
 {
-    LDA.w $0202 : DEC A : CMP.b #$01 : BCS .dontReset
+    LDA.w $0202 : DEC : CMP.b #$01 : BCS .dontReset
         LDA.b #$14
     
     .dontReset
@@ -10019,7 +10019,7 @@ Equipment_GotoNextItem:
 {
     ; Load our currently equipped item, and move to the next one If we reach
     ; our limit (21), set it back to the bow and arrow slot.
-    LDA.w $0202 : INC A : CMP.b #$15 : BCC .dontReset
+    LDA.w $0202 : INC : CMP.b #$15 : BCC .dontReset
         LDA.b #$01
     
     .dontReset
@@ -10467,12 +10467,12 @@ Equipment_BottleMenu:
     
     .haveUpDownInput
     
-    LDA.l $7EF34F : DEC A : STA.b $00 : STA.b $02
+    LDA.l $7EF34F : DEC : STA.b $00 : STA.b $02
     
     LDA.b $F4 : AND.b #$08 : BEQ .haveUpInput
         .selectPrevBottle
         
-            LDA.b $00 : DEC A : AND.b #$03 : STA.b $00 : TAX
+            LDA.b $00 : DEC : AND.b #$03 : STA.b $00 : TAX
         LDA.l $7EF35C, X : BEQ .selectPrevBottle
         
         BRA .bottleIsSelected
@@ -10481,14 +10481,14 @@ Equipment_BottleMenu:
 
     .selectNextBottle
     
-        LDA.b $00 : INC A : AND.b #$03 : STA.b $00 : TAX
+        LDA.b $00 : INC : AND.b #$03 : STA.b $00 : TAX
     LDA.l $7EF35C, X : BEQ .selectNextBottle
     
     .bottleIsSelected
     
     LDA.b $00 : CMP $02 : BEQ .sameBottleWhoCares
         ; Record which bottle was just selected.
-        INC A : STA.l $7EF34F
+        INC : STA.l $7EF34F
         
         ; If it's not the same bottle we play the obligatory item switch sound
         ; effect.
@@ -10573,7 +10573,7 @@ Equipment_UpdateBottleMenu:
     LDA.w #ItemMenuIcons_bottles : STA.b $04
     JSR.w DrawItem
     
-    LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
+    LDA.w $0202 : AND.w #$00FF : DEC : ASL : TAX
     
     LDY.w ItemMenu_CursorPositions, X
     
@@ -10582,7 +10582,7 @@ Equipment_UpdateBottleMenu:
     LDA.w $0040, Y : STA.w $11F2
     LDA.w $0042, Y : STA.w $11F4
     
-    LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
+    LDA.l $7EF34F : DEC : AND.w #$00FF : ASL : TAY
     
     LDA.w Equipment_BottleMenuCursorPosition, Y : TAY
     
@@ -10607,7 +10607,7 @@ Equipment_UpdateBottleMenu:
         LDA.l $7EF34F : AND.w #$00FF : BEQ .noSelectedBottle
             TAX
             
-            LDA.l $7EF35B, X : AND.w #$00FF : DEC A : ASL #5 : TAX
+            LDA.l $7EF35B, X : AND.w #$00FF : DEC : ASL #5 : TAX
             
             LDY.w #$0000
             
@@ -11430,7 +11430,7 @@ Equipment_DrawSelectedYButtonItem:
 {
     REP #$30
     
-    LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
+    LDA.w $0202 : AND.w #$00FF : DEC : ASL : TAX
     
     LDY.w ItemMenu_CursorPosition, X
     LDA.w $0000, Y : STA.w $11B2
@@ -11470,7 +11470,7 @@ Equipment_DrawSelectedYButtonItem:
         LDA.l $7EF34F : AND.w #$00FF : BEQ .bottleNotSelected
             TAX
             
-            LDA.l $7EF35B, X : AND.w #$00FF : DEC A : ASL #5 : TAX
+            LDA.l $7EF35B, X : AND.w #$00FF : DEC : ASL #5 : TAX
             
             LDY.w #$0000
             
@@ -11491,8 +11491,8 @@ Equipment_DrawSelectedYButtonItem:
 
     ; Check if we need to write the Magic Powder description.
     LDA.w $0202 : AND.w #$00FF : CMP.w #$0005 : BNE .powderNotSelected
-        LDA.l $7EF344 : AND.w #$00FF : DEC A : BEQ .powderNotSelected
-            DEC A : ASL #5 : TAX
+        LDA.l $7EF344 : AND.w #$00FF : DEC : BEQ .powderNotSelected
+            DEC : ASL #5 : TAX
             
             LDY.w #$0000
             
@@ -11510,8 +11510,8 @@ Equipment_DrawSelectedYButtonItem:
     
     ; Check if we need to write the Magic Mirror description.
     LDA.w $0202 : AND.w #$00FF : CMP.w #$0014 : BNE .mirrorNotSelected
-        LDA.l $7EF353 : AND.w #$00FF : DEC A : BEQ .mirrorNotSelected
-            DEC A : ASL #5 : TAX
+        LDA.l $7EF353 : AND.w #$00FF : DEC : BEQ .mirrorNotSelected
+            DEC : ASL #5 : TAX
             
             LDY.w #$0000
             
@@ -11529,8 +11529,8 @@ Equipment_DrawSelectedYButtonItem:
     
     ; Check if we need to write the Flute description.
     LDA.w $0202 : AND.w #$00FF : CMP.w #$000D : BNE .fluteNotSelected
-        LDA.l $7EF34C : AND.w #$00FF : DEC A : BEQ .fluteNotSelected
-            DEC A : ASL #5 : TAX
+        LDA.l $7EF34C : AND.w #$00FF : DEC : BEQ .fluteNotSelected
+            DEC : ASL #5 : TAX
             
             LDY.w #$0000
             
@@ -11548,8 +11548,8 @@ Equipment_DrawSelectedYButtonItem:
     
     ; Check if we need to write the Bow description.
     LDA.w $0202 : AND.w #$00FF : CMP.w #$0001 : BNE .bowNotSelected
-        LDA.l $7EF340 : AND.w #$00FF : DEC A : BEQ .bowNotSelected
-            DEC A : ASL #5 : TAX
+        LDA.l $7EF340 : AND.w #$00FF : DEC : BEQ .bowNotSelected
+            DEC : ASL #5 : TAX
             
             LDY.w #$0000
             
@@ -11779,7 +11779,7 @@ Equipment_DrawMapAndBigKey:
     REP #$30
     
     LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInDungeon
-        LSR A : TAX
+        LSR : TAX
         
         ; Check if we have the big key in this dungeon.
         LDA.l $7EF366
@@ -11787,7 +11787,7 @@ Equipment_DrawMapAndBigKey:
         .locateBigKeyFlag
 
             ; Loop.
-        ASL A : DEX : BPL .locateBigKeyFlag
+        ASL : DEX : BPL .locateBigKeyFlag
 
         BCC .dontHaveBigKey
             JSR.w ItemMenu_CheckForDungeonPrize
@@ -11805,7 +11805,7 @@ Equipment_DrawMapAndBigKey:
     .notInDungeon
     
     LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInDungeonAgain
-        LSR A : TAX
+        LSR : TAX
         
         ; Check if we have the map in this dungeon.
         LDA.l $7EF368
@@ -11813,7 +11813,7 @@ Equipment_DrawMapAndBigKey:
         .locateMapFlag
         
             ; Loop.
-        ASL A : DEX : BPL .locateMapFlag
+        ASL : DEX : BPL .locateMapFlag
         
         BCC .dontHaveMap
             ; Draw Map.
@@ -11982,14 +11982,14 @@ Equipment_DrawCompass:
     REP #$30
     
     LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInDungeon
-        LSR A : TAX
+        LSR : TAX
         
         LDA.l $7EF364
         
         .locateCompassFlag
 
             ; Loop.
-        ASL A : DEX : BPL .locateCompassFlag
+        ASL : DEX : BPL .locateCompassFlag
 
         BCC .dontHaveCompass
             LDA.w #$16F2 : STA.b $00
@@ -12093,7 +12093,7 @@ Equipment_DrawBottleMenu:
     
     ; Take the currently selected item, and draw something with it, perhaps on
     ; the main menu region.
-    LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
+    LDA.w $0202 : AND.w #$00FF : DEC : ASL : TAX
     
     LDY.w ItemMenu_CursorPositions, X 
     
@@ -12102,7 +12102,7 @@ Equipment_DrawBottleMenu:
     LDA.w $0040, Y : STA.w $11F2
     LDA.w $0042, Y : STA.w $11F4
     
-    LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
+    LDA.l $7EF34F : DEC : AND.w #$00FF : ASL : TAY
     
     LDA.w BottleMenuCursorPosition, Y : TAY
     
@@ -12244,7 +12244,7 @@ HUD_AnimateHeartRefill:
         REP #$30
         
         ; Y = ( ( ( (current_health & 0x00F8) - 1) / 8 ) * 2)
-        LDA.l $7EF36D : AND.w #$00F8 : DEC A : LSR #3 : ASL A : TAY
+        LDA.l $7EF36D : AND.w #$00F8 : DEC : LSR #3 : ASL : TAY
         CMP.w #$0014 : BCC .halfHealthOrLess
             SBC.w #$0014 : TAY
             
@@ -12257,14 +12257,14 @@ HUD_AnimateHeartRefill:
         
         LDX.w $0209 : LDA.l HUD_AllOnes, X : STA.w $0208
         
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         LDA.l HUD_HeartDisplayFrames+0, X : STA [$00], Y
         
         INY
         LDA.l HUD_HeartDisplayFrames+2, X : STA [$00], Y
         
-        LDA.w $0209 : INC A : AND.b #$03 : STA.w $0209
+        LDA.w $0209 : INC : AND.b #$03 : STA.w $0209
         BNE .return
             SEP #$30
             
@@ -13070,7 +13070,7 @@ HUD_UpdateItemBox:
         ; Insert jump here check for 0x15 in X then branch off, interject GFX,
         ; and return to .noEquippedItem, otherwise insert the next line again 
         ; and return to LDA.w ItemMenu_ItemGFXPointers.
-        TXA : DEC A : ASL A : TAX ; (x-1)*2.
+        TXA : DEC : ASL : TAX ; (x-1)*2.
         
         ; For fire rod (05), loads F6A1.
         LDA.w ItemMenu_ItemGFXPointers, X : STA.b $04

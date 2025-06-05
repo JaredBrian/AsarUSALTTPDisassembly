@@ -126,7 +126,7 @@ FireBat_LaunchedFlying:
     .BRANCH_ALPHA
     
     LDA.w $0DF0, X : BEQ .BRANCH_GAMMA
-        DEC A : BNE FireBat_AdjustAnimationState
+        DEC : BNE FireBat_AdjustAnimationState
             LDA.b #$23 : STA.w $0E00, X
             
             BRA FireBat_AdjustAnimationState
@@ -185,7 +185,7 @@ FireBat_Draw:
     
     LDA.w $0DC0, X : STA.b $07
     
-    ASL A : STA.b $06
+    ASL : STA.b $06
     
     PHX
     
@@ -195,7 +195,7 @@ FireBat_Draw:
         
         PHX
         
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         REP #$20
         

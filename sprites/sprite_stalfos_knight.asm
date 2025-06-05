@@ -223,7 +223,7 @@ StalfosKnight_HopAround:
     JSR.w Sprite3_CheckDamage
     
     LDA.w $0E00, X : BEQ .BRANCH_ALPHA
-        DEC A : BNE .BRANCH_BETA
+        DEC : BNE .BRANCH_BETA
             LDA.b #$30 : STA.w $0F80, X
             
             LDA.b #$10
@@ -249,7 +249,7 @@ StalfosKnight_HopAround:
     
     .BRANCH_GAMMA
     
-    LDA.w $0F70, X : DEC A : BPL .BRANCH_DELTA
+    LDA.w $0F70, X : DEC : BPL .BRANCH_DELTA
         STZ.w $0F70, X
         STZ.w $0F80, X
         
@@ -296,7 +296,7 @@ StalfosKnight_Crumble:
     
     .BRANCH_ALPHA
     
-    LDA.w $0F70, X : DEC A : BPL .BRANCH_BETA
+    LDA.w $0F70, X : DEC : BPL .BRANCH_BETA
         STZ.w $0F70, X
         STZ.w $0F80, X
         

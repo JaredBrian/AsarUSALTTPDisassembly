@@ -10,8 +10,8 @@ Sprite_SpawnPhantomGanon:
     
     LDA.b #$02 : STA.w $0E40, Y
                  STA.w $0BA0, Y
-    DEC A      : STA.w $0EC0, Y
-    DEC A      : STA.w $0F50, Y
+    DEC      : STA.w $0EC0, Y
+    DEC      : STA.w $0F50, Y
     
     RTL
 }

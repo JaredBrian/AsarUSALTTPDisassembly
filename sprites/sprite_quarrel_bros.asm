@@ -137,7 +137,7 @@ Orphan1_State2:
     TXA : EOR.b $1A : LSR #5 : AND.b #03 : STA.b $00
     
     AND.b #$01 : BNE .skip
-        LDA.b $00 : LSR A : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
+        LDA.b $00 : LSR : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
         
         RTS
         
@@ -178,7 +178,7 @@ QuarrelBros_Draw:
                  STZ.b $07
     
     ; This is using the table at $E0FF.
-    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
     ADC.b #QuarrelBros_Draw_animation_states>>8 : STA.b $08
 
     LDA.b #QuarrelBros_Draw_animation_states : ADC.b #$00 : STA.b $09

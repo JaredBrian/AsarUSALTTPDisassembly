@@ -162,9 +162,9 @@ OAM_GetBufferPosition:
         STZ.b $0D
         
         ; wtf...
-        LDA.w $0FEC, Y : PHA : INC A : STA.w $0FEC, Y
+        LDA.w $0FEC, Y : PHA : INC : STA.w $0FEC, Y
         
-        PLA : AND.w #$0007 : ASL A : STA.b $0E
+        PLA : AND.w #$0007 : ASL : STA.b $0E
         
         ; Y = (sprite field * 8) + $0E... whatever that is
         LDA.b $0C : ASL #3 : ADC.b $0E : TAY

@@ -193,9 +193,9 @@ Soldier_DirectionLockSettings:
 ; $02B5D3-$02B647 LOCAL JUMP LOCATION
 SpriteActive2_Main:
 {
-    LDA.w $0E20, X : SEC : SBC.b #$41 : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$41 : REP #$30 : AND.w #$00FF : ASL : TAY
     
-    LDA.w .sprite_routines, Y : DEC A : PHA
+    LDA.w .sprite_routines, Y : DEC : PHA
     
     SEP #$30
     
@@ -488,9 +488,9 @@ Soldier_Main:
     
     .nu
     
-    REP #$30 : AND.w #$00FF : ASL A : TAY
+    REP #$30 : AND.w #$00FF : ASL : TAY
     
-    LDA.w .states, Y : DEC A : PHA
+    LDA.w .states, Y : DEC : PHA
     
     SEP #$30
     
@@ -1010,7 +1010,7 @@ Sprite_SpawnProbeAlways:
         
         PLX
         
-        TXA : INC A : STA.w $0DB0, Y
+        TXA : INC : STA.w $0DB0, Y
                       STA.w $0BA0, Y
         
         LDA.b #$40 : STA.w $0F60, Y
@@ -1116,7 +1116,7 @@ Guard_AnimateHead:
     
     PHX
     
-    LDA.w $0DC0, X : ASL A : STA.b $0D
+    LDA.w $0DC0, X : ASL : STA.b $0D
     
     LDA.w $0EB0, X : TAX
     
@@ -1349,7 +1349,7 @@ Guard_AnimateBody:
     
     .alpha
     
-    LDA.b $06 : ASL A : TAX
+    LDA.b $06 : ASL : TAX
     
     REP #$20
     
@@ -1491,7 +1491,7 @@ GuardWeaponObject:
 ; $02CB64-$02CBDF LOCAL JUMP LOCATION
 Guard_AnimateWeapon:
 {
-    LDA.w $0DC0, X : ASL A : STA.b $06
+    LDA.w $0DC0, X : ASL : STA.b $06
     
     LDA.w $0E20, X : SEC : SBC.b #$41 : STA.b $08
     
@@ -1509,7 +1509,7 @@ Guard_AnimateWeapon:
         
         TXA : CLC : ADC.b $06 : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         
@@ -1670,7 +1670,7 @@ Sprite_PsychoTrooper:
     
     LDA.w $0DE0, X : ASL #3 : STA.b $00
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$07 : ORA.b $00 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$07 : ORA.b $00 : TAY
     
     LDA.w Pool_Sprite_PsychoTrooper_animation_states, Y : STA.w $0DC0, X
     
@@ -1767,7 +1767,7 @@ SpriteDraw_GuardSpear:
     
     .alpha
     
-    EOR.b #$01 : ASL A : AND.b #$02 : STA.b $06
+    EOR.b #$01 : ASL : AND.b #$02 : STA.b $06
     
     LDA.w $0E20, X : STA.b $08
     
@@ -1780,7 +1780,7 @@ SpriteDraw_GuardSpear:
     .delta
         PHX
         
-        TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC.b $06 : PHA : ASL : TAX
         
         REP #$20
         
@@ -1916,9 +1916,9 @@ ArcherAndJavelinGuardMain:
     JSR.w Sprite2_MoveIfNotTouchingWall
     JSR.w Sprite2_CheckTileCollision
     
-    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL : TAY
     
-    LDA.w .states, Y : DEC A : PHA
+    LDA.w .states, Y : DEC : PHA
     
     SEP #$30
     
@@ -2443,9 +2443,9 @@ BushGuard_Main:
     
     REP #$30
     
-    AND.w #$00FF : ASL A : TAY
+    AND.w #$00FF : ASL : TAY
     
-    LDA.w .states, Y : DEC A : PHA
+    LDA.w .states, Y : DEC : PHA
     
     SEP #$30
     
@@ -2654,7 +2654,7 @@ SpriteDraw_BushGuardBush:
 {
     JSR.w Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL A : STA.b $06
+    LDA.w $0DC0, X : ASL : STA.b $06
     
     PHX
     
@@ -2664,7 +2664,7 @@ SpriteDraw_BushGuardBush:
     
         PHX
         
-        TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC.b $06 : PHA : ASL : TAX
         
         REP #$20
         
@@ -2858,7 +2858,7 @@ SpriteDraw_Archer_Weapon:
         
         TXA : CLC : ADC.b $06 : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         

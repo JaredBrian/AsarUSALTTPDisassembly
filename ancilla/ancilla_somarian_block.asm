@@ -60,7 +60,7 @@ Ancilla_SomarianBlock:
             
             .partial_execute
             
-            TXA : INC A : CMP.w $02EC : BNE .pretrigger_logic
+            TXA : INC : CMP.w $02EC : BNE .pretrigger_logic
                 LDA.w $0380, X : BEQ .pretrigger_logic
                     CMP.b #$03 : BEQ .assert_fully_held_position
                         LDY.b #$03
@@ -86,7 +86,7 @@ Ancilla_SomarianBlock:
                 .unset_trigger_if_player_holding
         .bouncing
         
-        TXA : INC A : CMP.w $02EC : BNE .anounset_trigger_tile
+        TXA : INC : CMP.w $02EC : BNE .anounset_trigger_tile
             STZ.w $0646
             
         .anounset_trigger_tile
@@ -101,7 +101,7 @@ Ancilla_SomarianBlock:
         ; as a platform generator and as a tile trigger cover is mutually
         ; exclusive in a given room.
         LDA.w $03F4 : BEQ .no_tranit_tiles_available
-            LDA.b $1A : AND.b #$03 : ASL A : TAY
+            LDA.b $1A : AND.b #$03 : ASL : TAY
             
             .find_transit_node_nearby
             
@@ -149,7 +149,7 @@ Ancilla_SomarianBlock:
             
             JSL.l AddSomarianPlatformPoof
             
-            TXA : INC A : CMP.w $02EC : BNE .reset_nearest_flag_near_platform
+            TXA : INC : CMP.w $02EC : BNE .reset_nearest_flag_near_platform
                 STZ.w $02EC
             
             .reset_nearest_flag_near_platform
@@ -245,7 +245,7 @@ Ancilla_SomarianBlock:
                         .at_rest_x
                         
                         LDA.w $0C72, X : CMP.b #$01 : BNE .end_tile_collision_logic
-                            INC A : STA.w $0385, X
+                            INC : STA.w $0385, X
                             
                             LDA.b #$FC : STA.w $0C22, X
                     
@@ -317,7 +317,7 @@ Ancilla_SomarianBlock:
                 
                 ; If a bomb falls into deep water it disappears and makes
                 ; a splash.
-                TXA : INC A : CMP.w $02EC : BNE .water_tile_reset_player_proximity
+                TXA : INC : CMP.w $02EC : BNE .water_tile_reset_player_proximity
                     STZ.w $02EC
                 
                 .water_tile_reset_player_proximity
@@ -333,7 +333,7 @@ Ancilla_SomarianBlock:
             LDA.w $0308 : BMI Ancilla_Bomb_state_logic
                 STX.b $04
 
-                LDA.w $02EC : DEC A : CMP.b $04 : BNE .water_reset_b
+                LDA.w $02EC : DEC : CMP.b $04 : BNE .water_reset_b
                     STZ.w $02EC
 
                 .water_reset_b
@@ -371,7 +371,7 @@ Ancilla_SomarianBlock:
             .pit_tile_logic
                 
             LDA.w $0308 : BMI .damage_logic
-                TXA : INC A : CMP.w $02EC : BNE .pit_tile_reset_player_proximity 
+                TXA : INC : CMP.w $02EC : BNE .pit_tile_reset_player_proximity 
                     STZ.w $02EC
                     
                 .pit_tile_reset_player_proximity
@@ -406,7 +406,7 @@ Ancilla_SomarianBlock_damage_logic:
             JSR.w Ancilla_CheckBasicSpriteCollision : BCC .dont_fizzle
                 LDA.b #$07 : STA.w $03A9, X
                 
-                LDA.w $0C54, X : INC A : STA.w $0C54, X
+                LDA.w $0C54, X : INC : STA.w $0C54, X
                 CMP.b #$05 : BNE .dont_fizzle
                     BRL Ancilla_TransmuteToSomarianBlockFizzle
         
@@ -470,7 +470,7 @@ SomarianBlock_Draw:
         
     .anoset_max_priority
         
-    LDA.w #$0000 : CLC : ADC.b $04 : EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $04
+    LDA.w #$0000 : CLC : ADC.b $04 : EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $04
         
     LDA.b $02 : STA.b $06
         
@@ -492,7 +492,7 @@ SomarianBlock_Draw:
         
         STZ.b $74
         
-        PHX : TXA : ASL A : TAX
+        PHX : TXA : ASL : TAX
         
         LDA.b $04 : CLC : ADC .y_offsets, X : STA.b $00
         LDA.b $06 : CLC : ADC .x_offsets, X : STA.b $02
@@ -552,7 +552,7 @@ SomarianBlock_Draw:
         ; The block self terminates and unsets the 'switch set' status variable.
         STZ.w $0C4A, X
         
-        TXA : INC A : CMP.w $02EC : BNE .return
+        TXA : INC : CMP.w $02EC : BNE .return
             STZ.w $02EC
             
             LDA.w $0308 : AND.b #$80 : BEQ .return
@@ -747,7 +747,7 @@ SomarianBlock_PlayerInteraction:
         LDA.w $0C7C, X : CMP $EE : BNE .end_push_logic
             LDA.w $0372 : BEQ .not_dash_bounce
                 LDA.w $02F1 : CMP.b #$40 : BEQ .not_dash_bounce
-                    TXA : INC A : CMP.w $02EC : BNE .disable_nearby_status
+                    TXA : INC : CMP.w $02EC : BNE .disable_nearby_status
                         STZ.w $02EC
                     
                     .disable_nearby_status
@@ -845,7 +845,7 @@ SomarianBlock_PlayerInteraction:
 ; $0468F3-$046913 BRANCH LOCATION
 SomarianBlock_InitDashBounce:
 {
-    LDA.b $2F : LSR A : STA.w $0C72, X : TAY
+    LDA.b $2F : LSR : STA.w $0C72, X : TAY
     
     LDA.w Pool_SomarianBlock_InitDashBounce_launch_y_speeds, Y : STA.w $0C22, X
     
@@ -883,7 +883,7 @@ SomarianBlock_ContinueDashBounce:
     ; Force altitude to zero.
     STZ.w $029E, X
     
-    LDA.w $03C5, X : INC A : STA.w $03C5, X
+    LDA.w $03C5, X : INC : STA.w $03C5, X
     
     CMP.b #$04 : BNE .bounces_maxed_out
         STZ.w $0BF0, X
@@ -901,7 +901,7 @@ SomarianBlock_ContinueDashBounce:
     LDA.w Pool_SomarianBlock_InitDashBounce_bounce_rebound_z_speeds, Y
     STA.w $0294, X
     
-    LDA.b $2F : LSR A : STA.b $00
+    LDA.b $2F : LSR : STA.b $00
     
     TYA : ASL #2 : CLC : ADC.b $00 : TAY
     

@@ -179,7 +179,7 @@ Dungeon_LoadCustomTileAttr:
         
     REP #$30
         
-    LDA.w $0AA2 : AND.w #$00FF : ASL A : TAX
+    LDA.w $0AA2 : AND.w #$00FF : ASL : TAX
         
     LDA Pool_Dungeon_LoadCustomTileAttr_group_offsets, X : TAY
         
@@ -382,7 +382,7 @@ Module_EndSequence:
     SEP #$20
         
     ; Load the level 1 submodule index and used it to index into a jump table.
-    LDA.b $11 : ASL A : TAX
+    LDA.b $11 : ASL : TAX
         
     JSR.w (Pool_Module_EndSequence, X)
         
@@ -1113,7 +1113,7 @@ Credits_LoadSprites_Grove:
         LDA.b #$9F : STA.w $0E27, Y
         LDA.b #$A0 : STA.w $0E29, Y
         
-        LDA.b #$01 : STA.w $0E47, Y : INC A : STA.w $0E49, Y
+        LDA.b #$01 : STA.w $0E47, Y : INC : STA.w $0E49, Y
         LDA.b #$10 : STA.w $0E67, Y :         STA.w $0E69, Y
     DEY : BPL .loop2
 
@@ -1192,13 +1192,13 @@ Credits_LoadSprites_GenericOW:
     LDA Credits_SpriteData_position_y_pointers, X      : STA.b $06
     LDA Credits_SpriteData_position_y_pointers + $1, X : STA.b $07
         
-    TXA : LSR A : TAX
+    TXA : LSR : TAX
         
     LDA Credits_SpriteData_sprite_count, X : TAX
     
     .loop
     
-        TXA : ASL A : TAY
+        TXA : ASL : TAY
         
         REP #$20
         
@@ -1208,7 +1208,7 @@ Credits_LoadSprites_GenericOW:
         LDA.w $040A : ASL A
         XBA : AND.w #$0F00 : CLC : ADC ($04), Y : STA.b $00
         
-        LDA.w $040A : LSR A : LSR A 
+        LDA.w $040A : LSR : LSR 
         XBA : AND.w #$0E00 : CLC : ADC ($06), Y : STA.b $02
         
         SEP #$20
@@ -1256,21 +1256,21 @@ Credits_LoadSprites_GenericUW:
         
     AND.b #$FE : STA.w $0FB1
         
-    LDA.w $048E : AND.b #$0F : ASL A : STA.w $0FB0
+    LDA.w $048E : AND.b #$0F : ASL : STA.w $0FB0
         
     LDA Credits_SpriteData_position_x_pointers, X      : STA.b $04
     LDA Credits_SpriteData_position_x_pointers + $1, X : STA.b $05
     LDA Credits_SpriteData_position_y_pointers, X      : STA.b $06
     LDA Credits_SpriteData_position_y_pointers + $1, X : STA.b $07
         
-    TXA : LSR A : TAX
+    TXA : LSR : TAX
         
     ; Number of sprites in ending sequence.
     LDA Credits_SpriteData_sprite_count, X : TAX
     
     .loop
     
-        TXA : ASL A : TAY
+        TXA : ASL : TAY
         
         LDA.w $0FB1 : XBA
         
@@ -1509,11 +1509,11 @@ Credits_SpriteDraw_Hera:
 
         DEX
         
-        LDA.w $0D50, X : DEC A : LSR A : AND.b #$40 : EOR.b #$72 : STA.w $0F50, X
+        LDA.w $0D50, X : DEC : LSR : AND.b #$40 : EOR.b #$72 : STA.w $0F50, X
         
         LDA.b $1A : LSR #3 : AND.b #$10 : STA.w $0DC0, X
         
-        TXA : ASL A : TAY
+        TXA : ASL : TAY
         
         REP #$20
         
@@ -1653,10 +1653,10 @@ Credits_SpriteDraw_Kakariko1:
     ; Alternate the travel bird's graphics for flappage.
     LDA.w CreditsOAMGroup1_duck_flap, Y : STA.w $0AF4
         
-    LDA.w $0D50, X : ROL A : ROR A : AND.b #$01 : TAY
+    LDA.w $0D50, X : ROL : ROR : AND.b #$01 : TAY
         
     LDA.w $0D50, X : CLC : ADC.w CreditsOAMGroup1_duck_flip, X
-    LSR A : AND.b #$40 : ORA.b #$32 : STA.w $0F50, X
+    LSR : AND.b #$40 : ORA.b #$32 : STA.w $0F50, X
         
     LDA.b #$02
     LDY.b #$24
@@ -1675,7 +1675,7 @@ Credits_SpriteDraw_Kakariko1:
         
         LDA.w CreditsOAMGroup1_timers, X : STA.w $0DF0, X
         
-        LDA.w $0DC0, X : INC A : AND.b #$03 : STA.w $0DC0, X
+        LDA.w $0DC0, X : INC : AND.b #$03 : STA.w $0DC0, X
     
     .BRANCH_ALPHA
     
@@ -1829,7 +1829,7 @@ Credits_SpriteDraw_House:
         
     LDA.b #$30 : STA.w $0F50, X
         
-    PHY : TYA : ASL A : TAY
+    PHY : TYA : ASL : TAY
         
     REP #$20
         
@@ -2091,7 +2091,7 @@ Credits_SpriteDraw_Kakariko2:
     
     .BRANCH_ALPHA
     
-    LDA.w $0D50, X : LSR A : AND.b #$40 : EOR.b #$7E : STA.w $0F50, X
+    LDA.w $0D50, X : LSR : AND.b #$40 : EOR.b #$7E : STA.w $0F50, X
         
     LDA.b #$01 : STA.w $0E40, X
     LDA.b #$30 : STA.w $0E60, X
@@ -2123,7 +2123,7 @@ Credits_SpriteDraw_Kakariko2:
     
     .loop
     
-        TXA : ASL A : TAY
+        TXA : ASL : TAY
         
         LDA.w Pool_Credits_SpriteDraw_Kakariko2_object_count, X
         
@@ -2136,7 +2136,7 @@ Credits_SpriteDraw_Kakariko2:
     
         .BRANCH_DELTA
     
-        LSR A : BEQ .BRANCH_ZETA
+        LSR : BEQ .BRANCH_ZETA
             LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
             
             BRA .BRANCH_THETA
@@ -2444,7 +2444,7 @@ Credits_SpriteDraw_Zora:
 {
     PHX
     
-    TXA : LSR A : TAX
+    TXA : LSR : TAX
     
     LDA Credits_SpriteData_sprite_count, X : TAX
 
@@ -2814,7 +2814,7 @@ Credits_SpriteDraw_Witch:
     LDA.w $0DF0, X : BNE .BRANCH_GAMMA
         LDA.b #$04 : STA.w $0DF0, X
         
-        LDA.b $C9 : LSR A : AND.b #$01 : TAY
+        LDA.b $C9 : LSR : AND.b #$01 : TAY
         
         LDA.w $0DC0, X : CLC : ADC .animation_step_amounts, Y : AND.b #$07 : STA.w $0DC0, X
     
@@ -2913,7 +2913,7 @@ Credits_SpriteDraw_Grove:
             
             JSL.l Sprite_MoveLong
             
-            LDA.b $1A : LSR A : BCS .BRANCH_GAMMA
+            LDA.b $1A : LSR : BCS .BRANCH_GAMMA
                 STX.b $00
                 
                 LDA.b $1A : LSR #5 : EOR.b $00 : AND.b #$01 : TAY
@@ -2942,7 +2942,7 @@ Credits_SpriteDraw_Grove:
         
             STA.w $0DF0, X
             
-            TYA : INC A : AND.b #$03 : STA.w $0D90, X
+            TYA : INC : AND.b #$03 : STA.w $0D90, X
             
             LDA.w $0DC0, X : EOR.b #$01 : STA.w $0DC0, X
     
@@ -3061,7 +3061,7 @@ Credits_SpriteDraw_LostWoods:
             
             JSR.w Credits_SpriteDraw_CirclingBirds
             
-            LDA.w $0D50, X : LSR A : AND.b #$40 : EOR.b #$0F : STA.w $0F50, X
+            LDA.w $0D50, X : LSR : AND.b #$40 : EOR.b #$0F : STA.w $0F50, X
             
             LDA.b #$08
             
@@ -3089,7 +3089,7 @@ Credits_SpriteDraw_LostWoods:
         
         .BRANCH_DELTA
         
-        LSR A : BNE .BRANCH_EPSILON
+        LSR : BNE .BRANCH_EPSILON
             STA.w $0D40, X
             
             BRA .BRANCH_ZETA
@@ -3099,7 +3099,7 @@ Credits_SpriteDraw_LostWoods:
         CMP.w Pool_Credits_SpriteDraw_LostWoods_target_y, X : BCS .BRANCH_THETA
             LDA.b $1A : AND.b #$03 : BNE .BRANCH_THETA
                 LDA.w $0D40, X : BEQ .BRANCH_THETA
-                    DEC A : STA.w $0D40, X
+                    DEC : STA.w $0D40, X
                     
                     CLC : ADC.b #$FC
                     072645
@@ -3270,7 +3270,7 @@ Credits_SpriteDraw_Pedestal:
     
         .BRANCH_ALPHA
     
-        LDA.w $0D50, X : LSR A : AND.b #$40
+        LDA.w $0D50, X : LSR : AND.b #$40
         EOR.w Pool_Credits_SpriteDraw_Pedestal_props, Y : STA.w $0F50, X
         
         LDA.w $0DF0, X : BNE .BRANCH_BETA
@@ -3359,13 +3359,13 @@ Credits_SpriteDraw_WalkLinkAwayFromPedestal_pose:
 Credits_SpriteDraw_WalkLinkAwayFromPedestal:
 {
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
-        LDA.w $0DC0, X : INC A : AND.b #$07 : STA.w $0DC0, X
+        LDA.w $0DC0, X : INC : AND.b #$07 : STA.w $0DC0, X
         
         LDA.b #$04 : STA.w $0DF0, X
     
     .BRANCH_ALPHA
     
-    LDA.w $0DC0, X : ASL A : TAY
+    LDA.w $0DC0, X : ASL : TAY
         
     REP #$20
         
@@ -3403,7 +3403,7 @@ Pool_Credits_SpriteDraw_MoveSquirrel:
 Credits_SpriteDraw_MoveSquirrel:
 {
     LDA.w $0DF0, X : CMP.b #$40 : BCS .delay
-        LDA.w $0DB0, X : INC A : AND.b #$03 : STA.w $0DB0, X
+        LDA.w $0DB0, X : INC : AND.b #$03 : STA.w $0DB0, X
         
         INC.w $0D90, X
         
@@ -3526,7 +3526,7 @@ Credits_HandleCameraScrollControl:
         
         STZ.b $00
         
-        LSR A : ROR.b $00
+        LSR : ROR.b $00
         
         LDX.b $8C
         
@@ -3534,7 +3534,7 @@ Credits_HandleCameraScrollControl:
             CPX.b #$BE : BNE .BRANCH_ZETA
         
         .BRANCH_EPSILON
-            LSR A : ROR.b $00
+            LSR : ROR.b $00
             
             CMP.w #$3000 : BCC .BRANCH_IOTA
                 ORA.w #$F000
@@ -3596,7 +3596,7 @@ Credits_HandleCameraScrollControl:
         
         STZ.b $00
         
-        LSR A : ROR.b $00
+        LSR : ROR.b $00
         
         LDX.b $8C
         
@@ -3604,7 +3604,7 @@ Credits_HandleCameraScrollControl:
             CPX.b #$9E : BNE .BRANCH_OMICRON
                 .BRANCH_XI
     
-                LSR A : ROR.b $00
+                LSR : ROR.b $00
                 
                 CMP.w #$3000 : BCC .BRANCH_PI
                 
@@ -4809,11 +4809,11 @@ Credits_FadeColorAndBeginAnimating:
         .noTilemapAdjust
     
         ; $0604 = BG2HOFS / 2, $0600 = BG2HOFS * 3 / 2, $0602 = BG2HOFS * 3 / 4
-        LSR A : STA.w $0604 : CLC : ADC.b $E2 : STA.w $0600
-        LSR A : STA.w $0602
+        LSR : STA.w $0604 : CLC : ADC.b $E2 : STA.w $0600
+        LSR : STA.w $0602
         
         ; $0606 = BG2HOFS / 4
-        LDA.w $0604 : LSR A : STA.w $0606
+        LDA.w $0604 : LSR : STA.w $0606
         
         LDA.b $EA : CMP.w #$0CD8 : BNE .notDoneWithSubmodule
             LDA.w #$0080 : STA.b $C8
@@ -4884,7 +4884,7 @@ Credits_AddNextAttribution:
     TXA : CLC : ADC.w #$0006 : TAX
         
     ; 0x0314 is the overall height of the credit screen in groups of 16 pixels.
-    LDA.b $CA : ASL A : TAY : CPY.w #$0314 : BCC .notAtEnd
+    LDA.b $CA : ASL : TAY : CPY.w #$0314 : BCC .notAtEnd
         BRL .BRANCH_EPSILON
     
     .notAtEnd
@@ -4902,7 +4902,7 @@ Credits_AddNextAttribution:
         LDA.w CreditsData_LineData, Y : AND.w #$00FF : XBA : STA.w $1004, X
         
         ; This gives us the number of tiles to grab after this byte.
-        XBA : INC A : LSR A : STA.b $02
+        XBA : INC : LSR : STA.b $02
         
         INY : STY.b $00
     
@@ -4911,7 +4911,7 @@ Credits_AddNextAttribution:
             LDY.b $00
             
             ; Grab the next tile of text.
-            LDA.w CreditsData_LineData, Y : AND.w #$00FF : ASL A : TAY
+            LDA.w CreditsData_LineData, Y : AND.w #$00FF : ASL : TAY
             
             ; Here we're loading the actual tile indices for the letters.
             LDA.w CreditsData_TileData, Y : STA.w $1006, X
@@ -4930,11 +4930,11 @@ Credits_AddNextAttribution:
         LDA.b $CC : AND.w #$00FE : TAY
         
         ; Check if we are on one of the line we need to draw a death count on.
-        LDA.b $CA : ASL A : CMP.w CreditsData_DeathCountLine, Y : BNE .BRANCH_EPSILON
+        LDA.b $CA : ASL : CMP.w CreditsData_DeathCountLine, Y : BNE .BRANCH_EPSILON
     
     .BRANCH_DELTA
     
-    TYA : AND.w #$0001 : ASL A : TAY
+    TYA : AND.w #$0001 : ASL : TAY
         
     LDA.w Pool_Credits_AddNextAttribution_digits, Y : STA.b $CE
         
@@ -4944,7 +4944,7 @@ Credits_AddNextAttribution:
         
     PHX
         
-    LDA.b $CC : LSR A : ASL A : TAX
+    LDA.b $CC : LSR : ASL : TAX
         
     LDA.w Pool_Credits_AddNextAttribution_death_count_offsets, X : TAX
         
@@ -5106,7 +5106,7 @@ Pool_Credits_AddEndingSequenceText:
 
     ; $074034
     .charGFX_hera
-    ; SMALL: THE BULLY MAKES A FRIEND
+    ; SMALL: THE BULLY MAKES FRIEND
     dw $6462, $2F00 ; VRAM $C4C8 | 48 bytes
     db $2D, $21, $1E, $9F, $1B, $2E, $25, $25
     db $32, $9F, $26, $1A, $24, $1E, $2C, $9F
@@ -5383,7 +5383,7 @@ Credits_AddEndingSequenceText:
         
         LDA.w Pool_Credits_AddEndingSequenceText, Y : STA.w $1008, X
         
-        XBA : AND.w #$00FF : LSR A : STA.b $00
+        XBA : AND.w #$00FF : LSR : STA.b $00
         
         INY #2
         INX #2
@@ -5394,7 +5394,7 @@ Credits_AddEndingSequenceText:
     
             LDY.b $02
             
-            LDA.w Pool_Credits_AddEndingSequenceText, Y : AND.w #$00FF : ASL A : TAY
+            LDA.w Pool_Credits_AddEndingSequenceText, Y : AND.w #$00FF : ASL : TAY
             
             LDA CreditsData_TileData, Y : STA.w $1008, X
             
@@ -5689,7 +5689,7 @@ Text_LoadCharacterBuffer:
     REP #$30
     
     ; X = $1CF0 * 3
-    LDA.w $1CF0 : ASL A : ADC.w $1CF0 : TAX
+    LDA.w $1CF0 : ASL : ADC.w $1CF0 : TAX
     
     ; Load the address for the text's data from WRAM.
     LDA.l $7F71C0, X : STA.b $04
@@ -5859,7 +5859,7 @@ Text_WritePlayerName:
     
         LDA.l $7003D9, X : PHA : AND.w #$000F : STA.w $0008, Y
         
-        PLA : LSR A : AND.w #$FFF0 : ORA.w $0008, Y : STA.w $0008, Y
+        PLA : LSR : AND.w #$FFF0 : ORA.w $0008, Y : STA.w $0008, Y
         
         INX #2
     INY : CPY.w #$0006 : BCC .nextCharacter
@@ -6025,7 +6025,7 @@ Text_SetWindowPos:
     
     LDY.w $1CDD : INY
     
-    LDA [$04], Y : AND.w #$00FF : ASL A : TAX
+    LDA [$04], Y : AND.w #$00FF : ASL : TAX
     
     ; Chooses from one of two preset window positions (high or low, basically).
     LDA Text_Positions, X : STA.w $1CD2
@@ -6084,7 +6084,7 @@ Text_DictionarySequence:
     
     INC.w $1CDD ; Position in the $7F1200, X buffer.
     
-    LDX.w $1CD9 : ASL A : AND.w #$00FF : TAY
+    LDX.w $1CD9 : ASL : AND.w #$00FF : TAY
     
     LDA Text_DictionaryPointers+2, Y : STA.b $00
     LDA Text_DictionaryPointers, Y   : TAY
@@ -7004,7 +7004,7 @@ VWF_RenderSingle:
     REP #$30
     
     ; There's no point to this.... X's value is destroyed in the callee below.
-    LDA.w $1CDD : ASL A : TAX
+    LDA.w $1CDD : ASL : TAX
     
     SEP #$30
     
@@ -7121,7 +7121,7 @@ VWF_RenderCharacter:
     INX : STX.w !cumulativePosIndex
     
     ; Multiply the character value's upper nybble by 2 (0x62 -> 0xE2, etc).
-    TYA : AND.b #$F0 : ASL A     : STA.b $00
+    TYA : AND.b #$F0 : ASL     : STA.b $00
     TYA : AND.b #$0F : ORA.b $00 : STA.b !fontTileOffset : STZ.b !fontTileOffset+1
     
     REP #$20
@@ -7132,7 +7132,7 @@ VWF_RenderCharacter:
     REP #$10
     
     ; $00[2] = the byte position in the vwfBuffer, I think.
-    LDA.l $7EC22F, X : AND.w #$00FF : ASL A : STA.b $00
+    LDA.l $7EC22F, X : AND.w #$00FF : ASL : STA.b $00
     
     LDX.w #$0000
     
@@ -7161,7 +7161,7 @@ VWF_RenderCharacter:
         
         ; A = pixel position in the VWFBuffer (mod 8 because we're only
         ; concerned about the current tile).
-        TYA : LSR A : AND.w #$0007 : TAY
+        TYA : LSR : AND.w #$0007 : TAY
         
         SEP #$20
         
@@ -7239,11 +7239,11 @@ VWF_RenderCharacter:
     STX.b !charLinePos
     
     LDX.w !cumulativePosIndex
-    LDA.l $7EC22F, X : AND.w #$00FF : ASL A : CLC : ADC.b $08 : TAY
+    LDA.l $7EC22F, X : AND.w #$00FF : ASL : CLC : ADC.b $08 : TAY
     
     AND.w #$0FF0 : CLC : ADC.b !charLinePos : TAX
     
-    TYA : LSR A : AND.w #$0007 : TAY
+    TYA : LSR : AND.w #$0007 : TAY
     
     SEP #$20
     
@@ -7384,7 +7384,7 @@ VWF_Select2Or3_Indented_messages:
 VWF_Select2Or3_Indented:
 {
     LDA.w $1CE9 : BEQ .readyForInput
-        DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
+        DEC : STA.w $1CE9 : CMP.b #$01 : BNE .return
             LDA.b #$24 : STA.w $012F
         
             BRA .return
@@ -7410,14 +7410,14 @@ VWF_Select2Or3_Indented:
             
             .downPushed
             
-            LDA.w $1CE8 : DEC A : BEQ .return
+            LDA.w $1CE8 : DEC : BEQ .return
                 LDA.b #$01 : STA.w $1CE8
                 
                 .moveChoiceArrow
                 
                 LDA.b #$20 : STA.w $012F
                 
-                LDA.w $1CE8 : ASL A : TAX
+                LDA.w $1CE8 : ASL : TAX
                 
                 LDA VWF_Select2Or3_Indented_messages+0, X : STA.w $1CF0
                 LDA VWF_Select2Or3_Indented_messages+1, X : STA.w $1CF1
@@ -7450,7 +7450,7 @@ VWF_Select2Or3_Indented:
 VWF_SelectItem:
 {
     LDA.w $1CE9 : BEQ .readyForInput
-        DEC A : STA.w $1CE9 : CMP.b #$01 : BEQ VWF_SelectNextItem
+        DEC : STA.w $1CE9 : CMP.b #$01 : BEQ VWF_SelectNextItem
             BRA .return
     
     .readyForInput
@@ -7547,7 +7547,7 @@ VWF_SelectNextItem:
 VWF_ChangeItemTiles:
 {
     ; Y = X, Y = X << 1, A is destroyed.
-    TXY : TXA : ASL A : TAX
+    TXY : TXA : ASL : TAX
     
     LDA.l ItemMenu_ItemGFXPointers+0, X : STA.b $00
     LDA.l ItemMenu_ItemGFXPointers+1, X : STA.b $01
@@ -7621,7 +7621,7 @@ VWF_Select2Or3_messages:
 VWF_Select2Or3:
 {
     LDA.w $1CE9 : BEQ .readyForInput
-        DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
+        DEC : STA.w $1CE9 : CMP.b #$01 : BNE .return
             LDA.b #$24 : STA.w $012F
             
             BRA .return
@@ -7647,14 +7647,14 @@ VWF_Select2Or3:
             
             .downPushed
             
-            LDA.w $1CE8 : DEC A : BEQ .return
+            LDA.w $1CE8 : DEC : BEQ .return
                 LDA.b #$01 : STA.w $1CE8
                 
                 .moveChoiceArrow
                 
                 LDA.b #$20 : STA.w $012F
                 
-                LDA.w $1CE8 : ASL A : TAX
+                LDA.w $1CE8 : ASL : TAX
                 
                 LDA VWF_Select2Or3_messages+0, X : STA.w $1CF0
                 LDA VWF_Select2Or3_messages+1, X : STA.w $1CF1
@@ -7700,7 +7700,7 @@ VWF_Choose3_ArrowDialogs:
 VWF_Choose3:
 {
     LDA.w $1CE9 : BEQ .readyForInput
-        DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
+        DEC : STA.w $1CE9 : CMP.b #$01 : BNE .return
             ; Play flutey sound effect.
             LDA.b #$24 : STA.w $012F
             
@@ -7719,7 +7719,7 @@ VWF_Choose3:
         
                 .upPushed
                 
-                LDA.w $1CE8 : DEC A : CMP.b #$FF : BNE .didntUnderflow
+                LDA.w $1CE8 : DEC : CMP.b #$FF : BNE .didntUnderflow
                     LDA.b #$02
                 
                 .didntUnderflow
@@ -7730,7 +7730,7 @@ VWF_Choose3:
         
             .downPushed
             
-            LDA.w $1CE8 : INC A : CMP.b #$03 : BNE .didntOverflow
+            LDA.w $1CE8 : INC : CMP.b #$03 : BNE .didntOverflow
                 LDA.b #$00
             
             .didntOverflow
@@ -7741,7 +7741,7 @@ VWF_Choose3:
             
             LDA.b #$20 : STA.w $012F
             
-            LDA.w $1CE8 : ASL A : TAX
+            LDA.w $1CE8 : ASL : TAX
             
             LDA VWF_Choose3_ArrowDialogs+0, X : STA.w $1CF0
             LDA VWF_Choose3_ArrowDialogs+1, X : STA.w $1CF1
@@ -7781,7 +7781,7 @@ VWF_Choose1Or2_messages:
 VWF_Choose1Or2:
 {
     LDA.w $1CE9 : BEQ .readyForInput
-        DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
+        DEC : STA.w $1CE9 : CMP.b #$01 : BNE .return
             ; Play flutey sound effect.
             LDA.b #$24 : STA.w $012F
             
@@ -7808,14 +7808,14 @@ VWF_Choose1Or2:
             
             .downPushed
             
-            LDA.w $1CE8 : DEC A : BEQ .return
+            LDA.w $1CE8 : DEC : BEQ .return
                 LDA.b #$01 : STA.w $1CE8
                 
                 .moveChoiceArrow
                 
                 LDA.b #$20 : STA.w $012F
                 
-                LDA.w $1CE8 : ASL A : TAX
+                LDA.w $1CE8 : ASL : TAX
                 
                 LDA VWF_Choose1Or2_messages, X   : STA.w $1CF0
                 LDA VWF_Choose1Or2_messages+1, X : STA.w $1CF1
@@ -7969,7 +7969,7 @@ VWF_SetLine:
     LDX.w $1CD9
     
     ; Possible values are 0x74, 0x75, or 0x76.
-    LDA.l $7F1200, X : AND.w #$0003 : ASL A : TAX
+    LDA.l $7F1200, X : AND.w #$0003 : ASL : TAX
     
     LDA VWF_LinePositions, X : STA.w $1CDD
     
@@ -8061,7 +8061,7 @@ VWF_WaitLoop_initCounter:
     
     LDX.w $1CD9
     
-    LDA.l $7F1201, X : AND.w #$000F : ASL A : TAX
+    LDA.l $7F1201, X : AND.w #$000F : ASL : TAX
     
     LDA Text_WaitDurations, X : STA.w $1CE0
 
@@ -8251,7 +8251,7 @@ VWF_WaitKey:
 {
     ; Note this is set to 0x1C when the game enters text mode.
     LDA.w $1CE9 : BEQ .readyForInput
-        DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
+        DEC : STA.w $1CE9 : CMP.b #$01 : BNE .return
             ; Play that flutey sound effect.
             LDA.b #$24 : STA.w $012F
             
@@ -8285,7 +8285,7 @@ VWF_WaitKey:
 VWF_EndMessage:
 {
     LDA.w $1CE9 : BEQ .readyForInput
-        DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
+        DEC : STA.w $1CE9 : CMP.b #$01 : BNE .return
             ; Play flutey sound effect.
             LDA.b #$24 : STA.w $012F
             
@@ -8317,7 +8317,7 @@ Text_SetDefaultWindowPos:
     ; Get Link's Y coordinate, Subtract Y coordinate of scroll register. This
     ; is a nifty trick, an alternative to branching to load one of two values.
     LDA.b $20 : SEC : SBC.b $E8 : CMP.w #$0078
-    ROL A : EOR.w #$0001 : AND.w #$0001 : ASL A : TAX
+    ROL : EOR.w #$0001 : AND.w #$0001 : ASL : TAX
     
     ; Ultimately, a VRAM address gets stored here, so the system knows where to
     ; draw the tiles.
@@ -8822,7 +8822,7 @@ Overworld_LoadPalettes:
     
     .noPaletteChange3
     
-    LDA.b $00 : ASL A : TAX
+    LDA.b $00 : ASL : TAX
         
     LDA.l OverworldPaletteSet+3, X : BMI .noPaletteChange4
         STA.w $0AAD
@@ -9121,7 +9121,7 @@ LoadGearPalettes:
     ; Armor value
     LDX.b $0E
         
-    LDA.l LinkMailPalettesOffsets, X : AND.w #$00FF : ASL A : CLC : ADC.w #$D308
+    LDA.l LinkMailPalettesOffsets, X : AND.w #$00FF : ASL : CLC : ADC.w #$D308
         
     REP #$10
         
@@ -9923,7 +9923,7 @@ Overworld_CheckForSpecialOverworldTrigger:
     .convertLoop
     
         DEX
-    LSR A : BCC .convertLoop
+    LSR : BCC .convertLoop
         
     STX.w $0418 : STX.w $069C
         
@@ -10038,7 +10038,7 @@ SpecialOverworld_CheckForReturnTrigger:
     .convertLoop2
     
         DEX
-    LSR A : BCC .convertLoop2
+    LSR : BCC .convertLoop2
         
     TXA : STA.w $069C
         
@@ -11719,7 +11719,7 @@ Overworld_LoadEventOverlay:
         
     ; Check to see what Overworld area we're in.
     ; Use it as an index into a jump table.
-    LDA.b $8A : ASL A : TAX
+    LDA.b $8A : ASL : TAX
         
     JSR.w (Overworld_EventOverlayTable, X)
         
@@ -11892,18 +11892,18 @@ OverworldOverlay_LumberjackTree:
     STA.w $2816 : STA.w $2818 : STA.w $281A 
     STA.w $281C : STA.w $2896 : STA.w $289C
     
-    INC A : STA.w $2898
-    INC A : STA.w $2E9A
-    INC A : STA.w $2916
-    INC A : STA.w $2918
-    INC A : STA.w $291A
-    INC A : STA.w $291C
-    INC A : STA.w $2996
-    INC A : STA.w $2998
-    INC A : STA.w $299A
-    INC A : STA.w $299C
-    INC A : STA.w $2A18
-    INC A : STA.w $2A1A
+    INC : STA.w $2898
+    INC : STA.w $2E9A
+    INC : STA.w $2916
+    INC : STA.w $2918
+    INC : STA.w $291A
+    INC : STA.w $291C
+    INC : STA.w $2996
+    INC : STA.w $2998
+    INC : STA.w $299A
+    INC : STA.w $299C
+    INC : STA.w $2A18
+    INC : STA.w $2A1A
     
     RTS
 }
@@ -11928,9 +11928,9 @@ OverworldOverlay_BonkRocks:
 OverworldOverlay_DrawRevealedStairs:
 {
     LDA.w #$0918 : STA.w $2000, X
-    INC A        : STA.w $2002, X
-    INC A        : STA.w $2080, X
-    INC A        : STA.w $2082, X
+    INC        : STA.w $2002, X
+    INC        : STA.w $2080, X
+    INC        : STA.w $2082, X
     
     RTS
 }
@@ -11939,12 +11939,12 @@ OverworldOverlay_DrawRevealedStairs:
 OverworldOverlay_KingsTomb:
 {
     LDA.w #$0DD1 : STA.w $2532
-    INC A        : STA.w $2534
+    INC        : STA.w $2534
     
     LDA.w #$0DD7 : STA.w $25B2
-    INC A        : STA.w $25B4
-    INC A        : STA.w $2632
-    INC A        : STA.w $2634
+    INC        : STA.w $25B4
+    INC        : STA.w $2632
+    INC        : STA.w $2634
     
     RTS
 }
@@ -11953,10 +11953,10 @@ OverworldOverlay_KingsTomb:
 OverworldOverlay_WeatherVane:
 {
     LDA.w #$0E21 : STA.w $2C3E : STA.w $2C42
-    INC A        : STA.w $2C40
-    INC A        : STA.w $2CBE
-    INC A        : STA.w $2CC0
-    INC A        : STA.w $2CC2
+    INC        : STA.w $2C40
+    INC        : STA.w $2CBE
+    INC        : STA.w $2CC0
+    INC        : STA.w $2CC2
     
     RTS
 }
@@ -11965,16 +11965,16 @@ OverworldOverlay_WeatherVane:
 OverworldOverlay_CastleGate:
 {
     LDA.w #$0DC1 : STA.w $33BC
-    INC A        : STA.w $33BE
+    INC        : STA.w $33BE
     
     LDA.w #$0DBE : STA.w $343C
-    INC A        : STA.w $343E
+    INC        : STA.w $343E
     
     LDA.w #$0DC2 : STA.w $33C0
-    INC A        : STA.w $33C2
+    INC        : STA.w $33C2
     
     LDA.w #$0DBF : STA.w $3440
-    INC A        : STA.w $3442
+    INC        : STA.w $3442
     
     RTS
 }
@@ -12019,12 +12019,12 @@ OverworldOverlay_DrainedDam:
     STA.w $23AC : STA.w $2424 : STA.w $24A0 : STA.w $251E
     STA.w $261C : STA.w $2734
     
-    INC A : STA.w $23AE : STA.w $24A2
-    INC A : STA.w $23B0 : STA.w $2438 : STA.w $24BA : STA.w $25AA : STA.w $273A
-    INC A : STA.w $2426 : STA.w $2428 : STA.w $242A : STA.w $2432 : STA.w $2434
+    INC : STA.w $23AE : STA.w $24A2
+    INC : STA.w $23B0 : STA.w $2438 : STA.w $24BA : STA.w $25AA : STA.w $273A
+    INC : STA.w $2426 : STA.w $2428 : STA.w $242A : STA.w $2432 : STA.w $2434
     STA.w $2436
 
-    INC A : STA.w $242C : STA.w $24A4 : STA.w $2520 : STA.w $261E
+    INC : STA.w $242C : STA.w $24A4 : STA.w $2520 : STA.w $261E
     
     INC A
     
@@ -12068,37 +12068,37 @@ OverworldOverlay_DrainedDam:
     STA.w $259E : STA.w $25B6 : STA.w $2636 : STA.w $269C
     STA.w $26B6 : STA.w $271C : STA.w $28A4 : STA.w $2924
     
-    INC A : STA.w $2624 : STA.w $26A2
-    INC A : STA.w $2626
-    INC A : STA.w $2628
-    INC A : STA.w $26A4 : STA.w $27B6
+    INC : STA.w $2624 : STA.w $26A2
+    INC : STA.w $2626
+    INC : STA.w $2628
+    INC : STA.w $26A4 : STA.w $27B6
     
     INC A
     
     STA.w $26A6 : STA.w $2726 : STA.w $2728 : STA.w $272A
     STA.w $27AA : STA.w $2836 : STA.w $2838
     
-    INC A : STA.w $26A8 : STA.w $27B8
-    INC A : STA.w $26AA
-    INC A : STA.w $2727 : STA.w $27A4 : STA.w $2828
-    INC A : STA.w $2724
-    INC A : STA.w $27A6
-    INC A : STA.w $27A8 : STA.w $28B6
-    INC A : STA.w $27B4
-    INC A : STA.w $27BA
-    INC A : STA.w $282A
-    INC A : STA.w $2834
-    INC A : STA.w $283A
-    INC A : STA.w $28B4
-    INC A : STA.w $28B8
-    INC A : STA.w $28BA
-    INC A : STA.w $2936
-    INC A : STA.w $2938
-    INC A : STA.w $252A : STA.w $2532 : STA.w $292A
-    INC A : STA.w $25BA : STA.w $29A8 : STA.w $29BA
-    INC A : STA.w $29A4
-    INC A : STA.w $2736
-    INC A : STA.w $2738
+    INC : STA.w $26A8 : STA.w $27B8
+    INC : STA.w $26AA
+    INC : STA.w $2727 : STA.w $27A4 : STA.w $2828
+    INC : STA.w $2724
+    INC : STA.w $27A6
+    INC : STA.w $27A8 : STA.w $28B6
+    INC : STA.w $27B4
+    INC : STA.w $27BA
+    INC : STA.w $282A
+    INC : STA.w $2834
+    INC : STA.w $283A
+    INC : STA.w $28B4
+    INC : STA.w $28B8
+    INC : STA.w $28BA
+    INC : STA.w $2936
+    INC : STA.w $2938
+    INC : STA.w $252A : STA.w $2532 : STA.w $292A
+    INC : STA.w $25BA : STA.w $29A8 : STA.w $29BA
+    INC : STA.w $29A4
+    INC : STA.w $2736
+    INC : STA.w $2738
     
     RTS
 }
@@ -12107,19 +12107,19 @@ OverworldOverlay_DrainedDam:
 OverworldOverlay_SkullWoods:
 {
     LDA.w #$0E13 : STA.w $2590
-    INC A        : STA.w $2596
-    INC A        : STA.w $2610
-    INC A        : STA.w $2612
-    INC A        : STA.w $2614
-    INC A        : STA.w $2616
-    INC A        : STA.w $2692
-    INC A        : STA.w $2694
+    INC        : STA.w $2596
+    INC        : STA.w $2610
+    INC        : STA.w $2612
+    INC        : STA.w $2614
+    INC        : STA.w $2616
+    INC        : STA.w $2692
+    INC        : STA.w $2694
     
     LDA.w #$0E06 : STA.w $2812 : STA.w $2814
-    INC A        : STA.w $2710 : STA.w $2790
-    INC A        : STA.w $2712 : STA.w $2792
-    INC A        : STA.w $2714 : STA.w $2794
-    INC A        : STA.w $2716 : STA.w $2796
+    INC        : STA.w $2710 : STA.w $2790
+    INC        : STA.w $2712 : STA.w $2792
+    INC        : STA.w $2714 : STA.w $2794
+    INC        : STA.w $2716 : STA.w $2796
     
     RTS
 }
@@ -12128,13 +12128,13 @@ OverworldOverlay_SkullWoods:
 OverworldOverlay_GanonsTower:
 {
     LDA.w #$0E96 : STA.l $7E245E
-    INC A        : STA.l $7E2460
+    INC        : STA.l $7E2460
     
     LDA.w #$0E9C : STA.l $7E24DE : STA.l $7E255E
-    INC A        : STA.l $7E24E0 : STA.l $7E2560
+    INC        : STA.l $7E24E0 : STA.l $7E2560
     
     LDA.w #$0E9A : STA.l $7E25DE
-    INC A        : STA.l $7E25E0
+    INC        : STA.l $7E25E0
     
     RTS
 }
@@ -12151,21 +12151,21 @@ OverworldOverlay_HookshotCave:
 OverworldOverlay_TurtleRock:
 {
     LDA.w #$0E78 : STA.l $7E299E
-    INC A        : STA.l $7E29A0
-    INC A        : STA.l $7E29A2
-    INC A        : STA.l $7E29A4
-    INC A        : STA.l $7E2A1E
-    INC A        : STA.l $7E202A
-    INC A        : STA.l $7E2A22
-    INC A        : STA.l $7E2A24
-    INC A        : STA.l $7E2A9E
-    INC A        : STA.l $7E2AA0
-    INC A        : STA.l $7E2AA2
-    INC A        : STA.l $7E2AA4
-    INC A        : STA.l $7E2B1E
-    INC A        : STA.l $7E2B20
-    INC A        : STA.l $7E2B22
-    INC A        : STA.l $7E2B24
+    INC        : STA.l $7E29A0
+    INC        : STA.l $7E29A2
+    INC        : STA.l $7E29A4
+    INC        : STA.l $7E2A1E
+    INC        : STA.l $7E202A
+    INC        : STA.l $7E2A22
+    INC        : STA.l $7E2A24
+    INC        : STA.l $7E2A9E
+    INC        : STA.l $7E2AA0
+    INC        : STA.l $7E2AA2
+    INC        : STA.l $7E2AA4
+    INC        : STA.l $7E2B1E
+    INC        : STA.l $7E2B20
+    INC        : STA.l $7E2B22
+    INC        : STA.l $7E2B24
     
     RTS
 }
@@ -12174,11 +12174,11 @@ OverworldOverlay_TurtleRock:
 OverworldOverlay_GargoylesDomain:
 {
     LDA.w #$0E1B : STA.w $2D3E
-    INC A        : STA.w $2D40
-    INC A        : STA.w $2DBE
-    INC A        : STA.w $2DC0
-    INC A        : STA.w $2E3E
-    INC A        : STA.w $2E40
+    INC        : STA.w $2D40
+    INC        : STA.w $2DBE
+    INC        : STA.w $2DC0
+    INC        : STA.w $2E3E
+    INC        : STA.w $2E40
     
     RTS
 }
@@ -12187,14 +12187,14 @@ OverworldOverlay_GargoylesDomain:
 OverworldOverlay_PyramidHole:
 {
     LDA.w #$0E3F : STA.w $23BC
-    INC A        : STA.w $23BE
-    INC A        : STA.w $23C0
-    INC A        : STA.w $243C
-    INC A        : STA.w $243E
-    INC A        : STA.w $2440
-    INC A        : STA.w $24BC
-    INC A        : STA.w $24BE
-    INC A        : STA.w $24C0
+    INC        : STA.w $23BE
+    INC        : STA.w $23C0
+    INC        : STA.w $243C
+    INC        : STA.w $243E
+    INC        : STA.w $2440
+    INC        : STA.w $24BC
+    INC        : STA.w $24BE
+    INC        : STA.w $24C0
     
     RTS
 }
@@ -12206,8 +12206,8 @@ OverworldOverlay_POD:
     
     LDA.w #$0E2D : STA.w $226A
     
-    INC A : STA.w $22EA
-    INC A : STA.w $236A
+    INC : STA.w $22EA
+    INC : STA.w $236A
     
     RTS
 }
@@ -12225,25 +12225,25 @@ OverworldOverlay_MiseryMire:
 {
     LDA.w #$0E64 : STA.w $2522
     
-    INC A : STA.w $2524
-    INC A : STA.w $2526
-    INC A : STA.w $2528
-    INC A : STA.w $25A2
-    INC A : STA.w $25A4
-    INC A : STA.w $25A6
-    INC A : STA.w $25A8
-    INC A : STA.w $2622
-    INC A : STA.w $2624
-    INC A : STA.w $2626
-    INC A : STA.w $2628
-    INC A : STA.w $26A2
-    INC A : STA.w $26A4
-    INC A : STA.w $26A6
-    INC A : STA.w $26A8
-    INC A : STA.w $2722
-    INC A : STA.w $2724
-    INC A : STA.w $2726
-    INC A : STA.w $2728
+    INC : STA.w $2524
+    INC : STA.w $2526
+    INC : STA.w $2528
+    INC : STA.w $25A2
+    INC : STA.w $25A4
+    INC : STA.w $25A6
+    INC : STA.w $25A8
+    INC : STA.w $2622
+    INC : STA.w $2624
+    INC : STA.w $2626
+    INC : STA.w $2628
+    INC : STA.w $26A2
+    INC : STA.w $26A4
+    INC : STA.w $26A6
+    INC : STA.w $26A8
+    INC : STA.w $2722
+    INC : STA.w $2724
+    INC : STA.w $2726
+    INC : STA.w $2728
     
     RTS
 }

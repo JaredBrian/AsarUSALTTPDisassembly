@@ -4031,7 +4031,7 @@ AddSwordBeam:
     
     ; Master sword's bolts of lightning.
     LDA.b #$0C : JSL.l AddAncillaLong : BCS Death_PlayerSwoon_return
-        LDA.b $2F : ASL A : TAY
+        LDA.b $2F : ASL : TAY
         
         LDA.w .initial_angles+0, Y : STA.l $7F5800
         LDA.w .initial_angles+1, Y : STA.l $7F5801
@@ -4048,7 +4048,7 @@ AddSwordBeam:
         
         LDA.b #$0E : STA.l $7F5808
         
-        LDA.b $2F : LSR A : STA.w $0C72, X : TAY
+        LDA.b $2F : LSR : STA.w $0C72, X : TAY
         
         LDA.w .y_speeds, Y        : STA.w $0C22, X
         LDA.w .x_speeds, Y        : STA.w $0C2C, X
@@ -4233,7 +4233,7 @@ SwordBeam:
         
         LDA.b #$00 : STA.w $039F, X
         
-        LDA.w $03A4, X : INC A : AND.b #$03 : STA.w $03A4, X
+        LDA.w $03A4, X : INC : AND.b #$03 : STA.w $03A4, X
         CMP.b #$03 : BNE .dont_rotate_extra_spark
             LDA.l $7F5804 : CLC : ADC.b $76 : AND.b #$3F : STA.l $7F5804
     
@@ -4324,7 +4324,7 @@ SwordFullChargeSpark:
     
     .delay_termination
     
-    LDA.b $2F : LSR A : TAY
+    LDA.b $2F : LSR : TAY
     
     LDA.b $20 : CLC : ADC Pool_SwordFullChargeSpark_y_offsets_low,  Y : STA.b $00
     LDA.b $21       : ADC Pool_SwordFullChargeSpark_y_offsets_high, Y : STA.b $01
@@ -4411,7 +4411,7 @@ AncillaSpawn_SwordChargeSparkle:
         STZ.b $74
         STZ.b $75
         
-        LDA.b $2F : LSR A : TAY
+        LDA.b $2F : LSR : TAY
         
         LDA.w .y_position_masks, Y : BNE .off_axis_y
             LDA.w $0079 : LSR #2
@@ -4614,7 +4614,7 @@ DashTremor_TwiddleOffset:
 	REP #$20
 
     ; $00 *= -1.
-	LDA.b $00 : EOR.w #$FFFF : INC A : STA.b $00
+	LDA.b $00 : EOR.w #$FFFF : INC : STA.b $00
 
 	SEP #$20
 
@@ -5003,7 +5003,7 @@ Bomb_CheckUndersideSpriteStatus:
     .use_large_shadow
     
     ; Branch if Link is touching the bomb.
-    TXA : INC A : CMP.w $02EC : BNE .not_nearest_to_player
+    TXA : INC : CMP.w $02EC : BNE .not_nearest_to_player
         ; Branch if Link is holding the bomb (or something else?)
         LDA.w $0308 : AND.b #$80 : BNE .no_underside_sprite
     

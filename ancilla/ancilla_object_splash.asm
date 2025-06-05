@@ -104,12 +104,12 @@ Ancilla_ObjectSplash_Draw:
     
     STZ.b $0C
     
-    LDA.w $0C5E, X : ASL A : TAX
+    LDA.w $0C5E, X : ASL : TAX
     
     .next_OAM_entry
     
         LDA.w Pool_Ancilla_ObjectSplash_Draw_char, X : CMP.b #$FF : BEQ .skip_OAM_entry
-            PHX : TXA : ASL A : TAX
+            PHX : TXA : ASL : TAX
             
             REP #$20
             

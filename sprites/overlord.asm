@@ -76,9 +76,9 @@ Overlord_ExecuteSingle:
     
     JSR.w Overlord_CheckInRangeStatus
     
-    PLA : DEC A : REP #$30 : AND.w #$00FF : ASL A : TAY
+    PLA : DEC : REP #$30 : AND.w #$00FF : ASL : TAY
     
-    LDA.w .handlers, Y : DEC A : PHA
+    LDA.w .handlers, Y : DEC : PHA
     
     SEP #$30
     
@@ -220,7 +220,7 @@ Overlord_RedStalfosTrap:
                     
                     LDA.b #$03 : STA.w $0E40, Y
                     
-                    DEC A : STA.w $0DE0, Y
+                    DEC : STA.w $0DE0, Y
                 
                 .spawn_failed
             DEC.w $0FB5 : BPL .next_spawn
@@ -368,7 +368,7 @@ Pool_Overlord_WizzrobeFactory:
 Overlord_WizzrobeFactory:
 {
     LDA.w $0B30, X : CMP.b #$80 : BEQ .spawn
-        LDA.b $1A : LSR A : BCC .delay
+        LDA.b $1A : LSR : BCC .delay
             DEC.w $0B30, X
         
         .delay
@@ -878,7 +878,7 @@ Overlord_ZolFactory:
         JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
             PHX
             
-            LDA.b $2F : LSR A : TAX
+            LDA.b $2F : LSR : TAX
             
             LDA.b $22
             CLC : ADC Pool_Overlord_ZolFactory_x_offsets_low, X  : STA.w $0D10, Y
@@ -937,7 +937,7 @@ Overlord_MovingFloor:
             .all_direction_movement
             
             ; Invert floor movement direction?
-            ASL A : STA.w $041A
+            ASL : STA.w $041A
             
             JSL.l GetRandomInt : AND.b #$7F : ADC.b #$80 : STA.w $0B30, X
             
@@ -1022,7 +1022,7 @@ Overlord_StalfosFactory:
     JSL.l Sprite_SpawnDynamically_arbitrary : BMI Overlord_PlayDropSfx_return
         PHX
         
-        LDA.b $2F : LSR A : TAX
+        LDA.b $2F : LSR : TAX
         
         LDA.b $22 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
         LDA.b $23 :       ADC .x_offsets_high, X : STA.w $0D30, Y

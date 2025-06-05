@@ -168,7 +168,7 @@ Bee_Normal:
     JSR.w Bee_Buzz
     JSR.w Sprite3_Move
     
-    TXA : EOR.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : LSR : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0F10, X : BNE .anointeract_with_player
         JSR.w Sprite3_CheckDamageToPlayer
@@ -414,7 +414,7 @@ GoodBee_Activated:
     JSR.w Bee_Buzz
     JSR.w Sprite3_Move
     
-    TXA : EOR.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : LSR : AND.b #$01 : STA.w $0DC0, X
     
     ; WTF: It's almost like the devs hadn't decided that only a good bee
     ; could appear in this fashion (as a single bee) from dashing.
@@ -497,7 +497,7 @@ Bee_SetAltitude:
         ; byte using some magic formula... WTF: Is this?
         LDA.w $0F50, X : AND.b #$F1 : STA.b $00
         
-        LDA.b $1A : LSR #4 : AND.b #$03 : INC A : ASL A : ORA.b $00 : STA.w $0F50, X
+        LDA.b $1A : LSR #4 : AND.b #$03 : INC : ASL : ORA.b $00 : STA.w $0F50, X
         
     .not_good_bee
     

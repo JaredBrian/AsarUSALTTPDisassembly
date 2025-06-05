@@ -53,7 +53,7 @@ DoorDebris_Draw:
 {
     JSR.w Ancilla_PrepAdjustedOamCoord
     
-    TXA : ASL A : TAY
+    TXA : ASL : TAY
     
     REP #$20
     
@@ -78,9 +78,9 @@ DoorDebris_Draw:
         
         PHX
         
-        LDA $0A : ASL A : STA $04
+        LDA $0A : ASL : STA $04
         
-        LDA $08 : ASL A : CLC : ADC $04 : STA $04
+        LDA $08 : ASL : CLC : ADC $04 : STA $04
         
         LDA $06 : ASL #2 : CLC : ADC $04 : TAX
         
@@ -113,7 +113,7 @@ DoorDebris_Draw:
         PLY : JSR.w Ancilla_CustomAllocateOam
         
         INX #2
-    LDA $06 : INC A : STA $06 : CMP.b #$02 : BNE .next_OAM_entry
+    LDA $06 : INC : STA $06 : CMP.b #$02 : BNE .next_OAM_entry
     
     PLX
     

@@ -70,14 +70,14 @@ Kiki_Fleeing:
     
     LDA.b #$10 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA.b $00 : ASL A : STA.w $0D40, X
+    LDA.b $00 : ASL : STA.w $0D40, X
     
-    LDA.b $01 : ASL A : STA.w $0D50, X
+    LDA.b $01 : ASL : STA.w $0D50, X
     
     LDA.w $02F2 : AND.b #$FC : STA.w $02F2
     
     LDA.b $00 : BPL .x_speed_positive
-        EOR.b #$FF : INC A : STA.b $00
+        EOR.b #$FF : INC : STA.b $00
         
     .x_speed_positive
     
@@ -204,7 +204,7 @@ Kiki_MoveTowardsLink:
     
     LDA.b $01 : STA.w $0D50, X
     
-    ASL A : ROL A : AND.b #$01 : EOR.b #$03 : STA.w $0DE0, X
+    ASL : ROL : AND.b #$01 : EOR.b #$03 : STA.w $0DE0, X
     
     LDA.b #$20 : STA.w $0DF0, X
     
@@ -368,19 +368,19 @@ Kiki_DartHead_jump_heights:
 Kiki_DartHead:
 {
     LDA.w $0E00, X : BNE .BRANCH_ALPHA
-        LDA.w $0D80, X : INC.w $0D80, X : LSR A : AND.b #$01 : TAY
+        LDA.w $0D80, X : INC.w $0D80, X : LSR : AND.b #$01 : TAY
         
         LDA.w .jump_heights, Y : STA.w $0F80, X
         
         LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
         
-        LDA.w $0D80, X : LSR A : AND.b #$01 : ORA.b #$04 : STA.w $0DE0, X
+        LDA.w $0D80, X : LSR : AND.b #$01 : ORA.b #$04 : STA.w $0DE0, X
         
         RTS
         
     .BRANCH_ALPHA
     
-    LDA.w $0D80, X : LSR A : AND.b #$01 : ORA.b #$06 : STA.w $0DE0, X
+    LDA.w $0D80, X : LSR : AND.b #$01 : ORA.b #$06 : STA.w $0DE0, X
     
     LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
@@ -569,7 +569,7 @@ Kiki_TransitionFromTagalong:
         LDA.b $EE : STA.w $0F20, Y
         
         LDA.b #$01 : STA.w $0BA0, Y
-        INC A      : STA.w $0F20, Y
+        INC      : STA.w $0F20, Y
         
         STZ.b $5E
         
@@ -679,7 +679,7 @@ Kiki_Draw:
 {
     ; TODO: Figure out the semantics of $0DE0 for this sprite.
     LDA.w $0DE0, X : CMP.b #$08 : BCS .unknown
-        LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
+        LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL : TAY
         
         LDA.w Pool_Kiki_Draw_source_offsets+0, Y : STA.w $0AE8
         LDA.w Pool_Kiki_Draw_source_offsets+1, Y : STA.w $0AEA
@@ -700,7 +700,7 @@ Kiki_Draw:
     
     .unknown
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #4
     
     ADC.b #(Pool_Kiki_Draw_OAM_groups_2 >> 0)              : STA.b $08
     LDA.b #(Pool_Kiki_Draw_OAM_groups_2 >> 8) : ADC.b #$00 : STA.b $09

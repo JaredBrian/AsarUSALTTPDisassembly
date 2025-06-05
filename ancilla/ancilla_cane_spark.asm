@@ -53,7 +53,7 @@ Ancilla_InitialCaneSpark:
         DEC.w $03B1, X : BPL .transmute_delay
             LDA.b #$01 : STA.w $03B1, X
             
-            LDA.w $0C5E, X : INC A : STA.w $0C5E, X
+            LDA.w $0C5E, X : INC : STA.w $0C5E, X
             
             CMP.b #$11 : BNE .transmute_delay
                 BRL CaneSpark_TransmuteInitialToNormal
@@ -71,7 +71,7 @@ Ancilla_InitialCaneSpark:
     LDA.w $0300 : CMP.b #$02 : BNE .not_final_cast_pose
         TAY
         
-        LDA.w $039F, X : DEC A : BPL .not_final_chr_group
+        LDA.w $039F, X : DEC : BPL .not_final_chr_group
             ; Reset the delay for using the final player relative position.
             ; Thus, all frames after this should use this position if $0300 stays
             ; at state 0x02.
@@ -87,7 +87,7 @@ Ancilla_InitialCaneSpark:
     
     .not_final_cast_pose
     
-    ASL A : CLC : ADC $00 : TAY
+    ASL : CLC : ADC $00 : TAY
     
     REP #$20
     
@@ -119,10 +119,10 @@ Ancilla_InitialCaneSpark:
     STZ $0A
     
     ; If we branch here, chr group is 0x00.
-    LDA.w $0C5E, X : DEC A : AND.b #$0F : BEQ .use_first_chr_group
+    LDA.w $0C5E, X : DEC : AND.b #$0F : BEQ .use_first_chr_group
         CMP.b #$0F : BEQ .use_last_chr_group
             ; Chr group here is 0x01 or 0x02.
-            AND.b #$01 : INC A : STA $0A
+            AND.b #$01 : INC : STA $0A
             
             BRA .start_OAM_commit_loop
             
@@ -145,7 +145,7 @@ Ancilla_InitialCaneSpark:
             
             PHX
             
-            TXA : ASL A : TAX
+            TXA : ASL : TAX
             
             LDA $06
             CLC : ADC Pool_Ancilla_InitialCaneSpark_y_offsets, X : STA $00
@@ -207,7 +207,7 @@ CaneSpark_TransmuteInitialToNormal:
 {
     LDA.b #$31 : STA.w $0C4A, X
     
-    LDA $2F : ASL A : TAY
+    LDA $2F : ASL : TAY
     
     LDA.w Pool_CaneSpark_TransmuteInitialToNormal_initial_rotation_states+0, Y
     STA.l $7F5800
@@ -235,7 +235,7 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDA.b #$15 : STA.w $0C68, X
     
-    DEC A : STA.l $7F5808
+    DEC : STA.l $7F5808
     
     LDA.b #$30 : JSR.w Ancilla_DoSfx3_NearPlayer
 

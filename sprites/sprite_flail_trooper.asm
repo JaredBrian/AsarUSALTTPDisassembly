@@ -34,9 +34,9 @@ Sprite_ChainBallTrooper:
     
     .no_head_direction_change
     
-    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL : TAY
     
-    LDA.w .states, Y : DEC A : PHA
+    LDA.w .states, Y : DEC : PHA
     
     SEP #$30
     
@@ -128,7 +128,7 @@ FlailTrooper_Attack_direction:
 FlailTrooper_Attack:
 {
     LDA.w $0DF0, X : BNE .delay
-        LDA.w $0D90, X : ASL A : LDA.w $0DA0, X : ROL A : TAY
+        LDA.w $0D90, X : ASL : LDA.w $0DA0, X : ROL : TAY
         
         ; Head doesn't match a direction...? what?
         LDA.w .direction, Y : CMP.w $0EB0, X : BNE .delay
@@ -374,7 +374,7 @@ FlailTrooper_DrawBody:
 ; $02B3CD-$02B43F LOCAL JUMP LOCATION
 SpriteDraw_GuardBody:
 {
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $06
+    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : STA.b $06
     
     PHX
     
@@ -388,7 +388,7 @@ SpriteDraw_GuardBody:
         
         PHX
         
-        TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC.b $06 : PHA : ASL : TAX
         
         REP #$20
         
@@ -483,11 +483,11 @@ SpriteDraw_BNCFlail:
     
     LDA.b $00 : CLC : ADC.w #$0080 : AND.w #$01FF : STA.b $02
     
-    LDA.b $00 : AND.w #$00FF : ASL A : TAX
+    LDA.b $00 : AND.w #$00FF : ASL : TAX
     
     LDA.l SmoothCurve, X : STA.b $04
     
-    LDA.b $02 : AND.w #$00FF : ASL A : TAX
+    LDA.b $02 : AND.w #$00FF : ASL : TAX
     
     LDA.l SmoothCurve, X : STA.b $06
     

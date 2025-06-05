@@ -211,7 +211,7 @@ Ancilla_ConsumingFire:
         LDA $01 : CLC : ADC.b #$FD : LDY.b #$01 : STA ($90), Y
                                      LDY.b #$05 : STA ($90), Y
         LDA.b #$A4                 : LDY.b #$02 : STA ($90), Y
-        INC A                      : LDY.b #$06 : STA ($90), Y
+        INC                      : LDY.b #$06 : STA ($90), Y
         LDA.b #$02 : ORA $04       : LDY.b #$03 : STA ($90), Y
                                      LDY.b #$07 : STA ($90), Y
         

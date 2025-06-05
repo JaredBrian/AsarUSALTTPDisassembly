@@ -16,9 +16,9 @@ Sprite_SpiralFireBat:
     LDA.b #$50
     JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA.w $0D50, X : EOR.b #$FF : INC A : CLC : ADC.b $00 : STA.w $0D50, X
-    LDA.w $0D40, X : EOR.b #$FF : INC A                   : STA.b $00
-    LDA.b $01      : EOR.b #$FF : INC A : CLC : ADC.b $00 : STA.w $0D40, X
+    LDA.w $0D50, X : EOR.b #$FF : INC : CLC : ADC.b $00 : STA.w $0D50, X
+    LDA.w $0D40, X : EOR.b #$FF : INC                   : STA.b $00
+    LDA.b $01      : EOR.b #$FF : INC : CLC : ADC.b $00 : STA.w $0D40, X
 
     ; Bleeds into the next location.
 }

@@ -86,15 +86,15 @@ Ancilla_Hookshot:
     .protracting
     
     ; If not at fully protracted state yet, don't begin retracting.
-    LDA.w $0C5E, X : INC A : STA.w $0C5E, X
+    LDA.w $0C5E, X : INC : STA.w $0C5E, X
     
     CMP.b #$20 : BNE .protraction_not_maxed
         ; Begin retracting.
         LDA.b #$01 : STA.w $0C54, X
         
         ; And reverse direction of the hookshot head.
-        LDA.w $0C22, X : EOR.b #$FF : INC A : STA.w $0C22, X
-        LDA.w $0C2C, X : EOR.b #$FF : INC A : STA.w $0C2C, X
+        LDA.w $0C22, X : EOR.b #$FF : INC : STA.w $0C22, X
+        LDA.w $0C2C, X : EOR.b #$FF : INC : STA.w $0C2C, X
         
     .protraction_not_maxed
     
@@ -111,8 +111,8 @@ Ancilla_Hookshot:
                 LDA.w $0C54, X : BNE .ignore_sprite_collision
                     LDA.b #$01 : STA.w $0C54, X
                     
-                    LDA.w $0C22, X : EOR.b #$FF : INC A : STA.w $0C22, X
-                    LDA.w $0C2C, X : EOR.b #$FF : INC A : STA.w $0C2C, X
+                    LDA.w $0C22, X : EOR.b #$FF : INC : STA.w $0C22, X
+                    LDA.w $0C2C, X : EOR.b #$FF : INC : STA.w $0C2C, X
                     
                     BRA .check_tile_collision
                     
@@ -201,8 +201,8 @@ Ancilla_Hookshot:
         LDA.w $0C54, X : BNE .no_extra_tile_collision
             LDA.b #$01 : STA.w $0C54, X
             
-            LDA.w $0C22, X : EOR.b #$FF : INC A : STA.w $0C22, X
-            LDA.w $0C2C, X : EOR.b #$FF : INC A : STA.w $0C2C, X
+            LDA.w $0C22, X : EOR.b #$FF : INC : STA.w $0C22, X
+            LDA.w $0C2C, X : EOR.b #$FF : INC : STA.w $0C2C, X
             
             ; NOTE: I really like this typo 'grabblable', it sounds ridiculous.
             ; Not a tile collision in this case, but it hit something grabblable.
@@ -265,7 +265,7 @@ Ancilla_Hookshot:
     LDA.w $0C72, X : STA $08
     
     ; X and $0A = $0C72, X * 6
-    ASL A : CLC : ADC $08 : STA $0A : TAX
+    ASL : CLC : ADC $08 : STA $0A : TAX
     
     LDA.b #$02 : STA $08
     
@@ -316,7 +316,7 @@ Ancilla_Hookshot:
     STZ $0C
     STZ $0D
     
-    LDA.w $0C5E, X : LSR A : CMP.b #$07 : BCC .link_scaling_not_needed
+    LDA.w $0C5E, X : LSR : CMP.b #$07 : BCC .link_scaling_not_needed
         ; At extension state >= 7, use this as the base displacement between
         ; chain links. Otherwise, the distance between them is fixed per
         ; the data tables provided by the pool.
@@ -337,7 +337,7 @@ Ancilla_Hookshot:
         ; Tracting down or right, so multiply the base offset by -1?
         ; It appears that this is done because the links are drawn
         ; relative to the hook at the end of the hookshot as it's tracting.
-        LDA $0A : EOR.b #$FF : INC A : STA $0A
+        LDA $0A : EOR.b #$FF : INC : STA $0A
                                        STA $0C
         
         BEQ .no_sign_extension_needed
@@ -350,7 +350,7 @@ Ancilla_Hookshot:
     
     REP #$20
     
-    LDA.w $0C72, X : ASL A : AND.b #$00FF : TAX
+    LDA.w $0C72, X : ASL : AND.b #$00FF : TAX
     
     LDA.w Pool_Ancilla_Hookshot_chain_y_speeds, X : BNE .use_actual_y_displacement
         ; Otherwise move the base y offset for the links down 4 pixels.

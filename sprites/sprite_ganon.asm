@@ -68,7 +68,7 @@ Ganon_HandleFireBatCircle:
     
     .next_bat
     
-        LDA.w $0FB5 : TAX : ASL A : TAY
+        LDA.w $0FB5 : TAX : ASL : TAY
         
         REP #$20
         
@@ -83,11 +83,11 @@ Ganon_HandleFireBatCircle:
             
             LDA.w Pool_Ganon_HandleFireBatCircle_offset_x2, Y : STA.w $0D51, X
             
-            ASL A : PHP : ROR.w $0D51, X : PLP : ROR.w $0D51, X
+            ASL : PHP : ROR.w $0D51, X : PLP : ROR.w $0D51, X
             
             LDA.w Pool_Ganon_HandleFireBatCircle_offset_x3, Y : STA.w $0D41, X
             
-            ASL A : PHP : ROR.w $0D41, X : PLP : ROR.w $0D41, X
+            ASL : PHP : ROR.w $0D41, X : PLP : ROR.w $0D41, X
         
         .BRANCH_ALPHA
         
@@ -97,13 +97,13 @@ Ganon_HandleFireBatCircle:
         
         REP #$30
         
-        LDA.b $00 : AND.w #$00FF : ASL A : TAX
+        LDA.b $00 : AND.w #$00FF : ASL : TAX
         
         LDA.l SmoothCurve, X : STA.b $04
         
         LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02
         
-        AND.w #$00FF : ASL A : TAX
+        AND.w #$00FF : ASL : TAX
         
         LDA.l SmoothCurve, X : STA.b $06
         
@@ -234,7 +234,7 @@ Sprite_Ganon:
         
         .BRANCH_ALPHA
         
-        LSR A : BCS .BRANCH_BETA
+        LSR : BCS .BRANCH_BETA
             ; Routine that draws Ganon to screen.
             JSR.w SpriteDraw_Ganon
         
@@ -456,7 +456,7 @@ Ganon_Phase4_Attack:
     
     INC.w $0BA0, X
     
-    LSR A : BCC .BRANCH_EPSILON
+    LSR : BCC .BRANCH_EPSILON
         LDA.b #$FF : STA.w $0DC0, X
     
     .BRANCH_EPSILON
@@ -493,7 +493,7 @@ Ganon_Phase3_SmashFloor_animation_states:
 Ganon_Phase3_SmashFloor:
 {
     LDA.w $0DF0, X : BEQ .BRANCH_ALPHA
-        DEC A : BNE .BRANCH_BETA
+        DEC : BNE .BRANCH_BETA
             LDA.b #$10 : STA.w $0D80, X
             
             LDA.b #$A0 : STA.w $0F80, X
@@ -531,7 +531,7 @@ Ganon_Phase3_DropTiles:
     STZ.w $011D
     
     LDA.w $0DF0, X : BEQ .descend
-        DEC A : BNE .shake_screen
+        DEC : BNE .shake_screen
             LDA.b #$05 : STA.w $012D
             
             LDA.b #$0D
@@ -1859,7 +1859,7 @@ Trident_Draw:
     LDA.b #$00 : XBA
     
     LDA.w $0ED0, X : BEQ .dont_draw
-        DEC A : REP #$20 : ASL #3 : STA.b $00
+        DEC : REP #$20 : ASL #3 : STA.b $00
         
         ASL #2 : CLC : ADC.b $00 : CLC : ADC.w #$990F : STA.b $08
         
@@ -1868,7 +1868,7 @@ Trident_Draw:
         LDY.b #$06 : LDA.w $0ED0, X : CMP.b #$09 : BEQ .BRANCH_BETA
             LDY.b #$08 : BCS .BRANCH_BETA
         
-            LDA.w $0DE0, X : ASL A : TAY
+            LDA.w $0DE0, X : ASL : TAY
         
         .BRANCH_BETA
         

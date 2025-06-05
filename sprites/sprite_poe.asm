@@ -10,7 +10,7 @@ Pool_Sprite_Poe_h_flip:
 Sprite_Poe:
 {
     ; Derive orientation (for h_flip) from the sign of the x velocity.
-    LDA.w $0D50, X : ASL A : ROL A : AND.b #$01 : STA.w $0DE0, X : TAY
+    LDA.w $0D50, X : ASL : ROL : AND.b #$01 : STA.w $0DE0, X : TAY
     
     LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
     
@@ -60,7 +60,7 @@ Sprite_Poe:
     
     JSR.w Sprite_Move
     
-    LDA.b $1A : LSR A : BCS .z_speed_adjustment_delay
+    LDA.b $1A : LSR : BCS .z_speed_adjustment_delay
         LDA.w $0ED0, X : AND.b #$01 : TAY
         
         LDA.w $0F80, X : CLC : ADC .acceleration, Y : STA.w $0F80, X
@@ -141,7 +141,7 @@ Poe_ROAMing_y_speeds:
 ; $031741-$03177D JUMP LOCATION
 Poe_ROAMing:
 {
-    LDA.w $001A : LSR A : BCS .adjust_speed_delay
+    LDA.w $001A : LSR : BCS .adjust_speed_delay
         ; Why are we adding the light world / dark world distinctifier?
         LDA.w $0EC0, X : AND.b #$01 : CLC : ADC.w $0FFF : ADC.w $0FFF : TAY
         
@@ -186,7 +186,7 @@ Poe_Draw:
     
     LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA.b $06
     
-    LDA.w $0DE0, X : ASL A : PHX : TAX
+    LDA.w $0DE0, X : ASL : PHX : TAX
     
     REP #$20
     

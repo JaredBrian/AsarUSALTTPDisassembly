@@ -18,7 +18,7 @@ Sprite_SpikeBlock:
             
             LDA.b #$04 : STA.w $0DF0, X
             
-            LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+            LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
             
             LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
             
@@ -75,7 +75,7 @@ TransientSpikeBlock_Activated:
         
         ; NOTE: While this may look weird, what it does is it wiggles the spike
         ; block before it becomes fully detatched.
-        LSR A : AND.b #$01 : TAY
+        LSR : AND.b #$01 : TAY
         
         LDA.w .wiggle_x_speeds, Y : STA.w $0D50, X
         

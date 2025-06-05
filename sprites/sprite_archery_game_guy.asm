@@ -59,7 +59,7 @@ SpritePrep_ArcheryGameGuy:
         
         LDA.w Pool_SpritePrep_ArcheryGameGuy_subtypes, X : STA.w $0D90, X
         
-        DEC A : STA.w $0DC0, X : TAY
+        DEC : STA.w $0DC0, X : TAY
         
         LDA.w Pool_SpritePrep_ArcheryGameGuy_x_speeds, Y : STA.w $0D50, X
         
@@ -265,7 +265,7 @@ ArcheryGameGuy_RunGame:
     
     PHX
     
-    LDA.b $0D : ASL A : CLC : ADC.b #$07 : TAX
+    LDA.b $0D : ASL : CLC : ADC.b #$07 : TAX
     
     ; This loop draws the boundary of the arrows on the counter and the
     ; arrows themselves. If you cheat and have too many arrows it will look
@@ -423,7 +423,7 @@ ArcheryGame_TargetMain:
 {
     JSR.w Sprite2_CheckIfActive
     
-    LDA.w $0EE0, X : DEC A : BNE .no_error_sound
+    LDA.w $0EE0, X : DEC : BNE .no_error_sound
         ; Play error noise if we hit a bad target (a "hand").
         LDA.b #$3C : STA.w $012E
         

@@ -52,7 +52,7 @@ Sprite_Rat:
         
         .no_new_direction
         
-        LDA.b $1A : LSR #4 : LDA.w $0DE0, X : ROL A : TAY
+        LDA.b $1A : LSR #4 : LDA.w $0DE0, X : ROL : TAY
         
         LDA.w Pool_Sprite_Rat_stationary_states, Y : STA.w $0D90, X
         
@@ -102,7 +102,7 @@ Rat_Moving:
     LDA.w Pool_Rat_Moving_x_speeds, Y : STA.w $0D50, X
     LDA.w Pool_Rat_Moving_y_speeds, Y : STA.w $0D40, X
     
-    LDA.b $1A : LSR #3 : LDA.w $0DE0, X : ROL A : TAY
+    LDA.b $1A : LSR #3 : LDA.w $0DE0, X : ROL : TAY
     
     LDA Sprite_Rat_moving_states, Y : STA.w $0D90, X
     

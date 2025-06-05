@@ -4658,7 +4658,7 @@ EasterEgg_BageCode:
         
         LDA.l $7EF359 : CMP.b #$04 : BNE .not_golden_sword
             LDA.b #$03 : STA.l $7EF35A
-            DEC A      : STA.l $7EF35B
+            DEC      : STA.l $7EF35B
         
         .not_golden_sword
         
@@ -4699,21 +4699,21 @@ EasterEgg_BageCode:
 BAGE_HandleSword:
 {
     BPL .return
-        LDA.l $7EF359 : INC A : CMP.b #$05 : BCC .valid_sword
+        LDA.l $7EF359 : INC : CMP.b #$05 : BCC .valid_sword
                 LDA.b #$01
             
         .valid_sword
             
         STA.l $7EF359
             
-        LDA.l $7EF35B : INC A : CMP.b #$03 : BNE .valid_armor
+        LDA.l $7EF35B : INC : CMP.b #$03 : BNE .valid_armor
             LDA.b #$00
             
         .valid_armor
             
         STA.l $7EF35B
             
-        LDA.l $7EF35A : INC A : CMP.b #$04 : BNE .valid_shield
+        LDA.l $7EF35A : INC : CMP.b #$04 : BNE .valid_shield
             LDA.b #$01
             
         .valid_shield
@@ -4808,7 +4808,7 @@ Sprite_DrawLargeWaterTurbulence:
     
     LDA.w $0F50, X : PHA
     
-    LDA.w $0E80, X : LSR A : AND.b #$01 : TAY
+    LDA.w $0E80, X : LSR : AND.b #$01 : TAY
     
     LDA.w .properties, Y : STA.w $0F50, X
     

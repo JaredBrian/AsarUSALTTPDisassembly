@@ -7,14 +7,14 @@ Ancilla_WeathervaneExplosion:
     REP #$20
     
     ; An initial timer. starts at 0x0280, counts down to zero.
-    LDA.l $7F58B6 : DEC A : STA.l $7F58B6 : BNE .return
+    LDA.l $7F58B6 : DEC : STA.l $7F58B6 : BNE .return
         SEP #$20
         
-        INC A : STA.l $7F58B6
+        INC : STA.l $7F58B6
         
         LDA.l $7F58B8 : BNE .music_at_full_volume
             ; This code is executed once. after that, $7F58B8 is set.
-            INC A : STA.l $7F58B8
+            INC : STA.l $7F58B8
             
             ; Put the music back to full volume.
             LDA.b #$F3 : STA.w $012C
@@ -34,11 +34,11 @@ Ancilla_WeathervaneExplosion:
     ; Still time left, quit the routine.
     DEC.w $0394, X : LDA.w $0394, X : BNE .return
         ; Otherwise, put one frame back on the timer.
-        INC A : STA.w $0394, X
+        INC : STA.w $0394, X
         
         LDA.w $039F, X : BNE .explosion_SFX_already_played
             ; This code should only get executed once?
-            INC A : STA.w $039F, X
+            INC : STA.w $039F, X
             
             LDA.b #$0C : JSR.w Ancilla_DoSfx2_NearPlayer
             
@@ -78,7 +78,7 @@ Ancilla_WeathervaneExplosion:
         
         .active_chunk
         
-        LDA.l $7F5860, X : DEC A : STA.l $7F5860, X : BPL .chr_toggle_delay
+        LDA.l $7F5860, X : DEC : STA.l $7F5860, X : BPL .chr_toggle_delay
             LDA.b #$01 : STA.l $7F5860, X
             
             ; Alternate their appearance.
@@ -180,7 +180,7 @@ WeathervaneExplosion_DrawWoodChunk:
     
     .sign_ext_z_coord
     
-    EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $00
+    EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $00
     
     SEP #$20
     

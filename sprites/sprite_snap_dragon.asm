@@ -73,7 +73,7 @@ SnapDragon_Resting:
             
             JSR.w Sprite_IsBelowPlayer
             
-            TYA : ASL A : STA.b $00
+            TYA : ASL : STA.b $00
             
             JSR.w Sprite_IsToRightOfPlayer
             

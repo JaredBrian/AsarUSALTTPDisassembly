@@ -127,13 +127,13 @@ BigFairy_Main:
 {
     LDA !timer_2, X : BEQ .draw
     CMP.b #$40      : BCS .draw
-        DEC A : BNE .blinking_draw
+        DEC : BNE .blinking_draw
             ; Self termiantes once the timer ticks down.
             STZ.w $0DD0, X
             
         .blinking_draw
         
-        LSR A : BCC .draw
+        LSR : BCC .draw
             ; On these frames, don't draw the sprite or do any other logic.
             RTS
         
@@ -148,7 +148,7 @@ BigFairy_Main:
         LDA.b #$05 : STA !animation_timer, X
         
         ; Whenever !animation_timer counts down, change the graphics.
-        LDA.w $0DC0, X : INC A : AND.b #$03 : STA.w $0DC0, X
+        LDA.w $0DC0, X : INC : AND.b #$03 : STA.w $0DC0, X
         
     .animation_delay
     

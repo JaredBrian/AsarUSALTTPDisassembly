@@ -36,7 +36,7 @@ Ancilla_SwordCeremony:
     .delay
     
     DEC.w $03B1, X : BPL .dont_advance_animation_index
-        LDA.w $0C5E, X : INC A : CMP.b #$03 : BNE .dont_reset_animation_index
+        LDA.w $0C5E, X : INC : CMP.b #$03 : BNE .dont_reset_animation_index
             LDA.b #$00
         
         .dont_reset_animation_index
@@ -59,13 +59,13 @@ Ancilla_SwordCeremony:
     STZ.b $08
     
     LDA.w $0C5E, X : BEQ .nothing_to_draw
-        DEC A : ASL #2 : TAX
+        DEC : ASL #2 : TAX
         
         LDY.b #$00
         
         .next_OAM_entry
         
-            PHX : TXA : ASL A : TAX
+            PHX : TXA : ASL : TAX
             
             REP #$20
             

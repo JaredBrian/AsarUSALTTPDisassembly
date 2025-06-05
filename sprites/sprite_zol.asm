@@ -126,7 +126,7 @@ Zol_Falling_animation_states:
 Zol_Falling:
 {
     LDA.w $0DF0, X : BEQ .falling_from_above
-        DEC A : BNE .hobble_around
+        DEC : BNE .hobble_around
             LDA.b #$20 : STA.w $0DF0, X
             
             INC.w $0D80, X
@@ -142,7 +142,7 @@ Zol_Falling:
         
         LDA.w .animation_states, Y : STA.w $0DC0, X
         
-        LDA.b $1A : LSR A : AND.b #$01 : TAY
+        LDA.b $1A : LSR : AND.b #$01 : TAY
         
         LDA.w .x_speeds, Y : STA.w $0D50, X
         
@@ -201,7 +201,7 @@ Zol_Active:
         ; Set h flip based on msb of x speed.
         ASL.w $0F50, X : ASL.w $0F50, X
         
-        LDA.w $0D50, X : ASL A : ROR.w $0F50, X : LSR.w $0F50, X
+        LDA.w $0D50, X : ASL : ROR.w $0F50, X : LSR.w $0F50, X
 
     .delay_retargeting_player
 
@@ -253,7 +253,7 @@ Zol_Draw_hflip_states:
 ; $0F31C5-$0F3213 LOCAL JUMP LOCATION
 Zol_Draw:
 {
-    LDA.w $0F50, X : LSR A : BCS .skip_unknown_check
+    LDA.w $0F50, X : LSR : BCS .skip_unknown_check
         ; TODO: What are this and the branch instruction above for?
         LDA.w $0FC6 : CMP.b #$03 : BCS .return
 

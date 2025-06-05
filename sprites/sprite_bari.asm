@@ -114,7 +114,7 @@ Sprite_BlueBari:
         LDA.w $0D80, X : CMP.b #$02 : BNE .not_splitting
             STA.w $0BA0, X
             
-            LDA.b $1A : LSR A : AND.b #$01 : TAY
+            LDA.b $1A : LSR : AND.b #$01 : TAY
             
             LDA Pool_Sprite_RedBari_wiggle_x_speeds, Y : STA.w $0D50, X
             
@@ -180,7 +180,7 @@ Sprite_BlueBari:
             
         .delay_nonelectrified_transition
         
-        LDA.b $1A : LSR A : AND.b #$02
+        LDA.b $1A : LSR : AND.b #$02
         
         CLC : ADC Pool_Sprite_RedBari_animation_state_bases, Y : STA.w $0DC0, X
         

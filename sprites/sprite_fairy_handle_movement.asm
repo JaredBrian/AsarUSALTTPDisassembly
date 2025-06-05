@@ -35,17 +35,17 @@ Fairy_HandleMovement:
             JSR.w Sprite3_CheckTileCollision
             
             AND.b #$03 : BEQ .dont_invert_x_speed
-                LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
+                LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
                 
-                LDA.w $0DE0, X : EOR.b #$FF : INC A : STA.w $0DE0, X
+                LDA.w $0DE0, X : EOR.b #$FF : INC : STA.w $0DE0, X
                 
                 LDA.b #$20 : STA.w $0E00, X
             
             .dont_invert_x_speed
             
             LDA.w $0E70, X : AND.b #$0C : BEQ .dont_invert_y_speed
-                LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
-                LDA.w $0D90, X : EOR.b #$FF : INC A : STA.w $0D90, X
+                LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
+                LDA.w $0D90, X : EOR.b #$FF : INC : STA.w $0D90, X
                 
                 LDA.b #$20 : STA.w $0E00, X
                 
@@ -104,7 +104,7 @@ Fairy_HandleMovement:
         REP #$21
         
         ; Average the two speeds?
-        LDA.b $00 : ADC.b $02 : LSR A : SEP #$30 : STA.w $0D40, X
+        LDA.b $00 : ADC.b $02 : LSR : SEP #$30 : STA.w $0D40, X
         
         LDA.b #$FF : STA.b $01
                      STA.b $03
@@ -121,7 +121,7 @@ Fairy_HandleMovement:
         
         REP #$21
         
-        LDA.b $00 : ADC.b $02 : LSR A : SEP #$30 : STA.w $0D50, X
+        LDA.b $00 : ADC.b $02 : LSR : SEP #$30 : STA.w $0D50, X
     
     .delay_speed_averaging
     

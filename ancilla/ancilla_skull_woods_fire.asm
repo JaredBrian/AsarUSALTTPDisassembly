@@ -79,7 +79,7 @@ Ancilla_SkullWoodsFire:
     
     .execute_next_flame
     
-        LDA.l $7F0008, X : DEC A : STA.l $7F0008, X
+        LDA.l $7F0008, X : DEC : STA.l $7F0008, X
         
         BMI .reset_flame_animation_index
             .flame_permanently_inactive
@@ -92,7 +92,7 @@ Ancilla_SkullWoodsFire:
         LDA.b #$05 : STA.l $7F0008, X
         
         LDA.l $7F0000, X : CMP.b #$80 : BEQ .flame_permanently_inactive
-            INC A : STA.l $7F0000, X : BEQ .flame_control_state_reset
+            INC : STA.l $7F0000, X : BEQ .flame_control_state_reset
                 CMP.b #$04 : BNE .dont_reset_flame_control_index
                     LDA.b #$00 : STA.l $7F0000, X
                 
@@ -123,7 +123,7 @@ Ancilla_SkullWoodsFire:
                 
             .dont_permadeativate_flame
             
-            PHX : TXA : ASL A : TAX
+            PHX : TXA : ASL : TAX
             
             LDA.l $7F001A : STA.l $7F0030, X
             LDA.l $7F0018 : STA.l $7F0020, X
@@ -158,7 +158,7 @@ Ancilla_SkullWoodsFire:
         LDA.w Pool_Ancilla_SkullWoodsFire_flame_chr, Y            : STA.b $06
         LDA.w Pool_Ancilla_SkullWoodsFire_flame_properties, Y     : STA.b $07
         
-        TXA : ASL A : TAX
+        TXA : ASL : TAX
         
         REP #$20
         
@@ -194,7 +194,7 @@ Ancilla_SkullWoodsFire:
             
             JSR.w Ancilla_SetOam_XY
             
-            LDA.b $06 : INC A : STA ($90), Y
+            LDA.b $06 : INC : STA ($90), Y
             
             INY
             
@@ -247,7 +247,7 @@ Ancilla_SkullWoodsFire:
                 LDA.w .blast_chr, X : CMP.b #$FF : BEQ .skip_blast_OAM_entry
                     PHX
                     
-                    TXA : ASL A : TAX
+                    TXA : ASL : TAX
                     
                     REP #$20
                     

@@ -350,7 +350,7 @@ FluteAardvark_Arborating:
         
         .anoplay_SFX
         
-        LDA.w $0D90, X : TAY : INC A : STA.w $0D90, X
+        LDA.w $0D90, X : TAY : INC : STA.w $0D90, X
         
         LDA.w Pool_FluteAardvark_Arborating_animation_states, Y : BMI .invalid_state
             STA.w $0DC0, X

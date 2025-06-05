@@ -114,9 +114,9 @@ Sprite_CannonTrooper:
     
     REP #$30
     
-    AND.w #$00FF : ASL A : TAY
+    AND.w #$00FF : ASL : TAY
     
-    LDA.w .vectors, Y : DEC A : PHA
+    LDA.w .vectors, Y : DEC : PHA
     
     SEP #$30
     
@@ -471,7 +471,7 @@ CannonTrooper_Draw:
         
         PHX
         
-        TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC.b $06 : PHA : ASL : TAX
         
         REP #$20
         

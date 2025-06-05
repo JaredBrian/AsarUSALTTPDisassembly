@@ -15,7 +15,7 @@ Sprite_EnergyBall:
     
     .repulsable_energy_ball
     
-    LDA.b $1A : LSR A : AND.b #$02 : INC #2 : ORA.b #$01
+    LDA.b $1A : LSR : AND.b #$02 : INC #2 : ORA.b #$01
     
     .set_palette
     
@@ -116,9 +116,9 @@ Sprite_EnergyBall:
         
         ; Because the sword hits it, invert the speed and make it faster,
         ; hopefully sending it into Agahnim's dumb face.
-        LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+        LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
         
-        LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+        LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
         
         INC.w $0D90, X
     

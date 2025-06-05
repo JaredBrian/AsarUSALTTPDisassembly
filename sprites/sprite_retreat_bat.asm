@@ -25,7 +25,7 @@ Sprite_RetreatBat:
     STZ.w $011D
     
     LDA.w $0EE0, X : BEQ .BRANCH_ALPHA 
-        DEC A : BNE .BRANCH_BETA
+        DEC : BNE .BRANCH_BETA
             LDY.b #$05 : STY.w $012D
         
         .BRANCH_BETA
@@ -38,7 +38,7 @@ Sprite_RetreatBat:
     .BRANCH_ALPHA
     
     LDA.w $0DF0, X : BNE .BRANCH_GAMMA
-        LDA.w $0DC0, X : INC A : AND.b #$03 : STA.w $0DC0, X : BNE .BRANCH_DELTA
+        LDA.w $0DC0, X : INC : AND.b #$03 : STA.w $0DC0, X : BNE .BRANCH_DELTA
             LDA.w $0D80, X : CMP.b #$02 : BCS .BRANCH_DELTA
                 LDA.b #$03 : JSL.l Sound_SetSfx2PanLong
             
@@ -62,7 +62,7 @@ Sprite_RetreatBat:
 ; $0D763D-$0D765F JUMP LOCATION
 BatCrash_Approach:
 {
-    LDA.w $0D90, X : ASL A : TAY
+    LDA.w $0D90, X : ASL : TAY
     
     REP #$20
     
@@ -138,7 +138,7 @@ BatCrash_Ascend:
     
     .BRANCH_BETA
     
-    LDA.w $0D90, X : ASL A : TAY
+    LDA.w $0D90, X : ASL : TAY
     
     JMP.w BatCrash_HandleYMovement
 }
@@ -200,7 +200,7 @@ GanonEmerges_SpawnRetreatBat:
                  STA.w $0DE0, Y
                  STA.w $0F20, Y
     
-    INC A : STA.w $0E80, Y
+    INC : STA.w $0E80, Y
             STA.w $0E40, Y
             STA.w $0E60, Y
             STA.w $0F50, Y

@@ -23,7 +23,7 @@ Sprite_Leever:
     JSR.w Sprite_CheckIfActive
     JSR.w Sprite_CheckIfRecoiling
     
-    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL : TAY
     
     LDA.w .handlers, Y : PHA
     
@@ -286,7 +286,7 @@ Leever_Draw:
         
         TXA : CLC : ADC.b $06 : PHA
         
-        ASL A : TAX
+        ASL : TAX
         
         REP #$20
         

@@ -100,7 +100,7 @@ QuakeSpell_ShakeScreen:
     LDA.l $7F581E : STA.w $011C
     
     ; Toggle rumble screen offset.
-    EOR.w #$FFFF : INC A : STA.l $7F581E
+    EOR.w #$FFFF : INC : STA.l $7F581E
     
     SEP #$20
     
@@ -133,10 +133,10 @@ QuakeSpell_ExecuteBolts:
     .next_component
         
         LDA.l $7F5805, X : CMP .limits, X : BEQ .component_inactive
-            LDA.l $7F5800, X : DEC A : STA.l $7F5800, X : BPL .draw_bolt
+            LDA.l $7F5800, X : DEC : STA.l $7F5800, X : BPL .draw_bolt
                 LDA.b #$01 : STA.l $7F5800, X
                 
-                LDA.l $7F5805, X : INC A : STA.l $7F5805, X
+                LDA.l $7F5805, X : INC : STA.l $7F5805, X
                 CMP .limits, X : BEQ .component_inactive
                     TXY : BNE .not_in_first_state
                     
@@ -195,7 +195,7 @@ QuakeSpell_DrawFirstGroundBolts:
 {
     PHX
     
-    LDA.l $7F5805, X : CLC : ADC .pointer_offsets, X : ASL A : TAY
+    LDA.l $7F5805, X : CLC : ADC .pointer_offsets, X : ASL : TAY
     
     ; Start pointer.
     LDA.w .pointers+0, Y : STA $72
@@ -303,7 +303,7 @@ QuakeSpell_SpreadGroundBolts:
         LDA.w $0C68, X : BNE .second_state_still_progressing
             LDA.b #$02 : STA.w $0C68, X
             
-            LDA.w $0C5E, X : INC A : STA.w $0C5E, X
+            LDA.w $0C5E, X : INC : STA.w $0C5E, X
             
             CMP.b #$37 : BNE .second_state_still_progressing
                 LDA.b #$02 : STA.w $0C54, X
@@ -331,7 +331,7 @@ QuakeSpell_DrawGroundBolts:
 {
     PHX
     
-    LDA.w $0C5E, X : ASL A : TAY
+    LDA.w $0C5E, X : ASL : TAY
     
     ; TODO: Check into this.
     ; BUG: (unconfirmed) Wouldn't this be a buffer overrun? There's only enough

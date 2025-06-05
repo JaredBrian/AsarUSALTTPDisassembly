@@ -54,7 +54,7 @@ Landmine_Detonating:
     
     .palette_cycle
     
-    LSR A : AND.b #$03 : TAY
+    LSR : AND.b #$03 : TAY
     
     LDA.w .palettes, Y : STA.w $0F50, X
     

@@ -178,7 +178,7 @@ Hinox_SetRandomDirection_directions:
 ; $031FF7-$032003 LOCAL JUMP LOCATION
 Hinox_SetRandomDirection:
 {
-    JSL.l GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
+    JSL.l GetRandomInt : LSR : LDA.w $0DE0, X : ROL : TAY
     
     LDA.w .directions, Y
 
@@ -338,7 +338,7 @@ Hinox_Draw:
 {
     LDA.w $0DC0, X : PHA
     
-    ASL A : TAY
+    ASL : TAY
     
     REP #$20
     

@@ -49,7 +49,7 @@ Sprite_CrystalSwitch:
     .skipSparkleGeneration
     
     LDA.w $0EA0, X : BNE .switching_already_scheduled
-        LDA.b $3C : DEC A : CMP.b #$08 : BPL .ignore_player_poke_attack
+        LDA.b $3C : DEC : CMP.b #$08 : BPL .ignore_player_poke_attack
             JSR.w Sprite_CheckDamageFromPlayer
         
         .ignore_player_poke_attack

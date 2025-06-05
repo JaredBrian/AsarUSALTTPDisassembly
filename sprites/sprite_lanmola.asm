@@ -345,7 +345,7 @@ Lanmola_Death:
             LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
             
             LDA.l $7FF81E, X : BMI .beta
-                DEC A : STA.l $7FF81E, X
+                DEC : STA.l $7FF81E, X
 
             .beta
         .spawn_failed
@@ -423,7 +423,7 @@ Pool_Lanmola_Draw:
 ; $02A64A-$02A81F LOCAL JUMP LOCATION
 Lanmola_Draw:
 {
-    TXA : ASL A : TAY
+    TXA : ASL : TAY
     
     REP #$20
     
@@ -459,7 +459,7 @@ Lanmola_Draw:
     
     LDA.w $0DD0, X : CMP.b #$09 : BNE .notActive
         LDA.b $11 : ORA.w $0FC1 : BNE .notActive
-            LDA.w $0E80, X : INC A : AND.b #$3F : STA.w $0E80, X
+            LDA.w $0E80, X : INC : AND.b #$3F : STA.w $0E80, X
     
     .notActive
     
@@ -474,7 +474,7 @@ Lanmola_Draw:
     
     PHA : STA.b $0E
     
-    LDA.w $0D40, X : ASL A : ROL A : AND.b #$01 : TAX
+    LDA.w $0D40, X : ASL : ROL : AND.b #$01 : TAX
     
     LDA Pool_Lanmola_FinishInitialization_data2, X : STA.b $0C
     
@@ -575,7 +575,7 @@ Lanmola_Draw:
         LDA.w $0E00, X : BEQ .mu
             PHA
             
-            LDA.w $0D40, X : ASL A : ROL A : ASL A : EOR.w $0D80, X : AND.b #$02 : BEQ .nu
+            LDA.w $0D40, X : ASL : ROL : ASL : EOR.w $0D80, X : AND.b #$02 : BEQ .nu
                 LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
                 
                 BRA .xi
@@ -588,7 +588,7 @@ Lanmola_Draw:
             
             LDY.b #$00
             
-            PLA : LSR #2 : AND.b #$03 : EOR.b #$03 : ASL A : STA.b $06
+            PLA : LSR #2 : AND.b #$03 : EOR.b #$03 : ASL : STA.b $06
             
             LDA.w $0DE0, X : SEC : SBC.b $E2 : STA.b $00
             LDA.w $0E70, X : SEC : SBC.b $E8 : STA.b $02

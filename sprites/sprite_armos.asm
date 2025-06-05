@@ -70,7 +70,7 @@ Sprite_Armos:
     .zeta
     
     LDA.w $0DF0, X : BEQ .theta
-        LSR A : AND.b #$0E : EOR.w $0F50, X : STA.w $0F50, X
+        LSR : AND.b #$0E : EOR.w $0F50, X : STA.w $0F50, X
     
     .theta
     

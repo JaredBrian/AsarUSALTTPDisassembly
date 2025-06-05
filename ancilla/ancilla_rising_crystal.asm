@@ -52,7 +52,7 @@ Ancilla_RisingCrystal:
         LDA.b $11 : BNE .delay_giving_crystal
             PHX
             
-            LDA.w $040C : LSR A : TAX
+            LDA.w $040C : LSR : TAX
             
             ; Give player the crystal associated with this dungeon.
             LDA.l $7EF37A : ORA.l MilestoneItem_Flags, X : STA.l $7EF37A
