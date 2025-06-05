@@ -6799,61 +6799,65 @@ OverworldHandleTransitions:
 
     REP #$20
 
+    ; Check if Link is moving up/down.
     LDA.b $30 : AND.w #$00FF : BEQ .noDeltaY
-        ; Check if link is moving up/down.
         LDA.b $67 : AND.w #$000C : STA.b $00
 
         LDX.w $0700
-        LDA.b $20 : SEC : SBC OverworldTransitionPositionY, X
+        LDA.b $20 : SEC : SBC.l OverworldTransitionPositionY, X
 
         ; Transitioning up.
         LDY.b #$06 : LDX.b #$08
 
-        CMP.w #$0004 : BCC .BRANCH_GAMMA
+        CMP.w #$0004 : BCC .checkDirection
             ; Transitioning down.
             LDY.b #$04 : LDX.b #$04
 
-            CMP.w $0716 : BCS .BRANCH_GAMMA
+            CMP.w $0716 : BCS .checkDirection
 
     .noDeltaY
 
+    ; Check if Link is moving right/left.
     LDA.b $31 : AND.w #$00FF : BEQ .noDeltaX
         ; ZSCREAM: ZS writes here.
+        ; Add an offset to the X position.
         ; $0129FF
         LDA.w $0716 : CLC : ADC.w #$0004 : STA.b $02
 
         LDA.b $67 : AND.w #$0003 : STA.b $00
 
         LDX.w $0700
-        LDA.b $22 : SEC : SBC OverworldTransitionPositionX, X
+        LDA.b $22 : SEC : SBC.l OverworldTransitionPositionX, X
 
         ; Transitioning left.
         LDY.b #$02 : LDX.b #$02
         
-        CMP.w #$0006 : BCC .BRANCH_GAMMA
+        CMP.w #$0006 : BCC .checkDirection
             ; Transitioning right.
             LDY.b #$00 : LDX.b #$01
             
-            CMP.b $02 : BCC .BRANCH_DELTA
+            CMP.b $02 : BCC .noTransition
 
-    .BRANCH_GAMMA
+    .checkDirection
 
-    CPX.b $00 : BEQ .BRANCH_EPSILON
-        .BRANCH_DELTA
+    ; Check if the direction the player is moving matches the boundary we hit:
+    CPX.b $00 : BEQ .transition
+        .noTransition
         .noDeltaX
 
         JSL.l Overworld_CheckForSpecialOverworldTrigger
 
         RTS
 
-    ; Triggers when Link finally reaches the edge of the screen.
+    ; Triggers when Link finally reaches the edge of the screen and is moving
+    ; in that direction.
     ; $012A33
-    .BRANCH_EPSILON
+    .transition
 
     SEP #$20
 
     ; Just makes sure we're not using a medallion or input is disabled.
-    JSL.l Player_IsScreenTransitionPermitted : BCS .BRANCH_DELTA
+    JSL.l Player_IsScreenTransitionPermitted : BCS .noTransition
         STY.b $02 : STZ.b $03
 
         JSR.w DeleteCertainAncillaeStopDashing
@@ -6864,26 +6868,36 @@ OverworldHandleTransitions:
         LDX.b $02
         LDA.b $84 : AND.l OverworldScreenTileMapChange_Masks, X : STA.b $84
 
-        LDA.w $0700 : CLC : ADC.w OverworldScreenIDChange, X : PHA
+        LDA.w $0700 : CLC : ADC.l OverworldScreenIDChange, X : PHA
                                                                STA.b $04
 
+        ; X here equals which direction we are currently moving to.
+        ; 0x00 - Right
+        ; 0x02 - Left
+        ; 0x04 - Down
+        ; 0x06 - Up
         TXA : ASL #6 : ORA.b $04 : TAX
-        LDA.b $84 : CLC : ADC.w OverworldScreenTileMapChange_ByScreen1, X
+        LDA.b $84 : CLC : ADC.l OverworldScreenTileMapChange_ByScreen1, X
         STA.b $84
 
-        ; OPTIMIZE: Why not just LDA.b $04?
+        ; OPTIMIZE: Why not just LDA.b $04 instead of the PLA?
+        ; Divide the doubled new area index down by 2 to bring it to the
+        ; correct scale.
         PLA : LSR : TAX
 
         SEP #$30
 
         LDA.b $8A : PHA
+
+        ; OPTIMIZE: Why? Is there ever a situation in the vanilla game where you 
+        ; wold have an ambient sound playing when entering the fulte boy grove?
         CMP.b #$2A : BNE .notFluteBoyGrove
             ; Flute boy area has special flute sound effect (surprise?).
             LDA.b #$80 : STA.w $012D
 
         .notFluteBoyGrove
 
-        ; Sets the OW area number.
+        ; Set the OW area number.
         ; $012A7D
         LDA.l Overworld_ActualScreenID, X : ORA.l $7EF3CA
         STA.b $8A : STA.w $040A : TAX
@@ -6914,9 +6928,9 @@ OverworldHandleTransitions:
         LDX.b #$04
 
         ; Converts a bitwise direction indicator to a value based one.
-        .BRANCH_LAMBDA
+        .loop
             DEX
-        LSR : BCC .BRANCH_LAMBDA
+        LSR : BCC .loop
 
         STX.w $0418 : STX.w $069C
 
@@ -6925,30 +6939,33 @@ OverworldHandleTransitions:
         PLA
 
         ; ZSCREAM: ZS writes a jump here.
+        ; Check if we need to trigger a mosaic transition.
         ; $012ADB
-        AND.b #$3F : BEQ .BRANCH_MU ; Area it was
-            LDA.b $8A : AND.b #$BF : BNE .BRANCH_NU ; Area it is.
+        AND.b #$3F : BEQ .useMosaic ; Area it was
+            LDA.b $8A : AND.b #$BF : BNE .noMosaic ; Area it is.
+                .useMosaic
 
-        .BRANCH_MU
+                ; If we made it here that means we are going to or coming
+                ; from areas 0x00 or 0x40.
 
-        ; Probably only for areas 0x00 and 0x40.
+                ; OPTIMIZE: Change this to a STA an move it 5 op codes down
+                ; to take advantage of the OO we already have in A.
+                STZ.b $B0
 
-        STZ.b $B0
+                ; Send us to a submodule that will handle a mosaic transition.
+                LDA.b #$0D : STA.b $11
 
-        ; Send us to a submodule that will handle going into a forest.
-        LDA.b #$0D : STA.b $11
+                ; Reset mosaic settings.
+                LDA.b #$00 : STA.b $95 : STA.l $7EC011
 
-        ; Reset mosaic settings.
-        LDA.b #$00 : STA.b $95 : STA.l $7EC011
+                RTS
 
-        RTS
+        .noMosaic
 
-        .BRANCH_NU
-
-        LDX.b $8A : LDA.l $7EFD40, X : STA.b $00
+        LDX.b $8A
+        LDA.l $7EFD40, X : STA.b $00
 
         LDA.l OverworldPalettesScreenToSet, X
-
         JSL.l Overworld_LoadPalettes
         JSR.w Overworld_CgramAuxToMain
 
@@ -7004,11 +7021,9 @@ Overworld_LoadMapProperties:
 
     REP #$30
 
-    ; This is misleading as the subsequent arrays are only 0x80 bytes.
     LDA.b $8A : AND.w #$00BF : ASL : TAX
-
-    LDA.w OverworldTransitionPositionY, X          : STA.w $0708
-    LDA.w OverworldTransitionPositionX, X : LSR #3 : STA.w $070C
+    LDA.l OverworldTransitionPositionY, X          : STA.w $0708
+    LDA.l OverworldTransitionPositionX, X : LSR #3 : STA.w $070C
 
     ; ZSCREAM: ZS makes a jump here.
     ; $012B64
@@ -11341,12 +11356,11 @@ SpecialOverworld_CopyPalettesToCache:
 
 ; ==============================================================================
 
+; Copies the auxiliary CGRAM buffer to the main one and causes NMI to
+; reupload the palette.
 ; $014769-$0147B7 LOCAL JUMP LOCATION
 Overworld_CgramAuxToMain:
 {
-    ; Copies the auxiliary CGRAM buffer to the main one and causes NMI to
-    ; reupload the palette.
-
     REP #$20
 
     LDX.b #$00

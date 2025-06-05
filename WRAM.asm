@@ -5158,8 +5158,10 @@ struct WRAM $7E0000
 
     ; $0700[0x02] - (Overworld)
     .PlayerOWPos: skip $02
-        ; Generally is equal to the area number you are in currently in 
-        ; times two. This is calculated from the player's coords.
+        ; This is equal to the area number you are in currently in times two but
+        ; only for the realative light world position. So if you are in area 0x01
+        ; or 0x41, both this will show you as in area 0x01. This is calculated
+        ; from the player's coords.
         ; yyyzxxx.
         ; y - Obtained by masking Link's Y coordinate ($20) with 0x1E00,
         ;     shifting left three times.
