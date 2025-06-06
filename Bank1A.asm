@@ -554,7 +554,8 @@ BottleVendor_PayForGoodBee:
     
     .next_red_rupee
     
-        LDA.b #$DB : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$DB
+        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             JSL.l Sprite_SetSpawnedCoords
             
             LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
@@ -564,9 +565,7 @@ BottleVendor_PayForGoodBee:
             PHX
             
             LDX.w $0FB5
-            
             LDA.w .x_speeds, X : STA.w $0D50, Y
-            
             LDA.w .y_speeds, X : STA.w $0D40, Y
             
             LDA.b #$20 : STA.w $0F80, Y

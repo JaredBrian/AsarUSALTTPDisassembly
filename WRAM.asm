@@ -5158,14 +5158,16 @@ struct WRAM $7E0000
 
     ; $0700[0x02] - (Overworld)
     .PlayerOWPos: skip $02
-        ; This is equal to the area number you are in currently in times two but
-        ; only for the realative light world position. So if you are in area 0x01
-        ; or 0x41, both this will show you as in area 0x01. This is calculated
-        ; from the player's coords.
+        ; This is the non-parent non-world specific calculated overworld position
+        ; of the player multiplied by 2. Contrary to OWAreaIndex this is does not
+        ; take the parent area into account meaning if you are in the bottom right
+        ; corner of the lost woods this will show up as 0x09 and not 0x00 like
+        ; OWAreaIndex would. Additionally, this position is only relative to the
+        ; current world so area 0x02, 0x42, and 0x82 will all show up as 0x02.
         ; yyyzxxx.
-        ; y - Obtained by masking Link's Y coordinate ($20) with 0x1E00,
+        ; y - Obtained by masking the player's Y coordinate ($20) with 0x1E00,
         ;     shifting left three times.
-        ; x - Obtained by masking Link's X coordinate ($22) with 0x1E00,
+        ; x - Obtained by masking the player's X coordinate ($22) with 0x1E00,
         ;     and bitwise ORing it with the the y bits.
         ; z - This is the overlap of the x and y bits described above.
 
@@ -6070,30 +6072,36 @@ struct WRAM $7E0000
     ; $0B48[0x10] - (Overworld, Overlord)
     .OverlordOWTile: skip $10
         ; Tile offset in the overworld sprite position buffer (see $7FDF80).
-        ; Used to keep track of the overlord's position when cheching if the plyare
+        ; Used to keep track of the overlord's position when cheching if the player
         ; is far enough away for it to deactivate its children sprites.
         ; TODO: Confirm this.
 
     ; $0B58[0x10] - (Sprite)
-        ; Timers for stunned enemies. Counts down from 0xFF.
+    .SpriteEffectTimer: skip $10
+        ; A timer that controls the timing of special sprite effects such as being
+        ; stuned, frozen, or faing out. Counts down from 0xFF most of the time.
+        ; TODO: Document other uses.
 
-    ; $0B68[0x01] - (RepulseSpark)
+    ; $0B68[0x01] - (Sprite)
+    .SparkLayer: skip $01
+        ; The layer to display a repulse spark on. Set based on the player's layer
+        ; or a sprite's layer. 
 
-        ; Location to cache Link's or sprite's floor status. It seems it later gets
-        ; used with ancillas in Bank 0x08.
+    ; $0B69[0x01] - (Sprite)
+    .TutorialGuardMessage:
+        ; A value used to keep track of which message the tutorial guard should
+        ; show next. TODO: Document the values here.
 
-    ; $0B69[0x01] - 
-        ; Variable that tutorial soldiers and Blind use. Since it's not reinitialized when you save and quit,
-        ; it can trigger a glitch where the Tutorial Soldiers will start saying things that belong to other
-        ; characters or entities in the game. Notable in that it spawned a game Gamefaqs thread puzzling over
-        ; this behavior.
+    ; $0B69[0x01] - (Sprite)
+    .BlindHeadDir: skip $01
+        ; A value used to control Blind's head current direction.
 
     ; $0B6A[0x01] - (Sprite)
-        ; A variety of sprites use this, including Blind, Statue Sentries, and the
-        ; sprites that block the way into the Desert Palace. It's designed to limit
-        ; the number of these sprites that can appear at any one time. Typically this
-        ; is because they can potentially have a large number of subsprites, which
-        ; can require additional WRAM to keep track of, which is limited.
+    .SubSpriteLimiter: skip $01
+        ; A value used to limit the amount of sub sprties that can spawn for
+        ; certain sprites. This is used by the beamos to limit the amount of
+        ; lasers that can spawn, he desert Barriers use this as their index, and
+        ; Blind as a way to keep track of how many detached heads have spawned.
 
     ; $0B6B[0x10] - (Sprite)
         ; ttttacbp

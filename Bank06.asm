@@ -90,7 +90,8 @@ BottleVendor_SpawnFishRewards:
     
         LDY.w $0FB5
         
-        LDA.w .item_types, Y : JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
+        LDA.w .item_types, Y
+        JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
             JSL.l Sprite_SetSpawnedCoords
             
             LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
@@ -100,9 +101,7 @@ BottleVendor_SpawnFishRewards:
             PHX
             
             LDX.w $0FB5
-            
             LDA Pool_BottleVendor_SpawnFishRewards_x_speeds, X : STA.w $0D50, Y
-            
             LDA Pool_BottleVendor_SpawnFishRewards_y_speeds, X : STA.w $0D40, Y
             
             LDA.b #$20 : STA.w $0F80, Y : STA.w $0F10, Y
@@ -586,7 +585,6 @@ Sprite_SpawnSecret:
                 LDA.b #$04 : STA.w $012F
                 
                 LDA.b #$00 : STA.w $0CE2, Y
-                
                 LDA.b #$A0 : STA.w $0EF0, Y
                 
                 BRA .carry_on
@@ -3918,7 +3916,6 @@ SpriteModule_Frozen:
         LDA.w $0B58, X : BEQ .BRANCH_EPSILON
             DEC.w $0B58, X : CMP.b #$38 : BCS .BRANCH_DELTA
                 AND.b #$01 : TAY
-                
                 LDA.w .wiggle_x_speeds, Y : STA.w $0D50, X
                 
                 JSR.w Sprite_MoveHoriz

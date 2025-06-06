@@ -1866,7 +1866,6 @@ PullForRupees_SpawnRupees:
             ; Select which kind of rupee to use with the "pull for rupees"
             ; thing.
             LDA.w .rupee_types, Y
-            
             JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
                 LDA.b #$30 : JSL.l Sound_SetSfx3PanLong
                 
@@ -1875,9 +1874,7 @@ PullForRupees_SpawnRupees:
                 PHX
                 
                 LDX.w $0FB5
-                
                 LDA.w .x_speeds, X : STA.w $0D50, Y
-                
                 LDA.w .y_speeds, X : STA.w $0D40, Y
                 
                 PLX
