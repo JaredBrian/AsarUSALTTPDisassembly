@@ -1664,9 +1664,11 @@ Sprite_ActivateWhenProximal_Vertical:
 
 ; ==============================================================================
 
-; ZSCREAM: Area 0x0A and 0x0F are incorrect. ZS overwrites this table as
-; part of its ability to change which areas are large and when these 2
-; values are correct it does not break anything in game.
+; ZSCREAM: This table is moved to expanded space by ZS and this space is no
+; longer used.
+; NOTE: Area 0x0A and 0x0F are incorrect. This does not appear to break
+; anything in game and changing them to the correct value of 0x02 does not
+; break anything either
 ; $04 = Large area
 ; $02 = Small area
 ; These are map sizes.

@@ -6588,7 +6588,8 @@ Overworld_PlayerControl:
 
 ; ==============================================================================
 
-; ZSCREAM: This table is updated by ZS to allow map layout changes.
+; ZSCREAM: This table was moved to expanded space by ZS and this space is not
+; longer used.
 ; This tells the game what each area's "parent" area is. For small areas this
 ; is it's own area number. For large areas this is the top left area in the
 ; 2x2 grid.
@@ -6664,8 +6665,12 @@ OverworldScreenTileMapChange:
     ;    └──┴──┘             └──┴──┘
     ; As of 05/13/25 there arn't any released hacks that use this kind of layout.
 
-    ; ZSCREAM: This table is updated by ZS to allow layout changes.
-    ; $012634 transitioning right
+    ; ZSCREAM: This table is moved to expanded space by ZS and this
+    ; space is no longer used.
+
+    ; These are the offsets to apply to the tilemap position when
+    ; transitioning right.
+    ; $012634
     .ByScreen1
     dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060
     dw $0060, $0060, $0060, $1060, $1060, $1060, $1060, $0060
@@ -6676,8 +6681,9 @@ OverworldScreenTileMapChange:
     dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060
     dw $0060, $0060, $0060, $0060, $0060, $1060, $1060, $0060
 
-    ; ZSCREAM: This table is updated by ZS to allow layout changes.
-    ; $0126B4 transitioning left
+    ; These are the offsets to apply to the tilemap position when
+    ; transitioning left.
+    ; $0126B4
     .ByScreen2
     dw $0080, $0080, $0040, $0080, $0080, $0080, $0080, $0040
     dw $1080, $1080, $0040, $1080, $1080, $1080, $1080, $0040
@@ -6688,8 +6694,9 @@ OverworldScreenTileMapChange:
     dw $0080, $0080, $0040, $0040, $0040, $0080, $0080, $0040
     dw $1080, $1080, $0040, $0040, $0040, $1080, $1080, $0040
 
-    ; ZSCREAM: This table is updated by ZS to allow layout changes.
-    ; $012734 transitioning down
+    ; These are the offsets to apply to the tilemap position when
+    ; transitioning down.
+    ; $012734
     .ByScreen3
     dw $1800, $1840, $1800, $1800, $1840, $1800, $1840, $1800
     dw $1800, $1840, $1800, $1800, $1840, $1800, $1840, $1800
@@ -6700,8 +6707,9 @@ OverworldScreenTileMapChange:
     dw $1800, $1840, $1800, $1800, $1800, $1800, $1840, $1800
     dw $1800, $1840, $1800, $1800, $1800, $1800, $1840, $1800
 
-    ; ZSCREAM: This table is updated by ZS to allow layout changes.
-    ; $0127B4 transitioning up
+    ; These are the offsets to apply to the tilemap position when
+    ; transitioning up.
+    ; $0127B4
     .ByScreen4
     dw $2000, $2040, $1000, $2000, $2040, $2000, $2040, $1000
     dw $2000, $2040, $1000, $2000, $2040, $2000, $2040, $1000
@@ -6725,7 +6733,8 @@ OverworldMixedCoordsChange:
     dw $FFF0, $0010, $FFFE, $0002
 }
 
-; ZSCREAM: This table is updated by ZS to allow layout changes.
+; ZSCREAM: This table is moved to expanded space by ZS and this
+; space is no longer used.
 ; $012844-$012883 DATA
 OverworldScreenSizeFlag:
 {
@@ -6741,7 +6750,8 @@ OverworldScreenSizeFlag:
     db $20, $20, $00, $00, $00, $20, $20, $00
 }
 
-; ZSCREAM: This table is updated by ZS to allow layout changes.
+; ZSCREAM: This table is moved to expanded space by ZS and this
+; space is no longer used.
 ; $012884-0128C3 DATA
 OverworldScreenSizeHighByte:
 {
@@ -6757,7 +6767,8 @@ OverworldScreenSizeHighByte:
     db $03, $03, $01, $01, $01, $03, $03, $01
 }
 
-; ZSCREAM: This table is updated by ZS to allow layout changes.
+; ZSCREAM: This table is moved to expanded space by ZS and this
+; space is no longer used.
 ; $0128C4-$012943 DATA
 OverworldTransitionPositionY:
 {
@@ -6771,7 +6782,8 @@ OverworldTransitionPositionY:
     dw $0C00, $0C00, $0E00, $0E00, $0E00, $0C00, $0C00, $0E00
 }
 
-; ZSCREAM: This table is updated by ZS to allow layout changes.
+; ZSCREAM: This table is moved to expanded space by ZS and this
+; space is no longer used.
 ; $012944-$0129C3
 OverworldTransitionPositionX:
 {
@@ -10246,7 +10258,8 @@ Pool_Overworld_SetCameraBounds:
     dw $FE00, $0200, $FE00, $0200
     dw $0018, $00E8, $0008, $00E8
 
-    ; ZSCREAM: This table is updated by ZS to allow layout changes.
+    ; ZSCREAM: This table is moved to expanded space by ZS and this
+    ; space is no longer used.
     ; $013EE2
     .trans_target_north
     dw $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20
@@ -10258,7 +10271,8 @@ Pool_Overworld_SetCameraBounds:
     dw $0B20, $0B20, $0B20, $0B20, $0B20, $0B20, $0B20, $0B20
     dw $0B20, $0B20, $0D20, $0D20, $0D20, $0B20, $0B20, $0D20
 
-    ; ZSCREAM: This table is updated by ZS to allow layout changes.
+    ; ZSCREAM: This table is moved to expanded space by ZS and this
+    ; space is no longer used.
     ; $013F62
     .trans_target_west
     dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0900, $0D00

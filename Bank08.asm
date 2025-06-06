@@ -2819,6 +2819,8 @@ Hookshot_IsCollisionCheckFutile:
     LDA.b $1B : BNE .indoors
         REP #$20
         
+        ; ZSCREAM: ZS rewrites a bit of code here.
+        ; $047A49
         LDA.w $0C72, X : AND.w #$0002 : BNE .moving_horizontally
             LDX.w $0700
             LDA.b $00 : SEC : SBC.l OverworldTransitionPositionY, X
@@ -2831,8 +2833,6 @@ Hookshot_IsCollisionCheckFutile:
         LDX.w $0700
         LDA.b $02 : SEC : SBC.l OverworldTransitionPositionX, X
         CMP.w #$0006 : BCC .off_screen
-            ; ZSCREAM: ZS makes a change here.
-            ; $047A76
             CMP.w $0716 : BCC .not_at_screen_edge
         
         .off_screen
