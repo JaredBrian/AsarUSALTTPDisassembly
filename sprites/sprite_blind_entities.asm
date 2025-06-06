@@ -474,7 +474,6 @@ Sprite_Blind:
                 LDA.w $0F50, X : AND.b #$01 : STA.w $0F50, X
                 
                 INC !hit_counter, X
-                
                 LDA !hit_counter, X : CMP.b #$03 : BCS .hit_counter_maxed
                     LDA.b #$60 : STA.w $0E70, X
                     
@@ -487,7 +486,6 @@ Sprite_Blind:
                 STZ !hit_counter, X
                 
                 INC !extra_head_counter
-                
                 LDA !extra_head_counter : CMP.b #$03 : BNE .spawn_extra_head
                     ; NOTE: Time for Blind and all his pals on screen to die.
                     
@@ -526,7 +524,6 @@ Sprite_Blind:
         .delay_self_termination
         
         LSR #3 : TAY
-        
         LDA.w .animation_states, Y : STA.w $0DC0, X
         
         RTS
@@ -587,7 +584,6 @@ Sprite_Blind:
     LDA.b $21 : STA.w $0D20, X
     
     LDA !blind_ai_state, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Blind_BlindedByTheLight  ; 0x00 - $A4C6
