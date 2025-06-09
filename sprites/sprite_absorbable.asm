@@ -259,7 +259,6 @@ Key_AbsorptionByPlayer:
     
     ; Hopefully this is 0 or 1 or else things don't make much sense.
     LDY.w $0CBA, X
-    
     LDA.w $0403 : ORA.w Key_AbsorptionByPlayer_flag_masks, Y : STA.w $0403
     
     JSL.l Dungeon_ManuallySetSpriteDeathFlag

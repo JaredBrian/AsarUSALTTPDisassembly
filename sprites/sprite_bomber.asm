@@ -7,9 +7,7 @@ Sprite_Bomber:
     
     LDA.w $0D90, X : BEQ Bomber_Main
         LDA.w $0D80, X
-        
         JSL.l UseImplicitRegIndexedLocalJumpTable
-        
         dw BomberPellet_Falling   ; 0x00 - $8DE7
         dw BomberPellet_Exploding ; 0x01 - $8E14
 }

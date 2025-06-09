@@ -26,9 +26,7 @@ Sprite_Freezor:
     .ignore_recoil_if_melting
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Freezor_Stasis    ; 0x00 - $9859
     dw Freezor_Awakening ; 0x00 - $9871
     dw Freezor_Moving    ; 0x00 - $98D2

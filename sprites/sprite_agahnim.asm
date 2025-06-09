@@ -35,9 +35,7 @@ Sprite_Agahnim:
     LDA.b #$01 : STA.w $0BA0, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Agah1or2                 ; 0x00 - $D4EC
     dw Agah1Inro                ; 0x01 - $D4F6
     dw Agahnim_EmergeFromShadow ; 0x02 - $D524

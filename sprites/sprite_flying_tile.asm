@@ -12,12 +12,10 @@ Sprite_FlyingTile:
         LDA.b #$01 : STA.w $0BA0, X
         
         LDA.w $0D80, X
-        
         JSL.l UseImplicitRegIndexedLocalJumpTable
-        
-        dw FlyingTile_EraseTilemapEntries
-        dw FlyingTile_RiseUp
-        dw FlyingTile_CareenTowardsPlayer
+        dw FlyingTile_EraseTilemapEntries ; 0x00 - $BBDB
+        dw FlyingTile_RiseUp              ; 0x01 - $BC4F
+        dw FlyingTile_CareenTowardsPlayer ; 0x02 - $BC01
 }
 
 ; ==============================================================================

@@ -91,9 +91,7 @@ Sprite_DebirandoPit:
     .not_open
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw DebirandoPit_Closed  ; 0x00 - $85DE
     dw DebirandoPit_Opening ; 0x01 - $85F5
     dw DebirandoPit_Open    ; 0x02 - $860F

@@ -214,6 +214,7 @@ Ganon_SetSpawnedEntityProperties:
 {
     LDA.b #$07 : STA.w $0CD2, Y : STA.w $0BA0, Y
     
+    ; $0E8EB3 ALTERNATE ENTRY POINT
     .no_space
     
     RTS
@@ -343,9 +344,7 @@ Sprite_Ganon:
     STZ.w $0BA0, X
     
     LDA.w $0D80, X ; Load the AI pointer, the main control for Ganon.
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     ; Beginning Trident phase
     dw Ganon_Phase1_IntroduceSelf     ; 0x00 - $92CA Sets up the initial Ganon text, and his music.
     dw Ganon_Phase1_ThrowTrident      ; 0x01 - $9354 Spin trident? ; Yes

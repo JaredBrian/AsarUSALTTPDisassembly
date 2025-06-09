@@ -26,9 +26,7 @@ Sprite_Hover:
     INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$02 : STA.w $0DC0, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Hover_Stopped ; 0x00 - $CC47
     dw Hover_Moving  ; 0x01 - $CC89
 }

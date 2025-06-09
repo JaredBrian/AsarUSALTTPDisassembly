@@ -1078,7 +1078,6 @@ Overlord_StalfosTrap:
                 INC.w $0B28, X
 
             .not_triggered
-    
     .out_of_range
     
     RTS
