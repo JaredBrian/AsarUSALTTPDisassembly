@@ -2609,7 +2609,8 @@ FileSelect_TriggerStripesAndAdvance:
 {
     LDA.w $0B9D : STA.b $CB
     
-    .alpha ; TODO: Alternate entry?
+    ; $064EAA ALTERNATE ENTRY POINT
+    .alpha
     
     INC.b $11 ; Increment the submodule index.
         
@@ -2912,9 +2913,7 @@ Module_CopyFile:
     STZ.w $0B9D
     
     LDA.b $11
-    
     JSL.l UseImplicitRegIndexedLongJumpTable
-    
     dl FileSelect_ReInitSaveFlagsAndEraseTriforce_EraseTriforce ; 0x00 - $0CCDF9
     dl FileSelect_ReInitSaveFlagsAndEraseTriforce               ; 0x01 - $0CCE53
     dl CopyFile_FindFileIndices                                 ; 0x02 - $0CD06E

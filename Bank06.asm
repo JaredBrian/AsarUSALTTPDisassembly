@@ -540,7 +540,7 @@ Sprite_SpawnSecret:
                 LDA.w Pool_Sprite_SpawnSecret_jump_velocity, X : STA.w $0F80, Y
                 
                 LDA.b $00 : CLC : ADC.w Pool_Sprite_SpawnSecret_offset_x, X : STA.w $0D10, Y
-                LDA.b $01 :       ADC.b #$00     : STA.w $0D30, Y
+                LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
                 
                 LDA.b $02 : STA.w $0D00, Y
                 LDA.b $03 : STA.w $0D20, Y
@@ -3496,8 +3496,8 @@ ThrownSprite_PeerInteraction_not_fake_master_sword:
     ; Only applies to throwable scenery.
     JSR.w ThrowableScenery_TransmuteIfValid
 
-    LDA.w $0FA5 : CMP.b #$20 : BNE .not_pit_or_too_high
-        LDA.w $0B6B, X : LSR : BCS .not_pit_or_too_high
+    LDA.w $0FA5 : CMP.b #$20 : BNE ThrownSprite_PeerInteraction_not_pit_or_too_high
+        LDA.w $0B6B, X : LSR : BCS ThrownSprite_PeerInteraction_not_pit_or_too_high
             ; Bleeds into the next function.
 }
     
@@ -4288,48 +4288,60 @@ Sprite_CheckTileCollisionSingleLayer:
     
     JSR.w Sprite_CheckTileProperty
     
-    LDA.w $0FA5 : STA.l $7FF9C2, X : CMP.b #$1C : BNE .BRANCH_OMICRON
+    ; Get the tile type:
+    LDA.w $0FA5 : STA.l $7FF9C2, X
+
+    ; TODO: Top of water staircase?
+    CMP.b #$1C : BNE .BRANCH_OMICRON
         LDY.w $0FB3 : BEQ .BRANCH_OMICRON
             ; Is the enemy frozen?
-            LDY.w $0DD0, X : CPY.b #$0B : BNE .BRANCH_OMICRON
+            LDY.w $0DD0, X : CPY.b #$0B : BNE .notFrozen
                 ; Nope.
                 LDA.b #$01 : STA.w $0F20, X
                 
                 RTS
-    
+
+            .notFrozen
     .BRANCH_OMICRON
     
-    CMP.b #$20 : BNE .BRANCH_PI
+    ; Are we interacting with a pit?
+    CMP.b #$20 : BNE .notAPit
+        ; BUG: OPTIMIZE: This is a goofy branch, if branch, you will branch to a
+        ; place where the game normally would expect the tile type to still be in
+        ; A however that is no longer the case. So really this should just go
+        ; straight to an RTS instead since the conditions this leads to shouldn't
+        ; ever be met anyway. The result is technically the same but it is odd.
         LDA.w $0B6B, X : AND.b #$01 : BEQ .BRANCH_RHO
-            LDA.b $1B : BNE .BRANCH_SIGMA
+            LDA.b $1B : BNE .notIndoors
                 JMP.w Sprite_SetToFalling
             
-            .BRANCH_SIGMA
+            .notIndoors
             
             LDA.b #$05 : STA.w $0DD0, X
             
             LDA.b #$5F
             
             ; Is it a helmasaur?
-            LDY.w $0E20, X : CPY.b #$13 : BEQ .BRANCH_TAU
-                CPY.b #$26 : BNE .BRANCH_UPSILON
+            LDY.w $0E20, X : CPY.b #$13 : BEQ .isHelmasaur
+                CPY.b #$26 : BNE .notHardHatBeetle
             
-            .BRANCH_TAU
+            .isHelmasaur
             
             LSR.w $0F50, X : ASL.w $0F50, X
             
             LDA.b #$3F
             
-            .BRANCH_UPSILON
+            .notHardHatBeetle
             
             STA.w $0DF0, X
             
             RTS
     
-    .BRANCH_PI
+    .notAPit
     
+    ; Are we interacting with Mothula's room moving floor? 
     CMP.b #$0C : BNE .not_mothula_moving_floor
-        LDA.l $7FFABC, X : CMP.b #$1C : BNE .BRANCH_PHI
+        LDA.l $7FFABC, X : CMP.b #$1C : BNE .exit
             JSR.w SpriteFall_AdjustPosition
             
             LDA.w $0E70, X : ORA.b #$20 : STA.w $0E70, X
@@ -4339,9 +4351,10 @@ Sprite_CheckTileCollisionSingleLayer:
     .not_mothula_moving_floor
     .BRANCH_RHO
     
+    ; Are we interacting with a conveyor belt?
     CMP.b #$68 : BCC .not_conveyor_belt
         CMP.b #$6C : BCS .not_conveyor_belt
-            .BRANCH_PSI
+            .applyConveyorMovement
             
             TAY
             
@@ -4351,15 +4364,19 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .not_conveyor_belt
     
-    CMP.b #$08 : BNE .BRANCH_PHI
-        LDA.w $046C : CMP.b #$04 : BNE .BRANCH_PHI
-            ; I think this indicates that flowing water makes sprites move to
-            ; the left in the same way a conveyor belt would.
+    ; Are we interacting with deep water?
+    CMP.b #$08 : BNE .notDeepWater
+        ; TODO: Check for the flowing water BG1 collision type?
+        LDA.w $046C : CMP.b #$04 : BNE .noFlowingWater
+            ; This indicates that flowing water makes sprites move to the left in
+            ; the same way a conveyor belt would.
             LDA.b #$6A
             
-            BRA .BRANCH_PSI
+            BRA .applyConveyorMovement
     
-    .BRANCH_PHI
+        .noFlowingWater
+    .notDeepWater
+    .exit
     
     RTS
 }
@@ -4632,10 +4649,8 @@ Sprite_CheckTileProperty:
     LDY.b $08
     
     CMP.b #$00 : BEQ .succeed_and_exit
-        LDA.w $0FA5
-        
-        CMP.b #$10 : BCC .BRANCH_RHO
-        CMP.b #$14 : BCS .BRANCH_RHO
+        LDA.w $0FA5 : CMP.b #$10 : BCC .BRANCH_RHO
+                      CMP.b #$14 : BCS .BRANCH_RHO
             JSR.w Entity_CheckSlopedTileCollision
             
             BRA .load_tile_prop_exit
@@ -4676,14 +4691,15 @@ Sprite_CheckTileProperty:
         
         .not_spike_tile
         
+        ; Check if the tile type is a pit:
         CMP.b #$20 : BNE .not_pit_tile
-            LDA.w $0B6B, X : AND.b #$01 : BEQ .BRANCH_PI
-            
-            LDA.w $0EA0, X : BNE .succeed_and_exit
+            LDA.w $0B6B, X : AND.b #$01 : BEQ .dontIgnorePits
+                LDA.w $0EA0, X : BNE .succeed_and_exit
+
+            .dontIgnorePits
         
         ; $036872 ALTERNATE ENTRY POINT
         .not_pit_tile
-        .BRANCH_PI
         
         SEC
         

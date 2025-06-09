@@ -729,9 +729,7 @@ CacheSprite_ExecuteSingle:
     LDA.w $0E80, X : PHA
     LDA.w $0F70, X : PHA
     LDA.w $0DF0, X : PHA
-    
     LDA.l $7FF9C2, X : PHA
-    
     LDA.w $0BA0, X : PHA
     
     ; Temporarily swap the cached sprite data in.
@@ -770,9 +768,7 @@ CacheSprite_ExecuteSingle:
     
     ; Restore the data of the non-cached sprite from the stack.
     PLA : STA.w $0BA0, X
-    
     PLA : STA.l $7FF9C2, X
-    
     PLA : STA.w $0DF0, X
     PLA : STA.w $0F70, X
     PLA : STA.w $0E80, X

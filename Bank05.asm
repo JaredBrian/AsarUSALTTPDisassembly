@@ -798,6 +798,7 @@ Guard_SetTimerAndAssertTileHitbox:
         
     LDA.w $0B6B, X : AND.b #$0F : ORA.b #$60 : STA.w $0B6B, X
     
+    ; $02C4E7 ALTERNATE ENTRY POINT
     .exit
     
     RTS
@@ -1003,7 +1004,6 @@ Sprite_SpawnProbeAlways:
         TXA : STA.w $0DE0, Y
         
         LDA.w Pool_Guard_SendOutProbe_speed_x, X : STA.w $0D50, Y
-        
         LDA.w Pool_Guard_SendOutProbe_speed_y, X : STA.w $0D40, Y
         
         LDA.w $0E40, Y : AND.b #$F0 : ORA.b #$A0 : STA.w $0E40, Y
@@ -1011,7 +1011,7 @@ Sprite_SpawnProbeAlways:
         PLX
         
         TXA : INC : STA.w $0DB0, Y
-                      STA.w $0BA0, Y
+                    STA.w $0BA0, Y
         
         LDA.b #$40 : STA.w $0F60, Y
                      STA.w $0E60, Y

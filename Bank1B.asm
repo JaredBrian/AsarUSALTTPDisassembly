@@ -2811,7 +2811,6 @@ Overworld_RevealSecret:
     
     ; Special areas don't have secrets.
     LDA.b $8A : CMP.w #$0080 : BCS .failure
-    
         ASL : TAX
         
         ; Get pointer to secrets data for this area.

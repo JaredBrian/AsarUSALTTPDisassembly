@@ -8837,52 +8837,52 @@ GoodBee_AttackOtherSprite:
     ; Good bee can't attack any bosses except mothula, apparently.
     LDA.w $0E20, Y : CMP.b #$88 : BEQ .is_mothula
         LDA.w $0B6B, Y : AND.b #$02 : BNE .is_a_boss
-    
-    .is_mothula
-    
-    LDA.w $0D10, Y : STA.b $00
-    LDA.w $0D30, Y : STA.b $01
-    
-    LDA.w $0D00, Y : STA.b $02
-    LDA.w $0D20, Y : STA.b $03
-    
-    REP #$20
-    
-    LDA.w $0FD8 : SEC : SBC.b $00 : CLC : ADC.w #$0010
-    
-    CMP.w #$0018 : BCS .sprite_not_close
-        LDA.w $0FDA : SEC : SBC.b $02 : CLC : ADC.w #$FFF8
-        
-        CMP.w #$0018 : BCS .sprite_not_close
-            SEP #$20
+            .is_mothula
             
-            LDA.w $0E20, Y : CMP.b #$75 : BNE .not_bottle_vendor
-                TXA : INC : STA.w $0E90, Y
+            LDA.w $0D10, Y : STA.b $00
+            LDA.w $0D30, Y : STA.b $01
+            
+            LDA.w $0D00, Y : STA.b $02
+            LDA.w $0D20, Y : STA.b $03
+            
+            REP #$20
+            
+            LDA.w $0FD8 : SEC : SBC.b $00 : CLC : ADC.w #$0010
+            
+            CMP.w #$0018 : BCS .sprite_not_close
+                LDA.w $0FDA : SEC : SBC.b $02 : CLC : ADC.w #$FFF8
                 
-                RTL
+                CMP.w #$0018 : BCS .sprite_not_close
+                    SEP #$20
+                    
+                    LDA.w $0E20, Y : CMP.b #$75 : BNE .not_bottle_vendor
+                        TXA : INC : STA.w $0E90, Y
+                        
+                        RTL
+                    
+                    .not_bottle_vendor
+                    
+                    ; Damage class of the attack is same as that of the level
+                    ; 1 sword.
+                    LDA.b #$01
+                    
+                    PHY : PHX
+                    
+                    TYX
+                    
+                    JSL.l Ancilla_CheckSpriteDamage_preset_class
+                    
+                    PLX : PLY
+                    
+                    LDA.b #$0F : STA.w $0EA0, Y
+                    
+                    LDA.w $0D50, X : ASL : STA.w $0F40, Y
+                    
+                    LDA.w $0D40, X : ASL : STA.w $0F30, Y
+                    
+                    INC.w $0DA0, X
             
-            .not_bottle_vendor
-            
-            ; Damage class of the attack is same as that of the level 1 sword.
-            LDA.b #$01
-            
-            PHY : PHX
-            
-            TYX
-            
-            JSL.l Ancilla_CheckSpriteDamage_preset_class
-            
-            PLX : PLY
-            
-            LDA.b #$0F : STA.w $0EA0, Y
-            
-            LDA.w $0D50, X : ASL : STA.w $0F40, Y
-            
-            LDA.w $0D40, X : ASL : STA.w $0F30, Y
-            
-            INC.w $0DA0, X
-    
-    .sprite_not_close
+            .sprite_not_close
     .is_a_boss
     
     SEP #$20

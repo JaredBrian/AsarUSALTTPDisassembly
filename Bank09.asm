@@ -564,7 +564,8 @@ Sprite_ReinitWarpVortex:
     LDA.l $001ADF : CLC : ADC.b #$08 : STA.w $0D00, Y
     LDA.l $001AEF :       ADC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$00 : STA.w $0F20, Y : INC : STA.w $0BA0, Y
+    LDA.b #$00 : STA.w $0F20, Y
+    INC : STA.w $0BA0, Y
     
     PLB
     
@@ -848,6 +849,7 @@ Dungeon_ResetSprites:
     LDA.b $00 : CMP.w #$FFFF : BEQ .nullEntry
         ASL : TAX
         
+        ; TODO: Complete refresh?
         ; Tells the game that next time we enter that room the sprites need
         ; a complete fresh (e.g. if any have gotten killed).
         LDA.w #$0000 : STA.l $7FDF80, X
@@ -1113,11 +1115,11 @@ Dungeon_LoadSprite:
     INY #2
     
     ; Examine the sprite type first... Is it a key?
-    LDA (!dataPtr), Y : TAX : CPX.b #$E4 : BNE .notKey
+    LDA.b (!dataPtr), Y : TAX : CPX.b #$E4 : BNE .notKey
         DEY #2
         
         ; Check the key's Y coordinate.
-        LDA (!dataPtr), Y : INY #2 : CMP.b #$FE : BEQ .isKey
+        LDA.b (!dataPtr), Y : INY #2 : CMP.b #$FE : BEQ .isKey
             ; If it's 16 pixels higher than that, drop a big key.
             CMP.b #$FD : BNE .notOverlord
             
@@ -1131,9 +1133,10 @@ Dungeon_LoadSprite:
         ; $04C345 ALTERNATE ENTRY POINT
         .isKey
         
-        DEC !spriteSlot
+        DEC.b !spriteSlot
         
-        LDX !spriteSlot : LDA.b #$01 : STA.w $0CBA, X
+        LDX.b !spriteSlot
+        LDA.b #$01 : STA.w $0CBA, X
         
         RTS
     
@@ -1143,13 +1146,13 @@ Dungeon_LoadSprite:
     
     ; Examine its X coordinate, and go back to the sprite type position.
     ; If X coord < 0xE0, Load the overlord's information into memory.
-    LDA (!dataPtr), Y : INY : CMP.b #$E0 : BCC .notOverlord
+    LDA.b (!dataPtr), Y : INY : CMP.b #$E0 : BCC .notOverlord
         JSR.w Dungeon_LoadOverlord
         
         ; Since this isn't a normal sprite, we don't want to throw off their
         ; loading mechanism, because the normal sprites are loaded in a linear
         ; order into $0E20, X, while these overlords go to $0B00, X.
-        DEC !spriteSlot
+        DEC.b !spriteSlot
         
         RTS
         
@@ -1166,7 +1169,7 @@ Dungeon_LoadSprite:
         LDA.w $048E : ASL TAX
         
         ; $02 is the current slot in $0E20, X to load into.
-        LDA !spriteSlot : ASL : TAY
+        LDA.b !spriteSlot : ASL : TAY
         
         ; Apparently information on whether stuff has been loaded is stored for
         ; each room?
@@ -1181,14 +1184,14 @@ Dungeon_LoadSprite:
     .notSpawnedYet
 
     ; Give X the loading slot number.
-    LDX !spriteSlot
+    LDX.b !spriteSlot
     DEY #2
     
     ; Send the sprite an initialization message.
     LDA #$08 : STA.w $0DD0, X
     
     ; Examine the Y coordinate for the sprite. (Buffer at $0FB5).
-    LDA (!dataPtr), Y : STA.w $0FB5 
+    LDA.b (!dataPtr), Y : STA.w $0FB5 
     
     ; Use the MSB of the Y coordinate to determine the floor the sprite is on.
     AND.b #$80 : ASL ROROL STA.w $0F20, X
@@ -1202,7 +1205,7 @@ Dungeon_LoadSprite:
     ; Next load the X coordinate, and convert to Pixel coordinates.
     INY
     
-    LDA (!dataPtr), Y : STA.w $0FB6 : ASL #4 : STA.w $0D10, X
+    LDA.b (!dataPtr), Y : STA.w $0FB6 : ASL #4 : STA.w $0D10, X
     
     ; And set the upper byte of the X coordinate, of course.
     LDA.w $0FB0 : ADC.b #$00 : STA.w $0D30, X
@@ -1211,7 +1214,7 @@ Dungeon_LoadSprite:
     INY
     
     ; Set the sprite type.
-    LDA (!dataPtr), Y : STA.w $0E20, X
+    LDA.b (!dataPtr), Y : STA.w $0E20, X
     
     ; Set the subtype to zero.
     STZ.w $0E30, X
@@ -1258,23 +1261,23 @@ Dungeon_LoadOverlord:
     .emptySlot
     
     ; Fill the overlord slot into $0B00, X
-    LDA (!dataPtr), Y : NOP : STA.w $0B00, X
+    LDA.b (!dataPtr), Y : NOP : STA.w $0B00, X
     
     DEY #2
     
     ; Now examine the Y coordinate.
     ; Store it's floor status here.
-    LDA (!dataPtr), Y : AND.b #$80 : ASL : ROL : STA.w $0B40, X
+    LDA.b (!dataPtr), Y : AND.b #$80 : ASL : ROL : STA.w $0B40, X
     
     ; Convert the Y coordinate to a pixel address, and store it here.
-    LDA (!dataPtr), Y : ASL #4 : STA.w $0B18, X
+    LDA.b (!dataPtr), Y : ASL #4 : STA.w $0B18, X
     
     LDA.w $0FB1 : ADC.b #$00 : STA.w $0B20, X
     
     INY
     
     ; Now convert the X coordinates to pixels.
-    LDA (!dataPtr), Y : ASL #4 : STA.w $0B08, X
+    LDA.b (!dataPtr), Y : ASL #4 : STA.w $0B08, X
     
     LDA.w $0FB0 : ADC.b #$00 : STA.w $0B10, X
     

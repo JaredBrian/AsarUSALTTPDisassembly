@@ -1233,7 +1233,7 @@ struct WRAM $7E0000
 
     ; TODO: $C8-$CA Realistically could be considered work ram instead of
     ; having all these different labels but I'll leave them here for now so
-    ; they can be doccumented where they are used later.
+    ; they can be Documented where they are used later.
 
     ; $C8[0x03] - (GFX)
     .GFXDecompPtrLow:
@@ -1279,7 +1279,7 @@ struct WRAM $7E0000
         ; (Bank 0x0C) Keeps track of what part of a menu you are in. For
         ; example, on the select game screen this will take on values 0 - 4.
         ; 0 - 2 for each save game, 3 & 4 are copy and erase game. You could
-        ; also say this is where the fairy cursor is.
+        ; also say this is where the fairy cursor is. TODO: Document values
 
     ; $C8[0x02] - (Credits)
     .CreditsTimerLow:
@@ -1349,7 +1349,7 @@ struct WRAM $7E0000
         ; unclear. TODO: Make them clear.
 
     ; $CB[0x02] - (GFX)
-    .DecompWriteCount
+    .DecompWriteCount:
         ; (Bank 0x00) A temporary count of bytes to write during GFX
         ; decompression.
 
@@ -4070,7 +4070,7 @@ struct WRAM $7E0000
         ; This is Floor 1 in Hyrule Magic. TODO: Change for ZS. The
         ; high byte is always 0 and is expected to be 0.
 
-    ; $046[0x01]C - (Dungeon)
+    ; $046C[0x01] - (Dungeon)
     .DubBG1Collision: skip $01
         ; "Collision" in Hyrule Magic. TODO: ZS-ify.
         ; TODO: Add all the valid types of collision here.
@@ -6104,87 +6104,109 @@ struct WRAM $7E0000
         ; Blind as a way to keep track of how many detached heads have spawned.
 
     ; $0B6B[0x10] - (Sprite)
-        ; ttttacbp
-        ; t - 'Tile Interaction Hit Box'. Selects from one of several hitbox limits
-        ; for use when detecting the tile types that the sprite is interacting
-        ; with.
-        ; a - ; if set the sprite will deflect arrow? bank 08 in Ancilla_CheckIndividualSpriteCollision
-        ; c - Override Slash Imminuty (according to Zarby.)
-        ; b - "Dies like a boss'. Meaning it has that rather explosive death animation
-        ; and makes a different noise.
-        ; p - Sprite ignores falling into a pit when frozen? (Not really sure yet)
+    .SprSetting1: skip $10
+        ; tttt acbp
+        ; t - Tile Interaction Hit Box. Selects from one of several hitbox
+        ;     limits for use when detecting the tile types that the sprite is
+        ;     interacting with.
+        ; a - Deflect arrows. If set, the sprite will deflect arrow.
+        ; c - Override slash imminuty granted by $0CF2.
+        ; b - Boss death animation. If set, the sprite will have an explosive
+        ;     death animation and will make a different noise while dying. Also
+        ;     prevents the sprite from being attacked by the good bee (except for
+        ;     Mothula for some reason).
+        ; p - Prevent the sprite from falling into pits.
 
-    ; $0B7B - 
-        ; Flag indicating whether Link can move or not. Set to 1 to prevent him from moving.
+    ; $0B7B[0x01] - (Player)
+    .PlayerPreventMovement: skip $01
+        ; A flag indicating whether the player can move or not. Only set once by
+        ; the sand lion pits (Debirando). TODO: When is this reset?
+        ; 0x00     - Player can move normally.
+        ; Non zero - Player cannot move.
 
     ; $0B7C[0x02] - (Player)
-        ; Used for dragging the player, like with the Debirando? (X component)
-        ; Update: Also used by the Somaria Platform sprite.
+    .PlayerDragX: skip $02
+        ; Used for dragging the player in the X direction. Used by Debirando and
+        ; Somaria platforms.
 
     ; $0B7E[0x02] - (Player)
-        ; Used for dragging the player, like with the Debirando? (Y component)
-        ; Update: Also used by the Somaria Platform sprite.
+    .PlayerDragY: skip $02
+        ; Used for dragging the player in the Y direction. Used by Debirando and
+        ; Somaria platforms.
 
-    ; $0B80 - 
-        ; Seems to be a memory of the past 4 rooms you've visited (dungeon mode only)
+    ; $0B80[0x08] - (Dungeon, Sprite)
+    .DunRoomStack: skip $08
+        ; A pseudo FIFO stack that contains the last 4 dungeon rooms visited by the
+        ; player. This is used to keep track of which rooms need to respawn their
+        ; sprites. Once a 5th room is put onto the stack, the first room that was
+        ; entered will be removed and the game will reset the sprites the next time
+        ; the player enters that room. Written to from $048E.
 
-    ; $0B88[0x01] - (ArcheryGameGuy)
-
-        ; ???? Seems to have some relation to the shooting gallery guy,
-        ; though it may have other uses.
-        ; 
-        ; (cheat code: disable bounds checking on this to perhaps get
-        ; extended prizes like 100 rupees??)
-        ; 
-        ; Appears to index prizes for the archery game.
+    ; $0B88[0x01] - (Sprite, Minigame)
+    .ArcheryGameHitCount: skip $01
+        ; Used to keep track of how many Octorock targets have been it in the
+        ; archery mini game. Maxes out at 0x09. Used to determine the prize given
+        ; to the player when the game is done.
 
     ; $0B89[0x10] - (Sprite)
-        ; Object priority stuff for sprites?
+    .SpritePriority: skip $10
+        ; OAM priority for sprites. TODO: Document the values.
 
-    ; $0B96[0x01] - 
-        ; Note: A bug can arise relating to this variable if you defeat Blind or even
-        ; just save the game while fighting him and then start a new game. Since the
-        ; tutorial soldiers don't initialize this variable.
-        ; Used by tutorial soldiers to cycle through messages (0x00 through 0x06, but has 0x0F added to it).
-        ; Also used by Blind the Thief when he's hit.
-        ; If after beating Blind, one saves and continues and starts a new game,
-        ; there's a strong likelihood that the tutorial soldiers will say the wrong messages,
-        ; if the value of this variable was more than 0x07 after beating Blind.
+    ; $0B99[0x01] - (Sprite, Minigame)
+    .ArcheryArrowCount: skip $01
+        ; The number of arrows left in the archery mini game.
 
-    ; $0B99[0x01] - (ArcheryGameGuy)
-        ; Number of arrows left in the archery game.
+    ; $0B9A[0x01] - (Sprite, Minigame)
+    .PreventBowUse: skip $01
+        ; A flag that when set to a nonzero value, you cannot fire arrows. This is
+        ; reset to 0 every frame that sprite code is run. It's only used during the
+        ; archery mini game, which sets this flag to 1 if you are out of "minigame"
+        ; arrows.
 
-    ; $0B9A[0x01] - (ArcheryGameGuy)
-        ; If set to a nonzero value, you cannot fire arrows. This is reset to 0 every
-        ; frame that sprite code is run, so it's only used during the archery game,
-        ; which sets this flag to 1 if you are out of "minigame" arrows.
+    ; $0B9B[0x01] - (Dungeon, Sprite)
+    .DashKeySaveSlot: skip $01
+        ; Used to control which save slot in DunRoomInfo will be set to 1 when
+        ; collecting a dash key. This also tells the game if there is more than one
+        ; dash key in a single room to make the second one a big key, however this
+        ; is never actually done in the vanilla game. This is also increased by a
+        ; regular key sprite, so if there is a key placed on the ground or from a
+        ; pot, the next bonk item recieved in the same room would be a big key.
+        ; 0x00 - Regular key drop, first DunRoomInfo key slot
+        ; 0x01 - Big key drop, second DunRoomInfo key slot
 
-    ; $0B9B - 
-        ; ??? used with "dash item"?
+    ; $0B9C[0x02] - (Item)
+    .ItemIDToSpawn: skip $01
+        ; Controls what item to spawn when lifting up a pot/bush/etc.
+        ; TODO: Document the values.
 
-    ; $0B9C[0x02] - 
-        ; ??? Relates to dungeon secrets
+    ; $0B9D[0x01] - (File)
+    .FileCopySecondSelected: skip $01
+        ; The value to be stored into FileCopyToOffsetHigh when choosing which
+        ; file to overwrite when copying.
 
-    ; $0B9E[0x01] - (StalfosTrap)
+    ; $0B9E[0x01] - (Overlord)
+    .StalfosTrapTrigger: skip $01
         ; When set to a nonzero value, a stalfos trap overlord in a room will
         ; begin the process of spawning a stalfos.
 
-    ; $0B9F - 
-        ; Free RAM
+    ; $0B9F[0x01] - (Free)
+    .Free_0B9F: skip $01
+        ; Free RAM.
 
-    ; $0BA0 - 
-        ; undocumented sprite variable (shows up a lot, though)
+    ; $0BA0[0x10] - (Sprite, Ancilla)
+    .SpriteIgnoreProjectiles: skip $10
+        ; A flag that when non-zero, will prevent all projectile interactions with
+        ; the sprite.
 
-        ; Update: Seems to indicate that it ignores all projectile interactions if set. ; causes arrows to not hit
-
-    ; $0BB0 - 
-        ; For sprites that interact with speical objects (arrows in particular), the ancilla
-        ; will identify its type to the sprite via this location.
+    ; $0BB0[0x10] - (Sprite, Ancilla)
+    .SpriteCollidedAncilla: skip $10
+        ; When an ancilla hits a sprite, its ID from $0C4A is stored here. 
 
     ; $0BC0[0x20] - (Sprite / Dungeon?)
-        ; contains the index of the sprite (i.e. its position in the $0E20[0x10] array
-        ; only seems to be modified in the initial dungeon loading routine (room transitions 
-        ; don't appear to write here.)
+        ; contains the index of the sprite (i.e. its position in the $0E20[0x10] 
+        ; array only seems to be modified in the initial dungeon loading routine
+        ; (room transitions don't appear to write here.)
+        ; 0xFF - 
 
     ; $0BE0[0x10] - (Sprite)
         ; iwbspppp

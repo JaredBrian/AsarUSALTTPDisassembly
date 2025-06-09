@@ -283,7 +283,8 @@ incsrc "sprite_cukeman.asm"
 ; $0D7B2C-$0D7B7A LONG JUMP LOCATION
 RunningMan_SpawnDashDustGarnish:
 {
-    INC.w $0CBA, X : LDA.w $0CBA, X : AND.b #$0F : BNE .delay
+    INC.w $0CBA, X
+    LDA.w $0CBA, X : AND.b #$0F : BNE .delay
         PHX : TXY
         
         LDX.b #$1D

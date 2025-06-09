@@ -15212,13 +15212,13 @@ Link_HandleVelocity:
     ; Branch if we're not in the text submodule.
     LDA.b $11 : CMP.b #$02 : BNE .BRANCH_ALPHA
         ; Are we in message mode?
-        LDA.b $10 : CMP.b #$0E : BEQ .BRANCH_BETA
+        LDA.b $10 : CMP.b #$0E : BEQ .preventPlayerMovement
     
     .BRANCH_ALPHA
     
     ; Flag indicating that Link can move.
     LDA.w $0B7B : BEQ .playerCanMove
-        .BRANCH_BETA
+        .preventPlayerMovement
         
         ; Otherwise, Link can't move and has to stay in place.
         LDA.b $20 : STA.b $00 : STA.b $3E
@@ -15227,7 +15227,7 @@ Link_HandleVelocity:
         LDA.b $21 : STA.b $02 : STA.b $40
         LDA.b $23 : STA.b $03 : STA.b $41
         
-        BRL .BRANCH_ALIF
+        BRL .BRANCH_ALIF ; TODO: Where is this supposed to go?
     
     .playerCanMove
     
@@ -15474,7 +15474,6 @@ Link_HandleVelocityAndSandDrag::
     REP #$20
     
     LDA.b $20 : CLC : ADC.w $0B7E : STA.b $20
-    
     LDA.b $22 : CLC : ADC.w $0B7C : STA.b $22
     
     SEP #$20
@@ -15483,7 +15482,6 @@ Link_HandleVelocityAndSandDrag::
     ; Otherwise, Link and/or the camera will shake as he alternates between
     ; Getting through the wall and getting pushed back.
     LDA.b $20 : SEC : SBC.b $00 : STA.b $30
-    
     LDA.b $22 : SEC : SBC.b $01 : STA.b $22
     
     ; $03E402 ALTERNATE ENTRY POINT

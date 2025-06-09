@@ -2013,7 +2013,7 @@ Ancilla_CheckSingleBasicSpriteCollision:
         
         LDA.w $0BA0, Y : BNE .no_collision
             LDA.w $0C04, X : SEC : SBC.b #$08 : STA.b $04
-            LDA.w $0C18, X : SBC.b #$00 : STA.b $05
+            LDA.w $0C18, X       : SBC.b #$00 : STA.b $05
             
             LDA.w $0BFA, X : SEC : SBC.b #$08
             PHP : SEC : SBC.w $029E, X : STA.b $06
