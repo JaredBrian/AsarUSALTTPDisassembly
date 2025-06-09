@@ -15,7 +15,6 @@ Sprite_Toppo:
     
     LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL : TAY
     
-    ; Hidden table! gah!!!
     LDA.w .states, Y : DEC : PHA
     
     SEP #$30

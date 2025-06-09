@@ -145,63 +145,61 @@ SomariaPlatformAndPipe_Main:
     LDA.w $0B7C : ORA.w $0B7D : ORA.w $0B7E : ORA.w $0B7F : BEQ .BRANCH_ALPHA
         .BRANCH_BETA
             
-            JMP.w SomariaPlatform_Inactive
+        JMP.w SomariaPlatform_Inactive
         
-            .BRANCH_ALPHA
+    .BRANCH_ALPHA
+
     LDA.b $5B : DEC #2 : BPL .BRANCH_BETA
-    
-    JSL.l Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .BRANCH_GAMMA
-        LDA.b #$01 : STA.w $0DB0, X
-        
-        JSL.l Player_HaltDashAttackLong
-        
-        LDA.b $5D
+        JSL.l Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .BRANCH_GAMMA
+            LDA.b #$01 : STA.w $0DB0, X
             
-        CMP.b #$13 : BEQ .BRANCH_GAMMA
-        CMP.b #$03 : BEQ .BRANCH_GAMMA
-            LDA.w $0D80, X : BNE SomariaPlatformAndPipe_HandleMovement
-                INC.w $0D90, X
-                
-                LDA.b #$02 : STA.w $02F5
-                
-                LDA.w $0D90, X : AND.b #$07 : BNE .BRANCH_EPSILON
-                    JSR.w SomariaPlatformAndPipe_CheckTile
+            JSL.l Player_HaltDashAttackLong
+            
+            LDA.b $5D : CMP.b #$13 : BEQ .BRANCH_GAMMA
+                        CMP.b #$03 : BEQ .BRANCH_GAMMA
+                LDA.w $0D80, X : BNE SomariaPlatformAndPipe_HandleMovement
+                    INC.w $0D90, X
                     
-                    CMP.w $0E90, X : BEQ .BRANCH_EPSILON
-                        STA.w $0E90, X
+                    LDA.b #$02 : STA.w $02F5
+                    
+                    LDA.w $0D90, X : AND.b #$07 : BNE .BRANCH_EPSILON
+                        JSR.w SomariaPlatformAndPipe_CheckTile
                         
-                        LDA.w $0DE0, X : STA.w $0EB0, X
+                        CMP.w $0E90, X : BEQ .BRANCH_EPSILON
+                            STA.w $0E90, X
+                            
+                            LDA.w $0DE0, X : STA.w $0EB0, X
+                            
+                            JSR.w SomariaPlatformAndPipe_HandleMovement
+                            JSR.w SomariaPlatform_HandleDrag
+                    
+                    .BRANCH_EPSILON
+                    
+                    LDA.b $A0 : CMP.b #$24 : BEQ .BRANCH_ZETA
+                        LDY.w $0DE0, X
                         
-                        JSR.w SomariaPlatformAndPipe_HandleMovement
-                        JSR.w SomariaPlatform_HandleDrag
-                
-                .BRANCH_EPSILON
-                
-                LDA.b $A0 : CMP.b #$24 : BEQ .BRANCH_ZETA
-                    LDY.w $0DE0, X
-                    
-                    LDA.w Pool_SomariaPlatformAndPipe_drag_x_low, Y
-                    CLC : ADC.w $0B7C : STA.w $0B7C
+                        LDA.w Pool_SomariaPlatformAndPipe_drag_x_low, Y
+                        CLC : ADC.w $0B7C : STA.w $0B7C
 
-                    LDA.w Pool_SomariaPlatformAndPipe_drag_x_high, Y
-                          ADC.w $0B7D : STA.w $0B7D
-                    
-                    LDA.w Pool_SomariaPlatformAndPipe_drag_y_low, Y
-                    CLC : ADC.w $0B7E : STA.w $0B7E
+                        LDA.w Pool_SomariaPlatformAndPipe_drag_x_high, Y
+                              ADC.w $0B7D : STA.w $0B7D
+                        
+                        LDA.w Pool_SomariaPlatformAndPipe_drag_y_low, Y
+                        CLC : ADC.w $0B7E : STA.w $0B7E
 
-                    LDA.w Pool_SomariaPlatformAndPipe_drag_y_high, Y
-                          ADC.w $0B7F : STA.w $0B7F
+                        LDA.w Pool_SomariaPlatformAndPipe_drag_y_high, Y
+                              ADC.w $0B7F : STA.w $0B7F
+                        
+                        JSR.w Sprite3_Move
+                        JSR.w SomariaPlatform_DragLink
+                        
+                        RTS
+                        
+                    .BRANCH_ZETA
                     
-                    JSR.w Sprite3_Move
-                    JSR.w SomariaPlatform_DragLink
-                    
-                    RTS
-                    
-                .BRANCH_ZETA
-                
-                JMP.w SomariaPlatform_EnableDragging
+                    JMP.w SomariaPlatform_EnableDragging
 
-    .BRANCH_GAMMA
+        .BRANCH_GAMMA
 
     ; Bleeds into the next function.
 }

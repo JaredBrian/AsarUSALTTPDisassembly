@@ -34,7 +34,6 @@ Sprite_Raven:
     JSR.w Sprite4_Move
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw Raven_InWait
     dw Raven_Ascend

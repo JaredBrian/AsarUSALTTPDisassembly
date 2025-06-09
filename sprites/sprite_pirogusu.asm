@@ -17,7 +17,6 @@ Sprite_Pirogusu:
         
         LDA.w $0D80, X
         JSL.l UseImplicitRegIndexedLocalJumpTable
-        
         dw Pirogusu_WriggleInHole  ; 0x00 - $A768
         dw Pirogusu_Emerge         ; 0x01 - $A790
         dw Pirogusu_SplashIntoPlay ; 0x02 - $A7DC
