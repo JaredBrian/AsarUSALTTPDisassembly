@@ -1017,7 +1017,7 @@ Dungeon_LoadSprites:
     ; (update: Black Magic ended up hooking $04C16E)
     ; RoomData_SpritePointers is the pointer table for the sprite data in
     ; each room.
-    LDA.w RoomData_SpritePointers, Y : STA !dataPtr
+    LDA.w RoomData_SpritePointers, Y : STA.b !dataPtr
     
     ; Load the room index again. Divide by 8. why... I'm not sure.
     LDA.w $048E : LSR #3
@@ -1032,12 +1032,12 @@ Dungeon_LoadSprites:
     LDA.w $048E : AND.b #$0F : ASL : STA.w $0FB0
     
     ; Not sure what this does yet...
-    LDA (!dataPtr) : STA.w $0FB3
+    LDA.b (!dataPtr) : STA.w $0FB3
     
-    LDA.b #$01 : STA !dataOffset
+    LDA.b #$01 : STA.b !dataOffset
     
-    STZ !spriteSlot
-    STZ !spriteSlotHi
+    STZ.b !spriteSlot
+    STZ.b !spriteSlotHi
     
     .nextSprite
     
@@ -1047,11 +1047,11 @@ Dungeon_LoadSprites:
             JSR.w Dungeon_LoadSprite
             
             ; Increment the slot we're saving to. ($0E20, $0E21, ...).
-            INC !spriteSlot
+            INC.b !spriteSlot
             
-            INC !dataOffset
-            INC !dataOffset
-            INC !dataOffset
+            INC.b !dataOffset
+            INC.b !dataOffset
+            INC.b !dataOffset
     
     BRA .nextSprite
     
@@ -1089,7 +1089,7 @@ Dungeon_ManuallySetSpriteDeathFlag:
                 LDA.b $02 : ASL : TAY
                 
                 ; Keep this guy from respawning.
-                LDA.l $7FDF80, X : ORA .flags, Y : STA.l $7FDF80, X
+                LDA.l $7FDF80, X : ORA.w .flags, Y : STA.l $7FDF80, X
                 
                 PLX
                 
@@ -1168,7 +1168,7 @@ Dungeon_LoadSprite:
         ; Load the room index, multiply by 2.
         LDA.w $048E : ASL TAX
         
-        ; $02 is the current slot in $0E20, X to load into.
+        ; !spriteSlot is the current slot in $0E20, X to load into.
         LDA.b !spriteSlot : ASL : TAY
         
         ; Apparently information on whether stuff has been loaded is stored for
@@ -1231,7 +1231,7 @@ Dungeon_LoadSprite:
     ORA.w $0FB5 : STA.w $0E30, X
     
     ; Store slot information into this array.
-    LDA.b $02 : STA.w $0BC0, X
+    LDA.b !spriteSlot : STA.w $0BC0, X
     
     ; Zero out the sprite drop variable (what it drops when killed).
     STZ.w $0CBA, X
@@ -1753,9 +1753,7 @@ Overworld_AliveStatusBits:
 Overworld_LoadProximaSpriteIfAlive:
 {
     REP #$20
-    
     LDA.b $00 : CLC : ADC.w #$DF80 : STA.b $05
-    
     SEP #$20
     
     ; $05 = $7FDF80 + offset.
@@ -1763,15 +1761,12 @@ Overworld_LoadProximaSpriteIfAlive:
     
     LDA [$05] : BEQ .alpha
         REP #$20
-        
         LDA.b $00 : LSR #3 : CLC : ADC.w #$EF80 : STA.b $02
-        
         SEP #$20
         
         LDA.b #$7F : STA.b $04 ; $07 = $7FEF80 + offset.
         
         LDA.b $00 : AND.b #$07 : TAY
-        
         LDA [$02] : AND.w Overworld_AliveStatusBits, Y : BNE .alpha
             JSR.w Overworld_LoadSprite
     
@@ -1832,9 +1827,7 @@ Overworld_LoadSprite:
     TXA : ASL : TAX
     
     REP #$20
-    
     LDA.b $00 : STA.w $0BC0, X
-    
     SEP #$20
     
     PLX : LDA [$05] : DEC : STA.w $0E20, X ; Load up a sprite here.
@@ -1881,11 +1874,9 @@ Overworld_LoadOverlord:
     
     TXA : ASL : TAX
     
-    REP #$20
-    
     ; Store the offset into $7FDF80 that this overlord uses.
+    REP #$20
     LDA.b $00 : STA.w $0B48, X
-    
     SEP #$20
     
     PLX
@@ -8988,7 +8979,7 @@ Sprite_SelfTerminate:
     REP #$20
     
     ; Basically the BCS later on is a BEQ in effect, checks if($0BC0, Y ==
-    ; 0xFFFF) .
+    ; 0xFFFF).
     LDA.w $0BC0, Y : STA.b $00 : CMP.w #$FFFF
     
     PHP
@@ -9006,8 +8997,7 @@ Sprite_SelfTerminate:
         PHX
         
         LDA.b $00 : AND.b #$07 : TAX
-        
-        LDA [$01] : AND.l SpriteDeathMasks, X : STA [$01]
+        LDA.b [$01] : AND.l SpriteDeathMasks, X : STA.b [$01]
         
         PLX
         
@@ -9015,7 +9005,6 @@ Sprite_SelfTerminate:
     
     LDA.b $1B : BNE .indoors_2
         TXA : ASL : TAY
-        
         LDA.b #$FF : STA.w $0BC0, Y : STA.w $0BC1, Y
         
         RTL

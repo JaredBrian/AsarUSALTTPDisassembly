@@ -6077,7 +6077,7 @@ struct WRAM $7E0000
         ; TODO: Confirm this.
 
     ; $0B58[0x10] - (Sprite)
-    .SpriteEffectTimer: skip $10
+    .SprEffectTimer: skip $10
         ; A timer that controls the timing of special sprite effects such as being
         ; stuned, frozen, or faing out. Counts down from 0xFF most of the time.
         ; TODO: Document other uses.
@@ -6105,6 +6105,7 @@ struct WRAM $7E0000
 
     ; $0B6B[0x10] - (Sprite)
     .SprSetting1: skip $10
+        ; This array contains various settings for active sprites.
         ; tttt acbp
         ; t - Tile Interaction Hit Box. Selects from one of several hitbox
         ;     limits for use when detecting the tile types that the sprite is
@@ -6149,7 +6150,7 @@ struct WRAM $7E0000
         ; to the player when the game is done.
 
     ; $0B89[0x10] - (Sprite)
-    .SpritePriority: skip $10
+    .SprPriority: skip $10
         ; OAM priority for sprites. TODO: Document the values.
 
     ; $0B99[0x01] - (Sprite, Minigame)
@@ -6194,39 +6195,49 @@ struct WRAM $7E0000
         ; Free RAM.
 
     ; $0BA0[0x10] - (Sprite, Ancilla)
-    .SpriteIgnoreProjectiles: skip $10
+    .SprIgnoreProjectiles: skip $10
         ; A flag that when non-zero, will prevent all projectile interactions with
         ; the sprite.
 
     ; $0BB0[0x10] - (Sprite, Ancilla)
-    .SpriteCollidedAncilla: skip $10
+    .SprCollidedAncilla: skip $10
         ; When an ancilla hits a sprite, its ID from $0C4A is stored here. 
 
-    ; $0BC0[0x20] - (Sprite / Dungeon?)
-        ; contains the index of the sprite (i.e. its position in the $0E20[0x10] 
-        ; array only seems to be modified in the initial dungeon loading routine
-        ; (room transitions don't appear to write here.)
-        ; 0xFF - 
+    ; $0BC0[0x10] - (Dungeon, Sprite)
+    .DunSpriteSlotIndex:
+        ; Contains the index of the sprite in the sprite arrays while in dungeons.
+        ; The array only seems to be modified in the initial dungeon loading
+        ; routine (room transitions don't appear to write here).
+        ; 0x00-0x0F - The valid sprite slots.
+        ; 0xFF      - No sprite.
+
+    ; $0BC0[0x20] - (Overworld, Sprite)
+    .OWSpriteDeathIndex: skip $20
+        ; This contains a pointer to the address in $7FEF80 of the sprite.
+        ; TODO: Elaborate more when $7FEF80 is understood better.
 
     ; $0BE0[0x10] - (Sprite)
-        ; iwbspppp
-        ; i - If set, disable certain types of tile interactions for the sprite, such
-        ; as falling into holes, moving floors, and conveyor belts, among others.
-        ; w - Seems like it has something to do with sprites that are found in water,
-        ; whether that's deep water or shallow water. Either way, still needs
-        ; to be reverse engineered a bit more.
-        ; b - If set, the sprite can be blocked by a shield, provided the player has
-        ; any level shield at all. The sprite will die if this is set and a
-        ; collision with the player occurs while they have a shield, regardless
-        ; of whether it 'hits' the shield. However, it must be traveling towards
-        ; the face of the shield to be blocked. Otherwise, the player will be
-        ; harmed.
-        ; s - If set, play the 'enemy taking damage' sound effect. Otherwise,
-        ; play the basic 'sprite getting hit' sound effect (which will play for
-        ; some enemies in spite of the fact that they are still taking damage.)
+    ;.SprSetting2: skip $10
+        ; This array contains various settings for active sprites.
+        ; iwbs pppp
+        ; i - If set, disable certain types of tile interactions for the sprites,
+        ;     such as falling into holes, and being moved by moving floors,
+        ;     conveyor belts, and flowing water.
+        ; w - Seems like it has something to do with sprites that are found in 
+        ;     water, whether that's deep water or shallow water. Either way, still
+        ;     needs to be reverse engineered a bit more.
+        ; b - If set, the sprite can be blocked by a shield, provided the player 
+        ;     has any level shield at all. The sprite will die if this is set and
+        ;     a collision with the player occurs while they have a shield,
+        ;     regardless of whether it 'hits' the shield. However, it must be
+        ;     traveling towards the face of the shield to be blocked. Otherwise,
+        ;     the player will be harmed.
+        ; s - If set, play the 'enemy taking damage' sound effect. Otherwise, play
+        ;     the basic 'sprite getting hit' sound effect (which will play for
+        ;     some enemies in spite of the fact that they are still taking damage.)
         ; p - Prize pack to grant (assassin17 has this somewhat figured out, I just
-        ; need to make sure my doc jives with his, and if not, find out why.)
-        ; prize pack for a sprite in the sprite object model (see below)
+        ;     need to make sure my doc jives with his, and if not, find out why.)
+        ;     prize pack for a sprite in the sprite object model (see below)
 
     ; $0BF0[0x0A] - (Ancilla)
         ; Usage varies among ancillae.
@@ -8594,12 +8605,11 @@ struct WRAM $7F0000
 
     ; $7FE200 - 
 
-    ; $7FEF80[0x200] -    
-        
+    ; $7FEF80[0x200] - 
         ; death status for the overworld sprites?
+        ; Flags overworld sprite deaths/enemies already spawned.
 
-    ; $7FF180[0x680] -    
-        
+    ; $7FF180[0x680] - 
         ; free ram? Can't be 100% certain yet.
 
     ; $7FF800[0x1E] - (Garnish)
