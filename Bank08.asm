@@ -398,8 +398,8 @@ SomarianBlast_SpawnCentrifugalQuad:
     LDA.w $0C04, X : STA.b $00
     LDA.w $0C18, X : STA.b $01
     
-    LDA.w $0BFA, X : SEC : SBC.b $05    : STA.b $02
-    LDA.w $0C0E, X : SBC.b #$00 : STA.b $03
+    LDA.w $0BFA, X : SEC : SBC.b $05  : STA.b $02
+    LDA.w $0C0E, X :       SBC.b #$00 : STA.b $03
     
     ; Attempt to spawn four somarian blasts all moving in directions
     ; away from a central point (the location of the former somarian block).
@@ -422,11 +422,11 @@ SomarianBlast_SpawnCentrifugalQuad:
             
             LDX.w $0FB5 : TXA : STA.w $0C72, Y
             
-            LDA.b $00 : CLC : ADC .x_offsets, X : STA.w $0C04, Y
-            LDA.b $01 :       ADC.b #$FF :        STA.w $0C18, Y
+            LDA.b $00 : CLC : ADC.w .x_offsets, X : STA.w $0C04, Y
+            LDA.b $01 :       ADC.b #$FF :          STA.w $0C18, Y
             
-            LDA.b $02 : CLC : ADC .y_offsets, X : STA.w $0BFA, Y
-            LDA.b $03 :       ADC.b #$FF :        STA.w $0C0E, Y
+            LDA.b $02 : CLC : ADC.w .y_offsets, X : STA.w $0BFA, Y
+            LDA.b $03 :       ADC.b #$FF :          STA.w $0C0E, Y
             
             JSL.l Ancilla_TerminateIfOffscreen
             
@@ -667,7 +667,7 @@ Ancilla_ExecuteObject:
     .object_routines
     
     ; NOTE: PARAMETER IS ACTUALLY object type - 1, SINCE 0 WOULD INDICATE
-    ; NO EFFECT ; SOURCE : $0C4A, X
+    ; NO EFFECT ; SOURCE : $0C4A
     dw Ancilla_SomarianBlast        ; 0x01 - Both the pieces of somarian block
                                     ;        splitting and the fireballs).
 
@@ -691,7 +691,8 @@ Ancilla_ExecuteObject:
     dw Ancilla_DoorDebris           ; 0x08 - Rock fall effect (from bombing a
                                     ;        cave).
 
-    dw Ancilla_Arrow                ; 0x09 - Flying arrow
+    dw Ancilla_Arrow                ; 0x09 - Flying arrow: (The arrow that enemies
+                                    ;        can fire is sprite 0x1B)
     dw Ancilla_HaltedArrow          ; 0x0A - Arrow stuck in something (wall or
                                     ;        sprite).
 

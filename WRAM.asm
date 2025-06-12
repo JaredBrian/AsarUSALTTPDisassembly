@@ -3362,22 +3362,22 @@ struct WRAM $7E0000
         ; When nonzero, allow walk through walls and 2-way overworld warping.
 
     ; $0380[0x05] - (Ancilla)
-    .AncillaMiscA: skip $05
-        ; A misc variable used by ancillas. Only intended to be used by the
+    .AncMiscA: skip $05
+        ; A misc variable used by ancillae. Only intended to be used by the
         ; first 5 slots.
 
     ; $0385[0x0A] - (Ancilla)
-    .AncillaMiscB: skip $0A
-        ; A misc variable used by ancillas.
+    .AncMiscB: skip $0A
+        ; A misc variable used by ancillae.
 
     ; $038F[0x05] - (Ancilla)
-    .AncillaMiscC: skip $05
-        ; A misc variable used by ancillas. Only intended to be used by the
+    .AncMiscC: skip $05
+        ; A misc variable used by ancillae. Only intended to be used by the
         ; first 5 slots. Only used by hammer hit stars and gravestones.
 
     ; $0394[0x05] - (Ancilla)
-    .AncillaMiscD: skip $05
-        ; A misc variable used by ancillas. Only intended to be used by the
+    .AncMiscD: skip $05
+        ; A misc variable used by ancillae. Only intended to be used by the
         ; first 5 slots. Often used as a timer.
 
     ; $0399[0x02] - (Item, Boomerang, Junk)
@@ -3419,18 +3419,18 @@ struct WRAM $7E0000
         ; Free RAM
 
     ; $039F[0x05] - (Ancilla)
-    .AncillaMiscE: skip $05
-        ; A misc variable used by ancillas. Only intended to be used by the
+    .AncMiscE: skip $05
+        ; A misc variable used by ancillae. Only intended to be used by the
         ; first 5 slots. Often used as a timer.
 
     ; $03A4[0x05] - (Ancilla)
-    .AncillaMiscF: skip $05
-        ; A misc variable used by ancillas. Only intended to be used by the
+    .AncMiscF: skip $05
+        ; A misc variable used by ancillae. Only intended to be used by the
         ; first 5 slots.
 
     ; $03A9[0x05] - (Ancilla)
-    .AncillaMiscG: skip $05
-        ; A misc variable used by ancillas. Only intended to be used by the
+    .AncMiscG: skip $05
+        ; A misc variable used by ancillae. Only intended to be used by the
         ; first 5 slots.
 
     ; $03AE[0x03] - (Free)
@@ -3438,8 +3438,8 @@ struct WRAM $7E0000
         ; Free RAM
 
     ; $03B1[0x05] - (Ancilla)
-    .AncillaMiscH: skip $05
-        ; A misc variable used by ancillas. Only intended to be used by the
+    .AncMiscH: skip $05
+        ; A misc variable used by ancillae. Only intended to be used by the
         ; first 5 slots. Often used as a timer.
 
     ; $03B6[0x04] - (Grave)
@@ -3472,11 +3472,11 @@ struct WRAM $7E0000
     ; $03C0[0x02] - (Door, Ancilla)
     .BombDoorDebrisTimer: skip $02
         ; A timer used to keep track of how long bomb door rock debris
-        ; ancillas draw.
+        ; ancillae draw.
 
     ; $03C2[0x0?] - (Ancilla)
-    .AncillaMiscI:
-        ; A misc variable used by ancillas.
+    .AncMiscI:
+        ; A misc variable used by ancillae.
         ; TODO: Verify the size of this var. Has several uses with X although its
         ; exact use is unclear. If it is more than 2, then it overlaps with some
         ; of the later vars.
@@ -3486,22 +3486,22 @@ struct WRAM $7E0000
         ; A step counter used by the bomb door debris.
 
     ; $03C4[0x01] - (Ancilla)
-    .AncillaSearch: skip $01
-        ; Used to search through ancilla when every front slot is occupied.
+    .AncSearch: skip $01
+        ; Used to search through ancillae when every front slot is occupied.
 
     ; $03C5[0x05] - (Ancilla)
-    .AncillaMiscJ: skip $05
-        ; A misc variable used by ancillas. Only intended to be used by the
+    .AncMiscJ: skip $05
+        ; A misc variable used by ancillae. Only intended to be used by the
         ; first 5 slots.
 
     ; $03CA[0x05] - (Ancilla)
-    .AncillaMiscK: skip $05
-        ; A misc variable used by ancillas. Only intended to be used by the
+    .AncMiscK: skip $05
+        ; A misc variable used by ancillae. Only intended to be used by the
         ; first 5 slots. Mostly used as a pseudo bg selector.
 
     ; $03CF[0x06] - (Ancilla)
-    .AncillaMiscL: skip $03
-        ; A misc variable used by ancillas. Only intended to be used by the
+    .AncMiscL: skip $03
+        ; A misc variable used by ancillae. Only intended to be used by the
         ; first 6 slots.
 
     ; $03D2[0x0?] - (Ancilla, Bomb)
@@ -3512,8 +3512,8 @@ struct WRAM $7E0000
         ; TODO: Confirm.
 
     ; $03D5[0x06] - (Ancilla, Bomb, Somaria)
-    .AncillaThrownOffEdge: skip $05
-        ; A flag when nonzero causes liftable ancillas such as bombs and somaria
+    .AncThrownOffEdge: skip $05
+        ; A flag when nonzero causes liftable ancillae such as bombs and somaria
         ; blocks to transition to BG1 (meaning they were thrown off an edge).
         ; Only intended to be used by the first 6 slots.
 
@@ -3530,7 +3530,7 @@ struct WRAM $7E0000
         ; TODO: Confirm.
 
     ; $03E4[0x05] - (Ancilla)
-    .AncillaTileInteraction: skip $05
+    .AncTileInteraction: skip $05
         ; Used by the ancilla check tile collision function to store what
         ; tile the ancilla has interacted with. Only intended to be used by
         ; the first 5 slots.
@@ -3540,9 +3540,9 @@ struct WRAM $7E0000
         ; A flag when nonzero indicates that a gravestone is active.
 
     ; $03EA[0x05] - (Ancilla)
-    .AncillaPreventLift: skip $05
-        ; A flag when nonzero prevents ancillas from being picked up. This
-        ; only really applies to ancillas that could be picked up in the
+    .AncPreventLift: skip $05
+        ; A flag when nonzero prevents ancillae from being picked up. This
+        ; only really applies to ancillae that could be picked up in the
         ; first place like bombs and somaria blocks. Only intended to be
         ; used by the first 5 slots.
 
@@ -4158,14 +4158,14 @@ struct WRAM $7E0000
     ; $0486[0x02] - (Overworld, Junk)
     .OWBombWallX: skip $02
         ; The X tilemap coordinate of bomb walls on the overworld. This is
-        ; set by the bomb ancillas when cheching for a bomb wall which is
+        ; set by the bomb ancillae when cheching for a bomb wall which is
         ; then used to place the "opened" tiles. This is only used across
         ; one frame and could be easily switched to use work RAM.
 
     ; $0488[0x02] - (Overworld, Junk)
     .OWBombWallY: skip $02
         ; The Y tilemap coordinate of bomb walls on the overworld. This is
-        ; set by the bomb ancillas when cheching for a bomb wall which is
+        ; set by the bomb ancillae when cheching for a bomb wall which is
         ; then used to place the "opened" tiles. This is only used across
         ; one frame and could be easily switched to use work RAM.
 
@@ -6217,15 +6217,17 @@ struct WRAM $7E0000
         ; TODO: Elaborate more when $7FEF80 is understood better.
 
     ; $0BE0[0x10] - (Sprite)
-    ;.SprSetting2: skip $10
+    .SprSetting2: skip $10
         ; This array contains various settings for active sprites.
         ; iwbs pppp
         ; i - If set, disable certain types of tile interactions for the sprites,
         ;     such as falling into holes, and being moved by moving floors,
         ;     conveyor belts, and flowing water.
-        ; w - Seems like it has something to do with sprites that are found in 
-        ;     water, whether that's deep water or shallow water. Either way, still
-        ;     needs to be reverse engineered a bit more.
+        ; w - If set, this will allow special collision with shallow and deep water.
+        ;     Normally, sprites will either be blocked, bounce off of, or have no
+        ;     interaction with water at all. But if this is set this will allow
+        ;     certain sprites to "fall into" the water, like the walking zora, and
+        ;     the fish. TODO: Confirm.
         ; b - If set, the sprite can be blocked by a shield, provided the player 
         ;     has any level shield at all. The sprite will die if this is set and
         ;     a collision with the player occurs while they have a shield,
@@ -6240,108 +6242,174 @@ struct WRAM $7E0000
         ;     prize pack for a sprite in the sprite object model (see below)
 
     ; $0BF0[0x0A] - (Ancilla)
-        ; Usage varies among ancillae.
+    .AncMiscM: skip $0A
+        ; A misc variable used by ancillae.
 
     ; $0BFA[0x0A] - (Ancilla)
+    .AncLowYCoord: skip $0A
         ; Y coordinate low byte.
 
     ; $0C04[0x0A] - (Ancilla)
+    .AncLowXCoord: skip $0A
         ; X coordinate low byte.
 
     ; $0C0E[0x0A] - (Ancilla)
+    .AncHighYCoord: skip $0A
         ; Y coordinate high byte.
 
     ; $0C18[0x0A] - (Ancilla)
+    .AncHighXCoord: skip $0A
         ; X coordinate high bytes.
 
     ; $0C22[0x0A] - (Ancilla)
-        ; Y velocity.
+    .AncYVelocity: skip $0A
+        ; Ancilla Y velocity.
+
     ; $0C2C[0x0A] - (Ancilla)
-        ; X velocity.
+    .AncXVelocity: skip $0A
+        ; Ancilla X velocity.
+
     ; $0C36[0x0A] - (Ancilla)
-        ; Subpixel portion of Y coordinate.
+    .AncYSubVelocity: skip $0A
+        ; Ancilla subpixel Y velocity.
+
     ; $0C40[0x0A] - (Ancilla)
-        ; Subpixel portion of X coordinate.
+    .AncXSubVelocity: skip $0A
+        ; Ancilla subpixel X velocity.
 
     ; $0C4A[0x0A] - (Ancilla)
-        ; Type index for Ancillary objects. Valid values are as follows:
-        ; 0x00 - Nothing, and actually an indicator that no ancilla is currently active in this slot.
-        ; 0x01 - Somarian Blast; Results from splitting a Somarian Block
-        ; 0x02 - Fire Rod Shot
-        ; 0x03 - Unused; Instantiating one of these creates an object that does nothing.
-        ; 0x04 - Beam Hit; Master sword beam or Somarian Blast dispersing after hitting something
-        ; 0x05 - Boomerang
-        ; 0x06 - Wall Hit; Spark-like effect that occurs when you hit a wall with a boomerang or hookshot
-        ; 0x07 - Bomb; Normal bombs laid by the player
-        ; 0x08 - Door Debris; Rock fall effect from bombing a cracked cave or dungeon wall
-        ; 0x09 - Arrow; Fired from the player's bow
-        ; 0x0A - Halted Arrow; Player's arrow that is stuck in something (wall or sprite)
-        ; 0x0B - Ice Rod Shot
-        ; 0x0C - Sword Beam
-        ; 0x0D - Sword Full Charge Spark; The sparkle that briefly appears at the tip of the player's sword when their spin attack fully charges up.
-        ; 0x0E - Unused; Duplicate of the Blast Wall
-        ; 0x0F - Unused; Duplicate of the Blast Wall
-        ; 0x10 - Unused; Duplicate of the Blast Wall
-        ; 0x11 - Ice Shot Spread; Ice shot dispersing after hitting something.
-        ; 0x12 - Unused; Duplicate of the Blast Wall
-        ; 0x13 - Ice Shot Sparkle; The only actually visible parts of the ice shot.
-        ; 0x14 - Unused; Don't use as it will crash the game.
-        ; 0x15 - Jump Splash; Splash from the player jumping into or out of deep water
-        ; 0x16 - The Hammer's Stars / Stars from hitting hard ground with the shovel
-        ; 0x17 - Dirt from digging a hole with the shovel
-        ; 0x18 - The Ether Effect
-        ; 0x19 - The Bombos Effect
-        ; 0x1A - Precursor to torch flame / Magic powder
-        ; 0x1B - Sparks from tapping a wall with your sword
-        ; 0x1C - The Quake Effect
-        ; 0x1D - Jarring effect from hitting a wall while dashing
-        ; 0x1E - Pegasus boots dust flying
-        ; 0x1F - Hookshot
-        ; 0x20 - Link's Bed Spread
-        ; 0x21 - Link's Zzzz's from sleeping
-        ; 0x22 - Received Item Sprite
-        ; 0x23 - Bunny / Cape transformation poof
-        ; 0x24 - Gravestone sprite when in motion
-        ; 0x25
-        ; 0x26 - Sparkles when swinging lvl 2 or higher sword
-        ; 0x27 - the bird (when called by flute)
-        ; 0x28 - item sprite that you throw into magic fairy ponds.
-        ; 0x29 - Pendants and crystals
-        ; 0x2A - Start of spin attack sparkle
-        ; 0x2B - During Spin attack sparkles
-        ; 0x2C - Cane of Somaria blocks
-        ; 0x2D
-        ; 0x2E - ????
-        ; 0x2F - Torch's flame
-        ; 0x30 - Initial spark for the Cane of Byrna activating
-        ; 0x31 - Cane of Byrna spinning sparkle
-        ; 0x32 - Flame blob, possibly from wall explosion
-        ; 0x33 - Series of explosions from blowing up a wall (after pulling a switch)
-        ; 0x34 - Burning effect used to open up the entrance to skull woods.
-        ; 0x35 - Master Sword ceremony.... not sure if it's the whole thing or a part of it
-        ; 0x36 - Flute that pops out of the ground in the haunted grove.
-        ; 0x37 - Appears to trigger the weathervane explosion.
-        ; 0x38 - Appears to give Link the bird enabled flute.
-        ; 0x39 - Cane of Somaria blast which creates platforms (sprite 0xED)
-        ; 0x3A - super bomb explosion (also does things normal bombs can)
-        ; 0x3B - Unused hit effect. Looks similar to Somaria block being nulled out.
-        ; 0x3C - Sparkles from holding the sword out charging for a spin attack.
-        ; 0x3D - splash effect when things fall into the water
-        ; 0x3E - 3D crystal effect (or transition into 3D crystal?)
-        ; 0x3F - Disintegrating bush poof (due to magic powder)
-        ; 0x40 - Dwarf transformation cloud
-        ; 0x41 - Water splash in the waterfall of wishing entrance (and swamp palace)
-        ; 0x42 - Rupees that you throw in to the Pond of Wishing
-        ; 0x43 - Ganon's Tower seal being broken. (not opened up though!)
+    .AncID: skip $0A
+        ; Type ID for Ancillae. Ancillae are supporting sprite objects that are
+        ; spawned at runtime usually to draw a special effect. They have their own
+        ; ecosystem of variables and run functions that are not shared with sprites.
+        ; Valid values are as follows:
+        ; 0x00 - Nothing: An indicator that no ancilla is currently active in 
+        ;        this slot.
+        ; 0x01 - Somarian Blast: Results from splitting a Somarian block, both the
+        ;        pieces of somarian block splitting and the fireballs.
+        ; 0x02 - Fire Rod flame (both flying and after hitting something).
+        ; 0x03 - Unused: Instantiating one of these creates an object that does
+        ;        nothing.
+        ; 0x04 - Beam Hit: Master sword beam or Somarian Blast dispersing after
+        ;        hitting something.
+        ; 0x05 - Boomerang: The blue or red boomerang item.
+        ; 0x06 - Wall Hit: Spark-like effect that occurs when you hit a wall with
+        ;        a boomerang or hookshot.
+        ; 0x07 - Bomb: Normal blue bombs laid by the player.
+        ; 0x08 - Door Debris: Rock fall effect from bombing a cracked cave or
+        ;        dungeon wall.
+        ; 0x09 - Flying Arrow: Fired from the player's bow. (The arrow that enemies
+        ;        can fire is sprite 0x1B)
+        ; 0x0A - Halted Arrow: A player's arrow that is stuck in something (wall or
+        ;        sprite)
+        ; 0x0B - Ice Rod Shot: The beam that comes out when using the Ice Rod.
+        ; 0x0C - Master Sword Beam: The spinning sparkles that shoot out from the
+        ;        master sword when while at full health.
+        ; 0x0D - Sword Full Charge Sparkles: The sparkles that briefly appear at
+        ;        the tip of the player's sword when the spin attack is fully charged
+        ;        up and the player continues to hold the sword out.
+        ; 0x0E - An unimplemented object type that points to the same location as
+        ;        the blast wall.
+        ; 0x0F - An unimplemented object type that points to the same location as
+        ;        the blast wall.
+        ; 0x10 - An unimplemented object type that points to the same location as
+        ;        the blast wall.
+        ; 0x11 - Ice Shot Spread: Ice shot dispersing after hitting something.
+        ; 0x12 - An unimplemented object type that points to the same location as
+        ;        the blast wall.
+        ; 0x13 - Ice Shot Sparkle: The only actually visible parts of the ice shot.
+        ; 0x14 - An unimplemented object type that points to some random data.
+        ;        Crashes the game.
+        ; 0x15 - Jump Splash: Splash from the player jumping into or out of deep
+        ;        water.
+        ; 0x16 - Hit Stars: The little star that appears when hitting the ground
+        ;        with the hammer or from hitting hard ground with the shovel.
+        ; 0x17 - Dirt: Dirt from digging a hole with the shovel.
+        ; 0x18 - The Ether Effect: The Ether medallion animation, spinning blue orbs.
+        ; 0x19 - The Bombos Effect: The Bombos medallion animation, bomb explosions
+        ;        everywhere.
+        ; 0x1A - Precursor to torch flame / Magic powder ; TODO: Investigate.
+        ; 0x1B - Sword Wall Spark: Sparks from tapping a wall with your sword.
+        ; 0x1C - The Quake Effect: The Quake medallion animation, purple lighting
+        ;        crawling on the ground.
+        ; 0x1D - Dash Tremor: Jarring effect from hitting a wall while dashing.
+        ;        TODO: Screen shaking?
+        ; 0x1E - Pegasus Boots Dust: Dust trail behind the player while dashing.
+        ; 0x1F - Hookshot: The hookshot item.
+        ; 0x20 - The Player's Bed Spread: The blanket on top of the player at the
+        ;        beginning of the game.
+        ; 0x21 - The Player's Zzzzs: The Zs that appear above the player while the
+        ;        player is sleeping at the benginning of the game.
+        ; 0x22 - Received Item: The item that rises into the air after collecting
+        ;        it from a chest, from a wish pond fairy, or from picking it up off
+        ;        the ground.
+        ; 0x23 - Transformation Poof: The could of smoke that appears over the
+        ;        player while transforming to or from the bunny or using the cape. 
+        ; 0x24 - Gravestone: The moving gravestone after being pushed/dashed into.
+        ; 0x25 - An unimplemented object type that points to some random data.
+        ;        Crashes the game.
+        ; 0x26 - Sword Swing Sparkle: Sparkles when swinging lvl 2 or higher sword.
+        ; 0x27 - The Travel Bird: The bird that comes when called by the flute.
+        ; 0x28 - Wish Pond Item: The item that you throw into magic fairy ponds.
+        ; 0x29 - Dropped Item: Pendants, crystals, and medallions dropped on the
+        ;        ground to be picked up by the player.
+        ; 0x2A - Initial Spin Sparkle: Start of spin attack sparkle.
+        ; 0x2B - Spin Sparkle: During Spin attack sparkles.
+        ; 0x2C - Somaria Block: The block that spawns from the Cane of Somaria.
+        ; 0x2D - Somaria Block Fizze: TODO: Investigate.
+        ; 0x2E - Somaria Block Divide: TODO: Investigate.
+        ; 0x2F - Lamp flame: The flame that is spawned when using the lamp.
+        ; 0x30 - Initial Cane Spark: Initial spark for the Cane of Byrna activating.
+        ; 0x31 - Cane Spinning Sparkle: The sparkle that circles the player after
+        ;        activating the Cane of Byrna.
+        ; 0x32 - Blast Wall Fireball: Flame blob, used wall explosions.
+        ;        TODO: Confirm exactly what this is.
+        ; 0x33 - Blast Wall Explosions: Series of explosions from blowing up blast 
+        ;        wall (after pulling a switch).
+        ; 0x34 - Skull Woods Fire: Burning effect used to open up the entrance to
+        ;        skull woods.
+        ; 0x35 - Master Sword Ceremony: TODO: not sure if it's the whole thing or a
+        ;        part of it.
+        ; 0x36 - Digging Flute: The flute that pops out of the ground in the haunted
+        ;        grove after digging it up.
+        ; 0x37 - Weathervane Explosion: The explosion that occurs at the weathervane
+        ;        when waking up the travel bird.
+        ; 0x38 - Travel Bird Intro: The bird that flaps around for a bit after
+        ;        waking it up at the weathervane.
+        ; 0x39 - Somarian Platform Poof: The Cane of Somaria poof which creates
+        ;        the somarian platforms (sprite 0xED).
+        ; 0x3A - Super Bomb Explosion: The resulting explosion from a super bomb.
+        ; 0x3B - Victory Sparkle: TODO: Investigate when this is used.
+        ; 0x3C - Sword Charge Sparkle: The sparkle that briefly appears traveling
+        ;        up the player's sword while their spin attack charges up.
+        ; 0x3D - Object Splash: The splash effect when things fall into the water.
+        ; 0x3E - Rising Crystal: The rising crystal effect tha then transitions
+        ;        into 3D crystal.
+        ; 0x3F - Bush Poof: The disintegrating bush poof (due to magic powder).
+        ;        TODO: Investigate what the magic powder comment means.
+        ; 0x40 - Dwarf Poof: The poof cloud that appears when the dwarf transforms
+        ;        back into a dwarf from a frog.
+        ; 0x41 - Waterfall Splash: The water splash when going under the waterfall
+        ;        of wishing entrance and in the Swamp Palace waterfall doors.
+        ; 0x42 - Happiness Pond Rupees: The rupees that you throw in to the Pond
+        ;        of Happiness.
+        ; 0x43 - Break Tower Seal: The Ganon's tower seal being broken. (not opened
+        ;        up though!) TODO: Wtf does that comment mean.
+
     ; $0C54[0x0A] - (Ancilla)
-        ; Array that might contain info about steps for effects indicated in 
+    .AncMiscN: skip $0A
+        ; A misc variable used by ancillae. Often used as an AI state indicator,
+        ; a sub type indicator, a timer, etc.
 
     ; $0C5E[0x0A] - (Ancilla)
-        ; Array that contains an item index to give to Link. e.g. 0x38 for the pendant of power.
+    .AncMiscO: skip $0A
+        ; A misc variable used by ancillae. Often contains an item index to give to
+        ; the player. e.g. 0x38 for the pendant of power. Also tracks current
+        ; hookshot extension and item receipt ID.
 
     ; $0C68[0x0A] - (Ancilla)
-
-        ; Autodecrementing timer that any ancilla can make use of. Its value
+    .AncMiscTimer: skip $0A
+        ; An autodecrementing timer that any ancilla can make use of. Its value
         ; decrements by one each frame. It halts at the value zero, but will resume
         ; decrementing if a nonzero value is written to it on subsequent frames. 
 
@@ -6912,7 +6980,6 @@ struct WRAM $7E0000
     ; $0E40[0x10] - (Sprite)
 
         ; abcooooo
-
         ; o - If zero, the sprite is invisible. Otherwise, visible.
         ; (actually, it seems like this is the number of OAM sprite slots allocated to this sprite object)
         ; c - Causes enemies to go towards the walls? strange...
@@ -6935,6 +7002,7 @@ struct WRAM $7E0000
         ; p - (Note: 3-bit) Palette into that actually is not used by this variable,
         ; but ends up getting copied to the array $0F50 (bitwise and with 0x0F).
         ; u - unused?
+
     ; $0E70[0x10] - 
         ; When a sprite is moving and has hit a wall, this gets set to the direction
         ; in which the collision occurred.
@@ -8125,7 +8193,7 @@ struct WRAM $7E0000
         ; SP-0 (second half)  - heavy rocks
         ; SP-1 (first half)   - apples from trees, part of master sword beam, grass around your legs, off color bushes
         ; SP-1 (second half)  - red rupees, small hearts, red potion in shops, some shadows, link's bow
-        ; SP-2 (first half)   - numerous ancillas (dash dush from boots, sparkles, death / transformation poof), warp whirlpool
+        ; SP-2 (first half)   - numerous ancillae (dash dush from boots, sparkles, death / transformation poof), warp whirlpool
         ; SP-2 (second half)  - blue rupees
         ; SP-3 (first half)   - red soldiers, bees, 
         ; SP-3 (second half)  - usually set to all dark grey colors, but can be swapped with SP-5 (second half)

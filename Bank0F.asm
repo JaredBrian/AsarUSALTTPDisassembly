@@ -4942,98 +4942,96 @@ Sprite_SpawnSparkleAncilla:
 ; sprite under the bomb. It also detects situations where none of these
 ; are necessary or appropriate, and returns a carry flag state of clear
 ; to indicate that no 'underside' sprite should be drawn.
+; This routine is a bomb exclusive.
 ; $07FDCF-$07FE71 LONG JUMP LOCATION
 Bomb_CheckUndersideSpriteStatus:
 {
-    ; This routine is a bomb exclusive.
-    
     LDA.w $0C5E, X : BEQ .not_exploding
                      BRL .no_underside_sprite
-    
-    .not_exploding
-    
-    ; Set it to a large shadow by default.
-    STZ.b $0A
-    
-    ; This checks for a water tile type.
-    LDA.w $03E4, X : CMP.b #$09 : BNE .not_shallow_water
-        DEC.w $03E1, X : BPL .ripple_animation_delay
-            LDA.b #$03 : STA.w $03E1, X
-            
-            INC.w $03D2, X
-            
-            LDA.w $03D2, X : CMP.b #$03 : BNE .anoreset_ripple_animation_index
-                ; OPTIMIZE: STZ instead.
-                LDA.b #$00 : STA.w $03D2, X
+        .not_exploding
+        
+        ; Set it to a large shadow by default.
+        STZ.b $0A
+        
+        ; This checks for a water tile type.
+        LDA.w $03E4, X : CMP.b #$09 : BNE .not_shallow_water
+            DEC.w $03E1, X : BPL .ripple_animation_delay
+                LDA.b #$03 : STA.w $03E1, X
+                
+                INC.w $03D2, X
+                
+                LDA.w $03D2, X : CMP.b #$03 : BNE .anoreset_ripple_animation_index
+                    ; OPTIMIZE: STZ instead.
+                    LDA.b #$00 : STA.w $03D2, X
 
-            .anoreset_ripple_animation_index
-        .ripple_animation_delay
+                .anoreset_ripple_animation_index
+            .ripple_animation_delay
+            
+            ; Puts a water ripple around the bomb.
+            LDA.w $03D2, X : CLC : ADC.b #$04 : STA.b $0A
+            
+            LDA.w $012E : AND.b #$3F : CMP.b #$0B : BEQ .SFX_can_be_overriden
+                CMP.b #$21 : BNE .shadow_size_logic
+            
+            .SFX_can_be_overriden
+            
+            STZ.w $012E
+            
+            JSL.l Sound_SfxPanObjectCoords : ORA.b #$28 : STA.w $012E
+            
+            BRA .shadow_size_logic
         
-        ; Puts a water ripple around the bomb.
-        LDA.w $03D2, X : CLC : ADC.b #$04 : STA.b $0A
+        .not_shallow_water
         
-        LDA.w $012E : AND.b #$3F : CMP.b #$0B : BEQ .SFX_can_be_overriden
-            CMP.b #$21 : BNE .shadow_size_logic
+        ; Grass tile type.
+        CMP.b #$40 : BNE .shadow_size_logic
+            ; Put grass around the bomb.
+            LDA.b #$03 : STA.b $0A
         
-        .SFX_can_be_overriden
+        .shadow_size_logic
         
-        STZ.w $012E
+        ; Check the bomb's height off the ground, If less than two, shadow
+        ; stays large.
+        LDA.w $029E, X : CMP.b #$02 : BCC .use_large_shadow
+            ; If >= 252, shadow stays large.
+            CMP.b #$FC : BCS .use_large_shadow
+                ; If(height >= 2 && height < 252) draw a small shadow.
+                LDA.b #$02 : STA.b $0A
         
-        JSL.l Sound_SfxPanObjectCoords : ORA.b #$28 : STA.w $012E
+        .use_large_shadow
         
-        BRA .shadow_size_logic
-    
-    .not_shallow_water
-    
-    ; Grass tile type.
-    CMP.b #$40 : BNE .shadow_size_logic
-        ; Put grass around the bomb.
-        LDA.b #$03 : STA.b $0A
-    
-    .shadow_size_logic
-    
-    ; Check the bomb's height off the ground, If less than two, shadow
-    ; stays large.
-    LDA.w $029E, X : CMP.b #$02 : BCC .use_large_shadow
-        ; If >= 252, shadow stays large.
-        CMP.b #$FC : BCS .use_large_shadow
-            ; If(height >= 2 && height < 252) draw a small shadow.
-            LDA.b #$02 : STA.b $0A
-    
-    .use_large_shadow
-    
-    ; Branch if Link is touching the bomb.
-    TXA : INC : CMP.w $02EC : BNE .not_nearest_to_player
-        ; Branch if Link is holding the bomb (or something else?)
-        LDA.w $0308 : AND.b #$80 : BNE .no_underside_sprite
-    
-    .not_nearest_to_player
-    
-    ; WTF: What's the point of this?
-    CPY.b #$04 : BEQ .OAM_slot_is_four_yeah_ok_whatever
-        LDY.b #$00
-    
-    .OAM_slot_is_four_yeah_ok_whatever
-    
-    REP #$20
-    
-    LDA.w $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
-        ; Sign extends to 16-bits.
-        ORA.w #$FF00
-    
-    .sign_ext_z_coord
-    
-    CLC : ADC.b $0C : CLC : ADC.w #$0002 : STA.b $00
-    
-    LDA.b $0E : CLC : ADC.w #$FFF8 : STA.b $02
-    
-    SEP #$20
-    
-    LDA.b $65 : STA.b $04
-    
-    CLC
-    
-    RTL
+        ; Branch if Link is touching the bomb.
+        TXA : INC : CMP.w $02EC : BNE .not_nearest_to_player
+            ; Branch if Link is holding the bomb (or something else?)
+            LDA.w $0308 : AND.b #$80 : BNE .no_underside_sprite
+        
+        .not_nearest_to_player
+        
+        ; WTF: What's the point of this?
+        CPY.b #$04 : BEQ .OAM_slot_is_four_yeah_ok_whatever
+            LDY.b #$00
+        
+        .OAM_slot_is_four_yeah_ok_whatever
+        
+        REP #$20
+        
+        LDA.w $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
+            ; Sign extends to 16-bits.
+            ORA.w #$FF00
+        
+        .sign_ext_z_coord
+        
+        CLC : ADC.b $0C : CLC : ADC.w #$0002 : STA.b $00
+        
+        LDA.b $0E : CLC : ADC.w #$FFF8 : STA.b $02
+        
+        SEP #$20
+        
+        LDA.b $65 : STA.b $04
+        
+        CLC
+        
+        RTL
     
     .no_underside_sprite
     
