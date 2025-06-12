@@ -20,7 +20,8 @@ Ancilla_Arrow:
     
     .normal_submode
     
-    DEC.w $0C5E, X : LDA.w $0C5E, X : BMI .timer_elapsed
+    DEC.w $0C5E, X
+    LDA.w $0C5E, X : BMI .timer_elapsed
         CMP.b #$04 : BCC .begin_moving
             ; The object doesn't even start being drawn until this timer counts
             ; down.

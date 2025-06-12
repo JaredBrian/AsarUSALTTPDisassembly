@@ -14,7 +14,8 @@ Ancilla_EtherSpell:
     ; Is it the first step.
     LDA.w $0C54, X : BEQ .no_palette_manipulation
         LDA.w $031D : BNE .lightning_finished_descending
-            INC.w $0BF0, X : LDA.w $0BF0, X : AND.b #$04 : BEQ .flash_bgs_white
+            INC.w $0BF0, X
+            LDA.w $0BF0, X : AND.b #$04 : BEQ .flash_bgs_white
                 BRA .undo_bgs_whitening
             
         .lightning_finished_descending

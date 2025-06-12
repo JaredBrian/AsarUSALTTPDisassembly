@@ -72,11 +72,9 @@ Ancilla_RepulseSpark:
                     INY : STA ($90), Y
                     
                     LDX.w $0B68
-                    
                     LDA.l .properties, X : INY : STA ($90), Y
                     
                     TYA : LSR #2 : TAY
-                    
                     LDA.b #$00 : STA ($92), Y
                     
                     RTS
@@ -103,7 +101,6 @@ Ancilla_RepulseSpark:
                                        LDY.b #$0D : STA ($90), Y
         
         LDX.w $0B68
-        
         LDA.l .properties, X : LDY.b #$03 : STA ($90), Y
         ORA.b #$40           : LDY.b #$07 : STA ($90), Y
         ORA.b #$80           : LDY.b #$0F : STA ($90), Y

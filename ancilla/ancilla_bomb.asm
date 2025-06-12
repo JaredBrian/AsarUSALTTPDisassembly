@@ -289,7 +289,8 @@ Ancilla_Bomb:
     ; Decrement the timer for the bomb.
     DEC.w $039F, X : LDA.w $039F, X : BNE .state_change_delay
         ; Begin the bomb's explosion.
-        INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$01 : BNE .not_just_exploded
+        INC.w $0C5E, X
+        LDA.w $0C5E, X : CMP.b #$01 : BNE .not_just_exploded
             ; Play the bomb exploding sound.
             LDA.b #$0C : JSR.w Ancilla_DoSfx2
             
@@ -988,11 +989,12 @@ Ancilla_SetPlayerHeldPosition:
     
     .ignore_altitude_physics
     .ignore_player_fall_logic
-    
-    RTS
-    
-    .altitude_physics
-    
+        
+        RTS
+        
+        ; ALTERNATE ENTRY POINT ; TODO: Find Address.
+        .altitude_physics
+        
     LDA.w $0C5E, X : BNE .ignore_altitude_physics
     
     LDA.w $0380, X : CMP.b #$03 : BNE .restore_liftability

@@ -99,7 +99,6 @@ Ancilla_MagicPowder:
             LDA.b #$01 : STA.w $03B1, X
             
             LDY.w $0C72, X
-            
             LDA.w Pool_Ancilla_MagicPowder_animation_group_offsets, Y : STA $00
             
             LDA.w $0C5E, X : INC : CMP.b #$0A : BNE .dont_self_terminate
@@ -114,7 +113,6 @@ Ancilla_MagicPowder:
             STA.w $0C5E, X
             
             CLC : ADC $00 : TAY
-            
             LDA.w Pool_Ancilla_MagicPowder_animation_groups, Y : STA.w $03C2, X
     
     .just_draw
