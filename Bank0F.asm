@@ -4049,7 +4049,6 @@ AddSwordBeam:
         LDA.b #$0E : STA.l $7F5808
         
         LDA.b $2F : LSR : STA.w $0C72, X : TAY
-        
         LDA.w .y_speeds, Y        : STA.w $0C22, X
         LDA.w .x_speeds, Y        : STA.w $0C2C, X
         LDA.w .rotation_speeds, Y : STA.w $03A9, X
@@ -4069,7 +4068,6 @@ AddSwordBeam:
         .start_as_beam_hit
         
         LDY.w $0C72, X
-        
         LDA.l $7F5810 : CLC : ADC Pool_AddSwordBeam_y_offsets_low,  Y : STA.w $0BFA, X
         LDA.l $7F5811       : ADC Pool_AddSwordBeam_y_offsets_high, Y : STA.w $0C0E, X
         
@@ -4159,7 +4157,6 @@ SwordBeam:
         .hit_sprite
         
         LDY.w $0C72, X
-        
         LDA.w $0BFA, X : CLC : ADC Pool_SwordBeam_y_offsets_low,  Y : STA.w $0BFA, X
         LDA.w $0C0E, X       : ADC Pool_SwordBeam_y_offsets_high, Y : STA.w $0C0E, X
         

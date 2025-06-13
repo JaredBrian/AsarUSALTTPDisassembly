@@ -6414,13 +6414,12 @@ struct WRAM $7E0000
         ; decrementing if a nonzero value is written to it on subsequent frames. 
 
     ; $0C72[0x0A] - (Ancilla)
-
-        ; special effect (only known application so far is bomb's direction when laid)
+    .AncDir: skip $0A
+        ; The current direction the ancilla is facing/moving.
 
     ; $0C7C[0x0A] - (Ancilla)
-
-        ; Ancilla floor selector (BG2 or BG1). Analogue for sprite objects 
-        ; would be $0F20[0x10].
+    .AncLayer: skip $0A
+        ; The current layer the ancilla is on (BG1 or BG2).
 
     ; $0C86 - 
         ; Free RAM?

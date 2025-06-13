@@ -414,14 +414,12 @@ SomarianBlast_SpawnCentrifugalQuad:
             PHX
             
             LDA.b #$01 : STA.w $0C4A, Y : TAX
-            
             LDA.w AncillaObjectAllocation, X : STA.w $0C90, Y
             
             LDA.b #$04 : STA.w $0C54, Y
             LDA.b #$00 : STA.w $0C5E, Y : STA.w $0280, Y
             
             LDX.w $0FB5 : TXA : STA.w $0C72, Y
-            
             LDA.b $00 : CLC : ADC.w .x_offsets, X : STA.w $0C04, Y
             LDA.b $01 :       ADC.b #$FF :          STA.w $0C18, Y
             
@@ -968,7 +966,6 @@ Ancilla_CheckTileCollision:
     ; Normal Collision checking for just one BG.
     
     LDY.w $0C72, X
-    
     LDA.w $0BFA, X : CLC : ADC .y_offsets, Y : STA.b $00
     LDA.w $0C0E, X :       ADC.b #$00        : STA.b $01
     
@@ -1453,7 +1450,6 @@ Ancilla_CheckIndividualSpriteCollision:
             PHX
             
             LDA.w $0C72, X : AND.b #$03 : TAX 
-            
             LDA.w .sprite_recoil_x, X : STA.w $0F40, Y
             LDA.w .sprite_recoil_y, X : STA.w $0F30, Y
             
