@@ -164,7 +164,6 @@ Ancilla_TravelBirdIntro:
     JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0C72, X : AND.b #$01 : TAY
-    
     LDA.w Pool_Ancilla_TravelBirdIntro_hflip_settings, Y : STA.b $08
     
     REP #$20
