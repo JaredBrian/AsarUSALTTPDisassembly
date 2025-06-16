@@ -6583,7 +6583,7 @@ Overworld_PlayerControl:
 
     SEP #$20
 
-    RTL
+    RTS
 }
 
 ; ==============================================================================
@@ -8110,8 +8110,8 @@ Module09_18:
     JSR.w LoadSpecialOverworld
     JSR.w OverworldLoadSubScreenOverlay
 
-    PLA : INC STA.b $11 ; Move on to the next module (0x19)
-    PLA :         STA.b $10
+    PLA : INC : STA.b $11 ; Move on to the next module (0x19)
+    PLA :       STA.b $10
 
     RTS
 }
@@ -14021,7 +14021,8 @@ LoadSpecialOverworld:
 
     PHB : PHK : PLB
 
-    LDA.b $A0 : PHA : SEC : SBC.b #$80 : STA.b $A0 : TAX
+    LDA.b $A0 : PHA
+    SEC : SBC.b #$80 : STA.b $A0 : TAX
 
     ; Direction
     LDA.l Pool_LoadSpecialOverworld_direction, X : STA.b $2F
@@ -14053,7 +14054,6 @@ LoadSpecialOverworld:
     LDA.w #$03F0 : STA.b $00
 
     LDA.b $A0 : AND.w #$003F : ASL : TAX
-
     LDA.l Pool_LoadSpecialOverworld_camera600, X          : STA.w $0708
     LDA.l Pool_LoadSpecialOverworld_camera70C, X : LSR #3 : STA.w $070C
 

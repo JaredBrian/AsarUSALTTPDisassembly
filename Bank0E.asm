@@ -9978,7 +9978,7 @@ Pool_SpecialOverworld_CheckForReturnTrigger:
 }
 
 ; $075EE0-$075EE2
-Exit0EDEE0:
+SpecialOverworld_CheckForReturnTrigger_EasyOut:
 {
     SEP #$30
         
@@ -10008,7 +10008,7 @@ SpecialOverworld_CheckForReturnTrigger:
             
             ; Ends the routine (Link is not going back to the normal Overworld
             ; this frame.)
-            BMI Exit0EDEE0
+            BMI .EasyOut
         CMP.l Pool_SpecialOverworld_CheckForReturnTrigger_tile_type, X : BNE .nextChrValue
     LDA.b $8A : CMP.l Pool_SpecialOverworld_CheckForReturnTrigger_screen_id, X : BNE .matchFailed
         

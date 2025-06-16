@@ -1408,9 +1408,7 @@ LoadOverworldSprites:
     SEP #$20
     
     ; Load the game state variable.
-    LDA.l $7EF3C5
-    
-    CMP.b #$03 : BEQ .secondPart
+    LDA.l $7EF3C5 : CMP.b #$03 : BEQ .secondPart
         CMP.b #$02 : BEQ .firstPart
             ; Load the "Beginning" sprites for the Overworld.
             LDA.w Overworld_SpritePointers_state_0+0, Y : STA.b $00
@@ -1441,11 +1439,11 @@ LoadOverworldSprites:
     .nextSprite
     
             ; Read off the sprite information until we reach a #$FF byte.
-            LDA ($00), Y : CMP.b #$FF : BEQ .stopLoading
+            LDA.b ($00), Y : CMP.b #$FF : BEQ .stopLoading
                 INY #2
                 
                 ; Is this a Falling Rocks sprite?
-                LDA ($00), Y : DEY #2 : CMP.b #$F4 : BNE .notFallingRocks
+                LDA.b ($00), Y : DEY #2 : CMP.b #$F4 : BNE .notFallingRocks
                     ; Set a "falling rocks" flag for the area and skip past this
                     ; sprite.
                     INC.w $0FFD
@@ -1455,19 +1453,19 @@ LoadOverworldSprites:
         
         .notFallingRocks ; Anything other than falling rocks.
         
-        LDA ($00), Y : PHA : LSR #4 : ASL #2 : STA.b $02 : INY
+        LDA.b ($00), Y : PHA : LSR #4 : ASL #2 : STA.b $02 : INY
         
-        LDA ($00), Y : LSR #4 : CLC : ADC.b $02 : STA.b $06
+        LDA.b ($00), Y : LSR #4 : CLC : ADC.b $02 : STA.b $06
         
         PLA : ASL #4 : STA.b $07
         
         ; All this is to tell us where to put the sprite in the sprite map.
-        LDA ($00), Y : AND.b #$0F : ORA.b $07 : STA.b $05
+        LDA.b ($00), Y : AND.b #$0F : ORA.b $07 : STA.b $05
         
         ; The sprite / overlord index as stored as one plus it's normal index.
         ; Don't ask me why yet. Load them into what I guess you might call a
         ; sprite map.
-        INY : LDA ($00), Y
+        INY : LDA.b ($00), Y
         
         LDX.b $05
         INC : STA.l $7FDF80, X
