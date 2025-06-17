@@ -7100,8 +7100,7 @@ Sprite_LoadProperties:
     
     LDY.w $0E20, X ; What kind of sprite is it?
     
-    LDA.w SpriteData_OAMHarm, Y : STA.w $0E40, X
-    
+    LDA.w SpriteData_OAMHarm, Y         : STA.w $0E40, X
     LDA.w SpriteData_Health, Y          : STA.w $0E50, X 
     LDA.w SpriteData_HitBox, Y          : STA.w $0F60, X
     LDA.w SpriteData_PrizePack, Y       : STA.w $0BE0, X
@@ -7109,7 +7108,7 @@ Sprite_LoadProperties:
     LDA.w SpriteData_Bump, Y            : STA.w $0CD2, X
     LDA.w SpriteData_TileInteraction, Y : STA.w $0B6B, X
     
-    ; Load the outdoor area number.
+    ; Load the overworld area number.
     LDA.w $040A
     
     LDY.b $1B : BEQ .outdoors

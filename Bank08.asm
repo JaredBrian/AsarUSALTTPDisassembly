@@ -269,7 +269,6 @@ AddFireRodShot:
     .dont_play_sound_effect
     
     LDA.b $00 : STA.w $0C4A, Y : TAX
-    
     LDA.w AncillaObjectAllocation, X : STA.w $0C90, Y
     
     LDA.b #$03 : STA.w $0C68, Y

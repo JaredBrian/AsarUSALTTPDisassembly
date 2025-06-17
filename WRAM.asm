@@ -6241,48 +6241,50 @@ struct WRAM $7E0000
         ;     need to make sure my doc jives with his, and if not, find out why.)
         ;     prize pack for a sprite in the sprite object model (see below)
 
+    ; Ancillae Vars:
+    ; "Ancilla" or "Ancillae" are supporting sprite objects that are
+    ; spawned at runtime usually to draw a special effect. They have their own
+    ; ecosystem of variables and run functions that are not shared with sprites.
+    
     ; $0BF0[0x0A] - (Ancilla)
     .AncMiscM: skip $0A
         ; A misc variable used by ancillae.
 
     ; $0BFA[0x0A] - (Ancilla)
     .AncLowYCoord: skip $0A
-        ; Y coordinate low byte.
+        ; The ancilla Y coordinate low byte.
 
     ; $0C04[0x0A] - (Ancilla)
     .AncLowXCoord: skip $0A
-        ; X coordinate low byte.
+        ; The ancilla X coordinate low byte.
 
     ; $0C0E[0x0A] - (Ancilla)
     .AncHighYCoord: skip $0A
-        ; Y coordinate high byte.
+        ; The ancilla Y coordinate high byte.
 
     ; $0C18[0x0A] - (Ancilla)
     .AncHighXCoord: skip $0A
-        ; X coordinate high bytes.
+        ; The ancilla X coordinate high bytes.
 
     ; $0C22[0x0A] - (Ancilla)
     .AncYVelocity: skip $0A
-        ; Ancilla Y velocity.
+        ; The ancilla Y velocity.
 
     ; $0C2C[0x0A] - (Ancilla)
     .AncXVelocity: skip $0A
-        ; Ancilla X velocity.
+        ; The ancilla X velocity.
 
     ; $0C36[0x0A] - (Ancilla)
     .AncYSubVelocity: skip $0A
-        ; Ancilla subpixel Y velocity.
+        ; The ancilla subpixel Y velocity.
 
     ; $0C40[0x0A] - (Ancilla)
     .AncXSubVelocity: skip $0A
-        ; Ancilla subpixel X velocity.
+        ; The ancilla subpixel X velocity.
 
     ; $0C4A[0x0A] - (Ancilla)
     .AncID: skip $0A
-        ; Type ID for Ancillae. Ancillae are supporting sprite objects that are
-        ; spawned at runtime usually to draw a special effect. They have their own
-        ; ecosystem of variables and run functions that are not shared with sprites.
-        ; Valid values are as follows:
+        ; The type ID for ancillae.
         ; 0x00 - Nothing: An indicator that no ancilla is currently active in 
         ;        this slot.
         ; 0x01 - Somarian Blast: Results from splitting a Somarian block, both the
@@ -6421,30 +6423,25 @@ struct WRAM $7E0000
     .AncLayer: skip $0A
         ; The current layer the ancilla is on (BG1 or BG2).
 
-    ; $0C86 - 
-        ; Free RAM?
-        ; Starting offset into OAM buffer on any particular frame.
+    ; $0C86[0x0A] - (Ancilla)
+    .AncOAMRegion: skip $0A
+        ; Starting offset into OAM buffer for ancillae. The value written here does
+        ; not actually appear to be used anywhere. TODO: Verify.
 
     ; $0C90[0x0A] - (Ancilla)
-        ; Number of sprites the special effects uses * 4
+    .AncOAMCount: skip $0A
+        ; The number of OAM tiles the ancilla uses *4.
 
-    ; ===========================================================================
-    ; The Sprite Object Model. All arrays are 16 bytes long since there are 16 
-    ; sprites per room.
-    ;
-    ; Note: also see $0BE0
-    ; ===========================================================================
-
-    ; $0C9A - 
-        ; Room or Area number that the sprite has been loaded to. (If in a dungeon, only contains the lower byte)
+    ; $0C9A[0x10] - (Sprite, Overworld, Dungeon)
+    .SprAreaOrRoom: skip $10
+        ; The dungeon room or overworld area number that a sprite has been loaded
+        ; into. (If in a dungeon, only contains the lower byte).
 
     ; $0CAA[0x10] - (Sprite)
         ; Deflection properties bitfield
-        ; abcdefgh
-        ; a - If set... creates some condition where it may or may not die
-        ; (Active off screen according to Zarby)
-        ; b - Same as bit 'a' in some contexts (Zora in particular)
-        ; (Die off screen according to Zarby)
+        ; abcd efgh
+        ; a - If set, the sprite will not despawn when off screen.
+        ; b - If set, sprites that can self terminate
         ; c - While this is set and unset in a lot of places for various sprites, its
         ; status doesn't appear to ever be queried. Based on the pattern of its
         ; usage, however, the best deduction I can make is that this was a flag
