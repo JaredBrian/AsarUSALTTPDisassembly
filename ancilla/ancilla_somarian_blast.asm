@@ -114,7 +114,7 @@ Pool_SomarianBlast_Draw:
 
 ; ==============================================================================
 
-; $040622-$040629 POOL
+; $040622-$040627 LOCAL JUMP LOCATION
 Ancilla_BoundsCheck_self_terminate:
 {
     PLA : PLA
@@ -122,9 +122,11 @@ Ancilla_BoundsCheck_self_terminate:
     STZ.w $0C4A, X
     
     RTS
+}
     
-    ; $040628
-    .unknown
+; $040628-$040629 DATA
+Ancilla_BoundsCheck_unknown:
+{
     db $BC, $7C
 }
     
@@ -135,7 +137,6 @@ Ancilla_BoundsCheck:
 {
     ; Load a value based on which floor the special object is on.
     LDY.w $0C7C, X
-    
     LDA.w .unknown, Y : STA.b $04
     
     LDY.w $0C86, X

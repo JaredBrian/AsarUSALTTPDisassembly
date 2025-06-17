@@ -117,7 +117,8 @@ Ancilla_MagicPowder:
     
     .just_draw
     
-    LDA.w $0C90, X : JSR.w Ancilla_AllocateOam_B_or_E
+    LDA.w $0C90, X
+    JSR.w Ancilla_AllocateOam_B_or_E
     
     ; Bleeds into the next function.
 }

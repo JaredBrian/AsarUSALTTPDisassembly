@@ -51,7 +51,6 @@ IceShotSpread_Draw:
     
     ; Load the amount of OAM RAM this object needs.
     LDA.w $0C90, X
-    
     JSR.w Ancilla_AllocateOam
     
     LDA.w $0C5E, X : ASL #3 : TAX

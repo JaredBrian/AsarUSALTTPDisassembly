@@ -4266,7 +4266,8 @@ ConsumingFire_TransmuteToSkullWoodsFire:
             STZ.w $035F
             
             ; Set OAM allocation requirement.
-            TYX : LDA.l AncillaObjectAllocation, X : STA.w $0C90
+            TYX
+            LDA.l AncillaObjectAllocation, X : STA.w $0C90
             
             PLX
             
@@ -4497,7 +4498,8 @@ Ancilla_GetRidOfArrowInWall:
         
         LDA.l AncillaObjectAllocation, X : STA.b $0E
         
-        PLX : LDA.b $0E : STA.w $0C90, X
+        PLX
+        LDA.b $0E : STA.w $0C90, X
         
         CLC
         
