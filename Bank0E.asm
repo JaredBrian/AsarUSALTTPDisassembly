@@ -8803,7 +8803,7 @@ OverworldSpritesPaletteSet:
 ; $0755A8-$0755F3 LONG JUMP LOCATION
 Overworld_LoadPalettes:
 {
-    ASL #2 : TAX ; *2
+    ASL #2 : TAX ; *4
         
     STZ.w $0AA9
         
@@ -9871,12 +9871,11 @@ Pool_Overworld_CheckForSpecialOverworldTrigger:
     dw $0180, $0181, $0182, $0189
 }
 
+; This routine specifically checks to see if Link will enter a special are
+; (areas >= 0x80).
 ; $075E49-$075E99 LONG JUMP LOCATION
 Overworld_CheckForSpecialOverworldTrigger:
-{
-    ; This routine specifically checks to see if Link will enter a special are
-    ; (areas >= 0x80).
-        
+{   
     REP #$31
         
     ; Get the map16 address of Link's coordinates.

@@ -1112,7 +1112,6 @@ Credits_LoadScene_Overworld_PrepGFX:
     JSL.l DecompOwAnimatedTiles
 
     LDA.b $11 : LSR : TAX
-
     LDA.l Credits_LoadScene_PrepGFX_sprite_GFX, X : STA.w $0AA3
 
     LDA.l Credits_LoadScene_PrepGFX_sprite_palette, X : PHA
@@ -1273,9 +1272,7 @@ Credits_LoadScene_Dungeon:
     JSL.l DecompDungAnimatedTiles
 
     LDA.b $11 : LSR : TAX
-
-    LDA.l Credits_LoadScene_PrepGFX_sprite_GFX, X
-    STA.w $0AA3
+    LDA.l Credits_LoadScene_PrepGFX_sprite_GFX, X : STA.w $0AA3
 
     LDA.l Credits_LoadScene_PrepGFX_sprite_palette, X : ASL #2 : TAX
     LDA.l UnderworldPaletteSets+2, X : STA.w $0AAD
@@ -7001,7 +6998,7 @@ Overworld_LoadMapProperties:
     LDA.l $7EFCC0, X : STA.w $0AA3
 
     ; $0AA2 is the secondary background graphics index.
-    LDA.l GFXAA2ValsOW, X : STA.w $0AA2
+    LDA.l GFX0AA2ValsOW, X : STA.w $0AA2
 
     ; ZSCREAM: ZS overwrites a bit of code here.
     ; Overworld screen widths and heights match for DW and LW.
@@ -7971,7 +7968,6 @@ Module09_FadeBackInFromMosaic:
 OverworldMosaicTransition_RecoverDestinationPalettes:
 {
     LDX.b $8A
-
     LDA.l $7EFD40, X : STA.b $00
 
     LDA.l OverworldPalettesScreenToSet, X
@@ -8385,7 +8381,6 @@ MirrorWarp_LoadSpritesAndColors:
     JSR.w Overworld_LoadAreaPalettes
 
     LDX.b $8A
-
     LDA.l $7EFD40, X : STA.b $00
 
     LDA.l OverworldPalettesScreenToSet, X
@@ -8619,7 +8614,6 @@ Whirlpool_LoadPalettes:
     JSL.l Palette_OverworldBgMain
 
     LDX.b $8A
-
     LDA.l $7EFD40, X : STA.b $00
 
     LDA.l OverworldPalettesScreenToSet, X
@@ -14132,7 +14126,8 @@ LoadOverworldFromSpecialOverworld:
     LDA.l $7EC126 : STA.w $0AA2
     LDA.l $7EC127 : STA.w $0AA3
 
-    LDX.b $8A : LDA.l $7EFD40, X : STA.b $00
+    LDX.b $8A
+    LDA.l $7EFD40, X : STA.b $00
 
     LDA.l OverworldPalettesScreenToSet, X
 
@@ -14440,7 +14435,6 @@ BirdTravel_LoadTargetAreaPalettes:
     JSR.w Overworld_LoadAreaPalettes
 
     LDX.b $8A
-
     LDA.l $7EFD40, X : STA.b $00
 
     LDA.l OverworldPalettesScreenToSet, X

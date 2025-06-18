@@ -15771,8 +15771,8 @@ Sprite_LoadGfxProperties:
 
     .darkWorldLoop
 
-        LDA Sprite_GfxIndices, Y     : STA.l $7EFD00, X
-        LDA Sprite_PaletteIndices, Y : STA.l $7EFD80, X
+        LDA.w Sprite_GfxIndices, Y     : STA.l $7EFD00, X
+        LDA.w Sprite_PaletteIndices, Y : STA.l $7EFD80, X
         
         DEY #2
     DEX #2 : BPL .darkWorldLoop
@@ -15807,8 +15807,8 @@ Sprite_LoadGfxProperties:
 
         ; This array will be used to load values for $0AA3 and $0AB1 at a later
         ; time.
-        LDA Sprite_GfxIndices, Y     : STA.l $7EFCC0, X
-        LDA Sprite_PaletteIndices, Y : STA.l $7EFD40, X
+        LDA.w Sprite_GfxIndices, Y     : STA.l $7EFCC0, X
+        LDA.w Sprite_PaletteIndices, Y : STA.l $7EFD40, X
     DEY #2 : DEX #2 : BPL .lightWorldLoop
     
     SEP #$30
@@ -15822,7 +15822,7 @@ Sprite_LoadGfxProperties:
 
 ; $007C9C-$007D1B DATA
 ; Auxiliary graphics index for overworld areas (0x80 entries).
-GFXAA2ValsOW:
+GFX0AA2ValsOW:
 {
     db $21, $21, $21, $22, $22, $22, $22, $22
     db $21, $21, $21, $22, $22, $22, $22, $27
