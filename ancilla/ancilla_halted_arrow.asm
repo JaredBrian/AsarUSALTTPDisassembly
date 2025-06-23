@@ -11,32 +11,31 @@ Ancilla_HaltedArrow:
             LDA.w $0F70, Y : BMI .self_terminate
                 LDA.w $0BA0, Y : BNE .self_terminate
                     LDA.w $0CAA, Y : AND.b #$02 : BNE .self_terminate
-                    
-                    STZ $00
-                    
-                    LDA.w $0C2C, X : BPL .positive_x_speed
-                        DEC $00
-                    
-                    .positive_x_speed
-                    
-                               CLC : ADC.w $0D10, Y : STA.w $0C04, X
-                    LDA.w $0D30, Y : ADC $00        : STA.w $0C18, X
-                    
-                    STZ $00
-                    
-                    LDA.w $0C22, X : BPL .positive_y_speed
-                        DEC $00
-                    
-                    .positive_y_speed
-                    
-                    CLC : ADC.w $0D00, Y : PHP
-                    SEC : SBC.w $0F70, Y : STA.w $0BFA, X
+                        STZ.b $00
+                        
+                        LDA.w $0C2C, X : BPL .positive_x_speed
+                            DEC.b $00
+                        
+                        .positive_x_speed
+                        
+                                   CLC : ADC.w $0D10, Y : STA.w $0C04, X
+                        LDA.w $0D30, Y : ADC.b $00      : STA.w $0C18, X
+                        
+                        STZ.b $00
+                        
+                        LDA.w $0C22, X : BPL .positive_y_speed
+                            DEC.b $00
+                        
+                        .positive_y_speed
+                        
+                        CLC : ADC.w $0D00, Y : PHP
+                        SEC : SBC.w $0F70, Y : STA.w $0BFA, X
 
-                    LDA.w $0D20, Y : SBC.b #$00 : PLP : ADC $00 : STA.w $0C0E, X
+                        LDA.w $0D20, Y : SBC.b #$00 : PLP : ADC.b $00 : STA.w $0C0E, X
     
     .didnt_collide_with_sprite
     
-    LDA $11 : BEQ .normal_submode
+    LDA.b $11 : BEQ .normal_submode
         BRA .just_draw
     
     .normal_submode
