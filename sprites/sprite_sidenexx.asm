@@ -90,9 +90,7 @@ Sidenexx:
     LDA.w $0CAA, X : ORA.b #$04 : STA.w $0CAA, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Sidenexx_Dormant ; 0x00 - $B986
     dw Sidenexx_Think   ; 0x01 - $B9A6
     dw Sidenexx_Move    ; 0x02 - $B9F2

@@ -51,7 +51,8 @@ Medusa_ConfigFireballProperties:
     LDA.w $0CAA, Y : ORA.b #$08 : STA.w $0CAA, Y
                 
     LDA.b #$04 : STA.w $0CD2, Y
-            
+
+    ; $0EC852 ALTERNATE ENTRY POINT     
     .dont_spawn
     
     RTS

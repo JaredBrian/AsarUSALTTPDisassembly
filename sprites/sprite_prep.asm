@@ -382,9 +382,7 @@ SpritePrep_Keese:
     LDY.w $0FFF
     
     LDA.w Pool_SpritePrep_Keese_damage_class, Y : STA.w $0CD2, X
-    
     LDA.w Pool_SpritePrep_Keese_hp, Y           : STA.w $0E50, X
-    
     LDA.w Pool_SpritePrep_Keese_prize_pack, Y   : STA.w $0BE0, X
     
     RTS
@@ -413,11 +411,9 @@ SpritePrep_Rope:
 {
     LDY.w $0FFF
     
-    LDA Pool_SpritePrep_Rope_damage_class, Y : STA.w $0CD2, X
-    
-    LDA Pool_SpritePrep_Rope_hp, Y           : STA.w $0E50, X
-    
-    LDA Pool_SpritePrep_Rope_prize_pack, Y   : STA.w $0BE0, X
+    LDA.w Pool_SpritePrep_Rope_damage_class, Y : STA.w $0CD2, X
+    LDA.w Pool_SpritePrep_Rope_hp, Y           : STA.w $0E50, X
+    LDA.w Pool_SpritePrep_Rope_prize_pack, Y   : STA.w $0BE0, X
     
     RTS
 }
@@ -607,10 +603,8 @@ SpritePrep_Raven:
     LDY.w $0FFF
     
     LDA.w Pool_SpritePrep_Raven_bump_damage, Y : STA.w $0CD2, X
-    
-    LDA.w Pool_SpritePrep_Raven_hp, Y : STA.w $0E50, X
-    
-    LDA.w Pool_SpritePrep_Raven_prize_pack, Y : STA.w $0BE0, X
+    LDA.w Pool_SpritePrep_Raven_hp, Y          : STA.w $0E50, X
+    LDA.w Pool_SpritePrep_Raven_prize_pack, Y  : STA.w $0BE0, X
 
     ; Bleeds into the next function.
 }
