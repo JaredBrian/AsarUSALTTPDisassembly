@@ -506,7 +506,7 @@ struct WRAM $7E0000
         ; 0x0E - North West (facing south)
         ; 0x0F - North West (facing south) too?
 
-    ; $EF[0x01] - (Polyhedral)
+    ; $4A[0x01] - (Polyhedral)
     .Poly_Unknown_4A: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
@@ -6438,33 +6438,53 @@ struct WRAM $7E0000
         ; into. (If in a dungeon, only contains the lower byte).
 
     ; $0CAA[0x10] - (Sprite)
-        ; Deflection properties bitfield
+    .SprSetting3: skip $10
+        ; This array contains various settings for active sprites that in general
+        ; have something to do with collision.
         ; abcd efgh
         ; a - If set, the sprite will not despawn when off screen.
-        ; b - If set, sprites that can self terminate
-        ; c - While this is set and unset in a lot of places for various sprites, its
-        ; status doesn't appear to ever be queried. Based on the pattern of its
-        ; usage, however, the best deduction I can make is that this was a flag
-        ; intended to signal that a sprite is an interactive object that Link can
-        ; push against, pull on, or otherwise exerts a physical presence.
-        ; 
-        ; In general, it might have indicated some kind of A button (action
-        ; button) affinity for the sprite, but I think this is merely informative
-        ; rather than something relevant to gameplay.
-        ; d - If hit from front, deflect Ice Rod, Somarian missile,
-        ; boomerang, hookshot, and sword beam, and arrows stick in
-        ; it harmlessly.  If bit 1 is also set, frontal arrows will
-        ; instead disappear harmlessly.  No monsters have bit 4 set
-        ; in the ROM data, but it was functional and interesting
-        ; enough to include.
-        ; e - If set, makes the sprite collide with less tiles than usual.
-        ; (Projectile like collision according to Zarby)
-        ; f - If set, makes sprite impervious to sword and hammer type attacks.
-        ; g - Seems to make sprite impervious to arrows, but may have other
-        ; additional meanings. Makes the sprite be able to be picked up by the boomerang.
-        ; (Bonk item according to Zarby)
-        ; h - disabled???
-        ; (No perma-death in dungeons according to Zarby)
+        ; b - If set, sprites that can self terminate when off screen will skip a
+        ;     check that prevents sprites from self terminating when indoors. In 
+        ;     effect, this means the sprite will always self terminate reguardless
+        ;     if in a dungeon or not. See Sprite_SelfTerminate for more details.
+        ; c - Here is the original MoN comment that, as far as I can tell, is
+        ;     correct:
+        ;     While this is set and unset in a lot of places for various sprites,
+        ;     its status doesn't appear to ever be checked or read. Based on the
+        ;     pattern of its usage the best deduction I can make is that this was
+        ;     a flag intended to signal that a sprite is an interactive object that
+        ;     the player can push against, pull on, or otherwise exerts a physical
+        ;     presence. In general, it might have indicated some kind of A button
+        ;     (action button) affinity for the sprite, but I think this is merely
+        ;     informative rather than something relevant to gameplay.
+        ; d - If set, the sprite will "deflect" certain ancillae attacks if they
+        ;     hit the "front" of the sprite. The ancillae attacks inclue: the Ice
+        ;     Rod shot, the Somarian missile, the boomerang, the hookshot, the
+        ;     Master Sword beam, and arrows. If bit 1 is also set, frontal arrows
+        ;     will instead disappear harmlessly. No sprites have this bit set
+        ;     in the vanila ROM data, but it is functional. TODO: Verify.
+        ; e - If set, makes the sprite use a simplified tile collision routine that
+        ;     cuases the sprite to have less tile interactions. This is often used
+        ;     for projectiles. TODO: Document the exact differences.
+        ; f - If set, makes sprite impervious to sword and hammer type attacks and
+        ;     instead will apply recoil to the player and spawn a repulse spark.
+        ; g - Has several purposes that depend on the sprite and other settings.
+        ;     Functions include:
+        ;          If set, makes sprites ignore layer checks when checking
+        ;          collisions with various types of ancillae.
+        ;          If set, makes the sprite "draggable" by the hookshot.
+        ;          If set, the sprite will not be killed while a boss is currently
+        ;          dying.
+        ;          If set, will cause a halted arrow that hits the sprite to
+        ;          dissapear.
+        ;          If set, the sprite will not be affected by dashing rumble effects
+        ;          caused by a dash bonk or the Quake Medallion.
+        ;          If set, makes the sprite be able to be picked up by the boomerang.
+        ; h - TODO: I can't see any direct references to this bit but both Zarby and
+        ;     Kan's notes claim something so I'll have to come back to this.
+        ;     No perma-death in dungeons according to Zarby.
+        ;     Handles behavior with previous deaths flagged in $7FDF80
+        ;     (0: default | 1: ignore) according to Kan.
 
     ; $0CBA[0x10] - (Sprite)
         ; If this is the following when the sprite dies, then:

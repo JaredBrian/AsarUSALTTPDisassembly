@@ -1583,7 +1583,6 @@ Entity_ApplyRumbleToSprites:
 
                 .not_single_heart_refill
             .skip_sprite
-        
     DEY : BPL .next_sprite
     
     RTS
@@ -4584,10 +4583,8 @@ Sprite_CheckTileProperty:
         
         CMP.b #$04 : BEQ .BRANCH_EPSILON
             CMP.b #$01 : BCC .BRANCH_ZETA
-                LDA.w $0FA5
-                
-                CMP.b #$10 : BCC .not_sloped_tile
-                CMP.b #$14 : BCS .not_sloped_tile
+                LDA.w $0FA5 : CMP.b #$10 : BCC .not_sloped_tile
+                              CMP.b #$14 : BCS .not_sloped_tile
                     JSR.w Entity_CheckSlopedTileCollision
                     JMP.w .load_tile_prop_exit
                 

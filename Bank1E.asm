@@ -416,9 +416,9 @@ Sprite3_CheckIfActive:
         .permissive
     
         LDA.w $0FC1 : BNE .inactive
-        LDA.b $11 : BNE .inactive
-            LDA.w $0CAA, X : BMI .active
-            LDA.w $0F00, X : BEQ .active
+            LDA.b $11 : BNE .inactive
+                LDA.w $0CAA, X : BMI .active
+                    LDA.w $0F00, X : BEQ .active
     
     .inactive
     

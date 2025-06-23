@@ -1075,7 +1075,7 @@ Dungeon_ManuallySetSpriteDeathFlag:
     PHB : PHK : PLB
     
     LDA.b $1B : BEQ .return
-        LDA.w $0CAA, X : LSR BCS .return
+        LDA.w $0CAA, X : LSR : BCS .return
             LDA.w $0BC0, X : BMI .return
                 STA.b $02
                 STZ.b $03
