@@ -333,7 +333,7 @@ Blind_SpawnExtraHead:
         
         LDA.b #$04 : STA.w $0CAA, Y
         
-        LDA.b #$02 : STA !blind_subtype, Y
+        LDA.b #$02 : STA.w !blind_subtype, Y
         
         LDA.b #$01 : STA.w $0E40, Y
         

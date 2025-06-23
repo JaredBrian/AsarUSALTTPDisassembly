@@ -163,9 +163,7 @@ Eyegore_Main:
     LDA.w $0CAA, X : ORA.b #$04 : STA.w $0CAA, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Eyegore_WaitUntilPlayerNearby ; 0x00 - $C868
     dw Eyegore_OpeningEye            ; 0x01 - $C893
     dw Eyegore_ChasePlayer           ; 0x02 - $C8CB
