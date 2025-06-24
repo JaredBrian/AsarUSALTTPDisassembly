@@ -6487,18 +6487,22 @@ struct WRAM $7E0000
         ;     (0: default | 1: ignore) according to Kan.
 
     ; $0CBA[0x10] - (Sprite)
-        ; If this is the following when the sprite dies, then:
-        ; 0x00: nothing happens.
-        ; 0x01: leaves a normal key.
-        ; 0x03: single green rupee.
-        ; anything else: Big Key
+    .SprDropItem:
+        ; This controlls a few special cases where a sprite will drop certain items.
+        ; There is also a case where the Running Man will use this as a timer.
+        ; 0x00 - Nothing happens.
+        ; 0x01 - Leaves a normal key.
+        ; 0x01 - Leaves a big key.
+        ; 0x03 - Leaves a single green rupee.
+        ; Anything else - A big key.
 
-    ; $0CCA - 
-        ; Area that an overlord was loaded during
+    ; $0CCA[0x08] - (Overworld, Overlord)
+    .OverlordArea: skip $08
+        ; The overworld area that the overlord was loaded into.
 
     ; $0CD2[0x10] - (Sprite)
 
-        ; rbiadddd
+        ; rbia dddd
 
         ; r - Recoil without collision.
         ; b - Bee target
