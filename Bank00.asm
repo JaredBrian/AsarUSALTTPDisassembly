@@ -15820,8 +15820,8 @@ Sprite_LoadGfxProperties:
 
 ; ==============================================================================
 
-; $007C9C-$007D1B DATA
 ; Auxiliary graphics index for overworld areas (0x80 entries).
+; $007C9C-$007D1B DATA
 GFX0AA2ValsOW:
 {
     db $21, $21, $21, $22, $22, $22, $22, $22
@@ -15843,8 +15843,8 @@ GFX0AA2ValsOW:
     db $42, $42, $30, $40, $40, $42, $42, $30
 }
 
-; $007D1C-$007DA3 DATA
 ; Overworld palette group data.
+; $007D1C-$007DA3 DATA
 OverworldPalettesScreenToSet:
 {
     db $06, $06, $08, $07, $07, $07, $07, $07

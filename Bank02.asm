@@ -777,13 +777,10 @@ PreOverworld_LoadProperties:
     ; Load palettes for overworld.
     JSR.w Overworld_LoadAreaPalettes
 
-    LDX.b $8A
-
-    LDA.l $7EFD40, X : STA.b $00
-
-    LDA.l OverworldPalettesScreenToSet, X
-
     ; Load some other palettes.
+    LDX.b $8A
+    LDA.l $7EFD40, X : STA.b $00
+    LDA.l OverworldPalettesScreenToSet, X
     JSL.l Overworld_LoadPalettes
 
     ; Sets the background color (changes depending on area).
@@ -1124,7 +1121,6 @@ Credits_LoadScene_Overworld_PrepGFX:
     PLA : STA.b $00
 
     LDX.b $8A
-
     LDA.l OverworldPalettesScreenToSet, X
 
     JSL.l Overworld_LoadPalettes
@@ -1215,7 +1211,6 @@ Credits_LoadCoolBackground:
 
     ; Sets an index for setting $0AB8.
     LDA.b #$13 : STA.b $00
-
     LDA.l OverworldPalettesScreenToSet, X
 
     ; Loads several palettes based on the X = 0x5B above.
@@ -6973,9 +6968,9 @@ OverworldHandleTransitions:
 
         LDX.b $8A
         LDA.l $7EFD40, X : STA.b $00
-
         LDA.l OverworldPalettesScreenToSet, X
         JSL.l Overworld_LoadPalettes
+
         JSR.w Overworld_CgramAuxToMain
 
         RTS
@@ -7969,9 +7964,7 @@ OverworldMosaicTransition_RecoverDestinationPalettes:
 {
     LDX.b $8A
     LDA.l $7EFD40, X : STA.b $00
-
     LDA.l OverworldPalettesScreenToSet, X
-
     JSL.l Overworld_LoadPalettes
 
     BRA OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic
@@ -8382,10 +8375,9 @@ MirrorWarp_LoadSpritesAndColors:
 
     LDX.b $8A
     LDA.l $7EFD40, X : STA.b $00
-
     LDA.l OverworldPalettesScreenToSet, X
-
     JSL.l Overworld_LoadPalettes
+
     JSL.l Overworld_SetScreenBGColorCacheOnly
     JSL.l Overworld_SetFixedColorAndScroll
 
@@ -8615,10 +8607,9 @@ Whirlpool_LoadPalettes:
 
     LDX.b $8A
     LDA.l $7EFD40, X : STA.b $00
-
     LDA.l OverworldPalettesScreenToSet, X
-
     JSL.l Overworld_LoadPalettes
+
     JSL.l Palette_SetOwBgColor_Long
     JSL.l Overworld_SetFixedColorAndScroll
     JSL.l LoadNewSpriteGFXSet
@@ -14126,13 +14117,12 @@ LoadOverworldFromSpecialOverworld:
     LDA.l $7EC126 : STA.w $0AA2
     LDA.l $7EC127 : STA.w $0AA3
 
+    ; Set palettes and background color
     LDX.b $8A
     LDA.l $7EFD40, X : STA.b $00
-
     LDA.l OverworldPalettesScreenToSet, X
-
-    ; Set palettes and background color
     JSL.l Overworld_LoadPalettes
+
     JSL.l Overworld_SetScreenBGColorCacheOnly
 
     STZ.b $A9
@@ -14436,10 +14426,9 @@ BirdTravel_LoadTargetAreaPalettes:
 
     LDX.b $8A
     LDA.l $7EFD40, X : STA.b $00
-
     LDA.l OverworldPalettesScreenToSet, X
-
     JSL.l Overworld_LoadPalettes
+
     JSL.l Palette_SetOwBgColor_Long
     JSR.w Overworld_CopyPalettesToCache_WithPrep
 
