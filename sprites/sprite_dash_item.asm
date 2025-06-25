@@ -103,7 +103,6 @@ DashKey_GiveToPlayer:
     STZ.w $0DD0, X ; Kill the sprite.
     
     LDA.w $0CBA, X : TAY
-    
     LDA.w $0403 : ORA.w .room_flag, Y : STA.w $0403
     
     LDA.b #$2F : JSL.l Sound_SetSfx3PanLong

@@ -14,7 +14,6 @@ Sprite_Key:
 Sprite_BigKey:
 {
     LDY.w $0CBA, X
-    
     LDA.w $0403 : AND.w Sprite_Key_flag_masks, Y : BEQ .keyNotObtainedYet
         ; Kill the key, as it's already been obtained.
         STZ.w $0DD0, X

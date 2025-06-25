@@ -522,6 +522,7 @@ GoodBee_ScanForTargetableSprites:
                         LDA.w $0F20, Y : CMP.w $0F20, X : BNE .skip_sprite
                             LDA.w $0F60, Y : AND.b #$40 : BNE .skip_sprite
                                 LDA.w $0BA0, Y : BEQ .attack_sprite
+                                    ; OPTIMIZE: Goofy branch.
                                     BRA .skip_sprite
                                 
                                 .attack_sprite
@@ -529,7 +530,8 @@ GoodBee_ScanForTargetableSprites:
                                 ; WTF: Again, a check of a good bee. Do normal
                                 ; bees ever attack other sprites?
                                 LDA.w $0EB0, X : BEQ .skip_sprite
-                                    LDA.w $0CD2, Y : AND.b #$40 : BNE .attack_sprite
+                                    ; Check if the sprite is a bee target:
+                                    LDA.w $0CD2, Y : AND.b #$40 : BNE .attack_sprite2
 
                 .is_npc_sprite
         .skip_sprite
@@ -541,7 +543,7 @@ GoodBee_ScanForTargetableSprites:
     
     RTS
     
-    .attack_sprite
+    .attack_sprite2
     
     JSL.l GoodBee_AttackOtherSprite
     
