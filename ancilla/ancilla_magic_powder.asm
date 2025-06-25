@@ -202,7 +202,7 @@ MagicPowder_ApplySpriteDamage:
     
         TYA : EOR $1A : AND.b #$03 : BNE .no_collision
             LDA.w $0DD0, Y : CMP.b #$09 : BNE .no_collision
-                LDA.w $0CD2, Y : AND.b #$20 : BNE .no_collision
+                LDA.w $0CD2, Y : AND.b #$20 : BNE .immuneToPowder
                     JSR.w Ancilla_SetupBasicHitBox
                     
                     PHY : PHX
@@ -248,7 +248,7 @@ MagicPowder_ApplySpriteDamage:
                         LDA.b #$0A : JSL.l Ancilla_CheckSpriteDamage_preset_class
                         
                         PLY : PLX
-        
+                .immuneToPowder
         .no_collision
     DEY : BPL .next_sprite
     
