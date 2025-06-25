@@ -845,10 +845,10 @@ Sprite_TimersAndOAM:
                         
                         .agahnim_complains
                         
-                        ; Agahnim complaining about you beating him in the Light world.
+                        ; Agahnim complaining about you beating him in the
+                        ; Light world.
                         LDA.b #$40 : STA.w $1CF0
                         LDA.b #$01 : STA.w $1CF1
-                        
                         JSL.l Sprite_ShowMessageMinimal
                 
                 .not_agahnim_complaining
@@ -4638,7 +4638,6 @@ Sprite_CheckTileProperty:
     PHX
     
     TYX
-    
     LDA.l GeneralizedSpriteTileInteraction, X
     
     PLX
@@ -4657,7 +4656,8 @@ Sprite_CheckTileProperty:
         CMP.b #$44 : BNE .not_spike_tile
             LDA.w $0EA0, X : BEQ .BRANCH_PI
                 LDA.w $0CE2, X : BMI .BRANCH_UPSILON
-                    LDA.b #$04 : JSL.l Ancilla_CheckSpriteDamage_preset_class
+                    LDA.b #$04
+                    JSL.l Ancilla_CheckSpriteDamage_preset_class
                     
                     LDA.w $0EF0, X : BEQ .BRANCH_UPSILON
                         LDA.b #$99 : STA.w $0EF0, X
@@ -5527,65 +5527,65 @@ Medallion_CheckSpriteDamage:
 AncillaDamageClasses:
 {
     ; See $0C4A in WRAM.
-    ; Possible values: 0, 1, 6, 7, 8, 11, 12, 13, 14, 15
+    ; Possible values: 0x00, 0x01, 0x06, 0x07, 0x08, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
 
-    db $06 ; NOTHING
-    db $01 ; SOMARIA BULLET
-    db $0B ; FIRE ROD SHOT
-    db $00 ; UNUSED
-    db $00 ; BEAM HIT
-    db $00 ; BOOMERANG
-    db $00 ; WALL HIT
-    db $08 ; BOMB
-    db $00 ; DOOR DEBRIS
-    db $06 ; ARROW
-    db $00 ; ARROW IN THE WALL
-    db $0C ; ICE ROD SHOT
-    db $01 ; SWORD BEAM_BOUNCE
-    db $00 ; SPIN ATTACK FULL CHARGE SP
-    db $00 ; BLAST WALL EXPLOSION
-    db $00 ; BLAST WALL EXPLOSION
-    db $00 ; BLAST WALL EXPLOSION
-    db $01 ; ICE ROD WALL HIT
-    db $00 ; BLAST WALL EXPLOSION
-    db $00 ; ICE ROD SPARKLE
-    db $00 ; BAD POINTER
-    db $00 ; SPLASH
-    db $00 ; HIT STARS
-    db $00 ; SHOVEL DIRT
-    db $0E ; ETHER SPELL
-    db $0D ; BOMBOS SPELL
-    db $00 ; POWDER DUST
-    db $00 ; SWORD WALL HIT
-    db $0F ; QUAKE SPELL
-    db $00 ; SCREEN SHAKE
-    db $00 ; DASH DUST
-    db $07 ; HOOKSHOT
-    db $01 ; BLANKET
-    db $01 ; SNORE
-    db $01 ; ITEM GET
-    db $01 ; LINK POOF
-    db $01 ; GRAVESTONE
-    db $01 ; BAD POINTER
-    db $01 ; SWORD SWING SPARKLE
-    db $01 ; DUCK
-    db $01 ; WISH POND ITEM
-    db $01 ; MILESTONE ITEM GET
-    db $01 ; SPIN ATTACK SPARKLE A
-    db $01 ; SPIN ATTACK SPARKLE B
-    db $01 ; SOMARIA BLOCK
-    db $01 ; SOMARIA BLOCK FIZZ
-    db $01 ; SOMARIA BLOCK FISSION
-    db $0B ; LAMP FLAME
-    db $00 ; BYRNA WINDUP SPARK
-    db $01 ; BYRNA SPARK
-    db $01 ; BLAST WALL FIREBALL
-    db $01 ; BLAST WALL EXPLOSION
-    db $01 ; SKULL WOODS FIRE
-    db $01 ; MASTER SWORD GET
-    db $01 ; FLUTE
-    db $01 ; WEATHERVANE EXPLOSION
-    db $01 ; CUTSCENE DUCK
+    db $06 ; 0x00 - NOTHING
+    db $01 ; 0x01 - SOMARIA BULLET
+    db $0B ; 0x02 - FIRE ROD SHOT
+    db $00 ; 0x03 - UNUSED
+    db $00 ; 0x04 - BEAM HIT
+    db $00 ; 0x05 - BOOMERANG
+    db $00 ; 0x06 - WALL HIT
+    db $08 ; 0x07 - BOMB
+    db $00 ; 0x08 - DOOR DEBRIS
+    db $06 ; 0x09 - ARROW
+    db $00 ; 0x0A - ARROW IN THE WALL
+    db $0C ; 0x0B - ICE ROD SHOT
+    db $01 ; 0x0C - SWORD BEAM_BOUNCE
+    db $00 ; 0x0D - SPIN ATTACK FULL CHARGE SP
+    db $00 ; 0x0E - BLAST WALL EXPLOSION
+    db $00 ; 0x0F - BLAST WALL EXPLOSION
+    db $00 ; 0x10 - BLAST WALL EXPLOSION
+    db $01 ; 0x11 - ICE ROD WALL HIT
+    db $00 ; 0x12 - BLAST WALL EXPLOSION
+    db $00 ; 0x13 - ICE ROD SPARKLE
+    db $00 ; 0x14 - BAD POINTER
+    db $00 ; 0x15 - SPLASH
+    db $00 ; 0x16 - HIT STARS
+    db $00 ; 0x17 - SHOVEL DIRT
+    db $0E ; 0x18 - ETHER SPELL
+    db $0D ; 0x19 - BOMBOS SPELL
+    db $00 ; 0x1A - POWDER DUST
+    db $00 ; 0x1B - SWORD WALL HIT
+    db $0F ; 0x1C - QUAKE SPELL
+    db $00 ; 0x1D - SCREEN SHAKE
+    db $00 ; 0x1E - DASH DUST
+    db $07 ; 0x1F - HOOKSHOT
+    db $01 ; 0x20 - BLANKET
+    db $01 ; 0x21 - SNORE
+    db $01 ; 0x22 - ITEM GET
+    db $01 ; 0x23 - LINK POOF
+    db $01 ; 0x24 - GRAVESTONE
+    db $01 ; 0x25 - BAD POINTER
+    db $01 ; 0x26 - SWORD SWING SPARKLE
+    db $01 ; 0x27 - DUCK
+    db $01 ; 0x28 - WISH POND ITEM
+    db $01 ; 0x29 - MILESTONE ITEM GET
+    db $01 ; 0x2A - SPIN ATTACK SPARKLE A
+    db $01 ; 0x2B - SPIN ATTACK SPARKLE B
+    db $01 ; 0x2C - SOMARIA BLOCK
+    db $01 ; 0x2D - SOMARIA BLOCK FIZZ
+    db $01 ; 0x2E - SOMARIA BLOCK FISSION
+    db $0B ; 0x2F - LAMP FLAME
+    db $00 ; 0x30 - BYRNA WINDUP SPARK
+    db $01 ; 0x31 - BYRNA SPARK
+    db $01 ; 0x32 - BLAST WALL FIREBALL
+    db $01 ; 0x33 - BLAST WALL EXPLOSION
+    db $01 ; 0x34 - SKULL WOODS FIRE
+    db $01 ; 0x35 - MASTER SWORD GET
+    db $01 ; 0x36 - FLUTE
+    db $01 ; 0x37 - WEATHERVANE EXPLOSION
+    db $01 ; 0x38 - CUTSCENE DUCK
 }
 
 ; ==============================================================================
@@ -5606,7 +5606,6 @@ Ancilla_CheckSpriteDamage:
     PHX
     
     TAX
-    
     LDA.l AncillaDamageClasses, X
     
     PLX
@@ -5654,16 +5653,15 @@ Ancilla_CheckSpriteDamage:
             LDA.b #$05 : STA.w $0FAC
             
             LDY.w $0FB6
-            
             LDA.w $0C04, Y : ADC.b #$04 : STA.w $0FAD
-            
-            LDA.w $0BFA, Y : STA.w $0FAE
+            LDA.w $0BFA, Y              : STA.w $0FAE
             
             LDA.b $EE : STA.w $0B68
             
             STZ.w $012E
             
-            LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$05
+            JSL.l Sound_SetSfx2PanLong
 
     .dont_spawn_repulse_spark
 
@@ -5735,9 +5733,8 @@ Sprite_CalculateSwordDamage:
         
     .notStabbingDamageType
     
-    TAX
-    
     ; Set the damage class.
+    TAX
     LDA.l .damage_class, X : STA.w $0CF2
     
     ; Not sure which item types this indicates.
@@ -5778,8 +5775,10 @@ Sprite_ApplyCalculatedDamage:
     
     .notItemSprite
     
-    REP #$20 : ASL #4 : ORA.w $0CF2 : PHX : REP #$10 : TAX
-    
+    REP #$20
+    ASL #4 : ORA.w $0CF2 : PHX
+    REP #$10
+    TAX
     SEP #$20
     
     ; Loads Selected Sprite Damage in Advanced Damage Editor.
@@ -5868,9 +5867,7 @@ Sprite_ApplyCalculatedDamage:
     LDA.w $0E20, X : CMP.b #$9A : BNE .not_water_bubble
         LDY.w $0CE2, X : CPY.b #$F0 : BCS .BRANCH_LAMBDA
             LDA.b #$09 : STA.w $0DD0, X
-            
             LDA.b #$04 : STA.w $0D80, X
-            
             LDA.b #$0F : STA.w $0DF0, X
             
             LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
@@ -5920,8 +5917,14 @@ Sprite_ApplyCalculatedDamage:
     LDA.b #$00
     
     LDY.w $0CF2 : CPY.b #$0D : BCS .medallion_damage_class
-        LDY.w $0E20, X : LDA.b #$14 : CPY.b #$09 : BEQ .giant_moldorm
-            LDA.b #$0F : CPY.b #$53 : BEQ .armos_knight
+        LDY.w $0E20, X
+
+        LDA.b #$14
+
+        CPY.b #$09 : BEQ .giant_moldorm
+            LDA.b #$0F
+
+            CPY.b #$53 : BEQ .armos_knight
                 CPY.b #$18 : BNE .not_moldorm
         
             .armos_knight
@@ -5958,10 +5961,10 @@ Sprite_HandleSpecialHits:
         LDA.w $0CE2, X : CMP.b #$FD : BNE .not_burn_damage
             STZ.w $0CE2, X
             
-            LDA.b #$09 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$09
+            JSL.l Sound_SetSfx3PanLong
             
             LDA.b #$07 : STA.w $0DD0, X
-            
             LDA.b #$70 : STA.w $0DF0, X
             
             LDA.w $0E40, X : INC #2 : STA.w $0E40, X
@@ -5994,10 +5997,12 @@ Sprite_HandleSpecialHits:
                 
                 ASL.w $0BE0, X : LSR.w $0BE0, X
                 
-                LDA.b #$0F : JSL.l Sound_SetSfx2PanLong
+                LDA.b #$0F
+                JSL.l Sound_SetSfx2PanLong
                 
                 LDA.b #$18 : STA.w $0F80, X
                 
+                ; TODO: Does this remove the top bit?
                 ASL.w $0CD2, X : LSR.w $0CD2, X
                 
                 JSR.w Sprite_Zero_XY_Velocity
@@ -6873,8 +6878,8 @@ Sprite_AttemptDamageToPlayerPlusRecoilLong:
 
 ; ==============================================================================
 
-; $037427-$037444 DATA
 ; 1 of 3 values based on link's armour value and $0CD2, X.
+; $037427-$037444 DATA
 Bump_Damage_Table:
 {
     db $02, $01, $01

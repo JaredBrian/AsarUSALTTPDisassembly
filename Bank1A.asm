@@ -258,7 +258,6 @@ Lanmola_SpawnShrapnel:
         PHX
         
         LDX.w $0FB5
-        
         LDA.l Pool_Lanmola_SpawnShrapnel_speed_x, X : STA.w $0D50, Y
         LDA.l Pool_Lanmola_SpawnShrapnel_speed_y, X : STA.w $0D40, Y
         
@@ -352,7 +351,7 @@ Overworld_SubstituteAlternateSecret:
     !num_live_sprites = $0D
     
     JSL.l GetRandomInt : AND.b #$01 : BNE .return
-        STZ !num_live_sprites
+        STZ.b !num_live_sprites
         
         LDY.b #$0F
         
@@ -360,14 +359,13 @@ Overworld_SubstituteAlternateSecret:
             
             LDA.w $0DD0, Y : BEQ .dead_sprite
                 LDA.w $0E20, Y : CMP.b #$6C : BEQ .is_warp_vortex
-                    INC !num_live_sprites
+                    INC.b !num_live_sprites
                 
                 .is_warp_vortex
             .dead_sprite
-        
         DEY : BPL .next_sprite
         
-        LDA !num_live_sprites : CMP.b #$04 : BCS .return
+        LDA.b !num_live_sprites : CMP.b #$04 : BCS .return
             LDA.l $7EF3C5 : CMP.b #$02 : BCC .return
                 LDA.w $0CF7 : INC.w $0CF7 : AND.b #$07
                 
@@ -381,7 +379,6 @@ Overworld_SubstituteAlternateSecret:
                 PHX
                 
                 LDA.w $040A : AND.b #$3F : TAX
-                
                 LDA Pool_Overworld_SubstituteAlternateSecret_AreaIndex, X
                 AND .AreaMask, Y : BNE .BRANCH_EPSILON
                     LDA Pool_Overworld_SubstituteAlternateSecret_ItemPool, Y : STA.w $0B9C

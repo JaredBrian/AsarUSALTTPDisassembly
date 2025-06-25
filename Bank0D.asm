@@ -7098,8 +7098,8 @@ Sprite_LoadProperties:
     
     PHB : PHK : PLB
     
-    LDY.w $0E20, X ; What kind of sprite is it?
-    
+    ; Get the sprite type and get its default settings.
+    LDY.w $0E20, X
     LDA.w SpriteData_OAMHarm, Y         : STA.w $0E40, X
     LDA.w SpriteData_Health, Y          : STA.w $0E50, X 
     LDA.w SpriteData_HitBox, Y          : STA.w $0F60, X
@@ -7152,6 +7152,7 @@ Sprite_LoadPalette:
 ; $06B871-$06B8F0 LONG JUMP LOCATION
 Sprite_ResetProperties:
 {
+    ; OPTIMIZE: LDA.b #$00 : STA.w all of these.
     STZ.w $0F00, X
     STZ.w $0E90, X
     STZ.w $0D50, X

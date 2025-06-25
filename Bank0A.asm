@@ -4981,7 +4981,7 @@ DungeonMap_DrawRoomMarkers:
     ; palace's map data.
     .BRANCH_ZETA
     
-    LDA ($04), Y : INY : CMP.b $0E : BEQ .BRANCH_DELTA
+    LDA.b ($04), Y : INY : CMP.b $0E : BEQ .BRANCH_DELTA
         LDA.b $00 : CMP.b #$40 : BCC .BRANCH_EPSILON
             STZ.b $00
             
@@ -5014,7 +5014,7 @@ DungeonMap_DrawRoomMarkers:
     SEP #$20
     
     LDA.b #$00 : XBA
-    
+
     LDA.w DungeonMapFloorCountData, X
     AND.b #$0F : CLC : ADC.w DungeonMap_BossRoomFloor, X
     
@@ -5504,7 +5504,6 @@ DungeonMap_DrawLocationMarker:
     .BRANCH_BETA
 
         LDA.b $00 : TAX
-        
         LDA.b #$02 : STA.w $0A20, X
         
         TXA : ASL #2 : TAX
@@ -5516,7 +5515,6 @@ DungeonMap_DrawLocationMarker:
         PHY
         
         LDA.b $0E : ASL : TAY
-        
         LDA.w $0CF5 : CLC : ADC.w DungeonMapRoomMarkerYBase, Y : STA.b $0F
         
         PLY

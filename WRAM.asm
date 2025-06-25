@@ -6501,70 +6501,85 @@ struct WRAM $7E0000
         ; The overworld area that the overlord was loaded into.
 
     ; $0CD2[0x10] - (Sprite)
-
+    .SprSetting4: skip $10
+        ; This array contain various settings for active sprites including the
+        ; bump damage class of the sprite.
         ; rbia dddd
-
-        ; r - Recoil without collision.
-        ; b - Bee target
-        ; i - Immune to powder
-        ; a - Allowed in boss fights
-        ; d - Bump damage the sprite can inflict on the player.
+        ; r - If set, the sprite will not check collision while in a state of recoil.
+        ; b - If set, the sprite can be attacked by a good bee.
+        ; i - If set, will make the sprite immune to the effects of the magic powder.
+        ; a - If set, this will allow the sprite to stay alive when a boss spawns.
+        ; d - The bump damage class the sprite can inflict on the player.
+        ;     The classes are read from a table at Bump_Damage_Table in bank 0x06.
+        ;     Each table entry has 3 values, for green, blue, and red mails.
+        ;     class     g      b      r
+        ;     0x00 | 0x02 | 0x01 | 0x01
+        ;     0x01 | 0x04 | 0x04 | 0x04
+        ;     0x02 | 0x00 | 0x00 | 0x00
+        ;     0x03 | 0x08 | 0x04 | 0x02
+        ;     0x04 | 0x08 | 0x08 | 0x08
+        ;     0x05 | 0x10 | 0x08 | 0x04
+        ;     0x06 | 0x20 | 0x10 | 0x08
+        ;     0x07 | 0x20 | 0x18 | 0x10
+        ;     0x08 | 0x18 | 0x10 | 0x08
+        ;     0x09 | 0x40 | 0x30 | 0x18
 
     ; $0CE2[0x10] - (Sprite)
-        ; When the sprite is hit, this is written to with the amount of damage to
-        ; subtract from the sprite's HP. Certain values also have other effects, such as inserting #$FF stuns the sprite like the hookshot or boomerang
-
-        ; Special Effects:
-        ; 0xFF - Target is stunned for 0xFF frames (Hookshot/boomerang).
-        ; 0xFE - Target becomes frozen (Ice Rod effect).
-        ; 0xFD - Target is incinerated (Fire Rod effect).
-        ; 0xFC - Target is stunned for 0x80 frames (Hookshot/boomerang).
-        ; 0xFB - Target is stunned for 0x20 frames (Hookshot/boomerang).
-        ; 0xFA - Target becomes a blob (Magic Powder).
-        ; 0xF9 - Target becomes a fairy (Magic Powder).
-
-        ; These are the rest of the values that appear in vanilla but all just do that amount of damage to the sprite.
-        ; 0x64
-        ; 0x40
-        ; 0x20
-        ; 0x18
-        ; 0x10
-        ; 0x08
-        ; 0x04
-        ; 0x02
-        ; 0x01
-        ; 0x00 
+    .SprAppliedDamage: skip $10
+        ; When a sprite is hit, this is written to with the amount of damage to
+        ; subtract from the sprite's HP. Certain values also have other effects,
+        ; such as inserting 0xFF stuns the sprite like the hookshot or boomerang.
+        ; 0x00 through 0xF8 - Normal damage.
+        ; These are the values that can appear in vanilla but all just do that
+        ; amount of damage to the sprite:
+        ;      0x00
+        ;      0x01
+        ;      0x02
+        ;      0x04
+        ;      0x08
+        ;      0x10
+        ;      0x18
+        ;      0x20
+        ;      0x40
+        ;      0x64
+        ; 0xF9 - The target becomes a fairy (Magic Powder).
+        ; 0xFA - The target becomes a blob (Magic Powder).
+        ; 0xFB - The target is stunned for 0x20 frames (Hookshot/boomerang).
+        ; 0xFC - The target is stunned for 0x80 frames (Hookshot/boomerang).
+        ; 0xFD - The target is incinerated (Fire Rod effect).
+        ; 0xFE - The target becomes frozen (Ice Rod effect).
+        ; 0xFF - The target is stunned for 0xFF frames (Hookshot/boomerang).
 
     ; $0CF2[0x01] - (Sprite)
-        ; Damage type determiner
+    .SprDamageType: skip $01
+        ; The sprite damage type determiner. The type of damage (sword damage,
+        ; arrow damage, fire/ice rod damage, etc.) an ancillae and the player's
+        ; sword can do to a sprite. In other words, this selects a row found at
+        ; DamageSubclassValue whos value is then written to SprAppliedDamage.
 
-    ; $0CF3 - 
-        ; Free RAM TODO: actually not? A comment in bank 06 seems to
-        ; suggest otherwise.
+    ; $0CF3[0x01] - (Junk)
+    .Junk_0CF3: skip $01
+        ; Set to zero but never actually read. TODO: Maybe not? A comment in bank
+        ; 0x06 seems to suggest otherwise.
 
-    ; $0CF4[0x01] - 
-        ; Activates bomb or snake trap overlords when set to a nonzero value.
+    ; $0CF4[0x01] - (Overlord)
+    .TriggerTrap: skip $01
+        ; If non-zero, this activates the bomb or snake trap overlords. This is
+        ; only ever set by pull switch sprites.
 
-    ; $0CF5 - 
-        ; Related to palace map submodule, but otherwise I dunno.
+    ; $0CF5[0x02] - (Dungeon Map, High Junk)
+    .DunMapYOffset: skip $02
+        ; The Y offset for drawing the dungeon map squares. The high byte is
+        ; written to but never read.
 
-    ; $0CF7 - 
-        ; Sometimes incremented whenever a secret is revealed on the
-        ; overworld. The circumstances under which this happens are a tad
-        ; convoluted. First, the secret sprite that is to be revealed
-        ; must have a certain configuration, and on top of that, there's
-        ; a 50% chance that the incrementing won't occur at all.
-        ; 
-        ; When it is in fact incremented, it's used to select an
-        ; different secret that will be substituted for the one
-        ; originally picked. Since secrets can be revealed at random on
-        ; the overworld - that is, not only at designated tiles, this
-        ; introduces yet another layer of randomness into secrets on the
-        ; overworld. The set of sustituted secrets is different for the
-        ; Light World and the Dark World. This variable is never
-        ; explicitly initialized, and never explicitly reset. The actual
-        ; value used as an index based on this variable is the value of
-        ; variable mod 8 (value % 8 in C language parlance.)
+    ; $0CF7[0x01] - (Overworld)
+    .OWBushRandom: skip $01
+        ; The randomness accumulator for bush prizes on the overworld. When a bush
+        ; is lifted up on the overworld, there is a chance that a item prize will
+        ; spawn when there isn't one placed manually or a different item than what
+        ; was intened will spawn. This is used to keep track of that randomness
+        ; like $0FA1. See Overworld_SubstituteAlternateSecret in bank 0x1A for
+        ; more details.
 
     ; $0CF8 - 
         ; Used in bank 07 as a temporary variable for picking a sound
