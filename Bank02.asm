@@ -8022,7 +8022,6 @@ Module09_1C:
 
     LDA.b $B0
     JSL.l UseImplicitRegIndexedLocalJumpTable
-
     dw OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic ; 0x00 - $B171
     dw OverworldMosaicTransition_FilterAndLoadGraphics          ; 0x01 - $B195
     dw Module09_1C_02_HandleMusic                               ; 0x02 - $B19E
@@ -8077,7 +8076,6 @@ Module09_1C_02_HandleMusic:
 Overworld_BrightenScreen:
 {
     INC.b $13
-
     LDA.b $13 : CMP.b #$0F : BNE .notBrightEnough
         STZ.b $11
         STZ.b $B0
@@ -8114,8 +8112,8 @@ Module09_19:
 
     JSR.w PreOverworld_LoadAndAdvance
 
-    PLA : INC STA.b $11
-    PLA : STA.b $10
+    PLA : INC : STA.b $11
+    PLA       : STA.b $10
 
     RTS
 }
@@ -8161,7 +8159,6 @@ Overworld_MirrorWarp_Main:
 
     LDA.b $B0
     JSL.l UseImplicitRegIndexedLongJumpTable
-
     dl Overworld_InitMirrorWarp          ; 0x00 - $02B217
     dl MirrorHDMA                        ; 0x01 - $029E06
     dl MirrorWarp_BuildWavingHDMATable   ; 0x02 - $02FE64
@@ -8291,7 +8288,6 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
     LDA.b $88 : PHA
 
     LDX.b $8A
-
     LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
 
     ; ZSCREAM: ZS Changes this BEQ to a BNE.
@@ -8345,7 +8341,6 @@ MirrorWarp_LoadSpritesAndColors:
     STZ.b $CA : STZ.b $CC
 
     LDX.b $8A
-
     LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
 
     ; ZSCREAM: ZS Changes this BEQ to a BNE.
@@ -8438,13 +8433,17 @@ MirrorWarp_LoadSpritesAndColors:
 
 ; Module 0x09.0x2B - making the screen flash white during the master sword
 ; retrieval.
-; $01340A-$01340E LOCAL JUMP LOCATION
+; $01340A-$01340D LOCAL JUMP LOCATION
 Overworld_MasterSword:
 {
     JSL.l PaletteBlackAndWhiteSomething
 
-    Overworld_WeathervaneExplosion:
+    ; Bleeds into the next function.
+}
 
+; $01340E-$01340E LOCAL JUMP LOCATION
+Overworld_WeathervaneExplosion:
+{
     RTS
 }
 
@@ -8455,7 +8454,6 @@ Overworld_Whirlpool:
 
     LDA.b $B0
     JSL.l UseImplicitRegIndexedLocalJumpTable
-
     dw Whirlpool_InitWhirlpool        ; 0x00 - $B432
     dw Whirlpool_FilterBlue           ; 0x01 - $B44C
     dw Whirlpool_MoreBlue             ; 0x02 - $B451
@@ -8640,7 +8638,6 @@ Module09_2E_0C_FinalizeWarp:
     LDA.b #$80 : STA.b $9B
 
     LDX.b $8A
-
     LDA.l $7F5B00, X : LSR #4 : STA.w $012D
 
     LDX.b #$02
@@ -8678,9 +8675,7 @@ Module09_2F:
 Overworld_RecoverFromDrowning:
 {
     LDA.b $B0
-
     JSL.l UseImplicitRegIndexedLocalJumpTable
-
     dw Module09_2A_00_ScrollToLand  ; 0x00 - $B532
     dw RecoverPositionAfterDrowning ; 0x01 - $9583
 }
@@ -8958,7 +8953,6 @@ HandleEdgeTransitionMovementEast:
 
     LDA.w $0453 : BNE .BRANCH_IOTA
         LDX.b $A8
-
         LDA.w RoomQuadrantLayoutValues, X : AND.b $00 : BNE .BRANCH_KAPPA
 
     .BRANCH_IOTA
@@ -9067,7 +9061,6 @@ HandleEdgeTransitionMovementWest:
 
     LDA.w $0453 : BNE .BRANCH_IOTA
         LDX.b $A8
-
         LDA.w RoomQuadrantLayoutValues, X : AND.b $00 : BNE .BRANCH_KAPPA
 
     .BRANCH_IOTA
@@ -9334,7 +9327,6 @@ SetAndSaveVisitedQuadrantFlags:
     ORA.b $A9
 
     TAX
-
     LDA.l QuadrantLayoutFlagBitfield, X : ORA.w $0408 : STA.w $0408
 
     ; Bleeds into the next function.
@@ -9692,7 +9684,16 @@ Underworld_HandleCamera:
                     CLC : ADC.b $00 : STA.b $E2
 
                     LDA.b $A0 : CMP.w #$FFFF : BEQ .BRANCH_XI
-                        LDA.b $00 : STZ.b $04 : LSR : ROR.b $04 : CMP.w #$7000 : BCC .BRANCH_OMICRON
+                        LDA.b $00
+
+                        STZ.b $04
+
+                        LSR
+
+                        ; OPTIMIZE: Wtf? $04 was just set to 0.
+                        ROR.b $04
+
+                        CMP.w #$7000 : BCC .BRANCH_OMICRON
                             ORA.w #$F000
 
                         .BRANCH_OMICRON
@@ -9809,19 +9810,15 @@ Overworld_OperateCameraScroll:
 
     LDA.b $04 : STA.w $069E
 
-    LDX.b $8C
-
-    CPX.w #$97 : BEQ .handle_x_camera
-    CPX.b #$9D : BEQ .handle_x_camera
+    LDX.b $8C : CPX.w #$97 : BEQ .handle_x_camera
+                CPX.b #$9D : BEQ .handle_x_camera
         LDA.b $04 : BEQ .handle_x_camera
 
         STZ.b $00
 
         LSR : ROR.b $00
 
-        LDX.b $8C
-
-        CPX.b #$B5 : BEQ .BRANCH_KAPPA
+        LDX.b $8C : CPX.b #$B5 : BEQ .BRANCH_KAPPA
             CPX.b #$BE : BNE .BRANCH_LAMBDA
                 .BRANCH_KAPPA
 
@@ -9846,15 +9843,15 @@ Overworld_OperateCameraScroll:
             ; ZSCREAM: ZS writes here.
             ; $013C44
             LDA.b $8A : AND.w #$003F : CMP.w #$001B : BNE .handle_x_camera
-                ; Don't let the BG scroll down further than the "top" of the bg when
-                ; walking up.
+                ; Don't let the BG scroll down further than the "top" of the bg
+                ; when walking up.
                 LDA.w #$0600 : CMP.b $E6 : BCC .dontLock 
                     STA.b $E6
 
                 .dontLock 
 
-                ; Don't let the BG scroll up further than the "bottom" of the bg when
-                ; walking down.
+                ; Don't let the BG scroll up further than the "bottom" of the bg
+                ; when walking down.
                 LDA.w #$06C0 : CMP.b $E6 : BCS .dontLock2
                     STA.b $E6
 
@@ -9907,16 +9904,12 @@ Overworld_OperateCameraScroll:
 
     LDA.b $04 : STA.w $069F
 
-    LDX.b $8C
-
-    CPX.b #$97 : BEQ .BRANCH_UPSILON
-    CPX.b #$9D : BEQ .BRANCH_UPSILON
+    LDX.b $8C : CPX.b #$97 : BEQ .BRANCH_UPSILON
+                CPX.b #$9D : BEQ .BRANCH_UPSILON
         LDA.b $04 : BEQ .BRANCH_UPSILON
             STZ.b $00 : LSR : ROR.b $00
 
-            LDX.b $8C
-
-            CPX.b #$95 : BEQ .BRANCH_PHI
+            LDX.b $8C : CPX.b #$95 : BEQ .BRANCH_PHI
                 CPX.b #$9E : BNE .BRANCH_CHI
                     .BRANCH_PHI
 
@@ -10043,9 +10036,8 @@ OverworldCameraBoundaryCheck:
 
 
 ; $013DC0-$013DC7 DATA
-Pool_UnderworldTransition_AdjustCamera_Horizontal:
+UnderworldTransition_AdjustCamera_Horizontal_boundary:
 {
-    .boundary
     dw $0000, $0100, $0100, $0000
 }
 
@@ -10058,8 +10050,7 @@ UnderworldTransition_AdjustCamera_Horizontal:
 
     .nextDirection
 
-        LDA.w Pool_UnderworldTransition_AdjustCamera_Horizontal, Y
-        STA.w $0614, X
+        LDA.w .boundary, Y : STA.w $0614, X
     INX #2 : CPX.b #$04 : BNE .nextDirection
 
     RTS
@@ -10068,9 +10059,8 @@ UnderworldTransition_AdjustCamera_Horizontal:
 ; ==============================================================================
 
 ; $013DDA-$013DE1 DATA
-Pool_UnderworldTransition_AdjustCamera_Vertical:
+UnderworldTransition_AdjustCamera_Vertical_boundary:
 {
-    .boundary
     dw $0000, $0110, $0100, $0010
 }
 
@@ -10083,8 +10073,7 @@ UnderworldTransition_AdjustCamera_Vertical:
 
     .nextDirection
 
-        LDA.w Pool_UnderworldTransition_AdjustCamera_Vertical, Y
-        STA.w $0610, X
+        LDA.w .boundary, Y : STA.w $0610, X
 
         INY
     INX : CPX.b #$04 : BNE .nextDirection
@@ -10341,10 +10330,8 @@ OverworldScrollTransition:
     ; Hyrule Castle and Pyramid of Power have special BG1 overlays
     ; that must remain in fixed scroll position
     ; $01402D
-    LDY.b $8A
-
-    CPY.b #$1B : BEQ .dontMoveBg1
-    CPY.b #$5B : BEQ .dontMoveBg1
+    LDY.b $8A : CPY.b #$1B : BEQ .dontMoveBg1
+                CPY.b #$5B : BEQ .dontMoveBg1
         STA.b $E0, X
 
     .dontMoveBg1

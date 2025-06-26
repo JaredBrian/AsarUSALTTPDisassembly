@@ -2810,7 +2810,7 @@ Overworld_RevealSecret:
     LDA.w $0B9C : AND.w #$FF00 : STA.w $0B9C
     
     ; Special areas don't have secrets.
-    LDA.b $8A : CMP.w #$0080 : BCS .failure
+    LDA.b $8A : CMP.w #$0080 : BCS .isSW
         ASL : TAX
         
         ; Get pointer to secrets data for this area.
@@ -2825,13 +2825,12 @@ Overworld_RevealSecret:
         
             INY #3
             
-            LDA [$00], Y : CMP.w #$FFFF : BEQ .failure
-        
+            LDA.b [$00], Y : CMP.w #$FFFF : BEQ .failure
         AND.w #$7FFF : CMP.b $04 : BNE .nextSecret
         
         INY #2
         
-        LDA [$00], Y : AND.w #$00FF : BEQ .emptySecret
+        LDA.b [$00], Y : AND.w #$00FF : BEQ .emptySecret
             CMP.w #$0080 : BCS .extendedSecret
                 TSB.w $0B9C
 
@@ -2855,17 +2854,18 @@ Overworld_RevealSecret:
                     SEP #$20
                     
                     LDA.b #$1B : STA.w $012F
-                    
+
                     REP #$20
                     
                 .overlayAlreadyActivated
             .notBurrow
             
-            LDA [$00], Y : AND.w #$000F : TAX
+            LDA.b [$00], Y : AND.w #$000F : TAX
             
             LDA.l Overworld_SecretTileType, X : STA.b $0E
     
-    .failure
+        .failure
+    .isSW
     
     JSR.w AdjustSecretForPowder
     
