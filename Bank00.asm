@@ -9,7 +9,8 @@ org $008000
 ; NMI control
 ; APU setup
 ; HDMA filters
-; Palette filterss
+; Palette filters
+; Dungeon object data
 
 ; ==============================================================================
 
@@ -962,7 +963,7 @@ Main_PrepSpritesForNmi:
     LDA.l $7EC013 : DEC : STA.l $7EC013 : BNE .ignoreSpriteAnimation
         LDA.l $7EC015 : TAX
         
-        INX #2 : CPX.b #$0C : BNE .spriteAnimationLoopIncomplete
+        INX : INX : CPX.b #$0C : BNE .spriteAnimationLoopIncomplete
             LDX.b #$00
         
         .spriteAnimationLoopIncomplete
@@ -1093,7 +1094,7 @@ Startup_InitializeMemory:
         ; Zero out $0000-$1FFF
         STA.w $0000, X : STA.w $0400, X : STA.w $0800, X : STA.w $0C00, X
         STA.w $1000, X : STA.w $1400, X : STA.w $1800, X : STA.w $1C00, X
-    DEX #2 : BNE .erase
+    DEX : DEX : BNE .erase
     
     ; Sets it so we have no memory of opening a save file.
     STA.l $7EC500 : STA.l $701FFE
@@ -1256,10 +1257,10 @@ Sound_LoadSongBank:
         REP #$20
         
         ; Number of bytes to transmit to the SPC.
-        LDA.b [$00], Y : INY #2 : TAX
+        LDA.b [$00], Y : INY : INY : TAX
         
         ; Location in memory to map the data to.
-        LDA.b [$00], Y : INY #2 : STA.w SNES.APUIOPort2
+        LDA.b [$00], Y : INY : INY : STA.w SNES.APUIOPort2
         
         SEP #$20
         
@@ -1404,8 +1405,8 @@ Main_SaveGameFile:
         LDA.l $7EF300, X : STA.w $0300, Y : STA.w $1200, Y
         LDA.l $7EF400, X : STA.w $0400, Y : STA.w $1300, Y
         
-        INY #2
-    INX #2 : CPX.w #$0100 : BNE .writeSlot
+        INY : INY
+    INX : INX : CPX.w #$0100 : BNE .writeSlot
     
     LDX.w #$0000
     
@@ -1416,7 +1417,7 @@ Main_SaveGameFile:
         ; The checksum is a sum of 16-bit words of the first 0x04FE words of the
         ; save file.
         CLC : ADC.l $7EF000, X
-    INX #2 : CPX.w #$04FE : BNE .calcChecksum
+    INX : INX : CPX.w #$04FE : BNE .calcChecksum
     
     ; Store the calculated checksum to dp address $00 for temporary keeping.
     STA.b $00
@@ -2933,7 +2934,7 @@ HandleStripes14:
     
     ; Set the source address (which will be somewhere in the $1000[0x800]
     ; buffer.
-    INY #2 : TYA : CLC : ADC.b $00 : STA.w DMA.1_SourceAddrOffsetLow
+    INY : INY : TYA : CLC : ADC.b $00 : STA.w DMA.1_SourceAddrOffsetLow
     
     ; A = #$40 or #$00.
     ; If DMAing in incremental mode, branch.
@@ -9818,7 +9819,7 @@ DecompDungAnimatedTiles:
         LDA.l $7EAA80, X : STA.l $7EAE80, X
         
         PLA : STA.l $7EAA80, X
-    INX #2 : CPX.w #$0200 : BNE .loop
+    INX : INX : CPX.w #$0200 : BNE .loop
     
     ; This is the base address in VRAM for animated tiles.
     LDA.w #$3B00 : STA.w $0134
@@ -10176,7 +10177,7 @@ UNREACHABLE_00D585:
             LDA.b [$03] : AND.w #$00FF : STA.l $7E9010, X
             INC.b $03
             
-            INX #2
+            INX : INX
         DEY : BPL .writeTile
         
         TXA : CLC : ADC.w #$0010 : TAX
@@ -10223,7 +10224,7 @@ Do3To4LowAnimated:
             LDA.b [$03] : AND.w #$00FF : STA.l $7E9010, X
             INC.b $03
             
-            INX #2
+            INX : INX
             
             LDA.b [$00] : STA.l $7E9000, X
             INC.b $00 : INC.b $00
@@ -10231,7 +10232,7 @@ Do3To4LowAnimated:
             LDA.b [$03] : AND.w #$00FF : STA.l $7E9010, X
             INC.b $03
             
-            INX #2
+            INX : INX
         DEY : BPL .writeTile
         
         TXA : CLC : ADC.w #$0010 : TAX
@@ -10277,7 +10278,7 @@ Do3To4HighAnimated:
             ORA.b $08 : XBA : ORA.b $BD : STA.l $7E9010, X
             INC.b $03
             
-            INX #2 
+            INX : INX 
         DEY : BPL .writeTile
         
         TXA : CLC : ADC.w #$0010 : TAX
@@ -11643,7 +11644,7 @@ Do3To4High16Bit:
             ORA.b $08 : XBA : ORA.b $0A : STA.l $7F0010, X
             INC.b $03
             
-            INX #2
+            INX : INX
             
             LDA.b [$00] : STA.l $7F0000, X
             XBA : ORA.b [$00] : AND.w #$00FF : STA.b $08
@@ -11653,7 +11654,7 @@ Do3To4High16Bit:
             ORA.b $08 : XBA : ORA.b $0A : STA.l $7F0010, X
             INC.b $03
             
-            INX #2
+            INX : INX
         DEY : BPL .writeTile
         
         TXA : CLC : ADC.w #$0010 : TAX
@@ -11701,7 +11702,7 @@ Do3To4Low16Bit:
             LDA.b [$03] : AND.w #$00FF : STA.l $7F0010, X
             INC.b $03
             
-            INX #2
+            INX : INX
             
             LDA.b [$00] : STA.l $7F0000, X
             INC.b $00 : INC.b $00
@@ -11709,7 +11710,7 @@ Do3To4Low16Bit:
             LDA.b [$03] : AND.w #$00FF : STA.l $7F0010, X
             INC.b $03
             
-            INX #2
+            INX : INX
             
             LDA.b [$00] : STA.l $7F0000, X
             INC.b $00 : INC.b $00
@@ -11717,7 +11718,7 @@ Do3To4Low16Bit:
             LDA.b [$03] : AND.w #$00FF : STA.l $7F0010, X
             INC.b $03
             
-            INX #2
+            INX : INX
             
             LDA.b [$00] : STA.l $7F0000, X
             INC.b $00 : INC.b $00
@@ -11725,7 +11726,7 @@ Do3To4Low16Bit:
             LDA.b [$03] : AND.w #$00FF : STA.l $7F0010, X
             INC.b $03
             
-            INX #2
+            INX : INX
         DEY : BPL .nextHalf
         
         TXA : CLC : ADC.w #$0010 : TAX
@@ -12096,7 +12097,7 @@ LoadDefaultGfx:
             XBA : ORA.b [$00] : AND.w #$00FF : STA.b $BF, X
             
             INC.b $00 : INC.b $00
-        DEX #2 : BPL .writeLowBitplanes
+        DEX : DEX : BPL .writeLowBitplanes
         
         LDX.b #$0E
 
@@ -12106,7 +12107,7 @@ LoadDefaultGfx:
             ORA.b $BF, X : XBA : ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             
             INC.b $00
-        DEX #2 : BPL .writeHighBitplanes
+        DEX : DEX : BPL .writeHighBitplanes
     DEY : BNE .nextTile
 
     ; Now that Link's graphics are in VRAM we'll next load the tiles for the
@@ -12444,7 +12445,7 @@ Graphics_LoadChrHalfSlot:
                     INC.b $02 : INC.b $05
 
                 .notAtBankEdge3
-            INX #2 : DEY : BPL .nextBitplane
+            INX : INX : DEY : BPL .nextBitplane
                 
             TXA : CLC : ADC.w #$0010 : TAX
             
@@ -12646,12 +12647,14 @@ Do3To4High:
 
             LDA.b [$00] : STA.w SNES.VRAMDataWriteLow
             XBA : ORA.b [$00] : AND.w #$00FF : STA.b $BF, X
-            INC.b $00 : INC.b $00 : DEX #2
+            INC.b $00 : INC.b $00
+            
+            DEX : DEX
             
             LDA.b [$00] : STA.w SNES.VRAMDataWriteLow
             XBA : ORA.b [$00] : AND.w #$00FF : STA.b $BF, X
             INC.b $00 : INC.b $00
-        DEX #2 : BPL .writeLowBitplanes
+        DEX : DEX : BPL .writeLowBitplanes
         
         LDX.b #$0E
 
@@ -12662,13 +12665,13 @@ Do3To4High:
             ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             INC.b $00
             
-            DEX #2
+            DEX : DEX
             
             LDA.b [$00] : AND.w #$00FF : STA.b $BD
             ORA.b $BF, X : XBA
             ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             INC.b $00
-        DEX #2 : BPL .writeHighBitplanes
+        DEX : DEX : BPL .writeHighBitplanes
     DEY : BPL .nextTile
     
     SEP #$20
@@ -12804,12 +12807,12 @@ LoadCommonSprGfx:
             XBA : ORA.b [$00] : AND.w #$00FF : STA.b $BF, X
             INC.b $00 : INC.b $00
             
-            DEX #2
+            DEX : DEX
             
             LDA.b [$00] : STA.w SNES.VRAMDataWriteLow
             XBA : ORA.b [$00] : AND.w #$00FF : STA.b $BF, X
             INC.b $00 : INC.b $00
-        DEX #2 : BPL .writeLowBitplanes
+        DEX : DEX : BPL .writeLowBitplanes
         
         LDX.b #$0E
 
@@ -12819,12 +12822,12 @@ LoadCommonSprGfx:
             ORA.b $BF, X : XBA : ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             INC.b $00
             
-            DEX #2
+            DEX : DEX
             
             LDA.b [$00] : AND.w #$00FF : STA.b $BD
             ORA.b $BF, X : XBA : ORA.b $BD : STA.w SNES.VRAMDataWriteLow
             INC.b $00
-        DEX #2 : BPL .writeHighBitplanes
+        DEX : DEX : BPL .writeHighBitplanes
     DEY : BNE .nextTile
     
     SEP #$20
@@ -13183,7 +13186,7 @@ PaletteFilter:
     
     LDA.l $7EC007 : CMP.w #$0010 : BCC .alpha
         ; X = 0xE88E in this case. (darkening process).
-        INX #2
+        INX : INX
 
     .alpha
 
@@ -13321,7 +13324,7 @@ FilterColors:
         .color_is_pure_black
 
         ; Skip sprite palette 5 (second half) for some strange reason?
-        INX #2 : CPX.w #$01B0 : BCC .nextColor : BNE .dontSkipPalette
+        INX : INX : CPX.w #$01B0 : BCC .nextColor : BNE .dontSkipPalette
             TXA : CLC : ADC.w #$0010 : TAX
 
         .dontSkipPalette
@@ -13346,7 +13349,7 @@ PaletteFilterUnused:
     LDX.w #$E88C
     
     LDA.l $7EC007 : CMP.w #$0010 : BCC .firstHalf
-        INX #2 
+        INX : INX 
 
     .firstHalf
     
@@ -13447,7 +13450,7 @@ FilterColorsEndpoint:
             LDA.b !color : STA.l $7EC500, X
         
         .color_is_pure_black
-    INX #2 : CPX.b !lastColor : BNE .nextColor
+    INX : INX : CPX.b !lastColor : BNE .nextColor
     
     RTS
 }
@@ -13488,7 +13491,7 @@ PaletteFilterHistory:
     LDX.w #$E88C
     
     LDA.l $7EC007 : CMP.w #$0010 : BCC .firstHalf
-        INX #2
+        INX : INX
 
     .firstHalf
 
@@ -13569,7 +13572,7 @@ PaletteFilter_WishPonds:
 
         ; Zeroes out sprite palette 5 for use with the pond of wishing (seems
         ; like).
-    STA.l $7EC6A0, X : DEX #2 : BPL .zero_out_sp5
+    STA.l $7EC6A0, X : DEX : DEX : BPL .zero_out_sp5
     
     STA.l $7EC007
     
@@ -13597,7 +13600,7 @@ Palette_Restore_SP5F:
         ; palette buffer's SP5F.
         
         LDA.l $7EC4A0, X : STA.l $7EC6A0, X 
-    DEX #2 : BPL .copy_colors
+    DEX : DEX : BPL .copy_colors
     
     SEP #$20
     
@@ -13630,7 +13633,7 @@ Palette_Filter_SP5F:
         LDX.w #$E88C
         
         LDA.l $7EC007 : CMP.w #$0010 : BCC .first_half
-            DEX #2
+            DEX : DEX
 
         .first_half
 
@@ -13668,7 +13671,7 @@ KholdstareShell_PaletteFiltering_initialize:
     .next_color
 
         LDA.l $7EC380, X : STA.l $7EC580, X
-    DEX #2 : BPL .next_color
+    DEX : DEX : BPL .next_color
     
     LDA.w #$0000 : STA.l $7EC007
                    STA.l $7EC009
@@ -13704,7 +13707,7 @@ KholdstareShell_PaletteFiltering:
             LDX.w #$E88C
             
             LDA.l $7EC007 : CMP.w #$0010 : BCC .firstHalf
-                INX #2
+                INX : INX
 
             .firstHalf
 
@@ -13793,7 +13796,7 @@ AgahnimWarpShadowFilter_filter_one:
     LDY.w #$E88C
     
     LDA.l $7EC007 : CMP.w #$0010 : BCC .firstHalf
-        INY #2
+        INY : INY
 
     .firstHalf
 
@@ -13926,7 +13929,7 @@ RestorePaletteAdditive:
         .blueMatch
 
         TYA : STA.l $7EC500, X
-    INX #2 : CPX.b $0E : BNE .nextColor
+    INX : INX : CPX.b $0E : BNE .nextColor
     
     RTS
 }
@@ -13964,7 +13967,7 @@ RestorePaletteSubtractive:
         .blueMatch
 
         TYA : STA.l $7EC500, X
-    INX #2 : CPX.b $0E : BNE .nextColor
+    INX : INX : CPX.b $0E : BNE .nextColor
     
     RTS
 }
@@ -13987,7 +13990,7 @@ Palette_InitWhiteFilter:
         STA.l $7EC380, X : STA.l $7EC3C0, X
         STA.l $7EC400, X : STA.l $7EC440, X
         STA.l $7EC480, X : STA.l $7EC4C0, X
-    INX #2 : CPX.b #$40 : BNE .whiteFill
+    INX : INX : CPX.b #$40 : BNE .whiteFill
         
     LDA.l $7EC500 : STA.l $7EC540
         
@@ -14160,7 +14163,7 @@ WhirlpoolSaturateBlue:
             .fullBlue
 
             TYA : STA.l $7EC500, X
-        INX #2 : CPX.w #$0200 : BNE .nextColor
+        INX : INX : CPX.w #$0200 : BNE .nextColor
         
         LDA.l $7EC540 : STA.l $7EC500
         
@@ -14222,7 +14225,7 @@ WhirlpoolIsolateBlue:
         .noRed
 
         TYA : STA.l $7EC500, X
-    INX #2 : CPX.w #$0200 : BNE .nextColor
+    INX : INX : CPX.w #$0200 : BNE .nextColor
     
     LDA.l $7EC540 : STA.l $7EC500
     
@@ -14256,7 +14259,7 @@ WhirlpoolRestoreBlue:
             .blueMatch
 
             TYA : STA.l $7EC500, X
-        INX #2 : CPX.w #$0200 : BNE .nextColor
+        INX : INX : CPX.w #$0200 : BNE .nextColor
         
         LDA.l $7EC540 : STA.l $7EC500
         
@@ -14321,7 +14324,7 @@ WhirlpoolRestoreRedGreen:
         .redMatch
 
         TYA : STA.l $7EC500, X
-    INX #2 : CPX.w #$0200 : BNE .nextColor
+    INX : INX : CPX.w #$0200 : BNE .nextColor
     
     LDA.l $7EC540 : STA.l $7EC500
     
@@ -14426,7 +14429,7 @@ PaletteFilter_IncreaseTrinexxRed:
             STA.b $00
             
             LDA.l $7EC582, X : AND.w #$FFE0 : ORA.b $00 : STA.l $7EC582, X
-        INX #2 : CPX.b #$0E : BNE .nextColor
+        INX : INX : CPX.b #$0E : BNE .nextColor
 
         ; $0071B1 ALTERNATE ENTRY POINT
         TrinexxFilterRed_continue:
@@ -14476,7 +14479,7 @@ PaletteFilter_RestoreTrinexxRed:
             STA.b $00
             
             LDA.l $7EC582, X : AND.w #$FFE0 : ORA.b $00 : STA.l $7EC582, X
-        INX #2 : CPX.b #$0E : BNE .nextColor
+        INX : INX : CPX.b #$0E : BNE .nextColor
         
         BRA IncreaseTrinexxRed_finished
 }
@@ -14503,7 +14506,7 @@ PaletteFilter_IncreaseTrinexxBlue:
             STA.b $00
             
             LDA.l $7EC582, X : AND.w #$83FF : ORA.b $00 : STA.l $7EC582, X
-        INX #2 : CPX.b #$0E : BNE .nextColor
+        INX : INX : CPX.b #$0E : BNE .nextColor
 
         ; $007235 ALTERNATE ENTRY POINT
         TrinexxFilterBlue_continue:
@@ -14553,7 +14556,7 @@ PaletteFilter_RestoreTrinexxBlue:
             STA.b $00
             
             LDA.l $7EC582, X : AND.w #$83FF : ORA.b $00 : STA.l $7EC582, X
-        INX #2 : CPX.b #$0E : BNE .nextColor
+        INX : INX : CPX.b #$0E : BNE .nextColor
         
         BRA IncreaseTrinexxBlue_finished
 }
@@ -14729,7 +14732,7 @@ ConfigureSpotlightTable:
     .copyTable
 
         LDA.l $7F7000, X : STA.w $1B00, X
-    INX #2 : CPX.w #$01C0 : BCC .copyTable
+    INX : INX : CPX.w #$01C0 : BCC .copyTable
     
     LDX.w $067E
     
@@ -14801,7 +14804,7 @@ ResetSpotlightTable:
         STA.w $1C00, X : STA.w $1C40, X
         
         STZ.w $1C80, X
-    DEX #2 : BPL .loop
+    DEX : DEX : BPL .loop
     
     SEP #$30
     
@@ -14967,7 +14970,7 @@ OrientLampBg:
                 .BRANCH_DELTA
 
                 CMP.w #$0080 : BCC .notInDoorway
-                    INX #2
+                    INX : INX
 
             .notInDoorway
 
@@ -15329,7 +15332,7 @@ Messaging_MainJumpTable:
     db Messaging_Equipment>>0        ; 0x01 - $0DDD2A Link's item submenu
                                      ;        (press start).
     db Messaging_Text>>0             ; 0x02 - $0EC440 Dialogue Mode.
-    db Messaging_DungeonMap>>0        ; 0x03 - $0AE0B0 Dungeon Map Mode.
+    db Messaging_DungeonMap>>0       ; 0x03 - $0AE0B0 Dungeon Map Mode.
     db RefillHeathFromRedPotion>>0   ; 0x04 - $00F8FB Fills life (red potion).
     db Messaging_PrayingPlayer>>0    ; 0x05 - $00F8B1 Praying at desert palace
                                      ;        before it opens.
@@ -15346,45 +15349,44 @@ Messaging_MainJumpTable:
 
     ; $007882
     .high
-    db Module_Messaging_doNothing>>8
-    db Messaging_Equipment>>8
-    db Messaging_Text>>8
-    db Messaging_DungeonMap>>8
-    db RefillHeathFromRedPotion>>8
-    db Messaging_PrayingPlayer>>8
-    db Module0E_06_Unused>>8
-    db Messaging_OverworldMap>>8
-    db Module0E_08_GreenPotion>>8
-    db Module0E_09_BluePotion>>8
-    db Messaging_BirdTravel>>8
-    db Module0E_0B_SaveMenu>>8
+    db Module_Messaging_doNothing>>8 ; 0x00
+    db Messaging_Equipment>>8        ; 0x01
+    db Messaging_Text>>8             ; 0x02
+    db Messaging_DungeonMap>>8       ; 0x03
+    db RefillHeathFromRedPotion>>8   ; 0x04
+    db Messaging_PrayingPlayer>>8    ; 0x05
+    db Module0E_06_Unused>>8         ; 0x06
+    db Messaging_OverworldMap>>8     ; 0x07
+    db Module0E_08_GreenPotion>>8    ; 0x08
+    db Module0E_09_BluePotion>>8     ; 0x09
+    db Messaging_BirdTravel>>8       ; 0x0A
+    db Module0E_0B_SaveMenu>>8       ; 0x0B
 
     ; $00788E
     .bank
-    db Module_Messaging_doNothing>>16
-    db Messaging_Equipment>>16
-    db Messaging_Text>>16
-    db Messaging_DungeonMap>>16
-    db RefillHeathFromRedPotion>>16
-    db Messaging_PrayingPlayer>>16
-    db Module0E_06_Unused>>16
-    db Messaging_OverworldMap>>16
-    db Module0E_08_GreenPotion>>16
-    db Module0E_09_BluePotion>>16
-    db Messaging_BirdTravel>>16
-    db Module0E_0B_SaveMenu>>16
+    db Module_Messaging_doNothing>>16 ; 0x00
+    db Messaging_Equipment>>16        ; 0x01
+    db Messaging_Text>>16             ; 0x02
+    db Messaging_DungeonMap>>16       ; 0x03
+    db RefillHeathFromRedPotion>>16   ; 0x04
+    db Messaging_PrayingPlayer>>16    ; 0x05
+    db Module0E_06_Unused>>16         ; 0x06
+    db Messaging_OverworldMap>>16     ; 0x07
+    db Module0E_08_GreenPotion>>16    ; 0x08
+    db Module0E_09_BluePotion>>16     ; 0x09
+    db Messaging_BirdTravel>>16       ; 0x0A
+    db Module0E_0B_SaveMenu>>16       ; 0x0B
 }
 
 ; $00789A-$0078B0 LONG JUMP LOCATION
 Messaging_Main:
 {
     LDX.b $11
-    
     LDA.l Messaging_MainJumpTable_low, X  : STA.b $00
     LDA.l Messaging_MainJumpTable_high, X : STA.b $01
     LDA.l Messaging_MainJumpTable_bank, X : STA.b $02
     
-    JMP [$0000]
+    JMP.w [$0000]
 }
 
 ; ==============================================================================
@@ -15394,11 +15396,12 @@ Messaging_Main:
 Messaging_PrayingPlayer:
 {
     LDA.b $B0
-    
     JSL.l UseImplicitRegIndexedLongJumpTable
-    
-    dl ResetTransitionPropsAndAdvance_ResetInterface_long ; 0x00 - (initialize overworld color filtering settings).
-    dl PaletteFilter_doFiltering      ;  0x01 - $02A2A5 Fade out before we set up the actual scene.
+    dl ResetTransitionPropsAndAdvance_ResetInterface_long ; 0x00 - $0122A5
+                                      ;        (initialize overworld color
+                                      ;        filtering settings).
+    dl PaletteFilter_doFiltering      ; 0x01 - $02A2A5 Fade out before we set up
+                                      ;        the actual scene.
     dl PrayingPlayer_InitScene        ; 0x02 - $00F8C6
     dl PrayingPlayer_FadeInScene      ; 0x03 - $00F8E0
     dl PrayingPlayer_AwaitButtonInput ; 0x04 - $00F8E4
@@ -15445,12 +15448,14 @@ PrayingPlayer_AwaitButtonInput:
 Module0E_06_Unused:
 {
     LDA.b $B0
-    
     JSL.l UseImplicitRegIndexedLongJumpTable
-    
-    dl ResetTransitionPropsAndAdvance_ResetInterface_long ; 0x00 - $02A2A5 Initialize a bunch of overworld crap.
+    dl ResetTransitionPropsAndAdvance_ResetInterface_long ; 0x00 - $02A2A5
+                                                          ; Initialize a bunch
+                                                          ; of overworld crap.
     dl PaletteFilter_doFiltering                          ; 0x01 - $00E914
-    dl Underworld_HandleTranslucencyAndPalettes_long      ; 0x02 - $02A2A9 Swap some palettes in memory?
+    dl Underworld_HandleTranslucencyAndPalettes_long      ; 0x02 - $02A2A9
+                                                          ; Swap some palettes
+                                                          ; in memory?
     dl UnusedInterfacePaletteRecovery_long                ; 0x03 - $02A2AD
 }
 
@@ -15628,7 +15633,7 @@ PrepDungeonExit:
 
     .ganon
 
-    ; Probably Ganon's boss victory mode.
+    ; Boss victory mode.
     LDA.b #$13
 
     .normal
@@ -15652,13 +15657,14 @@ SavePalaceDeaths:
     PHX
         
     REP #$20
-        
-    ; Load the dungeon index.
-    LDX.w $040C
-        
+    
     ; Store the running count of deaths and store it as the count for the
-    ; dungeon we just completed. If it's Hyrule Castle 2, then branch.
-    LDA.l $7EF403 : STA.l $7EF3E7, X : CPX.b #$08 : BEQ .hyruleCastle
+    ; dungeon we just completed.
+    LDX.w $040C
+    LDA.l $7EF403 : STA.l $7EF3E7, X
+
+    ; If it's Hyrule Castle 2, then branch.
+    CPX.b #$08 : BEQ .hyruleCastle
         ; Otherwise zero out the number of deaths.
         LDA.w #$0000 : STA.l $7EF403
     
@@ -15837,8 +15843,8 @@ Sprite_LoadGfxProperties:
         LDA.w Sprite_GfxIndices, Y     : STA.l $7EFD00, X
         LDA.w Sprite_PaletteIndices, Y : STA.l $7EFD80, X
         
-        DEY #2
-    DEX #2 : BPL .darkWorldLoop
+        DEY : DEY
+    DEX : DEX : BPL .darkWorldLoop
     
     BRA .doLightWorld
 
@@ -15872,7 +15878,8 @@ Sprite_LoadGfxProperties:
         ; time.
         LDA.w Sprite_GfxIndices, Y     : STA.l $7EFCC0, X
         LDA.w Sprite_PaletteIndices, Y : STA.l $7EFD40, X
-    DEY #2 : DEX #2 : BPL .lightWorldLoop
+        DEY : DEY
+    DEX : DEX : BPL .lightWorldLoop
     
     SEP #$30
     
@@ -15972,8 +15979,8 @@ Dungeon_InitStarTileChr:
 
         LDA.l $7EBDC0, X : STA.w $0000, Y
         
-        INX #2
-    INY #2 : CPY.w #$0020 : BNE .swapTile1
+        INX : INX
+    INY : INY : CPY.w #$0020 : BNE .swapTile1
     
     LDX.b $0E
 
@@ -15981,8 +15988,8 @@ Dungeon_InitStarTileChr:
 
         LDA.l $7EBDC0, X : STA.w $0000, Y
         
-        INX #2
-    INY #2 : CPY.w #$0040 : BNE .swapTile2
+        INX : INX
+    INY : INY : CPY.w #$0040 : BNE .swapTile2
     
     SEP #$30
     
@@ -16029,7 +16036,7 @@ Mirror_InitHDMASettings:
 
         STA.w $1B00, X : STA.w $1B40, X : STA.w $1B80, X : STA.w $1BC0, X
         STA.w $1C00, X : STA.w $1C40, X : STA.w $1C80, X
-    DEX #2 : BPL .init_HDMA_table
+    DEX : DEX : BPL .init_HDMA_table
     
     SEP #$20
     
@@ -16068,15 +16075,14 @@ MirrorWarp_BuildWavingHDMATable:
         LDY.w #$01B0
         
         LDA.w #$0002 : STA.b $00
-        
         LDA.w #$0003 : STA.b $02
 
         .gamma
 
-            LDA.w $1B00, X
-            
-            STA.w $1B00, Y : STA.w $1B04, Y
-            STA.w $1B08, Y : STA.w $1B0C, Y
+            LDA.w $1B00, X : STA.w $1B00, Y
+                             STA.w $1B04, Y
+                             STA.w $1B08, Y
+                             STA.w $1B0C, Y
             
             TXA : SEC : SBC.w #$0010 : TAX
             
@@ -16108,8 +16114,8 @@ MirrorWarp_BuildWavingHDMATable:
         .delta
 
         PLA : STA.w $06AC
-        
-        CLC : ADC.w $06AE : PHA : AND.w #$00FF : STA.w $06AE
+        CLC : ADC.w $06AE : PHA
+        AND.w #$00FF : STA.w $06AE
         
         PLA : BPL .epsilon
             ORA.w #$00FF
@@ -16122,7 +16128,8 @@ MirrorWarp_BuildWavingHDMATable:
 
         .zeta
 
-        XBA : CLC : ADC.w $06AA : STA.w $06AA : TAX
+        XBA : CLC : ADC.w $06AA : STA.w $06AA
+                                : TAX
         
         LDA.l $7EC007 : CMP.w #$0030 : BCC .BRANCH_THETA
             TXA : AND.w #$FFF8 : BNE .BRANCH_THETA
@@ -16136,8 +16143,10 @@ MirrorWarp_BuildWavingHDMATable:
 
         .BRANCH_THETA
 
-        TXA : CLC : ADC.b $E2
-        STA.w $1B00 : STA.w $1B04 : STA.w $1B08 : STA.w $1B0C
+        TXA : CLC : ADC.b $E2 : STA.w $1B00
+                                STA.w $1B04
+                                STA.w $1B08
+                                STA.w $1B0C
         
         SEP #$30
 
@@ -16164,8 +16173,10 @@ MirrorWarp_BuildDewavingHDMATable:
         
         .BRANCH_GAMMA
         
-            LDA.w $1B00, X
-            STA.w $1B00, Y : STA.w $1B04, Y : STA.w $1B08, Y : STA.w $1B0C, Y
+            LDA.w $1B00, X : STA.w $1B00, Y
+                             STA.w $1B04, Y
+                             STA.w $1B08, Y
+                             STA.w $1B0C, Y
             
             TXA : SEC : SBC.w #$0010 : TAX
             
@@ -16198,8 +16209,13 @@ MirrorWarp_BuildDewavingHDMATable:
             LDA.b $8A : AND.b #$3F : CMP.b #$1B : BEQ .dont_align_bgs
                 REP #$20
             
-                LDA.b $E2 : STA.b $E0 : STA.w $0120 : STA.w $011E
-                LDA.b $E8 : STA.b $E6 : STA.w $0122 : STA.w $0124
+                LDA.b $E2 : STA.b $E0
+                            STA.w $0120
+                            STA.w $011E
+
+                LDA.b $E8 : STA.b $E6
+                            STA.w $0122
+                            STA.w $0124
         
             .dont_align_bgs
         .BRANCH_DELTA
@@ -16222,22 +16238,47 @@ NULL_00FFB7:
 ; $007FC0-$007FFF Internal ROM Header
 Internal_ROM_Header:
 {
-    db "THE LEGEND OF ZELDA  "
+    db "THE LEGEND OF ZELDA  " ; ROM Title - 0x15 bytes
         
-    db $20   ; ROM layout
-    db $02   ; Cartridge type
-    db $0A   ; ROM size
-    db $03   ; WRAM size (SRAM size)
-    db $01   ; Country code (NTSC here)
-    db $01   ; Licensee (Nintendo here)
+    db $20   ; ROM layout - LoROM
+    db $02   ; Cartridge type - ROM + SRAM + battery
+    db $0A   ; ROM size - 1,024 KB
+    db $03   ; SRAM size - 8 KB
+    db $01   ; Country code - NTSC
+    db $01   ; Licensee - Nintendo
     db $00   ; Game version
     dw $50F2 ; Game image checksum
     dw $AF0D ; Game image inverse checksum
-        
-    dw $FFFF, $FFFF, Vector_NMI_return, $FFFF
-    dw Vector_NMI_return, Vector_NMI, Vector_Reset, Vector_IRQ
-    dw $FFFF, $FFFF, Vector_NMI_return, Vector_NMI_return
-    dw Vector_NMI_return, Vector_NMI_return, Vector_Reset, Vector_IRQ
+    
+    ; 65C816 native mode vectors
+    ; ALTTP never makes use of the COP, BRK, or ABORT functions.
+    dw $FFFF             ; Unused
+    dw $FFFF             ; Unused
+    dw Vector_NMI_return ; COP instruction
+    dw $FFFF             ; BRK instruction
+    dw Vector_NMI_return ; ABORT instruction
+    dw Vector_NMI        ; NMI instruction
+    dw Vector_Reset      ; RESET instruction*
+    dw Vector_IRQ        ; IRQ instruction
+
+    ; * The native mode RESET instruction is unused because the SNES always boots
+    ; in emulation mode.
+    
+    ; 6502 emulation mode vectors
+    ; The only vector that is actually used in alttp from the emulation mode is
+    ; the RESET instruction. The SNES starts in emulation mode but the game
+    ; switches to native mode almost immediately and never switches back.
+    dw $FFFF             ; Unused
+    dw $FFFF             ; Unused
+    dw Vector_NMI_return ; COP instruction
+    dw Vector_NMI_return ; BRK instruction**
+    dw Vector_NMI_return ; ABORT instruction
+    dw Vector_NMI_return ; NMI instruction
+    dw Vector_Reset      ; RESET instruction
+    dw Vector_IRQ        ; IRQ and BRK instruction
+
+    ; ** The emulation mode BRK instruction is unused because BRK and IRQ share
+    ; the same vector in emulation mode.
 }
 
 ; ==============================================================================
