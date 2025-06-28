@@ -350,9 +350,7 @@ Pool_SpritePrep_Rat:
 SpritePrep_Rat:
 {
     LDY.w $0FFF
-    
     LDA.w Pool_SpritePrep_Rat_1, Y : STA.w $0CD2, X
-    
     LDA.w Pool_SpritePrep_Rat_2, Y : STA.w $0E50, X
     
     RTS
@@ -380,7 +378,6 @@ Pool_SpritePrep_Keese:
 SpritePrep_Keese:
 {
     LDY.w $0FFF
-    
     LDA.w Pool_SpritePrep_Keese_damage_class, Y : STA.w $0CD2, X
     LDA.w Pool_SpritePrep_Keese_hp, Y           : STA.w $0E50, X
     LDA.w Pool_SpritePrep_Keese_prize_pack, Y   : STA.w $0BE0, X
@@ -410,7 +407,6 @@ Pool_SpritePrep_Rope:
 SpritePrep_Rope:
 {
     LDY.w $0FFF
-    
     LDA.w Pool_SpritePrep_Rope_damage_class, Y : STA.w $0CD2, X
     LDA.w Pool_SpritePrep_Rope_hp, Y           : STA.w $0E50, X
     LDA.w Pool_SpritePrep_Rope_prize_pack, Y   : STA.w $0BE0, X
@@ -601,7 +597,6 @@ Pool_SpritePrep_Raven:
 SpritePrep_Raven:
 {
     LDY.w $0FFF
-    
     LDA.w Pool_SpritePrep_Raven_bump_damage, Y : STA.w $0CD2, X
     LDA.w Pool_SpritePrep_Raven_hp, Y          : STA.w $0E50, X
     LDA.w Pool_SpritePrep_Raven_prize_pack, Y  : STA.w $0BE0, X
@@ -1506,15 +1501,14 @@ SpritePrep_GanonHelpers:
 {
     LDA.w $0D10, X : LSR #4 : AND.b #$01 : STA.w $0D90, X : TAY
     
-    LDA.w Pool_SpritePrep_GanonHelpers_palette, Y : STA.w $0F50, X
-    
-    LDA.w Pool_SpritePrep_GanonHelpers_hp, Y : STA.w $0E50, X
-    
+    LDA.w Pool_SpritePrep_GanonHelpers_palette, Y     : STA.w $0F50, X
+    LDA.w Pool_SpritePrep_GanonHelpers_hp, Y          : STA.w $0E50, X
     LDA.w Pool_SpritePrep_GanonHelpers_bump_damage, Y : STA.w $0CD2, X
     
-    LDA.b #$10 : JSR.w Sprite_ApplySpeedTowardsPlayer
+    LDA.b #$10
+    JSR.w Sprite_ApplySpeedTowardsPlayer
     
-    LDA #$20 : STA.w $0F80, X
+    LDA.b #$20 : STA.w $0F80, X
     
     INC.w $0D80, X
     
@@ -1927,9 +1921,7 @@ Pool_SpritePrep_Octorock:
 SpritePrep_Octorock:
 {
     LDY.w $0FFF
-    
-    LDA.w Pool_SpritePrep_Octorock_hp, Y : STA.w $0E50, X
-    
+    LDA.w Pool_SpritePrep_Octorock_hp, Y          : STA.w $0E50, X
     LDA.w Pool_SpritePrep_Octorock_bump_damage, Y : STA.w $0CD2, X
     
     JSL.l GetRandomInt : AND.b #$7F : STA.w $0DF0, X
