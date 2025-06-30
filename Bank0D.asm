@@ -10762,7 +10762,7 @@ Equipment_SearchForEquippedItem:
     ; Checks to see if we actually have that item, we're done if we have that
     ; item.
     JSR.w DoWeHaveThisItem : BCS .weHaveThatItem
-        JMP TryEquipNextItem
+        JMP.w TryEquipNextItem
 }
 
 ; ==============================================================================
@@ -11296,7 +11296,7 @@ ItemMenuIcons_CrystalWindow:
 Equipment_DrawProgressIcons:
 {
     LDA.l $7EF3C5 : CMP.b #$03 : BCC .beforeAgahnim
-        JMP .drawCrystals
+        JMP.w .drawCrystals
     
     .beforeAgahnim
     
@@ -11485,7 +11485,7 @@ Equipment_DrawSelectedYButtonItem:
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .drawBottleDescription
             
-            JMP .finished
+            JMP.w .finished
     
     .bottleNotSelected
 
@@ -11504,7 +11504,7 @@ Equipment_DrawSelectedYButtonItem:
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writePowderDescription
             
-            JMP .finished
+            JMP.w .finished
     
     .powderNotSelected
     
@@ -11523,7 +11523,7 @@ Equipment_DrawSelectedYButtonItem:
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writeMirrorDescription
             
-            JMP .finished
+            JMP.w .finished
     
     .mirrorNotSelected
     

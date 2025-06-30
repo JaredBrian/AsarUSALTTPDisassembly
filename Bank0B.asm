@@ -1225,7 +1225,7 @@ Overworld_SetFixedColorAndScroll:
         
     LDA.b $8A : BEQ .noCustomFixedColor
         CMP.w #$0070 : BNE .notSwampOfEvil
-            JMP .subscreenOnAndReturn
+            JMP.w .subscreenOnAndReturn
         
         .notSwampOfEvil
         
@@ -1389,7 +1389,7 @@ ResetSomeThingsAfterDeath:
 ResetAncillaAndLink:
 {
     JSL.l Ancilla_TerminateSelectInteractives
-    JML Player_ResetState
+    JML.l Player_ResetState
 }
 
 ; ==============================================================================

@@ -160,7 +160,7 @@ DrinkingGuy_Draw:
     LDA.b #$03 : STA.b $06
                  STZ.b $07
     
-    JMP Lady_Draw_DrinkingGuy_continue
+    JMP.w Lady_Draw_DrinkingGuy_continue
 }
 
 ; ==============================================================================

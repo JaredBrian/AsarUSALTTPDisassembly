@@ -506,7 +506,7 @@ Bomb_CheckSpriteDamage:
         ORA.w $0EF0, Y : ORA.w $0BA0, Y : BEQ .proceed_with_damage_check
             .different_floors
             
-            JMP .sprite_undamaged
+            JMP.w .sprite_undamaged
             
         .proceed_with_damage_check
         
@@ -574,7 +574,7 @@ Bomb_CheckSpriteDamage:
             .sprite_undamaged
             
             DEY : BMI .checked_all_sprites
-    JMP .check_sprite_damage_loop
+    JMP.w .check_sprite_damage_loop
     
     .checked_all_sprites
     
@@ -659,7 +659,7 @@ Ancilla_ExecuteObject:
     LDA.w .object_routines+0, Y : STA.b $00
     LDA.w .object_routines+1, Y : STA.b $01
     
-    JMP ($0000)
+    JMP.w ($0000)
     
     .object_routines
     
@@ -1369,7 +1369,7 @@ Ancilla_CheckIndividualSpriteCollision:
     PLX : PLY
     
     JSL.l Utility_CheckIfHitBoxesOverlapLong : BCS .hit_box_overlap
-        JMP .no_collision
+        JMP.w .no_collision
     
     .hit_box_overlap
     

@@ -288,7 +288,7 @@ incsrc "sprite_bomb_trooper.asm"
 Sprite_Soldier:
 {
     LDA.w $0DB0, X : BNE .is_probe
-        JMP Soldier_Main
+        JMP.w Soldier_Main
     
     .is_probe
     
@@ -1834,7 +1834,7 @@ SpriteDraw_GuardSpear:
 Sprite2_MoveIfNotTouchingWall:
 {
     LDA.w $0E70, X : BNE .alpha
-        JMP Sprite2_Move
+        JMP.w Sprite2_Move
     
     .alpha
     

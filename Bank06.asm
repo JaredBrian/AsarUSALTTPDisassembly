@@ -971,7 +971,7 @@ Sprite_ExecuteSingle:
         
         .activeSprite
         
-        JMP SpriteActive_Main
+        JMP.w SpriteActive_Main
 }
 
 ; $03050F-$03050F LOCAL JUMP LOCATION
@@ -3081,7 +3081,7 @@ Sprite_PrepAndDrawSingleSmall:
     LDA.w $0E60, X : AND.b #$10 : BEQ .BRANCH_BETA
         LDA.b #$02
         
-        JMP Sprite_DrawShadow_variable
+        JMP.w Sprite_DrawShadow_variable
     
     .BRANCH_BETA
     
@@ -3150,7 +3150,7 @@ Sprite_DrawThinAndTall:
     LDA.b $05                     : LDY.b #$03 : STA ($90), Y
                                     LDY.b #$07 : STA ($90), Y
     
-    JMP Sprite_DrawShadowRedundant
+    JMP.w Sprite_DrawShadowRedundant
 }
 
 ; ==============================================================================
@@ -3623,7 +3623,7 @@ ThrowableScenery_InteractWithSpritesAndTiles:
     
     .skip_tile_collision
     
-    JMP ThrownSprite_TileAndPeerInteraction
+    JMP.w ThrownSprite_TileAndPeerInteraction
 }
 
 ; ==============================================================================
@@ -4043,7 +4043,7 @@ SpritePoof_Main:
     LDY.b #$FF
     LDA.b #$03
     
-    JMP Sprite_CorrectOamEntries
+    JMP.w Sprite_CorrectOamEntries
 }
 
 ; ==============================================================================
@@ -4180,7 +4180,7 @@ Sprite_CheckTileCollision_restore_layer_property:
 ; $0364A7-$0364AB BRANCH LOCATION
 Sprite_CheckTileCollision_restrict_to_same_layer:
 {
-    JMP Sprite_CheckTileCollisionSingleLayer
+    JMP.w Sprite_CheckTileCollisionSingleLayer
 
     ; Bleeds into the next function.
 }
@@ -4852,7 +4852,7 @@ Entity_CheckSlopedTileCollision:
 Sprite_Move:
 {
     JSR.w Sprite_MoveHoriz
-    JMP Sprite_MoveVert
+    JMP.w Sprite_MoveVert
 }
 
 ; $036932-$03693D LOCAL JUMP LOCATION
@@ -5438,7 +5438,7 @@ Guard_ParrySwordAttacks_main:
     JSR.w Utility_CheckIfHitBoxesOverlap : BCS .BRANCH_IOTA
         .BRANCH_GAMMA
         
-        JML Sprite_StaggeredCheckDamageToPlayerPlusRecoil
+        JML.l Sprite_StaggeredCheckDamageToPlayerPlusRecoil
 
     .BRANCH_IOTA
 
@@ -6124,7 +6124,7 @@ Sprite_AttemptKillingOfKin:
     .BRANCH_LAMBDA
     
     CMP.b #$CB : BNE .not_main_trinexx_head
-        JMP Trinexx_ScheduleMainHeadForDeath
+        JMP.w Trinexx_ScheduleMainHeadForDeath
     
     .not_main_trinexx_head
     
@@ -6133,7 +6133,7 @@ Sprite_AttemptKillingOfKin:
     
     .trinexx_side_head
     
-    JMP Trinexx_ScheduleSideHeadForDeath
+    JMP.w Trinexx_ScheduleSideHeadForDeath
     
     .not_trinexx_side_head
     
@@ -6141,7 +6141,7 @@ Sprite_AttemptKillingOfKin:
         CMP.b #$54 : BEQ .BRANCH_PI
             CMP.b #$09 : BEQ .BRANCH_RHO
                 CMP.b #$7A : BNE .not_agahnim_death
-                    JMP Agahnim_ScheduleForDeath
+                    JMP.w Agahnim_ScheduleForDeath
                 
                 .not_agahnim_death
                 
@@ -6527,7 +6527,7 @@ Sprite_CheckDamageToPlayer:
     
     .arrow_in_wall
     
-    JMP Sprite_ScheduleForBreakage
+    JMP.w Sprite_ScheduleForBreakage
 }
 
 ; $0371F6-$037227 LOCAL JUMP LOCATION
@@ -6704,7 +6704,7 @@ Sprite_CheckDamageFromPlayer:
         
     .no_collision
     
-    JMP .no_collision_part_deux
+    JMP.w .no_collision_part_deux
     
     .spin_attack_charging
     

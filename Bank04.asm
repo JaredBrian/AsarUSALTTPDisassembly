@@ -4634,7 +4634,7 @@ EasterEgg_BageCode:
     ; Code that utilizes the player's name (hidden, secret, awesome!!).
     
     LDA.b $F2 : AND.b #$10 : BNE .r_button_held
-        JMP .fail
+        JMP.w .fail
     
     .r_button_held
     

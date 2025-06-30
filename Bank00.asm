@@ -301,7 +301,7 @@ Vector_NMI:
     .normalFrameNotFinished
 
     LDA.w $012A : BEQ .helperThreadInactive
-        JMP NMI_SwitchThread
+        JMP.w NMI_SwitchThread
 
     .helperThreadInactive
 
@@ -1465,7 +1465,7 @@ NMI_DoUpdates:
     
     ; Flag used to indicate that special screen updates need to happen.
     LDA.w $0710 : BEQ .doCoreAnimatedSpriteUpdates
-        JMP .skipCoreAnimatedTilesUpdate
+        JMP.w .skipCoreAnimatedTilesUpdate
 
     .doCoreAnimatedSpriteUpdates
 
@@ -2992,7 +2992,7 @@ HandleStripes14:
     LDA.b #$02 : STA.w SNES.DMAChannelEnable
     
     LDA.b [$00], Y : BMI .endOfTransfers
-        JMP .validTransfer
+        JMP.w .validTransfer
 
     .endOfTransfers
 
@@ -12848,7 +12848,7 @@ LoadCommonSprGfx:
         
         ; Indicates that it contains 0x80 tiles.
         LDY.b #$7F
-        JMP Do3To4Low
+        JMP.w Do3To4Low
 
     .triforceMode
 
@@ -13063,7 +13063,7 @@ Decomp:
 
     .out_of_bytes
 
-    JMP .next_code
+    JMP.w .next_code
 
     ; CODES [101], [110], [100]
     .copy
@@ -13091,7 +13091,7 @@ Decomp:
         REP #$20
     DEC.b $CB : SEP #$20 : BNE .loop_back2
     
-    JMP .next_code
+    JMP.w .next_code
 
     .get_next_byte
 
@@ -13653,7 +13653,7 @@ Palette_Filter_SP5F:
         LDX.w #$01A0
         LDA.w #$01B0
         
-        JMP PaletteFilterHistory_doFiltering
+        JMP.w PaletteFilterHistory_doFiltering
 }
 
 ; ==============================================================================
@@ -13727,7 +13727,7 @@ KholdstareShell_PaletteFiltering:
             LDX.w #$0080
             LDA.w #$0090
             
-            JMP PaletteFilterHistory_doFiltering
+            JMP.w PaletteFilterHistory_doFiltering
 }
 
 ; ==============================================================================
@@ -14233,7 +14233,7 @@ WhirlpoolIsolateBlue:
     
     SEP #$20
     
-    JMP WhirlpoolSaturateBlue_noMosaicIncrease
+    JMP.w WhirlpoolSaturateBlue_noMosaicIncrease
 }
 
 ; ==============================================================================

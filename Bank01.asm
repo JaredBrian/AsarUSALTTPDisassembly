@@ -1075,7 +1075,7 @@ Dungeon_LoadType1Object:
     ; Contains the tile address of the object times two.
     LDY.b $08
     
-    JMP ($000E)
+    JMP.w ($000E)
 }
 
 ; ==============================================================================
@@ -1200,7 +1200,7 @@ RoomDraw_Downwards4x2_1to15or26:
     
     LDA.w #$0100
     
-    JMP Object_Draw2x4s_VariableOffset
+    JMP.w Object_Draw2x4s_VariableOffset
 }
 
 ; ==============================================================================
@@ -1504,7 +1504,7 @@ RoomDraw_DownwardsDecor4x2spaced4_1to16:
     
     LDA.w #$0300
     
-    JMP Object_Draw2x4s.VariableOffset
+    JMP.w Object_Draw2x4s.VariableOffset
 }
 
 ; $008C58-$008C60 JUMP LOCATION
@@ -1993,7 +1993,7 @@ RoomDraw_DownwardsBigRail3x1_1to16plus5:
 Object_Draw3x2:
 {
     LDA.w #$0002
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; $008F36-$008F61 JUMP LOCATION
@@ -2019,7 +2019,7 @@ RoomDraw_RightwardsBigRail1x3_1to16plus5:
     
     LDA.w #$0002
     
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; $008F62-$008F89 JUMP LOCATION
@@ -2519,7 +2519,7 @@ RoomDraw_ChestPlatformCorner:
 {
     LDA.w #$0003
     
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; Hidden wall (facing left)
@@ -3002,7 +3002,7 @@ RoomDraw_Waterfall47:
     
     TXA : CLC : ADC.w #$000A : TAX
     
-    JMP Object_Draw5x1
+    JMP.w Object_Draw5x1
 }
 
 ; ==============================================================================
@@ -3030,7 +3030,7 @@ RoomDraw_Waterfall48:
     
     LDA.w #$0001
     
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; ==============================================================================
@@ -3042,7 +3042,7 @@ RoomDraw_RightwardsFloorTile4x2_1to16:
     
     LDA.w #$0008
     
-    JMP Object_Draw2x4s_VariableOffset
+    JMP.w Object_Draw2x4s_VariableOffset
 }
 
 ; ==============================================================================
@@ -3069,7 +3069,7 @@ RoomDraw_RightwardsBar4x3_1to16:
     
     TXA : CLC : ADC.w #$0006 : TAX
     
-    JMP Object_Draw3x1
+    JMP.w Object_Draw3x1
 }
 
 ; ==============================================================================
@@ -3092,7 +3092,7 @@ RoomDraw_RightwardsShelf4x4_1to16:
     
     TXA : CLC : ADC.w #$0010 : TAX
     
-    JMP Object_Draw4x1
+    JMP.w Object_Draw4x1
 }
 
 ; ==============================================================================
@@ -3316,7 +3316,7 @@ RoomDraw_RightwardsDecor4x2spaced8_1to16:
     
     LDA.w #$0018
     
-    JMP Object_Draw2x4s_VariableOffset
+    JMP.w Object_Draw2x4s_VariableOffset
 }
 
 ; ==============================================================================
@@ -3712,7 +3712,7 @@ Object_Chest:
                 
                 LDX.w #$149C
                 
-                JMP Object_Draw2x2
+                JMP.w Object_Draw2x2
         
         .alreadyOpened
         
@@ -3756,7 +3756,7 @@ Object_Chest:
         ; $0099B8 ALTERNATE ENTRY POINT
         .startsOpen
         
-        JMP Object_Draw2x2
+        JMP.w Object_Draw2x2
 }
 
 ; ==============================================================================
@@ -3786,7 +3786,7 @@ Object_BigChest:
 Object_Draw3x4:
 {
     LDA.w #$0004
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; ==============================================================================
@@ -3795,7 +3795,7 @@ Object_Draw3x4:
 Object_Draw4x3:
 {
     LDA.w #$0003
-    JMP Object_Draw4xN
+    JMP.w Object_Draw4xN
 }
 
 ; ==============================================================================
@@ -3819,7 +3819,7 @@ Object_OpenedBigChest:
 RoomDraw_OpenBigChest:
 {
     LDA.w #$0004
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; ==============================================================================
@@ -3828,7 +3828,7 @@ RoomDraw_OpenBigChest:
 Object_Draw3x8:
 {
     LDA.w #$0008
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; ==============================================================================
@@ -3837,7 +3837,7 @@ Object_Draw3x8:
 Object_Draw3x6:
 {
     LDA.w #$0006
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; ==============================================================================
@@ -3881,7 +3881,7 @@ Object_Draw8x6:
 {
     LDY.w #$1F92
     LDA.w #$0006
-    JMP Object_Draw8xN.draw
+    JMP.w Object_Draw8xN.draw
 }
 
 ; ==============================================================================
@@ -3908,7 +3908,7 @@ Object_StarTile:
     ; $009A8D ALTERNATE ENTRY POINT
     .disabled
     
-    JMP Object_Draw2x2_AdvanceDown
+    JMP.w Object_Draw2x2_AdvanceDown
 }
 
 ; ==============================================================================
@@ -3922,7 +3922,7 @@ Object_Draw6x4:
     LDA.b $08 : CLC : ADC.w #$0180 : TAY
     
     LDA.w #$0004
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; ==============================================================================
@@ -3931,7 +3931,7 @@ Object_Draw6x4:
 Object_Draw4x6:
 {
     LDA.w #$0006
-    JMP Object_Draw4xN
+    JMP.w Object_Draw4xN
 }
 
 ; ==============================================================================
@@ -3998,7 +3998,7 @@ Object_Draw5x4:
 UNREACHABLE_019B18:
 {
     LDA.w #$0002
-    JMP Object_Draw4xN
+    JMP.w Object_Draw4xN
 }
 
 ; ==============================================================================
@@ -4012,7 +4012,7 @@ Object_WaterLadder:
         LDA.b $A0 : ASL : TAX
         
         LDA.l $7EF000, X : AND.w #$0100 : BNE .alpha
-            JMP Object_InactiveWaterLadder
+            JMP.w Object_InactiveWaterLadder
     
     .alpha
     
@@ -4032,7 +4032,7 @@ Object_WaterLadder:
 Object_Draw2x4:
 {
     LDA.w #$0001 : STA.b $B2
-    JMP Object_Draw2x4s_VariableOffset
+    JMP.w Object_Draw2x4s_VariableOffset
 }
 
 ; ==============================================================================
@@ -4043,7 +4043,7 @@ Object_Draw3x6_Alternate:
     ; There really is no difference between this object and the
     ; other Draw3x6 object.
     LDA.w #$0006
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; ==============================================================================
@@ -4088,7 +4088,7 @@ Object_SanctuaryMantle:
     
     LDA.w #$0004
     
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; ==============================================================================
@@ -4218,10 +4218,10 @@ Object_PrisonBars:
 ; $009CC6-$009CEA JUMP LOCATION
 RoomDraw_RightwardsCannonHole4x3_1to16:
 {
-    JMP Object_Size1to16
+    JMP.w Object_Size1to16
     
     LDA.w #$0002
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
     
     DEC.b $B2 : BEQ .alpha
         .loop
@@ -4239,7 +4239,7 @@ RoomDraw_RightwardsCannonHole4x3_1to16:
     TXA : CLC : ADC.w #$000C : TAX
     
     LDA.w #$0002
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; $009CEB-$009D28 JUMP LOCATION
@@ -4425,11 +4425,11 @@ Object_LanternLayer:
     
     LDY.w #$17F6
     LDA.w #$0554
-    JMP .drawLampPortion
+    JMP.w .drawLampPortion
     
     LDY.w #$1914
     LDA.w #$1514
-    JMP .drawLampPortion
+    JMP.w .drawLampPortion
     
     LDY.w #$1A2A
     LDA.w #$1554
@@ -4598,7 +4598,7 @@ Object_AgahnimRoomFrame:
         TXA : CLC : ADC.w #$0080 : TAX
         
         DEC.b $0E : BEQ .sidesLoopDone
-    JMP .sidesLoop
+    JMP.w .sidesLoop
     
     .sidesLoopDone
     
@@ -4937,7 +4937,7 @@ RoomDraw_AutoStairs_North_MergedLayer_A:
     
     PLX
     
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
 }
 
 ; (1.2.0x33)
@@ -4960,7 +4960,7 @@ RoomDraw_AutoStairs_North_MergedLayer_B:
     
     LDX.w #$10C8
     
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
 }
 
 ; In-room up-south staircase (1.3.0x1B)
@@ -5043,7 +5043,7 @@ RoomDraw_AutoStairs_South_MultiLayer_C:
     
     PLX
     
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
 }
 
 ; In room up-staircase (1.3.0x33)
@@ -5066,7 +5066,7 @@ RoomDraw_AutoStairs_South_MergedLayer:
     
     PLX
     
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
 }
 
 ; 1.2.0x36 Inactive ladders in the swamp palace
@@ -5141,7 +5141,7 @@ RoomDraw_InterRoomFatStairsUp:
     
     LDX.w #$1088
     
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
 }
 
 ; 1.2.0x2E In-floor inter-floor down-south staircase
@@ -5166,7 +5166,7 @@ RoomDraw_InterRoomFatStairsDown_A:
     
     LDX.w #$10A8
     
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
 }
 
 ; 1.2.0x2F In-floor inter-room down-south staircase (use with hidden wall)
@@ -5191,7 +5191,7 @@ RoomDraw_InterRoomFatStairsDown_B:
     
     LDX.w #$10A8
     
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
 }
 
 ; 1.2.0x38 Inter-room in-wall up-north spiral staircase
@@ -5587,7 +5587,7 @@ Object_Draw6x3:
     LDA.b $08 : CLC : ADC.w #$0180 : TAY
     
     LDA.w #$0003
-    JMP Object_Draw3xN
+    JMP.w Object_Draw3xN
 }
 
 ; ==============================================================================
@@ -5605,7 +5605,7 @@ Object_Stacked4x4s:
     LDA.b $08 : CLC : ADC.w #$0300 : TAY
     
     LDX.w #$2396
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
 }
 
 ; ==============================================================================
@@ -5653,7 +5653,7 @@ Object_Triforce:
     
     LDA.b $08 : CLC : ADC.w #$0204 : TAY
     
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
 }
 
 ; ==============================================================================
@@ -5682,7 +5682,7 @@ Door_Up:
     LDY.w DoorTilemapPositions_NorthWall, X : STY.b !tilemap_pos
     
     CMP.w #$0030 : BNE .notBlastWall
-        JMP Door_BlastWall
+        JMP.w Door_BlastWall
     
     .notBlastWall
     
@@ -5690,12 +5690,12 @@ Door_Up:
     CMP.w #$0016 : BNE .notFloorToggleProperty
         TYA : SEC : SBC.w #$00FE
         
-        JMP Door_AddFloorToggleProperty
+        JMP.w Door_AddFloorToggleProperty
     
     .notFloorToggleProperty
     
     CMP.w #$0032 : BNE .BRANCH_GAMMA
-        JMP Door_SwordActivated
+        JMP.w Door_SwordActivated
     
     .BRANCH_GAMMA
     
@@ -5707,7 +5707,7 @@ Door_Up:
     CMP.w #$0014 : BNE .notPalaceToggleProperty
         TYA : SEC : SBC.w #$00FE
         
-        JMP Door_AddDungeonToggleProperty
+        JMP.w Door_AddDungeonToggleProperty
     
     .notPalaceToggleProperty
     
@@ -5893,19 +5893,19 @@ Door_Down:
     CMP.w #$0016 : BNE .notFloorToggleProperty
         TYA : CLC : ADC.w #$0202
         
-        JMP Door_AddFloorToggleProperty
+        JMP.w Door_AddFloorToggleProperty
     
     .notFloorToggleProperty
     
     CMP.w #$0006 : BNE .notPrioritizeProperty
-        JMP Door_PrioritizeDownToQuadBoundary
+        JMP.w Door_PrioritizeDownToQuadBoundary
     
     .notPrioritizeProperty
     
     CMP.w #$0014 : BNE .notPalaceToggleProperty
         TYA : CLC : ADC.w #$0202
         
-        JMP Door_AddDungeonToggleProperty
+        JMP.w Door_AddDungeonToggleProperty
     
     .notPalaceToggleProperty
     
@@ -5934,7 +5934,7 @@ Door_Down:
         
         LDY.w #$2656
         LDA.w #$000A
-        JMP Object_Draw8xN.draw
+        JMP.w Object_Draw8xN.draw
     
     .notBg2_LargeExit
     
@@ -5990,7 +5990,7 @@ RoomDraw_HighPriorityExitLight:
     
     LDX.w #$26F6
     LDA.w #$000A
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
     
     .notCaveExitDoor
     
@@ -6098,7 +6098,7 @@ Door_Left:
     CMP.w #$0016 : BNE .notFloorToggleProperty
         TYA : CLC : ADC.w #$007C
         
-        JMP Door_AddFloorToggleProperty
+        JMP.w Door_AddFloorToggleProperty
     
     .notFloorToggleProperty
     
@@ -6110,7 +6110,7 @@ Door_Left:
     CMP.w #$0014 : BNE .notPalaceToggleProperty
         TYA : CLC : ADC.w #$007C
         
-        JMP Door_AddDungeonToggleProperty
+        JMP.w Door_AddDungeonToggleProperty
     
     .notPalaceToggleProperty
     
@@ -6220,7 +6220,7 @@ Door_Right:
     
     CMP.w #$0016 : BNE .notFloorToggleProperty
         TYA : CLC : ADC.w #$0088
-        JMP Door_AddFloorToggleProperty
+        JMP.w Door_AddFloorToggleProperty
     
     .notFloorToggleProperty
     
@@ -6231,7 +6231,7 @@ Door_Right:
     
     CMP.w #$0014 : BNE .notPalaceToggleProperty
         TYA : CLC : ADC.w #$0088
-        JMP Door_AddDungeonToggleProperty
+        JMP.w Door_AddDungeonToggleProperty
     
     .notPalaceToggleProperty
     
@@ -6339,7 +6339,7 @@ Door_SwordActivated:
     
     LDY.b $08
     LDX.w #$078A
-    JMP Object_Draw4x4
+    JMP.w Object_Draw4x4
     
     .drawOtherGraphic
     
@@ -7413,7 +7413,7 @@ Object_LargeLiftableBlock:
     
     PLX
     
-    JMP Object_Draw2x2
+    JMP.w Object_Draw2x2
 }
 
 ; ==============================================================================
@@ -7490,7 +7490,7 @@ Object_Pot:
     
     .inLightWorld
     
-    JMP Object_Draw2x2
+    JMP.w Object_Draw2x2
 }
 
 ; ==============================================================================
@@ -7509,7 +7509,7 @@ Object_BombableFloor:
             
             ; Tiles for a bombed open floor.
             LDX.w #$05AA
-            JMP Object_Hole
+            JMP.w Object_Hole
 
         .notBombedOpenYet
     .notInThatOneRoom
@@ -7572,7 +7572,7 @@ Object_BombableFloor:
     PLY
     PLX
     
-    JMP Object_Draw2x2
+    JMP.w Object_Draw2x2
 }
 
 ; ==============================================================================
@@ -7642,7 +7642,7 @@ Object_Mole:
     
     PLX
     
-    JMP Object_Draw2x2
+    JMP.w Object_Draw2x2
 }
 
 ; ==============================================================================
@@ -7667,7 +7667,7 @@ Dungeon_LoadBlock:
     LDA.b [$CE], Y : STA.w $05C0, X
     
     LDX.w #$0E52
-    JMP Object_Draw2x2
+    JMP.w Object_Draw2x2
 }
 
 ; ==============================================================================
@@ -7708,7 +7708,7 @@ Dungeon_LoadTorch:
     
     LDA.b $08 : AND.w #$3FFF : TAY
     
-    JMP Object_Draw2x2
+    JMP.w Object_Draw2x2
 }
 
 ; ==============================================================================
@@ -8048,7 +8048,7 @@ Dungeon_CheckAdjacentRoomOpenedDoors:
         .skipDoor
         
         INY : INY : CPY.w #$0010 : BEQ .return
-            JMP .nextDoor
+            JMP.w .nextDoor
         
         .return
         
@@ -8854,7 +8854,7 @@ Dungeon_LoadSingleDoorAttr:
                     .BRANCH_GAMMA
     
         CMP.w #$0030 : BNE .notBlastWall
-            JMP Door_LoadBlastWallAttrStub
+            JMP.w Door_LoadBlastWallAttrStub
         
         .notBlastWall
         
@@ -10338,7 +10338,7 @@ RoomTag_OperateChestReveal:
     
     LDA.w $0200 : INC : INC : STA.w $0200
     CMP.w $0496 : BEQ .lastChest
-        JMP .nextChest
+        JMP.w .nextChest
     
     .lastChest
     
@@ -11053,7 +11053,7 @@ Object_WatergateChannelWater:
             LDA.b !startPos : CLC : ADC.w #$0200 : STA.b !startPos
                                                    TAX
         DEC.b !numRows : BNE .nextRow
-    JMP .nextObjectGroup
+    JMP.w .nextObjectGroup
 }
 
 ; ==============================================================================
@@ -11516,7 +11516,7 @@ DontOpenDoor:
             STZ.b $0C
             
             CMP.w #$006C : BEQ .BRANCH_PSI
-                JMP .not_vines
+                JMP.w .not_vines
             
             .BRANCH_PSI
             
@@ -11634,7 +11634,7 @@ RoomDraw_CloseStripes:
 Bomb_CheckForVulnerableTileObjects:
 {
     LDA.b $10 : CMP.b #$07 : BEQ .indoors
-        JML Overworld_ApplyBombToTiles
+        JML.l Overworld_ApplyBombToTiles
     
     .indoors
     
@@ -11878,7 +11878,7 @@ Dungeon_AnimateTrapDoors:
             CMP.w #$0008 : BEQ .begin_tile_animation_logic
                 .no_tile_animation_this_frame
                 
-                JMP .tile_animation_complete
+                JMP.w .tile_animation_complete
     
     .trap_doors_are_down
     
@@ -11961,7 +11961,7 @@ Dungeon_AnimateTrapDoors:
     .aint_trap_door
     
     LDY.w $068E : INY : INY : CPY.w #$0018 : BEQ .done_checking_for_trap_doors
-        JMP .check_next_door
+        JMP.w .check_next_door
     
     .done_checking_for_trap_doors
     
@@ -12577,7 +12577,7 @@ PushBlock_StoppedMoving:
         STA.w $0500, Y
 
         LDA.w #$2727
-        JMP Dungeon_EraseInteractive2x2_partially_prepped
+        JMP.w Dungeon_EraseInteractive2x2_partially_prepped
     
     .blockFellIntoPit
     
@@ -15135,7 +15135,7 @@ Dungeon_OpenKeyedObject:
     PHB : LDX.b #$00 : PHX : PLB
     
     CMP.b #$63 : BNE .notMiniGameChest
-        JMP Dungeon_OpenMinigameChest
+        JMP.w Dungeon_OpenMinigameChest
     
     .notMiniGameChest
     
@@ -15188,7 +15188,7 @@ Dungeon_OpenKeyedObject:
 
         LDA.w RoomDrawObjectData+06, Y
         
-        JMP .storeTilemapChanges
+        JMP.w .storeTilemapChanges
         
         .couldntFindChest
         
@@ -15236,7 +15236,7 @@ Dungeon_OpenKeyedObject:
         LDA.l $7EF366 : AND.l DungeonMask, X : BEQ .cantOpenBigChest
             PLX : PLA
             
-            JMP Dungeon_OpenBigChest
+            JMP.w Dungeon_OpenBigChest
         
         .cantOpenBigChest
         
@@ -15304,17 +15304,13 @@ Dungeon_OpenKeyedObject:
     JSR.w Dungeon_GetKeyedObjectRelativeVramAddr : STA.w $1002, X
     
     LDA.w #$0080
-    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-    
-    STA.w $1008, X
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr : STA.w $1008, X
+
     LDA.w #$0002
-    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-    
-    STA.w $100E, X
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr : STA.w $100E, X
+
     LDA.w #$0082
-    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-    
-    STA.w $1014, X
+    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr : STA.w $1014, X
     
     LDA.b $02 : STA.w $1006, X
     LDA.b $04 : STA.w $100C, X
@@ -15324,7 +15320,8 @@ Dungeon_OpenKeyedObject:
     ; Two bytes for each DMA transfer. Source address increment mode is
     ; incremental, VRAM address increment mode is horizontal.
     LDA.w #$0100
-    STA.w $1004, X : STA.w $100A, X : STA.w $1010, X : STA.w $1016, X
+    STA.w $1004, X : STA.w $100A, X
+    STA.w $1010, X : STA.w $1016, X
     
     LDA.w #$FFFF : STA.w $101A, X
     
@@ -15387,13 +15384,11 @@ Dungeon_OpenBigChest:
     JSR.w Dungeon_PrepOverlayDma_tilemapAlreadyUpdated
     
     LDY.b $0C
-    
     LDA.w #$FFFF : STA.w $1100, Y
     
     PLA : STA.b $0C
     
     PLY
-    
     LDA.w $06E0, Y : AND.w #$7FFF : PHA
     
     INC : INC : STA.b $72
@@ -15401,8 +15396,9 @@ Dungeon_OpenBigChest:
     PLA : LSR : TAX
     
     LDA.w #$2727
-    STA.l $7F2000, X : STA.l $7F2002, X : STA.l $7F2040, X 
-    STA.l $7F2042, X : STA.l $7F2080, X : STA.l $7F2082, X
+    STA.l $7F2000, X : STA.l $7F2002, X
+    STA.l $7F2040, X : STA.l $7F2042, X
+    STA.l $7F2080, X : STA.l $7F2082, X
     
     SEP #$31
     
@@ -15487,6 +15483,7 @@ Dungeon_OpenMiniGameChest:
             
             LDA.b $20 : SEC : SBC.w #$0004 : STA.b $00
             AND.w #$01F8 : ASL #3 : STA.b $06
+
             LDA.b $22 : CLC : ADC.w #$0007 : STA.b $02
             AND.w #$01F8 : LSR #3 : ORA.b $06 : TAX
             
@@ -15509,29 +15506,27 @@ Dungeon_OpenMiniGameChest:
             
             ; Set replacement tiles to be drawn.
             LDY.w #$14A4
-            
-            LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.b $02
-            LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X : STA.b $04
-            LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X : STA.b $06
-            LDA.w RoomDrawObjectData+06, Y : STA.l $7E2082, X : STA.b $08
+            LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+                                           : STA.b $02
+            LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+                                           : STA.b $04
+            LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X
+                                           : STA.b $06
+            LDA.w RoomDrawObjectData+06, Y : STA.l $7E2082, X
+                                           : STA.b $08
             
             LDX.w $1000
             LDA.b $0C
-            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-            
-            STA.w $1002, X
+            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr : STA.w $1002, X
+
             LDA.b $0C : CLC : ADC.w #$0080
-            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-            
-            STA.w $1008, X
+            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr : STA.w $1008, X
+
             LDA.b $0C : CLC : ADC.w #$0002
-            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-            
-            STA.w $100E, X
+            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr : STA.w $100E, X
+
             LDA.b $0C : CLC : ADC.w #$0082
-            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-            
-            STA.w $1014, X
+            JSR.w Dungeon_GetKeyedObjectRelativeVramAddr : STA.w $1014, X
             
             LDA.b $02 : STA.w $1006, X
             LDA.b $04 : STA.w $100C, X
@@ -15539,7 +15534,6 @@ Dungeon_OpenMiniGameChest:
             LDA.b $08 : STA.w $1018, X
             
             LDA.w #$0100
-            
             STA.w $1004, X : STA.w $100A, X
             STA.w $1010, X : STA.w $1016, X
             
@@ -15631,7 +15625,6 @@ Dungeon_GetRupeeChestMinigamePrize:
     .BRANCH_ALPHA
     
     TAX
-    
     LDA.l Dungeon_RupeeChestMinigamePrizes, X
     
     BRA Dungeon_OpenMiniGameChest_prizeExternallyDetermined
@@ -15657,10 +15650,10 @@ Dungeon_GetRupeeChestMinigamePrize:
 Dungeon_GetKeyedObjectRelativeVramAddr:
 {
     ; OPTIMIZE: Whole routine takes 62 cycles. Could use some optimization?
-    CLC : ADC.w $06E0, Y : STA.b $0E
-    
-                AND.w #$0040 : LSR #4 : XBA       : STA.b $0A
-    LDA.b $0E : AND.w #$303F : LSR  : ORA.b $0A : STA.b $0A
+    CLC : ADC.w $06E0, Y        : STA.b $0E
+    AND.w #$0040 : LSR #4 : XBA : STA.b $0A
+
+    LDA.b $0E : AND.w #$303F : LSR    : ORA.b $0A : STA.b $0A
     LDA.b $0E : AND.w #$0F80 : LSR #2 : ORA.b $0A : XBA
     
     RTS
@@ -15730,8 +15723,8 @@ IncrementallyDrainSwampPool:
         .BRANCH_DELTA
         
             LDX.w $06B8, Y
-            
-            LDA.w #$1D1D : STA.l $7F2041, X : STA.l $7F2081, X
+            LDA.w #$1D1D : STA.l $7F2041, X
+                           STA.l $7F2081, X
         INY : INY : CPY.w $0442 : BNE .BRANCH_DELTA
     
     .BRANCH_GAMMA
@@ -15742,8 +15735,8 @@ IncrementallyDrainSwampPool:
         .BRANCH_ZETA
         
             LDX.w $06EC, Y
-            
-            LDA.w #$1D1D : STA.l $7F2041, X : STA.l $7F2081, X
+            LDA.w #$1D1D : STA.l $7F2041, X
+                           STA.l $7F2081, X
         INY : INY : CPY.w $04AE : BNE .BRANCH_ZETA
     
     .BRANCH_EPSILON
@@ -15798,7 +15791,8 @@ Underworld_FloodSwampWater_PrepTilemap:
     
     LDA.w $045C : CLC : ADC.b #$04 : STA.w $045C
     
-    INC.b $B0 : LDA.b $B0 : CMP.b #$06 : BNE .notFinished
+    INC.b $B0
+    LDA.b $B0 : CMP.b #$06 : BNE .notFinished
         STZ.w $045C : STZ.b $B0 : STZ.b $11
     
     .notFinished
@@ -15847,8 +15841,7 @@ Dungeon_TurnOnWaterLong_handlers:
 Dungeon_TurnOnWaterLong:
 {
     LDA.b $B0 : ASL : TAX
-    
-    JMP (.handlers, X)
+    JMP.w (.handlers, X)
 
     ; $00F09A ALTERNATE ENTRY POINT
     .exit
@@ -15864,7 +15857,8 @@ Underworld_FloodSwampWater_VomitWater:
     DEC.w $0424 : BNE Dungeon_TurnOnWaterLong_exit
         LDA.b #$04 : STA.w $0424
         
-        INC.b $B0 : LDA.b $B0 : SEC : SBC.b #$04 : STA.b $0E : STZ.b $0F
+        INC.b $B0 : LDA.b $B0 : SEC : SBC.b #$04 : STA.b $0E
+                                                   STZ.b $0F
         
         REP #$30
         
@@ -15902,9 +15896,8 @@ Underworld_AdjustWaterVomit:
     .loop2
     
         LDX.b $08
-        
         TXA : AND.w #$0040 : LSR #4             : XBA : STA.b $00
-        TXA : AND.w #$303F : LSR  : ORA.b $00       : STA.b $00
+        TXA : AND.w #$303F : LSR    : ORA.b $00       : STA.b $00
         TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : XBA : STA.w $1002, Y
         
         LDA.w #$0980 : STA.w $1004, Y
@@ -15940,7 +15933,8 @@ Underworld_FloodSwampWater_SpillToFloor:
     
     LDA.b #$16 : STA.b $1E
     
-    LDA.b #$01 : STA.b $1F : STA.b $1D
+    LDA.b #$01 : STA.b $1F
+                 STA.b $1D
     
     LDA.b #$02 : STA.b $99
     LDA.b #$62 : STA.b $9A
@@ -15980,7 +15974,7 @@ Underworld_FloodSwampWater_CoverFloor:
     INC.w $0424
     
     LDA.w #$0688 : SEC : SBC.b $E8 : SEC : SBC.w $0684 : STA.w $0674
-    CLC : ADC.w $068A : STA.b $0A
+                                     CLC : ADC.w $068A : STA.b $0A
     
     JSL.l AdjustWaterHDMAWindow_Horizontal
     
@@ -16044,7 +16038,6 @@ Underworld_FloodSwampWater_RiseInLevel:
         .BRANCH_ZETA
         
             LDX.w $06B8, Y
-            
             LDA.w #$0003 : STA.l $7F2000, X
             XBA          : STA.l $7F2002, X
             
@@ -16052,7 +16045,6 @@ Underworld_FloodSwampWater_RiseInLevel:
             XBA          : STA.l $7F3002, X
             
             LDA.w #$0808
-            
             STA.l $7F2040, X : STA.l $7F2042, X
             STA.l $7F3040, X : STA.l $7F3042, X
             STA.l $7F3080, X : STA.l $7F3082, X
@@ -16067,7 +16059,6 @@ Underworld_FloodSwampWater_RiseInLevel:
         .BRANCH_IOTA
         
             LDX.w $06EC, Y
-            
             LDA.w #$0003 : STA.l $7F20C0, X
             XBA          : STA.l $7F20C2, X
             
@@ -16075,7 +16066,6 @@ Underworld_FloodSwampWater_RiseInLevel:
             XBA          : STA.l $7F30C2, X
             
             LDA.w #$0808
-            
             STA.l $7F2080, X : STA.l $7F2082, X
             STA.l $7F3000, X : STA.l $7F3002, X
             STA.l $7F3040, X : STA.l $7F3042, X
@@ -16129,8 +16119,7 @@ Watergate_Main:
     JSL.l FloodDam_PrepFloodHDMA
     
     LDA.b $B0 : ASL : TAX
-    
-    JMP (Watergate_MainJumpTable, X)
+    JMP.w (Watergate_MainJumpTable, X)
     
     .easyOut
     
@@ -16147,12 +16136,12 @@ FloodDam_Expand:
     INC.w $0470
     
     LDA.w $0470 : LSR : STA.w $0686
-    SEC : SBC.b #$08 : STA.b $00
+     SEC : SBC.b #$08 : STA.b $00
     
     LDA.w $0678 : STA.w $0676
     
     LDA.w $067A : CLC : ADC.b #$01 : STA.w $067A
-    CLC : ADC.b $00 : STA.w $0684
+                  CLC : ADC.b $00  : STA.w $0684
     
     LDA.w $0470 : AND.b #$0F : BNE Watergate_Main_easyOut
         LDA.w $0470 : CMP.b #$40 : BNE .BRANCH_ALPHA
@@ -16163,10 +16152,7 @@ FloodDam_Expand:
         REP #$30
         
         LDA.w $0470 : LSR #3 : TAX
-        
-        LDA.l FloodGateTileOffsets, X
-        
-        TAY
+        LDA.l FloodGateTileOffsets, X : TAY
         
         LDX.w $0472 : STX.b $08
         
@@ -16312,20 +16298,21 @@ Dungeon_LightTorch:
                 
             .notZero
             
-            LDA.w $0540, Y : AND.w #$3FFF : TAX : STX.b $08 : PHX
+            LDA.w $0540, Y : AND.w #$3FFF : TAX
+                                            STX.b $08
+                                            PHX
             
             LDY.w #$0ECA
-            
             JSR.w Dungeon_PrepOverlayDma
             
-            LDY.b $0C : LDA.w #$FFFF : STA.w $1100, Y
+            LDY.b $0C
+            LDA.w #$FFFF : STA.w $1100, Y
             
             PLA
             
             SEP #$30
             
             AND.b #$7F : ASL A
-            
             JSL.l Sound_GetFineSfxPan
             
             ORA.b #$2A : STA.w $012E
@@ -16392,29 +16379,26 @@ Dungeon_ExtinguishTorch:
 {
     .extinguish
 
-    LDA.b #$C0 : STA.b $08 : STZ.b $09
+    LDA.b #$C0 : STA.b $08
+                 STZ.b $09
     
     PHA
     
-    ; Going to be using bank $00.
+    ; Switch the data bank to 0x00.
     PHB : LDA.b #$00 : PHA : PLB
     
     REP #$30
     
     LDA.w $0333 : AND.w #$000F : ASL : CLC : ADC.w $0478 : TAY
-    
     LDA.w $0520, Y : AND.w #$00FF : TAX
-    
-    LDA.w $0540, Y : ASL #2 : STA.w $0540, Y : STA.l $7EFB40, X
-    
-    AND.w #$3FFF : TAX : STX.b $08
+    LDA.w $0540, Y : ASL #2       : STA.w $0540, Y
+                                    STA.l $7EFB40, X
+    AND.w #$3FFF : TAX            : STX.b $08
     
     LDY.w #$0EC2
-    
     JSR.w Dungeon_PrepOverlayDma
     
     LDY.b $0C
-    
     LDA.w #$FFFF : STA.w $1100, Y
     
     SEP #$30
@@ -16425,7 +16409,8 @@ Dungeon_ExtinguishTorch:
     
     LDA.l $7EC005 : BEQ .noLightLevelChange
         LDA.w $045A : BEQ .noLightLevelChange
-            DEC : STA.w $045A : CMP.b #$03 : BCS .noLightLevelChange
+            DEC : STA.w $045A
+            CMP.b #$03 : BCS .noLightLevelChange
                 CMP.b #$00 : BNE .notFullyDark
                     LDA.b #$01 : STA.b $1D
 
@@ -16458,9 +16443,10 @@ Dungeon_ElevateStaircasePriority:
     REP #$30
     
     LDA.w $0462 : AND.w #$0003 : ASL : TAY
-    
     LDA.w $06B0, Y : ASL : SEC : SBC.w #$0008 : TAX
-    STX.w $048C : STX.b $08 : PHX
+                                                STX.w $048C
+                                                STX.b $08
+                                                PHX
     
     LDY.w #$0004
     
@@ -16500,14 +16486,13 @@ Dungeon_DecreaseStaircasePriority:
     LDY.w #$0004
     
     .nextColumn
-    
-    LDA.l $7E2000, X : AND.w #$DFFF : STA.l $7E2000, X
-    LDA.l $7E2080, X : AND.w #$DFFF : STA.l $7E2080, X
-    LDA.l $7E2100, X : AND.w #$DFFF : STA.l $7E2100, X
-    LDA.l $7E2180, X : AND.w #$DFFF : STA.l $7E2180, X
-    
-    INX : INX
-    
+        
+        LDA.l $7E2000, X : AND.w #$DFFF : STA.l $7E2000, X
+        LDA.l $7E2080, X : AND.w #$DFFF : STA.l $7E2080, X
+        LDA.l $7E2100, X : AND.w #$DFFF : STA.l $7E2100, X
+        LDA.l $7E2180, X : AND.w #$DFFF : STA.l $7E2180, X
+        
+        INX : INX  
     DEY : BPL .nextColumn
     
     JSR.w Dungeon_PrepOverlayDma_tilemapAlreadyUpdated
@@ -16555,12 +16540,10 @@ Object_OpenGanonDoor:
     STZ.w $02E4
     
     INC.b $B0
-    
     LDA.b $B0 : AND.b #$03 : BNE Object_OpenGanonDoor_easyOut
         REP #$30
         
         LDA.b $B0 : SEC : SBC.w #$0004 : LSR : TAX
-        
         LDA.l .tile_offset, X : TAY
         
         LDX.w #$0000
@@ -16584,17 +16567,18 @@ Object_OpenGanonDoor:
         STZ.b $0C
         
         LDY.b $0C
-        
         JSR.w Dungeon_PrepOverlayDma_nextTileGroup
         
-        LDY.b $0C
-        
         ; Terminate the drawing buffer.
+        LDY.b $0C
         LDA.w #$FFFF : STA.w $1100, Y
         
         LDA.b $B0 : CMP.w #$0010 : BNE .notFinishedYet
-            LDA.w #$0202 : STA.l $7F216C : STA.l $7F21AC
-            LDA.w #$0200 : STA.l $7F2172 : STA.l $7F21B2
+            LDA.w #$0202 : STA.l $7F216C
+                           STA.l $7F21AC
+
+            LDA.w #$0200 : STA.l $7F2172
+                           STA.l $7F21B2
             
             LDX.w #$0000
             LDA.w #$0000
@@ -16643,13 +16627,11 @@ UNREACHABLE_01F6B4:
     .BRANCH_ALPHA
     
     LDX.b $08
-    
-    TXA : AND.w #$0040 : LSR #4 : XBA     : STA.b $00
-    TXA : AND.w #$303F : LSR            : STA.b $02
+    TXA : AND.w #$0040 : LSR #4 : XBA                   : STA.b $00
+    TXA : AND.w #$303F : LSR                            : STA.b $02
     TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : ORA.b $02 : STA.w $1100, Y
     
     LDX.w $045E
-    
     LDA.w $1600, X : STA.w $1104, Y
     
     LDA.b $06 : STA.w $1102, Y
@@ -16726,9 +16708,8 @@ Dungeon_PrepOverlayDma:
     .nextTileGroup
     
         LDX.b $08
-        
-        TXA : AND.w #$0040 : LSR #4 : XBA     : STA.b $00
-        TXA : AND.w #$303F : LSR  : ORA.b $00 : STA.b $00
+        TXA : AND.w #$0040 : LSR #4 : XBA       : STA.b $00
+        TXA : AND.w #$303F : LSR    : ORA.b $00 : STA.b $00
         TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : STA.w $1100, Y
         
         ; The data to write to VRAM.
@@ -16783,9 +16764,7 @@ ClearAndStripeExplodingWall:
     STZ.b $0E
     
     LDA.w $0454 : CLC : ADC.w #$0003 : STA.b $0A
-    
     SEC : SBC.w #$0006 : CMP.w #$0002 : BMI .alpha
-    
         STA.b $02
         
         INC.b $0E
@@ -16797,7 +16776,6 @@ ClearAndStripeExplodingWall:
     LDY.b $0C
     
     LDX.w $0460
-    
     LDA.w $19C0, X : AND.w #$0002 : BNE .beta
 
         INC.b $06
@@ -16805,10 +16783,10 @@ ClearAndStripeExplodingWall:
     .beta
     
     LDX.b $08
-    
-    TXA : AND.w #$0040 : LSR #4 : XBA     : STA.b $00
-    TXA : AND.w #$303F : LSR  : ORA.b $00 : STA.b $00
-    TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : STA.w $1100, Y : PHA
+    TXA : AND.w #$0040 : LSR #4 : XBA       : STA.b $00
+    TXA : AND.w #$303F : LSR    : ORA.b $00 : STA.b $00
+    TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : STA.w $1100, Y
+                                              PHA
     
     LDA.l $7E2000, X : STA.w $1104, Y
     
@@ -16834,7 +16812,7 @@ ClearAndStripeExplodingWall:
     TYA : CLC : ADC.w #$0020 : TAY
     
     DEC.b $0A : BEQ .gamma
-        JMP .beta
+        JMP.w .beta
     
     .gamma
     
@@ -16852,7 +16830,7 @@ ClearAndStripeExplodingWall:
         
         LDA.w #$0003 : STA.b $0A
         
-        JMP .beta
+        JMP.w .beta
     
     .delta
     
@@ -16878,8 +16856,8 @@ UNREACHABLE_01F908:
     
     .BRANCH_ALPHA
     
-            TXA : AND.w #$0040 : LSR #4 : XBA : STA.b $00
-            TXA : AND.w #$303F : LSR  : STA.b $02
+            TXA : AND.w #$0040 : LSR #4                         : XBA : STA.b $00
+            TXA : AND.w #$303F : LSR                                  : STA.b $02
             TXA : AND.w #$0F80 : LSR #2 : ORA.b $00 : ORA.b $02 : XBA : STA.w $1002, Y
             
             LDA.w #$0100 : STA.w $1004, Y
@@ -16920,8 +16898,7 @@ Dungeon_DrawOverlay:
         STZ.b $B4
         
         LDY.b $BA
-        
-        LDA [$B7], Y : CMP.w #$FFFF : BEQ .endOfObjects
+        LDA.b [$B7], Y : CMP.w #$FFFF : BEQ .endOfObjects
             STA.b $00
             
             JSR.w Dungeon_DrawChunk
@@ -16943,11 +16920,11 @@ Dungeon_DrawChunk:
 {
     SEP #$20
     
-    LDA [$B7], Y : AND.b #$FC : STA.b $08
+    LDA.b [$B7], Y : AND.b #$FC : STA.b $08
     
     INY : INY
-    
-    LDA [$B7], Y : STA.b $04 : STZ.b $05
+    LDA.b [$B7], Y : STA.b $04
+                     STZ.b $05
     
     LDA.b $01 : LSR #3 : ROR.b $08 : STA.b $09
     
@@ -16962,7 +16939,6 @@ Dungeon_DrawChunk:
     
     CMP.w #$00A4 : BNE .notHole
         LDY.w #$05AA
-        
         LDA.w RoomDrawObjectData+00, Y
         STA.l $7E2080, X : STA.l $7E2082, X
         STA.l $7E2084, X : STA.l $7E2086, X
@@ -16970,13 +16946,11 @@ Dungeon_DrawChunk:
         STA.l $7E2104, X : STA.l $7E2106, X
         
         LDY.w #$063C
-        
         LDA.w RoomDrawObjectData+02, Y
         STA.l $7E2000, X : STA.l $7E2002, X
         STA.l $7E2004, X : STA.l $7E2006, X
         
         LDY.w #$0642
-        
         LDA.w RoomDrawObjectData+02, Y
         STA.l $7E2180, X : STA.l $7E2182, X
         STA.l $7E2184, X : STA.l $7E2186, X
@@ -17020,8 +16994,7 @@ GetDoorDrawDataIndex_North_clean_door_index:
 ; $00FA54-$00FA9F JUMP LOCATION
 DoorDoorStep1_North:
 {
-    LDA.w $0460 : PHA
-    
+    LDA.w $0460  : PHA
     AND.w #$000F : STA.b $04
     
     TXA : AND.w #$1FFF : CMP.w DoorTilemapPositions_NorthMiddle : BCC .BRANCH_BETA
@@ -17030,7 +17003,6 @@ DoorDoorStep1_North:
         PHX
         
         LDX.w $0460
-        
         LDA.w $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC .BRANCH_GAMMA
             LDA.b $08 : SEC : SBC.w #$0300 : STA.b $08
         
@@ -17042,7 +17014,6 @@ DoorDoorStep1_North:
         JSR.w Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
-        
         JSR.w Dungeon_LoadSingleDoorAttr
         
         PLX : STX.b $08
@@ -17058,10 +17029,10 @@ DoorDoorStep1_North:
 GetDoorDrawDataIndex_North:
 {
     LDX.w $0460
-    
     LDA.w $1980, X : AND.w #$00FE
-    
-    LDX.w $0692  : BEQ DrawDoorToTilemap_North
+
+    LDX.w $0692
+                   BEQ DrawDoorToTilemap_North
     CPX.w #$0004 : BEQ DrawDoorToTilemap_North
         CMP.w #$0024 : BEQ .BRANCH_EPSILON
         CMP.w #$0026 : BEQ .BRANCH_EPSILON
@@ -17096,7 +17067,6 @@ DrawDoorToTilemap_North:
     .continue
     
     LDX.w $0460
-    
     LDA.w $19A0, X : TAX
     
     LDA.w #$0004 : STA.b $0E
@@ -17128,8 +17098,7 @@ GetDoorDrawDataIndex_South_clean_door_index:
 ; $00FB15-$00FB60 JUMP LOCATION
 DoorDoorStep1_South:
 {
-    LDA.w $0460 : PHA
-    
+    LDA.w $0460  : PHA
     AND.w #$000F : STA.b $04
     
     TXA : AND.w #$1FFF : CMP.w DoorTilemapPositions_LowerLayerEntrance : BCS .BRANCH_BETA
@@ -17138,7 +17107,6 @@ DoorDoorStep1_South:
         PHX
         
         LDX.w $0460
-        
         LDA.w $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC .BRANCH_GAMMA
             LDA.b $08 : CLC : ADC.w #$0300 : STA.b $08
         
@@ -17150,7 +17118,6 @@ DoorDoorStep1_South:
         JSR.w Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
-        
         JSR.w Dungeon_LoadSingleDoorAttr
         
         PLX : STX.b $08
@@ -17200,7 +17167,6 @@ DrawDoorToTilemap_South:
     .continue
     
     LDX.w $0460
-        
     LDA.w $19A0, X : TAX
         
     LDA.w #$0004 : STA.b $0E
@@ -17232,8 +17198,7 @@ GetDoorDrawDataIndex_West_clean_door_index:
 ; $00FBCC-$00FC17 JUMP LOCATION
 DoorDoorStep1_West:
 {
-    LDA.w $0460 : PHA
-    
+    LDA.w $0460  : PHA
     AND.w #$000F : STA.b $04
     
     TXA : AND.w #$07FF : CMP.w DoorTilemapPositions_WestMiddle : BCC .BRANCH_BETA
@@ -17242,7 +17207,6 @@ DoorDoorStep1_West:
         PHX
         
         LDX.w $0460
-        
         LDA.w $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC .BRANCH_GAMMA
             LDA.b $08 : SEC : SBC.w #$000C : STA.b $08
         
@@ -17254,7 +17218,6 @@ DoorDoorStep1_West:
         JSR.w Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
-        
         JSR.w Dungeon_LoadSingleDoorAttr
         
         PLX : STX.b $08
@@ -17270,10 +17233,10 @@ DoorDoorStep1_West:
 GetDoorDrawDataIndex_West:
 {
     LDX.w $0460
-    
     LDA.w $1980, X : AND.w #$00FE
     
-    LDX.w $0692  : BEQ DrawDoorToTilemap_West
+    LDX.w $0692
+                   BEQ DrawDoorToTilemap_West
     CPX.w #$0004 : BEQ DrawDoorToTilemap_West
         CMP.w #$0042 : BCC .BRANCH_EPSILON
             INX #4
@@ -17304,7 +17267,6 @@ DrawDoorToTilemap_West:
     .BRANCH_IOTA
     
     LDX.w $0460
-    
     LDA.w $19A0, X : TAX
     
     LDA.w #$0003 : STA.b $0E
@@ -17345,7 +17307,6 @@ DoorDoorStep1_East:
         PHX
         
         LDX.w $0460
-        
         LDA.w $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC .BRANCH_GAMMA
             LDA.b $08 : CLC : ADC.w #$000C : STA.b $08
         
@@ -17357,7 +17318,6 @@ DoorDoorStep1_East:
         JSR.w Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
-        
         JSR.w Dungeon_LoadSingleDoorAttr
         
         PLX : STX.b $08
@@ -17373,10 +17333,10 @@ DoorDoorStep1_East:
 GetDoorDrawDataIndex_East:
 {
     LDX.w $0460
-    
     LDA.w $1980, X : AND.w #$00FE
     
-    LDX.w $0692  : BEQ DrawDoorToTilemap_East
+    LDX.w $0692
+                   BEQ DrawDoorToTilemap_East
     CPX.w #$0004 : BEQ DrawDoorToTilemap_East
         CMP.w #$0042 : BCC .BRANCH_EPSILON
             INX #4
@@ -17407,7 +17367,6 @@ DrawDoorToTilemap_East:
     .drawDoor
     
     LDX.w $0460
-    
     LDA.w $19A0, X : TAX
     
     LDA.w #$0003 : STA.b $0E
@@ -17435,11 +17394,9 @@ DrawDoorToTilemap_East:
 ClearDoorCurtainsFromTilemap:
 {
     LDX.w #$0056
-    
     LDY.w DoorGFXDataOffset_North, X
     
     LDX.w $0460
-    
     LDA.w $19A0, X : TAX
     
     LDA.w #$0004 : STA.b $0E
@@ -17468,11 +17425,9 @@ ClearDoorCurtainsFromTilemap:
 GetDoorGraphicsIndex:
 {
     LDY.w $0460
-    
     LDA.w $1980, Y : AND.w #$00FE : TAX
     
     LDY.b $04
-    
     LDA.w $068C : AND.w DungeonMask, Y : BEQ .notOpen
         LDA.w DoorwayReplacementDoorGFX, X : TAX
     
@@ -17491,7 +17446,8 @@ ClearExplodingWallFromTilemap:
     LDY.w #$31EA
     JSR.w ClearExplodingWallFromTilemap_ClearOnePair
     
-    LDA.w $0454 : DEC : STA.b $0E : BEQ .skip
+    LDA.w $0454 : DEC : STA.b $0E
+    BEQ .skip
         LDA.w RoomDrawObjectData+00, Y
         
         .nextColumn
@@ -17558,7 +17514,6 @@ Dungeon_ApplyOverlayAttr:
     .nextRow
     
         LDX.b $08
-        
         LDA.l $7E2000, X : STA.b $00
         LDA.l $7E2002, X : STA.b $02
         LDA.l $7E2004, X : STA.b $04
@@ -17568,7 +17523,10 @@ Dungeon_ApplyOverlayAttr:
         
         .nextTile
         
-            LDA.b $00, X : STZ.b $00, X
+            LDA.b $00, X
+
+            STZ.b $00, X
+
             AND.w #$03FE : CMP.w #$00EE : BEQ .notPitTile
                 CMP.w #$00FE : BEQ .notPitTile
                     ; Pit attribute.
@@ -17611,7 +17569,7 @@ Dungeon_ApproachFixedColor:
         ; This coding scheme allows $9C to approach $7EC017 from above or below.
         DEC : BCS .aboveTarget
             ; (belowTarget)
-            INC : INC A
+            INC : INC
         
         .aboveTarget
         
@@ -17621,7 +17579,7 @@ Dungeon_ApproachFixedColor:
         .variable
         
         ; Sets fixed color for +/-.
-        ORA.b #$20 : STA.b $9C
+                     ORA.b #$20 : STA.b $9C
         AND.b #$1F : ORA.b #$40 : STA.b $9D
         AND.b #$1F : ORA.b #$80 : STA.b $9E
     
@@ -17793,7 +17751,8 @@ Overworld_PitDamage:
     
     STA.b $11
     
-    LDA.l $7EF36D : SEC : SBC.w #$08 : STA.l $7EF36D : CMP.b #$A8 : BCC .notDead
+    LDA.l $7EF36D : SEC : SBC.w #$08 : STA.l $7EF36D
+    CMP.b #$A8 : BCC .notDead
         LDA.b #$00 : STA.l $7EF36D
     
     .notDead

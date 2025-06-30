@@ -927,7 +927,7 @@ Dungeon_CacheTransSprites:
             .inactiveSprite
             
             DEX : BMI .return
-        JMP .nextSprite
+        JMP.w .nextSprite
         
         .return
         
@@ -10296,7 +10296,7 @@ Polyhedral_DrawPolyhedron:
         JSR.w Polyhedral_SetBackgroundColor
         JSL.l Polyhedral_DrawFace
         
-        JMP .beta
+        JMP.w .beta
 }
 
 ; $04FACA-$04FAD6 LOCAL JUMP LOCATION

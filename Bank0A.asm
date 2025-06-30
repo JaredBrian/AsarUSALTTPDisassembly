@@ -994,7 +994,7 @@ OverworldMap_Main:
     LDA.b $B2 : BEQ .zoomTransitionFinished
         DEC.b $B2
         
-        JMP .noButtonInput
+        JMP.w .noButtonInput
 
     .zoomTransitionFinished
 
@@ -1236,7 +1236,7 @@ WorldMap_SetUpHDMA:
     
     LDA.b $10 : CMP.b #$14 : BEQ .attractMode
         LDA.b $11 : CMP.b #$0A : BNE .beta
-            JMP .flute_map
+            JMP.w .flute_map
 
         .beta
 
@@ -3833,7 +3833,7 @@ DungeonMap_Init_JumpTable:
 DungeonMap_Init:
 {
     LDA.w $020D : ASL : TAX
-    JMP (.JumpTable, X)
+    JMP.w (.JumpTable, X)
 }
 
 ; ==============================================================================
@@ -4869,7 +4869,7 @@ DungeonMap_DrawSingleRowOfRooms:
         INC.b $02
         
         LDA.b $02 : CMP.w #$0005 : BEQ .BRANCH_ALTIMA
-    JMP .nextColumn
+    JMP.w .nextColumn
 
     .BRANCH_ALTIMA
 
@@ -5140,7 +5140,7 @@ DungeonMap_HandleMovementInput:
     JSL.l DungeonMap_HandleFloorSelect
     
     LDA.w $0210 : BEQ .notScrolling
-        JMP PalaceMap_Scroll
+        JMP.w PalaceMap_Scroll
 
     .notScrolling
 
@@ -7324,7 +7324,7 @@ Effect_Handler:
 {
     LDA.b $AD : ASL : TAX
     
-    JMP (Pool_Effect_Handler, X)
+    JMP.w (Pool_Effect_Handler, X)
 }
 
 ; ==============================================================================

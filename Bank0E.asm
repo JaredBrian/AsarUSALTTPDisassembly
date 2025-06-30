@@ -580,7 +580,7 @@ Credits_ScrollScene_Overworld:
         
     JSR.w (Pool_Credits_ScrollScene_Underworld, X)
         
-    JMP Credits_HandleSceneFade
+    JMP.w Credits_HandleSceneFade
 }
 
 ; ==============================================================================
@@ -5496,7 +5496,7 @@ Credits_FadeInTheEnd:
         .notDoneFiltering
     .frameNotMultipleOf8
     
-    JMP Credits_DrawTheEnd
+    JMP.w Credits_DrawTheEnd
 }
 
 ; $0743EA-$0743F9 "The End" Oam buffer data for displaying it.
@@ -7941,7 +7941,7 @@ VWF_Scroll:
         .lineFinished
         
         DEC.b $02 : BMI .doneScrolling
-    JMP .nextLine
+    JMP.w .nextLine
     
     .doneScrolling
     
@@ -9185,7 +9185,7 @@ Filter_Majorly_Whiten_Bg:
         LDA.l $7EC3F0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5F0, X
     INX #2 : CPX.b #$10 : BEQ .finished_whitening_increment
         
-    JMP .next_color_in_each_palette
+    JMP.w .next_color_in_each_palette
     
     .finished_whitening_increment
     
@@ -9822,7 +9822,7 @@ HandleStakeField:
     LDA.b $B0 : BNE .BRANCH_ALPHA
         LDA.b #$29 : STA.w $012E
             
-        JML PaletteBlackAndWhiteSomething_NonConditional
+        JML.l PaletteBlackAndWhiteSomething_NonConditional
     
     .BRANCH_ALPHA
     
@@ -9842,7 +9842,7 @@ HandleStakeField:
     
     .BRANCH_BETA
     
-    JML PaletteBlackAndWhiteSomething_RestorePalette
+    JML.l PaletteBlackAndWhiteSomething_RestorePalette
 }
 
 ; $075E29-$075E48 DATA

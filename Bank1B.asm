@@ -991,7 +991,7 @@ Overworld_Entrance:
     
     SEP #$30
     
-    JML Main_ShowTextMessage
+    JML.l Main_ShowTextMessage
     
     .BRANCH_KAPPA
     
@@ -1051,7 +1051,7 @@ Overworld_Entrance:
 Overworld_Map16_ToolInteraction:
 {
     LDA.b $1B : BEQ .outdoors ; Yes... branch
-        JML Dungeon_ToolAndTileInteraction
+        JML.l Dungeon_ToolAndTileInteraction
     
     .outdoors
     
@@ -1083,7 +1083,7 @@ Overworld_Map16_ToolInteraction:
             
             .isBush
             
-            JMP .isBush2
+            JMP.w .isBush2
     
     ; HAMMER TIME!
     .usingHammer
@@ -1102,7 +1102,7 @@ Overworld_Map16_ToolInteraction:
         ; Choose the map16 tile with the "peg pounded down" tile
         LDA.w #$0DCB
         
-        JMP .noSecret
+        JMP.w .noSecret
     
     .notPeg
     
@@ -1110,7 +1110,7 @@ Overworld_Map16_ToolInteraction:
     
     .notBush
     
-    JMP .return
+    JMP.w .return
     
     .notUsingMagicPowder
     
@@ -1137,7 +1137,7 @@ Overworld_Map16_ToolInteraction:
                     CMP.w #$072A : BEQ .isBush2
                         .notShoveling
                         
-                        JMP .return
+                        JMP.w .return
     
     .shovelable
     
@@ -1160,7 +1160,7 @@ Overworld_Map16_ToolInteraction:
     .isThickGrass
     
     LDA.w $037A : AND.w #$00FF : CMP.w #$0001 : BNE .notShoveling2
-        JMP .return
+        JMP.w .return
     
     .notShoveling2
     
@@ -1392,7 +1392,7 @@ Overworld_LiftableTiles:
     
     .liftingLargeRock
     
-    JMP Overworld_SmashRockPile_isRockPile
+    JMP.w Overworld_SmashRockPile_isRockPile
     
     .notLiftingRock
     
@@ -1560,7 +1560,7 @@ Overworld_SmashRockPileFromHere:
     LDA.b $02 : CLC : ADC.l RockSmashReplaceOffset_tile3, X : STA.b $02
     
     JSL.l Overworld_DoMapUpdate32x32_Long
-    JMP Overworld_LiftableTile_getTileAttribute
+    JMP.w Overworld_LiftableTile_getTileAttribute
 }
 
 ; ==============================================================================
@@ -3144,7 +3144,7 @@ DarkPalaceEntrance_Main:
 {
     LDA.b $B0 : ASL : TAX
     
-    JMP (.handlers, X)
+    JMP.w (.handlers, X)
 }
 
 ; ==============================================================================
@@ -3302,7 +3302,7 @@ Overworld_AnimateEntrance_Skull:
 {
     LDA.b $B0 : ASL : TAX
     
-    JMP (.handlers, X)
+    JMP.w (.handlers, X)
 }
 
 ; ==============================================================================
@@ -3534,7 +3534,7 @@ MiseryMireEntrance_Main:
     
     LDA.b $B0 : ASL : TAX
     
-    JMP (.handlers, X)
+    JMP.w (.handlers, X)
 }
 
 ; ==============================================================================
@@ -3757,7 +3757,7 @@ TurtleRockEntrance_Main:
     
     LDA.b $B0 : ASL : TAX
     
-    JMP (.handlers, X)
+    JMP.w (.handlers, X)
 }
 
 ; ==============================================================================
@@ -4046,7 +4046,7 @@ Pool_Overworld_AnimateEntrance_GanonsTower:
 Overworld_AnimateEntrance_GanonsTower:
 {
     LDA.b $B0 : ASL : TAX
-    JMP (Pool_Overworld_AnimateEntrance_GanonsTower_handlers, X)
+    JMP.w (Pool_Overworld_AnimateEntrance_GanonsTower_handlers, X)
 }
 
 ; $0DCFE0-$0DCFF0 JUMP LOCATION

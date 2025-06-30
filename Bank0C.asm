@@ -835,7 +835,7 @@ Intro_PopSubtitleCard:
     
     LDA.l $7EC007 : BEQ .alpha
         LDA.b $1A : LSR : BCC .dontAdvanceYet
-            JML IntroLogoPaletteFadeIn_IntroTitleCardPaletteFadeIn
+            JML.l IntroLogoPaletteFadeIn_IntroTitleCardPaletteFadeIn
     
     .alpha
     
@@ -2446,7 +2446,7 @@ FileSelect_InitializeGFX:
     JSL.l InitTileSets
     JSL.l LoadSelectScreenGfx
     JSL.l Intro_ValidateSram
-    JML Intro_LoadSpriteStats
+    JML.l Intro_LoadSpriteStats
 }
 
 ; ==============================================================================
@@ -4259,7 +4259,7 @@ FileSelect_DrawDeaths:
     
     ; Check the death counter (which is set to 0xFFFF until you beat the game).
     LDX.b $0E : LDA.l $700405, X : CMP.w #$FFFF : BNE .gameBeaten
-        JMP .return ; $065883
+        JMP.w .return ; $065883
     
     .gameBeaten
     
@@ -5754,7 +5754,7 @@ Module_Attract:
     
     LDA.b $22 : ASL : TAX
     
-    JMP (.Submodules, X)
+    JMP.w (.Submodules, X)
 
     ; $066DD2
     .Submodules
@@ -5964,7 +5964,7 @@ Attract_PrepNextSequence:
 {
     LDA.b $23 : ASL : TAX
     
-    JMP (Attract_PrepRoutines, X)
+    JMP.w (Attract_PrepRoutines, X)
 }
 
 ; ==============================================================================
@@ -6317,7 +6317,7 @@ Attract_RunSequence:
 {
     LDA.b $23 : ASL : TAX
     
-    JMP (Attract_SequenceRoutines, X)
+    JMP.w (Attract_SequenceRoutines, X)
 }
 
 ; ==============================================================================
@@ -6688,7 +6688,7 @@ AttractDramatize_Agahnim:
 {
     LDA.b $60 : ASL : TAX
     
-    JMP ($.vectors, X)
+    JMP.w ($.vectors, X)
 
     ; $067320
     .vectors
@@ -6797,7 +6797,7 @@ Dramaghanim_MoveAndSpin:
     .BRANCH_EPSILON
     
     DEC.b $25 : BNE .BRANCH_ZETA
-        JMP Attract_AdvanceToNextSequence
+        JMP.w Attract_AdvanceToNextSequence
     
     .BRANCH_ZETA
     
@@ -6878,7 +6878,7 @@ Pool_Attract_MaidenWarp:
 Attract_MaidenWarp:
 {
     LDA.b $5D : BEQ .sequenceNotFinished
-        JMP Attract_AdvanceToNextSequence
+        JMP.w Attract_AdvanceToNextSequence
     
     .sequenceNotFinished
     
@@ -8143,7 +8143,7 @@ Intro_HandleLogoSword:
     
     LDX.b $CC
     
-    JMP (.vectors, X)
+    JMP.w (.vectors, X)
 
     ; $067EE9
     .vectors

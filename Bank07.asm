@@ -230,7 +230,7 @@ Link_ControlHandler:
     ; Link's main handling variable. This determines his actions.
     LDA.b $5D : ASL : TAX
     
-    JMP ($8041, X)
+    JMP.w ($8041, X)
 }
 
 ; $038109-$0382D9 JUMP LOCATION
@@ -4218,7 +4218,7 @@ LinkState_Sleeping:
 {
     LDA.w $037C : ASL : TAX
     
-    JMP (Pool_LinkState_Sleeping, X)
+    JMP.w (Pool_LinkState_Sleeping, X)
 }
 
 ; $039A62-$039A70 JUMP LOCATION
@@ -4396,7 +4396,7 @@ Link_HandleYItem:
             DEY : BMI .BRANCH_IOTA
                 TYA : ASL : TAX
                 
-                JMP (Pool_Link_HandleYItem, X)
+                JMP.w (Pool_Link_HandleYItem, X)
     
     .BRANCH_IOTA
     
@@ -4530,7 +4530,7 @@ Link_HandleAPress:
     ; Remind me what action we just did, and mirror it to $0306.
     LDA.w $036C : STA.w $0306 : ASL : TAX
     
-    JMP (Link_APress_vectors, X)
+    JMP.w (Link_APress_vectors, X)
     
     .cantDoAction
     
@@ -4559,7 +4559,7 @@ Pool_Link_APress_PerformBasic:
 ; $039C5F-$039C61 LOCAL JUMP LOCATION
 Link_APress_PerformBasic:
 {
-    JMP (Pool_Link_APress_PerformBasic, X)
+    JMP.w (Pool_Link_APress_PerformBasic, X)
 }
 
 ; $039C62-$039C62 LOCAL JUMP LOCATION
@@ -5038,7 +5038,7 @@ LinkItem_RodDiscriminator:
 {
     LDA.w $0307 : DEC : ASL : TAX
     
-    JMP (Pool_LinkItem_RodDiscriminator_rods, X)
+    JMP.w (Pool_LinkItem_RodDiscriminator_rods, X)
 }
 
 ; ==============================================================================
@@ -13810,7 +13810,7 @@ TileDetect_Execute:
     ; that kind of tile.
     ASL : TAX
     
-    JMP (Pool_TileDetection_Execute_underworld, X)
+    JMP.w (Pool_TileDetection_Execute_underworld, X)
 }
 
 ; ==============================================================================
@@ -14145,7 +14145,7 @@ TileDetection_Execute_overworld:
     
     AND.w #$00FF : STA.b $06 : ASL : TAX
     
-    JMP ($DA2A, X) ; ($3DA2A, X) THAT IS
+    JMP.w ($DA2A, X) ; ($3DA2A, X) THAT IS
 }
 
 ; $03DC4A-$03DC4F LOCAL JUMP LOCATION
