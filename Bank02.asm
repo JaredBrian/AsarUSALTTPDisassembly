@@ -107,7 +107,7 @@ Intro_ValidateSram:
             CLC : ADC.l $700000, X
 
             ; Since #$280 = #$500 / 2, we'll loop through #$500 bytes.
-            INX #2
+            INX : INX
         INY : CPY.w #$0280 : BNE .calcChecksum
 
         ; Restore the SRAM save file offset.
@@ -127,7 +127,7 @@ Intro_ValidateSram:
                 ; This time we check the mirrored version #$F00 bytes ahead.
                 CLC : ADC.l $700F00, X
 
-                INX #2
+                INX : INX
             INY : CPY.w #$0280 : BEQ .calcMirrorSum
 
             ; Restore the SRAM save file offset.
@@ -148,7 +148,7 @@ Intro_ValidateSram:
                     LDA.l $701200, X : STA.l $700300, X
                     LDA.l $701300, X : STA.l $700400, X
 
-                    INX #2
+                    INX : INX
                 INY : CPY.w #$0080 : BNE .restoreLoop
 
         .prepareNextSlot
@@ -190,7 +190,7 @@ Intro_ValidateSram:
         STA.l $701300, X : STA.l $700400, X
 
         ; Don't forget that 0x80 is half of 0x100, so this make sense.
-        INX #2
+        INX : INX
     DEY : CPY.w #$0080 : BNE .deleteLoop
 
     BRA .prepareNextSlot
@@ -3344,7 +3344,7 @@ SpiralStairs_MakeNearbyWallsHighPriority_Exiting:
 
         .BRANCH_BETA
 
-            INX #2
+            INX : INX
         LDA.w $06B0, X : ASL : AND.w #$007F : CMP.b $00 : BNE .BRANCH_BETA
 
         LDA.w $06B0, X : ASL : SEC : SBC.w #$0008 : STA.w $048C : TAX
@@ -3358,7 +3358,7 @@ SpiralStairs_MakeNearbyWallsHighPriority_Exiting:
             LDA.l $7E2100, X : ORA.w #$2000 : STA.l $7E2100, X
             LDA.l $7E2180, X : ORA.w #$2000 : STA.l $7E2180, X
 
-            INX #2
+            INX : INX
         DEY : BPL .BRANCH_GAMMA
 
         SEP #$30
@@ -4126,8 +4126,8 @@ Underworld_UpdatePegGFXBuffer:
 
         LDA.l $7EB340, X : STA.w $0000, Y
 
-        INX #2
-    INY #2 : CPY.w #$0080 : BNE .BRANCH_GAMMA
+        INX : INX
+    INY : INY : CPY.w #$0080 : BNE .BRANCH_GAMMA
 
     LDX.b $0E
 
@@ -4135,8 +4135,8 @@ Underworld_UpdatePegGFXBuffer:
 
         LDA.l $7EB340, X : STA.w $0000, Y
 
-        INX #2
-    INY #2 : CPY.w #$0100 : BNE .BRANCH_DELTA
+        INX : INX
+    INY : INY : CPY.w #$0100 : BNE .BRANCH_DELTA
 
     SEP #$30
 
@@ -4259,7 +4259,7 @@ PrepareForCrystalCutscene:
             STA.l $7E3000, X : STA.l $7E3800, X
             STA.l $7E4000, X : STA.l $7E4800, X
             STA.l $7E5000, X : STA.l $7E5800, X
-        INX #2 : CPX.w #$0800 : BNE .BRANCH_BETA
+        INX : INX : CPX.w #$0800 : BNE .BRANCH_BETA
 
         STZ.w $011C
         STZ.w $011A
@@ -4318,7 +4318,7 @@ BuildCrystalCutsceneTilemap:
 
             INC.b $0E
 
-            INX #2
+            INX : INX
         DEY : BPL .BRANCH_BETA
 
         LDA.b $0E : CLC : ADC.w #$0008 : STA.b $0E
@@ -8433,7 +8433,7 @@ MirrorWarp_LoadSpritesAndColors:
         STA.l $7EC5C0, X
         STA.l $7EC5E0, X
 
-    INX #2 : CPX.b #$20 : BNE .setBgPalettesToWhite
+    INX : INX : CPX.b #$20 : BNE .setBgPalettesToWhite
 
     ; Also set the background color to white
     STA.l $7EC500
@@ -9543,7 +9543,7 @@ HandleEdgeTransition_AdjustCameraBounds:
         .BRANCH_BETA
 
         LDY.b $A9 : BEQ .BRANCH_GAMMA
-            INX #2
+            INX : INX
 
         .BRANCH_GAMMA
 
@@ -9567,7 +9567,7 @@ HandleEdgeTransition_AdjustCameraBounds:
     .BRANCH_DELTA
 
     LDY.b $AA : BEQ .BRANCH_EPSILON
-        INX #2
+        INX : INX
 
     .BRANCH_EPSILON
 
@@ -10060,7 +10060,7 @@ UnderworldTransition_AdjustCamera_Horizontal:
     .nextDirection
 
         LDA.w .boundary, Y : STA.w $0614, X
-    INX #2 : CPX.b #$04 : BNE .nextDirection
+    INX : INX : CPX.b #$04 : BNE .nextDirection
 
     RTS
 }
@@ -10388,7 +10388,7 @@ OverworldScrollTransition:
         LDX.b #$00
 
         LDA.w $0712 : BEQ .largeOwMap
-            INX #2
+            INX : INX
 
         .largeOwMap
 
@@ -11126,7 +11126,7 @@ Intro_LoadPalettes:
         STA.l $7EC480, X : STA.l $7EC500, X
         STA.l $7EC580, X : STA.l $7EC600, X
         STA.l $7EC680, X
-    INX #2 : CPX.b #$80 : BNE .zeroOutPalettes
+    INX : INX : CPX.b #$80 : BNE .zeroOutPalettes
 
     SEP #$20
 
@@ -11160,7 +11160,7 @@ Intro_LoadPalettes:
 
         ; Copies $7EC4D0-8 -> $7EC6B0-8
         LDA.l $7EC4D0, X : STA.l $7EC6B0, X
-    INX #2 : CPX.b #$10 : BNE .copyHalfPalette
+    INX : INX : CPX.b #$10 : BNE .copyHalfPalette
 
     SEP #$20
 
@@ -11312,7 +11312,7 @@ SpecialOverworld_CopyPalettesToCache:
         STA.l $7EC5C0, X : STA.l $7EC600, X
         STA.l $7EC640, X : STA.l $7EC680, X
         STA.l $7EC6C0, X
-    INX #2 : CPX.b #$40 : BNE .zero4bppPalettes
+    INX : INX : CPX.b #$40 : BNE .zero4bppPalettes
 
     LDX.b #$00
 
@@ -11328,7 +11328,7 @@ SpecialOverworld_CopyPalettesToCache:
         LDA.l $7EC4D0, X : STA.l $7EC6D0, X
         LDA.l $7EC4E0, X : STA.l $7EC6E0, X
         LDA.l $7EC4F0, X : STA.l $7EC6F0, X
-    INX #2 : CPX.b #$10 : BNE .copyFromAuxPalette
+    INX : INX : CPX.b #$10 : BNE .copyFromAuxPalette
 
     SEP #$20
 
@@ -11363,7 +11363,7 @@ Overworld_CgramAuxToMain:
         LDA.l $7EC440, X : STA.l $7EC640, X
         LDA.l $7EC480, X : STA.l $7EC680, X
         LDA.l $7EC4C0, X : STA.l $7EC6C0, X
-    INX #2 : CPX.b #$40 : BNE .loop
+    INX : INX : CPX.b #$40 : BNE .loop
 
     SEP #$20
 
@@ -12195,7 +12195,7 @@ Dungeon_LoadEntrance:
         LDA.l SpecialUnderworldObjects_torch+$000, X          : STA.w $FB40, X
         LDA.l SpecialUnderworldObjects_torch+$080, X          : STA.w $FBC0, X
         LDA.l SpecialUnderworldObjects_torch+$100, X          : STA.w $FC40, X
-    INX #2 : CPX.b #$80 : BNE .loadPushBlocks
+    INX : INX : CPX.b #$80 : BNE .loadPushBlocks
 
     LDX.b #$3E
     LDA.w #$0000
@@ -13780,7 +13780,7 @@ Overworld_LoadNewScreenProperties:
     LDX.b #$00
 
     LDA.w $0712 : BEQ .largeOwMap
-        INX #2
+        INX : INX
 
     .largeOwMap
 
@@ -14707,7 +14707,7 @@ Overworld_LoadMapData:
 
             STA.l $7E2002, X
             
-            INX #2
+            INX : INX
 
             JSL.l Overworld_Memorize_Map16_Change
 
@@ -14792,7 +14792,7 @@ Overworld_TransVertical:
     LDY.b $0E
     LDA.w #$0080 : STA.w $1100, Y
 
-    INY #2 : STY.b $0E
+    INY : INY : STY.b $0E
 
     .alpha
 
@@ -14826,7 +14826,7 @@ Overworld_TransHorizontal:
     LDY.b $0E
     LDA.w #$8040 : STA.w $1100, Y
 
-    INY #2 : STY.b $0E
+    INY : INY : STY.b $0E
 
     .alpha
 
@@ -15410,7 +15410,7 @@ CheckForNewlyLoadedMapAreas_North:
             LDY.b $0E
             LDA.w #$0080 : STA.w $1100, Y
 
-            INY #2 : STY.b $0E
+            INY : INY : STY.b $0E
 
             JSR.w Overworld_DrawVerticalStrip
 
@@ -15443,7 +15443,7 @@ CheckForNewlyLoadedMapAreas_South:
             LDY.b $0E
             LDA.w #$0080 : STA.w $1100, Y
 
-            INX #2
+            INX : INX
 
             STY.b $0E
 
@@ -15489,7 +15489,7 @@ CheckForNewlyLoadedMapAreas_West:
             LDY.b $0E
             LDA.w #$8040 : STA.w $1100, Y
 
-            INY #2 : STY.b $0E
+            INY : INY : STY.b $0E
 
             JSR.w Overworld_DrawHorizontalStrip
 
@@ -15536,7 +15536,7 @@ CheckForNewlyLoadedMapAreas_East:
 
             LDA.w #$8040 : STA.w $1100, Y
 
-            INY #2 : STA.b $0E
+            INY : INY : STA.b $0E
 
             JSR.w Overworld_DrawHorizontalStrip
 
@@ -15623,7 +15623,7 @@ CreateMap16Stripes_Horizontal:
     LDA.b $00 : STA.w $1100, Y
     INC       : STA.w $1142, Y
     
-    INY #2
+    INY : INY
 
     LDA.w #$0010 : STA.b $06
 
@@ -15632,17 +15632,17 @@ CreateMap16Stripes_Horizontal:
         LDX.b $02
         LDA.w $0500, X
         
-        INX #2 : STX.b $02
+        INX : INX : STX.b $02
 
         ASL #3 : TAX
         LDA.l Map16Definitions_0, X : STA.w $1100, Y
         LDA.l Map16Definitions_1, X : STA.w $1142, Y
 
-        INY #2
+        INY : INY
         LDA.l Map16Definitions_2, X : STA.w $1100, Y
         LDA.l Map16Definitions_3, X : STA.w $1142, Y
 
-        INY #2
+        INY : INY
     DEC.b $06 : BNE .copyToNmiBuf
 
     ; 0x10 map16 tiles = 0x40 bytes of map8 data
@@ -15676,14 +15676,14 @@ Overworld_DrawVerticalStrip:
         ; Writes 0x40 bytes to $0500[0x40]
         LDA.b [$00], Y : STA.w $0500, X
 
-        INX #2 : TXA : AND.w #$003F : TAX
+        INX : INX : TXA : AND.w #$003F : TAX
 
-        INY #2
+        INY : INY
         LDA.b [$00], Y : STA.w $0500, X
 
-        INX #2 : TXA : AND.w #$003F : TAX
+        INX : INX : TXA : AND.w #$003F : TAX
 
-        INY #2
+        INY : INY
     DEC.b $03 : BNE .fillBuffer
 
     STZ.b $00
@@ -15703,7 +15703,7 @@ Overworld_DrawVerticalStrip:
 
     LDA.b $00 : STA.w $1100, Y
     
-    INY #2
+    INY : INY
     LDA.l Pool_BufferAndBuildMap16Stripes_Map16BufferOffsetLow
 
     JSR.w CreateMap16Stripes_Vertical
@@ -15711,7 +15711,7 @@ Overworld_DrawVerticalStrip:
     LDY.b $0E
     LDA.b $0C : STA.w $1100, Y
     
-    INY #2
+    INY : INY
     LDA.l Pool_BufferAndBuildMap16Stripes_Map16BufferOffsetHigh
 
     ; Bleeds into the next function.
@@ -15729,7 +15729,7 @@ CreateMap16Stripes_Vertical:
         LDX.b $02
         LDA.w $0500, X
         
-        INX #2 : STX.b $02
+        INX : INX : STX.b $02
         
         ASL #3 : TAX
 
@@ -15739,7 +15739,7 @@ CreateMap16Stripes_Vertical:
         ; Place the bottom left map8 tile.
         LDA.l Map16Definitions_2, X : STA.w $1140, Y
 
-        INY #2
+        INY : INY
 
         ; Place the top right map8 tile.
         LDA.l Map16Definitions_1, X : STA.w $1100, Y
@@ -15747,7 +15747,7 @@ CreateMap16Stripes_Vertical:
         ; Place the bottom right map8 tile.
         LDA.l Map16Definitions_3, X : STA.w $1104, Y
 
-        INY #2
+        INY : INY
     DEC.b $06 : BNE .nextMap16Tile
 
     TYA : CLC : ADC.w #$0040 : STA.b $0E
@@ -15900,7 +15900,7 @@ InterlaceMap32:
 
     SEP #$20
 
-    ; Set the data bank to $7F.
+    ; Set the data bank to 0x7F.
     PHB : LDA.b #$7F : PHA : PLB
 
     ; Changing the bank of the target address.
@@ -15919,10 +15919,25 @@ InterlaceMap32:
     .doInterlace
 
         ; Copy $7F4400, X to $7F4000, Y
-        LDA.w $4400, X : STA.b [$00], Y : INY #2 : INX
-        LDA.w $4400, X : STA.b [$00], Y : INY #2 : INX
-        LDA.w $4400, X : STA.b [$00], Y : INY #2 : INX
-        LDA.w $4400, X : STA.b [$00], Y : INY #2 : INX
+        LDA.w $4400, X : STA.b [$00], Y
+        
+        INY : INY
+        INX
+
+        LDA.w $4400, X : STA.b [$00], Y
+
+        INY : INY
+        INX
+
+        LDA.w $4400, X : STA.b [$00], Y
+
+        INY : INY
+        INX
+
+        LDA.w $4400, X : STA.b [$00], Y
+
+        INY : INY
+        INX
     CPX.w #$0100 : BCC .doInterlace
 
     REP #$30
@@ -15937,6 +15952,7 @@ InterlaceMap32:
 
     SEP #$20
 
+    ; Set the data bank to 0x7F.
     PHB : LDA.b #$7F : PHA : PLB
 
     STA.b $02
@@ -15959,9 +15975,11 @@ InterlaceMap32:
 ; $017691-$0177CA LOCAL JUMP LOCATION
 Map32ToMap16:
 {
+    PHA
+
     ; Map32 value...
-    ; if(A != $4440) goto .BRANCH_1
-    PHA : AND.w #$FFF8 : CMP.w $4440 : BNE .different
+    ; if(A != $4440) goto .different
+    AND.w #$FFF8 : CMP.w $4440 : BNE .different
         ; This is a shortcut to load the same data if the new map32 value
         ; matches the previous one.
         JMP.w .same
@@ -15987,44 +16005,52 @@ Map32ToMap16:
     LDA.l Tile32_TopLeft_2, X : STA.w $4404
     LDA.l Tile32_TopLeft_3, X : STA.w $4406
 
-    LDA.l Tile32_TopLeft_4, X : PHA : LSR #4 :     STA.w $4401
-                                PLA : AND.b #$0F : STA.w $4403
+    LDA.l Tile32_TopLeft_4, X : PHA
+    LSR #4                    : STA.w $4401
+    PLA : AND.b #$0F          : STA.w $4403
 
-    LDA.l Tile32_TopLeft_5, X : PHA : LSR #4 :     STA.w $4405
-                                PLA : AND.b #$0F : STA.w $4407
+    LDA.l Tile32_TopLeft_5, X : PHA
+    LSR #4                    : STA.w $4405
+    PLA : AND.b #$0F          : STA.w $4407
 
     LDA.l Tile32_TopRight_0, X : STA.w $4410
     LDA.l Tile32_TopRight_1, X : STA.w $4412
     LDA.l Tile32_TopRight_2, X : STA.w $4414
     LDA.l Tile32_TopRight_3, X : STA.w $4416
 
-    LDA.l Tile32_TopRight_4, X : PHA : LSR #4 :     STA.w $4411
-                                 PLA : AND.b #$0F : STA.w $4413
+    LDA.l Tile32_TopRight_4, X : PHA
+    LSR #4                     : STA.w $4411
+    PLA : AND.b #$0F           : STA.w $4413
 
-    LDA.l Tile32_TopRight_5, X : PHA : LSR #4 :     STA.w $4415
-                                 PLA : AND.b #$0F : STA.w $4417
+    LDA.l Tile32_TopRight_5, X : PHA
+    LSR #4                     : STA.w $4415
+    PLA : AND.b #$0F           : STA.w $4417
 
     LDA.l Tile32_BottomLeft_0, X : STA.w $4420
     LDA.l Tile32_BottomLeft_1, X : STA.w $4422
     LDA.l Tile32_BottomLeft_2, X : STA.w $4424
     LDA.l Tile32_BottomLeft_3, X : STA.w $4426
 
-    LDA.l Tile32_BottomLeft_4, X : PHA : LSR #4 :     STA.w $4421
-                                   PLA : AND.b #$0F : STA.w $4423
+    LDA.l Tile32_BottomLeft_4, X : PHA
+    LSR #4                       : STA.w $4421
+    PLA : AND.b #$0F             : STA.w $4423
 
-    LDA.l Tile32_BottomLeft_5, X : PHA : LSR #4 :     STA.w $4425
-                                   PLA : AND.b #$0F : STA.w $4427
+    LDA.l Tile32_BottomLeft_5, X : PHA
+    LSR #4                       : STA.w $4425
+    PLA : AND.b #$0F             : STA.w $4427
 
     LDA.l Tile32_BottomRight_0, X : STA.w $4430
     LDA.l Tile32_BottomRight_1, X : STA.w $4432
     LDA.l Tile32_BottomRight_2, X : STA.w $4434
     LDA.l Tile32_BottomRight_3, X : STA.w $4436
 
-    LDA.l Tile32_BottomRight_4, X : PHA : LSR #4 :     STA.w $4431
-                                    PLA : AND.b #$0F : STA.w $4433
+    LDA.l Tile32_BottomRight_4, X : PHA
+    LSR #4                        : STA.w $4431
+    PLA : AND.b #$0F              : STA.w $4433
 
-    LDA.l Tile32_BottomRight_5, X : PHA : LSR #4 :     STA.w $4435
-                                    PLA : AND.b #$0F : STA.w $4437
+    LDA.l Tile32_BottomRight_5, X : PHA
+    LSR #4                        : STA.w $4435
+    PLA : AND.b #$0F              : STA.w $4437
 
     REP #$30
 
@@ -16032,11 +16058,14 @@ Map32ToMap16:
     .same
 
     PLA : AND.w #$0007 : TAX
-
     LDA.w $4400, X : STA.b [$00], Y
-    LDA.w $4420, X : STA.b [$03], Y : INY #2
+    LDA.w $4420, X : STA.b [$03], Y
+    
+    INY : INY
     LDA.w $4410, X : STA.b [$00], Y
-    LDA.w $4430, X : STA.b [$03], Y : INY #2
+    LDA.w $4430, X : STA.b [$03], Y
+    
+    INY : INY
 
     RTS
 }
@@ -16050,8 +16079,11 @@ LoadSubOverlayMap32:
     LDA.b $8A : ASL : ADC.b $8A : TAX
 
     ; $00 = $7E4000, $03 = $7E4080
-    LDA.w #$007E : STA.b $02 : STA.b $05
-    LDA.w #$4000 : STA.b $00 : CLC : ADC.w #$0080 : STA.b $03
+    LDA.w #$007E : STA.b $02
+                   STA.b $05
+
+    LDA.w #$4000       : STA.b $00
+    CLC : ADC.w #$0080 : STA.b $03
 
     ; $C8[3] = base address of the compressed map32 data
     LDA.l .high_byte_packs+0, X : STA.b $C8
@@ -16131,7 +16163,8 @@ LoadSubOverlayMap32:
 
         .nextTile
             ; X = ($7F4000 + Y) << 1, the map32 value.
-            LDY.b $0B : LDA.b [$08], Y : ASL : TAX
+            LDY.b $0B
+            LDA.b [$08], Y : ASL : TAX
 
             LDY.b $06
 
@@ -16144,9 +16177,10 @@ LoadSubOverlayMap32:
 
         DEC.b $0D : BNE .nextTile
 
-    ; $06 += 0xC0
+        ; $06 += 0xC0
+        LDA.b $06 : CLC : ADC.w #$00C0 : STA.b $06
     ; if($06 < 0x100)
-    LDA.b $06 : CLC : ADC.w #$00C0 : STA.b $06 : CMP.w #$1000 : BCC .nextLine
+    CMP.w #$1000 : BCC .nextLine
 
     PLB
 
@@ -16345,7 +16379,8 @@ LoadSubscreenOverlay:
 
     ; Trigger an NMI routine that will upload the subscreen overlay to
     ; VRAM during VBlank.
-    LDA.b #$04 : STA.b $17 : STA.w $0710
+    LDA.b #$04 : STA.b $17
+                 STA.w $0710
 
     INC.b $11
 
@@ -16371,7 +16406,8 @@ Map16ToMap8:
     REP #$30
 
     ; $04[3] = $7E4000, which is the source address.
-    LDA.w #$4000 : STA !srcAddr
+    LDA.w #$4000 : STA.b !srcAddr
+
     LDA.w #$007E
 
     BRA .ready
@@ -16385,34 +16421,37 @@ Map16ToMap8:
     REP #$30
 
     ; $04[3] = $7E2000, which is the source address.
-    LDA.w #$2000 : STA !srcAddr
+    LDA.w #$2000 : STA.b !srcAddr
+
     LDA.w #$007E
 
     .ready
 
-    STA !srcBank
+    STA.b !srcBank
 
     ; $84 += 0x1000
     LDA.b $84 : CLC : ADC.w #$1000 : STA.b $84
 
-    STZ.b $0A : STA.b $0E
+    STZ.b $0A
+    
+    STA.b $0E
 
-    LDA.w #$0010 : STA !counter
+    LDA.w #$0010 : STA.b !counter
 
     .conversionLoop
 
         JSR.w Map16ChunkToMap8
 
         ; $84 -= 0x0080, $88 = ($88 - 1) % 32
-        LDA.b $84 : SEC   : SBC.w #$0080 : STA.b $84
+        LDA.b $84 : SEC : SBC.w #$0080 : STA.b $84
         LDA.b $88 : DEC : AND.w #$001F : STA.b $88
 
         JSR.w Map16ChunkToMap8
 
         ; $84 -= 0x0080, $88 = ($88 - 1) & 32
-        LDA.b $84 : SEC   : SBC.w #$0080 : STA.b $84
+        LDA.b $84 : SEC : SBC.w #$0080 : STA.b $84
         LDA.b $88 : DEC : AND.w #$001F : STA.b $88
-    DEC !counter : BNE .conversionLoop
+    DEC.b !counter : BNE .conversionLoop
 
     SEP #$30
 
@@ -16446,20 +16485,21 @@ Map16ChunkToMap8:
         ; Grab 0x20 map16 tiles (which is a 16 X 512 pixel swath) and populate
         ; the buffer with these tiles.
 
-        LDA.b [!srcAddr], Y : STA !map16Buf, X
+        LDA.b [!srcAddr], Y : STA.w !map16Buf, X
 
         ; X = (X + 2) & 0x003F, Y = (Y + 2) & 0x1FFF
-        INX #2 : TXA : AND.w #$003F : TAX
-        INY #2 : TYA : AND.w #$1FFF : TAY
+        INX : INX : TXA : AND.w #$003F : TAX
+        INY : INY : TYA : AND.w #$1FFF : TAY
 
-        LDA.b [!srcAddr], Y : STA !map16Buf, X
+        LDA.b [!srcAddr], Y : STA.w !map16Buf, X
 
         ; X = (X + 2) & 0x003F, Y = (Y + 2) & 0x1FFF
-        INX #2 : TXA : AND.w #$003F : TAX
-        INY #2 : TYA : AND.w #$1FFF : TAY
+        INX : INX : TXA : AND.w #$003F : TAX
+        INY : INY : TYA : AND.w #$1FFF : TAY
     DEC.b $00 : BNE .getMap16Chunk
 
-    LDA.b $88 : STA.b $02 : CMP.w #$0010 : BCC .inRange
+    LDA.b $88 : STA.b $02
+    CMP.w #$0010 : BCC .inRange
         ; Limit $02 to the range 0x00 to 0x0F
         AND.w #$000F : STA.b $02
 
@@ -16491,7 +16531,7 @@ Map16ChunkToMap8:
     ; This is how the DMA transfer later knows where to blit to.
     LDX.b $0A
     LDA.b $00 : ORA.b $CC : STA.l $7F4000, X
-    INX #2 : STX.b $0A
+    INX : INX : STX.b $0A
 
     ; The index for the target array.
     LDX.b $0E
@@ -16505,7 +16545,7 @@ Map16ChunkToMap8:
         LDY.b $02 : LDA.w !map16Buf, Y
 
         ; Increment to the next map16 value's position.
-        INY #2 : STY.b $02
+        INY : INY : STY.b $02
 
         ; A *= 8
         ASL #3 : TAY
@@ -16514,9 +16554,14 @@ Map16ChunkToMap8:
         ; (depending on settings) Also note that $8000 and its cousins here
         ; represent $0F8000, etc, in actuality.
         LDA.w Map16Definitions_0, Y : STA.l $7F2000, X
-        LDA.w Map16Definitions_2, Y : STA.l $7F2040, X : INX #2
+        LDA.w Map16Definitions_2, Y : STA.l $7F2040, X
+        
+        INX : INX
+
         LDA.w Map16Definitions_1, Y : STA.l $7F2000, X
-        LDA.w Map16Definitions_3, Y : STA.l $7F2040, X : INX #2
+        LDA.w Map16Definitions_3, Y : STA.l $7F2040, X
+        
+        INX : INX
     DEC.b $0C : BNE .nextMap16Tile
 
     ; Increment the index for the target array by #$40 (since we weren't doing
@@ -16546,10 +16591,13 @@ Overworld_RestoreFailedWarpMap16:
         .loop
 
             ; Supply the address of the modification to the tilemap
-            LDX.b $00 : LDA.l $7EF800, X : TAY
+            LDX.b $00
+            LDA.l $7EF800, X : TAY
 
             ; Supply the actual map16 tile value to be used
-            LDA.l $7EFA00, X : TYX : STA.l $7E2000, X : INC.b $00 : INC.b $00
+            LDA.l $7EFA00, X : TYX : STA.l $7E2000, X
+            
+            INC.b $00 : INC.b $00
         LDA.b $00 : CMP.w $04AC : BNE .loop
 
     .return
@@ -16591,7 +16639,8 @@ Intro_LoadSpriteStats:
 
         ; Addresses accessed will be $7F4000-$7F47FF
         ; Divide by 16
-        LDA.b [$00], Y : PHA : LSR #4 : STA.l $7F6000, X
+        LDA.b [$00], Y : PHA
+        LSR #4         : STA.l $7F6000, X
 
         ; Get the original value, take the least four bits, and store it at
         ; the high byte location.
@@ -16599,7 +16648,7 @@ Intro_LoadSpriteStats:
 
         ; Addresses written to will be $7F6000-$7F6FFF
         INY
-    INX #2 : CPX.w #$1000 : BCC .loadLoop
+    INX : INX : CPX.w #$1000 : BCC .loadLoop
 
     SEP #$30
 
@@ -16656,7 +16705,6 @@ Overworld_Decomp_next_byte:
     LDA.b $CD : ASL #3 : AND.b #$E0 : PHA
 
     LDA.b $CD : AND.b #$03 : XBA
-
     JSR.w OverworldDecomp_GetNextSourceOctet
 
     REP #$20
@@ -16733,7 +16781,6 @@ Overworld_Decomp_next_byte:
     JSR.w OverworldDecomp_GetNextSourceOctet
 
     XBA
-
     JSR.w OverworldDecomp_GetNextSourceOctet
 
     LDX.b $CB
@@ -16763,7 +16810,6 @@ Overworld_Decomp_next_byte:
     JSR.w OverworldDecomp_GetNextSourceOctet
 
     XBA ; Exchange the accumulators.
-
     JSR.w OverworldDecomp_GetNextSourceOctet
 
     TAX ; Put that sucker in X (full 16-bit)
@@ -16779,7 +16825,6 @@ Overworld_Decomp_next_byte:
 
         ; Retrieve the proper index
         PLY
-
         STA.b [$00], Y
 
         INY

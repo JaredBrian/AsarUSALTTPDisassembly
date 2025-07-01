@@ -41,7 +41,6 @@ BottleVendor_DetectFish:
     LDA.b #$10     : STA.b $03
     
     PHX : TYX
-    
     JSR.w Sprite_SetupHitBox
     
     PLX
@@ -82,14 +81,14 @@ BottleVendor_SpawnFishRewards:
 {
     PHB : PHK : PLB
     
-    LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$13
+    JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$04 : STA.w $0FB5
     
     .nextItem
     
         LDY.w $0FB5
-        
         LDA.w .item_types, Y
         JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
             JSL.l Sprite_SetSpawnedCoords
@@ -104,7 +103,8 @@ BottleVendor_SpawnFishRewards:
             LDA Pool_BottleVendor_SpawnFishRewards_x_speeds, X : STA.w $0D50, Y
             LDA Pool_BottleVendor_SpawnFishRewards_y_speeds, X : STA.w $0D40, Y
             
-            LDA.b #$20 : STA.w $0F80, Y : STA.w $0F10, Y
+            LDA.b #$20 : STA.w $0F80, Y
+                         STA.w $0F10, Y
             
             PLX
         
@@ -210,16 +210,16 @@ Player_ApplyRumbleToSprites:
     LDA.b $2F : LSR : TAY
     
     LDA.b $22
-    CLC : ADC Pool_Player_ApplyRumbleToSprites_x_offsets_low, Y : STA.b $00
+    CLC : ADC.w Pool_Player_ApplyRumbleToSprites_x_offsets_low, Y : STA.b $00
 
     LDA.b $23
-    ADC Pool_Player_ApplyRumbleToSprites_x_offsets_high, Y : STA.b $08
+    ADC.w Pool_Player_ApplyRumbleToSprites_x_offsets_high, Y : STA.b $08
     
     LDA.b $20
-    ADC Pool_Player_ApplyRumbleToSprites_y_offsets_low,  Y : STA.b $01
+    ADC.w Pool_Player_ApplyRumbleToSprites_y_offsets_low,  Y : STA.b $01
 
     LDA.b $21
-    ADC Pool_Player_ApplyRumbleToSprites_y_offsets_high, Y : STA.b $09
+    ADC.w Pool_Player_ApplyRumbleToSprites_y_offsets_high, Y : STA.b $09
     
     LDA.w Pool_Player_ApplyRumbleToSprites_hitbox_w, Y : STA.b $02
     LDA.w Pool_Player_ApplyRumbleToSprites_hitbox_h, Y : STA.b $03
@@ -314,7 +314,8 @@ Sprite_SpawnThrowableTerrainSilently:
     ; Set the floor level to whichever the player is on.
     LDA.b $EE : STA.w $0F20, X
     
-    PLA : STA.w $0DB0, X : CMP.b #$06 : BCC .not_heavy_object
+    PLA : STA.w $0DB0, X
+    CMP.b #$06 : BCC .not_heavy_object
         PHA
         
         LDA.b #$A6 : STA.w $0E40, X
@@ -534,7 +535,6 @@ Sprite_SpawnSecret:
                 PHX
                 
                 LDX.b $0D
-                
                 LDA.w Pool_Sprite_SpawnSecret_AI2, X : STA.w $0D80, Y
                 LDA.w Pool_Sprite_SpawnSecret_ignore_ancillae, X : STA.w $0BA0, Y
                 LDA.w Pool_Sprite_SpawnSecret_jump_velocity, X : STA.w $0F80, Y
@@ -614,7 +614,8 @@ Sprite_Main:
 {
     ; Are we indoors?
     LDA.b $1B : BNE .indoors
-        STZ.w $0C7C : STZ.w $0C7D : STZ.w $0C7E : STZ.w $0C7F
+        STZ.w $0C7C : STZ.w $0C7D
+        STZ.w $0C7E : STZ.w $0C7F
         STZ.w $0C80
         
         ; Looks like this might load or unload sprites as we scroll during
@@ -953,20 +954,25 @@ Sprite_ExecuteSingle:
         JSR.w Sprite_TimersAndOAM
         
         PLA : CMP.b #$09 : BEQ .activeSprite
-            JSL.l UseImplicitRegIndexedLocalJumpTable
-            
             ; Index is $0DD0, X
+            JSL.l UseImplicitRegIndexedLocalJumpTable
             dw SpriteModule_Inactive ; 0x00 - $8510 Sprite is totally inactive
             dw SpriteFall_Main       ; 0x01 - $852E Sprite is falling into a hole
-            dw SpritePoof_Main       ; 0x02 - $E393 Frozen Sprite being smashed by hammer, and pooferized, perhaps into a nice magic refilling item
-            dw SpriteDrown_Main      ; 0x03 - $859C Sprite has fallen into deep water, may produce a fish
+            dw SpritePoof_Main       ; 0x02 - $E393 Frozen Sprite being smashed by
+                                     ;        hammer, and pooferized, perhaps into
+                                     ;        a nice magic refilling item
+            dw SpriteDrown_Main      ; 0x03 - $859C Sprite has fallen into deep
+                                     ;        water, may produce a fish
             dw SpriteExplode_Main    ; 0x04 - $8548 Explodey Mode for bosses?
-            dw SpriteCustomFall_Main ; 0x05 - $FBEA Sprite falling into a hole but that has a special animation (e.g. soldiers and hard hat beetles)
+            dw SpriteCustomFall_Main ; 0x05 - $FBEA Sprite falling into a hole but
+                                     ;        that has a special animation (e.g.
+                                     ;        soldiers and hard hat beetles)
             dw SpriteDeath_Main      ; 0x06 - $F8A2 Death mode for normal creatures
             dw SpriteBurn_Main       ; 0x07 - $8543 Being incinerated? (By Fire Rod)
             dw SpritePrep_Main       ; 0x08 - $864D A spawning sprite
             dw SpriteActive_Main     ; 0x09 - $9271 An active sprite
-            dw SpriteHeld_Main       ; 0x0A - $DE83 Sprite is being held above Link's head
+            dw SpriteHeld_Main       ; 0x0A - $DE83 Sprite is being held above
+                                     ;        Link's head
             dw SpriteStunned_Main    ; 0x0B - $DFFA Sprite is frozen and immobile
         
         .activeSprite
@@ -984,9 +990,11 @@ SpritePrep_DoNothingI:
 SpriteModule_Inactive:
 {
     LDA.b $1B : BNE .indoors
-        TXA : ASL A
+        ; TODO: OPTIMIZE: Worthless codes?
+        TXA : ASL
         
-        LDA.b #$FF : STA.w $0BC0, Y : STA.w $0BC1, Y
+        LDA.b #$FF : STA.w $0BC0, Y
+                     STA.w $0BC1, Y
         
         RTS
     
@@ -1087,7 +1095,8 @@ SpriteDrown_Main:
 {
     LDA.w $0D80, X : BEQ Drowning_DrawSprite
         LDA.w $0D90, X : CMP.b #$06 : BNE .BRANCH_BETA
-            LDA.b #$08 : JSL.l OAM_AllocateFromRegionC
+            LDA.b #$08
+            JSL.l OAM_AllocateFromRegionC
         
         .BRANCH_BETA
         
@@ -1095,10 +1104,9 @@ SpriteDrown_Main:
         
         JSR.w Sprite_PrepAndDrawSingleLarge
         
-        LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
-        
         ; Load hflip and vflip settings.
-        LDA Pool_SpriteDrown_Main_vh_flip, Y : STA.b $05
+        LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
+        LDA.w Pool_SpriteDrown_Main_vh_flip, Y : STA.b $05
         
         LDA.w $0DF0, X : CMP.b #$01 : BNE .notLastTimerTick
             STZ.w $0DD0, X
@@ -1113,12 +1121,12 @@ SpriteDrown_Main:
             STZ.b $05
             
             ; Get address of first tile of the sprite.
-            LDA Pool_SpriteDrown_Main_chr, X
+            LDA.w Pool_SpriteDrown_Main_chr, X
         
         .timerExpired
         
-        LDY.b #$02             : STA ($90), Y : INY
-        LDA.b #$24 : ORA.b $05 : STA ($90), Y
+        LDY.b #$02             : STA.b ($90), Y : INY
+        LDA.b #$24 : ORA.b $05 : STA.b ($90), Y
         
         PLX
         
@@ -1163,11 +1171,9 @@ Drowning_DrawSprite:
     .BRANCH_ZETA
     
     STZ.w $0F50, X
-    
     STZ.w $0EF0, X
     
     LDA.b #$00 : XBA
-    
     LDA.w $0DF0, X : BNE .BRANCH_THETA
         STZ.w $0DD0, X
     
@@ -1202,251 +1208,264 @@ incsrc "sprite_prep.asm"
 ; $031283-$031468 JUMP TABLE
 SpriteActive_Table:
 {
-    !null_ptr = $0000
-    
-    dw Sprite_RavenTrampoline            ; 0x00 - Raven
-    dw Sprite_VultureTrampoline          ; 0x01 - Vulture
-    dw Sprite_StalfosHead                ; 0x02 - Flying Stalfos head
-    dw !null_ptr                         ; 0x03 - Since this leads to null area, we presume this is unused. i tried using it, it crashed horribly
-    dw Sprite_PullSwitchTrampoline       ; 0x04 - Good switch (down)
-    dw Sprite_PullSwitchTrampoline       ; 0x05 - Bad Switch (down)
-    dw Sprite_PullSwitchTrampoline       ; 0x06 - Good switch (up)
-    dw Sprite_PullSwitchTrampoline       ; 0x07 - Bad switch (up)
-    dw Sprite_Octorock                   ; 0x08 - Octorock
-    dw Sprite_GiantMoldormTrampoline     ; 0x09 - Giant Moldorm
-    dw Sprite_Octorock                   ; 0x0A - Four Shooter Octorock
-    dw Sprite_Chicken                    ; 0x0B - Chicken / Chicken -> Lady transformation
-    dw Sprite_Octostone                  ; 0x0C - Rock projectile that Octorocks shoot
-    dw Sprite_Buzzblob                   ; 0x0D - Buzzblob
-    dw Sprite_SnapDragon                 ; 0x0E - Plants with big mouths (Dark World)
-    dw Sprite_Octoballoon                ; 0x0F - Octoballoon (aka Exploder?)
-    dw Sprite_Octospawn                  ; 0x10 - Small things from the exploder
-    dw Sprite_Hinox                      ; 0x11 - Hinox
-    dw Sprite_Moblin                     ; 0x12 - Moblin
-    dw Sprite_Helmasaur                  ; 0x13 - Helmasaur
-    dw Sprite_GargoyleGrateTrampoline    ; 0x14 - Gargoyle's Domain Entrance
-    dw Sprite_Bubble                     ; 0x15 - Fire Fairy?
-    dw Sprite_ElderTrampoline            ; 0x16 - Sahasralah / Aginah
-    dw Sprite_CoveredRupeeCrab           ; 0x17 - Rupee Crab under bush
-    dw Sprite_Moldorm                    ; 0x18 - Moldorm
-    dw Sprite_Poe                        ; 0x19 - Poe
-    dw Sprite_SmithyBros                 ; 0x1A - Smithy bros
-    dw Sprite_EnemyArrow                 ; 0x1B - Arrow in wall
-    dw Sprite_MovableStatue              ; 0x1C - Movable Statue
-    dw Sprite_WeathervaneTrigger         ; 0x1D - Weathervane Sprite (Useless?)
-    dw Sprite_CrystalSwitch              ; 0x1E - Crystal Switches for orange/blue barriers
-    dw Sprite_BugNetKid                  ; 0x1F - Sick kid who gives Link the Bug catching net
-    dw Sprite_Sluggula                   ; 0x20 - Bomb Slug
-    dw Sprite_PushSwitch                 ; 0x21 - Water palace push switch
-    dw Sprite_Ropa                       ; 0x22 - Ropa
-    dw Sprite_RedBari                    ; 0x23 - Bari (Red)
-    dw Sprite_BlueBari                   ; 0x24 - Bari (Blue)
-    dw Sprite_TalkingTreeTrampoline      ; 0x25 - Talking Tree
-    dw Sprite_HardHatBeetle              ; 0x26 - Hard hat Beetle
-    dw Sprite_DeadRock                   ; 0x27 - Deadrock
-    dw Sprite_StoryTeller_1              ; 0x28 - Story Teller NPCs / DW hint NPC
-    dw Sprite_HumanMulti_1_Trampoline    ; 0x29 - Guy in Blind's Old Hideout / Thieves Hideout Guy / Flute Boy's Father
-    dw Sprite_SweepingLadyTrampoline     ; 0x2A - Sweeping lady
-    dw Sprite_HoboEntities               ; 0x2B - Hobo under bridge (and helper sprites)
-    dw Sprite_LumberjacksTrampoline      ; 0x2C - Lumberjack Bros
-    dw Sprite_UnusedTelepathTrampoline   ; 0x2D - Telepathic stones? (wtf does this name mean?)
-    dw Sprite_FluteBoy                   ; 0x2E - Flute boy, and his notes?
-    dw Sprite_MazeGameLadyTrampoline     ; 0x2F - Heart piece race guy / girl
-    dw Sprite_MazeGameGuyTrampoline      ; 0x30 - Maze Game Guy
-    dw Sprite_FortuneTellerTrampoline    ; 0x31 - Fortune Teller / Dwarf Swordsmith
-    dw Sprite_QuarrelBrosTrampoline      ; 0x32 - Quarreling Brothers
-    dw Sprite_PullForRupeesTrampoline    ; 0x33 - Rupee prizes hidden in walls
-    dw Sprite_YoungSnitchLadyTrampoline  ; 0x34 - Young Snitch Lady
-    dw Sprite_InnKeeperTrampoline        ; 0x35 - Inn Keeper
-    dw Sprite_WitchTrampoline            ; 0x36 - Witch?
-    dw Sprite_WaterfallTrampoline        ; 0x37 - Waterfall sprite
-    dw Sprite_ArrowTriggerTrampoline     ; 0x38 - Arrow trigger
-    dw Sprite_MiddleAgedMan              ; 0x39 - Middle aged man in the desert
-    dw Sprite_MadBatterTrampoline        ; 0x3A - Magic Powder bat / lightning bolt he throws
-    dw Sprite_DashItemTrampoline         ; 0x3B - Dash item (book of mudora / etc)
-    dw Sprite_TroughBoyTrempoline        ; 0x3C - TroughBoy
-    dw Sprite_OldSnitchLadyTrampoline    ; 0x3D - Scared ladies and chicken lady, maybe others.
-    dw Sprite_CoveredRupeeCrab           ; 0x3E - Rupee Crab under rock
-    dw Sprite_TutorialEntitiesTrampoline ; 0x3F - Tutorial Soldier
-    dw Sprite_TutorialEntitiesTrampoline ; 0x40 - Hyrule Castle Barrier
-    dw SpriteActive2_Trampoline          ; 0x41 - Blue Soldier
-    dw SpriteActive2_Trampoline          ; 0x42 - Green Soldier
-    dw SpriteActive2_Trampoline          ; 0x43 - 
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline ; 0x48 - Red Spear Soldier (in special armor)
-    dw SpriteActive2_Trampoline ; 0x49 - Red Spear Soldier (in bushes)
-    dw SpriteActive2_Trampoline ; 0x4A - Green Enemy Bomb
-    dw SpriteActive2_Trampoline ; 0x4B - Green Soldier (weak version)
-    dw SpriteActive2_Trampoline ; 0x4C - Sand monster
-    dw SpriteActive2_Trampoline ; 0x4D - Bunnies in tall grass / on ground
-    dw SpriteActive2_Trampoline ; 0x4E - Popo (aka Snakebasket)
-    dw SpriteActive2_Trampoline ; 0x4F - Blobs?
-    dw SpriteActive2_Trampoline ; 0x50 - Metal balls in Eastern Palace
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline ; 0x53 - Armos Knight
-    dw SpriteActive2_Trampoline ; 0x54 - 
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline ; 0x57 - Desert Palace barriers
-    dw SpriteActive2_Trampoline ; 0x58 - Crab
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline ; 0x60 - Roller (horizontal)
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline ; 0x68 - 
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline ; 0x6D - Rat / Bazu
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline
-    dw SpriteActive2_Trampoline      ; 0x70 - 
-    dw Sprite_Leever                 ; 0x71 - 
-    dw Sprite_WishPond               ; 0x72 - Pond of Wishing (yes you're talking to a pond)
-    dw Sprite_UncleAndSageTrampoline ; 0x73 - Uncle / Priest / Sanctury Mantle
-    dw Sprite_RunningManTrampoline   ; 0x74 - Scared red hat man
-    dw Sprite_BottleVendorTrampoline ; 0x75 - Bottle vendor 
-    dw Sprite_ZeldaTrampoline        ; 0x76 - Princess Zelda (not the tagalong version)
-    dw Sprite_Bubble                 ; 0x77 - Weird kind of Fire fairy?
-    dw Sprite_ElderWifeTrampoline    ; 0x78 - Elder's Wife
-    dw SpriteActive3_Transfer        ; 0x79 - 
-    dw SpriteActive3_Transfer        ; 0x7A - 
-    dw SpriteActive3_Transfer        ; 0x7B - 
-    dw SpriteActive3_Transfer        ; 0x7C - 
-    dw SpriteActive3_Transfer        ; 0x7D - 
-    dw SpriteActive3_Transfer        ; 0x7E - 
-    dw SpriteActive3_Transfer        ; 0x7F - 
-    dw SpriteActive3_Transfer        ; 0x80 - 
-    dw SpriteActive3_Transfer        ; 0x81 - 
-    dw SpriteActive3_Transfer        ; 0x82 - 
-    dw SpriteActive3_Transfer        ; 0x82 - 
-    dw SpriteActive3_Transfer        ; 0x82 - 
-    dw SpriteActive3_Transfer        ; 0x85 - Yellow Stalfos
-    dw SpriteActive3_Transfer        ; 0x86 - 
-    dw SpriteActive3_Transfer        ; 0x87 - 
-    dw SpriteActive3_Transfer        ; 0x88 - 
-    dw SpriteActive3_Transfer        ; 0x89 - 
-    dw SpriteActive3_Transfer        ; 0x8A - 
-    dw SpriteActive3_Transfer        ; 0x8B - 
-    dw SpriteActive3_Transfer        ; 0x8C - 
-    dw SpriteActive3_Transfer        ; 0x8D - 
-    dw SpriteActive3_Transfer        ; 0x8E - 
-    dw SpriteActive3_Transfer        ; 0x8F - 
-    dw SpriteActive3_Transfer        ; 0x90 - 
-    dw SpriteActive3_Transfer        ; 0x91 - 
-    dw SpriteActive3_Transfer        ; 0x92 - helamsaur king
-    dw SpriteActive3_Transfer        ; 0x93 - Bumper
-    dw SpriteActive3_Transfer        ; 0x94 - 
-    dw SpriteActive3_Transfer        ; 0x95 - 
-    dw SpriteActive3_Transfer        ; 0x96 - 
-    dw SpriteActive3_Transfer        ; 0x97 - 
-    dw SpriteActive3_Transfer        ; 0x98 - 
-    dw SpriteActive3_Transfer        ; 0x99 - 
-    dw SpriteActive3_Transfer        ; 0x9A - Kyameron
-    dw SpriteActive3_Transfer        ; 0x9B - 
-    dw SpriteActive3_Transfer        ; 0x9C - 
-    dw SpriteActive3_Transfer        ; 0x9D - 
-    dw SpriteActive3_Transfer        ; 0x9E - 
-    dw SpriteActive3_Transfer        ; 0x9F - 
-    dw SpriteActive3_Transfer        ; 0xA0 - 
-    dw SpriteActive3_Transfer        ; 0xA1 - 
-    dw SpriteActive3_Transfer        ; 0xA2 - 
-    dw SpriteActive3_Transfer        ; 0xA3 - 
-    dw SpriteActive3_Transfer        ; 0xA4 - 
-    dw SpriteActive3_Transfer        ; 0xA5 - 
-    dw SpriteActive3_Transfer        ; 0xA6 - 
-    dw SpriteActive3_Transfer        ; 0xA7 - 
-    dw SpriteActive3_Transfer        ; 0xA8 - Green Bomber (Zirro?)
-    dw SpriteActive3_Transfer        ; 0xA9 - Blue Bomber (Zirro?)
-    dw SpriteActive3_Transfer
-    dw SpriteActive3_Transfer
-    dw SpriteActive3_Transfer
-    dw SpriteActive3_Transfer
-    dw SpriteActive3_Transfer
-    dw SpriteActive3_Transfer
-    dw SpriteActive3_Transfer ; 0xB0 - 
-    dw SpriteActive3_Transfer ; 
-    dw SpriteActive3_Transfer ; 
-    dw SpriteActive3_Transfer ; 
-    dw SpriteActive3_Transfer ; 
-    dw SpriteActive3_Transfer ; Elephant salesman
-    dw SpriteActive3_Transfer ; Kiki the monkey (B6)
-    dw SpriteActive3_Transfer ; 
-    dw SpriteActive3_Transfer ; 0xB8 - Monologue testing sprite (debug artifact)
-    dw SpriteActive3_Transfer
-    dw SpriteActive3_Transfer
-    dw SpriteActive3_Transfer ; 0xBB - Shop Keeper / Chest Game Guys
-    dw SpriteActive3_Transfer
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer ; Mystery sprite  "???" in hyrule magic
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer ; 0xC0 - Cranky Lake Monster CrankyLakeMonster
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer ; 0xC8 - Big Fairy
-    dw SpriteActive4_Transfer ; 0xC9 - 
-    dw SpriteActive4_Transfer ; 0xCA - Chain Chomp
-    dw SpriteActive4_Transfer ; 0xCB - 
-    dw SpriteActive4_Transfer ; 0xCC - 
-    dw SpriteActive4_Transfer ; 0xCD - 
-    dw SpriteActive4_Transfer ; 0xCE - Blind
-    dw SpriteActive4_Transfer ; 0xCF - Swamola
-    dw SpriteActive4_Transfer ; 0xD0 - 
-    dw SpriteActive4_Transfer ; Pointer for Yellow hunter
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer
-    dw SpriteActive4_Transfer           ; 0xD6 - Pointer for Ganon.
-    dw SpriteActive4_Transfer           ; 0xD7 - 
-    dw Sprite_HeartRefill               ; 0xD8 - Heart refill
-    dw Sprite_GreenRupee                ; 0xD9 - 
-    dw Sprite_BlueRupee                 ; 0xDA - 
-    dw Sprite_RedRupee                  ; 0xDB - 
-    dw Sprite_OneBombRefill             ; 0xDC - 1 Bomb Refill
-    dw Sprite_FourBombRefill            ; 0xDD - 4 Bomb Refill
-    dw Sprite_EightBombRefill           ; 0xDE - 8 Bomb Refill
-    dw Sprite_SmallMagicRefill          ; 0xDF - Small Magic Refill
-    dw Sprite_FullMagicRefill           ; 0xE0 - Full Magic Refill
-    dw Sprite_FiveArrowRefill           ; 0xE1 - 5 Arrow Refill
-    dw Sprite_TenArrowRefill            ; 0xE2 - 10 Arrow Refill
-    dw Sprite_Fairy                    ; 0xE3 - Fairy
-    dw Sprite_Key                       ; 0xE4 - Key 
-    dw Sprite_BigKey                    ; 0xE5 - Big Key
-    dw Sprite_ShieldPickup              ; 0xE6 - Shield Pickup (from Pikit)
-    dw Sprite_MushroomTrampoline        ; 0xE7 - Mushroom
-    dw Sprite_FakeSwordTrampoline       ; 0xE8 - Fake Master Sword
-    dw Sprite_PotionShopTrampoline      ; 0xE9 - Magic Shop Dude and his items
-    dw Sprite_HeartContainerTrampoline  ; 0xEA - Heart Container
-    dw Sprite_HeartPieceTrampoline      ; 0xEB - Heart piece
-    dw SpritePrep_DoNothingI            ; 0xEC - pot/bush/etc
-    dw Sprite_SomariaPlatformTrampoline ; 0xED - Cane of Somaria Platform
-    dw Sprite_MovableMantleTrampoline   ; 0xEE - [pushable] Mantle in throne room
-    dw Sprite_SomariaPlatformTrampoline ; 0xEF - Cane of Somaria Platform
-    dw Sprite_SomariaPlatformTrampoline ; 0xF0 - Cane of Somaria Platform
-    dw Sprite_SomariaPlatformTrampoline ; 0xF1 - Cane of Somaria Platform
-    dw Sprite_MedallionTabletTrampoline ; 0xF2 - Medallion Tablet
+    dw Sprite_RavenTrampoline            ; 0x00 - $946E Raven
+    dw Sprite_VultureTrampoline          ; 0x01 - $9473 Vulture
+    dw Sprite_StalfosHead                ; 0x02 - $DDB7 Flying Stalfos head
+    dw $0000                             ; 0x03 - $0000 Since this leads to null
+                                         ;        area, we presume this is unused
+    dw Sprite_PullSwitchTrampoline       ; 0x04 - $C003 Good switch (down)
+    dw Sprite_PullSwitchTrampoline       ; 0x05 - $C003 Bad Switch (down)
+    dw Sprite_PullSwitchTrampoline       ; 0x06 - $C003 Good switch (up)
+    dw Sprite_PullSwitchTrampoline       ; 0x07 - $C003 Bad switch (up)
+    dw Sprite_Octorock                   ; 0x08 - $D377 Octorock
+    dw Sprite_GiantMoldormTrampoline     ; 0x09 - $9469 Giant Moldorm
+    dw Sprite_Octorock                   ; 0x0A - $D377 Four Shooter Octorock
+    dw Sprite_Chicken                    ; 0x0B - $A5C2 Chicken / Chicken -> Lady
+                                         ;        transformation
+    dw Sprite_Octostone                  ; 0x0C - $D5B9 Rock Octorock projectile
+    dw Sprite_Buzzblob                   ; 0x0D - $D89A Buzzblob
+    dw Sprite_SnapDragon                 ; 0x0E - $9C24 Plants with big mouths
+    dw Sprite_Octoballoon                ; 0x0F - $D6AA Octoballoon
+    dw Sprite_Octospawn                  ; 0x10 - $D853 Small things from the
+                                         ;        Octoballoon
+    dw Sprite_Hinox                      ; 0x11 - $9F05 Hinox
+    dw Sprite_Moblin                     ; 0x12 - $98E4 Moblin
+    dw Sprite_Helmasaur                  ; 0x13 - $A409 Helmasaur
+    dw Sprite_GargoyleGrateTrampoline    ; 0x14 - $C01C Gargoyle's Domain Entrance
+    dw Sprite_Bubble                     ; 0x15 - $A50C Fire Fairy?
+    dw Sprite_ElderTrampoline            ; 0x16 - $C08A Sahasralah / Aginah
+    dw Sprite_CoveredRupeeCrab           ; 0x17 - $A86C Rupee Crab under bush
+    dw Sprite_Moldorm                    ; 0x18 - $9808 Moldorm
+    dw Sprite_Poe                        ; 0x19 - $9688 Poe
+    dw Sprite_SmithyBros                 ; 0x1A - $B1EE Smithy bros
+    dw Sprite_EnemyArrow                 ; 0x1B - $B754 Arrow in wall
+    dw Sprite_MovableStatue              ; 0x1C - $C0E8 Movable Statue
+    dw Sprite_WeathervaneTrigger         ; 0x1D - $C2E5 Weathervane Sprite
+    dw Sprite_CrystalSwitch              ; 0x1E - $B8D0 Crystal Switches
+    dw Sprite_BugNetKid                  ; 0x1F - $B94C Sick bug catching kid
+    dw Sprite_Sluggula                   ; 0x20 - $95D9 Bomb Slug
+    dw Sprite_PushSwitch                 ; 0x21 - $B9FA Water palace push switch
+    dw Sprite_Ropa                       ; 0x22 - $9E1F Ropa
+    dw Sprite_RedBari                    ; 0x23 - $A23D Bari (Red)
+    dw Sprite_BlueBari                   ; 0x24 - $A23D Bari (Blue)
+    dw Sprite_TalkingTreeTrampoline      ; 0x25 - $C0D5 Talking Tree
+    dw Sprite_HardHatBeetle              ; 0x26 - $A460 Hard hat Beetle
+    dw Sprite_DeadRock                   ; 0x27 - $948A Deadrock
+    dw Sprite_StoryTeller_1              ; 0x28 - $AD6F Story Teller NPCs / DW
+                                         ;        hint NPC
+    dw Sprite_HumanMulti_1_Trampoline    ; 0x29 - $C0B7 Guy in Blind's Old Hideout /
+                                         ;        Thieves Hideout Guy / Flute Boy's
+                                         ;        Father
+    dw Sprite_SweepingLadyTrampoline     ; 0x2A - $C0BC Sweeping lady
+    dw Sprite_HoboEntities               ; 0x2B - $BDC1 Hobo under bridge (and helper
+                                         ;        sprites)
+    dw Sprite_LumberjacksTrampoline      ; 0x2C - $C0C1 Lumberjack Bros
+    dw Sprite_UnusedTelepathTrampoline   ; 0x2D - $C0B2 Telepathic stones
+    dw Sprite_FluteBoy                   ; 0x2E - $AF3B Flute boy, and his notes?
+    dw Sprite_MazeGameLadyTrampoline     ; 0x2F - $C0CB Heart piece race guy / girl
+    dw Sprite_MazeGameGuyTrampoline      ; 0x30 - $C0D0 Maze Game Guy
+    dw Sprite_FortuneTellerTrampoline    ; 0x31 - $C0C6 Fortune Teller / Dwarf
+                                         ;        Swordsmith
+    dw Sprite_QuarrelBrosTrampoline      ; 0x32 - $C012 Quarreling Brothers
+    dw Sprite_PullForRupeesTrampoline    ; 0x33 - $C017 Rupee prizes hidden in walls
+    dw Sprite_YoungSnitchLadyTrampoline  ; 0x34 - $C021 Young Snitch Lady
+    dw Sprite_InnKeeperTrampoline        ; 0x35 - $C02B Inn Keeper
+    dw Sprite_WitchTrampoline            ; 0x36 - $C035 Witch?
+    dw Sprite_WaterfallTrampoline        ; 0x37 - $C03A Waterfall sprite
+    dw Sprite_ArrowTriggerTrampoline     ; 0x38 - $C03F Arrow trigger
+    dw Sprite_MiddleAgedMan              ; 0x39 - $BCAC Middle aged man in the desert
+    dw Sprite_MadBatterTrampoline        ; 0x3A - $C044 Magic Powder bat / lightning 
+                                         ;        bolt he throws
+    dw Sprite_DashItemTrampoline         ; 0x3B - $C049 Dash item (book of mudora
+                                         ;        / etc)
+    dw Sprite_TroughBoyTrempoline        ; 0x3C - $C04E TroughBoy
+    dw Sprite_OldSnitchLadyTrampoline    ; 0x3D - $C053 Scared ladies and chicken 
+                                         ;        lady, maybe others.
+    dw Sprite_CoveredRupeeCrab           ; 0x3E - $A86C Rupee Crab under rock
+    dw Sprite_TutorialEntitiesTrampoline ; 0x3F - $BFFE Tutorial Soldier
+    dw Sprite_TutorialEntitiesTrampoline ; 0x40 - $BFFE Hyrule Castle Barrier
+    dw SpriteActive2_Trampoline          ; 0x41 - $BFEA Blue Soldier
+    dw SpriteActive2_Trampoline          ; 0x42 - $BFEA Green Soldier
+    dw SpriteActive2_Trampoline          ; 0x43 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x44 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x45 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x46 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x47 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x48 - $BFEA Red Spear Soldier (in special
+                                         ;        armor)
+    dw SpriteActive2_Trampoline          ; 0x49 - $BFEA Red Spear Soldier (in bushes)
+    dw SpriteActive2_Trampoline          ; 0x4A - $BFEA Green Enemy Bomb
+    dw SpriteActive2_Trampoline          ; 0x4B - $BFEA Green Soldier (weak version)
+    dw SpriteActive2_Trampoline          ; 0x4C - $BFEA Sand monster
+    dw SpriteActive2_Trampoline          ; 0x4D - $BFEA Bunnies in tall grass /
+                                         ;        on ground
+    dw SpriteActive2_Trampoline          ; 0x4E - $BFEA Popo (aka Snakebasket)
+    dw SpriteActive2_Trampoline          ; 0x4F - $BFEA Blobs?
+    dw SpriteActive2_Trampoline          ; 0x50 - $BFEA Metal balls in Eastern Palace
+    dw SpriteActive2_Trampoline          ; 0x51 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x52 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x53 - $BFEA Armos Knight
+    dw SpriteActive2_Trampoline          ; 0x54 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x55 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x56 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x57 - $BFEA Desert Palace barriers
+    dw SpriteActive2_Trampoline          ; 0x58 - $BFEA Crab
+    dw SpriteActive2_Trampoline          ; 0x59 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x5A - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x5B - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x5C - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x5D - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x5E - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x5F - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x60 - $BFEA Roller (horizontal)
+    dw SpriteActive2_Trampoline          ; 0x61 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x62 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x63 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x64 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x65 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x66 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x67 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x68 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x69 - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x6A - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x6B - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x6C - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x6D - $BFEA Rat / Bazu
+    dw SpriteActive2_Trampoline          ; 0x6E - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x6F - $BFEA 
+    dw SpriteActive2_Trampoline          ; 0x70 - $BFEA 
+    dw Sprite_Leever                     ; 0x71 - $CBA2
+    dw Sprite_WishPond                   ; 0x72 - $C319 Pond of Wishing
+    dw Sprite_UncleAndSageTrampoline     ; 0x73 - $BFE0 Uncle / Priest /
+                                         ;        Sanctury Mantle
+    dw Sprite_RunningManTrampoline       ; 0x74 - $C058 Scared red hat man
+    dw Sprite_BottleVendorTrampoline     ; 0x75 - $C062 Bottle vendor 
+    dw Sprite_ZeldaTrampoline            ; 0x76 - $C067 Princess Zelda (not the
+                                         ;        tagalong)
+    dw Sprite_Bubble                     ; 0x77 - $A50C Weird kind of Fire fairy?
+    dw Sprite_ElderWifeTrampoline        ; 0x78 - $C071 Elder's Wife
+    dw SpriteActive3_Transfer            ; 0x79 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x7A - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x7B - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x7C - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x7D - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x7E - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x7F - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x80 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x81 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x82 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x82 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x82 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x85 - $BFEF Yellow Stalfos
+    dw SpriteActive3_Transfer            ; 0x86 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x87 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x88 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x89 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x8A - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x8B - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x8C - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x8D - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x8E - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x8F - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x90 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x91 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x92 - $BFEF helamsaur king
+    dw SpriteActive3_Transfer            ; 0x93 - $BFEF Bumper
+    dw SpriteActive3_Transfer            ; 0x94 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x95 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x96 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x97 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x98 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x99 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x9A - $BFEF Kyameron
+    dw SpriteActive3_Transfer            ; 0x9B - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x9C - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x9D - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x9E - $BFEF 
+    dw SpriteActive3_Transfer            ; 0x9F - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xA0 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xA1 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xA2 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xA3 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xA4 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xA5 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xA6 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xA7 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xA8 - $BFEF Green Bomber (Zirro?)
+    dw SpriteActive3_Transfer            ; 0xA9 - $BFEF Blue Bomber (Zirro?)
+    dw SpriteActive3_Transfer            ; 0xAA - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xAB - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xAC - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xAD - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xAE - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xAF - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xB0 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xB1 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xB2 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xB3 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xB4 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xB5 - $BFEF Elephant salesman
+    dw SpriteActive3_Transfer            ; 0xB6 - $BFEF Kiki the monkey (B6)
+    dw SpriteActive3_Transfer            ; 0xB7 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xB8 - $BFEF Monologue testing sprite
+    dw SpriteActive3_Transfer            ; 0xB9 - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xBA - $BFEF 
+    dw SpriteActive3_Transfer            ; 0xBB - $BFEF Shop Keeper / Chest Game Guys
+    dw SpriteActive3_Transfer            ; 0xBC - $BFEF 
+    dw SpriteActive4_Transfer            ; 0xBD - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xBE - $BFF4 Mystery sprite "???" in HM
+    dw SpriteActive4_Transfer            ; 0xBF - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xC0 - $BFF4 Cranky Lake Monster
+    dw SpriteActive4_Transfer            ; 0xC1 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xC2 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xC3 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xC4 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xC5 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xC6 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xC7 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xC8 - $BFF4 Big Fairy
+    dw SpriteActive4_Transfer            ; 0xC9 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xCA - $BFF4 Chain Chomp
+    dw SpriteActive4_Transfer            ; 0xCB - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xCC - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xCD - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xCE - $BFF4 Blind
+    dw SpriteActive4_Transfer            ; 0xCF - $BFF4 Swamola
+    dw SpriteActive4_Transfer            ; 0xD0 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xD1 - $BFF4 Pointer for Yellow hunter
+    dw SpriteActive4_Transfer            ; 0xD2 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xD3 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xD4 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xD5 - $BFF4 
+    dw SpriteActive4_Transfer            ; 0xD6 - $BFF4 Pointer for Ganon.
+    dw SpriteActive4_Transfer            ; 0xD7 - $BFF4 
+    dw Sprite_HeartRefill                ; 0xD8 - $CEC0 Heart refill
+    dw Sprite_GreenRupee                 ; 0xD9 - $D04A 
+    dw Sprite_BlueRupee                  ; 0xDA - $D04A 
+    dw Sprite_RedRupee                   ; 0xDB - $D04A 
+    dw Sprite_OneBombRefill              ; 0xDC - $D04A 1 Bomb Refill
+    dw Sprite_FourBombRefill             ; 0xDD - $D04A 4 Bomb Refill
+    dw Sprite_EightBombRefill            ; 0xDE - $D04A 8 Bomb Refill
+    dw Sprite_SmallMagicRefill           ; 0xDF - $D04A Small Magic Refill
+    dw Sprite_FullMagicRefill            ; 0xE0 - $D04A Full Magic Refill
+    dw Sprite_FiveArrowRefill            ; 0xE1 - $D04A 5 Arrow Refill
+    dw Sprite_TenArrowRefill             ; 0xE2 - $D04A 10 Arrow Refill
+    dw Sprite_Fairy                      ; 0xE3 - $CF94 Fairy
+    dw Sprite_Key                        ; 0xE4 - $D032 Key 
+    dw Sprite_BigKey                     ; 0xE5 - $D032 Big Key
+    dw Sprite_ShieldPickup               ; 0xE6 - $D04A Shield Pickup (from Pikit)
+    dw Sprite_MushroomTrampoline         ; 0xE7 - $C076 Mushroom
+    dw Sprite_FakeSwordTrampoline        ; 0xE8 - $C080 Fake Master Sword
+    dw Sprite_PotionShopTrampoline       ; 0xE9 - $C08F Magic Shop Dude and his items
+    dw Sprite_HeartContainerTrampoline   ; 0xEA - $C099 Heart Container
+    dw Sprite_HeartPieceTrampoline       ; 0xEB - $C0A3 Heart piece
+    dw SpritePrep_DoNothingI             ; 0xEC - $850F pot/bush/etc
+    dw Sprite_SomariaPlatformTrampoline  ; 0xED - $C008 Cane of Somaria Platform
+    dw Sprite_MovableMantleTrampoline    ; 0xEE - $A853 Mantle in throne room
+    dw Sprite_SomariaPlatformTrampoline  ; 0xEF - $C008 Cane of Somaria Platform
+    dw Sprite_SomariaPlatformTrampoline  ; 0xF0 - $C008 Cane of Somaria Platform
+    dw Sprite_SomariaPlatformTrampoline  ; 0xF1 - $C008 Cane of Somaria Platform
+    dw Sprite_MedallionTabletTrampoline  ; 0xF2 - $C00D Medallion Tablet
 }
 
 ; ==============================================================================
@@ -1549,10 +1568,9 @@ Entity_ApplyRumbleToSprites:
                 LDA.w $0FC6 : CMP.b #$0E : BEQ .collision_guaranteed
                     PHX
                     
-                    TYX
-                    
                     ; Loads up all the bases and widths for the collision
                     ; detection...
+                    TYX
                     JSR.w Sprite_SetupHitBox
                     
                     PLX
@@ -2918,27 +2936,27 @@ Sprite_PrepAndDrawSingleLarge:
     ; $035C13 ALTERNATE ENTRY POINT
     .just_draw
     
-    LDA.b $00 : STA ($90), Y
+    LDA.b $00 : STA.b ($90), Y
     
+    ; OPTIMIZE: WTF: Broken check?
     LDA.b $01 : CMP.b #$01
     
-    LDA.b #$01 : ROL : STA ($92)
+    LDA.b #$01 : ROL : STA.b ($92)
     
     REP #$20
     
-    LDA.b $02 : INY
-    
+    LDA.b $02
+    INY
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCS .out_of_bounds_y
-        SBC.b #$0F : STA ($90), Y
+        SBC.b #$0F : STA.b ($90), Y
         
         PHY
         
         LDY.w $0E20, X
         
         LDA.w SpriteDraw_ClassToChar, Y : CLC : ADC.w $0DC0, X : TAY
-        
-        LDA.w SpriteDraw_IDtoClass, Y : PLY : INY : STA ($90), Y
-        LDA.b $05                           : INY : STA ($90), Y
+        LDA.w SpriteDraw_IDtoClass, Y : PLY : INY : STA.b ($90), Y
+        LDA.b $05                           : INY : STA.b ($90), Y
     
     .out_of_bounds_y
 
@@ -2988,8 +3006,8 @@ Sprite_DrawShadow:
     ; $035C66 ALTERNATE ENTRY POINT
     .variable
     
-               CLC : ADC.w $0D00, X : STA.b $02
-    LDA.w $0D20, X : ADC.b #$00     : STA.b $03
+                     CLC : ADC.w $0D00, X : STA.b $02
+    LDA.w $0D20, X :       ADC.b #$00     : STA.b $03
     
     ; Is the sprite disabled ("paused", you might say).
     LDA.w $0F00, X : BNE .dontDrawShadow
@@ -3004,8 +3022,7 @@ Sprite_DrawShadow:
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCS .offScreenY
             LDA.w $0E40, X : AND.b #$1F : ASL #2 : TAY
-            
-            LDA.b $00 : STA ($90), Y
+            LDA.b $00 : STA.b ($90), Y
             
             LDA.w $0E60, X : AND.b #$20 : BEQ .delta
                 INY
@@ -3013,17 +3030,18 @@ Sprite_DrawShadow:
                 ; This instruction doesn't seem to belong here, as it doesn't
                 ; do anything (There's another LDA right after it).
                 ; OPTIMIZE: Simply by taking it out, saves space and time.
-                LDA ($90), Y
+                LDA.b ($90), Y
                 
-                      LDA.b $02  : INC : STA ($90), Y
-                INY : LDA.b #$38         : STA ($90), Y
+                LDA.b $02  : INC : STA.b ($90), Y
+
+                INY
+                LDA.b #$38 : STA.b ($90), Y
                 
-                LDA.b $05 : AND.b #$30 : ORA.b #$08 : INY : STA ($90), Y
-                
-                TYA : LSR #2 : TAY
+                LDA.b $05 : AND.b #$30 : ORA.b #$08 : INY : STA.b ($90), Y
                 
                 ; Ensures the lowest priority for the shadow.
-                LDA.b $01 : AND.b #$01 : STA ($92), Y
+                TYA : LSR #2 : TAY
+                LDA.b $01 : AND.b #$01 : STA.b ($92), Y
         
     .dontDrawShadow
     
@@ -3031,16 +3049,14 @@ Sprite_DrawShadow:
     
     .delta
     
-    LDA.b $02  : INY : STA ($90), Y
-    LDA.b #$6C : INY : STA ($90), Y
+    LDA.b $02  : INY : STA.b ($90), Y
+    LDA.b #$6C : INY : STA.b ($90), Y
     
-    LDA.b $05 : AND.b #$30 : ORA.b #$08
-    
-    INY : STA ($90), Y
+    LDA.b $05 : AND.b #$30 : ORA.b #$08 : INY : STA.b ($90), Y
     
     TYA : LSR #2 : TAY
     
-    LDA.b $01 : AND.b #$01 : ORA.b #$02 : STA ($92), Y
+    LDA.b $01 : AND.b #$01 : ORA.b #$02 : STA.b ($92), Y
     
     .offScreenY
     
@@ -3054,18 +3070,18 @@ Sprite_PrepAndDrawSingleSmall:
 {
     JSR.w Sprite_PrepOamCoord
     
-    LDA.b $00 : STA ($90), Y
+    LDA.b $00 : STA.b ($90), Y
     
+    ; OPTIMIZE: WTF: Broken check?
     LDA.b $01 : CMP.b #$01
     
-    LDA.b #$00 : ROL : STA ($92)
+    LDA.b #$00 : ROL : STA.b ($92)
     
     REP #$20
     
     LDA.b $02 : INY
-    
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCS .BRANCH_ALPHA
-        SBC.b #$0F : STA ($90), Y
+        SBC.b #$0F : STA.b ($90), Y
         
         PHY
         
@@ -3073,14 +3089,13 @@ Sprite_PrepAndDrawSingleSmall:
         
         LDA.w SpriteDraw_ClassToChar, Y : CLC : ADC.w $0DC0, X : TAY
         
-        LDA.w SpriteDraw_IDtoClass, Y : PLY : INY : STA ($90), Y
-        LDA.b $05                           : INY : STA ($90), Y
+        LDA.w SpriteDraw_IDtoClass, Y : PLY : INY : STA.b ($90), Y
+        LDA.b $05                           : INY : STA .b($90), Y
     
     .BRANCH_ALPHA
     
     LDA.w $0E60, X : AND.b #$10 : BEQ .BRANCH_BETA
         LDA.b #$02
-        
         JMP.w Sprite_DrawShadow_variable
     
     .BRANCH_BETA
@@ -3110,32 +3125,32 @@ Sprite_DrawThinAndTall:
 {
     JSR.w Sprite_PrepOamCoord
     
-    LDA.b $00  : STA ($90), Y
-    LDY.b #$04 : STA ($90), Y
+    LDA.b $00  : STA.b ($90), Y
+    LDY.b #$04 : STA.b ($90), Y
     
     ; Get bit 8 of X coordinate, and force size to 8x8.
     LDA.b $01 : CMP.b #$01
     
     LDA.b #$00 : ROL A
     
-    LDY.b #$00 : STA ($92), Y
-    INY        : STA ($92), Y
+    LDY.b #$00 : STA.b ($92), Y
+    INY        : STA.b ($92), Y
     
     REP #$20
     
-    LDA.b $02 : LDY.b #$01 : STA ($90), Y
+    LDA.b $02 : LDY.b #$01 : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_upper_half_y
-        LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA.b ($90), Y
     
     .on_screen_upper_half_y
     
     LDA.b $02 : CLC : ADC.w #$0008
     
-    LDY.b #$05 : STA ($90), Y
+    LDY.b #$05 : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_lower_half_y
-        LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA.b ($90), Y
     
     .on_screen_lower_half_y
     
@@ -3144,11 +3159,10 @@ Sprite_DrawThinAndTall:
     LDY.w $0E20, X
     
     LDA.w SpriteDraw_ClassToChar, Y : CLC : ADC.w $0DC0, X : TAY
-    
-    LDA.w SpriteDraw_IDtoClass, Y : LDY.b #$02 : STA ($90), Y
-    CLC : ADC.b #$10              : LDY.b #$06 : STA ($90), Y
-    LDA.b $05                     : LDY.b #$03 : STA ($90), Y
-                                    LDY.b #$07 : STA ($90), Y
+    LDA.w SpriteDraw_IDtoClass, Y : LDY.b #$02 : STA.b ($90), Y
+    CLC : ADC.b #$10              : LDY.b #$06 : STA.b ($90), Y
+    LDA.b $05                     : LDY.b #$03 : STA.b ($90), Y
+                                    LDY.b #$07 : STA.b ($90), Y
     
     JMP.w Sprite_DrawShadowRedundant
 }
@@ -3224,14 +3238,14 @@ SpriteHeld_Main:
     ; changing the order the branches are presented in would save
     ; a byte of space and a cycle or two of execution.
     LDA.w $0F10, X : DEC : CMP.b #$3F : BCS .dont_x_wobble
-    AND.b #$02                          : BEQ .dont_x_wobble
+    AND.b #$02                        : BEQ .dont_x_wobble
         INC.b $00
     
     .dont_x_wobble
     
     LDA.b $2F : ASL : CLC : ADC.l $7FFA1C, X : TAY
-    
-    LDA.b $22 : CLC : ADC.w Pool_SpriteHeld_Main_offset_x_low, Y : PHP : ADC.b $00 : STA.w $0D10, X
+    LDA.b $22 : CLC : ADC.w Pool_SpriteHeld_Main_offset_x_low, Y : PHP
+                      ADC.b $00                                  : STA.w $0D10, X
 
     LDA.b $23 : ADC.b #$00 : PLP : ADC.w Pool_SpriteHeld_Main_offset_x_high, Y : STA.w $0D30, X
     
@@ -3242,12 +3256,13 @@ SpriteHeld_Main:
     
     .not_last_animation_step
     
-    LDA.b $24 : CLC : ADC.b #$01 : PHP : CLC : ADC.w Pool_SpriteHeld_Main_offset_y_low, Y : STA.b $00
+    LDA.b $24 : CLC : ADC.b #$01                                 : PHP
+                CLC : ADC.w Pool_SpriteHeld_Main_offset_y_low, Y : STA.b $00
 
     LDA.b $25 : ADC.b #$00 : PLP : ADC.b #$00 : STA.b $0E
     
-    LDA.b $20 : SEC : SBC.b $00 : PHP : CLC : ADC.b #$08 : STA.w $0D00, X
-    LDA.b $21 :      ADC.b #$00 : PLP :       SBC.b $0E  : STA.w $0D20, X
+    LDA.b $20 : SEC : SBC.b $00  : PHP : CLC : ADC.b #$08 : STA.w $0D00, X
+    LDA.b $21 :       ADC.b #$00 : PLP :       SBC.b $0E  : STA.w $0D20, X
     
     LDA.b $EE : AND.b #$01 : STA.w $0F20, X
     
@@ -3308,8 +3323,6 @@ Pool_SpriteHeld_ThrowQuery:
     db 4, 4, 4, 4
 }
 
-; ==============================================================================
-
 ; $035F6D-$035FF1 LOCAL JUMP LOCATION
 SpriteHeld_ThrowQuery:
 {
@@ -3333,7 +3346,8 @@ SpriteHeld_ThrowQuery:
         
         .coerced_throw
         
-        LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$13
+        JSL.l Sound_SetSfx3PanLong
         
         LDA.b #$02 : STA.w $0309
         
@@ -3348,17 +3362,12 @@ SpriteHeld_ThrowQuery:
         PHX
         
         LDA.w $0E20, X : TAX
-        
         LDA.l SpriteData_OAMProp, X : PLX : AND.b #$10 : STA.b $00
-        
         LDA.w $0E60, X : AND.b #$EF : ORA.b $00 : STA.w $0E60, X
         
         LDA.b $2F : LSR : TAY
-        
         LDA.w .x_speeds, Y : STA.w $0D50, X
-        
         LDA.w .y_speeds, Y : STA.w $0D40, X
-        
         LDA.w .z_speeds, Y : STA.w $0F80, X
         
         LDA.b #$00 : STA.w $0F10, X
@@ -3426,7 +3435,8 @@ ThrownSprite_TileAndPeerInteraction:
                 
         LDA.w $0DD0, X : CMP.b #$0B : BNE .not_frozen
             ; Play clink sound because frozen sprite hit a wall.
-            LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$05
+            JSL.l Sound_SetSfx2PanLong
 
         .not_frozen
     .no_tile_collision
@@ -3445,7 +3455,6 @@ ThrownSprite_PeerInteraction:
     PHX
     
     LDA.w $0E20, X : TAX
-    
     LDA.l SpriteData_OAMProp, X : PLX : AND.b #$10 : BEQ .BRANCH_ZETA
         LDA.w $0E60, X : ORA.b #$10 : STA.w $0E60, X
         
@@ -3512,7 +3521,8 @@ Sprite_SetToFalling:
     
     STZ.w $012E
     
-    LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$20
+    JSL.l Sound_SetSfx2PanLong
     
     RTS
 }

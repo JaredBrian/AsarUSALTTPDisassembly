@@ -27,14 +27,11 @@ Sprite_SpawnSparkleGarnish:
         PHX
         
         TXY
-        
         JSL.l GetRandomInt : AND.b #$03 : TAX
-        
         LDA.l Pool_Sprite_SpawnSparkleGarnish_low_offset, X  : STA.b $00
         LDA.l Pool_Sprite_SpawnSparkleGarnish_high_offset, X : STA.b $01
         
         JSL.l GetRandomInt : AND.b #$03 : TAX
-        
         LDA.l Pool_Sprite_SpawnSparkleGarnish_low_offset, X  : STA.b $02
         LDA.l Pool_Sprite_SpawnSparkleGarnish_high_offset, X : STA.b $03
         
@@ -193,8 +190,11 @@ Soldier_DirectionLockSettings:
 ; $02B5D3-$02B647 LOCAL JUMP LOCATION
 SpriteActive2_Main:
 {
-    LDA.w $0E20, X : SEC : SBC.b #$41 : REP #$30 : AND.w #$00FF : ASL : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$41
+
+    REP #$30
     
+    AND.w #$00FF : ASL : TAY
     LDA.w .sprite_routines, Y : DEC : PHA
     
     SEP #$30
@@ -212,31 +212,39 @@ SpriteActive2_Main:
     dw Sprite_Soldier                     ; 0x42 - $C155 Blue Soldier
     dw Sprite_Soldier                     ; 0x43 - $C155 Red Spear Soldier
     dw Sprite_PsychoTrooper               ; 0x44 - $CC65 Crazy Blue Killer Soldiers
-    dw Sprite_PsychoSpearSoldier          ; 0x45 - $CBE0 Crazed Spear Soldiers (Green or Red)
+    dw Sprite_PsychoSpearSoldier          ; 0x45 - $CBE0 Crazed Spear Soldiers
+                                          ;        (Green or Red)
     dw Sprite_ArcherSoldier               ; 0x46 - $CDFF Blue Archers
     dw Sprite_BushArcherSoldier           ; 0x47 - $D1BF Green Archers (in bushes)
                                           
-    dw Sprite_JavelinTrooper              ; 0x48 - $CDE1 Red Javelin Soldiers (in special armor)
-    dw Sprite_BushJavelinSoldier          ; 0x49 - $D1AC Red Javelin Soldiers (in bushes)
+    dw Sprite_JavelinTrooper              ; 0x48 - $CDE1 Red Javelin Soldiers
+                                          ;        (in special armor)
+    dw Sprite_BushJavelinSoldier          ; 0x49 - $D1AC Red Javelin Soldiers
+                                          ;        (in bushes)
     dw Sprite_BombTrooper                 ; 0x4A - $BE0A Bomb Trooper / Enemy Bombs
     dw Sprite_Recruit                     ; 0x4B - $BC8A Recruit
     dw Sprite_GerudoMan                   ; 0x4C - $B8B3 Gerudo Man
     dw Sprite_Toppo                       ; 0x4D - $BA85 Enemy bunnies (Toppo)
     dw Sprite_Popo                        ; 0x4E - $B80A Snakebasket (Popo?)
     dw Sprite_Bot                         ; 0x4F - $B80A Bot / Bit?
-    dw Sprite_MetalBall                   ; 0x50 - $B648 Metal Balls in Eastern Palace
+    dw Sprite_MetalBall                   ; 0x50 - $B648 Metal Balls in Eastern
+                                          ;        Palace
     dw Sprite_Armos                       ; 0x51 - $B703 Armos
     dw Sprite_ZoraKing                    ; 0x52 - $995B Giant Zora
     dw Sprite_ArmosKnight                 ; 0x53 - $A036 Armos Knight Code
     dw Sprite_Lanmola                     ; 0x54 - $A3A2 Lanmola
-    dw Sprite_ZoraAndFireball             ; 0x55 - $967B Zora (or Agahnim) fireball code.
+    dw Sprite_ZoraAndFireball             ; 0x55 - $967B Zora (or Agahnim) fireball
+                                          ;        code
     dw Sprite_WalkingZora                 ; 0x56 - $9D4A Walking Zora
     dw Sprite_DesertBarrier               ; 0x57 - $956D Desert Palace Barrier
     dw Sprite_Crab                        ; 0x58 - $94B5 Crab
     dw Sprite_LostWoodsBird               ; 0x59 - $940E Birds (master sword grove)
-    dw Sprite_LostWoodsSquirrel           ; 0x5A - $9468 Squirrel (master sword grove?)
-    dw Sprite_Spark                       ; 0x5B - $933F Spark (clockwise on convex, counterclockwise on concave)
-    dw Sprite_Spark                       ; 0x5C - $933F Spark (counterclockwise on convex, clockwise on concave)
+    dw Sprite_LostWoodsSquirrel           ; 0x5A - $9468 Squirrel (master sword
+                                          ;        grove?)
+    dw Sprite_Spark                       ; 0x5B - $933F Spark (clockwise on convex,
+                                          ;        counterclockwise on concave)
+    dw Sprite_Spark                       ; 0x5C - $933F Spark (counterclockwise on
+                                          ;        convex, clockwise on concave)
     dw Sprite_SpikeRoller                 ; 0x5D - $8DDE Roller (????)
     dw Sprite_SpikeRoller                 ; 0x5E - $8DDE Roller (????)
     dw Sprite_SpikeRoller                 ; 0x5F - $8DDE Roller (????)
@@ -251,8 +259,10 @@ SpriteActive2_Main:
     dw Sprite_WallCannon                  ; 0x68 - $8090 Moving cannon ball shooters
     dw Sprite_WallCannon                  ; 0x69 - $8090 Moving cannon ball shooters
     dw Sprite_ChainBallTrooper            ; 0x6A - $B01B Ball n' Chain Trooper
-    dw Sprite_CannonTrooper               ; 0x6B - $ABE4 Cannon Ball Shooting Trooper (unused in game)
-    dw Sprite_WarpVortex                  ; 0x6C - $AF75 Warp Vortex (from Magic mirror in light world)
+    dw Sprite_CannonTrooper               ; 0x6B - $ABE4 Cannon Ball Shooting
+                                          ;        Trooper (unused in game)
+    dw Sprite_WarpVortex                  ; 0x6C - $AF75 Warp Vortex (from Magic
+                                          ;        mirror in light world)
     dw Sprite_Rat                         ; 0x6D - $A8B0 Rat / Bazu
     dw Sprite_Rope                        ; 0x6E - $A973 Rope / Skullrope
     dw Sprite_Keese                       ; 0x6F - $AA8B Keese
@@ -331,12 +341,10 @@ Sprite_Probe:
         REP #$20
         
         LDA.w $0FD8 : SEC : SBC.b $22 : CLC : ADC.w #$0010
-        
         CMP.w #$0020 : SEP #$20 : BCS .player_not_close
             REP #$20
             
             LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0018
-            
             CMP.w #$0020 : SEP #$20 : BCS .player_not_close
                 JMP.w .made_contact
         
@@ -362,28 +370,26 @@ Sprite_Probe:
             LDA.w $0FDA : SEC : SBC.b $20 : CMP.w #$0010 : SEP #$20 : BCS .no_contact
                 ; Are Link and the soldier on the same floor?
                 LDA.w $0F20, X : CMP $EE : BNE .no_contact
-                
-                ; $02C1F6 ALTERNATE ENTRY POINT
-                .made_contact
-                
-                LDA.w $0DB0, X : DEC A
-                
-                PHX
-                
-                TAX
-                
-                LDA.w $0D80, X : CMP.b #$03 : BEQ .kappa
-                    LDA.b #$03 : STA.w $0D80, X
+                    ; $02C1F6 ALTERNATE ENTRY POINT
+                    .made_contact
                     
-                    ; Is the sprite Blind the Thief?
-                    LDA.w $0E20, X : CMP.b #$CE : BEQ .kappa ; Yes...
-                        LDA.b #$10 : STA.w $0DF0, X
+                    LDA.w $0DB0, X : DEC A
                     
-                        STZ.w $0E80, X
-                
-                .kappa
-                
-                PLX
+                    PHX
+                    
+                    TAX
+                    LDA.w $0D80, X : CMP.b #$03 : BEQ .kappa
+                        LDA.b #$03 : STA.w $0D80, X
+                        
+                        ; Is the sprite Blind the Thief?
+                        LDA.w $0E20, X : CMP.b #$CE : BEQ .kappa ; Yes...
+                            LDA.b #$10 : STA.w $0DF0, X
+                        
+                            STZ.w $0E80, X
+                    
+                    .kappa
+                    
+                    PLX
     
     BRA .theta
     
@@ -397,6 +403,7 @@ Sprite_Probe:
         
         STZ.w $0DD0, X
     
+    ; $02C226 ALTERNATE ENTRY POINT
     .return
     
     RTS
@@ -413,9 +420,9 @@ Soldier_Main:
     
     ; This is actually used.
     LDA.w $0E00, X : BEQ .direction_lock_inactive
-        LDA Soldier_DirectionLockSettings_directions, Y : STA.w $0DE0, X
+        LDA.w Soldier_DirectionLockSettings_directions, Y : STA.w $0DE0, X
         
-        LDA Soldier_DirectionLockSettings_animation_states, Y : STA.w $0DC0, X
+        LDA.w Soldier_DirectionLockSettings_animation_states, Y : STA.w $0DC0, X
     
     .direction_lock_inactive
     
@@ -426,11 +433,10 @@ Soldier_Main:
     PLA : STA.w $0DC0, X
     
     LDA.w $0DD0, X : CMP.b #$05 : BNE .not_falling_in_hole
-        LDA.b $1111 : BNE Sprite_Soldier_return
-        
-        ; Ticking animation clock and state...
-        JSR.w Guard_TickTwiceAndUpdateBody
-        JMP.w Guard_TickTwiceAndUpdateBody
+        LDA.b $11 : BNE Sprite_Soldier_return
+            ; Ticking animation clock and state...
+            JSR.w Guard_TickTwiceAndUpdateBody
+            JMP.w Guard_TickTwiceAndUpdateBody
     
     .not_falling_in_hole
     
@@ -488,8 +494,9 @@ Soldier_Main:
     
     .nu
     
-    REP #$30 : AND.w #$00FF : ASL : TAY
+    REP #$30
     
+    AND.w #$00FF : ASL : TAY
     LDA.w .states, Y : DEC : PHA
     
     SEP #$30
@@ -524,7 +531,6 @@ Guard_Idle:
         LDA.w $0E30, X : BEQ .beta
             AND.b #$07 : CMP.b #$05 : BCS .beta
                 LDA.w $0E30, X : LSR #3 : AND.b #$03 : TAY
-                
                 LDA.w Pool_Guard_Idle, Y : STA.w $0DF0, X
                 
                 LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
@@ -625,9 +631,7 @@ Pool_Soldier:
 Guard_ShootProbeAndStuff:
 {
     LDY.w $0DA0, X
-    
     LDA.w Pool_Soldier_x_checked_directions, Y : STA.w $0D50, X
-    
     LDA.w Pool_Soldier_y_checked_directions, Y : STA.w $0D40, X
     
     JSR.w Sprite2_CheckTileCollision
@@ -635,7 +639,6 @@ Guard_ShootProbeAndStuff:
     LDA.w $0E10, X : BEQ .alpha
         CMP.b #$2C : BNE .beta
             LDY.w $0DA0, X
-            
             LDA.w Pool_Soldier_orthogonal_next_direction, Y : STA.w $0DA0, X
             
             BRA .beta
@@ -643,26 +646,22 @@ Guard_ShootProbeAndStuff:
     .alpha
     
     LDY.w $0DA0, X
-    
     LDA.w $0E70, Y : AND.w Pool_Soldier_orthogonal_directions, Y : BNE .beta
         LDA.b #$58 : STA.w $0E10, X
     
     .beta
     
     LDY.w $0DA0, X
-    
     LDA.w $0E70, Y : AND.w Pool_Soldier_collinear_directions, Y : BEQ .gamma
         LDA.w Pool_Soldier_collinear_next_direction, Y : STA.w $0DA0, X
     
     .gamma
     
     LDY.w $0DA0, X
-    
-    LDA Pool_Soldier_chase_x_speeds, Y : STA.w $0D50, X
-    
-    LDA Pool_Soldier_chase_y_speeds, Y : STA.w $0D40, X
-    
-    LDA.w Pool_Soldier_ProbeType, Y : STA.w $0DE0, X : STA.w $0EB0, X
+    LDA.w Pool_Soldier_chase_x_speeds, Y : STA.w $0D50, X
+    LDA.w Pool_Soldier_chase_y_speeds, Y : STA.w $0D40, X
+    LDA.w Pool_Soldier_ProbeType, Y      : STA.w $0DE0, X 
+                                           STA.w $0EB0, X
     
     JMP.w Guard_TickAndUpdateBody
 }
@@ -687,7 +686,6 @@ Guard_StopAndLookAround:
     JSR.w Sprite2_ZeroVelocity
     
     LDA.b #$02 : STA.w $0D80, X
-    
     LDA.b #$A0 : STA.w $0DF0, X
     
     RTS
@@ -709,10 +707,8 @@ Guard_OnPatrol_delay:
     .delta
 
     LDY.w $0DE0, X
-    
-    LDA Soldier_x_speeds, Y : STA.w $0D50, X
-    
-    LDA Soldier_y_speeds, Y : STA.w $0D40, X
+    LDA.w Soldier_x_speeds, Y : STA.w $0D50, X
+    LDA.w Soldier_y_speeds, Y : STA.w $0D40, X
     
     TYA : STA.w $0EB0, X
     
@@ -725,12 +721,10 @@ Guard_OnPatrol_delay:
 Guard_TickAndUpdateBody:
 {
     INC.w $0E80, X
-    
     LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA.b $00
     
     LDA.w $0DE0, X : ASL #2 : ADC.b $00 : TAY
-    
-    LDA Soldier_animation_states, Y : STA.w $0DC0, X
+    LDA.w Soldier_animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -765,8 +759,7 @@ Guard_Surveying:
         LSR #3 : AND.b #$07 : STA.b $00
         
         LDA.w $0DE0, X : ASL #3 : ORA.b $0000 : TAY
-        
-        LDA Soldier_head_looking_states, Y : STA.w $0EB0, X
+        LDA.w Soldier_head_looking_states, Y : STA.w $0EB0, X
     
     .beta	
     
@@ -850,7 +843,8 @@ Guard_InPursuit_delay:
         JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         JSR.w Sprite2_DirectionToFacePlayer
-        TYA : STA.w $0DE0, X : STA.w $0EB0, X
+        TYA : STA.w $0DE0, X
+              STA.w $0EB0, X
     
     .alpha
     
@@ -900,9 +894,8 @@ Probe_SetDirectionTowardsPlayer:
         
         .moving_on
         
-        LDA Pool_Probe_SetDirectionTowardsPlayer_x_speeds, Y : STA.w $0D50, X
-        
-        LDA Pool_Probe_SetDirectionTowardsPlayer_y_speeds, Y : STA.w $0D40, X
+        LDA.w Pool_Probe_SetDirectionTowardsPlayer_x_speeds, Y : STA.w $0D50, X
+        LDA.w Pool_Probe_SetDirectionTowardsPlayer_y_speeds, Y : STA.w $0D40, X
     
     .no_tile_collision
     
@@ -972,10 +965,10 @@ Sprite_SpawnProbeStaggered:
     TXA : CLC : ADC.b $1A1A : STA.b $0F
     
     AND.b #$03 : ORA.w $0F00, X : BNE Sprite_SpawnProbeAlways_spawn_failed
-        LDA.w $0EC0, X : INC.w $0EC0, X
+        LDA.w $0EC0, X
+        INC.w $0EC0, X
         
         LDY.w $0DE0, X
-        
         CLC : AND.b #$1F : ADC.w Pool_Guard_SendOutProbe_index_offset, Y
         AND.b #$3F : STA.b $0F
 
@@ -999,10 +992,8 @@ Sprite_SpawnProbeAlways:
         
         ; The direction the statue sentry eye is facing determines the direction
         ; that the feeler will travel in.
-        LDX.b $0F
-        
-        TXA : STA.w $0DE0, Y
-        
+        LDX.b $0F : TXA
+                    STA.w $0DE0, Y
         LDA.w Pool_Guard_SendOutProbe_speed_x, X : STA.w $0D50, Y
         LDA.w Pool_Guard_SendOutProbe_speed_y, X : STA.w $0D40, Y
         
@@ -1071,9 +1062,7 @@ Guard_DrawShadow:
 {
     LDA.w $0E60, X : AND.b #$10 : BEQ .alpha
         LDY.w $0DE0, X
-        
         LDA.w .shadow_types, Y
-        
         JSL.l Sprite_DrawShadowLong_variable
     
     .alpha
@@ -1122,7 +1111,8 @@ Guard_AnimateHead:
     
     REP #$20
     
-    LDA.b $00 : STA ($90), Y : AND.w #$0100 : STA.b $0E
+    LDA.b $00    : STA.b ($90), Y
+    AND.w #$0100 : STA.b $0E
     
     PHY
     
@@ -1134,11 +1124,10 @@ Guard_AnimateHead:
     SBC.w Pool_Guard_headYOffset, Y
     
     PLY : INY
-    
-    STA ($90), Y
+    STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
-        LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA.b ($90), Y
     
     .alpha
     
@@ -1148,7 +1137,6 @@ Guard_AnimateHead:
     LDA.w Pool_Guard_headProperties, X : INY : ORA.b $05 : STA ($90), Y
     
     TYA : LSR #2 : TAY
-    
     LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLX
@@ -1318,7 +1306,6 @@ Pool_GuardBody:
 Guard_AnimateBody:
 {
     LDY.w $0DE0, X
-    
     LDA.w Pool_GuardBody_OAMOffsets, Y : TAY
     
     ; $02CA10
@@ -1343,7 +1330,6 @@ Guard_AnimateBody:
             LDA.w Pool_GuardBody_ObjectChar, X
             
             PLX : PHX
-            
             CPX.b #$03 : BNE .alpha
                 CMP.b #$20 : BEQ .beta
     
@@ -1354,8 +1340,7 @@ Guard_AnimateBody:
     REP #$20
     
     LDA.b $00 : CLC : ADC.w Pool_GuardBody_ObjectOffsetX, X : STA ($90), Y
-    
-    AND.w #$0100 : STA.b $0E
+    AND.w #$0100                                            : STA.b $0E
     
     LDA.b $02 : CLC : ADC.w Pool_GuardBody_ObjectOffsetY, X : INY : STA ($90), Y
     
@@ -1369,17 +1354,22 @@ Guard_AnimateBody:
     LDA.w #$08 : STA.b $0D
     
     LDX.b $06
-    
-    LDA.w Pool_GuardBody_ObjectChar, X : INY : STA ($90), Y : CMP.b #$20 : BNE .delta
+    LDA.w Pool_GuardBody_ObjectChar, X : INY : STA ($90), Y
+    CMP.b #$20 : BNE .delta
         LDA.b #$02 : STA.b $0D
         
         LDA.b $0808 : CMP.b #$46 : CLC : BNE .epsilon
-            DEY : LDA.b #$F0 : STA ($90), Y : INY
+            DEY
+            LDA.b #$F0 : STA ($90), Y
+            
+            INY
             
             BRA .epsilon
     
     .delta
     
+    ; WTF: OPTIMIZE: what is this for? Is this half a check that was supposed to
+    ; be removed?
     LDA.w Pool_GuardBody_ObjectSize, X : CMP.b #$01
     
     .epsilon
@@ -1389,10 +1379,10 @@ Guard_AnimateBody:
     
     .zeta
     
-    INY : STA ($90), Y
+    INY
+    STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
-    
     LDA.w Pool_GuardBody_ObjectSize, X : ORA.b $0F0F : STA ($92), Y
     
     PLY : INY
@@ -1496,7 +1486,6 @@ Guard_AnimateWeapon:
     LDA.w $0E20, X : SEC : SBC.b #$41 : STA.b $08
     
     LDY.w $0DE0, X
-    
     LDA.w GuardWeaponObject_OAMOffset, Y : TAY
     
     PHX
@@ -1514,11 +1503,9 @@ Guard_AnimateWeapon:
         REP #$20
         
         LDA.w GuardWeaponObject_OffsetX, X : CLC : ADC.b $0000 : STA ($90), Y
-        
-        AND.w #$0100 : STA.b $0E
+        AND.w #$0100                                           : STA.b $0E
         
         LDA.w GuardWeaponObject_OffsetY, X : CLC : ADC.b $02 : INY : STA ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
             LDA.w #$00F0 : STA ($90), Y
         
@@ -1531,6 +1518,8 @@ Guard_AnimateWeapon:
         
         PLX
         
+        ; WTF: OPTIMIZE: what is this for? Is this half a check that was supposed
+        ; to be removed?
         LDA.b $08 : CMP.b #$02
         
         LDA.w GuardWeaponObject_Char, X : BCS .beta
@@ -1538,12 +1527,12 @@ Guard_AnimateWeapon:
         
         .beta
         
-        INY : STA ($90), Y
+        INY
+        STA ($90), Y
         
         LDA.w GuardWeaponObject_Flip, X : ORA.b $05 : INY : STA ($90), Y
         
         PHY : TYA : LSR #2 : TAY
-        
         LDA.b $0F : STA ($92), Y
         
         PLY : INY
@@ -1570,12 +1559,11 @@ Sprite_PsychoSpearSoldier:
     
     TXA : EOR.b $1A : AND.b #$0F : BNE .no_direction_change
         JSR.w Sprite2_DirectionToFacePlayer
-        TYA : STA.w $0EB0, X : STA.w $0DE0, X
+        TYA : STA.w $0EB0, X
+              STA.w $0DE0, X
         
         TXA : AND.b #$03 : TAY
-        
         LDA.w AppliedSpeed18, Y
-        
         JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         LDA.w $0E70, X : BEQ .no_direction_change
@@ -1593,7 +1581,6 @@ Sprite_PsychoSpearSoldier:
             .gamma
             
             LDA.w .x_speeds, Y : STA.w $0D50, X
-            
             LDA.w .y_speeds, Y : STA.w $0D40, X
     
     .no_direction_change
@@ -1612,7 +1599,8 @@ PsychoSpearSoldier_PlayChaseMusic:
 {
     LDA.w $0ED0, X : CMP.b #$10 : BEQ .no_change
         INC.w $0ED0, X : CMP.b #$0F : BNE .no_change
-            LDA.b #$04 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$04
+            JSL.l Sound_SetSfx3PanLong
             
             LDA.l $7EF3C5 : CMP.b #$02 : BNE .no_change
                 LDA.w $040A : CMP.b #$18 : BNE .no_change
@@ -1640,10 +1628,10 @@ Sprite_PsychoTrooper:
     
     TXA : EOR.b $1A : AND.v #$0F : BNE .alpha
         JSR.w Sprite2_DirectionToFacePlayer
-        TYA : STA.w $0EB0, X : STA.w $0DE0, X
+        TYA : STA.w $0EB0, X
+              STA.w $0DE0, X
         
         TXA : AND.b #$03 : TAY
-        
         LDA.w AppliedSpeed18, Y
         
         JSL.l Sprite_ApplySpeedTowardsPlayerLong
@@ -1663,15 +1651,14 @@ Sprite_PsychoTrooper:
             .gamma
             
             LDA.w .x_speeds, Y : STA.w $0D50, X
-            
             LDA.w .y_speeds, Y : STA.w $0D40, X
     
     .alpha
     
     LDA.w $0DE0, X : ASL #3 : STA.b $00
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$07 : ORA.b $00 : TAY
-    
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : AND.b #$07 : ORA.b $00 : TAY
     LDA.w Pool_Sprite_PsychoTrooper_animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -1691,6 +1678,7 @@ SpriteDraw_BluesainBolt:
     JSR.w SpriteDraw_GuardBody
     
     JSR.w SpriteDraw_GuardSpear_Bolt
+
     JMP.w Guard_DrawShadow
 }
 
@@ -1780,20 +1768,21 @@ SpriteDraw_GuardSpear:
     .delta
         PHX
         
-        TXA : CLC : ADC.b $06 : PHA : ASL : TAX
+        TXA : CLC : ADC.b $06 : PHA
+        ASL                   : TAX
         
         REP #$20
         
         LDA.w Pool_SpriteDraw_GuardSpear_offset_x, X
-        CLC : ADC.b $00 : STA ($90), Y
+        CLC : ADC.b $00 : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
         LDA.w Pool_SpriteDraw_GuardSpear_offset_y, X
-        CLC : ADC.b $0202 : INY : STA ($90), Y
+        CLC : ADC.b $0202 : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .beta
-            LDA.w #$00F0 : STA ($90), Y
+            LDA.w #$00F0 : STA.b ($90), Y
         
         .beta
         
@@ -1817,7 +1806,6 @@ SpriteDraw_GuardSpear:
         PLX
         
         PHY : TYA : LSR #2 : TAY
-        
         LDA.b $0F : STA ($92), Y
         
         PLY : INY
@@ -1844,9 +1832,8 @@ Sprite2_MoveIfNotTouchingWall:
 ; ==============================================================================
 
 ; $02CDDD-$02CDE0 DATA
-Pool_Sprite_JavelinTrooper:
+Sprite_JavelinTrooper_animation_states:
 {
-    .animation_states
     db $0C, $00, $12, $08
 }
 
@@ -1857,9 +1844,9 @@ Sprite_JavelinTrooper:
     LDY.w $0DE0, X : PHY
     
     LDA.w $0E00, X : BEQ .direction_lock_inactive
-        LDA Soldier_DirectionLockSettings_directions, Y : STA.w $0DE0, X
+        LDA.w Soldier_DirectionLockSettings_directions, Y : STA.w $0DE0, X
         
-        LDA Pool_Sprite_JavelinTrooper_animation_states, Y : STA.w $0DC0, X
+        LDA.w .animation_states, Y : STA.w $0DC0, X
     
     .direction_lock_inactive
     
@@ -1875,9 +1862,9 @@ Sprite_ArcherSoldier:
     LDY.w $0DE0, X : PHY
     
     LDA.w $0E00, X : BEQ .direction_lock_inactive_2
-        LDA Soldier_DirectionLockSettings_directions, Y : STA.w $0DE0, X
+        LDA.w Soldier_DirectionLockSettings_directions, Y : STA.w $0DE0, X
         
-        LDA Soldier_DirectionLockSettings_animation_states, Y : STA.w $0DC0, X
+        LDA.w Soldier_DirectionLockSettings_animation_states, Y : STA.w $0DC0, X
     
     .direction_lock_inactive_2
     
@@ -1916,8 +1903,11 @@ ArcherAndJavelinGuardMain:
     JSR.w Sprite2_MoveIfNotTouchingWall
     JSR.w Sprite2_CheckTileCollision
     
-    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL : TAY
+    LDA.w $0D80, X
     
+    REP #$30
+    
+    AND.w #$00FF : ASL : TAY
     LDA.w .states, Y : DEC : PHA
     
     SEP #$30
@@ -1925,7 +1915,6 @@ ArcherAndJavelinGuardMain:
     RTS
     
     .states
-    
     dw JavelinTrooper_Resting
     dw JavelinTrooper_WalkingAround
     dw JavelinTrooper_LookingAround
@@ -1987,9 +1976,7 @@ JavelinTrooper:
     .no_tile_collision
     
     LDY.w $0DE0, X
-    
     LDA Soldier_x_speeds, Y : STA.w $0D50, X
-    
     LDA Soldier_y_speeds, Y : STA.w $0D40, X
     
     TYA : STA.w $0EB0, X
@@ -1997,8 +1984,10 @@ JavelinTrooper:
     ; $02CEE2 ALTERNATE ENTRY POINT
     .Animate:
     
-    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$0F : BNE .gamma
-        INC.w $0D90, X : LDA.w $0D90, X : CMP.b #$02 : BNE .gamma
+    INC.w $0E80, X
+    LDA.w $0E80, X : AND.b #$0F : BNE .gamma
+        INC.w $0D90, X
+        LDA.w $0D90, X : CMP.b #$02 : BNE .gamma
             STZ.w $0D90, X
     
     .gamma
@@ -2011,8 +2000,7 @@ JavelinTrooper:
     .is_archer
     
     TAY
-    
-    LDA Soldier_animation_states, Y : STA.w $0DC0, X
+    LDA.w Soldier_animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -2027,7 +2015,6 @@ JavelinTrooper_LookingAround:
     
     LDA.w $0DF0, X : BNE .delay
         LDA.b #$20 : STA.w $0DF0, X
-        
         LDA.b #$00 : STA.w $0D80, X
         
         RTS
@@ -2038,8 +2025,7 @@ JavelinTrooper_LookingAround:
         LSR #3 : AND.b #$07 : STA.b $00
         
         LDA.w $0DE0, X : ASL #3 : ORA.b $0000 : TAY
-        
-        LDA Soldier_head_looking_states, Y : STA.w $0EB0, X
+        LDA.w Soldier_head_looking_states, Y : STA.w $0EB0, X
     
     .mucho_time_left
     
@@ -2060,7 +2046,6 @@ JavelinTrooper_NoticedPlayer:
         .no_delay
         
         LDA.b #$04 : STA.w $0D80, X
-        
         LDA.b #$3C : STA.w $0DF0, X
         
         STZ.w $0E80, X
@@ -2100,8 +2085,6 @@ Pool_JavelinTrooper_Agitated:
     db $03, $03, $0C, $0C
 }
 
-; ==============================================================================
-
 ; $02CF85-$02D000 LOCAL JUMP LOCATION
 JavelinTrooper_Agitated:
 {
@@ -2122,18 +2105,19 @@ JavelinTrooper_Agitated:
     
     TXA : EOR.b $1A1A : AND.b #$07 : BNE .delay_facing_player
         JSR.w Sprite2_DirectionToFacePlayer
-        TYA : STA.w $0DE0, X : STA.w $0EB0, X
+        TYA : STA.w $0DE0, X
+              STA.w $0EB0, X
         
         LDA.w $0E20, X : CMP.b #$48 : BNE .is_archer
             INY #4
         
         .is_archer
         
-        LDA.b $2222 : CLC : ADC .x_offsets_low, Y  : STA.b $04
-        LDA.b $23 :         ADC .x_offsets_high, Y : STA.b $05
+        LDA.b $2222 : CLC : ADC.w .x_offsets_low, Y  : STA.b $04
+        LDA.b $23         : ADC.w .x_offsets_high, Y : STA.b $05
         
-        LDA.b $20 : CLC : ADC .y_offsets_low, Y  : STA.b $06
-        LDA.b $21 :       ADC .y_offsets_high, Y : STA.b $07
+        LDA.b $20 : CLC : ADC.w .y_offsets_low, Y  : STA.b $06
+        LDA.b $21       : ADC.w .y_offsets_high, Y : STA.b $07
         
         LDA.b #$18
         
@@ -2190,7 +2174,6 @@ Guard_GlanceTimers:
 JavelinTrooper_Attack:
 {
     LDY.w $0DE0, X
-    
     LDA Guard_GlanceTimers, Y : STA.w $0EC0, X
     
     JSR.w Sprite2_ZeroVelocity
@@ -2226,7 +2209,6 @@ JavelinTrooper_Attack:
     .is_archer
     
     TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -2282,24 +2264,25 @@ JavelinTrooper_SpawnProjectile:
         
         PHX
         
-        LDA.w $0E20, X : CMP.b #$48 : LDA.w $0DE0, X : BCC .is_archer
+        LDA.w $0E20, X : CMP.b #$48
+        LDA.w $0DE0, X : BCC .is_archer
             CLC : ADC.b #$04
         
         .is_archer
         
         TAX
         
-        LDA.b $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
-        LDA.b $0101 :     ADC .x_offsets_high, X : STA.w $0D30, Y
+        LDA.b $00 : CLC : ADC.w .x_offsets_low, X  : STA.w $0D10, Y
+        LDA.b $0101     : ADC.w .x_offsets_high, X : STA.w $0D30, Y
         
-        LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
-        LDA.b $03 :       ADC .y_offsets_high, X : STA.w $0D20, Y
+        LDA.b $02 : CLC : ADC.w .y_offsets_low, X  : STA.w $0D00, Y
+        LDA.b $03       : ADC.w .y_offsets_high, X : STA.w $0D20, Y
         
         LDA.w .x_speeds, X : STA.w $0D50, Y
-        
         LDA.w .y_speeds, X : STA.w $0D40, Y
         
-        TXA : AND.b #$03 : STA.w $0DE0, Y : TAX
+        TXA : AND.b #$03 : STA.w $0DE0, Y
+                         : TAX
         
         LDA.w .hit_boxes, X : STA.w $0F60, Y
         
@@ -2307,7 +2290,8 @@ JavelinTrooper_SpawnProjectile:
         
         PLX
         
-        LDA.w $0E20, X : CMP.b #$48 : LDA.b #$00 : BCC .is_archer_2
+        LDA.w $0E20, X : CMP.b #$48
+        LDA.b #$00 : BCC .is_archer_2
             INC A
 
         .is_archer_2
@@ -2334,11 +2318,13 @@ BushJavelinSoldier_Draw:
     
     STZ.w $0DC0, X
     
-    LDA.w $0F50, X : PHA : AND.b #$F1 : ORA.b #$02 : STA.w $0F50, X
+    LDA.w $0F50, X          : PHA
+    AND.b #$F1 : ORA.b #$02 : STA.w $0F50, X
     
     REP #$20
     
-    LDA.w $0FDA : PHA : CLC : ADC.w #$0008 : STA.w $0FDA
+    LDA.w $0FDA        : PHA
+    CLC : ADC.w #$0008 : STA.w $0FDA
     
     SEP #$20
     
@@ -2356,16 +2342,13 @@ BushJavelinSoldier_Draw:
     JSR.w Sprite2_PrepOamCoord
     
     LDY.b #$10
-    
     JSR.w Guard_AnimateHead_PreserveOAMOffset
     
     LDY.b #$0C
-    
     JSR.w SpriteDraw_GuardBody
     
     LDA.w $0DC0, X : CMP.b #$14 : BCS .alpha
         LDY.b #$04
-        
         JSR.w SpriteDraw_GuardSpear_PreserveOAMOffset
 
     .alpha
@@ -2381,11 +2364,9 @@ JavelinTrooper_Draw:
     JSR.w Sprite2_PrepOamCoord
     
     LDY.b #$0C
-    
     JSR.w SpriteDraw_GuardHead
     
     LDY.b #$08
-    
     JSR.w SpriteDraw_GuardBody
     
     LDA.w $0DC0, X : CMP.b #$14 : BCS .alpha
@@ -2444,7 +2425,6 @@ BushGuard_Main:
     REP #$30
     
     AND.w #$00FF : ASL : TAY
-    
     LDA.w .states, Y : DEC : PHA
     
     SEP #$30
@@ -2496,7 +2476,8 @@ BushGuard_Emerging:
         
         JSR.w Sprite2_DirectionToFacePlayer
         
-        TYA : STA.w $0DE0, X : STA.w $0EB0, X
+        TYA : STA.w $0DE0, X
+              STA.w $0EB0, X
         
         RTS
     
@@ -2511,8 +2492,7 @@ BushGuard_Emerging:
         
     .alpha 
         
-    LSR #2 : TAY
-        
+    LSR #2 : TAY    
     LDA.w BushGuard_Emerging_animation_states, Y : STA.w $0DC0, X
         
     RTS
@@ -2521,7 +2501,8 @@ BushGuard_Emerging:
 ; $02D252-$02D276 LOCAL JUMP LOCATION
 BushGuard_SpawnFoliage:
 {
-    LDA.b #$EC : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$EC
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$06 : STA.w $0DD0, Y
@@ -2569,9 +2550,9 @@ BushGuard_Shoot:
 
     .BRANCH_GAMMA
 
-    LSR #3 : STA.b $0000
+    LSR #3 : STA.b $00
     
-    LDA.w $0DE0, X : ASL #3 : ORA.b $0000
+    LDA.w $0DE0, X : ASL #3 : ORA.b $00
     
     LDY.w $0E20, X : CPY.b #$49 : BNE .BRANCH_DELTA
         CLC : ADC.b #$20
@@ -2580,7 +2561,7 @@ BushGuard_Shoot:
 
     TAY
     
-    LDA JavelinTrooper_Attack_animation_states, Y : STA.w $0DC0, X
+    LDA.W JavelinTrooper_Attack_animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -2607,7 +2588,6 @@ BushGuard_Retreating:
     .BRANCH_ALPHA
     
     LSR #2 : TAY
-    
     LDA.w BushGuard_Retreating_anim_step, Y : STA.w $0DC0, X
     
     RTS
@@ -2664,19 +2644,20 @@ SpriteDraw_BushGuardBush:
     
         PHX
         
-        TXA : CLC : ADC.b $06 : PHA : ASL : TAX
+        TXA : CLC : ADC.b $06 : PHA
+        ASL                   : TAX
         
         REP #$20
         
-        LDA.b $00 : STA ($90), Y
+        LDA.b $00 : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
         LDA.b $0202 : CLC : ADC.w Pool_SpriteDraw_BushGuardBush_offset_y, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
-            LDA.w #$00F0 : STA ($90), Y
+            LDA.w #$00F0 : STA.b ($90), Y
         
         .alpha
         
@@ -2684,18 +2665,17 @@ SpriteDraw_BushGuardBush:
         
         PLX
         
-        LDA.w Pool_SpriteDraw_BushGuardBush_char, X : INY : STA ($90), Y
+        LDA.w Pool_SpriteDraw_BushGuardBush_char, X : INY : STA.b ($90), Y
         
         LDA.w Pool_SpriteDraw_BushGuardBush_prop, X : ORA.b #$20 : PLX : BNE .beta
             AND.b #$F1 : ORA.b $05
         
         .beta
         
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
         PHY : TYA : LSR #2 : TAY
-        
-        LDA.b #$02 : ORA.b $0F : STA ($92), Y
+        LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     DEX : BPL .next_subsprite
@@ -2740,22 +2720,17 @@ ArcherSoldier_Draw:
     JSR.w Sprite2_PrepOamCoord
     
     LDY.w $0DE0, X
-    
     LDA.w .head, Y : TAY
-    
     JSR.w Guard_AnimateHead_PreserveOAMOffset
     
     LDY.w $0DE0, X
-    
     LDA.w .body, Y : TAY
-    
     JSR.w Guard_AnimateBody_PreserveOAMOffset
     
     LDY.w $0DE0, X
-    
     LDA.w .weapon, Y : TAY
-    
     JSR.w SpriteDraw_Archer_Weapon
+
     JMP.w Guard_DrawShadow
 }
 
@@ -2839,7 +2814,6 @@ SpriteDraw_Archer_Weapon:
         PHY
         
         LDY.w $0DE0, X
-        
         LDA.w Pool_SpriteDraw_Archer_Weapon_OAM_offset, Y
         
         PLY
@@ -2863,15 +2837,15 @@ SpriteDraw_Archer_Weapon:
         REP #$20
         
         LDA.b $00 : CLC : ADC.w Pool_SpriteDraw_Archer_Weapon_offset_x, X
-        STA ($90), Y
+        STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : CLC : ADC.w Pool_SpriteDraw_Archer_Weapon_offset_y, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .beta
-            LDA.w #$00F0 : STA ($90), Y
+            LDA.w #$00F0 : STA.b ($90), Y
         
         .beta
         
@@ -2880,14 +2854,13 @@ SpriteDraw_Archer_Weapon:
         PLX
         
         LDA.w Pool_SpriteDraw_Archer_Weapon_char, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
 
         LDA.w Pool_SpriteDraw_Archer_prop, X
-        ORA.b #$20 : INY : STA ($90), Y
+        ORA.b #$20 : INY : STA.b ($90), Y
         
         PHY : TYA : LSR #2 : TAY
-        
-        LDA.b $0F : STA ($92), Y
+        LDA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .gamma
@@ -2946,12 +2919,12 @@ Sprite_DrawMultiple:
     
     .next_OAM_entry
     
-        LDA ($08), Y : CLC : ADC.b $00 : STA.w $0000, X
-        AND.w #$0100 : STA.b $0C
+        LDA.b ($08), Y : CLC : ADC.b $00 : STA.w $0000, X
+        AND.w #$0100                     : STA.b $0C
         
         INY #2
         
-        LDA ($08), Y : CLC : ADC.b $02 : STA.w $0001, X
+        LDA.b ($08), Y : CLC : ADC.b $02 : STA.w $0001, X
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
             LDA.w #$00F0 : STA.w $0001, X
@@ -2960,9 +2933,10 @@ Sprite_DrawMultiple:
         
         INY #2
         
+        ; OPTIMIZE: WTF: Useless half branch?
         LDA.w $0CFE : CMP.w #$0001
         
-        LDA ($08), Y : EOR.b $04 : BCC .dont_override_palette
+        LDA.b ($08), Y : EOR.b $04 : BCC .dont_override_palette
             ; Force sprite to use palette 2.
             AND.w #$F1FF : ORA.w #$0400
         
@@ -2977,8 +2951,7 @@ Sprite_DrawMultiple:
         SEP #$20
         
         INY #3
-        
-        LDA ($08), Y : ORA.b $0D : STA.w $0A20, X
+        LDA.b ($08), Y : ORA.b $0D : STA.w $0A20, X
         
         PLX
         
@@ -3046,13 +3019,10 @@ incsrc "sprite_quarrel_bros.asm"
 ; ==============================================================================
 
 ; $02E1A3-$02E1A6 DATA
-Pool_Sprite_ShowSolicitedMessageIfPlayerFacing:
+Sprite_ShowSolicitedMessageIfPlayerFacing_facing_direction:
 {
-    .facing_direction
     db $04, $06, $00, $02
 }
-
-; ==============================================================================
 
 ; Handles text messages
 ; $02E1A7-$02E1EF LONG JUMP LOCATION
@@ -3066,7 +3036,8 @@ Sprite_ShowSolicitedMessageIfPlayerFacing:
             LDA.b $F6 : BPL .alpha
                 LDA.w $0F10, X : BNE .alpha
                     LDA.b $4D : CMP.b #$02 : BEQ .alpha
-                        JSR.w Sprite2_DirectionToFacePlayer : PHX : TYX
+                        JSR.w Sprite2_DirectionToFacePlayer : PHX
+                                                              TYX
                         
                         ; Make sure that the sprite is facing towards the
                         ; player, otherwise talking can't happen.
@@ -3076,7 +3047,6 @@ Sprite_ShowSolicitedMessageIfPlayerFacing:
                             
                             LDA.w $1CF0
                             LDY.w $1CF1
-                            
                             JSL.l Sprite_ShowMessageUnconditional
                             
                             LDA.b #$40 : STA.w $0F10, X
@@ -3114,7 +3084,6 @@ Sprite_ShowMessageFromPlayerContact:
         LDA.b $4D : CMP.b #$02 : BEQ .dont_show
             LDA.w $1CF0
             LDY.w $1CF1
-            
             JSL.l Sprite_ShowMessageUnconditional
             
             JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03
@@ -3206,13 +3175,13 @@ Sprite2_TrendHorizSpeedToZero:
 {
     LDA.w $0D50, X : BEQ .at_rest
         BPL .positive_velocity
-            INC A
+            INC
             
             BRA .moving_on
         
         .positive_velocity
         
-        DEC A
+        DEC
         
         .moving_on
     .at_rest
@@ -3229,13 +3198,13 @@ Sprite2_TrendVertSpeedToZero:
 {
     LDA.w $0D40, X : BEQ .at_rest
         BPL .positive_velocity
-            INC A
+            INC
             
             BRA .moving_on
         
         .positive_velocity
         
-        DEC A
+        DEC
         
         .moving_on
     .at_rest
@@ -3363,7 +3332,6 @@ Sprite2_CheckIfRecoiling:
             
             LDA.w $0EA0, X : BMI .halted
                 LSR #2 : TAY
-                
                 LDA.b $1A : AND .frame_counter_masks, Y : BNE .halted
                     LDA.w $0F30, X : STA.w $0D40, X
                     LDA.w $0F40, X : STA.w $0D50, X
@@ -3426,7 +3394,6 @@ Sprite2_Move:
 Sprite2_MoveHoriz:
 {
     TXA : CLC : ADC.b #$10 : TAX
-    
     JSR.w Sprite2_MoveVert
     
     LDX.w $0FA0
@@ -3442,7 +3409,8 @@ Sprite2_MoveVert:
     LDA.w $0D40, X : BEQ .no_velocity
         ASL #4 : CLC : ADC.w $0D60, X : STA.w $0D60, X
         
-        LDA.w $0D40, X : PHP : LSR #4 : LDY.b #$00 : PLP : BPL .positive
+        LDA.w $0D40, X : PHP
+        LSR #4 : LDY.b #$00 : PLP : BPL .positive
             ORA.b #$F0
             
             DEY
@@ -3464,7 +3432,8 @@ Sprite2_MoveAltitude:
 {
     LDA.w $0F80, X : ASL #4 : CLC : ADC.w $0F90, X : STA.w $0F90, X
     
-    LDA.w $0F80, X : PHP : LSR #4 : PLP : BPL .positive
+    LDA.w $0F80, X : PHP
+    LSR #4 : PLP : BPL .positive
         ORA.b #$F0
     
     .positive
@@ -3523,8 +3492,7 @@ Sprite_ShowMessageIfPlayerTouching:
         STZ.b $5E
         
         LDA.b $4D : BNE Sprite_ShowMessageMinimal_exit
-
-        ; Bleeds into the next function.
+            ; Bleeds into the next function.
 }
 
 ; $02FA8E-$02FAA1 LONG JUMP LOCATION
@@ -3562,7 +3530,6 @@ Overworld_ReadTileAttr:
     LDA.b $02 : SEC : SBC.w $070C : AND.w $070E : ORA.b $06 : TAX
     
     LDA.l $7E2000, X : TAX
-    
     LDA.l OverworldTileTypeTable, X
     
     SEP #$30

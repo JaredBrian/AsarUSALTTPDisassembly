@@ -4653,7 +4653,6 @@ EasterEgg_BageCode:
         LDA.b #$01 : STA.l $7EF37B
         
         LDA.b $F6
-        
         JSL.l BAGE_HandleSword
         
         LDA.l $7EF359 : CMP.b #$04 : BNE .not_golden_sword
@@ -4670,7 +4669,9 @@ EasterEgg_BageCode:
         
         BIT.b $F4 : BVS .y_button_not_pressed
             ; Refill all hearts, magic, bombs, and arrows.
-            LDA.b #$FF : STA.l $7EF372 : STA.l $7EF373 : STA.l $7EF375 : STA.l $7EF376
+            LDA.b #$FF
+            STA.l $7EF372 : STA.l $7EF373
+            STA.l $7EF375 : STA.l $7EF376
             
             ; Add 255 rupees to the player's stash.
             CLC : ADC.l $7EF360 : STA.l $7EF360
@@ -4700,7 +4701,7 @@ BAGE_HandleSword:
 {
     BPL .return
         LDA.l $7EF359 : INC : CMP.b #$05 : BCC .valid_sword
-                LDA.b #$01
+            LDA.b #$01
             
         .valid_sword
             
@@ -4799,8 +4800,6 @@ Pool_Sprite_DrawLargeWaterTurbulence:
     db $04, $44
 }
 
-; ==============================================================================
-
 ; $026BE5-$026C1B LONG JUMP LOCATION
 Sprite_DrawLargeWaterTurbulence:
 {
@@ -4809,7 +4808,6 @@ Sprite_DrawLargeWaterTurbulence:
     LDA.w $0F50, X : PHA
     
     LDA.w $0E80, X : LSR : AND.b #$01 : TAY
-    
     LDA.w .properties, Y : STA.w $0F50, X
     
     ; BUG: Why is this load not used?
@@ -4825,7 +4823,8 @@ Sprite_DrawLargeWaterTurbulence:
     
     SEP #$20
     
-    LDA.b #$06 : JSL.l Sprite_DrawMultiple
+    LDA.b #$06
+    JSL.l Sprite_DrawMultiple
     
     PLA : STA.w $0F50, X
     
