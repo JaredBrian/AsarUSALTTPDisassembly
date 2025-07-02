@@ -90,11 +90,10 @@ Player_SetSfxPan:
 
 ; ==============================================================================
 
+; Indexed by $5D.
 ; $038041-$03807E JUMP TABLE
 Pool_Link_ControlHandler:
 {
-    ; Indexed by $5D.
-    
     dw LinkState_Default        ; 0x00 - $8109 Ground state (normal mode)
     dw LinkState_Pits           ; 0x01 - $92D3 Falling into a hole or getting close to edge of hole
 
