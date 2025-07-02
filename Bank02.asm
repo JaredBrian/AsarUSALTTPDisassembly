@@ -6368,7 +6368,7 @@ Module_Overworld:
 
     LDA.b $E2         : PHA
           ADC.w $011A : STA.b $E2
-                  STA.w $011E
+                        STA.w $011E
 
     LDA.b $E8         : PHA
     CLC : ADC.w $011C : STA.b $E8

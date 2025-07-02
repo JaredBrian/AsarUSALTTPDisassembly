@@ -10022,7 +10022,7 @@ SpecialOverworld_CheckForReturnTrigger:
     
         DEX
         
-        LSR A
+        LSR
     BCC .convertLoop
         
     TXA : STA.w $0418
