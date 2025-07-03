@@ -7842,22 +7842,22 @@ Sprite_DoTheDeath:
     ; Is it a Pikit?
     CMP #$AA : BNE .not_a_pikit
         LDY.w $0E90, X : BEQ .BRANCH_BETA
-        
-        LDA.w .pikit_drop_items-1, Y
-        
-        LDY.w $0E30, X : PHY
-        
-        JSR.w Sprite_DoTheDeath_PrepareEnemyDrop
-        
-        PLA : STA.w $0E30, X : DEC : BNE .BRANCH_GAMMA
-            LDA.b #$09 : STA.w $0F50, X
-            LDA.b #$F0 : STA.w $0E60, X
-        
-        .BRANCH_GAMMA
-        
-        INC.w $0EB0, X
-        
-        RTS
+            LDA.w .pikit_drop_items-1, Y
+            
+            LDY.w $0E30, X : PHY
+            
+            JSR.w Sprite_DoTheDeath_PrepareEnemyDrop
+            
+            PLA : STA.w $0E30, X
+            DEC : BNE .BRANCH_GAMMA
+                LDA.b #$09 : STA.w $0F50, X
+                LDA.b #$F0 : STA.w $0E60, X
+            
+            .BRANCH_GAMMA
+            
+            INC.w $0EB0, X
+            
+            RTS
 
         .BRANCH_BETA
     .not_a_pikit
@@ -7900,14 +7900,14 @@ Sprite_DoTheDeath:
         
         ; Check luck status:
         ; If no special luck, proceed as normal.
-        LDY.w $0CF9 : BEQ .BRANCH_IOTA
+        LDY.w $0CF9 : BEQ .notLucky
             ; Increase lucky (or unlucky) drop counter
             ; Once we reach 10 drops of a type we reset luck.
             INC.w $0CFA
-            LDA.w $0CFA : CMP.b #$0A : BCC .BRANCH_KAPPA
+            LDA.w $0CFA : CMP.b #$0A : BCC .dontResetLuck
                 STZ.w $0CF9 ; Reset luck. (per above)
             
-            .BRANCH_KAPPA
+            .dontResetLuck
             
             PLA
             
@@ -7918,7 +7918,8 @@ Sprite_DoTheDeath:
     
     BRA .BRANCH_MU ; Otherwise Luck is 2 and failure is guaranteed.
     
-    .BRANCH_IOTA ; How prize packs normally drop.
+    ; How prize packs normally drop.
+    .notLucky
     
     ; Reload the prize pack #.
     JSL.l GetRandomInt : PLY : AND.w PrizePack_Chance, Y : BNE .BRANCH_MU

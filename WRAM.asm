@@ -1989,6 +1989,9 @@ struct WRAM $7E0000
     ; $012D[0x01] - (SFX)
     .AmbientSFX: skip $01
         ; Ambient Sound effects. Written to SNES.APUIOPort1 when non-0.
+        ; ttss ssss
+        ; t - The stereo setting. TODO: Document the values.
+        ; s - The ID of the sound to play.
         ; TODO: Verify all the names.
         ; 0x00 - Silence
         ; 0x01 - Outdoor rain
@@ -2019,6 +2022,9 @@ struct WRAM $7E0000
     ; $012E[0x01] - (SFX)
     .SFX1: skip $01
         ; Sound Effects 1. Written to SNES.APUIOPort2.
+        ; ttss ssss
+        ; t - The stereo setting. TODO: Document the values.
+        ; s - The ID of the sound to play.
         ; 0x00 - none (no change)
         ; 0x01 - small sword swing 1 (Fighter Sword)
         ; 0x02 - small sword swing 2 (Fighter Sword)
@@ -2087,6 +2093,9 @@ struct WRAM $7E0000
     ; $012F[0x01] - (SFX)
     .SFX2: skip $01
         ; Sound Effects 2. Written to SNES.APUIOPort3.
+        ; ttss ssss
+        ; t - The stereo setting. TODO: Document the values.
+        ; s - The ID of the sound to play.
         ; 0x00 - none (no change)
         ; 0x01 - master sword beam
         ; 0x02 - unintelligble switch noise
@@ -6581,24 +6590,25 @@ struct WRAM $7E0000
         ; like $0FA1. See Overworld_SubstituteAlternateSecret in bank 0x1A for
         ; more details.
 
-    ; $0CF8 - 
-        ; Used in bank 07 as a temporary variable for picking a sound
-        ; effect with appropriate panning
+    ; $0CF8[0x01] - (SFX)
+    .SFXTempStereoBuffer: skip $01
+        ; This is used as a temporary variable when playing a sound with a stereo
+        ; effect. The sound is stored here while the game is figuring out where
+        ; where the player is relative to the entity that played the sound.
 
-    ; $0CF9 - 
-        ; Item drop luck. This is exactly the luck that is determined by
-        ; the Pond of Wishing in the Light World.
-        ; 
-        ; Luckily (hah!), bad and good item drop luck status only lasts
-        ; for 10 kills before being reset to normal luck.
-        ; 
-        ; 0 - Normal luck; item drops are random.
-        ; 1 - Good luck; item drops are guaranteed.
-        ; 2 - Bad luck; items drops are disabled completely.
+    ; $0CF9[0x01] - (Sprite, Item)
+    .ItemDropLuck: skip $01
+        ; Item drop luck. This is the luck that is determined by the Pond of
+        ; Wishing in the Light World. Good and bad item drop luck status only
+        ; lasts for 0x0A kills before being reset to normal luck.
+        ; 0 - Normal luck - Item drops are random.
+        ; 1 - Good luck   - Item drops are guaranteed.
+        ; 2 - Bad luck    - Items drops are disabled completely.
 
-    ; $0CFA - 
-        ; Luck Kill Counter. When this reaches 10 luck will revert to
-        ; normal. That goes for bad and good types of luck.
+    ; $0CFA[0x01] - (Sprite, Item)
+    .LuckKillCount: skip $01
+        ; Luck Kill Counter. When this reaches 0x0A, the player's luck status will 
+        ; revert to normal. That goes for bad and good types of luck.
 
     ; $0CFB[0x01] - (PullForRupees)
         ; Number of sprites that the player has killed. Overflows back to

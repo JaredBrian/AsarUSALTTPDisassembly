@@ -82,7 +82,7 @@ Player_SetSfxPan:
 {
     STA.w $0CF8
     
-    ; A will be 0x0, 0x80, or 0x40. (ORed with this address, too.).
+    ; A will be 0x00, 0x80, or 0x40. (ORed with this address, too.).
     JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.w $0CF8
     
     RTS

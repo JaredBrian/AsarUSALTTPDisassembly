@@ -7634,7 +7634,7 @@ Sound_SetSfxPan:
     LDX.b #$00
     
     ; A = Sprites X position minus the X coordinate of the scroll register for
-    ; Layer 2. If A (unsigned) is less than #$50. A will be #$0.
+    ; Layer 2. If A (unsigned) is less than #$50. A will be #$00.
     SEC : SBC.b $E2 : SEC : SBC.w #$0050 : CMP.w #$0050 : BCC .panSelected
         INX
         
