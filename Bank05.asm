@@ -1339,13 +1339,13 @@ Guard_AnimateBody:
     
     REP #$20
     
-    LDA.b $00 : CLC : ADC.w Pool_GuardBody_ObjectOffsetX, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC.w Pool_GuardBody_ObjectOffsetX, X : STA.b ($90), Y
     AND.w #$0100                                            : STA.b $0E
     
-    LDA.b $02 : CLC : ADC.w Pool_GuardBody_ObjectOffsetY, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w Pool_GuardBody_ObjectOffsetY, X : INY : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .gamma
-        LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA.b ($90), Y
     
     .gamma
     
@@ -1354,13 +1354,13 @@ Guard_AnimateBody:
     LDA.w #$08 : STA.b $0D
     
     LDX.b $06
-    LDA.w Pool_GuardBody_ObjectChar, X : INY : STA ($90), Y
+    LDA.w Pool_GuardBody_ObjectChar, X : INY : STA.b ($90), Y
     CMP.b #$20 : BNE .delta
         LDA.b #$02 : STA.b $0D
         
         LDA.b $0808 : CMP.b #$46 : CLC : BNE .epsilon
             DEY
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
             
             INY
             
@@ -1375,12 +1375,12 @@ Guard_AnimateBody:
     .epsilon
     
     LDA.w Pool_GuardBody_ObjectFlip, X : ORA.b $05 : BCS .zeta
-        AND.b #$F1 : ORA.b $0D0D
+        AND.b #$F1 : ORA.b $0D
     
     .zeta
     
     INY
-    STA ($90), Y
+    STA.b ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     LDA.w Pool_GuardBody_ObjectSize, X : ORA.b $0F0F : STA ($92), Y
@@ -2933,9 +2933,7 @@ Sprite_DrawMultiple:
         
         INY #2
         
-        ; OPTIMIZE: WTF: Useless half branch?
         LDA.w $0CFE : CMP.w #$0001
-        
         LDA.b ($08), Y : EOR.b $04 : BCC .dont_override_palette
             ; Force sprite to use palette 2.
             AND.w #$F1FF : ORA.w #$0400

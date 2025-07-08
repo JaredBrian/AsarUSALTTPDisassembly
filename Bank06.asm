@@ -4856,8 +4856,7 @@ Entity_CheckSlopedTileCollision:
     
     .alpha
     
-    ; OPTIMIZE: WTF: Broken check?
-    LDA.w .subtile_boundaries, Y : CMP $04
+    LDA.w .subtile_boundaries, Y : CMP.b $04
     
     .beta
     

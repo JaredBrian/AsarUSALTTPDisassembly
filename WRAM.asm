@@ -6610,56 +6610,83 @@ struct WRAM $7E0000
         ; Luck Kill Counter. When this reaches 0x0A, the player's luck status will 
         ; revert to normal. That goes for bad and good types of luck.
 
-    ; $0CFB[0x01] - (PullForRupees)
+    ; $0CFB[0x01] - (Player, Sprite)
+    .PlayerKillCount: skip $01
         ; Number of sprites that the player has killed. Overflows back to
-        ; 0 when 256 kills are reached. The only other way that this can
+        ; 0 when 0x0100 kills are reached. The only other way that this can
         ; be reset is by the PullForRupees sprite when you pull on it.
         ; Also, that sprite is the only entity in the game that even
         ; looks at this variable.
 
-    ; $0CFC - 
-        ; Number of times the player has been hurt by sprites (pits don't
-        ; count.) This is only reset to zero by the PullForRupees sprite
-        ; when you pull on it.
-        ; 
-        ; Also, that sprite is the only entity in the game that even
-        ; looks at this variable.
+    ; $0CFC[0x01] - (Player, Sprite)
+    .PlayerHitCount: skip $01
+        ; Number of times the player has been hurt by sprites (So for example,
+        ; pits do not count.) This is only reset to zero by the PullForRupees sprite
+        ; when you pull on it and is only used to determine which type of rupee to
+        ; give you after pulling.
 
-    ; $0CFD - 
-        ; Counter used to cause delay between rupee refill sound effects
+    ; $0CFD[0x01] - (Player)
+    .RupeeSoundTimer: skip $01
+        ; A timer used to delay the rupee sound effect while the rupee refilling
+        ; logic is running.
 
-    ; $0CFE - 
-        ; Used to override the palette of a sprite that is frozen. When
-        ; nonzero, this sets the forces the sprite's palette index to 2.
+    ; $0CFE[0x01] - (Sprite, High Junk)
+    .SprFrozenPal: skip $02
+        ; A value that when non zero, overrides the palette of a sprite to use
+        ; palette 2. This is used when a sprite is frozen to give it the icey
+        ; blue colors. The high byte is always 0 and is expected to be 0.
 
     ; ===========================================================================
     ; Page 0x0D
     ; ===========================================================================
 
-    ; $0D00 - 
-        ; The lower byte of a sprite's Y - coordinate. ; functions
-    ; $0D10 - 
-        ; The lower byte of a sprite's X - coordinate. ; functions
-    ; $0D20 - 
-        ; The high byte of a sprite's Y - coordinate. ; functions
-    ; $0D30 - 
-        ; The high byte of a sprite's X - coordinate. ; functions
+    ; $0D00[0x10] - (Sprite)
+    .SprLowYPos: skip $10
+        ; The lower byte of a sprite's Y coordinate. This is controlled by sprite
+        ; helper functions.
 
-    ; $0D40[0x10] - (Sprite) ; sprite
-        ; Y velocity.
+    ; $0D10[0x10] - (Sprite)
+    .SprLowXPos: skip $10
+        ; The lower byte of a sprite's X coordinate. This is controlled by sprite
+        ; helper functions.
 
-    ; $0D50[0x10] - (Sprite) ; sprite
-        ; X velocity.
+    ; $0D20[0x10] - (Sprite)
+    .SprHighYPos: skip $10
+        ; The high byte of a sprite's Y coordinate. This is controlled by sprite
+        ; helper functions.
 
-    ; $0D60 - 
-        ; Y "second derivative" to give a path a more rounded shape when needed. ; sprite
-    ; $0D70 - 
-        ; X "second derivative" to give a path a more rounded shape when needed. ; sprite
+    ; $0D30[0x10] - (Sprite)
+    .SprHighXPos: skip $10
+        ; The high byte of a sprite's X coordinate. This is controlled by sprite
+        ; helper functions.
 
-    ; $0D80 - 
+    ; $0D40[0x10] - (Sprite)
+    .SprYVel: skip $10
+        ; The sprite's Y velocity. This is controlled by the sprite logic and
+        ; some helper functions.
+
+    ; $0D50[0x10] - (Sprite)
+    .SprXVel: skip $10
+        ; The sprite's X velocity. This is controlled by the sprite logic and
+        ; some helper functions.
+
+    ; $0D60[0x10] - (Sprite)
+    .SprYDerivativeVel: skip $10
+        ; The sprite's Y "second derivative" velocity. This is used to give a
+        ; sprite's travel path a more rounded shape such as when slipping on
+        ; ice. This is controlled by sprite logic.
+
+    ; $0D70[0x10] - (Sprite)
+    .SprXDerivativeVel: skip $10
+        ; The sprite's X "second derivative" velocity. This is used to give a
+        ; sprite's travel path a more rounded shape such as when slipping on
+        ; ice. This is controlled by sprite logic.
+
+    ; $0D80[0x10] - (Sprite)
         ; Controls whether the sprite has been spawned yet. 0 - no. Not 0 - yes. Also used as an AI pointer ; functions
 
-    ; $0D90[0x10] - (Sprite) ; sprite ; i use it to control which draw frame we are on
+    ; $0D90[0x10] - (Sprite)
+        ; sprite ; i use it to control which draw frame we are on
         ; In some creatures, used as an index for determining $0DC0
 
     ; $0DA0[0x10] - (Sprite) ; sprite ; i use to to determine the palette we are on
