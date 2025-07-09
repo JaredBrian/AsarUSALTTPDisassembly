@@ -10003,7 +10003,7 @@ SpecialOverworld_CheckForReturnTrigger:
     
         .nextChrValue
     
-            DEX #2
+            DEX : DEX
             
             ; Ends the routine (Link is not going back to the normal Overworld
             ; this frame.)
@@ -10021,9 +10021,7 @@ SpecialOverworld_CheckForReturnTrigger:
     .convertLoop
     
         DEX
-        
-        LSR
-    BCC .convertLoop
+    LSR : BCC .convertLoop
         
     TXA : STA.w $0418
         
@@ -10032,7 +10030,7 @@ SpecialOverworld_CheckForReturnTrigger:
     LDX.b #$04
     
     ; Same idea here but for Link's walking direction.
-    ; OPTIMIZE: This loops is actually pointless and redundant because it
+    ; OPTIMIZE: This loops is actually redundant because it
     ; generates the exact same result as the previous one.
     .convertLoop2
     

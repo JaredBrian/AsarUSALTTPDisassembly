@@ -805,7 +805,6 @@ PreOverworld_LoadProperties:
 
     LDA.b $8A : AND.b #$3F : BNE .notForestArea
         LDA.b #$1E
-
         JSL.l GetAnimatedSpriteTile_variable
 
     .notForestArea
@@ -852,7 +851,8 @@ PreOverworld_LoadProperties:
 
     LDA.l $7EF357 : BNE .notBunny
         LDA.l $7EF3CA : BEQ .notBunny
-            LDA.b #$01 : STA.w $02E0 : STA.b $56
+            LDA.b #$01 : STA.w $02E0
+                         STA.b $56
 
             LDA.b #$17 : STA.b $5D
 
@@ -13672,7 +13672,7 @@ Overworld_LoadExitData:
 
     .findRoomExit
 
-        DEX #2
+        DEX : DEX
 
         ; Tries to find the appropriate room in a large array.
         ; X in this case becomes the exit number * 2.
@@ -13684,11 +13684,11 @@ Overworld_LoadExitData:
 
     ; Load things like scroll data
     LDA.w UnderworldExitData_vertical_scroll, X
-    STA.b $E6 : STA.b $E8
+    STA.b $E6   : STA.b $E8
     STA.w $0122 : STA.w $0124
 
     LDA.w UnderworldExitData_horizontal_scroll, X
-    STA.b $E0 : STA.b $E2
+    STA.b $E0   : STA.b $E2
     STA.w $011E : STA.w $0120
 
     ; Loads up Link's coordinates
