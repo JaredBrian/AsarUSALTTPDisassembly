@@ -6683,78 +6683,102 @@ struct WRAM $7E0000
         ; ice. This is controlled by sprite logic.
 
     ; $0D80[0x10] - (Sprite)
-        ; Controls whether the sprite has been spawned yet. 0 - no. Not 0 - yes. Also used as an AI pointer ; functions
+    .SprAIState: skip $10
+        ; This is used as the sprite AI state index. Each sprite has its own set
+        ; of values that it uses to determine what the sprite should do and its
+        ; own logic to decide which state to go to and when. For example, here
+        ; are the values for the Raven sprite:
+        ; 0x00 - The starting state, waiting for the player to approach
+        ; 0x01 - The Raven has spotted the player and is now ascending to attack
+        ; 0x02 - The Raven has finished ascending, and is now attacking by flying
+        ;        twords the player
+        ; 0x03 - The timer that controls how long the Raven should be attacking
+        ;        has ran out and now it has decided to flee by flying away from
+        ;        the player
 
     ; $0D90[0x10] - (Sprite)
-        ; sprite ; i use it to control which draw frame we are on
-        ; In some creatures, used as an index for determining $0DC0
+    .SprFrame: skip $10
+        ; In some sprites, this is used as a draw frame index but also has many
+        ; other misc uses. TODO: Document some uses.
 
-    ; $0DA0[0x10] - (Sprite) ; sprite ; i use to to determine the palette we are on
-        ; usage varies considerably for each sprite type
+    ; $0DA0[0x10] - (Sprite)
+    .SprMiscA: skip $10
+        ; A misc variable used by sprites. TODO: Document some uses.
 
-    ; $0DB0[0x10] - (Sprite) ; sprite ; beamos laser subsprite control ; stage index for helmasaur king
-        ; hard to say at this point. Various usages?
+    ; $0DB0[0x10] - (Sprite)
+    .SprMiscB: skip $10
+        ; A misc variable used by sprites. Some uses include:
+        ; The Beamos laser subsprite control.
+        ; The stage index for helmasaur king.
 
-    ; $0DC0[0x10] - (Sprite) ; sprite ; i use it to control the animation frame we are on
-        ; Designates which graphics to use.
+    ; $0DC0[0x10] - (Sprite)
+    .SprGFX: skip $10
+        ; Used by sprites to determine which graphics to use. This is controlled
+        ; by the sprite logic. TODO: Maybe this should be called SprFrame isntead
+        ; of $0D90.
 
-    ; $0DD0[0x10] - (Sprite) ; setting
-        ; General state of the sprite. Usage of values other than those listed will
-        ; almost certainly crash the game, so do not attempt to use them.
-        ; 0x00 - Sprite is dead, totally inactive
-        ; 0x01 - Sprite falling into a pit with generic animation.
-        ; 0x02 - Sprite transforms into a puff of smoke, often producing an item
-        ; 0x03 - Sprite falling into deep water (optionally making a fish jump up?)
-        ; 0x04 - Death Mode for Bosses (lots of explosions).
-        ; 0x05 - Sprite falling into a pit that has a special animation (e.g. Soldier)
-        ; 0x06 - Death Mode for normal creatures.
+    ; $0DD0[0x10] - (Sprite)
+    .SprState: skip $10
+        ; The general state of the sprite. This is an index used to determine how
+        ; the sprite engine should handle this sprite. "Normal" sprite code is
+        ; generally only run when the sprite is in 0x09 "active" mode. This is
+        ; controlled by sprite helper functions and sprite engine code.
+        ; 0x00 - The sprite is dead, totally inactive, no sprite code is run.
+        ; 0x01 - The sprite is falling into a pit with generic animation.
+        ; 0x02 - The sprite transforms into a puff of smoke, often producing an item.
+        ; 0x03 - The sprite is falling into deep water.
+        ; 0x04 - The death mode for bosses (lots of explosions).
+        ; 0x05 - The sprite is falling into a pit that has a special animation
+        ;        (like the normal soldiers).
+        ; 0x06 - The death mode for normal creature sprites.
+        ; 0x07 - The spite in burning mode (when hit by the fire rod).
+        ; 0x08 - The sprite is being spawned at load time. A prep routine will
+        ;        be run for one frame, and then move on to the active state (0x09) 
+        ;        the very next frame.
+        ; 0x09 - The sprite is in the normal, active mode. This is where the sprite
+        ;        runs its own AI code.
+        ; 0x0A - The sprite is being carried by the player.
+        ; 0x0B - The sprite is frozen and/or stunned.
 
-        ; 0x07 - Spite in burning mode (when hit by the fire rod).
-        ; 0x08 - Sprite is being spawned at load time. An initialization routine will
-        ; be run for one frame, and then move on to the active state (0x09) the
-        ; very next frame.
-        ; 0x09 - Sprite is in the normal, active mode.
-        ; 0x0A - Sprite is being carried by the player.
-        ; 0x0B - Sprite is frozen and / or stunned.
-
-    ; $0DE0[0x10] - (Sprite) ; functions
-        ; A position counter for the statue sentry? May have other uses
+    ; $0DE0[0x10] - (Sprite)
+    .SprMiscC: skip $10
+        ; A misc variable used by sprites. Generally used as a direction indicator.
+        ; Some uses include:
+        ; A position counter for the statue sentry? TODO: Verify.
         ; Seems that some sprites use this as an indicator for cardinal direction?
-        ; (Octorocks, for example).
-        ; udlr ?
-        ; 0 - up
-        ; 1 - down
-        ; 2 - left
-        ; 3 - right
+        ; (Octorocks, for example). This is controlled by sprite helper functions.
+        ; 0x00 - up
+        ; 0x01 - down
+        ; 0x02 - left
+        ; 0x03 - right
         ; Some sprites, like the Desert Barrier, have this reversed:
-        ; 0 - right
-        ; 1 - left
-        ; 2 - down
-        ; 3 - up
+        ; 0x00 - right
+        ; 0x01 - left
+        ; 0x02 - down
+        ; 0x03 - up
         ; The Giant Moldorm uses this one somewhat more like the expanded cardinal
         ; directions. Each state corresponds to an angular step of 22.5 degrees.
-        ; 0  - East
-        ; 1  - East-Southeast
-        ; 2  - South East
-        ; 3  - South-Southeast
-        ; 4  - South
-        ; 5  - South-Southwest
-        ; 6  - South West
-        ; 7  - West-Southwest
-        ; 8  - West
-        ; 9  - West-Northwest
-        ; 10 - North West
-        ; 11 - North-Northwest
-        ; 12 - North
-        ; 13 - North-Northeast
-        ; 14 - Northeast
-        ; 15 - East-Northeast
-        ; Or diagramatically:
-        ;                 12               
-        ;          11     |     13         
-        ;    10           |          14    
+        ; 0x00 - East
+        ; 0x01 - East-Southeast
+        ; 0x02 - South East
+        ; 0x03 - South-Southeast
+        ; 0x04 - South
+        ; 0x05 - South-Southwest
+        ; 0x06 - South West
+        ; 0x07 - West-Southwest
+        ; 0x08 - West
+        ; 0x09 - West-Northwest
+        ; 0x0A - North West
+        ; 0x0B - North-Northwest
+        ; 0x0C - North
+        ; 0x0D - North-Northeast
+        ; 0x0E - Northeast
+        ; 0x0F - East-Northeast
+        ;                 C               
+        ;           B     |     D         
+        ;     A           |          E  
         ;                 |                
-        ;  9              |             15 
+        ;  9              |             F
         ;                 |                
         ;                 |                
         ; 8 --------------+-------------- 0
@@ -6770,277 +6794,295 @@ struct WRAM $7E0000
         ; The Statue Sentry sprite has an even more finely grained direction system
         ; that uses this same variable as its indicator. It has 0x40 states, where
         ; each states corresponds to an angular step of 5.625 degrees. However, its
-        ; orientation is different in that the step values increase as the eye rotates
-        ; counter-clockwise, unlike the Giant Moldorm's rotation scheme. The starting
-        ; position of 0 is located directly to the left, with 0x10 being south, 0x20
-        ; east, and 0x30 north.
+        ; orientation is different in that the step values increase as the eye 
+        ; rotates counter-clockwise, unlike the Giant Moldorm's rotation scheme. The 
+        ; starting position of 0 is located directly to the left, with 0x10 being 
+        ; south, 0x20 east, and 0x30 north.
         ; The Spark sprite has two sets of 4 cardinal direction states. The first set
         ; is for clockwise oriented adhesion to wall surfaces as is travels, and the
         ; other set (0x04 to 0x07) indicates adhesion but in the counterclockwise
         ; attitude.
-        ; As always, more exceptional uses of this variable may exist.
 
-    ; $0DF0[0x10] - (Sprite) ; timer
-        ; Main delay timer for sprites. Usually used to time intervals between state
-        ; transitions, and also for certain time sensitive events, like playing a
-        ; sound effect on a specific frame.
+    ; $0DF0[0x10] - (Sprite)
+    .SprTimerA: skip $10
+        ; The main delay timer used by sprites. Usually used to time intervals 
+        ; between state transitions, also for certain time sensitive events but
+        ; can be used for anything. The timer is auto decremented by the sprite
+        ; engine.
 
-    ; $0E00[0x10] - (Sprite) ; timer
-        ; Auxiliary Delay Timer 1
+    ; $0E00[0x10] - (Sprite)
+    .SprTimerB: skip $10
+        ; An auxiliary Timer for sprites. Usually used to time intervals 
+        ; between state transitions, also for certain time sensitive events but
+        ; can be used for anything. The timer is auto decremented by the sprite
+        ; engine.
 
-    ; $0E10[0x10] - (Sprite) ; timer
-        ; Auxiliary Delay Timer 2
+    ; $0E10[0x10] - (Sprite)
+    .SprTimerC: skip $10
+        ; An auxiliary Timer for sprites. Usually used to time intervals 
+        ; between state transitions, also for certain time sensitive events but
+        ; can be used for anything. The timer is auto decremented by the sprite
+        ; engine.
 
     ; $0E20[0x10] - (Sprite)
-        ; sprite index
-        ; The type of the sprite. The following is a list of all the sprite types
-        ; available. For sprite overlords, see $0B00[0x08]
+    .SprType: skip $10
+        ; The sprite type index. This is what the sprite engine uses to determine
+        ; what code to run for each sprite. This corrisponds to the sprite values
+        ; seen in ZS. For sprite overlords, see $0B00[0x08].
+        ; 0x00 - Raven
+        ; 0x01 - Vulture
+        ; 0x02 - Flying Stalfos Head
+        ; 0x03 - Invalid pointer, will cause a crash TODO: See what ZS calls this.
+        ; 0x04 - Good Switch being pulled
+        ; 0x05 - Some other sort of switch being pulled, but from above? TODO:
+        ; 0x06 - Bad Switch
+        ; 0x07 - Switch again (facing up) TODO: Bad or good?
+        ; 0x08 - Octorock
+        ; 0x09 - Giant Moldorm Boss
+        ; 0x0A - Four-Way Directional Octorock
+        ; 0x0B - Cuccos / Cuccos Transformed into Lady
+        ; 0x0C - Octorock TODO: There are 2 normal octorocs?
+        ; 0x0D - Normal Buzzblob / Morphed Buzzblob
+        ; 0x0E - Plants with big mouths TODO: Snap Dragon?
+        ; 0x0F - Octoballoon
+        ; 0x10 - Octospawn
+        ; 0x11 - Hinox
+        ; 0x12 - Moblin
+        ; 0x13 - Helmasaur
+        ; 0x14 - Thieves' Town Grate
+        ; 0x15 - Anti-Fairy
+        ; 0x16 - Sahashrala / Aginah
+        ; 0x17 - Rupee Crab under bush / rock TODO: possible other name: hoarder?
+        ; 0x18 - Moldorm
+        ; 0x19 - Poe
+        ; 0x1A - Dwarf, Mallet, and the shrapnel from it hitting the anvil
+        ; 0x1B - Enemy Arrow / Enemy Spear
+        ; 0x1C - Moveable Statue
+        ; 0x1D - The Bird Weathervane
+        ; 0x1E - Crystal Switch
+        ; 0x1F - Sick Bug Catching Kid
+        ; 0x20 - Sluggula
+        ; 0x21 - Push Switch (like in Swamp Palace)
+        ; 0x22 - Darkworld Snakebasket
+        ; 0x23 - Red Bari / Small Red Bari
+        ; 0x24 - Blue Bari
+        ; 0x25 - Tree you can talk to? TODO: Verify
+        ; 0x26 - Hardhat Beetle TODO: Red/blue variants?
+        ; 0x27 - Dead Rock
+        ; 0x28 - Storytellers NPC
+        ; 0x29 - Blind Hideout Guy / Thief Hideout Guy / Flute Boy's Father
+        ; 0x2A - Sweeping Lady
+        ; 0x2B - Homeless guy under the bridge, smoke, and other effects like fire
+        ; 0x2C - Lumberjack Bros.
+        ; 0x2D - Telepathic stones? Looks like a prototype for a telepathic
+        ;        interface using sprites instead of tiles. However, this one only
+        ;        says one thing. TODO: debug sprite?
+        ; 0x2E - Flute Boy and his musical notes
+        ; 0x2F - Maze Game Lady
+        ; 0x30 - Maze Game Guy
+        ; 0x31 - Fortune Teller / Dwarf swordsmith TODO: how is this dwarf different
+        ;        from 0x1A?
+        ; 0x32 - Quarreling brothers 
+        ; 0x33 - Pull For Rupees Sprite
+        ; 0x34 - Young Snitch Lady
+        ; 0x35 - Innkeeper
+        ; 0x36 - Witch
+        ; 0x37 - Waterfall TODO: The walking under the waterfall particles?
+        ; 0x38 - Arrow Target Trigger (e.g. Statue with big eye in Dark Palace)
+        ; 0x39 - Gerudo Chest Man
+        ; 0x3A - Magic Powder Bat / The Lightning Bolt the bat hurls at you
+        ; 0x3B - Dash Item (such as Book of Mudora, keys)
+        ; 0x3C - Trough Boy
+        ; 0x3D - Older Snitch Lady (Signs?) (Chicken lady also showed up)
+        ;        TODO: Investigate
+        ; 0x3E - Rock Rupee Crabs TODO: different from 0x17?
+        ; 0x3F - Tutorial Soldier (from beginning of game)
+        ; 0x40 - Magic Barrier (blocking the door to Agahnim's Tower)
+        ; 0x41 - Green Soldier
+        ; 0x42 - Blue Soldier
+        ; 0x43 - Red Spear Soldier
+        ; 0x44 - Crazy Blue Killer Soldier TODO: what?
+        ; 0x45 - Crazy Red Spear Soldier / Green soldier that the snitches call
+        ;        in the village)
+        ; 0x46 - Blue Archer Soldier
+        ; 0x47 - Green Bush Archer Soldier
+        ; 0x48 - Red Javelin Trooper
+        ; 0x49 - Red Bush Javelin Soldier
+        ; 0x4A - Red Bomb Soldier
+        ; 0x4B - Weak Green Soldier (the tall soldiers who can't see the palyer)
+        ; 0x4C - Geldman
+        ; 0x4D - Flailing Bunnies on the ground TODO: what?
+        ; 0x4E - Snakebasket TODO: what?
+        ; 0x4F - Blobs? TODO: Zols?
+        ; 0x50 - Metal Balls (in Eastern Palace)
+        ; 0x51 - Armos TODO: The boss one? or the regular ones?
+        ; 0x52 - Zora King
+        ; 0x53 - Armos Knight Boss
+        ; 0x54 - Lanmolas boss
+        ; 0x55 - Zora / Fireballs / Blue Agahnim Fireballs
+        ; 0x57 - Desert Palace Barriers
+        ; 0x58 - Crab TODO: what?
+        ; 0x59 - Lost Woods Bird
+        ; 0x5A - Lost Woods Squirrel
+        ; 0x5B - Spark (clockwise on convex) TODO: what?
+        ; 0x5C - Spark (counterclockwise on convex) TODO: what?
+        ; 0x5D - Roller (vertical moving) TODO: investigate these
+        ; 0x5E - Roller (vertical moving)
+        ; 0x5F - Roller (???)
+        ; 0x60 - Roller (horizontal moving)
+        ; 0x61 - Beamos
+        ; 0x62 - Master Sword Ceremony Parts
+        ; 0x63 - Sand Lion Pit
+        ; 0x64 - Sand Lion
+        ; 0x65 - Shooting Gallery Guy
+        ; 0x66 - Moving Cannon Ball Shooters TODO: Investigate differences
+        ; 0x67 - Moving Cannon Ball Shooters
+        ; 0x68 - Moving Cannon Ball Shooters
+        ; 0x69 - Moving Cannon Ball Shooters 
+        ; 0x6A - Ball N' Chain Soldier
+        ; 0x6B - Unused Cannon Ball Soldier
+        ; 0x6C - Magic Mirror Warp Vortex
+        ; 0x6D - Rat / Bazu
+        ; 0x6E - Rope / Skullrope
+        ; 0x6F - Keese
+        ; 0x70 - Helmasaur King Boss Splitting Fireballs
+        ; 0x71 - Leever
+        ; 0x72 - Wishing Ponds
+        ; 0x73 - Link's Uncle / The Sanctuary Priest / Sanctuary Barrier
+        ; 0x74 - Red Hat Boy who runs from you TODO: Runner?
+        ; 0x75 - Bottle Vendor
+        ; 0x76 - Princess Zelda
+        ; 0x77 - Also Anti-Fairy (seems like a different variety)
+        ;        TODO: invetigate differences
+        ; 0x78 - Sahasrahlah's Wife
+        ; 0x79 - Good Bee / Normal Bee
+        ; 0x7A - Agahnim
+        ; 0x7B - Agahnim's Power Tennis Energy Balls
+        ; 0x7C - Green Stalfos
+        ; 0x7D - 32*32 Pixel Yellow Spike Traps TODO: what?
+        ; 0x7E - Swinging Fireball Chains TODO: investigate differences
+        ; 0x7F - Swinging Fireball Chains
+        ; 0x80 - Wandering Fireball Chains TODO: Fire snake?
+        ; 0x81 - Waterhoppers
+        ; 0x82 - Swirling Anti-Fairies
+        ; 0x83 - Greene Eyegore
+        ; 0x84 - Red Eyegore
+        ; 0x85 - Yellow Stalfos
+        ; 0x86 - Kodondo
+        ; 0x87 - Flames TODO: Kodondo Flames?
+        ; 0x88 - Mothula Boss
+        ; 0x89 - Mothula's beam
+        ; 0x8A - Moving Spike Block
+        ; 0x8B - Gibdo
+        ; 0x8C - Arghuss Boss
+        ; 0x8D - Arghuss spawn
+        ; 0x8E - Chair Turtles you kill with hammers TODO: Find actual name.
+        ; 0x8F - Blobs / Crazy Blobs via Magic powder or Quake Medallion TODO: Zols?
+        ; 0x90 - Grabber things? TODO: What? Wall master?
+        ; 0x91 - Stalfos Knight
+        ; 0x92 - Helmasaur King Boss
+        ; 0x93 - Bungie / Red Orb? (according to HM) TODO: What?
+        ; 0x94 - Pirogusu / Flying Tiles
+        ; 0x95 - Eye laser TODO: investigae differences
+        ; 0x96 - Eye laser
+        ; 0x97 - Eye laser
+        ; 0x98 - Eye laser
+        ; 0x99 - Pengator
+        ; 0x9A - Kyameron
+        ; 0x9B - Wizzrobes
+        ; 0x9C - Black sperm looking things TODO: Find actual name and differences
+        ; 0x9D - Black sperm looking things
+        ; 0x9E - Flute Boy Ostrich
+        ; 0x9F - Flute Boyv Rabbit
+        ; 0xA0 - Flute Boy Birds
+        ; 0xA1 - Freezor
+        ; 0xA2 - Kholdstare Boss
+        ; 0xA3 - Another part of Kholdstare TODO: Investigate
+        ; 0xA4 - Ice balls (that fall during Kholdstare Boss)
+        ; 0xA5 - Blue Zazak / Fireballs Projectile
+        ; 0xA6 - Red Zazak
+        ; 0xA7 - Red Stalfos Skeleton
+        ; 0xA8 - Bomber Flying Creatures from Darkworld TODO: Find names and 
+        ; 0xA9 - Bomber Flying Creatures from Darkworld       differences
+        ; 0xAA - Like Like
+        ; 0xAB - Crystals Maiden
+        ; 0xAC - Apples
+        ; 0xAD - Old Mountain Man
+        ; 0xAE - Down Transport Pipe
+        ; 0xAF - Up Transport Pipe
+        ; 0xB0 - Right Transport Pipe
+        ; 0xB1 - Left Transport Pipe
+        ; 0xB2 - Good bee again? (Perhaps the good bee is different after being
+        ;        released.... It would make sense, actually) TODO: Investigate
+        ; 0xB3 - Hylian Inscription Sprite
+        ; 0xB4 - Thief's Chest
+        ; 0xB5 - Bomb Salesman
+        ; 0xB6 - Kiki the monkey? TODO: Verify
+        ; 0xB7 - Blind Maiden
+        ; 0xB8 - Monologue Testing Sprite (Unused Debug Sprite)
+        ; 0xB9 - Feuding Friends on Death Mountain
+        ; 0xBA - Whirlpool
+        ; 0xBB - Salesman / Chestgame Guy / 300 Rupee Giver Guy
+        ; 0xBC - Drunk in the Inn
+        ; 0xBD - Vitreous Boss
+        ; 0xBE - Vitreous' Spawn
+        ; 0xBF - Aghanim / Vitreous' Lightning Blast
+        ; 0xC0 - Monster in Lake of Ill Omen / Thrown Quake Medallion Item
+        ; 0xC1 - Chatty Agahnim
+        ; 0xC2 - Boulders / Rocks from Lanmolas erupting from the ground
+        ;        TODO: Mountain boulders?
+        ; 0xC3 - Gibo (the red vulnerable part)
+        ; 0xC4 - Thief
+        ; 0xC5 - Evil Fireball Spitters (THE FACES!!!) TODO: Find actual name
+        ; 0xC6 - Four Way Fireball Spitters (spit when you use your sword)
+        ;        TODO: Find actual name
+        ; 0xC7 - Hokbok
+        ; 0xC8 - Big Healing Fairys / Fairy Dust
+        ; 0xC9 - Ganon's Firebat (TODO: HM also says Tektite?)
+        ; 0xCA - Chain Chomp
+        ; 0xCB - Trinexx Boss
+        ; 0xCC - Trinexx Fire Head TODO: Verify
+        ; 0xCD - Trinexx Ice Head TODO: Verify
+        ; 0xCE - Blind the Thief Boss
+        ; 0xCF - Swamola
+        ; 0xD0 - Lynel
+        ; 0xD1 - Yellow Rabbit Transforming Beam
+        ; 0xD2 - Flopping Fish
+        ; 0xD3 - Stal Rocks
+        ; 0xD4 - Landmines
+        ; 0xD5 - Digging Game Guy
+        ; 0xD6 - Ganon
+        ; 0xD7 - Copy of Ganon, except invincible? TODO: Investigate
+        ; 0xD8 - Heart
+        ; 0xD9 - Green Rupee
+        ; 0xDA - Blue Rupee
+        ; 0xDB - Red Rupee
+        ; 0xDC - Bomb Refill (1)
+        ; 0xDD - Bomb Refill (4)
+        ; 0xDE - Bomb Refill (8)
+        ; 0xDF - Small Magic Refill
+        ; 0xE0 - Full Magic Refill
+        ; 0xE1 - Arrow Refill (5)
+        ; 0xE2 - Arrow Refill (10)
+        ; 0xE3 - Fairy
+        ; 0xE4 - Key
+        ; 0xE5 - Big Key
+        ; 0xE6 - Shield Pickup (Fighter or Red Shield after being dropped by a Pikit)
+        ; 0xE7 - Mushroom
+        ; 0xE8 - Fake Master Sword
+        ; 0xE9 - Magic Shop Keeper / Shop Items / Shop Magic Powder
+        ; 0xEA - Full Heart Container
+        ; 0xEB - Quarter Heart Container
+        ; 0xEC - Bushes
+        ; 0xED - Cane of Somaria Platform
+        ; 0xEE - Hyrule Castle Mantle
+        ; 0xEF - Cane of Somaria Platform (same as 0xED but this index is not used)
+        ;        TODO: Investigate
+        ; 0xF0 - Cane of Somaria Platform (same as 0xED but this index is not used)
+        ; 0xF1 - Cane of Somaria Platform (same as 0xED but this index is not used)
+        ; 0xF2 - Medallion Tablet
 
-        ; 0x00 = Raven
-        ; 0x01 = Vulture
-        ; 0x02 = Flying Stalfos Head
-        ; 0x03 = Unused (Don't use it, the sprite's ASM pointer is invalid. It will certainly crash the game.)
-        ; 0x04 = Good Switch being pulled
-        ; 0x05 = Some other sort of switch being pulled, but from above?
-        ; 0x06 = Bad Switch
-        ; 0x07 = switch again (facing up)
-        ; 0x08 = Octorock
-        ; 0x09 = Giant Moldorm (boss)
-        ; 0x0A = Four Shooter Octorock
-        ; 0x0B = Chicken / Chicken Transformed into Lady
-        ; 0x0C = Octorock
-        ; 0x0D = Normal Buzzblob / Morphed Buzzblob (tra la la... look for Sahashrala)
-        ; 0x0E = Plants with big mouths
-        ; 0x0F = Octoballoon (The thing that explodes into 10 others)
-        ; 0x10 = Octobaby (Baby Octorocks from the Otobaloon)
-        ; 0x11 = Hinox (Bomb-chucking one-eyed giant)
-        ; 0x12 = Moblin
-        ; 0x13 = Helmasaur (small variety)
-        ; 0x14 = Thieves' Town (AKA Gargoyle's Domain) Grate
-        ; 0x15 = Bubble (AKA Fire Fairy)
-        ; 0x16 = Sahashrala / Aginah, sage of the desert
-        ; 0x17 = Rupee Crab under bush / rock
-        ; 0x18 = Moldorm
-        ; 0x19 = Poe
-        ; 0x1A = Dwarf, Mallet, and the shrapnel from it hitting
-        ; 0x1B = Arrow shot by solder / stuck in wall? Spear thrown by Moblin?
-        ; 0x1C = Moveable Statue
-        ; 0x1D = Weathervane
-        ; 0x1E = Crystal Switch
-        ; 0x1F = Sick Kid with Bug Catching Net
-        ; 0x20 = Sluggula
-        ; 0x21 = Push Switch (like in Swamp Palace)
-        ; 0x22 = Darkworld Snakebasket
-        ; 0x23 = Red Bari / Small Red Bari
-        ; 0x24 = Blue Bari
-        ; 0x25 = Tree you can talk to?
-        ; 0x26 = Hardhat Beetle (Charging Octopus looking thing)
-        ; 0x27 = Dead Rock (Some might see them as Gorons, but bleh)
-        ; 0x28 = Shrub Guy who talks about Triforce / Other storytellers
-        ; 0x29 = Blind Hideout Guy / Thief Hideout Guy / Flute Boy's Father
-        ; 0x2A = Sweeping Lady
-        ; 0x2B = Bum under the bridge + smoke and other effects like the fire
-        ; 0x2C = Lumberjack Bros.
-        ; 0x2D = Telepathic stones? Looks like a prototype for a telepathic interface using sprites instead of tiles. However, this one only says one thing.
-        ; 0x2E = Flute Boy and his musical notes
-        ; 0x2F = Maze Game Lady
-        ; 0x30 = Maze Game Guy
-        ; 0x31 = Fortune Teller / Dwarf swordsmith
-        ; 0x32 = Quarreling brothers 
-        ; 0x33 = Pull For Rupees
-        ; 0x34 = Young Snitch Lady
-        ; 0x35 = Innkeeper
-        ; 0x36 = Witch
-        ; 0x37 = Waterfall
-        ; 0x38 = Arrow Target (e.g. Statue with big eye in Dark Palace)
-        ; 0x39 = Middle Aged Guy in the desert
-        ; 0x3A = Magic Powder Bat /The Lightning Bolt the bat hurls at you.
-        ; 0x3B = Dash Item / such as Book of Mudora, keys
-        ; 0x3C = Kid in village near the trough
-        ; 0x3D = Older Snitch Lady (Signs?) (Chicken lady also showed up)
-        ; 0x3E = Rock Rupee Crabs
-        ; 0x3F = Tutorial Soldiers from beginning of game
-        ; 0x40 = Hyrule Castle Barrier to Agahnim's Tower
-        ; 0x41 = Soldier
-        ; 0x42 = Blue Soldier
-        ; 0x43 = Red Spear Soldier
-        ; 0x44 = Crazy Blue Killer Soldiers
-        ; 0x45 = Crazy Red Spear Soldiers (And green ones in the village)
-        ; 0x46 = Blue Archer Soldiers
-        ; 0x47 = Green Archer Soldiers (in the bushes)
-        ; 0x48 = Red Javelin Trooper
-        ; 0x49 = Red Javelin Soldiers (in the bushes)
-        ; 0x4A = Red Bomb Soldiers
-        ; 0x4B = Recruit (Weak Green Soldier) (Note: Name was invented for lack of an official name)
-        ; 0x4C = Sand Monsters
-        ; 0x4D = Flailing Bunnies on the ground
-        ; 0x4E = Snakebasket
-        ; 0x4F = Blobs?
-        ; 0x50 = Metal Balls (in Eastern Palace)
-        ; 0x51 = Armos
-        ; 0x52 = Zora King
-        ; 0x53 = Armos Knight
-        ; 0x54 = Lanmolas boss
-        ; 0x55 = Zora / Fireballs (including the blue Agahnim fireballs)
-        ; 0x56 = Walking Zora
-        ; 0x57 = Desert Palace Barriers
-        ; 0x58 = Crab
-        ; 0x59 = Lost Woods Bird
-        ; 0x5A = Lost Woods Squirrel
-        ; 0x5B = Spark (clockwise on convex)
-        ; 0x5C = Spark (counterclockwise on convex)
-        ; 0x5D = Roller (vertical moving)
-        ; 0x5E = Roller (vertical moving)
-        ; 0x5F = Roller (???)
-        ; 0x60 = Roller (horizontal moving)
-        ; 0x61 = Statue Sentry      ; beamos
-        ; 0x62 = Master Sword plus pendants and beams of light
-        ; 0x63 = Sand Lion Pit
-        ; 0x64 = Sand Lion
-        ; 0x65 = Shooting Gallery guy
-        ; 0x66 = Moving cannon ball shooters
-        ; 0x67 = Moving cannon ball shooters
-        ; 0x68 = Moving cannon ball shooters
-        ; 0x69 = Moving cannon ball shooters 
-        ; 0x6A = Ball N' Chain Trooper
-        ; 0x6B = Cannon Ball Shooting Soldier (unused in original = WTF?)
-        ; 0x6C = Warp Vortex created by Magic Mirror
-        ; 0x6D = Rat / Bazu
-        ; 0x6E = Rope / Skullrope (aka Sukarurope?)
-        ; 0x6F = Bats / Also one eyed bats
-        ; 0x70 = Splitting Fireballs from Helmasaur King
-        ; 0x71 = Leever
-        ; 0x72 = Activator for the ponds (where you throw in items)
-        ; 0x73 = Link's Uncle / Sage / Barrier that opens in the sanctuary
-        ; 0x74 = Red Hat Boy who runs from you
-        ; 0x75 = Bottle Vendor
-        ; 0x76 = Princess Zelda
-        ; 0x77 = Also Fire Fairys (seems like a different variety)
-        ; 0x78 = Elder's Wife (Sahasrahlah's Wife, supposedly)
-        ; 0x79 = Good bee / normal bee
-        ; 0x7A = Agahnim
-        ; 0x7B = Agahnim energy blasts (not the duds)
-        ; 0x7C = Green Stalfos
-        ; 0x7D = 32*32 Pixel Yellow Spike Traps
-        ; 0x7E = Swinging Fireball Chains
-        ; 0x7F = Swinging Fireball Chains
-        ; 0x80 = Wandering Fireball Chains
-        ; 0x81 = Waterhoppers
-        ; 0x82 = Swirling Fire Fairys (Eastern Palace)
-        ; 0x83 = Greene Eyegore
-        ; 0x84 = Red Eyegore
-        ; 0x85 = Yellow Stalfos (drops to the ground, dislodges head)
-        ; 0x86 = Kodondo
-        ; 0x87 = Flames
-        ; 0x88 = Mothula
-        ; 0x89 = Mothula's beam
-        ; 0x8A = Moving Spike Block (Key holes? <-- why would I think this had anything to do with keys?)
-        ; 0x8B = Gibdo
-        ; 0x8C = Arghuss
-        ; 0x8D = Arghuss spawn
-        ; 0x8E = Chair Turtles you kill with hammers
-        ; 0x8F = Blobs / Crazy Blobs via Magic powder or Quake Medallion
-        ; 0x90 = Grabber things?
-        ; 0x91 = Stalfos Knight
-        ; 0x92 = Helmasaur King
-        ; 0x93 = Bungie / Red Orb? (according to HM)
-        ; 0x94 = Pirogusu (aka Swimmer) / Flying Tiles
-        ; 0x95 = Eye laser
-        ; 0x96 = Eye laser
-        ; 0x97 = Eye laser
-        ; 0x98 = Eye laser
-        ; 0x99 = Pengator
-        ; 0x9A = Kyameron
-        ; 0x9B = Wizzrobes
-        ; 0x9C = Black sperm looking things
-        ; 0x9D = Black sperm looking things
-        ; 0x9E = Ostrich seen with Flute Boy
-        ; 0x9F = Rabbit seen with Flute Boy
-        ; 0xA0 = Birds seen with Flute Boy
-        ; 0xA1 = Freezor
-        ; 0xA2 = Kholdstare
-        ; 0xA3 = Another part of Kholdstare
-        ; 0xA4 = Ice balls from above
-        ; 0xA5 = Blue Zazak / Fire Phlegm (Fireballs of Red Zazaks and other sprites)
-        ; 0xA6 = Red Zazak
-        ; 0xA7 = Red Stalfos Skeleton
-        ; 0xA8 = Bomber Flying Creatures from Darkworld
-        ; 0xA9 = Bomber Flying Creatures from Darkworld
-        ; 0xAA = Like Like (O_o yikes)
-        ; 0xAB = Maiden (as in, the maidens in the crystals after you beat a boss)
-        ; 0xAC = Apples
-        ; 0xAD = Old Man on the Mountain
-        ; 0xAE = Down Pipe
-        ; 0xAF = Up Pipe
-        ; 0xB0 = Right Pipe
-        ; 0xB1 = Left Pipe
-        ; 0xB2 = Good bee again? (Perhaps the good bee is different after being released.... It would make sense, actually)
-        ; 0xB3 = Hylian Inscription (near Desert Palace). Also near Master Sword
-        ; 0xB4 = Thief's chest (not the one that follows you, the one that you grab from the DW smithy house)
-        ; 0xB5 = Bomb Salesman (elephant looking guy)
-        ; 0xB6 = Kiki the monkey?
-        ; 0xB7 = Maiden that ends up following you in Thieves Town
-        ; 0xB8 = Monologue Testing Sprite (Debug Artifact)
-        ; 0xB9 = Feuding Friends on Death Mountain
-        ; 0xBA = Whirlpool
-        ; 0xBB = Salesman / chestgame guy / 300 rupee giver guy / Chest game thief
-        ; 0xBC = Drunk in the inn
-        ; 0xBD = Vitreous (the large eyeball)
-        ; 0xBE = Vitreous' smaller eyeballs
-        ; 0xBF = Aghanim / Vitreous' lightning blast
-        ; 0xC0 = Monster in Lake of Ill Omen / Quake Medallion
-        ; 0xC1 = Agahnim teleporting Zelda to dark world
-        ; 0xC2 = Boulders / Rocks from Lanmolas erupting from the ground
-        ; 0xC3 = Gibo (vulnerable part)
-        ; 0xC4 = Thief
-        ; 0xC5 = Evil Fireball Spitters (THE FACES!!!)
-        ; 0xC6 = Four Way Fireball Spitters (spit when you use your sword)
-        ; 0xC7 = Hokbok (HM calls it Fuzzy Stack, I think?)
-        ; 0xC8 = Big Healing Fairys / Fairy Dust
-        ; 0xC9 = Ganon's Firebat (HM also says Tektite?)
-        ; 0xCA = Chain Chomp
-        ; 0xCB = Trinexx
-        ; 0xCC = Another Part of Trinexx
-        ; 0xCD = Another Part of Trinexx (again)
-        ; 0xCE = Blind the Thief
-        ; 0xCF = Swamola (swamp worms from Swamp of Evil)
-        ; 0xD0 = Lynel (centaur like creature)
-        ; 0xD1 = Rabbit Beam aka Transform aka Yellow Hunter
-        ; 0xD2 = Flopping fish
-        ; 0xD3 = Stal (Hopping Skull Creatures)
-        ; 0xD4 = Landmines
-        ; 0xD5 = Digging Game Proprietor
-        ; 0xD6 = Ganon! OMG
-        ; 0xD7 = Copy of Ganon, except invincible?
-        ; 0xD8 = Heart refill
-        ; 0xD9 = Green Rupee
-        ; 0xDA = Blue Rupee
-        ; 0xDB = Red Rupee
-        ; 0xDC = Bomb Refill (1)
-        ; 0xDD = Bomb Refill (4)
-        ; 0xDE = Bomb Refill (8)
-        ; 0xDF = Small Magic Refill
-        ; 0xE0 = Full Magic Refill
-        ; 0xE1 = Arrow Refill (5)
-        ; 0xE2 = Arrow Refill (10)
-        ; 0xE3 = Fairy
-        ; 0xE4 = Key
-        ; 0xE5 = Big Key
-        ; 0xE6 = Shield Pickup (Fighter or Red Shield after being dropped by a Pikit)
-        ; 0xE7 = Mushroom
-        ; 0xE8 = Fake Master Sword
-        ; 0xE9 = Magic Shop dude / His items, including the magic powder
-        ; 0xEA = Full Heart Container
-        ; 0xEB = Quarter Heart Container
-        ; 0xEC = Bushes
-        ; 0xED = Cane of Somaria Platform
-        ; 0xEE = Movable Mantle (in Hyrule Castle)
-        ; 0xEF = Cane of Somaria Platform (same as 0xED but this index is not used)
-        ; 0xF0 = Cane of Somaria Platform (same as 0xED but this index is not used)
-        ; 0xF1 = Cane of Somaria Platform (same as 0xED but this index is not used)
-        ; 0xF2 = Medallion Tablet
-
-    ; $0E30[0x10] - (Sprite)        ; ; xxxyysss
+    ; $0E30[0x10] - (Sprite) ; xxxyysss
         ; Subtype designation 1
         ; Is formed as follows: Take bits 5 and 6 from the sprite's Y coordinate byte and shift right twice.
         ; Then take bits 5, 6, and 7 from the X coordinate byte and shift right 5 times. This produces 000yyxxx.
@@ -7169,7 +7211,7 @@ struct WRAM $7E0000
         ; "alive" in routines that try to check that property. Functionally, the
         ; sprites might not actually be considered to be in statis though.
         ; 
-        ; Example: Bubbles (aka Fire Fairys) are not considered alive for the
+        ; Example: Anti-Fairies are not considered alive for the
         ; purposes of puzzles, because it's not expected that you always have
         ; the resources to kill them. Thus, they always have this bit set.
         ; p - 'Persist' If set, keeps the sprite from being deactivated from being

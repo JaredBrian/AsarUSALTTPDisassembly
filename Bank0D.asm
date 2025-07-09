@@ -7810,8 +7810,12 @@ Wizzrobe_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
+
+    LDA.w $0DC0, X
     
+    REP #$20
+
+    ASL #3 : STA.b $00
     ASL : ADC.b $00 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
@@ -8001,10 +8005,13 @@ Zazak_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL : ADC.b $00
+    LDA.b #$00 : XBA
+    LDA.w $0DC0, X
     
-    ADC.w #(.OAM_groups) : STA.b $08
+    REP #$20
+
+    ASL #3                                 : STA.b $00
+    ASL : ADC.b $00 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -8016,11 +8023,11 @@ Zazak_Draw:
         
         .mouth_closed
         
-        LDA.w .chr_overrides, X : LDY.b #$02 : STA ($90), Y
+        LDA.w .chr_overrides, X : LDY.b #$02 : STA.b ($90), Y
         
         INY
         
-        LDA ($90), Y : AND.b #$BF : ORA .vh_flip_overrides, X : STA ($90), Y
+        LDA.b ($90), Y : AND.b #$BF : ORA .vh_flip_overrides, X : STA.b ($90), Y
         
         PLX
         
@@ -8122,11 +8129,11 @@ Stalfos_Draw:
                 
                 LDA.w $0EB0, X : TAX
                 
-                LDA.w Pool_Stalfos_Draw_head_chr, X : LDY.b #$02 : STA ($90), Y
+                LDA.w Pool_Stalfos_Draw_head_chr, X : LDY.b #$02 : STA.b ($90), Y
                 
                 INY
                 
-                LDA ($90), Y : AND.b #$8F : ORA .head_properties, X : STA ($90), Y
+                LDA.b ($90), Y : AND.b #$8F : ORA .head_properties, X : STA.b ($90), Y
                 
                 PLX
         
@@ -9216,30 +9223,35 @@ Kholdstare_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_Kholdstare_Draw_x_offsets, X : STA ($90), Y
-        AND.w #$0100 : STA.b $0E
+        LDA.b $00 : CLC : ADC Pool_Kholdstare_Draw_x_offsets, X : STA.b ($90), Y
+        AND.w #$0100                                            : STA.b $0E
         
-        LDA.b $02 : CLC : ADC Pool_Kholdstare_Draw_y_offsets, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC Pool_Kholdstare_Draw_y_offsets, X
+        INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
         PLX
         
-        LDA.w Pool_Kholdstare_Draw_chr, X                 : INY : STA ($90), Y
-        LDA.w Pool_Kholdstare_Draw_vh_flip, X : ORA.b $05 : INY : STA ($90), Y
+        LDA.w Pool_Kholdstare_Draw_chr, X                 : INY : STA.b ($90), Y
+        LDA.w Pool_Kholdstare_Draw_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
         
         TYA : LSR #2 : TAY
         
-        LDA.b #$02 : ORA.b $0F : STA ($92), Y
+        LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLX
         
         LDA.b #$00 : XBA
         
-        LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(Pool_Kholdstare_Draw_OAM_groups) : STA.b $08
+        LDA.w $0DC0, X
+
+        REP #$20
+        
+        ASL #5 : ADC.w #(Pool_Kholdstare_Draw_OAM_groups) : STA.b $08
         
         LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
         

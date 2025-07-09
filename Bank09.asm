@@ -1781,7 +1781,7 @@ Overworld_LoadSprite:
     ; For some reason, sprite indices loaded from here are one less than
     ; what is loaded. Here, we're really referring to $F3 sprites, not a
     ; $F4 limit.
-    LDA [$05] : CMP.b #$F4 : BCC .normalSprite
+    LDA.b [$05] : CMP.b #$F4 : BCC .normalSprite
         JSR.w Overworld_LoadOverlord
         
         RTS
@@ -1818,7 +1818,7 @@ Overworld_LoadSprite:
     
     .emptySlot
     
-    LDA [$02] : ORA.w Overworld_AliveStatusBits, Y : STA [$02]
+    LDA.b [$02] : ORA.w Overworld_AliveStatusBits, Y : STA.b [$02]
     
     PHX
     
@@ -1828,7 +1828,7 @@ Overworld_LoadSprite:
     LDA.b $00 : STA.w $0BC0, X
     SEP #$20
     
-    PLX : LDA [$05] : DEC : STA.w $0E20, X ; Load up a sprite here.
+    PLX : LDA.b [$05] : DEC : STA.w $0E20, X ; Load up a sprite here.
     
     LDA.b #$08 : STA.w $0DD0, X
     
@@ -8691,7 +8691,8 @@ Explode_SpawnExplosion:
             
             PLX
             
-            LDA.b #$1F : STA.w $0DF0, Y : STA.w $0D90, Y
+            LDA.b #$1F : STA.w $0DF0, Y
+                         STA.w $0D90, Y
         
         .spawn_failed
     .anospawn_explosion_sprite

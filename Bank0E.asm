@@ -1524,12 +1524,10 @@ Credits_SpriteDraw_Hera:
         BCC .BRANCH_ALPHA
             LDA.w $0DF0, X : BNE .BRANCH_ALPHA
                 LDY.w $0D90, X
-                
                 LDA.w Pool_Credits_SpriteDraw_Hera_timer, Y : PHA
-                AND.b #$F8 : STA.w $0DF0, X
+                AND.b #$F8                                  : STA.w $0DF0, X
                 
                 PLA : AND.b #$07 : TAY
-                
                 LDA.w Pool_Credits_SpriteDraw_Hera_speed_y, Y : STA.w $0D40, X
                 LDA.w Pool_Credits_SpriteDraw_Hera_speed_x, Y : STA.w $0D50, X
                 
@@ -1539,8 +1537,8 @@ Credits_SpriteDraw_Hera:
 
         LDA.w Pool_Credits_SpriteDraw_Hera_object_count, Y
         LDY.w Pool_Credits_SpriteDraw_Hera_group_data_index, X
-        
         JSR.w Credits_SpriteDraw_Single
+        
         JSR.w Credits_SpriteDraw_DrawShadow_priority_set
         JSL.l Sprite_MoveLong
 	DEX : BPL .BRANCH_BETA
@@ -3397,8 +3395,6 @@ Pool_Credits_SpriteDraw_MoveSquirrel:
     db   8,  -8,  -8,   8
 }
 
-; ==============================================================================
-
 ; $072E35-$072E5C LOCAL JUMP LOCATION
 Credits_SpriteDraw_MoveSquirrel:
 {
@@ -3412,9 +3408,7 @@ Credits_SpriteDraw_MoveSquirrel:
     .delay
     
     LDY.w $0DB0, X
-        
     LDA.w .x_speeds, Y : STA.w $0D50, X
-        
     LDA.w .y_speeds, Y : STA.w $0D40, X
         
     JSL.l Sprite_MoveLong
