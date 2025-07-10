@@ -7082,42 +7082,56 @@ struct WRAM $7E0000
         ; 0xF1 - Cane of Somaria Platform (same as 0xED but this index is not used)
         ; 0xF2 - Medallion Tablet
 
-    ; $0E30[0x10] - (Sprite) ; xxxyysss
-        ; Subtype designation 1
-        ; Is formed as follows: Take bits 5 and 6 from the sprite's Y coordinate byte and shift right twice.
-        ; Then take bits 5, 6, and 7 from the X coordinate byte and shift right 5 times. This produces 000yyxxx.
-        ; The bottom three bits cannot all be set at the same time or else we'll have an overlord instead.
-        ; So if that wasn't the case we'd have 32 possible subtypes, but in lieu of the extra rule,
-        ; 7, 15, 23, and 31 cannot be used. 
-        ; A safe way to use this would be to just not use the bottom bit. (allows 16 subtypes)
+    ; $0E30[0x10] - (Sprite)
+    .SprSubType: skip $10
+        ; The Sub type designation. This is used to control sub behaviors or sub
+        ; sprites that differ within the sprite code that is run based off of
+        ; SprType. For example: 0x3D with a sub type of 0 will be the old snitch
+        ; lady but 0x3D with a sub type of anything else will be the indoor chicken
+        ; lady. This variable also has a variety of other uses.
+        ; The sub type is formed as follows: Take bits 5 and 6 from the sprite's 
+        ; Y coordinate byte and shift right twice. Then take bits 5, 6, and 7 from
+        ; the X coordinate byte and shift right 5 times. This produces 000yyxxx.
+        ; The bottom three bits cannot all be set at the same time or else we'll
+        ; have an overlord instead. So if that wasn't the case we'd have 32 possible
+        ; subtypes, but in lieu of the extra rule, 7, 15, 23, and 31 cannot be used.
+        ; A safe way to use this would be to just not use the bottom bit. (allows 16
+        ; subtypes)
+        ; xxxyysss
+        ; TODO: Debug through all of this to see how it works. Because this
+        ; obviously has some differences between OW and Dungeons.
 
     ; $0E40[0x10] - (Sprite)
-
-        ; abcooooo
-        ; o - If zero, the sprite is invisible. Otherwise, visible.
-        ; (actually, it seems like this is the number of OAM sprite slots allocated to this sprite object)
-        ; c - Causes enemies to go towards the walls? strange...
-        ; b - No idea but the master sword ceremony sprites seem to use them....?
-        ; a - If set, enemy is harmless. Otherwise you take damage from contact.
+    .SprSetting5: skip $10
+        ; abco oooo
+        ; o - The number of OAM tile slots allocated to this sprite.
+        ; c - TODO: Some sort of collision check.
+        ;     See Sprite_CheckTileCollisionSingleLayer
+        ; b - TODO: No idea but the master sword ceremony sprites seem to use
+        ;     them....? See Sprite_CheckTileProperty
+        ; a - If set, The enemy is harmless. Otherwise you take damage from contact.
 
     ; $0E50[0x10] - (Sprite)
+    .SprHealth: skip $10
         ; Health / Hit Points of the sprite.
 
     ; $0E60[0x10] - (Sprite)
-        ; niospppu
-        ; n - If set, don't draw extra death animation sprites over the sprite as it
-        ; is expiring.
-        ; i - if set, sprite is impervious to all attacks (also collisions?)
-        ; o - If set, adjust coordinates of sprites spawned off of this one, such
-        ; as water splashes. In general this would roughly approximate the
-        ; concept of 'width' of the sprite, and for this reason usually absorbable
-        ; items like arrows, rupees, and heart refills utilize this.
+    .SprSetting6: skip $10
+        ; nios pppu
+        ; n - If set, don't draw extra death animation "poof" over the sprite as
+        ;     it is dying.
+        ; i - If set, sprite is impervious to all attacks (also collisions?)
+        ; o - The 'width' of the sprite. Used by absorbable items like arrows,
+        ;     rupees, and heart refills. (0: normal | 1: small)
+        ;     Adjusts the placement of the death poof, water splash, and shadow draw.
         ; s - If set, draw a shadow for the sprite when doing OAM handling
-        ; p - (Note: 3-bit) Palette into that actually is not used by this variable,
-        ; but ends up getting copied to the array $0F50 (bitwise and with 0x0F).
-        ; u - unused?
+        ; p - Palette into that actually is not used by this variable, but ends
+        ;     up getting copied into $0F50
+        ; u - TODO: Appears to be unused? But kan's dissasm claims: "name table
+        ;     used for OAM props" maybe only used by $0F50 like p
 
-    ; $0E70[0x10] - 
+    ; $0E70[0x10] - (Sprite)
+
         ; When a sprite is moving and has hit a wall, this gets set to the direction
         ; in which the collision occurred.
         ; ----udlr
@@ -7133,15 +7147,18 @@ struct WRAM $7E0000
         ; The other bits are probably not used, but if they are it's probably due to
         ; some customized behavior.
 
-    ; $0E80[0x10] - 
+    ; $0E80[0x10] - (Sprite)
+
         ; Subtype designation 2 (varies from sprite to sprite though)
 
-    ; $0E90[0x10] - 
+    ; $0E90[0x10] - (Sprite)
+
         ; When a Pikit grabs something from you it gets stored here. 
         ; Used wildly differently between sprite types.
         ; Uncle - Used as main AI pointer?
 
     ; $0EA0[0x10] - (Sprite)
+
         ; Definitely closely tied to the process of a sprite taking damage. Seems to
         ; perhaps serve as a palette cycling index, or something like a state variable.
         ; When this value is positive
@@ -7149,6 +7166,7 @@ struct WRAM $7E0000
         ; during this frame.
 
     ; $0EB0[0x10] - (Sprite) ; functions
+
         ; For sprites that are intuitively considered to have a head, this indicates
         ; the direction that the head is facing. It would seem that every humanoid
         ; sprite encountered so far uses this variable for that purpose, but I
@@ -7156,16 +7174,20 @@ struct WRAM $7E0000
         ; 0x00 - up
         ; 0x01 - down
         ; 0x02 - left
-        ; 0x03 - right?    
+        ; 0x03 - right?
+
     ; $0EC0[0x10] - (Sprite)
+
         ; Animation clock?
 
     ; $0ED0[0x10] - (Sprite)
+
         ; ???? (Used with sprite 0xBE)
         ; Giant Moldorm uses it too...
         ; Lanmolas use it too
 
     ; $0EE0[0x10] - (Sprite)
+    
         ; Auxiliary delay timer 3
 
     ; $0EF0[0x10] - (Sprite)

@@ -995,7 +995,8 @@ Toppo_Flustered:
 {
     PHB : PHK : PLB
     
-    LDA.b #$82 : STA.w $0E40, X : STA.w $0BA0, X
+    LDA.b #$82 : STA.w $0E40, X
+                 STA.w $0BA0, X
     
     LDA.b #$49 : STA.w $0E60, X
     
@@ -1357,7 +1358,8 @@ Sprite_SpawnDynamically:
     LDA.w $0F20, X : STA.w $0F20, Y
     LDA.w $0DE0, X : STA.w $0DE0, Y
     
-    LDA.b #$00 : STA.w $0CBA, Y : STA.w $0E30, Y
+    LDA.b #$00 : STA.w $0CBA, Y
+                 STA.w $0E30, Y
     
     TYA
     
@@ -2030,8 +2032,7 @@ SpriteBurn_Execute:
     ; drawing it, letting it do any particular logic, etc.
     LDA.w $0DF0, X : CMP.b #$10 : BCC .normal_handling_inhibited
         LDA.w $0E40, X : PHA
-        
-        DEC #2 : STA.w $0E40, X
+        DEC : DEC      : STA.w $0E40, X
         
         JSL.l SpriteActive_MainLong
         

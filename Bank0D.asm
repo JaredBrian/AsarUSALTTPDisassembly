@@ -7137,8 +7137,8 @@ Sprite_LoadPalette:
     
     ; Again, tell us what sprite it is.
     LDY.w $0E20, X
-    
-    LDA.w SpriteData_OAMProp, Y : STA.w $0E60, X : AND.b #$0F : STA.w $0F50, X
+    LDA.w SpriteData_OAMProp, Y : STA.w $0E60, X
+    AND.b #$0F                  : STA.w $0F50, X
     
     PLB
     
@@ -8938,7 +8938,8 @@ Pikit_Draw:
     
     LDA.b #$02 : JSL.l Sprite_DrawMultiple
     
-    LDA.w $0E40, X : PHA : SEC : SBC.b #$06 : STA.w $0E40, X
+    LDA.w $0E40, X   : PHA
+    SEC : SBC.b #$06 : STA.w $0E40, X
     
     JSL.l Sprite_DrawShadowLong
     

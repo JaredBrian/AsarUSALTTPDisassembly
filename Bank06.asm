@@ -785,7 +785,7 @@ Sprite_TimersAndOAM:
 {
     JSR.w Sprite_Get_16_bit_Coords
     
-    LDA.w $0E40, X : AND.b #$1F : INC : ASL #2
+    LDA.w $0E40, X : AND.b #$1F : INC : ASL : ASL
     
     LDY.w $0FB3 : BEQ .dontSortSprites
         LDY.w $0F20, X : BEQ .onBG2
@@ -3021,7 +3021,7 @@ Sprite_DrawShadow:
         LDA.b $02 : SEC : SBC.b $E8 : STA.b $02
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCS .offScreenY
-            LDA.w $0E40, X : AND.b #$1F : ASL #2 : TAY
+            LDA.w $0E40, X : AND.b #$1F : ASL : ASL : TAY
             LDA.b $00 : STA.b ($90), Y
             
             LDA.w $0E60, X : AND.b #$20 : BEQ .delta
@@ -7719,7 +7719,7 @@ OAM_AllocateDeferToPlayer:
             ; Proceed if the difference in the Y coordinates satisfies:
             ; [ -32 <= dY < 40 ]
             LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$48 : BCS .return
-                LDA.w $0E40, X : AND.b #$1F : INC : ASL #2
+                LDA.w $0E40, X : AND.b #$1F : INC : ASL : ASL
                 
                 ; The sprite will request a different OAM range
                 ; depending on player's relative position.
@@ -7766,7 +7766,7 @@ SpriteDeath_Main:
             
             LDA.w $0E60, X : BMI .draw_normally
                 LDA.b $1A : AND.b #$03 : ORA.b $11 : ORA.w $0FC1 : BNE .delay_finality
-                INC.w $0DF0, X
+                    INC.w $0DF0, X
                 
                 .delay_finality
                 
@@ -8212,7 +8212,6 @@ SpriteDeath_DrawPerishingOverlay:
         PHY
         
         LDA.w Pool_SpriteDeath_DrawPoof_char, X : BEQ .skip_entry
-        
             INY : INY : STA.b ($90), Y
 
             LDA.w $0FA9 : SEC : SBC.b $0C

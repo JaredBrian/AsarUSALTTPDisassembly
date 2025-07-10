@@ -623,8 +623,7 @@ Sprite_DrawRippleIfInWater:
     JSL.l Sprite_DrawWaterRipple
     JSL.l Sprite_Get_16_bit_CoordsLong
     
-    LDA.w $0E40, X : AND.b #$1F : INC : ASL #2
-    
+    LDA.w $0E40, X : AND.b #$1F : INC : ASL : ASL
     JSL.l OAM_AllocateFromRegionA
     
     .notWaterTile

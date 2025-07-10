@@ -323,9 +323,9 @@ Sprite_SpawnSuperficialBombBlast:
         
         LDA.b #$1F : STA.w $0E00, Y
         
-        LDA #$03 : STA.w $0DB0, Y : STA.w $0E40, Y
-        
-        INC : STA.w $0F50, Y
+        LDA #$03 : STA.w $0DB0, Y
+                   STA.w $0E40, Y
+        INC      : STA.w $0F50, Y
         
         LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
 }
@@ -1112,29 +1112,27 @@ Dungeon_LoadSprite:
     !dataPtr    = $00
     !spriteSlot = $02
 
-    INY #2
+    INY : INY
     
     ; Examine the sprite type first... Is it a key?
     LDA.b (!dataPtr), Y : TAX : CPX.b #$E4 : BNE .notKey
-        DEY #2
+        DEY : DEY
         
         ; Check the key's Y coordinate.
         LDA.b (!dataPtr), Y : INY #2 : CMP.b #$FE : BEQ .isKey
             ; If it's 16 pixels higher than that, drop a big key.
             CMP.b #$FD : BNE .notOverlord
-            
-            JSR.w Dungeon_LoadSprite_isKey
-            
-            ; Set $0CBA to 0x02 (means it's a big key).
-            INC.w $0CBA, X 
-            
-            RTS
+                JSR.w Dungeon_LoadSprite_isKey
+                
+                ; Set $0CBA to 0x02 (means it's a big key).
+                INC.w $0CBA, X 
+                
+                RTS
         
         ; $04C345 ALTERNATE ENTRY POINT
         .isKey
         
         DEC.b !spriteSlot
-        
         LDX.b !spriteSlot
         LDA.b #$01 : STA.w $0CBA, X
         
@@ -1166,7 +1164,7 @@ Dungeon_LoadSprite:
         PHY : PHX
         
         ; Load the room index, multiply by 2.
-        LDA.w $048E : ASL TAX
+        LDA.w $048E : ASL : TAX
         
         ; !spriteSlot is the current slot in $0E20, X to load into.
         LDA.b !spriteSlot : ASL : TAY
@@ -1185,7 +1183,7 @@ Dungeon_LoadSprite:
 
     ; Give X the loading slot number.
     LDX.b !spriteSlot
-    DEY #2
+    DEY : DEY
     
     ; Send the sprite an initialization message.
     LDA #$08 : STA.w $0DD0, X
@@ -1194,18 +1192,18 @@ Dungeon_LoadSprite:
     LDA.b (!dataPtr), Y : STA.w $0FB5 
     
     ; Use the MSB of the Y coordinate to determine the floor the sprite is on.
-    AND.b #$80 : ASL ROROL STA.w $0F20, X
+    AND.b #$80 : ASL : ROL : STA.w $0F20, X
     
     ; Load the sprite's Y coordinate, multiply by 16 to give it's in-game Y
     ; coordinate. (In terms of pixels).
-    LDA ($00), Y : ASL #4 : STA.w $0D00, X
+    LDA.b ($00), Y : ASL #4 : STA.w $0D00, X
     
     LDA.w $0FB1 : ADC.b #$00 : STA.w $0D20, X
     
     ; Next load the X coordinate, and convert to Pixel coordinates.
     INY
-    
-    LDA.b (!dataPtr), Y : STA.w $0FB6 : ASL #4 : STA.w $0D10, X
+    LDA.b (!dataPtr), Y : STA.w $0FB6
+    ASL #4              : STA.w $0D10, X
     
     ; And set the upper byte of the X coordinate, of course.
     LDA.w $0FB0 : ADC.b #$00 : STA.w $0D30, X
@@ -1220,7 +1218,7 @@ Dungeon_LoadSprite:
     STZ.w $0E30, X
     
     ; Examine bits 5 and 6 of the Y (block) coordinate.
-    LDA.w $0FB5 : AND.b #$60 : LSR #2 : STA.w $0FB5
+    LDA.w $0FB5 : AND.b #$60 : LSR : LSR : STA.w $0FB5
     
     ; Provides the lower three bits of the subtype. But since all three bits
     ; cannot be set for us to be here, it follows only certain subtypes will
