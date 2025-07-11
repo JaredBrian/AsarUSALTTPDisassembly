@@ -94,42 +94,52 @@ Player_SetSfxPan:
 ; $038041-$03807E JUMP TABLE
 Pool_Link_ControlHandler:
 {
-    dw LinkState_Default        ; 0x00 - $8109 Ground state (normal mode)
-    dw LinkState_Pits           ; 0x01 - $92D3 Falling into a hole or getting close to edge of hole
-
-    dw LinkState_Recoil         ; 0x02 - $86B5 Recoil from hitting a wall (other such movement)
-    dw LinkState_SpinAttack     ; 0x03 - $A804 Spin Attack Mode
-    dw LinkState_Swimming       ; 0x04 - $963B Swimming Mode
-    dw LinkState_OnIce          ; 0x05 - $8872 Turtle Rock Platforms
-    dw LinkState_Recoil         ; 0x06 - $86B5 recoil mode 2
-    dw Player_Electrocution     ; 0x07 - $996C Electrocution Mode
-    
-    dw LinkState_UsingEther     ; 0x08 - $A50F Ether Medallion Mode
-    dw LinkState_UsingBombos    ; 0x09 - $A5F7 Bombos Medallion Mode
-    dw LinkState_UsingQuake     ; 0x0A - $A6D6 Quake Medallion Mode
-    dw LinkState_HoppingSouthOW ; 0x0B - $894E Falling into hole by jumping off a ledge
-    dw LinkState_HoppingHorizontallyOW   ; 0x0C - $8B74 Falling to the left/right off a ledge
-    dw LinkState_HoppingDiagonallyUpOW   ; 0x0D - $8DC6 Jumping off a ledge diagonally up and left/right
-    dw LinkState_HoppingDiagonallyDownOW ; 0x0E - $8E15 Jumping off a ledge diagonally down and left/right
-    dw LinkState_0F                      ; 0x0F - $8C69 More jumping off a ledge but with dashing maybe + some directions
-    
-    dw LinkState_0F                  ; 0x10 - $8C69 Same as 0x0F?
-    dw LinkState_Dashing             ; 0x11 - $8F86 Falling off a ledge / Dashing
-    dw LinkState_ExitingDash         ; 0x12 - $915E Coming out of dash due to button press in the direction we're not going
-
-    dw LinkState_Hookshotting        ; 0x13 - $AB7C Hookshot
-    dw LinkState_CrossingWorlds      ; 0x14 - $A9B1 Magic Mirror
-    dw LinkState_ShowingOffItem      ; 0x15 - $99AC Holding up an item (RTS)
-    dw LinkState_Sleeping            ; 0x16 - $9A5A Asleep in bed
-    dw LinkState_Bunny               ; 0x17 - $83A1 Permabunny mode
-    
-    dw LinkState_HoldingBigRock      ; 0x18 - $8481 stuck under heavy lifted object
-    dw Player_EtherSpell             ; 0x19 - $8570 Receiving Ether Medallion Mode
-    dw Player_BombosSpell            ; 0x1A - $85FB Receiving Bombos Medallion Mode
-    dw LinkState_ReadingDesertTablet ; 0x1B - $867B Opening Desert Palace Mode
-    dw LinkState_TemporaryBunny      ; 0x1C - $8365 Temp bunny mode
-    dw LinkState_TreePull            ; 0x1D - $B416 Rolling back from Gargoyle gate or PullForRupees
-    dw LinkState_SpinAttack          ; 0x1E - $A804 Spin attack mode 2
+    dw LinkState_Default                 ; 0x00 - $8109 Ground state (normal mode)
+    dw LinkState_Pits                    ; 0x01 - $92D3 Falling into a hole or 
+                                         ;        getting close to edge of hole
+    dw LinkState_Recoil                  ; 0x02 - $86B5 Recoil from hitting a wall
+                                         ;        (other such movement)
+    dw LinkState_SpinAttack              ; 0x03 - $A804 Spin Attack Mode
+    dw LinkState_Swimming                ; 0x04 - $963B Swimming Mode
+    dw LinkState_OnIce                   ; 0x05 - $8872 Turtle Rock Platforms
+    dw LinkState_Recoil                  ; 0x06 - $86B5 recoil mode 2
+    dw Player_Electrocution              ; 0x07 - $996C Electrocution Mode
+    dw LinkState_UsingEther              ; 0x08 - $A50F Ether Medallion Mode
+    dw LinkState_UsingBombos             ; 0x09 - $A5F7 Bombos Medallion Mode
+    dw LinkState_UsingQuake              ; 0x0A - $A6D6 Quake Medallion Mode
+    dw LinkState_HoppingSouthOW          ; 0x0B - $894E Falling into hole by 
+                                         ;        jumping off a ledge
+    dw LinkState_HoppingHorizontallyOW   ; 0x0C - $8B74 Falling to the left/right
+                                         ;        off a ledge
+    dw LinkState_HoppingDiagonallyUpOW   ; 0x0D - $8DC6 Jumping off a ledge
+                                         ;        diagonally up and left/right
+    dw LinkState_HoppingDiagonallyDownOW ; 0x0E - $8E15 Jumping off a ledge
+                                         ;        diagonally down and left/right
+    dw LinkState_0F                      ; 0x0F - $8C69 More jumping off a ledge
+                                         ;        but with dashing maybe + some
+                                         ;        directions
+    dw LinkState_0F                      ; 0x10 - $8C69 Same as 0x0F?
+    dw LinkState_Dashing                 ; 0x11 - $8F86 Falling off a ledge /
+                                         ;        Dashing
+    dw LinkState_ExitingDash             ; 0x12 - $915E Coming out of dash due to
+                                         ;        button press in the direction 
+                                         ;        we're not going
+    dw LinkState_Hookshotting            ; 0x13 - $AB7C Hookshot
+    dw LinkState_CrossingWorlds          ; 0x14 - $A9B1 Magic Mirror
+    dw LinkState_ShowingOffItem          ; 0x15 - $99AC Holding up an item (RTS)
+    dw LinkState_Sleeping                ; 0x16 - $9A5A Asleep in bed
+    dw LinkState_Bunny                   ; 0x17 - $83A1 Permabunny mode
+    dw LinkState_HoldingBigRock          ; 0x18 - $8481 stuck under heavy lifted 
+                                         ;        object
+    dw Player_EtherSpell                 ; 0x19 - $8570 Receiving Ether Medallion 
+                                         ;        Mode
+    dw Player_BombosSpell                ; 0x1A - $85FB Receiving Bombos Medallion
+                                         ;        Mode
+    dw LinkState_ReadingDesertTablet     ; 0x1B - $867B Opening Desert Palace Mode
+    dw LinkState_TemporaryBunny          ; 0x1C - $8365 Temp bunny mode
+    dw LinkState_TreePull                ; 0x1D - $B416 Rolling back from Gargoyle
+                                         ;        gate or PullForRupees
+    dw LinkState_SpinAttack              ; 0x1E - $A804 Spin attack mode 2
 }
 
 ; $03807F-$038108 LOCAL JUMP LOCATION
@@ -179,7 +189,8 @@ Link_ControlHandler:
             .blinkingFromDamage
             
             ; Selects the "Link has been hurt" sound.
-            LDA.b #$26 : JSR.w Player_DoSfx2
+            LDA.b #$26
+            JSR.w Player_DoSfx2
             
             INC.w $0CFC
             
@@ -211,7 +222,8 @@ Link_ControlHandler:
             LDA.b #$01 : STA.b $11
             
             ; Disable heart filling.
-            LDA.b #$00 : STA.w $031F : STA.l $7EF372
+            LDA.b #$00 : STA.w $031F
+                         STA.l $7EF372
             
             .linkNotDead
             
@@ -228,7 +240,6 @@ Link_ControlHandler:
     
     ; Link's main handling variable. This determines his actions.
     LDA.b $5D : ASL : TAX
-    
     JMP.w ($8041, X)
 }
 
@@ -310,7 +321,8 @@ LinkState_Default:
             
             LDA.b $67 : AND.b #$F0 : STA.b $67
             
-            LDA.b #$2B : JSR.w Player_DoSfx3
+            LDA.b #$2B
+            JSR.w Player_DoSfx3
             
             ; Link got hit with the Agahnim bug zapper.
             LDA.b #$07 : STA.b $5D
@@ -323,8 +335,7 @@ LinkState_Default:
         ; Checking for indoors.
         ; OPTIMIZE: Useless branch.
         LDA.b $1B : BNE .zero_length_branch
-            ; It is a secret to everybody.
-
+            ; Nothing.
         .zero_length_branch
 
         STZ.b $6B
@@ -337,8 +348,8 @@ LinkState_Default:
     .BRANCH_DELTA
 
     LDA.b #$FF : STA.b $24
-             STA.b $25
-             STA.b $29
+                 STA.b $25
+                 STA.b $29
     
     STZ.w $02C6
     
@@ -348,7 +359,7 @@ LinkState_Default:
         
         LDA.w $0308 : ORA.w $0376 : BNE .BRANCH_IOTA
             LDA.w $0377 : BNE .BRANCH_IOTA
-                ; Is Link falling off of a ledge?    ; Yes...
+                ; Is Link falling off of a ledge?  ; Yes...
                 LDA.b $5D : CMP.b #$11 : BEQ .BRANCH_IOTA
                     JSR.w Link_HandleYItem ; Handle Y button items?
                     
@@ -420,8 +431,11 @@ LinkState_Default:
     .BRANCH_RHO
 
     LDA.w $034A : BEQ .BRANCH_TAU
-        LDA.b #$01 : STA.w $0335 : STA.w $0337
-        LDA.b #$80 : STA.w $0334 : STA.w $0336
+        LDA.b #$01 : STA.w $0335
+                     STA.w $0337
+
+        LDA.b #$80 : STA.w $0334
+                     STA.w $0336
         
         BRL Link_HandleSwimMovements
 
@@ -433,7 +447,8 @@ LinkState_Default:
         LDA.w $0376 : AND.b #$02 : BNE .BRANCH_PHI
             ; Branch if there are any directional buttons down.
             LDA.b $F0 : AND.b #$0F : BNE .BRANCH_UPSILON
-                STA.b $30 : STA.b $31 : STA.b $67 : STA.b $26
+                STA.b $30 : STA.b $31
+                STA.b $67 : STA.b $26
                 
                 STZ.b $2E
                 
@@ -501,10 +516,8 @@ Link_HandleBunnyTransformation:
         ; Check if Link first needs to be transformed.
         LDA.w $03F7 : BNE .doTransformation
             ; Is Link a permabunny or tempbunny?
-            LDA.b $5D
-            
-            CMP.b #$17 : BEQ .inBunnyForm
-            CMP.b #$1C : BEQ .inBunnyForm
+            LDA.b $5D : CMP.b #$17 : BEQ .inBunnyForm
+                        CMP.b #$1C : BEQ .inBunnyForm
                 LDA.w $0309 : AND.b #$02 : BEQ .notLiftingAnything
                     STZ.w $0308
                 
@@ -520,9 +533,7 @@ Link_HandleBunnyTransformation:
                 
                 .nextObjectSlot
                 
-                    LDA.w $0C4A, X
-                    
-                    CMP.b #$30 : BEQ .killByrnaObject
+                    LDA.w $0C4A, X : CMP.b #$30 : BEQ .killByrnaObject
                         CMP.b #$31 : BNE .notByrnaObject
                             .killByrnaObject
                             
@@ -535,16 +546,17 @@ Link_HandleBunnyTransformation:
                 
                 LDY.b #$04
                 LDA.b #$23
-                
                 JSL.l AddTransformationCloud
                 
-                LDA.b #$14 : JSR.w Player_DoSfx2
+                LDA.b #$14
+                JSR.w Player_DoSfx2
                 
                 ; It will take 20 frames for the transformation to finish.
                 LDA.b #$14 : STA.w $02E2
                 
                 ; Indicate that a transformation is in progress by way of flags.
-                LDA.b #$01 : STA.w $037B : STA.w $03F7
+                LDA.b #$01 : STA.w $037B
+                             STA.w $03F7
                 
                 ; Make Link invisible during the transformation.
                 LDA.b #$0C : STA.b $4B
@@ -557,7 +569,8 @@ Link_HandleBunnyTransformation:
             LDA.b #$1C : STA.b $5D
             
             ; Change Link's graphics to the bunny set.
-            LDA.b #$01 : STA.w $02E0 : STA.b $56
+            LDA.b #$01 : STA.w $02E0
+                         STA.b $56
             
             JSL.l LoadGearPalettes_bunny
             
@@ -599,7 +612,8 @@ LinkState_TemporaryBunny:
         
         JSL.l AddTransformationCloud
         
-        LDA.b #$15 : JSR.w Player_DoSfx2
+        LDA.b #$15
+        JSR.w Player_DoSfx2
         
         LDA.b #$20 : STA.w $02E2
         
@@ -686,14 +700,18 @@ LinkState_Bunny:
         
         .BRANCH_THETA
         
-        LDA.b #$FF : STA.b $24 : STA.b $25 : STA.b $29
+        LDA.b #$FF : STA.b $24
+                     STA.b $25
+                     STA.b $29
         
         STZ.w $02C6
         
         LDA.w $034A : BEQ .BRANCH_IOTA
-            LDA.b #$01 : STA.w $0335 : STA.w $0337
+            LDA.b #$01 : STA.w $0335
+                         STA.w $0337
             
-            LDA.b #$80 : STA.w $0334 : STA.w $0336
+            LDA.b #$80 : STA.w $0334
+                         STA.w $0336
             
             BRL Link_HandleSwimMovements
         
@@ -704,7 +722,8 @@ LinkState_Bunny:
         
         LDA.b $49 : AND.b #$0F : BNE .BRANCH_KAPPA
             LDA.b $F0 : AND.b #$0F : BNE .BRANCH_KAPPA
-                STA.b $30 : STA.b $31 : STA.b $67 : STA.b $26
+                STA.b $30 : STA.b $31
+                STA.b $67 : STA.b $26
                 
                 STZ.b $2E
                 
@@ -787,7 +806,8 @@ LinkState_HoldingBigRock:
             
             LDA.b $67 : AND.b #$F0 : STA.b $67
             
-            LDA.b #$2B : JSR.w Player_DoSfx3
+            LDA.b #$2B
+            JSR.w Player_DoSfx3
             
             LDA.b #$07 : STA.b $5D
             
@@ -828,7 +848,8 @@ LinkState_HoldingBigRock:
     JSR.w Link_HandleAPress
     
     LDA.b $50 : AND.b #$0F : BNE .BRANCH_EPSILON
-        STA.b $30 : STA.b $31 : STA.b $67 : STA.b $26
+        STA.b $30 : STA.b $31
+        STA.b $67 : STA.b $26
         
         STZ.b $2E
         
@@ -879,7 +900,8 @@ Player_InitiateFirstEtherSpell:
     
     LDA.b #$19 : STA.b $5D
     
-    LDA.b #$01 : STA.w $037B : STA.w $0FFC
+    LDA.b #$01 : STA.w $037B
+                 STA.w $0FFC
     
     RTL
 }
@@ -895,7 +917,8 @@ Player_EtherSpell:
     
     REP #$20
     
-    DEC.b $3C : LDA.b $3C : BMI .BRANCH_ALPHA
+    DEC.b $3C
+    LDA.b $3C : BMI .BRANCH_ALPHA
         BEQ .BRANCH_BETA
             CMP.w #$00A0 : BEQ .BRANCH_GAMMA
                 CMP.w #$00BF : BEQ .BRANCH_DELTA
@@ -927,7 +950,6 @@ Player_EtherSpell:
     LDX.b #$00
     LDY.b #$04
     LDA.b #$29
-    
     JSL.l AddPendantOrCrystal
     
     LDA.b #$01 : STA.w $02E4
@@ -952,7 +974,6 @@ Player_EtherSpell:
     
     LDY.b #$00
     LDA.b #$18
-    
     JSL.l AddEtherSpell
     
     PLA : STA.b $23
@@ -977,7 +998,8 @@ Player_InitiateFirstBombosSpell:
     ; Link is receiving Bombos medallion.
     LDA.b #$1A : STA.b $5D
     
-    LDA.b #$01 : STA.w $037B : STA.w $0112
+    LDA.b #$01 : STA.w $037B
+                 STA.w $0112
     
     RTL
 }
@@ -993,7 +1015,8 @@ Player_BombosSpell:
     
     REP #$20
     
-    DEC.b $3C : LDA.b $3C : BMI .BRANCH_ALPHA  BEQ .BRANCH_BETA
+    DEC.b $3C
+    LDA.b $3C : BMI .BRANCH_ALPHA  BEQ .BRANCH_BETA
         CMP.w #$00A0 : BEQ .BRANCH_GAMMA
             CMP.w #$00DF : BEQ .BRANCH_DELTA
                 SEP #$20
@@ -1024,7 +1047,6 @@ Player_BombosSpell:
     LDY.b #$04
     LDX.b #$05
     LDA.b #$29
-    
     JSL.l AddPendantOrCrystal
     
     LDA.b #$01 : STA.w $02E4
@@ -1047,7 +1069,6 @@ Player_BombosSpell:
     
     LDY.b #$00
     LDA.b #$19
-    
     JSL.l AddBombosSpell
     
     PLA : STA.b $23
@@ -1140,7 +1161,6 @@ LinkState_Recoil:
     LDA.b $24 : BPL .BRANCH_ALPHA
         LDA.b $29 : BPL .BRANCH_ALPHA
             LDY.b #$05
-            
             JSR.w TileDetect_MainHandler
             
             LDA.w $0341 : AND.b #$01 : BEQ .BRANCH_BETA
@@ -1152,7 +1172,6 @@ LinkState_Recoil:
                 
                 LDA.b #$15
                 LDY.b #$00
-                
                 JSL.l AddTransitionSplash
                 
                 ; OPTIMIZ: 0 length branch.
@@ -1168,7 +1187,7 @@ LinkState_Recoil:
 
                 .BRANCH_DELTA
 
-                    LSR A
+                    LSR
                 DEX : BEQ .BRANCH_DELTA
                 
                 STA.b $29 : BNE .BRANCH_ALPHA
@@ -1257,13 +1276,11 @@ Link_HandleRecoilAndTimer:
             
             LDA.b #$15
             LDY.b #$00
-            
             JSL.l AddTransitionSplash
 
         .BRANCH_SIGMA
 
         LDY.b #$00
-        
         JSR.w TileDetect_MainHandler
         
         LDA.w $0357 : AND.b #$01 : BEQ .BRANCH_UPSILON
@@ -1286,7 +1303,6 @@ Link_HandleRecoilAndTimer:
             
             LDA.b #$15
             LDY.b #$00
-            
             JSL.l AddTransitionSplash
 
         .BRANCH_BETA
@@ -1413,7 +1429,8 @@ LinkState_OnIce:
 
         LDA.b $F0 : AND.b #$0F : BNE .BRANCH_DELTA
             ; Isn't this equivalent to STZ?
-            STA.b $30 : STA.b $31 : STA.b $67 : STA.b $26
+            STA.b $30 : STA.b $31
+            STA.b $67 : STA.b $26
             
             STZ.b $2E
             
@@ -1434,9 +1451,7 @@ LinkState_OnIce:
 
         LDX.b #$10
         
-        LDA.b $67
-        
-        AND.b #$0F : BEQ .BRANCH_THETA
+        LDA.b $67 : AND.b #$0F : BEQ .BRANCH_THETA
             AND.b #$0C : BEQ .BRANCH_IOTA
             LDA.b $67 : AND.b #$03 : BEQ .BRANCH_IOTA
                 LDX.b #$0A
@@ -1513,7 +1528,9 @@ Link_HandleChangeInZVelocity:
 
     LDA.b $29 : BPL .apply_z_speed_change
         LDA.b $24 : BEQ .BRANCH_GAMMA  BPL .apply_z_speed_change
-            LDA.b #$FF : STA.b $24 : STA.b $25 : STA.b $29
+            LDA.b #$FF : STA.b $24
+                         STA.b $25
+                         STA.b $29
             
             BRA .BRANCH_GAMMA
     
@@ -1542,7 +1559,8 @@ LinkState_HoppingSouthOW:
     LDA.b $46 : BNE .BRANCH_ALPHA
         LDA.w $0362 : BNE .BRANCH_ALPHA
             ; Play the "something's falling" sound effect.
-            LDA.b #$20 : JSR.w Player_DoSfx2
+            LDA.b #$20
+            JSR.w Player_DoSfx2
             
             JSR.w LinkHop_FindTileToLandOnSouth
             
@@ -1585,10 +1603,8 @@ LinkState_HoppingSouthOW:
             
             .BRANCH_DELTA
             
-            LDA.b $5D
-            
-            CMP.b #$04 : BEQ .BRANCH_EPSILON
-            CMP.b #$01 : BEQ .BRANCH_EPSILON
+            LDA.b $5D : CMP.b #$04 : BEQ .BRANCH_EPSILON
+                        CMP.b #$01 : BEQ .BRANCH_EPSILON
                 LDA.w $0345 : BNE .BRANCH_EPSILON
                     ; The sound of something hitting the ground?
                     LDA.b #$21 : JSR.w Player_DoSfx2
@@ -1599,7 +1615,9 @@ LinkState_HoppingSouthOW:
             STZ.b $78
             STZ.b $4D
             
-            LDA.b #$FF : STA.b $29 : STA.b $24 : STA.b $25
+            LDA.b #$FF : STA.b $29
+                         STA.b $24
+                         STA.b $25
             
             STZ.b $46
             
@@ -1652,15 +1670,12 @@ LinkState_HandlingJump:
         STZ.b $24
         STZ.b $25
         
-        LDA.b $5D
-        
-        CMP.b #$0C : BEQ .delta
+        LDA.b $5D : CMP.b #$0C : BEQ .delta
             CMP.b #$0E : BNE .epsilon
         
         .delta
         
         LDY.b #$00
-        
         JSR.w TileDetect_MainHandler
         
         LDA.w $0341 : AND.b #$01 : BEQ .zeta
@@ -1672,7 +1687,6 @@ LinkState_HandlingJump:
             ; Add transition splash.
             LDA.b #$15
             LDY.b #$00
-            
             JSL.l AddTransitionSplash
             
             BRA .epsilon
@@ -1712,7 +1726,9 @@ LinkState_HandlingJump:
         STZ.b $78
         STZ.b $4D
         
-        LDA.b #$FF : STA.b $29 : STA.b $24 : STA.b $25
+        LDA.b #$FF : STA.b $29
+                     STA.b $24
+                     STA.b $25
         
         STZ.b $46
         
@@ -1729,11 +1745,9 @@ LinkState_HandlingJump:
     
     .mu
     
-    LDA.b $29 : STA.w $0362
-    
+    LDA.b $29   : STA.w $0362
     LDA.w $02C7 : STA.w $0363
-    
-    LDA.b $24 : STA.w $0364
+    LDA.b $24   : STA.w $0364
     
     RTS
 }
@@ -1825,7 +1839,8 @@ LinkHop_FindTileToLandOnSouth:
     
     REP #$20
     
-    LDA.b $20 : SEC : SBC.b $32 : CLC : ADC.b $00 : STA.w $0364 : STA.b $24
+    LDA.b $20 : SEC : SBC.b $32 : CLC : ADC.b $00 : STA.w $0364
+                                                    STA.b $24
     
     SEP #$20
     
@@ -1871,7 +1886,6 @@ Link_HoppingHorizontally_FindTile_Vertical:
 {
     LDA.b $21 : STA.b $33
     LDA.b $20 : STA.b $32
-    
     SEC : SBC.b $3E : STA.b $30
     
     LDA.b $66 : ASL : TAY
@@ -1886,7 +1900,6 @@ Link_HoppingHorizontally_FindTile_Vertical:
     JSR.w TileDetect_Movement_Vertical
     
     LDA.w $0343 : ORA.w $035B : ORA.w $0357 : ORA.w $0341
-    
     AND.b #$07 : CMP.b #$07 : BEQ .BRANCH_ALPHA
         LDA.b $33 : STA.b $21
         LDA.b $32 : STA.b $20
@@ -1898,19 +1911,19 @@ Link_HoppingHorizontally_FindTile_Vertical:
         LDA.b $28 : BPL .BRANCH_BETA
             LDY.b #$FF
             
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_BETA
         
         LSR #4 : TAX
-        
         LDA.w Pool_Link_HoppingHorizontally_FindTile_Vertical_speed_z, X
-        STA.w $0362 : STA.w $0363
+        STA.w $0362
+        STA.w $0363
         
         LDA.w Pool_Link_HoppingHorizontally_FindTile_Vertical_speed_x, X
         
         CPY.b #$FF : BNE .BRANCH_GAMMA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_GAMMA
         
@@ -1944,7 +1957,8 @@ Link_HoppingHorizontally_FindTile_Vertical:
     
     REP #$20
     
-    LDA.b $20 : SEC : SBC.b $32 : CLC : ADC.b $00 : STA.w $0364 : STA.b $24
+    LDA.b $20 : SEC : SBC.b $32 : CLC : ADC.b $00 : STA.w $0364
+                                                    STA.b $24
     
     SEP #$20
     
@@ -2018,9 +2032,9 @@ LinkState_0F:
     
     LDA.b $46 : BNE .BRANCH_BETA
         LDA.w $0362 : BNE .BRANCH_BETA
-            LDA.b $5D : SEC : SBC.b #$0F : ASL #2 : STA.b $00
+            LDA.b $5D : SEC : SBC.b #$0F : ASL : ASL : STA.b $00
             
-            TYA : AND.b #$FD : ASL CLC : ADC.b $00 : TAX
+            TYA : AND.b #$FD : ASL : CLC : ADC.b $00 : TAX
             
             LDA.b $22 : PHA
             LDA.b $23 : PHA
@@ -2035,7 +2049,7 @@ LinkState_0F:
             LDA.w Pool_LinkState_0F_speed_x, X
             
             CPY.b #$02 : BNE .BRANCH_GAMMA
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
 
             .BRANCH_GAMMA
 
@@ -2046,7 +2060,8 @@ LinkState_0F:
 
             .BRANCH_DELTA
 
-            CLC : ADC.w Pool_LinkState_0F_offset_z, X : STA.w $0364 : STA.b $24
+            CLC : ADC.w Pool_LinkState_0F_offset_z, X : STA.w $0364
+                                                        STA.b $24
             
             TXA : ASL TAX
             
@@ -2122,17 +2137,16 @@ Link_HoppingHorizontally_FindTile_Horizontal:
         SEP #$20
         
         LDA.b $66 : ASL : TAY
-        
         JSR.w TileDetect_Movement_Horizontal
         
         PLY
         PLX
         
         LDA.w $0343 : ORA.w $035B : ORA.w $0357 : ORA.w $0341 : ORA.b $59
-        
         AND.b #$07 : CMP.b #$07 : BNE .BRANCH_ALPHA
             LDA.w $0341 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_BETA
-                LDA.b #$01 : STA.w $0345 : INC STA.b $4D
+                LDA.b #$01 : STA.w $0345
+                INC        : STA.b $4D
                 
                 LDA.w $0026 : STA.w $0340
                 
@@ -2164,7 +2178,7 @@ Link_HoppingHorizontally_FindTile_Horizontal:
     CLC : ADC.b $22 : STA.b $22
     
     LDA.b $32 : SEC : SBC.b $22 : BPL .BRANCH_DELTAs
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
 
     .BRANCH_DELTA
 
@@ -2174,14 +2188,15 @@ Link_HoppingHorizontally_FindTile_Horizontal:
     
     LDA.w Pool_Link_HoppingHorizontally_FindTile_Horizontal_speed_x, X
     CPY.b #$02 : BEQ .BRANCH_EPSILON
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
 
     .BRANCH_EPSILON
 
     STA.b $28
     
     LDA.w Pool_Link_HoppingHorizontally_FindTile_Horizontal_speed_z, X
-    STA.w $0362 : STA.w $0363
+    STA.w $0362
+    STA.w $0363
     
     PLX
     
@@ -2212,7 +2227,9 @@ LinkState_HoppingDiagonallyUpOW:
         STZ.w $037B
         STZ.b $4D
 
-        LDA.b #$FF : STA.b $29 : STA.b $24 : STA.b $25 : STA.b $46 : STA.b $50
+        LDA.b #$FF : STA.b $29
+        STA.b $24 : STA.b $25
+        STA.b $46 : STA.b $50
 
     .exit
 
@@ -2253,7 +2270,8 @@ LinkState_HoppingDiagonallyDownOW:
             LDA.b $22 : PHA
             LDA.b $23 : PHA
             
-            LDA.b #$20 : JSR.w Player_DoSfx2
+            LDA.b #$20
+            JSR.w Player_DoSfx2
             
             JSR.w LinkHop_FindLandingSpotDiagonallyDown
             
@@ -2271,7 +2289,7 @@ LinkState_HoppingDiagonallyDownOW:
             LDA.w .speed_x, Y
             
             CPX.b #$02 : BNE .BRANCH_GAMMA
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
 
             .BRANCH_GAMMA
 
@@ -2321,6 +2339,7 @@ LinkHop_FindLandingSpotDiagonallyDown:
         
         LDA.b $28
         
+        ; TODO: Broken op code? can a BMI be by itself?
         BMI 
         
         LDY.b #$02
@@ -2335,7 +2354,6 @@ LinkHop_FindLandingSpotDiagonallyDown:
         CLC : ADC.b $22 : STA.b $22
         
         LDA.b $66 : AND.w #$00FF : ASL TAY
-        
         LDA.w Pool_LinkHop_FindLandingSpotDiagonallyDown_offset_y, Y
         CLC : ADC.b $20 : STA.b $20
         
@@ -2343,8 +2361,7 @@ LinkHop_FindLandingSpotDiagonallyDown:
         
         JSR.w TileDetect_Movement_Vertical
         
-        PLY : TYA : LSR TAY
-        
+        PLY : TYA : LSR : TAY
         LDA.w Pool_LinkHop_FindLandingSpotDiagonallyDown_detection_masks, Y
         STA.b $72
         
@@ -2385,7 +2402,8 @@ LinkHop_FindLandingSpotDiagonallyDown:
     
     REP #$20
     
-    LDA.b $20 : SEC : SBC.b $32 : CLC : ADC.b $00 : STA.w $0364 : STA.b $24
+    LDA.b $20 : SEC : SBC.b $32 : CLC : ADC.b $00 : STA.w $0364
+                                                    STA.b $24
     
     SEP #$20
     
@@ -2401,7 +2419,6 @@ Link_SplashUponLanding:
         LDA.w $0345 : BEQ .notSwimming
             LDA.b #$15
             LDY.b #$00
-            
             JSL.l AddTransitionSplash
             
             PLY : PLX
@@ -2429,7 +2446,6 @@ Link_SplashUponLanding:
         LDA.b $5D : CMP.b #$06 : BEQ .notRecoiling
             LDA.b #$15
             LDY.b #$00
-            
             JSL.l AddTransitionSplash
         
         .notRecoiling
@@ -2572,7 +2588,8 @@ LinkState_Dashing:
             
             LDA.b $67 : AND.b #$F0 : STA.b $67
             
-            LDA.b #$2B : JSR.w Player_DoSfx3
+            LDA.b #$2B
+            JSR.w Player_DoSfx3
             
             LDA.b #$07 : STA.b $5D
             
@@ -2636,7 +2653,6 @@ LinkState_Dashing:
     
     LDY.b #$00
     LDA.b #$1E
-    
     JSL.l AddDashingDust_notYetMoving
     
     STZ.b $30
@@ -2653,21 +2669,29 @@ LinkState_Dashing:
     .BRANCH_OMICRON
     
     LDA.b $2F : LSR : TAX
-    
     LDA.w LinkDirections26, X
     
     .BRANCH_PI
     
-    STA.b $26 : STA.b $67 : STA.w $0340
+    STA.b $26
+    STA.b $67
+    STA.w $0340
     
     STZ.b $6B
     
     JSL.l Link_HandleMovingAnimation_FullLongEntry
     
-    LDA.b $20 : STA.b $00 : STA.b $3E
-    LDA.b $22 : STA.b $01 : STA.b $3F
-    LDA.b $21 : STA.b $02 : STA.b $40
-    LDA.b $23 : STA.b $03 : STA.b $41
+    LDA.b $20 : STA.b $00
+                STA.b $3E
+
+    LDA.b $22 : STA.b $01
+                STA.b $3F
+
+    LDA.b $21 : STA.b $02
+                STA.b $40
+
+    LDA.b $23 : STA.b $03
+                STA.b $41
     
     JSR.w Link_HandleMovingFloor
     JSR.w Link_ApplyConveyor
@@ -2692,7 +2716,8 @@ LinkState_Dashing:
     
     .BRANCH_TAU
     
-    DEC.w $02F1 : LDA.w $02F1 : CMP.b #$20 : BCS .BRANCH_UPSILON
+    DEC.w $02F1
+    LDA.w $02F1 : CMP.b #$20 : BCS .BRANCH_UPSILON
         LDA.b #$20 : STA.w $02F1
     
     .BRANCH_UPSILON
@@ -2707,7 +2732,6 @@ LinkState_Dashing:
     ; LINK'S SWORD VALUE
     LDA.l $7EF359 : INC : AND.b #$FE : BEQ .BRANCH_PHI
         LDY.b #$07
-        
         JSR.w TileDetect_MainHandler
     
     .BRANCH_PHI
@@ -2721,11 +2745,10 @@ LinkState_Dashing:
     STZ.b $46
     
     LDA.b $2F : LSR : TAX
-    
     LDA.w LinkDirections26, X : STA.b $00
     
     LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_PSI
-    CMP.b $00              : BEQ .BRANCH_PSI
+                CMP.b $00  : BEQ .BRANCH_PSI
         ; Come out of the dashing submode.
         LDA.b #$12 : STA.b $5D
         
@@ -2740,7 +2763,6 @@ LinkState_Dashing:
     
     LDA.b $49 : AND.b #$0F : BNE .BRANCH_OMEGA
         LDA.b $2F : LSR : TAX
-        
         LDA.w LinkDirections26, X
     
     .BRANCH_OMEGA
@@ -2899,15 +2921,14 @@ RepelDash:
     
     LDY.b #$01
     LDA.b #$1D
-    
     JSL.l AddDashTremor
+
     JSL.l Player_ApplyRumbleToSprites
     
-    LDA.w $012F : AND.b #$3F
-    
-    CMP.b #$1B : BEQ .BRANCH_GAMMA
-    CMP.b #$32 : BEQ .BRANCH_GAMMA
-        LDA.b #$03 : JSR.w Player_DoSfx3
+    LDA.w $012F : AND.b #$3F : CMP.b #$1B : BEQ .BRANCH_GAMMA
+                               CMP.b #$32 : BEQ .BRANCH_GAMMA
+        LDA.b #$03
+        JSR.w Player_DoSfx3
     
     .BRANCH_GAMMA
 }
@@ -2919,15 +2940,16 @@ LinkApplyTileRebound:
     
     ; Recoil in the opposite direction from the dash.
     LDA.w RepelBonkSpeedY_y_recoil, X : STA.b $27
-    
     LDA.w RepelBonkSpeedY_x_recoil, X : STA.b $28
     
     LDA.b #$18 : STA.b $46
     
-    LDA.b #$24 : STA.b $29 : STA.w $02C7
+    LDA.b #$24 : STA.b $29
+                 STA.w $02C7
     
     LDA.w $034A : BEQ .BRANCH_DELTA
-        LDA.w RepelDirectionMasks, X : STA.w $0340 : STA.b $67
+        LDA.w RepelDirectionMasks, X : STA.w $0340
+                                       STA.b $67
         
         LDA.w RepelBonkSpeedY_TileReboundAFlaggingY, X : STA.w $0338
         LDA.w RepelBonkSpeedY_TileReboundAFlaggingX, X : STA.w $033A
@@ -2949,7 +2971,8 @@ LinkApplyTileRebound:
     
     .BRANCH_DELTA
     
-    LDA.b #$01 : STA.b $4D : STA.w $02F8
+    LDA.b #$01 : STA.b $4D
+                 STA.w $02F8
     
     STZ.b $74
     STZ.w $0360
@@ -2999,23 +3022,25 @@ Flag67WithDirections:
     
     LDY.b #$00
     
-    LDA.b $27 : BEQ .BRANCH_ALPHA  BMI .BRANCH_BETA
-        LDY.b #$01
-    
-    .BRANCH_BETA
-    
-    JSR.w Flag67WithDirections_flag_one
-    
+    LDA.b $27 : BEQ .BRANCH_ALPHA 
+        BMI .BRANCH_BETA
+            LDY.b #$01
+        
+        .BRANCH_BETA
+        
+        JSR.w Flag67WithDirections_flag_one
+        
     .BRANCH_ALPHA
     
     LDY.b #$02
     
-    LDA.b $28 : BEQ Flag67WithDirections_flag_one_return  BMI .flag_one
-        LDY.b #$03
-    
-    .flag_one
+    LDA.b $28 : BEQ Flag67WithDirections_flag_one_return
+        BMI .flag_one
+            LDY.b #$03
+        
+        .flag_one
 
-    ; Bleeds into the next function.
+        ; Bleeds into the next function.
 }
 
 ; $0392B9-$0392BE LOCAL JUMP LOCATION
@@ -3192,7 +3217,8 @@ Link_HandleFallingInPit:
             STZ.b $46
             STZ.b $4D
             
-            LDA.b #$1F : JSR.w Player_DoSfx3
+            LDA.b #$1F
+            JSR.w Player_DoSfx3
         
         .BRANCH_OMICRON
         
@@ -3237,7 +3263,6 @@ Link_HandleFallingInPit:
     LDA.b $67 : STA.b $00
     
     LDX.w $02C9
-    
     LDA.w PitFall_Flags_ForAnimation, X : TSB.b $67
     
     LDA.b $00 : BEQ .BRANCH_OMEGA
@@ -3272,7 +3297,8 @@ Link_HandleFallingInPit:
             INC.w $037B
         DEC.b $5C : BPL .BRANCH_ALTIMA
         
-        INC.b $5A : LDX.b $5A
+        INC.b $5A
+        LDX.b $5A
         
         LDA.b #$09 : STA.b $5C
         
@@ -3316,7 +3342,6 @@ Link_HandleFallingInPit:
         PLA : STA.b $00
         
         LDX.w #$0070
-        
         LDA.b $A0
         
         .BRANCH_BETA2
@@ -3380,7 +3405,8 @@ HandleLayerOfDestination:
     LDA.b #$14 : STA.b $11
     
     ; Subtract one heart from Link's HP. Could replace this with a BPL... maybe.
-    LDA.l $7EF36D : SEC : SBC.b #$08 : STA.l $7EF36D : CMP.b #$A8 : BCC .notDead
+    LDA.l $7EF36D : SEC : SBC.b #$08 : STA.l $7EF36D
+    CMP.b #$A8 : BCC .notDead
         ; Instakill if Link's HP is >= 0xA8. Kinda counter intuitive, but
         ; whatever.
         LDA.b #$00 : STA.l $7EF36D
@@ -3411,7 +3437,6 @@ HandleUnderworldLandingFromPit:
     REP #$20
     
     LDA.b $22 : STA.w $0FC2
-    
     LDA.b $20 : STA.w $0FC4
     
     SEP #$20
@@ -3422,7 +3447,8 @@ HandleUnderworldLandingFromPit:
     .BRANCH_ALPHA
     
     LDA.b $1A : AND.b #$03 : BNE .BRANCH_BETA
-        INC.b $5A : LDA.b $5A : CMP.b #$0A : BNE .BRANCH_BETA
+        INC.b $5A
+        LDA.b $5A : CMP.b #$0A : BNE .BRANCH_BETA
             LDA.b #$06 : STA.b $5A
     
     .BRANCH_BETA
@@ -3459,12 +3485,13 @@ HandleUnderworldLandingFromPit:
     STZ.w $037B
     
     LDA.l $7EF3CC : BEQ .BRANCH_ZETA
-    CMP.b #$03 : BEQ .BRANCH_ZETA
+       CMP.b #$03 : BEQ .BRANCH_ZETA
         STZ.w $02F9
         
         CMP.b #$0D : BNE .BRANCH_THETA
             LDA.b #$00
-            STA.l $7EF3CC : STA.w $04B4 : STA.w $04B5 : STA.l $7EF3D3
+            STA.l $7EF3CC : STA.w $04B4
+            STA.w $04B5 : STA.l $7EF3D3
             
             BRA .BRANCH_ZETA
         
@@ -3475,7 +3502,6 @@ HandleUnderworldLandingFromPit:
     .BRANCH_ZETA
     
     LDY.b #$00
-    
     JSR.w TileDetect_MainHandler
     
     LDA.w $0359 : AND.b #$01 : BEQ .BRANCH_IOTA
@@ -3486,7 +3512,8 @@ HandleUnderworldLandingFromPit:
     JSR.w Player_TileDetectNearby
     
     LDA.w $012E : AND.b #$3F : CMP.b #$24 : BEQ .BRANCH_KAPPA
-        LDA.b #$21 : JSR.w Player_DoSfx2
+        LDA.b #$21
+        JSR.w Player_DoSfx2
     
     .BRANCH_KAPPA
     
@@ -3507,7 +3534,6 @@ HandleUnderworldLandingFromPit:
         
         LDA.b #$15
         LDY.b #$00
-        
         JSL.l AddTransitionSplash
         
         LDA.b #$04 : STA.b $5D
@@ -3611,8 +3637,8 @@ LinkState_Swimming:
     LDA.b $2D : CMP.b #$08 : BCC .BRANCH_EPSILON
         STZ.b $2D
         
-        LDA.b $2E : INC : AND.b #$03 : STA.b $2E : TAX
-        
+        LDA.b $2E : INC : AND.b #$03 : STA.b $2E
+                                       TAX
         LDA.w LinkSwimming_anim_offset, X : STA.w $02CC
     
     .BRANCH_EPSILON
@@ -3624,7 +3650,8 @@ LinkState_Swimming:
             LDA.b $F4 : ORA.b $00 : AND.b #$C0 : BEQ .BRANCH_THETA
                 STA.w $034F
                 
-                LDA.b $25 : JSR.w Player_DoSfx2
+                LDA.b $25
+                JSR.w Player_DoSfx2
                 
                 LDA.b #$01 : STA.w $032A
                 LDA.b #$07 : STA.w $02CB
@@ -3640,9 +3667,7 @@ LinkState_Swimming:
         LDA.w $032A : CMP.b #$05 : BNE .BRANCH_THETA
             STZ.w $032A
             
-            LDA.w $034F : AND.b #$3F
-            
-            STA.w $034F
+            LDA.w $034F : AND.b #$3F : STA.w $034F
 
     .BRANCH_THETA
 
@@ -3727,7 +3752,7 @@ Link_FlagMaxAccels:
                 LDA.w #$0001 : STA.w $032B
             
             .BRANCH_BETA
-        DEX #2 : BPL .BRANCH_GAMMA
+        DEX : DEX : BPL .BRANCH_GAMMA
     
     .linkNotMoving
     
@@ -3747,7 +3772,7 @@ Link_SetIceMaxAccel:
         .BRANCH_BETA
         
             LDA.w #$0180 : STA.w $0334, X
-        DEX #2 : BPL .BRANCH_BETA
+        DEX : DEX : BPL .BRANCH_BETA
     
     .BRANCH_ALPHA
     
@@ -3791,9 +3816,7 @@ Link_SetMomentum:
     
         LDY.w #$0000
         
-        LDA.b $00
-        
-        AND.b $02 : BEQ .BRANCH_ALPHA
+        LDA.b $00 : AND.b $02 : BEQ .BRANCH_ALPHA
             AND.b #$04 : BNE .BRANCH_BETA
                 LDY.w #$0001
             
@@ -3805,7 +3828,6 @@ Link_SetMomentum:
                 PHY
                 
                 DEC : ASL : TAY
-                
                 LDA.w Pool_Link_SetMomentum_momentum, Y : STA.w $0326, X
                 
                 PLY
@@ -3942,7 +3964,7 @@ Link_HandleSwimAccels:
                     .BRANCH_DELTA
                     
                         LDA.w .max_speeds, Y : CMP.w $033C, X : BCS .BRANCH_GAMMA
-                    INY #2 : CPY.w #$0012 : BNE .BRANCH_DELTA
+                    INY : INY : CPY.w #$0012 : BNE .BRANCH_DELTA
                     
                     BRA .BRANCH_GAMMA
                 
@@ -6989,7 +7011,7 @@ LinkState_Hookshotting:
         REP #$20
         
         LDA.b $00 : CLC : ADC.b $04 : SEC : SBC.b $20 : BPL .BRANCH_KAPPA
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
 
         .BRANCH_KAPPA
 
@@ -6999,7 +7021,7 @@ LinkState_Hookshotting:
         .BRANCH_LAMBDA
 
         LDA.b $02 : CLC : ADC.b $06 : SEC : SBC.b $22 : BPL .BRANCH_MU
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
 
         .BRANCH_MU
 
@@ -9647,7 +9669,7 @@ StartMovementCollisionChecks_Vertical:
                                 LDA.w $05F0, X
                                 
                                 CPY.b #$01 : BNE .BRANCH_ZOD
-                                    DEC A
+                                    DEC
 
                                 .BRANCH_ZOD
 
@@ -9727,7 +9749,7 @@ StartMovementCollisionChecks_Vertical:
                 LDY.b #$01
                 
                 LDA.b $30 : BMI .BRANCH_BETA3
-                    EOR.b #$FF : INC A
+                    EOR.b #$FF : INC
 
                 .BRANCH_BETA3
 
@@ -9750,7 +9772,7 @@ StartMovementCollisionChecks_Vertical:
             LDY.b #$01
             
             LDA.b $30 : BPL .BRANCH_ZETA3
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
 
             .BRANCH_ZETA3
 
@@ -10330,7 +10352,7 @@ CalculateSnapScratch_Vertical:
         LDY.b #$01
         
         LDA.b $30 : BMI .BRANCH_BETA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_BETA
         
@@ -10349,7 +10371,7 @@ CalculateSnapScratch_Vertical:
     LDY.b #$01
     
     LDA.b $30 : BPL .BRANCH_EPSILON
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .BRANCH_EPSILON
     
@@ -10401,7 +10423,7 @@ ChangeAxisOfPerpendicularDoorMovement_Vertical:
         LDY.b #$01
         
         LDA.b $30 : BMI .BRANCH_DELTA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
 
         .BRANCH_DELTA
 
@@ -10422,7 +10444,7 @@ ChangeAxisOfPerpendicularDoorMovement_Vertical:
     LDY.b #$01
     
     LDA.b $30 : BPL .BRANCH_THETA
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
 
     .BRANCH_THETA
 
@@ -10711,7 +10733,7 @@ Link_FindValidLandingTile_DiagonalNorth:
     LDA.w Pool_Link_FindValidLandingTile_DiagonalNorth_recoil_x, Y
     
     CPX.b #$02 : BNE .BRANCH_BETA
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
 
     .BRANCH_BETA
 
@@ -11129,7 +11151,7 @@ StartMovementCollisionChecks_Horizontal:
                                 TYA : ASL : STA.w $05F8, X : STA.w $0474
                                 
                                 LDA.w $05E4, X : CPY.b #$02 : BEQ .BRANCH_ZETA2
-                                    DEC A
+                                    DEC
 
                                 .BRANCH_ZETA2
 
@@ -11214,7 +11236,7 @@ HandlePushingBonkingSnaps_Horizontal:
                 LDY.b #$01
                 
                 LDA.b $31 : BCC .BRANCH_TAU2
-                    EOR.b #$FF : INC A
+                    EOR.b #$FF : INC
 
                 .BRANCH_TAU2
 
@@ -11237,7 +11259,7 @@ HandlePushingBonkingSnaps_Horizontal:
             LDY.b #$01
             
             LDA.b $31 : BPL .BRANCH_PSI2
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
 
             .BRANCH_PSI2
 
@@ -11656,7 +11678,7 @@ CalculateSnapScratch_Horizontal:
         LDY.b #$01
         
         LDA.b $31 : BMI .BRANCH_BETA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_BETA
         
@@ -11674,7 +11696,7 @@ CalculateSnapScratch_Horizontal:
     LDY.b #$01
     
     LDA.b $31 : BPL .positive_x
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .positive_x
     
@@ -11722,7 +11744,7 @@ ChangeAxisOfPerpendicularDoorMovement_Horizontal:
     
     LDA.b $20 : CMP.b #$80 : BCC .BRANCH_GAMMA
         LDA.b $31 : BMI .BRANCH_DELTA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
 
         .BRANCH_DELTA
 
@@ -11735,7 +11757,7 @@ ChangeAxisOfPerpendicularDoorMovement_Horizontal:
     .BRANCH_GAMMA
 
     LDA.b $31 : BPL .BRANCH_ZETA
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
 
     .BRANCH_ZETA
 
@@ -15003,7 +15025,7 @@ FlagMovingIntoSlopes_Horizontal:
     LDA.b $22
     
     LDY.b $6E : CPY.b #$06 : BNE .BRANCH_ALPHA
-        DEC A
+        DEC
 
     .BRANCH_ALPHA
 
@@ -15029,7 +15051,7 @@ FlagMovingIntoSlopes_Horizontal:
                 
                 TXA : EOR.b #$07 : TAX
                 
-                XBA : EOR.b #$FF : INC A
+                XBA : EOR.b #$FF : INC
                 
                 BRA .BRANCH_EPSILON
 
@@ -15043,7 +15065,7 @@ FlagMovingIntoSlopes_Horizontal:
 
         LDY.b $31 : BEQ .BRANCH_ZETA
             BPL .BRANCH_THETA
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
 
             .BRANCH_THETA
 
@@ -15648,7 +15670,7 @@ HandleSwimStrokeAndSubpixels:
         LDA.b $08, X : LSR #4 : STA.b $08, X
         
         LDA.b $09, X : BPL .BRANCH_NU
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_NU
         
@@ -15731,7 +15753,7 @@ Link_DashInPlace:
     
     .BRANCH_EPSILON
     
-    EOR.w #$FFFF : INC A
+    EOR.w #$FFFF : INC
     
     .BRANCH_ZETA
     
@@ -16800,7 +16822,7 @@ DesertHDMA_CalculateIrisShapeLine:
     
     REP #$20
     
-    LDA.w SNES.DivideResultQuotientLow : LSR A
+    LDA.w SNES.DivideResultQuotientLow : LSR
     
     SEP #$20
     
@@ -17822,7 +17844,7 @@ HandleLinkOnSpiralStairs:
     .BRANCH_ZETA
     
     LDA.b $22 : SEC : SBC.b $53 : BPL .BRANCH_THETA
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .BRANCH_THETA
     

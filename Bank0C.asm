@@ -2236,14 +2236,14 @@ AnimateTriforceRoomTriangle_HandleContracting:
     
     CLC : ADC.w $1E58, X : STA.w $1E58, X
     CMP.w Pool_AnimateTriforceRoomTriangle_Contract_limit_x : BNE .BRANCH_3
-        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_x : INC A
+        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_x : INC
         
         BRA .BRANCH_4
     
     .BRANCH_3
     
     CMP.w Pool_AnimateTriforceRoomTriangle_Contract_limit_y : BNE .BRANCH_5
-        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_y : INC A
+        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_y : INC
         
         .BRANCH_4
         
@@ -2265,14 +2265,14 @@ AnimateTriforceRoomTriangle_HandleContracting:
     
     CLC : ADC.w $1E60, X : STA.w $1E60, X
     CMP.w Pool_AnimateTriforceRoomTriangle_Contract_limit_x : BNE .BRANCH_8
-        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_x : INC A
+        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_x : INC
         
         BRA .BRANCH_9
     
     .BRANCH_8
     
     CMP.w Pool_AnimateTriforceRoomTriangle_Contract_limit_y : BNE .BRANCH_10
-        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_y : DEC A
+        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_y : DEC
         
         .BRANCH_9
         

@@ -8285,7 +8285,7 @@ Dungeon_LoadBasicAttr:
             CMP.b #$1C : BCS .tileIgnoresFlip
                 ; Tile types >= $10 and < $1C pay attention to
                 ; v and hflip properties.
-                LDA.l $7E2001, X : ASL : ROL : ROL A
+                LDA.l $7E2001, X : ASL : ROL : ROL
                 AND.b #$03 : ORA.w $FE00, Y
         
         .tileIgnoresFlip
@@ -11597,7 +11597,7 @@ DontOpenDoor:
                 
                 SEP #$30
                 
-                LDA.b $08 : AND.b #$7F : ASL A
+                LDA.b $08 : AND.b #$7F : ASL
                 JSL.l Sound_GetFineSfxPan
                 
                 ORA.b #$1E : STA.w $012E
@@ -16312,7 +16312,7 @@ Dungeon_LightTorch:
             
             SEP #$30
             
-            AND.b #$7F : ASL A
+            AND.b #$7F : ASL
             JSL.l Sound_GetFineSfxPan
             
             ORA.b #$2A : STA.w $012E

@@ -7131,37 +7131,37 @@ struct WRAM $7E0000
         ;     used for OAM props" maybe only used by $0F50 like p
 
     ; $0E70[0x10] - (Sprite)
-
+    .SprCollisionDir: skip $10
         ; When a sprite is moving and has hit a wall, this gets set to the direction
-        ; in which the collision occurred.
-        ; ----udlr
-        ; u - Up
-        ; d - Down
-        ; l - Left
-        ; r - Right
-        ; These can be combined, but generally only orthogonal directions should be
-        ; expected to appear simultaneously. Having a velocity that cause you to run
-        ; into a wall on both your left and left and right at the same time would
-        ; be considered strange at best, right? Maybe if you were Shroedinger's cat
-        ; it would be plausible...
-        ; The other bits are probably not used, but if they are it's probably due to
-        ; some customized behavior.
+        ; in which the collision occurred. These bits can be combined, but generally
+        ; only orthogonal directions should be expected to appear simultaneously.
+        ; The whole byte is also set by lanmolas to store the position of the dirt
+        ; draw.
+        ; .bm. udlr
+        ; u  - Up
+        ; d  - Down
+        ; l  - Left
+        ; r  - Right
+        ; m  - Set by the mothula moving floor and blind TODO: unknown purpose
+        ; bm - Set by blind TODO: unknown purpose
 
     ; $0E80[0x10] - (Sprite)
-
-        ; Subtype designation 2 (varies from sprite to sprite though)
+    .SprMiscD: skip $10
+        ; A misc variable used by sprites. Some uses include:
+        ; A delay in sprite state 0x03 (falling in water). 
+        ; A delay counter in most sprites.
 
     ; $0E90[0x10] - (Sprite)
-
+    .SprMiscE: skip $10
+        ; A misc variable used by sprites. Some uses include:
         ; When a Pikit grabs something from you it gets stored here. 
-        ; Used wildly differently between sprite types.
-        ; Uncle - Used as main AI pointer?
+        ; Uncle - Used as main AI pointer? TODO: Verify
 
     ; $0EA0[0x10] - (Sprite)
 
-        ; Definitely closely tied to the process of a sprite taking damage. Seems to
-        ; perhaps serve as a palette cycling index, or something like a state variable.
-        ; When this value is positive
+        ; Definitely closely tied to the process of a sprite taking damage. Seems
+        ; to perhaps serve as a palette cycling index, or something like a state\
+        ; variable. When this value is positive
         ; 0x80 - Signal that the recoil process has finished and will terminate
         ; during this frame.
 

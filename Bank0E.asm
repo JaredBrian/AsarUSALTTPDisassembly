@@ -1205,7 +1205,7 @@ Credits_LoadSprites_GenericOW:
         LDA.w #$FFFF : STA.w $0FBA
                        STA.w $0FB8
         
-        LDA.w $040A : ASL A
+        LDA.w $040A : ASL
         XBA : AND.w #$0F00 : CLC : ADC ($04), Y : STA.b $00
         
         LDA.w $040A : LSR : LSR 
@@ -1924,7 +1924,7 @@ Credits_SpriteDraw_Lumberjacks:
     LDY.b $C8 : CPY.w #$01C0 : SEP #$10 : BCS .BRANCH_ALPHA
         TYA : AND.b #$20
         
-        ASL #3 : ROL A
+        ASL #3 : ROL
     
     .BRANCH_ALPHA
     
@@ -2742,10 +2742,9 @@ Credits_SpriteDraw_Sanctuary:
     LDA.b #$73 : STA.w $0E20, X
     LDA.b #$27 : STA.w $0F50, X
     LDA.b #$02 : STA.w $0E90, X
-        
-    LDA.b #$10
-        
+    
     ; Keep sprites alive?
+    LDA.b #$10
     JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
         
     PLX
@@ -3102,7 +3101,7 @@ Credits_SpriteDraw_LostWoods:
                     CLC : ADC.b #$FC
                     072645
                     CPX.b #$03 : BCS .BRANCH_ZETA
-                        EOR.b #$FF : INC A
+                        EOR.b #$FF : INC
                     
                     .BRANCH_ZETA
                 
@@ -3490,7 +3489,7 @@ Credits_HandleCameraScrollControl:
     .BRANCH_ALPHA
     
     CMP.w #$0080 : BCC .BRANCH_BETA
-        EOR.w #$00FF : INC A
+        EOR.w #$00FF : INC
         
         DEC.b $00 : DEC.b $00
         
@@ -3559,7 +3558,7 @@ Credits_HandleCameraScrollControl:
     .BRANCH_THETA
     
     CMP.w #$0080 : BCC .BRANCH_KAPPA
-        EOR.w #$00FF : INC A
+        EOR.w #$00FF : INC
         
         DEC.b $00 : DEC.b $00
         
@@ -5981,7 +5980,7 @@ Text_WritePreloadedNumber:
     
     INY #2 : STY.w $1CDD
     
-    XBA : AND.w #$00FF : LSR A
+    XBA : AND.w #$00FF : LSR
     
     PHP
     
@@ -12017,7 +12016,7 @@ OverworldOverlay_DrainedDam:
 
     INC : STA.w $242C : STA.w $24A4 : STA.w $2520 : STA.w $261E
     
-    INC A
+    INC
     
     STA.w $242E : STA.w $2426 : STA.w $24A8 : STA.w $24B0
     STA.w $24B6 : STA.w $2522 : STA.w $2524 : STA.w $2526
@@ -12026,35 +12025,35 @@ OverworldOverlay_DrainedDam:
     STA.w $26A0 : STA.w $271E : STA.w $2720 : STA.w $2826
     STA.w $28A6 : STA.w $28A8 : STA.w $2926
     
-    INC A
+    INC
     
     STA.w $2430 : STA.w $24B8 : STA.w $25A8 : STA.w $262A
     
-    INC A
+    INC
     
     STA.w $24AA : STA.w $24B2 : STA.w $2528 : STA.w $25B8
     STA.w $28AA : STA.w $2928
     
-    INC A
+    INC
     
     STA.w $24AC : STA.w $2530 : STA.w $279E : STA.w $27A0
     STA.w $29A6 : STA.w $29B8
     
-    INC A
+    INC
     
     STA.w $24AE : STA.w $24B4 : STA.w $2536 : STA.w $27A2
     STA.w $2824
     
-    INC A
+    INC
     
     STA.w $252E : STA.w $2534 : STA.w $279C : STA.w $2822
     STA.w $2934 : STA.w $29B6
     
-    INC A
+    INC
     
     STA.w $253A : STA.w $2638 : STA.w $26B8 : STA.w $293A
     
-    INC A
+    INC
     
     STA.w $259E : STA.w $25B6 : STA.w $2636 : STA.w $269C
     STA.w $26B6 : STA.w $271C : STA.w $28A4 : STA.w $2924
@@ -12064,7 +12063,7 @@ OverworldOverlay_DrainedDam:
     INC : STA.w $2628
     INC : STA.w $26A4 : STA.w $27B6
     
-    INC A
+    INC
     
     STA.w $26A6 : STA.w $2726 : STA.w $2728 : STA.w $272A
     STA.w $27AA : STA.w $2836 : STA.w $2838

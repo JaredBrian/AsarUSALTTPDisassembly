@@ -966,22 +966,26 @@ Sprite_DrawFourAroundOne:
     PHB : PHK : PLB
     
     INC.w $0E80, X
-    
     LDA.w $0E80, X : AND.b #$01 : ORA.w $0011 : ORA.w $0FC1 : BNE .dont_reset
-        INC.w $0DC0, X : LDA.w $0DC0, X : CMP.b #$06 : BNE .dont_reset
+        INC.w $0DC0, X
+        LDA.w $0DC0, X : CMP.b #$06 : BNE .dont_reset
             STZ.w $0DC0, X
     
     .dont_reset
     
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
+    LDA.w $0DC0, X
     
-    ASL #2 : ADC.b $00 : ADC.w #$F2A5 : STA.b $08
+    REP #$20
+    
+    ASL #3                               : STA.b $00
+    ASL : ASL : ADC.b $00 : ADC.w #$F2A5 : STA.b $08
     
     SEP #$20
     
-    LDA.b #$05 : JSR.w Sprite4_DrawMultiple
+    LDA.b #$05
+    JSR.w Sprite4_DrawMultiple
     
     PLB
     
@@ -1043,8 +1047,7 @@ Toppo_Flustered:
     .just_animate
     
     INC.w $0E80, X
-    
-    LDA.w $0E80, X : AND.b #$04 : LSR #2 : ADC.b #$03 : STA.w $0DC0, X
+    LDA.w $0E80, X : AND.b #$04 : LSR : LSR : ADC.b #$03 : STA.w $0DC0, X
     
     PLB
     
@@ -1261,14 +1264,14 @@ Sprite_ConvertVelocityToAngle:
     AND.b #$03 : ASL #3 : STA !sign_bits
     
     LDA.b $01 : BPL .positive_x_speed
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .positive_x_speed
     
     STA !x_magnitude
     
     LDA.b $00 : BPL .positive_y_speed
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .positive_y_speed
     
@@ -1693,7 +1696,7 @@ Moldorm_Draw:
     
     .next_OAM_entry
     
-        LDA.b $06 : AND.b #$0F : ASL A
+        LDA.b $06 : AND.b #$0F : ASL
         
         PHX
         
@@ -1739,10 +1742,8 @@ Moldorm_Draw:
     TXY
     
     LDA.w $0E80, X : AND.b #$1F : CLC : ADC.w SpriteSlotToSegmentOffset, X : TAX
-    
     LDA.w $0D10, Y : STA.l $7FFC00, X
     LDA.w $0D30, Y : STA.l $7FFC80, X
-    
     LDA.w $0D00, Y : STA.l $7FFD00, X
     LDA.w $0D20, Y : STA.l $7FFD80, X
     
@@ -1755,15 +1756,11 @@ Moldorm_Draw:
         PHY
         
         LDY.b $06
-        
         LDX.w $0FA0
-        
         LDA.w $0E80, X : CLC : ADC.w Pool_Moldorm_Draw_segment_index, Y
-        AND.b #$1F     : CLC : ADC.w SpriteSlotToSegmentOffset, X       : TAX
-        
+        AND.b #$1F     : CLC : ADC.w SpriteSlotToSegmentOffset, X : TAX
         LDA.l $7FFC00, X : STA.b $00
         LDA.l $7FFC80, X : STA.b $01
-        
         LDA.l $7FFD00, X : STA.b $02
         LDA.l $7FFD80, X : STA.b $03
         
@@ -1778,28 +1775,27 @@ Moldorm_Draw:
         REP #$20
         
         LDA.b $00 : SEC : SBC.b $E2
-        CLC : ADC.w Pool_Moldorm_Draw_offset_segment, X : STA ($90), Y
+        CLC : ADC.w Pool_Moldorm_Draw_offset_segment, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : SEC : SBC.b $E8
-        CLC : ADC.w Pool_Moldorm_Draw_offset_segment, X : INY : STA ($90), Y
+        CLC : ADC.w Pool_Moldorm_Draw_offset_segment, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y_2
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y_2
         
         PLX
         
-        LDA.w Pool_Moldorm_Draw_char, X : INY : STA ($90), Y
-        LDA.b $05      : INY : STA ($90), Y
+        LDA.w Pool_Moldorm_Draw_char, X : INY : STA.b ($90), Y
+        LDA.b $05                       : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
-        
-        LDA.w Pool_Moldorm_Draw_prop, X : ORA.b $0F : STA ($92), Y
+        TYA : LSR : LSR : TAY
+        LDA.w Pool_Moldorm_Draw_prop, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     DEC.b $06 : BPL .next_OAM_entry_2
@@ -1821,17 +1817,18 @@ incsrc "sprite_talking_tree.asm"
 ; $0EFBCC-$0EFBD6 DATA
 Pool_PullForRupees_SpawnRupees:
 {
+    ; $0EFBCC
     .x_speeds
     db -18, -12,  12,  18
     
+    ; $0EFBD0
     .y_speeds
     db  16,  24,  24,  16
     
+    ; $0EFBD4
     .rupee_types
     db $D9, $DA, $DB
 }
-
-; ==============================================================================
 
 ; $0EFBD7-$0EFC37 LONG JUMP LOCATION
 PullForRupees_SpawnRupees:
@@ -1879,7 +1876,9 @@ PullForRupees_SpawnRupees:
                 
                 LDA.b #$FF : STA.w $0B58, Y
                 
-                LDA.b #$20 : STA.w $0F10, Y : STA.w $0EE0, Y : STA.w $0F80, Y
+                LDA.b #$20 : STA.w $0F10, Y
+                             STA.w $0EE0, Y
+                             STA.w $0F80, Y
         DEC.w $0FB5 : BPL .rupee_spawn_loop
         
         .spawn_failed
@@ -1943,8 +1942,6 @@ Pool_OldMountainMan_Draw:
 
 }
 
-; ==============================================================================
-
 ; $0EFF0E-$0EFF5A LONG JUMP LOCATION
 OldMountainMan_Draw:
 {
@@ -1952,7 +1949,7 @@ OldMountainMan_Draw:
     
     LDA.w $0E80, X : CMP.b #$02 : BEQ .unchanging_pose
         LDA.b #$02 : STA.b $06
-                    STZ.b $07
+                     STZ.b $07
         
         LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL : TAY
         
@@ -2006,9 +2003,12 @@ SpriteBurn_Execute:
     
     LSR #3
     
-    PHX : TAX
+    PHX
+    TAX
+    LDA.l Flame_Halted_animation_states, X
     
-    LDA.l Flame_Halted_animation_states, X : PLX : STA.w $0DC0, X
+    PLX
+    STA.w $0DC0, X
     
     LDA.w $0F50, X : PHA
     

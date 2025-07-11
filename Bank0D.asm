@@ -3321,7 +3321,7 @@ PlayerOam_Main:
     .not_carrying_something
 
     LDA.w $0377 : BEQ .not_grabbing_at_all
-        DEC A
+        DEC
         
         LDY.b #$17
         
@@ -3719,7 +3719,7 @@ PlayerOam_Main:
             AND.w #$00FF : STA.b $74
             
             LDA.b $00 : AND.w #$00FF : SEC : SBC.b $74 : BPL .positive_a
-                EOR.w #$FFFF : INC A
+                EOR.w #$FFFF : INC
 
             .positive_a
 
@@ -8996,14 +8996,14 @@ Pikit_DrawTongue:
             LDA.w $0DE0, X : STA.b $0B
             
             LDA.w $0D90, X : STA.b $0E : BPL .BRANCH_ALPHA
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
             
             .BRANCH_ALPHA
             
             STA.b $0C
             
             LDA.w $0DA0, X : STA.b $0F : BPL .BRANCH_BETA
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
             
             .BRANCH_BETA
             
@@ -9023,10 +9023,10 @@ Pikit_DrawTongue:
                 ; Burn a few cycles...
                 JSR.w Pikit_MultiplicationDelay
                 
-                LDA.b $0E : ASL A
+                LDA.b $0E : ASL
                 
                 LDA.w SNES.RemainderResultHigh : BCC .BRANCH_GAMMA
-                    EOR.b #$FF : INC A
+                    EOR.b #$FF : INC
                 
                 .BRANCH_GAMMA
                 
@@ -9038,7 +9038,7 @@ Pikit_DrawTongue:
                 JSR.w Pikit_MultiplicationDelay
                 
                 LDA.b $0F : ASL : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_DELTA
-                    EOR.b #$FF : INC A
+                    EOR.b #$FF : INC
                 
                 .BRANCH_DELTA
                 
@@ -11851,7 +11851,7 @@ ItemMenu_CheckForDungeonPrize:
 {
     SEP #$30
     
-    LDA.w $040C : LSR A
+    LDA.w $040C : LSR
     JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw ItemMenu_NoPrizeHad           ; 0x00 - $EEDC Sewers
@@ -11962,7 +11962,7 @@ ItemMenu_CheckForMoonPearl:
 ; $06EF18-$06EF1E LOCAL JUMP LOCATION
 ItemMenu_CheckForTitansMitt:
 {
-    LDA.l $7EF354 : DEC A
+    LDA.l $7EF354 : DEC
     
     BRA ItemMenu_CheckThePrize
 }

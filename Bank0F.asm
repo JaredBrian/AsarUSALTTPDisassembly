@@ -4414,7 +4414,7 @@ AncillaSpawn_SwordChargeSparkle:
             LDA.w $0079 : LSR #2
             
             CPY.b #$00 : BNE .sign_correct_for_y_direction
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
             
             .sign_correct_for_y_direction
             
@@ -4430,7 +4430,7 @@ AncillaSpawn_SwordChargeSparkle:
             LDA.w $0079 : LSR #2
             
             CPY.b #$02 : BNE .sign_correct_for_x_direction
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
             
             .sign_correct_for_x_direction
             

@@ -979,17 +979,17 @@ Main_PrepSpritesForNmi:
     .ignoreSpriteAnimation
 
     ; Setup tagalong head GFX chr for DMA transfer.
-    LDA.w $0AE8  : ASL A
+    LDA.w $0AE8  : ASL
     ADC.w #$B940 : STA.w $0AEC
     ADC.w #$0200 : STA.w $0AEE
         
     ; Setup tagalong body GFX chr for DMA transfer.
-    LDA.w $0AEA  : ASL A
+    LDA.w $0AEA  : ASL
     ADC.w #$B940 : STA.w $0AF0
     ADC.w #$0200 : STA.w $0AF2
         
     ; Setup DMA transfer for bird's GFX chr slot.
-    LDA.w $0AF4  : ASL A
+    LDA.w $0AF4  : ASL
     ADC.w #$B540 : STA.w $0AF6
     ADC.w #$0200 : STA.w $0AF8
         
@@ -13002,7 +13002,7 @@ Decomp:
 
                         STA.b [$00], Y
                         
-                        INC A
+                        INC
                         
                         INY
                     DEX : BNE .increment_write
@@ -14852,7 +14852,7 @@ IrisSpotlight_CalculateCircleValue:
     REP #$20
     
     ; Obtain the quotient of the division, and divide by two.
-    LDA.w SNES.DivideResultQuotientLow : LSR A
+    LDA.w SNES.DivideResultQuotientLow : LSR
     
     SEP #$20
     

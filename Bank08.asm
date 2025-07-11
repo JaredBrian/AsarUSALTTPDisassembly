@@ -1573,7 +1573,7 @@ Ancilla_ProjectSpeedTowardsPlayer:
     STY.b $02
     
     LDA.b $0E : BPL .delta_y_already_positive
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .delta_y_already_positive
     
@@ -1584,7 +1584,7 @@ Ancilla_ProjectSpeedTowardsPlayer:
     STY.b $03
     
     LDA.b $0F : BPL .delta_x_already_positive
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .delta_x_already_positive
     
@@ -2405,7 +2405,7 @@ Ancilla_CheckPlayerCollision:
     LDA.b $20 : CLC : ADC .player_y_offsets, Y : SEC : SBC.b $00
     
     STA.b $04 : BPL .positive_delta_y
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .positive_delta_y
     
@@ -2413,7 +2413,7 @@ Ancilla_CheckPlayerCollision:
         LDA.b $22 : CLC : ADC .player_x_offsets, Y : SEC : SBC.b $02
         
         STA.b $06 : BPL .positive_delta_x
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
         
         .positive_delta_x
         
@@ -2444,13 +2444,13 @@ Hookshot_CheckChainLinkProximityToPlayer:
     LDA.b $02 : CLC : ADC.w #$0004 : STA.b $74
     
     LDA.b $20 : SEC : SBC.b $E8 : CLC : ADC.w #$000C : SEC : SBC.b $72 : BPL .positive_delta_y
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .positive_delta_y
     
     CMP.w #$000C : BCS .out_of_range
         LDA.b $22 : SEC : SBC.b $E2 : CLC : ADC.w #$0008 : SEC : SBC.b $74 : BPL .positive_delta_x
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
         
         .positive_delta_x
         
@@ -2498,7 +2498,7 @@ Ancilla_CheckIfEntranceTriggered:
     
     ; Centers player's Y coordinate.
     LDA.b $20 : CLC : ADC.w #$000C : SEC : SBC .trigger_coord_y, Y : BPL .positive_delta_y
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .positive_delta_y
     
@@ -2507,7 +2507,7 @@ Ancilla_CheckIfEntranceTriggered:
         ; Centers player's X coordinate.
         LDA.b $22 : CLC : ADC.w #$0008 : SEC : SBC .trigger_coord_x, Y : BPL .positive_delta_x
             ; * -1
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
         
         .positive_delta_x
         
@@ -2677,13 +2677,13 @@ Tagalong_GetCloseToPlayer:
         REP #$20
         
         LDA.b $00 : SEC : SBC.b $20 : BPL .object_below_player
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
         
         .object_below_player
         
         CMP.w #$0002 : BCS .too_far_away_from_player
             LDA.b $02 : SEC : SBC.b $22 : BPL .object_right_of_player
-                EOR.w #$FFFF : INC A
+                EOR.w #$FFFF : INC
             
             .object_right_of_player
             
@@ -2917,7 +2917,7 @@ Ancilla_GetRadialProjection:
     STZ.b $03
     
     ; Get Y projected distance?
-    LDA.w SNES.RemainderResultLow : ASL A
+    LDA.w SNES.RemainderResultLow : ASL
     LDA.w SNES.RemainderResultHigh : ADC.b #$00 : STA.b $00
                                                   STZ.b $01
     
@@ -2931,7 +2931,7 @@ Ancilla_GetRadialProjection:
                                                             STZ.b $07
     
     ; Get X projected distance?
-    LDA.w SNES.RemainderResultLow : ASL A
+    LDA.w SNES.RemainderResultLow : ASL
     LDA.w SNES.RemainderResultHigh : ADC.b #$00 : STA.b $04
                                                   STZ.b $05
     

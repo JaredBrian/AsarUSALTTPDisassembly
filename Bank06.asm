@@ -3131,7 +3131,7 @@ Sprite_DrawThinAndTall:
     ; Get bit 8 of X coordinate, and force size to 8x8.
     LDA.b $01 : CMP.b #$01
     
-    LDA.b #$00 : ROL A
+    LDA.b #$00 : ROL
     
     LDY.b #$00 : STA.b ($92), Y
     INY        : STA.b ($92), Y
@@ -6186,7 +6186,7 @@ Sprite_AttemptKillingOfKin:
                     .SpriteDeath_not_octoballoon
                     
                     LDA.w $0B6B, X : AND.b #$02 : BNE .BRANCH_PHI
-                        LDA.w $0EF0, X : ASL A
+                        LDA.w $0EF0, X : ASL
                         
                         LDA.b #$0F : BCC .BRANCH_CHI
                             LDA.b #$1F

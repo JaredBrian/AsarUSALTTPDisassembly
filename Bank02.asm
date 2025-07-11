@@ -15872,7 +15872,7 @@ Overworld_LoadMap32:
         .xLoop
 
             LDY.b $0B
-            LDA.b [$08], Y : ASL A
+            LDA.b [$08], Y : ASL
 
             LDY.b $06
             JSR.w Map32ToMap16

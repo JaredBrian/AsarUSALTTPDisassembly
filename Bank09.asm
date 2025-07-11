@@ -10107,7 +10107,7 @@ Polyhedral_RotatePoint:
 Polyhedral_ProjectPoint:
 {
     LDA.b $48 : BPL .alpha
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .alpha
     
@@ -10155,7 +10155,7 @@ Polyhedral_ProjectPoint:
     STA.b $48
     
     LDA.b $4A : BPL .zeta
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .zeta
     
@@ -10325,7 +10325,7 @@ Polyhedral_SetBGShadeColor:
 {
     REP #$20
     
-    LDA.b $B0 : EOR.w #$FFFF : INC A
+    LDA.b $B0 : EOR.w #$FFFF : INC
     
     BRA Polyhedral_SetShadeColor
 }
@@ -10356,7 +10356,7 @@ Polyhedral_SetShadeColor:
     
     .shift
     
-        ASL A
+        ASL
     DEX : BPL .shift
     
     SEP #$20
@@ -10752,7 +10752,7 @@ Polyhedral_SetLeft:
     SBC.b $E1 : BCS .epsilon
         DEX
         
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .epsilon
     
@@ -10835,7 +10835,7 @@ Polyhedral_SetRight:
     SEC : SBC.b $EA : BCS .zeta
         DEX
         
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .zeta
     

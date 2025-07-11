@@ -3049,7 +3049,7 @@ Overworld_AlterTileHardcore:
     
     INX #2
     
-    PLA : INC A
+    PLA : INC
     
     RTS
 }
@@ -6322,7 +6322,7 @@ Palette_ArmorAndGloves:
     ; Check what Link's armor value is.
     LDA.l $7EF35B : AND.w #$00FF : TAX
     
-    LDA PaletteIDtoOffset_16bit, X : AND.w #$00FF : ASL A
+    LDA PaletteIDtoOffset_16bit, X : AND.w #$00FF : ASL
     ADC.w PaletteData_Link : STA.b $00
     
     REP #$10

@@ -1021,17 +1021,17 @@ OverworldMap_Main:
             
             LDA.l $7EC10A : LSR #4
             SEC : SBC.w #$0080 : STA.b $02 : BPL .BRANCH_ZETA
-                EOR.w #$FFFF : INC A
+                EOR.w #$FFFF : INC
 
             .BRANCH_ZETA
 
             STA.b $00
                 
             ; A = ($00 * 5) / 2
-            ASL #2 : CLC : ADC.b $00 : LSR A
+            ASL #2 : CLC : ADC.b $00 : LSR
             
             LDX.b $03 : BPL .BRANCH_THETA
-                EOR.w #$FFFF : INC A
+                EOR.w #$FFFF : INC
 
             .BRANCH_THETA
 
@@ -1252,15 +1252,15 @@ WorldMap_SetUpHDMA:
         
         LDA.l $7EC10A : LSR #4
         SEC : SBC.w #$0080 : STA.b $02 : BPL .BRANCH_GAMMA
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
 
         .BRANCH_GAMMA
 
         STA.b $00
-        ASL #2 : CLC : ADC.b $00 : LSR A
+        ASL #2 : CLC : ADC.b $00 : LSR
         
         LDX.b $03 : BPL .BRANCH_DELTA
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
 
         .BRANCH_DELTA
 
@@ -2258,7 +2258,7 @@ WorldMap_CalculateOAMCoordinates:
     REP #$30
     
     LDA.l $7EC108 : LSR #4
-    EOR.w #$FFFF : INC A
+    EOR.w #$FFFF : INC
     CLC : ADC.w $063A : SEC : SBC.w #$0080 : CMP.w #$0100 : BCC .BRANCH_ZETA
         JMP.w WorldMap_CalculateOAMCoordinates_exit_fail
 
@@ -2290,7 +2290,7 @@ WorldMap_CalculateOAMCoordinates:
     PHP
 
     BPL .BRANCH_IOTA
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .BRANCH_IOTA
 
@@ -2339,7 +2339,7 @@ WorldMap_CalculateOAMCoordinates:
     .BRANCH_MU
 
     SEC : SBC.w #$0800 : BCS .BRANCH_NU
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
 
     .BRANCH_NU
 
@@ -7368,7 +7368,7 @@ Effect_MovingFloor:
         
         CPX.w #$0002 : BNE .notInverted
             ; Invert the accumulator, thus A = A *-1.
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
 
         .notInverted
 

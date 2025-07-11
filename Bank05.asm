@@ -373,7 +373,7 @@ Sprite_Probe:
                     ; $02C1F6 ALTERNATE ENTRY POINT
                     .made_contact
                     
-                    LDA.w $0DB0, X : DEC A
+                    LDA.w $0DB0, X : DEC
                     
                     PHX
                     
@@ -723,7 +723,7 @@ Guard_TickAndUpdateBody:
     INC.w $0E80, X
     LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA.b $00
     
-    LDA.w $0DE0, X : ASL #2 : ADC.b $00 : TAY
+    LDA.w $0DE0, X : ASL : ASL : ADC.b $00 : TAY
     LDA.w Soldier_animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -2039,7 +2039,9 @@ JavelinTrooper_NoticedPlayer:
 {
     JSR.w Sprite2_ZeroVelocity
     
-    JSR.w Sprite2_DirectionToFacePlayer : TYA : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer
+    
+    TYA : STA.w $0EB0, X
     
     LDA.w $0DF0, X : BNE .delay
         ; $02CF53 ALTERNATE ENTRY POINT
@@ -2292,7 +2294,7 @@ JavelinTrooper_SpawnProjectile:
         
         LDA.w $0E20, X : CMP.b #$48
         LDA.b #$00 : BCC .is_archer_2
-            INC A
+            INC
 
         .is_archer_2
 
