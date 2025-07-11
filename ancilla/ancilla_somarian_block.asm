@@ -910,15 +910,15 @@ SomarianBlock_ContinueDashBounce:
     LDA.w $0C22, X : BPL .abs_y_speed
         LDY.b #$01
         
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .abs_y_speed
     
     ; Halve the absolute value of the y speed.
-    LSR A
+    LSR
     
     CPY.b #$01 : BNE .restore_y_speed_sign
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .restore_y_speed_sign
     
@@ -929,15 +929,15 @@ SomarianBlock_ContinueDashBounce:
     LDA.w $0C2C, X : BPL .abs_x_speed
         LDY.b #$01
         
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
         
     .abs_x_speed
     
     ; Halve the absolute value of the x speed.
-    LSR A
+    LSR
     
     CPY.b #$01 : BNE .restore_x_speed_sign
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .restore_x_speed_sign
     

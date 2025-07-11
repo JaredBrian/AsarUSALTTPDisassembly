@@ -163,7 +163,7 @@ Gravestone_RepelPlayerAdvance:
         LDA $22 : CLC : ADC.w #$0008 : CMP $02 : BCC .player_not_close
                                        CMP $06 : BCC .player_not_close
             LDA $08 : SEC : SBC $04 : BPL .player_below_object
-                EOR.w #$FFFF : INC A
+                EOR.w #$FFFF : INC
             
             .player_below_object
             

@@ -108,7 +108,7 @@ Ancilla_RevivalFairy:
         BPL .positive_z_velocity
             ; Basically, don't allow the velocity to become negative?
             ; WTF: Does this logic actually work properly in the game?
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .positive_z_velocity
         

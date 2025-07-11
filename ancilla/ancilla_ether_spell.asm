@@ -380,7 +380,7 @@ EtherSpell_DrawBlitzBall:
     LDA $00
     
     LDY $02 : BEQ .positive_y_component
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .positive_y_component
     
@@ -391,7 +391,7 @@ EtherSpell_DrawBlitzBall:
     LDA $04
     
     LDY $06 : BEQ .positive_x_component
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .positive_x_component
     
@@ -516,7 +516,7 @@ EtherSpell_DrawSplittingBlitzSegment:
     LDA $00
     
     LDY $02 : BEQ .positive_y_component
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .positive_y_component
     
@@ -527,7 +527,7 @@ EtherSpell_DrawSplittingBlitzSegment:
     LDA $04
     
     LDY $06 : BEQ .positive_x_component
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .positive_x_component
     

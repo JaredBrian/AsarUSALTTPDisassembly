@@ -185,7 +185,7 @@ Ancilla_BreakTowerSeal:
         LDA $00
         
         LDY $02 : BEQ .positive_y_projection
-            EOR.b #$FFFF : INC A
+            EOR.b #$FFFF : INC
         
         .positive_y_projection
         
@@ -194,7 +194,7 @@ Ancilla_BreakTowerSeal:
         LDA $04
         
         LDY $06 : BEQ .positive_x_projection
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
         
         .positive_x_projection
         

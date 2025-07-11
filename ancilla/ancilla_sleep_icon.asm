@@ -22,7 +22,7 @@ Ancilla_SleepIcon:
     .delay
     
     LDA.w $0C2C, X : CLC : ADC.w $0C54, X : STA.w $0C2C, X : BPL .positive_x_speed
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
         
     .positive_x_speed
     

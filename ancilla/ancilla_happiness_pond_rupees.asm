@@ -161,7 +161,7 @@ HappinessPondRupees_LoadRupeeeState:
     LDA.l $7F58AA, X : STA.w $0C54, Y
     
     LDA.l $7F5860, X : BEQ .timer_expired
-        DEC A
+        DEC
     
     .timer_expired
     

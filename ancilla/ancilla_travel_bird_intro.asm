@@ -52,7 +52,7 @@ Ancilla_TravelBirdIntro:
             TYA : CLC : ADC.w $0294, X : STA.w $0294, X : BPL .abs_z_speed
                 ; Get abs(z speed) so we can check whether to reverse the float
                 ; polarity.
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
                 
             .abs_z_speed
             
@@ -91,7 +91,7 @@ Ancilla_TravelBirdIntro:
     .accelerate_left
     
     TYA : CLC : ADC.w $0C2C, X : STA.w $0C2C, X : BPL .abs_x_speed
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
         
     .abs_x_speed
     
@@ -123,7 +123,7 @@ Ancilla_TravelBirdIntro:
     LDY.b #$03
     
     LDA.w $0C2C, X : BPL .abs_x_speed_2
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
         
         LDY.b #$02
         

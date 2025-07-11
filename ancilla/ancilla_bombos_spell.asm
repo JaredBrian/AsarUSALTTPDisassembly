@@ -105,7 +105,7 @@ AddBombosSpell:
         LDA $00
         
         LDY $02 : BEQ .positive_x_projection
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
         
         .positive_x_projection
         
@@ -114,7 +114,7 @@ AddBombosSpell:
         LDA $04
         
         LDY $06 : BEQ .positive_y_projection
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
         
         .positive_y_projection
         
@@ -287,7 +287,7 @@ Bombos_ExecuteFlameColumns:
                     LDA $00
                     
                     LDY $02 : BEQ .positive_y_projection
-                        EOR.w #$FFFF : INC A
+                        EOR.w #$FFFF : INC
                     
                     .positive_y_projection
                     
@@ -296,7 +296,7 @@ Bombos_ExecuteFlameColumns:
                     LDA $04
                     
                     LDY $06 : BEQ .positive_x_projection
-                        EOR.w #$FFFF : INC A
+                        EOR.w #$FFFF : INC
                     
                     .positive_x_projection
                     

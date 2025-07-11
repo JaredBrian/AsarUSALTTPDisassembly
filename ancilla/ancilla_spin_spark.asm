@@ -184,7 +184,7 @@ Sparkle_PrepOamCoordsFromRadialProjection:
     LDA.b $00
     
     LDY.b $02 : BEQ .positive_y_projection
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .positive_y_projection
     
@@ -193,7 +193,7 @@ Sparkle_PrepOamCoordsFromRadialProjection:
     LDA.b $04
     
     LDY.b $06 : BEQ .positive_x_projection
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .positive_x_projection
     

@@ -865,14 +865,14 @@ Ancilla_LiftableObjectLogic:
         LDA.w $0C22, X : BPL .halve_y_speed_due_to_ground_hit
             LDY.b #$01
             
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .halve_y_speed_due_to_ground_hit
         
-        LSR A
+        LSR
         
         CPY.b #$01 : BNE .restore_y_speed_sign
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .restore_y_speed_sign
         
@@ -883,14 +883,14 @@ Ancilla_LiftableObjectLogic:
         LDA.w $0C2C, X : BPL .halve_x_speed_due_to_ground_hit
             LDY.b #$01
             
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
             
         .halve_x_speed_due_to_ground_hit
         
-        LSR A
+        LSR
         
         CPY.b #$01 : BNE .restore_x_speed_sign
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .restore_x_speed_sign
         
@@ -973,7 +973,7 @@ Ancilla_SetPlayerHeldPosition:
         
     .player_didnt_just_hit_ground
         
-    EOR.w #$FFFF : INC A
+    EOR.w #$FFFF : INC
         
     CLC : ADC.b $20 : CLC : ADC.w .z_offset_player_moving, Y
                     CLC : ADC.w #$0012 : STA.b $00
@@ -1101,7 +1101,7 @@ Bomb_GetGrossPlayerDistance:
     ; A = Link's X pos. + 8 - effect's X pos.
     LDA.b $22 : CLC : ADC.w #$0008 : SEC : SBC.b $06 : BPL .abs_delta_x
         ; A = abs(A) [absolute value].
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .abs_delta_x
     
@@ -1109,7 +1109,7 @@ Bomb_GetGrossPlayerDistance:
     
     LDA.b $20 : CLC : ADC.w #$000C : SEC : SBC.b $04 : BPL .abs_delta_y
         ; A = abs(Link's Y pos. + 0x0C - effect's Y pos).
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
     
     .abs_delta_y
     

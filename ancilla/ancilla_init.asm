@@ -3542,7 +3542,7 @@ AddSwordChargeSpark:
     
     REP #$20
     
-    LDA.b $0A : EOR.w #$FFFF : INC A
+    LDA.b $0A : EOR.w #$FFFF : INC
                              CLC : ADC.b $00
                              CLC : ADC.w #-2
                              CLC : ADC.b $04 : STA.b $00

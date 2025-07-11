@@ -354,7 +354,7 @@ Ancilla_CaneSpark:
     
     .player_not_hitting_ground
     
-    EOR.w #$FFFF : INC A
+    EOR.w #$FFFF : INC
     
     CLC : ADC $20 : CLC : ADC.w #$000C : STA.l $7F5810
     LDA $22       : CLC : ADC.w #$0008 : STA.l $7F580E
