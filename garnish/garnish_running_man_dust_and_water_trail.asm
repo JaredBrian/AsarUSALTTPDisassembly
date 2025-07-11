@@ -19,7 +19,7 @@ Garnish_WaterTrail:
 {
     LDA.l $7FF90E, X
     
-    LSR A
+    LSR
     
     ; $04B3C7 ALTERNATE ENTRY POINT
     .set_chr_index

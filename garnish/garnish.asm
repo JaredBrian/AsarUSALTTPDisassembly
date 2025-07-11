@@ -158,7 +158,7 @@ Garnish_ExecuteSingle:
         
         .execute_handler
         
-        LDA.l $7FF800, X : DEC A
+        LDA.l $7FF800, X : DEC
         
         REP #$30
         

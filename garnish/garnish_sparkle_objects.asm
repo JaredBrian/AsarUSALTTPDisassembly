@@ -17,7 +17,7 @@ Garnish_Sparkle:
 ; $04B526-$04B558 JUMP LOCATION
 Garnish_SimpleSparkle:
 {
-    LDA.l $7FF90E, X : LSR A
+    LDA.l $7FF90E, X : LSR
     
     ; $04B52B ALTERNATE ENTRY POINT
     .set_chr_index
