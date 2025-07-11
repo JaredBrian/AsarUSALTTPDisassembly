@@ -282,7 +282,7 @@ ChainChomp_MoveChain:
         PHP
         
         BPL .BRANCH_ALPHA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
 
         .BRANCH_ALPHA
 
@@ -315,7 +315,7 @@ ChainChomp_MoveChain:
         PHP
         
         BPL .BRANCH_GAMMA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
 
         .BRANCH_GAMMA
 

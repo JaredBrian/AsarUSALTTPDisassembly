@@ -95,7 +95,7 @@ GuruguruBar_Main:
     STA.b $0E
     
     LSR.b $01 : BCC .BRANCH_BETA
-    	EOR.b #$FF : INC A
+    	EOR.b #$FF : INC
     
     .BRANCH_BETA
     
@@ -119,7 +119,7 @@ GuruguruBar_Main:
     STA.b $0F
     
     LSR.b $03 : BCC .BRANCH_DELTA
-    	EOR.b #$FF : INC A
+    	EOR.b #$FF : INC
     
     .BRANCH_DELTA
     
@@ -151,7 +151,7 @@ GuruguruBar_Main:
         JSR.w Sprite3_DivisionDelay
     
         LDA.b $04 : ASL : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_EPSILON
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
     
         .BRANCH_EPSILON
     
@@ -163,7 +163,7 @@ GuruguruBar_Main:
     	JSR.w Sprite3_DivisionDelay
     
     	LDA.b $06 : ASL : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_ZETA
-    	    EOR.b #$FF : INC A
+    	    EOR.b #$FF : INC
     
     	.BRANCH_ZETA
     

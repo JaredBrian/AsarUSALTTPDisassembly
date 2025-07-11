@@ -38,7 +38,7 @@ Sprite_Crab:
     
     LDA Pool_Sprite_Crab_y_speeds, Y : STA.w $0D40, X
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR A
+    INC.w $0E80, X : LDA.w $0E80, X : LSR
     
     CPY.b #$02 : BCC .moving_horizontally
         LSR #2

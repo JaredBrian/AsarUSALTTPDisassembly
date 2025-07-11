@@ -61,7 +61,7 @@ Sprite_DebirandoPit:
             LDY.b #$00
             
             LDA.b $00 : BPL .epsilon
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
                 
                 INY
             
@@ -76,7 +76,7 @@ Sprite_DebirandoPit:
             LDY.b #$00
             
             LDA.b $01 : BPL .theta
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
                 
                 INY
             

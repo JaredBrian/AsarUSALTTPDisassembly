@@ -272,14 +272,14 @@ BombTrooper_SpawnAndThrowBomb:
         JSR.w Sprite2_DirectionToFacePlayer
         
         LDA.b $0F : BPL .positive_dx
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .positive_dx
         
         STA.b $0F
         
         LDA.b $0E : BPL .positive_dy
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .positive_dy
         

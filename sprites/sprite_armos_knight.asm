@@ -97,7 +97,7 @@ Sprite_ArmosKnight:
             INC.w $0D90, X
             
             ; Make the sprite be harmful now.
-            LDA.w $0E40, X : AND.b #$7F : DEC #2 : STA.w $0E40, X
+            LDA.w $0E40, X : AND.b #$7F : DEC : DEC : STA.w $0E40, X
             
             ; Make the sprite take damage from a sword.
             LDA.w $0CAA, X : AND.b #$FB : STA.w $0CAA, X

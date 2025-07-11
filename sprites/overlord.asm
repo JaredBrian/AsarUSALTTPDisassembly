@@ -486,9 +486,10 @@ Overlord_SpawnFlyingTile:
     LDA.b #$94 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$01 : STA.w $0E90, Y
         
-        PHX : LDA.w $0B28, X : TAX
+        PHX
         
         ; Note: The high portions are fed off of the high bytes of this overlord.
+        LDA.w $0B28, X : TAX
         LDA.w Pool_Overlord_SpawnFlyingTile_x_coords_low, X : STA.w $0D10, Y
         
         LDA.w Pool_Overlord_SpawnFlyingTile_y_coords_low, X
@@ -501,6 +502,7 @@ Overlord_SpawnFlyingTile:
         
         LDA.w $0B40, X : STA.w $0F20, Y
         
+        ; OPTIMIZE: Undid this 2 seconds later?
         LDA.b #$04 : STA.w $0E50, Y
         
         LDA.b #$00 : STA.w $0BE0, Y

@@ -127,7 +127,7 @@ Ganon_HandleFireBatCircle:
         .BRANCH_BETA
         
         LSR.b $01 : BCC .BRANCH_GAMMA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_GAMMA
         
@@ -157,7 +157,7 @@ Ganon_HandleFireBatCircle:
         .BRANCH_EPSILON
         
         LSR.b $03 : BCC .BRANCH_ZETA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_ZETA
         
@@ -1757,7 +1757,7 @@ SpriteDraw_Ganon:
             
             PHX : PHY
             
-            LDA.w $0EB0, X : ASL A
+            LDA.w $0EB0, X : ASL
             
             LDY.w $0DE0, X : BEQ .BRANCH_EPSILON
                 CLC : ADC.b #$06

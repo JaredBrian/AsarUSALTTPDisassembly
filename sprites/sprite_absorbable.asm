@@ -73,7 +73,7 @@ Sprite_Absorbable_draw_logic_finished:
         LDA.w $0D50, X : ASL : ROR.w $0D50, X
         LDA.w $0D40, X : ASL : ROR.w $0D40, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC : LSR A
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR
         
         CMP.b #$09 : BCS .enough_z_speed_for_bounce
             JSR.w Sprite_Zero_XYZ_Velocity

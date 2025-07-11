@@ -513,7 +513,7 @@ SpriteDraw_BNCFlail:
     STA.b $0E
     
     LSR.b $01 : BCC .gamma
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .gamma
     
@@ -537,7 +537,7 @@ SpriteDraw_BNCFlail:
     STA.b $0F
     
     LSR.b $03 : BCC .epsilon
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
     
     .epsilon
     
@@ -570,10 +570,10 @@ SpriteDraw_BNCFlail:
         
         JSR.w NOP4
         
-        LDA.b $04 : ASL A
+        LDA.b $04 : ASL
         
         LDA.w SNES.RemainderResultHigh : BCC .zeta
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .zeta
         
@@ -585,10 +585,10 @@ SpriteDraw_BNCFlail:
         
         JSR.w NOP4
         
-        LDA.b $06 : ASL A
+        LDA.b $06 : ASL
         
         LDA.w SNES.RemainderResultHigh : BCC .theta
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .theta
         

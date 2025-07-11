@@ -82,7 +82,7 @@ Kiki_Fleeing:
     .x_speed_positive
     
     LDA.b $01 : BPL .y_speed_positive
-        EOR.b #$FF : INC A
+        EOR.b #$FF : INC
         
     .y_speed_positive
     

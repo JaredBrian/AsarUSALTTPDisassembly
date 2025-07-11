@@ -25,14 +25,14 @@ Sprite_Helmasaur:
     
     TXA : EOR.b $1A : AND.b #$0F : BNE .delay_direction_selection_logic
         LDA.w $0D50, X : BPL .abs_x_speed
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
 
         .abs_x_speed
 
         STA.b $00
     
         LDA.w $0D40, X : BPL .abs_y_speed
-    	    EOR.b #$FF : INC A
+    	    EOR.b #$FF : INC
 
     	.abs_y_speed
 
@@ -52,7 +52,7 @@ Sprite_Helmasaur:
         .x_speed_magnitude_greater_or_equal
     
         BPL .winning_speed_is_not_negative
-            INC A
+            INC
     
         .winning_speed_is_not_negative
     

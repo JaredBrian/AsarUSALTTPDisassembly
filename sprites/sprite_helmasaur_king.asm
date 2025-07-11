@@ -1117,7 +1117,7 @@ KingHelmasaur_OperateTail:
         PHP
         
         PHP : LDA.b $0D : PLP : BPL .BRANCH_BETA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_BETA
         
@@ -1179,7 +1179,7 @@ KingHelmasaur_OperateTail:
         .BRANCH_DELTA
         
         LSR.b $07 : BCC .BRANCH_EPSILON
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_EPSILON
         
@@ -1203,7 +1203,7 @@ KingHelmasaur_OperateTail:
         .BRANCH_ZETA
         
         LSR.b $09 : BCC .BRANCH_THETA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_THETA
         

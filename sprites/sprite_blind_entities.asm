@@ -657,7 +657,7 @@ Blind_Rerobe:
         
         ; HARDCODED: It depends upon Blind being in a 1 screen room in a corner.
         ; Set direction based on current Y position (sensible).
-        LDA.w $0D00, X : ASL A
+        LDA.w $0D00, X : ASL
         ROL : AND.b #$01 : INC #2 : STA !blind_direction, X
         
         ; HARDCODED: Also.
@@ -814,7 +814,8 @@ Blind_SpawnPoof:
     
     LDA.b #$2F : STA !timer_0, Y
     
-    LDA.b #$09 : STA.w $0E40, Y : STA.w $0BA0, Y
+    LDA.b #$09 : STA.w $0E40, Y
+                 STA.w $0BA0, Y
     
     RTS
 }
@@ -1132,7 +1133,7 @@ Blind_Animate:
         LDA.w Pool_Blind_Animate_step, Y
         
         LDY !blind_direction, X : CPY.b #$03 : BNE .facing_down
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .facing_down
         

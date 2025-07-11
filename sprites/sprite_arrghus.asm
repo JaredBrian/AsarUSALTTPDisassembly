@@ -503,7 +503,7 @@ Arrghus_HandlePuffs:
         .BRANCH_GAMMA
         
         LSR.b $01 : BCC .BRANCH_DELTA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_DELTA
         
@@ -533,7 +533,7 @@ Arrghus_HandlePuffs:
         .BRANCH_ZETA
         
         LSR.b $03 : BCC .BRANCH_THETA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_THETA
         

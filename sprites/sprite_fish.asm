@@ -303,7 +303,7 @@ Fish_Draw:
 {
     LDA.b #$00 : XBA
     LDA.w $0DC0, X : BEQ DontDrawFloppingFish
-        DEC A
+        DEC
         
         REP #$20
         
