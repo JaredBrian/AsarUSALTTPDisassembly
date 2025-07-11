@@ -87,7 +87,7 @@ Sprite_CoveredRupeeCrab:
         LDA.b #$01
         
         LDY.w $0E20, X : CPY.b #$17 : BNE .BRANCH_IOTA
-            INC A
+            INC
             
         .BRANCH_IOTA
         

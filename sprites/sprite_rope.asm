@@ -149,7 +149,7 @@ Rope_Moving:
     LDA.b $1A
     
     CPY.b #$04 : BCS .moving_fast
-        LSR A
+        LSR
     
     .moving_fast
     

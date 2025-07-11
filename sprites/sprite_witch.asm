@@ -51,7 +51,7 @@ Sprite_Witch:
     ; NOTE: (n refers to the value of $0D90, X)
     .shift_right_n_times
         
-        LSR A
+        LSR
     DEC.b $00 : BPL .shift_right_n_times
     
     AND.b #$07 : STA.w $0DC0, X

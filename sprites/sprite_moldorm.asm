@@ -86,14 +86,14 @@ Sprite_Moldorm:
 Moldorm_ConfigureNextState:
 {
     LDA.w $0DF0, X : BNE .delay
-        INC A
+        INC
         
         INC !seek_delay_counter, X
         
         LDY !seek_delay_counter, X : CPY.b #$06 : BNE .anoseek_player
             STZ !seek_delay_counter, X
             
-            INC A
+            INC
         
         .anoseek_player
         

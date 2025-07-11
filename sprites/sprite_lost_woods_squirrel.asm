@@ -34,7 +34,7 @@ Sprite_LostWoodsSquirrel:
         
         LDY.w $0DF0, X : BEQ .falling_graphic
             ; Or the jumping up sprite state.
-            INC A
+            INC
             
         .falling_graphic
         

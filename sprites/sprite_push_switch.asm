@@ -201,7 +201,7 @@ WaterSwitch_Main:
     
     LDA.b #$00 : XBA
     
-    LDA.w $0DE0, X : ASL A
+    LDA.w $0DE0, X : ASL
     
     PHX
     

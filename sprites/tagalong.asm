@@ -35,14 +35,14 @@ Tagalong_CheckBlindTriggerRegion:
     LDA.b $02                   : CLC : ADC.w #$0008 : STA.b $02
     
     LDA.w #$1568 : SEC : SBC.b $00 : BPL .non_negative_delta_x
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
 
     .non_negative_delta_x
     
     CMP.w #$0018 : BCS .out_of_range
     
     LDA.w #$1980 : SEC : SBC.b $02 : BPL .non_negative_delta_y
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
 
     .non_negative_delta_y
     
@@ -1348,7 +1348,7 @@ Tagalong_AnimateMovement:
         LDY.b #$08
         
         LDA.w $033C : ORA.w $033D : ORA.w $033E : ORA.w $033F : BEQ .no_collision
-            LDA.b $1A : AND.b #$08 : LSR A
+            LDA.b $1A : AND.b #$08 : LSR
             BRA TagalongDraw_Drawing
 
         .no_collision
@@ -1401,7 +1401,7 @@ Tagalong_AnimateMovement:
 
     .not_dashing
 
-    LDA.b $1A : AND.b #$08 : LSR A
+    LDA.b $1A : AND.b #$08 : LSR
 
     ; Bleeds into the next function.
 }
@@ -1678,14 +1678,14 @@ Tagalong_CheckTextTriggerProximity:
     LDA.b $02 : CLC : ADC.w #$0008 : STA.b $02
     
     LDA.b $20 : CLC : ADC.w #$000C : SEC : SBC.b $00 : BPL .positive_delta_y
-        EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC
 
     .positive_delta_y
     
     CMP.w #$001C : BCS .not_in_trigger
     
         LDA.b $22 : CLC : ADC.w #$000C : SEC : SBC.b $02 : BPL .positive_delta_x
-            EOR.w #$FFFF : INC A
+            EOR.w #$FFFF : INC
 
         .positive_delta_x
         

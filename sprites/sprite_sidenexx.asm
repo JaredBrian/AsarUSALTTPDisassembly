@@ -525,7 +525,7 @@ SpriteDraw_Sidenexx:
         .BRANCH_GAMMA
         
         LSR.b $07 : BCC .BRANCH_DELTA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_DELTA
         
@@ -547,7 +547,7 @@ SpriteDraw_Sidenexx:
         .BRANCH_EPSILON
         
         LSR.b $09 : BCC .BRANCH_ZETA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
         
         .BRANCH_ZETA
         

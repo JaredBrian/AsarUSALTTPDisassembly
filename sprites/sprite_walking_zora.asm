@@ -256,7 +256,7 @@ WalkingZora_Draw:
     LDY.b #$00
     
     LDA.w $0DC0, X : STA.b $06 : CMP.b #$04 : BCS .certain_animation_frame
-        LSR A
+        LSR
         
         REP #$20
         

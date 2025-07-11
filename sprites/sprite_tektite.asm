@@ -23,7 +23,7 @@ Sprite_GanonHelpers:
         
         LDA.b #$30 : STA.w $0B89, X
         
-        PLA : DEC A
+        PLA : DEC
         
         JSL.l UseImplicitRegIndexedLocalJumpTable
         

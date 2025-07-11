@@ -811,13 +811,11 @@ Pool_HappinessPond_GrantLuckStatus:
 HappinessPond_GrantLuckStatus:
 {
     JSL.l GetRandomInt : AND.b #$03 : TAY
-    
     LDA.w Pool_HappinessPond_GrantLuckStatus_luck_statuses, Y : STA.w $0CF9
                                                                 STZ.w $0CFA
     
     LDA.w Pool_HappinessPond_GrantLuckStatus_message_ids_lower, Y       : XBA
     LDA.w Pool_HappinessPond_GrantLuckStatus_message_ids_upper, Y : TAY : XBA
-    
     JSL.l Sprite_ShowMessageUnconditional
     
     STZ.w $0D80, X

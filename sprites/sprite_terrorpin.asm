@@ -80,7 +80,7 @@ Terrorpin_Upright:
     LDA.b $1A
     
     LDY.w $0ED0, X : BNE .moving_faster 
-        LSR A
+        LSR
     
     .moving_faster
     
@@ -122,7 +122,7 @@ Terrorpin_Overturned:
     LDA.w $0F70, X : BPL .in_air
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC : LSR A
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR
         CMP.b #$09 : BCS .bounced
             LDA.b #$00
         

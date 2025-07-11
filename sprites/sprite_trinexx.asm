@@ -271,10 +271,10 @@ Trinexx_CircleLink:
     
     .beta
     
-    LDA.b $00 : ASL.b $00 : PHP : ROR A
+    LDA.b $00 : ASL.b $00 : PHP : ROR
                             PLP : ROR : CLC : ADC.w $0D40, X : STA.w $0D40, X
     
-    LDA.b $01 : ASL.b $01 : PHP : ROR A
+    LDA.b $01 : ASL.b $01 : PHP : ROR
                             PLP : ROR : CLC : ADC.w $0D50, X : STA.w $0D50, X
     
     RTS
@@ -1005,14 +1005,14 @@ SpriteDraw_TrinexxRockHeadAndBody:
         .BRANCH_ALPHA
 
         LDA.w $0D90, X : SEC : SBC.w $0D10, X : STA.b $08 : BPL .BRANCH_BETA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
 
         .BRANCH_BETA
 
         STA.b $0A
         
         LDA.w $0DB0, X : SEC : SBC.w $0D00, X : STA.b $09 : BPL .BRANCH_GAMMA
-            EOR.b #$FF : INC A
+            EOR.b #$FF : INC
 
         .BRANCH_GAMMA
 
@@ -1037,7 +1037,7 @@ SpriteDraw_TrinexxRockHeadAndBody:
             LDA.w SNES.RemainderResultHigh : ADC.b #$00
             
             LDY.b $08 : BPL .BRANCH_DELTA
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
 
             .BRANCH_DELTA
 
@@ -1062,7 +1062,7 @@ SpriteDraw_TrinexxRockHeadAndBody:
             ADC.b #$00
             
             LDY.b $09 : BPL .BRANCH_EPSILON
-                EOR.b #$FF : INC A
+                EOR.b #$FF : INC
 
             .BRANCH_EPSILON
 
