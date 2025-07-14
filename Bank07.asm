@@ -3347,7 +3347,7 @@ Link_HandleFallingInPit:
         .BRANCH_BETA2
         
             CMP.l RoomsWithPitDamage, X : BEQ HandleLayerOfDestination_BRANCH_ALPHA2
-        DEX #2 : BPL .BRANCH_BETA2
+        DEX : DEX : BPL .BRANCH_BETA2
     
     .BRANCH_LATIMUS
     
@@ -3855,7 +3855,7 @@ Link_SetMomentum:
         ASL.b $02 : ASL.b $02
         
         ASL.b $04 : ASL.b $04
-    DEX #2 : BPL .BRANCH_ZETA
+    DEX : DEX : BPL .BRANCH_ZETA
     
     SEP #$30
     
@@ -3989,7 +3989,7 @@ Link_HandleSwimAccels:
         .BRANCH_ALPHA
         
         ASL.b $02 : ASL.b $02
-    DEX #2 : BPL .BRANCH_ZETA
+    DEX : DEX : BPL .BRANCH_ZETA
     
     SEP #$30
     
@@ -4022,7 +4022,8 @@ Link_SetTheMaxAccel:
                         STZ.w $032B, X
                         
                         LDA.w $033C, X : CMP.w MaxSwimAcceleration : BCC .BRANCH_BETA
-                            LDA.w #$0001 : STA.w $032B, X : STA.w $032F, X
+                            LDA.w #$0001 : STA.w $032B, X
+                                           STA.w $032F, X
                             
                             BRA .BRANCH_DELTA
                 
@@ -4035,7 +4036,7 @@ Link_SetTheMaxAccel:
                 .BRANCH_DELTA
                 
                 ASL.b $02 : ASL.b $02
-            DEX #2 : BPL .BRANCH_EPSILON
+            DEX : DEX : BPL .BRANCH_EPSILON
     
     .BRANCH_ALPHA
     
@@ -4058,7 +4059,8 @@ Player_Electrocution:
         LDA.b #$02 : STA.b $3D
         
         ; $0300 is the cycle counter for the electrocution animation.
-        LDA.w $0300 : INC : STA.w $0300 : AND.b #$01 : BEQ .use_normal_palettes
+        LDA.w $0300 : INC : STA.w $0300
+        AND.b #$01 : BEQ .use_normal_palettes
             JSL.l Palette_ElectroThemedGear
             
             BRA .palette_logic_complete
@@ -4082,7 +4084,6 @@ Player_Electrocution:
             STZ.b $4D
             
             LDA.b #$00
-            
             JSL.l Player_SetCustomMosaicLevel
     
     .return
@@ -4117,7 +4118,8 @@ Link_ReceiveItem:
     ; Did Link receive a heart container?
     STY.w $02D8 : CPY.b #$3E : BNE .notHeartContainer
         ; Link received a heart container.. handle it.
-        LDA.b #$2E : JSR.w Player_DoSfx3
+        LDA.b #$2E
+        JSR.w Player_DoSfx3
     
     .notHeartContainer
     
@@ -4141,7 +4143,8 @@ Link_ReceiveItem:
             ; Put Link in a position looking up at his item.
             LDA.b #$15 : STA.b $5D
             
-            LDA.b #$01 : STA.w $02DA : STA.w $037B
+            LDA.b #$01 : STA.w $02DA
+                         STA.w $037B
             
             ; Is the item a crystal?
             CPY.b #$20 : BNE .notCrystal
@@ -4160,11 +4163,10 @@ Link_ReceiveItem:
     JSL.l AddReceivedItem
     
     ; Is it a crystal?
-    LDA.w $02D8
-    CMP.b #$20 : BEQ .noHudRefresh
-    CMP.b #$37 : BEQ .noHudRefresh
-    CMP.b #$38 : BEQ .noHudRefresh
-    CMP.b #$39 : BEQ .noHudRefresh
+    LDA.w $02D8 : CMP.b #$20 : BEQ .noHudRefresh
+                  CMP.b #$37 : BEQ .noHudRefresh
+                  CMP.b #$38 : BEQ .noHudRefresh
+                  CMP.b #$39 : BEQ .noHudRefresh
         JSL.l HUD.RefreshIconLong
     
     .noHudRefresh
@@ -4215,7 +4217,6 @@ Link_TuckIntoBed:
     
     ; Spawn the "Link's bedspread" ancilla.
     LDA.b #$20
-    
     JSL.l AddLinksBedSpread
     
     PLB
@@ -4238,7 +4239,6 @@ Pool_LinkState_Sleeping:
 LinkState_Sleeping:
 {
     LDA.w $037C : ASL : TAX
-    
     JMP.w (Pool_LinkState_Sleeping, X)
 }
 
@@ -4249,7 +4249,6 @@ Link_SnoringInBed:
         ; Generate Z sprites from Link sleeping.
         LDY.b #$01
         LDA.b #$21
-        
         JSL.l AddLinksSleepZs
     
     .noZzzz
@@ -4287,7 +4286,8 @@ Link_JumpingOutOfBed:
         LDA.b #$04 : STA.b $27
         LDA.b #$15 : STA.b $28
         
-        LDA.b #$18 : STA.b $29 : STA.w $02C7
+        LDA.b #$18 : STA.b $29
+                     STA.w $02C7
         
         LDA.b #$10 : STA.b $46
         
@@ -4329,30 +4329,28 @@ Player_Sword:
 
 ; Subprograms that handle the Y button weapons.
 ; $039AE6-$039B0D JUMP TABLE
-Pool_Link_HandleYItem:
+Link_HandleYItem_modules:
 {
-    dw $A138 ; $03A138 Bombs
-    dw LinkItem_Boomerang
-    dw LinkItem_Bow
-    dw LinkItem_Hammer
-    dw LinkItem_Rod
-    dw LinkItem_Rod
-    dw $AFF8 ; $03AFF8 Bug Catching Net
-    dw LinkItem_ShovelAndFlute
-    
-    dw LinkItem_Lamp
-    dw LinkItem_MagicPowder
-    dw $A15B ; $03A15B Bottle(s)
-    dw $A471 ; $03A471 Book of Mudora
-    dw PlayerItem_CaneOfByrna
-    dw $AB25 ; $03AB25 Hookshot
-    dw $A569 ; $03A569 Bombos Medallion
-    dw LinkItem_EtherMedallion
-    
-    dw LinkItem_Quake
-    dw LinkItem_CaneOfSomaria
-    dw LinkItem_Cape
-    dw LinkItem_Mirror
+    dw LinkItem_Bombs          ; 0x00 - $A138
+    dw LinkItem_Boomerang      ; 0x01 - $A0BB
+    dw LinkItem_Bow            ; 0x02 - $A006
+    dw LinkItem_Hammer         ; 0x03 - $9F7B
+    dw LinkItem_Rod            ; 0x04 - $9EEF
+    dw LinkItem_Rod            ; 0x05 - $9EEF
+    dw LinkItem_Net            ; 0x06 - $AFF8
+    dw LinkItem_ShovelAndFlute ; 0x07 - $A313
+    dw LinkItem_Lamp           ; 0x08 - $A24D
+    dw LinkItem_MagicPowder    ; 0x09 - $A293
+    dw LinkItem_Bottle         ; 0x0A - $A15B
+    dw LinkItem_Book           ; 0x0B - $A471
+    dw PlayerItem_CaneOfByrna  ; 0x0C - $AF3E
+    dw LinkItem_Hookshot       ; 0x0D - $AB25
+    dw LinkItem_Bombos         ; 0x0E - $A569
+    dw LinkItem_EtherMedallion ; 0x0F - $A494
+    dw LinkItem_Quake          ; 0x10 - $A64B
+    dw LinkItem_CaneOfSomaria  ; 0x11 - $AEC0
+    dw LinkItem_Cape           ; 0x12 - $ADC1
+    dw LinkItem_Mirror         ; 0x13 - $A91A
 }
 
 ; $039B0E-$039B91 LOCAL JUMP LOCATION
@@ -4364,10 +4362,8 @@ Link_HandleYItem:
     .BRANCH_ALPHA
     
     LDA.w $02E0 : BEQ .BRANCH_BETA
-        LDA.w $0303
-        
-        CMP.b #$0B : BEQ .BRANCH_BETA
-        CMP.b #$14 : BEQ .BRANCH_BETA
+        LDA.w $0303 : CMP.b #$0B : BEQ .BRANCH_BETA
+                      CMP.b #$14 : BEQ .BRANCH_BETA
             RTS
     
     .BRANCH_BETA
@@ -4416,8 +4412,7 @@ Link_HandleYItem:
                 
             DEY : BMI .BRANCH_IOTA
                 TYA : ASL : TAX
-                
-                JMP.w (Pool_Link_HandleYItem, X)
+                JMP.w (.modules, X)
     
     .BRANCH_IOTA
     
@@ -4425,16 +4420,16 @@ Link_HandleYItem:
 }
 
 ; $039B92-$039BA1 JUMP TABLE
-Link_APress_vectors:
+Link_HandleAPress_modules:
 {
-    dw Link_APress_NothingA       ; $AAA1 RTS, basically
-    dw Link_APress_LiftCarryThrow ; $B1CA Pick up a pot / bush / bomb / etc
-    dw Link_APress_NothingB       ; $B2ED
-    dw Link_APress_PullObject     ; $B322 Grabbing wall... prep?
-    dw Link_Read_return           ; $B527 Reading.... prep?
-    dw Link_Chest                 ; $B574 The chest is already open, we're done.
-    dw Link_APress_StatueDrag     ; $B389
-    dw Link_APress_RupeePull      ; $B40C
+    dw Link_APress_NothingA       ; 0x00 - $AAA1 RTS, basically
+    dw Link_APress_LiftCarryThrow ; 0x01 - $B1CA Pick up a pot / bush / bomb / etc
+    dw Link_APress_NothingB       ; 0x02 - $B2ED
+    dw Link_APress_PullObject     ; 0x03 - $B322 Grabbing wall... prep?
+    dw Link_Read_return           ; 0x04 - $B527 Reading.... prep?
+    dw Link_Chest                 ; 0x05 - $B574 The chest is already open
+    dw Link_APress_StatueDrag     ; 0x06 - $B389
+    dw Link_APress_RupeePull      ; 0x07 - $B40C
 }
 
 ; $039BA2-$039BA9 DATA
@@ -4543,15 +4538,15 @@ Link_HandleAPress:
                 STX.w $036C
                 
                 TXA : ASL : TAX
-                
                 JSR.w Link_APress_PerformBasic ; Do the action.
     
     .handsAreOccupied
     
     ; Remind me what action we just did, and mirror it to $0306.
-    LDA.w $036C : STA.w $0306 : ASL : TAX
+    LDA.w $036C : STA.w $0306
     
-    JMP.w (Link_APress_vectors, X)
+    ASL : TAX
+    JMP.w (.modules, X)
     
     .cantDoAction
     
@@ -4561,26 +4556,25 @@ Link_HandleAPress:
 }
 
 ; $039C4F-$039C5E JUMP TABLE
-Pool_Link_APress_PerformBasic:
+Link_APress_PerformBasic_modules:
 {
-    ; Parameter: $036C
-    
-    ; Using the A button, Link:
-    
-    dw Link_PerformDesertPrayer ; 0x00 $AA6C
-    dw Link_Lift                ; 0x01 $B11C - Picks up a pot or bush.
-    dw Link_PerformDash         ; 0x02 $B281 - Starts dashing
-    dw Link_PerformGrab         ; 0x03 $B2EE - Grabs a wall
-    dw Link_Read                ; 0x04 $B527 - Reads a sign.
-    dw Link_Chest               ; 0x05 $B574 - Opens a chest.
-    dw Link_MovableStatue       ; 0x06 $B373 - Grabs a Moveable Statue.
-    dw Link_PerformRupeePull    ; 0x07 $B3E5 - Pull For Rupees / DW Dungeon 4 entrance.
+    dw Link_PerformDesertPrayer ; 0x00 - $AA6C 
+    dw Link_Lift                ; 0x01 - $B11C Picks up a pot or bush.
+    dw Link_PerformDash         ; 0x02 - $B281 Starts dashing
+    dw Link_PerformGrab         ; 0x03 - $B2EE Grabs a wall
+    dw Link_Read                ; 0x04 - $B527 Reads a sign.
+    dw Link_Chest               ; 0x05 - $B574 Opens a chest.
+    dw Link_MovableStatue       ; 0x06 - $B373 Grabs a Moveable Statue.
+    dw Link_PerformRupeePull    ; 0x07 - $B3E5 Pull For Rupees / DW Dungeon 4
+                                ;        entrance.
 }
 
+; Parameter: $036C
+; Using the A button, Link:
 ; $039C5F-$039C61 LOCAL JUMP LOCATION
 Link_APress_PerformBasic:
 {
-    JMP.w (Pool_Link_APress_PerformBasic, X)
+    JMP.w (.modules, X)
 }
 
 ; $039C62-$039C62 LOCAL JUMP LOCATION
@@ -4623,7 +4617,6 @@ HandleSwordSFXAndBeam:
                 DEX : BPL .nextSlot
                     
                 LDY.b #$00
-                    
                 JSL.l AddSwordBeam
     
     .cantShootBeam
@@ -4635,10 +4628,8 @@ HandleSwordSFXAndBeam:
     
     LDA.l $7EF359 : DEC : TAX
     
-    PLA
-    
-    CPX.b #$FE : BEQ .noSwordSound
-    CPX.b #$FF : BEQ .noSwordSound
+    PLA : CPX.b #$FE : BEQ .noSwordSound
+          CPX.b #$FF : BEQ .noSwordSound
         ORA.w SwordSwingSFX, X : STA.w $012E
     
     .noSwordSound
@@ -4721,10 +4712,8 @@ Link_CheckForSwordSwing:
         DEC.b $3D : BPL .BRANCH_DELTA
             ; Count up the "frames B Button has been held" timer.
             INC.b $3C
-            
             LDA.b $3C : CMP.b #$09 : BCS .maybeDoSpinAttack
                 TAX
-                
                 LDA.w SwordSwingTimers, X : STA.b $3D
                 
                 CPX.b #$05 : BNE .no_swing_sparkle
@@ -4733,7 +4722,6 @@ Link_CheckForSwordSwing:
                        CMP.b #$FF : BEQ .BRANCH_THETA
                         LDY.b #$04
                         LDA.b #$26
-                        
                         JSL.l AddLinksSleepZs
                     
                     .BRANCH_THETA
@@ -4741,15 +4729,15 @@ Link_CheckForSwordSwing:
                     LDY.b #$01
                     
                     LDA.l $7EF359 : BEQ .BRANCH_DELTA
-                        CMP.b #$FF : BEQ .BRANCH_DELTA
-                        CMP.b #$01 : BEQ .BRANCH_IOTA
-                            LDY.b #$06
+                       CMP.b #$FF : BEQ .BRANCH_DELTA
+                            CMP.b #$01 : BEQ .BRANCH_IOTA
+                                LDY.b #$06
                         
-                        .BRANCH_IOTA
+                            .BRANCH_IOTA
                         
-                        JSR.w TileDetect_MainHandler
+                            JSR.w TileDetect_MainHandler
                         
-                        BRA .BRANCH_DELTA
+                            BRA .BRANCH_DELTA
 
                 .no_swing_sparkle
                 
@@ -4816,7 +4804,8 @@ Link_ResetSwordAndItemUsage:
 
     LDA.b $3C : CMP.b #$09 : BNE .BRANCH_ZETA
         LDX.b #$0A : STX.b $3C
-        
+
+        ; OPTIMIZE: Why not just LDA.w SwordSwingTimers+$0A ?
         LDA.w SwordSwingTimers, X : STA.b $3D
 
     .BRANCH_ZETA
@@ -4825,27 +4814,26 @@ Link_ResetSwordAndItemUsage:
         LDA.b $3C : INC : CMP.b #$0D : BNE .BRANCH_KAPPA
             LDA.l $7EF359 : INC : AND.b #$FE : BEQ .BRANCH_LAMBDA
                 LDA.b $48 : AND.b #$09 : BEQ .BRANCH_LAMBDA
-                
-                LDY.b #$01
-                LDA.b #$1B
-                
-                JSL.l AddWallTapSpark
-                
-                LDA.b $48 : AND.b #$08 : BNE .BRANCH_MUNU
-                    LDA.b $05 : JSR.w Player_DoSfx2
+                    LDY.b #$01
+                    LDA.b #$1B
+                    JSL.l AddWallTapSpark
                     
-                    BRA .BRANCH_XI
+                    LDA.b $48 : AND.b #$08 : BNE .BRANCH_MUNU
+                        LDA.b $05
+                        JSR.w Player_DoSfx2
+                        
+                        BRA .BRANCH_XI
 
-                .BRANCH_MUNU
+                    .BRANCH_MUNU
 
-                LDA.b #$06 : JSR.w Player_DoSfx2
+                    LDA.b #$06
+                    JSR.w Player_DoSfx2
 
-                .BRANCH_XI
+                    .BRANCH_XI
 
-                ; Do sword interaction with tiles.
-                LDY.b #$01
-                
-                JSR.w TileDetect_MainHandler
+                    ; Do sword interaction with tiles.
+                    LDY.b #$01
+                    JSR.w TileDetect_MainHandler
             
             .BRANCH_LAMBDA
 
@@ -4853,8 +4841,8 @@ Link_ResetSwordAndItemUsage:
 
         .BRANCH_KAPPA
 
-        STA.b $3C : TAX
-        
+        STA.b $3C
+        TAX
         LDA.w SwordSwingTimers, X : STA.b $3D
     
     .BRANCH_THETA
@@ -4869,10 +4857,8 @@ Link_ResetSwordAndItemUsage:
     
     STZ.b $3D
     
-    LDA.b $5E
-    
-    CMP.b #$04 : BEQ .BRANCH_RHO
-    CMP.b #$10 : BEQ .BRANCH_RHO
+    LDA.b $5E : CMP.b #$04 : BEQ .BRANCH_RHO
+                CMP.b #$10 : BEQ .BRANCH_RHO
         LDA.b #$0C : STA.b $5E
         
         LDA.l $7EF359 : INC : AND.b #$FE : BEQ .return
@@ -4880,10 +4866,8 @@ Link_ResetSwordAndItemUsage:
 
             .BRANCH_PHI
 
-                LDA.w $0C4A, X
-                
-                CMP.b #$30 : BEQ .return
-                CMP.b #$31 : BEQ .return
+                LDA.w $0C4A, X : CMP.b #$30 : BEQ .return
+                                 CMP.b #$31 : BEQ .return
             DEX : BPL .BRANCH_PHI
             
             LDA.b $79 : CMP.b #$06 : BCC .BRANCH_CHI
@@ -4894,7 +4878,8 @@ Link_ResetSwordAndItemUsage:
 
             LDA.b $79 : CMP.b #$40 : BCS .return
                 INC.b $79 : LDA.b $79 : CMP.b #$30 : BNE .return
-                    LDA.b #$37 : JSR.w Player_DoSfx2
+                    LDA.b #$37
+                    JSR.w Player_DoSfx2
                     
                     JSL.l AddChargedSpinAttackSparkle
                     
@@ -4921,8 +4906,8 @@ CalculateSwordHitbox:
 
             LDY.b #$27
             
-            LDA.b $3C : STA.b $02 : STZ.b $03
-            
+            LDA.b $3C : STA.b $02
+                        STZ.b $03
             CMP.b #$09 : BEQ Link_ResetSwordAndItemUsage_return
                 BCC .BRANCH_BETA
                     LDA.b $02 : SEC : SBC.b #$0A : STA.b $02
@@ -4934,11 +4919,9 @@ CalculateSwordHitbox:
                 REP #$30
                 
                 LDA.b $2F : AND.w #$00FF : TAX
-                
                 LDA.l PlayerOam_AnimationDirectionalStepIndexOffset, X : STA.b $04
                 
                 TYA : AND.w #$00FF : ASL : CLC : ADC.b $04 : TAX
-                
                 LDA.l PlayerOam_AnimationStepDataOffsets, X : CLC : ADC.b $02 : TAX
                 
                 SEP #$20
@@ -4958,10 +4941,8 @@ CalculateSwordHitbox:
         LDA.b $2F : LSR : STA.b $0E
         
         ASL #3 : CLC : ADC.b $0E : ASL : CLC : ADC.b $04 : TAX
-        
         LDA.l PlayerOam_SwordSwingTipTile_up, X : CMP.b #$FF : BEQ .no_hitbox
             TXA : LSR : TAX
-            
             LDA.l PlayerOam_SwordSwingTipOffsetY_up, X : STA.b $44
             LDA.l PlayerOam_SwordSwingTipOffsetX_up, X : STA.b $45
 
@@ -4993,7 +4974,6 @@ LinkItem_Rod:
         LDA.b $6C : BNE CalculateSwordHitbox_quick_return
             JSR.w Link_CheckNewY_ButtonPress : BCC CalculateSwordHitbox_quick_return
                 LDX.b #$00
-                
                 JSR.w LinkItem_EvaluateMagicCost : BCC .insufficient_mp
                     ; This is a debug variable, but apparently in addition to
                     ; moving the HUD up 8 pixels, it also prevents you from
@@ -5020,8 +5000,11 @@ LinkItem_Rod:
     ; What's the point of this?
     LDA.b $67 : AND.b #$F0 : STA.b $67
     
-    DEC.b $3D : BPL .return
-        LDA.w $0300 : INC : STA.w $0300 : TAX
+    DEC.b $3D
+    
+    BPL .return
+        LDA.w $0300 : INC : STA.w $0300
+                            TAX
         
         LDA.w RodAndCaneAnimationTimer, X : STA.b $3D
         
@@ -5045,21 +5028,17 @@ LinkItem_Rod:
 ; ==============================================================================
 
 ; $039F59-$039F5C JUMP TABLE
-Pool_LinkItem_RodDiscriminator:
+LinkItem_RodDiscriminator_rods:
 {
-    .rods
-    dw LinkItem_FireRod
-    dw LinkItem_IceRod
+    dw LinkItem_FireRod ; 0x00 - $9F6F
+    dw LinkItem_IceRod  ; 0x01 - $9F66
 }
-
-; ==============================================================================
 
 ; $039F5D-$039F65 LOCAL JUMP LOCATION
 LinkItem_RodDiscriminator:
 {
     LDA.w $0307 : DEC : ASL : TAX
-    
-    JMP.w (Pool_LinkItem_RodDiscriminator_rods, X)
+    JMP.w (.rods, X)
 }
 
 ; ==============================================================================
@@ -5069,7 +5048,6 @@ LinkItem_IceRod:
 {
     LDA.b #$0B
     LDY.b #$01
-    
     JSL.l AddIceRodShot
     
     RTS
@@ -5082,7 +5060,6 @@ LinkItem_FireRod:
 {
     LDA.b #$02
     LDY.b #$01
-    
     JSL.l AddFireRodShot
     
     RTS
@@ -5128,7 +5105,8 @@ LinkItem_Hammer:
     LDA.b $67 : AND.b #$F0 : STA.b $67
     
     DEC.b $3D : BPL .return
-        LDA.w $0300 : INC : STA.w $0300 : TAX
+        LDA.w $0300 : INC : STA.w $0300
+                            TAX
         
         LDA.w .timers, X : STA.b $3D
         
@@ -5136,18 +5114,17 @@ LinkItem_Hammer:
             PHX
             
             LDY.b #$03
-            
             JSR.w TileDetect_MainHandler
             
             LDY.b #$00
             LDA.b #$16
-            
             JSR.w AddHitStars
             
             PLX
             
             LDA.w $012E : BNE .BRANCH_EPSILON
-                LDA.b #$10 : JSR.w Player_DoSfx2
+                LDA.b #$10
+                JSR.w Player_DoSfx2
                 
                 JSL.l Player_SpawnSmallWaterSplashFromHammer
 
@@ -5198,8 +5175,11 @@ LinkItem_Bow:
     
     LDA.b $67 : AND.b #$F0 : STA.b $67
     
-    DEC.b $3D : BPL LinkItem_Hammer_return
-        LDA.w $0300 : INC : STA.w $0300 : TAX
+    DEC.b $3D
+    
+    BPL LinkItem_Hammer_return
+        LDA.w $0300 : INC : STA.w $0300
+                            TAX
         
         LDA.w .timer, X : STA.b $3D
         
@@ -5219,13 +5199,14 @@ LinkItem_Bow:
                 LDA.w $0B99 : BEQ .BRANCH_DELTA
                     DEC.w $0B99
                     
-                    LDA.l $7EF377 : INC #2 : STA.l $7EF377
+                    LDA.l $7EF377 : INC : INC : STA.l $7EF377
                 
                 .BRANCH_DELTA
                 
                 LDA.w $0B9A : BNE .BRANCH_EPSILON
                     LDA.l $7EF377 : BEQ .BRANCH_EPSILON
-                        DEC : STA.l $7EF377 : BNE .BRANCH_GAMMA
+                        DEC : STA.l $7EF377
+                        BNE .BRANCH_GAMMA
                             JSL.l HUD.RefreshIconLong
                             
                             BRA .BRANCH_GAMMA
@@ -5234,7 +5215,8 @@ LinkItem_Bow:
                 
                 STZ.w $0C4A, X
                 
-                LDA.b #$3C : JSR.w Player_DoSfx2
+                LDA.b #$3C
+                JSR.w Player_DoSfx2
             
             .BRANCH_GAMMA
             
@@ -5273,7 +5255,6 @@ LinkItem_Boomerang:
                     
                     LDY.b #$00
                     LDA.b #$05
-                    
                     JSL.l AddBoomerang
                     
                     LDA.b $3C : CMP.b #$09 : BCS .reset
@@ -5293,7 +5274,9 @@ LinkItem_Boomerang:
         
         LDA.b $67 : AND.b #$F0 : STA.b $67
         
-        DEC.b $3D : BPL .BRANCH_BETA
+        DEC.b $3D
+        
+        BPL .BRANCH_BETA
             LDA.b #$05 : STA.b $3D
                 LDA.w $0300 : INC : STA.w $0300
                 CMP.b #$02 : BNE .BRANCH_BETA
@@ -5305,7 +5288,8 @@ LinkItem_Boomerang:
     STZ.w $0300
     STZ.b $3D
     
-    LDA.b $3A : AND.b #$BF : STA.b $3A : AND.b #$80 : BNE .BRANCH_BETA
+    LDA.b $3A : AND.b #$BF : STA.b $3A
+    AND.b #$80 : BNE .BRANCH_BETA
         LDA.b $50 : AND.b #$FE : STA.b $50
     
     .BRANCH_BETA
@@ -5326,7 +5310,6 @@ LinkItem_Bombs:
                 
                 LDY.b #$01
                 LDA.b #$07
-                
                 JSL.l AddBlueBomb
                 
                 STZ.w $0301
@@ -5350,7 +5333,6 @@ LinkItem_Bottle:
         
         ; Check if we have a bottle or not.
         LDA.l $7EF34F : DEC : TAX
-        
         LDA.l $7EF35C, X : BEQ LinkItem_Bombs_return
             CMP.b #$03 : BCC .BRANCH_ALPHA
                 CMP.b #$03 : BEQ .BRANCH_BETA
@@ -5386,7 +5368,7 @@ LinkItem_Bottle:
             
             LDA.b #$07 : STA.w $0208
             
-            JSL.l HUD.RebuildLong
+            JSL.l HUD_RebuildLong
             
             RTS
             
@@ -5412,7 +5394,7 @@ LinkItem_Bottle:
             
             LDA.b #$07 : STA.w $0208
             
-            JSL.l HUD.RebuildLong
+            JSL.l HUD_RebuildLong
             
             BRA .BRANCH_IOTA
             
@@ -5467,7 +5449,7 @@ LinkItem_Bottle:
             
             LDA.b #$02 : STA.l $7EF35C, X
             
-            JSL.l HUD.RebuildLong
+            JSL.l HUD_RebuildLong
             
             .BRANCH_IOTA
             
@@ -5494,14 +5476,12 @@ LinkItem_Lamp:
                 LDX.b #$06 : JSR.w LinkItem_EvaluateMagicCost : BCC .cant_use_lamp
                     LDY.b #$00
                     LDA.b #$1A
-                    
                     JSL.l AddMagicPowder
                     
                     JSL.l Dungeon_LightTorch
                     
                     LDY.b #$02
                     LDA.b #$2F
-                    
                     JSL.l AddLampFlame
             
             .cant_use_lamp
@@ -5570,34 +5550,34 @@ LinkItem_MagicPowder:
     STZ.b $2B
     STZ.b $6B
     
-    DEC.b $3D : BPL .return
-        LDA.w $0300 : INC : STA.w $0300 : TAX
+    DEC.b $3D
+    
+    BPL .return
+        LDA.w $0300 : INC : STA.w $0300
+                            TAX
         
         LDA.w .timer, X : STA.b $3D
         
         CPX.b #$04 : BNE .BRANCH_EPSILON
             LDY.b #$00
             LDA.b #$1A
-            
             JSL.l AddMagicPowder
         
         .BRANCH_EPSILON
         
         CPX.b #$09 : BNE .return
-        
-        LDA.b $11 : BNE .BRANCH_DELTA
-            LDY.b #$01
+            LDA.b $11 : BNE .BRANCH_DELTA
+                LDY.b #$01
+                JSR.w TileDetect_MainHandler
+                
+                BRA .BRANCH_DELTA ; OPTIMIZE: Lol what?
             
-            JSR.w TileDetect_MainHandler
+            .BRANCH_DELTA
             
-            BRA .BRANCH_DELTA ; OPTIMIZE: Lol what?
-        
-        .BRANCH_DELTA
-        
-        STZ.w $0301
-        STZ.w $0300
-        
-        LDA.b $3A : AND.b #$BF : STA.b $3A
+            STZ.w $0301
+            STZ.w $0300
+            
+            LDA.b $3A : AND.b #$BF : STA.b $3A
     
     ; $03A312 ALTERNATE ENTRY POINT
     .return
@@ -5666,7 +5646,8 @@ LinkItem_Shovel:
     
     LDA.w Pool_LinkItem_Shovel_timer, X : STA.b $3D
     
-    LDA.w Pool_LinkItem_Shovel_pose, X : STA.w $0300 : CMP.b #$01 : BNE .BRANCH_GAMMA
+    LDA.w Pool_LinkItem_Shovel_pose, X : STA.w $0300
+    CMP.b #$01 : BNE .BRANCH_GAMMA
         LDY.b #$02
         
         PHX
@@ -5676,14 +5657,14 @@ LinkItem_Shovel:
         PLX
         
         LDA.w $04B2 : BEQ .BRANCH_DELTA
-            LDA.b #$1B : JSR.w Player_DoSfx3
+            LDA.b #$1B
+            JSR.w Player_DoSfx3
             
             PHX
             
             ; Add recovered flute (from digging). Interesting...
             LDY.b #$00
             LDA.b #$36
-            
             JSL.l AddRecoveredFlute
             
             PLX
@@ -5695,12 +5676,12 @@ LinkItem_Shovel:
             
             LDY.b #$00
             LDA.b #$16
-            
             JSL.l AddHitStars
             
             PLX
             
-            LDA.b #$05 : JSR.w Player_DoSfx2
+            LDA.b #$05
+            JSR.w Player_DoSfx2
             
             BRA .BRANCH_GAMMA
         
@@ -5711,7 +5692,6 @@ LinkItem_Shovel:
         ; Add shovel dirt? what? I thought these were aftermath tiles.
         LDY.b #$00
         LDA.b #$17
-        
         JSL.l AddShovelDirt
         
         LDA.w $03FC : BEQ .digging_game_inactive
@@ -5721,7 +5701,8 @@ LinkItem_Shovel:
         
         PLX
         
-        LDA.b #$12 : JSR.w Player_DoSfx2
+        LDA.b #$12
+        JSR.w Player_DoSfx2
     
     .BRANCH_GAMMA
     
@@ -5758,7 +5739,8 @@ LinkItem_Flute:
         ; Success... play the flute.
         LDA.b #$80 : STA.w $03F0
         
-        LDA.b #$13 : JSR.w Player_DoSfx2
+        LDA.b #$13
+        JSR.w Player_DoSfx2
         
         ; Are we indoors?
         LDA.b $1B : BNE LinkItem_Shovel_return
@@ -5783,15 +5765,11 @@ LinkItem_Flute:
                         ; Check the area, is it #$18 = 30?
                         LDA.b $8A : CMP.w #$0018 : BNE .not_weathervane_trigger
                             ; Y coordinate boundaries for setting it off.
-                            LDA.b $20
-                            
-                            CMP.w #$0760 : BCC .not_weathervane_trigger
-                            CMP.w #$07E0 : BCS .not_weathervane_trigger
+                            LDA.b $20 : CMP.w #$0760 : BCC .not_weathervane_trigger
+                                        CMP.w #$07E0 : BCS .not_weathervane_trigger
                                 ; If( (Ycoord >= 0x0760) && (Ycoord < 0x07e0)
-                                LDA.b $22
-                                
-                                CMP.w #$01CF : BCC .not_weathervane_trigger
-                                CMP.w #$0230 : BCS .not_weathervane_trigger
+                                LDA.b $22 : CMP.w #$01CF : BCC .not_weathervane_trigger
+                                            CMP.w #$0230 : BCS .not_weathervane_trigger
                                     ; If( (Xcoord >= 0x1cf) && (Xcoord < 0x0230)
                                     SEP #$20
                                     
@@ -5803,7 +5781,6 @@ LinkItem_Flute:
                                     ; weathervane explosion.
                                     LDY.b #$00
                                     LDA.b #$37
-                                    
                                     JSL.l AddWeathervaneExplosion
                         
                         .not_weathervane_trigger
@@ -5816,7 +5793,6 @@ LinkItem_Flute:
                     
                     LDY.b #$04
                     LDA.b #$27
-                    
                     JSL.l AddTravelBird_pick_up
                     
                     STZ.w $03F8
@@ -5833,12 +5809,12 @@ GanonEmerges_SpawnTravelBird:
 {
     PHB : PHK : PLB
     
-    LDA.b #$13 : JSR.w Player_DoSfx2
+    LDA.b #$13
+    JSR.w Player_DoSfx2
     
     ; Add travel bird.
     LDY.b #$04
     LDA.b #$27
-    
     JSL.l AddTravelBird_pick_up
     
     PLB
@@ -5858,7 +5834,8 @@ LinkItem_Book:
                 LDA.b $3A : AND.b #$BF : STA.b $3A
                 
                 LDA.w $02ED : BNE .BRANCH_BETA
-                    LDA.b #$3C : JSR.w Player_DoSfx2
+                    LDA.b #$3C
+                    JSR.w Player_DoSfx2
                     
                     BRA .BRANCH_ALPHA
                 
@@ -5905,7 +5882,8 @@ LinkItem_EtherMedallion:
                 STZ.w $031D
                 STZ.w $0324
                 
-                LDA.b #$23 : JSR.w Player_DoSfx3
+                LDA.b #$23
+                JSR.w Player_DoSfx3
     
     .cant_cast_no_sound
     
@@ -5941,25 +5919,27 @@ LinkState_UsingEther:
         CPX.b #$04 : BNE .BRANCH_DELTA
             PHX
             
-            LDA.b #$23 : JSR.w Player_DoSfx3
+            LDA.b #$23
+            JSR.w Player_DoSfx3
             
             PLX
         
         .BRANCH_DELTA
         
         CPX.b #$09 : BNE .BRANCH_EPSILON
-            LDA.b #$2C : JSR.w Player_DoSfx2
+            LDA.b #$2C
+            JSR.w Player_DoSfx2
         
         .BRANCH_EPSILON
         
         CPX.b #$0C : BNE .BRANCH_GAMMA
-            LDA.b #$0A : STA.w $031D : TAX
+            LDA.b #$0A : STA.w $031D
+                         TAX
         
         .BRANCH_GAMMA
         
         LDA.w LinkItem_EtherMedallion_anim_timer, X : STA.b $3D
-        
-        LDA.w LinkItem_EtherMedallion_anim_step, X : STA.w $031C
+        LDA.w LinkItem_EtherMedallion_anim_step, X  : STA.w $031C
         
         LDA.w $0324 : BNE .return
         CPX.b #$0A  : BNE .return
@@ -5967,7 +5947,6 @@ LinkState_UsingEther:
                 
             LDY.b #$00
             LDA.b #$18
-                
             JSL.l AddEtherSpell
                 
             STZ.b $4D
@@ -6002,7 +5981,6 @@ LinkItem_Bombos:
 
         LDA.w $0C4A : ORA.w $0C4B : ORA.w $0C4C : BNE .return
             LDX.b #$01
-            
             JSR.w LinkItem_EvaluateMagicCost : BCC .return
                 LDA.b #$09 : STA.b $5D
                 
@@ -6015,7 +5993,8 @@ LinkItem_Bombos:
                 STZ.w $031D
                 STZ.w $0324
                 
-                LDA.b #$23 : JSR.w Player_DoSfx3
+                LDA.b #$23
+                JSR.w Player_DoSfx3
 
     .return
 
@@ -6048,7 +6027,8 @@ LinkState_UsingBombos:
         INC.w $031D : LDX.w $031D : CPX.b #$04 : BNE .BRANCH_BETA
             PHX
             
-            LDA.b #$23 : JSR.w Player_DoSfx3
+            LDA.b #$23
+            JSR.w Player_DoSfx3
             
             PLX
         
@@ -6057,20 +6037,21 @@ LinkState_UsingBombos:
         CPX.b #$0A : BNE .BRANCH_GAMMA
             PHX
             
-            LDA.b #$2C : JSR.w Player_DoSfx2
+            LDA.b #$2C
+            JSR.w Player_DoSfx2
             
             PLX
         
         .BRANCH_GAMMA
         
         CPX.b #$14 : BNE .BRANCH_DELTA
-            LDA.b #$13 : STA.w $031D : TAX
+            LDA.b #$13 : STA.w $031D
+                         TAX
         
         .BRANCH_DELTA
         
         LDA.w LinkItem_Bombos_anim_timer, X : STA.b $3D
-        
-        LDA.w LinkItem_Bombos_anim_step, X : STA.w $031C
+        LDA.w LinkItem_Bombos_anim_step, X  : STA.w $031C
         
         LDA.w $0324 : BNE .return
         CPX.b #$13  : BNE .return
@@ -6078,7 +6059,6 @@ LinkState_UsingBombos:
             
             LDY.b #$00
             LDA.b #$19
-            
             JSR.w AddBombosSpell
             
             STZ.b $4D
@@ -6112,7 +6092,6 @@ LinkItem_Quake:
         
         LDA.w $0C4A : ORA.w $0C4B : ORA.w $0C4C : BNE .return
             LDX.b #$01
-            
             JSR.w LinkItem_EvaluateMagicCost : BCC .return
                 LDA.b #$0A : STA.b $5D
                 
@@ -6126,11 +6105,13 @@ LinkItem_Quake:
                 STZ.w $0324
                 STZ.b $46
                 
-                LDA.b #$28 : STA.w $0362 : STA.w $0363
+                LDA.b #$28 : STA.w $0362
+                             STA.w $0363
                 
                 STZ.w $0364
                 
-                LDA.b #$23 : JSR.w Player_DoSfx3
+                LDA.b #$23
+                JSR.w Player_DoSfx3
     
     .return
     
@@ -6165,7 +6146,8 @@ LinkState_UsingQuake:
         
         LDA.w $0364 : STA.b $24
         
-        LDA.b #$02 : STA.b $00 : STA.b $4D
+        LDA.b #$02 : STA.b $00
+                     STA.b $4D
         
         JSR.w Link_HandleChangeInZVelocity_preset
         JSL.l LinkHop_FindArbitraryLandingSpot
@@ -6174,7 +6156,8 @@ LinkState_UsingQuake:
         
         LDA.w $02C7 : STA.w $0363
         
-        LDA.b $24 : STA.w $0364 : BMI .BRANCH_BETA
+        LDA.b $24 : STA.w $0364
+        BMI .BRANCH_BETA
             LDY.b #$14
             
             LDA.b $29 : BPL .BRANCH_GAMMA
@@ -6192,11 +6175,11 @@ LinkState_UsingQuake:
         .BRANCH_BETA
         
         INC.w $031D
-        
         LDX.w $031D : CPX.b #$04 : BNE .BRANCH_EPSILON
             PHX
             
-            LDA.b #$23 : JSR.w Player_DoSfx3
+            LDA.b #$23
+            JSR.w Player_DoSfx3
             
             PLX
         
@@ -6205,25 +6188,27 @@ LinkState_UsingQuake:
         CPX.b #$0A : BNE .BRANCH_ZETA
             PHX
             
-            LDA.b #$2C : JSR.w Player_DoSfx2
+            LDA.b #$2C
+            JSR.w Player_DoSfx2
             
             PLX
             
         .BRANCH_ZETA
         
         CPX.b #$0B : BNE .BRANCH_THETA
-            LDA.b #$0C : JSR.w Player_DoSfx2
+            LDA.b #$0C
+            JSR.w Player_DoSfx2
         
         .BRANCH_THETA
         
         CPX.b #$0C : BNE .BRANCH_IOTA
-            LDA.b #$0B : STA.w $031D : TAX
+            LDA.b #$0B : STA.w $031D
+                         TAX
         
         .BRANCH_IOTA
         
         LDA.w Pool_LinkState_UsingQuake_anim_timer, X : STA.b $3D
-        
-        LDA.w Pool_LinkState_UsingQuake_anim_step, X : STA.w $031C
+        LDA.w Pool_LinkState_UsingQuake_anim_step, X  : STA.w $031C
         
         LDA.w $0324 : BNE .BRANCH_DELTA
         CPX.b #$0B  : BNE .BRANCH_DELTA
@@ -6234,7 +6219,6 @@ LinkState_UsingQuake:
             
             LDY.b #$00
             LDA.b #$1C
-            
             JSL.l AddQuakeSpell
             
             STZ.b $4D
@@ -6249,9 +6233,7 @@ LinkState_UsingQuake:
 Link_ActivateSpinAttack:
 {
     LDY.b #$00 : TYX
-    
     LDA.b $2A
-    
     JSL.l AddSpinAttackStartSparkle
 
     ; Bleeds into the next function.
@@ -6264,12 +6246,13 @@ Link_AnimateVictorySpin:
     LDA.b #$03 : STA.b $5D
     
     LDA.b $2F : LSR : TAX
-    
-    LDA.w Pool_SpinAttack_data_offset, X : STA.w $031E : TAX
+    LDA.w Pool_SpinAttack_data_offset, X : STA.w $031E
+                                           TAX
     
     LDA.w Pool_SpinAttack_anim_timer_a : STA.b $3D
     
-    LDA.w Pool_SpinAttack_anim_step, X : STA.w $031C : STA.w $031D, X
+    LDA.w Pool_SpinAttack_anim_step, X : STA.w $031C
+                                         STA.w $031D, X
     
     ; Trigger the spin attack motion.
     LDA.b #$90 : STA.b $3C
@@ -6344,9 +6327,7 @@ LinkState_SpinAttack:
         
         .BRANCH_DELTA
         
-            LDA.w $0C4A, X
-            
-            CMP.b #$2A : BEQ .BRANCH_BETA
+            LDA.w $0C4A, X : CMP.b #$2A : BEQ .BRANCH_BETA
                 CMP.b #$2B : BNE .BRANCH_GAMMA
             
             .BRANCH_BETA
@@ -6391,7 +6372,8 @@ LinkState_SpinAttack:
             
             LDA.b $67 : AND.b #$F0 : STA.b $67
             
-            LDA.b #$2B : JSR.w Player_DoSfx3
+            LDA.b #$2B
+            JSR.w Player_DoSfx3
             
             LDA.b #$07 : STA.b $5D
             
@@ -6429,8 +6411,10 @@ LinkState_SpinAttack:
     DEC.b $3D : BPL .return ; You need to wait to spin attack still...
         ; Step Link through the animation.
         ; On the second motion begin the spinning sound.
-        LDA.w $031D : INC : STA.w $031D : CMP.b #$02 : BNE .BRANCH_MU
-            LDA.b #$23 : JSR.w Player_DoSfx3
+        LDA.w $031D : INC : STA.w $031D
+        CMP.b #$02 : BNE .BRANCH_MU
+            LDA.b #$23
+            JSR.w Player_DoSfx3
         
         .BRANCH_MU
         
@@ -6467,13 +6451,11 @@ LinkState_SpinAttack:
         ; Determine which graphic to display while spinning.
         LDA.w Pool_SpinAttack_anim_step, X : STA.w $031C
         
-        LDX.w $031D
-        
         ; Determine the frame delay between changing the sprites.
+        LDX.w $031D
         LDY.w Pool_SpinAttack_anim_timer_b, X : STY.b $3D
         
         LDY.b #$08
-        
         JSR.w TileDetect_MainHandler
     
     .return
@@ -6487,14 +6469,13 @@ UNREACHABLE_07A8EC:
     LDY.b #$00
     LDX.b #$01
     LDA.b #$2A
-    
     JSL.l AddSpinAttackStartSparkle
     
     LDA.b #$1E : STA.b $5D
     
     LDA.b $2F : LSR : TAX
-    
-    LDA.w Pool_SpinAttack_data_offset, X : STA.w $031E : TAX
+    LDA.w Pool_SpinAttack_data_offset, X : STA.w $031E
+                                           TAX
     
     LDA.w Pool_SpinAttack_anim_timer_a : STA.b $3D
     
@@ -6549,7 +6530,8 @@ LinkItem_Mirror:
 LinkGoBeep:
 {
     ; Play the "you can't do that" sound.
-    LDA.b #$3C : JSR.w Player_DoSfx2
+    LDA.b #$3C
+    JSR.w Player_DoSfx2
     
     BRA Mirror_TryToWarp_cantWarp
 }
@@ -6570,7 +6552,8 @@ Mirror_TryToWarp:
     .outdoors
     
     LDA.b $10 : CMP.b #$0B : BEQ .inSpecialOverworld
-        LDA.b $8A : AND.b #$40 : STA.b $7B : BEQ .inLightWorld
+        LDA.b $8A : AND.b #$40 : STA.b $7B
+        BEQ .inLightWorld
             ; If we're warping from the dark world to the light world
             ; we generate new coordinates for the warp vortex.
             LDA.b $20 : STA.w $1ADF
@@ -6619,7 +6602,8 @@ LinkState_CrossingWorlds:
     
     .BRANCH_ALPHA
     
-    LDA.b $0C : ORA.b $0E : STA.b $00 : AND.b #$0C : BEQ .BRANCH_BETA
+    LDA.b $0C : ORA.b $0E : STA.b $00
+    AND.b #$0C : BEQ .BRANCH_BETA
         ; Could have just used BIT, ya know.
         LDA.b $00 : AND.b #$03 : BNE .BRANCH_GAMMA
             LDA.b $00 : AND.b #$0F : BEQ .BRANCH_BETA
@@ -6659,28 +6643,27 @@ LinkState_CrossingWorlds:
     DEX : BPL .checkNextDeepWaterBit
     
     CPY.b #$02 : BCC .BRANCH_KAPPA
-    
-    LDA.l $7EF356 : BNE .haveFlippers
-        LDA.b $8A : AND.b #$40 : CMP.b $7B : BNE .BRANCH_GAMMA
-            JSL.l Link_CheckSwimCapability
-            
-            BRA .BRANCH_KAPPA
-    
-    .haveFlippers
-    
-    LDA.b #$01 : STA.w $0345
-    
-    LDA.b $26 : STA.w $0340
-    
-    JSL.l Player_ResetSwimState
-    
-    LDA.b #$04 : STA.b $5D
-    
-    JSR.w Link_ForceUnequipCape_quietly
-    
-    STZ.b $5E
-    
-    BRA .BRANCH_MU
+        LDA.l $7EF356 : BNE .haveFlippers
+            LDA.b $8A : AND.b #$40 : CMP.b $7B : BNE .BRANCH_GAMMA
+                JSL.l Link_CheckSwimCapability
+                
+                BRA .BRANCH_KAPPA
+        
+        .haveFlippers
+        
+        LDA.b #$01 : STA.w $0345
+        
+        LDA.b $26 : STA.w $0340
+        
+        JSL.l Player_ResetSwimState
+        
+        LDA.b #$04 : STA.b $5D
+        
+        JSR.w Link_ForceUnequipCape_quietly
+        
+        STZ.b $5E
+        
+        BRA .BRANCH_MU
     
     .BRANCH_KAPPA
     
@@ -6767,7 +6750,6 @@ HandleFollowersAfterMirroring:
     PHB : PHK : PLB
     
     LDY.b #$00
-    
     JSR.w TileDetect_MainHandler
     
     STZ.b $2E
@@ -6812,7 +6794,6 @@ HandleFollowersAfterMirroring:
         
         LDY.b #$04
         LDA.b #$40
-        
         JSL.l AddDwarfTransformationCloud
     
     .checkPlayerPoofPotential
@@ -6821,8 +6802,8 @@ HandleFollowersAfterMirroring:
     LDA.l $7EF357 : BNE .hasMoonPearl
         LDY.b #$04
         LDA.b #$23
-        
         JSL.l AddWarpTransformationCloud
+
         JSR.w Link_ForceUnequipCape_quietly
         
         STZ.w $02E2
@@ -6871,7 +6852,6 @@ LinkItem_Hookshot:
                     
                     LDY.b #$03
                     LDA.b #$1F
-                    
                     JSL.l AddHookshot
     
     ; $03AB6B ALTERNATE ENTRY POINT
@@ -6990,14 +6970,16 @@ LinkState_Hookshotting:
         
         STZ.b $05
         
-        LDA.w Hookdrag_Offset_Y, Y : STA.b $04 : BPL .BRANCH_THETA
+        LDA.w Hookdrag_Offset_Y, Y : STA.b $04
+        BPL .BRANCH_THETA
             LDA.b #$FF : STA.b $05
 
         .BRANCH_THETA
 
         STZ.b $07
         
-        LDA.w Hookdrag_Offset_X, Y : STA.b $06 : BPL .BRANCH_IOTA
+        LDA.w Hookdrag_Offset_X, Y : STA.b $06
+        BPL .BRANCH_IOTA
             LDA.b #$FF : STA.b $07
 
         .BRANCH_IOTA
@@ -7005,8 +6987,11 @@ LinkState_Hookshotting:
         STZ.b $27
         STZ.b $28
         
-        LDA.w HookdragSpeeds_Vertical, Y : STA.b $08 : STZ.b $09
-        LDA.w HookdragSpeeds_Horizontal, Y : STA.b $0A : STZ.b $0B
+        LDA.w HookdragSpeeds_Vertical, Y : STA.b $08
+                                           STZ.b $09
+
+        LDA.w HookdragSpeeds_Horizontal, Y : STA.b $0A
+                                             STZ.b $0B
         
         REP #$20
         
@@ -7055,8 +7040,7 @@ LinkState_Hookshotting:
         LDA.b $50 : AND.b #$FE : STA.b $50
         
         LDA.w $037A : AND.b #$FB : STA.w $037A
-        
-        STZ.w $037B
+                                   STZ.w $037B
         
         LDA.w $03A4, X : BEQ .BRANCH_OMICRON
             LDA.w $0476 : EOR.b #$01 : STA.w $0476
@@ -7091,7 +7075,6 @@ LinkState_Hookshotting:
                 
                 LDA.b #$15
                 LDY.b #$00
-                
                 JSL.l AddTransitionSplash
                 
                 LDA.b #$04 : STA.b $5D
@@ -7147,7 +7130,6 @@ LinkState_Hookshotting:
         JSL.l LinkHop_FindArbitraryLandingSpot
         
         LDY.b #$05
-        
         JSR.w TileDetect_MainHandler
         
         LDA.b $1B : BEQ .BRANCH_OMEGA
@@ -7166,7 +7148,8 @@ LinkState_Hookshotting:
                 LDA.b #$02 : STA.w $0351
                 
                 JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_ALIF
-                    LDA.b #$1A : JSR.w Player_DoSfx2
+                    LDA.b #$1A
+                    JSR.w Player_DoSfx2
                     
                     BRA .BRANCH_ALIF
 
@@ -7176,13 +7159,15 @@ LinkState_Hookshotting:
                 INC.w $0351
                 
                 LDA.b $8A : CMP.b #$70 : BNE .BRANCH_DEL
-                    LDA.b #$1B : JSR.w Player_DoSfx2
+                    LDA.b #$1B
+                    JSR.w Player_DoSfx2
                     
                     BRA .BRANCH_ALIF
 
                 .BRANCH_DEL
 
-                LDA.b #$1C : JSR.w Player_DoSfx2
+                LDA.b #$1C
+                JSR.w Player_DoSfx2
 
         .BRANCH_ALIF
 
@@ -7224,26 +7209,24 @@ LinkItem_Cape:
             JSR.w Link_CheckNewY_ButtonPress : BCC LinkState_Hookshotting_return
                 LDA.b $3A : AND.b #$BF : STA.b $3A
                 
-                LDA.l $7EF36E : BEQ .BRANCH_$3AE62
-                
-                STZ.w $0300
-                
-                LDA.b #$01 : STA.b $55
-                
-                LDA.l $7EF37B : TAY
-                
-                LDA.w .mp_depletion_timers, Y : STA.b $4C
-                
-                LDA.b #$14 : STA.w $02E2
-                
-                LDY.b #$04
-                LDA.b #$23
-                
-                JSL.l AddTransformationCloud
-                
-                LDA.b #$14 : JSR.w Player_DoSfx2
-                
-                BRA Link_ForceUnequipCape_return
+                LDA.l $7EF36E : BEQ CannotEquipCape
+                    STZ.w $0300
+                    
+                    LDA.b #$01 : STA.b $55
+                    
+                    LDA.l $7EF37B : TAY
+                    LDA.w .mp_depletion_timers, Y : STA.b $4C
+                    
+                    LDA.b #$14 : STA.w $02E2
+                    
+                    LDY.b #$04
+                    LDA.b #$23
+                    JSL.l AddTransformationCloud
+                    
+                    LDA.b #$14
+                    JSR.w Player_DoSfx2
+                    
+                    BRA Link_ForceUnequipCape_return
     
     .BRANCH_ALPHA
     
@@ -7252,9 +7235,10 @@ LinkItem_Cape:
     
     JSR.w HaltLinkWhenUsingItems
     
-    LDA.b $67 : AND.b #$F0 : STA.b $67 : DEC.b $4C
+    LDA.b $67 : AND.b #$F0 : STA.b $67
     
     ; Wait this many frames to deplete magic.
+    DEC.b $4C
     LDA.b $4C : BNE .BRANCH_GAMMA
         ; Load Link's magic power reserves.
         LDA.l $7EF37B : TAY
@@ -7263,7 +7247,8 @@ LinkItem_Cape:
         LDA.w .mp_depletion_timers, Y : STA.b $4C
         
         ; If the magic counter has totally depleted, branch.
-        LDA.l $7EF36E : DEC : STA.l $7EF36E : BEQ .BRANCH_DELTA
+        LDA.l $7EF36E : DEC : STA.l $7EF36E
+        BEQ .BRANCH_DELTA
     
     .BRANCH_GAMMA
     
@@ -7282,11 +7267,11 @@ LinkItem_Cape:
 Link_ForceUnequipCape:
 {     
     LDY.b #$04
-    LDA.b #$23
-            
+    LDA.b #$23  
     JSL.l AddTransformationCloud
             
-    LDA.b #$15 : JSR.w Player_DoSfx2
+    LDA.b #$15
+    JSR.w Player_DoSfx2
             
     ; $03AE54 ALTERNATE ENTRY POINT
     .quietly
@@ -7360,13 +7345,14 @@ Link_HandleCape_passive:
             CMP.w $0303 : BNE .BRANCH_GAMMA
                 ; It seems to me that the load is unnecessary... correct me if
                 ; I'm wrong.
-                DEC.b $4C : LDA.b $4C : BNE .BRANCH_DELTA
+                DEC.b $4C
+                LDA.b $4C : BNE .BRANCH_DELTA
                     LDA.l $7EF37B : TAY
-                    
                     LDA LinkItem_Cape_mp_depletion_timers, Y : STA.b $4C
                     
                     LDA.l $7EF36E : BEQ .BRANCH_DELTA
-                        DEC : STA.l $7EF36E : BNE .BRANCH_DELTA
+                        DEC : STA.l $7EF36E
+                        BNE .BRANCH_DELTA
             
             .BRANCH_GAMMA
             
@@ -7394,7 +7380,6 @@ LinkItem_CaneOfSomaria:
                     DEX : BPL .next_obj_slot
                     
                     LDX.b #$04
-                    
                     JSR.w LinkItem_EvaluateMagicCost : BCC HaltLinkWhenUsingItems_return
                         .is_somaria_block
                         
@@ -7402,7 +7387,6 @@ LinkItem_CaneOfSomaria:
                         
                         LDY.b #$01
                         LDA.b #$2C
-                        
                         JSL.l AddSomarianBlock
                         
                         LDA.w RodAndCaneAnimationTimer : STA.b $3D
@@ -7420,12 +7404,11 @@ LinkItem_CaneOfSomaria:
     LDA.b $67 : AND.b #$F0 : STA.b $67
                     
     DEC.b $3D : BPL .return           
-        LDA.w $0300 : INC : STA.w $0300 : TAX
-                    
+        LDA.w $0300 : INC : STA.w $0300
+                            TAX
         LDA.w RodAndCaneAnimationTimer, X : STA.b $3D
                     
-        CPX.b #$03 : BNE .return
-                    
+        CPX.b #$03 : BNE .return    
             STZ.b $5E
             STZ.w $0300
             STZ.b $3D
@@ -7462,11 +7445,9 @@ PlayerItem_CaneOfByrna:
             LDA.b $6C : BNE LinkItem_CaneOfSomaria_return
                 JSR.w Link_CheckNewY_ButtonPress : BCC LinkItem_CaneOfSomaria_return
                     LDX.b #$08
-                    
                     JSR.w LinkItem_EvaluateMagicCost : BCC .BRANCH_BETA
                         LDY.b #$00
                         LDA.b #$30
-                        
                         JSL.l AddCaneOfByrnaStart
                         
                         STZ.b $79
@@ -7501,7 +7482,8 @@ PlayerItem_CaneOfByrna:
             CPX.b #$01 : BNE .BRANCH_DELTA
                 PHX
                 
-                LDA.b #$2A : JSR.w Player_DoSfx3
+                LDA.b #$2A
+                JSR.w Player_DoSfx3
                 
                 PLX
             
@@ -7582,9 +7564,7 @@ LinkItem_Net:
         LDA.b $6C : BNE PlayerItem_CaneOfByrna_return
             JSR.w Link_CheckNewY_ButtonPress : BCC PlayerItem_CaneOfByrna_return
                 LDA.b $2F : LSR : TAY
-                
                 LDX.w Pool_LinkItem_Net_pose_offset, Y
-                
                 LDA.w Pool_LinkItem_Net_pose_id, X : STA.w $0300
                 
                 LDA.b #$03 : STA.b $3D
@@ -7597,7 +7577,8 @@ LinkItem_Net:
                 
                 STZ.b $2E
                 
-                LDA.b #$32 : JSR.w Player_DoSfx2
+                LDA.b #$32
+                JSR.w Player_DoSfx2
     
     .BRANCH_ALPHA
     
@@ -7611,9 +7592,7 @@ LinkItem_Net:
         LDA.b #$03 : STA.b $3D
         
         LDA.b $2F : LSR : TAY
-        
         LDA.w Pool_LinkItem_Net_pose_offset, Y : CLC : ADC.w $030D : TAY
-        
         LDA.w Pool_LinkItem_Net_pose_id, Y : STA.w $0300
         
         CPX.b #$0A : BNE .BRANCH_BETA
@@ -14733,7 +14712,7 @@ TileBehavior_Liftable:
             RTS
         
         .noMatch
-    DEX #2 : BPL .nextTileType
+    DEX : DEX : BPL .nextTileType
     
     RTS
 }
@@ -15473,7 +15452,7 @@ LinkHop_FindArbitraryLandingSpot:
         PLY : DEY
     
         ; Check next direction's recoil / impulse setting.
-    DEX #2 : BPL .BRANCH_KESRA
+    DEX : DEX : BPL .BRANCH_KESRA
     
     JSR.w Link_HandleMovingFloor
     JSR.w Link_ApplyConveyor
@@ -15624,7 +15603,7 @@ HandleSwimStrokeAndSubpixels:
         
         .BRANCH_IOTA
         
-        DEX #2
+        DEX : DEX
         
         BMI .continue
     BRL .BRANCH_LAMBDA
@@ -15677,7 +15656,7 @@ HandleSwimStrokeAndSubpixels:
         ASL #4 : ORA.b $08, X : STA.w $0027, X
         
         DEY
-    DEX #2 : BPL .BRANCH_XI
+    DEX : DEX : BPL .BRANCH_XI
     
     LDA.w $046C : CMP.b #$04 : BNE .BRANCH_OMICRON
         JSR.w Link_ApplyMovingFloorVelocity
