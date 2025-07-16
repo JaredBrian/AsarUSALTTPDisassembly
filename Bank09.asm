@@ -43,7 +43,8 @@ Ancilla_TerminateSelectInteractives:
             
             LDA.b $48 : AND.b #$80 : BEQ .checkIfCarryingObject
                 ; Reset Link's grabby status.
-                STZ.b $48 : STZ.b $5E
+                STZ.b $48
+                STZ.b $5E
         
         .checkIfCarryingObject
         
@@ -107,9 +108,7 @@ Tagalong_Disable:
 {
     ; Get rid of the tagalong following Link if it's Kiki the Monkey or the
     ; creepy Middle Aged dude with the sign.
-    LDA.l $7EF3CC
-    
-    CMP.b #$0A : BEQ .kiki
+    LDA.l $7EF3CC : CMP.b #$0A : BEQ .kiki
         CMP.b #$09 : BNE .spare_tagalong
     
     .kiki
@@ -162,7 +161,8 @@ AddSomarianBlockDivide:
     
     PHX
     
-    TAX : LDA.l AncillaObjectAllocation, X
+    TAX
+    LDA.l AncillaObjectAllocation, X
     
     PLX
     
@@ -200,11 +200,9 @@ GiveRupeeGift:
 {
     PHB : PHK : PLB
     
-    LDA.w $0C5E, X
-    
-    CMP.b #$34 : BEQ .lowSize
-    CMP.b #$35 : BEQ .lowSize
-    CMP.b #$36 : BEQ .lowSize
+    LDA.w $0C5E, X : CMP.b #$34 : BEQ .lowSize
+                     CMP.b #$35 : BEQ .lowSize
+                     CMP.b #$36 : BEQ .lowSize
         CMP.b #$40 : BEQ .mediumSize
         CMP.b #$41 : BEQ .mediumSize
             CMP.b #$46 : BEQ .largeSize
@@ -275,14 +273,12 @@ Ancilla_TerminateSparkleObjects:
     
     .next_slot
     
-        LDA.w $0C4A, X
-        
-        CMP.b #$2A : BEQ .terminate_object
-        CMP.b #$2B : BEQ .terminate_object
-        CMP.b #$30 : BEQ .terminate_object
-        CMP.b #$31 : BEQ .terminate_object
-        CMP.b #$18 : BEQ .terminate_object
-        CMP.b #$19 : BEQ .terminate_object
+        LDA.w $0C4A, X : CMP.b #$2A : BEQ .terminate_object
+                         CMP.b #$2B : BEQ .terminate_object
+                         CMP.b #$30 : BEQ .terminate_object
+                         CMP.b #$31 : BEQ .terminate_object
+                         CMP.b #$18 : BEQ .terminate_object
+                         CMP.b #$19 : BEQ .terminate_object
             CMP.b #$0C : BNE .dont_terminate
         
         .terminate_object
@@ -323,9 +319,9 @@ Sprite_SpawnSuperficialBombBlast:
         
         LDA.b #$1F : STA.w $0E00, Y
         
-        LDA #$03 : STA.w $0DB0, Y
-                   STA.w $0E40, Y
-        INC      : STA.w $0F50, Y
+        LDA.b #$03 : STA.w $0DB0, Y
+                     STA.w $0E40, Y
+        INC        : STA.w $0F50, Y
         
         LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
 }
@@ -349,20 +345,21 @@ Sprite_SetSpawnedCoords:
 
 ; ==============================================================================
 
+; Used for the chicken swarm (has to be, I'm sure of it)
+; Update: This seems to be used by the contradiction bat.
 ; $04AE7E-$04AE9F LONG JUMP LOCATION
 Sprite_SpawnDummyDeathAnimation:
 {
-    ; Used for the chicken swarm (has to be, I'm sure of it)
-    ; Update: This seems to be used by the contradiction bat.
-    
-    LDA.b #$0B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$0B
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$06 : STA.w $0DD0, Y
         
         LDA.b #$0F : STA.w $0DF0, Y
         
-        LDA.b #$14 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$14
+        JSL.l Sound_SetSfx2PanLong
         
         ; Ensure the spawned death sprite is visible by giving it high priority.
         LDA.b #$02 : STA.w $0F20, Y
@@ -401,7 +398,8 @@ Sprite_SpawnMadBatterBolts:
 Sprite_SpawnMadBatterBolts_attempt_bold_spawn:
 {
     LDA.b #$3A : JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
-        LDA.b #$01 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$01
+        JSL.l Sound_SetSfx3PanLong
         
         JSL.l Sprite_SetSpawnedCoords
         
@@ -429,9 +427,7 @@ Sprite_SpawnMadBatterBolts_attempt_bold_spawn:
         PHX
         
         LDA.w $0ED0, X : TAX
-        
-        LDA.l Pool_Sprite_SpawnMadBatterBolt_x_speeds, X
-        STA.w $0D50, Y
+        LDA.l Pool_Sprite_SpawnMadBatterBolt_x_speeds, X : STA.w $0D50, Y
         
         LDA.l Pool_Sprite_SpawnMadBatterBolt_initial_cycling_states, X
         STA.w $0E80, Y
@@ -515,10 +511,8 @@ Sprite_CheckIfAllDefeated:
     .next_overlord
     
         ; Now check to see if there are any overlords "alive".
-        LDA.w $0B00, X
-        
-        CMP.b #$14 : BEQ .failure
-        CMP.b #$18 : BEQ .failure
+        LDA.w $0B00, X : CMP.b #$14 : BEQ .failure
+                         CMP.b #$18 : BEQ .failure
     ; Move on to the next value.
     DEX : BPL .next_overlord
     
@@ -552,7 +546,6 @@ Sprite_ReinitWarpVortex:
     DEX : BPL .nextSprite
     
     LDA.b #$6C
-    
     JSL.l Sprite_SpawnDynamically : BPL .spawnSucceeded
         LDY.b #$00
     
@@ -565,7 +558,7 @@ Sprite_ReinitWarpVortex:
     LDA.l $001AEF :       ADC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$00 : STA.w $0F20, Y
-    INC : STA.w $0BA0, Y
+    INC        : STA.w $0BA0, Y
     
     PLB
     
@@ -676,12 +669,11 @@ SpawnCrazyVillageSoldier:
     
     LDA.b #$45
     LDY.b #$00
-    
     JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
         PHX
         
         LDA.w $0E20, X
-        
+
         LDX.b #$00
         
         ; Is it one of the ladies outside of their houses?
@@ -790,7 +782,8 @@ Overlord_CheckInRangeStatus:
         
         REP #$20
         
-        LDA.w $0B48, Y : STA.b $00 : CMP.w #$FFFF : PHP
+        LDA.w $0B48, Y : STA.b $00
+        CMP.w #$FFFF : PHP
         
         LSR #3 : CLC : ADC.w #$EF80 : STA.b $01
         
@@ -799,7 +792,6 @@ Overlord_CheckInRangeStatus:
             LDA.b #$7F : STA.b $03
             
             LDA.b $00 : AND.b #$07 : TAY
-            
             LDA.b [$01] : AND.w SpriteDeathMasks, Y : STA.b [$01]
         
         .not_participating_in_death_buffer
@@ -820,14 +812,16 @@ Dungeon_ResetSprites:
     JSR.w Dungeon_CacheTransSprites
     
     ; Make Link drop whatever he's carrying.
-    STZ.w $0309 : STZ.w $0308
+    STZ.w $0309
+    STZ.w $0308
     
     ; Zeroes out and disables a number of memory locations.
     JSL.l Sprite_DisableAll
     
     REP #$20
     
-    LDA.w #$FFFF : STA.w $0FBA : STA.w $0FB8
+    LDA.w #$FFFF : STA.w $0FBA
+                   STA.w $0FB8
     
     LDX.b #$00
     
@@ -836,7 +830,7 @@ Dungeon_ResetSprites:
     .updateRecentRoomsList
     
         CMP.w $0B80, X : BEQ .alreadyInList
-    INX #2 : CPX.b #$07 : BCC .updateRecentRoomsList
+    INX : INX : CPX.b #$07 : BCC .updateRecentRoomsList
     
     LDA.w $0B86 : STA.b $00
     LDA.w $0B84 : STA.w $0B86
@@ -847,11 +841,10 @@ Dungeon_ResetSprites:
     REP #$10
     
     LDA.b $00 : CMP.w #$FFFF : BEQ .nullEntry
-        ASL : TAX
-        
         ; TODO: Complete refresh?
         ; Tells the game that next time we enter that room the sprites need
         ; a complete fresh (e.g. if any have gotten killed).
+        ASL : TAX
         LDA.w #$0000 : STA.l $7FDF80, X
     
     .nullEntry
@@ -1012,11 +1005,10 @@ Dungeon_LoadSprites:
     
     REP #$30
     
-    LDA.w $048E : ASL : TAY
-    
     ; (update: Black Magic ended up hooking $04C16E)
     ; RoomData_SpritePointers is the pointer table for the sprite data in
     ; each room.
+    LDA.w $048E : ASL : TAY
     LDA.w RoomData_SpritePointers, Y : STA.b !dataPtr
     
     ; Load the room index again. Divide by 8. why... I'm not sure.
@@ -1041,9 +1033,8 @@ Dungeon_LoadSprites:
     
     .nextSprite
     
-        LDY !dataOffset
-        
-        LDA (!dataPtr), Y : CMP.b #$FF : BEQ .endOfSpriteList
+        LDY.b !dataOffset
+        LDA.b (!dataPtr), Y : CMP.b #$FF : BEQ .endOfSpriteList
             JSR.w Dungeon_LoadSprite
             
             ; Increment the slot we're saving to. ($0E20, $0E21, ...).
@@ -1084,7 +1075,7 @@ Dungeon_ManuallySetSpriteDeathFlag:
                 
                 PHX
                 
-                LDA.w $048E : ASL TAX
+                LDA.w $048E : ASL : TAX
                 
                 LDA.b $02 : ASL : TAY
                 
@@ -1115,11 +1106,12 @@ Dungeon_LoadSprite:
     INY : INY
     
     ; Examine the sprite type first... Is it a key?
-    LDA.b (!dataPtr), Y : TAX : CPX.b #$E4 : BNE .notKey
+    LDA.b (!dataPtr), Y : TAX
+    CPX.b #$E4 : BNE .notKey
         DEY : DEY
         
         ; Check the key's Y coordinate.
-        LDA.b (!dataPtr), Y : INY #2 : CMP.b #$FE : BEQ .isKey
+        LDA.b (!dataPtr), Y : INY : INY : CMP.b #$FE : BEQ .isKey
             ; If it's 16 pixels higher than that, drop a big key.
             CMP.b #$FD : BNE .notOverlord
                 JSR.w Dungeon_LoadSprite_isKey
@@ -1161,7 +1153,8 @@ Dungeon_LoadSprite:
     LDA.l SpriteData_Deflection, X : AND.b #$01 : BNE .notSpawnedYet
         REP #$30
         
-        PHY : PHX
+        PHY
+        PHX
         
         ; Load the room index, multiply by 2.
         LDA.w $048E : ASL : TAX
@@ -1173,7 +1166,8 @@ Dungeon_LoadSprite:
         ; each room?
         LDA.l $7FDF80, X : AND.w Dungeon_ManuallySetSpriteDeathFlag_flags, Y
         
-        PLX : PLY
+        PLX
+        PLY
         
         CMP.w #$0000 : SEP #$30 : BEQ .notSpawnedYet
             ; It spawned, we're done, genius.
@@ -1183,6 +1177,7 @@ Dungeon_LoadSprite:
 
     ; Give X the loading slot number.
     LDX.b !spriteSlot
+
     DEY : DEY
     
     ; Send the sprite an initialization message.
@@ -1261,10 +1256,9 @@ Dungeon_LoadOverlord:
     ; Fill the overlord slot into $0B00, X
     LDA.b (!dataPtr), Y : NOP : STA.w $0B00, X
     
-    DEY #2
-    
     ; Now examine the Y coordinate.
     ; Store it's floor status here.
+    DEY : DEY
     LDA.b (!dataPtr), Y : AND.b #$80 : ASL : ROL : STA.w $0B40, X
     
     ; Convert the Y coordinate to a pixel address, and store it here.
@@ -1314,8 +1308,9 @@ Sprite_ResetAll:
 ; $04C452-$04C498 LONG JUMP LOCATION
 Sprite_ResetBuffers:
 {
-    STZ.w $0FDD : STZ.w $0FDC : STZ.w $0FFD
-    STZ.w $02F0 : STZ.w $0FC6 : STZ.w $0B6A
+    STZ.w $0FDD : STZ.w $0FDC
+    STZ.w $0FFD : STZ.w $02F0
+    STZ.w $0FC6 : STZ.w $0B6A
     STZ.w $0FB3
     
     ; Branch if Link has the super bomb tagalong following him.
@@ -1386,17 +1381,22 @@ Sprite_LoadAll_Overworld:
 LoadOverworldSprites:
 {
     ; Calculate lower bounds for X coordinates in this map.
-    LDA.w $040A : AND.b #$07 : ASL : STZ.w $0FBC : STA.w $0FBD
+    LDA.w $040A : AND.b #$07 : ASL : STZ.w $0FBC
+                                     STA.w $0FBD
     
     ; Calculate lower bounds for Y coordinates in this map.
-    LDA.w $040A : AND.b #$3F : LSR #2 : AND.b #$0E : STA.w $0FBF : STZ.w $0FBE
+    LDA.w $040A : AND.b #$3F : LSR : LSR : AND.b #$0E : STA.w $0FBF
+    
+    STZ.w $0FBE
     
     ; OPTIMIZE: Why not just LDY.w $040A? or later skip loading the $040A again?
     ; ZSCREAM: ZS makes some code changes here.
     ; $04C4C7
     LDA.w $040A : TAY
-    LDX.w OverworldScreenSizeForLoading, Y : STX.w $0FB9 : STZ.w $0FB8 
-                                             STX.w $0FBB : STZ.w $0FBA
+    LDX.w OverworldScreenSizeForLoading, Y : STX.w $0FB9
+                                             STZ.w $0FB8 
+                                             STX.w $0FBB
+                                             STZ.w $0FBA
     
     REP #$30
     
@@ -1438,10 +1438,9 @@ LoadOverworldSprites:
     
             ; Read off the sprite information until we reach a #$FF byte.
             LDA.b ($00), Y : CMP.b #$FF : BEQ .stopLoading
-                INY #2
-                
                 ; Is this a Falling Rocks sprite?
-                LDA.b ($00), Y : DEY #2 : CMP.b #$F4 : BNE .notFallingRocks
+                INY : INY
+                LDA.b ($00), Y : DEY : DEY : CMP.b #$F4 : BNE .notFallingRocks
                     ; Set a "falling rocks" flag for the area and skip past this
                     ; sprite.
                     INC.w $0FFD
@@ -1451,8 +1450,9 @@ LoadOverworldSprites:
         
         .notFallingRocks ; Anything other than falling rocks.
         
-        LDA.b ($00), Y : PHA : LSR #4 : ASL #2 : STA.b $02 : INY
+        LDA.b ($00), Y : PHA : LSR #4 : ASL : ASL : STA.b $02
         
+        INY
         LDA.b ($00), Y : LSR #4 : CLC : ADC.b $02 : STA.b $06
         
         PLA : ASL #4 : STA.b $07
@@ -1463,7 +1463,8 @@ LoadOverworldSprites:
         ; The sprite / overlord index as stored as one plus it's normal index.
         ; Don't ask me why yet. Load them into what I guess you might call a
         ; sprite map.
-        INY : LDA.b ($00), Y
+        INY
+        LDA.b ($00), Y
         
         LDX.b $05
         INC : STA.l $7FDF80, X
@@ -1503,7 +1504,7 @@ Sprite_ActivateAllProxima:
         
         ; Move the scanning location right by 16 pixels each loop.
         LDA.b $E2 : CLC : ADC.b #$10 : STA.b $E2
-        LDA.b $E3 : ADC.b #$00 : STA.b $E3
+        LDA.b $E3       : ADC.b #$00 : STA.b $E3
     DEY : BPL .loop
     
     PLA : STA.w $069F
@@ -1716,7 +1717,7 @@ Overworld_ProximityMotivatedLoad:
         LDA.b $0C : SEC : SBC.w $0FBE : CMP.w $0FBA : BCS .outOfRange
             SEP #$20
             
-            XBA : ASL #2 : ORA.b $00 : STA.b $01
+            XBA : ASL : ASL : ORA.b $00 : STA.b $01
             
             ; $00 = $0C & 0xF0
             LDA.b $0C : AND.b #$F0 : STA.b $00
@@ -1755,7 +1756,7 @@ Overworld_LoadProximaSpriteIfAlive:
     ; $05 = $7FDF80 + offset.
     LDA.b #$7F : STA.b $07
     
-    LDA [$05] : BEQ .alpha
+    LDA.b [$05] : BEQ .alpha
         REP #$20
         LDA.b $00 : LSR #3 : CLC : ADC.w #$EF80 : STA.b $02
         SEP #$20
@@ -1763,7 +1764,7 @@ Overworld_LoadProximaSpriteIfAlive:
         LDA.b #$7F : STA.b $04 ; $07 = $7FEF80 + offset.
         
         LDA.b $00 : AND.b #$07 : TAY
-        LDA [$02] : AND.w Overworld_AliveStatusBits, Y : BNE .alpha
+        LDA.b [$02] : AND.w Overworld_AliveStatusBits, Y : BNE .alpha
             JSR.w Overworld_LoadSprite
     
     .alpha
@@ -1826,7 +1827,9 @@ Overworld_LoadSprite:
     LDA.b $00 : STA.w $0BC0, X
     SEP #$20
     
-    PLX : LDA.b [$05] : DEC : STA.w $0E20, X ; Load up a sprite here.
+    PLX
+    
+    LDA.b [$05] : DEC : STA.w $0E20, X ; Load up a sprite here.
     
     LDA.b #$08 : STA.w $0DD0, X
     
@@ -1835,7 +1838,7 @@ Overworld_LoadSprite:
     LDA.b $00 : AND.b #$F0 : STA.w $0D00, X
     LDA.b $01 : AND.b #$03 : STA.w $0D30, X
     
-    LDA.b $01 : LSR #2 : STA.w $0D20, X
+    LDA.b $01 : LSR : LSR : STA.w $0D20, X
     
     LDA.w $0D30, X : CLC : ADC.w $0FBD : STA.w $0D30, X
     LDA.w $0D20, X : CLC : ADC.w $0FBF : STA.w $0D20, X
@@ -1864,7 +1867,7 @@ Overworld_LoadOverlord:
     .openSlot
     
     ; Make the overlord appear alive in the "death" buffer. aka alive buffer.
-    LDA [$02] : ORA.w Overworld_AliveStatusBits, Y : STA [$02]
+    LDA.b [$02] : ORA.w Overworld_AliveStatusBits, Y : STA.b [$02]
     
     PHX
     
@@ -1878,7 +1881,8 @@ Overworld_LoadOverlord:
     PLX
     
     ; Overlord's type number = the original data value - 0xF3.
-    LDA [$05] : SEC : SBC.b #$F3 : STA.w $0B00, X : PHA
+    LDA.b [$05] : SEC : SBC.b #$F3 : STA.w $0B00, X
+                                     PHA
     
     LDA.b $00 : ASL #4
     
@@ -1892,10 +1896,11 @@ Overworld_LoadOverlord:
     LDA.b $00 : AND.b #$F0 : STA.w $0B18, X
     LDA.b $01 : AND.b #$03 : STA.w $0B10, X
     
-    LDA.b $01 : LSR #2 : STA.w $0B20, X
+    LDA.b $01 : LSR : LSR : STA.w $0B20, X
     
     LDA.w $0B10, X : CLC : ADC.w $0FBD : STA.w $0B10, X
     LDA.w $0B20, X : CLC : ADC.w $0FBF : STA.w $0B20, X
+
     STZ.w $0B40, X
     
     ; $04C871 ALTERNATE ENTRY POINT
@@ -1919,364 +1924,364 @@ Overworld_SpritePointers:
 {
     ; $04C881
     .state_0
-    dw Overworld_Sprites_EMPTY      ; 00 - Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 01 - Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 02 - Lumberjacks
-    dw Overworld_Sprites_EMPTY      ; 03 - West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 04 - West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 05 - East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 06 - East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 07 - Turtle Rock Portalway
-    dw Overworld_Sprites_EMPTY      ; 08 - Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 09 - Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 0A - Death Mountain Foot
-    dw Overworld_Sprites_EMPTY      ; 0B - West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0C - West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0D - East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0E - East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0F - Waterfall of Wishing
-    dw Overworld_Sprites_EMPTY      ; 10 - Lost Woods Alcove
-    dw Overworld_Sprites_EMPTY      ; 11 - North of Kakariko
-    dw Overworld_Sprites_EMPTY      ; 12 - Northwest Pond
-    dw Overworld_Sprites_EMPTY      ; 13 - Sanctuary
-    dw Overworld_Sprites_EMPTY      ; 14 - Graveyard
-    dw Overworld_Sprites_EMPTY      ; 15 - Hylia River Bend
-    dw Overworld_Sprites_EMPTY      ; 16 - Potion Shop
-    dw Overworld_Sprites_EMPTY      ; 17 - Octorok Pit
-    dw Overworld_Sprites_EMPTY      ; 18 - Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 19 - Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 1A - Kakariko Orchard
-    dw Overworld_Sprites_Screen1B_0 ; 1B - Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 1C - Hyrule Castle
-    dw Overworld_Sprites_Screen1D_0 ; 1D - Hylia River Peninsula
-    dw Overworld_Sprites_EMPTY      ; 1E - Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 1F - Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 20 - Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 21 - Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 22 - Smith's House
-    dw Overworld_Sprites_EMPTY      ; 23 - Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 24 - Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 25 - Boulder Field
-    dw Overworld_Sprites_EMPTY      ; 26 - Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 27 - Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 28 - Racing Game
-    dw Overworld_Sprites_EMPTY      ; 29 - South of Kakariko
-    dw Overworld_Sprites_EMPTY      ; 2A - Haunted Grove
-    dw Overworld_Sprites_Screen2B_0 ; 2B - West of Link's House
-    dw Overworld_Sprites_Screen2C_0 ; 2C - Link's House
-    dw Overworld_Sprites_EMPTY      ; 2D - Eastern Bridge
-    dw Overworld_Sprites_EMPTY      ; 2E - Lake Hylia River Bend
-    dw Overworld_Sprites_EMPTY      ; 2F - Eastern Portalway
-    dw Overworld_Sprites_EMPTY      ; 30 - Desert
-    dw Overworld_Sprites_EMPTY      ; 31 - Desert
-    dw Overworld_Sprites_Screen32_0 ; 32 - Haunted Grove Entrance
-    dw Overworld_Sprites_EMPTY      ; 33 - Marshlands Portalway
-    dw Overworld_Sprites_EMPTY      ; 34 - Marshlands Totems
-    dw Overworld_Sprites_EMPTY      ; 35 - Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 36 - Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 37 - Lake Hylia River End
-    dw Overworld_Sprites_EMPTY      ; 38 - Desert
-    dw Overworld_Sprites_EMPTY      ; 39 - Desert
-    dw Overworld_Sprites_EMPTY      ; 3A - Desert Pass
-    dw Overworld_Sprites_EMPTY      ; 3B - Marshlands Dam Entrance
-    dw Overworld_Sprites_EMPTY      ; 3C - Marshlands Ravine
-    dw Overworld_Sprites_EMPTY      ; 3D - Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 3E - Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 3F - Lake Hylia Waterfall
+    dw Overworld_Sprites_EMPTY      ; 0x00 - $CB41 Lost Woods
+    dw Overworld_Sprites_EMPTY      ; 0x01 - $CB41 Lost Woods
+    dw Overworld_Sprites_EMPTY      ; 0x02 - $CB41 Lumberjacks
+    dw Overworld_Sprites_EMPTY      ; 0x03 - $CB41 West Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x04 - $CB41 West Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x05 - $CB41 East Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x06 - $CB41 East Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x07 - $CB41 Turtle Rock Portalway
+    dw Overworld_Sprites_EMPTY      ; 0x08 - $CB41 Lost Woods
+    dw Overworld_Sprites_EMPTY      ; 0x09 - $CB41 Lost Woods
+    dw Overworld_Sprites_EMPTY      ; 0x0A - $CB41 Death Mountain Foot
+    dw Overworld_Sprites_EMPTY      ; 0x0B - $CB41 West Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x0C - $CB41 West Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x0D - $CB41 East Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x0E - $CB41 East Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x0F - $CB41 Waterfall of Wishing
+    dw Overworld_Sprites_EMPTY      ; 0x10 - $CB41 Lost Woods Alcove
+    dw Overworld_Sprites_EMPTY      ; 0x11 - $CB41 North of Kakariko
+    dw Overworld_Sprites_EMPTY      ; 0x12 - $CB41 Northwest Pond
+    dw Overworld_Sprites_EMPTY      ; 0x13 - $CB41 Sanctuary
+    dw Overworld_Sprites_EMPTY      ; 0x14 - $CB41 Graveyard
+    dw Overworld_Sprites_EMPTY      ; 0x15 - $CB41 Hylia River Bend
+    dw Overworld_Sprites_EMPTY      ; 0x16 - $CB41 Potion Shop
+    dw Overworld_Sprites_EMPTY      ; 0x17 - $CB41 Octorok Pit
+    dw Overworld_Sprites_EMPTY      ; 0x18 - $CB41 Kakariko Village
+    dw Overworld_Sprites_EMPTY      ; 0x19 - $CB41 Kakariko Village
+    dw Overworld_Sprites_EMPTY      ; 0x1A - $CB41 Kakariko Orchard
+    dw Overworld_Sprites_Screen1B_0 ; 0x1B - $CB42 Hyrule Castle
+    dw Overworld_Sprites_EMPTY      ; 0x1C - $CB41 Hyrule Castle
+    dw Overworld_Sprites_Screen1D_0 ; 0x1D - $CB5B Hylia River Peninsula
+    dw Overworld_Sprites_EMPTY      ; 0x1E - $CB41 Eastern Ruins
+    dw Overworld_Sprites_EMPTY      ; 0x1F - $CB41 Eastern Ruins
+    dw Overworld_Sprites_EMPTY      ; 0x20 - $CB41 Kakariko Village
+    dw Overworld_Sprites_EMPTY      ; 0x21 - $CB41 Kakariko Village
+    dw Overworld_Sprites_EMPTY      ; 0x22 - $CB41 Smith's House
+    dw Overworld_Sprites_EMPTY      ; 0x23 - $CB41 Hyrule Castle
+    dw Overworld_Sprites_EMPTY      ; 0x24 - $CB41 Hyrule Castle
+    dw Overworld_Sprites_EMPTY      ; 0x25 - $CB41 Boulder Field
+    dw Overworld_Sprites_EMPTY      ; 0x26 - $CB41 Eastern Ruins
+    dw Overworld_Sprites_EMPTY      ; 0x27 - $CB41 Eastern Ruins
+    dw Overworld_Sprites_EMPTY      ; 0x28 - $CB41 Racing Game
+    dw Overworld_Sprites_EMPTY      ; 0x29 - $CB41 South of Kakariko
+    dw Overworld_Sprites_EMPTY      ; 0x2A - $CB41 Haunted Grove
+    dw Overworld_Sprites_Screen2B_0 ; 0x2B - $CB5F West of Link's House
+    dw Overworld_Sprites_Screen2C_0 ; 0x2C - $CB66 Link's House
+    dw Overworld_Sprites_EMPTY      ; 0x2D - $CB41 Eastern Bridge
+    dw Overworld_Sprites_EMPTY      ; 0x2E - $CB41 Lake Hylia River Bend
+    dw Overworld_Sprites_EMPTY      ; 0x2F - $CB41 Eastern Portalway
+    dw Overworld_Sprites_EMPTY      ; 0x30 - $CB41 Desert
+    dw Overworld_Sprites_EMPTY      ; 0x31 - $CB41 Desert
+    dw Overworld_Sprites_Screen32_0 ; 0x32 - $CB73 Haunted Grove Entrance
+    dw Overworld_Sprites_EMPTY      ; 0x33 - $CB41 Marshlands Portalway
+    dw Overworld_Sprites_EMPTY      ; 0x34 - $CB41 Marshlands Totems
+    dw Overworld_Sprites_EMPTY      ; 0x35 - $CB41 Lake Hylia
+    dw Overworld_Sprites_EMPTY      ; 0x36 - $CB41 Lake Hylia
+    dw Overworld_Sprites_EMPTY      ; 0x37 - $CB41 Lake Hylia River End
+    dw Overworld_Sprites_EMPTY      ; 0x38 - $CB41 Desert
+    dw Overworld_Sprites_EMPTY      ; 0x39 - $CB41 Desert
+    dw Overworld_Sprites_EMPTY      ; 0x3A - $CB41 Desert Pass
+    dw Overworld_Sprites_EMPTY      ; 0x3B - $CB41 Marshlands Dam Entrance
+    dw Overworld_Sprites_EMPTY      ; 0x3C - $CB41 Marshlands Ravine
+    dw Overworld_Sprites_EMPTY      ; 0x3D - $CB41 Lake Hylia
+    dw Overworld_Sprites_EMPTY      ; 0x3E - $CB41 Lake Hylia
+    dw Overworld_Sprites_EMPTY      ; 0x3F - $CB41 Lake Hylia Waterfall
 
     ; $04C901
     .state_1
-    dw Overworld_Sprites_Screen00_1 ; 00 - Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 01 - Lost Woods
-    dw Overworld_Sprites_Screen02_1 ; 02 - Lumberjacks
-    dw Overworld_Sprites_Screen03_1 ; 03 - West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 04 - West Death Mountain
-    dw Overworld_Sprites_Screen05_1 ; 05 - East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 06 - East Death Mountain
-    dw Overworld_Sprites_Screen07_1 ; 07 - Turtle Rock Portalway
-    dw Overworld_Sprites_EMPTY      ; 08 - Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 09 - Lost Woods
-    dw Overworld_Sprites_Screen0A_1 ; 0A - Death Mountain Foot
-    dw Overworld_Sprites_EMPTY      ; 0B - West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0C - West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0D - East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0E - East Death Mountain
-    dw Overworld_Sprites_Screen0F_1 ; 0F - Waterfall of Wishing
-    dw Overworld_Sprites_Screen10_1 ; 10 - Lost Woods Alcove
-    dw Overworld_Sprites_Screen11_1 ; 11 - North of Kakariko
-    dw Overworld_Sprites_Screen12_1 ; 12 - Northwest Pond
-    dw Overworld_Sprites_Screen13_1 ; 13 - Sanctuary
-    dw Overworld_Sprites_Screen14_1 ; 14 - Graveyard
-    dw Overworld_Sprites_Screen15_1 ; 15 - Hylia River Bend
-    dw Overworld_Sprites_Screen16_1 ; 16 - Potion Shop
-    dw Overworld_Sprites_Screen17_1 ; 17 - Octorok Pit
-    dw Overworld_Sprites_Screen18_1 ; 18 - Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 19 - Kakariko Village
-    dw Overworld_Sprites_Screen1A_1 ; 1A - Kakariko Orchard
-    dw Overworld_Sprites_Screen1B_1 ; 1B - Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 1C - Hyrule Castle
-    dw Overworld_Sprites_Screen1D_1 ; 1D - Hylia River Peninsula
-    dw Overworld_Sprites_Screen1E_1 ; 1E - Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 1F - Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 20 - Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 21 - Kakariko Village
-    dw Overworld_Sprites_Screen22_1 ; 22 - Smith's House
-    dw Overworld_Sprites_EMPTY      ; 23 - Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 24 - Hyrule Castle
-    dw Overworld_Sprites_Screen25_1 ; 25 - Boulder Field
-    dw Overworld_Sprites_EMPTY      ; 26 - Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 27 - Eastern Ruins
-    dw Overworld_Sprites_Screen28_1 ; 28 - Racing Game
-    dw Overworld_Sprites_EMPTY      ; 29 - South of Kakariko
-    dw Overworld_Sprites_Screen2A_1 ; 2A - Haunted Grove
-    dw Overworld_Sprites_Screen2B_1 ; 2B - West of Link's House
-    dw Overworld_Sprites_Screen2C_1 ; 2C - Link's House
-    dw Overworld_Sprites_Screen2D_1 ; 2D - Eastern Bridge
-    dw Overworld_Sprites_Screen2E_1 ; 2E - Lake Hylia River Bend
-    dw Overworld_Sprites_Screen2F_1 ; 2F - Eastern Portalway
-    dw Overworld_Sprites_Screen30_1 ; 30 - Desert
-    dw Overworld_Sprites_EMPTY      ; 31 - Desert
-    dw Overworld_Sprites_Screen32_1 ; 32 - Haunted Grove Entrance
-    dw Overworld_Sprites_Screen33_1 ; 33 - Marshlands Portalway
-    dw Overworld_Sprites_Screen34_1 ; 34 - Marshlands Totems
-    dw Overworld_Sprites_Screen35_1 ; 35 - Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 36 - Lake Hylia
-    dw Overworld_Sprites_Screen37_1 ; 37 - Lake Hylia River End
-    dw Overworld_Sprites_EMPTY      ; 38 - Desert
-    dw Overworld_Sprites_EMPTY      ; 39 - Desert
-    dw Overworld_Sprites_Screen3A_1 ; 3A - Desert Pass
-    dw Overworld_Sprites_Screen3B_1 ; 3B - Marshlands Dam Entrance
-    dw Overworld_Sprites_Screen3C_1 ; 3C - Marshlands Ravine
-    dw Overworld_Sprites_EMPTY      ; 3D - Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 3E - Lake Hylia
-    dw Overworld_Sprites_Screen3F_1 ; 3F - Lake Hylia Waterfall
-    dw Overworld_Sprites_Screen40   ; 40 - Skull Woods
-    dw Overworld_Sprites_Screen42   ; 41 - Skull Woods
-    dw Overworld_Sprites_Screen42   ; 42 - Dark Lumberjacks
-    dw Overworld_Sprites_Screen43   ; 43 - West Dark Death Mountain
-    dw Overworld_Sprites_Screen45   ; 44 - West Dark Death Mountain
-    dw Overworld_Sprites_Screen45   ; 45 - East Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 46 - East Dark Death Mountain
-    dw Overworld_Sprites_Screen47   ; 47 - Turtle Rock
-    dw Overworld_Sprites_EMPTY      ; 48 - Skull Woods
-    dw Overworld_Sprites_EMPTY      ; 49 - Skull Woods
-    dw Overworld_Sprites_Screen4A   ; 4A - Bumper Ledge
-    dw Overworld_Sprites_EMPTY      ; 4B - West Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 4C - West Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 4D - East Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 4E - East Dark Death Mountain
-    dw Overworld_Sprites_Screen4F   ; 4F - Lake of Bad Omens
-    dw Overworld_Sprites_Screen50   ; 50 - Skull Woods Alcove
-    dw Overworld_Sprites_Screen51   ; 51 - North of Outcasts
-    dw Overworld_Sprites_Screen52   ; 52 - Dark Northwest Pond
-    dw Overworld_Sprites_Screen53   ; 53 - Dark Sanctuary
-    dw Overworld_Sprites_Screen54   ; 54 - Dark Graveyard
-    dw Overworld_Sprites_Screen55   ; 55 - Dark Hylia River Bend
-    dw Overworld_Sprites_Screen56   ; 56 - Dark Northeast Shop
-    dw Overworld_Sprites_Screen57   ; 57 - Dark Octorok Pit
-    dw Overworld_Sprites_Screen58   ; 58 - Village of Outcasts
-    dw Overworld_Sprites_EMPTY      ; 59 - Village of Outcasts
-    dw Overworld_Sprites_Screen5A   ; 5A - Outcasts Orchard
-    dw Overworld_Sprites_Screen5B   ; 5B - Pyramid of Power
-    dw Overworld_Sprites_EMPTY      ; 5C - Pyramid of Power
-    dw Overworld_Sprites_Screen5D   ; 5D - Dark Hylia River Peninsula
-    dw Overworld_Sprites_Screen5E   ; 5E - Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 5F - Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 60 - Village of Outcasts
-    dw Overworld_Sprites_EMPTY      ; 61 - Village of Outcasts
-    dw Overworld_Sprites_Screen62   ; 62 - Stake Puzzle
-    dw Overworld_Sprites_EMPTY      ; 63 - Pyramid of Power
-    dw Overworld_Sprites_EMPTY      ; 64 - Pyramid of Power
-    dw Overworld_Sprites_Screen65   ; 65 - Boulder Field
-    dw Overworld_Sprites_EMPTY      ; 66 - Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 67 - Palace of Darkness Maze
-    dw Overworld_Sprites_Screen68   ; 68 - Digging Game
-    dw Overworld_Sprites_Screen69   ; 69 - South of Outcasts
-    dw Overworld_Sprites_Screen6A   ; 6A - Stumpy Grove
-    dw Overworld_Sprites_Screen6B   ; 6B - West of Bomb Shoppe
-    dw Overworld_Sprites_Screen6C   ; 6C - Bomb Shoppe
-    dw Overworld_Sprites_Screen6D   ; 6D - Hammer Bridge
-    dw Overworld_Sprites_Screen6E   ; 6E - Dark Lake Hylia River Bend
-    dw Overworld_Sprites_Screen6F   ; 6F - East Dark World Portalway
-    dw Overworld_Sprites_Screen70   ; 70 - Misery Mire
-    dw Overworld_Sprites_Screen72   ; 71 - Misery Mire
-    dw Overworld_Sprites_Screen72   ; 72 - Stumpy Grove Entrance
-    dw Overworld_Sprites_Screen73   ; 73 - Swamplands Portalway
-    dw Overworld_Sprites_Screen74   ; 74 - Swamplands Totems
-    dw Overworld_Sprites_Screen75   ; 75 - Dark Lake Hylia
-    dw Overworld_Sprites_Screen77   ; 76 - Dark Lake Hylia
-    dw Overworld_Sprites_Screen77   ; 77 - Dark Lake Hylia River End
-    dw Overworld_Sprites_EMPTY      ; 78 - Misery Mire
-    dw Overworld_Sprites_EMPTY      ; 79 - Misery Mire
-    dw Overworld_Sprites_Screen7A   ; 7A - West of Swamplands
-    dw Overworld_Sprites_Screen7B   ; 7B - Swamplands Palace Entrance
-    dw Overworld_Sprites_Screen7C   ; 7C - Swamplands Ravine
-    dw Overworld_Sprites_EMPTY      ; 7D - Dark Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 7E - Dark Lake Hylia
-    dw Overworld_Sprites_Screen7F   ; 7F - Dark Lake Hylia Waterfall
-    dw Overworld_Sprites_Screen80   ; 80 - Master Sword Pedestal
-    dw Overworld_Sprites_Screen81   ; 81 - Zora's Domain
-    dw Overworld_Sprites_EMPTY      ; 82 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 83 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 84 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 85 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 86 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 87 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 88 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 89 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8A - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8B - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8C - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8D - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8E - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8F - Unused SW Area
+    dw Overworld_Sprites_Screen00_1 ; 0x00 - $CF4C Lost Woods
+    dw Overworld_Sprites_EMPTY      ; 0x01 - $CB41 Lost Woods
+    dw Overworld_Sprites_Screen02_1 ; 0x02 - $CF7A Lumberjacks
+    dw Overworld_Sprites_Screen03_1 ; 0x03 - $CF84 West Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x04 - $CB41 West Death Mountain
+    dw Overworld_Sprites_Screen05_1 ; 0x05 - $CFA6 East Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x06 - $CB41 East Death Mountain
+    dw Overworld_Sprites_Screen07_1 ; 0x07 - $CFCE Turtle Rock Portalway
+    dw Overworld_Sprites_EMPTY      ; 0x08 - $CB41 Lost Woods
+    dw Overworld_Sprites_EMPTY      ; 0x09 - $CB41 Lost Woods
+    dw Overworld_Sprites_Screen0A_1 ; 0x0A - $CFDE Death Mountain Foot
+    dw Overworld_Sprites_EMPTY      ; 0x0B - $CB41 West Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x0C - $CB41 West Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x0D - $CB41 East Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x0E - $CB41 East Death Mountain
+    dw Overworld_Sprites_Screen0F_1 ; 0x0F - $CFFD Waterfall of Wishing
+    dw Overworld_Sprites_Screen10_1 ; 0x10 - $D013 Lost Woods Alcove
+    dw Overworld_Sprites_Screen11_1 ; 0x11 - $D020 North of Kakariko
+    dw Overworld_Sprites_Screen12_1 ; 0x12 - $D02D Northwest Pond
+    dw Overworld_Sprites_Screen13_1 ; 0x13 - $D03A Sanctuary
+    dw Overworld_Sprites_Screen14_1 ; 0x14 - $D041 Graveyard
+    dw Overworld_Sprites_Screen15_1 ; 0x15 - $D051 Hylia River Bend
+    dw Overworld_Sprites_Screen16_1 ; 0x16 - $D05E Potion Shop
+    dw Overworld_Sprites_Screen17_1 ; 0x17 - $D068 Octorok Pit
+    dw Overworld_Sprites_Screen18_1 ; 0x18 - $D078 Kakariko Village
+    dw Overworld_Sprites_EMPTY      ; 0x19 - $CB41 Kakariko Village
+    dw Overworld_Sprites_Screen1A_1 ; 0x1A - $D0A0 Kakariko Orchard
+    dw Overworld_Sprites_Screen1B_1 ; 0x1B - $D0B3 Hyrule Castle
+    dw Overworld_Sprites_EMPTY      ; 0x1C - $CB41 Hyrule Castle
+    dw Overworld_Sprites_Screen1D_1 ; 0x1D - $D0DB Hylia River Peninsula
+    dw Overworld_Sprites_Screen1E_1 ; 0x1E - $D0EB Eastern Ruins
+    dw Overworld_Sprites_EMPTY      ; 0x1F - $CB41 Eastern Ruins
+    dw Overworld_Sprites_EMPTY      ; 0x20 - $CB41 Kakariko Village
+    dw Overworld_Sprites_EMPTY      ; 0x21 - $CB41 Kakariko Village
+    dw Overworld_Sprites_Screen22_1 ; 0x22 - $D125 Smith's House
+    dw Overworld_Sprites_EMPTY      ; 0x23 - $CB41 Hyrule Castle
+    dw Overworld_Sprites_EMPTY      ; 0x24 - $CB41 Hyrule Castle
+    dw Overworld_Sprites_Screen25_1 ; 0x25 - $D12F Boulder Field
+    dw Overworld_Sprites_EMPTY      ; 0x26 - $CB41 Eastern Ruins
+    dw Overworld_Sprites_EMPTY      ; 0x27 - $CB41 Eastern Ruins
+    dw Overworld_Sprites_Screen28_1 ; 0x28 - $D148 Racing Game
+    dw Overworld_Sprites_EMPTY      ; 0x29 - $CB41 South of Kakariko
+    dw Overworld_Sprites_Screen2A_1 ; 0x2A - $D152 Haunted Grove
+    dw Overworld_Sprites_Screen2B_1 ; 0x2B - $D168 West of Link's House
+    dw Overworld_Sprites_Screen2C_1 ; 0x2C - $D175 Link's House
+    dw Overworld_Sprites_Screen2D_1 ; 0x2D - $D17C Eastern Bridge
+    dw Overworld_Sprites_Screen2E_1 ; 0x2E - $D186 Lake Hylia River Bend
+    dw Overworld_Sprites_Screen2F_1 ; 0x2F - $D193 Eastern Portalway
+    dw Overworld_Sprites_Screen30_1 ; 0x30 - $D19D Desert
+    dw Overworld_Sprites_EMPTY      ; 0x31 - $CB41 Desert
+    dw Overworld_Sprites_Screen32_1 ; 0x32 - $D1E3 Haunted Grove Entrance
+    dw Overworld_Sprites_Screen33_1 ; 0x33 - $D1F0 Marshlands Portalway
+    dw Overworld_Sprites_Screen34_1 ; 0x34 - $D1FD Marshlands Totems
+    dw Overworld_Sprites_Screen35_1 ; 0x35 - $D213 Lake Hylia
+    dw Overworld_Sprites_EMPTY      ; 0x36 - $CB41 Lake Hylia
+    dw Overworld_Sprites_Screen37_1 ; 0x37 - $D259 Lake Hylia River End
+    dw Overworld_Sprites_EMPTY      ; 0x38 - $CB41 Desert
+    dw Overworld_Sprites_EMPTY      ; 0x39 - $CB41 Desert
+    dw Overworld_Sprites_Screen3A_1 ; 0x3A - $D26C Desert Pass
+    dw Overworld_Sprites_Screen3B_1 ; 0x3B - $D279 Marshlands Dam Entrance
+    dw Overworld_Sprites_Screen3C_1 ; 0x3C - $D292 Marshlands Ravine
+    dw Overworld_Sprites_EMPTY      ; 0x3D - $CB41 Lake Hylia
+    dw Overworld_Sprites_EMPTY      ; 0x3E - $CB41 Lake Hylia
+    dw Overworld_Sprites_Screen3F_1 ; 0x3F - $D2A8 Lake Hylia Waterfall
+    dw Overworld_Sprites_Screen40   ; 0x40 - $CB7A Skull Woods
+    dw Overworld_Sprites_Screen42   ; 0x41 - $CBB7 Skull Woods
+    dw Overworld_Sprites_Screen42   ; 0x42 - $CBB7 Dark Lumberjacks
+    dw Overworld_Sprites_Screen43   ; 0x43 - $CBC4 West Dark Death Mountain
+    dw Overworld_Sprites_Screen45   ; 0x44 - $CBCB West Dark Death Mountain
+    dw Overworld_Sprites_Screen45   ; 0x45 - $CBCB East Dark Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x46 - $CB41 East Dark Death Mountain
+    dw Overworld_Sprites_Screen47   ; 0x47 - $CBD5 Turtle Rock
+    dw Overworld_Sprites_EMPTY      ; 0x48 - $CB41 Skull Woods
+    dw Overworld_Sprites_EMPTY      ; 0x49 - $CB41 Skull Woods
+    dw Overworld_Sprites_Screen4A   ; 0x4A - $CBD9 Bumper Ledge
+    dw Overworld_Sprites_EMPTY      ; 0x4B - $CB41 West Dark Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x4C - $CB41 West Dark Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x4D - $CB41 East Dark Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x4E - $CB41 East Dark Death Mountain
+    dw Overworld_Sprites_Screen4F   ; 0x4F - $CBF5 Lake of Bad Omens
+    dw Overworld_Sprites_Screen50   ; 0x50 - $CC02 Skull Woods Alcove
+    dw Overworld_Sprites_Screen51   ; 0x51 - $CC12 North of Outcasts
+    dw Overworld_Sprites_Screen52   ; 0x52 - $CC25 Dark Northwest Pond
+    dw Overworld_Sprites_Screen53   ; 0x53 - $CC35 Dark Sanctuary
+    dw Overworld_Sprites_Screen54   ; 0x54 - $CC45 Dark Graveyard
+    dw Overworld_Sprites_Screen55   ; 0x55 - $CC5E Dark Hylia River Bend
+    dw Overworld_Sprites_Screen56   ; 0x56 - $CC74 Dark Northeast Shop
+    dw Overworld_Sprites_Screen57   ; 0x57 - $CC84 Dark Octorok Pit
+    dw Overworld_Sprites_Screen58   ; 0x58 - $CC9A Village of Outcasts
+    dw Overworld_Sprites_EMPTY      ; 0x59 - $CB41 Village of Outcasts
+    dw Overworld_Sprites_Screen5A   ; 0x5A - $CCCE Outcasts Orchard
+    dw Overworld_Sprites_Screen5B   ; 0x5B - $CCE1 Pyramid of Power
+    dw Overworld_Sprites_EMPTY      ; 0x5C - $CB41 Pyramid of Power
+    dw Overworld_Sprites_Screen5D   ; 0x5D - $CD03 Dark Hylia River Peninsula
+    dw Overworld_Sprites_Screen5E   ; 0x5E - $CD19 Palace of Darkness Maze
+    dw Overworld_Sprites_EMPTY      ; 0x5F - $CB41 Palace of Darkness Maze
+    dw Overworld_Sprites_EMPTY      ; 0x60 - $CB41 Village of Outcasts
+    dw Overworld_Sprites_EMPTY      ; 0x61 - $CB41 Village of Outcasts
+    dw Overworld_Sprites_Screen62   ; 0x62 - $CD59 Stake Puzzle
+    dw Overworld_Sprites_EMPTY      ; 0x63 - $CB41 Pyramid of Power
+    dw Overworld_Sprites_EMPTY      ; 0x64 - $CB41 Pyramid of Power
+    dw Overworld_Sprites_Screen65   ; 0x65 - $CD6C Boulder Field
+    dw Overworld_Sprites_EMPTY      ; 0x66 - $CB41 Palace of Darkness Maze
+    dw Overworld_Sprites_EMPTY      ; 0x67 - $CB41 Palace of Darkness Maze
+    dw Overworld_Sprites_Screen68   ; 0x68 - $CD7F Digging Game
+    dw Overworld_Sprites_Screen69   ; 0x69 - $CD83 South of Outcasts
+    dw Overworld_Sprites_Screen6A   ; 0x6A - $CD87 Stumpy Grove
+    dw Overworld_Sprites_Screen6B   ; 0x6B - $CD8B West of Bomb Shoppe
+    dw Overworld_Sprites_Screen6C   ; 0x6C - $CD9B Bomb Shoppe
+    dw Overworld_Sprites_Screen6D   ; 0x6D - $CDAB Hammer Bridge
+    dw Overworld_Sprites_Screen6E   ; 0x6E - $CDBE Dark Lake Hylia River Bend
+    dw Overworld_Sprites_Screen6F   ; 0x6F - $CDD1 East Dark World Portalway
+    dw Overworld_Sprites_Screen70   ; 0x70 - $CDE1 Misery Mire
+    dw Overworld_Sprites_Screen72   ; 0x71 - $CE06 Misery Mire
+    dw Overworld_Sprites_Screen72   ; 0x72 - $CE06 Stumpy Grove Entrance
+    dw Overworld_Sprites_Screen73   ; 0x73 - $CE16 Swamplands Portalway
+    dw Overworld_Sprites_Screen74   ; 0x74 - $CE26 Swamplands Totems
+    dw Overworld_Sprites_Screen75   ; 0x75 - $CE3C Dark Lake Hylia
+    dw Overworld_Sprites_Screen77   ; 0x76 - $CE7F Dark Lake Hylia
+    dw Overworld_Sprites_Screen77   ; 0x77 - $CE7F Dark Lake Hylia River End
+    dw Overworld_Sprites_EMPTY      ; 0x78 - $CB41 Misery Mire
+    dw Overworld_Sprites_EMPTY      ; 0x79 - $CB41 Misery Mire
+    dw Overworld_Sprites_Screen7A   ; 0x7A - $CE92 West of Swamplands
+    dw Overworld_Sprites_Screen7B   ; 0x7B - $CE9F Swamplands Palace Entrance
+    dw Overworld_Sprites_Screen7C   ; 0x7C - $CEB2 Swamplands Ravine
+    dw Overworld_Sprites_EMPTY      ; 0x7D - $CB41 Dark Lake Hylia
+    dw Overworld_Sprites_EMPTY      ; 0x7E - $CB41 Dark Lake Hylia
+    dw Overworld_Sprites_Screen7F   ; 0x7F - $CEC5 Dark Lake Hylia Waterfall
+    dw Overworld_Sprites_Screen80   ; 0x80 - $CEDB Master Sword Pedestal
+    dw Overworld_Sprites_Screen81   ; 0x81 - $CEF4 Zora's Domain
+    dw Overworld_Sprites_EMPTY      ; 0x82 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x83 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x84 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x85 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x86 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x87 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x88 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x89 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8A - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8B - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8C - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8D - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8E - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8F - $CB41 Unused SW Area
    
    ; $04CA21
    .state_2
-    dw Overworld_Sprites_Screen00_2 ; 00 - Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 01 - Lost Woods
-    dw Overworld_Sprites_Screen02_2 ; 02 - Lumberjacks
-    dw Overworld_Sprites_Screen03_2 ; 03 - West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 04 - West Death Mountain
-    dw Overworld_Sprites_Screen05_2 ; 05 - East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 06 - East Death Mountain
-    dw Overworld_Sprites_Screen07_2 ; 07 - Turtle Rock Portalway
-    dw Overworld_Sprites_EMPTY      ; 08 - Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 09 - Lost Woods
-    dw Overworld_Sprites_Screen0A_2 ; 0A - Death Mountain Foot
-    dw Overworld_Sprites_EMPTY      ; 0B - West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0C - West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0D - East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0E - East Death Mountain
-    dw Overworld_Sprites_Screen0F_2 ; 0F - Waterfall of Wishing
-    dw Overworld_Sprites_Screen10_2 ; 10 - Lost Woods Alcove
-    dw Overworld_Sprites_Screen11_2 ; 11 - North of Kakariko
-    dw Overworld_Sprites_Screen12_2 ; 12 - Northwest Pond
-    dw Overworld_Sprites_Screen13_2 ; 13 - Sanctuary
-    dw Overworld_Sprites_Screen14_2 ; 14 - Graveyard
-    dw Overworld_Sprites_Screen15_2 ; 15 - Hylia River Bend
-    dw Overworld_Sprites_Screen16_2 ; 16 - Potion Shop
-    dw Overworld_Sprites_Screen17_2 ; 17 - Octorok Pit
-    dw Overworld_Sprites_Screen18_2 ; 18 - Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 19 - Kakariko Village
-    dw Overworld_Sprites_Screen1A_2 ; 1A - Kakariko Orchard
-    dw Overworld_Sprites_Screen1B_2 ; 1B - Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 1C - Hyrule Castle
-    dw Overworld_Sprites_Screen1D_2 ; 1D - Hylia River Peninsula
-    dw Overworld_Sprites_Screen1E_2 ; 1E - Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 1F - Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 20 - Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 21 - Kakariko Village
-    dw Overworld_Sprites_Screen22_2 ; 22 - Smith's House
-    dw Overworld_Sprites_EMPTY      ; 23 - Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 24 - Hyrule Castle
-    dw Overworld_Sprites_Screen25_2 ; 25 - Boulder Field
-    dw Overworld_Sprites_EMPTY      ; 26 - Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 27 - Eastern Ruins
-    dw Overworld_Sprites_Screen28_2 ; 28 - Racing Game
-    dw Overworld_Sprites_Screen29_2 ; 29 - South of Kakariko
-    dw Overworld_Sprites_Screen2A_2 ; 2A - Haunted Grove
-    dw Overworld_Sprites_Screen2B_2 ; 2B - West of Link's House
-    dw Overworld_Sprites_Screen2C_2 ; 2C - Link's House
-    dw Overworld_Sprites_Screen2D_2 ; 2D - Eastern Bridge
-    dw Overworld_Sprites_Screen2E_2 ; 2E - Lake Hylia River Bend
-    dw Overworld_Sprites_Screen2F_2 ; 2F - Eastern Portalway
-    dw Overworld_Sprites_Screen30_2 ; 30 - Desert
-    dw Overworld_Sprites_EMPTY      ; 31 - Desert
-    dw Overworld_Sprites_Screen32_2 ; 32 - Haunted Grove Entrance
-    dw Overworld_Sprites_Screen33_2 ; 33 - Marshlands Portalway
-    dw Overworld_Sprites_Screen34_2 ; 34 - Marshlands Totems
-    dw Overworld_Sprites_Screen35_2 ; 35 - Lake Hylia
-    dw Overworld_Sprites_Screen37_2 ; 36 - Lake Hylia
-    dw Overworld_Sprites_Screen37_2 ; 37 - Lake Hylia River End
-    dw Overworld_Sprites_Screen3A_2 ; 38 - Desert
-    dw Overworld_Sprites_Screen3A_2 ; 39 - Desert
-    dw Overworld_Sprites_Screen3A_2 ; 3A - Desert Pass
-    dw Overworld_Sprites_Screen3B_2 ; 3B - Marshlands Dam Entrance
-    dw Overworld_Sprites_Screen3C_2 ; 3C - Marshlands Ravine
-    dw Overworld_Sprites_Screen3F_2 ; 3D - Lake Hylia
-    dw Overworld_Sprites_Screen3F_2 ; 3E - Lake Hylia
-    dw Overworld_Sprites_Screen3F_2 ; 3F - Lake Hylia Waterfall
-    dw Overworld_Sprites_Screen40   ; 40 - Skull Woods
-    dw Overworld_Sprites_Screen42   ; 41 - Skull Woods
-    dw Overworld_Sprites_Screen42   ; 42 - Dark Lumberjacks
-    dw Overworld_Sprites_Screen43   ; 43 - West Dark Death Mountain
-    dw Overworld_Sprites_Screen45   ; 44 - West Dark Death Mountain
-    dw Overworld_Sprites_Screen45   ; 45 - East Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 46 - East Dark Death Mountain
-    dw Overworld_Sprites_Screen47   ; 47 - Turtle Rock
-    dw Overworld_Sprites_EMPTY      ; 48 - Skull Woods
-    dw Overworld_Sprites_EMPTY      ; 49 - Skull Woods
-    dw Overworld_Sprites_Screen4A   ; 4A - Bumper Ledge
-    dw Overworld_Sprites_EMPTY      ; 4B - West Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 4C - West Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 4D - East Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 4E - East Dark Death Mountain
-    dw Overworld_Sprites_Screen4F   ; 4F - Lake of Bad Omens
-    dw Overworld_Sprites_Screen50   ; 50 - Skull Woods Alcove
-    dw Overworld_Sprites_Screen51   ; 51 - North of Outcasts
-    dw Overworld_Sprites_Screen52   ; 52 - Dark Northwest Pond
-    dw Overworld_Sprites_Screen53   ; 53 - Dark Sanctuary
-    dw Overworld_Sprites_Screen54   ; 54 - Dark Graveyard
-    dw Overworld_Sprites_Screen55   ; 55 - Dark Hylia River Bend
-    dw Overworld_Sprites_Screen56   ; 56 - Dark Northeast Shop
-    dw Overworld_Sprites_Screen57   ; 57 - Dark Octorok Pit
-    dw Overworld_Sprites_Screen58   ; 58 - Village of Outcasts
-    dw Overworld_Sprites_EMPTY      ; 59 - Village of Outcasts
-    dw Overworld_Sprites_Screen5A   ; 5A - Outcasts Orchard
-    dw Overworld_Sprites_Screen5B   ; 5B - Pyramid of Power
-    dw Overworld_Sprites_EMPTY      ; 5C - Pyramid of Power
-    dw Overworld_Sprites_Screen5D   ; 5D - Dark Hylia River Peninsula
-    dw Overworld_Sprites_Screen5E   ; 5E - Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 5F - Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 60 - Village of Outcasts
-    dw Overworld_Sprites_EMPTY      ; 61 - Village of Outcasts
-    dw Overworld_Sprites_Screen62   ; 62 - Stake Puzzle
-    dw Overworld_Sprites_EMPTY      ; 63 - Pyramid of Power
-    dw Overworld_Sprites_EMPTY      ; 64 - Pyramid of Power
-    dw Overworld_Sprites_Screen65   ; 65 - Boulder Field
-    dw Overworld_Sprites_EMPTY      ; 66 - Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 67 - Palace of Darkness Maze
-    dw Overworld_Sprites_Screen68   ; 68 - Digging Game
-    dw Overworld_Sprites_Screen69   ; 69 - South of Outcasts
-    dw Overworld_Sprites_Screen6A   ; 6A - Stumpy Grove
-    dw Overworld_Sprites_Screen6B   ; 6B - West of Bomb Shoppe
-    dw Overworld_Sprites_Screen6C   ; 6C - Bomb Shoppe
-    dw Overworld_Sprites_Screen6D   ; 6D - Hammer Bridge
-    dw Overworld_Sprites_Screen6E   ; 6E - Dark Lake Hylia River Bend
-    dw Overworld_Sprites_Screen6F   ; 6F - East Dark World Portalway
-    dw Overworld_Sprites_Screen70   ; 70 - Misery Mire
-    dw Overworld_Sprites_Screen72   ; 71 - Misery Mire
-    dw Overworld_Sprites_Screen72   ; 72 - Stumpy Grove Entrance
-    dw Overworld_Sprites_Screen73   ; 73 - Swamplands Portalway
-    dw Overworld_Sprites_Screen74   ; 74 - Swamplands Totems
-    dw Overworld_Sprites_Screen75   ; 75 - Dark Lake Hylia
-    dw Overworld_Sprites_Screen77   ; 76 - Dark Lake Hylia
-    dw Overworld_Sprites_Screen77   ; 77 - Dark Lake Hylia River End
-    dw Overworld_Sprites_EMPTY      ; 78 - Misery Mire
-    dw Overworld_Sprites_EMPTY      ; 79 - Misery Mire
-    dw Overworld_Sprites_Screen7A   ; 7A - West of Swamplands
-    dw Overworld_Sprites_Screen7B   ; 7B - Swamplands Palace Entrance
-    dw Overworld_Sprites_Screen7C   ; 7C - Swamplands Ravine
-    dw Overworld_Sprites_EMPTY      ; 7D - Dark Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 7E - Dark Lake Hylia
-    dw Overworld_Sprites_Screen7F   ; 7F - Dark Lake Hylia Waterfall
-    dw Overworld_Sprites_Screen80   ; 80 - Master Sword Pedestal
-    dw Overworld_Sprites_Screen81   ; 81 - Zora's Domain
-    dw Overworld_Sprites_EMPTY      ; 82 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 83 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 84 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 85 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 86 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 87 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 88 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 89 - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8A - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8B - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8C - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8D - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8E - Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 8F - Unused SW Area
+    dw Overworld_Sprites_Screen00_2 ; 0x00 - $ Lost Woods
+    dw Overworld_Sprites_EMPTY      ; 0x01 - $CB41 Lost Woods
+    dw Overworld_Sprites_Screen02_2 ; 0x02 - $ Lumberjacks
+    dw Overworld_Sprites_Screen03_2 ; 0x03 - $ West Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x04 - $CB41 West Death Mountain
+    dw Overworld_Sprites_Screen05_2 ; 0x05 - $ East Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x06 - $CB41 East Death Mountain
+    dw Overworld_Sprites_Screen07_2 ; 0x07 - $ Turtle Rock Portalway
+    dw Overworld_Sprites_EMPTY      ; 0x08 - $CB41 Lost Woods
+    dw Overworld_Sprites_EMPTY      ; 0x09 - $CB41 Lost Woods
+    dw Overworld_Sprites_Screen0A_2 ; 0x0A - $ Death Mountain Foot
+    dw Overworld_Sprites_EMPTY      ; 0x0B - $CB41 West Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x0C - $CB41 West Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x0D - $CB41 East Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x0E - $CB41 East Death Mountain
+    dw Overworld_Sprites_Screen0F_2 ; 0x0F - $ Waterfall of Wishing
+    dw Overworld_Sprites_Screen10_2 ; 0x10 - $ Lost Woods Alcove
+    dw Overworld_Sprites_Screen11_2 ; 0x11 - $ North of Kakariko
+    dw Overworld_Sprites_Screen12_2 ; 0x12 - $ Northwest Pond
+    dw Overworld_Sprites_Screen13_2 ; 0x13 - $ Sanctuary
+    dw Overworld_Sprites_Screen14_2 ; 0x14 - $ Graveyard
+    dw Overworld_Sprites_Screen15_2 ; 0x15 - $ Hylia River Bend
+    dw Overworld_Sprites_Screen16_2 ; 0x16 - $ Potion Shop
+    dw Overworld_Sprites_Screen17_2 ; 0x17 - $ Octorok Pit
+    dw Overworld_Sprites_Screen18_2 ; 0x18 - $ Kakariko Village
+    dw Overworld_Sprites_EMPTY      ; 0x19 - $CB41 Kakariko Village
+    dw Overworld_Sprites_Screen1A_2 ; 0x1A - $ Kakariko Orchard
+    dw Overworld_Sprites_Screen1B_2 ; 0x1B - $ Hyrule Castle
+    dw Overworld_Sprites_EMPTY      ; 0x1C - $CB41 Hyrule Castle
+    dw Overworld_Sprites_Screen1D_2 ; 0x1D - $ Hylia River Peninsula
+    dw Overworld_Sprites_Screen1E_2 ; 0x1E - $ Eastern Ruins
+    dw Overworld_Sprites_EMPTY      ; 0x1F - $CB41 Eastern Ruins
+    dw Overworld_Sprites_EMPTY      ; 0x20 - $CB41 Kakariko Village
+    dw Overworld_Sprites_EMPTY      ; 0x21 - $CB41 Kakariko Village
+    dw Overworld_Sprites_Screen22_2 ; 0x22 - $ Smith's House
+    dw Overworld_Sprites_EMPTY      ; 0x23 - $CB41 Hyrule Castle
+    dw Overworld_Sprites_EMPTY      ; 0x24 - $CB41 Hyrule Castle
+    dw Overworld_Sprites_Screen25_2 ; 0x25 - $ Boulder Field
+    dw Overworld_Sprites_EMPTY      ; 0x26 - $CB41 Eastern Ruins
+    dw Overworld_Sprites_EMPTY      ; 0x27 - $CB41 Eastern Ruins
+    dw Overworld_Sprites_Screen28_2 ; 0x28 - $ Racing Game
+    dw Overworld_Sprites_Screen29_2 ; 0x29 - $ South of Kakariko
+    dw Overworld_Sprites_Screen2A_2 ; 0x2A - $ Haunted Grove
+    dw Overworld_Sprites_Screen2B_2 ; 0x2B - $ West of Link's House
+    dw Overworld_Sprites_Screen2C_2 ; 0x2C - $ Link's House
+    dw Overworld_Sprites_Screen2D_2 ; 0x2D - $ Eastern Bridge
+    dw Overworld_Sprites_Screen2E_2 ; 0x2E - $ Lake Hylia River Bend
+    dw Overworld_Sprites_Screen2F_2 ; 0x2F - $ Eastern Portalway
+    dw Overworld_Sprites_Screen30_2 ; 0x30 - $ Desert
+    dw Overworld_Sprites_EMPTY      ; 0x31 - $CB41 Desert
+    dw Overworld_Sprites_Screen32_2 ; 0x32 - $ Haunted Grove Entrance
+    dw Overworld_Sprites_Screen33_2 ; 0x33 - $ Marshlands Portalway
+    dw Overworld_Sprites_Screen34_2 ; 0x34 - $ Marshlands Totems
+    dw Overworld_Sprites_Screen35_2 ; 0x35 - $ Lake Hylia
+    dw Overworld_Sprites_Screen37_2 ; 0x36 - $ Lake Hylia
+    dw Overworld_Sprites_Screen37_2 ; 0x37 - $ Lake Hylia River End
+    dw Overworld_Sprites_Screen3A_2 ; 0x38 - $ Desert
+    dw Overworld_Sprites_Screen3A_2 ; 0x39 - $ Desert
+    dw Overworld_Sprites_Screen3A_2 ; 0x3A - $ Desert Pass
+    dw Overworld_Sprites_Screen3B_2 ; 0x3B - $ Marshlands Dam Entrance
+    dw Overworld_Sprites_Screen3C_2 ; 0x3C - $ Marshlands Ravine
+    dw Overworld_Sprites_Screen3F_2 ; 0x3D - $ Lake Hylia
+    dw Overworld_Sprites_Screen3F_2 ; 0x3E - $ Lake Hylia
+    dw Overworld_Sprites_Screen3F_2 ; 0x3F - $ Lake Hylia Waterfall
+    dw Overworld_Sprites_Screen40   ; 0x40 - $CB7A Skull Woods
+    dw Overworld_Sprites_Screen42   ; 0x41 - $CBB7 Skull Woods
+    dw Overworld_Sprites_Screen42   ; 0x42 - $CBB7 Dark Lumberjacks
+    dw Overworld_Sprites_Screen43   ; 0x43 - $CBC4 West Dark Death Mountain
+    dw Overworld_Sprites_Screen45   ; 0x44 - $CBCB West Dark Death Mountain
+    dw Overworld_Sprites_Screen45   ; 0x45 - $CBCB East Dark Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x46 - $CB41 East Dark Death Mountain
+    dw Overworld_Sprites_Screen47   ; 0x47 - $CBD5 Turtle Rock
+    dw Overworld_Sprites_EMPTY      ; 0x48 - $CB41 Skull Woods
+    dw Overworld_Sprites_EMPTY      ; 0x49 - $CB41 Skull Woods
+    dw Overworld_Sprites_Screen4A   ; 0x4A - $CBD9 Bumper Ledge
+    dw Overworld_Sprites_EMPTY      ; 0x4B - $CB41 West Dark Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x4C - $CB41 West Dark Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x4D - $CB41 East Dark Death Mountain
+    dw Overworld_Sprites_EMPTY      ; 0x4E - $CB41 East Dark Death Mountain
+    dw Overworld_Sprites_Screen4F   ; 0x4F - $CBF5 Lake of Bad Omens
+    dw Overworld_Sprites_Screen50   ; 0x50 - $CC02 Skull Woods Alcove
+    dw Overworld_Sprites_Screen51   ; 0x51 - $CC12 North of Outcasts
+    dw Overworld_Sprites_Screen52   ; 0x52 - $CC25 Dark Northwest Pond
+    dw Overworld_Sprites_Screen53   ; 0x53 - $CC35 Dark Sanctuary
+    dw Overworld_Sprites_Screen54   ; 0x54 - $CC45 Dark Graveyard
+    dw Overworld_Sprites_Screen55   ; 0x55 - $CC5E Dark Hylia River Bend
+    dw Overworld_Sprites_Screen56   ; 0x56 - $CC74 Dark Northeast Shop
+    dw Overworld_Sprites_Screen57   ; 0x57 - $CC84 Dark Octorok Pit
+    dw Overworld_Sprites_Screen58   ; 0x58 - $CC9A Village of Outcasts
+    dw Overworld_Sprites_EMPTY      ; 0x59 - $CB41 Village of Outcasts
+    dw Overworld_Sprites_Screen5A   ; 0x5A - $CCCE Outcasts Orchard
+    dw Overworld_Sprites_Screen5B   ; 0x5B - $CCE1 Pyramid of Power
+    dw Overworld_Sprites_EMPTY      ; 0x5C - $CB41 Pyramid of Power
+    dw Overworld_Sprites_Screen5D   ; 0x5D - $CD03 Dark Hylia River Peninsula
+    dw Overworld_Sprites_Screen5E   ; 0x5E - $CD19 Palace of Darkness Maze
+    dw Overworld_Sprites_EMPTY      ; 0x5F - $CB41 Palace of Darkness Maze
+    dw Overworld_Sprites_EMPTY      ; 0x60 - $CB41 Village of Outcasts
+    dw Overworld_Sprites_EMPTY      ; 0x61 - $CB41 Village of Outcasts
+    dw Overworld_Sprites_Screen62   ; 0x62 - $CD59 Stake Puzzle
+    dw Overworld_Sprites_EMPTY      ; 0x63 - $CB41 Pyramid of Power
+    dw Overworld_Sprites_EMPTY      ; 0x64 - $CB41 Pyramid of Power
+    dw Overworld_Sprites_Screen65   ; 0x65 - $CD6C Boulder Field
+    dw Overworld_Sprites_EMPTY      ; 0x66 - $CB41 Palace of Darkness Maze
+    dw Overworld_Sprites_EMPTY      ; 0x67 - $CB41 Palace of Darkness Maze
+    dw Overworld_Sprites_Screen68   ; 0x68 - $CD7F Digging Game
+    dw Overworld_Sprites_Screen69   ; 0x69 - $CD83 South of Outcasts
+    dw Overworld_Sprites_Screen6A   ; 0x6A - $CD87 Stumpy Grove
+    dw Overworld_Sprites_Screen6B   ; 0x6B - $CD8B West of Bomb Shoppe
+    dw Overworld_Sprites_Screen6C   ; 0x6C - $CD9B Bomb Shoppe
+    dw Overworld_Sprites_Screen6D   ; 0x6D - $CDAB Hammer Bridge
+    dw Overworld_Sprites_Screen6E   ; 0x6E - $CDBE Dark Lake Hylia River Bend
+    dw Overworld_Sprites_Screen6F   ; 0x6F - $CDD1 East Dark World Portalway
+    dw Overworld_Sprites_Screen70   ; 0x70 - $CDE1 Misery Mire
+    dw Overworld_Sprites_Screen72   ; 0x71 - $CE06 Misery Mire
+    dw Overworld_Sprites_Screen72   ; 0x72 - $CE06 Stumpy Grove Entrance
+    dw Overworld_Sprites_Screen73   ; 0x73 - $CE16 Swamplands Portalway
+    dw Overworld_Sprites_Screen74   ; 0x74 - $CE26 Swamplands Totems
+    dw Overworld_Sprites_Screen75   ; 0x75 - $CE3C Dark Lake Hylia
+    dw Overworld_Sprites_Screen77   ; 0x76 - $CE7F Dark Lake Hylia
+    dw Overworld_Sprites_Screen77   ; 0x77 - $CE7F Dark Lake Hylia River End
+    dw Overworld_Sprites_EMPTY      ; 0x78 - $CB41 Misery Mire
+    dw Overworld_Sprites_EMPTY      ; 0x79 - $CB41 Misery Mire
+    dw Overworld_Sprites_Screen7A   ; 0x7A - $CE92 West of Swamplands
+    dw Overworld_Sprites_Screen7B   ; 0x7B - $CE9F Swamplands Palace Entrance
+    dw Overworld_Sprites_Screen7C   ; 0x7C - $CEB2 Swamplands Ravine
+    dw Overworld_Sprites_EMPTY      ; 0x7D - $CB41 Dark Lake Hylia
+    dw Overworld_Sprites_EMPTY      ; 0x7E - $CB41 Dark Lake Hylia
+    dw Overworld_Sprites_Screen7F   ; 0x7F - $CEC5 Dark Lake Hylia Waterfall
+    dw Overworld_Sprites_Screen80   ; 0x80 - $CEDB Master Sword Pedestal
+    dw Overworld_Sprites_Screen81   ; 0x81 - $CEF4 Zora's Domain
+    dw Overworld_Sprites_EMPTY      ; 0x82 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x83 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x84 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x85 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x86 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x87 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x88 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x89 - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8A - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8B - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8C - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8D - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8E - $CB41 Unused SW Area
+    dw Overworld_Sprites_EMPTY      ; 0x8F - $CB41 Unused SW Area
 }
 
 ; ==============================================================================
@@ -4190,390 +4195,390 @@ Overworld_Sprites_Screen3F_2:
 ; $04D62E-$04D92D DATA
 RoomData_SpritePointers:
 {
-    dw RoomData_Sprites_Room0000
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0002
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0004
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0006
-    dw RoomData_Sprites_Room0007
-    dw RoomData_Sprites_Room0008
-    dw RoomData_Sprites_Room0009
-    dw RoomData_Sprites_Room000A
-    dw RoomData_Sprites_Room000B
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room000D
-    dw RoomData_Sprites_Room000E
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0011
-    dw RoomData_Sprites_Room0012
-    dw RoomData_Sprites_Room0013
-    dw RoomData_Sprites_Room0014
-    dw RoomData_Sprites_Room0015
-    dw RoomData_Sprites_Room0016
-    dw RoomData_Sprites_Room0017
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0019
-    dw RoomData_Sprites_Room001A
-    dw RoomData_Sprites_Room001B
-    dw RoomData_Sprites_Room001C
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room001E
-    dw RoomData_Sprites_Room001F
-    dw RoomData_Sprites_Room0020
-    dw RoomData_Sprites_Room0021
-    dw RoomData_Sprites_Room0022
-    dw RoomData_Sprites_Room0023
-    dw RoomData_Sprites_Room0024
-    dw RoomData_Sprites_Room0025
-    dw RoomData_Sprites_Room0026
-    dw RoomData_Sprites_Room0027
-    dw RoomData_Sprites_Room0028
-    dw RoomData_Sprites_Room0029
-    dw RoomData_Sprites_Room002A
-    dw RoomData_Sprites_Room002B
-    dw RoomData_Sprites_Room002C
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room002E
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0030
-    dw RoomData_Sprites_Room0031
-    dw RoomData_Sprites_Room0032
-    dw RoomData_Sprites_Room0033
-    dw RoomData_Sprites_Room0034
-    dw RoomData_Sprites_Room0035
-    dw RoomData_Sprites_Room0036
-    dw RoomData_Sprites_Room0037
-    dw RoomData_Sprites_Room0038
-    dw RoomData_Sprites_Room0039
-    dw RoomData_Sprites_Room003A
-    dw RoomData_Sprites_Room003B
-    dw RoomData_Sprites_Room003C
-    dw RoomData_Sprites_Room003D
-    dw RoomData_Sprites_Room003E
-    dw RoomData_Sprites_Room003F
-    dw RoomData_Sprites_Room0040
-    dw RoomData_Sprites_Room0041
-    dw RoomData_Sprites_Room0042
-    dw RoomData_Sprites_Room0043
-    dw RoomData_Sprites_Room0044
-    dw RoomData_Sprites_Room0045
-    dw RoomData_Sprites_Room0046
-    dw RoomData_Sprites_Room0047
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0049
-    dw RoomData_Sprites_Room004A
-    dw RoomData_Sprites_Room004B
-    dw RoomData_Sprites_Room004C
-    dw RoomData_Sprites_Room004D
-    dw RoomData_Sprites_Room004E
-    dw RoomData_Sprites_Room004F
-    dw RoomData_Sprites_Room0050
-    dw RoomData_Sprites_Room0051
-    dw RoomData_Sprites_Room0052
-    dw RoomData_Sprites_Room0053
-    dw RoomData_Sprites_Room0054
-    dw RoomData_Sprites_Room0055
-    dw RoomData_Sprites_Room0056
-    dw RoomData_Sprites_Room0057
-    dw RoomData_Sprites_Room0058
-    dw RoomData_Sprites_Room0059
-    dw RoomData_Sprites_Room005A
-    dw RoomData_Sprites_Room005B
-    dw RoomData_Sprites_Room005C
-    dw RoomData_Sprites_Room005D
-    dw RoomData_Sprites_Room005E
-    dw RoomData_Sprites_Room005F
-    dw RoomData_Sprites_Room0060
-    dw RoomData_Sprites_Room0061
-    dw RoomData_Sprites_Room0062
-    dw RoomData_Sprites_Room0063
-    dw RoomData_Sprites_Room0064
-    dw RoomData_Sprites_Room0065
-    dw RoomData_Sprites_Room0066
-    dw RoomData_Sprites_Room0067
-    dw RoomData_Sprites_Room0068
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room006A
-    dw RoomData_Sprites_Room006B
-    dw RoomData_Sprites_Room006C
-    dw RoomData_Sprites_Room006D
-    dw RoomData_Sprites_Room006E
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0071
-    dw RoomData_Sprites_Room0072
-    dw RoomData_Sprites_Room0073
-    dw RoomData_Sprites_Room0074
-    dw RoomData_Sprites_Room0075
-    dw RoomData_Sprites_Room0076
-    dw RoomData_Sprites_Room0077
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room007B
-    dw RoomData_Sprites_Room007C
-    dw RoomData_Sprites_Room007D
-    dw RoomData_Sprites_Room007E
-    dw RoomData_Sprites_Room007F
-    dw RoomData_Sprites_Room0080
-    dw RoomData_Sprites_Room0081
-    dw RoomData_Sprites_Room0082
-    dw RoomData_Sprites_Room0083
-    dw RoomData_Sprites_Room0084
-    dw RoomData_Sprites_Room0085
-    dw RoomData_Sprites_Room0086
-    dw RoomData_Sprites_Room0087
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0089
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room008B
-    dw RoomData_Sprites_Room008C
-    dw RoomData_Sprites_Room008D
-    dw RoomData_Sprites_Room008E
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0090
-    dw RoomData_Sprites_Room0091
-    dw RoomData_Sprites_Room0092
-    dw RoomData_Sprites_Room0093
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0095
-    dw RoomData_Sprites_Room0096
-    dw RoomData_Sprites_Room0097
-    dw RoomData_Sprites_Room0098
-    dw RoomData_Sprites_Room0099
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room009B
-    dw RoomData_Sprites_Room009C
-    dw RoomData_Sprites_Room009D
-    dw RoomData_Sprites_Room009E
-    dw RoomData_Sprites_Room009F
-    dw RoomData_Sprites_Room00A0
-    dw RoomData_Sprites_Room00A1
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00A3
-    dw RoomData_Sprites_Room00A4
-    dw RoomData_Sprites_Room00A5
-    dw RoomData_Sprites_Room00A6
-    dw RoomData_Sprites_Room00A7
-    dw RoomData_Sprites_Room00A8
-    dw RoomData_Sprites_Room00A9
-    dw RoomData_Sprites_Room00AA
-    dw RoomData_Sprites_Room00AB
-    dw RoomData_Sprites_Room00AC
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00AE
-    dw RoomData_Sprites_Room00AF
-    dw RoomData_Sprites_Room00B0
-    dw RoomData_Sprites_Room00B1
-    dw RoomData_Sprites_Room00B2
-    dw RoomData_Sprites_Room00B3
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00B5
-    dw RoomData_Sprites_Room00B6
-    dw RoomData_Sprites_Room00B7
-    dw RoomData_Sprites_Room00B8
-    dw RoomData_Sprites_Room00B9
-    dw RoomData_Sprites_Room00BA
-    dw RoomData_Sprites_Room00BB
-    dw RoomData_Sprites_Room00BC
-    dw RoomData_Sprites_Room00BD
-    dw RoomData_Sprites_Room00BE
-    dw RoomData_Sprites_Room00BF
-    dw RoomData_Sprites_Room00C0
-    dw RoomData_Sprites_Room00C1
-    dw RoomData_Sprites_Room00C2
-    dw RoomData_Sprites_Room00C3
-    dw RoomData_Sprites_Room00C4
-    dw RoomData_Sprites_Room00C5
-    dw RoomData_Sprites_Room00C6
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00C8
-    dw RoomData_Sprites_Room00C9
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00CB
-    dw RoomData_Sprites_Room00CC
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00CE
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00D0
-    dw RoomData_Sprites_Room00D1
-    dw RoomData_Sprites_Room00D2
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00D5
-    dw RoomData_Sprites_Room00D6
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00D8
-    dw RoomData_Sprites_Room00D9
-    dw RoomData_Sprites_Room00DA
-    dw RoomData_Sprites_Room00DB
-    dw RoomData_Sprites_Room00DC
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00DE
-    dw RoomData_Sprites_Room00DF
-    dw RoomData_Sprites_Room00E0
-    dw RoomData_Sprites_Room00E1
-    dw RoomData_Sprites_Room00E2
-    dw RoomData_Sprites_Room00E3
-    dw RoomData_Sprites_Room00E4
-    dw RoomData_Sprites_Room00E5
-    dw RoomData_Sprites_Room00E6
-    dw RoomData_Sprites_Room00E7
-    dw RoomData_Sprites_Room00E8
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00EA
-    dw RoomData_Sprites_Room00EB
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00EE
-    dw RoomData_Sprites_Room00EF
-    dw RoomData_Sprites_Room00F0
-    dw RoomData_Sprites_Room00F1
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00F3
-    dw RoomData_Sprites_Room00F4
-    dw RoomData_Sprites_Room00F5
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room00F9
-    dw RoomData_Sprites_Room00FA
-    dw RoomData_Sprites_Room00FB
-    dw RoomData_Sprites_Room00FC
-    dw RoomData_Sprites_Room00FD
-    dw RoomData_Sprites_Room00FE
-    dw RoomData_Sprites_Room00FF
-    dw RoomData_Sprites_Room0100
-    dw RoomData_Sprites_Room0101
-    dw RoomData_Sprites_Room0102
-    dw RoomData_Sprites_Room0103
-    dw RoomData_Sprites_Room0104
-    dw RoomData_Sprites_Room0105
-    dw RoomData_Sprites_Room0106
-    dw RoomData_Sprites_Room0107
-    dw RoomData_Sprites_Room0108
-    dw RoomData_Sprites_Room0109
-    dw RoomData_Sprites_Room010A
-    dw RoomData_Sprites_Room010B
-    dw RoomData_Sprites_Room010C
-    dw RoomData_Sprites_Room010D
-    dw RoomData_Sprites_Room010E
-    dw RoomData_Sprites_Room010F
-    dw RoomData_Sprites_Room0110
-    dw RoomData_Sprites_Room0111
-    dw RoomData_Sprites_Room0112
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0114
-    dw RoomData_Sprites_Room0115
-    dw RoomData_Sprites_Room0116
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room0118
-    dw RoomData_Sprites_Room0119
-    dw RoomData_Sprites_Room011A
-    dw RoomData_Sprites_Room011B
-    dw RoomData_Sprites_Room011C
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Room011E
-    dw RoomData_Sprites_Room011F
-    dw RoomData_Sprites_Room0120
-    dw RoomData_Sprites_Room0121
-    dw RoomData_Sprites_Room0122
-    dw RoomData_Sprites_Room0123
-    dw RoomData_Sprites_Room0124
-    dw RoomData_Sprites_Room0125
-    dw RoomData_Sprites_Room0126
-    dw RoomData_Sprites_Room0127
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
-    dw RoomData_Sprites_Empty
+    dw RoomData_Sprites_Room0000 ; 0x0000 - $D92E
+    dw RoomData_Sprites_Empty    ; 0x0001 - $EC9D
+    dw RoomData_Sprites_Room0002 ; 0x0002 - $D933
+    dw RoomData_Sprites_Empty    ; 0x0003 - $EC9D
+    dw RoomData_Sprites_Room0004 ; 0x0004 - $D965
+    dw RoomData_Sprites_Empty    ; 0x0005 - $EC9D
+    dw RoomData_Sprites_Room0006 ; 0x0006 - $D997
+    dw RoomData_Sprites_Room0007 ; 0x0007 - $D9C3
+    dw RoomData_Sprites_Room0008 ; 0x0008 - $D9C8
+    dw RoomData_Sprites_Room0009 ; 0x0009 - $D9CD
+    dw RoomData_Sprites_Room000A ; 0x000A - $D9D8
+    dw RoomData_Sprites_Room000B ; 0x000B - $D9EF
+    dw RoomData_Sprites_Empty    ; 0x000C - $EC9D
+    dw RoomData_Sprites_Room000D ; 0x000D - $DA0F
+    dw RoomData_Sprites_Room000E ; 0x000E - $DA14
+    dw RoomData_Sprites_Empty    ; 0x000F - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0010 - $EC9D
+    dw RoomData_Sprites_Room0011 ; 0x0011 - $DA25
+    dw RoomData_Sprites_Room0012 ; 0x0012 - $DA3F
+    dw RoomData_Sprites_Room0013 ; 0x0013 - $DA47
+    dw RoomData_Sprites_Room0014 ; 0x0014 - $DA6A
+    dw RoomData_Sprites_Room0015 ; 0x0015 - $DA8A
+    dw RoomData_Sprites_Room0016 ; 0x0016 - $DAAA
+    dw RoomData_Sprites_Room0017 ; 0x0017 - $DAC1
+    dw RoomData_Sprites_Empty    ; 0x0018 - $EC9D
+    dw RoomData_Sprites_Room0019 ; 0x0019 - $DADE
+    dw RoomData_Sprites_Room001A ; 0x001A - $DAEC
+    dw RoomData_Sprites_Room001B ; 0x001B - $DB0F
+    dw RoomData_Sprites_Room001C ; 0x001C - $DB23
+    dw RoomData_Sprites_Empty    ; 0x001D - $EC9D
+    dw RoomData_Sprites_Room001E ; 0x001E - $DB46
+    dw RoomData_Sprites_Room001F ; 0x001F - $DB5D
+    dw RoomData_Sprites_Room0020 ; 0x0020 - $DB77
+    dw RoomData_Sprites_Room0021 ; 0x0021 - $DB7C
+    dw RoomData_Sprites_Room0022 ; 0x0022 - $DBA2
+    dw RoomData_Sprites_Room0023 ; 0x0023 - $DBB9
+    dw RoomData_Sprites_Room0024 ; 0x0024 - $DBCA
+    dw RoomData_Sprites_Room0025 ; 0x0025 - $DBE1
+    dw RoomData_Sprites_Room0026 ; 0x0026 - $DBE3
+    dw RoomData_Sprites_Room0027 ; 0x0027 - $DC09
+    dw RoomData_Sprites_Room0028 ; 0x0028 - $DC20
+    dw RoomData_Sprites_Room0029 ; 0x0029 - $DC31
+    dw RoomData_Sprites_Room002A ; 0x002A - $DC39
+    dw RoomData_Sprites_Room002B ; 0x002B - $DC53
+    dw RoomData_Sprites_Room002C ; 0x002C - $DC6D
+    dw RoomData_Sprites_Empty    ; 0x002D - $EC9D
+    dw RoomData_Sprites_Room002E ; 0x002E - $DC7B
+    dw RoomData_Sprites_Empty    ; 0x002F - $EC9D
+    dw RoomData_Sprites_Room0030 ; 0x0030 - $DC8F
+    dw RoomData_Sprites_Room0031 ; 0x0031 - $DC94
+    dw RoomData_Sprites_Room0032 ; 0x0032 - $DCBA
+    dw RoomData_Sprites_Room0033 ; 0x0033 - $DCCB
+    dw RoomData_Sprites_Room0034 ; 0x0034 - $DCD6
+    dw RoomData_Sprites_Room0035 ; 0x0035 - $DCED
+    dw RoomData_Sprites_Room0036 ; 0x0036 - $DD10
+    dw RoomData_Sprites_Room0037 ; 0x0037 - $DD33
+    dw RoomData_Sprites_Room0038 ; 0x0038 - $DD53
+    dw RoomData_Sprites_Room0039 ; 0x0039 - $DD6A
+    dw RoomData_Sprites_Room003A ; 0x003A - $DD84
+    dw RoomData_Sprites_Room003B ; 0x003B - $DD98
+    dw RoomData_Sprites_Room003C ; 0x003C - $DDAF
+    dw RoomData_Sprites_Room003D ; 0x003D - $DDBA
+    dw RoomData_Sprites_Room003E ; 0x003E - $DDE9
+    dw RoomData_Sprites_Room003F ; 0x003F - $DE12
+    dw RoomData_Sprites_Room0040 ; 0x0040 - $DE23
+    dw RoomData_Sprites_Room0041 ; 0x0041 - $DEE9
+    dw RoomData_Sprites_Room0042 ; 0x0042 - $DE47
+    dw RoomData_Sprites_Room0043 ; 0x0043 - $DE5B
+    dw RoomData_Sprites_Room0044 ; 0x0044 - $DE63
+    dw RoomData_Sprites_Room0045 ; 0x0045 - $DE80
+    dw RoomData_Sprites_Room0046 ; 0x0046 - $DEA3
+    dw RoomData_Sprites_Room0047 ; 0x0047 - $DEB4
+    dw RoomData_Sprites_Empty    ; 0x0048 - $EC9D
+    dw RoomData_Sprites_Room0049 ; 0x0049 - $DEB6
+    dw RoomData_Sprites_Room004A ; 0x004A - $DEDF
+    dw RoomData_Sprites_Room004B ; 0x004B - $DEEA
+    dw RoomData_Sprites_Room004C ; 0x004C - $DF04
+    dw RoomData_Sprites_Room004D ; 0x004D - $DF1E
+    dw RoomData_Sprites_Room004E ; 0x004E - $DF23
+    dw RoomData_Sprites_Room004F ; 0x004F - $DF31
+    dw RoomData_Sprites_Room0050 ; 0x0050 - $DF3C
+    dw RoomData_Sprites_Room0051 ; 0x0051 - $DF47
+    dw RoomData_Sprites_Room0052 ; 0x0052 - $DF52
+    dw RoomData_Sprites_Room0053 ; 0x0053 - $DF5D
+    dw RoomData_Sprites_Room0054 ; 0x0054 - $DF86
+    dw RoomData_Sprites_Room0055 ; 0x0055 - $DFA0
+    dw RoomData_Sprites_Room0056 ; 0x0056 - $DFAB
+    dw RoomData_Sprites_Room0057 ; 0x0057 - $DFD4
+    dw RoomData_Sprites_Room0058 ; 0x0058 - $E006
+    dw RoomData_Sprites_Room0059 ; 0x0059 - $E023
+    dw RoomData_Sprites_Room005A ; 0x005A - $E049
+    dw RoomData_Sprites_Room005B ; 0x005B - $E04E
+    dw RoomData_Sprites_Room005C ; 0x005C - $E06B
+    dw RoomData_Sprites_Room005D ; 0x005D - $E07C
+    dw RoomData_Sprites_Room005E ; 0x005E - $E0A5
+    dw RoomData_Sprites_Room005F ; 0x005F - $E0B6
+    dw RoomData_Sprites_Room0060 ; 0x0060 - $E0C1
+    dw RoomData_Sprites_Room0061 ; 0x0061 - $E0C6
+    dw RoomData_Sprites_Room0062 ; 0x0062 - $E0D1
+    dw RoomData_Sprites_Room0063 ; 0x0063 - $E0DC
+    dw RoomData_Sprites_Room0064 ; 0x0064 - $E0E4
+    dw RoomData_Sprites_Room0065 ; 0x0065 - $E10D
+    dw RoomData_Sprites_Room0066 ; 0x0066 - $E11E
+    dw RoomData_Sprites_Room0067 ; 0x0067 - $E144
+    dw RoomData_Sprites_Room0068 ; 0x0068 - $E164
+    dw RoomData_Sprites_Empty    ; 0x0069 - $EC9D
+    dw RoomData_Sprites_Room006A ; 0x006A - $E17E
+    dw RoomData_Sprites_Room006B ; 0x006B - $E192
+    dw RoomData_Sprites_Room006C ; 0x006C - $E1BE
+    dw RoomData_Sprites_Room006D ; 0x006D - $E1CF
+    dw RoomData_Sprites_Room006E ; 0x006E - $E1EC
+    dw RoomData_Sprites_Empty    ; 0x006F - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0070 - $EC9D
+    dw RoomData_Sprites_Room0071 ; 0x0071 - $E1FD
+    dw RoomData_Sprites_Room0072 ; 0x0072 - $E208
+    dw RoomData_Sprites_Room0073 ; 0x0073 - $E213
+    dw RoomData_Sprites_Room0074 ; 0x0074 - $E22A
+    dw RoomData_Sprites_Room0075 ; 0x0075 - $E244
+    dw RoomData_Sprites_Room0076 ; 0x0076 - $E264
+    dw RoomData_Sprites_Room0077 ; 0x0077 - $E27B
+    dw RoomData_Sprites_Empty    ; 0x0078 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0079 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x007A - $EC9D
+    dw RoomData_Sprites_Room007B ; 0x007B - $E28F
+    dw RoomData_Sprites_Room007C ; 0x007C - $E2B2
+    dw RoomData_Sprites_Room007D ; 0x007D - $E2C9
+    dw RoomData_Sprites_Room007E ; 0x007E - $E2EC
+    dw RoomData_Sprites_Room007F ; 0x007F - $E303
+    dw RoomData_Sprites_Room0080 ; 0x0080 - $E31D
+    dw RoomData_Sprites_Room0081 ; 0x0081 - $E32B
+    dw RoomData_Sprites_Room0082 ; 0x0082 - $E333
+    dw RoomData_Sprites_Room0083 ; 0x0083 - $E33E
+    dw RoomData_Sprites_Room0084 ; 0x0084 - $E35E
+    dw RoomData_Sprites_Room0085 ; 0x0085 - $E375
+    dw RoomData_Sprites_Room0086 ; 0x0086 - $E395
+    dw RoomData_Sprites_Room0087 ; 0x0087 - $E397
+    dw RoomData_Sprites_Empty    ; 0x0088 - $EC9D
+    dw RoomData_Sprites_Room0089 ; 0x0089 - $E3C0
+    dw RoomData_Sprites_Empty    ; 0x008A - $EC9D
+    dw RoomData_Sprites_Room008B ; 0x008B - $E3C8
+    dw RoomData_Sprites_Room008C ; 0x008C - $E3E2
+    dw RoomData_Sprites_Room008D ; 0x008D - $E414
+    dw RoomData_Sprites_Room008E ; 0x008E - $E43D
+    dw RoomData_Sprites_Empty    ; 0x008F - $EC9D
+    dw RoomData_Sprites_Room0090 ; 0x0090 - $E457
+    dw RoomData_Sprites_Room0091 ; 0x0091 - $E45C
+    dw RoomData_Sprites_Room0092 ; 0x0092 - $E473
+    dw RoomData_Sprites_Room0093 ; 0x0093 - $E499
+    dw RoomData_Sprites_Empty    ; 0x0094 - $EC9D
+    dw RoomData_Sprites_Room0095 ; 0x0095 - $E4B3
+    dw RoomData_Sprites_Room0096 ; 0x0096 - $E4C4
+    dw RoomData_Sprites_Room0097 ; 0x0097 - $E4D5
+    dw RoomData_Sprites_Room0098 ; 0x0098 - $E4DA
+    dw RoomData_Sprites_Room0099 ; 0x0099 - $E4EB
+    dw RoomData_Sprites_Empty    ; 0x009A - $EC9D
+    dw RoomData_Sprites_Room009B ; 0x009B - $E50E
+    dw RoomData_Sprites_Room009C ; 0x009C - $E537
+    dw RoomData_Sprites_Room009D ; 0x009D - $E54E
+    dw RoomData_Sprites_Room009E ; 0x009E - $E56B
+    dw RoomData_Sprites_Room009F ; 0x009F - $E57C
+    dw RoomData_Sprites_Room00A0 ; 0x00A0 - $E590
+    dw RoomData_Sprites_Room00A1 ; 0x00A1 - $E59B
+    dw RoomData_Sprites_Empty    ; 0x00A2 - $EC9D
+    dw RoomData_Sprites_Room00A3 ; 0x00A3 - $E5B8
+    dw RoomData_Sprites_Room00A4 ; 0x00A4 - $E5BA
+    dw RoomData_Sprites_Room00A5 ; 0x00A5 - $E5C5
+    dw RoomData_Sprites_Room00A6 ; 0x00A6 - $E5EB
+    dw RoomData_Sprites_Room00A7 ; 0x00A7 - $E5F3
+    dw RoomData_Sprites_Room00A8 ; 0x00A8 - $E5FB
+    dw RoomData_Sprites_Room00A9 ; 0x00A9 - $E60C
+    dw RoomData_Sprites_Room00AA ; 0x00AA - $E626
+    dw RoomData_Sprites_Room00AB ; 0x00AB - $E63A
+    dw RoomData_Sprites_Room00AC ; 0x00AC - $E654
+    dw RoomData_Sprites_Empty    ; 0x00AD - $EC9D
+    dw RoomData_Sprites_Room00AE ; 0x00AE - $E659
+    dw RoomData_Sprites_Room00AF ; 0x00AF - $E661
+    dw RoomData_Sprites_Room00B0 ; 0x00B0 - $E666
+    dw RoomData_Sprites_Room00B1 ; 0x00B1 - $E692
+    dw RoomData_Sprites_Room00B2 ; 0x00B2 - $E6B2
+    dw RoomData_Sprites_Room00B3 ; 0x00B3 - $E6DE
+    dw RoomData_Sprites_Empty    ; 0x00B4 - $EC9D
+    dw RoomData_Sprites_Room00B5 ; 0x00B5 - $E6EF
+    dw RoomData_Sprites_Room00B6 ; 0x00B6 - $E6FA
+    dw RoomData_Sprites_Room00B7 ; 0x00B7 - $E71A
+    dw RoomData_Sprites_Room00B8 ; 0x00B8 - $E722
+    dw RoomData_Sprites_Room00B9 ; 0x00B9 - $E736
+    dw RoomData_Sprites_Room00BA ; 0x00BA - $E73B
+    dw RoomData_Sprites_Room00BB ; 0x00BB - $E752
+    dw RoomData_Sprites_Room00BC ; 0x00BC - $E775
+    dw RoomData_Sprites_Room00BD ; 0x00BD - $E79B
+    dw RoomData_Sprites_Room00BE ; 0x00BE - $E79D
+    dw RoomData_Sprites_Room00BF ; 0x00BF - $E7B4
+    dw RoomData_Sprites_Room00C0 ; 0x00C0 - $E7BC
+    dw RoomData_Sprites_Room00C1 ; 0x00C1 - $E7D9
+    dw RoomData_Sprites_Room00C2 ; 0x00C2 - $E802
+    dw RoomData_Sprites_Room00C3 ; 0x00C3 - $E81C
+    dw RoomData_Sprites_Room00C4 ; 0x00C4 - $E836
+    dw RoomData_Sprites_Room00C5 ; 0x00C5 - $E856
+    dw RoomData_Sprites_Room00C6 ; 0x00C6 - $E870
+    dw RoomData_Sprites_Empty    ; 0x00C7 - $EC9D
+    dw RoomData_Sprites_Room00C8 ; 0x00C8 - $E887
+    dw RoomData_Sprites_Room00C9 ; 0x00C9 - $E89E
+    dw RoomData_Sprites_Empty    ; 0x00CA - $EC9D
+    dw RoomData_Sprites_Room00CB ; 0x00CB - $E8A9
+    dw RoomData_Sprites_Room00CC ; 0x00CC - $E8CF
+    dw RoomData_Sprites_Empty    ; 0x00CD - $EC9D
+    dw RoomData_Sprites_Room00CE ; 0x00CE - $E8FB
+    dw RoomData_Sprites_Empty    ; 0x00CF - $EC9D
+    dw RoomData_Sprites_Room00D0 ; 0x00D0 - $E915
+    dw RoomData_Sprites_Room00D1 ; 0x00D1 - $E938
+    dw RoomData_Sprites_Room00D2 ; 0x00D2 - $E952
+    dw RoomData_Sprites_Empty    ; 0x00D3 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x00D4 - $EC9D
+    dw RoomData_Sprites_Room00D5 ; 0x00D5 - $E972
+    dw RoomData_Sprites_Room00D6 ; 0x00D6 - $E983
+    dw RoomData_Sprites_Empty    ; 0x00D7 - $EC9D
+    dw RoomData_Sprites_Room00D8 ; 0x00D8 - $E98E
+    dw RoomData_Sprites_Room00D9 ; 0x00D9 - $E9B1
+    dw RoomData_Sprites_Room00DA ; 0x00DA - $E9BF
+    dw RoomData_Sprites_Room00DB ; 0x00DB - $E9C7
+    dw RoomData_Sprites_Room00DC ; 0x00DC - $E9DE
+    dw RoomData_Sprites_Empty    ; 0x00DD - $EC9D
+    dw RoomData_Sprites_Room00DE ; 0x00DE - $EA01
+    dw RoomData_Sprites_Room00DF ; 0x00DF - $EA0C
+    dw RoomData_Sprites_Room00E0 ; 0x00E0 - $EA14
+    dw RoomData_Sprites_Room00E1 ; 0x00E1 - $EA22
+    dw RoomData_Sprites_Room00E2 ; 0x00E2 - $EA2A
+    dw RoomData_Sprites_Room00E3 ; 0x00E3 - $EA3B
+    dw RoomData_Sprites_Room00E4 ; 0x00E4 - $EA40
+    dw RoomData_Sprites_Room00E5 ; 0x00E5 - $EA4E
+    dw RoomData_Sprites_Room00E6 ; 0x00E6 - $EA62
+    dw RoomData_Sprites_Room00E7 ; 0x00E7 - $EA73
+    dw RoomData_Sprites_Room00E8 ; 0x00E8 - $EA8A
+    dw RoomData_Sprites_Empty    ; 0x00E9 - $EC9D
+    dw RoomData_Sprites_Room00EA ; 0x00EA - $EA98
+    dw RoomData_Sprites_Room00EB ; 0x00EB - $EA9D
+    dw RoomData_Sprites_Empty    ; 0x00EC - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x00ED - $EC9D
+    dw RoomData_Sprites_Room00EE ; 0x00EE - $EAA2
+    dw RoomData_Sprites_Room00EF ; 0x00EF - $EAB3
+    dw RoomData_Sprites_Room00F0 ; 0x00F0 - $EAC1
+    dw RoomData_Sprites_Room00F1 ; 0x00F1 - $EAE1
+    dw RoomData_Sprites_Empty    ; 0x00F2 - $EC9D
+    dw RoomData_Sprites_Room00F3 ; 0x00F3 - $EB01
+    dw RoomData_Sprites_Room00F4 ; 0x00F4 - $EB06
+    dw RoomData_Sprites_Room00F5 ; 0x00F5 - $EB0B
+    dw RoomData_Sprites_Empty    ; 0x00F6 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x00F7 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x00F8 - $EC9D
+    dw RoomData_Sprites_Room00F9 ; 0x00F9 - $EB10
+    dw RoomData_Sprites_Room00FA ; 0x00FA - $EB1E
+    dw RoomData_Sprites_Room00FB ; 0x00FB - $EB29
+    dw RoomData_Sprites_Room00FC ; 0x00FC - $EB34
+    dw RoomData_Sprites_Room00FD ; 0x00FD - $EB36
+    dw RoomData_Sprites_Room00FE ; 0x00FE - $EB47
+    dw RoomData_Sprites_Room00FF ; 0x00FF - $EB58
+    dw RoomData_Sprites_Room0100 ; 0x0100 - $EB5D
+    dw RoomData_Sprites_Room0101 ; 0x0101 - $EB62
+    dw RoomData_Sprites_Room0102 ; 0x0102 - $EB67
+    dw RoomData_Sprites_Room0103 ; 0x0103 - $EB6C
+    dw RoomData_Sprites_Room0104 ; 0x0104 - $EB77
+    dw RoomData_Sprites_Room0105 ; 0x0105 - $EB7C
+    dw RoomData_Sprites_Room0106 ; 0x0106 - $EB81
+    dw RoomData_Sprites_Room0107 ; 0x0107 - $EB86
+    dw RoomData_Sprites_Room0108 ; 0x0108 - $EB91
+    dw RoomData_Sprites_Room0109 ; 0x0109 - $EB9F
+    dw RoomData_Sprites_Room010A ; 0x010A - $EBA4
+    dw RoomData_Sprites_Room010B ; 0x010B - $EBA9
+    dw RoomData_Sprites_Room010C ; 0x010C - $EBC0
+    dw RoomData_Sprites_Room010D ; 0x010D - $EBDA
+    dw RoomData_Sprites_Room010E ; 0x010E - $EBE2
+    dw RoomData_Sprites_Room010F ; 0x010F - $EBEA
+    dw RoomData_Sprites_Room0110 ; 0x0110 - $EBEF
+    dw RoomData_Sprites_Room0111 ; 0x0111 - $EBF4
+    dw RoomData_Sprites_Room0112 ; 0x0112 - $EBF9
+    dw RoomData_Sprites_Empty    ; 0x0113 - $EC9D
+    dw RoomData_Sprites_Room0114 ; 0x0114 - $EC01
+    dw RoomData_Sprites_Room0115 ; 0x0115 - $EC09
+    dw RoomData_Sprites_Room0116 ; 0x0116 - $EC1D
+    dw RoomData_Sprites_Empty    ; 0x0117 - $EC9D
+    dw RoomData_Sprites_Room0118 ; 0x0118 - $EC22
+    dw RoomData_Sprites_Room0119 ; 0x0119 - $EC27
+    dw RoomData_Sprites_Room011A ; 0x011A - $EC2C
+    dw RoomData_Sprites_Room011B ; 0x011B - $EC31
+    dw RoomData_Sprites_Room011C ; 0x011C - $EC39
+    dw RoomData_Sprites_Empty    ; 0x011D - $EC9D
+    dw RoomData_Sprites_Room011E ; 0x011E - $EC3E
+    dw RoomData_Sprites_Room011F ; 0x011F - $EC4F
+    dw RoomData_Sprites_Room0120 ; 0x0120 - $EC54
+    dw RoomData_Sprites_Room0121 ; 0x0121 - $EC5F
+    dw RoomData_Sprites_Room0122 ; 0x0122 - $EC64
+    dw RoomData_Sprites_Room0123 ; 0x0123 - $EC6C
+    dw RoomData_Sprites_Room0124 ; 0x0124 - $EC7D
+    dw RoomData_Sprites_Room0125 ; 0x0125 - $EC82
+    dw RoomData_Sprites_Room0126 ; 0x0126 - $EC87
+    dw RoomData_Sprites_Room0127 ; 0x0127 - $EC98
+    dw RoomData_Sprites_Empty    ; 0x0128 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0129 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x012A - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x012B - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x012C - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x012D - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x012E - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x012F - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0130 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0131 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0132 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0133 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0134 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0135 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0136 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0137 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0138 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0139 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x013A - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x013B - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x013C - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x013D - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x013E - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x013F - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0140 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0141 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0142 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0143 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0144 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0145 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0146 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0147 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0148 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0149 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x014A - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x014B - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x014C - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x014D - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x014E - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x014F - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0150 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0151 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0152 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0153 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0154 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0155 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0156 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0157 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0158 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0159 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x015A - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x015B - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x015C - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x015D - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x015E - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x015F - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0160 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0161 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0162 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0163 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0164 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0165 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0166 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0167 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0168 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0169 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x016A - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x016B - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x016C - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x016D - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x016E - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x016F - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0170 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0171 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0172 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0173 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0174 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0175 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0176 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0177 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0178 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x0179 - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x017A - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x017B - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x017C - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x017D - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x017E - $EC9D
+    dw RoomData_Sprites_Empty    ; 0x017F - $EC9D
 }
 
 ; ==============================================================================
@@ -4609,7 +4614,6 @@ RoomData_SpritePointers:
 ;   Z is the layer (U: upper layer | L: lower layer)
 ;   S is the auxiliary value
 ; ==============================================================================
-
 
 ; $04D92E-$04D932 DATA
 RoomData_Sprites_Room0000:
@@ -6983,7 +6987,7 @@ RoomData_Sprites_Room00AB:
 
 ; ==============================================================================
 
-; $04E6054-$04E658 DATA
+; $04E654-$04E658 DATA
 RoomData_Sprites_Room00AC:
 {
     db $00 ; Unlayered OAM
@@ -8458,29 +8462,28 @@ SpriteExplode_Execute:
     ; 0 = explodes. > 0 = doesn't explode.
     LDA.w $0D90, X : BEQ Explode_VerifyPrizing
         LDA.w $0DF0, X : BNE .draw
-        
-        STZ.w $0DD0, X
-        
-        LDY.b #$0F
-        
-        .find_other_exploding_sprites_loop
-        
-            LDA.w $0DD0, Y : CMP.b #$04 : BEQ .found_one
-        DEY : BPL .find_other_exploding_sprites_loop
-        
-        LDY.b #$01 : STY.w $0AAA
-        
-        JSL.l Sprite_VerifyAllOnScreenDefeated : BCS .found_one
-            ; Restore menu functionality. Bit of a \hack, imo.
-            STZ.w $0FFC
-        
-        .found_one
-        
-        RTS
+            STZ.w $0DD0, X
+            
+            LDY.b #$0F
+            
+            .find_other_exploding_sprites_loop
+            
+                LDA.w $0DD0, Y : CMP.b #$04 : BEQ .found_one
+            DEY : BPL .find_other_exploding_sprites_loop
+            
+            LDY.b #$01 : STY.w $0AAA
+            
+            JSL.l Sprite_VerifyAllOnScreenDefeated : BCS .found_one
+                ; Restore menu functionality. Bit of a \hack, imo.
+                STZ.w $0FFC
+            
+            .found_one
+            
+            RTS
         
         .draw
         
-        LSR #2 : EOR.b #$07 : STA.b $00
+        LSR : LSR : EOR.b #$07 : STA.b $00
         
         LDA.b #$00 : XBA
         
@@ -8492,7 +8495,8 @@ SpriteExplode_Execute:
         
         SEP #$20
         
-        LDA.b #$04 : JSL.l Sprite_DrawMultiple
+        LDA.b #$04
+        JSL.l Sprite_DrawMultiple
         
         RTS
 }
@@ -8561,8 +8565,8 @@ Explode_VerifyPrizing:
     
     LDA.b #$EA
     LDY.b #$0E
-    
     JSL.l Sprite_SpawnDynamically_arbitrary
+
     JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$20 : STA.w $0F80, Y
@@ -8621,7 +8625,8 @@ Explode_SpawnExplosion:
     
     LDA.b #$07 : STA.b $0E
     
-    LDA.w $0E20, X : STA.b $0F : CMP.b #$92 : BNE .not_helmasaur_king
+    LDA.w $0E20, X : STA.b $0F
+    CMP.b #$92 : BNE .not_helmasaur_king
         LSR.b $0E
     
     .not_helmasaur_king
@@ -8799,7 +8804,7 @@ Garnish_ScatterDebris:
     
     TAY
     
-    LDA.l $7FF90E, X : LSR #2 : EOR.b #$07 : ASL #2
+    LDA.l $7FF90E, X : LSR : LSR : EOR.b #$07 : ASL : ASL
     
     CPY.b #$04 : BEQ .BRANCH_GAMMA
         CPY.b #$02 : BNE .BRANCH_DELTA
@@ -8829,7 +8834,8 @@ Garnish_ScatterDebris:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC.w Pool_Garnish_ScatterDebris_x_offsets, X : STA ($90), Y
+        LDA.b $00
+        CLC : ADC.w Pool_Garnish_ScatterDebris_x_offsets, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
@@ -8838,7 +8844,9 @@ Garnish_ScatterDebris:
         PLX
         
         LDA.b $02 : CLC : ADC.w Pool_Garnish_ScatterDebris_y_offsets, X
-        INY : STA ($90), Y
+
+        INY
+        STA ($90), Y
         
         LDA.w $0FB5 : BNE .BRANCH_EPSILON
             LDA.b #$4E
@@ -8854,13 +8862,15 @@ Garnish_ScatterDebris:
         
         .BRANCH_ZETA
         
-        INY : STA ($90), Y
+        INY
+        STA ($90), Y
 
         LDA.w Pool_Garnish_ScatterDebris_properties, X
         INY : ORA.b $05 : STA ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
-        
+        PHY
+
+        TYA : LSR : LSR : TAY
         LDA.b $0F : STA ($92), Y
         
         PLY : INY
@@ -8906,9 +8916,9 @@ ScatterDebris_Draw:
     
     .termination_delay
     
-    AND.b #$0F : LSR #2 : STA.b $06
+    AND.b #$0F : LSR : LSR : STA.b $06
     
-    ASL ADC.b $06 : STA.b $06
+    ASL : ADC.b $06 : STA.b $06
     
     LDY.b #$00
     
@@ -8921,12 +8931,11 @@ ScatterDebris_Draw:
         PHX
         
         TXA : CLC : ADC.b $06 : PHA
-        
-        ASL : TAX
+        ASL                   : TAX
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_ScatterDebris_Draw_x_offsets, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC Pool_ScatterDebris_Draw_x_offsets, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
@@ -8935,17 +8944,21 @@ ScatterDebris_Draw:
         PLX
         
         LDA.b $02 : CLC : ADC Pool_ScatterDebris_Draw_y_offsets, X
-        INY : STA ($90), Y
+        INY
+        STA.b ($90), Y
 
         LDA Pool_ScatterDebris_Draw_chr, X
-        INY : STA ($90), Y
+        INY
+        STA.b ($90), Y
 
         LDA Pool_ScatterDebris_Draw_properties, X
-        INY : ORA.b #$22 : STA ($90), Y
+        INY
+        ORA.b #$22 : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY
+        TYA : LSR : LSR : TAY
         
-        LDA.b $0F : STA ($92), Y
+        LDA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_OAM_entry
@@ -8971,13 +8984,14 @@ Sprite_SelfTerminate:
     ; If this flag is set, just kill the sprite?
     STZ.w $0DD0, X
     
-    TXA : ASL TAY
+    TXA : ASL : TAY
     
     REP #$20
     
     ; Basically the BCS later on is a BEQ in effect, checks if($0BC0, Y ==
     ; 0xFFFF).
-    LDA.w $0BC0, Y : STA.b $00 : CMP.w #$FFFF
+    LDA.w $0BC0, Y : STA.b $00
+    CMP.w #$FFFF
     
     PHP
     
@@ -9002,7 +9016,8 @@ Sprite_SelfTerminate:
     
     LDA.b $1B : BNE .indoors_2
         TXA : ASL : TAY
-        LDA.b #$FF : STA.w $0BC0, Y : STA.w $0BC1, Y
+        LDA.b #$FF : STA.w $0BC0, Y
+                     STA.w $0BC1, Y
         
         RTL
     
@@ -9063,7 +9078,6 @@ Module_Death:
 {
     ; $11 index for death module.
     LDA.b $11 : ASL : TAX
-    
     JSR.w (Module_Death_JumpTable, X)
     
     LDA.b $11 : CMP.b #$09 : BEQ .dont_show_player
@@ -9120,10 +9134,13 @@ GameOver_InitializeAndFadeMusic:
         LDA.l $7EC380, X : STA.l $7FDE00, X
         LDA.l $7EC3C0, X : STA.l $7FDE40, X
         
-        LDA.w #$0000 : STA.l $7EC340, X : STA.l $7EC380, X : STA.l $7EC3C0, X
-    INX #2 : CPX.b #$40 : BNE .blackenAuxiliary
+        LDA.w #$0000 : STA.l $7EC340, X
+                       STA.l $7EC380, X
+                       STA.l $7EC3C0, X
+    INX : INX : CPX.b #$40 : BNE .blackenAuxiliary
     
-    STA.l $7EC007 : STA.l $7EC009
+    STA.l $7EC007
+    STA.l $7EC009
     
     STZ.w $011A : STZ.w $011C
     
@@ -9159,7 +9176,7 @@ GameOver_DelayBeforeIris:
         JSL.l Spotlight_close
         
         LDA.b #$30 : STA.b $98
-                    STZ.b $97
+                     STZ.b $97
         
         INC.b $11
     
@@ -9195,9 +9212,10 @@ GameOver_IrisWipe:
         
         .fill_main_bg_palettes_with_red
         
-            STA.l $7EC540, X : STA.l $7EC560, X : STA.l $7EC580, X
-            STA.l $7EC5A0, X : STA.l $7EC5C0, X : STA.l $7EC5E0, X
-        INX #2 : CPX.b #$20 : BNE .fill_main_bg_palettes_with_red
+            STA.l $7EC540, X : STA.l $7EC560, X
+            STA.l $7EC580, X : STA.l $7EC5A0, X
+            STA.l $7EC5C0, X : STA.l $7EC5E0, X
+        INX : INX : CPX.b #$20 : BNE .fill_main_bg_palettes_with_red
         
         STA.l $7EC500 : STA.l $7EC540
         
@@ -9226,7 +9244,8 @@ GameOver_IrisWipe:
         LDA.b #$20 : STA.b $9A
         LDA.b #$40 : STA.b $C8
         
-        LDA.b #$00 : STA.l $7EC007 : STA.l $7EC009
+        LDA.b #$00 : STA.l $7EC007
+                     STA.l $7EC009
         
         JSL.l Death_PrepFaint
     
@@ -9268,7 +9287,8 @@ GameOver_SplatAndFade:
                             ; Has no bottled fairy.
                             STZ.w $05FC : STZ.w $05FD
                             
-                            LDA.b #$16 : STA.b $17 : STA.w $0710
+                            LDA.b #$16 : STA.b $17
+                                         STA.w $0710
                             
                             INC.b $11
         
@@ -9317,7 +9337,8 @@ GameOver_LoadGAMEOVR:
     JSL.l Palette_MiscSpr_justSP6
     JSL.l Palette_MainSpr
     
-    INC.b $15 : INC.b $11
+    INC.b $15
+    INC.b $11
 
     ; Bleeds into the next function.
 }
@@ -9451,11 +9472,9 @@ GameOver_FadeAndRevive:
         
     JSL.l ResetSomeThingsAfterDeath
         
-    LDA.l $7EF3CC
-        
-    CMP.b #$06 : BEQ .BRANCH_KAPPA
-    CMP.b #$0D : BEQ .BRANCH_KAPPA
-    CMP.b #$0A : BEQ .BRANCH_KAPPA
+    LDA.l $7EF3CC : CMP.b #$06 : BEQ .BRANCH_KAPPA
+                    CMP.b #$0D : BEQ .BRANCH_KAPPA
+                    CMP.b #$0A : BEQ .BRANCH_KAPPA
         CMP.b #$09 : BNE .BRANCH_LAMBDA
 
     .BRANCH_KAPPA
@@ -9465,8 +9484,8 @@ GameOver_FadeAndRevive:
     .BRANCH_LAMBDA
 
     LDA.l $7EF36C : LSR #3 : TAX
-        
-    LDA.l MaxHealthBasedSpawnHP, X : STA.l $7EF36D : STA.w $04AA
+    LDA.l MaxHealthBasedSpawnHP, X : STA.l $7EF36D
+                                     STA.w $04AA
         
     LDA.w $040C : CMP.b #$FF : BEQ .BRANCH_MU
         CMP.b #$02 : BNE .BRANCH_NU
@@ -9475,7 +9494,6 @@ GameOver_FadeAndRevive:
         .BRANCH_NU
         
         LSR : TAX
-
         LDA.l $7EF36F : STA.l $7EF37C, X
         
     .BRANCH_MU
@@ -9512,7 +9530,8 @@ GameOver_FadeAndRevive:
         LDA.l $7EF3CA : BEQ .BRANCH_RHO
             ; Otherwise, make it so the dungeon room we were last in was
             ; Agahnim's first room.
-            LDA.b #$20 : STA.b $A0 : STZ.b $A1
+            LDA.b #$20 : STA.b $A0
+                         STZ.b $A1
         
         .BRANCH_RHO
         
@@ -9532,8 +9551,7 @@ GameOver_FadeAndRevive:
         
         REP #$20
         
-        LDA.l $701FFE : TAX : DEX #2
-        
+        LDA.l $701FFE : TAX : DEX : DEX
         LDA.l SaveFileCopyOffsets, X : STA.b $00
         
         SEP #$20
@@ -9561,24 +9579,26 @@ GameOver_FadeAndRevive:
         
     SEI
         
-    STZ.w SNES.NMIVHCountJoypadEnable : STZ.w SNES.HDMAChannelEnable
+    STZ.w SNES.NMIVHCountJoypadEnable
+    STZ.w SNES.HDMAChannelEnable
         
     REP #$30
         
-    STZ.b $E0 : STZ.b $E2 : STZ.b $E4 : STZ.b $E6 : STZ.b $E8 : STZ.b $EA
+    STZ.b $E0 : STZ.b $E2
+    STZ.b $E4 : STZ.b $E6
+    STZ.b $E8 : STZ.b $EA
         
-    STZ.w $0120 : STZ.w $011E : STZ.w $0124 : STZ.w $0122
+    STZ.w $0120 : STZ.w $011E
+    STZ.w $0124 : STZ.w $0122
         
     LDX.w #$0000 : TXA
         
     .eraseSramBuffer
         
-        STA.l $7EF000, X
-        STA.l $7EF100, X
-        STA.l $7EF200, X
-        STA.l $7EF300, X
+        STA.l $7EF000, X : STA.l $7EF100, X
+        STA.l $7EF200, X : STA.l $7EF300, X
         STA.l $7EF400, X    
-    INX #2 : CPX.w #$0100 : BNE .eraseSramBuffer
+    INX : INX : CPX.w #$0100 : BNE .eraseSramBuffer
         
     SEP #$30
         
@@ -9622,7 +9642,6 @@ GameOver_AnimateChoiceFairy:
     LDA.w Pool_GameOver_AnimateChoiceFairy_fairy_height, X : STA.w $0851
     
     LDA.b $1A : AND.b #$08 : LSR #3 : TAX
-    
     LDA.w Pool_GameOver_AnimateChoiceFairy_fairy_char, X : STA.w $0852
     
     LDA.b #$78 : STA.w $0853
@@ -9678,9 +9697,10 @@ GameOver_RiseALittle:
             LDA.l $7FDE00, X : STA.l $7EC380, X
             LDA.l $7FDE40, X : STA.l $7EC3C0, X
             
-            LDA.w #$0000
-            STA.l $7EC540, X : STA.l $7EC580, X : STA.l $7EC5C0, X
-        INX #2 : CPX.b #$40 : BNE .restore_cached_palettes_loop
+            LDA.w #$0000 : STA.l $7EC540, X
+                           STA.l $7EC580, X
+                           STA.l $7EC5C0, X
+        INX : INX : CPX.b #$40 : BNE .restore_cached_palettes_loop
         
         STA.l $7EC500
         
@@ -9715,15 +9735,13 @@ GameOver_RunFairyRefill:
 GameOver_Restore0D:
 {
     LDA.w $020A : BNE GameOver_RunFairyRefill
-    
-    LDA #$01 : STA.w $0AAA
-    JSL.l Graphics_LoadChrHalfSlot
-    
-    LDA.l $7EC017
-    
-    JSL.l Dungeon_ApproachFixedColor_variable
-    
-    BRA GameOver_RunFairyRefill
+        LDA #$01 : STA.w $0AAA
+        JSL.l Graphics_LoadChrHalfSlot
+        
+        LDA.l $7EC017
+        JSL.l Dungeon_ApproachFixedColor_variable
+        
+        BRA GameOver_RunFairyRefill
 }
 
 ; $04F735-$04F741 LOCAL JUMP LOCATION
@@ -9795,7 +9813,6 @@ Module_Quit_submodules:
 Module_Quit:
 {
     LDA.b $11 : ASL : TAX
-    
     JSR.w (.submodules, X)
     
     JSL.l Sprite_Main
@@ -9818,14 +9835,13 @@ Quit_IndicateHaltedState:
 Quit_FadeOut:
 {
     DEC.b $13 : BNE Death_RestoreScreenPostRevival_return
-    
-    ; Once the screen fades out it's time to save game state and restart,
-    ; essentially.
-    LDA.b #$0F : STA.b $95
-    
-    LDA.b #$01 : STA.b $B0
-    
-    JMP.w GameOver_FadeAndRevive
+        ; Once the screen fades out it's time to save game state and restart,
+        ; essentially.
+        LDA.b #$0F : STA.b $95
+        
+        LDA.b #$01 : STA.b $B0
+        
+        JMP.w GameOver_FadeAndRevive
 }
 
 ; ==============================================================================
@@ -9936,20 +9952,16 @@ Polyhedral_SetRotationMatrix:
     
     LDY.b $04
     LDA.w Polyhedral_SineFunction, Y : STA.b $50
-    
     CMP.b #$80 : SBC.b $50 : EOR.b #$FF : STA.b $51
     
     LDA.w Polyhedral_CosineFunction, Y : STA.b $52
-    
     CMP.b #$80 : SBC.b $52 : EOR.b #$FF : STA.b $53
     
     LDY.b $05
     LDA.w Polyhedral_SineFunction, Y : STA.b $54
-    
     CMP.b #$80 : SBC.b $54 : EOR.b #$FF : STA.b $55
     
     LDA.w Polyhedral_CosineFunction, Y : STA.b $56
-    
     CMP.b #$80 : SBC.b $56 : EOR.b #$FF : STA.b $57
     
     REP #$20
@@ -9960,25 +9972,25 @@ Polyhedral_SetRotationMatrix:
     LDX.b $55 : STX.w SNES.Mode7MatrixA
     LDX.b $50 : STX.w SNES.Mode7MatrixB
     
-    LDA.w SNES.MultResultMid : ASL #2 : STA.b $58
+    LDA.w SNES.MultResultMid : ASL : ASL : STA.b $58
     
     LDX.b $56 : STX.w SNES.Mode7MatrixA
     LDX.b $57 : STX.w SNES.Mode7MatrixA
     LDX.b $52 : STX.w SNES.Mode7MatrixB
     
-    LDA.w SNES.MultResultMid : ASL #2 : STA.b $5E
+    LDA.w SNES.MultResultMid : ASL : ASL : STA.b $5E
     
     LDX.b $56 : STX.w SNES.Mode7MatrixA
     LDX.b $57 : STX.w SNES.Mode7MatrixA
     LDX.b $50 : STX.w SNES.Mode7MatrixB
     
-    LDA.w SNES.MultResultMid : ASL #2 : STA.b $5A
+    LDA.w SNES.MultResultMid : ASL : ASL : STA.b $5A
     
     LDX.b $54 : STX.w SNES.Mode7MatrixA
     LDX.b $55 : STX.w SNES.Mode7MatrixA
     LDX.b $52 : STX.w SNES.Mode7MatrixB
     
-    LDA.w SNES.MultResultMid : ASL #2 : STA.b $5C
+    LDA.w SNES.MultResultMid : ASL : ASL : STA.b $5C
     
     CLI
     
@@ -10000,13 +10012,13 @@ Polyhedral_OperateRotation:
         DEX
         
         DEY
-        LDA ($41), Y : STA.b $47
+        LDA.b ($41), Y : STA.b $47
         
         DEY
-        LDA ($41), Y : STA.b $46
+        LDA.b ($41), Y : STA.b $46
         
         DEY
-        LDA ($41), Y : STA.b $45
+        LDA.b ($41), Y : STA.b $45
         
         PHY
         
@@ -10177,7 +10189,7 @@ Polyhedral_ProjectPoint:
     LDA.b $B2 : STA.w SNES.DividendLow
     LDY.b $B0 : STY.w SNES.DivisorB
     
-    NOP #2
+    NOP : NOP
     
     LDA.w #$0000
     
@@ -10214,11 +10226,9 @@ Polyhedral_DrawPolyhedron:
     
     .delta
     
-        LDA ($43), Y : STA.b $4E
-        
-        AND.b #$7F : STA.b $B0
-        
-        ASL : STA.b $C0
+        LDA.b ($43), Y : STA.b $4E
+        AND.b #$7F     : STA.b $B0
+        ASL            : STA.b $C0
         
         INY
         
@@ -10228,8 +10238,7 @@ Polyhedral_DrawPolyhedron:
         
             PHY
             
-            LDA ($43), Y : TAY
-            
+            LDA.b ($43), Y : TAY
             LDA.w $1F60, Y : STA.b $C0, X
             
             INX
@@ -10241,7 +10250,7 @@ Polyhedral_DrawPolyhedron:
             PLY : INY
         DEC.b $B0 : BNE .alpha
         
-        LDA ($43), Y
+        LDA.b ($43), Y
         
         INY
         
@@ -10273,21 +10282,17 @@ Polyhedral_DrawPolyhedron:
         
         LDX.b #$01
         
-        LSR #2 : STA.b $B0
+        LSR : LSR : STA.b $B0
         
         .epsilon
         
             LDA.b $C0, X : PHA
-            
             LDA.w $1FC0, Y : STA.b $C0, X
+            PLA : STA.w $1FC0, Y
             
-            PLA
+            INX : INX
             
-            STA.w $1FC0, Y
-            
-            INX #2
-            
-            DEY #2
+            DEY : DEY
         DEC.b $B0 : BNE .epsilon
         
         SEP #$20
@@ -10303,7 +10308,6 @@ Polyhedral_SetForegroundColor:
 {
     LDA.b $01 : BNE Polyhedral_SetFGShadeColor
         LDA.b $4F : AND.b #$07
-        
         JSL.l Polyhedral_SetColorMask
         
         RTS
@@ -10314,7 +10318,6 @@ Polyhedral_SetBackgroundColor:
 {
     LDA.b $01 : BNE Polyhedral_SetBGShadeColor
         LDA.b $4F : LSR #4 : AND.b #$07
-        
         JSL.l Polyhedral_SetColorMask
         
         RTS
@@ -10478,7 +10481,7 @@ Polyhedral_SetColorMask:
     
     SEP #$30
     
-    ASL #2 : TAX
+    ASL : ASL : TAX
     
     REP #$20
     
@@ -10523,7 +10526,7 @@ Polyhedral_EmptyBitMapBuffer:
     LDY.w #$E802
     LDA.w #$07FD
     
-    MVN $7E7E
+    MVN $7E, $7E
     
     PLB : PLP
     
@@ -10537,15 +10540,16 @@ Polyhedral_DrawFace:
     
     SEP #$30
     
-    LDA.b #$7E : PHA : PLB
+    LDA.b #$7E : PHA
+    
+    PLB
     
     LDY.b $C0 : TYX
-    
     LDA.b $C0, X
     
     .alpha
     
-            DEX #2 : BEQ .beta
+            DEX : DEX : BEQ .beta
                 ; (<= comparison)
         CMP $C0, X : BCC .alpha
     BEQ .alpha
@@ -10571,8 +10575,11 @@ Polyhedral_DrawFace:
     
     LDA.b $C0 : LSR : STA.b $E0
     
-    LDA.w $1FC0, Y : STA.b $E2 : STA.b $EB
-    LDA.w $1FBF, Y : STA.b $E1 : STA.b $EA
+    LDA.w $1FC0, Y : STA.b $E2
+                     STA.b $EB
+
+    LDA.w $1FBF, Y : STA.b $E1
+                     STA.b $EA
     
     JSR.w Polyhedral_SetLeft : BCS .delta
         JSR.w Polyhedral_SetRight : BCC .epsilon
@@ -10587,19 +10594,20 @@ Polyhedral_DrawFace:
     
     JSR.w Polyhedral_FillLine
     
-    LDA.b $B9 : INC #2 : CMP.b #$10 : BEQ .zeta
+    LDA.b $B9 : INC : INC : CMP.b #$10 : BEQ .zeta
         STA.b $B9
         
         BRA .iota
         
     .zeta
     
-    LDA.b $BA : INC #2 : BIT.b #$08 : BNE .theta
+    LDA.b $BA : INC : INC : BIT.b #$08 : BNE .theta
         EOR.b #$19
     
     .theta
     
-    STA.b $BA : STZ.b $B9
+    STA.b $BA
+    STZ.b $B9
     
     .iota
     
@@ -10653,10 +10661,9 @@ Polyhedral_FillLine:
     LDA.b $EF : AND.b #$38 : SEC : SBC.b $BC : BNE .alpha
         REP #$30
         
-        LDA.l .Mask_right, X : TYX : AND.l .Mask_left, X  : STA.b $B2
+        LDA.l .Mask_right, X : TYX : AND.l .Mask_left, X : STA.b $B2
         
         LDA.b $EF : AND.w #$0038 : ASL #2 : ORA.b $B9 : TAY
-        
         LDA.b $B5 : EOR.w $0000, Y : AND.b $B2 : EOR.w $0000, Y : STA.w $0000, Y
         LDA.b $B7 : EOR.w $0010, Y : AND.b $B2 : EOR.w $0010, Y : STA.w $0010, Y
         
@@ -10669,7 +10676,8 @@ Polyhedral_FillLine:
     .alpha
     
     BCC .return
-        LSR #3 : STA.b $FA : STZ.b $FB
+        LSR #3 : STA.b $FA
+                 STZ.b $FB
         
         REP #$30
         
@@ -10677,8 +10685,7 @@ Polyhedral_FillLine:
         
         TYX
         
-        LDA.b $EF : AND.w #$0038 : ASL #2 : ORA.b $B9 : TAY
-        
+        LDA.b $EF : AND.w #$0038 : ASL : ASL : ORA.b $B9 : TAY
         LDA.b $B5 : EOR.w $0000, Y : AND.b $B2 : EOR.w $0000, Y : STA.w $0000, Y
         LDA.b $B7 : EOR.w $0010, Y : AND.b $B2 : EOR.w $0010, Y : STA.w $0010, Y
         
@@ -10727,7 +10734,7 @@ Polyhedral_SetLeft:
             
         .alpha
         
-        LDX.b $E9 : DEX #2 : BNE .beta
+        LDX.b $E9 : DEX : DEX : BNE .beta
             LDX.b $C0
         
         .beta
@@ -10812,7 +10819,7 @@ Polyhedral_SetRight:
         
         .beta
         
-        INX #2
+        INX : INX
         
         .gamma
         

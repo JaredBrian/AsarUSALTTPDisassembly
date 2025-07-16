@@ -7727,7 +7727,8 @@ LinkItem_EvaluateMagicCost:
 Link_DisplayNoMagicMessage:
 {
     ; You naughty boy you have no magic power!
-    LDA.b #$3C : JSR.w Player_DoSfx2
+    LDA.b #$3C
+    JSR.w Player_DoSfx2
     
     REP #$20
     
@@ -7754,7 +7755,6 @@ LinkItem_ReturnUnusedMagic:
     PHB : PHK : PLB
     
     LDA LinkItem_MagicCostBaseIndices, X : CLC : ADC.l $7EF37B : TAX
-    
     LDA LinkItem_MagicCosts, X : STA.b $00
     
     LDA.l $7EF36E : CLC : ADC.b $00 : STA.l $7EF36E
@@ -7843,7 +7843,6 @@ Link_Lift:
         LDA.b #$01 : STA.w $0314
         
         TXA
-        
         JSL.l Sprite_SpawnThrowableTerrain
         
         ; Negate further A button presses.
@@ -7921,7 +7920,6 @@ Pool_LinkToss:
 Link_APress_LiftCarryThrow:
 {
     LDA.w $0308 : BEQ Link_Lift_return
-    
         ; Is Link throwing an item?
         LDA.w $0309 : AND.b #$02 : BEQ .alpha
             LDA.w $030B : CMP.b #$05 : BCC .alpha
@@ -7963,11 +7961,10 @@ Link_APress_LiftCarryThrow:
             
             LDA.w $0300 : BEQ .BRANCH_ZETA
                 INC : CMP.b #$09 : BEQ .BRANCH_EPSILON
-                    STA.w $0300 : TAX
-                    
+                    STA.w $0300
+                    TAX
                     LDA.w Pool_LinkToss_heavy_lift_animation_timers, X : STA.w $030B
-                    
-                    LDA.w Pool_LinkToss_heavy_lift_animation_steps, X : STA.w $030A
+                    LDA.w Pool_LinkToss_heavy_lift_animation_steps, X  : STA.w $030A
                     
                     CPX.b #$06 : BNE .return
                         STZ.w $0B9C
@@ -8001,7 +7998,6 @@ Link_APress_LiftCarryThrow:
             .BRANCH_ZETA
             
             LDX.w $030A : INX
-            
             LDA.w Pool_LinkToss_timer_a, X : STA.w $030B
             
             STX.w $030A : CPX.b #$03 : BNE .return
@@ -8055,7 +8051,8 @@ Link_PerformDash:
                 STZ.b $48
                 STZ.b $6B
                     
-                LDA.l $7EF3CC : TAX ; Get the follower ID in X.
+                ; Get the follower ID in X.
+                LDA.l $7EF3CC : TAX
 
                 ; N  Z  OM OM OM IZ BM FR DW TH KI ?? TC SB MS
                 ; FF 00 02 00 00 00 00 00 00 00 00 00 00 00 00
@@ -8107,7 +8104,8 @@ Link_PerformGrab:
     
     .noCurrentAction
     
-    LDA.b #$01 : STA.w $0376 : TSB.b $50
+    LDA.b #$01 : STA.w $0376
+                 TSB.b $50
     
     STZ.b $2E
     STZ.w $030A
@@ -8272,7 +8270,8 @@ Link_PerformRupeePull:
     LDA.b $2F : BNE .notFacingUp
         JSL.l Player_ResetState
         
-        LDA.b #$02 : STA.w $0376 : TSB.b $50
+        LDA.b #$02 : STA.w $0376
+                     TSB.b $50
         
         STZ.b $2E
         STZ.w $030A
@@ -8320,7 +8319,8 @@ LinkState_TreePull:
                 LDA.b $F0 : AND.b #$04 : BEQ .BRANCH_DELTA
                     STA.b $3A
                     
-                    LDA.b #$22 : JSR.w Player_DoSfx2
+                    LDA.b #$22
+                    JSR.w Player_DoSfx2
                     
                     BRA .BRANCH_BETA
             
@@ -8329,7 +8329,8 @@ LinkState_TreePull:
             STZ.w $0376
             STZ.w $030D
             
-            LDA.b #$02 : STA.w $030B : STZ.w $030A
+            LDA.b #$02 : STA.w $030B
+                         STZ.w $030A
             
             STZ.b $50
             
@@ -8340,8 +8341,8 @@ LinkState_TreePull:
         .BRANCH_BETA
         
         DEC.w $030B : BPL .BRANCH_DELTA
-            INC.w $030D : LDX.w $030D
-            
+            INC.w $030D
+            LDX.w $030D
             LDA.w LinkStrain_char, X : STA.w $030A
             LDA.w LinkStrain_timer, X : STA.w $030B
             
@@ -8349,9 +8350,11 @@ LinkState_TreePull:
                 STZ.w $0376
                 STZ.w $030D
                 
-                LDA.b #$02 : STA.w $030B : STZ.w $030A
+                LDA.b #$02 : STA.w $030B
+                             STZ.w $030A
                 
-                LDA.b #$01 : STA.w $0308 : STZ.w $0309
+                LDA.b #$01 : STA.w $0308
+                             STZ.w $0309
                 
                 BRA .BRANCH_ALPHA
         
@@ -8433,8 +8436,7 @@ Link_Read:
     
     LDA.b $1B : AND.w #$00FF : BEQ .outdoors
         LDA.b $A0 : ASL : TAY
-        
-        LDA Dungeon_SignText, Y
+        LDA.w Dungeon_SignText, Y
         
         BRA .showMessage
     
@@ -8450,8 +8452,7 @@ Link_Read:
     .savedZeldaOnce
     
     LDA.b $8A : ASL : TAY
-    
-    LDA Overworld_SignText, Y
+    LDA.w Overworld_SignText, Y
     
     .showMessage
     
@@ -8506,9 +8507,8 @@ Link_Chest:
                 ; Clear the A button location.
                 STZ.b $3B
                 
-                LDA.b $76
-                
                 ; Carry clear means failure. So branch if it failed.
+                LDA.b $76
                 JSL.l Dungeon_OpenKeyedObject : BCC .cantOpen
                     ; Set indicate that the Receive Item method is from a chest.
                     LDA.b #$01 : STA.w $02E9
@@ -8520,20 +8520,18 @@ Link_Chest:
                         ; obvious it isn't an alternate because items can't be
                         ; negative.
                         LDA Link_ReceiveItemAlternates, Y : STA.b $03
-                        
                         CMP.b #$FF : BEQ .dontUseAlternate
-                            TYA : ASL : TAX
-                            
                             ; Determine what memory location to give this item
                             ; over to. Effective address at [$00] is $7E:????
                             ; as determined above.
-                            LDA ItemTargetAddr+0, X : STA.b $00
-                            LDA ItemTargetAddr+1, X : STA.b $01
+                            TYA : ASL : TAX
+                            LDA.l ItemTargetAddr+0, X : STA.b $00
+                            LDA.l ItemTargetAddr+1, X : STA.b $01
                             LDA.b #$7E              : STA.b $02
                             
                             ; Check what's at that location. Is it empty? (i.e.
                             ; zero?).
-                            LDA [$00] : BEQ .dontUseAlternate
+                            LDA.b [$00] : BEQ .dontUseAlternate
                                 ; If we do have it, load the alternate.
                                 LDY.b $03
 
@@ -8644,7 +8642,8 @@ Link_HandleDiagonalCollision:
 ; $03B660-$03B7C2 LOCAL JUMP LOCATION
 FlagObstructions:
 {
-    LDA.b #$0F : STA.b $42 : STA.b $43
+    LDA.b #$0F : STA.b $42
+                 STA.b $43
     
     STZ.b $6A
     
@@ -8668,7 +8667,7 @@ FlagObstructions:
     .walkingUp
 
     ; $66 = #$0 or #$1. #$1 if the down button, #$0 if the up button was pushed.
-    TYA : LSR STA.b $66
+    TYA : LSR : STA.b $66
     
     JSR.w TileDetect_Movement_VerticalSlopes
     
@@ -8677,9 +8676,7 @@ FlagObstructions:
             LDA.b $0E : AND.b #$30 : LSR #4 : AND.b $67 : BNE .BRANCH_DELTA
                 LDY.b #$02
                 
-                LDA.b $67
-                
-                AND.b #$03 : BEQ .BRANCH_DELTA
+                LDA.b $67 : AND.b #$03 : BEQ .BRANCH_DELTA
                     AND.b #$02 : BNE .BRANCH_EPSILON
                         LDY.b #$03
                         
@@ -8747,12 +8744,10 @@ FlagObstructions:
     
     LDA.b $0E : AND.b #$30 : BEQ .BRANCH_XI
         LDA.b $62 : AND.b #$02 : BEQ .BRANCH_XI
-            LDA.b $0E : AND.b #$30 : LSR #2 : AND.b $67 : BNE .BRANCH_XI
+            LDA.b $0E : AND.b #$30 : LSR : LSR : AND.b $67 : BNE .BRANCH_XI
                 LDY.b #$00
                 
-                LDA.b $67
-                
-                AND.b #$0C : BEQ .BRANCH_XI
+                LDA.b $67 : AND.b #$0C : BEQ .BRANCH_XI
                     AND.b #$08 : BNE .BRANCH_OMICRON
                         LDY.b #$01
                         
@@ -8812,7 +8807,8 @@ FlagObstructions:
     .BRANCH_PHI
 
     ; Is this checking if Link is moving diagonally?
-    LDA.b $6A : STZ.b $6A : CMP.b #$02 : BNE .BRANCH_OMEGA
+    LDA.b $6A : STZ.b $6A
+    CMP.b #$02 : BNE .BRANCH_OMEGA
         LDY.b #$01
         
         LDA.b $2F : AND.b #$04 : BEQ .BRANCH_ALIF
@@ -8843,7 +8839,7 @@ Link_HandleCardinalCollision:
     ; Initialize the diagonal wall state.
     STZ.b $6E
     
-    ; ????
+    ; TODO: ????
     STZ.b $38
     
     ; Detects forced diagonal movement, as when walking against a diagonal wall.
@@ -8871,19 +8867,17 @@ Link_HandleCardinalCollision:
                 
                 SEP #$20
                 
-                LDA.b $0E : STA.w $0316 : BEQ .BRANCH_GAMMA
+                LDA.b $0E : STA.w $0316
+                BEQ .BRANCH_GAMMA
                     LDA.b $30 : STA.b $00
                     
                     ADC.w $0310 : STA.b $30
                     
-                    LDA.b $31 : STA.b $01
-                    
+                    LDA.b $31         : STA.b $01
                     CLC : ADC.w $0312 : STA.b $31
                     
-                    LDA.b $0E
-                    
-                    CMP.b #$0C : BEQ .BRANCH_GAMMA
-                    CMP.b #$03 : BEQ .BRANCH_GAMMA
+                    LDA.b $0E : CMP.b #$0C : BEQ .BRANCH_GAMMA
+                                CMP.b #$03 : BEQ .BRANCH_GAMMA
                         CMP.b #$0A : BEQ .BRANCH_DELTA
                         CMP.b #$05 : BEQ .BRANCH_DELTA
                         AND.b #$0C : BNE .BRANCH_EPSILON
@@ -8921,13 +8915,11 @@ Link_HandleCardinalCollision:
             CMP.b #$04 : BEQ .BRANCH_KAPPA
                 ; Is there horizontal or vertical scrolling happening?
                 LDA.b $30 : ORA.b $31 : BNE .BRANCH_KAPPA
-                    LDA.b $5D
-                    
-                    CMP.b #$13 : BEQ .BRANCH_LAMBDA
-                    CMP.b #$08 : BEQ .BRANCH_LAMBDA
-                    CMP.b #$09 : BEQ .BRANCH_LAMBDA
-                    CMP.b #$0A : BEQ .BRANCH_LAMBDA
-                    CMP.b #$03 : BEQ .BRANCH_LAMBDA
+                    LDA.b $5D : CMP.b #$13 : BEQ .BRANCH_LAMBDA
+                                CMP.b #$08 : BEQ .BRANCH_LAMBDA
+                                CMP.b #$09 : BEQ .BRANCH_LAMBDA
+                                CMP.b #$0A : BEQ .BRANCH_LAMBDA
+                                CMP.b #$03 : BEQ .BRANCH_LAMBDA
                         JSR.w Player_TileDetectNearby
                         
                         LDA.b $59 : AND.b #$0F : BEQ .BRANCH_LAMBDA
@@ -8952,7 +8944,7 @@ Link_HandleCardinalCollision:
         
         LDA.b $67 : BNE .BRANCH_KAPPA
             LDA.w $0310 : BEQ .BRANCH_NU
-                LDA.b $30 : EOR.b #$FF : INC STA.b $30
+                LDA.b $30 : EOR.b #$FF : INC : STA.b $30
             
             .BRANCH_NU
             
@@ -8976,7 +8968,6 @@ Link_HandleCardinalCollision:
     .BRANCH_XI
     
     LDY.b #$00
-    
     JSR.w TileDetect_MainHandler
     
     LDA.b $6A : BEQ .BRANCH_OMICRON
@@ -8987,7 +8978,8 @@ Link_HandleCardinalCollision:
     LDA.b $5D : CMP.b #$0B : BEQ .BRANCH_PI
         LDY.b #$08
         
-        LDA.b $20 : SEC : SBC.b $3E : STA.b $30 : BEQ .BRANCH_PI
+        LDA.b $20 : SEC : SBC.b $3E : STA.b $30
+        BEQ .BRANCH_PI
             BMI .BRANCH_RHO
                 LDY.b #$04
             
@@ -9002,7 +8994,8 @@ Link_HandleCardinalCollision:
     ; Two LDA's in a row?
     LDA.b #$02
     
-    LDA.b $22 : SEC : SBC.b $3F : STA.b $31 : BEQ .BRANCH_SIGMA
+    LDA.b $22 : SEC : SBC.b $3F : STA.b $31
+    BEQ .BRANCH_SIGMA
         BMI .BRANCH_TAU
             LDY.b #$01
         
@@ -9019,14 +9012,15 @@ Link_HandleCardinalCollision:
             LDA.b $5D : CMP.b #$04 : BNE .BRANCH_UPSILON
                 LDY.b #$F7
                 
-                LDA.w $0310 : BEQ .BRANCH_PHI  BMI .BRANCH_CHI
-                    LDY.b #$FB
-                
-                .BRANCH_CHI
-                
-                EOR.b #$FF : INC : CLC : ADC.b $30 : BNE .BRANCH_PHI
-                    TYA : AND.b $67 : STA.b $67
-                
+                LDA.w $0310 : BEQ .BRANCH_PHI
+                    BMI .BRANCH_CHI
+                        LDY.b #$FB
+                    
+                    .BRANCH_CHI
+                    
+                    EOR.b #$FF : INC : CLC : ADC.b $30 : BNE .BRANCH_PHI
+                        TYA : AND.b $67 : STA.b $67
+                    
                 .BRANCH_PHI
                 
                 LDY.b #$FD
@@ -9091,11 +9085,11 @@ CheckIfRoomNeedsDoubleLayerCheck:
             
             REP #$20
             
-            LDA.b $E6 : SEC : SBC.b $E8 : CLC : ADC.b $20
-            STA.b $20 : STA.w $0318
+            LDA.b $E6 : SEC : SBC.b $E8 : CLC : ADC.b $20 : STA.b $20
+                                                            STA.w $0318
 
-            LDA.b $E0 : SEC : SBC.b $E2 : CLC : ADC.b $22
-            STA.b $22 : STA.w $031A
+            LDA.b $E0 : SEC : SBC.b $E2 : CLC : ADC.b $22 : STA.b $22
+                                                            STA.w $031A
             
             SEP #$20
         
@@ -9266,7 +9260,6 @@ StartMovementCollisionChecks_Vertical:
             STZ.b $6C
             
             LDA.b $0E : AND.b #$20 : BEQ .BRANCH_PI
-            
                 LDA.b $0E : AND.b #$01 : BNE .BRANCH_PI
                     LDA.b $22 : AND.b #$07 : CMP.b #$01 : BNE .BRANCH_PI
                         LDA.b $22 : AND.b #$F8 : STA.b $22
@@ -9313,7 +9306,6 @@ StartMovementCollisionChecks_Vertical:
         LDA.b $0F : PHA
         
         LDA.w $02EA
-        
         JSL.l Dungeon_OpenKeyedObject
         
         STZ.w $02EA
@@ -9379,7 +9371,8 @@ StartMovementCollisionChecks_Vertical:
         
         JSL.l Dungeon_ClearRupeeTile
         
-        LDA.b #$0A : JSR.w Player_DoSfx3
+        LDA.b #$0A
+        JSR.w Player_DoSfx3
 
     .no_blue_rupee_touch
 
@@ -9428,7 +9421,8 @@ StartMovementCollisionChecks_Vertical:
             
             LDA.b #$02 : STA.b $4D
             
-            LDA.b #$20 : JSR.w Player_DoSfx2
+            LDA.b #$20
+            JSR.w Player_DoSfx2
             
             BRA .BRANCH_IOTA2
 
@@ -9456,7 +9450,8 @@ StartMovementCollisionChecks_Vertical:
             
             JSL.l Player_ResetSwimState
             
-            LDA.b #$20 : JSR.w Player_DoSfx2
+            LDA.b #$20
+            JSR.w Player_DoSfx2
 
             .BRANCH_IOTA2
 
@@ -9591,7 +9586,6 @@ StartMovementCollisionChecks_Vertical:
 
                 LDA.w $031F : BNE .BRANCH_OMEGA2
                     LDA.l $7EF35B : TAY
-                    
                     LDA.w SpikeDamageValues, Y : STA.w $0373
                     
                     JSR.w Player_HaltDashAttack
@@ -9619,7 +9613,6 @@ StartMovementCollisionChecks_Vertical:
                 REP #$20
                 
                 LDY.b #$0F
-                
                 LDA.b $5F
 
                 .BRANCH_SIN
@@ -9633,17 +9626,15 @@ StartMovementCollisionChecks_Vertical:
                             STX.b $0E
                             
                             TYA : ASL : TAX
-                            
                             JSR.w InitializePushBlock : BCS .BRANCH_TOD
-                                LDA.b $0E : ASL TAY
-                                
+                                LDA.b $0E : ASL : TAY
                                 JSR.w Underworld_DrawSinglePushBlock
                                 
                                 TYX
                                 
-                                LDY.b $66
-                                
-                                TYA : ASL : STA.w $05F8, X : STA.w $0478
+                                LDY.b $66 : TYA
+                                ASL : STA.w $05F8, X
+                                      STA.w $0478
                                 
                                 LDA.w $05F0, X
                                 
@@ -9696,7 +9687,6 @@ StartMovementCollisionChecks_Vertical:
     .BRANCH_KESRA
 
     LDA.b $0E : PHA
-    
     JSR.w Link_BonkAndSmash
     JSR.w RepelDash
     
@@ -9904,7 +9894,8 @@ StartMovementCollisionChecks_Vertical_HandleOutdoors:
 
                 .BRANCH_KAPPA
 
-                LDA.b #$20 : JSR.w Player_DoSfx2
+                LDA.b #$20
+                JSR.w Player_DoSfx2
                 
                 LDA.b $3E : STA.b $20
                 LDA.b $40 : STA.b $21
@@ -9948,10 +9939,9 @@ Link_HandleEnteringWater_Vertical:
             
             LDA.b #$01 : STA.w $037B
             
+            ; Jump out of the water onto a docking area.
             LDA.b #$15
             LDY.b #$00
-            
-            ; Jump out of the water onto a docking area.
             JSL.l AddTransitionSplash
             
             BRL Link_HopInOrOutOfWater_Vertical
@@ -9972,13 +9962,15 @@ Link_HandleEnteringWater_Vertical:
             JSR.w RunLedgeHopTimer : BCC .BRANCH_PI
                 JSR.w Player_HaltDashAttack
                 
-                LDA.b #$01 : STA.w $037B : STA.b $78
+                LDA.b #$01 : STA.w $037B
+                             STA.b $78
                 
                 LDA.b #$0B : STA.b $5D
                 
                 STZ.b $46
                 
-                LDA.b #$FF : STA.w $0364 : STA.w $0365
+                LDA.b #$FF : STA.w $0364
+                             STA.w $0365
                 
                 STZ.b $48
                 STZ.b $5E
@@ -10002,7 +9994,8 @@ Link_HandleEnteringWater_Vertical:
 
         LDA.w $036D : AND.b #$07 : BEQ .BRANCH_SIGMA
             JSR.w RunLedgeHopTimer : BCC .BRANCH_SIGMA
-                LDA.b #$20 : JSR.w Player_DoSfx2
+                LDA.b #$20
+                JSR.w Player_DoSfx2
                 
                 LDA.b #$01 : STA.w $037B
                 
@@ -10036,6 +10029,7 @@ Link_HandleEnteringWater_Vertical:
                         LDX.b #$10
                         
                         LDA.w $036F : AND.b #$04 : BNE .BRANCH_CHI
+                            ; OPTIMIZE: LDX.b #$F0
                             TXA : EOR.b #$FF : INC : TAX
 
                         .BRANCH_CHI
@@ -10047,11 +10041,13 @@ Link_HandleEnteringWater_Vertical:
                         STZ.b $48
                         STZ.b $5E
 
-                        LDA.b #$01 : STA.w $037B : STA.b $78
+                        LDA.b #$01 : STA.w $037B
+                                     STA.b $78
                         
                         LDA.b #$02 : STA.b $4D
                         
-                        LDA.b #$14 : STA.w $0362 : STA.w $0363
+                        LDA.b #$14 : STA.w $0362
+                                     STA.w $0363
                         
                         LDA.b #$FF : STA.w $0364
                         
@@ -10068,7 +10064,8 @@ Link_HandleEnteringWater_Vertical:
                 JSR.w RunLedgeHopTimer : BCC .BRANCH_PSI
                     JSR.w Player_HaltDashAttack
                     
-                    LDA.b #$20 : JSR.w Player_DoSfx2
+                    LDA.b #$20
+                    JSR.w Player_DoSfx2
                     
                     LDY.b #$03
                     
@@ -10152,7 +10149,6 @@ Link_HandleEnteringWater_Vertical:
                 
                 LDY.b #$04
                 LDA.b #$24
-                
                 JSL.l AddGravestone
                 
                 PLA : STA.b $0E
@@ -10177,7 +10173,6 @@ Link_HandleEnteringWater_Vertical:
                     .BRANCH_EIN
 
                     LDA.l $7EF35B : TAY
-                    
                     LDA.w SpikeDamageValues, Y : STA.w $0373
                     
                     JSR.w Player_HaltDashAttack
@@ -10290,14 +10285,14 @@ Link_BonkAndSmash:
                     
                     PHX
                     
-                    LDA.b #$32 : JSR.w Player_DoSfx3
+                    LDA.b #$32
+                    JSR.w Player_DoSfx3
                     
                     PLX
 
                     .BRANCH_ZETA
 
                     TXA
-                    
                     JSL.l Sprite_SpawnImmediatelySmashedTerrain
 
                 .BRANCH_BETA
@@ -10390,7 +10385,6 @@ ChangeAxisOfPerpendicularDoorMovement_Vertical:
     LDA.b #$02 : TSB.b $50
     
     LDA.b $0E : LSR #4 : ORA.b $0E : AND.b #$0F : STA.b $00
-    
     AND.b #$07 : BNE .BRANCH_ALPHA
         STZ.b $6C
         
@@ -10523,8 +10517,7 @@ Link_HopInOrOutOfWater_Vertical:
     
     STZ.b $28
     
-    LDX.b $00
-    
+    LDX.b $00 
     LDA.w Pool_Link_HopInOrOutOfWater_Vertical_speed_z, X
     STA.b $29 : STA.w $02C7
     
@@ -10585,9 +10578,9 @@ Link_FindValidLandingTile_North:
         SEP #$20
         
         LDA.b $66 : ASL TAY
-        
         JSR.w TileDetect_Movement_Vertical
-    LDA.w $0343 : ORA.w $035B : ORA.w $0357 : ORA.w $0341 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_ALPHA
+    LDA.w $0343 : ORA.w $035B : ORA.w $0357 : ORA.w $0341
+    AND.b #$07 : CMP.b #$07 : BNE .BRANCH_ALPHA
     
     LDA.w $0341 : AND.b #$07 : BEQ .BRANCH_BETA
         LDA.b #$01 : STA.b $4D
@@ -10608,8 +10601,7 @@ Link_FindValidLandingTile_North:
     REP #$20
     
     LDA.b $20 : SEC : SBC.w #$0010 : STA.b $20
-    
-    LDA.b $32 : SEC : SBC.b $20 : STA.b $32
+    LDA.b $32 : SEC : SBC.b $20    : STA.b $32
     
     SEP #$20
     
@@ -10617,19 +10609,18 @@ Link_FindValidLandingTile_North:
     PLA : STA.b $20
     
     LDA.b $32 : LSR #3 : TAY
-    
     LDA.w Pool_Link_FindValidLandingTile_North_recoil_y, Y : TAX
     
     LDA.b $66 : BNE .BRANCH_GAMMA
-        TXA : EOR.b #$FF : INC TAX
+        TXA : EOR.b #$FF : INC : TAX
     
     .BRANCH_GAMMA
     
     STX.b $27
     STZ.b $28
     
-    LDA.w Pool_Link_FindValidLandingTile_North_recoil_z, Y
-    STA.b $29 : STA.w $02C7
+    LDA.w Pool_Link_FindValidLandingTile_North_recoil_z, Y : STA.b $29
+                                                             STA.w $02C7
     
     STZ.b $24 : STZ.b $25
     
@@ -10707,7 +10698,7 @@ Link_FindValidLandingTile_DiagonalNorth:
     SEP #$20
     
     LDA.w Pool_Link_FindValidLandingTile_DiagonalNorth_recoil_y, Y
-    EOR.b #$FF : INC STA.b $27
+    EOR.b #$FF : INC : STA.b $27
     
     LDA.w Pool_Link_FindValidLandingTile_DiagonalNorth_recoil_x, Y
     
@@ -10718,8 +10709,8 @@ Link_FindValidLandingTile_DiagonalNorth:
 
     STA.b $28
     
-    LDA.w Pool_Link_FindValidLandingTile_DiagonalNorth_recoil_z, Y
-    STA.b $29 : STA.w $02C7
+    LDA.w Pool_Link_FindValidLandingTile_DiagonalNorth_recoil_z, Y : STA.b $29
+                                                                     STA.w $02C7
     
     STZ.b $24
     STZ.b $25
@@ -10759,7 +10750,7 @@ StartMovementCollisionChecks_Horizontal:
 
     .BRANCH_GAMMA
 
-    TYA : LSR STA.b $66
+    TYA : LSR : STA.b $66
     
     ; Has to do with detecting areas around chests.
     JSR.w TileDetect_Movement_Horizontal
@@ -10902,7 +10893,7 @@ StartMovementCollisionChecks_Horizontal:
         STX.b $00
         STZ.b $01
         
-        LDA.b $66 : ASL TAY
+        LDA.b $66 : ASL : TAY
         
         REP #$20
         
@@ -10919,7 +10910,8 @@ StartMovementCollisionChecks_Horizontal:
         
         JSL.l Dungeon_ClearRupeeTile
         
-        LDA.b #$0A : JSR.w Player_DoSfx3
+        LDA.b #$0A
+        JSR.w Player_DoSfx3
 
     .no_blue_rupee_touch
 
@@ -11006,7 +10998,8 @@ StartMovementCollisionChecks_Horizontal:
                 
                 JSR.w Link_HopInOrOutOfWater_Horizontal
                 
-                LDA.b #$20 : JSR.w Player_DoSfx2
+                LDA.b #$20
+                JSR.w Player_DoSfx2
                 
                 BRA .BRANCH_JIIM
 
@@ -11030,7 +11023,6 @@ StartMovementCollisionChecks_Horizontal:
                 
                 LDA.b #$15
                 LDY.b #$00
-                
                 JSL.l AddTransitionSplash
                 
                 LDA.b #$01 : STA.w $037B
@@ -11041,10 +11033,8 @@ StartMovementCollisionChecks_Horizontal:
 
     LDA.b $59 : AND.b #$05 : BEQ .BRANCH_GHEIN
         LDA.b $0E : AND.b #$02 : BNE .BRANCH_GHEIN
-            LDA.b $5D
-            
-            CMP.b #$05 : BEQ .BRANCH_FATHA
-            CMP.b #$02 : BEQ .BRANCH_FATHA
+            LDA.b $5D : CMP.b #$05 : BEQ .BRANCH_FATHA
+                        CMP.b #$02 : BEQ .BRANCH_FATHA
                 LDA.b #$09 : STA.b $5C
                 
                 STZ.b $5A
@@ -11075,7 +11065,6 @@ StartMovementCollisionChecks_Horizontal:
 
                 LDA.w $031F : BNE .BRANCH_KESRA
                     LDA.l $7EF35B : TAY
-                    
                     LDA.w SpikeDamageValues, Y : STA.w $0373
                     
                     JSR.w Player_HaltDashAttack
@@ -11103,7 +11092,6 @@ StartMovementCollisionChecks_Horizontal:
                 REP #$20
                 
                 LDY.b #$0F
-                
                 LDA.b $5F
 
                 .BRANCH_THETA2
@@ -11120,14 +11108,14 @@ StartMovementCollisionChecks_Horizontal:
                             
                             JSR.w InitializePushBlock : BCS .BRANCH_EPSILON2
                                 LDA.b $0E : ASL : TAY
-                                
                                 JSR.w Underworld_DrawSinglePushBlock
                                 
                                 TYX
                                 
                                 LDY.b $66
                                 
-                                TYA : ASL : STA.w $05F8, X : STA.w $0474
+                                TYA : ASL : STA.w $05F8, X
+                                            STA.w $0474
                                 
                                 LDA.w $05E4, X : CPY.b #$02 : BEQ .BRANCH_ZETA2
                                     DEC
@@ -11312,10 +11300,8 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
 
     LDA.b $59 : AND.b #$05 : BEQ .BRANCH_BETA
         LDA.b $0E : AND.b #$02 : BNE .BRANCH_BETA
-            LDA.b $5D
-            
-            CMP.b #$05 : BEQ .BRANCH_GAMMA
-            CMP.b #$02 : BEQ .BRANCH_GAMMA
+            LDA.b $5D : CMP.b #$05 : BEQ .BRANCH_GAMMA
+                        CMP.b #$02 : BEQ .BRANCH_GAMMA
                 LDA.b #$09 : STA.b $5C
                 
                 STZ.b $5A
@@ -11387,7 +11373,8 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                 
                 JSR.w Link_HopInOrOutOfWater_Horizontal
                 
-                LDA.b #$20 : JSR.w Player_DoSfx2
+                LDA.b #$20
+                JSR.w Player_DoSfx2
 
     .BRANCH_ZETA
     
@@ -11417,7 +11404,6 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                 
                 LDA.b #$15
                 LDY.b #$00
-                
                 JSL.l AddTransitionSplash
                 
                 LDA.b #$01 : STA.w $037B
@@ -11428,7 +11414,8 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
 
     LDA.w $036E : AND.b #$07 : BEQ .BRANCH_XI
         JSR.w RunLedgeHopTimer : BCC .BRANCH_XI
-            LDA.b #$20 : JSR.w Player_DoSfx2
+            LDA.b #$20
+            JSR.w Player_DoSfx2
             
             LDX.b #$10
             
@@ -11443,13 +11430,15 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
             
             LDA.b #$02 : STA.b $4D
             
-            LDA.b #$14 : STA.w $0362 : STA.w $0363
+            LDA.b #$14 : STA.w $0362
+                         STA.w $0363
             
             LDA.b #$FF : STA.w $0364
             
-            LDA.b #$0C : STA.b $5D ; $03CA1B
+            LDA.b #$0C : STA.b $5D
             
-            LDA.b #$01 : STA.w $037B : STA.b $78
+            LDA.b #$01 : STA.w $037B
+                         STA.b $78
             
             STZ.b $48
             STZ.b $5E
@@ -11459,7 +11448,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
 
             .BRANCH_PI
 
-            LDA.b $66 : AND.b #$FD : ASL TAY
+            LDA.b $66 : AND.b #$FD : ASL : TAY
             
             LDA.b $22 : PHA
             LDA.b $23 : PHA
@@ -11488,7 +11477,8 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
 
     LDA.w $0370 : AND.b #$77 : BEQ .BRANCH_TAU
         JSR.w RunLedgeHopTimer : BCC .BRANCH_TAU
-            LDA.b #$20 : JSR.w Player_DoSfx2
+            LDA.b #$20
+            JSR.w Player_DoSfx2
             
             LDX.b #$0F
             
@@ -11512,13 +11502,15 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
             
             LDA.b #$02 : STA.b $4D
             
-            LDA.b #$14 : STA.w $0362 : STA.w $0363
+            LDA.b #$14 : STA.w $0362
+                         STA.w $0363
             
             LDA.b #$FF : STA.w $0364
             
             STZ.b $46
             
-            LDA.b #$01 : STA.w $037B : STA.b $78
+            LDA.b #$01 : STA.w $037B
+                         STA.b $78
             
             STZ.b $48
             STZ.b $5E
@@ -11531,18 +11523,18 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
         LDA.w $036E : AND.b #$07 : BNE .BRANCH_CHI
             LDA.w $0370 : AND.b #$77 : BNE .BRANCH_CHI
                 LDA.b $5D : CMP.b #$0D : BEQ .BRANCH_CHI
-                
-                JSR.w RunLedgeHopTimer : BCC .BRANCH_CHI
-                    LDA.b #$20 : JSR.w Player_DoSfx2
-                    
-                    JSR.w Player_HaltDashAttack
-                    
-                    LDA.b #$01 : STA.w $037B
-                    
-                    STZ.b $48
-                    STZ.b $5E
-                    
-                    BRL Link_FindValidLandingTile_DiagonalNorth
+                    JSR.w RunLedgeHopTimer : BCC .BRANCH_CHI
+                        LDA.b #$20
+                        JSR.w Player_DoSfx2
+                        
+                        JSR.w Player_HaltDashAttack
+                        
+                        LDA.b #$01 : STA.w $037B
+                        
+                        STZ.b $48
+                        STZ.b $5E
+                        
+                        BRL Link_FindValidLandingTile_DiagonalNorth
 
     .BRANCH_CHI
 
@@ -11553,7 +11545,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                     LDX.b #$10
                     
                     LDA.b $66 : AND.b #$01 : BNE .BRANCH_OMEGA
-                        TXA : EOR.b #$FF : INC TAX
+                        TXA : EOR.b #$FF : INC : TAX
 
                     .BRANCH_OMEGA
 
@@ -11563,7 +11555,8 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                     
                     LDA.b #$02 : STA.b $4D
                     
-                    LDA.b #$14 : STA.w $0362 : STA.w $0363
+                    LDA.b #$14 : STA.w $0362
+                                 STA.w $0363
                     
                     LDA.b #$FF : STA.w $0364
                     
@@ -11571,7 +11564,8 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                     
                     STZ.b $46
                     
-                    LDA.b #$01 : STA.w $037B : STA.b $78
+                    LDA.b #$01 : STA.w $037B
+                                 STA.b $78
                     
                     STZ.b $48
                     STZ.b $5E
@@ -11615,7 +11609,6 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
 
                 ; Use armor value to determine damage to be doled out.
                 LDA.l $7EF35B : TAY
-                
                 LDA.w SpikeDamageValues, Y : STA.w $0373
                 
                 JSR.w Player_HaltDashAttack
@@ -11643,7 +11636,7 @@ SnapOnX:
     
     .BRANCH_ALPHA
     
-    EOR.w #$FFFF : INC CLC : ADC.b $22 : STA.b $22
+    EOR.w #$FFFF : INC : CLC : ADC.b $22 : STA.b $22
     
     SEP #$20
     
@@ -11805,7 +11798,7 @@ Link_HopInOrOutOfWater_Horizontal:
     LDA.w Pool_Link_HopInOrOutOfWater_Horizontal_speed_x, X : TAX
     
     LDA.b $66 : AND.b #$01 : BNE .BRANCH_GAMMA
-        TXA : EOR.b #$FF : INC X
+        TXA : EOR.b #$FF : INC : TAX
     
     .BRANCH_GAMMA
     
@@ -11813,8 +11806,8 @@ Link_HopInOrOutOfWater_Horizontal:
     STZ.b $27
     
     LDX.b $00
-    
-    LDA.w Pool_Link_HopInOrOutOfWater_Horizontal_speed_z, X : STA.b $29 : STA.w $02C7
+    LDA.w Pool_Link_HopInOrOutOfWater_Horizontal_speed_z, X : STA.b $29
+                                                              STA.w $02C7
     
     LDA.w Pool_Link_HopInOrOutOfWater_Horizontal_timer, X : STA.b $46
     
@@ -11930,7 +11923,6 @@ Link_HandleDiagonalKickback:
                 JSR.w FlagMovingIntoSlopes_Vertical
 
                 LDA.b $6B : AND.b #$0F : BEQ .BRANCH_THETA
-                    
                     ; Store the diagonal movement characteristics to $6D (but
                     ; why?).
                     LDA.b $6B : STA.b $6D
@@ -11951,7 +11943,6 @@ Link_HandleDiagonalKickback:
                     .BRANCH_IOTA
                     
                     TYA : EOR.b #$FF : INC TAY
-                    
                     LDA.w DiagonalKickback_left, Y
                     
                     .BRANCH_KAPPA
@@ -11974,8 +11965,7 @@ Link_HandleDiagonalKickback:
                     
                     .BRANCH_MU
                     
-                    TYA : EOR.b #$FF : INC Y
-                    
+                    TYA : EOR.b #$FF : INC : TAY
                     LDA.w DiagonalKickback_up, Y
                     
                     .BRANCH_NU
@@ -12115,15 +12105,15 @@ TileDetect_Movement_Horizontal:
     AND.b $EC : LSR #3 : STA.b $02
     
     LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_1, Y
-    AND.b $EC : STA.b $00
+    AND.b $EC          : STA.b $00
     
     LDA.b $20
     CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_2, Y : STA.b $51
-    AND.b $EC : STA.b $04
+    AND.b $EC          : STA.b $04
     
     LDA.b $20
     CLC : ADC.w TileDetect_Movement_offset_perpendicular_axis_3, Y : STA.b $53
-    AND.b $EC : STA.b $08
+    AND.b $EC          : STA.b $08
     
     REP #$10
     
@@ -12158,7 +12148,7 @@ TileDetect_Movement_VerticalSlopes:
     STZ.b $59
     
     LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_slope_same_axis, Y
-    AND.b $EC : STA.b $00
+    AND.b $EC          : STA.b $00
     
     LDA.b $22 : CLC : ADC.w TileDetect_Movement_offset_slope_perpendicular_axis_1, Y
     AND.b $EC : LSR #3 : STA.b $02
@@ -12196,10 +12186,10 @@ TileDetect_Movement_HorizontalSlopes:
     AND.b $EC : LSR #3 : STA.b $02
     
     LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_slope_perpendicular_axis_1, Y
-    AND.b $EC : STA.b $00
+    AND.b $EC          : STA.b $00
     
     LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_slope_perpendicular_axis_2, Y
-    AND.b $EC : STA.b $04
+    AND.b $EC          : STA.b $04
     
     REP #$10
     
@@ -12250,10 +12240,11 @@ Player_TileDetectNearby:
     AND.b $EC : LSR #3 : STA.b $04
     
     LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_pit_y
-    AND.b $EC : STA.b $00 : STA.b $74
+    AND.b $EC          : STA.b $00
+                         STA.b $74
     
     LDA.b $20 : CLC : ADC.w TileDetect_Movement_offset_pit_x
-    AND.b $EC : STA.b $08
+    AND.b $EC          : STA.b $08
     
     ; Bleeds into the next function.
 }
@@ -12382,16 +12373,14 @@ TileDetect_MainHandler:
     
     REP #$20
     
-    JSR.w TileDetect_ResetState
-    
-    STY.b $00 : CPY.b #$08 : BNE .alpha
+    JSR.w TileDetect_ResetState : STY.b $00
+    CPY.b #$08 : BNE .alpha
         ; Checking to see if a spin attack is still executing.
-        LDA.w $031C : AND.w #$00FF : DEC #2 : BMI .stillSpinAttacking
+        LDA.w $031C : AND.w #$00FF : DEC : DEC : BMI .stillSpinAttacking
             CMP.w #$0008 : BCS .stillSpinAttacking
                 PHY
                 
                 TAY
-                
                 LDA.w Pool_TileDetect_MainHandler_index_offset, Y
                 AND.w #$00FF : CLC : ADC.w #$0040 : TAY
                 
@@ -12421,14 +12410,12 @@ TileDetect_MainHandler:
     REP #$10
     
     ; 0 - nothing, just standing there, 1 - sword, others - ????
-    TYA
-    
-    CMP.w #$0001 : BEQ .BRANCH_EPSILON
-    CMP.w #$0002 : BEQ .BRANCH_EPSILON
-    CMP.w #$0003 : BEQ .BRANCH_EPSILON
-    CMP.w #$0006 : BEQ .BRANCH_EPSILON
-    CMP.w #$0007 : BEQ .BRANCH_EPSILON
-    CMP.w #$0008 : BEQ .BRANCH_EPSILON
+    TYA : CMP.w #$0001 : BEQ .BRANCH_EPSILON
+          CMP.w #$0002 : BEQ .BRANCH_EPSILON
+          CMP.w #$0003 : BEQ .BRANCH_EPSILON
+          CMP.w #$0006 : BEQ .BRANCH_EPSILON
+          CMP.w #$0007 : BEQ .BRANCH_EPSILON
+          CMP.w #$0008 : BEQ .BRANCH_EPSILON
         ; Action types 0x00, 0x05, and 0x04 end up here.
         PHY
         
@@ -12458,16 +12445,12 @@ TileDetect_MainHandler:
     CPY.b #$05 : BEQ .BRANCH_XI
         ; Handle warp tiles.
         LDA.w $0357 : AND.b #$10 : BEQ .BRANCH_OMICRON
-            LDA.b $20 : CLC : ADC.b #$08 : AND.b #$0F
-            
-            CMP.b #$04 : BCC .BRANCH_PI
+            LDA.b $20 : CLC : ADC.b #$08 : AND.b #$0F : CMP.b #$04 : BCC .BRANCH_PI
                 CMP.b #$0B : BCC .BRANCH_RHO
             
             .BRANCH_PI
             
-            LDA.b $22 : AND.b #$0F
-            
-            CMP.b #$04 : BCC .BRANCH_SIGMA
+            LDA.b $22 : AND.b #$0F : CMP.b #$04 : BCC .BRANCH_SIGMA
                 CMP.b #$0C : BCC .BRANCH_RHO
             
             .BRANCH_SIGMA
@@ -12477,7 +12460,8 @@ TileDetect_MainHandler:
                     LDA.b $1B : BEQ .BRANCH_CHI
                         JSL.l Dungeon_SaveRoomQuadrantData
                         
-                        LDA.b #$33 : JSR.w Player_DoSfx2
+                        LDA.b #$33
+                        JSR.w Player_DoSfx2
                         
                         STZ.b $5E
                         
@@ -12509,7 +12493,8 @@ TileDetect_MainHandler:
             
             JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_THETA
                 LDA.b $4D : BNE .BRANCH_THETA
-                    LDA.b #$1A : JSR.w Player_DoSfx2
+                    LDA.b #$1A
+                    JSR.w Player_DoSfx2
             
             .BRANCH_THETA
             
@@ -12539,14 +12524,16 @@ TileDetect_MainHandler:
         
         .BRANCH_LAMBDA
         
-        LDA.b #$1B : JSR.w Player_DoSfx2
+        LDA.b #$1B
+        JSR.w Player_DoSfx2
         
         BRA .BRANCH_TAU
         
         .notEvilSwamp
         
         LDA.b $4D : BNE .BRANCH_TAU
-            LDA.b #$1C : JSR.w Player_DoSfx2
+            LDA.b #$1C
+            JSR.w Player_DoSfx2
         
         .BRANCH_TAU
         
@@ -12560,14 +12547,16 @@ TileDetect_MainHandler:
                     JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_BET
                         ; Dat be sum swamp o' evil.
                         LDA.b $8A : CMP.b #$70 : BNE .BRANCH_DALET
-                            LDA.b #$1B : JSR.w Player_DoSfx2
+                            LDA.b #$1B
+                            JSR.w Player_DoSfx2
                             
                             BRA .BRANCH_BET
                         
                         .BRANCH_DALET
                         
                         LDA.b $4D : BNE .BRANCH_BET
-                            LDA.b #$1C : JSR.w Player_DoSfx2
+                            LDA.b #$1C
+                            JSR.w Player_DoSfx2
                     
                     .BRANCH_BET
                     
@@ -12611,7 +12600,8 @@ TileDetect_MainHandler:
                         LDA.l $7EF35B : TAY
                         
                         ; Determine how much damage the spike floor will do to Link.
-                        LDA.w Pool_TileDetect_MainHandler_spike_floor_damage, Y : STA.w $0373
+                        LDA.w Pool_TileDetect_MainHandler_spike_floor_damage, Y
+                        STA.w $0373
                         
                         BRL Player_HaltDashAttack
             
@@ -12893,8 +12883,8 @@ Link_HandleLiftables:
             PLX
             
             AND.b #$0F : TAY
-            
-            LDA.w Liftable_0368ID, Y : STA.w $0368 : TAY
+            LDA.w Liftable_0368ID, Y : STA.w $0368
+                                       TAY
             
             BRA .check_lift_strength
         
@@ -13034,13 +13024,13 @@ HandleNudging:
     JSR.w TileDetect_ResetState
     
     LDA.b $20 : CLC : ADC.w Pool_HandleNudging_offset_y_top, Y
-    AND.b $EC :          STA.b $00
+    AND.b $EC          : STA.b $00
 
     LDA.b $22 : CLC : ADC.w Pool_HandleNudging_offset_x_top, Y
     AND.b $EC : LSR #3 : STA.b $02
     
     LDA.b $20 : CLC : ADC.w Pool_HandleNudging_offset_y_bottom, Y
-    AND.b $EC :          STA.b $04
+    AND.b $EC          : STA.b $04
 
     LDA.b $22 : CLC : ADC.w Pool_HandleNudging_offset_x_bottom, Y
     AND.b $EC : LSR #3 : STA.b $08
@@ -13069,7 +13059,8 @@ HandleNudging:
     
     LDY.b #$00
     
-    LDA.b $00 : EOR.b #$FF : INC : STA.b $00 : CMP.b #$80 : BCC .BRANCH_KAPPA
+    LDA.b $00 : EOR.b #$FF : INC : STA.b $00
+    CMP.b #$80 : BCC .BRANCH_KAPPA
         LDY.b #$FF
     
     .BRANCH_KAPPA
@@ -13114,8 +13105,6 @@ Pool_Hookshot_CheckTileCollision:
     dw 8, 8        
 }
 
-; ==============================================================================
-
 ; $03D576-$03D606 LONG JUMP LOCATION
 Hookshot_CheckTileCollison:
 {
@@ -13140,7 +13129,7 @@ Hookshot_CheckTileCollison:
     LDA.w $0C04, X : STA.b $08
     LDA.w $0C18, X : STA.b $09
     
-    LDA.w $0C72, X : ASL #2 : STA.b $73
+    LDA.w $0C72, X : ASL : ASL : STA.b $73
     
     PHX
     
@@ -13199,7 +13188,6 @@ Hookshot_CheckSingleLayerTileCollision:
     REP #$20
     
     LDA.b $73 : TAY
-    
     LDA.b $04 : CLC : ADC .xy_offsets_first+0, Y : AND.b $EC : STA.b $00
     LDA.b $04 : CLC : ADC .xy_offsets_first+2, Y : AND.b $EC : STA.b $04
     
@@ -13268,7 +13256,7 @@ HandleNudgingInADoor:
     JSR.w TileDetect_ResetState
     
     LDA.b $20 : CLC : ADC.w Pool_HandleNudgingInADoor_offset_y, Y
-    AND.b $EC :          STA.b $00
+    AND.b $EC          : STA.b $00
     
     LDA.b $22 : CLC : ADC.w Pool_HandleNudgingInADoor_offset_x, Y
     AND.b $EC : LSR #3 : STA.b $02
@@ -13330,7 +13318,8 @@ TileCheckForMirrorBonk:
     LDA.b $22 : CLC : ADC.w #$0002 : AND.b $EC : LSR #3 : STA.b $02
     LDA.b $22 : CLC : ADC.w #$000D : AND.b $EC : LSR #3 : STA.b $04
     
-    LDA.b $20 : CLC : ADC.w #$000A : AND.b $EC : STA.b $00 : STA.b $74
+    LDA.b $20 : CLC : ADC.w #$000A : AND.b $EC : STA.b $00
+                                                 STA.b $74
     LDA.b $20 : CLC : ADC.w #$0015 : AND.b $EC : STA.b $08
     
     BRL TileDetect_FromMirrorBonk
@@ -13359,8 +13348,7 @@ TileDetect_SwordSwingDeepInDoor:
     
     JSR.w TileDetect_ResetState
     
-    TXA : AND.w #$00FF : DEC L #2 : TAY
-    
+    TXA : AND.w #$00FF : DEC : ASL : ASL : TAY
     LDA.b $22 : CLC : ADC.w Pool_TileDetect_SwordSwingDeepInDoor_offset_x+0, Y
     AND.b $EC : LSR #3 : STA.b $02
 
@@ -13368,10 +13356,10 @@ TileDetect_SwordSwingDeepInDoor:
     AND.b $EC : LSR #3 : STA.b $04
     
     LDA.b $20 : CLC : ADC.w Pool_TileDetect_SwordSwingDeepInDoor_offset_y+0, Y
-    AND.b $EC : STA.b $00
+    AND.b $EC          : STA.b $00
 
     LDA.b $20 : CLC : ADC.w Pool_TileDetect_SwordSwingDeepInDoor_offset_y+2, Y
-    AND.b $EC : STA.b $08
+    AND.b $EC          : STA.b $08
     
     REP #$10
     
@@ -13431,314 +13419,296 @@ TileDetect_ResetState:
 ; Dungeon tile attribute handlers
 ; Parameter: The tile type Link is interacting with. Stored at $06
 ; $03D7D8-$03D9D7 JUMP TABLE
-Pool_TileDetection_Execute_underworld:
+TileDetect_Execute_modules:
 {
-    dw $DC54 ; $03DC54 0x00 - Do nothing. Normal tile.
-    dw $DC50 ; $03DC50 0x01 - Tests and sets bits from $0A into $0E
-    dw $DC50 ; $03DC50 0x02 - Tests and sets bits from $0A into $0E
-    dw $DC50 ; $03DC50 0x03 - Tests and sets bits from $0A into $0E
-    dw $DC50 ; $03DC50 0x04 - Tests and sets bits from $0A into $0E
-    dw $DC54 ; $03DC54 0x05 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x06 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x07 - Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x00 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_StandardCollision ; 0x01 - $DC50 Tests and sets bits from $0A into $0E
+    dw TileBehavior_StandardCollision ; 0x02 - $DC50 Tests and sets bits from $0A into $0E
+    dw TileBehavior_StandardCollision ; 0x03 - $DC50 Tests and sets bits from $0A into $0E
+    dw TileBehavior_StandardCollision ; 0x04 - $DC50 Tests and sets bits from $0A into $0E
+    dw TileBehavior_Nothing ; 0x05 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x06 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x07 - $DC54 Do nothing. Normal tile.
     
-    dw $DC86 ; $03DC86 0x08 - Tests and sets bits from $0A into $58
-    dw $DD1B ; $03DD1B 0x09 - Shallow water
-    dw $DCBC ; $03DCBC 0x0A - Tests and sets bits from $0A into $0343
-    dw $DC50 ; $03DC50 0x0B - Tests and sets bits from $0A into $0E
-    dw $DC98 ; $03DC98 0x0C - Tests and sets bits from $0A into $0320
-    dw $DDCA ; $03DDCA 0x0D - Tests and sets bits from $0A into $02EE (Spike
-             ;                floor)
+    dw TileBehavior_ManualStairs ; 0x08 - $DC86 Tests and sets bits from $0A into $58
+    dw TileBehavior_ShallowWater ; 0x09 - $DD1B Shallow water
+    dw TileBehavior_ShortWaterLadder ; 0x0A - $DCBC Tests and sets bits from $0A into $0343
+    dw TileBehavior_StandardCollision ; 0x0B - $DC50 Tests and sets bits from $0A into $0E
+    dw TileBehavior_OverlayMask_0C ; 0x0C - $DC98 Tests and sets bits from $0A into $0320
+    dw TileBehavior_SpikeFloor ; 0x0D - $DDCA Tests and sets bits from $0A into $02EE (Spike floor)
+    dw TileBehavior_GanonIce ; 0x0E - $DC9E Tests and sets bits from $0A into $0348
+    dw TileBehavior_PalaceIce ; 0x0F - $DCA4 Tests and sets bits from $0A into $0348
+    
+    dw TileBehavior_Slope ; 0x10 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileBehavior_Slope ; 0x11 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileBehavior_Slope ; 0x12 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileBehavior_Slope ; 0x13 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileBehavior_Nothing ; 0x14 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x15 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x16 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x17 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_SlopeOuter ; 0x18 - $DC5D These are the slanted wall tiles that make you move diagonally when you move against them
 
-    dw $DC9E ; $03DC9E 0x0E - Tests and sets bits from $0A into $0348
-    dw $DCA4 ; $03DCA4 0x0F - Tests and sets bits from $0A into $0348
+    dw TileBehavior_SlopeOuter ; 0x19 - $DC5D Also a slanted wall
+    dw TileBehavior_SlopeOuter ; 0x1A - $DC5D Also a slanted wall
+    dw TileBehavior_SlopeOuter ; 0x1B - $DC5D Also a slanted wall
+    dw TileBehavior_OverlayMask_1C ; 0x1C - $DCC2 Top of water staircase
+    dw TileBehavior_NorthSingleLayerStairs ; 0x1D - $DC72 These three are related
+    dw TileBehavior_NorthSwapLayerStairs ; 0x1E - $DC7D Staircases (ladders really)
+    dw TileBehavior_NorthSwapLayerStairs ; 0x1F - $DC7D 
     
-    dw $DC61 ; $3DC61 0x10 - Tests and sets bits from $0A into $0C
-    dw $DC61 ; $3DC61 0x11 - Tests and sets bits from $0A into $0C
-    dw $DC61 ; $3DC61 0x12 - Tests and sets bits from $0A into $0C
-    dw $DC61 ; $3DC61 0x13 - Tests and sets bits from $0A into $0C
-    dw $DC54 ; $3DC54 0x14 - Do nothing. Normal tile.
-    dw $DC54 ; $3DC54 0x15 - Do nothing. Normal tile.
-    dw $DC54 ; $3DC54 0x16 - Do nothing. Normal tile.
-    dw $DC54 ; $3DC54 0x17 - Do nothing. Normal tile.
+    dw TileBehavior_Pit ; 0x20 - $DC8B Hole
+    dw TileBehavior_Nothing ; 0x21 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_ManualStairs ; 0x22 - $DC86 Steps that slow Link down
+    dw TileBehavior_Nothing ; 0x23 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x24 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x25 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_StandardCollision ; 0x26 - $DC50 
+    dw TileBehavior_Hookshottables ; 0x27 - $DDE1 Empty chest
     
-    dw $DC5D ; $03DC5D 0x18 - These are the slanted wall tiles that make you
-             ;                move diagonally when you move against them
-
-    dw $DC5D ; $03DC5D 0x19 - Also a slanted wall
-    dw $DC5D ; $03DC5D 0x1A - Also a slanted wall
-    dw $DC5D ; $03DC5D 0x1B - Also a slanted wall
-    dw $DCC2 ; $03DCC2 0x1C - Top of water staircase
-    dw $DC72 ; $03DC72 0x1D - These three are related
-    dw $DC7D ; $03DC7D 0x1E - Staircases (ladders really)
-    dw $DC7D ; $03DC7D 0x1F - 
+    dw TileBehavior_Ledge_North ; 0x28 - $DEBB Ledge leading up
+    dw TileBehavior_Ledge_South ; 0x29 - $DEAD Ledge leading down
+    dw TileBehavior_Ledge_EastWest ; 0x2A - $DEC5 Ledge leading left
+    dw TileBehavior_Ledge_EastWest ; 0x2B - $DEC5 Ledge leading right
+    dw TileBehavior_Ledge_NorthDiagonal ; 0x2C - $DECF Ledge leading up + left
+    dw TileBehavior_Ledge_SouthDiagonal ; 0x2D - $DEDD Ledge leading down + left
+    dw TileBehavior_Ledge_NorthDiagonal ; 0x2E - $DECF Ledge leading up + right
+    dw TileBehavior_Ledge_SouthDiagonal ; 0x2F - $DEDD Ledge leading down + right
     
-    dw $DC8B ; $03DC8B 0x20 - Hole
-    dw $DC54 ; $03DC54 0x21 - Do nothing. Normal tile.
-    dw $DC86 ; $03DC86 0x22 - Steps that slow Link down
-    dw $DC54 ; $03DC54 0x23 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x24 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x25 - Do nothing. Normal tile.
-    dw $DC50 ; $03DC50 0x26 - 
-    dw $DDE1 ; $03DDE1 0x27 - Empty chest
+    dw TileBehavior_ManualStairs ; 0x30 - $DC86 Up Staircase 0
+    dw TileBehavior_ManualStairs ; 0x31 - $DC86 Up Staircase 1
+    dw TileBehavior_ManualStairs ; 0x32 - $DC86 Up Staircase 2
+    dw TileBehavior_ManualStairs ; 0x33 - $DC86 Up Staircase 3
+    dw TileBehavior_ManualStairs ; 0x34 - $DC86 Down Staircase 0
+    dw TileBehavior_ManualStairs ; 0x35 - $DC86 Down Staircase 1
+    dw TileBehavior_ManualStairs ; 0x36 - $DC86 Down Staircase 2
+    dw TileBehavior_ManualStairs ; 0x37 - $DC86 Down Staircase 3
     
-    dw $DEBB ; $03DEBB 0x28 - Ledge leading up
-    dw $DEAD ; $03DEAD 0x29 - Ledge leading down
-    dw $DEC5 ; $03DEC5 0x2A - Ledge leading left
-    dw $DEC5 ; $03DEC5 0x2B - Ledge leading right
-    dw $DECF ; $03DECF 0x2C - Ledge leading up + left
-    dw $DEDD ; $03DEDD 0x2D - Ledge leading down + left
-    dw $DECF ; $03DECF 0x2E - Ledge leading up + right
-    dw $DEDD ; $03DEDD 0x2F - Ledge leading down + right
+    dw TileBehavior_Nothing ; 0x38 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x39 - $DC54 Do nothing. Normal tile. (Straight up south staircase)
+    dw TileBehavior_Nothing ; 0x3A - $DC54 Do nothing. Normal tile. (Star tile behavior handled elsewhere)
+    dw TileBehavior_Nothing ; 0x3B - $DC54 Do nothing. Normal tile. (Star tile behavior handled elsewhere)
+    dw TileBehavior_Nothing ; 0x3C - $DC54 Do nothing. Normal tile. (Unknown if this has other behavior)
+    dw TileBehavior_SouthSingleLayerStairs ; 0x3D - $DD9D (inter floor staircase?)
+    dw TileBehavior_SouthSwapLayerStairs ; 0x3E - $DDA1 (inter floor staircase?)
+    dw TileBehavior_SouthSwapLayerStairs ; 0x3F - $DDA1 (inter floor staircase?)
     
-    dw $DC86 ; $03DC86 0x30 - Up Staircase 0
-    dw $DC86 ; $03DC86 0x31 - Up Staircase 1
-    dw $DC86 ; $03DC86 0x32 - Up Staircase 2
-    dw $DC86 ; $03DC86 0x33 - Up Staircase 3
-    dw $DC86 ; $03DC86 0x34 - Down Staircase 0
-    dw $DC86 ; $03DC86 0x35 - Down Staircase 1
-    dw $DC86 ; $03DC86 0x36 - Down Staircase 2
-    dw $DC86 ; $03DC86 0x37 - Down Staircase 3
+    dw TileBehavior_ThickGrass ; 0x40 - $DE61 Grass tile
+    dw TileBehavior_Nothing ; 0x41 - $DC54 
+    dw TileBehavior_Nothing ; 0x42 - $DC54 
+    dw TileBehavior_StandardCollision ; 0x43 - $DC50 
+    dw TileBehavior_Spike ; 0x44 - $DDB1 spike block tile
+    dw TileBehavior_Nothing ; 0x45 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_HylianPlaque ; 0x46 - $DF11 ????
+    dw TileBehavior_Nothing ; 0x47 - $DC54 Do nothing. Normal tile.
     
-    dw $DC54 ; $03DC54 0x38 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x39 - Do nothing. Normal tile. (Straight up south
-             ;                staircase)
-
-    dw $DC54 ; $03DC54 0x3A - Do nothing. Normal tile. (Star tile behavior
-             ;                handled elsewhere)
-
-    dw $DC54 ; $03DC54 0x3B - Do nothing. Normal tile. (Star tile behavior
-             ;                handled elsewhere)
-
-    dw $DC54 ; $03DC54 0x3C - Do nothing. Normal tile. (Unknown if this has
-             ;                other behavior)
-
-    dw $DD9D ; $03DD9D 0x3D - (inter floor staircase?)
-    dw $DDA1 ; $03DDA1 0x3E - (inter floor staircase?)
-    dw $DDA1 ; $03DDA1 0x3F - (inter floor staircase?)
+    dw TileBehavior_DiggableGround ; 0x48 - $DE67 Aftermath tiles?
+    dw TileBehavior_Nothing ; 0x49 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_DiggableGround ; 0x4A - $DE67 Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
+    dw TileBehavior_Warp ; 0x4B - $DEFF Warp Tile
+    dw TileBehavior_Nothing ; 0x4C - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x4D - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x4E - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x4F - $DC54 Do nothing. Normal tile.
     
-    dw $DE61 ; $03DE61 0x40 - Grass tile
-    dw $DC54 ; $03DC54 0x41 - 
-    dw $DC54 ; $03DC54 0x42 - 
-    dw $DC50 ; $03DC50 0x43 - 
-    dw $DDB1 ; $03DDB1 0x44 - spike block tile
-    dw $DC54 ; $03DC54 0x45 - Do nothing. Normal tile.
-    dw $DF11 ; $03DF11 0x46 - ????
-    dw $DC54 ; $03DC54 Do nothing. Normal tile.
+    dw TileBehavior_Liftable ; 0x50 - $DE7E 
+    dw TileBehavior_Liftable ; 0x51 - $DE7E  
+    dw TileBehavior_Liftable ; 0x52 - $DE7E  
+    dw TileBehavior_Liftable ; 0x53 - $DE7E 
+    dw TileBehavior_Liftable ; 0x54 - $DE7E 
+    dw TileBehavior_Liftable ; 0x55 - $DE7E 
+    dw TileBehavior_Liftable ; 0x56 - $DE7E 
+    dw TileBehavior_BonkRocks ; 0x57 - $DF19
     
-    dw $DE67 ; $03DE67 0x48 - Aftermath tiles?
-    dw $DC54 ; $03DC54 0x49 - Do nothing. Normal tile.
-    dw $DE67 ; $03DE67 0x4A - Same as 0x48 but this tile type doesn't seem to
-             ;                be used in the game anywhere
-
-    dw $DEFF ; $03DEFF 0x4B -  Warp Tile
-    dw $DC54 ; $03DC54 0x4C - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x4D - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x4E - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x4F - Do nothing. Normal tile.
+    dw TileBehavior_Chest ; 0x58 - $DD6A Chest attribute 0
+    dw TileBehavior_Chest ; 0x59 - $DD6A Chest attribute 1
+    dw TileBehavior_Chest ; 0x5A - $DD6A Chest attribute 2
+    dw TileBehavior_Chest ; 0x5B - $DD6A Chest attribute 3
+    dw TileBehavior_Chest ; 0x5C - $DD6A Chest attribute 4
+    dw TileBehavior_Chest ; 0x5D - $DD6A Chest attribute 5
+    dw TileBehavior_Nothing ; 0x5E - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x5F - $DC54 Do nothing. Normal tile.
     
-    dw $DE7E ; $03DE7E 0x50 -
-    dw $DE7E ; $03DE7E 0x51 - 
-    dw $DE7E ; $03DE7E 0x52 - 
-    dw $DE7E ; $03DE7E 0x53 -
-    dw $DE7E ; $03DE7E 0x54 -
-    dw $DE7E ; $03DE7E 0x55 -
-    dw $DE7E ; $03DE7E 0x56 -
-    dw $DF19 ; $03DF19 0x57 -
+    dw TileBehavior_RupeeTile ; 0x60 - $DDF7 Blue rupees on ground tile
+    dw TileBehavior_Nothing ; 0x61 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x62 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_MinigameChest ; 0x63 - $DE45 Minigame chest
+    dw TileBehavior_Nothing ; 0x64 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x65 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0x66 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_CrystalPeg_Up ; 0x67 - $DE17 
     
-    dw $DD6A ; $03DD6A 0x58 - Chest attribute 0
-    dw $DD6A ; $03DD6A 0x59 - Chest attribute 1
-    dw $DD6A ; $03DD6A 0x5A - Chest attribute 2
-    dw $DD6A ; $03DD6A 0x5B - Chest attribute 3
-    dw $DD6A ; $03DD6A 0x5C - Chest attribute 4
-    dw $DD6A ; $03DD6A 0x5D - Chest attribute 5
-    dw $DC54 ; $03DC54 0x5E - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x5F - Do nothing. Normal tile.
+    dw TileBehavior_Conveyor_Upwards ; 0x68 - $DE29 
+    dw TileBehavior_Conveyor_Downwards ; 0x69 - $DE2D 
+    dw TileBehavior_Conveyor_Leftwards ; 0x6A - $DE35 
+    dw TileBehavior_Conveyor_Leftwards ; 0x6B - $DE3A 
+    dw TileBehavior_StandardCollision ; 0x6C - $DC50 
+    dw TileBehavior_StandardCollision ; 0x6D - $DC50 
+    dw TileBehavior_StandardCollision ; 0x6E - $DC50 
+    dw TileBehavior_StandardCollision ; 0x6F - $DC50 
     
-    dw $DDF7 ; $03DDF7 0x60 - Blue rupees on ground tile
-    dw $DC54 ; $03DC54 0x61 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x62 - Do nothing. Normal tile.
-    dw $DE45 ; $03DE45 0x63 - Minigame chest
-    dw $DC54 ; $03DC54 0x64 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x65 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x66 - Do nothing. Normal tile.
-    dw $DE17 ; $03DE17 0x67 -
+    dw TileBehavior_ManipulablyReplaced ; 0x70 - $DD41 Pot attribute 0
+    dw TileBehavior_ManipulablyReplaced ; 0x71 - $DD41 Pot attribute 1
+    dw TileBehavior_ManipulablyReplaced ; 0x72 - $DD41 Pot attribute 2
+    dw TileBehavior_ManipulablyReplaced ; 0x73 - $DD41 Pot attribute 3
+    dw TileBehavior_ManipulablyReplaced ; 0x74 - $DD41 Pot attribute 4
+    dw TileBehavior_ManipulablyReplaced ; 0x75 - $DD41 Pot attribute 5
+    dw TileBehavior_ManipulablyReplaced ; 0x76 - $DD41 Pot attribute 6
+    dw TileBehavior_ManipulablyReplaced ; 0x77 - $DD41 Pot attribute 7
     
-    dw $DE29 ; $03DE29 0x68 -
-    dw $DE2D ; $03DE2D 0x69 -
-    dw $DE35 ; $03DE35 0x6A -
-    dw $DE3A ; $03DE3A 0x6B -
-    dw $DC50 ; $03DC50 0x6C -
-    dw $DC50 ; $03DC50 0x6D -
-    dw $DC50 ; $03DC50 0x6E -
-    dw $DC50 ; $03DC50 0x6F -
+    dw TileBehavior_ManipulablyReplaced ; 0x78 - $DD41 Pot attribute 8
+    dw TileBehavior_ManipulablyReplaced ; 0x79 - $DD41 Pot attribute 9
+    dw TileBehavior_ManipulablyReplaced ; 0x7A - $DD41 Pot attribute A
+    dw TileBehavior_ManipulablyReplaced ; 0x7B - $DD41 Pot attribute B
+    dw TileBehavior_ManipulablyReplaced ; 0x7C - $DD41 Pot attribute C
+    dw TileBehavior_ManipulablyReplaced ; 0x7D - $DD41 Pot attribute D
+    dw TileBehavior_ManipulablyReplaced ; 0x7E - $DD41 Pot attribute E
+    dw TileBehavior_ManipulablyReplaced ; 0x7F - $DD41 Pot attribute F
     
-    dw $DD41 ; $03DD41 0x70 - Pot attribute 0
-    dw $DD41 ; $03DD41 0x71 - Pot attribute 1
-    dw $DD41 ; $03DD41 0x72 - Pot attribute 2
-    dw $DD41 ; $03DD41 0x73 - Pot attribute 3
-    dw $DD41 ; $03DD41 0x74 - Pot attribute 4
-    dw $DD41 ; $03DD41 0x75 - Pot attribute 5
-    dw $DD41 ; $03DD41 0x76 - Pot attribute 6
-    dw $DD41 ; $03DD41 0x77 - Pot attribute 7
+    dw TileBehavior_Door ; 0x80 - $DD0A 
+    dw TileBehavior_Door ; 0x81 - $DD0A 
+    dw TileBehavior_ShutterDoor ; 0x82 - $DCEA 
+    dw TileBehavior_ShutterDoor ; 0x83 - $DCEA 
+    dw TileBehavior_Door ; 0x84 - $DD0A 
+    dw TileBehavior_Door ; 0x85 - $DD0A 
+    dw TileBehavior_Door ; 0x86 - $DD0A 
+    dw TileBehavior_Door ; 0x87 - $DD0A 
     
-    dw $DD41 ; $03DD41 0x78 - Pot attribute 8
-    dw $DD41 ; $03DD41 0x79 - Pot attribute 9
-    dw $DD41 ; $03DD41 0x7A - Pot attribute A
-    dw $DD41 ; $03DD41 0x7B - Pot attribute B
-    dw $DD41 ; $03DD41 0x7C - Pot attribute C
-    dw $DD41 ; $03DD41 0x7D - Pot attribute D
-    dw $DD41 ; $03DD41 0x7E - Pot attribute E
-    dw $DD41 ; $03DD41 0x7F - Pot attribute F
+    dw TileBehavior_Door ; 0x88 - $DD0A
+    dw TileBehavior_Door ; 0x89 - $DD0A Room link door
+    dw TileBehavior_Door ; 0x8A - $DD0A
+    dw TileBehavior_Door ; 0x8B - $DD0A
+    dw TileBehavior_Door ; 0x8C - $DD0A
+    dw TileBehavior_Door ; 0x8D - $DD0A
+    dw TileBehavior_Entrance ; 0x8E - $DE4F Overworld link door
+    dw TileBehavior_Entrance ; 0x8F - $DE4F
     
-    dw $DD0A ; $03DD0A 0x80 -
-    dw $DD0A ; $03DD0A 0x81 -
-    dw $DCEA ; $03DCEA 0x82 -
-    dw $DCEA ; $03DCEA 0x83 -
-    dw $DD0A ; $03DD0A 0x84 -
-    dw $DD0A ; $03DD0A 0x85 -
-    dw $DD0A ; $03DD0A 0x86 -
-    dw $DD0A ; $03DD0A 0x87 -
+    dw TileBehavior_LayerToggleShutterDoor ; 0x90 - $DCC8
+    dw TileBehavior_LayerToggleShutterDoor ; 0x91 - $DCC8
+    dw TileBehavior_LayerToggleShutterDoor ; 0x92 - $DCC8
+    dw TileBehavior_LayerToggleShutterDoor ; 0x93 - $DCC8
+    dw TileBehavior_LayerToggleShutterDoor ; 0x94 - $DCC8
+    dw TileBehavior_LayerToggleShutterDoor ; 0x95 - $DCC8
+    dw TileBehavior_LayerToggleShutterDoor ; 0x96 - $DCC8
+    dw TileBehavior_LayerToggleShutterDoor ; 0x97 - $DCC8
     
-    dw $DD0A ; $03DD0A 0x88 -
-    dw $DD0A ; $03DD0A 0x89 - Room link door
-    dw $DD0A ; $03DD0A 0x8A -
-    dw $DD0A ; $03DD0A 0x8B -
-    dw $DD0A ; $03DD0A 0x8C -
-    dw $DD0A ; $03DD0A 0x8D -
-    dw $DE4F ; $03DE4F 0x8E - Overworld link door
-    dw $DE4F ; $03DE4F 0x8F -
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x98 - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x99 - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9A - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9B - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9C - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9D - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9E - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9F - $DCD4 
     
-    dw $DCC8 ; $03DCC8 0x90 -
-    dw $DCC8 ; $03DCC8 0x91 -
-    dw $DCC8 ; $03DCC8 0x92 -
-    dw $DCC8 ; $03DCC8 0x93 -
-    dw $DCC8 ; $03DCC8 0x94 -
-    dw $DCC8 ; $03DCC8 0x95 -
-    dw $DCC8 ; $03DCC8 0x96 -
-    dw $DCC8 ; $03DCC8 0x97 -
+    dw TileBehavior_DungeonToggleManualDoor ; 0xA0 - $DD00 Used in the sewer / HC transition
+    dw TileBehavior_DungeonToggleManualDoor ; 0xA1 - $DD00 
+    dw TileBehavior_DungeonToggleShutterDoor ; 0xA2 - $DCE0 
+    dw TileBehavior_DungeonToggleShutterDoor ; 0xA3 - $DCE0 
+    dw TileBehavior_DungeonToggleManualDoor ; 0xA4 - $DD00 
+    dw TileBehavior_DungeonToggleManualDoor ; 0xA5 - $DD00 
+    dw TileBehavior_Nothing ; 0xA6 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xA7 - $DC54 Do nothing. Normal tile.
     
-    dw $DCD4 ; $03DCD4 0x98 -
-    dw $DCD4 ; $03DCD4 0x99 -
-    dw $DCD4 ; $03DCD4 0x9A -
-    dw $DCD4 ; $03DCD4 0x9B -
-    dw $DCD4 ; $03DCD4 0x9C -
-    dw $DCD4 ; $03DCD4 0x9D -
-    dw $DCD4 ; $03DCD4 0x9E -
-    dw $DCD4 ; $03DCD4 0x9F -
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xA8 - $DCD4 Do nothing. Normal tile.
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xA9 - $DCD4 Do nothing. Normal tile.
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAA - $DCD4 Do nothing. Normal tile.
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAB - $DCD4 Do nothing. Normal tile.
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAC - $DCD4 Do nothing. Normal tile.
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAD - $DCD4 Do nothing. Normal tile.
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAE - $DCD4 Do nothing. Normal tile.
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAF - $DCD4 Do nothing. Normal tile.
     
-    dw $DD00 ; $03DD00 0xA0 - Used in the sewer / HC transition
-    dw $DD00 ; $03DD00 0xA1 -
-    dw $DCE0 ; $03DCE0 0xA2 -
-    dw $DCE0 ; $03DCE0 0xA3 -
-    dw $DD00 ; $03DD00 0xA4 -
-    dw $DD00 ; $03DD00 0xA5 -
-    dw $DC54 ; $03DC54 0xA6 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xA7 - Do nothing. Normal tile.
+    dw TileBehavior_Pit ; 0xB0 - $DC8B Hole tile (same as 0x20 but not sure of other differences)
+    dw TileBehavior_Pit ; 0xB1 - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xB2 - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xB3 - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xB4 - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xB5 - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xB6 - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xB7 - $DC8B Hole AI ''
     
-    dw $DCD4 ; $03DCD4 0xA8 - Do nothing. Normal tile.
-    dw $DCD4 ; $03DCD4 0xA9 - Do nothing. Normal tile.
-    dw $DCD4 ; $03DCD4 0xAA - Do nothing. Normal tile.
-    dw $DCD4 ; $03DCD4 0xAB - Do nothing. Normal tile.
-    dw $DCD4 ; $03DCD4 0xAC - Do nothing. Normal tile.
-    dw $DCD4 ; $03DCD4 0xAD - Do nothing. Normal tile.
-    dw $DCD4 ; $03DCD4 0xAE - Do nothing. Normal tile.
-    dw $DCD4 ; $03DCD4 0xAF - Do nothing. Normal tile.
+    dw TileBehavior_Pit ; 0xB8 - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xB9 - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xBA - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xBB - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xBC - $DC8B Hole AI ''
+    dw TileBehavior_Pit ; 0xBD - $DC8B Hole AI ''
+    dw TileBehavior_Nothing ; 0xBE - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xBF - $DC54 Do nothing. Normal tile.
     
-    dw $DC8B ; $03DC8B 0xB0 - Hole tile (same as 0x20 but not sure of other
-             ;                differences)
-
-    dw $DC8B ; $03DC8B 0xB1 - Hole AI ''
-    dw $DC8B ; $03DC8B 0xB2 - Hole AI ''
-    dw $DC8B ; $03DC8B 0xB3 - Hole AI ''
-    dw $DC8B ; $03DC8B 0xB4 - Hole AI ''
-    dw $DC8B ; $03DC8B 0xB5 - Hole AI ''
-    dw $DC8B ; $03DC8B 0xB6 - Hole AI ''
-    dw $DC8B ; $03DC8B 0xB7 - Hole AI ''
+    dw TileBehavior_LightableTorch ; 0xC0 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC1 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC2 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC3 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC4 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC5 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC6 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC7 - $DCAE Torch
     
-    dw $DC8B ; $03DC8B 0xB8 - Hole AI ''
-    dw $DC8B ; $03DC8B 0xB9 - Hole AI ''
-    dw $DC8B ; $03DC8B 0xBA - Hole AI ''
-    dw $DC8B ; $03DC8B 0xBB - Hole AI ''
-    dw $DC8B ; $03DC8B 0xBC - Hole AI ''
-    dw $DC8B ; $03DC8B 0xBD - Hole AI ''
-    dw $DC54 ; $03DC54 0xBE - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xBF - Do nothing. Normal tile.
+    dw TileBehavior_LightableTorch ; 0xC8 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC9 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCA - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCB - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCC - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCD - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCE - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCF - $DCAE Torch
     
-    dw $DCAE ; $03DCAE 0xC0 - Torch
-    dw $DCAE ; $03DCAE 0xC1 - Torch
-    dw $DCAE ; $03DCAE 0xC2 - Torch
-    dw $DCAE ; $03DCAE 0xC3 - Torch
-    dw $DCAE ; $03DCAE 0xC4 - Torch
-    dw $DCAE ; $03DCAE 0xC5 - Torch
-    dw $DCAE ; $03DCAE 0xC6 - Torch
-    dw $DCAE ; $03DCAE 0xC7 - Torch
+    dw TileBehavior_Nothing ; 0xD0 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xD1 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xD2 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xD3 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xD4 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xD5 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xD6 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xD7 - $DC54 Do nothing. Normal tile.
     
-    dw $DCAE ; $03DCAE 0xC8 - Torch
-    dw $DCAE ; $03DCAE 0xC9 - Torch
-    dw $DCAE ; $03DCAE 0xCA - Torch
-    dw $DCAE ; $03DCAE 0xCB - Torch
-    dw $DCAE ; $03DCAE 0xCC - Torch
-    dw $DCAE ; $03DCAE 0xCD - Torch
-    dw $DCAE ; $03DCAE 0xCE - Torch
-    dw $DCAE ; $03DCAE 0xCF - Torch
+    dw TileBehavior_Nothing ; 0xD8 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xD9 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xDA - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xDB - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xDC - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xDD - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xDE - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xDF - $DC54 Do nothing. Normal tile.
     
-    dw $DC54 ; $03DC54 0xD0 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xD1 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xD2 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xD3 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xD4 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xD5 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xD6 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xD7 - Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xE0 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xE1 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xE2 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xE3 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xE4 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xE5 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xE6 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xE7 - $DC54 Do nothing. Normal tile.
     
-    dw $DC54 ; $03DC54 0xD8 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xD9 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xDA - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xDB - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xDC - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xDD - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xDE - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xDF - Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xE8 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xE9 - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xEA - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xEB - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xEC - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xED - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xEE - $DC54 Do nothing. Normal tile.
+    dw TileBehavior_Nothing ; 0xEF - $DC54 Do nothing. Normal tile.
     
-    dw $DC54 ; $03DC54 0xE0 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xE1 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xE2 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xE3 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xE4 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xE5 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xE6 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xE7 - Do nothing. Normal tile.
+    dw TileBehavior_FlaggableDoor ; 0xF0 - $DDEB Key Door 1
+    dw TileBehavior_FlaggableDoor ; 0xF1 - $DDEB Key Door 2
+    dw TileBehavior_FlaggableDoor ; 0xF2 - $DDEB ....
+    dw TileBehavior_FlaggableDoor ; 0xF3 - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xF4 - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xF5 - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xF6 - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xF7 - $DDEB 
     
-    dw $DC54 ; $03DC54 0xE8 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xE9 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xEA - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xEB - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xEC - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xED - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xEE - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0xEF - Do nothing. Normal tile.
-    
-    dw $DDEB ; $03DDEB 0xF0 - Key Door 1
-    dw $DDEB ; $03DDEB 0xF1 - Key Door 2
-    dw $DDEB ; $03DDEB 0xF2 - ....
-    dw $DDEB ; $03DDEB 0xF3 - 
-    dw $DDEB ; $03DDEB 0xF4 - 
-    dw $DDEB ; $03DDEB 0xF5 - 
-    dw $DDEB ; $03DDEB 0xF6 - 
-    dw $DDEB ; $03DDEB 0xF7 - 
-    
-    dw $DDEB ; $03DDEB 0xF8 -
-    dw $DDEB ; $03DDEB 0xF9 -
-    dw $DDEB ; $03DDEB 0xFA -
-    dw $DDEB ; $03DDEB 0xFB -
-    dw $DDEB ; $03DDEB 0xFC -
-    dw $DDEB ; $03DDEB 0xFD -
-    dw $DDEB ; $03DDEB 0xFE -
-    dw $DDEB ; $03DDEB 0xFF -
+    dw TileBehavior_FlaggableDoor ; 0xF8 - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xF9 - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFA - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFB - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFC - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFD - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFE - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFF - $DDEB 
 }
-
-; ==============================================================================
 
 ; Tile attribute handler
 ; Has $0A as a hidden argument.
@@ -13801,7 +13771,8 @@ TileDetect_Execute:
     .walkThroughWallsCode
     
     ; Store the tile type at $06 and mirror it at $0114.
-    AND.w #$00FF : STA.b $06 : STA.w $0114
+    AND.w #$00FF : STA.b $06
+                   STA.w $0114
     
     ; Save the offset for the tile (i.e. its position in $7F2000).
     STX.b $BD
@@ -13809,315 +13780,302 @@ TileDetect_Execute:
     ; Multiply this tile index by two and use it to run a service routine for.
     ; that kind of tile.
     ASL : TAX
-    
-    JMP.w (Pool_TileDetection_Execute_underworld, X)
+    JMP.w (.modules, X)
 }
 
 ; ==============================================================================
 
 ; Overworld Tile Attribute Jump Table
 ; $03DA2A-$03DC29 JUMP TABLE
-Pool_TileDetection_Execute_overworld:
+TileDetection_Execute_overworld_modules:
 {
-    dw $DE5B ; $03DE5B 0x00 - Normal tile (no interaction)
-    dw $DC50 ; $03DC50 0x01 - Blocked
-    dw $DC50 ; $03DC50 0x02 - Blocked
-    dw $DC50 ; $03DC50 0x03 - Blocked
-    dw $DC61 ; $03DC61 0x04 - ????
-    dw $DE5B ; $03DE5B 0x05 - Normal tile (no interaction)
-    dw $DE5B ; $03DE5B 0x06 - Normal tile
-    dw $DE5B ; $03DE5B 0x07 - 
+    dw TileBehavior_NothingOW ; 0x00 - $DE5B Normal tile (no interaction)
+    dw TileBehavior_StandardCollision ; 0x01 - $DC50 Blocked
+    dw TileBehavior_StandardCollision ; 0x02 - $DC50 Blocked
+    dw TileBehavior_StandardCollision ; 0x03 - $DC50 Blocked
+    dw TileBehavior_Slope ; 0x04 - $DC61 ????
+    dw TileBehavior_NothingOW ; 0x05 - $DE5B Normal tile (no interaction)
+    dw TileBehavior_NothingOW ; 0x06 - $DE5B Normal tile
+    dw TileBehavior_NothingOW ; 0x07 - $DE5B 
     
-    dw $DCB6 ; $03DCB6 0x08 - Deep water
-    dw $DD1B ; $03DD1B 0x09 - Shallow water
-    dw $DCBC ; $03DCBC 0x0A -
-    dw $DD5C ; $03DD5C 0x0B - ????
-    dw $DC98 ; $03DC98 0x0C - Moving floor (e.g. Mothula's room and the one in
-             ;                the Ice Palace)
+    dw TileBehavior_DeepWater ; 0x08 - $DCB6 Deep water
+    dw TileBehavior_ShallowWater ; 0x09 - $DD1B Shallow water
+    dw TileBehavior_ShortWaterLadder ; 0x0A - $DCBC 
+    dw TileBehavior_UnusedDeepWater ; 0x0B - $DD5C ????
+    dw TileBehavior_OverlayMask_0C ; 0x0C - $DC98 Moving floor (e.g. Mothula's room and the one in the Ice Palace)
+    dw TileBehavior_SpikeFloor ; 0x0D - $DDCA Spike floors, not sure if any exist in Overworld (Didn't Parallel Worlds do this with Lava?)
+    dw TileBehavior_GanonIce ; 0x0E - $DC9E 
+    dw TileBehavior_PalaceIce ; 0x0F - $DCA4 
+    
+    dw TileBehavior_Slope ; 0x10 - $DC61  
+    dw TileBehavior_Slope ; 0x11 - $DC61  
+    dw TileBehavior_Slope ; 0x12 - $DC61  
+    dw TileBehavior_Slope ; 0x13 - $DC61  
+    dw TileBehavior_NothingOW ; 0x14 - $DE5B  
+    dw TileBehavior_NothingOW ; 0x15 - $DE5B  
+    dw TileBehavior_NothingOW ; 0x16 - $DE5B  
+    dw TileBehavior_NothingOW ; 0x17 - $DE5B  
+    
+    dw TileBehavior_SlopeOuter ; 0x18 - $DC5D  
+    dw TileBehavior_SlopeOuter ; 0x19 - $DC5D  
+    dw TileBehavior_SlopeOuter ; 0x1A - $DC5D  
+    dw TileBehavior_SlopeOuter ; 0x1B - $DC5D  
+    dw TileBehavior_OverlayMask_1C ; 0x1C - $DCC2 Top of in room staircase
+    dw TileBehavior_NorthSingleLayerStairs ; 0x1D - $DC72 
+    dw TileBehavior_NorthSwapLayerStairs ; 0x1E - $DC7D 
+    dw TileBehavior_NorthSwapLayerStairs ; 0x1F - $DC7D 
+    
+    dw TileBehavior_Pit ; 0x20 - $DC8B Hole tile
+    dw TileBehavior_NothingOW ; 0x21 - $DE5B 
+    dw TileBehavior_ManualStairs ; 0x22 - $DC86 Wooden steps (slow you down)
+    dw TileBehavior_NothingOW ; 0x23 - $DE5B 
+    dw TileBehavior_NothingOW ; 0x24 - $DE5B 
+    dw TileBehavior_NothingOW ; 0x25 - $DE5B 
+    dw TileBehavior_StandardCollision ; 0x26 - $DC50 
+    dw TileBehavior_Hookshottables ; 0x27 - $DDE1 (empty chest and maybe others)
 
-    dw $DDCA ; $03DDCA 0x0D - Spike floors, not sure if any exist in Overworld
-             ;                (Didn't Parallel Worlds do this with Lava?)
-
-    dw $DC9E ; $03DC9E 0x0E - 
-    dw $DCA4 ; $03DCA4 0x0F - 
-    
-    dw $DC61 ; $03DC61 0x10 - 
-    dw $DC61 ; $03DC61 0x11 - 
-    dw $DC61 ; $03DC61 0x12 - 
-    dw $DC61 ; $03DC61 0x13 - 
-    dw $DE5B ; $03DE5B 0x14 - 
-    dw $DE5B ; $03DE5B 0x15 - 
-    dw $DE5B ; $03DE5B 0x16 - 
-    dw $DE5B ; $03DE5B 0x17 - 
-    
-    dw $DC5D ; $03DC5D 0x18 - 
-    dw $DC5D ; $03DC5D 0x19 - 
-    dw $DC5D ; $03DC5D 0x1A - 
-    dw $DC5D ; $03DC5D 0x1B - 
-    dw $DCC2 ; $03DCC2 0x1C - Top of in room staircase
-    dw $DC72 ; $03DC72 0x1D -
-    dw $DC7D ; $03DC7D 0x1E -
-    dw $DC7D ; $03DC7D 0x1F -
-    
-    dw $DC8B ; $03DC8B 0x20 - Hole tile
-    dw $DE5B ; $03DE5B 0x21 -
-    dw $DC86 ; $03DC86 0x22 - Wooden steps (slow you down)
-    dw $DE5B ; $03DE5B 0x23 -
-    dw $DE5B ; $03DE5B 0x24 -
-    dw $DE5B ; $03DE5B 0x25 -
-    dw $DC50 ; $03DC50 0x26 -
-    dw $DDE1 ; $03DDE1 0x27 - (empty chest and maybe others)
-
-    dw $DEBB ; $03DEBB 0x28 - Ledge leading up
-    dw $DEAD ; $03DEAD 0x29 - Ledge leading down
-    dw $DEC5 ; $03DEC5 0x2A - Ledge leading left
-    dw $DEC5 ; $03DEC5 0x2B - Ledge leading right
-    dw $DECF ; $03DECF 0x2C - Ledge leading up + left
-    dw $DEDD ; $03DEDD 0x2D - Ledge leading down + left
-    dw $DECF ; $03DECF 0x2E - Ledge leading up + right
-    dw $DEDD ; $03DEDD 0x2F - Ledge leading down + right
+    dw TileBehavior_Ledge_North ; 0x28 - $DEBB Ledge leading up
+    dw TileBehavior_Ledge_South ; 0x29 - $DEAD Ledge leading down
+    dw TileBehavior_Ledge_EastWest ; 0x2A - $DEC5 Ledge leading left
+    dw TileBehavior_Ledge_EastWest ; 0x2B - $DEC5 Ledge leading right
+    dw TileBehavior_Ledge_NorthDiagonal ; 0x2C - $DECF Ledge leading up + left
+    dw TileBehavior_Ledge_SouthDiagonal ; 0x2D - $DEDD Ledge leading down + left
+    dw TileBehavior_Ledge_NorthDiagonal ; 0x2E - $DECF Ledge leading up + right
+    dw TileBehavior_Ledge_SouthDiagonal ; 0x2F - $DEDD Ledge leading down + right
                           
-    dw $DC86 ; $03DC86 0x30 -
-    dw $DC86 ; $03DC86 0x31 -
-    dw $DC86 ; $03DC86 0x32 -
-    dw $DC86 ; $03DC86 0x33 -
-    dw $DC86 ; $03DC86 0x34 -
-    dw $DC86 ; $03DC86 0x35 -
-    dw $DC86 ; $03DC86 0x36 -
-    dw $DC86 ; $03DC86 0x37 -
+    dw TileBehavior_ManualStairs ; 0x30 - $DC86 
+    dw TileBehavior_ManualStairs ; 0x31 - $DC86 
+    dw TileBehavior_ManualStairs ; 0x32 - $DC86 
+    dw TileBehavior_ManualStairs ; 0x33 - $DC86 
+    dw TileBehavior_ManualStairs ; 0x34 - $DC86 
+    dw TileBehavior_ManualStairs ; 0x35 - $DC86 
+    dw TileBehavior_ManualStairs ; 0x36 - $DC86 
+    dw TileBehavior_ManualStairs ; 0x37 - $DC86 
     
-    dw $DE5B ; $03DE5B 0x38 - 
-    dw $DE5B ; $03DE5B 0x39 -
-    dw $DE5B ; $03DE5B 0x3A -
-    dw $DE5B ; $03DE5B 0x3B -
-    dw $DE5B ; $03DE5B 0x3C -
-    dw $DD9D ; $03DD9D 0x3D -
-    dw $DDA1 ; $03DDA1 0x3E -
-    dw $DDA1 ; $03DDA1 0x3F -
+    dw TileBehavior_NothingOW ; 0x38 - $DE5B  
+    dw TileBehavior_NothingOW ; 0x39 - $DE5B 
+    dw TileBehavior_NothingOW ; 0x3A - $DE5B 
+    dw TileBehavior_NothingOW ; 0x3B - $DE5B 
+    dw TileBehavior_NothingOW ; 0x3C - $DE5B 
+    dw TileBehavior_SouthSingleLayerStairs ; 0x3D - $DD9D 
+    dw TileBehavior_SouthSwapLayerStairs ;  0x3E - $DDA1
+    dw TileBehavior_SouthSwapLayerStairs ;  0x3F - $DDA1 
     
-    dw $DE61 ; $03DE61 0x40 - Grass tile
-    dw $DE5B ; $03DE5B 0x41 -
-    dw $DF09 ; $03DF09 0x42 - ????
-    dw $DC50 ; $03DC50 0x43 -
-    dw $DDB1 ; $03DDB1 0x44 - Cactus tile
-    dw $DE5B ; $03DE5B 0x45 -
-    dw $DF11 ; $03DF11 0x46 - ????
-    dw $DE5B ; $03DE5B 0x47 -
+    dw TileBehavior_ThickGrass ; 0x40 - $DE61 Grass tile
+    dw TileBehavior_NothingOW ; 0x41 - $DE5B 
+    dw TileBehavior_NothingOW ; 0x42 -  $DF09 ????
+    dw TileBehavior_StandardCollision ; 0x43 - $DC50 
+    dw TileBehavior_Spike ; 0x44 - $DDB1 Cactus tile
+    dw TileBehavior_NothingOW ; 0x45 - $DE5B 
+    dw TileBehavior_HylianPlaque ; 0x46 - $DF11 ????
+    dw TileBehavior_NothingOW ; 0x47 - $DE5B 
     
-    dw $DE67 ; $03DE67 0x48 - aftermath tiles of picking things up?
-    dw $DE5B ; $03DE5B 0x49 -
-    dw $DE67 ; $03DE67 0x4A - Same as 0x48 but this tile type doesn't seem to
-             ;                be used in the game anywhere
+    dw TileBehavior_DiggableGround ; 0x48 - $DE67 aftermath tiles of picking things up?
+    dw TileBehavior_NothingOW ; 0x49 - $DE5B 
+    dw TileBehavior_DiggableGround ; 0x4A - $DE67 Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
+    dw TileBehavior_Warp ; 0x4B - $DEFF Warp tile
+    dw TileBehavior_UnusedCornerType ; 0x4C - $DEE7 Unused, but would probably be for special mountain tiles too
+    dw TileBehavior_UnusedCornerType ; 0x4D - $DEE7 Unused, but would probably be for special mountain tiles too
+    dw TileBehavior_EasternRuinsCorner ; $DEF1 0x4E - Certain mountain tiles
+    dw TileBehavior_EasternRuinsCorner ; $DEF1 0x4F - Certain mountain tiles
+    
+    dw TileBehavior_Liftable ; 0x50 - $DE7E bush
+    dw TileBehavior_Liftable ; 0x51 - $DE7E off color bush
+    dw TileBehavior_Liftable ; 0x52 - $DE7E small light rock
+    dw TileBehavior_Liftable ; 0x53 - $DE7E small heavy rock
+    dw TileBehavior_Liftable ; 0x54 - $DE7E sign
+    dw TileBehavior_Liftable ; 0x55 - $DE7E large light rock
+    dw TileBehavior_Liftable ; 0x56 - $DE7E large heavy rock
+    dw TileBehavior_BonkRocks ; 0x57 - $DF19 
+    
+    dw TileBehavior_Chest ; 0x58 - $DD6A Chest block
+    dw TileBehavior_Chest ; 0x59 - $DD6A Chest block
+    dw TileBehavior_Chest ; 0x5A - $DD6A Chest block
+    dw TileBehavior_Chest ; 0x5B - $DD6A Chest block
+    dw TileBehavior_Chest ; 0x5C - $DD6A Chest block
+    dw TileBehavior_Chest ; 0x5D - $DD6A Chest block
+    dw TileBehavior_NothingOW ; 0x5E - $DE5B 
+    dw TileBehavior_NothingOW ; 0x5F - $DE5B 
+    
+    dw TileBehavior_NothingOW ; 0x60 - $DE5B 
+    dw TileBehavior_NothingOW ; 0x61 - $DE5B 
+    dw TileBehavior_NothingOW ; 0x62 - $DE5B 
+    dw TileBehavior_MinigameChest ; 0x63 - $DE45 Minigame chest tile
+    dw TileBehavior_NothingOW ; 0x64 - $DE5B 
+    dw TileBehavior_NothingOW ; 0x65 - $DE5B 
+    dw TileBehavior_NothingOW ; 0x66 - $DE5B 
+    dw TileBehavior_CrystalPeg_Up ; 0x67 - $DE17 
+    
+    dw TileBehavior_Conveyor_Upwards ; 0x68 - $DE29 
+    dw TileBehavior_Conveyor_Downwards ; 0x69 - $DE2D 
+    dw TileBehavior_Conveyor_Leftwards ; 0x6A - $DE35 
+    dw TileBehavior_Conveyor_Rightwards ; 0x6B - $DE3A 
+    dw TileBehavior_NothingOW ; 0x6C - $DE5B 
+    dw TileBehavior_NothingOW ; 0x6D - $DE5B 
+    dw TileBehavior_NothingOW ; 0x6E - $DE5B 
+    dw TileBehavior_NothingOW ; 0x6F - $DE5B 
+    
+    dw TileBehavior_ManipulablyReplaced ; 0x70 - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x71 - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x72 - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x73 - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x74 - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x75 - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x76 - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x77 - $DD41 
+    
+    dw TileBehavior_ManipulablyReplaced ; 0x78 - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x79 - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x7A - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x7B - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x7C - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x7D - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x7E - $DD41 
+    dw TileBehavior_ManipulablyReplaced ; 0x7F - $DD41 
+    
+    dw TileBehavior_Door ; 0x80 - $DD0A 
+    dw TileBehavior_Door ; 0x81 - $DD0A 
+    dw TileBehavior_ShutterDoor ; 0x82 - $DCEA 
+    dw TileBehavior_ShutterDoor ; 0x83 - $DCEA 
+    dw TileBehavior_Door ; 0x84 - $DD0A 
+    dw TileBehavior_Door ; 0x85 - $DD0A 
+    dw TileBehavior_Door ; 0x86 - $DD0A 
+    dw TileBehavior_Door ; 0x87 - $DD0A 
+    
+    dw TileBehavior_Door ; 0x88 - $DD0A 
+    dw TileBehavior_Door ; 0x89 - $DD0A 
+    dw TileBehavior_Door ; 0x8A - $DD0A 
+    dw TileBehavior_Door ; 0x8B - $DD0A 
+    dw TileBehavior_Door ; 0x8C - $DD0A 
+    dw TileBehavior_Door ; 0x8D - $DD0A 
+    dw TileBehavior_Entrance ; 0x8E - $DE4F 
+    dw TileBehavior_Entrance ; 0x8F - $DE4F 
 
-    dw $DEFF ; $03DEFF 0x4B - Warp tile
-    dw $DEE7 ; $03DEE7 0x4C - Unused, but would probably be for special
-             ;                mountain tiles too
-
-    dw $DEE7 ; $03DEE7 0x4D - Unused, but would probably be for special
-             ;                mountain tiles too
-
-    dw $DEF1 ; $03DEF1 0x4E - Certain mountain tiles
-    dw $DEF1 ; $03DEF1 0x4F - Certain mountain tiles
+    dw TileBehavior_LayerToggleShutterDoor ; 0x90 - $DCC8 
+    dw TileBehavior_LayerToggleShutterDoor ; 0x91 - $DCC8 
+    dw TileBehavior_LayerToggleShutterDoor ; 0x92 - $DCC8 
+    dw TileBehavior_LayerToggleShutterDoor ; 0x93 - $DCC8 
+    dw TileBehavior_LayerToggleShutterDoor ; 0x94 - $DCC8 
+    dw TileBehavior_LayerToggleShutterDoor ; 0x95 - $DCC8 
+    dw TileBehavior_LayerToggleShutterDoor ; 0x96 - $DCC8 
+    dw TileBehavior_LayerToggleShutterDoor ; 0x97 - $DCC8 
     
-    dw $DE7E ; $03DE7E 0x50 - bush
-    dw $DE7E ; $03DE7E 0x51 - off color bush
-    dw $DE7E ; $03DE7E 0x52 - small light rock
-    dw $DE7E ; $03DE7E 0x53 - small heavy rock
-    dw $DE7E ; $03DE7E 0x54 - sign
-    dw $DE7E ; $03DE7E 0x55 - large light rock
-    dw $DE7E ; $03DE7E 0x56 - large heavy rock
-    dw $DF19 ; $03DF19 0x57 -
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x98 - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x99 - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9A - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9B - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9C - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9D - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9E - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9F - $DCD4 
     
-    dw $DD6A ; $03DD6A 0x58 - Chest block
-    dw $DD6A ; $03DD6A 0x59 - Chest block
-    dw $DD6A ; $03DD6A 0x5A - Chest block
-    dw $DD6A ; $03DD6A 0x5B - Chest block
-    dw $DD6A ; $03DD6A 0x5C - Chest block
-    dw $DD6A ; $03DD6A 0x5D - Chest block
-    dw $DE5B ; $03DE5B 0x5E -
-    dw $DE5B ; $03DE5B 0x5F -
+    dw TileBehavior_DungeonToggleManualDoor ; 0xA0 - $DD00 
+    dw TileBehavior_DungeonToggleManualDoor ; 0xA1 - $DD00 
+    dw TileBehavior_DungeonToggleShutterDoor ; 0xA2 - $DCE0 
+    dw TileBehavior_DungeonToggleShutterDoor ; 0xA3 - $DCE0 
+    dw TileBehavior_DungeonToggleManualDoor ; 0xA4 - $DD00 
+    dw TileBehavior_DungeonToggleManualDoor ; 0xA5 - $DD00 
+    dw TileBehavior_NothingOW ; 0xA6 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xA7 - $DE5B 
     
-    dw $DE5B ; $03DE5B 0x60 -
-    dw $DE5B ; $03DE5B 0x61 -
-    dw $DE5B ; $03DE5B 0x62 -
-    dw $DE45 ; $03DE45 0x63 - Minigame chest tile
-    dw $DE5B ; $03DE5B 0x64
-    dw $DE5B ; $03DE5B 0x65
-    dw $DE5B ; $03DE5B 0x66
-    dw $DE17 ; $03DE17 0x67
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xA8 - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xA9 - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAA - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAB - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAC - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAD - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAE - $DCD4 
+    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAF - $DCD4 
     
-    dw $DE29 ; $03DE29 0x68 -
-    dw $DE2D ; $03DE2D 0x69 -
-    dw $DE35 ; $03DE35 0x6A -
-    dw $DE3A ; $03DE3A 0x6B -
-    dw $DE5B ; $03DE5B 0x6C -
-    dw $DE5B ; $03DE5B 0x6D -
-    dw $DE5B ; $03DE5B 0x6E -
-    dw $DE5B ; $03DE5B 0x6F -
+    dw TileBehavior_Pit ; 0xB0 - $DC8B hole tile (somaria transit line, more likely though)
+    dw TileBehavior_Pit ; 0xB1 - $DC8B  
+    dw TileBehavior_Pit ; 0xB2 - $DC8B  
+    dw TileBehavior_Pit ; 0xB3 - $DC8B  
+    dw TileBehavior_Pit ; 0xB4 - $DC8B  
+    dw TileBehavior_Pit ; 0xB5 - $DC8B  
+    dw TileBehavior_Pit ; 0xB6 - $DC8B  
+    dw TileBehavior_Pit ; 0xB7 - $DC8B  
     
-    dw $DD41 ; $03DD41 0x70 -
-    dw $DD41 ; $03DD41 0x71 -
-    dw $DD41 ; $03DD41 0x72 -
-    dw $DD41 ; $03DD41 0x73 -
-    dw $DD41 ; $03DD41 0x74 -
-    dw $DD41 ; $03DD41 0x75 -
-    dw $DD41 ; $03DD41 0x76 -
-    dw $DD41 ; $03DD41 0x77 -
+    dw TileBehavior_Pit ; 0xB8 - $DC8B 
+    dw TileBehavior_Pit ; 0xB9 - $DC8B 
+    dw TileBehavior_Pit ; 0xBA - $DC8B 
+    dw TileBehavior_Pit ; 0xBB - $DC8B 
+    dw TileBehavior_Pit ; 0xBC - $DC8B 
+    dw TileBehavior_Pit ; 0xBD - $DC8B 
+    dw TileBehavior_NothingOW ; 0xBE - $DE5B 
+    dw TileBehavior_NothingOW ; 0xBF - $DE5B 
     
-    dw $DD41 ; $03DD41 0x78 -
-    dw $DD41 ; $03DD41 0x79 -
-    dw $DD41 ; $03DD41 0x7A -
-    dw $DD41 ; $03DD41 0x7B -
-    dw $DD41 ; $03DD41 0x7C -
-    dw $DD41 ; $03DD41 0x7D -
-    dw $DD41 ; $03DD41 0x7E -
-    dw $DD41 ; $03DD41 0x7F -
+    dw TileBehavior_LightableTorch ; 0xC0 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC1 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC2 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC3 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC4 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC5 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC6 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC7 - $DCAE Torch
     
-    dw $DD0A ; $03DD0A 0x80 -
-    dw $DD0A ; $03DD0A 0x81 -
-    dw $DCEA ; $03DCEA 0x82 -
-    dw $DCEA ; $03DCEA 0x83 -
-    dw $DD0A ; $03DD0A 0x84 -
-    dw $DD0A ; $03DD0A 0x85 -
-    dw $DD0A ; $03DD0A 0x86 -
-    dw $DD0A ; $03DD0A 0x87 -
+    dw TileBehavior_LightableTorch ; 0xC8 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xC9 - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCA - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCB - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCC - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCD - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCE - $DCAE Torch
+    dw TileBehavior_LightableTorch ; 0xCF - $DCAE Torch
     
-    dw $DD0A ; $03DD0A 0x88 -
-    dw $DD0A ; $03DD0A 0x89 -
-    dw $DD0A ; $03DD0A 0x8A -
-    dw $DD0A ; $03DD0A 0x8B -
-    dw $DD0A ; $03DD0A 0x8C -
-    dw $DD0A ; $03DD0A 0x8D -
-    dw $DE4F ; $03DE4F 0x8E -
-    dw $DE4F ; $03DE4F 0x8F -
-
-    dw $DCC8 ; $03DCC8 0x90 -
-    dw $DCC8 ; $03DCC8 0x91 -
-    dw $DCC8 ; $03DCC8 0x92 -
-    dw $DCC8 ; $03DCC8 0x93 -
-    dw $DCC8 ; $03DCC8 0x94 -
-    dw $DCC8 ; $03DCC8 0x95 -
-    dw $DCC8 ; $03DCC8 0x96 -
-    dw $DCC8 ; $03DCC8 0x97 -
+    dw TileBehavior_NothingOW ; 0xD0 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xD1 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xD2 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xD3 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xD4 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xD5 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xD6 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xD7 - $DE5B 
     
-    dw $DCD4 ; $03DCD4 0x98 -
-    dw $DCD4 ; $03DCD4 0x99 -
-    dw $DCD4 ; $03DCD4 0x9A -
-    dw $DCD4 ; $03DCD4 0x9B -
-    dw $DCD4 ; $03DCD4 0x9C -
-    dw $DCD4 ; $03DCD4 0x9D -
-    dw $DCD4 ; $03DCD4 0x9E -
-    dw $DCD4 ; $03DCD4 0x9F -
+    dw TileBehavior_NothingOW ; 0xD8 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xD9 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xDA - $DE5B 
+    dw TileBehavior_NothingOW ; 0xDB - $DE5B 
+    dw TileBehavior_NothingOW ; 0xDC - $DE5B 
+    dw TileBehavior_NothingOW ; 0xDD - $DE5B 
+    dw TileBehavior_NothingOW ; 0xDE - $DE5B 
+    dw TileBehavior_NothingOW ; 0xDF - $DE5B 
     
-    dw $DD00 ; $03DD00 0xA0 -
-    dw $DD00 ; $03DD00 0xA1 -
-    dw $DCE0 ; $03DCE0 0xA2 -
-    dw $DCE0 ; $03DCE0 0xA3 -
-    dw $DD00 ; $03DD00 0xA4 -
-    dw $DD00 ; $03DD00 0xA5 -
-    dw $DE5B ; $03DE5B 0xA6 -
-    dw $DE5B ; $03DE5B 0xA7 -
+    dw TileBehavior_NothingOW ; 0xE0 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xE1 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xE2 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xE3 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xE4 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xE5 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xE6 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xE7 - $DE5B 
     
-    dw $DCD4 ; $03DCD4 0xA8 -
-    dw $DCD4 ; $03DCD4 0xA9 -
-    dw $DCD4 ; $03DCD4 0xAA -
-    dw $DCD4 ; $03DCD4 0xAB -
-    dw $DCD4 ; $03DCD4 0xAC -
-    dw $DCD4 ; $03DCD4 0xAD -
-    dw $DCD4 ; $03DCD4 0xAE -
-    dw $DCD4 ; $03DCD4 0xAF -
+    dw TileBehavior_NothingOW ; 0xE8 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xE9 - $DE5B 
+    dw TileBehavior_NothingOW ; 0xEA - $DE5B 
+    dw TileBehavior_NothingOW ; 0xEB - $DE5B 
+    dw TileBehavior_NothingOW ; 0xEC - $DE5B 
+    dw TileBehavior_NothingOW ; 0xED - $DE5B 
+    dw TileBehavior_NothingOW ; 0xEE - $DE5B 
+    dw TileBehavior_NothingOW ; 0xEF - $DE5B 
     
-    dw $DC8B ; $03DC8B 0xB0 - hole tile (somaria transit line, more likely
-             ;                though)
-
-    dw $DC8B ; $03DC8B 0xB1 - 
-    dw $DC8B ; $03DC8B 0xB2 - 
-    dw $DC8B ; $03DC8B 0xB3 - 
-    dw $DC8B ; $03DC8B 0xB4 - 
-    dw $DC8B ; $03DC8B 0xB5 - 
-    dw $DC8B ; $03DC8B 0xB6 - 
-    dw $DC8B ; $03DC8B 0xB7 - 
+    dw TileBehavior_FlaggableDoor ; 0xF0 - $DDEB Key door 1
+    dw TileBehavior_FlaggableDoor ; 0xF1 - $DDEB Key door 2
+    dw TileBehavior_FlaggableDoor ; 0xF2 - $DDEB
+    dw TileBehavior_FlaggableDoor ; 0xF3 - $DDEB
+    dw TileBehavior_FlaggableDoor ; 0xF4 - $DDEB
+    dw TileBehavior_FlaggableDoor ; 0xF5 - $DDEB
+    dw TileBehavior_FlaggableDoor ; 0xF6 - $DDEB
+    dw TileBehavior_FlaggableDoor ; 0xF7 - $DDEB
     
-    dw $DC8B ; $03DC8B 0xB8 -
-    dw $DC8B ; $03DC8B 0xB9 -
-    dw $DC8B ; $03DC8B 0xBA -
-    dw $DC8B ; $03DC8B 0xBB -
-    dw $DC8B ; $03DC8B 0xBC -
-    dw $DC8B ; $03DC8B 0xBD -
-    dw $DE5B ; $03DE5B 0xBE -
-    dw $DE5B ; $03DE5B 0xBF -
-    
-    dw $DCAE ; $03DCAE 0xC0 - Torch
-    dw $DCAE ; $03DCAE 0xC1 - Torch
-    dw $DCAE ; $03DCAE 0xC2 - Torch
-    dw $DCAE ; $03DCAE 0xC3 - Torch
-    dw $DCAE ; $03DCAE 0xC4 - Torch
-    dw $DCAE ; $03DCAE 0xC5 - Torch
-    dw $DCAE ; $03DCAE 0xC6 - Torch
-    dw $DCAE ; $03DCAE 0xC7 - Torch
-    
-    dw $DCAE ; $03DCAE 0xC8 - Torch
-    dw $DCAE ; $03DCAE 0xC9 - Torch
-    dw $DCAE ; $03DCAE 0xCA - Torch
-    dw $DCAE ; $03DCAE 0xCB - Torch
-    dw $DCAE ; $03DCAE 0xCC - Torch
-    dw $DCAE ; $03DCAE 0xCD - Torch
-    dw $DCAE ; $03DCAE 0xCE - Torch
-    dw $DCAE ; $03DCAE 0xCF - Torch
-    
-    dw $DE5B ; $03DE5B 0xD0 -
-    dw $DE5B ; $03DE5B 0xD1 -
-    dw $DE5B ; $03DE5B 0xD2 -
-    dw $DE5B ; $03DE5B 0xD3 -
-    dw $DE5B ; $03DE5B 0xD4 -
-    dw $DE5B ; $03DE5B 0xD5 -
-    dw $DE5B ; $03DE5B 0xD6 -
-    dw $DE5B ; $03DE5B 0xD7 -
-    
-    dw $DE5B ; $03DE5B 0xD8 -
-    dw $DE5B ; $03DE5B 0xD9 -
-    dw $DE5B ; $03DE5B 0xDA -
-    dw $DE5B ; $03DE5B 0xDB -
-    dw $DE5B ; $03DE5B 0xDC -
-    dw $DE5B ; $03DE5B 0xDD -
-    dw $DE5B ; $03DE5B 0xDE -
-    dw $DE5B ; $03DE5B 0xDF -
-    
-    dw $DE5B ; $03DE5B 0xE0 -
-    dw $DE5B ; $03DE5B 0xE1 -
-    dw $DE5B ; $03DE5B 0xE2 -
-    dw $DE5B ; $03DE5B 0xE3 -
-    dw $DE5B ; $03DE5B 0xE4 -
-    dw $DE5B ; $03DE5B 0xE5 -
-    dw $DE5B ; $03DE5B 0xE6 -
-    dw $DE5B ; $03DE5B 0xE7 -
-    
-    dw $DE5B ; $03DE5B 0xE8 -
-    dw $DE5B ; $03DE5B 0xE9 -
-    dw $DE5B ; $03DE5B 0xEA -
-    dw $DE5B ; $03DE5B 0xEB -
-    dw $DE5B ; $03DE5B 0xEC -
-    dw $DE5B ; $03DE5B 0xED -
-    dw $DE5B ; $03DE5B 0xEE -
-    dw $DE5B ; $03DE5B 0xEF -
-    
-    dw $DDEB ; $03DDEB 0xF0 - Key door 1
-    dw $DDEB ; $03DDEB 0xF1 - Key door 2
-    dw $DDEB ; $03DDEB 0xF2 -
-    dw $DDEB ; $03DDEB 0xF3 -
-    dw $DDEB ; $03DDEB 0xF4 -
-    dw $DDEB ; $03DDEB 0xF5 -
-    dw $DDEB ; $03DDEB 0xF6 -
-    dw $DDEB ; $03DDEB 0xF7 -
-    
-    dw $DDEB ; $03DDEB 0xF8 -
-    dw $DDEB ; $03DDEB 0xF9 -
-    dw $DDEB ; $03DDEB 0xFA -
-    dw $DDEB ; $03DDEB 0xFB -
-    dw $DDEB ; $03DDEB 0xFC -
-    dw $DDEB ; $03DDEB 0xFD -
-    dw $DDEB ; $03DDEB 0xFE -
-    dw $DDEB ; $03DDEB 0xFF -
+    dw TileBehavior_FlaggableDoor ; 0xF8 - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xF9 - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFA - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFB - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFC - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFD - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFE - $DDEB 
+    dw TileBehavior_FlaggableDoor ; 0xFF - $DDEB 
 }
 
 ; $03DC2A-$03DC49 LONG BRANCH LOCATION
@@ -14132,7 +14090,6 @@ TileDetection_Execute_overworld:
     PHA
     
     LDA.w $037F : AND.w #$00FF : BEQ .playinByTheRules
-    
         PLA : LDA.w #$0000
         
         BRA .walkThroughWallsCode
@@ -14143,9 +14100,9 @@ TileDetection_Execute_overworld:
     
     .walkThroughWallsCode
     
-    AND.w #$00FF : STA.b $06 : ASL : TAX
-    
-    JMP.w ($DA2A, X) ; ($3DA2A, X) THAT IS
+    AND.w #$00FF : STA.b $06
+    ASL : TAX
+    JMP.w (.modules, X)
 }
 
 ; $03DC4A-$03DC4F LOCAL JUMP LOCATION
@@ -14188,13 +14145,12 @@ TileBehavior_SlopeOuter:
     ; Bleeds into the next function.
 }
 
-; $03DC61-$03DC71 ALTERNATE ENTRY POINT
+; $03DC61-$03DC71 LOCAL JUMP LOCATION
 TileBehavior_Slope:
 {
     LDA.b $0A : TSB.b $0C
     
     LDA.b $06 : AND.w #$0003 : ASL : TAY
-    
     LDA.w TileBehavior_Slope_masks, Y : STA.b $6E
     
     RTS
@@ -14395,7 +14351,6 @@ TileBehavior_ManipulablyReplaced:
 {
     LDA.b $0A : AND.w #$0002 : BEQ .BRANCH_ALPHA
         LDA.b $06 : AND.w #$000F : ASL : TAY
-        
         LDA.w .bitmask, Y : TSB.b $5F
     
     .BRANCH_ALPHA
@@ -14439,9 +14394,7 @@ TileBehavior_Chest:
     ; If top bit not set, then branch.
     LDA.w $06E0, X : CMP.w #$8000 : BCC .notBigKeyLock
         LDA.b $0A : TSB.b $0E
-        
         ASL #4 : TSB.w $02E7
-        
         AND.w #$0020 : BEQ .notCenteredTouch
             ; Store the tile type here
             LDA.b $06 : STA.w $02EA
@@ -14575,6 +14528,7 @@ TileBehavior_RupeeTile:
 ; $03DE17-$03DE28 JUMP LOCATION
 TileBehavior_CrystalPeg_Up:
 {
+    ; TODO: Investigate what the poitn of these TSBs are for.
     LDA.b $0A : TSB.b $0E : TSB.w $02F6
     
     LDA.b $0A : XBA : ASL #4 : TSB.w $02E7
@@ -14689,9 +14643,7 @@ TileBehavior_Liftable:
     .nextTileType
     
         ; Load this tile's attribute value.
-        LDA.b $06 
-        
-        CMP.w .id_matcher, X : BNE .noMatch
+        LDA.b $06 : CMP.w .id_matcher, X : BNE .noMatch
             CMP.w #$0050 : BEQ .specialCase
                 CMP.w #$0051 : BNE .notSpecialCase
             
@@ -14875,9 +14827,7 @@ PushBlock_GetGeneralizedTileInteractionOfTarget:
     REP #$10
     
     TAX
-    
     LDA.l $7F2000, X : AND.w #$00FF : TAX
-    
     LDA.w .generic_type, X : AND.w #$00FF
     
     RTS
@@ -15138,9 +15088,9 @@ Link_HandleRecoiling:
     LDA.b $6B : AND.b #$0C : BEQ .BRANCH_EPSILON
         LDA.b $6B : AND.b #$03 : BEQ .BRANCH_EPSILON
             LDA.b $5D : CMP.b #$02 : BNE .BRANCH_EPSILON
-                LDA.b $28 : EOR.b #$FF : INC STA.b $28
+                LDA.b $28 : EOR.b #$FF : INC : STA.b $28
                 
-                LDA.b $27 : EOR.b #$FF : INC STA.b $27
+                LDA.b $27 : EOR.b #$FF : INC : STA.b $27
 
     .BRANCH_EPSILON
 
@@ -15221,11 +15171,17 @@ Link_HandleVelocity:
         .preventPlayerMovement
         
         ; Otherwise, Link can't move and has to stay in place.
-        LDA.b $20 : STA.b $00 : STA.b $3E
-        LDA.b $22 : STA.b $01 : STA.b $3F
+        LDA.b $20 : STA.b $00
+                    STA.b $3E
+
+        LDA.b $22 : STA.b $01
+                    STA.b $3F
         
-        LDA.b $21 : STA.b $02 : STA.b $40
-        LDA.b $23 : STA.b $03 : STA.b $41
+        LDA.b $21 : STA.b $02
+                    STA.b $40
+
+        LDA.b $23 : STA.b $03
+                    STA.b $41
         
         BRL .BRANCH_ALIF ; TODO: Where is this supposed to go?
     
@@ -15296,7 +15252,8 @@ Link_HandleVelocity:
     
     ; Filter out Up and down data.
     ; I.e. one of the left or right directions is down.
-    LDA.b $67 : TAY : AND.b #$0C : BEQ .BRANCH_NU
+    LDA.b $67 : TAY
+    AND.b #$0C : BEQ .BRANCH_NU
         TYA : AND.b #$03 : BEQ .BRANCH_NU
             LDX.b #$01
         
@@ -15372,7 +15329,7 @@ Link_HandleVelocity:
         
         AND.b $0C : BEQ .BRANCH_PHI
             AND.b #$0D : BEQ .BRANCH_CHI
-                LDA.b $0A, X : EOR.b #$FF : INC STA.b $0A, X
+                LDA.b $0A, X : EOR.b #$FF : INC : STA.b $0A, X
             
             .BRANCH_CHI
             
@@ -15402,13 +15359,17 @@ LinkHop_FindArbitraryLandingSpot:
     
     .cache_full_coords
     
-    LDA.b $20 : STA.b $00 : STA.b $3E
+    LDA.b $20 : STA.b $00 
+                STA.b $3E
     
-    LDA.b $22 : STA.b $01 : STA.b $3F
+    LDA.b $22 : STA.b $01
+                STA.b $3F
     
-    LDA.b $21 : STA.b $02 : STA.b $40
+    LDA.b $21 : STA.b $02
+                STA.b $40
     
-    LDA.b $23 : STA.b $03 : STA.b $41
+    LDA.b $23 : STA.b $03
+                STA.b $41
     
     ; Is Link using the quake medallion?
     LDA.b $5D : CMP.b #$0A : BEQ .BRANCH_KAPPA
@@ -15428,9 +15389,7 @@ LinkHop_FindArbitraryLandingSpot:
     
         ; Check velocities for different directions ($27 is horizontal, $28 is
         ; vertical, so Y is 0 or 1).
-        LDA.w $0027, Y : ASL #4
-        
-        CLC : ADC.w $002A, Y : STA.w $002A, Y
+        LDA.w $0027, Y : ASL #4 : CLC : ADC.w $002A, Y : STA.w $002A, Y
         
         PHY : PHP
         
@@ -15568,7 +15527,8 @@ HandleSwimStrokeAndSubpixels:
             
         .BRANCH_EPSILON
             
-        LDA.w #$0000 : STA.w $0334, X : STA.w $033B, X
+        LDA.w #$0000 : STA.w $0334, X
+                       STA.w $033B, X
             
         BRA .BRANCH_ZETA
         
@@ -15577,7 +15537,6 @@ HandleSwimStrokeAndSubpixels:
         PHA
         
         TXA : CLC : ADC.w $0338, X : ASL TAY
-        
         LDA.w SwimmingThrustDirectionBit, Y : ORA.b $67 : STA.b $67
         
         PLA : CMP.w $0334, X : BCC .BRANCH_ZETA
@@ -15592,7 +15551,7 @@ HandleSwimStrokeAndSubpixels:
         LDA.b $6A : BEQ .BRANCH_THETA
             STA.b $08
             
-            LSR #2 : STA.b $00
+            LSR : LSR : STA.b $00
             
             LDA.b $08, X : SEC : SBC.b $00 : STA.b $08, X
         
@@ -15613,11 +15572,18 @@ HandleSwimStrokeAndSubpixels:
     
     SEP #$20
     
-    LDA.b $20 : STA.b $00 : STA.b $3E
-    LDA.b $22 : STA.b $01 : STA.b $3F
-    LDA.b $21 : STA.b $02 : STA.b $40
-    LDA.b $23 : STA.b $03 : STA.b $41
-    
+    LDA.b $20 : STA.b $00
+                STA.b $3E
+
+    LDA.b $22 : STA.b $01
+                STA.b $3F
+
+    LDA.b $21 : STA.b $02
+                STA.b $40
+
+    LDA.b $23 : STA.b $03
+                STA.b $41
+
     LDY.b #$01
     LDX.b #$02
     
@@ -15707,7 +15673,6 @@ Link_DashInPlace:
     STZ.b $0B
     
     LDX.b #$03
-    
     LDA.b $67
     
     .BRANCH_DELTA
@@ -15739,7 +15704,6 @@ Link_DashInPlace:
     PHA
     
     TYA : AND.w #$0002 : TAX
-    
     PLA : STA.b $08, X
     
     SEP #$20
@@ -15849,7 +15813,6 @@ Link_ApplyConveyor:
                     LDA.w $0372 : BEQ .BRANCH_BETA
                         LDA.w $02F1 : CMP.b #$20 : BNE .BRANCH_BETA
                             LDY.w $03F3 : DEY
-                        
                             LDA.w Pool_Link_ApplyConveyor_walking_direction_flags, Y
                             AND.b $67 : BEQ Link_ApplyMovingFloorVelocity_return
                     
@@ -15858,12 +15821,10 @@ Link_ApplyConveyor:
                     STZ.b $6A
                     
                     LDY.w $03F3 : DEY
-                    
                     LDA.w Pool_Link_ApplyConveyor_walking_direction_flags, Y
                     TSB.b $67
                     
                     LDA.w Pool_Link_ApplyConveyor_y_speeds, Y : STA.b $72
-                    
                     LDA.w Pool_Link_ApplyConveyor_x_speeds, Y : STA.b $73
                     
                     LDX.b #$01
@@ -15890,13 +15851,12 @@ Link_ApplyConveyor:
                             
                         .BRANCH_GAMMA
                         
-                        ADC.w $0020, Y : STA.w $0020, Y
-                        
+                              ADC.w $0020, Y : STA.w $0020, Y
                         TXA : ADC.w $0021, Y : STA.w $0021, Y
                         
                         PLX
                         
-                        DEY #2
+                        DEY : DEY
                     DEX : BPL .BRANCH_DELTA
                     
                     SEP #$20
@@ -15995,8 +15955,8 @@ Link_HandleMovingAnimation_MainEntry:
             .BRANCH_ZETA
             
             LDA.b $2F : LSR : TAX
-            
-            LDA.b $00 : AND.w LinkDiagonalDominantDirection, X : BNE Link_HandleMovingAnimation_StartWithDash_check_dashing
+            LDA.b $00 : AND.w LinkDiagonalDominantDirection, X
+            BNE Link_HandleMovingAnimation_StartWithDash_check_dashing
         
         .BRANCH_EPSILON
         
@@ -16017,7 +15977,7 @@ Link_HandleMovingAnimation_MainEntry:
         LDA.b $00 : AND.b #$01 : BEQ .BRANCH_LAMBDA
             .BRANCH_KAPPA
             
-            INY #2
+            INY : INY
         
         .BRANCH_LAMBDA
         
@@ -16062,9 +16022,7 @@ Link_HandleMovingAnimation_StartWithDash:
     
     .BRANCH_RHO
     
-    LDA.b $11
-    
-    CMP.b #$0E : BEQ .BRANCH_SIGMA
+    LDA.b $11 : CMP.b #$0E : BEQ .BRANCH_SIGMA
         CMP.b #$12 : BEQ .BRANCH_TAU
             CMP.b #$13 : BNE .BRANCH_UPSILON
         
@@ -16093,7 +16051,8 @@ Link_HandleMovingAnimation_StartWithDash:
         LDA.w $02F5 : CMP.b #$02 : BEQ .BRANCH_PI
             LDA.w LinkWalkAnimationTimer_other, X : STA.b $00
             
-            LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .BRANCH_PSI
+            LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D
+            CMP.b $00 : BCC .BRANCH_PSI
                 STZ.b $2D
                 
                 LDA.b $2E : INC : CMP.b #$06 : BNE .BRANCH_OMEGA
@@ -16129,7 +16088,8 @@ Link_HandleMovingAnimation_StartWithDash:
     LDA.w $02F5 : CMP.b #$02 : BEQ Link_HandleMovingAnimation_Bunny_return
         LDA.w LinkWalkAnimationTimer, X : STA.b $00
         
-        LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .BRANCH_THEL
+        LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D
+        CMP.b $00 : BCC .BRANCH_THEL
             STZ.b $2D
             
             LDA.b $2E : INC : CMP.b #$09 : BNE .BRANCH_RAH
@@ -16153,7 +16113,8 @@ Link_HandleMovingAnimation_Bunny:
         LDA.w $02F5 : CMP.b #$02 : BEQ .BRANCH_ZAH
             LDA.w LinkWalkAnimationTimer_other, X : STA.b $00
             
-            LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .return
+            LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D
+            CMP.b $00 : BCC .return
                 STZ.b $2D
                 
                 LDA.b $2E : INC : CMP.b #$04 : BNE .BRANCH_SIN
@@ -16187,7 +16148,6 @@ Link_HandleMovingAnimationSwimming:
                 .BRANCH_GAMMA
                 
                 LDA.b $2F : LSR : TAX
-                
                 LDA.w $0340 : AND.w LinkDiagonalDominantDirection, X : BNE .BRANCH_ALPHA
             
             .BRANCH_BETA
@@ -16208,7 +16168,7 @@ Link_HandleMovingAnimationSwimming:
             LDA.w $0340 : AND.b #$01 : BEQ .BRANCH_THETA
                 .BRANCH_ZETA
                 
-                INY #2
+                INY : INY
             
             .BRANCH_THETA
             
@@ -16266,7 +16226,6 @@ Link_HandleMovingAnimation_Dash:
     LDA.b $3C : CMP.b #$09 : BCS .BRANCH_GAMMA
         LDA.w $0351 : BNE .BRANCH_GAMMA
             TXA : ASL #3 : TAX
-            
             LDA.w Pool_Link_HandleMovingAnimation_Dash_timers_a_idk, X : STA.b $00
             
             LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D
@@ -16288,7 +16247,8 @@ Link_HandleMovingAnimation_Dash:
     
     LDA.w Pool_Link_HandleMovingAnimation_Dash_timers_charge, X : STA.b $00
     
-    LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .BRANCH_THETA
+    LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D
+    CMP.b $00 : BCC .BRANCH_THETA
         STZ.b $2D
         
         LDA.b $2E : INC : CMP.b #$06 : BCC .BRANCH_ZETA
@@ -16536,7 +16496,6 @@ DesertPrayer_BuildIrisHDMATable:
     STZ.b $04
     
     LDA.b $20 : SEC : SBC.b $E8 : CLC : ADC.w #$000C : STA.b $0E
-    
     SEC : SBC.w $067C : STA.w $0674 : BPL .BRANCH_ALPHA
         STA.b $04
     
@@ -16553,9 +16512,8 @@ DesertPrayer_BuildIrisHDMATable:
         LDA.w #$0100 : STA.b $00 : STA.b $02
         
         LDA.w $0674 : BMI .BRANCH_BETA
-            LDA.b $04
-            CMP.w $0674 : BCC .BRANCH_GAMMA
-            CMP.w $0676 : BCS .BRANCH_GAMMA
+            LDA.b $04 : CMP.w $0674 : BCC .BRANCH_GAMMA
+                        CMP.w $0676 : BCS .BRANCH_GAMMA
         
         .BRANCH_BETA
 
@@ -16564,7 +16522,8 @@ DesertPrayer_BuildIrisHDMATable:
             
             STZ.w $0674
             
-            LDA.w $0676 : STA.b $04 : CMP.w #$00E1 : BCC .BRANCH_GAMMA
+            LDA.w $0676 : STA.b $04
+            CMP.w #$00E1 : BCC .BRANCH_GAMMA
                 BRL .BRANCH_EPSILON
         
         .BRANCH_DELTA
@@ -16612,7 +16571,6 @@ DesertPrayer_BuildIrisHDMATable:
         TYA : AND.w #$00FF : STA.b $06
         
         LDA.b $02 : TAY
-        
         AND.w #$FF00 : BEQ .BRANCH_MU
             AND.w #$FF00 : BEQ .BRANCH_NU ; WTF: what...?
                 LDY.w #$00FF
@@ -16638,15 +16596,12 @@ DesertPrayer_BuildIrisHDMATable:
         .BRANCH_XI
         
         LDA.w $0674 : BMI .BRANCH_PI
-            LDA.b $04
-            
-            CMP.w $0674 : BCC .BRANCH_RHO
-            CMP.w $0676 : BCS .BRANCH_RHO
+            LDA.b $04 : CMP.w $0674 : BCC .BRANCH_RHO
+                        CMP.w $0676 : BCS .BRANCH_RHO
         
         .BRANCH_PI
         
         LDA.w $067A : AND.w #$00FF : DEC : CLC : ADC.b $0E : TAX
-        
         DEC : ASL : CMP.w #$01C0 : BCS .BRANCH_SIGMA
             TAX
             
@@ -16663,7 +16618,8 @@ DesertPrayer_BuildIrisHDMATable:
         
         .BRANCH_RHO
         
-        INC.b $04 : LDA.b $04 : BMI .BRANCH_UPSILON
+        INC.b $04
+        LDA.b $04 : BMI .BRANCH_UPSILON
             CMP.w #$00E1 : BCS .BRANCH_EPSILON
         
         .BRANCH_UPSILON
@@ -16710,7 +16666,6 @@ DesertPrayer_BuildIrisHDMATable:
                 LDA.w $010C : STA.b $10
                 
                 STZ.b $1E
-                
                 STZ.b $1F
                 
                 STZ.b $96
@@ -16797,7 +16752,9 @@ DesertHDMA_CalculateIrisShapeLine:
     LDA.w $067A : STA.w SNES.DividendHigh
                   STZ.w SNES.DividendLow
     
-    LDA.w $067C : STA.w SNES.DivisorB : NOP #6
+    LDA.w $067C : STA.w SNES.DivisorB
+    
+    NOP #6
     
     REP #$20
     
@@ -16817,7 +16774,9 @@ DesertHDMA_CalculateIrisShapeLine:
     
     STY.b $06 : STY.w SNES.MultiplicandA
     
-    LDA.w $067C : STA.w SNES.MultiplierB : NOP #4
+    LDA.w $067C : STA.w SNES.MultiplierB
+
+    NOP #4
     
     LDA.w SNES.RemainderResultHigh : STA.b $08
     
@@ -16876,14 +16835,15 @@ InitializePushBlock:
     SEP #$20
     
     LDA.b $0E : ASL : TAX
-    
     LDA.b $00 : STA.w $05E4, X
     
-    LDA.b $01 : CLC : ADC.w $062D : STA.w $05E0, X : STA.b $01
+    LDA.b $01 : CLC : ADC.w $062D : STA.w $05E0, X
+                                    STA.b $01
     
     LDA.b $02 : STA.w $05F0, X
     
-    LDA.b $03 : CLC : ADC.w $062F : STA.w $05EC, X : STA.b $03
+    LDA.b $03 : CLC : ADC.w $062F : STA.w $05EC, X
+                                    STA.b $03
     
     STZ.w $05E8, X
     STZ.w $05F4, X
@@ -16893,7 +16853,6 @@ InitializePushBlock:
         
         LDA.w $0500, X : BNE .BRANCH_ALPHA
             LDY.b #$00
-            
             JSR.w PushBlock_AttemptToPushTheBlock : BCC .BRANCH_BETA
         
     .BRANCH_ALPHA
@@ -16911,7 +16870,8 @@ InitializePushBlock:
     .BRANCH_BETA
     
     ; Dragging noise? (Block moving?)
-    LDA.b #$22 : JSR.w Player_DoSfx2
+    LDA.b #$22
+    JSR.w Player_DoSfx2
     
     PLA : STA.b $0E
     
@@ -16938,7 +16898,6 @@ PushBlock_Slide:
         STY.b $00
         
         LDX.b #$01
-        
         LDA.w $05FC, X : DEC : ASL : CMP.b $00 : BEQ .correct_index
             ; Otherwise, assume the slot indicates the object we're interested
             ; in.
@@ -16982,14 +16941,15 @@ PushBlock_HandleFalling:
 {
     SEP #$30
     
-    PHB : PHK : PLB : PHY
+    PHB : PHK : PLB
+    
+    PHY
     
     STY.b $0E
     
     DEC.w $02C4 : BPL .not_finished
         INC.w $02C3
         LDX.w $02C3
-        
         LDA.w .fall_timer, X : STA.w $02C4
         
         CPX.b #$04 : BNE .not_finished
@@ -16999,7 +16959,6 @@ PushBlock_HandleFalling:
             STZ.w $02C3
             
             LDX.b #$01
-            
             LDA.w $05FC, X : DEC : ASL : CMP.b $0E : BEQ .correct_index
                 LDX.b #$00
             
@@ -17034,7 +16993,8 @@ PushBlock_ApplyVelocity:
     STZ.b $27
     STZ.b $28
     
-    LDA.w Pool_PushBlock_ApplyVelocity_block_speed : STA.b $0A : STA.b $0B
+    LDA.w Pool_PushBlock_ApplyVelocity_block_speed : STA.b $0A
+                                                     STA.b $0B
     
     LDA.b #$03 : STA.b $0C
     LDA.b #$02 : STA.b $0D
@@ -17114,9 +17074,7 @@ PushBlock_ApplyVelocity:
     
     CMP.w $05E8, X : BNE .BRANCH_THETA
         TXA : LSR : TAX
-        
         LDA.w $05FC, X : DEC : ASL : TAX
-        
         INC.w $0500, X
         
         LDA.b $50 : AND.b #$FB : STA.b $50
@@ -17155,10 +17113,9 @@ PushBlock_ApplyVelocity:
                     
                     PHY
                     
-                    LDA.w $05F8, Y : LSR : TAY
-                    
                     ; Push the sprite because a pushable block is colliding
                     ; with it?
+                    LDA.w $05F8, Y : LSR : TAY
                     LDA.w Pool_PushBlock_ApplyVelocity_recoil_x, Y : STA.w $0F40, X
                     LDA.w Pool_PushBlock_ApplyVelocity_recoil_y, Y : STA.w $0F30, X
                     
@@ -17290,7 +17247,7 @@ PushBlock_HandleCollision:
     .BRANCH_BETA
     
         LSR : BCS .BRANCH_ALPHA
-    DEY #2 : BPL .BRANCH_BETA
+    DEY : DEY : BPL .BRANCH_BETA
     
     BRL .BRANCH_GAMMA
     
@@ -17304,19 +17261,19 @@ PushBlock_HandleCollision:
     LDA.w Pool_PushBlock_HandleCollision_block_coords_address_perpendicular, Y
     STA.b $0E
     
-    LDA ($0C)
+    LDA.b ($0C)
     CLC : ADC.w Pool_PushBlock_HandleCollision_link_offset_perpendicular_bottom, Y
     STA.b $00
 
-    LDA ($0C)
+    LDA.b ($0C)
     CLC : ADC.w Pool_PushBlock_HandleCollision_link_offset_perpendicular_top, Y
     STA.b $02
 
-    LDA ($0E)
+    LDA.b ($0E)
     CLC : ADC.w Pool_PushBlock_HandleCollision_block_offset_perpendicular_bottom, Y
     STA.b $04
 
-    LDA ($0E)
+    LDA.b ($0E)
     CLC : ADC.w Pool_PushBlock_HandleCollision_block_offset_perpendicular_top, Y
     STA.b $06
     
@@ -17326,11 +17283,11 @@ PushBlock_HandleCollision:
     LDA.w Pool_PushBlock_HandleCollision_block_coords_address_on_axis, Y
     STA.b $0E
     
-    LDA ($0C)
+    LDA.b ($0C)
     CLC : ADC.w Pool_PushBlock_HandleCollision_link_offset_on_axis, Y
     STA.b $08
 
-    LDA ($0E)
+    LDA.b ($0E)
     CLC : ADC.w Pool_PushBlock_HandleCollision_block_coords_address_perpendicular, Y
     STA.b $0A
     
@@ -17338,28 +17295,22 @@ PushBlock_HandleCollision:
     
     PLA : STA.b $0E
     
-    LDA.b $00
-    
-    CMP.b $04 : BCC .BRANCH_DELTA
+    LDA.b $00 : CMP.b $04 : BCC .BRANCH_DELTA
         CMP.b $06 : BCC .BRANCH_EPSILON
 
     .BRANCH_DELTA
 
-    LDA.b $02
-    
-    CMP.b $04 : BCC .BRANCH_GAMMA
-    CMP.b $06 : BCS .BRANCH_GAMMA
+    LDA.b $02 : CMP.b $04 : BCC .BRANCH_GAMMA
+                CMP.b $06 : BCS .BRANCH_GAMMA
         .BRANCH_EPSILON
 
         PHY : PHX
         
         LDX.b $0E
-        
         LDA.b $2F : AND.w #$00FF : CMP.w $05F8, X : BNE .BRANCH_ZETA
             LDY.b #$01
             
             TXA : LSR : TAX
-            
             LDA.w $05FC, X : BEQ .BRANCH_THETA
                 LDY.b #$04
             
@@ -17377,8 +17328,7 @@ PushBlock_HandleCollision:
             SEC : SBC.b $0A : BCC .BRANCH_GAMMA
             CMP.w #$0008 : BCS .BRANCH_GAMMA
                 EOR.w #$FFFF : INC : STA.b $00
-                
-                CLC : ADC ($0C) : STA ($0C)
+                CLC : ADC.b ($0C) : STA.b ($0C)
                 
                 BRA .BRANCH_KAPPA
 
@@ -17386,7 +17336,6 @@ PushBlock_HandleCollision:
 
         LDA.b $08 : SEC : SBC.b $0A : CMP.w #$FFF8 : BCC .BRANCH_GAMMA
             EOR.w #$FFFF : INC : STA.b $00
-            
             CLC : ADC ($0C) : STA ($0C)
             
             .BRANCH_KAPPA
@@ -17484,8 +17433,7 @@ Underworld_DrawSinglePushBlock:
     REP #$20
     
     LDA.b $00 : SEC : SBC.b $E8 : DEC : STA.b $00
-    
-    LDA.b $02 : SEC : SBC.b $E2 : STA.b $02
+    LDA.b $02 : SEC : SBC.b $E2       : STA.b $02
     
     SEP #$20
     
@@ -17505,21 +17453,25 @@ Underworld_DrawSinglePushBlock:
     XBA
     
     ; Write sprite's X coordinate.
-    LDA.b $02 : STA ($90), Y : INY
+    LDA.b $02 : STA.b ($90), Y
     
     ; Write sprite's Y coordinate.
-    LDA.b $00 : STA ($90), Y : INY
+    INY
+    LDA.b $00 : STA.b ($90), Y
     
     ; Swap in the upper accumulator, write sprite's chr.
-    XBA : STA ($90), Y : INY
+    INY
+    XBA : STA.b ($90), Y
     
     ; Write sprite's properties.
-    LDA.b #$20 : STA ($90), Y : INY
-    
-    TYA : SEC : SBC.b $04 : LSR #2 : TAY
+    INY
+    LDA.b #$20 : STA.b ($90), Y
+
+    INY
+    TYA : SEC : SBC.b $04 : LSR : LSR : TAY
     
     ; Write data to extended OAM portion.
-    LDA.b #$02 : STA ($92), Y
+    LDA.b #$02 : STA.b ($92), Y
     
     .beta
     
@@ -17718,13 +17670,15 @@ Link_AnimateIntraStairClimbAndSFX:
     LDA.b #$01 : STA.w $037B
     
     LDA.w $0462 : AND.b #$04 : BEQ .delta
-        LDA.b #$18 : JSR.w Player_DoSfx2
+        LDA.b #$18
+        JSR.w Player_DoSfx2
         
         BRA .epsilon
     
     .delta
     
-    LDA.b #$16 : JSR.w Player_DoSfx2
+    LDA.b #$16
+    JSR.w Player_DoSfx2
     
     .epsilon
     
@@ -17779,13 +17733,12 @@ HandleLinkOnSpiralStairs:
     
     LDA.w $0462 : AND.b #$04 : BEQ .BRANCH_GAMMA
         LDA.b #$FE : STA.b $27
-        
         DEC.w $0371 : BPL .BRANCH_BETA
             STZ.w $0371
             
-            LDA.b #0 : STA.b $27
+            LDA.b #$00 : STA.b $27
             
-            LDA.b #-2 : STA.b $28
+            LDA.b #$FE : STA.b $28
         
         .BRANCH_BETA
         
@@ -17793,14 +17746,14 @@ HandleLinkOnSpiralStairs:
     
     .BRANCH_GAMMA
     
-    LDA.b #-2 : STA.b $27
+    LDA.b #$FE : STA.b $27
     
     DEC.w $0371 : BPL .BRANCH_DELTA
         STZ.w $0371
         
-        LDA.b #-2 : STA.b $27
+        LDA.b #$FE : STA.b $27
         
-        LDA.b #2 : STA.b $28
+        LDA.b #$02 : STA.b $28
     
     .BRANCH_DELTA
     
@@ -17840,8 +17793,8 @@ HandleLinkOnSpiralStairs:
     
     .BRANCH_IOTA
     
-    LDA.b #-8 : STA.b $00
-    LDA.b #-1 : STA.b $01
+    LDA.b #F8 : STA.b $00
+    LDA.b #$FF : STA.b $01
     
     LDA.w $0462 : AND.b #$04 : BNE .BRANCH_KAPPA
         LDA.b #$0C : STA.b $00
@@ -17863,19 +17816,17 @@ HandleLinkOnSpiralStairs:
     LDA.w $0462 : AND.b #$04 : BNE .BRANCH_LAMBDA
         ; Yes...
         
-        LDA.b #$17 ; Play the up staircase sound.
-        
-        ; Play a sound (maybe the staircase steps sound?)
+        ; Play the up staircase sound.
+        LDA.b #$17
         JSR.w Player_DoSfx2
         
         BRA .BRANCH_MU
     
     ; Yep, downward staircase.
     .BRANCH_LAMBDA
-    
-    LDA.b #$19
-    
+
     ; Play a sound (also a staircase step sound presumably).
+    LDA.b #$19
     JSR.w Player_DoSfx2
     
     .BRANCH_MU
@@ -17914,19 +17865,19 @@ SpiralStairs_FindLandingSpot:
     
     .BRANCH_ALPHA
     
-    LDA.b #0 : STA.b $27
+    LDA.b #$00 : STA.b $27
     
-    LDA.b #4 : STA.b $28
+    LDA.b #$04 : STA.b $28
     
     LDA.w $0462 : AND.b #$04 : BEQ .BRANCH_BETA
-        LDA.b #2 : STA.b $27
+        LDA.b #$02 : STA.b $27
         
-        LDA.b #-4 : STA.b $28
+        LDA.b #$FC : STA.b $28
     
     .BRANCH_BETA
     
     LDA.w $030A : CMP.b #$02 : BNE .BRANCH_GAMMA
-        LDA.b #16 : STA.b $27
+        LDA.b #$10 : STA.b $27
         
         STZ.b $28
         
@@ -17949,12 +17900,11 @@ SpiralStairs_FindLandingSpot:
 
 ; ==============================================================================
 
+; It apparently has something to do with staircases, possibly spiral
+; staircases in particular.
 ; $03F3F3-$03F3FC LONG JUMP LOCATION
 LinkResetPushTimer:
 {
-    ; It apparently has something to do with staircases, possibly spiral
-    ; staircases in particular.
-    
     ; OPTIMIZE: Setting B register unnecessary. In fact, this whole call
     ; could probably just be inlined at the call site, unless they can't
     ; spare an extra byte at the site.
@@ -17969,12 +17919,11 @@ LinkResetPushTimer:
 
 ; ==============================================================================
 
+; TODO: What would it be for, though? Looks like staircases. Hard to say
+; if it's just unfinished / broken or if uninteresting...
 ; $03F3FD-$03F42E LONG JUMP LOCATION
 UNREACHABLE_07F3FD:
 {
-    ; TODO: What would it be for, though? Looks like staircases. Hard to say
-    ; if it's just unfinished / broken or if uninteresting...
-    
     PHB : PHK : PLB
     
     REP #$20
@@ -18017,7 +17966,9 @@ HandleIndoorCameraAndDoors_long:
     
     JSR.w HandleIndoorCameraAndDoors
     
-    PLX : PLB
+    PLX
+    
+    PLB
     
     RTL
 }
@@ -18029,12 +17980,10 @@ Player_IsScreenTransitionPermitted:
 {
     PHB : PHK : PLB
     
-    LDA.b $5D
-    
-    CMP.b #$03 : BEQ .takeNoAction
-    CMP.b #$08 : BEQ .takeNoAction
-    CMP.b #$09 : BEQ .takeNoAction
-    CMP.b #$0A : BEQ .takeNoAction
+    LDA.b $5D : CMP.b #$03 : BEQ .takeNoAction
+                CMP.b #$08 : BEQ .takeNoAction
+                CMP.b #$09 : BEQ .takeNoAction
+                CMP.b #$0A : BEQ .takeNoAction
         ; Is Link recovering from being damaged / bounced back?
         LDA.b $46 : BEQ .actionIsPermitted
     
@@ -18073,17 +18022,14 @@ Player_IsScreenTransitionPermitted:
 Tagalong_CanWeDisplayMessage:
 {
     ; Is link in his basic game state?
-    LDA.b $5D
-    
-    CMP.b #$00 : BEQ .affirmative
-    CMP.b #$04 : BEQ .affirmative
+    LDA.b $5D : CMP.b #$00 : BEQ .affirmative
+                CMP.b #$04 : BEQ .affirmative
         CMP.b #$11 : BNE .negative
     
     .affirmative
     
     ; If the player has a sword and holds B.
     LDA.b $3A : AND.b #$80
-    
     ORA.w $0377 ; Don't know.
     ORA.w $0301 ; Player is using Ice/Fire Rod, Hammer 
     ORA.w $037A ; Link is an odd position. (praying, etc)
@@ -18091,7 +18037,6 @@ Tagalong_CanWeDisplayMessage:
     ORA.w $0314 ; Don't know.
     ORA.w $0308 ; Player is holding a pot.
     ORA.w $0376 ; Bit 0: Holding a wall. Bit 1: ????
-    
     BNE .negative
         SEC ; Indicates TRUE
         
@@ -18121,7 +18066,7 @@ Player_ApproachTriforce:
         .not_on_stairs
         
         LDA.b #$08 : STA.b $67
-                    STA.b $26
+                     STA.b $26
         
         STZ.b $2F
         

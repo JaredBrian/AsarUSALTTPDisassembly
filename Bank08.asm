@@ -245,7 +245,8 @@ AddFireRodShot:
             ; Oddly enough it avoids this for the Somarian blasts, for whatever
             ; reason. But, this is only in the event that there are no open slots
             ; for the object.... eh. whatever.
-            LDX.b #$00 : JSL.l LinkItem_ReturnUnusedMagic
+            LDX.b #$00
+            JSL.l LinkItem_ReturnUnusedMagic
         
         .no_mp_add_back
         
@@ -262,30 +263,36 @@ AddFireRodShot:
     LDA.b $00 : CMP.b #$01 : BEQ .dont_play_sound_effect
         PHY
         
-        LDA.b #$0E : JSR.w Ancilla_DoSfx2_NearPlayer
+        LDA.b #$0E
+        JSR.w Ancilla_DoSfx2_NearPlayer
         
         PLY
     
     .dont_play_sound_effect
     
-    LDA.b $00 : STA.w $0C4A, Y : TAX
+    LDA.b $00 : STA.w $0C4A, Y
+                TAX
     LDA.w AncillaObjectAllocation, X : STA.w $0C90, Y
     
     LDA.b #$03 : STA.w $0C68, Y
     
-    LDA.b #$00
-    STA.w $0C54, Y : STA.w $0C5E, Y : STA.w $0280, Y : STA.w $028A, Y
+    LDA.b #$00 : STA.w $0C54, Y : STA.w $0C5E, Y
+                 STA.w $0280, Y : STA.w $028A, Y
     
-    LDA.b $2F : LSR : STA.w $0C72, Y : TAX
+    LDA.b $2F : LSR : STA.w $0C72, Y
+                      TAX
     
-    PHY : PHX : TYX
+    PHY
+    PHX
+    TYX
     
     ; Appears to check multiple spots around Link to see if the item can
     ; spawn there. If it can't spawn in any of those locations, I guess
     ; we have a problem? Not sure yet.
     JSL.l Ancilla_CheckInitialTileCollision_Class_1
     
-    PLX : PLY
+    PLX
+    PLY
     
     BCS .initialize_in_spread_state
         LDA.w $0022
@@ -315,12 +322,10 @@ AddFireRodShot:
         ; Does this mean we should only be here if we have the Master Sword
         ; or better? This makes somaria shots move at different speeds depending
         ; on which sword we have. But it seems unused for some reason?
-        LDA.l $7EF359 : DEC #2 : ASL #2 : STA.b $0F
+        LDA.l $7EF359 : DEC : DEC : ASL : ASL : STA.b $0F
         
         TXA : CLC : ADC.b $0F : TAX
-        
         LDA.w SomariaBulletSpeed_X, X : STA.w $0C2C, Y
-        
         LDA.w SomariaBulletSpeed_Y, X
         
         .speed_has_been_determined
@@ -357,7 +362,8 @@ AddFireRodShot:
     LDA.b #$1F : STA.w $0C68, Y
     LDA.b #$08 : STA.w $0C90, Y
     
-    LDA.b #$2A : JSR.w Ancilla_DoSfx2
+    LDA.b #$2A
+    JSR.w Ancilla_DoSfx2
     
     .return_2
     
@@ -373,14 +379,14 @@ AddFireRodShot:
 ; $04019F-$0401A6 DATA
 Pool_SomarianBlast_SpawnCentrifugalQuad:
 {
+    ; $04019F
     .x_offsets
     db  -8, -8, -9, -4
     
+    ; $0401A3
     .y_offsets
     db -15, -4, -8, -8
 }
-
-; ==============================================================================
 
 ; $0401A7-$040241 LOCAL JUMP LOCATION
 SomarianBlast_SpawnCentrifugalQuad:
@@ -412,13 +418,16 @@ SomarianBlast_SpawnCentrifugalQuad:
         JSL.l Ancilla_CheckForAvailableSlot : BMI .spawn_failed
             PHX
             
-            LDA.b #$01 : STA.w $0C4A, Y : TAX
+            LDA.b #$01 : STA.w $0C4A, Y
+                         TAX
             LDA.w AncillaObjectAllocation, X : STA.w $0C90, Y
             
             LDA.b #$04 : STA.w $0C54, Y
-            LDA.b #$00 : STA.w $0C5E, Y : STA.w $0280, Y
+            LDA.b #$00 : STA.w $0C5E, Y
+                         STA.w $0280, Y
             
-            LDX.w $0FB5 : TXA : STA.w $0C72, Y
+            LDX.w $0FB5
+            TXA : STA.w $0C72, Y
             LDA.b $00 : CLC : ADC.w .x_offsets, X : STA.w $0C04, Y
             LDA.b $01 :       ADC.b #$FF :          STA.w $0C18, Y
             
@@ -502,7 +511,6 @@ Bomb_CheckSpriteDamage:
     .check_sprite_damage_loop
     
         TYA : EOR.b $1A : AND.b #$03
-        
         ORA.w $0EF0, Y : ORA.w $0BA0, Y : BEQ .proceed_with_damage_check
             .different_floors
             
@@ -530,10 +538,11 @@ Bomb_CheckSpriteDamage:
                 
                 SBC.b #$00 : STA.b $09
                 
-                LDA.b #$30 : STA.b $02 : STA.b $03
+                LDA.b #$30 : STA.b $02
+                             STA.b $03
                 
-                PHX : TYX
-                
+                PHX
+                TYX
                 JSL.l Sprite_SetupHitBoxLong
                 
                 PLX
@@ -555,15 +564,15 @@ Bomb_CheckSpriteDamage:
                     PHX : PHY
                     
                     LDA.w $0C4A, X
-                    
                     TYX
-                    
                     JSL.l Ancilla_CheckSpriteDamage
                     
                     ; How far the sprite gets pushed back.
-                    LDY.b #$40 : JSR.w Bomb_ProjectReflexiveSpeedOntoSprite
+                    LDY.b #$40
+                    JSR.w Bomb_ProjectReflexiveSpeedOntoSprite
                     
-                    PLY : PLX
+                    PLY
+                    PLX
                     
                     ; Reverse those speeds so that we are projecting the speed
                     ; away from the Ancilla. In other words, we are causing the
@@ -655,10 +664,8 @@ Ancilla_ExecuteObject:
     ; Note the subtraction before ASL.
     ; Load a subroutine based on the anillary object's index.
     PLA : DEC : ASL : TAY
-    
     LDA.w .object_routines+0, Y : STA.b $00
     LDA.w .object_routines+1, Y : STA.b $01
-    
     JMP.w ($0000)
     
     .object_routines
@@ -667,85 +674,64 @@ Ancilla_ExecuteObject:
     ; NO EFFECT ; SOURCE : $0C4A
     dw Ancilla_SomarianBlast        ; 0x01 - Both the pieces of somarian block
                                     ;        splitting and the fireballs).
-
     dw Ancilla_FireShot             ; 0x02 - Fire Rod flame (both flying and
                                     ;        after hitting something).
-
     dw Ancilla_Unused_03            ; 0x03 - Unimplemented object type. Won't
                                     ;        crash the game but won't ever self
                                     ;        terminate.
-
     dw Ancilla_BeamHit              ; 0x04 - Effect that represents a beam
                                     ;        splitting up after it hits
                                     ;        something.
-
     dw Ancilla_Boomerang            ; 0x05 - Boomerang
     dw Ancilla_WallHit              ; 0x06 - Spark-like effect that occurs when
                                     ;        you hit a wall with a boomerang or
                                     ;        hookshot.
-
     dw Ancilla_Bomb                 ; 0x07 - Blue player bomb
     dw Ancilla_DoorDebris           ; 0x08 - Rock fall effect (from bombing a
                                     ;        cave).
-
     dw Ancilla_Arrow                ; 0x09 - Flying arrow: (The arrow that enemies
                                     ;        can fire is sprite 0x1B)
     dw Ancilla_HaltedArrow          ; 0x0A - Arrow stuck in something (wall or
                                     ;        sprite).
-
     dw Ancilla_IceShot              ; 0x0B - Ice Rod shot
     dw Ancilla_SwordBeam            ; 0x0C - Master sword beam
     dw Ancilla_SwordFullChargeSpark ; 0x0D - The sparkle at the tip of your
                                     ;        sword when you power up the spin
                                     ;        attack.
-
     dw Ancilla_Unused_0E            ; 0x0E - Unimplemented object type that
                                     ;        points to the same location as the
                                     ;        blast wall.
-
     dw Ancilla_Unused_0F            ; 0x0F - Unimplemented object type that
                                     ;        points to the same location as the
                                     ;        blast wall.
-    
     dw Ancilla_Unused_0E            ; 0x10 - Unimplemented object type that
                                     ;        points to the same location as the
                                     ;        blast wall.
-
     dw Ancilla_IceShotSpread        ; 0x11 - Ice rod shot dissipating after
                                     ;        hitting a nontransitive tile.
-
     dw Ancilla_Unused_0E            ; 0x12 - Unimplemented object type that
                                     ;        points to the same location as the
                                     ;        blast wall.
-
     dw Ancilla_IceShotSparkle       ; 0x13 - Ice Shot Sparkles (the only actual
                                     ;        visible parts of the ice shot).
-
     dw Ancilla_Unused_14            ; 0x14 - Unimplemented object type. Don't
                                     ;        use as it will crash the game.
-
     dw Ancilla_JumpSplash           ; 0x15 - Splash from jumping into or out of
                                     ;        deep water.
-
     dw Ancilla_HitStars             ; 0x16 - The Hammer's Stars / Stars from
                                     ;        hitting hard ground with the shovel.
-
     dw Ancilla_ShovelDirt           ; 0x17 - Dirt from digging a hole with the
                                     ;        shovel.
-    
     dw Ancilla_EtherSpell           ; 0x18 - The Ether Effect
     dw Ancilla_BombosSpell          ; 0x19 - The Bombos Effect
     dw Ancilla_MagicPowder          ; 0x1A - Magic powder
     dw Ancilla_SwordWallHit         ; 0x1B - Sparks from tapping a wall with
                                     ;        your sword.
-
     dw Ancilla_QuakeSpell           ; 0x1C - The Quake Effect
     dw Ancilla_DashTremor           ; 0x1D - Jarring effect from hitting a wall
                                     ;        while dashing.
-
     dw Ancilla_DashDust             ; 0x1E - Pegasus boots dust flying
     dw Ancilla_Hookshot             ; 0x1F - Hookshot
-    
     dw Ancilla_BedSpread            ; 0x20 - Player's Bed Spread
     dw Ancilla_SleepIcon            ; 0x21 - Link's Zzzz's from sleeping
     dw Ancilla_ReceiveItem          ; 0x22 - Received Item Sprite
@@ -753,79 +739,57 @@ Ancilla_ExecuteObject:
     dw Ancilla_Gravestone           ; 0x24 - Gravestone sprite when in motion
     dw Ancilla_Unused_25            ; 0x25 - Unimplemented object type. Don't
                                     ;        use as it will crash the game.
-
     dw Ancilla_SwordSwingSparkle    ; 0x26 - Sparkles when swinging lvl 2 or
                                     ;        higher sword.
-
     dw Ancilla_TravelBird           ; 0x27 - the bird (when called by flute)
     dw Ancilla_WishPondItem         ; 0x28 - item sprite that you throw into
                                     ;        magic fairy ponds.
-
     dw Ancilla_MilestoneItem        ; 0x29 - Pendants, crystals, medallions
     dw Ancilla_InitialSpinSpark     ; 0x2A - Start of spin attack sparkle
     dw Ancilla_SpinSpark            ; 0x2B - During Spin attack sparkles
     dw Ancilla_SomarianBlock        ; 0x2C - Cane of Somaria blocks
     dw Ancilla_SomarianBlockFizzle  ; 0x2D - Suspected of being in cahoots with
                                     ;        the somaria objects.
-
     dw Ancilla_SomarianBlockDivide  ; 0x2E - Suspected of being in cahoots with
                                     ;        the somaria objects.
-
     dw Ancilla_LampFlame            ; 0x2F - Torch's flame
-    
     dw Ancilla_InitialCaneSpark     ; 0x30 - Initial spark for the Cane of Byrna
                                     ;        activating.
-
     dw Ancilla_CaneSpark            ; 0x31 - Cane of Byrna spinning sparkle
     dw Ancilla_BlastWallFireball    ; 0x32 - Flame blob, which is an ancillary
                                     ;        effect from the blast wall.
-
     dw Ancilla_BlastWall            ; 0x33 - Series of explosions from blowing
                                     ;        up a wall (after pulling a switch).
-
     dw Ancilla_SkullWoodsFire       ; 0x34 - Burning effect used to open up the
                                     ;        entrance to skull woods.
-
     dw Ancilla_SwordCeremony        ; 0x35 - Master Sword ceremony.... not sure
                                     ;        if it's the whole thing or a part
                                     ;        of it.
-
     dw Ancilla_Flute                ; 0x36 - Flute that pops out of the ground
                                     ;        in the haunted grove.
-
     dw Ancilla_WeathervaneExplosion ; 0x37 - Appears to trigger the weathervane
                                     ;        explosion.
-    
     dw Ancilla_TravelBirdIntro      ; 0x38 - Appears to give Link the bird
                                     ;        enabled flute.
-
     dw Ancilla_SomarianPlatformPoof ; 0x39 - Cane of Somaria blast which creates
                                     ;        platforms (sprite 0xED).
-
     dw Ancilla_SuperBombExplosion   ; 0x3A - super bomb explosion (also does
                                     ;        things normal bombs can).
-
     dw Ancilla_VictorySparkle       ; 0x3B - Victory sparkle on sword
     dw Ancilla_SwordChargeSpark     ; 0x3C - Sparkles from holding the sword out
                                     ;        charging for a spin attack.
-
     dw Ancilla_ObjectSplash         ; 0x3D - splash effect when things fall into
                                     ;        the water.
-
     dw Ancilla_RisingCrystal        ; 0x3E - 3D crystal effect (or transition
                                     ;        into 3D crystal?).
-
     dw Ancilla_BushPoof             ; 0x3F - Disintegrating bush poof (due to
                                     ;        magic powder).
-    
     dw Ancilla_DwarfPoof            ; 0x40 - Dwarf transformation cloud
     dw Ancilla_WaterfallSplash      ; 0x41 - Water splash from player standing
                                     ;        under waterfalls (doorways,
                                     ;        basically).
-
     dw Ancilla_HappinessPondRupees  ; 0x42 - Rupees that you throw in to the
                                     ;        Pond of Wishing.
-
     dw Ancilla_BreakTowerSeal       ; 0x43 - Ganon's Tower seal being broken
                                     ;        (not opened up though!).
 }
@@ -920,10 +884,10 @@ Ancilla_CheckTileCollision:
         SEP #$20
         
         LDA.w $0C04, X : PHA : CLC : ADC.b $00 : STA.w $0C04, X
-        LDA.w $0C18, X : PHA : ADC.b $01 : STA.w $0C18, X
+        LDA.w $0C18, X : PHA       : ADC.b $01 : STA.w $0C18, X
         
         LDA.w $0BFA, X : PHA : CLC : ADC.b $02 : STA.w $0BFA, X
-        LDA.w $0C0E, X : PHA : ADC.b $03 : STA.w $0C0E, X
+        LDA.w $0C0E, X : PHA       : ADC.b $03 : STA.w $0C0E, X
         
         LDA.b #$01 : STA.w $0C7C, X
         
@@ -977,14 +941,15 @@ Ancilla_CheckTileCollision:
 ; $040A26-$040AB8 LOCAL JUMP LOCATION
 Ancilla_CheckTargetedTileCollision:
 {
-    REP #$20 : LDA.b $00 : SEC : SBC.b $E8
+    REP #$20
     
+    LDA.b $00 : SEC : SBC.b $E8
     CMP.w #$00E0 : SEP #$20 : BCS .ignore_off_screen_collision_y
-        REP #$20 : LDA.b $02 : SEC : SBC.b $E2
+        REP #$20
         
         ; This one is also due to ignoring off screen collision, but in the
         ; x coordinate.
-        CMP.w #$0100 : SEP #$20 : BCS .no_collision
+        LDA.b $02 : SEC : SBC.b $E2 : CMP.w #$0100 : SEP #$20 : BCS .no_collision
             LDA.b $1B : BNE .check_indoor_collision
                 REP #$20
                 
@@ -1009,7 +974,6 @@ Ancilla_CheckTargetedTileCollision:
             .store_tile_interaction_result
             
             STA.w $03E4, X : TAY
-            
             LDA.w .collision_table, Y : STA.b $0F
             
             ; Checks the special effect type.
@@ -1120,13 +1084,10 @@ Pool_Ancilla_CheckTileCollision_Class2:
     db 0, 0, -1, 0
 }
 
-; ==============================================================================
-
+; Does collision detection for a number of entities, bombs being one of them.
 ; $040BCF-$040CD8 LOCAL JUMP LOCATION
 Ancilla_CheckTileCollision_Class2:
 {
-    ; Does collision detection for a number of entities, bombs being one of them.
-    
     ; "Collision" in Hyrule Magic. Do only collision on BG2.
     LDA.w $046C : BEQ .check_basic_collision
         ; Is it the "moving floor" collision type?
@@ -1153,11 +1114,17 @@ Ancilla_CheckTileCollision_Class2:
         
         SEP #$20
         
-        LDA.w $0C04, X : PHA : CLC : ADC.b $00 : STA.w $0C04, X
-        LDA.w $0C18, X : PHA : ADC.b $01 : STA.w $0C18, X
+        LDA.w $0C04, X  : PHA
+        CLC : ADC.b $00 : STA.w $0C04, X
+
+        LDA.w $0C18, X  : PHA
+              ADC.b $01 : STA.w $0C18, X
         
-        LDA.w $0BFA, X : PHA : CLC : ADC.b $02 : STA.w $0BFA, X
-        LDA.w $0C0E, X : PHA : ADC.b $03 : STA.w $0C0E, X
+        LDA.w $0BFA, X  : PHA
+        CLC : ADC.b $02 : STA.w $0BFA, X
+
+        LDA.w $0C0E, X  : PHA
+            : ADC.b $03 : STA.w $0C0E, X
         
         LDA.b #$01 : STA.w $0C7C, X
         
@@ -1209,12 +1176,10 @@ Ancilla_CheckTileCollision_Class2:
     REP #$20
     
     LDA.b $00 : SEC : SBC.b $E8
-    
     CMP.w #$00E0 : SEP #$20 : BCS .ignore_off_screen_collision
         REP #$20
         
         LDA.b $02 : SEC : SBC.b $E2
-        
         CMP.w #$0100 : SEP #$20 : BCS .ignore_off_screen_collision
             ; Are we in a dungeon?
             LDA.b $1B : BNE .check_indoor_collision
@@ -1235,7 +1200,6 @@ Ancilla_CheckTileCollision_Class2:
             ; Tells us what floor the bomb is on and is an input to the next
             ; function.
             LDA.w $0C7C, X
-            
             JSL.l Entity_GetTileAttr
             
             .store_queried_tile_attr
@@ -1247,9 +1211,8 @@ Ancilla_CheckTileCollision_Class2:
             
             .not_attr_3
             
-            TAY
-            
             ; Collision detection table:
+            TAY
             LDA.w .collision_table, Y : BEQ .no_collision
                 CMP.b #$02 : BNE .not_sloped_collision
                     ; Should be noted that like the other return points for this
@@ -1305,10 +1268,8 @@ Ancilla_CheckSpriteCollision:
     
     .next_sprite
     
-        LDA.w $0C4A, X
-        
-        CMP.b #$09 : BEQ .arrow_or_hookshot
-        CMP.b #$1F : BEQ .arrow_or_hookshot
+        LDA.w $0C4A, X : CMP.b #$09 : BEQ .arrow_or_hookshot
+                         CMP.b #$1F : BEQ .arrow_or_hookshot
             TYA : EOR.b $1A : AND.b #$03 : ORA.w $0F00, Y : BNE .ignore_sprite
         
         .arrow_or_hookshot
@@ -1347,23 +1308,20 @@ Ancilla_CheckSpriteCollisionLong:
 ; ==============================================================================
 
 ; $040DAA-$040DAD DATA
-Pool_Ancilla_CheckIndividualSpriteCollision:
+Ancilla_CheckIndividualSpriteCollision_opposing_sprite_directions:
 {
-    .opposing_sprite_directions
     db 2, 3, 0, 1
 }
-
-; ==============================================================================
 
 ; $040DAE-$040E7C LOCAL JUMP LOCATION
 Ancilla_CheckIndividualSpriteCollision:
 {
     JSR.w Ancilla_SetupHitBox
     
-    PHY : PHX
+    PHY
+    PHX
     
     TYX
-    
     JSL.l Sprite_SetupHitBoxLong
     
     PLX : PLY
@@ -1412,7 +1370,6 @@ Ancilla_CheckIndividualSpriteCollision:
         PHY
         
         LDA.w $0DE0, Y : TAY
-        
         LDA.w .opposing_sprite_directions, Y
         
         PLY
@@ -1460,7 +1417,8 @@ Ancilla_CheckIndividualSpriteCollision:
             
             JSL.l Ancilla_CheckSpriteDamage
             
-            PLY : PLX
+            PLY
+            PLX
             
             .indicate_dragging_ancilla
             
@@ -1519,8 +1477,6 @@ Pool_Ancilla_SetupHitBox:
     db 8, 8, 32, 32
 }
 
-; ==============================================================================
-
 ; $040EAD-$040EEC LOCAL JUMP LOCATION
 Ancilla_SetupHitBox:
 {
@@ -1529,7 +1485,7 @@ Ancilla_SetupHitBox:
     PHY
     
     LDY.w $0C72, X
-    
+
     LDA.w $0C4A, X : CMP.b #$0C : BNE .not_sword_beam
         DEC.b $09
         
@@ -1566,7 +1522,8 @@ Ancilla_ProjectSpeedTowardsPlayer:
 {
     STA.b $01
     
-    PHX : PHY
+    PHX
+    PHY
     
     JSR.w Ancilla_IsBelowPlayer
     
@@ -1597,8 +1554,9 @@ Ancilla_ProjectSpeedTowardsPlayer:
         INY
         
         ; Swap $0C and $0D if y component is larger.
-        PHA : LDA.b $0C : STA.b $0D
-        PLA : STA.b $0C
+        PHA
+        LDA.b $0C : STA.b $0D
+        PLA       : STA.b $0C
     
     .dx_is_bigger
     
@@ -1659,7 +1617,7 @@ Ancilla_IsToRightOfPlayer:
     LDY.b #$00
     
     LDA.b $22 : SEC : SBC.w $0C04, X : STA.b $0F
-    LDA.b $23 : SBC.w $0C18, X : BPL .object_leftward_of_player
+    LDA.b $23       : SBC.w $0C18, X : BPL .object_leftward_of_player
         ; Object is rightward of player.
         INY
     
@@ -1676,7 +1634,7 @@ Ancilla_IsBelowPlayer:
     LDY.b #$00
     
     LDA.b $20 : SEC : SBC.w $0BFA, X : STA.b $0E
-    LDA.b $21 : SBC.w $0C0E, X : BPL .object_upward_of_player
+    LDA.b $21       : SBC.w $0C0E, X : BPL .object_upward_of_player
         ; Object is downward of player.
         INY
     
@@ -1700,7 +1658,6 @@ Ancilla_MoveHoriz:
 {
     ; Increments X_reg by 0x0A so that X coordinates will be handled next.
     TXA : CLC : ADC.b #$0A : TAX
-    
     JSR.w Ancilla_MoveVert
     
     ; Reload the special object's index to X.
@@ -1917,7 +1874,6 @@ Ancilla_SwordBeam:
 Ancilla_SwordFullChargeSpark:
 {
     LDA.b #$04
-    
     JSR.w Ancilla_AllocateOam
     
     TYA : STA.w $0C86, X
@@ -1947,7 +1903,6 @@ Ancilla_CheckBasicSpriteCollision:
         ; This staggers out collision detection so only some fraction of the
         ; prites are being checked for collision with the object.
         TYA : EOR.b $1A : AND.b #$03
-
         ORA.w $0F00, Y : ORA.w $0EF0, Y : BNE .no_collision
             LDA.w $0DD0, Y : CMP.b #$09 : BCC .no_collision
                 LDA.w $0CAA, Y : AND.b #$02 : BNE .sprite_ignores_priority
@@ -1982,13 +1937,14 @@ Ancilla_CheckSingleBasicSpriteCollision:
 {
     JSR.w Ancilla_SetupBasicHitBox
     
-    PHY : PHX
+    PHY
+    PHX
     
     TYX
-    
     JSL.l Sprite_SetupHitBoxLong
     
-    PLX : PLY
+    PLX
+    PLY
     
     JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
         ; Helmasaur king check...
@@ -2019,13 +1975,14 @@ Ancilla_CheckSingleBasicSpriteCollision:
             
             LDA.b #$50
             
-            PHY : PHX
+            PHY
+            PHX
             
             TYX
-            
             JSL.l Sprite_ProjectSpeedTowardsEntityLong
             
-            PLX : PLY
+            PLX
+            PLY
             
             LDA.b $00 : EOR.b #$FF : STA.w $0F30, Y
             LDA.b $01 : EOR.b #$FF : STA.w $0F40, Y
@@ -2033,9 +1990,7 @@ Ancilla_CheckSingleBasicSpriteCollision:
             PHX
             
             LDA.w $0C4A, X
-            
             TYX
-            
             JSL.l Ancilla_CheckSpriteDamage
             
             PLX
@@ -2065,7 +2020,7 @@ Ancilla_CheckSingleBasicSpriteCollision:
 Ancilla_SetupBasicHitBox:
 {
     LDA.w $0C04, X : SEC : SBC.b #$08 : STA.b $00
-    LDA.w $0C18, X : SBC.b #$00 : STA.b $08
+    LDA.w $0C18, X       : SBC.b #$00 : STA.b $08
     
     LDA.w $0BFA, X : SEC : SBC.b #$08 : PHP : SEC : SBC.w $029E, X : STA.b $01
     LDA.w $0C0E, X :       SBC.b #$00 : PLP :       SBC.b #$00     : STA.b $09
@@ -2121,7 +2076,6 @@ Ancilla_SetSfxPan_NearEntity:
     PHX
     
     LSR #5 : TAX
-    
     LDA.l AncillaPanValues, X
     
     PLX
@@ -2141,8 +2095,8 @@ Ancilla_Spawn:
     PLA
     
     TYX : BMI .no_open_slots
-        STA.w $0C4A, X : TAY
-        
+        STA.w $0C4A, X
+        TAY
         LDA.w AncillaObjectAllocation, Y : STA.w $0C90, X
         LDA.b $EE                        : STA.w $0C7C, X
         LDA.w $0476                      : STA.w $03CA, X
@@ -2204,6 +2158,7 @@ Ancilla_PrepOamCoord:
     LDY.w $0C7C, X
     
     LDA.w .priority, Y : STA.b $65
+
     STZ.b $64
     
     LDA.w $0BFA, X : STA.b $00
@@ -2215,7 +2170,8 @@ Ancilla_PrepOamCoord:
     REP #$20
     
     LDA.b $00 : SEC : SBC.b $E8 : STA.b $00
-    LDA.b $02 : SEC : SBC.b $E2 : STA.b $02 : STA.b $04
+    LDA.b $02 : SEC : SBC.b $E2 : STA.b $02
+                                  STA.b $04
     
     SEP #$20
     
@@ -2231,6 +2187,7 @@ Ancilla_PrepAdjustedOamCoord:
     LDY.w $0C7C, X
     
     LDA Pool_Ancilla_PrepOamCoord_priority, Y : STA.b $65
+
     STZ.b $64
     
     LDA.w $0BFA, X : STA.b $00
@@ -2243,7 +2200,8 @@ Ancilla_PrepAdjustedOamCoord:
     
     LDA.b $00 : SEC : SBC.w $0122 : STA.b $00
     
-    LDA.b $02 : SEC : SBC.w $011E : STA.b $02 : STA.b $04
+    LDA.b $02 : SEC : SBC.w $011E : STA.b $02
+                                    STA.b $04
     
     SEP #$20
     
@@ -2283,7 +2241,7 @@ Ancilla_SetOam_XY:
     LDA.b $01 : BNE .off_screen
         LDA.b $03 : BNE .off_screen
             ; Store the X coordinate into OAM.
-            LDA.b $02 : STA ($90), Y
+            LDA.b $02 : STA.b ($90), Y
             
             ; Indicates the sprite is already below the visible lines of the
             ; screen.
@@ -2292,10 +2250,11 @@ Ancilla_SetOam_XY:
     
     .off_screen
     
-    INY
-    
     ; Store the Y coordinate.
-    TXA : STA ($90), Y : INY
+    INY
+    TXA : STA.b ($90), Y
+    
+    INY
     
     PLX
     
@@ -2324,21 +2283,23 @@ Ancilla_SetSafeOam_XY:
     REP #$20
     
     ; Store the sprite's X coordinate.
-    LDA.b $02 : STA ($90), Y : INY
+    LDA.b $02 : STA.b ($90), Y
+    
+    INY
     
     ; Is the sprite's X coordinate > 0x100?
     CLC : ADC.w #$0080 : CMP.w #$0180 : BCS .off_screen
         ; If the sprite's X coordinate exceeds 0x100.
         LDA.b $02 : AND.w #$0100 : STA.b $74
         
-        LDA.b $00 : STA ($90), Y
+        LDA.b $00 : STA.b ($90), Y
         
         ; Same as CMP #$00F0... I don't get it.
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
     
     .off_screen
     
-    LDA.w #$00F0 : STA ($90), Y
+    LDA.w #$00F0 : STA.b ($90), Y
     
     .on_screen
     
@@ -2354,21 +2315,27 @@ Ancilla_SetSafeOam_XY:
 ; $04772F-$04776A DATA
 Pool_Ancilla_CheckPlayerCollision:
 {
+    ; $04772F
     .y_offsets
     db  0,  0,  8,  0,  8,  0,  8,  0,  0,  0
     
+    ; $047739
     .x_offsets
     db  0,  0,  8,  0,  8,  0,  8,  0,  0,  0
     
+    ; $047743
     .y_windows
     db 20,  0, 20,  0,  8,  0, 28,  0, 14,  0
     
+    ; $04774D
     .x_windows
     db 20,  0,  3,  0,  8,  0, 24,  0, 14,  0
     
+    ; $047757
     .player_y_offsets
     db 12,  0, 12,  0, 12,  0, 12,  0, 12,  0
     
+    ; $047761
     .player_x_offsets
     db  8,  0,  8,  0,  8,  0, 12,  0,  8,  0
     
@@ -2392,17 +2359,18 @@ Ancilla_CheckPlayerCollision:
     STZ.b $0B
     
     ; $0A = "altitude"
-    LDA.w $029E, X : STA.b $0A : BPL .sign_ext_z_coord
+    LDA.w $029E, X : STA.b $0A
+    BPL .sign_ext_z_coord
         LDA.b #$FF : STA.b $0B
     
     .sign_ext_z_coord
     
     REP #$20
     
-    LDA.b $00 : CLC : ADC.b $0A : CLC : ADC .y_offsets, Y : STA.b $00
-    LDA.b $02                   : CLC : ADC .x_offsets, Y : STA.b $02
+    LDA.b $00 : CLC : ADC.b $0A : CLC : ADC.w .y_offsets, Y : STA.b $00
+    LDA.b $02                   : CLC : ADC.w .x_offsets, Y : STA.b $02
     
-    LDA.b $20 : CLC : ADC .player_y_offsets, Y : SEC : SBC.b $00
+    LDA.b $20 : CLC : ADC.w .player_y_offsets, Y : SEC : SBC.b $00
     
     STA.b $04 : BPL .positive_delta_y
         EOR.w #$FFFF : INC
@@ -2410,7 +2378,7 @@ Ancilla_CheckPlayerCollision:
     .positive_delta_y
     
     STA.b $08 : CMP .y_windows, Y : BCC .not_collision
-        LDA.b $22 : CLC : ADC .player_x_offsets, Y : SEC : SBC.b $02
+        LDA.b $22 : CLC : ADC.w .player_x_offsets, Y : SEC : SBC.b $02
         
         STA.b $06 : BPL .positive_delta_x
             EOR.w #$FFFF : INC
@@ -2475,15 +2443,19 @@ Hookshot_CheckChainLinkProximityToPlayer:
 ; $047824-$047843 DATA
 Pool_Ancilla_CheckIfEntranceTriggered:
 {
+    ; $047824
     .trigger_coord_y
     dw $0D40, $0210, $0CFC, $0100
     
+    ; $04782C
     .trigger_coord_x
     dw $0D80, $0E68, $0130, $0F10
     
+    ; $047834
     .trigger_window_y
     dw $000B, $0020, $0010, $000C
     
+    ; $04783C
     .trigger_window_x
     dw $0010, $0010, $0010, $0010
 }
@@ -2497,22 +2469,22 @@ Ancilla_CheckIfEntranceTriggered:
     REP #$20
     
     ; Centers player's Y coordinate.
-    LDA.b $20 : CLC : ADC.w #$000C : SEC : SBC .trigger_coord_y, Y : BPL .positive_delta_y
+    LDA.b $20 : CLC : ADC.w #$000C : SEC : SBC.w .trigger_coord_y, Y : BPL .positive_delta_y
         EOR.w #$FFFF : INC
     
     .positive_delta_y
     
     ; Is the distance less than or equal to this many pixels?
-    CMP .trigger_window_y, Y : BCS .failure
+    CMP.w .trigger_window_y, Y : BCS .failure
         ; Centers player's X coordinate.
-        LDA.b $22 : CLC : ADC.w #$0008 : SEC : SBC .trigger_coord_x, Y : BPL .positive_delta_x
+        LDA.b $22 : CLC : ADC.w #$0008 : SEC : SBC.w .trigger_coord_x, Y : BPL .positive_delta_x
             ; * -1
             EOR.w #$FFFF : INC
         
         .positive_delta_x
         
         ; Is the distance less than or equal to this.
-        CMP .trigger_window_x, Y : BCS .failure
+        CMP.w .trigger_window_x, Y : BCS .failure
             SEP #$20
             
             SEC
@@ -2559,9 +2531,7 @@ Ancilla_DrawShadow:
 {
     CPX.b #$02 : BNE .not_small_shadow
         REP #$20
-        
         LDA.b $02 : CLC : ADC.w #$0004 : STA.b $02
-        
         SEP #$20
     
     .not_small_shadow
@@ -2573,23 +2543,21 @@ Ancilla_DrawShadow:
     
     JSR.w Ancilla_SetSafeOam_XY
     
-    LDA.w Pool_Ancilla_DrawShadow_chr, X : STA ($90), Y
-    INY
+    LDA.w Pool_Ancilla_DrawShadow_chr, X : STA.b ($90), Y
 
+    INY
     LDA.w Pool_Ancilla_DrawShadow_properties, X
-    AND.b #$CF : ORA.b $04 : STA ($90), Y
+    AND.b #$CF : ORA.b $04 : STA.b ($90), Y
     INY
     
-    PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$00 : ORA.b $75 : STA ($92), Y
+    PHY
+    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+    LDA.b #$00 : ORA.b $75 : STA.b ($92), Y
     
     PLY
     
     REP #$20
-    
     LDA.b $02 : CLC : ADC.w #$0008 : STA.b $02
-    
     SEP #$20
     
     LDA.w Pool_Ancilla_DrawShadow_chr+1, X : CMP.b #$FF : BEQ .only_one_OAM_entry
@@ -2598,16 +2566,17 @@ Ancilla_DrawShadow:
         
         JSR.w Ancilla_SetSafeOam_XY
         
-        LDA.w Pool_Ancilla_DrawShadow_chr+1, X : STA ($90), Y
+        LDA.w Pool_Ancilla_DrawShadow_chr+1, X : STA.b ($90), Y
+
         INY
 
         LDA.w Pool_Ancilla_DrawShadow_properties+1, X
-        AND.b #$CF : ORA.b $04 : STA ($90), Y
-        INY
-        
-        PHY : TYA : SEC : SBC.b #$03 : LSR #2 : TAY
-        
-        LDA.b #$00 : ORA.b $75 : STA ($92), Y
+        AND.b #$CF : ORA.b $04 : STA.b ($90), Y
+
+        INY : PHY
+
+        TYA : SEC : SBC.b #$03 : LSR : LSR : TAY
+        LDA.b #$00 : ORA.b $75 : STA.b ($92), Y
         
         PLY
     
@@ -2645,7 +2614,6 @@ Tagalong_GetCloseToPlayer:
     .need_to_get_closer_to_player
     
         LDX.w $02D3
-        
         LDA.w $1A00, X : STA.w $0C03
         LDA.w $1A14, X : STA.w $0C17
         
@@ -2654,7 +2622,6 @@ Tagalong_GetCloseToPlayer:
         
         LDX.b #$09
         LDA.b #$18
-        
         JSR.w Ancilla_ProjectSpeedTowardsPlayer
         
         LDA.b $00 : STA.w $0C22, X
@@ -2704,10 +2671,8 @@ Tagalong_GetCloseToPlayer:
             LDA.b $03 : STA.w $1A3C, X
             
             LDY.b $EE
-        
-        LDA Ancilla_PrepOamCoord_priority, Y
-        
-        LSR #2 : ORA.b #$01 : STA.w $1A64, X
+            LDA.w Ancilla_PrepOamCoord_priority, Y
+            LSR : LSR : ORA.b #$01 : STA.w $1A64, X
     BRL .need_to_get_closer_to_player
     
     .exhausted_attempts
@@ -2725,7 +2690,8 @@ Tagalong_GetCloseToPlayer:
 ; $0479BA-$0479FF LOCAL JUMP LOCATION
 Ancilla_CustomAllocateOam:
 {
-    PHA : PHX
+    PHA
+    PHX
     
     REP #$20
     
@@ -2754,8 +2720,7 @@ Ancilla_CustomAllocateOam:
         .set_OAM_pointer
         
         STA.b $90
-        
-        SEC : SBC.w #$0800 : LSR #2 : CLC : ADC.w #$0A20 : STA.b $92
+        SEC : SBC.w #$0800 : LSR : LSR : CLC : ADC.w #$0A20 : STA.b $92
         
         LDY.b #$00
     
@@ -2763,7 +2728,8 @@ Ancilla_CustomAllocateOam:
     
     SEP #$20
     
-    PLX : PLA
+    PLX
+    PLA
     
     RTS
 }
@@ -2773,7 +2739,8 @@ Ancilla_CustomAllocateOam:
 ; $047A00-$047A2C LOCAL JUMP LOCATION
 HitStars_UpdateOamBufferPosition:
 {
-    PHA : PHX
+    PHA
+    PHX
     
     REP #$20
     
@@ -2782,8 +2749,7 @@ HitStars_UpdateOamBufferPosition:
     LDX.w $0FB3 : BNE .sort_sprites
         CMP.w #$09D0 : BCC .dont_reset_OAM_pointer
             LDA.w #$0820 : STA.b $90
-            
-            SEC : SBC.w #$0800 : LSR #2 : CLC : ADC.w #$0A20 : STA.b $92
+            SEC : SBC.w #$0800 : LSR : LSR : CLC : ADC.w #$0A20 : STA.b $92
             
             LDY.b #$00
 
@@ -2792,7 +2758,8 @@ HitStars_UpdateOamBufferPosition:
     
     SEP #$20
     
-    PLX : PLA
+    PLX
+    PLA
     
     RTS
 }
@@ -2804,7 +2771,8 @@ HitStars_UpdateOamBufferPosition:
 Hookshot_IsCollisionCheckFutile:
 {
     ; Only the Hookshot calls this.
-    PHX : PHY
+    PHX
+    PHY
     
     LDA.w $0BFA, X : STA.b $00
     LDA.w $0C0E, X : STA.b $01
@@ -2835,7 +2803,8 @@ Hookshot_IsCollisionCheckFutile:
         
         SEP #$20
         
-        PLY : PLX
+        PLY
+        PLX
         
         SEC
         
@@ -2845,7 +2814,8 @@ Hookshot_IsCollisionCheckFutile:
         
         SEP #$20
         
-        PLY : PLX
+        PLY
+        PLX
         
         CLC
         
@@ -2870,9 +2840,11 @@ Hookshot_IsCollisionCheckFutile:
             
     SEP #$20
             
-    PLY : PLX
+    PLY
+    PLX
             
     LDA.b $01 : AND.b #$02 : STA.b $01
+
     LDA.b $21 : AND.b #$02 : CMP $01 : BEQ .same_screen_as_player
         SEC
             
@@ -2882,9 +2854,11 @@ Hookshot_IsCollisionCheckFutile:
                 
         SEP #$20
                 
-        PLY : PLX
+        PLY
+        PLX
                 
         LDA.b $03 : AND.b #$02 : STA.b $03
+
         LDA.b $23 : AND.b #$02 : CMP $03 : BEQ .same_screen_as_player
             SEC
                     
@@ -2905,16 +2879,13 @@ Ancilla_GetRadialProjection:
     PHX
     
     TAX
-    
-    LDA.l Pool_Ancilla_GetRadialProjection_multiplier_y, X
-    STA.w SNES.MultiplicandA
+    LDA.l Pool_Ancilla_GetRadialProjection_multiplier_y, X : STA.w SNES.MultiplicandA
 
     LDA.b $08 : STA.w SNES.MultiplierB
     
     ; Sign of the projected distance.
-    LDA.l Pool_Ancilla_GetRadialProjection_meta_sign_y, X
-    STA.b $02
-    STZ.b $03
+    LDA.l Pool_Ancilla_GetRadialProjection_meta_sign_y, X : STA.b $02
+                                                            STZ.b $03
     
     ; Get Y projected distance?
     LDA.w SNES.RemainderResultLow : ASL
@@ -2991,20 +2962,20 @@ BeamHit_Unknown:
     
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
         LDA.b $0B : BPL .override_size
-            LDA ($92), Y : AND.b #$02
+            LDA.b ($92), Y : AND.b #$02
         
         .override_size
         
-        STA ($92), Y
+        STA.b ($92), Y
         
         PLY
         
         LDX.b #$00
         
-        LDA ($90), Y : SEC : SBC.b $07 : BPL .positive_x
+        LDA.b ($90), Y : SEC : SBC.b $07 : BPL .positive_x
             DEX
         
         .positive_x
@@ -3015,18 +2986,17 @@ BeamHit_Unknown:
         JSR.w BeamHit_Get_Top_X_Bit : BCC .no_x_adjustment_needed
             PHY
             
-            TYA : LSR #2 : TAY
-            
-            LDA ($92), Y : ORA.b #$01 : STA ($92), Y
+            TYA : LSR : LSR : TAY
+            LDA.b ($92), Y : ORA.b #$01 : STA.b ($92), Y
             
             PLY
         
         .no_x_adjustment_needed
         
         LDX.b #$00
+
         INY
-        
-        LDA ($90), Y : SEC : SBC.b $06 : BPL .positive_y
+        LDA.b ($90), Y : SEC : SBC.b $06 : BPL .positive_y
             DEX
         
         .positive_y
@@ -3036,7 +3006,7 @@ BeamHit_Unknown:
         TXA : ADC.b $01 : STA.b $0A
         
         JSR.w BeamHit_CheckOffscreen_Y : BCC .onscreen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .onscreen_y
         
@@ -3054,9 +3024,14 @@ BeamHit_GetCoords:
     STY.b $0B
     STA.b $08
     
-    LDA.w $0BFA, X : STA.b $00 : SEC : SBC.b $E8 : STA.b $06
+    LDA.w $0BFA, X  : STA.b $00
+    SEC : SBC.b $E8 : STA.b $06
+
     LDA.w $0C0E, X : STA.b $01
-    LDA.w $0C04, X : STA.b $02 : SEC : SBC.b $E2 : STA.b $07
+
+    LDA.w $0C04, X  : STA.b $02
+    SEC : SBC.b $E2 : STA.b $07
+
     LDA.w $0C18, X : STA.b $03
     
     RTS
@@ -3083,7 +3058,8 @@ BeamHit_CheckOffscreen_Y:
 {
     REP #$20
     
-    LDA.b $09 : PHA : CLC : ADC.w #$0010 : STA.b $09
+    LDA.b $09          : PHA
+    CLC : ADC.w #$0010 : STA.b $09
     SEC : SBC.b $E8 : CMP.w #$0100
     
     PLA : STA.b $09

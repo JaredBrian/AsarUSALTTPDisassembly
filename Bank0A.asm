@@ -371,7 +371,8 @@ Messaging_BirdTravel:
     LDA.w $0200
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw OverworldMap_Backup           ; 0x00 - $B9A3 Also handles fading to black
-    dw BirdTravel_InitGfx            ; 0x01 - $B74B On the last frame of fading load the map GFX
+    dw BirdTravel_InitGfx            ; 0x01 - $B74B On the last frame of fading
+                                     ;        load the map GFX
     dw OverworldMap_LoadSprGfx       ; 0x02 - $BA9A
     dw OverworldMap_BrightenScreen   ; 0x03 - $BAAA
     dw BirdTravel_InitCounter        ; 0x04 - $B753
@@ -455,7 +456,6 @@ BirdTravel_Main:
     .noButtonInput
 
     LDY.b #$07
-    
     LDX.w $1AF0
 
     .BRANCH_LAMBDA
@@ -496,7 +496,6 @@ BirdTravel_Main:
             LDA.b #$02 : STA.b $0B
             
             LDX.b #$10
-            
             JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_ZETA
@@ -512,10 +511,17 @@ BirdTravel_Main:
     .next_numeral
 
     CPX.w $1AF0 : BNE .BRANCH_THETA
-        LDA.l Pool_BirdTravel_Main_pos_x_low,  X : STA.w $1AB0, X : STA.l $7EC10A
-        LDA.l Pool_BirdTravel_Main_pos_x_high, X : STA.w $1AC0, X : STA.l $7EC10B
-        LDA.l Pool_BirdTravel_Main_pos_y_low,  X : STA.w $1AD0, X : STA.l $7EC108
-        LDA.l Pool_BirdTravel_Main_pos_y_high, X : STA.w $1AE0, X : STA.l $7EC109
+        LDA.l Pool_BirdTravel_Main_pos_x_low,  X : STA.w $1AB0, X
+                                                   STA.l $7EC10A
+
+        LDA.l Pool_BirdTravel_Main_pos_x_high, X : STA.w $1AC0, X
+                                                   STA.l $7EC10B
+
+        LDA.l Pool_BirdTravel_Main_pos_y_low,  X : STA.w $1AD0, X
+                                                   STA.l $7EC108
+
+        LDA.l Pool_BirdTravel_Main_pos_y_high, X : STA.w $1AE0, X
+                                                   STA.l $7EC109
         
         PHX
         
@@ -540,11 +546,18 @@ BirdTravel_Main:
 
     .BRANCH_THETA
 
-    LDA.l Pool_BirdTravel_Main_pos_x_low,  X : STA.w $1AB0, X : STA.l $7EC10A
-    LDA.l Pool_BirdTravel_Main_pos_x_high, X : STA.w $1AC0, X : STA.l $7EC10B
-    LDA.l Pool_BirdTravel_Main_pos_y_low,  X : STA.w $1AD0, X : STA.l $7EC108
-    LDA.l Pool_BirdTravel_Main_pos_y_high, X : STA.w $1AE0, X : STA.l $7EC109
-    
+    LDA.l Pool_BirdTravel_Main_pos_x_low,  X : STA.w $1AB0, X
+                                               STA.l $7EC10A
+
+    LDA.l Pool_BirdTravel_Main_pos_x_high, X : STA.w $1AC0, X
+                                               STA.l $7EC10B
+
+    LDA.l Pool_BirdTravel_Main_pos_y_low,  X : STA.w $1AD0, X
+                                               STA.l $7EC108
+
+    LDA.l Pool_BirdTravel_Main_pos_y_high, X : STA.w $1AE0, X
+                                               STA.l $7EC109
+
     PHX
     
     JSR.w WorldMap_CalculateOAMCoordinates
@@ -601,11 +614,9 @@ BirdTravel_LoadTargetArea:
     ; $0538F5
     LDY.b #$58
         
-    LDA.b $8A : AND.b #$BF
-        
-    CMP.b #$03 : BEQ .death_mountain
-    CMP.b #$05 : BEQ .death_mountain
-    CMP.b #$07 : BEQ .death_mountain
+    LDA.b $8A : AND.b #$BF : CMP.b #$03 : BEQ .death_mountain
+                             CMP.b #$05 : BEQ .death_mountain
+                             CMP.b #$07 : BEQ .death_mountain
         LDY.b #$5A
     
     .death_mountain
@@ -628,11 +639,13 @@ BirdTravel_LoadTargetArea:
     LDA.b #$10 : STA.w $012F
         
     ; Reset the ambient sound effect to what it was.
-    LDX.b $8A : LDA.l $7F5B00, X : LSR #4 : STA.w $012D
+    LDX.b $8A
+    LDA.l $7F5B00, X : LSR #4 : STA.w $012D
         
     ; If it's a different music track than was playing where we came from,
     ; simply change to it (as opposed to setting volume back to full).
-    LDA.l $7F5B00, X : AND.b #$0F : TAX : CPX.w $0130 : BNE .different_music
+    LDA.l $7F5B00, X : AND.b #$0F : TAX
+    CPX.w $0130 : BNE .different_music
         ; Otherwise, just set the volume back to full.
         LDX.b #$F3
     
@@ -676,7 +689,6 @@ BirdTravel_LoadAmbientOverlay:
 BirdTravel_Finish:
 {
     INC.b $13
-    
     LDA.b $13 : CMP.b #$0F : BNE .keep_brightening
         ; $05396C ALTERNATE ENTRY POINT
         .restore_prev_module
@@ -694,7 +706,6 @@ BirdTravel_Finish:
         
         LDY.b #$04
         LDA.b #$27
-        
         JSL.l AddTravelBird_drop_off
 
     .keep_brightening
@@ -798,7 +809,8 @@ OverworldMap_Backup:
         
         ; Set screen mode to mode 7 (because the overworld map is done in mode
         ; 7, obviously).
-        LDA.b #$07 : STA.w SNES.BGModeAndTileSize : STA.b $94
+        LDA.b #$07 : STA.w SNES.BGModeAndTileSize
+                     STA.b $94
         
         ; Set so that the playing field is filled with transparency wherever
         ; there aren't tiles.
@@ -822,7 +834,8 @@ OverworldMap_InitGfx:
     JSR.w WorldMap_SetUpHDMA
     
     ; Set data bank to 0x0A
-    PHB : LDA.b #$0A : PHA : PLB
+    PHB
+    LDA.b #$0A : PHA : PLB
     
     REP #$30
     
@@ -839,8 +852,8 @@ OverworldMap_InitGfx:
 
         LDA.w Palettes_OWMAP, Y : STA.l $7EC500, X
         
-        DEY #2
-    DEX #2 : BPL .copyFullCgramBuffer
+        DEY : DEY
+    DEX : DEX : BPL .copyFullCgramBuffer
     
     SEP #$30
     
@@ -877,7 +890,7 @@ OverworldMap_DarkWorldTilemap:
         .copyLoop
 
             LDA.l WorldMap_DarkWorldTilemap, X : STA.w $1000, X
-        DEX #2 : BPL .copyLoop
+        DEX : DEX : BPL .copyLoop
         
         SEP #$30
         
@@ -912,7 +925,6 @@ OverworldMap_LoadSprGfx:
 OverworldMap_BrightenScreen:
 {
     INC.b $13
-    
     LDA.b $13 : CMP.b #$0F : BNE .notDoneBrightening
         ; Move to next step.
         INC.w $0200
@@ -1007,7 +1019,6 @@ OverworldMap_Main:
         
         ; Toggle bit 0 of $0636 and OR in bit 7.
         LDA.w $0636 : EOR.b #$01 : TAX
-        
         ORA.b #$80 : STA.w $0636
         
         LDA.l Pool_OverworldMap_Main_BaseZoom, X : STA.w $0637
@@ -1016,7 +1027,6 @@ OverworldMap_Main:
             
             LDA.l $7EC108 : LSR #4
             SEC : SBC.w #$0048 : AND.w #$FFFE : STA.b $E6
-            
             CLC : ADC.w #$0100 : STA.w $063A
             
             LDA.l $7EC10A : LSR #4
@@ -1028,7 +1038,7 @@ OverworldMap_Main:
             STA.b $00
                 
             ; A = ($00 * 5) / 2
-            ASL #2 : CLC : ADC.b $00 : LSR
+            ASL : ASL : CLC : ADC.b $00 : LSR
             
             LDX.b $03 : BPL .BRANCH_THETA
                 EOR.w #$FFFF : INC
@@ -1064,7 +1074,7 @@ OverworldMap_Main:
         
         LDA.b $E6 : CMP.l Pool_OverworldMap_Main_PanBoundaries, X : BEQ .BRANCH_LAMBDA
             CLC : ADC.l Pool_OverworldMap_Main_PanMovements, X : STA.b $E6
-            CLC : ADC.w #$0100 : STA.w $063A
+            CLC : ADC.w #$0100                                 : STA.w $063A
 
         .BRANCH_LAMBDA
 
@@ -1117,7 +1127,7 @@ OverworldMap_PrepExit:
             LDA.l $7EC380, X : STA.l $7EC580, X
             LDA.l $7EC400, X : STA.l $7EC600, X
             LDA.l $7EC480, X : STA.l $7EC680, X
-        INX #2 : CPX.b #$80 : BNE .restore_palette
+        INX : INX : CPX.b #$80 : BNE .restore_palette
         
         ; Next we restore other screen settings (needs some research).
         
@@ -1195,7 +1205,8 @@ OverworldMap_RestoreGfx:
     SEP #$20
         
     ; Restore ambient sound effect (rain, etc).
-    LDX.b $8A : LDA.l $7F5B00, X : LSR #4 : STA.w $012D
+    LDX.b $8A
+    LDA.l $7F5B00, X : LSR #4 : STA.w $012D
         
     ; Play sound effect indicating we're coming out of map mode.
     LDA.b #$10 : STA.w $012F
@@ -1224,14 +1235,16 @@ WorldMap_SetUpHDMA:
     
     SEP #$20
     
-    STZ.b $96 : STZ.b $97 : STZ.b $98
+    STZ.b $96 : STZ.b $97
+                STZ.b $98
     
     STZ.b $1E : STZ.b $1F
     
     STZ.w SNES.Mode7MatrixB : STZ.w SNES.Mode7MatrixB
     STZ.w SNES.Mode7MatrixC : STZ.w SNES.Mode7MatrixC
     
-    STZ.w SNES.Mode7CenterPosX : LDA.b #$01 : STA.w SNES.Mode7CenterPosX
+                 STZ.w SNES.Mode7CenterPosX
+    LDA.b #$01 : STA.w SNES.Mode7CenterPosX
     STZ.w SNES.Mode7CenterPosY : STA.w SNES.Mode7CenterPosY 
     
     LDA.b $10 : CMP.b #$14 : BEQ .attractMode
@@ -1246,18 +1259,19 @@ WorldMap_SetUpHDMA:
         
         REP #$21
         
-        LDA.l $7EC108 : LSR #4
-        SEC : SBC.w #$0048 : AND.w #$FFFE : CLC : ADC.l Pool_OverworldMap_Main_PanMovements : STA.b $E6
+        LDA.l $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE
+        CLC : ADC.l Pool_OverworldMap_Main_PanMovements : STA.b $E6
         CLC : ADC.w #$0100 : STA.w $063A
         
         LDA.l $7EC10A : LSR #4
-        SEC : SBC.w #$0080 : STA.b $02 : BPL .BRANCH_GAMMA
+        SEC : SBC.w #$0080 : STA.b $02
+        BPL .BRANCH_GAMMA
             EOR.w #$FFFF : INC
 
         .BRANCH_GAMMA
 
         STA.b $00
-        ASL #2 : CLC : ADC.b $00 : LSR
+        ASL : ASL : CLC : ADC.b $00 : LSR
         
         LDX.b $03 : BPL .BRANCH_DELTA
             EOR.w #$FFFF : INC
@@ -1266,8 +1280,11 @@ WorldMap_SetUpHDMA:
 
         CLC : ADC.w #$0080 : AND.w #$FFFE : STA.b $E0
         
-        LDA.w #$BDD6 : STA.w DMA.6_SourceAddrOffsetLow : STA.w DMA.7_SourceAddrOffsetLow
-        LDX.b #$0A   : STX.w DMA.6_SourceAddrBank : STX.w DMA.7_SourceAddrBank
+        LDA.w #$BDD6 : STA.w DMA.6_SourceAddrOffsetLow
+                       STA.w DMA.7_SourceAddrOffsetLow
+
+        LDX.b #$0A : STX.w DMA.6_SourceAddrBank
+                     STX.w DMA.7_SourceAddrBank
         
         LDX.b #$0A
         
@@ -1277,8 +1294,11 @@ WorldMap_SetUpHDMA:
 
     REP #$21
     
-    LDA.w #$BDDD : STA.w DMA.6_SourceAddrOffsetLow : STA.w DMA.7_SourceAddrOffsetLow
-    LDX.b #$0A   : STX.w DMA.6_SourceAddrBank : STX.w DMA.7_SourceAddrBank
+    LDA.w #$BDDD : STA.w DMA.6_SourceAddrOffsetLow
+                   STA.w DMA.7_SourceAddrOffsetLow
+
+    LDX.b #$0A : STX.w DMA.6_SourceAddrBank
+                 STX.w DMA.7_SourceAddrBank
     
     LDX.b #$00
     
@@ -1293,14 +1313,18 @@ WorldMap_SetUpHDMA:
     
     REP #$21
     
-    LDA.w #$BDCF : STA.w DMA.6_SourceAddrOffsetLow : STA.w DMA.7_SourceAddrOffsetLow
-    LDX.b #$0A   : STX.w DMA.6_SourceAddrBank : STX.w DMA.7_SourceAddrBank
+    LDA.w #$BDCF : STA.w DMA.6_SourceAddrOffsetLow
+                   STA.w DMA.7_SourceAddrOffsetLow
+
+    LDX.b #$0A : STX.w DMA.6_SourceAddrBank
+                 STX.w DMA.7_SourceAddrBank
     
     LDX.b #$0A
 
     .BRANCH_EPSILON
 
-    STX.w DMA.6__DataBank : STX.w DMA.7__DataBank
+    STX.w DMA.6__DataBank
+    STX.w DMA.7__DataBank
     
     SEP #$20
     
@@ -1321,7 +1345,8 @@ ClearMode7Tilemap:
     LDA.w #$00EF : STA.b $00
     
     ; Sets VRAM address to 0x0000 and configures the video port.
-    STZ.w SNES.VRAMAddrIncrementVal : STZ.w SNES.VRAMAddrReadWriteLow
+    STZ.w SNES.VRAMAddrIncrementVal
+    STZ.w SNES.VRAMAddrReadWriteLow
     
     ; Destination register is $2118 and DMA address will not be adjusted.
     LDA.w #$1808 : STA.w DMA.1_TransferParameters
@@ -1726,7 +1751,6 @@ WorldMap_HandleSprites:
             LDA.b #$02 : STA.b $0B
             
             LDX.b #$00
-            
             JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_ALPHA
@@ -1738,7 +1762,6 @@ WorldMap_HandleSprites:
     
     LDA.w $008A : CMP.b #$40 : BCS .BRANCH_BETA
         LDX.b #$0F
-        
         LDA.w $1AB0, X : ORA.w $1AC0, X : ORA.w $1AD0, X : ORA.w $1AE0, X : BEQ .BRANCH_BETA
             LDA.b $1A : BNE .BRANCH_GAMMA
                 LDA.w $1AF0, X : INC : STA.w $1AF0, X
@@ -1754,13 +1777,10 @@ WorldMap_HandleSprites:
                 LDA.b #$6A : STA.b $0D
                 
                 LDA.b $1A : LSR : AND.b #$03 : TAX
-                
                 LDA.l WorldMap_PortalProps, X : STA.b $0C
-                
                 LDA.b #$02 : STA.b $0B
                 
                 LDX.b #$0F
-                
                 JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_BETA
@@ -1777,12 +1797,10 @@ WorldMap_HandleSprites:
 
     ; Checking pendant 0 (courage).
     LDX.b #$00
-    
     JSR.w OverworldMap_CheckPendant : BCS .BRANCH_ZETA
         JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_ZETA
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL : TAX
-            
             LDA.l WorldMapIcon_posx_spr0-1, X : BMI .BRANCH_ZETA
                 STA.l $7EC10B
                 
@@ -1800,7 +1818,6 @@ WorldMap_HandleSprites:
                 .BRANCH_THETA
 
                 LDX.b #$0E
-                
                 JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_ZETA
                     ; X = (map sprites indicator << 1)
                     LDA.l $7EF3C7 : ASL : TAX
@@ -1817,9 +1834,9 @@ WorldMap_HandleSprites:
                     .BRANCH_KAPPA
 
                     LDA.b $1A : LSR #3 : AND.b #$03 : TAX
-                    
                     LDA.l WorldMap_RedXChars, X : STA.b $0D
                     LDA.b #$32                  : STA.b $0C
+
                     LDA.b #$00
 
                     .BRANCH_LAMBDA
@@ -1827,18 +1844,15 @@ WorldMap_HandleSprites:
                     STA.b $0B
                     
                     LDX.b #$0E
-                    
                     JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_ZETA
 
     LDX.b #$01
-    
     JSR.w OverworlDMAp_CheckPendant : BCS .BRANCH_MU
         JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_MU
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL : TAX
-            
             LDA.l WorldMapIcon_posx_spr1+1, X : BMI .BRANCH_MU
                 STA.l $7EC10B
                 
@@ -1859,7 +1873,6 @@ WorldMap_HandleSprites:
                 JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_MU
                     ; X = (map sprites indicator << 1)
                     LDA.l $7EF3C7 : ASL : TAX
-                            
                     LDA.l WorldMapIcon_tile_spr1+1, X : BEQ .BRANCH_OMICRON
                         STA.b $0D
                                 
@@ -1872,9 +1885,9 @@ WorldMap_HandleSprites:
                     .BRANCH_OMICRON
 
                     LDA.b $1A : LSR #3 : AND.b #$03 : TAX
-                            
-                    LDA.lWorldMap_RedXChars, X : STA.b $0D
+                    LDA.l WorldMap_RedXChars, X : STA.b $0D
                     LDA.b #$32 : STA.b $0C
+
                     LDA.b #$00
 
                     .BRANCH_PI
@@ -1882,18 +1895,15 @@ WorldMap_HandleSprites:
                     STA.b $0B
                             
                     LDX.b #$0D
-                            
                     JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_MU
 
     LDX.b #$02
-    
     JSR.w OverworlDMAp_CheckPendant : BCS .BRANCH_RHO
         JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_RHO
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL : TAX
-            
             LDA.l WorldMapIcon_posx_spr2+1, X : BMI .BRANCH_RHO
                 STA.l $7EC10B
                 
@@ -1910,12 +1920,10 @@ WorldMap_HandleSprites:
 
                 .BRANCH_SIGMA
 
-                LDX.b #$0C
-                            
+                LDX.b #$0C  
                 JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_RHO
                     ; X = (map sprites indictaor << 1)
-                    LDA.l $7EF3C7 : ASL : TAX
-                                
+                    LDA.l $7EF3C7 : ASL : TAX   
                     LDA.l WorldMapIcon_tile_spr2+1, X : BEQ .BRANCH_UPSILON
                         STA.b $0D
                                     
@@ -1927,11 +1935,9 @@ WorldMap_HandleSprites:
 
                     .BRANCH_UPSILON
 
-                    LDA.b $1A : LSR #3 : AND.b #$03 : TAX
-                                
+                    LDA.b $1A : LSR #3 : AND.b #$03 : TAX        
                     LDA.l WorldMap_RedXChars, X : STA.b $0D
-                                
-                    LDA.b #$32 : STA.b $0C
+                    LDA.b #$32                  : STA.b $0C
                                 
                     LDA.b #$00
 
@@ -1939,18 +1945,15 @@ WorldMap_HandleSprites:
 
                     STA.b $0B
                                 
-                    LDX.b #$0C
-                                
+                    LDX.b #$0C     
                     JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_RHO
 
     LDX.b #$03
-    
     JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_CHI
         ; X = (map sprites indicator << 1)
         LDA.l $7EF3C7 : ASL : TAX
-        
         LDA.l WorldMapIcon_posx_spr3+1, X : BMI .BRANCH_CHI
             STA.l $7EC10B
             
@@ -1968,11 +1971,9 @@ WorldMap_HandleSprites:
             .BRANCH_PSI
 
             LDX.b #$0B
-            
             JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_CHI
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL : TAX
-                
                 LDA.l WorldMapIcon_tile_spr3+1, X : BEQ .BRANCH_ALTIMA
                     STA.b $0D
                     
@@ -1985,9 +1986,9 @@ WorldMap_HandleSprites:
                 .BRANCH_ALTIMA
 
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
-                
                 LDA.l WorldMap_RedXChars, X : STA.b $0D
-                LDA.b #$32 : STA.b $0C
+                LDA.b #$32                  : STA.b $0C
+
                 LDA.b #$00
 
                 .BRANCH_ULTIMA
@@ -1995,17 +1996,14 @@ WorldMap_HandleSprites:
                 STA.b $0B
                 
                 LDX.b #$0B
-                
                 JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_CHI
 
     LDX.b #$04
-    
     JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_OPTIMUS
         ; X = (map sprites indicator << 1)
         LDA.l $7EF3C7 : ASL : TAX
-        
         LDA.l WorldMapIcon_posx_spr4+1, X : BMI .BRANCH_OPTIMUS
             STA.l $7EC10B
             
@@ -2023,7 +2021,6 @@ WorldMap_HandleSprites:
             .BRANCH_ALIF
 
             LDX.b #$0A
-            
             JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_OPTIMUS
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL : TAX
@@ -2040,9 +2037,8 @@ WorldMap_HandleSprites:
                 .BRANCH_DEL
 
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
-                
                 LDA.l WorldMap_RedXChars, X : STA.b $0D
-                LDA.b #$32 : STA.b $0C
+                LDA.b #$32                  : STA.b $0C
                 
                 LDA.b #$00
 
@@ -2051,16 +2047,13 @@ WorldMap_HandleSprites:
                 STA.b $0B
                 
                 LDX.b #$0A
-                
                 JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_OPTIMUS
 
     LDX.b #$05
-    
     JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_SIN
         LDA.l $7EF3C7 : ASL : TAX
-        
         LDA.l WorldMapIcon_posx_spr5+1, X : BMI .BRANCH_SIN
             STA.l $7EC10B
             
@@ -2078,10 +2071,8 @@ WorldMap_HandleSprites:
             .BRANCH_SHIN
 
             LDX.b #$09
-            
             JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_SIN
                 LDA.l $7EF3C7 : ASL : TAX
-                
                 LDA.l WorldMapIcon_tile_spr5+1, X : BEQ .BRANCH_DOD
                     STA.b $0D
                     
@@ -2094,9 +2085,8 @@ WorldMap_HandleSprites:
                 .BRANCH_DOD
 
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
-                
                 LDA.l WorldMap_RedXChars, X : STA.b $0D
-                LDA.b #$32 : STA.b $0C
+                LDA.b #$32                  : STA.b $0C
                 
                 LDA.b #$00
 
@@ -2105,16 +2095,13 @@ WorldMap_HandleSprites:
                 STA.b $0B
                 
                 LDX.b #$09
-                
                 JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_SIN
 
     LDX.b #$06
-    
     JSR.w OverworldMap_CheckCrystal : BCS .restore_coords_and_exit
         LDA.l $7EF3C7 : ASL : TAX
-        
         LDA.l WorldMapIcon_posx_spr6+1, X : BMI .restore_coords_and_exit
             STA.l $7EC10B
             
@@ -2132,11 +2119,9 @@ WorldMap_HandleSprites:
             .BRANCH_FATHA
 
             LDX.b #$08
-            
             JSR.w WorldMap_CalculateOAMCoordinates : BCC .restore_coords_and_exit
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL : TAX
-                
                 LDA.l WorldMapIcon_tile_spr6+1, X : BEQ .BRANCH_DUMMA
                     STA.b $0D
                     
@@ -2149,9 +2134,8 @@ WorldMap_HandleSprites:
                 .BRANCH_DUMMA
 
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
-                
                 LDA.l WorldMap_RedXChars, X : STA.b $0D
-                LDA.b #$32 : STA.b $0C
+                LDA.b #$32                  : STA.b $0C
                 
                 LDA.b #$00
 
@@ -2160,7 +2144,6 @@ WorldMap_HandleSprites:
                 STA.b $0B
                 
                 LDX.b #$08
-                
                 JSR.w WorldMap_HandleSpriteBlink
 
     ; $05438A ALTERNATE ENTRY POINT
@@ -2193,8 +2176,8 @@ WorldMap_CalculateOAMCoordinates:
         XBA
         
         LDA.b #$0D
-        
         JSR.w WorldMap_MultiplyAxB
+
         JSR.w WorldMap_ShiftNibblesRight
         
         STA.b $0F
@@ -2222,13 +2205,11 @@ WorldMap_CalculateOAMCoordinates:
         XBA
         
         LDA.b #$54
-        
         JSR.w WorldMap_MultiplyAxB
         
         XBA : CLC : ADC.b #$B2 : XBA
         
         PLA
-        
         JSR.w WorldMap_MultiplyAxB
         
         XBA
@@ -2247,7 +2228,8 @@ WorldMap_CalculateOAMCoordinates:
         .BRANCH_EPSILON
 
         SEC : SBC.b $E0 : STA.b $0E
-        
+
+        ; OPTIMIZE: No need to load $0E again.
         LDA.b $0E : CLC : ADC.b #$80 : STA.b $0E
         LDA.b $0F : CLC : ADC.b #$0C : STA.b $0F
         
@@ -2257,8 +2239,7 @@ WorldMap_CalculateOAMCoordinates:
 
     REP #$30
     
-    LDA.l $7EC108 : LSR #4
-    EOR.w #$FFFF : INC
+    LDA.l $7EC108 : LSR #4 : EOR.w #$FFFF : INC
     CLC : ADC.w $063A : SEC : SBC.w #$0080 : CMP.w #$0100 : BCC .BRANCH_ZETA
         JMP.w WorldMap_CalculateOAMCoordinates_exit_fail
 
@@ -2269,7 +2250,6 @@ WorldMap_CalculateOAMCoordinates:
     XBA
     
     LDA.b #$25
-    
     JSR.w WorldMap_MultiplyAxB
     JSR.w WorldMap_ShiftNibblesRight
     
@@ -2306,10 +2286,10 @@ WorldMap_CalculateOAMCoordinates:
     XBA
     
     LDA.b #$54
-    
     JSR.w WorldMap_MultiplyAxB
     
-    XBA : CLC : ADC.b #$B2 : STA.b $00 : XBA
+    XBA : CLC : ADC.b #$B2 : STA.b $00
+                             XBA
     
     PLA
     
@@ -2320,9 +2300,7 @@ WorldMap_CalculateOAMCoordinates:
     PLA : XBA
     
     LDA.b $00
-    
     JSR.w WorldMap_MultiplyAxB
-    
     CLC : ADC.b $01 : XBA : ADC.b #$00 : XBA
     
     PLP : BCS .BRANCH_LAMBDA
@@ -2350,7 +2328,6 @@ WorldMap_CalculateOAMCoordinates:
     XBA : PHA
 
     LDA.b #$2D
-
     JSR.w WorldMap_MultiplyAxB
 
     XBA : STA.b $00
@@ -2358,9 +2335,7 @@ WorldMap_CalculateOAMCoordinates:
     PLA : XBA
 
     LDA.b #$2D
-
     JSR.w WorldMap_MultiplyAxB
-
     CLC : ADC.b $00 : XBA : ADC.b #$00 : XBA
 
     PLP
@@ -2368,8 +2343,10 @@ WorldMap_CalculateOAMCoordinates:
     BCS .BRANCH_XI
         STA.b $00
 
-        LDA.b #$80 : SEC : SBC.b $00 : XBA : STA.b $00
-        LDA.b #$00 : SBC.b $00 : XBA
+        LDA.b #$80 : SEC : SBC.b $00 : XBA
+                                       STA.b $00
+
+        LDA.b #$00       : SBC.b $00 : XBA
         
         BRA .BRANCH_OMICRON
 
@@ -2379,7 +2356,8 @@ WorldMap_CalculateOAMCoordinates:
 
     .BRANCH_OMICRON
 
-    PHA : SEC : SBC.b $E0 : STA.b $0E
+    PHA
+    SEC : SBC.b $E0 : STA.b $0E
     
     PLA
     
@@ -2435,13 +2413,12 @@ WorldMap_HandleSpriteBlink:
             ; Since the base of this array starts in code, we deduce that
             ; X must range from 0x08 and 0x0E.
             LDA.l .crystal_numbers-8, X : STA.b $0D
-            LDA.b #$32 : STA.b $0C
+            LDA.b #$32                  : STA.b $0C
             
             STZ.w $0A20, X
             
-            TXA : ASL #2 : TAX
-            
             ; Set coordinates of the sprite.
+            TXA : ASL : ASL : TAX
             LDA.b $0E : STA.w $0800, X
             LDA.b $0F : STA.w $0801, X
             
@@ -2451,9 +2428,8 @@ WorldMap_HandleSpriteBlink:
 
     LDA.b $0B : STA.w $0A20, X
     
-    TXA : ASL #2 : TAX
-    
     ; Offset the coordinates of the sprite by -4, vertically and horizontally.
+    TXA : ASL : ASL : TAX
     LDA.b $0E : SEC : SBC.b #$04 : STA.w $0800, X
     LDA.b $0F : SEC : SBC.b #$04 : STA.w $0801, X
 
@@ -3806,7 +3782,8 @@ Messaging_DungeonMap:
 {
     LDA.w $0200 ; An index into what type of display to use.
     JSL.l UseImplicitRegIndexedLongJumpTable
-    dl DungeonMap_Backup               ; 0x00 - $0ED94C Fade to full darkness (amidst other things)
+    dl DungeonMap_Backup               ; 0x00 - $0ED94C Fade to full darkness
+                                       ;        (amidst other things)
     dl DungeonMap_Init                 ; 0x01 - $0AE0DC Loading Dungeon Map
     dl DungeonMap_LightenUpMap         ; 0x02 - $0ED940 Fade to full brightness
     dl DungeonMap_3                    ; 0x03 - $0AE954 Dungeon map Mode
@@ -3842,7 +3819,10 @@ DungeonMap_Init:
 DungeonMap_SetupGraphics:
 {
     ; Cache HDMA settings elsewhere and turn off HDMA for the time being.
-    LDA.b $9B : PHA : STZ.w SNES.HDMAChannelEnable : STZ.b $9B
+    LDA.b $9B : PHA
+
+    STZ.w SNES.HDMAChannelEnable
+    STZ.b $9B
     
     ; Cache graphics settings to temp variables.
     LDA.w $0AA1 : STA.l $7EC20E
@@ -3893,7 +3873,8 @@ DungeonMap_SetupGraphics:
         
     PLA : STA.b $9B
     
-    LDA.b #$09 : STA.b $14
+    LDA.b #$09
+    STA.b $14
     
     STA.w $0710
     
@@ -3944,18 +3925,16 @@ Pool_DungeonMap_OptionalGraphic:
     db $0E ; Ganon's Tower
 }
 
-; ==============================================================================
-
 ; Module0E_03_01_01_DrawLEVEL
 ; $0561A4-$0561E0 JUMP LOCATION (LONG)
 DungeonMap_OptionalGraphic:
 {
     PHB : PHK : PLB
     
-    ; Load palace index.
+    ; Load dungeon index.
     LDA.w $040C : LSR : TAX
     
-    ; Guessing this means that there's no special graphic for this palace.
+    ; Guessing this means that there's no special graphic for this dungeon.
     LDY.w .dungeon_level, X : BMI .return
         LDA.b #$FF : STA.w $1022
         
@@ -3972,11 +3951,9 @@ DungeonMap_OptionalGraphic:
 
         .copyTiles
 
-            LDA.w Pool_DungeonMap_OptionalGraphic_LEVEL_top, X
-            STA.w $1002, X
+            LDA.w Pool_DungeonMap_OptionalGraphic_LEVEL_top, X : STA.w $1002, X
 
-            LDA.w Pool_DungeonMap_OptionalGraphic_LEVEL_bottom, X
-            STA.w $1012, X
+            LDA.w Pool_DungeonMap_OptionalGraphic_LEVEL_bottom, X : STA.w $1012, X
         DEX : BPL .copyTiles
         
         LDA.b #$01 : STA.b $14
@@ -4020,16 +3997,15 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     STZ.w $1000
     
     LDX.w $040C : PHX
-    LDA.w DungeonMapFloorCountData, X
-    
-    AND.w #$0300 : BEQ .skipTileCopy
-    AND.w #$0100 : BEQ .skipTileCopy
+
+    LDA.w DungeonMapFloorCountData, X : AND.w #$0300 : BEQ .skipTileCopy
+                                        AND.w #$0100 : BEQ .skipTileCopy
         LDX.w #$002A : PHX
 
         .copyTiles
 
             LDA.w DungeonMap_MountainStripes-2, X : STA.w $1000, X   
-        DEX #2 : BNE .copyTiles
+        DEX : DEX : BNE .copyTiles
         
         PLX
         
@@ -4039,7 +4015,7 @@ Module0E_03_01_02_DrawFloorsBackdrop:
 
         .copyTiles2
 
-            LDA.b $00 : XBA : STA.w $1002, X
+            LDA.b $00 : XBA          : STA.w $1002, X
             XBA : CLC : ADC.w #$0020 : STA.b $00
             
             LDA.w #$0E40 : STA.w $1004, X
@@ -4074,22 +4050,22 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     
     LDY.w $1000
     
-    LDA.w DungeonMap_BackdropFloorPosition, X : STA.b $00 : STA.b $0E
+    LDA.w DungeonMap_BackdropFloorPosition, X : STA.b $00
+                                                STA.b $0E
 
     .limitNotReached
 
         ; Store big endian VRAM target address????
         LDA.b $00 : XBA : STA.w $1002, Y
         
-        INY #2
+        INY : INY
         
         ; TODO: Have to look up NMI workings to know what this does.
         LDA.w #$0E40 : STA.w $1002, Y
         
-        INY #2
+        INY : INY
         
         LDX.b $02
-        
         LDA.w DungeonMap_BackdropFloorGradientTiles, X : STA.b $04
         
         ; Check bit 13 in palace properties word.
@@ -4101,7 +4077,7 @@ Module0E_03_01_02_DrawFloorsBackdrop:
 
         LDA.b $04 : STA.w $1002, Y
         
-        INY #2
+        INY : INY
         
         ; Apparently stop incrementing once $02 reaches 0x000C.
         LDA.b $02 : CMP.w #$000C : BEQ .stopIncrementing
@@ -4124,7 +4100,6 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     REP #$10
     
     LDY.w $1000
-    
     LDA.b #$FF : STA.w $1002, Y
     
     SEP #$10
@@ -4154,7 +4129,7 @@ DungeonMap_BuildFloorListBoxes:
     REP #$20
     
     LDA.w DungeonMapFloorCountData, X : AND.w #$00FF : STA.b $02
-    AND.w #$000F : STA.b $00
+                                        AND.w #$000F : STA.b $00
     
     LDA.b $02 : LSR #4 : CLC : ADC.b $00 : STA.b $02
     
@@ -4183,25 +4158,24 @@ DungeonMap_BuildFloorListBoxes:
     .BRANCH_ZETA
 
         LDX.w #$0000
-        
         LDA.b $0E
 
         .BRANCH_THETA
 
         XBA : STA.w $1002, Y
         
-        INY #2
+        INY : INY
         
         LDA.w #$0700 : STA.w $1002, Y
         
-        INY #2
+        INY : INY
 
         .BRANCH_GAMMA
 
             LDA.w Pool_DungeonMap_BuildFloorListBoxes, X : STA.w $1002, Y
             
-            INY #2
-        INX #2 : CPX.w #$0008 : BCC .BRANCH_GAMMA : BEQ .BRANCH_DELTA
+            INY : INY
+        INX : INX : CPX.w #$0008 : BCC .BRANCH_GAMMA : BEQ .BRANCH_DELTA
             CPX.w #$0010 : BNE .BRANCH_GAMMA
                 BRA .BRANCH_EPSILON
 
@@ -4234,14 +4208,16 @@ Module0E_03_01_03_DrawRooms:
     
     REP #$30
     
-    STZ.b $00 : STZ.b $02 : STZ.b $04 : STZ.b $06
-    STZ.b $08 : STZ.b $0A : STZ.b $0C
+    STZ.b $00 : STZ.b $02
+    STZ.b $04 : STZ.b $06
+    STZ.b $08 : STZ.b $0A
+    STZ.b $0C
     
     STZ.w $0211
     
     LDX.w $040C
-    
-    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : EOR.w #$00FF : INC : AND.w #$00FF : CMP.b $A4 : BEQ .BRANCH_ALPHA
+    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : EOR.w #$00FF
+    INC : AND.w #$00FF : CMP.b $A4 : BEQ .BRANCH_ALPHA
         LDA.b $A4 : AND.w #$00FF : STA.w $020E
         
         BRA .BRANCH_BETA
@@ -4357,7 +4333,6 @@ DungeonMap_DrawBorderForRooms:
         LDY.b $02
         LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_corner_address, Y
         CLC : ADC.b $06 : AND.w #$0FFF : TAX
-        
         LDA.w #$0F00 : STA.l $7F0000, X
         
         LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_corner, Y : AND.b $08 : STA.l $7F0000, X
@@ -4371,18 +4346,18 @@ DungeonMap_DrawBorderForRooms:
 
         STZ.b $02
         
-        LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_vertical_border_address, Y : CLC : ADC.b $06 : STA.b $04
+        LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_vertical_border_address, Y
+        CLC : ADC.b $06 : STA.b $04
 
         .BRANCH_BETA
 
             LDA.b $04 : CLC : ADC.b $02 : AND.w #$0FFF : TAX
-            
             LDA.w #$0F00 : STA.l $7F0000, X
             
             LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_vertical_border, Y
             AND.b $08 : STA.l $7F0000, X
         INC.b $02 : INC.b $02 : LDA.b $02 : CMP.w #$0014 : BNE .BRANCH_BETA
-    INY #2 : CPY.w #$0004 : BNE .BRANCH_GAMMA
+    INY : INY : CPY.w #$0004 : BNE .BRANCH_GAMMA
     
     LDY.w #$0000
 
@@ -4396,13 +4371,12 @@ DungeonMap_DrawBorderForRooms:
         .BRANCH_DELTA
 
             LDA.b $04 : CLC : ADC.b $02 : AND.w #$0FFF : TAX
-            
             LDA.w #$0F00 : STA.l $7F0000, X
             
             LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_horizontal_border, Y
             AND.b $08 : STA.l $7F0000, X
         LDA.b $02 : CLC : ADC.w #$0040 : STA.b $02 : CMP.w #$0280 : BNE .BRANCH_DELTA
-    INY #2 : CPY.w #$0004 : BNE .BRANCH_EPSILON
+    INY : INY : CPY.w #$0004 : BNE .BRANCH_EPSILON
     
     SEP #$30
     
@@ -4435,9 +4409,10 @@ DungeonMap_DrawFloorNumbersByRoom:
     .BRANCH_ALPHA
 
         LDA.b $00 : CLC : ADC.b $06 : AND.w #$0FFF : TAX
-        
-        LDA.w #$0F00 : STA.l $7F0000, X : STA.l $7F0002, X
-    LDA.b $00 : CLC : ADC.w #$0040 : STA.b $00
+        LDA.w #$0F00 : STA.l $7F0000, X
+                       STA.l $7F0002, X
+
+        LDA.b $00 : CLC : ADC.w #$0040 : STA.b $00
     CMP.w #$039E : BNE .BRANCH_ALPHA
     
     LDA.w $020E : AND.w #$0080 : BEQ .BRANCH_BETA
@@ -4448,7 +4423,6 @@ DungeonMap_DrawFloorNumbersByRoom:
     .BRANCH_BETA
 
     LDA.w $020E : AND.w #$000F : ASL : TAY
-    
     LDA.w Pool_DungeonMap_DrawFloorNumbersByRoom_floor_numbers, Y
 
     .BRANCH_GAMMA
@@ -4456,12 +4430,10 @@ DungeonMap_DrawFloorNumbersByRoom:
     PHA
     
     LDA.w #$035E : CLC : ADC.b $06 : AND.w #$0FFF : TAX
-    
     PLA : AND.b $08 : STA.l $7F0000, X
     
     LDA.w $020E : AND.w #$0080 : BEQ .BRANCH_DELTA
         LDA.w $020E : AND.w #$00FF : EOR.w #$00FF : ASL : TAY
-        
         LDA.w Pool_DungeonMap_DrawFloorNumbersByRoom_floor_numbers, Y
         
         BRA .BRANCH_EPSILON
@@ -4498,9 +4470,7 @@ DungeonMap_DrawDungeonLayout:
     .nextRow
 
         LDA.b $00 : ASL : TAX
-        
         LDA.w .row_offset, X : CLC : ADC.b $06 : AND.w #$0FFF : TAX
-        
         JSR.w DungeonMap_DrawSingleRowOfRooms
         
         INC.b $00
@@ -4539,10 +4509,9 @@ DungeonMap_DrawSingleRowOfRooms:
         STZ.b $0E
         
         PHX
-        
-        LDA.b $00 : ASL : TAX
-        
+
         ; $04 = column * 5.
+        LDA.b $00 : ASL : TAX
         LDA.b $02
         ADC.w Pool_DungeonMap_DrawSingleRowOfRooms_row_draw_offset, X : STA.b $04
         
@@ -4554,7 +4523,7 @@ DungeonMap_DrawSingleRowOfRooms:
         ; the deepest depth of the current palace.
         LDA.w DungeonMapFloorCountData, X : AND.b #$0F
         CLC : ADC.w $020E : ASL : STA.b $0E
-        TAY
+                                  TAY
         
         REP #$20
         
@@ -4566,7 +4535,7 @@ DungeonMap_DrawSingleRowOfRooms:
         SEP #$20
         
         ; 0x0F incdiates a blank room in the map, or so it would seem.
-        LDA ($0C), Y : CMP.b #$0F : BNE .BRANCH_ALPHA
+        LDA.b ($0C), Y : CMP.b #$0F : BNE .BRANCH_ALPHA
             REP #$20
             
             LDA.w #$0051
@@ -4578,12 +4547,10 @@ DungeonMap_DrawSingleRowOfRooms:
         REP #$20
         
         AND.w #$00FF : STA.b $CA
-        
-        ASL : PHA
-        
-        LDA.b $CA : ASL : TAX
+        ASL          : PHA
         
         ; $0E = the quadrants Link has visited.
+        LDA.b $CA : ASL : TAX
         LDA.l $7EF000, X : AND.w #$000F : STA.b $0E
         
         PLA
@@ -4602,13 +4569,14 @@ DungeonMap_DrawSingleRowOfRooms:
         
         LDY.w #$0000
         
-        LDX.w $040C : LDA.w DungeonMapRoomPointers, X : STA.b $0C
+        LDX.w $040C
+        LDA.w DungeonMapRoomPointers, X : STA.b $0C
 
         .BRANCH_ALIF
 
         SEP #$20
         
-        LDA ($0C), Y : CMP.b #$0F : BNE .BRANCH_OPTIMUS
+        LDA.b ($0C), Y : CMP.b #$0F : BNE .BRANCH_OPTIMUS
             INY
             
             BRA .BRANCH_ALIF
@@ -4632,7 +4600,7 @@ DungeonMap_DrawSingleRowOfRooms:
         
         SEP #$20
         
-        LDA ($0C), Y
+        LDA.b ($0C), Y
         
         REP #$20
         
@@ -4642,7 +4610,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
         PLX
         
-        LDA.w DungeonMap_RoomTemplates, Y : STA.b $0C : PHA
+        LDA.w DungeonMap_RoomTemplates, Y : STA.b $0C
+                                            PHA
         CMP.w #$0B00 : BEQ .BRANCH_DELTA
             ; Check if top left quadrant has been seen.
             LDA.b $0E : AND.w #$0008 : BNE .BRANCH_DELTA
@@ -4677,9 +4646,8 @@ DungeonMap_DrawSingleRowOfRooms:
         
         PLA : CLC : ADC.b $0C : PHX : STA.b $0C
         
-        LDX.w $040C
-        
         ; Check if Link has the map.
+        LDX.w $040C
         LDA.l $7EF368 : AND.l DungeonMask, X : BNE .BRANCH_THETA
             LDA.b $0E : AND.w #$0008 : BNE .BRANCH_THETA
                 LDA.w #$0B00
@@ -4698,7 +4666,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
         STA.l $7F0000, X
         
-        LDA.w DungeonMap_RoomTemplates+2, Y : STA.b $0C : PHA
+        LDA.w DungeonMap_RoomTemplates+2, Y : STA.b $0C
+                                              PHA
         CMP.w #$0B00 : BEQ .BRANCH_KAPPA
             ; Check if top right quadrant has been seen.
             LDA.b $0E : AND.w #$0004 : BNE .BRANCH_KAPPA
@@ -4710,10 +4679,9 @@ DungeonMap_DrawSingleRowOfRooms:
                 .BRANCH_LAMBDA
 
                 PHX
-
-                LDX.w $040C
                 
                 ; Check if Link has the map.
+                LDX.w $040C
                 LDA.l $7EF368 : AND.l DungeonMask, X : BEQ .BRANCH_SIN
                     PLX : PLA
                     
@@ -4731,7 +4699,6 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_MU
 
-        ; PHX in the middle... whatever. But it's an eyesore.
         PLA : CLC : ADC.b $0C : PHX : STA.b $0C
         
         LDX.w $040C
@@ -4755,7 +4722,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
         STA.l $7F0002, X
         
-        LDA.w DungeonMap_RoomTemplates+4, Y : STA.b $0C : PHA
+        LDA.w DungeonMap_RoomTemplates+4, Y : STA.b $0C
+                                              PHA
         CMP.w #$0B00 : BEQ .BRANCH_OMICRON
             LDA.b $0E : AND.w #$0002 : BNE .BRANCH_OMICRON
                 LDA.b $0C : AND.w #$1000 : BNE .BRANCH_PI
@@ -4790,7 +4758,6 @@ DungeonMap_DrawSingleRowOfRooms:
         PLA : CLC : ADC.b $0C : PHX : STA.b $0C
         
         LDX.w $040C
-        
         LDA.l $7EF368 : AND.l DungeonMask, X : BNE .BRANCH_SIGMA
             LDA.b $0E : AND.w #$0002 : BNE .BRANCH_SIGMA
                 LDA.w #$0B00
@@ -4809,7 +4776,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
         STA.l $7F0040, X
         
-        LDA.w DungeonMap_RoomTemplates+6, Y : STA.b $0C : PHA
+        LDA.w DungeonMap_RoomTemplates+6, Y : STA.b $0C
+                                              PHA
         CMP.w #$0B00 : BEQ .BRANCH_UPSILON
             LDA.b $0E : AND.w #$0001 : BNE .BRANCH_UPSILON
                 LDA.b $0C : AND.w #$1000 : BNE .BRANCH_PHI
@@ -4821,9 +4789,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
                 PHX
                 
-                LDX.w $040C
-                
                 ; Check if Link has the map.
+                LDX.w $040C
                 LDA.l $7EF368 : AND.l DungeonMask, X : BEQ .BRANCH_TOD
                     PLX : PLA
                     
@@ -4843,9 +4810,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
         PLA : CLC : ADC.b $0C : PHX : STA.b $0C
 
-        LDX.w $040C
-        
         ; Check if Link has the map.
+        LDX.w $040C
         LDA.l $7EF368 : AND.l DungeonMask, X : BNE .BRANCH_PSI
             LDA.b $0E : AND.w #$0001 : BNE .BRANCH_PSI
                 LDA.w #$0B00
@@ -4867,7 +4833,6 @@ DungeonMap_DrawSingleRowOfRooms:
         INX #4
         
         INC.b $02
-        
         LDA.b $02 : CMP.w #$0005 : BEQ .BRANCH_ALTIMA
     JMP.w .nextColumn
 
@@ -4937,7 +4902,9 @@ DungeonMap_DrawRoomMarkers:
     LDA.b #$00 : XBA
     
     LDX.w $040C
-    LDA.w DungeonMapFloorCountData, X : AND.b #$0F : CLC : ADC.b $A4 : ASL : TAY : STY.b $0C
+    LDA.w DungeonMapFloorCountData, X : AND.b #$0F
+    CLC : ADC.b $A4 : ASL : TAY
+                            STY.b $0C
     
     REP #$20
     
@@ -4955,7 +4922,7 @@ DungeonMap_DrawRoomMarkers:
     .secretRoomLoop
 
         CMP.w Pool_DungeonMap_DrawRoomMarkers_fairy_rooms, Y : BEQ .isSecretRoom
-    DEY #2 : BPL .secretRoomLoop
+    DEY : DEY : BPL .secretRoomLoop
     
     BRA .notSecretRoom
 
@@ -5006,7 +4973,7 @@ DungeonMap_DrawRoomMarkers:
     
     LDY.w $0211
     
-    LDA.b $02 : STA.w $0CF5
+    LDA.b $02                                : STA.w $0CF5
     CLC : ADC.w DungeonMapRoomMarkerYBase, Y : STA.w $0217
     
     LDA.b $20 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC.w $0217 : STA.w $0217
@@ -5021,25 +4988,27 @@ DungeonMap_DrawRoomMarkers:
     REP #$20
     
     ASL : TAY
-    
     LDA.w DungeonMapRoomPointers, X
     CLC : ADC.w DungeonMapFloorToDataOffset, Y : STA.b $0E
     
     SEP #$20
     
-    LDA.b #$40 : STA.w $0FA8 : STZ.w $0FA9
-                 STA.w $0FAA : STZ.w $0FAB
+    LDA.b #$40 : STA.w $0FA8
+                 STZ.w $0FA9
+                 STA.w $0FAA
+                 STZ.w $0FAB
     
     LDY.w #$0018
 
     .BRANCH_LAMBDA
 
-        LDA ($0E), Y : CMP.b #$0F : BEQ .BRANCH_THETA
+        LDA.b ($0E), Y : CMP.b #$0F : BEQ .BRANCH_THETA
             CMP.w DungeonMapBossRooms, X : BEQ .BRANCH_IOTA
 
         .BRANCH_THETA
 
-        LDA.w $0FA8 : SEC : SBC.b #$10 : STA.w $0FA8 : BPL .BRANCH_KAPPA
+        LDA.w $0FA8 : SEC : SBC.b #$10 : STA.w $0FA8
+        BPL .BRANCH_KAPPA
             LDA.b #$40 : STA.w $0FA8
             
             LDA.w $0FAA : SEC : SBC.b #$10 : STA.w $0FAA
@@ -5095,6 +5064,7 @@ DungeonMap_DrawRoomMarkers:
 DungeonMap_3:
 {
     JSL.l DungeonMap_HandleInput
+
     JMP.w DungeonMap_DrawSprites
 }
 
@@ -5157,7 +5127,8 @@ DungeonMap_HandleFloorSelect:
     LDX.w $040C
     LDA.w DungeonMapFloorCountData, X : AND.w #$00F0 : LSR #4 : STA.b $00
     
-    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : CLC : ADC.b $00 : CMP.w #$0003 : BMI .BRANCH_ALPHA
+    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : CLC : ADC.b $00
+    CMP.w #$0003 : BMI .BRANCH_ALPHA
         SEP #$30
         
         LDA.w $0210 : BNE .BRANCH_ALPHA
@@ -5178,7 +5149,8 @@ DungeonMap_HandleFloorSelect:
         REP #$30
         
         LDX.w $040C
-        LDA.w DungeonMapFloorCountData, X : AND.w #$00F0 : LSR #4 : DEC : CMP.w $020E : BNE .BRANCH_DELTA
+        LDA.w DungeonMapFloorCountData, X : AND.w #$00F0 : LSR #4 : DEC
+        CMP.w $020E : BNE .BRANCH_DELTA
             JMP.w DungeonMap_HandleFloorSelect_proceed_to_exit
 
         .BRANCH_DELTA
@@ -5194,7 +5166,8 @@ DungeonMap_HandleFloorSelect:
     REP #$30
     
     LDX.w $040C
-    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : EOR.w #$00FF : INC #2 : AND.w #$00FF : CMP.w $020E : BEQ .proceed_to_exit
+    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : EOR.w #$00FF : INC : INC
+    AND.w #$00FF : CMP.w $020E : BEQ .proceed_to_exit
         DEC.w $020E : DEC.w $020E
         
         LDA.b $06 : CLC : ADC.w #$0600 : AND.w #$0FFF : STA.b $06
@@ -5242,7 +5215,7 @@ DungeonMap_HandleFloorSelect:
         
         INC.w $0210
         
-        LDA.b $0A : AND.b #$08 : LSR #2 : TAX
+        LDA.b $0A : AND.b #$08 : LSR : LSR : TAX
         
         REP #$30
         
@@ -5287,12 +5260,11 @@ PalaceMap_Scroll:
     REP #$30
     
     ; $0A is direction?
-    LDA.b $0A : AND.w #$0008 : LSR #2 : TAX
+    LDA.b $0A : AND.w #$0008 : LSR : LSR : TAX
+    LDA.w $0217 : CLC : ADC.w .speed_sprites, X : STA.w $0217
+    LDA.w $0FAA : CLC : ADC.w .speed_sprites, X : STA.w $0FAA
     
-    LDA.w $0217 : CLC : ADC .speed_sprites, X : STA.w $0217
-    LDA.w $0FAA : CLC : ADC .speed_sprites, X : STA.w $0FAA
-    
-    LDA.b $E8 : CLC : ADC .speed_bg, X : STA.b $E8
+    LDA.b $E8 : CLC : ADC.w .speed_bg, X : STA.b $E8
     CMP.w $0213 : BNE .notDoneScrolling
         SEP #$20
         
@@ -5317,9 +5289,10 @@ DungeonMap_DrawSprites:
     
     REP #$10
     
-    LDX.w $040C : LDA.w DungeonMapFloorCountData, X : AND.b #$0F : STA.b $02
-    
-    CLC : ADC.b $A4 : STA.b $01 : STA.b $03
+    LDX.w $040C
+    LDA.w DungeonMapFloorCountData, X : AND.b #$0F : STA.b $02
+    CLC : ADC.b $A4                                : STA.b $01
+                                                     STA.b $03
     
     SEP #$10
     
@@ -5353,22 +5326,16 @@ DungeonMap_DrawSprites:
 ; ==============================================================================
 
 ; $056AEE-$056AEE DATA
-Pool_PalaceMap_DrawPlayerFloorIndicator:
+PalaceMap_DrawPlayerFloorIndicator_x_offset:
 {
-    .x_offset
     db $19
 }
     
-; ==============================================================================
-
 ; $056AEF-$056AEF DATA
-Pool_PalaceMap_DrawBossFloorIndicator:
+PalaceMap_DrawBossFloorIndicator_x_offset:
 {
-    .x_offset
     db $4C
 }
-    
-; ==============================================================================
 
 ; $056AF0-$056B3F LOCAL JUMP LOCATION
 PalaceMap_DrawPlayerFloorIndicator:
@@ -5386,17 +5353,14 @@ PalaceMap_DrawPlayerFloorIndicator:
     SEP #$10
     
     LDX.b $00
-    
     LDA.b #$02 : STA.w $0A20, X
     
-    TXA : ASL #2 : TAX
-    
+    TXA : ASL : ASL : TAX
     LDA.w .x_offset : STA.w $0800, X
     
     LDY.b $03
-    
     LDA.w FloorIconOffsetY, Y : SEC : SBC.b #$04 : STA.w $0801, X
-    STZ.w $0802, X
+                                                   STZ.w $0802, X
     
     LDA.b #$3E
     
@@ -5432,11 +5396,9 @@ Pool_DungeonMap_DrawBlinkingIndicator:
 DungeonMap_DrawBlinkingIndicator:
 {
     LDX.b $00
-    
     LDA.b #$00 : STA.w $0A20, X
     
-    TXA : ASL #2 : TAX
-    
+    TXA : ASL : ASL : TAX
     LDA.w $0215 : SEC : SBC.b #$03 : STA.w $0800, X
     
     LDA.w $0218 : BEQ .BRANCH_ALPHA
@@ -5450,8 +5412,7 @@ DungeonMap_DrawBlinkingIndicator:
 
     SEC : SBC.b #$03 : STA.w $0801, X
     
-    LDA.b $1A : AND.b #$0C : LSR #2 : TAY
-    
+    LDA.b $1A : AND.b #$0C : LSR : LSR : TAY
     LDA.w Pool_DungeonMap_DrawBlinkingIndicator_tile    : STA.w $0802, X
     LDA.w Pool_DungeonMap_DrawBlinkingIndicator_prop, Y : STA.w $0803, X
     
@@ -5506,8 +5467,7 @@ DungeonMap_DrawLocationMarker:
         LDA.b $00 : TAX
         LDA.b #$02 : STA.w $0A20, X
         
-        TXA : ASL #2 : TAX
-        
+        TXA : ASL : ASL : TAX
         LDA.w $0215 : AND.b #$F0
         CLC : ADC.w Pool_DungeonMap_DrawLocationMarker_offset_x, Y
         STA.w $0800, X
@@ -5528,13 +5488,13 @@ DungeonMap_DrawLocationMarker:
         
         PHY
         
-        LDA.b $1A : LSR #2 : AND.b #$01 : TAY
+        LDA.b $1A : LSR : LSR : AND.b #$01 : TAY
         
         INC.b $0F
         
         LDA.w $0217 : INC : AND.b #$F0 : CMP.b $0F : BNE .BRANCH_ALPHA
             LDA.w $0218 : BNE .BRANCH_ALPHA
-                INY #2
+                INY : INY
 
         .BRANCH_ALPHA
 
@@ -5554,7 +5514,9 @@ DungeonMap_DrawFloorNumberObjects:
 {
     REP #$10
     
-    LDX.w $040C : LDA.w DungeonMapFloorCountData, X : PHA : LSR #4 : STA.b $02
+    LDX.w $040C
+    LDA.w DungeonMapFloorCountData, X : PHA
+    LSR #4                            : STA.b $02
     
     PLA : AND.b #$0F : STA.b $03
     
@@ -5599,19 +5561,20 @@ DungeonMap_DrawFloorNumberObjects:
     .BRANCH_THETA
 
         LDX.b $00
+        LDA.b #$00 : STA.w $0A20, X
+                     STA.w $0A21, X
         
-        LDA.b #$00 : STA.w $0A20, X : STA.w $0A21, X
-        
-        TXA : ASL #2 : TAX
-        
+        TXA : ASL : ASL : TAX
         LDA.b #$30 : STA.w $0800, X
         LDA.b #$38 : STA.w $0804, X
         
-        LDA.b $04 : STA.w $0801, X : STA.w $0805, X
+        LDA.b $04 : STA.w $0801, X
+                    STA.w $0805, X
         
         CLC : ADC.b #$10 : STA.b $04
         
-        LDA.b #$3D : STA.w $0803, X : STA.w $0807, X
+        LDA.b #$3D : STA.w $0803, X
+                     STA.w $0807, X
         LDA.b #$1C : STA.w $0802, X
         LDA.b #$1D : STA.w $0806, X
         
@@ -5623,7 +5586,6 @@ DungeonMap_DrawFloorNumberObjects:
         .BRANCH_EPSILON
 
         TYA : EOR.b #$FF : TAY
-        
         LDA.w FloorNumberOAMChar, Y : STA.w $0806, X
 
         .BRANCH_ZETA
@@ -5681,7 +5643,8 @@ DungeonMap_DrawFloorBlinker:
     
     REP #$10
     
-    LDX.w $040C : LDA.w DungeonMapFloorCountData, X : LSR #4 : STA.b $02
+    LDX.w $040C
+    LDA.w DungeonMapFloorCountData, X : LSR #4 : STA.b $02
     
     LDA.w DungeonMapFloorCountData, X : AND.b #$0F
     
@@ -5699,12 +5662,14 @@ DungeonMap_DrawFloorBlinker:
 
     .BRANCH_DELTA
 
-        LDX.b $02 : LDA.w FloorNumberBlinkProps : STA.b $0E, X
+        LDX.b $02
+        LDA.w FloorNumberBlinkProps : STA.b $0E, X
         
         REP #$10
         
-        LDX.w $040C : LDA.w DungeonMapFloorCountData, X : AND.b #$0F : STA.b $01
-        CLC : ADC.b $03 : STA.b $00
+        LDX.w $040C
+        LDA.w DungeonMapFloorCountData, X : AND.b #$0F : STA.b $01
+        CLC : ADC.b $03                                : STA.b $00
         
         LDA.b #$04 : SEC : SBC.b $01 : BMI .BRANCH_BETA
             CLC : ADC.b $00 : STA.b $00
@@ -5739,14 +5704,16 @@ DungeonMap_DrawFloorBlinker:
     ; $056D54-$056DE3 BRANCH LOCATION
     .blink_on
 
-    LDY.b $00 : LDA.w FloorIconOffsetY, Y : SEC : SBC.b #$04 : STA.b $02
-    CLC : ADC.b #$10 : STA.b $03
+    LDY.b $00
+    LDA.w FloorIconOffsetY, Y : SEC : SBC.b #$04 : STA.b $02
+                                CLC : ADC.b #$10 : STA.b $03
     
     LDY.b #$00
     
     REP #$10
     
-    LDX.w $040C : LDA.w DungeonMapFloorCountData, X : LSR #4 : STA.b $0D
+    LDX.w $040C
+    LDA.w DungeonMapFloorCountData, X : LSR #4 : STA.b $0D
     
     LDA.w DungeonMapFloorCountData, X : AND.b #$0F 
     
@@ -5769,20 +5736,23 @@ DungeonMap_DrawFloorBlinker:
 
         .BRANCH_GAMMA
 
-            LDA.b #$00 : STA.w $0A60, Y : STA.w $0A64, Y
+            LDA.b #$00 : STA.w $0A60, Y
+                         STA.w $0A64, Y
             
             PHY
             
-            TYA : ASL #2 : TAY
-            
-            LDA.b $01 : STA.w $0900, Y : STA.w $0910, Y
-            LDA.b $02, X : STA.w $0901, Y : CLC : ADC.b #$08 : STA.w $0911, Y
+            TYA : ASL : ASL : TAY
+            LDA.b $01 : STA.w $0900, Y
+                        STA.w $0910, Y
+
+            LDA.b $02, X     : STA.w $0901, Y
+            CLC : ADC.b #$08 : STA.w $0911, Y
             
             PHX
             
             LDX.b $0C
-            LDA.w DungeonMap_DrawFloorBlinker_char, X
-            STA.w $0902, Y : STA.w $0912, Y
+            LDA.w DungeonMap_DrawFloorBlinker_char, X : STA.w $0902, Y
+                                                        STA.w $0912, Y
             
             PLX : PHY
             
@@ -5795,8 +5765,7 @@ DungeonMap_DrawFloorBlinker:
 
             PLY
             
-            STA.w $0903, Y
-            
+                         STA.w $0903, Y
             ORA.b #$80 : STA.w $0913, Y
             
             PLY : INY
@@ -5853,11 +5822,9 @@ DungeonMap_DrawBossIcon:
     
     LDA.b $1A : AND.b #$0F : CMP.b #$0A : BCS .BRANCH_GAMMA
         LDY.b $00
-        
         LDA.b #$00 : STA.w $0A20, Y
         
-        TYA : ASL #2 : TAY
-        
+        TYA : ASL : ASL : TAY
         LDA.w DungeonMap_BossSkull_offsets+1, X
         CLC : ADC.w $0FA8 : CLC : ADC.b #$90 : STA.w $0800, Y
         
@@ -5872,7 +5839,7 @@ DungeonMap_DrawBossIcon:
 
         .BRANCH_EPSILON
 
-                      STA.w $0801, Y
+                                          STA.w $0801, Y
         LDA.w DungeonMap_BossSkull_char : STA.w $0802, Y
         LDA.w DungeonMap_BossSkull_prop : STA.w $0803, Y
         
@@ -5938,7 +5905,7 @@ DungeonMap_BossRoomFloor:
 PalaceMap_DrawBossFloorIndicator:
 {
     LDA.w DungeonMapFloorCountData, X : AND.b #$0F : STA.b $02
-    CLC : ADC.w DungeonMap_BossRoomFloor, X : STA.b $03
+    CLC : ADC.w DungeonMap_BossRoomFloor, X        : STA.b $03
     
     LDA.b #$04 : SEC : SBC.b $02 : BMI .BRANCH_ALPHA
         CLC : ADC.b $03 : STA.b $03
@@ -5951,16 +5918,14 @@ PalaceMap_DrawBossFloorIndicator:
     SEP #$10
     
     LDA.b $1A : AND.b #$0F : CMP.b #$0A : BCS .BRANCH_BETA
-        LDX.b $00 : LDA.b #$00 : STA.w $0A20, X
+        LDX.b $00
+        LDA.b #$00 : STA.w $0A20, X
         
-        TXA : ASL #2 : TAX
-        
+        TXA : ASL : ASL : TAX
         LDA.w .x_offset : STA.w $0800, X
         
         LDY.b $03
-        
-        LDA.w FloorIconOffsetY, Y : STA.w $0801, X
-        
+        LDA.w FloorIconOffsetY, Y       : STA.w $0801, X
         LDA.w DungeonMap_BossSkull_char : STA.w $0802, X
         LDA.w DungeonMap_BossSkull_prop : STA.w $0803, X
         
@@ -6055,7 +6020,7 @@ DungeonMap_RestoreGraphics:
         LDA.l $7FDE00, X : STA.l $7EC580, X
         LDA.l $7FDE80, X : STA.l $7EC600, X
         LDA.l $7FDF00, X : STA.l $7EC680, X
-    INX #2 : CPX.b #$80 : BNE .restorePaletteBuffer
+    INX : INX : CPX.b #$80 : BNE .restorePaletteBuffer
     
     SEP #$20
     
@@ -6786,20 +6751,20 @@ DungeonMapRoomData_GanonsTower:
 ; $057BE4-$057BFF
 DungeonMapRoomLayoutPointers:
 {
-    dw DungeonMapLayoutData_Sewers
-    dw DungeonMapLayoutData_HyruleCastle
-    dw DungeonMapLayoutData_EasternPalace
-    dw DungeonMapLayoutData_DesertPalace
-    dw DungeonMapLayoutData_AgahnimsTower
-    dw DungeonMapLayoutData_SwampPalace
-    dw DungeonMapLayoutData_PalaceOfDarkness
-    dw DungeonMapLayoutData_MiseryMire
-    dw DungeonMapLayoutData_SkullWoods
-    dw DungeonMapLayoutData_IcePalace
-    dw DungeonMapLayoutData_TowerOfHera
-    dw DungeonMapLayoutData_ThievesTown
-    dw DungeonMapLayoutData_TurtleRock
-    dw DungeonMapLayoutData_GanonsTower
+    dw DungeonMapLayoutData_Sewers           ; 0x00 - $FC00
+    dw DungeonMapLayoutData_HyruleCastle     ; 0x01 - $FC08
+    dw DungeonMapLayoutData_EasternPalace    ; 0x02 - $FC14
+    dw DungeonMapLayoutData_DesertPalace     ; 0x03 - $FC21
+    dw DungeonMapLayoutData_AgahnimsTower    ; 0x04 - $FC2B
+    dw DungeonMapLayoutData_SwampPalace      ; 0x05 - $FC32
+    dw DungeonMapLayoutData_PalaceOfDarkness ; 0x06 - $FC3F
+    dw DungeonMapLayoutData_MiseryMire       ; 0x07 - $FC4D
+    dw DungeonMapLayoutData_SkullWoods       ; 0x08 - $FC5F
+    dw DungeonMapLayoutData_IcePalace        ; 0x09 - $FC68
+    dw DungeonMapLayoutData_TowerOfHera      ; 0x0A - $FC7D
+    dw DungeonMapLayoutData_ThievesTown      ; 0x0B - $FC83
+    dw DungeonMapLayoutData_TurtleRock       ; 0x0C - $FC8F
+    dw DungeonMapLayoutData_GanonsTower      ; 0x0D - $FCA0
 }
     
 ; $057C00-$057C07 DATA
@@ -7107,8 +7072,8 @@ FloorIndicator:
         PHB : PHK : PLB
         
         LDA.w #$251E : STA.l $7EC7F2
-        INC        : STA.l $7EC834
-        INC        : STA.l $7EC832
+        INC          : STA.l $7EC834
+        INC          : STA.l $7EC832
         
         LDA.w #$250F : STA.l $7EC7F4
         
@@ -7148,14 +7113,13 @@ FloorIndicator:
         
         REP #$20
         
-        INX #2
+        INX : INX
         
         LDA.b $A4 : ORA.w #$FF00 : EOR.w #$FFFF
         
         .setFloorIndicatorNumber
         
         ASL : TAY
-        
         LDA FloorIndicatorNumberHigh, Y : STA.l $7EC7F2, X
         LDA FloorIndicatorNumberLow, Y  : STA.l $7EC832, X
         
@@ -7174,7 +7138,9 @@ FloorIndicator:
     REP #$20
     
     ; Disable the display of the floor indicator.
-    LDA.w #$007F : STA.l $7EC7F2 : STA.l $7EC832 : STA.l $7EC7F4 : STA.l $7EC834
+    LDA.w #$007F
+    STA.l $7EC7F2 : STA.l $7EC832
+    STA.l $7EC7F4 : STA.l $7EC834
     
     SEP #$30
     
@@ -7231,7 +7197,7 @@ HUD_SuperBombIndicator:
 
     .BRANCH_EPSILON
 
-        LDY.b $00, X : DEY #2 : BPL .BRANCH_DELTA
+        LDY.b $00, X : DEY : DEY : BPL .BRANCH_DELTA
             LDY.b #$12
             
             CPX.b #$00 : BNE .BRANCH_DELTA
@@ -7240,8 +7206,8 @@ HUD_SuperBombIndicator:
         .BRANCH_DELTA
 
         LDA.w HUD_FloorIndicatorNumberHigh, Y : STA.l $7EC7F2, X
-        LDA.w HUD_FloorIndicatorNumberLow, Y : STA.l $7EC832, X
-    DEX #2 : BPL .BRANCH_EPSILON
+        LDA.w HUD_FloorIndicatorNumberLow, Y  : STA.l $7EC832, X
+    DEX : DEX : BPL .BRANCH_EPSILON
     
     SEP #$20
     
@@ -7323,7 +7289,6 @@ Pool_Effect_Handler:
 Effect_Handler:
 {
     LDA.b $AD : ASL : TAX
-    
     JMP.w (Pool_Effect_Handler, X)
 }
 
@@ -7377,8 +7342,7 @@ Effect_MovingFloor:
             STA.w $0312
             
             LDA.w $0422 : SEC : SBC.w $0312 : STA.w $0422
-            
-            CLC : ADC.b $E2 : STA.b $E0
+                          CLC : ADC.b $E2   : STA.b $E0
             
             SEP #$30
             
@@ -7427,9 +7391,7 @@ Effect_MovingFloor2:
 ; $057F0D-$057F5C JUMP LOCATION
 Effect_RedFlashes:
 {
-    LDA.b $1A : AND.b #$7F
-    
-    CMP.b #$03 : BEQ .redFlash
+    LDA.b $1A : AND.b #$7F : CMP.b #$03 : BEQ .redFlash
         CMP.b #$05 : BEQ .restoreColors
             CMP.b #$24 : BEQ .redFlash
                 CMP.b #$26 : BNE .noChange
@@ -7487,7 +7449,7 @@ Effect_TorchHiddenTiles:
             INC.b $00
 
         .notLit
-    INX #2 : CPX.w #$0020 : BNE .countLitTorches
+    INX : INX : CPX.w #$0020 : BNE .countLitTorches
     
     ; Cause the tiles to be seen by setting them two bluish colors.
     LDX.w #$2940
@@ -7503,9 +7465,12 @@ Effect_TorchHiddenTiles:
     .atLeastOne
 
     TXA : CMP.l $7EC3F6 : BEQ .matchesAuxiliary
-        STA.l $7EC3F6 : STA.l $7EC5F6 ; Changing a palette value.
+        ; Changing a palette value.
+        STA.l $7EC3F6
+        STA.l $7EC5F6
         
-        TYA : STA.l $7EC3F8 : STA.l $7EC5F8
+        TYA : STA.l $7EC3F8
+              STA.l $7EC5F8
         
         ; Tell NMI to reupload CGRAM data.
         INC.b $15
@@ -7541,7 +7506,7 @@ Effect_TorchGanonRoom:
 
         ; Only check the first 3 torches in memory. (this probably causes bugs
         ; in some hacks) Cycle through all the torche.
-    INX #2 : CPX.w #$0006 : BNE .nextTorch
+    INX : INX : CPX.w #$0006 : BNE .nextTorch
     
     SEP #$30
     
