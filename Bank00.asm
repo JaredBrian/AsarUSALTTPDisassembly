@@ -874,27 +874,27 @@ Main_PrepSpritesForNmi:
     .buildHighOamTable
 
         ; Y = 0x1C, X = 0x70
-        TYA : ASL #2 : TAX
+        TYA : ASL : ASL : TAX
         
         ; Start at $0A93?
-        LDA.w $0A23, X : ASL #2
-        ORA.w $0A22, X : ASL #2
-        ORA.w $0A21, X : ASL #2
+        LDA.w $0A23, X : ASL : ASL
+        ORA.w $0A22, X : ASL : ASL
+        ORA.w $0A21, X : ASL : ASL
         ORA.w $0A20, X : STA.w $0A00, Y
         
-        LDA.w $0A27, X : ASL #2
-        ORA.w $0A26, X : ASL #2
-        ORA.w $0A25, X : ASL #2
+        LDA.w $0A27, X : ASL : ASL
+        ORA.w $0A26, X : ASL : ASL
+        ORA.w $0A25, X : ASL : ASL
         ORA.w $0A24, X : STA.w $0A01, Y
         
-        LDA.w $0A2B, X : ASL #2
-        ORA.w $0A2A, X : ASL #2
-        ORA.w $0A29, X : ASL #2
+        LDA.w $0A2B, X : ASL : ASL
+        ORA.w $0A2A, X : ASL : ASL
+        ORA.w $0A29, X : ASL : ASL
         ORA.w $0A28, X : STA.w $0A02, Y
         
-        LDA.w $0A2F, X : ASL #2
-        ORA.w $0A2E, X : ASL #2
-        ORA.w $0A2D, X : ASL #2
+        LDA.w $0A2F, X : ASL : ASL
+        ORA.w $0A2E, X : ASL : ASL
+        ORA.w $0A2D, X : ASL : ASL
         ORA.w $0A2C, X : STA.w $0A03, Y
     DEY #4 : BPL .buildHighOamTable
         
@@ -923,7 +923,7 @@ Main_PrepSpritesForNmi:
     LDA.w LinkOAM_ShieldAddresses, X : STA.w $0AC4
     CLC : ADC.w #$00C0 : STA.w $0AC6
         
-    LDA.w $0109 : AND.w #$00F8 : LSR #2 : TAY
+    LDA.w $0109 : AND.w #$00F8 : LSR : LSR : TAY
         
     LDA.w $0109 : ASL : TAX
     LDA.w DynamicOAM_LinkItemAddresses, X : STA.w $0AC8
@@ -1148,8 +1148,8 @@ Overworld_GetTileAttrAtLocation:
     LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3    : STA.b $06
     LDA.b $02 : SEC : SBC.w $070C : AND.w $070E : ORA.b $06 : TAX
     
-    LDA.l $7E2000, X : ASL #2 : STA.b $06
-    LDA.b $00 : AND.w #$0008 : LSR #2 : TSB.b $06
+    LDA.l $7E2000, X : ASL : ASL : STA.b $06
+    LDA.b $00 : AND.w #$0008 : LSR : LSR : TSB.b $06
     LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL : TAX
     
     LDA.l Map16Definitions, X : STA.b $06 : AND.w #$01FF : TAX
@@ -1162,7 +1162,7 @@ Overworld_GetTileAttrAtLocation:
     CMP.b #$1C : BCS .BRANCH_1
         STA.b $06
         
-        LDA.b $07 : AND.b #$40 : ASL : ROL #2 : ORA.b $06
+        LDA.b $07 : AND.b #$40 : ASL : ROL : ROL : ORA.b $06
 
     .BRANCH_1
 
@@ -1959,7 +1959,7 @@ NMI_UpdateScrollingOwMap:
     REP #$20
     
     ; X = $1100 & 0x3FFF, $02 = X + 2
-    LDA.w $1100 : AND.w #$3FFF : TAX : INC #2 : STA.b $02
+    LDA.w $1100 : AND.w #$3FFF : TAX : INC : INC : STA.b $02
     
     LDY.w #$0000
 
@@ -10315,7 +10315,7 @@ LoadTransAuxGFX:
     
     REP #$30
     ; $0E = $0AA2 * 4
-    LDA.w $0AA2 : AND.w #$00FF : ASL #2 : STA.b $0E
+    LDA.w $0AA2 : AND.w #$00FF : ASL : ASL : STA.b $0E
     SEP #$20
     
     ; Sheet 3 (variable 0)
@@ -10407,7 +10407,7 @@ LoadTransAuxGFX_sprite:
     REP #$30
     
     ; $0E = $0AA3 * 4
-    LDA.w $0AA3 : AND.b #$00FF : ASL #2 : STA.b $0E
+    LDA.w $0AA3 : AND.b #$00FF : ASL : ASL : STA.b $0E
     
     SEP #$20
     
@@ -10883,7 +10883,7 @@ AnimateMirrorWarp_DecompressNewTileSets:
     
     REP #$20
     
-    LDA.w $0AA3 : AND.w #$00FF : ASL #2 : TAY
+    LDA.w $0AA3 : AND.w #$00FF : ASL : ASL : TAY
     
     SEP #$20
     
@@ -11114,7 +11114,6 @@ AnimateMirrorWarp_LoadSubscreen:
     ; target address is $7F0000.
     LDX.w #$0000
     LDY.w #$0040
-        
     LDA.b $00
         
     ; Convert the GFX to 4bpp.
@@ -11564,12 +11563,11 @@ Graphics_IncrementalVRAMUpload:
 
 ; ==============================================================================
 
+; Prepares the transition graphics to be transferred to VRAM during NMI.
+; This could occur either during this frame or any subsequent frame.
 ; $005F1A-$005F4E LONG JUMP LOCATION
 PrepTransAuxGFX:
 {
-    ; Prepares the transition graphics to be transferred to VRAM during NMI.
-    ; This could occur either during this frame or any subsequent frame.
-    
     ; Set bank for source address.
     LDA.b #$7E : STA.b $02
                  STA.b $05
@@ -11589,10 +11587,10 @@ PrepTransAuxGFX:
     LDY.w #$00C0
     
     ; If this branch is taken, all 3 graphics packs will use the lower 8.
-    ; palette values.
+    ; palette values. In vanilla, this only occurs in dungeons.
     LDA.w $0AA2 : AND.w #$00FF : CMP.w #$0020 : BCC .low
         ; $0AA2 >= 0x20, the first two graphics packs expand as high 8 palette
-        ; values.
+        ; values. In vanilla, this only occurs on the overworld
         LDY.w #$0080
         LDA.b $03
         JSR.w Do3To4High16Bit
@@ -11891,7 +11889,7 @@ InitTilesets:
     
     REP #$30
     
-    LDA.w $0AA3 : AND.w #$00FF : ASL #2 : TAY
+    LDA.w $0AA3 : AND.w #$00FF : ASL : ASL : TAY
     
     SEP #$20
     
@@ -13216,7 +13214,7 @@ PaletteFilter:
     LDA.l $7EC500 : STA.b !color
     
     ; Obtain the red bits of the color.
-    LDA.l $7EC300 : AND.w #$001F : ASL #2 : TAY
+    LDA.l $7EC300 : AND.w #$001F : ASL : ASL : TAY
     LDA.b ($B7), Y : AND.b !bitFilter : BNE .noRedFilter
         LDA.b !color : ADC.b $06 : STA.b !color
 
@@ -13295,7 +13293,7 @@ FilterColors:
         
         LDA.l $7EC300, X : BEQ .color_is_pure_black
             ; Examine the red channel.
-            AND.w #$001F : ASL #2 : TAY
+            AND.w #$001F : ASL : ASL : TAY
             
             LDA.b ($B7), Y : AND.b !bitFilter : BNE .noRedFilter
                 LDA.b !color : ADC.b $06 : STA.b !color
@@ -13421,7 +13419,7 @@ FilterColorsEndpoint:
         
         LDA.l $7EC300, X : BEQ .color_is_pure_black
             ; NOTE: Makes it a multiple of 4... hrm...
-            AND.w #$001F : ASL #2 : TAY
+            AND.w #$001F : ASL : ASL : TAY
             
             LDA ($B7), Y : AND.b !bitFilter : BNE .noRedFilter
                 ; Adjust red content by +/- 1.
@@ -14863,7 +14861,7 @@ IrisSpotlight_CalculateCircleValue:
     
     LDA.w $067C : STA.w SNES.MultiplierB
     
-    NOP #2
+    NOP : NOP
     
     STZ.b $01 : STZ.b $0B
     
