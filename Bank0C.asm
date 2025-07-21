@@ -621,8 +621,8 @@ Module_Intro:
 {
     LDA.b $11 : CMP.b #$08 : BCC .dontCheckInput
         LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$D0 : BEQ .noPressedButtons
-            ; If ABXY, or Start is pressed, then go to the file selection menu
-            ; module.
+            ; If ABXY, or Start is pressed, then go to the file selection
+            ; menu module.
             JMP.w FadeMusicAndResetSRAMMirror
         
         .noPressedButtons
@@ -630,19 +630,21 @@ Module_Intro:
     
     ; Otherwise, branch to the appropriate part of the intro.
     LDA.b $11
-    
     JSL.l UseImplicitRegIndexedLongJumpTable
-    
     dl Intro_Init                        ; 0x00 - $0CC15D Blank Screen
     dl Intro_Init_justLogo               ; 0x01 - $0CC170 -Nintendo presents-
-    dl Intro_InitGfx                     ; 0x02 - $0CC33C Sets up myriad graphics settings
+    dl Intro_InitGfx                     ; 0x02 - $0CC33C Sets up myriad graphics
+                                         ;        settings
     dl Intro_HandleAllTriforceAnimations ; 0x03 - $0CC404 Copyright Nintendo 1992
-    dl Intro_HandleAllTriforceAnimations ; 0x04 - $0CC404 Triforces swooping in.
-    dl Intro_FadeLogoIn                  ; 0x05 - $0CC25C "Zelda" logo fade in.
+    dl Intro_HandleAllTriforceAnimations ; 0x04 - $0CC404 Triforces swooping in
+    dl Intro_FadeLogoIn                  ; 0x05 - $0CC25C "Zelda" logo fade in
     dl Intro_SwordStab                   ; 0x06 - $0CC2AE Sword coming down...
-    dl Intro_PopSubtitleCard             ; 0x07 - $0CC284 Fades in bg, Zelda Symbol is sparkling, looking pretty.
-    dl Intro_TrianglesBeforeAttract      ; 0x08 - $0CC2D4 Wait to see if the player does anything.
-    dl Intro_HandleAllTriforceAnimations ; 0x09 - $0CC404 This one and the next 2 are unused.
+    dl Intro_PopSubtitleCard             ; 0x07 - $0CC284 Fades in bg, Zelda Symbol
+                                         ;        is sparkling, looking pretty
+    dl Intro_TrianglesBeforeAttract      ; 0x08 - $0CC2D4 Wait to see if the player
+                                         ;        does anything
+    dl Intro_HandleAllTriforceAnimations ; 0x09 - $0CC404 This one and the next 2
+                                         ;        are unused
     dl Intro_InitGfx                     ; 0x0A - $0CC33C
     dl Intro_HandleAllTriforceAnimations ; 0x0B - $0CC404
 }
@@ -716,7 +718,7 @@ Intro_InitWram:
         STA.l $7F6000, X : STA.l $7F8000, X
         STA.l $7FA000, X : STA.l $7FC000, X
         STA.l $7FE000, X
-    DEX #2 : CPX.b $CA : BNE .zeroLoop
+    DEX : DEX : CPX.b $CA : BNE .zeroLoop
     
     ; The old lower bound is the new upper bound.
     STX.b $C8
@@ -762,7 +764,6 @@ Intro_LoadTitleGraphics:
         JSL.l InitTileSets
         
         LDY.b #$5D
-        
         JSL.l DecompDungAnimatedTiles
         
         LDA.b #$02 : STA.l $7EC00D
@@ -937,11 +938,9 @@ FadeMusicAndResetSRAMMirror:
     
         ; Zeroes out $20-$8E.
         STZ.b $20, X
-    DEX #2 : BPL .loop
+    DEX : DEX : BPL .loop
     
-    LDX.w #$0000
-    
-    TXA
+    LDX.w #$0000 : TXA
     
     .initSramBuffer
     
@@ -949,12 +948,13 @@ FadeMusicAndResetSRAMMirror:
         STA.l $7EF000, X : STA.l $7EF100, X
         STA.l $7EF200, X : STA.l $7EF300, X
         STA.l $7EF400, X
-    INX #2 : CPX.w #$0100 : BNE .initSramBuffer
+    INX : INX : CPX.w #$0100 : BNE .initSramBuffer
     
     SEP #$30
     
     ; Go to select screen mode.
-    LDA.b #$01 : STA.b $10 : STA.w $04AA
+    LDA.b #$01 : STA.b $10
+                 STA.w $04AA
     
     STZ.b $11
     
@@ -973,8 +973,13 @@ Intro_InitGfx:
     JSL.l Graphics_LoadCommonSprLong
     JSR.w TriforceInitializePolyhedralModule
     
-    LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
-    LDA.b #$00 : STA.w $1E18 : STA.w $1E19 : STA.w $1E1A
+    LDA.b #$01 : STA.w $1E10
+                 STA.w $1E11
+                 STA.w $1E12
+
+    LDA.b #$00 : STA.w $1E18
+                 STA.w $1E19
+                 STA.w $1E1A
     
     LDA.b #$01 : STA.w $1E14
     LDA.b #$02 : STA.w $1E1C
@@ -999,18 +1004,27 @@ TriforceInitializePolyhedralModule:
     LDA.b #$90 : STA.b $FF
     
     LDA.b #$FF : STA.w $1F02
-    LDA.b #$20 : STA.w $1F06 : STA.w $1F07 : STA.w $1F08
+
+    LDA.b #$20 : STA.w $1F06
+                 STA.w $1F07
+                 STA.w $1F08
+
     LDA.b #$A0 : STA.w $1F04
     LDA.b #$60 : STA.w $1F05
-    LDA.b #$01 : STA.w $1F01 : STA.w $1F03 : STA.w $012A : STA.w $1F00
+
+    LDA.b #$01 : STA.w $1F01
+                 STA.w $1F03
+                 STA.w $012A
+                 STA.w $1F00
     
     ; Initialize WRAM for starting Module 0x00.
     LDX.b #$0F
     
     .loop
     
-        STZ.w $1E00, X : STZ.w $1E10, X : STZ.w $1E20, X
-        STZ.w $1E30, X : STZ.w $1E40, X : STZ.w $1E50, X
+        STZ.w $1E00, X : STZ.w $1E10, X
+        STZ.w $1E20, X : STZ.w $1E30, X
+        STZ.w $1E40, X : STZ.w $1E50, X
         STZ.w $1E60, X
     DEX : BPL .loop
     
@@ -1252,8 +1266,6 @@ Scene_AnimateSingleSprite:
 {
     LDA.w $1E10, X : BEQ .exit
         JSL.l UseImplicitRegIndexedLocalJumpTable
-        
-        ; Jump table
         dw .exit                 ; 0x00 - $C543
         dw InitializeSceneSprite ; 0x01 - $C544
         dw AnimateSceneSprite    ; 0x02 - $C55B
@@ -1314,7 +1326,6 @@ Pool_InitializeSceneSprite_Triangle:
 InitializeSceneSprite_Triangle:
 {
     TXA : ASL : TAY
-    
     LDA.w Pool_InitializeSceneSprite_Triangle_pos_x_start+0, Y : STA.w $1E30, X
     LDA.w Pool_InitializeSceneSprite_Triangle_pos_x_start+1, Y : STA.w $1E38, X
     LDA.w Pool_InitializeSceneSprite_Triangle_pos_y_start+0, Y : STA.w $1E48, X
@@ -1464,7 +1475,7 @@ AnimateSceneSprite_DrawTriangle:
     .BRANCH_1
     
     LDA.b #$8F : STA.b $08
-    LDA.b #$C6  : STA.b $09
+    LDA.b #$C6 : STA.b $09
     
     .BRANCH_2
     
@@ -1481,7 +1492,7 @@ AnimateSceneSprite_DrawTriforceRoomTriangle:
     
     CPX.b #$02 : BEQ .BRANCH_1
         LDA.b #$2F : STA.b $08
-        LDA.b #$C7  : STA.b $09
+        LDA.b #$C7 : STA.b $09
         
         BRA .BRANCH_2
     
@@ -1567,7 +1578,6 @@ AnimateSceneSprite_DrawCopyright:
 InitializeSceneSprite_Sparkle:
 {
     LDA.w $1E0A : LSR #5 : AND.b #$03 : TAY
-    
     LDA.w Pool_AnimateSceneSprite_Sparkle_position_x, Y : STA.w $1E30, X
     LDA.w Pool_AnimateSceneSprite_Sparkle_position_y, Y : STA.w $1E48, X
     
@@ -1597,8 +1607,7 @@ AnimateSceneSprite_Sparkle:
 {
     JSR.w AnimateSceneSprite_DrawSparkle
     
-    LDA.w $1E0A : LSR #2 : AND.b #$03 : TAY
-    
+    LDA.w $1E0A : LSR : LSR : AND.b #$03 : TAY
     LDA.w Pool_AnimateSceneSprite_Sparkle_position_x, Y : STA.w $1E30, X
     LDA.w Pool_AnimateSceneSprite_Sparkle_position_y, Y : STA.w $1E48, X
     
@@ -1606,9 +1615,8 @@ AnimateSceneSprite_Sparkle:
 }
 
 ; $064936-$064955 DATA
-Pool_AnimateSceneSprite_DrawSparkle:
+AnimateSceneSprite_DrawSparkle_groups:
 {
-    .groups
     dw   0,   0 : db $80, $34, $00, $00
     dw   0,   0 : db $B7, $34, $00, $00
     dw  -4,  -3 : db $64, $38, $00, $02
@@ -1618,12 +1626,14 @@ Pool_AnimateSceneSprite_DrawSparkle:
 ; $064956-$064971 LOCAL JUMP LOCATION
 AnimateSceneSprite_DrawSparkle:
 {
-    LDA.b #$01 : STA.b $06 : STZ.b $07
+    LDA.b #$01 : STA.b $06
+                 STZ.b $07
     
     LDA.w $1E20, X : BMI .BRANCH_1
-        ASL #3 : ADC.b #$36 : STA.b $08
+        ASL #3 : ADC.b #groups : STA.b $08
         
-        LDA.b #$C9 : ADC.b #$00 : STA.b $09
+        ; TODO: Add 0?
+        LDA.b #.groups>>8 : ADC.b #$00 : STA.b $09
         
         JSR.w AnimateSceneSprite_AddObjectsToOAMBuffer
     
@@ -1650,39 +1660,35 @@ AnimateSceneSprite_AddObjectsToOAMBuffer:
     REP #$30
     
     LDY.w #$0000
-    
     LDX.w $1E08
     
-    LDA.b $06 : ASL #2 : ADC.w $1E08 : STA.w $1E08
+    LDA.b $06 : ASL : ASL : ADC.w $1E08 : STA.w $1E08
     
     .nextSprite
     
-        LDA ($08), Y : CLC : ADC.b $00 : STA.w $0000, X
+        LDA.b ($08), Y : CLC : ADC.b $00 : STA.w $0000, X
+        AND.w #$0100                     : STA.b $0C
         
-        AND.w #$0100 : STA.b $0C
-        
-        INY #2
-        
-        LDA ($08), Y : CLC : ADC.b $02 : STA.w $0001, X
-        
+        INY
+        INY
+        LDA.b ($08), Y : CLC : ADC.b $02 : STA.w $0001, X
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .y_in_range
             LDA.w #$00F0 : STA.w $0001, X
         
         .y_in_range
         
-        INY #2
-        
-        LDA ($08), Y : EOR.b $04 : STA.w $0002, X
+        INY
+        INY
+        LDA.b ($08), Y : EOR.b $04 : STA.w $0002, X
         
         PHX
         
-        TXA : SEC : SBC.w #$0800 : LSR #2 : TAX
+        TXA : SEC : SBC.w #$0800 : LSR : LSR : TAX
         
         SEP #$20
         
         INY #3
-        
-        LDA ($08), Y : ORA.b $0D : STA.w $0A20, X
+        LDA.b ($08), Y : ORA.b $0D : STA.w $0A20, X
         
         PLX
         
@@ -1719,8 +1725,7 @@ AnimateSceneSprite_MoveTriangle:
         
         .BRANCH_1
         
-        ADC.w $1E30, X : STA.w $1E30, X
-        
+              ADC.w $1E30, X : STA.w $1E30, X
         TYA : ADC.w $1E38, X : STA.w $1E38, X
     
     .BRANCH_2
@@ -1739,8 +1744,7 @@ AnimateSceneSprite_MoveTriangle:
         
         .BRANCH_3
         
-        ADC.w $1E48, X : STA.w $1E48, X
-        
+              ADC.w $1E48, X : STA.w $1E48, X
         TYA : ADC.w $1E50, X : STA.w $1E50, X
     
     .BRANCH_4
@@ -1774,7 +1778,10 @@ TriforceRoom_PrepGFXSlotForPoly:
     JSL.l Graphics_LoadCommonSprLong
     JSR.w TriforceInitializePolyhedralModule
     
-    LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
+    LDA.b #$01 : STA.w $1E10
+                 STA.w $1E11
+                 STA.w $1E12
+
     LDA.b #$04 : STA.w $1E18
     LDA.b #$05 : STA.w $1E19
     LDA.b #$06 : STA.w $1E1A
@@ -1800,7 +1807,10 @@ Credits_InitializePolyhedral:
     
     STZ.w $1F02
     
-    LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
+    LDA.b #$01 : STA.w $1E10
+                 STA.w $1E11
+                 STA.w $1E12
+
     LDA.b #$07 : STA.w $1E18
     LDA.b #$07 : STA.w $1E19
     LDA.b #$07 : STA.w $1E1A
@@ -1855,9 +1865,7 @@ AdvancePolyhedral_do_advance:
 AdvancePolyhedral_run_sub:
 {
     LDA.w $1E00
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw IntroPolyhedral_StartUp                ; 0x00 - $CAE9
     dw IntroPolyhedral_StartUp_MoveGrowRotate ; 0x01 - $CAFE
     dw IntroPolyhedral_MoveRotate             ; 0x02 - $CB1F
@@ -1871,7 +1879,6 @@ AdvancePolyhedral_run_sub:
 IntroPolyhedral_StartUp:
 {
     LDA.w $1F02 : SEC : SBC.b #$02 : STA.w $1F02
-    
     CMP.b #$02 : BCS .alpha
         STZ.w $1F02
         
@@ -2079,9 +2086,7 @@ AnimateSceneSprite_TriforceRoomTriangle:
     JSR.w AnimateSceneSprite_MoveTriangle
     
     LDA.w $1E00
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw AnimateTriforceRoomTriangle_Expand        ; 0x00 - $CC33
     dw AnimateTriforceRoomTriangle_RotateInPlace ; 0x01 - $CC56
     dw AnimateTriforceRoomTriangle_Contract      ; 0x02 - $CC6B
@@ -2212,7 +2217,7 @@ AnimateTriforceRoomTriangle_Stopped:
     .BRANCH_1
     
     LDA.w $1E0C : SEC : SBC.b #$01 : STA.w $1E0C
-    LDA.w $1E0D : SBC.b #$00 : STA.w $1E0D
+    LDA.w $1E0D       : SBC.b #$00 : STA.w $1E0D
     
     RTS
 }
@@ -2305,7 +2310,6 @@ Pool_InitializeSceneSprite_CreditsTriangle:
 InitializeSceneSprite_CreditsTriangle:
 {
     TXA : ASL : TAY
-    
     LDA.w Pool_InitializeSceneSprite_CreditsTriangle_position_x+0, Y
     STA.w $1E30, X
 
@@ -2399,9 +2403,7 @@ Module_SelectFile:
     STZ.b $EB
     
     LDA.b $11 ; Load the submodule index.
-    
     JSL.l UseImplicitRegIndexedLongJumpTable
-    
     dl FileSelect_InitializeGFX                   ; 0x00 - $0CCD9D
     dl FileSelect_UploadFancyBackground           ; 0x01 - $0CCDF2
     dl FileSelect_ReInitSaveFlagsAndEraseTriforce ; 0x02 - $0CCE53
@@ -2427,7 +2429,8 @@ FileSelect_InitializeGFX:
     
     LDA.b #$02 : STA.w $0AA9
     
-    LDA.b #$06 : STA.w $0AB6 : STA.w $0710
+    LDA.b #$06 : STA.w $0AB6
+                 STA.w $0710
     
     JSL.l Palette_DungBgMain
     JSL.l Palette_OverworldBgAux3
@@ -2515,7 +2518,8 @@ FileSelect_UploadLinoleum:
     
         ; This will be zero when the loop begins.
         ; Y can end up as 0x00 or 0x02.
-        LDA.b $00 : PHA : AND.w #$0020 : LSR #4 ; TAY
+        LDA.b $00             : PHA
+        AND.w #$0020 : LSR #4 : TAY
         
         ; $064E17, A = 0xCE0F OR 0xCE13
         LDA.w Pool_FileSelect_UploadLinoleum_pointers, Y : STA.b $02
@@ -2527,9 +2531,9 @@ FileSelect_UploadLinoleum:
         ; Notice in this function that $00 ranges over 0x0 - 0x3FF.
         ; Addresses written range from $1006 to $1805.
         ; Sets up a complex data table.
-        LDA ($02), Y : STA.w $1006, X
+        LDA.b ($02), Y : STA.w $1006, X
         
-        INX #2 
+        INX : INX
         
         INC.b $00
     ; The number of words that will be written.
@@ -2557,8 +2561,8 @@ FileSelect_UploadFancyBackground:
         LDA.w FancyBackgroundTileMap, Y : STA.w $1806, Y
         
         ; Notice that X is increasing but has nothing to do with the loop.
-        INX #2
-    DEY #2 : BPL .loop
+        INX : INX
+    DEY : DEY : BPL .loop
     
     LDA.w #$1103 : STA.b $00
     
@@ -2575,17 +2579,17 @@ FileSelect_UploadFancyBackground:
         ; Write from $18E6-$194D.
         XBA : CLC : ADC.w #$0020 : STA.b $00
         
-        INX #2
+        INX : INX
         
         ; Store fixed numbers after the varying number above.
         LDA.w #$3240 : STA.w $1006, X
         
-        INX #2
+        INX : INX
         
         LDA.w #$347F : STA.w $1006, X
         
         ; All in all 0x66 bytes are written.
-        INX #2
+        INX : INX
     ; We'll loop #$11 times.
     DEC.b $02 : BPL .loop2
     
@@ -2703,8 +2707,10 @@ FileSelect_HandleInput:
         ; Here we actually have a file to work with.
         ; X = 0x00, 0x02, or 0x04
         ; Write a 1 to each entry of $BF that corresponds to an active file.
-        PHX : LDX.b $00
-        LDA.w #$0001 : STA.b $BF, X : PLX
+        PHX
+        LDX.b $00
+        LDA.w #$0001 : STA.b $BF, X
+        PLX
         
         LDA.w #$D698 : STA.b $04
         LDA.w #$D699 : STA.b $02
@@ -2724,7 +2730,7 @@ FileSelect_HandleInput:
         
         .invalidSaveFile
     ; If there's more files to look at, go back to .BRANCH_2.
-    LDX.b $00 : INX #2 : CPX.w #$0006 : BCC .nextFile
+    LDX.b $00 : INX : INX : CPX.w #$0006 : BCC .nextFile
     
     SEP #$30
     
@@ -2744,106 +2750,104 @@ FileSelect_HandleInput:
     ; Ignore left and right. See info on $4218, joypad 1.
     ; In this case, no important buttons are down.
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$FC : BEQ .return
-    
-    AND.b #$2C : BEQ .actionButtonDown
-        ; What happens if the down direction was pressed.
-        AND.b #$08 : BEQ .dpadDownButton
-        
-            ; What happens if up or select was pressed.
+        AND.b #$2C : BEQ .actionButtonDown
+            ; What happens if the down direction was pressed.
+            AND.b #$08 : BEQ .dpadDownButton
+                ; What happens if up or select was pressed.
+                LDA.b #$20 : STA.w $012F
+                
+                DEC.b $C8 : BPL .done
+                    ; This allows the fairy to wrap around to the bottom.
+                    LDA.b #$04 : STA.b $C8
+                    
+                    BRA .done
+            
+            .dpadDownButton
+            
             LDA.b #$20 : STA.w $012F
             
-            DEC.b $C8 : BPL .done
-                ; This allows the fairy to wrap around to the bottom.
-                LDA.b #$04 : STA.b $C8
-                
-                BRA .done
-        
-        .dpadDownButton
-        
-        LDA.b #$20 : STA.w $012F
-        
-        INC.b $C8
-        
-        LDA.b $C8 : CMP.b #$05 : BNE .done
-        
-        STZ.b $C8 ; Allows the fairy to wrap around to the top.
-        
-        .done
-        
-        BRA .return
-    
-    .actionButtonDown
-    
-    LDA.b #$2C : STA.w $012E
-    
-    LDA.b $C8 : CMP.b #$03 : BEQ .gotoCopyMode
-        BCS .gotoEraseMode
-            ; Otherwise, find out which save slot this is.
-            LDA.b $C8 : ASL : TAX
+            INC.b $C8
             
-            ; If this save file is empty, go to the naming mode for a new
-            ; player.
-            LDA.b $BF, X : BEQ .emptyFile
-                ; Tells us to cut the music for the moment.
-                LDA.b #$F1 : STA.w $012C
+            LDA.b $C8 : CMP.b #$05 : BNE .done
+                ; Allows the fairy to wrap around to the top.
+                STZ.b $C8
+            
+            .done
+            
+            BRA .return
+    
+        .actionButtonDown
+        
+        LDA.b #$2C : STA.w $012E
+        
+        LDA.b $C8 : CMP.b #$03 : BEQ .gotoCopyMode
+            BCS .gotoEraseMode
+                ; Otherwise, find out which save slot this is.
+                LDA.b $C8 : ASL : TAX
                 
-                ; As to not interfere with the 16 bit value of $C8.
+                ; If this save file is empty, go to the naming mode for a new
+                ; player.
+                LDA.b $BF, X : BEQ .emptyFile
+                    ; Tells us to cut the music for the moment.
+                    LDA.b #$F1 : STA.w $012C
+                    
+                    ; As to not interfere with the 16 bit value of $C8.
+                    STZ.b $C9
+                    
+                    REP #$20
+                    
+                    ;  Obtain the SRAM offset of the save file we chose.
+                    LDA.l SaveFileCopyOffsets, X : STA.b $00
+                    
+                    ;  A = #$02, #$04, #$06
+                    ; Indicates in SRAM which save slot was loaded last.
+                    LDA.b $C8 : ASL : INC : INC : STA.l $701FFE
+                    
+                    SEP #$20
+                    
+                    ; Why this is a long branch (BRL), I have no idea.
+                    BRL CopySaveToWRAM
+                
+                .emptyFile
+                
                 STZ.b $C9
                 
-                REP #$20
+                LDY.b #$04 ; Gives the signal to go to naming mode.
                 
-                ;  Obtain the SRAM offset of the save file we chose.
-                LDA.l SaveFileCopyOffsets, X : STA.b $00
+                BRA .changeMode
                 
-                ;  A = #$02, #$04, #$06
-                ; Indicates in SRAM which save slot was loaded last.
-                LDA.b $C8 : ASL : INC #2 : STA.l $701FFE
+        .gotoCopyMode
                 
-                SEP #$20
+        ; Gives the signal to go to copy mode.
+        LDY.b #$02
                 
-                ; Why this is a long branch (BRL), I have no idea.
-                BRL CopySaveToWRAM
-            
-            .emptyFile
-            
-            STZ.b $C9
-            
-            LDY.b #$04 ; Gives the signal to go to naming mode.
-            
-            BRA .changeMode
-            
-    .gotoCopyMode
-            
-    ; Gives the signal to go to copy mode.
-    LDY.b #$02
-            
-    BRA .checkIfFilesPresent
-    
-    .gotoEraseMode
-    
-    ; Gives the signal to go to erase mode.
-    LDY.b #$03
-    
-    .checkIfFilesPresent
-    
-    ; Checking to see if there are any files actually written...
-    LDA.b $BF : ORA.b $C1 : ORA.b $C3 : BNE .filesExist
-        ; Since no files exist to be copied / erased, the error noise is played.
-        LDA.b #$3C : STA.w $012E
+        BRA .checkIfFilesPresent
         
-        BRA .return
-    
-    .filesExist
-    
-    STZ.b $C8
-    
-    .changeMode
-    
-    ; Set the next mode to copy, erase, or name mode.
-    STY.b $10
-    
-    ; Reset the submodule indices.
-    STZ.b $11 : STZ.b $B0
+        .gotoEraseMode
+        
+        ; Gives the signal to go to erase mode.
+        LDY.b #$03
+        
+        .checkIfFilesPresent
+        
+        ; Checking to see if there are any files actually written...
+        LDA.b $BF : ORA.b $C1 : ORA.b $C3 : BNE .filesExist
+            ; Since no files exist to be copied / erased, the error noise is played.
+            LDA.b #$3C : STA.w $012E
+            
+            BRA .return
+        
+        .filesExist
+        
+        STZ.b $C8
+        
+        .changeMode
+        
+        ; Set the next mode to copy, erase, or name mode.
+        STY.b $10
+        
+        ; Reset the submodule indices.
+        STZ.b $11 : STZ.b $B0
     
     .return
     
@@ -2853,11 +2857,15 @@ FileSelect_HandleInput:
 ; $064FBB-$065052 JUMP LOCATION
 CopySaveToWRAM:
 {
+    ; OPTIMIZE: Why not just add 0x0F to the addresses instead?
     ; We end up here if we've selected a game that has data in it already.
     LDX.b #$0F
-    
-    LDA.b #$00 : STA.l $001AC0, X : STA.l $001AE0, X
-    LDA.b #$00 : STA.l $001AB0, X : STA.l $001AD0, X : STA.l $001AF0, X
+    LDA.b #$00 : STA.l $001AC0, X
+                 STA.l $001AE0, X
+
+    LDA.b #$00 : STA.l $001AB0, X
+                 STA.l $001AD0, X 
+                 STA.l $001AF0, X
     
     ; Change the bank to $7E so that we can use "STA.w ZZ, Y" and so we don't
     ; have to make a bunch of long SRM writes later.
@@ -2866,7 +2874,8 @@ CopySaveToWRAM:
     REP #$30
     
     ; The SRAM offset based on which save slot you picked.
-    LDY.w #$0000 : LDX.b $00
+    LDY.w #$0000
+    LDX.b $00
     
     .SRAMLoadLoop
     
@@ -2877,14 +2886,17 @@ CopySaveToWRAM:
         LDA.l $700300, X : STA.w $F300, Y
         LDA.l $700400, X : STA.w $F400, Y
         
-        INX #2
-    INY #2 : CPY.w #$0100 : BNE .SRAMLoadLoop
+        INX : INX
+    INY : INY : CPY.w #$0100 : BNE .SRAMLoadLoop
 
     ; Restore the previous bank.
     PLB
     
-    LDA.w #$0007 : STA.l $7EC00D : STA.l $7EC013
-    LDA.w #$0000 : STA.l $7EC00F : STA.l $7EC015
+    LDA.w #$0007 : STA.l $7EC00D
+                   STA.l $7EC013
+
+    LDA.w #$0000 : STA.l $7EC00F
+                   STA.l $7EC015 
     
     ; OPTIMIZE: Unused: These values are unused and can be remvoed.
     LDA.w #$6040 : STA.w $0219
@@ -2899,7 +2911,10 @@ CopySaveToWRAM:
     ; Send us to module 5.
     LDA.b #$05 : STA.b $10
     
-    STZ.b $11 : STZ.w $010E : STZ.w $0710 : STZ.w $0AB2
+    STZ.b $11
+    STZ.w $010E
+    STZ.w $0710
+    STZ.w $0AB2
     
     RTL
 }
@@ -2943,7 +2958,7 @@ KILLFile_FindFileIndices:
     
     .loop
     
-        INX #2
+        INX : INX
     LDA.b $BF, X : BEQ .loop
     
     TXA : LSR : STA.b $C8
@@ -3010,9 +3025,8 @@ CopyFile_ConfirmSelection:
 ; ==============================================================================
 
 ; $0650C2-$0650C5 DATA
-Pool_FilePicker_DeleteHeaderStripe:
+FilePicker_DeleteHeaderStripe_offsets:
 {
-    .offsets
     dw $0004
     dw $001E
 }
@@ -3029,15 +3043,15 @@ FilePicker_DeleteHeaderStripe:
     
         LDY.w #$000B : STY.b $00
         
-        LDY.w Pool_FilePicker_DeleteHeaderStripe_offsets, X
+        LDY.w .offsets, X
         
         .BRANCH_2
         
             STA.w $1002, Y
             
-            INY #2
+            INY : INY
         DEC.b $00 : BNE .BRANCH_2
-    DEX #2 : BPL .BRANCH_1
+    DEX : DEX : BPL .BRANCH_1
     
     SEP #$30
     
@@ -3147,9 +3161,7 @@ CopyFile_SelectionAndBlinker:
             LDA.l SaveFileCopyOffsets, X
             
             TXY
-            
             TAX
-            
             LDA.w CopyFile_NameStripeBufferOffset, Y : TAY
             
             LDA.w #$0006 : STA.b $02
@@ -3159,18 +3171,17 @@ CopyFile_SelectionAndBlinker:
                 LDA.l $7003D9, X : CLC : ADC.w #$1800 : STA.w $1002, Y
                                    CLC : ADC.w #$0010 : STA.w $1016, Y
                 
-                INX #2
+                INX : INX 
                 
-                INY #2
+                INY : INY
             DEC.b $02 : BNE .BRANCH_3
         
         .BRANCH_4
-    LDX.b $00 : INX #2 : CPX.w #$0006 : BCC .BRANCH_2
+    LDX.b $00 : INX : INX : CPX.w #$0006 : BCC .BRANCH_2
     
     SEP #$30
     
     LDX.b $C8
-    
     LDA.w CopyFile_FairyIndent, X : STA.b $00
     LDA.w CopyFile_FairyHeight, X : STA.b $01
     
@@ -3187,7 +3198,6 @@ CopyFile_SelectionAndBlinker:
                 .BRANCH_6
                 
                     TXA : ASL : TAY
-                    
                     LDA.w $00BF, Y : BNE .BRANCH_11
                 DEX : BPL .BRANCH_6
             
@@ -3203,7 +3213,6 @@ CopyFile_SelectionAndBlinker:
             .BRANCH_9
             
             TXA : ASL : TAY
-            
             LDA.w $00BF, Y : BNE .BRANCH_11
                 INX : CPX.b #$03 : BNE .BRANCH_9
                     BRA .BRANCH_11
@@ -3231,7 +3240,6 @@ CopyFile_SelectionAndBlinker:
     ; $C8 Indexes your selection so far.
     ; I.e. They chose the quit option. #$0-2 are the save games.
     LDA.b $C8 : CPX.b #$03 : BEQ .BRANCH_15
-    
         ; So if they didn't choose to quit... they must have chosen a game
         ; to copy.
         ASL : STA.b $CC
@@ -3251,9 +3259,11 @@ CopyFile_SelectionAndBlinker:
             ; If not, then look up a value...
             LDA.w CopyFile_TargetStripeOffsetAdjuster, X : TAX
             
-            LDA.b #$6C : STA.w $1036, X : STA.w $103C, X
+            LDA.b #$6C : STA.w $1036, X
+                         STA.w $103C, X
             
-            LDA.b #$27 : STA.w $1037, X : CLC : ADC.b #$20 : STA.w $103D, X
+            LDA.b #$27       : STA.w $1037, X
+            CLC : ADC.b #$20 : STA.w $103D, X
         
         .BRANCH_14
         
@@ -3271,6 +3281,7 @@ ReturnToFileSelect:
 {
     ; This means the mode will change to select screen mode.
     LDA.b #$01 : STA.b $10
+
     ; And the submodule will be the second (#$01) one.
     LDA.b #$01 : STA.b $11
     
@@ -3370,12 +3381,13 @@ CopyFile_TargetSelectionAndBlink:
     .BRANCH_4
     
         STX.b $00 : CPX.b $CC : BEQ .BRANCH_6
-            LDY.b $04 : LDA.w CopyFile_BufferOffset, Y : TAY
+            LDY.b $04
+            LDA.w CopyFile_BufferOffset, Y : TAY
             
             INC.b $04 : INC.b $04
             
-            LDA.w CopyFile_TargetNumerals, X  : STA.w $1002, Y
-            CLC : ADC.w #$0010 : STA.w $1016, Y
+            LDA.w CopyFile_TargetNumerals, X : STA.w $1002, Y
+            CLC : ADC.w #$0010               : STA.w $1016, Y
             
             LDA.b $BF, X : BEQ .BRANCH_6
                 LDA.w #$0006 : STA.b $02
@@ -3385,29 +3397,27 @@ CopyFile_TargetSelectionAndBlink:
                 .BRANCH_5
                 
                     LDA.l $7003D9, X : CLC : ADC.w #$1800 : STA.w $1006, Y
+                                       CLC : ADC.w #$0010 : STA.w $101A, Y
                     
-                    CLC : ADC.w #$0010 : STA.w $101A, Y
+                    INX : INX
                     
-                    INX #2
-                    
-                    INY #2
+                    INY ; INY
                 DEC.b $02 : BNE .BRANCH_5
         
         .BRANCH_6
-    LDX.b $00 : INX #2 : CPX.w #$0006 : BCC .BRANCH_4
+    LDX.b $00 : INX : INX : CPX.w #$0006 : BCC .BRANCH_4
     
     LDX.b $0E : STX.w $1000
     
     SEP #$30
     
-    LDX.b $C8 : LDA.w CopyFile_TargetFairyX, X : STA.b $00
-    
+    LDX.b $C8
+    LDA.w CopyFile_TargetFairyX, X : STA.b $00
     LDA.w CopyFile_TargetFairyY, X : STA.b $01
     
     JSR.w SelectFile_DrawFairy
     
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4
-    
     AND.b #$FC : BEQ .BRANCH_14
         AND.b #$2C : BEQ .BRANCH_9
             AND.b #$08 : BEQ .BRANCH_7
@@ -3444,9 +3454,10 @@ CopyFile_TargetSelectionAndBlink:
             DEX : BPL .BRANCH_10
             
             LDA.b $C8 : BNE .BRANCH_11
-                LDA.b #$62 : STA.w $1036 : STA.w $103C
+                LDA.b #$62 : STA.w $1036
+                             STA.w $103C
                 
-                LDA.b #$14  : STA.w $1037
+                LDA.b #$14       : STA.w $1037
                 CLC : ADC.b #$20 : STA.w $103D
             
             .BRANCH_11
@@ -3471,9 +3482,8 @@ CopyFile_TargetSelectionAndBlink:
 ; ==============================================================================
 
 ; $06536F-$065370 DATA
-Pool_CopyFile_HandleConfirmation:
+CopyFile_HandleConfirmation_fairy_y:
 {
-    .fairy_y
     db $AF ; Yes
     db $BF ; No
 }
@@ -3483,20 +3493,18 @@ CopyFile_HandleConfirmation:
 {
     LDX.b $C8
     
-    LDA.b #$1C   : STA.b $00
-    LDA.w Pool_CopyFile_HandleConfirmation, X : STA.b $01
+    LDA.b #$1C        : STA.b $00
+    LDA.w .fairy_y, X : STA.b $01
     
     JSR.w SelectFile_DrawFairy
     
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4
-    
     AND.b #$FC : BEQ .BRANCH_4
         AND.b #$2C : BEQ .BRANCH_2
             AND.b #$24 : BEQ .BRANCH_1
                 LDA.b #$20 : STA.w $012F
                 
                 INC.b $C8
-                
                 LDA.b $C8 : CMP.b #$02 : BCC .BRANCH_4
                     STZ.b $C8
                 
@@ -3505,7 +3513,6 @@ CopyFile_HandleConfirmation:
             .BRANCH_1
             
             LDA.b #$20 : STA.w $012F
-            
             DEC.b $C8 : BPL .BRANCH_4
                 LDA.b #$01 : STA.b $C8
             
@@ -3527,7 +3534,6 @@ CopyFile_HandleConfirmation:
             JSR.w CopyFile_CopyData
             
             LDX.b $CA
-            
             LDA.w #$0001 : STA.b $BF, X
             
             SEP #$30
@@ -3565,9 +3571,9 @@ CopyFile_CopyData:
         LDA.w $0003, X : STA.w $0003, Y
         LDA.w $0004, X : STA.w $0004, Y
         
-        INX #2
+        INX : INX
         
-        INY #2
+        INY : INY
     DEC.b $00 : BNE .BRANCH_1
     
     SEP #$20
@@ -3637,9 +3643,7 @@ KILL_OK_FileNameStripesAdjustment:
 Module_EraseFile:
 {
     LDA.b $11
-    
     JSL.l UseImplicitRegIndexedLongJumpTable
-    
     dl FileSelect_ReInitSaveFlagsAndEraseTriforce_EraseTriforce ; 0x00 - $0CCDF9
     dl FileSelect_ReInitSaveFlagsAndEraseTriforce               ; 0x01 - $0CD89C
     dl KILLFile_SetUp                                           ; 0x02 - $0CD49A
@@ -3704,11 +3708,10 @@ KILLFile_ChooseTarget:
         
         LDA.b $BF, X : AND.w #$0001 : BEQ .BRANCH_3
             LDA.l SaveFileCopyOffsets, X : TAX
-            
             JSR.w FileSelect_CopyNameToStripes
         
         .BRANCH_3
-    LDX.b $00 : INX #2 : CPX.w #$0006 : BCC .BRANCH_2
+    LDX.b $00 : INX : INX : CPX.w #$0006 : BCC .BRANCH_2
     
     SEP #$30
     
@@ -3722,9 +3725,7 @@ KILLFile_ChooseTarget:
     LDY.b #$02
     
     LDA.b $F4 : AND.b #$20 : BNE .BRANCH_6
-        LDA.b $F4
-        
-        AND.b #$0C : BEQ .BRANCH_9
+        LDA.b $F4 : AND.b #$0C : BEQ .BRANCH_9
             AND.b #$04 : BNE .BRANCH_6
                 LDA.b #$20 : STA.w $012F
                 
@@ -3734,7 +3735,6 @@ KILLFile_ChooseTarget:
                     .BRANCH_4
                     
                         TXA : ASL : TAY
-                        
                         LDA.w $00BF, Y : BNE .BRANCH_9
                     DEX : BPL .BRANCH_4
                 
@@ -3752,7 +3752,6 @@ KILLFile_ChooseTarget:
         .BRANCH_7
         
             TXA : ASL : TAY
-            
             LDA.w $00BF, Y : BNE .BRANCH_9
         INX : CPX.b #$03 : BNE .BRANCH_7
 
@@ -3777,24 +3776,22 @@ KILLFile_ChooseTarget:
             
             .BRANCH_10
             
-            LDA.w KILL_OK_stripes, X : STA.w $1002, X
-            
+                LDA.w KILL_OK_stripes, X : STA.w $1002, X
             DEX : BPL .BRANCH_10
             
             INC.b $11
             
             LDX.b $C8 : CPX.b #$02 : BEQ .BRANCH_11
                 LDA.w KILL_OK_FileNameStripesAdjustment, X : TAX
+                LDA.b #$62 : STA.w $1002, X
+                             STA.w $1008, X
                 
-                LDA.b #$62 : STA.w $1002, X : STA.w $1008, X
-                
-                LDA.b #$67  : STA.w $1003, X
+                LDA.b #$67       : STA.w $1003, X
                 CLC : ADC.b #$20 : STA.w $1009, X
             
             .BRANCH_11
             
             LDA.b $C8 : STA.b $B0
-            
             STZ.b $C8
             
             BRA .BRANCH_13
@@ -3813,13 +3810,10 @@ KILLFile_ChooseTarget:
 ; ==============================================================================
 
 ; $065597-$065598 DATA
-Pool_KILLFile_VerifyDeletion:
+KILLFile_VerifyDeletion_fairy_pos_y:
 {
-    .fairy_pos_y
     db $AF, $BF
 }
-
-; ==============================================================================
 
 ; $065599-$06562F LOCAL JUMP LOCATION
 KILLFile_VerifyDeletion:
@@ -3867,9 +3861,7 @@ KILLFile_VerifyDeletion:
             REP #$30
             
             LDA.b $B0 : AND.w #$00FF : ASL : TAX
-            
             STZ.b $BF, X
-            
             LDA.l SaveFileCopyOffsets, X : TAX
             
             LDY.w #$0000 : TYA
@@ -3882,8 +3874,8 @@ KILLFile_VerifyDeletion:
                 STA.l $701000, X : STA.l $701100, X
                 STA.l $701200, X : STA.l $701300, X
                 
-                INX #2
-            INY #2 : CPY.w #$0100 : BNE .BRANCH_4
+                INX : INX
+            INY : INY : CPY.w #$0100 : BNE .BRANCH_4
             
             SEP #$30
         
@@ -3930,12 +3922,11 @@ FileSelect_CopyNameToStripes:
     .nextLetter
     
         LDA.l $7003D9, X : CLC : ADC.w #$1800 : STA.w $1002, Y
+                           CLC : ADC.w #$0010 : STA.w $102C, Y
         
-        CLC : ADC.w #$0010 : STA.w $102C, Y
+        INX : INX
         
-        INX #2
-        
-        INY #2
+        INY : INY
     DEC.b $02 :BNE .nextLetter
     
     PLX
@@ -3945,13 +3936,14 @@ FileSelect_CopyNameToStripes:
     LDX.b $00
     LDY.w Pool_FileSelect_CopyNameToStripes_hearts_offset, X : STY.b $04 
     
-    LDA.w #$0520 : LDX.w #$000A
+    LDA.w #$0520
+    LDX.w #$000A
     
     .nextHeart
     
         STA.w $1002, Y
         
-        INY #2 : DEX : BNE .BRANCH_3
+        INY : INY : DEX : BNE .BRANCH_3
             PHA
             
             LDA.b $04 : CLC : ADC.w #$002A : TAY
@@ -4016,8 +4008,6 @@ Pool_FileSelect_DrawLink:
     db $38 ; File 3
 }
 
-; ==============================================================================
-
 ; $0656AF-$0657A2 LOCAL JUMP LOCATION
 FileSelect_DrawLink:
 {
@@ -4042,19 +4032,20 @@ FileSelect_DrawLink:
     ; $D698 -> $65698 #$34 = 52
     ; A -> #$40 = 64
     ; Mirror to this location.
-    LDA ($04) : CLC : ADC.b #$0C : STA.w $0800, X : STA.w $0804, X
+    LDA.b ($04) : CLC : ADC.b #$0C : STA.w $0800, X
+                                     STA.w $0804, X
     
     ; I.e. from $D699, Y; A = 0x43, 0x63, or 0x83
     ; A = 0x3E, 0x5E, or 0x7E
-    LDA ($02), Y : CLC : ADC.b #$FB : STA.w $0801, X
+    LDA.b ($02), Y : CLC : ADC.b #$FB : STA.w $0801, X
     
     ; The last add obviously overflowed, so clc
     ; A -> 0x46, 0x66, or 0x86
     CLC : ADC.b #$08 : STA.w $0805, X
     
     ; A -> #$72, #$76, #$7A
-    LDA.w Pool_FileSelect_DrawLink_sword_props, Y
-    STA.w $0803, X : STA.w $0807, X
+    LDA.w Pool_FileSelect_DrawLink_sword_props, Y : STA.w $0803, X
+                                                    STA.w $0807, X
     
     PHY : PHX 
     
@@ -4074,7 +4065,8 @@ FileSelect_DrawLink:
     TAY : DEY : BPL .hasSword
         ; We'll end up here if Link doesn't have a sword.
         ; Apparently 0xF0 disables these sprites?
-        LDA.b #$F0 : STA.w $0801, X : STA.w $0805, X
+        LDA.b #$F0 : STA.w $0801, X
+                     STA.w $0805, X
         
         ; So yeah, we want that 0 back from the 0xFF it was.
         INY
@@ -4095,9 +4087,11 @@ FileSelect_DrawLink:
     ; 0x28, 0x3C, or 0x50 -> Stack
     ; X -> 0x0A, 0x0F, or 0x14 (10,15,20)
     ; A -> 0x28, 0x3C, or 0x50
-    PHX : TXA : LSR #2 : TAX
+    PHX
+    TXA : LSR : LSR : TAX
     
-    LDA.w #$00 : STA.w $0A20, X : STA.w $0A21, X
+    LDA.w #$00 : STA.w $0A20, X
+                 STA.w $0A21, X
     
     ; A -> 0x28, 0x3C, or 0x50
     ; A -> 0x30, 0x44, or 0x58
@@ -4106,10 +4100,10 @@ FileSelect_DrawLink:
     ; $065698 A -> #$34
     ; A -> 0x2F
     ; Controls the position of the shield on the select screen.
-    LDA ($04) : CLC : ADC.b #$FB : STA.w $0800, X
+    LDA.b ($04) : CLC : ADC.b #$FB : STA.w $0800, X
     
     ; Controls the display of the shield on the select screen.
-    LDA ($02), Y : CLC : ADC.b #$0A : STA.w $0801, X
+    LDA.b ($02), Y : CLC : ADC.b #$0A : STA.w $0801, X
     
     ; A -> #$32, #$36, #$3A
     LDA.w Pool_FileSelect_DrawLink_shield_props, Y : STA.w $0803, X
@@ -4145,26 +4139,25 @@ FileSelect_DrawLink:
     
     PHX
     
-    TXA : LSR #2 : TAX
-    
+    TXA : LSR : LSR : TAX
     LDA.b #$02 : STA.w $0A20, X
     
     PLA : CLC : ADC.b #$04 : TAX
-    
-    LDA ($04) : STA.w $0800, X : STA.w $0804, X
+    LDA.b ($04) : STA.w $0800, X : STA.w $0804, X
     
     LDA.b #$00 : STA.w $0802, X
     LDA.b #$02 : STA.w $0806, X
     
     LDA.w Pool_FileSelect_DrawLink_link_props, Y : STA.w $0803, X
-    ORA.b #$40  : STA.w $0807, X
+    ORA.b #$40                                   : STA.w $0807, X
     
-    LDA ($02), Y : STA.w $0801, X
+    LDA.b ($02), Y   : STA.w $0801, X
     CLC : ADC.b #$08 : STA.w $0805, X
     
-    TXA : LSR #2 : TAX
+    TXA : LSR : LSR : TAX
     
-    LDA.b #$02 : STA.w $0A20, X : STA.w $0A21, X
+    LDA.b #$02 : STA.w $0A20, X
+                 STA.w $0A21, X
     
     REP #$30
     
@@ -4174,13 +4167,10 @@ FileSelect_DrawLink:
 ; ==============================================================================
 
 ; $0657A3-$0657A4 DATA
-Pool_SelectFile_DrawFairy:
+SelectFile_DrawFairy_chr:
 {
-    .chr
     db $A8, $AA
 }
-
-; ==============================================================================
 
 ; This routine animates the fairy on the select screen.
 ; $0657A5-$0657CA LOCAL JUMP LOCATION
@@ -4254,18 +4244,24 @@ FileSelect_DrawDeaths:
     
     REP #$30
     
-    LDA.b $02 : PHA : STA.b $08
-    LDA.b $04 : PHA : STA.b $0A
+    LDA.b $02 : PHA
+                STA.b $08
+
+    LDA.b $04 : PHA
+                STA.b $0A
     
     ; Check the death counter (which is set to 0xFFFF until you beat the game).
-    LDX.b $0E : LDA.l $700405, X : CMP.w #$FFFF : BNE .gameBeaten
+    LDX.b $0E
+    LDA.l $700405, X : CMP.w #$FFFF : BNE .gameBeaten
         JMP.w .return ; $065883
     
     .gameBeaten
     
     CMP.w #$03E8 : BCC .lessThan1000 ; Less than a thousand.
         ; The number of deaths maxes out at 999, so we just set the digits to all 9s.
-        LDA.w #$0009 : STA !onesDigit : STA !tensDigit : STA !hundredsDigit
+        LDA.w #$0009 : STA.b !onesDigit
+                       STA.b !tensDigit
+                       STA.b !hundredsDigit
         
         BRA .BRANCH_7
     
@@ -4283,7 +4279,7 @@ FileSelect_DrawDeaths:
     
     .breakOnesLoop
     
-    STA !onesDigit
+    STA.b !onesDigit
     
     ; Y contains number of deaths divided by 10.
     TYA : LDY.w #$0000
@@ -4297,52 +4293,52 @@ FileSelect_DrawDeaths:
     BRA .tensDigitLoop
     .breakTensLoop
     
-    STA !tensDigit : STY !hundredsDigit
+    STA.b !tensDigit
+    STY.b !hundredsDigit
     
     .BRANCH_7
     
     LDX.w #$0004
     
-    LDA !hundredsDigit : BNE .setHighestDigit
-        DEX #2
+    LDA.b !hundredsDigit : BNE .setHighestDigit
+        DEX : DEX
         
-        LDA !tensDigit : BNE .setHighestDigit
-            DEX #2
+        LDA.b !tensDigit : BNE .setHighestDigit
+            DEX : DEX
         
     .setHighestDigit
     
     SEP #$30
     
     LDA.b $00 : LSR : TAY
-    
     LDA.w Pool_FileSelect_DrawDeaths_buffer_offset, Y : TAY
     
     .nextDigit
     
         PHX
         
-        LDA.b $02, X : TAX
-        
         ; Set the sprite CHR based on the digit value.
+        LDA.b $02, X : TAX
         LDA.w Pool_FileSelect_DrawDeaths_digit_char, X : STA.w $0802, Y
         
         PHY
         
         LDA.b $00 : LSR : TAY
-        
-        LDA ($08), Y : CLC : ADC.w #$7A10 : STA.w $0801, Y
+        LDA.b ($08), Y : CLC : ADC.w #$7A10 : STA.w $0801, Y
         
         PLA : PHA : LSR : TAX
-        
-        LDA ($0A) : CLC : ADC.w Pool_FileSelect_DrawDeaths_digit_position_x, X : STA.w $0800, Y
+        LDA.b ($0A)
+        CLC : ADC.w Pool_FileSelect_DrawDeaths_digit_position_x, X : STA.w $0800, Y
+
         LDA.b #$3C : STA.w $0803, Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY
+        TYA : LSR : LSR : TAY
         
         LDA.b #$00 : STA.w $0A20, Y
         
         PLY : INY #4
-    PLX : DEX #2 : BPL .nextDigit
+    PLX : DEX : DEX : BPL .nextDigit
     
     REP #$30
     
@@ -4361,9 +4357,7 @@ FileSelect_DrawDeaths:
 Module_NamePlayer:
 {
     LDA.b $11
-    
     JSL.l UseImplicitRegIndexedLongJumpTable
-    
     dl NameFile_EraseSave         ; 0x00 - $0CD89C
     dl NameFile_FillBackground    ; 0x01 - $0CD911
     dl NameFile_MakeScreenVisible ; 0x02 - $0CD928
@@ -4398,7 +4392,8 @@ NameFile_EraseSave:
     ; Offsets for each of the save slots. #$0, #$500, #$A00, #$F00 for mirrors.
     ; $200 will hold the offset, And it will be the index in SRAM for the
     ; following loop.
-    LDA.l SaveFileCopyOffsets, X : STA.w $0200 : TAX
+    LDA.l SaveFileCopyOffsets, X : STA.w $0200
+                                   TAX
     
     ; We're going to be putting zeroes in SRAM.
     LDY.w #$0000 : TYA
@@ -4411,20 +4406,17 @@ NameFile_EraseSave:
         STA.l $700300, X
         STA.l $700400, X
         
-        INX #2
-    INY #2 : CPY.w #$0100 : BNE .zeroLoop
+        INX : INX
+    INY : INY : CPY.w #$0100 : BNE .zeroLoop
     
     ; Here that offset pops up again.
     LDX.w $0200
-    
-    LDA.w #$00A9
-    
-    STA.l $7003D9, X ; These are the naming spots.
-    STA.l $7003DB, X ; Note that they are being filled with 0xA9.
-    STA.l $7003DD, X ; If you can get a hold of my SRAM faq, you'd know
-    STA.l $7003DF, X ; that 0xA9 is interpreted as a blank character.
-    STA.l $7003E1, X
-    STA.l $7003E3, X
+    LDA.w #$00A9 : STA.l $7003D9, X ; These are the naming spots.
+                   STA.l $7003DB, X ; 0xA9 is a blank character.
+                   STA.l $7003DD, X
+                   STA.l $7003DF, X
+                   STA.l $7003E1, X
+                   STA.l $7003E3, X
     
     SEP #$30
     
@@ -4447,7 +4439,6 @@ NameFile_FillBackground:
     PLB
     
     LDA.b #$01
-    
     JSR.w Intro_TriforceTerminateSpin_doTilemapUpdate
     
     RTL
@@ -4457,7 +4448,6 @@ NameFile_FillBackground:
 NameFile_MakeScreenVisible:
 {
     LDA.b #$05
-    
     JSR.w Intro_TriforceTerminateSpin_doTilemapUpdate
     
     LDA.b #$0F : STA.b $13
@@ -4586,14 +4576,12 @@ NameFile_DoTheNaming:
         REP #$20
         
         LDX.w $0B16 : BNE .BRANCH_5
-            INY #2
+            INY : INY
         
         .BRANCH_5
         
         LDA.w $0630
-        
         TYX
-        
         CLC : ADC.l Pool_NameFile_CursorMovement, X : AND.w #$01FF : STA.w $0630
         
         SEP #$20
@@ -4608,7 +4596,7 @@ NameFile_DoTheNaming:
     
     LDA.w $0B14 : BEQ .BRANCH_10
         LDX.w $0B15
-        
+
         LDY.b #$02
         
         LDA.w $0B11 : CMP.l Pool_NameFile_CursorPositionY, X : BNE .BRANCH_8
@@ -4641,8 +4629,7 @@ NameFile_DoTheNaming:
     
     .BRANCH_12
     
-        LDA.b $00 : STA.w $0800, Y
-        
+        LDA.b $00        : STA.w $0800, Y
         CLC : ADC.b #$08 : STA.b $00
         
         LDA.w $0B11 : STA.w $0801, Y
@@ -4695,9 +4682,7 @@ NameFile_DoTheNaming:
     
     SEP #$20
     
-    LDA.l Pool_NameFile_CharacterLayout, X
-    
-    CMP.b #$5A : BEQ .BRANCH_16
+    LDA.l Pool_NameFile_CharacterLayout, X : CMP.b #$5A : BEQ .BRANCH_16
         CMP.b #$44 : BEQ .BRANCH_18
             CMP.b #$6F : BEQ .confirm_name
                 STA.b $00
@@ -4735,8 +4720,7 @@ NameFile_DoTheNaming:
     AND.w #$000F : STA.b $02
     
     LDA.w $0B12 : AND.w #$00FF : ASL : TAY
-    
-    CLC : ADC.w $0200 : TAX
+    CLC : ADC.w $0200                : TAX
     
     LDA.b $00 : AND.w #$FFF0 : ASL : ORA.b $02 : STA.l $7003D9, X
     
@@ -4752,15 +4736,12 @@ NameFile_DoTheNaming:
     STZ.b $02
     
     .BRANCH_22
-    
-    LDA.w $0200 : CLC
-    
-    ADC.b $02 : TAX
-    
+
     ; Checking if the spot is blank.
+    LDA.w $0200 : CLC : ADC.b $02 : TAX
     LDA.l $7003D9, X : CMP.w #$00A9 : BNE .BRANCH_25
         LDA.b $02 : CMP.w #$000A : BEQ .BRANCH_23
-            INC #2 : STA.b $02
+            INC : INC : STA.b $02
             
             BRA .BRANCH_22
     
@@ -4785,13 +4766,16 @@ NameFile_DoTheNaming:
     
     REP #$30
     
-    LDA.b $C8 : ASL : INC #2 : STA.l $701FFE : TAX
+    LDA.b $C8 : ASL : INC : INC : STA.l $701FFE
+                                  TAX
     
-    LDA.l SaveFileOffsets, X : STA.b $00 : TAX
+    LDA.l SaveFileOffsets, X : STA.b $00
+                               TAX
     
     LDA.w #$55AA : STA.l $7003E5, X
     
-    LDA.w #$F000 : STA.l $70020C, X : STA.l $70020E, X
+    LDA.w #$F000 : STA.l $70020C, X
+                   STA.l $70020E, X
     
     LDA.w #$FFFF : STA.l $700405, X
     
@@ -4835,8 +4819,8 @@ NameFile_DoTheNaming:
         ; Setup initial equipment and flags values.
         LDA.w DefaultSaveFileItems, Y : STA.l $700340, X
             
-        INX #2
-        INY #2
+        INX : INX
+        INY : INY
     DEC.b $02 : BPL .loadInitialEquipment
     
     LDX.b $00
@@ -4847,13 +4831,12 @@ NameFile_DoTheNaming:
     
         CLC : ADC.l $700000, X
         
-        INX #2 
+        INX : INX
     INY : CPY.w #$027F : BNE .computeChecksum
     
     STA.b $02
     
     LDX.b $00
-    
     LDA.w #$5A5A : SEC : SBC.b $02 : STA.l $7004FE, X
     
     SEP #$30
@@ -4917,19 +4900,17 @@ NameFile_CheckForScrollInputY:
 {
     LDA.b $F0 : AND.b #$C0 : BEQ .BRANCH_5
         STA.b $02
-        
         ASL : ORA.w $0B15 : CMP.b #$10 : BEQ .BRANCH_6
-            LDA.b $02 : ASL #2 : ORA.w $0B15
+            LDA.b $02 : ASL : ASL : ORA.w $0B15
             
             LDX.w $0B10
             
             CMP.b #$13 : BEQ .BRANCH_6
-                LDA.b $02 : LSR #2
+                LDA.b $02 : LSR : LSR
                 
                 .BRANCH_1
                 
                     TAX
-                    
                     LDA.w $0B15
                     CLC : ADC.l Pool_NameFile_CursorIndexMovementY-1, X
                     CMP.l Pool_NameFile_CursorIndexBoundaryY-1, X : BNE .BRANCH_2
@@ -4975,9 +4956,8 @@ NameFile_CheckForScrollInputY:
 ; ==============================================================================
 
 ; $065D24-$065D2F DATA
-Pool_NameFile_DrawSelectedCharacter:
+NameFile_DrawSelectedCharacter_VRAM_position_low:
 {
-    ; .VRAM_position_low
     dw $0084
     dw $0086
     dw $0088
@@ -4991,15 +4971,14 @@ NameFile_DrawSelectedCharacter:
 {
     PHB : PHK : PLB
     
-    LDA.w #$6100 : ORA.w Pool_NameFile_DrawSelectedCharacter, Y : XBA : STA.w $1002
-    
+    LDA.w #$6100 : ORA.w .VRAM_position_low, Y : XBA : STA.w $1002
     XBA : CLC : ADC.w #$0020 : XBA : STA.w $1008
     
-    LDA.w #$0100 : STA.w $1004 : STA.w $100A
+    LDA.w #$0100 : STA.w $1004
+                   STA.w $100A
     
     LDA.l $7003D9, X : ORA.w #$1800 : STA.w $1006
-    
-    CLC : ADC.w #$0010 : STA.w $100C
+    CLC : ADC.w #$0010              : STA.w $100C
     
     SEP #$30
     
@@ -5739,7 +5718,7 @@ Module_Attract:
         ; If screen is force blanked.
         CMP.b #$80 : BEQ .ignoreInput
             ; Ignore input during all of the fading submodules.
-            LDA.b $22    : BEQ .ignoreInput
+            LDA.b $22  : BEQ .ignoreInput
             CMP.b #$02 : BEQ .ignoreInput
             CMP.b #$06 : BEQ .ignoreInput
                 ; Check the joypad for activity on B or Start.
@@ -5753,7 +5732,6 @@ Module_Attract:
     .ignoreInput
     
     LDA.b $22 : ASL : TAX
-    
     JMP.w (.Submodules, X)
 
     ; $066DD2
@@ -5919,15 +5897,14 @@ Attract_SlowBrigthenSetFlag:
 Attract_SlowBrighten:
 {
     LDA.b $13 : CMP.b #$0F : BEQ Attract_SlowFadeToBlank_nextSubmodule
-    
-    DEC.b $5E : BPL .oneFrameDelay
-        INC.b $13
+        DEC.b $5E : BPL .oneFrameDelay
+            INC.b $13
+            
+            LDA.b #$01 : STA.b $5E
         
-        LDA.b #$01 : STA.b $5E
-    
-    .oneFrameDelay
-    
-    RTL
+        .oneFrameDelay
+        
+        RTL
 }
 
 ; ==============================================================================
@@ -5959,19 +5936,14 @@ Attract_SlowFadeToBlank:
 
 ; ==============================================================================
 
-; $066EE5-$066EEB LONG JUMP LOCATION
+; $066EE5-$066EF7 LONG JUMP LOCATION
 Attract_PrepNextSequence:
 {
     LDA.b $23 : ASL : TAX
-    
-    JMP.w (Attract_PrepRoutines, X)
-}
+    JMP.w (.modules, X)
 
-; ==============================================================================
-
-; $066EEC-$066EF7 Jump Table
-Attract_PrepRoutines:
-{
+    ; $066EEC
+    .modules
     dw Attract_PrepLegend      ; 0x00 - $EEF8
     dw Attract_PrepMapZoom     ; 0x01 - $EEFF
     dw Attract_PrepThroneRoom  ; 0x02 - $EF4E
@@ -6005,7 +5977,8 @@ Attract_PrepMapZoom:
     LDA.b #$80 : STA.b $99
     LDA.b #$21 : STA.b $9A
     
-    LDA.b #$07 : STA.w SNES.BGModeAndTileSize : STA.b $94
+    LDA.b #$07 : STA.w SNES.BGModeAndTileSize
+                 STA.b $94
     
     LDA.b #$80 : STA.w SNES.Mode7Init
     
@@ -6082,9 +6055,7 @@ Attract_PrepThroneRoom:
     LDA.b #$03 : STA.w $0AAE
     
     LDX.b #$7E
-    
     LDA.b #$00
-    
     JSL.l Attract_LoadDungeonGfxAndTiles
     
     LDA.b #$00 : STA.l $7EC53A
@@ -6147,7 +6118,6 @@ Attract_PrepZeldaPrison:
     SEP #$20
     
     LDA.b #$73
-    
     JSL.l Attract_LoadDungeonRoom
     
     REP #$20
@@ -6166,7 +6136,6 @@ Attract_PrepZeldaPrison:
     
     LDX.b #$7F
     LDA.b #$01
-    
     JSL.l Attract_LoadDungeonGfxAndTiles
     
     LDA.b #$00 : STA.l $7EC53A
@@ -6211,7 +6180,6 @@ Attract_PrepMaidenWarp:
     SEP #$20
     
     LDA.b #$75
-    
     JSL.l Attract_LoadDungeonRoom
     
     REP #$20
@@ -6235,11 +6203,12 @@ Attract_PrepMaidenWarp:
     
     LDX.b #$7F
     LDA.b #$02
-    
     JSL.l Attract_LoadDungeonGfxAndTiles
     
-    LDA.b #$00 : STA.l $7EC33A : STA.l $7EC53A
-    LDA.b #$38 : STA.l $7EC33B : STA.l $7EC53B
+    LDA.b #$00 : STA.l $7EC33A
+                 STA.l $7EC53A
+    LDA.b #$38 : STA.l $7EC33B
+                 STA.l $7EC53B
     
     STZ.w $1CD8
     
@@ -6248,8 +6217,11 @@ Attract_PrepMaidenWarp:
     
     LDA.b #$FF : STA.b $25
     
-    LDA.b #$70 : STA.b $30 : STA.b $62
-    LDA.b #$70             : STA.b $63
+    LDA.b #$70 : STA.b $30
+                 STA.b $62
+
+    ; OPTIMIZE: Extra LDA.b #$70
+    LDA.b #$70 : STA.b $63
     
     LDA.b #$08 : STA.b $32
     
@@ -6305,26 +6277,22 @@ InitializeTriforceIntro:
     STZ.b $23
     STZ.b $10
     
-    LDA.b #$0A : STA.b $11 : STA.b $B0
+    LDA.b #$0A : STA.b $11
+                 STA.b $B0
     
     RTL
 }
 
 ; ==============================================================================
 
-; $067115-$06711B LONG JUMP LOCATION
+; $067115-$067125 LONG JUMP LOCATION
 Attract_RunSequence:
 {
     LDA.b $23 : ASL : TAX
-    
     JMP.w (Attract_SequenceRoutines, X)
-}
 
-; ==============================================================================
-
-; $06711C-$067125 DATA
-Attract_SequenceRoutines:
-{
+    ; $06711C
+    .modules
     dw Attract_Legend      ; 0x00 - $F126
     dw Attract_MapZoom     ; 0x01 - $F176
     dw Attract_ThroneRoom  ; 0x02 - $F1C8
@@ -6422,7 +6390,8 @@ Attract_MapZoom:
     
     JSL.l EnableForceBlank
     
-    LDA.b #$09 : STA.w SNES.BGModeAndTileSize : STA.b $94
+    LDA.b #$09 : STA.w SNES.BGModeAndTileSize
+                 STA.b $94
     
     JSL.l VRAM_EraseTilemaps_normal
     
@@ -6533,14 +6502,13 @@ Attract_ThroneRoom:
         
         REP #$20
         
-        LDA.l Pool_Attract_ThroneRoom_pointer_size, X : STA.b $2D
+        LDA.l Pool_Attract_ThroneRoom_pointer_size, X     : STA.b $2D
         LDA.l Pool_Attract_ThroneRoom_pointer_offset_x, X : STA.b $02
         LDA.l Pool_Attract_ThroneRoom_pointer_offset_y, X : STA.b $04
-        LDA.l Pool_Attract_ThroneRoom_pointer_char, X : STA.b $06
-        LDA.l Pool_Attract_ThroneRoom_pointer_prop, X : STA.b $08
+        LDA.l Pool_Attract_ThroneRoom_pointer_char, X     : STA.b $06
+        LDA.l Pool_Attract_ThroneRoom_pointer_prop, X     : STA.b $08
         
         TXA : AND.w #$00FF : LSR : TAX
-        
         LDA.l Pool_Attract_ThroneRoom_offset_y, X
         AND.w #$00FF : SEC : SBC.w $0122 : STA.b $00
         
@@ -6550,11 +6518,10 @@ Attract_ThroneRoom:
             LDA.b $00 : STA.b $29
             
             LDA.l Pool_Attract_ThroneRoom_OAM_count, X : TAY
-            
             JSR.w Attract_DrawSpriteSet
         
         .spriteSetOffscreen
-    PLX : DEX #2 : BPL .nextSpriteSet
+    PLX : DEX : DEX : BPL .nextSpriteSet
     
     RTL
 }
@@ -6639,17 +6606,17 @@ Attract_ZeldaPrison:
         LDA.b $29 : CLC : ADC.l Pool_Attract_Prison_soldier_offset_y, X : STA.b $02
         
         LDA.l Pool_Attract_Prison_soldier_direction, X : STA.b $04
-        LDA.l Pool_Attract_Prison_soldier_palette, X : STA.b $05
+        LDA.l Pool_Attract_Prison_soldier_palette, X   : STA.b $05
         
         PHX
         
         REP #$20
         
         TXA : ASL : TAX
-        
         LDA.b $30 : CLC : ADC.w #$0100
         CLC : ADC.l Pool_Attract_Prison_soldier_offset_x, X : STA.b $00
-        TAY : STY.b $34
+                                                              TAY
+                                                              STY.b $34
         
         SEP #$20
         
@@ -6663,7 +6630,6 @@ Attract_ZeldaPrison:
     PLX : DEX : BPL .nextSoldier
     
     INC.b $32
-    
     LDA.b $32 : AND.b #$07 : BNE .BRANCH_ZETA
         LDY.b #$FF
         
@@ -6687,7 +6653,6 @@ Attract_ZeldaPrison:
 AttractDramatize_Agahnim:
 {
     LDA.b $60 : ASL : TAX
-    
     JMP.w ($.vectors, X)
 
     ; $067320
@@ -6802,16 +6767,16 @@ Dramaghanim_MoveAndSpin:
     .BRANCH_ZETA
     
     LDA.b $25 : CMP.b #$C0 : BCS .BRANCH_BETA
-        INX #2
+        INX : INX
         
         CMP.b #$B8 : BCS .BRANCH_BETA
-            INX #2
+            INX : INX
             
             CMP.b #$B0 : BCS .BRANCH_BETA
-                INX #2
+                INX : INX
                 
                 CMP.b #$A0 : BCS .BRANCH_BETA
-                    INX #2
+                    INX : INX
 
     .BRANCH_BETA
 
@@ -6838,7 +6803,6 @@ Dramaghanim_MoveAndSpin:
     LDA.b $2B : STA.b $29
     
     LDY.b #$05
-    
     JSR.w Attract_DrawSpriteSet
     
     RTL
@@ -6905,7 +6869,6 @@ Attract_MaidenWarp:
     .BRANCH_DELTA
     
     LDA.b $60 : ASL : TAX
-    
     JSR.w (Pool_Attract_MaidenWarp_vectors, X)
     
     LDX.b #$05
@@ -6952,7 +6915,7 @@ Attract_MaidenWarp:
         LDX.b #$00
         
         LDA.b $30 : AND.w #$00FF : CMP.w #$0070 : BEQ .BRANCH_KAPPA
-            INX #2
+            INX : INX
         
         .BRANCH_KAPPA
         
@@ -6967,12 +6930,11 @@ Attract_MaidenWarp:
         LDA.b $30 : STA.b $29
         
         LDY.b #$01
-        
         JSR.w Attract_DrawSpriteSet
         
         LDX.b #$0E
         
-        LDA.b $30 : CMP,.b #$68 : BCS .BRANCH_LAMBDA
+        LDA.b $30 : CMP.b #$68 : BCS .BRANCH_LAMBDA
             SEC : SBC.b #$68 : ASL : AND.b #$0E : TAX
         
         .BRANCH_LAMBDA
@@ -6990,7 +6952,6 @@ Attract_MaidenWarp:
         SEP #$20
         
         TXA : LSR : TAX
-        
         LDA.b #$74 : CLC : ADC.l .shadow_base_offset_x, X : STA.b $28
         
         LDA.b #$76 : STA.b $29
@@ -7005,11 +6966,11 @@ Attract_MaidenWarp:
     
     REP #$20
     
-    LDA.w #$F8D9   : STA.b $2D
-    LDA.w #$F8DF   : STA.b $02
-    LDA.w #$F8E5   : STA.b $04
+    LDA.w #$F8D9                   : STA.b $2D
+    LDA.w #$F8DF                   : STA.b $02
+    LDA.w #$F8E5                   : STA.b $04
     LDA.l .agahnim_char_pointer, X : STA.b $06
-    LDA.w #$F915   : STA.b $08
+    LDA.w #$F915                   : STA.b $08
     
     SEP #$20
     
@@ -7017,7 +6978,6 @@ Attract_MaidenWarp:
     LDA.b #$46 : STA.b $29
     
     LDY.b #$05
-    
     JSR.w Attract_DrawSpriteSet
     
     RTL
@@ -7113,7 +7073,6 @@ Dramagahnim_ReadySpell:
     LDA.b #$48 : STA.b $29
     
     LDA.b $51 : LSR : AND.b #$07 : TAX
-    
     LDA.l Dramagahnim_ReadySpell_OAM_count, X : TAY
     
     JSR.w Attract_DrawSpriteSet
@@ -7205,7 +7164,6 @@ Dramagahnim_CastSpell:
     LDA.b #$48 : STA.b $29
     
     LDX.b $00
-    
     LDA.w Pool_Dramagahnim_CastSpell_OAM_count, X : TAY
     
     JSR.w Attract_DrawSpriteSet
@@ -7277,7 +7235,7 @@ Dramagahnim_RealizeWhatJustHappened:
     .BRANCH_BETA
     
     CMP.b #$0F : BCS .BRANCH_GAMMA
-        LSR #2 : AND.b #$02 : TAX
+        LSR : LSR : AND.b #$02 : TAX
         
         REP #$20
         
@@ -7291,7 +7249,6 @@ Dramagahnim_RealizeWhatJustHappened:
         SEP #$20
         
         TXA : LSR : TAX
-        
         LDA.l Pool_Dramagahnim_Realize_position_x, X : STA.b $28
         
         LDA.b #$60 : STA.b $29
@@ -7402,8 +7359,8 @@ Attract_LoadNextLegendGraphic:
     
     .writeLoop
     
-        LDA [!picData], Y : STA.w $1002, Y
-    DEY #2 : BPL .writeLoop
+        LDA.b [!picData], Y : STA.w $1002, Y
+    DEY : DEY : BPL .writeLoop
     
     SEP #$30
     
@@ -7463,9 +7420,9 @@ Attract_AdjustMapZoom:
         
         ; This is effectively the top 16-bits of the 24-bit result of
         ; multiplying $0637 (byte) by the current word from the table.
-        LDA.b $00   : CLC : ADC.w SNES.RemainderResultLow  : STA.w $1B00, X
+        LDA.b $00 : CLC : ADC.w SNES.RemainderResultLow : STA.w $1B00, X
         LDA.w SNES.RemainderResultHigh : ADC.b #$00 : STA.w $1B01, X
-    DEX #2 : BPL .adjustHDMATableLoop
+    DEX : DEX : BPL .adjustHDMATableLoop
     
     SEP #$10
     
@@ -7500,11 +7457,11 @@ Attract_BuildBackgrounds:
             
             .BRANCH_ALPHA
             
-                LDA ($30), Y : STA.w $1006, X
+                LDA.b ($30), Y : STA.w $1006, X
                 
-                INY #2
+                INY : INY
                 
-                INX #2
+                INX : INX
             TYA : AND.w #$0007 : BNE .BRANCH_ALPHA
         TXA : AND.w #$003F : BNE .BRANCH_BETA
         
@@ -7527,11 +7484,11 @@ Attract_BuildBackgrounds:
         
         .BRANCH_GAMMA
         
-            LDA ($30), Y : STA.w $1006, X
+            LDA.b ($30), Y : STA.w $1006, X
             
-            INY #2
-            
-            INX #2
+            INY : INY
+                
+            INX : INX
             
             TYA : AND.w #$0003 : BNE .BRANCH_GAMMA
         TXA : AND.w #$003F : BNE .BRANCH_DELTA
@@ -7601,14 +7558,13 @@ Attract_DrawSpriteSet:
     
         LDX.b $2A
         
-        LDA ($2D), Y : STA.w $0A60, X
+        LDA.b ($2D), Y : STA.w $0A60, X
         
-        TXA : ASL #2 : TAX
-        
-        LDA ($02), Y : CLC : ADC.b $28 : STA.w $0900, X
-        LDA ($04), Y : CLC : ADC.b $29 : STA.w $0901, X
-        LDA ($06), Y                   : STA.w $0902, X
-        LDA ($08), Y                   : STA.w $0903, X
+        TXA : ASL : ASL : TAX
+        LDA.b ($02), Y : CLC : ADC.b $28 : STA.w $0900, X
+        LDA.b ($04), Y : CLC : ADC.b $29 : STA.w $0901, X
+        LDA.b ($06), Y                   : STA.w $0902, X
+        LDA.b ($08), Y                   : STA.w $0903, X
         
         INC.b $2A
     DEY : BPL .nextSprite
@@ -7635,24 +7591,16 @@ Pool_Attract_DrawZelda:
     .body_properties
     db $29
 }
-    
-; ==============================================================================
 
 ; $0679E8-$067A26 LOCAL JUMP LOCATION
 Atract_DrawZelda:
 {
-    ; Pardon me for saying so, but this routine is pretty silly.
-    ; I'm guessing it was done earlier on in the development of the attract
-    ; mode, as its purpose is extremely narrowly defined.
-    
-    LDX.b $2A
-    
     ; Both sprites are larger (16x16).
+    LDX.b $2A
     LDA.b #$02 : STA.w $0A60, X
     
-    TXA : ASL #2 : TAX
-    
     ; X coordinates are fixed at 0x60?
+    TXA : ASL : ASL : TAX
     LDA.b #$60 : STA.w $0900, X
                  STA.w $0904, X
     
@@ -7712,7 +7660,6 @@ Attract_DrawKidnappedMaiden:
     PHY
     
     LDX.b $2A
-    
     LDA.b #$02
     
     LDY.b $40 : BEQ .BRANCH_ALPHA
@@ -7720,20 +7667,17 @@ Attract_DrawKidnappedMaiden:
     
     .BRANCH_ALPHA
     
-    STA.w $0A60, X : STA.w $0A61, X
+    STA.w $0A60, X
+    STA.w $0A61, X
     
-    TXA : ASL #2 : TAX
-    
-    LDA.b $28 : STA.w $0900, X : STA.w $0904, X
+    TXA : ASL : ASL : TAX
+    LDA.b $28 : STA.w $0900, X
+                STA.w $0904, X
     
     LDA.b $32 : LSR #3 : AND.b #$01 : TAY
-    
     LDA.b $29
-    CLC : ADC.w Pool_Attract_DrawKidnappedMaiden_offset_y, Y
-    STA.w $0901, X
-    
-    CLC : ADC.w Pool_Attract_DrawKidnappedMaiden_body_offset_y, Y
-    STA.w $0905, X
+    CLC : ADC.w Pool_Attract_DrawKidnappedMaiden_offset_y, Y      : STA.w $0901, X
+    CLC : ADC.w Pool_Attract_DrawKidnappedMaiden_body_offset_y, Y : STA.w $0905, X
     
     LDA.w Pool_Attract_DrawKidnappedMaiden_head_char    : STA.w $0902, X
     LDA.w Pool_Attract_DrawKidnappedMaiden_body_char, Y : STA.w $0906, X
@@ -7786,8 +7730,8 @@ Attract_SetupHDMA:
     
     .configLoop
     
-        LDA.l Attract_WindowingHDMA_settings, X
-        STA.w DMA.6_TransferParameters, X : STA.w DMA.7_TransferParameters, X
+        LDA.l Attract_WindowingHDMA_settings, X : STA.w DMA.6_TransferParameters, X
+                                                  STA.w DMA.7_TransferParameters, X
     DEX : BPL .configLoop
     
     REP #$20
@@ -8074,7 +8018,6 @@ Intro_HandleLogoSword:
     LDA.w $0FF9 : BEQ .BRANCH_4
         AND.b #$03 : BEQ .BRANCH_3
             LDX.b $D0
-            
             LDA.b $1F : ORA.b $9C, X : STA.b $9C, X
             
             DEX : CPX.b #$03 : BNE .BRANCH_2
@@ -8092,7 +8035,7 @@ Intro_HandleLogoSword:
 
     .loop
     
-        LDY.b #$09 : TYA : ASL #2 : TAX
+        LDY.b #$09 : TYA : ASL : ASL : TAX
         
         LDA.b #$02 : STA.w $0A72, Y
         
@@ -8142,7 +8085,6 @@ Intro_HandleLogoSword:
     SEP #$20
     
     LDX.b $CC
-    
     JMP.w (.vectors, X)
 
     ; $067EE9
@@ -8237,7 +8179,8 @@ LogoSword_BladeShimmer:
         STZ.w $0A70
         STZ.w $0A71
         
-        LDA.b #$42 : STA.w $0940 : STA.w $0944
+        LDA.b #$42 : STA.w $0940
+                     STA.w $0944
         
         LDA.b $CD : CMP.b #$50 : BCC .BRANCH_1
             LDA.b #$4F
@@ -8245,17 +8188,16 @@ LogoSword_BladeShimmer:
         .BRANCH_1
         
         CLC : ADC.b #$C8 : CLC : ADC.b #$31 : STA.w $0941
+                           CLC : ADC.b #$08 : STA.w $0945
         
-        CLC : ADC.b #$08 : STA.w $0945
-        
-        LDA.b #$23 : STA.w $0943 : STA.w $0947
+        LDA.b #$23 : STA.w $0943
+                     STA.w $0947
         
         LDA.w .char+0, X : STA.w $0942
         LDA.w .char+1, X : STA.w $0946
         
         LDA.b $CA : BNE .BRANCH_3
             LDA.b $CD : CLC : ADC.b #$04 : STA.b $CD
-            
             CMP.b #$04 : BEQ .BRANCH_2
             CMP.b #$48 : BEQ .BRANCH_2
             CMP.b #$4C : BEQ .BRANCH_2

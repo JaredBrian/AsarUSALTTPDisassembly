@@ -180,18 +180,17 @@ Dungeon_LoadCustomTileAttr:
     REP #$30
         
     LDA.w $0AA2 : AND.w #$00FF : ASL : TAX
-        
     LDA Pool_Dungeon_LoadCustomTileAttr_group_offsets, X : TAY
         
     LDX.w #$0000
     
     .load_loop
     
-        LDA Pool_Dungeon_LoadCustomTileAttr_groups, Y       : STA.l $7EFF40, X
-        LDA Pool_Dungeon_LoadCustomTileAttr_groups + $40, Y : STA.l $7EFF80, X
+        LDA Pool_Dungeon_LoadCustomTileAttr_groups +$00, Y : STA.l $7EFF40, X
+        LDA Pool_Dungeon_LoadCustomTileAttr_groups +$40, Y : STA.l $7EFF80, X
         
-        INY #2
-    INX #2 : CPX.w #$0040 : BNE .load_loop
+        INY : INY
+    INX : INX : CPX.w #$0040 : BNE .load_loop
         
     SEP #$30
         
@@ -290,13 +289,13 @@ Init_LoadDefaultTileAttr:
     
     .loop
     
-        LDA Dungeon_DefaultAttr + $0000, X : STA.l $7EFE00, X
-        LDA Dungeon_DefaultAttr + $0040, X : STA.l $7EFE40, X
-        LDA Dungeon_DefaultAttr + $0080, X : STA.l $7EFE80, X
-        LDA Dungeon_DefaultAttr + $0100, X : STA.l $7EFEC0, X
-        LDA Dungeon_DefaultAttr + $0140, X : STA.l $7EFF00, X
-        LDA Dungeon_DefaultAttr + $0180, X : STA.l $7EFFC0, X
-    DEX #2 : BPL .loop
+        LDA Dungeon_DefaultAttr +$0000, X : STA.l $7EFE00, X
+        LDA Dungeon_DefaultAttr +$0040, X : STA.l $7EFE40, X
+        LDA Dungeon_DefaultAttr +$0080, X : STA.l $7EFE80, X
+        LDA Dungeon_DefaultAttr +$0100, X : STA.l $7EFEC0, X
+        LDA Dungeon_DefaultAttr +$0140, X : STA.l $7EFF00, X
+        LDA Dungeon_DefaultAttr +$0180, X : STA.l $7EFFC0, X
+    DEX : DEX : BPL .loop
         
     SEP #$30
         
@@ -331,7 +330,6 @@ Pool_Module_EndSequence:
     dw Credits_ScrollScene_Overworld      ; 0x05 - $9958
     dw Credits_LoadNextScene_Overworld    ; 0x06 - $9889 Vultures rule the desert
     dw Credits_ScrollScene_Overworld      ; 0x07 - $9958
-    
     dw Credits_LoadNextScene_Overworld    ; 0x08 - $9889 The Bully makes a friend
     dw Credits_ScrollScene_Overworld      ; 0x09 - $9958
     dw Credits_LoadNextScene_Overworld    ; 0x0A - $9889 Uncle recovers
@@ -340,28 +338,30 @@ Pool_Module_EndSequence:
     dw Credits_ScrollScene_Overworld      ; 0x0D - $9958
     dw Credits_LoadNextScene_Overworld    ; 0x0E - $9889 Witch and Assistant
     dw Credits_ScrollScene_Overworld      ; 0x0F - $9958
-    
     dw Credits_LoadNextScene_Overworld    ; 0x10 - $9889 Twin Lumberjacks
     dw Credits_ScrollScene_Overworld      ; 0x11 - $9958
     dw Credits_LoadNextScene_Overworld    ; 0x12 - $9889 Fluteboy plays again
     dw Credits_ScrollScene_Overworld      ; 0x13 - $9958
-    dw Credits_LoadNextScene_Underworld   ; 0x14 - $9891 Venus, queen of Fairys (and herpes)
+    dw Credits_LoadNextScene_Underworld   ; 0x14 - $9891 Venus, queen of Fairys
+                                          ;        (and herpes)
     dw Credits_ScrollScene_Underworld     ; 0x15 - $99C5
     dw Credits_LoadNextScene_Underworld   ; 0x16 - $9891 Dwarven Swordsmiths
     dw Credits_ScrollScene_Underworld     ; 0x17 - $99C5
-    
     dw Credits_LoadNextScene_Overworld    ; 0x18 - $9889 The Bug Catching Kid
     dw Credits_ScrollScene_Overworld      ; 0x19 - $9958
     dw Credits_LoadNextScene_Overworld    ; 0x1A - $9889 The Lost Old Man
     dw Credits_ScrollScene_Overworld      ; 0x1B - $9958
     dw Credits_LoadNextScene_Overworld    ; 0x1C - $9889 The Forest Thief
     dw Credits_ScrollScene_Overworld      ; 0x1D - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x1E - $9889 Master Sword Sleeps Again, Forever!
+    dw Credits_LoadNextScene_Overworld    ; 0x1E - $9889 Master Sword Sleeps
+                                          ;        Again, Forever!
     dw Credits_ScrollScene_Overworld      ; 0x1F - $9958
-    
-    dw Credits_InitializeTheActualCredits ; 0x20 - $BC6D Sets up for mode 0x22. Various other things
-    dw Credits_BrightenTriangles          ; 0x21 - $C37C Light up the triforce and the screen
-    dw Credits_FadeColorAndBeginAnimating ; 0x22 - $BD8B Scrolls the credits, and number of deaths, etc.
+    dw Credits_InitializeTheActualCredits ; 0x20 - $BC6D Sets up for mode 0x22.
+                                          ;        Various other things
+    dw Credits_BrightenTriangles          ; 0x21 - $C37C Light up the triforce
+                                          ;        and the screen
+    dw Credits_FadeColorAndBeginAnimating ; 0x22 - $BD8B Scrolls the credits, and
+                                          ;        number of deaths, etc.
     dw Credits_StopCreditsScroll          ; 0x23 - $C391
     dw Credits_FadeAndDisperseTriangles   ; 0x24 - $C3B8
     dw Credits_FadeInTheEnd               ; 0x25 - $C3D5
@@ -383,7 +383,6 @@ Module_EndSequence:
         
     ; Load the level 1 submodule index and used it to index into a jump table.
     LDA.b $11 : ASL : TAX
-        
     JSR.w (Pool_Module_EndSequence, X)
         
     RTL
@@ -426,7 +425,8 @@ Pool_Credits_PrepAndLoadSprites:
     dw Credits_LoadSprites_Kakariko2 ; 0x0C - $9CD1 The Bug-Catching Kid
     dw Credits_LoadSprites_GenericOW ; 0x0D - $9CFE The Lost Old Man
     dw Credits_LoadSprites_LostWoods ; 0x0E - $9C92 The Forest Thief
-    dw Credits_LoadSprites_Pedestal  ; 0x0F - $9CB4 And the Master Sword sleeps again... 
+    dw Credits_LoadSprites_Pedestal  ; 0x0F - $9CB4 And the Master Sword
+                                     ;        sleeps again... 
 }
 
 ; $0718B9-$0718D7 LONG JUMP LOCATION
@@ -446,7 +446,6 @@ Credits_PrepAndLoadSprites:
     DEX : BPL .loop
         
     LDA.b $11 : AND.b #$FE : TAX
-        
     JSR.w (Pool_Credits_PrepAndLoadSprites, X)
         
     PLB
@@ -556,9 +555,7 @@ Credits_ScrollScene_Overworld:
         
     REP #$20
         
-    LDA.b $C8
-        
-    CMP.w #$0040 : BCC .BRANCH_GAMMA
+    LDA.b $C8 : CMP.w #$0040 : BCC .BRANCH_GAMMA
     AND.w #$0001 : BNE .BRANCH_GAMMA
         LDA.b $E8 : CMP.w Pool_Credits_ScrollScene_target_y, X : BEQ .BRANCH_DELTA
             LDY.w Pool_Credits_ScrollScene_movement_y, X : STY.b $30
@@ -577,7 +574,6 @@ Credits_ScrollScene_Overworld:
     JSL.l Credits_OperateScrollingAndTilemap
         
     PLX
-        
     JSR.w (Pool_Credits_ScrollScene_Underworld, X)
         
     JMP.w Credits_HandleSceneFade
@@ -588,7 +584,8 @@ Credits_ScrollScene_Overworld:
 ; $0719A5-$0719C4 LOCAL JUMP TABLE ; Actual run time functions.
 Pool_Credits_ScrollScene_Underworld:
 {
-    dw Credits_SpriteDraw_Castle        ; 0x00 - $9E9C Whew just one was a lot of work.
+    dw Credits_SpriteDraw_Castle        ; 0x00 - $9E9C Whew just one was a lot
+                                        ;        of work.
     dw Credits_SpriteDraw_Sanctuary     ; 0x01 - $A9AD Priest recovers
     dw Credits_SpriteDraw_Kakariko1     ; 0x02 - $A0E2
     dw Credits_SpriteDraw_Desert        ; 0x03 - $A941
@@ -630,7 +627,7 @@ Credits_ScrollScene_Underworld:
     REP #$20
         
     LDA.b $C8 : CMP.w #$0040 : BCC .BRANCH_GAMMA
-              AND.w #$0001 : BNE .BRANCH_GAMMA
+    AND.w #$0001 : BNE .BRANCH_GAMMA
         LDA.b $E8 : CMP.w Pool_Credits_ScrollScene_target_y, X : BEQ .BRANCH_DELTA
             CLC : ADC.w Pool_Credits_ScrollScene_movement_y, X : STA.b $E8
         
@@ -651,9 +648,8 @@ Credits_ScrollScene_Underworld:
 }
 
 ; $071A0A-$071A29 DATA
-Pool_Credits_HandleSceneFade:
+Credits_HandleSceneFade_timer:
 {
-    .timer
     dw $0300 ;  768 - Hyrule Castle
     dw $0280 ;  640 - Sanctuary
     dw $0250 ;  592 - Kakariko
@@ -679,7 +675,7 @@ Credits_HandleSceneFade:
         
     REP #$20
         
-    LDA.b $C8 : CMP Pool_Credits_HandleSceneFade, X : SEP #$20 : BCC .BRANCH_ALPHA
+    LDA.b $C8 : CMP.w .timer, X : SEP #$20 : BCC .BRANCH_ALPHA
         LDA.b $C8 : AND.b #$01 : BNE .BRANCH_BETA
             DEC.b $13 : BNE .BRANCH_BETA
         
@@ -1047,7 +1043,9 @@ Credits_SpriteData:
 ; $071C1A-$071C55 LOCAL JUMP LOCATION
 Credits_LoadSprites_Zora:
 {
-    LDA.b #$FF : STA.w $0DF0 : STA.w $0DF1 : STA.w $0DF2
+    LDA.b #$FF : STA.w $0DF0
+                 STA.w $0DF1
+                 STA.w $0DF2
         
     BRA Credits_LoadSprites_Desert_Bounce
 }
@@ -1075,7 +1073,6 @@ Credits_LoadSprites_Desert:
     .loop
     
         LDA.b #$57 : STA.w $0E22, Y
-        
         LDA.b #$31 : STA.w $0F52, Y
     DEY : BPL .loop
     
@@ -1086,9 +1083,8 @@ Credits_LoadSprites_Desert:
 }
 
 ; $071C56-$071C5A DATA
-Pool_Credits_LoadSprites_Grove:
+Credits_LoadSprites_Grove_sprite_timers:
 {
-    .sprite_timers
     db $00, $13, $26, $39, $4C
 }
 
@@ -1099,7 +1095,7 @@ Credits_LoadSprites_Grove:
     
     .loop1
     
-        LDA Pool_Credits_LoadSprites_Grove_sprite_timers, Y : STA.w $0DF0, Y
+        LDA.w .sprite_timers, Y : STA.w $0DF0, Y
         
         LDA.b #$00 : STA.w $0DD0, Y
     DEY : BPL .loop1
@@ -1113,8 +1109,11 @@ Credits_LoadSprites_Grove:
         LDA.b #$9F : STA.w $0E27, Y
         LDA.b #$A0 : STA.w $0E29, Y
         
-        LDA.b #$01 : STA.w $0E47, Y : INC : STA.w $0E49, Y
-        LDA.b #$10 : STA.w $0E67, Y :         STA.w $0E69, Y
+        LDA.b #$01 : STA.w $0E47, Y
+        INC :        STA.w $0E49, Y
+
+        LDA.b #$10 : STA.w $0E67, Y
+                     STA.w $0E69, Y
     DEY : BPL .loop2
 
     ; $071C90 ALTERNATE ENTRY POINT
@@ -1126,8 +1125,8 @@ Credits_LoadSprites_Grove:
 ; $071C92-$071CB3 LOCAL JUMP LOCATION
 Credits_LoadSprites_LostWoods:
 {
-    LDA CreditsSpriteSpeeds_y_speed_limits_negative : STA.w $0D45
-    LDA CreditsSpriteSpeeds_y_speed_limits          : STA.w $0D46
+    LDA.w CreditsSpriteSpeeds_y_speed_limits_negative : STA.w $0D45
+    LDA.w CreditsSpriteSpeeds_y_speed_limits          : STA.w $0D46
         
     LDA.b #$01 : STA.w $0EB6
     LDA.b #$08 : STA.w $0D90
@@ -1187,14 +1186,13 @@ Credits_LoadSprites_Kakariko2:
 ; $071CFE-$071D5B LOCAL JUMP LOCATION
 Credits_LoadSprites_GenericOW:
 {
-    LDA Credits_SpriteData_position_x_pointers, X      : STA.b $04
-    LDA Credits_SpriteData_position_x_pointers + $1, X : STA.b $05
-    LDA Credits_SpriteData_position_y_pointers, X      : STA.b $06
-    LDA Credits_SpriteData_position_y_pointers + $1, X : STA.b $07
+    LDA.w Credits_SpriteData_position_x_pointers +$00, X : STA.b $04
+    LDA.w Credits_SpriteData_position_x_pointers +$01, X : STA.b $05
+    LDA.w Credits_SpriteData_position_y_pointers +$00, X : STA.b $06
+    LDA.w Credits_SpriteData_position_y_pointers +$01, X : STA.b $07
         
     TXA : LSR : TAX
-        
-    LDA Credits_SpriteData_sprite_count, X : TAX
+    LDA.w Credits_SpriteData_sprite_count, X : TAX
     
     .loop
     
@@ -1206,10 +1204,10 @@ Credits_LoadSprites_GenericOW:
                        STA.w $0FB8
         
         LDA.w $040A : ASL
-        XBA : AND.w #$0F00 : CLC : ADC ($04), Y : STA.b $00
+        XBA : AND.w #$0F00 : CLC : ADC.b ($04), Y : STA.b $00
         
         LDA.w $040A : LSR : LSR 
-        XBA : AND.w #$0E00 : CLC : ADC ($06), Y : STA.b $02
+        XBA : AND.w #$0E00 : CLC : ADC.b ($06), Y : STA.b $02
         
         SEP #$20
         
@@ -1228,7 +1226,8 @@ Credits_LoadSprites_Venus:
     LDA.b #$10 : STA.w $0DF1
     LDA.b #$20 : STA.w $0DF2
         
-    LDA.b #$08 : STA.w $0F53 : STA.w $0F54
+    LDA.b #$08 : STA.w $0F53
+                 STA.w $0F54
         
     BRA Credits_LoadSprites_GenericUW
 }
@@ -1258,15 +1257,14 @@ Credits_LoadSprites_GenericUW:
         
     LDA.w $048E : AND.b #$0F : ASL : STA.w $0FB0
         
-    LDA Credits_SpriteData_position_x_pointers, X      : STA.b $04
-    LDA Credits_SpriteData_position_x_pointers + $1, X : STA.b $05
-    LDA Credits_SpriteData_position_y_pointers, X      : STA.b $06
-    LDA Credits_SpriteData_position_y_pointers + $1, X : STA.b $07
-        
-    TXA : LSR : TAX
-        
+    LDA.w Credits_SpriteData_position_x_pointers +$00, X : STA.b $04
+    LDA.w Credits_SpriteData_position_x_pointers +$01, X : STA.b $05
+    LDA.w Credits_SpriteData_position_y_pointers +$00, X : STA.b $06
+    LDA.w Credits_SpriteData_position_y_pointers +$01, X : STA.b $07
+          
     ; Number of sprites in ending sequence.
-    LDA Credits_SpriteData_sprite_count, X : TAX
+    TXA : LSR : TAX
+    LDA.w Credits_SpriteData_sprite_count, X : TAX
     
     .loop
     
@@ -1278,7 +1276,7 @@ Credits_LoadSprites_GenericUW:
         
         REP #$20
         
-        CLC : ADC ($06), Y : STA.b $02
+        CLC : ADC.b ($06), Y : STA.b $02
         
         SEP #$20
         
@@ -1288,7 +1286,7 @@ Credits_LoadSprites_GenericUW:
         
         REP #$20
         
-        CLC : ADC ($04), Y : STA.b $00
+        CLC : ADC.b ($04), Y : STA.b $00
         
         SEP #$20
         
@@ -1400,17 +1398,16 @@ Credits_SpriteDraw_Castle:
         
         LDA.w Pool_Credits_SpriteDraw_Castle_group_size, X
         LDY.w Pool_Credits_SpriteDraw_Castle_pointer_offset, X
-        
         JSR.w Credits_SpriteDraw_Single
 	DEX : CPX.b #$07 : BNE .loop1
 
     .loop2
 
-        LDA.b $1A : ASL #2 : AND.b #$40 : ORA.w Pool_Credits_SpriteDraw_Castle_props, X : STA.w $0F50, X
+        LDA.b $1A : ASL : ASL : AND.b #$40
+        ORA.w Pool_Credits_SpriteDraw_Castle_props, X : STA.w $0F50, X
         
         LDA.w Pool_Credits_SpriteDraw_Castle_group_size, X
         LDY.w Pool_Credits_SpriteDraw_Castle_pointer_offset, X
-        
         JSR.w Credits_SpriteDraw_Single
 	DEX : CPX.b #$01 : BNE .loop2
 
@@ -1420,7 +1417,6 @@ Credits_SpriteDraw_Castle:
         
         LDA.w Pool_Credits_SpriteDraw_Castle_group_size, X
         LDY.w Pool_Credits_SpriteDraw_Castle_pointer_offset, X
-        
         JSR.w Credits_SpriteDraw_Single
     DEX : BPL .loop3
     
@@ -1502,7 +1498,6 @@ Credits_SpriteDraw_Hera:
     
     LDA.b #$01
     LDY.b #$3C
-    
     JSR.w Credits_SpriteDraw_Single
 
     .BRANCH_BETA
@@ -1646,7 +1641,7 @@ Credits_SpriteDraw_Kakariko1:
     LDX.b #$06
         
     ; OPTIMIZE: Why are we loading $1A as a long address?
-    LDA.l $00001A : LSR #2 : AND.b #$01 : TAY
+    LDA.l $00001A : LSR : LSR : AND.b #$01 : TAY
         
     ; Alternate the travel bird's graphics for flappage.
     LDA.w CreditsOAMGroup1_duck_flap, Y : STA.w $0AF4
@@ -1663,12 +1658,10 @@ Credits_SpriteDraw_Kakariko1:
     JSR.w Credits_SpriteDraw_CirclingBirds
         
     DEX
-        
     LDA.b #$31 : STA.w $0F50, X
         
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
         LDA.w $0D90, X : TAY
-        
         EOR.b #$01 : STA.w $0D90, X
         
         LDA.w CreditsOAMGroup1_timers, X : STA.w $0DF0, X
@@ -1679,7 +1672,6 @@ Credits_SpriteDraw_Kakariko1:
     
     LDY.b #$26
     LDA.b #$02
-        
     JSR.w Credits_SpriteDraw_Single
         
     DEX
@@ -1797,7 +1789,6 @@ Credits_SpriteDraw_House:
     
     SEC : SBC.w #$0208 : CMP.w #$0030 : SEP #$20 : BCS .BRANCH_DELTA
         LDY.b #$02
-        
         JSR.w Credits_SpriteDraw_AddSparkle
     
     .BRANCH_DELTA
@@ -1815,8 +1806,8 @@ Credits_SpriteDraw_House:
         
     LDA.b #$04
     LDY.b #$08
-        
     JSR.w Credits_SpriteDraw_Single
+
     JSR.w Credits_SpriteDraw_DrawShadow_priority_set
         
     LDA.w $0DC0, X : DEX : STA.w $0DC0, X : TAY
@@ -1827,7 +1818,8 @@ Credits_SpriteDraw_House:
         
     LDA.b #$30 : STA.w $0F50, X
         
-    PHY : TYA : ASL : TAY
+    PHY
+    TYA : ASL : TAY
         
     REP #$20
         
@@ -1838,9 +1830,7 @@ Credits_SpriteDraw_House:
     PLY
         
     LDA.w CreditsOAMGroup2_group_data_index, Y : TAY
-        
     LDA.b #$05
-        
     JSR.w Credits_SpriteDraw_Single
     JSR.w Credits_SpriteDraw_DrawShadow_priority_set
         
@@ -1875,9 +1865,7 @@ Credits_SpriteDraw_DeathMountain:
         
     REP #$20
         
-    LDA.b $C8 : CMP.w #$0200
-        
-    SEP #$20 : BNE .BRANCH_ALPHA
+    LDA.b $C8 : CMP.w #$0200 : SEP #$20 : BNE .BRANCH_ALPHA
         LDA.b #$FC : STA.w $0D50, X
     
     .BRANCH_ALPHA
@@ -1893,8 +1881,8 @@ Credits_SpriteDraw_DeathMountain:
     
     LDA.b #$03
     LDY.b #$34
-        
     JSR.w Credits_SpriteDraw_Single
+
     JSL.l Sprite_MoveLong
         
     PLX
@@ -1908,10 +1896,10 @@ Credits_SpriteDraw_Lumberjacks:
     PHX
         
     LDX.b #$00
-        
     LDA.b #$2C : STA.w $0E20, X
         
-    LDA.b #$2C : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$2C
+    JSL.l OAM_AllocateFromRegionA
         
     LDA.b #$3B : STA.w $0F50, X
         
@@ -1943,22 +1931,18 @@ Credits_SpriteDraw_Venus:
     PHX
         
     LDX.b #$05
-        
     JSL.l Sprite_Get_16_bit_CoordsLong
         
     LDA.w $0F00, X : BNE .BRANCH_ALPHA 
         JSL.l GetRandomInt : AND.b #$07 : TAX
-            
         LDA.l Pool_Sprite_WishPond_x_offsets, X : CLC : ADC.w $0FD8 : PHA
             
         JSL.l GetRandomInt : AND.b #$07 : TAX
-            
         LDA.l Pool_Sprite_WishPond_y_offsets, X : CLC : ADC.w $0FDA
         
         PLX
         
         LDY.b #$03
-        
         JSR.w Credits_SpriteDraw_AddSparkle
     
     .BRANCH_ALPHA
@@ -1975,17 +1959,17 @@ Credits_SpriteDraw_Venus:
         LDA.b #$E3 : STA.w $0E20, X
         
         LDA.b #$01
-        
         JSR.w Credits_SpriteDraw_SetShadowProp
+
         JSR.w Credits_SpriteDraw_ActivateAndRunSprite_allocate8
     INX : CPX.b #$05 : BNE .BRANCH_GAMMA
         
     LDA.b #$72 : STA.w $0E20, X
     LDA.b #$3B : STA.w $0F50, X
-    LDA.b #$09 : STA.w $0DD0, X : STA.w $0DA0, X
+    LDA.b #$09 : STA.w $0DD0, X
+                 STA.w $0DA0, X
         
     LDA.b #$30
-        
     JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
 
     PLX
@@ -2065,8 +2049,8 @@ Credits_SpriteDraw_Kakariko2:
     PHX
         
     LDX.b #$06
-        
-    LDA.b $1A : AND.b #$01 : STA.w $0DC0, X : BNE .BRANCH_ALPHA
+    LDA.b $1A : AND.b #$01 : STA.w $0DC0, X
+    BNE .BRANCH_ALPHA
         LDA.b #$01
             
         LDY.w $0D10, X : CPY.b #$80 : BMI .BRANCH_BETA
@@ -2098,23 +2082,18 @@ Credits_SpriteDraw_Kakariko2:
     JSR.w Credits_SpriteDraw_PreexistingSpriteDraw_eight
         
     DEX
-        
     LDA.b #$37 : STA.w $0F50, X
         
     LDA.b #$02
-        
     JSR.w Credits_SpriteDraw_SetShadowProp
         
     LDA.b #$0C
-        
     JSR.w Credits_SpriteDraw_ActivateAndRunSprite
         
     DEX
-        
     JSR.w Credits_SpriteDraw_ActivateAndRunSprite_allocate8
         
     DEX
-        
     JSR.w Credits_SpriteDraw_ActivateAndRunSprite_allocate8
         
     DEX
@@ -2122,9 +2101,7 @@ Credits_SpriteDraw_Kakariko2:
     .loop
     
         TXA : ASL : TAY
-        
         LDA.w Pool_Credits_SpriteDraw_Kakariko2_object_count, X
-        
         JSR.w Credits_SpriteDraw_Single
         
         TXA : BNE .BRANCH_DELTA
@@ -2145,7 +2122,6 @@ Credits_SpriteDraw_Kakariko2:
         
         LDA.b $1A : AND.b #$1F : CMP.b #$0F : BCS .BRANCH_IOTA
             TAY
-            
             LDA.w Pool_Credits_SpriteDraw_Kakariko2_sick_kid_height, Y : STA.w $0F70, X
             
             LDY.b #$01
@@ -2168,19 +2144,22 @@ Credits_SpriteDraw_Kakariko2:
 Credits_SpriteDraw_DrawShadow:
 {
     .high_prioritize
+
     LDA.b #$30
     
     ; $0725FA ALTERNATE ENTRY POINT
     .parameterized_priority
+
     STA.w $0F50, X
     
     ; $0725FD ALTERNATE ENTRY POINT
     .priority_set
+
     LDA.b #$00
-        
     JSR.w Credits_SpriteDraw_SetShadowProp
         
-    LDA.b #$04 : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$04
+    JSL.l OAM_AllocateFromRegionA
         
     JSL.l Sprite_DrawShadowLong
         
@@ -2316,9 +2295,8 @@ Credits_SpriteDraw_PreexistingSpriteDraw:
 ; ==============================================================================
 
 ; $0726C3-$072702 DATA
-Pool_Credits_SpriteDraw_Single:
+Credits_SpriteDraw_Single_group_pointers:
 {
-    .group_pointers
     dw $A42D
     dw $A48D
     dw $A4BD
@@ -2369,7 +2347,9 @@ Credits_SpriteDraw_Single:
 {
     PHA : PHY
     
-    PHA : ASL #2 : JSL.l OAM_AllocateFromRegionA
+    PHA
+    ASL : ASL
+    JSL.l OAM_AllocateFromRegionA
     
     JSL.l Sprite_Get_16_bit_CoordsLong
     
@@ -2390,9 +2370,7 @@ Credits_SpriteDraw_Single:
     REP #$20
     
     PLY
-    
-    LDA.w Pool_Credits_SpriteDraw_Single_group_pointers, Y
-    CLC : ADC.w SNES.RemainderResultLow, Y : STA.b $08
+    LDA.w .group_pointers, Y : CLC : ADC.w SNES.RemainderResultLow, Y : STA.b $08
     
     SEP #$20
     
@@ -2443,7 +2421,6 @@ Credits_SpriteDraw_Zora:
     PHX
     
     TXA : LSR : TAX
-    
     LDA Credits_SpriteData_sprite_count, X : TAX
 
     .loop
@@ -2471,7 +2448,9 @@ Credits_SpriteDraw_Zora:
 
         .BRANCH_ALPHA
 
-        SEP #$20 : BCC .BRANCH_BETA
+        SEP #$20
+        
+        BCC .BRANCH_BETA
             INY #3
 
         .BRANCH_BETA
@@ -2505,12 +2484,10 @@ Credits_SpriteDraw_Smithy:
 
             LDA.b #$01
             LDY.b #$3E
-            
             JSR.w Credits_SpriteDraw_Single
         INX : CPX.b #$06 : BNE .loop
         
         LDX.b #$00
-        
         LDA.b #$39 : STA.w $0F50, X
         
         REP #$20
@@ -2535,7 +2512,6 @@ Credits_SpriteDraw_Smithy:
 
         LDA.b #$04
         LDY.b #$06
-        
         JSR.w Credits_SpriteDraw_Single
         
         PLX
@@ -2551,13 +2527,11 @@ Credits_SpriteDraw_Smithy:
         LDA.b #$39 : STA.w $0F50, X
         
         LDA.b #$02
-        
         JSR.w Credits_SpriteDraw_SetShadowProp
         
         LDA.b $10 : PHA
         
         LDA.b #$0C
-        
         JSR.w Credits_SpriteDraw_ActivateAndRunSprite
         
         PLA : STA.b $10
@@ -2602,11 +2576,8 @@ Credits_SpriteDraw_DrawSmithSpark:
 {
     PHX
         
-    INX #2
-        
-    LDA.w $0DF0, X
-        
-    BEQ .BRANCH_ALPHA
+    INX : INX
+    LDA.w $0DF0, X : BEQ .BRANCH_ALPHA
         TAY
         
         LDA.b #$02 : STA.w $0F50, X
@@ -2615,7 +2586,6 @@ Credits_SpriteDraw_DrawSmithSpark:
         
         LDA.b #$02
         LDY.b #$36
-        
         JSR.w Credits_SpriteDraw_Single
     
     .BRANCH_ALPHA
@@ -2667,7 +2637,6 @@ Credits_SpriteDraw_Desert:
             LDA.b #$0B : STA.w $0F50, X
             
             LDA.b #$02
-            
             JSR.w Credits_SpriteDraw_SetShadowProp
             
             LDA.b #$30 : STA.w $0F70, X
@@ -2677,14 +2646,12 @@ Credits_SpriteDraw_Desert:
             ; TODO: Go look what the XX should be.
             ; This ADC is adding itself, this means it is adding XX.
             .this
-            ADC.w .this, X : LSR #2 : AND.b #$03 : TAY
-            
+            ADC.w .this, X : LSR : LSR : AND.b #$03 : TAY
             LDA.w Pool_Credits_SpriteDraw_Desert, Y : STA.w $0DC0, X
             
             JSR.w Credits_SpriteDraw_CirclingBirds
             
             LDA.b #$0C
-            
             JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
             
             BRA .BRANCH_BETA
@@ -2692,7 +2659,6 @@ Credits_SpriteDraw_Desert:
         .BRANCH_ALPHA
     
         LDA.b #$10
-        
         JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
     
         .BRANCH_BETA
@@ -2700,15 +2666,14 @@ Credits_SpriteDraw_Desert:
         
     LDA.b #$02
     LDY.b #$38
-        
     JSR.w Credits_SpriteDraw_Single
+
     JSR.w Credits_SpriteDraw
         
     INX
         
     LDA.b #$03
     LDY.b #$3A
-        
     JSR.w Credits_SpriteDraw_Single
         
     PLX
@@ -2732,8 +2697,8 @@ Credits_SpriteDraw_Sanctuary:
     LDX.b #$00
     LDY.b #$0C
     LDA.b #$03
-        
     JSR.w Credits_SpriteDraw_Single
+
     JSR.w Credits_SpriteDraw_DrawShadow
         
     INX
@@ -2755,13 +2720,10 @@ Credits_SpriteDraw_Sanctuary:
 ; ==============================================================================
 
 ; $0729D1-$0729D2 DATA
-Pool_Credits_SpriteDraw_Witch:
+Credits_SpriteDraw_Witch_animation_step_amounts:
 {
-    .animation_step_amounts
     db  1, -1
 }
-
-; ==============================================================================
 
 ; $0729D3-$072A52 LOCAL JUMP LOCATION
 Credits_SpriteDraw_Witch:
@@ -2770,12 +2732,12 @@ Credits_SpriteDraw_Witch:
         
     LDX.b #$01
     LDA.b #$02
-        
     JSR.w Credits_SpriteDraw_SetShadowProp
         
     LDA.b #$E9 : STA.w $0E20, X
         
-    LDA.b #$0C : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$0C
+    JSL.l OAM_AllocateFromRegionA
         
     LDA.b #$37 : STA.w $0F50, X
         
@@ -2802,7 +2764,8 @@ Credits_SpriteDraw_Witch:
         
     LDA.b #$36 : STA.w $0E20, X
         
-    LDA.b #$18 : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$18
+    JSL.l OAM_AllocateFromRegionA
         
     LDA.b #$39 : STA.w $0F50, X
         
@@ -2812,8 +2775,7 @@ Credits_SpriteDraw_Witch:
         LDA.b #$04 : STA.w $0DF0, X
         
         LDA.b $C9 : LSR : AND.b #$01 : TAY
-        
-        LDA.w $0DC0, X : CLC : ADC .animation_step_amounts, Y : AND.b #$07 : STA.w $0DC0, X
+        LDA.w $0DC0, X : CLC : ADC.w .animation_step_amounts, Y : AND.b #$07 : STA.w $0DC0, X
     
     .BRANCH_GAMMA
     
@@ -2912,16 +2874,15 @@ Credits_SpriteDraw_Grove:
             
             LDA.b $1A : LSR : BCS .BRANCH_GAMMA
                 STX.b $00
-                
                 LDA.b $1A : LSR #5 : EOR.b $00 : AND.b #$01 : TAY
                 
-                LDA.w $0D50, X : CLC : ADC.b #$7B : TAX : STA.w $0D50, X
+                LDA.w $0D50, X : CLC : ADC.b #$7B : TAX
+                                                    STA.w $0D50, X
         
             .BRANCH_GAMMA
         
             LDY.b #$10
             LDA.b #$01
-            
             JSR.w Credits_SpriteDraw_Single
     
         .BRANCH_BETA
@@ -2949,7 +2910,6 @@ Credits_SpriteDraw_Grove:
             LDA.b #$31 : STA.w $0F50, X
             
             LDA.b #$10
-            
             JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
             
             INX
@@ -2960,18 +2920,15 @@ Credits_SpriteDraw_Grove:
     
     LDX.b #$12
     LDA.b #$02
-        
     JSR.w Credits_SpriteDraw_Single
         
     INX
     
     .loop3
     
-        LDA.w Pool_Credits_SpriteDraw_Grove_animal_props-7, X
-        STA.w $0F50, X
+        LDA.w Pool_Credits_SpriteDraw_Grove_animal_props-7, X : STA.w $0F50, X
 
-        LDA.w Pool_Credits_SpriteDraw_Grove_animal_direction-7, X
-        STA.w $0DE0, X
+        LDA.w Pool_Credits_SpriteDraw_Grove_animal_direction-7, X : STA.w $0DE0, X
 
         LDA.w Pool_Credits_SpriteDraw_Grove_animal_object_allocation-7, X
         JSR.w Credits_SpriteDraw_ActivateAndRunSprite
@@ -3044,7 +3001,6 @@ Credits_SpriteDraw_LostWoods:
             LDA.b #$00 : STA.w $0E20, X
             
             LDA.b #$01
-            
             JSR.w Credits_SpriteDraw_SetShadowProp
             
             LDA.b $1A : CLC
@@ -3061,7 +3017,6 @@ Credits_SpriteDraw_LostWoods:
             LDA.w $0D50, X : LSR : AND.b #$40 : EOR.b #$0F : STA.w $0F50, X
             
             LDA.b #$08
-            
             JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
             
             BRA .BRANCH_BETA
@@ -3075,8 +3030,7 @@ Credits_SpriteDraw_LostWoods:
         
         .BRANCH_GAMMA
         
-        LDA.b #$03
-            
+        LDA.b #$03 
         JSR.w Credits_SpriteDraw_SetShadowProp
             
         LDA.b #$2B : STA.w $0F50, X
@@ -3097,9 +3051,8 @@ Credits_SpriteDraw_LostWoods:
             LDA.b $1A : AND.b #$03 : BNE .BRANCH_THETA
                 LDA.w $0D40, X : BEQ .BRANCH_THETA
                     DEC : STA.w $0D40, X
-                    
                     CLC : ADC.b #$FC
-                    072645
+
                     CPX.b #$03 : BCS .BRANCH_ZETA
                         EOR.b #$FF : INC
                     
@@ -3112,11 +3065,9 @@ Credits_SpriteDraw_LostWoods:
         JSL.l Sprite_MoveLong
             
         LDA.b $1A : LSR #3 : AND.b #$03 : TAY
-            
         LDA.w Pool_Credits_SpriteDraw_LostWoods_pickle_pose, Y : STA.w $0DC0, X
             
         LDA.b #$10
-            
         JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
         
         .BRANCH_BETA
@@ -3128,11 +3079,9 @@ Credits_SpriteDraw_LostWoods:
     
     LDY.b #$18
     LDA.b #$03
-        
     JSR.w Credits_SpriteDraw_Single
         
     LDA.b #$20
-        
     JSR.w Credits_SpriteDraw_AnimateLostWoodsThief
         
     PLX
@@ -3218,7 +3167,6 @@ Credits_SpriteDraw_AddSparkle:
         TYA : BEQ .BRANCH_GAMMA
             LDY.b #$1C
             LDA.b #$01
-            
             JSR.w Credits_SpriteDraw_Single
         
         .BRANCH_GAMMA
@@ -3239,21 +3187,18 @@ Credits_SpriteDraw_Pedestal:
     ; This LDA is loading itself, this means it is loading XX.
     .this
     LDA.w .this, Y : AND.b #$03 : TAY
-        
     LDX.w Pool_Credits_SpriteDraw_AddSparkle_sparkle_position_x, Y
         
     ; TODO: Confirm that this is reading from the correct place.
     LDA.w Pool_Credits_SpriteDraw_AddSparkle_sparkle_position_y, Y
         
     LDY.b $02
-        
     JSR.w Credits_SpriteDraw_AddSparkle
         
     LDA.b #$62 : STA.w $0E20, X
     LDA.b #$39 : STA.w $0F50, X
         
     LDA.b #$18
-        
     JSR.w Credits_SpriteDraw_PreexistingSpriteDraw
         
     LDY.b #$01
@@ -3262,7 +3207,7 @@ Credits_SpriteDraw_Pedestal:
     
         INX
         
-        LDA.w $0E00, X : 	BEQ .BRANCH_ALPHA
+        LDA.w $0E00, X : BEQ .BRANCH_ALPHA
             DEC.w $0E00, X
     
         .BRANCH_ALPHA
@@ -3278,7 +3223,7 @@ Credits_SpriteDraw_Pedestal:
         .BRANCH_BETA
     
         LDA.w $0D90, X : BNE .BRANCH_GAMMA
-            LDA.b $1A : LSR #2 : AND.b #$01 : INC #2 : STA.w $0DC0, X
+            LDA.b $1A : LSR : LSR : AND.b #$01 : INC : INC : STA.w $0DC0, X
             
             PHY
             
@@ -3299,7 +3244,6 @@ Credits_SpriteDraw_Pedestal:
             PHY
             
             LDA.w $0DA0, X : AND.b #$07 : TAY
-            
             LDA.w Pool_Credits_SpriteDraw_Pedestal_squirrel_timer, Y
             STA.w $0E00, X
             
@@ -3315,13 +3259,12 @@ Credits_SpriteDraw_Pedestal:
         
         LDA.b #$01
         LDY.b #$14
-        
         JSR.w Credits_SpriteDraw_Single
+
         JSR.w Credits_SpriteDraw_DrawShadow_priority_set
     PLY : DEY : BPL .loop
         
-    INX
-        
+    INX 
     JSR.w Credits_SpriteDraw_WalkLinkAwayFromPedestal
         
     PLX
@@ -3374,8 +3317,8 @@ Credits_SpriteDraw_WalkLinkAwayFromPedestal:
         
     LDA.b #$02
     LDY.b #$1A
-        
     JSR.w Credits_SpriteDraw_Single
+
     JSR.w Credits_SpriteDraw_DrawShadow_priority_set
     JSL.l Sprite_MoveLong
         
@@ -3387,9 +3330,11 @@ Credits_SpriteDraw_WalkLinkAwayFromPedestal:
 ; $072E2D-$072E34 DATA
 Pool_Credits_SpriteDraw_MoveSquirrel:
 {
+    ; $072E2D
     .x_speeds
     db  32,  24, -32, -24
     
+    ; $072E31
     .y_speeds
     db   8,  -8,  -8,   8
 }
@@ -3420,15 +3365,19 @@ Credits_SpriteDraw_MoveSquirrel:
 ; $072E5D-$072E62 DATA
 CreditsSpriteSpeeds:
 {
+    ; $072E5D
     .acceleration
     db 1, -1
     
+    ; $072E5F
     .x_speed_limits
     db 32, -32
     
+    ; $072E61
     .y_speed_limits
     db 16
 
+    ; $072E63
     .y_speed_limits_negative
     db -16
 }
@@ -3440,9 +3389,8 @@ Credits_SpriteDraw_CirclingBirds:
 {
     LDA.w $0DE0, X : AND.b #$01 : TAY
         
-    LDA.w $0D50, X : CLC : ADC .acceleration, X : STA.w $0D50, X
-        
-    CMP .x_speed_limits, Y : BNE .anotoggle_x_acceleration
+    LDA.w $0D50, X : CLC : ADC.w .acceleration, X : STA.w $0D50, X
+    CMP.w .x_speed_limits, Y : BNE .anotoggle_x_acceleration
         INC.w $0DE0, X
     
     .anotoggle_x_direction
@@ -3450,9 +3398,8 @@ Credits_SpriteDraw_CirclingBirds:
     LDA.b $1A : AND.b #$01 : BNE .delay
         LDA.w $0EB0, X : AND.b #$01 : TAY
         
-        LDA.w $0D40, X : CLC : ADC .acceleration, X : STA.w $0D40, X
-        
-        CMP y_speed_limits, Y : BNE .anotoggle_y_acceleration
+        LDA.w $0D40, X : CLC : ADC.w .acceleration, X : STA.w $0D40, X
+        CMP.w y_speed_limits, Y : BNE .anotoggle_y_acceleration
             INC.w $0EB0, X
 
         .anotoggle_y_acceleration
@@ -3466,13 +3413,10 @@ Credits_SpriteDraw_CirclingBirds:
 ; ==============================================================================
 
 ; $072E9E-$072EA5 DATA
-Pool_Credits_SingleCameraScrollControl:
+Credits_SingleCameraScrollControl_flags:
 {
-    .flags
     dw $0008, $0004, $0002, $0001
 }
-
-; ==============================================================================
 
 ; $072EA6-$072FF1 LONG JUMP LOCATION
 Credits_HandleCameraScrollControl:
@@ -3508,7 +3452,6 @@ Credits_HandleCameraScrollControl:
     .BRANCH_GAMMA
     
     LDX.b #$06
-        
     JSR.w Credits_SingleCameraScrollControl
         
     LDA.b $04 : STA.w $069E
@@ -3521,9 +3464,7 @@ Credits_HandleCameraScrollControl:
         
         LSR : ROR.b $00
         
-        LDX.b $8C
-        
-        CPX.b #$B5 : BEQ .BRANCH_EPSILON
+        LDX.b $8C : CPX.b #$B5 : BEQ .BRANCH_EPSILON
             CPX.b #$BE : BNE .BRANCH_ZETA
         
         .BRANCH_EPSILON
@@ -3576,53 +3517,43 @@ Credits_HandleCameraScrollControl:
     .BRANCH_LAMBDA
     
     LDX.b #$00
-        
     JSR.w Credits_SingleCameraScrollControl
         
     LDA.b $04 : STA.w $069F
         
-    LDX.b $8C
-        
-    CPX.b #$97 : BEQ .horizontal_control_done
-    CPX.b #$9D : BEQ .horizontal_control_done
+    LDX.b $8C : CPX.b #$97 : BEQ .horizontal_control_done
+                CPX.b #$9D : BEQ .horizontal_control_done
         LDA.b $04 : BEQ .horizontal_control_done
+            STZ.b $00
+            
+            ; OPTIMIZE: ROR a value that was just zeroed?
+            LSR : ROR.b $00
+            
+            LDX.b $8C : CPX.b #$95 : BEQ .BRANCH_XI
+                CPX.b #$9E : BNE .BRANCH_OMICRON
+                    .BRANCH_XI
         
-        STZ.b $00
+                    LSR : ROR.b $00 : CMP.w #$3000 : BCC .BRANCH_PI
+                        ORA.w #$F000
+                        
+                        BRA .BRANCH_PI
+            
+            .BRANCH_OMICRON
         
-        LSR : ROR.b $00
-        
-        LDX.b $8C
-        
-        CPX.b #$95 : BEQ .BRANCH_XI
-            CPX.b #$9E : BNE .BRANCH_OMICRON
-                .BRANCH_XI
-    
-                LSR : ROR.b $00
-                
-                CMP.w #$3000 : BCC .BRANCH_PI
-                
+            CMP.w #$7000 : BCC .BRANCH_PI
                 ORA.w #$F000
-                
-                BRA .BRANCH_PI
         
-        .BRANCH_OMICRON
-    
-        CMP.w #$7000 : BCC .BRANCH_PI
-            ORA.w #$F000
-    
-        .BRANCH_PI
-    
-        STA.b $06
+            .BRANCH_PI
         
-        LDA.w $0620 : CLC : ADC.b $00 : STA.w $0620
-        LDA.b $E0         : ADC.b $06 : STA.b $E0
+            STA.b $06
+            
+            LDA.w $0620 : CLC : ADC.b $00 : STA.w $0620
+            LDA.b $E0         : ADC.b $06 : STA.b $E0
     
     ; $072F91 ALTERNATE ENTRY POINT
     .horizontal_control_done
     
-    LDX.b $8C
-        
-    CPX.b #$9C : BEQ .BRANCH_RHO
+    LDX.b $8C : CPX.b #$9C : BEQ .BRANCH_RHO
         CPX.b #$97 : BEQ .BRANCH_SIGMA
             CPX.b #$9D : BNE .BRANCH_TAU
                 .BRANCH_SIGMA
@@ -4637,7 +4568,7 @@ Credits_InitializeTheActualCredits:
         ; Read values up to $7EF3FF (WORD).
         ; Cycle through all the dungeons.
         CLC : ADC.l $7EF3E7, X : STA.l $7EF405
-    DEX #2 : BPL .loop
+    DEX : DEX : BPL .loop
         
     ; Zero out the overall life counter.
     LDA.w #$0000 : STA.l $7EF403
@@ -4659,8 +4590,11 @@ Credits_InitializeTheActualCredits:
         
     REP #$20
         
-    LDA.w #$0000 : STA.l $7EC34C : STA.l $7EC54D
-    LDA.w #$0000 : STA.l $7EC300 : STA.l $7EC500
+    LDA.w #$0000 : STA.l $7EC34C
+                   STA.l $7EC54D
+
+    LDA.w #$0000 : STA.l $7EC300
+                   STA.l $7EC500
 
     LDA.w #$0016 : STA.b $1C
     LDA.w #$6800 : STA.b $C8
@@ -4793,7 +4727,6 @@ Credits_FadeColorAndBeginAnimating:
     LDA.b $1A : AND.w #$0003 : BNE .return
         ; Advance the scenery background to the right 1 pixel.
         INC.b $E2
-        
         LDA.b $E2 : CMP.w #$0C00 : BNE .noTilemapAdjust
             ; Adjust the tilemap size and locations of BG1 and BG2... not
             ; entirely clear yet as to why.
@@ -4802,8 +4735,9 @@ Credits_FadeColorAndBeginAnimating:
         .noTilemapAdjust
     
         ; $0604 = BG2HOFS / 2, $0600 = BG2HOFS * 3 / 2, $0602 = BG2HOFS * 3 / 4
-        LSR : STA.w $0604 : CLC : ADC.b $E2 : STA.w $0600
-        LSR : STA.w $0602
+        LSR             : STA.w $0604
+        CLC : ADC.b $E2 : STA.w $0600
+        LSR             : STA.w $0602
         
         ; $0606 = BG2HOFS / 4
         LDA.w $0604 : LSR : STA.w $0606
@@ -4819,8 +4753,8 @@ Credits_FadeColorAndBeginAnimating:
     
         ; Scroll the credit list up one pixel.
         CLC : ADC.w #$0001 : STA.b $EA
-        
-        TAY : AND.w #$0007 : BNE .return
+                             TAY
+        AND.w #$0007 : BNE .return
             TYA : LSR #3 : STA.b $CA
             
             JSR.w Credits_AddNextAttribution
@@ -4866,7 +4800,6 @@ Credits_AddNextAttribution:
     REP #$30
         
     LDX.w $1000
-        
     LDA.b $C8 : XBA : STA.w $1002, X
         
     LDA.w #$3E40 : STA.w $1004, X
@@ -4891,7 +4824,6 @@ Credits_AddNextAttribution:
         CLC : ADC.b $C8 : XBA : STA.w $1002, X
         
         INY
-        
         LDA.w CreditsData_LineData, Y : AND.w #$00FF : XBA : STA.w $1004, X
         
         ; This gives us the number of tiles to grab after this byte.
@@ -4901,9 +4833,8 @@ Credits_AddNextAttribution:
     
         .nextTile
     
-            LDY.b $00
-            
             ; Grab the next tile of text.
+            LDY.b $00
             LDA.w CreditsData_LineData, Y : AND.w #$00FF : ASL : TAY
             
             ; Here we're loading the actual tile indices for the letters.
@@ -4911,7 +4842,7 @@ Credits_AddNextAttribution:
             
             INC.b $00
             
-            INX #2
+            INX : INX
         ; Count down until we run out of tiles to grab.
         DEC.b $02 : BNE .nextTile
         
@@ -4920,15 +4851,13 @@ Credits_AddNextAttribution:
     .BRANCH_BETA
     
     LDA.b $CC : AND.w #$0001 : TAY : BNE .BRANCH_DELTA
-        LDA.b $CC : AND.w #$00FE : TAY
-        
         ; Check if we are on one of the line we need to draw a death count on.
+        LDA.b $CC : AND.w #$00FE : TAY
         LDA.b $CA : ASL : CMP.w CreditsData_DeathCountLine, Y : BNE .BRANCH_EPSILON
     
     .BRANCH_DELTA
     
     TYA : AND.w #$0001 : ASL : TAY
-        
     LDA.w Pool_Credits_AddNextAttribution_digits, Y : STA.b $CE
         
     LDA.b $C8 : CLC : ADC.w #$0019 : XBA : STA.w $1002, X
@@ -4938,16 +4867,15 @@ Credits_AddNextAttribution:
     PHX
         
     LDA.b $CC : LSR : ASL : TAX
-        
     LDA.w Pool_Credits_AddNextAttribution_death_count_offsets, X : TAX
-        
     LDA.l $7EF3E7, X
         
     PLX
         
     CMP.w #$03E8 : BCC .lessThanThousand
-        LDA.w #$0009 : CLC : ADC.b $CE
-        STA.w $1006, X : STA.w $1008, X : STA.w $100A, X
+        LDA.w #$0009 : CLC : ADC.b $CE : STA.w $1006, X
+                                         STA.w $1008, X
+                                         STA.w $100A, X
         
         BRA .BRANCH_THETA
     
@@ -5360,7 +5288,6 @@ Credits_AddEndingSequenceText:
         
     ; Take $11, round to the nearest lowest even integer.
     LDA.b $11 : AND.w #$00FE : TAY
-        
     LDA.w Pool_Credits_AddEndingSequenceText_offset+2, Y : STA.b $04
         
     LDA.w Pool_Credits_AddEndingSequenceText_offset+0, Y : TAY
@@ -5371,29 +5298,26 @@ Credits_AddEndingSequenceText:
     
         LDA.w Pool_Credits_AddEndingSequenceText, Y : STA.w $1008, X
         
-        INY #2
-        INX #2
-        
+        INY : INY
+        INX : INX
         LDA.w Pool_Credits_AddEndingSequenceText, Y : STA.w $1008, X
         
         XBA : AND.w #$00FF : LSR : STA.b $00
         
-        INY #2
-        INX #2
+        INY : INY
+        INX : INX
         
         STY.b $02
     
         .loop2
     
             LDY.b $02
-            
             LDA.w Pool_Credits_AddEndingSequenceText, Y : AND.w #$00FF : ASL : TAY
-            
-            LDA CreditsData_TileData, Y : STA.w $1008, X
+            LDA.w CreditsData_TileData, Y : STA.w $1008, X
             
             INC.b $02
             
-            INX #2
+            INX : INX
         DEC.b $00 : BPL .loop2
     LDY.b $02 : CPY.b $04 : BNE .loop1
         
@@ -5415,7 +5339,6 @@ Credits_BrightenTriangles:
 {
     LDA.b $1A : AND.b #$0F : BNE .BRANCH_ALPHA
         INC.b $13
-        
         LDA.b $13 : CMP.b #$0F
         
         BNE .BRANCH_ALPHA
@@ -5438,7 +5361,8 @@ Credits_StopCreditsScroll:
             
         STZ.w $0AA6
             
-        LDA.w #$0000 : STA.l $7EC009 : STA.l $7EC007
+        LDA.w #$0000 : STA.l $7EC009
+                       STA.l $7EC007
             
         LDA.w #$001F : STA.l $7EC00B
             
@@ -5514,11 +5438,13 @@ Credits_DrawTheEnd:
         .writeTheEndWithSprites
         
             LDA.l Pool_Credits_DrawTheEnd, X : STA.w $0800, X
-        DEX #2 : BPL .writeTheEndWithSprites
+        DEX : DEX : BPL .writeTheEndWithSprites
             
         SEP #$20
             
-        LDA.b #$02 : STA.w $0A20 : STA.w $0A21 : STA.w $0A22 : STA.w $0A23
+        LDA.b #$02
+        STA.w $0A20 : STA.w $0A21
+        STA.w $0A22 : STA.w $0A23
             
         RTS
     
@@ -5561,9 +5487,7 @@ Messaging_Text:
 Text_Local:
 {
     LDA.w $1CD8
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Text_Initialize           ; 0x00 - $C483
     dw Text_Render               ; 0x01 - $C8D9
     dw Text_PostDeathSaveOptions ; 0x02 - $C455
@@ -5579,7 +5503,6 @@ Text_PostDeathSaveOptions:
     LDA.b #$00 : STA.w $1CF1
     
     LDX.b #$00
-    
     JSR.w Text_Initialize_initModuleStateLoop
     
     ; Manually sets the .... position? Window type?
@@ -5652,7 +5575,8 @@ Text_Initialize:
     SEP #$30
     
     ; Lets NMI routine know to copy $7F0000[0x7E0] to the BG2 tilemap.
-    LDA.b #$02 : STA.b $17 : STA.w $0710
+    LDA.b #$02 : STA.b $17
+                 STA.w $0710
     
     RTS
 }
@@ -5692,7 +5616,9 @@ Text_LoadCharacterBuffer:
     ; message, in case we load no actual characters.
     LDA.w #$7F7F : STA.l $7F1200
     
-    LDY.w #$0000 : TYX : STY.w $1CD9 : STY.w $1CDD
+    LDY.w #$0000 : TYX
+                   STY.w $1CD9
+                   STY.w $1CDD
     
     SEP #$20
     
@@ -5700,7 +5626,7 @@ Text_LoadCharacterBuffer:
     
     ; Load the first byte of data.
     ; Negative byte
-    LDA [$04], Y : BMI .dictionarySequence
+    LDA.b [$04], Y : BMI .dictionarySequence
         CMP.b #$67 : BCS .commandByte
             ; Put text to buffer.
             STA.l $7F1200, X
@@ -5760,12 +5686,18 @@ Text_Command:
     
     dw Text_IgnoreCommand        ; 0x67 - $C581 [NextPic] command
     dw Text_IgnoreCommand        ; 0x68 - $C581 [Choose] command
-    dw Text_IgnoreCommand        ; 0x69 - $C581 [Item] command (for waterfall of wishing)
-    dw Text_WritePlayerName      ; 0x6A - $C5B3 [Name] command (insert's player's name)
-    dw Text_SetWindowType        ; 0x6B - $C657 [Window XX] command (takes next byte as argument)
-    dw Text_WritePreloadedNumber ; 0x6C - $C667 [Number XX] command (takes next byte as argument)
-    dw Text_SetWindowPos         ; 0x6D - $C69C [Position XX] command (takes next byte as argument)
-    dw Text_IgnoreParamCommand   ; 0x6E - $C598 [ScrollSpd XX] command (takes next byte as argument)
+    dw Text_IgnoreCommand        ; 0x69 - $C581 [Item] command (for waterfall
+                                 ;        of wishing)
+    dw Text_WritePlayerName      ; 0x6A - $C5B3 [Name] command (insert's 
+                                 ;        player's name)
+    dw Text_SetWindowType        ; 0x6B - $C657 [Window XX] command (takes next
+                                 ;        byte as argument)
+    dw Text_WritePreloadedNumber ; 0x6C - $C667 [Number XX] command (takes next
+                                 ;        byte as argument)
+    dw Text_SetWindowPos         ; 0x6D - $C69C [Position XX] command (takes next
+                                 ;        byte as argument)
+    dw Text_IgnoreParamCommand   ; 0x6E - $C598 [ScrollSpd XX] command (takes next
+                                 ;        byte as argument)
     dw Text_IgnoreCommand        ; 0x6F - $C581 [SelChng] command
     dw Text_IgnoreCommand        ; 0x70 - $C581 [Crash] in Hyrule Magic (don't use)
     dw Text_IgnoreCommand        ; 0x71 - $C581 [Choose2]
@@ -5774,15 +5706,20 @@ Text_Command:
     dw Text_IgnoreCommand        ; 0x74 - $C581 [1] command
     dw Text_IgnoreCommand        ; 0x75 - $C581 [2] command
     dw Text_IgnoreCommand        ; 0x76 - $C581 [3] command
-    dw Text_SetColor             ; 0x77 - $C6B6 [Color XX] command (takes next byte as argument)
-    dw Text_IgnoreParamCommand   ; 0x78 - $C598 [Wait XX] command (takes next byte as argument)
-    dw Text_IgnoreParamCommand   ; 0x79 - $C598 [Sound XX] command (takes next byte as argument)
-    dw Text_IgnoreParamCommand   ; 0x7A - $C598 [Speed XX] command (takes next byte as argument)
+    dw Text_SetColor             ; 0x77 - $C6B6 [Color XX] command (takes next
+                                 ;        byte as argument)
+    dw Text_IgnoreParamCommand   ; 0x78 - $C598 [Wait XX] command (takes next
+                                 ;        byte as argument)
+    dw Text_IgnoreParamCommand   ; 0x79 - $C598 [Sound XX] command (takes next
+                                 ;        byte as argument)
+    dw Text_IgnoreParamCommand   ; 0x7A - $C598 [Speed XX] command (takes next
+                                 ;        byte as argument)
     dw Text_IgnoreCommand        ; 0x7B - $C581 [Command 7B]
     dw Text_IgnoreCommand        ; 0x7C - $C581 [Command 7C]
     dw Text_IgnoreCommand        ; 0x7D - $C581 [Command 7D]
     dw Text_IgnoreCommand        ; 0x7E - $C581 [waitkey] command
-    dw Text_IgnoreCommand        ; 0x7F - $C581 [End] stop command for the whole message
+    dw Text_IgnoreCommand        ; 0x7F - $C581 [End] stop command for the
+                                 ;        whole message
 }
 
 ; ==============================================================================
@@ -5795,7 +5732,7 @@ Text_IgnoreCommand:
     LDX.w $1CD9
     LDY.w $1CDD
     
-    LDA [$04], Y : STA.l $7F1200, X
+    LDA.b [$04], Y : STA.l $7F1200, X
     
     INY
     INX
@@ -5816,10 +5753,10 @@ Text_IgnoreParamCommand:
     LDX.w $1CD9
     LDY.w $1CDD
     
-    LDA [$04], Y : STA.l $7F1200, X
+    LDA.b [$04], Y : STA.l $7F1200, X
     
-    INY #2
-    INX #2
+    INY : INY
+    INX : INX
     
     STX.w $1CD9
     STY.w $1CDD
@@ -5850,11 +5787,12 @@ Text_WritePlayerName:
     
     .nextCharacter
     
-        LDA.l $7003D9, X : PHA : AND.w #$000F : STA.w $0008, Y
+        LDA.l $7003D9, X : PHA
+        AND.w #$000F     : STA.w $0008, Y
         
         PLA : LSR : AND.w #$FFF0 : ORA.w $0008, Y : STA.w $0008, Y
         
-        INX #2
+        INX : INX
     INY : CPY.w #$0006 : BCC .nextCharacter
 
     SEP #$20
@@ -5865,7 +5803,6 @@ Text_WritePlayerName:
     
         ; Now that the name is in memory check it for spaces.
         LDA.w $0008, Y
-        
         JSR.w Text_FilterPlayerNameCharacters
         
         STA.w $0008, Y
@@ -5952,7 +5889,7 @@ Text_SetWindowType:
     ; by setting it to 4, crash the game by setting it to 5 or more, and this
     ; makes my head hurt, honestly. Probably could use a rewrite to be more
     ; safe.
-    LDA [$04], Y : STA.w $1CD4
+    LDA.b [$04], Y : STA.w $1CD4
     
     ; $1CDD is incremented by two bytes because this command has an argument.
     INY : STY.w $1CDD
@@ -5976,9 +5913,9 @@ Text_WritePreloadedNumber:
     
     ; The lower byte of this load is the command byte, and the upper is the
     ; parameter to use to determine the number to write.
-    LDA [$04], Y
+    LDA.b [$04], Y
     
-    INY #2 : STY.w $1CDD
+    INY : INY : STY.w $1CDD
     
     XBA : AND.w #$00FF : LSR
     
@@ -6018,9 +5955,8 @@ Text_SetWindowPos:
     
     LDY.w $1CDD : INY
     
-    LDA [$04], Y : AND.w #$00FF : ASL : TAX
-    
     ; Chooses from one of two preset window positions (high or low, basically).
+    LDA.b [$04], Y : AND.w #$00FF : ASL : TAX
     LDA Text_Positions, X : STA.w $1CD2
     
     INY : STY.w $1CDD
@@ -6042,14 +5978,13 @@ Text_SetColor:
 {
     REP #$30
     
-    LDY.w $1CDD
-    
     ; Why are they ANDing with 0x3c00? That would seem to give the illusion
     ; that you could specify the priority bit, but the code below begs
     ; otherwise, unless it was something that was determined at compile time.
     ; Either way, the parameter is probably only good from 0 to 7, but feel
     ; free to use 8 to 0x0f if you like wasting bits *grumble*...
-    LDA [$04], Y : ASL #2 : AND.w #$3C00 : STA.b $00
+    LDY.w $1CDD
+    LDA.b [$04], Y : ASL : ASL : AND.w #$3C00 : STA.b $00
     
     ; This just preserves the priority bit i.e., A = 0x2000. Then provides it
     ; with a starting CHR of 0x0180, with palette, hflip, and vflip all zero.
@@ -6058,7 +5993,7 @@ Text_SetColor:
     ; characters.
     LDA.w #$387F : AND.w #$E300 : ORA.w #$0180 : ORA.b $00 : STA.w $1CE2
     
-    INY #2 : STY.w $1CDD
+    INY : INY : STY.w $1CDD
     
     SEP #$20
     
@@ -6075,12 +6010,12 @@ Text_DictionarySequence:
 {
     REP #$30
     
-    INC.w $1CDD ; Position in the $7F1200, X buffer.
+    ; Position in the $7F1200, X buffer.
+    INC.w $1CDD
     
     LDX.w $1CD9 : ASL : AND.w #$00FF : TAY
-    
-    LDA Text_DictionaryPointers+2, Y : STA.b $00
-    LDA Text_DictionaryPointers, Y   : TAY
+    LDA.w Text_DictionaryPointers+2, Y : STA.b $00
+    LDA.w Text_DictionaryPointers+0, Y : TAY
     
     SEP #$20
     
@@ -6606,9 +6541,7 @@ DictionaryEntries:
 Text_Render:
 {
     LDA.w $1CD4 ; Second level controller for text mode submodules.
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Text_DrawBorder           ; 0x00 - $C8EA
     dw Text_DrawBorderIncremenal ; 0x01 - $C919
     dw Text_CharacterTilemap     ; 0x02 - $C97D
@@ -6635,12 +6568,10 @@ Text_DrawBorder:
     
         ; This loop draws the middle rows of the message box border.
         LDY.w #$0006
-        
         JSR.w Text_DrawBorderRow
     DEC.b $00 : BNE .nextRow
     
     LDY.w #$000C
-    
     JSR.w Text_DrawBorderRow
     
     LDA.w #$FFFF : STA.w $1002, X
@@ -6684,7 +6615,6 @@ Text_DrawBorderIncremenal:
     .alpha
     
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Text_DrawFirstBorderRow  ; 0x00 - $C936
     dw Text_DrawMiddleBorderRow ; 0x01 - $C94A
     dw Text_DrawBottomBorderRow ; 0x02 - $C94A
@@ -6718,7 +6648,6 @@ Text_DrawMiddleBorderRow:
     
     LDX.w #$0000
     LDY.w #$0006
-    
     JSR.w Text_DrawBorderRow
     
     LDA.w #$FFFF : STA.w $1002, X
@@ -6739,7 +6668,6 @@ Text_DrawBottomBorderRow:
     
     LDX.w #$0000
     LDY.w #$000C
-    
     JSR.w Text_DrawBorderRow
     
     LDA.w #$FFFF : STA.w $1002, X
@@ -6842,21 +6770,20 @@ Text_MessageHandler:
     
     JSR.w VWF_CharacterOrCommand
     
-    LDA.b #$02 : STA.b $17 : STA.w $0710
+    LDA.b #$02 : STA.b $17
+                 STA.w $0710
     
     RTS
 }
 
 ; ==============================================================================
 
+; Text Routines 2
+; These routines are used in the actual generation of the text.
 ; $0749FD-$074A34 LOCAL JUMP LOCATION
 VWF_CharacterOrCommand:
 {
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
-    ; Text Routines 2
-    ; These routines are used in the actual generation of the text.
-    
     dw VWF_Render              ; 0x00 - $CA6C
     dw VWF_NextPicture         ; 0x01 - $CCFE [NextPic]
     dw VWF_Select2Or3_Indented ; 0x02 - $CD1A [Choose]
@@ -6897,9 +6824,9 @@ Text_Close:
     
     REP #$30
     
-    LDA.w $1CD0 : XBA : STA.w $1002, X : INX #2
-    LDA.w .reg_config : STA.w $1002, X : INX #2
-    LDA.w .data       : STA.w $1002, X : INX #2
+    LDA.w $1CD0 : XBA : STA.w $1002, X : INX : INX
+    LDA.w .reg_config : STA.w $1002, X : INX : INX
+    LDA.w .data       : STA.w $1002, X : INX : INX
     
     LDA.w #$FFFF : STA.w $1002, X
     
@@ -6929,11 +6856,12 @@ VWF_Render:
     .validSpeed
     
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw VWF_RenderRecursive ; 0x00 - $CA99
     dw VWF_RenderSingle    ; 0x01 - $CAB8 Speed = 1
-    dw VWF_InvalidSpeed_1  ; 0x02 - $CCF9 Speed = 2 (immediately drops down to speed = 1)
-    dw VWF_InvalidSpeed_2  ; 0x03 - $CCFD Speed = 3 ... doesn't do anything at all???
+    dw VWF_InvalidSpeed_1  ; 0x02 - $CCF9 Speed = 2 (immediately drops down to
+                           ;        speed = 1)
+    dw VWF_InvalidSpeed_2  ; 0x03 - $CCFD Speed = 3 ... doesn't do anything at
+                           ;        all???
     dw VWF_InvalidSpeed_2  ; 0x04 - $CCFD Speed = 4 ...*rips hair out*
     dw VWF_InvalidSpeed_2  ; 0x05 - $CCFD 
     dw VWF_InvalidSpeed_2  ; 0x06 - $CCFD 
@@ -6957,12 +6885,10 @@ VWF_RenderRecursive:
     
     REP #$30
     
-    LDA.w $1CDD
-    
     ; Basically, branch if $1CDD = 19, 59, or 99 (why?).
-    CMP.w #$0013 : BEQ .BRANCH_ALPHA
-    CMP.w #$003B : BEQ .BRANCH_ALPHA
-    CMP.w #$0063 : BEQ .BRANCH_ALPHA
+    LDA.w $1CDD : CMP.w #$0013 : BEQ .BRANCH_ALPHA
+                  CMP.w #$003B : BEQ .BRANCH_ALPHA
+                  CMP.w #$0063 : BEQ .BRANCH_ALPHA
         SEP #$30
         
         ; This is recursion, son. Fear it (stack overflows are possible).
@@ -6982,10 +6908,9 @@ VWF_RenderRecursive:
 VWF_RenderSingle:
 {
     REP #$10
-    
-    LDX.w $1CD9
-    
+
     ; Is it a space (as in, " ").
+    LDX.w $1CD9
     LDA.l $7F1200, X : CMP.b #$59 : BEQ .blankCharacter
         ; No, so make some noise.
         SEP #$30
@@ -7012,7 +6937,6 @@ VWF_RenderSingle:
 Pool_VWF_RenderCharacter:
 {
     .widths
-    
     db 6, 6, 6, 6, 6, 6, 6, 6, 3, 6, 6, 6, 7, 6, 6, 6
     db 6, 6, 6, 7, 6, 7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6
     db 6, 6, 3, 5, 6, 3, 7, 6, 6, 6, 6, 5, 6, 6, 6, 7
@@ -7020,23 +6944,21 @@ Pool_VWF_RenderCharacter:
     db 6, 4, 4, 6, 8, 6, 6, 6, 6, 6, 8, 8, 8, 7, 7, 7
     db 7, 4, 8, 8, 8, 8, 8, 8, 8, 4, 8, 8, 8, 8, 8, 8
     db 8, 8, 4
+
     ; Interesting that there are only widths for characters
     ; 0x0 through 0x62.... what about the other 4 characters?
     
     .setMasks
-    
     db $80, $40, $20, $10, $08, $04, $02, $01
     
     .renderPositions
-    
     dw $0000, $02A0, $0540
     
     .linePositions
-    
     dw $0000, $0040, $0080
     
+    ; TODO: ~?
     .unsetMasks
-    
     db ~$80, ~$40, ~$20, ~$10, ~$08, ~$04, ~$02, ~$01
 }
 
@@ -7114,12 +7036,13 @@ VWF_RenderCharacter:
     INX : STX.w !cumulativePosIndex
     
     ; Multiply the character value's upper nybble by 2 (0x62 -> 0xE2, etc).
-    TYA : AND.b #$F0 : ASL     : STA.b $00
-    TYA : AND.b #$0F : ORA.b $00 : STA.b !fontTileOffset : STZ.b !fontTileOffset+1
+    TYA : AND.b #$F0 : ASL       : STA.b $00
+    TYA : AND.b #$0F : ORA.b $00 : STA.b !fontTileOffset+0
+                                   STZ.b !fontTileOffset+1
     
     REP #$20
     
-    LDA.w #$8000 : STA.b !fontBase
+    LDA.w #$8000 : STA.b !fontBase+0
     LDY.b #$0E   : STY.b !fontBase+2
     
     REP #$10
@@ -7209,8 +7132,8 @@ VWF_RenderCharacter:
         
         .topHalf_noRemainingSetPixels
         
-        PLY : INY #2
-    LDX.b !charLinePos : INX #2 : CPX.w #$0010 : BNE .topHalf_nextSourceRow
+        PLY : INY : INY
+    LDX.b !charLinePos : INX : INX : CPX.w #$0010 : BNE .topHalf_nextSourceRow
     
     ; Positions us on the lower half of the text line.
     LDA.w !renderBase : CLC : ADC.w #$0150 : STA.b $08
@@ -7225,7 +7148,7 @@ VWF_RenderCharacter:
     
     ; Handles the lower half of the character.
     ; A = value at ($0E:8000 + Y)
-    LDA [!fontBase], Y : STA.b !rowOfPixels
+    LDA.b [!fontBase], Y : STA.b !rowOfPixels
     
     PHY
     
@@ -7295,9 +7218,9 @@ VWF_RenderCharacter:
     
     .bottomHalf_noRemainingSetPixels
     
-    PLY : INY #2
+    PLY : INY : INY
     
-    LDX.b !charLinePos : INX #2 : CPX.w #$0010 : BEQ .characterFinished
+    LDX.b !charLinePos : INX : INX : CPX.w #$0010 : BEQ .characterFinished
         BRL .bottomHalf_NextSourceRow
     
     .characterFinished
@@ -7328,6 +7251,7 @@ VWF_InvalidSpeed:
     
     DEC.w $1CD5
     
+    ; OPTIMIZE: Just use the second RTS
     RTS
     
     ; $074CFD
@@ -7384,10 +7308,10 @@ VWF_Select2Or3_Indented:
     
     .readyForInput
     
-    LDA.b $F4 : TAY : ORA.b $F6
+    LDA.b $F4 : TAY
     
     ; Player has chosen if the A, B, X, or Y buttons are pressed.
-    AND.b #$C0 : BNE .playerHasChosen
+    ORA.b $F6 : AND.b #$C0 : BNE .playerHasChosen
         TYA : AND.b #$08 : BNE .upPushed
             TYA : AND.b #$04 : BNE .downPushed
                 .return
@@ -7411,7 +7335,6 @@ VWF_Select2Or3_Indented:
                 LDA.b #$20 : STA.w $012F
                 
                 LDA.w $1CE8 : ASL : TAX
-                
                 LDA VWF_Select2Or3_Indented_messages+0, X : STA.w $1CF0
                 LDA VWF_Select2Or3_Indented_messages+1, X : STA.w $1CF1
                 
@@ -7529,8 +7452,7 @@ VWF_SelectNextItem:
             .invalidValue
                 
             CPX.b #$20 : BNE .invalidSlot
-                
-            LDA.l $7EF341, X : BNE VWF_ChangeItemTiles
+                LDA.l $7EF341, X : BNE VWF_ChangeItemTiles
             
         .invalidSlot
     INC.w $1CE8 : BRA .tryNextSlot
@@ -7544,7 +7466,8 @@ VWF_ChangeItemTiles:
     
     LDA.l ItemMenu_ItemGFXPointers+0, X : STA.b $00
     LDA.l ItemMenu_ItemGFXPointers+1, X : STA.b $01
-    LDA.b #$0D       : STA.b $02
+    LDA.b #$0D                          : STA.b $02
+    ; TODO: Bank of ItemMenu_ItemGFXPointers?
     
     TYX
     
@@ -7559,17 +7482,30 @@ VWF_ChangeItemTiles:
     
     .notBombsSlot
     
-    ASL #3 : TAY
-    
     ; Loads the 4 tilemap entries for the currently selected item type.
-    LDA [$00], Y : STA.w $13C2 : INY
-    LDA [$00], Y : STA.w $13C3 : INY
-    LDA [$00], Y : STA.w $13C4 : INY
-    LDA [$00], Y : STA.w $13C5 : INY
-    LDA [$00], Y : STA.w $13EC : INY
-    LDA [$00], Y : STA.w $13ED : INY
-    LDA [$00], Y : STA.w $13EE : INY
-    LDA [$00], Y : STA.w $13EF
+    ASL #3 : TAY
+    LDA.b [$00], Y : STA.w $13C2
+    
+    INY
+    LDA.b [$00], Y : STA.w $13C3
+    
+    INY
+    LDA.b [$00], Y : STA.w $13C4
+    
+    INY
+    LDA.b [$00], Y : STA.w $13C5
+    
+    INY
+    LDA.b [$00], Y : STA.w $13EC
+    
+    INY
+    LDA.b [$00], Y : STA.w $13ED
+    
+    INY
+    LDA.b [$00], Y : STA.w $13EE
+    
+    INY
+    LDA.b [$00], Y : STA.w $13EF
     
     RTS
 }
@@ -7622,9 +7558,8 @@ VWF_Select2Or3:
     .readyForInput
     
     ; Player has chosen if the A, B, X, or Y buttons are pressed.
-    LDA.b $F4 : TAY : ORA.b $F6
-    
-    AND.b #$C0 : BNE .playerHasChosen
+    LDA.b $F4 : TA
+    ORA.b $F6 : AND.b #$C0 : BNE .playerHasChosen
         TYA : AND.b #$08 : BNE .upPushed
             TYA : AND.b #$04 : BNE .downPushed
                 .return
@@ -7648,7 +7583,6 @@ VWF_Select2Or3:
                 LDA.b #$20 : STA.w $012F
                 
                 LDA.w $1CE8 : ASL : TAX
-                
                 LDA VWF_Select2Or3_messages+0, X : STA.w $1CF0
                 LDA VWF_Select2Or3_messages+1, X : STA.w $1CF1
                 
@@ -7676,7 +7610,7 @@ VWF_Select2Or3:
 ; ==============================================================================
 
 ; Leads to data, hence it crashes.
-; $074EF1-$074EF6 DATA
+; $074EF1-$074EF1 DATA
 VWF_Crash:
 {
 }
@@ -7686,7 +7620,9 @@ VWF_Crash:
 ; $074EF1-$074EF6 DATA
 VWF_Choose3_ArrowDialogs:
 {
-    dw $0006, $0007, $0008
+    dw $0006 ; MESSAGE 0006
+    dw $0007 ; MESSAGE 0007
+    dw $0008 ; MESSAGE 0008
 }
 
 ; $074EF7-$074F6D JUMP LOCATION
@@ -7702,7 +7638,6 @@ VWF_Choose3:
     .readyForInput
     
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : TAY
-    
     AND.b #$D0 : BNE .playerHasChosen
         TYA : AND.b #$08 : BNE .upPushed
             TYA : AND.b #$04 : BNE .downPushed
@@ -7735,7 +7670,6 @@ VWF_Choose3:
             LDA.b #$20 : STA.w $012F
             
             LDA.w $1CE8 : ASL : TAX
-            
             LDA VWF_Choose3_ArrowDialogs+0, X : STA.w $1CF0
             LDA VWF_Choose3_ArrowDialogs+1, X : STA.w $1CF1
             
@@ -7809,7 +7743,6 @@ VWF_Choose1Or2:
                 LDA.b #$20 : STA.w $012F
                 
                 LDA.w $1CE8 : ASL : TAX
-                
                 LDA VWF_Choose1Or2_messages, X   : STA.w $1CF0
                 LDA VWF_Choose1Or2_messages+1, X : STA.w $1CF1
                 
@@ -7868,7 +7801,6 @@ VWF_Scroll:
             ; scroll up.
             
             LDX.b $00
-            
             LDA.w $0002, X : STA.w $0000, X ; Line 0 = the old Line 1
             LDA.w $0004, X : STA.w $0002, X ; Line 1 = the old Line 2, and so on
             LDA.w $0006, X : STA.w $0004, X
@@ -7963,9 +7895,7 @@ VWF_SetLine:
     
     ; Possible values are 0x74, 0x75, or 0x76.
     LDA.l $7F1200, X : AND.w #$0003 : ASL : TAX
-    
     LDA VWF_LinePositions, X : STA.w $1CDD
-    
     LDA VWF_RowPositions, X : STA.w $0722
     
     ; Signal the need for a new line.
@@ -7995,14 +7925,13 @@ VWF_SetPalette:
     ; the chr bits).
     LDA.w $1CDC : AND.b #$E3 : STA.w $1CDC
     
-    LDX.w $1CD9 : INX
-    
     ; Sets the tile palette, or rather, it would If this variable was actually
     ; used anywhere else in rendering. Sorry folks this is an abandoned feature,
     ; the command is useless, and probably rightly so in this VWF's design. The
     ; only way you could change color in this engine is to make sure you've
     ; started a new tile, which would be terribly inconvenient for a VWF.
-    LDA.l $7F1200, X : AND.b #$07 : ASL #2 : ORA.w $1CDC : STA.w $1CDC
+    LDX.w $1CD9 : INX
+    LDA.l $7F1200, X : AND.b #$07 : ASL : ASL : ORA.w $1CDC : STA.w $1CDC
     
     INX : STX.w $1CD9
     
@@ -8040,7 +7969,6 @@ VWF_Wait:
     SEP #$30
     
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw VWF_WaitLoop_initCounter ; 0x00 - $D138
     dw VWF_EndWait              ; 0x01 - $D154
     dw VWF_WaitLoop_decCounter  ; 0x02 - $D14C
@@ -8053,10 +7981,8 @@ VWF_WaitLoop_initCounter:
     REP #$30
     
     LDX.w $1CD9
-    
     LDA.l $7F1201, X : AND.w #$000F : ASL : TAX
-    
-    LDA Text_WaitDurations, X : STA.w $1CE0
+    LDA.w Text_WaitDurations, X : STA.w $1CE0
 
     ; Bleeds into the next function.
 }
@@ -8120,7 +8046,8 @@ VWF_SetSpeed:
     LDX.w $1CD9 : INX
     
     ; Speed, also mirror location for speed.
-    LDA.l $7F1200, X : STA.w $1CD6 : STA.w $1CD5
+    LDA.l $7F1200, X : STA.w $1CD6
+                       STA.w $1CD5
     
     ; Move to the next byte.
     INX : STX.w $1CD9
@@ -8140,21 +8067,17 @@ VWF_Command7B:
 {
     REP #$30
     
-    INC.w $1CD9 : LDX.w $1CD9
-    
-    LDA.l $7F1200, X : AND.w #$007F : ASL #2 : TAX
+    INC.w $1CD9
+    LDX.w $1CD9
+    LDA.l $7F1200, X : AND.w #$007F : ASL : ASL : TAX
     
     LDY.w $1CDD
+    LDA.w Pool_VWF_Command7B_unknown, X : STA.w $12D8, Y
     
-    LDA Pool_VWF_Command7B_unknown, X : STA.w $12D8, Y
+    INX : INX
+    LDA.w Pool_VWF_Command7B_unknown, X : STA.w $1300, Y
     
-    INX #2
-    
-    LDA Pool_VWF_Command7B_unknown, X : STA.w $1300, Y
-    
-    INY #2
-    
-    STY.w $1CDD
+    INY : INY : STY.w $1CDD
     
     INC.w $1CD9
     
@@ -8171,8 +8094,8 @@ VWF_Command7C:
 {
     REP #$30
     
-    INC.w $1CD9 : LDX.w $1CD9
-    
+    INC.w $1CD9
+    LDX.w $1CD9
     LDA.l $7F1200, X : AND.w #$007F : ASL #3 : TAX
     
     LDA.w #$0002 : STA.b $00
@@ -8181,15 +8104,13 @@ VWF_Command7C:
     
     .alpha
     
-        LDA Text_Command_7C_Data, X : STA.w $12D8, Y
+        LDA.w Text_Command_7C_Data, X : STA.w $12D8, Y
         
-        INX #2
+        INX : INX
+        LDA.w Text_Command_7C_Data, X : STA.w $1300, Y
         
-        LDA Text_Command_7C_Data, X : STA.w $1300, Y
-        
-        INX #2
-        
-        INY #2
+        INX : INX
+        INY : INY
     DEC.b $00 : BNE .alpha
     
     STY.w $1CDD
@@ -8217,8 +8138,10 @@ VWF_ClearBuffer:
 
     .zeroLoop
 
-        STZ.w $0000, X : STZ.w $0002, X : STZ.w $0004, X : STZ.w $0006, X
-        STZ.w $0008, X : STZ.w $000A, X : STZ.w $000C, X : STZ.w $000E, X
+        STZ.w $0000, X : STZ.w $0002, X
+        STZ.w $0004, X : STZ.w $0006, X
+        STZ.w $0008, X : STZ.w $000A, X
+        STZ.w $000C, X : STZ.w $000E, X
     SEC : SBC.w #$0010 : TAX : BPL .zeroLoop
     
     PLB
@@ -8314,7 +8237,7 @@ Text_SetDefaultWindowPos:
     
     ; Ultimately, a VRAM address gets stored here, so the system knows where to
     ; draw the tiles.
-    LDA Text_Positions, X : STA.w $1CD2
+    LDA.w Text_Positions, X : STA.w $1CD2
     
     SEP #$30
     
@@ -8347,34 +8270,35 @@ Text_DrawBorderRow:
     ; Store the big endian version of the base VRAM address.
     LDA.w $1CD0 : XBA : STA.w $1002, X
     
-    INX #2
+    INX : INX
     
     ; Our VRAM address will be moving "down", so increment by 32 words.
     XBA : CLC : ADC.w #$0020 : STA.w $1CD0
     
     ; Write 0x30 bytes, use incrementing DMA mode, increment on writes to $2119.
-    LDA.w #$2F00 : STA.w $1002, X : INX #2
+    LDA.w #$2F00 : STA.w $1002, X
     
-    LDA Text_BorderTiles, Y : STA.w $1002, X : INX #2
+    INX : INX
+    LDA.w Text_BorderTiles, Y : STA.w $1002, X
     
-    INY #2
+    INX : INX
+    INY : INY
     
     LDA.w #$0016 : STA.b $0E
     
-    LDA Text_BorderTiles, Y
+    LDA.w Text_BorderTiles, Y
     
     .repeatTile
     
         STA.w $1002, X
         
-        INX #2
+        INX : INX
     DEC.b $0E : BNE .repeatTile
     
-    INY #2
+    INY : INY
+    LDA.w Text_BorderTiles, Y : STA.w $1002, X
     
-    LDA Text_BorderTiles, Y : STA.w $1002, X
-    
-    INX #2
+    INX : INX
     
     RTS
 }
@@ -8400,7 +8324,7 @@ Text_BuildCharacterTilemap:
         LDA.w $1CE2 : STA.w $1300, X
         
         INC.w $1CE2
-    INX #2 : CPX.w #$00FC : BCC .buildLoop
+    INX : INX : CPX.w #$00FC : BCC .buildLoop
     
     JSR.w Text_DrawCharacterTilemap
     
@@ -8423,7 +8347,7 @@ Text_DrawCharacterTilemap:
     
     REP #$30
     
-    LDA.w #$0006 : STA !num_rows
+    LDA.w #$0006 : STA.b !num_rows
     
     JSR.w Text_InitBorderOffsets
     
@@ -8446,10 +8370,11 @@ Text_DrawCharacterTilemap:
         
         ; DMA will transfer 0x2a bytes (which is twice 0x15 or 21). Each row is
         ; 21 tiles, so this makes sense.
-        INX #2 : LDA.w #$2900 : STA.w $1002, X
-        INX #2
-        
-        LDA.w #$0015 : STA !num_columns
+        INX : INX
+        LDA.w #$2900 : STA.w $1002, X
+
+        INX : INX
+        LDA.w #$0015 : STA.b !num_columns
         
         ; The rows will contain tilemap entries that reference chr values 0x180
         ; through 0x194, the next 0x195 to 0x1a9, 0x1aa to 0x1be, to 0x1bf to
@@ -8460,10 +8385,10 @@ Text_DrawCharacterTilemap:
             ; just prior this subroutine call.
             LDA.w $1300, Y : STA.w $1002, X
             
-            INX #2
-            INY #2
-        DEC !num_columns : BNE .nextColumn
-    DEC !num_rows    : BNE .nextRow
+            INX : INX
+            INY : INY
+        DEC.b !num_columns : BNE .nextColumn
+    DEC.b !num_rows : BNE .nextRow
     
     LDA.w #$FFFF : STA.w $1002, X
     
@@ -8505,12 +8430,15 @@ RenderText_MoreInitialSettings:
 ; $07537F-$075390 DATA
 Text_BorderTiles:
 {
+    ; $07537F
     .top
     dw $28F3, $28F4, $28F3
     
+    ; $075385
     .middle
     dw $28C8, $387F, $68C8
     
+    ; $07538B
     .bottom
     dw $A8F3, $A8F4, $E8F3
 }
@@ -8528,12 +8456,12 @@ Text_Positions:
 ; $075395-$075398
 Pool_Text_Close:
 {
+    ; $075395
     .reg_config
-    
     dw $2E42
     
+    ; $075397
     .data
-    
     dw $387F
 }
     
@@ -8796,7 +8724,7 @@ OverworldSpritesPaletteSet:
 ; $0755A8-$0755F3 LONG JUMP LOCATION
 Overworld_LoadPalettes:
 {
-    ASL #2 : TAX ; *4
+    ASL : ASL : TAX ; *4
         
     STZ.w $0AA9
         
@@ -8997,7 +8925,7 @@ Palette_PerformTranslucencySwap:
         
         PLA              : STA.l $7EC470, X
                            STA.l $7EC670, X
-    INX #2 : CPX.b #$10 : BNE .swap_palettes
+    INX : INX : CPX.b #$10 : BNE .swap_palettes
         
     SEP #$20
         
@@ -9147,7 +9075,7 @@ LoadGearPalette:
         ; Y is the length of the palette in colors (words).
         INC.b $00 : INC.b $00
         
-        INX #2
+        INX : INX
     DEY : BPL .nextColor
 
     RTL
@@ -9176,7 +9104,7 @@ Filter_Majorly_Whiten_Bg:
         LDA.l $7EC3D0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5D0, X
         LDA.l $7EC3E0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5E0, X
         LDA.l $7EC3F0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5F0, X
-    INX #2 : CPX.b #$10 : BEQ .finished_whitening_increment
+    INX : INX : CPX.b #$10 : BEQ .finished_whitening_increment
         
     JMP.w .next_color_in_each_palette
     
@@ -9241,6 +9169,7 @@ Palette_Restore_BG_From_Flash:
     LDX.b #$00
     
     .restore_loop
+
         LDA.l $7EC340, X : STA.l $7EC540, X
         LDA.l $7EC350, X : STA.l $7EC550, X
         LDA.l $7EC360, X : STA.l $7EC560, X
@@ -9253,8 +9182,7 @@ Palette_Restore_BG_From_Flash:
         LDA.l $7EC3D0, X : STA.l $7EC5D0, X
         LDA.l $7EC3E0, X : STA.l $7EC5E0, X
         LDA.l $7EC3F0, X : STA.l $7EC5F0, X
-        
-    INX #2 : CPX.b #$10 : BNE .restore_loop
+    INX : INX : CPX.b #$10 : BNE .restore_loop
         
     LDA.l $7EC540 : STA.l $7EC500
         
@@ -9318,7 +9246,7 @@ Palette_Restore_BG_And_HUD:
     
         LDA.l $7EC300, X : STA.l $7EC500, X
         LDA.l $7EC380, X : STA.l $7EC580, X
-    DEX #2 : BPL .next_color
+    DEX : DEX : BPL .next_color
         
     SEP #$20
         
@@ -9398,7 +9326,7 @@ DungeonMap_Backup:
             LDA.l $7EC580, X : STA.l $7FDE00, X
             LDA.l $7EC600, X : STA.l $7FDE80, X 
             LDA.l $7EC680, X : STA.l $7FDF00, X
-        DEX #2 : BPL .cachePaletteBuffer
+        DEX : DEX : BPL .cachePaletteBuffer
             
         ; Cache BG scroll offset (for quaking and such).
         LDA.w $011A : STA.l $7EC221
@@ -9436,7 +9364,7 @@ DungeonMap_Backup:
             STA.l $7F0A00, X : STA.l $7F0B00, X
             STA.l $7F0C00, X : STA.l $7F0D00, X
             STA.l $7F0E00, X : STA.l $7F0F00, X  
-        DEX #2 : BNE .writeLoop
+        DEX : DEX : BNE .writeLoop
             
         SEP #$20
             
@@ -9711,7 +9639,7 @@ Overworld_Memorize_Map16_Change:
             
             LDX.w $04AC : STA.l $7EFA00, X
             
-            TYA : STA.l $7EF800, X : INX #2 : STX.w $04AC
+            TYA : STA.l $7EF800, X : INX : INX : STX.w $04AC
             
             PLX : PLA
     
@@ -9749,7 +9677,7 @@ HandlePegPuzzles:
                     LDA.w #$2D00 : STA.w $012E
                     
                     ; Move to the next peg.
-                    INX #2 : STX.w $04C8 : CPX.w #$0006 : BNE .puzzleIncomplete
+                    INX : INX : STX.w $04C8 : CPX.w #$0006 : BNE .puzzleIncomplete
                         ; Play mystery solved sound effect.
                         LDA.w #$1B00 : STA.w $012E
                         
@@ -9885,7 +9813,7 @@ Overworld_CheckForSpecialOverworldTrigger:
     
         .nextChrValue
     
-            DEX #2
+            DEX : DEX
         
             ; We've run out of CHR types to check (there's only 4).
             BMI .return
@@ -11477,7 +11405,7 @@ PaletteBlackAndWhiteSomething:
                          STA.l $7EC380, X
                          STA.l $7EC400, X
                          STA.l $7EC480, X
-        INX #2 : CPX.b #$80 : BNE .cache_colors_and_whiten_loop
+        INX : INX : CPX.b #$80 : BNE .cache_colors_and_whiten_loop
         
         ; Save the background color to another area of the palette buffer.
         LDA.l $7EC500 : STA.l $7EC540
@@ -11506,7 +11434,7 @@ PaletteBlackAndWhiteSomething:
         .BRANCH_DELTA
     
             STA.l $7EC3B0, X : STA.l $7EC5B0, X
-        DEX #2 : BPL .BRANCH_DELTA
+        DEX : DEX : BPL .BRANCH_DELTA
         
         STA.l $7EC007
         STA.l $7EC009
@@ -11536,7 +11464,7 @@ PaletteBlackAndWhiteSomething:
             LDA.l $7FDE80, X : STA.l $7EC400, X
             LDA.l $7FDEC0, X : STA.l $7EC440, X
             LDA.l $7FDF00, X : STA.l $7EC480, X
-        INX #2 : CPX.w #$0040 : BNE .restore_cached_colors_loop
+        INX : INX : CPX.w #$0040 : BNE .restore_cached_colors_loop
         
         SEP #$20
         
@@ -11631,7 +11559,7 @@ Overworld_DwDeathMountainPaletteAnimation:
                     LDA.l $7EC3E0, X : STA.l $7EC5E0, X
                     LDA.l $7EC3F0, X : STA.l $7EC5F0, X
                         
-                INX #2 : CPX.b #$10 : BNE .loop_1
+                INX : INX : CPX.b #$10 : BNE .loop_1
                         
                 BRA .abstain
                     
@@ -11647,15 +11575,15 @@ Overworld_DwDeathMountainPaletteAnimation:
             LDY.b #$00
             
             .loop_2
+
                 LDA.w Palettes_BlueThunder1, Y : STA.l $7EC560, X
                 LDA.w Palettes_BlueThunder2, Y : STA.l $7EC570, X
                 LDA.w Palettes_BlueThunder3, Y : STA.l $7EC590, X
                 LDA.w Palettes_BlueThunder4, Y : STA.l $7EC5E0, X
                 LDA.w Palettes_BlueThunder5, Y : STA.l $7EC5F0, X
                 
-                INY #2
-                
-            INX #2 : CPX.b #$10 : BNE .loop_2
+                INY : INY
+            INX : INX : CPX.b #$10 : BNE .loop_2
             
             .abstain
             
@@ -11672,17 +11600,17 @@ Overworld_DwDeathMountainPaletteAnimation:
             .check_flag
             
             LDA.l $7EF2C3 : AND.b #$20 : BNE .ganons_tower_opened
-                LDA.b $1A : AND.b #$0C : ASL #2 : TAY
+                LDA.b $1A : AND.b #$0C : ASL : ASL : TAY
             
                 .do_palette_animation
+
                 .palette_write_loop
                     REP #$20
                     
                     LDA.w Palettes_GanonTowerFlash, Y : STA.l $7EC5D0, X
                     
-                    INY #2
-                
-                INX #2 : CPX.b #$10 : BNE .palette_write_loop
+                    INY : INY
+                INX : INX : CPX.b #$10 : BNE .palette_write_loop
             
             .ganons_tower_opened
             

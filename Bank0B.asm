@@ -1171,7 +1171,7 @@ NULL_0BFE5E:
 
 ; ==============================================================================
 
-; ZSCREAM: ZS replaces the first and struction and the latter
+; ZSCREAM: ZS replaces the first and instruction and the latter
 ; half of this function.
 ; $05FE70-$05FFA7 LONG JUMP LOCATION
 Overworld_SetFixedColorAndScroll:
@@ -1197,10 +1197,10 @@ Overworld_SetFixedColorAndScroll:
     CMP.w #$0081 : BEQ .setBgColor
         LDX.w #$0000
             
-        CMP.w #$005B                : BEQ .setBgColor
+                       CMP.w #$005B : BEQ .setBgColor
         AND.w #$00BF : CMP.w #$0003 : BEQ .setBgColor
-        CMP.w #$0005                : BEQ .setBgColor
-        CMP.w #$0007                : BEQ .setBgColor
+                       CMP.w #$0005 : BEQ .setBgColor
+                       CMP.w #$0007 : BEQ .setBgColor
             .useDefaultGreen
             
             ; Default green color for the light world.
@@ -1237,19 +1237,17 @@ Overworld_SetFixedColorAndScroll:
             CMP.w #$0003 : BEQ .setCustomFixedColor
             CMP.w #$0005 : BEQ .setCustomFixedColor
             CMP.w #$0007 : BEQ .setCustomFixedColor
-            
-            LDX.w #$4A26
-            LDY.w #$874A
-            
-            CMP.w #$0043 : BEQ .setCustomFixedColor
-            CMP.w #$0045 : BEQ .setCustomFixedColor
-            
-            SEP #$30
-            
-            ; Update CGRAM this frame.
-            INC.b $15
-            
-            RTL
+                LDX.w #$4A26
+                LDY.w #$874A
+                
+                CMP.w #$0043 : BEQ .setCustomFixedColor
+                CMP.w #$0045 : BEQ .setCustomFixedColor
+                    SEP #$30
+                    
+                    ; Update CGRAM this frame.
+                    INC.b $15
+                    
+                    RTL
         
         .setCustomFixedColor
         
@@ -1263,11 +1261,9 @@ Overworld_SetFixedColorAndScroll:
         ; Same for X scroll.
         LDA.b $E8 : STA.b $E6
         LDA.b $E2 : STA.b $E0
-            
-        LDA.b $8A : AND.w #$003F
-            
+
         ; Are we at Hyrule Castle or Pyramid of Power?
-        CMP.w #$001B : BNE .subscreenOnAndReturn
+        LDA.b $8A : AND.w #$003F : CMP.w #$001B : BNE .subscreenOnAndReturn
             LDA.b $E2 : SEC : SBC.w #$0778 : LSR : TAY
             AND.w #$4000 : BEQ .BRANCH_7
                 TYA : ORA.w #$8000 : TAY
