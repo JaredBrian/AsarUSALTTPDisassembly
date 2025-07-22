@@ -143,14 +143,14 @@ BuzzBlob_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_Buzzblob_Draw_x_offsets, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC Pool_Buzzblob_Draw_x_offsets, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC Pool_Buzzblob_Draw_y_offsets, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC Pool_Buzzblob_Draw_y_offsets, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
@@ -160,24 +160,24 @@ BuzzBlob_Draw:
         
         INY
         
-        LDA.w .chr, X : STA ($90), Y : BNE .dont_skip_OAM_entry
+        LDA.w .chr, X : STA.b ($90), Y : BNE .dont_skip_OAM_entry
             DEY
             
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
             
             INY
         
         .dont_skip_OAM_entry
         
-        LDA Pool_Buzzblob_Draw_properties, X : ORA.b $05 : INY : STA ($90), Y
+        LDA Pool_Buzzblob_Draw_properties, X : ORA.b $05 : INY : STA.b ($90), Y
         
         PLX
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA Pool_Buzzblob_Draw_OAM_sizes, X : ORA.b $0F : STA ($92), Y
+        LDA Pool_Buzzblob_Draw_OAM_sizes, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     DEX : BPL .next_OAM_entry

@@ -30,7 +30,7 @@ Sprite_GanonBat:
     
     JSR.w Sprite4_CheckIfActive
     
-    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR : LSR : AND.b #$03 : TAY
     
     LDA Pool_Sprite_GanonBat_animation_states, Y : STA.w $0DC0, X
     

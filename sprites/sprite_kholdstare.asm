@@ -490,7 +490,7 @@ Sprite_IceBall:
         
         .not_quite_dead
         
-        LSR #3 : INC #2 : STA.w $0DC0, X
+        LSR #3 : INC : INC : STA.w $0DC0, X
         
         RTS
         

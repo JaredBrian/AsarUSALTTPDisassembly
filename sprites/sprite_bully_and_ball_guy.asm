@@ -51,7 +51,7 @@ Sprite_BallGuy:
     LDA.w $0F70, X : BPL .not_z_bouncing
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC : LSR #2 : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR : LSR : STA.w $0F80, X
         
         AND.b #$FC : BEQ .dont_play_SFX
             JSR.w BallGuy_PlayBounceNoise
@@ -113,9 +113,9 @@ Sprite_BallGuy:
     
     .not_at_full_stop_yet
     
-    TXA : EOR.b $1A : PHA : LSR #2 : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : PHA : LSR : LSR : AND.b #$01 : STA.w $0DC0, X
     
-    PLA : ASL #2 : AND.b #$80 : STA.w $0EB0, X
+    PLA : ASL : ASL : AND.b #$80 : STA.w $0EB0, X
     
     RTS
 }
@@ -128,7 +128,7 @@ BallGuy_UpsideDown:
     JSR.w BallGuy_DrawDistressMarker
     
     TXA : EOR.b $1A : BEQ .turn_right_side_up
-        LSR #2 : AND.b #$01 : STA.w $0DC0, X
+        LSR : LSR : AND.b #$01 : STA.w $0DC0, X
         
         STZ.w $0D50, X
         STZ.w $0D40, X

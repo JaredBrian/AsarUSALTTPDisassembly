@@ -41,7 +41,7 @@ Sprite_Crab:
     INC.w $0E80, X : LDA.w $0E80, X : LSR
     
     CPY.b #$02 : BCC .moving_horizontally
-        LSR #2
+        LSR : LSR
     
     .moving_horizontally
     
@@ -90,25 +90,25 @@ Crab_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_Crab_Draw_x_offsets, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC Pool_Crab_Draw_x_offsets, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : INY : STA ($90), Y
+        LDA.b $02 : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .alpha
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .alpha
         
         PLX
         
-        LDA Pool_Crab_Draw_chr, X                 : INY : STA ($90), Y
-        LDA Pool_Crab_Draw_vh_flip, X : ORA.b $05 : INY : STA ($90), Y
+        LDA Pool_Crab_Draw_chr, X                 : INY : STA.b ($90), Y
+        LDA Pool_Crab_Draw_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : ORA.b $0F : STA ($92), Y
+        LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_subsprite

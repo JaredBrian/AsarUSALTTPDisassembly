@@ -342,7 +342,7 @@ CannonGuard_Recover:
     
     JSR.w Sprite2_Move
     
-    LDA.b $1A : LSR #2 : AND.b #$01 : STA.w $0D90, X
+    LDA.b $1A : LSR : LSR : AND.b #$01 : STA.w $0D90, X
     
     RTS
 }
@@ -460,7 +460,7 @@ CannonTrooper_Draw:
     LDA.w Pool_SpriteDraw_CannonGuard_direction_offset, Y
     CLC : ADC.w $0D90, X : STA.b $06
     
-    ASL #2 : ADC.b $06 : STA.b $06
+    ASL : ASL : ADC.b $06 : STA.b $06
     
     PHX
     
@@ -476,15 +476,15 @@ CannonTrooper_Draw:
         REP #$20
         
         LDA.b $00
-        CLC : ADC.w Pool_SpriteDraw_CannonGuard_offset_x, X : STA ($90), Y
+        CLC : ADC.w Pool_SpriteDraw_CannonGuard_offset_x, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02
-        CLC : ADC.w Pool_SpriteDraw_CannonGuard_offset_y, X : INY : STA ($90), Y
+        CLC : ADC.w Pool_SpriteDraw_CannonGuard_offset_y, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
-            LDA.w #$00F0 : STA ($90), Y
+            LDA.w #$00F0 : STA.b ($90), Y
         
         .alpha
         
@@ -492,7 +492,7 @@ CannonTrooper_Draw:
         
         PLX
         
-        LDA.w Pool_SpriteDraw_CannonGuard_char, X : INY : STA ($90), Y
+        LDA.w Pool_SpriteDraw_CannonGuard_char, X : INY : STA.b ($90), Y
         
         SEC : SBC.b #$24 : CMP.b #$05
         
@@ -501,11 +501,11 @@ CannonTrooper_Draw:
         
         .beta
         
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.w Pool_SpriteDraw_CannonGuard_size, X : ORA.b $0F : STA ($92), Y
+        LDA.w Pool_SpriteDraw_CannonGuard_size, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .gamma

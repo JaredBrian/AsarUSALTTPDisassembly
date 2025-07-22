@@ -222,7 +222,7 @@ GreatCatfish_Emerge:
         
     .aloft
     
-    LDA.w $0E80, X : LSR #2 : TAY
+    LDA.w $0E80, X : LSR : LSR : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     

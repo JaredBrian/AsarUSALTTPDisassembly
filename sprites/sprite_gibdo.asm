@@ -123,7 +123,7 @@ Gibdo_CanMove:
     
     .dont_tick_animation_timer
     
-    LDA.w $0E80, X : ASL #2 : AND.b #$04 : ORA.w $0D90, X : TAY
+    LDA.w $0E80, X : ASL : ASL : AND.b #$04 : ORA.w $0D90, X : TAY
     
     LDA.w Pool_Gibdo_CanMove_animation_states, Y : STA.w $0DC0, X
     

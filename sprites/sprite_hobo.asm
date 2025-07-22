@@ -198,7 +198,7 @@ Sprite_HoboBubble:
     JSR.w Sprite_PrepAndDrawSingleSmall
     JSR.w Sprite_CheckIfActive
     
-    LDA.b $1A : LSR #4 : AND.b #$01 : INC #2 : STA.w $0DC0, X
+    LDA.b $1A : LSR #4 : AND.b #$01 : INC : INC : STA.w $0DC0, X
     
     LDA.w $0E00, X : BNE .ascend_delay
         INC.w $0DC0, X

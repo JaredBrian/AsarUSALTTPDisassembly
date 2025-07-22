@@ -428,9 +428,9 @@ Overlord_WizzrobeFactory:
 ; $04B9E8-$04BA29 JUMP LOCATION
 Overlord_FlyingTileFactory:
 {
-	LDA.w $0B08, X : CMP $E2
+	LDA.w $0B08, X : CMP.b $E2
 	LDA.w $0B10, X : SBC.b $E3 : BNE .out_of_range
-        LDA.w $0B18, X : CMP $E8
+        LDA.w $0B18, X : CMP.b $E8
         LDA.w $0B20, X : SBC.b $E9 : BNE .out_of_range
             DEC.w $0B30, X
 
@@ -707,9 +707,9 @@ Overlord_CrumbleTilePath:
         
         .check_on_screen
         
-        LDA.w $0B08, X : CMP $E2
+        LDA.w $0B08, X : CMP.b $E2
         LDA.w $0B10, X : SBC.b $E3 : BNE .off_screen
-            LDA.w $0B18, X : CMP $E8
+            LDA.w $0B18, X : CMP.b $E8
             LDA.w $0B20, X : SBC.b $E9 : BNE .off_screen
                 ; If on screen even once in this logic, the overlord will
                 ; continue crumbling tiles.
@@ -739,7 +739,7 @@ Overlord_CrumbleTilePath:
     
     LDY.w $0B28, X : DEY
     
-    LDA ($00), Y : TAY
+    LDA.b ($00), Y : TAY
     
     LDA.w $0B08, X
     CLC : ADC.w Pool_Overlord_CrumbleTilePath_x_adjustments_low, Y
@@ -1070,9 +1070,9 @@ Pool_Overlord_StalfosTrap:
 ; $04BE0F-$04BE6C JUMP LOCATION
 Overlord_StalfosTrap:
 {
-    LDA.w $0B08, X : CMP $E2
+    LDA.w $0B08, X : CMP.b $E2
     LDA.w $0B10, X : SBC.b $E3 : BNE .out_of_range
-        LDA.w $0B18, X : CMP $E8
+        LDA.w $0B18, X : CMP.b $E8
         LDA.w $0B20, X : SBC.b $E9 : BNE .out_of_range
             LDA.w $0B28, X : BNE .spawning_active
             
@@ -1198,9 +1198,9 @@ Pool_Overlord_AllDirectionMetalBallFactory:
 ; $04BF09-$04BF5A JUMP LOCATION
 Overlord_AllDirectionMetalBallFactory:
 {
-    LDA.w $0B08, X : CMP $E2
+    LDA.w $0B08, X : CMP.b $E2
     LDA.w $0B10, X : SBC.b $E3 : BNE .out_of_range
-        LDA.w $0B18, X : CMP $E8
+        LDA.w $0B18, X : CMP.b $E8
         LDA.w $0B20, X : SBC.b $E9 : BNE .out_of_range
             LDA.b $1A : AND.b #$0F : BNE .delay
                 STZ.b $0E
@@ -1231,7 +1231,7 @@ Overlord_AllDirectionMetalBallFactory:
 ; $04BF5B-$04BFAE JUMP LOCATION
 Overlord_CascadeMetalBallFactory:
 {
-    LDA.w $0B08, X : CMP $E2
+    LDA.w $0B08, X : CMP.b $E2
     LDA.w $0B10, X : SBC.b $E3 : BNE .out_of_range
         LDA.b $1A : AND.b #$01 : BNE .delay
             LDA.w $0B30, X : BEQ .delay_timer_expired

@@ -36,7 +36,7 @@ Sprite_GiboNucleus:
     
     INC.w $0E80, X
     
-    LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
+    LDA.w $0E80, X : LSR : LSR : AND.b #$03 : TAY
     
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
@@ -79,7 +79,7 @@ Gibo_Main:
     LDA.b $1A : AND.b #$3F : BNE .dont_pursue_player
     	JSR.w Sprite4_IsToRightOfPlayer
     
-        TYA : ASL #2 : STA.w $0DE0, X
+        TYA : ASL : ASL : STA.w $0DE0, X
     
     .dont_pursue_player
     
@@ -302,9 +302,9 @@ Gibo_Draw:
     	LDA.b #$01 : STA.w $0E40, X
     
 	; TODO: timer_1?
-    	LDA !timer_1, X : AND.b #$04 : LSR #2 : STA.b $00
+    	LDA !timer_1, X : AND.b #$04 : LSR : LSR : STA.b $00
     
-    	LDA.w $0EC0, X : LSR #2 : AND.b #$03 : TAY
+    	LDA.w $0EC0, X : LSR : LSR : AND.b #$03 : TAY
     
     	LDA.w $0F50, X : PHA
     

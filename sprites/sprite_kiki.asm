@@ -86,14 +86,14 @@ Kiki_Fleeing:
         
     .y_speed_positive
     
-    CMP $00 : BCC .x_speed_larger
-        LDA.w $0D50, X : ROL #2 : AND.b #$01 : EOR.b #$03
+    CMP.b $00 : BCC .x_speed_larger
+        LDA.w $0D50, X : ROL : ROL : AND.b #$01 : EOR.b #$03
         
         BRA .animate
     
     .x_speed_larger
     
-    LDA.w $0D40, X : ROL #2 : AND.b #$01 : EOR.b #$01
+    LDA.w $0D40, X : ROL : ROL : AND.b #$01 : EOR.b #$01
     
     .animate
     
@@ -109,7 +109,7 @@ Kiki_Fleeing:
 ; $0F63AF-$0F63E7 JUMP LOCATION
 Kiki_OfferInitialService:
 {
-    LDA.w $0D80, X : DEC #2 : BMI .BRANCH_ALPHA
+    LDA.w $0D80, X : DEC : DEC : BMI .BRANCH_ALPHA
         JSR.w Kiki_Draw
         
     .BRANCH_ALPHA

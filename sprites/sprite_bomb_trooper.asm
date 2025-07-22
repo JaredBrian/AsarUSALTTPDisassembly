@@ -361,23 +361,23 @@ BombTrooper_DrawArm:
     REP #$20
     
     LDA.b $00 : CLC : ADC.w Pool_SpriteDraw_BombGuard_Arm_offset_x, X
-    LDY.b #$00 : STA ($90), Y
+    LDY.b #$00 : STA.b ($90), Y
     AND.w #$0100 : STA.b $0E
     
     LDA.b $02 : CLC : ADC.w Pool_SpriteDraw_BombGuard_Arm_offset_y, X 
-    INY : STA ($90), Y
+    INY : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
-        LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA.b ($90), Y
     
     .on_screen_y
     
     SEP #$20
     
-    LDA.b #$6E                    : INY : STA ($90), Y : INY
-    LDA.b $05 : AND.b #$30 : ORA.b #$08 : STA ($90), Y
+    LDA.b #$6E                    : INY : STA.b ($90), Y : INY
+    LDA.b $05 : AND.b #$30 : ORA.b #$08 : STA.b ($90), Y
     
-    LDA.b #$02 : ORA.b $0F : STA ($92)
+    LDA.b #$02 : ORA.b $0F : STA.b ($92)
     
     PLX
     
@@ -432,16 +432,16 @@ EnemyBomb_DrawExplosion:
         TXA : CLC : ADC.b $06 : TAX
         
         LDA.b $00 : CLC : ADC Pool_EnemyBomb_DrawExplosion_x_offsets, X
-            STA ($90), Y
+            STA.b ($90), Y
 
         LDA.b $02 : CLC : ADC Pool_EnemyBomb_DrawExplosion_y_offsets, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
 
         LDA Pool_EnemyBomb_DrawExplosion_chr, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
 
         LDA Pool_EnemyBomb_DrawExplosion_vh_flip, X : ORA.b $05
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
         INY
     PLX : DEX : BPL .next_subsprite

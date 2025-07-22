@@ -429,7 +429,7 @@ ChattyAgahnim_DrawTelewarpSpell:
 {
     LDA.b #$38 : JSL.l OAM_AllocateFromRegionA
     
-    LDA.b $1A : LSR #2
+    LDA.b $1A : LSR : LSR
     
     REP #$20
 
@@ -460,14 +460,14 @@ ChattyAgahnim_DrawTelewarpSpell:
         
         .next_OAM_entry
             
-            LDA.b $00 : CLC : ADC ($08), Y : STA ($90), Y
+            LDA.b $00 : CLC : ADC.b ($08), Y : STA.b ($90), Y
             
             LDA.b $02 : CLC : ADC.b #$F8   : CLC
-            INY     : ADC ($08), Y              : STA ($90), Y
-            INY     : LDA ($08), Y              : STA ($90), Y
-            INY     : LDA ($08), Y : ORA.b #$31 : STA ($90), Y
+            INY     : ADC.b ($08), Y              : STA.b ($90), Y
+            INY     : LDA.b ($08), Y              : STA.b ($90), Y
+            INY     : LDA.b ($08), Y : ORA.b #$31 : STA.b ($90), Y
             
-            PHY : TYA : LSR #2 : TAY
+            PHY : TYA : LSR : LSR : TAY
             
             ; OPTIMIZE: This test / and branch is useless, A is clobbered again
             ; immediately.
@@ -479,7 +479,7 @@ ChattyAgahnim_DrawTelewarpSpell:
             
             .irrelevant
             
-            LDA ($0A), Y : STA ($92), Y
+            LDA.b ($0A), Y : STA.b ($92), Y
             
             PLY : INY
         DEX : CPX.b $0D : BNE .next_OAM_entry
@@ -581,29 +581,29 @@ AltarZelda_DrawBody:
     
     LDY.b #$00
     
-    LDA.b $00 : PHA : CLC : ADC.b $07              : STA ($90), Y
-                PLA : SEC : SBC.b $07 : LDY.b #$04 : STA ($90), Y
+    LDA.b $00 : PHA : CLC : ADC.b $07              : STA.b ($90), Y
+                PLA : SEC : SBC.b $07 : LDY.b #$04 : STA.b ($90), Y
     
     REP #$20
     
-    LDA.b $02 : CLC : ADC.w #$0007 : LDY.b #$01 : STA ($90), Y
-                                     LDY.b #$05 : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w #$0007 : LDY.b #$01 : STA.b ($90), Y
+                                     LDY.b #$05 : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-        LDA.b #$F0             : STA ($90), Y
-                    LDY.b #$01 : STA ($90), Y
+        LDA.b #$F0             : STA.b ($90), Y
+                    LDY.b #$01 : STA.b ($90), Y
         
     .on_screen_y
     
     ; Writ chr and properties bytes to OAM entry.
-    LDA.b #$6C : LDY.b #$02 : STA ($90), Y
-                 LDY.b #$06 : STA ($90), Y
-    LDA.b #$24 : LDY.b #$03 : STA ($90), Y
-                 LDY.b #$07 : STA ($90), Y
+    LDA.b #$6C : LDY.b #$02 : STA.b ($90), Y
+                 LDY.b #$06 : STA.b ($90), Y
+    LDA.b #$24 : LDY.b #$03 : STA.b ($90), Y
+                 LDY.b #$07 : STA.b ($90), Y
     
     ; Both are 16x16 sprites.
-    LDA.b #$02 : LDY.b #$00 : STA ($92), Y
-                 INY        : STA ($92), Y
+    LDA.b #$02 : LDY.b #$00 : STA.b ($92), Y
+                 INY        : STA.b ($92), Y
     
     RTS
 }
@@ -636,7 +636,7 @@ AltarZelda_DrawWarpEffect:
     
     LDA.b #$00 : XBA
     
-    LDA !timer_0, X : LSR #2 : REP #$20 : ASL #4
+    LDA !timer_0, X : LSR : LSR : REP #$20 : ASL #4
     
     ADC.w #.OAM_groups : STA.b $08
     

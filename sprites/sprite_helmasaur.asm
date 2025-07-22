@@ -17,7 +17,7 @@ Sprite_Helmasaur:
 {
     LDA.w $0DE0, X : ASL : STA.b $00
     
-    LDA.w $0E80, X : LSR #2 : AND.b #$01 : ORA.b $00 : TAY
+    LDA.w $0E80, X : LSR : LSR : AND.b #$01 : ORA.b $00 : TAY
     
     LDA.w Pool_Sprite_Helmasaur_animation_states, Y : STA.w $0DC0, X
     
@@ -38,7 +38,7 @@ Sprite_Helmasaur:
 
     	STA.b $01
     
-    	LDA.b $00 : CMP $01
+    	LDA.b $00 : CMP.b $01
     
     	LDA.b #$00
     
@@ -68,7 +68,7 @@ Sprite_Helmasaur:
 ; $032460-$0324D1 JUMP LOCATION
 Sprite_HardHatBeetle:
 {
-    LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.w $0DC0, X
+    LDA.w $0E80, X : LSR : LSR : AND.b #$01 : STA.w $0DC0, X
     
     JSR.w HardHatBeetle_Draw
 

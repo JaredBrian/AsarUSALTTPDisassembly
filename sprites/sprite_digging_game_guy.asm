@@ -27,7 +27,7 @@ Sprite_DiggingGameGuy:
 DiggingGameGuy_Introduction:
 {
     ; If player is more than 7 pixels away...
-    LDA.w $0D00, X : CLC : ADC.b #$07 : CMP $20 : BCS .return 
+    LDA.w $0D00, X : CLC : ADC.b #$07 : CMP.b $20 : BCS .return 
         ; If Link is not below this sprite...
         JSR.w Sprite4_DirectionToFacePlayer : CPY.b #$02 : BNE .return
             ; Do we have a follower?

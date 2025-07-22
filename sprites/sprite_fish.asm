@@ -134,7 +134,7 @@ Fish_Leaping:
     
     .aloft
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -320,7 +320,7 @@ Fish_Draw:
         
         LDA.b #$00 : XBA
         
-        LDA.w $0F70, X : LSR #2 : CMP.b #$02 : BCC .shadow_OAM_groups
+        LDA.w $0F70, X : LSR : LSR : CMP.b #$02 : BCC .shadow_OAM_groups
             ; Use the smallest shadow OAM group if the sprite is way up.
             LDA.b #$02
         

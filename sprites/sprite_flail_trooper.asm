@@ -82,7 +82,7 @@ FlailTrooper_Animate:
 {
     LDA.w $0DE0, X : ASL #3 : STA.b $00
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$07 : ORA.b $00 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$07 : ORA.b $00 : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -222,26 +222,26 @@ SpriteDraw_GuardHead:
     
     REP #$20
     
-    LDA.b $00 : STA ($90), Y
+    LDA.b $00 : STA.b ($90), Y
     AND.w #$0100 : STA.b $0E
     
-    LDA.b $02 : SEC : SBC.w #$0009 : INY : STA ($90), Y
+    LDA.b $02 : SEC : SBC.w #$0009 : INY : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
-        LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA.b ($90), Y
     
     .on_screen_y
     
     SEP #$20
     
-    LDA.w Pool_ChainBallTrooper_DrawHead_chr, X : INY : STA ($90), Y
+    LDA.w Pool_ChainBallTrooper_DrawHead_chr, X : INY : STA.b ($90), Y
     
     LDA.w Pool_ChainBallTrooper_DrawHead_properties, X
-    INY : ORA.b $05 : STA ($90), Y
+    INY : ORA.b $05 : STA.b ($90), Y
     
-    TYA : LSR #2 : TAY
+    TYA : LSR : LSR : TAY
     
-    LDA.b #$02 : ORA.b $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
     
     PLX
     
@@ -392,14 +392,14 @@ SpriteDraw_GuardBody:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_FlailTrooper_DrawBody_x_offsets, X       : STA ($90), Y
+        LDA.b $00 : CLC : ADC Pool_FlailTrooper_DrawBody_x_offsets, X       : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC Pool_FlailTrooper_DrawBody_y_offsets, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC Pool_FlailTrooper_DrawBody_y_offsets, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
-            LDA.w #$00F0 : STA ($90), Y
+            LDA.w #$00F0 : STA.b ($90), Y
         
         .alpha
         
@@ -407,12 +407,12 @@ SpriteDraw_GuardBody:
         
         PLX
         
-        LDA.w Pool_FlailTrooper_DrawBody_chr, X : INY : STA ($90), Y
-        LDA.wPool_FlailTrooper_DrawBody_vh_flip, X : ORA.b $05 : INY : STA ($90), Y
+        LDA.w Pool_FlailTrooper_DrawBody_chr, X : INY : STA.b ($90), Y
+        LDA.wPool_FlailTrooper_DrawBody_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.w Pool_FlailTrooper_DrawBody_sizes, X : ORA.b $0F : STA ($92), Y
+        LDA.w Pool_FlailTrooper_DrawBody_sizes, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
         
@@ -547,15 +547,15 @@ SpriteDraw_BNCFlail:
     
     LDA.b $04 : SEC : SBC.b #$04 : CLC : ADC.b $0C : STA.w $0FAB
     
-    CLC : ADC.w $0FA8 : STA ($90), Y
+    CLC : ADC.w $0FA8 : STA.b ($90), Y
     
     LDA.b $06 : SEC : SBC.b #$04 : CLC : ADC.b $0D : STA.w $0FAA
     
-    CLC : ADC.w $0FA9  : INY : STA ($90), Y
-    LDA.b #$2A : INY : STA ($90), Y
-    LDA.b #$2D : INY : STA ($90), Y
+    CLC : ADC.w $0FA9  : INY : STA.b ($90), Y
+    LDA.b #$2A : INY : STA.b ($90), Y
+    LDA.b #$2D : INY : STA.b ($90), Y
     
-    LDA.b #$02 : STA ($92)
+    LDA.b #$02 : STA.b ($92)
     
     LDY.b #$04
     
@@ -577,7 +577,7 @@ SpriteDraw_BNCFlail:
         
         .zeta
         
-        CLC : ADC.w $0FA8 : CLC : ADC.b $0C : STA ($90), Y
+        CLC : ADC.w $0FA8 : CLC : ADC.b $0C : STA.b ($90), Y
         
         LDA.b $0F : STA.w SNES.MultiplicandA
         
@@ -592,13 +592,13 @@ SpriteDraw_BNCFlail:
         
         .theta
         
-        CLC : ADC.w $0FA9 : CLC : ADC.b $0D : INY : STA ($90), Y
-        LDA.b #$3F                          : INY : STA ($90), Y
-        LDA.b #$2D                          : INY : STA ($90), Y
+        CLC : ADC.w $0FA9 : CLC : ADC.b $0D : INY : STA.b ($90), Y
+        LDA.b #$3F                          : INY : STA.b ($90), Y
+        LDA.b #$2D                          : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY : INY
         

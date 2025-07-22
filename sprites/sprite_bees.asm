@@ -511,7 +511,7 @@ GoodBee_ScanForTargetableSprites:
 {
     LDA.b #$0F : STA.b $00
     
-    TXA : ASL #2 : AND.b #$0F : TAY
+    TXA : ASL : ASL : AND.b #$0F : TAY
     
     .next_sprite
     

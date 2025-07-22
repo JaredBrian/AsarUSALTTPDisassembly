@@ -36,8 +36,8 @@ Sprite_Popo:
             
             JSL.l GetRandomInt : AND.b #$0F : TAY
             
-            LDA.w Pool_Keese_Agitated_random_x_speeds, Y : ASL #2 : STA.w $0D50, X
-            LDA.w Pool_Keese_Agitated_random_y_speeds, Y : ASL #2 : STA.w $0D40, X
+            LDA.w Pool_Keese_Agitated_random_x_speeds, Y : ASL : ASL : STA.w $0D50, X
+            LDA.w Pool_Keese_Agitated_random_y_speeds, Y : ASL : ASL : STA.w $0D40, X
         
         .delta
         

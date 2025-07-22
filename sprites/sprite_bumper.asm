@@ -21,7 +21,7 @@ Sprite_Bumper:
             
             LDA.b #$30 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
             
-            LDA.b $F0 : LSR #2 : AND.b #$03 : TAY
+            LDA.b $F0 : LSR : LSR : AND.b #$03 : TAY
             LDA.b $00 : CLC : ADC .player_recoil_speeds, Y : STA.b $27
             
             LDA.b $F0 : AND.b #$03 : TAY

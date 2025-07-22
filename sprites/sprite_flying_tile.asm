@@ -130,7 +130,7 @@ FlyingTile_RiseUp_delay:
 ; $0F3C6F-$0F3C89 JUMP LOCATION
 FlyingTile_NoisilyAnimate:
 {
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.w $0DC0, X
+    INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$01 : STA.w $0DC0, X
     
     TXA : EOR.b $1A : AND.b #$07 : BNE .delay_SFX
         LDA.b #$07 : JSL.l Sound_SetSfx2PanLong

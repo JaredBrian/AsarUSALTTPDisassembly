@@ -127,7 +127,7 @@ Sprite_HeartContainer:
     LDA.w $0F70, X : BPL .delta
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC : LSR #2 : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR : LSR : STA.w $0F80, X
         
         LDA.w $048E : CMP.b #$06 : BNE .delta
             LDA.w $0E30, X : BNE .delta

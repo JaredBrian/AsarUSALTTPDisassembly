@@ -49,7 +49,7 @@ Sprite_DashKey:
         
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC : LSR #2 : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR : LSR : STA.w $0F80, X
         
         AND.b #$FE : BEQ .beta
             LDA.b #$14 : JSL.l Sound_SetSfx3PanLong
@@ -134,7 +134,7 @@ Sprite_DashBookOfMudora:
         STZ.w $0D40, X
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC : LSR #2 : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR : LSR : STA.w $0F80, X
         AND.b #$FE : BEQ .beta
             LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
             
@@ -254,7 +254,7 @@ Sprite_DashTreetop:
     LDA.w $0F70, X : BPL .beta
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC : LSR #2 : STA.w $0F80, X
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR : LSR : STA.w $0F80, X
         
     .beta
     
@@ -422,7 +422,7 @@ DashTreeTop_Draw:
             LDA.w Pool_DashTreeTop_Draw_tree_char, Y : STA.b $02, X
             
             INX #4
-        INY #2 : CPY.w #$0020 : BCC .gamma
+        INY : INY : CPY.w #$0020 : BCC .gamma
         
         SEP #$30
         

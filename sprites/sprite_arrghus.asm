@@ -590,16 +590,16 @@ Arrghus_Draw:
     
     .adjust_upper_chr
     
-        LDA ($90), Y : CLC : ADC.b $00 : STA ($90), Y
+        LDA.b ($90), Y : CLC : ADC.b $00 : STA.b ($90), Y
     INY #4 : CPY.b #$12 : BCC .adjust_upper_chr
     
     LDA.w $0D80, X : CMP.b #$05 : BNE .dont_hide_some_portion
-        LDY.b #$11 : LDA.b #$F0 : STA ($90), Y
+        LDY.b #$11 : LDA.b #$F0 : STA.b ($90), Y
     
     .dont_hide_some_portion
     
     LDA.w $0E80, X : AND.b #$08 : BEQ .dont_hflip_some_portion
-        LDY.b #$13 : LDA ($90), Y : ORA.b #$40 : STA ($90), Y
+        LDY.b #$13 : LDA.b ($90), Y : ORA.b #$40 : STA.b ($90), Y
     
     .dont_hflip_some_portion
     

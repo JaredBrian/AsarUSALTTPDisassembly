@@ -15,7 +15,7 @@ Sprite_EnergyBall:
     
     .repulsable_energy_ball
     
-    LDA.b $1A : LSR : AND.b #$02 : INC #2 : ORA.b #$01
+    LDA.b $1A : LSR : AND.b #$02 : INC : INC : ORA.b #$01
     
     .set_palette
     
@@ -262,7 +262,7 @@ Pool_SeekerEnergyBall_Draw_OAM_groups:
 SeekerEnergyBall_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0E80, X : LSR #2 : AND.b #$01 : REP #$20 : ASL #5
+    LDA.w $0E80, X : LSR : LSR : AND.b #$01 : REP #$20 : ASL #5
     
     ADC.w #.OAM_groups : STA.b $08
     

@@ -273,7 +273,7 @@ ArmosKnight_Draw:
         .in_downward_floor_transition
     .not_first
     
-    LDA.w $0DC0, X : ASL #2 : STA.b $06
+    LDA.w $0DC0, X : ASL : ASL : STA.b $06
     
     PHX
     
@@ -287,27 +287,27 @@ ArmosKnight_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+        LDA.b $00 : CLC : ADC .x_offsets, X       : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
         PLX
         
-        LDA.w .chr, X                    : INY : STA ($90), Y
-        LDA.w .properties, X : ORA.b $05 : INY : STA ($90), Y
+        LDA.w .chr, X                    : INY : STA.b ($90), Y
+        LDA.w .properties, X : ORA.b $05 : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.w .sizes, X : ORA.b $0F : STA ($92), Y
+        LDA.w .sizes, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_subsprite
@@ -345,27 +345,27 @@ ArmosKnight_Draw:
     
     LDA.b $00 : SEC : SBC.b #$08
     
-    PHA : CLC : ADC.b $07                                 : STA ($90), Y
-    PLA : CLC : ADC.b #$10 : SEC : SBC.b $07 : LDY.b #$14 : STA ($90), Y
+    PHA : CLC : ADC.b $07                                 : STA.b ($90), Y
+    PLA : CLC : ADC.b #$10 : SEC : SBC.b $07 : LDY.b #$14 : STA.b ($90), Y
     
     REP #$20
     
-    LDA.b $02 : CLC : ADC.w #$000C : LDY.b #$11 : STA ($90), Y
-                                     LDY.b #$15 : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w #$000C : LDY.b #$11 : STA.b ($90), Y
+                                     LDY.b #$15 : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y_2
-        LDA.b #$F0 : STA ($90), Y
-        LDY.b #$11 : STA ($90), Y
+        LDA.b #$F0 : STA.b ($90), Y
+        LDY.b #$11 : STA.b ($90), Y
     
     .on_screen_y_2
     
-    LDA.b #$E4 : LDY.b #$12 : STA ($90), Y
-                 LDY.b #$16 : STA ($90), Y
-    LDA.b #$25 : LDY.b #$13 : STA ($90), Y
-    ORA.b #$40 : LDY.b #$17 : STA ($90), Y
+    LDA.b #$E4 : LDY.b #$12 : STA.b ($90), Y
+                 LDY.b #$16 : STA.b ($90), Y
+    LDA.b #$25 : LDY.b #$13 : STA.b ($90), Y
+    ORA.b #$40 : LDY.b #$17 : STA.b ($90), Y
     
-    LDA.b #$02 : LDY.b #$04 : STA ($92), Y
-                 INY        : STA ($92), Y
+    LDA.b #$02 : LDY.b #$04 : STA.b ($92), Y
+                 INY        : STA.b ($92), Y
     
     RTS
 }

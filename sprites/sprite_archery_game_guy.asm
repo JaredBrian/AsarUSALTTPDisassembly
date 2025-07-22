@@ -136,7 +136,7 @@ ArcheryGameGuy_Main:
         
         .sound_effect_delay
         
-        LDA.w $0DF0, X : AND.b #$04 : LSR #2 : BRA .set_animation_state
+        LDA.w $0DF0, X : AND.b #$04 : LSR : LSR : BRA .set_animation_state
         
     .not_banging_his_drum
     
@@ -274,15 +274,15 @@ ArcheryGameGuy_RunGame:
     
     .next_subsprite
     
-        LDA.b $00 : CLC : ADC.b #$EC : ADC .x_offsets, X       : STA ($90), Y
-        LDA.b $02 : CLC : ADC.b #$D0 : ADC .y_offsets, X : INY : STA ($90), Y
+        LDA.b $00 : CLC : ADC.b #$EC : ADC .x_offsets, X       : STA.b ($90), Y
+        LDA.b $02 : CLC : ADC.b #$D0 : ADC .y_offsets, X : INY : STA.b ($90), Y
         
-        LDA.w .chr, X        : INY : STA ($90), Y
-        LDA.w .properties, X : INY : STA ($90), Y
+        LDA.w .chr, X        : INY : STA.b ($90), Y
+        LDA.w .properties, X : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY : INY
     DEX : BPL .next_subsprite
@@ -513,10 +513,10 @@ GoodArcheryTarget_DrawPrize:
     .next_subsprite
     
         LDA.b $00 : CLC : ADC Pool_GoodArcheryTarget_DrawPrize_x_offsets, X
-        STA ($90), Y
+        STA.b ($90), Y
 
         LDA.b $02 : CLC : ADC Pool_GoodArcheryTarget_DrawPrize_y_offsets, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
         CPX.b #$04 : BNE .not_second_digit
             PHX
@@ -546,7 +546,7 @@ GoodArcheryTarget_DrawPrize:
         
         .write_chr
         
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
         CMP.b #$7C : INY
         LDA.w Pool_GoodArcheryTarget_DrawPrize_properties, X : BCC .not_blank
@@ -556,11 +556,11 @@ GoodArcheryTarget_DrawPrize:
         
         .not_blank
         
-        STA ($90), Y
+        STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY : INY
     DEX : BPL .next_subsprite

@@ -157,7 +157,7 @@ Freezor_Moving:
     
     JSR.w Sprite3_CheckTileCollision
     
-    TXA : EOR.b $1A : LSR #2 : AND.b #$03 : TAY
+    TXA : EOR.b $1A : LSR : LSR : AND.b #$03 : TAY
     
     LDA.w Pool_Freezor_Moving_animation_states, Y : STA.w $0DC0, X
     

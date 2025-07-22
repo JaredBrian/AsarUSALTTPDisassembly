@@ -1174,7 +1174,7 @@ Ganon_Phase1_ThrowTrident:
 ; $0E93DB-$0E93FA JUMP LOCATION
 Ganon_Phase1_AnimateTridentSpin:
 {
-    LDA.w $0DF0, X : LSR #2 : AND.b #$07
+    LDA.w $0DF0, X : LSR : LSR : AND.b #$07
         LDY.w $0DE0, X : BEQ .BRANCH_GAMMA
         
         CLC : ADC.b #$08
@@ -1308,7 +1308,7 @@ Ganon_SelectWarpLocation:
 {
     STA.b $00
         
-    LDA.w $0E30, X : ASL #2 : STA.b $01
+    LDA.w $0E30, X : ASL : ASL : STA.b $01
         
     JSL.l GetRandomInt : AND.b #$03 : ORA.b $01 : TAY
         
@@ -1383,7 +1383,7 @@ Ganon_LookAround:
     LDA.w $0D20, X : STA.b $07
     
     JSR.w Ganon_CheckEntityProximity : BCS Ganon_MoveWithTrident
-        LDA.w $0E30, X : LSR #2 : STA.w $0DE0, X
+        LDA.w $0E30, X : LSR : LSR : STA.w $0DE0, X
         
         LDA.w $0D80, X : CMP.b #$05 : BEQ .BRANCH_ALPHA
             LDA.w $0E50, X : CMP.b #$A1 : BCS .BRANCH_BETA
@@ -1726,12 +1726,12 @@ SpriteDraw_Ganon:
             TXA : CLC : ADC.b $06 : TAX
             
             LDA.b $00 : CLC : ADC.w Pool_SpriteDraw_Ganon_offset_x, X
-                  STA ($90), Y
+                  STA.b ($90), Y
 
             LDA.b $02 : CLC : ADC.w Pool_SpriteDraw_Ganon_offset_y, X
-            INY : STA ($90), Y
+            INY : STA.b ($90), Y
 
-            LDA.w Pool_SpriteDraw_Ganon_char, X : INY : STA ($90), Y
+            LDA.w Pool_SpriteDraw_Ganon_char, X : INY : STA.b ($90), Y
             
             LDA.b $05 : AND.b #$0F
             CMP.b #$05 : LDA.w Pool_SpriteDraw_Ganon_prop, X : BCC .BRANCH_BETA
@@ -1739,11 +1739,11 @@ SpriteDraw_Ganon:
             
             .BRANCH_BETA
             
-            ORA.b $05 : INY : STA ($90), Y
+            ORA.b $05 : INY : STA.b ($90), Y
             
-            PHY : TYA : LSR #2 : TAY
+            PHY : TYA : LSR : LSR : TAY
             
-            LDA.b #$02 : STA ($92), Y
+            LDA.b #$02 : STA.b ($92), Y
             
             PLY : INY
         PLX : INX : CPX.b #$0C : BNE .BRANCH_GAMMA
@@ -1753,7 +1753,7 @@ SpriteDraw_Ganon:
         LDY.w $0DC0, X
         
         LDA.w Pool_SpriteDraw_Ganon_animstate_head, Y : CMP.b #$0F : BEQ .BRANCH_DELTA
-            ASL #2 : CLC : ADC.b #$14 : TAY : INY #2
+            ASL : ASL : CLC : ADC.b #$14 : TAY : INY : INY
             
             PHX : PHY
             
@@ -1768,19 +1768,19 @@ SpriteDraw_Ganon:
             
             PLY
             
-            LDA.w GanonHeadOAM_char+0, X : STA ($90), Y : INY
+            LDA.w GanonHeadOAM_char+0, X : STA.b ($90), Y : INY
             
-            LDA ($90), Y : AND.b #$3F : ORA.w GanonHeadOAM_prop+0, X
-            STA ($90), Y
+            LDA.b ($90), Y : AND.b #$3F : ORA.w GanonHeadOAM_prop+0, X
+            STA.b ($90), Y
             
             INY #3
             
-            LDA.w GanonHeadOAM_char+1, X : STA ($90), Y
+            LDA.w GanonHeadOAM_char+1, X : STA.b ($90), Y
             
             INY
             
-            LDA ($90), Y : AND.b #$3F : ORA.w GanonHeadOAM_prop+1, X
-            STA ($90), Y
+            LDA.b ($90), Y : AND.b #$3F : ORA.w GanonHeadOAM_prop+1, X
+            STA.b ($90), Y
             
             PLX
         
@@ -1860,7 +1860,7 @@ Trident_Draw:
     LDA.w $0ED0, X : BEQ .dont_draw
         DEC : REP #$20 : ASL #3 : STA.b $00
         
-        ASL #2 : CLC : ADC.b $00 : CLC : ADC.w #$990F : STA.b $08
+        ASL : ASL : CLC : ADC.b $00 : CLC : ADC.w #$990F : STA.b $08
         
         SEP #$20
         

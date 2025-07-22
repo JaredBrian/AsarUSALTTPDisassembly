@@ -216,9 +216,9 @@ Sprite_BlindHead:
     
     LDA !head_angle, X : TAX
     
-    LDA.w Pool_Blind_Draw_chr, X : STA ($90), Y : INY
+    LDA.w Pool_Blind_Draw_chr, X : STA.b ($90), Y : INY
     
-    LDA ($90), Y : AND.b #$3F : ORA.w Pool_Blind_Draw_vh_flip, X : STA ($90), Y
+    LDA.b ($90), Y : AND.b #$3F : ORA.w Pool_Blind_Draw_vh_flip, X : STA.b ($90), Y
     
     PLX
     
@@ -658,7 +658,7 @@ Blind_Rerobe:
         ; HARDCODED: It depends upon Blind being in a 1 screen room in a corner.
         ; Set direction based on current Y position (sensible).
         LDA.w $0D00, X : ASL
-        ROL : AND.b #$01 : INC #2 : STA !blind_direction, X
+        ROL : AND.b #$01 : INC : INC : STA !blind_direction, X
         
         ; HARDCODED: Also.
         ; Set head orientation based on current X position?
@@ -880,7 +880,7 @@ Blind_OscillateAlongWall:
         JSR.w Sprite4_IsBelowPlayer
         
         ; Results in Y being 2 or 3 (3 if sprite is below player).
-        INY #2
+        INY : INY
         
         TYA : CMP !blind_direction, X : BNE .player_got_behind_us
     
@@ -936,7 +936,7 @@ Blind_OscillateAlongWall:
     
     ; OPTIMIZE: Learn the BIT instruction.
     LDA !forward_timer, X : AND.b #$07 : BNE .anospawn_probe
-        LDA !head_angle, X : ASL #2 : STA.b $0F
+        LDA !head_angle, X : ASL : ASL : STA.b $0F
         
         JSL.l Sprite_SpawnProbeAlwaysLong
     
@@ -976,7 +976,7 @@ Blind_SwitchWalls:
     
     .stop_decelerating
     
-    LDA !blind_direction, X : DEC #2 : TAY
+    LDA !blind_direction, X : DEC : DEC : TAY
     
     LDA.w $0D40, X : CMP .y_speed_limits, Y : BEQ .y_speed_maxed
         CLC : ADC .y_accelerations, Y : STA.w $0D40, X
@@ -1040,7 +1040,7 @@ Blind_WhirlAround:
     JSR.w Blind_CheckBumpDamage
     
     LDA !forward_timer, X : AND.b #$07 : BNE .delay_animation_adjustment
-        LDA !blind_direction, X : DEC #2 : TAY
+        LDA !blind_direction, X : DEC : DEC : TAY
         
         LDA.w $0DC0, X : CMP .animation_limits, Y : BNE .not_yet_in_position
             LDA.b #$FE : STA !timer_0, X
@@ -1140,7 +1140,7 @@ Blind_Animate:
         STA.b $01
         
         ; Results in either 0 or 8.
-        TYA : DEC #2 : ASL #3 : STA.b $00
+        TYA : DEC : DEC : ASL #3 : STA.b $00
         
         ; Pad in this .... value that comes from somewhere? A probe?
         LDA.w $0B69 : LSR #3 : AND.b #$07 : ADC.b $00 : TAY
@@ -1158,7 +1158,7 @@ Blind_Animate:
 ; $0EA729-$0EA744 LOCAL JUMP LOCATION
 Blind_AnimateBody:
 {
-    LDA !blind_direction, X : DEC #2 : ASL #4 : STA.b $00
+    LDA !blind_direction, X : DEC : DEC : ASL #4 : STA.b $00
     
     LDA !forward_timer, X : LSR #3 : AND.b #$03 : CLC : ADC.b $00 : TAY
     
@@ -1498,10 +1498,10 @@ Blind_Draw:
             
             LDA !head_angle, X : TAX
             
-            LDA Pool_Blind_Draw_chr, X : STA ($90), Y : INY
+            LDA Pool_Blind_Draw_chr, X : STA.b ($90), Y : INY
             
-            LDA ($90), Y
-            AND.b #$3F : ORA Pool_Blind_Draw_vh_flip, X : STA ($90), Y
+            LDA.b ($90), Y
+            AND.b #$3F : ORA Pool_Blind_Draw_vh_flip, X : STA.b ($90), Y
             
             PLX
         
@@ -1514,7 +1514,7 @@ Blind_Draw:
         ; TODO: Disables.... part of the sheet? or the head?
         LDY.b #$19
         
-        LDA.b #$F0 : STA ($90), Y
+        LDA.b #$F0 : STA.b ($90), Y
         
         RTS
 }

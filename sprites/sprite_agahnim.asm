@@ -432,7 +432,7 @@ AttachThenFadeToBlack:
             
         LDA.b $00 : CLC : ADC.b #$02 : STA.b $02
             
-        ASL #2 : ADC.b $02 : ADC.b #$02 : CLC : ADC.b $01 : TAY
+        ASL : ASL : ADC.b $02 : ADC.b #$02 : CLC : ADC.b $01 : TAY
             
         LDA.w Pool_Sprite_Agahnim_Direction, Y : STA.w $0DE0, X
             
@@ -825,7 +825,7 @@ AgahDraw:
 {
     JSR.w Sprite3_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL #2 : STA.b $06
+    LDA.w $0DC0, X : ASL : ASL : STA.b $06
     
     PHX
     
@@ -837,12 +837,12 @@ AgahDraw:
         
         TXA : CLC : ADC.b $06 : TAX
         
-        LDA.b $00 : CLC : ADC.w Pool_AgahDraw_offset_x, X       : STA ($90), Y
-        LDA.b $02 : CLC : ADC.w Pool_AgahDraw_offset_y, X : INY : STA ($90), Y
-        LDA.w Pool_AgahDraw_char, X                       : INY : STA ($90), Y
-        LDA.w Pool_AgahDraw_flip, X : ORA.b $05           : INY : STA ($90), Y
+        LDA.b $00 : CLC : ADC.w Pool_AgahDraw_offset_x, X       : STA.b ($90), Y
+        LDA.b $02 : CLC : ADC.w Pool_AgahDraw_offset_y, X : INY : STA.b ($90), Y
+        LDA.w Pool_AgahDraw_char, X                       : INY : STA.b ($90), Y
+        LDA.w Pool_AgahDraw_flip, X : ORA.b $05           : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
         LDA.b #$02
         
@@ -852,7 +852,7 @@ AgahDraw:
         
         .BRANCH_ALPHA
         
-        STA ($92), Y
+        STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .BRANCH_BETA
@@ -896,7 +896,7 @@ AgahDraw:
         
         ASL : STA.b $06
         
-        LDA.b $1A : LSR : AND.b #$02 : INC #2 : ORA.b #$31 : STA.b $0D
+        LDA.b $1A : LSR : AND.b #$02 : INC : INC : ORA.b #$31 : STA.b $0D
         
         PHX
         
@@ -908,20 +908,20 @@ AgahDraw:
             
             TXA : CLC : ADC.b $06 : TAX
             
-            LDA.b $00 : CLC : ADC.w Pool_AgahDraw_ball_offset_x, X       : STA ($90), Y
-            LDA.b $02 : CLC : ADC.w Pool_AgahDraw_ball_offset_y, X : INY : STA ($90), Y
+            LDA.b $00 : CLC : ADC.w Pool_AgahDraw_ball_offset_x, X       : STA.b ($90), Y
+            LDA.b $02 : CLC : ADC.w Pool_AgahDraw_ball_offset_y, X : INY : STA.b ($90), Y
             
             LDX.b $0C
             
-            LDA.w Pool_AgahDraw_ball_char, X : INY : STA ($90), Y
+            LDA.w Pool_AgahDraw_ball_char, X : INY : STA.b ($90), Y
             
             INY
             
-            LDA.b $0D : STA ($90), Y
+            LDA.b $0D : STA.b ($90), Y
             
-            PHY : TYA : LSR #2 : TAY
+            PHY : TYA : LSR : LSR : TAY
             
-            LDA.w Pool_AgahDraw_ball_palette, X : STA ($92), Y
+            LDA.w Pool_AgahDraw_ball_palette, X : STA.b ($92), Y
             
             PLY : INY
         PLX : DEX : BPL .BRANCH_IOTA

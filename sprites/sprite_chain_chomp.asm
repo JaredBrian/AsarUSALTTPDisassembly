@@ -22,7 +22,7 @@ SpritePrep_ChainChomp:
         LDA.w $0FD8 : STA.l $7FFC00, X
         LDA.w $0FDA : STA.l $7FFD00, X
         
-        INX #2
+        INX : INX
     DEY : BPL .next_slot
     
     SEP #$20
@@ -128,9 +128,9 @@ ChainChomp_Idle:
             
             JSL.l GetRandomInt : AND.b #$0F : TAY
             
-            LDA.w Pool_ChainChomp_Idle_lunge_speed_x, Y : ASL #2 : STA.w $0D50, X
+            LDA.w Pool_ChainChomp_Idle_lunge_speed_x, Y : ASL : ASL : STA.w $0D50, X
             
-            LDA.w Pool_ChainChomp_Idle_lunge_speed_y, Y : ASL #2 : STA.w $0D40, X
+            LDA.w Pool_ChainChomp_Idle_lunge_speed_y, Y : ASL : ASL : STA.w $0D40, X
             
             JSL.l GetRandomInt : AND.b #$00 : BNE .BRANCH_GAMMA
                 LDA #$40
@@ -271,7 +271,7 @@ ChainChomp_MoveChain:
     LDA.l $7FFC00, X : SEC : SBC.b $00 : STA.b $04
     LDA.l $7FFD00, X : SEC : SBC.b $02 : STA.b $05
     
-    INX #2
+    INX : INX
 
     ; $0EC05B ALTERNATE ENTRY POINT
     .next_link
@@ -347,9 +347,9 @@ ChainChomp_MoveChain:
         
         REP #$20
         
-        LDA.l $7FFC00, X : CMP $08 : BEQ .BRANCH_EPSILON
+        LDA.l $7FFC00, X : CMP.b $08 : BEQ .BRANCH_EPSILON
             BPL .BRANCH_ZETA
-                INC #2
+                INC : INC
 
             .BRANCH_ZETA
 
@@ -357,9 +357,9 @@ ChainChomp_MoveChain:
 
         .BRANCH_EPSILON
 
-        LDA.l $7FFD00, X : CMP $0A : BEQ .BRANCH_THETA
+        LDA.l $7FFD00, X : CMP.b $0A : BEQ .BRANCH_THETA
             BPL .BRANCH_IOTA
-                INC #2
+                INC : INC
 
             .BRANCH_IOTA
 
@@ -369,7 +369,7 @@ ChainChomp_MoveChain:
 
         SEP #$20
         
-        INX #2
+        INX : INX
         
         DEC.b $0D : BMI .BRANCH_KAPPA
     JMP.w .next_link
@@ -425,7 +425,7 @@ ChainChomp_HandleLeash:
         
         .BRANCH_DELTA
         
-        INX #2
+        INX : INX
     INC.b $00 : LDA.b $00 : CMP.w #$0006 : BCC .BRANCH_EPSILON
     
     PLX
@@ -477,28 +477,28 @@ SpriteDraw_ChainChomp:
     
         REP #$20
         
-        LDA.l $7FFC00, X : CLC : ADC.b $08 : SEC : SBC.b $E2 : STA ($90), Y
+        LDA.l $7FFC00, X : CLC : ADC.b $08 : SEC : SBC.b $E2 : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.l $7FFD00, X : CLC : ADC.b $08 : SEC : SBC.b $E8 : INY : STA ($90), Y
+        LDA.l $7FFD00, X : CLC : ADC.b $08 : SEC : SBC.b $E8 : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .BRANCH_ALPHA
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .BRANCH_ALPHA
         
-        LDA.b #$8B : INY : STA ($90), Y
+        LDA.b #$8B : INY : STA.b ($90), Y
         
-        LDA.b $05 : AND.b #$F0 : ORA.b #$0D : INY : STA ($90), Y
+        LDA.b $05 : AND.b #$F0 : ORA.b #$0D : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.b $0F : STA ($92), Y
+        LDA.b $0F : STA.b ($92), Y
         
         PLY : INY
         
-        INX #2
+        INX : INX
     DEC.b $0D : BPL .BRANCH_BETA
     
     PLX

@@ -120,10 +120,10 @@ FluteBoyBird_DrawBlink:
     
     LDA.w $0DE0, X : TAX
     
-    LDA.b $00 : CLC : ADC .x_offsets, X              : STA ($90), Y
-    LDA.b $02                                  : INY : STA ($90), Y
-    LDA.b #$AE                                 : INY : STA ($90), Y
-    LDA.b $05 : ORA FluteBoyAnimal_vh_flip, X  : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X              : STA.b ($90), Y
+    LDA.b $02                                  : INY : STA.b ($90), Y
+    LDA.b #$AE                                 : INY : STA.b ($90), Y
+    LDA.b $05 : ORA FluteBoyAnimal_vh_flip, X  : INY : STA.b ($90), Y
     
     PLX
     

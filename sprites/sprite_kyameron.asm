@@ -128,7 +128,7 @@ Kyameron_Coagulate:
     
     .dont_move_up
     
-    LSR #2 : TAY
+    LSR : LSR : TAY
     
     LDA.w Pool_Kyameron_Coagulate_animation_states, Y : STA.w $0DC0, X
     
@@ -224,7 +224,7 @@ Kyameron_Disperse:
     
     .delay
     
-    LSR #2 : TAY
+    LSR : LSR : TAY
     
     CLC : ADC.b #$0F : STA.w $0DC0, X
     

@@ -492,10 +492,10 @@ Lanmola_Draw:
         
         LDA.b $02 : SEC : SBC.b #$08 : AND.b #$3F : STA.b $02
         
-        LDA.l $7FFC00, X : SEC : SBC.b $E2 : STA ($90), Y : INY
+        LDA.l $7FFC00, X : SEC : SBC.b $E2 : STA.b ($90), Y : INY
         
         LDA.l $7FFE00, X : BMI .gamma
-            LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC.b $E8 : STA ($90), Y
+            LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC.b $E8 : STA.b ($90), Y
         
         .gamma
         
@@ -523,12 +523,12 @@ Lanmola_Draw:
         
         .zeta
         
-        PLY                                             : INY : STA ($90), Y
-        LDA Pool_Lanmola_Draw_properties, X : ORA.b $03 : INY : STA ($90), Y
+        PLY                                             : INY : STA.b ($90), Y
+        LDA Pool_Lanmola_Draw_properties, X : ORA.b $03 : INY : STA.b ($90), Y
         
-        TYA : PHY : LSR #2 : TAY
+        TYA : PHY : LSR : LSR : TAY
         
-        LDA.b #$02 : STA ($92), Y
+        LDA.b #$02 : STA.b ($92), Y
         
         PLA : CLC : ADC.b $0C : TAY
     PLX : DEX : BPL .theta
@@ -545,21 +545,21 @@ Lanmola_Draw:
         
         LDA.b $05 : SEC : SBC.b #$08 : AND.b #$3F : STA.b $05
         
-        LDA.l $7FFC00, X : SEC : SBC.b $E2 : STA ($90), Y
+        LDA.l $7FFC00, X : SEC : SBC.b $E2 : STA.b ($90), Y
         
         INY
         
         LDA.l $7FFE00, X : BMI .iota
-            LDA.l $7FFD00, X : CLC : ADC.b #$0A : SEC : SBC.b $E8 : STA ($90), Y
+            LDA.l $7FFD00, X : CLC : ADC.b #$0A : SEC : SBC.b $E8 : STA.b ($90), Y
         
         .iota
         
-        LDA.b #$6C : INY : STA ($90), Y
-        LDA.b #$34 : INY : STA ($90), Y
+        LDA.b #$6C : INY : STA.b ($90), Y
+        LDA.b #$34 : INY : STA.b ($90), Y
         
-        TYA : PHY : LSR #2 : TAY
+        TYA : PHY : LSR : LSR : TAY
         
-        LDA.b #$02 : STA ($92), Y
+        LDA.b #$02 : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .kappa
@@ -588,7 +588,7 @@ Lanmola_Draw:
             
             LDY.b #$00
             
-            PLA : LSR #2 : AND.b #$03 : EOR.b #$03 : ASL : STA.b $06
+            PLA : LSR : LSR : AND.b #$03 : EOR.b #$03 : ASL : STA.b $06
             
             LDA.w $0DE0, X : SEC : SBC.b $E2 : STA.b $00
             LDA.w $0E70, X : SEC : SBC.b $E8 : STA.b $02
@@ -604,22 +604,22 @@ Lanmola_Draw:
                 TXA : CLC : ADC.b $06 : TAX
                 
                 LDA.b $00 : CLC : ADC Pool_Lanmola_Draw_xDirt, X
-                STA ($90), Y
+                STA.b ($90), Y
 
                 LDA.b $02 : CLC : ADC Pool_Lanmola_Draw_yDirt, X
-                INY : STA ($90), Y
+                INY : STA.b ($90), Y
 
                 LDA Pool_Lanmola_Draw_chrDirt, X
-                INY : STA ($90), Y
+                INY : STA.b ($90), Y
 
                 LDA Pool_Lanmola_Draw_propertiesDirt, X
-                ORA.b #$31 : INY : STA ($90), Y
+                ORA.b #$31 : INY : STA.b ($90), Y
                 
                 PHY
                 
-                TYA : LSR #2 : TAY
+                TYA : LSR : LSR : TAY
                 
-                LDA Pool_Lanmola_Draw_sizesDirt, X : STA ($92), Y
+                LDA Pool_Lanmola_Draw_sizesDirt, X : STA.b ($92), Y
                 
                 PLY : INY
             PLX : DEX : BPL .omicron
@@ -647,14 +647,14 @@ Lanmola_DrawMound:
     
     LDY.b #$00
     
-    LDA.b $00                          : STA ($90), Y
-    LDA.b $02                    : INY : STA ($90), Y
-    LDA.w .properties, X         : INY : STA ($90), Y
-    LDA.w .sizes, X : ORA.b #$31 : INY : STA ($90), Y
+    LDA.b $00                          : STA.b ($90), Y
+    LDA.b $02                    : INY : STA.b ($90), Y
+    LDA.w .properties, X         : INY : STA.b ($90), Y
+    LDA.w .sizes, X : ORA.b #$31 : INY : STA.b ($90), Y
     
-    TYA : LSR #2 : TAY
+    TYA : LSR : LSR : TAY
     
-    LDA.b #$02 : STA ($92), Y
+    LDA.b #$02 : STA.b ($92), Y
     
     PLX
     

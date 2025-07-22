@@ -94,7 +94,7 @@ Keese_JimmiesRustled:
     
     LDA.w Pool_Keese_Agitated_random_y_speeds, Y : STA.w $0D40, X
     
-    LDA.b $1A : LSR #2 : AND.b #$01 : INC : STA.w $0DC0, X
+    LDA.b $1A : LSR : LSR : AND.b #$01 : INC : STA.w $0DC0, X
     
     RTS
 }

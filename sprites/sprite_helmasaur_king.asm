@@ -157,7 +157,7 @@ HelmasaurKing_Alive:
 {
     JSR.w Sprite3_CheckIfActive
     
-    LDA.w $0E50, X : LSR #2 : TAY
+    LDA.w $0E50, X : LSR : LSR : TAY
     
     LDA.w .phase_hp, Y : STA.w $0DB0, X : CMP.b #$03 : BNE .BRANCH_ALPHA
         CMP.w $0E90, X : BEQ .BRANCH_BETA
@@ -795,23 +795,23 @@ SpriteDraw_KingHelmasaur_Eyes:
         PHX
         
         LDA.b $00 : CLC : ADC Pool_SpriteDraw_KingHelmasaur_Eyes_x_offsets, X
-        STA ($90), Y
+        STA.b ($90), Y
 
-        LDA.b $02 : CLC : ADC.b #$14 : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC.b #$14 : INY : STA.b ($90), Y
         
-        LDA.w $0B0C : LSR #2 : AND.b #$07 : TAX
+        LDA.w $0B0C : LSR : LSR : AND.b #$07 : TAX
         
-        LDA Pool_SpriteDraw_KingHelmasaur_Eyes_chr, X : INY : STA ($90), Y
+        LDA Pool_SpriteDraw_KingHelmasaur_Eyes_chr, X : INY : STA.b ($90), Y
         
         PLX
         
-        LDA Pool_SpriteDraw_KingHelmasaur_Eyes_properties, X : INY : STA ($90), Y
+        LDA Pool_SpriteDraw_KingHelmasaur_Eyes_properties, X : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY : INY
     DEX : BPL .BRANCH_ALPHA
@@ -983,42 +983,42 @@ SpriteDraw_KingHelmasaur_Legs:
         LDX.w $0FB5
         
         LDA.b $00 : CLC : ADC.w Pool_SpriteDraw_KingHelmasaur_Legs_offset_x, X
-        STA ($90), Y
+        STA.b ($90), Y
         
         LDA.b $02 : CLC : ADC.w Pool_SpriteDraw_KingHelmasaur_Legs_offset_y, X
-        CLC : ADC.w $0B08, X : INY : STA ($90), Y
+        CLC : ADC.w $0B08, X : INY : STA.b ($90), Y
 
         LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_char, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
 
         LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_prop, X
-        EOR.b $05 : INY : STA ($90), Y
+        EOR.b $05 : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : STA ($92), Y
+        LDA.b #$02 : STA.b ($92), Y
         
         PLY : INY
         
         LDA.b $00 : CLC : ADC.w Pool_SpriteDraw_KingHelmasaur_Legs_offset_x, X
-        STA ($90), Y
+        STA.b ($90), Y
         
         LDA.b $02 : CLC : ADC.w Pool_SpriteDraw_KingHelmasaur_Legs_offset_y, X
-        CLC : ADC.b #$10 : CLC : ADC.w $0B08, X : INY : STA ($90), Y
+        CLC : ADC.b #$10 : CLC : ADC.w $0B08, X : INY : STA.b ($90), Y
 
         LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_char, X : CLC : ADC.b #$02
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
 
         LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_prop, X
-        EOR.b $05 : INY : STA ($90), Y
+        EOR.b $05 : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : STA ($92), Y
+        LDA.b #$02 : STA.b ($92), Y
         
         PLY : INY
     DEC.w $0FB5 : BPL .BRANCH_ALPHA
@@ -1050,7 +1050,7 @@ SpriteDraw_KingHelmasaur_Mouth_offset_y:
 SpriteDraw_KingHelmasaur_Mouth:
 {
     LDA.w $0E10, X : BEQ .BRANCH_ALPHA
-        LSR #2 : TAY
+        LSR : LSR : TAY
         
         LDA.w .offset_y, Y : STA.b $06
         
@@ -1058,12 +1058,12 @@ SpriteDraw_KingHelmasaur_Mouth:
         
         LDY.b #$00
         
-        LDA.b $00                                       : STA ($90), Y
-        LDA.b $02  : CLC : ADC.b #$13 : ADC.b $06 : INY : STA ($90), Y
-        LDA.b #$AA                                : INY : STA ($90), Y
-        LDA.b $05  : EOR.b #$0B                   : INY : STA ($90), Y
+        LDA.b $00                                       : STA.b ($90), Y
+        LDA.b $02  : CLC : ADC.b #$13 : ADC.b $06 : INY : STA.b ($90), Y
+        LDA.b #$AA                                : INY : STA.b ($90), Y
+        LDA.b $05  : EOR.b #$0B                   : INY : STA.b ($90), Y
         
-        LDA.b #$02 : STA ($92)
+        LDA.b #$02 : STA.b ($92)
     
     .BRANCH_ALPHA
     
@@ -1227,8 +1227,8 @@ KingHelmasaur_OperateTail:
         
         .BRANCH_NU
         
-            LDA.b $00 : CLC : ADC.w $0B0D, X       : STA ($90), Y : STA.b $08
-            LDA.b $02 : CLC : ADC.w $0B1D, X : INY : STA ($90), Y : STA.b $09
+            LDA.b $00 : CLC : ADC.w $0B0D, X       : STA.b ($90), Y : STA.b $08
+            LDA.b $02 : CLC : ADC.w $0B1D, X : INY : STA.b ($90), Y : STA.b $09
             
             LDA.b #$AC
             
@@ -1237,8 +1237,8 @@ KingHelmasaur_OperateTail:
             
             .BRANCH_LAMBDA
             
-                                     INY : STA ($90), Y
-            LDA.b $05 : EOR.b #$1B : INY : STA ($90), Y
+                                     INY : STA.b ($90), Y
+            LDA.b $05 : EOR.b #$1B : INY : STA.b ($90), Y
             
             INY
             

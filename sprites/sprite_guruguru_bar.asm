@@ -27,7 +27,7 @@ Sprite_GuruguruBar:
     
     ; HARDCODED:
     LDA.w $040C : CMP.b #$12 : BNE .not_in_ice_palace
-        INY #2
+        INY : INY
     
     .not_in_ice_palace
     
@@ -130,12 +130,12 @@ GuruguruBar_Main:
     LDY.b #$00
     
     ; Draw base segment.
-    LDA.b $04    : CLC : ADC.w $0FA8       : STA ($90), Y
-    LDA.b $06    : CLC : ADC.w $0FA9 : INY : STA ($90), Y
-    LDA.b #$28                       : INY : STA ($90), Y
-    LDA.b $0D                        : INY : STA ($90), Y
+    LDA.b $04    : CLC : ADC.w $0FA8       : STA.b ($90), Y
+    LDA.b $06    : CLC : ADC.w $0FA9 : INY : STA.b ($90), Y
+    LDA.b #$28                       : INY : STA.b ($90), Y
+    LDA.b $0D                        : INY : STA.b ($90), Y
     
-    LDA.b #$02 : STA ($92)
+    LDA.b #$02 : STA.b ($92)
     
     LDY.b #$04
     
@@ -155,7 +155,7 @@ GuruguruBar_Main:
     
         .BRANCH_EPSILON
     
-    	CLC : ADC.w $0FA8 : STA ($90), Y
+    	CLC : ADC.w $0FA8 : STA.b ($90), Y
     
     	LDA.b $0F             : STA.w SNES.MultiplicandA
     	LDA.w .multipliers, X : STA.w SNES.MultiplierB
@@ -167,13 +167,13 @@ GuruguruBar_Main:
     
     	.BRANCH_ZETA
     
-    	CLC : ADC.w $0FA9 : INY : STA ($90), Y
-    	LDA.b #$28        : INY : STA ($90), Y
-    	LDA.b $0D         : INY : STA ($90), Y
+    	CLC : ADC.w $0FA9 : INY : STA.b ($90), Y
+    	LDA.b #$28        : INY : STA.b ($90), Y
+    	LDA.b $0D         : INY : STA.b ($90), Y
        
-    	PHY : TYA : LSR #2 : TAY
+    	PHY : TYA : LSR : LSR : TAY
     
-    	LDA.b #$02 : STA ($92), Y
+    	LDA.b #$02 : STA.b ($92), Y
     
     	PLY : INY
     DEX : BPL .draw_segments_loop
@@ -189,17 +189,17 @@ GuruguruBar_Main:
     
         .check_damage_to_player_loop
     
-            PHY : TYA : LSR #2 : TAY
+            PHY : TYA : LSR : LSR : TAY
     
             ; Check if offscreen per x coordinate.
-            LDA ($92), Y : PLY : AND.b #$01 : BNE .no_player_collision
-    	        LDA ($90), Y : CLC : ADC.b $E2 : SEC : SBC.b $22
+            LDA.b ($92), Y : PLY : AND.b #$01 : BNE .no_player_collision
+    	        LDA.b ($90), Y : CLC : ADC.b $E2 : SEC : SBC.b $22
     
     	        CLC : ADC.b #$0C : CMP.b #$18 : BCS .no_player_collision
     	            INY
     
     	            ; Check if offscreen per y coordinate.
-    	            LDA ($90), Y : DEY : CMP.b #$F0 : BCS .no_player_collision
+    	            LDA.b ($90), Y : DEY : CMP.b #$F0 : BCS .no_player_collision
     	    	        CLC : ADC.b $E8 : SEC : SBC.b $20
 		        CLC : ADC.b #$04 : CMP.b #$10 : BCS .no_player_collision
     	    	            PHY

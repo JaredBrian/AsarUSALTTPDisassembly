@@ -101,7 +101,7 @@ GerudoMan_Emerge:
     
     .delay
     
-    LSR #2 : TAY
+    LSR : LSR : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -144,7 +144,7 @@ GerudoMan_PursuePlayer:
     
     .delay
     
-    LSR #2 : AND.b #$01 : TAY
+    LSR : LSR : AND.b #$01 : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -247,25 +247,25 @@ GerudoMan_Draw:
     
     	REP #$20
     
-    	LDA.b $00 : CLC : ADC Pool_GerudoMan_Draw_x_offsets, X       : STA ($90), Y
+    	LDA.b $00 : CLC : ADC Pool_GerudoMan_Draw_x_offsets, X       : STA.b ($90), Y
     
     	AND.w #$0100 : STA.b $0E
     
-    	LDA.b $02 : CLC : ADC Pool_GerudoMan_Draw_y_offsets, X : INY : STA ($90), Y
+    	LDA.b $02 : CLC : ADC Pool_GerudoMan_Draw_y_offsets, X : INY : STA.b ($90), Y
     
     	CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-    		LDA.b #$F0 : STA ($90), Y
+    		LDA.b #$F0 : STA.b ($90), Y
     
     	.on_screen_y
     
     	PLX
     
-    	LDA.w Pool_GerudoMan_Drawchr, X     : INY             : STA ($90), Y
-    	LDA.w Pool_GerudoMan_Drawvh_flip, X : INY : ORA.b $05 : STA ($90), Y
+    	LDA.w Pool_GerudoMan_Drawchr, X     : INY             : STA.b ($90), Y
+    	LDA.w Pool_GerudoMan_Drawvh_flip, X : INY : ORA.b $05 : STA.b ($90), Y
     
-    	PHY : TYA : LSR #2 : TAY
+    	PHY : TYA : LSR : LSR : TAY
     
-    	LDA.w .sizes, X : ORA.b $0F : STA ($92), Y
+    	LDA.w .sizes, X : ORA.b $0F : STA.b ($92), Y
     
     	PLY : INY
     PLX : DEX : BPL .next_subsprite

@@ -13,7 +13,7 @@ Sprite_Flame:
         JSL.l Sprite_PrepAndDrawSingleLargeLong
         JSR.w Sprite3_CheckIfActive
         
-        LDA.b $1A : LSR #2 : AND.b #$03 : TAY
+        LDA.b $1A : LSR : LSR : AND.b #$03 : TAY
         
         LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
         

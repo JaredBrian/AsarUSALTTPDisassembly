@@ -188,7 +188,7 @@ Sprite_BombShopSnoutPuff:
     
     LDA.w $0F50, X : AND.b #$30 : STA.w $0F50, X
     
-    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR : LSR : AND.b #$03 : TAY
     
     LDA.w $0F50, X : ORA .properties, Y : STA.w $0F50, X
     

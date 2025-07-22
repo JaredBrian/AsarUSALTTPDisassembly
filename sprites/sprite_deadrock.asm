@@ -163,7 +163,7 @@ DeadRock_Walk:
     
     .no_wall_collision
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.b $00
+    INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$01 : STA.b $00
     
     LDA.w $0DE0, X : ASL : ORA.b $00 : STA.w $0D90, X
     

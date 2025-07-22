@@ -58,7 +58,7 @@ FortuneTeller_Main:
     JSR.w FortuneTeller_Draw
     JSR.w Sprite5_CheckIfActive
     
-    LDA.l $7EF3CA : ASL : ROL #2 : AND.b #$01
+    LDA.l $7EF3CA : ASL : ROL : ROL : AND.b #$01
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw FortuneTeller_LightWorld ; 0x00 - $C79A
     dw FortuneTeller_DarkWorld  ; 0x01 - $C996
@@ -619,7 +619,7 @@ FortuneTeller_Draw_OAM_groups:
 ; $06CB01-$06CB29 LOCAL JUMP LOCATION
 FortuneTeller_Draw:
 {
-    LDA.l $7EF3CA : ASL : ROL #2 : AND.b #$01 : STA.b $00
+    LDA.l $7EF3CA : ASL : ROL : ROL : AND.b #$01 : STA.b $00
     
     ASL : ADC.b $00 : ADC.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
     

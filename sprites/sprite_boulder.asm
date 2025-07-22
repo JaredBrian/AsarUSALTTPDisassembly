@@ -39,7 +39,7 @@ Sprite_Shrapnel:
         
         JSR.w Sprite4_CheckIfActive
         
-        LDA.b $1A : ASL #2 : AND.b #$C0 : ORA.b #$00 : STA.w $0F50, X
+        LDA.b $1A : ASL : ASL : AND.b #$C0 : ORA.b #$00 : STA.w $0F50, X
         
         JSR.w Sprite4_MoveXyz
         
@@ -107,7 +107,7 @@ Boulder_Main:
         
         JSL.l GetRandomInt : AND.b #$01 : BEQ .bounce_right
             ; bounce left.
-            INY #2
+            INY : INY
         
         .bounce_right
         

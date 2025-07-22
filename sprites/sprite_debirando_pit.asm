@@ -238,7 +238,7 @@ DebirandoPit_Draw:
         
         LDA Pool_DebirandoPit_Draw_OAM_sizes, X : STA.b $0D
         
-        TXA : ASL #2 : STA.b $06
+        TXA : ASL : ASL : STA.b $06
         
         LDX.b #$03
         
@@ -253,29 +253,29 @@ DebirandoPit_Draw:
             REP #$20
             
             LDA.b $00 : CLC : ADC Pool_DebirandoPit_Draw_x_offsets, X
-            STA ($90), Y
+            STA.b ($90), Y
             
             AND.w #$0100 : STA.b $0E
             
             LDA.b $02 : CLC : ADC Pool_DebirandoPit_Draw_y_offsets, X
-            INY : STA ($90), Y
+            INY : STA.b ($90), Y
             
             CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-                LDA.b #$F0 : STA ($90), Y
+                LDA.b #$F0 : STA.b ($90), Y
             
             .on_screen_y
             
             PLX
             
             LDA Pool_DebirandoPit_Draw_chr, X
-            INY : STA ($90), Y
+            INY : STA.b ($90), Y
 
             LDA Pool_DebirandoPit_Draw_vh_flip, X
-            ORA.b $05 : INY : STA ($90), Y
+            ORA.b $05 : INY : STA.b ($90), Y
             
-            PHY : TYA : LSR #2 : TAY
+            PHY : TYA : LSR : LSR : TAY
             
-            LDA.b $0D : ORA.b $0F : STA ($92), Y
+            LDA.b $0D : ORA.b $0F : STA.b ($92), Y
             
             PLY : INY
         PLX : DEX : BPL .next_subsprite

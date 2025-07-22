@@ -31,13 +31,13 @@ Sprite_HelmasaurFireball:
 {
     INC.w $0E80, X
     
-    LDA.w $0E80, X : LSR #2 : AND.b #$01 : TAY
+    LDA.w $0E80, X : LSR : LSR : AND.b #$01 : TAY
     
     LDA.w Pool_Sprite_HelmasaurFireball_properties, Y : STA.b $05
     
     LDY.b #$00
     
-    LDA.w $0D10, X : SEC : SBC.b $E2 : STA ($90), Y
+    LDA.w $0D10, X : SEC : SBC.b $E2 : STA.b ($90), Y
     
     ; NOTE: These two branches check if the fireball is with in 32 pixels
     ; of the edge of the screen horizontally, and 16 pixels of the top of
@@ -46,7 +46,7 @@ Sprite_HelmasaurFireball:
     ; has no impact on fireballs traveling towards the bottom edge of the
     ; screen.
     CLC : ADC.b #$20 : CMP.b #$40 : BCC .too_close_to_screen_edge
-        LDA.w $0D00, X : SEC : SBC.b $E8 : INY : STA ($90), Y
+        LDA.w $0D00, X : SEC : SBC.b $E8 : INY : STA.b ($90), Y
         CLC : ADC.b #$10 : CMP.b #$20 : BCS .in_range
     
     .too_close_to_screen_edge
@@ -64,10 +64,10 @@ Sprite_HelmasaurFireball:
     LDA.w Pool_Sprite_HelmasaurFireball_chr, X
     
     PLX
-                INY : STA ($90), Y
-    LDA.b $05 : INY : STA ($90), Y
+                INY : STA.b ($90), Y
+    LDA.b $05 : INY : STA.b ($90), Y
     
-    LDA.b #$02 : STA ($92)
+    LDA.b #$02 : STA.b ($92)
     
     JSR.w Sprite4_CheckIfActive
     
