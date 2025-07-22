@@ -40,7 +40,7 @@ Sprite_Medusa:
     JSR.w Sprite4_CheckIfActive
     
     INC.w $0E80, X : LDA.w $0E80, X : AND.b #$7F : BNE Medusa_ConfigFireballProperties_dont_spawn
-        LDA.w $0F20, X : CMP $EE : BNE Medusa_ConfigFireballProperties_dont_spawn
+        LDA.w $0F20, X : CMP.b $EE : BNE Medusa_ConfigFireballProperties_dont_spawn
             JSL.l Sprite_SpawnFireball : BMI Medusa_ConfigFireballProperties_dont_spawn
                 ; Bleeds into the next function.
 }

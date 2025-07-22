@@ -223,7 +223,7 @@ Mothula_FlapWings:
 {
     INC.w $0E80, X
     
-    LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY : BNE .SFX_delay
+    LDA.w $0E80, X : LSR : LSR : AND.b #$03 : TAY : BNE .SFX_delay
         LDA.b #$02 : JSL.l Sound_SetSfx3PanLong
     
     .SFX_delay

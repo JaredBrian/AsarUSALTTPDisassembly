@@ -75,29 +75,29 @@ Octostone_DrawCrumbling:
         REP #$20
         
         LDA.b $00
-        CLC : ADC Pool_Octostone_DrawCrumbling_x_offsets, X : STA ($90), Y
+        CLC : ADC Pool_Octostone_DrawCrumbling_x_offsets, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02
-        CLC : ADC Pool_Octostone_DrawCrumbling_y_offsets, X : INY : STA ($90), Y
+        CLC : ADC Pool_Octostone_DrawCrumbling_y_offsets, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
         PLX
         
-        LDA.b #$BC : INY : STA ($90), Y
+        LDA.b #$BC : INY : STA.b ($90), Y
         
-        LDA.w Pool_Octostone_DrawCrumbling_vh_flip, X : ORA.b #$2D : INY : STA ($90), Y
+        LDA.w Pool_Octostone_DrawCrumbling_vh_flip, X : ORA.b #$2D : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.b $0F : STA ($92), Y
+        LDA.b $0F : STA.b ($92), Y
         
         PLY : INY
         

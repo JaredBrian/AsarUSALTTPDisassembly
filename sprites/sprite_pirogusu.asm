@@ -151,7 +151,7 @@ Pirogusu_Animate:
 {
     LDA.w $0DE0, X : ASL : STA.b $00
     
-    LDA.b $1A : AND.b #$04 : LSR #2 : ORA.b $00 : TAY
+    LDA.b $1A : AND.b #$04 : LSR : LSR : ORA.b $00 : TAY
     
     LDA.w Pool_Pirogusu_SplashIntoPlay_animation_states, Y : STA.w $0D90, X
     

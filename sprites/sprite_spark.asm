@@ -67,7 +67,7 @@ Sprite_Spark:
         
     .direction_initialized
     
-    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR : LSR : AND.b #$03 : TAY
     
     ; Interesting.... its v and h flip settings are cyclical?
     LDA.w $0F50, X

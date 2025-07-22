@@ -2127,7 +2127,7 @@ SpritePrep_FluteBoy:
 {
     INC.w $0BA0, X
     
-    LDA.l $7EF3CA : ASL : ROL #2
+    LDA.l $7EF3CA : ASL : ROL : ROL
     
     AND.b #$01 : STA.w $0E80, X : BEQ .in_light_world
         ; See if the dark world flute boy has been arborated.

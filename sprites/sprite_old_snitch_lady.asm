@@ -232,7 +232,7 @@ Snitch_FreakOut:
     
     REP #$20
     
-    LDA.b $00 : CMP $02 : SEP #$30 : BCC .alpha
+    LDA.b $00 : CMP.b $02 : SEP #$30 : BCC .alpha
         INC.w $0D80, X
         
         STZ.w $0D50, X

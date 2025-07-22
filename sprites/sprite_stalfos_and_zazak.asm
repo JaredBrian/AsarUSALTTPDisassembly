@@ -47,7 +47,7 @@ StalfosBone_Draw:
 {
     LDA.b #$00   : XBA
     
-    LDA.w $0E80, X : LSR #2 : AND.b #$03 : REP #$20 : ASL #4
+    LDA.w $0E80, X : LSR : LSR : AND.b #$03 : REP #$20 : ASL #4
     
     ADC.w #(.OAM_groups) : STA.b $08
     
@@ -273,7 +273,7 @@ Sprite_Zazak:
         
     .dont_throw_bone
     
-    LDA.w $0E80, X : AND.b #$01 : ASL #2 : ADC.w $0DE0, X : TAY
+    LDA.w $0E80, X : AND.b #$01 : ASL : ASL : ADC.w $0DE0, X : TAY
     
     LDA Stalfos_animation_states_1, Y : STA.w $0DC0, X
     

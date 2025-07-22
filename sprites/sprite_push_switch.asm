@@ -197,7 +197,7 @@ WaterSwitch_Main:
     
     STA.w $0F50, X : STA.b $02
     
-    LDA.w $0DA0, X : LSR #2 : AND.b #$03 : STA.b $01
+    LDA.w $0DA0, X : LSR : LSR : AND.b #$03 : STA.b $01
     
     LDA.b #$00 : XBA
     
@@ -255,13 +255,13 @@ WaterSwitch_Main:
     
     REP #$31
     
-    LDA.w #$0000 : TAY : STA ($92), Y
+    LDA.w #$0000 : TAY : STA.b ($92), Y
     
-    INY #2
+    INY : INY
     
-    STA ($92), Y
+    STA.b ($92), Y
     
-    LDA.w #$0200 : INY : STA ($92), Y
+    LDA.w #$0200 : INY : STA.b ($92), Y
     
     SEP #$30
     
@@ -272,7 +272,7 @@ WaterSwitch_Main:
     
     JSR.w Sprite_CorrectOamEntries
     
-    LDA.w $0F20, X : CMP $EE : BEQ .BRANCH_GAMMA
+    LDA.w $0F20, X : CMP.b $EE : BEQ .BRANCH_GAMMA
         JMP.w WaterSwitch_Main_exit
     
     .BRANCH_GAMMA

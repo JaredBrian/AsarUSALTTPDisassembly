@@ -158,7 +158,7 @@ Pikit_AttemptItemGrab:
         
     .tongue_still_out
     
-    LSR #2 : PHA : TAY
+    LSR : LSR : PHA : TAY
     
     LDA.w Pool_Pikit_AttemptItemGrab_animation_states, Y : STA.w $0DC0, X
     

@@ -9,7 +9,7 @@ Sprite_Trident:
     JSR.w Sprite_PeriodicWhirringSfx
     JSR.w Sprite4_Move
     
-    DEC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$07 : TAY
+    DEC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$07 : TAY
     
     LDA.w GanonTrident_Timers_facing_down, Y : STA.w $0ED0, X
     

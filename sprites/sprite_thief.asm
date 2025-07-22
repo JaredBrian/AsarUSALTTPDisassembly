@@ -530,11 +530,11 @@ Thief_Draw:
         
         LDA.w $0EB0, X : TAX
         
-        LDA.w Pool_Thief_Draw_chr, X : LDY.b #$02 : STA ($90), Y
+        LDA.w Pool_Thief_Draw_chr, X : LDY.b #$02 : STA.b ($90), Y
         
         INY
         
-        LDA ($90), Y : AND.b #$BF : ORA Pool_Thief_Draw_h_flip, X : STA ($90), Y
+        LDA.b ($90), Y : AND.b #$BF : ORA Pool_Thief_Draw_h_flip, X : STA.b ($90), Y
         
         PLX
         

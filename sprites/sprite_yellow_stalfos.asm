@@ -189,12 +189,12 @@ YellowStalfos_PauseThenDetachHead:
         
     .anodetach_head
     
-    LSR #2 : AND.b #$FC : ORA.w $0DE0, X : TAY
+    LSR : LSR : AND.b #$FC : ORA.w $0DE0, X : TAY
     
     LDA.w Pool_YellowStalfos_PauseThenDetachHead_animation_states, Y
     STA.w $0DC0, X
     
-    LDA.w $0DF0, X : LSR #2 : TAY
+    LDA.w $0DF0, X : LSR : LSR : TAY
     
     LDA.w Pool_YellowStalfos_PauseThenDetachHead_head_x_offsets, Y
     STA.w !head_x_offset, X
@@ -252,7 +252,7 @@ YellowStalfos_Ascend:
     JSR.w Sprite3_MoveAltitude
     
     LDA.w $0F80, X : CMP.b #$40 : BPL .ascend_speed_maxed
-        INC #2 : STA.w $0F80, X
+        INC : INC : STA.w $0F80, X
     
     .ascend_speed_maxed
     
@@ -440,28 +440,28 @@ YellowStalfos_DrawHead:
             
             REP #$20
             
-            LDA.b $00 : CLC : ADC.b $0C : STA ($90), Y
+            LDA.b $00 : CLC : ADC.b $0C : STA.b ($90), Y
             
             AND.w #$0100 : STA.b $0E
             
-            LDA.b $02 : SEC : SBC.b $0A : INY : STA ($90), Y
+            LDA.b $02 : SEC : SBC.b $0A : INY : STA.b ($90), Y
             
             CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
-                LDA.w #$00F0 : STA ($90), Y
+                LDA.w #$00F0 : STA.b ($90), Y
             
             .on_screen_y
             
             SEP #$20
             
             LDA.w Pool_YellowStalfos_DrawHead_chr, X
-            INY : STA ($90), Y
+            INY : STA.b ($90), Y
 
             LDA.w Pool_YellowStalfos_DrawHead_properties, X
-            INY : ORA.b $05 : STA ($90), Y
+            INY : ORA.b $05 : STA.b ($90), Y
             
-            TYA : LSR #2 : TAY
+            TYA : LSR : LSR : TAY
             
-            LDA.b #$02 : ORA.b $0F : STA ($92), Y
+            LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
             
             PLX
     

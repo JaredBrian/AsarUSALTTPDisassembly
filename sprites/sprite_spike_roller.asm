@@ -108,13 +108,13 @@ SpikeRoller_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_SpikeRoller_Draw_x_spacing, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC Pool_SpikeRoller_Draw_x_spacing, X : STA.b ($90), Y
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC Pool_SpikeRoller_Draw_y_spacing, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC Pool_SpikeRoller_Draw_y_spacing, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
@@ -128,13 +128,13 @@ SpikeRoller_Draw:
         
         STZ.b $08
         
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
-        LDA.w Pool_SpikeRoller_Draw_vh_flip, X : ORA.b $05 : INY : STA ($90), Y
+        LDA.w Pool_SpikeRoller_Draw_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : ORA.b $0F : STA ($92), Y
+        LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_subsprite

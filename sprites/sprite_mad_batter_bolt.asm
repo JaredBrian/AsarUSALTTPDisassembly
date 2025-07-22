@@ -65,13 +65,13 @@ MadBatterBolt_Active:
     
     .dont_play_SFX
     
-    PLA : LSR #2 : PHA : AND.b #$07 : TAY
+    PLA : LSR : LSR : PHA : AND.b #$07 : TAY
     
     LDA.b $22
     CLC : ADC.w Pool_MadBatterBolt_Active_x_offsets, Y : STA.w $0D10, X
     LDA.b $23 : ADC.b #$00 : STA.w $0D30, X
     
-    PLA : LSR #2 : AND.b #$07 : TAY
+    PLA : LSR : LSR : AND.b #$07 : TAY
     
     LDA.b $20
     CLC : ADC.w Pool_MadBatterBolt_Active_y_offsets, Y : STA.w $0D00, X

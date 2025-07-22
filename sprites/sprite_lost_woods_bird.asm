@@ -44,7 +44,7 @@ Sprite_LostWoodsBird_dropping:
 ; $02944C-$029467 LOCAL JUMP LOCATION
 Sprite_LostWoodsBird_rising:
 {
-    LDA.w $0F80, X : INC #2 : STA.w $0F80, X : CMP.b #$10 : BMI .still_rising
+    LDA.w $0F80, X : INC : INC : STA.w $0F80, X : CMP.b #$10 : BMI .still_rising
         STZ.w $0D80, X
     
     .still_rising

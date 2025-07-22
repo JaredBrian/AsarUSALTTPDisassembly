@@ -335,24 +335,24 @@ Octorock_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_Octorock_Draw_x_offsets, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC Pool_Octorock_Draw_x_offsets, X : STA.b ($90), Y
         
         AND.w #$0100 : STA !top_x_bit_low
         
-        LDA.b $02 : CLC : ADC Pool_Octorock_Draw_y_offsets, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC Pool_Octorock_Draw_y_offsets, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .not_off_screen
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .not_off_screen
         
         PLX
         
-        LDA.w Pool_Octorock_Draw_chr, X : INY : STA ($90), Y
+        LDA.w Pool_Octorock_Draw_chr, X : INY : STA.b ($90), Y
         
-        LDA.w Pool_Octorock_Draw_properties, X : INY : ORA.b $05 : STA ($90), Y
+        LDA.w Pool_Octorock_Draw_properties, X : INY : ORA.b $05 : STA.b ($90), Y
         
-        LDA !top_x_bit_high : STA ($92)
+        LDA !top_x_bit_high : STA.b ($92)
         
         PLX
     

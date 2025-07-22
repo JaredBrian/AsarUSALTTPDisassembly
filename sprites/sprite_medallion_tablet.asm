@@ -201,7 +201,7 @@ MedallionTablet_WaitForMudoraReader:
             JSR.w Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .beta
                 REP #$20
                 
-                LDA.w $0FDA : CLC : ADC.w #$0010 : CMP $20 : SEP #$30 : BCC .beta
+                LDA.w $0FDA : CLC : ADC.w #$0010 : CMP.b $20 : SEP #$30 : BCC .beta
                     LDA.b $F4 : BPL .gamma
                         ; \tcrf (verified)
                         ; My, what a corner case bit of logic this is. So if the
@@ -266,7 +266,7 @@ MedallionTablet_WaitForEther:
 {
     LDA.b $2F : BNE .return
         JSR.w Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .return
-            LDA.w $0D00, X : CLC : ADC.b #$10 : CMP $20 : BCC .return
+            LDA.w $0D00, X : CLC : ADC.b #$10 : CMP.b $20 : BCC .return
                 LDA.b $F4 : BPL .b_button_not_pressed
                     LDA.l $7EF359 : CMP.b #$02 : BNE .not_exactly_master_sword
                         RTS

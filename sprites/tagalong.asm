@@ -89,7 +89,7 @@ Tagalong_Init:
     LDY.b $EE
     
     ; Link's sprite priority?
-    LDA Tagalong_Priorities, Y : LSR #2 : ORA.b $00 : STA.w $1A64
+    LDA Tagalong_Priorities, Y : LSR : LSR : ORA.b $00 : STA.w $1A64
     
     LDA.b #$40 : STA.w $02D2
     
@@ -122,7 +122,7 @@ Tagalong_SpawnFromSprite:
     
     LDY.b $EE
     
-    LDA Tagalong_Priorities, Y : LSR #2 : ORA.b #$01 : STA.w $1A64
+    LDA Tagalong_Priorities, Y : LSR : LSR : ORA.b #$01 : STA.w $1A64
     
     LDA #$40 : STA.w $02D2
     
@@ -422,7 +422,7 @@ Tagalong_CheckGameMode:
             LDA.b $2F : LSR : STA.w $1A64, X
             
             LDY.b $EE
-            LDA Tagalong_Priorities, Y : LSR #2 : ORA.w $1A64, X : STA.w $1A64, X
+            LDA Tagalong_Priorities, Y : LSR : LSR : ORA.w $1A64, X : STA.w $1A64, X
             
             LDA.b $5D : CMP.b #$04 : BNE .not_swimming
                 LDY.b #$20
@@ -606,7 +606,7 @@ Tagalong_LocalExit:
 Tagalong_NotFollowing:
 {
     ; If indoors, don't branch:
-    LDA.l $7EF3D1 : CMP $1B : BNE Tagalong_LocalExit
+    LDA.l $7EF3D1 : CMP.b $1B : BNE Tagalong_LocalExit
     
     ; Is Link dashing?
     LDA.w $0372 : BNE .dont_reset_self
@@ -872,10 +872,10 @@ Tagalong_CheckPlayerProximity:
         
         REP #$20
         
-        LDA.l $7EF3CD : SEC : SBC.w #$0001 : CMP $20 : BCS .not_in_range
-                        CLC : ADC.w #$0014 : CMP $20 : BCC .not_in_range
-            LDA.l $7EF3CF : SEC : SBC.w #$0001 : CMP $22 : BCS .not_in_range
-                            CLC : ADC.w #$0014 : CMP $22 : BCC .not_in_range
+        LDA.l $7EF3CD : SEC : SBC.w #$0001 : CMP.b $20 : BCS .not_in_range
+                        CLC : ADC.w #$0014 : CMP.b $20 : BCC .not_in_range
+            LDA.l $7EF3CF : SEC : SBC.w #$0001 : CMP.b $22 : BCS .not_in_range
+                            CLC : ADC.w #$0014 : CMP.b $22 : BCC .not_in_range
                 SEP #$20
                 
                 CLC
@@ -967,7 +967,7 @@ Tagalong_HandleTrigger:
             .check_next_room
 
                 CMP Tagalong_TriggerData_room_id, X : BEQ .room_match
-            DEX #2 : BPL .check_next_room
+            DEX : DEX : BPL .check_next_room
 
             BRA .no_text_message
 
@@ -982,7 +982,7 @@ Tagalong_HandleTrigger:
         ; the areas mentioned in this array are the mountain, the forest,
         ; and the maze in the dark world (i.e. ???, old man, and kiki).
         CMP Tagalong_TriggerData_overworld_id, X : BEQ .area_match
-            DEX #2 : BPL .check_next_area
+            DEX : DEX : BPL .check_next_area
     
     .no_text_message
     
@@ -1299,7 +1299,7 @@ Tagalong_Draw:
 
     .dont_copy_priority
 
-    LDA.w $1A64, X : AND.b #$0C : ASL #2
+    LDA.w $1A64, X : AND.b #$0C : ASL : ASL
 
     .continue
 
@@ -1332,7 +1332,7 @@ Tagalong_AnimateMovement_Preserved:
 ; $04A959-$04A9FF LOCAL JUMP LOCATION
 Tagalong_AnimateMovement:
 {
-    STA.b $05 : AND.b #$20 : LSR #2 : TAY
+    STA.b $05 : AND.b #$20 : LSR : LSR : TAY
     
     LDA.b $05 : AND.b #$03 : STA.b $04
     
@@ -1353,7 +1353,7 @@ Tagalong_AnimateMovement:
 
         .no_collision
 
-        LDA.b $1A : AND.b #$10 : LSR #2
+        LDA.b $1A : AND.b #$10 : LSR : LSR
         BRA TagalongDraw_Drawing
 
       .low_priority
@@ -1415,7 +1415,7 @@ TagalongDraw_Drawing:
     REP #$20
     LDA.w $0FB3 : AND.w #$00FF : ASL : TAY
 
-    LDA.b $20 : CMP $00 : BEQ .check_priority_for_region
+    LDA.b $20 : CMP.b $00 : BEQ .check_priority_for_region
                         BCS .use_region_b
             BRA .use_region_a
 
@@ -1435,7 +1435,7 @@ TagalongDraw_Drawing:
 
     PHA
     
-    LSR #2 : CLC : ADC.w #$0A20 : STA.b $92
+    LSR : LSR : CLC : ADC.w #$0A20 : STA.b $92
     
     PLA : CLC : ADC.w #$0800 : STA.b $90
     
@@ -1480,7 +1480,7 @@ TagalongDraw_Drawing:
 
     .dont_shimmy
 
-    LDA.w $02D7 : ASL #2 : STA.b $05
+    LDA.w $02D7 : ASL : ASL : STA.b $05
     
     TXA : CLC : ADC.b $05 : TAX
     
@@ -1496,14 +1496,14 @@ TagalongDraw_Drawing:
     
     JSR.w Tagalong_SetOam_XY
     
-    LDA.w TagalongDraw_Drawing_head_body_char+0, X : STA ($90), Y : INY
-    LDA.w TagalongDraw_Drawing_head_body_char+1, X : STA ($90), Y : INY
+    LDA.w TagalongDraw_Drawing_head_body_char+0, X : STA.b ($90), Y : INY
+    LDA.w TagalongDraw_Drawing_head_body_char+1, X : STA.b ($90), Y : INY
     
     PHY
     
-    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
     
-    LDA.b #$00 : ORA.b $75 : STA ($92), Y
+    LDA.b #$00 : ORA.b $75 : STA.b ($92), Y
     
     PLY
     
@@ -1517,14 +1517,14 @@ TagalongDraw_Drawing:
     
     JSR.w Tagalong_SetOam_XY
     
-    LDA.w TagalongDraw_Drawing_head_body_char+2, X : STA ($90), Y : INY
-    LDA.w TagalongDraw_Drawing_head_body_char+3, X : STA ($90), Y : INY
+    LDA.w TagalongDraw_Drawing_head_body_char+2, X : STA.b ($90), Y : INY
+    LDA.w TagalongDraw_Drawing_head_body_char+3, X : STA.b ($90), Y : INY
     
     PHY
     
-    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
     
-    LDA.b #$00 : ORA.b $75 : STA ($92), Y
+    LDA.b #$00 : ORA.b $75 : STA.b ($92), Y
     
     PLY
 
@@ -1574,7 +1574,7 @@ TagalongDraw_Drawing:
         
         JSR.w Tagalong_SetOam_XY
         
-        LDA.b #$20 : STA ($90), Y
+        LDA.b #$20 : STA.b ($90), Y
         
         INY
         
@@ -1582,13 +1582,13 @@ TagalongDraw_Drawing:
         
         LDA.w TagalongDraw_Drawing_props+0, X : STA.w $0AE8
         
-        LDA.w TagalongDraw_Drawing_props+1, X : AND.b #$F0 : ORA.b $72 : ORA.b $65 : STA ($90), Y
+        LDA.w TagalongDraw_Drawing_props+1, X : AND.b #$F0 : ORA.b $72 : ORA.b $65 : STA.b ($90), Y
         
         INY : PHY
         
-        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        LDA #$02 : ORA.b $75 : STA ($92), Y
+        LDA #$02 : ORA.b $75 : STA.b ($92), Y
         
         PLY
 
@@ -1616,7 +1616,7 @@ TagalongDraw_Drawing:
     
     JSR.w Tagalong_SetOam_XY
     
-    LDA.b #$22 : STA ($90), Y
+    LDA.b #$22 : STA.b ($90), Y
     
     INY
     
@@ -1625,11 +1625,11 @@ TagalongDraw_Drawing:
     LDA.w TagalongDraw_Drawing_props+1, X : STA.w $0AEA
     
     LDA.w TagalongDraw_Drawing_props+2, X : AND.b #$0F : ASL #4
-    ORA.b $72 : ORA.b $65 : STA ($90), Y
+    ORA.b $72 : ORA.b $65 : STA.b ($90), Y
     
-    INY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+    INY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
     
-    LDA.b #$02 : ORA.b $75 : STA ($92), Y
+    LDA.b #$02 : ORA.b $75 : STA.b ($92), Y
     
     PLY : PLX
     
@@ -1643,20 +1643,20 @@ Tagalong_SetOam_XY:
 {
     REP #$20
     
-    LDA.b $02 : STA ($90), Y
+    LDA.b $02 : STA.b ($90), Y
     
     INY
     
     CLC : ADC.w #$0080 : CMP.w #$0180 : BCS .off_screen_x
         LDA.b $02 : AND.w #$0100 : STA.b $74
         
-        LDA.b $00 : STA ($90), Y
+        LDA.b $00 : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
     
     .off_screen_x
     
-    LDA.w #$00F0 : STA ($90), Y
+    LDA.w #$00F0 : STA.b ($90), Y
     
     .on_screen
     

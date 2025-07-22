@@ -94,7 +94,7 @@ Toppo_ChillBeforeJump:
         
     .delay
     
-    LSR #2 : AND.b #$01 : STA.w $0DC0, X
+    LSR : LSR : AND.b #$01 : STA.w $0DC0, X
     
     JSR.w Toppo_CheckLandingSiteForGrass
     
@@ -159,7 +159,7 @@ Toppo_ChillAfterJump:
     
     .delay
     
-    LSR #2 : AND.b #$01 : STA.w $0DC0, X
+    LSR : LSR : AND.b #$01 : STA.w $0DC0, X
     
     .moving_on
     
@@ -270,7 +270,7 @@ Toppo_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC.w Pool_Toppo_Draw_offset_x, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC.w Pool_Toppo_Draw_offset_x, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
@@ -285,29 +285,29 @@ Toppo_Draw:
         
         .alpha
         
-        CLC : ADC.w Pool_Toppo_Draw_offset_y, X : INY : STA ($90), Y
+        CLC : ADC.w Pool_Toppo_Draw_offset_y, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .beta
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .beta
         
         PLX
         
-        LDA.w Pool_Toppo_Draw_char, X : INY : STA ($90), Y
+        LDA.w Pool_Toppo_Draw_char, X : INY : STA.b ($90), Y
         
         LDA.b $0C : CMP.b #$01 : LDA.w Pool_Toppo_Draw_flip, X : ORA.b $05 : BCS .gamma
             AND.b #$F0 : ORA #$02
         
         .gamma
         
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.b $0C : ORA.b $0F : STA ($92), Y
+        LDA.b $0C : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_OAM_entry

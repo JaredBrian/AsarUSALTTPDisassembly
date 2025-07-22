@@ -198,7 +198,7 @@ Sidenexx_Move:
                         LDA.w $0D80 : CMP.b #$02 : BCS .BRANCH_ALPHA   
                             INC.w $0DC0, X : LDA.w $0DC0, X : CMP.b #$06
                             
-                            NOP #2
+                            NOP : NOP
                             
                             STZ.w $0DC0, X
                             
@@ -560,18 +560,18 @@ SpriteDraw_Sidenexx:
         
         .BRANCH_THETA
         
-        LDA.b $00   : CLC : ADC.w $0FA8 : LDY.w $0FB6       : STA ($90), Y
+        LDA.b $00   : CLC : ADC.w $0FA8 : LDY.w $0FB6       : STA.b ($90), Y
         STA.w $0FD8
 
-        LDA.w $0FA9 : CLC : ADC.b $02   : LDY.w $0FB6 : INY : STA ($90), Y
+        LDA.w $0FA9 : CLC : ADC.b $02   : LDY.w $0FB6 : INY : STA.b ($90), Y
         STA.w $0FDA
 
-        LDA.b #$08 : INY : STA ($90), Y
-        LDA.b $05  : INY : STA ($90), Y
+        LDA.b #$08 : INY : STA.b ($90), Y
+        LDA.b $05  : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : STA ($92), Y
+        LDA.b #$02 : STA.b ($92), Y
         
         PLY : INY : STY.w $0FB6
         
@@ -628,7 +628,7 @@ SpriteDraw_Sidenexx_Head:
         
         LDA.w $0FA8 : CLC : ADC.b $00 : STA.w $0FD8
         
-        CLC : ADC.w Pool_SpriteDraw_Sidenexx_Head_offset_x, X : STA ($90), Y
+        CLC : ADC.w Pool_SpriteDraw_Sidenexx_Head_offset_x, X : STA.b ($90), Y
         
         LDA.w $0FA9 : CLC : ADC.b $02 : STA.w $0FDA
         
@@ -639,14 +639,14 @@ SpriteDraw_Sidenexx_Head:
         
         .BRANCH_ALPHA
         
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
 
-        LDA.w Pool_SpriteDraw_Sidenexx_Head_char, X : INY : STA ($90), Y
-        LDA.b $05 : ORA.w Pool_SpriteDraw_Sidenexx_Head_flip, X : INY : STA ($90), Y
+        LDA.w Pool_SpriteDraw_Sidenexx_Head_char, X : INY : STA.b ($90), Y
+        LDA.b $05 : ORA.w Pool_SpriteDraw_Sidenexx_Head_flip, X : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : STA ($92), Y
+        LDA.b #$02 : STA.b ($92), Y
         
         PLY : INY
     INX : CPX.b #$05 : BNE .BRANCH_BETA

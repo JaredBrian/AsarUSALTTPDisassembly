@@ -35,7 +35,7 @@ Sprite_MazeGameLady:
 ; $06CB7E-$06CBB9 JUMP LOCATION
 MazeGameLady_Startup:
 {
-    LDA.w $0D10, X : CMP $22 : BCS .yous_a_cheater
+    LDA.w $0D10, X : CMP.b $22 : BCS .yous_a_cheater
         ; "... reach the goal within 15 seconds, we will give you something..."
         LDA.b #$CC
         LDY.b #$00

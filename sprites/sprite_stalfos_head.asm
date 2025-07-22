@@ -54,7 +54,7 @@ Sprite_StalfosHead:
             
             .approach_target_speed
             
-            LDA.w $0D40, X : CMP $00 : BEQ .at_target_x_speed
+            LDA.w $0D40, X : CMP.b $00 : BEQ .at_target_x_speed
                 BPL .above_target_x_speed
                     INC.w $0D40, X
                     
@@ -67,7 +67,7 @@ Sprite_StalfosHead:
             .at_target_x_speed
             .check_y_speed
             
-            LDA.w $0D50, X : CMP $01 : BEQ  .return
+            LDA.w $0D50, X : CMP.b $01 : BEQ  .return
                 BPL .above_target_y_speed
                     INC.w $0D50, X
                     

@@ -155,42 +155,42 @@ Recruit_Draw:
     
     ; This is the base OAM X coordinate, store it into the OAM buffer (X
     ; position)
-    LDA.b $00 : STA ($90), Y
+    LDA.b $00 : STA.b ($90), Y
     
     AND.w #$0100 : STA.b $0E
     
     ; This is the base OAM Y coordinate.
     ; Since this is the head sprite, lift it up a bit.
     ; Store to the OAM buffer (Y position).
-    LDA.b $02 : SEC : SBC.w #$000B : INY : STA ($90), Y
+    LDA.b $02 : SEC : SBC.w #$000B : INY : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
         ; Turn the sprite off entirely if it's too far down.
-        LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA.b ($90), Y
     
     .on_screen
     
     SEP #$20
     
-    LDA.w Pool_Guard_headChar, X       : INY             : STA ($90), Y
-    LDA.w Pool_Guard_headProperties, X : INY : ORA.b $05 : STA ($90), Y
+    LDA.w Pool_Guard_headChar, X       : INY             : STA.b ($90), Y
+    LDA.w Pool_Guard_headProperties, X : INY : ORA.b $05 : STA.b ($90), Y
     
     ; Set extended X coordinate and priority settings.
-    LDA.b #$02 : ORA.b $0F : STA ($92)
+    LDA.b #$02 : ORA.b $0F : STA.b ($92)
     
     LDA.b $06 : PHA : ASL : TAX
     
     REP #$20
     
     ; Now start setting up the sprites for the body portion.
-    LDA.b $00 : CLC : ADC.w Pool_Recruit_Draw_x_offsets, X : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC.w Pool_Recruit_Draw_x_offsets, X : INY : STA.b ($90), Y
     
     AND.w #$0100 : STA.b $0E
     
-    LDA.b $02 : INY : STA ($90), Y
+    LDA.b $02 : INY : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_2
-        LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA.b ($90), Y
     
     .on_screen_2
     
@@ -198,12 +198,12 @@ Recruit_Draw:
     
     PLX
     
-    LDA.w Pool_Recruit_Draw_chr, X                 : INY : STA ($90), Y
-    LDA.w Pool_Recruit_Draw_vh_flip, X : ORA.b $05 : INY : STA ($90), Y
+    LDA.w Pool_Recruit_Draw_chr, X                 : INY : STA.b ($90), Y
+    LDA.w Pool_Recruit_Draw_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
     
     LDY.b #$01
     
-    LDA.b #$02 : ORA.b $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
     
     PLX
     

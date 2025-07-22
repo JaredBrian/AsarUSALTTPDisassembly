@@ -73,7 +73,7 @@ Shopkeeper_StandardClerk_not_welcomed_yet:
 {
     REP #$20
     
-    LDA.w $0FDA : CLC : ADC.w #$0060 : CMP $20 : SEP #$30 : BCC .return
+    LDA.w $0FDA : CLC : ADC.w #$0060 : CMP.b $20 : SEP #$30 : BCC .return
         LDY.w $0FFF
         
         LDA.w Shopkeeper_StandardClerk_messages_low, Y         : XBA
@@ -815,7 +815,7 @@ ShopKeeper_TryToGetPaid:
     
     REP #$20
     
-    LDA.l $7EF360 : CMP $00 : BCC .player_cant_afford
+    LDA.l $7EF360 : CMP.b $00 : BCC .player_cant_afford
         SBC.b $00 : STA.l $7EF360
         
         SEC
@@ -882,7 +882,7 @@ ShopKeeper_DrawItemWithPrice:
     REP #$20
     AND.w #$00FF : STA.b $00
 
-    ASL #2 : ADC.b $00 : ASL #3
+    ASL : ASL : ADC.b $00 : ASL #3
     ADC.w #.OAM_groups : STA.b $08
     
     LDA.w #$0005 : STA.b $06

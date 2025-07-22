@@ -47,7 +47,7 @@ Sprite_Octoballoon:
     TXA : EOR.b $1A : AND.b #$0F : BNE .skip_speed_check_logic
         LDA.b #$04 : JSR.w Sprite_ProjectSpeedTowardsPlayer
         
-        LDA.w $0D40, X : CMP $00 : BEQ .at_target_y_speed
+        LDA.w $0D40, X : CMP.b $00 : BEQ .at_target_y_speed
             BPL .above_target_y_speed
                 INC.w $0D40, X
                 
@@ -60,7 +60,7 @@ Sprite_Octoballoon:
         .at_target_y_speed
         .check_x_speed
         
-        LDA.w $0D50, X : CMP $01 : BEQ .at_target_x_speed
+        LDA.w $0D50, X : CMP.b $01 : BEQ .at_target_x_speed
             BPL .above_target_x_speed
                 INC.w $0D50, X
                 
@@ -171,27 +171,27 @@ Octoballoon_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC.w Pool_Octoballoon_Draw_offset_x, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC.w Pool_Octoballoon_Draw_offset_x, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC.w Pool_Octoballoon_Draw_offset_y, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC.w Pool_Octoballoon_Draw_offset_y, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
         PLX
         
-        LDA.w Pool_Octoballoon_Draw_char, X             : INY : STA ($90), Y
-        LDA.w Pool_Octoballoon_Draw_flip, X : ORA.b $05 : INY : STA ($90), Y
+        LDA.w Pool_Octoballoon_Draw_char, X             : INY : STA.b ($90), Y
+        LDA.w Pool_Octoballoon_Draw_flip, X : ORA.b $05 : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : ORA.b $0F : STA ($92), Y
+        LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
         

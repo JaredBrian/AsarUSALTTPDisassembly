@@ -69,7 +69,7 @@ Terrorpin_Upright:
     
     LDA.w Pool_Terrorpin_Upright_y_speeds, Y : STA.w $0D40, X
     
-    LDA.w $0F80, X : DEC #2 : STA.w $0F80, X
+    LDA.w $0F80, X : DEC : DEC : STA.w $0F80, X
     
     LDA.w $0F70, X : BPL .in_air
         STZ.w $0F70, X
@@ -84,7 +84,7 @@ Terrorpin_Upright:
     
     .moving_faster
     
-    LSR #2 : AND.b #$01 : STA.w $0DC0, X
+    LSR : LSR : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
@@ -117,7 +117,7 @@ Terrorpin_Overturned:
         
     .delay
     
-    LDA.w $0F80, X : DEC #2 : STA.w $0F80, X
+    LDA.w $0F80, X : DEC : DEC : STA.w $0F80, X
     
     LDA.w $0F70, X : BPL .in_air
         STZ.w $0F70, X

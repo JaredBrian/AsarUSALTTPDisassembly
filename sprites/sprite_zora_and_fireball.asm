@@ -314,7 +314,7 @@ Zora_Submerging:
     
     .delay
     
-    LSR #2 : TAY
+    LSR : LSR : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -383,20 +383,20 @@ Zora_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_Zora_Draw_x_offsets, X       : STA ($90), Y
+        LDA.b $00 : CLC : ADC Pool_Zora_Draw_x_offsets, X       : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC Pool_Zora_Draw_y_offsets, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC Pool_Zora_Draw_y_offsets, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
         PLX
         
-        LDA.w Pool_Zora_Draw_chr, X : INY : STA ($90), Y
+        LDA.w Pool_Zora_Draw_chr, X : INY : STA.b ($90), Y
         
         LDA.b #$0F : STA.b $0D
         
@@ -405,11 +405,11 @@ Zora_Draw:
         
         .override_intended_palette
         
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.w Pool_Zora_Draw_size_bit, X : ORA.b $0F : STA ($92), Y
+        LDA.w Pool_Zora_Draw_size_bit, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_subsprite

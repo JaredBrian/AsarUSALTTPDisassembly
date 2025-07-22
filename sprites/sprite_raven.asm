@@ -129,7 +129,7 @@ Raven_Attack:
 ; $0EDE27-$0EDE48 JUMP LOCATION
 Raven_AccelerateToTargetSpeed:
 {
-    LDA.w $0D40, X : CMP $00 : BEQ .y_speed_at_target
+    LDA.w $0D40, X : CMP.b $00 : BEQ .y_speed_at_target
         BPL .y_speed_above_target
             INC.w $0D40, X
             
@@ -142,7 +142,7 @@ Raven_AccelerateToTargetSpeed:
     .y_speed_at_target
     .check_x_speed
     
-    LDA.w $0D50, X : CMP $01 : BEQ .x_speed_at_target
+    LDA.w $0D50, X : CMP.b $01 : BEQ .x_speed_at_target
         BPL .x_speed_above_target
             INC.w $0D50, X
     

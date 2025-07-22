@@ -246,7 +246,7 @@ RetreatBat_DrawOAMMask:
     .write_OAM_low_buffer_entries
     
         LDA.w .OAM_entries - 2, Y : STA.w $092E, Y
-    DEY #2 : BNE .write_OAM_low_buffer_entries
+    DEY : DEY : BNE .write_OAM_low_buffer_entries
     
     LDY.b #$08
     
@@ -256,7 +256,7 @@ RetreatBat_DrawOAMMask:
     .write_OAM_high_buffer_entries
     
         STA.w $0A6C, Y
-    DEY #2 : BPL .write_OAM_high_buffer_entries
+    DEY : DEY : BPL .write_OAM_high_buffer_entries
     
     SEP #$30
     
@@ -357,7 +357,7 @@ RetreatBat_Draw:
     
     SEP #$20
     
-    LDA.w $0DE0, X : ASL #2 : ADC.w $0DC0, X : TAY
+    LDA.w $0DE0, X : ASL : ASL : ADC.w $0DC0, X : TAY
     
     LDA.w Pool_RetreatBat_Draw_ptr_low_bytes, Y : STA.b $08
     LDA.w Pool_RetreatBat_Draw_ptr_high_byte    : STA.b $09

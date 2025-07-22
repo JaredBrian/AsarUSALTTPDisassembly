@@ -275,7 +275,7 @@ Zol_Draw:
         EOR .hflip_states, Y : STA.w $0F50, X
         
         ; WTF: With all the use of $0F50, X?
-        AND.b #$01 : EOR.b #$01 : ASL #2 : CLC : ADC.w $0DC0, X : STA.w $0DC0, X
+        AND.b #$01 : EOR.b #$01 : ASL : ASL : CLC : ADC.w $0DC0, X : STA.w $0DC0, X
         
         JSL.l Sprite_PrepAndDrawSingleLargeLong
         

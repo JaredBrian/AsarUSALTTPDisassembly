@@ -36,7 +36,7 @@ Sprite_Rope:
         LDY.b #$03
         
         ; Modify character index.
-        LDA ($90), Y : ORA.b #$30 : STA ($90), Y
+        LDA.b ($90), Y : ORA.b #$30 : STA.b ($90), Y
         
         LDA.w $0F70, X : PHA
         
@@ -153,7 +153,7 @@ Rope_Moving:
     
     .moving_fast
     
-    LSR #2 : LDA.w $0DE0, X : ROL : TAY
+    LSR : LSR : LDA.w $0DE0, X : ROL : TAY
     
     LDA.w Pool_Rope_Moving_sanimation_control, Y : STA.w $0D90, X
     

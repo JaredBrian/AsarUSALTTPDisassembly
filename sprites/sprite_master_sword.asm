@@ -219,7 +219,7 @@ Sprite_MasterLightFountain:
     
     .alpha
     
-    LSR #2 : AND.b #$03 : STA.w $0DE0, X
+    LSR : LSR : AND.b #$03 : STA.w $0DE0, X
     
     LDA.w $0D90, X : LSR #5 : AND.b #$07 : TAY
     
@@ -228,7 +228,7 @@ Sprite_MasterLightFountain:
     LDA.wPool_Sprite_MasterLightFountain_unknown, Y : BEQ .beta
         TAY
         
-        LDA.w $0D90, X : LSR #2 : AND.b #$01
+        LDA.w $0D90, X : LSR : LSR : AND.b #$01
         
         JSR.w MasterSword_SpawnLightBeams
         
@@ -251,7 +251,7 @@ Sprite_MasterLightWell:
     
     .alpha
     
-    LSR #2 : AND.b #$03 : STA.w $0DE0, X
+    LSR : LSR : AND.b #$03 : STA.w $0DE0, X
     
     LDA.b #$00 : STA.w $0DC0, X
     
@@ -285,7 +285,7 @@ MasterSword_DrawLightBall:
 {
     LDA.b #$04 : JSL.l OAM_AllocateFromRegionC
     
-    LDA.w $0DC0, X : ASL #2 : ADC.w $0DE0, X : ASL #3 
+    LDA.w $0DC0, X : ASL : ASL : ADC.w $0DE0, X : ASL #3 
     
     ADC.b #((.animation_states >> 0) & $FF)              : STA.b $08
     LDA.b #((.animation_states >> 8) & $FF) : ADC.b #$00 : STA.b $09
@@ -771,17 +771,17 @@ MasterSword_Draw:
     .alpha
     
         LDA.b $00 : CLC : ADC Pool_MasterSword_Draw_x_offsets, X
-        STA ($90), Y
+        STA.b ($90), Y
 
         LDA.b $02 : CLC : ADC Pool_MasterSword_Draw_y_offsets, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
 
         LDA.w Pool_MasterSword_Draw_chr, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
         INY
         
-        LDA.b $05 : STA ($90), Y
+        LDA.b $05 : STA.b ($90), Y
         
         INY
     DEX : BPL .alpha

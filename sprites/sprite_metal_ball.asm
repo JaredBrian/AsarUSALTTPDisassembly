@@ -17,7 +17,7 @@ Sprite_MetalBall:
     
     JSR.w Sprite2_CheckIfActive
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.w $0DC0, X
+    INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$01 : STA.w $0DC0, X
     
     JSR.w Sprite2_Move
     
@@ -70,7 +70,7 @@ MetalBall_DrawLargerVariety:
 {
     JSR.w Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL #2 : STA.b $06
+    LDA.w $0DC0, X : ASL : ASL : STA.b $06
     
     PHX
     
@@ -85,29 +85,29 @@ MetalBall_DrawLargerVariety:
         REP #$20
         
         LDA.b $00
-        CLC : ADC Pool_MetalBall_DrawLargerVariety_x_offsets, X : STA ($90), Y
+        CLC : ADC Pool_MetalBall_DrawLargerVariety_x_offsets, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02
-        CLC : ADC Pool_MetalBall_DrawLargerVariety_y_offsets, X : INY : STA ($90), Y
+        CLC : ADC Pool_MetalBall_DrawLargerVariety_y_offsets, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
         PLA : CLC : ADC.b $06 : TAX
         
-        LDA.w Pool_MetalBall_DrawLargerVariety_properties, X : INY : STA ($90), Y
+        LDA.w Pool_MetalBall_DrawLargerVariety_properties, X : INY : STA.b ($90), Y
         
         PLX
         
-        LDA.w Pool_MetalBall_DrawLargerVariety_vh_flip, X : INY : ORA.b $05 : STA ($90), Y
+        LDA.w Pool_MetalBall_DrawLargerVariety_vh_flip, X : INY : ORA.b $05 : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.b $0F : ORA.b #$02 : STA ($92), Y
+        LDA.b $0F : ORA.b #$02 : STA.b ($92), Y
         
         PLY : INY
     DEX : BPL .next_subsprite

@@ -95,13 +95,13 @@ MovableMantle_Draw:
         .next_subsprite
             
             LDA.b $00 : CLC : ADC.w Pool_MovableMantle_Draw_offset_x, X
-            STA ($90), Y
+            STA.b ($90), Y
 
             LDA.b $02 : CLC : ADC.w Pool_MovableMantle_Draw_offset_y, X
-            INY : STA ($90), Y
+            INY : STA.b ($90), Y
 
-            LDA.w Pool_MovableMantle_Draw_char, X : INY : STA ($90), Y
-            LDA.w Pool_MovableMantle_Draw_prop, X : INY : STA ($90), Y
+            LDA.w Pool_MovableMantle_Draw_char, X : INY : STA.b ($90), Y
+            LDA.w Pool_MovableMantle_Draw_prop, X : INY : STA.b ($90), Y
             INY
         DEX : BPL .next_subsprite
         

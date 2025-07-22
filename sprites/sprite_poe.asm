@@ -190,23 +190,23 @@ Poe_Draw:
     
     REP #$20
     
-    LDA.b $00 : CLC : ADC Pool_Poe_Draw_x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC Pool_Poe_Draw_x_offsets, X : STA.b ($90), Y
     
     CLC : ADC.w #$0100 : STA.b $0E
     
-    LDA.b $02 : CLC : ADC.w #$0009 : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w #$0009 : INY : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-        LDA.b #$F0 : STA ($90), Y
+        LDA.b #$F0 : STA.b ($90), Y
     
     .on_screen_y
     
     LDX.b $06
     
-    LDA.w Pool_Poe_Draw_chr, X          : INY : STA ($90), Y
-    LDA.b $05 : AND.b #$F0 : ORA.b #$02 : INY : STA ($90), Y
+    LDA.w Pool_Poe_Draw_chr, X          : INY : STA.b ($90), Y
+    LDA.b $05 : AND.b #$F0 : ORA.b #$02 : INY : STA.b ($90), Y
     
-    LDA.b $0F : STA ($92)
+    LDA.b $0F : STA.b ($92)
     
     PLX
     

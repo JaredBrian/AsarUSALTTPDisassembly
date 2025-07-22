@@ -198,28 +198,28 @@ BadPullDownSwitch_Draw:
     .next_OAM_entry
         
         LDA.b $00 : CLC : ADC.w Pool_BadPullDownSwitch_Draw_x_offsets, X
-        STA ($90), Y
+        STA.b ($90), Y
 
         LDA.b $02 : CLC : ADC.w Pool_BadPullDownSwitch_Draw_y_offsets, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
 
-        LDA.w Pool_BadPullDownSwitch_Draw_chr, X : INY : STA ($90), Y
+        LDA.w Pool_BadPullDownSwitch_Draw_chr, X : INY : STA.b ($90), Y
 
         LDA.w Pool_BadPullDownSwitch_Draw_h_flip, X
-        ORA.b #$21 : INY : STA ($90), Y
+        ORA.b #$21 : INY : STA.b ($90), Y
         
         PHY
         
         CPX.b #$02 : BNE .alpha
-            DEY #2
+            DEY : DEY
             
-            LDA ($90), Y : SEC : SBC.b $06 : STA ($90), Y
+            LDA.b ($90), Y : SEC : SBC.b $06 : STA.b ($90), Y
             
         .alpha
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.w Pool_BadPullDownSwitch_Draw_properties, X : STA ($92), Y
+        LDA.w Pool_BadPullDownSwitch_Draw_properties, X : STA.b ($92), Y
         
         PLY : INY
     DEX : BPL .next_OAM_entry
@@ -264,7 +264,7 @@ BadPullUpSwitch_Draw:
     
         REP #$20
         
-        LDA.b $00 : STA ($90), Y
+        LDA.b $00 : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
@@ -275,19 +275,19 @@ BadPullUpSwitch_Draw:
         
         .alpha
         
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
-        LDA.w .chr, X : INY : STA ($90), Y
-        LDA.b $05     : INY : STA ($90), Y
+        LDA.w .chr, X : INY : STA.b ($90), Y
+        LDA.b $05     : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR #2 : TAY
+        PHY : TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : ORA.b $0F : STA ($92), Y
+        LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     DEX : BPL .gamma
@@ -388,14 +388,14 @@ GoodPUllSwitch_Draw:
     
     LDY.b #$04
     
-    LDA.b $00                      : STA ($90), Y
-                        LDY.b #$00 : STA ($90), Y
-    LDA.b $02 : DEC : LDY.b #$01 : STA ($90), Y
-    CLC : ADC.b $06   : LDY.b #$05 : STA ($90), Y
-    LDA.b #$CE        : LDY.b #$06 : STA ($90), Y
-    LDA.b #$EE        : LDY.b #$02 : STA ($90), Y
-    LDA.b $05         : LDY.b #$03 : STA ($90), Y
-                        LDY.b #$07 : STA ($90), Y
+    LDA.b $00                      : STA.b ($90), Y
+                        LDY.b #$00 : STA.b ($90), Y
+    LDA.b $02 : DEC : LDY.b #$01 : STA.b ($90), Y
+    CLC : ADC.b $06   : LDY.b #$05 : STA.b ($90), Y
+    LDA.b #$CE        : LDY.b #$06 : STA.b ($90), Y
+    LDA.b #$EE        : LDY.b #$02 : STA.b ($90), Y
+    LDA.b $05         : LDY.b #$03 : STA.b ($90), Y
+                        LDY.b #$07 : STA.b ($90), Y
     
     LDY.b #$02
     LDA.b #$01

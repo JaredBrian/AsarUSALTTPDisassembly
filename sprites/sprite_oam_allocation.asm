@@ -185,7 +185,7 @@ OAM_GetBufferPosition:
     
     .moving_on
     
-    LDA.b $90 : PHA : LSR #2 : CLC : ADC.w #$0A20 : STA.b $92
+    LDA.b $90 : PHA : LSR : LSR : CLC : ADC.w #$0A20 : STA.b $92
     
     PLA : CLC : ADC.w #$0800 : STA.b $90
     

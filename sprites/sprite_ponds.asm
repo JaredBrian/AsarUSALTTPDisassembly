@@ -470,7 +470,7 @@ LakeHyliaFairy_BegForDonation:
     
     LDA.w FairyPond_prices, Y : AND.w #$00FF : STA.b $00
     
-    LDA.l $7EF360 : CMP $00 : BCC FairyPond_ResetAI
+    LDA.l $7EF360 : CMP.b $00 : BCC FairyPond_ResetAI
         SEP #$30
         
         LDA.b $00 : STA.w $0DE0, X
@@ -914,7 +914,7 @@ SpawnThrownItem:
     LDA.b #$00 : STA.l $7EF340, X
     
     ; Get the item from the pointer.
-    LDA ($00), Y : PHA : TAX
+    LDA.b ($00), Y : PHA : TAX
     
     LDY.b #$04
     LDA.b #$28
@@ -1404,7 +1404,7 @@ FairyQueen_Draw:
     LDA.l $7EF3CA : BNE .in_dark_world
         JSR.w Sprite_PrepOamCoord
         
-        LDA.w $0DC0, X : ASL #2 : STA.b $0D
+        LDA.w $0DC0, X : ASL : ASL : STA.b $0D
         
         LDA.w $0DC0, X : ASL #3 : ADC.b $0D : STA.b $06
         
@@ -1419,20 +1419,20 @@ FairyQueen_Draw:
             TXA : CLC : ADC.b $06 : TAX
             
             LDA.b $00
-            CLC : ADC.w Pool_FairyQueen_Draw_x_offsets, X       : STA ($90), Y
+            CLC : ADC.w Pool_FairyQueen_Draw_x_offsets, X       : STA.b ($90), Y
 
             LDA.b $02
-            CLC : ADC.w Pool_FairyQueen_Draw_y_offsets, X : INY : STA ($90), Y
+            CLC : ADC.w Pool_FairyQueen_Draw_y_offsets, X : INY : STA.b ($90), Y
             
-            LDA.w Pool_FairyQueen_Draw_chr, X             : INY : STA ($90), Y
+            LDA.w Pool_FairyQueen_Draw_chr, X             : INY : STA.b ($90), Y
             LDA.w Pool_FairyQueen_Draw_properties, X
-            ORA.b $05                                     : INY : STA ($90), Y
+            ORA.b $05                                     : INY : STA.b ($90), Y
             
             PHY
             
-            TYA : LSR #2 : TAY
+            TYA : LSR : LSR : TAY
             
-            LDA.w Pool_FairyQueen_Draw_OAM_sizes, X : STA ($92), Y
+            LDA.w Pool_FairyQueen_Draw_OAM_sizes, X : STA.b ($92), Y
             
             PLY : INY
         PLX : DEX : BPL .next_OAM_entry
@@ -1451,7 +1451,7 @@ FairyQueen_Draw:
     LDA.b #$0A : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL : ASL : ADC.w $0DC0, X : ASL #4
     
     ADC.b #Pool_FairyQueen_Draw_OAM_groups                 : STA.b $08
     LDA.b #Pool_FairyQueen_Draw_OAM_groups>>8 : ADC.b #$00 : STA.b $09

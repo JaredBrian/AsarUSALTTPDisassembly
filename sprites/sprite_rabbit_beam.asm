@@ -157,8 +157,8 @@ RabbitBeam_Active:
         
             ; Force the chr to a certain value, and the palette of each entry
             ; to palette 1 (name table is also forced to 0 here).
-            INY #2 : LDA.b $00                              : STA ($90), Y
-            INY    : LDA ($90), Y : AND.b #$F0 : ORA.b #$02 : STA ($90), Y
+            INY : INY : LDA.b $00                              : STA.b ($90), Y
+            INY    : LDA.b ($90), Y : AND.b #$F0 : ORA.b #$02 : STA.b ($90), Y
         INY : CPY.b #$14 : BCC .next_OAM_entry
     
     .sprite_is_paused

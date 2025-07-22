@@ -97,7 +97,7 @@ MadBatter_RisingUp:
     LDA.w $0DF0, X : BNE .delay
         DEC.w $0D90, X : LDA.w $0D90, X : STA.w $0DF0, X
         CMP.b #$01 : BEQ .ready
-            LSR #2 : STA.w $0F80, X
+            LSR : LSR : STA.w $0F80, X
             
             LDA.w $0D90, X : AND.b #$01 : TAY
             

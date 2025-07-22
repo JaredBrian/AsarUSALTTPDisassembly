@@ -482,7 +482,7 @@ ZoraKing_Draw:
     JSR.w Sprite2_PrepOamCoord
     
     LDA.w $0D80, X : CMP.b #$02 : BCC .draw_whirlpool_instead
-        LDA.w $0DC0, X : ASL #2 : STA.b $06
+        LDA.w $0DC0, X : ASL : ASL : STA.b $06
         
         PHX
         
@@ -492,12 +492,12 @@ ZoraKing_Draw:
         
             PHX : TXA : CLC : ADC.b $06 : TAX
             
-            LDA.b $00 : CLC : ADC Pool_ZoraKing_Draw_x_offsets, X : STA ($90), Y
+            LDA.b $00 : CLC : ADC Pool_ZoraKing_Draw_x_offsets, X : STA.b ($90), Y
             
             INY
             
-            LDA.w Pool_ZoraKing_Draw_y_offsets, X : CLC : ADC.b $02 : STA ($90), Y
-            LDA.w Pool_ZoraKing_Draw_chr, X : INY : STA ($90), Y
+            LDA.w Pool_ZoraKing_Draw_y_offsets, X : CLC : ADC.b $02 : STA.b ($90), Y
+            LDA.w Pool_ZoraKing_Draw_chr, X : INY : STA.b ($90), Y
             
             LDA.b #$0F : STA.b $0F
             
@@ -506,7 +506,7 @@ ZoraKing_Draw:
             
             .palette_override
             
-            INY : ORA.b #$20 : STA ($90), Y
+            INY : ORA.b #$20 : STA.b ($90), Y
             
             INY
         PLX : DEX : BPL .next_subsprite
@@ -539,20 +539,20 @@ ZoraKing_Draw:
             TXA : CLC : ADC.b $06 : TAX
             
             LDA.b $00
-            CLC : ADC Pool_ZoraKing_Draw_whirlpool_x_offsets, X : STA ($90), Y
+            CLC : ADC Pool_ZoraKing_Draw_whirlpool_x_offsets, X : STA.b ($90), Y
 
             LDA.b $02 : CLC : ADC Pool_ZoraKing_Draw_whirlpool_y_offsets, X
-            INY : STA ($90), Y
+            INY : STA.b ($90), Y
 
             LDA.w Pool_ZoraKing_Draw_whirlpool_chr, X
-            INY : STA ($90), Y
+            INY : STA.b ($90), Y
 
             LDA.w Pool_ZoraKing_Draw_whirlpool_properties, X
-            ORA.b #$24 : INY : STA ($90), Y
+            ORA.b #$24 : INY : STA.b ($90), Y
             
-            PHY : TYA : LSR #2 : TAY
+            PHY : TYA : LSR : LSR : TAY
             
-            LDA.b #$02 : STA ($92), Y
+            LDA.b #$02 : STA.b ($92), Y
             
             PLY : INY
         PLX : DEX : BPL .next_whirlpool_subsprite

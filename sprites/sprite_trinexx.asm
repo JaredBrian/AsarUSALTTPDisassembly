@@ -290,7 +290,7 @@ Trinexx_Phase2_SnekAfterLink:
         
         JSL.l Sprite_ProjectSpeedTowardsPlayerLong
         
-        LDA.w $0D50, X : CMP $01 : BEQ .BRANCH_BETA  BPL .BRANCH_GAMMA
+        LDA.w $0D50, X : CMP.b $01 : BEQ .BRANCH_BETA  BPL .BRANCH_GAMMA
             INC.w $0D50, X
             
             BRA .BRANCH_BETA
@@ -301,7 +301,7 @@ Trinexx_Phase2_SnekAfterLink:
 
         .BRANCH_BETA
 
-        LDA.w $0D40, X : CMP $00 : BEQ .BRANCH_ALPHA  BPL .BRANCH_DELTA
+        LDA.w $0D40, X : CMP.b $00 : BEQ .BRANCH_ALPHA  BPL .BRANCH_DELTA
             INC.w $0D40, X
             
             BRA .BRANCH_ALPHA
@@ -406,7 +406,7 @@ SpriteDraw_TrinexxRockSnake:
         LDA.b $90 : CLC : ADC.w Pool_SpriteDraw_TrinexxRockSnake_OAM_offset, Y
         STA.b $90
         
-        LDA.w Pool_SpriteDraw_TrinexxRockSnake_OAM_offset, Y : LSR #2 : CLC : ADC.b $92 : STA.b $92
+        LDA.w Pool_SpriteDraw_TrinexxRockSnake_OAM_offset, Y : LSR : LSR : CLC : ADC.b $92 : STA.b $92
         
         SEP #$20
         
@@ -695,7 +695,7 @@ Trinexx_ChooseNextAction:
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
         LDA.w $0E30, X : AND.b #$7F : STA.b $00
         
-        JSL.l GetRandomInt : AND.b #$03 : TAY : CMP $00 : BEQ .BRANCH_ALPHA
+        JSL.l GetRandomInt : AND.b #$03 : TAY : CMP.b $00 : BEQ .BRANCH_ALPHA
             INC.w $0EC0, X : LDA.w $0EC0, X : CMP.b #$02 : BNE .BRANCH_BETA
                 STZ.w $0EC0, X
                 
@@ -1045,7 +1045,7 @@ SpriteDraw_TrinexxRockHeadAndBody:
             
             LDY.w $0FB6
             
-            STA ($90), Y
+            STA.b ($90), Y
             
             LDY.w $0FB5
             
@@ -1066,13 +1066,13 @@ SpriteDraw_TrinexxRockHeadAndBody:
 
             .BRANCH_EPSILON
 
-            CLC : ADC.b $02 : LDY.w $0FB6 : INY : STA ($90), Y
-            LDA.b #$28 :                    INY : STA ($90), Y
-            LDA.b $05 :                     INY : STA ($90), Y
+            CLC : ADC.b $02 : LDY.w $0FB6 : INY : STA.b ($90), Y
+            LDA.b #$28 :                    INY : STA.b ($90), Y
+            LDA.b $05 :                     INY : STA.b ($90), Y
             
-            PHY : TYA : LSR #2 : TAY
+            PHY : TYA : LSR : LSR : TAY
             
-            LDA.b #$02 : STA ($92), Y
+            LDA.b #$02 : STA.b ($92), Y
             
             PLY : INY : STY.w $0FB6
         DEC.w $0FB5 : BPL .BRANCH_ZETA
@@ -1096,7 +1096,7 @@ SpriteDraw_TrinexxRockHeadAndBody:
         LDA.b #$01 : STA.w $0FB5
         
         LDA.w $0D50, X : CLC : ADC.b #$03 : CMP.b #$07 : LDA.b #$00 : BCC .BRANCH_THETA
-            LDA.w $0E80, X : LSR #2 : AND.b #$0F
+            LDA.w $0E80, X : LSR : LSR : AND.b #$0F
 
         .BRANCH_THETA
 
@@ -1104,7 +1104,7 @@ SpriteDraw_TrinexxRockHeadAndBody:
         
         CLC : ADC.b #$08 : AND.b #$0F : STA.b $07
         
-        LDA.w $0E80, X : LSR #2 : AND.b #$0F : STA.b $08
+        LDA.w $0E80, X : LSR : LSR : AND.b #$0F : STA.b $08
         CLC : ADC.b #$08        : AND.b #$0F : STA.b $09
         
         LDY.b #$00
@@ -1117,8 +1117,8 @@ SpriteDraw_TrinexxRockHeadAndBody:
             
             LDA.b $06, X : TAX
             
-            PLA : CLC : ADC.w .foot_rotation_offset_x, X : STA ($90), Y
-                                                  INY #4 : STA ($90), Y
+            PLA : CLC : ADC.w .foot_rotation_offset_x, X : STA.b ($90), Y
+                                                  INY #4 : STA.b ($90), Y
             
             LDA.b $02 : CLC : ADC.b #$F8 : PHA
             
@@ -1130,33 +1130,33 @@ SpriteDraw_TrinexxRockHeadAndBody:
             
             DEY #3
             
-            STA ($90), Y
+            STA.b ($90), Y
             
-            CLC : ADC.b #$10 : INY #4 : STA ($90), Y
+            CLC : ADC.b #$10 : INY #4 : STA.b ($90), Y
             
-            LDA.b #$0C : DEY #3 : STA ($90), Y
+            LDA.b #$0C : DEY #3 : STA.b ($90), Y
             
-            LDA.b #$2A : INY #4 : STA ($90), Y
+            LDA.b #$2A : INY #4 : STA.b ($90), Y
             
             DEY #3
             
             LDX.w $0FB5
             
-            LDA.b $05 : ORA.w .foot_flip, X : STA ($90), Y
+            LDA.b $05 : ORA.w .foot_flip, X : STA.b ($90), Y
             
-            INY #4 : STA ($90), Y
+            INY #4 : STA.b ($90), Y
             
             PHY
             
-            TYA : LSR #2 : TAY
+            TYA : LSR : LSR : TAY
             
-            LDA.b #$02     : STA ($92), Y
-                       DEY : STA ($92), Y
+            LDA.b #$02     : STA.b ($92), Y
+                       DEY : STA.b ($92), Y
             
             PLY : INY
         DEC.w $0FB5 : BPL .BRANCH_IOTA
         
-        LDA.w $0B0A : ASL #2 : ADC.w $0B0A : STA.b $06
+        LDA.w $0B0A : ASL : ASL : ADC.w $0B0A : STA.b $06
         
         LDY.b #$00
         LDX.b #$00
@@ -1185,7 +1185,7 @@ SpriteDraw_TrinexxRockHeadAndBody:
             LDA.w .tail_char, X : INY : STA.w $096C, Y
             LDA.b $05           : INY : STA.w $096C, Y
             
-            PHY : TYA : LSR #2 : TAY
+            PHY : TYA : LSR : LSR : TAY
             
             LDA.b #$02 : STA.w $0A7B, Y
             

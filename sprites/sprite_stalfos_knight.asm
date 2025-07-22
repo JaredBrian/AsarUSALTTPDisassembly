@@ -352,7 +352,7 @@ StalfosKnight_CelebrateStandingUp:
     
     .delay
     
-    LSR #2 : AND.b #$01 : TAY
+    LSR : LSR : AND.b #$01 : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -414,7 +414,7 @@ StalfosKnight_Draw:
     JSR.w SpriteDraw_StalfosKnight_Head
     
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL #2 : ADC.b $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL : ASL : ADC.b $00
     
     ADC.w #.OAM_groups : STA.b $08
     
@@ -466,27 +466,27 @@ SpriteDraw_StalfosKnight_Head:
         
         REP #$20
         
-        LDA.b $00 : STA ($90), Y
+        LDA.b $00 : STA.b ($90), Y
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC.b $06 : SEC : SBC.w #$000C : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC.b $06 : SEC : SBC.w #$000C : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
-            LDA.w #$00F0 : STA ($90), Y
+            LDA.w #$00F0 : STA.b ($90), Y
         
         .on_screen_y
         
         SEP #$20
         
         LDA.w Pool_SpriteDraw_StalfosKnight_Head_chr, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
 
         LDA.w Pool_SpriteDraw_StalfosKnight_Head_properties, X
-        INY : ORA.b $05 : STA ($90), Y
+        INY : ORA.b $05 : STA.b ($90), Y
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : ORA.b $0F : STA ($92), Y
+        LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLX
     

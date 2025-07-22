@@ -18,7 +18,7 @@ Sprite_LostWoodsSquirrel:
         JSR.w Sprite2_Move
         JSR.w Sprite2_MoveAltitude
         
-        LDA.w $0F80, X : DEC #2 : STA.w $0F80, X
+        LDA.w $0F80, X : DEC : DEC : STA.w $0F80, X
         
         LDA.w $0F70, X : BPL .nonnegative_altitude
             ; If the sprite's altitude goes negative, force it back to 0.

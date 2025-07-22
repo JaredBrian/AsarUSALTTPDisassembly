@@ -110,7 +110,7 @@ Pengator_SpeedUp:
         .added_speed_this_frame
     .delay
     
-    LDA.b $1A : AND.b #$04 : LSR #2 : TAY : STA.w $0D90, X
+    LDA.b $1A : AND.b #$04 : LSR : LSR : TAY : STA.w $0D90, X
     
     RTS
 }
@@ -140,7 +140,7 @@ Pengator_Jump:
         
     .anojump
     
-    LSR #2 : TAY
+    LSR : LSR : TAY
     
     LDA.w .animation_states, Y : STA.w $0D90, X
     

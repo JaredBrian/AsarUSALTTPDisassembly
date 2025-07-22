@@ -60,7 +60,7 @@ SnapDragon_Resting:
     LDA.w $0DF0, X : BNE .delay
         INC.w $0D80, X
         
-        JSL.l GetRandomInt : AND.b #$0C : LSR #2 : TAY
+        JSL.l GetRandomInt : AND.b #$0C : LSR : LSR : TAY
         
         LDA.w .timers, Y : STA.w $0DF0, X
         

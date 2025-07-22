@@ -153,7 +153,7 @@ Moldorm_SeekPlayer:
         .not_at_target_angle
         
         PHP : LDA.w $0DE0, X : PLP : BMI .target_angle_lesser
-            INC #2
+            INC : INC
         
         .target_angle_lesser
         

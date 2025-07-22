@@ -340,14 +340,14 @@ Moblin_Draw:
                 ; entries that make up the moblin, and.... disable them by
                 ; pushing them off screen. WTF: Why is this needed?
                 
-                LDA ($92), Y : AND.b #$02 : BNE .is_large_OAM_sprite
+                LDA.b ($92), Y : AND.b #$02 : BNE .is_large_OAM_sprite
                     PHY
                     
-                    TYA : ASL #2 : TAY
+                    TYA : ASL : ASL : TAY
                     
                     INY
                     
-                    LDA.b #$F0 : STA ($90), Y
+                    LDA.b #$F0 : STA.b ($90), Y
                     
                     PLY
                     
@@ -364,11 +364,11 @@ Moblin_Draw:
         
         LDA.w $0EB0, X : TAX
         
-        LDA.w Pool_Moblin_Draw_chr, X : INY #2 : STA ($90), Y
+        LDA.w Pool_Moblin_Draw_chr, X : INY : INY : STA.b ($90), Y
         
         INY
         
-        LDA ($90), Y : AND.b #$BF : ORA Pool_Moblin_Draw_h_flip, X : STA ($90), Y
+        LDA.b ($90), Y : AND.b #$BF : ORA Pool_Moblin_Draw_h_flip, X : STA.b ($90), Y
         
         PLX
         

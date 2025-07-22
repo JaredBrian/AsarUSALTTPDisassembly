@@ -141,7 +141,7 @@ TutorialSoldier_Draw:
     JSR.w Sprite2_PrepOamCoord
     
     ; $06 = ($0DC0, X * 5)
-    LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : STA.b $06
+    LDA.w $0DC0, X : ASL : ASL : ADC.w $0DC0, X : STA.b $06
     
     PHX
     
@@ -157,14 +157,14 @@ TutorialSoldier_Draw:
         
         REP #$20
         
-        LDA.w Pool_TutorialSoldier_x_offsets, X : CLC : ADC.b $00 : STA ($90), Y
+        LDA.w Pool_TutorialSoldier_x_offsets, X : CLC : ADC.b $00 : STA.b ($90), Y
         AND.w #$0100 : STA.b $0E
         
-        LDA.w Pool_TutorialSoldier_y_offsets, X : CLC : ADC.b $02 : INY : STA ($90), Y
+        LDA.w Pool_TutorialSoldier_y_offsets, X : CLC : ADC.b $02 : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
             ; Hide the sprite.
-            LDA.w #$00F0 : STA ($90), Y
+            LDA.w #$00F0 : STA.b ($90), Y
             
         .on_screen_y
         
@@ -172,7 +172,7 @@ TutorialSoldier_Draw:
         
         PLX
         
-        LDA.w Pool_TutorialSoldier_chr, X : INY : STA ($90), Y : CMP.b #$40
+        LDA.w Pool_TutorialSoldier_chr, X : INY : STA.b ($90), Y : CMP.b #$40
         
         LDA.w Pool_TutorialSoldier_vh_flip, X : ORA.b $05 : BCS .no_palette_override
             AND.b #$F1 : ORA.b #$08
@@ -181,13 +181,13 @@ TutorialSoldier_Draw:
         
         INY
         
-        STA ($90), Y
+        STA.b ($90), Y
         
         PHY
         
         TYA : LSR : LSR : TAY
         
-        LDA.w Pool_TutorialSoldier_Draw_sizes, X : ORA.b $0F : STA ($92), Y
+        LDA.w Pool_TutorialSoldier_Draw_sizes, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_subsprite

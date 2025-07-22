@@ -272,21 +272,21 @@ WalkingZora_Draw:
     
     REP #$20
     
-    LDA.b $00 : STA ($90), Y : AND.w #$0100 : STA.b $0E
+    LDA.b $00 : STA.b ($90), Y : AND.w #$0100 : STA.b $0E
     
-    LDA.b $02 : SEC : SBC.w #$0006 : INY : STA ($90), Y
+    LDA.b $02 : SEC : SBC.w #$0006 : INY : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .head_on_screen_y_1
-        LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA.b ($90), Y
     
     .head_on_screen_y_1
     
     SEP #$20
     
-    LDA.w Pool_WalkingZora_Draw_head_chr, X        : INY             : STA ($90), Y
-    LDA.w Pool_WalkingZora_Draw_head_properties, X : INY : ORA.b $05 : STA ($90), Y
+    LDA.w Pool_WalkingZora_Draw_head_chr, X        : INY             : STA.b ($90), Y
+    LDA.w Pool_WalkingZora_Draw_head_properties, X : INY : ORA.b $05 : STA.b ($90), Y
     
-    LDA.b #$02 : ORA.b $0F : STA ($92)
+    LDA.b #$02 : ORA.b $0F : STA.b ($92)
     
     LDA.b $06 : PHA
     
@@ -294,14 +294,14 @@ WalkingZora_Draw:
     
     REP #$20
     
-    LDA.b $00 : INY : STA ($90), Y
+    LDA.b $00 : INY : STA.b ($90), Y
     
     AND.w #$0100 : STA.b $0E
     
-    LDA.b $02 : INC #2 : INY : STA ($90), Y
+    LDA.b $02 : INC : INC : INY : STA.b ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .body_on_screen_y
-        LDA.w #$00F0 : STA ($90), Y
+        LDA.w #$00F0 : STA.b ($90), Y
     
     .body_on_screen_y
     
@@ -309,10 +309,10 @@ WalkingZora_Draw:
     
     PLX
     
-    LDA.w Pool_WalkingZora_Draw_body_chr, X                    : INY : STA ($90), Y
-    LDA.w Pool_WalkingZora_Draw_body_properties, X : ORA.b $05 : INY : STA ($90), Y
+    LDA.w Pool_WalkingZora_Draw_body_chr, X                    : INY : STA.b ($90), Y
+    LDA.w Pool_WalkingZora_Draw_body_properties, X : ORA.b $05 : INY : STA.b ($90), Y
     
-    LDY.b #$01 : LDA.b #$02 : ORA.b $0F : STA ($92), Y
+    LDY.b #$01 : LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
     
     PLX
     
@@ -385,7 +385,7 @@ Sprite_DrawWaterRipple:
 {
     PHB : PHK : PLB
     
-    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR : LSR : AND.b #$03 : TAY
     
     LDA.w Pool_Sprite_DrawWaterRipple_animation_states, Y
     
@@ -402,8 +402,8 @@ Sprite_DrawWaterRipple:
     ; Force the palette to 2 and the nametable to 0 for both of the
     ; ripple's subsprites. Also forces the h and vflip settings to off
     ; for the first, and h flip only on the righthand subsprite.
-    LDY.b #$03 : LDA ($90), Y : AND.b #$30 : ORA.b #$04 : STA ($90), Y
-    LDY.b #$07 : ORA.b #$40                             : STA ($90), Y
+    LDY.b #$03 : LDA.b ($90), Y : AND.b #$30 : ORA.b #$04 : STA.b ($90), Y
+    LDY.b #$07 : ORA.b #$40                             : STA.b ($90), Y
     
     PLB
     

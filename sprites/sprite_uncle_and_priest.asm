@@ -176,7 +176,7 @@ Sage_SpawnMantle:
     
     REP #$30
     
-    LDA.b $20 : CMP $00 : SEP #$30 : BCS .player_below_mantle
+    LDA.b $20 : CMP.b $00 : SEP #$30 : BCS .player_below_mantle
         ; Otherwise initialize it as moving to the right (opening up).
         LDA.b #$01 : STA.w $0DB0, Y
         

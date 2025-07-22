@@ -143,7 +143,7 @@ Wallmaster_Ascend:
     JSR.w Sprite3_MoveAltitude
     
     LDA.w $0F80, X : CMP.b #$40 : BPL .ascend_speed_maxed
-        INC #2 : STA.w $0F80, X
+        INC : INC : STA.w $0F80, X
     
     .ascend_speed_maxed
     

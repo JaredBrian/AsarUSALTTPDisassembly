@@ -159,7 +159,7 @@ Swamola_Ascending:
 ; $0E9D80-$0E9DA2 JUMP LOCATION
 Swamola_ApproachPursuitSpeed:
 {  
-    LDA.w $0D40, X : CMP $00 : BEQ .at_target_y_speed
+    LDA.w $0D40, X : CMP.b $00 : BEQ .at_target_y_speed
         BPL .above_target_y_speed
             INC.w $0D40, X
             
@@ -172,7 +172,7 @@ Swamola_ApproachPursuitSpeed:
     .at_target_y_speed
     .check_x_speed
     
-    LDA.w $0D50, X : CMP $01 : BEQ .at_target_x_speed
+    LDA.w $0D50, X : CMP.b $01 : BEQ .at_target_x_speed
         BPL .above_target_x_speed
             INC.w $0D50, X
             
@@ -383,7 +383,7 @@ SwamolaRipples_Draw:
     LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
     
     LDA.b #$00 : XBA
-    LDA.w $0DF0, X : AND.b #$0C : REP #$20 : ASL #2
+    LDA.w $0DF0, X : AND.b #$0C : REP #$20 : ASL : ASL
     
     CLC : ADC.w #.OAM_groups : STA.b $08
     
@@ -458,7 +458,7 @@ Swamola_Draw:
     
     PHA : CLC : ADC.b $90 : STA.b $90
     
-    PLA : LSR #2 : CLC : ADC.b $92 : STA.b $92
+    PLA : LSR : LSR : CLC : ADC.b $92 : STA.b $92
     
     SEP #$20
     

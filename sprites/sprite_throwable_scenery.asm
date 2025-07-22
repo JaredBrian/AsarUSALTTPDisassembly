@@ -66,10 +66,10 @@ Sprite_ThrowableScenery:
         
         TAX
         
-        LDA.w Pool_Sprite_ThrowableScenery_chr, X : LDY.b #$02 : STA ($90), Y : INY
+        LDA.w Pool_Sprite_ThrowableScenery_chr, X : LDY.b #$02 : STA.b ($90), Y : INY
         
-        LDA ($90), Y : AND.b #$F0
-        PLX : ORA.w Pool_Sprite_ThrowableScenery_palettes, X : STA ($90), Y
+        LDA.b ($90), Y : AND.b #$F0
+        PLX : ORA.w Pool_Sprite_ThrowableScenery_palettes, X : STA.b ($90), Y
         
         PLX
         
@@ -139,30 +139,30 @@ ThrowableScenery_DrawLarge:
         REP #$20
         
         LDA.b $00 : CLC : ADC Pool_ThrowableScenery_DrawLarge_x_offsets, X
-        STA ($90), Y
+        STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : CLC : ADC Pool_ThrowableScenery_DrawLarge_y_offsets, X
-        INY : STA ($90), Y
+        INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
         PLX
         
-        LDA.b #$4A : INY : STA ($90), Y
+        LDA.b #$4A : INY : STA.b ($90), Y
 
         LDA.w Pool_ThrowableScenery_DrawLarge_vh_flip, X
-        INY : ORA.b $05 : STA ($90), Y
+        INY : ORA.b $05 : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : ORA.b $0F : STA ($92), Y
+        LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     DEX : BPL .next_OAM_entry
@@ -189,27 +189,27 @@ ThrowableScenery_DrawLarge:
         REP #$20
         
         LDA.b $00 : CLC : ADC Pool_ThrowableScenery_DrawLarge_x_offsets, X
-        STA ($90), Y
+        STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC.w #$000C : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC.w #$000C : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .shadow_on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .shadow_on_screen_y
         
         PLX
         
-        LDA.b #$6C : INY : STA ($90), Y
-        LDA.b #$24 : INY : STA ($90), Y
+        LDA.b #$6C : INY : STA.b ($90), Y
+        LDA.b #$24 : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.b #$02 : ORA.b $0F : STA ($92), Y
+        LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     DEX : BPL .next_shadow_OAM_entry

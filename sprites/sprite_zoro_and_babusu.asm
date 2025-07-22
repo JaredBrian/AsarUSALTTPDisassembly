@@ -33,7 +33,7 @@ Sprite_Babusu:
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$01 : STA.w $0DC0, X
     
-    LDA.w $0E80, X : LSR #2 : AND.b #$01 : TAY
+    LDA.w $0E80, X : LSR : LSR : AND.b #$01 : TAY
     
     LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
     
@@ -172,7 +172,7 @@ Babusu_TerrorSprinkles:
     .delay
     
     CMP.b #$20 : BCC .still_hidden
-        SBC.b #$20 : LSR #2 : TAY
+        SBC.b #$20 : LSR : LSR : TAY
         
         LDA.w Pool_Babusu_TerrorSprinkles_animation_states, Y    
 

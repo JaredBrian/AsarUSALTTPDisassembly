@@ -51,7 +51,7 @@ Sprite_WallCannon:
     
     JSR.w Sprite2_Move
     
-    TXA : ASL #2 : CLC : ADC.b $1A : AND.b #$1F : BNE .dont_reset_firing_delay
+    TXA : ASL : ASL : CLC : ADC.b $1A : AND.b #$1F : BNE .dont_reset_firing_delay
         LDA.b #$10 : STA.w $0E10, X
     
     .dont_reset_firing_delay

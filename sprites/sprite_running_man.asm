@@ -244,7 +244,7 @@ RunningMan_AnimateAndMakeDust:
 {
     JSL.l RunningMan_SpawnDashDustGarnish
     
-    LDA.b $1A : LSR #2 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR : LSR : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }

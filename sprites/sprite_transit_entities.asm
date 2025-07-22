@@ -149,7 +149,7 @@ SomariaPlatformAndPipe_Main:
         
     .BRANCH_ALPHA
 
-    LDA.b $5B : DEC #2 : BPL .BRANCH_BETA
+    LDA.b $5B : DEC : DEC : BPL .BRANCH_BETA
         JSL.l Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .BRANCH_GAMMA
             LDA.b #$01 : STA.w $0DB0, X
             
@@ -782,7 +782,7 @@ SomariaPlatform_DragLink:
 {
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC.w #$0008 : CMP $22 : BEQ .BRANCH_ALPHA
+    LDA.w $0FD8 : SEC : SBC.w #$0008 : CMP.b $22 : BEQ .BRANCH_ALPHA
         BPL .BRANCH_BETA
             DEC.w $0B7C
             
@@ -794,7 +794,7 @@ SomariaPlatform_DragLink:
         
     .BRANCH_ALPHA
     
-    LDA.w $0FDA : SEC : SBC.w #$0010 : CMP $20 : BEQ .BRANCH_GAMMA
+    LDA.w $0FDA : SEC : SBC.w #$0010 : CMP.b $20 : BEQ .BRANCH_GAMMA
         BPL .BRANCH_DELTA
             DEC.w $0B7E
             
@@ -998,7 +998,7 @@ Pipe_DragPlayerAlong:
         
         REP #$20
         
-        LDA.b $00 : CMP $22 : BEQ .BRANCH_DELTA
+        LDA.b $00 : CMP.b $22 : BEQ .BRANCH_DELTA
             BCS .BRANCH_EPSILON
                 DEC.b $22
                 
@@ -1010,7 +1010,7 @@ Pipe_DragPlayerAlong:
             
         .BRANCH_DELTA
         
-        LDA.b $02 : CMP $20 : BEQ .BRANCH_ZETA
+        LDA.b $02 : CMP.b $20 : BEQ .BRANCH_ZETA
             BCS .BRANCH_THETA
                 DEC.b $20
                 
