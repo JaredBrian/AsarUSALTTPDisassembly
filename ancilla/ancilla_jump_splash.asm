@@ -17,7 +17,7 @@ Ancilla_JumpSplash_chr:
 ; $04280F-$0428E2 JUMP LOCATION
 Ancilla_JumpSplash:
 {
-    LDA $11 : BNE .draw
+    LDA.b $11 : BNE .draw
         DEC.w $03B1, X : BPL .animation_delay
             STZ.w $03B1, X
             
@@ -32,7 +32,7 @@ Ancilla_JumpSplash:
                 STZ.w $0C4A, X
                 
                 LDA.w $02E0 : BNE .player_is_bunny
-                    LDA $5D : CMP.b #$04 : BNE .not_swimming
+                    LDA.b $5D : CMP.b #$04 : BNE .not_swimming
                 
                 .player_is_bunny
                 
@@ -58,62 +58,62 @@ Ancilla_JumpSplash:
     
     JSR.w Ancilla_PrepOamCoord
     
-    LDA.w $0C04, X : STA $06
-    LDA.w $0C18, X : STA $07
+    LDA.w $0C04, X : STA.b $06
+    LDA.w $0C18, X : STA.b $07
     
     REP #$20
     
-    LDA $22 : SEC : SBC $06                 : STA $08
-    LDA $22 : CLC : ADC $08 : SEC : SBC $E2 : STA $08
+    LDA.b $22 : SEC : SBC.b $06                 : STA.b $08
+    LDA.b $22 : CLC : ADC.b $08 : SEC : SBC.b $E2 : STA.b $08
     
-    LDA $06 : CLC : ADC.w #$000C : SEC : SBC $E2 : STA $06
+    LDA.b $06 : CLC : ADC.w #$000C : SEC : SBC.b $E2 : STA.b $06
     
     SEP #$20
     
     PHX
     
-    LDA.w $0C5E, X : STA $0A : TAX
+    LDA.w $0C5E, X : STA.b $0A : TAX
     
-    LDA.b #$01 : STA $72
+    LDA.b #$01 : STA.b $72
     
-    LDY.b #$00 : STY $0C
+    LDY.b #$00 : STY.b $0C
     
     .next_OAM_entry
     
         JSR.w Ancilla_SetOam_XY
         
-        LDA.w .chr, X        : STA ($90), Y : INY
-        LDA.b #$24 : ORA $0C : STA ($90), Y : INY
+        LDA.w .chr, X        : STA.b ($90), Y : INY
+        LDA.b #$24 : ORA.b $0C : STA.b ($90), Y : INY
         
         PHY
         
-        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        LDA.b #$02 : STA ($92), Y
+        LDA.b #$02 : STA.b ($92), Y
         
         PLY : JSR.w Ancilla_CustomAllocateOam
         
-        LDA $08 : STA $02
+        LDA.b $08 : STA.b $02
         
-        LDA.b #$40 : STA $0C
-    DEC $72 : BPL .next_OAM_entry
+        LDA.b #$40 : STA.b $0C
+    DEC.b $72 : BPL .next_OAM_entry
     
     ; Commit one more sprite to the OAM buffer.
-    LDA $06 : STA $02
+    LDA.b $06 : STA.b $02
     
     JSR.w Ancilla_SetOam_XY
     
-    LDA.b #$C0 : STA ($90), Y : INY
-    LDA.b #$24 : STA ($90), Y : INY
+    LDA.b #$C0 : STA.b ($90), Y : INY
+    LDA.b #$24 : STA.b ($90), Y : INY
     
-    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
     
-    LDA.b #$02 : STA ($92), Y
+    LDA.b #$02 : STA.b ($92), Y
     
     ; TODO: Figure out what the supposed bug is.
     ; BUG: maybe?
-    LDA $0A : CMP.b #$01 : BNE .top_x_bit_zero
-        STA ($92), Y
+    LDA.b $0A : CMP.b #$01 : BNE .top_x_bit_zero
+        STA.b ($92), Y
     
     .top_x_bit_zero
     

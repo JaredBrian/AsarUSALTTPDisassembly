@@ -36,10 +36,10 @@ Ancilla_MotiveDashDust:
     
     JSL.l Ancilla_SetOam_XY_Long
     
-    LDA.w .chr, X          : STA ($90), Y : INY
-    LDA.b #$04 : ORA.b $65 : STA ($90), Y
+    LDA.w .chr, X          : STA.b ($90), Y : INY
+    LDA.b #$04 : ORA.b $65 : STA.b ($90), Y
     
-    LDA.b #$00 : STA ($92)
+    LDA.b #$00 : STA.b ($92)
     
     PLX
     

@@ -174,14 +174,14 @@ Ancilla_SkullWoodsFire:
         
         JSR.w Ancilla_SetOam_XY
         
-        LDA.b $06  : STA ($90), Y : INY
-        LDA.b #$32 : STA ($90), Y : INY
+        LDA.b $06  : STA.b ($90), Y : INY
+        LDA.b #$32 : STA.b ($90), Y : INY
         
         PHY
         
-        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        LDA.b $07 : STA ($92), Y
+        LDA.b $07 : STA.b ($92), Y
         
         PLY
         
@@ -194,17 +194,17 @@ Ancilla_SkullWoodsFire:
             
             JSR.w Ancilla_SetOam_XY
             
-            LDA.b $06 : INC : STA ($90), Y
+            LDA.b $06 : INC : STA.b ($90), Y
             
             INY
             
-            LDA.b #$32 : STA ($90), Y
+            LDA.b #$32 : STA.b ($90), Y
             
             INY : PHY
             
-            TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
             
-            LDA.b $07 : STA ($92), Y
+            LDA.b $07 : STA.b ($92), Y
             
             PLY
             
@@ -263,17 +263,17 @@ Ancilla_SkullWoodsFire:
                     
                     JSR.w Ancilla_SetOam_XY
                     
-                    LDA.w Pool_Ancilla_SkullWoodsFire_blast_chr, X : STA ($90), Y
+                    LDA.w Pool_Ancilla_SkullWoodsFire_blast_chr, X : STA.b ($90), Y
                     INY
                     
                     LDA.w Pool_Ancilla_SkullWoodsFire_blast_properties, X
-                    ORA.b #$30 : ORA.b #$02 : STA ($90), Y
+                    ORA.b #$30 : ORA.b #$02 : STA.b ($90), Y
                     
                     INY : PHY
                     
-                    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+                    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
                     
-                    LDA.w Pool_Ancilla_SkullWoodsFire_blast_OAM_sizes, X : STA ($92), Y
+                    LDA.w Pool_Ancilla_SkullWoodsFire_blast_OAM_sizes, X : STA.b ($92), Y
                     
                     PLY
                     

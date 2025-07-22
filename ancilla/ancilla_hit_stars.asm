@@ -19,7 +19,7 @@ Ancilla_HitStars:
     
     STZ.w $039F, X
     
-    LDA $11 : BNE .just_draw
+    LDA.b $11 : BNE .just_draw
         DEC.w $03B1, X : BPL .delay
             STZ.w $03B1, X
             
@@ -28,8 +28,8 @@ Ancilla_HitStars:
         .delay
         
         LDA.w $0C5E, X : BEQ .just_draw
-            LDA.w $0C22, X : CLC : ADC.b #$FC : STA.w $0C22, X : STA.w $0C2C, X
-            
+            LDA.w $0C22, X : CLC : ADC.b #$FC : STA.w $0C22, X
+                                                STA.w $0C2C, X
             CMP.b #$E8 : BCS .dont_self_terminate
                 STZ.w $0C4A, X
                 
@@ -44,17 +44,17 @@ Ancilla_HitStars:
     
     JSR.w Ancilla_PrepOamCoord
     
-    LDA.w $0C04, X : STA $06
-    LDA.w $0C18, X : STA $07
+    LDA.w $0C04, X : STA.b $06
+    LDA.w $0C18, X : STA.b $07
     
-    LDA.w $038A, X : STA $72
-    LDA.w $038F, X : STA $73
+    LDA.w $038A, X : STA.b $72
+    LDA.w $038F, X : STA.b $73
     
     REP #$20
     
-    LDA $72 : SEC : SBC $06 : STA $08
+    LDA.b $72 : SEC : SBC.b $06 : STA.b $08
     
-    LDA $72 : CLC : ADC $08 : SEC : SBC.w #$0008 : SEC : SBC $E2 : STA $08
+    LDA.b $72 : CLC : ADC.b $08 : SEC : SBC.w #$0008 : SEC : SBC.b $E2 : STA.b $08
     
     SEP #$20
     
@@ -65,37 +65,36 @@ Ancilla_HitStars:
     
     PHX
     
-    LDA.b #$01 : STA $72
+    LDA.b #$01 : STA.b $72
     
     LDA.w $0C5E, X : TAX
     
-    LDY.b #$00 : STY $73
+    LDY.b #$00 : STY.b $73
     
     .next_OAM_entry
     
         JSR.w Ancilla_SetOam_XY
         
-        LDA.w .chr, X : STA ($90), Y : INY
+        LDA.w .chr, X : STA.b ($90), Y
         
-        LDA.b #$04 : ORA $65 : ORA $73 : STA ($90), Y : INY
+        INY
+        LDA.b #$04 : ORA.b $65 : ORA.b $73 : STA.b ($90), Y
         
-        PHY
-        
-        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-        
-        LDA.b #$00 : STA ($92), Y
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY
         
         JSR.w HitStars_UpdateOamBufferPosition
         
         ; Adjust the hflip on the second iteration.
-        LDA.b #$40 : STA $73
+        LDA.b #$40 : STA.b $73
         
         ; Use a different x coordinate on the second iteration. (One which
         ; is in a different direction from the first).
-        LDA $08 : STA $02
-    DEC $72 : BPL .next_OAM_entry
+        LDA.b $08 : STA.b $02
+    DEC.b $72 : BPL .next_OAM_entry
     
     PLX
     

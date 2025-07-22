@@ -122,15 +122,15 @@ Ancilla_ObjectSplash_Draw:
             
             JSR.w Ancilla_SetOam_XY
             
-            LDA.w Pool_Ancilla_ObjectSplash_char, X              : STA ($90), Y
+            LDA.w Pool_Ancilla_ObjectSplash_char, X              : STA.b ($90), Y
             INY
             
-            LDA.w Pool_Ancilla_ObjectSplash_prop, X : ORA.b #$24 : STA ($90), Y
+            LDA.w Pool_Ancilla_ObjectSplash_prop, X : ORA.b #$24 : STA.b ($90), Y
             INY
             
-            PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+            PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
             
-            LDA.w Pool_Ancilla_ObjectSplash_size, X : STA ($92), Y
+            LDA.w Pool_Ancilla_ObjectSplash_size, X : STA.b ($92), Y
             
             PLY
         

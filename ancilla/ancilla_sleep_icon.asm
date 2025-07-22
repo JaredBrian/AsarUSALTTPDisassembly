@@ -39,7 +39,7 @@ Ancilla_SleepIcon:
     
     REP #$20
     
-    LDA.b $20 : SEC : SBC.w #$0018 : CMP $00 : BCC .still_close_enough_to_player
+    LDA.b $20 : SEC : SBC.w #$0018 : CMP.b $00 : BCC .still_close_enough_to_player
         SEP #$20
         
         ; Self terminate if the Z gets too far away from the player.
@@ -62,10 +62,10 @@ Ancilla_SleepIcon:
     
     JSR.w Ancilla_SetOam_XY
     
-    LDA.b #$09 : STA ($90), Y : INY
-    LDA.b #$24 : STA ($90), Y
+    LDA.b #$09 : STA.b ($90), Y : INY
+    LDA.b #$24 : STA.b ($90), Y
     
-    LDA.b #$00 : STA ($92)
+    LDA.b #$00 : STA.b ($92)
     
     RTS
 }

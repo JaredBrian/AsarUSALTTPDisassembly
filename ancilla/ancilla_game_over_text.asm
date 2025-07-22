@@ -38,15 +38,13 @@ Ancilla_GameOverText:
     ; Either way, it seems to utilize the existing Ancilla framework a bit.
     LDX.w $0C4A : BEQ .no_active_objects
         DEX
-        
-        LDA.w Pool_Ancilla_GameOverText_vector_low, X  : STA $00
-        LDA.w Pool_Ancilla_GameOverText_vector_high, X : STA $01
-        
-        JMP ($0000)
+        LDA.w Pool_Ancilla_GameOverText_vector_low, X  : STA.b $00
+        LDA.w Pool_Ancilla_GameOverText_vector_high, X : STA.b $01
+        JMP.w ($0000)
         
     .no_active_objects
     
-    INC $11
+    INC.b $11
     
     RTS
 }
@@ -107,24 +105,23 @@ GameOverText_SweepLeft:
     .to_right_of_target
     
     CPX.b #$07 : BNE .draw
-    
-    LDY.b #$06 : CPY.w $039D : BEQ .dont_do_tandem_move_yet
-        .follow_leading_letter
+        LDY.b #$06 : CPY.w $039D : BEQ .dont_do_tandem_move_yet
+            .follow_leading_letter
+            
+                LDA.w $0C04, X : STA.w $0C04, Y
+            
+                ; Only move the letters that have been 'picked up' thus far.
+            DEY : CPY.w $039D : BNE .follow_leading_letter
+            
+        .dont_do_tandem_move_yet
         
-            LDA.w $0C04, X : STA.w $0C04, Y
+        LDA.w $0C18, X : BNE .draw
+            LDA.w $0C04, X : LDX.w $039D : CMP .target_x_coords, X : BCS .draw
+                ; When the lead letter touches or cross to the left of one of the
+                ; other letters, pick up that letter and make it follow the lead
+                ; letter ('R').
+                DEC.w $039D
         
-            ; Only move the letters that have been 'picked up' thus far.
-        DEY : CPY.w $039D : BNE .follow_leading_letter
-        
-    .dont_do_tandem_move_yet
-    
-    LDA.w $0C18, X : BNE .draw
-        LDA.w $0C04, X : LDX.w $039D : CMP .target_x_coords, X : BCS .draw
-            ; When the lead letter touches or cross to the left of one of the
-            ; other letters, pick up that letter and make it follow the lead
-            ; letter ('R').
-            DEC.w $039D
-    
     .draw
     
     BRL GameOverText_Draw
@@ -155,12 +152,12 @@ GameOverText_UnfurlRight:
     JSR.w Ancilla_MoveHoriz
     
     LDY.w $039D
-    
     LDA.w $0C04, X : CMP .target_x_coords, Y : BCC .left_of_limit
         LDA.w .target_x_coords, Y : STA.w $0C04, Y
         
-        INC.w $039D : LDA.w $039D : CMP.b #$08 : BNE .not_all_letters_in_position
-            INC $11
+        INC.w $039D
+        LDA.w $039D : CMP.b #$08 : BNE .not_all_letters_in_position
+            INC.b $11
             INC.w $0C4A
             
             BRA .draw
@@ -170,14 +167,14 @@ GameOverText_UnfurlRight:
     
     ; As letters drop into position, less of them will be following the
     ; lead letter (which is 'R', as in the last letter of 'Game Over' )
-    LDA.w $039D : DEC : STA $00
+    LDA.w $039D : DEC : STA.b $00
     
     LDX.w $035F : TXY
     
     .follow_leading_letter
     
         LDA.w $0C04, X : STA.w $0C04, Y
-    DEY : CPY $00 : BNE .follow_leading_letter
+    DEY : CPY.b $00 : BNE .follow_leading_letter
     
     .draw
     
@@ -203,11 +200,11 @@ GameOverText_Draw_chr:
 GameOverText_Draw:
 {
     ; Start the OAM buffer from scratch.
-    LDA.b #$00 : STA $90
-    LDA.b #$08 : STA $91
+    LDA.b #$00 : STA.b $90
+    LDA.b #$08 : STA.b $91
     
-    LDA.b #$20 : STA $92
-    LDA.b #$0A : STA $93
+    LDA.b #$20 : STA.b $92
+    LDA.b #$0A : STA.b $93
     
     LDX.w $035F
     
@@ -217,31 +214,38 @@ GameOverText_Draw:
     
         PHX
         
-        LDA.b #$57 : STA $00 : STZ $01
+        LDA.b #$57 : STA.b $00
+                     STZ.b $01
         
-        LDA.w $0C04, X : STA $02
-        LDA.w $0C18, X : STA $03
+        LDA.w $0C04, X : STA.b $02
+        LDA.w $0C18, X : STA.b $03
         
         JSR.w Ancilla_SetOam_XY
         
         TXA : ASL : TAX
+        LDA.w .chr+0, X : STA.b ($90), Y
         
-        LDA.w .chr+0, X : STA ($90), Y : INY
-        LDA.b #$3C      : STA ($90), Y : INY
+        INY
+        LDA.b #$3C      : STA.b ($90), Y
         
-        LDA.b #$5F : STA $00
-                     STZ $01
+        INY
+        
+        LDA.b #$5F : STA.b $00
+                     STZ.b $01
         
         JSR.w Ancilla_SetOam_XY
         
-        LDA.w .chr+1, X : STA ($90), Y : INY
-        LDA.b #$3C      : STA ($90), Y : INY
+        LDA.w .chr+1, X : STA.b ($90), Y
         
-        PHY : TYA : SEC : SBC.b #$08 : LSR #2 : TAY
+        INY
+        LDA.b #$3C      : STA.b ($90), Y
         
-        LDA.b #$00 : STA ($92), Y
+        INY : PHY
+        TYA : SEC : SBC.b #$08 : LSR : LSR : TAY
+        LDA.b #$00 : STA.b ($92), Y
         
-        INY : STA ($92), Y
+        INY
+        STA.b ($92), Y
         
         PLY
     PLX : DEX : BPL .next_OAM_entry

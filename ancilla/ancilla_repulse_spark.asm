@@ -59,8 +59,8 @@ Ancilla_RepulseSpark:
                 LDA.w $0FAC : CMP.b #$03 : BCC .later_states
                     LDY.b #$00
                     
-                    LDA.b $00       : STA ($90), Y
-                    LDA.b $01 : INY : STA ($90), Y
+                    LDA.b $00       : STA.b ($90), Y
+                    LDA.b $01 : INY : STA.b ($90), Y
                     
                     LDA.b #$80
                     
@@ -69,13 +69,13 @@ Ancilla_RepulseSpark:
                         
                     .use_different_chr
                     
-                    INY : STA ($90), Y
+                    INY : STA.b ($90), Y
                     
                     LDX.w $0B68
-                    LDA.l .properties, X : INY : STA ($90), Y
+                    LDA.l .properties, X : INY : STA.b ($90), Y
                     
-                    TYA : LSR #2 : TAY
-                    LDA.b #$00 : STA ($92), Y
+                    TYA : LSR : LSR : TAY
+                    LDA.b #$00 : STA.b ($92), Y
                     
                     RTS
         
@@ -91,35 +91,35 @@ Ancilla_RepulseSpark:
         ; The last three states of this object use more OAM entries than the
         ; earlier ones.
         
-        LDA.b $00 : SEC : SBC.b #$04 : LDY.b #$00 : STA ($90), Y
-                                       LDY.b #$08 : STA ($90), Y
-                    CLC : ADC.b #$08 : LDY.b #$04 : STA ($90), Y
-                                       LDY.b #$0C : STA ($90), Y
-        LDA.b $01 : SEC : SBC.b #$04 : LDY.b #$01 : STA ($90), Y
-                                       LDY.b #$05 : STA ($90), Y
-                    CLC : ADC.b #$08 : LDY.b #$09 : STA ($90), Y
-                                       LDY.b #$0D : STA ($90), Y
+        LDA.b $00 : SEC : SBC.b #$04 : LDY.b #$00 : STA.b ($90), Y
+                                       LDY.b #$08 : STA.b ($90), Y
+                    CLC : ADC.b #$08 : LDY.b #$04 : STA.b ($90), Y
+                                       LDY.b #$0C : STA.b ($90), Y
+        LDA.b $01 : SEC : SBC.b #$04 : LDY.b #$01 : STA.b ($90), Y
+                                       LDY.b #$05 : STA.b ($90), Y
+                    CLC : ADC.b #$08 : LDY.b #$09 : STA.b ($90), Y
+                                       LDY.b #$0D : STA.b ($90), Y
         
         LDX.w $0B68
-        LDA.l .properties, X : LDY.b #$03 : STA ($90), Y
-        ORA.b #$40           : LDY.b #$07 : STA ($90), Y
-        ORA.b #$80           : LDY.b #$0F : STA ($90), Y
-        EOR.b #$40           : LDY.b #$0B : STA ($90), Y
+        LDA.l .properties, X : LDY.b #$03 : STA.b ($90), Y
+        ORA.b #$40           : LDY.b #$07 : STA.b ($90), Y
+        ORA.b #$80           : LDY.b #$0F : STA.b ($90), Y
+        EOR.b #$40           : LDY.b #$0B : STA.b ($90), Y
         
         LDX.w $0FAC
         
-        LDA.w .chr, X : LDY.b #$02 : STA ($90), Y
-                    LDY.b #$06 : STA ($90), Y
-                    LDY.b #$0A : STA ($90), Y
-                    LDY.b #$0E : STA ($90), Y
+        LDA.w .chr, X : LDY.b #$02 : STA.b ($90), Y
+                    LDY.b #$06 : STA.b ($90), Y
+                    LDY.b #$0A : STA.b ($90), Y
+                    LDY.b #$0E : STA.b ($90), Y
         
         LDY.b #$00
         LDA.b #$00
         
-        STA ($92), Y : INY
-        STA ($92), Y : INY
-        STA ($92), Y : INY
-        STA ($92), Y
+        STA.b ($92), Y : INY
+        STA.b ($92), Y : INY
+        STA.b ($92), Y : INY
+        STA.b ($92), Y
         
         RTS
 }

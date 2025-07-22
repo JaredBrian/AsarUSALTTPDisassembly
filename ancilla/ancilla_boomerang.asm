@@ -24,21 +24,22 @@ Ancilla_Boomerang:
     DEY : BPL .next_object_slot
     
     ; See if we're not in a normal submodule.
-    LDA $11 : BNE .just_draw
+    LDA.b $11 : BNE .just_draw
         ; Every 8 frames play the whirling sound effect of the boomerang.
-        LDA $1A : AND.b #$07 : BNE .no_whirling_sound
-            LDA.b #$09 : JSR.w Ancilla_DoSfx2
+        LDA.b $1A : AND.b #$07 : BNE .no_whirling_sound
+            LDA.b #$09
+            JSR.w Ancilla_DoSfx2
         
         .no_whirling_sound
         
         LDA.w $03B1, X : BNE .position_already_set
-            LDA $3C : CMP.b #$09 : BCS .init_position
+            LDA.b $3C : CMP.b #$09 : BCS .init_position
                 LDA.w $0300 : BNE .init_position
                     ; Terminate the boomerang if Link turned into a rabbit.
                     LDA.w $02E0 : BNE .bunny_link
                         ; Terminate the boomerang if Link is in another special
                         ; state...?
-                        LDA $4D : BEQ .just_draw
+                        LDA.b $4D : BEQ .just_draw
 
                     .bunny_link
                         
@@ -54,18 +55,18 @@ Ancilla_Boomerang:
     
     REP #$20
     
-    LDA $20 : CLC : ADC.w #$0008 : CLC : ADC Pool_Ancilla_Boomerang_y_offsets, Y
-    STA $00
+    LDA.b $20 : CLC : ADC.w #$0008 : CLC : ADC Pool_Ancilla_Boomerang_y_offsets, Y
+    STA.b $00
     
-    LDA $22 : CLC : ADC Pool_Ancilla_Boomerang_y_offsets, Y : STA $02
+    LDA.b $22 : CLC : ADC Pool_Ancilla_Boomerang_y_offsets, Y : STA.b $02
     
     SEP #$20
     
-    LDA $00 : STA.w $0BFA, X
-    LDA $01 : STA.w $0C0E, X
+    LDA.b $00 : STA.w $0BFA, X
+    LDA.b $01 : STA.w $0C0E, X
     
-    LDA $02 : STA.w $0C04, X
-    LDA $03 : STA.w $0C18, X
+    LDA.b $02 : STA.w $0C04, X
+    LDA.b $03 : STA.w $0C18, X
     
     INC.w $03B1, X
     
@@ -74,7 +75,7 @@ Ancilla_Boomerang:
     ; 0 - Normal, 1 - Magic boomerang
     LDA.w $0394, X : BEQ .no_sparkle
         ; Generate a sparkle every other frame.
-        LDA $1A : AND.b #$01 : BNE .no_sparkle
+        LDA.b $1A : AND.b #$01 : BNE .no_sparkle
             PHX
             
             JSL.l AddSwordChargeSpark
@@ -95,23 +96,23 @@ Ancilla_Boomerang:
         ; BUG: While probably mostly harmless... this writes a 16-bit value
         ; to an 8-bit location. Not a great thing to do!
         ; Cache the player's Y coordinate in a temporary variable.
-        LDA $20 : STA.w $038A, X
-        
-        CLC : ADC.w #$0008 : STA $20
+        LDA.b $20 : STA.w $038A, X
+        CLC : ADC.w #$0008 : STA.b $20
         
         SEP #$20
         
-        LDA.w $03C5, X : JSR.w Ancilla_ProjectSpeedTowardsPlayer
+        LDA.w $03C5, X
+        JSR.w Ancilla_ProjectSpeedTowardsPlayer
         
         JSL.l Boomerang_CheatWhenNoOnesLooking
         
-        LDA $00 : STA.w $0C22, X
-        LDA $01 : STA.w $0C2C, X
+        LDA.b $00 : STA.w $0C22, X
+        LDA.b $01 : STA.w $0C2C, X
         
         REP #$20
         
         ; Restore the player's Y coordinate.
-        LDA.w $038A, X : STA $20
+        LDA.w $038A, X : STA.b $20
         
         SEP #$20
     
@@ -160,7 +161,8 @@ Ancilla_Boomerang:
                     
                 .not_key_door
                 
-                TYA : JSR.w Ancilla_DoSfx2
+                TYA
+                JSR.w Ancilla_DoSfx2
                 
                 BRA .reverse_seek_polarity
                 
@@ -169,7 +171,8 @@ Ancilla_Boomerang:
             ; If the boomerang hits the edge of the screen it will also
             ; flip polarity and go back to the player.
             JSR.w Boomerang_CheckForScreenEdgeReversal : BCS .reverse_seek_polarity
-                DEC.w $0C54, X : LDA.w $0C54, X : BEQ .reverse_seek_polarity
+                DEC.w $0C54, X
+                LDA.w $0C54, X : BEQ .reverse_seek_polarity
                     CMP.b #$05 : BCS .draw
                         ; WTF: Is this an incomplete feature? Why is it
                         ; necessary to speed up on certain frames, and the
@@ -237,11 +240,11 @@ Ancilla_CheckTileCollision_Class2_Long:
 ; $04124B-$0412AA LOCAL JUMP LOCATION
 Boomerang_CheckForScreenEdgeReversal:
 {
-    LDA.w $0BFA, X : STA $00
-    LDA.w $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA.b $00
+    LDA.w $0C0E, X : STA.b $01
     
-    LDA.w $0C04, X : STA $02
-    LDA.w $0C18, X : STA $03
+    LDA.w $0C04, X : STA.b $02
+    LDA.w $0C18, X : STA.b $03
     
     REP #$30
     
@@ -253,8 +256,7 @@ Boomerang_CheckForScreenEdgeReversal:
         
         .leftward_throw
         
-        TYA : CLC : ADC $02 : SEC : SBC $E2 : STA $02
-        
+        TYA : CLC : ADC.b $02 : SEC : SBC.b $E2 : STA.b $02
         CMP.w #$0100 : BCS .reverse_direction
     
     .no_horizontal_component
@@ -267,7 +269,8 @@ Boomerang_CheckForScreenEdgeReversal:
         
         .upward_throw
         
-        TYA : CLC : ADC $00 : SEC : SBC $E8 : STA $00 : CMP.w #$00E2 : BCC .dont_reverse
+        TYA : CLC : ADC.b $00 : SEC : SBC.b $E8 : STA.b $00
+        CMP.w #$00E2 : BCC .dont_reverse
             .reverse_direction
             
             SEP #$30
@@ -290,26 +293,25 @@ Boomerang_CheckForScreenEdgeReversal:
 ; $0412AB-$0412F4 LOCAL JUMP LOCATION
 Boomerang_SelfTerminateIfOffscreen:
 {
-    LDA.w $0BFA, X : STA $04
-    LDA.w $0C0E, X : STA $05
+    LDA.w $0BFA, X : STA.b $04
+    LDA.w $0C0E, X : STA.b $05
     
-    LDA.w $0C04, X : STA $06
-    LDA.w $0C18, X : STA $07
+    LDA.w $0C04, X : STA.b $06
+    LDA.w $0C18, X : STA.b $07
     
     REP #$20
     
-    LDA $20 : CLC : ADC.w #$0018 : STA $00
-    LDA $22 : CLC : ADC.w #$0010 : STA $02
+    LDA.b $20 : CLC : ADC.w #$0018 : STA.b $00
+    LDA.b $22 : CLC : ADC.w #$0010 : STA.b $02
     
-    LDA $04 : CLC : ADC.w #$0008 : STA $04
-    
-    LDA $06 : CLC : ADC.w #$0008 : STA $06
+    LDA.b $04 : CLC : ADC.w #$0008 : STA.b $04
+    LDA.b $06 : CLC : ADC.w #$0008 : STA.b $06
     
     ; Self terminate if the boomerang is close enough to the player.
-    LDA $04 : CMP $20 : BCC Boomerang_SelfTerminate_dont_self_terminate
-              CMP $00 : BCS Boomerang_SelfTerminate_dont_self_terminate
-        LDA $06 : CMP $22 : BCC Boomerang_SelfTerminate_dont_self_terminate
-                  CMP $02 : BCS Boomerang_SelfTerminate_dont_self_terminate
+    LDA.b $04 : CMP.b $20 : BCC Boomerang_SelfTerminate_dont_self_terminate
+                CMP.b $00 : BCS Boomerang_SelfTerminate_dont_self_terminate
+        LDA.b $06 : CMP.b $22 : BCC Boomerang_SelfTerminate_dont_self_terminate
+                    CMP.b $02 : BCS Boomerang_SelfTerminate_dont_self_terminate
             ; Bleeds into the next function.
 }
 
@@ -326,9 +328,10 @@ Boomerang_SelfTerminate:
         STZ.w $0301
             
         ; Cancel any further Y button input this frame.
-        LDA $3A : AND.b #$BF : STA $3A : AND.b #$80 : BNE .b_button_held
+        LDA.b $3A : AND.b #$BF : STA.b $3A
+        AND.b #$80 : BNE .b_button_held
             ; Allow Link to change direction again.
-            LDA $50 : AND.b #$FE : STA $50
+            LDA.b $50 : AND.b #$FE : STA.b $50
 
         .b_button_held
     .not_in_throw_pose
@@ -372,22 +375,21 @@ Boomerang_Draw:
     JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0C5E, X : BEQ .moving_away
-        LDA $EE : STA.w $0C7C, X : TAY
-        
-        LDA.w Ancilla_PrepOamCoord_priority, Y : STA $65
+        LDA.b $EE : STA.w $0C7C, X
+                    TAY
+        LDA.w Ancilla_PrepOamCoord_priority, Y : STA.b $65
         
     .moving_away
     
     LDA.w $0280, X : BEQ .normal_priority
-        LDA.b #$30 : STA $65
+        LDA.b #$30 : STA.b $65
         
     .normal_priority
     
-    LDA $11 : BNE .leave_rotation_state_alone
+    LDA.b $11 : BNE .leave_rotation_state_alone
         LDA.w $03B1, X : BEQ .leave_rotation_state_alone
             DEC.w $039F, X : BPL .leave_rotation_state_alone
                 LDY.w $0394, X
-                
                 LDA.w Pool_Boomerang_Draw_rotation_speed, Y : STA.w $039F, X
                 
                 LDY.w $03A4, X
@@ -412,45 +414,43 @@ Boomerang_Draw:
     
     PHX
     
-    LDA.w $0394, X : ASL #2 : STA $72
+    LDA.w $0394, X : ASL : ASL : STA.b $72
     
-    LDA.w $03A4, X : ASL #2 : TAY
+    LDA.w $03A4, X : ASL : ASL : TAY
     
     REP #$20
     
-    STZ $74
+    STZ.b $74
     
     ; The first entry in each interleaved pair is the y offset, the second
     ; being the x offset.
-    LDA.w Pool_Boomerang_Draw_xy_offsets+0, Y : CLC : ADC $00           : STA $00
-    LDA.w Pool_Boomerang_Draw_xy_offsets+2, Y : CLC : ADC $02 : STA $02 : STA $04
+    LDA.w Pool_Boomerang_Draw_xy_offsets+0, Y : CLC : ADC.b $00 : STA.b $00
+    LDA.w Pool_Boomerang_Draw_xy_offsets+2, Y : CLC : ADC.b $02 : STA.b $02
+                                                                  STA.b $04
     
     LDA.w $03B1, X : AND.w #$00FF : BNE .use_general_OAM_base
         LDA.w $0FB3 : AND.w #$00FF : ASL : TAX
-        
         LDA.w Pool_Boomerang_Draw_OAM_base, X : PHA
+        LSR : LSR : CLC : ADC.w #$0A20 : STA.b $92
         
-        LSR #2 : CLC : ADC.w #$0A20 : STA $92
-        
-        PLA : CLC : ADC.w #$0800 : STA $90
+        PLA : CLC : ADC.w #$0800 : STA.b $90
     
     .use_general_OAM_base
     
     SEP #$20
     
-    TYA : LSR #2 : CLC : ADC $72 : TAX
+    TYA : LSR : LSR : CLC : ADC.b $72 : TAX
     
     LDY.b #$00
     
     JSR.w Ancilla_SetSafeOam_XY
     
-    LDA.b #$26 : STA ($90), Y
+    LDA.b #$26 : STA.b ($90), Y
     
     INY
+    LDA.w Pool_Boomerang_Draw_properties, X : AND.b #$CF : ORA.b $65 : STA.b ($90), Y
     
-    LDA.w Pool_Boomerang_Draw_properties, X : AND.b #$CF : ORA $65 : STA ($90), Y
-    
-    LDA.b #$02 : ORA $75 : STA ($92)
+    LDA.b #$02 : ORA.b $75 : STA.b ($92)
     
     PLX
     

@@ -49,12 +49,11 @@ Pool_Ancilla_InitialCaneSpark:
 ; $045B24-$045C0D JUMP LOCATION
 Ancilla_InitialCaneSpark:
 {
-    LDA $11 : BNE .transmute_delay
+    LDA.b $11 : BNE .transmute_delay
         DEC.w $03B1, X : BPL .transmute_delay
             LDA.b #$01 : STA.w $03B1, X
             
             LDA.w $0C5E, X : INC : STA.w $0C5E, X
-            
             CMP.b #$11 : BNE .transmute_delay
                 BRL CaneSpark_TransmuteInitialToNormal
         
@@ -66,7 +65,7 @@ Ancilla_InitialCaneSpark:
         
     .active
     
-    LDA $2F : ASL #2 : STA $00
+    LDA.b $2F : ASL : ASL : STA.b $00
     
     LDA.w $0300 : CMP.b #$02 : BNE .not_final_cast_pose
         TAY
@@ -76,7 +75,6 @@ Ancilla_InitialCaneSpark:
             ; Thus, all frames after this should use this position if $0300 stays
             ; at state 0x02.
             LDA.b #$00
-            
             LDY.b #$03
         
         .not_final_chr_group
@@ -87,56 +85,56 @@ Ancilla_InitialCaneSpark:
     
     .not_final_cast_pose
     
-    ASL : CLC : ADC $00 : TAY
+    ASL : CLC : ADC.b $00 : TAY
     
     REP #$20
     
     LDA.w Pool_Ancilla_InitialCaneSpark_player_relative_y_offsets, Y
-    CLC : ADC $20 : STA $00
+    CLC : ADC.b $20 : STA.b $00
 
     LDA.w Pool_Ancilla_InitialCaneSpark_player_relative_x_offsets, Y
-    CLC : ADC $22 : STA $02
+    CLC : ADC.b $22 : STA.b $02
     
     SEP #$20
     
-    LDA $00 : STA.w $0BFA, X
-    LDA $01 : STA.w $0C0E, X
+    LDA.b $00 : STA.w $0BFA, X
+    LDA.b $01 : STA.w $0C0E, X
     
-    LDA $02 : STA.w $0C04, X
-    LDA $03 : STA.w $0C18, X
+    LDA.b $02 : STA.w $0C04, X
+    LDA.b $03 : STA.w $0C18, X
     
     JSR.w Ancilla_PrepOamCoord
     
     REP #$20
     
-    LDA $00 : STA $06
-    LDA $02 : STA $08
+    LDA.b $00 : STA.b $06
+    LDA.b $02 : STA.b $08
     
     SEP #$20
     
     PHX
     
-    STZ $0A
+    STZ.b $0A
     
     ; If we branch here, chr group is 0x00.
     LDA.w $0C5E, X : DEC : AND.b #$0F : BEQ .use_first_chr_group
         CMP.b #$0F : BEQ .use_last_chr_group
             ; Chr group here is 0x01 or 0x02.
-            AND.b #$01 : INC : STA $0A
+            AND.b #$01 : INC : STA.b $0A
             
             BRA .start_OAM_commit_loop
             
         .use_last_chr_group
         
         ; Chr group here is 0x03.
-        LDA.b #$03 : STA $0A
+        LDA.b #$03 : STA.b $0A
     
+        .start_OAM_commit_loop
     .use_first_chr_group
-    .start_OAM_commit_loop
     
-    LDA $0A : ASL #2 : TAX
+    LDA.b $0A : ASL : ASL : TAX
     
-    LDY.b #$00 : STY $04
+    LDY.b #$00 : STY.b $04
     
     .next_OAM_entry
     
@@ -146,12 +144,11 @@ Ancilla_InitialCaneSpark:
             PHX
             
             TXA : ASL : TAX
-            
-            LDA $06
-            CLC : ADC Pool_Ancilla_InitialCaneSpark_y_offsets, X : STA $00
+            LDA.b $06
+            CLC : ADC Pool_Ancilla_InitialCaneSpark_y_offsets, X : STA.b $00
 
-            LDA $08
-            CLC : ADC Pool_Ancilla_InitialCaneSpark_x_offsets, X : STA $02
+            LDA.b $08
+            CLC : ADC Pool_Ancilla_InitialCaneSpark_x_offsets, X : STA.b $02
             
             PLX
             
@@ -159,24 +156,25 @@ Ancilla_InitialCaneSpark:
             
             JSR.w Ancilla_SetOam_XY
             
-            LDA.w Pool_Ancilla_InitialCaneSpark_chr, X : STA ($90), Y
-            INY
+            LDA.w Pool_Ancilla_InitialCaneSpark_chr, X : STA.b ($90), Y
 
-            LDA.w Pool_Ancilla_InitialCaneSpark_properties, X
-            AND.b #$CF : ORA $65 : STA ($90), Y
             INY
-            
-            PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+            LDA.w Pool_Ancilla_InitialCaneSpark_properties, X
+            AND.b #$CF : ORA.b $65 : STA.b ($90), Y
+
+            INY : PHY
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
             
             ; All OAM entries are small for this guy.
-            LDA.b #$00 : STA ($92), Y
+            LDA.b #$00 : STA.b ($92), Y
             
             PLY
             
         .skip_OAM_entry
         
         INX
-    INC $04 : LDA $04 : AND.b #$03 : BNE .next_OAM_entry
+    INC.b $04
+    LDA.b $04 : AND.b #$03 : BNE .next_OAM_entry
     
     PLX
     
@@ -207,8 +205,7 @@ CaneSpark_TransmuteInitialToNormal:
 {
     LDA.b #$31 : STA.w $0C4A, X
     
-    LDA $2F : ASL : TAY
-    
+    LDA.b $2F : ASL : TAY
     LDA.w Pool_CaneSpark_TransmuteInitialToNormal_initial_rotation_states+0, Y
     STA.l $7F5800
 
@@ -234,10 +231,10 @@ CaneSpark_TransmuteInitialToNormal:
     LDA.b #$02 : STA.w $03A4, X
     
     LDA.b #$15 : STA.w $0C68, X
+    DEC        : STA.l $7F5808
     
-    DEC : STA.l $7F5808
-    
-    LDA.b #$30 : JSR.w Ancilla_DoSfx3_NearPlayer
+    LDA.b #$30
+    JSR.w Ancilla_DoSfx3_NearPlayer
 
     ; Bleeds into the next function.
 }
@@ -249,10 +246,10 @@ Ancilla_CaneSpark:
     PHX
     
     ; Set palette property compoment.
-    LDA.b #$02 : STA $73
+    LDA.b #$02 : STA.b $73
     
     ; Make sure we're in the basic submodule.
-    LDA $11 : BEQ .execute
+    LDA.b $11 : BEQ .execute
         ; Just draw, don't execute any state changes.
         BRL .draw
         
@@ -272,24 +269,23 @@ Ancilla_CaneSpark:
             
             ; Table of magic depletion values for the cane effects.
             ; Depletions are every 0x18 frames.
-            LDA.w .mp_costs, Y : STA $00
+            LDA.w .mp_costs, Y : STA.b $00
             
             ; Reduce magic by this amount.
             LDA.l $7EF36E : BEQ .self_terminate
                 ; Would consuming that much magic would leave us in the red?
-                SEC : SBC $00 : CMP.b #$80 : BCS .self_terminate
-                    STA $00
-                    
+                SEC : SBC.b $00 : CMP.b #$80 : BCS .self_terminate
+                    STA.b $00
                     DEC.w $0394, X : BPL .magic_depletion_delay
                         LDA.b #$17 : STA.w $0394, X
                         
-                        LDA $00 : STA.l $7EF36E
+                        LDA.b $00 : STA.l $7EF36E
                     
                     .magic_depletion_delay
                     
                     ; Check if Y button was pressed this frame.
                     ; Branch if it wasn't.
-                    BIT $F4 : BVC .maintain_invulnerability
+                    BIT.b $F4 : BVC .maintain_invulnerability
     
     .self_terminate
     
@@ -310,7 +306,8 @@ Ancilla_CaneSpark:
     LDA.w $0C54, X : CMP.b #$03 : BEQ .all_sparkles_visible
         LDY.b #$00
         
-        INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$04 : BCC .not_all_visible
+        INC.w $0C5E, X
+        LDA.w $0C5E, X : CMP.b #$04 : BCC .not_all_visible
             LDY.b #$03
             
             BRA .set_new_visible_quantity
@@ -336,15 +333,13 @@ Ancilla_CaneSpark:
         LDA.b #$02 : STA.w $03A4, X
         
         ; Override to a different palette in this situation (blue?)
-        LDA.b #$04 : STA $73
+        LDA.b #$04 : STA.b $73
     
     .draw
     
     REP #$20
     
-    LDA $24 : AND.w #$00FF
-    
-    CMP.w #$0080 : BCC .no_player_altitude_sign_extend
+    LDA.b $24 : AND.w #$00FF : CMP.w #$0080 : BCC .no_player_altitude_sign_extend
         ORA.w #$FF00
     
     .no_player_altitude_sign_extend
@@ -355,20 +350,20 @@ Ancilla_CaneSpark:
     .player_not_hitting_ground
     
     EOR.w #$FFFF : INC
-    
-    CLC : ADC $20 : CLC : ADC.w #$000C : STA.l $7F5810
-    LDA $22       : CLC : ADC.w #$0008 : STA.l $7F580E
+    CLC : ADC.b $20 : CLC : ADC.w #$000C : STA.l $7F5810
+    LDA.b $22       : CLC : ADC.w #$0008 : STA.l $7F580E
     
     SEP #$20
     
     LDA.w $0C68, X : BNE .SFX_delay
         LDA.b #$15 : STA.w $0C68, X
         
-        LDA.b #$30 : JSR.w Ancilla_DoSfx3_NearPlayer
+        LDA.b #$30
+        JSR.w Ancilla_DoSfx3_NearPlayer
         
     .SFX_delay
     
-    STX $74
+    STX.b $74
     
     LDY.b #$00
     
@@ -376,52 +371,49 @@ Ancilla_CaneSpark:
     
     .next_OAM_entry
     
-        STX $72
+        STX.b $72
         
-        LDA $11 : BNE .dont_increment_sparkle_rotation
+        LDA.b $11 : BNE .dont_increment_sparkle_rotation
             LDA.l $7F5800, X : CLC : ADC.b #$03 : AND.b #$3F : STA.l $7F5800, X
         
         .dont_increment_sparkle_rotation
         
         PHX : PHY
         
-        LDA.l $7F5808 : STA $08
+        LDA.l $7F5808 : STA.b $08
         
         LDA.l $7F5800, X
-        
         JSR.w Ancilla_GetRadialProjection
+
         JSL.l Sparkle_PrepOamCoordsFromRadialProjection
         
         PLY
         
         JSR.w Ancilla_SetOam_XY
         
-        LDX $72
-        
-        LDA.w Pool_Ancilla_SpinSpark_spark_chr, X : STA ($90), Y
-        INY
+        LDX.b $72
+        LDA.w Pool_Ancilla_SpinSpark_spark_chr, X : STA.b ($90), Y
 
-        LDA $73 : ORA $65 : STA ($90), Y
         INY
-        
-        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-        
-        LDA.b #$00 : STA ($92), Y
+        LDA.b $73 : ORA.b $65 : STA.b ($90), Y
+
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+        LDA.b #$00 : STA.b ($92), Y
         
         REP #$20
         
-        LDA $00 : CLC : ADC $E8 : STA $04
-        LDA $02 : CLC : ADC $E2 : STA $06
+        LDA.b $00 : CLC : ADC.b $E8 : STA.b $04
+        LDA.b $02 : CLC : ADC.b $E2 : STA.b $06
         
         SEP #$20
         
-        LDX $74
+        LDX.b $74
+        LDA.b $04 : STA.w $0BFA, X
+        LDA.b $05 : STA.w $0C0E, X
         
-        LDA $04 : STA.w $0BFA, X
-        LDA $05 : STA.w $0C0E, X
-        
-        LDA $06 : STA.w $0C04, X
-        LDA $07 : STA.w $0C18, X
+        LDA.b $06 : STA.w $0C04, X
+        LDA.b $07 : STA.w $0C18, X
         
         STZ.w $0C72, X
         

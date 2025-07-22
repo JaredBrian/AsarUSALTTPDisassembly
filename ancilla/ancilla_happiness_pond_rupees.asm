@@ -57,13 +57,12 @@ HappinessPondRupees_ExecuteRupee:
     PHX
     
     LDY.w $0FA0
-    
     JSR.w HappinessPondRupee_LoadRupeeeState
     
     TYX
     
     LDA.w $0C54, X : BEQ .not_in_splash_state
-        LDA $11 : BNE .just_draw_splash
+        LDA.b $11 : BNE .just_draw_splash
             LDA.w $0C68, X : BNE .just_draw_splash
                 LDA.b #$06 : STA.w $0C68, X
                 
@@ -81,7 +80,7 @@ HappinessPondRupees_ExecuteRupee:
     
     .not_in_splash_state
     
-    LDA $11 : BNE .just_draw_item
+    LDA.b $11 : BNE .just_draw_item
         LDA.w $0C68, X : BNE .just_draw_item
             LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
             
@@ -103,7 +102,8 @@ HappinessPondRupees_ExecuteRupee:
                 
                 LDA.b #$06 : STA.w $0C68, X
                 
-                LDA.b #$28 : JSR.w Ancilla_DoSfx2
+                LDA.b #$28
+                JSR.w Ancilla_DoSfx2
                 
                 INC.w $0C54, X
                 

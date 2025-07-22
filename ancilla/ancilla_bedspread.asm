@@ -21,21 +21,24 @@ Ancilla_BedSpread:
     
     REP #$20
     
-    LDA $00 : STA $04
-    LDA $02 : STA $06 : STA $08
+    LDA.b $00 : STA.b $04
+    LDA.b $02 : STA.b $06
+                STA.b $08
     
     SEP #$20
     
     PHX
     
     LDA.w $037D : BNE .player_eyes_not_shut
-        LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
+        LDA.b #$10
+        JSL.l OAM_AllocateFromRegionB
         
         BRA .OAM_allocation_set
     
     .player_eyes_not_shut
     
-    LDA.b #$10 : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$10
+    JSL.l OAM_AllocateFromRegionA
     
     .OAM_allocation_set
     
@@ -46,7 +49,7 @@ Ancilla_BedSpread:
     
     TAX
     
-    LDA.b #$03 : STA $0A
+    LDA.b #$03 : STA.b $0A
     
     LDY.b #$00
     
@@ -54,18 +57,16 @@ Ancilla_BedSpread:
     
             JSR.w Ancilla_SetOam_XY
             
-            LDA.w Pool_Ancilla_BedSpread_chr, X : STA ($90), Y
+            LDA.w Pool_Ancilla_BedSpread_chr, X : STA.b ($90), Y
+
             INY
-            
             LDA.w Pool_Ancilla_BedSpread_properties, X
-            ORA.b #$0D : ORA $65 : STA ($90), Y
-            INY
+            ORA.b #$0D : ORA .b$65 : STA.b ($90), Y
+
+            INY : PHY
             
-            PHY
-            
-            TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-            
-            LDA.b #$02 : STA ($92), Y
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+            LDA.b #$02 : STA.b ($92), Y
             
             PLY
             
@@ -73,18 +74,18 @@ Ancilla_BedSpread:
             
             REP #$20
             
-            LDA $06 : CLC : ADC.w #$0010 : STA $02
+            LDA.b $06 : CLC : ADC.w #$0010 : STA.b $02
             
             SEP #$20
             
-            DEC $0A : BMI .done_drawing
-        LDA $0A : CMP.b #$01 : BNE .next_OAM_entry
+            DEC.b $0A : BMI .done_drawing
+        LDA.b $0A : CMP.b #$01 : BNE .next_OAM_entry
         
         REP #$20
         
-        LDA $06 : STA $02
+        LDA.b $06 : STA.b $02
         
-        LDA $04 : CLC : ADC.w #$0008 : STA $00
+        LDA.b $04 : CLC : ADC.w #$0008 : STA.b $00
         
         SEP #$20
     BRA .next_OAM_entry

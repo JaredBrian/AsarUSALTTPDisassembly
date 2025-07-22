@@ -51,12 +51,13 @@ Pool_Ancilla_Hookshot:
 ; $043D74-$044002 JUMP LOCATION
 Ancilla_Hookshot:
 {
-    LDA $11 : BNE .just_draw
+    LDA.b $11 : BNE .just_draw
         ; Branch if no sound effect this frame...
         LDA.w $0C68, X : BNE .chain_SFX_delay
             LDA.b #$07 : STA.w $0C68, X
             
-            LDA.b #$0A : JSR.w Ancilla_DoSfx2
+            LDA.b #$0A
+            JSR.w Ancilla_DoSfx2
             
         .chain_SFX_delay
         
@@ -87,7 +88,6 @@ Ancilla_Hookshot:
     
     ; If not at fully protracted state yet, don't begin retracting.
     LDA.w $0C5E, X : INC : STA.w $0C5E, X
-    
     CMP.b #$20 : BNE .protraction_not_maxed
         ; Begin retracting.
         LDA.b #$01 : STA.w $0C54, X
@@ -128,20 +128,20 @@ Ancilla_Hookshot:
      
     JSL.l Hookshot_CheckTileCollison
     
-    STZ $00
+    STZ.b $00
     
-    LDA $1B : BEQ .outdoor_ledge_interaction
+    LDA.b $1B : BEQ .outdoor_ledge_interaction
         LDY.b #$01
         
         LDA.w $0C72, X : AND.b #$02 : BNE .indoor_horiz_ledge_interaction
-            LDA.w $036D : LSR #4 : STA $00
+            LDA.w $036D : LSR #4 : STA.b $00
             
             LDY.b #$00
             
         .indoor_horiz_ledge_interaction
         
         ; Helps us get across bodies of water without being stopped.
-        LDA.w $036D, Y : ORA $00 : AND.b #$03 : STA $00
+        LDA.w $036D, Y : ORA.b $00 : AND.b #$03 : STA.b $00
         BEQ .not_ledge_collision
             BRA .ledge_collision
         
@@ -156,10 +156,10 @@ Ancilla_Hookshot:
             ; still up.
             LDY.w $0380, X : BEQ .last_tile_interaction_passable
                 ; As opposed to an outdoor ledge.
-                LDA $00 : AND.b #$03 : BNE .hit_indoor_ledge_tile
+                LDA.b $00 : AND.b #$03 : BNE .hit_indoor_ledge_tile
                     ; NOTE: The tile detection api is supposed to set this
                     ; variable.
-                    CPY $76 : BEQ .last_tile_interaction_passable
+                    CPY.b $76 : BEQ .last_tile_interaction_passable
                     
                 .hit_indoor_ledge_tile
                 
@@ -176,7 +176,7 @@ Ancilla_Hookshot:
             ; then it gets set low later.
             INC.w $0385, X
             
-            LDA $76 : STA.w $0380, X
+            LDA.b $76 : STA.w $0380, X
             
             LDA.b #$01 : STA.w $0394, X
             
@@ -196,8 +196,8 @@ Ancilla_Hookshot:
     
     .extra_collision_logic
     
-    LDA $0E : LSR #4
-    ORA $0E : ORA $58 : ORA $0C : AND.b #$03 : BEQ .no_extra_tile_collision
+    LDA.b $0E : LSR #4
+    ORA.b $0E : ORA.b $58 : ORA.b $0C : AND.b #$03 : BEQ .no_extra_tile_collision
         LDA.w $0C54, X : BNE .no_extra_tile_collision
             LDA.b #$01 : STA.w $0C54, X
             
@@ -211,7 +211,6 @@ Ancilla_Hookshot:
                 
                 LDY.b #$01
                 LDA.b #$06
-                
                 JSL.l AddHookshotWallHit
                 
                 PLX
@@ -224,7 +223,8 @@ Ancilla_Hookshot:
                 
                 .hit_key_door
                 
-                TYA : JSR.w Ancilla_DoSfx2
+                TYA
+                JSR.w Ancilla_DoSfx2
     
     .no_extra_tile_collision
     
@@ -249,84 +249,83 @@ Ancilla_Hookshot:
     JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0385, X : BEQ .max_priority_not_required
-        LDA.b #$30 : STA $65
+        LDA.b #$30 : STA.b $65
     
     .max_priority_not_required
     
     REP #$20
     
-    LDA $00 : STA $04
-    LDA $02 : STA $06
+    LDA.b $00 : STA.b $04
+    LDA.b $02 : STA.b $06
     
     SEP #$20
     
     PHX
     
-    LDA.w $0C72, X : STA $08
+    LDA.w $0C72, X : STA.b $08
     
     ; X and $0A = $0C72, X * 6
-    ASL : CLC : ADC $08 : STA $0A : TAX
+    ASL : CLC : ADC.b $08 : STA.b $0A : TAX
     
-    LDA.b #$02 : STA $08
+    LDA.b #$02 : STA.b $08
     
     LDY.b #$00
     
     .next_OAM_entry
     
-            LDX $0A
+            LDX.b $0A
             
             LDA.w .chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
                 JSR.w Ancilla_SetOam_XY
                 
-                LDX $0A
-                
-                LDA.w Pool_Ancilla_Hookshot_chr, X : STA ($90), Y
-                INY
+                LDX.b $0A
+                LDA.w Pool_Ancilla_Hookshot_chr, X : STA.b ($90), Y
 
-                LDA.w Pool_Ancilla_Hookshot_properties, X
-                ORA.b #$02 : ORA $65 : STA ($90), Y
                 INY
-                
-                PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-                
-                LDA.b #$00 : STA ($92), Y
+                LDA.w Pool_Ancilla_Hookshot_properties, X
+                ORA.b #$02 : ORA.b $65 : STA.b ($90), Y
+
+                INY : PHY
+                TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+                LDA.b #$00 : STA.b ($92), Y
                 
                 PLY
             
             .skip_OAM_entry
             
-            INC $0A
+            INC.b $0A
             
-            LDA $02 : CLC : ADC.b #$08 : STA $02
+            LDA.b $02 : CLC : ADC.b #$08 : STA.b $02
             
-            DEC $08 : BMI .draw_chain_links
-        LDA $08 : BNE .next_OAM_entry
+            DEC.b $08 : BMI .draw_chain_links
+        LDA.b $08 : BNE .next_OAM_entry
         
-        LDA $00 : CLC : ADC.b #$08 : STA $00
+        LDA.b $00 : CLC : ADC.b #$08 : STA.b $00
         
-        LDA $06 : STA $02
+        LDA.b $06 : STA.b $02
     BRA .next_OAM_entry
     
     .draw_chain_links
     
     PLX : PHX
     
-    STZ $0A
-    STZ $0B
-    STZ $0C
-    STZ $0D
+    STZ.b $0A
+    STZ.b $0B
+    STZ.b $0C
+    STZ.b $0D
     
     LDA.w $0C5E, X : LSR : CMP.b #$07 : BCC .link_scaling_not_needed
         ; At extension state >= 7, use this as the base displacement between
         ; chain links. Otherwise, the distance between them is fixed per
         ; the data tables provided by the pool.
-        SEC : SBC.b #$07 : STA $0A : STA $0C
+        SEC : SBC.b #$07 : STA.b $0A
+                           STA.b $0C
         
         LDA.b #$06
         
     .link_scaling_not_needed
     
-    STA $08 : BNE .at_least_one_chain_link_renderable
+    STA.b $08 : BNE .at_least_one_chain_link_renderable
         ; Currently we should not draw any of the little link components,
         ; so just return for now.
         BRL .no_chain_links
@@ -337,13 +336,13 @@ Ancilla_Hookshot:
         ; Tracting down or right, so multiply the base offset by -1?
         ; It appears that this is done because the links are drawn
         ; relative to the hook at the end of the hookshot as it's tracting.
-        LDA $0A : EOR.b #$FF : INC : STA $0A
-                                       STA $0C
+        LDA.b $0A : EOR.b #$FF : INC : STA.b $0A
+                                       STA.b $0C
         
         BEQ .no_sign_extension_needed
             ; Sign extension for $0A and $0C.
-            LDA.b #$FF : STA $0B
-                         STA $0D
+            LDA.b #$FF : STA.b $0B
+                         STA.b $0D
     
         .no_sign_extension_needed
     .tracting_up_or_left
@@ -351,16 +350,15 @@ Ancilla_Hookshot:
     REP #$20
     
     LDA.w $0C72, X : ASL : AND.b #$00FF : TAX
-    
     LDA.w Pool_Ancilla_Hookshot_chain_y_speeds, X : BNE .use_actual_y_displacement
         ; Otherwise move the base y offset for the links down 4 pixels.
-        LDA $04 : CLC : ADC.w #$0004 : STA $04
+        LDA.b $04 : CLC : ADC.w #$0004 : STA.b $04
         
     .use_actual_y_displacement
     
     LDA.w Pool_Ancilla_Hookshot_chain_x_speeds, X : BNE .use_actual_x_displacement
         ; Otherwise move the base x offset for the links right 4 pixels.
-        LDA $06 : CLC : ADC.w #$0004 : STA $06
+        LDA.b $06 : CLC : ADC.w #$0004 : STA.b $06
         
         SEP #$20
         
@@ -372,21 +370,21 @@ Ancilla_Hookshot:
         
         LDA.w .chain_y_speeds, X : BEQ .dont_accumulate_y_offset
             ; Accumulate y offset.
-            CLC : ADC $0A
+            CLC : ADC.b $0A
             
         .dont_accumulate_y_offset
         
-        CLC : ADC $04 : STA $04
-                STA $00
+        CLC : ADC.b $04 : STA.b $04
+                STA.b $00
         
         LDA.w .chain_x_speeds, X : BEQ .dont_accumulate_x_offset
             ; Accumulate x offset.
-            CLC : ADC $0C
+            CLC : ADC.b $0C
         
         .dont_accumulate_x_offset
         
-        CLC : ADC $06 : STA $06
-                        STA $02
+        CLC : ADC.b $06 : STA.b $06
+                          STA.b $02
         
         SEP #$20
         
@@ -396,25 +394,25 @@ Ancilla_Hookshot:
             JSR.w Ancilla_SetOam_XY
             
             ; Always same chr, but...
-            LDA.b #$19 : STA ($90), Y : INY
+            LDA.b #$19 : STA.b ($90), Y
+            
+            INY
             
             ; ... The chain link was probably drawn a bit off kilter so that
             ; hflip and vflip could be employed to 'animate' it. That said, if
             ; you look at the hookshot effect closely, it looks a tad cheap.
-            LDA $1A : AND.b #$02 : ASL #6
+            LDA.b $1A : AND.b #$02 : ASL #6
             
-            ORA.b #$02 : ORA $65 : STA ($90), Y : INY
+            ORA.b #$02 : ORA.b $65 : STA.b ($90), Y
             
-            PHY
-            
-            TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-            
-            LDA.b #$00 : STA ($92), Y
+            INY : PHY
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+            LDA.b #$00 : STA.b ($92), Y
             
             PLY
         
         .chain_link_too_close
-    DEC $08 : BPL .next_chain_link
+    DEC.b $08 : BPL .next_chain_link
     
     .no_chain_links
     

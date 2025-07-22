@@ -61,7 +61,7 @@ Ancilla_QuakeSpell:
     STZ.w $011C
     STZ.w $011D
     
-    LDA $8A : CMP.b #$47 : BNE .not_turtle_rock_trigger
+    LDA.b $8A : CMP.b #$47 : BNE .not_turtle_rock_trigger
         ; Check event overlay flag for Turtle Rock (overworld).
         LDA.l $7EF2C7 : AND.b #$20 : BNE .not_turtle_rock_trigger
             LDY.b #$03 : JSR.w Ancilla_CheckIfEntranceTriggered
@@ -70,21 +70,21 @@ Ancilla_QuakeSpell:
                 ; Initiate the turtle rock opening animation.
                 LDA.b #$04 : STA.w $04C6
                 
-                STZ $B0
-                STZ $C8
+                STZ.b $B0
+                STZ.b $C8
         
     .not_turtle_rock_trigger
     
     LDY.b #$00
     
-    LDA $3C : BEQ .spin_charge_not_previously_active
-        LDA $F0 : AND.b #$80 : TAY
+    LDA.b $3C : BEQ .spin_charge_not_previously_active
+        LDA.b $F0 : AND.b #$80 : TAY
     
     .spin_charge_not_previously_active
     
-    STY $3A
+    STY.b $3A
     
-    STZ $5E
+    STZ.b $5E
     STZ.w $0325
     
     RTS
@@ -105,7 +105,7 @@ QuakeSpell_ShakeScreen:
     SEP #$20
     
     ; Make this move the player too, slightly?
-    LDA $30 : CLC : ADC.w $011C : STA $30
+    LDA.b $30 : CLC : ADC.w $011C : STA.b $30
     
     RTS
 }
@@ -198,16 +198,16 @@ QuakeSpell_DrawFirstGroundBolts:
     LDA.l $7F5805, X : CLC : ADC .pointer_offsets, X : ASL : TAY
     
     ; Start pointer.
-    LDA.w .pointers+0, Y : STA $72
-    LDA.w .pointers+1, Y : STA $73
+    LDA.w .pointers+0, Y : STA.b $72
+    LDA.w .pointers+1, Y : STA.b $73
     
     ; End pointer.
-    LDA.w .pointers+2, Y : STA $74
-    LDA.w .pointers+3, Y : STA $75
+    LDA.w .pointers+2, Y : STA.b $74
+    LDA.w .pointers+3, Y : STA.b $75
     
     REP #$20
     
-    LDA $74 : SEC : SBC $72 : STA $74
+    LDA.b $74 : SEC : SBC.b $72 : STA.b $74
     
     SEP #$20
     
@@ -219,25 +219,25 @@ QuakeSpell_DrawFirstGroundBolts:
         
         REP #$20
         
-        LDA ($72), Y : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_x_offset
+        LDA.b ($72), Y : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_x_offset
             ORA.w #$FF00
         
         .sign_ext_x_offset
         
-        STA $02
+        STA.b $02
         
-        LDA.l $7F580D : CLC : ADC $02 : SEC : SBC $E2 : STA $02
+        LDA.l $7F580D : CLC : ADC.b $02 : SEC : SBC.b $E2 : STA.b $02
         
         INX : TXY
         
-        LDA ($72), Y : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_y_offset
+        LDA.b ($72), Y : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_y_offset
             ORA #$FF00
         
         .sign_ext_y_offset
         
-        STA $00
+        STA.b $00
         
-        LDA.l $7F580B : CLC : ADC $00 : SEC : SBC $E8 : STA $00
+        LDA.l $7F580B : CLC : ADC.b $00 : SEC : SBC.b $E8 : STA.b $00
         
         INX
         
@@ -247,44 +247,44 @@ QuakeSpell_DrawFirstGroundBolts:
         
         LDX.b #$F0
         
-        LDA $01 : BNE .off_screen
-        LDA $03 : BNE .off_screen
+        LDA.b $01 : BNE .off_screen
+        LDA.b $03 : BNE .off_screen
             LDY.b #$00
             
             ; Store x coordinate.
-            LDA $02 : STA ($90), Y
+            LDA.b $02 : STA.b ($90), Y
             
-            LDA $00 : CMP.b #$F0 : BCS .off_screen
+            LDA.b $00 : CMP.b #$F0 : BCS .off_screen
                 ; If on screen, load the actual y coordinate.
                 TAX
                 
         .off_screen
         
-        INC $90
+        INC.b $90
         
         ; Store y coordinate.
-        LDY.b #$00 : TXA : STA ($90), Y : INC $90
+        LDY.b #$00 : TXA : STA.b ($90), Y : INC.b $90
         
         PLX : PHX : TXY
         
-        LDA ($72), Y : AND.b #$0F : TAX
+        LDA.b ($72), Y : AND.b #$0F : TAX
         
         LDA QuakeSpell_DrawGroundBolts_chr, X
         
         ; Store chr.
-        LDY.b #$00 : STA ($90), Y : INC $90
+        LDY.b #$00 : STA.b ($90), Y : INC.b $90
         
         PLX : TXY
         
-        LDA ($72), Y : AND.b #$C0 : ORA #$3C
+        LDA.b ($72), Y : AND.b #$C0 : ORA #$3C
         
         ; Store properties.
-        LDY.b #$00 : STA ($90), Y : INC $90
+        LDY.b #$00 : STA.b ($90), Y : INC.b $90
         
         ; Store OAM size.
-        LDY.b #$00 : LDA.b #$02 : STA ($92), Y : INC $92
+        LDY.b #$00 : LDA.b #$02 : STA.b ($92), Y : INC.b $92
         
-        INX : CPX $74 : BEQ .done_drawing
+        INX : CPX.b $74 : BEQ .done_drawing
     BRL .next_bolt
     
     .done_drawing
@@ -338,17 +338,17 @@ QuakeSpell_DrawGroundBolts:
     ; data there for 0x1c entries.
     
     ; Start pointer.
-    LDA.w .pointers+0, Y : STA $72
-    LDA.w .pointers+1, Y : STA $73
+    LDA.w .pointers+0, Y : STA.b $72
+    LDA.w .pointers+1, Y : STA.b $73
     
     ; End pointer.
-    LDA.w .pointers+2, Y : STA $74
-    LDA.w .pointers+3, Y : STA $75
+    LDA.w .pointers+2, Y : STA.b $74
+    LDA.w .pointers+3, Y : STA.b $75
     
     REP #$20
     
     ; Calculates the number of OAM entries to commit.
-    LDA $74 : SEC : SBC $72 : STA $74
+    LDA.b $74 : SEC : SBC.b $72 : STA.b $74
     
     SEP #$20
     
@@ -359,38 +359,38 @@ QuakeSpell_DrawGroundBolts:
         TXY
         
         ; Store X coord.
-        LDA ($72), Y : LDY.b #$00 : STA ($90), Y : INC $90
+        LDA.b ($72), Y : LDY.b #$00 : STA.b ($90), Y : INC.b $90
         
         INX : TXY
         
         ; Store Y coord.
-        LDA ($72), Y : LDY.b #$00 : STA ($90), Y : INC $90
+        LDA.b ($72), Y : LDY.b #$00 : STA.b ($90), Y : INC.b $90
         
         INX : PHX : TXY
         
-        LDA ($72), Y : AND.b #$0F : TAX
+        LDA.b ($72), Y : AND.b #$0F : TAX
         
         ; Store chr.
         LDA.w .chr, X
         
-        LDY.b #$00 : STA ($90), Y : INC $90
+        LDY.b #$00 : STA.b ($90), Y : INC.b $90
         
         PLX : TXY
         
         ; Store properties.
-        LDA ($72), Y : AND.b #$C0 : ORA.b #$3C
+        LDA.b ($72), Y : AND.b #$C0 : ORA.b #$3C
         
-        LDY.b #$00 : STA ($90), Y : INC $90
+        LDY.b #$00 : STA.b ($90), Y : INC.b $90
         
         TXY
         
         ; Store OAM size.
-        LDA ($72), Y : AND.b #$30 : LSR #4
+        LDA.b ($72), Y : AND.b #$30 : LSR #4
         
-        LDY.b #$00 : STA ($92), Y : INC $92
+        LDY.b #$00 : STA.b ($92), Y : INC.b $92
         
         JSR.w Ancilla_CustomAllocateOam
-    INX : CPX $74 : BNE .next_OAM_entry
+    INX : CPX.b $74 : BNE .next_OAM_entry
     
     PLX
     

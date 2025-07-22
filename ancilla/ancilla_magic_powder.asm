@@ -92,14 +92,14 @@ Pool_Ancilla_MagicPowder:
 ; $043AB0-$043AEA JUMP LOCATION
 Ancilla_MagicPowder:
 {
-    LDA $11 : BNE .just_draw
+    LDA.b $11 : BNE .just_draw
         JSR.w MagicPowder_ApplySpriteDamage
         
         DEC.w $03B1, X : BPL .just_draw
             LDA.b #$01 : STA.w $03B1, X
             
             LDY.w $0C72, X
-            LDA.w Pool_Ancilla_MagicPowder_animation_group_offsets, Y : STA $00
+            LDA.w Pool_Ancilla_MagicPowder_animation_group_offsets, Y : STA.b $00
             
             LDA.w $0C5E, X : INC : CMP.b #$0A : BNE .dont_self_terminate
                 STZ.w $0C4A, X
@@ -112,7 +112,7 @@ Ancilla_MagicPowder:
             
             STA.w $0C5E, X
             
-            CLC : ADC $00 : TAY
+            CLC : ADC.b $00 : TAY
             LDA.w Pool_Ancilla_MagicPowder_animation_groups, Y : STA.w $03C2, X
     
     .just_draw
@@ -130,17 +130,17 @@ MagicPowder_Draw:
     
     PHX
     
-    LDA $00 : STA $06
-    LDA $01 : STA $07
+    LDA.b $00 : STA.b $06
+    LDA.b $01 : STA.b $07
     
-    LDA $02 : STA $08
-    LDA $03 : STA $09
+    LDA.b $02 : STA.b $08
+    LDA.b $03 : STA.b $09
     
-    LDA.w $03C2, X : STA $0C
+    LDA.w $03C2, X : STA.b $0C
     
-    ASL #2 : STA $0A
+    ASL : ASL : STA.b $0A
     
-    ASL : STA $04
+    ASL : STA.b $04
     
     ; Committing 4 sprite entries.
     ; OPTIMIZE: use direct page instead.
@@ -150,41 +150,41 @@ MagicPowder_Draw:
     
     .next_OAM_entry
     
-        LDX $04
+        LDX.b $04
         
         REP #$20
         
-        LDA $06 : CLC : ADC Pool_Ancilla_MagicPowder_y_offsets, X : STA $00
-        LDA $08 : CLC : ADC Pool_Ancilla_MagicPowder_x_offsets, X : STA $02
+        LDA.b $06 : CLC : ADC Pool_Ancilla_MagicPowder_y_offsets, X : STA.b $00
+        LDA.b $08 : CLC : ADC Pool_Ancilla_MagicPowder_x_offsets, X : STA.b $02
         
         SEP #$20
         
         JSR.w Ancilla_SetOam_XY
         
-        LDX $0C
+        LDX.b $0C
         
-        LDA.w Pool_Ancilla_MagicPowder_chr, X : STA ($90), Y
+        LDA.w Pool_Ancilla_MagicPowder_chr, X : STA.b ($90), Y
         INY
         
-        LDX $0A
+        LDX.b $0A
         
         ; TODO: Confirm this.
         ; BUG:(maybe) Is it possible that the game will read past the end of
         ; this array into the proceeding code?
         LDA.w Pool_Ancilla_MagicPowder_properties, X
-        AND.b #$CF : ORA $65 : STA ($90), Y
+        AND.b #$CF : ORA.b $65 : STA.b ($90), Y
         INY
         
-        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY
         
-        INC $04 : INC $04
+        INC.b $04 : INC.b $04
         
-        INC $0A
-    DEC $72 : BPL .next_OAM_entry
+        INC.b $0A
+    DEC.b $72 : BPL .next_OAM_entry
     
     PLX
     
@@ -200,7 +200,7 @@ MagicPowder_ApplySpriteDamage:
     
     .next_sprite
     
-        TYA : EOR $1A : AND.b #$03 : BNE .no_collision
+        TYA : EOR.b $1A : AND.b #$03 : BNE .no_collision
             LDA.w $0DD0, Y : CMP.b #$09 : BNE .no_collision
                 LDA.w $0CD2, Y : AND.b #$20 : BNE .immuneToPowder
                     JSR.w Ancilla_SetupBasicHitBox
@@ -215,7 +215,7 @@ MagicPowder_ApplySpriteDamage:
                     
                     JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
                         LDA.w $0E20, Y : CMP.b #$0B : BNE .not_transformable_chicken
-                            LDA $1B : BEQ .not_transformable_chicken
+                            LDA.b $1B : BEQ .not_transformable_chicken
                                 LDA.w $048E : DEC : BNE .not_transformable_chicken
                                     BRA .transformable_sprite
                         

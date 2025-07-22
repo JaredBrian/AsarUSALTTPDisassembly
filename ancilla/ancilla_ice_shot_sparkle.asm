@@ -29,7 +29,7 @@ Ancilla_IceShotSparkle:
     
     .still_alive
     
-    LDA $11 : BNE .no_movement
+    LDA.b $11 : BNE .no_movement
         JSR.w Ancilla_MoveHoriz
         JSR.w Ancilla_MoveVert
     
@@ -48,7 +48,7 @@ Ancilla_IceShotSparkle:
     .match
     
     LDA.w $0280, Y : BEQ .normal_priority
-        LDA.b #$30 : STA $04
+        LDA.b #$30 : STA.b $04
         
     .normal_priority
     
@@ -76,31 +76,31 @@ Ancilla_IceShotSparkle:
     
     LDA.b #$03 : STA !numSprites
     
-    LDA.w $0C68, X : AND.b #$1C : STA $06
+    LDA.w $0C68, X : AND.b #$1C : STA.b $06
     
     PHX
     
     .next_sprite
         
-        LDA !numSprites : ORA $06 : TAX
+        LDA !numSprites : ORA.b $06 : TAX
         
-        LDA $00
-        CLC : ADC Pool_Ancilla_IceShotSparkle_x_offsets, X : STA ($90), Y
+        LDA.b $00
+        CLC : ADC Pool_Ancilla_IceShotSparkle_x_offsets, X : STA.b ($90), Y
         INY
 
-        LDA $01
-        CLC : ADC Pool_Ancilla_IceShotSparkle_y_offsets, X : STA ($90), Y
+        LDA.b $01
+        CLC : ADC Pool_Ancilla_IceShotSparkle_y_offsets, X : STA.b ($90), Y
         INY
 
-        LDA.w Pool_Ancilla_IceShotSparkle_chr, X : STA ($90), Y
+        LDA.w Pool_Ancilla_IceShotSparkle_chr, X : STA.b ($90), Y
         INY
 
-        LDA $04 : ORA.b #$04 : STA ($90), Y
+        LDA.b $04 : ORA.b #$04 : STA.b ($90), Y
         INY
         
-        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY
     DEC !numSprites : BPL .next_sprite
@@ -128,7 +128,7 @@ Pool_IceShotSparkle_Spawn:
 ; $0404C8-$040514 LONG BRANCH LOCATION
 IceShotSparkle_Spawn:
 {
-    LDA $11 : BNE .return
+    LDA.b $11 : BNE .return
         DEC.w $0BF0, X : BPL .return
             LDA.b #$05 : STA.w $0BF0, X
             

@@ -193,7 +193,7 @@ Ancilla_TravelBird:
     REP #$20
     
     LDA.b $00 : BMI .drop_off_player_delay
-    CMP $22 : BCC .drop_off_player_delay
+    CMP.b $22 : BCC .drop_off_player_delay
         SEP #$20
         
         LDA.w $0C54, X : BEQ .draw_logic
@@ -320,7 +320,7 @@ Ancilla_TravelBird:
         
         PHY
         
-        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
         LDA.b #$02 : STA ($92), Y
         

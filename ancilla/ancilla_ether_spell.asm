@@ -4,7 +4,7 @@
 ; $042AA0-$042B5A LOCAL JUMP LOCATION
 Ancilla_EtherSpell:
 {
-    LDA $11 : BEQ .normal_submode
+    LDA.b $11 : BEQ .normal_submode
         ; This object is not drawn in other submodes than 0.
         BRL .return
         
@@ -39,7 +39,7 @@ Ancilla_EtherSpell:
         JSL.l LoadActualGearPalettes
         JSL.l Palette_Restore_BG_From_Flash
             
-            PLX
+        PLX
         
     .no_palette_manipulation
     .rotation_query
@@ -47,21 +47,21 @@ Ancilla_EtherSpell:
     ; Only rotate the balls during state 2?
     LDA.w $0C54, X : CMP.b #$02 : BNE .check_timer
         DEC.w $03B1, X : BPL .delay
-            
-        ; Cause a minor delay before the ether balls form.
-        LDA.b #$02 : STA.w $03B1, X
-            
-        ; Has to do with the tile set for the effect.
-        LDA.w $0C5E, X : INC : STA.w $0C5E, X : CMP.b #$02 : BNE .delay
-            ; Set it back down to #$01.
-            DEC.w $0C5E, X
+            ; Cause a minor delay before the ether balls form.
+            LDA.b #$02 : STA.w $03B1, X
                 
-            ; Set it so that the balls are going outward.
-            LDA.b #$10 : STA.w $0C2C, X
+            ; Has to do with the tile set for the effect.
+            LDA.w $0C5E, X : INC : STA.w $0C5E, X
+            CMP.b #$02 : BNE .delay
+                ; Set it back down to #$01.
+                DEC.w $0C5E, X
+                    
+                ; Set it so that the balls are going outward.
+                LDA.b #$10 : STA.w $0C2C, X
+                    
+                ; Set it to ball rotation state.
+                LDA.b #$03 : STA.w $0C54, X
                 
-            ; Set it to ball rotation state.
-            LDA.b #$03 : STA.w $0C54, X
-            
         .delay
             
         ; Increment the (speed counter?)
@@ -104,7 +104,8 @@ Ancilla_EtherSpell:
     .calm_before_ball_scatter
     
     ; ... Count down a timer before entering the final state of the spell.
-    LDA.l $7F5812 : DEC : STA.l $7F5812 : BNE .radial_states
+    LDA.l $7F5812 : DEC : STA.l $7F5812
+    BNE .radial_states
         LDA.b #$05 : STA.w $0C54, X
         
     .radial_states
@@ -133,9 +134,8 @@ EtherSpell_LightningDescends:
 {
     JSR.w Ancilla_MoveVert
     
-    LDA.w $0C0E, X : STA $01
-    LDA.w $0BFA, X : STA $00
-    
+    LDA.w $0C0E, X : STA.b $01
+    LDA.w $0BFA, X : STA.b $00
     AND.b #$F0 : CMP.l $7F580C : BEQ .dont_add_lightning_segment
         STA.l $7F580C
         
@@ -148,12 +148,12 @@ EtherSpell_LightningDescends:
     
     ; WTF: What's so special about 0xE000? Is this a cheat code
     ; or something to prematurely end the spell?
-    LDA $00 : CMP.w #$E000 : BCS .delay
+    LDA.b $00 : CMP.w #$E000 : BCS .delay
         LDA.l $7F580A : CMP.w #$E000 : BCS .at_target_coord
             ; Move on to the next state when the object's y coordinate is lower
             ; on the screen or exactly at the target point set during the init
             ; routine.
-            LDA.l $7F580A : CMP $00 : BEQ .at_target_coord
+            LDA.l $7F580A : CMP.b $00 : BEQ .at_target_coord
                 BCS .delay
         
         .at_target_coord
@@ -226,7 +226,7 @@ EtherSpell_RadialStates:
     LDA.w $0C54, X : CMP.b #$04 : BNE .no_sound_effect
         LDY.b #$2A
         
-        LDA $1A : AND.b #$07 : BEQ .play_sound_effect
+        LDA.b $1A : AND.b #$07 : BEQ .play_sound_effect
             LDY.b #$AA
             
             CMP.b #$04 : BEQ .play_sound_effect
@@ -254,30 +254,29 @@ EtherSpell_RadialStates:
     
     PHX
     
-    LDA.w $0C54, X : STA $72
-    LDA.w $0C5E, X : STA $73
+    LDA.w $0C54, X : STA.b $72
+    LDA.w $0C5E, X : STA.b $73
     
     LDY.b #$00
     LDX.b #$07
     
     .rotate_balls_loop
     
-        LDA $72 : CMP.b #$02 : BEQ .dont_rotate_ball
-                  CMP.b #$05 : BEQ .dont_rotate_ball
+        LDA.b $72 : CMP.b #$02 : BEQ .dont_rotate_ball
+                    CMP.b #$05 : BEQ .dont_rotate_ball
             ; Increment the angle of the piece.
             LDA.l $7F5800, X : INC : AND.b #$3F : STA.l $7F5800, X
             
         .dont_rotate_ball
         
-        LDA.l $7F5808 : STA $08
+        LDA.l $7F5808 : STA.b $08
         
         LDA.l $7F5800, X
-        
         JSR.w Ancilla_GetRadialProjection
         
         PHX
         
-        LDA $72 : CMP.b #$02 : BEQ .still_in_segment_form
+        LDA.b $72 : CMP.b #$02 : BEQ .still_in_segment_form
             JSR.w EtherSpell_DrawBlitzBall
             
             BRA .moving_on
@@ -298,7 +297,7 @@ EtherSpell_RadialStates:
         
         .find_on_screen_effect_loop
         
-            LDA ($90), Y : CMP.b #$F0 : BNE .return
+            LDA.b ($90), Y : CMP.b #$F0 : BNE .return
         INY #4 : CPY.b #$21 : BNE .find_on_screen_effect_loop
         
     .self_terminate
@@ -310,11 +309,11 @@ EtherSpell_RadialStates:
     STZ.w $0324
     STZ.w $031C
     STZ.w $031D
-    STZ $50
+    STZ.b $50
     STZ.w $0FC1
     
     ; Checks if we're in the Swamp of Evil.
-    LDA $8A : CMP.b #$70 : BNE .untriggered
+    LDA.b $8A : CMP.b #$70 : BNE .untriggered
         ; Checks whether the Misery Mire dungeon is revealed yet.
         LDA.l $7EF2F0 : AND.b #$20 : BNE .untriggered
             ; We might reveal it, but you have to be in the trigger window.
@@ -323,28 +322,28 @@ EtherSpell_RadialStates:
                 ; Do the Misery Mire animation entrance opening.
                 LDA.b #$03 : STA.w $04C6
                 
-                STZ $B0 ; Reset the sub submodule index.
-                STZ $C8 ; Reset this other index.
+                STZ.b $B0 ; Reset the sub submodule index.
+                STZ.b $C8 ; Reset this other index.
         
     .untriggered
     
-    LDA $5D : CMP.b #$19 : BEQ .not_spin_attack_revert
-        LDA.b #$00 : STA $5D
+    LDA.b $5D : CMP.b #$19 : BEQ .not_spin_attack_revert
+        LDA.b #$00 : STA.b $5D
         
-        STZ $3D
+        STZ.b $3D
         
         LDY.b #$00
         
-        LDA $3C : BEQ .unknown
-            LDA $F0 : AND.b #$80 : TAY
+        LDA.b $3C : BEQ .unknown
+            LDA.b $F0 : AND.b #$80 : TAY
         
         .unknown
         
-        STY $3A
+        STY.b $3A
     
     .not_spin_attack_revert
     
-    STZ $5E
+    STZ.b $5E
     
     ; Debug variable. Has no effect.
     STZ.w $0325
@@ -377,27 +376,26 @@ EtherSpell_DrawBlitzBall:
     
     PHY
     
-    LDA $00
+    LDA.b $00
     
-    LDY $02 : BEQ .positive_y_component
+    LDY.b $02 : BEQ .positive_y_component
         EOR.w #$FFFF : INC
     
     .positive_y_component
     
-    STA $08
+    STA.b $08
     
-    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $E8 : STA $00
+    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC.b $E8 : STA.b $00
     
-    LDA $04
+    LDA.b $04
     
-    LDY $06 : BEQ .positive_x_component
+    LDY.b $06 : BEQ .positive_x_component
         EOR.w #$FFFF : INC
     
     .positive_x_component
     
-    STA $0A
-    
-    CLC : ADC.l $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02
+    STA.b $0A
+    CLC : ADC.l $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC.b $E2 : STA.b $02
     
     PLY
     
@@ -405,14 +403,16 @@ EtherSpell_DrawBlitzBall:
     
     JSR.w Ancilla_SetOam_XY
     
-    LDA $73 : TAX
+    ; OPTIMIZE: Why not just LDX?
+    LDA.b $73 : TAX
+    LDA.w .chr, X : STA.b ($90), Y
     
-    LDA.w .chr, X : STA ($90), Y : INY
-    LDA.b #$3C    : STA ($90), Y : INY
+    INY
+    LDA.b #$3C : STA.b ($90), Y
     
-    PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$02 : STA ($92), Y
+    INY : PHY
+    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+    LDA.b #$02 : STA.b ($92), Y
     
     JSR.w Ancilla_CustomAllocateOam
     
@@ -513,27 +513,26 @@ EtherSpell_DrawSplittingBlitzSegment:
     
     PHY
     
-    LDA $00
+    LDA.b $00
     
-    LDY $02 : BEQ .positive_y_component
+    LDY.b $02 : BEQ .positive_y_component
         EOR.w #$FFFF : INC
     
     .positive_y_component
     
-    STA $08
+    STA.b $08
     
-    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $E8 : STA $00
+    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC.b $E8 : STA.b $00
     
-    LDA $04
+    LDA.b $04
     
-    LDY $06 : BEQ .positive_x_component
+    LDY.b $06 : BEQ .positive_x_component
         EOR.w #$FFFF : INC
     
     .positive_x_component
     
-    STA $0A
-    
-    CLC : ADC.l $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02
+    STA.b $0A
+    CLC : ADC.l $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC.b $E2 : STA.b $02
     
     PLY
     
@@ -541,31 +540,29 @@ EtherSpell_DrawSplittingBlitzSegment:
     
     JSR.w Ancilla_SetOam_XY
     
-    LDA $73 : ASL #4 : STA $0E
+    LDA.b $73 : ASL #4 : STA.b $0E
     
-    TXA : ASL : CLC : ADC $0E : TAX
-    
-    LDA.w Pool_EtherSpell_DrawSplittingBlitzSegment_chr, X : STA ($90), Y
-    INY
+    TXA : ASL : CLC : ADC.b $0E : TAX
+    LDA.w Pool_EtherSpell_DrawSplittingBlitzSegment_chr, X : STA.b ($90), Y
 
-    LDA.w Pool_EtherSpell_DrawSplittingBlitzSegment_properties, X : STA ($90), Y
     INY
-    
-    PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$02 : STA ($92), Y
+    LDA.w Pool_EtherSpell_DrawSplittingBlitzSegment_properties, X : STA.b ($90), Y
+
+    INY : PHY
+    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+    LDA.b #$02 : STA.b ($92), Y
     
     PLY
     
     REP #$20
     
-    LDA $08 : CLC : ADC.l $7F5810
+    LDA.b $08 : CLC : ADC.l $7F5810
     CLC : ADC Pool_EtherSpell_DrawSplittingBlitzSegment_y_offsets, X
-    SEC : SBC $E8 : STA $00
+    SEC : SBC.b $E8 : STA.b $00
 
-    LDA $0A : CLC : ADC.l $7F580E
+    LDA.b $0A : CLC : ADC.l $7F580E
     CLC : ADC Pool_EtherSpell_DrawSplittingBlitzSegment_x_offsets, X
-    SEC : SBC $E2 : STA $02
+    SEC : SBC.b $E2 : STA.b $02
     
     SEP #$20
     
@@ -575,17 +572,18 @@ EtherSpell_DrawSplittingBlitzSegment:
     
     PLX
     
-    LDA.w Pool_EtherSpell_DrawSplittingBlitzSegment_chr+1, X : STA ($90), Y
-    INY
+    LDA.w Pool_EtherSpell_DrawSplittingBlitzSegment_chr+1, X : STA.b ($90), Y
 
-    LDA.w Pool_EtherSpell_DrawSplittingBlitzSegment_properties+1, X : STA ($90), Y
     INY
+    LDA.w Pool_EtherSpell_DrawSplittingBlitzSegment_properties+1, X : STA.b ($90), Y
+
+    INY : PHY
+    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+    LDA.b #$02 : STA.b ($92), Y
     
-    PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+    PLY
     
-    LDA.b #$02 : STA ($92), Y
-    
-    PLY : JSR.w Ancilla_CustomAllocateOam
+    JSR.w Ancilla_CustomAllocateOam
     
     RTS
 }
@@ -617,9 +615,9 @@ EtherSpell_DrawBlitzSegments:
 {
     JSR.w Ancilla_PrepOamCoord
     
-    LDA.w $0C5E, X : STA $06
+    LDA.w $0C5E, X : STA.b $06
     
-    STZ $08
+    STZ.b $08
     
     PHX
     
@@ -633,9 +631,8 @@ EtherSpell_DrawBlitzSegments:
         
         PHX
         
-        LDA $06 : ASL : CLC : ADC $08 : TAX
-        
-        LDA.w Pool_EtherSpell_DrawBlitzSegments_chr, X : STA ($90), Y
+        LDA.b $06 : ASL : CLC : ADC.b $08 : TAX
+        LDA.w Pool_EtherSpell_DrawBlitzSegments_chr, X : STA.b ($90), Y
         
         PLX
         
@@ -645,31 +642,28 @@ EtherSpell_DrawBlitzSegments:
         ; was an indexed load rather than the contrary. Try it out and see
         ; if anything interesting happens.
         LDA.w Pool_EtherSpell_DrawBlitzSegments_properties
-        ORA $65 : STA ($90), Y
-        INY
+        ORA.b $65 : STA.b ($90), Y
+
+        INY : PHY
         
-        PHY
-        
-        SEC : SBC.b #$04 : LSR #2 : TAY
-        
-        LDA.b #$02 : STA ($92), Y
+        SEC : SBC.b #$04 : LSR : LSR : TAY
+        LDA.b #$02 : STA.b ($92), Y
         
         PHY
         
         REP #$20
         
-        LDA $00 : SEC : SBC.w #$0010 : STA $00
+        LDA.b $00 : SEC : SBC.w #$0010 : STA.b $00
         
         SEP #$20
         
-        LDA $08 : EOR.b #$01 : STA $08
+        LDA.b $08 : EOR.b #$01 : STA.b $08
     DEX : BPL .draw_next_segment
     
     PLX
     
     LDA.w $0C54, X : CMP.b #$01 : BEQ EtherSpell_DrawBlitzOrb
-    
-    RTS
+        RTS
 }
 
 ; ==============================================================================
@@ -679,46 +673,47 @@ EtherSpell_DrawBlitzOrb:
 {
     REP #$20
     
-    LDA.l $7F5813 : CLC : ADC.w #$FFFF : SEC : SBC $E8 : STA $00
-    LDA.l $7F5815 : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02 : STA $04
+    LDA.l $7F5813 : CLC : ADC.w #$FFFF : SEC : SBC.b $E8 : STA.b $00
+    LDA.l $7F5815 : CLC : ADC.w #$FFF8 : SEC : SBC.b $E2 : STA.b $02 
+                                                           STA.b $04
     
-    STZ $08
+    STZ.b $08
     
     SEP #$20
     
     PHX
     
-    LDA.w $0C5E, X : ASL #2 : STA $06
+    LDA.w $0C5E, X : ASL : ASL : STA.b $06
     
     .next_OAM_entry
         
         JSR.w Ancilla_SetOam_XY
         
-        LDX $06
-        
-        LDA.w Pool_EtherSpell_DrawBlitzSegments_orb_chr, X : STA ($90), Y
-        INY
+        LDX.b $06
+        LDA.w Pool_EtherSpell_DrawBlitzSegments_orb_chr, X : STA.b ($90), Y
 
-        LDA.w Pool_EtherSpell_DrawBlitzSegments_properties, X : STA ($90), Y
         INY
+        LDA.w Pool_EtherSpell_DrawBlitzSegments_properties, X : STA.b ($90), Y
+
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+        LDA.b #$02 : STA.b ($92), Y
         
-        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        PLY
         
-        LDA.b #$02 : STA ($92), Y
-        
-        PLY : JSR.w Ancilla_CustomAllocateOam
+        JSR.w Ancilla_CustomAllocateOam
         
         REP #$20
         
-        LDA $02 : CLC : ADC.w #$0010 : STA $02
+        LDA.b $02 : CLC : ADC.w #$0010 : STA.b $02
         
-        INC $06
+        INC.b $06
         
-        INC $08 : LDA $08 : CMP.w #$0004 : BEQ .done_drawing
+        INC.b $08 : LDA.b $08 : CMP.w #$0004 : BEQ .done_drawing
             CMP.w #$0002 : BNE .dont_prep_right_half
-                LDA $00 : CLC : ADC.w #$0010 : STA $00
+                LDA.b $00 : CLC : ADC.w #$0010 : STA.b $00
                 
-                LDA $04 : STA $02
+                LDA.b $04 : STA.b $02
                 
             .dont_prep_right_half
             

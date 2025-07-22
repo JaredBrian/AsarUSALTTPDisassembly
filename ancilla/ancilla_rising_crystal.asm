@@ -70,7 +70,7 @@ Ancilla_RisingCrystal:
             
                 STA.l $7EC340, X : STA.l $7EC360, X : STA.l $7EC380, X 
                 STA.l $7EC3A0, X : STA.l $7EC3C0, X : STA.l $7EC3E0, X 
-            INX #2 : CPX.b #$20 : BNE .zero_aux_bg_palettes
+            INX : INX : CPX.b #$20 : BNE .zero_aux_bg_palettes
             
             STA.l $7EC007 : STA.l $7EC009
             

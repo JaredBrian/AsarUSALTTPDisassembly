@@ -51,7 +51,7 @@ Pool_Ancilla_InitialSpinSpark:
 ; $0457B2-$04584C JUMP LOCATION
 Ancilla_InitialSpinSpark:
 {
-    LDA $11 : BNE .draw
+    LDA.b $11 : BNE .draw
         DEC.w $03B1, X : BPL .draw
             STZ.w $03B1, X
             
@@ -80,16 +80,16 @@ Ancilla_InitialSpinSpark:
         
         REP #$20
         
-        LDA $00 : STA $06
-        LDA $02 : STA $08
+        LDA.b $00 : STA.b $06
+        LDA.b $02 : STA.b $08
         
         SEP #$20
         
         PHX
         
-        LDY.b #$00 : STY $04
+        LDY.b #$00 : STY.b $04
         
-        LDA.w $0C5E, X : DEC : ASL #2 : TAX
+        LDA.w $0C5E, X : DEC : ASL : ASL : TAX
         
         ; $045802 ALTERNATE ENTRY POINT
         .OAM_commit_loop
@@ -101,11 +101,11 @@ Ancilla_InitialSpinSpark:
                 
                 PHX : TXA : ASL : TAX
                 
-                LDA $06 : CLC : ADC.w Pool_Ancilla_InitialSpinSpark_offset_y, X
-                STA $00
+                LDA.b $06 : CLC : ADC.w Pool_Ancilla_InitialSpinSpark_offset_y, X
+                STA.b $00
 
-                LDA $08 : CLC : ADC.w Pool_Ancilla_InitialSpinSpark_offset_x, X
-                STA $02
+                LDA.b $08 : CLC : ADC.w Pool_Ancilla_InitialSpinSpark_offset_x, X
+                STA.b $02
                 
                 PLX
                 
@@ -113,23 +113,23 @@ Ancilla_InitialSpinSpark:
                 
                 JSR.w Ancilla_SetOam_XY
                 
-                LDA.w Pool_Ancilla_InitialSpinSpark_chr, X : STA ($90), Y
+                LDA.w Pool_Ancilla_InitialSpinSpark_chr, X : STA.b ($90), Y
                 INY
 
                 LDA.w Pool_Ancilla_InitialSpinSpark_properties, X
-                AND.b #$CF : ORA $65 : STA ($90), Y
+                AND.b #$CF : ORA.b $65 : STA.b ($90), Y
                 INY
                 
-                PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+                PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
                 
-                LDA.b #$00 : STA ($92), Y
+                LDA.b #$00 : STA.b ($92), Y
                 
                 PLY
             
             .skip_OAM_entry
             
             INX
-        INC $04 : LDA $04 : AND.b #$03 : BNE .next_OAM_entry
+        INC.b $04 : LDA.b $04 : AND.b #$03 : BNE .next_OAM_entry
         
         PLX
     
@@ -165,7 +165,7 @@ InitialSpinSpark_TransmuteToNormalSpinSpark:
 {
     LDA.b #$2B : STA.w $0C4A, X
     
-    LDA $2F : ASL : TAY
+    LDA.b $2F : ASL : TAY
     
     LDA.w Pool_InitialSpinSpark_TTNSS_initial_rotation_states, Y : STA.l $7F5800
     LDA.w Pool_InitialSpinSpark_TTNSS_initial_rotation_states, Y : STA.l $7F5801
@@ -184,28 +184,28 @@ InitialSpinSpark_TransmuteToNormalSpinSpark:
     
     LDA.b #$14 : STA.l $7F5808
     
-    LDY $2F
+    LDY.b $2F
     
     REP #$20
     
-    LDA $20 : CLC : ADC.w #$000C : STA.l $7F5810
-    LDA $22 : CLC : ADC.w #$0008 : STA.l $7F580E
+    LDA.b $20 : CLC : ADC.w #$000C : STA.l $7F5810
+    LDA.b $22 : CLC : ADC.w #$0008 : STA.l $7F580E
     
-    LDA $20 
+    LDA.b $20 
     CLC : ADC.w Pool_InitialSpinSpark_TTNSS_player_relative_y_offsets, Y
-    STA $00
+    STA.b $00
     
-    LDA $22
+    LDA.b $22
     CLC : ADC.w Pool_InitialSpinSpark_TTNSS_player_relative_x_offsets, Y
-    STA $02
+    STA.b $02
     
     SEP #$20
     
-    LDA $00 : STA.w $0BFA, X
-    LDA $01 : STA.w $0C0E, X
+    LDA.b $00 : STA.w $0BFA, X
+    LDA.b $01 : STA.w $0C0E, X
     
-    LDA $02 : STA.w $0C04, X
-    LDA $03 : STA.w $0C18, X
+    LDA.b $02 : STA.w $0C04, X
+    LDA.b $03 : STA.w $0C18, X
     
     BRA Ancilla_SpinSpark
 }

@@ -16,7 +16,7 @@ Pool_Ancilla_Bomb:
 Ancilla_Bomb:
 {
     ; Code for implementing the Bomb Special Effect (0x07).
-    LDA.b $11    : BEQ .full_execute
+    LDA.b $11 : BEQ .full_execute
         CMP.b #$08 : BEQ .walking_on_staircase
             CMP.b #$10 : BNE .not_in_room_staircase_submode
         
@@ -35,8 +35,8 @@ Ancilla_Bomb:
                 CMP.b #$03 : BEQ .player_fully_holding
                     ; Coerce the bomb into the held state immediately.
                     LDY.b #$03
-                    
                     JSR.w Ancilla_PegCoordsToPlayer
+
                     JSR.w Ancilla_PegAltitudeAbovePlayer
                     
                     LDA.b #$03 : STA.w $0380, X
@@ -177,9 +177,7 @@ Ancilla_Bomb:
         
         PLA : STA.w $0280, X
         
-        LDA.w $03E4, X
-        
-        CMP.b #$26 : BEQ .in_floor_staircase_boundary
+        LDA.w $03E4, X : CMP.b #$26 : BEQ .in_floor_staircase_boundary
             CMP.b #$0C : BEQ .niche_collision_tiles
             CMP.b #$1C : BEQ .niche_collision_tiles
                 CMP.b #$20 : BEQ .pit_tiles
@@ -351,19 +349,17 @@ Ancilla_Bomb:
             STX.b $0E
             
             TXA : ASL : TAX
-            
             STZ.w $03B6, X
             STZ.w $03B7, X
             
             JSL.l Bomb_CheckForVulnerableTileObjects
             
-            PLX : TXY : TXA : ASL : TAX
-            
+            PLX : TXY
+            TXA : ASL : TAX
             LDA.w $03B6, X : ORA.w $03B7, X : BEQ .didnt_blow_open_door
-                TYX
-                
                 ; Set a flag indicating that we need to transmute to the door
                 ; debris object when finished exploding.
+                TYX
                 LDA.b #$01 : STA.w $0C54, X
                 
             .didnt_blow_open_door
@@ -400,7 +396,6 @@ Pool_Ancilla_ConveyorBeltVelocityOverride:
 Ancilla_ConveyorBeltVelocityOverride:
 {
     LDA.w $03E4, X : SEC : SBC.b #$68 : TAY
-    
     LDA.w Pool_Ancilla_ConveyorBeltVelocityOverride_y_speeds, Y : STA.w $0C22, X
     LDA.w Pool_Ancilla_ConveyorBeltVelocityOverride_x_speeds, Y : STA.w $0C2C, X
     
@@ -504,7 +499,6 @@ Bomb_CheckSpriteAndPlayerDamage:
                     JSR.w Bomb_GetGrossPlayerDistance
                     
                     LDA.w .recoil_magnitudes, Y : TAY
-                    
                     JSL.l Bomb_ProjectSpeedTowardsPlayer
                     
                     PLX
@@ -518,7 +512,8 @@ Bomb_CheckSpriteAndPlayerDamage:
                             
                             JSR.w Bomb_GetGrossPlayerDistance
                             
-                            LDA.w .resistances, Y : STA.b $29 : STA.w $02C7
+                            LDA.w .resistances, Y : STA.b $29
+                                                    STA.w $02C7
                             
                             LDA.w .damage_timers, Y : STA.b $46
                             
@@ -666,7 +661,6 @@ Ancilla_LiftableObjectLogic:
         ; See if Link is lifting or lifted anything.
         LDA.w $0308 : BNE .not_liftable_2
             LDY.b #$00
-            
             JSR.w Ancilla_CheckPlayerCollision : BCC .not_liftable_2
                 LDA.w $0C7C, X : CMP.b $EE : BNE .not_liftable_2
                     LDA.b $08 : CMP.b #$10 : BCS .vertical_distance_large
@@ -749,7 +743,6 @@ Ancilla_LiftableObjectLogic:
                 Ancilla_PegCoordsToPlayer:
                 
                 TYA : ASL #3 : CLC : ADC.b $2F : TAY
-                
                 LDA.b $20 : CLC : ADC .player_relative_y_offsets+0, Y : STA.w $0BFA, X
                 LDA.b $21       : ADC .player_relative_y_offsets+1, Y : STA.w $0C0E, X
                 
@@ -775,7 +768,8 @@ Ancilla_LiftableObjectLogic:
     
     .throwing_object
     
-    LDA.b $2F : LSR : STA.w $0C72, X : TAY
+    LDA.b $2F : LSR : STA.w $0C72, X
+                      TAY
     
     ; Gives the object 0x18 points of lift.
     LDA.b #$18 : STA.w $0294, X
@@ -797,7 +791,8 @@ Ancilla_LiftableObjectLogic:
     STZ.w $0380, X ; Set carrying state to zero (not holding it).
     STZ.w $0280, X
     
-    LDA.b #$13 : JSR.w Ancilla_DoSfx3
+    LDA.b #$13
+    JSR.w Ancilla_DoSfx3
     
     .airborn_logic
     
@@ -854,11 +849,12 @@ Ancilla_LiftableObjectLogic:
     STZ.w $029E, X
     
     ; Play the "bomb hitting the ground" sound.
-    LDA.b #$21 : JSR.w Ancilla_DoSfx2
+    LDA.b #$21
+    JSR.w Ancilla_DoSfx2
     
     INC.w $0385, X
     LDA.w $0385, X : CMP.b #$03 : BEQ .bounces_maxed_out
-        SEC : SBC.b #$02 : ASL #2 : CLC : ADC.w $0C72, X : TAY
+        SEC : SBC.b #$02 : ASL : ASL : CLC : ADC.w $0C72, X : TAY
         
         LDY.b #$00
         
@@ -927,7 +923,7 @@ Ancilla_LiftableObjectLogic:
     
     .player_fall_logic
 
-    LDA.w $0C5E, X : BNE .ignore_player_fall_logic
+    LDA.w $0C5E, X : BNE Ancilla_SetPlayerHeldPosition_ignore_player_fall_logic
         LDA.b $5B : CMP.b #$02 : BCC .player_not_falling
             STZ.b $5E
             
@@ -968,15 +964,14 @@ Ancilla_SetPlayerHeldPosition:
         
     REP #$20
         
-    LDA.b $24 : CMP.w #$-1 : BNE .player_didnt_just_hit_ground
+    LDA.b $24 : CMP.w #$FF : BNE .player_didnt_just_hit_ground
         LDA.w #$0000
         
     .player_didnt_just_hit_ground
         
     EOR.w #$FFFF : INC
-        
     CLC : ADC.b $20 : CLC : ADC.w .z_offset_player_moving, Y
-                    CLC : ADC.w #$0012 : STA.b $00
+                      CLC : ADC.w #$0012 : STA.b $00
     LDA.b $22       : CLC : ADC.w #$0008 : STA.b $02
         
     SEP #$20
@@ -986,15 +981,15 @@ Ancilla_SetPlayerHeldPosition:
         
     LDA.b $02 : STA.w $0C04, X
     LDA.b $03 : STA.w $0C18, X
+
+    .ignore_player_fall_logic
     
     .ignore_altitude_physics
-    .ignore_player_fall_logic
-        
+    
         RTS
         
-        ; ALTERNATE ENTRY POINT ; TODO: Find Address.
-        .altitude_physics
-        
+    ; ALTERNATE ENTRY POINT ; TODO: Find Address.
+    .altitude_physics
     LDA.w $0C5E, X : BNE .ignore_altitude_physics
     
     LDA.w $0380, X : CMP.b #$03 : BNE .restore_liftability
@@ -1046,8 +1041,10 @@ Ancilla_Adjust_Y_CoordByAltitude:
     STZ.b $0C
     
     ; 'Down' here means in the y axis, akin to 'southern direction'.
-    LDA.w $0C72, X : ASL : TAY : CMP.b #$02 : BNE .not_oriented_down
-        LDA.w $029E, X : STA.b $0C : BPL .positive_altitude
+    LDA.w $0C72, X : ASL : TAY
+    CMP.b #$02 : BNE .not_oriented_down
+        LDA.w $029E, X : STA.b $0C
+        BPL .positive_altitude
             LDA.b #$FF : STA.b $0D
         
         .positive_altitude
@@ -1115,7 +1112,7 @@ Bomb_GetGrossPlayerDistance:
     
     ; Add the X and Y absolute distances together, and snap to a
     ; 4 by 4 pixel grid.
-    CLC : ADC.b $0A : AND.w #$00FC : LSR #2 : TAY
+    CLC : ADC.b $0A : AND.w #$00FC : LSR : LSR : TAY
     
     SEP #$20
     
@@ -1335,10 +1332,9 @@ Bomb_Draw:
     
     ; Y = bomb state.
     LDY.w $0C5E, X
+    LDA.w Ancilla_Bomb_chr_groups, Y : TAY
     
-    LDA Ancilla_Bomb_chr_groups, Y : TAY
-    
-    LDA Bomb_Draw_chr_start_offset, Y : ASL : TAY
+    LDA.w Bomb_Draw_chr_start_offset, Y : ASL : TAY
     
     ASL : STA.b $04 : STZ.b $05
     
@@ -1378,7 +1374,8 @@ Bomb_Draw:
             .defer_for_uncarrying_player
             
             ; This only seems to get called if Link is near the bomb.
-            LDA.b #$0C : JSR.w Ancilla_AllocateOam_B_or_E
+            LDA.b #$0C
+            JSR.w Ancilla_AllocateOam_B_or_E
             
             BRA .determine_underside_sprite
         
@@ -1404,7 +1401,6 @@ Bomb_Draw:
     
     ; Load the current state of the bomb.
     LDY.b $08
-    
     LDA.w .num_OAM_entries, Y : STA.b $08
     
     CPY.b #$00 : BNE .no_underside_sprite
@@ -1440,7 +1436,8 @@ Bomb_Draw:
     
     JSL.l Bomb_CheckUndersideSpriteStatus : BCS .dont_draw_shadow
         ; (Aet in the previous routine).
-        LDX.b $0A : JSR.w Ancilla_DrawShadow
+        LDX.b $0A
+        JSR.w Ancilla_DrawShadow
         
         LDX.w $0FA0
     

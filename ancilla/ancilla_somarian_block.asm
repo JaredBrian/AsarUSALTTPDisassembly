@@ -482,7 +482,7 @@ SomarianBlock_Draw:
         
     LDA.b #$02 : STA.b $72
         
-    LDA.w $03A4, X : ASL #2 : TAX
+    LDA.w $03A4, X : ASL : ASL : TAX
         
     LDY.b #$00
         
@@ -512,7 +512,7 @@ SomarianBlock_Draw:
         LDA.w .properties, X : AND.b #$CF : ORA.b $72 : ORA.b $65 : STA ($90), Y
         INY
         
-        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
         ; WTF:(unconfirmed) .... compile time constant?
         LDA.b #$00 : ORA.b $75 : STA ($92), Y
@@ -627,7 +627,7 @@ SomarianBlock_CheckCoveredTileTrigger:
             INC.w $03DB, X
         
         .ignored_tile_attr
-    DEY #2 : BPL .next_offset
+    DEY : DEY : BPL .next_offset
     
     LDA.w $03DB, X : CMP.b #$04 : BNE .not_full_covering
         CLC
@@ -744,7 +744,7 @@ SomarianBlock_PlayerInteraction:
     LDY.b #$04
     
     JSR.w Ancilla_CheckPlayerCollision : BCC .end_push_logic
-        LDA.w $0C7C, X : CMP $EE : BNE .end_push_logic
+        LDA.w $0C7C, X : CMP.b $EE : BNE .end_push_logic
             LDA.w $0372 : BEQ .not_dash_bounce
                 LDA.w $02F1 : CMP.b #$40 : BEQ .not_dash_bounce
                     TXA : INC : CMP.w $02EC : BNE .disable_nearby_status
@@ -903,7 +903,7 @@ SomarianBlock_ContinueDashBounce:
     
     LDA.b $2F : LSR : STA.b $00
     
-    TYA : ASL #2 : CLC : ADC.b $00 : TAY
+    TYA : ASL : ASL : CLC : ADC.b $00 : TAY
     
     LDY.b #$00
     

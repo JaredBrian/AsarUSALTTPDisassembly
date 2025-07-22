@@ -32,7 +32,7 @@ Ancilla_FireShot:
                 
                 PHP
                 
-                LDA $74 : STA.w $028A, X
+                LDA.b $74 : STA.w $028A, X
                 
                 PLP : BCC .no_collision
         
@@ -44,7 +44,8 @@ Ancilla_FireShot:
         
         LDA.b #$08 : STA.w $0C90, X
         
-        LDA.b #$2A : JSR.w Ancilla_DoSfx2
+        LDA.b #$2A
+        JSR.w Ancilla_DoSfx2
         
         .no_collision
         
@@ -53,7 +54,6 @@ Ancilla_FireShot:
         LDA.w $0C72, X : AND.b #$F3 : STA.w $0C72, X
         
         LDA.w $0385, X : STA.w $0333
-        
         AND.b #$F0 : CMP.b #$C0 : BEQ .try_to_light_torch
             LDA.w $03E4, X : STA.w $0333
             
@@ -117,20 +117,17 @@ FireShot_Draw:
         STX.b $03
         
         TXA : ORA.b $02 : TAX
-        
         LDA.b $00 : CLC : ADC Pool_FireShot_Draw_x_offsets, X       : STA.b ($90), Y
         LDA.b $01 : CLC : ADC Pool_FireShot_Draw_y_offsets, X : INY : STA.b ($90), Y
         
         LDX.b $03
-        
         LDA.w Pool_FireShot_Draw_chr, X : INY : STA.b ($90), Y
 
         LDA.b $04 : ORA.b #$02 : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
-        
+        TYA : LSR : LSR : TAY
         LDA.b #$00 : STA.b ($92), Y
         
         PLY : INY
@@ -204,8 +201,8 @@ Ancilla_ConsumingFire:
         
         TYA : STA.b ($92), Y
         INY : STA.b ($92), Y
+
         DEY
-        
         LDA.b $00                                 : STA.b ($90), Y
         CLC : ADC.b #$08             : LDY.b #$04 : STA.b ($90), Y
         LDA.b $01 : CLC : ADC.b #$FD : LDY.b #$01 : STA.b ($90), Y

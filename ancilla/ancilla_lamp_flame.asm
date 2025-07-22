@@ -33,8 +33,8 @@ Ancilla_LampFlame:
 {
     JSR.w Ancilla_PrepAdjustedOamCoord
     
-    LDA $00 : STA $06
-    LDA $01 : STA $07
+    LDA.b $00 : STA.b $06
+    LDA.b $01 : STA.b $07
     
     LDY.b #$00
     
@@ -50,23 +50,23 @@ Ancilla_LampFlame:
     .next_OAM_entry
     
     LDA.w Pool_Ancilla_LampFlame_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
-        LDA.w Pool_Ancilla_LampFlame_y_offsets_low, X : CLC : ADC $06 : STA $00
-        LDA $07 : ADC .y_offsets_high, X : STA $01
+        LDA.w Pool_Ancilla_LampFlame_y_offsets_low, X : CLC : ADC.b $06 : STA.b $00
+        LDA.b $07 : ADC .y_offsets_high, X : STA.b $01
         
-        LDA.w Pool_Ancilla_LampFlame_x_offsets_low, X : CLC : ADC $04 : STA $02
-        LDA $05 : ADC.b #$00 : STA $03
+        LDA.w Pool_Ancilla_LampFlame_x_offsets_low, X : CLC : ADC.b $04 : STA.b $02
+        LDA.b $05 : ADC.b #$00 : STA.b $03
         
         JSR.w Ancilla_SetOam_XY
         
-        LDA.w Pool_Ancilla_LampFlame_chr, X : STA ($90), Y
+        LDA.w Pool_Ancilla_LampFlame_chr, X : STA.b ($90), Y
         INY
         
-        LDA.b #$02 : ORA $65 : STA ($90), Y
+        LDA.b #$02 : ORA.b $65 : STA.b ($90), Y
         INY
         
-        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY
     

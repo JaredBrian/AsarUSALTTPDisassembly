@@ -54,7 +54,7 @@ AddHitStars:
         
         .continue
         
-        TYA : STA.w $0C54, X : ASL #2 : TAY
+        TYA : STA.w $0C54, X : ASL : ASL : TAY
         
         REP #$20
         
@@ -3476,7 +3476,7 @@ AddBlastWall:
         .off_screen_so_no_SFX
         
         INY #4
-    DEX #2 : BPL .init_component_loop
+    DEX : DEX : BPL .init_component_loop
     
     PLB
     
@@ -3895,7 +3895,7 @@ AddGravestone:
     .y_coord_next
     
         LDA.b $00 : CMP .y_coordinates, Y : BEQ .y_coord_match
-    DEY #2 : BPL .y_coord_next
+    DEY : DEY : BPL .y_coord_next
     
     BRA .terminate_object
     
@@ -3927,7 +3927,7 @@ AddGravestone:
                     BRA .success
             
         .xCoordNonMatch
-    INY #2 : CPY.b $00 : BNE .xCoordNext
+    INY : INY : CPY.b $00 : BNE .xCoordNext
     
     .terminate_object
     
@@ -4580,7 +4580,7 @@ Ancilla_CheckInitialTileCollision_Class_1:
         PLY
         
         BCS .alpha
-            INY #2
+            INY : INY
     DEC.b $72 : BPL .next_entry
     
     PLY
@@ -4634,7 +4634,7 @@ Ancilla_CheckInitialTileCollision_Class2:
     ; arrays above?
     LDA.b #$02 : STA.b $72
     
-    LDA.w $0C72, X : ASL #2 : TAY
+    LDA.w $0C72, X : ASL : ASL : TAY
     
     .next_entry
     
@@ -4661,7 +4661,7 @@ Ancilla_CheckInitialTileCollision_Class2:
         PLY
         
         BCS .alpha
-            INY #2
+            INY : INY
     DEC.b $72 : BPL .next_entry
     
     PLY

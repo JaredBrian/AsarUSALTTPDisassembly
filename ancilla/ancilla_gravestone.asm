@@ -6,35 +6,35 @@ Gravestone_Move:
 {
     PHB : PHK : PLB
     
-    LDA $11 : BNE .return
+    LDA.b $11 : BNE .return
         LDA.b #$F8 : STA.w $0C22, X
         
         JSR.w Ancilla_MoveVert
         JSR.w Gravestone_RepelPlayerAdvance
         
-        LDA.w $038A, X : STA $00
-        LDA.w $038F, X : STA $01
+        LDA.w $038A, X : STA.b $00
+        LDA.w $038F, X : STA.b $01
         
-        LDA.w $0BFA, X : STA $02
-        LDA.w $0C0E, X : STA $03
+        LDA.w $0BFA, X : STA.b $02
+        LDA.w $0C0E, X : STA.b $03
         
         REP #$20
         
         ; Wait until the gravestone reaches its target y coordinate...
         ; This only works because... eh. Have to see this in action. Seems
         ; like there would be a sudden change in the underlying tiles.
-        LDA $02 : CMP $00 : SEP #$20 : BCS .return
+        LDA.b $02 : CMP.b $00 : SEP #$20 : BCS .return
             STZ.w $0C4A, X
             STZ.w $03E9
             
-            LDA $48 : AND.b #$FB : STA $48
+            LDA.b $48 : AND.b #$FB : STA.b $48
             
-            LDA.w $03BA, X : STA $72
-            LDA.w $03B6, X : STA $73
+            LDA.w $03BA, X : STA.b $72
+            LDA.w $03B6, X : STA.b $73
             
             REP #$20
             
-            LDA $72 : STA.w $0698
+            LDA.b $72 : STA.w $0698
             
             ; This accomplishes the second part of the map16 update (which
             ; actually updates a 32x32 region).
@@ -97,11 +97,12 @@ Ancilla_Gravestone:
     
     REP #$20
     
-    LDA $02 : STA $06
+    LDA.b $02 : STA.b $06
     
     SEP #$20
     
-    LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$10
+    JSL.l OAM_AllocateFromRegionB
     
     LDY.b #$00 : TYX
     
@@ -109,28 +110,26 @@ Ancilla_Gravestone:
     
         JSR.w Ancilla_SetOam_XY
         
-        LDA.w Pool_Ancilla_Gravestone_chr, X : STA ($90), Y
-        INY
+        LDA.w Pool_Ancilla_Gravestone_chr, X : STA.b ($90), Y
 
-        LDA.w Pool_Ancilla_Gravestone_properties, X : ORA.b #$3D : STA ($90), Y
         INY
+        LDA.w Pool_Ancilla_Gravestone_properties, X : ORA.b #$3D : STA.b ($90), Y
+
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        PHY
-        
-        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-        
-        LDA.b #$02 : STA ($92), Y
+        LDA.b #$02 : STA.b ($92), Y
         
         PLY : INX
         
         REP #$20
         
-        LDA $02 : CLC : ADC.w #$0010 : STA $02
+        LDA.b $02 : CLC : ADC.w #$0010 : STA.b $02
         
         CPX.b #$02 : BNE .still_drawing_left_half
             ; The last two are further to the right.
-            LDA $00 : CLC : ADC.w #$0008 : STA $00
-            LDA $06                      : STA $02
+            LDA.b $00 : CLC : ADC.w #$0008 : STA.b $00
+            LDA.b $06                      : STA.b $02
         
         .still_drawing_left_half
         
@@ -147,49 +146,48 @@ Ancilla_Gravestone:
 ; $046E57-$046EDD LOCAL JUMP LOCATION
 Gravestone_RepelPlayerAdvance:
 {
-    LDA.w $0BFA, X : STA $00
-    LDA.w $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA.b $00
+    LDA.w $0C0E, X : STA.b $01
     
-    LDA.w $0C04, X : STA $02
-    LDA.w $0C18, X : STA $03
+    LDA.w $0C04, X : STA.b $02
+    LDA.w $0C18, X : STA.b $03
     
     REP #$20
     
-    LDA $00 : CLC : ADC.w #$0018 : STA $04
-    LDA $02 : CLC : ADC.w #$0020 : STA $06
+    LDA.b $00 : CLC : ADC.w #$0018 : STA.b $04
+    LDA.b $02 : CLC : ADC.w #$0020 : STA.b $06
     
-    LDA $20 : CLC : ADC.w #$0008 : STA $08 : CMP $00 : BCC .player_not_close
-                                             CMP $04 : BCS .player_not_close
-        LDA $22 : CLC : ADC.w #$0008 : CMP $02 : BCC .player_not_close
-                                       CMP $06 : BCC .player_not_close
-            LDA $08 : SEC : SBC $04 : BPL .player_below_object
+    LDA.b $20 : CLC : ADC.w #$0008 : STA.b $08 : CMP.b $00 : BCC .player_not_close
+                                                 CMP.b $04 : BCS .player_not_close
+        LDA.b $22 : CLC : ADC.w #$0008 : CMP.b $02 : BCC .player_not_close
+                                         CMP.b $06 : BCC .player_not_close
+            LDA.b $08 : SEC : SBC.b $04 : BPL .player_below_object
                 EOR.w #$FFFF : INC
             
             .player_below_object
             
-            STA $0A
+                              STA.b $0A
+            CLC : ADC.b $20 : STA.b $20
             
-            CLC : ADC $20 : STA $20
-            
-            LDA $30 : CMP.w #$0080 : BCC .sign_already_proper
+            LDA.b $30 : CMP.w #$0080 : BCC .sign_already_proper
                 ORA.w #$FF00
             
             .sign_already_proper
             
-            STA $08
+            STA.b $08
             
-            LDA $0A : CLC : ADC $08 : AND.w #$00FF : STA $08
+            LDA.b $0A : CLC : ADC.b $08 : AND.w #$00FF : STA.b $08
             
-            LDA $30 : AND.w #$FF00 : ORA $08 : STA $30
+            LDA.b $30 : AND.w #$FF00 : ORA.b $08 : STA.b $30
             
-            LDA.w #$0004 : TSB $48
+            LDA.w #$0004 : TSB.b $48
     
     .player_not_close
     
     SEP #$20
     
-    LDA $2F : BEQ .dont_negate_grab_pose
-        LDA $48 : AND.b #$FB : STA $48
+    LDA.b $2F : BEQ .dont_negate_grab_pose
+        LDA.b $48 : AND.b #$FB : STA.b $48
     
     .dont_negate_grab_pose
     

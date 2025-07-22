@@ -7,22 +7,19 @@ Ancilla_Unused_10:
 Ancilla_Unused_12:
 Ancilla_BlastWall:
 {
-    LDA $11 : BNE .state_logic_finished
+    LDA.b $11 : BNE .state_logic_finished
         LDA.l $7F0000, X : BEQ .inactive_component
             LDA.l $7F0008, X : DEC : STA.l $7F0008, X
-
             BNE .state_logic_finished
                 LDA.l $7F0000, X : INC : STA.l $7F0000, X
-
                 BEQ .anospawn_fireball
                 CMP.b #$09 : BCS .anospawn_fireball
                     PHX
                     
-                    TXA : ASL #2 : STA $04
+                    TXA : ASL : ASL : STA.b $04
                     
                     LDY.b #$0A
                     LDA.b #$32
-                    
                     JSL.l AddBlastWallFireball
                     
                     PLX
@@ -30,7 +27,8 @@ Ancilla_BlastWall:
                 .anospawn_fireball
                 
                 LDA.l $7F0000, X : CMP.b #$0B : BNE .anoreset_component_state
-                    LDA.b #$00 : STA.l $7F0000, X : STA.l $7F0008, X
+                    LDA.b #$00 : STA.l $7F0000, X
+                                 STA.l $7F0008, X
                     
                     BRA .state_logic_finished
                     
@@ -69,17 +67,17 @@ Ancilla_BlastWall:
             
             PHX
             
-            LDA.b #$03 : STA $06
+            LDA.b #$03 : STA.b $06
             
             .adjust_next_explosion_position
             
-                STZ $00
-                STZ $01
+                STZ.b $00
+                STZ.b $01
                 
-                STZ $02
-                STZ $03
+                STZ.b $02
+                STZ.b $03
                 
-                STX $04
+                STX.b $04
                 
                 LDX.b #$00
                 
@@ -94,50 +92,47 @@ Ancilla_BlastWall:
                 
                 .diverge_vertically
                 
-                LDA.b #$0D : STA $00, X
+                LDA.b #$0D : STA.b $00, X
                 
-                LDA $06 : AND.b #$02 : BEQ .first_two_adjustments
+                LDA.b $06 : AND.b #$02 : BEQ .first_two_adjustments
                     ; Invert the sign of the variable. (Couldn't we just do
                     ; this stuff in 16-bit? Anyways, it looks like the point of
                     ; this is to allow the explosions to diverge out in
                     ; opposing directions.
                     ; OPTIMIZE: Maybe do this in 16-bit logic.
-                    LDA $00, X : EOR.b #$FF : INC : STA $00, X
-                                 LDA.b #$FF         : STA $01, X
+                    LDA.b $00, X : EOR.b #$FF : INC : STA.b $00, X
+                    LDA.b #$FF                      : STA.b $01, X
                     
                 .first_two_adjustments
                 
-                LDA $04 : ASL #3 : STA $08
+                LDA.b $04 : ASL #3 : STA.b $08
                 
-                LDA $06 : ASL : CLC : ADC $08 : TAX
+                LDA.b $06 : ASL : CLC : ADC.b $08 : TAX
                 
                 REP #$20
                 
-                LDA.l $7F0020, X : CLC : ADC $00 : STA.l $7F0020, X
-                LDA.l $7F0030, X : CLC : ADC $02 : STA.l $7F0030, X
-                
-                SEC : SBC $E2 : STA $72
+                LDA.l $7F0020, X : CLC : ADC.b $00 : STA.l $7F0020, X
+                LDA.l $7F0030, X : CLC : ADC.b $02 : STA.l $7F0030, X
+                                   SEC : SBC.b $E2 : STA.b $72
                 
                 SEP #$20
                 
                 ; The explosion would be off screen, so don't play the SFX.
-                LDA $73 : BNE .anoplay_explosion_SFX
-                    LDA $72
-                    
+                LDA.b $73 : BNE .anoplay_explosion_SFX
+                    LDA.b $72
                     JSR.w Ancilla_SetSfxPan_NearEntity
                     ORA.b #$0C : STA.w $012E
                     
                 .anoplay_explosion_SFX
                 
-                LDX $04
-            DEC $06 : BPL .adjust_next_explosion_position
+                LDX.b $04
+            DEC.b $06 : BPL .adjust_next_explosion_position
             
             PLX
             
     .draw
     
     LDX.w $0380
-    
     LDA.l $7F0000, X : BEQ .dont_draw_component
         LDY.b #$07
         
@@ -157,8 +152,8 @@ Ancilla_BlastWall:
             
             REP #$20
             
-            LDA.l $7F0020, X : STA $00
-            LDA.l $7F0030, X : STA $02
+            LDA.l $7F0020, X : STA.b $00
+            LDA.l $7F0030, X : STA.b $02
             
             SEP #$20
             
@@ -204,26 +199,24 @@ BlastWall_DrawExplosion:
 {
     PHX : PHY
     
-    LDA.b #$30 : STA $65
-                 STZ $64
+    LDA.b #$30 : STA.b $65
+                 STZ.b $64
     
     LDA.l $7F0000, X : TAY
+    LDA.w Bomb_Draw_num_OAM_entries, Y : STA.b $08
     
-    LDA Bomb_Draw_num_OAM_entries, Y : STA $08
+    LDA.w Ancilla_Bomb_chr_groups, Y : TAY
+    LDA.w Bomb_Draw_chr_start_offset, Y : ASL : TAX
     
-    LDA Ancilla_Bomb_chr_groups, Y : TAY
+    ASL : STA.b $04
+          STZ.b $05
     
-    LDA Bomb_Draw_chr_start_offset, Y : ASL : TAX
+    STZ.b $0A
     
-    ASL : STA $04
-            STZ $05
+    LDA.b #$32 : STA.b $0B
     
-    STZ $0A
-    
-    LDA.b #$32 : STA $0B
-    
-    STZ $06
-    STZ $07
+    STZ.b $06
+    STZ.b $07
     
     LDA.b #$18
     
@@ -240,13 +233,12 @@ BlastWall_DrawExplosion:
     
     REP #$20
     
-    LDA $00 : SEC : SBC $E8 : STA $0C
-    LDA $02 : SEC : SBC $E2 : STA $0E
+    LDA.b $00 : SEC : SBC.b $E8 : STA.b $0C
+    LDA.b $02 : SEC : SBC.b $E2 : STA.b $0E
     
     SEP #$20
     
     LDY.b #$00
-    
     JSR.w Bomb_DrawExplosion
     
     PLY : PLX
@@ -263,45 +255,46 @@ Bomb_DrawExplosion:
     
         LDA.w Pool_Bomb_Draw_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
             ; Offset index for placing the sprites?
-            STX $72
+            STX.b $72
             
             REP #$20
             
-            STZ $74
+            STZ.b $74
             
-            LDA $06 : ASL #2 : CLC : ADC $04 : TAX
-            
-            LDA.w Pool_Bomb_Draw_y_offsets, X : CLC : ADC $0C : STA $00
-            LDA.w Pool_Bomb_Draw_x_offsets, X : CLC : ADC $0E : STA $02
+            LDA.b $06 : ASL : ASL : CLC : ADC.b $04 : TAX
+            LDA.w Pool_Bomb_Draw_y_offsets, X : CLC : ADC.b $0C : STA.b $00
+            LDA.w Pool_Bomb_Draw_x_offsets, X : CLC : ADC.b $0E : STA.b $02
             
             SEP #$20
             
-            LDX $72
-            
+            LDX.b $72
             JSR.w Ancilla_SetSafeOam_XY
             
-            LDA.w Pool_Bomb_Draw_chr, X : STA ($90), Y : INY
+            LDA.w Pool_Bomb_Draw_chr, X : STA.b ($90), Y
             
+            INY
             LDA.w Pool_Bomb_Draw_properties, X : AND.b #$C1
-            ORA $65 : ORA $0B : STA ($90), Y : INY
+            ORA.b $65 : ORA.b $0B : STA.b ($90), Y
             
-            STY $72
-            STX $73
+            INY
             
-            TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+            STY.b $72
+            STX.b $73
+            
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
             
             TXA : LSR : TAX
+            LDA.w Pool_Bomb_Draw_OAM_sizes, X : ORA.b $75 : STA.b ($92), Y
             
-            LDA.w Pool_Bomb_Draw_OAM_sizes, X : ORA $75 : STA ($92), Y
-            
-            LDX $73
-            LDY $72
+            LDX.b $73
+            LDY.b $72
         
         .skip_OAM_entry
         
-        INX #2
+        INX : INX
     ; Compare with the number of sprites needed for the bomb.
-    INC $06 : LDA $06 : CMP $08 : BNE .next_OAM_entry
+    INC.b $06
+    LDA.b $06 : CMP.b $08 : BNE .next_OAM_entry
     
     RTS
 }

@@ -33,7 +33,7 @@ Ancilla_ShovelDirt:
     
     LDA.w $0C5E, X : STA.b $0A
     
-    ASL #2 : STA.b $08
+    ASL : ASL : STA.b $08
     
     LDY.b #$00
     
@@ -63,15 +63,15 @@ Ancilla_ShovelDirt:
         
         LDX.b $0A
         
-        LDA.w Pool_Ancilla_ShovelDirt_chr, X : CLC : ADC.b $72 : STA ($90), Y
+        LDA.w Pool_Ancilla_ShovelDirt_chr, X : CLC : ADC.b $72 : STA.b ($90), Y
         INY
 
-        LDA.b #$04 : ORA.b $65 : STA ($90), Y
+        LDA.b #$04 : ORA.b $65 : STA.b ($90), Y
         INY
         
-        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY : JSR.w Ancilla_CustomAllocateOam
         

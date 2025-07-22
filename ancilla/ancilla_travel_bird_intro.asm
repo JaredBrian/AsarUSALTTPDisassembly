@@ -204,7 +204,7 @@ Ancilla_TravelBirdIntro:
     LDA.w Pool_Ancilla_TravelBird_properties
     ORA.b #$30 : ORA.b $08 : STA ($90), Y : INY
     
-    PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+    PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
     
     LDA.b #$02 : STA ($92), Y
     

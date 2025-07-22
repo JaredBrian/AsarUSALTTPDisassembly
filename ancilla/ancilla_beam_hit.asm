@@ -42,7 +42,7 @@ Ancilla_BeamHit:
     
     .delay
     
-    LSR : STA $02
+    LSR : STA.b $02
     
     ; Draw four sprites moving in away from another in a square pattern.
     LDX.b #$03
@@ -50,24 +50,22 @@ Ancilla_BeamHit:
     
     .next_OAM_entry
     
-        STX $03
+        STX.b $03
         
-        LDA $02 : ASL #2 : ADC $03 : TAX
+        LDA.b $02 : ASL : ASL : ADC.b $03 : TAX
         
-        LDA $00
-        CLC : ADC Pool_Ancilla_BeamHit_x_offsets, X       : STA ($90), Y
+        LDA.b $00
+        CLC : ADC Pool_Ancilla_BeamHit_x_offsets, X       : STA.b ($90), Y
 
-        LDA $01
-        CLC : ADC Pool_Ancilla_BeamHit_y_offsets, X : INY : STA ($90), Y
+        LDA.b $01
+        CLC : ADC Pool_Ancilla_BeamHit_y_offsets, X : INY : STA.b ($90), Y
 
-        LDA.w Pool_Ancilla_BeamHit_chr, X
-        CLC : ADC.b #$82 : INY : STA ($90), Y
+        LDA.w Pool_Ancilla_BeamHit_chr, X : CLC : ADC.b #$82 : INY : STA.b ($90), Y
 
-        LDA.w Pool_Ancilla_BeamHit_properties, X
-        ORA.b #$02 : ORA $04 : INY : STA ($90), Y
+        LDA.w Pool_Ancilla_BeamHit_properties, X : ORA.b #$02 : ORA.b $04 : INY : STA.b ($90), Y
         
         INY
-    LDX $03 : DEX : BPL .next_OAM_entry
+    LDX.b $03 : DEX : BPL .next_OAM_entry
     
     LDX.w $0FA0
     

@@ -57,7 +57,7 @@ IceShotSpread_Draw:
     
     LDY.b #$00
     
-    STZ $04
+    STZ.b $04
     
     .next_OAM_entry
     
@@ -70,7 +70,7 @@ IceShotSpread_Draw:
         
         .no_x_sign_extend
         
-        CLC : ADC $00 : STA $08
+        CLC : ADC.b $00 : STA.b $08
         
         ; The y offsets.
         LDA.w Pool_IceShotSpread_Draw_offsets_xy+1, X
@@ -79,7 +79,7 @@ IceShotSpread_Draw:
         
         .no_y_sign_extend
         
-        CLC : ADC $02 : STA $0A
+        CLC : ADC.b $02 : STA.b $0A
         
         SEP #$20
         
@@ -87,39 +87,39 @@ IceShotSpread_Draw:
         
         LDX.b #$F0
         
-        LDA $09 : BNE .off_screen
-            LDA $0B : BNE .off_screen
-                LDA $0A : STA ($90), Y
+        LDA.b $09 : BNE .off_screen
+            LDA.b $0B : BNE .off_screen
+                LDA.b $0A : STA.b ($90), Y
                 
-                LDA $08 : CMP.b #$F0 : BCS .off_screen
+                LDA.b $08 : CMP.b #$F0 : BCS .off_screen
                     TAX
                 
         .off_screen
         
         INY
         
-        TXA : STA ($90), Y : INY
+        TXA : STA.b ($90), Y : INY
         
         PLX
         
-        LDA.w Pool_IceShotSpread_Draw_chr_and_properties, X : STA ($90), Y
+        LDA.w Pool_IceShotSpread_Draw_chr_and_properties, X : STA.b ($90), Y
         INY
 
         LDA.w Pool_IceShotSpread_Draw_chr_and_properties+1, X
-        AND.b #$CF : ORA $65 : STA ($90), Y
+        AND.b #$CF : ORA.b $65 : STA.b ($90), Y
         
-        INY : PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        INY : PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
         ; Use small sprites always.
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY : JSR.w Ancilla_CustomAllocateOam
         
-        INX #2
+        INX : INX
         
-        INC $04
+        INC.b $04
         
-        LDA $04 : CMP.b #$04 : BEQ .done_drawing
+        LDA.b $04 : CMP.b #$04 : BEQ .done_drawing
     BRL .next_OAM_entry
     
     .done_drawing
@@ -128,10 +128,10 @@ IceShotSpread_Draw:
     
     LDY.b #$01
     
-    LDA ($90), Y : CMP.b #$F0 : BNE .not_off_screen
+    LDA.b ($90), Y : CMP.b #$F0 : BNE .not_off_screen
         LDY.b #$05
         
-        LDA ($90), Y : CMP.b #$F0 : BNE .not_off_screen
+        LDA.b ($90), Y : CMP.b #$F0 : BNE .not_off_screen
             ; Self terminate off screen.
             STZ.w $0C4A, X
             

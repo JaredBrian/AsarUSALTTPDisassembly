@@ -125,16 +125,16 @@ Ancilla_WaterfallSplash:
             
             JSR.w Ancilla_SetOam_XY
             
-            LDA.w Pool_Ancilla_WaterfallSplash_chr, X : STA ($90), Y
+            LDA.w Pool_Ancilla_WaterfallSplash_chr, X : STA.b ($90), Y
             INY
 
             LDA.w Pool_Ancilla_WaterfallSplash_properties, X 
-            ORA.b #$30 : STA ($90), Y
+            ORA.b #$30 : STA.b ($90), Y
             INY
             
-            PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+            PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
             
-            LDA.w Pool_Ancilla_WaterfallSplash_OAM_sizes, X : STA ($92), Y
+            LDA.w Pool_Ancilla_WaterfallSplash_OAM_sizes, X : STA.b ($92), Y
             
             PLY
             

@@ -193,14 +193,14 @@ WeathervaneExplosion_DrawWoodChunk:
         
         LDX.b $72
         
-        LDA.w .chr, X  : STA ($90), Y : INY
-        LDA.b #$3C     : STA ($90), Y : INY
+        LDA.w .chr, X  : STA.b ($90), Y : INY
+        LDA.b #$3C     : STA.b ($90), Y : INY
         
         TYA : STA.l $7F5879
         
-        SEC : SBC.b #$04 : LSR #2 : TAY
+        SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLX
         

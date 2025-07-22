@@ -557,20 +557,20 @@ Ancilla_ReceiveItem:
     JSR.w Ancilla_SetOam_XY
     
     ; Always use the same character graphic (0x24).
-    LDA.b #$24 : STA ($90), Y : INY
+    LDA.b #$24 : STA.b ($90), Y : INY
     
     LDA AddReceiveItem_properties, X : BPL .valid_upper_properties
         LDA.b $74
     
     .valid_upper_properties
     
-    ASL : ORA.b #$30 : STA ($90), Y : INY
+    ASL : ORA.b #$30 : STA.b ($90), Y : INY
     
     PHY
     
-    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
     
-    LDA.w .wide_item_flag, X : STA ($92), Y
+    LDA.w .wide_item_flag, X : STA.b ($92), Y
     
     PLY
     
@@ -587,20 +587,20 @@ Ancilla_ReceiveItem:
         JSR.w Ancilla_SetOam_XY
         
         ; Always use the same character graphic (0x34).
-        LDA.b #$34 : STA ($90), Y : INY
+        LDA.b #$34 : STA.b ($90), Y : INY
         
         LDA AddReceiveItem_properties, X : BPL .valid_lower_properties
             LDA.b $74
         
         .valid_lower_properties
         
-        ASL : ORA.b #$30 : STA ($90), Y 
+        ASL : ORA.b #$30 : STA.b ($90), Y 
         
         INY : PHY
         
-        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        LDA.b #$00 : STA ($92), Y
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY
     

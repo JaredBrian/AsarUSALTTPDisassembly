@@ -15,7 +15,7 @@ Pool_Ancilla_Arrow:
 ; $042131-$04224D JUMP LOCATION
 Ancilla_Arrow:
 {
-    LDA $11 : BEQ .normal_submode
+    LDA.b $11 : BEQ .normal_submode
         BRL .just_draw
     
     .normal_submode
@@ -37,7 +37,7 @@ Ancilla_Arrow:
     JSR.w Ancilla_MoveHoriz
     
     LDA.l $7EF340 : AND.b #$04 : BEQ .dont_spawn_sparkle
-        LDA $1A : AND.b #$01 : BNE .dont_spawn_sparkle
+        LDA.b $1A : AND.b #$01 : BNE .dont_spawn_sparkle
             PHX
             
             JSL.l AddSilverArrowSparkle
@@ -57,18 +57,12 @@ Ancilla_Arrow:
         TYA : STA.w $03C5, X
         
         LDA.w $0C72, X : AND.b #$03 : ASL : TAY
-        
-        LDA.w Pool_Ancilla_Arrow_y_offsets+0, Y
-        CLC : ADC.w $0BFA, X : STA.w $0BFA, X
+        LDA.w Pool_Ancilla_Arrow_y_offsets+0, Y : CLC : ADC.w $0BFA, X : STA.w $0BFA, X
 
-        LDA.w Pool_Ancilla_Arrow_y_offsets+1, Y
-              ADC.w $0C0E, X : STA.w $0C0E, X
-        
-        LDA.w Pool_Ancilla_Arrow_x_offsets+0, Y
-        CLC : ADC.w $0C04, X : STA.w $0C04, X
+        LDA.w Pool_Ancilla_Arrow_y_offsets+1, Y       : ADC.w $0C0E, X : STA.w $0C0E, X
+        LDA.w Pool_Ancilla_Arrow_x_offsets+0, Y : CLC : ADC.w $0C04, X : STA.w $0C04, X
 
-        LDA.w Pool_Ancilla_Arrow_x_offsets+1, Y
-              ADC.w $0C18, X : STA.w $0C18, X
+        LDA.w Pool_Ancilla_Arrow_x_offsets+1, Y : ADC.w $0C18, X : STA.w $0C18, X
         
         STZ.w $0B88
         
@@ -88,7 +82,8 @@ Ancilla_Arrow:
             
             ; Set a delay for the archery game proprietor and set a timer for
             ; the target that was hit (indicating it was hit).
-            LDA.b #$80 : STA.w $0E10, Y : STA.w $0F10
+            LDA.b #$80 : STA.w $0E10, Y
+                         STA.w $0F10
             
             ; \tcrf In conjunction with the ArcheryGameGuy sprite code, this is
             ; another lead the suggested that there were 9 game prize values
@@ -115,7 +110,8 @@ Ancilla_Arrow:
     .transmute_to_halted_arrow
     
     LDA.w $0E20, Y : CMP.b #$1B : BEQ .hit_enemy_arrow_no_SFX
-        LDA.b #$08 : JSR.w Ancilla_DoSfx2
+        LDA.b #$08
+        JSR.w Ancilla_DoSfx2
     
     .hit_enemy_arrow_no_SFX
     
@@ -127,13 +123,13 @@ Ancilla_Arrow:
     LDA.w $03C5, X : BEQ .draw
         REP #$20
         
-        LDA $E0 : SEC : SBC $E2 : CLC : ADC.w $0C04, X : STA $00
-        LDA $E6 : SEC : SBC $E8 : CLC : ADC.w $0BFA, X : STA $02
+        LDA.b $E0 : SEC : SBC.b $E2 : CLC : ADC.w $0C04, X : STA.b $00
+        LDA.b $E6 : SEC : SBC.b $E8 : CLC : ADC.w $0BFA, X : STA.b $02
         
         SEP #$20
         
-        LDA $00 : STA.w $0C04, X
-        LDA $02 : STA.w $0BFA, X
+        LDA.b $00 : STA.w $0C04, X
+        LDA.b $02 : STA.w $0BFA, X
         
         BRA .draw
         
@@ -260,26 +256,28 @@ Arrow_Draw:
     JSR.w Ancilla_PrepAdjustedOamCoord
     
     LDA.w $0280, X : BEQ .normal_priority
-        LDA.b #$30 : STA $65
+        LDA.b #$30 : STA.b $65
     
     .normal_priority
     
     REP #$20
     
-    LDA $00 : STA $0C
-    LDA $02 : STA $0E : STA $04
+    LDA.b $00 : STA.b $0C
+    LDA.b $02 : STA.b $0E
+                STA.b $04
     
     LDA.w $03C5, X : AND.w #$00FF : BEQ .basic_collision
         ; Seems like this does special handling for more complex collision
         ; modes.
-        LDA $E8 : SEC : SBC $E6 : CLC : ADC $0C : STA $0C
-        LDA $E2 : SEC : SBC $E0 : CLC : ADC $0E : STA $0E : STA $04
+        LDA.b $E8 : SEC : SBC.b $E6 : CLC : ADC.b $0C : STA.b $0C
+        LDA.b $E2 : SEC : SBC.b $E0 : CLC : ADC.b $0E : STA.b $0E
+                                                        STA.b $04
     
     .basic_collision
     
     SEP #$20
     
-    LDA.w $0C5E, X : STA $07
+    LDA.w $0C5E, X : STA.b $07
     
     LDA.w $0C72, X : AND.b #$FB : TAY
     
@@ -296,9 +294,9 @@ Arrow_Draw:
         
         .chr_index_determined
         
-        STA $0A
+        STA.b $0A
         
-        TYA : ASL #2 : CLC : ADC.b #$08 : CLC : ADC $0A : TAY
+        TYA : ASL : ASL : CLC : ADC.b #$08 : CLC : ADC.b $0A : TAY
         
         BRA .determine_palette
     
@@ -311,7 +309,7 @@ Arrow_Draw:
     
     PHX
     
-    TYA : ASL #2 : TAX
+    TYA : ASL : ASL : TAX
     
     LDY.b #$02
     
@@ -321,16 +319,16 @@ Arrow_Draw:
     
     .use_silver_palette
     
-    STY $74
+    STY.b $74
     
     LDY.b #$00
     
-    STZ $06
+    STZ.b $06
     
     .next_OAM_entry
     
         LDA.w Pool_Arrow_Draw_chr_and_properties, X : CMP.b #$FF : BEQ .skip_OAM_entry
-            STA $72
+            STA.b $72
             
             PHX : TXA : ASL : TAX
             
@@ -338,8 +336,8 @@ Arrow_Draw:
             
             ; First of each interleaved pair is the y offset, and the second
             ; is the x offset.
-            LDA.w Pool_Arrow_Draw_xy_offsets+0, X : CLC : ADC $0C : STA $00
-            LDA.w Pool_Arrow_Draw_xy_offsets+2, X : CLC : ADC $0E : STA $02
+            LDA.w Pool_Arrow_Draw_xy_offsets+0, X : CLC : ADC.b $0C : STA.b $00
+            LDA.w Pool_Arrow_Draw_xy_offsets+2, X : CLC : ADC.b $0E : STA.b $02
             
             SEP #$20
             
@@ -347,31 +345,35 @@ Arrow_Draw:
             
             PLX
             
-            LDA $72 : STA ($90), Y : INY
+            LDA.b $72 : STA.b ($90), Y
             
+            INY
             LDA.w Pool_Arrow_Draw_chr_and_properties+1, X : AND.b #$C1
+            ORA.b $74 : ORA.b $65 : STA.b ($90), Y
             
-            ORA $74 : ORA $65 : STA ($90), Y : INY
-            
-            PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-            
-            LDA.b #$00 : STA ($92), Y
+            INY : PHY
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+            LDA.b #$00 : STA.b ($92), Y
             
             PLY
         
         .skip_OAM_entry
         
-        INX #2
+        INX : INX
         
-        INC $06 : LDA $06 : CMP.b #$02 : BEQ .finished_drawing
+        INC.b $06
+        LDA.b $06 : CMP.b #$02 : BEQ .finished_drawing
     BRL .next_OAM_entry
     
     .finished_drawing
     
     PLX
     
-    LDY.b #$01 : LDA ($90), Y : CMP.b #$F0 : BNE .on_screen
-        LDY.b #$05 : LDA ($90), Y : CMP.b #$F0 : BNE .on_screen
+    ; OPTIMIZE: Just change the address instead of the LDYs.
+    LDY.b #$01
+    LDA.b ($90), Y : CMP.b #$F0 : BNE .on_screen
+        LDY.b #$05
+        LDA.b ($90), Y : CMP.b #$F0 : BNE .on_screen
             BRL Ancilla_HaltedArrow_self_terminate
     
     .on_screen

@@ -51,7 +51,7 @@ Ancilla_VictorySparkle:
     
     LDA.b #$03 : STA !numSprites
     
-    LDA.w $0C5E, X : ASL #2 : TAX
+    LDA.w $0C5E, X : ASL : ASL : TAX
     
     LDY.b #$00
     
@@ -81,7 +81,7 @@ Ancilla_VictorySparkle:
             ORA.b #$04 : ORA.b $65 : STA ($90), Y
             INY
             
-            PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+            PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
             
             LDA.b #$00 : STA ($92), Y
             

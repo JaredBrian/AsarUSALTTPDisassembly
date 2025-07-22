@@ -181,7 +181,7 @@ SomarianBlast_Draw:
     LDY.b #$00
     
     ; X = (direction * 6) + state_index
-    LDA.w $0C72, X : ASL #2 : ADC.w $0C72, X : ADC.w $0C72, X : ADC.w $0C54, X : TAX
+    LDA.w $0C72, X : ASL : ASL : ADC.w $0C72, X : ADC.w $0C72, X : ADC.w $0C54, X : TAX
     
     LDA.w Pool_SomarianBlast_Draw_x_offsets_a, X : CLC : ADC.b $00 : STA ($90), Y
     LDA.w Pool_SomarianBlast_Draw_x_offsets_b, X : CLC : ADC.b $00

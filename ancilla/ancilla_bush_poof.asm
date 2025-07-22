@@ -52,50 +52,52 @@ Ancilla_BushPoof:
     LDA.w $0C68, X : BNE .draw
         LDA.b #$07 : STA.w $0C68, X
         
-        INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$04 : BNE .draw
+        INC.w $0C5E, X
+        LDA.w $0C5E, X : CMP.b #$04 : BNE .draw
             STZ.w $0C4A, X
             
             RTS
     
     .draw
     
-    LDA.b #$10 : JSL.l OAM_AllocateFromRegionC
+    LDA.b #$10
+    JSL.l OAM_AllocateFromRegionC
     
     JSR.w Ancilla_PrepOamCoord
     
-    LDA $00 : STA $06
-    LDA $01 : STA $07
-              STZ $08
+    LDA.b $00 : STA.b $06
+    LDA.b $01 : STA.b $07
+                STZ.b $08
     
     LDY.b #$00
     
-    LDA.w $0C5E, X : ASL #2 : TAX
+    LDA.w $0C5E, X : ASL : ASL : TAX
     
     .next_OAM_entry
     
-        LDA $06 : CLC : ADC Pool_Ancilla_BushPoof_y_offsets_low,  X : STA $00
-        LDA $07       : ADC Pool_Ancilla_BushPoof_y_offsets_high, X : STA $01
+        LDA.b $06 : CLC : ADC.w Pool_Ancilla_BushPoof_y_offsets_low,  X : STA.b $00
+        LDA.b $07       : ADC.w Pool_Ancilla_BushPoof_y_offsets_high, X : STA.b $01
         
-        LDA $04 : CLC : ADC Pool_Ancilla_BushPoof_x_offsets_low,  X : STA $02
-        LDA $05       : ADC Pool_Ancilla_BushPoof_x_offsets_high, X : STA $03
+        LDA.b $04 : CLC : ADC.w Pool_Ancilla_BushPoof_x_offsets_low,  X : STA.b $02
+        LDA.b $05       : ADC.w Pool_Ancilla_BushPoof_x_offsets_high, X : STA.b $03
         
         JSR.w Ancilla_SetOam_XY
         
-        LDA.w Pool_Ancilla_BushPoof_chr, X : STA ($90), Y
+        LDA.w Pool_Ancilla_BushPoof_chr, X : STA.b ($90), Y
+
         INY
-        
         LDA.w Pool_Ancilla_BushPoof_properties, X
-        ORA.b #$04 : ORA $65 : STA ($90), Y
-        INY
-        
-        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-        
-        LDA.b #$00 : STA ($92), Y
+        ORA.b #$04 : ORA.b $65 : STA.b ($90), Y
+
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY
         
         INX
-    INC $08 : LDA $08 : CMP.b #$04 : BNE .next_OAM_entry
+    INC.b $08
+    LDA.b $08 : CMP.b #$04 : BNE .next_OAM_entry
     
     BRL Ancilla_RestoreIndex
 }

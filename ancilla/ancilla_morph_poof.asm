@@ -42,21 +42,21 @@ Ancilla_MorphPoof:
         LDA.w $0C5E, X : INC : STA.w $0C5E, X : CMP.b #$03 : BNE MorphPoof_Draw
             STZ.w $0C4A, X
             STZ.w $02E1
-            STZ $50
+            STZ.b $50
             
             LDA.w $0C54, X : BNE .return
-                STZ $2E
-                STZ $4B
+                STZ.b $2E
+                STZ.b $4B
                 
                 LDY.b #$00
                 
-                LDA $8A : AND.b #$40 : BEQ .in_light_world
+                LDA.b $8A : AND.b #$40 : BEQ .in_light_world
                     ; Select the bunny tileset for the player.
                     INY
                 
                 .in_light_world
                 
-                STY.w $02E0 : STY $56 : BEQ .using_normal_player_graphics
+                STY.w $02E0 : STY.b $56 : BEQ .using_normal_player_graphics
                     JSL.l LoadGearPalettes_bunny
                 
                     BRA .return
@@ -79,15 +79,15 @@ MorphPoof_Draw:
         LDA.w $0C7C, X : BEQ .use_default_OAM_region
             ; WTF: Why would we care if the boomerang is in play?
             LDA.w $035F : BEQ .no_boomerang_in_play
-                LDA $1A : AND.b #$01 : BNE .use_default_OAM_region
+                LDA.b $1A : AND.b #$01 : BNE .use_default_OAM_region
             
             .no_boomerang_in_play
             
             REP #$20
             
-            LDA.w #$00D0 : PHA : CLC : ADC.w #$0800 : STA $90
+            LDA.w #$00D0 : PHA : CLC : ADC.w #$0800 : STA.b $90
             
-            PLA : LSR #2 : CLC : ADC.w #$0A20 : STA $92
+            PLA : LSR : LSR : CLC : ADC.w #$0A20 : STA.b $92
             
             SEP #$20
         
@@ -97,8 +97,8 @@ MorphPoof_Draw:
     
     REP #$20
     
-    LDA $00 : STA $04
-    LDA $02 : STA $06
+    LDA.b $00 : STA.b $04
+    LDA.b $02 : STA.b $06
     
     SEP #$20
     
@@ -106,37 +106,37 @@ MorphPoof_Draw:
     
     LDY.w $0C5E, X
     
-    LDA.w Pool_MorphPoof_Draw_OAM_size, Y : STA $08
+    LDA.w Pool_MorphPoof_Draw_OAM_size, Y : STA.b $08
     
-    LDA.w Pool_MorphPoof_Draw_chr, Y : STA $0C
+    LDA.w Pool_MorphPoof_Draw_chr, Y : STA.b $0C
     
-    TYA : ASL #2 : STA $0E
+    TYA : ASL : ASL : STA.b $0E
     
-    LDY.b #$00 : STY $0A
+    LDY.b #$00 : STY.b $0A
     
     .next_OAM_entry
     
-        LDA $0E : CLC : ADC $0A : ASL : TAX
+        LDA.b $0E : CLC : ADC.b $0A : ASL : TAX
         
         REP #$20
         
-        LDA $04 : CLC : ADC Pool_MorphPoof_Draw_y_offsets, X : STA $00
-        LDA $06 : CLC : ADC Pool_MorphPoof_Draw_x_offsets, X : STA $02
+        LDA.b $04 : CLC : ADC Pool_MorphPoof_Draw_y_offsets, X : STA.b $00
+        LDA.b $06 : CLC : ADC Pool_MorphPoof_Draw_x_offsets, X : STA.b $02
         
         SEP #$20
         
         JSR.w Ancilla_SetOam_XY
         
-        LDA $0C : STA ($90), Y : INY
+        LDA.b $0C : STA.b ($90), Y : INY
         
         TXA : LSR : TAX
         
-        LDA.w Pool_MorphPoof_Draw_prop, X : ORA.b #$04 : ORA $65 : STA ($90), Y
+        LDA.w Pool_MorphPoof_Draw_prop, X : ORA.b #$04 : ORA.b $65 : STA.b ($90), Y
         INY : PHY
         
-        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
-        LDA $08 : STA ($92), Y
+        LDA.b $08 : STA.b ($92), Y
         
         PLY
         
@@ -144,7 +144,7 @@ MorphPoof_Draw:
         ; commits one OAM entry to the buffer.
         CMP.b #$02 : BEQ .large_OAM_size
     ; We're finished after committing 4 OAM entries to the buffer.
-    INC $0A : LDA $0A : CMP.b #$04 : BNE .next_OAM_entry
+    INC.b $0A : LDA.b $0A : CMP.b #$04 : BNE .next_OAM_entry
     
     .large_OAM_size
     

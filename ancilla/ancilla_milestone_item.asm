@@ -57,7 +57,7 @@ Ancilla_MilestoneItem:
                     
                         .not_crystal
                         
-                        TYA : STA $72
+                        TYA : STA.b $72
                             
                         PHX
                             
@@ -103,7 +103,7 @@ Ancilla_MilestoneItem:
             
             JSL.l Palette_MiscSpr_justSP6
             
-            INC $15
+            INC.b $15
             
             PLX
     
@@ -114,18 +114,18 @@ Ancilla_MilestoneItem:
     
     .dont_sparkle
     
-    LDA $11 : BNE .draw
+    LDA.b $11 : BNE .draw
         ; If altitude >= 0x18 you can't grab it.
         LDA.w $029E, X : CMP.b #$18 : BCS .no_player_collision
             LDY.b #$02
             
             JSR.w Ancilla_CheckPlayerCollision : BCC .no_player_collision
                 LDA.w $037E : BNE .no_player_collision
-                    LDA $4D : BNE .no_player_collision
+                    LDA.b $4D : BNE .no_player_collision
                         STZ.w $0C4A, X
                         
                         ; Success, we've grabbed the item!
-                        LDA $5D
+                        LDA.b $5D
                         
                         CMP.b #$19 : BEQ .receiving_medallion_player_mode
                             CMP.b #$1A : BNE .not_receiving_medallion
@@ -134,7 +134,7 @@ Ancilla_MilestoneItem:
                                 STZ.w $0112
                                 STZ.w $03EF
                                 
-                                LDA.b #$00 : STA $5D
+                                LDA.b #$00 : STA.b $5D
                     
                         .not_receiving_medallion
                     
@@ -180,9 +180,9 @@ Ancilla_MilestoneItem:
     
     REP #$20
     
-    LDA.w $029E, X : AND.w #$00FF : STA $72
+    LDA.w $029E, X : AND.w #$00FF : STA.b $72
     
-    LDA $00 : STA $06 : SEC : SBC $72 : STA $00
+    LDA.b $00 : STA.b $06 : SEC : SBC.b $72 : STA.b $00
     
     SEP #$20
     
@@ -199,14 +199,14 @@ Ancilla_MilestoneItem:
         .not_ripple_reset
     .ripple_delay
     
-    LDA.w $0385, X : STA $72
+    LDA.w $0385, X : STA.b $72
     
     LDA.w $029E, X : CMP.b #$00 : BNE .above_ground
         LDX.b #$00
         
-        LDA $A0 : CMP.b #$06 : BNE .not_water_room
-            LDA $A1 : CMP.b #$00 : BNE .not_water_room
-                LDA $72 : CLC : ADC.b #$04 : TAX
+        LDA.b $A0 : CMP.b #$06 : BNE .not_water_room
+            LDA.b $A1 : CMP.b #$00 : BNE .not_water_room
+                LDA.b $72 : CLC : ADC.b #$04 : TAX
         
                 BRA .draw_underside_sprite
     
@@ -225,11 +225,11 @@ Ancilla_MilestoneItem:
     
     REP #$20
     
-    LDA $06 : CLC : ADC.w #$000C : STA $00
+    LDA.b $06 : CLC : ADC.w #$000C : STA.b $00
     
     SEP #$20
     
-    LDA.b #$20 : STA $04
+    LDA.b #$20 : STA.b $04
     
     JSR.w Ancilla_DrawShadow
     

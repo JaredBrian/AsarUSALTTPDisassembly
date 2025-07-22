@@ -3,7 +3,7 @@
 ; $0424DD-$042535 JUMP LOCATION
 Ancilla_IceShot:
 {
-    LDA $11 : BEQ .normal_submode
+    LDA.b $11 : BEQ .normal_submode
         BRA .generate_sparkle
         
     .normal_submode

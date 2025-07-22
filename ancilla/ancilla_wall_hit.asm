@@ -91,7 +91,7 @@ WallHit_Draw:
     
     PHX
     
-    LDA.w $0C5E, X : ASL #2 : TAX
+    LDA.w $0C5E, X : ASL : ASL : TAX
     
     LDY.b #$00
     
@@ -119,7 +119,7 @@ WallHit_Draw:
             LDA.w Pool_WallHit_Draw_properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y
             INY : PHY
             
-            TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
             
             LDA.b #$00 : STA ($92), Y
             

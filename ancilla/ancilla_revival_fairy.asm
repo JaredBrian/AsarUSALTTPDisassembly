@@ -176,22 +176,22 @@ Ancilla_RevivalFairy:
     .fairy_not_sprinkling_dust
         
     ; Just alternate the fairy's chr every 4 frames.
-    LDA.b $1A : AND.b #$04 : LSR #2 : TAX
+    LDA.b $1A : AND.b #$04 : LSR : LSR : TAX
     
     .commit_fairy_chr
     
-    LDA.w Pool_Ancilla_RevivalFairy_chr, X : STA ($90), Y : INY
-    LDA.b #$74                             : STA ($90), Y
+    LDA.w Pool_Ancilla_RevivalFairy_chr, X : STA.b ($90), Y : INY
+    LDA.b #$74                             : STA.b ($90), Y
     
-    TYA : SEC : SBC.b #$03 : LSR #2 : TAY
+    TYA : SEC : SBC.b #$03 : LSR : LSR : TAY
     
-    LDA.b #$02 : STA ($92), Y
+    LDA.b #$02 : STA.b ($92), Y
     
     PLX
     
     LDY.b #$01
     
-    LDA ($90), Y : CMP.b #$F0 : BNE .fairy_not_off_screen
+    LDA.b ($90), Y : CMP.b #$F0 : BNE .fairy_not_off_screen
         LDA.b #$03 : STA.w $0C54, X
         
         INC.b $11
@@ -280,7 +280,7 @@ RevivalFairy_Dust:
 RevivalFairy_MonitorPlayerRecovery:
 {
     LDA.l $7EF36C : STA.b $00
-    LDA.l $7EF36D : CMP $00 : BEQ .health_at_capacity
+    LDA.l $7EF36D : CMP.b $00 : BEQ .health_at_capacity
         CMP.b #$38 : BNE .below_seven_hearts
     
     .health_at_capacity
