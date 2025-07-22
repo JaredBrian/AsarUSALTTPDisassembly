@@ -52,11 +52,11 @@ Sprite_ApplyConveyorAdjustment:
         ; I think it is perhaps possible that the low byte offset is an
         ; incorrectly calculated address. It overlaps with that of the Y
         ; coordinate's adjustment.
-        LDA.w $0D10, X : CLC : ADC .x_speeds_low       , Y : STA.w $0D10, X
-        LDA.w $0D30, X :       ADC .x_speeds_high - $68, Y : STA.w $0D30, X
+        LDA.w $0D10, X : CLC : ADC.w .x_speeds_low      , Y : STA.w $0D10, X
+        LDA.w $0D30, X :       ADC.w .x_speeds_high -$68, Y : STA.w $0D30, X
         
-        LDA.w $0D00, X : CLC : ADC .y_speeds_low  - $68, Y : STA.w $0D00, X
-        LDA.w $0D20, X :       ADC .y_speeds_high - $68, Y : STA.w $0D20, X
+        LDA.w $0D00, X : CLC : ADC.w .y_speeds_low  -$68, Y : STA.w $0D00, X
+        LDA.w $0D20, X :       ADC.w .y_speeds_high -$68, Y : STA.w $0D20, X
         
         PLB
     
@@ -98,7 +98,6 @@ Sprite_CreateDeflectedArrow:
         PHX
         
         TYX
-        
         JSL.l Sprite_PlaceRupulseSpark
         
         PLX
@@ -218,9 +217,12 @@ SpriteActive4_MainLong:
 SpriteActive4_Main:
 {
     ; Ranges from 0 to 0x1A (since highest pointer is 0xD7).
-    LDA.w $0E20, X : SEC : SBC.b #$BD : REP #$30 : AND.w #$00FF : ASL : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$BD
     
+    REP #$30
+
     ; Again, we have a subtle jump table by means of stack manipulation.
+    AND.w #$00FF : ASL : TAY
     LDA.w .handlers, Y : DEC : PHA
     
     SEP #$30
@@ -235,17 +237,23 @@ SpriteActive4_Main:
     
     dw Sprite_Vitreous                 ; 0xBD - $E4C8 Vitreous
     dw Sprite_Vitreolus                ; 0xBE - $E773 Vitreolus (small eyes)
-    dw Sprite_Lightning                ; 0xBF - $E3ED Vitreous' Lightning (also Agahnim)
+    dw Sprite_Lightning                ; 0xBF - $E3ED Vitreous' Lightning
+                                       ;        (also Agahnim)
     dw Sprite_GreatCatfish             ; 0xC0 - $DF49 Lake of Ill Omen Monster
-    dw Sprite_ChattyAgahnim            ; 0xC1 - $D234 Agahnim teleporting Zelda to darkworld
+    dw Sprite_ChattyAgahnim            ; 0xC1 - $D234 Agahnim teleporting Zelda
+                                       ;        to darkworld
     dw Sprite_Boulder                  ; 0xC2 - $CFCB Boulders / Lanmola Shrapnel
     dw Sprite_Gibo                     ; 0xC3 - $CCE1 Symbion 2
     dw Sprite_Thief                    ; 0xC4 - $C8D8 Thief
-    dw Sprite_Medusa                   ; 0xC5 - $C7EB Evil fireball spitting faces!
+    dw Sprite_Medusa                   ; 0xC5 - $C7EB Evil fireball spitting
+                                       ;        faces
     dw Sprite_FireballJunction         ; 0xC6 - $C869 Four way fireball spitters
-    dw Sprite_Hokbok                   ; 0xC7 - $C64F Hokbok and its segments (I call them Ricochet)
-    dw Sprite_BigFairy                 ; 0xC8 - $C414 Big Fairy / Fairy Dust Cloud
-    dw Sprite_GanonHelpers             ; 0xC9 - $C275 Ganon's Firebat, Tektite and friends
+    dw Sprite_Hokbok                   ; 0xC7 - $C64F Hokbok and its segments (I 
+                                       ;        call them Ricochet)
+    dw Sprite_BigFairy                 ; 0xC8 - $C414 Big Fairy / Fairy Dust 
+                                       ;        Cloud
+    dw Sprite_GanonHelpers             ; 0xC9 - $C275 Ganon's Firebat, Tektite 
+                                       ;        and friends
     dw Sprite_ChainChomp               ; 0xCA - $BE7D Chain Chomp
     dw Sprite_Trinexx                  ; 0xCB - $B0CA Trinexx 1
     dw Sprite_Sidenexx_Breath_FireHead ; 0xCC - $B897 Trinexx 2
@@ -259,7 +267,8 @@ SpriteActive4_Main:
     dw Sprite_Landmine                 ; 0xD4 - $8099 Landmine
     dw Sprite_DiggingGameGuy           ; 0xD5 - $FC38 Digging game guy
     dw Sprite_Ganon                    ; 0xD6 - $8EB4 Pointer for Ganon.
-    dw Sprite_Ganon                    ; 0xD7 - $8EB4 Pointer for Ganon when he's invincible (blue mode)
+    dw Sprite_Ganon                    ; 0xD7 - $8EB4 Pointer for Ganon when 
+                                       ;        he's invincible (blue mode)
 }
 
 ; ==============================================================================
@@ -353,7 +362,6 @@ Vitreous_SpawnSmallerEyes:
     LDA.b #$04 : STA.w $0DC0, X
     
     LDY.b #$0D
-    
     JSL.l Sprite_SpawnDynamically_arbitrary
     
     LDY.b #$0C
@@ -373,20 +381,25 @@ Vitreous_SpawnSmallerEyes:
         LDA.b #$00 : STA.w $0F21, Y
         
         LDA.b $00 : CLC : ADC.w Pool_Vitreous_SpawnSmallerEyes_offset_x_low, Y
-        STA.w $0D11, Y : STA.w $0D91, Y
+        STA.w $0D11, Y
+        STA.w $0D91, Y
         
         LDA.b $01 : ADC.w Pool_Vitreous_SpawnSmallerEyes_offset_x_high, Y
-        STA.w $0D31, Y : STA.w $0DA1, Y
+        STA.w $0D31, Y
+        STA.w $0DA1, Y
         
         LDA.b $02 : CLC : ADC.w Pool_Vitreous_SpawnSmallerEyes_offset_y_low, Y
-        PHP : CLC : ADC.b #$20 : STA.w $0D01, Y : STA.w $0DB1, Y
+        PHP : CLC : ADC.b #$20 : STA.w $0D01, Y
+                                 STA.w $0DB1, Y
         
         LDA.b $03 : ADC.b #$00 : PLP
         ADC.w Pool_Vitreous_SpawnSmallerEyes_offset_y_high, Y
-        STA.w $0D21, Y : STA.w $0DE1, Y
+        STA.w $0D21, Y
+        STA.w $0DE1, Y
         
         LDA.w Pool_Vitreous_SpawnSmallerEyes_anim_state, Y
-        STA.w $0DC1, Y : STA.w $0BA1, Y
+        STA.w $0DC1, Y
+        STA.w $0BA1, Y
         
         TYA : ASL #3 : STA.b $0F
         
@@ -488,8 +501,7 @@ Sprite4_CheckIfRecoiling:
             .not_halted_yet
             
             LDA.w $0EA0, X : BMI .halted
-                LSR #2 : TAY
-                
+                LSR : LSR : TAY
                 LDA.b $1A : AND.w Sprite_CheckIfRecoiling_Bank1D_masks, Y : BNE .halted
                     LDA.w $0F30, X : STA.w $0D40, X
                     LDA.w $0F40, X : STA.w $0D50, X
@@ -586,9 +598,8 @@ Sprite4_MoveVert:
         
         .positive
         
-        ADC.w $0D00, X : STA.w $0D00, X
-        TYA
-        ADC.w $0D20, X : STA.w $0D20, X
+              ADC.w $0D00, X : STA.w $0D00, X
+        TYA : ADC.w $0D20, X : STA.w $0D20, X
     
     .no_velocity
     
@@ -828,7 +839,9 @@ Sprite_SimulateSoldier:
     
     JSL.l Sprite_Get_16_bit_CoordsLong
     
-    LDA.b $04 : STA.w $0DE0, X : STA.w $0EB0, X : TAY
+    LDA.b $04 : STA.w $0DE0, X
+                STA.w $0EB0, X
+                TAY
     
     LDA.w Pool_Sprite_SimulateSoldier_step, Y : CLC : ADC.b $06 : STA.w $0DC0, X
     
@@ -974,7 +987,6 @@ Sprite_DrawFourAroundOne:
     .dont_reset
     
     LDA.b #$00 : XBA
-    
     LDA.w $0DC0, X
     
     REP #$20
@@ -1028,9 +1040,11 @@ Toppo_Flustered:
             
             LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
             
-            LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$15
+            JSL.l Sound_SetSfx2PanLong
             
-            LDA.b #$4D : JSL.l Sprite_SpawnDynamically : BMI .prize_delay
+            LDA.b #$4D
+            JSL.l Sprite_SpawnDynamically : BMI .prize_delay
                 JSL.l Sprite_SetSpawnedCoords
                 
                 PHX : TYX : LDY.b #$06
@@ -1186,12 +1200,14 @@ Goriya_Draw:
             
             SEP #$20
             
-            LDA.b #$01 : JSR.w Sprite4_DrawMultiple
+            LDA.b #$01
+            JSR.w Sprite4_DrawMultiple
         
         .facing_right
     .not_firing_fire_pleghm
     
-    LDA.w $0DC0, X : PHA : ASL : TAY
+    LDA.w $0DC0, X : PHA
+    ASL            : TAY
     
     REP #$20
     
@@ -1204,7 +1220,6 @@ Goriya_Draw:
     SEP #$20
     
     PLY
-    
     LDA.w Pool_Goriya_Draw_group_size, Y
     JSR.w Sprite4_DrawMultiple
     
@@ -1261,24 +1276,24 @@ Sprite_ConvertVelocityToAngle:
     ; Y speed's sign bit and then isolate them to $0A. So $0A looks like
     ; 000st000, where s and y indicate the respective sign bits of x and y.
     LDA.b $01 : ASL : ROL : ASL : ORA.b $08
-    AND.b #$03 : ASL #3 : STA !sign_bits
+    AND.b #$03 : ASL #3 : STA.b !sign_bits
     
     LDA.b $01 : BPL .positive_x_speed
         EOR.b #$FF : INC
     
     .positive_x_speed
     
-    STA !x_magnitude
+    STA.b !x_magnitude
     
     LDA.b $00 : BPL .positive_y_speed
         EOR.b #$FF : INC
     
     .positive_y_speed
     
-    STA !y_magnitude
+    STA.b !y_magnitude
     
-    LDA !x_magnitude : CMP !y_magnitude : BCC .y_speed_magnitude_larger
-        LDA !y_magnitude : LSR #2 : CLC : ADC !sign_bits : TAY
+    LDA !x_magnitude : CMP.b !y_magnitude : BCC .y_speed_magnitude_larger
+        LDA.b !y_magnitude : LSR : LSR : CLC : ADC.b !sign_bits : TAY
         ; I don't think these tables are large enough (do we have a verified
         ; BUG: on our hands?) for all possible combinations of velocities.
         LDA.w .x_angles, Y
@@ -1287,8 +1302,7 @@ Sprite_ConvertVelocityToAngle:
     
     .y_speed_magnitude_larger
     
-    LDA !x_magnitude : LSR #2 : CLC : ADC !sign_bits : TAY
-    
+    LDA.b !x_magnitude : LSR : LSR : CLC : ADC.b !sign_bits : TAY
     LDA.w .y_angles, Y
     
     .return
@@ -1344,12 +1358,10 @@ Sprite_SpawnDynamically:
     
     ; Refresh the sprite index using Y -> X.
     TYX
-    
     JSL.l Sprite_LoadProperties
     
     LDA.b $1B : BNE .indoors
         TXA : ASL : TAX
-        
         LDA.b #$FF : STA.w $0BC1, X
     
     .indoors
@@ -1704,25 +1716,24 @@ Moldorm_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC.w Pool_Moldorm_Draw_offset_main_x, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC.w Pool_Moldorm_Draw_offset_main_x, X : STA.b ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC.w Pool_Moldorm_Draw_offset_main_y, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC.w Pool_Moldorm_Draw_offset_main_y, X : INY : STA.b ($90), Y
         
         ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-            LDA.b #$F0 : STA ($90), Y
+            LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
-        LDA.b #$4D : INY : STA ($90), Y
-        LDA.b $05  : INY : STA ($90), Y
+        LDA.b #$4D : INY : STA.b ($90), Y
+        LDA.b $05  : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
-        
-        LDA.b $0F : STA ($92), Y
+        TYA : LSR : LSR : TAY
+        LDA.b $0F : STA.b ($92), Y
         
         LDA.b $06 : CLC : ADC.b #$02 : STA.b $06
         
@@ -1856,13 +1867,13 @@ PullForRupees_SpawnRupees:
         
         .rupee_spawn_loop
         
-            LDY.w $0FB6
-            
             ; Select which kind of rupee to use with the "pull for rupees"
             ; thing.
+            LDY.w $0FB6
             LDA.w .rupee_types, Y
             JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-                LDA.b #$30 : JSL.l Sound_SetSfx3PanLong
+                LDA.b #$30
+                JSL.l Sound_SetSfx3PanLong
                 
                 JSL.l Sprite_SetSpawnedCoords
                 
@@ -1952,12 +1963,10 @@ OldMountainMan_Draw:
                      STZ.b $07
         
         LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL : TAY
-        
         LDA.w .DMA_config+0, Y : STA.w $0AE8
         LDA.w .DMA_config+1, Y : STA.w $0AEA
         
         TYA : ASL #3
-        
         ADC.b #(.dynamic_poses >> 0)              : STA.b $08
         LDA.b #(.dynamic_poses >> 8) : ADC.b #$00 : STA.b $09
         
@@ -2004,6 +2013,7 @@ SpriteBurn_Execute:
     LSR #3
     
     PHX
+
     TAX
     LDA.l Flame_Halted_animation_states, X
     
@@ -2058,23 +2068,21 @@ SpriteFall_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b $00 : CLC : ADC.b #$04       : STA ($90), Y
-    LDA.b $02 : CLC : ADC.b #$04 : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC.b #$04       : STA.b ($90), Y
+    LDA.b $02 : CLC : ADC.b #$04 : INY : STA.b ($90), Y
     
-    LDA.w $0DF0, X : LSR #2
+    LDA.w $0DF0, X : LSR : LSR
     
     PHX
     
     TAX
-    
-    LDA.w .chr, X                         : INY : STA ($90), Y
-    LDA.b $05 : AND.b #$30 : ORA.b #$04 : INY : STA ($90), Y
+    LDA.w .chr, X                       : INY : STA.b ($90), Y
+    LDA.b $05 : AND.b #$30 : ORA.b #$04 : INY : STA.b ($90), Y
     
     PLX
     
     LDY.b #$00
     LDA.b #$00
-    
     JSL.l Sprite_CorrectOamEntriesLong
     
     PLB

@@ -8560,9 +8560,8 @@ Text_GenerateMessagePointers:
     .keepGoing
     
         ; $1C8000 => $0E0000 IN ROM
-        LDA [$00] : AND.w #$00FF : TAY
-        
-        LDA !commandLengthTable, Y : AND.w #$00FF
+        LDA.b [$00] : AND.w #$00FF : TAY
+        LDA.w !commandLengthTable, Y : AND.w #$00FF
         
         CPY.w #$0067 : BCC .characterCodeOrDictionary
             CPY.w #$0080 : BCC .isCommand
@@ -9019,7 +9018,6 @@ LoadGearPalettes:
         
     LDX.w #$01B2 ; Offset into the palette array.
     LDY.w #$0002 ; Length of the palette in words.
-        
     JSR.w LoadGearPalette
         
     SEP #$10
@@ -9034,21 +9032,18 @@ LoadGearPalettes:
         
     LDX.w #$01B8
     LDY.w #$0003
-        
     JSR.w LoadGearPalette
         
     SEP #$10
         
     ; Armor value
     LDX.b $0E
-        
     LDA.l LinkMailPalettesOffsets, X : AND.w #$00FF : ASL : CLC : ADC.w #$D308
         
     REP #$10
         
     LDX.w #$01E2
     LDY.w #$000E
-        
     JSR.w LoadGearPalette
         
     SEP #$30
@@ -9070,7 +9065,8 @@ LoadGearPalette:
 
         ; LDA from address $1BXXXX into auxiliary CGRAM buffer and normal cgra
         ; buffer. 
-        LDA [$00] : STA.l $7EC300, X : STA.l $7EC500, X
+        LDA.b [$00] : STA.l $7EC300, X
+                      STA.l $7EC500, X
 
         ; Y is the length of the palette in colors (words).
         INC.b $00 : INC.b $00
@@ -9092,18 +9088,41 @@ Filter_Majorly_Whiten_Bg:
     
     .next_color_in_each_palette
     
-        LDA.l $7EC340, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC540, X
-        LDA.l $7EC350, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC550, X
-        LDA.l $7EC360, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC560, X
-        LDA.l $7EC370, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC570, X
-        LDA.l $7EC380, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC580, X
-        LDA.l $7EC390, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC590, X
-        LDA.l $7EC3A0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5A0, X
-        LDA.l $7EC3B0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5B0, X
-        LDA.l $7EC3C0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5C0, X
-        LDA.l $7EC3D0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5D0, X
-        LDA.l $7EC3E0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5E0, X
-        LDA.l $7EC3F0, X : JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5F0, X
+        LDA.l $7EC340, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC540, X
+
+        LDA.l $7EC350, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC550, X
+
+        LDA.l $7EC360, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC560, X
+
+        LDA.l $7EC370, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC570, X
+
+        LDA.l $7EC380, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC580, X
+
+        LDA.l $7EC390, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC590, X
+
+        LDA.l $7EC3A0, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5A0, X
+
+        LDA.l $7EC3B0, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5B0, X
+
+        LDA.l $7EC3C0, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5C0, X
+
+        LDA.l $7EC3D0, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5D0, X
+
+        LDA.l $7EC3E0, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5E0, X
+
+        LDA.l $7EC3F0, X
+        JSR.w Filter_Majorly_Whiten_Color : STA.l $7EC5F0, X
     INX : INX : CPX.b #$10 : BEQ .finished_whitening_increment
         
     JMP.w .next_color_in_each_palette
@@ -9115,10 +9134,10 @@ Filter_Majorly_Whiten_Bg:
     LDA.l $7EC540 : TAY
         
     LDA.l $7EC300 : BNE .non_black_backdrop_color
-        
         ; What this is saying is don't whiten or muck with a black backdrop,
         ; but other colors are fine to alter.
         TAY
+
     .non_black_backdrop_color
     
     TYA : STA.l $7EC500
@@ -9204,7 +9223,7 @@ Palette_RestoreFixedColor:
         LDX.w #$4F33
         LDY.w #$894F
         
-        LDA.b $8A    : BEQ .noSpecialColor
+        LDA.b $8A : BEQ .noSpecialColor
         CMP.b #$40 : BEQ .noSpecialColor
             CMP.b #$5B : BEQ .specialColor
                 LDX.w #$4C26
@@ -9420,7 +9439,6 @@ DungeonMap_LightenUpDungeon:
     JSL.l OrientLampBg
         
     INC.b $13
-        
     LDA.b $13 : CMP.b #$0F : BNE .notDoneBrightening
         ; Restore the current module.
         LDA.w $010C : STA.b $10
@@ -9637,9 +9655,12 @@ Overworld_Memorize_Map16_Change:
         CMP.w #$0DC9 : BEQ .dontRemember
             PHA : PHX : TXY
             
-            LDX.w $04AC : STA.l $7EFA00, X
+            LDX.w $04AC
+            STA.l $7EFA00, X
             
-            TYA : STA.l $7EF800, X : INX : INX : STX.w $04AC
+            TYA : STA.l $7EF800, X
+            
+            INX : INX : STX.w $04AC
             
             PLX : PLA
     
@@ -9677,7 +9698,8 @@ HandlePegPuzzles:
                     LDA.w #$2D00 : STA.w $012E
                     
                     ; Move to the next peg.
-                    INX : INX : STX.w $04C8 : CPX.w #$0006 : BNE .puzzleIncomplete
+                    INX : INX : STX.w $04C8
+                    CPX.w #$0006 : BNE .puzzleIncomplete
                         ; Play mystery solved sound effect.
                         LDA.w #$1B00 : STA.w $012E
                         
@@ -9835,7 +9857,9 @@ Overworld_CheckForSpecialOverworldTrigger:
     ; Sets the direction Link will face when he comes in or out of the special
     ; area.
     LDA.l Pool_Overworld_CheckForSpecialOverworldTrigger_direction, X
-    STA.b $67 : STA.w $0410 : STA.w $0416
+    STA.b $67
+    STA.w $0410
+    STA.w $0416
         
     LDX.w #$0004
     
@@ -9845,7 +9869,8 @@ Overworld_CheckForSpecialOverworldTrigger:
         DEX
     LSR : BCC .convertLoop
         
-    STX.w $0418 : STX.w $069C
+    STX.w $0418
+    STX.w $069C
         
     LDA.b #$17 : STA.b $11
         
@@ -9862,11 +9887,12 @@ Overworld_CheckForSpecialOverworldTrigger:
 ; $075E9A-$075ECD LOCAL JUMP LOCATION
 GetMap16Tile:
 {
-    LDA.b $20 : CLC : ADC.w #$000C : STA.b $00
-    SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $06
+    LDA.b $20 : CLC : ADC.w #$000C                       : STA.b $00
+                SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $06
         
-    LDA.b $22 : CLC : ADC.w #$0008 : LSR #3 : STA.b $02
-    SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $06 : TAY : TAX
+    LDA.b $22 : CLC : ADC.w #$0008 : LSR #3                       : STA.b $02
+                SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $06 : TAY
+                                                                    TAX
         
     LDA.l $7E2000, X : ASL #3 : TAX
         
@@ -9946,8 +9972,7 @@ SpecialOverworld_CheckForReturnTrigger:
         
     TXA : STA.w $0418
         
-    LDA.b $67 
-        
+    LDA.b $67
     LDX.b #$04
     
     ; Same idea here but for Link's walking direction.
@@ -11402,9 +11427,9 @@ PaletteBlackAndWhiteSomething:
             LDA.l $7EC480, X : STA.l $7FDF00, X
             
             LDA.w #$7FFF : STA.l $7EC300, X
-                         STA.l $7EC380, X
-                         STA.l $7EC400, X
-                         STA.l $7EC480, X
+                           STA.l $7EC380, X
+                           STA.l $7EC400, X
+                           STA.l $7EC480, X
         INX : INX : CPX.b #$80 : BNE .cache_colors_and_whiten_loop
         
         ; Save the background color to another area of the palette buffer.
@@ -11592,9 +11617,7 @@ Overworld_DwDeathMountainPaletteAnimation:
             LDX.b #$00
             LDY.b #$40
                 
-            LDA.b $8A
-                
-            CMP.b #$43 : BEQ .check_flag
+            LDA.b $8A : CMP.b #$43 : BEQ .check_flag
                 CMP.b #$45 : BNE .do_palette_animation
             
             .check_flag
@@ -11638,7 +11661,6 @@ Overworld_LoadEventOverlay:
     ; Check to see what Overworld area we're in.
     ; Use it as an index into a jump table.
     LDA.b $8A : ASL : TAX
-        
     JSR.w (Overworld_EventOverlayTable, X)
         
     SEP #$30
@@ -11681,7 +11703,9 @@ Overworld_EventOverlayTable:
     dw OverworldOverlay_WeatherVane         ; 0x16 - $F7E4
     dw OverworldOverlay_WeatherVane         ; 0x17 - $F7E4
     
-    dw OverworldOverlay_WeatherVane         ; 0x18 - $F7E4 Used in drawing over the weather vane after it has been exploded.
+    dw OverworldOverlay_WeatherVane         ; 0x18 - $F7E4 Used in drawing over
+                                            ;        the weather vane after it has
+                                            ;        been exploded.
     dw OverworldOverlay_WeatherVane         ; 0x19 - $F7E4
     dw OverworldOverlay_CastleGate          ; 0x1A - $F7FE
     dw OverworldOverlay_CastleGate          ; 0x1B - $F7FE
@@ -11708,7 +11732,9 @@ Overworld_EventOverlayTable:
     dw OverworldOverlay_CheckerBoardCave    ; 0x2E - $F82D
     dw OverworldOverlay_CheckerBoardCave    ; 0x2F - $F82D
     
-    dw OverworldOverlay_CheckerBoardCave    ; 0x30 - $F82D to move weathervane, this may be need changing to match area $18.
+    dw OverworldOverlay_CheckerBoardCave    ; 0x30 - $F82D to move weathervane,
+                                            ;        this may be need changing
+                                            ;        to match area $18.
     dw OverworldOverlay_CheckerBoardCave    ; 0x31 - $F82D
     dw OverworldOverlay_IceRodThief         ; 0x32 - $F833
     dw OverworldOverlay_IceRodThief         ; 0x33 - $F833
@@ -11729,7 +11755,8 @@ Overworld_EventOverlayTable:
     dw OverworldOverlay_SkullWoods          ; 0x40 - $F9E6
     dw OverworldOverlay_SkullWoods          ; 0x41 - $F9E6
     dw OverworldOverlay_GanonsTower         ; 0x42 - $FA2E
-    dw OverworldOverlay_GanonsTower         ; 0x43 - $FA2E Ganon's Tower Overlay (opened tower stairs).
+    dw OverworldOverlay_GanonsTower         ; 0x43 - $FA2E Ganon's Tower Overlay
+                                            ;        (opened tower stairs).
     dw OverworldOverlay_GanonsTower         ; 0x44 - $FA2E
     dw OverworldOverlay_HookshotCave        ; 0x45 - $FA5B
     dw OverworldOverlay_HookshotCave        ; 0x46 - $FA5B
@@ -11806,10 +11833,9 @@ Overworld_EventOverlayTable:
 OverworldOverlay_LumberjackTree:
 {
     LDA.w #$0E32
-    
-    STA.w $2816 : STA.w $2818 : STA.w $281A 
-    STA.w $281C : STA.w $2896 : STA.w $289C
-    
+    STA.w $2816 : STA.w $2818
+    STA.w $281A : STA.w $281C
+    STA.w $2896 : STA.w $289C
     INC : STA.w $2898
     INC : STA.w $2E9A
     INC : STA.w $2916
@@ -11857,12 +11883,12 @@ OverworldOverlay_DrawRevealedStairs:
 OverworldOverlay_KingsTomb:
 {
     LDA.w #$0DD1 : STA.w $2532
-    INC        : STA.w $2534
+    INC          : STA.w $2534
     
     LDA.w #$0DD7 : STA.w $25B2
-    INC        : STA.w $25B4
-    INC        : STA.w $2632
-    INC        : STA.w $2634
+    INC          : STA.w $25B4
+    INC          : STA.w $2632
+    INC          : STA.w $2634
     
     RTS
 }
@@ -11870,11 +11896,12 @@ OverworldOverlay_KingsTomb:
 ; $0777E4-$0777FD LOCAL JUMP LOCATION
 OverworldOverlay_WeatherVane:
 {
-    LDA.w #$0E21 : STA.w $2C3E : STA.w $2C42
-    INC        : STA.w $2C40
-    INC        : STA.w $2CBE
-    INC        : STA.w $2CC0
-    INC        : STA.w $2CC2
+    LDA.w #$0E21 : STA.w $2C3E
+                   STA.w $2C42
+    INC          : STA.w $2C40
+    INC          : STA.w $2CBE
+    INC          : STA.w $2CC0
+    INC          : STA.w $2CC2
     
     RTS
 }
@@ -11883,16 +11910,16 @@ OverworldOverlay_WeatherVane:
 OverworldOverlay_CastleGate:
 {
     LDA.w #$0DC1 : STA.w $33BC
-    INC        : STA.w $33BE
+    INC          : STA.w $33BE
     
     LDA.w #$0DBE : STA.w $343C
-    INC        : STA.w $343E
+    INC          : STA.w $343E
     
     LDA.w #$0DC2 : STA.w $33C0
-    INC        : STA.w $33C2
+    INC          : STA.w $33C2
     
     LDA.w #$0DBF : STA.w $3440
-    INC        : STA.w $3442
+    INC          : STA.w $3442
     
     RTS
 }
@@ -11933,90 +11960,158 @@ OverworldOverlay_DesertThief:
 OverworldOverlay_DrainedDam:
 {
     LDA.w #$0DDF
-    
-    STA.w $23AC : STA.w $2424 : STA.w $24A0 : STA.w $251E
+    STA.w $23AC : STA.w $2424
+    STA.w $24A0 : STA.w $251E
     STA.w $261C : STA.w $2734
     
-    INC : STA.w $23AE : STA.w $24A2
-    INC : STA.w $23B0 : STA.w $2438 : STA.w $24BA : STA.w $25AA : STA.w $273A
-    INC : STA.w $2426 : STA.w $2428 : STA.w $242A : STA.w $2432 : STA.w $2434
-    STA.w $2436
+    INC
+    STA.w $23AE : STA.w $24A2
 
-    INC : STA.w $242C : STA.w $24A4 : STA.w $2520 : STA.w $261E
+    INC
+    STA.w $23B0 : STA.w $2438
+    STA.w $24BA : STA.w $25AA
+    STA.w $273A
+
+    INC
+    STA.w $2426 : STA.w $2428
+    STA.w $242A : STA.w $2432
+    STA.w $2434 : STA.w $2436
+
+    INC
+    STA.w $242C : STA.w $24A4
+    STA.w $2520 : STA.w $261E
     
     INC
-    
-    STA.w $242E : STA.w $2426 : STA.w $24A8 : STA.w $24B0
-    STA.w $24B6 : STA.w $2522 : STA.w $2524 : STA.w $2526
-    STA.w $2538 : STA.w $25A0 : STA.w $25A2 : STA.w $25A4
-    STA.w $25A6 : STA.w $2620 : STA.w $2622 : STA.w $269E
-    STA.w $26A0 : STA.w $271E : STA.w $2720 : STA.w $2826
-    STA.w $28A6 : STA.w $28A8 : STA.w $2926
+    STA.w $242E : STA.w $2426
+    STA.w $24A8 : STA.w $24B0
+    STA.w $24B6 : STA.w $2522
+    STA.w $2524 : STA.w $2526
+    STA.w $2538 : STA.w $25A0
+    STA.w $25A2 : STA.w $25A4
+    STA.w $25A6 : STA.w $2620
+    STA.w $2622 : STA.w $269E
+    STA.w $26A0 : STA.w $271E
+    STA.w $2720 : STA.w $2826
+    STA.w $28A6 : STA.w $28A8
+    STA.w $2926
     
     INC
-    
-    STA.w $2430 : STA.w $24B8 : STA.w $25A8 : STA.w $262A
+    STA.w $2430 : STA.w $24B8
+    STA.w $25A8 : STA.w $262A
     
     INC
-    
-    STA.w $24AA : STA.w $24B2 : STA.w $2528 : STA.w $25B8
+    STA.w $24AA : STA.w $24B2
+    STA.w $2528 : STA.w $25B8
     STA.w $28AA : STA.w $2928
     
     INC
-    
-    STA.w $24AC : STA.w $2530 : STA.w $279E : STA.w $27A0
+    STA.w $24AC : STA.w $2530
+    STA.w $279E : STA.w $27A0
     STA.w $29A6 : STA.w $29B8
     
     INC
-    
-    STA.w $24AE : STA.w $24B4 : STA.w $2536 : STA.w $27A2
+    STA.w $24AE : STA.w $24B4
+    STA.w $2536 : STA.w $27A2
     STA.w $2824
     
     INC
-    
-    STA.w $252E : STA.w $2534 : STA.w $279C : STA.w $2822
+    STA.w $252E : STA.w $2534
+    STA.w $279C : STA.w $2822
     STA.w $2934 : STA.w $29B6
     
     INC
-    
-    STA.w $253A : STA.w $2638 : STA.w $26B8 : STA.w $293A
-    
-    INC
-    
-    STA.w $259E : STA.w $25B6 : STA.w $2636 : STA.w $269C
-    STA.w $26B6 : STA.w $271C : STA.w $28A4 : STA.w $2924
-    
-    INC : STA.w $2624 : STA.w $26A2
-    INC : STA.w $2626
-    INC : STA.w $2628
-    INC : STA.w $26A4 : STA.w $27B6
+    STA.w $253A : STA.w $2638
+    STA.w $26B8 : STA.w $293A
     
     INC
+    STA.w $259E : STA.w $25B6
+    STA.w $2636 : STA.w $269C
+    STA.w $26B6 : STA.w $271C
+    STA.w $28A4 : STA.w $2924
     
-    STA.w $26A6 : STA.w $2726 : STA.w $2728 : STA.w $272A
-    STA.w $27AA : STA.w $2836 : STA.w $2838
+    INC
+    STA.w $2624 : STA.w $26A2
+
+    INC
+    STA.w $2626
+
+    INC
+    STA.w $2628
+
+    INC
+    STA.w $26A4 : STA.w $27B6
     
-    INC : STA.w $26A8 : STA.w $27B8
-    INC : STA.w $26AA
-    INC : STA.w $2727 : STA.w $27A4 : STA.w $2828
-    INC : STA.w $2724
-    INC : STA.w $27A6
-    INC : STA.w $27A8 : STA.w $28B6
-    INC : STA.w $27B4
-    INC : STA.w $27BA
-    INC : STA.w $282A
-    INC : STA.w $2834
-    INC : STA.w $283A
-    INC : STA.w $28B4
-    INC : STA.w $28B8
-    INC : STA.w $28BA
-    INC : STA.w $2936
-    INC : STA.w $2938
-    INC : STA.w $252A : STA.w $2532 : STA.w $292A
-    INC : STA.w $25BA : STA.w $29A8 : STA.w $29BA
-    INC : STA.w $29A4
-    INC : STA.w $2736
-    INC : STA.w $2738
+    INC
+    STA.w $26A6 : STA.w $2726
+    STA.w $2728 : STA.w $272A
+    STA.w $27AA : STA.w $2836
+    STA.w $2838
+    
+    INC
+    STA.w $26A8 : STA.w $27B8
+
+    INC
+    STA.w $26AA
+
+    INC
+    STA.w $2727 : STA.w $27A4
+    STA.w $2828
+
+    INC
+    STA.w $2724
+
+    INC
+    STA.w $27A6
+
+    INC
+    STA.w $27A8 : STA.w $28B6
+
+    INC
+    STA.w $27B4
+
+    INC
+    STA.w $27BA
+
+    INC
+    STA.w $282A
+
+    INC
+    STA.w $2834
+
+    INC
+    STA.w $283A
+
+    INC
+    STA.w $28B4
+
+    INC
+    STA.w $28B8
+
+    INC
+    STA.w $28BA
+
+    INC
+    STA.w $2936
+
+    INC
+    STA.w $2938
+
+    INC
+    STA.w $252A : STA.w $2532
+    STA.w $292A
+
+    INC
+    STA.w $25BA : STA.w $29A8
+    STA.w $29BA
+
+    INC
+    STA.w $29A4
+
+    INC
+    STA.w $2736
+
+    INC
+    STA.w $2738
     
     RTS
 }
@@ -12025,19 +12120,24 @@ OverworldOverlay_DrainedDam:
 OverworldOverlay_SkullWoods:
 {
     LDA.w #$0E13 : STA.w $2590
-    INC        : STA.w $2596
-    INC        : STA.w $2610
-    INC        : STA.w $2612
-    INC        : STA.w $2614
-    INC        : STA.w $2616
-    INC        : STA.w $2692
-    INC        : STA.w $2694
+    INC          : STA.w $2596
+    INC          : STA.w $2610
+    INC          : STA.w $2612
+    INC          : STA.w $2614
+    INC          : STA.w $2616
+    INC          : STA.w $2692
+    INC          : STA.w $2694
     
-    LDA.w #$0E06 : STA.w $2812 : STA.w $2814
-    INC        : STA.w $2710 : STA.w $2790
-    INC        : STA.w $2712 : STA.w $2792
-    INC        : STA.w $2714 : STA.w $2794
-    INC        : STA.w $2716 : STA.w $2796
+    LDA.w #$0E06 : STA.w $2812
+                   STA.w $2814
+    INC          : STA.w $2710
+                   STA.w $2790
+    INC          : STA.w $2712
+                   STA.w $2792
+    INC          : STA.w $2714
+                   STA.w $2794
+    INC          : STA.w $2716
+                   STA.w $2796       
     
     RTS
 }
@@ -12046,13 +12146,15 @@ OverworldOverlay_SkullWoods:
 OverworldOverlay_GanonsTower:
 {
     LDA.w #$0E96 : STA.l $7E245E
-    INC        : STA.l $7E2460
+    INC          : STA.l $7E2460
     
-    LDA.w #$0E9C : STA.l $7E24DE : STA.l $7E255E
-    INC        : STA.l $7E24E0 : STA.l $7E2560
+    LDA.w #$0E9C : STA.l $7E24DE
+                   STA.l $7E255E
+    INC          : STA.l $7E24E0
+                   STA.l $7E2560
     
     LDA.w #$0E9A : STA.l $7E25DE
-    INC        : STA.l $7E25E0
+    INC          : STA.l $7E25E0
     
     RTS
 }
@@ -12069,21 +12171,21 @@ OverworldOverlay_HookshotCave:
 OverworldOverlay_TurtleRock:
 {
     LDA.w #$0E78 : STA.l $7E299E
-    INC        : STA.l $7E29A0
-    INC        : STA.l $7E29A2
-    INC        : STA.l $7E29A4
-    INC        : STA.l $7E2A1E
-    INC        : STA.l $7E202A
-    INC        : STA.l $7E2A22
-    INC        : STA.l $7E2A24
-    INC        : STA.l $7E2A9E
-    INC        : STA.l $7E2AA0
-    INC        : STA.l $7E2AA2
-    INC        : STA.l $7E2AA4
-    INC        : STA.l $7E2B1E
-    INC        : STA.l $7E2B20
-    INC        : STA.l $7E2B22
-    INC        : STA.l $7E2B24
+    INC          : STA.l $7E29A0
+    INC          : STA.l $7E29A2
+    INC          : STA.l $7E29A4
+    INC          : STA.l $7E2A1E
+    INC          : STA.l $7E202A
+    INC          : STA.l $7E2A22
+    INC          : STA.l $7E2A24
+    INC          : STA.l $7E2A9E
+    INC          : STA.l $7E2AA0
+    INC          : STA.l $7E2AA2
+    INC          : STA.l $7E2AA4
+    INC          : STA.l $7E2B1E
+    INC          : STA.l $7E2B20
+    INC          : STA.l $7E2B22
+    INC          : STA.l $7E2B24
     
     RTS
 }
@@ -12092,11 +12194,11 @@ OverworldOverlay_TurtleRock:
 OverworldOverlay_GargoylesDomain:
 {
     LDA.w #$0E1B : STA.w $2D3E
-    INC        : STA.w $2D40
-    INC        : STA.w $2DBE
-    INC        : STA.w $2DC0
-    INC        : STA.w $2E3E
-    INC        : STA.w $2E40
+    INC          : STA.w $2D40
+    INC          : STA.w $2DBE
+    INC          : STA.w $2DC0
+    INC          : STA.w $2E3E
+    INC          : STA.w $2E40
     
     RTS
 }
@@ -12105,14 +12207,14 @@ OverworldOverlay_GargoylesDomain:
 OverworldOverlay_PyramidHole:
 {
     LDA.w #$0E3F : STA.w $23BC
-    INC        : STA.w $23BE
-    INC        : STA.w $23C0
-    INC        : STA.w $243C
-    INC        : STA.w $243E
-    INC        : STA.w $2440
-    INC        : STA.w $24BC
-    INC        : STA.w $24BE
-    INC        : STA.w $24C0
+    INC          : STA.w $23BE
+    INC          : STA.w $23C0
+    INC          : STA.w $243C
+    INC          : STA.w $243E
+    INC          : STA.w $2440
+    INC          : STA.w $24BC
+    INC          : STA.w $24BE
+    INC          : STA.w $24C0
     
     RTS
 }
@@ -12121,11 +12223,9 @@ OverworldOverlay_PyramidHole:
 OverworldOverlay_POD:
 {
     LDA.w #$0E31 : STA.w $21E6
-    
     LDA.w #$0E2D : STA.w $226A
-    
-    INC : STA.w $22EA
-    INC : STA.w $236A
+    INC          : STA.w $22EA
+    INC          : STA.w $236A
     
     RTS
 }
@@ -12142,26 +12242,25 @@ OverworldOverlay_PegPuzzle:
 OverworldOverlay_MiseryMire:
 {
     LDA.w #$0E64 : STA.w $2522
-    
-    INC : STA.w $2524
-    INC : STA.w $2526
-    INC : STA.w $2528
-    INC : STA.w $25A2
-    INC : STA.w $25A4
-    INC : STA.w $25A6
-    INC : STA.w $25A8
-    INC : STA.w $2622
-    INC : STA.w $2624
-    INC : STA.w $2626
-    INC : STA.w $2628
-    INC : STA.w $26A2
-    INC : STA.w $26A4
-    INC : STA.w $26A6
-    INC : STA.w $26A8
-    INC : STA.w $2722
-    INC : STA.w $2724
-    INC : STA.w $2726
-    INC : STA.w $2728
+    INC          : STA.w $2524
+    INC          : STA.w $2526
+    INC          : STA.w $2528
+    INC          : STA.w $25A2
+    INC          : STA.w $25A4
+    INC          : STA.w $25A6
+    INC          : STA.w $25A8
+    INC          : STA.w $2622
+    INC          : STA.w $2624
+    INC          : STA.w $2626
+    INC          : STA.w $2628
+    INC          : STA.w $26A2
+    INC          : STA.w $26A4
+    INC          : STA.w $26A6
+    INC          : STA.w $26A8
+    INC          : STA.w $2722
+    INC          : STA.w $2724
+    INC          : STA.w $2726
+    INC          : STA.w $2728
     
     RTS
 }

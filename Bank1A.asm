@@ -133,9 +133,8 @@ incsrc "sprite_retreat_bat.asm"
 ; ==============================================================================
 
 ; $0D785C-$0D788B DATA
-Pool_DrinkingGuy_Draw:
+DrinkingGuy_Draw_OAM_groups:
 {
-    .OAM_groups
     dw 8,  2 : db $AE, $00, $00, $00
     dw 0, -9 : db $22, $08, $00, $02
     dw 0,  0 : db $06, $00, $00, $02
@@ -145,15 +144,12 @@ Pool_DrinkingGuy_Draw:
     dw 0,  0 : db $06, $00, $00, $02        
 }
 
-; ==============================================================================
-
 ; $0D788C-$0D78AB LONG JUMP LOCATION
 DrinkingGuy_Draw:
 {
     PHB : PHK : PLB
     
     LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
-    
     ADC.b #(.OAM_groups)              : STA.b $08
     LDA.b #(.OAM_groups) : ADC.b #$00 : STA.b $09
     
@@ -177,6 +173,8 @@ Lady_Draw:
     
     LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
     
+    ; TODO: Figure out where the reference goes.
+    ; OPTIMIZE: Add 0?
     ; $0D78AC
     ADC.b #$AC              : STA.b $08
     LDA.b #$F8 : ADC.b #$00 : STA.b $09
@@ -242,14 +240,15 @@ Lanmola_SpawnShrapnel:
     .BRANCH_GAMMA
     
     LDA.b #$C2
-    
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b $00 : ADC.b #$04 : STA.w $0D10, Y
         LDA.b $02 : ADC.b #$04 : STA.w $0D00, Y
         
-        LDA.b #$01 : STA.w $0BA0, Y : STA.w $0CD2, Y : STA.w $0F60, Y
+        LDA.b #$01 : STA.w $0BA0, Y
+                     STA.w $0CD2, Y
+                     STA.w $0F60, Y
         
         DEC : STA.w $0F70, Y
         
@@ -297,7 +296,8 @@ RunningMan_SpawnDashDustGarnish:
         
         .empty_slot
         
-        LDA.b #$14 : STA.l $7FF800, X : STA.w $0FB4
+        LDA.b #$14 : STA.l $7FF800, X
+                     STA.w $0FB4
         
         LDA.w $0D10, Y : CLC : ADC.b #$04 : STA.l $7FF83C, X
         LDA.w $0D30, Y       : ADC.b #$00 : STA.l $7FF878, X
@@ -341,8 +341,6 @@ Pool_Overworld_SubstituteAlternateSecret:
     db $10, $00, $00, $00, $01, $00, $00, $00
 }
 
-; ==============================================================================
-
 ; $0D7BDB-$0D7C30 LONG JUMP LOCATION
 Overworld_SubstituteAlternateSecret:
 {
@@ -379,9 +377,9 @@ Overworld_SubstituteAlternateSecret:
                 PHX
                 
                 LDA.w $040A : AND.b #$3F : TAX
-                LDA Pool_Overworld_SubstituteAlternateSecret_AreaIndex, X
+                LDA.w Pool_Overworld_SubstituteAlternateSecret_AreaIndex, X
                 AND .AreaMask, Y : BNE .BRANCH_EPSILON
-                    LDA Pool_Overworld_SubstituteAlternateSecret_ItemPool, Y : STA.w $0B9C
+                    LDA.w Pool_Overworld_SubstituteAlternateSecret_ItemPool, Y : STA.w $0B9C
                 
                 .BRANCH_EPSILON
                 
@@ -455,15 +453,19 @@ Mothula_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #6 : ADC.w #$FCED : STA.b $08
+    LDA.w $0DC0, X
+    
+    REP #$20
+    
+    ASL #6 : ADC.w #$FCED : STA.b $08
     
     LDA.w #$0920 : STA.b $90
-    
     LDA.w #$0A68 : STA.b $92
     
     SEP #$20
     
-    LDA.b #$08 : JSL.l Sprite_DrawMultiple
+    LDA.b #$08
+    JSL.l Sprite_DrawMultiple
     
     LDA.w $0F00, X : BNE .skip
         PHX
@@ -471,7 +473,7 @@ Mothula_Draw:
         LDA.w $0DC0, X : ASL #3 : ADC.w $0DC0, X : STA.b $06
         
         LDA.b $02 : CLC : ADC.w $0F70, X : STA.b $02
-        LDA.b $03 : ADC.b #$00   : STA.b $03
+        LDA.b $03       : ADC.b #$00     : STA.b $03
         
         LDY.b #$28
         LDX.b #$08
@@ -484,32 +486,29 @@ Mothula_Draw:
             
             REP #$20
             
-            LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
-            
-            AND.w #$0100 : STA.b $0E
+            LDA.b $00 : CLC : ADC.w .x_offsets, X : STA.b ($90), Y
+            AND.w #$0100                          : STA.b $0E
             
             INY
             
-            LDA.b $02 : CLC : ADC.w #$0010 : STA ($90), Y
-            
+            LDA.b $02 : CLC : ADC.w #$0010 : STA.b ($90), Y
             CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-                LDA.b #$F0 : STA ($90), Y
+                LDA.b #$F0 : STA.b ($90), Y
 
             .on_screen_y
 
             INY
             
-            LDA.b #$6C : STA ($90), Y
+            LDA.b #$6C : STA.b ($90), Y
             
             INY
             
-            LDA.b #$24 : STA ($90), Y
+            LDA.b #$24 : STA.b ($90), Y
             
             PHY
             
-            TYA : LSR #2 : TAY
-            
-            LDA.b #$02 : ORA.b $0F : STA ($92), Y
+            TYA : LSR : LSR : TAY
+            LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
             
             PLY : INY
         PLX : DEX : BPL .next_OAM_entry
@@ -532,21 +531,22 @@ Mothula_Draw:
 ; $0D7E7E-$0D7E87 DATA
 Pool_BottleVendor_PayForGoodBee:
 {
+    ; $0D7E7E
     .x_speeds
     db -6, -3,  0,  4,  7
     
+    ; $0D7E83
     .y_speeds
     db 11, 14, 16, 14, 11
 }
-
-; ==============================================================================
 
 ; $0D7E88-$0D7ECE LONG JUMP LOCATION
 BottleVendor_PayForGoodBee:
 {
     PHB : PHK : PLB
     
-    LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$13
+    JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$04 : STA.w $0FB5
     
@@ -603,7 +603,6 @@ Sprite_ChickenLady:
         ; "Cluck cluck...  What?! (...) I can even speak! ...".
         LDA.b #$7D : STA.w $1CF0
         LDA.b #$01 : STA.w $1CF1
-        
         JSL.l Sprite_ShowMessageMinimal
     
     .anoshow_message
@@ -645,12 +644,15 @@ SpritePrep_DiggingGameGuy:
 ; $0D7F2B-$0D7F3B DATA
 Pool_Player_SpawnSmallWaterSplashFromHammer:
 {
+    ; $0D7F2B
     .x_offsets
     dw 0, 12, -8, 24
     
+    ; $0D7F33
     .y_offsets
     dw 8, 32, 24, 24
     
+    ; $0D7F3B
     .easy_out
     RTL
 }
@@ -661,7 +663,6 @@ Pool_Player_SpawnSmallWaterSplashFromHammer:
 Player_SpawnSmallWaterSplashFromHammer:
 {
     LDA.b $11 : ORA.w $02E4 : ORA.w $0FC1 : BNE Pool_Player_SpawnSmallWaterSplashFromHammer_easy_out
-    
         PHX : PHY
         
         LDY.b $2F
@@ -673,7 +674,12 @@ Player_SpawnSmallWaterSplashFromHammer:
         
         SEP #$20
         
-        LDA.b $EE : CMP.b #$01 : REP #$30 : STZ.b $05 : BCC .on_bg2
+        LDA.b $EE : CMP.b #$01
+
+        REP #$30
+        
+        STZ.b $05
+        BCC .on_bg2
             LDA.w #$1000 : STA.b $05
         
         .on_bg2
@@ -682,7 +688,8 @@ Player_SpawnSmallWaterSplashFromHammer:
         
         LDA.b $1B : REP #$20 : BEQ .outdoors
             LDA.b $00 : AND.w #$01FF : LSR #3 : STA.b $04
-            LDA.b $02 : AND.w #$01F8 : ASL #3 : CLC : ADC.b $04 : CLC : ADC.b $05 : TAX
+            LDA.b $02 : AND.w #$01F8 : ASL #3
+            CLC : ADC.b $04 : CLC : ADC.b $05 : TAX
             
             LDA.l $7F2000, X
             
@@ -692,7 +699,7 @@ Player_SpawnSmallWaterSplashFromHammer:
         
         LDA.b $02          : PHA
         LDA.b $00 : LSR #3 : STA.b $02
-        PLA              : STA.b $00
+        PLA                : STA.b $00
         
         SEP #$30
         
@@ -710,15 +717,13 @@ Player_SpawnSmallWaterSplashFromHammer:
                 
                 JSL.l Sprite_SpawnSmallWaterSplash : BMI .spawn_failed
                     LDY.b $2F
+                    LDA.b $20 : CLC : ADC.l .y_offsets, X : PHP : SEC : SBC.b #$10        : STA.w $0D00, Y
+                    LDA.b $21       : SBC.b #$00          : PLP : ADC.l .y_offsets + 1, X : STA.w $0D20, Y
                     
-                    LDA.b $20 : CLC : ADC.l .y_offsets, X : PHP : SEC : SBC.b #$10              : STA.w $0D00, Y
-                    LDA.b $21 : SBC.b #$00          : PLP : ADC.l .y_offsets + 1, X : STA.w $0D20, Y
-                    
-                    LDA.b $22 : CLC : ADC.l .x_offsets, X : PHP : SEC : SBC.b #$08              : STA.w $0D10, Y
-                    LDA.b $23 : SBC.b #$00          : PLP : ADC.l .x_offsets + 1, X : STA.w $0D30, Y
+                    LDA.b $22 : CLC : ADC.l .x_offsets, X : PHP : SEC : SBC.b #$08        : STA.w $0D10, Y
+                    LDA.b $23       : SBC.b #$00          : PLP : ADC.l .x_offsets + 1, X : STA.w $0D30, Y
                     
                     LDA.b $EE : STA.w $0F20, Y
-                    
                     LDA.b #$00 : STA.w $0F70, Y
                     
                     PLX : PLY

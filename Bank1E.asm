@@ -459,7 +459,7 @@ Sprite3_CheckIfRecoiling:
             .not_halted_yet
             
             LDA.w $0EA0, X : BMI .halted
-                LSR #2 : TAY
+                LSR : LSR : TAY
                 
                 LDA.b $1A : AND Sprite3_CheckIfRecoiling_frame_counter_masks, Y : BNE .halted
                     LDA.w $0F30, X : STA.w $0D40, X
@@ -609,12 +609,12 @@ Sprite_DrawRippleIfInWater:
     
     LDA.w $0E60, X : AND.b #$20 : BEQ .dontAdjustX
         LDA.w $0FD8 : SEC : SBC.b #$04 : STA.w $0FD8
-        LDA.w $0FD9 : SBC.b #$00 : STA.w $0FD9
+        LDA.w $0FD9       : SBC.b #$00 : STA.w $0FD9
         
         ; Is it a small magic refill?
         LDA.w $0E20, X : CMP.b #$DF : BNE .dontAdjustY
             LDA.w $0FDA : SEC : SBC.b #$07 : STA.w $0FDA
-            LDA.w $0FDB : SBC.b #$00 : STA.w $0FDB
+            LDA.w $0FDB       : SBC.b #$00 : STA.w $0FDB
 
         .dontAdjustY
     

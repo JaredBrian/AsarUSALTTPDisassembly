@@ -460,10 +460,10 @@ Sprite_VerifyAllOnScreenDefeated:
             ; dynamically).
             LDA.w $0F60, X : AND.b #$40 : BNE .dead
                 ; In these cases Dead apparently means offscreen.
-                LDA.w $0D10, X : CMP $E2
+                LDA.w $0D10, X : CMP.b $E2
                 LDA.w $0D30, X : SBC.b $E3 : BNE .dead
                     ; In these cases Dead apparently means offscreen.
-                    LDA.w $0D00, X : CMP $E8
+                    LDA.w $0D00, X : CMP.b $E8
                     LDA.w $0D20, X : SBC.b $E9 : BNE .dead
                         PLX
                         
@@ -8846,7 +8846,7 @@ Garnish_ScatterDebris:
         LDA.b $02 : CLC : ADC.w Pool_Garnish_ScatterDebris_y_offsets, X
 
         INY
-        STA ($90), Y
+        STA.b ($90), Y
         
         LDA.w $0FB5 : BNE .BRANCH_EPSILON
             LDA.b #$4E
@@ -8863,15 +8863,15 @@ Garnish_ScatterDebris:
         .BRANCH_ZETA
         
         INY
-        STA ($90), Y
+        STA.b ($90), Y
 
         LDA.w Pool_Garnish_ScatterDebris_properties, X
-        INY : ORA.b $05 : STA ($90), Y
+        INY : ORA.b $05 : STA.b ($90), Y
         
         PHY
 
         TYA : LSR : LSR : TAY
-        LDA.b $0F : STA ($92), Y
+        LDA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .BRANCH_THETA
@@ -10141,7 +10141,7 @@ Polyhedral_ProjectPoint:
     LDA.b $B2 : STA.w SNES.DividendLow
     LDY.b $B0 : STY.w SNES.DivisorB
     
-    NOP #2
+    NOP : NOP
     
     LDA.w #$0000
     
@@ -10551,7 +10551,7 @@ Polyhedral_DrawFace:
     
             DEX : DEX : BEQ .beta
                 ; (<= comparison)
-        CMP $C0, X : BCC .alpha
+        CMP.b $C0, X : BCC .alpha
     BEQ .alpha
     
     TXY
@@ -10569,7 +10569,7 @@ Polyhedral_DrawFace:
     
     .gamma
     
-    LSR #2 : ADC.b #$E8 : STA.b $BA
+    LSR : LSR : ADC.b #$E8 : STA.b $BA
     
     STY.b $E9 : STY.b $F2
     
@@ -10663,7 +10663,7 @@ Polyhedral_FillLine:
         
         LDA.l .Mask_right, X : TYX : AND.l .Mask_left, X : STA.b $B2
         
-        LDA.b $EF : AND.w #$0038 : ASL #2 : ORA.b $B9 : TAY
+        LDA.b $EF : AND.w #$0038 : ASL : ASL : ORA.b $B9 : TAY
         LDA.b $B5 : EOR.w $0000, Y : AND.b $B2 : EOR.w $0000, Y : STA.w $0000, Y
         LDA.b $B7 : EOR.w $0010, Y : AND.b $B2 : EOR.w $0010, Y : STA.w $0010, Y
         
@@ -10739,7 +10739,7 @@ Polyhedral_SetLeft:
         
         .beta
         
-        STA.b $C0, X : CMP $E2 : BCC .gamma
+        STA.b $C0, X : CMP.b $E2 : BCC .gamma
             BNE .delta
                 LDA.b $BF, X : STA.b $E1
                 
@@ -10823,7 +10823,7 @@ Polyhedral_SetRight:
         
         .gamma
         
-        LDA.b $C0, X : CMP $EB : BCC .delta : BNE .epsilon
+        LDA.b $C0, X : CMP.b $EB : BCC .delta : BNE .epsilon
             LDA.b $BF, X : STA.b $EA
             
             STX.b $F2

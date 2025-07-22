@@ -353,7 +353,7 @@ Sprite_SpawnThrowableTerrainSilently:
     
     LDA.w $0B9C : CMP.b #$FF : BEQ .invalid_secret
         ORA.b $1B : BNE .dont_substitute
-            LDA.w $0DB0, X : DEC #2 : CMP.b #$02 : BCC .dont_substitute
+            LDA.w $0DB0, X : DEC : DEC : CMP.b #$02 : BCC .dont_substitute
                 JSL.l Overworld_SubstituteAlternateSecret
             
         .dont_substitute
@@ -4030,15 +4030,15 @@ SpritePoof_Main:
         PHX
         
         TXA : CLC : ADC.b $00 : TAX
-        LDA.w $0FA8 : CLC : ADC.w .x_offsets, X        : STA ($90), Y
-        LDA.w $0FA9 : CLC : ADC.w .y_offsets, X  : INY : STA ($90), Y
-        LDA.w .chr, X                            : INY : STA ($90), Y
-        LDA.w .properties, X                     : INY : STA ($90), Y
+        LDA.w $0FA8 : CLC : ADC.w .x_offsets, X        : STA.b ($90), Y
+        LDA.w $0FA9 : CLC : ADC.w .y_offsets, X  : INY : STA.b ($90), Y
+        LDA.w .chr, X                            : INY : STA.b ($90), Y
+        LDA.w .properties, X                     : INY : STA.b ($90), Y
         
         PHY
         
         TYA : LSR : LSR : TAY
-        LDA.w .OAM_sizes, X : STA ($92), Y
+        LDA.w .OAM_sizes, X : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_OAM_entry
@@ -4976,7 +4976,7 @@ Sprite_ProjectSpeedTowardsPlayer:
         LDY.b #$00
         
         ; If |dX| > |dY|
-        LDA.b $0D : CMP $0C : BCS .dx_is_bigger
+        LDA.b $0D : CMP.b $0C : BCS .dx_is_bigger
             ; Flag indicating |dY| >= |dX|
             INY
             
@@ -4995,7 +4995,7 @@ Sprite_ProjectSpeedTowardsPlayer:
         .still_have_velocity_to_apply 
         
             ; If ($0B + $0C) <= ($0D)
-            LDA.b $0B : CLC : ADC.b $0C : CMP $0D : BCC .not_accumulated_yet
+            LDA.b $0B : CLC : ADC.b $0C : CMP.b $0D : BCC .not_accumulated_yet
                 ; Otherwise, just subtract the larger value and increment $00.
                 SBC.b $0D
                 
@@ -5127,7 +5127,7 @@ Sprite_ProjectSpeedTowardsEntity:
         
         LDY.b #$00
         
-        LDA.b $0D : CMP $0C : BCS .dx_is_bigger
+        LDA.b $0D : CMP.b $0C : BCS .dx_is_bigger
             INY
             
             PHA
@@ -5146,7 +5146,7 @@ Sprite_ProjectSpeedTowardsEntity:
         .still_have_velocity_to_apply
         
             ; If ($0B + $0C) <= ($0D)
-            LDA.b $0B : CLC : ADC.b $0C : CMP $0D : BCC .not_accumulated_yet
+            LDA.b $0B : CLC : ADC.b $0C : CMP.b $0D : BCC .not_accumulated_yet
                 ; Otherwise, just subtract the larger value and increment $00.
                 SBC.b $0D
                 
@@ -7496,10 +7496,10 @@ Sprite_PlaceRupulseSpark:
         .coerce
         
         ; OPTIMIZE: WTF: Broken check?
-        LDA.w $0D10, X : CMP $E2
+        LDA.w $0D10, X : CMP.b $E2
 
         LDA.w $0D30, X : SBC.b $E3 : BNE .off_screen
-            LDA.w $0D00, X : CMP $E8
+            LDA.w $0D00, X : CMP.b $E8
             LDA.w $0D20, X : SBC.b $E9 : BNE .off_screen
                 LDA.w $0D10, X : STA.w $0FAD
                 LDA.w $0D00, X : STA.w $0FAE
@@ -7675,7 +7675,7 @@ Utility_CheckIfHitBoxesOverlap:
         
         LDA.b $0C : ADC.b #$00 : BNE .out_of_range
         
-        LDA.b !pos1_size, X : CLC : ADC.b !pos2_size, X : CMP $0F : BCC .not_overlapping
+        LDA.b !pos1_size, X : CLC : ADC.b !pos2_size, X : CMP.b $0F : BCC .not_overlapping
     DEX : BPL .check_other_direction
     
     .out_of_range
@@ -7708,7 +7708,7 @@ Sprite_OAM_AllocateDeferToPlayerLong:
 OAM_AllocateDeferToPlayer:
 {
     ; Is the sprite on the same floor as the player?
-    LDA.w $0F20, X : CMP $EE : BNE .return
+    LDA.w $0F20, X : CMP.b $EE : BNE .return
         JSR.w Sprite_IsToRightOfPlayer
         
         ; Proceed only if the difference between the sprite's X coordinate
@@ -8503,7 +8503,7 @@ SpriteDraw_FallingHumanoid:
     
     LDA.w $0DC0, X : PHA
     
-    ASL #2 : STA.b $06
+    ASL : ASL : STA.b $06
     
     PLA
     

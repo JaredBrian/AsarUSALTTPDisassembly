@@ -3846,7 +3846,8 @@ Sprite_NullifyHookshotDrag:
 ; $07F577-$07F5C2 LONG JUMP LOCATION
 Ancilla_CheckForAvailableSlot:
 {
-    STY.b $0F : INY : STY.b $0E
+          STY.b $0F
+    INY : STY.b $0E
     
     LDY.b #$00
     LDX.b #$04
@@ -3890,14 +3891,11 @@ Ancilla_CheckForAvailableSlot:
             
             .anoreset_slot_search_index
             
-            LDY.w $03C4
-            
             ; Certain kinds of effects can be overridden, apparently.
-            LDA.w $0C4A, Y
-            
-            CMP.b #$3C : BEQ .openSlot
-            CMP.b #$13 : BEQ .openSlot
-            CMP.b #$0A : BEQ .openSlot
+            LDY.w $03C4
+            LDA.w $0C4A, Y : CMP.b #$3C : BEQ .openSlot
+                             CMP.b #$13 : BEQ .openSlot
+                             CMP.b #$0A : BEQ .openSlot
         ; Here none of the values matched. If we exhaust Y ( = $03C4),
         ; end the routine.
         DEY : BPL .nextSlot2
@@ -3931,8 +3929,6 @@ Pool_Death_PlayerSwoon:
     .properties
     db $20, $10
 }
-
-; ==============================================================================
 
 ; $07F5E3-$07F64E LONG JUMP LOCATION
 Death_PlayerSwoon:
@@ -4032,23 +4028,26 @@ AddSwordBeam:
     ; Master sword's bolts of lightning.
     LDA.b #$0C : JSL.l AddAncillaLong : BCS Death_PlayerSwoon_return
         LDA.b $2F : ASL : TAY
-        
         LDA.w .initial_angles+0, Y : STA.l $7F5800
         LDA.w .initial_angles+1, Y : STA.l $7F5801
         LDA.w .initial_angles+2, Y : STA.l $7F5802
-        LDA.w .initial_angles+3, Y : STA.l $7F5803 : STA.l $7F5804
+        LDA.w .initial_angles+3, Y : STA.l $7F5803
+                                     STA.l $7F5804
         
         LDA.b #$02 : STA.w $03B1, X
         LDA.b #$4C : STA.w $0C5E, X
         LDA.b #$08 : STA.w $039F, X
         
-        STZ.w $0C54, X : STZ.w $0385, X : STZ.w $0394, X
+        STZ.w $0C54, X
+        STZ.w $0385, X
+        STZ.w $0394, X
         
         LDA.b #$00 : STA.w $03A4, X
         
         LDA.b #$0E : STA.l $7F5808
         
-        LDA.b $2F : LSR : STA.w $0C72, X : TAY
+        LDA.b $2F : LSR : STA.w $0C72, X
+                          TAY
         LDA.w .y_speeds, Y        : STA.w $0C22, X
         LDA.w .x_speeds, Y        : STA.w $0C2C, X
         LDA.w .rotation_speeds, Y : STA.w $03A9, X
@@ -4068,11 +4067,11 @@ AddSwordBeam:
         .start_as_beam_hit
         
         LDY.w $0C72, X
-        LDA.l $7F5810 : CLC : ADC Pool_AddSwordBeam_y_offsets_low,  Y : STA.w $0BFA, X
-        LDA.l $7F5811       : ADC Pool_AddSwordBeam_y_offsets_high, Y : STA.w $0C0E, X
+        LDA.l $7F5810 : CLC : ADC.w Pool_AddSwordBeam_y_offsets_low,  Y : STA.w $0BFA, X
+        LDA.l $7F5811       : ADC.w Pool_AddSwordBeam_y_offsets_high, Y : STA.w $0C0E, X
         
-        LDA.l $7F580E : CLC : ADC Pool_AddSwordBeam_x_offsets_low,  Y : STA.w $0C04, X
-        LDA.l $7F580F       : ADC Pool_AddSwordBeam_x_offsets_high, Y : STA.w $0C18, X
+        LDA.l $7F580E : CLC : ADC.w Pool_AddSwordBeam_x_offsets_low,  Y : STA.w $0C04, X
+        LDA.l $7F580F       : ADC.w Pool_AddSwordBeam_x_offsets_high, Y : STA.w $0C18, X
         
         JSL.l Sound_SfxPanObjectCoords : ORA.b #$01 : STA.w $012F
         
@@ -4157,11 +4156,11 @@ SwordBeam:
         .hit_sprite
         
         LDY.w $0C72, X
-        LDA.w $0BFA, X : CLC : ADC Pool_SwordBeam_y_offsets_low,  Y : STA.w $0BFA, X
-        LDA.w $0C0E, X       : ADC Pool_SwordBeam_y_offsets_high, Y : STA.w $0C0E, X
+        LDA.w $0BFA, X : CLC : ADC.w Pool_SwordBeam_y_offsets_low,  Y : STA.w $0BFA, X
+        LDA.w $0C0E, X       : ADC.w Pool_SwordBeam_y_offsets_high, Y : STA.w $0C0E, X
         
-        LDA.w $0C04, X : CLC : ADC Pool_SwordBeam_x_offsets_low,  Y : STA.w $0C04, X
-        LDA.w $0C18, X       : ADC Pool_SwordBeam_x_offsets_high, Y : STA.w $0C18, X
+        LDA.w $0C04, X : CLC : ADC.w Pool_SwordBeam_x_offsets_low,  Y : STA.w $0C04, X
+        LDA.w $0C18, X       : ADC.w Pool_SwordBeam_x_offsets_high, Y : STA.w $0C18, X
         
         ; Transmute into a beam hit object.
         LDA.b #$04 : STA.w $0C4A, X
@@ -4210,15 +4209,15 @@ SwordBeam:
         JSL.l Ancilla_SetOam_XY_Long
         
         LDX.b $72
+        LDA.w Pool_SwordBeam_chr, X : STA.b ($90), Y
         
-        LDA.w Pool_SwordBeam_chr, X : STA ($90), Y : INY
-        LDA.b $73 : ORA.b $65 : STA ($90), Y : INY
+        INY
+        LDA.b $73 : ORA.b $65 : STA.b ($90), Y
         
-        PHY
+        INY : PHY
         
-        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-        
-        LDA.b #$00 : STA ($92), Y
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+        LDA.b #$00 : STA.b($92), Y
         
         PLY
     PLX : DEX : BPL .next_OAM_entry
@@ -4227,22 +4226,21 @@ SwordBeam:
     
     LDA.b $11 : BNE .dont_rotate_extra_spark
         DEC.w $039F, X : BPL .skip_extra_spark_draw_logic
+            LDA.b #$00 : STA.w $039F, X
+            
+            LDA.w $03A4, X : INC : AND.b #$03 : STA.w $03A4, X
+            CMP.b #$03 : BNE .dont_rotate_extra_spark
+                LDA.l $7F5804 : CLC : ADC.b $76 : AND.b #$3F : STA.l $7F5804
         
-        LDA.b #$00 : STA.w $039F, X
-        
-        LDA.w $03A4, X : INC : AND.b #$03 : STA.w $03A4, X
-        CMP.b #$03 : BNE .dont_rotate_extra_spark
-            LDA.l $7F5804 : CLC : ADC.b $76 : AND.b #$3F : STA.l $7F5804
-    
     .dont_rotate_extra_spark
     
-    LDA.w $03A4, X : STA.b $72 : CMP.b #$03 : BEQ .skip_extra_spark_draw_logic
+    LDA.w $03A4, X : STA.b $72
+    CMP.b #$03 : BEQ .skip_extra_spark_draw_logic
         PHY
         
         LDA.l $7F5808 : STA.b $08
         
         LDA.l $7F5804
-        
         JSL.l Ancilla_GetRadialProjectionLong
         JSL.l Sparkle_PrepOamCoordsFromRadialProjection
         
@@ -4251,13 +4249,14 @@ SwordBeam:
         JSL.l Ancilla_SetOam_XY_Long
         
         LDX.b $72
+        LDA.w Pool_SwordBeam_extra_spark_chr, X : STA.b ($90), Y
         
-        LDA.w Pool_SwordBeam_extra_spark_chr, X : STA ($90), Y : INY
-        LDA.b #$04 : ORA.b $65    : STA ($90), Y : INY
+        INY
+        LDA.b #$04 : ORA.b $65 : STA.b ($90), Y
         
-        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-        
-        LDA.b #$00 : STA ($92), Y
+        INY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+        LDA.b #$00 : STA.b ($92), Y
     
     .skip_extra_spark_draw_logic
     
@@ -4268,7 +4267,7 @@ SwordBeam:
     
     .find_active_component
     
-    LDA ($90), Y : CMP.b #$F0 : BNE .at_least_one_component_active
+    LDA.b ($90), Y : CMP.b #$F0 : BNE .at_least_one_component_active
         INY #4 : CPY.b #$11 : BNE .find_active_component
         
         STZ.w $0C4A, X
@@ -4322,7 +4321,6 @@ SwordFullChargeSpark:
     .delay_termination
     
     LDA.b $2F : LSR : TAY
-    
     LDA.b $20 : CLC : ADC Pool_SwordFullChargeSpark_y_offsets_low,  Y : STA.b $00
     LDA.b $21       : ADC Pool_SwordFullChargeSpark_y_offsets_high, Y : STA.b $01
     
@@ -4339,16 +4337,17 @@ SwordFullChargeSpark:
     LDY.w $0C7C, X
     
     LDA.w .properties, Y : STA.b $65
-                         STZ.b $64
+                           STZ.b $64
     
     LDY.b #$00
-    
     JSL.l Ancilla_SetOam_XY_Long
     
-    LDA.b #$D7             : STA ($90), Y : INY
-    LDA.b #$02 : ORA.b $65 : STA ($90), Y
+    LDA.b #$D7 : STA.b ($90), Y
     
-    LDA.b #$00 : STA ($92)
+    INY
+    LDA.b #$02 : ORA.b $65 : STA.b ($90), Y
+    
+    LDA.b #$00 : STA.b ($92)
     
     .return
     
@@ -4379,8 +4378,6 @@ Pool_AncillaSpawn_SwordChargeSparkle:
     db $70, $70, $00, $00
 }
 
-; ==============================================================================
-
 ; $07F979-$07FA36 LONG JUMP LOCATION
 AncillaSpawn_SwordChargeSparkle:
 {
@@ -4409,9 +4406,8 @@ AncillaSpawn_SwordChargeSparkle:
         STZ.b $75
         
         LDA.b $2F : LSR : TAY
-        
         LDA.w .y_position_masks, Y : BNE .off_axis_y
-            LDA.w $0079 : LSR #2
+            LDA.w $0079 : LSR : LSR
             
             CPY.b #$00 : BNE .sign_correct_for_y_direction
                 EOR.b #$FF : INC
@@ -4427,7 +4423,7 @@ AncillaSpawn_SwordChargeSparkle:
         STA.b $72
         
         LDA.w .x_position_masks, Y : BNE .off_axis_x
-            LDA.w $0079 : LSR #2
+            LDA.w $0079 : LSR : LSR
             
             CPY.b #$02 : BNE .sign_correct_for_x_direction
                 EOR.b #$FF : INC
@@ -4442,11 +4438,12 @@ AncillaSpawn_SwordChargeSparkle:
         
         STA.b $73
         
-        JSL.l GetRandomInt : STA.b $08 : AND.b $72 : STA.b $04
-                                            STZ.b $05
+        JSL.l GetRandomInt : STA.b $08
+        AND.b $72 : STA.b $04
+                    STZ.b $05
         
         LDA.b $08 : AND.b $73 : LSR #4 : STA.b $06
-                                    STZ.b $07
+                                         STZ.b $07
         
         LDY.b $2F
         
@@ -4457,7 +4454,7 @@ AncillaSpawn_SwordChargeSparkle:
         
         .sign_ext_y_offset
         
-        CLC : ADC.b $20 : CLC : ADC .y_offsets, Y : CLC : ADC.b $04 : STA.b $00
+        CLC : ADC.b $20 : CLC : ADC.W .y_offsets, Y : CLC : ADC.b $04 : STA.b $00
         
         LDA.b $75 : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_x_offset
             ORA.w #$FF00
@@ -4487,7 +4484,6 @@ AncillaSpawn_SwordChargeSparkle:
 SwordBeam_MoveHoriz:
 {
 	TXA : CLC : ADC.b #$0A : TAX
-
 	JSR.w SwordBeam_MoveVert
 
 	LDX.w $0FA0
@@ -4545,9 +4541,12 @@ Death_PrepFaint:
     
     JSL.l Link_ResetProperties_C
     
-    STZ.w $02F5 : STZ.w $0351 : STZ.w $02E0 : STZ.b $48
-    STZ.w $02EC : STZ.b $4D   : STZ.b $46   : STZ.w $0373
-    STZ.w $02E1 : STZ.b $5E   : STZ.w $03F7
+    STZ.w $02F5 : STZ.w $0351
+    STZ.w $02E0 : STZ.b $48
+    STZ.w $02EC : STZ.b $4D  
+    STZ.b $46   : STZ.w $0373
+    STZ.w $02E1 : STZ.b $5E  
+    STZ.w $03F7
     
     ; \item
     LDA.l $7EF357 : BEQ .no_moon_pearl
@@ -4555,7 +4554,8 @@ Death_PrepFaint:
     
     .no_moon_pearl
     
-    STZ.w $03F5 : STZ.w $03F6
+    STZ.w $03F5
+    STZ.w $03F6
     
     ; Play passing out noise.
     JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.b #$27 : STA.w $012E
@@ -4866,10 +4866,8 @@ Sprite_InitializeSecondaryItemMinigame:
     
     .next_object
     
-        LDA.w $0C4A, X
-        
-        CMP.b #$30 : BEQ .terminate_object
-        CMP.b #$31 : BEQ .terminate_object
+        LDA.w $0C4A, X : CMP.b #$30 : BEQ .terminate_object
+                         CMP.b #$31 : BEQ .terminate_object
             CMP.b #$05 : BNE .no_match
                 STZ.w $035F
                 
@@ -4956,7 +4954,6 @@ Bomb_CheckUndersideSpriteStatus:
                 LDA.b #$03 : STA.w $03E1, X
                 
                 INC.w $03D2, X
-                
                 LDA.w $03D2, X : CMP.b #$03 : BNE .anoreset_ripple_animation_index
                     ; OPTIMIZE: STZ instead.
                     LDA.b #$00 : STA.w $03D2, X

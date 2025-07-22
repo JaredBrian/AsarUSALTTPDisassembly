@@ -13294,7 +13294,6 @@ FilterColors:
         LDA.l $7EC300, X : BEQ .color_is_pure_black
             ; Examine the red channel.
             AND.w #$001F : ASL : ASL : TAY
-            
             LDA.b ($B7), Y : AND.b !bitFilter : BNE .noRedFilter
                 LDA.b !color : ADC.b $06 : STA.b !color
 
@@ -13420,8 +13419,7 @@ FilterColorsEndpoint:
         LDA.l $7EC300, X : BEQ .color_is_pure_black
             ; NOTE: Makes it a multiple of 4... hrm...
             AND.w #$001F : ASL : ASL : TAY
-            
-            LDA ($B7), Y : AND.b !bitFilter : BNE .noRedFilter
+            LDA.b ($B7), Y : AND.b !bitFilter : BNE .noRedFilter
                 ; Adjust red content by +/- 1.
                 LDA.b !color : CLC : ADC.b $06 : STA.b !color
 
@@ -13429,7 +13427,6 @@ FilterColorsEndpoint:
 
             ; NOTE: Also a multiple of 4.
             LDA.l $7EC300, X : AND.w #$03E0 : LSR #3 : TAY
-            
             LDA.b ($B7), Y : AND.b !bitFilter : BNE .noGreenFilter
                 ; Adjust green content by +/- 1.
                 LDA.b !color : CLC : ADC.b $08 : STA.b !color
@@ -13438,7 +13435,6 @@ FilterColorsEndpoint:
 
             ; \
             LDA.l $7EC301, X : AND.w #$007C : TAY
-            
             LDA.b ($B7), Y : AND.b !bitFilter : BNE .noBlueFilter
                 ; Adjust blue content by +/- 1.
                 LDA.b !color : CLC : ADC.b $0A : STA.b !color

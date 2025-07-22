@@ -2045,7 +2045,7 @@ LinkState_0F:
             
             SEP #$20
             
-            TXA : LSR #2 : TAX
+            TXA : LSR : LSR : TAX
             LDA.w Pool_LinkState_0F_speed_x, X
             
             CPY.b #$02 : BNE .BRANCH_GAMMA
@@ -12919,7 +12919,7 @@ Link_HandleLiftables:
         
         .checkIfLiftingObject
         
-        LDA.w $036A : LSR $0368 : TAY
+        LDA.w $036A : LSR.w $0368 : TAY
         
         .check_lift_strength
         
@@ -14863,7 +14863,7 @@ FlagMovingIntoSlopes_Vertical:
 
     .BRANCH_ALPHA
 
-    LDA.b $6E : ASL #2 : STA.b $01
+    LDA.b $6E : ASL : ASL : STA.b $01
     
     TYA : AND.b #$07 : CLC : ADC.b $01 : TAX
     
@@ -14967,7 +14967,7 @@ FlagMovingIntoSlopes_Horizontal:
 
     .BRANCH_BETA
 
-    LDA.b $6E : ASL #2 : STA.b $01
+    LDA.b $6E : ASL : ASL : STA.b $01
     
     LDA.b $51, X : AND.b #$07 : CLC : ADC.b $01 : TAX
     
@@ -17336,7 +17336,7 @@ PushBlock_HandleCollision:
 
         LDA.b $08 : SEC : SBC.b $0A : CMP.w #$FFF8 : BCC .BRANCH_GAMMA
             EOR.w #$FFFF : INC : STA.b $00
-            CLC : ADC ($0C) : STA ($0C)
+            CLC : ADC.b ($0C) : STA.b ($0C)
             
             .BRANCH_KAPPA
             

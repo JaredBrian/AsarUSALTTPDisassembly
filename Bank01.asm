@@ -810,7 +810,7 @@ Dungeon_LoadRoom:
     LDA.b [$B7], Y : AND.w #$00FF : STA.w $040E
     
     ; X = 3 * $00
-    LSR #2 : STA.b $00 : ASL : CLC : ADC.b $00 : TAX
+    LSR : LSR : STA.b $00 : ASL : CLC : ADC.b $00 : TAX
     
     ; The offset to the pointers for each layout.
     LDA.l RoomDraw_LayoutPointers+1, X : STA.b $B8
@@ -1062,7 +1062,7 @@ Dungeon_LoadType1Object:
     
     AND.w #$000E : ASL #3 : STA.b $04
     
-    LDA.b $B4 : ASL #2 : ORA.b $B2 : TSB.b $04
+    LDA.b $B4 : ASL : ASL : ORA.b $B2 : TSB.b $04
     
     ; A is even and at most 0xE0, Use A as an index into the following jump
     ; table.
@@ -1671,7 +1671,7 @@ RoomDraw_ChestPlatformHorizontalWallWithCorners:
 RoomDraw_Rightwards1x2_1to16_plus2:
 {
     ; Widths range in { 0x01, 0x03, 0x05, ..., 0x1D, 0x1F }.
-    LDA.b $B2 : ASL #2 : ORA.b $B4 : ASL : INC : STA.b $B2
+    LDA.b $B2 : ASL : ASL : ORA.b $B4 : ASL : INC : STA.b $B2
     
     LDA.w #$0002
     JSR.w Object_Draw3xN
@@ -1772,7 +1772,7 @@ Object_Hole:
     
     .repeatOnBottomRow
     
-        LDA.b $B2 : DEC #2 : STA.b $0A
+        LDA.b $B2 : DEC : DEC : STA.b $0A
         
         LDA.w RoomDrawObjectData+00, X : STA.b [$BF], Y
         
@@ -2449,7 +2449,7 @@ Object_HiddenWallRight:
     
     .BRANCH_BETA
     
-        DEC #2
+        DEC : DEC
     DEY : BNE .BRANCH_BETA
     
     PHA : STA.b $06
@@ -2475,8 +2475,8 @@ Object_HiddenWallRight:
         INC.b $06 : INC.b $06
     DEC.b $0C : BNE .BRANCH_DELTA
     
-    PLA : DEC #2 : STA.b $06
-                   TAY
+    PLA : DEC : DEC : STA.b $06
+                      TAY
     
     JSR.w MovingWall_FillReplacementBuffer
     
@@ -3113,7 +3113,7 @@ Object_Water:
     LDA.w WaterOverlayHDMASize, X : STA.w $0684
     SEC : SBC.w #$0018            : STA.w $0688
     
-    TYA : AND.w #$007E : ASL #2 : STA.w $0680
+    TYA : AND.w #$007E : ASL : ASL : STA.w $0680
     
     LDA.b $B2 : ASL #4 : CLC : ADC.w $062C : CLC : ADC.w $0680 : STA.w $0680
     
@@ -3140,7 +3140,7 @@ Object_Water:
         
         STZ.w $04AE
         
-        LDA.b $B2 : DEC : ASL #2 : STA.b $0E
+        LDA.b $B2 : DEC : ASL : ASL : STA.b $0E
         
         LDA.b $08 : ADC.b $0E : STA.b $08
         
@@ -3210,7 +3210,7 @@ RoomDraw_WaterOverlayB8x8_1to16:
     
     STZ.w $068A
     
-    TYA : AND.w #$007E : ASL #2 : STA.w $0680
+    TYA : AND.w #$007E : ASL : ASL : STA.w $0680
     
     LDA.b $B2 : ASL #4 : CLC : ADC.w $062C : CLC : ADC.w $0680 : STA.w $0680
     
@@ -6913,7 +6913,7 @@ Object_Size_N_to_N_plus_15:
 {
     STA.b $0E
     
-    LDA.b $B2 : ASL #2 : ORA.b $B4 : ADC.b $0E : STA.b $B2
+    LDA.b $B2 : ASL : ASL : ORA.b $B4 : ADC.b $0E : STA.b $B2
     
     ; Default width of 1?
     STZ.b $B4
@@ -6928,7 +6928,7 @@ Object_Size_N_to_N_plus_15:
 ; $00B0BE-$00B0CB JUMP LOCATION
 Object_Size_1_to_15_or_26:
 {
-    LDA.b $B2 : ASL #2 : ORA.b $B4 : BNE .notDefault
+    LDA.b $B2 : ASL : ASL : ORA.b $B4 : BNE .notDefault
         LDA.w #$001A
     
     .notDefault
@@ -6945,7 +6945,7 @@ Object_Size_1_to_15_or_26:
 ; $00B0CC-$00B0D9 LOCAL JUMP LOCATION
 Object_Size_1_to_15_or_32:
 {
-    LDA.b $B2 : ASL #2 : ORA.b $B4 : BNE .notDefault
+    LDA.b $B2 : ASL : ASL : ORA.b $B4 : BNE .notDefault
         LDA.w #$0020
     
     .notDefault
@@ -7815,7 +7815,7 @@ Dungeon_LoadHeader:
     
     ; TODO: ZS-ify.
     ; "collision" in HM
-    LDA.b [$0D], Y : AND.b #$1C : LSR #2 : STA.w $046C
+    LDA.b [$0D], Y : AND.b #$1C : LSR : LSR : STA.w $046C
     
     ; Save whether to turn the lights out or not.
     LDA.l $7EC005 : STA.l $7EC006
@@ -7826,7 +7826,7 @@ Dungeon_LoadHeader:
     
     ; Move to byte 1. Loads a master palette number.
     INY
-    LDA.b [$0D], Y : AND.w #$00FF : ASL #2 : TAX
+    LDA.b [$0D], Y : AND.w #$00FF : ASL : ASL : TAX
     
     SEP #$20
     
@@ -7863,7 +7863,7 @@ Dungeon_LoadHeader:
     LDA.b [$0D], Y : AND.w #$03 : STA.w $063C
     
     ; Staircase 1 plane
-    LDA.b [$0D], Y : AND.b #$0C : LSR #2 : STA.w $063D
+    LDA.b [$0D], Y : AND.b #$0C : LSR : LSR : STA.w $063D
     
     ; Staircase 2 plane
     LDA.b [$0D], Y : AND.b #$30 : LSR #4 : STA.w $063E
@@ -8295,7 +8295,7 @@ Dungeon_LoadBasicAttr:
         ; Same as for the current tile, look at hFlip/vFlip ...
         LDA.b !tileAttr : CMP.b #$10 : BCC .tileIgnoresFlip2
                           CMP.b #$1C : BCS .tileIgnoresFlip2
-            LDA.l $7E2003, X : ASL : ROL #2 : AND.w #$03 : ORA.b !rightTileAttr
+            LDA.l $7E2003, X : ASL : ROL : ROL : AND.w #$03 : ORA.b !rightTileAttr
         
         .tileIgnoresFlip2
         
@@ -10060,7 +10060,7 @@ RoomTag_PullSwitchExplodingWall:
         
         ; WTF: Based on this logic, wouldn't index 6 never get used in the
         ; tables below?
-        LDA.b $21 : AND.w #$0001 : INC : ASL #2 : TAX
+        LDA.b $21 : AND.w #$0001 : INC : ASL : ASL : TAX
         
         LDA.w $19C0, Y : AND.w #$0002 : BEQ .BRANCH_DELTA
             LDA.b $23 : AND.w #$0001 : ASL : TAX
@@ -10776,7 +10776,7 @@ Tag_Watergate:
             REP #$30
             
             ; Get the X position of the watergate barrier (in pixels).
-            LDA.w $0472 : AND.w #$007E : ASL #2 : STA.w $0680
+            LDA.w $0472 : AND.w #$007E : ASL : ASL : STA.w $0680
             
             ; Make the X position grid adjusted and move it 5 tiles to the right
             ; (the watergate is 10 tiles wide, so this puts it at the midpoint).
@@ -11377,7 +11377,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
             
             REP #$20
             
-            LDA.w $19A0, Y : AND.w #$007E : ASL #2
+            LDA.w $19A0, Y : AND.w #$007E : ASL : ASL
             CLC : ADC.w $062C : STA.w $03B6, X
             
             LDA.w $19A0, Y : AND.w #$1F80 : LSR #4
@@ -12839,8 +12839,8 @@ Dungeon_GetUprootedTerrainSpawnCoords:
 {
     LDY.w $042C
     
-    LDA.w $0540, X        : PHA
-    AND.w #$007E : ASL #2 : STA.b $00
+    LDA.w $0540, X           : PHA
+    AND.w #$007E : ASL : ASL : STA.b $00
     
     ; Since the sprite is instantiating because of the player, it makes
     ; sense to use their upper coordinate bytes as a guide...
@@ -16391,7 +16391,7 @@ Dungeon_ExtinguishTorch:
     
     LDA.w $0333 : AND.w #$000F : ASL : CLC : ADC.w $0478 : TAY
     LDA.w $0520, Y : AND.w #$00FF : TAX
-    LDA.w $0540, Y : ASL #2       : STA.w $0540, Y
+    LDA.w $0540, Y : ASL : ASL    : STA.w $0540, Y
                                     STA.l $7EFB40, X
     AND.w #$3FFF : TAX            : STX.b $08
     

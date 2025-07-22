@@ -9333,7 +9333,7 @@ ArcheryGameGuy_Draw:
         
         PHY
         TYA : LSR : LSR : TAY
-        LDA.w Pool_ArcheryGameGuy_size_bits, X : STA ($92), Y
+        LDA.w Pool_ArcheryGameGuy_size_bits, X : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_subsprite
@@ -10437,7 +10437,7 @@ Equipment_BottleMenu:
     
     .bottleIsSelected
     
-    LDA.b $00 : CMP $02 : BEQ .sameBottleWhoCares
+    LDA.b $00 : CMP.b $02 : BEQ .sameBottleWhoCares
         ; Record which bottle was just selected.
         INC : STA.l $7EF34F
         
@@ -13029,16 +13029,16 @@ HUD_UpdateItemBox:
         
         ; These addresses form the item box graphics. Fire rod loads: 24B0,
         ; 24B1, 24C0, 24C1 ; Ice rod loads: 2CB0, 2CBE, 2CC0, 2CC1.
-        LDA ($04), Y : STA.l $7EC74A
+        LDA.b ($04), Y : STA.l $7EC74A
         
         INY : INY
-        LDA ($04), Y : STA.l $7EC74C
+        LDA.b ($04), Y : STA.l $7EC74C
         
         INY : INY
-        LDA ($04), Y : STA.l $7EC78A
+        LDA.b ($04), Y : STA.l $7EC78A
         
         INY : INY
-        LDA ($04), Y : STA.l $7EC78C
+        LDA.b ($04), Y : STA.l $7EC78C
         
         INY : INY
     

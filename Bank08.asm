@@ -1549,7 +1549,7 @@ Ancilla_ProjectSpeedTowardsPlayer:
     
     LDY.b #$00
     
-    LDA.b $0D : CMP $0C : BCS .dx_is_bigger
+    LDA.b $0D : CMP.b $0C : BCS .dx_is_bigger
         ; y = 1 if y component is larger, 0 if x component is larger.
         INY
         
@@ -1568,7 +1568,7 @@ Ancilla_ProjectSpeedTowardsPlayer:
     .still_have_velocity_to_apply
     
         ; If ($0B + $0C) <= ($0D)
-        LDA.b $0B : CLC : ADC.b $0C : CMP $0D : BCC .not_accumulated_yet
+        LDA.b $0B : CLC : ADC.b $0C : CMP.b $0D : BCC .not_accumulated_yet
             ; Otherwise, just subtract the larger value and increment $00.
             SBC.b $0D
             
@@ -2845,7 +2845,7 @@ Hookshot_IsCollisionCheckFutile:
             
     LDA.b $01 : AND.b #$02 : STA.b $01
 
-    LDA.b $21 : AND.b #$02 : CMP $01 : BEQ .same_screen_as_player
+    LDA.b $21 : AND.b #$02 : CMP.b $01 : BEQ .same_screen_as_player
         SEC
             
         RTS
@@ -2859,7 +2859,7 @@ Hookshot_IsCollisionCheckFutile:
                 
         LDA.b $03 : AND.b #$02 : STA.b $03
 
-        LDA.b $23 : AND.b #$02 : CMP $03 : BEQ .same_screen_as_player
+        LDA.b $23 : AND.b #$02 : CMP.b $03 : BEQ .same_screen_as_player
             SEC
                     
             RTS

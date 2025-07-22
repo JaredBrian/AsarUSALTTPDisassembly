@@ -7,7 +7,8 @@ org $1B8000
 ; SPC Data
 ; Entrance code
 ; Tile interatction
-; Special dungeon entrance animations (Palace of darkness, Skull Woods, Mire, etc.)
+; Special dungeon entrance animations
+;  (Palace of darkness, Skull Woods, Mire, etc.)
 
 ; ==============================================================================
 
@@ -416,7 +417,7 @@ Overworld_Hole:
         LDA.b $00 : CMP Pool_Overworld_Hole_map16, X : BNE .wrongMap16
             LDA.w $040A : CMP Pool_Overworld_Hole_area, X : BEQ .matchedHole
                 .wrongMap16
-    DEX #2 : BPL .nextHole
+    DEX : DEX : BPL .nextHole
     
     ; Send us to the Chris Houlihan room.      
     LDX.w #$0026
@@ -430,9 +431,8 @@ Overworld_Hole:
 
     SEP #$30
     
-    TXA : LSR : TAX
-    
     ; Set an entrance index...
+    TXA : LSR : TAX
     LDA.w Pool_Overworld_Hole_entrance, X : STA.w $010E
                                             STZ.w $010F
     
@@ -885,44 +885,40 @@ Overworld_Entrance:
     
     ; If player is facing a different direction than up, branch
     LDA.b $2F : AND.w #$00FF : BNE .notFacingUp
-    
-    LDA.l Map16Definitions_1, X : AND.w #$41FF : CMP.w #$00E9 : BEQ .BRANCH_BETA
-        CMP.w #$0149 : BEQ .BRANCH_GAMMA
-        CMP.w #$0169 : BEQ .BRANCH_GAMMA
-            TYX
+        LDA.l Map16Definitions_1, X : AND.w #$41FF : CMP.w #$00E9 : BEQ .BRANCH_BETA
+            CMP.w #$0149 : BEQ .BRANCH_GAMMA
+            CMP.w #$0169 : BEQ .BRANCH_GAMMA
+                TYX
+                LDA.l $7E2002, X : ASL #3 : TAX
+                LDA.l Map16Definitions_0, X : AND.w #$41FF : CMP.w #$4149 : BEQ .BRANCH_DELTA
+                    CMP.w #$4169 : BEQ .BRANCH_DELTA
+                        CMP.w #$40E9 : BNE .BRANCH_EPSILON
+                            DEY : DEY
             
-            LDA.l $7E2002, X : ASL #3 : TAX
-            
-            LDA.l Map16Definitions_0, X : AND.w #$41FF : CMP.w #$4149 : BEQ .BRANCH_DELTA
-                CMP.w #$4169 : BEQ .BRANCH_DELTA
-                    CMP.w #$40E9 : BNE .BRANCH_EPSILON
-                        DEY #2
+        .BRANCH_BETA
         
-    .BRANCH_BETA
-    
-    ; This section opens a normal door on the overworld
-    ; It replaces the existing tiles with an open door set of tiles
-    
-    TYX
-    
-    LDA.w #$0DA4
-    
-    JSL.l Overworld_DrawPersistentMap16
-    
-    LDA.w #$0DA6 : STA.l $7E2002, X
-    
-    LDY.w #$0002
-    JSL.l Overworld_DrawMap16_Anywhere
-    
-    SEP #$30
-    
-    ; Play a sound effect
-    LDA.b #$15 : STA.w $012F
-    
-    ; Make sure to update the tilemap
-    LDA.b #$01 : STA.b $14
-    
-    RTL
+        ; This section opens a normal door on the overworld
+        ; It replaces the existing tiles with an open door set of tiles
+        
+        TYX
+        
+        LDA.w #$0DA4
+        JSL.l Overworld_DrawPersistentMap16
+        
+        LDA.w #$0DA6 : STA.l $7E2002, X
+        
+        LDY.w #$0002
+        JSL.l Overworld_DrawMap16_Anywhere
+        
+        SEP #$30
+        
+        ; Play a sound effect
+        LDA.b #$15 : STA.w $012F
+        
+        ; Make sure to update the tilemap
+        LDA.b #$01 : STA.b $14
+        
+        RTL
     
     .notFacingUp
     
@@ -930,7 +926,7 @@ Overworld_Entrance:
     
     .BRANCH_DELTA
     
-    DEY #2
+    DEY : DEY
     
     .BRANCH_GAMMA
     
@@ -970,7 +966,7 @@ Overworld_Entrance:
             LDA.b $02 : CMP.l Pool_Overworld_Entrance_ValidDoorTypes_high, X : BEQ .BRANCH_KAPPA
         
         .BRANCH_ZETA
-    DEX #2 : BPL .loop
+    DEX : DEX : BPL .loop
     
     STZ.w $04B8
     
@@ -1006,7 +1002,7 @@ Overworld_Entrance:
         
         .BRANCH_OMICRON
         
-            DEX #2 : BMI .BRANCH_XI
+            DEX : DEX : BMI .BRANCH_XI
         CMP.l Pool_Overworld_Entrance_TileIndex, X : BNE .BRANCH_OMICRON
     LDA.w $040A : CMP.l Pool_Overworld_Entrance_Screens, X : BNE .BRANCH_PI
     
@@ -1060,7 +1056,7 @@ Overworld_Map16_ToolInteraction:
     ; Zero out ??? affected when dashing apparently, Zero out tile interaction.
     STZ.w $04B2 : STZ.b $76
     
-    LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $06
+    LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3          : STA.b $06
     LDA.b $02 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $06 : TAX
     
     ; Is Link using the hammer?
@@ -1075,12 +1071,11 @@ Overworld_Map16_ToolInteraction:
             
             ; Is it a bush?
             CMP.w #$0036 : BEQ .isBush
-            
-            LDY.w #$0004
-            
-            ; Is it a dark world bush?
-            CMP.w #$072A : BNE .notBush
-            
+                LDY.w #$0004
+                
+                ; Is it a dark world bush?
+                CMP.w #$072A : BNE .notBush
+                
             .isBush
             
             JMP.w .isBush2
@@ -1116,17 +1111,16 @@ Overworld_Map16_ToolInteraction:
     
     ; Normal tile interactions
     LDA.l $7E2000, X : PHA
-    
-    CMP.w #$0034 : BEQ .shovelable   ; Normal blank green ground
-    CMP.w #$0071 : BEQ .shovelable   ; Non thick grass
-    CMP.w #$0035 : BEQ .shovelable   ; Non thick grass
-    CMP.w #$010D : BEQ .shovelable   ; Non thick grass
-    CMP.w #$010F : BEQ .shovelable   ; Non thick grass
-    CMP.w #$00E1 : BEQ .shovelable   ; Animated flower tile
-    CMP.w #$00E2 : BEQ .shovelable   ; Animated flower tile
-    CMP.w #$00DA : BEQ .shovelable   ; Non thick grass
-    CMP.w #$00F8 : BEQ .shovelable   ; Non thick grass
-    CMP.w #$010E : BEQ .shovelable   ; Non thick grass
+    CMP.w #$0034 : BEQ .shovelable ; Normal blank green ground
+    CMP.w #$0071 : BEQ .shovelable ; Non thick grass
+    CMP.w #$0035 : BEQ .shovelable ; Non thick grass
+    CMP.w #$010D : BEQ .shovelable ; Non thick grass
+    CMP.w #$010F : BEQ .shovelable ; Non thick grass
+    CMP.w #$00E1 : BEQ .shovelable ; Animated flower tile
+    CMP.w #$00E2 : BEQ .shovelable ; Animated flower tile
+    CMP.w #$00DA : BEQ .shovelable ; Non thick grass
+    CMP.w #$00F8 : BEQ .shovelable ; Non thick grass
+    CMP.w #$010E : BEQ .shovelable ; Non thick grass
         CMP.w #$037E : BEQ .isThickGrass ; Thick grass
             LDY.w #$0002
             
@@ -1164,7 +1158,7 @@ Overworld_Map16_ToolInteraction:
     
     .notShoveling2
     
-    LDA.b $02 : ASL #3 : SEC : SBC.w #$0008 : PHA
+    LDA.b $02 : ASL #3 : SEC : SBC.w #$0008       : PHA
     LDA.b $00 : SEC : SBC.w #$0008 : AND.w #$FFF8 : STA.b $74
     
     ; Why was it pushed in the first place? -____-
@@ -1234,14 +1228,12 @@ Overworld_Map16_ToolInteraction:
     
     .setTileFlags
     
-    ASL #2 : STA.b $06
+    ASL : ASL : STA.b $06
     
-    LDA.b $00 : AND.w #$0008 : LSR #2 : TSB.b $06
+    LDA.b $00 : AND.w #$0008 : LSR : LSR : TSB.b $06
     
     LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL : TAX
-    
     LDA.l Map16Definitions, X : AND.w #$01FF : TAX
-    
     LDA Overworld_TileAttr, X : PHA
     
     LDA.b $72 : STA.b $00
@@ -1272,10 +1264,8 @@ Overworld_Map16_ToolInteraction:
 Overworld_HammerSfx:
 {
     ASL #3 : TAX
-    
     LDA.l Map16Definitions, X : AND.w #$01FF : TAX
-    
-    LDA Overworld_TileAttr, X
+    LDA.l Overworld_TileAttr, X
     
     SEP #$30
     
@@ -1440,18 +1430,17 @@ Overworld_LiftableTiles:
     
     .notLiftingSmallObject
     
-    ASL #2 : STA.b $06
+    ASL : ASL : STA.b $06
     
-    LDA.b $02 : AND.w #$0008 : LSR #2 : TSB.b $06
+    LDA.b $02 : AND.w #$0008 : LSR : LSR : TSB.b $06
     
     LDA.b $00 : LSR #3 : AND.w #$0001 : ORA.b $06 : ASL : TAX
-    
     LDA.l Map16Definitions, X : AND.w #$01FF : TAX
     
     PLA : STA.b $00
     PLA : STA.b $02
     
-    LDA Overworld_TileAttr, X
+    LDA.l Overworld_TileAttr, X
     
     SEP #$31
     
@@ -1483,7 +1472,6 @@ Overworld_SmashRockPileFromAbove:
     REP #$30
     
     LDA.b $20 : PHA
-    
     CLC : ADC.w #$0008 : STA.b $20
     
     JSR.w Overworld_GetLinkMap16Coords
@@ -1505,7 +1493,8 @@ Overworld_SmashRockPileFromHere:
     LDA.b $00 : PHA
     LDA.b $02 : PHA
     
-    LDA.l $7E2000, X : LDY.w #$0000
+    LDA.l $7E2000, X
+    LDY.w #$0000
     
     ; Check if it's a rock pile
     CMP.w #$0226 : BEQ .isRockPile
@@ -1530,8 +1519,9 @@ Overworld_SmashRockPileFromHere:
     PHA : TSB.b $0C
     
     TXA : CLC
-    
-    LDX.b $0C : ADC.l RockSmashReplaceOffset_tile1, X : STA.w $0698 : TAX
+    LDX.b $0C
+    ADC.l RockSmashReplaceOffset_tile1, X : STA.w $0698
+                                            TAX
     
     LDA.w #$0028 : STA.w $0692
     
@@ -1543,7 +1533,8 @@ Overworld_SmashRockPileFromHere:
         SEP #$20
         
         ; Remember that the burrow has been uncovered.
-        LDY.b $8A : LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
+        LDX.b $8A
+        LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
         
         ; Play puzzle solved sound
         LDA.b #$1B : STA.w $012F
@@ -1555,7 +1546,6 @@ Overworld_SmashRockPileFromHere:
     .noBurrowUnderneath
     
     LDX.b $0C
-    
     LDA.b $00 : CLC : ADC.l RockSmashReplaceOffset_tile2, X : STA.b $00
     LDA.b $02 : CLC : ADC.l RockSmashReplaceOffset_tile3, X : STA.b $02
     
@@ -1606,12 +1596,12 @@ Overworld_ApplyBombToTile:
 {
     PHA
     
-    LSR #3 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $CA : TAX : STX.b $04
+    LSR #3 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $CA : TAX
+                                                                 STX.b $04
     
     ; Check to see if Link has a super bomb.
     LDA.l $7EF3CC : AND.w #$00FF : CMP.w #$000D : BEQ .checkForBomableCave
         LDA.l $7E2000, X
-        
         LDY.w #$0DC7
         LDX.w #$0002
         
@@ -1633,7 +1623,6 @@ Overworld_ApplyBombToTile:
         STY.b $0E
         
         LDX.b $04
-        
         JSR.w Overworld_RevealSecret : BCS .noSecret
             LDA.b $0E
         
@@ -1654,7 +1643,6 @@ Overworld_ApplyBombToTile:
         SEP #$30
         
         LDA.b $0A
-        
         JSL.l Sprite_SpawnImmediatelySmashedTerrain
         
         LDA.b #$01 : STA.b $14
@@ -1668,7 +1656,6 @@ Overworld_ApplyBombToTile:
     .checkForBomableCave
     
     LDX.b $04
-    
     JSR.w Overworld_RevealSecret
     
     LDA.b $0E : CMP.w #$0DB4 : BEQ .bombableCave
@@ -1699,7 +1686,8 @@ Overworld_ApplyBombToTile:
     LDA.b #$01 : STA.b $14
     
     ; A cave has been bombed open. Remember it.
-    LDX.b $8A : LDA.l $7EF280, X : ORA.b #$02 : STA.l $7EF280, X
+    LDX.b $8A
+    LDA.l $7EF280, X : ORA.b #$02 : STA.l $7EF280, X
     
     REP #$30
     
@@ -1730,14 +1718,12 @@ Overworld_AlterWeathervane:
     REP #$30
     
     LDX.w #$0C42
-    
     LDA.w #$0E21 : STA.l $7E2000, X
     
     LDY.w #$0000
     JSL.l Overworld_DrawMap16_Anywhere
     
     LDX.w #$0CC0
-    
     LDA.w #$0E25 : STA.l $7E2002, X
     
     LDY.w #$0002
@@ -1766,21 +1752,17 @@ Overworld_AlterGargoyleEntrance:
     
     LDX.w #$0D3E
     LDA.w #$0E1B
-    
     JSL.l Overworld_DrawPersistentMap16
     
     LDX.w #$0D40
     LDA.w #$0E1C
-    
     JSR.w Overworld_AlterTileHardcore
     
     LDX.w #$0DBE
-    
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     
     LDX.w #$0E3E
-    
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     
@@ -1809,23 +1791,19 @@ Overworld_CreatePyramidHole:
     
     LDX.w #$03BC
     LDA.w #$0E3F
-    
     JSL.l Overworld_DrawPersistentMap16
     
     LDX.w #$03BE
     LDA.w #$0E40
-    
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     
     LDX.w #$043C
-    
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     
     LDX.w #$04BC
-    
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
@@ -2826,7 +2804,7 @@ Overworld_RevealSecret:
             LDA.b [$00], Y : CMP.w #$FFFF : BEQ .failure
         AND.w #$7FFF : CMP.b $04 : BNE .nextSecret
         
-        INY #2
+        INY : INY
         LDA.b [$00], Y : AND.w #$00FF : BEQ .emptySecret
             CMP.w #$0080 : BCS .extendedSecret
                 TSB.w $0B9C
@@ -2873,7 +2851,6 @@ Overworld_RevealSecret:
     JSR.w AdjustSecretForPowder
     
     LDX.b $04
-    
     LDA.b $0E
     
     SEC
@@ -2903,7 +2880,6 @@ Overworld_DrawWoodenDoor:
         ; The only other option is to, you guessed it your cleverness, an open
         ; door.
         LDA.w #$0DA4
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDA.w #$0DA6
@@ -2913,7 +2889,6 @@ Overworld_DrawWoodenDoor:
     .draw_closed_door
     
     LDA.w #$0DA5
-    
     JSL.l Overworld_DrawPersistentMap16
     
     LDA.w #$0DA7
@@ -2923,7 +2898,6 @@ Overworld_DrawWoodenDoor:
     STA.l $7E2002, X
     
     LDY.w #$0002
-    
     JSL.l Overworld_DrawMap16_Anywhere
     
     SEP #$3
@@ -2964,20 +2938,19 @@ Overworld_DrawMap16_Anywhere:
     TXA : CLC : ADC.b $00 : STA.b $00
     
     JSR.w Overworld_FindMap16VRAMAddress
-    
-    LDY.w $1000
-    
+
     ; Write the base VRAM (tilemap) address of the first two tiles.
+    LDY.w $1000
     LDA.b $02 : XBA : STA.w $1002, Y
     
     ; Write the base VRAM address of the second two tiles.
     LDA.b $02 : CLC : ADC.w #$0020 : XBA : STA.w $100A, Y
     
     ; Probably indicates the number of tiles and some other information.
-    LDA.w #$0300 : STA.w $1004, Y : STA.w $100C, Y
+    LDA.w #$0300 : STA.w $1004, Y
+                   STA.w $100C, Y
     
     LDX.b $0C
-    
     LDA.l Map16Definitions_0, X : STA.w $1006, Y
     LDA.l Map16Definitions_1, X : STA.w $1008, Y
     LDA.l Map16Definitions_2, X : STA.w $100E, Y
@@ -3021,8 +2994,7 @@ Overworld_AlterTileHardcore:
     
     .BRANCH_BETA
     
-    LDA.b $00 : AND.w #$001F : ADC.b $02 : STA.b $02
-    
+    LDA.b $00 : AND.w #$001F       : ADC.b $02 : STA.b $02
     LDA.b $00 : AND.w #$0780 : LSR : ADC.b $02 : STA.b $02
     
     LDY.w $1000
@@ -3033,11 +3005,11 @@ Overworld_AlterTileHardcore:
     
     LDA.b $02 : CLC : ADC.w #$0020 : XBA : STA.w $100A, Y
     
-    LDA.w #$0300 : STA.w $1004, Y : STA.w $100C, Y
-    
-    LDX.b $0C
-    
+    LDA.w #$0300 : STA.w $1004, Y
+                   STA.w $100C, Y
+
     ; Load tile indices from ROM.
+    LDX.b $0C
     LDA.l Map16Definitions_0, X : STA.w $1006, Y ; The top left corner.
     LDA.l Map16Definitions_1, X : STA.w $1008, Y ; The top right corner.
     LDA.l Map16Definitions_2, X : STA.w $100E, Y ; The bottom left corner.
@@ -3047,7 +3019,7 @@ Overworld_AlterTileHardcore:
     
     PLX
     
-    INX #2
+    INX : INX
     
     PLA : INC
     
@@ -3072,8 +3044,7 @@ Overworld_FindMap16VRAMAddress:
     
     .BRANCH_BETA
     
-    LDA.b $00 : AND.w #$001F : ADC.b $02 : STA.b $02
-    
+    LDA.b $00 : AND.w #$001F       : ADC.b $02 : STA.b $02
     LDA.b $00 : AND.w #$0780 : LSR : ADC.b $02 : STA.b $02
     
     RTS
@@ -3132,18 +3103,17 @@ Overworld_EntranceSequence:
 ; $0DCAD4-$0DCADD JUMP TABLE
 DarkPalaceEntrance_Main_handlers:
 {
-    dw AnimateEntrance_PoD_step1
-    dw AnimateEntrance_PoD_step2
-    dw AnimateEntrance_PoD_step3
-    dw AnimateEntrance_PoD_step4
-    dw AnimateEntrance_PoD_step5
+    dw AnimateEntrance_PoD_step1 ; 0x00 - $CAE5
+    dw AnimateEntrance_PoD_step2 ; 0x01 - $CB2B
+    dw AnimateEntrance_PoD_step3 ; 0x02 - $CB47
+    dw AnimateEntrance_PoD_step4 ; 0x03 - $CB6C
+    dw AnimateEntrance_PoD_step5 ; 0x04 - $CB91
 }
 
 ; $0DCADE-$0DCAE4 JUMP LOCATION
 DarkPalaceEntrance_Main:
 {
     LDA.b $B0 : ASL : TAX
-    
     JMP.w (.handlers, X)
 }
 
@@ -3153,7 +3123,6 @@ DarkPalaceEntrance_Main:
 AnimateEntrance_PoD_step1:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$40 : BNE .return
         JSR.w OverworldEntrance_AdvanceAndBoom
     
@@ -3163,7 +3132,6 @@ AnimateEntrance_PoD_step1:
         
         LDX.w #$01E6
         LDA.w #$0E31
-        
         JSL.l Overworld_DrawPersistentMap16
         
         ; $0DCB18 ALTERNATE ENTRY POINT
@@ -3175,16 +3143,13 @@ AnimateEntrance_PoD_step1:
         .modify_specific_stair_part
         
         LDA.w #$0E30
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$026A
         LDA.w #$0E26
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$02EA
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDA.w #$FFFF : STA.w $1012, X
@@ -3204,7 +3169,6 @@ AnimateEntrance_PoD_step1:
 AnimateEntrance_PoD_step2:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step1_return
         JSR.w OverworldEntrance_AdvanceAndBoom
         
@@ -3212,7 +3176,6 @@ AnimateEntrance_PoD_step2:
         
         LDX.w #$026A
         LDA.w #$0E28
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDA.w #$0E29
@@ -3226,7 +3189,6 @@ AnimateEntrance_PoD_step2:
 AnimateEntrance_PoD_step3:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step1_return
         JSR.w OverworldEntrance_AdvanceAndBoom
         
@@ -3234,12 +3196,10 @@ AnimateEntrance_PoD_step3:
         
         LDX.w #$026A
         LDA.w #$0E2A
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$02EA
         LDA.w #$0E2B
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$036A
@@ -3253,7 +3213,6 @@ AnimateEntrance_PoD_step3:
 AnimateEntrance_PoD_step4:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step2
         JSR.w OverworldEntrance_AdvanceAndBoom
         
@@ -3261,12 +3220,10 @@ AnimateEntrance_PoD_step4:
         
         LDX.w #$026A
         LDA.w #$0E2D
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$02EA
         LDA.w #$0E2E
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$036A
@@ -3280,7 +3237,6 @@ AnimateEntrance_PoD_step4:
 AnimateEntrance_PoD_step5:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step1
         JMP.w OverworldEntrance_PlayJingle
 }
@@ -3290,22 +3246,19 @@ AnimateEntrance_PoD_step5:
 ; $0DCB9C-$0DCBA5 JUMP TABLE
 Overworld_AnimateEntrance_Skull_handlers:
 {
-    dw AnimateEntrance_Skull_step1
-    dw AnimateEntrance_Skull_step2
-    dw AnimateEntrance_Skull_step3
-    dw AnimateEntrance_Skull_step4
-    dw AnimateEntrance_Skull_step5
+    dw AnimateEntrance_Skull_step1 ; 0x00 - $CBAD
+    dw AnimateEntrance_Skull_step2 ; 0x01 - $CBEE
+    dw AnimateEntrance_Skull_step3 ; 0x02 - $CC27
+    dw AnimateEntrance_Skull_step4 ; 0x03 - $CC4D
+    dw AnimateEntrance_Skull_step5 ; 0x04 - $CC8C
 }
 
 ; $0DCBA6-$0DCBAC JUMP LOCATION
 Overworld_AnimateEntrance_Skull:
 {
     LDA.b $B0 : ASL : TAX
-    
     JMP.w (.handlers, X)
 }
-
-; ==============================================================================
 
 ; $0DCBAD-$0DCBED JUMP LOCATION
 AnimateEntrance_Skull_step1:
@@ -3321,12 +3274,10 @@ AnimateEntrance_Skull_step1:
     
         LDX.w #$0812
         LDA.w #$0E06
-    
         JSL.l Overworld_DrawPersistentMap16
     
         LDX.w #$0814
         LDA.w #$0E06
-    
         JSR.w Overworld_AlterTileHardcore
     
         LDA.w #$FFFF : STA.w $1012
@@ -3334,7 +3285,6 @@ AnimateEntrance_Skull_step1:
         SEP #$30
     
         LDX.b $8A
-    
         LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
     
         SEP #$30
@@ -3349,13 +3299,10 @@ AnimateEntrance_Skull_step1:
     RTS
 }
 
-; ==============================================================================
-
 ; $0DCBEE-$0DCC11 JUMP LOCATION
 AnimateEntrance_Skull_step2:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$0C : BNE AnimateEntrance_Skull_step1_delay
     	INC.b $B0
     
@@ -3365,12 +3312,10 @@ AnimateEntrance_Skull_step2:
     
     	LDX.w #$0790
     	LDA.w #$0E07
-    
     	JSL.l Overworld_DrawPersistentMap16
     
     	LDX.w #$0792
     	LDA.w #$0E08
-    
     	JSR.w Overworld_AlterTileHardcore
     	JSR.w Overworld_AlterTileHardcore
 
@@ -3393,13 +3338,10 @@ OverworldEntrance_AdvanceAndThud:
     RTS
 }
 
-; ==============================================================================
-
 ; $0DCC27-$0DCC4C JUMP LOCATION
 AnimateEntrance_Skull_step3:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$0C : BNE AnimateEntrance_Skull_step1_delay
         INC.b $B0
     
@@ -3409,25 +3351,20 @@ AnimateEntrance_Skull_step3:
     
         LDX.w #$0710
         LDA.w #$0E07
-    
         JSL.l Overworld_DrawPersistentMap16
     
         LDX.w #$0712
         LDA.w #$0E08
-    
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
     
         BRA OverworldEntrance_AdvanceAndThud
 }
 
-; ==============================================================================
-
 ; $0DCC4D-$0DCC8B JUMP LOCATION
 AnimateEntrance_Skull_step4:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$0C : BNE AnimateEntrance_Skull_step1_delay
        INC.b $B0
     
@@ -3437,17 +3374,14 @@ AnimateEntrance_Skull_step4:
     
        LDX.w #$0590
        LDA.w #$0E11
-    
        JSL.l Overworld_DrawPersistentMap16
     
        LDX.w #$0596
        LDA.w #$0E12
-    
        JSR.w Overworld_AlterTileHardcore
     
        LDX.w #$0610
        LDA.w #$0E0D
-    
        JSR.w Overworld_AlterTileHardcore
        JSR.w Overworld_AlterTileHardcore
        JSR.w Overworld_AlterTileHardcore
@@ -3455,19 +3389,15 @@ AnimateEntrance_Skull_step4:
     
        LDX.w #$0692
        LDA.w #$0E0B
-    
        JSR.w Overworld_AlterTileHardcore
     
        JMP.w OverworldEntrance_AdvanceAndThud
 }
 
-; ==============================================================================
-
 ; $0DCC8C-$0DCCC7 JUMP LOCATION
 AnimateEntrance_Skull_step5:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$0C : BNE AnimateEntrance_Skull_step1_delay
         INC.b $B0
         
@@ -3477,23 +3407,19 @@ AnimateEntrance_Skull_step5:
         
         LDX.w #$0590
         LDA.w #$0E13
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0596
         LDA.w #$0E14
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$0610
-        
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$0692
-        
         JSR.w Overworld_AlterTileHardcore
         
         JSR.w OverworldEntrance_AdvanceAndThud
@@ -3508,9 +3434,9 @@ MiseryMireEntrance_Main_handlers:
 {
     dw MiseryMireEntrance_PhaseOutRain ; 0x00 - $CD14
     dw AnimateEntrance_Mire_step2      ; 0x01 - $CD41 Set up the rumbling noise 
-    dw AnimateEntrance_Mire_step2      ; 0x02 - $CD41 Do the first graphical change
-    dw AnimateEntrance_Mire_step3      ; 0x03 - $CDA9 Do the second graphical change
-    dw AnimateEntrance_Mire_step4      ; 0x04 - $CDD7 Do the third graphical change
+    dw AnimateEntrance_Mire_step2      ; 0x02 - $CD41 The first graphical change
+    dw AnimateEntrance_Mire_step3      ; 0x03 - $CDA9 The second graphical change
+    dw AnimateEntrance_Mire_step4      ; 0x04 - $CDD7 The third graphical change
     dw AnimateEntrance_Mire_step5      ; 0x05 - $CE05
 }
 
@@ -3533,11 +3459,8 @@ MiseryMireEntrance_Main:
     .anoshake_screen
     
     LDA.b $B0 : ASL : TAX
-    
     JMP.w (.handlers, X)
 }
-
-; ==============================================================================
 
 ; $0DCCFA-$0DCD13 DATA
 MiseryMireEntrance_PhaseOutRain_phase_masks:
@@ -3552,9 +3475,8 @@ MiseryMireEntrance_PhaseOutRain_phase_masks:
 ; $0DCD14-$0DCD40 JUMP LOCATION
 MiseryMireEntrance_PhaseOutRain:
 {
-    INC.b $C8
-    
     ; If $C8 <= #$20. Delay for 20 frames basically.
+    INC.b $C8
     LDA.b $C8 : CMP.b #$20 : BCC .delay
         ; ($C8 - 0x20) != 0xCF
         SEC : SBC.b #$20 : CMP.b #$CF : BNE .not_next_step_yet
@@ -3565,7 +3487,8 @@ MiseryMireEntrance_PhaseOutRain:
         
         .not_next_step_yet
         
-        PHA : AND.b #$07 : ASL : TAY
+                           PHA
+        AND.b #$07 : ASL : TAY
         
         PLA : AND.b #$F8 : LSR #3 : TAX
         
@@ -3583,12 +3506,11 @@ MiseryMireEntrance_PhaseOutRain:
     RTS
 }
 
-; ==============================================================================
-
 ; $0DCD41-$0DCDA8 JUMP LOCATION
 AnimateEntrance_Mire_step2:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$10 : BNE .delay
+    INC.b $C8
+    LDA.b $C8 : CMP.b #$10 : BNE .delay
         ; On the 0x10th frame move to the next step.
         INC.b $B0
         
@@ -3604,7 +3526,8 @@ AnimateEntrance_Mire_step2:
         ; So, on the 0x48th frame, 
         
         ; Check off the fact that this has been opened.
-        LDX.b $8A : LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
+        LDX.b $8A
+        LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
         
         REP #$30
         
@@ -3614,26 +3537,25 @@ AnimateEntrance_Mire_step2:
         
         ; An index into the set of tiles to use.
         LDA.w #$0E48
-        
         JSL.l Overworld_DrawPersistentMap16
         
-        LDX.w #$0624 : LDA.w #$0E49
+        LDX.w #$0624
+        LDA.w #$0E49
         
         ; $0DCD75 ALTERNATE ENTRY POINT
+        .drawBulk
         
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
-        JSR.w Overworld_AlterTileHardcore Draw the next 3 tiles
+        JSR.w Overworld_AlterTileHardcore ; Draw the next 3 tiles
         
         LDX.w #$06A2
-        
-        JSR.w Overworld_AlterTileHardcore Draw the next 4 tiles
-        JSR.w Overworld_AlterTileHardcore one line below
+        JSR.w Overworld_AlterTileHardcore ; Draw the next 4 tiles
+        JSR.w Overworld_AlterTileHardcore ; one line below
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$0722
-        
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
@@ -3663,7 +3585,6 @@ AnimateEntrance_Mire_step3:
         
         LDX.w #$05A2
         LDA.w #$0E54
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$05A4
@@ -3677,10 +3598,9 @@ AnimateEntrance_Mire_step3:
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$0622
-        
         JSR.w Overworld_AlterTileHardcore
         
-        BRA .BRANCH_$DCD75
+        BRA AnimateEntrance_Mire_step2_drawBulk
 }
 
 ; $0DCDD7-$0DCE04 JUMP LOCATION
@@ -3693,18 +3613,15 @@ AnimateEntrance_Mire_step4:
         
         LDX.w #$0522
         LDA.w #$0E64
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0524
         LDA.w $0E65
-        
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$05A2
-        
         JSR.w Overworld_AlterTileHardcore
         
         BRA AnimateEntrance_Mire_step3_continue_many_many_replacements
@@ -3729,18 +3646,16 @@ AnimateEntrance_Mire_step5:
 ; $0DCE16-$0DCE27 DATA
 TurtleRockEntrance_Main_handlers:
 {
-    dw AnimateEntrance_TurtleRock_step1
-    dw AnimateEntrance_TurtleRock_step2
-    dw AnimateEntrance_TurtleRock_step3
-    dw AnimateEntrance_TurtleRock_step4
-    dw AnimateEntrance_TurtleRock_step5
-    dw AnimateEntrance_TurtleRock_step6
-    dw AnimateEntrance_TurtleRock_step7
-    dw AnimateEntrance_TurtleRock_step8
-    dw OverworldEntrance_PlayJingle
+    dw AnimateEntrance_TurtleRock_step1 ; 0x00 - $CE48
+    dw AnimateEntrance_TurtleRock_step2 ; 0x01 - $CE5E
+    dw AnimateEntrance_TurtleRock_step3 ; 0x02 - $CE62
+    dw AnimateEntrance_TurtleRock_step4 ; 0x03 - $CE66
+    dw AnimateEntrance_TurtleRock_step5 ; 0x04 - $CE8A
+    dw AnimateEntrance_TurtleRock_step6 ; 0x05 - $CEAC
+    dw AnimateEntrance_TurtleRock_step7 ; 0x06 - $CEF8
+    dw AnimateEntrance_TurtleRock_step8 ; 0x07 - $CF17
+    dw OverworldEntrance_PlayJingle     ; 0x08 - $CF40
 }
-
-; ==============================================================================
 
 ; $0DCE28-$0DCE47 JUMP LOCATION
 TurtleRockEntrance_Main:
@@ -3748,29 +3663,22 @@ TurtleRockEntrance_Main:
     REP #$20
     
     LDA.b $1A : AND.w #$0001 : ASL : TAX
-    
     LDA.l OverworldShake_Offsets_Y, X : STA.w $011A
-    
     LDA.l OverworldShake_Offsets_X, X : STA.w $011C
     
     SEP #$20
     
     LDA.b $B0 : ASL : TAX
-    
     JMP.w (.handlers, X)
 }
-
-; ==============================================================================
 
 ; $0DCE48-$0DCE5D JUMP LOCATION
 AnimateEntrance_TurtleRock_step1:
 {
     LDX.b $8A
-    
     LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
     
     LDA.b #$00
-    
     JSL.l Dungeon_ApproachFixedColor_variable
     
     LDA.b #$10
@@ -3822,8 +3730,6 @@ AnimateEntrance_TurtleRock_step4:
     RTS
 }
 
-; ==============================================================================
-
 ; $0DCE8A-$0DCEAB JUMP LOCATION
 AnimateEntrance_TurtleRock_step5:
 {
@@ -3837,7 +3743,7 @@ AnimateEntrance_TurtleRock_step5:
     
         STA.l $7EC5B0, X
         STA.l $7EC3D0, X
-    DEX #2 : BPL .loop
+    DEX : DEX : BPL .loop
     
     LDA.b $E8 : STA.b $E6
     
@@ -3851,8 +3757,6 @@ AnimateEntrance_TurtleRock_step5:
     
     RTS
 }
-
-; ==============================================================================
 
 ; $0DCEAC-$0DCEF7 JUMP LOCATION
 AnimateEntrance_TurtleRock_step6:
@@ -3895,8 +3799,6 @@ AnimateEntrance_TurtleRock_step6:
     RTS
 }
 
-; ==============================================================================
-
 ; $0DCEF8-$0DCF16 JUMP LOCATION
 AnimateEntrance_TurtleRock_step7:
 {
@@ -3917,8 +3819,6 @@ AnimateEntrance_TurtleRock_step7:
     
     RTS
 }
-
-; ==============================================================================
 
 ; $0DCF17-$0DCF3F JUMP LOCATION
 AnimateEntrance_TurtleRock_step8:
@@ -3978,32 +3878,27 @@ OverworldEntrance_DrawManyTR:
     
     LDX.w #$099E
     LDA.w #$0E78
-    
     JSL.l Overworld_DrawPersistentMap16
     
     LDX.w #$09A0
     LDA.w #$0E79
-    
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     
     LDX.w #$0A1E
-    
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     
     LDX.w #$0A9E
-    
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     
     LDX.w #$0B1E
-    
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
     JSR.w Overworld_AlterTileHardcore
@@ -4024,29 +3919,31 @@ OverworldEntrance_DrawManyTR:
 ; ==============================================================================
 
 ; $0DCFBF-$0DCFD8 JUMP TABLE
-Pool_Overworld_AnimateEntrance_GanonsTower:
+Overworld_AnimateEntrance_GanonsTower_handlers:
 {
-    .handlers
-    dw AnimateEntrance_GanonsTower_step01
-    dw AnimateEntrance_GanonsTower_step01
-    dw AnimateEntrance_GanonsTower_step02
-    dw AnimateEntrance_GanonsTower_step03
-    dw AnimateEntrance_GanonsTower_step04
-    dw AnimateEntrance_GanonsTower_step05
-    dw AnimateEntrance_GanonsTower_step06
-    dw AnimateEntrance_GanonsTower_step07
-    dw AnimateEntrance_GanonsTower_step08
-    dw AnimateEntrance_GanonsTower_step09
-    dw AnimateEntrance_GanonsTower_step10
-    dw AnimateEntrance_GanonsTower_step11 ; Place the last step of Ganon's Tower.
-    dw AnimateEntrance_GanonsTower_step12 ; Restore music, play some SFX, and let Link move again.
+    dw AnimateEntrance_GanonsTower_step01 ; 0x00 - $CFE0
+    dw AnimateEntrance_GanonsTower_step01 ; 0x01 - $CFE0
+    dw AnimateEntrance_GanonsTower_step02 ; 0x02 - $CFF1
+    dw AnimateEntrance_GanonsTower_step03 ; 0x03 - $D01D
+    dw AnimateEntrance_GanonsTower_step04 ; 0x04 - $D062
+    dw AnimateEntrance_GanonsTower_step05 ; 0x05 - $D093
+    dw AnimateEntrance_GanonsTower_step06 ; 0x06 - $D0DE
+    dw AnimateEntrance_GanonsTower_step07 ; 0x07 - $D107
+    dw AnimateEntrance_GanonsTower_step08 ; 0x08 - $D127
+    dw AnimateEntrance_GanonsTower_step09 ; 0x09 - $D14D
+    dw AnimateEntrance_GanonsTower_step10 ; 0x0A - $D16D
+    dw AnimateEntrance_GanonsTower_step11 ; 0x0B - $D19F Place the last step
+                                          ;        of Ganon's Tower.
+    dw AnimateEntrance_GanonsTower_step12 ; 0x0C - $D1C0 Restore music, play
+                                          ;        some SFX, and let Link move
+                                          ;        again.
 }
 
 ; $0DCFD9-$0DCFDF JUMP LOCATION
 Overworld_AnimateEntrance_GanonsTower:
 {
     LDA.b $B0 : ASL : TAX
-    JMP.w (Pool_Overworld_AnimateEntrance_GanonsTower_handlers, X)
+    JMP.w (.handlers, X)
 }
 
 ; $0DCFE0-$0DCFF0 JUMP LOCATION
@@ -4068,7 +3965,8 @@ AnimateEntrance_GanonsTower_step02:
     LDA.b $1D : BNE .BRANCH_BETA
         INC.b $1D
         
-        INC.b $C8 : LDA.b $C8 : CMP.b #$03 : BNE .BRANCH_ALPHA
+        INC.b $C8
+        LDA.b $C8 : CMP.b #$03 : BNE .BRANCH_ALPHA
             STZ.b $C8
             
             LDA.b #$07 : STA.w $012D
@@ -4101,7 +3999,6 @@ OverworldEntrance_AdvanceAndBoom:
 AnimateEntrance_GanonsTower_step03:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$30 : BNE .exit_a
         JSR.w OverworldEntrance_AdvanceAndBoom
         
@@ -4109,17 +4006,14 @@ AnimateEntrance_GanonsTower_step03:
         
         LDX.w #$045E
         LDA.w #$0E88
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0460
         LDA.w #$0E89
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$04DE
         LDA.w #$0EA2
-        
         JSR.w Overworld_AlterTileHardcore
         JSR.w Overworld_AlterTileHardcore
         
@@ -4156,7 +4050,6 @@ AnimateEntrance_GanonsTower_step03:
 AnimateEntrance_GanonsTower_step04:
 {
     INC.b $C8
-    
     LDA.b $C8 : CMP.b #$30 : BNE AnimateEntrance_GanonsTower_step03_exit_a
         JSR.w OverworldEntrance_AdvanceAndBoom.
         
@@ -4164,17 +4057,14 @@ AnimateEntrance_GanonsTower_step04:
         
         LDX.w #$045E
         LDA.w #$0E8C
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0460
         LDA.w #$0E8D
-        
         JSR.w Overworld_AlterTileHardcore.
         
         LDX.w #$04DE
         LDA.w #$0E8E
-        
         JSR.w Overworld_AlterTileHardcore.
         JSR.w Overworld_AlterTileHardcore.
         
@@ -4187,7 +4077,6 @@ AnimateEntrance_GanonsTower_step04:
 AnimateEntrance_GanonsTower_step05:
 {
 	INC.b $C8
-	
 	LDA.b $C8 : CMP.b #$34 : BNE .exit
         JSR.w OverworldEntrance_AdvanceAndBoom
         
@@ -4195,30 +4084,24 @@ AnimateEntrance_GanonsTower_step05:
         
         LDX.w #$045E
         LDA.w #$0E92
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0460
         LDA.w #$0E93
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$04DE
         LDA.w #$0E94
-        
         JSR.w Overworld_AlterTileHardcore.
         
         LDA.w #$0E94
-        
         JSR.w Overworld_AlterTileHardcore.
         
         LDX.w #$055E
         LDA.w #$0E95
-        
         JSR.w Overworld_AlterTileHardcore.
         
         LDA.w #$0E95
-        
         JSR.w Overworld_AlterTileHardcore.
         
         LDA.w #$FFFF : STA.w $1012, Y
@@ -4236,121 +4119,117 @@ AnimateEntrance_GanonsTower_step05:
 ; $0DD0DE-$0DD106 JUMP LOCATION
 AnimateEntrance_GanonsTower_step06:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
+    INC.b $C8
+    LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
         JSR.w OverworldEntrance_AdvanceAndBoom
         
         REP #$30
         
         LDX.w #$045E
         LDA.w #$0E9C
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0460
         LDA.w #$0E97
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$04DE
         LDA.w #$0E98
-        
         JMP.w AnimateEntrance_GanonsTower_step03_draw2_advance
 }
 
 ; $0DD107-$0DD126 JUMP LOCATION
 AnimateEntrance_GanonsTower_step07:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
+    INC.b $C8
+    LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
         JSR.w OverworldEntrance_AdvanceAndBoom
         
         REP #$30
         
         LDX.w #$04DE
         LDA.w #$0E9A
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$04E0
         LDA.w #$0E9B
-        
         JMP.w AnimateEntrance_GanonsTower_step03_draw1_advance
 }
 
 ; $0DD127-$0DD14C JUMP LOCATION
 AnimateEntrance_GanonsTower_step08:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
+    INC.b $C8
+    LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
         JSR.w OverworldEntrance_AdvanceAndBoom
         
         REP #$30
         
         LDX.w #$04DE
         LDA.w #$0E9C
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$04E0
         LDA.w #$0E9D
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDA.w #$0E9E
-        
         JMP.w AnimateEntrance_GanonsTower_step03_draw1_advance
 }
 
 ; $0DD14D-$0DD16C JUMP LOCATION
 AnimateEntrance_GanonsTower_step09:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
+    INC.b $C8
+    LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
         JSR.w OverworldEntrance_AdvanceAndBoom
         
         REP #$30
         
         LDX.w #$055E
         LDA.w #$0E9A
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0560
         LDA.w #$0E9B
-        
         JMP.w AnimateEntrance_GanonsTower_step03_draw1_advance
 }
 
 ; $0DD16D-$0DD19E JUMP LOCATION
 AnimateEntrance_GanonsTower_step10:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step12_waitForTimer
+    INC.b $C8
+    LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step12_waitForTimer
         JSR.w OverworldEntrance_AdvanceAndBoom.
         
         REP #$30
         
         LDX.w #$055E
         LDA.w #$0E9C
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDX.w #$0560
         LDA.w #$0E9D
-        
         JSR.w Overworld_AlterTileHardcore
         
         LDX.w #$05DE
         LDA.w #$0EA0
-        
         JSR.w Overworld_AlterTileHardcore.
         
         LDA.w #$0EA1
+
+        ; $0DD199 ALTERNATE ENTRY POINT
+        .draw1_at_05E0_advance
+
         LDX.w #$05E0
-        
         JMP.w AnimateEntrance_GanonsTower_step03_draw1_advance
 }
 
 ; $0DD19F-$0DD1BF JUMP LOCATION
 AnimateEntrance_GanonsTower_step11:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step12_waitForTimer
+    INC.b $C8
+    LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step12_waitForTimer
         LDA.b #$05 : STA.w $012D 
         
         JSR.w OverworldEntrance_AdvanceAndBoom
@@ -4359,18 +4238,17 @@ AnimateEntrance_GanonsTower_step11:
         
         LDX.w #$05DE
         LDA.w #$0E9A
-        
         JSL.l Overworld_DrawPersistentMap16
         
         LDA.w #$0E9B
-        
-        BRA .BRANCH_$DD199
+        BRA .draw1_at_05E0_advance
 }
 
 ; $0DD1C0-$0DD1D7 JUMP LOCATION
 AnimateEntrance_GanonsTower_step12:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$48 : BNE .waitForTimer
+    INC.b $C8
+    LDA.b $C8 : CMP.b #$48 : BNE .waitForTimer
         ; Play "you solved puzzle" sound.
         JSR.w OverworldEntrance_PlayJingle
         
@@ -6030,7 +5908,7 @@ Palette_SpriteAux3:
     
     ; Palette 1
     LDX.w $0AAC
-    LDA PaletteIDtoOffset, X : AND.w #$00FF
+    LDA.w PaletteIDtoOffset, X : AND.w #$00FF
     ADC.w PaletteData_spritepal0 : STA.b $00
     
     REP #$10
@@ -6067,11 +5945,11 @@ Palette_MainSpr:
     ; ZScream Custom Overworld? not sure, needs investigation.
     LDA.b $8A : AND.w #$0040 : BEQ .lightWorld
         ; X = 0x02 for dark world
-        INX #2
+        INX : INX
     
     .lightWorld
     
-    LDA PaletteWorldIDtoOffset, X : ADC.w PaletteData_sprite : STA.b $00
+    LDA.w PaletteWorldIDtoOffset, X : ADC.w PaletteData_sprite : STA.b $00
     
     REP #$10
     
@@ -6094,7 +5972,7 @@ Palette_SpriteAux1:
     
     ; Load sprite palette 2 value
     LDA.w $0AAD : AND.w #$00FF : ASL : TAX
-    LDA PaletteIDtoOffset, X : ADC.w PaletteData_spriteaux : STA.b $00
+    LDA.w PaletteIDtoOffset, X : ADC.w PaletteData_spriteaux : STA.b $00
     
     LDA.w #$01A2 ; Target SP-5 (first half)
     LDX.w #$0006 ; Palette has 7 colors
@@ -6114,7 +5992,7 @@ Palette_SpriteAux2:
     
     ; Load sprite palette 3 value
     LDA.w $0AAE : AND.w #$00FF : ASL : TAX
-    LDA PaletteIDtoOffset, X : ADC.w PaletteData_spriteaux : STA.b $00
+    LDA.w PaletteIDtoOffset, X : ADC.w PaletteData_spriteaux : STA.b $00
     
     LDA.w $01C2  ; Target SP-6 (first half)
     LDX.w #$0006 ; Palette has 7 colors
@@ -6136,7 +6014,7 @@ Palette_Sword:
     
     ; Figure out what kind of sword Link has.
     LDA.l $7EF359 : AND.w #$00FF : TAX
-    LDA SwordPaletteOffsets, X : AND.w #$00FF
+    LDA.w SwordPaletteOffsets, X : AND.w #$00FF
     ADC.w PaletteData_sword : STA.b $00
     
     REP #$10
@@ -6163,7 +6041,7 @@ Palette_Shield:
     
     ; Figure out what kind of shield Link has.
     LDA.l $7EF35A : AND.w #$00FF : TAX
-    LDA ShieldPaletteOffsets, X : AND.w #$00FF
+    LDA.w ShieldPaletteOffsets, X : AND.w #$00FF
     ADC.w PaletteData_shield : STA.b $00
     
     REP #$10
@@ -6189,7 +6067,7 @@ Palette_Unused:
     REP #$21
     
     LDX.w $0AB0
-    LDA PaletteIDtoOffset, X : AND.w #$00FF
+    LDA.w PaletteIDtoOffset, X : AND.w #$00FF
     ADC.w PaletteData_environment : STA.b $00
     
     REP #$10
@@ -6216,7 +6094,7 @@ Palette_MiscSpr:
         REP #$21
         
         LDX.w $0AB1
-        LDA PaletteIDtoOffset, X : AND.w #$00FF
+        LDA.w PaletteIDtoOffset, X : AND.w #$00FF
         ADC.w PaletteData_environment : STA.b $00
         
         REP #$10
@@ -6239,14 +6117,14 @@ Palette_MiscSpr:
     ; See if we're in the dark world.
     ; ZScream Custom Overworld? not sure, needs investigation.
     LDA.b $8A : AND.w #$0040 : BEQ .lightWorld
-        INX #2
+        INX : INX
     
     .lightWorld
     
     PHX
     
     ; X = 0x07 or 0x09
-    LDA PaletteIDtoOffset, X : AND.w #$00FF
+    LDA.w PaletteIDtoOffset, X : AND.w #$00FF
     ADC.w PaletteData_environment : STA.b $00
     
     REP #$10
@@ -6266,7 +6144,7 @@ Palette_MiscSpr:
     
     PLX : DEX
     
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : CLC
+    LDA.w PaletteIDtoOffset, X : AND.w #$00FF : CLC
     ADC.w PaletteData_environment : STA.b $00
     
     REP #$10
@@ -6282,11 +6160,10 @@ Palette_MiscSpr:
 
 ; ==============================================================================
 
+; Load palettes for Palace Map sprite graphics.
 ; $0DEDDD-$0DEDF4 LONG JUMP LOCATION
 Palette_PalaceMapSpr:
 {
-    ; Load palettes for Palace Map sprite graphics.
-    
     REP #$21
     
     ; Load palettes from $1BD70A
@@ -6322,7 +6199,7 @@ Palette_ArmorAndGloves:
     ; Check what Link's armor value is.
     LDA.l $7EF35B : AND.w #$00FF : TAX
     
-    LDA PaletteIDtoOffset_16bit, X : AND.w #$00FF : ASL
+    LDA.w PaletteIDtoOffset_16bit, X : AND.w #$00FF : ASL
     ADC.w PaletteData_Link : STA.b $00
     
     REP #$10
@@ -6340,8 +6217,8 @@ Palette_ArmorAndGloves:
     ; If Link has no special gloves I guess you use a default?
     LDA.l $7EF354 : AND.w #$00FF : BEQ .defaultGloveColor
         DEC : ASL : TAX
-        
-        LDA Palettes_LinkGloveColors, X : STA.l $7EC4FA : STA.l $7EC6FA
+        LDA.w Palettes_LinkGloveColors, X : STA.l $7EC4FA
+                                            STA.l $7EC6FA
     
     .defaultGloveColor
     
@@ -6384,7 +6261,7 @@ Palette_HUD:
     REP #$21
     
     LDX.w $0AB2
-    LDA PaletteIDtoOffset_HUD, X : AND.w #$00FF
+    LDA.w PaletteIDtoOffset_HUD, X : AND.w #$00FF
     ADC.w PaletteData_hud : STA.b $00
     
     ; X/Y registers are 8-bit
@@ -6410,7 +6287,8 @@ Palette_DungBgMain:
     
     ; This is the palette index for a certain background
     LDX.w $0AB6
-    LDA PaletteIDtoOffset_UW, X : ADC.w #$D734 : STA.b $00 : PHA
+    LDA.w PaletteIDtoOffset_UW, X : ADC.w #$D734 : STA.b $00
+                                                   PHA
     
     REP #$10
     
@@ -6449,7 +6327,7 @@ Palette_OverworldBgAux3:
     REP #$21
     
     LDX.w $0AB8
-    LDA PaletteIDtoOffset, X : AND.w #$00FF
+    LDA.w PaletteIDtoOffset, X : AND.w #$00FF
     ADC.w PaletteData_owanim : STA.b $00
     
     REP #$10
@@ -6471,7 +6349,7 @@ Palette_OverworldBgMain:
     REP #$21
     
     LDA.w $0AB3 : ASL : TAX
-    LDA PaletteIDtoOffset_OW_Main, X : ADC.w PaletteData_owmain : STA.b $00
+    LDA.w PaletteIDtoOffset_OW_Main, X : ADC.w PaletteData_owmain : STA.b $00
     
     REP #$10
     
@@ -6549,11 +6427,11 @@ Palette_SingleLoad:
     .copyPalette
 
         ; Since this is a long indirect, that's why #$1B was put in $02.
-        LDA [$00] : STA.l $7EC300, X
+        LDA.b [$00] : STA.l $7EC300, X
         
         INC.b $00 : INC.b $00
         
-        INX #2
+        INX : INX
     DEY : BPL .copyPalette
     
     RTS
@@ -6577,8 +6455,7 @@ Palette_MultiLoad:
     
     ; The absolute address at $00 was planted in the calling function. This
     ; value is the bank 0x1B. The address is found from $0AB6.
-    LDA.w #pc()>>16 ; #$001B
-    STA.b $02 ; And of course, store it at $02
+    LDA.w #pc()>>16 : STA.b $02 ; #$001B
     
     .nextPalette
 
@@ -6588,14 +6465,15 @@ Palette_MultiLoad:
         LDY.b $06 ; Tell me how long the palette is.
         
         .copyColors
+
             ; We're loading A from the address set up in the calling function.
-            LDA [$00] : STA.l $7EC300, X 
+            LDA.b [$00] : STA.l $7EC300, X 
             
             ; Increment the absolute portion of the address by two, and decrease
             ; the color count by one.
             INC.b $00 : INC.b $00
             
-            INX #2
+            INX : INX
         
             ; So basically loop (Y+1) times, taking (Y * 2 bytes) to $7EC300, X.
         DEY : BPL .copyColors
@@ -6626,11 +6504,12 @@ Palette_ArbitraryLoad:
     
     .loop
 
-        LDA [$00] : STA.l $7EC300, X : STA.l $7EC500, X
+        LDA.b [$00] : STA.l $7EC300, X
+                      STA.l $7EC500, X
         
         INC.b $00 : INC.b $00
         
-        INX #2
+        INX : INX
     DEY : BPL .loop
     
     RTS
@@ -6656,7 +6535,6 @@ Palette_SelectScreen:
     
     ; The value for your armor.
     LDA.l $70035B
-    
     JSR.w Palette_SelectScreenArmor
     
     LDX.w #$0000
@@ -6692,7 +6570,6 @@ Palette_SelectScreen:
     LDA.l $700D54 : STA.b $0C
     
     LDA.l $700D5B
-    
     JSR.w Palette_SelectScreenArmor
     
     LDX.w #$0080
@@ -6711,14 +6588,14 @@ Palette_SelectScreen:
         ; This section of code has to do with loading the fairy sprite used
         ; For selecting which game you're in.
         
-        LDA.w PaletteData_sprite_00_right, Y
-        STA.l $7EC4D0, X : STA.l $7EC6D0, X
+        LDA.w PaletteData_sprite_00_right, Y : STA.l $7EC4D0, X
+                                               STA.l $7EC6D0, X
         
-        LDA.w PaletteData_sprite_01_right, Y
-        STA.l $7EC4F0, X : STA.l $7EC6F0, X
+        LDA.w PaletteData_sprite_01_right, Y : STA.l $7EC4F0, X
+                                               STA.l $7EC6F0, X
         
-        INY #2
-        INX #2
+        INY : INY
+        INX : INX
     CPX.w #$000E : BNE .loadFairyPalette
     
     SEP #$30
@@ -6748,11 +6625,12 @@ Palette_SelectScreenArmor:
     .loadArmorPalette
     
         ; Load the fairys's palette data?
-        LDA.w PaletteData, Y : STA.l $7EC402, X : STA.l $7EC602, X
+        LDA.w PaletteData, Y : STA.l $7EC402, X
+                               STA.l $7EC602, X
         
-        INY #2
+        INY : INY
         
-        INX #2 ; Hence we will be writing #$F * 2 bytes = #$1E
+        INX : INX ; Hence we will be writing #$F * 2 bytes = #$1E
     DEC.b $0E : BNE .loadArmorPalette
     
     PLX
@@ -6764,7 +6642,8 @@ Palette_SelectScreenArmor:
         DEC : ASL : TAY
         
         ; X will be #$00, #$40, #$80...
-        LDA.w Palettes_LinkGloveColors, Y : STA.l $7EC41A, X : STA.l $7EC61A, X
+        LDA.w Palettes_LinkGloveColors, Y : STA.l $7EC41A, X
+                                            STA.l $7EC61A, X
     
     .defaultGloveColor
     
@@ -6788,11 +6667,11 @@ Palette_SelectScreenSword:
     
     .copyPalette
     
-        LDA.w PaletteData, Y : STA.l $7EC432, X : STA.l $7EC632, X
+        LDA.w PaletteData, Y : STA.l $7EC432, X
+                               STA.l $7EC632, X
         
-        INY #2
-        
-        INX #2
+        INY : INY
+        INX : INX
         
         ; Branch 3 times, write 6 bytes, go home...
     DEC.b $0E : BNE .copyPalette
@@ -6818,11 +6697,11 @@ Palette_SelectScreenShield:
     
     .copyPalette
     
-        LDA.w PaletteData, Y : STA.l $7EC438, X : STA.l $7EC638, X
+        LDA.w PaletteData, Y : STA.l $7EC438, X
+                               STA.l $7EC638, X
         
-        INY #2
-        
-        INX #2
+        INY : INY
+        INX : INX
     DEC.b $0E : BNE .copyPalette
     
     RTS
@@ -6843,13 +6722,12 @@ Palettes_LoadAgahnim:
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
-    LDA PaletteIDtoOffset_16bit_agah : ADC.w #$D4E0 : STA.b $00
+    LDA.w PaletteIDtoOffset_16bit_agah : ADC.w #$D4E0 : STA.b $00
     
     PHA
     
     LDA.w #$0162
     LDX.w #$0006
-    
     JSR.w Palette_ArbitraryLoad
     
     PLA : STA.b $00
@@ -6858,14 +6736,12 @@ Palettes_LoadAgahnim:
     
     LDA.w #$0182
     LDX.w #$0006
-    
     JSR.w Palette_ArbitraryLoad
     
     PLA : STA.b $00
     
     LDA.w #$01A2
     LDX.w #$0006
-    
     JSR.w Palette_ArbitraryLoad
     
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
@@ -6874,7 +6750,6 @@ Palettes_LoadAgahnim:
     
     LDA.w #$01C2
     LDX.w #$0006
-    
     JSR.w Palette_ArbitraryLoad
     
     SEP #$30

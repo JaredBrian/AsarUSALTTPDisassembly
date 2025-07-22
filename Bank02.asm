@@ -72,7 +72,7 @@ Intro_SetupScreen:
         STZ.w SNES.VRAMDataWriteLow
 
         STA.l $7EC620, X
-    DEX #2 : BPL .initSP1
+    DEX : DEX : BPL .initSP1
 
     LDA.w #$1FFE : STA.b $C8
     LDA.w #$1BFE : STA.b $CA
@@ -167,7 +167,7 @@ Intro_ValidateSram:
         STZ.w $0D00, X
         STZ.w $0E00, X
         STZ.w $0F00, X
-    DEX #2 : BPL .zeroLoop
+    DEX : DEX : BPL .zeroLoop
 
     SEP #$30
 
@@ -2140,7 +2140,7 @@ Underworld_SetBossOrSancMusicUponEntry:
 
             .nextEntry
 
-                DEX #2 : BMI .noSongChange
+                DEX : DEX : BMI .noSongChange
             CMP.l PendantBossRooms, X : BNE .nextEntry
 
             SEP #$20
@@ -4296,7 +4296,7 @@ BuildCrystalCutsceneTilemap:
 
     .BRANCH_ALPHA
 
-        DEX #2
+        DEX : DEX
     CMP.l CrystalBossRooms, X : BNE .BRANCH_ALPHA
 
     LDA.l CrystalGraphicsTilemapLocation, X : STA.b $08
@@ -5169,7 +5169,7 @@ Module15_05:
         STA.w $1B80, X : STA.w $1BC0, X
         STA.w $1C00, X : STA.w $1C40, X
         STA.w $1C80, X
-    DEX #2 : BPL .alpha
+    DEX : DEX : BPL .alpha
 
     LDA.w #$0000 : STA.l $7EC007
                    STA.l $7EC009
@@ -8259,7 +8259,7 @@ Overworld_FinishMirrorWarp:
         STA.w $1B80, X : STA.w $1BC0, X
         STA.w $1C00, X : STA.w $1C40, X
         STA.w $1C80, X
-    DEX #2 : BPL .clear_HDMA_table
+    DEX : DEX : BPL .clear_HDMA_table
 
     LDA.w #$0000 : STA.l $7EC007
                    STA.l $7EC009
@@ -9343,9 +9343,8 @@ AdjustQuadrantAndCamera_right:
 ; $0138CB-$0138E4 LONG JUMP LOCATION
 SetAndSaveVisitedQuadrantFlags:
 {
-    LDA.b $A7 : ASL #2    : STA.b $00
-    LDA.b $A6 : ASL       : ORA.b $00
-    ORA.b $AA : ORA.b $A9 : TAX
+    LDA.b $A7 : ASL : ASL    : STA.b $00
+    LDA.b $A6 : ASL : ORA.b $00 : ORA.b $AA : ORA.b $A9 : TAX
     LDA.l QuadrantLayoutFlagBitfield, X : ORA.w $0408 : STA.w $0408
 
     ; Bleeds into the next function.
@@ -9411,7 +9410,7 @@ AdjustQuadrantAndCamera_up:
 Dungeon_SaveRoomQuadrantData:
 {
     ; Mapped to bit 3.
-    LDA.b $A7 : ASL #2 : STA.b $00
+    LDA.b $A7 : ASL : ASL : STA.b $00
 
     ; Mapped to bit 2.
     LDA.b $A6 : ASL : ORA.b $00
@@ -10053,7 +10052,7 @@ UnderworldTransition_AdjustCamera_Horizontal_boundary:
 ; $013DC8-$013DD9 LOCAL JUMP LOCATION
 UnderworldTransition_AdjustCamera_Horizontal:
 {
-    ASL #2 : TAY
+    ASL : ASL : TAY
 
     LDX.b #$00
 
@@ -10682,7 +10681,7 @@ CalculateTransitionLanding:
                     INY ; Y = 4
 
                     CMP.b #$86 : BEQ .beta
-                        DEY #2 ; Y = 2
+                        DEY : DEY ; Y = 2
 
     .beta
 
@@ -12049,7 +12048,7 @@ Dungeon_LoadEntrance:
 
     ; Use a normal entrance instead.
     LDA.w $010E : AND.w #$00FF : ASL : TAX
-    ASL #2                           : TAY
+    ASL : ASL                        : TAY
 
     LDA.w EntranceData_rooms, X : STA.b $A0
                                   STA.w $048E
@@ -12212,7 +12211,7 @@ Dungeon_LoadEntrance:
         STA.w $F680, X : STA.w $F6C0, X
         STA.w $F700, X : STA.w $F740, X
         STA.w $F780, X : STA.w $F7C0, X
-    DEX #2 : BPL .resetSecretsObtained
+    DEX : DEX : BPL .resetSecretsObtained
 
     ; Initial orange/blue barrier state is orange down, blue up (0)
     STA.l $7EC172
@@ -12435,7 +12434,7 @@ Dungeon_LoadStartingPoint:
 {
     ; An SRAM value that tells us what starting location to use?
     LDA.l $7EF3C8 : AND.w #$00FF : ASL : TAX
-    ASL #2                             : TAY
+    ASL : ASL                          : TAY
 
     ; Set the entrance.
     LDA.w SpawnPointData_entrance_id, X : STA.w $010E
@@ -14510,7 +14509,7 @@ Whirlpool_LookUpAndLoadTargetArea:
     .locate_target_area
 
         ; Appears to be a routine dealing with whirlpool warps.
-    DEX #2 : CMP.l .my_screen_id, X : BNE .locate_target_area
+    DEX : DEX : CMP.l .my_screen_id, X : BNE .locate_target_area
 
     TXA : CLC : ADC.w #$0012 : TAX
 
@@ -14673,7 +14672,7 @@ Overworld_LoadMapData:
 
         STA.l $7E4040, X
         STA.l $7E4060, X
-    DEX #2 : BPL .blankBuffer
+    DEX : DEX : BPL .blankBuffer
 
     ; Load the doorway value for this overworld area (determines where to draw
     ; a door frame, if at all).
@@ -14711,7 +14710,7 @@ Overworld_LoadMapData:
 
             JSL.l Overworld_Memorize_Map16_Change
 
-            DEX #2
+            DEX : DEX
 
             ; Doorway has been handled, zero it out.
             STZ.w $0696
@@ -14863,7 +14862,7 @@ Overworld_LoadTransMapData:
         ; transparent tile.
         STA.l $7E4000, X : STA.l $7E4020, X
         STA.l $7E4040, X : STA.l $7E4060, X
-    DEX #2 : BPL .default
+    DEX : DEX : BPL .default
 
     ; Draws the "overlay", which is an event sensitive set of map16 tiles that
     ; show that an event has occurred. One example is the Misery Mire dungeon's
