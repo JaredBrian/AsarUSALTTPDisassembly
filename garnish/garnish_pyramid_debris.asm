@@ -61,12 +61,12 @@ Garnish_PyramidDebris:
     
     ; Check if off screen X.
     LDA.l $7FF83C, X : SEC : SBC.b $E2 : CMP.b #$F8 : BCS .self_terminate
-        STA ($90), Y
+        STA.b ($90), Y
         
         ; Check if off screen Y.
         LDA.l $7FF81E, X : SEC : SBC.b $E8 : CMP.b #$F0 : BCS .self_terminate
-                         INY : STA ($90), Y
-            LDA.b #$5C : INY : STA ($90), Y
+                         INY : STA.b ($90), Y
+            LDA.b #$5C : INY : STA.b ($90), Y
             
             LDA.b $1A : ASL #3 : AND.b #$C0 : ORA.b #$34
             

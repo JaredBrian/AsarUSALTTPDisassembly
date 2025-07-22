@@ -18,12 +18,12 @@ Garnish_CannonPoof:
 {
     JSR.w Garnish_PrepOamCoord
     
-    LDA.b $00       : STA ($90), Y
-    LDA.b $02 : INY : STA ($90), Y
+    LDA.b $00       : STA.b ($90), Y
+    LDA.b $02 : INY : STA.b ($90), Y
     
     LDA.l $7FF90E, X : LSR #3 : PHX : TAX
     
-    LDA.w Pool_Garnish_CannonPoof_chr, X : INY : STA ($90), Y
+    LDA.w Pool_Garnish_CannonPoof_chr, X : INY : STA.b ($90), Y
     
     PLX 
     

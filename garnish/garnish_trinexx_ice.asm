@@ -33,19 +33,19 @@ Garnish_TrinexxIce:
         
     .dont_update_tiles
     
-    LDA.l $7FF90E, X : LSR #2 : AND.b #$03 : TAY
+    LDA.l $7FF90E, X : LSR : LSR : AND.b #$03 : TAY
     
     LDA.w Pool_Garnish_Trinexxice_properties, Y : STA.b $04
     
     JSR.w Garnish_PrepOamCoord
     
-    LDA.b $00       : STA ($90), Y
-    LDA.b $02 : INY : STA ($90), Y
+    LDA.b $00       : STA.b ($90), Y
+    LDA.b $02 : INY : STA.b ($90), Y
     
     ; WTF: NOP? hrm...
     LDA.l $7FF90E, X : LSR #4 : NOP : PHX : TAX
     
-    LDA.w Pool_Garnish_Trinexxice_chr, X : INY : STA ($90), Y
+    LDA.w Pool_Garnish_Trinexxice_chr, X : INY : STA.b ($90), Y
     
     LDA.b #$35 : ORA.b $04 : PLX
     

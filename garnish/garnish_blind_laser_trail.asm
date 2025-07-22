@@ -11,8 +11,8 @@ Garnish_BlindLaserTrail:
 {
     JSR.w Garnish_PrepOamCoord
     
-    LDA.b $00       : STA ($90), Y
-    LDA.b $02 : INY : STA ($90), Y
+    LDA.b $00       : STA.b ($90), Y
+    LDA.b $02 : INY : STA.b ($90), Y
     
     PHY
     
@@ -21,7 +21,7 @@ Garnish_BlindLaserTrail:
     
     ; I guess that this assumes that the chr *index*
     ; is at least 0x07?
-    LDA.w .chr-7, Y : PLY : INY : STA ($90), Y
+    LDA.w .chr-7, Y : PLY : INY : STA.b ($90), Y
     
     PHY
     

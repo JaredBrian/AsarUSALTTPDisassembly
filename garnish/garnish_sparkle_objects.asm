@@ -22,18 +22,18 @@ Garnish_SimpleSparkle:
     ; $04B52B ALTERNATE ENTRY POINT
     .set_chr_index
     
-    LSR #2 : STA.b $0F
+    LSR : LSR : STA.b $0F
     
     JSR.w Garnish_PrepOamCoord
     
-    LDA.b $00       : STA ($90), Y
-    LDA.b $02 : INY : STA ($90), Y
+    LDA.b $00       : STA.b ($90), Y
+    LDA.b $02 : INY : STA.b ($90), Y
     
     PHX
     
     LDX.b $0F
     
-    LDA.w .chr, X : PLX : INY : STA ($90), Y
+    LDA.w .chr, X : PLX : INY : STA.b ($90), Y
     
     PHY
     

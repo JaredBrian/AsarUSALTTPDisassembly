@@ -12,14 +12,14 @@ Garnish_LaserBeamTrail:
 {
     JSR.w Garnish_PrepOamCoord
     
-    LDA.b $00       : STA ($90), Y
-    LDA.b $02 : INY : STA ($90), Y
+    LDA.b $00       : STA.b ($90), Y
+    LDA.b $02 : INY : STA.b ($90), Y
     
     PHY
     
     LDA.l $7FF9FE, X : TAY
     
-    LDA.w .chr, Y : PLY : INY : STA ($90), Y
+    LDA.w .chr, Y : PLY : INY : STA.b ($90), Y
     
     LDA.b #$25
 
@@ -29,9 +29,9 @@ Garnish_LaserBeamTrail:
 ; $04B5D6-$04B5DD JUMP LOCATION
 Garnish_SetOamPropsAndSmallSize:
 {
-    INY : STA ($90), Y
+    INY : STA.b ($90), Y
     
-    LDA.b #$00 : STA ($92)
+    LDA.b #$00 : STA.b ($92)
     
     RTS
 }

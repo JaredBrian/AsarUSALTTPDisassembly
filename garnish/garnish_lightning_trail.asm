@@ -18,8 +18,8 @@ Garnish_LightningTrail:
 {
     JSR.w Garnish_PrepOamCoord
     
-    LDA.b $00       : STA ($90), Y
-    LDA.b $02 : INY : STA ($90), Y
+    LDA.b $00       : STA.b ($90), Y
+    LDA.b $02 : INY : STA.b ($90), Y
     
     LDA.l $7FF92C, X : PHX : TAX
     
@@ -34,7 +34,7 @@ Garnish_LightningTrail:
     
     PLX
     
-    INY : STA ($90), Y
+    INY : STA.b ($90), Y
     
     LDA.b $1A : ASL : AND.b #$0E : ORA Pool_Garnish_LightningTrail_properties, X
     

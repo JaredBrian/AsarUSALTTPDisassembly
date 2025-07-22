@@ -41,19 +41,19 @@ Garnish_ArrghusSplash:
         LDA.b $06 : ORA.b $07 : TAX
         
         LDA.b $00
-        CLC : ADC Pool_Garnish_ArrghusSplash_y_offsets, X       : STA ($90), Y
+        CLC : ADC Pool_Garnish_ArrghusSplash_y_offsets, X       : STA.b ($90), Y
 
         LDA.b $02
-        CLC : ADC Pool_Garnish_ArrghusSplash_x_offsets, X : INY : STA ($90), Y
+        CLC : ADC Pool_Garnish_ArrghusSplash_x_offsets, X : INY : STA.b ($90), Y
         
-        LDA.w Pool_Garnish_ArrghusSplash_chr, X        : INY : STA ($90), Y
-        LDA.w Pool_Garnish_ArrghusSplash_properties, X : INY : STA ($90), Y
+        LDA.w Pool_Garnish_ArrghusSplash_chr, X        : INY : STA.b ($90), Y
+        LDA.w Pool_Garnish_ArrghusSplash_properties, X : INY : STA.b ($90), Y
         
         PHY
         
-        TYA : LSR #2 : TAY
+        TYA : LSR : LSR : TAY
         
-        LDA.w Pool_Garnish_ArrghusSplash_OAM_sizes, X : STA ($92), Y
+        LDA.w Pool_Garnish_ArrghusSplash_OAM_sizes, X : STA.b ($92), Y
         
         PLY : INY
     DEC.b $07 : BPL .next_OAM_entry

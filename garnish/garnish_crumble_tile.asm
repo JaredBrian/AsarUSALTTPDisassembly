@@ -72,12 +72,12 @@ Garnish_CrumbleTile:
     
     LDY.b #$00
     
-          LDA.b $00                          : STA ($90), Y
-          LDA.b $02 : SEC : SBC.b #$10 : INY : STA ($90), Y
-    INY : LDA.b $03                          : STA ($90), Y
-    INY : LDA.b $05                          : STA ($90), Y
+          LDA.b $00                          : STA.b ($90), Y
+          LDA.b $02 : SEC : SBC.b #$10 : INY : STA.b ($90), Y
+    INY : LDA.b $03                          : STA.b ($90), Y
+    INY : LDA.b $05                          : STA.b ($90), Y
     
-    LDA.b $06 : STA ($92)
+    LDA.b $06 : STA.b ($92)
     
     RTS
 }
