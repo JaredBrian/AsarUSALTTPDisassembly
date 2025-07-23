@@ -74,7 +74,6 @@ Sprite_Absorbable_draw_logic_finished:
         LDA.w $0D40, X : ASL : ROR.w $0D40, X
         
         LDA.w $0F80, X : EOR.b #$FF : INC : LSR
-        
         CMP.b #$09 : BCS .enough_z_speed_for_bounce
             JSR.w Sprite_Zero_XYZ_Velocity
             
@@ -108,7 +107,8 @@ Sprite_Absorbable_draw_logic_finished:
         ; Is the sprite an item or other upper echelon sprite?
         LDA.w $0E20, X : CMP.b #$E4 : BCC .dont_play_clink_SFX
             LDA.b $1B : BEQ .dont_play_clink_SFX
-                LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
+                LDA.b #$05
+                JSL.l Sound_SetSfx2PanLong
                 
         .dont_play_clink_SFX
     .aloft
@@ -195,8 +195,8 @@ Sprite_HandleAbsorptionByPlayer:
     STZ.w $0DD0, X
     
     LDA.w $0E20, X : SEC : SBC.b #$D8 : TAY
-    
-    LDA.w .SFX, Y : JSL.l Sound_SetSfx3PanLong
+    LDA.w .SFX, Y
+    JSL.l Sound_SetSfx3PanLong
     
     TYA
     JSL.l UseImplicitRegIndexedLocalJumpTable
@@ -270,7 +270,8 @@ Key_AbsorptionByPlayer:
 ; $0351A5-$0351AE JUMP LOCATION
 Fairy_AbsorptionByPlayer:
 {
-    LDA.b #$31 : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$31
+    JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$38 ; Amount of hearts a Fairy refills (7 hearts).
     
@@ -601,9 +602,7 @@ Sprite_DrawNumberedAbsorbable:
         LDA.b $05 : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.w Pool_Sprite_DrawNumberedAbsorbable_OAM_sizes, X 
         ORA.b $0F : STA.b ($92), Y
         

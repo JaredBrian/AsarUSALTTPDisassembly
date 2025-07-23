@@ -104,8 +104,8 @@ Sprite_HelmasaurFireball:
 ; $0EEE72-$0EEE84 JUMP LOCATION
 HelmasaurFireball_PreMigrateDown:
 {
-    LDA !timer_0, X : BNE .delay_ai_state_transition
-    	LDA.b #$12 : STA !timer_0, X
+    LDA.w $0DF0, X : BNE .delay_ai_state_transition
+    	LDA.b #$12 : STA.w $0DF0, X
     
     	INC.w $0D80, X
     	
@@ -121,10 +121,10 @@ HelmasaurFireball_PreMigrateDown:
 ; $0EEE85-$0EEE9B BRANCH LOCATION
 HelmasaurFireball_MigrateDown:
 {
-    LDA !timer_0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     	INC.w $0D80, X
     
-    	LDA.b #$1F : STA !timer_0, X
+    	LDA.b #$1F : STA.w $0DF0, X
     
     .delay
     
@@ -150,7 +150,7 @@ HelmasaurFireball_DelayThenTriSplit_animation_states:
 HelmasaurFireball_DelayThenTriSplit:
 {
     ; TODO: timer_0?
-    LDA !timer_0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
         JMP HelmasaurFireball_TriSplit
     
     .delay
@@ -167,7 +167,7 @@ HelmasaurFireball_DelayThenTriSplit:
 ; $0EEEB3-$0EEEC8 BRANCH LOCATION
 HelmasaurFireball_DelayThenQuadSplit:
 {
-    LDA !timer_0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
         JMP HelmasaurFireball_QuadSplit
     
     .delay
@@ -239,7 +239,7 @@ HelmasaurFireball_TriSplit:
      
     	    LDA.w $0FB6 : AND.b #$03 : CLC : ADC.w $0FB5 : TAX
     
-    	    LDA.w .timers, X : STA !timer_0, Y
+    	    LDA.w .timers, X : STA.w $0DF0, Y
     
     	    LDA.b #$00 : STA.w $0EB0, Y
     

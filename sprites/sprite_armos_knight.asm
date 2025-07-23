@@ -33,16 +33,19 @@ Sprite_ArmosKnight:
                     ; Restore the life of the remaining Armos knights.
                     LDA.b #$30 : STA.w $0E50, Y
                     
-                    LDA.b #$00 : STA.w $0D50, Y : STA.w $0D40, Y : STA.w $0F80, Y
+                    LDA.b #$00 : STA.w $0D50, Y
+                                 STA.w $0D40, Y 
+                                 STA.w $0F80, Y
                 DEY : BPL .keep_healing
                 
-            .more_than_one:
+            .more_than_one
             
             ; Kill this Armos knight off.
             STZ.w $0DD0, X
             
             JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .not_all_dead
-                LDA.b #$EA : JSL.l Sprite_SpawnDynamically
+                LDA.b #$EA
+                JSL.l Sprite_SpawnDynamically
                 
                 JSL.l Sprite_SetSpawnedCoords
                 
@@ -77,7 +80,8 @@ Sprite_ArmosKnight:
             LDA.w $0D90, X : BEQ .zeta
                 LDA.b #$30 : STA.w $0F80, X
                 
-                LDA.b #$16 : JSL.l Sound_SetSfx3PanLong
+                LDA.b #$16
+                JSL.l Sound_SetSfx3PanLong
         
     .zeta
     
@@ -116,7 +120,6 @@ Sprite_ArmosKnight:
         
         BCS .mu
             LSR : EOR.w $0FA0 : AND.b #$01 : TAY
-            
             LDA.w Pool_Sprite_ArmosKnight_x_speeds, Y : STA.w $0D50, X
             
             JSR.w Sprite2_MoveHoriz
@@ -141,23 +144,22 @@ Sprite_ArmosKnight:
         JSR.w Sprite2_CheckDamage
         
         LDA.w $0D80, X : BNE .omicron
-        
-        JSR.w ArmosKnight_ProjectSpeedTowardsTarget
-        JSL.l Sprite_Get_16_bit_CoordsLong
-        
-        REP #$20
-        
-        LDA.b $04 : SEC : SBC.w $0FD8 : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
-            LDA.b $06 : SEC : SBC.w $0FDA : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
-                SEP #$20
-                
-                INC.w $0D80, X
-        
-        .pi
-        
-        SEP #$20
-        
-        RTS
+            JSR.w ArmosKnight_ProjectSpeedTowardsTarget
+            JSL.l Sprite_Get_16_bit_CoordsLong
+            
+            REP #$20
+            
+            LDA.b $04 : SEC : SBC.w $0FD8 : CLC : ADC.w #$02 : CMP.w #4 : BCS .pi
+                LDA.b $06 : SEC : SBC.w $0FDA : CLC : ADC.w #$02 : CMP.w #4 : BCS .pi
+                    SEP #$20
+                    
+                    INC.w $0D80, X
+            
+            .pi
+            
+            SEP #$20
+            
+            RTS
         
         .omicron
         
@@ -188,7 +190,6 @@ ArmosKnight_ProjectSpeedTowardsTarget:
     LDA.w $0B40, X : STA.b $07
     
     LDA.b #$10
-    
     JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
@@ -287,12 +288,10 @@ ArmosKnight_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC .x_offsets, X       : STA.b ($90), Y
+        LDA.b $00 : CLC : ADC.w .x_offsets, X       : STA.b ($90), Y
+        AND.w #$0100                                : STA.b $0E
         
-        AND.w #$0100 : STA.b $0E
-        
-        LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA.b ($90), Y
-        
+        LDA.b $02 : CLC : ADC.w .y_offsets, X : INY : STA.b ($90), Y
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA.b ($90), Y
         
@@ -304,9 +303,7 @@ ArmosKnight_Draw:
         LDA.w .properties, X : ORA.b $05 : INY : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.w .sizes, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
@@ -343,9 +340,8 @@ ArmosKnight_Draw:
     
     LDY.b #$10
     
-    LDA.b $00 : SEC : SBC.b #$08
-    
-    PHA : CLC : ADC.b $07                                 : STA.b ($90), Y
+    LDA.b $00 : SEC : SBC.b #$08 :  PHA
+          CLC : ADC.b $07                                 : STA.b ($90), Y
     PLA : CLC : ADC.b #$10 : SEC : SBC.b $07 : LDY.b #$14 : STA.b ($90), Y
     
     REP #$20

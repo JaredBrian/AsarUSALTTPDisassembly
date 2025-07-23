@@ -41,7 +41,7 @@ Sprite_GiboNucleus:
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
     ; TODO: timer_0?
-    LDA !timer_0, X : BEQ .halt_movement
+    LDA.w $0DF0, X : BEQ .halt_movement
     	JSR.w Sprite4_Move
     	JSR.w Sprite4_BounceFromTileCollision
     
@@ -66,7 +66,7 @@ Gibo_Main:
     	STA.w $0DD0, X
      
 	; TODO: timer_0?
-    	LDA !timer_0, Y : STA !timer_0, X
+    	LDA.w $0DF0, Y : STA.w $0DF0, X
     
     	LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
     
@@ -113,10 +113,10 @@ Pool_Gibo_ExpelNucleus:
 ; $0ECD72-$0ECDE1 JUMP LOCATION
 Gibo_ExpelNucleus:
 {
-    LDA !timer_0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     	INC.w $0D80, X
     
-    	LDA.b #$30 : STA !timer_0, X
+    	LDA.b #$30 : STA.w $0DF0, X
     
     	INC !is_nucleus_expelled, X
     
@@ -138,7 +138,7 @@ Gibo_ExpelNucleus:
     
     	    LDA.b #$07 : STA.w $0F50, Y
     
-    	    LDA.b #$30 : STA !timer_0, Y
+    	    LDA.b #$30 : STA.w $0DF0, Y
     
     	    PHX
     
@@ -187,7 +187,7 @@ Gibo_ExpelNucleus:
 ; $0ECDE2-$0ECDEA JUMP LOCATION
 Gibo_DelayPursuit:
 {
-    LDA !timer_0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
      	INC.w $0D80, X
     
     .delay
@@ -225,7 +225,7 @@ Gibo_PursueNucleus:
     
     	        LDA.w $0E50, Y : STA.w $0ED0, X
     
-    	        JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA !timer_0, X
+    	        JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
     
     	        RTS
     

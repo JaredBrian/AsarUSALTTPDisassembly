@@ -89,11 +89,11 @@ Blind_SpawnFromMaidenTagalong:
     
     JSL.l Sprite_LoadProperties
     
-    LDA.b #$C0 : STA !timer_2, X
+    LDA.b #$C0 : STA.w $0E10, X
     
     LDA.b #$15 : STA.w $0DC0, X
     
-    LDA.b #$02 : STA !blind_direction, X
+    LDA.b #$02 : STA.w !blind_direction, X
                  STA.w $0BA0, X
     
     LDA.w $0403 : ORA.b #$20 : STA.w $0403
@@ -112,13 +112,13 @@ Blind_Initialize:
         ; Check if the floor above this room has been bombed out.
         ; HARDCODED:
         LDA.w $0403 : AND.b #$20 : BEQ .self_terminate
-            LDA.b #$60 : STA !timer_2, X
+            LDA.b #$60 : STA.w $0E10, X
             
-            LDA.b #$01 : STA !blind_ai_state, X
+            LDA.b #$01 : STA.w !blind_ai_state, X
             
-            LDA.b #$02 : STA !blind_direction, X
+            LDA.b #$02 : STA.w!blind_direction, X
             
-            LDA.b #$04 : STA !head_angle, X
+            LDA.b #$04 : STA.w !head_angle, X
             
             LDA.b #$07 : STA.w $0DC0, X
             
@@ -140,7 +140,7 @@ BlindLaser_SpawnTrailGarnish:
 {
     ; NOTE: Must have been some kind of development test code that never
     ; got edited out.
-    LDA !forward_timer, X : AND.b #$00 : BNE .never
+    LDA.w !forward_timer, X : AND.b #$00 : BNE .never
         PHX : TXY
         
         LDX.b #$1D
@@ -214,7 +214,7 @@ Sprite_BlindHead:
     
     LDY.b #$02
     
-    LDA !head_angle, X : TAX
+    LDA.w !head_angle, X : TAX
     
     LDA.w Pool_Blind_Draw_chr, X : STA.b ($90), Y : INY
     
@@ -232,23 +232,23 @@ Sprite_BlindHead:
     
     JSR.w Sprite4_CheckIfRecoiling
     
-    DEC !head_rotate_delay, X : BPL .anorotate
-        LDA.b #$02 : STA !head_rotate_delay, X
+    DEC.w !head_rotate_delay, X : BPL .anorotate
+        LDA.b #$02 : STA.w !head_rotate_delay, X
         
-        LDA !head_angle, X : INC : AND.b #$0F : STA !head_angle, X
+        LDA.w !head_angle, X : INC : AND.b #$0F : STA.w !head_angle, X
     
     .anorotate
     
     ; When the free moving head is spawned, it is immovable at first and
     ; apparently can't cause damage either.
-    LDA !timer_0, X : BEQ .fully_active
+    LDA.w $0DF0, X : BEQ .fully_active
         JMP .return
     
     .fully_active
     
     JSR.w Sprite4_CheckDamage
     
-    INC !forward_timer, X
+    INC.w !forward_timer, X
     
     ; Spawn semi frequently (every 0x20 frames).
     LDA.b #$1F
@@ -257,8 +257,8 @@ Sprite_BlindHead:
     
     TYA : BMI .spawn_failed
         ; This means that every fifth fireball is directly aimed at the player.
-        DEC !fireball_aim_delay, X : BPL .not_aimed_at_player
-            LDA.b #$04 : STA !fireball_aim_delay, X
+        DEC.w !fireball_aim_delay, X : BPL .not_aimed_at_player
+            LDA.b #$04 : STA.w !fireball_aim_delay, X
             
             PHY
             
@@ -275,10 +275,10 @@ Sprite_BlindHead:
     .spawn_failed
     
     ; NOTE: Must be some debug setting that never got edited out.
-    LDA !forward_timer, X : AND.b #$00 : BNE .never
-        LDA !head_x_accel_polarity, X : AND.b #$01 : TAY
+    LDA.w !forward_timer, X : AND.b #$00 : BNE .never
+        LDA.w !head_x_accel_polarity, X : AND.b #$01 : TAY
         
-        LDA.w $0D50, X : CMP Pool_Sprite_BlindHead_x_speed_limits, Y : BEQ .anoalter_x_speed
+        LDA.w $0D50, X : CMP.w Pool_Sprite_BlindHead_x_speed_limits, Y : BEQ .anoalter_x_speed
             CLC : ADC.w Pool_Sprite_ApplyConveyorAdjustment_x_shake_values, Y : STA.w $0D50, X
         
         .anoalter_x_speed
@@ -287,15 +287,15 @@ Sprite_BlindHead:
     LDA.w $0D10, X : AND.b #$FE
     
     ; HARDCODED: Using specific screen offsets seems kind of like cheating.
-    CMP Pool_Sprite_BlindHead_x_pos_limits, Y : BNE .anoinvert_x_acceleration
-        INC !head_x_accel_polarity, X
+    CMP.w Pool_Sprite_BlindHead_x_pos_limits, Y : BNE .anoinvert_x_acceleration
+        INC.w !head_x_accel_polarity, X
     
     .anoinvert_x_acceleration
     
-    LDA !forward_timer, X : AND.b #$00 : BNE .never_2
-        LDA !head_y_accel_polarity, X : AND.b #$01 : TAY
+    LDA.w !forward_timer, X : AND.b #$00 : BNE .never_2
+        LDA.w !head_y_accel_polarity, X : AND.b #$01 : TAY
         
-        LDA.w $0D40, X : CMP Pool_Sprite_BlindHead_y_speeds_limits, Y : BEQ .anoalter_y_speed
+        LDA.w $0D40, X : CMP.w Pool_Sprite_BlindHead_y_speeds_limits, Y : BEQ .anoalter_y_speed
             CLC : ADC.w Pool_Sprite_ApplyConveyorAdjustment_x_shake_values, Y : STA.w $0D40, X
         
         .anoalter_y_speed
@@ -304,8 +304,8 @@ Sprite_BlindHead:
     LDA.w $0D00, X : AND.b #$FE
     
     ; HARDCODED: Same as above comment.
-    CMP Pool_Sprite_BlindHead_y_pos_limits, Y : BNE .anoinvert_y_accleration
-        INC !head_y_accel_polarity, X
+    CMP.w Pool_Sprite_BlindHead_y_pos_limits, Y : BNE .anoinvert_y_accleration
+        INC.w !head_y_accel_polarity, X
     
     .anoinvert_y_accleration
     
@@ -343,10 +343,10 @@ Blind_SpawnExtraHead:
         
         CLC : ADC.b $02 : STA.w $0D00, Y
         
-        LDA.b $00 : ASL : ROL : AND.b #$01 : STA !head_x_accel_polarity, Y
-        LDA.b $02 : ASL : ROL : AND.b #$01 : STA !head_y_accel_polarity, Y
+        LDA.b $00 : ASL : ROL : AND.b #$01 : STA.w !head_x_accel_polarity, Y
+        LDA.b $02 : ASL : ROL : AND.b #$01 : STA.w !head_y_accel_polarity, Y
         
-        LDA.b #$30 : STA !timer_0, Y
+        LDA.b #$30 : STA.w $0DF0, Y
     
     .spawn_failed
     
@@ -382,10 +382,10 @@ Sprite_Blind_animation_states:
 ; $0EA263-$0EA2CA JUMP LOCATION
 Sprite_BlindEntities:
 {
-    LDA !blind_subtype, X : BPL Sprite_Blind
+    LDA.w !blind_subtype, X : BPL Sprite_Blind
         ; Sprite_BlindLaser
 
-        LDY !head_angle, X
+        LDY.w !head_angle, X
         
         LDA Pool_Sprite_BlindLaser_animation_states, Y : STA.w $0DC0, X
         
@@ -394,7 +394,7 @@ Sprite_BlindEntities:
         JSL.l Sprite_PrepOamCoordLong
         JSR.w Sprite4_CheckIfActive
         
-        LDA !timer_0, X : BEQ .termination_timer_not_set
+        LDA.w $0DF0, X : BEQ .termination_timer_not_set
             CMP.b #$01 : BNE .anoself_terminate
                 STZ.w $0DD0, X
             
@@ -432,7 +432,7 @@ Sprite_BlindEntities:
         TYA : ADC.w $0D20, X : STA.w $0D20, X
         
         JSR.w Sprite4_CheckTileCollision : BEQ .no_tile_collision
-            LDA.b #$0C : STA !timer_0, X
+            LDA.b #$0C : STA.w $0DF0, X
         
         .no_tile_collision
         
@@ -467,26 +467,26 @@ Sprite_Blind:
             STZ.w $0EF0, X
             STZ.w $0E70, X
             
-            LDA !timer_4, X : BNE .skip_damage_logic
+            LDA.w !timer_4, X : BNE .skip_damage_logic
                 LDA.b #$80 : STA.w $0E50, X
-                LDA.b #$30 : STA !timer_4, X
+                LDA.b #$30 : STA.w !timer_4, X
                 
                 LDA.w $0F50, X : AND.b #$01 : STA.w $0F50, X
                 
-                INC !hit_counter, X
-                LDA !hit_counter, X : CMP.b #$03 : BCS .hit_counter_maxed
+                INC.w !hit_counter, X
+                LDA.w !hit_counter, X : CMP.b #$03 : BCS .hit_counter_maxed
                     LDA.b #$60 : STA.w $0E70, X
                     
-                    LDA.b #$01 : STA !head_rotate_delay, X
+                    LDA.b #$01 : STA.w !head_rotate_delay, X
                     
                     BRA .skip_damage_logic
                 
                 .hit_counter_maxed
                 
-                STZ !hit_counter, X
+                STZ.w !hit_counter, X
                 
-                INC !extra_head_counter
-                LDA !extra_head_counter : CMP.b #$03 : BNE .spawn_extra_head
+                INC.w !extra_head_counter
+                LDA.w !extra_head_counter : CMP.b #$03 : BNE .spawn_extra_head
                     ; NOTE: Time for Blind and all his pals on screen to die.
                     
                     JSL.l Sprite_SchedulePeersForDeath
@@ -494,7 +494,7 @@ Sprite_Blind:
                     ; Schedules Blind for death. Pretty sure.
                     JSR.w Sprite_ScheduleBossForDeath
                     
-                    LDA.b #$FF : STA !timer_0, X
+                    LDA.b #$FF : STA.w $0DF0, X
                                  STA.w $0EF0, X
                     
                     INC.w $0FFC
@@ -507,9 +507,9 @@ Sprite_Blind:
                 
                 JSR.w Sprite4_Zero_XY_Velocity
                 
-                LDA.b #$06 : STA !blind_ai_state, X
+                LDA.b #$06 : STA.w !blind_ai_state, X
                 
-                LDA.b #$FF : STA !timer_2, X
+                LDA.b #$FF : STA.w $0E10, X
                              STA.w $0BA0, X
                 
                 JSR.w Blind_SpawnExtraHead
@@ -517,8 +517,8 @@ Sprite_Blind:
         .skip_damage_logic
     .not_counterattacking
     
-    LDA !blind_subtype, X : BEQ .not_poof
-        LDA !timer_0, X : BNE .delay_self_termination
+    LDA.w !blind_subtype, X : BEQ .not_poof
+        LDA.w $0DF0, X : BNE .delay_self_termination
             STZ.w $0DD0, X
         
         .delay_self_termination
@@ -532,18 +532,18 @@ Sprite_Blind:
     
     ; OPTIMIZE: Slightly faster if we just load, xor with 0x01,
     ; store back, and then check flag. Same size in code.
-    INC !forward_timer, X
+    INC.w !forward_timer, X
     
     ; NOTE: This extends timer 0 by about 50%. Since it's an 8-bit countdown
     ; timer, this means that it takes a maximum of 0x180 frames to expire
     ; for this sprite. This is not at all typical.
-    LDA !forward_timer, X : AND.b #$01 : BNE .anopad_timer
-        INC !timer_0, X
+    LDA.w !forward_timer, X : AND.b #$01 : BNE .anopad_timer
+        INC.w $0DF0, X
     
     .anopad_timer
     
-    LDA !timer_1, X : BEQ .skip_damage_to_player_logic
-        STZ !fire_laser, X
+    LDA.w !timer_1, X : BEQ .skip_damage_to_player_logic
+        STZ.w !fire_laser, X
         
         CMP.b #$08 : BNE .anospawn_laser
             JSR.w Blind_SpawnLaser
@@ -557,33 +557,33 @@ Sprite_Blind:
     ; NOTE: Every time the laser can fire, this increments.
     INC.w $0B69
     
-    LDA !laser_inhibit, X : BNE .cant_fire
+    LDA.w !laser_inhibit, X : BNE .cant_fire
         ; NOTE: The probe sprite that Blind send out brings this flag high,
         ; but Blind has such lousy eyesight that it makes little difference.
         ; *Only* the Probe sprite can do this, by the way.
-        LDA !fire_laser, X : BEQ .dont_fire
+        LDA.w !fire_laser, X : BEQ .dont_fire
             ; Start a countdown during which Blind will fire a laser from its
             ; eyes.
-            LDA.b #$10 : STA !timer_1, X
+            LDA.b #$10 : STA.w !timer_1, X
             
-            LDA.b #$80 : STA !laser_inhibit, X
+            LDA.b #$80 : STA.w !laser_inhibit, X
             
             BRA .unlatch_fire_laser_flag
     
     .cant_fire
     
-    DEC !laser_inhibit, X
+    DEC.w !laser_inhibit, X
     
     .unlatch_fire_laser_flag
     
-    STZ !fire_laser, X
+    STZ.w !fire_laser, X
     
     .dont_fire
     
     LDA.b $23 : STA.w $0D30, X
     LDA.b $21 : STA.w $0D20, X
     
-    LDA !blind_ai_state, X
+    LDA.w !blind_ai_state, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
     
     dw Blind_BlindedByTheLight  ; 0x00 - $A4C6
@@ -610,12 +610,12 @@ Blind_BehindTheCurtain:
     ; Prevent death from occurring since Blind can still spawn another head.
     STZ.w $0EF0, X
     
-    LDA.b #$0C : STA !head_angle, X
+    LDA.b #$0C : STA.w !head_angle, X
     
-    LDA !timer_2, X : BNE .delay_ai_state_transition
-        INC !blind_ai_state, X
+    LDA.w $0E10, X : BNE .delay_ai_state_transition
+        INC.w !blind_ai_state, X
         
-        LDA.b #$27 : STA !timer_2, X
+        LDA.b #$27 : STA.w $0E10, X
         
         LDA.b #$13
         
@@ -650,19 +650,19 @@ Blind_Rerobe_animation_states:
 ; $0EA410-$0EA444 JUMP LOCATION
 Blind_Rerobe:
 {
-    LDA !timer_2, X : BNE .delay_ai_state_transition
-        LDA.b #$02 : STA !blind_ai_state, X
+    LDA.w $0E10, X : BNE .delay_ai_state_transition
+        LDA.b #$02 : STA.w !blind_ai_state, X
         
-        LDA.b #$80 : STA !timer_0, X
+        LDA.b #$80 : STA.w $0DF0, X
         
         ; HARDCODED: It depends upon Blind being in a 1 screen room in a corner.
         ; Set direction based on current Y position (sensible).
         LDA.w $0D00, X : ASL
-        ROL : AND.b #$01 : INC : INC : STA !blind_direction, X
+        ROL : AND.b #$01 : INC : INC : STA.w !blind_direction, X
         
         ; HARDCODED: Also.
         ; Set head orientation based on current X position?
-        LDA.w $0D10, X : ASL : ROL : STA !x_accel_polarity, X
+        LDA.w $0D10, X : ASL : ROL : STA.w !x_accel_polarity, X
         
         JSR.w Sprite4_Zero_XY_Velocity
         
@@ -709,16 +709,16 @@ Blind_FireballReprisal:
 
     .zero_length_branch
     
-    DEC !head_rotate_timer, X : BPL .anorotate_head
-        LDA !head_rotate_delay, X : STA !head_rotate_timer, X
+    DEC.w !head_rotate_timer, X : BPL .anorotate_head
+        LDA.w !head_rotate_delay, X : STA.w !head_rotate_timer, X
         
-        LDA !head_angle, X : INC : AND.b #$0F : STA !head_angle, X
+        LDA.w !head_angle, X : INC : AND.b #$0F : STA.w !head_angle, X
     
     .anorotate_head
     
-    LDA !forward_timer, X : AND.b #$1F : BNE .anoadjust_rotation_delay
-        LDA !head_rotate_delay, X : CMP.b #$05 : BEQ .anoadjust_rotation_delay
-            INC !head_rotate_delay, X
+    LDA.w !forward_timer, X : AND.b #$1F : BNE .anoadjust_rotation_delay
+        LDA.w !head_rotate_delay, X : CMP.b #$05 : BEQ .anoadjust_rotation_delay
+            INC.w !head_rotate_delay, X
     
     .anoadjust_rotation_delay
     
@@ -765,10 +765,10 @@ Blind_BlindedByTheLight:
     LDA.b #$00 : STA.w $0AE8
     LDA.b #$A0 : STA.w $0AEA
     
-    LDA !timer_2, X : BNE .anoadvance_ai_state
+    LDA.w $0E10, X : BNE .anoadvance_ai_state
         INC !blind_ai_state, X
         
-        LDA.b #$60 : STA !timer_2, X
+        LDA.b #$60 : STA.w $0E10, X
     
     .anoadvance_ai_state
     
@@ -812,7 +812,7 @@ Blind_SpawnPoof:
     
     LDA.b #$01 : STA !blind_subtype, Y
     
-    LDA.b #$2F : STA !timer_0, Y
+    LDA.b #$2F : STA.w $0DF0, Y
     
     LDA.b #$09 : STA.w $0E40, Y
                  STA.w $0BA0, Y
@@ -829,10 +829,10 @@ Blind_RetreatToBackWall:
     
     LDA.b #$09 : STA.w $0DC0, X
     
-    LDA !timer_2, X : BNE .anoadvance_ai_state
+    LDA.w $0E10, X : BNE .anoadvance_ai_state
         INC !blind_ai_state, X
         
-        LDA.b #$FF : STA !timer_0, X
+        LDA.b #$FF : STA.w $0DF0, X
         
         STZ.w $0BA0, X
     
@@ -886,7 +886,7 @@ Blind_OscillateAlongWall:
     
     .ignore_player_position
     
-    LDA !timer_0, X : BNE .delay_ai_state_transition
+    LDA.w $0DF0, X : BNE .delay_ai_state_transition
         .player_got_behind_us
         
         LDA.w $0D10, X : CMP.b #$78 : BCS .delay_ai_state_transition
@@ -897,7 +897,7 @@ Blind_OscillateAlongWall:
             
             LDA.w $0D50, X : AND.b #$FE : STA.w $0D50, X
             
-            LDA.b #$30 : STA !timer_2, X
+            LDA.b #$30 : STA.w $0E10, X
             
             RTS
     
@@ -969,7 +969,7 @@ Blind_SwitchWalls:
 {
     JSR.w Blind_CheckBumpDamage
     
-    LDA !timer_2, X : BEQ .stop_decelerating
+    LDA.w $0E10, X : BEQ .stop_decelerating
         JSR.w Blind_Decelerate_X
         JSR.w Sprite4_MoveHoriz
         JMP Blind_Decelerate_Y
@@ -1043,7 +1043,7 @@ Blind_WhirlAround:
         LDA !blind_direction, X : DEC : DEC : TAY
         
         LDA.w $0DC0, X : CMP .animation_limits, Y : BNE .not_yet_in_position
-            LDA.b #$FE : STA !timer_0, X
+            LDA.b #$FE : STA.w $0DF0, X
             
             LDA.b #$02 : STA !blind_ai_state, X
             

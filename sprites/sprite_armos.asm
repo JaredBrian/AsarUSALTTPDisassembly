@@ -57,7 +57,8 @@ Sprite_Armos:
                 LDA.w $0DF0, X : BNE .epsilon
                     LDA.b #$30 : STA.w $0DF0, X
                     
-                    LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
+                    LDA.b #$22
+                    JSL.l Sound_SetSfx2PanLong
     
     .epsilon
     
@@ -88,7 +89,8 @@ Sprite_Armos:
         
         LDA.b #$10 : STA.w $0F80, X
         
-        LDA.b #$0C : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$0C
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
     .iota
     
@@ -120,7 +122,8 @@ Armos_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR.w Sprite_DrawMultipleRedundantCall
+    LDA.b #$02
+    JSR.w Sprite_DrawMultipleRedundantCall
     
     JSL.l Sprite_DrawShadowLong
     

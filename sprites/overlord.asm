@@ -6,11 +6,11 @@ Overlord_SpawnBoulder:
     LDA.b $1B : BNE .indoors
         LDA.w $0FFD : BEQ .cant_spawn
             LDA.b $11 : ORA.w $0FC1 : BNE .cant_spawn
-                INC.w $0FFE : LDA.w $0FFE : AND.b #$3F : BNE .cant_spawn
+                INC.w $0FFE
+                LDA.w $0FFE : AND.b #$3F : BNE .cant_spawn
                     LDA.b $E9 : SEC : SBC.w $0FBF : CMP.b #$02 : BMI .cant_spawn
                         LDA.b #$C2
                         LDY.b #$0D
-                        
                         JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
                             JSL.l GetRandomInt : AND.b #$7F
                             CLC : ADC.b #$40 : CLC : ADC.b $E2 : STA.w $0D10, Y
@@ -77,7 +77,6 @@ Overlord_ExecuteSingle:
     JSR.w Overlord_CheckInRangeStatus
     
     PLA : DEC : REP #$30 : AND.w #$00FF : ASL : TAY
-    
     LDA.w .handlers, Y : DEC : PHA
     
     SEP #$30
@@ -87,22 +86,20 @@ Overlord_ExecuteSingle:
     ; There is no 0x00.
     .handlers
     dw Overlord_SpritePositionTarget         ; 0x01 - $C01E
-
     dw Overlord_AllDirectionMetalBallFactory ; 0x02 - $BF09 Generates metal
-                                             ; balls in specific positions all
-                                             ; around a quadrant of a room.
-
+                                             ;        balls in specific 
+                                             ;        positions all around a
+                                             ;        quadrant of a room.
     dw Overlord_CascadeMetalBallFactory      ; 0x03 - $BF5B Alternates
-                                             ; generating metal balls at two
-                                             ; positions and sometimes makes one
-                                             ; large ball.
-
+                                             ;        generating metal balls at 
+                                             ;        two positions and 
+                                             ;        sometimes makes one large
+                                             ;        ball.
     dw Overlord_StalfosFactory               ; 0x04 - $BD9D Probably unused in
-                                             ; the original game, not positive.
-
+                                             ;        the original game, not
+                                             ;        positive.
     dw Overlord_StalfosTrap                  ; 0x05 - $BE0F Stalfos trap (what's
-                                             ; the other one do?)
-
+                                             ;        the other one do?)
     dw Overlord_SnakeTrap                    ; 0x06 - $BE75 Snake trap
     dw Overlord_MovingFloor                  ; 0x07 - $BD3F Moving floor
     dw Overlord_ZolFactory                   ; 0x08 - $BCC3 Zol factory
@@ -113,23 +110,22 @@ Overlord_ExecuteSingle:
     dw Overlord_CrumbleTilePath              ; 0x0D - $BBB2 Falling tiles 4
     dw Overlord_CrumbleTilePath              ; 0x0E - $BBB2 Falling tiles 5
     dw Overlord_CrumbleTilePath              ; 0x0F - $BBB2 Falling tiles 6
-
     dw Overlord_PirogusuFactory              ; 0x10 - $BAAC Spawn pirogusu out 
-                                             ; of the walls in swamp palace.
-
+                                             ;        of the walls in swamp
+                                             ;        palace.
     dw Overlord_PirogusuFactory              ; 0x11 - $BAAC Spawn pirogusu out 
-                                             ; of the walls in swamp palace.
-
+                                             ;        of the walls in swamp
+                                             ;        palace.
     dw Overlord_PirogusuFactory              ; 0x12 - $BAAC Spawn pirogusu out 
-                                             ; of the walls in swamp palace.
-
+                                             ;        of the walls in swamp
+                                             ;        palace.
     dw Overlord_PirogusuFactory              ; 0x13 - $BAAC Spawn pirogusu out 
-                                             ; of the walls in swamp palace.
+                                             ;        of the walls in swamp
+                                             ;        palace.
 
     dw Overlord_FlyingTileFactory            ; 0x14 - $B9E8 Spawns the flying
-                                             ; tiles in annoying rooms in various
-                                             ; dungeons.
-
+                                             ;        tiles in annoying rooms in 
+                                             ;        various dungeons.
     dw Overlord_WizzrobeFactory              ; 0x15 - $B986 
     dw Overlord_ZoroFactory                  ; 0x16 - $B8D1
     dw Overlord_StalfosTrapTriggerWindow     ; 0x17 - $B884
@@ -198,12 +194,10 @@ Overlord_RedStalfosTrap:
             
                 LDA.b #$A7
                 LDY.b #$0C
-                
                 JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
                     PHX
                     
                     LDX.w $0FB5
-                    
                     LDA.b $22 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
                     LDA.b $23 :       ADC .x_offsets_high, X : STA.w $0D30, Y
                     
@@ -245,10 +239,8 @@ Overlord_StalfosTrapTriggerWindow:
     
     REP #$20
     
-    LDA.b $00 : SEC : SBC.b $22 : CLC : ADC.w #$0020
-    CMP.w #$0040 : BCS .outOfRange
-        LDA.b $02 : SEC : SBC.b $20 : CLC : ADC.w #$0020
-        CMP.w #$0040 : BCS .outOfRange
+    LDA.b $00 : SEC : SBC.b $22 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
+        LDA.b $02 : SEC : SBC.b $20 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
             SEP #$20
             
             STZ.w $0B00, X
@@ -298,7 +290,6 @@ Overlord_ZoroFactory:
                 ; Try to spawn zoro (out of bombed out hole in wall).
                 LDA.b #$9C
                 LDY.b #$0C
-                
                 JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
                     PHX
                     
@@ -385,7 +376,6 @@ Overlord_WizzrobeFactory:
     
         LDA.b #$9B 
         LDY.b #$0C
-        
         JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
             PHX
             
@@ -409,7 +399,7 @@ Overlord_WizzrobeFactory:
             
             ; TODO: Figure out what this really does and if there's a better
             ; name out there for this sublabel.
-            LDA Pool_Overlord_WizzrobeFactory_timers, X : STA.w $0DF0, Y
+            LDA.w Pool_Overlord_WizzrobeFactory_timers, X : STA.w $0DF0, Y
             
             PLX
             
@@ -433,7 +423,6 @@ Overlord_FlyingTileFactory:
         LDA.w $0B18, X : CMP.b $E8
         LDA.w $0B20, X : SBC.b $E9 : BNE .out_of_range
             DEC.w $0B30, X
-
             LDA.w $0B30, X : CMP.b #$80 : BEQ .spawn_flying_tile
                 RTS
 
@@ -447,7 +436,6 @@ Overlord_FlyingTileFactory:
             JSR.w Overlord_SpawnFlyingTile : BMI .resetTimer
             
             INC.w $0B28, X
-            
             LDA.w $0B28, X : CMP.b #$16 : BEQ .selfTerminate
                 LDA.b #$E0 : STA.w $0B30, X
                 
@@ -564,7 +552,6 @@ PirogusuFactory_Main:
     LDA.b $00 : CMP.b #$05 : BCS .octospawn_maxed_out
         LDY.b #$0C
         LDA.b #$94
-        
         JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
             LDA.b $05 : STA.w $0D10, Y
             LDA.b $06 : STA.w $0D30, Y
@@ -581,7 +568,6 @@ PirogusuFactory_Main:
             PHX
             
             TAX
-            
             LDA.w .directions, X : STA.w $0D90, Y
             
             PLX
@@ -738,9 +724,8 @@ Overlord_CrumbleTilePath:
     .crumble_tiles_not_maxed
     
     LDY.w $0B28, X : DEY
-    
     LDA.b ($00), Y : TAY
-    
+
     LDA.w $0B08, X
     CLC : ADC.w Pool_Overlord_CrumbleTilePath_x_adjustments_low, Y
     STA.w $0B08, X
@@ -833,7 +818,8 @@ Overlord_WallMasterFactory:
         
         TYX
         
-        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$20
+        JSL.l Sound_SetSfx2PanLong
         
         PLX
         
@@ -876,12 +862,10 @@ Overlord_ZolFactory:
     LDA.b $00 : CMP.b #$05 : BCS .zols_currently_maxed_out
         LDA.b #$8F
         LDY.b #$0C
-        
         JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
             PHX
             
             LDA.b $2F : LSR : TAX
-            
             LDA.b $22
             CLC : ADC Pool_Overlord_ZolFactory_x_offsets_low, X  : STA.w $0D10, Y
 
@@ -1007,7 +991,8 @@ Overlord_StalfosFactory:
     
     LDA.b #$30
     
-    INC.w $0B28, X : LDY.w $0B28, X : CPY.b #$04 : BNE .anoreset_spawn_count
+    INC.w $0B28, X
+    LDY.w $0B28, X : CPY.b #$04 : BNE .anoreset_spawn_count
         STZ.w $0B28, X
         
         LDA.b #$D0
@@ -1018,19 +1003,16 @@ Overlord_StalfosFactory:
     
     LDA.b #$85
     LDY.b #$0C
-    
-    ; WTF: Why not just return in this routine? It's not like it's
-    ; too far away.
     JSL.l Sprite_SpawnDynamically_arbitrary : BMI Overlord_PlayDropSfx_return
         PHX
         
         LDA.b $2F : LSR : TAX
         
-        LDA.b $22 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-        LDA.b $23 :       ADC .x_offsets_high, X : STA.w $0D30, Y
+        LDA.b $22 : CLC : ADC.w .x_offsets_low,  X : STA.w $0D10, Y
+        LDA.b $23 :       ADC.w .x_offsets_high, X : STA.w $0D30, Y
         
-        LDA.b $20 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
-        LDA.b $21 :       ADC .y_offsets_high, X : STA.w $0D20, Y
+        LDA.b $20 : CLC : ADC.w .y_offsets_low,  X : STA.w $0D00, Y
+        LDA.b $21 :       ADC.w .y_offsets_high, X : STA.w $0D20, Y
         
         PLX
         
@@ -1048,7 +1030,8 @@ Overlord_PlayDropSfx:
 {
     PHX : TYX
     
-    LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$20
+    JSL.l Sound_SetSfx2PanLong
     
     PLX
     
@@ -1075,11 +1058,10 @@ Overlord_StalfosTrap:
         LDA.w $0B18, X : CMP.b $E8
         LDA.w $0B20, X : SBC.b $E9 : BNE .out_of_range
             LDA.w $0B28, X : BNE .spawning_active
-            
-            LDA.w $0B9E : BEQ .not_triggered
-                INC.w $0B28, X
+                LDA.w $0B9E : BEQ .not_triggered
+                    INC.w $0B28, X
 
-            .not_triggered
+                .not_triggered
     .out_of_range
     
     RTS
@@ -1088,14 +1070,13 @@ Overlord_StalfosTrap:
     
     INC.w $0B28, X
     
-    CMP .spawn_delays, X : BNE .delay_spawn
+    CMP.w .spawn_delays, X : BNE .delay_spawn
         STZ.w $0B00, X
         
         ; Try to spawn a yellow stalfos (the ones that chuck their head at
         ; you).
         LDA.b #$85
         LDY.b #$0C
-        
         JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
             LDA.b $05 : STA.w $0D10, Y
             LDA.b $06 : STA.w $0D30, Y
@@ -1144,7 +1125,8 @@ Overlord_BombTrap:
     ; feel when the trap trigger springs.
     CMP .spawn_delays, X : BNE .delay
         ; Spawn a snake.
-        LDA.b #$6E : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$6E
+        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             LDA.b $05 : STA.w $0D10, Y
             LDA.b $06 : STA.w $0D30, Y
             
@@ -1295,7 +1277,6 @@ Overlord_SpawnMetalBall:
         LDA.b $08 :       SBC.b #$00 : STA.w $0D20, Y
         
         LDX.w $0FB5
-        
         LDA.w .x_speeds, X : STA.w $0D50, Y
         LDA.w .y_speeds, X : STA.w $0D40, Y
         
@@ -1317,7 +1298,8 @@ Overlord_SpawnMetalBall:
         
         PHX : TYX
         
-        LDA.b #$07 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$07
+        JSL.l Sound_SetSfx3PanLong
         
         PLX
     

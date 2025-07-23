@@ -54,20 +54,20 @@ Pool_Sprite_RedBari:
 Sprite_RedBari:
 Sprite_BlueBari:
 {
-    LDA !bari_substate, X : BEQ .not_confined
+    LDA.w !bari_substate, X : BEQ .not_confined
         BPL Sprite_Biri
             LDA.w $0EB0, X : CMP.b #$10 : BNE .delay_collision_logic
                 ; WTF: $0E30, X  seems to affect collision by.... not moving the
                 ; sprite's coordinates around...
-                LDA.b #-1 : STA.w $0D50, X
-                            STA.w $0E30, X
+                LDA.b #$FF : STA.w $0D50, X
+                             STA.w $0E30, X
                 
                 JSR.w Sprite_CheckTileCollision
                 
                 STZ.w $0E30, X
                 
                 LDA.w $0FA5 : BNE .collided
-                    STZ !bari_substate, X
+                    STZ.w !bari_substate, X
                     
                     STZ.w $0BA0, X
                     
@@ -115,8 +115,7 @@ Sprite_BlueBari:
             STA.w $0BA0, X
             
             LDA.b $1A : LSR : AND.b #$01 : TAY
-            
-            LDA Pool_Sprite_RedBari_wiggle_x_speeds, Y : STA.w $0D50, X
+            LDA.w Pool_Sprite_RedBari_wiggle_x_speeds, Y : STA.w $0D50, X
             
             JSR.w Sprite_MoveHoriz
             
@@ -135,8 +134,7 @@ Sprite_BlueBari:
         
         TXA : EOR.b $1A : AND.b #$0F : BNE .rotation_increment_delay
             LDA.w $0DA0, X : AND.b #$01 : TAY
-            
-            LDA.w $0D90, X : CLC : ADC Pool_Sprite_RedBari_rotation_speeds, Y
+            LDA.w $0D90, X : CLC : ADC.w Pool_Sprite_RedBari_rotation_speeds, Y
             STA.w $0D90, X
             
             JSL.l GetRandomInt : AND.b #$03 : BNE .dont_toggle_rotation_polarity
@@ -146,10 +144,8 @@ Sprite_BlueBari:
         .rotation_increment_delay
         
         LDA.w $0D90, X : AND.b #$0F : TAY
-        
-        LDA Pool_Sprite_RedBari_drift_x_speeds, Y : STA.w $0D50, X
-        
-        LDA Pool_Sprite_RedBari_drift_y_speeds, Y : STA.w $0D40, X
+        LDA.w Pool_Sprite_RedBari_drift_x_speeds, Y : STA.w $0D50, X
+        LDA.w Pool_Sprite_RedBari_drift_y_speeds, Y : STA.w $0D40, X
         
         TXA : EOR.b $1A : AND.b #$03 : ORA.w $0DF0, X
         
@@ -166,10 +162,9 @@ Sprite_BlueBari:
     
     .electrification_prevents_movement
     
-    LDY !bari_substate, X
+    LDY.w !bari_substate, X
     
     LDA.b $1A : LSR #3 : AND.b #$01
-    
     CLC : ADC Pool_Sprite_RedBari_animation_state_bases, Y : STA.w $0DC0, X
     
     LDA.w $0D80, X : BEQ .not_electrified
@@ -181,8 +176,7 @@ Sprite_BlueBari:
         .delay_nonelectrified_transition
         
         LDA.b $1A : LSR : AND.b #$02
-        
-        CLC : ADC Pool_Sprite_RedBari_animation_state_bases, Y : STA.w $0DC0, X
+        CLC : ADC.w Pool_Sprite_RedBari_animation_state_bases, Y : STA.w $0DC0, X
         
         RTS
         
@@ -216,7 +210,8 @@ RedBari_Split:
     
     .spawn_next
         
-        LDA.b #$23 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$23
+        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             JSL.l Sprite_SetSpawnedCoords
             
             LDA.b #$33 : STA.w $0E60, Y
@@ -224,19 +219,16 @@ RedBari_Split:
             LDA.b #$03 : STA.w $0F50, Y
             
             LDA.b #$01 : STA.w $0F60, Y
-                         STA !bari_substate, Y
+                         STA.w !bari_substate, Y
             
             PHX
             
             LDX.w $0FB5
-            
-            LDA.b $00 : CLC : ADC Pool_RedBari_Split_x_offsets, X
-            STA.w $0D10, Y
+            LDA.b $00 : CLC : ADC.w Pool_RedBari_Split_x_offsets, X : STA.w $0D10, Y
 
-            LDA.b $01 : ADC.b #$00
-            STA.w $0D30, Y
+            LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
             
-            LDA Pool_RedBari_Split_x_speeds, X : STA.w $0D50, Y
+            LDA.w Pool_RedBari_Split_x_speeds, X : STA.w $0D50, Y
             
             LDA.b #$08 : STA.w $0E10, Y
             
@@ -270,12 +262,16 @@ RedBari_Draw_OAM_groups:
 RedBari_Draw:
 {
     LDA.b #$00 : XBA
+    LDA.w $0DC0, X
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
+    REP #$20
+    
+    ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$04 : JSL.l Sprite_DrawMultiple
+    LDA.b #$04
+    JSL.l Sprite_DrawMultiple
     
     JMP Sprite_DrawShadow
 }

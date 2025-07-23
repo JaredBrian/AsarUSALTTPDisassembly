@@ -33,7 +33,8 @@ Sprite_DashApple:
 ; $0F7535-$0F7579 LOCAL JUMP LOCATION
 Apple_SpawnTangibleApple:
 {
-    LDA.b #$AC : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$AC
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$01 : STA.w $0D80, Y
@@ -50,7 +51,8 @@ Apple_SpawnTangibleApple:
         JSL.l GetRandomInt : STA.b $06
         LDA.b $03          : STA.b $07
         
-        LDA.b #$0A : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+        LDA.b #$0A
+        JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.b $00 : STA.w $0D40, Y
         LDA.b $01 : STA.w $0D50, Y
@@ -87,7 +89,6 @@ Sprite_Apple:
         
         JSR.w Sprite3_CheckDamageToPlayer : BCC .no_player_collision
             LDA.b #$0B
-            
             JSL.l Sound_SetSfx3PanLong
             
             ; Fill in the player's life meter by 8 points (1 heart).
@@ -118,19 +119,23 @@ Sprite_Apple:
         
         LDA.w $0D50, X : BEQ .x_speed_at_rest
             PHA
+
+            ; TODO: Wut?
+            ASL
             
-            ASL : LDA.b #$00 : ROL : TAY
-            
-            PLA : CLC : ADC .speeds, Y : STA.w $0D50, X
+            LDA.b #$00 : ROL : TAY
+            PLA : CLC : ADC.w .speeds, Y : STA.w $0D50, X
             
         .x_speed_at_rest
         
         LDA.w $0D40, X : BEQ .y_speed_at_rest
             PHA
             
-            ASL : LDA.b #$00 : ROL : TAY
+            ; TODO: Wut?
+            ASL
             
-            PLA : CLC : ADC .speeds, Y : STA.w $0D40, X
+            LDA.b #$00 : ROL : TAY
+            PLA : CLC : ADC.w .speeds, Y : STA.w $0D40, X
             
         .y_speed_at_rest
         

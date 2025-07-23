@@ -68,17 +68,16 @@ DashBeeHive_InitBee:
     LDA.b #$01 : STA.w $0D80, Y
         
     TYA : AND.b #$03 : TAX
-        
     LDA.w Pool_Bee_timers, X : STA.w $0DF0, Y
                                STA.w $0D90, Y
         
     LDA.b #$60 : STA.w $0F10, Y
         
     JSL.l GetRandomInt : AND.b #$07 : TAX
-    LDA Pool_Bee_speeds, X : STA.w $0D50, Y
+    LDA.w Pool_Bee_speeds, X : STA.w $0D50, Y
         
     JSL.l GetRandomInt : AND.b #$07 : TAX
-    LDA Pool_Bee_speeds, X : STA.w $0D40, Y
+    LDA.w Pool_Bee_speeds, X : STA.w $0D40, Y
         
     PLX
     
@@ -95,7 +94,8 @@ PlayerItem_ReleaseBee:
 {
     PHB : PHK : PLB
     
-    LDA.b #$B2 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$B2
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b $EE : STA.w $0F20, Y
         
         LDA.b $22 : CLC : ADC.b #$08 : STA.w $0D10, X
@@ -107,9 +107,7 @@ PlayerItem_ReleaseBee:
         PHX
         
         LDX.w $0202
-        
         LDA.l $7EF33F, X : TAX
-        
         LDA.l $7EF35B, X : CMP.b #$08 : BNE .not_good_bee
             LDA.b #$01 : STA.w $0EB0, Y
             
@@ -118,10 +116,10 @@ PlayerItem_ReleaseBee:
         JSR.w DashBeeHive_InitBee
         
         JSL.l GetRandomInt : AND.b #$07 : TAX
-        LDA Pool_Bee_half_speeds, X : STA.w $0D50, Y
+        LDA.w Pool_Bee_half_speeds, X : STA.w $0D50, Y
         
         JSL.l GetRandomInt : AND.b #$07 : TAX
-        LDA Pool_Bee_half_speeds, X : STA.w $0D40, Y
+        LDA.w Pool_Bee_half_speeds, X : STA.w $0D40, Y
         
         LDA.b #$40 : STA.w $0DF0, Y
                      STA.w $0D90, Y
@@ -196,19 +194,21 @@ Bee_Normal:
     LDA.w $0DF0, X : BNE .delay_direction_change
         JSL.l GetRandomInt : AND.b #$03 : TAY
         
-        LDA.b $22 : CLC : ADC .box_sizes, Y : STA.b $04
-        LDA.b $23       : ADC.b #$00        : STA.b $05
+        LDA.b $22 : CLC : ADC.w .box_sizes, Y : STA.b $04
+        LDA.b $23       : ADC.b #$00          : STA.b $05
         
         JSL.l GetRandomInt : AND.b #$03 : TAY
         
-        LDA.b $20 : CLC : ADC .box_sizes, Y : STA.b $06
-        LDA.b $21       : ADC.b #$00        : STA.b $07
+        LDA.b $20 : CLC : ADC.w .box_sizes, Y : STA.b $06
+        LDA.b $21       : ADC.b #$00          : STA.b $07
         
-        LDA.b #$14 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+        LDA.b #$14
+        JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.b $00 : STA.w $0D40, X
         
-        LDA.b $01 : STA.w $0D50, X : BPL .set_h_flip_on
+        LDA.b $01 : STA.w $0D50, X
+        BPL .set_h_flip_on
             LDA.w $0F50, X : AND.b #$BF
             
             BRA .store_h_flip_status
@@ -243,7 +243,6 @@ Bee_PutInbottle:
             PHX
             
             TYX
-            
             LDA.b #$07 : CLC : ADC.b $00 : STA.l $7EF35C, X
             
             JSL.l HUD_RefreshIconLong
@@ -378,10 +377,10 @@ GoodBee_SpawnTangibleVersion:
         PHX
         
         JSL.l GetRandomInt : AND.b #$07 : TAX
-        LDA Pool_Bee_speeds, X : STA.w $0D50, Y
+        LDA.w Pool_Bee_speeds, X : STA.w $0D50, Y
         
         JSL.l GetRandomInt : AND.b #$07 : TAX
-        LDA Pool_Bee_speeds, X : STA.w $0D40, Y
+        LDA.w Pool_Bee_speeds, X : STA.w $0D40, Y
         
         PLX
     
@@ -427,7 +426,7 @@ GoodBee_Activated:
     ; for the bee / good bee, I'd currently label this logic as unused.
     ; And therefore remove it.
     LDA.w $0DA0, X
-    LDY.w $0EB0, X : CMP .unknown_1, Y : BCC .unknown_0
+    LDY.w $0EB0, X : CMP.w .unknown_1, Y : BCC .unknown_0
         LDA.b #$40 : STA.w $0CAA, X
         
         RTS
@@ -451,18 +450,17 @@ GoodBee_Activated:
             JSR.w GoodBee_ScanForTargetableSprites : BCS .pursuing_sprite
                 TXA : EOR.b $1A : AND.b #$03 : BNE .return
                     JSL.l GetRandomInt : AND.b #$03 : TAY
-                    LDA.b $22 : CLC : ADC .box_sizes, Y : STA.b $04
-                    LDA.b $23       : ADC.b #$00        : STA.b $05
+                    LDA.b $22 : CLC : ADC.w .box_sizes, Y : STA.b $04
+                    LDA.b $23       : ADC.b #$00          : STA.b $05
                     
                     JSL.l GetRandomInt : AND.b #$03 : TAY
-                    LDA.b $20 : CLC : ADC .box_sizes, Y : STA.b $06
-                    LDA.b $21       : ADC.b #$00        : STA.b $07
+                    LDA.b $20 : CLC : ADC.w .box_sizes, Y : STA.b $06
+                    LDA.b $21       : ADC.b #$00          : STA.b $07
             
             .pursuing_sprite
             
             TXA : EOR.b $1A : AND.b #$07 : BNE .return
                 LDA.b #$20
-                
                 JSL.l Sprite_ProjectSpeedTowardsEntityLong
                 
                 LDA.b $00 : STA.w $0D40, X
@@ -550,12 +548,12 @@ GoodBee_ScanForTargetableSprites:
     PHX
     
     JSL.l GetRandomInt : AND.b #$03 : TAX
-    LDA.w $0D10, Y : CLC : ADC .box_sizes, X : STA.b $04
-    LDA.w $0D30, Y       : ADC.b #$00        : STA.b $05
+    LDA.w $0D10, Y : CLC : ADC.w .box_sizes, X : STA.b $04
+    LDA.w $0D30, Y       : ADC.b #$00          : STA.b $05
     
     JSL.l GetRandomInt : AND.b #$03 : TAX
-    LDA.w $0D00, Y : CLC : ADC .box_sizes, X : STA.b $06
-    LDA.w $0D20, Y       : ADC.b #$00        : STA.b $07
+    LDA.w $0D00, Y : CLC : ADC.w .box_sizes, X : STA.b $06
+    LDA.w $0D20, Y       : ADC.b #$00          : STA.b $07
     
     PLX
     
@@ -570,7 +568,8 @@ GoodBee_ScanForTargetableSprites:
 Bee_Buzz:
 {
     TXA : EOR.b $1A : AND.b #$1F : BNE .delay
-        LDA.b #$2C : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$2C
+        JSL.l Sound_SetSfx3PanLong
         
     .delay
     

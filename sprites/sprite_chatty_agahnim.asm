@@ -45,7 +45,7 @@ Sprite_ChattyAgahnim:
 ChattyAgahnim_Main:
 {
     LDA.w $0DB0, X : BEQ .not_afterimage
-        LDA !timer_0, X : BNE .delay_self_termination
+        LDA.w $0DF0, X : BNE .delay_self_termination
             STZ.w $0DD0, X
         
         .delay_self_termination
@@ -71,7 +71,7 @@ ChattyAgahnim_Main:
         STZ.w $0DA0, X
         STZ.w $0DC0, X
         
-        LDA.b #$40 : STA !timer_0, X
+        LDA.b #$40 : STA.w $0DF0, X
     
     .not_paused
     
@@ -93,7 +93,7 @@ ChattyAgahnim_Main:
 ; $0ED285-$0ED2A0 JUMP LOCATION
 ChattyAgahnim_Problab:
 {
-    LDA !timer_0, X : BNE .delay_message
+    LDA.w $0DF0, X : BNE .delay_message
         LDA.b #$01 : STA.w $02E4
         
         ; "Ahah... [Name]! I have been waiting for you! Heh heh heh..."
@@ -144,7 +144,7 @@ ChattyAgahnim_LevitateZelda:
             
             INC.w $0D80, X
             
-            LDA.b #$FF : STA !timer_0, X
+            LDA.b #$FF : STA.w $0DF0, X
             
             LDA.b #$02 : STA.w $0E80, X
             
@@ -161,7 +161,7 @@ ChattyAgahnim_LevitateZelda:
 ; $0ED2EF-$0ED321 JUMP LOCATION
 ChattyAgahnim_DoTelewarpSpell:
 {
-    LDA !timer_0, X : BEQ .advance_ai_state
+    LDA.w $0DF0, X : BEQ .advance_ai_state
         CMP.b #$78 : BEQ .start_flash_effect
             CMP.b #$80 : BCS .anoplay_spell_SFX
                 AND.b #$03 : BNE .anoplay_spell_SFX
@@ -184,7 +184,7 @@ ChattyAgahnim_DoTelewarpSpell:
     
     INC.w $0D80, X
     
-    LDA.b #$50 : STA !timer_0, X
+    LDA.b #$50 : STA.w $0DF0, X
     
     RTS
 }
@@ -194,7 +194,7 @@ ChattyAgahnim_DoTelewarpSpell:
 ; $0ED322-$0ED34E JUMP LOCATION
 ChattyAgahnim_CompleteTelewarpSpell:
 {
-    LDA !timer_0, X : BEQ .finish_warping_zelda
+    LDA.w $0DF0, X : BEQ .finish_warping_zelda
         AND.b #$03 : BNE .return
             LDA.w $0E30, X : CMP.b #$09 : BEQ .return
                 CLC : ADC.b #$02 : STA.w $0E30, X
@@ -208,7 +208,7 @@ ChattyAgahnim_CompleteTelewarpSpell:
     
     INC.w $0D80, X
     
-    LDA.b #$50 : STA !timer_0, X
+    LDA.b #$50 : STA.w $0DF0, X
     
     STZ.w $0E80, X
     
@@ -224,7 +224,7 @@ ChattyAgahnim_CompleteTelewarpSpell:
 ; $0ED34F-$0ED36A JUMP LOCATION
 ChattyAgahnim_Epiblab:
 {
-    LDA !timer_0, X : BNE .delay_message
+    LDA.w $0DF0, X : BNE .delay_message
         ; "... With this, the seal of the seven wise men is at last broken..."
         LDA.b #$3E : STA.w $1CF0
         LDA.b #$01 : STA.w $1CF1
@@ -232,7 +232,7 @@ ChattyAgahnim_Epiblab:
         
         INC.w $0D80, X
         
-        LDA.b #$02 : STA !timer_0, X
+        LDA.b #$02 : STA.w $0DF0, X
         
     .delay_message
     
@@ -244,7 +244,7 @@ ChattyAgahnim_Epiblab:
 ; $0ED36B-$0ED391 JUMP LOCATION
 ChattyAgahnim_TeleportTowardCurtains:
 {
-    LDA !timer_0, X : DEC : BNE .delay_SFX
+    LDA.w $0DF0, X : DEC : BNE .delay_SFX
         LDA.b #$28 : STA.w $012F
     
     .delay_SFX
@@ -279,7 +279,7 @@ Sprite_SpawnAgahnimAfterImage:
             
             LDA.w $0DC0, X : STA.w $0DC0, Y
             
-            LDA.b #$20 : STA !timer_0, Y
+            LDA.b #$20 : STA.w $0DF0, Y
                          STA.w $0BA0, Y
                          STA.w $0DB0, Y
     
@@ -516,7 +516,7 @@ AltarZelda_Main_OAM_groups:
 ; $0ED5A1-$0ED5D8 LOCAL JUMP LOCATION
 AltarZelda_Main:
 {
-    LDA !timer_0, X : BEQ .not_telewarping_zelda
+    LDA.w $0DF0, X : BEQ .not_telewarping_zelda
         ; If we end up here, we're drawing the telewarp sprite.
         PHA
         
@@ -636,7 +636,7 @@ AltarZelda_DrawWarpEffect:
     
     LDA.b #$00 : XBA
     
-    LDA !timer_0, X : LSR : LSR : REP #$20 : ASL #4
+    LDA.w $0DF0, X : LSR : LSR : REP #$20 : ASL #4
     
     ADC.w #.OAM_groups : STA.b $08
     

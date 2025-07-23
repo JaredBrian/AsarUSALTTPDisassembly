@@ -23,10 +23,9 @@ Sprite_ArrowTrigger:
         
         JSR.w Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .alpha
             LDA.w $0BB0, X : CMP.b #$09 : BNE .alpha
-            
-            INC.w $0642
-            
-            LDA.b #$01 : STA.w $0DA0, X
+                INC.w $0642
+                
+                LDA.b #$01 : STA.w $0DA0, X
         
     .alpha
     

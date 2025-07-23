@@ -59,13 +59,13 @@ Sprite_Arrghus:
     JSR.w Sprite3_CheckDamageToPlayer
     
     LDA.w $0E80, X : INC.w $0E80, X : AND.b #$03 : BNE .BRANCH_DELTA
-        INC.w $0ED0, X : LDA.w $0ED0, X : CMP.b #$09 : BNE .BRANCH_EPSILON
+        INC.w $0ED0, X
+        LDA.w $0ED0, X : CMP.b #$09 : BNE .BRANCH_EPSILON
             STZ.w $0ED0, X
         
         .BRANCH_EPSILON
         
         LDY.w $0ED0, X
-        
         LDA.w .animation_states, Y : STA.w $0DC0, X
     
     .BRANCH_DELTA
@@ -91,9 +91,7 @@ Sprite_Arrghus:
     .no_tile_collision
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Arrghus_ApproachTargetSpeed ; 0x00 - $B593
     dw Arrghus_MakeDecision        ; 0x01 - $B5C8
     dw Arrghus_PuffAttack          ; 0x02 - $B63D
@@ -120,7 +118,6 @@ Arrghus_JumpWayUp:
         
         ; Try to plop down on the player by matching their coordinates.
         LDA.b $22 : STA.w $0D10, X
-        
         LDA.b $20 : STA.w $0D00, X
     
     .continue_rising
@@ -150,15 +147,18 @@ Arrghus_SmooshFromAbove:
                 
                 LDA.b #$20 : STA.w $0DF0, X
                 
-                LDA.b #$03 : JSL.l Sound_SetSfx3PanLong
+                LDA.b #$03
+                JSL.l Sound_SetSfx3PanLong
                 
-                LDA.b #$20 : STA.w $0D50, X : STA.w $0D40, X
+                LDA.b #$20 : STA.w $0D50, X
+                             STA.w $0D40, X
         
         .didnt_touch_down
     .delay
     
     DEC : BNE .dont_play_falling_sound
-        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$20
+        JSL.l Sound_SetSfx2PanLong
     
     .dont_play_falling_sound
     
@@ -178,7 +178,8 @@ Arrghus_SwimFrantically:
         JSL.l Sprite_CheckDamageFromPlayerLong
         
         LDA.b $1A : AND.b #$07  BNE .garnish_delay
-            LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$28
+            JSL.l Sound_SetSfx2PanLong
             
             PHX : TXY
             
@@ -192,7 +193,8 @@ Arrghus_SwimFrantically:
             .try_another_index
             
                 LDA.l $7FF800, X : BNE .slot_in_use
-                    LDA.b #$15 : STA.l $7FF800, X : STA.w $0FB4
+                    LDA.b #$15 : STA.l $7FF800, X
+                                 STA.w $0FB4
                     
                     LDA.w $0D10, Y : STA.l $7FF83C, X
                     LDA.w $0D30, Y : STA.l $7FF878, X
@@ -272,7 +274,8 @@ Arrghus_MakeDecision:
         JSL.l Sprite_VerifyAllOnScreenDefeated : BCS Arrghus_InitiateJumpWayUp
             ; Note: Wtf Arrghus... why you dipping into Overlord memory
             ; regions?
-            INC.w $0B0B : LDA.w $0B0B : CMP.b #$04 : BNE Arrghus_TargetLink
+            INC.w $0B0B
+            LDA.w $0B0B : CMP.b #$04 : BNE Arrghus_TargetLink
                 STZ.w $0B0B
                 
                 LDA.b #$02 : STA.w $0D80, X
@@ -287,7 +290,8 @@ Arrghus_InitiateJumpWayUp:
 {
     LDA.b #$03 : STA.w $0D80, X
     
-    LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$32
+    JSL.l Sound_SetSfx3PanLong
     
     STZ.w $0E80, X
     
@@ -298,8 +302,8 @@ Arrghus_InitiateJumpWayUp:
 Arrghus_TargetLink:
 {
     JSL.l GetRandomInt : AND.b #$3F : ADC.b #$30 : STA.w $0DF0, X
-    
-    AND.b #$03 : ADC.b #$08 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
+    AND.b #$03 : ADC.b #$08
+    JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $00 : STA.w $0DE0, X
     LDA.b $01 : STA.w $0EB0, X
@@ -427,7 +431,8 @@ Arrghus_HandlePuffs:
     LDA.w $0B09 :       ADC.b #$00  : STA.w $0B09
     
     LDA.b $1A : AND.b #$03 : BNE .increment_delay
-        INC.w $0D90, X : LDA.w $0D90, X : CMP.b #$0D : BNE .anoreset_counter
+        INC.w $0D90, X
+        LDA.w $0D90, X : CMP.b #$0D : BNE .anoreset_counter
             STZ.w $0D90, X
 
         .anoreset_counter
@@ -435,7 +440,8 @@ Arrghus_HandlePuffs:
     
     
     LDA.b $1A : AND.b #$07 : BNE .increment_delay_2
-        INC.w $0DA0, X : LDA.w $0DA0, X : CMP.b #$0D : BNE .anoreset_counter_2
+        INC.w $0DA0, X
+        LDA.w $0DA0, X : CMP.b #$0D : BNE .anoreset_counter_2
             STZ.w $0DA0, X
 
         .anoreset_counter_2
@@ -462,12 +468,10 @@ Arrghus_HandlePuffs:
         LDA.w $0FB5 : STA.b $02
         
         LDA.w $0D90, X : CLC : ADC.b $02 : TAY
-        
         LDA.b $0F : CLC : ADC.w Pool_Arrghus_HandlePuffs_some_offset, Y
         STA.b $0F
         
         LDA.w $0DA0, X : CLC : ADC.b $02 : TAY
-        
         LDA.b $0E : CLC : ADC.w Pool_Arrghus_HandlePuffs_some_offset, Y
         STA.b $0E
         
@@ -476,11 +480,10 @@ Arrghus_HandlePuffs:
         REP #$30
         
         LDA.b $00 : AND.w #$00FF : ASL : TAX
-        
         LDA.l SmoothCurve, X : STA.b $04
         
-        LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02 : AND.w #$00FF : ASL : TAX
-        
+        LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02
+        AND.w #$00FF : ASL : TAX
         LDA.l SmoothCurve, X : STA.b $06
         
         SEP #$30
@@ -553,7 +556,8 @@ Arrghus_HandlePuffs:
         ; branch instructions (that can dynamically resize at assembly time), we
         ; could replace this with "BNE .next_arrgi", and remove the JMP
         ; instruction.
-        INC.w $0FB5 : LDA.w $0FB5 : CMP.b #$0D : BEQ .return
+        INC.w $0FB5
+        LDA.w $0FB5 : CMP.b #$0D : BEQ .return
     JMP .next_arrgi
     
     .return
@@ -582,7 +586,8 @@ Arrghus_Draw:
     
     SEP #$20
     
-    LDA.b #$05 : JSR.w Sprite3_DrawMultiple
+    LDA.b #$05
+    JSR.w Sprite3_DrawMultiple
     
     LDA.w $0DC0, X : ASL : STA.b $00
     
@@ -594,12 +599,14 @@ Arrghus_Draw:
     INY #4 : CPY.b #$12 : BCC .adjust_upper_chr
     
     LDA.w $0D80, X : CMP.b #$05 : BNE .dont_hide_some_portion
-        LDY.b #$11 : LDA.b #$F0 : STA.b ($90), Y
+        LDY.b #$11
+        LDA.b #$F0 : STA.b ($90), Y
     
     .dont_hide_some_portion
     
     LDA.w $0E80, X : AND.b #$08 : BEQ .dont_hflip_some_portion
-        LDY.b #$13 : LDA.b ($90), Y : ORA.b #$40 : STA.b ($90), Y
+        LDY.b #$13
+        LDA.b ($90), Y : ORA.b #$40 : STA.b ($90), Y
     
     .dont_hflip_some_portion
     

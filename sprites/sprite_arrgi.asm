@@ -31,12 +31,10 @@ Sprite_Arrgi:
     INC.w $0E80, X
     
     LDA.w $0E80, X : LSR #3 : AND.b #$07 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0DA0, X : BEQ .BRANCH_ALPHA
         TAY : DEY
-        
         LDA.w $0C4A, Y : BEQ .BRANCH_BETA
             LDA.w $0C04, Y : STA.w $0D10, X
             LDA.w $0C18, Y : STA.w $0D30, X
@@ -84,11 +82,9 @@ Sprite_Arrgi:
         LDA.w $0B3F, X : STA.b $07
         
         LDA.b #$04
-        
         JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.b $00 : STA.w $0D40, X
-        
         LDA.b $01 : STA.w $0D50, X
         
         LDA.w $0D10, X : SEC : SBC.w $0B0F, X : CLC : ADC.b #$08 : CMP.b #$10 : BCS .BRANCH_EPSILON

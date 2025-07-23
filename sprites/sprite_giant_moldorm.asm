@@ -92,7 +92,7 @@ Sprite_GiantMoldorm:
     .skip_sound_effect_this_frame
     
     LDA.w $0EA0, X : BEQ .not_stunned_from_damage
-        LDA.b #$40 : STA !timer_2, X
+        LDA.b #$40 : STA.w $0E10, X
         
         LDA.b $1A : AND.b #$03 : BNE .stun_timer_delay
             DEC.w $0EA0, X
@@ -159,7 +159,7 @@ Sprite_GiantMoldorm:
 ; $0ED7FE-$0ED82C JUMP LOCATION
 GiantMoldorm_StraightPath:
 {
-    LDA !timer_0, X : BNE .wait
+    LDA.w $0DF0, X : BNE .wait
         LDA.b #$01
         
         INC.w $0ED0, X : LDY.w $0ED0, X : CPY.b #$03 : BNE .beta
@@ -174,7 +174,7 @@ GiantMoldorm_StraightPath:
         ; NOTE: Resultant value is either 1 or -1.
         JSL.l GetRandomInt : AND.b #$02 : DEC : STA.w $0EB0, X
         
-        JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA !timer_0, X
+        JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
     
     .wait
     
@@ -186,8 +186,8 @@ GiantMoldorm_StraightPath:
 ; $0ED82D-$0ED851 JUMP LOCATION
 GiantMoldorm_SpinningMeander:
 {
-    LDA !timer_0, X : BNE .wait
-        JSL.l GetRandomInt : AND.b #$0F : ADC.b #$08 : STA !timer_0, X
+    LDA.w $0DF0, X : BNE .wait
+        JSL.l GetRandomInt : AND.b #$0F : ADC.b #$08 : STA.w $0DF0, X
         
         STZ.w $0D80, X
         
@@ -216,7 +216,7 @@ GiantMoldorm_LungeAtPlayer:
         CMP.w $0DE0, X : BNE .current_direction_doesnt_match
             STZ.w $0D80, X
             
-            LDA.b #$30 : STA !timer_0, X
+            LDA.b #$30 : STA.w $0DF0, X
             
             RTS
             
@@ -495,7 +495,7 @@ GiantMoldorm_Tail:
 {
     JSR.w GiantMoldorm_DrawTail
     
-    LDA !timer_2, X : BNE .temporarily_invulnerable
+    LDA.w $0E10, X : BNE .temporarily_invulnerable
         LDA.b #$01 : STA.w $0D90, X
         
         STZ.w $0F60, X
@@ -654,7 +654,7 @@ Sprite_ScheduleBossForDeath:
     
     STZ.w $0D90, X
     
-    LDA.b #$E0 : STA !timer_0, X
+    LDA.b #$E0 : STA.w $0DF0, X
     
     RTS
     
@@ -690,7 +690,7 @@ Sprite_MakeBossDeathExplosion:
         LDA.w $0FDA : STA.w $0D00, Y
         LDA.w $0FDB : STA.w $0D20, Y
         
-        LDA.b #$1F : STA !timer_0, Y
+        LDA.b #$1F : STA.w $0DF0, Y
                      STA.w $0D90, Y
         
         LDA.b #$02 : STA.w $0F20, Y

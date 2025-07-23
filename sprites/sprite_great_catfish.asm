@@ -76,7 +76,7 @@ Sprite_GreatCatfish:
         
         CPY.b #$02 : BCS .dont_splash_from_bounce
             JSR.w Sprite_SpawnWaterSplash : BMI .spawn_failed
-                LDA.b #$10 : STA !timer_0, Y
+                LDA.b #$10 : STA.w $0DF0, Y
             
             .spawn_failed
         .dont_splash_from_bounce
@@ -132,7 +132,7 @@ GreatCatfish_AwaitSpriteThrownInCircle:
                         
                         INC.w $0D80, X
                         
-                        LDA.b #$FF : STA !timer_0, X
+                        LDA.b #$FF : STA.w $0DF0, X
                         
                         RTS
                 
@@ -149,7 +149,7 @@ GreatCatfish_AwaitSpriteThrownInCircle:
 ; $0EE039-$0EE07B JUMP LOCATION
 GreatCatfish_RumbleBeforeEmergence:
 {
-    LDA !timer_0, X : BNE .delay_emergence
+    LDA.w $0DF0, X : BNE .delay_emergence
         JSR.w GreatCatfish_AwaitSpriteThrownInCircle_AdvanceState
         
         ; Stop shaking the screen.
@@ -218,7 +218,7 @@ GreatCatfish_Emerge:
         
         INC.w $0D80, X
         
-        LDA.b #$FF : STA !timer_0, X
+        LDA.b #$FF : STA.w $0DF0, X
         
     .aloft
     
@@ -242,7 +242,7 @@ GreatCatfish_ConversateThenSubmerge_animation_states:
 ; $0EE0D3-$0EE143 JUMP LOCATION
 GreatCatfish_ConversateThenSubmerge:
 {
-    LDA !timer_0, X : BNE .delay_self_termination
+    LDA.w $0DF0, X : BNE .delay_self_termination
         STZ.w $0DD0, X
         
         RTS
@@ -459,7 +459,7 @@ GreatCatfish_SpawnImmediatelyDrownedSprite:
         
         LDA.b #$03 : STA.w $0DD0, Y
         
-        LDA.b #$0F : STA !timer_0, Y
+        LDA.b #$0F : STA.w $0DF0, Y
         
         LDA.b #$00 : STA.w $0D80, Y
         LDA.b #$03 : STA.w $0E40, Y
@@ -502,7 +502,7 @@ Sprite_SpawnWaterSplash:
         
         LDA.b #$04 : STA.w $0F50, Y
         
-        LDA.b #$1F : STA !timer_0, Y
+        LDA.b #$1F : STA.w $0DF0, Y
     
     .spawn_failed
     
@@ -590,7 +590,7 @@ Sprite_WaterSplash:
 {
     LDA.b #$00 : XBA
     
-    LDA !timer_0, X : BNE .self_termination_delay
+    LDA.w $0DF0, X : BNE .self_termination_delay
         STZ.w $0DD0, X
     
     .self_termination_delay

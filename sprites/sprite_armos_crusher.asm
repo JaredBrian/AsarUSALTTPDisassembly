@@ -30,17 +30,13 @@ Sprite_ArmosCrusher:
     LDA.w $0F10, X : BEQ .dont_shake_environment
         ; Otherwise, shake the ground.
         AND.b #$01 : TAY
-        
-        LDA Sprite_ApplyConveyorAdjustment_x_shake_values, Y : STA.w $011C
-        
-        LDA Sprite_ApplyConveyorAdjustment_y_shake_values, Y : STA.w $011D
+        LDA.w Sprite_ApplyConveyorAdjustment_x_shake_values, Y : STA.w $011C
+        LDA.w Sprite_ApplyConveyorAdjustment_y_shake_values, Y : STA.w $011D
     
     .dont_shake_environment
     
     LDA.w $0ED0, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw ArmosCrusher_RetargetPlayer       ; 0x00 - $EFAC
     dw ArmosCrusher_ApproachTargetCoords ; 0x01 - $EFE0
     dw ArmosCrusher_Hover                ; 0x02 - $F039
@@ -55,7 +51,8 @@ ArmosCrusher_RetargetPlayer:
     JSR.w Sprite4_CheckDamage
     
     LDA.w $0DF0, X : ORA.w $0F70, X : BNE .delay
-        LDA.b #$20 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$20
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         LDA.b #$20 : STA.w $0F80, X
         
@@ -67,7 +64,8 @@ ArmosCrusher_RetargetPlayer:
         LDA.b $20 : STA.w $0E90, X
         LDA.b $21 : STA.w $0EB0, X
         
-        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$20
+        JSL.l Sound_SetSfx2PanLong
         
     .delay
     
@@ -93,10 +91,8 @@ ArmosCrusher_ApproachTargetCoords:
         REP #$20
         
         LDA.b $00 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0010
-        
         CMP.w #$0020 : BCS .not_close_enough_to_player
             LDA.b $02 : SEC : SBC.w $0FDA : CLC : ADC.w #$0010
-            
             CMP.w #$0020 : BCS .not_close_enough_to_player
                 SEP #$20
     
@@ -144,7 +140,8 @@ ArmosCrusher_Crush:
         
         STZ.w $0ED0, X
         
-        LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$0C
+        JSL.l Sound_SetSfx2PanLong
         
         LDA.b #$20 : STA.w $0F10, X
     

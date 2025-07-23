@@ -93,16 +93,18 @@ Agahnim_SpinToPyramid:
     
     .BRANCH_GAMMA
     
-    LDA.w $0F90, X : CLC : ADC.w $0F80, X : STA.w $0F90, X : BCC .BRANCH_DELTA
-        INC.w $0E80, X : LDA.w $0E80, X : CMP.b #$07 : BNE .BRANCH_DELTA
+    LDA.w $0F90, X : CLC : ADC.w $0F80, X : STA.w $0F90, X
+    BCC .BRANCH_DELTA
+        INC.w $0E80, X
+        LDA.w $0E80, X : CMP.b #$07 : BNE .BRANCH_DELTA
             STZ.w $0E80, X
             
-            LDA.b #$04 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$04
+            JSL.l Sound_SetSfx2PanLong
         
     .BRANCH_DELTA
     
     LDY.w $0E80, X
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -166,7 +168,6 @@ Agahnim_UncloneSelf:
     JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
-    
     LDA.b $01 : STA.w $0D50, X
     
     JSR.w Sprite3_Move
@@ -185,7 +186,6 @@ Agahnim_HelloDarkWorld:
         ; "will not have a third meeting! ..."
         LDA.b #$41 : STA.w $1CF0
         LDA.b #$01 : STA.w $1CF1
-        
         JSL.l Sprite_ShowMessageMinimal
         
         INC.w $0D80, X
@@ -255,8 +255,8 @@ Agahnim_CreateClones:
             JSL.l Sprite_SetSpawnedCoords
             
             LDA.w .special_properties, Y : STA.w $0E60, Y
-            
-            AND.b #$0F : STA.w $0F50, Y : STA.w $0EC0, Y
+            AND.b #$0F                   : STA.w $0F50, Y
+                                           STA.w $0EC0, Y
             
             LDA.w $0D80, X : STA.w $0D80, Y
             
@@ -281,7 +281,6 @@ Agah1or2:
 {
     ; Check if we are in the LW or DW. If dark world go to agah 2 instead.
     LDY.w $0FFF
-    
     LDA.w .ai_states, Y : STA.w $0D80, X
     
     RTS
@@ -295,7 +294,6 @@ Agah1Inro:
         ; Well, I can make your wish come true!
         LDA.b #$3F : STA.w $1CF0
         LDA.b #$01 : STA.w $1CF1
-        
         JSL.l Sprite_ShowMessageMinimal
         
         ; Bleeds into the next function.
@@ -305,7 +303,6 @@ Agah1Inro:
 Agahnim_PrepareToAttack:
 {
     LDA.b #$03 : STA.w $0D80, X
-        
     LDA.b #$20 : STA.w $0DF0, X
         
     RTS
@@ -315,7 +312,6 @@ Agahnim_PrepareToAttack:
 Agahnim_PrepareToEmerge:
 {
     LDA.b #$02 : STA.w $0D80, X
-        
     LDA.b #$27 : STA.w $0DF0, X
     
     .dontShowIntroMessage
@@ -346,7 +342,6 @@ Agahnim_EmergeFromShadow:
     .delay
     
     LSR #3 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -378,7 +373,8 @@ AttachThenFadeToBlack:
     LDA.w $0DF0, X : CMP.b #$C0 : BNE .BRANCH_ALPHA
         PHA
         
-        LDA.b #$27 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$27
+        JSL.l Sound_SetSfx3PanLong
         
         PLA
     
@@ -425,18 +421,16 @@ AttachThenFadeToBlack:
         PHA
             
         LDA.b #$02
-            
         JSL.l Sprite_ApplySpeedTowardsPlayerLong
             
         LDY.b $01
             
-        LDA.b $00 : CLC : ADC.b #$02 : STA.b $02
-            
-        ASL : ASL : ADC.b $02 : ADC.b #$02 : CLC : ADC.b $01 : TAY
-            
+        LDA.b $00                          : CLC : ADC.b #$02 : STA.b $02
+        ASL : ASL : ADC.b $02 : ADC.b #$02 : CLC : ADC.b $01  : TAY
         LDA.w Pool_Sprite_Agahnim_Direction, Y : STA.w $0DE0, X
             
-        LDA.b #$20 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$20
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
             
         LDA.w $0E30, X : CMP.b #$04 : BNE .BRANCH_IOTA
             LDA.b #$03 : STA.w $0DE0, X
@@ -457,14 +451,12 @@ AttachThenFadeToBlack:
     .BRANCH_KAPPA
     
     LSR #4 : TAY
-    
     LDA.w Pool_AttachThenFadeToBlack_attack_anim_offset, Y : STA.w $0D90, X
     
     LDA.w Pool_AttachThenFadeToBlack_attack_anim_ball_step, Y : BEQ .BRANCH_LAMBDA
         CLC
         
         LDY.w $0DE0, X
-        
         ADC.w Pool_AttachThenFadeToBlack_attack_anim_ball_step_offset, Y
     
     .BRANCH_LAMBDA
@@ -513,8 +505,8 @@ Agahnim_ChooseWarpSpot:
         
         .BRANCH_BETA
         
-        LDA Pool_Agahnim_ChooseWarpSpot_targetXPos, Y : STA.w $0DB0, X
-        LDA Pool_Agahnim_ChooseWarpSpot_targetYPos, Y : STA.w $0E90, X
+        LDA.w Pool_Agahnim_ChooseWarpSpot_targetXPos, Y : STA.w $0DB0, X
+        LDA.w Pool_Agahnim_ChooseWarpSpot_targetYPos, Y : STA.w $0E90, X
             
         LDA.b #$08 : STA.w $0ED0, X
             
@@ -561,7 +553,8 @@ DoLightningAttack:
     LDA.w $0E30, X : CMP.b #$05 : BNE .BRANCH_BETA
         STZ.w $0E30, X
         
-        LDA.b #$26 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$26
+        JSL.l Sound_SetSfx3PanLong
         
         JSR.w .spawn_2
         
@@ -578,18 +571,18 @@ DoLightningAttack:
     LDA.b #$7B
     
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-        LDA.b #$29 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$29
+        JSL.l Sound_SetSfx3PanLong
         
         PHX
         
         LDA.w $0DE0, X : TAX
+        LDA.b $00 : CLC : ADC.w .x_offsets_low,  X : STA.w $0D10, Y
+        LDA.b $01 :       ADC.w .x_offsets_high, X : STA.w $0D30, Y
         
-        LDA.b $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-        LDA.b $01 :       ADC .x_offsets_high, X : STA.w $0D30, Y
-        
-        LDA.b $02 : CLC : ADC .y_offsets_low, X : STA.w $0D00, Y
-        LDA.b $03 :       ADC.b #$FF            : STA.w $0D20, Y
-                                                  STA.w $0BA0, Y
+        LDA.b $02 : CLC : ADC.w .y_offsets_low, X : STA.w $0D00, Y
+        LDA.b $03 :       ADC.b #$FF              : STA.w $0D20, Y
+                                                    STA.w $0BA0, Y
         
         PLX
         
@@ -639,7 +632,6 @@ ShadowSneak:
     SEP #$20
     
     LDA.w $0ED0, X
-    
     JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
@@ -836,7 +828,6 @@ AgahDraw:
         PHX
         
         TXA : CLC : ADC.b $06 : TAX
-        
         LDA.b $00 : CLC : ADC.w Pool_AgahDraw_offset_x, X       : STA.b ($90), Y
         LDA.b $02 : CLC : ADC.w Pool_AgahDraw_offset_y, X : INY : STA.b ($90), Y
         LDA.w Pool_AgahDraw_char, X                       : INY : STA.b ($90), Y
@@ -861,7 +852,6 @@ AgahDraw:
     
     LDA.w $0DC0, X : CMP.b #$0C : BCS .BRANCH_GAMMA
         LDA.b #$12
-        
         JSL.l Sprite_DrawShadowLong_variable
         
     .BRANCH_GAMMA
@@ -869,7 +859,6 @@ AgahDraw:
     LDA.b $11 : BEQ .BRANCH_DELTA
         LDY.b #$FF
         LDA.b #$03
-        
         JSL.l Sprite_CorrectOamEntriesLong
     
     .BRANCH_DELTA
@@ -907,20 +896,17 @@ AgahDraw:
             PHX
             
             TXA : CLC : ADC.b $06 : TAX
-            
             LDA.b $00 : CLC : ADC.w Pool_AgahDraw_ball_offset_x, X       : STA.b ($90), Y
             LDA.b $02 : CLC : ADC.w Pool_AgahDraw_ball_offset_y, X : INY : STA.b ($90), Y
             
             LDX.b $0C
-            
             LDA.w Pool_AgahDraw_ball_char, X : INY : STA.b ($90), Y
             
             INY
-            
             LDA.b $0D : STA.b ($90), Y
             
-            PHY : TYA : LSR : LSR : TAY
-            
+            PHY
+            TYA : LSR : LSR : TAY
             LDA.w Pool_AgahDraw_ball_palette, X : STA.b ($92), Y
             
             PLY : INY

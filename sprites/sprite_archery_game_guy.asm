@@ -51,18 +51,17 @@ SpritePrep_ArcheryGameGuy:
         
         JSL.l Sprite_LoadProperties
         
-        LDA.b $23           : STA.w $0D30, X
+        LDA.b $23                                         : STA.w $0D30, X
         LDA.w Pool_SpritePrep_ArcheryGameGuy_x_offsets, X : STA.w $0D10, X
         
-        LDA.b $21           : STA.w $0D20, X
+        LDA.b $21                                         : STA.w $0D20, X
         LDA.w Pool_SpritePrep_ArcheryGameGuy_y_offsets, X : STA.w $0D00, X
         
         LDA.w Pool_SpritePrep_ArcheryGameGuy_subtypes, X : STA.w $0D90, X
         
-        DEC : STA.w $0DC0, X : TAY
-        
+        DEC : STA.w $0DC0, X
+              TAY
         LDA.w Pool_SpritePrep_ArcheryGameGuy_x_speeds, Y : STA.w $0D50, X
-        
         LDA.w Pool_SpritePrep_ArcheryGameGuy_hit_boxes, Y : STA.w $0F60, X
         
         LDA.b #$0D : STA.w $0F50, X
@@ -154,9 +153,7 @@ ArcheryGameGuy_Main:
     
     STA.w $0DC0, X
     
-    LDA.w $0D80, X
-    
-    CMP.b #$02 : BEQ ArcheryGameGuy_RunGame
+    LDA.w $0D80, X : CMP.b #$02 : BEQ ArcheryGameGuy_RunGame
         CMP.b #$01 : BEQ .check_if_player_wants_to_play
             CMP.b #$03 : BNE .in_ground_state_2
                 LDA.w $1CE8 : BNE .player_not_interested
@@ -172,7 +169,6 @@ ArcheryGameGuy_Main:
             BCC .no_player_contact_2
                 LDA.b $F6 : BPL .a_button_not_pressed
                     LDA.b #$85
-                    
                     JSR.w .show_message
                     
                     INC.w $0D80, X
@@ -233,7 +229,6 @@ ArcheryGameGuy_RunGame:
         LDA.b #$05 : STA.w $0B99
         
         LDA.b #$02
-        
         JSL.l Sprite_InitializeSecondaryItemMinigame
         
         ; Start a delay counter to populate the counter with arrows.
@@ -250,7 +245,8 @@ ArcheryGameGuy_RunGame:
         
     .arrows_already_laid_out
     
-    LDA.b #$34 : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$34
+    JSL.l OAM_AllocateFromRegionA
     
     JSR.w Sprite2_PrepOamCoord
     
@@ -259,7 +255,8 @@ ArcheryGameGuy_RunGame:
     LDA.w $0E00, X : BEQ .arrow_stagger_finished
         ; This code is in play when the arrows on the counter are being
         ; populated one by one.
-        LSR #3 : TAY : LDA.w .override_num_arrows_displayed, Y : STA.b $0D
+        LSR #3 : TAY
+        LDA.w .override_num_arrows_displayed, Y : STA.b $0D
     
     .arrow_stagger_finished
     
@@ -274,14 +271,14 @@ ArcheryGameGuy_RunGame:
     
     .next_subsprite
     
-        LDA.b $00 : CLC : ADC.b #$EC : ADC .x_offsets, X       : STA.b ($90), Y
-        LDA.b $02 : CLC : ADC.b #$D0 : ADC .y_offsets, X : INY : STA.b ($90), Y
+        LDA.b $00 : CLC : ADC.b #$EC : ADC.w .x_offsets, X       : STA.b ($90), Y
+        LDA.b $02 : CLC : ADC.b #$D0 : ADC.w .y_offsets, X : INY : STA.b ($90), Y
         
         LDA.w .chr, X        : INY : STA.b ($90), Y
         LDA.w .properties, X : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.b #$00 : STA.b ($92), Y
         
         PLY : INY
@@ -289,11 +286,8 @@ ArcheryGameGuy_RunGame:
     
     PLX
     
-    LDA.w $0B99
-    ORA.w $0F10, X : ORA.w $0C4A
-    ORA.w $0C4B    : ORA.w $0C4C
-    ORA.w $0C4D    : ORA.w $0C4E
-    BNE .game_in_progress
+    LDA.w $0B99 : ORA.w $0F10, X : ORA.w $0C4A
+    ORA.w $0C4B : ORA.w $0C4C : ORA.w $0C4D : ORA.w $0C4E : BNE .game_in_progress
         ; Expand hit box for the proprietor, so that if we just get close to him
         ; he'll ask us if we want to play the minigame again.
         LDA.b #$0A : STA.w $0F60, X
@@ -302,7 +296,6 @@ ArcheryGameGuy_RunGame:
             LDA.b $F6 : BPL .no_retry_minigame
                 ; "Want to shoot again? > Continue > Quit"
                 LDA.b #$88
-                
                 JSR.w ArcheryGameGuy_Main_show_message
                 
                 INC.w $0D80, X
@@ -391,7 +384,7 @@ Sprite_GoodArcheryTarget:
                 
                 LDA.b #$00 : XBA
                 
-                LDA (.prizes-1), Y
+                LDA.b (.prizes-1), Y
 
                 REP #$20
                 CLC : ADC.l $7EF360 : STA.l $7EF360
@@ -434,7 +427,8 @@ ArcheryGame_TargetMain:
     JSR.w Sprite2_MoveHoriz
     
     LDA.w $0E00, X : BNE .dont_initiate_x_reset
-        LDA.w $0DF0, X : STA.w $0BA0, X : BNE .reset_x_coordinate
+        LDA.w $0DF0, X : STA.w $0BA0, X
+        BNE .reset_x_coordinate
             JSR.w Sprite2_CheckTileCollision : BEQ .dont_initiate_x_reset
                 LDA.b #$10 : STA.w $0DF0, X
                 
@@ -453,7 +447,6 @@ ArcheryGame_TargetMain:
     
     CMP.b #$01 : BNE .delay
         LDY.w $0DC0, X
-        
         LDA.w .respawn_values, Y : STA.w $0D10, X
         LDA.b $23                : STA.w $0D30, X
         
@@ -546,7 +539,8 @@ GoodArcheryTarget_DrawPrize:
         
         .write_chr
         
-        INY : STA.b ($90), Y
+        INY 
+        STA.b ($90), Y
         
         CMP.b #$7C : INY
         LDA.w Pool_GoodArcheryTarget_DrawPrize_properties, X : BCC .not_blank
@@ -558,8 +552,8 @@ GoodArcheryTarget_DrawPrize:
         
         STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.b #$00 : STA.b ($92), Y
         
         PLY : INY

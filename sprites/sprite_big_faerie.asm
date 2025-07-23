@@ -16,7 +16,7 @@ UNUSED1DC412:
 Sprite_BigFairy:
 {
     ; If nonzero, it is a dust cloud.
-    LDA !is_fairy_cloud, X : BNE Sprite_FairyCloud
+    LDA.w !is_fairy_cloud, X : BNE Sprite_FairyCloud
         JMP BigFairy_Main
 }
     
@@ -31,7 +31,8 @@ Sprite_FairyCloud:
     JSR.w FairyCloud_Draw 
     
     LDA.w $0E80, X : AND.b #$1F : BNE .delay_healing_SFX
-        LDA.b #$31 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$31
+        JSL.l Sound_SetSfx2PanLong
     
     .delay_healing_SFX
     
@@ -49,7 +50,8 @@ FairyCloud_SeekPlayer:
 {
     LDA.b #$00 : STA.w $0D90, X
     
-    LDA.b #$08 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+    LDA.b #$08
+    JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     JSR.w Sprite4_Move
     JSL.l Sprite_Get_16_bit_CoordsLong
@@ -82,7 +84,7 @@ FairyCloud_AwaitFullPlayerHealth:
         INC.w $0D80, X
         
         ; HARDCODED: This assumes that the big fairy is always in slot 0.
-        LDA.b #$70 : STA !timer_2
+        LDA.b #$70 : STA.w $0E10
         
     .player_hp_not_full_yet
     
@@ -99,18 +101,16 @@ FairyCloud_FadeOut:
         ; will be taken, as it self terminates immediately when this variable
         ; becomes negative (see code a few lines down).
         LDA.w $0D90, X : BMI .never
-        
-        SEC : ROL.w $0D90, X
-        
-        ; OPTIMIZE: Is this really necessary? I think you could just check
-        ; $0D90 for positivity (BPL) right after the ROL above.
-        LDA.w $0D90, X : CMP.b #$80 : BCC .delay_self_termination
-        
-        LDA.b #$FF : STA.w $0D90, X
-        
-        STZ.w $02E4
-        
-        STZ.w $0DD0, X
+            SEC : ROL.w $0D90, X
+            
+            ; OPTIMIZE: Is this really necessary? I think you could just check
+            ; $0D90 for positivity (BPL) right after the ROL above.
+            LDA.w $0D90, X : CMP.b #$80 : BCC .delay_self_termination
+                LDA.b #$FF : STA.w $0D90, X
+                
+                STZ.w $02E4
+                
+                STZ.w $0DD0, X
         
         .never
     .delay_self_termination
@@ -120,13 +120,13 @@ FairyCloud_FadeOut:
 
 ; ==============================================================================
 
-    !animation_timer = $0ED0
+!animation_timer = $0ED0
 
 ; $0EC4BF-$0EC4F8 LOCAL JUMP LOCATION
 BigFairy_Main:
 {
-    LDA !timer_2, X : BEQ .draw
-    CMP.b #$40      : BCS .draw
+    LDA.w $0E10, X : BEQ .draw
+    CMP.b #$40 : BCS .draw
         DEC : BNE .blinking_draw
             ; Self termiantes once the timer ticks down.
             STZ.w $0DD0, X
@@ -143,9 +143,9 @@ BigFairy_Main:
     
     ; Timer ranging from 0 - 5 to delay graphic changes.
     ; Don't change graphics.
-    DEC !animation_timer, X : BPL .animation_delay
+    DEC.w !animation_timer, X : BPL .animation_delay
         ; Reset back to five if it ends up being negative.
-        LDA.b #$05 : STA !animation_timer, X
+        LDA.b #$05 : STA.w !animation_timer, X
         
         ; Whenever !animation_timer counts down, change the graphics.
         LDA.w $0DC0, X : INC : AND.b #$03 : STA.w $0DC0, X
@@ -154,7 +154,8 @@ BigFairy_Main:
     
     JSR.w Sprite4_CheckIfActive
     
-    INC.w $0E80, X ; Sometimes a subtype, in this case it's a timer.
+    ; Sometimes a subtype, in this case it's a timer.
+    INC.w $0E80, X
     
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
@@ -188,11 +189,12 @@ BigFairy_AwaitClosePlayer:
             
             ; Create the Fairy Dust cloud.
             ; NOTE: It's not checked whether the spawn was successful.
-            LDA.b #$C8 : JSL.l Sprite_SpawnDynamically
+            LDA.b #$C8
+            JSL.l Sprite_SpawnDynamically
             
             JSL.l Sprite_SetSpawnedCoords
             
-            LDA.b #$01 : STA !is_fairy_cloud, Y
+            LDA.b #$01 : STA.w !is_fairy_cloud, Y
             
             LDA.w $0D00, Y : SEC : SBC.w $0F70, X : STA.w $0D00, Y
             
@@ -246,8 +248,8 @@ BigFairy_Draw:
     SEP #$20
     
     LDA.b #$04
-    
     JSR.w Sprite4_DrawMultiple
+
     JSL.l Sprite_DrawShadowLong
     
     RTS
@@ -293,14 +295,12 @@ FairyCloud_Draw:
         AND.w $0E80, X : BNE .spawn_masked_this_frame
             JSL.l GetRandomInt : AND.b #$07 : TAY
             
-            LDA.w .offset_indices, Y : TAY
-            
             ; Randomly picking an X or Y coordinate offset.
+            LDA.w .offset_indices, Y : TAY
             LDA.w Pool_FairyCloud_Draw_xy_offsets_low, Y  : STA.b $00
             LDA.w Pool_FairyCloud_Draw_xy_offsets_high, Y : STA.b $01
             
             JSL.l GetRandomInt : AND.b #$07 : TAY
-            
             LDA.w Pool_FairyCloud_Draw_offset_indices, Y : TAY
             
             ; Same here... not sure which is X and which is Y.

@@ -43,16 +43,14 @@ ArmosCoordinatorLong:
 ; $0EEBF3-$0EEC11 LOCAL JUMP LOCATION
 ArmosCoordinator_Main:
 {
-    LDA !state_timer, X : BEQ .timer_expired
+    LDA.w !state_timer, X : BEQ .timer_expired
         ; This variable acts as an autotimer for the overlord.
-        DEC !state_timer, X
+        DEC.w !state_timer, X
     
     .timer_expired
     
-    LDA !coordinator_ai_state, X
-    
+    LDA.w !coordinator_ai_state, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw ArmosCoordinator_AwaitKnightActivation     ; 0x00 - $EC12
     dw ArmosCoordinator_AwaitKnightsUnderCoercion ; 0x01 - $EC34
     dw ArmosCoordinator_TimedRotateThenTransition ; 0x02 - $ECCC
@@ -71,17 +69,17 @@ ArmosCoordinator_AwaitKnightActivation:
     ; Or rather, wait for the first one to ativate, but I think they all
     ; activate at the same time (rumble then start moving).
     LDA.w $0D90 : BEQ .wait_for_knights_to_activate
-        LDA.b #$78 : STA !overlord_x_low, X
+        LDA.b #$78 : STA.w !overlord_x_low, X
         
-        LDA.b #$FF : STA !angle_step, X
+        LDA.b #$FF : STA.w !angle_step, X
         
         ; HARDCODED: This is.... freaking ridiculous. It assumes that
         ; this overlord is in the last slot and that no others are present
         ; in the room.
-        LDA.b #$40 : STA !radius
+        LDA.b #$40 : STA.w !radius
         
-        LDA.b #$C0 : STA !coordinator_angle
-        LDA.b #$01 : STA !coordinator_angle+1
+        LDA.b #$C0 : STA.w !coordinator_angle
+        LDA.b #$01 : STA.w !coordinator_angle+1
         
         JSR.w ArmosCoordinator_TimedRotateThenTransition
     
@@ -98,10 +96,9 @@ ArmosCoordinator_AwaitKnightsUnderCoercion:
     ; Check for alive knights of a certain state?
     JSR.w ArmosCoordinator_AreAllActiveKnightsSubmissive
     BCC .delay_next_state
-    
-        INC !coordinator_ai_state, X
+        INC.w !coordinator_ai_state, X
         
-        LDA.b #$FF : STA !state_timer, X
+        LDA.b #$FF : STA.w !state_timer, X
     
     .delay_next_state
     
@@ -119,21 +116,21 @@ ArmosCoordinator_OrderKnightsToBackWall_x_positions:
 ; $0EEC48-$0EEC68 JUMP LOCATION
 ArmosCoordinator_OrderKnightsToBackWall:
 {
-    LDA !state_timer, X : BNE .delay_movement
+    LDA.w !state_timer, X : BNE .delay_movement
         JSR.w ArmosCoordinator_DisableKnights_XY_Coercion
         
         LDY.b #$05
         
         .next_knight
         
-            LDA.w .x_position, Y : STA !puppet_x_low, Y
+            LDA.w .x_position, Y : STA.w !puppet_x_low, Y
             
-            LDA.b #$30 : STA !puppet_y_low, Y
+            LDA.b #$30 : STA.w !puppet_y_low, Y
         DEY : BPL .next_knight
         
-        INC !coordinator_ai_state, X
+        INC.w !coordinator_ai_state, X
         
-        LDA.b #$FF : STA !state_timer, X
+        LDA.b #$FF : STA.w !state_timer, X
     
     .delay_movement
     
@@ -145,28 +142,27 @@ ArmosCoordinator_OrderKnightsToBackWall:
 ; $0EEC69-$0EEC95 JUMP LOCATION
 ArmosCoordinator_CascadeKnightsToFrontWall:
 {
-    LDA !state_timer, X : BNE .delay_cascade
+    LDA.w !state_timer, X : BNE .delay_cascade
         LDY.b #$05
         
         .next_knight
         
-        LDA !puppet_y_low, Y : INC : STA !puppet_y_low, Y
-        
-        ; UNUSED: Wait.... is this at all useful useful?
-        CPY.b #$00
-        
-        CMP.b #$C0 : BNE .not_at_front_wall_yet
-            LDA.b #$01 : STA !coordinator_ai_state, X
+            LDA.w !puppet_y_low, Y : INC : STA.w !puppet_y_low, Y
             
-            LDA !angle_step, X : EOR.b #$FF : INC : STA !angle_step, X
+            ; OPTIMIZE: Wait.... is this at all useful useful?
+            CPY.b #$00
             
-            JSR.w ArmosCoordinator_DisableKnights_XY_Coercion
-            JSR.w ArmosCoordinator_Rotate
+            CMP.b #$C0 : BNE .not_at_front_wall_yet
+                LDA.b #$01 : STA.w !coordinator_ai_state, X
+                
+                LDA.w !angle_step, X : EOR.b #$FF : INC : STA.w !angle_step, X
+                
+                JSR.w ArmosCoordinator_DisableKnights_XY_Coercion
+                JSR.w ArmosCoordinator_Rotate
+                
+                RTS
             
-            RTS
-        
-        .not_at_front_wall_yet
-        
+            .not_at_front_wall_yet
         DEY : BPL .next_knight
     
     .delay_cascade
@@ -179,10 +175,11 @@ ArmosCoordinator_CascadeKnightsToFrontWall:
 ; $0EEC96-$0EECAA JUMP LOCATION
 ArmosCoordinator_RadialContraction:
 {
-    LDA !radius : DEC : STA !radius : CMP.b #$20 : BNE .await_contraction
-        INC !coordinator_ai_state, X
+    LDA.w !radius : DEC : STA.w !radius
+    CMP.b #$20 : BNE .await_contraction
+        INC.w !coordinator_ai_state, X
         
-        LDA.b #$40 : STA !state_timer, X
+        LDA.b #$40 : STA.w !state_timer, X
     
     .await_contraction
     
@@ -194,10 +191,11 @@ ArmosCoordinator_RadialContraction:
 ; $0EECAB-$0EECBF JUMP LOCATION
 ArmosCoordinator_RadialDilation:
 {
-    LDA !radius : INC : STA !radius : CMP.b #$40 : BNE .await_dilation
-        INC !coordinator_ai_state, X
+    LDA.w !radius : INC : STA.w !radius
+    CMP.b #$40 : BNE .await_dilation
+        INC.w !coordinator_ai_state, X
         
-        LDA.b #$40 : STA !state_timer, X
+        LDA.b #$40 : STA.w !state_timer, X
     
     .await_dilation
     
@@ -219,8 +217,8 @@ Pool_ArmosCoordinator_Rotate:
 ; $0EECCC-$0EECD3 JUMP LOCATION
 ArmosCoordinator_TimedRotateThenTransition:
 {
-    LDA !state_timer, X : BNE .delay_transition
-        INC !coordinator_ai_state, X
+    LDA.w !state_timer, X : BNE .delay_transition
+        INC.w !coordinator_ai_state, X
     
     .delay_transition
 
@@ -232,13 +230,13 @@ ArmosCoordinator_Rotate:
 {
     LDY.b #$00
     
-    LDA !angle_step, X : BPL .sign_extend_angle_step
+    LDA.w !angle_step, X : BPL .sign_extend_angle_step
         DEY
     
     .sign_extend_angle_step
     
-    CLC : ADC !coordinator_angle+0 : STA !coordinator_angle+0
-    TYA : ADC !coordinator_angle+1 : STA !coordinator_angle+1
+    CLC : ADC.w !coordinator_angle+0 : STA.w !coordinator_angle+0
+    TYA : ADC.w !coordinator_angle+1 : STA.w !coordinator_angle+1
     
     STZ.w $0FB5
     
@@ -248,26 +246,25 @@ ArmosCoordinator_Rotate:
         
         REP #$20
         
-        LDA !coordinator_angle : CLC : ADC.w Pool_ArmosCoordinator_Rotate, Y : STA.b $00
+        LDA.w !coordinator_angle
+        CLC : ADC.w Pool_ArmosCoordinator_Rotate, Y : STA.b $00
         
         SEP #$20
         
         PLY
         
-        LDA !radius : STA.b $0F
+        LDA.w !radius : STA.b $0F
         
         PHX
         
         REP #$30
         
         LDA.b $00 : AND.w #$00FF : ASL : TAX
-        
         LDA.l SmoothCurve, X : STA.b $04
         
         LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02
         
         AND.w #$00FF : ASL : TAX
-        
         LDA.l SmoothCurve, X : STA.b $06
         
         SEP #$30
@@ -304,9 +301,8 @@ ArmosCoordinator_Rotate:
         
         .BRANCH_EPSILON
         
-        CLC : ADC !overlord_x_low, X
-        LDY.w $0FB5 : STA !puppet_x_low, Y
-        LDA !overlord_x_high, X : ADC.b $0A : STA !pupper_x_high, Y
+        CLC : ADC.w !overlord_x_low, X : LDY.w $0FB5 : STA.w !puppet_x_low, Y
+        LDA.w !overlord_x_high, X : ADC.b $0A : STA.w !pupper_x_high, Y
         
         LDA.b $06 : STA.w SNES.MultiplicandA
         
@@ -336,12 +332,10 @@ ArmosCoordinator_Rotate:
         
         .BRANCH_IOTA
         
-        CLC : ADC !overlord_y_low, X
-        LDY.w $0FB5 : STA !puppet_y_low, Y
-        LDA !overlord_y_high, X : ADC.b $0A : STA !puppet_y_high, Y
+        CLC : ADC.w !overlord_y_low, X : LDY.w $0FB5 : STA.w !puppet_y_low, Y
+        LDA.w !overlord_y_high, X : ADC.b $0A : STA.w !puppet_y_high, Y
         
         INC.w $0FB5
-        
         LDA.w $0FB5 : CMP.b #$06 : BEQ .return
     JMP .next_knight
     

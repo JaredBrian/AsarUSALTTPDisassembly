@@ -26,7 +26,7 @@ Sprite_LaserBeam:
     JSL.l Sprite_CheckDamageToPlayerSameLayerLong
     
     ; TODO: timer_0?
-    LDA !timer_0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
         	JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
     	    STZ.w $0DD0, X
     
@@ -209,7 +209,7 @@ LaserEye_MonitorFiringZone:
     	.irrelevant
     
 	; TODO: timer_0?
-    	STA !timer_0, X
+    	STA.w $0DF0, X
     
     	INC.w $0D80, X
     
@@ -259,7 +259,7 @@ LaserEye_FiringBeam:
 {
     LDA.b #$01 : STA.w $0DC0, X
     
-    LDA !timer_0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     	STZ.w $0D80, X
     
     	JSR.w LaserEye_SpawnBeam
@@ -300,7 +300,7 @@ LaserEye_SpawnBeam:
     
     	LDA.b #$48 : STA.w $0CAA, Y : STA.w $0BA0, Y
     
-    	LDA.b #$05 : STA !timer_0, Y
+    	LDA.b #$05 : STA.w $0DF0, Y
     
     	LDA.l $7EF35A : CMP.b #$03 : BNE .not_blockable
     	    ; NOTE: Again, this pattern... why even bother writing code to
