@@ -11,7 +11,7 @@ Sprite_StalfosBone:
     
     JSR.w Sprite3_Move
     
-    LDA !timer_0, X : BNE .dont_self_terminate 
+    LDA.w $0DF0, X : BNE .dont_self_terminate 
         JSR.w Sprite3_CheckTileCollision : BEQ .dont_self_terminate
             STZ.w $0DD0, X
             
@@ -84,7 +84,7 @@ Sprite_Stalfos:
     .not_bone
     
     LDA.w $0E90, X : BEQ Stalfos_Visible
-        LDA !timer_0, X : BNE .delay
+        LDA.w $0DF0, X : BNE .delay
             LDA.b #$01 : STA.w $0D50, X : STA.w $0D40, X
             
             JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
@@ -100,9 +100,9 @@ Sprite_Stalfos:
             
             JSL.l Sprite_SpawnPoofGarnish
             
-            LDA.b #$08 : STA !timer_2, X
+            LDA.b #$08 : STA.w $0E10, X
             
-            LDA.b #$40 : STA !timer_0, X
+            LDA.b #$40 : STA.w $0DF0, X
             
             STZ.w $0D40, X
             
@@ -255,7 +255,7 @@ Sprite_Zazak:
         
         STZ.w $0D80, X
         
-        LDA.b #$20 : STA !timer_0, X
+        LDA.b #$20 : STA.w $0DF0, X
         
         JSR.w Sprite3_Zero_XY_Velocity
         JSR.w Sprite3_DirectionToFacePlayer
@@ -310,10 +310,10 @@ Sprite_Zazak:
 ; $0F122B-$0F1253 JUMP LOCATION
 Zazak_WalkThenTrackHead:
 {
-    LDA !timer_0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
         JSL.l GetRandomInt : AND.b #$03 : TAY
         
-        LDA Stalfos_timers, Y : STA !timer_0, X
+        LDA Stalfos_timers, Y : STA.w $0DF0, X
         
         INC.w $0D80, X
         
@@ -342,7 +342,7 @@ Zazak_HaltAndPickNextDirection:
     LDA.b #$10
     
     LDY.w $0E70, X : BNE .select_new_direction
-        LDA !timer_0, X : BNE .just_animate
+        LDA.w $0DF0, X : BNE .just_animate
             LDA.w $0E20, X : CMP.b #$A6 : BNE .not_red_zazak
                 JSR.w Sprite3_DirectionToFacePlayer
                 
@@ -350,7 +350,7 @@ Zazak_HaltAndPickNextDirection:
                     LDA.b $EE : CMP.w $0F20, X : BNE .dont_shoot_player
                         INC.w $0D80, X
                         
-                        LDA.b #$30 : STA !timer_0, X
+                        LDA.b #$30 : STA.w $0DF0, X
                                     STA !timer_1, X
                         
                         BRA .zero_xy_velocity
@@ -362,7 +362,7 @@ Zazak_HaltAndPickNextDirection:
             .not_red_zazak
     .select_new_direction
     
-    STA !timer_0, X
+    STA.w $0DF0, X
     
     JSL.l GetRandomInt : LSR : LDA.w $0DE0, X : ROL : TAY
     
@@ -378,7 +378,7 @@ Zazak_HaltAndPickNextDirection:
         
         TYA : STA.w $0EB0, X
         
-        LDA.b #$18 : STA !timer_0, X
+        LDA.b #$18 : STA.w $0DF0, X
     
     .zero_xy_velocity
 
@@ -412,7 +412,7 @@ Zazak_HaltAndPickNextDirection_just_animate:
 ; $0F12D2-$0F12E3 JUMP LOCATION
 Zazak_ShootFirePhlegm:
 {
-    LDA !timer_0, X : BNE .delay_ai_state_revert
+    LDA.w $0DF0, X : BNE .delay_ai_state_revert
         STZ.w $0D80, X
         
         RTS
@@ -529,7 +529,7 @@ Stalfos_ThrowBoneAtPlayer:
         
         LDA.b #$48 : STA.w $0CAA, X
         
-        LDA.b #$10 : STA !timer_0, X
+        LDA.b #$10 : STA.w $0DF0, X
         
         LDA.b #$14 : STA.w $0F60, X
         

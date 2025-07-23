@@ -74,13 +74,13 @@ Sprite_Octorock:
         
         LDA.w $0E80, X : LSR #3 : AND.b #$03 : ORA !GFX_vert : STA !graphic, X
         
-        LDA !timer_0, X : BNE .wait_1
+        LDA.w $0DF0, X : BNE .wait_1
             ; Switch to the other main AI state.
             INC !ai_state, X
             
             LDY !type, X
             
-            LDA.w Pool_Sprite_Octorock_delays-8, Y : STA !timer_0, X
+            LDA.w Pool_Sprite_Octorock_delays-8, Y : STA.w $0DF0, X
             
             RTS
         
@@ -107,13 +107,13 @@ Sprite_Octorock:
     
     JSR.w Sprite_Zero_XY_Velocity
     
-    LDA !timer_0, X : BNE .wait_2
+    LDA.w $0DF0, X : BNE .wait_2
         INC !ai_state, X
         
         LDA !direction, X : PHA
         
         ; Set a new countdown timer and direction slightly at random.
-        JSL.l GetRandomInt : AND.b #$3F : ADC.b #$30 : STA !timer_0, X
+        JSL.l GetRandomInt : AND.b #$3F : ADC.b #$30 : STA.w $0DF0, X
         
         AND.b #$03 : STA !direction, X
         
@@ -171,7 +171,7 @@ Octorock_FourShooter_mouth_anim_step:
 ; $03546F-$035485 JUMP LOCATION (LOCAL)
 Octorock_Normal:
 {
-    LDA !timer_0, X : CMP.b #$1C : BNE .dont_spit_rock
+    LDA.w $0DF0, X : CMP.b #$1C : BNE .dont_spit_rock
         PHA
         
         JSR.w Octorock_SpitOutRock
@@ -198,7 +198,7 @@ Octorock_FourShooter_next_direction:
 ; $03548A-$0354B4 JUMP LOCATION (LOCAL)
 Octorock_FourShooter:
 {
-    LDA !timer_0, X : PHA
+    LDA.w $0DF0, X : PHA
     
     CMP.b #$80 : BCS .just_animate
         AND.b #$0F : BNE .dont_rotate
