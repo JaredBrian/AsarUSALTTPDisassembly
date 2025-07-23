@@ -16,9 +16,12 @@ Pool_Ancilla_SuperBombExplosion:
 Ancilla_SuperBombExplosion:
 {
     LDA.b $11 : BNE .draw
-        DEC.w $039F, X : LDA.w $039F, X : BNE .draw
-            INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$02 : BNE .blast_SFX_delay
-                LDA.b #$0C : JSR.w Ancilla_DoSfx2
+        DEC.w $039F, X
+        LDA.w $039F, X : BNE .draw
+            INC.w $0C5E, X
+            LDA.w $0C5E, X : CMP.b #$02 : BNE .blast_SFX_delay
+                LDA.b #$0C
+                JSR.w Ancilla_DoSfx2
             
             .blast_SFX_delay
             
@@ -29,30 +32,26 @@ Ancilla_SuperBombExplosion:
                 
             .not_fully_exploded
             
-            TAY
-            
-            LDA Ancilla_Bomb_interstate_intervals, Y : STA.w $039F, X
+            TAY 
+            LDA.w Ancilla_Bomb_interstate_intervals, Y : STA.w $039F, X
         
     .draw
     
     LDA.b #$08 : STA.b $09
     
-    LDA.b #$30 : STA.b $65 : STZ.b $64
+    LDA.b #$30 : STA.b $65
+                 STZ.b $64
     
-    STZ.b $0A
-    
+                 STZ.b $0A
     LDA.b #$32 : STA.b $0B
     
     LDA.w $0C5E, X : TAY
+    LDA.w Bomb_Draw_num_OAM_entries, Y : STA.b $08
     
-    LDA Bomb_Draw_num_OAM_entries, Y : STA.b $08
-    
-    LDA Ancilla_Bomb_chr_groups, Y : TAY
-    
-    LDA Bomb_Draw_chr_start_offset, Y : ASL : TAY
-    
-    ASL : STA.b $04
-            STZ.b $05
+    LDA.w Ancilla_Bomb_chr_groups, Y : TAY
+    LDA.w Bomb_Draw_chr_start_offset, Y : ASL : TAY
+    ASL                                       : STA.b $04
+                                                STZ.b $05
     
     TYA : STA.w $0C54, X
     
@@ -72,10 +71,10 @@ Ancilla_SuperBombExplosion:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_Ancilla_SuperBombExplosion_y_offsets, Y
+        LDA.b $00 : CLC : ADC.w Pool_Ancilla_SuperBombExplosion_y_offsets, Y
         SEC : SBC.b $E8 : STA.b $00
 
-        LDA.b $02 : CLC : ADC Pool_Ancilla_SuperBombExplosion_x_offsets, Y
+        LDA.b $02 : CLC : ADC.w Pool_Ancilla_SuperBombExplosion_x_offsets, Y
         SEC : SBC.b $E2 : STA.b $02
         
         SEP #$20
@@ -89,7 +88,6 @@ Ancilla_SuperBombExplosion:
                 PHX : PHY
                 
                 LDA.b #$18
-                
                 JSR.w Ancilla_AllocateOam
                 
                 PLY : PLX

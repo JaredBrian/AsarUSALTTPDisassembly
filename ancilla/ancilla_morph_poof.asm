@@ -30,8 +30,6 @@ Pool_MorphPoof_Draw:
     dw -4, 12, -4, 12
 }
 
-; ==============================================================================
-
 ; $0453BC-$0453FC JUMP LOCATION
 Ancilla_MorphPoof:
 {
@@ -85,7 +83,8 @@ MorphPoof_Draw:
             
             REP #$20
             
-            LDA.w #$00D0 : PHA : CLC : ADC.w #$0800 : STA.b $90
+            LDA.w #$00D0       : PHA
+            CLC : ADC.w #$0800 : STA.b $90
             
             PLA : LSR : LSR : CLC : ADC.w #$0A20 : STA.b $92
             
@@ -105,10 +104,8 @@ MorphPoof_Draw:
     PHX
     
     LDY.w $0C5E, X
-    
     LDA.w Pool_MorphPoof_Draw_OAM_size, Y : STA.b $08
-    
-    LDA.w Pool_MorphPoof_Draw_chr, Y : STA.b $0C
+    LDA.w Pool_MorphPoof_Draw_chr, Y      : STA.b $0C
     
     TYA : ASL : ASL : STA.b $0E
     
@@ -120,22 +117,21 @@ MorphPoof_Draw:
         
         REP #$20
         
-        LDA.b $04 : CLC : ADC Pool_MorphPoof_Draw_y_offsets, X : STA.b $00
-        LDA.b $06 : CLC : ADC Pool_MorphPoof_Draw_x_offsets, X : STA.b $02
+        LDA.b $04 : CLC : ADC.w Pool_MorphPoof_Draw_y_offsets, X : STA.b $00
+        LDA.b $06 : CLC : ADC.w Pool_MorphPoof_Draw_x_offsets, X : STA.b $02
         
         SEP #$20
         
         JSR.w Ancilla_SetOam_XY
         
-        LDA.b $0C : STA.b ($90), Y : INY
+        LDA.b $0C : STA.b ($90), Y
         
+        INY
         TXA : LSR : TAX
-        
         LDA.w Pool_MorphPoof_Draw_prop, X : ORA.b #$04 : ORA.b $65 : STA.b ($90), Y
+
         INY : PHY
-        
         TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
         LDA.b $08 : STA.b ($92), Y
         
         PLY
@@ -144,7 +140,8 @@ MorphPoof_Draw:
         ; commits one OAM entry to the buffer.
         CMP.b #$02 : BEQ .large_OAM_size
     ; We're finished after committing 4 OAM entries to the buffer.
-    INC.b $0A : LDA.b $0A : CMP.b #$04 : BNE .next_OAM_entry
+    INC.b $0A
+    LDA.b $0A : CMP.b #$04 : BNE .next_OAM_entry
     
     .large_OAM_size
     

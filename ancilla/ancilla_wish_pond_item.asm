@@ -5,7 +5,6 @@
 Ancilla_WishPondItem:
 {
     LDA.b #$10
-    
     JSR.w Ancilla_AllocateOam
     
     LDA.b $11 : BEQ .execute
@@ -73,11 +72,10 @@ Ancilla_WishPondItem:
     
     .sign_ext_z_coord
     
-    STA.b $04
-    
-    EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $00 : STA.b $06
-    
-    CLC : ADC.w #$0008 : STA.b $08
+                                           STA.b $04
+    EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $00
+                                           STA.b $06
+    CLC : ADC.w #$0008                   : STA.b $08
     
     SEP #$20
     
@@ -91,10 +89,9 @@ Ancilla_WishPondItem:
         .draw_shadow
         
         PHX
-        
-        LDA.w $0C5E, X : TAX
-        
+
         ; BUG: (Confirmed) Same bug as above.
+        LDA.w $0C5E, X : TAX
         LDA.w Ancilla_IceShotSparkle+$1B, X : TAX
         
         REP #$20

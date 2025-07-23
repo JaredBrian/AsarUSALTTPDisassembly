@@ -107,8 +107,6 @@ Pool_Ancilla_ReceiveItem:
     dw $0083 ; MESSAGE 0083
 }
 
-; ==============================================================================
-
 ; Special Object 0x22
 ; Items that we receive from various sources
 ; $04438A-$0446F1 JUMP LOCATION
@@ -160,7 +158,8 @@ Ancilla_ReceiveItem:
         .masterSwordFromSprite
     .notMasterSword
     
-    DEC.w $03B1, X : LDA.w $03B1, X : BEQ .timerFinished
+    DEC.w $03B1, X
+    LDA.w $03B1, X : BEQ .timerFinished
         CMP.b #$01 : BNE .timerWait
             LDA.w $0C5E, X : CMP.b #$37 : BEQ .isPendant
                              CMP.b #$38 : BEQ .isPendant
@@ -219,10 +218,9 @@ Ancilla_ReceiveItem:
         ; Load the number of heart pieces collected so far.
         LDA.l $7EF36B : BNE .notGrantingHeartContainer
             PHX
-            
-            LDY.b #$26
-            
+
             ; Grant a heart container!
+            LDY.b #$26
             JSL.l Link_ReceiveItem
             
             PLX
@@ -269,7 +267,8 @@ Ancilla_ReceiveItem:
     
         .playHeartContainerSfx
     
-        LDA.b #$0D : JSR.w Ancilla_DoSfx3_NearPlayer
+        LDA.b #$0D
+        JSR.w Ancilla_DoSfx3_NearPlayer
         
         BRA .objectFinished
     
@@ -334,7 +333,8 @@ Ancilla_ReceiveItem:
     .from_chest_or_sprite
     
     ; Check timer.
-    DEC.w $03B1, X : LDA.w $03B1, X : BPL .stillInMotion
+    DEC.w $03B1, X
+    LDA.w $03B1, X : BPL .stillInMotion
         BRL .optimus
     
     .stillInMotion
@@ -354,7 +354,8 @@ Ancilla_ReceiveItem:
         .noSoundEffect
         .rupeesGiven
         
-        LDA.b #$0F : JSR.w Ancilla_DoSfx3_NearPlayer
+        LDA.b #$0F
+        JSR.w Ancilla_DoSfx3_NearPlayer
         
         BRA .dontGiveRupees
     
@@ -363,13 +364,11 @@ Ancilla_ReceiveItem:
     LDA.b $1B : BEQ .outdoors
         REP #$20
         
-        LDA.b $A0
-        
-        CMP.w #$00FF : BEQ .shop
-        CMP.w #$010F : BEQ .shop
-        CMP.w #$0110 : BEQ .shop
-        CMP.w #$0112 : BEQ .shop
-        CMP.w #$011F : BNE .notShop
+        LDA.b $A0 : CMP.w #$00FF : BEQ .shop
+                    CMP.w #$010F : BEQ .shop
+                    CMP.w #$0110 : BEQ .shop
+                    CMP.w #$0112 : BEQ .shop
+                    CMP.w #$011F : BNE .notShop
             .shop
         
             SEP #$20
@@ -486,29 +485,26 @@ Ancilla_ReceiveItem:
         LDA.w $0C54, X : CMP.b #$02 : BEQ .dontAnimateMasterSword
             LDA.w $0C68, X : CMP.b #$10 : BCC .waitAnimateMasterSword
                 DEC.w $039F, X : BPL .dontAnimateMasterSword
-                
-                LDA.b #$02 : STA.w $039F, X
-                
-                LDA.w $03A4, X : INC : CMP.b #$03 : BNE .dontResetSwordAnimation
-        
+                    LDA.b #$02 : STA.w $039F, X
+                    
+                    LDA.w $03A4, X : INC : CMP.b #$03 : BNE .dontResetSwordAnimation
+            
             .waitAnimateMasterSword
         
             LDA.b #$00
         
             .dontResetSwordAnimation
         
-            STA.w $03A4, X : TAY
-        
+            STA.w $03A4, X
+            TAY
             LDA.w .default_OAM_properties, Y : STA.w $0BF0, X
         
         .dontAnimateMasterSword
     .checkIfRupee
     
-    LDA.w $0C5E, X
-    
-    CMP.b #$34 : BEQ .animatedRupeeSprite
-    CMP.b #$35 : BEQ .animatedRupeeSprite
-    CMP.b #$36 : BNE .dontAnimateSprite
+    LDA.w $0C5E, X :  CMP.b #$34 : BEQ .animatedRupeeSprite
+                      CMP.b #$35 : BEQ .animatedRupeeSprite
+                      CMP.b #$36 : BNE .dontAnimateSprite
         .animatedRupeeSprite
         
         DEC.w $039F, X : BPL .dontAnimateSprite
@@ -518,16 +514,16 @@ Ancilla_ReceiveItem:
         
         .dontResetAnimation
         
-        TAY
-            
         ; Set a new countdown timer for the amount of time it takes to get
         ; to the next animation step.
+        TAY
         LDA.w .animation_timers, Y : STA.w $039F, X
             
         PHX
             
         ; Load a new tile for the rupee.
-        LDA.w .animation_tiles, Y : JSL.l GetAnimatedSpriteTile
+        LDA.w .animation_tiles, Y
+        JSL.l GetAnimatedSpriteTile
             
         PLX
     
@@ -549,27 +545,25 @@ Ancilla_ReceiveItem:
     
     LDA.w $0BF0, X : STA.b $74
     
-    LDA.w $0C5E, X : TAX
-    
-    LDY.b #$00
-    
     ; Writes X and Y coordinates to OAM buffer.
+    LDA.w $0C5E, X : TAX
+    LDY.b #$00
     JSR.w Ancilla_SetOam_XY
     
     ; Always use the same character graphic (0x24).
-    LDA.b #$24 : STA.b ($90), Y : INY
+    LDA.b #$24 : STA.b ($90), Y
     
-    LDA AddReceiveItem_properties, X : BPL .valid_upper_properties
+    INY
+    
+    LDA.w AddReceiveItem_properties, X : BPL .valid_upper_properties
         LDA.b $74
     
     .valid_upper_properties
     
-    ASL : ORA.b #$30 : STA.b ($90), Y : INY
+    ASL : ORA.b #$30 : STA.b ($90), Y
     
-    PHY
-    
+    INY : PHY
     TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-    
     LDA.w .wide_item_flag, X : STA.b ($92), Y
     
     PLY
@@ -587,9 +581,11 @@ Ancilla_ReceiveItem:
         JSR.w Ancilla_SetOam_XY
         
         ; Always use the same character graphic (0x34).
-        LDA.b #$34 : STA.b ($90), Y : INY
+        LDA.b #$34 : STA.b ($90), Y
         
-        LDA AddReceiveItem_properties, X : BPL .valid_lower_properties
+        INY
+        
+        LDA.w AddReceiveItem_properties, X : BPL .valid_lower_properties
             LDA.b $74
         
         .valid_lower_properties
@@ -597,9 +593,7 @@ Ancilla_ReceiveItem:
         ASL : ORA.b #$30 : STA.b ($90), Y 
         
         INY : PHY
-        
         TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
         LDA.b #$00 : STA.b ($92), Y
         
         PLY

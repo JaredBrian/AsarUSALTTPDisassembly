@@ -113,15 +113,14 @@ WallHit_Draw:
             
             JSR.w Ancilla_SetOam_XY
             
-            LDA.w Pool_WallHit_Draw_chr, X : STA ($90), Y
+            LDA.w Pool_WallHit_Draw_chr, X : STA.b ($90), Y
+
             INY
-            
-            LDA.w Pool_WallHit_Draw_properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y
+            LDA.w Pool_WallHit_Draw_properties, X : AND.b #$CF : ORA.b $65 : STA.b ($90), Y
+
             INY : PHY
-            
             TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-            
-            LDA.b #$00 : STA ($92), Y
+            LDA.b #$00 : STA.b ($92), Y
             
             PLY
             

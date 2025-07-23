@@ -81,22 +81,23 @@ Ancilla_SwordCeremony:
             
             JSR.w Ancilla_SetOam_XY
             
-            LDA.w Pool_Ancilla_SwordCeremony_chr, X : STA ($90), Y : INY
+            LDA.w Pool_Ancilla_SwordCeremony_chr, X : STA.b ($90), Y
+            
+            INY
             
             LDA.w Pool_Ancilla_SwordCeremony_properties, X : AND.b #$CF
             
-            ORA.b #$04 : ORA.b $65 : STA ($90), Y : INY
+            ORA.b #$04 : ORA.b $65 : STA.b ($90), Y
             
-            PHY
-            
+            INY : PHY
             TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-            
-            LDA.b #$00 : STA ($92), Y
+            LDA.b #$00 : STA.b ($92), Y
             
             PLY
             
             INX
-        INC.b $08 : LDA.b $08 : CMP.b #$04 : BNE .next_OAM_entry
+        INC.b $08
+        LDA.b $08 : CMP.b #$04 : BNE .next_OAM_entry
     
     .nothing_to_draw
     

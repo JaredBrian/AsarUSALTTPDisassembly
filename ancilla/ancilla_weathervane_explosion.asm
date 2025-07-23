@@ -7,7 +7,8 @@ Ancilla_WeathervaneExplosion:
     REP #$20
     
     ; An initial timer. starts at 0x0280, counts down to zero.
-    LDA.l $7F58B6 : DEC : STA.l $7F58B6 : BNE .return
+    LDA.l $7F58B6 : DEC : STA.l $7F58B6
+    BNE .return
         SEP #$20
         
         INC : STA.l $7F58B6
@@ -32,7 +33,8 @@ Ancilla_WeathervaneExplosion:
     ; Start ticking down the timer for the explosion to occur.
     ; How much time left on the timer?
     ; Still time left, quit the routine.
-    DEC.w $0394, X : LDA.w $0394, X : BNE .return
+    DEC.w $0394, X
+    LDA.w $0394, X : BNE .return
         ; Otherwise, put one frame back on the timer.
         INC : STA.w $0394, X
         
@@ -40,28 +42,28 @@ Ancilla_WeathervaneExplosion:
             ; This code should only get executed once?
             INC : STA.w $039F, X
             
-            LDA.b #$0C : JSR.w Ancilla_DoSfx2_NearPlayer
+            LDA.b #$0C
+            JSR.w Ancilla_DoSfx2_NearPlayer
             
         .explosion_SFX_already_played
         
         ; Which step of the effect are we in?
         LDA.w $0C54, X : BNE .past_first_step
                 DEC.w $03B1, X : BPL .past_first_step
-                ; Switch to the second step of the effect.
-                LDA.b #$01 : STA.w $0C54, X
-                
-                PHX
-                
-                JSL.l Overworld_AlterWeathervane
-                
-                ; Trigger the sprite animations, such as the particles and
-                ; the bird.
-                LDY.b #$00
-                LDA.b #$38
-                
-                JSL.l AddTravelBirdIntro
-                
-                PLX
+                    ; Switch to the second step of the effect.
+                    LDA.b #$01 : STA.w $0C54, X
+                    
+                    PHX
+                    
+                    JSL.l Overworld_AlterWeathervane
+                    
+                    ; Trigger the sprite animations, such as the particles and
+                    ; the bird.
+                    LDY.b #$00
+                    LDA.b #$38
+                    JSL.l AddTravelBirdIntro
+                    
+                    PLX
             
         .past_first_step
         
@@ -78,7 +80,8 @@ Ancilla_WeathervaneExplosion:
         
         .active_chunk
         
-        LDA.l $7F5860, X : DEC : STA.l $7F5860, X : BPL .chr_toggle_delay
+        LDA.l $7F5860, X : DEC : STA.l $7F5860, X
+        BPL .chr_toggle_delay
             LDA.b #$01 : STA.l $7F5860, X
             
             ; Alternate their appearance.
@@ -89,7 +92,6 @@ Ancilla_WeathervaneExplosion:
         PHX
         
         LDA.l $7F5878 : TAY
-        
         LDA.l $7F586C, X : STA.w $0C5E, Y
         LDA.l $7F5824, X : STA.w $0BFA, Y
         LDA.l $7F5830, X : STA.w $0C0E, Y
@@ -99,7 +101,8 @@ Ancilla_WeathervaneExplosion:
         LDA.l $7F5800, X : STA.w $0C22, Y
         LDA.l $7F580C, X : STA.w $0C2C, Y
         
-        LDA.l $7F5818, X : SEC : SBC.b #$01 : STA.l $7F5818, X : STA.w $0294, Y
+        LDA.l $7F5818, X : SEC : SBC.b #$01 : STA.l $7F5818, X
+                                              STA.w $0294, Y
         
         TYX
         
@@ -124,7 +127,6 @@ Ancilla_WeathervaneExplosion:
         .dont_deactivate_yet
         
         LDA.l $7F5878 : TAY
-        
         LDA.w $0BFA, Y : STA.l $7F5824, X
         LDA.w $0C0E, Y : STA.l $7F5830, X
         LDA.w $0C04, Y : STA.l $7F583C, X
@@ -140,7 +142,6 @@ Ancilla_WeathervaneExplosion:
         .executed_all_chunks
         
         LDA.l $7F5878 : TAY
-        
         LDX.b #$0B
         
         .find_active_wood_chunk
@@ -184,22 +185,21 @@ WeathervaneExplosion_DrawWoodChunk:
     
     SEP #$20
     
-    LDA.w $0C5E, X : STA.b $72 : BMI .inactive_component
+    LDA.w $0C5E, X : STA.b $72
+    BMI .inactive_component
         PHX
         
         LDA.l $7F5879 : TAY
-        
         JSR.w Ancilla_SetOam_XY
         
         LDX.b $72
+        LDA.w .chr, X  : STA.b ($90), Y
         
-        LDA.w .chr, X  : STA.b ($90), Y : INY
-        LDA.b #$3C     : STA.b ($90), Y : INY
+        INY
+        LDA.b #$3C     : STA.b ($90), Y
         
-        TYA : STA.l $7F5879
-        
+        INY : TYA : STA.l $7F5879
         SEC : SBC.b #$04 : LSR : LSR : TAY
-        
         LDA.b #$00 : STA.b ($92), Y
         
         PLX

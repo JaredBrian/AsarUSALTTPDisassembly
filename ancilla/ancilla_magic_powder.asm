@@ -110,8 +110,7 @@ Ancilla_MagicPowder:
             
             .dont_self_terminate
             
-            STA.w $0C5E, X
-            
+                              STA.w $0C5E, X
             CLC : ADC.b $00 : TAY
             LDA.w Pool_Ancilla_MagicPowder_animation_groups, Y : STA.w $03C2, X
     
@@ -154,18 +153,17 @@ MagicPowder_Draw:
         
         REP #$20
         
-        LDA.b $06 : CLC : ADC Pool_Ancilla_MagicPowder_y_offsets, X : STA.b $00
-        LDA.b $08 : CLC : ADC Pool_Ancilla_MagicPowder_x_offsets, X : STA.b $02
+        LDA.b $06 : CLC : ADC.w Pool_Ancilla_MagicPowder_y_offsets, X : STA.b $00
+        LDA.b $08 : CLC : ADC.w Pool_Ancilla_MagicPowder_x_offsets, X : STA.b $02
         
         SEP #$20
         
         JSR.w Ancilla_SetOam_XY
         
         LDX.b $0C
-        
         LDA.w Pool_Ancilla_MagicPowder_chr, X : STA.b ($90), Y
+
         INY
-        
         LDX.b $0A
         
         ; TODO: Confirm this.
@@ -173,10 +171,9 @@ MagicPowder_Draw:
         ; this array into the proceeding code?
         LDA.w Pool_Ancilla_MagicPowder_properties, X
         AND.b #$CF : ORA.b $65 : STA.b ($90), Y
-        INY
-        
-        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
+
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         LDA.b #$00 : STA.b ($92), Y
         
         PLY
@@ -208,7 +205,6 @@ MagicPowder_ApplySpriteDamage:
                     PHY : PHX
                     
                     TYX
-                    
                     JSL.l Sprite_SetupHitBoxLong
                     
                     PLX : PLY
@@ -230,7 +226,6 @@ MagicPowder_ApplySpriteDamage:
                                 PHX : PHY
                                 
                                 TYX
-                                
                                 JSL.l Sprite_SpawnPoofGarnish
                                 
                                 PLY : PLX
@@ -245,7 +240,8 @@ MagicPowder_ApplySpriteDamage:
                         
                         ; Check damage from magic powder to general sprites (not
                         ; specifically transformable like chickens or buzzblobs).
-                        LDA.b #$0A : JSL.l Ancilla_CheckSpriteDamage_preset_class
+                        LDA.b #$0A
+                        JSL.l Ancilla_CheckSpriteDamage_preset_class
                         
                         PLY : PLX
                 .immuneToPowder

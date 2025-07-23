@@ -71,7 +71,8 @@ Ancilla_TravelBird:
     DEC.w $0394, X : BPL .flapping_SFX_delay
         LDA.b #$28 : STA.w $0394, X
         
-        LDA.b #$1E : JSR.w Ancilla_DoSfx3
+        LDA.b #$1E
+        JSR.w Ancilla_DoSfx3
     
     .flapping_SFX_delay
     
@@ -82,7 +83,7 @@ Ancilla_TravelBird:
             
     .dropping_off_so_swoop_down
     
-    LDA.w $0294, X : CLC : ADC.b #-1 : STA.w $0294, X
+    LDA.w $0294, X : CLC : ADC.b #$FF : STA.w $0294, X
     
     JSR.w Ancilla_MoveAltitude
     
@@ -91,7 +92,6 @@ Ancilla_TravelBird:
     JSR.w Ancilla_MoveHoriz
     
     LDA.w $0385, X : BEQ .pick_up_logic
-    
         BRL .drop_off_logic
         
     .dont_pick_up_player
@@ -101,14 +101,12 @@ Ancilla_TravelBird:
     .pick_up_logic
     
     LDY.b #$01
-    
     JSR.w Ancilla_CheckPlayerCollision : BCC .dont_pick_up_player
         LDA.b $10 : CMP.b #$0F : BEQ .dont_pick_up_player
             LDA.b $1B : BNE .indoors
-                LDA.b $5D
-                CMP.b #$0A : BEQ .dont_pick_up_player
-                CMP.b #$09 : BEQ .dont_pick_up_player
-                CMP.b #$08 : BEQ .dont_pick_up_player
+                LDA.b $5D : CMP.b #$0A : BEQ .dont_pick_up_player
+                            CMP.b #$09 : BEQ .dont_pick_up_player
+                            CMP.b #$08 : BEQ .dont_pick_up_player
                     LDA.b $5B : CMP.b #$02 : BEQ .dont_pick_up_player
                         LDA.w $02DA : ORA.w $037E : ORA.w $03EF : ORA.w $037B
                         BNE .dont_pick_up_player
@@ -159,11 +157,10 @@ Ancilla_TravelBird:
             LDA.b #$0C : STA.b $4B
             
             LDA.b #$00 : STA.b $5D
-            
-            INC : STA.w $02DA
-                    STA.w $02E4
-                    STA.w $037B
-                    STA.w $02F9
+            INC       : STA.w $02DA
+                        STA.w $02E4
+                        STA.w $037B
+                        STA.w $02F9
             
             ; Begin rising now that the player has been picked up.
             INC : STA.w $0C54, X
@@ -210,10 +207,8 @@ Ancilla_TravelBird:
             
             LDA.b #$90 : STA.w $031F
             
-            LDA.l $7EF3CC
-            
-            CMP.b #$0D : BEQ .super_bomb_or_chest_tagalong
-            CMP.b #$0C : BNE .tagalong_neither_of_those
+            LDA.l $7EF3CC : CMP.b #$0D : BEQ .super_bomb_or_chest_tagalong
+                            CMP.b #$0C : BNE .tagalong_neither_of_those
                 .super_bomb_or_chest_tagalong
                 
                 LDA.l $7EF3D3 : BNE .draw_logic
@@ -273,7 +268,7 @@ Ancilla_TravelBird:
     STA.b $04
     STA.b $72
     
-    LDA.b $00 : STA.b $0A
+    LDA.b $00       : STA.b $0A
     CLC : ADC.b $04 : STA.b $04
     
     LDA.b $02 : STA.b $06
@@ -291,7 +286,6 @@ Ancilla_TravelBird:
         REP #$20
         
         LDA.w Pool_Ancilla_TravelBird_y_offsets, X : AND.w #$00FF
-        
         CMP.w #$0080 : BCC .sign_ext_y_offset
             ORA.w #$FF00
         
@@ -300,7 +294,6 @@ Ancilla_TravelBird:
         CLC : ADC.b $04 : STA.b $00
         
         LDA.w .x_offsets, X : AND.w #$00FF
-        
         CMP.w #$0080 : BCC .sign_ext_x_offset
             ORA.w #$FF00
         
@@ -312,17 +305,14 @@ Ancilla_TravelBird:
         
         JSR.w Ancilla_SetOam_XY
         
-        LDA.w Pool_Ancilla_TravelBird_chr, X : STA ($90), Y
+        LDA.w Pool_Ancilla_TravelBird_chr, X : STA.b ($90), Y
+
         INY
-        
-        LDA.w Pool_Ancilla_TravelBird_properties, X : ORA.b #$30 : STA ($90), Y
-        INY
-        
-        PHY
-        
+        LDA.w Pool_Ancilla_TravelBird_properties, X : ORA.b #$30 : STA.b ($90), Y
+
+        INY : PHY
         TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
-        LDA.b #$02 : STA ($92), Y
+        LDA.b #$02 : STA.b ($92), Y
         
         PLY
         
@@ -339,7 +329,8 @@ Ancilla_TravelBird:
     
     LDA.b #$30 : STA.b $04
     
-    LDX.b #$01 : JSR.w Ancilla_DrawShadow
+    LDX.b #$01
+    JSR.w Ancilla_DrawShadow
     
     LDX.w $0FA0
     
@@ -347,14 +338,14 @@ Ancilla_TravelBird:
         REP #$20
         
         LDA.b $0A : CLC : ADC.w #28 : STA.b $00
-        
         LDA.b $06 : CLC : ADC.w #-7 : STA.b $02
         
         SEP #$20
         
         LDA.b #$30 : STA.b $04
         
-        LDX.b #$01 : JSR.w Ancilla_DrawShadow
+        LDX.b #$01
+        JSR.w Ancilla_DrawShadow
     
     .dont_draw_player_shadow
     

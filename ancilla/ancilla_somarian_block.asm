@@ -64,8 +64,8 @@ Ancilla_SomarianBlock:
                 LDA.w $0380, X : BEQ .pretrigger_logic
                     CMP.b #$03 : BEQ .assert_fully_held_position
                         LDY.b #$03
-                        
                         JSR.w Ancilla_PegCoordsToPlayer
+
                         JSR.w Ancilla_PegAltitudeAbovePlayer
                         
                         LDA.b #$03 : STA.w $0380, X
@@ -77,7 +77,6 @@ Ancilla_SomarianBlock:
             .pretrigger_logic
             
             LDA.b $1B : BEQ .outdoors
-            
                 LDA.w $0380, X : BNE .unset_trigger_if_player_holding
                     BIT.w $0308 : BMI .unset_trigger_if_player_holding
                         LDA.w $029E, X : BEQ .trigger_logic
@@ -106,20 +105,24 @@ Ancilla_SomarianBlock:
             .find_transit_node_nearby
             
             LDA.w $0BFA, X
-            CLC : ADC Pool_Ancilla_SomarianBlock_node_check_y_offsets+0, Y
-            STA.b $00 : STA.b $72
+            CLC : ADC.w Pool_Ancilla_SomarianBlock_node_check_y_offsets+0, Y
+            STA.b $00
+            STA.b $72
 
             LDA.w $0C0E, X
-                  ADC Pool_Ancilla_SomarianBlock_node_check_y_offsets+1, Y
-            STA.b $01 : STA.b $73
+                  ADC.w Pool_Ancilla_SomarianBlock_node_check_y_offsets+1, Y
+            STA.b $01
+            STA.b $73
             
             LDA.w $0C04, X
-            CLC : ADC Pool_Ancilla_SomarianBlock_node_check_x_offsets+0, Y
-            STA.b $02 : STA.b $74
+            CLC : ADC.w Pool_Ancilla_SomarianBlock_node_check_x_offsets+0, Y
+            STA.b $02
+            STA.b $74
 
             LDA.w $0C18, X
-                  ADC Pool_Ancilla_SomarianBlock_node_check_x_offsets+1, Y
-            STA.b $03 : STA.b $75
+                  ADC.w Pool_Ancilla_SomarianBlock_node_check_x_offsets+1, Y
+            STA.b $03
+            STA.b $75
             
             PHY
             
@@ -134,7 +137,6 @@ Ancilla_SomarianBlock:
             ; These are the '?' transit tile nodes.
             LDA.w $03E4, X : CMP.b #$B6 : BEQ .attempt_platform_spawn
                              CMP.b #$BC : BEQ .attempt_platform_spawn
-            
                 TYA : CLC : ADC.b #$08 : TAY
                 CPY.b #$18 : BCS .tile_collision_logic
                     BRA .find_transit_node_nearby
@@ -271,9 +273,7 @@ Ancilla_SomarianBlock:
             
             PLA : STA.w $0280, X
             
-            LDA.w $03E4, X
-            
-            CMP.b #$26 : BEQ .in_floor_staircase_boundary
+            LDA.w $03E4, X : CMP.b #$26 : BEQ .in_floor_staircase_boundary
                 CMP.b #$0C : BEQ .niche_collision_tiles
                 CMP.b #$1C : BEQ .niche_collision_tiles
                     CMP.b #$20 : BEQ .pit_tiles
@@ -398,8 +398,9 @@ Ancilla_SomarianBlock_damage_logic:
     LDA.b $75 : ORA.w $0280, X : STA.b $75
         
     LDA.w $0308 : BMI .dont_fizzle
-        DEC.w $03A9, X : LDA.w $03A9, X : BNE .dont_fizzle
-                    INC.w $03A9, X
+        DEC.w $03A9, X
+        LDA.w $03A9, X : BNE .dont_fizzle
+            INC.w $03A9, X
             
             STZ.w $0280, X
             
@@ -437,8 +438,7 @@ SomarianBlock_Draw:
         LDA.w $0C7C, X : BEQ .prep_coords
             LDA.w $0385, X : BNE .other_special_allocation_if_airborn
                 TXY : INY : CPY.w $02EC : BNE .prep_coords
-            
-                LDA.w $0308 : BPL .prep_coords
+                    LDA.w $0308 : BPL .prep_coords
                 
              .other_special_allocation_if_airborn
                 
@@ -492,8 +492,8 @@ SomarianBlock_Draw:
         
         STZ.b $74
         
-        PHX : TXA : ASL : TAX
-        
+        PHX
+        TXA : ASL : TAX
         LDA.b $04 : CLC : ADC .y_offsets, X : STA.b $00
         LDA.b $06 : CLC : ADC .x_offsets, X : STA.b $02
         
@@ -506,16 +506,16 @@ SomarianBlock_Draw:
         ; NOTE: Really? This is made out of 4 little sprites and not 1 big one?
         ; I doesn't computer this amdfpaiosdfjadsofja. (Maybe it was a space
         ; limitation, but still...)
-        LDA.b #$E9 : STA ($90), Y
-        INY
+        LDA.b #$E9 : STA.b ($90), Y
 
-        LDA.w .properties, X : AND.b #$CF : ORA.b $72 : ORA.b $65 : STA ($90), Y
         INY
-        
-        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+        LDA.w .properties, X : AND.b #$CF : ORA.b $72 : ORA.b $65 : STA.b ($90), Y
+
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
         ; WTF:(unconfirmed) .... compile time constant?
-        LDA.b #$00 : ORA.b $75 : STA ($92), Y
+        LDA.b #$00 : ORA.b $75 : STA.b ($92), Y
         
         PLY
         
@@ -531,7 +531,7 @@ SomarianBlock_Draw:
         
         .find_on_screen_y_OAM_entry
         
-            LDA ($90), Y : CMP.b #$F0 : BNE .OAM_entry_not_off_screen_y
+            LDA.b ($90), Y : CMP.b #$F0 : BNE .OAM_entry_not_off_screen_y
         INY #4 : CPY.b #$11 : BNE .find_on_screen_y_OAM_entry
         
         BRA .terminate_per_off_screen
@@ -542,7 +542,7 @@ SomarianBlock_Draw:
         
         .find_on_screen_x_OAM_entry
         
-            LDA ($92), Y : AND.b #$01 : BEQ .return
+            LDA.b ($92), Y : AND.b #$01 : BEQ .return
         INY : CPY.b #$04 : BNE .find_on_screen_x_OAM_entry
         
         .terminate_per_off_screen
@@ -592,19 +592,23 @@ SomarianBlock_CheckCoveredTileTrigger:
         
         LDA.w $0BFA, X
         CLC : ADC Pool_SomarianBlock_CheckCoveredTileTrigger_y_offsets+0, Y
-        STA.b $00 : STA.b $72
+        STA.b $00
+        STA.b $72
 
         LDA.w $0C0E, X
               ADC Pool_SomarianBlock_CheckCoveredTileTrigger_y_offsets+1, Y
-        STA.b $01 : STA.b $73
+        STA.b $01
+        STA.b $73
         
         LDA.w $0C04, X
         CLC : ADC Pool_SomarianBlock_CheckCoveredTileTrigger_x_offsets+0, Y
-        STA.b $02 : STA.b $74
+        STA.b $02
+        STA.b $74
 
         LDA.w $0C18, X
               ADC Pool_SomarianBlock_CheckCoveredTileTrigger_x_offsets+1, Y
-        STA.b $03 : STA.b $75
+        STA.b $03
+        STA.b $75
         
         PHY
         
@@ -616,12 +620,10 @@ SomarianBlock_CheckCoveredTileTrigger:
         
         PLY
         
-        LDA.w $03E4, X
-        
-        CMP.b #$23 : BEQ .recognized_tile_attr
-        CMP.b #$24 : BEQ .recognized_tile_attr
-        CMP.b #$25 : BEQ .recognized_tile_attr
-        CMP.b #$3B : BNE .ignored_tile_attr
+        LDA.w $03E4, X : CMP.b #$23 : BEQ .recognized_tile_attr
+                         CMP.b #$24 : BEQ .recognized_tile_attr
+                         CMP.b #$25 : BEQ .recognized_tile_attr
+                         CMP.b #$3B : BNE .ignored_tile_attr
             .recognized_tile_attr
             
             INC.w $03DB, X
@@ -682,8 +684,6 @@ Pool_SomarianBlock_InitDashBounce:
     db 30,  18,  10,   8
 }
 
-; ==============================================================================
-
 ; $0467E6-$0468F2 LONG JUMP LOCATION
 SomarianBlock_PlayerInteraction:
 {
@@ -716,8 +716,7 @@ SomarianBlock_PlayerInteraction:
                             LDA.b #$FF : STA.w $038A, X
                             
                             LDA.w $0372 : BNE .check_player_collision
-                            
-                            STZ.b $5E
+                                STZ.b $5E
             
     .end_push_logic
     
@@ -727,7 +726,6 @@ SomarianBlock_PlayerInteraction:
     
     CMP.w $039F, X : BNE .different_directions_from_prev_frame 
         LDA.b $5E : CMP.b #$12 : BNE .check_player_collision
-
             LDA.b #$81 : TSB.b $48
             
             BRA .check_player_collision
@@ -742,7 +740,6 @@ SomarianBlock_PlayerInteraction:
     .check_player_collision
     
     LDY.b #$04
-    
     JSR.w Ancilla_CheckPlayerCollision : BCC .end_push_logic
         LDA.w $0C7C, X : CMP.b $EE : BNE .end_push_logic
             LDA.w $0372 : BEQ .not_dash_bounce
@@ -754,7 +751,8 @@ SomarianBlock_PlayerInteraction:
                     
                     JSL.l Player_HaltDashAttackLong
                     
-                    LDA.b #$32 : JSR.w Ancilla_DoSfx3
+                    LDA.b #$32
+                    JSR.w Ancilla_DoSfx3
                     
                     BRL SomarianBlock_InitDashBounce
             
@@ -764,7 +762,6 @@ SomarianBlock_PlayerInteraction:
             STZ.w $0C22, X
             
             LDA.b $F0 : AND.b #$0F : STA.w $039F, X
-            
             AND.b #$03 : BEQ .vertical_push
                 LDY.w .positive_push_speed
                 
@@ -777,7 +774,7 @@ SomarianBlock_PlayerInteraction:
                 
                 LDY.b #$02
                 
-                CMP .positive_push_speed : BNE .set_direction_indicator
+                CMP.w .positive_push_speed : BNE .set_direction_indicator
                     INY
                     
                     BRA .set_direction_indicator
@@ -795,7 +792,7 @@ SomarianBlock_PlayerInteraction:
             
             LDY.b #$00
             
-            CMP .positive_push_speed : BNE .set_direction_indicator
+            CMP.w .positive_push_speed : BNE .set_direction_indicator
                 INY
             
             .set_direction_indicator
@@ -845,10 +842,9 @@ SomarianBlock_PlayerInteraction:
 ; $0468F3-$046913 BRANCH LOCATION
 SomarianBlock_InitDashBounce:
 {
-    LDA.b $2F : LSR : STA.w $0C72, X : TAY
-    
+    LDA.b $2F : LSR : STA.w $0C72, X
+                      TAY
     LDA.w Pool_SomarianBlock_InitDashBounce_launch_y_speeds, Y : STA.w $0C22, X
-    
     LDA.w Pool_SomarianBlock_InitDashBounce_launch_x_speeds, Y : STA.w $0C2C, X
     
     ; Not indexed, used the maximum rise available in the array.
@@ -878,13 +874,13 @@ SomarianBlock_ContinueDashBounce:
     .hit_ground
     
     ; Play plopping on the ground noise when it hits the ground.
-    LDA.b #$21 : JSR.w Ancilla_DoSfx2
+    LDA.b #$21
+    JSR.w Ancilla_DoSfx2
     
     ; Force altitude to zero.
     STZ.w $029E, X
     
     LDA.w $03C5, X : INC : STA.w $03C5, X
-    
     CMP.b #$04 : BNE .bounces_maxed_out
         STZ.w $0BF0, X
         STZ.w $03C5, X

@@ -31,7 +31,6 @@ Ancilla_SwordChargeSpark:
     PHX
     
     LDA.b #$04
-    
     JSR.w Ancilla_AllocateOam
     
     TYA : STA.w $0C86, X
@@ -39,16 +38,15 @@ Ancilla_SwordChargeSpark:
     JSR.w Ancilla_PrepOamCoord
     
     LDA.w $0C5E, X : TAX
-    
     LDY.b #$00
-    
     JSR.w Ancilla_SetOam_XY
     
-    LDA.w Pool_Ancilla_SwordChargeSpark_chr, X : STA ($90), Y : INY
+    LDA.w Pool_Ancilla_SwordChargeSpark_chr, X : STA.b ($90), Y
     
-    LDA.w Pool_Ancilla_SwordChargeSpark_properties, X : ORA.b $65 : STA ($90), Y
+    INY
+    LDA.w Pool_Ancilla_SwordChargeSpark_properties, X : ORA.b $65 : STA.b ($90), Y
     
-    LDA.b #$00 : STA ($92)
+    LDA.b #$00 : STA.b ($92)
     
     PLX
     

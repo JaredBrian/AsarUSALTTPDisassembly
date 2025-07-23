@@ -61,7 +61,6 @@ Ancilla_SomarianBlockDivide:
         REP #$20
         
         PHX : TXA : ASL : TAX
-        
         LDA.b $04
         CLC : ADC Pool_Ancilla_SomarianBlockDivide_y_offsets, X : STA.b $00
         LDA.b $06
@@ -73,19 +72,19 @@ Ancilla_SomarianBlockDivide:
         
         JSR.w Ancilla_SetOam_XY
         
-        LDA.w Pool_Ancilla_SomarianBlockDivide_chr, X : STA ($90), Y
-        INY
+        LDA.w Pool_Ancilla_SomarianBlockDivide_chr, X : STA.b ($90), Y
 
-        LDA.w Pool_Ancilla_SomarianBlockDivide_properties, X
-        AND.b #$CF : ORA.b $65 : STA ($90), Y
         INY
-        
-        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
-        LDA.b #$00 : STA ($92), Y
+        LDA.w Pool_Ancilla_SomarianBlockDivide_properties, X
+        AND.b #$CF : ORA.b $65 : STA.b ($90), Y
+
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+        LDA.b #$00 : STA.b ($92), Y
         
         PLY : INX
-    INC.b $08 : LDA.b $08 : CMP.b #$08 : BNE .next_OAM_entry
+    INC.b $08
+    LDA.b $08 : CMP.b #$08 : BNE .next_OAM_entry
     
     PLX
     

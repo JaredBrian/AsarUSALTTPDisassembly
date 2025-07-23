@@ -27,6 +27,7 @@ Ancilla_QuakeSpell:
     .inactive_piece
 
     .possible_bug
+
         ; Loop.
     DEX : BPL .possible_bug
     
@@ -64,8 +65,8 @@ Ancilla_QuakeSpell:
     LDA.b $8A : CMP.b #$47 : BNE .not_turtle_rock_trigger
         ; Check event overlay flag for Turtle Rock (overworld).
         LDA.l $7EF2C7 : AND.b #$20 : BNE .not_turtle_rock_trigger
-            LDY.b #$03 : JSR.w Ancilla_CheckIfEntranceTriggered
-            
+            LDY.b #$03
+            JSR.w Ancilla_CheckIfEntranceTriggered
             BCC .not_turtle_rock_trigger
                 ; Initiate the turtle rock opening animation.
                 LDA.b #$04 : STA.w $04C6

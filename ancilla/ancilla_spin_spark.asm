@@ -31,7 +31,6 @@ Ancilla_SpinSpark:
         LDY.b #$00
         
         LDA.w $0C5E, X : SEC : SBC.b #$03 : STA.w $0C5E, X
-        
         CMP.b #$0D : BCS .dont_transition_to_closing_spark
             PLX
             
@@ -94,8 +93,8 @@ Ancilla_SpinSpark:
         LDA.l $7F5808 : STA.b $08
         
         LDA.l $7F5800, X
-        
         JSR.w Ancilla_GetRadialProjection
+
         JSL.l Sparkle_PrepOamCoordsFromRadialProjection
         
         PLY
@@ -103,13 +102,13 @@ Ancilla_SpinSpark:
         JSR.w Ancilla_SetOam_XY
         
         LDX.b $72
+        LDA.w Pool_Ancilla_SpinSpark_spark_chr, X : STA ($90), Y
         
-        LDA.w Pool_Ancilla_SpinSpark_spark_chr, X : STA ($90), Y : INY
-
-        LDA.b $73 : ORA.b $65 : STA ($90), Y : INY
+        INY
+        LDA.b $73 : ORA.b $65 : STA ($90), Y
         
-        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         LDA.b #$00 : STA ($92), Y
         
         PLY
@@ -122,21 +121,21 @@ Ancilla_SpinSpark:
             LDA.b #$00 : STA.w $039F, X
             
             LDA.w $03A4, X : INC : AND.b #$03 : STA.w $03A4, X
-            
             CMP.b #$03 : BNE .extra_spark_rotation_delay
                 LDA.l $7F5804 : CLC : ADC.b #$09 : AND.b #$3F : STA.l $7F5804
 
             .extra_spark_rotation_delay
     .skip_extra_spark_logic
 
-    LDA.w $03A4, X : STA.b $72 : CMP.b #$03 : BEQ .anodraw_extra_spark
+    LDA.w $03A4, X : STA.b $72
+    CMP.b #$03 : BEQ .anodraw_extra_spark
         PHY
         
         LDA.l $7F5808 : STA.b $08
         
         LDA.l $7F5804
-        
         JSR.w Ancilla_GetRadialProjection
+
         JSL.l Sparkle_PrepOamCoordsFromRadialProjection
         
         PLY
@@ -144,13 +143,12 @@ Ancilla_SpinSpark:
         JSR.w Ancilla_SetOam_XY
         
         LDX.b $72
+        LDA.w Pool_Ancilla_SpinSpark_extra_spark_chr, X : STA ($90), Y
         
-        LDA.w Pool_Ancilla_SpinSpark_extra_spark_chr, X : STA ($90), Y : INY
-
-        LDA.b #$04 : ORA.b $65 : STA ($90), Y : INY
+        INY
+        LDA.b #$04 : ORA.b $65 : STA ($90), Y
         
-        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
+        INY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         LDA.b #$00 : STA ($92), Y
         
     .anodraw_extra_spark
@@ -163,7 +161,8 @@ Ancilla_SpinSpark:
         ; WTF: (Confirmed that this never seems to execute)
         ; Possibly debug code or a dev messing around that was never taken
         ; out.
-        LDY.b #$03 : LDA.b #$01 : STA ($92), Y
+        LDY.b #$03
+        LDA.b #$01 : STA ($92), Y
     
     .never
     
@@ -213,7 +212,6 @@ SpinSpark_ExecuteClosingSpark:
         LDA.b #$01 : STA.w $03B1, X
         
         LDA.w $0C5E, X : INC : STA.w $0C5E, X
-        
         CMP.b #$03 : BNE .termination_delay
             STZ.w $0C4A, X
         

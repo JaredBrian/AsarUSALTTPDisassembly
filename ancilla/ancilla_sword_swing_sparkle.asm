@@ -105,7 +105,8 @@ Ancilla_SwordSwingSparkle:
     DEC.w $03B1, X : BPL .termination_delay
         LDA.b #$00 : STA.w $03B1, X
         
-        INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$04 : BNE .termination_delay
+        INC.w $0C5E, X
+        LDA.w $0C5E, X : CMP.b #$04 : BNE .termination_delay
             STZ.w $0C4A, X
             
             RTS
@@ -133,7 +134,6 @@ Ancilla_SwordSwingSparkle:
     LDA.b #$02 : STA.b $08
     
     LDY.w $0C72, X
-    
     LDA.w $0C5E, X : ASL : CLC : ADC.w $0C5E, X
     CLC : ADC Pool_Ancilla_SwordSwingSparkle_directed_OAM_group, Y : TAX
     
@@ -165,21 +165,21 @@ Ancilla_SwordSwingSparkle:
             
             JSR.w Ancilla_SetOam_XY
             
-            LDA.w Pool_Ancilla_SwordSwingSparkle_chr, X : STA ($90), Y : INY
-
+            LDA.w Pool_Ancilla_SwordSwingSparkle_chr, X : STA.b ($90), Y
+            
+            INY
             LDA.w Pool_Ancilla_SwordSwingSparkle_properties, X
-            ORA.b #$04 : ORA.b $65 : STA ($90), Y : INY
+            ORA.b #$04 : ORA.b $65 : STA.b ($90), Y
             
-            PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-            
-            LDA.b #$00 : STA ($92), Y
+            INY : PHY
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+            LDA.b #$00 : STA.b ($92), Y
             
             PLY
         
         .skip_OAM_entry
         
         INX
-    
     DEC.b $08 : BPL .next_OAM_entry
     
     PLX

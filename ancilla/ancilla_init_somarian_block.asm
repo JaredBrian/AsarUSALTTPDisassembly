@@ -127,7 +127,8 @@ AddSomarianBlock:
     
     .spawn_failed
     
-    LDX.b #$04 : JSL.l LinkItem_ReturnUnusedMagic
+    LDX.b #$04
+    JSL.l LinkItem_ReturnUnusedMagic
     
     .return
     

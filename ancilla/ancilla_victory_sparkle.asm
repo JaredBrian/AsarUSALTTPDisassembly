@@ -34,7 +34,8 @@ Ancilla_VictorySparkle:
         DEC.w $039F, X : BPL .active
             LDA.b #$01 : STA.w $039F, X
             
-            INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$04 : BNE .active
+            INC.w $0C5E, X
+            LDA.w $0C5E, X : CMP.b #$04 : BNE .active
                 STZ.w $0C4A, X
         
     .delay
@@ -49,7 +50,7 @@ Ancilla_VictorySparkle:
     
     JSR.w Ancilla_PrepOamCoord
     
-    LDA.b #$03 : STA !numSprites
+    LDA.b #$03 : STA.b !numSprites
     
     LDA.w $0C5E, X : ASL : ASL : TAX
     
@@ -60,12 +61,12 @@ Ancilla_VictorySparkle:
         LDA.w Pool_Ancilla_VictorySparkle_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
             REP #$20
             
-            PHX : TXA : ASL : TAX
-            
-            LDA.b $20 : CLC : ADC Pool_Ancilla_VictorySparkle_y_offsets, X
+            PHX
+            TXA : ASL : TAX
+            LDA.b $20 : CLC : ADC.w Pool_Ancilla_VictorySparkle_y_offsets, X
             SEC : SBC.b $E8 : STA.b $00
 
-            LDA.b $22 : CLC : ADC Pool_Ancilla_VictorySparkle_x_offsets, X
+            LDA.b $22 : CLC : ADC.w Pool_Ancilla_VictorySparkle_x_offsets, X
             SEC : SBC.b $E2 : STA.b $02
             
             PLX
@@ -74,23 +75,22 @@ Ancilla_VictorySparkle:
             
             JSR.w Ancilla_SetOam_XY
             
-            LDA.w Pool_Ancilla_VictorySparkle_chr, X : STA ($90), Y
-            INY
+            LDA.w Pool_Ancilla_VictorySparkle_chr, X : STA.b ($90), Y
 
-            LDA.w Pool_Ancilla_VictorySparkle_properties, X
-            ORA.b #$04 : ORA.b $65 : STA ($90), Y
             INY
-            
-            PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-            
-            LDA.b #$00 : STA ($92), Y
+            LDA.w Pool_Ancilla_VictorySparkle_properties, X
+            ORA.b #$04 : ORA.b $65 : STA.b ($90), Y
+
+            INY : PHY
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+            LDA.b #$00 : STA.b ($92), Y
             
             PLY
         
         .skip_OAM_entry
         
         INX
-    DEC !numSprites : BPL .next_OAM_entry
+    DEC.b !numSprites : BPL .next_OAM_entry
     
     PLX
     

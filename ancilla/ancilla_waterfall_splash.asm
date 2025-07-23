@@ -55,7 +55,8 @@ Ancilla_WaterfallSplash:
     
     LDA.b $11 : BNE .no_sound_effect
         LDA.b $1A : AND.b #$07 : BNE .no_sound_effect
-            LDA.b #$1C : JSR.w Ancilla_DoSfx2_NearPlayer
+            LDA.b #$1C
+            JSR.w Ancilla_DoSfx2_NearPlayer
         
     .no_sound_effect
     
@@ -100,7 +101,8 @@ Ancilla_WaterfallSplash:
     
     REP #$20
     
-    AND.w #$00FF : EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $00 : STA.b $06
+    AND.w #$00FF : EOR.w #$FFFF : INC : CLC : ADC.b $00 : STA.b $00
+                                                          STA.b $06
     
     SEP #$20
     
@@ -126,14 +128,13 @@ Ancilla_WaterfallSplash:
             JSR.w Ancilla_SetOam_XY
             
             LDA.w Pool_Ancilla_WaterfallSplash_chr, X : STA.b ($90), Y
-            INY
 
+            INY
             LDA.w Pool_Ancilla_WaterfallSplash_properties, X 
             ORA.b #$30 : STA.b ($90), Y
-            INY
-            
-            PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-            
+
+            INY : PHY 
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
             LDA.w Pool_Ancilla_WaterfallSplash_OAM_sizes, X : STA.b ($92), Y
             
             PLY

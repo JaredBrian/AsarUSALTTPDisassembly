@@ -28,17 +28,20 @@ Ancilla_SomarianPlatformPoof:
     PHX
     
     ; Create a cane of Somaria platform sprite.
-    LDA.b #$ED : JSL.l Sprite_SpawnDynamically : BPL .spawn_succeeded
+    LDA.b #$ED
+    JSL.l Sprite_SpawnDynamically : BPL .spawn_succeeded
         BRL .spawn_failed
     
     .spawn_succeeded
     
     STZ.w $02F5
     
-    LDA.b $72 : AND.b #$F8 : ORA.b #$04 : STA.w $0D00, Y : STA.b $72
+    LDA.b $72 : AND.b #$F8 : ORA.b #$04 : STA.w $0D00, Y
+                                          STA.b $72
     LDA.b $73                           : STA.w $0D20, Y
     
-    LDA.b $74 : AND.b #$F8 : ORA.b #$04 : STA.w $0D10, Y : STA.b $74
+    LDA.b $74 : AND.b #$F8 : ORA.b #$04 : STA.w $0D10, Y
+                                          STA.b $74
     LDA.b $75                           : STA.w $0D30, Y
     
     LDA.b $BD : CMP.b #$01 : REP #$30 : STZ.b $06 : BCC .on_bg2
@@ -66,7 +69,6 @@ Ancilla_SomarianPlatformPoof:
     SEP #$30
     
     LDX.b $06
-    
     LDA.w .directions, X : STA.w $0DE0, Y
     
     LDA.b #$00 : STA.w $0F20, Y

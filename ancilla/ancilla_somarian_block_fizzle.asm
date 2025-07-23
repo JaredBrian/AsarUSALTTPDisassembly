@@ -20,8 +20,6 @@ Pool_Ancilla_SomarianBlockFizzle:
     db $06, $FF, $86, $C6, $86, $C6
 }
 
-; ==============================================================================
-
 ; $0469B2-$0469E7 BRANCH LOCATION
 Ancilla_TransmuteToSomarianBlockFizzle:
 {
@@ -102,10 +100,8 @@ Ancilla_SomarianBlockFizzle:
             REP #$20
             
             PHX : TXA : ASL : TAX
-            
             LDA.b $04
             CLC : ADC Pool_Ancilla_SomarianBlockFizzle_y_offsets, X : STA.b $00
-
             LDA.b $06
             CLC : ADC Pool_Ancilla_SomarianBlockFizzle_x_offsets, X : STA.b $02
             
@@ -115,23 +111,23 @@ Ancilla_SomarianBlockFizzle:
             
             JSR.w Ancilla_SetOam_XY
             
-            LDA.w Pool_Ancilla_SomarianBlockFizzle_chr, X : STA ($90), Y
-            INY
+            LDA.w Pool_Ancilla_SomarianBlockFizzle_chr, X : STA.b ($90), Y
 
-            LDA.w Pool_Ancilla_SomarianBlockFizzle_properties, X
-            AND.b #$CF : ORA.b $65 : STA ($90), Y
             INY
-            
-            PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-            
-            LDA.b #$00 : STA ($92), Y
+            LDA.w Pool_Ancilla_SomarianBlockFizzle_properties, X
+            AND.b #$CF : ORA.b $65 : STA.b ($90), Y
+
+            INY : PHY
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+            LDA.b #$00 : STA.b ($92), Y
             
             PLY
             
         .skip_OAM_entry
         
         INX
-    INC.b $08 : LDA.b $08 : CMP.b #$02 : BNE .next_OAM_entry
+    INC.b $08
+    LDA.b $08 : CMP.b #$02 : BNE .next_OAM_entry
     
     PLX
     

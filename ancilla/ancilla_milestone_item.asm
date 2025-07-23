@@ -125,9 +125,7 @@ Ancilla_MilestoneItem:
                         STZ.w $0C4A, X
                         
                         ; Success, we've grabbed the item!
-                        LDA.b $5D
-                        
-                        CMP.b #$19 : BEQ .receiving_medallion_player_mode
+                        LDA.b $5D : CMP.b #$19 : BEQ .receiving_medallion_player_mode
                             CMP.b #$1A : BNE .not_receiving_medallion
                                 .receiving_medallion_player_mode
                     
@@ -146,9 +144,7 @@ Ancilla_MilestoneItem:
                         ; This will be the item to grant to Link.
                         ; Will get stored to $02D8 in the following routine.
                         TAY
-                        
                         LDA.w $0C5E, X
-                        
                         JSL.l Link_ReceiveItem
                         
                         PLX
@@ -193,7 +189,8 @@ Ancilla_MilestoneItem:
     DEC.w $03B1, X : BPL .ripple_delay
         LDA.b #$09 : STA.w $03B1, X
         
-        INC.w $0385, X : LDA.w $0385, X : CMP.b #$03 : BNE .not_ripple_reset
+        INC.w $0385, X
+        LDA.w $0385, X : CMP.b #$03 : BNE .not_ripple_reset
             STZ.w $0385, X
 
         .not_ripple_reset

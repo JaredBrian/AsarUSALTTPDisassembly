@@ -109,17 +109,15 @@ Ancilla_RepulseSpark:
         LDX.w $0FAC
         
         LDA.w .chr, X : LDY.b #$02 : STA.b ($90), Y
-                    LDY.b #$06 : STA.b ($90), Y
-                    LDY.b #$0A : STA.b ($90), Y
-                    LDY.b #$0E : STA.b ($90), Y
+                        LDY.b #$06 : STA.b ($90), Y
+                        LDY.b #$0A : STA.b ($90), Y
+                        LDY.b #$0E : STA.b ($90), Y
         
         LDY.b #$00
-        LDA.b #$00
-        
-        STA.b ($92), Y : INY
-        STA.b ($92), Y : INY
-        STA.b ($92), Y : INY
-        STA.b ($92), Y
+        LDA.b #$00 : STA.b ($92), Y : INY
+                     STA.b ($92), Y : INY
+                     STA.b ($92), Y : INY
+                     STA.b ($92), Y
         
         RTS
 }

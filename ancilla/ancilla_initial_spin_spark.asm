@@ -56,8 +56,8 @@ Ancilla_InitialSpinSpark:
             STZ.w $03B1, X
             
             LDA.w $0C68, X : BNE .draw
-                LDA.w $0C5E, X : INC : STA.w $0C5E, X : TAY
-                
+                LDA.w $0C5E, X : INC : STA.w $0C5E, X
+                                       TAY
                 LDA.w Pool_Ancilla_InitialSpinSpark_timers, Y : STA.w $0C68, X
                 
                 CPY.b #$05 : BNE .draw
@@ -100,7 +100,6 @@ Ancilla_InitialSpinSpark:
                 REP #$20
                 
                 PHX : TXA : ASL : TAX
-                
                 LDA.b $06 : CLC : ADC.w Pool_Ancilla_InitialSpinSpark_offset_y, X
                 STA.b $00
 
@@ -114,14 +113,13 @@ Ancilla_InitialSpinSpark:
                 JSR.w Ancilla_SetOam_XY
                 
                 LDA.w Pool_Ancilla_InitialSpinSpark_chr, X : STA.b ($90), Y
-                INY
 
+                INY
                 LDA.w Pool_Ancilla_InitialSpinSpark_properties, X
                 AND.b #$CF : ORA.b $65 : STA.b ($90), Y
-                INY
-                
-                PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-                
+
+                INY : PHY
+                TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
                 LDA.b #$00 : STA.b ($92), Y
                 
                 PLY
@@ -129,7 +127,8 @@ Ancilla_InitialSpinSpark:
             .skip_OAM_entry
             
             INX
-        INC.b $04 : LDA.b $04 : AND.b #$03 : BNE .next_OAM_entry
+        INC.b $04
+        LDA.b $04 : AND.b #$03 : BNE .next_OAM_entry
         
         PLX
     
@@ -166,7 +165,6 @@ InitialSpinSpark_TransmuteToNormalSpinSpark:
     LDA.b #$2B : STA.w $0C4A, X
     
     LDA.b $2F : ASL : TAY
-    
     LDA.w Pool_InitialSpinSpark_TTNSS_initial_rotation_states, Y : STA.l $7F5800
     LDA.w Pool_InitialSpinSpark_TTNSS_initial_rotation_states, Y : STA.l $7F5801
     LDA.w Pool_InitialSpinSpark_TTNSS_initial_rotation_states, Y : STA.l $7F5802

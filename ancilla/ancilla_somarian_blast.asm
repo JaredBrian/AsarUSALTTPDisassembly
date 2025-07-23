@@ -129,8 +129,6 @@ Ancilla_BoundsCheck_unknown:
 {
     db $BC, $7C
 }
-    
-; ==============================================================================
 
 ; $04062A-$04064D LOCAL JUMP LOCATION
 Ancilla_BoundsCheck:
@@ -183,9 +181,9 @@ SomarianBlast_Draw:
     ; X = (direction * 6) + state_index
     LDA.w $0C72, X : ASL : ASL : ADC.w $0C72, X : ADC.w $0C72, X : ADC.w $0C54, X : TAX
     
-    LDA.w Pool_SomarianBlast_Draw_x_offsets_a, X : CLC : ADC.b $00 : STA ($90), Y
+    LDA.w Pool_SomarianBlast_Draw_x_offsets_a, X : CLC : ADC.b $00 : STA.b ($90), Y
     LDA.w Pool_SomarianBlast_Draw_x_offsets_b, X : CLC : ADC.b $00
-    LDY.b #$04 : STA ($90), Y
+    LDY.b #$04 : STA.b ($90), Y
     
     ; The sprite consists of two OAM entries, and we're calling them
     ; "part a" and "part b" here. Since this object encompasses both the
@@ -193,26 +191,26 @@ SomarianBlast_Draw:
     ; it's natural not all of the states of this object will necessarily use
     ; OAM entries.
     LDA.w Pool_SomarianBlast_Draw_y_offsets_a, X : BMI .hide_part_a
-        CLC : ADC.b $01 : LDY.b #$01 : STA ($90), Y
+        CLC : ADC.b $01 : LDY.b #$01 : STA.b ($90), Y
     
     .hide_part_a
     
     LDA.w Pool_SomarianBlast_Draw_y_offsets_b, X : BMI .hide_part_b
-        CLC : ADC.b $01 : LDY.b #$05 : STA ($90), Y
+        CLC : ADC.b $01 : LDY.b #$05 : STA.b ($90), Y
     
     .hide_part_b
     
     LDA.w Pool_SomarianBlast_Draw_chr_a, X : CLC : ADC.b #$82
-    LDY.b #$02 : STA ($90), Y
+    LDY.b #$02 : STA.b ($90), Y
 
     LDA.w Pool_SomarianBlast_Draw_chr_b, X : CLC : ADC.b #$82
-    LDY.b #$06 : STA ($90), Y
+    LDY.b #$06 : STA.b ($90), Y
 
     LDA.w Pool_SomarianBlast_Draw_properties_a, X : ORA.b $04
-    LDY.b #$03 : STA ($90), Y
+    LDY.b #$03 : STA.b ($90), Y
 
     LDA.w Pool_SomarianBlast_Draw_properties_b, X : ORA.b $04
-    LDY.b #$07 : STA ($90), Y
+    LDY.b #$07 : STA.b ($90), Y
     
     ; Designate both of these sprites as small.
     ; BUG: Not a serious bug, but if it's true, it might mean that its
@@ -221,8 +219,8 @@ SomarianBlast_Draw:
     ; aka shoddy OAM offset calculation. However, there might be other safe
     ; safeguards in place that kill the sprite before it ever gets in that
     ; situation anyway.
-    LDY #$00 : TYA : STA ($92), Y
-               INY : STA ($92), Y
+    LDY #$00 : TYA : STA.b ($92), Y
+               INY : STA.b ($92), Y
     
     BRL Ancilla_RestoreIndex
 }

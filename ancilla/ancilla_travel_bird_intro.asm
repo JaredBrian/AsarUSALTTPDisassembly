@@ -19,7 +19,8 @@ Ancilla_TravelBirdIntro:
 {
     ; Check the frame index.
     LDA.b $1A : AND.b #$1F : BNE .no_flutter_SFX
-        LDA.b #$1E : JSR.w Ancilla_DoSfx3
+        LDA.b #$1E
+        JSR.w Ancilla_DoSfx3
         
     .no_flutter_SFX
     
@@ -90,7 +91,8 @@ Ancilla_TravelBirdIntro:
         
     .accelerate_left
     
-    TYA : CLC : ADC.w $0C2C, X : STA.w $0C2C, X : BPL .abs_x_speed
+    TYA : CLC : ADC.w $0C2C, X : STA.w $0C2C, X
+    BPL .abs_x_speed
         EOR.b #$FF : INC
         
     .abs_x_speed
@@ -109,7 +111,7 @@ Ancilla_TravelBirdIntro:
     
     LDY.w $03A9, X
     
-    CMP Pool_Ancilla_TravelBirdIntro_swirl_speeds, Y : BCC .x_speed_not_maxed
+    CMP.w Pool_Ancilla_TravelBirdIntro_swirl_speeds, Y : BCC .x_speed_not_maxed
         ; WTF: (confirmed) Um, you know you could just xor with 0x03
         ; directly, then store it back and you'd do it in 3 instructions instead
         ; of 8?
@@ -134,11 +136,10 @@ Ancilla_TravelBirdIntro:
     ; Set the direction the bird is facing.
     TYA : STA.w $0C72, X
     
-    LDY.w $03A9, X
-    
     ; NOTE: Seems that the actual z speed determined is actually affected
     ; by the current x speed. Perhaps that's where this ellipsoid behavior
     ; originates from.
+    LDY.w $03A9, X
     LDA.w Pool_Ancilla_TravelBirdIntro_swirl_speeds, Y
     SEC : SBC.b $00 : LSR : STA.b $00
     
@@ -155,10 +156,9 @@ Ancilla_TravelBirdIntro:
     JSR.w Ancilla_MoveHoriz
     JSR.w Ancilla_MoveAltitude
     
-    LDY.w $0380, X
-    
     ; Indicate which chr to transfer to VRAM for the travel bird. There are
     ; only two states, but this is updated every frame.
+    LDY.w $0380, X
     LDA.w Pool_Ancilla_TravelBird_VRAM_offsets+1, Y : STA.w $0AF4
     
     JSR.w Ancilla_PrepOamCoord
@@ -175,7 +175,7 @@ Ancilla_TravelBirdIntro:
     
     EOR.w #$FFFF : INC : STA.b $04
     
-    LDA.b $00 : STA.b $0A
+    LDA.b $00       : STA.b $0A
     SEC : SBC.b $04 : STA.b $04
     
     LDA.b $02 : STA.b $06
@@ -199,14 +199,15 @@ Ancilla_TravelBirdIntro:
     
     JSR.w Ancilla_SetOam_XY
     
-    LDA.w Pool_Ancilla_TravelBird_chr : STA ($90), Y : INY
-
+    LDA.w Pool_Ancilla_TravelBird_chr : STA.b ($90), Y
+    
+    INY
     LDA.w Pool_Ancilla_TravelBird_properties
-    ORA.b #$30 : ORA.b $08 : STA ($90), Y : INY
+    ORA.b #$30 : ORA.b $08 : STA.b ($90), Y
     
-    PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-    
-    LDA.b #$02 : STA ($92), Y
+    INY : PHY
+    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+    LDA.b #$02 : STA.b ($92), Y
     
     PLY
     
@@ -220,13 +221,14 @@ Ancilla_TravelBirdIntro:
     
     LDA.b #$30 : STA.b $04
     
-    LDX.b #$01 : JSR.w Ancilla_DrawShadow
+    LDX.b #$01
+    JSR.w Ancilla_DrawShadow
     
     PLX
     
     REP #$20
     
-    LDA.b $06    : BMI .bird_on_screen_x
+    LDA.b $06 : BMI .bird_on_screen_x
     CMP.w #$00F8 : BCC .bird_on_screen_x
         SEP #$20
         

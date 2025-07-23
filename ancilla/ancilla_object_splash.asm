@@ -63,7 +63,8 @@ Ancilla_TransmuteToObjectSplash:
     LDA.w $0C04, X : CLC : ADC.b #$F8 : STA.w $0C04, X
     LDA.w $0C18, X       : ADC.b #$FF : STA.w $0C18, X
     
-    LDA.b #$28 : JSR.w Ancilla_DoSfx2
+    LDA.b #$28
+    JSR.w Ancilla_DoSfx2
 
     ; Bleeds into the next function.
 }
@@ -72,7 +73,6 @@ Ancilla_TransmuteToObjectSplash:
 Ancilla_ObjectSplash:
 {
     LDA.b #$08
-    
     JSR.w Ancilla_AllocateOam
     
     LDA.b $11 : BNE Ancilla_ObjectSplash_Draw
@@ -123,13 +123,12 @@ Ancilla_ObjectSplash_Draw:
             JSR.w Ancilla_SetOam_XY
             
             LDA.w Pool_Ancilla_ObjectSplash_char, X              : STA.b ($90), Y
-            INY
-            
+
+            INY 
             LDA.w Pool_Ancilla_ObjectSplash_prop, X : ORA.b #$24 : STA.b ($90), Y
-            INY
-            
-            PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-            
+
+            INY : PHY
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
             LDA.w Pool_Ancilla_ObjectSplash_size, X : STA.b ($92), Y
             
             PLY
@@ -137,7 +136,8 @@ Ancilla_ObjectSplash_Draw:
         .skip_OAM_entry
         
         INX
-    INC.b $0C : LDA.b $0C : CMP.b #$02 : BNE .next_OAM_entry
+    INC.b $0C
+    LDA.b $0C : CMP.b #$02 : BNE .next_OAM_entry
     
     PLX
     

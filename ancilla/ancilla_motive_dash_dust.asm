@@ -14,7 +14,8 @@ Ancilla_MotiveDashDust:
     LDA.w $0C68, X : BNE .delay
         LDA #$03 : STA.w $0C68, X
         
-        INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$03 : BNE .delay
+        INC.w $0C5E, X
+        LDA.w $0C5E, X : CMP.b #$03 : BNE .delay
             STZ.w $0C4A, X
             
             BRA .return
@@ -31,12 +32,12 @@ Ancilla_MotiveDashDust:
     PHX
     
     LDA.w $0C5E, X : TAX
-    
     LDY.b #$00
-    
     JSL.l Ancilla_SetOam_XY_Long
     
-    LDA.w .chr, X          : STA.b ($90), Y : INY
+    LDA.w .chr, X          : STA.b ($90), Y
+    
+    INY
     LDA.b #$04 : ORA.b $65 : STA.b ($90), Y
     
     LDA.b #$00 : STA.b ($92)

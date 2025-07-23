@@ -74,7 +74,7 @@ Ancilla_IceShotSparkle:
     
     LDY.b #$00
     
-    LDA.b #$03 : STA !numSprites
+    LDA.b #$03 : STA.b !numSprites
     
     LDA.w $0C68, X : AND.b #$1C : STA.b $06
     
@@ -82,28 +82,26 @@ Ancilla_IceShotSparkle:
     
     .next_sprite
         
-        LDA !numSprites : ORA.b $06 : TAX
-        
+        LDA.b !numSprites : ORA.b $06 : TAX
         LDA.b $00
         CLC : ADC Pool_Ancilla_IceShotSparkle_x_offsets, X : STA.b ($90), Y
-        INY
 
+        INY
         LDA.b $01
         CLC : ADC Pool_Ancilla_IceShotSparkle_y_offsets, X : STA.b ($90), Y
-        INY
 
+        INY
         LDA.w Pool_Ancilla_IceShotSparkle_chr, X : STA.b ($90), Y
-        INY
 
-        LDA.b $04 : ORA.b #$04 : STA.b ($90), Y
         INY
-        
-        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
+        LDA.b $04 : ORA.b #$04 : STA.b ($90), Y
+
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         LDA.b #$00 : STA.b ($92), Y
         
         PLY
-    DEC !numSprites : BPL .next_sprite
+    DEC.b !numSprites : BPL .next_sprite
     
     PLX
     
@@ -151,9 +149,7 @@ IceShotSparkle_Spawn:
     LDA.w $0C72, X
     
     PHX
-    
     TAX
-    
     LDA.w Pool_IceShotSparkle_Spawn_y_speeds, X : STA.w $0C2C, Y
     LDA.w Pool_IceShotSparkle_Spawn_x_speeds, X : STA.w $0C22, Y
     

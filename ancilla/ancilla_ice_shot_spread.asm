@@ -6,7 +6,8 @@ Ancilla_IceShotSpread:
     DEC.w $03B1, X : BPL .delay
         LDA.b #$07 : STA.w $03B1, X
         
-        INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$02 : BNE .delay
+        INC.w $0C5E, X
+        LDA.w $0C5E, X : CMP.b #$02 : BNE .delay
             ; The ice shot self-terminates after it's done spreading.
             STZ.w $0C4A, X
             
@@ -16,8 +17,6 @@ Ancilla_IceShotSpread:
     
     BRL IceShotSpread_Draw
 }
-
-; ==============================================================================
 
 ; $042551-$042570 DATA
 Pool_IceShotSpread_Draw:
@@ -97,28 +96,29 @@ IceShotSpread_Draw:
         .off_screen
         
         INY
+        TXA : STA.b ($90), Y
         
-        TXA : STA.b ($90), Y : INY
+        INY
         
         PLX
-        
         LDA.w Pool_IceShotSpread_Draw_chr_and_properties, X : STA.b ($90), Y
-        INY
 
+        INY
         LDA.w Pool_IceShotSpread_Draw_chr_and_properties+1, X
         AND.b #$CF : ORA.b $65 : STA.b ($90), Y
         
-        INY : PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+        INY : PHY
+        TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
         
         ; Use small sprites always.
         LDA.b #$00 : STA.b ($92), Y
         
-        PLY : JSR.w Ancilla_CustomAllocateOam
+        PLY
+        JSR.w Ancilla_CustomAllocateOam
         
         INX : INX
         
         INC.b $04
-        
         LDA.b $04 : CMP.b #$04 : BEQ .done_drawing
     BRL .next_OAM_entry
     
@@ -126,11 +126,10 @@ IceShotSpread_Draw:
     
     PLX
     
+    ; OPTIMIZE: Why not just LDA.b ($91)?
     LDY.b #$01
-    
     LDA.b ($90), Y : CMP.b #$F0 : BNE .not_off_screen
         LDY.b #$05
-        
         LDA.b ($90), Y : CMP.b #$F0 : BNE .not_off_screen
             ; Self terminate off screen.
             STZ.w $0C4A, X

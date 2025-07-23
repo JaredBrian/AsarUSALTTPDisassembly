@@ -32,16 +32,16 @@ Ancilla_RevivalFairy:
     PHB : PHK : PLB
     
     LDX.b #$00
-    
     LDA.w $0C54, X : BEQ .fairy_emerging
         CMP.b #$03 : BNE .already_emerged
             BRL .return
         
     .fairy_emerging
     
-    DEC.w $039F, X : LDA.w $039F, X : BNE .fairy_rising
-        INC.w $0C54, X : LDY.w $0C54, X
-        
+    DEC.w $039F, X
+    LDA.w $039F, X : BNE .fairy_rising
+        INC.w $0C54, X
+        LDY.w $0C54, X
         LDA.w Pool_Ancilla_RevivalFairy_timers, Y : STA.w $039F, X
         
         STZ.w $0380, X
@@ -75,7 +75,8 @@ Ancilla_RevivalFairy:
             INC.w $0385, X
             
             ; Sprinkling fairy dust sound.
-            LDA.b #$31 : JSR.w Ancilla_DoSfx2
+            LDA.b #$31
+            JSR.w Ancilla_DoSfx2
             
         .dont_initiate_sprinkle
         
@@ -84,9 +85,7 @@ Ancilla_RevivalFairy:
                 LDA.b #$05 : STA.w $0394, X
                 
                 INC.w $0C5E, X
-                
                 LDA.w $0C5E, X : CMP.b #$03 : BNE .sprinkle_animation_incomplete
-                    
                     STZ.w $0C5E, X
                     STZ.w $0385, X
             
@@ -139,7 +138,8 @@ Ancilla_RevivalFairy:
     
     .draw
     
-    LDA.b #$0C : JSL.l OAM_AllocateFromRegionC
+    LDA.b #$0C
+    JSL.l OAM_AllocateFromRegionC
     
     JSR.w Ancilla_PrepOamCoord
     
@@ -180,17 +180,17 @@ Ancilla_RevivalFairy:
     
     .commit_fairy_chr
     
-    LDA.w Pool_Ancilla_RevivalFairy_chr, X : STA.b ($90), Y : INY
+    LDA.w Pool_Ancilla_RevivalFairy_chr, X : STA.b ($90), Y
+    
+    INY
     LDA.b #$74                             : STA.b ($90), Y
     
     TYA : SEC : SBC.b #$03 : LSR : LSR : TAY
-    
     LDA.b #$02 : STA.b ($92), Y
     
     PLX
     
     LDY.b #$01
-    
     LDA.b ($90), Y : CMP.b #$F0 : BNE .fairy_not_off_screen
         LDA.b #$03 : STA.w $0C54, X
         
@@ -222,7 +222,6 @@ RevivalFairy_Dust:
     .possible_fairy_dust
     
     LDX.b #$02
-    
     LDA.w $0C54, X : CMP.b #$02 : BEQ .return
         DEC.w $039F, X : BPL .return
             STZ.w $039F, X
@@ -243,10 +242,9 @@ RevivalFairy_Dust:
             DEC.w $03B1, X : BPL .animation_delay
                 LDA.b #$03 : STA.w $03B1, X
                 
-                LDY.b #$03
-                
                 ; Probably chr or a grouping state?
-                LDA Ancilla_MagicPowder_animation_group_offsets, Y : STA.b $00
+                LDY.b #$03
+                LDA.w Ancilla_MagicPowder_animation_group_offsets, Y : STA.b $00
                 
                 LDA.w $0C5E, X : INC : CMP.b #$0A : BNE .powder_not_fully_dispersed
                     LDA.b #$20 : STA.w $039F, X
@@ -259,8 +257,7 @@ RevivalFairy_Dust:
                 
                 .powder_not_fully_dispersed
                 
-                STA.w $0C5E, X
-                
+                                  STA.w $0C5E, X
                 CLC : ADC.b $00 : TAY
                 
                 LDA.w Pool_Ancilla_MagicPowder_animation_groups, Y : STA.w $03C2, X

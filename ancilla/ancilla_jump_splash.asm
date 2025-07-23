@@ -12,8 +12,6 @@ Ancilla_JumpSplash_chr:
     db $AC, $AE
 }
 
-; ==============================================================================
-
 ; $04280F-$0428E2 JUMP LOCATION
 Ancilla_JumpSplash:
 {
@@ -26,7 +24,8 @@ Ancilla_JumpSplash:
         .animation_delay
         
         LDA.w $0C5E, X : BEQ .draw
-            LDA.w $0C22, X : CLC : ADC.b #$FC : STA.w $0C22, X : STA.w $0C2C, X
+            LDA.w $0C22, X : CLC : ADC.b #$FC : STA.w $0C22, X
+                                                STA.w $0C2C, X
             CMP.b #$E8 : BCS .speed_not_maxed
                 ; Self terminate once the splash reaches a certain 'speed'.
                 STZ.w $0C4A, X
@@ -63,7 +62,7 @@ Ancilla_JumpSplash:
     
     REP #$20
     
-    LDA.b $22 : SEC : SBC.b $06                 : STA.b $08
+    LDA.b $22 : SEC : SBC.b $06                   : STA.b $08
     LDA.b $22 : CLC : ADC.b $08 : SEC : SBC.b $E2 : STA.b $08
     
     LDA.b $06 : CLC : ADC.w #$000C : SEC : SBC.b $E2 : STA.b $06
@@ -82,16 +81,18 @@ Ancilla_JumpSplash:
     
         JSR.w Ancilla_SetOam_XY
         
-        LDA.w .chr, X        : STA.b ($90), Y : INY
-        LDA.b #$24 : ORA.b $0C : STA.b ($90), Y : INY
+        LDA.w .chr, X          : STA.b ($90), Y
         
-        PHY
+        INY
+        LDA.b #$24 : ORA.b $0C : STA.b ($90), Y
         
+        INY : PHY
         TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
         LDA.b #$02 : STA.b ($92), Y
         
-        PLY : JSR.w Ancilla_CustomAllocateOam
+        PLY
+        
+        JSR.w Ancilla_CustomAllocateOam
         
         LDA.b $08 : STA.b $02
         
@@ -103,11 +104,12 @@ Ancilla_JumpSplash:
     
     JSR.w Ancilla_SetOam_XY
     
-    LDA.b #$C0 : STA.b ($90), Y : INY
-    LDA.b #$24 : STA.b ($90), Y : INY
+    LDA.b #$C0 : STA.b ($90), Y
     
-    TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+    INY
+    LDA.b #$24 : STA.b ($90), Y
     
+    INY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
     LDA.b #$02 : STA.b ($92), Y
     
     ; TODO: Figure out what the supposed bug is.

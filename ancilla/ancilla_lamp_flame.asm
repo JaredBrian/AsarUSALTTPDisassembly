@@ -49,29 +49,27 @@ Ancilla_LampFlame:
     
     .next_OAM_entry
     
-    LDA.w Pool_Ancilla_LampFlame_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
-        LDA.w Pool_Ancilla_LampFlame_y_offsets_low, X : CLC : ADC.b $06 : STA.b $00
-        LDA.b $07 : ADC .y_offsets_high, X : STA.b $01
+        LDA.w Pool_Ancilla_LampFlame_chr, X : CMP.b #$FF : BEQ .skip_OAM_entry
+            LDA.w Pool_Ancilla_LampFlame_y_offsets_low, X : CLC : ADC.b $06 : STA.b $00
+            LDA.b $07 : ADC.w Pool_Ancilla_LampFlame_y_offsets_high, X : STA.b $01
+            
+            LDA.w Pool_Ancilla_LampFlame_x_offsets_low, X : CLC : ADC.b $04 : STA.b $02
+            LDA.b $05 : ADC.b #$00 : STA.b $03
+            
+            JSR.w Ancilla_SetOam_XY
+            
+            LDA.w Pool_Ancilla_LampFlame_chr, X : STA.b ($90), Y
+
+            INY
+            LDA.b #$02 : ORA.b $65 : STA.b ($90), Y
+
+            INY : PHY
+            TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
+            LDA.b #$00 : STA.b ($92), Y
+            
+            PLY
         
-        LDA.w Pool_Ancilla_LampFlame_x_offsets_low, X : CLC : ADC.b $04 : STA.b $02
-        LDA.b $05 : ADC.b #$00 : STA.b $03
-        
-        JSR.w Ancilla_SetOam_XY
-        
-        LDA.w Pool_Ancilla_LampFlame_chr, X : STA.b ($90), Y
-        INY
-        
-        LDA.b #$02 : ORA.b $65 : STA.b ($90), Y
-        INY
-        
-        PHY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
-        LDA.b #$00 : STA.b ($92), Y
-        
-        PLY
-    
-    .skip_OAM_entry
-    
+        .skip_OAM_entry
     INX : TXA : AND.b #$03 : BNE .next_OAM_entry
     
     BRL Ancilla_RestoreIndex

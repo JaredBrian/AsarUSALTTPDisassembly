@@ -21,7 +21,8 @@ Ancilla_SleepIcon:
     
     .delay
     
-    LDA.w $0C2C, X : CLC : ADC.w $0C54, X : STA.w $0C2C, X : BPL .positive_x_speed
+    LDA.w $0C2C, X : CLC : ADC.w $0C54, X : STA.w $0C2C, X
+    BPL .positive_x_speed
         EOR.b #$FF : INC
         
     .positive_x_speed
@@ -59,10 +60,11 @@ Ancilla_SleepIcon:
     JSR.w Ancilla_PrepOamCoord
     
     LDY.b #$00
-    
     JSR.w Ancilla_SetOam_XY
     
-    LDA.b #$09 : STA.b ($90), Y : INY
+    LDA.b #$09 : STA.b ($90), Y
+    
+    INY
     LDA.b #$24 : STA.b ($90), Y
     
     LDA.b #$00 : STA.b ($92)
