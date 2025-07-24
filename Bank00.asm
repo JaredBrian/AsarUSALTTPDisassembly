@@ -11971,28 +11971,32 @@ InitTilesets:
 
     .overrideDefaultBgSlot0
 
-    STA.l $7EC2F8 : STA.b $0A
+    STA.l $7EC2F8
+    STA.b $0A
     
     LDA.w SheetsTable_0AA2_sheet1, X : BNE .overrideDefaultBgSlot1
         LDA.w SheetsTable_0AA1_sheet4, Y
 
     .overrideDefaultBgSlot1
 
-    STA.l $7EC2F9 : STA.b $09
+    STA.l $7EC2F9
+    STA.b $09
     
     LDA.w SheetsTable_0AA2_sheet2, X : BNE .overrideDefaultBgSlot2
         LDA.w SheetsTable_0AA1_sheet5, Y
 
     .overrideDefaultBgSlot2
 
-    STA.l $7EC2FA : STA.b $08
+    STA.l $7EC2FA
+    STA.b $08
     
     LDA.w SheetsTable_0AA2_sheet3, X : BNE .overrideDefaultBgSlot3
         LDA.w SheetsTable_0AA1_sheet6, Y
 
     .overrideDefaultBgSlot3
 
-    STA.l $7EC2FB : STA.b $07
+    STA.l $7EC2FB
+    STA.b $07
     
     LDA.w SheetsTable_0AA1_sheet7, Y : STA.b $06
 
@@ -15288,7 +15292,7 @@ Module_Messaging:
 
         .indoors
 
-        JSL.l HUD.RefillLogicLong
+        JSL.l HUD_RefillLogicLong
         
         LDA.b $11 : CMP.b #$02 : BEQ .dialogueMode
             JSL.l OrientLampBg

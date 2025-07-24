@@ -829,6 +829,10 @@ PreOverworld_LoadProperties:
 
     .dontMakeRainSound
 
+    ; BUG: Set the ambient sound. This is a bug present in vanilla.
+    ; Setting this value is also done later on and does not need to be done
+    ; twice. Doing so creates a slight pause and causes the ambient sound to 
+    ; stop and start playing again rather than just continuing to play.
     STX.w $012D
 
     ; Check if Blind disguised as a crystal maiden was following us when we
@@ -4584,100 +4588,101 @@ Spotlight_ConfigureTableAndControl:
     STZ.w $1F0C
 
     LDA.b $11 : BNE Dungeon_PrepExitWithSpotlight_return
+        LDA.b $10 : CMP.b #$06 : BNE .dont_restore_y_coord
+            REP #$20
 
-    LDA.b $10 : CMP.b #$06 : BNE .dont_restore_y_coord
-        REP #$20
+            LDA.l $7EC148 : STA.b $20
 
-        LDA.l $7EC148 : STA.b $20
+            SEP #$20
 
-        SEP #$20
+        ; $011A37 ALTERNATE ENTRY POINT
+        .dont_restore_y_coord
 
-    ; $011A37 ALTERNATE ENTRY POINT
-    .dont_restore_y_coord
+        LDA.b $10 : CMP.b #$09 : BEQ .dontPrepForDungeon
+            ; Force V-blank in preperation for Dungeon mode.
+            JSL.l EnableForceBlank
 
-    LDA.b $10 : CMP.b #$09 : BEQ .BRANCH_BETA
-        ; Force V-blank in preperation for Dungeon mode.
-        JSL.l EnableForceBlank
+            JSL.l Link_ItemReset_FromOverworldThings
 
-        JSL.l Link_ItemReset_FromOverworldThings
+        .dontPrepForDungeon
 
-    .BRANCH_BETA
+        LDA.b $10 : CMP.b #$09 : BNE .notInOWMode
+            LDA.b $A1 : BNE .BRANCH_DELTA
+                LDA.b $A0 : CMP.b #$20 : BEQ .BRANCH_EPSILON
 
-    LDA.b $10 : CMP.b #$09 : BNE .BRANCH_GAMMA
-        LDA.b $A1 : BNE .BRANCH_DELTA
-            LDA.b $A0 : CMP.b #$20 : BEQ .BRANCH_EPSILON
+            .BRANCH_DELTA
 
-        .BRANCH_DELTA
+            LDA.b #$0A
 
-        LDA.b #$0A
+            LDX.b $2F : BNE .BRANCH_ZETA
+                LDA.b #$0B
 
-        LDX.b $2F : BNE .BRANCH_ZETA
-            LDA.b #$0B
+            .BRANCH_ZETA
 
-        .BRANCH_ZETA
+            STA.b $11
 
-        STA.b $11
+            .BRANCH_EPSILON
 
-        .BRANCH_EPSILON
+            LDA.b #$10 : STA.w $069A
 
-        LDA.b #$10 : STA.w $069A
+            ; Not an extended door type (palace or sanctuary).
+            LDA.w $0696 : ORA.w $0698 : BEQ .BRANCH_GAMMA
+                LDA.w $0699 : BEQ .BRANCH_GAMMA
+                    LDX.b #$00
 
-        ; Not an extended door type (palace or sanctuary).
-        LDA.w $0696 : ORA.w $0698 : BEQ .BRANCH_GAMMA
-            LDA.w $0699 : BEQ .BRANCH_GAMMA
-                LDX.b #$00
+                    ASL : BCC .BRANCH_THETA
+                        LDX.b #$18
 
-                ASL : BCC .BRANCH_THETA
-                    LDX.b #$18
+                    .BRANCH_THETA
 
-                .BRANCH_THETA
+                    LDA.w $0699 : AND.b #$7F : STA.w $0699
 
-                LDA.w $0699 : AND.b #$7F : STA.w $0699
+                    STX.w $0692
+                    STZ.w $0690
 
-                STX.w $0692
+                    LDA.b #$09 : STA.b $11
 
-                STZ.w $0690
+                    STZ.b $B0
 
-                LDA.b #$09 : STA.b $11
+                    LDA.b #$15 : STA.w $012F
 
-                STZ.b $B0
+            .BRANCH_GAMMA
+        .notInOWMode
 
-                LDA.b #$15 : STA.w $012F
+        STZ.b $96 : STZ.b $97 : STZ.b $98
+        STZ.b $1E : STZ.b $1F : STZ.w $03EF
 
-    .BRANCH_GAMMA
+        REP #$30
 
-    STZ.b $96 : STZ.b $97 : STZ.b $98
-    STZ.b $1E : STZ.b $1F : STZ.w $03EF
+        ; ZSCREAM: ZS starts writing here.
+        ; $011AA6
+        ; Setup fixed color values based on area number.
+        LDX.w #$4C26
+        LDY.w #$8C4C
 
-    REP #$30
+        ; TODO: Needs more investigation.
+        ; When exiting a dungeon, the code reaches this point twice.
+        ; The first time $8A has not been set yet and thus loads the incorrect
+        ; values?
+        LDA.b $8A : CMP.w #$0003 : BEQ .mountain
+                    CMP.w #$0005 : BEQ .mountain
+                    CMP.w #$0007 : BEQ .mountain
+            LDX.w #$4A26
+            LDY.w #$874A
 
-    ; ZSCREAM: ZS starts writing here.
-    ; $011AA6
-    ; Setup fixed color values based on area number.
-    LDX.w #$4C26
-    LDY.w #$8C4C
+            CMP.w #$0043 : BEQ .mountain
+            CMP.w #$0045 : BEQ .mountain
+            CMP.w #$0047 : BNE .other
+                .mountain
 
-    ; TODO: Needs more investigation.
-    ; When exiting a dungeon, the code reaches this point twice.
-    ; The first time $8A has not been set yet and thus loads the incorrect
-    ; values?
-    LDA.b $8A : CMP.w #$0003 : BEQ .mountain
-                CMP.w #$0005 : BEQ .mountain
-                CMP.w #$0007 : BEQ .mountain
-        LDX.w #$4A26 : LDY.w #$874A
+                STX.b $9C
+                STY.b $9D
 
-        CMP.w #$0043 : BEQ .mountain
-        CMP.w #$0045 : BEQ .mountain
-        CMP.w #$0047 : BNE .other
-            .mountain
+        .other
 
-            STX.b $9C : STY.b $9D
+        SEP #$30
 
-    .other
-
-    SEP #$30
-
-    RTS
+        RTS
 }
 
 ; ==============================================================================
@@ -7897,12 +7902,11 @@ Overworld_ReloadSubscreenOverlay:
     ; Save X for uno momento.
     PHX
 
-    ; TODO: Verify this.
     ; Set the ambient sound effect. Why? $8A is the current overlay right now,
-    ; we shouldn't load the ambient sound fromt here. Plus the sound gets loaded
+    ; we shouldn't load the ambient sound from here. Plus the sound gets loaded
     ; in another spot later on again so this shouldn't be necessary.
 
-    ; Ok so the one use for this that i've found is it loads the rain sound
+    ; Ok so the one use for this that I've found is it loads the rain sound
     ; effect when the overlay is set to rain. This is only really important for
     ; the mire rain and doesn't make much of a difference anywhere else as far
     ; as I can tell.
