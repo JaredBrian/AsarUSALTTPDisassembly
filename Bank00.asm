@@ -13638,7 +13638,7 @@ Palette_Filter_SP5F:
         STX.b $B7
         
         AND.w #$000F : ASL : TAX
-        LDA.l DungeonMask, X : STA !bitFilter
+        LDA.l DungeonMask, X : STA.b !bitFilter
         
         PHB : PHK : PLB
         
@@ -13713,7 +13713,7 @@ KholdstareShell_PaletteFiltering:
             
             ; Get 1 << (15 - i).
             AND.w #$000F : ASL : TAX
-            LDA.l DungeonMask, X : STA !bitFilter
+            LDA.l DungeonMask, X : STA.b !bitFilter
             
             PHB : PHK : PLB
             
@@ -13801,7 +13801,7 @@ AgahnimWarpShadowFilter_filter_one:
     STY.b $B7
     
     AND.w #$000F : ASL : TAX
-    LDA.l DungeonMask, X : STA !bitFilter
+    LDA.l DungeonMask, X : STA.b !bitFilter
     
     PHB : PHK : PLB
     
@@ -15247,7 +15247,8 @@ FloodDam_PrepFloodHDMA:
         .delta
 
         STA.w $1B00, X
-    INC !scanline : LDA !scanline : CMP.w #$00E1 : BCC .nextScanline
+    INC.b !scanline
+    LDA.b !scanline : CMP.w #$00E1 : BCC .nextScanline
     
     SEP #$30
     
