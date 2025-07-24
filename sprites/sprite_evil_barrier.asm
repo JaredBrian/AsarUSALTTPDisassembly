@@ -128,14 +128,14 @@ EvilBarrier_Draw:
 {
     LDA.b #$00 : XBA
     LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
-    
     ASL #3 : CLC : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
     
     LDA.w $0FDA : CLC : ADC.w #$0008 : STA.w $0FDA
     
     SEP #$20
     
-    LDA.b #$09 : JSR.w Sprite4_DrawMultiple
+    LDA.b #$09
+    JSR.w Sprite4_DrawMultiple
     
     JSL.l Sprite_Get_16_bit_CoordsLong
     

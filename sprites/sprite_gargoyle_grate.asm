@@ -23,7 +23,8 @@ Sprite_GargoyleGrate:
     
     JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .dont_open
         JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_near
-            LDA.b #$01 : STA.w $03F8 : STA.w $0D90, X
+            LDA.b #$01 : STA.w $03F8
+                         STA.w $0D90, X
             
             RTS
             
@@ -33,7 +34,8 @@ Sprite_GargoyleGrate:
             STZ.w $03F8
             
             LDA.w $0308 : AND.b #$01 : BEQ .dont_open
-                LDA.b #$1F : JSL.l Sound_SetSfx2PanLong
+                LDA.b #$1F
+                JSL.l Sound_SetSfx2PanLong
                 
                 PHX
                 

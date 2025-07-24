@@ -10,7 +10,8 @@ Sprite_Freezor:
     LDA.w $0DD0, X : CMP.b #$09 : BEQ .in_basic_active_state
     	LDA.b #$03 : STA.w $0D80, X
     
-    	LDA.b #$1F : STA.w $0DF0, X : STA.w $0BA0, X
+    	LDA.b #$1F : STA.w $0DF0, X
+                     STA.w $0BA0, X
     
     	LDA.b #$09 : STA.w $0DD0, X
     
@@ -28,9 +29,9 @@ Sprite_Freezor:
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw Freezor_Stasis    ; 0x00 - $9859
-    dw Freezor_Awakening ; 0x00 - $9871
-    dw Freezor_Moving    ; 0x00 - $98D2
-    dw Freezor_Melting   ; 0x00 - $9942
+    dw Freezor_Awakening ; 0x01 - $9871
+    dw Freezor_Moving    ; 0x02 - $98D2
+    dw Freezor_Melting   ; 0x03 - $9942
 }
 
 ; ==============================================================================
@@ -57,7 +58,8 @@ Freezor_Stasis:
 ; $0F1871-$0F18B7 JUMP LOCATION
 Freezor_Awakening:
 {
-    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .shaking
+    LDA.w $0DF0, X : STA.w $0BA0, X
+    BNE .shaking
     	INC.w $0D80, X
     
     	LDA.w $0D10, X : SEC : SBC.b #$05 : STA.b $00
@@ -66,7 +68,8 @@ Freezor_Awakening:
     	LDA.w $0D00, X : STA.b $02
     	LDA.w $0D20, X : STA.b $03
     
-    	LDY.b #$08 : JSL.l Dungeon_SpriteInducedTilemapUpdate
+    	LDY.b #$08
+        JSL.l Dungeon_SpriteInducedTilemapUpdate
     
     	LDA.b #$60 : STA.w $0E00, X
     
@@ -79,7 +82,6 @@ Freezor_Awakening:
     .shaking
     
     AND.b #$01 : TAY
-    
     LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
     
     JSR.w Sprite3_MoveHoriz
@@ -125,16 +127,14 @@ Freezor_Moving:
     
     LDA.w $0E00, X : BEQ .dont_spawn_sparkle
     	TXA : EOR.b $1A : AND.b #$07 : BNE .dont_spawn_sparkle
-    
-    	JSL.l GetRandomInt : AND.b #$07 : TAY
-    
-    	LDA.w Pool_Freezor_Moving_sparkle_x_offsets_low, Y  : STA.b $00
-    	LDA.w Pool_Freezor_Moving_sparkle_x_offsets_high, Y : STA.b $01
-    
-    	LDA.b #$FC : STA.b $02
-    	LDA.b #$FF : STA.b $03
-    
-    	JSL.l Sprite_SpawnSimpleSparkleGarnish
+            JSL.l GetRandomInt : AND.b #$07 : TAY
+            LDA.w Pool_Freezor_Moving_sparkle_x_offsets_low, Y  : STA.b $00
+            LDA.w Pool_Freezor_Moving_sparkle_x_offsets_high, Y : STA.b $01
+        
+            LDA.b #$FC : STA.b $02
+            LDA.b #$FF : STA.b $03
+        
+            JSL.l Sprite_SpawnSimpleSparkleGarnish
     
     .dont_spawn_sparkle
     
@@ -147,7 +147,6 @@ Freezor_Moving:
     
     ; NOTE: The Y speeds are faster than the X speeds.
     LDA.w Pool_Freezor_Moving_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_Freezor_Moving_y_speeds, Y : STA.w $0D40, X
     
     LDA.w $0E70, X : AND.b #$0F : BNE .tile_collision_occurred
@@ -158,7 +157,6 @@ Freezor_Moving:
     JSR.w Sprite3_CheckTileCollision
     
     TXA : EOR.b $1A : LSR : LSR : AND.b #$03 : TAY
-    
     LDA.w Pool_Freezor_Moving_animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -187,7 +185,6 @@ Freezor_Melting:
     .not_dead_yet
     
     LSR #3 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS

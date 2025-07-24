@@ -5,7 +5,8 @@ Sprite_EnergyBall:
 {
     LDA.w $0DA0, X : BEQ .repulsable_energy_ball
         LDA.w $0DF0, X : BEQ .stop_tracking_player
-            LDA.b #$20 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+            LDA.b #$20
+            JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         .stop_tracking_player
         
@@ -63,7 +64,6 @@ Sprite_EnergyBall:
             PHX
             
             LDX.b #$00
-            
             JSL.l Sprite_SetupHitBoxLong
             
             PLX
@@ -75,7 +75,6 @@ Sprite_EnergyBall:
 
                 LDA.b #$10
                 LDX.b #$00
-                
                 JSL.l Sprite_ApplyCalculatedDamage_AgahnimBalls_DamageAgahnim
                 
                 PLX
@@ -83,7 +82,6 @@ Sprite_EnergyBall:
                 STZ.w $0DD0, X
                 
                 LDA.w $0D50, X : STA.w $0F40
-                
                 LDA.w $0D40, X : STA.w $0F30
             
             .didnt_hit_agahnim
@@ -100,7 +98,8 @@ Sprite_EnergyBall:
         
             .is_seeker
             
-            LDA.b #$36 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$36
+            JSL.l Sound_SetSfx3PanLong
             
             JSR.w SeekerEnergyBall_SplitIntoSixSmaller
             
@@ -108,16 +107,18 @@ Sprite_EnergyBall:
             
         .not_seeker_3
         
-        LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$05
+        JSL.l Sound_SetSfx2PanLong
         
-        LDA.b #$29 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$29
+        JSL.l Sound_SetSfx3PanLong
         
-        LDA.b #$30 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$30
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         ; Because the sword hits it, invert the speed and make it faster,
         ; hopefully sending it into Agahnim's dumb face.
         LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
-        
         LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
         
         INC.w $0D90, X
@@ -125,7 +126,8 @@ Sprite_EnergyBall:
     .no_player_damage
     
     TXA : EOR.b $1A : AND.b #$03 : ORA.w $0DA0, X : BNE .BRANCH_NU
-        LDA.b #$7B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$7B
+        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             JSL.l Sprite_SetSpawnedCoords
             
             LDA.b #$0F : STA.w $0DF0, Y
@@ -164,7 +166,8 @@ EnergyBall_DrawTrail:
     
     JSR.w Sprite3_CheckIfActive
     
-    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .ano_self_terminate
+    LDA.w $0DF0, X : STA.w $0BA0, X
+    BNE .ano_self_terminate
         STZ.w $0DD0, X
     
     .ano_self_terminate
@@ -201,7 +204,8 @@ Pool_SeekerEnergyBall_SplitIntoSixSmaller:
 ; $0F5B96-$0F5BFD LOCAL JUMP LOCATION
 SeekerEnergyBall_SplitIntoSixSmaller:
 {
-    LDA.b #$36 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$36
+    JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$05 : STA.w $0FB5
     
@@ -212,7 +216,8 @@ SeekerEnergyBall_SplitIntoSixSmaller:
     
     .spawn_smaller
     
-    LDA.b #$55 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$55
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
         LDA.b $01 :       ADC.b #$00 : STA.w $0D30, Y
         
@@ -221,19 +226,18 @@ SeekerEnergyBall_SplitIntoSixSmaller:
         
         LDA.w $0E60, Y : AND.b #$FE : ORA.b #$40 : STA.w $0E60, Y
         
-        LDA.b #$04 : STA.w $0F50, Y : STA.w $0E00, Y
+        LDA.b #$04 : STA.w $0F50, Y
+                     STA.w $0E00, Y
         
-        LDA.b #$14 : STA.w $0F60, Y : STA.w $0DB0, Y : STA.w $0E90, Y
+        LDA.b #$14 : STA.w $0F60, Y
+                     STA.w $0DB0, Y
+                     STA.w $0E90, Y
         
         PHX
         
         LDX.w $0FB5
-        
-        LDA Pool_SeekerEnergyBall_SplitIntoSixSmaller_x_speeds, X
-        STA.w $0D50, Y
-        
-        LDA Pool_SeekerEnergyBall_SplitIntoSixSmaller_y_speeds, X
-        STA.w $0D40, Y
+        LDA.w Pool_SeekerEnergyBall_SplitIntoSixSmaller_x_speeds, X : STA.w $0D50, Y
+        LDA.w Pool_SeekerEnergyBall_SplitIntoSixSmaller_y_speeds, X : STA.w $0D40, Y
         
         PLX
     
@@ -262,13 +266,16 @@ Pool_SeekerEnergyBall_Draw_OAM_groups:
 SeekerEnergyBall_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0E80, X : LSR : LSR : AND.b #$01 : REP #$20 : ASL #5
+    LDA.w $0E80, X : LSR : LSR : AND.b #$01
     
-    ADC.w #.OAM_groups : STA.b $08
+    REP #$20
+    
+    ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$04 : JMP Sprite3_DrawMultiple
+    LDA.b #$04
+    JMP Sprite3_DrawMultiple
 }
 
 ; ==============================================================================

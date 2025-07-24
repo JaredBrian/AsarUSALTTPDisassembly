@@ -41,10 +41,8 @@ Sprite_Cukeman:
                         
                         LDA.b $F6 : BPL .dont_speak
                             LDA.w $0E30, X : INC.w $0E30, X : AND.b #$01
-                            
                             CLC : ADC.b #$7A : STA.w $1CF0
                             LDA.b #$01 : STA.w $1CF1
-                            
                             JSL.l Sprite_ShowMessageMinimal
         
         .dont_speak
@@ -54,14 +52,14 @@ Sprite_Cukeman:
         PHB : PHK : PLB
         
         LDA.w $0F50, X : AND.b #$F0 : PHA
-        
-        ORA.b #$08 : STA.w $0F50, X
+                         ORA.b #$08 : STA.w $0F50, X
         
         JSR.w Cukeman_Draw
         
         PLA : ORA.b #$0D : STA.w $0F50, X
         
-        LDA.b #$10 : JSL.l OAM_AllocateFromRegionA
+        LDA.b #$10
+        JSL.l OAM_AllocateFromRegionA
         
         PLB
         
@@ -106,14 +104,17 @@ Pool_Cukeman_Draw_OAM_groups:
 Cukeman_Draw:
 {
     LDA.b #$00 : XBA
+    LDA.w $0DC0, X
     
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
+    REP #$20
     
+    ASL #3 : STA.b $00
     ASL : ADC.b $00 : ADC.w # .OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$03 : JSL.l Sprite_DrawMultiple
+    LDA.b #$03
+    JSL.l Sprite_DrawMultiple
     
     RTS
 }

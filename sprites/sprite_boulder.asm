@@ -59,11 +59,10 @@ Sprite_Shrapnel:
             SEP #$20
             
             TXA : EOR.b $1A : AND.b #$03 : BNE .delay
-            
-            JSR.w Sprite4_CheckTileCollision : BEQ .no_tile_collision
-                STZ.w $0DD0, X
-            
-            .no_tile_collision
+                JSR.w Sprite4_CheckTileCollision : BEQ .no_tile_collision
+                    STZ.w $0DD0, X
+                
+                .no_tile_collision
         .delay
         
         RTS
@@ -80,7 +79,7 @@ Boulder_Main:
     JSR.w Boulder_Draw
     JSR.w Sprite4_CheckIfActive
     
-    LDA.w $0E80, X : SEC : SBC !animation_step_polarity, X : STA.w $0E80, X
+    LDA.w $0E80, X : SEC : SBC.w !animation_step_polarity, X : STA.w $0E80, X
     
     JSR.w Sprite4_CheckDamage
     JSR.w Sprite4_MoveXyz
@@ -101,9 +100,8 @@ Boulder_Main:
         
         .no_tile_collision
         
-        LDA Pool_Boulder_Main_z_speeds, Y : STA.w $0F80, X
-        
-        LDA Pool_Boulder_Main_y_speeds, Y : STA.w $0D40, X
+        LDA.w Pool_Boulder_Main_z_speeds, Y : STA.w $0F80, X
+        LDA.w Pool_Boulder_Main_y_speeds, Y : STA.w $0D40, X
         
         JSL.l GetRandomInt : AND.b #$01 : BEQ .bounce_right
             ; bounce left.
@@ -111,13 +109,14 @@ Boulder_Main:
         
         .bounce_right
         
-        LDA Pool_Boulder_Main_x_speeds, Y : STA.w $0D50, X
+        LDA.w Pool_Boulder_Main_x_speeds, Y : STA.w $0D50, X
         
         ; Choose the next polarity for the animation counter to step (Could
         ; end up the same as previous. It's random.)
-        TYA : AND.b #$02 : DEC : STA !animation_step_polarity, X
+        TYA : AND.b #$02 : DEC : STA.w !animation_step_polarity, X
         
-        LDA.b #$0B : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$0B
+        JSL.l Sound_SetSfx2PanLong
     
     .aloft
     
@@ -196,16 +195,18 @@ Pool_Sprite_DrawLargeShadow:
 ; $0ED185-$0ED1A7 LOCAL JUMP LOCATION
 Boulder_Draw:
 {
-    LDA.b #$00   : XBA
-    LDA.w $0E80, X : LSR #3 : AND.b #$03 : REP #$20 : ASL #5
+    LDA.b #$00 : XBA
+    LDA.w $0E80, X : LSR #3 : AND.b #$03
     
-    ADC.w #(.OAM_groups) : STA.b $08
+    REP #$20
+    
+    ASL #5 :  ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
     LDA.b #$04
-    
     JSR.w Sprite4_DrawMultiple
+
     JSL.l Sprite_DrawVariableSizedShadow
     
     RTS
@@ -226,7 +227,6 @@ Sprite_DrawVariableSizedShadow:
     PHB : PHK : PLB
     
     LDA.w $0F70, X : LSR #3 : TAY
-    
     CPY.b #$04 : BCC .dont_use_smallest
         LDY.b #$04
     
@@ -237,7 +237,7 @@ Sprite_DrawVariableSizedShadow:
                      STZ.b $0F
     
     LDA.w .data_offset, Y : STA.b $00
-                          STZ.b $01
+                            STZ.b $01
     
     REP #$20
     
@@ -251,7 +251,8 @@ Sprite_DrawVariableSizedShadow:
     
     SEP #$20
     
-    LDA.b #$03 : JSR.w Sprite4_DrawMultiple
+    LDA.b #$03
+    JSR.w Sprite4_DrawMultiple
     
     ; Since we modified the coordinates of the sprite in order to
     ; draw the shadow, restore them to what they ought to be.

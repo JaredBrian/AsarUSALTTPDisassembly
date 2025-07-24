@@ -39,7 +39,6 @@ Sprite_DesertBarrier:
             LDA.b #$10 : STA.b $46
             
             LDA.b #$20
-            
             JSL.l Sprite_ApplySpeedTowardsPlayerLong
             
             LDA.b $01 : STA.b $28
@@ -49,7 +48,6 @@ Sprite_DesertBarrier:
     .no_collision_2
     
     LDY.w $0DE0, X
-    
     LDA.w Pool_Sprite_DesertBarrier_x_speeds, Y : STA.w $0D50, X
     LDA.w Pool_Sprite_DesertBarrier_y_speeds, Y : STA.w $0D40, X
     
@@ -65,8 +63,10 @@ Sprite_DesertBarrier:
     
     LDA.b #$01 : STA.w $02E4
     
-    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$01 : BNE .skip_frame
-        INC.w $0ED0, X : LDA.w $0ED0, X : CMP.b #$82 : BNE .dont_deactivate
+    INC.w $0E80, X
+    LDA.w $0E80, X : AND.b #$01 : BNE .skip_frame
+        INC.w $0ED0, X
+        LDA.w $0ED0, X : CMP.b #$82 : BNE .dont_deactivate
             ; The barrier (and its cousins) have moved enough, time to deactivate.
             ; Love the hard codedness? I don't!
             LDA.b #$80 : STA.w $0D80, X
@@ -127,7 +127,8 @@ DesertBarrier_Draw:
     
     LDA.b $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .beta
         LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .beta
-            LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
+            LDA.b #$10
+            JSL.l OAM_AllocateFromRegionB
         
     .beta
     

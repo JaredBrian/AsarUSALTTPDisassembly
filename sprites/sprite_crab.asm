@@ -27,18 +27,16 @@ Sprite_Crab:
     .collided
     
     JSL.l GetRandomInt : AND.b #$3F : ADC.b #$20 : STA.w $0DF0, X
-    
-    AND.b #$03 : STA.w $0DE0, X
+                         AND.b #$03              : STA.w $0DE0, X
     
     .dont_change_direction
     
     LDY.w $0DE0, X
+    LDA.w Pool_Sprite_Crab_x_speeds, Y : STA.w $0D50, X
+    LDA.w Pool_Sprite_Crab_y_speeds, Y : STA.w $0D40, X
     
-    LDA Pool_Sprite_Crab_x_speeds, Y : STA.w $0D50, X
-    
-    LDA Pool_Sprite_Crab_y_speeds, Y : STA.w $0D40, X
-    
-    INC.w $0E80, X : LDA.w $0E80, X : LSR
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR
     
     CPY.b #$02 : BCC .moving_horizontally
         LSR : LSR
@@ -85,17 +83,15 @@ Crab_Draw:
     .next_subsprite
         
         PHX
-        
-        TXA : CLC : ADC.b $06 : PHA : ASL : TAX
+        TXA : CLC : ADC.b $06 : PHA
+        ASL                   : TAX
         
         REP #$20
         
         LDA.b $00 : CLC : ADC Pool_Crab_Draw_x_offsets, X : STA.b ($90), Y
-        
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .alpha
             LDA.b #$F0 : STA.b ($90), Y
         
@@ -106,8 +102,8 @@ Crab_Draw:
         LDA Pool_Crab_Draw_chr, X                 : INY : STA.b ($90), Y
         LDA Pool_Crab_Draw_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY

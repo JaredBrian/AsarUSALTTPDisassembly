@@ -98,7 +98,9 @@ Fish_Leaping:
         ; them back in.
         LDY.w $0D90, X : BEQ .ungrateful
             LDA.b #$76 : STA.w $1CF0
-            LDA.b #$01 : JSR.w Sprite4_ShowMessageMinimal
+
+            LDA.b #$01
+            JSR.w Sprite4_ShowMessageMinimal
             
         .ungrateful
     .still_ascending
@@ -109,7 +111,8 @@ Fish_Leaping:
         JSR.w Fish_SpawnSmallWaterSplash
         
         LDA.w $0D90, X : BEQ .no_rupees_for_you
-            LDA.b #$DB : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+            LDA.b #$DB
+            JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
                 JSL.l Sprite_SetSpawnedCoords
                 
                 LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
@@ -117,13 +120,15 @@ Fish_Leaping:
                 
                 LDA.b #$FF : STA.w $0B58, Y
                 
-                LDA.b #$30 : STA.w $0F80, Y : STA.w $0EE0, Y
+                LDA.b #$30 : STA.w $0F80, Y
+                             STA.w $0EE0, Y
                 
                 PHX
                 
                 TYX
                 
-                LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+                LDA.b #$10
+                JSL.l Sprite_ApplySpeedTowardsPlayerLong
                 
                 PLX
                 
@@ -134,8 +139,8 @@ Fish_Leaping:
     
     .aloft
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : TAY
-    
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : LSR : TAY
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -210,9 +215,7 @@ Fish_FlopAround:
         JSL.l GetRandomInt : AND.b #$0F : ADC.b #$10 : STA.w $0F80, X
         
         JSL.l GetRandomInt : AND.b #$07 : TAY
-        
         LDA.w Fish_FlopAround_x_speeds, Y : STA.w $0D50, X
-        
         LDA.w Fish_FlopAround_y_speeds, Y : STA.w $0D40, X
         
         INC.w $0DE0, X
@@ -227,9 +230,8 @@ Fish_FlopAround:
     ; Just kind of... awed by it. It could be more detailed but it's
     ; pretty good the way it is.
     LDA.w $0E80, X : AND.b #$07 : BNE .delay_animation_base_adjustment
-        LDA.w $0DE0, X : AND.b #$01 : TAY
-        
         ; Note: The index for the animation fluctates between 0 and 2 inclusive.
+        LDA.w $0DE0, X : AND.b #$01 : TAY
         LDA.w $0D90, X : CMP Fish_FlopAround_boundary_limits, Y : BEQ .at_boundary_already
             CLC : ADC Sprite_ApplyConveyorAdjustment_x_shake_values, Y
             STA.w $0D90, X
@@ -237,8 +239,8 @@ Fish_FlopAround:
         .at_boundary_already
     .delay_animation_base_adjustment
     
-    LDA.b $1A : LSR #3 : AND.b #$01 : LDY.w $0D90, X
-    
+    LDA.b $1A : LSR #3 : AND.b #$01
+    LDY.w $0D90, X
     CLC : ADC Fish_FlopAround_animation_state_bases, Y : STA.w $0DC0, X
     
     RTS
@@ -313,21 +315,22 @@ Fish_Draw:
         
         SEP #$20
         
-        LDA.b #$02 : JSL.l Sprite_DrawMultiple
+        LDA.b #$02
+        JSL.l Sprite_DrawMultiple
         
         LDA.w $0FDA : CLC : ADC.w $0F70, X : STA.w $0FDA
         LDA.w $0FDB       : ADC.b #$00     : STA.w $0FDB
         
         LDA.b #$00 : XBA
-        
         LDA.w $0F70, X : LSR : LSR : CMP.b #$02 : BCC .shadow_OAM_groups
             ; Use the smallest shadow OAM group if the sprite is way up.
             LDA.b #$02
         
         .shadow_OAM_groups
         
-        REP #$20 : ASL #3 : STA.b $00 : ASL : ADC.b $00
+        REP #$20
         
+        ASL #3 : STA.b $00 : ASL : ADC.b $00
         ADC.w #Pool_Fish_Draw_shadow_OAM_groups : STA.b $08
         
         LDA.b $90 : CLC : ADC.w #$0008 : STA.b $90
@@ -336,7 +339,8 @@ Fish_Draw:
         
         SEP #$20
         
-        LDA.b #$03 : JSL.l Sprite_DrawMultiple
+        LDA.b #$03
+        JSL.l Sprite_DrawMultiple
         
         JSL.l Sprite_Get_16_bit_CoordsLong
         

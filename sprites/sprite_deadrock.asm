@@ -36,9 +36,9 @@ Sprite_DeadRock:
     
     .write_animation_state
     
-    LDA Pool_Sprite_DeadRock_animation_states, Y : STA.w $0DC0, X
+    LDA.w Pool_Sprite_DeadRock_animation_states, Y : STA.w $0DC0, X
     
-    LDA.w $0F50, X : AND.b #$BF : ORA Pool_Sprite_DeadRock_h_flip, Y
+    LDA.w $0F50, X : AND.b #$BF : ORA.w Pool_Sprite_DeadRock_h_flip, Y
     STA.w $0F50, X
     
     JSR.w Sprite_PrepAndDrawSingleLarge
@@ -47,8 +47,8 @@ Sprite_DeadRock:
     LDA.w $0EA0, X : BNE .anoplay_SFX
         JSR.w Sprite_CheckDamageFromPlayer : BCC .anoplay_SFX
             LDA.w $012E : BNE .anoplay_SFX
-
-                LDA.b #$0B : JSL.l Sound_SetSfx2PanLong
+                LDA.b #$0B
+                JSL.l Sound_SetSfx2PanLong
     
     .anoplay_SFX
     
@@ -70,9 +70,7 @@ Sprite_DeadRock:
     JSR.w Sprite_CheckIfRecoiling
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw DeadRock_PickDirection ; 0x00 - $9506
     dw DeadRock_Walk          ; 0x01 - $9559
     dw DeadRock_Petrified     ; 0x02 - $958F
@@ -101,14 +99,14 @@ DeadRock_PickDirection:
         ASL.w $0E40, X : LSR.w $0E40, X
         
         LDA.w $0CAA, X : AND.b #$FB : STA.w $0CAA, X
-        
         LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
         
         INC.w $0D80, X
         
         JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
         
-        INC.w $0DA0, X : LDA.w $0DA0, X : CMP.b #$04 : BNE .use_random_direction
+        INC.w $0DA0, X
+        LDA.w $0DA0, X : CMP.b #$04 : BNE .use_random_direction
             STZ.w $0DA0, X
             
             JSR.w Sprite_DirectionToFacePlayer
@@ -129,8 +127,8 @@ DeadRock_PickDirection:
 ; $031548-$031558 JUMP LOCATION
 DeadRock_SetDirectionAndSpeed:
 {
-    STA.w $0DE0, X : TAY
-    
+    STA.w $0DE0, X 
+    TAY
     LDA.w DeadRockSpeed_X, Y : STA.w $0D50, X
     LDA.w DeadRockSpeed_Y, Y : STA.w $0D40, X
     
@@ -163,7 +161,8 @@ DeadRock_Walk:
     
     .no_wall_collision
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$01 : STA.b $00
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : LSR : AND.b #$01 : STA.b $00
     
     LDA.w $0DE0, X : ASL : ORA.b $00 : STA.w $0D90, X
     
@@ -176,9 +175,7 @@ DeadRock_Walk:
 DeadRock_Petrified:
 {
     LDA.w $0E40, X : ORA.b #$80 : STA.w $0E40, X
-    
     LDA.w $0CAA, X : ORA.b #$04 : STA.w $0CAA, X
-    
     LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
     LDA.b $1A : AND.b #$01 : BNE .skip

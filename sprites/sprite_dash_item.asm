@@ -52,7 +52,8 @@ Sprite_DashKey:
         LDA.w $0F80, X : EOR.b #$FF : INC : LSR : LSR : STA.w $0F80, X
         
         AND.b #$FE : BEQ .beta
-            LDA.b #$14 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$14
+            JSL.l Sound_SetSfx3PanLong
             
     .beta
     
@@ -105,7 +106,8 @@ DashKey_GiveToPlayer:
     LDA.w $0CBA, X : TAY
     LDA.w $0403 : ORA.w .room_flag, Y : STA.w $0403
     
-    LDA.b #$2F : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$2F
+    JSL.l Sound_SetSfx3PanLong
     
     RTS
 }
@@ -136,7 +138,8 @@ Sprite_DashBookOfMudora:
         
         LDA.w $0F80, X : EOR.b #$FF : INC : LSR : LSR : STA.w $0F80, X
         AND.b #$FE : BEQ .beta
-            LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$21
+            JSL.l Sound_SetSfx2PanLong
             
     .beta
     
@@ -261,8 +264,8 @@ Sprite_DashTreetop:
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw DashTreeTop_WaitForDashAttack ; 0x00 - $FD98
-    dw DashTreeTop_SpawnLeaves       ; 0x00 - $FDD0
-    dw DashTreeTop_DancingLeaves     ; 0x00 - $FE0B
+    dw DashTreeTop_SpawnLeaves       ; 0x01 - $FDD0
+    dw DashTreeTop_DancingLeaves     ; 0x02 - $FE0B
 }
 
 ; ==============================================================================
@@ -302,15 +305,16 @@ DashTreeTop_SpawnLeaves:
         
         LDA.b #$1B : STA.w $012F
         
-        LDA.b #$FC : STA.w $0D50, X : STA.w $0D40, X
+        LDA.b #$FC : STA.w $0D50, X
+                     STA.w $0D40, X
         JSR.w DashTreeTop_SpawnLeafCluster
         
-        LDA.b #$05 : STA.w $0D50, Y : STA.w $0D40, Y
+        LDA.b #$05 : STA.w $0D50, Y
+                     STA.w $0D40, Y
         JSR.w DashTreeTop_SpawnLeafCluster
         
         LDA.b #$05 : STA.w $0D50, Y
         LDA.b #$FC : STA.w $0D40, Y
-        
         JSR.w DashTreeTop_SpawnLeafCluster
         
         LDA.b #$FC : STA.w $0D50, Y
@@ -393,7 +397,8 @@ DashTreeTop_Draw:
         
         .beta
         
-            STA.b $00, X : STA.b $10, X : STA.b $20, X : STA.b $30, X
+            STA.b $00, X : STA.b $10, X
+            STA.b $20, X : STA.b $30, X
             
             CLC : ADC.b #$10
             
@@ -402,16 +407,21 @@ DashTreeTop_Draw:
         
         LDX.b $90
         
-        LDA.w $0FA9 : STA.b $01, X : STA.b $05, X : STA.b $09, X : STA.b $0D, X
+        LDA.w $0FA9
+        STA.b $01, X : STA.b $05, X
+        STA.b $09, X : STA.b $0D, X
 
         CLC : ADC.b #$10
-        STA.b $11, X : STA.b $15, X : STA.b $19, X : STA.b $1D, X
+        STA.b $11, X : STA.b $15, X
+        STA.b $19, X : STA.b $1D, X
 
         CLC : ADC.b #$10
-        STA.b $21, X : STA.b $25, X : STA.b $29, X : STA.b $2D, X
+        STA.b $21, X : STA.b $25, X
+        STA.b $29, X : STA.b $2D, X
 
         CLC : ADC.b #$10
-        STA.b $31, X : STA.b $35, X : STA.b $39, X : STA.b $3D, X
+        STA.b $31, X : STA.b $35, X
+        STA.b $39, X : STA.b $3D, X
         
         REP #$30
         
@@ -430,37 +440,37 @@ DashTreeTop_Draw:
         
         LDA.b #$0F
         LDY.b #$02
-        
         JSL.l Sprite_CorrectOamEntriesLong
         
         RTS
     
     .alpha
     
-    LDA.w $0E80, X : DEC : STA.b $00 : STZ.b $01
+    LDA.w $0E80, X : DEC : STA.b $00
+                           STZ.b $01
     
     REP #$10
     
     LDX.b $90
-    
     LDY.w #$000F
     
     .delta
     
         LDA.w $0FA8 : CLC : ADC.w Pool_DashTreeTop_Draw_offset_x, Y : STA.b $00, X
+
         INX
-        
         LDA.w $0FA9 : CLC : ADC.w Pool_DashTreeTop_Draw_offset_y, Y : STA.b $00, X
+
         INX
         
         PHY
         
         LDY.b $00
-        
         LDA.w Pool_DashTreeTop_Draw_char, Y : STA.b $00, X
+
         INX
-        
         LDA.w Pool_DashTreeTop_Draw_prop, Y : STA.b $00, X
+
         INX 
     PLY : DEY : BPL .delta
     
@@ -470,7 +480,6 @@ DashTreeTop_Draw:
     
     LDA.b #$0F
     LDY.b #$02
-    
     JSL.l Sprite_CorrectOamEntriesLong
     
     RTS
@@ -481,7 +490,8 @@ DashTreeTop_Draw:
 ; $02FF39-$02FF5D JUMP LOCATION
 DashTreeTop_SpawnLeafCluster:
 {
-    LDA.b #$3B : JSL.l Sprite_SpawnDynamically
+    LDA.b #$3B
+    JSL.l Sprite_SpawnDynamically
     
     LDA.b #$02 : STA.w $0DC0, Y
     

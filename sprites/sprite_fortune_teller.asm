@@ -94,7 +94,8 @@ LW_FortuneTeller_WaitForInquiry:
 {
     STZ.w $0DC0, X
     
-    JSL.l GetRandomInt : AND.b #$03 : ASL : STA.w $0D90, X : TAY
+    JSL.l GetRandomInt : AND.b #$03 : ASL : STA.w $0D90, X
+                                            TAY
     
     REP #$20
     
@@ -132,12 +133,11 @@ LW_FortuneTeller_AskIfPlayerWantsReading:
     LDA.b #$F3
     LDY.b #$00
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
-    
-    INC.w $0D80, X
-    
-    LDA.b #$FF : STA.w $0DF0, X
-    
-    LDA.b #$01 : STA.w $02E4
+        INC.w $0D80, X
+        
+        LDA.b #$FF : STA.w $0DF0, X
+        
+        LDA.b #$01 : STA.w $02E4
     
     .didnt_speak
     
@@ -303,14 +303,11 @@ FortuneTeller_GiveReading:
     ; Allows the fortune teller to alternate between two different messages
     ; within one group.
     LDA.l $7EF3C6 : EOR.b #$40 : STA.l $7EF3C6
-    
     AND.b #$40 : ROL #3 : AND.b #$01 : TAY
-    
     LDA.w $0000, Y : TAY
     
     LDA.w Pool_FortuneTeller_GiveReading_messages_low, Y        : XBA
     LDA.w Pool_FortuneTeller_GiveReading_messages_high, Y : TAY : XBA
-    
     JSL.l Sprite_ShowMessageUnconditional
     
     RTS
@@ -409,11 +406,12 @@ DW_FortuneTeller_WaitForInquiry:
 {
     STZ.w $0DC0, X
     
-    JSL.l GetRandomInt : AND.b #$03 : ASL : STA.w $0D90, X : TAY
+    JSL.l GetRandomInt : AND.b #$03 : ASL : STA.w $0D90, X
+                                            TAY
     
     REP #$20
     
-    LDA.l $7EF360 : CMP FortuneTeller_Prices, Y : SEP #$30 : BCS .has_enough
+    LDA.l $7EF360 : CMP.w FortuneTeller_Prices, Y : SEP #$30 : BCS .has_enough
         INC.w $0D80, X
         
         RTS
@@ -500,8 +498,7 @@ DW_FortuneTeller_ShowCostMessage:
     STZ.b $06
     
     LDY.w $0D90, X
-    
-    LDA FortuneTeller_Prices, Y
+    LDA.w FortuneTeller_Prices, Y
     
     ; $06CA2D ALTERNATE ENTRY POINT
     .known_amount
@@ -553,7 +550,6 @@ DW_FortuneTeller_ShowCostMessage:
     SEP #$30
     
     LDA.b $00 : ASL #4 : ORA.b $02 : STA.w $1CF2
-    
     LDA.b $06 : ASL #4 : ORA.b $04 : STA.w $1CF3
     
     ; "Now I will take (amount) Rupees. (...) Yeehah ha hah!"
@@ -620,14 +616,12 @@ FortuneTeller_Draw_OAM_groups:
 FortuneTeller_Draw:
 {
     LDA.l $7EF3CA : ASL : ROL : ROL : AND.b #$01 : STA.b $00
-    
     ASL : ADC.b $00 : ADC.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
-    
-    ; $6CAA1
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
-    LDA.b #$03 : JSL.l Sprite_DrawMultiple
+    LDA.b #$03
+    JSL.l Sprite_DrawMultiple
     
     RTS
 }
@@ -637,7 +631,8 @@ FortuneTeller_Draw:
 ; $06CB2A-$06CB53 LONG JUMP LOCATION
 Dwarf_SpawnDwarfSolidity:
 {
-    LDA.b #$31 : JSL.l Sprite_SpawnDynamically
+    LDA.b #$31
+    JSL.l Sprite_SpawnDynamically
     
     LDA.b $00 : STA.w $0D10, Y
     LDA.b $01 : STA.w $0D30, Y

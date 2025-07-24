@@ -33,7 +33,8 @@ BomberPellet_Falling:
         
         INC.w $0E40, X
         
-        LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$0C
+        JSL.l Sound_SetSfx2PanLong
     
     .aloft
     
@@ -81,8 +82,7 @@ Bomber_Main:
 {
     LDA.w $0E00, X : BEQ .direction_lock_inactive
         LDY.w $0DE0, X
-        
-        LDA Pool_Bomber_Mainanimation_states, Y : STA.w $0DC0, X
+        LDA.w Pool_Bomber_Mainanimation_states, Y : STA.w $0DC0, X
     
     .direction_lock_inactive
     
@@ -101,9 +101,7 @@ Bomber_Main:
     
     LDA.b $1A : AND.b #$01 : BNE .delay
         LDA.w $0ED0, X : AND.b #$01 : TAY
-        
         LDA.w $0F80, X : CLC : ADC Pool_Bomber_Main_z_speed_step, Y : STA.w $0F80, X
-        
         CMP Pool_Bomber_Mainz_speed_limit, Y : BNE .not_at_speed_limit
             ; Invert polarity of motion in the z axis. (gives an undulation
             ; effect.)
@@ -201,21 +199,21 @@ Bomber_Hovering:
             
             ; TODO: Decide whether this is really approaching the player or just
             ; flanking... confusing the player?
-            LDA Pool_Bomber_Hovering_approach_indices, Y
+            LDA.w Pool_Bomber_Hovering_approach_indices, Y
             
             BRA .approach_player
         
         .choose_random_direction
         
-        JSL.l GetRandomInt : AND.b #$1F : ORA.b #$20 : STA.w $0DF0, X : AND.b #$07
+        JSL.l GetRandomInt : AND.b #$1F : ORA.b #$20 : STA.w $0DF0, X
+        
+        AND.b #$07
         
         .approach_player
         
         TAY
-        
-        LDA Pool_Bomber_Hovering_x_speeds, Y : STA.w $0D50, X
-        
-        LDA Pool_Bomber_Hovering_y_speeds, Y : STA.w $0D40, X
+        LDA.w Pool_Bomber_Hovering_x_speeds, Y : STA.w $0D50, X
+        LDA.w Pool_Bomber_Hovering_y_speeds, Y : STA.w $0D40, X
     
     .delay
     
@@ -231,10 +229,9 @@ Bomber_Moving:
         LDA.b #$0A : STA.w $0DF0, X
         
         LDY.w $0E20, X : CPY.b #$A8 : BNE .cant_spawn_pellet
-        
-        ; Only the green bombers can do that, apparently.
-        LDA.b #$10 : STA.w $0E00, X
-        
+            ; Only the green bombers can do that, apparently.
+            LDA.b #$10 : STA.w $0E00, X
+            
         .cant_spawn_pellet
         
         RTS
@@ -284,33 +281,33 @@ Pool_Bomber_SpawnPellet:
 Bomber_SpawnPellet:
 {
     LDA.b #$A8 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$20
+        JSL.l Sound_SetSfx2PanLong
         
         LDA.b $04 : STA.w $0F70, Y
         
         PHX
         
         LDX.w $0DE0, Y
-        
         LDA.b $00
-        CLC : ADC Pool_Bomber_SpawnPellet_x_offsets_low, X  : STA.w $0D10, Y
+        CLC : ADC.w Pool_Bomber_SpawnPellet_x_offsets_low, X  : STA.w $0D10, Y
 
         LDA.b $01
-              ADC Pool_Bomber_SpawnPellet_x_offsets_high, X : STA.w $0D30, Y
+              ADC.w Pool_Bomber_SpawnPellet_x_offsets_high, X : STA.w $0D30, Y
         
         LDA.b $02
-        CLC : ADC Pool_Bomber_SpawnPellet_y_offsets_low, X  : STA.w $0D00, Y
+        CLC : ADC.w Pool_Bomber_SpawnPellet_y_offsets_low, X  : STA.w $0D00, Y
 
         LDA.b $03
-              ADC Pool_Bomber_SpawnPellet_y_offsets_hiwh, X : STA.w $0D20, Y
+              ADC.w Pool_Bomber_SpawnPellet_y_offsets_hiwh, X : STA.w $0D20, Y
         
-        LDA Sprite3_Shake_x_speeds, X : STA.w $0D50, Y
-        
-        LDA Sprite3_Shake_y_speeds, X : STA.w $0D40, Y
+        LDA.w Sprite3_Shake_x_speeds, X : STA.w $0D50, Y
+        LDA.w Sprite3_Shake_y_speeds, X : STA.w $0D40, Y
         
         PLX
         
-        LDA.b #$01 : STA.w $0D90, Y : STA.w $0BA0, Y
+        LDA.b #$01 : STA.w $0D90, Y
+                     STA.w $0BA0, Y
         
         LDA.b #$09 : STA.w $0F60, Y
         

@@ -44,11 +44,9 @@ Sprite_FireballJunction:
                 PHX
                 
                 TYX
-                
                 JSR.w Sprite4_DirectionToFacePlayer
                 
                 LDA.w Pool_Sprite_FireballJunction_x_speeds, Y : STA.w $0D50, X
-                
                 LDA.w Pool_Sprite_FireballJunction_y_speeds, Y : STA.w $0D40, X
                 
                 LDA.w $0D10, X

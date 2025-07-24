@@ -57,7 +57,7 @@ Sprite_Absorbable_draw_logic_finished:
     JSR.w Sprite_MoveAltitude
     JSR.w Sprite_Move
     
-    LDA !timer_3, X : BNE .skip_tile_collision_logic
+    LDA.w $0EE0, X : BNE .skip_tile_collision_logic
         JSR.w Sprite_CheckTileCollision
         JSR.w Sprite_WallInducedSpeedInversion
         

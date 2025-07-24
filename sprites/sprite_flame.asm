@@ -14,8 +14,7 @@ Sprite_Flame:
         JSR.w Sprite3_CheckIfActive
         
         LDA.b $1A : LSR : LSR : AND.b #$03 : TAY
-        
-        LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
+        LDA.w $0F50, X : AND.b #$3F : ORA.w .vh_flip, Y : STA.w $0F50, X
         
         JSR.w Sprite3_CheckDamageToPlayer : BCS .hit_something
             JSR.w Sprite3_Move
@@ -29,7 +28,8 @@ Sprite_Flame:
         
         LDA.w $0F50, X : AND.b #$3F : STA.w $0F50, X
         
-        LDA.b #$2A : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$2A
+        JSL.l Sound_SetSfx2PanLong
         
         RTS
 }
@@ -62,10 +62,10 @@ Flame_Halted:
     .still_burning
     
     LDA.w $0DF0, X : LSR #3 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     JSL.l Flame_Draw
+
     JMP Sprite3_CheckDamageToPlayer
 }
 
@@ -103,7 +103,8 @@ Flame_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR.w Sprite3_DrawMultiple
+    LDA.b #$02
+    JSR.w Sprite3_DrawMultiple
     
     PLB
     

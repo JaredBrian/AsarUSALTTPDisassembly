@@ -12,7 +12,6 @@ Sprite_BlindMaiden:
     LDA.w $0D80, X : BNE .switch_to_tagalong
         LDA.b #$22
         LDY.b #$01
-        
         JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
             INC.w $0D80, X
         

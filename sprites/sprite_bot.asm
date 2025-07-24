@@ -9,7 +9,6 @@ Sprite_Popo:
     JSR.w Sprite2_CheckIfRecoiling
     
     INC.w $0E80, X
-    
     LDA.w $0E80, X : LSR #4 : AND.b #$03 : STA.w $0D90, X
     
     JSR.w Sprite2_CheckDamage
@@ -35,7 +34,6 @@ Sprite_Popo:
             INC.w $0D80, X
             
             JSL.l GetRandomInt : AND.b #$0F : TAY
-            
             LDA.w Pool_Keese_Agitated_random_x_speeds, Y : ASL : ASL : STA.w $0D50, X
             LDA.w Pool_Keese_Agitated_random_y_speeds, Y : ASL : ASL : STA.w $0D40, X
         
@@ -96,9 +94,9 @@ Bot_Draw:
 {
     LDY.w $0D90, X
     
-    LDA Pool_Bot_Draw_animation_states, Y : STA.w $0DC0, X
+    LDA.w Pool_Bot_Draw_animation_states, Y : STA.w $0DC0, X
     
-    LDA.w $0F50, X : AND.b #$BF : ORA Pool_Bot_Draw_vh_flip, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA.w Pool_Bot_Draw_vh_flip, Y : STA.w $0F50, X
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong
     

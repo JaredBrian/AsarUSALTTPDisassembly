@@ -35,9 +35,7 @@ Sprite_GiboNucleus:
     JSR.w Sprite4_CheckDamage
     
     INC.w $0E80, X
-    
     LDA.w $0E80, X : LSR : LSR : AND.b #$03 : TAY
-    
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
     ; TODO: timer_0?
@@ -65,7 +63,6 @@ Gibo_Main:
     LDA.w $0DD0, Y : CMP.b #$06 : BNE .nucleus_not_dying
     	STA.w $0DD0, X
      
-	; TODO: timer_0?
     	LDA.w $0DF0, Y : STA.w $0DF0, X
     
     	LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
@@ -78,7 +75,6 @@ Gibo_Main:
     
     LDA.b $1A : AND.b #$3F : BNE .dont_pursue_player
     	JSR.w Sprite4_IsToRightOfPlayer
-    
         TYA : ASL : ASL : STA.w $0DE0, X
     
     .dont_pursue_player
@@ -86,9 +82,7 @@ Gibo_Main:
     JSL.l Sprite_CheckDamageToPlayerLong
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Gibo_ExpelNucleus  ; 0x00 - $CD72
     dw Gibo_DelayPursuit  ; 0x01 - $CDE2
     dw Gibo_PursueNucleus ; 0x02 - $CDEB
@@ -108,8 +102,6 @@ Pool_Gibo_ExpelNucleus:
     db   0,   0,  16, -16,  16,  16, -16, -16
 }
 
-; ==============================================================================
-
 ; $0ECD72-$0ECDE1 JUMP LOCATION
 Gibo_ExpelNucleus:
 {
@@ -118,12 +110,13 @@ Gibo_ExpelNucleus:
     
     	LDA.b #$30 : STA.w $0DF0, X
     
-    	INC !is_nucleus_expelled, X
+    	INC.w !is_nucleus_expelled, X
     
     	; BUG: Maybe. What if the nucleus fails to spawn? Will the thing
     	; just break completely? It's good that they check the return value,
     	; but it shouldn't advance to the next AI state, imo.
-    	LDA.b #$C3 : JSL.l Sprite_SpawnDynamically : BMI .nucleus_spawn_failed
+    	LDA.b #$C3
+        JSL.l Sprite_SpawnDynamically : BMI .nucleus_spawn_failed
     	    JSL.l Sprite_SetSpawnedCoords
     
     	    ; Store the index of the spawned child sprite (Gibo nucleus).
@@ -142,7 +135,8 @@ Gibo_ExpelNucleus:
     
     	    PHX
     
-    	    INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$03 : BNE .pick_random_direction
+    	    INC.w $0DB0, X
+            LDA.w $0DB0, X : CMP.b #$03 : BNE .pick_random_direction
     	        ; Otherwise pursue the player? TODO: confirm that it's not fleeing
     	        ; in this case.
     	        STZ.w $0DB0, X
@@ -162,7 +156,6 @@ Gibo_ExpelNucleus:
     	    .set_xy_speeds
     
     	    LDA.w .x_speeds, X : STA.w $0D50, Y
-    
     	    LDA.w .y_speeds, X : STA.w $0D40, Y
     
     	    PLX
@@ -175,7 +168,7 @@ Gibo_ExpelNucleus:
     
     ; TODO: Terrible branch name, but maybe semiaccurate.
     CMP.b #$20 : BNE .dont_special_draw
-        STA !timer_1, X
+        STA.w $0DF0, X
     
     .dont_special_draw
     
@@ -219,7 +212,7 @@ Gibo_PursueNucleus:
     	        ; Terminate the nucleus now that we've recombined (another will spawn soon).
     	        LDA.b #$00 : STA.w $0DD0, Y
     
-    	        STZ !is_nucleus_expelled, X
+    	        STZ.w !is_nucleus_expelled, X
     
     	        STZ.w $0D80, X
     
@@ -296,23 +289,21 @@ Gibo_Draw_OAM_groups:
 ; $0ECF5E-$0ECFC2 LOCAL JUMP LOCATION
 Gibo_Draw:
 {
-    LDA !is_nucleus_expelled, X : BNE .is_currently_expelled
+    LDA.w !is_nucleus_expelled, X : BNE .is_currently_expelled
     	LDA.w $0E40, X : PHA
     
     	LDA.b #$01 : STA.w $0E40, X
     
-	; TODO: timer_1?
-    	LDA !timer_1, X : AND.b #$04 : LSR : LSR : STA.b $00
+    	LDA.w $0DF0, X : AND.b #$04 : LSR : LSR : STA.b $00
     
     	LDA.w $0EC0, X : LSR : LSR : AND.b #$03 : TAY
     
     	LDA.w $0F50, X : PHA
     
-    	LDA Sprite_GiboNucleus_vh_flip, Y
+    	LDA.w Sprite_GiboNucleus_vh_flip, Y
     
     	LDY.b $00
-    
-    	ORA .palettes, Y : STA.w $0F50, X
+    	ORA.w .palettes, Y : STA.w $0F50, X
     
     	JSL.l Sprite_PrepAndDrawSingleLargeLong
     
@@ -322,7 +313,6 @@ Gibo_Draw:
     .is_currently_expelled
     
     LDA.b #$00 : XBA
-    
     LDA.w $0E80, X : CLC : ADC.w $0DE0, X
     
     REP #$20
@@ -337,7 +327,8 @@ Gibo_Draw:
     
     SEP #$20
     
-    LDA.b #$04 : JMP Sprite4_DrawMultiple
+    LDA.b #$04
+    JMP Sprite4_DrawMultiple
 }
 
 ; ==============================================================================

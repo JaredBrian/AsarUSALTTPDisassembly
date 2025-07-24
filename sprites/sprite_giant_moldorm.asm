@@ -115,7 +115,7 @@ Sprite_GiantMoldorm:
             
             LDA.b #$18 : STA.b $46
             
-            LDA.b #$30 : STA !timer_1, X
+            LDA.b #$30 : STA.w $0DF0, X
             
             ; BUG: how does this work? This value gets overriden by the call.
             LDA.b #$32 : JSL.l Sound_SetSfxPan : STA.w $012F
@@ -295,7 +295,7 @@ GiantMoldorm_Draw:
 GiantMoldorm_IncrementalSegmentExplosion:
 {
     LDA.w $0DD0, X : CMP.b #$09 : BNE .alive_and_well
-        LDA !timer_4, X : BEQ .delay_explosion
+        LDA.w !timer_4, X : BEQ .delay_explosion
             CMP.b #$50 : BCS .delay_explosion
                 AND.b #$0F : ORA.b $11 : ORA.w $0FC1 : BNE .delay_explosion
                     ; Move on to the next segment.
@@ -339,8 +339,7 @@ GiantMoldorm_DrawHead_OAM_groups:
 GiantMoldorm_DrawHead:
 {
     LDA.b #$00 : XBA
-    
-    LDA !timer_1, X : AND.b #$02 : STA.b $00
+    LDA.w $0DF0, X : AND.b #$02 : STA.b $00
     
     LDA.w $0E80, X : LSR : AND.b #$01 : ORA.b $00
     
@@ -350,7 +349,8 @@ GiantMoldorm_DrawHead:
     
     SEP #$20
     
-    LDA.b #$04 : JMP Sprite4_DrawMultiple
+    LDA.b #$04
+    JMP Sprite4_DrawMultiple
 }
 
 ; ==============================================================================
@@ -386,17 +386,14 @@ GiantMoldorm_DrawSegment_A:
 GiantMoldorm_DrawLargeSegment:
 {
     AND.b #$7F : TAX
-    
     LDA.l $7FFC00, X : STA.w $0FD8
     LDA.l $7FFC80, X : STA.w $0FD9
-    
     LDA.l $7FFD00, X : STA.w $0FDA
     LDA.l $7FFD80, X : STA.w $0FDB
     
     PLX
     
     LDA.b #$00 : XBA
-    
     LDA.w $0E80, X : LSR : AND.b #$01
     
     REP #$20
@@ -406,7 +403,6 @@ GiantMoldorm_DrawLargeSegment:
     REP #$20
     
     LDA.b $90 : CLC : ADC.w #$0010 : STA.b $90
-    
     LDA.b $92 : CLC : ADC.w #$0004 : STA.b $92
     
     SEP #$20
@@ -414,7 +410,6 @@ GiantMoldorm_DrawLargeSegment:
     SEP #$20
     
     LDA.b #$04
-    
     JMP Sprite4_DrawMultiple
 }
 
@@ -428,7 +423,6 @@ GiantMoldorm_DrawSegment_B:
     PHX
     
     LDA.w $0E80, X : SEC : SBC.b #$1C
-    
     JMP GiantMoldorm_DrawLargeSegment
 }
 
@@ -448,7 +442,6 @@ GiantMoldorm_DrawSegment_C:
     REP #$20
     
     LDA.b $90 : CLC : ADC.w #$0010 : STA.b $90
-    
     LDA.b $92 : CLC : ADC.w #$0004 : STA.b $92
     
     SEP #$20
@@ -466,10 +459,8 @@ GiantMoldorm_DrawSegment_C:
 GiantMoldorm_PrepAndDrawSingleLargeLong:
 {
     AND.b #$7F : TAX
-    
     LDA.l $7FFC00, X : STA.w $0FD8
     LDA.l $7FFC80, X : STA.w $0FD9
-    
     LDA.l $7FFD00, X : STA.w $0FDA
     LDA.l $7FFD80, X : STA.w $0FDB
     
@@ -477,8 +468,7 @@ GiantMoldorm_PrepAndDrawSingleLargeLong:
     
     LDA.w $0E80, X : LSR : AND.b #$03 : TAY
     
-    LDA.w $0F50, X : PHA
-    
+    LDA.w $0F50, X               : PHA
     AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong
@@ -539,7 +529,6 @@ GiantMoldorm_DrawTail:
     REP #$20
     
     LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
-    
     LDA.b $92 : CLC : ADC.w #$0001 : STA.b $92
     
     SEP #$20
@@ -552,7 +541,6 @@ GiantMoldorm_DrawTail:
     PHX
     
     LDA.w $0E80, X : SEC : SBC.b #$30
-    
     JMP GiantMoldorm_PrepAndDrawSingleLargeLong
 }
 
@@ -600,32 +588,30 @@ GiantMoldorm_DrawEyeballs:
     
     .draw_eyes_loop
     
-        LDA.b $06 : AND.b #$0F : ASL : PHX : TAX
+        LDA.b $06 : AND.b #$0F : ASL : PHX
+                                       TAX
         
         REP #$20
         
         LDA.b $00 : CLC : ADC Pool_GiantMoldorm_DrawEyeballs_x_offsets, X
         STA.b ($90), Y
-        
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : CLC : ADC Pool_GiantMoldorm_DrawEyeballs_y_offsets, X : INY
         STA.b ($90), Y
-        
         ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
         LDA.b $06 : CLC : ADC.b $07 : AND.b #$0F : TAX
+        LDA.w Pool_GiantMoldorm_DrawEyeballs_chr, X : INY : STA.b ($90), Y
         
-        LDA Pool_GiantMoldorm_DrawEyeballs_chr, X : INY : STA.b ($90), Y
-        
-        LDA Pool_GiantMoldorm_DrawEyeballs_vh_flip, X : ORA.b $05 : INY
+        LDA.w Pool_GiantMoldorm_DrawEyeballs_vh_flip, X : ORA.b $05 : INY
         STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.b $0F : ORA.b #$02 : STA.b ($92), Y
         
         LDA.b $06 : CLC : ADC.b #$02 : STA.b $06
@@ -643,7 +629,7 @@ GiantMoldorm_DrawEyeballs:
 ; $0EDC11-$0EDC15 JUMP LOCATION
 GiantMoldorm_AwaitDeath:
 {
-    LDA !timer_4, X : BNE Sprite_ScheduleBossForDeath_delay
+    LDA.w !timer_4, X : BNE Sprite_ScheduleBossForDeath_delay
         ; Bleeds into the next function.
 }
     
@@ -670,14 +656,16 @@ Sprite_ScheduleBossForDeath:
 ; $0EDC2A-$0EDC71 LONG JUMP LOCATION
 Sprite_MakeBossDeathExplosion:
 {
-    LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$0C
+    JSL.l Sound_SetSfx2PanLong
     
     ; $0EDC30 ALTERNATE ENTRY POINT
     .silent
     
-    ; Spawn a.... raven? What? Oh it's just a dummy sprite that will be
+    ; Spawn a raven as just a dummy sprite that will be
     ; transmuted to an explosion.
-    LDA.b #$00 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$00
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$0B : STA.w $0AAA
         
         LDA.b #$04 : STA.w $0DD0, Y

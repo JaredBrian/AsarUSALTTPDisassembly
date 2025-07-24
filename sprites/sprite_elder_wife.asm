@@ -139,7 +139,6 @@ ElderWife_Draw:
                  STZ.b $07
     
     LDA.w $0DC0, X : ASL #4
-    
     ADC.b ((.OAM_groups >> 0 & $FF))              : STA.b $08
     LDA.b ((.OAM_groups >> 8 & $FF)) : ADC.b #$00 : STA.b $09
     

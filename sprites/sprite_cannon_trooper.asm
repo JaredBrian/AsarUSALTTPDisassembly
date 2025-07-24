@@ -25,7 +25,8 @@ Sprite_CannonBall:
             
             JSL.l Sprite_PlaceRupulseSpark_coerce
             
-            LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$05
+            JSL.l Sound_SetSfx2PanLong
         
     .no_tile_collision
 
@@ -58,7 +59,6 @@ Sprite_SpawnPoofGarnish:
     
         ; Look for an empty special sprite slot.
         LDA.l $7FF800, X : BEQ .emptySlot
-    
     DEX : BPL .nextSlot
     
     ; Use the first slot, if nothing else can be found.
@@ -66,7 +66,8 @@ Sprite_SpawnPoofGarnish:
     
     .emptySlot
     
-    LDA.b #$0A : STA.l $7FF800, X : STA.w $0FB4
+    LDA.b #$0A : STA.l $7FF800, X
+                 STA.w $0FB4
     
     LDA.w $0D10, Y : STA.l $7FF83C, X
     LDA.w $0D30, Y : STA.l $7FF878, X
@@ -115,7 +116,6 @@ Sprite_CannonTrooper:
     REP #$30
     
     AND.w #$00FF : ASL : TAY
-    
     LDA.w .vectors, Y : DEC : PHA
     
     SEP #$30
@@ -149,7 +149,8 @@ Trooper_FacePlayer:
 {
     LDA.w $0DE0, X : PHA
     
-    JSR.w Sprite2_DirectionToFacePlayer : TYA : STA.w $0DE0, X
+    JSR.w Sprite2_DirectionToFacePlayer
+    TYA : STA.w $0DE0, X
     
     PLA : CMP.w $0DE0, X : BEQ .already_facing
         EOR.w $0DE0, X : AND.b #$02 : BNE .direction_lock_not_necessary
@@ -219,32 +220,34 @@ CannonTrooper_SpawnCannonBall:
     
     LDA.b #$04 : STA.w $0DF0, X
     
-    LDA.b #$6B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-        LDA.b #$07 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$6B
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$07
+        JSL.l Sound_SetSfx3PanLong
         
         LDA.b #$01 : STA.w $0DB0, Y
         
-        LDA.w $0DE0, X : PHX : TAX
+        LDA.w $0DE0, X : PHX
+                         TAX
         
         LDA.b $00
-        CLC : ADC Pool_CannonTrooper_SpawnCannonBall_x_offsets_low, X
+        CLC : ADC.w Pool_CannonTrooper_SpawnCannonBall_x_offsets_low, X
         STA.w $0D10, Y
 
         LDA.b $01
-        ADC Pool_CannonTrooper_SpawnCannonBall_x_offsets_high, X
+              ADC.w Pool_CannonTrooper_SpawnCannonBall_x_offsets_high, X
         STA.w $0D30, Y
         
         LDA.b $02
-        CLC : ADC Pool_CannonTrooper_SpawnCannonBall_y_offsets_low, X
+        CLC : ADC.w Pool_CannonTrooper_SpawnCannonBall_y_offsets_low, X
         STA.w $0D00, Y
 
         LDA.b $03
-        ADC Pool_CannonTrooper_SpawnCannonBall_y_offsets_high, X
+              ADC.w Pool_CannonTrooper_SpawnCannonBall_y_offsets_high, X
         STA.w $0D20, Y
         
-        LDA Pool_CannonTrooper_SpawnCannonBall_x_speeds, X : STA.w $0D50, Y
-        
-        LDA Pool_CannonTrooper_SpawnCannonBall_y_speeds, X : STA.w $0D40, Y
+        LDA.w Pool_CannonTrooper_SpawnCannonBall_x_speeds, X : STA.w $0D50, Y
+        LDA.w Pool_CannonTrooper_SpawnCannonBall_y_speeds, X : STA.w $0D40, Y
         
         LDA.w $0E40, Y : AND.b #$F0 : ORA.b #$01 : STA.w $0E40, Y
         
@@ -285,10 +288,8 @@ CannonGuard_Fire:
     .delay
     
     LDY.w $0DE0, X
-    
-    LDA Pool_CannonGuard_Fire_x_speeds, Y : STA.w $0D50, X
-    
-    LDA Pool_CannonGuard_Fire_y_speeds, Y : STA.w $0D40, X
+    LDA.w Pool_CannonGuard_Fire_x_speeds, Y : STA.w $0D50, X
+    LDA.w Pool_CannonGuard_Fire_y_speeds, Y : STA.w $0D40, X
     
     JSR.w Sprite2_Move
     
@@ -335,10 +336,8 @@ CannonGuard_Recover:
     .delay_ai_state_reset
     
     LDY.w $0DE0, X
-    
-    LDA Pool_CannonGuard_Recover_x_speeds, Y : STA.w $0D50, X
-    
-    LDA Pool_CannonGuard_Recover_y_speeds, Y : STA.w $0D40, X
+    LDA.w Pool_CannonGuard_Recover_x_speeds, Y : STA.w $0D50, X
+    LDA.w Pool_CannonGuard_Recover_y_speeds, Y : STA.w $0D40, X
     
     JSR.w Sprite2_Move
     
@@ -456,10 +455,8 @@ CannonTrooper_Draw:
     JSR.w Sprite2_PrepOamCoord
     
     LDY.w $0DE0, X
-    
     LDA.w Pool_SpriteDraw_CannonGuard_direction_offset, Y
     CLC : ADC.w $0D90, X : STA.b $06
-    
     ASL : ASL : ADC.b $06 : STA.b $06
     
     PHX
@@ -477,7 +474,6 @@ CannonTrooper_Draw:
         
         LDA.b $00
         CLC : ADC.w Pool_SpriteDraw_CannonGuard_offset_x, X : STA.b ($90), Y
-        
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02
@@ -493,7 +489,6 @@ CannonTrooper_Draw:
         PLX
         
         LDA.w Pool_SpriteDraw_CannonGuard_char, X : INY : STA.b ($90), Y
-        
         SEC : SBC.b #$24 : CMP.b #$05
         
         LDA.w Pool_SpriteDraw_CannonGuard_flip, X : ORA.b $05 : BCS .beta
@@ -503,8 +498,8 @@ CannonTrooper_Draw:
         
         INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.w Pool_SpriteDraw_CannonGuard_size, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY

@@ -33,10 +33,8 @@ Fairy_HandleMovement:
     LDA.b $1B : BEQ .no_wall_bounce_detection
         LDA.w $0E00, X : BNE .dont_invert_speeds
             JSR.w Sprite3_CheckTileCollision
-            
             AND.b #$03 : BEQ .dont_invert_x_speed
                 LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
-                
                 LDA.w $0DE0, X : EOR.b #$FF : INC : STA.w $0DE0, X
                 
                 LDA.b #$20 : STA.w $0E00, X
@@ -79,7 +77,6 @@ Fairy_HandleMovement:
         LDA.b $21          : STA.b $07
         
         LDA.b #$10
-        
         JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.b $00 : STA.w $0D90, X
@@ -89,14 +86,16 @@ Fairy_HandleMovement:
     
     LDA.b $1A : AND.b #$0F : BNE .delay_speed_averaging
         LDA.b #$FF : STA.b $01
-                    STA.b $03
+                     STA.b $03
         
-        LDA.w $0D90, X : STA.b $00 : BMI .negative_y_target_speed
+        LDA.w $0D90, X : STA.b $00
+        BMI .negative_y_target_speed
             STZ.b $01
         
         .negative_y_target_speed
         
-        LDA.w $0D40, X : STA.b $02 : BMI .negative_y_speed
+        LDA.w $0D40, X : STA.b $02
+        BMI .negative_y_speed
             STZ.b $03
         
         .negative_y_speed
@@ -109,30 +108,35 @@ Fairy_HandleMovement:
         LDA.b #$FF : STA.b $01
                      STA.b $03
         
-        LDA.w $0DE0, X : STA.b $00 : BMI .negative_x_target_speed
+        LDA.w $0DE0, X : STA.b $00
+        BMI .negative_x_target_speed
             STZ.b $01
             
         .negative_x_target_speed
         
-        LDA.w $0D50, X : STA.b $02 : BMI .negative_x_speed
+        LDA.w $0D50, X : STA.b $02
+        BMI .negative_x_speed
             STZ.b $03
         
         .negative_x_speed
         
         REP #$21
         
-        LDA.b $00 : ADC.b $02 : LSR : SEP #$30 : STA.w $0D50, X
+        LDA.b $00 : ADC.b $02 : LSR
+        
+        SEP #$30
+        
+        STA.w $0D50, X
     
     .delay_speed_averaging
     
     JSR.w Sprite3_MoveAltitude
     
     JSL.l GetRandomInt : AND.b #$01 : TAY
-    
     LDA.w .z_speeds, Y : CLC : ADC.w $0F80, X : STA.w $0F80, X
     
     LDA.w $0F70, X
-    
+
     LDY.b #$08
     
     CMP.b #$08 : BCC .too_close_to_ground
@@ -161,7 +165,8 @@ Fairy_HandleMovement:
 ; $0F7E33-$0F7E68 LONG JUMP LOCATION
 PlayerItem_SpawnFairy:
 {
-    LDA.b #$E3 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$E3
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b $EE : STA.w $0F20, Y
         
         LDA.b $22 : CLC : ADC.b #$08 : STA.w $0D10, Y

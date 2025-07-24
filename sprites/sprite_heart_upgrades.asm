@@ -42,7 +42,6 @@ HeartUpdgrade_CheckIfAlreadyObtained:
         PHX
         
         LDX.b $8A
-        
         LDA.l $7EF280, X : AND.b #$40 : BEQ .dont_self_terminate
             PLX
             
@@ -61,7 +60,6 @@ HeartUpdgrade_CheckIfAlreadyObtained:
     .indoors
     
     LDA.w $0D30, X : AND.b #$01 : TAY
-    
     LDA.w $0403 : AND HeartUpgrade_IndoorAcquiredMasks, Y : BEQ .dont_self_terminate_2
         STZ.w $0DD0, X
     
@@ -96,7 +94,8 @@ Sprite_HeartContainer:
         
     .not_in_ganons_tower
     
-    LDA.w $0ED0, X : STA.w $0BA0, X : BNE .beta
+    LDA.w $0ED0, X : STA.w $0BA0, X
+    BNE .beta
         LDA.b #$03
         
         PHX
@@ -159,7 +158,6 @@ HeartContainer_GrantFromSprite:
     LDA.b #$02 : STA.w $02E9
     
     LDY.b #$3E
-    
     JSL.l Link_ReceiveItem
     
     PLX
@@ -200,7 +198,6 @@ HeartUpgrade_SetOutdoorAcquiredFlag:
     PHX
         
     LDX.b $8A
-        
     LDA.l $7EF280, X : ORA.b #$40 : STA.l $7EF280, X
         
     PLX
@@ -221,7 +218,6 @@ HeartUpgrade_IndoorAcquiredMasks:
 HeartUpgrade_SetIndoorAcquiredFlag:
 {
     LDA.w $0D30, X : AND.b #$01 : TAY
-    
     LDA.w $0403 : ORA HeartUpgrade_IndoorAcquiredMasks, Y : STA.w $0403
     
     RTS
@@ -285,14 +281,14 @@ Sprite_HeartPiece:
             LDA.w $0F80, X : EOR.b #$FF : AND.b #$F8 : LSR : STA.w $0F80, X
             
             LDA.w $0D50, X : BEQ .no_bounce
-                CMP.b #$7F : ROR : STA.w $0D50, X : CMP.b #$FF : BNE .no_bounce
+                CMP.b #$7F : ROR : STA.w $0D50, X
+                CMP.b #$FF : BNE .no_bounce
                     INC.w $0D50, X
         
         .no_bounce
         
         LDA.w $0F10, X : BNE .return
-        
-        JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCS .had_player_contact
+            JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCS .had_player_contact
         
     .return
     
@@ -319,13 +315,12 @@ Sprite_HeartPiece:
     
     .got_4_pieces
     
-    LDA.b #$2D : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$2D
+    JSL.l Sound_SetSfx3PanLong
     
     LDA.l $7EF36B : TAY
-    
     LDA.w Pool_Sprite_HeartPiece_messages_low, Y        : XBA
     LDA.w Pool_Sprite_HeartPiece_messages_high, Y : TAY : XBA
-    
     JSL.l Sprite_ShowMessageUnconditional
     
     .self_terminate

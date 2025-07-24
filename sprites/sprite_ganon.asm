@@ -68,26 +68,31 @@ Ganon_HandleFireBatCircle:
     
     .next_bat
     
-        LDA.w $0FB5 : TAX : ASL : TAY
+        LDA.w $0FB5 : TAX
+        ASL         : TAY
         
         REP #$20
         
         LDA.w $0B08 : CLC : ADC.w Pool_Ganon_HandleFireBatCircle_offset_x1, Y
         AND.w #$01FF : STA.b $00
-        LSR #5 : TAY
+        LSR #5       : TAY
         
         SEP #$20
         
         LDA.w $0D81, X : CMP.b #$02 : BEQ .BRANCH_ALPHA
             TYA : SEC : SBC.b #$04 : AND.b #$0F : TAY
-            
             LDA.w Pool_Ganon_HandleFireBatCircle_offset_x2, Y : STA.w $0D51, X
+            ASL : PHP
             
-            ASL : PHP : ROR.w $0D51, X : PLP : ROR.w $0D51, X
+            ROR.w $0D51, X
+            PLP : ROR.w $0D51, X
             
             LDA.w Pool_Ganon_HandleFireBatCircle_offset_x3, Y : STA.w $0D41, X
             
-            ASL : PHP : ROR.w $0D41, X : PLP : ROR.w $0D41, X
+            ASL : PHP
+            
+            ROR.w $0D41, X
+            PLP : ROR.w $0D41, X
         
         .BRANCH_ALPHA
         
@@ -98,13 +103,10 @@ Ganon_HandleFireBatCircle:
         REP #$30
         
         LDA.b $00 : AND.w #$00FF : ASL : TAX
-        
         LDA.l SmoothCurve, X : STA.b $04
         
         LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02
-        
-        AND.w #$00FF : ASL : TAX
-        
+        AND.w #$00FF : ASL             : TAX
         LDA.l SmoothCurve, X : STA.b $06
         
         SEP #$30
@@ -121,7 +123,7 @@ Ganon_HandleFireBatCircle:
             JSR.w Six_NOP
             
             ASL.w SNES.RemainderResultLow
-            
+
             LDA.w SNES.RemainderResultHigh : ADC.b #$00
         
         .BRANCH_BETA
@@ -171,7 +173,8 @@ Ganon_HandleFireBatCircle:
                 CLC : ADC.w $0D00 : STA.w $0B31, X
         LDA.w $0D20 : ADC.b $0A   : STA.w $0B41, X
         
-        INC.w $0FB5 : LDA.w $0FB5 : CMP.b #$08 : BEQ .BRANCH_IOTA
+        INC.w $0FB5
+        LDA.w $0FB5 : CMP.b #$08 : BEQ .BRANCH_IOTA
     JMP.w .next_bat
     
     .BRANCH_IOTA
@@ -194,7 +197,6 @@ Ganon_SpawnSpiralBat:
 {
     LDA.b #$C9
     LDY.b #$08
-    
     JSL.l Sprite_SpawnDynamically_arbitrary
     BMI Ganon_SetSpawnedEntityProperties_no_space
         JSL.l Sprite_SetSpawnedCoords
@@ -203,7 +205,8 @@ Ganon_SpawnSpiralBat:
         LDA.b #$03 : STA.w $0F50, Y
         LDA.b #$40 : STA.w $0E60, Y
         LDA.b #$01 : STA.w $0E40, Y
-        LDA.b #$80 : STA.w $0CAA, Y : STA.w $0D20, Y
+        LDA.b #$80 : STA.w $0CAA, Y
+                     STA.w $0D20, Y
         LDA.b #$30 : STA.w $0DF0, Y
 
         ; Bleeds into the next function.
@@ -212,7 +215,8 @@ Ganon_SpawnSpiralBat:
 ; $0E8EAB-$0E8EB3 LOCAL JUMP LOCATION
 Ganon_SetSpawnedEntityProperties:
 {
-    LDA.b #$07 : STA.w $0CD2, Y : STA.w $0BA0, Y
+    LDA.b #$07 : STA.w $0CD2, Y
+                 STA.w $0BA0, Y
     
     ; $0E8EB3 ALTERNATE ENTRY POINT
     .no_space
@@ -317,7 +321,8 @@ Sprite_Ganon:
     
     JSR.w Sprite4_IsToRightOfPlayer
     
-    LDA.b $0F : ADC.b #$20 : CMP.b #$40 : LDA.b #$01 : BCC .BRANCH_ZETA
+    LDA.b $0F : ADC.b #$20 : CMP.b #$40
+    LDA.b #$01 : BCC .BRANCH_ZETA
         LDA.w .direction, Y
     
     .BRANCH_ZETA
@@ -343,35 +348,53 @@ Sprite_Ganon:
     
     STZ.w $0BA0, X
     
-    LDA.w $0D80, X ; Load the AI pointer, the main control for Ganon.
+    ; Load the AI pointer, the main control for Ganon.
+    LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
     ; Beginning Trident phase
-    dw Ganon_Phase1_IntroduceSelf     ; 0x00 - $92CA Sets up the initial Ganon text, and his music.
-    dw Ganon_Phase1_ThrowTrident      ; 0x01 - $9354 Spin trident? ; Yes
+    dw Ganon_Phase1_IntroduceSelf     ; 0x00 - $92CA Sets up the initial Ganon
+                                      ;        text, and his music.
+    dw Ganon_Phase1_ThrowTrident      ; 0x01 - $9354 Spin trident
     dw Ganon_Phase1_WaitForTrident    ; 0x02 - $93FD Wait to catch trident
     dw Ganon_Phase1_MakePhaseDecision ; 0x03 - $9428 Catch trident
-    dw Ganon_Phase1_Warp              ; 0x04 - $946C This one is never called from here but is still hit somehow. This doesn't allow link to damage ganon below a certain health durring a phase change?
+    dw Ganon_Phase1_Warp              ; 0x04 - $946C This one is never called
+                                      ;        from here but is still hit
+                                      ;        somehow. This doesn't allow player
+                                      ;        to damage ganon below a certain
+                                      ;        health durring a phase change?
     dw Ganon_LookAround               ; 0x05 - $94FA Blinky blinky across room 
-    dw Ganon_Phase2_HoldTrident       ; 0x06 - $95AD Wait for a sec and look side to side
+    dw Ganon_Phase2_HoldTrident       ; 0x06 - $95AD Wait for a sec and look
+                                      ;        side to side
 
     ; Fire bat ring phase
-    dw Ganon_Phase2_CircleOfBats      ; 0x07 - $9203 Spin trident and spawn ring of fire bats
+    dw Ganon_Phase2_CircleOfBats      ; 0x07 - $9203 Spin trident and spawn
+                                      ;        ring of fire bats
     dw Ganon_Phase2_LaunchSpiralBats  ; 0x08 - $9248 Ring grows and shrinks
-    dw Ganon_Phase2_Warp              ; 0x09 - $928F Fire bats activate and target link
+    dw Ganon_Phase2_Warp              ; 0x09 - $928F Fire bats activate and
+                                      ;        target the player
     dw Ganon_LookAround               ; 0x0A - $94FA Blinky blinky across room 
-    dw Ganon_Phase2_MakePhaseDecision ; 0x0B - $92AA Arrives at location from blinky blinky
+    dw Ganon_Phase2_MakePhaseDecision ; 0x0B - $92AA Arrives at location from
+                                      ;        blinky blinky
 
     ; Breaking the floor phase
-    dw Ganon_Phase3_FireBats          ; 0x0C - $9113 Spawns spinning fire bat that leave fire trail unless hit by link
-    dw Ganon_Phase3_Warp              ; 0x0D - $94F5 Blinky blinky across room + limit health
-    dw Ganon_Phase3_SabotagePB        ; 0x0E - $91D5 Arrives at location and rolls the dice to see if he blinky blinkys again
+    dw Ganon_Phase3_FireBats          ; 0x0C - $9113 Spawns spinning fire bat
+                                      ;        that leave fire trail unless hit 
+                                      ;        by the player
+    dw Ganon_Phase3_Warp              ; 0x0D - $94F5 Blinky blinky across room
+                                      ;        + limit health
+    dw Ganon_Phase3_SabotagePB        ; 0x0E - $91D5 Arrives at location and
+                                      ;        rolls the dice to see if he
+                                      ;        blinky blinkys again
     dw Ganon_Phase3_SmashFloor        ; 0x0F - $9018 Starts Jump
-    dw Ganon_Phase3_DropTiles         ; 0x10 - $9044 Lands from jump and trigger floor falling
+    dw Ganon_Phase3_DropTiles         ; 0x10 - $9044 Lands from jump and 
+                                      ;        trigger floor falling
 
     ; Lights out phase
-    dw Ganon_Phase4_Attack            ; 0x11 - $8FBC Shoot fire bat in straight line at link
+    dw Ganon_Phase4_Attack            ; 0x11 - $8FBC Shoot fire bat in straight
+                                      ;        line at the player
     dw Ganon_LookAround               ; 0x12 - $94FA Blinky blinky across room 
-    dw Ganon_Phase4_Stunned           ; 0x13 - $8F8C Hit by link and vunerable to silver arrows
+    dw Ganon_Phase4_Stunned           ; 0x13 - $8F8C Hit by the player and
+                                      ;        vunerable to silver arrows
 }
 
 ; ==============================================================================
@@ -392,7 +415,6 @@ Ganon_Phase4_Stunned:
         LDA.b #$01 : STA.w $0F50, X
         
         LDA.b #$12
-        
         JSR.w Ganon_SelectWarpLocation
         
         LDA.b #$D6 : STA.w $0E20, X
@@ -404,7 +426,6 @@ Ganon_Phase4_Stunned:
     .delay
     
     LDY.w $0DE0, X
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -422,12 +443,10 @@ Ganon_Phase4_Attack_animation_states:
 Ganon_Phase4_Attack:
 {
     LDY.w $0DE0, X
-    
     LDA.w .animation_states+0, Y : STA.w $0DC0, X
     
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
         LDA.b #$12
-        
         JSR.w Ganon_SelectWarpLocation
         
         RTS
@@ -441,14 +460,11 @@ Ganon_Phase4_Attack:
     
     PLP : BCS .BRANCH_GAMMA
         LDY.w $0DE0, X
-        
         LDA.w .animation_states+2, Y : STA.w $0DC0, X
     
     .BRANCH_GAMMA
     
-    LDA.w $0DF0, X
-    
-    CMP.b #$48 : BCS .BRANCH_DELTA
+    LDA.w $0DF0, X : CMP.b #$48 : BCS .BRANCH_DELTA
          CMP.b #$28 : BCS .BRANCH_EPSILON
     
     .BRANCH_DELTA
@@ -509,7 +525,6 @@ Ganon_Phase3_SmashFloor:
     .BRANCH_BETA
     
     LDY.w $0DE0, X
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -534,7 +549,6 @@ Ganon_Phase3_DropTiles:
             LDA.b #$05 : STA.w $012D
             
             LDA.b #$0D
-            
             JSR.w Ganon_SelectWarpLocation
             
             STZ.w $02E4
@@ -543,7 +557,6 @@ Ganon_Phase3_DropTiles:
             
             LDA.w $0EC0, X : CMP.b #$04 : BCC Sprite4_ShowMessageMinimal_exit
                 LDA.b #$0A
-                
                 JSR.w Ganon_SelectWarpLocation
                 
                 LDA.b #$60 : STA.w $0E50, X
@@ -574,7 +587,6 @@ Sprite4_ShowMessageMinimal:
 Ganon_Phase3_DropTiles_shake_screen:
 {
     AND.b #$01 : TAY
-        
     LDA.w Pool_Sprite_ApplyConveyorAdjustment_x_shake_values, Y : STA.w $011C
     LDA.w Pool_Sprite_ApplyConveyorAdjustment_y_shake_values, Y : STA.w $011D
         
@@ -596,12 +608,12 @@ Ganon_Phase3_DropTiles_descend:
         
         LDA.b #$07 : STA.w $012D
         
-        LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$0C
+        JSL.l Sound_SetSfx2PanLong
     
     .BRANCH_DELTA
     
     LDY.w $0DE0, X
-    
     LDA.w Ganon_Phase3_DropTiles_animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -652,18 +664,16 @@ Ganon_SpawnFallingTilesOverlord:
         PHX
         
         TAX
-        
-        LDA.w Pool_Ganon_SpawnFallingTilesOverlord_overlord_type, X
-        STA.w $0B00, Y
+        LDA.w Pool_Ganon_SpawnFallingTilesOverlord_overlord_type, X : STA.w $0B00, Y
 
-        LDA.w Pool_Ganon_SpawnFallingTilesOverlord_position_x, X
-        STA.w $0B08, Y
+        LDA.w Pool_Ganon_SpawnFallingTilesOverlord_position_x, X : STA.w $0B08, Y
         
         LDA.b $23 : STA.w $0B10, Y
         LDA.w Pool_Ganon_SpawnFallingTilesOverlord_position_y, X : STA.w $0B18, Y
         
         LDA.b $21  : STA.w $0B20, Y
-        LDA.b #$00 : STA.w $0B28, Y : STA.w $0B30, Y
+        LDA.b #$00 : STA.w $0B28, Y
+                     STA.w $0B30, Y
         
         PLX
     
@@ -683,7 +693,6 @@ Ganon_Phase3_FireBats:
 Ganon_Phase3_WarpSelect:
 {
     LDA.b #$0D
-    
     JSR.w Ganon_SelectWarpLocation
     
     RTS
@@ -769,13 +778,14 @@ Ganon_SpawnFireBat:
     
     LDA.b #$C9
     LDY.b #$08
-    
     JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
-        LDA.b #$2A : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$2A
+        JSL.l Sound_SetSfx2PanLong
         
         JSL.l Sprite_SetSpawnedCoords
         
-        LDA.w $0FB5 : STA.w $0EC0, Y : STA.w $0BA0, Y
+        LDA.w $0FB5 : STA.w $0EC0, Y
+                      STA.w $0BA0, Y
         
         LDA.b #$03 : STA.w $0F50, Y
         LDA.b #$40 : STA.w $0E60, Y
@@ -785,15 +795,12 @@ Ganon_SpawnFireBat:
         PHX
         
         LDA.w $0DE0, X : TAX
-        
         LDA.b $02 : CLC : ADC.w Pool_Ganon_SpawnFireBat_low, X  : STA.w $0D00, Y
-        
         LDA.b $03 :       ADC.w Pool_Ganon_SpawnFireBat_high, X : STA.w $0D20, Y
         
         TYX
         
         LDA.b #$20
-        
         JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         PLX
@@ -913,7 +920,6 @@ Ganon_Phase2_LaunchSpiralBats:
     .BRANCH_BETA
     
     LSR #4 : AND.b #$0F : TAY
-    
     LDA.w $0B0A
     CLC : ADC.w Pool_Ganon_Phase2_LaunchSpiralBats_offset_x, Y : STA.w $0B0A
 
@@ -939,7 +945,6 @@ Ganon_Phase2_Warp:
     
     LDA.w $0DF0, X : BNE .BRANCH_BETA
         LDA.b #$0A
-        
         JSR.w Ganon_SelectWarpLocation
         
         RTS
@@ -1011,7 +1016,6 @@ Ganon_Phase1_IntroduceSelf_let_iron_cool_before_striking:
             ; I never imagined a boy like you could give me so much trouble...
             LDA.b #$6F : STA.w $1CF0
             LDA.b #$01 : STA.w $1CF1
-            
             JSL.l Sprite_ShowMessageMinimal
         
         .BRANCH_GAMMA
@@ -1092,13 +1096,11 @@ Ganon_Phase1_TryAWarp:
 {
     CMP.b #$00 : BNE .BRANCH_ALPHA
         LDA.b #$05
-        
         JMP.w Ganon_SelectWarpLocation
     
     .BRANCH_ALPHA
     
     LDY.w $0DE0, X
-    
     LDA.w .draw, Y : STA.w $0DC0, X
     
     RTS
@@ -1114,17 +1116,16 @@ Ganon_Phase1_ThrowTrident:
     .BRANCH_ALPHA
     
     ; If the timer has >= 0x40 frames, then spin ze trident.
-    LDA.w $0DF0, X : CMP.b #$40 : BCS .BRANCH_E9341  BNE .BRANCH_BETA
+    LDA.w $0DF0, X : CMP.b #$40 : BCS .BRANCH_E9341
+    BNE .BRANCH_BETA
         STZ.w $0ED0, X
         
         LDA.b #$C9
-        
         JSL.l Sprite_SpawnDynamically
         
         PHX
         
         LDA.w $0DE0, X : TAX
-        
         LDA.b $00 : CLC : ADC.w Pool_Ganon_Phase1_ThrowTrident_offset_x_low, X
         STA.w $0D10, Y
 
@@ -1141,13 +1142,12 @@ Ganon_Phase1_ThrowTrident:
         
         PHX : PHY
         
-        LDA.b #$1F : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$1F
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         JSL.l Sprite_ConvertVelocityToAngle
         PLY : SEC : SBC.b #$02 : AND.b #$0F : TAX
-        
         LDA.w Pool_Ganon_Phase1_ThrowTrident_speed_x, X : STA.w $0D50, Y
-        
         LDA.w Pool_Ganon_Phase1_ThrowTrident_speed_y, X : STA.w $0D40, Y
         
         PLX
@@ -1182,9 +1182,7 @@ Ganon_Phase1_AnimateTridentSpin:
     .BRANCH_GAMMA
     
     TAY
-    
-    LDA.w GanonTrident_Timers_facing_down, Y : STA.w $0ED0, X
-    
+    LDA.w GanonTrident_Timers_facing_down, Y        : STA.w $0ED0, X
     LDA.w GanonTridentAnimationSteps_facing_down, Y : STA.w $0DC0, X
     
     JSR.w Sprite_PeriodicWhirringSfx
@@ -1209,7 +1207,6 @@ Ganon_Phase1_WaitForTrident:
     .BRANCH_ALPHA
     
     LDY.w $0DE0, X
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0DF0, X : BEQ .BRANCH_BETA
@@ -1259,18 +1256,17 @@ Ganon_HandleAnimation:
     .Idle
 
     LDY.w $0DE0, X
-    
     LDA.w Pool_Ganon_Phase1_MakePhaseDecision_timer, Y : STA.w $0ED0, X
     
     ; $0E944C ALTERNATE ENTRY POINT
     .IdleUntimed
     
     LDY.w $0DE0, X
-    
     LDA.w Pool_Ganon_Phase1_MakePhaseDecision_draw, Y : STA.w $0DC0, X
     
     RTS
     
+    ; $0E9456 ALTERNATE ENTRY POINT
     .delay_animation
     
     JSR.w Ganon_Phase1_AnimateTridentSpin
@@ -1311,13 +1307,9 @@ Ganon_SelectWarpLocation:
     LDA.w $0E30, X : ASL : ASL : STA.b $01
         
     JSL.l GetRandomInt : AND.b #$03 : ORA.b $01 : TAY
-        
-    LDA.w Ganon_WarpLocation_ID, Y
-        
-    STA.w $0E30, X : TAY
-        
-    LDA.w Ganon_WarpLocation_X, Y : STA.l $7FFD5C
-        
+    LDA.w Ganon_WarpLocation_ID, Y : STA.w $0E30, X
+                                     TAY
+    LDA.w Ganon_WarpLocation_X, Y : STA.l $7FFD5C  
     LDA.w Ganon_WarpLocation_Y, Y : STA.l $7FFD68
         
     LDA.b $00 : STA.w $0D80, X
@@ -1326,7 +1318,8 @@ Ganon_SelectWarpLocation:
         
     LDA.b #$30 : STA.w $0DF0, X
         
-    LDA.b #$28 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$28
+    JSL.l Sound_SetSfx3PanLong
         
     RTS
 }
@@ -1389,7 +1382,6 @@ Ganon_LookAround:
             LDA.w $0E50, X : CMP.b #$A1 : BCS .BRANCH_BETA
                 CMP.b #$61 : BCS .BRANCH_GAMMA
                     LDA.b #$11 : STA.w $0D80, X
-                    
                     LDA.b #$68 : STA.w $0DF0, X
                     
                     RTS
@@ -1397,7 +1389,6 @@ Ganon_LookAround:
             .BRANCH_BETA
             
             LDA.b #$0B : STA.w $0D80, X
-            
             LDA.b #$28 : STA.w $0DF0, X
             
             RTS
@@ -1405,7 +1396,6 @@ Ganon_LookAround:
             .BRANCH_GAMMA
             
             LDA.b #$0E : STA.w $0D80, X
-            
             LDA.b #$28 : STA.w $0DF0, X
             
             RTS
@@ -1413,7 +1403,6 @@ Ganon_LookAround:
         .BRANCH_ALPHA
         
         LDA.b #$02 : STA.w $0D80, X
-        
         LDA.b #$20 : STA.w $0DF0, X
         
         RTS
@@ -1450,11 +1439,11 @@ Ganon_MoveWithTrident:
     
     LDA.b $1A : AND.b #$07 : BNE .BRANCH_GAMMA
         LDA.b #$D6
-        
         JSL.l Sprite_SpawnDynamically : BMI .BRANCH_GAMMA
             JSL.l Sprite_SetSpawnedCoords
             
-            LDA.b #$18 : STA.w $0BA0, Y : STA.w $0DF0, Y
+            LDA.b #$18 : STA.w $0BA0, Y
+                         STA.w $0DF0, Y
             
             LDA.b #$FF : STA.w $0D80, Y
             
@@ -1708,11 +1697,8 @@ SpriteDraw_Ganon:
         
         ; There are much better combinations of instructions that produce
         ; multiplication by 12, guys...
-        LDA.w $0DC0, X : ASL #3
-        
-        ADC.w $0DC0, X : ADC.w $0DC0, X
-        ADC.w $0DC0, X : ADC.w $0DC0, X
-        STA.b $06
+        LDA.w $0DC0, X : ASL #3 : ADC.w $0DC0, X : ADC.w $0DC0, X
+        ADC.w $0DC0, X : ADC.w $0DC0, X : STA.b $06
         
         PHX
         
@@ -1724,7 +1710,6 @@ SpriteDraw_Ganon:
             PHX
             
             TXA : CLC : ADC.b $06 : TAX
-            
             LDA.b $00 : CLC : ADC.w Pool_SpriteDraw_Ganon_offset_x, X
                   STA.b ($90), Y
 
@@ -1733,16 +1718,16 @@ SpriteDraw_Ganon:
 
             LDA.w Pool_SpriteDraw_Ganon_char, X : INY : STA.b ($90), Y
             
-            LDA.b $05 : AND.b #$0F
-            CMP.b #$05 : LDA.w Pool_SpriteDraw_Ganon_prop, X : BCC .BRANCH_BETA
+            LDA.b $05 : AND.b #$0F : CMP.b #$05
+            LDA.w Pool_SpriteDraw_Ganon_prop, X : BCC .BRANCH_BETA
                 AND.b #$F0
             
             .BRANCH_BETA
             
             ORA.b $05 : INY : STA.b ($90), Y
             
-            PHY : TYA : LSR : LSR : TAY
-            
+            PHY
+            TYA : LSR : LSR : TAY
             LDA.b #$02 : STA.b ($92), Y
             
             PLY : INY
@@ -1768,17 +1753,16 @@ SpriteDraw_Ganon:
             
             PLY
             
-            LDA.w GanonHeadOAM_char+0, X : STA.b ($90), Y : INY
+            LDA.w GanonHeadOAM_char+0, X : STA.b ($90), Y
             
+            INY
             LDA.b ($90), Y : AND.b #$3F : ORA.w GanonHeadOAM_prop+0, X
             STA.b ($90), Y
             
             INY #3
-            
             LDA.w GanonHeadOAM_char+1, X : STA.b ($90), Y
             
             INY
-            
             LDA.b ($90), Y : AND.b #$3F : ORA.w GanonHeadOAM_prop+1, X
             STA.b ($90), Y
             
@@ -1789,7 +1773,6 @@ SpriteDraw_Ganon:
         LDA.b $11 : BEQ .BRANCH_ZETA
             LDY.b #$FF
             LDA.b #$09
-            
             JSL.l Sprite_CorrectOamEntriesLong
         
         .BRANCH_ZETA
@@ -1806,7 +1789,6 @@ SpriteDraw_Ganon:
             SEP #$20
             
             LDA.b #$02
-            
             JSR.w Sprite4_DrawMultiple
         
         .BRANCH_THETA
@@ -1819,14 +1801,14 @@ SpriteDraw_Ganon:
         
         .BRANCH_IOTA
         
-        LDA.w Pool_Sprite_DrawLargeShadow_data_offset, Y : STA.b $00 : STZ.b $01
+        LDA.w Pool_Sprite_DrawLargeShadow_data_offset, Y : STA.b $00
+                                                           STZ.b $01
         
         REP #$20
         
         LDA.w $0FDA : CLC : ADC.b $0E : STA.w $0FDA
         
         LDA.w #$09F4 : STA.b $90
-        
         LDA.w #$0A9D : STA.b $92
         
         LDA.w #$D108 : CLC : ADC.b $00 : STA.b $08
@@ -1840,7 +1822,6 @@ SpriteDraw_Ganon:
         LDA.b #$30 : STA.w $0B89, X
         
         LDA.b #$03
-        
         JSR.w Sprite4_DrawMultiple
         
         PLA : STA.w $0F50, X
@@ -1858,30 +1839,34 @@ Trident_Draw:
     LDA.b #$00 : XBA
     
     LDA.w $0ED0, X : BEQ .dont_draw
-        DEC : REP #$20 : ASL #3 : STA.b $00
+        DEC
         
+        REP #$20
+        
+        ASL #3                                           : STA.b $00
         ASL : ASL : CLC : ADC.b $00 : CLC : ADC.w #$990F : STA.b $08
         
         SEP #$20
         
-        LDY.b #$06 : LDA.w $0ED0, X : CMP.b #$09 : BEQ .BRANCH_BETA
+        LDY.b #$06
+        LDA.w $0ED0, X : CMP.b #$09 : BEQ .BRANCH_BETA
             LDY.b #$08 : BCS .BRANCH_BETA
-        
-            LDA.w $0DE0, X : ASL : TAY
+                LDA.w $0DE0, X : ASL : TAY
         
         .BRANCH_BETA
         
         REP #$20
         
         LDA.w $0FD8 : CLC : ADC.w GanonTridentOAM_offset_x, Y : STA.w $0FD8
-        
         LDA.w $0FDA : CLC : ADC.w GanonTridentOAM_offset_y, Y : STA.w $0FDA
         
         SEP #$20
         
-        LDA.w $0B89, X : PHA : AND.b #$F0 : STA.w $0B89, X
+        LDA.w $0B89, X : PHA
+        AND.b #$F0     : STA.w $0B89, X
         
-        LDA.b #$05 : JSR.w Sprite4_DrawMultiple
+        LDA.b #$05
+        JSR.w Sprite4_DrawMultiple
         
         PLA : STA.w $0B89, X
         

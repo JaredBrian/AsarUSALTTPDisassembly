@@ -118,9 +118,9 @@ SpritePrep_LaserEye:
     	LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
     
     	; Sets the direction to 2 or 3.
-    	LDA.w $0E20, X : SEC : SBC.b #$95 : STA !laser_eye_direction, X : TAY
+    	LDA.w $0E20, X : SEC : SBC.b #$95 : STA.w !laser_eye_direction, X : TAY
     
-    	LDA.w $0D10, X : AND.b #$10 : EOR.b #$10 : STA !requires_facing, X
+    	LDA.w $0D10, X : AND.b #$10 : EOR.b #$10 : STA.w !requires_facing, X
     	BNE .dont_adjust_y
     	    LDA.w $0D00, X : CLC : ADC .offsets-2, Y : STA.w $0D00, X
     
@@ -130,9 +130,9 @@ SpritePrep_LaserEye:
     
     .horizontal
     
-    LDA.w $0E20, X : SEC : SBC.b #$95 : STA !laser_eye_direction, X : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$95 : STA.w !laser_eye_direction, X : TAY
     
-    LDA.w $0D00, X : AND.b #$10 : STA !requires_facing, X
+    LDA.w $0D00, X : AND.b #$10 : STA.w !requires_facing, X
     BNE .dont_adjust_x
         LDA.w $0D10, X : CLC : ADC .offsets, Y : STA.w $0D10, X
     
@@ -181,9 +181,9 @@ LaserEye_MonitorFiringZone:
     
     SEP #$20
     
-    LDA.b $2F : LSR : LDY !requires_facing, X : CPY.b #$01 : TAY
+    LDA.b $2F : LSR : LDY.w !requires_facing, X : CPY.b #$01 : TAY
     
-    LDA !laser_eye_direction, X : BCS .ignore_player_direction
+    LDA.w !laser_eye_direction, X : BCS .ignore_player_direction
         CMP .matching_directions, Y : BNE .not_in_zone
     
     .ignore_player_direction
@@ -202,7 +202,7 @@ LaserEye_MonitorFiringZone:
     CLC : ADC.w #$0010 : CMP.w #$0020 : SEP #$20 : BCS .not_in_zone
     	LDA.b #$20
     
-    	LDY !requires_facing, X : BEQ .irrelevant
+    	LDY.w !requires_facing, X : BEQ .irrelevant
     	    ; OPTIMIZE: Loaded value of A is the same regardless.
     	    LDA.b #$20
     
@@ -265,7 +265,7 @@ LaserEye_FiringBeam:
     	JSR.w LaserEye_SpawnBeam
     
    	; TODO: timer_4?
-    	LDA.b #$0C : STA !timer_4, X
+    	LDA.b #$0C : STA.w !timer_4, X
     
     .delay
     
@@ -280,7 +280,7 @@ LaserEye_SpawnBeam:
     LDA.b #$95 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     	PHX
     
-    	LDA !laser_eye_direction, X : TAX
+    	LDA.w !laser_eye_direction, X : TAX
     
     	AND.b #$02 : LSR : STA.w $0DC0, Y
     
@@ -360,10 +360,10 @@ LaserEye_Draw_OAM_groups:
 ; $0F2708-$0F273E LOCAL JUMP LOCATION
 LaserEye_Draw:
 {
-    LDA !requires_facing, X : BEQ .open_by_default
+    LDA.w !requires_facing, X : BEQ .open_by_default
     	LDA.b #$01 : STA.w $0DC0, X
     
-    	LDA !timer_4, X : BEQ .closed_when_not_firing
+    	LDA.w !timer_4, X : BEQ .closed_when_not_firing
     	    STZ.w $0DC0, X
     
     	.closed_when_not_firing
@@ -374,7 +374,7 @@ LaserEye_Draw:
     
     LDA.b #$00 : XBA
     
-    LDA !laser_eye_direction, X : ASL : ADC.w $0DC0, X
+    LDA.w !laser_eye_direction, X : ASL : ADC.w $0DC0, X
     
     REP #$20
     

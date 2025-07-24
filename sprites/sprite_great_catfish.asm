@@ -40,9 +40,10 @@ Sprite_GreatCatfish:
         .dont_grant_item
     .aloft
     
-    LDA !timer_3, X : BEQ .dont_use_different_OAM_region
+    LDA.w $0EE0, X : BEQ .dont_use_different_OAM_region
         ; TODO: Identify when this happens.
-        LDA.b #$08 : JSL.l OAM_AllocateFromRegionC
+        LDA.b #$08
+        JSL.l OAM_AllocateFromRegionC
     
     .dont_use_different_OAM_region
     
@@ -175,9 +176,8 @@ GreatCatfish_RumbleBeforeEmergence:
         
         .anostart_rumble_ambient
         
-        AND.b #$01 : TAY
-        
         ; Shake the screen.
+        AND.b #$01 : TAY
         LDA.w Pool_Sprite_ApplyConveyorAdjustment_x_shake_values, Y : STA.w $011A
         LDA.w Pool_Sprite_ApplyConveyorAdjustment_y_shake_values, Y : STA.w $011B
         
@@ -223,7 +223,6 @@ GreatCatfish_Emerge:
     .aloft
     
     LDA.w $0E80, X : LSR : LSR : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -326,7 +325,6 @@ GreatCatfish_ConversateThenSubmerge:
         
         ; Animate.
         LSR #3 : TAY
-        
         LDA.w .animation_states, Y : STA.w $0DC0, X
         
         RTS
@@ -341,7 +339,7 @@ Sprite_SpawnBomb:
         JSL.l Sprite_SetSpawnedCoords
         JSL.l Sprite_TransmuteToEnemyBomb
         
-        LDA.b #$50 : STA !timer_1, Y
+        LDA.b #$50 : STA.w $0DF0, Y
         
         LDA.b #$18 : STA.w $0D50, Y
         
@@ -370,7 +368,8 @@ GreatCatfish_SpawnSurfacingSplash:
 ; $0EE16C-$0EE1A9 LOCAL JUMP LOCATION
 GreatCatfish_SpawnQuakeMedallion:
 {
-    LDA.b #$C0 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$C0
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         PHX : TYX
@@ -382,7 +381,8 @@ GreatCatfish_SpawnQuakeMedallion:
         LDA.b #$11 : STA.w $0D90, X
         
         ; Play a sound effect.
-        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$20
+        JSL.l Sound_SetSfx2PanLong
         
         LDA.b #$83 : STA.w $0E40, X
         
@@ -394,7 +394,8 @@ GreatCatfish_SpawnQuakeMedallion:
         
         PHX : PHY
         
-        LDA.b #$1C : JSL.l GetAnimatedSpriteTile_variable
+        LDA.b #$1C
+        JSL.l GetAnimatedSpriteTile_variable
         
         PLY : PLX
     
@@ -409,21 +410,20 @@ GreatCatfish_SpawnQuakeMedallion:
 Sprite_SpawnFlippersItem:
 {
     LDA.b #$C0
-    
     JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
         JSL.l Sprite_SetSpawnedCoords
     
         PHX
         
         TYX
-        
         LDA.b #$20 : STA.w $0F80, X
         
         LDA.b #$10 : STA.w $0D40, X
         
         LDA.b #$1E : STA.w $0D90, X
         
-        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$20
+        JSL.l Sound_SetSfx2PanLong
         
         LDA.b #$83 : STA.w $0E40, X
         
@@ -431,14 +431,13 @@ Sprite_SpawnFlippersItem:
         
         AND.b #$0F : STA.w $0F50, X
         
-        LDA.b #$30 : STA !timer_3, X
+        LDA.b #$30 : STA.w $0EE0, X
         
         PLX : PHX
         
         PHY
         
         LDA.b #$11
-        
         JSL.l GetAnimatedSpriteTile_variable
         
         PLY : PLX
@@ -454,7 +453,8 @@ Sprite_SpawnFlippersItem:
 GreatCatfish_SpawnImmediatelyDrownedSprite:
 {
     ; Spawn a bush...
-    LDA.b #$EC : JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
+    LDA.b #$EC
+    JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$03 : STA.w $0DD0, Y
@@ -464,7 +464,8 @@ GreatCatfish_SpawnImmediatelyDrownedSprite:
         LDA.b #$00 : STA.w $0D80, Y
         LDA.b #$03 : STA.w $0E40, Y
         
-        LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$28
+        JSL.l Sound_SetSfx2PanLong
         
     .spawnFailed
     
@@ -491,14 +492,13 @@ Sprite_SpawnWaterSplashLong:
 Sprite_SpawnWaterSplash:
 {
     LDA.b #$C0
-    
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$80 : STA.w $0D90, Y
         
         LDA.b #$02 : STA.w $0E40, Y
-                    STA.w $0BA0, Y
+                     STA.w $0BA0, Y
         
         LDA.b #$04 : STA.w $0F50, Y
         
@@ -554,13 +554,17 @@ GreatCatfish_Draw_OAM_groups:
 GreatCatfish_Draw:
 {
     LDA.b #$00 : XBA
-    
     LDA.w $0DC0, X : BEQ .dont_draw
-        DEC : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
+        DEC
+        
+        REP #$20
+        
+        ASL #5 : ADC.w #.OAM_groups : STA.b $08
         
         SEP #$20
         
-        LDA.b #$04 : JMP Sprite4_DrawMultiple
+        LDA.b #$04
+        JMP Sprite4_DrawMultiple
         
     .dont_draw
     
@@ -589,17 +593,21 @@ Sprite_WaterSplash_OAM_groups:
 Sprite_WaterSplash:
 {
     LDA.b #$00 : XBA
-    
     LDA.w $0DF0, X : BNE .self_termination_delay
         STZ.w $0DD0, X
     
     .self_termination_delay
     
-    LSR #3 : REP #$20 : ASL #4 : ADC.w #.OAM_groups : STA.b $08
+    LSR #3
+    
+    REP #$20
+    
+    ASL #4 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$02 : JMP Sprite4_DrawMultiple
+    LDA.b #$02
+    JMP Sprite4_DrawMultiple
 }
 
 ; ==============================================================================

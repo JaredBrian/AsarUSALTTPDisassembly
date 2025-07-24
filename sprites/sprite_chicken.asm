@@ -28,7 +28,6 @@ Sprite_Chicken:
     LDA.w $0D50, X : BEQ .x_speed_at_rest
         ; Change h-flip status mainly when.
         ASL : ROL : AND.b #$01 : TAY
-        
         LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
         
     .x_speed_at_rest
@@ -44,7 +43,8 @@ Sprite_Chicken:
         
         LDA.b #$30 : STA.w $0DF0, X
         
-        LDA.b #$15 : STA.w $012E : STA.w $0BA0, X
+        LDA.b #$15 : STA.w $012E
+                     STA.w $0BA0, X
         
         RTS
         
@@ -71,7 +71,8 @@ Sprite_Chicken:
         
         JSR.w Sprite_Move
         
-        LDA.b #$0C : STA.w $0F70, X : STA.w $0BA0, X
+        LDA.b #$0C : STA.w $0F70, X
+                     STA.w $0BA0, X
         
         TXA : EOR.b $1A : AND.b #$07 : BNE .horde_damage_delay
             JSR.w Sprite_CheckDamageToPlayer
@@ -126,9 +127,7 @@ Sprite_Chicken:
         PHX : TXY
         
         TAX
-        
         LDA.l Pool_Keese_Agitated_random_x_speeds, X : STA.w $0D50, Y
-        
         LDA.l Pool_Keese_Agitated_random_x_speeds, X : STA.w $0D40, Y
         
         PLX
@@ -220,7 +219,8 @@ Chicken_FleeingPlayer:
 ; $03270C-$032726 JUMP LOCATION
 Chicken_SetFleePlayerSpeeds:
 {
-    LDA.b #$10 : JSR.w Sprite_ProjectSpeedTowardsPlayer
+    LDA.b #$10 
+    JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
     LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
@@ -260,7 +260,8 @@ Sprite_DrawDistressMarker:
 Sprite_CustomTimedDrawDistressMarker:
 {
     ; Allocate some OAM space...
-    LDA.b #$10 : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$10
+    JSL.l OAM_AllocateFromRegionA
     
     LDA.b $06 : AND.b #$18 : BEQ .return
         PHX
@@ -279,7 +280,6 @@ Sprite_CustomTimedDrawDistressMarker:
             LDA.b $00
             CLC : ADC.l Pool_Sprite_DrawDistressMarker_x_offsets, X
             STA.b ($90), Y
-            
             AND.w #$0100 : STA.b $0E
             
             LDA.b $02
@@ -296,8 +296,8 @@ Sprite_CustomTimedDrawDistressMarker:
             LDA.b #$83 : INY : STA.b ($90), Y
             LDA.b #$22 : INY : STA.b ($90), Y
             
-            PHY : TYA : LSR : LSR : TAY
-            
+            PHY
+            TYA : LSR : LSR : TAY
             LDA.b $0F : STA.b ($92), Y
             
             PLY : INY
@@ -380,13 +380,13 @@ Chicken_SpawnAvengerChicken:
     TXA : EOR.b $1A : AND.b #$0F : ORA.b $1B : BNE Chicken_BawkBawk_spawn_delay
         LDA.b #$0B
         LDY.b #$0A
-        
         JSL.l Sprite_SpawnDynamically_arbitrary : BMI Chicken_BawkBawk_spawn_failed
             PHX
             
             TYX
             
-            LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$1E
+            JSL.l Sound_SetSfx3PanLong
             
             PLX
             
@@ -399,7 +399,6 @@ Chicken_SpawnAvengerChicken:
                 LDA.b $E3 : ADC.b #$00 : STA.w $0D30, Y
                 
                 LDA.b $0F : AND.b #$01 : TAX
-                
                 LDA.w Pool_Hinox_ThrowBomb_x_offsets_high, X
                 ADC.b $E8 : STA.w $0D00, Y
 
@@ -423,7 +422,8 @@ Chicken_SpawnAvengerChicken:
         
             TYX
             
-            LDA.b #$20 : JSR.w Sprite_ApplySpeedTowardsPlayer
+            LDA.b #$20
+            JSR.w Sprite_ApplySpeedTowardsPlayer
             
             PLX
 
@@ -433,8 +433,10 @@ Chicken_SpawnAvengerChicken:
 ; $03284C-$032852 LOCAL JUMP LOCATION
 Chicken_BawkBawk:
 {   
-    LDA.b #$30 : JSL.l Sound_SetSfx2PanLong
-        
+    LDA.b #$30
+    JSL.l Sound_SetSfx2PanLong
+
+    ; $032852 ALTERNATE ENTRY POINT    
     .spawn_failed
     .spawn_delay
     

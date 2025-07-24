@@ -28,10 +28,8 @@ Sprite_EnemyArrow:
             CMP.b #$20 : BCC .BRANCH_GAMMA
             AND.b #$01 : BNE .BRANCH_GAMMA
                 LDA.b $1A : ASL : AND.b #$04 : ORA.w $0DE0, X : TAY
-                
-                LDA Pool_Sprite_EnemyArrow_x_speeds, Y : STA.w $0D50, X
-                
-                LDA Pool_Sprite_EnemyArrow_y_speeds, Y : STA.w $0D40, X
+                LDA.w Pool_Sprite_EnemyArrow_x_speeds, Y : STA.w $0D50, X
+                LDA.w Pool_Sprite_EnemyArrow_y_speeds, Y : STA.w $0D40, X
                 
                 JSR.w Sprite_Move
                 
@@ -58,7 +56,8 @@ Sprite_EnemyArrow:
                 
                 LDA.b #$02 : STA.w $0D90, X
                 
-                LDA.b #$08 : JSL.l Sound_SetSfx2PanLong
+                LDA.b #$08
+                JSL.l Sound_SetSfx2PanLong
                 
                 RTS
                 
@@ -98,7 +97,6 @@ SpriteArrow_KnockedAway:
     .prepped_for_fall_already
     
     LDA.w $0DF0, X : LSR #3 : AND.b #$03 : TAY
-    
     LDA.w .directions, Y : STA.w $0DE0, X
     
     JSR.w Sprite_MoveAltitude
@@ -178,8 +176,7 @@ EnemyArrow_Draw:
 {
     JSR.w Sprite_PrepOamCoord
     
-    LDA.w $0DE0, X : ASL : STA.b $06
-    
+    LDA.w $0DE0, X : ASL    : STA.b $06
     LDA.w $0D90, X : ASL #3 : STA.b $07
     
     PHX
@@ -191,33 +188,26 @@ EnemyArrow_Draw:
         PHX
         
         TXA : CLC : ADC.b $06 : PHA
-        
-        ASL : TAX
+        ASL                   : TAX
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_SpriteDraw_Arrow_x_offsets, X
-        STA.b ($90), Y
-        
+        LDA.b $00 : CLC : ADC Pool_SpriteDraw_Arrow_x_offsets, X : STA.b ($90), Y
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : CLC : ADC Pool_SpriteDraw_Arrow_y_offsets, X
         INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .inRangeY
             LDA.b #$F0 : STA.b ($90), Y
         
         .inRangeY
         
         PLA : CLC : ADC.b $07 : TAX
-        
-        LDA Pool_SpriteDraw_Arrow_chr, X                    : INY : STA.b ($90), Y
-        LDA Pool_SpriteDraw_Arrow_properties, X : ORA.b $05 : INY : STA.b ($90), Y
+        LDA.w Pool_SpriteDraw_Arrow_chr, X                    : INY : STA.b ($90), Y
+        LDA.w Pool_SpriteDraw_Arrow_properties, X : ORA.b $05 : INY : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.b $0F : STA.b ($92), Y
         
         PLY : INY

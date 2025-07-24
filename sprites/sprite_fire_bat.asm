@@ -26,9 +26,7 @@ Sprite_FireBat:
     JSL.l Sprite_CheckDamageToPlayerLong
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw FireBat_PositionSelfAndAnimateAndPrepareForLaunch ; 0x00 - $8C17
     dw FireBat_PositionSelfAndAnimate                    ; 0x01 - $8C38
     dw FireBat_LaunchedFlying                            ; 0x02 - $8C55
@@ -45,7 +43,7 @@ GetPositionRelativeToTheGreatOverlordGanon:
     LDA.w $0B20, X       : ADC.w FireBat_OverlordOffset_x_high, Y : STA.w $0D30, X
     
     LDA.w $0B30, X : CLC : ADC.w FireBat_OverlordOffset_y_low, Y  : STA.w $0D00, X
-    LDA.w $0B40, X       : ADC.b #$FF     : STA.w $0D20, X
+    LDA.w $0B40, X       : ADC.b #$FF                             : STA.w $0D20, X
     
     RTS
 }
@@ -58,7 +56,6 @@ FireBat_PositionSelfAndAnimateAndPrepareForLaunch:
     JSR.w GetPositionRelativeToTheGreatOverlordGanon
     
     LDA.w $0DF0, X : BNE FireBat_AdjustAnimationState
-    
         INC.w $0D80, X
         
         RTS
@@ -101,8 +98,8 @@ FireBat_PositionSelfAndAnimate:
 ; $0E8C43-$0E8C54 LOCAL JUMP LOCATION
 FireBat_Animate:
 {
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$03 : TAY
-    
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : LSR : AND.b #$03 : TAY
     LDA.w FireBat_AnimationStates_normal, Y : STA.w $0DC0, X
     
     RTS
@@ -118,7 +115,6 @@ FireBat_LaunchedFlying:
     LDA.w $0E00, X : BEQ .BRANCH_ALPHA
         CMP.b #$01 : BEQ .BRANCH_BETA
             LSR : LSR : TAY
-            
             LDA.w FireBat_AnimationStates_launched, Y : STA.w $0DC0, X
             
             RTS
@@ -133,11 +129,11 @@ FireBat_LaunchedFlying:
             
     .BRANCH_BETA
             
-    LDA.b #$30
-            
+    LDA.b #$30 
     JSL.l Sprite_ApplySpeedTowardsPlayerLong
             
-    LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$1E
+    JSL.l Sound_SetSfx3PanLong
     
     .BRANCH_GAMMA
     
@@ -184,8 +180,7 @@ FireBat_Draw:
     JSR.w Sprite4_PrepOamCoord
     
     LDA.w $0DC0, X : STA.b $07
-    
-    ASL : STA.b $06
+    ASL            : STA.b $06
     
     PHX
     
@@ -200,26 +195,23 @@ FireBat_Draw:
         REP #$20
         
         LDA.b $00 : CLC : ADC Pool_FireBat_Draw_x_offsets, X : STA.b ($90), Y
-        
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA.b ($90), Y
         
         .on_screen_y
         
         LDX.b $07
-        
         LDA.w Pool_FireBat_Draw_chr, X : INY : STA.b ($90), Y
         
-        PLA : PHA : ORA.b $06 : TAX
-        
+        PLA : PHA
+        ORA.b $06 : TAX
         LDA.w Pool_FireBat_Draw_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY

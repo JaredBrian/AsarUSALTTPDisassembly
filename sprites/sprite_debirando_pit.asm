@@ -20,7 +20,8 @@ Sprite_DebirandoPit:
     
     LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .ignore_player
         LDA.b $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .ignore_player
-            LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
+            LDA.b #$10
+            JSL.l OAM_AllocateFromRegionB
     
     .ignore_player
     
@@ -55,7 +56,6 @@ Sprite_DebirandoPit:
             .cheat_code
             
             LDA.b #$10
-            
             JSL.l Sprite_ApplySpeedTowardsPlayerLong
             
             LDY.b #$00
@@ -67,7 +67,8 @@ Sprite_DebirandoPit:
             
             .epsilon
             
-            CLC : ADC.w $0D90, X : STA.w $0D90, X : BCC .zeta
+            CLC : ADC.w $0D90, X : STA.w $0D90, X
+            BCC .zeta
                 LDA.w Pool_Sprite_DebirandoPit_drag_x, Y : STA.w $0B7E
                 LDA.w Pool_Sprite_DebirandoPit_drag_y, Y : STA.w $0B7F
             
@@ -82,7 +83,8 @@ Sprite_DebirandoPit:
             
             .theta
             
-            CLC : ADC.w $0DA0, X : STA.w $0DA0, X : BCC .gamma
+            CLC : ADC.w $0DA0, X : STA.w $0DA0, X
+            BCC .gamma
                 LDA.w Pool_Sprite_DebirandoPit_drag_x, Y : STA.w $0B7C
                 LDA.w Pool_Sprite_DebirandoPit_drag_y, Y : STA.w $0B7D
                 
@@ -136,7 +138,6 @@ DebirandoPit_Opening:
     .delay_ai_state_transition
     
     LSR #4 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -148,7 +149,8 @@ DebirandoPit_Opening:
 DebirandoPit_Open:
 {
     LDA.b $1A : AND.b #$0F : BNE .skip_frame
-        INC.w $0DC0, X : LDA.w $0DC0, X : CMP.b #$03 : BCC .no_modulus
+        INC.w $0DC0, X
+        LDA.w $0DC0, X : CMP.b #$03 : BCC .no_modulus
             STZ.w $0DC0, X
         
         .no_modulus
@@ -185,7 +187,6 @@ DebirandoPit_Closing:
     .delay
     
     LSR #4 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -235,8 +236,7 @@ DebirandoPit_Draw:
         PHX
         
         TAX
-        
-        LDA Pool_DebirandoPit_Draw_OAM_sizes, X : STA.b $0D
+        LDA.w Pool_DebirandoPit_Draw_OAM_sizes, X : STA.b $0D
         
         TXA : ASL : ASL : STA.b $06
         
@@ -252,12 +252,11 @@ DebirandoPit_Draw:
             
             REP #$20
             
-            LDA.b $00 : CLC : ADC Pool_DebirandoPit_Draw_x_offsets, X
-            STA.b ($90), Y
-            
+            LDA.b $00 : CLC : ADC.w Pool_DebirandoPit_Draw_x_offsets, X
+                           STA.b ($90), Y
             AND.w #$0100 : STA.b $0E
             
-            LDA.b $02 : CLC : ADC Pool_DebirandoPit_Draw_y_offsets, X
+            LDA.b $02 : CLC : ADC.w Pool_DebirandoPit_Draw_y_offsets, X
             INY : STA.b ($90), Y
             
             CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
@@ -267,14 +266,12 @@ DebirandoPit_Draw:
             
             PLX
             
-            LDA Pool_DebirandoPit_Draw_chr, X
-            INY : STA.b ($90), Y
+            LDA.w Pool_DebirandoPit_Draw_chr, X : INY : STA.b ($90), Y
 
-            LDA Pool_DebirandoPit_Draw_vh_flip, X
-            ORA.b $05 : INY : STA.b ($90), Y
+            LDA.w Pool_DebirandoPit_Draw_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
             
-            PHY : TYA : LSR : LSR : TAY
-            
+            PHY
+            TYA : LSR : LSR : TAY
             LDA.b $0D : ORA.b $0F : STA.b ($92), Y
             
             PLY : INY

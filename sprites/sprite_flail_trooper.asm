@@ -20,7 +20,6 @@ Sprite_ChainBallTrooper:
     JSL.l Guard_ParrySwordAttacks
     
     LDY.w $0D80, X
-    
     LDA.w .spin_speeds-2, Y : CLC : ADC.w $0D90, X              : STA.w $0D90, X
     LDA.w $0DA0, X                : ADC.b #$00     : AND.b #$01 : STA.w $0DA0, X
     
@@ -34,8 +33,11 @@ Sprite_ChainBallTrooper:
     
     .no_head_direction_change
     
-    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL : TAY
+    LDA.w $0D80, X
     
+    REP #$30
+    
+    AND.w #$00FF : ASL : TAY
     LDA.w .states, Y : DEC : PHA
     
     SEP #$30
@@ -70,7 +72,8 @@ FlailTrooper_ApproachPlayer:
         
         .player_not_close
         
-        LDA.b #$08 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$08
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     .delay
 
@@ -82,8 +85,8 @@ FlailTrooper_Animate:
 {
     LDA.w $0DE0, X : ASL #3 : STA.b $00
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$07 : ORA.b $00 : TAY
-    
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : LSR : AND.b #$07 : ORA.b $00 : TAY
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -128,7 +131,10 @@ FlailTrooper_Attack_direction:
 FlailTrooper_Attack:
 {
     LDA.w $0DF0, X : BNE .delay
-        LDA.w $0D90, X : ASL : LDA.w $0DA0, X : ROL : TAY
+        ; OPTIMIZE: What?
+        LDA.w $0D90, X : ASL
+
+        LDA.w $0DA0, X : ROL : TAY
         
         ; Head doesn't match a direction...? what?
         LDA.w .direction, Y : CMP.w $0EB0, X : BNE .delay
@@ -149,7 +155,8 @@ FlailTrooper_DoubleAnimatePlusSound:
     JSR.w FlailTrooper_Animate
     
     TXA : EOR.b $1A : AND.b #$0F : BNE .return
-        LDA.b #$06 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$06
+        JSL.l Sound_SetSfx3PanLong
     
     .return
     
@@ -186,6 +193,7 @@ SpriteDraw_BallNChain:
     JSR.w FlailTrooper_DrawBody
     JSR.w SpriteDraw_BNCFlail
     JSR.w Sprite2_PrepOamCoord
+
     JMP.w Guard_DrawShadow
 } 
 
@@ -222,11 +230,10 @@ SpriteDraw_GuardHead:
     
     REP #$20
     
-    LDA.b $00 : STA.b ($90), Y
+    LDA.b $00    : STA.b ($90), Y
     AND.w #$0100 : STA.b $0E
     
     LDA.b $02 : SEC : SBC.w #$0009 : INY : STA.b ($90), Y
-    
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
         LDA.w #$00F0 : STA.b ($90), Y
     
@@ -240,7 +247,6 @@ SpriteDraw_GuardHead:
     INY : ORA.b $05 : STA.b ($90), Y
     
     TYA : LSR : LSR : TAY
-    
     LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
     
     PLX
@@ -379,8 +385,7 @@ SpriteDraw_GuardBody:
     PHX
     
     LDA.w $0DC0, X : TAX
-    
-    TYA : CLC : ADC Pool_FlailTrooper_DrawBody_OAM_offset_adjustment, X : TAY
+    TYA : CLC : ADC.w Pool_FlailTrooper_DrawBody_OAM_offset_adjustment, X : TAY
     
     LDA.w Pool_FlailTrooper_DrawBody_num_subsprites, X : TAX
     
@@ -388,16 +393,15 @@ SpriteDraw_GuardBody:
         
         PHX
         
-        TXA : CLC : ADC.b $06 : PHA : ASL : TAX
+        TXA : CLC : ADC.b $06 : PH
+        ASL                   : TAX
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_FlailTrooper_DrawBody_x_offsets, X       : STA.b ($90), Y
-        
+        LDA.b $00 : CLC : ADC Pool_FlailTrooper_DrawBody_x_offsets, X : STA.b ($90), Y
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : CLC : ADC Pool_FlailTrooper_DrawBody_y_offsets, X : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
             LDA.w #$00F0 : STA.b ($90), Y
         
@@ -407,11 +411,11 @@ SpriteDraw_GuardBody:
         
         PLX
         
-        LDA.w Pool_FlailTrooper_DrawBody_chr, X : INY : STA.b ($90), Y
-        LDA.wPool_FlailTrooper_DrawBody_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
+        LDA.w Pool_FlailTrooper_DrawBody_chr, X                 : INY : STA.b ($90), Y
+        LDA.w Pool_FlailTrooper_DrawBody_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.w Pool_FlailTrooper_DrawBody_sizes, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
@@ -463,7 +467,6 @@ SpriteDraw_BNCFlail:
     
     LDY.w $0D80, X : CPY.b #$02 : BCC .alpha
         LDA.w $0E10, X : TAY
-        
         LDA.w Pool_SpriteDraw_BNCFlail_flail_extension, Y
     
     .alpha
@@ -471,7 +474,6 @@ SpriteDraw_BNCFlail:
     STA.b $0F
     
     LDY.w $0DE0, X
-    
     LDA.w Pool_SpriteDraw_BNCFlail_flail_offset_x, Y : STA.b $0C
     LDA.w Pool_SpriteDraw_BNCFlail_flail_offset_y, Y : STA.b $0D
     
@@ -484,11 +486,9 @@ SpriteDraw_BNCFlail:
     LDA.b $00 : CLC : ADC.w #$0080 : AND.w #$01FF : STA.b $02
     
     LDA.b $00 : AND.w #$00FF : ASL : TAX
-    
     LDA.l SmoothCurve, X : STA.b $04
     
     LDA.b $02 : AND.w #$00FF : ASL : TAX
-    
     LDA.l SmoothCurve, X : STA.b $06
     
     SEP #$30
@@ -546,12 +546,11 @@ SpriteDraw_BNCFlail:
     LDY.b #$00
     
     LDA.b $04 : SEC : SBC.b #$04 : CLC : ADC.b $0C : STA.w $0FAB
-    
     CLC : ADC.w $0FA8 : STA.b ($90), Y
     
     LDA.b $06 : SEC : SBC.b #$04 : CLC : ADC.b $0D : STA.w $0FAA
-    
     CLC : ADC.w $0FA9  : INY : STA.b ($90), Y
+
     LDA.b #$2A : INY : STA.b ($90), Y
     LDA.b #$2D : INY : STA.b ($90), Y
     
@@ -570,6 +569,7 @@ SpriteDraw_BNCFlail:
         
         JSR.w NOP4
         
+        ; OPTIMIZE: What?
         LDA.b $04 : ASL
         
         LDA.w SNES.RemainderResultHigh : BCC .zeta
@@ -585,6 +585,7 @@ SpriteDraw_BNCFlail:
         
         JSR.w NOP4
         
+        ; OPTIMIZE: What?
         LDA.b $06 : ASL
         
         LDA.w SNES.RemainderResultHigh : BCC .theta
@@ -596,8 +597,8 @@ SpriteDraw_BNCFlail:
         LDA.b #$3F                          : INY : STA.b ($90), Y
         LDA.b #$2D                          : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.b #$00 : STA.b ($92), Y
         
         PLY : INY
@@ -608,7 +609,6 @@ SpriteDraw_BNCFlail:
     
     LDY.b #$FF
     LDA.b #$04
-    
     JSL.l Sprite_CorrectOamEntriesLong
     
     RTS

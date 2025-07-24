@@ -3,11 +3,9 @@
 ; $0F4700-$0F4720 LONG JUMP LOCATION
 SpritePrep_Eyegore:
 {
-    LDA.w $048E
-    
-    CMP.b #$0C : BEQ .is_goriya
-    CMP.b #$1B : BEQ .is_goriya
-    CMP.b #$4B : BEQ .is_goriya
+    LDA.w $048E : CMP.b #$0C : BEQ .is_goriya
+                  CMP.b #$1B : BEQ .is_goriya
+                  CMP.b #$4B : BEQ .is_goriya
         CMP.b #$6B : BNE .not_goriya
     
     .is_goriya:
@@ -103,11 +101,9 @@ Sprite_Goriya:
             .not_faster_goriya
             
             TAY
-            
             LDA.w Pool_Goriya_direction, Y : STA.w $0DE0, X
             
             LDA.w Pool_Goriya_speed_x, Y : STA.w $0D50, X
-            
             LDA.w Pool_Goriya_speed_y, Y : STA.w $0D40, X
             
             LDA.w $0E70, X : BNE .tile_collision
@@ -118,8 +114,8 @@ Sprite_Goriya:
             JSR.w Sprite3_CheckDamage
             JSR.w Sprite3_CheckTileCollision
             
-            INC.w $0E80, X : LDA.w $0E80, X : AND.b #$0C : ORA.w $0DE0, X : TAY
-            
+            INC.w $0E80, X
+            LDA.w $0E80, X : AND.b #$0C : ORA.w $0DE0, X : TAY
             LDA.w Pool_Goriya_anim_step, Y : STA.w $0DC0, X
             
             LDA.w $0E20, X : CMP.b #$84 : BNE .no_fire_phlegm_logic
@@ -216,7 +212,6 @@ Eyegore_OpeningEye:
         INC.w $0D80, X
         
         JSL.l GetRandomInt : AND.b #$03 : TAY
-        
         LDA.w Eyegore_timers, Y : STA.w $0DF0, X
         
         RTS
@@ -224,7 +219,6 @@ Eyegore_OpeningEye:
     .delay
     
     LSR #3 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -269,9 +263,8 @@ Eyegore_ChasePlayer:
     
     LDY.w $0DE0, X
     
-    LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
-    
-    LDA Sprite3_Shake_y_speeds, Y : STA.w $0D40, X
+    LDA.w Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
+    LDA.w Sprite3_Shake_y_speeds, Y : STA.w $0D40, X
     
     LDA.w $0E70, X : BNE .collided_with_tile
         JSR.w Sprite3_Move
@@ -280,8 +273,8 @@ Eyegore_ChasePlayer:
     
     JSR.w Sprite3_CheckTileCollision
     
-    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$0C : ORA.w $0DE0, X : TAY
-    
+    INC.w $0E80, X
+    LDA.w $0E80, X : AND.b #$0C : ORA.w $0DE0, X : TAY
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -308,7 +301,6 @@ Eyegore_ClosingEye:
     .delay
     
     LSR #3 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -388,12 +380,14 @@ Eyegore_Draw:
     
     SEP #$20
     
-    LDA.b #$04 : JSR.w Sprite3_DrawMultiple
+    LDA.b #$04
+    JSR.w Sprite3_DrawMultiple
     
     ; NOTE: I don't get this. Most other sprites don't have this check,
     ; do they?
     LDA.w $0F00, X : BNE .dont_draw_shadow
-        LDA.b #$0E : JSL.l Sprite_DrawShadowLong_variable
+        LDA.b #$0E
+        JSL.l Sprite_DrawShadowLong_variable
     
     .dont_draw_shadow
     

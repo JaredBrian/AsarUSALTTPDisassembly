@@ -49,9 +49,9 @@ FluteBoy_HumanForm:
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw FluteBoy_Chillin        ; 0x00 - $AF93
-    dw FltueBoy_PrepPhaseOut   ; 0x00 - $AFC1
-    dw FluteBoy_PhaseOut       ; 0x00 - $AFF2
-    dw FluteBoy_FullyPhasedOut ; 0x00 - $B008
+    dw FltueBoy_PrepPhaseOut   ; 0x01 - $AFC1
+    dw FluteBoy_PhaseOut       ; 0x02 - $AFF2
+    dw FluteBoy_FullyPhasedOut ; 0x03 - $B008
 }
 
 ; ==============================================================================
@@ -100,7 +100,8 @@ FltueBoy_PrepPhaseOut:
         
         LDA.b #$30 : STA.b $9A
         
-        LDA.b #$00 : STA.l $7EC007 : STA.l $7EC009
+        LDA.b #$00 : STA.l $7EC007
+                     STA.l $7EC009
         
         PHX
         
@@ -113,7 +114,8 @@ FltueBoy_PrepPhaseOut:
         ; .... What? TODO: Does this quiet SFX1 down?
         LDA.b #$80 : STA.w $012D
         
-        LDA.b #$33 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$33
+        JSL.l Sound_SetSfx2PanLong
     
     .delay
     
@@ -346,11 +348,13 @@ FluteAardvark_Arborating:
 {
     LDA.w $0DF0, X : BNE .delay
         LDA.w $0D90, X : CMP.b #$03 : BCC .anoplay_SFX
-            LDA.b #$33 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$33
+            JSL.l Sound_SetSfx2PanLong
         
         .anoplay_SFX
         
-        LDA.w $0D90, X : TAY : INC : STA.w $0D90, X
+        LDA.w $0D90, X : TAY
+        INC            : STA.w $0D90, X
         
         LDA.w Pool_FluteAardvark_Arborating_animation_states, Y : BMI .invalid_state
             STA.w $0DC0, X
@@ -448,7 +452,6 @@ Sprite_FluteNote:
     
     LDA.b $1A : AND.b #$01 : BNE .odd_frame
         LDA.b $1A : LSR #5 : EOR.w $0FA0 : AND.b #$01 : TAY
-        
         LDA.w $0D50, X : CLC : ADC .directions, Y : STA.w $0D50, X
         
     .odd_frame
@@ -461,7 +464,8 @@ Sprite_FluteNote:
 ; $0331A5-$0331DD LOCAL JUMP LOCATION
 FluteBoy_SpawnFluteNote:
 {
-    LDA.b #$2E : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$2E
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
         LDA.b $01       : ADC.b #$00 : STA.w $0D30, Y
         
@@ -472,7 +476,8 @@ FluteBoy_SpawnFluteNote:
         
         LDA.b #$08 : STA.w $0F80, Y
         
-        LDA.b #$60 : STA.w $0DF0, Y : STA.w $0BA0, Y
+        LDA.b #$60 : STA.w $0DF0, Y
+                     STA.w $0BA0, Y
         
     .spawn_failed
     

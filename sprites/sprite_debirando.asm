@@ -7,9 +7,7 @@ Sprite_Debirando:
     JSR.w Sprite2_CheckIfActive
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Debirando_UnderSand     ; 0x00 - $8762
     dw Debirando_Emerge        ; 0x01 - $8775
     dw Debirando_ShootFireball ; 0x02 - $8792
@@ -21,7 +19,8 @@ Sprite_Debirando:
 ; $028762-$028772 JUMP LOCATION
 Debirando_UnderSand:
 {
-    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .wait
+    LDA.w $0DF0, X : STA.w $0BA0, X
+    BNE .wait
         INC.w $0D80, X
         
         LDA.b #$1F : STA.w $0DF0, X
@@ -54,7 +53,6 @@ Debirando_Emerge:
     .delay
     
     LSR #4 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -84,7 +82,6 @@ Debirando_ShootFireball:
     .dont_shoot_fireball
     
     INC.w $0E80, X
-    
     LDA.w $0E80, X : LSR #3 : AND.b #$01 : CLC : ADC.b #$02 : STA.w $0DC0, X
     
     RTS
@@ -113,7 +110,6 @@ Debirando_Submerge:
     .delay
     
     LSR #4 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -165,14 +161,15 @@ Debirando_Draw:
         
         .next_subsprite
             
-            PHX : TXA : CLC : ADC.b $06 : PHA : ASL : TAX
+            PHX : TXA : CLC : ADC.b $06 : PHA
+            ASL                         : TAX
             
             REP #$20
             
-            LDA.b $00 : CLC : ADC Pool_Debirando_Draw_x_offsets, X : STA.b ($90), Y
+            LDA.b $00 : CLC : ADC.w Pool_Debirando_Draw_x_offsets, X : STA.b ($90), Y
             AND.w #$0100 : STA.b $0E
             
-            LDA.b $02 : CLC : ADC Pool_Debirando_Draw_y_offsets, X
+            LDA.b $02 : CLC : ADC.w Pool_Debirando_Draw_y_offsets, X
             INY : STA.b ($90), Y
             
             CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
@@ -184,13 +181,15 @@ Debirando_Draw:
             
             LDA.w .chr, X : INY : STA.b ($90), Y
             
-            LDA.w .properties, X : PHA : AND.b #$0F : CMP.b #$01
-                                 PLA : EOR.b $05 : BCS .dont_override_palette
-                AND.b #$F0
+            LDA.w .properties, X : PHA
+            AND.b #$0F : CMP.b #$01
+                PLA : EOR.b $05 : BCS .dont_override_palette
+                    AND.b #$F0
             
             .dont_override_palette
             
-            INY : STA.b ($90), Y
+            INY
+            STA.b ($90), Y
             
             PHY : TYA : LSR : LSR : TAY
             
