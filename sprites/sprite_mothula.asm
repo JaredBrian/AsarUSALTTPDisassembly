@@ -59,7 +59,7 @@ Mothula_Main:
             
             STZ.w $0DF0, X
             
-            LDA.b #$40 : STA !beam_timer, X
+            LDA.b #$40 : STA.w !beam_timer, X
         
         .early_recover_delay
     .not_recoiling
@@ -101,7 +101,7 @@ Mothula_Ascend:
     STZ.w $0F80, X
     
     LDA.w $0F70, X : CMP.b #$18 : BCC .below_target_altitude
-        LDA.b #$80 : STA !beam_timer, X
+        LDA.b #$80 : STA.w !beam_timer, X
         
         INC.w $0D80, X
         
@@ -140,7 +140,7 @@ Pool_Mothula_FlyAbout:
 ; $0F3F13-$0F3F9A JUMP LOCATION
 Mothula_FlyAbout:
 {
-    LDA !beam_timer, X : BNE .delay_beam_firing_mode
+    LDA.w !beam_timer, X : BNE .delay_beam_firing_mode
         LDA.b #$3F : STA.w $0DF0, X
         
         INC.w $0D80, X
@@ -149,7 +149,7 @@ Mothula_FlyAbout:
     
     .delay_beam_firing_mode
     
-    DEC !beam_timer, X
+    DEC.w !beam_timer, X
     
     JSR.w Mothula_FlapWings
     
@@ -243,7 +243,7 @@ Mothula_FireBeams:
     LDA.w $0DF0, X : BNE .delay
         DEC.w $0D80, X
         
-        JSL.l GetRandomInt : AND.b #$1F : ORA.b #$40 : STA !beam_timer, X
+        JSL.l GetRandomInt : AND.b #$1F : ORA.b #$40 : STA.w !beam_timer, X
         
         RTS
         
@@ -343,9 +343,9 @@ Pool_Mothula_ActivateMovingSpikeBlock:
 ; $0F4088-$0F4102 LOCAL JUMP LOCATION
 Mothula_ActivateMovingSpikeBlock:
 {
-    DEC !spike_activation_timer, X : BNE .activation_delay
+    DEC.w !spike_activation_timer, X : BNE .activation_delay
         ; Set the delay for 64 more frames.
-        LDA.b #$40 : STA !spike_activation_timer, X
+        LDA.b #$40 : STA.w !spike_activation_timer, X
         
         LDA.b #$8A : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             PHX
@@ -397,7 +397,7 @@ Mothula_ActivateMovingSpikeBlock:
                 
                 PLX
                 
-                LDA.b #$01 : STA !spike_activation_timer, X
+                LDA.b #$01 : STA.w !spike_activation_timer, X
                 
             RTS
             

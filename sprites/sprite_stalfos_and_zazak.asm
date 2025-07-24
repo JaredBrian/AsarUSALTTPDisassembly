@@ -211,7 +211,7 @@ Stalfos_Visible:
             
             LDA.w $0E30, X : BEQ .not_red_stalfos
                 ; Throw a bone at the player.
-                LDA.b #$10 : STA !timer_3, X
+                LDA.b #$10 : STA.w $0EE0, X
                 
                 STZ.w $0E80, X
             
@@ -250,7 +250,7 @@ Sprite_Zazak:
     
     ; NOTE: Due to all this shared code, a Zazak could in theory be made
     ; to throw a bone, and a stalfos could be made to shoot fire phlegm.
-    LDA !timer_3, X : BEQ .bone_throw_timer_inactive
+    LDA.w $0EE0, X : BEQ .bone_throw_timer_inactive
         PHA
         
         STZ.w $0D80, X
@@ -351,7 +351,7 @@ Zazak_HaltAndPickNextDirection:
                         INC.w $0D80, X
                         
                         LDA.b #$30 : STA.w $0DF0, X
-                                    STA !timer_1, X
+                                     STA.w $0DF0, X
                         
                         BRA .zero_xy_velocity
                 

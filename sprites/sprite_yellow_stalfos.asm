@@ -27,7 +27,7 @@ Sprite_YellowStalfos:
         
         INC.w $0D90, X
         
-        LDA.b #$0A : STA !head_y_offset, X
+        LDA.b #$0A : STA.w !head_y_offset, X
         
         LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
         
@@ -423,13 +423,13 @@ YellowStalfos_DrawHead:
 {
     LDA.w $0DC0, X : CMP.b #$0A : BEQ .return
         ; This constant means don't draw the head this frame.
-        LDA !head_x_offset, X : STZ.b $0D : CMP.b #$80 : BEQ .return
+        LDA.w !head_x_offset, X : STZ.b $0D : CMP.b #$80 : BEQ .return
             STA.b $0C : CMP.b #$00 : BPL .sign_extend
                 DEC.b $0D
             
             .sign_extend
             
-            LDA !head_y_offset, X : STA.b $0A
+            LDA.w !head_y_offset, X : STA.b $0A
                                     STZ.b $0B
             
             LDY.b #$00

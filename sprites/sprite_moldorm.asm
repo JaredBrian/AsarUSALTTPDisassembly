@@ -48,7 +48,7 @@ Sprite_Moldorm:
     JSR.w Sprite_CheckIfRecoiling
     JSR.w Sprite_CheckDamage
     
-    INC !animation_index, X
+    INC.w !animation_index, X
     
     LDY.w $0DE0, X
     
@@ -61,7 +61,7 @@ Sprite_Moldorm:
     
     LDA.w $0E70, X : BEQ .no_tile_collision
         JSL.l GetRandomInt : LSR : BCC .anotoggle_rotarity
-            LDA !rotarity, X : EOR.b #$FF : INC : STA !rotarity, X
+            LDA.w !rotarity, X : EOR.b #$FF : INC : STA.w !rotarity, X
         
         .anotoggle_rotarity
         
@@ -88,10 +88,10 @@ Moldorm_ConfigureNextState:
     LDA.w $0DF0, X : BNE .delay
         INC
         
-        INC !seek_delay_counter, X
+        INC.w !seek_delay_counter, X
         
-        LDY !seek_delay_counter, X : CPY.b #$06 : BNE .anoseek_player
-            STZ !seek_delay_counter, X
+        LDY.w !seek_delay_counter, X : CPY.b #$06 : BNE .anoseek_player
+            STZ.w !seek_delay_counter, X
             
             INC
         
@@ -99,7 +99,7 @@ Moldorm_ConfigureNextState:
         
         STA.w $0D80, X
         
-        JSL.l GetRandomInt : AND.b #$02 : DEC : STA !rotarity, X
+        JSL.l GetRandomInt : AND.b #$02 : DEC : STA.w !rotarity, X
         
         JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
         
@@ -123,7 +123,7 @@ Moldorm_Meander:
     .delay
     
     AND.b #$03 : BNE .anostep_angle
-        LDA.w $0DE0, X : CLC : ADC !rotarity, X : AND.b #$0F : STA.w $0DE0, X
+        LDA.w $0DE0, X : CLC : ADC.w !rotarity, X : AND.b #$0F : STA.w $0DE0, X
     
     .anostep_angle
     
