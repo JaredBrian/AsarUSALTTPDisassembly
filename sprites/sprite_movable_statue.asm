@@ -67,7 +67,6 @@ Sprite_MovableStatue:
             JSR.w Sprite_DirectionToFacePlayer
             
             LDA.w Pool_Sprite_MovableStatue_x_speeds, Y : STA.w $0D50, X
-            
             LDA.w Pool_Sprite_MovableStatue_y_speeds, Y : STA.w $0D40, X
 
             ; Bleeds into the next function.
@@ -83,7 +82,8 @@ Statue_HandleGrab:
             
     LDA.w $0E70, X : AND.b #$0F : BNE .BRANCH_THETA
         LDA.w $0F10, X : BNE .BRANCH_THETA
-            LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$22
+            JSL.l Sound_SetSfx2PanLong
                     
             LDA.b #$08 : STA.w $0F10, X
             
@@ -129,9 +129,7 @@ Statue_NotInContact:
                         LDA.b $F0 : AND .button_masks, Y : BEQ .BRANCH_LAMBDA 
                             LDA.b $30 : ORA.b $31 : BEQ .BRANCH_LAMBDA
                                 TYA : EOR.b #$01 : TAY
-                                
                                 LDA.w .x_speeds, Y : STA.w $0D50, X
-                                
                                 LDA.w .y_speeds, Y : STA.w $0D40, X
                                 
                                 JMP.w Statue_HandleGrab
@@ -202,7 +200,7 @@ MovableStatue_CheckFullSwitchCovering:
         CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles+0 : BEQ .partial_switch_covering
         CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles+1 : BEQ .partial_switch_covering
         CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles+2 : BEQ .partial_switch_covering
-        CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles+3 : BNE .failure
+            CMP.w Pool_MovableStatue_CheckFullSwitchCovering_special_tiles+3 : BNE .failure
         
         .partial_switch_covering
     DEY : BPL .next_tile
@@ -276,7 +274,6 @@ Statue_BlockSprites:
                                 PHY
                                 
                                 LDA.b #$20
-                                
                                 JSR.w Sprite_ProjectSpeedTowardsEntity
                                 
                                 PLY

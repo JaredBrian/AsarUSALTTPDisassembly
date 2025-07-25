@@ -155,14 +155,16 @@ OAM_GetBufferPosition:
     REP #$20
     
     ; ($0FE0[0x10] is some kind of OAM allocator table)
-    LDA.w $0FE0, Y : STA.b $90 : CLC : ADC.b $0E : CMP .limits, Y : BCC .within_limit
+    LDA.w $0FE0, Y : STA.b $90
+    CLC : ADC.b $0E : CMP .limits, Y : BCC .within_limit
         ; (Sprite overflow, doesn't happen very often)
         ; (I think what happens is it resets the OAM buffer)
         STY.b $0C
         STZ.b $0D
         
         ; wtf...
-        LDA.w $0FEC, Y : PHA : INC : STA.w $0FEC, Y
+        LDA.w $0FEC, Y : PHA
+        INC            : STA.w $0FEC, Y
         
         PLA : AND.w #$0007 : ASL : STA.b $0E
         
@@ -185,7 +187,8 @@ OAM_GetBufferPosition:
     
     .moving_on
     
-    LDA.b $90 : PHA : LSR : LSR : CLC : ADC.w #$0A20 : STA.b $92
+    LDA.b $90                      : PHA
+    LSR : LSR : CLC : ADC.w #$0A20 : STA.b $92
     
     PLA : CLC : ADC.w #$0800 : STA.b $90
     

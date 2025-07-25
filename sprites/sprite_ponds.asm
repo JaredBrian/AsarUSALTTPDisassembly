@@ -28,17 +28,16 @@ Sprite_WishPond:
         LDA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
         
         LDA.b $1A : AND.b #$0F : BNE .BRANCH_GAMMA
-            LDA.b #$72 : JSL.l Sprite_SpawnDynamically : BMI .BRANCH_GAMMA
+            LDA.b #$72
+            JSL.l Sprite_SpawnDynamically : BMI .BRANCH_GAMMA
                 PHX
                 
                 JSL.l GetRandomInt : AND.b #$07 : TAX
-                
                 LDA.b $00
                 CLC : ADC Pool_Sprite_WishPond_x_offsets, X : STA.w $0D10, Y
                 LDA.b $01 : ADC.b #$00                      : STA.w $0D30, Y
                 
                 JSL.l GetRandomInt : AND.b #$07 : TAX
-                
                 LDA.b $02
                 CLC : ADC Pool_Sprite_WishPond_y_offsets, X : STA.w $0D00, Y
                 LDA.b $03 : ADC.b #$00                      : STA.w $0D20, Y
@@ -69,7 +68,8 @@ Sprite_WishPond:
     
     LDA.w $0DB0, X : LSR #3 : STA.w $0DC0, X
     
-    LDA.b #$04 : JSL.l OAM_AllocateFromRegionC
+    LDA.b #$04
+    JSL.l OAM_AllocateFromRegionC
     
     JSR.w Sprite_PrepAndDrawSingleSmall
     
@@ -261,7 +261,6 @@ FairyPondTriggerMain:
     LDA.b $A0 : CMP.b #$15 : BEQ Sprite_HappinessPond
         LDA.w $0D80, X
         JSL.l UseImplicitRegIndexedLocalJumpTable
-        
         dw WaitingForPlayerContact ; 0x00 - $C7A1
         dw DecideToThrowItemOrNot  ; 0x01 - $C7C6
         dw SpawnThrownItem         ; 0x02 - $C7ED
@@ -285,9 +284,7 @@ FairyPondTriggerMain:
 Sprite_HappinessPond:
 {
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw FairyPond_WaitForLink             ; 0x00 - $C4FD
     dw LakeHyliaFairy_WaitForLink        ; 0x01 - $C52B
     dw LakeHyliaFairy_BegForDonation     ; 0x02 - $C570
@@ -332,12 +329,10 @@ SpriteDraw_FairyPondItem:
 {
     ; No items returned at happiness pond.
     LDA.b $A0 : CMP.b #$15 : BEQ .return
-        LDA.w $0D80, X
-        
-        CMP.b #$05 : BEQ .show_returned_item
-        CMP.b #$06 : BEQ .show_returned_item
-        CMP.b #$0B : BEQ .show_returned_item
-        CMP.b #$0C : BEQ .show_returned_item
+        LDA.w $0D80, X : CMP.b #$05 : BEQ .show_returned_item
+                         CMP.b #$06 : BEQ .show_returned_item
+                         CMP.b #$0B : BEQ .show_returned_item
+                         CMP.b #$0C : BEQ .show_returned_item
             BRA .return
     
         .show_returned_item
@@ -345,9 +340,7 @@ SpriteDraw_FairyPondItem:
         PHX : TXY
         
         LDA.w $0DC0, Y : TAX
-        
-        LDA AddReceiveItem_properties, X
-        CMP.b #$FF : BNE .valid_upper_properties
+        LDA.w AddReceiveItem_properties, X : CMP.b #$FF : BNE .valid_upper_properties
             ; HARDCODED
             ; Force to use palette 5. This only applies to the master sword
             ; anyways.
@@ -357,8 +350,7 @@ SpriteDraw_FairyPondItem:
         
         AND.b #$07 : ASL : STA.w $0F50, Y
         
-        LDA AddReceiveItem_wide_item_flag, X : TAY
-        
+        LDA.w AddReceiveItem_wide_item_flag, X : TAY
         LDA.w Pool_SpriteDraw_FairyPondItem_OAM_group_pointers+0, Y : STA.b $08
         LDA.w Pool_SpriteDraw_FairyPondItem_OAM_group_pointers+1, Y : STA.b $09
         
@@ -383,8 +375,7 @@ FairyPond_WaitForLink:
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
         JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .BRANCH_ALPHA
             LDA.b #$89
-            LDY.b #$00
-            
+            LDY.b #$00           
             JSL.l Sprite_ShowMessageFromPlayerContact : BCC .BRANCH_ALPHA
                 INC.w $0D80, X
                 
@@ -422,8 +413,8 @@ LakeHyliaFairy_WaitForLink:
         
         .no_bomb_or_arrow_upgrades_yet
         
-        STA.w $0DC0, X : TAY
-        
+        STA.w $0DC0, X
+        TAY
         LDA.w FairyPond_bcd_prices+0, Y : STA.w $1CF2
         LDA.w FairyPond_bcd_prices+1, Y : STA.w $1CF3
         
@@ -463,7 +454,6 @@ FairyPond_ResetAI:
 LakeHyliaFairy_BegForDonation:
 {
     LDA.w $1CE8 : CLC : ADC.w $0DC0, X : TAY
-    
     LDA.w FairyPond_bcd_prices, Y : STA.w $1CF3
     
     REP #$20
@@ -487,7 +477,8 @@ LakeHyliaFairy_AcceptDonation:
 {
     LDA.b #$50 : STA.w $0DF0, X
     
-    LDA.w $0DE0, X : STA.b $00 : STZ.b $01
+    LDA.w $0DE0, X : STA.b $00
+                     STZ.b $01
     
     REP #$20
     
@@ -500,7 +491,6 @@ LakeHyliaFairy_AcceptDonation:
     PHX
     
     LDA.w $0EB0, X
-    
     JSL.l AddHappinessPondRupees
     
     PLX
@@ -528,9 +518,9 @@ LakeHyliaFairy_AcceptDonation:
     
     .BRANCH_BETA
     
-    ASL.b $02 : ASL.b $02 : ASL.b $02 : ASL.b $02
+    ASL.b $02 : ASL.b $02 : ASL.b $02 : ASL.b $02 : ORA.b $02 : STA.w $1CF2
     
-    ORA.b $02 : STA.w $1CF2 : INC.w $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -555,7 +545,6 @@ LakeHyliaFairy_SpawnFairy:
 {
     LDA.w $0DF0, X : BNE .delay
         LDA.b #$72
-        
         JSL.l Sprite_SpawnDynamically
         
         LDA.b #$1B : STA.w $012C
@@ -563,10 +552,10 @@ LakeHyliaFairy_SpawnFairy:
         STZ.w $0133
         
         LDA.b $00 : SEC : SBC.w FairyPondFairy_x_offset : STA.w $0D10, Y
-        LDA.b $01       : SBC.b #$00  : STA.w $0D30, Y
+        LDA.b $01       : SBC.b #$00                    : STA.w $0D30, Y
         
         LDA.b $02 : SEC : SBC.w FairyPondFairy_y_offset : STA.w $0D00, Y
-        LDA.b $03       : SBC.b #$00  : STA.w $0D20, Y
+        LDA.b $03       : SBC.b #$00                    : STA.w $0D20, Y
         
         LDA.b #$01 : STA.w $0DA0, Y
         
@@ -648,8 +637,8 @@ LakeHyliaFairy_UpgradeBombs:
         PHX
         
         TAX
-        
-        LDA.l HUD_CapacityUpgrades_bombs_bcd, X : STA.w $1CF2 : STA.l $7EF375
+        LDA.l HUD_CapacityUpgrades_bombs_bcd, X : STA.w $1CF2
+                                                  STA.l $7EF375
         
         PLX
         
@@ -663,8 +652,8 @@ LakeHyliaFairy_UpgradeBombs:
     
     LDA.b #$98
     LDY.b #$00
-    
     JSL.l Sprite_ShowMessageUnconditional
+
     JMP.w LakeHyliaFairy_RefundRupees
 }
 
@@ -678,7 +667,6 @@ LakeHyliaFairy_RevertTranslucency:
     JSL.l Palette_AssertTranslucencySwap
     
     LDA.b #$02 : STA.b $1D
-    
     LDA.b #$30 : STA.b $9A
     
     INC.w $0015
@@ -700,7 +688,6 @@ LakeHyliaFairy_DeleteFairy:
         
         LDA.l $7EC007 : CMP.b #$1E : BNE .BRANCH_BETA
             LDA.w $0E90, X : TAY
-            
             LDA.b #$00 : STA.w $0DD0, Y
             
             BRA .BRANCH_ALPHA
@@ -744,7 +731,8 @@ LakeHyliaFairy_UpgradeArrows:
         
         TAX
         
-        LDA.l HUD_CapacityUpgrades_arrows_bcd, X : STA.w $1CF2 : STA.l $7EF376
+        LDA.l HUD_CapacityUpgrades_arrows_bcd, X : STA.w $1CF2
+                                                   STA.l $7EF376
         
         PLX
         
@@ -833,19 +821,17 @@ WaitingForPlayerContact:
     STZ.w $02E4
     
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
-    
-    JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .BRANCH_ALPHA
-        ; -Mysterious Pond- Won't you throw something in?
-        LDA.b #$4A
-        LDY.b #$01
-        
-        JSL.l Sprite_ShowMessageFromPlayerContact : BCC .BRANCH_ALPHA
-            INC.w $0D80, X
-            
-            JSL.l Player_ResetState
-            
-            STZ.b $2F
-            STZ.w $0EB0, X
+        JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .BRANCH_ALPHA
+            ; -Mysterious Pond- Won't you throw something in?
+            LDA.b #$4A
+            LDY.b #$01
+            JSL.l Sprite_ShowMessageFromPlayerContact : BCC .BRANCH_ALPHA
+                INC.w $0D80, X
+                
+                JSL.l Player_ResetState
+                
+                STZ.b $2F
+                STZ.w $0EB0, X
     
     .BRANCH_ALPHA
     
@@ -891,9 +877,9 @@ SpawnThrownItem:
     INC.w $0D80, X : PHX
     
     ; Get the item selected.
-    LDA.w $1CE8 : STA.w $0DB0, X : TAX
-    ASL : TAY
-    
+    LDA.w $1CE8 : STA.w $0DB0, X
+                  TAX
+    ASL         : TAY
     LDA.w FairyPond_TossGFXID_ItemPointer+0, Y : STA.b $00
     LDA.w FairyPond_TossGFXID_ItemPointer+1, Y : STA.b $01
     
@@ -914,12 +900,13 @@ SpawnThrownItem:
     LDA.b #$00 : STA.l $7EF340, X
     
     ; Get the item from the pointer.
-    LDA.b ($00), Y : PHA : TAX
+    LDA.b ($00), Y : PHA
+                     TAX
     
     LDY.b #$04
     LDA.b #$28
-    
     JSL.l AddWishPondItem
+
     JSL.l HUD_RefreshIconLong
     
     PLA : PLY : PLX
@@ -956,7 +943,8 @@ FairyPondFairy:
 WaitToSpawnGreatFairy:
 {
     LDA.w $0DF0, X : BNE .delay
-        LDA.b #$72 : JSL.l Sprite_SpawnDynamically
+        LDA.b #$72
+        JSL.l Sprite_SpawnDynamically
         
         LDA.b #$1B : STA.w $012C
         
@@ -1237,7 +1225,6 @@ GiveItemBack:
     LDA.b #$02 : STA.w $02E9
     
     LDA.w $0DC0, X : TAY
-    
     JSL.l Link_ReceiveItem
     
     PLX
@@ -1275,10 +1262,8 @@ ShowNewItemMessage:
     ; Check if we need to show a new item message:
     LDA.w $0EB0, X : BEQ .NotNewItem
         DEC : TAY
-        
         LDA.w Pool_ShowNewItemMessage_message_ids_low, Y        : XBA
         LDA.w Pool_ShowNewItemMessage_message_ids_high, Y : TAY : XBA
-        
         JSL.l Sprite_ShowMessageUnconditional
     
     .NotNewItem
@@ -1417,7 +1402,6 @@ FairyQueen_Draw:
             PHX
             
             TXA : CLC : ADC.b $06 : TAX
-            
             LDA.b $00
             CLC : ADC.w Pool_FairyQueen_Draw_x_offsets, X       : STA.b ($90), Y
 
@@ -1431,7 +1415,6 @@ FairyQueen_Draw:
             PHY
             
             TYA : LSR : LSR : TAY
-            
             LDA.w Pool_FairyQueen_Draw_OAM_sizes, X : STA.b ($92), Y
             
             PLY : INY
@@ -1452,10 +1435,8 @@ FairyQueen_Draw:
                  STZ.b $07
     
     LDA.w $0DC0, X : ASL : ASL : ADC.w $0DC0, X : ASL #4
-    
     ADC.b #Pool_FairyQueen_Draw_OAM_groups                 : STA.b $08
     LDA.b #Pool_FairyQueen_Draw_OAM_groups>>8 : ADC.b #$00 : STA.b $09
-    
     JSL.l Sprite_DrawMultiple_quantity_preset
     
     RTS

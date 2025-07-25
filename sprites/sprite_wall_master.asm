@@ -64,9 +64,7 @@ Sprite_WallMaster:
     .delay_sending_player_to_entrance
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw WallMaster_Descend     ; 0x00 - $AF2B
     dw WallMaster_GrabAttempt ; 0x01 - $AF59
     dw Wallmaster_Ascend      ; 0x02 - $AF82
@@ -126,7 +124,8 @@ WallMaster_GrabAttempt:
         ; Sprite is invincible.
         LDA.b #$40 : STA.w $0E60, X
         
-        LDA.b #$2A : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$2A
+        JSL.l Sound_SetSfx3PanLong
         
     .didnt_grab_player
     
@@ -179,14 +178,15 @@ WallMaster_Draw_OAM_groups:
 WallMaster_Draw:
 {
     LDA.b #$00 : XBA
+    LDA.w $0DC0, X
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #$AFA4 : STA.b $08
-    
+    REP #$20
+    ASL #5 : ADC.w #$AFA4 : STA.b $08
     SEP #$20
     
     LDA.b #$04
-    
     JSR.w Sprite3_DrawMultiple
+    
     JSL.l Sprite_DrawVariableSizedShadow
     
     RTS

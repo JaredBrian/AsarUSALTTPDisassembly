@@ -119,7 +119,8 @@ MazeGameGuy_ParseElapsedTime:
     LDA.b #$CB
     LDY.b #$00
     JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
-        STA.w $0DE0, X : STA.w $0EB0, X
+        STA.w $0DE0, X
+        STA.w $0EB0, X
         
         INC.w $0D80, X
     
@@ -138,7 +139,6 @@ MazeGameGuy_CheckPlayerQualification:
     TXY
     
     LDX.b $8A
-    
     LDA.l $7EF280, X : TYX : AND.b #$40 : BEQ .heart_piece_not_acquired
         INC.w $0D80, X : INC.w $0D80, X
         
@@ -160,7 +160,8 @@ MazeGameGuy_CheckPlayerQualification:
         LDY.b #$00
         JSL.l Sprite_ShowMessageUnconditional
         
-        STA.w $0EB0, X : STA.w $0DE0, X
+        STA.w $0EB0, X
+        STA.w $0DE0, X
         
         RTS
         
@@ -171,7 +172,8 @@ MazeGameGuy_CheckPlayerQualification:
     LDY.b #$00
     JSL.l Sprite_ShowMessageUnconditional
     
-    STA.w $0EB0, X : STA.w $0DE0, X
+    STA.w $0EB0, X 
+    STA.w $0DE0, X
     
     RTS
 }
@@ -185,7 +187,8 @@ MazeGameGuy_SorryCantHaveIt:
     LDA.b #$CE
     LDY.b #$00
     JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
-        STA.w $0EB0, X : STA.w $0DE0, X
+        STA.w $0EB0, X
+        STA.w $0DE0, X
         
     .didnt_speak
     
@@ -201,7 +204,8 @@ MazeGameGuy_YouCanHaveIt:
     LDA.b #$CD
     LDY.b #$00
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
-        STA.w $0EB0, X : STA.w $0DE0, X
+        STA.w $0EB0, X
+        STA.w $0DE0, X
         
     .didnt_speak
     
@@ -217,7 +221,8 @@ MazeGameGuy_NothingMoreToGive:
     LDA.b #$CF
     LDY.b #$00
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
-        STA.w $0EB0, X : STA.w $0DE0, X
+        STA.w $0EB0, X
+        STA.w $0DE0, X
         
     .didnt_speak
     
@@ -263,7 +268,6 @@ MazeGameGuy_Draw:
                  STZ.b $07
     
     LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
-    
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     

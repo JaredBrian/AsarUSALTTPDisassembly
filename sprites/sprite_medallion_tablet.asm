@@ -84,7 +84,6 @@ Sprite_DustCloud:
         LDA.b #$05 : STA.w $0DF0, X
         
         LDY.w $0D90, X
-        
         LDA.w .animation_states, Y : BPL .valid_animation_state
             STZ.w $0DD0, X
             
@@ -106,12 +105,15 @@ Sprite_DustCloud:
 ; $02F2D6-$02F30B LOCAL JUMP LOCATION
 MedallionTablet_SpawnDustCloud:
 {
-    LDA.b #$F2 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$F2
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l GetRandomInt : STA.b $0F
         
-        JSL.l GetRandomInt : REP #$20 : AND.w #$000F
+        JSL.l GetRandomInt
         
-        SEC : SBC.w #$0008 : CLC : ADC.b $00 : STA.b $00
+        REP #$20
+        
+        AND.w #$000F : SEC : SBC.w #$0008 : CLC : ADC.b $00 : STA.b $00
         
         LDA.b $0F : AND.w #$000F : CLC : ADC.b $02 : STA.b $02
         
@@ -250,7 +252,7 @@ MedallionTablet_WaitForMudoraReader:
                         
                         .zeta
                         
-                        LDA.w MedallionMessage_low, Y : XBA
+                        LDA.w MedallionMessage_low, Y        : XBA
                         LDA.w MedallionMessage_high, Y : TAY : XBA
                         JSL.l Sprite_ShowMessageUnconditional
         
@@ -303,7 +305,7 @@ MedallionTablet_WaitForEther:
                         
                     .show_hylian_script
                     
-                    LDA.w EtherMessage_low, Y       : XBA
+                    LDA.w EtherMessage_low, Y        : XBA
                     LDA.w EtherMessage_high, Y : TAY : XBA
                     JSL.l Sprite_ShowMessageUnconditional
     

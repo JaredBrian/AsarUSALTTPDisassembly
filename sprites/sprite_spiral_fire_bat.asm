@@ -30,9 +30,7 @@ FireBat_Move:
     JSR.w Sprite4_Move
 
     LDA.w $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
-        
         LDA.b #$0E
-        
         JSR.w FireBat_SpawnFireballGarnish
         
         LDY.w $0EC0, X
@@ -40,7 +38,6 @@ FireBat_Move:
         PHX
         
         LDX.b $00
-        
         LDA.b #$10 : STA.l $7FF800, X
         
         LDA.b #$4F

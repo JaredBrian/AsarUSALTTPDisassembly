@@ -68,20 +68,17 @@ ReturningSmithy_ApproachTheBench:
     
     LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
         LDA.w $0DF0, X : BNE .direction_change_delay
-        
-        LDA.w $0D90, X : TAY
-        
-        INC : STA.w $0D90, X
-        
-        LDA.w Pool_ReturningSmithy_ApproachTheBench_timers, Y : STA.w $0DF0, X
-        
-        LDA.w Pool_ReturningSmithy_ApproachTheBench_directions, Y : BMI .done_walking
-            STA.w $0DE0, X : TAY
+            LDA.w $0D90, X : TAY
+            INC            : STA.w $0D90, X
             
-            LDA.w Pool_ReturningSmithy_ApproachTheBench_x_speeds, Y : STA.w $0D50, X
+            LDA.w Pool_ReturningSmithy_ApproachTheBench_timers, Y : STA.w $0DF0, X
             
-            LDA.w Pool_ReturningSmithy_ApproachTheBench_y_speeds, Y : STA.w $0D40, X
-    
+            LDA.w Pool_ReturningSmithy_ApproachTheBench_directions, Y : BMI .done_walking
+                STA.w $0DE0, X
+                TAY
+                LDA.w Pool_ReturningSmithy_ApproachTheBench_x_speeds, Y : STA.w $0D50, X
+                LDA.w Pool_ReturningSmithy_ApproachTheBench_y_speeds, Y : STA.w $0D40, X
+        
     .direction_change_delay
     
     RTS
@@ -173,19 +170,12 @@ Pool_ReturningSmithy_Draw:
     ; $0332C0
     .OAM_groups
     dw 0, 0 : db $22, $41, $00, $02
-    
     dw 0, 0 : db $22, $01, $00, $02
-    
     dw 0, 0 : db $22, $41, $00, $02
-    
     dw 0, 0 : db $22, $01, $00, $02
-    
     dw 0, 0 : db $22, $01, $00, $02
-    
     dw 0, 0 : db $22, $01, $00, $02
-    
     dw 0, 0 : db $22, $41, $00, $02
-    
     dw 0, 0 : db $22, $41, $00, $02
     
     ; $033300
@@ -199,14 +189,12 @@ ReturningSmithy_Draw:
     LDA.b #$01 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : TAY
-    
     ; This sprite apparently VRAM to change appearance rather than using
     ; different sprite tile numbers.
+    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : TAY
     LDA.w Pool_ReturningSmithy_Draw_VRAM_source_offsets, Y : STA.w $0AEA
     
     TYA : ASL #3
-    
     ADC.b #Pool_ReturningSmithy_Draw_OAM_groups                 : STA.b $08
     LDA.b #Pool_ReturningSmithy_Draw_OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
@@ -256,23 +244,18 @@ Smithy_Main:
     JSR.w Sprite_CheckIfActive
     
     LDY.w $0E90, X
-    LDA.w $0D80, Y
-    
-    CMP.b #$05 : BEQ .tick_animation_timer
-    CMP.b #$07 : BEQ .tick_animation_timer
-    CMP.b #$09 : BEQ .tick_animation_timer
+    LDA.w $0D80, Y : CMP.b #$05 : BEQ .tick_animation_timer
+                     CMP.b #$07 : BEQ .tick_animation_timer
+                     CMP.b #$09 : BEQ .tick_animation_timer
         ORA.w $0D80, X : BEQ .tick_animation_timer
-            LDA.w $0D80, X
-            
-            CMP.b #$05 : BEQ .tick_animation_timer
-            CMP.b #$07 : BEQ .tick_animation_timer
-            CMP.b #$09 : BNE .dont_do_hammering_animation
+            LDA.w $0D80, X : CMP.b #$05 : BEQ .tick_animation_timer
+                             CMP.b #$07 : BEQ .tick_animation_timer
+                             CMP.b #$09 : BNE .dont_do_hammering_animation
         
     .tick_animation_timer
     
     LDA.w $0DA0, X : DEC.w $0DA0, X : CMP.b #$00 : BNE .animation_step_delay
-        LDA.w $0D90, X : TAY
-        
+        LDA.w $0D90, X   : TAY
         INC : AND.b #$07 : STA.w $0D90, X
         
         LDA.w Pool_Smithy_Main_animation_states, Y : STA.w $0DC0, X
@@ -286,7 +269,8 @@ Smithy_Main:
         CPY.b #$03 : BNE .spark_spawn_delay
             JSR.w SmithyBros_SpawnSmithySpark
             
-            LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$05
+            JSL.l Sound_SetSfx2PanLong
             
         .spark_spawn_delay
     .animation_step_delay
@@ -505,8 +489,7 @@ Smithy_HandleTemperingCost:
     LDY.b #$00
     JSL.l Sprite_ShowMessageUnconditional
     
-    LDY.w $0E90, X 
-    
+    LDY.w $0E90, X
     LDA.b #$05 : STA.w $0D80, Y
                  STA.w $0D80, X
     
@@ -556,10 +539,9 @@ Smithy_TemperingSword:
     
     .player_hasnt_changed_overworld_screens
     
+    ; "I'm sorry, we're not done yet. Come back after a while."
     LDA.b #$E2
     LDY.b #$00
-    
-    ; "I'm sorry, we're not done yet. Come back after a while."
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
@@ -605,7 +587,6 @@ Smithy_DoNothing:
 Smithy_SpawnReturningSmithy:
 {
     LDA.b #$1A
-    
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b $22 : STA.w $0D10, Y
         LDA.b $23 : STA.w $0D30, Y
@@ -613,7 +594,8 @@ Smithy_SpawnReturningSmithy:
         LDA.b $20 : STA.w $0D00, Y
         LDA.b $21 : STA.w $0D20, Y
         
-        LDA.b #$03 : STA.w $0E80, Y : STA.w $0BA0, Y
+        LDA.b #$03 : STA.w $0E80, Y
+                     STA.w $0BA0, Y
     
     .spawn_failed
     
@@ -645,7 +627,6 @@ Smithy_CopiouslyThankful:
 Smithy_SpawnOtherSmithy:
 {
     LDA.b #$1A
-    
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b $00 : CLC : ADC.b #$2C : STA.w $0D10, Y
         LDA.b $01                    : STA.w $0D30, Y
@@ -706,7 +687,6 @@ Smithy_Draw:
                  STZ.b $07
     
     LDA.w $0DC0, X : ASL : ADC.w $0DE0, X : ASL #4
-    
     ADC.b #OAM_groups                 : STA.b $08
     LDA.b #OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
@@ -737,8 +717,7 @@ SmithySpark_Main:
     JSR.w Sprite_CheckIfActive
     
     LDA.w $0DF0, X : BNE .delay
-        LDA.w $0D90, X : TAY
-        
+        LDA.w $0D90, X   : TAY
         INC : AND.b #$07 : STA.w $0D90, X
         
         LDA.w Pool_SmithySpark_Main_animation_states, Y : BMI .self_terminate
@@ -769,14 +748,12 @@ SmithyBros_SpawnSmithySpark_x_offsets:
 SmithyBros_SpawnSmithySpark:
 {
     LDA.b #$1A
-    
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         PHX
         
         LDA.w $0DE0, X : TAX
-        
-        LDA.b $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
-        LDA.b $01                           : STA.w $0D30, Y
+        LDA.b $00 : CLC : ADC.w .x_offsets, X : STA.w $0D10, Y
+        LDA.b $01                             : STA.w $0D30, Y
         
         LDA.b $02 : CLC : ADC.b #$02 : STA.w $0D00, Y
         LDA.b $03                    : STA.w $0D20, Y
@@ -808,14 +785,15 @@ SmithySpark_Draw_OAM_groups:
 ; $03372C-$033749 LOCAL JUMP LOCATION
 SmithySpark_Draw:
 {
-    LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$08
+    JSL.l OAM_AllocateFromRegionB
     
     LDA.w $0DC0, X : ASL #4
-    
     ADC.b #.OAM_groups                 : STA.b $08
     LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
-    LDA.b #$02 : JSL.l Sprite_DrawMultiple
+    LDA.b #$02
+    JSL.l Sprite_DrawMultiple
     
     RTS
 }

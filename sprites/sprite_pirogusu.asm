@@ -44,7 +44,6 @@ Pirogusu_WriggleInHole:
     STA.w $0BA0, X
     
     LDY.w $0DE0, X
-    
     LDA.w .animation_states, Y : STA.w $0D90, X
     
     RTS
@@ -87,13 +86,10 @@ Pirogusu_Emerge:
     LDA.w $0DE0, X : ASL : STA.b $00
     
     LDA.w $0DF0, X : LSR #3 : AND.b #$01 : ORA.b $00 : TAY
-    
     LDA.w Pool_Pirogusu_Emerge_animation_states, Y : STA.w $0D90, X
     
     LDY.w $0DE0, X
-    
     LDA.w Pool_Pirogusu_Emerge_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_Pirogusu_Emerge_y_speeds, Y : STA.w $0D40, X
     
     JSR.w Sprite3_Move
@@ -127,10 +123,8 @@ Pirogusu_SplashIntoPlay:
     JSR.w Sprite3_Move
     
     LDY.w $0DE0, X
-    
     LDA.w $0D50, X
     CLC : ADC Pool_Pirogusu_SplashIntoPlay_x_acceleration, Y : STA.w $0D50, X
-    
     LDA.w $0D40, X
     CLC : ADC Pool_Pirogusu_SplashIntoPlay_y_acceleration, Y : STA.w $0D40, X
     
@@ -152,7 +146,6 @@ Pirogusu_Animate:
     LDA.w $0DE0, X : ASL : STA.b $00
     
     LDA.b $1A : AND.b #$04 : LSR : LSR : ORA.b $00 : TAY
-    
     LDA.w Pool_Pirogusu_SplashIntoPlay_animation_states, Y : STA.w $0D90, X
     
     RTS
@@ -166,13 +159,13 @@ Sprite_SpawnSmallWaterSplash:
     ; Spawn a bush sprite... but for what...
     LDA.b #$EC
     LDY.b #$0E
-    
     JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         STZ.w $012E
         
-        LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$28
+        JSL.l Sound_SetSfx2PanLong
         
         LDA.b #$03 : STA.w $0DD0, Y
         
@@ -204,8 +197,8 @@ Pirogusu_Swim:
 {
     JSR.w Sprite3_CheckIfRecoiling
     JSR.w Sprite3_CheckDamage
+
     JSR.w Pirogusu_Animate
-    
     CLC : ADC.b #$08 : STA.w $0D90, X
     
     LDA.w $0E00, X : BNE .swim_logic_delay
@@ -214,16 +207,12 @@ Pirogusu_Swim:
         
         JSR.w Sprite3_CheckTileCollision : AND.b #$0F : BEQ .anochange_direction
             JSL.l GetRandomInt : LSR : LDA.w $0DE0, X : ROL : TAY
-            
-            LDA.w Zazak_HaltAndPickNextDirection_head_orientations, Y
-            STA.w $0DE0, X
+            LDA.w Zazak_HaltAndPickNextDirection_head_orientations, Y : STA.w $0DE0, X
         
         .anochange_direction
         
         LDY.w $0DE0, X
-        
         LDA.w Pool_Pirogusu_Swim_x_speeds, Y : STA.w $0D50, X
-        
         LDA.w Pool_Pirogusu_Swim_y_speeds, Y : STA.w $0D40, X
     
     .swim_logic_delay
@@ -244,11 +233,9 @@ Pirogusu_SpawnSplashGarnish:
 {
     TXA : EOR.b $1A : AND.b #$03 : BNE .garnish_delay
         JSL.l GetRandomInt : AND.b #$03 : TAY
-        
         LDA.w .displacements, Y : STA.b $00
         
         JSL.l GetRandomInt : AND.b #$03 : TAY
-        
         LDA.w .displacements, Y : STA.b $01
         
         PHX : TXY
@@ -310,7 +297,6 @@ Pool_Pirogusu_Draw:
 Pirogusu_Draw:
 {
     LDY.w $0D90, X
-    
     LDA.w $0F50, X
     AND.b #$3F : ORA Pool_Pirogusu_Draw_vh_flip, Y : STA.w $0F50, X
     

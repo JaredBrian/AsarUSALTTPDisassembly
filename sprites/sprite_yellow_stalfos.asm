@@ -15,7 +15,7 @@ Sprite_YellowStalfos:
 {
     LDA.w $0D90, X : BNE .initial_collision_check_complete
         LDA.b #$01 : STA.w $0D50, X
-                    STA.w $0D40, X
+                     STA.w $0D40, X
         
         JSR.w Sprite3_CheckTileCollision : BEQ .dont_self_terminate
             ; Self terminate if the sprite would fall onto a solid tile.
@@ -31,12 +31,12 @@ Sprite_YellowStalfos:
         
         LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
         
-        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$20
+        JSL.l Sound_SetSfx2PanLong
     
     .initial_collision_check_complete
     
     LDY.w $0D80, X
-    
     LDA.w $0B89, X : ORA .priority, Y : STA.w $0B89, X
     
     JSR.w YellowStalfos_Draw
@@ -55,7 +55,6 @@ Sprite_YellowStalfos:
             
             ; Stalfos is unable to move after being recoiled...? I think so.
             LDA.b #$05 : STA.w $0D80, X
-            
             LDA.b #$FF : STA.w $0DF0, X
 
         .not_recoiling
@@ -129,7 +128,7 @@ YellowStalfos_FacePlayer:
     .delay
     
     ; $0F444E ALTERNATE ENTRY POINT
-    shared YellowStalfos_LowerShields:
+    .LowerShields
     
     ; Disable invulnerability.
     LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
@@ -190,12 +189,9 @@ YellowStalfos_PauseThenDetachHead:
     .anodetach_head
     
     LSR : LSR : AND.b #$FC : ORA.w $0DE0, X : TAY
-    
-    LDA.w Pool_YellowStalfos_PauseThenDetachHead_animation_states, Y
-    STA.w $0DC0, X
+    LDA.w Pool_YellowStalfos_PauseThenDetachHead_animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0DF0, X : LSR : LSR : TAY
-    
     LDA.w Pool_YellowStalfos_PauseThenDetachHead_head_x_offsets, Y
     STA.w !head_x_offset, X
     
@@ -232,7 +228,6 @@ YellowStalfos_DelayBeforeAscending:
 YellowStalfos_Animate:
 {
     LDY.w $0DE0, X
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     JMP YellowStalfos_LowerShields
@@ -295,9 +290,7 @@ YellowStalfos_Neutralized:
     .delay
     
     LSR #4 : TAY
-    
     LDA.w Pool_YellowStalfos_Neutralized_animation_states, Y : STA.w $0DC0, X
-    
     LDA.w Pool_YellowStalfos_Neutralized_head_y_offsets, Y : STA.w !head_y_offset, X
     
     RTS
@@ -312,7 +305,8 @@ YellowStalfos_DetachHead:
     ; is different from that of the parent, as far as sprite code goes.
     ; Usually there's some variable that differentiates them and they
     ; use the same id. Refreshing.
-    LDA.b #$02 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$02
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$0D : STA.w $0F70, Y
@@ -321,12 +315,12 @@ YellowStalfos_DetachHead:
         
         TYX
         
-        LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$10
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         PLX
         
         LDA.b #$FF : STA.w $0DF0, Y
-        
         LDA.b #$20 : STA.w $0E00, Y
         
     .spawn_failed
@@ -377,7 +371,11 @@ YellowStalfos_Draw_OAM_groups:
 YellowStalfos_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.OAM_groups : STA.b $08
+    LDA.w $0DC0, X
+    
+    REP #$20
+
+    ASL #4 : ADC.w #.OAM_groups : STA.b $08
     
     LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
@@ -385,7 +383,8 @@ YellowStalfos_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR.w Sprite3_DrawMultiple
+    LDA.b #$02
+    JSR.w Sprite3_DrawMultiple
     
     REP #$20
     
@@ -423,14 +422,17 @@ YellowStalfos_DrawHead:
 {
     LDA.w $0DC0, X : CMP.b #$0A : BEQ .return
         ; This constant means don't draw the head this frame.
-        LDA.w !head_x_offset, X : STZ.b $0D : CMP.b #$80 : BEQ .return
-            STA.b $0C : CMP.b #$00 : BPL .sign_extend
+        LDA.w !head_x_offset, X
+        STZ.b $0D
+        CMP.b #$80 : BEQ .return
+            STA.b $0C
+            CMP.b #$00 : BPL .sign_extend
                 DEC.b $0D
             
             .sign_extend
             
             LDA.w !head_y_offset, X : STA.b $0A
-                                    STZ.b $0B
+                                      STZ.b $0B
             
             LDY.b #$00
             
@@ -441,11 +443,9 @@ YellowStalfos_DrawHead:
             REP #$20
             
             LDA.b $00 : CLC : ADC.b $0C : STA.b ($90), Y
-            
-            AND.w #$0100 : STA.b $0E
+            AND.w #$0100                : STA.b $0E
             
             LDA.b $02 : SEC : SBC.b $0A : INY : STA.b ($90), Y
-            
             CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
                 LDA.w #$00F0 : STA.b ($90), Y
             
@@ -453,14 +453,11 @@ YellowStalfos_DrawHead:
             
             SEP #$20
             
-            LDA.w Pool_YellowStalfos_DrawHead_chr, X
-            INY : STA.b ($90), Y
+            LDA.w Pool_YellowStalfos_DrawHead_chr, X : INY : STA.b ($90), Y
 
-            LDA.w Pool_YellowStalfos_DrawHead_properties, X
-            INY : ORA.b $05 : STA.b ($90), Y
+            LDA.w Pool_YellowStalfos_DrawHead_properties, X : INY : ORA.b $05 : STA.b ($90), Y
             
             TYA : LSR : LSR : TAY
-            
             LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
             
             PLX

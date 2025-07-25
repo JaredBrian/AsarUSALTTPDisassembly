@@ -35,10 +35,10 @@ Sprite_Raven:
     
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    dw Raven_InWait
-    dw Raven_Ascend
-    dw Raven_Attack
-    dw Raven_FleePlayer
+    dw Raven_InWait     ; 0x00 - $DDAE
+    dw Raven_Ascend     ; 0x01 - $DDE5
+    dw Raven_Attack     ; 0x02 - $DE09
+    dw Raven_FleePlayer ; 0x03 - $DE66
 }
 
 ; ==============================================================================
@@ -67,7 +67,8 @@ Raven_InWait:
             
             LDA.b #$18 : STA.w $0DF0, X
             
-            LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$1E
+            JSL.l Sound_SetSfx3PanLong
     
     .player_too_far
     
@@ -85,11 +86,9 @@ Raven_Ascend:
         INC.w $0D80, X
         
         LDY.w $0D90, X
-        
         LDA.w .timers, Y : STA.w $0DF0, X
         
         LDA.b #$20
-        
         JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
     .delay
@@ -121,7 +120,8 @@ Raven_Attack:
     
     ; Delay speed analysis.
     TXA : EOR.b $1A : LSR : BCS Raven_Animate
-        LDA #$20 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
+        LDA #$20
+        JSL.l Sprite_ProjectSpeedTowardsPlayerLong
 
         ; Bleeds into the next function.
 }
@@ -163,6 +163,8 @@ Raven_Animate:
     LDA.b $1A : LSR : AND.b #$01 : INC : STA.w $0DC0, X
     
     LDA.w $0D50, X : ASL : ROL : AND.b #$01 : TAY
+
+    ; Bleeds into the next function.
 }
     
 ; $0EDE5A-$0EDE65 JUMP LOCATION
@@ -179,7 +181,8 @@ Raven_SetHflip:
 Raven_FleePlayer:
 {
     TXA : EOR.b $1A : LSR : BCS Raven_Animate
-        LDA.b #$30 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
+        LDA.b #$30
+        JSL.l Sprite_ProjectSpeedTowardsPlayerLong
         
         LDA.b $00 : EOR.b #$FF : INC : STA.b $00
         

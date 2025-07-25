@@ -43,7 +43,6 @@ PotionShop_SpawnMagicPowder:
             
             ; Hardcoded check for the potion shop room's flags (room 0x109).
             LDX.w #$0212
-            
             LDA.l $7EF000, X : AND.b #$80 : STA.b $00
             
             SEP #$30
@@ -51,7 +50,8 @@ PotionShop_SpawnMagicPowder:
             PLX
             
             LDA.b $00 : BEQ .already_obtained
-                LDA.b #$E9 : JSL.l Sprite_SpawnDynamically
+                LDA.b #$E9
+                JSL.l Sprite_SpawnDynamically
                 
                 LDA.b #$01 : STA.w $0E80, Y
                 
@@ -75,7 +75,8 @@ PotionShop_SpawnMagicPowder:
 ; $02F58E-$02F5BE LOCAL JUMP LOCATION
 PotionShop_SpawnGreenPotion:
 {
-    LDA.b #$E9 : JSL.l Sprite_SpawnDynamically
+    LDA.b #$E9
+    JSL.l Sprite_SpawnDynamically
     
     LDA.b #$02 : STA.w $0E80, Y
     
@@ -95,7 +96,8 @@ PotionShop_SpawnGreenPotion:
 ; $02F5BF-$02F5EF LOCAL JUMP LOCATION
 PotionShop_SpawnBluePotion:
 {
-    LDA.b #$E9 : JSL.l Sprite_SpawnDynamically
+    LDA.b #$E9
+    JSL.l Sprite_SpawnDynamically
     
     LDA.b #$03 : STA.w $0E80, Y
     
@@ -116,7 +118,6 @@ PotionShop_SpawnBluePotion:
 PotionShop_SpawnRedPotion:
 {
     LDA.b #$E9
-    
     JSL.l Sprite_SpawnDynamically
     
     LDA.b #$04 : STA.w $0E80, Y
@@ -255,7 +256,8 @@ Sprite_GreenPotionItem:
             LDA.l $7EF360 : CMP.w #$003C : SEP #$30 : BCC .delta
                 JSL.l Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
                 
-                LDA.b #$1D : JSL.l Sound_SetSfx3PanLong
+                LDA.b #$1D
+                JSL.l Sound_SetSfx3PanLong
                 
                 LDA.b #$40 : STA.w $0DF0, X
                 
@@ -340,7 +342,8 @@ Sprite_BluePotionItem:
             ; Check if the player has 160 rupees:
             LDA.l $7EF360 : CMP.w #$00A0 : SEP #$30 : BCC .delta
                 JSL.l Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
-                    LDA.b #$1D : JSL.l Sound_SetSfx3PanLong
+                    LDA.b #$1D
+                    JSL.l Sound_SetSfx3PanLong
                     
                     LDA.b #$40 : STA.w $0DF0, X
                     
@@ -425,7 +428,8 @@ Sprite_RedPotionItem:
             ; Check if player has 120 rupees:
             LDA.l $7EF360 : CMP.w #$0078 : SEP #$30 : BCC PotionCauldron_PovertyDisclaimer
                 JSL.l Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
-                    LDA.b #$1D : JSL.l Sound_SetSfx3PanLong
+                    LDA.b #$1D
+                    JSL.l Sound_SetSfx3PanLong
                     
                     LDA.b #$40 : STA.w $0DF0, X
                     
@@ -467,7 +471,8 @@ PotionCauldron_PovertyDisclaimer:
 ; $02F846-$02F84C JUMP LOCATION
 PotionItem_ErrorSfx:
 {
-    LDA.b #$3C : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$3C
+    JSL.l Sound_SetSfx2PanLong
     
     RTS
 }
@@ -579,7 +584,6 @@ Shopkeeper_Draw:
                  STZ.b $07
     
     LDA.w $0DC0, X : ASL #4
-    
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     

@@ -18,10 +18,10 @@ Sprite_WalkingZora:
         LDA.b #$C0 : STA.w $0ED0, X
         
         LDA.w $0F40, X : STA.w $0D50, X
-        ASL          : ROR.w $0D50, X
+        ASL            : ROR.w $0D50, X
         
         LDA.w $0F30, X : STA.w $0D40, X
-        ASL          : ROR.w $0D40, X
+        ASL            : ROR.w $0D40, X
         
     .not_recoiling
     
@@ -64,7 +64,8 @@ WalkingZora_Surfacing:
     LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay
         LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
         
-        LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$28
+        JSL.l Sound_SetSfx2PanLong
         
         INC.w $0DA0, X
         
@@ -78,8 +79,7 @@ WalkingZora_Surfacing:
     .delay
     
     LSR #3 : TAY
-    
-    LDA Zora_Surfacing_animation_states, Y : STA.w $0DC0, X
+    LDA.w Zora_Surfacing_animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -90,8 +90,7 @@ WalkingZora_Surfacing:
 WalkingZora_Ambulating:
 {
     LDA.w $0E80, X : AND.b #$08 : LSR : ADC.w $0DE0, X : TAY
-    
-    LDA Sprite_Recruit_animation_states, Y : STA.w $0DC0, X
+    LDA.w Sprite_Recruit_animation_states, Y : STA.w $0DC0, X
     
     JSR.w WalkingZora_Draw
     JSR.w Sprite2_CheckIfActive
@@ -117,7 +116,8 @@ WalkingZora_Ambulating:
             TXA : EOR.b $1A : AND.b #$1F : BNE .delay
                 TYA : STA.w $0DE0, X
                 
-                LDA.b #$08 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+                LDA.b #$08
+                JSL.l Sprite_ApplySpeedTowardsPlayerLong
             
         .delay
     .in_air
@@ -131,7 +131,8 @@ WalkingZora_Ambulating:
         LDA.w $0FA5 : CMP.b #$08 : BNE .not_in_deep_water
             JSL.l Sprite_SelfTerminate
             
-            LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$28
+            JSL.l Sound_SetSfx2PanLong
             
             LDA.b #$03 : STA.w $0DD0, X
             LDA.b #$0F : STA.w $0DF0, X
@@ -176,8 +177,7 @@ WalkingZora_Depressed:
     LDA.w $0ED0, X : CMP.b #$30 : BCS .beta
         LDA.b $1A : AND.b #$01 : BNE .beta
             LDA.b $1A : LSR : AND.b #$01 : TAY
-            
-            LDA ZoraKing_RumblingGround_offsets_low, Y
+            LDA.w ZoraKing_RumblingGround_offsets_low, Y
             CLC : ADC.w $0D10, X : STA.w $0D10, X
 
             LDA.w WalkingZora_DetermineShadowStatus_offsets_x_high, Y
@@ -255,7 +255,8 @@ WalkingZora_Draw:
     
     LDY.b #$00
     
-    LDA.w $0DC0, X : STA.b $06 : CMP.b #$04 : BCS .certain_animation_frame
+    LDA.w $0DC0, X : STA.b $06
+    CMP.b #$04 : BCS .certain_animation_frame
         LSR
         
         REP #$20
@@ -272,10 +273,10 @@ WalkingZora_Draw:
     
     REP #$20
     
-    LDA.b $00 : STA.b ($90), Y : AND.w #$0100 : STA.b $0E
+    LDA.b $00    : STA.b ($90), Y
+    AND.w #$0100 : STA.b $0E
     
     LDA.b $02 : SEC : SBC.w #$0006 : INY : STA.b ($90), Y
-    
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .head_on_screen_y_1
         LDA.w #$00F0 : STA.b ($90), Y
     
@@ -295,11 +296,9 @@ WalkingZora_Draw:
     REP #$20
     
     LDA.b $00 : INY : STA.b ($90), Y
-    
-    AND.w #$0100 : STA.b $0E
+    AND.w #$0100    : STA.b $0E
     
     LDA.b $02 : INC : INC : INY : STA.b ($90), Y
-    
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .body_on_screen_y
         LDA.w #$00F0 : STA.b ($90), Y
     
@@ -312,7 +311,8 @@ WalkingZora_Draw:
     LDA.w Pool_WalkingZora_Draw_body_chr, X                    : INY : STA.b ($90), Y
     LDA.w Pool_WalkingZora_Draw_body_properties, X : ORA.b $05 : INY : STA.b ($90), Y
     
-    LDY.b #$01 : LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
+    LDY.b #$01
+    LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
     
     PLX
     
@@ -386,9 +386,7 @@ Sprite_DrawWaterRipple:
     PHB : PHK : PLB
     
     LDA.b $1A : LSR : LSR : AND.b #$03 : TAY
-    
     LDA.w Pool_Sprite_DrawWaterRipple_animation_states, Y
-    
     CLC : ADC.b ((Pool_Sprite_DrawWaterRipple_OAM_groups >> 0) & $FF)
     STA.b $08
 
@@ -402,8 +400,10 @@ Sprite_DrawWaterRipple:
     ; Force the palette to 2 and the nametable to 0 for both of the
     ; ripple's subsprites. Also forces the h and vflip settings to off
     ; for the first, and h flip only on the righthand subsprite.
-    LDY.b #$03 : LDA.b ($90), Y : AND.b #$30 : ORA.b #$04 : STA.b ($90), Y
-    LDY.b #$07 : ORA.b #$40                             : STA.b ($90), Y
+    LDY.b #$03
+    LDA.b ($90), Y : AND.b #$30 : ORA.b #$04 : STA.b ($90), Y
+    LDY.b #$07
+    ORA.b #$40                               : STA.b ($90), Y
     
     PLB
     

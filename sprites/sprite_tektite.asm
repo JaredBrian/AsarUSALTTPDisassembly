@@ -24,9 +24,7 @@ Sprite_GanonHelpers:
         LDA.b #$30 : STA.w $0B89, X
         
         PLA : DEC
-        
         JSL.l UseImplicitRegIndexedLocalJumpTable
-        
         dw Sprite_PhantomGanon  ; 0x00 - $88BC Ganon bat atop Ganon's Tower
         dw Sprite_Trident       ; 0x01 - $8AB6 Trident
         dw Sprite_SpiralFireBat ; 0x02 - $8B52 Special spiraling firebat
@@ -98,7 +96,6 @@ Tektite_Stationary:
                             JSL.l Sprite_ProjectSpeedTowardsPlayerLong
                             
                             LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
-                            
                             LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
                             
                             LDA.b #$10 : STA.w $0F80, X
@@ -113,7 +110,6 @@ Tektite_Stationary:
         INC.w $0D80, X
         
         INC.w $0DA0, X
-        
         LDA.w $0DA0, X : CMP.b #$04 : BNE .select_random_direction
             ; Otherwise select a direction towards the player.
             STZ.w $0DA0, X
@@ -143,9 +139,7 @@ Tektite_Stationary:
         .set_xy_speeds
         
         TAY
-        
         LDA.w Pool_Tektite_Stationary_x_speeds, Y : STA.w $0D50, X
-        
         LDA.w Pool_Tektite_Stationary_y_speeds, Y : STA.w $0D40, X
         
         RTS
@@ -229,11 +223,16 @@ Tektite_Draw_OAM_groups:
 Tektite_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.OAM_groups : STA.b $08
+    LDA.w $0DC0, X
+    
+    REP #$20
+    
+    ASL #4 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$02 : JSR.w Sprite4_DrawMultiple
+    LDA.b #$02
+    JSR.w Sprite4_DrawMultiple
     
     JSL.l Sprite_DrawShadowLong
     

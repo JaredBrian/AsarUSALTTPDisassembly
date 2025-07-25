@@ -45,11 +45,12 @@ StalfosBone_Draw_OAM_groups:
 ; $0F1040-$0F105B LOCAL JUMP LOCATION
 StalfosBone_Draw:
 {
-    LDA.b #$00   : XBA
+    LDA.b #$00 : XBA
+    LDA.w $0E80, X : LSR : LSR : AND.b #$03
     
-    LDA.w $0E80, X : LSR : LSR : AND.b #$03 : REP #$20 : ASL #4
+    REP #$20
     
-    ADC.w #(.OAM_groups) : STA.b $08
+    ASL #4 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
@@ -96,7 +97,8 @@ Sprite_Stalfos:
             
             STZ.w $0E90, X
             
-            LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$15
+            JSL.l Sound_SetSfx2PanLong
             
             JSL.l Sprite_SpawnPoofGarnish
             
@@ -146,7 +148,6 @@ Stalfos_Visible:
                             .dodge
                                     
                             LDA.b $2F : LSR : TAY
-                                    
                             LDA.b $00 : CMP.w .direction, Y : BEQ .dont_dodge
                                 .face_player_then_dodge
                                 
@@ -156,12 +157,12 @@ Stalfos_Visible:
                                 JSL.l Sprite_ProjectSpeedTowardsPlayerLong
                                 
                                 LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
-                                
                                 LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
                                 
                                 LDA.b #$20 : STA.w $0F80, X
                                 
-                                LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
+                                LDA.b #$13
+                                JSL.l Sound_SetSfx3PanLong
                                 
                                 INC.w $0F70, X
         
@@ -171,7 +172,6 @@ Stalfos_Visible:
     
     LDA.w $0F70, X : BEQ .not_dodging
         LDY.w $0DE0, X
-        
         LDA Stalfos_animation_states_2, Y : STA.w $0DC0, X
         
         JSL.l Stalfos_Draw
@@ -187,7 +187,6 @@ Stalfos_Visible:
         JSR.w Sprite3_CheckTileCollision
         
         PHA
-        
         AND.b #$03 : BEQ .no_horiz_tile_collision
             STZ.w $0D50, X
         
@@ -207,7 +206,8 @@ Stalfos_Visible:
             
             JSR.w Sprite3_Zero_XY_Velocity
             
-            LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$21
+            JSL.l Sound_SetSfx2PanLong
             
             LDA.w $0E30, X : BEQ .not_red_stalfos
                 ; Throw a bone at the player.
@@ -274,8 +274,7 @@ Sprite_Zazak:
     .dont_throw_bone
     
     LDA.w $0E80, X : AND.b #$01 : ASL : ASL : ADC.w $0DE0, X : TAY
-    
-    LDA Stalfos_animation_states_1, Y : STA.w $0DC0, X
+    LDA.w Stalfos_animation_states_1, Y : STA.w $0DC0, X
     
     LDA.w $0E20, X : CMP.b #$A7 : BNE .not_stalfos
         JSL.l Stalfos_Draw
@@ -312,16 +311,14 @@ Zazak_WalkThenTrackHead:
 {
     LDA.w $0DF0, X : BNE .delay
         JSL.l GetRandomInt : AND.b #$03 : TAY
-        
-        LDA Stalfos_timers, Y : STA.w $0DF0, X
+        LDA.w Stalfos_timers, Y : STA.w $0DF0, X
         
         INC.w $0D80, X
         
-        LDA.w $0EB0, X : STA.w $0DE0, X : TAY
-        
-        LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
-        
-        LDA Sprite3_Shake_y_speeds, Y : STA.w $0D40, X
+        LDA.w $0EB0, X : STA.w $0DE0, X
+                         TAY
+        LDA.w Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
+        LDA.w Sprite3_Shake_y_speeds, Y : STA.w $0D40, X
     
     .delay
     
@@ -345,7 +342,6 @@ Zazak_HaltAndPickNextDirection:
         LDA.w $0DF0, X : BNE .just_animate
             LDA.w $0E20, X : CMP.b #$A6 : BNE .not_red_zazak
                 JSR.w Sprite3_DirectionToFacePlayer
-                
                 TYA : CMP.w $0DE0, X : BNE .dont_shoot_player
                     LDA.b $EE : CMP.w $0F20, X : BNE .dont_shoot_player
                         INC.w $0D80, X
@@ -364,13 +360,16 @@ Zazak_HaltAndPickNextDirection:
     
     STA.w $0DF0, X
     
-    JSL.l GetRandomInt : LSR : LDA.w $0DE0, X : ROL : TAY
+    ; OPTIMIZE: What?
+    JSL.l GetRandomInt : LSR
     
+    LDA.w $0DE0, X : ROL : TAY
     LDA.w .head_orientations, Y : STA.w $0EB0, X
     
     STZ.w $0D80, X
     
-    INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$04 : BNE .zero_xy_velocity
+    INC.w $0DB0, X
+    LDA.w $0DB0, X : CMP.b #$04 : BNE .zero_xy_velocity
         STZ.w $0DB0, X
         
         ; In this case, directly face the player and walk towards them.
@@ -434,15 +433,16 @@ Sprite_SpawnFirePhlegm:
 {
     PHB : PHK : PLB
     
-    LDA.b #$A5 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-        LDA.b #$05 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$A5
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$05
+        JSL.l Sound_SetSfx3PanLong
         
         JSL.l Sprite_SetSpawnedCoords
         
         PHX
         
         LDA.w $0DE0, X : TAX
-        
         LDA.b $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
         LDA.b $01       : ADC .x_offsets_high, X : STA.w $0D30, Y
         
@@ -450,7 +450,6 @@ Sprite_SpawnFirePhlegm:
         LDA.b $03       : ADC .y_offsets_high, X : STA.w $0D20, Y
         
         LDA.w .x_speeds, X : STA.w $0D50, Y
-        
         LDA.w .y_speeds, X : STA.w $0D40, Y
         
         LDA.w $0E60, Y : ORA.b #$40 : STA.w $0E60, Y
@@ -512,7 +511,8 @@ Sprite_SpawnFirePhlegm:
 ; $0F1379-$0F13C2 LOCAL JUMP LOCATION
 Stalfos_ThrowBoneAtPlayer:
 {
-    LDA.b #$A7 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$A7
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$01 : STA.w $0D90, Y
         
         JSL.l Sprite_SetSpawnedCoords
@@ -521,9 +521,11 @@ Stalfos_ThrowBoneAtPlayer:
         
         TYX
         
-        LDA.b #$20 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$20
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
-        LDA.b #$21 : STA.w $0E40, X : STA.w $0BA0, X
+        LDA.b #$21 : STA.w $0E40, X
+                     STA.w $0BA0, X
         
         LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
         
@@ -539,7 +541,8 @@ Stalfos_ThrowBoneAtPlayer:
         
         PLX
         
-        LDA.b #$02 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$02
+        JSL.l Sound_SetSfx2PanLong
         
     .spawn_failed
     
@@ -582,13 +585,16 @@ FirePhlegm_Draw_OAM_entries:
 FirePhlegm_Draw:
 {
     LDA.b #$00 : XBA
-    LDA.w $0DE0, X : ASL : CLC : ADC.w $0DC0, X : REP #$20 : ASL #4
+    LDA.w $0DE0, X : ASL : CLC : ADC.w $0DC0, X
     
-    ADC.w #.OAM_entries : STA.b $08
+    REP #$20
+    
+    ASL #4 : ADC.w #.OAM_entries : STA.b $08
     
     SEP #$20
     
-    LDA.b #$02 : JMP Sprite3_DrawMultiple
+    LDA.b #$02
+    JMP Sprite3_DrawMultiple
 }
 
 ; ==============================================================================

@@ -106,7 +106,6 @@ Orphan1_State1:
     TXA : EOR.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     LDY.w $0DE0, X
-    
     LDA.w Pool_Oprhan1_State1_x_speeds, Y : STA.w $0D50, X
     LDA.w Pool_Oprhan1_State1_y_speeds, Y : STA.w $0D40, X
     
@@ -135,7 +134,6 @@ Orphan1_State2:
     STZ.w $0D40, X
     
     TXA : EOR.b $1A : LSR #5 : AND.b #03 : STA.b $00
-    
     AND.b #$01 : BNE .skip
         LDA.b $00 : LSR : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
         

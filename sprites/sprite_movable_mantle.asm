@@ -38,7 +38,8 @@ Sprite_MovableMantle:
                             ; Set a game state (numerical, not bitwise).
                             LDA.b #$04 : STA.l $7EF3C8
                             
-                            INC.w $0E80, X : LDA.w $0E80, X : AND.b #$01 : BNE .delay_movement
+                            INC.w $0E80, 
+                            LDA.w $0E80, X : AND.b #$01 : BNE .delay_movement
                                 INC.w $0ED0, X
                             
                             .delay_movement
@@ -85,7 +86,8 @@ Pool_MovableMantle_Draw:
 ; $0D7CB3-$0D7CEC LOCAL JUMP LOCATION
 MovableMantle_Draw:
 {
-    LDA.b #$20 : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$20
+    JSL.l OAM_AllocateFromRegionB
     
     JSL.l Sprite_PrepOamCoordLong : BCS .not_on_screen
         PHX
@@ -109,7 +111,6 @@ MovableMantle_Draw:
         
         LDY.b #$02
         LDA.b #$05
-        
         JSL.l Sprite_CorrectOamEntriesLong
     
     .not_on_screen

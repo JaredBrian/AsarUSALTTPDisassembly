@@ -40,12 +40,14 @@ MazeGameLady_Startup:
         LDA.b #$CC
         LDY.b #$00
         JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
-            STA.w $0EB0, X : STA.w $0DE0, X
+            STA.w $0EB0, X
+            STA.w $0DE0, X
             
             INC.w $0D80, X
             
             LDA.b #$00
-            STA.l $7FFE00 : STA.l $7FFE01 : STA.l $7FFE02 : STA.l $7FFE03
+            STA.l $7FFE00 : STA.l $7FFE01
+            STA.l $7FFE02 : STA.l $7FFE03
             
             STZ.w $0D90, X
             
@@ -70,7 +72,8 @@ MazeGameLady_Startup:
 ; $06CBBA-$06CBDF JUMP LOCATION
 MazeGameLady_AccumulateTime:
 {
-    INC.w $0D90, X : LDA.w $0D90, X : CMP.b #$3F : BNE .no_reset_frame_counter
+    INC.w $0D90, X
+    LDA.w $0D90, X : CMP.b #$3F : BNE .no_reset_frame_counter
         STZ.w $0D90, X
         
         REP #$20
@@ -93,7 +96,8 @@ MazeGameLady_AccumulateTime:
 ; $06CBE0-$06CBE9 JUMP LOCATION
 MazeGameLady_PlayStartingNoise:
 {
-    LDA.b #$07 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$07
+    JSL.l Sound_SetSfx3PanLong
     
     INC.w $0D80, X
     

@@ -25,8 +25,7 @@ Sprite_WarpVortex:
         JSR.w Sprite2_CheckIfActive
         
         LDA.b $1A : LSR : LSR : AND.b #$03 : TAY
-        
-        LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip_states, Y : STA.w $0F50, X
+        LDA.w $0F50, X : AND.b #$3F : ORA.w .vh_flip_states, Y : STA.w $0F50, X
         
         JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .delta
             JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .epsilon

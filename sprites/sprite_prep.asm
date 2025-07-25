@@ -10,7 +10,6 @@ SpritePrep_Main:
     
     LDA.w $0E20, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw SpritePrep_Raven                    ; 0x00 - $8969 Raven
     dw SpritePrep_Vulture                  ; 0x01 - $897E Vulture
     dw SpritePrep_DoNothing                ; 0x02 - $8873 Flying Stalfos Head
@@ -37,7 +36,8 @@ SpritePrep_Main:
     dw SpritePrep_DoNothing                ; 0x17 - $8873 Rupee Crab under bush
     dw SpritePrep_Moldorm                  ; 0x18 - $89D3 Moldorm
     dw SpritePrep_Poe                      ; 0x19 - $8991 Poe
-    dw SpritePrep_Dwarf                    ; 0x1A - $8A79 Dwarves and helper sprites
+    dw SpritePrep_Dwarf                    ; 0x1A - $8A79 Dwarves and helper
+                                           ;        sprites
     dw SpritePrep_DoNothing                ; 0x1B - $8873 Arrow in Wall?
     dw SpritePrep_MovableStatue            ; 0x1C - $8B12 Movable Statue
     dw SpritePrep_IgnoresProjectiles       ; 0x1D - $8BA7 Weathervane
@@ -60,7 +60,8 @@ SpritePrep_Main:
     dw SpritePrep_FluteBoy                 ; 0x2E - $9075 Flute Boy's Notes
     dw SpritePrep_IgnoresProjectiles       ; 0x2F - $8BA7 Race Game Couple
     dw SpritePrep_IgnoresProjectiles       ; 0x30 - $8BA7 Person? (HM Name)
-    dw SpritePrep_FortuneTeller            ; 0x31 - $8DE0 Fortune Teller / Smithy, etc.
+    dw SpritePrep_FortuneTeller            ; 0x31 - $8DE0 Fortune Teller
+                                           ;        / Smithy, etc.
     dw SpritePrep_IgnoresProjectiles       ; 0x32 - $8BA7 Quarrel Bros.
     dw SpritePrep_PullForRupees            ; 0x33 - $8BCF Pull For Rupees
     dw SpritePrep_YoungSnitchGirl          ; 0x34 - $C026 Young Snitch Girl
@@ -71,22 +72,27 @@ SpritePrep_Main:
     dw SpritePrep_MiddleAgedMan            ; 0x39 - $8D59 Middle-aged desert guy
     dw SpritePrep_MadBatter                ; 0x3A - $8DDA Mad Batter
     dw SpritePrep_DashItem                 ; 0x3B - $8CF2 Dash item
-    dw SpritePrep_IgnoresProjectiles       ; 0x3C - $8BA7 Kid in village near trough
+    dw SpritePrep_IgnoresProjectiles       ; 0x3C - $8BA7 Kid in village near
+                                           ;        trough
     dw SpritePrep_OldSnitchLady            ; 0x3D - $886E Old Snitch Lady
     dw SpritePrep_DoNothing                ; 0x3E - $8873 Rupee Crab under rock
     dw SpritePrep_DoNothing                ; 0x3F - $8873 Tutorial Soldier
-    dw SpritePrep_EvilBarrier              ; 0x40 - $891B Evil barrier to Hyrule tower
+    dw SpritePrep_EvilBarrier              ; 0x40 - $891B Evil barrier to
+                                           ;        Hyrule tower
     dw SpritePrep_Soldier                  ; 0x41 - $8FD6 Green Soldier
     dw SpritePrep_Soldier                  ; 0x42 - $8FD6 Blue Soldier
     dw SpritePrep_Soldier                  ; 0x43 - $8FD6 Red Spear Soldier
     dw SpritePrep_TrooperAndArcherSoldier  ; 0x44 - $9001 Psycho Trooper
     dw SpritePrep_TrooperAndArcherSoldier  ; 0x45 - $9001 Psycho Spear Soldier
     dw SpritePrep_TrooperAndArcherSoldier  ; 0x46 - $9001 Blue Archer Soldier
-    dw SpritePrep_TrooperAndArcherSoldier  ; 0x47 - $9001 Green Archer Bush Soldier
+    dw SpritePrep_TrooperAndArcherSoldier  ; 0x47 - $9001 Green Archer Bush
+                                           ;        Soldier
     dw SpritePrep_TrooperAndArcherSoldier  ; 0x48 - $9001 Red Javelin Trooper
-    dw SpritePrep_TrooperAndArcherSoldier  ; 0x49 - $9001 Red Javelin Bush Soldier
+    dw SpritePrep_TrooperAndArcherSoldier  ; 0x49 - $9001 Red Javelin Bush
+                                           ;        Soldier
     dw SpritePrep_TrooperAndArcherSoldier  ; 0x4A - $9001 Green Enemy Bombs
-    dw SpritePrep_Recruit                  ; 0x4B - $9001 Green Soldier (weak version)
+    dw SpritePrep_Recruit                  ; 0x4B - $9001 Green Soldier
+                                           ;        (weak version)
     dw SpritePrep_GerudoMan                ; 0x4C - $8FA7 Gerudo Man
     dw SpritePrep_Toppo                    ; 0x4D - $8FB0 Toppo
     dw SpritePrep_Popo                     ; 0x4E - $8B08 Popo
@@ -97,166 +103,180 @@ SpritePrep_Main:
     dw SpritePrep_ArmosKnight              ; 0x53 - $8F3F Armos Knight
     dw SpritePrep_Lanmola                  ; 0x54 - $8F95 Lanmola
     dw SpritePrep_ZoraAndFireball          ; 0x55 - $8FA2 Zora and Fireball
-    dw SpritePrep_WalkingZora              ; 0x56 - $ Walking Zora
-    dw SpritePrep_DesertBarrier            ; 0x57 - $ Desert Palace barriers
+    dw SpritePrep_WalkingZora              ; 0x56 - $8FC9 Walking Zora
+    dw SpritePrep_DesertBarrier            ; 0x57 - $8F4D Desert Palace barriers
     dw SpritePrep_DoNothing                ; 0x58 - $8873 Crab
-    dw SpritePrep_LostWoodsBird            ; 0x59 - $ Lost Woods Bird
-    dw SpritePrep_LostWoodsSquirrel        ; 0x5A - $ Lost Woods Squirrel
-    dw SpritePrep_Spark                    ; 0x5B - $ Spark (clockwise)
-    dw SpritePrep_Spark                    ; 0x5C - $ Spark (counter-clockwise)
-    dw SpritePrep_RollerDownUp             ; 0x5D - $ Roller (down then up)
-    dw SpritePrep_RollerUpDown             ; 0x5E - $ Roller (up then down)
-    dw SpritePrep_RollerRightLeft          ; 0x5F - $ Roller (????)
-    dw SpritePrep_RollerLeftRight          ; 0x60 - $ Roller (????)
+    dw SpritePrep_LostWoodsBird            ; 0x59 - $8EC1 Lost Woods Bird
+    dw SpritePrep_LostWoodsSquirrel        ; 0x5A - $8ED2 Lost Woods Squirrel
+    dw SpritePrep_Spark                    ; 0x5B - $8E85 Spark (clockwise)
+    dw SpritePrep_Spark                    ; 0x5C - $8E85 Spark
+                                           ;        (counter-clockwise)
+    dw SpritePrep_RollerDownUp             ; 0x5D - $8E4F Roller (down then up)
+    dw SpritePrep_RollerUpDown             ; 0x5E - $8E53 Roller (up then down)
+    dw SpritePrep_RollerRightLeft          ; 0x5F - $8E42 Roller (????)
+    dw SpritePrep_RollerLeftRight          ; 0x60 - $8E46 Roller (????)
     dw SpritePrep_DoNothing                ; 0x61 - $8873 Beamos
-    dw SpritePrep_MasterSword              ; 0x62 - $ Master Sword and light beams
-    dw SpritePrep_Debirando                ; 0x63 - $ Debirando Pit
-    dw SpritePrep_FireDebirando            ; 0x64 - $ Debirando
-    dw SpritePrep_ArcheryGameGuyTrampoline ; 0x65 - $ Archery Game Guy
-    dw SpritePrep_WallCannon               ; 0x66 - $ Wall Cannon
-    dw SpritePrep_WallCannon               ; 0x67 - $ Wall Cannon
-    dw SpritePrep_WallCannon               ; 0x68 - $ Wall Cannon
-    dw SpritePrep_WallCannon               ; 0x69 - $ Wall Cannon
+    dw SpritePrep_MasterSword              ; 0x62 - $8E30 Master Sword and light
+                                           ;        beams
+    dw SpritePrep_Debirando                ; 0x63 - $8B4A Debirando Pit
+    dw SpritePrep_FireDebirando            ; 0x64 - $8B3E Debirando
+    dw SpritePrep_ArcheryGameGuyTrampoline ; 0x65 - $8BA2 Archery Game Guy
+    dw SpritePrep_WallCannon               ; 0x66 - $8B93 Wall Cannon
+    dw SpritePrep_WallCannon               ; 0x67 - $8B93 Wall Cannon
+    dw SpritePrep_WallCannon               ; 0x68 - $8B93 Wall Cannon
+    dw SpritePrep_WallCannon               ; 0x69 - $8B93 Wall Cannon
     dw SpritePrep_DoNothing                ; 0x6A - $8873 Ball And Chain Trooper
     dw SpritePrep_DoNothing                ; 0x6B - $8873 Cannon Trooper
     dw SpritePrep_DoNothing                ; 0x6C - $8873 Warp Vortex
-    dw SpritePrep_Rat                      ; 0x6D - $ Rat
-    dw SpritePrep_Rope                     ; 0x6E - $ Rope
-    dw SpritePrep_Keese                    ; 0x6F - $ Keese
-    dw SpritePrep_DoNothing_2              ; 0x70 - $ Helmasaur King Fireball
-    dw SpritePrep_Leever                   ; 0x71 - $ Leever
+    dw SpritePrep_Rat                      ; 0x6D - $8878 Rat
+    dw SpritePrep_Rope                     ; 0x6E - $88AA Rope
+    dw SpritePrep_Keese                    ; 0x6F - $888E Keese
+    dw SpritePrep_DoNothing_2              ; 0x70 - $91AE Helmasaur King Fireball
+    dw SpritePrep_Leever                   ; 0x71 - $8DE9 Leever
     dw SpritePrep_IgnoresProjectiles       ; 0x72 - $8BA7 Pond Activator / Script
     dw SpritePrep_UncleAndSageTrampoline   ; 0x73 - $BFE5 Link's Uncle / Sage /
                                            ; Watergate Barrier (weird I know)
                                            ; TODO: Verify this.
 
-    dw SpritePrep_RunningManTrampoline     ; 0x74 - $ Red Hat Wussy
+    dw SpritePrep_RunningManTrampoline     ; 0x74 - $C05D Red Hat Wussy
     dw SpritePrep_IgnoresProjectiles       ; 0x75 - $8BA7 Bottle Vendor
-    dw SpritePrep_ZeldaTrampoline          ; 0x76 - $ Princess Zelda
+    dw SpritePrep_ZeldaTrampoline          ; 0x76 - $C06C Princess Zelda
     dw SpritePrep_Bubble                   ; 0x77 - $8EF2 Alternate Bubble
-    dw SpritePrep_ElderWife                ; 0x78 - $ Elder's Wife
-    dw SpritePrep_DashTriggeredSprite      ; 0x79 - $ Good Bee stuck in Ice Cavern
-    dw SpritePrep_Agahnim                  ; 0x7A - $ Agahnim
-    dw SpritePrep_DoNothing_2              ; 0x7B - $ Agahnim energy balls
-    dw SpritePrep_GreenStalfos             ; 0x7C - $ Green Stalfos
-    dw SpritePrep_SpikeTrap                ; 0x7D - $ Spike Trap
-    dw SpritePrep_GuruguruBar              ; 0x7E - $ Guruguru Bar
-    dw SpritePrep_GuruguruBar              ; 0x7F - $ Guruguru Bar
-    dw SpritePrep_DoNothing_2              ; 0x80 - $ Wandering Fireball Chains
-    dw SpritePrep_DoNothing_2              ; 0x81 - $ Hover
-    dw SpritePrep_BubbleGroupTrampoline    ; 0x82 - $ Bubble Group
-    dw SpritePrep_EyegoreTrampoline        ; 0x83 - $ Eyegore
-    dw SpritePrep_EyegoreTrampoline        ; 0x84 - $ Eyegore 2
-    dw SpritePrep_DoNothing_2              ; 0x85 - $ Yellow Stalfos
-    dw SpritePrep_Kodondo                  ; 0x86 - $ Kodondo
-    dw SpritePrep_DoNothing_2              ; 0x87 - $ Flames (what?)
-    dw SpritePrep_Mothula                  ; 0x88 - $ Mothula
-    dw SpritePrep_DoNothing_2              ; 0x89 - $ Mothula Beam
-    dw SpritePrep_SpikeBlock               ; 0x8A - $ Spike Block
-    dw SpritePrep_DoNothing_2              ; 0x8B - $ Gibdo
-    dw SpritePrep_Arghus                   ; 0x8C - $ Arrghus
-    dw SpritePrep_Arrgi                    ; 0x8D - $ Arrgi
-    dw SpritePrep_DoNothing_2              ; 0x8E - $ Chair Turtles (kill with hammer)
-    dw SpritePrep_Terrorpin                ; 0x8F - $ Terrorpin
-    dw SpritePrep_DoNothing_2              ; 0x90 - $ Grabber Things (Floor master?) 
-    dw SpritePrep_DoNothing_2              ; 0x91 - $ Stalfos Knight
-    dw SpritePrep_HelmasaurKing            ; 0x92 - $ Helmasaur King
-    dw SpritePrep_Bumper                   ; 0x93 - $ Bumper
-    dw SpritePrep_DoNothing                ; 0x94 - $ Pirogusu
-    dw SpritePrep_LaserEyeTrampoline       ; 0x95 - $ Laser Eye (right)
-    dw SpritePrep_LaserEyeTrampoline       ; 0x96 - $ Laser Eye (left)
-    dw SpritePrep_LaserEyeTrampoline       ; 0x97 - $ Laser Eye (down)
-    dw SpritePrep_LaserEyeTrampoline       ; 0x98 - $ Laser Eye (up)
-    dw SpritePrep_DoNothing                ; 0x99 - $ $8873 Attack Penguin?
-    dw SpritePrep_Kyameron                 ; 0x9A - $ Kyameron
+    dw SpritePrep_ElderWife                ; 0x78 - $8DD1 Elder's Wife
+    dw SpritePrep_DashTriggeredSprite      ; 0x79 - $916E Good Bee stuck in Ice
+                                           ;        Cavern
+    dw SpritePrep_Agahnim                  ; 0x7A - $9195 Agahnim
+    dw SpritePrep_DoNothing_2              ; 0x7B - $91AE Agahnim energy balls
+    dw SpritePrep_GreenStalfos             ; 0x7C - $8B2E Green Stalfos
+    dw SpritePrep_SpikeTrap                ; 0x7D - $8F9D Spike Trap
+    dw SpritePrep_GuruguruBar              ; 0x7E - $91B4 Guruguru Bar
+    dw SpritePrep_GuruguruBar              ; 0x7F - $91B4 Guruguru Bar
+    dw SpritePrep_DoNothing_2              ; 0x80 - $91AE Wandering Fireball
+                                           ;        Chains
+    dw SpritePrep_DoNothing_2              ; 0x81 - $91AE Hover
+    dw SpritePrep_BubbleGroupTrampoline    ; 0x82 - $9248 Bubble Group
+    dw SpritePrep_EyegoreTrampoline        ; 0x83 - $91AF Eyegore
+    dw SpritePrep_EyegoreTrampoline        ; 0x84 - $91AF Eyegore 2
+    dw SpritePrep_DoNothing_2              ; 0x85 - $91AE Yellow Stalfos
+    dw SpritePrep_Kodondo                  ; 0x86 - $8E6B Kodondo
+    dw SpritePrep_DoNothing_2              ; 0x87 - $91AE Flames (what?)
+    dw SpritePrep_Mothula                  ; 0x88 - $922F Mothula
+    dw SpritePrep_DoNothing_2              ; 0x89 - $91AE Mothula Beam
+    dw SpritePrep_SpikeBlock               ; 0x8A - $91D7 Spike Block
+    dw SpritePrep_DoNothing_2              ; 0x8B - $91AE Gibdo
+    dw SpritePrep_Arghus                   ; 0x8C - $91F1 Arrghus
+    dw SpritePrep_Arrgi                    ; 0x8D - $91FA Arrgi
+    dw SpritePrep_DoNothing_2              ; 0x8E - $91AE Chair Turtles
+    dw SpritePrep_Terrorpin                ; 0x8F - $91E8 Terrorpin
+    dw SpritePrep_DoNothing_2              ; 0x90 - $91AE Grabber Things
+                                           ;        TODO: Floor master?)
+    dw SpritePrep_DoNothing_2              ; 0x91 - $91AE Stalfos Knight
+    dw SpritePrep_HelmasaurKing            ; 0x92 - $91C5 Helmasaur King
+    dw SpritePrep_Bumper                   ; 0x93 - $9107 Bumper
+    dw SpritePrep_DoNothing                ; 0x94 - $8873 Pirogusu
+    dw SpritePrep_LaserEyeTrampoline       ; 0x95 - $8B03 Laser Eye (right)
+    dw SpritePrep_LaserEyeTrampoline       ; 0x96 - $8B03 Laser Eye (left)
+    dw SpritePrep_LaserEyeTrampoline       ; 0x97 - $8B03 Laser Eye (down)
+    dw SpritePrep_LaserEyeTrampoline       ; 0x98 - $8B03 Laser Eye (up)
+    dw SpritePrep_DoNothing                ; 0x99 - $8873 $8873 Attack Penguin?
+    dw SpritePrep_Kyameron                 ; 0x9A - $8FB0 Kyameron
     dw SpritePrep_DoNothing                ; 0x9B - $8873 Wizzrobe
-    dw SpritePrep_Zoro                     ; 0x9C - $ Zoro
-    dw SpritePrep_Babusu                   ; 0x9D - $ Babusu
-    dw SpritePrep_FluteBoyOstrich          ; 0x9E - $ Ostrich seen with Flute Boy
-    dw SpritePrep_FluteBoyAnimals          ; 0x9F - $ Rabbit seen with Flute Boy
-    dw SpritePrep_FluteBoyAnimals          ; 0xA0 - $ Bird seen with Flute Boy
-    dw SpritePrep_MoveDownOneTile          ; 0xA1 - $ Freezor
-    dw SpritePrep_Kholdstare               ; 0xA2 - $ Kholdstare
-    dw SpritePrep_KholdstareShell          ; 0xA3 - $ Kholdstare part 2?
-    dw SpritePrep_IceBallGenerator         ; 0xA4 - $ Kholdstare Ice balls
-    dw SpritePrep_Zazakku                  ; 0xA5 - $ Blue Zazak
-    dw SpritePrep_Zazakku                  ; 0xA6 - $ Red Zazak
-    dw SpritePrep_Stalfos                  ; 0xA7 - $ Stalfos
-    dw SpritePrep_Bomber                   ; 0xA8 - $ Green Bomber (Zirro?)
-    dw SpritePrep_Bomber                   ; 0xA9 - $ Blue Bomber (Zirro?)
-    dw SpritePrep_Pikit                    ; 0xAA - $ Pikit
-    dw SpritePrep_CrystalMaiden            ; 0xAB - $ Crystal Maiden
-    dw SpritePrep_DashTriggeredSprite      ; 0xAC - $ Apple(s) in tree
-    dw SpritePrep_OldMountainManTrampoline ; 0xAD - $ Old Mountain Man
+    dw SpritePrep_Zoro                     ; 0x9C - $8AF3 Zoro
+    dw SpritePrep_Babusu                   ; 0x9D - $8AF0 Babusu
+    dw SpritePrep_FluteBoyOstrich          ; 0x9E - $8BB2 Flute Boy Ostrich
+    dw SpritePrep_FluteBoyAnimals          ; 0x9F - $8BAB Flute Boy Rabbit
+    dw SpritePrep_FluteBoyAnimals          ; 0xA0 - $8BAB Flute Boy Bird
+    dw SpritePrep_MoveDownOneTile          ; 0xA1 - $90CC Freezor
+    dw SpritePrep_Kholdstare               ; 0xA2 - $90FA- Kholdstare
+    dw SpritePrep_KholdstareShell          ; 0xA3 - $90F0 Kholdstare part 2?
+    dw SpritePrep_IceBallGenerator         ; 0xA4 - $1F08 Kholdstare Ice balls
+    dw SpritePrep_Zazakku                  ; 0xA5 - $90D5 Blue Zazak
+    dw SpritePrep_Zazakku                  ; 0xA6 - $90D5 Red Zazak
+    dw SpritePrep_Stalfos                  ; 0xA7 - $90E0 Stalfos
+    dw SpritePrep_Bomber                   ; 0xA8 - $89D8 Green Bomber (Zirro?)
+    dw SpritePrep_Bomber                   ; 0xA9 - $89D8 Blue Bomber (Zirro?)
+    dw SpritePrep_Pikit                    ; 0xAA - $899B Pikit
+    dw SpritePrep_CrystalMaiden            ; 0xAB - $924D Crystal Maiden
+    dw SpritePrep_DashTriggeredSprite      ; 0xAC - $916E Apple(s) in tree
+    dw SpritePrep_OldMountainManTrampoline ; 0xAD - $BFF9 Old Mountain Man
     dw SpritePrep_DoNothing                ; 0xAE - $8873 Down Pipe
     dw SpritePrep_DoNothing                ; 0xAF - $8873 Up Pipe
     dw SpritePrep_DoNothing                ; 0xB0 - $8873 Right Pipe
     dw SpritePrep_DoNothing                ; 0xB1 - $8873 Left Pipe
-    dw SpritePrep_GoodBee                  ; 0xB2 - $ Good Bee
-    dw SpritePrep_HylianPlaque             ; 0xB3 - $ Hylian Inscription? 
-    dw SpritePrep_ThiefChest               ; 0xB4 - $ Thief Chest
-    dw SpritePrep_BombShopEntity           ; 0xB5 - $ Bomb Shop Guy and company
-    dw SrpritePrep_Kiki                    ; 0xB6 - $ Kiki the monkey
-    dw SpritePrep_BlindMaiden              ; 0xB7 - $ Blind disguised as a Maiden
-    dw SpritePrep_DoNothing                ; 0xB8 - $ $8873 Dialogue Testing Sprite
-    dw SpritePrep_BullyAndBallGuy          ; 0xB9 - $ Bully and Ball Guy
-    dw SpritePrep_WhirlPool_               ; 0xBA - $ Whirlpool
-    dw SpritePrep_ShopKeeper               ; 0xBB - $ Shopkeeper / Chest game guys
+    dw SpritePrep_GoodBee                  ; 0xB2 - $9175 Good Bee
+    dw SpritePrep_HylianPlaque             ; 0xB3 - $90D6 Hylian Inscription? 
+    dw SpritePrep_ThiefChest               ; 0xB4 - $8A59 Thief Chest
+    dw SpritePrep_BombShopEntity           ; 0xB5 - $89DF Bomb Shop Guy and
+                                           ;        other supporting sprites
+    dw SpritePrep_Kiki                     ; 0xB6 - $8D46 Kiki the monkey
+    dw SpritePrep_BlindMaiden              ; 0xB7 - $899C Blind disguised as
+                                           ;        a Maiden
+    dw SpritePrep_DoNothing                ; 0xB8 - $8873 Dialogue Testing Sprite
+    dw SpritePrep_BullyAndBallGuy          ; 0xB9 - $8A51 Bully and Ball Guy
+    dw SpritePrep_WhirlPool                ; 0xBA - $8CD5 Whirlpool
+    dw SpritePrep_ShopKeeper               ; 0xBB - $8BF1 Shopkeeper / Chest
+                                           ;        game guys
     dw SpritePrep_IgnoresProjectiles       ; 0xBC - $8BA7 Drunk in the Inn
-    dw SpritePrep_Vitreous                 ; 0xBD - $ Vitreous
-    dw SpritePrep_Vitreolus                ; 0xBE - $ Smaller Vitreous Eyeballs
-    dw SpritePrep_DoNothing                ; 0xBF - $8873 Vitreous Lightning Blast
-    dw SpritePrep_GreatCatfish             ; 0xC0 - $ Giant Cranky Catfish
-    dw SpritePrep_ChattyAgahnim            ; 0xC1 - $ Agahnim Teleporting Zelda
-    dw SpritePrep_DoNothing                ; 0xC2 - $ $8873 Boulder
-    dw SpritePrep_Gibo                     ; 0xC3 - $ Gibo
+    dw SpritePrep_Vitreous                 ; 0xBD - $894D Vitreous
+    dw SpritePrep_Vitreolus                ; 0xBE - $88FD Smaller Vitreous
+                                           ;        Eyeballs
+    dw SpritePrep_DoNothing                ; 0xBF - $8873 Vitreous Lightning
+    dw SpritePrep_GreatCatfish             ; 0xC0 - $892C Giant Cranky Catfish
+    dw SpritePrep_ChattyAgahnim            ; 0xC1 - $893B Chatty Agahnim
+    dw SpritePrep_DoNothing                ; 0xC2 - $8873 Boulder
+    dw SpritePrep_Gibo                     ; 0xC3 - $8901 Gibo
     dw SpritePrep_DoNothing                ; 0xC4 - $8873 Thief
     dw SpritePrep_IgnoresProjectiles       ; 0xC5 - $8BA7 Evil Fireball Spitters
-    dw SpritePrep_IgnoresProjectiles       ; 0xC6 - $8BA7 Fourway Fireball Spitters
-    dw SpritePrep_Hokbok                   ; 0xC7 - $ Hokbok
-    dw SpritePrep_BigFairy                 ; 0xC8 - $ Big Fairy 
-    dw SpritePrep_GanonHelpers             ; 0xC9 - $ Ganon Helpers + Tektite
-    dw SpritePrep_ChainChompTrampoline     ; 0xCA - $ Chain Chomp
-    dw SpritePrep_TrinexxComponents        ; 0xCB - $ Trinexx Part 1
-    dw SpritePrep_TrinexxComponents        ; 0xCC - $ Trinexx Part 2
-    dw SpritePrep_TrinexxComponents        ; 0xCD - $ Trinexx Part 3
-    dw SpritePrep_Blind                    ; 0xCE - $ Blind
-    dw SpritePrep_Swamola                  ; 0xCF - $ Swamola
-    dw SpritePrep_DoNothing                ; 0xD0 - $ $8873 Lynel
-    dw SpritePrep_DoNothing                ; 0xD1 - $ $8873 Yellow Transform
+    dw SpritePrep_IgnoresProjectiles       ; 0xC6 - $8BA7 Fourway Fireball
+                                           ;        Spitters
+    dw SpritePrep_Hokbok                   ; 0xC7 - $88DF Hokbok
+    dw SpritePrep_BigFairy                 ; 0xC8 - $8DC6 Big Fairy 
+    dw SpritePrep_GanonHelpers             ; 0xC9 - $8D94 Ganon Helpers + Tektite
+    dw SpritePrep_ChainChompTrampoline     ; 0xCA - $8DC1 Chain Chomp
+    dw SpritePrep_TrinexxComponents        ; 0xCB - $91BA Trinexx Part 1
+    dw SpritePrep_TrinexxComponents        ; 0xCC - $91BA Trinexx Part 2
+    dw SpritePrep_TrinexxComponents        ; 0xCD - $91BA Trinexx Part 3
+    dw SpritePrep_Blind                    ; 0xCE - $88C7 Blind
+    dw SpritePrep_Swamola                  ; 0xCF - $88C0 Swamola
+    dw SpritePrep_DoNothing                ; 0xD0 - $8873 Lynel
+    dw SpritePrep_DoNothing                ; 0xD1 - $8873 Yellow Transform
     dw SpritePrep_IgnoresProjectiles       ; 0xD2 - $8BA7 Flopping Fish
-    dw SpritePrep_Stal                     ; 0xD3 - $ Stal
+    dw SpritePrep_Stal                     ; 0xD3 - $91DC Stal
     dw SpritePrep_IgnoresProjectiles       ; 0xD4 - $8BA7 Landmine
-    dw SpritePrep_DiggingGameGuyTrampoline ; 0xD5 - $ Digging Game Guy 
-    dw SpritePrep_Ganon                    ; 0xD6 - $ Ganon
-    dw SpritePrep_Ganon                    ; 0xD7 - $ InvinceoGanon
-    dw SpritePrep_HeartRefill              ; 0xD8 - $ Heart Refill 
-    dw SpritePrep_GreenRupee               ; 0xD9 - $ Green Rupee
-    dw SpritePrep_BlueRupee                ; 0xDA - $ Blue Rupee
-    dw SpritePrep_RedRupee                 ; 0xDB - $ Red Rupee
-    dw SpritePrep_OneBombRefill            ; 0xDC - $ 1 Bomb Refill
-    dw SpritePrep_OneBombRefill            ; 0xDD - $ 4 Bomb Refill
-    dw SpritePrep_EightBombRefill          ; 0xDE - $ 8 Bomb Refill
-    dw SpritePrep_SmallMagicRefill         ; 0xDF - $ Small Magic Refill
-    dw SpritePrep_FullMagicRefill          ; 0xE0 - $ Full Magic Refill
-    dw SpritePrep_FiveArrowRefill          ; 0xE1 - $ 5 Arrow Refill
-    dw SpritePrep_TenArrowRefill           ; 0xE2 - $ 10 Arrow Refill
-    dw SpritePrep_Fairy                    ; 0xE3 - $ Fairy
-    dw SpritePrep_Key                      ; 0xE4 - $ Key
-    dw SpritePrep_BigKey                   ; 0xE5 - $ Big Key
-    dw SpritePrep_ShieldPickup             ; 0xE6 - $ Shield Pickup
-    dw SpritePrep_MushroomTrampoline       ; 0xE7 - $ Mushroom
-    dw SpritePrep_FakeSwordTrampolnie      ; 0xE8 - $ Fake Master Sword
-    dw SpritePrep_PotionShopTrampoline     ; 0xE9 - $ Magic Shop Dude and his items
-    dw SpritePrep_HeartContainerTrampoline ; 0xEA - $ Heart Container
-    dw SpritePrep_HeartPieceTrampoline     ; 0xEB - $ Heart Piece
-    dw SpritePrep_ThrowableScenery         ; 0xEC - $ Bush / Rock
-    dw SpritePrep_DoNothing                ; 0xED - $8873 Cane of Somaria Platform
-    dw SpritePrep_MovableMantle            ; 0xEE - $ Movable Mantle
-    dw SpritePrep_DoNothing                ; 0xEF - $8873 Cane of Somaria Platform (unused?)
-    dw SpritePrep_DoNothing                ; 0xF0 - $8873 Cane of Somaria Platform (unused?)
-    dw SpritePrep_DoNothing                ; 0xF1 - $8873 Cane of Somaria Platform (unused?)
-    dw SpritePrep_MedallionTableTrampoline ; 0xF2 - $ Medallion Tablet
+    dw SpritePrep_DiggingGameGuyTrampoline ; 0xD5 - $8BBF Digging Game Guy 
+    dw SpritePrep_Ganon                    ; 0xD6 - $88CF Ganon
+    dw SpritePrep_Ganon                    ; 0xD7 - $88CF InvinceoGanon
+    dw SpritePrep_HeartRefill              ; 0xD8 - $916A Heart Refill 
+    dw SpritePrep_GreenRupee               ; 0xD9 - $916A Green Rupee
+    dw SpritePrep_BlueRupee                ; 0xDA - $916A Blue Rupee
+    dw SpritePrep_RedRupee                 ; 0xDB - $916A Red Rupee
+    dw SpritePrep_OneBombRefill            ; 0xDC - $916A 1 Bomb Refill
+    dw SpritePrep_OneBombRefill            ; 0xDD - $916A 4 Bomb Refill
+    dw SpritePrep_EightBombRefill          ; 0xDE - $916A 8 Bomb Refill
+    dw SpritePrep_SmallMagicRefill         ; 0xDF - $916A Small Magic Refill
+    dw SpritePrep_FullMagicRefill          ; 0xE0 - $916A Full Magic Refill
+    dw SpritePrep_FiveArrowRefill          ; 0xE1 - $916A 5 Arrow Refill
+    dw SpritePrep_TenArrowRefill           ; 0xE2 - $916A 10 Arrow Refill
+    dw SpritePrep_Fairy                    ; 0xE3 - $915C Fairy
+    dw SpritePrep_Key                      ; 0xE4 - $9262 Key
+    dw SpritePrep_BigKey                   ; 0xE5 - $924E Big Key
+    dw SpritePrep_ShieldPickup             ; 0xE6 - $9174 Shield Pickup
+    dw SpritePrep_MushroomTrampoline       ; 0xE7 - $C07B Mushroom
+    dw SpritePrep_FakeSwordTrampoline      ; 0xE8 - $C085 Fake Master Sword
+    dw SpritePrep_PotionShopTrampoline     ; 0xE9 - $C094 Magic Shop Dude and
+                                           ;        his items
+    dw SpritePrep_HeartContainerTrampoline ; 0xEA - $C09E Heart Container
+    dw SpritePrep_HeartPieceTrampoline     ; 0xEB - $C0A8 Heart Piece
+    dw SpritePrep_ThrowableScenery         ; 0xEC - $850F Bush / Rock
+    dw SpritePrep_DoNothing                ; 0xED - $8873 Somaria Platform
+    dw SpritePrep_MovableMantle            ; 0xEE - $8841 Movable Mantle
+    dw SpritePrep_DoNothing                ; 0xEF - $8873 Somaria Platform
+                                           ;        (unused?)
+    dw SpritePrep_DoNothing                ; 0xF0 - $8873 Somaria Platform
+                                           ;        (unused?)
+    dw SpritePrep_DoNothing                ; 0xF1 - $8873 Somaria Platform
+                                           ;        (unused?)
+    dw SpritePrep_MedallionTableTrampoline ; 0xF2 - $8854 Medallion Tablet
 }
 
 ; ==============================================================================
@@ -292,11 +312,9 @@ SpritePrep_MedallionTableTrampoline:
 ; $030859-$03086C LOCAL JUMP LOCATION
 SpritePrep_GoodSwitch:
 {
-    LDA.w $048E
-    
     ; Are there only three rooms where these switches work?
-    CMP.b #$CE : BEQ .BRANCH_ALPHA
-    CMP.b #$04 : BEQ .BRANCH_ALPHA
+    LDA.w $048E : CMP.b #$CE : BEQ .BRANCH_ALPHA
+                  CMP.b #$04 : BEQ .BRANCH_ALPHA
         CMP.b #$3F : BNE .BRANCH_BETA
     
     .BRANCH_ALPHA
@@ -420,6 +438,7 @@ SpritePrep_Rope:
 SpritePrep_Swamola:
 {
     JSL.l Swamola_InitSegments
+
     JMP SpritePrep_CacheInitialCoords
 }
 
@@ -463,13 +482,10 @@ Pool_SpritePep_HokBok:
 SpritePrep_Hokbok:
 {
     LDA.b #$03 : STA.w $0D90, X
-    
     LDA.b #$08 : STA.w $0DA0, X
     
     JSL.l GetRandomInt : AND.b #$03 : TAY
-    
     LDA Pool_SpritePep_HokBok_x_speeds, Y : STA.w $0D50, X
-    
     LDA Pool_SpritePep_HokBok_y_speeds, Y : STA.w $0D40, X
     
     RTS
@@ -491,7 +507,6 @@ SpritePrep_Vitreolus:
 SpritePrep_Gibo:
 {
     LDA.b #$10 : STA.w $0F70, X
-    
     LDA.b #$08 : STA.w $0ED0, X
     
     RTS
@@ -512,7 +527,6 @@ SpritePrep_Octoballoon_timers:
 SpritePrep_Octoballoon:
 {
     TXA : AND.b #$03 : TAY
-    
     LDA.w .timers, Y : STA.w $0DF0, X
     
     RTS
@@ -526,7 +540,6 @@ SpritePrep_EvilBarrier:
     PHX
     
     LDX.b $8A
-    
     LDA.l $7EF280, X : PLX : AND.b #$40 : BEQ .not_dead
         LDA.b #$04 : STA.w $0DC0, X
 
@@ -558,6 +571,7 @@ SpritePrep_ChattyAgahnim:
     .not_triggered
     
     JSL.l ChattyAgahnim_SpawnZeldaOnAltar
+
     JMP SpritePrep_IgnoresProjectiles
 }
 
@@ -572,6 +586,7 @@ SpritePrep_Vitreous:
     LDA.w $0D00, X : SEC : SBC.b #$10 : STA.w $0D00, X
     
     JSL.l Vitreous_SpawnSmallerEyesLong
+
     JMP SpritePrep_IgnoresProjectiles
 }
 
@@ -693,14 +708,16 @@ SpritePrep_BombShopEntity:
     INC.w $0BA0, X
     
     ; Spawn a normal set of bombs for sale
-    LDA.b #$B5 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$B5
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b $00 : SEC : SBC.b #$18 : STA.w $0D10, Y
         LDA.b $01       : SBC.b #$00 : STA.w $0D30, Y
         
         LDA.b $02 : SEC : SBC.b #$18 : STA.w $0D00, Y
         LDA.b $03       : SBC.b #$00 : STA.w $0D20, Y
         
-        LDA.b #$01 : STA.w $0E80, Y : STA.w $0BA0, Y
+        LDA.b #$01 : STA.w $0E80, Y
+                     STA.w $0BA0, Y
         
     .spawn_failed
     
@@ -710,14 +727,16 @@ SpritePrep_BombShopEntity:
         LDA.l $7EF3C9 : AND.b #$20 : BEQ .dont_spawn_super_bomb
         
         ; Spawn the super bomb.
-        LDA.b #$B5 : JSL.l Sprite_SpawnDynamically : BMI .super_bomb_spawn_failed
+        LDA.b #$B5
+        JSL.l Sprite_SpawnDynamically : BMI .super_bomb_spawn_failed
             LDA.b $00 : SEC : SBC.b #$38 : STA.w $0D10, Y
-            LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
+            LDA.b $01       : SBC.b #$00 : STA.w $0D30, Y
             
             LDA.b $02 : SEC : SBC.b #$18 : STA.w $0D00, Y
-            LDA.b $03 : SBC.b #$00 : STA.w $0D20, Y
+            LDA.b $03       : SBC.b #$00 : STA.w $0D20, Y
             
-            LDA.b #$02 : STA.w $0E80, Y : STA.w $0BA0, Y
+            LDA.b #$02 : STA.w $0E80, Y
+                         STA.w $0BA0, Y
         
         .super_bomb_spawn_failed
     .dont_spawn_super_bomb
@@ -815,7 +834,8 @@ SpritePrep_Dwarf:
     TXA : STA.w $0E90, Y
     
     LDA.l $7EF3C9 : AND.b #$80 : BEQ .they_dont_have_player_sword
-        LDA.b #$05 : STA.w $0D80, X : STA.w $0D80, Y
+        LDA.b #$05 : STA.w $0D80, X
+                     STA.w $0D80, Y
     
     .they_dont_have_player_sword
     
@@ -957,12 +977,12 @@ SpritePrep_Debirando:
     INC.w $0ED0, X
     
     LDA.b #$00 : STA.w $0DF0, X
-    
     LDA.b #$06 : STA.w $0DC0, X
     
     JSR.w SpritePrep_IgnoresProjectiles
     
-    LDA.b #$64 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$64
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$60 : STA.w $0DF0, Y
@@ -975,9 +995,8 @@ SpritePrep_Debirando:
         
         PHX
         
-        TAX
-        
         ; Well that just confirms the above.
+        TAX
         LDA.w .palettes, X : STA.w $0F50, Y
         
         PLX
@@ -999,7 +1018,8 @@ SpritePrep_Recruit:
 {
     ; Pick a starting body direction and match it up with the starting head
     ; direction.
-    JSL.l GetRandomInt : AND.b #$03 : STA.w $0DE0, X : STA.w $0EB0, X
+    JSL.l GetRandomInt : AND.b #$03 : STA.w $0DE0, X
+                                      STA.w $0EB0, X
     
     ; Start it on a 16 second timer.
     LDA.b #$10 : STA.w $0DF0, X
@@ -1013,8 +1033,7 @@ SpritePrep_Recruit:
 SpritePrep_WallCannon:
 {
     LDA.w $0E20, X : SEC : SBC.b #$66 : STA.w $0DE0, X
-    
-    AND.b #$02 : STA.w $0D90, X
+    AND.b #$02                        : STA.w $0D90, X
     
     RTS
 }
@@ -1119,7 +1138,6 @@ SpritePrep_ShopKeeper:
     LDA.w $0E60, X : ORA.b #$10 : STA.w $0E60, X
     
     LDA.b $A0 
-    
     LDY.b #$00
     
     .next_room
@@ -1131,7 +1149,6 @@ SpritePrep_ShopKeeper:
     .room_match
     
     TYA
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable 
     dw $8C37 ; $030C37
     dw $8C43 ; $030C43
@@ -1153,7 +1170,6 @@ SpritePrep_Shopkeeper_DarkWorldStock:
 {
     LDA.b #$00
     LDY.b #$07
-    
     JSL.l ShopKeeper_SpawnInventoryItem
     
     LDY.b #$08
@@ -1165,17 +1181,14 @@ SpritePrep_Shopkeeper_DarkWorldStock:
 
     LDA.b #$00
     LDY.b #$09
-    
     JSL.l ShopKeeper_SpawnInventoryItem
     
     LDA.b #$01
     LDY.b #$0D
-    
     JSL.l ShopKeeper_SpawnInventoryItem
     
     LDA.b #$02
     LDY.b #$0B
-    
     JSL.l ShopKeeper_SpawnInventoryItem
     
     RTS
@@ -1212,7 +1225,6 @@ SpritePrep_Shopkeeper_DarkWorldStock:
     
     LDA.b #$00
     LDY.b #$07
-    
     JSL.l ShopKeeper_SpawnInventoryItem
     
     LDY.b #$0A
@@ -1220,12 +1232,10 @@ SpritePrep_Shopkeeper_DarkWorldStock:
     .BRANCH_ALPHA
     
     LDA.b #$01
-    
     JSL.l ShopKeeper_SpawnInventoryItem
     
     LDA.b #$02
     LDY.b #$0C
-    
     JSL.l ShopKeeper_SpawnInventoryItem
     
     RTS
@@ -1270,7 +1280,6 @@ SpritePrep_StoryTeller_1:
     INC.w $0BA0, X
     
     LDA.b $A0
-    
     LDY.b #$00
     
     .next_room
@@ -1280,7 +1289,8 @@ SpritePrep_StoryTeller_1:
     
     .room_match
     
-    TYA : STA.w $0E80, X : BNE .not_first_room
+    TYA : STA.w $0E80, X
+    BNE .not_first_room
         LDA.w $0D30, X : AND.b #$01 : BEQ .left_half_of_room
             INC.w $0E80, X
         
@@ -1304,7 +1314,6 @@ SpritePrep_HumanMulti_1:
     INC.w $0BA0, X
     
     LDA.b $A0
-    
     LDY.b #$00
     
     .next_room
@@ -1425,7 +1434,8 @@ SpritePrep_Kiki:
     
     PHX
     
-    LDX.b $8A : LDA.l $7EF280, X : PLX : AND.b #$20 : BEQ .entranceNotOpen
+    LDX.b $8A
+    LDA.l $7EF280, X : PLX : AND.b #$20 : BEQ .entranceNotOpen
         ; Suicide if the entrance to the Dark Palace is opened.
         STZ.w $0DD0, X
     
@@ -1499,8 +1509,8 @@ Pool_SpritePrep_GanonHelpers:
 ; $030D94-$030DC0 JUMP LOCATION
 SpritePrep_GanonHelpers:
 {
-    LDA.w $0D10, X : LSR #4 : AND.b #$01 : STA.w $0D90, X : TAY
-    
+    LDA.w $0D10, X : LSR #4 : AND.b #$01 : STA.w $0D90, X
+                                           TAY
     LDA.w Pool_SpritePrep_GanonHelpers_palette, Y     : STA.w $0F50, X
     LDA.w Pool_SpritePrep_GanonHelpers_hp, Y          : STA.w $0E50, X
     LDA.w Pool_SpritePrep_GanonHelpers_bump_damage, Y : STA.w $0CD2, X
@@ -1551,6 +1561,7 @@ SpritePrep_Lumberjacks:
 SpritePrep_MadBatter:
 {
     JSR.w SpritePrep_MoveRightOneTile
+
     JMP SpritePrep_IgnoresProjectiles
 }
 
@@ -1577,8 +1588,8 @@ Pool_SpritePrep_Leever_palettes:
 ; $030DE9-$030DFC JUMP LOCATION
 SpritePrep_Leever:
 {
-    LDA.w $0D10, X : LSR #4 : AND.b #$01 : STA.w $0D90, X : TAY
-    
+    LDA.w $0D10, X : LSR #4 : AND.b #$01 : STA.w $0D90, X
+                                           TAY
     LDA.w .palettes, Y : STA.w $0F50, X
     
     RTS
@@ -1632,7 +1643,7 @@ SpritePrep_HoboEntities:
 SpritePrep_MasterSword:
 {
     LDA.w $0D10, X : CLC : ADC.b #$06 : STA.w $0D10, X
-    LDA.w $0D00, X : ADC.b #$06 : STA.w $0D00, X
+    LDA.w $0D00, X       : ADC.b #$06 : STA.w $0D00, X
     
     RTS
 }
@@ -1642,7 +1653,8 @@ SpritePrep_MasterSword:
 ; $030E42-$030E45 LOCAL JUMP LOCATION
 SpritePrep_RollerRightLeft:
 {
-    LDY.b #$00 : BRA SpritePrep_RollerLeftRight_moving_on_horiz
+    LDY.b #$00
+    BRA SpritePrep_RollerLeftRight_moving_on_horiz
 }
 
 ; $030E46-$030E4E LOCAL JUMP LOCATION
@@ -1652,13 +1664,15 @@ SpritePrep_RollerLeftRight:
     
     .moving_on_horiz
     
-    LDA.w $0D10, X : EOR.b #$10 : BRA SpritePrep_RollerUpDown_set_length
+    LDA.w $0D10, X : EOR.b #$10
+    BRA SpritePrep_RollerUpDown_set_length
 }
     
 ; $030E4F-$030E52 LOCAL JUMP LOCATION
 SpritePrep_RollerDownUp:
 {
-    LDY.b #$02 : BRA SpritePrep_RollerUpDown_moving_on_vert
+    LDY.b #$02
+    BRA SpritePrep_RollerUpDown_moving_on_vert
 }
 
 ; $030E53-$030E6A LOCAL JUMP LOCATION
@@ -1672,7 +1686,8 @@ SpritePrep_RollerUpDown:
     
     .set_length
     
-    AND.b #$10 : LSR #4 : STA.w $0D80, X : BEQ .short
+    AND.b #$10 : LSR #4 : STA.w $0D80, X
+    BEQ .short
         INC.w $0F60, X
     
     .short
@@ -1782,7 +1797,6 @@ Pool_SpritePrep_Bubble_x_speeds:
 SpritePrep_Bubble:
 {
     LDA.w $0D10, X : LSR #4 : AND.b #$01 : TAY
-    
     LDA.w .x_speeds, Y : STA.w $0D50, X
     
     LDA.b #$F0 : STA.w $0D40, X
@@ -1842,7 +1856,6 @@ SpritePrep_Bosses:
         PHX
         
         LDX.w $0E20, Y
-        
         LDA.l SpriteData_Bump, X
         
         PLX
@@ -2030,7 +2043,6 @@ SpritePrep_Soldier:
     
     LDA.b $1B : BNE SpritePrep_StandardGuard_indoors
         LDA.b #$01 : STA.w $0D80, X
-        
         LDA.b #$70 : STA.w $0DF0, X
         
         JSR.w Sprite_DirectionToFacePlayer
@@ -2056,7 +2068,6 @@ SpritePrep_TrooperAndArcherSoldier:
     LDA.w $0E30, X : LSR #3 : AND.b #$03 : STA.b $00
     
     TYA : ORA.b $00 : TAY
-    
     LDA.w .unknown, Y : STA.w $0DA0, X
     
     LDA.w $0B6B, X : AND.b #$0F : ORA #$50 : STA.w $0B6B, X
@@ -2102,8 +2113,11 @@ SpritePrep_TalkingTree:
     LDA.w $0D10, X : SEC : SBC.b #$08 : STA.w $0D10, X
     LDA.w $0D30, X       : SBC.b #$00 : STA.w $0D30, X
     
-    LDA.b #$00 : JSL.l TalkingTree_SpawnEyes
-    LDA.b #$01 : JSL.l TalkingTree_SpawnEyes
+    LDA.b #$00
+    JSL.l TalkingTree_SpawnEyes
+
+    LDA.b #$01
+    JSL.l TalkingTree_SpawnEyes
     
     RTS
 }
@@ -2114,7 +2128,6 @@ SpritePrep_TalkingTree:
 SpritePrep_CrystalSwitch:
 {
     LDA.l $7EC172 : AND.b #$01 : TAY
-    
     LDA.w Sprite_CrystalSwitch_palettes, Y : ORA.w $0F50, X : STA.w $0F50, X
     
     RTS
@@ -2127,9 +2140,8 @@ SpritePrep_FluteBoy:
 {
     INC.w $0BA0, X
     
-    LDA.l $7EF3CA : ASL : ROL : ROL
-    
-    AND.b #$01 : STA.w $0E80, X : BEQ .in_light_world
+    LDA.l $7EF3CA : ASL : ROL : ROL : AND.b #$01 : STA.w $0E80, X
+    BEQ .in_light_world
         ; See if the dark world flute boy has been arborated.
         LDA.l $7EF3C9 : AND.b #$08 : BNE .already_arborated
             LDA.l $7EF34C : CMP.b #$02 : BCC .BRANCH_GAMMA
@@ -2138,8 +2150,7 @@ SpritePrep_FluteBoy:
         .already_arborated
         
         LDA.b #$03 : STA.w $0DC0, X ; Put him in his tree form initially
-        
-        LDA.b #$05 : STA.w $0D80, X; Set his AI pointer to do nothing?
+        LDA.b #$05 : STA.w $0D80, X ; Set his AI pointer to do nothing?
         
         BRA .BRANCH_GAMMA
         
@@ -2207,7 +2218,8 @@ SpritePrep_HylianPlaque:
 ; $0310E0-$0310EF JUMP LOCATION
 SpritePrep_Stalfos:
 {
-    LDA.w $0D10, X : AND.b #$10 : STA.w $0E30, X : BEQ .is_red_stalfos
+    LDA.w $0D10, X : AND.b #$10 : STA.w $0E30, X
+    BEQ .is_red_stalfos
         LDA.b #$07 : STA.w $0F50, X
     
     .is_red_stalfos
@@ -2251,8 +2263,8 @@ SpritePrep_Bumper:
 SpritePrep_MoveDownOneRightTwoTiles:
 SpritePrep_down_one_right_two_tiles:
 {
-    PHX : TXA : CLC : ADC.b #$10 : TAX
-    
+    PHX
+    TXA : CLC : ADC.b #$10 : TAX
     JSR.w SpritePrep_MoveDownOneTile
     
     PLX
@@ -2320,7 +2332,6 @@ SpritePrep_Helmasaur:
 {
     ; Effectively is the speed of the sprite.
     LDA.b #$10 : STA.w $0D90, X
-    
     LDA.b #$01 : STA.w $0D80, X
     
     RTS
@@ -2331,11 +2342,8 @@ SpritePrep_Helmasaur:
 ; $03115C-$031169 LOCAL JUMP LOCATION
 SpritePrep_Fairy:
 {
-    JSL.l GetRandomInt : AND.b #$01
-    
-    STA.w $0D90, X
-    
-    EOR.b #$01 : STA.w $0DE0, X
+    JSL.l GetRandomInt : AND.b #$01 : STA.w $0D90, X
+                         EOR.b #$01 : STA.w $0DE0, X
 
     ; Bleeds into the next function.
 }
@@ -2405,13 +2413,11 @@ SpritePrep_Agahnim:
     JSR.w SpritePrep_Bosses
     
     LDA.b #$00 : STA.w $0DC0, X
-    
     LDA.b #$03 : STA.w $0DE0, X
     
     JSR.w SpritePrep_MoveDownOneRightTwoTiles
     
     LDY.w $0FFF
-    
     LDA.w .palettes, Y : STA.w $0F50, X
 
     ; Bleeds into the next function.
@@ -2542,7 +2548,6 @@ SpritePrep_Arrgi:
         PHX
         
         LDX.b #$00
-        
         JSL.l Arrghus_HandlePuffs_long
         
         PLX
@@ -2614,7 +2619,6 @@ SpritePrep_LoadBigKeyGfx:
     PHX : PHY
     
     LDA.b #$22
-    
     JSL.l GetAnimatedSpriteTile_variable
     
     PLY : PLX
@@ -2648,10 +2652,9 @@ SpriteActive_Main:
     
     REP #$30
     
-    AND.w #$00FF : ASL : TAY
-    
     ; Sets up a stack jump table (Weird isn't it?).
-    LDA SpriteActive_Table, Y : DEC : PHA
+    AND.w #$00FF : ASL : TAY
+    LDA.w SpriteActive_Table, Y : DEC : PHA
     
     SEP #$30
     

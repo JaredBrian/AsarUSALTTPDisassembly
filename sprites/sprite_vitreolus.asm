@@ -23,9 +23,8 @@ Sprite_Vitreolus:
     
     REP #$20
     
-    LDA.w $0FD8 : CLC : ADC Pool_Sprite_Vitreolus_x_offsets, Y : STA.w $0FD8
-    
-    LDA.w $0FDA : CLC : ADC Pool_Sprite_Vitreolus_y_offsets, Y : STA.w $0FDA
+    LDA.w $0FD8 : CLC : ADC.w Pool_Sprite_Vitreolus_x_offsets, Y : STA.w $0FD8
+    LDA.w $0FDA : CLC : ADC.w Pool_Sprite_Vitreolus_y_offsets, Y : STA.w $0FDA
     
     SEP #$20
     
@@ -50,8 +49,8 @@ Sprite_Vitreolus:
     
     ; OPTIMIZE: Comparison with 0x01 could be changed to "dec a".
     LDA.w $0D80, X : BEQ Vitreolus_TargetPlayerPosition
-    CMP.b #$01 : BEQ Vitreolus_PursueTargetPosition
-        JMP Vitreolus_ReturnToOrigin
+        CMP.b #$01 : BEQ Vitreolus_PursueTargetPosition
+            JMP Vitreolus_ReturnToOrigin
 }
     
 ; ==============================================================================
@@ -82,10 +81,10 @@ Vitreolus_PursueTargetPosition:
         LDA.w $0EC0, X : STA.b $06
         LDA.w $0E30, X : STA.b $07
         
-        LDA.b #$10 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+        LDA.b #$10
+        JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.b $00 : STA.w $0D40, X
-        
         LDA.b $01 : STA.w $0D50, X
     
     .stagger_retargeting
@@ -117,10 +116,10 @@ Vitreolus_ReturnToOrigin:
         LDA.w $0DB0, X : STA.b $06
         LDA.w $0DE0, X : STA.b $07
         
-        LDA.b #$10 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+        LDA.b #$10
+        JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.b $00 : STA.w $0D40, X
-        
         LDA.b $01 : STA.w $0D50, X
     
     .stagger_retargeting

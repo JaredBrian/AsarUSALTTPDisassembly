@@ -10,8 +10,10 @@ Sprite_ShopKeeper:
     dw NiceThiefWithGift        ; 0x02 - $F038
     dw MiniChestGameGuy         ; 0x03 - $F078
     dw LostWoodsChestGameGuy    ; 0x04 - $F0F3
-    dw NiceThiefUnderRock       ; 0x05 - $F14F Thief talkin about Ice Cave near Lake Hylia.
-    dw NiceThiefUnderRock       ; 0x06 - $F14F Thief talkin about defeating enemies for rupees.
+    dw NiceThiefUnderRock       ; 0x05 - $F14F Thief talkin about Ice Cave near
+                                ;        Lake Hylia.
+    dw NiceThiefUnderRock       ; 0x06 - $F14F Thief talkin about defeating enemies
+                                ;        for rupees.
     dw ShopItem_RedPotion150    ; 0x07 - $F16E
     dw ShopItem_FighterShield   ; 0x08 - $F1F2
     dw ShopItem_FireShield      ; 0x09 - $F230
@@ -38,7 +40,6 @@ Shopkeeper_StandardClerk:
         JSL.l Sprite_PlayerCantPassThrough
         
         LDY.w $0FFF
-        
         LDA.w .messages_low, Y         : XBA
         LDA.w .messsages_high, Y : TAY : XBA
         JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
@@ -75,7 +76,6 @@ Shopkeeper_StandardClerk_not_welcomed_yet:
     
     LDA.w $0FDA : CLC : ADC.w #$0060 : CMP.b $20 : SEP #$30 : BCC .return
         LDY.w $0FFF
-        
         LDA.w Shopkeeper_StandardClerk_messages_low, Y         : XBA
         LDA.w Shopkeeper_StandardClerk_messsages_high, Y : TAY : XBA
         JSL.l Sprite_ShowMessageUnconditional
@@ -226,7 +226,8 @@ NiceThiefWithGift_GiveRupees:
         
         INC.w $0D80, X
         
-        LDY.b #$46 : JMP.w ShopItem_HandleReceipt
+        LDY.b #$46
+        JMP.w ShopItem_HandleReceipt
 
     .BRANCH_ALPHA
 
@@ -322,9 +323,8 @@ Pool_LesserChestGameGuy_AfterGameStart:
 ; $0F70E1-$0F70F2 JUMP LOCATION
 LesserChestGameGuy_AfterGameStart:
 {
-    LDA.w $04C4 : TAY
-    
     ; BUG: Maybe? Don't see how the second message could ever occur so far.
+    LDA.w $04C4 : TAY
     LDA.w Pool_LesserChestGameGuy_AfterGameStart_messages_low, Y        : XBA
     LDA.w Pool_LesserChestGameGuy_AfterGameStart_messages_high, Y : TAY : XBA
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
@@ -368,7 +368,6 @@ LostWoodsChestGameGuy_VerifyPurchase:
     LDA.w $1CE8 : BNE .player_declined
         LDA.b #$64
         LDY.b #$00
-        
         JSR.w ShopKeeper_TryToGetPaid : BCC .cant_afford
             LDA.b #$01 : STA.w $04C4
             
@@ -397,10 +396,10 @@ LostWoodsChestGameGuy_VerifyPurchase:
 ; $0F714B-$0F714E JUMP LOCATION
 Pool_NiceThiefUnderRock:
 {
-    ; $0F714B
-    .messages_low
     ; "Check out the cave east of Lake Hylia. Strange and wonderful..."
     ; "You can earn a lot of Rupees by defeating enemies. It's the ..."
+    ; $0F714B
+    .messages_low
     db $77, $78
     
     ; $0F714D
@@ -416,10 +415,8 @@ NiceThiefUnderRock:
     JSL.l Sprite_PlayerCantPassThrough
     
     LDA.w $0E80, X : SEC : SBC.b #$05 : TAY
-    
     LDA.w Pool_NiceThiefUnderRock_messages_low, Y        : XBA
     LDA.w Pool_NiceThiefUnderRock_messages_high, Y : TAY : XBA
-    
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
     RTS
@@ -437,11 +434,11 @@ ShopItem_RedPotion150:
         JSL.l Sprite_GetEmptyBottleIndex : BMI .BRANCH_BETA
             LDA.b #$96
             LDY.b #$00
-            
             JSR.w ShopKeeper_TryToGetPaid : BCC .player_cant_afford
                 STZ.w $0DD0, X
                 
-                LDY.b #$2E : JSR.w ShopItem_HandleReceipt
+                LDY.b #$2E
+                JSR.w ShopItem_HandleReceipt
             
     .BRANCH_ALPHA
     
@@ -488,7 +485,8 @@ ShopKeeper_SpawnInventoryItem:
     
     PLA : STA.w $0E80, Y : STA.w $0BA0, Y
     
-    PLA : PHX : ASL : TAX
+    PLA : PHX
+    ASL : TAX
     
     ; OPTIMIZE: Why ADC.l?
     LDA.b $00 : CLC : ADC.l .x_offsets+0, X : STA.w $0D10, Y
@@ -521,7 +519,8 @@ ShopItem_FighterShield:
             JSR.w ShopKeeper_TryToGetPaid : BCC TooPoorForAShield
                 STZ.w $0DD0, X
                 
-                LDY.b #$04 : JSR.w ShopItem_HandleReceipt
+                LDY.b #$04
+                JSR.w ShopItem_HandleReceipt
         
     .BRANCH_ALPHA
     
@@ -560,11 +559,11 @@ ShopItem_FireShield:
         LDA.l $7EF35A : CMP.b #$02 : BCS RejectShieldPurchase
             LDA.b #$F4
             LDY.b #$01
-            
             JSR.w ShopKeeper_TryToGetPaid : BCC TooPoorForAShield
                 STZ.w $0DD0, X
                 
-                LDY.b #$05 : JSR.w ShopItem_HandleReceipt
+                LDY.b #$05
+                JSR.w ShopItem_HandleReceipt
     
     .BRANCH_ALPHA
     
@@ -606,11 +605,11 @@ ShopItem_Heart:
         LDA.l $7EF36C : CMP.l $7EF36D : BEQ .BRANCH_BETA
             LDA.b #$0A
             LDY.b #$00
-            
             JSR.w ShopKeeper_TryToGetPaid : BCC .BRANCH_GAMMA
                 STZ.w $0DD0, X
                 
-                LDY.b #$42 : JSR.w ShopItem_HandleReceipt
+                LDY.b #$42
+                JSR.w ShopItem_HandleReceipt
     
     .BRANCH_ALPHA
     
@@ -637,17 +636,15 @@ ShopItem_Arrows:
         LDA.l $7EF371
         
         PHX
-        
         TAX
-        
         LDA.l HUD_CapacityUpgrades_arrows_hex, X : PLX : CMP.l $7EF377 : BEQ TooMuchAmmo
             LDA.b #$1E
             LDY.b #$00
-            
             JSR.w ShopKeeper_TryToGetPaid : BCC RejectMunitionsPurchase
                 STZ.w $0DD0, X
                 
-                LDY.b #$44 : JSR.w ShopItem_HandleReceipt
+                LDY.b #$44
+                JSR.w ShopItem_HandleReceipt
     
     .BRANCH_ALPHA
     
@@ -683,7 +680,6 @@ ShopItem_Bombs:
         LDA.l $7EF370 : PHX
         
         TAX
-        
         LDA.l HUD_CapacityUpgrades_bombs_hex, X
         
         PLX
@@ -691,11 +687,11 @@ ShopItem_Bombs:
         CMP.l $7EF343 : BEQ TooMuchAmmo
             LDA.b #$32
             LDY.b #$00
-            
             JSR.w ShopKeeper_TryToGetPaid : BCC RejectMunitionsPurchase
                 STZ.w $0DD0, X
                 
-                LDY.b #$31 : JSR.w ShopItem_HandleReceipt
+                LDY.b #$31
+                JSR.w ShopItem_HandleReceipt
     
     .BRANCH_ALPHA
     
@@ -713,11 +709,11 @@ ShopItem_Bee:
         JSL.l Sprite_GetEmptyBottleIndex : BMI .BRANCH_BETA
             LDA.b #$0A
             LDY.b #$00
-            
             JSR.w ShopKeeper_TryToGetPaid : BCC .BRANCH_GAMMA
                 STZ.w $0DD0, X
                 
-                LDY.b #$0E : JSR.w ShopItem_HandleReceipt
+                LDY.b #$0E
+                JSR.w ShopItem_HandleReceipt
         
     .BRANCH_ALPHA
     
@@ -766,7 +762,6 @@ ShopItem_HandleReceipt:
     
     LDA.w $0E80, X : SEC : SBC.b #$07 : BMI .BRANCH_ALPHA
         TAY
-        
         LDA.w Pool_ShopItem_HandleReceipt_message_ids_low, Y  :       XBA
         LDA.w Pool_ShopItem_HandleReceipt_message_ids_high, Y : TAY : XBA
         JSL.l Sprite_ShowMessageUnconditional
@@ -781,7 +776,8 @@ ShopItem_HandleReceipt:
 ; $0F738A-$0F7390 LOCAL JUMP LOCATION
 ShopItem_PlayBeep:
 {
-    LDA.b #$3C : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$3C
+    JSL.l Sound_SetSfx2PanLong
     
     RTS
 }
@@ -879,11 +875,11 @@ ShopKeeper_DrawItemWithPrice_OAM_groups:
 ShopKeeper_DrawItemWithPrice:
 {
     LDA.w $0E80, X : SEC : SBC.b #$07
-    REP #$20
-    AND.w #$00FF : STA.b $00
 
-    ASL : ASL : ADC.b $00 : ASL #3
-    ADC.w #.OAM_groups : STA.b $08
+    REP #$20
+
+    AND.w #$00FF                                        : STA.b $00
+    ASL : ASL : ADC.b $00 : ASL #3 : ADC.w #.OAM_groups : STA.b $08
     
     LDA.w #$0005 : STA.b $06
     

@@ -44,7 +44,6 @@ Sprite_TutorialEntities:
         .direction_lock_inactive
         
         LDY.w $0DE0, X
-        
         LDA.w .animation_states, Y : STA.w $0DC0, X
         
         ; Draw the soldier's sprites.
@@ -63,7 +62,7 @@ Sprite_TutorialEntities:
             
             LDY.w $0D00, X : CPY.b #$50 : BEQ .guy_on_rampart
                 ; "...You're not allowed in the castle, son! Go home..."
-                LDA.b #$B3   : CPY.b #$90 : BNE .use_default_tutorial_messages
+                LDA.b #$B3 : CPY.b #$90 : BNE .use_default_tutorial_messages
                 
             .guy_on_rampart
             
@@ -74,7 +73,8 @@ Sprite_TutorialEntities:
             
         .use_default_tutorial_messages
         
-        LDA.w $0B69 : PHA : CLC : ADC.b #$0F
+        LDA.w $0B69 : PHA
+        CLC : ADC.b #$0F
         LDY.b #$00
         JSL.l Sprite_ShowMessageIfPlayerTouching
         
@@ -152,8 +152,7 @@ TutorialSoldier_Draw:
         PHX
         
         TXA : CLC : ADC.b $06 : PHA
-        
-        ASL : TAX
+        ASL                   : TAX
         
         REP #$20
         
@@ -161,7 +160,6 @@ TutorialSoldier_Draw:
         AND.w #$0100 : STA.b $0E
         
         LDA.w Pool_TutorialSoldier_y_offsets, X : CLC : ADC.b $02 : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
             ; Hide the sprite.
             LDA.w #$00F0 : STA.b ($90), Y
@@ -172,28 +170,26 @@ TutorialSoldier_Draw:
         
         PLX
         
-        LDA.w Pool_TutorialSoldier_chr, X : INY : STA.b ($90), Y : CMP.b #$40
-        
+        LDA.w Pool_TutorialSoldier_chr, X : INY : STA.b ($90), Y
+        CMP.b #$40
         LDA.w Pool_TutorialSoldier_vh_flip, X : ORA.b $05 : BCS .no_palette_override
             AND.b #$F1 : ORA.b #$08
         
         .no_palette_override
         
         INY
-        
         STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.w Pool_TutorialSoldier_Draw_sizes, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_subsprite
     
-    PLX : LDA.b #$0C
+    PLX
     
+    LDA.b #$0C
     JSL.l Sprite_DrawShadowLong_variable
     
     RTS

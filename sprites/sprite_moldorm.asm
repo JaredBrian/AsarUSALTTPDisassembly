@@ -51,9 +51,7 @@ Sprite_Moldorm:
     INC.w !animation_index, X
     
     LDY.w $0DE0, X
-    
     LDA.w Pool_Sprite_Moldorm_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_Sprite_Moldorm_y_speeds, Y : STA.w $0D40, X
     
     JSR.w Sprite_Move
@@ -66,15 +64,12 @@ Sprite_Moldorm:
         .anotoggle_rotarity
         
         LDY.w $0DE0, X
-        
         LDA.w Pool_Sprite_Moldorm_next_directions, Y : STA.w $0DE0, X
     
     .no_tile_collision
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Moldorm_ConfigureNextState ; 0x00 - $9860
     dw Moldorm_Meander            ; 0x01 - $988D
     dw Moldorm_SeekPlayer         ; 0x02 - $98B2
@@ -89,7 +84,6 @@ Moldorm_ConfigureNextState:
         INC
         
         INC.w !seek_delay_counter, X
-        
         LDY.w !seek_delay_counter, X : CPY.b #$06 : BNE .anoseek_player
             STZ.w !seek_delay_counter, X
             
@@ -139,9 +133,7 @@ Moldorm_SeekPlayer:
         LDA.b #$1F
         JSR.w Sprite_ApplySpeedTowardsPlayer
         
-        JSL.l Sprite_ConvertVelocityToAngle
-        
-        CMP.w $0DE0, X : BNE .not_at_target_angle
+        JSL.l Sprite_ConvertVelocityToAngle : CMP.w $0DE0, X : BNE .not_at_target_angle
             ; Revert back to the base ai state to select another rotarity and
             ; timer.
             STZ.w $0D80, X
@@ -152,7 +144,8 @@ Moldorm_SeekPlayer:
             
         .not_at_target_angle
         
-        PHP : LDA.w $0DE0, X : PLP : BMI .target_angle_lesser
+        PHP
+        LDA.w $0DE0, X : PLP : BMI .target_angle_lesser
             INC : INC
         
         .target_angle_lesser

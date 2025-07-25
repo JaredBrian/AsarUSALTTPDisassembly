@@ -49,16 +49,12 @@ Sidenexx_Breath_IceHead:
 Sidenexx:
 {
     LDA.w $0E20, X : SEC : SBC.b #$CC : TAY
-    
-    LDA.w $0D90 : CLC : ADC.w Pool_Sidenexx_base_offset_x, Y
-    STA.w $0D90, X
+    LDA.w $0D90 : CLC : ADC.w Pool_Sidenexx_base_offset_x, Y : STA.w $0D90, X
 
-    LDA.w $0DA0 :       ADC.w Pool_Sidenexx_base_offset_y, Y
-    STA.w $0DA0, X
+    LDA.w $0DA0 :       ADC.w Pool_Sidenexx_base_offset_y, Y : STA.w $0DA0, X
     
     LDA.w $0DB0 : SEC : SBC.b #$20 : STA.w $0DB0, X
-    
-    LDA.w $0ED0 : SBC.b #$00 : STA.w $0ED0, X
+    LDA.w $0ED0       : SBC.b #$00 : STA.w $0ED0, X
     
     LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
@@ -196,7 +192,8 @@ Sidenexx_Move:
                 LDA.b $00 : CMP.b #$01 : BNE .BRANCH_ALPHA
                     JSL.l GetRandomInt : LSR : BCS .BRANCH_ALPHA
                         LDA.w $0D80 : CMP.b #$02 : BCS .BRANCH_ALPHA   
-                            INC.w $0DC0, X : LDA.w $0DC0, X : CMP.b #$06
+                            INC.w $0DC0, X
+                            LDA.w $0DC0, X : CMP.b #$06
                             
                             NOP : NOP
                             
@@ -218,7 +215,8 @@ Sidenexx_Think:
     
     LDA.w $0DE0, X : ASL #3 : ADC.w $0DE0, X : TAY
     
-    LDA.w Sidenexx_SegmentIndexOffset, X : PHX : TAX
+    LDA.w Sidenexx_SegmentIndexOffset, X : PHX
+                                           TAX
     
     LDA.b #$08 : STA.b $00
     
@@ -330,10 +328,9 @@ Sidenexx_Breathe:
     
     LDA.w $0DF0, X : CMP.b #$40 : BCC .exit
         SEC : SBC.b #$40 : LSR #3 : TAY
-        
         LDA.b $1A : AND.w .timer_masks, Y : BNE .exit
-            JSL.l GetRandomInt : AND.b #$0F : LDY.b #$00
-            SEC : SBC.b #$03 STA.b $00 : BPL .positive
+            JSL.l GetRandomInt : AND.b #$0F : LDY.b #$00 : SEC : SBC.b #$03 : STA.b $00
+            BPL .positive
                 DEY
             
             .positive
@@ -349,7 +346,6 @@ Sidenexx_Breathe:
                 PHX
                 
                 LDX.b $0F
-                
                 LDA.b #$0E : STA.l $7FF800, X
                 
                 PLX
@@ -382,27 +378,27 @@ Sidenexx_ExhaleDanger:
         ; $0EBAFA ALTERNATE ENTRY POINT
         .breathe_ice
             JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-            
-            JSL.l Sprite_SetSpawnedCoords
-            
-            PHX
-            
-            LDX.w $0FB6
-            
-            LDA.w .x_accelerations, X : STA.w $0DB0, Y
-            
-            PLX
-            
-            LDA.b #$19 : JSL.l Sound_SetSfx3PanLong
-            
-            BRA .final_adjustments
+                JSL.l Sprite_SetSpawnedCoords
+                
+                PHX
+                
+                LDX.w $0FB6
+                LDA.w .x_accelerations, X : STA.w $0DB0, Y
+                
+                PLX
+                
+                LDA.b #$19
+                JSL.l Sound_SetSfx3PanLong
+                
+                BRA .final_adjustments
     
     .breathe_fire
     
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
-        LDA.b #$2A : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$2A
+        JSL.l Sound_SetSfx2PanLong
         
         .final_adjustments
         
@@ -434,7 +430,6 @@ Sidenexx_Explode:
         DEC.w $0E80, X
         
         LDA.w $0FD8 : CLC : ADC.b $E2 : STA.w $0FD8
-        
         LDA.w $0FDA : CLC : ADC.b $E8 : STA.w $0FDA
         
         JSL.l Sprite_MakeBossDeathExplosion
@@ -479,14 +474,15 @@ SpriteDraw_Sidenexx:
         TYA : CLC : ADC.w Sidenexx_SegmentIndexOffset, X : TAY
         
         CPX.b #$02 : BEQ .BRANCH_ALPHA
-            LDA   $1D10, Y : EOR.b #$FF : INC : STA.b $06
-            LDA.b #$01                          : STA.b $07
+            LDA.w $1D10, Y : EOR.b #$FF : INC : STA.b $06
+            LDA.b #$01                        : STA.b $07
             
             BRA .BRANCH_BETA
             
         .BRANCH_ALPHA
         
-        LDA.w $1D10, Y : STA.b $06 : STZ.b $07
+        LDA.w $1D10, Y : STA.b $06
+                         STZ.b $07
         
         .BRANCH_BETA
         
@@ -497,12 +493,10 @@ SpriteDraw_Sidenexx:
         REP #$30
         
         LDA.b $06 : AND.w #$00FF : ASL : TAX
-        
         LDA.l SmoothCurve, X : STA.b $0A
         
         LDA.b $06 : CLC : ADC.w #$0080 : STA.b $08
-        AND.w #$00FF : ASL : TAX
-        
+        AND.w #$00FF : ASL             : TAX
         LDA.l SmoothCurve, X : STA.b $0C
         
         SEP #$30
@@ -561,23 +555,24 @@ SpriteDraw_Sidenexx:
         .BRANCH_THETA
         
         LDA.b $00   : CLC : ADC.w $0FA8 : LDY.w $0FB6       : STA.b ($90), Y
-        STA.w $0FD8
+                                                              STA.w $0FD8
 
         LDA.w $0FA9 : CLC : ADC.b $02   : LDY.w $0FB6 : INY : STA.b ($90), Y
-        STA.w $0FDA
+                                                              STA.w $0FDA
 
         LDA.b #$08 : INY : STA.b ($90), Y
         LDA.b $05  : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.b #$02 : STA.b ($92), Y
         
         PLY : INY : STY.w $0FB6
         
         .BRANCH_IOTA
         
-        INC.w $0FB5 : LDA.w $0FB5 : CMP.w $0E80, X : BEQ .BRANCH_KAPPA
+        INC.w $0FB5
+        LDA.w $0FB5 : CMP.w $0E80, X : BEQ .BRANCH_KAPPA
     JMP.w .next_segment
 
     .BRANCH_KAPPA
@@ -585,7 +580,6 @@ SpriteDraw_Sidenexx:
     LDA.b $11 : BEQ .BRANCH_LAMBDA
         LDY.b #$02
         LDA.b #$04
-        
         JSL.l Sprite_CorrectOamEntriesLong
     
     .BRANCH_LAMBDA
@@ -621,17 +615,14 @@ SpriteDraw_Sidenexx_Head:
     PHX
     
     LDX.b #$00
-    
     LDY.w $0FB6
     
     .BRANCH_BETA
         
-        LDA.w $0FA8 : CLC : ADC.b $00 : STA.w $0FD8
-        
+        LDA.w $0FA8 : CLC : ADC.b $00                         : STA.w $0FD8
         CLC : ADC.w Pool_SpriteDraw_Sidenexx_Head_offset_x, X : STA.b ($90), Y
         
         LDA.w $0FA9 : CLC : ADC.b $02 : STA.w $0FDA
-        
         CLC : ADC.w Pool_SpriteDraw_Sidenexx_Head_offset_y, X
         
         CPX.b #$04 : BNE .BRANCH_ALPHA
@@ -639,13 +630,14 @@ SpriteDraw_Sidenexx_Head:
         
         .BRANCH_ALPHA
         
-        INY : STA.b ($90), Y
+        INY
+        STA.b ($90), Y
 
         LDA.w Pool_SpriteDraw_Sidenexx_Head_char, X : INY : STA.b ($90), Y
         LDA.b $05 : ORA.w Pool_SpriteDraw_Sidenexx_Head_flip, X : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.b #$02 : STA.b ($92), Y
         
         PLY : INY
@@ -694,7 +686,8 @@ TrinexxBreath_ice:
     JSL.l Sprite_PrepOamCoordLong
     JSR.w Sprite4_CheckIfActive
     
-    LDA.w $0D50, X : PHA : CLC : ADC.w $0DB0, X : STA.w $0D50, X
+    LDA.w $0D50, X       : PHA
+    CLC : ADC.w $0DB0, X : STA.w $0D50, X
     
     JSR.w Sprite4_Move
     
@@ -725,9 +718,9 @@ TrinexxBreath_ice:
 AddIceGarnish:
 {
     INC.w $0E80, X
-    
     LDA.w $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
-        LDA.b #$14 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$14
+        JSL.l Sound_SetSfx3PanLong
         
         PHX : TXY
         
@@ -747,7 +740,8 @@ AddIceGarnish:
         
         .BRANCH_BETA
         
-        LDA.b #$0C : STA.l $7FF800, X : STA.w $0FB4
+        LDA.b #$0C : STA.l $7FF800, X
+                     STA.w $0FB4
         
         TYA : STA.l $7FF92C, X
         
@@ -781,7 +775,8 @@ AddFireGarnish:
 {
     INC.w $0E80, X
     LDA.w $0E80, X : AND.b #$07 : BNE FireBat_SpawnFireballGarnish_exit
-        LDA.b #$2A : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$2A
+        JSL.l Sound_SetSfx2PanLong
         
         LDA.b #$1D
 
@@ -800,7 +795,7 @@ FireBat_SpawnFireballGarnish:
         LDA.l $7FF800, X : BEQ .BRANCH_BETA
     DEX : BPL .next_slot
         
-     DEC.w $0FF8 : BPL .use_search_index
+    DEC.w $0FF8 : BPL .use_search_index
         LDA.b $00 : STA.w $0FF8
         
     .use_search_index
@@ -809,7 +804,8 @@ FireBat_SpawnFireballGarnish:
         
     .BRANCH_BETA
         
-    LDA.b #$10 : STA.l $7FF800, X : STA.w $0FB4
+    LDA.b #$10 : STA.l $7FF800, X
+                 STA.w $0FB4
         
     TYA : STA.l $7FF92C, X
         

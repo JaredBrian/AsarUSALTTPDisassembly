@@ -32,9 +32,7 @@ Sprite_SpikeRoller:
     .dont_change_direction
     
     LDY.w $0DE0, X
-    
     LDA.w Pool_Sprite_SpikeRoller_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_Sprite_SpikeRoller_y_speeds, Y : STA.w $0D40, X
     
     JSR.w Sprite2_Move
@@ -86,16 +84,16 @@ SpikeRoller_Draw:
 {
     JSR.w Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL #3 : STA.b $06 : TAY
-    
+    LDA.w $0DC0, X : ASL #3 : STA.b $06
+                              TAY
     LDA.w Pool_SpikeRoller_Draw_chr, Y : STA.b $08
     
     PHX
     
     ; Appears that this is the size selector for the spike roller.
     LDY.w $0D80, X
-    
     LDX.w Pool_SpikeRoller_Draw_num_subsprites, Y
+
     LDY.b #$00
     
     .next_subsprite
@@ -108,10 +106,10 @@ SpikeRoller_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_SpikeRoller_Draw_x_spacing, X : STA.b ($90), Y
+        LDA.b $00 : CLC : ADC.w Pool_SpikeRoller_Draw_x_spacing, X : STA.b ($90), Y
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC Pool_SpikeRoller_Draw_y_spacing, X : INY : STA.b ($90), Y
+        LDA.b $02 : CLC : ADC.w Pool_SpikeRoller_Draw_y_spacing, X : INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA.b ($90), Y
@@ -128,12 +126,13 @@ SpikeRoller_Draw:
         
         STZ.b $08
         
-        INY : STA.b ($90), Y
+        INY
+        STA.b ($90), Y
         
         LDA.w Pool_SpikeRoller_Draw_vh_flip, X : ORA.b $05 : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY

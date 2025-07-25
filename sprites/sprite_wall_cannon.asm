@@ -31,7 +31,7 @@ Sprite_WallCannon:
     LDA.w Pool_Sprite_WallCannon_animation_states, Y : ADC.b #$00 : STA.w $0DC0, X
     
     LDA.w $0F50, X : AND.b #$BF
-    ORA Pool_Sprite_WallCannon_vh_flip, Y : STA.w $0F50, X
+    ORA.w Pool_Sprite_WallCannon_vh_flip, Y : STA.w $0F50, X
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong
     JSR.w Sprite2_CheckIfActive
@@ -44,9 +44,7 @@ Sprite_WallCannon:
     .direction_change_delay
     
     LDY.w $0D90, X
-    
     LDA.w Pool_Sprite_WallCannon_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_Sprite_WallCannon_y_speeds, Y : STA.w $0D40, X
     
     JSR.w Sprite2_Move
@@ -65,22 +63,22 @@ Sprite_WallCannon:
         ; Spawn cannon ball.
         LDA.b #$6B
         LDY.b #$0D
-        
         JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
-            LDA.b #$07 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$07
+            JSL.l Sound_SetSfx3PanLong
             
-            LDA.b #$01 : STA.w $0DB0, Y : STA.w $0DC0, Y
+            LDA.b #$01 : STA.w $0DB0, Y
+                         STA.w $0DC0, Y
             
-            LDA.w $0DE0, X : PHX : TAX
+            LDA.w $0DE0, X : PHX
+                             TAX    
+            LDA.b $00 : CLC : ADC.w .x_offsets_low, X  : STA.w $0D10, Y
+            LDA.b $01       : ADC.w .x_offsets_high, X : STA.w $0D30, Y
             
-            LDA.b $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
-            LDA.b $01       : ADC .x_offsets_high, X : STA.w $0D30, Y
-            
-            LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
-            LDA.b $03       : ADC .y_offsets_high, X : STA.w $0D20, Y
+            LDA.b $02 : CLC : ADC.w .y_offsets_low, X  : STA.w $0D00, Y
+            LDA.b $03       : ADC.w .y_offsets_high, X : STA.w $0D20, Y
             
             LDA.w .cannonball_x_speeds, X : STA.w $0D50, Y
-            
             LDA.w .cannonball_y_speeds, X : STA.w $0D40, Y
             
             LDA.w $0E40, Y : AND.b #$F0 : ORA.b #$01 : STA.w $0E40, Y

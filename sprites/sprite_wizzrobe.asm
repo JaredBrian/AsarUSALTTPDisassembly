@@ -173,11 +173,9 @@ Wizzrobe_Attack:
     .dont_shoot_beam
     
     LSR #3 : TAY
-    
     LDA.w Pool_Wizzrobe_Attack_animation_states, Y
     
     LDY.w $0DE0, X
-    
     CLC : ADC.w Pool_Wizzrobe_Attack_animation_state_offsets, Y : STA.w $0DC0, X
     
     RTS
@@ -224,8 +222,10 @@ Pool_Wizzrobe_SpawnBeam:
 ; $0F1E15-$0F1E7A LOCAL JUMP LOCATION
 Wizzrobe_SpawnBeam:
 {
-    LDA.b #$9B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-        LDA.b #$36 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$9B
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$36
+        JSL.l Sound_SetSfx3PanLong
         
         LDA.b #$01 : STA.w $0DB0, Y
                      STA.w $0BA0, Y
@@ -239,20 +239,15 @@ Wizzrobe_SpawnBeam:
         PHX
         
         LDA.w $0DE0, X : TAX
-        
         LDA.w Pool_Wizzrobe_SpawnBeam_x_speeds, X : STA.w $0D50, Y
-        
         LDA.w Pool_Wizzrobe_SpawnBeam_y_speeds, X : STA.w $0D40, Y
         
         LDA.b #$48 : STA.w $0CAA, Y
-        
         LDA.b #$02 : STA.w $0F50, Y
         
         ; Get our shield value.
         LDA.l $7EF35A : TAX
-        
         LDA.b #$00
-        
         CPX.b #$03 : BNE .player_lacks_mirror_shield
             ; Indicate to the beam that it's blockable by shield.
             LDA.b #$20

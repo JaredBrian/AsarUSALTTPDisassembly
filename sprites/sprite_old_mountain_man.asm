@@ -66,10 +66,11 @@ OldMountainMan_TransitionFromTagalong:
 {
     PHA
     
-    LDA.b #$AD : JSL.l Sprite_SpawnDynamically
+    LDA.b #$AD
+    JSL.l Sprite_SpawnDynamically
     
-    PLA : PHX : TAX
-    
+    PLA : PHX
+          TAX
     LDA.w $1A64, X : AND.b #$03 : STA.w $0EB0, Y
                                   STA.w $0DE0, Y
     
@@ -217,7 +218,8 @@ OldMountainMan_GrantMagicMirror:
     
     LSR : STA.w $0D40, X
     
-    LDA.b #$03 : STA.w $0EB0, X : STA.w $0DE0, X
+    LDA.b #$03 : STA.w $0EB0, X
+                 STA.w $0DE0, X
     
     RTS
 }
@@ -273,7 +275,8 @@ OldMountainMan_ApproachDoor:
     LDA.w $0B18, Y : STA.b $06
     LDA.w $0B20, Y : STA.b $07
     
-    LDA.b #$08 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$08
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     

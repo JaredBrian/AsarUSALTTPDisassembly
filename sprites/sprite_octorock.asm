@@ -55,7 +55,6 @@ Sprite_Octorock:
     .no_forced_hflip
     
     LDA.w !OAM_4, X : AND.b #$BF
-    
     ORA.w .h_flip, Y : ORA.b !force_hflip : STA.w !OAM_4, X
     
     JSR.w Octorock_Draw
@@ -71,7 +70,6 @@ Sprite_Octorock:
         LDA.w !direction, X : AND.b #$02 : ASL : STA.b !GFX_vert
         
         INC.w $0E80, X
-        
         LDA.w $0E80, X : LSR #3 : AND.b #$03 : ORA.b !GFX_vert : STA.w !graphic, X
         
         LDA.w $0DF0, X : BNE .wait_1
@@ -79,16 +77,14 @@ Sprite_Octorock:
             INC.w !ai_state, X
             
             LDY.w !type, X
-            
             LDA.w Pool_Sprite_Octorock_delays-8, Y : STA.w $0DF0, X
             
             RTS
         
         .wait_1
-        
-        LDY.w !direction, X
-        
+
         ; Make this little bugger move.
+        LDY.w !direction, X
         LDA.w Pool_Sprite_Octorock_x_speed, Y : STA.w $0D50, X
         LDA.w Pool_Sprite_Octorock_y_speed, Y : STA.w $0D40, X
         
@@ -114,8 +110,7 @@ Sprite_Octorock:
         
         ; Set a new countdown timer and direction slightly at random.
         JSL.l GetRandomInt : AND.b #$3F : ADC.b #$30 : STA.w $0DF0, X
-        
-        AND.b #$03 : STA.w !direction, X
+        AND.b #$03                                   : STA.w !direction, X
         
         ; Note this odd... certainty that both outcomes result in the same
         ; branch location.
@@ -133,8 +128,11 @@ Sprite_Octorock:
     
     .wait_2
     
-    LDA.w !type, X : SEC : SBC.b #$08 : REP #$30 : AND.w #$00FF : ASL : TAY
+    LDA.w !type, X : SEC : SBC.b #$08
     
+    REP #$30
+    
+    AND.w #$00FF : ASL : TAY
     LDA.w Octorock_AI_Table, Y : DEC : PHA
     
     SEP #$30
@@ -181,7 +179,6 @@ Octorock_Normal:
     .dont_spit_rock
     
     LSR #3 : TAY
-    
     LDA.w .mouth_anim_step, Y : STA.w $0DB0, X
     
     RTS
@@ -199,13 +196,11 @@ Octorock_FourShooter_next_direction:
 Octorock_FourShooter:
 {
     LDA.w $0DF0, X : PHA
-    
     CMP.b #$80 : BCS .just_animate
         AND.b #$0F : BNE .dont_rotate
             PHA
             
             LDY.w !direction, X
-            
             LDA.w .next_direction, Y : STA.w !direction, X
             
             PLA
@@ -219,7 +214,6 @@ Octorock_FourShooter:
     .just_animate
     
     PLA : LSR #4 : TAY
-    
     LDA.w .mouth_anim_step, Y : STA.w $0DB0, X
     
     RTS
@@ -259,17 +253,16 @@ Pool_Octorock_SpitOutRock:
 ; $0354CD-$035513 LOCAL JUMP LOCATION
 Octorock_SpitOutRock:
 {
-    LDA.b #$07 : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$07
+    JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$0C
-    
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         PHX
         
         ; The position and velocity of the newly created rock depends on the
         ; direction that the Octorok is currently facing.
         LDA.w !direction, X : TAX
-        
         LDA.b $00
         CLC : ADC.w Pool_Octorock_SpitOutRock_offset_x_low, X : STA.w $0D10, Y
 
@@ -283,7 +276,6 @@ Octorock_SpitOutRock:
               ADC.w Pool_Octorock_SpitOutRock_offset_y_high, X : STA.w $0D20, Y
         
         LDA.w !direction, Y : TAX
-        
         LDA.w Pool_Octorock_SpitOutRock_rock_speed_x, X : STA.w $0D50, Y
         LDA.w Pool_Octorock_SpitOutRock_rock_speed_y, X : STA.w $0D40, Y
         
@@ -336,11 +328,9 @@ Octorock_Draw:
         REP #$20
         
         LDA.b $00 : CLC : ADC.w Pool_Octorock_Draw_x_offsets, X : STA.b ($90), Y
-        
         AND.w #$0100 : STA.b !top_x_bit_low
         
         LDA.b $02 : CLC : ADC.w Pool_Octorock_Draw_y_offsets, X : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .not_off_screen
             LDA.b #$F0 : STA.b ($90), Y
         
@@ -348,8 +338,7 @@ Octorock_Draw:
         
         PLX
         
-        LDA.w Pool_Octorock_Draw_chr, X : INY : STA.b ($90), Y
-        
+        LDA.w Pool_Octorock_Draw_chr, X        : INY             : STA.b ($90), Y
         LDA.w Pool_Octorock_Draw_properties, X : INY : ORA.b $05 : STA.b ($90), Y
         
         LDA.b !top_x_bit_high : STA.b ($92)

@@ -22,8 +22,8 @@ SpritePrep_Zelda:
         INC.w $0BA0, X
         
         JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03
-        
-        STA.w $0EB0, X : STA.w $0DE0, X
+        STA.w $0EB0, X
+        STA.w $0DE0, X
         
         LDA.l $7EF3CC : PHA
         
@@ -52,7 +52,6 @@ SpritePrep_Zelda:
     
     LDA.w $0D00, X : CLC : ADC.b #$0F : STA.w $0D00, X
     LDA.w $0D20, X       : ADC.b #$00 : STA.w $0D20, X
-    
     LDA.w $0D10, X : CLC : ADC.b #$06 : STA.w $0D10, X
     
     LDA.b #$03 : STA.w $0F60, X
@@ -82,13 +81,14 @@ SpritePrep_Zelda:
 ; $02EC4C-$02EC8D LOCAL JUMP LOCATION
 Zelda_TransitionFromTagalong:
 {
-    LDA.b #$76 : JSL.l Sprite_SpawnDynamically
+    LDA.b #$76
+    JSL.l Sprite_SpawnDynamically
     
     PHX
     
     LDX.w $02CF
-    
-    LDA.w $1A64, X : AND.b #$03 : STA.w $0EB0, Y : STA.w $0DE0, Y
+    LDA.w $1A64, X : AND.b #$03 : STA.w $0EB0, Y
+                                  STA.w $0DE0, Y
     
     LDA.b $20 : STA.w $0D00, Y
     LDA.b $21 : STA.w $0D20, Y
@@ -185,10 +185,8 @@ Zelda_AwaitingRescue:
         INC.w $02E4
         
         LDY.w $0EB0, X
-        
-        LDA Sprite_Zelda_x_speeds, Y : STA.w $0D50, X
-        
-        LDA Sprite_Zelda_y_speeds, Y : STA.w $0D40, X
+        LDA.w Sprite_Zelda_x_speeds, Y : STA.w $0D50, X
+        LDA.w Sprite_Zelda_y_speeds, Y : STA.w $0D40, X
         
         LDA.b #$10 : STA.w $0DF0, X
     
@@ -334,16 +332,14 @@ Zelda_WalkTowardsPriest:
         .beta
         
         LDA.w Pool_Zelda_WalkTowardsPriest_timers, Y : STA.w $0DF0, X
-            
-        LDA.w Pool_Zelda_WalkTowardsPriest_directions, Y
-        STA.w $0EB0, X : STA.w $0DE0, X
+        LDA.w Pool_Zelda_WalkTowardsPriest_directions, Y : STA.w $0EB0, X
+                                                           STA.w $0DE0, X
             
         INC.w $0D90, X
             
         TAY
-            
-        LDA Sprite_Zelda_x_speeds, Y : STA.w $0D50, X
-        LDA Sprite_Zelda_y_speeds, Y : STA.w $0D40, X
+        LDA.w Sprite_Zelda_x_speeds, Y : STA.w $0D50, X
+        LDA.w Sprite_Zelda_y_speeds, Y : STA.w $0D40, X
         
     .walking
     
@@ -365,7 +361,6 @@ Zelda_RespondToPriest:
     INC.w $0D80, X
     
     LDA.b #$02 : STA.l $7FFE01
-    
     LDA.b #$01 : STA.l $7EF3C8
     
     JSL.l SavePalaceDeaths
@@ -440,7 +435,8 @@ Zelda_AtSanctuary:
     LDA.w Pool_Zelda_AtSanctuary_messages_high, Y : TAY : XBA
     
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .no_talky_talky
-        STA.w $0DE0, X : STA.w $0EB0, X
+        STA.w $0DE0, X
+        STA.w $0EB0, X
         
         ; Restore player health completely.
         LDA.b #$A0 : STA.l $7EF372

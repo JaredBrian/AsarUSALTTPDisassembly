@@ -10,7 +10,6 @@ Sprite_Octoballoon_altitudes:
 Sprite_Octoballoon:
 {
     LDA.w $0E80, X : LSR #3 : AND.b #$07 : TAY
-    
     LDA.w .altitudes, Y : STA.w $0F70, X
     
     JSR.w Octoballoon_Draw
@@ -98,7 +97,8 @@ Octoballoon_ApplyRecoilToPlayer:
     LDA.b $46 : BNE .player_invulnerable_right_now
         LDA.b #$04 : STA.b $46
         
-        LDA.b #$10 : JSR.w Sprite_ApplyRecoilToPlayer
+        LDA.b #$10
+        JSR.w Sprite_ApplyRecoilToPlayer
         
         JSR.w Sprite_Invert_XY_Speeds
         
@@ -159,8 +159,7 @@ Octoballoon_Draw:
     
     PHX
     
-    LDA.b #$03 : STA.b $0B
-    
+    LDA.b #$03      : STA.b $0B
     CLC : ADC.b $0A : TAX
     
     .next_OAM_entry
@@ -172,11 +171,9 @@ Octoballoon_Draw:
         REP #$20
         
         LDA.b $00 : CLC : ADC.w Pool_Octoballoon_Draw_offset_x, X : STA.b ($90), Y
-        
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : CLC : ADC.w Pool_Octoballoon_Draw_offset_y, X : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA.b ($90), Y
         
@@ -188,9 +185,7 @@ Octoballoon_Draw:
         LDA.w Pool_Octoballoon_Draw_flip, X : ORA.b $05 : INY : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
@@ -220,27 +215,23 @@ Pool_Octoballoon_SpawnTheSpawn:
 ; $03580E-$035842 LOCAL JUMP LOCATION
 Octoballoon_SpawnTheSpawn:
 {
-    LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$0C
+    JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$05 : STA.b $0D
     
     .spawn_loop
     
         LDA.b #$10
-        
         JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             JSL.l Sprite_SetSpawnedCoords
             
             PHX
             
             LDX.b $0D
-            
             LDA.w Pool_Octoballoon_SpawnTheSpawn_x_speeds, X : STA.w $0D50, Y
-            
-            LDA.w Pool_Octoballoon_SpawnTheSpawn_y_speeds, X : STA.w $0D40, Y
-            
+
             LDA.b #$30 : STA.w $0F80, Y
-            
             LDA.b #$FF : STA.w $0E80, Y
             
             PLX

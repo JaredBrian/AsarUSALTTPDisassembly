@@ -36,13 +36,15 @@ Sprite_PushSwitch:
 WaterSwitch_Untoggled:
 {
     LDA.w $0DB0, X : BEQ .BRANCH_ALPHA
-        DEC.w $0DA0, X : LDA.w $0DA0, X : BNE .BRANCH_BETA
+        DEC.w $0DA0, X
+        LDA.w $0DA0, X : BNE .BRANCH_BETA
             INC.w $0D80, X
         
         .BRANCH_BETA
         
         LDA.b $1A : AND.b #$03 : BNE .BRANCH_GAMMA
-            LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$22
+            JSL.l Sound_SetSfx2PanLong
         
         .BRANCH_GAMMA
         
@@ -64,7 +66,8 @@ WaterSwitch_ReleaseGate:
             
             INC.w $0642
             
-            LDA.b #$25 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$25
+            JSL.l Sound_SetSfx3PanLong
             
             RTS
         
@@ -73,7 +76,8 @@ WaterSwitch_ReleaseGate:
         LDA.w Pool_WaterSwitch_Timer, Y    : STA.w $0DF0, X
         LDA.w Pool_WaterSwitch_Position, Y : STA.w $0DE0, X
         
-        LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$22
+        JSL.l Sound_SetSfx2PanLong
     
     .BRANCH_ALPHA
     
@@ -200,7 +204,6 @@ WaterSwitch_Main:
     LDA.w $0DA0, X : LSR : LSR : AND.b #$03 : STA.b $01
     
     LDA.b #$00 : XBA
-    
     LDA.w $0DE0, X : ASL
     
     PHX
@@ -210,10 +213,10 @@ WaterSwitch_Main:
     PHB
     
     TAY
-    
     LDX.w WaterSwitch_OAMDataPointer, Y
     
-    LDA.b $90 : ADC.w #$0004 : STA.b $90 : TAY
+    LDA.b $90 : ADC.w #$0004 : STA.b $90
+                               TAY
     
     INC.b $92
     
@@ -255,10 +258,10 @@ WaterSwitch_Main:
     
     REP #$31
     
-    LDA.w #$0000 : TAY : STA.b ($92), Y
+    LDA.w #$0000 : TAY
+                   STA.b ($92), Y
     
     INY : INY
-    
     STA.b ($92), Y
     
     LDA.w #$0200 : INY : STA.b ($92), Y
@@ -269,7 +272,6 @@ WaterSwitch_Main:
     
     LDY.b #$FF
     LDA.b #$04
-    
     JSR.w Sprite_CorrectOamEntries
     
     LDA.w $0F20, X : CMP.b $EE : BEQ .BRANCH_GAMMA
@@ -280,7 +282,6 @@ WaterSwitch_Main:
     STZ.w $0DB0, X
     
     LDA.w $0DE0, X : ASL #4 : TAY
-    
     LDA.w WaterSwitch_OAMData+0, Y : CLC : ADC.w $0D10, X : STA.b $04
     
     STZ.b $0A
@@ -304,15 +305,17 @@ WaterSwitch_Main:
     LDA.b $0B : ADC.w $0D20, X : STA.b $0B
     
     LDA.w $0DE0, X : ASL : TAY
-    
     LDA.w WaterSwitch_HitBox+0, Y : STA.b $06
     LDA.w WaterSwitch_HitBox+1, Y : STA.b $07
     
     JSR.w Player_SetupHitBox_ignoreImmunity
     
     JSR.w Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_ZETA
-        LDA.w $0D00, X : PHA : CLC : ADC.b #$13 : STA.w $0D00, X
-        LDA.w $0D20, X : PHA       : ADC.b #$00 : STA.w $0D20, X
+        LDA.w $0D00, X : PHA
+        CLC : ADC.b #$13 : STA.w $0D00, X
+        
+        LDA.w $0D20, X : PHA
+              ADC.b #$00 : STA.w $0D20, X
         
         JSR.w Sprite_DirectionToFacePlayer
         

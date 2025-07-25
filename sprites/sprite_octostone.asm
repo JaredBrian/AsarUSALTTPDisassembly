@@ -9,7 +9,8 @@ Sprite_Octostone:
         JSR.w Sprite_CheckIfActive_permissive
         
         LDA.w $0DF0, X : CMP.b #$1E : BNE .dont_play_crumble_SFX
-            LDA.b #$1F : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$1F
+            JSL.l Sound_SetSfx2PanLong
         
         .dont_play_crumble_SFX
         
@@ -76,12 +77,10 @@ Octostone_DrawCrumbling:
         
         LDA.b $00
         CLC : ADC Pool_Octostone_DrawCrumbling_x_offsets, X : STA.b ($90), Y
-        
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02
         CLC : ADC Pool_Octostone_DrawCrumbling_y_offsets, X : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA.b ($90), Y
         
@@ -94,9 +93,7 @@ Octostone_DrawCrumbling:
         LDA.w Pool_Octostone_DrawCrumbling_vh_flip, X : ORA.b #$2D : INY : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.b $0F : STA.b ($92), Y
         
         PLY : INY

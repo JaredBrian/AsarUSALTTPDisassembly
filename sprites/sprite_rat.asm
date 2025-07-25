@@ -26,10 +26,9 @@ Pool_Sprite_Rat:
 Sprite_Rat:
 {
     LDY.w $0D90, X
-    
     LDA.w Pool_Sprite_Rat_animation_states, Y : STA.w $0DC0, X
     
-    LDA.w $0F50, X : AND.b #$3F : ORA Pool_Sprite_Rat_vh_flip, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : ORA.w Pool_Sprite_Rat_vh_flip, Y : STA.w $0F50, X
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong
     JSR.w Sprite2_CheckIfActive
@@ -44,7 +43,8 @@ Sprite_Rat:
         LDA.w $0DF0, X : BNE .no_new_direction
             ; Select a new direction and change to the moving state.
             
-            JSL.l GetRandomInt : PHA : AND.b #$03 : STA.w $0DE0, X
+            JSL.l GetRandomInt : PHA
+            AND.b #$03         : STA.w $0DE0, X
             
             INC.w $0D80, X
             
@@ -52,8 +52,10 @@ Sprite_Rat:
         
         .no_new_direction
         
-        LDA.b $1A : LSR #4 : LDA.w $0DE0, X : ROL : TAY
+        ; OPTIMIZE: What?
+        LDA.b $1A : LSR #4
         
+        LDA.w $0DE0, X : ROL : TAY
         LDA.w Pool_Sprite_Rat_stationary_states, Y : STA.w $0D90, X
         
         RTS
@@ -82,7 +84,8 @@ Rat_Moving:
 {
     LDA.w $0DF0, X : BNE .sound_wait
         LDA.w $0FFF : BNE .in_dark_world
-            LDA.b #$17 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$17
+            JSL.l Sound_SetSfx3PanLong
         
         .in_dark_world
         
@@ -95,16 +98,19 @@ Rat_Moving:
     LDY.w $0DE0, X
     
     LDA.w $0E70, X : BEQ .no_wall_collision
-        LDA.w Pool_Rat_Moving_next_direction, Y : STA.w $0DE0, X : TAY
+        LDA.w Pool_Rat_Moving_next_direction, Y : STA.w $0DE0, X
+                                                  TAY
     
     .no_wall_collision
     
     LDA.w Pool_Rat_Moving_x_speeds, Y : STA.w $0D50, X
     LDA.w Pool_Rat_Moving_y_speeds, Y : STA.w $0D40, X
     
-    LDA.b $1A : LSR #3 : LDA.w $0DE0, X : ROL : TAY
+    ; OPTIMIZE: What?
+    LDA.b $1A : LSR #3
     
-    LDA Sprite_Rat_moving_states, Y : STA.w $0D90, X
+    LDA.w $0DE0, X : ROL : TAY
+    LDA.w Sprite_Rat_moving_states, Y : STA.w $0D90, X
     
     RTS
 }

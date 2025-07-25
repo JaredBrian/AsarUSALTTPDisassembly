@@ -31,11 +31,11 @@ Sprite_Babusu:
     JSR.w Sprite3_CheckIfActive
     JSR.w Sprite3_CheckDamage
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$01 : STA.w $0DC0, X
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0E80, X : LSR : LSR : AND.b #$01 : TAY
-    
-    LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
+    LDA.w Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
     
     JSR.w Sprite3_Move
     
@@ -63,7 +63,8 @@ Sprite_Babusu:
     
     .spawn_zoro_garnish
     
-    LDA.b #$06 : STA.l $7FF800, X : STA.w $0FB4
+    LDA.b #$06 : STA.l $7FF800, X
+                 STA.w $0FB4
     
     LDA.w $0D10, Y : STA.l $7FF83C, X
     LDA.w $0D30, Y : STA.l $7FF878, X
@@ -106,7 +107,6 @@ Babusu_Reset:
     INC.w $0D80, X
     
     LDA.b #$80 : STA.w $0DF0, X
-    
     LDA.b #$FF : STA.w $0DC0, X
     
     RTS
@@ -160,10 +160,8 @@ Babusu_TerrorSprinkles:
         ; TODO: investigate whether these things can move left or right, and
         ; whether they have any understanding.
         LDY.w $0DE0, X
-        
         LDA.w Pool_Babusu_TerrorSprinkles_.x_speeds, Y : STA.w $0D50, X
-        
-        LDA.w Pool_Babusu_TerrorSprinkles_y_speeds, Y : STA.w $0D40, X
+        LDA.w Pool_Babusu_TerrorSprinkles_y_speeds, Y  : STA.w $0D40, X
         
         LDA.b #$20 : STA.w $0DF0, X
         
@@ -173,11 +171,10 @@ Babusu_TerrorSprinkles:
     
     CMP.b #$20 : BCC .still_hidden
         SBC.b #$20 : LSR : LSR : TAY
-        
         LDA.w Pool_Babusu_TerrorSprinkles_animation_states, Y    
 
         LDY.w $0DE0, X
-        CLC : ADC Pool_Babusu_TerrorSprinkles_animation_adjustments, Y
+        CLC : ADC.w Pool_Babusu_TerrorSprinkles_animation_adjustments, Y
         STA.w $0DC0, X
         
         RTS
@@ -204,10 +201,8 @@ Babusu_ScurryAcross:
     JSR.w Sprite3_Move
     
     LDA.b $1A : LSR : AND.b #$01
-    
     LDY.w $0DE0, X
-    
-    CLC : ADC .animation_states, Y : STA.w $0DC0, X
+    CLC : ADC.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0DF0, X : BNE .cant_collide
         JSR.w Sprite3_CheckTileCollision : BEQ .didnt_collide

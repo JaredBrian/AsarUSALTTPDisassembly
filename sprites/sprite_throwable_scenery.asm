@@ -35,7 +35,6 @@ Sprite_ThrowableScenery:
                 REP #$20
                 
                 LDA.w Pool_Sprite_ThrowableScenery_main_OAM_table_offsets, Y : STA.b $90
-                
                 LDA.w Pool_Sprite_ThrowableScenery_high_OAM_table_offsets, Y : STA.b $92
                 
                 SEP #$20
@@ -58,8 +57,8 @@ Sprite_ThrowableScenery:
         
         ; Checks to see if you're indoors in the dark world.
         LDA.b $1B : CLC : ADC.w $0FFF : CMP.b #$02
-        
-        LDA.w $0DB0, X : PHA : BCC .not_indoors_in_dark_world
+        LDA.w $0DB0, X : PHA
+        BCC .not_indoors_in_dark_world
             ADC.b #$05
         
         .not_indoors_in_dark_world
@@ -138,12 +137,11 @@ ThrowableScenery_DrawLarge:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_ThrowableScenery_DrawLarge_x_offsets, X
+        LDA.b $00 : CLC : ADC.w Pool_ThrowableScenery_DrawLarge_x_offsets, X
         STA.b ($90), Y
-        
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC Pool_ThrowableScenery_DrawLarge_y_offsets, X
+        LDA.b $02 : CLC : ADC.w Pool_ThrowableScenery_DrawLarge_y_offsets, X
         INY : STA.b ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
@@ -159,9 +157,7 @@ ThrowableScenery_DrawLarge:
         INY : ORA.b $05 : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
@@ -169,7 +165,8 @@ ThrowableScenery_DrawLarge:
     
     PLX
     
-    LDA.b #$0C : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$0C
+    JSL.l OAM_AllocateFromRegionB
     
     LDY.b #$00
     
@@ -188,13 +185,11 @@ ThrowableScenery_DrawLarge:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_ThrowableScenery_DrawLarge_x_offsets, X
+        LDA.b $00 : CLC : ADC.w Pool_ThrowableScenery_DrawLarge_x_offsets, X
         STA.b ($90), Y
-        
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : CLC : ADC.w #$000C : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .shadow_on_screen_y
             LDA.b #$F0 : STA.b ($90), Y
         
@@ -206,9 +201,7 @@ ThrowableScenery_DrawLarge:
         LDA.b #$24 : INY : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
@@ -250,13 +243,13 @@ ThrowableScenery_ScatterIntoDebris:
         
         .spawn_next_smaller_scenery
         
-            LDA.b #$EC : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+            LDA.b #$EC
+            JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
                 LDA.w $0F70, X : STA.w $0F70, Y
                 
                 PHX
                 
                 LDX.b $0D
-                
                 LDA.b $00
                 CLC : ADC Pool_ThrowableScenery_ScatterIntoDebris_x_offsets_low, X
                 STA.w $0D10, Y
@@ -276,12 +269,12 @@ ThrowableScenery_ScatterIntoDebris:
                 LDA.b #$01 : STA.w $0DB0, Y
                 
                 TYX
-                
                 JSR.w Sprite_ScheduleForBreakage
                 
                 PLX
                 
-                LDA.w $0DB0, X : CMP.b #$07 : LDA.b #$00 : BCS .use_default_palette
+                LDA.w $0DB0, X : CMP.b #$07
+                LDA.b #$00 : BCS .use_default_palette
                     ; 0x06 type scenery uses a palette ot 6 (12 >> 1).
                     LDA.b #$0C
                 
@@ -315,7 +308,8 @@ ThrowableScenery_ScatterIntoDebris:
     
     .empty_garnish_slot
     
-    LDA.b #$16 : STA.l $7FF800, X : STA.w $0FB4
+    LDA.b #$16 : STA.l $7FF800, X
+                 STA.w $0FB4
     
     LDA.w $0D10, Y : STA.l $7FF83C, X
     LDA.w $0D30, Y : STA.l $7FF878, X
