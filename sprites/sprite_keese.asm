@@ -23,7 +23,8 @@ Sprite_Keese:
     
     	    LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
     	    	LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
-    	    	    LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
+    	    	    LDA.b #$1E
+                    JSL.l Sound_SetSfx3PanLong
     
     	    	    ; Keese gets mad when you invade its personal space :(.
     	     	    INC.w $0D80, X
@@ -80,7 +81,6 @@ Keese_JimmiesRustled:
     
     AND.b #$07 : BNE .beta
     	LDA.w $0DA0, X : AND.b #$01 : TAY
-    
     	LDA.w $0D90, X : CLC : ADC Pool_Keese_Agitated_index_step, Y : STA.w $0D90, X
     
     	JSL.l GetRandomInt : AND.b #$03 : BNE .beta
@@ -89,9 +89,7 @@ Keese_JimmiesRustled:
     .beta
     
     LDA.w $0D90, X : AND.b #$0F : TAY
-    
     LDA.w Pool_Keese_Agitated_random_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_Keese_Agitated_random_y_speeds, Y : STA.w $0D40, X
     
     LDA.b $1A : LSR : LSR : AND.b #$01 : INC : STA.w $0DC0, X

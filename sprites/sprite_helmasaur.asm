@@ -18,7 +18,6 @@ Sprite_Helmasaur:
     LDA.w $0DE0, X : ASL : STA.b $00
     
     LDA.w $0E80, X : LSR : LSR : AND.b #$01 : ORA.b $00 : TAY
-    
     LDA.w Pool_Sprite_Helmasaur_animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0F50, X : AND.b #$BF : ORA Pool_Sprite_Helmasaur_h_flip, Y : STA.w $0F50, X
@@ -41,12 +40,10 @@ Sprite_Helmasaur:
     	LDA.b $00 : CMP.b $01
     
     	LDA.b #$00
-    
     	LDY.w $0D50, X
     
     	BCS .x_speed_magnitude_greater_or_equal
     	    LDA.b #$02
-    
     	    LDY.w $0D40, X
     
         .x_speed_magnitude_greater_or_equal
@@ -104,11 +101,9 @@ Sprite_HardHatBeetle:
     
     TXA : EOR.b $1A : AND.b #$1F : BNE .project_speed_delay
     	LDA.w $0D90, X
-    
     	JSR.w Sprite_ProjectSpeedTowardsPlayer
     
     	LDA.b $00 : STA.w $0DA0, X
-    
     	LDA.b $01 : STA.w $0DB0, X
     
     .project_speed_delay
@@ -152,17 +147,15 @@ HardHatBeetle_Draw_OAM_groups:
     dw 0,  2 : db $44, $01, $00, $02
 }
 
-; ==============================================================================
-
 ; $0324F2-$03250B LOCAL JUMP LOCATION
 HardHatBeetle_Draw:
 {
     LDA.w $0DC0, X : ASL #4
-    
     ADC.b #.OAM_groups                 : STA.b $08
     LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
-    LDA.b #$02 : JSL.l Sprite_DrawMultiple
+    LDA.b #$02
+    JSL.l Sprite_DrawMultiple
     
     JMP Sprite_DrawShadowRedundant
 }

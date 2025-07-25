@@ -28,9 +28,10 @@ Sprite_LaserBeam:
     ; TODO: timer_0?
     LDA.w $0DF0, X : BNE .delay
         	JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision
-    	    STZ.w $0DD0, X
-    
-    	    LDA.b #$26 : JSL.l Sound_SetSfx3PanLong
+                STZ.w $0DD0, X
+        
+                LDA.b #$26
+                JSL.l Sound_SetSfx3PanLong
     
    	    RTS
     
@@ -64,7 +65,8 @@ LaserBeam_Draw:
     .empty_slot
     
     ; laser garnish...?
-    LDA.b #$04 : STA.l $7FF800, X : STA.w $0FB4
+    LDA.b #$04 : STA.l $7FF800, X
+                 STA.w $0FB4
     
     LDA.w $0D10, Y : STA.l $7FF83C, X
     LDA.w $0D30, Y : STA.l $7FF878, X
@@ -118,11 +120,12 @@ SpritePrep_LaserEye:
     	LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
     
     	; Sets the direction to 2 or 3.
-    	LDA.w $0E20, X : SEC : SBC.b #$95 : STA.w !laser_eye_direction, X : TAY
+    	LDA.w $0E20, X : SEC : SBC.b #$95 : STA.w !laser_eye_direction, X
+                                            TAY
     
     	LDA.w $0D10, X : AND.b #$10 : EOR.b #$10 : STA.w !requires_facing, X
     	BNE .dont_adjust_y
-    	    LDA.w $0D00, X : CLC : ADC .offsets-2, Y : STA.w $0D00, X
+    	    LDA.w $0D00, X : CLC : ADC.w .offsets-2, Y : STA.w $0D00, X
     
     	.dont_adjust_y
     
@@ -130,11 +133,12 @@ SpritePrep_LaserEye:
     
     .horizontal
     
-    LDA.w $0E20, X : SEC : SBC.b #$95 : STA.w !laser_eye_direction, X : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$95 : STA.w !laser_eye_direction, X
+                                        TAY
     
     LDA.w $0D00, X : AND.b #$10 : STA.w !requires_facing, X
     BNE .dont_adjust_x
-        LDA.w $0D10, X : CLC : ADC .offsets, Y : STA.w $0D10, X
+        LDA.w $0D10, X : CLC : ADC.w .offsets, Y : STA.w $0D10, X
     
     .dont_adjust_x
     
@@ -155,9 +159,7 @@ Sprite_LaserEye:
     JSR.w Sprite3_CheckIfActive
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw LaserEye_MonitorFiringZone ; 0x00 - $A55E
     dw LaserEye_FiringBeam        ; 0x01 - $A5C2
 }
@@ -176,7 +178,6 @@ LaserEye_MonitorFiringZone:
     REP #$20
     
     LDA.b $20 : SEC : SBC.w $0FDA : STA.b $0C
-    
     LDA.b $22 : SEC : SBC.w $0FD8 : STA.b $0E
     
     SEP #$20
@@ -184,7 +185,7 @@ LaserEye_MonitorFiringZone:
     LDA.b $2F : LSR : LDY.w !requires_facing, X : CPY.b #$01 : TAY
     
     LDA.w !laser_eye_direction, X : BCS .ignore_player_direction
-        CMP .matching_directions, Y : BNE .not_in_zone
+        CMP.w .matching_directions, Y : BNE .not_in_zone
     
     .ignore_player_direction
     
@@ -208,7 +209,6 @@ LaserEye_MonitorFiringZone:
     
     	.irrelevant
     
-	; TODO: timer_0?
     	STA.w $0DF0, X
     
     	INC.w $0D80, X
@@ -264,8 +264,7 @@ LaserEye_FiringBeam:
     
     	JSR.w LaserEye_SpawnBeam
     
-   	; TODO: timer_4?
-    	LDA.b #$0C : STA.w !timer_4, X
+    	LDA.b #$0C : STA.w $0F10, X
     
     .delay
     
@@ -281,24 +280,24 @@ LaserEye_SpawnBeam:
     	PHX
     
     	LDA.w !laser_eye_direction, X : TAX
+    	AND.b #$02 : LSR              : STA.w $0DC0, Y
     
-    	AND.b #$02 : LSR : STA.w $0DC0, Y
+    	LDA.b $00 : CLC : ADC.w Pool_LaserEye_SpawnBeam_x_offsets_low,  X : STA.w $0D10, Y
+    	LDA.b $01 :       ADC.w Pool_LaserEye_SpawnBeam_x_offsets_high, X : STA.w $0D30, Y
     
-    	LDA.b $00 : CLC : ADC Pool_LaserEye_SpawnBeam_x_offsets_low,  X : STA.w $0D10, Y
-    	LDA.b $01 :       ADC Pool_LaserEye_SpawnBeam_x_offsets_high, X : STA.w $0D30, Y
-    
-    	LDA.b $02 : CLC : ADC Pool_LaserEye_SpawnBeam_y_offsets_low,  X : STA.w $0D00, Y
-    	LDA.b $03 :       ADC Pool_LaserEye_SpawnBeam_y_offsets_high, X : STA.w $0D20, Y
+    	LDA.b $02 : CLC : ADC.w Pool_LaserEye_SpawnBeam_y_offsets_low,  X : STA.w $0D00, Y
+    	LDA.b $03 :       ADC.w Pool_LaserEye_SpawnBeam_y_offsets_high, X : STA.w $0D20, Y
     
     	LDA.w Pool_LaserEye_SpawnBeam_x_speeds, X : STA.w $0D50, Y
-    
     	LDA.w Pool_LaserEye_SpawnBeam_y_speeds, X : STA.w $0D40, Y
     
-    	LDA.b #$20 : STA.w $0E40, Y : STA.w $0D90, Y
+    	LDA.b #$20 : STA.w $0E40, Y
+                     STA.w $0D90, Y
     
     	LDA.b #$05 : STA.w $0F50, Y
     
-    	LDA.b #$48 : STA.w $0CAA, Y : STA.w $0BA0, Y
+    	LDA.b #$48 : STA.w $0CAA, Y
+                     STA.w $0BA0, Y
     
     	LDA.b #$05 : STA.w $0DF0, Y
     
@@ -312,7 +311,8 @@ LaserEye_SpawnBeam:
     
     	PLX
     
-    	LDA.b #$19 : JSL.l Sound_SetSfx3PanLong
+    	LDA.b #$19
+        JSL.l Sound_SetSfx3PanLong
     
     .spawn_failed
     
@@ -363,7 +363,7 @@ LaserEye_Draw:
     LDA.w !requires_facing, X : BEQ .open_by_default
     	LDA.b #$01 : STA.w $0DC0, X
     
-    	LDA.w !timer_4, X : BEQ .closed_when_not_firing
+    	LDA.w $0F10, X : BEQ .closed_when_not_firing
     	    STZ.w $0DC0, X
     
     	.closed_when_not_firing
@@ -373,16 +373,16 @@ LaserEye_Draw:
     LDA.b #$30 : STA.w $0B89, X
     
     LDA.b #$00 : XBA
-    
     LDA.w !laser_eye_direction, X : ASL : ADC.w $0DC0, X
     
     REP #$20
     
-    ASL #3 : STA.b $00 : ASL  : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
+    ASL #3 : STA.b $00 : ASL : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$03 : JMP Sprite3_DrawMultiple
+    LDA.b #$03
+    JMP Sprite3_DrawMultiple
 }
 
 ; ==============================================================================

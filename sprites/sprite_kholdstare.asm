@@ -45,10 +45,8 @@ KholdstareShell_ShakeFromDamage:
 {
     LDA.w $0EF0, X : BEQ .not_in_recoil_state
         AND.b #$02 : LSR : TAY
-        
-        LDA Pool_KholdstareShell_ShakeFromDamage_x_offsets, Y : STA.w $0422
-        
-        LDA Pool_KholdstareShell_ShakeFromDamage_y_offsets, Y : STA.w $0423
+        LDA.w Pool_KholdstareShell_ShakeFromDamage_x_offsets, Y : STA.w $0422
+        LDA.w Pool_KholdstareShell_ShakeFromDamage_y_offsets, Y : STA.w $0423
         
         LDA.b #$01 : STA.w $0428
         
@@ -91,7 +89,6 @@ KholdstareShell_PhaseOut:
     STZ.w $0DD0, X
     
     LDA.b #$02 : STA.w $0D82
-    
     LDA.b #$80 : STA.w $0DF2
     
     RTS
@@ -103,10 +100,8 @@ KholdstareShell_PhaseOut:
 IceBallGenerator_DoYourOnlyJob:
 {
     INC.w $0E80, X
-    
     LDA.w $0E80, X : AND.b #$7F : ORA.w $0E00, X : BNE .cant_spawn
         LDA.b #$A4
-        
         JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             LDA.b $22 : STA.w $0D10, Y
             LDA.b $23 : STA.w $0D30, Y
@@ -115,13 +110,14 @@ IceBallGenerator_DoYourOnlyJob:
             LDA.b $21 : STA.w $0D20, Y
             
             LDA.b #$E0 : STA.w $0F70, Y
-                        STA.w $0DB0, Y
+                         STA.w $0DB0, Y
             
             PHX
             
             TYX
             
-            LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$20
+            JSL.l Sound_SetSfx2PanLong
             
             PLX
         
@@ -160,7 +156,8 @@ Sprite_Kholdstare:
     .animation_cycle_delay
     
     LDA.b $1A : AND.b #$03 : BNE .dont_adjust_eye_direction
-        LDA.b #$1F : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
+        LDA.b #$1F
+        JSL.l Sprite_ProjectSpeedTowardsPlayerLong
         
         JSL.l Sprite_ConvertVelocityToAngle : STA.w $0D90, X
     
@@ -169,9 +166,7 @@ Sprite_Kholdstare:
     JSR.w Sprite3_Move
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Kholdstare_Accelerate ; 0x00 - $956F
     dw Kholdstare_Decelerate ; 0x01 - $95E5
     dw Kholdstare_Triplicate ; 0x02 - $964C
@@ -228,14 +223,12 @@ Kholstare_CheckTileCollision:
 {
     JSR.w Sprite3_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
         LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
-        
         LDA.w $0F80, X : EOR.b #$FF : INC : STA.w $0F80, X
     
     .no_horiz_collision
     
     LDA.w $0E70, X : AND.b #$0C : BEQ .no_vert_collision
         LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
-        
         LDA.w $0F90, X : EOR.b #$FF : INC : STA.w $0F90, X
     
     .no_vert_collision
@@ -267,15 +260,14 @@ Kholdstare_Decelerate:
         
         JSL.l GetRandomInt : AND.b #$3F : ADC.b #$60 : STA.w $0DF0, X
         
-        JSL.l GetRandomInt : PHA : AND.b #$03 : TAY
+        JSL.l GetRandomInt : PHA
+        AND.b #$03         : TAY
         
-        LDA Pool_KholdStare_Decelerate_x_speed_limits, Y : STA.w $0F80, X
-        
-        LDA Pool_KholdStare_Decelerate_y_speed_limits, Y : STA.w $0F90, X
+        LDA.w Pool_KholdStare_Decelerate_x_speed_limits, Y : STA.w $0F80, X
+        LDA.w Pool_KholdStare_Decelerate_y_speed_limits, Y : STA.w $0F90, X
         
         PLA : AND.b #$1C : BNE .stick_with_random_direction
             LDA.b #$18
-            
             JSL.l Sprite_ProjectSpeedTowardsPlayerLong
             
             LDA.b $00 : STA.w $0F90, X
@@ -346,17 +338,14 @@ Kholdstare_Triplicate:
         
             LDA.b #$A2
             LDY.b #$04
-            
             JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
                 JSL.l Sprite_SetSpawnedCoords
                 
                 PHX
                 
                 LDX.w $0FB5
-                
-                LDA Pool_Kholdstare_Triplicate_x_speed_targets, X : STA.w $0F80, Y
-                
-                LDA Pool_Kholdstare_Triplicate_y_speed_targets, X : STA.w $0F90, Y
+                LDA.w Pool_Kholdstare_Triplicate_x_speed_targets, X : STA.w $0F80, Y
+                LDA.w Pool_Kholdstare_Triplicate_y_speed_targets, X : STA.w $0F90, Y
                 
                 LDA.b #$20 : STA.w $0DF0, Y
                 
@@ -415,29 +404,24 @@ Kholdstare_SpawnNebuleGarnish:
         
         .available_slot
         
-        LDA.b #$07 : STA.l $7FF800, X : STA.w $0FB4
+        LDA.b #$07 : STA.l $7FF800, X
+                     STA.w $0FB4
         
         LDA.b #$1F : STA.l $7FF90E, X
         
         JSL.l GetRandomInt : AND.b #$07 : TAY
-        
-        LDA.w $0FD8
-        CLC : ADC.w Pool_Kholdstare_SpawnNebuleGarnish_offsets_low, Y
+        LDA.w $0FD8 : CLC : ADC.w Pool_Kholdstare_SpawnNebuleGarnish_offsets_low, Y
         STA.l $7FF83C, X
 
-        LDA.w $0FD9
-        ADC.w Pool_Kholdstare_SpawnNebuleGarnish_offsets_high, Y
+        LDA.w $0FD9       : ADC.w Pool_Kholdstare_SpawnNebuleGarnish_offsets_high, Y
         STA.l $7FF878, X
         
         JSL.l GetRandomInt : AND.b #$07 : TAY
-        
-        LDA.w $0FDA
-        CLC : ADC.w Pool_Kholdstare_SpawnNebuleGarnish_offsets_low, Y
-        PHP : CLC : ADC.b #$10 : STA.l $7FF81E, X
+        LDA.w $0FDA : CLC : ADC.w Pool_Kholdstare_SpawnNebuleGarnish_offsets_low, Y : PHP
+        CLC : ADC.b #$10 : STA.l $7FF81E, X
 
         LDA.w $0FDB : ADC.b #$00 : PLP
-        ADC.w Pool_Kholdstare_SpawnNebuleGarnish_offset_high, Y
-        STA.l $7FF85A, X
+        ADC.w Pool_Kholdstare_SpawnNebuleGarnish_offset_high, Y : STA.l $7FF85A, X
         
         LDA.b #$00 : STA.l $7FF968, X
         
@@ -472,7 +456,6 @@ Sprite_IceBallGenerator:
 Sprite_IceBall:
 {
     LDA.b #$01 : STA.w $0BA0, X
-    
     LDA.b #$30 : STA.w $0B89, X
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong
@@ -529,11 +512,11 @@ Sprite_IceBall:
             .hit_tile
             
             LDA.b #$0F : STA.w $0DF0, X
-            
             LDA.b #$04 : STA.w $0F50, X
             
             LDA.w $012E : BNE .channel_in_use
-                LDA.b #$1E : JSL.l Sound_SetSfx2PanLong
+                LDA.b #$1E
+                JSL.l Sound_SetSfx2PanLong
                 
                 LDA.b #$03 : STA.w $0DC0, X
             
@@ -565,7 +548,8 @@ Pool_IceBall_Quadruplicate:
 ; $0F17CF-$0F181C LOCAL JUMP LOCATION
 IceBall_Quadruplicate:
 {
-    LDA.b #$1F : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$1F
+    JSL.l Sound_SetSfx2PanLong
     
     JSL.l GetRandomInt : AND.b #$04 : STA.b $0D
     
@@ -573,21 +557,22 @@ IceBall_Quadruplicate:
     
     .next_spawn
     
-        LDA.b #$A4 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$A4
+        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             JSL.l Sprite_SetSpawnedCoords
             
             ; Indicate that it's an iceball and a shard of one, at that.
-            LDA.b #$01 : STA.w $0D80, Y : STA.w $0DC0, Y : STA.w $0DB0, Y
+            LDA.b #$01 : STA.w $0D80, Y
+                         STA.w $0DC0, Y
+                         STA.w $0DB0, Y
             
             LDA.b #$20 : STA.w $0F80, Y
             
             PHX
             
             LDA.w $0FB5 : ORA.b $0D : TAX
-            
-            LDA Pool_IceBall_Quadruplicate_x_speeds, X : STA.w $0D50, Y
-            
-            LDA Pool_IceBall_Quadruplicate_y_speeds, X : STA.w $0D40, Y
+            LDA.w Pool_IceBall_Quadruplicate_x_speeds, X : STA.w $0D50, Y
+            LDA.w Pool_IceBall_Quadruplicate_y_speeds, X : STA.w $0D40, Y
             
             PLX
             

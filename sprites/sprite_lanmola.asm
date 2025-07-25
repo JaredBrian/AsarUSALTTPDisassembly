@@ -17,8 +17,7 @@ Lanmola_FinishInitialization:
     PHX
     
     LDY.b #$3F
-    
-    LDA Pool_Lanmola_FinishInitialization_sprite_regions, X : TAX
+    LDA.w Pool_Lanmola_FinishInitialization_sprite_regions, X : TAX
     
     LDA.b #$FF
     
@@ -55,9 +54,7 @@ Sprite_Lanmola:
     JSR.w Sprite2_CheckIfActive_permissive
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Lanmola_Wait   ; 0x00 - $A3BF
     dw Lanmola_Mound: ; 0x01 - $A3E6
     dw Lanmola_Fly    ; 0x02 - $A431
@@ -78,7 +75,8 @@ Lanmola_Wait:
         INC.w $0D80, X
         
         ; Play rumbling sound.
-        LDA.b #$35 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$35
+        JSL.l Sound_SetSfx2PanLong
     
     .delay
     
@@ -109,12 +107,10 @@ Lanmola_Mound:
         LDA.b #$13 : STA.w $012D
         
         JSL.l GetRandomInt : AND.b #$07 : TAY
-        
-        LDA Pool_Lanmola_Mound_randXPos, Y : STA.w $0DA0, X
+        LDA.w Pool_Lanmola_Mound_randXPos, Y : STA.w $0DA0, X
         
         JSL.l GetRandomInt : AND.b #$07 : TAY
-        
-        LDA Pool_Lanmola_Mound_randYPos, Y : STA.w $0DB0, X
+        LDA.w Pool_Lanmola_Mound_randYPos, Y : STA.w $0DB0, X
         
         INC.w $0D80, X
         
@@ -159,7 +155,8 @@ Lanmola_Fly:
     
     ; Slowly decrease the Y speed when first coming out of the ground.
     LDA.w $0EC0, X : BNE .alpha
-        LDA.w $0F80, X : SEC : SBC.b #$01 : STA.w $0F80, X : BNE .beta
+        LDA.w $0F80, X : SEC : SBC.b #$01 : STA.w $0F80, X
+        BNE .beta
             INC.w $0EC0, X
         
         .beta
@@ -171,8 +168,7 @@ Lanmola_Fly:
     ; Use the Y speed to bob up and down:
     LDA.b $1A : AND.b #$01 : BNE .dontSwitchDirections ; Every other frame.
         LDA.w $0ED0, X : AND.b #$01 : TAY
-        
-        LDA.w $0F80, X : CLC : ADC .y_speed_slope, Y : STA.w $0F80, X
+        LDA.w $0F80, X : CLC : ADC.w .y_speed_slope, Y : STA.w $0F80, X
         CMP.w Pool_Sprite_Lanmolas_x_speeds, Y : BNE .dontSwitchDirections
             INC.w $0ED0, X ; Switch direction.
     
@@ -200,7 +196,6 @@ Lanmola_Fly:
     SEP #$20
     
     LDA.b #$0A
-    
     JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
@@ -246,12 +241,10 @@ Lanmola_Reset:
         STZ.w $0D80, X
         
         JSL.l GetRandomInt : AND.b #$07 : TAY
-        
-        LDA Lanmola_Mound_randXPos, Y : STA.w $0D10, X
+        LDA.w Lanmola_Mound_randXPos, Y : STA.w $0D10, X
         
         JSL.l GetRandomInt : AND.b #$07 : TAY
-        
-        LDA Lanmola_Mound_randYPos, Y : STA.w $0D00, X
+        LDA.w Lanmola_Mound_randYPos, Y : STA.w $0D00, X
     
     .wait
 
@@ -283,7 +276,6 @@ Sprite_SpawnFallingItem:
     
     LDY.b #$04 ; Try to load the effect into slot 4.
     LDA.b #$29 ; Trigger a falling item effect.
-    
     JSL.l AddPendantOrCrystal
     
     PLX
@@ -302,7 +294,8 @@ Lanmola_Death:
         
         JSL.l Sprite_VerifyAllOnScreenDefeated : BCC .alpha
             ; Lanmolas are dead, spawn heart container.
-            LDA.b #$EA : JSL.l Sprite_SpawnDynamically
+            LDA.b #$EA
+            JSL.l Sprite_SpawnDynamically
             
             JSL.l Sprite_SetSpawnedCoords
             
@@ -316,9 +309,9 @@ Lanmola_Death:
                      AND.b #$0F : BNE .easy_out
     
         LDA.l $7FF81E, X : TAY
-        
         LDA.w $0E80, X : SEC : SBC.w Lanmolas_SegmentOffsets, Y : AND.b #$3F
-        CLC : ADC Pool_Lanmola_FinishInitialization_sprite_regions, X : PHX : TAX
+        CLC : ADC Pool_Lanmola_FinishInitialization_sprite_regions, X : PHX
+                                                                        TAX
         
         LDA.l $7FFC00, X : SEC : SBC.b $E2                          : STA.b $0A
         LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC.b $E8 : STA.b $0B
@@ -326,12 +319,14 @@ Lanmola_Death:
         PLX
         
         ; Spawn a sprite that instantly dies as a boss explosion?
-        LDA.b #$00 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$00
+        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             LDA.b #$0B : STA.w $0AAA
             
             LDA.b #$04 : STA.w $0DD0, Y
             
-            LDA.b #$1F : STA.w $0DF0, Y : STA.w $0D90, Y
+            LDA.b #$1F : STA.w $0DF0, Y
+                         STA.w $0D90, Y
             
             LDA.b $0A : CLC : ADC.b $E2  : STA.w $0D10, Y
             LDA.b $E3 :       ADC.b #$00 : STA.w $0D30, Y
@@ -339,10 +334,10 @@ Lanmola_Death:
             LDA.b $E9 :       ADC.b #$00 : STA.w $0D20, Y
             
             LDA.b #$03 : STA.w $0E40, Y
-            
             LDA.b #$0C : STA.w $0F50, Y
             
-            LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$0C
+            JSL.l Sound_SetSfx2PanLong
             
             LDA.l $7FF81E, X : BMI .beta
                 DEC : STA.l $7FF81E, X
@@ -427,8 +422,8 @@ Lanmola_Draw:
     
     REP #$20
     
-    LDA Pool_Lanmola_Draw_OAMCoord90, Y : STA.b $90
-    LDA Pool_Lanmola_Draw_OAMCoord92, Y : STA.b $92
+    LDA.w Pool_Lanmola_Draw_OAMCoord90, Y : STA.b $90
+    LDA.w Pool_Lanmola_Draw_OAMCoord92, Y : STA.b $92
     
     SEP #$20
     
@@ -437,7 +432,7 @@ Lanmola_Draw:
     
     JSL.l Sprite_ConvertVelocityToAngle : STA.w $0DC0, X
     
-    LDA Pool_Lanmola_FinishInitialization_sprite_regions, X : STA.b $04
+    LDA.w Pool_Lanmola_FinishInitialization_sprite_regions, X : STA.b $04
     
     PHX
     
@@ -446,10 +441,10 @@ Lanmola_Draw:
     LDA.w $0F70, X : PHA
     LDA.w $0DC0, X : PHA
     
-    LDA.w $0E80, X : STA.b $02 : STA.b $05
+    LDA.w $0E80, X : STA.b $02
+                     STA.b $05
     
     CLC : ADC.b $04 : TAX
-    
     PLA : STA.l $7FFF00, X
     PLA : STA.l $7FFE00, X
     PLA : STA.l $7FFD00, X
@@ -475,10 +470,8 @@ Lanmola_Draw:
     PHA : STA.b $0E
     
     LDA.w $0D40, X : ASL : ROL : AND.b #$01 : TAX
-    
-    LDA Pool_Lanmola_FinishInitialization_data2, X : STA.b $0C
-    
-    LDY Pool_Lanmola_FinishInitialization_data1, X
+    LDA.w Pool_Lanmola_FinishInitialization_data2, X : STA.b $0C
+    LDY.w Pool_Lanmola_FinishInitialization_data1, X
     
     PLX
     
@@ -492,7 +485,9 @@ Lanmola_Draw:
         
         LDA.b $02 : SEC : SBC.b #$08 : AND.b #$3F : STA.b $02
         
-        LDA.l $7FFC00, X : SEC : SBC.b $E2 : STA.b ($90), Y : INY
+        LDA.l $7FFC00, X : SEC : SBC.b $E2 : STA.b ($90), Y
+        
+        INY
         
         LDA.l $7FFE00, X : BMI .gamma
             LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC.b $E8 : STA.b ($90), Y
@@ -502,7 +497,6 @@ Lanmola_Draw:
         PHY
         
         LDA.l $7FFF00, X : TAX
-        
         LDY.b $0D
         
         LDA.b $0B : CMP.b #$07 : BNE .delta
@@ -513,28 +507,27 @@ Lanmola_Draw:
         LDA.b #$C6
         
         CPY.b $0B : BNE .zeta
-            LDA Pool_Lanmola_Draw_chr1, X
+            LDA.w Pool_Lanmola_Draw_chr1, X
             
             BRA .zeta
             
             .epsilon
             
-            LDA Pool_Lanmola_Draw_chr2, X
+            LDA.w Pool_Lanmola_Draw_chr2, X
         
         .zeta
         
-        PLY                                             : INY : STA.b ($90), Y
-        LDA Pool_Lanmola_Draw_properties, X : ORA.b $03 : INY : STA.b ($90), Y
+        PLY                                               : INY : STA.b ($90), Y
+        LDA.w Pool_Lanmola_Draw_properties, X : ORA.b $03 : INY : STA.b ($90), Y
         
-        TYA : PHY : LSR : LSR : TAY
-        
+        TYA : PHY
+        LSR : LSR : TAY
         LDA.b #$02 : STA.b ($92), Y
         
         PLA : CLC : ADC.b $0C : TAY
     PLX : DEX : BPL .theta
     
     LDX.b $0E
-    
     LDY.b #$20
     
     .kappa
@@ -557,8 +550,8 @@ Lanmola_Draw:
         LDA.b #$6C : INY : STA.b ($90), Y
         LDA.b #$34 : INY : STA.b ($90), Y
         
-        TYA : PHY : LSR : LSR : TAY
-        
+        TYA : PHY
+        LSR : LSR : TAY
         LDA.b #$02 : STA.b ($92), Y
         
         PLY : INY
@@ -576,13 +569,15 @@ Lanmola_Draw:
             PHA
             
             LDA.w $0D40, X : ASL : ROL : ASL : EOR.w $0D80, X : AND.b #$02 : BEQ .nu
-                LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
+                LDA.b #$08
+                JSL.l OAM_AllocateFromRegionB
                 
                 BRA .xi
             
             .nu
             
-            LDA.b #$08 : JSL.l OAM_AllocateFromRegionC
+            LDA.b #$08
+            JSL.l OAM_AllocateFromRegionC
             
             .xi
             
@@ -602,9 +597,7 @@ Lanmola_Draw:
                 PHX
                 
                 TXA : CLC : ADC.b $06 : TAX
-                
-                LDA.b $00 : CLC : ADC Pool_Lanmola_Draw_xDirt, X
-                STA.b ($90), Y
+                LDA.b $00 : CLC : ADC Pool_Lanmola_Draw_xDirt, X : STA.b ($90), Y
 
                 LDA.b $02 : CLC : ADC Pool_Lanmola_Draw_yDirt, X
                 INY : STA.b ($90), Y
@@ -619,7 +612,7 @@ Lanmola_Draw:
                 
                 TYA : LSR : LSR : TAY
                 
-                LDA Pool_Lanmola_Draw_sizesDirt, X : STA.b ($92), Y
+                LDA.w Pool_Lanmola_Draw_sizesDirt, X : STA.b ($92), Y
                 
                 PLY : INY
             PLX : DEX : BPL .omicron
@@ -634,7 +627,8 @@ Lanmola_Draw:
 ; $02A820-$02A87F LOCAL JUMP LOCATION
 Lanmola_DrawMound:
 {
-    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$04
+    JSL.l OAM_AllocateFromRegionB
     
     LDA.w $0D10, X : SEC : SBC.b $E2 : STA.b $00
     LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $02
@@ -644,16 +638,13 @@ Lanmola_DrawMound:
     PHX
     
     LDX.w .frame, Y
-    
     LDY.b #$00
-    
     LDA.b $00                          : STA.b ($90), Y
     LDA.b $02                    : INY : STA.b ($90), Y
     LDA.w .properties, X         : INY : STA.b ($90), Y
     LDA.w .sizes, X : ORA.b #$31 : INY : STA.b ($90), Y
     
     TYA : LSR : LSR : TAY
-    
     LDA.b #$02 : STA.b ($92), Y
     
     PLX

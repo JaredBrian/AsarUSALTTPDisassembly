@@ -460,9 +460,9 @@ Sprite_Blind:
             STZ.w $0EF0, X
             STZ.w $0E70, X
             
-            LDA.w !timer_4, X : BNE .skip_damage_logic
+            LDA.w $0F10, X : BNE .skip_damage_logic
                 LDA.b #$80 : STA.w $0E50, X
-                LDA.b #$30 : STA.w !timer_4, X
+                LDA.b #$30 : STA.w $0F10, X
                 
                 LDA.w $0F50, X : AND.b #$01 : STA.w $0F50, X
                 
@@ -1072,7 +1072,7 @@ Blind_Decelerate_Y:
 ; $0EA6C0-$0EA6CE LOCAL JUMP LOCATION
 Blind_CheckBumpDamage:
 {
-    LDA.w !timer_4, X : ORA.w $0EA0, X : BNE .temporarily_intouchable
+    LDA.w $0F10, X : ORA.w $0EA0, X : BNE .temporarily_intouchable
         JSR.w Sprite4_CheckDamage
     
     .temporarily_intouchable

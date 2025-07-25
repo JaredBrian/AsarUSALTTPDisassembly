@@ -295,7 +295,7 @@ GiantMoldorm_Draw:
 GiantMoldorm_IncrementalSegmentExplosion:
 {
     LDA.w $0DD0, X : CMP.b #$09 : BNE .alive_and_well
-        LDA.w !timer_4, X : BEQ .delay_explosion
+        LDA.w $0F10, X : BEQ .delay_explosion
             CMP.b #$50 : BCS .delay_explosion
                 AND.b #$0F : ORA.b $11 : ORA.w $0FC1 : BNE .delay_explosion
                     ; Move on to the next segment.
@@ -629,7 +629,7 @@ GiantMoldorm_DrawEyeballs:
 ; $0EDC11-$0EDC15 JUMP LOCATION
 GiantMoldorm_AwaitDeath:
 {
-    LDA.w !timer_4, X : BNE Sprite_ScheduleBossForDeath_delay
+    LDA.w $0F10, X : BNE Sprite_ScheduleBossForDeath_delay
         ; Bleeds into the next function.
 }
     

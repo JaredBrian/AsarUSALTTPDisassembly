@@ -129,7 +129,6 @@ Sprite_FluteBoyFather:
         LDA.w $0202 : CMP.b #$0D : BNE .flute_usage_not_detected
             BIT.b $F0 : BVC .flute_usage_not_detected
                 JSL.l Sprite_CheckDamageToPlayerSameLayerLong
-            
                 BCC .flute_usage_not_detected
                     ; "... Oh? This is my son's flute...! Did you meet my
                     ; son? ..."
@@ -179,7 +178,6 @@ FluteBoyFather_Draw:
                  STZ.b $07
     
     LDA.w $0DC0, X : ASL #4
-    
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
@@ -228,7 +226,6 @@ BlindHideoutGuy_Draw:
                  STZ.b $07
     
     LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
-    
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     

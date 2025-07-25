@@ -23,7 +23,8 @@ Sprite_Hover:
     
     JSR.w Sprite3_CheckTileCollision
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$02 : STA.w $0DC0, X
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR #3 : AND.b #$02 : STA.w $0DC0, X
     
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
@@ -55,7 +56,6 @@ Hover_Stopped:
     	JSR.w Sprite3_IsBelowPlayer
     
     	TYA : ASL : ORA.b $0C : STA.w $0DE0, X : TAY
-    
     	LDA.w $0F50, X : AND.b #$BF : ORA .vh_flip, Y : STA.w $0F50, X
     
     	JSL.l GetRandomInt : AND.b #$0F : ADC.b #$0C : STA.w $0DF0, X
@@ -93,14 +93,11 @@ Pool_Hover_Moving:
 Hover_Moving:
 {
     LDA.w $0DF0, X : BEQ .timer_elapsed
-    	LDY.w $0DE0, X
-    
     	; Accelerate until timer elapses.
-    	LDA.w $0D50, X
-        CLC : ADC.w Pool_Hover_Moving_x_acceleration_step, Y : STA.w $0D50, X
-    
-    	LDA.w $0D40, X
-        CLC : ADC.w Pool_Hover_Moving_y_acceleration_step, Y : STA.w $0D40, X
+        LDY.w $0DE0, X
+    	LDA.w $0D50, X : CLC : ADC.w Pool_Hover_Moving_x_acceleration_step, Y : STA.w $0D50, X
+        
+    	LDA.w $0D40, X : CLC : ADC.w Pool_Hover_Moving_y_acceleration_step, Y : STA.w $0D40, X
     
     	LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
@@ -108,14 +105,13 @@ Hover_Moving:
     
     .timer_elapsed
     
-    LDY.w $0DE0, X
-    
     ; Decelerate until stopped.
-    LDA.w $0D50, X
-    CLC : ADC.w Pool_Hover_Moving_x_deceleration_step, Y : STA.w $0D50, X
-    
-    LDA.w $0D40, X
-    CLC : ADC.w Pool_Hover_Moving_y_deceleration_step, Y : STA.w $0D40, X
+    LDY.w $0DE0, X
+    LDA.w $0D50, X : CLC : ADC.w Pool_Hover_Moving_x_deceleration_step, Y
+    STA.w $0D50, X
+
+    LDA.w $0D40, X : CLC : ADC.w Pool_Hover_Moving_y_deceleration_step, Y
+    STA.w $0D40, X
     BNE .still_decelerating
     	STZ.w $0D80, X
     

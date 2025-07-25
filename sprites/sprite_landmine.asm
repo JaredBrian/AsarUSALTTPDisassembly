@@ -38,7 +38,8 @@ Landmine_Detonating:
         JSR.w Sprite_SpawnBomb : BMI .spawn_failed
             LDA.b #$06 : STA.w $0DD0, Y
             
-            LDA.b #$02 : STA.w $0DB0, Y : STA.w $0F50, Y
+            LDA.b #$02 : STA.w $0DB0, Y
+                         STA.w $0F50, Y
             
             LDA.b #$09 : STA.w $0F60, Y
             
@@ -55,7 +56,6 @@ Landmine_Detonating:
     .palette_cycle
     
     LSR : AND.b #$03 : TAY
-    
     LDA.w .palettes, Y : STA.w $0F50, X
     
     RTS
@@ -73,7 +73,8 @@ Landmine_Draw_OAM_groups:
 ; $0E810C-$0E8128 LOCAL JUMP LOCATION
 Landmine_Draw:
 {
-    LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$08
+    JSL.l OAM_AllocateFromRegionB
     
     LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_GFX_loaded
         REP #$20
@@ -82,7 +83,8 @@ Landmine_Draw:
         
         SEP #$20
         
-        LDA.b #$02 : JSL.l Sprite_DrawMultiple
+        LDA.b #$02
+        JSL.l Sprite_DrawMultiple
     
     .invalid_GFX_loaded
     

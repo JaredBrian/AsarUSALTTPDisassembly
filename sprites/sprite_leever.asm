@@ -23,8 +23,11 @@ Sprite_Leever:
     JSR.w Sprite_CheckIfActive
     JSR.w Sprite_CheckIfRecoiling
     
-    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL : TAY
+    LDA.w $0D80, X
     
+    REP #$30
+    
+    AND.w #$00FF : ASL : TAY
     LDA.w .handlers, Y : PHA
     
     SEP #$30
@@ -103,7 +106,6 @@ Leever_Emerge:
     .delay
     
     LSR #3 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -141,8 +143,8 @@ Leever_AttackPlayer:
     
     LDA.w $0E80, X : AND.b #$07 : BNE .tracking_delay
         LDY.w $0D90, X
-        
         LDA.w Pool_Leever_AttackPlayer_speeds, Y
+
         JSR.w Sprite_ApplySpeedTowardsPlayer
     
     .tracking_delay
@@ -151,8 +153,8 @@ Leever_AttackPlayer:
     JSR.w Sprite_CheckTileCollision
     
     LDA.w $0E70, X : BNE .tile_collision
-        INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$03 : TAY
-        
+        INC.w $0E80, X
+        LDA.w $0E80, X : LSR : LSR : AND.b #$03 : TAY
         LDA.w Pool_Leever_AttackPlayer_animation_states, Y : STA.w $0DC0, X
         
         RTS
@@ -180,7 +182,6 @@ Leever_Submerge:
     .delay
     
     LSR #3 : EOR.b #$0F : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS  
@@ -277,7 +278,6 @@ Leever_Draw:
     PHX
     
     LDX.w Pool_Leever_Draw_num_OAM_entries, Y
-    
     LDY.b #$00
     
     .next_OAM_entry
@@ -285,17 +285,14 @@ Leever_Draw:
         PHX
         
         TXA : CLC : ADC.b $06 : PHA
-        
-        ASL : TAX
+        ASL                  : TAX
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_Leever_x_offsets, X : STA.b ($90), Y
-        
+        LDA.b $00 : CLC : ADC.w Pool_Leever_x_offsets, X : STA.b ($90), Y
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC Pool_Leever_y_offsets, X : INY : STA.b ($90), Y
-        
+        LDA.b $02 : CLC : ADC.w Pool_Leever_y_offsets, X : INY : STA.b ($90), Y
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA.b ($90), Y
         
@@ -306,7 +303,6 @@ Leever_Draw:
         LDA.b $05 : PHA
         
         LDA.w Pool_Leever_chr, X : INY : STA.b ($90), Y
-        
         CMP.b #$60 : BCS .mask_off_palette_and_nametable_bits
         CMP.b #$28 : BEQ .mask_off_palette_and_nametable_bits
         CMP.b #$38 : BNE .dont_do_that
@@ -322,9 +318,7 @@ Leever_Draw:
         PLA : STA.b $05
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.w Pool_Leever_OAM_sizes, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY
