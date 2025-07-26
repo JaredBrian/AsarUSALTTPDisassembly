@@ -1171,7 +1171,7 @@ NULL_0BFE5E:
 
 ; ==============================================================================
 
-; ZSCREAM: ZS replaces the first and instruction and the latter
+; ZSCREAM: ZS replaces the first instruction and the latter
 ; half of this function.
 ; $05FE70-$05FFA7 LONG JUMP LOCATION
 Overworld_SetFixedColorAndScroll:

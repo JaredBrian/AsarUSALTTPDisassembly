@@ -15826,6 +15826,7 @@ Sprite_PaletteIndices:
 
 ; ==============================================================================
 
+; ZS makes a jump in this function.
 ; $007C41-$007C9B LONG JUMP LOCATION
 Sprite_LoadGfxProperties:
 {
@@ -15855,7 +15856,9 @@ Sprite_LoadGfxProperties:
 
     .doLightWorld
 
+    ; ZScream: ZS makes a jump here.
     ; If game stage == 0 or 1.
+    ; $007C67
     LDY.w #$003E
     
     ; Which game stage are we in?

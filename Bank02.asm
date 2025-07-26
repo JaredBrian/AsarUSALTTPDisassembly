@@ -4577,7 +4577,7 @@ Dungeon_PrepExitWithSpotlight:
     RTS
 }
 
-; ZSCREAM: ZS rewrites part of this function.
+; ZSCREAM: ZS rewrites most of this function.
 ; $011A19-$011AD2 LOCAL JUMP LOCATION
 Spotlight_ConfigureTableAndControl:
 {
@@ -4595,6 +4595,7 @@ Spotlight_ConfigureTableAndControl:
 
             SEP #$20
 
+        ; ZSCREAM: ZS starts writing here.
         ; $011A37 ALTERNATE ENTRY POINT
         .dont_restore_y_coord
 
@@ -4654,8 +4655,6 @@ Spotlight_ConfigureTableAndControl:
 
         REP #$30
 
-        ; ZSCREAM: ZS starts writing here.
-        ; $011AA6
         ; Setup fixed color values based on area number.
         LDX.w #$4C26
         LDY.w #$8C4C
@@ -5745,7 +5744,7 @@ TriforceRoom_Step3:
 
     LDX.b #$04
 
-    ; ZSCREAM: ZS writes here.
+    ; ZSCREAM: ZS Updates the reference here here.
     ; $01207A
     JSR.w Overworld_LoadAreaPalettes_preloaded
 
@@ -6473,6 +6472,7 @@ UNREACHABLE_02A52D:
 
 ; ==============================================================================
 
+; ZS overwrites part of this funciton.
 ; Main overworld submodule - Module 0x09.0x00, Module 0x0B.0x00.
 ; $01253C-$0125EB LONG JUMP LOCATION
 Overworld_PlayerControl:
@@ -6572,7 +6572,9 @@ Overworld_PlayerControl:
     JSL.l Graphics_LoadChrHalfSlot
     JSR.w Overworld_OperateCameraScroll
 
+    ; ZScream: ZS starts writing here.
     ; If special outdoors mode skip this part.
+    ; $0125D3
     LDA.b $10 : CMP.b #$0B : BEQ .specialOverworld
         JSL.l Overworld_Entrance
         JSL.l Overworld_DwDeathMountainPaletteAnimation
@@ -6593,8 +6595,8 @@ Overworld_PlayerControl:
 
 ; ==============================================================================
 
-; ZSCREAM: This table was moved to expanded space by ZS and this space is not
-; longer used.
+; ZSCREAM: This table was moved to expanded space by ZS but is then used to 
+; extend the function above.
 ; This tells the game what each area's "parent" area is. For small areas this
 ; is it's own area number. For large areas this is the top left area in the
 ; 2x2 grid.
@@ -6671,7 +6673,7 @@ OverworldScreenTileMapChange:
     ; As of 05/13/25 there arn't any released hacks that use this kind of layout.
 
     ; ZSCREAM: This table is moved to expanded space by ZS and this
-    ; space is no longer used.
+    ; space is used by other ZS ASM functions instead.
 
     ; These are the offsets to apply to the tilemap position when
     ; transitioning right.
@@ -6804,7 +6806,7 @@ OverworldTransitionPositionX:
 
 ; ==============================================================================
 
-; ZSCREAM: ZS modifies parts of this function.
+; ZSCREAM: ZS modifies this whole function.
 ; $0129C4-$012B07 LOCAL JUMP LOCATION
 OverworldHandleTransitions:
 {
@@ -6961,9 +6963,7 @@ OverworldHandleTransitions:
 
         PLA
 
-        ; ZSCREAM: ZS writes a jump here.
         ; Check if we need to trigger a mosaic transition.
-        ; $012ADB
         AND.b #$3F : BEQ .useMosaic ; Area it was
             LDA.b $8A : AND.b #$BF : BNE .noMosaic ; Area it is.
                 .useMosaic
@@ -6997,7 +6997,7 @@ OverworldHandleTransitions:
 
 ; ==============================================================================
 
-; ZSCREAM: ZS interupts this function.
+; ZSCREAM: ZS overwrites most of this function.
 ; $012B08-$012B7A LOCAL JUMP LOCATION
 Overworld_LoadMapProperties:
 {
@@ -7006,9 +7006,11 @@ Overworld_LoadMapProperties:
     ; Reset the incremental counter for updating VRAM from frame to frame.
     STZ.w $0412
 
+    ; ZScream: ZS starts writing here.
     ; This array was loaded up based on the world state variable ($7EF3C5).
     ; It contains 0x40 entries (disputed).
     ; $0AA3 is the sprite graphics index.
+    ; $012B0D
     LDA.l $7EFCC0, X : STA.w $0AA3
 
     ; $0AA2 is the secondary background graphics index.
@@ -8003,6 +8005,9 @@ OverworldMosaicTransition_RecoverDestinationPalettes:
 {
     LDX.b $8A
     LDA.l $7EFD40, X : STA.b $00
+
+    ; ZScream: ZS updates this reference.
+    ; $0130FB
     LDA.l OverworldPalettesScreenToSet, X
     JSL.l Overworld_LoadPalettes
 
@@ -14045,7 +14050,9 @@ LoadSpecialOverworld:
     
     STZ.w $0412
 
+    ; ZScream: ZS overwrites the rest of this function.
     ; GFX $0AA3
+    ; $016931
     LDA.l Pool_LoadSpecialOverworld_GFX_0AA3, X : STA.w $0AA3
 
     ; GFX $0AA2
@@ -14631,9 +14638,9 @@ PreOverworld_LoadAndAdvance:
 }
 
 ; $016DC5-$016EC4 DATA (Map16 locations of bombable doors)
-Pool_Overworld_HandleOverlaysAndBombDoors:
+Overworld_HandleOverlaysAndBombDoors_bombable_door_location:
 {
-    .bombable_door_location
+    .
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
@@ -14767,7 +14774,7 @@ Overworld_LoadMapData:
         ; Designates locations to write opened bomb doors to. i.e. it contains
         ; the map16 coordinates for them.
         LDA.b $8A : ASL TAX
-        LDA.l Pool_Overworld_HandleOverlaysAndBombDoors, X : TAX
+        LDA.l .bombable_door_location, X : TAX
 
         LDA.w #$0DB4 : STA.l $7E2000, X
         LDA.w #$0DB5 : STA.l $7E2002, X
@@ -14802,7 +14809,6 @@ Overworld_TransVertical:
         JSR.w Overworld_DrawVerticalStrip
 
         LDA.b $84 : SEC : SBC.w #$0080 : STA.b $84
-
         LDA.b $88 : DEC : AND.w #$001F : STA.b $88
     DEC.b $08 : BNE .alpha
 
