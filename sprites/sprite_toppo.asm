@@ -13,8 +13,11 @@ Sprite_Toppo:
     
     JSR.w Sprite2_CheckIfActive
     
-    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL : TAY
+    LDA.w $0D80, X
     
+    REP #$30
+    
+    AND.w #$00FF : ASL : TAY
     LDA.w .states, Y : DEC : PHA
     
     SEP #$30
@@ -62,7 +65,6 @@ Toppo_PickNextGrassPlot:
     LDA.b #$08 : STA.w $0DF0, X
     
     JSL.l GetRandomInt : AND.b #$03 : TAY
-    
     LDA.w $0D90, X
     CLC : ADC Pool_Toppo_PickNextGrassPlot_x_offsets_low,  Y : STA.w $0D10, X
 
@@ -189,7 +191,8 @@ Toppo_CheckLandingSiteForGrass:
     LDA.w $0D10, X : STA.b $02
     LDA.w $0D30, X : STA.b $03
     
-    LDA.b #$00 : JSL.l Entity_GetTileAttr : CMP.b #$40 : BEQ .is_thick_grass
+    LDA.b #$00
+    JSL.l Entity_GetTileAttr : CMP.b #$40 : BEQ .is_thick_grass
         LDA.b #$05 : STA.w $0D80, X
     
     .is_thick_grass
@@ -262,8 +265,8 @@ Toppo_Draw:
     
     .next_OAM_entry
         
-        PHX : TXA : CLC : ADC.b $08 : PHA : TAX
-        
+        PHX
+        TXA : CLC : ADC.b $08 : PHA : TAX
         LDA.w Pool_Toppo_Draw_size, X : STA.b $0C
         
         TXA : ASL : TAX
@@ -271,7 +274,6 @@ Toppo_Draw:
         REP #$20
         
         LDA.b $00 : CLC : ADC.w Pool_Toppo_Draw_offset_x, X : STA.b ($90), Y
-        
         AND.w #$0100 : STA.b $0E
         
         PHX
@@ -286,7 +288,6 @@ Toppo_Draw:
         .alpha
         
         CLC : ADC.w Pool_Toppo_Draw_offset_y, X : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .beta
             LDA.b #$F0 : STA.b ($90), Y
         
@@ -304,9 +305,7 @@ Toppo_Draw:
         INY : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.b $0C : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY

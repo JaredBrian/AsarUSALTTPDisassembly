@@ -9,9 +9,7 @@ Sprite_Gibdo:
     JSR.w Sprite3_CheckDamage
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Gibdo_ApproachTargetDirection ; 0x00 - $B9CC
     dw Gibdo_CanMove                 ; 0x01 - $BA12
 }
@@ -34,14 +32,12 @@ Pool_Gibdo_ApproachTargetDirection:
 Gibdo_ApproachTargetDirection:
 {
     LDY.w $0DE0, X
-    
     LDA.w Pool_Gibdo_ApproachTargetDirection_animation_states, Y : STA.w $0DC0, X
     
     LDA.b $1A : AND.b #$07 : BNE .delay
     	LDY.w $0D90, X
-    
     	LDA.w $0DE0, X
-    	CMP Pool_Gibdo_ApproachTargetDirection_target_direction, Y : BEQ .reset_timer
+    	CMP.w Pool_Gibdo_ApproachTargetDirection_target_direction, Y : BEQ .reset_timer
     	BPL .rotate_towards_target_direction
     	    INC.w $0DE0, X
     
@@ -86,12 +82,10 @@ Pool_Gibdo_CanMove:
 ; $0F3A12-$0F3A5F JUMP LOCATION
 Gibdo_CanMove:
 {
-    LDY.w $0DE0, X
-    
     ; Note that half of these states will have a speed of zero, or that the
     ; sprite is standing still. Gibdos are kind of weird in that regard.
+    LDY.w $0DE0, X
     LDA.w Pool_Gibdo_CanMove_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_Gibdo_CanMove_y_speeds, Y : STA.w $0D40, X
     
     JSR.w Sprite3_Move
@@ -124,7 +118,6 @@ Gibdo_CanMove:
     .dont_tick_animation_timer
     
     LDA.w $0E80, X : ASL : ASL : AND.b #$04 : ORA.w $0D90, X : TAY
-    
     LDA.w Pool_Gibdo_CanMove_animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -182,7 +175,8 @@ Gibdo_Draw:
     ASL #4 : ADC.w .OAM_groups : STA.b $08
     SEP #$20
     
-    LDA.b #$02 : JSR.w Sprite3_DrawMultiple
+    LDA.b #$02
+    JSR.w Sprite3_DrawMultiple
     
     LDA.w $0F00, X : BNE .no_shadow
         JSL.l Sprite_DrawShadowLong

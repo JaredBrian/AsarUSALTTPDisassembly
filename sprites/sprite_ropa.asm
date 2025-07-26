@@ -12,7 +12,6 @@ Sprite_Ropa:
     LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA.w $0DC0, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw Ropa_Stationary ; 0x00 - $9E44
     dw Ropa_Pounce     ; 0x01 - $9E5D
@@ -24,14 +23,12 @@ Sprite_Ropa:
 Ropa_Stationary:
 {
     LDA.w $0DF0, X : BNE .delay
-    
-    LDA.b #$10
-    
-    JSR.w Sprite_ApplySpeedTowardsPlayer
-    
-    JSL.l GetRandomInt : AND.b #$0F : ADC.b #$14 : STA.w $0F80, X
-    
-    INC.w $0D80, X
+        LDA.b #$10
+        JSR.w Sprite_ApplySpeedTowardsPlayer
+        
+        JSL.l GetRandomInt : AND.b #$0F : ADC.b #$14 : STA.w $0F80, X
+        
+        INC.w $0D80, X
     
     .delay
     
@@ -93,16 +90,17 @@ Ropa_Draw_OAM_groups:
 Ropa_Draw:
 {
     LDA.b #$00 : XBA
-    
     LDA.w $0DC0, X
     
     REP #$20
     
-    ASL #3 : STA.b $00 : ASL : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
+    ASL #3                               : STA.b $00
+    ASL : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$03 : JSL.l Sprite_DrawMultiple
+    LDA.b #$03
+    JSL.l Sprite_DrawMultiple
     
     JMP Sprite_DrawShadow
 }

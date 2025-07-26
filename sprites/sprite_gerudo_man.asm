@@ -25,7 +25,6 @@ Sprite_GerudoMan:
     REP #$30
     
     AND.w #$00FF : ASL : TAY
-    
     LDA.w .states, Y : DEC : PHA
     
     SEP #$30
@@ -95,14 +94,14 @@ GerudoMan_Emerge:
     
     	LDA.b #$60 : STA.w $0DF0, X
     
-    	LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+    	LDA.b #$10
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     	RTS
     
     .delay
     
     LSR : LSR : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -145,7 +144,6 @@ GerudoMan_PursuePlayer:
     .delay
     
     LSR : LSR : AND.b #$01 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     JSR.w Sprite2_CheckDamage
@@ -169,7 +167,6 @@ GerudoMan_Submerge:
     .delay
     
     LSR : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -247,12 +244,10 @@ GerudoMan_Draw:
     
     	REP #$20
     
-    	LDA.b $00 : CLC : ADC Pool_GerudoMan_Draw_x_offsets, X       : STA.b ($90), Y
-    
+    	LDA.b $00 : CLC : ADC Pool_GerudoMan_Draw_x_offsets, X : STA.b ($90), Y
     	AND.w #$0100 : STA.b $0E
     
     	LDA.b $02 : CLC : ADC Pool_GerudoMan_Draw_y_offsets, X : INY : STA.b ($90), Y
-    
     	CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     		LDA.b #$F0 : STA.b ($90), Y
     
@@ -263,8 +258,8 @@ GerudoMan_Draw:
     	LDA.w Pool_GerudoMan_Drawchr, X     : INY             : STA.b ($90), Y
     	LDA.w Pool_GerudoMan_Drawvh_flip, X : INY : ORA.b $05 : STA.b ($90), Y
     
-    	PHY : TYA : LSR : LSR : TAY
-    
+    	PHY
+        TYA : LSR : LSR : TAY
     	LDA.w .sizes, X : ORA.b $0F : STA.b ($92), Y
     
     	PLY : INY

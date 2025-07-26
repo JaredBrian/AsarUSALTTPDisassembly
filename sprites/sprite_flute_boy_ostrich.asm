@@ -64,7 +64,8 @@ FluteBoyOstrich_RunAway:
         
     .dont_hop_yet
     
-    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$07 : BNE .delay_animation_tick
+    INC.w $0E80, X
+    LDA.w $0E80, X : AND.b #$07 : BNE .delay_animation_tick
         LDA.w $0D90, X : CMP.b #$03 : BEQ .animation_counter_maxed
             INC.w $0D90, X
         
@@ -72,7 +73,6 @@ FluteBoyOstrich_RunAway:
     .delay_animation_tick
     
     LDY.w $0D90, X
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -107,12 +107,17 @@ FluteBoyOstrich_Draw_OAM_groups:
 ; $0F1A4B-$0F1A6A LOCAL JUMP LOCATION
 FluteBoyOstrich_Draw:
 {
-    LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.OAM_groups) : STA.b $08
+    LDA.b #$00 : XBA
+    LDA.w $0DC0, X
+    
+    REP #$20
+    
+    ASL #5 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
-    LDA.b #$04 : JSR.w Sprite3_DrawMultiple
+    LDA.b #$04
+    JSR.w Sprite3_DrawMultiple
     
     LDA.b #$12
     JSL.l Sprite_DrawShadowLong_variable

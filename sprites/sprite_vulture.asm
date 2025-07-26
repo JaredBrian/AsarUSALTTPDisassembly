@@ -39,7 +39,8 @@ Vulture_Dormant:
     INC.w $0E80, X : LDA.w $0E80, X : CMP.b #$A0 : BNE .activation_delay
         INC.w $0D80, X
         
-        LDA.b #$1E : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$1E
+        JSL.l Sound_SetSfx3PanLong
         
         LDA.b #$10 : STA.w $0DF0, X
     
@@ -60,7 +61,6 @@ Vulture_Circling_animation_states:
 Vulture_Circling:
 {
     LDA.b $1A : LSR : AND.b #$03 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0DF0, X : BEQ .finished_ascending
@@ -72,7 +72,6 @@ Vulture_Circling:
     
     TXA : EOR.b $1A : AND.b #$01 : BNE .dont_adjust_xy_speeds
         TXA : AND.b #$0F : CLC : ADC.b #$18
-        
         JSL.l Sprite_ProjectSpeedTowardsPlayerLong
         
         LDA.b $00 : EOR.b #$FF : INC : STA.w $0D50, X
@@ -121,12 +120,14 @@ Vulture_Draw_OAM_groups:
 Vulture_Draw:
 {
     LDA.b #$00 : XBA
+    LDA.w $0DC0, X
     
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.OAM_groups : STA.b $08
-    
+    REP #$20
+    ASL #4 : ADC.w #.OAM_groups : STA.b $08
     SEP #$20
     
-    LDA.b #$02 : JSR.w Sprite4_DrawMultiple
+    LDA.b #$02
+    JSR.w Sprite4_DrawMultiple
     
     JSL.l Sprite_DrawShadowLong
     

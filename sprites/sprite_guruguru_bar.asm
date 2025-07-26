@@ -31,9 +31,10 @@ Sprite_GuruguruBar:
     
     .not_in_ice_palace
     
-    LDA.w $0D90, X : CLC : ADC .offsets_low, Y : STA.w $0D90, X
+    LDA.w $0D90, X : CLC : ADC.w .offsets_low, Y : STA.w $0D90, X
     
-    LDA.w $0DA0, X : ADC Pool_Sprite_GuruguruBar_offsets_high, Y : AND.b #$01 : STA.w $0DA0, X
+    LDA.w $0DA0, X : ADC.w Pool_Sprite_GuruguruBar_offsets_high, Y
+    AND.b #$01 : STA.w $0DA0, X
     
     RTS
 }
@@ -48,11 +49,9 @@ GuruguruBar_Main:
     LDA.b $05 : STA.w $0FB6
     
     LDA.b $00 : STA.w $0FA8
-    
     LDA.b $02 : STA.w $0FA9
     
     LDA.w $0D90, X : STA.b $00
-    
     LDA.w $0DA0, X : STA.b $01
     
     LDA.b #$40 : STA.b $0F
@@ -66,11 +65,9 @@ GuruguruBar_Main:
     LDA.b $00 : CLC : ADC.w #$0080 : AND.w #$01FF : STA.b $02
     
     LDA.b $00 : AND.w #$00FF : ASL : TAX
-    
     LDA.l SmoothCurve, X : STA.b $04
     
     LDA.b $02 : AND.w #$00FF : ASL : TAX
-    
     LDA.l SmoothCurve, X : STA.b $06
     
     SEP #$30
@@ -150,7 +147,10 @@ GuruguruBar_Main:
     
         JSR.w Sprite3_DivisionDelay
     
-        LDA.b $04 : ASL : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_EPSILON
+        ; OPTIMIZE: What?
+        LDA.b $04 : ASL
+        
+        LDA.w SNES.RemainderResultHigh : BCC .BRANCH_EPSILON
             EOR.b #$FF : INC
     
         .BRANCH_EPSILON
@@ -162,7 +162,10 @@ GuruguruBar_Main:
     
     	JSR.w Sprite3_DivisionDelay
     
-    	LDA.b $06 : ASL : LDA.w SNES.RemainderResultHigh : BCC .BRANCH_ZETA
+        ; OPTIMIZE: What?
+    	LDA.b $06 : ASL
+        
+        LDA.w SNES.RemainderResultHigh : BCC .BRANCH_ZETA
     	    EOR.b #$FF : INC
     
     	.BRANCH_ZETA
@@ -171,8 +174,8 @@ GuruguruBar_Main:
     	LDA.b #$28        : INY : STA.b ($90), Y
     	LDA.b $0D         : INY : STA.b ($90), Y
        
-    	PHY : TYA : LSR : LSR : TAY
-    
+    	PHY
+        TYA : LSR : LSR : TAY
     	LDA.b #$02 : STA.b ($92), Y
     
     	PLY : INY
@@ -189,16 +192,15 @@ GuruguruBar_Main:
     
         .check_damage_to_player_loop
     
-            PHY : TYA : LSR : LSR : TAY
-    
             ; Check if offscreen per x coordinate.
+            PHY
+            TYA : LSR : LSR : TAY
             LDA.b ($92), Y : PLY : AND.b #$01 : BNE .no_player_collision
     	        LDA.b ($90), Y : CLC : ADC.b $E2 : SEC : SBC.b $22
-    
     	        CLC : ADC.b #$0C : CMP.b #$18 : BCS .no_player_collision
-    	            INY
-    
+    	           
     	            ; Check if offscreen per y coordinate.
+                    INY
     	            LDA.b ($90), Y : DEY : CMP.b #$F0 : BCS .no_player_collision
     	    	        CLC : ADC.b $E8 : SEC : SBC.b $20
 		        CLC : ADC.b #$04 : CMP.b #$10 : BCS .no_player_collision

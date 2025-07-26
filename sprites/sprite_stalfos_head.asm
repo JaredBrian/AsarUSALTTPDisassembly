@@ -20,13 +20,13 @@ Sprite_StalfosHead:
     LDA.b $EE : STA.w $0F20, X
     
     LDA.w $0E00, X : BEQ .use_typical_OAM_region
-        LDA.b #$08 : JSL.l OAM_AllocateFromRegionC
+        LDA.b #$08
+        JSL.l OAM_AllocateFromRegionC
     
     .use_typical_OAM_region
     
     LDA.w $0E80, X : LSR #3 : AND.b #$03 : TAY
-    
-    LDA.w $0F50, X : AND.b #$BF : ORA Pool_Sprite_StalfosHead_h_flip, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA.w Pool_Sprite_StalfosHead_h_flip, Y : STA.w $0F50, X
     
     LDA.w Pool_Sprite_StalfosHead_animation_states, Y : STA.w $0DC0, X
     
@@ -50,7 +50,8 @@ Sprite_StalfosHead:
     
     LDA.w $0DF0, X : BEQ .flee_from_player
         AND.b #$01 : BNE  .return
-            LDA.b #$10 : JSR.w Sprite_ProjectSpeedTowardsPlayer
+            LDA.b #$10
+            JSR.w Sprite_ProjectSpeedTowardsPlayer
             
             .approach_target_speed
             
@@ -85,7 +86,6 @@ Sprite_StalfosHead:
     
     TXA : EOR.b $1A : AND.b #$03 : BNE .return
         LDA.b #$10
-        
         JSR.w Sprite_ProjectSpeedTowardsPlayer
         
         LDA.b $00 : EOR.b #$FF : INC : STA.b $00

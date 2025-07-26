@@ -20,7 +20,8 @@ Sprite_Zol:
 
             .anoself_terminate
 
-            LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$20
+            JSL.l Sound_SetSfx2PanLong
 
     .skip_initial_collision_check
 
@@ -52,12 +53,15 @@ Sprite_Zol:
 ; $0F3055-$0F309E JUMP LOCATION
 Zol_HidingUnseen:
 {
-    LDA.w $0F60, X : PHA : ORA.b #$09 : STA.w $0F60, X
-    LDA.w $0E40, X       : ORA.b #$80 : STA.w $0E40, X
+    LDA.w $0F60, X : PHA
+    ORA.b #$09     : STA.w $0F60, X
+
+    LDA.w $0E40, X : ORA.b #$80 : STA.w $0E40, X
     
     JSR.w Sprite3_CheckDamageToPlayer
     
-    PLA : STA.w $0F60, X : BCC .didnt_touch_player
+    PLA : STA.w $0F60, X
+    BCC .didnt_touch_player
         INC.w $0D80, X
         
         LDA.b #$7F : STA.w $0DF0, X
@@ -98,17 +102,18 @@ Zol_PoppingOut:
         ; Make the Zol jump up.
         LDA.b #$20 : STA.w $0F80, X
         
-        LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$10
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         ; Play popping out of ground SFX.
-        LDA.b #$30 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$30
+        JSL.l Sound_SetSfx3PanLong
         
         RTS
 
     .delay
 
     LSR #3 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -139,11 +144,9 @@ Zol_Falling:
         .hobble_around
 
         LSR #4 : TAY
-        
         LDA.w .animation_states, Y : STA.w $0DC0, X
         
         LDA.b $1A : LSR : AND.b #$01 : TAY
-        
         LDA.w .x_speeds, Y : STA.w $0D50, X
         
         JSR.w Sprite3_MoveHoriz
@@ -168,13 +171,11 @@ Zol_Falling:
     PLA : EOR.w $0F70, X : BPL .didnt_hit_ground
         LDA.w $0F70, X : BPL .didnt_hit_ground
             STZ.w $0F80, X
-            
             STZ.w $0F70, X
             
             STZ.w $0DB0, X
             
             LDA.b #$1F : STA.w $0DF0, X
-            
             LDA.b #$08 : STA.w $0EB0, X
 
     .didnt_hit_ground
@@ -194,7 +195,8 @@ Zol_Active:
     JSR.w Sprite3_CheckDamageToPlayer
     
     LDA.w $0E00, X : BNE .delay_retargeting_player
-        LDA.b #$30 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$30
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         JSL.l GetRandomInt : AND.b #$3F : ORA.b #$60 : STA.w $0E00, X
         
@@ -209,15 +211,14 @@ Zol_Active:
     ; agitated though...
     LDA.w $0E10, X : BNE .not_agitated
         INC.w $0E80, X
-        
         LDA.w $0E80, X : AND.b #$0E : ORA.w $0E70, X : BNE .deagitation_delay
             JSR.w Sprite3_Move
             
-            INC.w $0ED0, X : LDA.w $0ED0, X : CMP.w $0EB0, X : BNE .deagitation_delay
+            INC.w $0ED0, X
+            LDA.w $0ED0, X : CMP.w $0EB0, X : BNE .deagitation_delay
                 STZ.w $0ED0, X
                 
                 JSL.l GetRandomInt : AND.b #$1F : ADC.b #$40 : STA.w $0E10, X
-                
                 JSL.l GetRandomInt : AND.b #$1F : ORA.b #$10 : STA.w $0EB0, X
 
         .deagitation_delay
@@ -261,18 +262,18 @@ Zol_Draw:
 
     LDA.w $0F10, X : BEQ .draw_in_front_of_player
         ; Draw behind player.
-        LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
+        LDA.b #$08
+        JSL.l OAM_AllocateFromRegionB
 
     .draw_in_front_of_player
 
     LDA.w $0D80, X : BEQ .not_visible
         LDA.w $0DC0, X : CMP.b #$04 : BCS Zol_DrawMultiple
         
-        PHA : TAY
-        
+        PHA
+        TAY
         LDA.w $0F50, X : PHA
-        
-        EOR .hflip_states, Y : STA.w $0F50, X
+        EOR.w .hflip_states, Y : STA.w $0F50, X
         
         ; WTF: With all the use of $0F50, X?
         AND.b #$01 : EOR.b #$01 : ASL : ASL : CLC : ADC.w $0DC0, X : STA.w $0DC0, X
@@ -313,13 +314,14 @@ Zol_DrawMultiple_OAM_groups:
 Zol_DrawMultiple:
 {
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : SEC : SBC.b #$04 : REP #$20 : ASL #4
+    LDA.w $0DC0, X : SEC : SBC.b #$04
     
-    ADC.w #Pool_Zol_DrawMultiple_OAM_groups : STA.b $08
-    
+    REP #$20
+    ASL #4 : ADC.w #Pool_Zol_DrawMultiple_OAM_groups : STA.b $08
     SEP #$20
     
-    LDA.b #$02 : JMP Sprite3_DrawMultiple
+    LDA.b #$02
+    JMP Sprite3_DrawMultiple
 }
 
 ; =============================================================================

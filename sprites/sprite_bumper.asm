@@ -19,12 +19,13 @@ Sprite_Bumper:
             
             LDA.b #$20 : STA.w $0DF0, X
             
-            LDA.b #$30 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
+            LDA.b #$30
+            JSL.l Sprite_ProjectSpeedTowardsPlayerLong
             
             LDA.b $F0 : LSR : LSR : AND.b #$03 : TAY
             LDA.b $00 : CLC : ADC .player_recoil_speeds, Y : STA.b $27
             
-            LDA.b $F0 : AND.b #$03 : TAY
+            LDA.b $F0             : AND.b #$03 : TAY
             LDA.b $01 : CLC : ADC .player_recoil_speeds, Y : STA.b $28
             
             LDA.b #$14 : STA.b $46
@@ -35,7 +36,8 @@ Sprite_Bumper:
             
             PLX
             
-            LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$32
+            JSL.l Sound_SetSfx3PanLong
             
         .no_player_collision
     .using_magic_cape
@@ -65,7 +67,6 @@ Sprite_Bumper:
                             PHY
                             
                             LDA.b #$40
-                            
                             JSL.l Sprite_ProjectSpeedTowardsEntityLong
                             
                             PLY
@@ -75,7 +76,8 @@ Sprite_Bumper:
                             
                             LDA #$20 : STA.w $0DF0, X
                             
-                            LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
+                            LDA.b #$32
+                            JSL.l Sound_SetSfx3PanLong
         
         .no_sprite_collision
         
@@ -105,13 +107,16 @@ Bumper_Draw_OAM_groups:
 Bumper_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DF0, X : LSR : AND.b #$01 : REP #$20 : ASL #5
+    LDA.w $0DF0, X : LSR : AND.b #$01
     
-    ADC.w #(.OAM_groups) : STA.b $08
+    REP #$20
+
+    ASL #5 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
-    LDA.b #$04 : JMP Sprite3_DrawMultiple
+    LDA.b #$04
+    JMP Sprite3_DrawMultiple
 }
 
 ; ==============================================================================

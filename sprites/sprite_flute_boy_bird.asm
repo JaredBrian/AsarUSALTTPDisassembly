@@ -10,7 +10,7 @@ Sprite_FluteBoyBird:
     
     LDY.w $0DE0, X
     
-    LDA.w $0F50, X : AND.b #$BF : ORA FluteBoyAnimal_vh_flip, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA.w FluteBoyAnimal_vh_flip, Y : STA.w $0F50, X
     
     REP #$20
     
@@ -52,9 +52,9 @@ FluteBoyBird_Chillin:
     LDA.w $0FDD : BEQ .dont_run_away
         INC.w $0D80, X
         
-        LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X : TAY
-        
-        LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
+        LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
+                                      TAY
+        LDA.w Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
         
         LDA.b #$20 : STA.w $0DF0, X
         
@@ -81,7 +81,8 @@ FluteBoyBird_Rising:
         .below_rise_speed_limit
     .delay
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$01 : INC : STA.w $0DC0, X
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : AND.b #$01 : INC : STA.w $0DC0, X
     
     RTS
 }
@@ -94,7 +95,6 @@ FluteBoyBird_Falling:
     LDA.b #$01 : STA.w $0DC0, X
     
     LDA.w $0F80, X : SEC : SBC.b #$01 : STA.w $0F80, X
-    
     CMP.b #$F1 : BPL .above_fall_speed_limit
         DEC.w $0D80, X
     
@@ -119,11 +119,10 @@ FluteBoyBird_DrawBlink:
     PHX
     
     LDA.w $0DE0, X : TAX
-    
-    LDA.b $00 : CLC : ADC .x_offsets, X              : STA.b ($90), Y
-    LDA.b $02                                  : INY : STA.b ($90), Y
-    LDA.b #$AE                                 : INY : STA.b ($90), Y
-    LDA.b $05 : ORA FluteBoyAnimal_vh_flip, X  : INY : STA.b ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X                : STA.b ($90), Y
+    LDA.b $02                                    : INY : STA.b ($90), Y
+    LDA.b #$AE                                   : INY : STA.b ($90), Y
+    LDA.b $05 : ORA.w FluteBoyAnimal_vh_flip, X  : INY : STA.b ($90), Y
     
     PLX
     

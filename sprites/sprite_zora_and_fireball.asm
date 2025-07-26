@@ -124,7 +124,8 @@ Sprite_ZoraAndFireball:
                         ; Kill off the sprite.
                         STZ.w $0DD0, X
                         
-                        LDA.b #$06 : JSL.l Sound_SetSfx2PanLong
+                        LDA.b #$06
+                        JSL.l Sound_SetSfx2PanLong
                         
                     .no_shield_collision
     .ignore_shield_collision
@@ -188,7 +189,6 @@ Zora_ChooseSurfacingLocation:
         ; coordinates.
         
         JSL.l GetRandomInt : AND.b #$07 : TAY
-        
         LDA.w $0D90, X
         CLC : ADC Pool_Zora_ChooseSurfacingLocation_offsets_low, Y
         STA.w $0D10, X
@@ -198,7 +198,6 @@ Zora_ChooseSurfacingLocation:
         STA.w $0D30, X
         
         JSL.l GetRandomInt : AND.b #$07 : TAY
-        
         LDA.w $0DB0, X
         CLC : ADC Pool_Zora_ChooseSurfacingLocation_offsets_low, Y
         STA.w $0D00, X
@@ -248,7 +247,6 @@ Zora_Surfacing:
     .delay
     
     LSR #3 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -286,7 +284,6 @@ Zora_Attack:
     .dont_spawn_fireball
     
     LSR #4 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -315,7 +312,6 @@ Zora_Submerging:
     .delay
     
     LSR : LSR : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -383,12 +379,10 @@ Zora_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC Pool_Zora_Draw_x_offsets, X       : STA.b ($90), Y
-        
+        LDA.b $00 : CLC : ADC.w Pool_Zora_Draw_x_offsets, X       : STA.b ($90), Y
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC Pool_Zora_Draw_y_offsets, X : INY : STA.b ($90), Y
-        
+        LDA.b $02 : CLC : ADC.w Pool_Zora_Draw_y_offsets, X : INY : STA.b ($90), Y
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA.b ($90), Y
         
@@ -407,8 +401,8 @@ Zora_Draw:
         
         INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.w Pool_Zora_Draw_size_bit, X : ORA.b $0F : STA.b ($92), Y
         
         PLY : INY

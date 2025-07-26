@@ -30,7 +30,8 @@ Sprite_LostWoodsBird_dropping:
 {
     STZ.w $0DC0, X
         
-    LDA.w $0F80, X : DEC : STA.w $0F80, X : CMP.b #$F1 : BPL .still_dropping
+    LDA.w $0F80, X : DEC : STA.w $0F80, X
+    CMP.b #$F1 : BPL .still_dropping
         INC.w $0D80, X
         
     .still_dropping
@@ -44,12 +45,14 @@ Sprite_LostWoodsBird_dropping:
 ; $02944C-$029467 LOCAL JUMP LOCATION
 Sprite_LostWoodsBird_rising:
 {
-    LDA.w $0F80, X : INC : INC : STA.w $0F80, X : CMP.b #$10 : BMI .still_rising
+    LDA.w $0F80, X : INC : INC : STA.w $0F80, X
+    CMP.b #$10 : BMI .still_rising
         STZ.w $0D80, X
     
     .still_rising
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$01 : STA.w $0DC0, X
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }

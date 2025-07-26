@@ -55,7 +55,6 @@ Sprite_CoveredRupeeCrab:
     .BRANCH_BETA
     
     LDA.w Pool_Sprite_CoveredRupeeCrab_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_Sprite_CoveredRupeeCrab_y_speeds, Y : STA.w $0D40, X
     
     LDA.w $0E70, X : BNE .tile_collision
@@ -66,8 +65,8 @@ Sprite_CoveredRupeeCrab:
     JSR.w Sprite_CheckTileCollision
     JSR.w Sprite_CheckDamageFromPlayer
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$03 : TAY
-    
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : AND.b #$03 : TAY
     LDA.w Pool_Sprite_CoveredRupeeCrab_animation_states, Y : STA.w $0DC0, X
     
     .BRANCH_GAMMA
@@ -99,14 +98,16 @@ Sprite_CoveredRupeeCrab:
         
         STZ.w $0DC0, X
         
-        LDA.b #$3E : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$3E
+        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             JSL.l Sprite_SetSpawnedCoords
             
             LDA.w $0E40, Y : ASL : LSR : STA.w $0E40, Y
             
             LDA.b #$80 : STA.w $0E10, Y
             
-            LDA.b #$09 : STA.w $0F50, Y : STA.w $0D80, Y
+            LDA.b #$09 : STA.w $0F50, Y 
+                         STA.w $0D80, Y
         
         .spawn_failed
     .sprite_still_active
@@ -129,8 +130,8 @@ Sprite_RupeeCrab:
     
     .BRANCH_ALPHA
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : AND.b #$03 : TAY
-    
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : AND.b #$03 : TAY
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0F50, X : AND.b #$BF : ORA.w .h_flip, Y : STA.w $0F50, X
@@ -139,9 +140,7 @@ Sprite_RupeeCrab:
         LDA.b #$10 : STA.w $0F10, X
         
         JSL.l GetRandomInt : AND.b #$03 : TAY
-        
         LDA.w Pool_Sprite_RupeeCrab_x_speeds, Y : STA.w $0D50, X
-        
         LDA.w Pool_Sprite_RupeeCrab_y_speeds, Y : STA.w $0D40, X
         
         BRA .dont_move
@@ -156,19 +155,19 @@ Sprite_RupeeCrab:
     
     LDA.w $0F10, X : BNE .BRANCH_DELTA
         TXA : EOR.b $1A : AND.b #$1F : BNE .BRANCH_DELTA
-            LDA.b #$10 : JSR.w Sprite_ProjectSpeedTowardsPlayer
+            LDA.b #$10
+            JSR.w Sprite_ProjectSpeedTowardsPlayer
             
             LDA.b $00 : EOR.b #$FF : INC : STA.w $0D40, X
-            
             LDA.b $01 : EOR.b #$FF : INC : STA.w $0D50, X
     
     .BRANCH_DELTA
     
     LDA.b $1A : AND.b #$01 : BNE .BRANCH_EPSILON
         INC.w $0ED0, X
-        
         LDA.w $0ED0, X : CMP.b #$C0 : BNE .BRANCH_ZETA
-            LDA.b #$0F : JSR.w Sprite_CustomTimedScheduleForBreakage
+            LDA.b #$0F
+            JSR.w Sprite_CustomTimedScheduleForBreakage
             
             LDY.b #$01
             
@@ -197,21 +196,22 @@ Sprite_RupeeCrab:
                 LDA.b $01       : ADC.b #$00 : STA.w $0D30, Y
                 
                 LDA.b #$20 : STA.w $0F80, Y
-                
                 LDA.b #$10 : STA.w $0F10, Y
                 
                 PHX
                 
                 TYX
                 
-                LDA.b #$10 : JSR.w Sprite_ApplySpeedTowardsPlayer
+                LDA.b #$10
+                JSR.w Sprite_ApplySpeedTowardsPlayer
                 
                 LDA.b $00 : EOR.b #$FF : STA.w $0D40, X
                 LDA.b $01 : EOR.b #$FF : STA.w $0D50, X
                 
                 PLX
                 
-                LDA.b #$30 : JSL.l Sound_SetSfx3PanLong
+                LDA.b #$30
+                JSL.l Sound_SetSfx3PanLong
             
             .spawn_failed
     .BRANCH_EPSILON
@@ -299,18 +299,15 @@ CoveredRupeeCrab_Draw:
             PHX
             
             TXA : CLC : ADC.b $06 : PHA
-            
-            ASL : TAX
+            ASL                   : TAX
             
             REP #$20
             
-            LDA.b $00 : STA.b ($90), Y
-            
+            LDA.b $00    : STA.b ($90), Y
             AND.w #$0100 : STA.b $0E
             
             LDA.b $02 : CLC : ADC Pool_CoveredRupeeCrab_Draw_y_offsets, X
             INY : STA.b ($90), Y
-            
             CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
                 LDA.b #$F0 : STA.b ($90), Y
             
@@ -325,11 +322,11 @@ CoveredRupeeCrab_Draw:
             
             INY : STA.b ($90), Y
 
-            LDA.b $05 : AND.b #$FE : ORA Pool_CoveredRupeeCrab_Draw_properties, X
+            LDA.b $05 : AND.b #$FE : ORA.w Pool_CoveredRupeeCrab_Draw_properties, X
             INY : STA.b ($90), Y
             
-            PHY : TYA : LSR : LSR : TAY
-            
+            PHY
+            TYA : LSR : LSR : TAY
             LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
             
             PLY : INY

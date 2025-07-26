@@ -11,7 +11,7 @@ Sprite_SnapDragon:
 {
     LDY.w $0DE0, X
     
-    LDA.w $0DA0, X : CLC : ADC .animation_state_bases, Y : STA.w $0DC0, X
+    LDA.w $0DA0, X : CLC : ADC.w .animation_state_bases, Y : STA.w $0DC0, X
     
     JSR.w SnapDragon_Draw
     JSR.w Sprite_CheckIfActive
@@ -21,9 +21,7 @@ Sprite_SnapDragon:
     STZ.w $0DA0, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw SnapDragon_Resting ; 0x00 - $9C5F
     dw SnapDragon_Attack  ; 0x01 - $9CA9
 }
@@ -61,7 +59,6 @@ SnapDragon_Resting:
         INC.w $0D80, X
         
         JSL.l GetRandomInt : AND.b #$0C : LSR : LSR : TAY
-        
         LDA.w .timers, Y : STA.w $0DF0, X
         
         DEC.w $0D90, X : BPL .pick_random_direction
@@ -125,7 +122,6 @@ SnapDragon_Attack:
     .use_slower_speeds
     
     LDA.w Pool_SnapDragon_Attack_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_SnapDragon_Attack_y_speeds, Y : STA.w $0D40, X
     
     JSR.w Sprite_MoveAltitude
@@ -203,13 +199,17 @@ SnapDragon_Draw_OAM_groups:
 ; $031E02-$031E1E LOCAL JUMP LOCATION
 SnapDragon_Draw:
 {
-    LDA #$00 : XBA
+    LDA.b #$00 : XBA
+    LDA.w $0DC0, X
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
+    REP #$20
+    
+    ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$04 : JSL.l Sprite_DrawMultiple
+    LDA.b #$04
+    JSL.l Sprite_DrawMultiple
     
     JMP Sprite_DrawShadow
 }

@@ -60,7 +60,6 @@ BugNetKid_PerkUp:
 {
     LDA.w $0DF0, X : BNE .delay
         LDY.w $0D90, X
-        
         LDA.w Pool_BugNetKid_PerkUp_animation_states, Y : BMI .invalid_animation_state
             STA.w $0DC0, X
             

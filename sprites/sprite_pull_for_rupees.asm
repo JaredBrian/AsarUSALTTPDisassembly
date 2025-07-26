@@ -23,7 +23,8 @@ Sprite_PullForRupees:
     
     JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .cant_pull
         JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_pull
-            LDA.b #$01 : STA.w $03F8 : STA.w $0D90, X
+            LDA.b #$01 : STA.w $03F8
+                         STA.w $0D90, X
             
             RTS
             

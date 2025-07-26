@@ -13,9 +13,7 @@ Sprite_Lynel:
     JSR.w Sprite4_CheckDamage
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Lynel_TargetPlayer   ; 0x00 - $868A
     dw Lynel_ApproachPlayer ; 0x01 - $86D5
     dw Lynel_Attack         ; 0x02 - $8740
@@ -51,7 +49,6 @@ Lynel_TargetPlayer:
 {
     LDA.w $0DF0, X : BNE .delay
         LDY.w $0DE0, X
-        
         LDA.w Pool_Lynel_TargetPlayer_x_offsets_low,  Y
         CLC : ADC.b $22 : STA.w $0D90, X
 
@@ -108,11 +105,9 @@ Lynel_ApproachPlayer:
     SEP #$20
     
     LDA.b #$18
-    
     JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
-    
     LDA.b $01 : STA.w $0D50, X
     
     .anoadjust_direction
@@ -129,7 +124,6 @@ Lynel_ApproachPlayer:
 Lynel_AnimationController:
 {
     LDA.w $0E80, X : AND.b #$04 : ORA.w $0DE0, X : TAY
-        
     LDA.w .animation_states, Y : STA.w $0DC0, X
         
     RTS
@@ -165,7 +159,6 @@ Lynel_Attack:
     .anospawn_projectile
     
     LDY.w $0DE0, X
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     JSR.w Sprite4_CheckTileCollision
@@ -228,16 +221,18 @@ Lynel_Draw_OAM_groups:
 ; $0E8880-$0E88A0 LOCAL JUMP LOCATION
 Lynel_Draw:
 {
-    LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL : ADC.b $00
+    LDA.b #$00 : XBA
+    LDA.w $0DC0, X
     
-    ADC.w #.OAM_groups : STA.b $08
+    REP #$20
+    
+    ASL #3 : STA.b $00 : ASL : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
     LDA.b #$03
-    
     JSR.w Sprite4_DrawMultiple
+    
     JSL.l Sprite_DrawShadowLong
     
     RTS

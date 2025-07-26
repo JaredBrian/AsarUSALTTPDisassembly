@@ -24,7 +24,6 @@ Sprite_Thief:
     
     LDA.w $0D80, X : CMP.b #$03 : BEQ .dont_reface_player
         JSR.w Sprite4_DirectionToFacePlayer : TYA : STA.w $0EB0, X
-        
         EOR.w $0DE0, X : CMP.b #$01 : BNE .dont_reface_player
             TYA : STA.w $0DE0, X
         
@@ -48,12 +47,8 @@ Thief_Loitering:
     LDA.w $0DF0, X : BNE .delay
         REP #$20
         
-        LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0050
-        
-        CMP.w #$00A0 : BCS .player_not_close
-            LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0050
-            
-            CMP.w #$00A0 : BCS .player_not_close
+        LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0050 : CMP.w #$00A0 : BCS .player_not_close
+            LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0050 : CMP.w #$00A0 : BCS .player_not_close
                 SEP #$20
                 
                 INC.w $0D80, X
@@ -66,8 +61,7 @@ Thief_Loitering:
     SEP #$20
     
     LDY.w $0DE0, X
-    
-    LDA Thief_standing_animation_states, Y : STA.w $0DC0, X
+    LDA.w Thief_standing_animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -106,8 +100,9 @@ Thief_BodyTracksHead:
 ; $0EC972-$0EC984 JUMP LOCATION
 Thief_Animate:
 {
-    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$04 : ORA.w $0DE0, X : TAY
-    LDA Thief_watching_animation_states, Y : STA.w $0DC0, X
+    INC.w $0E80, X
+    LDA.w $0E80, X : AND.b #$04 : ORA.w $0DE0, X : TAY
+    LDA.w Thief_watching_animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -117,7 +112,8 @@ Thief_Animate:
 ; $0EC985-$0EC9DE JUMP LOCATION
 Thief_ChasePlayer:
 {
-    LDA.b #$12 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+    LDA.b #$12
+    JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     LDA.w $0E70, X : BNE .hit_tile
         JSR.w Sprite4_Move
@@ -130,10 +126,9 @@ Thief_ChasePlayer:
         REP #$20
         
         LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0050
-        
         CMP.w #$00A0 : BCS .player_not_close
             LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0050
-                CMP.w #$00A0 : BCC .player_still_close
+            CMP.w #$00A0 : BCC .player_still_close
         
         .player_not_close
         
@@ -253,7 +248,8 @@ Thief_TrackDownBooty:
         LDA.w $0D00, Y : STA.b $06
         LDA.w $0D20, Y : STA.b $07
         
-        LDA.b #$13 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+        LDA.b #$13
+        JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.b $00 : STA.w $0D40, X
         LDA.b $01 : STA.w $0D50, X
@@ -266,11 +262,9 @@ Thief_TrackDownBooty:
     
         TYA : EOR.b $1A : AND.b #$03 : ORA.w $0F10, Y : BNE .delay_grab_attempt
             LDA.w $0DD0, Y : BEQ .inactive_sprite_slot
-                LDA.w $0E20, Y
-                
-                CMP.b #$DC : BEQ .savory_booty
-                CMP.b #$E1 : BEQ .savory_booty
-                CMP.b #$D9 : BNE .unsavory_booty
+                LDA.w $0E20, Y : CMP.b #$DC : BEQ .savory_booty
+                                 CMP.b #$E1 : BEQ .savory_booty
+                                 CMP.b #$D9 : BNE .unsavory_booty
                     .savory_booty
                     
                     JSR.w Thief_AttemptBootyGrab
@@ -305,7 +299,6 @@ Thief_AttemptBootyGrab:
             PHX
             
             LDA.w $0E20, Y : SEC : SBC.b #$D8 : TAX
-            
             LDA.l Sprite_HandleAbsorptionByPlayer_SFX, X
             JSL.l Sound_SetSfx3PanLong
             
@@ -328,7 +321,8 @@ Thief_CheckPlayerCollision:
     JSL.l Sprite_CheckDamageToPlayerSameLayerLong
     BCC Thief_MakeStealingStuffNoise_return
         ; Bumped player
-        LDA.b #$20 : JSL.l Sprite_ProjectSpeedTowardsPlayerLong
+        LDA.b #$20
+        JSL.l Sprite_ProjectSpeedTowardsPlayerLong
         
         LDA.b $00  : STA.b $27
         EOR.b #$FF : STA.w $0F30, X
@@ -348,7 +342,8 @@ Thief_CheckPlayerCollision:
 ; $0ECB19 ALTERNATE ENTRY POINT
 Thief_MakeStealingStuffNoise:
 {    
-    LDA.b #$0B : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$0B
+    JSL.l Sound_SetSfx2PanLong
     
     .return
     
@@ -381,7 +376,6 @@ Thief_DislodgePlayerItems:
     .dislodge_next_item
     
         JSL.l GetRandomInt : AND.b #$03 : STA.w $0FB6
-        
         DEC : BEQ .target_arrows
             DEC : BEQ .target_bombs
                 
@@ -408,11 +402,9 @@ Thief_DislodgePlayerItems:
         
         BEQ .return
             LDY.w $0FB6
-            
             LDA.w Pool_Thief_DislodgePlayerItems_item_to_spawn, Y
             
             LDY #$07
-            
             JSL.l Sprite_SpawnDynamically_arbitrary : BMI .return
                 LDA.w $0FB6 : DEC : BEQ .extract_arrow
                     DEC : BEQ .extract_bomb
@@ -447,17 +439,13 @@ Thief_DislodgePlayerItems:
                 PHX
                 
                 LDX.w $0FB5
-                
                 LDA.w Pool_Thief_DislodgePlayerItems_x_speeds, X : STA.w $0D50, Y
-                
                 LDA.w Pool_Thief_DislodgePlayerItems_y_speeds, X : STA.w $0D40, Y
                 
                 PLX
                 
                 LDA.b #$20 : STA.w $0F10, Y
-                
                 LDA.b #$01 : STA.w $0EB0, Y
-                
                 LDA.b #$FF : STA.w $0B58, Y
                 
                 DEC.w $0FB5 : BMI .return
@@ -514,14 +502,15 @@ Thief_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$00   : XBA
+    LDA.b #$00 : XBA
     LDA.w $0DC0, X
 
     REP #$20
     ASL #4 : ADC.w #Pool_Thief_Draw_OAM_groups : STA.b $08
     SEP #$20
     
-    LDA.b #$02 : JSR.w Sprite4_DrawMultiple
+    LDA.b #$02
+    JSR.w Sprite4_DrawMultiple
     
     ; TODO: Figure out if the label name accurately reflects the mechanism
     ; (blinking).
@@ -529,12 +518,10 @@ Thief_Draw:
         PHX
         
         LDA.w $0EB0, X : TAX
-        
         LDA.w Pool_Thief_Draw_chr, X : LDY.b #$02 : STA.b ($90), Y
         
         INY
-        
-        LDA.b ($90), Y : AND.b #$BF : ORA Pool_Thief_Draw_h_flip, X : STA.b ($90), Y
+        LDA.b ($90), Y : AND.b #$BF : ORA.w Pool_Thief_Draw_h_flip, X : STA.b ($90), Y
         
         PLX
         

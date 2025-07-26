@@ -18,10 +18,11 @@ ChimneySmoke_Draw_OAM_groups:
 ChimneySmoke_Draw:
 {
     LDA.b #$00 : XBA
+    LDA.w $0DC0, X : AND.b #$01
     
-    LDA.w $0DC0, X : AND.b #$01 : REP #$20 : ASL #5
+    REP #$20
     
-    ADC.w #.OAM_groups : STA.b $08
+    ASL #5 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
@@ -57,14 +58,13 @@ Sprite_ChimneySmoke:
     JSR.w Sprite4_CheckIfActive
     JSR.w Sprite4_Move
     
-    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$07 : BNE .speed_adjust_delay
+    INC.w $0E80, X
+    LDA.w $0E80, X : AND.b #$07 : BNE .speed_adjust_delay
         LDA.w $0DE0, X : AND.b #$01 : TAY
         
-        LDA.w $0D50, X
-        
-        CLC : ADC Sprite_ApplyConveyorAdjustment_x_shake_values, Y : STA.w $0D50, X
-        
-        CMP Pool_Sprite_Chimney_x_speed_targets, Y : BNE .anoswitch_direction
+        LDA.w $0D50, X : CLC : ADC Sprite_ApplyConveyorAdjustment_x_shake_values, Y
+        STA.w $0D50, X
+        CMP.w Pool_Sprite_Chimney_x_speed_targets, Y : BNE .anoswitch_direction
             INC.w $0DE0, X
         
         .anoswitch_direction
@@ -85,7 +85,8 @@ Sprite_ChimneyAndRabbitBeam:
 Sprite_Chimney:
 {
     LDA.b $1B : BNE Sprite_RabbitBeam
-        LDA.b #$40 : STA.w $0E60, X : STA.w $0BA0, X
+        LDA.b #$40 : STA.w $0E60, X
+                     STA.w $0BA0, X
         
         LDA.w $0D80, X : BNE Sprite_ChimneySmoke
             JSR.w Sprite4_CheckIfActive
@@ -93,16 +94,18 @@ Sprite_Chimney:
             LDA.w $0DF0, X : BNE .spawn_delay
                 LDA.b #$43 : STA.w $0DF0, X
                 
-                LDA.b #$D1 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+                LDA.b #$D1
+                JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
                     JSL.l Sprite_SetSpawnedCoords
                     
                     LDA.b $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
+                    LDA.b $02       : ADC.b #$04 : STA.w $0D00, Y
                     
-                    LDA.b $02 : ADC.b #$04 : STA.w $0D00, Y
+                    LDA.b #$04 : STA.w $0F50, Y
+                                 STA.w $0D80, Y
                     
-                    LDA.b #$04 : STA.w $0F50, Y : STA.w $0D80, Y
-                    
-                    LDA.b #$43 : STA.w $0E40, Y : STA.w $0E60, Y
+                    LDA.b #$43 : STA.w $0E40, Y
+                                 STA.w $0E60, Y
                     
                     LDA.w .x_speed_targets+1 : STA.w $0D50, Y
                     
@@ -157,8 +160,11 @@ RabbitBeam_Active:
         
             ; Force the chr to a certain value, and the palette of each entry
             ; to palette 1 (name table is also forced to 0 here).
-            INY : INY : LDA.b $00                              : STA.b ($90), Y
-            INY    : LDA.b ($90), Y : AND.b #$F0 : ORA.b #$02 : STA.b ($90), Y
+            INY : INY
+            LDA.b $00 : STA.b ($90), Y
+
+            INY
+            LDA.b ($90), Y : AND.b #$F0 : ORA.b #$02 : STA.b ($90), Y
         INY : CPY.b #$14 : BCC .next_OAM_entry
     
     .sprite_is_paused
@@ -199,7 +205,8 @@ RabbitBeam_Active:
             JSL.l Sprite_SpawnPoofGarnish
             
             ; Selects a sound to play.
-            LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$15
+            JSL.l Sound_SetSfx2PanLong
     
         .no_tile_collision
     .cant_move_yet

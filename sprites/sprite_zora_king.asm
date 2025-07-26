@@ -107,7 +107,6 @@ ZoraKing_RumblingGround:
     
     ; Make the ground rumble while counting down.
     AND.b #$01 : TAY
-    
     LDA.w Pool_ZoraKing_RumblingGround_offsets_low, Y  : STA.w $011A
     LDA.w Pool_ZoraKing_RumblingGround_offsets_high, Y : STA.w $011B
     
@@ -150,7 +149,6 @@ ZoraKing_Surfacing:
     .dont_make_splashes
     
     LSR #3 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -177,7 +175,6 @@ ZoraKing_Dialogue:
     .delay
     
     LSR #4 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0DF0, X : CMP.b #$50 : BEQ .initial_message
@@ -193,7 +190,7 @@ ZoraKing_Dialogue:
     
     .show_message
     
-    STA.w $1CF0
+                 STA.w $1CF0
     LDA.b #$01 : STA.w $1CF1
     JSL.l Sprite_ShowMessageMinimal
         
@@ -204,41 +201,41 @@ ZoraKing_Dialogue:
     LDA.w $1CE8 : BNE .player_says_just_came_to_visit
         ; ...But I don't just give flippers away for free. I sell them..."
         LDA.b #$43
-    JSR.w .show_message
-    
-    RTS
-    
-    .check_if_can_afford
-    
-    LDA.w $1CE8 : BNE .not_buying
-        REP #$20
+        JSR.w .show_message
         
-        ; Check if the player has 500 or more rupees (for flippers).
-        LDA.l $7EF360 : SEC : SBC.w #$01F4 : BCC .cant_afford
-            STA.l $7EF360
+        RTS
+        
+        .check_if_can_afford
+        
+        LDA.w $1CE8 : BNE .not_buying
+            REP #$20
             
-            SEP #$20
+            ; Check if the player has 500 or more rupees (for flippers).
+            LDA.l $7EF360 : SEC : SBC.w #$01F4 : BCC .cant_afford
+                STA.l $7EF360
+                
+                SEP #$20
+                
+                ; "Wah ha ha! One pair of flippers coming up..."
+                LDA.b #$44
+                JSR.w .show_message
+                
+                INC.w $0E90, X
+                
+                RTS
+                
+    .player_says_just_came_to_visit
             
-            ; "Wah ha ha! One pair of flippers coming up..."
-            LDA.b #$44
-            JSR.w .show_message
+    ; "Great! Whenever you want to see my fishy face, you are welcome
+    ; here."
+    LDA.b #$46
+    JSR.w .show_message
             
-            INC.w $0E90, X
+    LDA.b #$30 : STA.w $0DF0, X
             
-            RTS
+    RTS
             
-            .player_says_just_came_to_visit
-            
-            ; "Great! Whenever you want to see my fishy face, you are welcome
-            ; here."
-            LDA.b #$46
-            JSR.w .show_message
-            
-            LDA.b #$30 : STA.w $0DF0, X
-            
-            RTS
-            
-        .cant_afford
+    .cant_afford
     .not_buying
     
     SEP #$20
@@ -296,7 +293,6 @@ ZoraKing_Submerge:
     .dont_submerge_yet
     
     LSR : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -351,7 +347,8 @@ Sprite_SpawnSplashRingLong:
 ; $029B40-$029BBA LOCAL JUMP LOCATION
 Sprite_SpawnSplashRing:
 {
-    LDA.b #$24 : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$24
+    JSL.l Sound_SetSfx2PanLong
     
     NOP
     
@@ -366,17 +363,16 @@ Sprite_SpawnSplashRing:
             PHX
             
             LDX.b $0D
-            
             LDA.w Pool_Sprite_SpawnSplashRing_x_offsets_low, X
             SEC : SBC.b #$04 : CLC : ADC.b $00 : STA.w $0D10, Y
 
-            LDA.b $01 : ADC Pool_Sprite_SpawnSplashRing_x_offsets_high, X
+            LDA.b $01 : ADC.w Pool_Sprite_SpawnSplashRing_x_offsets_high, X
             STA.w $0D30, Y
             
             LDA.w Pool_Sprite_SpawnSplashRing_y_offsets_low, X
             SEC : SBC.b #$04 : CLC : ADC.b $02 : STA.w $0D00, Y
 
-            LDA.b $03 : ADC Pool_Sprite_SpawnSplashRing_y_offsets_high, X
+            LDA.b $03 : ADC.w Pool_Sprite_SpawnSplashRing_y_offsets_high, X
             STA.w $0D20, Y
             
             LDA.w Pool_Sprite_SpawnSplashRing_x_speeds, X : STA.w $0D50, Y
@@ -392,7 +388,8 @@ Sprite_SpawnSplashRing:
             LDA.b #$01 : STA.w $0D80, Y
             LDA.b #$00 : STA.w $0F70, Y
             
-            LDA.w $0E60, Y : ORA.b #$40 : STA.w $0E60, Y : STA.w $0BA0, Y
+            LDA.w $0E60, Y : ORA.b #$40 : STA.w $0E60, Y
+                                          STA.w $0BA0, Y
             
             PLX
             
@@ -490,12 +487,11 @@ ZoraKing_Draw:
         
         .next_subsprite
         
-            PHX : TXA : CLC : ADC.b $06 : TAX
-            
-            LDA.b $00 : CLC : ADC Pool_ZoraKing_Draw_x_offsets, X : STA.b ($90), Y
+            PHX
+            TXA : CLC : ADC.b $06 : TAX
+            LDA.b $00 : CLC : ADC.w Pool_ZoraKing_Draw_x_offsets, X : STA.b ($90), Y
             
             INY
-            
             LDA.w Pool_ZoraKing_Draw_y_offsets, X : CLC : ADC.b $02 : STA.b ($90), Y
             LDA.w Pool_ZoraKing_Draw_chr, X : INY : STA.b ($90), Y
             
@@ -515,8 +511,8 @@ ZoraKing_Draw:
         
         LDY.b #$02
         LDA.b #$03
-        
         JSL.l Sprite_CorrectOamEntriesLong
+
         JSR.w Sprite2_PrepOamCoord
     
     .draw_whirlpool_instead
@@ -524,7 +520,8 @@ ZoraKing_Draw:
     LDA.w $0E10, X : BEQ .return
         LSR : AND.b #$04 : STA.b $06
         
-        LDA.b #$10 : JSL.l OAM_AllocateFromRegionC
+        LDA.b #$10
+        JSL.l OAM_AllocateFromRegionC
         
         LDY.b #$00
         
@@ -537,21 +534,19 @@ ZoraKing_Draw:
             PHX
             
             TXA : CLC : ADC.b $06 : TAX
-            
             LDA.b $00
             CLC : ADC Pool_ZoraKing_Draw_whirlpool_x_offsets, X : STA.b ($90), Y
 
             LDA.b $02 : CLC : ADC Pool_ZoraKing_Draw_whirlpool_y_offsets, X
             INY : STA.b ($90), Y
 
-            LDA.w Pool_ZoraKing_Draw_whirlpool_chr, X
-            INY : STA.b ($90), Y
+            LDA.w Pool_ZoraKing_Draw_whirlpool_chr, X : INY : STA.b ($90), Y
 
             LDA.w Pool_ZoraKing_Draw_whirlpool_properties, X
             ORA.b #$24 : INY : STA.b ($90), Y
             
-            PHY : TYA : LSR : LSR : TAY
-            
+            PHY
+            TYA : LSR : LSR : TAY
             LDA.b #$02 : STA.b ($92), Y
             
             PLY : INY

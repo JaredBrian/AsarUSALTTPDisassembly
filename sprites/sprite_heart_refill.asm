@@ -93,10 +93,8 @@ HeartRefill_GlideGroundward:
 {
     LDA.w $0DF0, X : BNE .delay
         LDA.w $0DE0, X : AND.b #$01 : TAY
-        
         LDA.w $0D50, X
         CLC : ADC.w Pool_Sprite_RedBari_rotation_speeds, Y : STA.w $0D50, X
-            
         CMP.w .speed, Y : BNE .anoswitch_direction
             INC.w $0DE0, X
             

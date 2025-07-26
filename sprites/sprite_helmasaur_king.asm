@@ -31,7 +31,6 @@ HelmasaurKing_Reinitialize:
     
         LDA.b $00 : CLC : ADC.w Pool_HelmasaurKing_Initialize, Y
         AND.b #$1F : TAX
-        
         LDA.w HelmasaurKingLeg_Offset_Y, X : STA.w $0B08, Y
     DEY : BPL .next_whatever
     
@@ -158,8 +157,8 @@ HelmasaurKing_Alive:
     JSR.w Sprite3_CheckIfActive
     
     LDA.w $0E50, X : LSR : LSR : TAY
-    
-    LDA.w .phase_hp, Y : STA.w $0DB0, X : CMP.b #$03 : BNE .BRANCH_ALPHA
+    LDA.w .phase_hp, Y : STA.w $0DB0, X
+    CMP.b #$03 : BNE .BRANCH_ALPHA
         CMP.w $0E90, X : BEQ .BRANCH_BETA
             STZ.w $0EF0, X
             
@@ -207,9 +206,7 @@ HelmasaurKing_Alive:
     .BRANCH_EPSILON
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw HelmasaurKing_DecisionHome   ; 0x00 - $819C
     dw HelmasaurKing_WalkToLocation ; 0x01 - $81D5
     dw HelmasaurKing_DecisionAway   ; 0x02 - $8210
@@ -239,7 +236,6 @@ HelmasaurKing_DecisionHome:
     JSR.w HelmasaurKing_MaybeFireball
     
     JSL.l GetRandomInt : AND.b #$07 : TAY
-    
     LDA.w Pool_HelmasaurKing_DecisionHome_speed_x, Y : STA.w $0D50, X
     LDA.w Pool_HelmasaurKing_DecisionHome_speed_y, Y : STA.w $0D40, X
     
@@ -300,7 +296,8 @@ HelmasaurKing_HandleMovement:
 ; $0F0200-$0F020F LOCAL JUMP LOCATION
 HelmasaurKing_ShuffleLegs:
 {
-    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$0F : BNE .BRANCH_ALPHA
+    INC.w $0E80, 
+    LDA.w $0E80, X : AND.b #$0F : BNE .BRANCH_ALPHA
         LDA.b #$21 : STA.w $012E
     
     .BRANCH_ALPHA
@@ -364,7 +361,8 @@ HelmasaurKing_MaybeFireball:
         JSL.l GetRandomInt : AND.b #$01 : BEQ .BRANCH_BETA
             LDA.b #$7F : STA.w $0E10, X
             
-            LDA.b #$2A : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$2A
+            JSL.l Sound_SetSfx3PanLong
             
             RTS
         
@@ -412,11 +410,9 @@ HelmasaurKing_SwingTail:
     
     AND.b $1A : BNE .BRANCH_BETA
         LDA.w $0DE0, X : AND.b #$01 : TAY
-        
         LDA.w $0B30 : CLC : ADC.w HelmasaurKing_TailSwingRotationDirection, Y
         STA.w $0B30
-        
-        CMP Sprite3_Shake_x_speeds, Y : BNE .BRANCH_GAMMA
+        CMP.w Sprite3_Shake_x_speeds, Y : BNE .BRANCH_GAMMA
             INC.w $0DE0, X
         
         .BRANCH_GAMMA
@@ -436,26 +432,22 @@ HelmasaurKing_SwingTail:
     
     LDA.w $0EC0, X : BEQ .BRANCH_EPSILON
         LDA.w $0B30 : BNE .BRANCH_ZETA
-            LDA.b #$06 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$06
+            JSL.l Sound_SetSfx3PanLong
         
         .BRANCH_ZETA
         
-        LDA.w $0EC0, X
-        
-        CMP.b #$02 : BEQ .do_segment_a
-        CMP.b #$03 : BEQ .do_segment_b
-        
-        LDA.w $0B30 : ORA.w $0EE0, X : BNE .BRANCH_$F0382 ; (RTS)
-        
-        LDA.w $0B2E : AND.b #$01 : STA.w $0EB0, X
-        
-        JSR.w Sprite3_IsToRightOfPlayer
-        
-        TYA : EOR.b #$01 : CMP.w $0EB0, X : BNE .BRANCH_EPSILON
-        
-        INC.w $0EC0, X
-        
-        JSL.l Sound_SetSfxPan : ORA.b #$26 : STA.w $012F
+        LDA.w $0EC0, X : CMP.b #$02 : BEQ .do_segment_a
+            CMP.b #$03 : BEQ .do_segment_b
+                LDA.w $0B30 : ORA.w $0EE0, X : BNE HelmasaurKing_SwingTail_do_segment_b_return
+                    LDA.w $0B2E : AND.b #$01 : STA.w $0EB0, X
+                    
+                    JSR.w Sprite3_IsToRightOfPlayer
+                    
+                    TYA : EOR.b #$01 : CMP.w $0EB0, X : BNE .BRANCH_EPSILON
+                        INC.w $0EC0, X
+                        
+                        JSL.l Sound_SetSfxPan : ORA.b #$26 : STA.w $012F
     
     .BRANCH_EPSILON
     
@@ -512,6 +504,9 @@ HelmasaurKing_SwingTail_do_segment_b:
     .BRANCH_ALPHA
     
     LDA.w $0B2F : SEC : SBC.b #$03 : STA.w $0B2F
+
+    ; $0F0382 ALTERNATE ENTRY POINT
+    .return
     
     RTS
 }
@@ -534,7 +529,8 @@ HelmasaurKing_CheckMaskDamageFromHammer:
             LDA.b $44 : CMP.b #$80 : BEQ .BRANCH_ALPHA
                 JSL.l Player_SetupActionHitBoxLong
                 
-                LDA.w $0D00, X : PHA : CLC : ADC.b #$08 : STA.w $0D00, X
+                LDA.w $0D00, X : PHA
+                CLC : ADC.b #$08 : STA.w $0D00, X
                 
                 JSL.l Sprite_SetupHitBoxLong
                 
@@ -546,7 +542,6 @@ HelmasaurKing_CheckMaskDamageFromHammer:
                     LDA.b #$21 : STA.w $012F
                     
                     LDA.b #$30
-                    
                     JSL.l Sprite_ProjectSpeedTowardsPlayerLong
                     
                     LDA.b $00 : STA.b $27
@@ -562,7 +557,8 @@ HelmasaurKing_CheckMaskDamageFromHammer:
                     
                     .BRANCH_BETA
                     
-                    LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
+                    LDA.b #$05
+                    JSL.l Sound_SetSfx2PanLong
     
     .BRANCH_ALPHA
     
@@ -663,7 +659,8 @@ HelmasaurKing_ExplodeMask:
     ; $0F04A3 ALTERNATE ENTRY POINT
     .make_SFX
     
-    LDA.b #$1F : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$1F
+    JSL.l Sound_SetSfx2PanLong
     
     RTS
 }
@@ -673,42 +670,37 @@ HelmasaurKing_ExplodeMask:
 ; $0F04AA-$0F0516 LOCAL JUMP LOCATION
 HelmasaurKing_SpawnMaskDebris:
 {
-    LDA.b #$92 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$92
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         PHX
         
         LDX.w $0FB5
-        
         LDA.b $00
-        CLC : ADC.w Pool_HelmasaurKing_SpawnMaskDebris_offset_x_low, X
-        STA.w $0D10, Y
+        CLC : ADC.w Pool_HelmasaurKing_SpawnMaskDebris_offset_x_low, X : STA.w $0D10, Y
 
         LDA.b $01
-        ADC.w Pool_HelmasaurKing_SpawnMaskDebris_offset_x_high, X
-        STA.w $0D30, Y
+        ADC.w Pool_HelmasaurKing_SpawnMaskDebris_offset_x_high, X : STA.w $0D30, Y
         
         LDA.b $02
-        CLC : ADC.w Pool_HelmasaurKing_SpawnMaskDebris_offset_y_low, X
-        STA.w $0D00, Y
+        CLC : ADC.w Pool_HelmasaurKing_SpawnMaskDebris_offset_y_low, X : STA.w $0D00, Y
 
         LDA.b $03
-        ADC.w Pool_HelmasaurKing_SpawnMaskDebris_offset_y_high, X
-        STA.w $0D20, Y
+        ADC.w Pool_HelmasaurKing_SpawnMaskDebris_offset_y_high, X : STA.w $0D20, Y
         
         LDA.w Pool_HelmasaurKing_SpawnMaskDebris_initial_z, X : STA.w $0F70, Y
         LDA.w Pool_HelmasaurKing_SpawnMaskDebris_speed_x, X   : STA.w $0D50, Y
         LDA.w Pool_HelmasaurKing_SpawnMaskDebris_speed_y, X   : STA.w $0D40, Y
         LDA.w Pool_HelmasaurKing_SpawnMaskDebris_speed_z, X   : STA.w $0F80, Y
         
-        LDA.w Pool_HelmasaurKing_SpawnMaskDebris_flip, X
-        ORA.b #$0D : STA.w $0F50, Y
+        LDA.w Pool_HelmasaurKing_SpawnMaskDebris_flip, X : ORA.b #$0D : STA.w $0F50, Y
         
-        LDA.w Pool_HelmasaurKing_SpawnMaskDebris_starting_anim, X
-        STA.w $0DC0, Y
+        LDA.w Pool_HelmasaurKing_SpawnMaskDebris_starting_anim, X : STA.w $0DC0, Y
         
         LDA.b #$80 : STA.w $0DB0, Y
-        ASL      : STA.w $0E40, Y
+        ASL        : STA.w $0E40, Y
         
-        LDA.b #$0C : STA.w $0E00, Y : STA.w $0BA0, Y
+        LDA.b #$0C : STA.w $0E00, Y
+                     STA.w $0BA0, Y
         
         LDA.w $0FB5 : STA.w $0E30, Y
         
@@ -723,13 +715,15 @@ HelmasaurKing_SpawnMaskDebris:
 HelmasaurKing_SpitFireball:
 {
     ; Spawn helmasaur king fireball...
-    LDA.b #$70 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$70
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b $02 : CLC : ADC.b #$1C : STA.w $0D00, Y
         LDA.b $03 :       ADC.b #$00 : STA.w $0D20, Y
         
-        LDA.b #$20 : STA.w $0DF0, Y : STA.w $0BA0, Y
+        LDA.b #$20 : STA.w $0DF0, Y
+                     STA.w $0BA0, Y
     
     .spawn_failed
     
@@ -800,17 +794,14 @@ SpriteDraw_KingHelmasaur_Eyes:
         LDA.b $02 : CLC : ADC.b #$14 : INY : STA.b ($90), Y
         
         LDA.w $0B0C : LSR : LSR : AND.b #$07 : TAX
-        
-        LDA Pool_SpriteDraw_KingHelmasaur_Eyes_chr, X : INY : STA.b ($90), Y
+        LDA.w Pool_SpriteDraw_KingHelmasaur_Eyes_chr, X : INY : STA.b ($90), Y
         
         PLX
         
-        LDA Pool_SpriteDraw_KingHelmasaur_Eyes_properties, X : INY : STA.b ($90), Y
+        LDA.w Pool_SpriteDraw_KingHelmasaur_Eyes_properties, X : INY : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.b #$00 : STA.b ($92), Y
         
         PLY : INY
@@ -821,7 +812,6 @@ SpriteDraw_KingHelmasaur_Eyes:
     LDA.b $11 : BEQ .BRANCH_BETA
         LDY.b #$00
         LDA.b #$01
-        
         JSL.l Sprite_CorrectOamEntriesLong
     
     .BRANCH_BETA
@@ -833,7 +823,6 @@ SpriteDraw_KingHelmasaur_Eyes:
 KingHelmasaurMask:
 {
     LDA.b #$00 : XBA
-    
     LDA.w $0DB0, X
     
     REP #$20
@@ -848,7 +837,6 @@ KingHelmasaurMask:
     
     LDA.w $0DB0, X : CMP.b #$03 : BCS .BRANCH_ALPHA
         LDA.b #$08
-        
         JSR.w Sprite3_DrawMultiple
         
         REP #$20
@@ -900,8 +888,7 @@ KingHelmasaur_CheckBombDamage:
     JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .BRANCH_ALPHA
         LDA.w $0C2C, Y : EOR.b #$FF : INC : STA.w $0C2C, Y
         LDA.w $0C22, Y : EOR.b #$FF : INC : STA.b $00
-        
-        ASL.b $00 : ROR : STA.w $0C22, Y
+        ASL.b $00 : ROR                   : STA.w $0C22, Y
         
         LDA.b #$20 : STA.w $0F10, X
         
@@ -967,7 +954,6 @@ SpriteDraw_KingHelmasaur_Legs:
     REP #$20
     
     LDA.b $90 : CLC : ADC.w #$004C : STA.b $90
-    
     LDA.b $92 : CLC : ADC.w #$0013 : STA.b $92
     
     SEP #$20
@@ -988,16 +974,12 @@ SpriteDraw_KingHelmasaur_Legs:
         LDA.b $02 : CLC : ADC.w Pool_SpriteDraw_KingHelmasaur_Legs_offset_y, X
         CLC : ADC.w $0B08, X : INY : STA.b ($90), Y
 
-        LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_char, X
-        INY : STA.b ($90), Y
+        LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_char, X : INY : STA.b ($90), Y
 
-        LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_prop, X
-        EOR.b $05 : INY : STA.b ($90), Y
+        LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_prop, X : EOR.b $05 : INY : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.b #$02 : STA.b ($92), Y
         
         PLY : INY
@@ -1011,13 +993,10 @@ SpriteDraw_KingHelmasaur_Legs:
         LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_char, X : CLC : ADC.b #$02
         INY : STA.b ($90), Y
 
-        LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_prop, X
-        EOR.b $05 : INY : STA.b ($90), Y
+        LDA.w Pool_SpriteDraw_KingHelmasaur_Legs_prop, X : EOR.b $05 : INY : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.b #$02 : STA.b ($92), Y
         
         PLY : INY
@@ -1028,8 +1007,8 @@ SpriteDraw_KingHelmasaur_Legs:
     LDA.b $11 : BEQ .BRANCH_BETA
         LDY.b #$02
         LDA.b #$07
-        
         JSL.l Sprite_CorrectOamEntriesLong
+
         JSR.w Sprite3_PrepOamCoord
     
     .BRANCH_BETA
@@ -1051,13 +1030,12 @@ SpriteDraw_KingHelmasaur_Mouth:
 {
     LDA.w $0E10, X : BEQ .BRANCH_ALPHA
         LSR : LSR : TAY
-        
         LDA.w .offset_y, Y : STA.b $06
         
-        LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
+        LDA.b #$04
+        JSL.l OAM_AllocateFromRegionB
         
         LDY.b #$00
-        
         LDA.b $00                                       : STA.b ($90), Y
         LDA.b $02  : CLC : ADC.b #$13 : ADC.b $06 : INY : STA.b ($90), Y
         LDA.b #$AA                                : INY : STA.b ($90), Y
@@ -1114,9 +1092,8 @@ KingHelmasaur_OperateTail:
         
         LDA.b $0E : CMP.b #$01
         
-        PHP
-        
-        PHP : LDA.b $0D : PLP : BPL .BRANCH_BETA
+        PHP : PHP
+        LDA.b $0D : PLP : BPL .BRANCH_BETA
             EOR.b #$FF : INC
         
         .BRANCH_BETA
@@ -1150,13 +1127,10 @@ KingHelmasaur_OperateTail:
         REP #$30
         
         LDA.b $06 : AND.w #$00FF : ASL : TAX
-        
         LDA.l SmoothCurve, X : STA.b $0A
         
         LDA.b $06 : CLC : ADC.w #$0080 : STA.b $08
-        
-        AND.w #$00FF : ASL : TAX
-        
+        AND.w #$00FF : ASL             : TAX
         LDA.l SmoothCurve, X : STA.b $0C
         
         SEP #$30
@@ -1184,7 +1158,6 @@ KingHelmasaur_OperateTail:
         .BRANCH_EPSILON
         
         LDY.w $0FB5
-        
         STA.w $0B0D, Y
         
         LDA.b $0C : STA.w SNES.MultiplicandA
@@ -1208,10 +1181,10 @@ KingHelmasaur_OperateTail:
         .BRANCH_THETA
         
         LDY.w $0FB5
-        
         SEC : SBC.b #$28 : STA.w $0B1D, Y
         
-        INC.w $0FB5 : LDA.w $0FB5 : CMP.b #$10 : BEQ .BRANCH_IOTA
+        INC.w $0FB5
+        LDA.w $0FB5 : CMP.b #$10 : BEQ .BRANCH_IOTA
     JMP.w .next_segment
     
     .BRANCH_IOTA
@@ -1227,8 +1200,11 @@ KingHelmasaur_OperateTail:
         
         .BRANCH_NU
         
-            LDA.b $00 : CLC : ADC.w $0B0D, X       : STA.b ($90), Y : STA.b $08
-            LDA.b $02 : CLC : ADC.w $0B1D, X : INY : STA.b ($90), Y : STA.b $09
+            LDA.b $00 : CLC : ADC.w $0B0D, X       : STA.b ($90), Y
+                                                     STA.b $08
+
+            LDA.b $02 : CLC : ADC.w $0B1D, X : INY : STA.b ($90), Y
+                                                     STA.b $09
             
             LDA.b #$AC
             
@@ -1246,11 +1222,8 @@ KingHelmasaur_OperateTail:
                 LDA.b $0A : BEQ .BRANCH_MU
                     LDA.b $22 : SBC.b $E2 : SBC.b $08 : ADC.b #$0C
                     CMP.b #$18 : BCS .BRANCH_MU
-                        LDA.b $20
-                        SBC.b $E8 : ADC #$08
-                        SBC.b $09 : ADC #$08
-
-                        CMP #$10 : BCS .BRANCH_MU
+                        LDA.b $20 : SBC.b $E8 : ADC.b #$08 : SBC.b $09 : ADC.b #$08
+                        CMP.b #$10 : BCS .BRANCH_MU
                             INC.b $0F
                             
                             STZ.b $28
@@ -1272,8 +1245,8 @@ KingHelmasaur_OperateTail:
     
     LDY.b #$02
     LDA.b #$0F
-    
     JSL.l Sprite_CorrectOamEntriesLong
+    
     JSR.w Sprite3_PrepOamCoord
     
     RTS

@@ -49,8 +49,7 @@ Terrorpin_Upright:
 {
     LDA.w $0F10, X : BNE .delay
         JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0F10, X
-        
-        AND.b #$03 : STA.w $0DE0, X
+                             AND.b #$03              : STA.w $0DE0, X
         
         ; OPTIMIZE:
         ; NOTE: Label so named because it clearly can never happen if there
@@ -64,9 +63,7 @@ Terrorpin_Upright:
     .delay
     
     LDA.w $0DE0, X : CLC : ADC.w $0ED0, X : TAY
-    
     LDA.w Pool_Terrorpin_Upright_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_Terrorpin_Upright_y_speeds, Y : STA.w $0D40, X
     
     LDA.w $0F80, X : DEC : DEC : STA.w $0F80, X
@@ -110,7 +107,6 @@ Terrorpin_Overturned:
         STZ.w $0DA0, X
         
         LDA.b #$20 : STA.w $0F80, X
-        
         LDA.b #$40 : STA.w $0F10, X
         
         RTS
@@ -122,25 +118,28 @@ Terrorpin_Overturned:
     LDA.w $0F70, X : BPL .in_air
         STZ.w $0F70, X
         
-        LDA.w $0F80, X : EOR.b #$FF : INC : LSR
-        CMP.b #$09 : BCS .bounced
+        LDA.w $0F80, X : EOR.b #$FF : INC : LSR : CMP.b #$09 : BCS .bounced
             LDA.b #$00
         
         .bounced
         
         STA.w $0F80, X
         
-        ; This operation arithmetically shifts right to reduce the x velocity.
-        LDA.w $0D50, X : ASL : ROR.w $0D50, X
+        ; OPTMIZE: Useless codes?
+        LDA.w $0D50, X : ASL
         
+        ; This operation arithmetically shifts right to reduce the x velocity.
+        ROR.w $0D50, X
         LDA.w $0D50, X : CMP.b #$FF : BNE .dont_zero_x_speed
             STZ.w $0D50, X
         
         .dont_zero_x_speed
         
-        ; This operation arithmetically shifts right to reduce the y velocity.
-        LDA.w $0D40, X : ASL : ROR.w $0D40, X
+        ; OPTMIZE: Useless codes?
+        LDA.w $0D40, X : ASL
         
+        ; This operation arithmetically shifts right to reduce the y velocity.
+        ROR.w $0D40, X
         LDA.w $0D40, X : CMP.b #$FF : BNE .dont_zero_y_speed
             STZ.w $0D40, X
         
@@ -149,18 +148,18 @@ Terrorpin_Overturned:
     
     LDA.w $0F10, X : CMP.b #$40 : BCS .not_struggling_hard_yet
         LSR : AND.b #$01 : TAY
-        
         LDA.w .shake_x_speeds, Y : STA.w $0D50, X
         
         INC.w $0E80, X
     
     .not_struggling_hard_yet
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$01 : TAY
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR #3 : AND.b #$01 : TAY
     
     LDA.b #$02 : STA.w $0DC0, X
     
-    LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA.w .h_flip, Y : STA.w $0F50, X
     
     RTS
     
@@ -190,13 +189,10 @@ Terrorpin_CheckHammerHitNearby:
                         LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
                         
                         LDA.b #$20 : STA.w $0E10, X
-                        
                         LDA.b #$20 : STA.w $0F80, X
-                        
                         LDA.b #$04 : STA.w $0ED0, X
                         
                         LDA.w $0DA0, X : EOR.b #$01 : STA.w $0DA0, X
-                        
                         CMP.b #$01 : LDA.b #$FF : BCS .to_overturned_state
                             LDA.b #$40
                         

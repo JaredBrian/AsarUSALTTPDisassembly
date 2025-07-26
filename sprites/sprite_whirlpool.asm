@@ -20,9 +20,7 @@ Sprite_Whirlpool:
         
         REP #$20
         
-        LDA.w $0FD8 : SEC : SBC.b $22 : CLC : ADC.w #$0040
-        
-        CMP.w #$0051 : BCS .player_not_close_enough
+        LDA.w $0FD8 : SEC : SBC.b $22 : CLC : ADC.w #$0040 : CMP.w #$0051 : BCS .player_not_close_enough
             LDA.w $0FDA : SEC : SBC.b $20 : CLC : ADC.w #$000F
             CMP.w #$0012 : BCS .player_not_close_enough
                 SEP #$30
@@ -50,15 +48,13 @@ Sprite_Whirlpool:
     LDA.w $0F50, X : AND.b #$3F : STA.w $0F50, X
     
     LDA.b $1A : LSR #3 : AND.b #$03 : TAY
-    
     LDA.w .vh_flip, Y : ORA.w $0F50, X : STA.w $0F50, X
     
-    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$04
+    JSL.l OAM_AllocateFromRegionB
     
     REP #$20
-    
     LDA.w $0FD8 : SEC : SBC.w #$0005 : STA.w $0FD8
-    
     SEP #$30
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong

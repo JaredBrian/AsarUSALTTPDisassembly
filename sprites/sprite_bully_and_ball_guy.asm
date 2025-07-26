@@ -52,7 +52,6 @@ Sprite_BallGuy:
         STZ.w $0F70, X
         
         LDA.w $0F80, X : EOR.b #$FF : INC : LSR : LSR : STA.w $0F80, X
-        
         AND.b #$FC : BEQ .dont_play_SFX
             JSR.w BallGuy_PlayBounceNoise
         
@@ -70,8 +69,7 @@ Sprite_BallGuy:
         
         JSR.w BallGuy_DrawDistressMarker
         
-        TXA : EOR.b $1A : PHA
-        
+        TXA    : EOR.b $1A  : PHA
         LSR #3 : AND.b #$01 : STA.w $0DC0, X
         
         PLA : AND.b #$3F : BNE .dont_pick_new_direction
@@ -85,12 +83,12 @@ Sprite_BallGuy:
             LDA.b $21          : STA.b $07
             
             LDA.b #$08
-            
             JSL.l Sprite_ProjectSpeedTowardsEntityLong
             
             LDA.b $01 : STA.w $0DA0, X
             
-            LDA.b $00 : STA.w $0D90, X : BEQ .target_location_vertical
+            LDA.b $00 : STA.w $0D90, X
+            BEQ .target_location_vertical
                 LDA.w $0F50, X : ORA.b #$40 : STA.w $0F50, X
                 
                 LDA.w $0D50, X : LSR : AND.b #$40 : EOR.w $0F50, X : STA.w $0F50, X
@@ -99,7 +97,6 @@ Sprite_BallGuy:
         .dont_pick_new_direction
         
         LDA.w $0DA0, X : STA.w $0D50, X
-        
         LDA.w $0D90, X : STA.w $0D40, X
         
         RTS
@@ -113,7 +110,8 @@ Sprite_BallGuy:
     
     .not_at_full_stop_yet
     
-    TXA : EOR.b $1A : PHA : LSR : LSR : AND.b #$01 : STA.w $0DC0, X
+    TXA        : EOR.b $1A : PHA
+    LSR : LSR : AND.b #$01 : STA.w $0DC0, X
     
     PLA : ASL : ASL : AND.b #$80 : STA.w $0EB0, X
     
@@ -154,16 +152,16 @@ BallGuy_Friction_rates:
 BallGuy_Friction:
 {
     LDA.w $0D50, X : BEQ .zero_x_velocity   
-        PHA : ASL : ROL : AND.b #$01 : TAY
-        
-        PLA : CLC : ADC .rates, Y : STA.w $0D50, X
+        PHA
+        ASL : ROL : AND.b #$01 : TAY
+        PLA : CLC : ADC.w .rates, Y : STA.w $0D50, X
     
     .zero_x_velocity
     
     LDA.w $0D40, X : BEQ .zero_y_velocity    
-        PHA : ASL : ROL : AND.b #$01 : TAY
-        
-        PLA : CLC : ADC .rates, Y : STA.w $0D40, X
+        PHA
+        ASL : ROL : AND.b #$01 : TAY
+        PLA : CLC : ADC.w .rates, Y : STA.w $0D40, X
     
     .zero_y_velocity
     
@@ -222,7 +220,6 @@ Bully_ChaseBallGuy:
     
     PLA : AND.b #$1F : BNE .delay
         LDA.w $0EB0, X : TAY
-        
         LDA.w $0D10, Y : STA.b $04
         LDA.w $0D30, Y : STA.b $05
         
@@ -230,18 +227,19 @@ Bully_ChaseBallGuy:
         LDA.w $0D20, Y : STA.b $07
         
         ; Makes the Bully go towards the Ball Guy.
-        LDA.b #$0E : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+        LDA.b #$0E
+        JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.b $00 : STA.w $0D40, X
         
-        LDA.b $01 : STA.w $0D50, X : BEQ .dont_change_orientation
+        LDA.b $01 : STA.w $0D50, X
+        BEQ .dont_change_orientation
             LDA.w $0D50, X : ASL : ROL : AND.b #$01 : STA.w $0DE0, X
         
         .dont_change_orientation
     .delay
     
     LDA.w $0EB0, X : TAY
-    
     LDA.w $0F70, Y : BNE .cant_kick
         LDA.w $0D10, X : SEC : SBC.w $0D10, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
             LDA.w $0D00, X : SEC : SBC.w $0D00, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
@@ -266,7 +264,6 @@ Bully_KickBallGuy:
     ; Specifies Ball Guy's new velocity as being double that of the bully's
     ; when he kicks him. However, this isn't arithmetically safe I guess.
     LDA.w $0D50, X : ASL : STA.w $0D50, Y
-    
     LDA.w $0D40, X : ASL : STA.w $0D40, Y
     
     STZ.w $0D50, X
@@ -276,7 +273,8 @@ Bully_KickBallGuy:
     
     LDA.b #$60 : STA.w $0DF0, X
     
-    LDA.b #$01 : STA.w $0DC0, X : STA.w $0E90, Y
+    LDA.b #$01 : STA.w $0DC0, X
+                 STA.w $0E90, Y
     
     RTS
 }
@@ -319,7 +317,6 @@ Bully_Draw:
                  STZ.b $07
     
     LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
-    
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     
@@ -334,7 +331,8 @@ Bully_Draw:
 ; $0F6DC2-$0F6DC8 LOCAL JUMP LOCATION
 BallGuy_PlayBounceNoise:
 {
-    LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$32
+    JSL.l Sound_SetSfx3PanLong
     
     RTS
 }
@@ -344,7 +342,8 @@ BallGuy_PlayBounceNoise:
 ; $0F6DC9-$0F6DE3 LONG JUMP LOCATION
 BullyAndBallGuy_SpawnBully:
 {
-    LDA.b #$B9 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$B9
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$02 : STA.w $0E80, Y
@@ -380,15 +379,12 @@ BallGuy_Dialogue:
 {
     LDA.w $0F10, X : BNE .delay
         LDA.l $7EF357 : AND.b #$01 : TAY
-        
         LDA.w .messages_low, Y        : XBA
         LDA.w .messages_high, Y : TAY : XBA
-        
         JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
             ; BUG: um... usually you increment after doing this. Assuming for now
             ; that it's a bug unless some point to this is found.
             LDA.w $0D50, X : EOR.b #$FF : STA.w $0D50, X
-            
             LDA.w $0D40, X : EOR.b #$FF : STA.w $0D40, X
             
             LDA.w $0E90, X : BEQ .dont_play_SFX
@@ -423,13 +419,11 @@ Bully_Dialogue:
 {
     LDA.w $0F10, X : BNE .delay
         LDA.l $7EF357 : AND.b #$01 : TAY
-        
         LDA.w Pool_Bully_Dialogue_messages_low, Y        : XBA
         LDA.w Pool_Bully_Dialogue_messages_high, Y : TAY : XBA
         
         JSL.l Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
             LDA.w $0D50, X : EOR.b #$FF : STA.w $0D50, X
-            
             LDA.w $0D40, X : EOR.b #$FF : STA.w $0D40, X
             
             LDA.b #$40 : STA.w $0F10, X

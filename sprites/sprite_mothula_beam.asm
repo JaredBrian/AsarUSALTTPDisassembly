@@ -39,7 +39,8 @@ Sprite_MothulaBeam:
     .empty_slot
     
     ; Generate the mothula beam... garnish.
-    LDA.b #$02 : STA.l $7FF800, X : STA.w $0FB4
+    LDA.b #$02 : STA.l $7FF800, X
+                 STA.w $0FB4
     
     LDA.w $0D10, Y : STA.l $7FF83C, X
     LDA.w $0D30, Y : STA.l $7FF878, X

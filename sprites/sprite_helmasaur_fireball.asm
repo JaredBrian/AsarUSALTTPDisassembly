@@ -32,11 +32,9 @@ Sprite_HelmasaurFireball:
     INC.w $0E80, X
     
     LDA.w $0E80, X : LSR : LSR : AND.b #$01 : TAY
-    
     LDA.w Pool_Sprite_HelmasaurFireball_properties, Y : STA.b $05
     
     LDY.b #$00
-    
     LDA.w $0D10, X : SEC : SBC.b $E2 : STA.b ($90), Y
     
     ; NOTE: These two branches check if the fireball is with in 32 pixels
@@ -60,7 +58,6 @@ Sprite_HelmasaurFireball:
     PHX
     
     LDA.w $0DC0, X : TAX
-    
     LDA.w Pool_Sprite_HelmasaurFireball_chr, X
     
     PLX
@@ -156,7 +153,6 @@ HelmasaurFireball_DelayThenTriSplit:
     .delay
     
     LSR #3 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -212,7 +208,8 @@ Pool_HelmasaurFireball_TriSplit:
 ; $0EEED3-$0EEF34 LOCAL JUMP LOCATION
 HelmasaurFireball_TriSplit:
 {
-    LDA.b #$36 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$36
+    JSL.l Sound_SetSfx3PanLong
     
     STZ.w $0DD0, X
     
@@ -222,23 +219,19 @@ HelmasaurFireball_TriSplit:
     .spawn_next
     
     	LDA.b #$70
-    
     	JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     	    JSL.l Sprite_SetSpawnedCoords
     
     	    PHX
     
     	    LDX.w $0FB5
-    
     	    LDA.w .x_speeds, X : STA.w $0D50, Y
-    
        	    LDA.w .y_speeds, X : STA.w $0D40, Y
     
-   	     LDA.b #$03 : STA.w $0D80, Y
-                          STA.w $0BA0, Y
+   	        LDA.b #$03 : STA.w $0D80, Y
+                         STA.w $0BA0, Y
      
     	    LDA.w $0FB6 : AND.b #$03 : CLC : ADC.w $0FB5 : TAX
-    
     	    LDA.w .timers, X : STA.w $0DF0, Y
     
     	    LDA.b #$00 : STA.w $0EB0, Y
@@ -274,7 +267,8 @@ Pool_HelmasaurFireball_QuadSplit:
 ; $0EEF3D-$0EEF75 LOCAL JUMP LOCATION
 HelmasaurFireball_QuadSplit:
 {
-    LDA.b #$36 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$36
+    JSL.l Sound_SetSfx3PanLong
     
     STZ.w $0DD0, X
     
@@ -283,16 +277,13 @@ HelmasaurFireball_QuadSplit:
     .spawn_next
     
     	LDA.b #$70
-    
     	JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     	    JSL.l Sprite_SetSpawnedCoords
     
     	    PHX
     
     	    LDX.w $0FB5
-    
     	    LDA.w Pool_HelmasaurFireball_QuadSplit_x_speeds, X : STA.w $0D50, Y
-    
     	    LDA.w Pool_HelmasaurFireball_QuadSplit_y_speeds, X : STA.w $0D40, Y
     
     	    PLX

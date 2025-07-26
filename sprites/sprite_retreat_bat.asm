@@ -31,27 +31,26 @@ Sprite_RetreatBat:
         .BRANCH_BETA
         
         AND.b #$01 : TAY
-        
         LDA.w Pool_Sprite_RetreatBat_shake_low, Y  : STA.w $011C
         LDA.w Pool_Sprite_RetreatBat_shake_high, Y : STA.w $011D
     
     .BRANCH_ALPHA
     
     LDA.w $0DF0, X : BNE .BRANCH_GAMMA
-        LDA.w $0DC0, X : INC : AND.b #$03 : STA.w $0DC0, X : BNE .BRANCH_DELTA
+        LDA.w $0DC0, X : INC : AND.b #$03 : STA.w $0DC0, X
+        BNE .BRANCH_DELTA
             LDA.w $0D80, X : CMP.b #$02 : BCS .BRANCH_DELTA
-                LDA.b #$03 : JSL.l Sound_SetSfx2PanLong
+                LDA.b #$03
+                JSL.l Sound_SetSfx2PanLong
             
         .BRANCH_DELTA
         
         LDY.w $0DE0, X
-        
         LDA.w Pool_BatCrash_Approach_anim_timer, Y : STA.w $0DF0, X
     
     .BRANCH_GAMMA
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw BatCrash_Approach   ; 0x00 - $F63D
     dw BatCrash_Ascend     ; 0x01 - $F684
@@ -66,9 +65,7 @@ BatCrash_Approach:
     
     REP #$20
     
-    LDA.w Pool_BatCrash_Approach_position_x, Y : CMP.w $0FD8
-    
-    SEP #$30 : BCS .BRANCH_ALPHA
+    LDA.w Pool_BatCrash_Approach_position_x, Y : CMP.w $0FD8 : SEP #$30 : BCS .BRANCH_ALPHA
         CPY.b #$04 : BCC .BRANCH_BETA
             INC.w $0D80, X
             
@@ -115,7 +112,8 @@ BatCrash_Ascend:
     LDA.w $0E00, X : BNE .BRANCH_ALPHA
         INC.w $0D80, X
         
-        LDA.b #$26 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$26
+        JSL.l Sound_SetSfx3PanLong
         
         INC.w $0DE0, X
         
@@ -139,7 +137,6 @@ BatCrash_Ascend:
     .BRANCH_BETA
     
     LDA.w $0D90, X : ASL : TAY
-    
     JMP.w BatCrash_HandleYMovement
 }
 
@@ -193,7 +190,8 @@ RetreatBat_FinishUp:
 ; $0D76F5-$0D772F LONG
 GanonEmerges_SpawnRetreatBat:
 {
-    LDA.b #$37 : JSL.l Sprite_SpawnDynamically
+    LDA.b #$37
+    JSL.l Sprite_SpawnDynamically
     
     LDA.b #$00 : STA.w $0D40, Y
                  STA.w $0DA0, Y
@@ -201,9 +199,9 @@ GanonEmerges_SpawnRetreatBat:
                  STA.w $0F20, Y
     
     INC : STA.w $0E80, Y
-            STA.w $0E40, Y
-            STA.w $0E60, Y
-            STA.w $0F50, Y
+          STA.w $0E40, Y
+          STA.w $0E60, Y
+          STA.w $0F50, Y
     
     LDA.b #$CC : STA.w $0D10, Y
     LDA.b #$07 : STA.w $0D30, Y
@@ -358,11 +356,11 @@ RetreatBat_Draw:
     SEP #$20
     
     LDA.w $0DE0, X : ASL : ASL : ADC.w $0DC0, X : TAY
-    
     LDA.w Pool_RetreatBat_Draw_ptr_low_bytes, Y : STA.b $08
     LDA.w Pool_RetreatBat_Draw_ptr_high_byte    : STA.b $09
     
-    LDA.w Pool_RetreatBat_Draw_num_OAM_entries, Y : JSL.l Sprite_DrawMultiple
+    LDA.w Pool_RetreatBat_Draw_num_OAM_entries, Y
+    JSL.l Sprite_DrawMultiple
     
     RTS
 }

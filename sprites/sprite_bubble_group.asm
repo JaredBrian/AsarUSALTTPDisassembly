@@ -40,7 +40,7 @@ Pool_SpritePrep_BubbleGroup:
 SpritePrep_BubbleGroup:
 {
     LDA.w $0D10, X : SEC : SBC.b #$0A : STA.w $0D10, X
-    LDA.w $0D30, X :       SBC.b #$00 : STA.w $0D30, X
+    LDA.w $0D30, X       : SBC.b #$00 : STA.w $0D30, X
     
     LDA.b #$EE : STA.w $0D40, X
     
@@ -55,12 +55,10 @@ SpritePrep_BubbleGroup:
     .attempt_next_spawn
     
         LDA.b #$82
-        
         JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             PHX
             
             LDX.w $0FB5
-            
             LDA.b $00 : CLC : ADC.l Pool_SpritePrep_BubbleGroup_x_offsets_low, X
             STA.w $0D10, Y
 
@@ -74,11 +72,9 @@ SpritePrep_BubbleGroup:
             STA.w $0D20, Y
             
             LDA.l Pool_SpritePrep_BubbleGroup_x_speeds, X : STA.w $0D50, Y
-            
             LDA.l Pool_SpritePrep_BubbleGroup_y_speeds, X : STA.w $0D40, Y
             
             LDA.l Pool_SpritePrep_BubbleGroup_x_polarities, X : STA.w $0D90, Y
-            
             LDA.l Pool_SpritePrep_BubbleGroup_y_polarities, X : STA.w $0DA0, Y
             
             PLX
@@ -123,21 +119,15 @@ Sprite_BubbleGroup:
     ; In other words, this is the logic that effects the circular motion
     ; the bubble group's members.
     LDA.w $0D90, X : AND.b #$01 : TAY
-    
-    LDA.w $0D50, X : CLC : ADC Pool_Sprite_BubbleGroup_speed_step, Y
-    STA.w $0D50, X
-    
-    CMP Pool_Sprite_BubbleGroup_speed_limit, Y : BNE .dont_flip _x_speed_polarity
+    LDA.w $0D50, X : CLC : ADC Pool_Sprite_BubbleGroup_speed_step, Y : STA.w $0D50, X
+    CMP.w Pool_Sprite_BubbleGroup_speed_limit, Y : BNE .dont_flip _x_speed_polarity
         INC.w $0D90, X
     
     .dont_flip_x_speed_polarity
     
     LDA.w $0DA0, X : AND.b #$01 : TAY
-    
-    LDA.w $0D40, X : CLC : ADC Pool_Sprite_BubbleGroup_speed_step, Y
-    STA.w $0D40, X
-    
-    CMP .speed_step, Y : BNE .dont_flip_y_speed_polarity
+    LDA.w $0D40, X : CLC : ADC Pool_Sprite_BubbleGroup_speed_step, Y : STA.w $0D40, X
+    CMP.w .speed_step, Y : BNE .dont_flip_y_speed_polarity
         INC.w $0DA0, X
     
     .dont_flip_y_speed_polarity

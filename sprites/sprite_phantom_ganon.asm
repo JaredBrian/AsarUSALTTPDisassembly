@@ -4,14 +4,15 @@
 Sprite_SpawnPhantomGanon:
 {
     ; Spawn one of Ganon's bats? Emerges from Agahnim, seems like.
-    LDA.b #$C9 : JSL.l Sprite_SpawnDynamically
+    LDA.b #$C9
+    JSL.l Sprite_SpawnDynamically
     
     JSL.l Sprite_SetSpawnedCoords
     
     LDA.b #$02 : STA.w $0E40, Y
                  STA.w $0BA0, Y
-    DEC      : STA.w $0EC0, Y
-    DEC      : STA.w $0F50, Y
+    DEC        : STA.w $0EC0, Y
+    DEC        : STA.w $0F50, Y
     
     RTL
 }
@@ -22,40 +23,36 @@ Sprite_SpawnPhantomGanon:
 Sprite_PhantomGanon:
 {
     LDA.w $0D80, X : BNE Sprite_GanonBat
-    
-    JSR.w PhantomGanon_Draw
-    JSR.w Sprite4_CheckIfActive
-    JSR.w Sprite4_MoveVert
-    
-    INC.w $0E80, X
-    
-    LDA.w $0E80, X : AND.b #$1F : BNE .delay
-        DEC.w $0D40, X
+        JSR.w PhantomGanon_Draw
+        JSR.w Sprite4_CheckIfActive
+        JSR.w Sprite4_MoveVert
         
-        LDA.w $0D40, X : CMP.b #$FC : BNE .BRANCH_BETA
+        INC.w $0E80, X
         
-        PHA
-        
-        JSR.w Blind_SpawnPoof
-        
-        LDA.w $0D00, Y : SEC : SBC.b #$14 : STA.w $0D00, Y
-        LDA.w $0D20, Y :       SBC.b #$00 : STA.w $0D20, Y
-        
-        PLA
-        
-        .BRANCH_BETA
-        
-        CMP.b #$FB : BNE .dont_transform
-            INC.w $0D80, X
+        LDA.w $0E80, X : AND.b #$1F : BNE .delay
+            DEC.w $0D40, X
+            LDA.w $0D40, X : CMP.b #$FC : BNE .BRANCH_BETA
+                PHA
+                
+                JSR.w Blind_SpawnPoof
+                
+                LDA.w $0D00, Y : SEC : SBC.b #$14 : STA.w $0D00, Y
+                LDA.w $0D20, Y :       SBC.b #$00 : STA.w $0D20, Y
+                
+                PLA
+                
+            .BRANCH_BETA
             
-            LDA.b #$FF : STA.w $0DF0, X
+            CMP.b #$FB : BNE .dont_transform
+                INC.w $0D80, X
+                
+                LDA.b #$FF : STA.w $0DF0, X
+                LDA.b #$FC : STA.w $0D40, X
             
-            LDA.b #$FC : STA.w $0D40, X
+            .dont_transform
+        .delay
         
-        .dont_transform
-    .delay
-    
-    RTS
+        RTS
 }
 
 ; ==============================================================================
@@ -94,21 +91,20 @@ PhantomGanon_Draw:
     LDA.w $0DC0, X : REP #$20 : ASL #6 : CLC : ADC.w #(.OAM_groups) : STA.b $08
     
     LDA.w #$0950 : STA.b $90
-    
     LDA.w #$0A74 : STA.b $92
     
     SEP #$20
     
-    LDA.b #$08 : JMP Sprite4_DrawMultiple
-
-    ; Bleeds into the next function.
+    LDA.b #$08
+    JMP Sprite4_DrawMultiple
 }
 
 ; $0E8AA9-$0E8AB5 LOCAL JUMP LOCATION
 Sprite_PeriodicWhirringSfx:
 {
     LDA.b $1A : AND.b #$0F : BNE .shadow_flicker
-        LDA.b #$06 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$06
+        JSL.l Sound_SetSfx3PanLong
     
     .shadow_flicker
     

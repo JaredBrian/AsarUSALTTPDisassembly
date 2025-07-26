@@ -29,7 +29,8 @@ FlyingTile_EraseTilemapEntries:
     LDA.w $0D00, X : CLC : ADC.b #$08 : STA.b $02
     LDA.w $0D20, X                    : STA.b $03
     
-    LDY.b #$06 : JSL.l Dungeon_SpriteInducedTilemapUpdate
+    LDY.b #$06
+    JSL.l Dungeon_SpriteInducedTilemapUpdate
     
     INC.w $0D80, X
     
@@ -60,8 +61,7 @@ FlyingTile_CareenTowardsPlayer:
         LDA.w $0FDA : SEC : SBC.w $0F70, X : STA.w $0FDA
         LDA.w $0FDB :       SBC.b #$00     : STA.w $0FDB
         
-        JSR.w Sprite3_CheckTileCollision
-        BEQ FlyingTile_Shatter_no_tile_collision
+        JSR.w Sprite3_CheckTileCollision : BEQ FlyingTile_Shatter_no_tile_collision
     
     .shatter
 
@@ -71,7 +71,8 @@ FlyingTile_CareenTowardsPlayer:
 ; $0F3C2F-$0F3C4E JUMP LOCATION
 FlyingTile_Shatter:
 {
-    LDA.b #$1F : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$1F
+    JSL.l Sound_SetSfx2PanLong
     
     LDA.b #$06 : STA.w $0DD0, X
     
@@ -108,7 +109,6 @@ FlyingTile_RiseUp:
 FlyingTile_TrackPlayer:
 {
     LDA.b #$20
-    
     JSL.l Sprite_ApplySpeedTowardsPlayerLong
     
     RTS
@@ -130,10 +130,12 @@ FlyingTile_RiseUp_delay:
 ; $0F3C6F-$0F3C89 JUMP LOCATION
 FlyingTile_NoisilyAnimate:
 {
-    INC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$01 : STA.w $0DC0, X
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR : LSR : AND.b #$01 : STA.w $0DC0, X
     
     TXA : EOR.b $1A : AND.b #$07 : BNE .delay_SFX
-        LDA.b #$07 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$07
+        JSL.l Sound_SetSfx2PanLong
     
     .delay_SFX
     
@@ -159,12 +161,17 @@ FlyingTile_Draw_OAM_groups:
 ; $0F3CCA-$0F3CE7 LOCAL JUMP LOCATION
 FlyingTile_Draw:
 {
-    LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.OAM_groups) : STA.b $08
+    LDA.b #$00 : XBA
+    LDA.w $0DC0, X
+    
+    REP #$20
+    
+    ASL #5 : ADC.w #(.OAM_groups) : STA.b $08
     
     SEP #$20
     
-    LDA.b #$04 : JSR.w Sprite3_DrawMultiple
+    LDA.b #$04
+    JSR.w Sprite3_DrawMultiple
     
     JSL.l Sprite_DrawShadowLong
     

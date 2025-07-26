@@ -48,7 +48,8 @@ EnemyBomb_CheckDamageToSprite:
     LDA.w $0D10, X : SEC : SBC.b #$10 : STA.b $00
     LDA.w $0D30, X :       SBC.b #$00 : STA.b $08
     
-    LDA.b #$30 : STA.b $02 : STA.b $03
+    LDA.b #$30 : STA.b $02
+                 STA.b $03
     
     LDA.w $0D00, X : SEC : SBC.b #$10 : STA.b $01
     LDA.w $0D20, X :       SBC.b #$00 : STA.b $09
@@ -67,7 +68,8 @@ EnemyBomb_CheckDamageToSprite:
             
             TYX : PHY
             
-            LDA.b #$08 : JSL.l Ancilla_CheckSpriteDamage_preset_class
+            LDA.b #$08
+            JSL.l Ancilla_CheckSpriteDamage_preset_class
             
             PLY : PLX
             
@@ -75,17 +77,18 @@ EnemyBomb_CheckDamageToSprite:
             LDA.w $0D30, X : STA.b $01
             
             LDA.w $0D00, X : SEC : SBC.w $0F70, X : STA.b $02
-            LDA.w $0D20, X :       SBC.b #$00 : STA.b $03
+            LDA.w $0D20, X       : SBC.b #$00     : STA.b $03
             
             LDA.w $0D10, Y : STA.b $04
             LDA.w $0D30, Y : STA.b $05
             
             LDA.w $0D00, Y : SEC : SBC.w $0F70, Y : STA.b $06
-            LDA.w $0D20, Y :       SBC.b #$00 : STA.b $07
+            LDA.w $0D20, Y       : SBC.b #$00     : STA.b $07
             
             PHY
             
-            LDA.b #$20 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+            LDA.b #$20
+            JSL.l Sprite_ProjectSpeedTowardsEntityLong
             
             PLY
             
@@ -123,7 +126,8 @@ EnemyBomb_ExplosionImminent:
 
     .nu
 
-    LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$0C
+    JSL.l Sound_SetSfx2PanLong
     
     INC.w $0DB0, X
     
@@ -171,7 +175,8 @@ BombTrooper_Main:
     JSR.w Sprite2_CheckIfActive
     JSR.w Sprite2_CheckDamage
     
-    JSR.w Sprite2_DirectionToFacePlayer : TYA : STA.w $0DE0, X : STA.w $0EB0, X
+    JSR.w Sprite2_DirectionToFacePlayer : TYA : STA.w $0DE0, X
+                                                STA.w $0EB0, X
     
     LDA.w $0D80, X : BNE .pi
         LDA.w $0DF0, X : BNE .rho
@@ -213,7 +218,6 @@ BombTrooper_Main:
     LSR #4 : STA.b $00
     
     LDA.w $0DE0, X : ASL #3 : ORA.b $00 : CLC : ADC.b #$20 : TAY
-    
     LDA.w Pool_JavelinTrooper_Attack_animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -245,12 +249,10 @@ Pool_BombTrooper_SpawnAndThrowBomb:
 BombTrooper_SpawnAndThrowBomb:
 {
     LDA.b #$4A
-    
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         PHX
         
         LDA.w $0DE0, X : TAX
-        
         LDA.b $00 : CLC : ADC Pool_BombTrooper_SpawnAndThrowBombx_offsets_low, X 
         STA.w $0D10, Y
 
@@ -265,7 +267,8 @@ BombTrooper_SpawnAndThrowBomb:
         
         TYX
         
-        LDA.b #$10 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$10
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         LDA.b #$01 : STA.w $0DB0, X
         
@@ -284,7 +287,6 @@ BombTrooper_SpawnAndThrowBomb:
         .positive_dy
         
         ORA.b $0F : LSR #4 : TAY
-        
         LDA.w .initial_z_velocities, Y : STA.w $0F80, X
         
         LDA.w $0E60, X : AND.b #$EE : ORA.b #$18 : STA.w $0E60, X
@@ -295,7 +297,8 @@ BombTrooper_SpawnAndThrowBomb:
         
         STZ.w $0E50, X
         
-        LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$13
+        JSL.l Sound_SetSfx3PanLong
         
         PLX
     
@@ -316,11 +319,9 @@ BombTrooper_Draw:
     JSR.w Sprite2_PrepOamCoord
     
     LDY.b #$08
-    
     JSR.w SpriteDraw_GuardHead
     
     LDY.b #$04
-    
     JSR.w SpriteDraw_GuardBody
     
     LDA.w $0DC0, X : CMP.b #$14 : BCS .alpha
@@ -329,7 +330,6 @@ BombTrooper_Draw:
     .alpha
     
     LDA.b #$0A
-    
     JSL.l Sprite_DrawShadowLong_variable
     
     RTS
@@ -361,7 +361,7 @@ BombTrooper_DrawArm:
     REP #$20
     
     LDA.b $00 : CLC : ADC.w Pool_SpriteDraw_BombGuard_Arm_offset_x, X
-    LDY.b #$00 : STA.b ($90), Y
+    LDY.b #$00   : STA.b ($90), Y
     AND.w #$0100 : STA.b $0E
     
     LDA.b $02 : CLC : ADC.w Pool_SpriteDraw_BombGuard_Arm_offset_y, X 
@@ -374,7 +374,9 @@ BombTrooper_DrawArm:
     
     SEP #$20
     
-    LDA.b #$6E                    : INY : STA.b ($90), Y : INY
+    LDA.b #$6E : INY : STA.b ($90), Y
+    
+    INY
     LDA.b $05 : AND.b #$30 : ORA.b #$08 : STA.b ($90), Y
     
     LDA.b #$02 : ORA.b $0F : STA.b ($92)
@@ -430,9 +432,8 @@ EnemyBomb_DrawExplosion:
         PHX
         
         TXA : CLC : ADC.b $06 : TAX
-        
         LDA.b $00 : CLC : ADC Pool_EnemyBomb_DrawExplosion_x_offsets, X
-            STA.b ($90), Y
+              STA.b ($90), Y
 
         LDA.b $02 : CLC : ADC Pool_EnemyBomb_DrawExplosion_y_offsets, X
         INY : STA.b ($90), Y
@@ -450,7 +451,6 @@ EnemyBomb_DrawExplosion:
     
     LDY.b #$02
     LDA.b #$03
-    
     JSL.l Sprite_CorrectOamEntriesLong
     
     RTS

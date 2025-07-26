@@ -20,7 +20,6 @@ Sprite_Moblin:
     
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Moblin_SelectDirection ; 0x00 - $9907
     dw Moblin_Walk            ; 0x01 - $9938
     dw Moblin_ThrowSpear      ; 0x02 - $99B1
@@ -39,15 +38,12 @@ Moblin_SelectDirection:
 {
     LDA.w $0DF0, X : BNE .direction_change_delay
         JSL.l GetRandomInt : AND.b #$03 : TAY
-        
         LDA.w .timers, Y : STA.w $0DF0, X
         
         INC.w $0D80, X
         
         LDA.w $0EB0, X : STA.w $0DE0, X : TAY
-        
         LDA.w Pool_Sluggula_Normal_x_speeds, Y : STA.w $0D50, X
-        
         LDA.w Pool_Sluggula_Normal_y_speeds, Y : STA.w $0D40, X
     
     .direction_change_delay
@@ -70,9 +66,7 @@ Moblin_Walk_direction:
 Moblin_Walk:
 {
     LDA.w $0E80, X : AND.b #$01
-    
     LDY.w $0DE0, X
-    
     CLC : ADC .animation_states, Y : STA.w $0DC0, X
     
     LDA.b #$0C
@@ -100,12 +94,12 @@ Moblin_Walk:
     JSL.l GetRandomInt : AND.b #$01 : STA.b $00
     
     LDA.w $0DE0, X : ASL : ORA.b $00 : TAY
-    
     LDA.w .direction, Y : STA.w $0EB0, X
     
     STZ.w $0D80, X
     
-    INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$04 : BNE .anoface_player
+    INC.w $0DB0, X
+    LDA.w $0DB0, X : CMP.b #$04 : BNE .anoface_player
         ; After however many random selections of a new direction, explicitly
         ; face the player.
         STZ.w $0DB0, X
@@ -213,18 +207,17 @@ Moblin_SpawnThrownSpear:
         ; dumb considering all the other space saving measures they could have
         ; done.
         LDA.b $00
-        CLC : ADC Pool_Moblin_SpawnThrownSpear_x_offsets_low, X : STA.w $0D10, Y
+        CLC : ADC.w Pool_Moblin_SpawnThrownSpear_x_offsets_low, X : STA.w $0D10, Y
 
-        LDA.b $01 : ADC Hinox_x_offsets_high, X : STA.w $0D30, Y
+        LDA.b $01 : ADC.w Hinox_x_offsets_high, X : STA.w $0D30, Y
         
         LDA.b $02
-        CLC : ADC Pool_Moblin_SpawnThrownSpear_y_offsets_low, X  : STA.w $0D00, Y
+        CLC : ADC.w Pool_Moblin_SpawnThrownSpear_y_offsets_low, X  : STA.w $0D00, Y
 
         LDA.b $03
-        ADC Pool_Moblin_SpawnThrownSpear_y_offsets_high, X : STA.w $0D20, Y
+        ADC.w Pool_Moblin_SpawnThrownSpear_y_offsets_high, X : STA.w $0D20, Y
         
         LDA.w Pool_Moblin_SpawnThrownSpear_x_speeds, X : STA.w $0D50, Y
-        
         LDA.w Pool_Moblin_SpawnThrownSpear_y_speeds, X : STA.w $0D40, Y
         
         PLX
@@ -319,7 +312,6 @@ Pool_Moblin_Draw:
 Moblin_Draw:
 {
     LDA.b #$00 : XBA
-    
     LDA.w $0DC0, X
     
     REP #$20
@@ -328,8 +320,9 @@ Moblin_Draw:
     
     SEP #$20
     
-    LDA.b #$04 : JSL.l Sprite_DrawMultiple
-    
+    LDA.b #$04
+    JSL.l Sprite_DrawMultiple
+
     LDA.w $0F00, X : BNE .sprite_is_paused
         LDA.w $0E00, X : BEQ .not_throwing_spear
             LDY.b #$03
@@ -343,10 +336,7 @@ Moblin_Draw:
                 LDA.b ($92), Y : AND.b #$02 : BNE .is_large_OAM_sprite
                     PHY
                     
-                    TYA : ASL : ASL : TAY
-                    
-                    INY
-                    
+                    TYA : ASL : ASL : TAY : INY
                     LDA.b #$F0 : STA.b ($90), Y
                     
                     PLY
@@ -357,18 +347,15 @@ Moblin_Draw:
         .not_throwing_spear
         
         LDY.w $0DC0, X
-        
         LDA.w Pool_Moblin_Draw_OAM_buffer_offsets, Y : TAY
         
         PHX
         
         LDA.w $0EB0, X : TAX
-        
         LDA.w Pool_Moblin_Draw_chr, X : INY : INY : STA.b ($90), Y
         
         INY
-        
-        LDA.b ($90), Y : AND.b #$BF : ORA Pool_Moblin_Draw_h_flip, X : STA.b ($90), Y
+        LDA.b ($90), Y : AND.b #$BF : ORA.w Pool_Moblin_Draw_h_flip, X : STA.b ($90), Y
         
         PLX
         

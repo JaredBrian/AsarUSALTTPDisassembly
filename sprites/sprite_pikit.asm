@@ -10,7 +10,6 @@ Sprite_Pikit:
     
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Pikit_SetNextVelocity      ; 0x00 - $8BDE
     dw Pikit_FinishJumpThenAttack ; 0x01 - $8C25
     dw Pikit_AttemptItemGrab      ; 0x02 - $8CE2
@@ -36,8 +35,8 @@ Pikit_SetNextVelocity:
 {
     LDA.w $0DF0, X : BNE .delay
         INC.w $0D80, X
-        
-        INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$04 : BNE .pick_random_direction
+        INC.w $0DB0, X
+        LDA.w $0DB0, X : CMP.b #$04 : BNE .pick_random_direction
             STZ.w $0DB0, X
             
             JSR.w Sprite3_DirectionToFacePlayer
@@ -51,7 +50,6 @@ Pikit_SetNextVelocity:
         .set_speed
         
         LDA.w Pool_Pikit_Data_x_speeds, Y : STA.w $0D50, X
-        
         LDA.w Pool_Pikit_Data_y_speeds, Y : STA.w $0D40, X
         
         JSL.l GetRandomInt : AND.b #$07 : ADC.b #$13 : STA.w $0F80, X
@@ -61,7 +59,8 @@ Pikit_SetNextVelocity:
     ; $0F0C16 ALTERNATE ENTRY POINT
     shared Pikit_Animate:
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -88,7 +87,6 @@ Pikit_FinishJumpThenAttack:
                 INC.w $0D80, X
                 
                 LDA.b #$1F
-                
                 JSL.l Sprite_ProjectSpeedTowardsPlayerLong
                 
                 JSL.l Sprite_ConvertVelocityToAngle : LSR : STA.w $0DE0, X
@@ -158,18 +156,18 @@ Pikit_AttemptItemGrab:
         
     .tongue_still_out
     
-    LSR : LSR : PHA : TAY
-    
+    LSR : LSR : PHA
+                TAY
     LDA.w Pool_Pikit_AttemptItemGrab_animation_states, Y : STA.w $0DC0, X
     
     TYA
     
     LDY.w $0DE0, X : PHY
-    
     CLC : ADC.w Pool_Pikit_AttemptItemGrab_index_offset_x, Y : TAY
     
-    LDA.w Pool_Pikit_AttemptItemGrab_pos, Y : STA.w $0D90, X : STA.b $04
-                                      STZ.b $05
+    LDA.w Pool_Pikit_AttemptItemGrab_pos, Y : STA.w $0D90, X
+                                              STA.b $04
+                                              STZ.b $05
     
     BPL .sign_extend_x_offset
     
@@ -180,8 +178,8 @@ Pikit_AttemptItemGrab:
     PLY
     
     PLA : CLC : ADC.w Pool_Pikit_AttemptItemGrab_index_offset_y, Y : TAY
-    
-    LDA.w Pool_Pikit_AttemptItemGrab_pos, Y : STA.w $0DA0, X : STA.b $06
+    LDA.w Pool_Pikit_AttemptItemGrab_pos, Y : STA.w $0DA0, X
+                                              STA.b $06
 
     ; Two STZs in a row?
     STZ.b $07 : STZ.b $07
@@ -202,12 +200,10 @@ Pikit_AttemptItemGrab:
                 
                 LDA.w $0DF0, X : CMP.b #$2E : BCS .return
                     JSL.l Sound_SetSfxPanWithPlayerCoords
-                    
                     ORA.b #$26 : STA.w $012E
                     
                     JSL.l GetRandomInt : AND.b #$03 : INC : STA.w $0ED0, X
-                                                              STA.w $0E90, X
-                    
+                                                            STA.w $0E90, X
                     CMP.b #$01 : BNE .not_hungry_for_bombs
                         LDA.l $7EF343 : BEQ .player_has_none
                             DEC : STA.l $7EF343
@@ -234,12 +230,11 @@ Pikit_AttemptItemGrab:
                     .not_wanting_arrows
                     
                     CMP.b #$03 : BNE .not_wanting_rupees
-                    
-                    REP #$20
-                    
-                    ; Pikit steals a rupee, if any are available.
-                    LDA.l $7EF360 : BEQ .player_has_none
-                        DEC : STA.l $7EF360
+                        REP #$20
+                        
+                        ; Pikit steals a rupee, if any are available.
+                        LDA.l $7EF360 : BEQ .player_has_none
+                            DEC : STA.l $7EF360
     
     .return
     

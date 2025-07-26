@@ -112,9 +112,8 @@ RunningMan_Chillin:
         JSL.l Player_HaltDashAttackLong
         
         JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0DE0, X
-        
-        EOR.b #$01 : ORA.b #$02 : STA.w $0EB0, X : TAY
-        
+        EOR.b #$01 : ORA.b #$02 : STA.w $0EB0, X
+                                  TAY
         AND.b #$01 : INC : STA.w $0D80, X
         
         LDA.w .x_speeds-2, Y : STA.w $0D50, X
@@ -210,7 +209,9 @@ RunningMan_WindingRunRight:
         JSR.w RunningMan_RunFullSpeed
         
         LDA.w $0D90, X : BNE RunningMan_TickRunCountdownTimer
-            LDY.w $0DA0, X : INC.w $0DA0, X
+            LDY.w $0DA0, X
+            
+            INC.w $0DA0, X
             
             LDA.w Pool_RunningMan_WindingRunRight_timers, Y : STA.w $0D90, X
             
@@ -255,7 +256,6 @@ RunningMan_AnimateAndMakeDust:
 RunningMan_RunFullSpeed:
 {
     LDY.w $0EB0, X
-    
     LDA.w Pool_RunningMan_RunFullSpeed_x_speeds, Y : STA.w $0D50, X
     LDA.w Pool_RunningMan_RunFullSpeed_y_speeds, Y : STA.w $0D40, X
     
@@ -302,7 +302,6 @@ RunningMan_Draw:
                  STZ.b $07
     
     LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
-    
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     

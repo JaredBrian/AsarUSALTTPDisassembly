@@ -20,7 +20,8 @@ Sprite_SpikeBlock:
             
             LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
             
-            LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$05
+            JSL.l Sound_SetSfx2PanLong
             
             .no_tile_collision
         .ignore_collision
@@ -34,7 +35,8 @@ Sprite_SpikeBlock:
 ; $0F3D23-$0F3D4A BRANCH LOCATION
 Sprite_TransientSpikeBlock:
 {
-    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$04
+    JSL.l OAM_AllocateFromRegionB
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong
     JSR.w Sprite3_CheckIfActive
@@ -43,7 +45,8 @@ Sprite_TransientSpikeBlock:
     LDA.w $0D80, X : BNE TransientSpikeBlock_Activated
         ; Transmute a bg-based spike block into a mobile one (this sprite),
         ; but erase the underlying bg-based one.
-        LDY.b #$00 : JSR.w SpikeBlock_InduceTilemapUpdate
+        LDY.b #$00
+        JSR.w SpikeBlock_InduceTilemapUpdate
         
         INC.w $0D80, X
         
@@ -76,7 +79,6 @@ TransientSpikeBlock_Activated:
         ; NOTE: While this may look weird, what it does is it wiggles the spike
         ; block before it becomes fully detatched.
         LSR : AND.b #$01 : TAY
-        
         LDA.w .wiggle_x_speeds, Y : STA.w $0D50, X
         
         JSR.w Sprite3_MoveHoriz
@@ -116,15 +118,14 @@ TransientSpikeBlock_InMotion:
         ; mask this could have been used to slow down the acceleration.
         LDA.b $1A : AND.b #$00 : BNE .acceleration_delay
             LDY.w $0DE0, X
-            
             LDA.w $0D50, X
-            CMP Pool_TransientSpikeBlock_InMotion_target_x_speeds, Y : BEQ .at_target_x_speed
+            CMP.w Pool_TransientSpikeBlock_InMotion_target_x_speeds, Y : BEQ .at_target_x_speed
                 CLC : ADC Pool_TransientSpikeBlock_InMotion_x_acceleration, Y : STA.w $0D50, X
             
             .at_target_x_speed
             
             LDA.w $0D40, X
-            CMP Pool_TransientSpikeBlock_InMotion_target_y_speeds, Y : BEQ .at_target_y_speed
+            CMP.w Pool_TransientSpikeBlock_InMotion_target_y_speeds, Y : BEQ .at_target_y_speed
                 CLC : ADC Pool_TransientSpikeBlock_InMotion_y_acceleration, Y : STA.w $0D40, X
             
             .at_target_y_speed
@@ -167,7 +168,6 @@ TransientSpikeBlock_Retract:
     ; retracts back to where it spawned from.
     LDA.w $0E00, X : BNE .delay
         LDY.w $0DE0, X
-        
         LDA.w Pool_TransientSpikeBlock_Retract_x_speeds, Y : STA.w $0D50, X
         LDA.w Pool_TransientSpikeBlock_Retract_y_speeds, Y : STA.w $0D40, X
         
@@ -179,7 +179,8 @@ TransientSpikeBlock_Retract:
                 
                 ; Place a bg-based spike block here as the sprite
                 ; version terminates.
-                LDY.b #$02 : JSR.w SpikeBlock_InduceTilemapUpdate
+                LDY.b #$02
+                JSR.w SpikeBlock_InduceTilemapUpdate
         
         .not_at_target_coord
     .delay
@@ -231,8 +232,10 @@ SpikeBlock_CheckStatueSpriteCollision:
                     
                     REP #$20
                     
-                    LDA.b $00 : SEC : SBC.b $04 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .no_collision
-                        LDA.b $02 : SEC : SBC.b $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .no_collision
+                    LDA.b $00 : SEC : SBC.b $04 : CLC : ADC.w #$0010
+                    CMP.w #$0020 : BCS .no_collision
+                        LDA.b $02 : SEC : SBC.b $06 : CLC : ADC.w #$0008
+                        CMP.w #$0010 : BCS .no_collision
                             SEP #$20
                             
                             RTS

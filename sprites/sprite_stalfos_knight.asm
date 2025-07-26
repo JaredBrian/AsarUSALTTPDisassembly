@@ -49,16 +49,18 @@ Sprite_StalfosKnight:
 ; $0F2AF4-$0F2B26 JUMP LOCATION
 StalfosKnight_WaitingForPlayer:
 {
-    LDA.b #$09 : STA.w $0F60, X : STA.w $0BA0, X
+    LDA.b #$09 : STA.w $0F60, X
+                 STA.w $0BA0, X
     
     ; Temporarily make the sprite harmless since it's not technically
     ; on screen yet.
     LDA.w $0E40, X : PHA
-    ORA.b #$80 : STA.w $0E40, X
+    ORA.b #$80     : STA.w $0E40, X
     
     JSR.w Sprite3_CheckDamageToPlayer
     
-    PLA : STA.w $0E40, X : BCC .didnt_touch
+    PLA : STA.w $0E40, X
+    BCC .didnt_touch
         ; As soon as Link gets close enough, the Stalfos knight reveals itself
         ; by falling from the ceiling.
         LDA.b #$90 : STA.w $0F70, X
@@ -69,7 +71,8 @@ StalfosKnight_WaitingForPlayer:
         
         LDA.b #$02 : STA.w $0DC0, X
         
-        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$20
+        JSL.l Sound_SetSfx2PanLong
         
     .didnt_touch
     
@@ -143,9 +146,7 @@ StalfosKnight_Idle:
     .delay
     
     LSR #5 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
-    
     LDA.w .animation_states, Y : STA.w $0DB0, X
     
     LDA.b #$02 : STA.w $0EB0, X
@@ -181,11 +182,11 @@ StalfosKnight_ScanForOpponents:
     .BRANCH_ALPHA
     
     LSR #3 : TAY
-    
     LDA.w .head_direction, Y : STA.w $0EB0, X
     
     LDA.b #$00 : STA.w $0DB0, X
-    
+
+    ; OPTIMIZE: No need for the second LDA.b #$00
     LDA.b #$00 : STA.w $0DC0, X
     
     RTS
@@ -227,13 +228,14 @@ StalfosKnight_HopAround:
             LDA.b #$30 : STA.w $0F80, X
             
             LDA.b #$10
-            
             JSL.l Sprite_ApplySpeedTowardsPlayerLong
+
             JSR.w Sprite3_IsToRightOfPlayer
             
             TYA : STA.w $0EB0, X
             
-            LDA.b #$13 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$13
+            JSL.l Sound_SetSfx3PanLong
         
         .BRANCH_BETA
         
@@ -317,7 +319,8 @@ StalfosKnight_Crumble:
     
     CMP.b #$E0 : BCC .BRANCH_EPSILON
         PHA : AND.b #$03 : BNE .BRANCH_ZETA
-            LDA.b #$14 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$14
+            JSL.l Sound_SetSfx3PanLong
         
         .BRANCH_ZETA
         
@@ -326,11 +329,9 @@ StalfosKnight_Crumble:
     .BRANCH_EPSILON
     
     LSR #3 : TAY
-    
     LDA.w .head_anim, Y : STA.w $0DB0, X
     
     LDA.b #$03 : STA.w $0DC0, X
-    
     LDA.b #$02 : STA.w $0EB0, X
     
     RTS
@@ -353,7 +354,6 @@ StalfosKnight_CelebrateStandingUp:
     .delay
     
     LSR : LSR : AND.b #$01 : TAY
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -414,9 +414,12 @@ StalfosKnight_Draw:
     JSR.w SpriteDraw_StalfosKnight_Head
     
     LDA.b #$00 : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL : ASL : ADC.b $00
+    LDA.w $0DC0, X
     
-    ADC.w #.OAM_groups : STA.b $08
+    REP #$20
+    
+    ASL #3 : STA.b $00
+    ASL : ASL : ADC.b $00 : ADC.w #.OAM_groups : STA.b $08
     
     LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
@@ -424,7 +427,8 @@ StalfosKnight_Draw:
     
     SEP #$20
     
-    LDA.b #$05 : JSR.w Sprite3_DrawMultiple
+    LDA.b #$05
+    JSR.w Sprite3_DrawMultiple
     
     REP #$20
     
@@ -434,7 +438,8 @@ StalfosKnight_Draw:
     
     SEP #$20
     
-    LDA.b #$12 : JSL.l Sprite_DrawShadowLong_variable
+    LDA.b #$12
+    JSL.l Sprite_DrawShadowLong_variable
     
     RTS
 }
@@ -444,9 +449,11 @@ StalfosKnight_Draw:
 ; $0F2E46-$0F2E4D DATA
 Pool_SpriteDraw_StalfosKnight_Head:
 {
+    ; $0F2E4
     .chr
     db $66, $66, $46, $46
     
+    ; $0F2E8
     .properties
     db $40, $00, $00, $00
 }
@@ -466,11 +473,10 @@ SpriteDraw_StalfosKnight_Head:
         
         REP #$20
         
-        LDA.b $00 : STA.b ($90), Y
+        LDA.b $00    : STA.b ($90), Y
         AND.w #$0100 : STA.b $0E
         
         LDA.b $02 : CLC : ADC.b $06 : SEC : SBC.w #$000C : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
             LDA.w #$00F0 : STA.b ($90), Y
         
@@ -478,14 +484,12 @@ SpriteDraw_StalfosKnight_Head:
         
         SEP #$20
         
-        LDA.w Pool_SpriteDraw_StalfosKnight_Head_chr, X
-        INY : STA.b ($90), Y
+        LDA.w Pool_SpriteDraw_StalfosKnight_Head_chr, X : INY : STA.b ($90), Y
 
         LDA.w Pool_SpriteDraw_StalfosKnight_Head_properties, X
         INY : ORA.b $05 : STA.b ($90), Y
         
         TYA : LSR : LSR : TAY
-        
         LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
         
         PLX

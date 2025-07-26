@@ -62,7 +62,8 @@ Sprite_Swamola:
     
     JSR.w Sprite4_CheckDamage
     
-    LDA.w $0D40, X : PHA : CLC : ADC.w $0F80, X : STA.w $0D40, X
+    LDA.w $0D40, X       : PHA
+    CLC : ADC.w $0F80, X : STA.w $0D40, X
     
     JSR.w Sprite4_Move
     
@@ -116,12 +117,11 @@ Swamola_Emerge:
         ; Seems like a staggering mechanism.
         LDA.w .directions, Y : CMP.w $0DE0, X : BEQ .direction_mismatch
             TAY
+            LDA.w $0D90, X : CLC : ADC.w .x_offsets_low,  Y : STA.l $7FFD5C, X
+            LDA.w $0DA0, X       : ADC.w .x_offsets_high, Y : STA.l $7FFD62, X
             
-            LDA.w $0D90, X : CLC : ADC .x_offsets_low,  Y : STA.l $7FFD5C, X
-            LDA.w $0DA0, X       : ADC .x_offsets_high, Y : STA.l $7FFD62, X
-            
-            LDA.w $0DB0, X : CLC : ADC .y_offsets_low,  Y : STA.l $7FFD68, X
-            LDA.w $0EB0, X       : ADC .y_offsets_high, Y : STA.l $7FFD6E, X
+            LDA.w $0DB0, X : CLC : ADC.w .y_offsets_low,  Y : STA.l $7FFD68, X
+            LDA.w $0EB0, X       : ADC.w .y_offsets_high, Y : STA.l $7FFD6E, X
             
             INC.w $0D80, X
             
@@ -211,10 +211,8 @@ Swamola_WiggleTowardsTarget:
     ; eventually).
     LDA.w $0E80, X : AND.b #$00 : BNE .never
         LDA.w $0ED0, X : AND.b #$01 : TAY
-        
         LDA.w $0F80, X
         CLC : ADC Pool_Swamola_WiggleTowardsTarget_z_offsets, Y : STA.w $0F80, X
-        
         CMP .z_offset_limits, Y : BNE .anotoggle_wiggle_direction
             INC.w $0ED0, X
         
@@ -258,7 +256,8 @@ Swamola_PursueTargetCoord:
     LDA.l $7FFD68, X : STA.b $06
     LDA.l $7FFD6E, X : STA.b $07
     
-    LDA.b #$0F : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$0F
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     RTS
 }
@@ -269,7 +268,8 @@ Swamola_PursueTargetCoord:
 Swamola_Descending:
 {
     LDA.w $0E80, X : AND.b #$03 : BNE .delay_altitude_check
-        INC.w $0F80, X : LDA.w $0F80, X : CMP.b #$10 : BNE .continue_descent
+        INC.w $0F80, X
+        LDA.w $0F80, X : CMP.b #$10 : BNE .continue_descent
             INC.w $0D80, X
             
             JSR.w Swamola_SpawnRipples
@@ -284,7 +284,7 @@ Swamola_Descending:
     LDA.w $0E80, X : AND.b #$03 : BNE .delay_speed_adjustment
         STZ.b $00
         STZ.b $01
-        
+
         JSR.w Swamola_ApproachPursuitSpeed
     
     .delay_speed_adjustment
@@ -299,14 +299,13 @@ Swamola_Submerge:
 {
     LDA.w $0DF0, X : BNE .delay
         JSL.l GetRandomInt : AND.b #$07 : TAY
+        LDA.w Swamola_Emerge_directions, Y : STA.w $0DE0, X
+                                             TAY
+        LDA.w $0D90, X : CLC : ADC.w Swamola_Emerge_x_offsets_low,  Y : STA.w $0D10, X
+        LDA.w $0DA0, X       : ADC.w Swamola_Emerge_x_offsets_high, Y : STA.w $0D30, X
         
-        LDA Swamola_Emerge_directions, Y : STA.w $0DE0, X : TAY
-        
-        LDA.w $0D90, X : CLC : ADC Swamola_Emerge_x_offsets_low,  Y : STA.w $0D10, X
-        LDA.w $0DA0, X       : ADC Swamola_Emerge_x_offsets_high, Y : STA.w $0D30, X
-        
-        LDA.w $0DB0, X : CLC : ADC Swamola_Emerge_y_offsets_low,  Y : STA.w $0D00, X
-        LDA.w $0EB0, X       : ADC Swamola_Emerge_y_offsets_high, Y : STA.w $0D20, X
+        LDA.w $0DB0, X : CLC : ADC.w Swamola_Emerge_y_offsets_low,  Y : STA.w $0D00, X
+        LDA.w $0EB0, X       : ADC.w Swamola_Emerge_y_offsets_high, Y : STA.w $0D20, X
         
         STZ.w $0D80, X
         
@@ -326,7 +325,8 @@ Swamola_Submerge:
 ; $0E9EAA-$0E9ECD LOCAL JUMP LOCATION
 Swamola_SpawnRipples:
 {
-    LDA.b #$CF : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$CF
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$80 : STA.w $0D80, Y
@@ -380,16 +380,20 @@ SwamolaRipples_Draw_OAM_groups:
 ; $0E9F1D-$0E9F3B LOCAL JUMP LOCATION
 SwamolaRipples_Draw:
 {
-    LDA.b #$08 : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$08
+    JSL.l OAM_AllocateFromRegionB
     
     LDA.b #$00 : XBA
-    LDA.w $0DF0, X : AND.b #$0C : REP #$20 : ASL : ASL
+    LDA.w $0DF0, X : AND.b #$0C
     
-    CLC : ADC.w #.OAM_groups : STA.b $08
+    REP #$20
+    
+    ASL : ASL : CLC : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$02 : JMP Sprite4_DrawMultiple
+    LDA.b #$02
+    JMP Sprite4_DrawMultiple
 }
 
 ; ==============================================================================
@@ -425,7 +429,6 @@ Swamola_Draw:
     LDA.w $0D40, X : CLC : ADC.w $0F80, X : STA.b $00
     
     JSL.l Sprite_ConvertVelocityToAngle : TAY
-    
     LDA.w Pool_Swamola_Draw_head_animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0F50, X
@@ -456,7 +459,8 @@ Swamola_Draw:
     
     .moving_downward
     
-    PHA : CLC : ADC.b $90 : STA.b $90
+    PHA
+    CLC : ADC.b $90 : STA.b $90
     
     PLA : LSR : LSR : CLC : ADC.b $92 : STA.b $92
     
@@ -467,15 +471,13 @@ Swamola_Draw:
     .segment_draw_loop
     
         LDY.w $0FB6
-        
         LDA.w Pool_Swamola_Draw_segment_animation_states, Y : STA.w $0DC0, X
         
         PHX
         
         LDA.w $0E80, X
-        SEC : SBC Pool_Swamola_Draw_unknown_0, Y : AND.b #$1F
+        SEC : SBC.w Pool_Swamola_Draw_unknown_0, Y : AND.b #$1F
         CLC : ADC.w Swamola_InitSegments_WRAM_offsets, X : TAX
-        
         LDA.l $7FFA5C, X : STA.w $0FD8
         LDA.l $7FFB1C, X : STA.w $0FD9
         
@@ -507,7 +509,8 @@ Swamola_Draw:
         SEP #$20
         
         JSL.l Sprite_PrepAndDrawSingleLargeLong
-    INC.w $0FB6 : LDA.w $0FB6 : CMP.b #$04 : BNE .segment_draw_loop
+    INC.w $0FB6
+    LDA.w $0FB6 : CMP.b #$04 : BNE .segment_draw_loop
     
     RTS
 }

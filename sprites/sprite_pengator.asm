@@ -10,8 +10,7 @@ Pool_Sprite_Pengator_animation_states:
 Sprite_Pengator:
 {
     LDY.w $0DE0, X
-    
-    LDA.w $0D90, X : CLC : ADC .animation_states, Y : STA.w $0DC0, X
+    LDA.w $0D90, X : CLC : ADC.w .animation_states, Y : STA.w $0DC0, X
     
     JSR.w Pengator_Draw
     
@@ -45,7 +44,6 @@ Sprite_Pengator:
     
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Pengator_FacePlayer      ; 0x00 - $A1EA
     dw Pengator_SpeedUp         ; 0x01 - $A1FB
     dw Pengator_Jump            ; 0x02 - $A244
@@ -141,7 +139,6 @@ Pengator_Jump:
     .anojump
     
     LSR : LSR : TAY
-    
     LDA.w .animation_states, Y : STA.w $0D90, X
     
     RTS
@@ -264,11 +261,12 @@ Pengator_Draw:
     ASL #4 : ADC.w #Pool_Pengator_Draw_OAM_groups : STA.b $08
     SEP #$20
     
-    LDA.b #$02 : JSR.w Sprite3_DrawMultiple
+    LDA.b #$02
+    JSR.w Sprite3_DrawMultiple
     
     LDY.b #$00
     
-    LDA.b #$00   : XBA
+    LDA.b #$00 : XBA
     LDA.w $0DC0, X : CMP.b #$0E : BEQ .draw_more_sprites
         INY
         
@@ -289,7 +287,8 @@ Pengator_Draw:
     
     SEP #$20
     
-    LDA.b #$02 : JSR.w Sprite3_DrawMultiple
+    LDA.b #$02
+    JSR.w Sprite3_DrawMultiple
     
     .draw_shadow
     

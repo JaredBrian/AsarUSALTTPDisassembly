@@ -35,7 +35,6 @@ DiggingGameGuy_Introduction:
                 ; "Welcome to the treasure field. The object is to dig as many..."
                 LDA.b #$87
                 LDY.b #$01
-            
                 JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .return
                     INC.w $0D80, X
         
@@ -83,12 +82,12 @@ DiggingGameGuy_DoYouWantToPlay:
             
             LDA.b #$50 : STA.w $0DF0, X
             
-            LDA.b #$00 : STA.l $7FFE00 : STA.l $7FFE01
+            LDA.b #$00 : STA.l $7FFE00
+                         STA.l $7FFE01
             
             LDA.b #$05 : STA.w $0E00, X
             
             LDA.b #$01
-            
             JSL.l Sprite_InitializeSecondaryItemMinigame
             
             ; Play the game time music.
@@ -127,7 +126,8 @@ DiggingGameGuy_MoveOuttaTheWay:
     .wait_for_next_state
     
     LDA.w $0E00, X : BNE .wait_to_move
-        LDA.w $0DC0, X : EOR.b #$03 : STA.w $0DC0, X : AND.b #$01 : BEQ .move_not
+        LDA.w $0DC0, X : EOR.b #$03 : STA.w $0DC0, X
+        AND.b #$01 : BEQ .move_not
             LDA.b #$F0 : STA.w $0D50, X
         
         .move_not
@@ -173,7 +173,8 @@ DiggingGameGuy_TerminateMinigame:
         
         ; "OK! Time's up, game over. Come back again. Good bye..."
         LDA.b #$8A : STA.w $1CF0
-        LDA.b #$01 : JSR.w Sprite4_ShowMessageMinimal
+        LDA.b #$01
+        JSR.w Sprite4_ShowMessageMinimal
         
         ; Set the HUD timer to inactive.
         LDA.b #$FE : STA.w $04B4
@@ -221,7 +222,6 @@ DiggingGameGuy_AttemptPrizeSpawn:
     
     LDA.b $20 : CMP.w #$0B18 : SEP #$30 : BCS DiggingGameGuy_GiveItem_nothing
         JSL.l GetRandomInt : AND.b #$07 : TAY
-        
         JSL.l UseImplicitRegIndexedLocalJumpTable
         dw DiggingGameGuy_GiveItem_basic       ; 0x00 - $FD8A
         dw DiggingGameGuy_GiveItem_basic       ; 0x01 - $FD8A
@@ -311,17 +311,17 @@ DiggingGameGuy_GiveItem_spawn_item:
     LDA.b #$FF : STA.w $0B58, Y
     LDA.b #$30 : STA.w $0F10, Y
                 
-    LDA.b $22 : CLC : ADC .x_offsets, X : AND.b #$F0 : STA.w $0D10, Y
-    LDA.b $23       : ADC.b #$00                     : STA.w $0D30, Y
+    LDA.b $22 : CLC : ADC.w .x_offsets, X : AND.b #$F0 : STA.w $0D10, Y
+    LDA.b $23       : ADC.b #$00                       : STA.w $0D30, Y
                 
     LDA.b $20 : CLC : ADC.b #$16 : AND.b #$F0 : STA.w $0D00, Y
     LDA.b $21       : ADC.b #$00              : STA.w $0D20, Y
                 
     LDA.b #$00 : STA.w $0F20, Y
                 
-    TYX
-                
-    LDA.b #$30 : JSL.l Sound_SetSfx3PanLong
+    TYX      
+    LDA.b #$30
+    JSL.l Sound_SetSfx3PanLong
                 
     RTS
 }
@@ -352,7 +352,6 @@ DiggingGameGuy_Draw:
     
     ; ptr = 0xFE03 + (i*24);
     LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
-    
     ADC.b #.OAM_groups                 : STA.b $08
     LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09
     

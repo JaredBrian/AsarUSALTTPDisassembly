@@ -28,13 +28,13 @@ MiddleAgedMan_Chillin:
     LDY.b #$01
     JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing
     
-    LDA.w $0D10, X : PHA
-    
+    LDA.w $0D10, X   : PHA
     SEC : SBC.b #$10 : STA.w $0D10, X
     
     JSR.w Sprite_Get_16_bit_Coords
     
-    LDA.b #$01 : STA.w $0D50, X : STA.w $0D40, X
+    LDA.b #$01 : STA.w $0D50, X
+                 STA.w $0D40, X
     
     JSL.l Sprite_CheckTileCollisionLong : BNE .sign_wasnt_taken
         INC.w $0D80, X
@@ -191,6 +191,7 @@ MiddleAgedMan_Draw:
     LDA.b #.OAM_groups>>8 : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
+    
     JMP Sprite_DrawShadow
 }
 

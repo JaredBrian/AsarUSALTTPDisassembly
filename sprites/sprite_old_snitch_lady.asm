@@ -19,7 +19,8 @@ SpritePrep_SnitchesLong:
 ; $02E67D-$02E699 LOCAL JUMP LOCATION
 SpritePrep_Snitches:
 {
-    LDA.b #$02 : STA.w $0DE0, X : STA.w $0EB0, X
+    LDA.b #$02 : STA.w $0DE0, X
+                 STA.w $0EB0, X
     
     INC.w $0BA0, X
     
@@ -172,9 +173,7 @@ Pool_Snitch_Meander:
 Snitch_Meander:
 {
     LDA.w $0DF0, X : BNE .alpha
-        
         LDY.w $0DB0, X
-        
         LDA.w $0D90, X : CLC : ADC.w Pool_Snitch_Meander_max_displacement_low, Y
         CMP.w $0D10, X : BNE .alpha
             LDA.w $0D90, X
@@ -183,9 +182,7 @@ Snitch_Meander:
             LDA.w $0DA0, X : ADC.w Pool_Snitch_Meander_max_displacement_high, Y
             CMP.w $0D30, X : BNE .alpha
                 LDA.w $0DE0, X : EOR.b #$01 : STA.w $0EB0, X : TAY
-                
                 LDA.w Pool_Snitch_x_speeds, Y : STA.w $0D50, X
-                
                 LDA.w Pool_Snitch_y_speeds, Y : STA.w $0D40, X
                 
                 LDA.w $0DB0, X : EOR.b #$01 : STA.w $0DB0, X
@@ -272,7 +269,6 @@ Snitch_FreakOut:
     LDA.w $0B20, Y : STA.b $07
     
     LDA.b #$40
-    
     JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
@@ -292,11 +288,17 @@ Snitch_OpenDoor:
     LDA.w $0DF0, X : BNE .alpha
         LDY.w $0FDE
         
-        LDA.w $0B18, Y : STA.w $0D00, X : STA.b $00
-        LDA.w $0B20, Y : STA.w $0D20, X : STA.b $01
+        LDA.w $0B18, Y : STA.w $0D00, X
+                         STA.b $00
+
+        LDA.w $0B20, Y : STA.w $0D20, X
+                         STA.b $01
         
-        LDA.w $0B08, Y : STA.w $0D10, X : STA.b $02
-        LDA.w $0B10, Y : STA.w $0D30, X : STA.b $03
+        LDA.w $0B08, Y : STA.w $0D10, X
+                         STA.b $02
+                         
+        LDA.w $0B10, Y : STA.w $0D30, X
+                         STA.b $03
         
         PHX
         

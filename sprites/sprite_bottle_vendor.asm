@@ -36,7 +36,6 @@ Sprite_BottleVendor:
     
     JSL.l GetRandomInt : BNE .dont_reset_timer
         LDA.b #$01 : STA.w $0DC0, X
-        
         LDA.b #$14 : STA.w $0DF0, X
         
     .dont_reset_timer
@@ -204,7 +203,6 @@ BottleVendor_DispenseRewardToPlayer:
     .player_has_fish
     
     TYA : AND.b #$0F : TAY
-    
     LDA.b #$00 : STA.w $0DD0, Y
     
     JSL.l BottleVendor_SpawnFishRewards
@@ -233,11 +231,10 @@ BottleVendor_Draw:
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DC0, X : ASL #4
     
-    ; $EB87 = .animation_states
-    ADC.b #.animation_states                 : STA.b $08
-    LDA.b #.animation_states>>8 : ADC.b #$00 : STA.b $09
+    
+    LDA.w $0DC0, X : ASL #4 : ADC.b #.animation_states : STA.b $08
+    LDA.b #.animation_states>>8 : ADC.b #$00           : STA.b $09
     
     JSL.l Sprite_DrawMultiple_player_deferred
     JSL.l Sprite_DrawShadowLong

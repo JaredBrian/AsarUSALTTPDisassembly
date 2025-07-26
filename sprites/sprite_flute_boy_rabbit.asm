@@ -10,7 +10,6 @@ FluteBoyAnimal_vh_flip:
 Sprite_FluteBoyRabbit:
 {
     LDY.w $0DE0, X
-    
     LDA.w $0F50, X : AND.b #$BF : ORA FluteBoyAnimal_vh_flip, Y : STA.w $0F50, X
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong
@@ -31,9 +30,10 @@ FluteBoyRabbit_Chillin:
     LDA.w $0FDD : BEQ .dont_run_away
         INC.w $0D80, X
         
-        LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X : TAY
+        LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
+                                      TAY
         
-        LDA Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
+        LDA.w Sprite3_Shake_x_speeds, Y : STA.w $0D50, X
         
         LDA.b #$F8 : STA.w $0D40, X
     
@@ -69,7 +69,8 @@ FluteBoyRabbit_RunAway:
         
     .aloft
     
-    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$03 : BNE .delay_animation_tick
+    INC.w $0E80, X
+    LDA.w $0E80, X : AND.b #$03 : BNE .delay_animation_tick
         LDA.w $0D90, X : CMP.b #$02 : BEQ .animation_counter_maxed
             INC.w $0D90, X
         
@@ -77,7 +78,6 @@ FluteBoyRabbit_RunAway:
     .delay_animation_tick
     
     LDY.w $0D90, X
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS

@@ -36,7 +36,6 @@ Sprite_MadBatter:
     
     LDA.w $0D80, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw MadBatter_WaitForSummoning       ; 0x00 - $FAFF
     dw MadBatter_RisingUp               ; 0x01 - $FB3C
     dw MadBatter_PseudoAttackPlayer     ; 0x02 - $FB8E
@@ -67,7 +66,8 @@ MadBatter_WaitForSummoning:
         
             JSL.l Sprite_SpawnSuperficialBombBlast
             
-            LDA.b #$0D : JSL.l Sound_SetSfx1PanLong
+            LDA.b #$0D
+            JSL.l Sound_SetSfx1PanLong
             
             INC.w $0D80, X
             
@@ -100,7 +100,6 @@ MadBatter_RisingUp:
             LSR : LSR : STA.w $0F80, X
             
             LDA.w $0D90, X : AND.b #$01 : TAY
-            
             LDA.w .x_speeds, Y : CLC : ADC.w $0D50, X : STA.w $0D50, X
             
             LDA.w $0DC0, X : EOR.b #$01 : STA.w $0DC0, X
@@ -148,7 +147,6 @@ MadBatter_PseudoAttackPlayer:
     .delay
     
     LSR : AND.b #$07 : TAY
-    
     LDA.w $0F50, X : AND.b #$F1 : ORA .palettes, Y : STA.w $0F50, X
     
     LDA.w $0DF0, X : CMP.b #$F0 : BNE .delay_2

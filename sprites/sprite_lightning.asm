@@ -31,10 +31,8 @@ Sprite_Lightning:
     LDA.b $1A : ASL : AND.b #$0E : STA.b $00
     
     LDY.w $0D90, X
-    
-    LDA.w $0F50, X
-    AND.b #$B1 : ORA.w Pool_Sprite_BF_Lightning_flip, Y : ORA.b $00
-    STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$B1
+    ORA.w Pool_Sprite_BF_Lightning_flip, Y : ORA.b $00 : STA.w $0F50, X
     
     LDA.w Pool_Sprite_BF_Lightning_anim, Y
     
@@ -53,7 +51,8 @@ Sprite_Lightning:
         
         LDA.b #$02 : STA.w $0DF0, X
         
-        LDA.w $0D00, X : CLC : ADC.b #$10 : STA.w $0D00, X : PHA
+        LDA.w $0D00, X : CLC : ADC.b #$10 : STA.w $0D00, X
+                                            PHA
         LDA.w $0D20, X :       ADC.b #$00 : STA.w $0D20, X
         
         PLA : SEC : SBC.b $E8 : CMP.b #$D0 : BCC .BRANCH_GAMMA
@@ -105,7 +104,8 @@ Lightning_SpawnFulgurGarnish:
     
     .empty_slot
     
-    LDA.b #$09 : STA.l $7FF800, X : STA.w $0FB4
+    LDA.b #$09 : STA.l $7FF800, X
+                 STA.w $0FB4
     
     LDA.w $0D90, Y : STA.l $7FF92C, X
     

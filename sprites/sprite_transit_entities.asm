@@ -18,7 +18,6 @@ SomariaPlatform_LocateTransitTile:
     
         ; Get the tile type the sprite interacted with.
         JSR.w SomariaPlatformAndPipe_CheckTile : STA.w $0E90, X
-        
         SEC : SBC.b #$B0 : BCS .is_upper_tile
             .not_pipe_tile
             
@@ -164,7 +163,6 @@ SomariaPlatformAndPipe_Main:
                     
                     LDA.w $0D90, X : AND.b #$07 : BNE .BRANCH_EPSILON
                         JSR.w SomariaPlatformAndPipe_CheckTile
-                        
                         CMP.w $0E90, X : BEQ .BRANCH_EPSILON
                             STA.w $0E90, X
                             
@@ -177,7 +175,6 @@ SomariaPlatformAndPipe_Main:
                     
                     LDA.b $A0 : CMP.b #$24 : BEQ .BRANCH_ZETA
                         LDY.w $0DE0, X
-                        
                         LDA.w Pool_SomariaPlatformAndPipe_drag_x_low, Y
                         CLC : ADC.w $0B7C : STA.w $0B7C
 
@@ -222,7 +219,6 @@ SomariaPlatformAndPipe_HandleMovement:
     JSR.w SomariaPlatform_HandleTile
     
     LDY.w $0DE0, X
-    
     LDA.w Pool_SomariaPlatformAndPipe_x_speeds, Y : STA.w $0D50, X
     LDA.w Pool_SomariaPlatformAndPipe_y_speeds, Y : STA.w $0D40, X
     
@@ -239,7 +235,8 @@ SomariaPlatformAndPipe_CheckTile:
     LDA.w $0D30, X : STA.b $03
     
     ; Forced to check on bg2 (the main bg).
-    LDA.b #$00 : JSL.l Entity_GetTileAttr
+    LDA.b #$00
+    JSL.l Entity_GetTileAttr
     
     LDA.w $0FA5
     
@@ -275,14 +272,15 @@ SpriteDraw_SomariaPlatform_OAM_groups:
 ; $0F7860-$0F787C LOCAL JUMP LOCATION
 SpriteDraw_SomariaPlatform:
 {
-    LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$10
+    JSL.l OAM_AllocateFromRegionB
     
     LDA.w $0F10, X : AND.b #$0C : ASL #3
-    
     ADC.b #.OAM_groups                 : STA.b $08
     LDA.b #.OAM_groups>>8 : ADC.b #$00 : STA.b $09
     
-    LDA.b #$04 : JMP Sprite3_DrawMultiple
+    LDA.b #$04
+    JMP Sprite3_DrawMultiple
 }
 
 ; ==============================================================================
@@ -307,15 +305,30 @@ SomariaPlatform_HandleTile:
     dw SomariaPlatform_HandleTile_FallingSlope ; 0xB3 - $F912 Zig zag falling slope
     dw SomariaPlatform_HandleTile_FallingSlope ; 0xB4 - $F912 Zig zag falling slope
     dw SomariaPlatform_HandleTile_RisingSlope  ; 0xB5 - $F909 Zig zag rising slope
-    dw SomariaPlatform_HandleTile_TJunctionDLR ; 0xB6 - $F91F Transit tile allowing direction inversion?
-    dw SomariaPlatform_HandleTile_TJunctionULR ; 0xB7 - $F946 T junction transit tile (can't go up)
-    dw SomariaPlatform_HandleTile_TJunctionUDR ; 0xB8 - $F9A3 T junction transit tile (can't go down)
-    dw SomariaPlatform_HandleTile_TJunctionUDL ; 0xB9 - $FA02 T junction transit tile (can't go left)
-    dw SomariaPlatform_HandleTile_4WayJunction ; 0xBA - $FA61 T junction transit tile (can't go right)
-    dw SomariaPlatform_HandleTile_CrossOver    ; 0xBB - $FAC0 Transit tile junction that allows movement in all directions except for the one you came from.
-    dw SomariaPlatform_HandleTile_Unknown      ; 0xBC - $FAFF Straight transit line junction? Question mark looking. Only allows travel in two colinear directions.
+    dw SomariaPlatform_HandleTile_TJunctionDLR ; 0xB6 - $F91F Transit tile
+                                               ;        allowing direction
+                                               ;        inversion?
+    dw SomariaPlatform_HandleTile_TJunctionULR ; 0xB7 - $F946 T junction transit
+                                               ;        tile (can't go up)
+    dw SomariaPlatform_HandleTile_TJunctionUDR ; 0xB8 - $F9A3 T junction transit
+                                               ;        tile (can't go down)
+    dw SomariaPlatform_HandleTile_TJunctionUDL ; 0xB9 - $FA02 T junction transit
+                                               ;        tile (can't go left)
+    dw SomariaPlatform_HandleTile_4WayJunction ; 0xBA - $FA61 T junction transit
+                                               ;        tile (can't go right)
+    dw SomariaPlatform_HandleTile_CrossOver    ; 0xBB - $FAC0 Transit tile
+                                               ;        junction that allows
+                                               ;        movement in all directions
+                                               ;        except for the one you
+                                               ;        came from.
+    dw SomariaPlatform_HandleTile_Unknown      ; 0xBC - $FAFF Straight transit
+                                               ;        line junction? Question
+                                               ;        mark looking. Only allows
+                                               ;        travel in two colinear
+                                               ;        directions.
     dw SomariaPlatform_HandleTile_DoNothing    ; 0xBD - $F908
-    dw SomariaPlatform_HandleTile_Station      ; 0xBE - $FB3A Endpoint node transit tile
+    dw SomariaPlatform_HandleTile_Station      ; 0xBE - $FB3A Endpoint node
+                                               ;        transit tile
 }
 
 ; $0F78AD-$0F78D6 LOCAL JUMP LOCATION
@@ -325,7 +338,8 @@ SomariaPlatform_HandleDragX:
         LDA.w $0D10, X : AND.b #$F8 : CLC : ADC.b #$04 : STA.b $00
         
         SEC : SBC.w $0D10, X : BEQ .BRANCH_ALPHA
-            STA.w $0B7C : BPL .BRANCH_BETA
+            STA.w $0B7C
+            BPL .BRANCH_BETA
                 LDA.b #$FF : STA.w $0B7D
                 
             .BRANCH_BETA
@@ -342,7 +356,6 @@ SomariaPlatform_HandleDragY:
 {
     LDA.w $0DE0, X : EOR.w $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
         LDA.w $0D00, X : AND.b #$F8 : CLC : ADC.b #$04 : STA.b $00
-        
         SEC : SBC.w $0D00, X : BEQ .BRANCH_ALPHA
             STA.w $0B7E : BPL .BRANCH_BETA
                 LDA.b #$FF : STA.w $0B7F
@@ -404,7 +417,6 @@ SomariaPlatform_HandleTile_TJunctionDLR:
     
     LDA.b $4D : BNE .BRANCH_ALPHA
         LDY.w $0DE0, X
-        
         LDA.b $F0 : AND.w .dpad_press, Y : BEQ .BRANCH_ALPHA
             STZ.w $0D80, X
             
@@ -431,8 +443,8 @@ SomariaPlatform_HandleTile_TJunctionULR:
     LDA.b #$01 : STA.w $0D80, X
     
     LDY.w $0DE0, X
-    
-    LDA.b $F0 : AND.w .dpad_press, Y : STA.b $00 : AND.b #$08 : BEQ .always
+    LDA.b $F0 : AND.w .dpad_press, Y : STA.b $00
+    AND.b #$08 : BEQ .always
         LDA.b #$00 : STA.w $0DE0, X
         
         STZ.w $0D80, X
@@ -557,7 +569,6 @@ SomariaPlatform_HandleTile_TJunctionUDL:
     LDA.b #$01 : STA.w $0D80, X
     
     LDY.w $0DE0, X
-    
     LDA.b $F0 : AND.w .dpad_press, Y : STA.b $00
     AND.b #$08 : BEQ .not_pressing_up
         LDA.b #$00 : STA.w $0DE0, X
@@ -620,7 +631,6 @@ SomariaPlatform_HandleTile_4WayJunction:
     LDA.b #$01 : STA.w $0D80, X
     
     LDY.w $0DE0, X
-    
     LDA.b $F0 : AND.w .dpad_press, Y : STA.b $00
     AND.b #$08 : BEQ .not_pressing_up
         LDA.b #$00 : STA.w $0DE0, X
@@ -650,10 +660,9 @@ SomariaPlatform_HandleTile_4WayJunction:
     .not_pressing_left
     
     LDA.b $00 : AND.b #$01 : BEQ .always
-    
-    LDA.b #$03 : STA.w $0DE0, X
-    
-    STZ.w $0D80, X
+        LDA.b #$03 : STA.w $0DE0, X
+        
+        STZ.w $0D80, X
     
     .always
     
@@ -682,7 +691,6 @@ SomariaPlatform_HandleTile_CrossOver_dpad_press:
 SomariaPlatform_HandleTile_CrossOver:
 {
     LDY.w $0DE0, X
-    
     LDA.b $F0 : AND.w .dpad_press, Y : STA.b $00
     AND.b #$08 : BEQ .BRANCH_ALPHA
         LDA.b #$00 : STA.w $0DE0, X
@@ -727,7 +735,6 @@ SomariaPlatform_HandleTile_Unknown:
     LDA.b #$01 : STA.w $0D80, X
     
     LDY.w $0DE0, X
-    
     LDA.b $F0 : AND.w .dpad_press, Y : BEQ .not_pressing_any_directions
         STA.b $00 : AND.b #$08 : BEQ .not_pressing_up
             LDA.b #$00 : BRA .set_direction
@@ -891,16 +898,16 @@ Pipe_WaitForPlayer:
             PLX
             
             BCS .cant_pass_through
-            
-            INC.w $0DC0, X
-            
-            LDA.b #$04 : STA.w $0E00, X
-            
-            JSL.l Player_ResetState
-            
-            LDA.b #$01 : STA.w $02E4 : STA.w $037B
-            
-            TXA : STA.w $1DE0
+                INC.w $0DC0, X
+                
+                LDA.b #$04 : STA.w $0E00, X
+                
+                JSL.l Player_ResetState
+                
+                LDA.b #$01 : STA.w $02E4
+                             STA.w $037B
+                
+                TXA : STA.w $1DE0
     
     .cant_enter
     
@@ -935,12 +942,11 @@ Pipe_DrawPlayerInward:
     .delay
     
     ; Halt the player, but also take care of some of their functions?
-    LDA.b #$01 : STA.w $02E4 : STA.w $037B
+    LDA.b #$01 : STA.w $02E4
+                 STA.w $037B
     
     LDY.w $0DE0, X
-    
-    LDA Pipe_player_direction, Y
-    
+    LDA.w Pipe_player_direction, Y
     JSR.w Pipe_HandlePlayerMovemen
     
     RTS
@@ -962,19 +968,20 @@ Pipe_DragPlayerAlong:
     .lambda
     
         INC.w $0D90, X
-        
         LDA.w $0D90, X : AND.b #$07 : BNE .BRANCH_ALPHA
-            JSR.w SomariaPlatformAndPipe_CheckTile
+            JSR.w SomariaPlatformAndPipe_CheckTile : PHA
             
-            PHA : CMP.b #$B2 : BCC .BRANCH_BETA
-                  CMP.b #$B6 : BCS .BRANCH_BETA
+            CMP.b #$B2 : BCC .BRANCH_BETA
+            CMP.b #$B6 : BCS .BRANCH_BETA
                 
-                LDA.b #$0B : JSL.l Sound_SetSfx2PanLong
+                LDA.b #$0B
+                JSL.l Sound_SetSfx2PanLong
             
             .BRANCH_BETA
             
             PLA : CMP.w $0E90, X : BEQ .BRANCH_ALPHA
-                STA.w $0E90, X : CMP.b #$BE : BNE .not_endpoint_node
+                STA.w $0E90, X
+                CMP.b #$BE : BNE .not_endpoint_node
                     INC.w $0DC0, X
                     
                     LDA.b #$18 : STA.w $0E00, X
@@ -1033,8 +1040,7 @@ Pipe_DragPlayerAlong:
     LDA.b $20 : SEC : SBC.b $3E : STA.b $30
 
     LDY.w $0DE0, X
-    
-    LDA Pipe_player_direction, Y : STA.b $26
+    LDA.w Pipe_player_direction, Y : STA.b $26
     
     PHX
     
@@ -1067,8 +1073,7 @@ Pipe_Reset:
     .delay
     
     LDA.w $0DE0, X : EOR.b #$01 : TAY
-    
-    LDA Pipe_player_direction, Y
+    LDA.w Pipe_player_direction, Y
     
     JSR.w Pipe_HandlePlayerMovemen
     
@@ -1083,7 +1088,8 @@ Pipe_HandlePlayerMovement:
 {
     PHX
     
-    STA.b $67 : STA.b $26
+    STA.b $67
+    STA.b $26
     
     JSL.l Link_HandleVelocity
     JSL.l Link_HandleMovingAnimation_FullLongEntry

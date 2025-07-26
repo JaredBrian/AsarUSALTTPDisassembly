@@ -8,7 +8,6 @@ Sprite_SpikeTrap:
     JSR.w Sprite3_CheckDamage
         
     LDA.w $0D80, X : BNE SpikeTrap_InMotion
-        
         JSR.w Sprite3_DirectionToFacePlayer
         
         TYA : STA.w $0DE0, X
@@ -26,7 +25,6 @@ Sprite_SpikeTrap:
             INC.w $0D80, X
             
             LDA.w .x_speeds, Y : STA.w $0D50, X
-            
             LDA.w .y_speeds, Y : STA.w $0D40, X
         
         .not_close_enough
@@ -79,15 +77,12 @@ SpikeTrap_InMotion:
     
     LDA.w $0DF0, X : BNE .delay
         LDY.w $0DE0, X
-        
         LDA.w Sprite_SpikeTrap_retract_x_speeds, Y : STA.w $0D50, X
-        
         LDA.w Sprite_SpikeTrap_retract_y_speeds, Y : STA.w $0D40, X
         
         JSR.w Sprite3_Move
         
         LDA.w $0D10, X : CMP.w $0D90, X : BNE .delay
-        
         LDA.w $0D00, X : CMP.w $0DB0, X : BNE .delay
         
         STZ.w $0D80, X

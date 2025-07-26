@@ -1292,7 +1292,7 @@ Sprite_ConvertVelocityToAngle:
     
     STA.b !y_magnitude
     
-    LDA !x_magnitude : CMP.b !y_magnitude : BCC .y_speed_magnitude_larger
+    LDA.b !x_magnitude : CMP.b !y_magnitude : BCC .y_speed_magnitude_larger
         LDA.b !y_magnitude : LSR : LSR : CLC : ADC.b !sign_bits : TAY
         ; I don't think these tables are large enough (do we have a verified
         ; BUG: on our hands?) for all possible combinations of velocities.

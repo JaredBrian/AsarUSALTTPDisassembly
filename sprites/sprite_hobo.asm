@@ -61,7 +61,6 @@ Hobo_Sleeping:
         LDA.b #$A0 : STA.w $0E10, X
         
         JSR.w Hobo_SpawnBubble
-        
         TYA : STA.w $0E90, X
         
     .delay_bubble_spawn
@@ -88,7 +87,6 @@ Hobo_WakeUp:
 {
     LDA.w $0DF0, X : BNE .delay
         LDY.w $0D90, X
-        
         LDA.w Pool_Hobo_WakeUp_animation_states, Y : BMI .invalid_state
             STA.w $0DC0, X
             
@@ -124,19 +122,15 @@ Hobo_GrantBottle:
     PHX
     
     LDX.b $8A
-    
-    ; \event
     LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
     
     LDY.b #$16
     
     STZ.w $02E9
     
-    ; \item
     ; Hobo gives you his bottle.
     JSL.l Link_ReceiveItem
     
-    ; \event
     LDA.l $7EF3C9 : ORA.b #$01 : STA.l $7EF3C9
     
     PLX
@@ -169,11 +163,12 @@ Hobo_BackToSleep:
 ; $033E9D-$033EB1 LOCAL JUMP LOCATION
 Hobo_SpawnHobo:
 {
-    LDA.b #$2B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$2B
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$00 : STA.w $0E80, Y
-                    STA.w $0BA0, Y
+                     STA.w $0BA0, Y
         
     .spawn_failed
     
@@ -193,7 +188,8 @@ Sprite_HoboBubble_unused:
 ; $033EB4-$033EEC JUMP LOCATION
 Sprite_HoboBubble:
 {
-    LDA.b #$04 : JSL.l OAM_AllocateFromRegionC
+    LDA.b #$04
+    JSL.l OAM_AllocateFromRegionC
     
     JSR.w Sprite_PrepAndDrawSingleSmall
     JSR.w Sprite_CheckIfActive
@@ -235,8 +231,8 @@ Hobo_SpawnBubble:
         LDA.b #$02 : STA.w $0F80, Y
         
         LDA.b #$60 : STA.w $0DF0, Y
-        
-        LSR : STA.w $0E00, Y : STA.w $0BA0, Y
+        LSR        : STA.w $0E00, Y
+                     STA.w $0BA0, Y
 
         ; Bleeds into the next function.
 }
@@ -288,7 +284,6 @@ Sprite_HoboFire:
 Hobo_SpawnCampfire:
 {
     LDA.b #$2B
-    
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$94 : STA.w $0D10, Y
         
@@ -298,7 +293,8 @@ Hobo_SpawnCampfire:
         
         LDA.b #$00 : STA.w $0D20, Y
         
-        LDA.b #$02 : STA.w $0E80, Y : STA.w $0BA0, Y
+        LDA.b #$02 : STA.w $0E80, Y
+                     STA.w $0BA0, Y
         
         JSR.w Sprite_ZeroOamAllocation
         
@@ -328,7 +324,6 @@ Sprite_HoboSmoke:
     JSR.w Sprite_MoveAltitude
     
     LDA.b $1A : LSR #4 : AND.b #$03 : TAY
-    
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
     LDA.w $0DF0, X : BNE .termination_delay
@@ -345,7 +340,6 @@ Sprite_HoboSmoke:
 HoboFire_SpawnSmoke:
 {
     LDA.b #$2B
-    
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         JSL.l Sprite_SetSpawnedCoords
         
@@ -355,7 +349,8 @@ HoboFire_SpawnSmoke:
         LDA.b #$03 : STA.w $0E80, Y
         LDA.b #$07 : STA.w $0F80, Y
         
-        LDA.b #$60 : STA.w $0DF0, Y : STA.w $0BA0, Y
+        LDA.b #$60 : STA.w $0DF0, Y
+                     STA.w $0BA0, Y
         
         JSR.w Sprite_ZeroOamAllocation
         

@@ -18,11 +18,9 @@ Sprite_Sluggula:
     LDA.w $0E80, X : AND.b #$08 : LSR #3 : STA.b $00
     
     LDA.w $0DE0, X : ASL : ORA.b $00 : TAY
-    
     LDA.w Pool_Sprite_Sluggula_animation_states, Y : STA.w $0DC0, X
     
-    LDA.w $0F50, X : AND.b #$BF
-    ORA Pool_Sprite_Sluggula_h_flip, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA.w Pool_Sprite_Sluggula_h_flip, Y : STA.w $0F50, X
     
     JSR.w Sprite_PrepAndDrawSingleLarge
     JSR.w Sprite_CheckIfActive
@@ -32,7 +30,6 @@ Sprite_Sluggula:
     INC.w $0E80, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw Sluggula_Normal           ; 0x00 - $961B
     dw Sluggula_BreakFromBombing ; 0x01 - $964F
@@ -59,29 +56,25 @@ Sluggula_Normal:
         INC.w $0D80, X
         
         JSL.l GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
-        
-        AND.b #$03 : STA.w $0DE0, X
+        AND.b #$03                                   : STA.w $0DE0, X
     
         ; $031633 ALTERNATE ENTRY POINT
         .set_speed
         
         TAY
-        
         LDA.w Pool_Sluggula_Normal_x_speeds, Y : STA.w $0D50, X
-        
         LDA.w Pool_Sluggula_Normal_y_speeds, Y : STA.w $0D40, X
         
         RTS
         
     .delay
     
-    CMP.b #$10 : BNE .return
-    
-    JSL.l GetRandomInt : LSR : BCS Sluggula_BreakFromBombing_return
-        JMP Sluggula_LayBomb
+    CMP.b #$10 : BNE Sluggula_BreakFromBombing_return
+        JSL.l GetRandomInt : LSR : BCS Sluggula_BreakFromBombing_return
+            JMP Sluggula_LayBomb
 }
     
-; $03164F ALTERNATE ENTRY POINT
+; $03164F JUMP LOCATION
 Sluggula_BreakFromBombing:
 {
     LDA.w $0DF0, X : BNE .delay_resumption_of_bombing

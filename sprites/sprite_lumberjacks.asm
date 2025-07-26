@@ -51,11 +51,10 @@ Sprite_Lumberjacks:
     JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .dont_speak
         ; Check outer hit detection box.
         LDY.b #$02
-        
         JSR.w Lumberjacks_CheckProximity : BCS .dont_speak
             LDA.b $F6 : AND.b #$80 : BEQ .dont_speak
                 LDA.b $22 : CMP.w $0D10, X : ROL : AND.b #$01 : STA.b $00
-                STZ.b $01
+                                                                STZ.b $01
                 
                 LDA.l $7EF359 : CMP.b #$02 : BCC .player_doesnt_have_master_sword
                     LDA.b #$02 : STA.b $01
@@ -63,7 +62,6 @@ Sprite_Lumberjacks:
                 .player_doesnt_have_master_sword
                 
                 LDA.b $01 : CLC : ADC.b $00 : TAY
-                
                 LDA.w Pool_Sprite_Lumberjacks_messages_low, Y        : XBA
                 LDA.w Pool_Sprite_Lumberjacks_messages_high, Y : TAY : XBA
                 JSL.l Sprite_ShowMessageUnconditional
@@ -103,13 +101,11 @@ Lumberjacks_CheckProximity:
     REP #$20
     
     LDA.w $0FD8 : SEC : SBC.b $22
-    
-    CLC : ADC Pool_Lumberjacks_CheckProximity_x_lower_ranges, Y
-    CMP Pool_Lumberjacks_CheckProximity_x_upper_ranges, Y : BCS .not_close_enough
+    CLC : ADC.w Pool_Lumberjacks_CheckProximity_x_lower_ranges, Y
+    CMP.w Pool_Lumberjacks_CheckProximity_x_upper_ranges, Y : BCS .not_close_enough
         LDA.w $0FDA : SEC : SBC.b $20
-        
-        CLC : ADC Pool_Lumberjacks_CheckProximity_y_lower_ranges, Y
-        CMP Pool_Lumberjacks_CheckProximity_y_upper_ranges, Y : BCS .not_close_enough
+        CLC : ADC.w Pool_Lumberjacks_CheckProximity_y_lower_ranges, Y
+        CMP.w Pool_Lumberjacks_CheckProximity_y_upper_ranges, Y : BCS .not_close_enough
         
     .not_close_enough
     
@@ -170,7 +166,6 @@ Lumberjacks_Draw:
                  STZ.b $07
     
     LDA.w $0DC0, X : ASL : ASL : ADC.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
-    
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     

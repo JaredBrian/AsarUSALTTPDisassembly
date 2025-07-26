@@ -17,7 +17,6 @@ Sprite_Stal:
     JSR.w Sprite4_CheckIfRecoiling
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw Stal_Dormant ; 0x00 - $814F
     dw Stal_Active  ; 0x01 - $819D
@@ -37,7 +36,8 @@ Stal_Dormant:
         LDA.w $0DF0, X : BNE .still_activating
             LDA.b #$40 : STA.w $0DF0, X
             
-            LDA.b #$22 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$22
+            JSL.l Sound_SetSfx2PanLong
             
         .still_activating
     .player_didnt_bump
@@ -90,14 +90,12 @@ Stal_Active:
         LDA.b #$10 : STA.w $0F80, X
         
         LDA.b #$0C
-        
         JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
     .not_grounded
     
     LDA.b $1A : AND.b #$03 : BNE .anotick_animation_timer
         INC.w $0E80, X
-        
         LDA.w $0E80, X : CMP.b #$05 : BNE .anoreset_animation_timer
             STZ.w $0E80, X
         
@@ -105,7 +103,6 @@ Stal_Active:
     .anotick_animation_timer
     
     LDY.w $0E80, X
-    
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -130,10 +127,12 @@ Stal_Draw_OAM_groups:
 Stal_Draw:
 {
     LDA.b #$00 : XBA
-    
     LDA.w $0DC0, X
+
     REP #$20
+
     ASL #4 : ADC.w #Stal_Draw_OAM_groups : STA.b $08
+    
     SEP #$20
     
     ; Load 3 tiles.

@@ -39,7 +39,6 @@ Sprite_InnKeeper:
     JSL.l Sprite_PlayerCantPassThrough
     
     LDA.l $7EF356 : TAY
-    
     LDA.w Pool_Sprite_InnKeeper_messages_low, Y        : XBA
     LDA.w Pool_Sprite_InnKeeper_messages_high, Y : TAY : XBA
     

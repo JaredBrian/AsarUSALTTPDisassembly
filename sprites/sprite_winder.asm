@@ -15,21 +15,19 @@ Sprite_Winder:
     JSR.w Sprite3_CheckIfRecoiling
     
     LDA.b $1A : LSR : LSR : AND.b #$03 : TAY
-    
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
     LDA.w $0D90, X : BEQ Winder_DefaultState
-    
-    ; \tcrf (unverified)
-    ; The existence of this bit of code seems to suggest that there might
-    ; have been a way to defeat Winders at one point, or that they died
-    ; spontaneously...
-    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay
-        STZ.w $0DD0, X
-    
-    .delay
-    
-    RTS
+        ; \tcrf (unverified)
+        ; The existence of this bit of code seems to suggest that there might
+        ; have been a way to defeat Winders at one point, or that they died
+        ; spontaneously...
+        LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay
+            STZ.w $0DD0, X
+        
+        .delay
+        
+        RTS
 }
 
 ; ==============================================================================
@@ -58,15 +56,16 @@ Winder_DefaultState:
     .tile_collision_prev_frame
     
     JSR.w Sprite3_CheckTileCollision : BEQ .no_tile_collision_this_frame
+        ; TODO: OPTIMIZE: But how? the value doesn't seem to be used.
         ; Pick a new direction at random.
-        JSL.l GetRandomInt : LSR : LDA.w $0DE0, X : ROL : TAY
+        JSL.l GetRandomInt : LSR
         
+        LDA.w $0DE0, X : ROL : TAY
         LDA.w Zazak_HaltAndPickNextDirection_head_orientations, Y : STA.w $0DE0, X
         
     .no_tile_collision_this_frame
     
     LDY.w $0DE0, X
-    
     LDA.w Pool_Winder_DefaultState_x_speeds, Y : STA.w $0D50, X
     LDA.w Pool_Winder_DefaultState_y_speeds, Y : STA.w $0D40, X
     
@@ -94,7 +93,8 @@ Winder_SpawnFireballGarnish:
         
         .empty_slot
         
-        LDA.b #$01 : STA.l $7FF800, X : STA.w $0FB4
+        LDA.b #$01 : STA.l $7FF800, X
+                     STA.w $0FB4
         
         LDA.w $0D10, Y : STA.l $7FF83C, X
         LDA.w $0D30, Y : STA.l $7FF878, X

@@ -12,7 +12,8 @@ Sprite_Medusa:
         ; NOTE: These are apparently triggers for Poes on the overworld. When
         ; a gravestone is pushed into them, they appear as if from inside the
         ; gravestone.
-        LDA.b #$FF : STA.w $0D50, X : STA.w $0E30, X
+        LDA.b #$FF : STA.w $0D50, X
+                     STA.w $0E30, X
         
         JSR.w Sprite4_CheckTileCollision : BEQ .didnt_collide
             JSR.w Sprite4_CheckIfActive
@@ -24,10 +25,10 @@ Sprite_Medusa:
             INC.w $0E90, X
             
             LDA.w $0D10, X : ADC.b #$08 : STA.w $0D10, X
-            
             LDA.w $0D00, X : SBC.b #$07 : STA.w $0D00, X
             
-            LDA.b #$19 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$19
+            JSL.l Sound_SetSfx3PanLong
             
             LDA.b #$80 : STA.w $0CAA, X
         
@@ -39,7 +40,8 @@ Sprite_Medusa:
     
     JSR.w Sprite4_CheckIfActive
     
-    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$7F : BNE Medusa_ConfigFireballProperties_dont_spawn
+    INC.w $0E80, X
+    LDA.w $0E80, X : AND.b #$7F : BNE Medusa_ConfigFireballProperties_dont_spawn
         LDA.w $0F20, X : CMP.b $EE : BNE Medusa_ConfigFireballProperties_dont_spawn
             JSL.l Sprite_SpawnFireball : BMI Medusa_ConfigFireballProperties_dont_spawn
                 ; Bleeds into the next function.

@@ -68,7 +68,8 @@ Kiki_Fleeing:
     LDA.b #$FE : STA.b $06
     LDA.b #$06 : STA.b $07
     
-    LDA.b #$10 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$10
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : ASL : STA.w $0D40, X
     
@@ -141,7 +142,6 @@ Kiki_OfferToFollow:
 {
     LDA.b #$1E
     LDY.b #$01
-    
     JSL.l Sprite_ShowMessageUnconditional
     
     INC.w $0D80, X
@@ -155,7 +155,6 @@ Kiki_OfferToFollowTransaction:
     LDA.w $1CE8 : BNE .player_declined
         LDA.b #$0A
         LDY.b #$00
-        
         JSR.w ShopKeeper_TryToGetPaid : BCC .cant_afford
             ; "Ki ki ki ki! Good choice! I will accompany you for a while..."
             LDA.b #$1F
@@ -198,12 +197,11 @@ Kiki_MoveTowardsLink:
     LDA.b #$FE : STA.b $06
     LDA.b #$06 : STA.b $07
     
-    LDA.b #$09 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$09
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA.b $00 : STA.w $0D40, X
-    
-    LDA.b $01 : STA.w $0D50, X
-    
+    LDA.b $00                           : STA.w $0D40, X
+    LDA.b $01                           : STA.w $0D50, X
     ASL : ROL : AND.b #$01 : EOR.b #$03 : STA.w $0DE0, X
     
     LDA.b #$20 : STA.w $0DF0, X
@@ -255,10 +253,9 @@ Kiki_LyingInWait:
             LDA.l $7EF3CC : CMP.b #$0A : BEQ .dont_appear
                 PHX
                 
-                LDX.b $8A
-                
                 ; If the Dark Palace has already been opened, then also do
                 ; nothing.
+                LDX.b $8A
                 LDA.l $7EF280, X : PLX : AND.b #$20 : BNE .dont_appear
                     ; Detect if Link and Kiki collide within some space.
                     JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_appear
@@ -369,10 +366,10 @@ Kiki_DartHead:
 {
     LDA.w $0E00, X : BNE .BRANCH_ALPHA
         LDA.w $0D80, X : INC.w $0D80, X : LSR : AND.b #$01 : TAY
-        
         LDA.w .jump_heights, Y : STA.w $0F80, X
         
-        LDA.b #$20 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$20
+        JSL.l Sound_SetSfx2PanLong
         
         LDA.w $0D80, X : LSR : AND.b #$01 : ORA.b #$04 : STA.w $0DE0, X
         
@@ -407,9 +404,10 @@ Kiki_HopToSpot:
     LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0D80, X : SEC : SBC.b #$02 : TAY
-    
-    LDA.w Pool_Kiki_HopToSpot_x_targets, Y : SEC : SBC.w $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
-        LDA.w Pool_Kiki_HopToSpot_y_targets, Y : SEC : SBC.w $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
+    LDA.w Pool_Kiki_HopToSpot_x_targets, Y : SEC : SBC.w $0D10, X
+    CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
+        LDA.w Pool_Kiki_HopToSpot_y_targets, Y : SEC : SBC.w $0D00, X
+        CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
             INC.w $0D80, X
             
             STZ.w $0D40, X
@@ -417,7 +415,8 @@ Kiki_HopToSpot:
             
             LDA.b #$20 : STA.w $0E00, X
             
-            LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$21
+            JSL.l Sound_SetSfx2PanLong
             
             RTS
     
@@ -429,7 +428,8 @@ Kiki_HopToSpot:
     LDA.w Pool_Kiki_HopToSpot_y_targets+0, Y : STA.b $06
     LDA.w Pool_Kiki_HopToSpot_y_targets+1, Y : STA.b $07
     
-    LDA.b #$09 : JSL.l Sprite_ProjectSpeedTowardsEntityLong
+    LDA.b #$09
+    JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
     
@@ -460,7 +460,6 @@ Kiki_WalkOnRoof:
     LDA.w $0F70, X : BNE .BRANCH_ALPHA
         LDA.w $0DF0, X : BNE .BRANCH_ALPHA
             LDA.w $0D90, X : TAY
-            
             INC.w $0D90, X
             
             LDA.w Pool_Kiki_WalkOnRoof_directions, Y : BMI .BRANCH_BETA
@@ -468,10 +467,9 @@ Kiki_WalkOnRoof:
                 
                 LDA.w Pool_Kiki_WalkOnRoof_timers, Y : STA.w $0DF0, X
                 
+                ; OPTIMIZE: Why not just PLY?
                 PLA : TAY
-                
                 LDA.w Pool_Kiki_WalkOnRoof2_x_speeds, Y : STA.w $0D50, X
-                
                 LDA.w Pool_Kiki_WalkOnRoof2_y_speeds, Y : STA.w $0D40, X
                 
     .BRANCH_ALPHA
@@ -519,7 +517,8 @@ Kiki_SlamButton:
         LDA.w $0F70, X : BNE .BRANCH_ALPHA
             INC.w $0D80, X
             
-            LDA.b #$25 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$25
+            JSL.l Sound_SetSfx3PanLong
             
     .BRANCH_ALPHA
 
@@ -553,12 +552,14 @@ Kiki_TransitionFromTagalong:
 {
     PHA
     
-    LDA.b #$B6 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    LDA.b #$B6
+    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         PLA : PHX
         
         TAX
         
-        LDA.w $1A64, X : AND.b #$03 : STA.w $0EB0, Y : STA.w $0DE0, Y
+        LDA.w $1A64, X : AND.b #$03 : STA.w $0EB0, Y
+                                      STA.w $0DE0, Y
         
         LDA.w $1A00, X : CLC : ADC.b #$02 : STA.w $0D00, Y
         LDA.w $1A14, X       : ADC.b #$00 : STA.w $0D20, Y
@@ -569,7 +570,7 @@ Kiki_TransitionFromTagalong:
         LDA.b $EE : STA.w $0F20, Y
         
         LDA.b #$01 : STA.w $0BA0, Y
-        INC      : STA.w $0F20, Y
+        INC        : STA.w $0F20, Y
         
         STZ.b $5E
         
@@ -680,16 +681,15 @@ Kiki_Draw:
     ; TODO: Figure out the semantics of $0DE0 for this sprite.
     LDA.w $0DE0, X : CMP.b #$08 : BCS .unknown
         LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL : TAY
-        
         LDA.w Pool_Kiki_Draw_source_offsets+0, Y : STA.w $0AE8
         LDA.w Pool_Kiki_Draw_source_offsets+1, Y : STA.w $0AEA
         
         TYA : ASL #3
-        
         ADC.b #(Pool_Kiki_Draw_OAM_groups >> 8)              : STA.b $08
         LDA.b #(Pool_Kiki_Draw_OAM_groups >> 8) : ADC.b #$00 : STA.b $09
         
-        LDA.b #$02 : JSR.w Sprite3_DrawMultiple
+        LDA.b #$02
+        JSR.w Sprite3_DrawMultiple
         
         LDA.w $0F00, X : BNE .paused
             JSL.l Sprite_DrawShadowLong
@@ -701,12 +701,10 @@ Kiki_Draw:
     .unknown
     
     LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #4
-    
     ADC.b #(Pool_Kiki_Draw_OAM_groups_2 >> 0)              : STA.b $08
     LDA.b #(Pool_Kiki_Draw_OAM_groups_2 >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$06
-    
     JSR.w Sprite3_DrawMultiple
     
     LDA.w $0F00, X : BNE .paused_2

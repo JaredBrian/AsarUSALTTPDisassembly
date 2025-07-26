@@ -7347,15 +7347,15 @@ Attract_LoadNextLegendGraphic:
     
     LDX.b $26
     
-    LDA Attract_LegendGraphics_sizes, X    : STA !picSize
-    LDA Attract_LegendGraphics_pointers, X : STA !picData
+    LDA Attract_LegendGraphics_sizes, X    : STA.b !picSize
+    LDA Attract_LegendGraphics_pointers, X : STA.b !picData
     
     LDX.b #$0C : STX.b $04
     
     REP #$10
     
     ; Write the tilemap data into a buffer to be transferred once NMI hits.
-    LDY !picSize
+    LDY.b !picSize
     
     .writeLoop
     

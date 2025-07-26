@@ -22,20 +22,18 @@ Pool_Sprite_Rope:
 ; $02A973-$02AA2F JUMP LOCATION
 Sprite_Rope:
 {
-    LDY.w $0D90, X
-    
     ; Determine which graphic to use
+    LDY.w $0D90, X
     LDA.w Pool_Sprite_Rope_animation_states, Y : STA.w $0DC0, X
     
-    LDA.w $0F50, X : AND.b #$3F : ORA Pool_Sprite_Rope_vh_flip, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : ORA.w Pool_Sprite_Rope_vh_flip, Y : STA.w $0F50, X
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong
     JSR.w Sprite2_CheckIfActive
     
     LDA.w $0E90, X : BEQ .on_ground
-        LDY.b #$03
-        
         ; Modify character index.
+        LDY.b #$03
         LDA.b ($90), Y : ORA.b #$30 : STA.b ($90), Y
         
         LDA.w $0F70, X : PHA
@@ -70,37 +68,38 @@ Sprite_Rope:
     JSR.w Sprite2_CheckTileCollision
     
     LDA.w $0D80, X : BNE Rope_Moving
-    
-    JSR.w Sprite2_ZeroVelocity
-    
-    LDA.w $0DF0, X : BNE .delay
-        STZ.w $0ED0, X
+        JSR.w Sprite2_ZeroVelocity
         
-        JSL.l GetRandomInt : PHA : AND.b #$03 : STA.w $0DE0, X
+        LDA.w $0DF0, X : BNE .delay
+            STZ.w $0ED0, X
+            
+            JSL.l GetRandomInt : PHA : AND.b #$03 : STA.w $0DE0, X
+            
+            INC.w $0D80, X
+            
+            PLA : AND.b #$7F : ADC.b #$40 : STA.w $0DF0, X
+            
+            JSR.w Sprite2_DirectionToFacePlayer
+            
+            LDA.b $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCC .player_on_sightline
+                LDA.b $0F : CLC : ADC.b #$18 : CMP.b #$20 : BCS .player_not_on_sightline
+            
+            .player_on_sightline
+            
+            LDA.b #$04 : STA.w $0ED0, X
+            
+            TYA : STA.w $0DE0, X
+            
+            .player_not_on_sightline
+        .delay
         
-        INC.w $0D80, X
+        ; OPTIMIZE: What?
+        LDA.b $1A : LSR #4
         
-        PLA : AND.b #$7F : ADC.b #$40 : STA.w $0DF0, X
+        LDA.w $0DE0, X : ROL : TAY
+        LDA.w Pool_Sprite_Rope_animation_control, Y : STA.w $0D90, X
         
-        JSR.w Sprite2_DirectionToFacePlayer
-        
-        LDA.b $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCC .player_on_sightline
-            LDA.b $0F : CLC : ADC.b #$18 : CMP.b #$20 : BCS .player_not_on_sightline
-        
-        .player_on_sightline
-        
-        LDA.b #$04 : STA.w $0ED0, X
-        
-        TYA : STA.w $0DE0, X
-        
-        .player_not_on_sightline
-    .delay
-    
-    LDA.b $1A : LSR #4 : LDA.w $0DE0, X : ROL : TAY
-    
-    LDA.w Pool_Sprite_Rope_animation_control, Y : STA.w $0D90, X
-    
-    RTS
+        RTS
 }
 
 ; ==============================================================================
@@ -136,14 +135,13 @@ Rope_Moving:
     LDY.w $0DE0, X
     
     LDA.w $0E70, X : BEQ .no_tile_collision
-        LDA.w Pool_Rope_Moving_reaction_direction, Y : STA.w $0DE0, X : TAY
+        LDA.w Pool_Rope_Moving_reaction_direction, Y : STA.w $0DE0, X
+                                                       TAY
     
     .no_tile_collision
     
     TYA : CLC : ADC.w $0ED0, X : TAY
-    
     LDA.w Pool_Rope_Moving_x_speeds, Y : STA.w $0D50, X
-    
     LDA.w Pool_Rope_Moving_y_speeds, Y : STA.w $0D40, X
     
     LDA.b $1A
@@ -153,8 +151,10 @@ Rope_Moving:
     
     .moving_fast
     
-    LSR : LSR : LDA.w $0DE0, X : ROL : TAY
+    ; OPTIMIZE: What?
+    LSR : LSR
     
+    LDA.w $0DE0, X : ROL : TAY
     LDA.w Pool_Rope_Moving_sanimation_control, Y : STA.w $0D90, X
     
     RTS

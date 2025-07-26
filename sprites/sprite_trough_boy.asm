@@ -70,7 +70,6 @@ TroughBoy_Draw:
                  STZ.b $07
     
     LDA.w $0DE0, X : ASL #4
-    
     ADC.b #(.OAM_groups >> 0)              : STA.b $08
     LDA.b #(.OAM_groups >> 8) : ADC.b #$00 : STA.b $09
     

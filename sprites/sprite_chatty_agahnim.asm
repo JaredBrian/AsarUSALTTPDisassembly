@@ -8,13 +8,13 @@
 ChattyAgahnim_SpawnZeldaOnAltar:
 {
     LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
-    
     LDA.w $0D00, X : CLC : ADC.b #$06 : STA.w $0D00, X
     
     ; Spawn the Zelda companion sprite so Agahnim has something to teleport.
-    LDA.b #$C1 : JSL.l Sprite_SpawnDynamically
+    LDA.b #$C1
+    JSL.l Sprite_SpawnDynamically
     
-    LDA.b #$01 : STA !is_altar_zelda, Y
+    LDA.b #$01 : STA.w !is_altar_zelda, Y
                  STA.w $0BA0, Y
     
     JSL.l Sprite_SetSpawnedCoords
@@ -33,7 +33,7 @@ ChattyAgahnim_SpawnZeldaOnAltar:
 ; $0ED234-$0ED23E JUMP LOCATION
 Sprite_ChattyAgahnim:
 {
-    LDA !is_altar_zelda, X
+    LDA.w !is_altar_zelda, X
     JSL.l UseImplicitRegIndexedLocalJumpTable
     dw ChattyAgahnim_Main ; 0x00 - $D23F
     dw Sprite_AltarZelda  ; 0x01 - $D57D
@@ -119,8 +119,9 @@ Pool_ChattyAgahnim_LevitateZelda_animation_states:
 ; $0ED2A5-$0ED2EE JUMP LOCATION
 ChattyAgahnim_LevitateZelda:
 {
-    INC.w $0DA0, X : LDA.w $0DA0, X : PHA : LSR #5 : AND.b #$03 : TAY
-    
+    INC.w $0DA0, X
+    LDA.w $0DA0, X : PHA
+    LSR #5 : AND.b #$03 : TAY
     LDA.w .animation_states, Y
     
     ; HARDCODED: This Agahnim sprite is laboring under the assumption that
@@ -139,7 +140,8 @@ ChattyAgahnim_LevitateZelda:
         LDA.b #$01 : STA.w $0DCF
         
         ; HARDCODED: Same as above.
-        INC.w $0F7F : LDA.w $0F7F : CMP.b #$16 : BNE .delay_telewarp_spell
+        INC.w $0F7F
+        LDA.w $0F7F : CMP.b #$16 : BNE .delay_telewarp_spell
             LDY.b #$27 : STY.w $012F
             
             INC.w $0D80, X
@@ -274,7 +276,8 @@ Sprite_SpawnAgahnimAfterImage:
     LDY.b #$FF
     
     LDA.b $1A : AND.b #$03 : BNE .spawn_delay
-        LDA.b #$C1 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$C1
+        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             JSL.l Sprite_SetSpawnedCoords
             
             LDA.w $0DC0, X : STA.w $0DC0, Y
@@ -344,23 +347,23 @@ ChattyAgahnim_Draw:
                          STZ.b $01
         
         LDA.b #$00 : XBA
-        
         LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.OAM_groups : STA.b $08
         
         LDA.b $00 : BNE .typical_OAM_positioning
             ; Use special position for OAM (for after image version of the guy).
             ; HARDCODED: Assumes these OAM slots are unoccupied.
             LDA.w #$0900 : STA.b $90
-            
             LDA.w #$0A60 : STA.b $92
             
         .typical_OAM_positioning
         
         SEP #$20
         
-        LDA.b #$04 : JSR.w Sprite4_DrawMultiple
+        LDA.b #$04
+        JSR.w Sprite4_DrawMultiple
         
-        LDA.b #$12 : JSL.l Sprite_DrawShadowLong_variable
+        LDA.b #$12
+        JSL.l Sprite_DrawShadowLong_variable
     
     .dont_draw
     
@@ -427,7 +430,8 @@ Pool_ChattyAgahnim_DrawTelewarpSpell:
 ; $0ED516-$0ED57C LOCAL JUMP LOCATION
 ChattyAgahnim_DrawTelewarpSpell:
 {
-    LDA.b #$38 : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$38
+    JSL.l OAM_AllocateFromRegionA
     
     LDA.b $1A : LSR : LSR
     
@@ -455,19 +459,22 @@ ChattyAgahnim_DrawTelewarpSpell:
         DEC : TAX
         
         INY
-        
         LDA.w Pool_ChattyAgahnim_DrawTelewarpSpell_OAM_offset, Y : TAY
         
         .next_OAM_entry
             
             LDA.b $00 : CLC : ADC.b ($08), Y : STA.b ($90), Y
             
-            LDA.b $02 : CLC : ADC.b #$F8   : CLC
-            INY     : ADC.b ($08), Y              : STA.b ($90), Y
-            INY     : LDA.b ($08), Y              : STA.b ($90), Y
-            INY     : LDA.b ($08), Y : ORA.b #$31 : STA.b ($90), Y
+            LDA.b $02 : CLC : ADC.b #$F8 : CLC : INY : ADC.b ($08), Y : STA.b ($90), Y
+
+            INY
+            LDA.b ($08), Y : STA.b ($90), Y
+
+            INY
+            LDA.b ($08), Y : ORA.b #$31 : STA.b ($90), Y
             
-            PHY : TYA : LSR : LSR : TAY
+            PHY
+            TYA : LSR : LSR : TAY
             
             ; OPTIMIZE: This test / and branch is useless, A is clobbered again
             ; immediately.
@@ -533,15 +540,21 @@ AltarZelda_Main:
         .also_draw_zelda_body
     .not_telewarping_zelda
     
-    LDA.b #$08 : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$08
+    JSL.l OAM_AllocateFromRegionA
     
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.OAM_groups : STA.b $08
+    LDA.w $0DC0, X
+    
+    REP #$20
+    
+    ASL #4 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$02 : JSR.w Sprite4_DrawMultiple
+    LDA.b #$02
+    JSR.w Sprite4_DrawMultiple
     
     JSR.w AltarZelda_DrawBody
     
@@ -562,7 +575,8 @@ AltarZelda_DrawBody_xy_offsets:
 ; $0ED5E9-$0ED660 LOCAL JUMP LOCATION
 AltarZelda_DrawBody:
 {
-    LDA.b #$08 : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$08
+    JSL.l OAM_AllocateFromRegionA
     
     LDA.w $0F70, X : CMP.b #$1F : BCC .z_coord_not_maxed
         ; UNUSED: The code never allows Zelda's altitude to get this high.
@@ -572,15 +586,13 @@ AltarZelda_DrawBody:
     .z_coord_not_maxed
     
     LSR : TAY
-    
     LDA.w .xy_offsets, Y : STA.b $07
     
     ; Get 16-bit Y coordinate.
     LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $02
-    LDA.w $0D20, X : SBC.b $E9 : STA.b $03
+    LDA.w $0D20, X       : SBC.b $E9 : STA.b $03
     
     LDY.b #$00
-    
     LDA.b $00 : PHA : CLC : ADC.b $07              : STA.b ($90), Y
                 PLA : SEC : SBC.b $07 : LDY.b #$04 : STA.b ($90), Y
     
@@ -598,6 +610,7 @@ AltarZelda_DrawBody:
     ; Writ chr and properties bytes to OAM entry.
     LDA.b #$6C : LDY.b #$02 : STA.b ($90), Y
                  LDY.b #$06 : STA.b ($90), Y
+
     LDA.b #$24 : LDY.b #$03 : STA.b ($90), Y
                  LDY.b #$07 : STA.b ($90), Y
     
@@ -632,17 +645,20 @@ AltarZelda_DrawWarpEffect_OAM_groups:
 ; $0ED6B1-$0ED6D0 LOCAL JUMP LOCATION
 AltarZelda_DrawWarpEffect:
 {
-    LDA.b #$08 : JSL.l OAM_AllocateFromRegionA
+    LDA.b #$08
+    JSL.l OAM_AllocateFromRegionA
     
     LDA.b #$00 : XBA
+    LDA.w $0DF0, X : LSR : LSR
     
-    LDA.w $0DF0, X : LSR : LSR : REP #$20 : ASL #4
+    REP #$20
     
-    ADC.w #.OAM_groups : STA.b $08
+    ASL #4 : ADC.w #.OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$02 : JMP Sprite4_DrawMultiple
+    LDA.b #$02
+    JMP Sprite4_DrawMultiple
 }
 
 ; ==============================================================================

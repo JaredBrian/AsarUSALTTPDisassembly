@@ -59,7 +59,7 @@ Mothula_Main:
             
             STZ.w $0DF0, X
             
-            LDA.b #$40 : STA !beam_timer, X
+            LDA.b #$40 : STA.w !beam_timer, X
         
         .early_recover_delay
     .not_recoiling
@@ -67,9 +67,7 @@ Mothula_Main:
     JSR.w Sprite3_CheckIfRecoiling
     
     LDA.w $0D80, X
-    
-    JSL.l UseImplicitRegIndexedLocalJumpTable
-    
+    JSL.l UseImplicitRegIndexedLocalJumpTable 
     dw Mothula_Delay
     dw Mothula_Ascend
     dw Mothula_FlyAbout
@@ -101,7 +99,7 @@ Mothula_Ascend:
     STZ.w $0F80, X
     
     LDA.w $0F70, X : CMP.b #$18 : BCC .below_target_altitude
-        LDA.b #$80 : STA !beam_timer, X
+        LDA.b #$80 : STA.w !beam_timer, X
         
         INC.w $0D80, X
         
@@ -140,7 +138,7 @@ Pool_Mothula_FlyAbout:
 ; $0F3F13-$0F3F9A JUMP LOCATION
 Mothula_FlyAbout:
 {
-    LDA !beam_timer, X : BNE .delay_beam_firing_mode
+    LDA.w !beam_timer, X : BNE .delay_beam_firing_mode
         LDA.b #$3F : STA.w $0DF0, X
         
         INC.w $0D80, X
@@ -149,32 +147,29 @@ Mothula_FlyAbout:
     
     .delay_beam_firing_mode
     
-    DEC !beam_timer, X
+    DEC.w !beam_timer, X
     
     JSR.w Mothula_FlapWings
     
     LDA.w $0D90, X : AND.b #$01 : TAY
-    
-    LDA.w $0F80, X : CLC : ADC .z_accelerations, Y : STA.w $0F80, X
-    
-    CMP Sprite3_Shake_x_speeds, Y : BNE .anotoggle_z_acceleration_polarity
+    LDA.w $0F80, X : CLC : ADC.w .z_accelerations, Y : STA.w $0F80, X
+    CMP.w Sprite3_Shake_x_speeds, Y : BNE .anotoggle_z_acceleration_polarity
         INC.w $0D90, X
     
     .anotoggle_z_acceleration_polarity
     
     LDA.w $0DF0, X : BNE .delay_xy_speed_adjustment
-        INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$07 : BNE .use_random_xy_speeds
+        INC.w $0DB0, X
+        LDA.w $0DB0, X : CMP.b #$07 : BNE .use_random_xy_speeds
             STZ.w $0DB0, X
             
             BRA .go_towards_player
         
         .use_random_xy_speeds
         
-        JSL.l GetRandomInt : AND.b #$07 : TAY
-        
         ; Speeds are randomly selected.
+        JSL.l GetRandomInt : AND.b #$07 : TAY
         LDA.w .x_speeds, Y : STA.w $0D50, X
-        
         LDA.w .y_speeds, Y : STA.w $0D40, X
         
         JSL.l GetRandomInt : AND.b #$1F : ADC.b #$40 : STA.w $0DF0, X
@@ -183,7 +178,8 @@ Mothula_FlyAbout:
         
         .go_towards_player
         
-        LDA.b #$20 : JSL.l Sprite_ApplySpeedTowardsPlayerLong
+        LDA.b #$20
+        JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
         LDA.b #$80 : STA.w $0DF0, X
         
@@ -222,9 +218,10 @@ Mothula_FlapWings_animation_states:
 Mothula_FlapWings:
 {
     INC.w $0E80, X
-    
-    LDA.w $0E80, X : LSR : LSR : AND.b #$03 : TAY : BNE .SFX_delay
-        LDA.b #$02 : JSL.l Sound_SetSfx3PanLong
+    LDA.w $0E80, X : LSR : LSR : AND.b #$03 : TAY
+    BNE .SFX_delay
+        LDA.b #$02
+        JSL.l Sound_SetSfx3PanLong
     
     .SFX_delay
     
@@ -243,7 +240,7 @@ Mothula_FireBeams:
     LDA.w $0DF0, X : BNE .delay
         DEC.w $0D80, X
         
-        JSL.l GetRandomInt : AND.b #$1F : ORA.b #$40 : STA !beam_timer, X
+        JSL.l GetRandomInt : AND.b #$1F : ORA.b #$40 : STA.w !beam_timer, X
         
         RTS
         
@@ -276,14 +273,14 @@ Pool_Mothula_SpawnBeams:
 ; $0F3FDF-$0F402D BRANCH LOCATION
 Mothula_SpawnBeams:
 {
-    LDA.b #$36 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$36
+    JSL.l Sound_SetSfx3PanLong
     
     LDA.b #$02 : STA.w $0FB5
     
     .spawn_next_beam
     
         LDA.b #$89
-        
         JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             JSL.l Sprite_SetSpawnedCoords
             
@@ -295,13 +292,11 @@ Mothula_SpawnBeams:
             PHX
             
             LDX.w $0FB5
-            
             LDA.b $00
-            CLC : ADC Pool_Mothula_SpawnBeams_x_offsets, X : STA.w $0D10, Y
+            CLC : ADC.w Pool_Mothula_SpawnBeams_x_offsets, X : STA.w $0D10, Y
             
-            LDA Pool_Mothula_SpawnBeams_x_speeds, X : STA.w $0D50, Y
-            
-            LDA Pool_Mothula_SpawnBeams_y_speeds, X : STA.w $0D40, Y
+            LDA.w Pool_Mothula_SpawnBeams_x_speeds, X : STA.w $0D50, Y
+            LDA.w Pool_Mothula_SpawnBeams_y_speeds, X : STA.w $0D40, Y
             
             LDA.b #$00 : STA.w $0F70, Y
             
@@ -343,11 +338,12 @@ Pool_Mothula_ActivateMovingSpikeBlock:
 ; $0F4088-$0F4102 LOCAL JUMP LOCATION
 Mothula_ActivateMovingSpikeBlock:
 {
-    DEC !spike_activation_timer, X : BNE .activation_delay
+    DEC.w !spike_activation_timer, X : BNE .activation_delay
         ; Set the delay for 64 more frames.
-        LDA.b #$40 : STA !spike_activation_timer, X
+        LDA.b #$40 : STA.w !spike_activation_timer, X
         
-        LDA.b #$8A : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+        LDA.b #$8A
+        JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
             PHX
             
             JSL.l GetRandomInt : AND.b #$1F : CMP #$1E : BCC .already_in_range
@@ -358,7 +354,7 @@ Mothula_ActivateMovingSpikeBlock:
             TAX
             
             LDA.w .x_coords_low, X : STA.w $0D10, Y
-                                   STA.w $0D90, Y
+                                     STA.w $0D90, Y
             
             LDA.w .y_coords_low, X : DEC : STA.w $0D00, Y
                                            STA.w $0DA0, Y
@@ -397,7 +393,7 @@ Mothula_ActivateMovingSpikeBlock:
                 
                 PLX
                 
-                LDA.b #$01 : STA !spike_activation_timer, X
+                LDA.b #$01 : STA.w !spike_activation_timer, X
                 
             RTS
             

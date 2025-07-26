@@ -10,9 +10,10 @@ Pool_Sprite_Poe_h_flip:
 Sprite_Poe:
 {
     ; Derive orientation (for h_flip) from the sign of the x velocity.
-    LDA.w $0D50, X : ASL : ROL : AND.b #$01 : STA.w $0DE0, X : TAY
+    LDA.w $0D50, X : ASL : ROL : AND.b #$01 : STA.w $0DE0, X
+                                              TAY
     
-    LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA.w .h_flip, Y : STA.w $0F50, X
     
     ; If this branch is taken, it means that the Poe is rising from a
     ; grave in the light world.
@@ -62,10 +63,8 @@ Sprite_Poe:
     
     LDA.b $1A : LSR : BCS .z_speed_adjustment_delay
         LDA.w $0ED0, X : AND.b #$01 : TAY
-        
         LDA.w $0F80, X : CLC : ADC .acceleration, Y : STA.w $0F80, X
-        
-        CMP .z_speed_limits, Y : BNE .z_speed_not_at_max
+        CMP.w .z_speed_limits, Y : BNE .z_speed_not_at_max
             INC.w $0ED0, X
         
         .z_speed_not_at_max
@@ -76,9 +75,7 @@ Sprite_Poe:
     STZ.w $0D40, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Poe_SelectVerticalDirection ; 0x00 - $971F
     dw Poe_ROAMing                 ; 0x00 - $9741
 
@@ -144,9 +141,7 @@ Poe_ROAMing:
     LDA.w $001A : LSR : BCS .adjust_speed_delay
         ; Why are we adding the light world / dark world distinctifier?
         LDA.w $0EC0, X : AND.b #$01 : CLC : ADC.w $0FFF : ADC.w $0FFF : TAY
-        
         LDA.w $0D50, X : CLC : ADC.w Sprite_Poe_acceleration, Y : STA.w $0D50, X
-        
         CMP.w Sprite_Poe_x_speed_limits, Y : BNE .x_speed_maxed_out
             ; Speed limit reached, time to switch direction.
             INC.w $0EC0, X
@@ -159,7 +154,6 @@ Poe_ROAMing:
     .adjust_speed_delay
     
     LDY.w $0EB0, X
-    
     LDA.w .y_speeds, Y : STA.w $0D40, X
     
     RTS
@@ -190,12 +184,10 @@ Poe_Draw:
     
     REP #$20
     
-    LDA.b $00 : CLC : ADC Pool_Poe_Draw_x_offsets, X : STA.b ($90), Y
-    
+    LDA.b $00 : CLC : ADC.w Pool_Poe_Draw_x_offsets, X : STA.b ($90), Y
     CLC : ADC.w #$0100 : STA.b $0E
     
     LDA.b $02 : CLC : ADC.w #$0009 : INY : STA.b ($90), Y
-    
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         LDA.b #$F0 : STA.b ($90), Y
     

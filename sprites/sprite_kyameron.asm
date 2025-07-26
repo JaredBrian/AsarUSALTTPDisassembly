@@ -21,9 +21,7 @@ Sprite_Kyameron:
     LDA.b #$01 : STA.w $0BA0, X
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Kyameron_Reset     ; 0x00 - $9EA5
     dw Kyameron_PuddleUp  ; 0x01 - $9EDB
     dw Kyameron_Coagulate ; 0x02 - $9F11
@@ -71,7 +69,8 @@ Kyameron_PuddleUp:
     DEC.w $0E80, X : BPL .animation_delay
     	LDA.b #$05 : STA.w $0E80, X
     
-    	INC.w $0DC0, X : LDA.w $0DC0, X : AND.b #$03 : CLC : ADC.b #$08 : STA.w $0DC0, X
+    	INC.w $0DC0, X
+        LDA.w $0DC0, X : AND.b #$03 : CLC : ADC.b #$08 : STA.w $0DC0, X
     
     .animation_delay
     
@@ -109,9 +108,7 @@ Kyameron_Coagulate:
     	JSR.w Sprite3_IsToRightOfPlayer
     
     	TYA : ORA.b $00 : TAY
-    
     	LDA.w Pool_Kyameron_Coagulate_x_speeds, Y : STA.w $0D50, X
-    
     	LDA.w Pool_Kyameron_Coagulate_y_speeds, Y : STA.w $0D40, X
     
     	RTS
@@ -129,7 +126,6 @@ Kyameron_Coagulate:
     .dont_move_up
     
     LSR : LSR : TAY
-    
     LDA.w Pool_Kyameron_Coagulate_animation_states, Y : STA.w $0DC0, X
     
     RTS
@@ -174,15 +170,15 @@ Kyameron_Moving:
     .took_damage
     
     LDA.b #$04 : STA.w $0D80, X
-    
     LDA.b #$0F : STA.w $0DF0, X
     
-    LDA.b #$28 : JSL.l Sound_SetSfx2PanLong
+    LDA.b #$28
+    JSL.l Sound_SetSfx2PanLong
     
     .not_enough_tile_collisions
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$03 : TAY
-    
+    INC.w $0E80, X
+    LDA.w $0E80, X : LSR #3 : AND.b #$03 : TAY
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
     TXA : EOR.b $1A : AND.b #$07 : BNE .dont_spawn_shiny_garnish
@@ -224,8 +220,7 @@ Kyameron_Disperse:
     
     .delay
     
-    LSR : LSR : TAY
-    
+    LSR : LSR        : TAY
     CLC : ADC.b #$0F : STA.w $0DC0, X
     
     RTS
@@ -273,7 +268,8 @@ Sprite_SpawnSimpleSparkleGarnish:
     
     STX.b $0F
     
-    LDA.b #$05 : STA.l $7FF800, X : STA.w $0FB4
+    LDA.b #$05 : STA.l $7FF800, X
+                 STA.w $0FB4
     
     LDA.w $0D10, Y : CLC : ADC.b $00 : STA.l $7FF83C, X
     LDA.w $0D30, Y :       ADC.b $01 : STA.l $7FF878, X
@@ -352,9 +348,8 @@ Kyameron_Draw:
     LDA.w $0DC0, X : CMP.b #$0C : BCS .dispersing
     	LDY.w $0DC0, X
     
-    	LDA.w $0F50, X : PHA
-    
-    	AND.b #$3F : ORA Pool_Kyameron_Draw_vh_flip, Y : STA.w $0F50, X
+    	LDA.w $0F50, X                                   : PHA
+    	AND.b #$3F : ORA.w Pool_Kyameron_Draw_vh_flip, Y : STA.w $0F50, X
     
     	JSL.l Sprite_PrepAndDrawSingleLargeLong
     
@@ -367,12 +362,16 @@ Kyameron_Draw:
     SEC : SBC.b #$0C : TAY
     
     LDA.b #$00 : XBA
+    TYA
     
-    TYA : REP #$20 : ASL #5 : ADC.w #Pool_Kyameron_Draw_OAM_groups : STA.b $08
+    REP #$20
+    
+    ASL #5 : ADC.w #Pool_Kyameron_Draw_OAM_groups : STA.b $08
     
     SEP #$20
     
-    LDA.b #$04 : JMP Sprite3_DrawMultiple
+    LDA.b #$04
+    JMP Sprite3_DrawMultiple
 }
 
 ; ==============================================================================

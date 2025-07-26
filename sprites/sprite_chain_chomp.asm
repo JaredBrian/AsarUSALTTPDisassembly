@@ -12,7 +12,6 @@ SpritePrep_ChainChomp:
     PHX
     
     LDY.b #$05
-    
     LDA.l .extended_subsprite_offsets, X : TAX
     
     REP #$20
@@ -51,7 +50,8 @@ Sprite_ChainChomp:
     TXA : EOR.b $1A : AND.b #$03 : BNE .BRANCH_ALPHA
         LDA.w $0D50, X : STA.b $01
         
-        LDA.w $0D40, X : STA.b $00 : ORA.b $01 : BEQ .BRANCH_ALPHA
+        LDA.w $0D40, X : STA.b $00
+        ORA.b $01 : BEQ .BRANCH_ALPHA
             JSL.l Sprite_ConvertVelocityToAngle : AND.b #$0F : STA.w $0DE0, X
     
     .BRANCH_ALPHA
@@ -79,10 +79,8 @@ Sprite_ChainChomp:
     REP #$20
     
     LDA.w $0FD8 : SEC : SBC.b $00 : CLC : ADC.w #$0030
-    
     CMP.w #$0060 : BCS .too_far_from_origin
         LDA.w $0FDA : SEC : SBC.b $02 : CLC : ADC.w #$0030
-        
         CMP.w #$0060 : BCS .too_far_from_origin
             SEP #$20
             
@@ -93,9 +91,7 @@ Sprite_ChainChomp:
     SEP #$20
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw ChainChomp_Idle        ; 0x00 - $BF2C
     dw ChainChomp_Meander     ; 0x01 - $BF95
     dw ChainChomp_InvertLunge ; 0x02 - $BFE5
@@ -121,23 +117,22 @@ Pool_ChainChomp_Idle:
 ChainChomp_Idle:
 {
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
-        INC.w $0E80, X : LDA.w $0E80, X : CMP.b #$04 : BNE .BRANCH_BETA
+        INC.w $0E80, X
+        LDA.w $0E80, X : CMP.b #$04 : BNE .BRANCH_BETA
             STZ.w $0E80, X
             
             LDA.b #$02 : STA.w $0D80, X
             
             JSL.l GetRandomInt : AND.b #$0F : TAY
-            
             LDA.w Pool_ChainChomp_Idle_lunge_speed_x, Y : ASL : ASL : STA.w $0D50, X
-            
             LDA.w Pool_ChainChomp_Idle_lunge_speed_y, Y : ASL : ASL : STA.w $0D40, X
             
             JSL.l GetRandomInt : AND.b #$00 : BNE .BRANCH_GAMMA
                 LDA #$40
-                
                 JSL.l Sprite_ApplySpeedTowardsPlayerLong
                 
-                LDA.b #$04 : JSL.l Sound_SetSfx3PanLong
+                LDA.b #$04
+                JSL.l Sound_SetSfx3PanLong
             
             .BRANCH_GAMMA
             
@@ -148,9 +143,7 @@ ChainChomp_Idle:
         JSL.l GetRandomInt : AND.b #$1F : ADC.b #$10 : STA.w $0DF0, X
         
         JSL.l GetRandomInt : AND.b #$0F : TAY
-        
         LDA.w Pool_ChainChomp_Idle_lunge_speed_x, Y : STA.w $0D50, X
-        
         LDA.w Pool_ChainChomp_Idle_lunge_speed_y, Y : STA.w $0D40, X
         
         INC.w $0D80, X
@@ -191,11 +184,9 @@ ChainChomp_Meander:
         LDA.w $0ED0, X : STA.b $07
         
         LDA.b #$10
-        
         JSL.l Sprite_ProjectSpeedTowardsEntityLong
         
         LDA.b $00 : STA.w $0D40, X
-        
         LDA.b $01 : STA.w $0D50, X
         
         JSR.w Sprite4_Move
@@ -212,7 +203,6 @@ ChainChomp_InvertLunge:
 {
     LDA.w $0EC0, X : BNE .BRANCH_ALPHA
         LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
-        
         LDA.w $0D40, X : EOR.b #$FF : INC : STA.w $0D40, X
         
         JSR.w Sprite4_Move
@@ -267,7 +257,6 @@ ChainChomp_MoveChain:
     LDA.b #$05 : STA.b $0D
     
     LDA.w SpritePrep_ChainChomp_extended_subsprite_offsets, X : TAX
-    
     LDA.l $7FFC00, X : SEC : SBC.b $00 : STA.b $04
     LDA.l $7FFD00, X : SEC : SBC.b $02 : STA.b $05
     
@@ -288,8 +277,8 @@ ChainChomp_MoveChain:
 
         STA.w SNES.MultiplicandA
         
-        PHX : TXA : AND.b #$0F : TAX
-        
+        PHX
+        TXA : AND.b #$0F : TAX
         LDA.w .operand-2, X : STA.w SNES.MultiplierB
         
         PLX
@@ -324,7 +313,6 @@ ChainChomp_MoveChain:
         PHX
         
         TXA : AND.b #$0F : TAX
-        
         LDA.w .operand-2, X : STA.w SNES.MultiplierB
         
         PLX
@@ -397,9 +385,7 @@ ChainChomp_HandleLeash:
     
     .BRANCH_EPSILON
     
-        LDA.l $7FFC00, X : SEC : SBC.l $7FFC02, X
-        
-        CMP.w #$0008 : BPL .BRANCH_ALPHA
+        LDA.l $7FFC00, X : SEC : SBC.l $7FFC02, X : CMP.w #$0008 : BPL .BRANCH_ALPHA
             CMP.w #$FFF8 : BPL .BRANCH_BETA
                 LDA.l $7FFC00, X : CLC : ADC.w #$0008 : STA.l $7FFC02, X
                 
@@ -411,9 +397,7 @@ ChainChomp_HandleLeash:
         
         .BRANCH_BETA
         
-        LDA.l $7FFD00, X : SEC : SBC.l $7FFD02, X
-        
-        CMP.w #$0008 : BPL .BRANCH_GAMMA
+        LDA.l $7FFD00, X : SEC : SBC.l $7FFD02, X : CMP.w #$0008 : BPL .BRANCH_GAMMA
             CMP.w #$FFF8 : BPL .BRANCH_DELTA
                 LDA.l $7FFD00, X : CLC : ADC.w #$0008 : STA.l $7FFD02, X
                 
@@ -426,7 +410,8 @@ ChainChomp_HandleLeash:
         .BRANCH_DELTA
         
         INX : INX
-    INC.b $00 : LDA.b $00 : CMP.w #$0006 : BCC .BRANCH_EPSILON
+    INC.b $00
+    LDA.b $00 : CMP.w #$0006 : BCC .BRANCH_EPSILON
     
     PLX
     
@@ -455,15 +440,15 @@ Pool_SpriteDraw_ChainChomp:
 SpriteDraw_ChainChomp:
 {
     LDY.w $0DE0, X
+    LDA.w Pool_SpriteDraw_ChainChomp_animation_states, Y : STA.w $0DC0, X
     
-    LDA Pool_SpriteDraw_ChainChomp_animation_states, Y : STA.w $0DC0, X
-    
-    LDA.w $0F50, X : AND.b #$3F : ORA Pool_SpriteDraw_ChainChomp_h_flip, Y
+    LDA.w $0F50, X : AND.b #$3F : ORA.w Pool_SpriteDraw_ChainChomp_h_flip, Y
     STA.w $0F50, X
     
     JSL.l Sprite_PrepAndDrawSingleLargeLong
     
-    LDA.w $0E00, X : AND.b #$01 : CLC : ADC.b #$04 : STA.b $08 : STZ.b $09
+    LDA.w $0E00, X : AND.b #$01 : CLC : ADC.b #$04 : STA.b $08
+                                                     STZ.b $09
     
     LDA.b #$05 : STA.b $0D
     
@@ -478,11 +463,9 @@ SpriteDraw_ChainChomp:
         REP #$20
         
         LDA.l $7FFC00, X : CLC : ADC.b $08 : SEC : SBC.b $E2 : STA.b ($90), Y
-        
         AND.w #$0100 : STA.b $0E
         
         LDA.l $7FFD00, X : CLC : ADC.b $08 : SEC : SBC.b $E8 : INY : STA.b ($90), Y
-        
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .BRANCH_ALPHA
             LDA.b #$F0 : STA.b ($90), Y
         
@@ -492,8 +475,8 @@ SpriteDraw_ChainChomp:
         
         LDA.b $05 : AND.b #$F0 : ORA.b #$0D : INY : STA.b ($90), Y
         
-        PHY : TYA : LSR : LSR : TAY
-        
+        PHY
+        TYA : LSR : LSR : TAY
         LDA.b $0F : STA.b ($92), Y
         
         PLY : INY

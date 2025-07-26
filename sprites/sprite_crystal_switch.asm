@@ -64,7 +64,8 @@ Sprite_CrystalSwitch:
         
         LDA.b #$16 : STA.b $11
         
-        LDA.b #$25 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$25
+        JSL.l Sound_SetSfx3PanLong
         
     .dont_switch_state
     

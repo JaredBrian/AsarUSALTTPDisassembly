@@ -130,10 +130,8 @@ Sahasrahla_Dialogue:
     
     LDA.l $7EF355 : BNE .has_boots
         LDA.l $7EF3C7 : CMP.b #$03 : ROL : AND.b #$01 : TAY
-        
-        LDA.w Pool_Sahasrahla_Dialogue_messages_low, Y  : XBA
+        LDA.w Pool_Sahasrahla_Dialogue_messages_low, Y        : XBA
         LDA.w Pool_Sahasrahla_Dialogue_messages_high, Y : TAY : XBA
-        
         JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .dont_show_2
             INC.w $0D80, X : INC.w $0D80, X
         
@@ -257,10 +255,10 @@ Pool_Elder_Draw_animation_states:
 ; $02F23A-$02F259 LOCAL JUMP LOCATION
 Elder_Draw:
 {
-    LDA.b #$02 : STA.b $06 : STZ.b $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DC0, X : ASL #4
-    
     ADC.b #.animation_states                 : STA.b $08
     LDA.b #.animation_states>>8 : ADC.b #$00 : STA.b $09
     

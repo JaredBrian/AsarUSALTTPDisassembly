@@ -59,7 +59,8 @@ CrystalMaiden_SpawnAndConfigMaiden:
     DEY : BPL .kill_next_sprite
     
     ; Create a maiden.
-    LDA.b #$AB : JSL.l Sprite_SpawnDynamically
+    LDA.b #$AB
+    JSL.l Sprite_SpawnDynamically
     
     ; Give the maiden the same upper byte coordinates as Link.
     LDA.b $23 : STA.w $0D30, Y
@@ -72,7 +73,8 @@ CrystalMaiden_SpawnAndConfigMaiden:
     
     LDA.b #$0B : STA.w $0F50, Y
     
-    LDA.b #$00 : STA.w $0E80, Y : STA.w $0F20, Y
+    LDA.b #$00 : STA.w $0E80, Y
+                 STA.w $0F20, Y
     
     PHY
     
@@ -252,11 +254,11 @@ CrystalMaiden_GenerateSparkles:
         
     .delay
     
-    SBC.b #$03 : STA.w $1F02 : CMP.b #$40 : BCC .delay_2
+    SBC.b #$03 : STA.w $1F02
+    CMP.b #$40 : BCC .delay_2
         PHX
         
         LDA.w $0D90, X : TAX
-        
         JSL.l Sprite_SpawnSparkleAncilla
         
         PLX

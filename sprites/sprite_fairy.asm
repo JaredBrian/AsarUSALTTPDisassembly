@@ -8,7 +8,6 @@ Sprite_HandleDraggingByAncilla:
     ; behavior.
     LDA.w $0DA0, X : BEQ .not_ancilla_slave
         TAY : DEY
-        
         LDA.w $0C4A, Y : BEQ .ancilla_not_active
             LDA.w $0C04, Y : STA.w $0D10, X
             LDA.w $0C18, Y : STA.w $0D30, X
@@ -104,7 +103,6 @@ Fairy_HandleCapture:
             PHX
             
             TAX
-            
             LDA.b #$06 : STA.l $7EF35C, X
             
             JSL.l HUD.RefreshIconLong

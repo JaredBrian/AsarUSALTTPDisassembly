@@ -9,14 +9,13 @@ Sprite_Trident:
     JSR.w Sprite_PeriodicWhirringSfx
     JSR.w Sprite4_Move
     
-    DEC.w $0E80, X : LDA.w $0E80, X : LSR : LSR : AND.b #$07 : TAY
-    
+    DEC.w $0E80, X
+    LDA.w $0E80, X : LSR : LSR : AND.b #$07 : TAY
     LDA.w GanonTrident_Timers_facing_down, Y : STA.w $0ED0, X
     
     LDA.w $0DF0, X : BEQ Trident_AimForParentPosition
         LSR : BCS GanonTrident_AdjustVelocity_exit
             LDA.b #$20
-            
             JSL.l Sprite_ProjectSpeedTowardsPlayerLong
 
             ; Bleeds into the next function.
@@ -70,7 +69,6 @@ Pool_Trident_AimForParentPosition:
 Trident_AimForParentPosition:
 {
     LDY.w $0DE0
-    
     LDA.w $0D10 : CLC : ADC.w Pool_Trident_AimForParentPosition_offset_x_low, Y
     STA.b $04
     
@@ -90,8 +88,8 @@ Trident_AimForParentPosition:
     .BRANCH_ALPHA
     
     LDA.b #$20
-    
     JSL.l Sprite_ProjectSpeedTowardsEntityLong
+    
     JMP.w GanonTrident_AdjustVelocity
 }
 

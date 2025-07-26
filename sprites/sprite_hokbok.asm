@@ -22,7 +22,8 @@ Sprite_Hokbok:
     	.no_ground_bounce
     
     	JSR.w Sprite4_BounceFromTileCollision : BEQ .no_tile_collision
-            LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$21
+			JSL.l Sound_SetSfx2PanLong
     
     	.no_tile_collision
     
@@ -33,7 +34,8 @@ Sprite_Hokbok:
     
     	    STZ.w $0BE0, X
     
-    	    LDA.b #$1E : JSL.l Sound_SetSfx2PanLong
+    	    LDA.b #$1E
+			JSL.l Sound_SetSfx2PanLong
     
     	.not_quite_dead
     
@@ -57,13 +59,12 @@ Hokbok_Main:
     	    LDA.b #$06 : STA.w $0EA0, X
     
     	    LDA.w $0F70, X : CLC : ADC.w $0DA0, X : STA.w $0F70, X
-   
     	    DEC.w $0D90, X : BNE .dont_reset_head_hp
-    		; NOTE: Apparently, the sprite's health gets restored to
-                ; full once all of the other segments are picked off. This is
- 		; somewhat analogous to how the last Armos Knight gets a health
-		; refill when they turn red.
-    		LDA.b #$11 : STA.w $0E50, X
+				; NOTE: Apparently, the sprite's health gets restored to
+				; full once all of the other segments are picked off. This is
+				; somewhat analogous to how the last Armos Knight gets a health
+				; refill when they turn red.
+				LDA.b #$11 : STA.w $0E50, X
     
     	    .dont_reset_head_hp
     
@@ -82,7 +83,8 @@ Hokbok_Main:
     	CLC : ADC.b #$04 : STA.w $0D40, X
     
     	; Spawn a Ricochet sprite since a segment was knocked off of the Hokbok.
-    	LDA.b #$C7 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
+    	LDA.b #$C7
+		JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
     	    JSL.l Sprite_SetSpawnedCoords
     
     	    LDA.b #$01 : STA.w $0DB0, Y
@@ -101,9 +103,7 @@ Hokbok_Main:
     JSR.w Sprite4_CheckDamage
     
     LDA.w $0D80, X
-    
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    
     dw Hokbok_ResetBounceVelocity ; 0x00 - $C721
     dw Hokbok_Moving              ; 0x01 - $C738
 }
@@ -129,7 +129,6 @@ Hokbok_ResetBounceVelocity:
     .delay
     
     LSR : TAY
-    
     LDA.w .spacing_amounts, Y : STA.w $0DA0, X
     
     RTS
@@ -205,7 +204,6 @@ Hokbok_Draw:
     PHX
     
     LDA.w $0D90, X : TAX
-    
     TYA : CLC : ADC.b #$0C : TAY
     
     .next_subsprite
@@ -218,9 +216,10 @@ Hokbok_Draw:
     
         INY
     
-    	LDA.b $02 : PHA : SEC : SBC.b $06 : STA.b $02
+    	LDA.b $02 : PHA
+		SEC : SBC.b $06 : STA.b $02
+
         PLA : STA.b ($90), Y
-    
     	CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     	    LDA.b #$F0 : STA.b ($90), Y
     
@@ -245,12 +244,11 @@ Hokbok_Draw:
                     INY : STA.b ($90), Y
     	LDA.b $05 : INY : STA.b ($90), Y
     
-    	PHY : TYA : LSR : LSR : TAY
-    
+    	PHY
+		TYA : LSR : LSR : TAY
     	LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
     
     	PLA : SEC : SBC.b #$07 : TAY
-    
     DEX : BPL .next_subsprite
     
     PLX

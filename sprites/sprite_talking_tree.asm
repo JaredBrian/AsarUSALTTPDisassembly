@@ -54,13 +54,13 @@ TalkingTree_IdleWithBomb:
         LDA.b #$10 : STA.b $46
         
         LDA.b #$30
-        
         JSL.l Sprite_ProjectSpeedTowardsPlayerLong
         
         LDA.b $00 : STA.b $27
         LDA.b $01 : STA.b $28
         
-        LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$32
+        JSL.l Sound_SetSfx3PanLong
         
         INC.w $0D80, X
         
@@ -134,11 +134,10 @@ TalkingTree_IdleWithoutBomb:
     JSR.w TalkingTree_ChooseTalkingPoint
     
     LDA.w $0DF0, X : BNE .countingDown
-        LDA.w $0DA0, X : INC : AND.b #$07 : STA.w $0DA0, X : TAY
-        
+        LDA.w $0DA0, X : INC : AND.b #$07 : STA.w $0DA0, X
+                                            TAY
         LDA.w Pool_TalkingTree_IdleWithoutBomb_animation_states, Y : STA.w $0DC0, X
-        
-        LDA.w Pool_TalkingTree_IdleWithoutBomb_timers, Y : STA.w $0DF0, X
+        LDA.w Pool_TalkingTree_IdleWithoutBomb_timers, Y           : STA.w $0DF0, X
         
     .countingDown
     
@@ -159,8 +158,8 @@ TalkingTree_ChooseTalkingPoint:
     LDA.b #$07 : STA.w $0F60, X
     
     LDA.w $0D90, X : BNE TalkingTree_use_screen_based_message
-        LDA.w $0D10, X : LSR #4 : AND.b #$01 : EOR.b #$01 : STA.w $0D90, X : TAY
-        
+        LDA.w $0D10, X : LSR #4 : AND.b #$01 : EOR.b #$01 : STA.w $0D90, X
+                                                            TAY
         LDA.w TalkingTree_Messages_setAs, Y
         LDY.b #$00
         JSL.l Sprite_ShowSolicitedMessageIfPlayerFacing : BCS .didnt_solicit
@@ -192,12 +191,11 @@ Pool_TalkingTree_use_screen_based_message:
 TalkingTree_use_screen_based_message:
 {
     LDY.b #$00
-    
     LDA.b $8A
     
     .BRANCH_BETA
     
-        CMP Pool_TalkingTree_use_screen_based_message_areas, Y : BEQ .BRANCH_ALPHA
+        CMP.w Pool_TalkingTree_use_screen_based_message_areas, Y : BEQ .BRANCH_ALPHA
             INY : BEQ .BRANCH_ALPHA
     BRA .BRANCH_BETA
     
@@ -287,7 +285,6 @@ TalkingTree_Eye:
     JSR.w Sprite4_CheckIfActive
     
     LDY.w $0EB0, X
-    
     LDA.w $0D90, X : CLC : ADC.w Pool_TalkingTree_Eye_offset_x, Y : STA.w $0D10, X
     LDA.w $0DA0, X       : ADC.w Pool_TalkingTree_Eye_offset_y, Y : STA.w $0D30, X
     
@@ -295,7 +292,6 @@ TalkingTree_Eye:
     LDA.w $0E90, X : STA.w $0D20, X
     
     LDA.b #$02
-    
     JSL.l Sprite_ProjectSpeedTowardsPlayerLong
     
     LDA.b $00 : BMI .BRANCH_ALPHA
@@ -307,7 +303,6 @@ TalkingTree_Eye:
     
     LDA.w $0DE0, X : CMP.b #$02 : BEQ .BRANCH_BETA
         ROL : AND.b #$01 : TAY
-        
         LDA.w $0DE0, X
         CLC : ADC.w Pool_Sprite_ApplyConveyorAdjustment_x_shake_values, Y
         STA.w $0DE0, X
@@ -315,7 +310,6 @@ TalkingTree_Eye:
     .BRANCH_BETA
     
     LDY.w $0DE0, X
-    
     LDA.w $0D90, X : CLC : ADC.w Pool_TalkingTree_Eye_pupil_offset_x_low, Y
     STA.w $0D10, X
 
@@ -351,20 +345,25 @@ TalkingTree_SpawnEyes:
     PHX : PHA
     
     LDA.b #$25
-    
     JSL.l Sprite_SpawnDynamically
     
-    PLA : STA.w $0EB0, Y : TAX
+    PLA : STA.w $0EB0, Y 
+          TAX
     
     ; TODO: OPTIMIZE: Why are these ADCs .l?
     LDA.b $00 : CLC : ADC.l Pool_TalkingTree_SpawnEyes_x_offsets_low, X
-    STA.w $0D10, Y : STA.w $0D90, Y
+    STA.w $0D10, Y
+    STA.w $0D90, Y
 
     LDA.b $01       : ADC.l Pool_TalkingTree_SpawnEyes_x_offsets_high, X
-    STA.w $0D30, Y : STA.w $0DA0, Y
+    STA.w $0D30, Y
+    STA.w $0DA0, Y
     
-    LDA.b $02 : CLC : ADC.b #$F5 : STA.w $0D00, Y : STA.w $0DB0, Y
-    LDA.b $03       : ADC.b #$FF : STA.w $0D20, Y : STA.w $0E90, Y
+    LDA.b $02 : CLC : ADC.b #$F5 : STA.w $0D00, Y
+                                   STA.w $0DB0, Y
+                                   
+    LDA.b $03       : ADC.b #$FF : STA.w $0D20, Y
+                                   STA.w $0E90, Y
     
     LDA.b #$01 : STA.w $0E80, Y
     
