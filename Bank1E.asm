@@ -460,14 +460,12 @@ Sprite3_CheckIfRecoiling:
             
             LDA.w $0EA0, X : BMI .halted
                 LSR : LSR : TAY
-                
-                LDA.b $1A : AND Sprite3_CheckIfRecoiling_frame_counter_masks, Y : BNE .halted
+                LDA.b $1A : AND.w Sprite3_CheckIfRecoiling_frame_counter_masks, Y : BNE .halted
                     LDA.w $0F30, X : STA.w $0D40, X
                     LDA.w $0F40, X : STA.w $0D50, X
                     
                     LDA.w $0CD2, X : BMI .no_wall_collision
                         JSR.w Sprite3_CheckTileCollision
-                        
                         AND.b #$0F : BEQ .no_wall_collision
                             CMP.b #$04 : BCS .y_axis_wall_collision
                                 STZ.w $0F40, X

@@ -7158,33 +7158,39 @@ struct WRAM $7E0000
         ; Uncle - Used as main AI pointer? TODO: Verify
 
     ; $0EA0[0x10] - (Sprite)
+    .SprRecoilTimer: skip $10
+        ; A timer that counts down while a sprite is recoiling. If the top bit is
+        ; set or if 0 then the recoiling will stop.
+        ; httt tttt
+        ; h - Halt the recoiling
+        ; t - The amount of frames to recoil
 
-        ; Definitely closely tied to the process of a sprite taking damage. Seems
-        ; to perhaps serve as a palette cycling index, or something like a state\
-        ; variable. When this value is positive
-        ; 0x80 - Signal that the recoil process has finished and will terminate
-        ; during this frame.
-
-    ; $0EB0[0x10] - (Sprite) ; functions
-
+    ; $0EB0[0x10] - (Sprite)
+    .SprHeadDir: skip $10
         ; For sprites that are intuitively considered to have a head, this indicates
         ; the direction that the head is facing. It would seem that every humanoid
         ; sprite encountered so far uses this variable for that purpose, but I
         ; cannot guarantee that some sprites may use it for a different purpose.
+        ; TODO: Find other uses.
         ; 0x00 - up
         ; 0x01 - down
         ; 0x02 - left
-        ; 0x03 - right?
+        ; 0x03 - right
 
     ; $0EC0[0x10] - (Sprite)
-
-        ; Animation clock?
+    .SprMiscF: skip $10
+        ; A misc variable used by sprites. Some uses include:
+        ; Walking Zora - Used as a flag to indicate when to draw a shadow or not.
+        ; Ganon - Used as a misc flag.
+        ; Helmasaur King - Something to do with the tail.
 
     ; $0ED0[0x10] - (Sprite)
-
-        ; ???? (Used with sprite 0xBE)
-        ; Giant Moldorm uses it too...
-        ; Lanmolas use it too
+    .SprMiscG: skip $10
+        ; A misc variable used by sprites. Some uses include:
+        ; Lanmolas - Used to switch directions when bobbing up and down.
+        ; Vitreous - Used as a counter to see how many small eyeballs are left.
+        ; Desert Barrier - Used as a timer to time how long they should move.
+        ; Ganon - Used as a misc timer.
 
     ; $0EE0[0x10] - (Sprite)
     
@@ -7197,6 +7203,7 @@ struct WRAM $7E0000
         ; b*bb bbbb - death timer?       ; the amount of time that the sprite will have the flicker effect after taking damage.
         ; ; needs to be set for sprite to actually take damage or have other effect applied.
         ; ; the first bit * may also have another effect. seems to delay when the sprite starts flickering
+        
     ; $0F00[0x10] - (Sprite)
         ; Pause button for sprites apparently. If nonzero they don't do anything.
 

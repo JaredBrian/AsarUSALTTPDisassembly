@@ -981,7 +981,7 @@ Sprite_ExecuteSingle:
 }
 
 ; $03050F-$03050F LOCAL JUMP LOCATION
-SpritePrep_DoNothingI:
+SpritePrep_ThrowableScenery:
 {
     RTS
 }
@@ -1459,7 +1459,7 @@ SpriteActive_Table:
     dw Sprite_PotionShopTrampoline       ; 0xE9 - $C08F Magic Shop Dude and his items
     dw Sprite_HeartContainerTrampoline   ; 0xEA - $C099 Heart Container
     dw Sprite_HeartPieceTrampoline       ; 0xEB - $C0A3 Heart piece
-    dw SpritePrep_DoNothingI             ; 0xEC - $850F pot/bush/etc
+    dw SpritePrep_ThrowableScenery       ; 0xEC - $850F pot/bush/etc
     dw Sprite_SomariaPlatformTrampoline  ; 0xED - $C008 Cane of Somaria Platform
     dw Sprite_MovableMantleTrampoline    ; 0xEE - $A853 Mantle in throne room
     dw Sprite_SomariaPlatformTrampoline  ; 0xEF - $C008 Cane of Somaria Platform
@@ -5417,7 +5417,7 @@ Guard_ParrySwordAttacks_main:
                             LDA.w $0E20, X : CMP.b #$6A : BEQ .BRANCH_EPSILON
                                 JSL.l GetRandomInt : AND.b #$07 : TAY
                                 
-                                LDA Pool_Guard_ParrySwordAttacks_main_recoilTimes, Y 
+                                LDA.w Pool_Guard_ParrySwordAttacks_main_recoilTimes, Y 
                                 STA.w $0EA0, X
                             
                             .BRANCH_EPSILON
@@ -7832,8 +7832,7 @@ Sprite_DoTheDeath:
 {
     ; Is it a Vitreous small eyeball?
     LDA.w $0E20, X : CMP.b #$BE : BNE .not_small_vitreous_eyeball
-        ; HARDCODED: This is how Vitreous knows whether to come out of his
-        ; slime pool.
+        ; This is how Vitreous knows whether to come out of his slime pool.
         DEC.w $0ED0
     
     .not_small_vitreous_eyeball
