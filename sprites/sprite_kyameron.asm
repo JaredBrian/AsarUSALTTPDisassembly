@@ -153,7 +153,7 @@ Kyameron_Moving:
     	    ; After accumulating 3 
     	    INC.w $0EC0, X
     
-	    ; OPTIMIZE: 0 length branch.
+	        ; OPTIMIZE: 0 length branch.
     	    BRA .no_horiz_collision
     
     	.no_horiz_collision

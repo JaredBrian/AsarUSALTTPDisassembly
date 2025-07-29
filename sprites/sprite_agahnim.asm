@@ -635,7 +635,6 @@ ShadowSneak:
     JSL.l Sprite_ProjectSpeedTowardsEntityLong
     
     LDA.b $00 : STA.w $0D40, X
-    
     LDA.b $01 : STA.w $0D50, X
     
     LDA.w $0ED0, X : CMP.b #$40 : BCS .BRANCH_BETA
