@@ -21,10 +21,8 @@ Garnish_Nebule:
     PHX
     
     LDA.l $7FF90E, X : LSR : LSR : TAX
-    
-    LDA.b $00 : CLC : ADC Pool_Garnish_Nebule_xy_offsets, X       : STA.b ($90), Y
-    LDA.b $02 : CLC : ADC Pool_Garnish_Nebule_xy_offsets, X : INY : STA.b ($90), Y
-    
+    LDA.b $00 : CLC : ADC.w Pool_Garnish_Nebule_xy_offsets, X       : STA.b ($90), Y
+    LDA.b $02 : CLC : ADC.w Pool_Garnish_Nebule_xy_offsets, X : INY : STA.b ($90), Y
     LDA.w Pool_Garnish_Nebule_chr, X : INY : STA.b ($90), Y
     
     PLX
@@ -32,7 +30,6 @@ Garnish_Nebule:
     PHY
     
     LDA.l $7FF92C, X : TAY
-    
     LDA.w $0F50, Y : ORA.w $0B89, Y : AND.W #$7AFE
     
     JMP Garnish_SetOamPropsAndSmallSize

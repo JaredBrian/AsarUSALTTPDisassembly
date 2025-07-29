@@ -17,9 +17,7 @@ Garnish_RunningManDashDust:
 ; $04B3C2-$04B3E7 JUMP LOCATION
 Garnish_WaterTrail:
 {
-    LDA.l $7FF90E, X
-    
-    LSR
+    LDA.l $7FF90E, X : LSR
     
     ; $04B3C7 ALTERNATE ENTRY POINT
     .set_chr_index
@@ -34,7 +32,6 @@ Garnish_WaterTrail:
     PHX
     
     LDX.w $0FB5
-    
     LDA.w .chr, X : INY : STA.b ($90), Y
     
     LDA.b #$24

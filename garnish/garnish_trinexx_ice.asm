@@ -27,14 +27,14 @@ Garnish_TrinexxIce:
             LDA.l $7FF81E, X : SEC : SBC.b #$10 : STA.b $02
             LDA.l $7FF85A, X       : SBC.b #$00 : STA.b $03
             
-            LDY.b #$12 : JSL.l Dungeon_SpriteInducedTilemapUpdate
+            LDY.b #$12
+            JSL.l Dungeon_SpriteInducedTilemapUpdate
             
             PLA
         
     .dont_update_tiles
     
     LDA.l $7FF90E, X : LSR : LSR : AND.b #$03 : TAY
-    
     LDA.w Pool_Garnish_Trinexxice_properties, Y : STA.b $04
     
     JSR.w Garnish_PrepOamCoord
@@ -43,8 +43,10 @@ Garnish_TrinexxIce:
     LDA.b $02 : INY : STA.b ($90), Y
     
     ; WTF: NOP? hrm...
-    LDA.l $7FF90E, X : LSR #4 : NOP : PHX : TAX
+    LDA.l $7FF90E, X : LSR #4 : NOP
     
+    PHX
+    TAX
     LDA.w Pool_Garnish_Trinexxice_chr, X : INY : STA.b ($90), Y
     
     LDA.b #$35 : ORA.b $04 : PLX

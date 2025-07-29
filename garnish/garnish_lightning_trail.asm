@@ -21,8 +21,8 @@ Garnish_LightningTrail:
     LDA.b $00       : STA.b ($90), Y
     LDA.b $02 : INY : STA.b ($90), Y
     
-    LDA.l $7FF92C, X : PHX : TAX
-    
+    LDA.l $7FF92C, X : PHX
+                       TAX
     LDA.w Pool_Garnish_LightningTrail_chr, X : PHX
     
     LDX.w $048E : CPX.b #$20 : BNE .not_agahnim_1_room
@@ -36,7 +36,7 @@ Garnish_LightningTrail:
     
     INY : STA.b ($90), Y
     
-    LDA.b $1A : ASL : AND.b #$0E : ORA Pool_Garnish_LightningTrail_properties, X
+    LDA.b $1A : ASL : AND.b #$0E : ORA.w Pool_Garnish_LightningTrail_properties, X
     
     PLX
     
@@ -54,7 +54,8 @@ Garnish_CheckPlayerCollision:
             LDA.b $20 : SBC.b $E8 : SBC.b $02 : ADC.b #$16 : CMP.b #$1C : BCS .no_collision
                 LDA.b #$01 : STA.b $4D
                 
-                LDA.b #$10 : STA.b $46 : STA.w $0373
+                LDA.b #$10 : STA.b $46
+                             STA.w $0373
                 
                 LDA.b $28 : EOR.b #$FF : STA.b $28
                 LDA.b $27 : EOR.b #$FF : STA.b $27
