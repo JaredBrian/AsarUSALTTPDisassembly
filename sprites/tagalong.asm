@@ -1400,7 +1400,7 @@ TagalongDraw_Drawing:
     LDA.w $0FB3 : AND.w #$00FF : ASL : TAY
 
     LDA.b $20 : CMP.b $00 : BEQ .check_priority_for_region
-                        BCS .use_region_b
+        BCS .use_region_b
             BRA .use_region_a
 
     .check_priority_for_region
@@ -1409,7 +1409,8 @@ TagalongDraw_Drawing:
         .use_region_a
 
         LDA.w .OAM_region_offsets_a, Y
-        BRA   .set_region
+
+        BRA .set_region
 
     .use_region_b
 
@@ -1424,7 +1425,6 @@ TagalongDraw_Drawing:
     PLA : CLC : ADC.w #$0800 : STA.b $90
     
     LDA.b $00 : SEC : SBC.b $E8 : STA.b $06
-    
     LDA.b $02 : SEC : SBC.b $E2 : STA.b $08
     
     SEP #$20
@@ -1432,9 +1432,7 @@ TagalongDraw_Drawing:
     LDY.b #$00
     LDX.b #$00
     
-    LDA.l $7EF3CC
-    
-    CMP.b #$01 : BEQ .girly_tagalong
+    LDA.l $7EF3CC : CMP.b #$01 : BEQ .girly_tagalong
         CMP.b #$06 : BEQ .girly_tagalong
             LDA.b $05 : AND.b #$20 : BEQ .girly_tagalong
                 BRA .not_girly_tagalong
@@ -1480,13 +1478,13 @@ TagalongDraw_Drawing:
     
     JSR.w Tagalong_SetOam_XY
     
-    LDA.w TagalongDraw_Drawing_head_body_char+0, X : STA.b ($90), Y : INY
-    LDA.w TagalongDraw_Drawing_head_body_char+1, X : STA.b ($90), Y : INY
+    LDA.w TagalongDraw_Drawing_head_body_char+0, X : STA.b ($90), Y
     
-    PHY
+    INY
+    LDA.w TagalongDraw_Drawing_head_body_char+1, X : STA.b ($90), Y
     
+    INY : PHY
     TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-    
     LDA.b #$00 : ORA.b $75 : STA.b ($92), Y
     
     PLY
@@ -1501,13 +1499,13 @@ TagalongDraw_Drawing:
     
     JSR.w Tagalong_SetOam_XY
     
-    LDA.w TagalongDraw_Drawing_head_body_char+2, X : STA.b ($90), Y : INY
-    LDA.w TagalongDraw_Drawing_head_body_char+3, X : STA.b ($90), Y : INY
+    LDA.w TagalongDraw_Drawing_head_body_char+2, X : STA.b ($90), Y
     
-    PHY
+    INY
+    LDA.w TagalongDraw_Drawing_head_body_char+3, X : STA.b ($90), Y
     
+    INY : PHY
     TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-    
     LDA.b #$00 : ORA.b $75 : STA.b ($92), Y
     
     PLY
@@ -1515,7 +1513,6 @@ TagalongDraw_Drawing:
     .do_chars
 
     LDA.l $7EF3CC : TAX
-    
     LDA.w TagalongDraw_Drawing_palette, X : CMP.b #$07 : BNE .not_link_palette_a
         TAX
         LDA.w $0ABD : BEQ .no_trans_a
@@ -1535,10 +1532,8 @@ TagalongDraw_Drawing:
 
     .not_exploding_superbomb
 
-    LDA.l $7EF3CC
-    
-    CMP.b #$0D : BEQ .bomb_or_chest
-    CMP.b #$0C : BEQ .bomb_or_chest
+    LDA.l $7EF3CC : CMP.b #$0D : BEQ .bomb_or_chest
+                    CMP.b #$0C : BEQ .bomb_or_chest
         REP #$30
         
         PHY
@@ -1546,7 +1541,6 @@ TagalongDraw_Drawing:
         LDA.b $04 : AND.w #$00FF : ASL #3 : TAY
         
         LDA.l $7EF3CC : AND.w #$00FF : ASL : TAX
-        
         TYA : CLC : ADC.w TagalongDraw_Drawing_char_data_offset, X : TAX
         
         LDA.w TagalongDraw_Drawing_char_offset+0, X : CLC : ADC.b $06 : STA.b $00
@@ -1563,15 +1557,11 @@ TagalongDraw_Drawing:
         INY
         
         LDA.b $04 : ASL : CLC : ADC.b $04 : TAX
-        
         LDA.w TagalongDraw_Drawing_props+0, X : STA.w $0AE8
-        
         LDA.w TagalongDraw_Drawing_props+1, X : AND.b #$F0 : ORA.b $72 : ORA.b $65 : STA.b ($90), Y
         
         INY : PHY
-        
         TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-        
         LDA #$02 : ORA.b $75 : STA.b ($92), Y
         
         PLY
@@ -1585,14 +1575,9 @@ TagalongDraw_Drawing:
     LDA.b $04 : AND.w #$00FF : ASL #3 : TAY
     
     LDA.l $7EF3CC : AND.w #$00FF : ASL : TAX
-    
     TYA : CLC : ADC.w TagalongDraw_Drawing_char_data_offset, X : TAX
-    
-    LDA.w TagalongDraw_Drawing_char_offset+4, X
-    CLC : ADC.b $06 : CLC : ADC.w #$0008 : STA.b $00
-    
-    LDA.w TagalongDraw_Drawing_char_offset+6, X
-    CLC : ADC.b $08 : STA.b $02
+    LDA.w TagalongDraw_Drawing_char_offset+4, X : CLC : ADC.b $06 : CLC : ADC.w #$0008 : STA.b $00
+    LDA.w TagalongDraw_Drawing_char_offset+6, X : CLC : ADC.b $08 : STA.b $02
     
     PLY
     
@@ -1605,14 +1590,11 @@ TagalongDraw_Drawing:
     INY
     
     LDA.b $04 : ASL : CLC : ADC.b $04 : TAX
-    
     LDA.w TagalongDraw_Drawing_props+1, X : STA.w $0AEA
-    
     LDA.w TagalongDraw_Drawing_props+2, X : AND.b #$0F : ASL #4
     ORA.b $72 : ORA.b $65 : STA.b ($90), Y
     
     INY : TYA : SEC : SBC.b #$04 : LSR : LSR : TAY
-    
     LDA.b #$02 : ORA.b $75 : STA.b ($92), Y
     
     PLY : PLX
@@ -1659,7 +1641,7 @@ Tagalong_CheckTextTriggerProximity:
     REP #$20
     
     LDA.b $00 : CLC : ADC.b $0A : CLC : ADC.w #$0008 : STA.b $00
-    LDA.b $02 : CLC : ADC.w #$0008 : STA.b $02
+    LDA.b $02                   : CLC : ADC.w #$0008 : STA.b $02
     
     LDA.b $20 : CLC : ADC.w #$000C : SEC : SBC.b $00 : BPL .positive_delta_y
         EOR.w #$FFFF : INC
@@ -1667,7 +1649,6 @@ Tagalong_CheckTextTriggerProximity:
     .positive_delta_y
     
     CMP.w #$001C : BCS .not_in_trigger
-    
         LDA.b $22 : CLC : ADC.w #$000C : SEC : SBC.b $02 : BPL .positive_delta_x
             EOR.w #$FFFF : INC
 
