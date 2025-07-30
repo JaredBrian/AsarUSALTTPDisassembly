@@ -966,7 +966,6 @@ Sprite_SpawnProbeStaggered:
     ; Is there some point to this store that I'm not seeing? It's
     ; overwritten later before even being used.
     TXA : CLC : ADC.b $1A1A : STA.b $0F
-    
     AND.b #$03 : ORA.w $0F00, X : BNE Sprite_SpawnProbeAlways_spawn_failed
         LDA.w $0EC0, X
         INC.w $0EC0, X

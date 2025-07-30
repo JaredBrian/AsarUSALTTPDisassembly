@@ -7193,32 +7193,47 @@ struct WRAM $7E0000
         ; Ganon - Used as a misc timer.
 
     ; $0EE0[0x10] - (Sprite)
-    
-        ; Auxiliary delay timer 3
+    .SprTimerD: skip $10
+        ; An auxiliary Timer for sprites. Usually used to time intervals 
+        ; between state transitions, also for certain time sensitive events but
+        ; can be used for anything. The timer is auto decremented by the sprite
+        ; engine.
 
     ; $0EF0[0x10] - (Sprite)
+    .SprDeathTimer: skip $10
+        ; The amount of time that a sprite will have the flicker effect after
+        ; taking damage or run the death animation. This needs to be set for
+        ; sprite to actually take damage or have other effect applied. TODO: The 
+        ; first b bit may also have another effect. Seems to delay when the sprite
+        ; starts flickering.
+        ; abbb bbbb
+        ; a - Start death timer
+        ; b - The time to flicker/take damage/do the death animation.
 
-        ; abbb bbbb:
-        ; a        ; - start death timer?
-        ; b*bb bbbb - death timer?       ; the amount of time that the sprite will have the flicker effect after taking damage.
-        ; ; needs to be set for sprite to actually take damage or have other effect applied.
-        ; ; the first bit * may also have another effect. seems to delay when the sprite starts flickering
-        
     ; $0F00[0x10] - (Sprite)
-        ; Pause button for sprites apparently. If nonzero they don't do anything.
+    .SpritePause: skip $10
+        ; The pause button for most sprites. If nonzero they don't do anything.
+        ; See Sprite_CheckIfActive for more details. Can be used for other things
+        ; if Sprite_CheckIfActive isn't used in the sprite.
 
     ; $0F10[0x10] - (Sprite)
-        ; hhhh
-        ; Auxiliary delay timer 4 (may be more proprietary than the others)
+    .SprTimerE: skip $10
+        ; An auxiliary Timer for sprites. Usually used to time intervals 
+        ; between state transitions, also for certain time sensitive events but
+        ; can be used for anything. The timer is auto decremented by the sprite
+        ; engine.
 
     ; $0F20[0x10] - (Sprite)
-        ; Floor selector. Tells us which floor each sprite is on (in multilevel rooms)
+    .SprFloor: skip $10
+        ; Floor selector. Tells us which floor each sprite is on.
 
     ; $0F30[0x10] - (Sprite)
-        ; Seems to be the Y velocity of the sprite when recoiling from being hit.
+    .SprYRecoil: skip $10
+        ; The Y velocity of a sprite when recoiling after being hit.
 
     ; $0F40[0x10] - (Sprite)
-        ; Seems to be the X velocity of the sprite when recoiling from being hit.
+    .SprXRecoil: skip $10
+        ; The X velocity of a sprite when recoiling after being hit.
 
     ; $0F50[0x10] - (Sprite)
         ; The layout of this variable is the same as the 4th byte of each OAM entry.

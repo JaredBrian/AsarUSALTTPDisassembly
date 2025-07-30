@@ -1399,11 +1399,20 @@ Main_SaveGameFile:
 
         ; Loads memory from WRAM and writes it into SRAM.
         ; Notice the difference of 0xF00 in the mirrored SRAM locations.
-        LDA.l $7EF000, X : STA.w $0000, Y : STA.w $0F00, Y
-        LDA.l $7EF100, X : STA.w $0100, Y : STA.w $1000, Y
-        LDA.l $7EF200, X : STA.w $0200, Y : STA.w $1100, Y
-        LDA.l $7EF300, X : STA.w $0300, Y : STA.w $1200, Y
-        LDA.l $7EF400, X : STA.w $0400, Y : STA.w $1300, Y
+        LDA.l $7EF000, X : STA.w $0000, Y
+                           STA.w $0F00, Y
+
+        LDA.l $7EF100, X : STA.w $0100, Y
+                           STA.w $1000, Y
+
+        LDA.l $7EF200, X : STA.w $0200, Y
+                           STA.w $1100, Y
+
+        LDA.l $7EF300, X : STA.w $0300, Y
+                           STA.w $1200, Y
+
+        LDA.l $7EF400, X : STA.w $0400, Y
+                           STA.w $1300, Y          
         
         INY : INY
     INX : INX : CPX.w #$0100 : BNE .writeSlot

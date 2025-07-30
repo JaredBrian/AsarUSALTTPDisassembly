@@ -100,8 +100,8 @@ BottleVendor_SpawnFishRewards:
             PHX
             
             LDX.w $0FB5
-            LDA Pool_BottleVendor_SpawnFishRewards_x_speeds, X : STA.w $0D50, Y
-            LDA Pool_BottleVendor_SpawnFishRewards_y_speeds, X : STA.w $0D40, Y
+            LDA.w Pool_BottleVendor_SpawnFishRewards_x_speeds, X : STA.w $0D50, Y
+            LDA.w Pool_BottleVendor_SpawnFishRewards_y_speeds, X : STA.w $0D40, Y
             
             LDA.b #$20 : STA.w $0F80, Y
                          STA.w $0F10, Y
@@ -5841,7 +5841,6 @@ Sprite_ApplyCalculatedDamage:
     ; Turn something into a 0 HP blob.
     CMP.b #$FA : BNE .dontMakeIntoBlob
         LDA.b #$8F
-        
         JSL.l .transmute_to_sprite
         
         LDA.b #$02 : STA.w $0D80, X
@@ -6186,6 +6185,7 @@ Sprite_AttemptKillingOfKin:
                     .SpriteDeath_not_octoballoon
                     
                     LDA.w $0B6B, X : AND.b #$02 : BNE .BRANCH_PHI
+                        ; OPTIMIZE: Useless codes?
                         LDA.w $0EF0, X : ASL
                         
                         LDA.b #$0F : BCC .BRANCH_CHI
@@ -6678,7 +6678,6 @@ Sprite_CheckDamageFromPlayer:
     LDA.w $0EF0, X : AND.b #$80 : BNE .just_began_death_sequence
         LDA.b $EE : CMP.w $0F20, X
     
-    ; (no there is nothing missing here)
     .just_began_death_sequence
     
     BNE .no_collision
