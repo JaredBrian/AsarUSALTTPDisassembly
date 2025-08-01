@@ -7117,7 +7117,7 @@ struct WRAM $7E0000
 
     ; $0E60[0x10] - (Sprite)
     .SprSetting6: skip $10
-        ; nios pppu
+        ; nios pppc
         ; n - If set, don't draw extra death animation "poof" over the sprite as
         ;     it is dying.
         ; i - If set, sprite is impervious to all attacks (also collisions?)
@@ -7125,10 +7125,9 @@ struct WRAM $7E0000
         ;     rupees, and heart refills. (0: normal | 1: small)
         ;     Adjusts the placement of the death poof, water splash, and shadow draw.
         ; s - If set, draw a shadow for the sprite when doing OAM handling
-        ; p - Palette into that actually is not used by this variable, but ends
+        ; p - Palette info that actually is not used by this variable, but ends
         ;     up getting copied into $0F50
-        ; u - TODO: Appears to be unused? But kan's dissasm claims: "name table
-        ;     used for OAM props" maybe only used by $0F50 like p
+        ; c - character table index. Also unused by this var but is used by $0F50 
 
     ; $0E70[0x10] - (Sprite)
     .SprCollisionDir: skip $10
@@ -7236,16 +7235,14 @@ struct WRAM $7E0000
         ; The X velocity of a sprite when recoiling after being hit.
 
     ; $0F50[0x10] - (Sprite)
-        ; The layout of this variable is the same as the 4th byte of each OAM entry.
-        ; That is,
-        ; vhoopppN
-        ; v - vflip
-        ; h - hflip
-        ; o - priority
+    .SprPal: skip $10
+        ; The layout of this variable is the same as the last half of the 4th
+        ; byte of each OAM entry. This has an initial value stored to it and is
+        ; then later used to change the palette of sprites on demand.
+        ; .... pppc
         ; p - palette
-        ; N - name table
-        ; The 'N' bit operates as the the top bit of the CHR index in our case,
-        ; because the game has the two name tables placed consecutively in VRAM.
+        ; c - character table index. TODO: Check if this bit is ever actually
+        ;     used in this var.
 
     ; $0F60[0x10] - (Sprite)
         ; isphhhhh

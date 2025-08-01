@@ -337,7 +337,6 @@ Sprite_SpawnThrowableTerrainSilently:
     PHB : PHK : PLB
     
     TAY
-    
     LDA.w Pool_Sprite_ThrowableScenery_palettes, Y : STA.w $0F50, X
     
     LDA.b #$09 : STA.l $7FFA2C, X
