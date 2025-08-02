@@ -14654,7 +14654,6 @@ PreOverworld_LoadAndAdvance:
 ; $016DC5-$016EC4 DATA (Map16 locations of bombable doors)
 Overworld_HandleOverlaysAndBombDoors_bombable_door_location:
 {
-    .
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000

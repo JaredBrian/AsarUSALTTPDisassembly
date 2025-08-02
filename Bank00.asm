@@ -203,7 +203,6 @@ Module_MainRouting:
 {
     ; This variable determines which module we're in.
     LDY.b $10
-    
     LDA.w Pool_Module_MainRouting_low, Y  : STA.b $03
     LDA.w Pool_Module_MainRouting_high, Y : STA.b $04
     LDA.w Pool_Module_MainRouting_bank, Y : STA.b $05
