@@ -7117,7 +7117,7 @@ struct WRAM $7E0000
 
     ; $0E60[0x10] - (Sprite)
     .SprSetting6: skip $10
-        ; nios pppu
+        ; nios pppc
         ; n - If set, don't draw extra death animation "poof" over the sprite as
         ;     it is dying.
         ; i - If set, sprite is impervious to all attacks (also collisions?)
@@ -7125,10 +7125,9 @@ struct WRAM $7E0000
         ;     rupees, and heart refills. (0: normal | 1: small)
         ;     Adjusts the placement of the death poof, water splash, and shadow draw.
         ; s - If set, draw a shadow for the sprite when doing OAM handling
-        ; p - Palette into that actually is not used by this variable, but ends
+        ; p - Palette info that actually is not used by this variable, but ends
         ;     up getting copied into $0F50
-        ; u - TODO: Appears to be unused? But kan's dissasm claims: "name table
-        ;     used for OAM props" maybe only used by $0F50 like p
+        ; c - character table index. Also unused by this var but is used by $0F50 
 
     ; $0E70[0x10] - (Sprite)
     .SprCollisionDir: skip $10
@@ -7158,72 +7157,92 @@ struct WRAM $7E0000
         ; Uncle - Used as main AI pointer? TODO: Verify
 
     ; $0EA0[0x10] - (Sprite)
+    .SprRecoilTimer: skip $10
+        ; A timer that counts down while a sprite is recoiling. If the top bit is
+        ; set or if 0 then the recoiling will stop.
+        ; httt tttt
+        ; h - Halt the recoiling
+        ; t - The amount of frames to recoil
 
-        ; Definitely closely tied to the process of a sprite taking damage. Seems
-        ; to perhaps serve as a palette cycling index, or something like a state\
-        ; variable. When this value is positive
-        ; 0x80 - Signal that the recoil process has finished and will terminate
-        ; during this frame.
-
-    ; $0EB0[0x10] - (Sprite) ; functions
-
+    ; $0EB0[0x10] - (Sprite)
+    .SprHeadDir: skip $10
         ; For sprites that are intuitively considered to have a head, this indicates
         ; the direction that the head is facing. It would seem that every humanoid
         ; sprite encountered so far uses this variable for that purpose, but I
         ; cannot guarantee that some sprites may use it for a different purpose.
+        ; TODO: Find other uses.
         ; 0x00 - up
         ; 0x01 - down
         ; 0x02 - left
-        ; 0x03 - right?
+        ; 0x03 - right
 
     ; $0EC0[0x10] - (Sprite)
-
-        ; Animation clock?
+    .SprMiscF: skip $10
+        ; A misc variable used by sprites. Some uses include:
+        ; Walking Zora - Used as a flag to indicate when to draw a shadow or not.
+        ; Ganon - Used as a misc flag.
+        ; Helmasaur King - Something to do with the tail.
 
     ; $0ED0[0x10] - (Sprite)
-
-        ; ???? (Used with sprite 0xBE)
-        ; Giant Moldorm uses it too...
-        ; Lanmolas use it too
+    .SprMiscG: skip $10
+        ; A misc variable used by sprites. Some uses include:
+        ; Lanmolas - Used to switch directions when bobbing up and down.
+        ; Vitreous - Used as a counter to see how many small eyeballs are left.
+        ; Desert Barrier - Used as a timer to time how long they should move.
+        ; Ganon - Used as a misc timer.
 
     ; $0EE0[0x10] - (Sprite)
-    
-        ; Auxiliary delay timer 3
+    .SprTimerD: skip $10
+        ; An auxiliary Timer for sprites. Usually used to time intervals 
+        ; between state transitions, also for certain time sensitive events but
+        ; can be used for anything. The timer is auto decremented by the sprite
+        ; engine.
 
     ; $0EF0[0x10] - (Sprite)
+    .SprDeathTimer: skip $10
+        ; The amount of time that a sprite will have the flicker effect after
+        ; taking damage or run the death animation. This needs to be set for
+        ; sprite to actually take damage or have other effect applied. TODO: The 
+        ; first b bit may also have another effect. Seems to delay when the sprite
+        ; starts flickering.
+        ; abbb bbbb
+        ; a - Start death timer
+        ; b - The time to flicker/take damage/do the death animation.
 
-        ; abbb bbbb:
-        ; a        ; - start death timer?
-        ; b*bb bbbb - death timer?       ; the amount of time that the sprite will have the flicker effect after taking damage.
-        ; ; needs to be set for sprite to actually take damage or have other effect applied.
-        ; ; the first bit * may also have another effect. seems to delay when the sprite starts flickering
     ; $0F00[0x10] - (Sprite)
-        ; Pause button for sprites apparently. If nonzero they don't do anything.
+    .SpritePause: skip $10
+        ; The pause button for most sprites. If nonzero they don't do anything.
+        ; See Sprite_CheckIfActive for more details. Can be used for other things
+        ; if Sprite_CheckIfActive isn't used in the sprite.
 
     ; $0F10[0x10] - (Sprite)
-        ; hhhh
-        ; Auxiliary delay timer 4 (may be more proprietary than the others)
+    .SprTimerE: skip $10
+        ; An auxiliary Timer for sprites. Usually used to time intervals 
+        ; between state transitions, also for certain time sensitive events but
+        ; can be used for anything. The timer is auto decremented by the sprite
+        ; engine.
 
     ; $0F20[0x10] - (Sprite)
-        ; Floor selector. Tells us which floor each sprite is on (in multilevel rooms)
+    .SprFloor: skip $10
+        ; Floor selector. Tells us which floor each sprite is on.
 
     ; $0F30[0x10] - (Sprite)
-        ; Seems to be the Y velocity of the sprite when recoiling from being hit.
+    .SprYRecoil: skip $10
+        ; The Y velocity of a sprite when recoiling after being hit.
 
     ; $0F40[0x10] - (Sprite)
-        ; Seems to be the X velocity of the sprite when recoiling from being hit.
+    .SprXRecoil: skip $10
+        ; The X velocity of a sprite when recoiling after being hit.
 
     ; $0F50[0x10] - (Sprite)
-        ; The layout of this variable is the same as the 4th byte of each OAM entry.
-        ; That is,
-        ; vhoopppN
-        ; v - vflip
-        ; h - hflip
-        ; o - priority
+    .SprPal: skip $10
+        ; The layout of this variable is the same as the last half of the 4th
+        ; byte of each OAM entry. This has an initial value stored to it and is
+        ; then later used to change the palette of sprites on demand.
+        ; .... pppc
         ; p - palette
-        ; N - name table
-        ; The 'N' bit operates as the the top bit of the CHR index in our case,
-        ; because the game has the two name tables placed consecutively in VRAM.
+        ; c - character table index. TODO: Check if this bit is ever actually
+        ;     used in this var.
 
     ; $0F60[0x10] - (Sprite)
         ; isphhhhh

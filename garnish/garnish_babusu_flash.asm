@@ -27,9 +27,7 @@ Garnish_BabusuFlash:
     PHX
     
     TAX
-    
     LDA.w Pool_Garnish_BabusuFlash_chr, X : INY : STA.b ($90), Y
-    
     LDA.w Pool_Garnish_BabusuFlash_properties, X
     
     PLX

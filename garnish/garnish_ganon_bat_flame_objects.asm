@@ -38,17 +38,22 @@ Garnish_GanonBatFlameout:
     REP #$10
     
     LDY.b $90
-    
     LDA.b $00         : STA.w $0000, Y
     CLC : ADC.b #$08  : STA.w $0004, Y
-    LDA.b $02         : STA.w $0001, Y : STA.w $0005, Y
+
+    LDA.b $02         : STA.w $0001, Y
+                        STA.w $0005, Y
+
     LDA.b #$A4        : STA.w $0002, Y
-    INC             : STA.w $0006, Y
-    LDA.b #$22        : STA.w $0003, Y : STA.w $0007, Y 
+    INC               : STA.w $0006, Y
+
+    LDA.b #$22        : STA.w $0003, Y
+                        STA.w $0007, Y 
     
     LDY.b $92
     
-    LDA.b #$00 : STA.w $0000, Y : STA.w $0001, Y
+    LDA.b #$00 : STA.w $0000, Y
+                 STA.w $0001, Y
     
     SEP #$10
     
@@ -71,10 +76,9 @@ Garnish_GanonBatFlame:
     LDA.b $00       : STA.b ($90), Y
     LDA.b $02 : INY : STA.b ($90), Y
     
-    LDA.l $7FF90E, X : LSR #3 : PHX : TAX
-    
+    LDA.l $7FF90E, X : LSR #3 : PHX
+                                TAX
     LDA.w Pool_Garnish_GanonBatFlame_chr_indices, X : TAX
-    
     LDA.w Pool_Garnish_GanonBatFlame_chr, X : INY : STA.b ($90), Y
     
     LDA.b #$22 : ORA Pool_Garnish_GanonBatFlame_properties, X

@@ -2778,7 +2778,6 @@ Overworld_SecretTileType:
 
 ; ==============================================================================
 
-; ZS modifies this function.
 ; Routine is used for checking if there's secrets underneath a newly
 ; exposed map16 tile.
 ; $0DC8A4-$0DC942 LOCAL JUMP LOCATION
@@ -2789,10 +2788,7 @@ Overworld_RevealSecret:
     LDA.w $0B9C : AND.w #$FF00 : STA.w $0B9C
     
     ; Special areas don't have secrets.
-    LDA.b $8A : CMP.w #$0080
-    
-    ; ZScream: ZS NOPs out this branch.
-    BCS .isSW
+    LDA.b $8A : CMP.w #$0080 : BCS .isSW
         ; Get pointer to secrets data for this area.
         ASL : TAX
         LDA.l OverworldData_HiddenItems, X : STA.b $00

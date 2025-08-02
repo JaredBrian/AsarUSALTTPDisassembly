@@ -803,7 +803,7 @@ Guard_InPursuit:
     LDA.w $0DF0, X : BNE .delay
         LDY.w $0DE0, X
         
-        LDA JavelinTrooper_Attack_scan_anbles, X : STA.w $0EC0, X
+        LDA.w JavelinTrooper_Attack_scan_anbles, X : STA.w $0EC0, X
         
         BRL Guard_StopAndLookAround
 }
@@ -827,7 +827,8 @@ Guard_InPursuit_delay:
 {
     TYA : EOR.b $1A1A : AND.b #$1F : BNE .alpha
         LDA.w $0ED0, X : BNE .beta
-            LDA.b #$04 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$04
+            JSL.l Sound_SetSfx3PanLong
             
             INC.w $0ED0, X
         
@@ -886,7 +887,9 @@ Probe_SetDirectionTowardsPlayer:
     
     LDA.w $0E70, X : BEQ .no_tile_collision
         AND.b #$03 : BEQ .no_horiz_collision
-            JSR.w Sprite2_IsBelowPlayer : INY : INY : BRA .moving_on
+            JSR.w Sprite2_IsBelowPlayer : INY : INY
+            
+            BRA .moving_on
         
         .no_horiz_collision
         
@@ -963,7 +966,6 @@ Sprite_SpawnProbeStaggered:
     ; Is there some point to this store that I'm not seeing? It's
     ; overwritten later before even being used.
     TXA : CLC : ADC.b $1A1A : STA.b $0F
-    
     AND.b #$03 : ORA.w $0F00, X : BNE Sprite_SpawnProbeAlways_spawn_failed
         LDA.w $0EC0, X
         INC.w $0EC0, X
@@ -1894,7 +1896,6 @@ ArcherAndJavelinGuardMain:
     
     LDA.w $0EA0, X : BEQ .not_recoiling
     CMP.b #$04     : BCC .not_recoiling
-    
         JSR.w JavelinTrooper_NoticedPlayer_no_delay
     
     .not_recoiling
@@ -2176,7 +2177,7 @@ Guard_GlanceTimers:
 JavelinTrooper_Attack:
 {
     LDY.w $0DE0, X
-    LDA Guard_GlanceTimers, Y : STA.w $0EC0, X
+    LDA.w Guard_GlanceTimers, Y : STA.w $0EC0, X
     
     JSR.w Sprite2_ZeroVelocity
     

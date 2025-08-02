@@ -21,7 +21,9 @@ ZoraFireball_SpawnTailGarnish:
     
     .empty_slot
     
-    LDA.b #$08 : STA.l $7FF800, X : STA.w $0FB4
+    LDA.b #$08 : STA.l $7FF800, X
+                 STA.w $0FB4
+
     LDA.b #$0B : STA.l $7FF90E, X
     
     LDA.w $0FD8 : STA.l $7FF83C, X
@@ -127,7 +129,8 @@ Garnish_ExecuteSingle:
         .ignore_submodule
         
         LDA.l $7FF90E, X : BEQ .dont_self_terminate
-            DEC : STA.l $7FF90E, X : BNE .dont_self_terminate
+            DEC : STA.l $7FF90E, X
+            BNE .dont_self_terminate
                 STA.l $7FF800, X
                 
                 BRA .return
@@ -137,34 +140,32 @@ Garnish_ExecuteSingle:
         LDY.w $0FB3 : BEQ .dont_sort_sprites
             LDA.l $7FF968, X : BEQ .on_bg2
                 LDA.l $7FF800, X : TAY
-                
-                LDA.w .OAM_allocation-1, Y : JSL.l OAM_AllocateFromRegionF
+                LDA.w .OAM_allocation-1, Y
+                JSL.l OAM_AllocateFromRegionF
                 
                 BRA .execute_handler
             
             .on_bg2
             
             LDA.l $7FF800, X : TAY
-            
-            LDA.w .OAM_allocation-1, Y : JSL.l OAM_AllocateFromRegionD
+            LDA.w .OAM_allocation-1, Y
+            JSL.l OAM_AllocateFromRegionD
             
             BRA .execute_handler
         
         .dont_sort_sprites
         
         LDA.l $7FF800, X : TAY
-        
-        LDA.w .OAM_allocation-1, Y : JSL.l OAM_AllocateFromRegionA
+        LDA.w .OAM_allocation-1, Y
+        JSL.l OAM_AllocateFromRegionA
         
         .execute_handler
         
         LDA.l $7FF800, X : DEC
         
         REP #$30
-        
+    
         AND.w #$00FF : ASL : TAY
-        
-        ; These sneaky hidden jump tables, I swear...
         LDA.w .handlers, Y : DEC : PHA
         
         SEP #$30
@@ -182,23 +183,25 @@ Garnish_ExecuteSingle:
     dw Garnish_SimpleSparkle       ; 0x05 - $B526
     dw Garnish_ZoroDander          ; 0x06 - $B4FB
     dw Garnish_BabusuFlash         ; 0x07 - $B49E
-    
     dw Garnish_Nebule              ; 0x08 - $B4C6
     dw Garnish_LightningTrail      ; 0x09 - $B429
     dw Garnish_CannonPoof          ; 0x0A - $B3EE
-    dw Garnish_WaterTrail          ; 0x0B - $B3C2 Pirogusu trail? (water trails from them?).
+    dw Garnish_WaterTrail          ; 0x0B - $B3C2 Pirogusu trail? (water trails
+                                   ;        from them?).
     dw Garnish_TrinexxIce          ; 0x0C - $B34F
-    dw $0000                       ; 0x0D - $0000 Clearly this is an invalid pointer, so it shouldn't be used.
+    dw $0000                       ; 0x0D - $0000 Clearly this is an invalid
+                                   ;        pointer, so it shouldn't be used.
     dw Garnish_TrinexxLavaBubble   ; 0x0E - $B55D
     dw Garnish_BlindLaserTrail     ; 0x0F - $B591
-    
     dw Garnish_GanonBatFlame       ; 0x10 - $B306
     dw Garnish_GanonBatFlameout    ; 0x11 - $B2B2
-    dw Garnish_Sparkle             ; 0x12 - $B520 Sparkle that animates based on its autotimer.
+    dw Garnish_Sparkle             ; 0x12 - $B520 Sparkle that animates based on
+                                   ;        its autotimer.
     dw Garnish_PyramidDebris       ; 0x13 - $B216
     dw Garnish_RunningManDashDust  ; 0x14 - $B3BC
     dw Garnish_ArrghusSplash       ; 0x15 - $B178
-    dw Garnish_ScatterDebris       ; 0x16 - $F0CB Pot, bush, sign, or rock shattering after being broken up.
+    dw Garnish_ScatterDebris       ; 0x16 - $F0CB Pot, bush, sign, or rock
+                                   ;        shattering after being broken up.
 }
 
 ; ==============================================================================
@@ -217,7 +220,6 @@ Garnish_Move_XY:
     PHX
     
     TXA : CLC : ADC.b #$1E : TAX
-    
     JSR.w Garnish_MoveVert
     
     PLX

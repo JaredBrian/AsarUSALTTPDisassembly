@@ -1189,7 +1189,6 @@ Credits_OperateScrollingAndTilemap:
     RTL
 }
 
-; ZS Updates a reference in this function.
 ; $0106C0-$0106FC LONG JUMP LOCATION
 Credits_LoadCoolBackground:
 {
@@ -1210,9 +1209,6 @@ Credits_LoadCoolBackground:
 
     ; Sets an index for setting $0AB8.
     LDA.b #$13 : STA.b $00
-
-    ; ZScream: ZS updates this reference.
-    ; $0106DB
     LDA.l OverworldPalettesScreenToSet, X
 
     ; Loads several palettes based on the X = 0x5B above.
@@ -6843,6 +6839,9 @@ OverworldHandleTransitions:
 
     ; Check if Link is moving right/left.
     LDA.b $31 : AND.w #$00FF : BEQ .noDeltaX
+        ; ZSCREAM: ZS writes here.
+        ; Add an offset to the X position.
+        ; $0129FF
         LDA.w $0716 : CLC : ADC.w #$0004 : STA.b $02
 
         LDA.b $67 : AND.w #$0003 : STA.b $00
@@ -8001,7 +8000,6 @@ Overworld_FadeBackInFromMosaic:
     dw OverworldMosaicTransition_RecoverSongAndSetMoving    ; 0x02 - $B105
 }
 
-; ZS updates a reference in this function.
 ; $0130F3-$013104 LOCAL JUMP LOCATION
 OverworldMosaicTransition_RecoverDestinationPalettes:
 {
@@ -8413,15 +8411,14 @@ MirrorWarp_LoadSpritesAndColors:
 
     LDX.b $8A
     LDA.l $7EFD40, X : STA.b $00
-
-    ; ZScream: ZS starts writing here.
-    ; $013391
     LDA.l OverworldPalettesScreenToSet, X
     JSL.l Overworld_LoadPalettes
 
     JSL.l Overworld_SetScreenBGColorCacheOnly
     JSL.l Overworld_SetFixedColorAndScroll
 
+    ; ZSCREAM: ZS starts writing here.
+    ; $0133A1
     LDA.b $8A : CMP.b #$1B : BEQ .activateSubscreenBg0
         CMP.b #$5B : BNE .ignoreBg0
             .activateSubscreenBg0
@@ -8437,10 +8434,14 @@ MirrorWarp_LoadSpritesAndColors:
     LDA.w #$7FFF
 
     .setBgPalettesToWhite
+        STA.l $7EC540, X
+        STA.l $7EC560, X
+        STA.l $7EC580, X
 
-        STA.l $7EC540, X : STA.l $7EC560, X
-        STA.l $7EC580, X : STA.l $7EC5A0, X
-        STA.l $7EC5C0, X : STA.l $7EC5E0, X
+        STA.l $7EC5A0, X
+        STA.l $7EC5C0, X
+        STA.l $7EC5E0, X
+
     INX : INX : CPX.b #$20 : BNE .setBgPalettesToWhite
 
     ; Also set the background color to white
@@ -8633,7 +8634,6 @@ Whirlpool_ToSubmod2D:
     RTS
 }
 
-; ZS updates a reference in this function.
 ; $0134AE-$0134EE LOCAL JUMP LOCATION
 Whirlpool_LoadPalettes:
 {
@@ -8647,9 +8647,6 @@ Whirlpool_LoadPalettes:
 
     LDX.b $8A
     LDA.l $7EFD40, X : STA.b $00
-
-    ; ZScream: ZS updates this reference.
-    ; $0134CD
     LDA.l OverworldPalettesScreenToSet, X
     JSL.l Overworld_LoadPalettes
 
@@ -10403,11 +10400,7 @@ OverworldScrollTransition:
 
         .largeOwMap
 
-        LDA.w $0700 : CLC
-        
-        ; ZSCREAM: ZS updates this reference.
-        ; $014098
-        ADC.w OverworldMixedCoordsChange, Y : TAY
+        LDA.w $0700 : CLC : ADC.w OverworldMixedCoordsChange, Y : TAY
         JSR.w Overworld_SetCameraBounds
 
         PLX
@@ -14114,7 +14107,7 @@ LoadSpecialOverworld:
     RTS
 }
 
-; ZSCREAM: ZS modifies this function.
+; ZSCREAM: ZS interupts this function.
 ; Returns from a special area to a normal overworld area.
 ; $0169BC-$016AE4 LOCAL JUMP LOCATION
 LoadOverworldFromSpecialOverworld:
@@ -14173,9 +14166,6 @@ LoadOverworldFromSpecialOverworld:
     ; Set palettes and background color
     LDX.b $8A
     LDA.l $7EFD40, X : STA.b $00
-
-    ; ZScream: ZS updates this reference.
-    ; $016AAB
     LDA.l OverworldPalettesScreenToSet, X
     JSL.l Overworld_LoadPalettes
 
@@ -14485,7 +14475,6 @@ Whirlpool_LoadTargetAreaData:
 
 ; ==============================================================================
 
-; ZS updates a reference in this function.
 ; $016CDD-$016CF7 LONG JUMP LOCATION
 BirdTravel_LoadTargetAreaPalettes:
 {
@@ -14493,9 +14482,6 @@ BirdTravel_LoadTargetAreaPalettes:
 
     LDX.b $8A
     LDA.l $7EFD40, X : STA.b $00
-
-    ; ZScream: ZS updates this reference.
-    ; $016CE8
     LDA.l OverworldPalettesScreenToSet, X
     JSL.l Overworld_LoadPalettes
 
@@ -14675,7 +14661,6 @@ Overworld_HandleOverlaysAndBombDoors_bombable_door_location:
 
 ; ==============================================================================
 
-; ZS updates a reference in this function.
 ; $016EC5-$016F79 LOCAL JUMP LOCATION
 Overworld_LoadMapData:
 {
@@ -14788,9 +14773,6 @@ Overworld_LoadMapData:
         ; Designates locations to write opened bomb doors to. i.e. it contains
         ; the map16 coordinates for them.
         LDA.b $8A : ASL TAX
-
-        ; ZScream: ZS updates this reference.
-        ; $016F64
         LDA.l .bombable_door_location, X : TAX
 
         LDA.w #$0DB4 : STA.l $7E2000, X

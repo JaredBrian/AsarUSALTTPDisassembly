@@ -976,6 +976,7 @@ Ganon_AdvanceToPhase2:
         
     RTS
     
+    ; $0E92C0 ALTERNATE ENTRY POINT
     .wait
     
     AND.b #$01 : BEQ .exit
@@ -1328,7 +1329,6 @@ Ganon_SelectWarpLocation:
 Ganon_ShakeHead:
 {
     LSR #3 : TAY
-    
     LDA.w Ganon_HeadShakeStep, Y : STA.w $0EB0, X
     
     RTS

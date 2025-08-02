@@ -226,7 +226,7 @@ Sprite_BlindHead:
     JSR.w Sprite4_CheckIfActive
     
     LDA.w $0EA0, X : CMP.b #$0E : BNE .anospeed_up_recoil
-        ; Slightly speed up the recoil process? Seems hacky. HARDCODED
+        ; Slightly speed up the recoil process? Seems hacky.
         LDA.b #$08 : STA.w $0EA0, X
     
     .anospeed_up_recoil

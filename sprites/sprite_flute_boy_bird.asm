@@ -9,7 +9,6 @@ Sprite_FluteBoyBird:
     .not_blinking
     
     LDY.w $0DE0, X
-    
     LDA.w $0F50, X : AND.b #$BF : ORA.w FluteBoyAnimal_vh_flip, Y : STA.w $0F50, X
     
     REP #$20

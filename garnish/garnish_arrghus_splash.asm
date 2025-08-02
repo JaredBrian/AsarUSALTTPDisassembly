@@ -39,7 +39,6 @@ Garnish_ArrghusSplash:
     .next_OAM_entry
         
         LDA.b $06 : ORA.b $07 : TAX
-        
         LDA.b $00
         CLC : ADC Pool_Garnish_ArrghusSplash_y_offsets, X       : STA.b ($90), Y
 
@@ -50,9 +49,7 @@ Garnish_ArrghusSplash:
         LDA.w Pool_Garnish_ArrghusSplash_properties, X : INY : STA.b ($90), Y
         
         PHY
-        
         TYA : LSR : LSR : TAY
-        
         LDA.w Pool_Garnish_ArrghusSplash_OAM_sizes, X : STA.b ($92), Y
         
         PLY : INY

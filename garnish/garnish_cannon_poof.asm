@@ -21,8 +21,8 @@ Garnish_CannonPoof:
     LDA.b $00       : STA.b ($90), Y
     LDA.b $02 : INY : STA.b ($90), Y
     
-    LDA.l $7FF90E, X : LSR #3 : PHX : TAX
-    
+    LDA.l $7FF90E, X : LSR #3 : PHX
+                                TAX
     LDA.w Pool_Garnish_CannonPoof_chr, X : INY : STA.b ($90), Y
     
     PLX 
@@ -30,8 +30,9 @@ Garnish_CannonPoof:
     PHX
     
     LDA.l $7FF92C, X : TAX
+    LDA.w Pool_Garnish_CannonPoof_properties, X : ORA.b #$04
     
-    LDA.w Pool_Garnish_CannonPoof_properties, X : ORA.b #$04 : PLX
+    PLX
     
     JMP Garnish_SetOamPropsAndLargeSize
 }

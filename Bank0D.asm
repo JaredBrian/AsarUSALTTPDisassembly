@@ -5767,8 +5767,15 @@ SpriteData_Bump:
     db $00 ; .... $0 | 0xF2 - MEDALLION TABLET
 }
 
-; $0E60 - Misc settings
-; $0F50 (last 4 bits )- Byte 4 $90 properties (palette, priority, H and V flip).
+; $0E60 - Misc settings (only the top 4 bits)
+; $0F50 - Sprite OAM Byte 4 (only the last 4 bits)
+; nios pppc
+;   n - Custom death animation
+;   i - Impervious to attacks
+;   o - Shadow size (0: big | 1: small)
+;   s - Draw shadow (0: no shadow | 1: draw shadow)
+;   p - Sprite palette, copied to OAM
+;   c - Sprite character table, copied to OAM
 ; $06B359-$06B44B DATA
 SpriteData_OAMProp:
 {

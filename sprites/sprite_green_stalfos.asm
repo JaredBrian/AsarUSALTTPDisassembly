@@ -20,7 +20,6 @@ Pool_Sprite_GreenStalfos:
 Sprite_GreenStalfos:
 {
     LDY.w $0DE0, X
-    
     LDA.w $0F50, X : AND.b #$BF : ORA.w Pool_Sprite_GreenStalfos_vh_flip, Y : STA.w $0F50, X
     
     LDA.w Pool_Sprite_GreenStalfos_animation_states, Y : STA.w $0DC0, X

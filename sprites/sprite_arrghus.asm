@@ -622,7 +622,8 @@ Arrghus_Draw:
         
         ; TODO: Also verify this assessment that it controls shadow drawing.
         LDA.w $0F70, X : CMP.b #$A0 : BCS .dont_draw_shadow
-            LDA.w $0F50, X : PHA : AND.b #$FE : STA.w $0F50, X
+            LDA.w $0F50, X : PHA
+            AND.b #$FE : STA.w $0F50, X
             
             JSL.l Sprite_DrawLargeShadow
             
