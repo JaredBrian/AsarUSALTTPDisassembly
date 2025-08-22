@@ -1664,14 +1664,15 @@ Sprite_ActivateWhenProximal_Vertical:
 
 ; ==============================================================================
 
-; ZSCREAM: This table is moved to expanded space by ZS and this space is no
-; longer used.
+; ZSCREAM: This table was made obsolete by ZS and this space is used for other
+; ZS ASM functions.
+; These are map sizes. This is for controlling the boundaries used by sprites
+; to check if they should be loaded.
 ; NOTE: Area 0x0A and 0x0F are incorrect. This does not appear to break
 ; anything in game and changing them to the correct value of 0x02 does not
-; break anything either
+; break anything either.
 ; $04 = Large area
 ; $02 = Small area
-; These are map sizes.
 ; $04C635-$04C6F4 DATA
 OverworldScreenSizeForLoading:
 {

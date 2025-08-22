@@ -15923,6 +15923,8 @@ GFX0AA2ValsOW:
     db $42, $42, $30, $40, $40, $42, $42, $30
 }
 
+; ZSCREAM: UNUSED: This table is moved somewhere else by ZS and this 
+; space is currently unused.
 ; Overworld palette group data.
 ; $007D1C-$007DA3 DATA
 OverworldPalettesScreenToSet:

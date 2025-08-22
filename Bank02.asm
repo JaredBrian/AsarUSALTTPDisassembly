@@ -6728,20 +6728,24 @@ OverworldScreenTileMapChange:
     dw $2000, $2040, $1000, $1000, $1000, $2000, $2040, $1000
 }
 
+; ZSCREAM: This table is moved to somewhere else by ZS and this space is
+; used by other ZS ASM functions instead.
 ; $012834-$01283B DATA
 OverworldScreenIDChange:
 {
     dw $0002, $FFFE, $0010, $FFF0
 }
 
+; ZSCREAM: This table is moved to somewhere else by ZS and this space is
+; used by other ZS ASM functions instead.
 ; $01283C-$012843 DATA
 OverworldMixedCoordsChange:
 {
     dw $FFF0, $0010, $FFFE, $0002
 }
 
-; ZSCREAM: This table is moved to expanded space by ZS and this
-; space is no longer used.
+; ZSCREAM: This table is made obsolete by ZS and this space is now
+; used by other ZS ASM functions instead.
 ; $012844-$012883 DATA
 OverworldScreenSizeFlag:
 {
@@ -6757,8 +6761,8 @@ OverworldScreenSizeFlag:
     db $20, $20, $00, $00, $00, $20, $20, $00
 }
 
-; ZSCREAM: This table is moved to expanded space by ZS and this
-; space is no longer used.
+; ZSCREAM: This table is made obsolete by ZS and this space is now
+; used by other ZS ASM functions instead.
 ; $012884-0128C3 DATA
 OverworldScreenSizeHighByte:
 {
@@ -6774,8 +6778,8 @@ OverworldScreenSizeHighByte:
     db $03, $03, $01, $01, $01, $03, $03, $01
 }
 
-; ZSCREAM: This table is moved to expanded space by ZS and this
-; space is no longer used.
+; ZSCREAM: UNUSED: This table is moved to expanded space by ZS and this 
+; space is currently unused.
 ; $0128C4-$012943 DATA
 OverworldTransitionPositionY:
 {
@@ -6789,8 +6793,8 @@ OverworldTransitionPositionY:
     dw $0C00, $0C00, $0E00, $0E00, $0E00, $0C00, $0C00, $0E00
 }
 
-; ZSCREAM: This table is moved to expanded space by ZS and this
-; space is no longer used.
+; ZSCREAM: UNUSED: This table is moved to expanded space by ZS and this
+; space is currently unused.
 ; $012944-$0129C3
 OverworldTransitionPositionX:
 {
@@ -10253,7 +10257,7 @@ Pool_Overworld_SetCameraBounds:
     dw $0018, $00E8, $0008, $00E8
 
     ; ZSCREAM: This table is moved to expanded space by ZS and this
-    ; space is no longer used.
+    ; space currently unused.
     ; $013EE2
     .trans_target_north
     dw $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20
@@ -10266,7 +10270,7 @@ Pool_Overworld_SetCameraBounds:
     dw $0B20, $0B20, $0D20, $0D20, $0D20, $0B20, $0B20, $0D20
 
     ; ZSCREAM: This table is moved to expanded space by ZS and this
-    ; space is no longer used.
+    ; space currently unused.
     ; $013F62
     .trans_target_west
     dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0900, $0D00
@@ -14637,6 +14641,7 @@ PreOverworld_LoadAndAdvance:
     RTS
 }
 
+; ZScream: ZS Moves this table to $012644.
 ; $016DC5-$016EC4 DATA (Map16 locations of bombable doors)
 Overworld_HandleOverlaysAndBombDoors_bombable_door_location:
 {

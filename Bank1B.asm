@@ -1825,6 +1825,8 @@ Overworld_CreatePyramidHole:
 
 ; ==============================================================================
 
+; ZSCREAM: UNUSED: This table is moved somewhere else by ZS and this 
+; space is currently unused.
 ; $0DC2F9-$0DC3F8 DATA - Overworld secrets pointer table
 OverworldData_HiddenItems:
 {
@@ -2778,6 +2780,7 @@ Overworld_SecretTileType:
 
 ; ==============================================================================
 
+; ZScream: Updates a couple of references in this function.
 ; Routine is used for checking if there's secrets underneath a newly
 ; exposed map16 tile.
 ; $0DC8A4-$0DC942 LOCAL JUMP LOCATION
@@ -2791,9 +2794,12 @@ Overworld_RevealSecret:
     LDA.b $8A : CMP.w #$0080 : BCS .isSW
         ; Get pointer to secrets data for this area.
         ASL : TAX
+
+        ; ZScream: This reference is updated by ZS.
         LDA.l OverworldData_HiddenItems, X : STA.b $00
         
         ; Set source bank for data.
+        ; ZScream: This reference is updated by ZS.
         LDA.w #OverworldData_HiddenItems>>16 : STA.b $02
         
         LDY.w #$FFFD
