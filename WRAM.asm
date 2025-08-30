@@ -8421,6 +8421,7 @@ struct WRAM $7E0000
 
     ; $7EFDC0 - 
         ;  Free RAM?
+        ; ZScream: ZS uses this as an extension of $7EFD40.
 
     ; $7EFE00[0x200] - CHR to Tile Attribute table. Each byte tells the game how Link interacts with the each CHR type.
         ; After the tilemaps are created from loading objects,

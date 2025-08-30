@@ -2767,6 +2767,9 @@ HitStars_UpdateOamBufferPosition:
 ; ==============================================================================
 
 ; ZSCREAM: ZS modifies part of this function.
+; This function returns carry set if the hookshot is off screen when used.
+; It's only use is to prevent the hookshot from interacting with anything
+; that is offscreen.
 ; $047A2D-$047ADC LOCAL JUMP LOCATION
 Hookshot_IsCollisionCheckFutile:
 {

@@ -2139,70 +2139,70 @@ Overworld_SpritePointers:
    
    ; $04CA21
    .state_2
-    dw Overworld_Sprites_Screen00_2 ; 0x00 - $ Lost Woods
+    dw Overworld_Sprites_Screen00_2 ; 0x00 - $D2B8 Lost Woods
     dw Overworld_Sprites_EMPTY      ; 0x01 - $CB41 Lost Woods
-    dw Overworld_Sprites_Screen02_2 ; 0x02 - $ Lumberjacks
-    dw Overworld_Sprites_Screen03_2 ; 0x03 - $ West Death Mountain
+    dw Overworld_Sprites_Screen02_2 ; 0x02 - $D2E3 Lumberjacks
+    dw Overworld_Sprites_Screen03_2 ; 0x03 - $D2E7 West Death Mountain
     dw Overworld_Sprites_EMPTY      ; 0x04 - $CB41 West Death Mountain
-    dw Overworld_Sprites_Screen05_2 ; 0x05 - $ East Death Mountain
+    dw Overworld_Sprites_Screen05_2 ; 0x05 - $D315 East Death Mountain
     dw Overworld_Sprites_EMPTY      ; 0x06 - $CB41 East Death Mountain
-    dw Overworld_Sprites_Screen07_2 ; 0x07 - $ Turtle Rock Portalway
+    dw Overworld_Sprites_Screen07_2 ; 0x07 - $D343 Turtle Rock Portalway
     dw Overworld_Sprites_EMPTY      ; 0x08 - $CB41 Lost Woods
     dw Overworld_Sprites_EMPTY      ; 0x09 - $CB41 Lost Woods
-    dw Overworld_Sprites_Screen0A_2 ; 0x0A - $ Death Mountain Foot
+    dw Overworld_Sprites_Screen0A_2 ; 0x0A - $D353 Death Mountain Foot
     dw Overworld_Sprites_EMPTY      ; 0x0B - $CB41 West Death Mountain
     dw Overworld_Sprites_EMPTY      ; 0x0C - $CB41 West Death Mountain
     dw Overworld_Sprites_EMPTY      ; 0x0D - $CB41 East Death Mountain
     dw Overworld_Sprites_EMPTY      ; 0x0E - $CB41 East Death Mountain
-    dw Overworld_Sprites_Screen0F_2 ; 0x0F - $ Waterfall of Wishing
-    dw Overworld_Sprites_Screen10_2 ; 0x10 - $ Lost Woods Alcove
-    dw Overworld_Sprites_Screen11_2 ; 0x11 - $ North of Kakariko
-    dw Overworld_Sprites_Screen12_2 ; 0x12 - $ Northwest Pond
-    dw Overworld_Sprites_Screen13_2 ; 0x13 - $ Sanctuary
-    dw Overworld_Sprites_Screen14_2 ; 0x14 - $ Graveyard
-    dw Overworld_Sprites_Screen15_2 ; 0x15 - $ Hylia River Bend
-    dw Overworld_Sprites_Screen16_2 ; 0x16 - $ Potion Shop
-    dw Overworld_Sprites_Screen17_2 ; 0x17 - $ Octorok Pit
-    dw Overworld_Sprites_Screen18_2 ; 0x18 - $ Kakariko Village
+    dw Overworld_Sprites_Screen0F_2 ; 0x0F - $D369 Waterfall of Wishing
+    dw Overworld_Sprites_Screen10_2 ; 0x10 - $D37F Lost Woods Alcove
+    dw Overworld_Sprites_Screen11_2 ; 0x11 - $D38F North of Kakariko
+    dw Overworld_Sprites_Screen12_2 ; 0x12 - $D39C Northwest Pond
+    dw Overworld_Sprites_Screen13_2 ; 0x13 - $D3A9 Sanctuary
+    dw Overworld_Sprites_Screen14_2 ; 0x14 - $D3B6 Graveyard
+    dw Overworld_Sprites_Screen15_2 ; 0x15 - $D3C9 Hylia River Bend
+    dw Overworld_Sprites_Screen16_2 ; 0x16 - $D3D9 Potion Shop
+    dw Overworld_Sprites_Screen17_2 ; 0x17 - $D3E3 Octorok Pit
+    dw Overworld_Sprites_Screen18_2 ; 0x18 - $D3F3 Kakariko Village
     dw Overworld_Sprites_EMPTY      ; 0x19 - $CB41 Kakariko Village
-    dw Overworld_Sprites_Screen1A_2 ; 0x1A - $ Kakariko Orchard
-    dw Overworld_Sprites_Screen1B_2 ; 0x1B - $ Hyrule Castle
+    dw Overworld_Sprites_Screen1A_2 ; 0x1A - $D418 Kakariko Orchard
+    dw Overworld_Sprites_Screen1B_2 ; 0x1B - $D428 Hyrule Castle
     dw Overworld_Sprites_EMPTY      ; 0x1C - $CB41 Hyrule Castle
-    dw Overworld_Sprites_Screen1D_2 ; 0x1D - $ Hylia River Peninsula
-    dw Overworld_Sprites_Screen1E_2 ; 0x1E - $ Eastern Ruins
+    dw Overworld_Sprites_Screen1D_2 ; 0x1D - $D447 Hylia River Peninsula
+    dw Overworld_Sprites_Screen1E_2 ; 0x1E - $D454 Eastern Ruins
     dw Overworld_Sprites_EMPTY      ; 0x1F - $CB41 Eastern Ruins
     dw Overworld_Sprites_EMPTY      ; 0x20 - $CB41 Kakariko Village
     dw Overworld_Sprites_EMPTY      ; 0x21 - $CB41 Kakariko Village
-    dw Overworld_Sprites_Screen22_2 ; 0x22 - $ Smith's House
+    dw Overworld_Sprites_Screen22_2 ; 0x22 - $D491 Smith's House
     dw Overworld_Sprites_EMPTY      ; 0x23 - $CB41 Hyrule Castle
     dw Overworld_Sprites_EMPTY      ; 0x24 - $CB41 Hyrule Castle
-    dw Overworld_Sprites_Screen25_2 ; 0x25 - $ Boulder Field
+    dw Overworld_Sprites_Screen25_2 ; 0x25 - $D49B Boulder Field
     dw Overworld_Sprites_EMPTY      ; 0x26 - $CB41 Eastern Ruins
     dw Overworld_Sprites_EMPTY      ; 0x27 - $CB41 Eastern Ruins
-    dw Overworld_Sprites_Screen28_2 ; 0x28 - $ Racing Game
-    dw Overworld_Sprites_Screen29_2 ; 0x29 - $ South of Kakariko
-    dw Overworld_Sprites_Screen2A_2 ; 0x2A - $ Haunted Grove
-    dw Overworld_Sprites_Screen2B_2 ; 0x2B - $ West of Link's House
-    dw Overworld_Sprites_Screen2C_2 ; 0x2C - $ Link's House
-    dw Overworld_Sprites_Screen2D_2 ; 0x2D - $ Eastern Bridge
-    dw Overworld_Sprites_Screen2E_2 ; 0x2E - $ Lake Hylia River Bend
-    dw Overworld_Sprites_Screen2F_2 ; 0x2F - $ Eastern Portalway
-    dw Overworld_Sprites_Screen30_2 ; 0x30 - $ Desert
+    dw Overworld_Sprites_Screen28_2 ; 0x28 - $D4A8 Racing Game
+    dw Overworld_Sprites_Screen29_2 ; 0x29 - D4B8 South of Kakariko
+    dw Overworld_Sprites_Screen2A_2 ; 0x2A - $D4C2 Haunted Grove
+    dw Overworld_Sprites_Screen2B_2 ; 0x2B - $D4DE West of Link's House
+    dw Overworld_Sprites_Screen2C_2 ; 0x2C - $D4EE Link's House
+    dw Overworld_Sprites_Screen2D_2 ; 0x2D - $D4F5 Eastern Bridge
+    dw Overworld_Sprites_Screen2E_2 ; 0x2E - $D502 Lake Hylia River Bend
+    dw Overworld_Sprites_Screen2F_2 ; 0x2F - $D515 Eastern Portalway
+    dw Overworld_Sprites_Screen30_2 ; 0x30 - $D51F Desert
     dw Overworld_Sprites_EMPTY      ; 0x31 - $CB41 Desert
-    dw Overworld_Sprites_Screen32_2 ; 0x32 - $ Haunted Grove Entrance
-    dw Overworld_Sprites_Screen33_2 ; 0x33 - $ Marshlands Portalway
-    dw Overworld_Sprites_Screen34_2 ; 0x34 - $ Marshlands Totems
-    dw Overworld_Sprites_Screen35_2 ; 0x35 - $ Lake Hylia
-    dw Overworld_Sprites_Screen37_2 ; 0x36 - $ Lake Hylia
-    dw Overworld_Sprites_Screen37_2 ; 0x37 - $ Lake Hylia River End
-    dw Overworld_Sprites_Screen3A_2 ; 0x38 - $ Desert
-    dw Overworld_Sprites_Screen3A_2 ; 0x39 - $ Desert
-    dw Overworld_Sprites_Screen3A_2 ; 0x3A - $ Desert Pass
-    dw Overworld_Sprites_Screen3B_2 ; 0x3B - $ Marshlands Dam Entrance
-    dw Overworld_Sprites_Screen3C_2 ; 0x3C - $ Marshlands Ravine
-    dw Overworld_Sprites_Screen3F_2 ; 0x3D - $ Lake Hylia
-    dw Overworld_Sprites_Screen3F_2 ; 0x3E - $ Lake Hylia
-    dw Overworld_Sprites_Screen3F_2 ; 0x3F - $ Lake Hylia Waterfall
+    dw Overworld_Sprites_Screen32_2 ; 0x32 - $D55C Haunted Grove Entrance
+    dw Overworld_Sprites_Screen33_2 ; 0x33 - $D56F Marshlands Portalway
+    dw Overworld_Sprites_Screen34_2 ; 0x34 - $D57F Marshlands Totems
+    dw Overworld_Sprites_Screen35_2 ; 0x35 - $D58F Lake Hylia
+    dw Overworld_Sprites_Screen37_2 ; 0x36 - $D5D5 Lake Hylia
+    dw Overworld_Sprites_Screen37_2 ; 0x37 - $D5D5 Lake Hylia River End
+    dw Overworld_Sprites_Screen3A_2 ; 0x38 - $D5E5 Desert
+    dw Overworld_Sprites_Screen3A_2 ; 0x39 - $D5E5 Desert
+    dw Overworld_Sprites_Screen3A_2 ; 0x3A - $D5E5 Desert Pass
+    dw Overworld_Sprites_Screen3B_2 ; 0x3B - $D5FE Marshlands Dam Entrance
+    dw Overworld_Sprites_Screen3C_2 ; 0x3C - $D611 Marshlands Ravine
+    dw Overworld_Sprites_Screen3F_2 ; 0x3D - $D621 Lake Hylia
+    dw Overworld_Sprites_Screen3F_2 ; 0x3E - $D621 Lake Hylia
+    dw Overworld_Sprites_Screen3F_2 ; 0x3F - $D621 Lake Hylia Waterfall
     dw Overworld_Sprites_Screen40   ; 0x40 - $CB7A Skull Woods
     dw Overworld_Sprites_Screen42   ; 0x41 - $CBB7 Skull Woods
     dw Overworld_Sprites_Screen42   ; 0x42 - $CBB7 Dark Lumberjacks

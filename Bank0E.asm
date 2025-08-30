@@ -11648,6 +11648,7 @@ Overworld_DwDeathMountainPaletteAnimation:
 
 ; ==============================================================================
 
+; ZScream: ZS overwrites most of this function.
 ; $077652-$077663 LONG JUMP LOCATION
 Overworld_LoadEventOverlay:
 {
@@ -11672,6 +11673,8 @@ Overworld_LoadEventOverlay:
 
 ; ==============================================================================
 
+; ZScream: This table is shifted down a few bytes to $077677 to make room for
+; some extra needed code for Overworld_LoadEventOverlay.
 ; Overlay pointers (for use with the 0x20 overlays on OW).
 ; $077664-$077763 JUMP TABLE
 Overworld_EventOverlayTable:
@@ -11872,9 +11875,9 @@ OverworldOverlay_BonkRocks:
 OverworldOverlay_DrawRevealedStairs:
 {
     LDA.w #$0918 : STA.w $2000, X
-    INC        : STA.w $2002, X
-    INC        : STA.w $2080, X
-    INC        : STA.w $2082, X
+    INC          : STA.w $2002, X
+    INC          : STA.w $2080, X
+    INC          : STA.w $2082, X
     
     RTS
 }
