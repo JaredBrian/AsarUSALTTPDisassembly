@@ -7832,7 +7832,8 @@ Overworld_ReloadSubscreenOverlay:
         ; Check to see if we are in the skull woods.
         LDA.b $8A : AND.w #$0040 : BNE .skullWoods
             ; Check if we have the master sword.
-            LDX.w #$0080 : LDA.l $7EF280, X
+            LDX.w #$0080
+            LDA.l $7EF280, X
 
             ; The forest canopy overlay.
             LDX.w #$009E
@@ -13764,7 +13765,7 @@ Overworld_LoadExitData:
     ; Bleeds into the next function.
 }
 
-; ZSCREAM: ZS interupts this function.
+; ZSCREAM: ZS Interrupts this function.
 ; $01658B-$0165D3 JUMP LOCATION
 Overworld_LoadNewScreenProperties:
 {
@@ -14111,7 +14112,7 @@ LoadSpecialOverworld:
     RTS
 }
 
-; ZSCREAM: ZS interupts this function.
+; ZSCREAM: ZS Interrupts this function.
 ; Returns from a special area to a normal overworld area.
 ; $0169BC-$016AE4 LOCAL JUMP LOCATION
 LoadOverworldFromSpecialOverworld:
@@ -14666,6 +14667,7 @@ Overworld_HandleOverlaysAndBombDoors_bombable_door_location:
 
 ; ==============================================================================
 
+; ZScream: Removes a check in this function.
 ; $016EC5-$016F79 LOCAL JUMP LOCATION
 Overworld_LoadMapData:
 {
@@ -14758,7 +14760,8 @@ Overworld_LoadMapData:
 
     SEP #$30
 
-    LDX.b $8A : CPX.b #$80 : BCS .dontDrawOverlay
+    ; ZScream: ZS removes this check so that overlays can be used on the SW.
+    LDX.b $8A : CPX.b #$80 : BCS .dontDrawOverlay ; ASDF
         ; If some flag has already been triggered, do something appropriate,
         ; such as changing tiles to reflect this.
         LDA.l $7EF280, X : AND.b #$20 : BEQ .dontDrawOverlay

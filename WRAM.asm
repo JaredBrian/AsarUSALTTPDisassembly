@@ -2727,7 +2727,7 @@ struct WRAM $7E0000
 
     ; $02F9[0x01] - (Tagalong)
     .TagalongDraw: skip $01
-        ; When set, prevents follower from drawing and forces a game mode check.
+        ; When set, prevents a tagalong from drawing and forces a game mode check.
 
     ; $02FA[0x01] - (Player, Statue)
     .PlayerDrag: skip $01
