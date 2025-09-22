@@ -10016,7 +10016,6 @@ OverworldCameraBoundaryCheck:
 {
     ; Compare X or Y scroll coordinate to the current position coordinate:
     LDA.b $E2, X : CMP.w $0600, Y : BNE .BRANCH_ALPHA
-        
         ; OPTIMIZE: Clears out both $0624 and $0626 (this is a silly trick,
         ; they could have just done STZ.w $0624 : STZ.w $0626).
         TYA : EOR.w #$0002 : TAX

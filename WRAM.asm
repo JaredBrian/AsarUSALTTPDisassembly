@@ -4679,23 +4679,15 @@ struct WRAM $7E0000
     ; "The higher boundary should always be +2 from the lower in underworld
     ; and -2 in overworld."
 
-    ; Ending Sequence Variables:
-
     ; $0620[0x02] - (Dungeon, Overworld, Camera)
     .OverlaySubPixelX: skip $02
-        ; According to Kan "[This] behaves as a subpixel for background 1 overlay
-        ; scroll on overworld". However, after looking at its use this doesn't to
-        ; ever actually be read in a meaningful way. It is read so that values
-        ; can be added to it but then is never compared or stored to any other
-        ; value. TODO: Confirm that this is never actually meaningfully used.
+        ; The subscreen overlay sub-pixel X position. Used to scroll overlays
+        ; such as the fog on the overworld. TODO: Is used in dungeons too?
 
     ; $0622[0x02] - (Dungeon, Overworld, Camera)
     .OverlaySubPixelY: skip $02
-        ; According to Kan "[This] behaves as a subpixel for background 1 overlay
-        ; scroll on overworld". However, after looking at its use this doesn't to
-        ; ever actually be read in a meaningful way. It is read so that values
-        ; can be added to it but then is never compared or stored to any other
-        ; value. TODO: Confirm that this is never actually meaningfully used.
+        ; The subscreen overlay sub-pixel Y position. Used to scroll overlays
+        ; such as the fog on the overworld. TODO: Is used in dungeons too?
 
     ; $0624[0x02] - (Overworld, Camrea, Credits)
     .OWCamOffsetY: skip $02
