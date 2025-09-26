@@ -86,7 +86,7 @@ SpriteActive3_Table:
     dw Sprite_GuruguruBar      ; 0x7F - $D01A Swinging Fireball Chains
     dw Sprite_Winder           ; 0x80 - $D1D1 Winder (wandering fireball chain0
     dw Sprite_Hover            ; 0x81 - $CC02 Hover
-    dw Sprite_BubbleGroup      ; 0x82 - $CB97 Swirling Fire Fairys
+    dw Sprite_AntiFairyGroup   ; 0x82 - $CB97 Swirling Fire Fairys
     dw Sprite_Eyegore          ; 0x83 - $C79B Green Eyegore
     dw Sprite_Eyegore          ; 0x84 - $C79B Red Eyegore
     dw Sprite_YellowStalfos    ; 0x85 - $C37F Yellow Stalfos
@@ -265,7 +265,7 @@ incsrc "sprite_yellow_stalfos.asm"
 incsrc "sprite_eyegore_and_goriya.asm"
 
 ; $0F4AF4-$0F4C01
-incsrc "sprite_bubble_group.asm"
+incsrc "sprite_antifairygroup.asm"
 
 ; $0F4C02-$0F4CD2
 incsrc "sprite_hover.asm"

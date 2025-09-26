@@ -1138,7 +1138,8 @@ struct WRAM $7E0000
 
     ; $BD[0x02] - (Dungeon, Overworld)
     .TileInteractionOff: 
-        ; (Bank 0x07) The address of the current tile interaction in the tile buffer ($7F2000). Rupee floor, warp tile, ledges, grass, etc.
+        ; (Bank 0x07) The address of the current tile interaction in the tile
+        ; buffer ($7F2000). Rupee floor, warp tile, ledges, grass, etc.
 
     ; $BD[0x01] - (Item)
     .SomariaPlatformPoofTemp:
@@ -2011,7 +2012,8 @@ struct WRAM $7E0000
         ; 0x0F - Save/Quit jingle
         ; 0x10 - Save/Quit jingle broken
         ; 0x11 - Prayer in the Desert (Sounds a bit like Sanctuary theme)
-        ; 0x12 - Alternate "Prayer in the desert", or maybe one part of the harmony.
+        ; 0x12 - Alternate "Prayer in the desert", or maybe one part of
+        ;        the harmony.
         ; 0x13 - Whoosh sound (bat ganon/ maybe agah?)
         ; 0x14 - Whoosh sound (bat ganon/ maybe agah?) broken
         ; 0x15 - Door to Triforce room opens
@@ -2043,11 +2045,11 @@ struct WRAM $7E0000
         ; 0x0F - ice rod being fired
         ; 0x10 - hammer being used?
         ; 0x11 - hammer pounding down stake
-        ; 0x12 - really familiar but can't place it exactly  ; Shovel digging noise
+        ; 0x12 - Shovel digging noise
         ; 0x13 - playing the flute
         ; 0x14 - the player picking something small up?
         ; 0x15 - Weird zapping noise   ; bunny link turning back into a bunny
-        ; 0x16 - The player walking up staircase 1        ;  
+        ; 0x16 - The player walking up staircase 1
         ; 0x17 - The player walking up staircase 2 (finishing on next floor)
         ; 0x18 - The player walking down staircase 1
         ; 0x19 - The player walking down staircase 2 (finishing on next floor)
@@ -2061,7 +2063,7 @@ struct WRAM $7E0000
         ; 0x21 - The player landing sound/ boss stepping sound
         ; 0x22 - loud thunderous noise
         ; 0x23 - pegasus boots slippy sound
-        ; 0x24 - The player making a splash in deep water (but having to come back out)
+        ; 0x24 - The player making a splash in deep water
         ; 0x25 - The player walking through swampy water
         ; 0x26 - The player taking damage
         ; 0x27 - The player passing out
@@ -2148,11 +2150,12 @@ struct WRAM $7E0000
         ; 0x31 - Moldorm's weird track like noise
         ; 0x32 - bouncing off a bungie
         ; 0x33 - short unknown jingle
-        ; 0x34 - Sounds like defunct version of sound 0x35 below. Seems to be unused.
-        ; 0x35 - Sound that plays in response to picking up a heart container during
-        ; a bo - ight.
+        ; 0x34 - Sounds like defunct version of sound 0x35 below. Seems to be
+        ;        unused.
+        ; 0x35 - Sound that plays in response to picking up a heart container
+        ;        during a boss fight.
         ; 0x36 - Sound of a beam being fired (Mothula, Wizzrobes, etc).
-        ; 0x37 - Neat sound... consider using as a confirmation (though make sure it's not buggy)
+        ; 0x37 - Neat sound... TODO: Unused?
         ; 0x38 - ...
         ; 0x39 - ...
         ; 0x3C - Obtained mid level item (e.g. bombs from a chest)
@@ -2226,8 +2229,8 @@ struct WRAM $7E0000
 
     ; $0202[0x02] - (Equipment, High Junk)
     .SelectedYItem: skip $02
-        ; The currently selected Y button item. The High byte is written to but unused.
-        ; TODO: Put in all of the valid items here.
+        ; The currently selected Y button item. The High byte is written to but
+        ; unused. TODO: Put in all of the valid items here.
 
     ; $0204[0x01] - (File, Equipment, Junk)
     .Junk_0204: skip $01
@@ -2920,8 +2923,8 @@ struct WRAM $7E0000
 
     ; $031F[0x01] - (Player, OAM)
     .IFrameTimer: skip $01
-        ; Countdown timer for invulnerability frames. Causes the player's sprite to
-        ; flash on and off.
+        ; Countdown timer for invulnerability frames. Causes the player's sprite 
+        ; to flash on and off.
 
     ; $0320[0x02] - (Tile Attribute, High Junk)
     .MovingFloorTileAct:
@@ -3049,14 +3052,14 @@ struct WRAM $7E0000
 
     ; $0346[0x02] - (Player, Palette)
     .PlayerPalette: skip $02
-        ; Exclusively used in Bank 0x0D for the purposes of drawing the player. This
-        ; value gets bitwise OR-ed in to supply the palette bits of the player's
-        ; sprite. It's only intended to take on one of two values - 0x0E00, or
-        ; 0x0000. 0x0E00 indicates that palette 7 is being used, and 0x0000
-        ; indicates that palette 0 is being used. Sometimes the player's palette
-        ; swaps so that the player won't turn translucent when color addition is
-        ; active. An example of this would be in the Flute Boy's meadow when he
-        ; disappears. See $0ABD for more info.
+        ; Exclusively used in Bank 0x0D for the purposes of drawing the player. 
+        ; This value gets bitwise OR-ed in to supply the palette bits of the 
+        ; player's sprite. It's only intended to take on one of two values - 
+        ; 0x0E00, or 0x0000. 0x0E00 indicates that palette 7 is being used, and 
+        ; 0x0000 indicates that palette 0 is being used. Sometimes the player's 
+        ; palette swaps so that the player won't turn translucent when color 
+        ; addition is active. An example of this would be in the Flute Boy's 
+        ; meadow when he disappears. See $0ABD for more info.
 
     ; $0348[0x02] - (Player, Tile Attribute, High Junk)
     .PlayerIceTileAct: skip $02
@@ -4501,9 +4504,9 @@ struct WRAM $7E0000
         ; blocks, and torches. However the positions are only ever read for
         ; push blocks and torches. These values are always taken from DunObjPtrOff
         ; in some form and then used to parse $7EF940 for push blocks and $7EFB40
-        ; for torches. TODO: Determine if the game actually doesn't use the offsets
-        ; stored for post, bombable floors, and single moles. I'm pretty sure it
-        ; doesn't.
+        ; for torches. TODO: Determine if the game actually doesn't use the 
+        ; offsets stored for post, bombable floors, and single moles. I'm pretty 
+        ; sure it doesn't.
 
     ; $0540[0x20] - (Dungeon, Objects)
     .DunManipObjTMPos: skip $20
@@ -4550,7 +4553,8 @@ struct WRAM $7E0000
 
     ; $05F4[0x04] - (Push Blocks, Junk)
     .Junk_05F4: skip $04
-        ; Possibly a pushblock vestigial subpixel value? Written to but never read.
+        ; Possibly a pushblock vestigial subpixel value? Written to but never
+        ; read.
 
     ; $05F8[0x04] - (Push Blocks, Junk)
     .PushBlockDir: skip $04
@@ -4799,9 +4803,9 @@ struct WRAM $7E0000
 
     ; $0641[0x01] - (Dungeon, Push Block, Tag)
     .PushBlockPushed: skip $01
-        ; A flag that when nonzero indicates a block has been pushed. Used to check
-        ; if we need to open some doors or make a chest appear based on the room
-        ; tags.
+        ; A flag that when nonzero indicates a block has been pushed. Used to 
+        ; check if we need to open some doors or make a chest appear based on the 
+        ; room tags.
 
     ; $0642[0x01] - (Dungeon, Tag)
     .SpriteActivateTag: skip $01
@@ -4948,8 +4952,8 @@ struct WRAM $7E0000
         ; When using an entrance or exit on the overworld, this is the tilemap
         ; location of where the opening animation tiles need to be placed i.e. a
         ; wooden door opening or the sanctuary and hyrule castle doors opening.
-        ; This has a secondary use of dertimining certain aspects of the entrance =
-        ; for example 0xFFFF indicates the north facing entrance in kakariko
+        ; This has a secondary use of dertimining certain aspects of the entrance 
+        ; = for example 0xFFFF indicates the north facing entrance in kakariko
         ; village. Values < 0x8000 indicate tilemap coordinates for a wooden
         ; doorway and values >= 0x8000 indicate a bombable wall hole.
         ; 0x0000           - No doorway
@@ -4974,7 +4978,8 @@ struct WRAM $7E0000
         ; 0x10 - When exiting a dungeon.
         ; 0x0C - When leaving a special overworld.
         ; 0x24 - When exiting a dungeon with a big door.
-        ; TODO: 0x0C also possibly includes when coming from an area with a mosaic.
+        ; TODO: 0x0C also possibly includes when coming from an area with a
+        ; mosaic.
 
     ; $069B[0x01] - (Free)
     .Free_069B: skip $01
@@ -5037,8 +5042,8 @@ struct WRAM $7E0000
     .WarpIndex06AA: skip $02
         ; Mirror warp HDMA related. After some math, stored into $1B00, $1B04,
         ; $1B08, and $1B0C. This appears to be the only meaningful var. The rest
-        ; are only keeping track of steps and sizes of the HDMA? TODO: Update name.
-        ; $06AA: Init: 0x0000
+        ; are only keeping track of steps and sizes of the HDMA? TODO: Update
+        ; name. $06AA: Init: 0x0000
 
     ; $06AC[0x02] - (Overworld, Warp, HDMA)
     .WarpIndex06AC: skip $02
@@ -5048,8 +5053,8 @@ struct WRAM $7E0000
 
     ; $06AE[0x02] - (Overworld, Warp, HDMA)
     .WarpIndex06AE: skip $02
-        ; Mirror warp HDMA related. Adds $06AC to itself and then cuts out the high
-        ; byte. TODO: Update name.
+        ; Mirror warp HDMA related. Adds $06AC to itself and then cuts out the 
+        ; high byte. TODO: Update name.
         ; Init: 0x0000
 
     ; $06B0[0x0?] - (Stair, Tilemap, Dungeon)
@@ -5062,18 +5067,18 @@ struct WRAM $7E0000
 
     ; $06B2[0x02] - (Overworld, Warp, HDMA)
     .WarpIndex06B2: skip $02
-        ; Mirror warp HDMA related. May just be junk, its initialized to 0x0015 but
-        ; then doesn't appear to be used.
+        ; Mirror warp HDMA related. May just be junk, its initialized to 0x0015 
+        ; but then doesn't appear to be used.
 
     ; $06B4[0x02] - (Overworld, Warp, HDMA)
     .WarpIndex06B4: skip $02
-        ; Mirror warp HDMA related. May just be junk, its initialized to 0x0008 but
-        ; then doesn't appear to be used.
+        ; Mirror warp HDMA related. May just be junk, its initialized to 0x0008 
+        ; but then doesn't appear to be used.
 
     ; $06B6[0x02] - (Overworld, Warp, HDMA)
     .WarpIndex06B6: skip $02
-        ; Mirror warp HDMA related. May just be junk, its initialized to 0x0008 but
-        ; then doesn't appear to be used.
+        ; Mirror warp HDMA related. May just be junk, its initialized to 0x0008 
+        ; but then doesn't appear to be used.
 
     ; $06B8[0x0?] - (Stair, Tilemap, Dungeon)
     .IntraStairSlots: skip $02
@@ -5205,11 +5210,11 @@ struct WRAM $7E0000
         ; maximum), so we can elect to disable many of the low priority sprite
         ; chr updates if we need to move a lot of bytes during NMI with some
         ; specialized routines. If we run past the blanking period while trying
-        ; to transfer everything to VRAM, OAM, CGRAM, etc. you will see black lines
-        ; or bars flicker on the screen. In the vanilla game this can be seen
-        ; after stepping on a star tile in certain rooms. Some of these routines
-        ; are indexed or indicated by DMAMask, $1100, and BG3TileMapUpdateFlag 
-        ; but there may be more.
+        ; to transfer everything to VRAM, OAM, CGRAM, etc. you will see black 
+        ; lines or bars flicker on the screen. In the vanilla game this can be 
+        ; seen after stepping on a star tile in certain rooms. Some of these 
+        ; routines are indexed or indicated by DMAMask, $1100, and 
+        ; BG3TileMapUpdateFlag but there may be more.
 
     ; $0711[0x01] - (Junk)
     .Junk_0711: skip $01
@@ -5652,7 +5657,8 @@ struct WRAM $7E0000
     .OWMainPal: skip $01
         ; Loads a 35 color palette to the first halves of BP-2 through BP-6. Used
         ; as the "main" overworld palette which consists mostly of grass, pahts,
-        ; normals trees, cliffs, etc. See Palette_OverworldBgMain for more details.
+        ; normals trees, cliffs, etc. See Palette_OverworldBgMain for more
+        ; details.
         ; 0 - Light World
         ; 1 - Dark World
         ; 2 - Light World Death Mountain
@@ -5662,9 +5668,10 @@ struct WRAM $7E0000
 
     ; $0AB4[0x01] - (Palette, Overworld)
     .OWAUX1Pal: skip $01
-        ; Used to load a 21 color palete to the second halves of BP-2 through BP-4.
-        ; Only used during loading the overworld and the title screen. TODO: Find
-        ; the ZS reference. See Palette_OverworldBgAux1 for more details.
+        ; Used to load a 21 color palete to the second halves of BP-2 through 
+        ; BP-4. Only used during loading the overworld and the title screen. 
+        ; TODO: Find the ZS reference. See Palette_OverworldBgAux1 for more
+        ; details.
         ; Valid values are: TODO: Document these values.
         ; 0x00 - 
         ; 0x01 - 
@@ -5689,9 +5696,10 @@ struct WRAM $7E0000
 
     ; $0AB5[0x01] - (Palette, Overworld)
     .OWAUX2Pal: skip $01
-        ; Used to load a 21 color palette to the second halves of BP-5 through BP-7.
-        ; Only used during loading the overworld and the title screen. TODO: Find
-        ; the ZS reference. See Palette_OverworldBgAux2 for more details.
+        ; Used to load a 21 color palette to the second halves of BP-5 through 
+        ; BP-7. Only used during loading the overworld and the title screen. 
+        ; TODO: Find the ZS reference. See Palette_OverworldBgAux2 for more
+        ; details.
         ; Valid values are: TODO: Document these values.
         ; 0x00 - 
         ; 0x01 - 
@@ -5769,10 +5777,10 @@ struct WRAM $7E0000
     ; $0ABF[0x01] - (Sprite, Event)
     .OWAreaEventFlag: skip $01
         ; Set to zero when an event is initialized, and will be set to 1 the next
-        ; time a change of overworld area occurs. This is used to trigger the magic
-        ; powder showing up in the Witch's Hut, when your sword is finished being
-        ; tempered, and also used to make sure you didn't cheat during the heart
-        ; piece maze game in Kakkariko.
+        ; time a change of overworld area occurs. This is used to trigger the 
+        ; magic powder showing up in the Witch's Hut, when your sword is finished 
+        ; being tempered, and also used to make sure you didn't cheat during the 
+        ; heart piece maze game in Kakkariko.
         ; 0x00    - Indicates that an overworld transition needs to occur before
         ;           an event can happen.
         ; Nonzero - Indicates that an overworld transition has occured and the 
@@ -5921,8 +5929,8 @@ struct WRAM $7E0000
 
     ; $0AEE[0x02] - (NMI, GFX, OAM)
     .TagalongHeadChrAddressBottom: skip $02
-        ; The ROM Address for the bottom tagalong head GFX tile DMA transfer during
-        ; NMI. The value stored here is TagalongHeadChrAddressTop + 0x0200.
+        ; The ROM Address for the bottom tagalong head GFX tile DMA transfer
+        ; during NMI. The value stored here is TagalongHeadChrAddressTop + 0x0200.
         ; TODO: Document the values.
 
     ; $0AF0[0x02] - (NMI, GFX, OAM)
@@ -5933,8 +5941,8 @@ struct WRAM $7E0000
 
     ; $0AF2[0x02] - (NMI, GFX, OAM)
     .TagalongBodyChrAddressBottom: skip $02
-        ; The ROM Address for the bottom tagalong body GFX tile DMA transfer during
-        ; NMI. The value stored here is TagalongBodyChrAddressTop + 0x0200.
+        ; The ROM Address for the bottom tagalong body GFX tile DMA transfer 
+        ; during NMI. The value stored here is TagalongBodyChrAddressTop + 0x0200.
         ; TODO: Document the values.
 
     ; $0AF4[0x02] - (GFX, OAM, Bird)
@@ -5985,7 +5993,9 @@ struct WRAM $7E0000
         ; 0x05 - Stalfos Trap
         ; 0x06 - TODO: ???
         ; 0x07 - Moving Floor
-        ; 0x08 - Transformer TODO: (HM name) but I think it's the blobs that fall from the ceiling in the room right before the boss of Misery Mire.
+        ; 0x08 - Transformer TODO: (HM name) but I think it's the blobs that 
+        ;        fall from the ceiling in the room right before the boss of
+        ;        Misery Mire.
         ; 0x09 - Wallmaster Overlord
         ; 0x0A - Falling tiles Overlord
         ; 0x0B - Falling tiles Overlord 2
@@ -6073,8 +6083,8 @@ struct WRAM $7E0000
     ; $0B48[0x10] - (Overworld, Overlord)
     .OverlordOWTile: skip $10
         ; Tile offset in the overworld sprite position buffer (see $7FDF80).
-        ; Used to keep track of the overlord's position when cheching if the player
-        ; is far enough away for it to deactivate its children sprites.
+        ; Used to keep track of the overlord's position when cheching if the 
+        ; player is far enough away for it to deactivate its children sprites.
         ; TODO: Confirm this.
 
     ; $0B58[0x10] - (Sprite)
@@ -6138,11 +6148,11 @@ struct WRAM $7E0000
 
     ; $0B80[0x08] - (Dungeon, Sprite)
     .DunRoomStack: skip $08
-        ; A pseudo FIFO stack that contains the last 4 dungeon rooms visited by the
-        ; player. This is used to keep track of which rooms need to respawn their
-        ; sprites. Once a 5th room is put onto the stack, the first room that was
-        ; entered will be removed and the game will reset the sprites the next time
-        ; the player enters that room. Written to from $048E.
+        ; A pseudo FIFO stack that contains the last 4 dungeon rooms visited by 
+        ; the player. This is used to keep track of which rooms need to respawn 
+        ; their sprites. Once a 5th room is put onto the stack, the first room 
+        ; that was entered will be removed and the game will reset the sprites 
+        ; the next time the player enters that room. Written to from $048E.
 
     ; $0B88[0x01] - (Sprite, Minigame)
     .ArcheryGameHitCount: skip $01
@@ -6161,18 +6171,19 @@ struct WRAM $7E0000
     ; $0B9A[0x01] - (Sprite, Minigame)
     .PreventBowUse: skip $01
         ; A flag that when set to a nonzero value, you cannot fire arrows. This is
-        ; reset to 0 every frame that sprite code is run. It's only used during the
-        ; archery mini game, which sets this flag to 1 if you are out of "minigame"
-        ; arrows.
+        ; reset to 0 every frame that sprite code is run. It's only used during 
+        ; the archery mini game, which sets this flag to 1 if you are out of 
+        ; "minigame" arrows.
 
     ; $0B9B[0x01] - (Dungeon, Sprite)
     .DashKeySaveSlot: skip $01
         ; Used to control which save slot in DunRoomInfo will be set to 1 when
-        ; collecting a dash key. This also tells the game if there is more than one
-        ; dash key in a single room to make the second one a big key, however this
-        ; is never actually done in the vanilla game. This is also increased by a
-        ; regular key sprite, so if there is a key placed on the ground or from a
-        ; pot, the next bonk item recieved in the same room would be a big key.
+        ; collecting a dash key. This also tells the game if there is more than 
+        ; one dash key in a single room to make the second one a big key, however 
+        ; this is never actually done in the vanilla game. This is also increased 
+        ; by a regular key sprite, so if there is a key placed on the ground or 
+        ; from a pot, the next bonk item recieved in the same room would be a
+        ; big key.
         ; 0x00 - Regular key drop, first DunRoomInfo key slot
         ; 0x01 - Big key drop, second DunRoomInfo key slot
 
@@ -6224,7 +6235,8 @@ struct WRAM $7E0000
         ; i - If set, disable certain types of tile interactions for the sprites,
         ;     such as falling into holes, and being moved by moving floors,
         ;     conveyor belts, and flowing water.
-        ; w - If set, this will allow special collision with shallow and deep water.
+        ; w - If set, this will allow special collision with shallow and deep
+        ;     water.
         ;     Normally, sprites will either be blocked, bounce off of, or have no
         ;     interaction with water at all. But if this is set this will allow
         ;     certain sprites to "fall into" the water, like the walking zora, and
@@ -6237,10 +6249,11 @@ struct WRAM $7E0000
         ;     the player will be harmed.
         ; s - If set, play the 'enemy taking damage' sound effect. Otherwise, play
         ;     the basic 'sprite getting hit' sound effect (which will play for
-        ;     some enemies in spite of the fact that they are still taking damage.)
-        ; p - Prize pack to grant (assassin17 has this somewhat figured out, I just
-        ;     need to make sure my doc jives with his, and if not, find out why.)
-        ;     prize pack for a sprite in the sprite object model (see below)
+        ;     some enemies in spite of the fact that they are still taking
+        ;     damage.)
+        ; p - Prize pack to grant (assassin17 has this somewhat figured out, I 
+        ;     just need to make sure my doc jives with his, and if not, find out 
+        ;     why.) prize pack for a sprite in the sprite object model (see below)
 
     ; Ancillae Vars:
     ; "Ancilla" or "Ancillae" are supporting sprite objects that are
@@ -6301,16 +6314,16 @@ struct WRAM $7E0000
         ; 0x07 - Bomb: Normal blue bombs laid by the player.
         ; 0x08 - Door Debris: Rock fall effect from bombing a cracked cave or
         ;        dungeon wall.
-        ; 0x09 - Flying Arrow: Fired from the player's bow. (The arrow that enemies
-        ;        can fire is sprite 0x1B)
-        ; 0x0A - Halted Arrow: A player's arrow that is stuck in something (wall or
-        ;        sprite)
+        ; 0x09 - Flying Arrow: Fired from the player's bow. (The arrow that 
+        ;        enemies can fire is sprite 0x1B)
+        ; 0x0A - Halted Arrow: A player's arrow that is stuck in something (wall 
+        ;        or sprite)
         ; 0x0B - Ice Rod Shot: The beam that comes out when using the Ice Rod.
         ; 0x0C - Master Sword Beam: The spinning sparkles that shoot out from the
         ;        master sword when while at full health.
         ; 0x0D - Sword Full Charge Sparkles: The sparkles that briefly appear at
-        ;        the tip of the player's sword when the spin attack is fully charged
-        ;        up and the player continues to hold the sword out.
+        ;        the tip of the player's sword when the spin attack is fully 
+        ;        charged up and the player continues to hold the sword out.
         ; 0x0E - An unimplemented object type that points to the same location as
         ;        the blast wall.
         ; 0x0F - An unimplemented object type that points to the same location as
@@ -6320,7 +6333,8 @@ struct WRAM $7E0000
         ; 0x11 - Ice Shot Spread: Ice shot dispersing after hitting something.
         ; 0x12 - An unimplemented object type that points to the same location as
         ;        the blast wall.
-        ; 0x13 - Ice Shot Sparkle: The only actually visible parts of the ice shot.
+        ; 0x13 - Ice Shot Sparkle: The only actually visible parts of the ice
+        ;        shot.
         ; 0x14 - An unimplemented object type that points to some random data.
         ;        Crashes the game.
         ; 0x15 - Jump Splash: Splash from the player jumping into or out of deep
@@ -6328,9 +6342,10 @@ struct WRAM $7E0000
         ; 0x16 - Hit Stars: The little star that appears when hitting the ground
         ;        with the hammer or from hitting hard ground with the shovel.
         ; 0x17 - Dirt: Dirt from digging a hole with the shovel.
-        ; 0x18 - The Ether Effect: The Ether medallion animation, spinning blue orbs.
-        ; 0x19 - The Bombos Effect: The Bombos medallion animation, bomb explosions
-        ;        everywhere.
+        ; 0x18 - The Ether Effect: The Ether medallion animation, spinning blue
+        ;        orbs.
+        ; 0x19 - The Bombos Effect: The Bombos medallion animation, bomb 
+        ;        explosions everywhere.
         ; 0x1A - Precursor to torch flame / Magic powder ; TODO: Investigate.
         ; 0x1B - Sword Wall Spark: Sparks from tapping a wall with your sword.
         ; 0x1C - The Quake Effect: The Quake medallion animation, purple lighting
@@ -6344,14 +6359,16 @@ struct WRAM $7E0000
         ; 0x21 - The Player's Zzzzs: The Zs that appear above the player while the
         ;        player is sleeping at the benginning of the game.
         ; 0x22 - Received Item: The item that rises into the air after collecting
-        ;        it from a chest, from a wish pond fairy, or from picking it up off
-        ;        the ground.
+        ;        it from a chest, from a wish pond fairy, or from picking it up 
+        ;        off the ground.
         ; 0x23 - Transformation Poof: The could of smoke that appears over the
-        ;        player while transforming to or from the bunny or using the cape. 
+        ;        player while transforming to or from the bunny or using the
+        ;        cape. 
         ; 0x24 - Gravestone: The moving gravestone after being pushed/dashed into.
         ; 0x25 - An unimplemented object type that points to some random data.
         ;        Crashes the game.
-        ; 0x26 - Sword Swing Sparkle: Sparkles when swinging lvl 2 or higher sword.
+        ; 0x26 - Sword Swing Sparkle: Sparkles when swinging lvl 2 or higher
+        ;        sword.
         ; 0x27 - The Travel Bird: The bird that comes when called by the flute.
         ; 0x28 - Wish Pond Item: The item that you throw into magic fairy ponds.
         ; 0x29 - Dropped Item: Pendants, crystals, and medallions dropped on the
@@ -6362,21 +6379,22 @@ struct WRAM $7E0000
         ; 0x2D - Somaria Block Fizze: TODO: Investigate.
         ; 0x2E - Somaria Block Divide: TODO: Investigate.
         ; 0x2F - Lamp flame: The flame that is spawned when using the lamp.
-        ; 0x30 - Initial Cane Spark: Initial spark for the Cane of Byrna activating.
+        ; 0x30 - Initial Cane Spark: Initial spark for the Cane of Byrna
+        ;        activating.
         ; 0x31 - Cane Spinning Sparkle: The sparkle that circles the player after
         ;        activating the Cane of Byrna.
         ; 0x32 - Blast Wall Fireball: Flame blob, used wall explosions.
         ;        TODO: Confirm exactly what this is.
-        ; 0x33 - Blast Wall Explosions: Series of explosions from blowing up blast 
-        ;        wall (after pulling a switch).
+        ; 0x33 - Blast Wall Explosions: Series of explosions from blowing up 
+        ;        blast wall (after pulling a switch).
         ; 0x34 - Skull Woods Fire: Burning effect used to open up the entrance to
         ;        skull woods.
-        ; 0x35 - Master Sword Ceremony: TODO: not sure if it's the whole thing or a
-        ;        part of it.
-        ; 0x36 - Digging Flute: The flute that pops out of the ground in the haunted
-        ;        grove after digging it up.
-        ; 0x37 - Weathervane Explosion: The explosion that occurs at the weathervane
-        ;        when waking up the travel bird.
+        ; 0x35 - Master Sword Ceremony: TODO: not sure if it's the whole thing or 
+        ;        a part of it.
+        ; 0x36 - Digging Flute: The flute that pops out of the ground in the 
+        ;        haunted grove after digging it up.
+        ; 0x37 - Weathervane Explosion: The explosion that occurs at the 
+        ;        weathervane when waking up the travel bird.
         ; 0x38 - Travel Bird Intro: The bird that flaps around for a bit after
         ;        waking it up at the weathervane.
         ; 0x39 - Somarian Platform Poof: The Cane of Somaria poof which creates
@@ -6396,8 +6414,8 @@ struct WRAM $7E0000
         ;        of wishing entrance and in the Swamp Palace waterfall doors.
         ; 0x42 - Happiness Pond Rupees: The rupees that you throw in to the Pond
         ;        of Happiness.
-        ; 0x43 - Break Tower Seal: The Ganon's tower seal being broken. (not opened
-        ;        up though!) TODO: Wtf does that comment mean.
+        ; 0x43 - Break Tower Seal: The Ganon's tower seal being broken. (not 
+        ;        opened up though!) TODO: Wtf does that comment mean.
 
     ; $0C54[0x0A] - (Ancilla)
     .AncMiscN: skip $0A
@@ -6406,15 +6424,16 @@ struct WRAM $7E0000
 
     ; $0C5E[0x0A] - (Ancilla)
     .AncMiscO: skip $0A
-        ; A misc variable used by ancillae. Often contains an item index to give to
-        ; the player. e.g. 0x38 for the pendant of power. Also tracks current
+        ; A misc variable used by ancillae. Often contains an item index to give 
+        ; to the player. e.g. 0x38 for the pendant of power. Also tracks current
         ; hookshot extension and item receipt ID.
 
     ; $0C68[0x0A] - (Ancilla)
     .AncMiscTimer: skip $0A
         ; An autodecrementing timer that any ancilla can make use of. Its value
-        ; decrements by one each frame. It halts at the value zero, but will resume
-        ; decrementing if a nonzero value is written to it on subsequent frames. 
+        ; decrements by one each frame. It halts at the value zero, but will 
+        ; resume decrementing if a nonzero value is written to it on subsequent
+        ; frames. 
 
     ; $0C72[0x0A] - (Ancilla)
     .AncDir: skip $0A
@@ -6426,8 +6445,8 @@ struct WRAM $7E0000
 
     ; $0C86[0x0A] - (Ancilla)
     .AncOAMRegion: skip $0A
-        ; Starting offset into OAM buffer for ancillae. The value written here does
-        ; not actually appear to be used anywhere. TODO: Verify.
+        ; Starting offset into OAM buffer for ancillae. The value written here 
+        ; does not actually appear to be used anywhere. TODO: Verify.
 
     ; $0C90[0x0A] - (Ancilla)
     .AncOAMCount: skip $0A
@@ -6453,20 +6472,20 @@ struct WRAM $7E0000
         ;     While this is set and unset in a lot of places for various sprites,
         ;     its status doesn't appear to ever be checked or read. Based on the
         ;     pattern of its usage the best deduction I can make is that this was
-        ;     a flag intended to signal that a sprite is an interactive object that
-        ;     the player can push against, pull on, or otherwise exerts a physical
-        ;     presence. In general, it might have indicated some kind of A button
-        ;     (action button) affinity for the sprite, but I think this is merely
-        ;     informative rather than something relevant to gameplay.
+        ;     a flag intended to signal that a sprite is an interactive object 
+        ;     that the player can push against, pull on, or otherwise exerts a 
+        ;     physical presence. In general, it might have indicated some kind of 
+        ;     A button (action button) affinity for the sprite, but I think this 
+        ;     is merely informative rather than something relevant to gameplay.
         ; d - If set, the sprite will "deflect" certain ancillae attacks if they
         ;     hit the "front" of the sprite. The ancillae attacks inclue: the Ice
         ;     Rod shot, the Somarian missile, the boomerang, the hookshot, the
         ;     Master Sword beam, and arrows. If bit 1 is also set, frontal arrows
         ;     will instead disappear harmlessly. No sprites have this bit set
         ;     in the vanila ROM data, but it is functional. TODO: Verify.
-        ; e - If set, makes the sprite use a simplified tile collision routine that
-        ;     cuases the sprite to have less tile interactions. This is often used
-        ;     for projectiles. TODO: Document the exact differences.
+        ; e - If set, makes the sprite use a simplified tile collision routine 
+        ;     that cuases the sprite to have less tile interactions. This is 
+        ;     often used for projectiles. TODO: Document the exact differences.
         ; f - If set, makes sprite impervious to sword and hammer type attacks and
         ;     instead will apply recoil to the player and spawn a repulse spark.
         ; g - Has several purposes that depend on the sprite and other settings.
@@ -6478,19 +6497,21 @@ struct WRAM $7E0000
         ;          dying.
         ;          If set, will cause a halted arrow that hits the sprite to
         ;          dissapear.
-        ;          If set, the sprite will not be affected by dashing rumble effects
-        ;          caused by a dash bonk or the Quake Medallion.
-        ;          If set, makes the sprite be able to be picked up by the boomerang.
-        ; h - TODO: I can't see any direct references to this bit but both Zarby and
-        ;     Kan's notes claim something so I'll have to come back to this.
+        ;          If set, the sprite will not be affected by dashing rumble 
+        ;          effects caused by a dash bonk or the Quake Medallion.
+        ;          If set, makes the sprite be able to be picked up by the
+        ;          boomerang.
+        ; h - TODO: I can't see any direct references to this bit but both Zarby 
+        ;     and Kan's notes claim something so I'll have to come back to this.
         ;     No perma-death in dungeons according to Zarby.
         ;     Handles behavior with previous deaths flagged in $7FDF80
         ;     (0: default | 1: ignore) according to Kan.
 
     ; $0CBA[0x10] - (Sprite)
     .SprDropItem:
-        ; This controlls a few special cases where a sprite will drop certain items.
-        ; There is also a case where the Running Man will use this as a timer.
+        ; This controlls a few special cases where a sprite will drop certain 
+        ; items. There is also a case where the Running Man will use this as
+        ; a timer.
         ; 0x00 - Nothing happens.
         ; 0x01 - Leaves a normal key.
         ; 0x01 - Leaves a big key.
@@ -6506,9 +6527,11 @@ struct WRAM $7E0000
         ; This array contain various settings for active sprites including the
         ; bump damage class of the sprite.
         ; rbia dddd
-        ; r - If set, the sprite will not check collision while in a state of recoil.
+        ; r - If set, the sprite will not check collision while in a state of
+        ;     recoil.
         ; b - If set, the sprite can be attacked by a good bee.
-        ; i - If set, will make the sprite immune to the effects of the magic powder.
+        ; i - If set, will make the sprite immune to the effects of the magic
+        ;     powder.
         ; a - If set, this will allow the sprite to stay alive when a boss spawns.
         ; d - The bump damage class the sprite can inflict on the player.
         ;     The classes are read from a table at Bump_Damage_Table in bank 0x06.
@@ -6599,8 +6622,8 @@ struct WRAM $7E0000
 
     ; $0CFA[0x01] - (Sprite, Item)
     .LuckKillCount: skip $01
-        ; Luck Kill Counter. When this reaches 0x0A, the player's luck status will 
-        ; revert to normal. That goes for bad and good types of luck.
+        ; Luck Kill Counter. When this reaches 0x0A, the player's luck status 
+        ; will revert to normal. That goes for bad and good types of luck.
 
     ; $0CFB[0x01] - (Player, Sprite)
     .PlayerKillCount: skip $01
@@ -6613,9 +6636,9 @@ struct WRAM $7E0000
     ; $0CFC[0x01] - (Player, Sprite)
     .PlayerHitCount: skip $01
         ; Number of times the player has been hurt by sprites (So for example,
-        ; pits do not count.) This is only reset to zero by the PullForRupees sprite
-        ; when you pull on it and is only used to determine which type of rupee to
-        ; give you after pulling.
+        ; pits do not count.) This is only reset to zero by the PullForRupees 
+        ; sprite when you pull on it and is only used to determine which type of 
+        ; rupee to give you after pulling.
 
     ; $0CFD[0x01] - (Player)
     .RupeeSoundTimer: skip $01
@@ -6717,7 +6740,8 @@ struct WRAM $7E0000
         ; controlled by sprite helper functions and sprite engine code.
         ; 0x00 - The sprite is dead, totally inactive, no sprite code is run.
         ; 0x01 - The sprite is falling into a pit with generic animation.
-        ; 0x02 - The sprite transforms into a puff of smoke, often producing an item.
+        ; 0x02 - The sprite transforms into a puff of smoke, often producing an
+        ;        item.
         ; 0x03 - The sprite is falling into deep water.
         ; 0x04 - The death mode for bosses (lots of explosions).
         ; 0x05 - The sprite is falling into a pit that has a special animation
@@ -6725,17 +6749,17 @@ struct WRAM $7E0000
         ; 0x06 - The death mode for normal creature sprites.
         ; 0x07 - The spite in burning mode (when hit by the fire rod).
         ; 0x08 - The sprite is being spawned at load time. A prep routine will
-        ;        be run for one frame, and then move on to the active state (0x09) 
-        ;        the very next frame.
-        ; 0x09 - The sprite is in the normal, active mode. This is where the sprite
-        ;        runs its own AI code.
+        ;        be run for one frame, and then move on to the active state 
+        ;        (0x09) the very next frame.
+        ; 0x09 - The sprite is in the normal, active mode. This is where the 
+        ;        sprite runs its own AI code.
         ; 0x0A - The sprite is being carried by the player.
         ; 0x0B - The sprite is frozen and/or stunned.
 
     ; $0DE0[0x10] - (Sprite)
     .SprMiscC: skip $10
-        ; A misc variable used by sprites. Generally used as a direction indicator.
-        ; Some uses include:
+        ; A misc variable used by sprites. Generally used as a direction 
+        ; indicator. Some uses include:
         ; A position counter for the statue sentry? TODO: Verify.
         ; Seems that some sprites use this as an indicator for cardinal direction?
         ; (Octorocks, for example). This is controlled by sprite helper functions.
@@ -6782,18 +6806,18 @@ struct WRAM $7E0000
         ;            5    |    3           
         ;                 4    
         ; Distances are of course rough, and relative, as this is text, and the
-        ; relative distances may appear differently on various displays and editors.
-        ; The Statue Sentry sprite has an even more finely grained direction system
-        ; that uses this same variable as its indicator. It has 0x40 states, where
-        ; each states corresponds to an angular step of 5.625 degrees. However, its
-        ; orientation is different in that the step values increase as the eye 
-        ; rotates counter-clockwise, unlike the Giant Moldorm's rotation scheme. The 
-        ; starting position of 0 is located directly to the left, with 0x10 being 
-        ; south, 0x20 east, and 0x30 north.
-        ; The Spark sprite has two sets of 4 cardinal direction states. The first set
-        ; is for clockwise oriented adhesion to wall surfaces as is travels, and the
-        ; other set (0x04 to 0x07) indicates adhesion but in the counterclockwise
-        ; attitude.
+        ; relative distances may appear differently on various displays and 
+        ; editors. The Statue Sentry sprite has an even more finely grained 
+        ; direction system that uses this same variable as its indicator. It has 
+        ; 0x40 states, where each states corresponds to an angular step of 5.625 
+        ; degrees. However, its orientation is different in that the step values 
+        ; increase as the eye rotates counter-clockwise, unlike the Giant 
+        ; Moldorm's rotation scheme. The starting position of 0 is located 
+        ; directly to the left, with 0x10 being south, 0x20 east, and 0x30 north.
+        ; The Spark sprite has two sets of 4 cardinal direction states. The first 
+        ; set is for clockwise oriented adhesion to wall surfaces as is travels, 
+        ; and the other set (0x04 to 0x07) indicates adhesion but in the 
+        ; counterclockwise attitude.
 
     ; $0DF0[0x10] - (Sprite)
     .SprTimerA: skip $10
@@ -6842,7 +6866,7 @@ struct WRAM $7E0000
         ; 0x12 - Moblin
         ; 0x13 - Helmasaur
         ; 0x14 - Thieves' Town Grate
-        ; 0x15 - Anti-Fairy
+        ; 0x15 - AntiFairy
         ; 0x16 - Sahashrala / Aginah
         ; 0x17 - Rupee Crab under bush / rock TODO: possible other name: hoarder?
         ; 0x18 - Moldorm
@@ -6872,8 +6896,8 @@ struct WRAM $7E0000
         ; 0x2E - Flute Boy and his musical notes
         ; 0x2F - Maze Game Lady
         ; 0x30 - Maze Game Guy
-        ; 0x31 - Fortune Teller / Dwarf swordsmith TODO: how is this dwarf different
-        ;        from 0x1A?
+        ; 0x31 - Fortune Teller / Dwarf swordsmith TODO: how is this dwarf 
+        ;        different from 0x1A?
         ; 0x32 - Quarreling brothers 
         ; 0x33 - Pull For Rupees Sprite
         ; 0x34 - Young Snitch Lady
@@ -6944,7 +6968,7 @@ struct WRAM $7E0000
         ; 0x74 - Red Hat Boy who runs from you TODO: Runner?
         ; 0x75 - Bottle Vendor
         ; 0x76 - Princess Zelda
-        ; 0x77 - Also Anti-Fairy (seems like a different variety)
+        ; 0x77 - Also AntiFairy (seems like a different variety)
         ;        TODO: invetigate differences
         ; 0x78 - Sahasrahlah's Wife
         ; 0x79 - Good Bee / Normal Bee
@@ -6956,7 +6980,7 @@ struct WRAM $7E0000
         ; 0x7F - Swinging Fireball Chains
         ; 0x80 - Wandering Fireball Chains TODO: Fire snake?
         ; 0x81 - Waterhoppers
-        ; 0x82 - Swirling Anti-Fairies
+        ; 0x82 - Swirling AntiFairies
         ; 0x83 - Greene Eyegore
         ; 0x84 - Red Eyegore
         ; 0x85 - Yellow Stalfos
@@ -7059,7 +7083,8 @@ struct WRAM $7E0000
         ; 0xE3 - Fairy
         ; 0xE4 - Key
         ; 0xE5 - Big Key
-        ; 0xE6 - Shield Pickup (Fighter or Red Shield after being dropped by a Pikit)
+        ; 0xE6 - Shield Pickup (Fighter or Red Shield after being dropped by a
+        ;        Pikit)
         ; 0xE7 - Mushroom
         ; 0xE8 - Fake Master Sword
         ; 0xE9 - Magic Shop Keeper / Shop Items / Shop Magic Powder
@@ -7068,10 +7093,12 @@ struct WRAM $7E0000
         ; 0xEC - Bushes
         ; 0xED - Cane of Somaria Platform
         ; 0xEE - Hyrule Castle Mantle
-        ; 0xEF - Cane of Somaria Platform (same as 0xED but this index is not used)
-        ;        TODO: Investigate
-        ; 0xF0 - Cane of Somaria Platform (same as 0xED but this index is not used)
-        ; 0xF1 - Cane of Somaria Platform (same as 0xED but this index is not used)
+        ; 0xEF - Cane of Somaria Platform (same as 0xED but this index is not 
+        ;        used) TODO: Investigate
+        ; 0xF0 - Cane of Somaria Platform (same as 0xED but this index is not
+        ;        used)
+        ; 0xF1 - Cane of Somaria Platform (same as 0xED but this index is not
+        ;        used)
         ; 0xF2 - Medallion Tablet
 
     ; $0E30[0x10] - (Sprite)
@@ -7079,16 +7106,16 @@ struct WRAM $7E0000
         ; The Sub type designation. This is used to control sub behaviors or sub
         ; sprites that differ within the sprite code that is run based off of
         ; SprType. For example: 0x3D with a sub type of 0 will be the old snitch
-        ; lady but 0x3D with a sub type of anything else will be the indoor chicken
-        ; lady. This variable also has a variety of other uses.
+        ; lady but 0x3D with a sub type of anything else will be the indoor 
+        ; chicken lady. This variable also has a variety of other uses.
         ; The sub type is formed as follows: Take bits 5 and 6 from the sprite's 
-        ; Y coordinate byte and shift right twice. Then take bits 5, 6, and 7 from
-        ; the X coordinate byte and shift right 5 times. This produces 000yyxxx.
-        ; The bottom three bits cannot all be set at the same time or else we'll
-        ; have an overlord instead. So if that wasn't the case we'd have 32 possible
-        ; subtypes, but in lieu of the extra rule, 7, 15, 23, and 31 cannot be used.
-        ; A safe way to use this would be to just not use the bottom bit. (allows 16
-        ; subtypes)
+        ; Y coordinate byte and shift right twice. Then take bits 5, 6, and 7 
+        ; from the X coordinate byte and shift right 5 times. This produces 
+        ; 000yyxxx. The bottom three bits cannot all be set at the same time or 
+        ; else we'll have an overlord instead. So if that wasn't the case we'd 
+        ; have 32 possible subtypes, but in lieu of the extra rule, 7, 15, 23, 
+        ; and 31 cannot be used. A safe way to use this would be to just not use 
+        ; the bottom bit. (allows 16 subtypes)
         ; xxxyysss
         ; TODO: Debug through all of this to see how it works. Because this
         ; obviously has some differences between OW and Dungeons.
@@ -7101,7 +7128,8 @@ struct WRAM $7E0000
         ;     See Sprite_CheckTileCollisionSingleLayer
         ; b - TODO: No idea but the master sword ceremony sprites seem to use
         ;     them....? See Sprite_CheckTileProperty
-        ; a - If set, The enemy is harmless. Otherwise you take damage from contact.
+        ; a - If set, The enemy is harmless. Otherwise you take damage from
+        ;     contact.
 
     ; $0E50[0x10] - (Sprite)
     .SprHealth: skip $10
@@ -7115,7 +7143,8 @@ struct WRAM $7E0000
         ; i - If set, sprite is impervious to all attacks (also collisions?)
         ; o - The 'width' of the sprite. Used by absorbable items like arrows,
         ;     rupees, and heart refills. (0: normal | 1: small)
-        ;     Adjusts the placement of the death poof, water splash, and shadow draw.
+        ;     Adjusts the placement of the death poof, water splash, and shadow
+        ;     draw.
         ; s - If set, draw a shadow for the sprite when doing OAM handling
         ; p - Palette info that actually is not used by this variable, but ends
         ;     up getting copied into $0F50
@@ -7123,11 +7152,11 @@ struct WRAM $7E0000
 
     ; $0E70[0x10] - (Sprite)
     .SprCollisionDir: skip $10
-        ; When a sprite is moving and has hit a wall, this gets set to the direction
-        ; in which the collision occurred. These bits can be combined, but generally
-        ; only orthogonal directions should be expected to appear simultaneously.
-        ; The whole byte is also set by lanmolas to store the position of the dirt
-        ; draw.
+        ; When a sprite is moving and has hit a wall, this gets set to the 
+        ; direction in which the collision occurred. These bits can be combined, 
+        ; but generally only orthogonal directions should be expected to appear 
+        ; simultaneously. The whole byte is also set by lanmolas to store the 
+        ; position of the dirt draw.
         ; .bm. udlr
         ; u  - Up
         ; d  - Down
@@ -7158,11 +7187,11 @@ struct WRAM $7E0000
 
     ; $0EB0[0x10] - (Sprite)
     .SprHeadDir: skip $10
-        ; For sprites that are intuitively considered to have a head, this indicates
-        ; the direction that the head is facing. It would seem that every humanoid
-        ; sprite encountered so far uses this variable for that purpose, but I
-        ; cannot guarantee that some sprites may use it for a different purpose.
-        ; TODO: Find other uses.
+        ; For sprites that are intuitively considered to have a head, this 
+        ; indicates the direction that the head is facing. It would seem that 
+        ; every humanoid sprite encountered so far uses this variable for that 
+        ; purpose, but I cannot guarantee that some sprites may use it for a 
+        ; different purpose. TODO: Find other uses.
         ; 0x00 - up
         ; 0x01 - down
         ; 0x02 - left
@@ -7195,8 +7224,8 @@ struct WRAM $7E0000
         ; The amount of time that a sprite will have the flicker effect after
         ; taking damage or run the death animation. This needs to be set for
         ; sprite to actually take damage or have other effect applied. TODO: The 
-        ; first b bit may also have another effect. Seems to delay when the sprite
-        ; starts flickering.
+        ; first b bit may also have another effect. Seems to delay when the 
+        ; sprite starts flickering.
         ; abbb bbbb
         ; a - Start death timer
         ; b - The time to flicker/take damage/do the death animation.
@@ -7237,31 +7266,39 @@ struct WRAM $7E0000
         ;     used in this var.
 
     ; $0F60[0x10] - (Sprite)
+    .SprSetting7: skip $10
         ; isphhhhh
-        ; i - Ignore collision settings and always check tile interaction on the same
-        ; layer that the sprite is on.
-        ; s - 'Statis'. If set, indicates that the sprite should not be considered as
-        ; "alive" in routines that try to check that property. Functionally, the
-        ; sprites might not actually be considered to be in statis though.
-        ; 
-        ; Example: Anti-Fairies are not considered alive for the
-        ; purposes of puzzles, because it's not expected that you always have
-        ; the resources to kill them. Thus, they always have this bit set.
-        ; p - 'Persist' If set, keeps the sprite from being deactivated from being
-        ; too far offscreen from the camera. The sprite will continue to move and
-        ; interact with the game map and other sprites that are also active.
-        ; h - 5-bit value selecting the sprite's hitbox dimensions and perhaps other
-        ; related parameters.
+        ; i - Ignore other collision settings and always check tile interaction 
+        ;     on the same layer that the sprite is on.
+        ; s - If set, indicates that the sprite should not be considered
+        ;     "alive". This is used in functions that check if all enemies have
+        ;     been defeated in rooms or which sprites should be targeted by the
+        ;     good bee. For example: AntiFairies are not considered alive for
+        ;     the purposes of puzzles, because it's not expected that you always
+        ;     have the resources to kill them. Keese also have this bit set
+        ;     because they can fly over walls and outside of where the player can
+        ;     hit them.
+        ; p - If set, this keeps the sprite from being deactivated after going
+        ;     too far offscreen from the camera. The sprite will continue
+        ;     to move and interact with the game map and other sprites that are
+        ;     also active.
+        ; h - This is a 5-bit value that selects the sprite's hitbox dimensions.
+        ;     See Sprite_SetupHitBox for more details.
 
     ; $0F70[0x10] - (Sprite)
-        ; Height value (how far the enemy is from its shadow)
+    .SpriteZPos: skip $10
+        ; This is the Z coodinate or the height value of the sprite. The main
+        ; purpose of this value is to determine how far below the sprite to draw
+        ; the default shadow, however there are some functions that check this
+        ; value such as the quake medallion code making sure it only affects
+        ; the sprites on the "ground".
 
     ; $0F80[0x10] - (Sprite)
-        ; Auxiliary Timer 4
-        ; ^ Why was it labeled this? Haven't seen an instance of it being used.
-        ; What I have seen is a lot of usage as it being the altitude velocity,
-        ; and in fact I think that this is a more correct interpretation. Some sprites
-        ; may use this for something else, but they're probably in the minority.
+    .SpriteZSpeed: skip $10
+        ; This functions as the Z speed of the sprite. Usually used to simulate
+        ; gravity in certain sprites. In sprites that do not have gravity, this
+        ; is used as another auxiliary Timer that is decremented by 2 every
+        ; frame instead of 1 like all of the other timers.
 
     ; $0F90[0x10] - (Sprite)
         ; Subpixel portion of altitude.
@@ -7273,10 +7310,11 @@ struct WRAM $7E0000
 
     ; $0FA1[0x01] - 
 
-        ; Accumulator for generating random numbers. Each time a ranom number is generated,
-        ; the current low byte of the h count (ppu) plus the frame index ($1a) is added to this variable
-        ; and then stored back to this variable. The resultant value of this variable is the
-        ; random number that ultimately gets returned.
+        ; Accumulator for generating random numbers. Each time a ranom number is 
+        ; generated, the current low byte of the h count (ppu) plus the frame 
+        ; index ($1a) is added to this variable and then stored back to this 
+        ; variable. The resultant value of this variable is the random number
+        ; that ultimately gets returned.
 
     ; $0FA2 - 
         ; Free RAM
