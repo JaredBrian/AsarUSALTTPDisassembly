@@ -1033,9 +1033,9 @@ TriforceInitializePolyhedralModule:
 
 ; ==============================================================================
 
-; The guy who wrote this routine had never heard of MVN or MVP apparently or
-; DMA, for that matter. This routine writes a fixed set of colors to SP-6
-; (first half).
+; OPTIMIZE: The guy who wrote this routine had never heard of MVN or MVP
+; apparently or DMA, for that matter. This routine writes a fixed set of colors
+; to SP-6 (first half).
 ; $0643BD-$064403 LOCAL
 LoadTriforceSpritePalette:
 {

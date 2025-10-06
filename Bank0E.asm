@@ -650,22 +650,22 @@ Credits_ScrollScene_Underworld:
 ; $071A0A-$071A29 DATA
 Credits_HandleSceneFade_timer:
 {
-    dw $0300 ;  768 - Hyrule Castle
-    dw $0280 ;  640 - Sanctuary
-    dw $0250 ;  592 - Kakariko
-    dw $02E0 ;  736 - Desert
-    dw $0280 ;  640 - Tower of Hera
-    dw $0250 ;  592 - Link's house
-    dw $02C0 ;  704 - Zora's Domain
-    dw $02C0 ;  704 - Potion shop
-    dw $0250 ;  592 - Lumberjacks
-    dw $0250 ;  592 - Haunted Grove
-    dw $0280 ;  640 - Wishing Well
-    dw $0250 ;  592 - Smithery
-    dw $0480 ; 1152 - Kakariko (bug net)
-    dw $0400 ; 1024 - Death Mountain
-    dw $0250 ;  592 - Lost Woods
-    dw $0500 ; 1280 - Master Sword
+    dw $0300 ; 0x00 - Hyrule Castle
+    dw $0280 ; 0x01 - Sanctuary
+    dw $0250 ; 0x02 - Kakariko
+    dw $02E0 ; 0x03 - Desert
+    dw $0280 ; 0x04 - Tower of Hera
+    dw $0250 ; 0x05 - Link's house
+    dw $02C0 ; 0x06 - Zora's Domain
+    dw $02C0 ; 0x07 - Potion shop
+    dw $0250 ; 0x08 - Lumberjacks
+    dw $0250 ; 0x09 - Haunted Grove
+    dw $0280 ; 0x0A - Wishing Well
+    dw $0250 ; 0x0B - Smithery
+    dw $0480 ; 0x0C - Kakariko (bug net)
+    dw $0400 ; 0x0D - Death Mountain
+    dw $0250 ; 0x0E - Lost Woods
+    dw $0500 ; 0x0F - Master Sword
 }
 
 ; $071A2A-$071A75 JUMP LOCATION
@@ -677,12 +677,12 @@ Credits_HandleSceneFade:
         
     LDA.b $C8 : CMP.w .timer, X : SEP #$20 : BCC .BRANCH_ALPHA
         LDA.b $C8 : AND.b #$01 : BNE .BRANCH_BETA
+            ; Darken the screen until its fully black.
             DEC.b $13 : BNE .BRANCH_BETA
+                INC.b $11
+            
+                BRA .BRANCH_GAMMA
         
-            INC.b $11
-        
-            BRA .BRANCH_GAMMA
-    
     .BRANCH_ALPHA
     
     LDA.b $C8 : AND.b #$01 : BNE .BRANCH_BETA
@@ -1186,10 +1186,10 @@ Credits_LoadSprites_Kakariko2:
 ; $071CFE-$071D5B LOCAL JUMP LOCATION
 Credits_LoadSprites_GenericOW:
 {
-    LDA.w Credits_SpriteData_position_x_pointers +$00, X : STA.b $04
-    LDA.w Credits_SpriteData_position_x_pointers +$01, X : STA.b $05
-    LDA.w Credits_SpriteData_position_y_pointers +$00, X : STA.b $06
-    LDA.w Credits_SpriteData_position_y_pointers +$01, X : STA.b $07
+    LDA.w Credits_SpriteData_position_x_pointers+$00, X : STA.b $04
+    LDA.w Credits_SpriteData_position_x_pointers+$01, X : STA.b $05
+    LDA.w Credits_SpriteData_position_y_pointers+$00, X : STA.b $06
+    LDA.w Credits_SpriteData_position_y_pointers+$01, X : STA.b $07
         
     TXA : LSR : TAX
     LDA.w Credits_SpriteData_sprite_count, X : TAX

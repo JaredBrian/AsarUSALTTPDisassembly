@@ -14072,7 +14072,7 @@ PaletteFilter:
             LDA.w #$01E0 
             JSR.w RestorePaletteAdditive
                 
-            BRA .PaletteFilter_StartBlindingWhite
+            BRA .StartBlindingWhite
 
         .alpha
 
@@ -14141,7 +14141,7 @@ PaletteFilter_BlindingWhiteTriforce:
     LDA.w #$0200
     JSR.w RestorePaletteAdditive
     
-    BRA PaletteFilterStartBlindingWhite
+    BRA PaletteFilter_StartBlindingWhite
 }
 
 ; ==============================================================================

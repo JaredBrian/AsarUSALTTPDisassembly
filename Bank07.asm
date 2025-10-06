@@ -18081,9 +18081,6 @@ Player_ApproachTriforce:
     STZ.b $26
     
     DEC.b $3D
-    
-    ; OPTIMIZE: The decrement instruction above already sets flags, so
-    ; no need to load this var here.
     LDA.b $3D : BNE .delay_triforce_hold
         LDA.b #$02 : STA.w $02DA
         

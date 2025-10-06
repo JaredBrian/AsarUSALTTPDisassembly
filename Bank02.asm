@@ -1068,7 +1068,7 @@ Credits_LoadScene_Overworld_PrepGFX:
     LDX.b $11
 
     ; Since this is called every other submodule.
-    LDA.l Credits_LoadScene_Overworld_PrepGFX, X : STA.b $A0
+    LDA.l Credits_LoadScene_PrepGFX_screen, X : STA.b $A0
 
     SEP #$20
 
@@ -5640,13 +5640,13 @@ Module_TriforceRoom_submodules:
     dw TriforceRoom_Step5      ; 0x05 - $A0CD
     dw TriforceRoom_Step6      ; 0x06 - $A0E4
     dw TriforceRoom_Step7      ; 0x07 - $A100
-    dw TriforceRoom_Step8And10 ; 0x08 - $A137
+    dw TriforceRoom_Step8AndA  ; 0x08 - $A137
     dw TriforceRoom_Step9      ; 0x09 - $A121
-    dw TriforceRoom_Step8And10 ; 0x0A - $A137
-    dw TriforceRoom_Step11     ; 0x0B - $A151
-    dw TriforceRoom_Step12     ; 0x0C - $A164
-    dw TriforceRoom_Step13     ; 0x0D - $A173
-    dw TriforceRoom_Step14     ; 0x0E - $A186
+    dw TriforceRoom_Step8AndA  ; 0x0A - $A137
+    dw TriforceRoom_StepB      ; 0x0B - $A151
+    dw TriforceRoom_StepC      ; 0x0C - $A164
+    dw TriforceRoom_StepD      ; 0x0D - $A173
+    dw TriforceRoom_StepE      ; 0x0E - $A186
 }
 
 ; Module 0x19 - Triforce Room scene
@@ -5873,7 +5873,7 @@ TriforceRoom_Step9:
 }
 
 ; $012137-$012150 LOCAL JUMP LOCATION
-TriforceRoom_Step8And10:
+TriforceRoom_Step8AndA:
 {
     JSL.l AdvancePolyhedral
 
@@ -5895,7 +5895,7 @@ TriforceRoom_Step8And10:
 ; ==============================================================================
 
 ; $012151-$012163 LOCAL JUMP LOCATION
-TriforceRoom_Step11:
+TriforceRoom_StepB:
 {
     JSL.l AdvancePolyhedral
     JSL.l Player_ApproachTriforce
@@ -5911,9 +5911,9 @@ TriforceRoom_Step11:
 
 ; ==============================================================================
 
-; Submodule ??? of triforce room scene (fades screen to white after a time).
+; Submodule C of triforce room scene (fades screen to white after a time).
 ; $012164-$012172 LOCAL JUMP LOCATION
-TriforceRoom_Step12:
+TriforceRoom_StepC:
 {
     JSL.l AdvancePolyhedral
 
@@ -5933,7 +5933,7 @@ TriforceRoom_Step12:
 ; Totally brighten the screen (manipulate almost all palettes to be fully
 ; white).
 ; $012173-$012185 LOCAL JUMP LOCATION
-TriforceRoom_Step13:
+TriforceRoom_StepD:
 {
     JSL.l AdvancePolyhedral
     JSL.l PaletteFilter_BlindingWhiteTriforce
@@ -5949,7 +5949,7 @@ TriforceRoom_Step13:
 ; ==============================================================================
 
 ; $012186-$0121A3 LOCAL JUMP LOCATION
-TriforceRoom_Step14:
+TriforceRoom_StepE:
 {
     ; Make the screen dark and transition to the ending sequence module.
     DEC.b $13 : BNE .continue_darkening
@@ -6262,7 +6262,6 @@ Dungeon_AdjustCoordsForLinkedRoom:
 ; $01240D-$01246C LOCAL JUMP TABLE
 Module_OverworldTable:
 {
-    ; TODO: Figure out how to format all this.
     dw Overworld_PlayerControl              ; 0x00 - $A53C Default mode
     dw Overworld_LoadTransGfx               ; 0x01 - $AB88 Loads the GFX needed
                                             ;        to transition to a new area
@@ -6296,11 +6295,10 @@ Module_OverworldTable:
     dw Overworld_RunScrollTransition        ; 0x14 - $ABDA
     dw Overworld_EaseOffScrollTransition    ; 0x15 - $AC3A
     dw Overworld_FadeBackInFromMosaic       ; 0x16 - $B0D2
-    dw Overworld_StartMosaicTransition      ; 0x17 - $AE5E Occurs entering Master
-                                            ;        Sword area
+    dw Overworld_StartMosaicTransition      ; 0x17 - $AE5E Occurs entering the 
+                                            ;        special world
     dw Module09_18                          ; 0x18 - $B1C8 Load exit data and
-                                            ;        palettes
-                                            ;        for special areas?
+                                            ;        palettes for special areas?     
     dw Module09_19                          ; 0x19 - $B1DF Loads map data for
                                             ;        module B?
     dw Overworld_LoadTransGfx               ; 0x1A - $AB88 Starts loading new GFX
