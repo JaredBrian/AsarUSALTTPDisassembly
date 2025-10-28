@@ -16,6 +16,8 @@ org $0E8000
 ; $070000-$070FFF
 incbin "binary_files/font_GFX.bin"
 
+; TODO: Write a script to extract this .bin
+
 ; ==============================================================================
 
 ; $071000-$071429 DATA
@@ -556,7 +558,7 @@ Credits_ScrollScene_Overworld:
     REP #$20
         
     LDA.b $C8 : CMP.w #$0040 : BCC .BRANCH_GAMMA
-    AND.w #$0001 : BNE .BRANCH_GAMMA
+                AND.w #$0001 : BNE .BRANCH_GAMMA
         LDA.b $E8 : CMP.w Pool_Credits_ScrollScene_target_y, X : BEQ .BRANCH_DELTA
             LDY.w Pool_Credits_ScrollScene_movement_y, X : STY.b $30
         
@@ -3681,7 +3683,7 @@ CreditsData:
     ; $073178
     Credit00:
     db $07, $23
-    table CreditsSmallGreen.txt
+    table Data/Other/CreditsSmallGreen.txt
     db "EXECUTIVE PRODUCER"
 
     ; Blank line
@@ -3692,713 +3694,713 @@ CreditsData:
     ; $07318D
     Credit01:
     db $08, $1F
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "HIROSHI YAMAUCHI"
 
     ; $07319F
     Credit02:
     db $08, $1F
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "HIROSHI YAMAUCHI"
 
     ; $0731B1
     Credit03:
     db $0C, $0F
-    table CreditsSmallYellow.txt
+    table Data/Other/CreditsSmallYellow.txt
     db "PRODUCER"
 
     ; $0731BB
     Credit04:
     db $08, $1F
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "SHIGERU MIYAMOTO"
 
     ; $0731CD
     Credit05:
     db $08, $1F
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "SHIGERU MIYAMOTO"
 
     ; $0731DF
     Credit06:
     db $0C, $0F
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "DIRECTOR"
 
     ; $0731E9
     Credit07:
     db $09, $1B
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "TAKASHI TEZUKA"
 
     ; $0731F9
     Credit08:
     db $09, $1B
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "TAKASHI TEZUKA"
 
     ; $073209
     Credit09:
     db $09, $19
-    table CreditsSmallGreen.txt
+    table Data/Other/CreditsSmallGreen.txt
     db "SCRIPT WRITER"
 
     ; $0732018
     Credit0A:
     db $09, $1B
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "KENSUKE TANABE"
 
     ; $073228
     Credit0B:
     db $09, $1B
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "KENSUKE TANABE"
 
     ; $073238
     Credit0C:
     db $06, $25
-    table CreditsSmallYellow.txt
+    table Data/Other/CreditsSmallYellow.txt
     db "ASSISTANT DIRECTORS"
 
     ; $07324D
     Credit0D:
     db $07, $21
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "YASUHISA YAMAMURA"
 
     ; $073260
     Credit0E:
     db $07, $21
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "YASUHISA YAMAMURA"
 
     ; $073273
     Credit0F:
     db $09, $19
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "YOICHI YAMADA"
 
     ; $073282
     Credit10:
     db $09, $19
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "YOICHI YAMADA"
 
     ; $073291
     Credit11:
     db $03, $31
-    table CreditsSmallGreen.txt
+    table Data/Other/CreditsSmallGreen.txt
     db "SCREEN GRAPHICS DESIGNERS"
 
     ; $0732AC
     Credit12:
     db $08, $1F
-    table CreditsSmallYellow.txt
+    table Data/Other/CreditsSmallYellow.txt
     db "OBJECT DESIGNERS"
 
     ; $0732BE
     Credit13:
     db $08, $1D
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "SOICHIRO TOMITA"
 
     ; $0732CF
     Credit14:
     db $08, $1D
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "SOICHIRO TOMITA"
 
     ; $0732E0
     Credit15:
     db $09, $1B
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "TAKAYA IMAMURA"
 
     ; $0732F0
     Credit16:
     db $09, $1B
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "TAKAYA IMAMURA"
 
     ; $073300
     Credit17:
     db $05, $29
-    table CreditsSmallYellow.txt
+    table Data/Other/CreditsSmallYellow.txt
     db "BACK GROUND DESIGNERS"
 
     ; $073317
     Credit18:
     db $08, $1D
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "MASANAO ARIMOTO"
 
     ; $073328
     Credit19:
     db $08, $1D
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "MASANAO ARIMOTO"
 
     ; $073339
     Credit1A:
     db $07, $21
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "TSUYOSHI WATANABE"
 
     ; $07334C
     Credit1B:
     db $07, $21
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "TSUYOSHI WATANABE"
 
     ; $07335F
     Credit1C:
     db $08, $1F
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "PROGRAM DIRECTOR"
 
     ; $073371
     Credit1D:
     db $08, $1F
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "TOSHIHIKO NAKAGO"
 
     ; $073383
     Credit1E:
     db $08, $1F
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "TOSHIHIKO NAKAGO"
 
     ; $073395
     Credit1F:
     db $08, $1D
-    table CreditsSmallGreen.txt
+    table Data/Other/CreditsSmallGreen.txt
     db "MAIN PROGRAMMER"
 
     ; $0733A6
     Credit20:
     db $08, $1F
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "YASUNARI SOEJIMA"
 
     ; $0733B8
     Credit21:
     db $08, $1F
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "YASUNARI SOEJIMA"
 
     ; $0733CA
     Credit22:
     db $09, $1B
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "KAZUAKI MORITA"
 
     ; $0733DA
     Credit23:
     db $09, $1B
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "KAZUAKI MORITA"
 
     ; $0733EA
     Credit24:
     db $0A, $15
-    table CreditsSmallYellow.txt
+    table Data/Other/CreditsSmallYellow.txt
     db "PROGRAMMERS"
 
     ; $0733F7
     Credit25:
     db $08, $1F
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "TATSUO NISHIYAMA"
 
     ; $073409
     Credit26:
     db $08, $1F
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "TATSUO NISHIYAMA"
 
     ; $07341B
     Credit27:
     db $08, $1D
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "YUICHI YAMAMOTO"
 
     ; $07342C
     Credit28:
     db $08, $1D
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "YUICHI YAMAMOTO"
 
     ; $07343D
     Credit29:
     db $08, $1F
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "YOSHIHIRO NOMOTO"
 
     ; $07344F
     Credit2A:
     db $08, $1F
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "YOSHIHIRO NOMOTO"
 
     ; $073461
     Credit2B:
     db $0B, $11
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "EIJI NOTO"
 
     ; $07346C
     Credit2C:
     db $0B, $11
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "EIJI NOTO"
 
     ; $073477
     Credit2D:
     db $08, $1D
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "SATORU TAKAHATA"
 
     ; $073488
     Credit2E:
     db $08, $1D
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "SATORU TAKAHATA"
 
     ; $073499
     Credit2F:
     db $09, $1B
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "SOUND COMPOSER"
 
     ; $0734A9
     Credit30:
     db $0B, $13
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "KOJI KONDO"
 
     ; $0734B5
     Credit31:
     db $0B, $13
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "KOJI KONDO"
 
     ; $0734C1
     Credit32:
     db $0A, $17
-    table CreditsSmallGreen.txt
+    table Data/Other/CreditsSmallGreen.txt
     db "COORDINATORS"
 
     ; $0734CF
     Credit33:
     db $0B, $13
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "KEIZO KATO"
 
     ; $0734DB
     Credit34:
     db $0B, $13
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "KEIZO KATO"
 
     ; $0734E7
     Credit35:
     db $0A, $19
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "TAKAO SHIMIZU"
 
     ; $0734F6
     Credit36:
     db $0A, $19
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "TAKAO SHIMIZU"
 
     ; $073505
     Credit37:
     db $08, $1F
-    table CreditsSmallYellow.txt
+    table Data/Other/CreditsSmallYellow.txt
     db "PRINTED ART WORK"
 
     ; $073517
     Credit38:
     db $09, $19
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "YOICHI KOTABE"
 
     ; $073526
     Credit39:
     db $09, $19
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "YOICHI KOTABE"
 
     ; $073535
     Credit3A:
     db $0A, $17
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "HIDEKI FUJII"
 
     ; $073543
     Credit3B:
     db $0A, $17
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "HIDEKI FUJII"
 
     ; $073551
     Credit3C:
     db $08, $1F
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "YOSHIAKI KOIZUMI"
 
     ; $073563
     Credit3D:
     db $08, $1F
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "YOSHIAKI KOIZUMI"
 
     ; $073575
     Credit3E:
     db $09, $1B
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "YASUHIRO SAKAI"
 
     ; $073585
     Credit3F:
     db $09, $1B
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "YASUHIRO SAKAI"
 
     ; $073595
     Credit40:
     db $08, $1D
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "TOMOAKI KUROUME"
 
     ; $0735A6
     Credit41:
     db $08, $1D
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "TOMOAKI KUROUME"
 
     ; $0735B7
     Credit42:
     db $07, $21
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "SPECIAL THANKS TO"
 
     ; $0735CA
     Credit43:
     db $09, $19
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "NOBUO OKAJIMA"
 
     ; $0735D9
     Credit44:
     db $09, $19
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "NOBUO OKAJIMA"
 
     ; $0735E8
     Credit45:
     db $07, $21
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "YASUNORI TAKETANI"
 
     ; $0735FB
     Credit46:
     db $07, $21
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "YASUNORI TAKETANI"
 
     ; $07360E
     Credit47:
     db $0A, $17
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "KIYOSHI KODA"
 
     ; $07361C
     Credit48:
     db $0A, $17
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "KIYOSHI KODA"
 
     ; $07362A
     Credit49:
     db $07, $23
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "TAKAMITSU KUZUHARA"
 
     ; $07363E
     Credit4A:
     db $07, $23
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "TAKAMITSU KUZUHARA"
 
     ; $073652
     Credit4B:
     db $09, $1B
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "HIRONOBU KAKUI"
 
     ; $073662
     Credit4C:
     db $09, $1B
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "HIRONOBU KAKUI"
 
     ; $073672
     Credit4D:
     db $07, $21
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "SHIGEKI YAMASHIRO"
 
     ; $073685
     Credit4E:
     db $07, $21
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "SHIGEKI YAMASHIRO"
 
     ; $073698
     Credit4F:
     db $07, $21
-    table CreditsSmallGreen.txt
+    table Data/Other/CreditsSmallGreen.txt
     db "OBJECT PROGRAMMER"
 
     ; $0736AB
     Credit50:
     db $09, $1B
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "TOSHIO IWAWAKI"
 
     ; $0736BB
     Credit51:
     db $09, $1B
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "TOSHIO IWAWAKI"
 
     ; $0736CB
     Credit52:
     db $06, $25
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "SHIGEHIRO KASAMATSU"
 
     ; $0736E0
     Credit53:
     db $06, $25
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "SHIGEHIRO KASAMATSU"
 
     ; $0736F5
     Credit54:
     db $0A, $19
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "QUEST HISTORY"
 
     ; $073704
     Credit55:
     db $0A, $19
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "QUEST HISTORY"
 
     ; $073713
     Credit56:
     db $03, $33
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "LOCATION             GAMES"
 
     ; $07372F
     Credit57:
     db $04, $1F
-    table CreditsSmallYellow.txt
+    table Data/Other/CreditsSmallYellow.txt
     db "CASTLE OF HYRULE"
 
     ; $073741
     Credit58:
     db $04, $1B
-    table CreditsSmallGreen.txt
+    table Data/Other/CreditsSmallGreen.txt
     db "CASTLE DUNGEON"
 
     ; $073751
     Credit59:
     db $04, $15
-    table CreditsSmallYellow.txt
+    table Data/Other/CreditsSmallYellow.txt
     db "EAST PALACE"
 
     ; $07375E
     Credit5A:
     db $04, $19
-    table CreditsSmallGreen.txt
+    table Data/Other/CreditsSmallGreen.txt
     db "DESERT PALACE"
 
     ; $07376D
     Credit5B:
     db $04, $1B
-    table CreditsSmallYellow.txt
+    table Data/Other/CreditsSmallYellow.txt
     db "MOUNTAIN TOWER"
 
     ; $07377D
     Credit5C:
     db $08, $19
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "1 DARK PALACE"
 
     ; $07378C
     Credit5D:
     db $03, $23
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "LEVEL"
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "1 DARK PALACE"
 
     ; $0737A0
     Credit5E:
     db $08, $1B
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "2 SWAMP PALACE"
 
     ; $0737B0
     Credit5F:
     db $03, $25
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "LEVEL"
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "2 SWAMP PALACE"
 
     ; $0737C5
     Credit60:
     db $08, $19
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "3 SKULL WOODS"
 
     ; $0737D4
     Credit61:
     db $03, $23
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "LEVEL"
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "3 SKULL WOODS"
 
     ; $0737E8
     Credit62:
     db $08, $1B
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "4 THIEVES'TOWN"
 
     ; $0737F8
     Credit63:
     db $03, $25
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "LEVEL"
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "4 THIEVES'TOWN"
 
     ; $07380D
     Credit64:
     db $08, $17
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "5 ICE PALACE"
 
     ; $07381B
     Credit65:
     db $03, $21
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "LEVEL"
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "5 ICE PALACE"
 
     ; $07382E
     Credit66:
     db $08, $19
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "6 MISERY MIRE"
 
     ; $07383D
     Credit67:
     db $03, $23
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "LEVEL"
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "6 MISERY MIRE"
 
     ; $073851
     Credit68:
     db $08, $19
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "7 TURTLE ROCK"
 
     ; $073860
     Credit69:
     db $03, $23
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "LEVEL"
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "7 TURTLE ROCK"
 
     ; $073874
     Credit6A:
     db $08, $1D
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "8 GANON's TOWER"
 
     ; $073885
     Credit6B:
     db $03, $27
-    table CreditsSmallRed.txt
+    table Data/Other/CreditsSmallRed.txt
     db "LEVEL"
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "8 GANON's TOWER"
 
     ; $07389B
     Credit6C:
     db $04, $23
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "TOTAL GAMES PLAYED"
 
     ; $0738AF
     Credit6D:
     db $04, $23
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "TOTAL GAMES PLAYED"
 
     ; $0738C3
     Credit6E:
     db $08, $1F
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "YASUNARI NISHIDA"
 
     ; $0738D5
     Credit6F:
     db $08, $1F
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "YASUNARI NISHIDA"
 
     ; $0738E7
     Credit70:
     db $05, $2B
-    table CreditsSmallYellow.txt
+    table Data/Other/CreditsSmallYellow.txt
     db "ENGLISH SCRIPT WRITERS"
 
     ; $0738FF
     Credit71:
     db $0A, $17
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "DANIEL OWSEN"
 
     ; $07390D
     Credit72:
     db $0A, $17
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "DANIEL OWSEN"
 
     ; $07391B
     Credit73:
     db $08, $1D
-    table CreditsWhiteTop.txt
+    table Data/Other/CreditsWhiteTop.txt
     db "HIROYUKI YAMADA"
     
     ; $07392C
     Credit74:
     db $08, $1D
-    table CreditsWhiteBottom.txt
+    table Data/Other/CreditsWhiteBottom.txt
     db "HIROYUKI YAMADA"
 
     warnpc $0EB93D
