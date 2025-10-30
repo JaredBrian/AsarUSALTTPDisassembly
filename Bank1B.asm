@@ -4,7 +4,7 @@
 ; $0D8000-$0DFFFF
 org $1B8000
 
-; SPC Data
+; Dungeon music data
 ; Entrance code
 ; Tile interatction
 ; Special dungeon entrance animations
@@ -12,11 +12,14 @@ org $1B8000
 
 ; ==============================================================================
 
-; $0D8000-$0DB1D6 - tail end of the music (SPC) data
+; $0D8000-$0DACC2 DATA
 SongBank_Underworld_Main:
 {
-    dw $2CBF, SONG_POINTERS ; Transfer size, transfer address
+    ; Transfer size, transfer address
+    dw $2CBF, SONG_POINTERS
 
+    ; SPC $D000-$FCBF DATA
+    ; $0D8004-$0DACC2 DATA
     base SONG_POINTERS
 
     dw $0000
@@ -54,115 +57,136 @@ SongBank_Underworld_Main:
     dw Song1D_AgahnimEscapes
     dw Song1E_MeetingGanon
     dw Song1F_KingOfThieves
-}
 
-; $0D804A-$0D8BEF DATA
-Song10_HyruleCastle:
-{
-    incbin "bin/music/song10.bin" ; Size: 0x0BA6
-}
+    ; SPC $D046-$DBEB DATA
+    ; $0D804A-$0D8BEF DATA
+    Song10_HyruleCastle:
+    {
+        incbin "bin/music/song10.bin" ; Size: 0x0BA6
+    }
 
-; $0D8BF0-$0D913D DATA
-Song11_PendantDungeon:
-{
-    incbin "bin/music/song11.bin" ; Size: 0x054E
-}
+    ; SPC $DBEC-$E139 DATA
+    ; $0D8BF0-$0D913D DATA
+    Song11_PendantDungeon:
+    {
+        incbin "bin/music/song11.bin" ; Size: 0x054E
+    }
 
-; $0D913E-$0D9434 DATA
-Song12_Cave:
-{
-    incbin "bin/music/song12.bin" ; Size: 0x02F7
-}
+    ; SPC $E13A-$E430 DATA
+    ; $0D913E-$0D9434 DATA
+    Song12_Cave:
+    {
+        incbin "bin/music/song12.bin" ; Size: 0x02F7
+    }
 
-; $0D9435-$0D96FC DATA
-Song13_Fanfare:
-{
-    incbin "bin/music/song13.bin" ; Size: 0x02C8
-}
+    ; SPC $E431-$E6F8 DATA
+    ; $0D9435-$0D96FC DATA
+    Song13_Fanfare:
+    {
+        incbin "bin/music/song13.bin" ; Size: 0x02C8
+    }
 
-; $0D96FD-$0D9921 DATA
-Song14_Sanctuary:
-{
-    incbin "bin/music/song14.bin" ; Size: 0x0225
-}
+    ; SPC $E6F9-$E91D DATA
+    ; $0D96FD-$0D9921 DATA
+    Song14_Sanctuary:
+    {
+        incbin "bin/music/song14.bin" ; Size: 0x0225
+    }
 
-; $0D9922-$0D9C0E DATA
-Song15_Boss:
-{
-    incbin "bin/music/song15.bin" ; Size: 0x02ED
-}
+    ; SPC $E91E-$EC0A DATA
+    ; $0D9922-$0D9C0E DATA
+    Song15_Boss:
+    {
+        incbin "bin/music/song15.bin" ; Size: 0x02ED
+    }
 
-; $0D9C0F-$0DA1D4 DATA
-Song16_CrystalDungeon:
-{
-    incbin "bin/music/song16.bin" ; Size: 0x05C6
-}
+    ; SPC $EC0B-$F1D0 DATA
+    ; $0D9C0F-$0DA1D4 DATA
+    Song16_CrystalDungeon:
+    {
+        incbin "bin/music/song16.bin" ; Size: 0x05C6
+    }
 
-; $0DA1D5-$0DA307 DATA
-Song17_Shop:
-{
-    incbin "bin/music/song17.bin" ; Size: 0x0133
-}
+    ; SPC $F1D1-$F303 DATA
+    ; $0DA1D5-$0DA307 DATA
+    Song17_Shop:
+    {
+        incbin "bin/music/song17.bin" ; Size: 0x0133
+    }
 
-; $0DA308-$0DA583 DATA
-Song19_ZeldaRescue:
-{
-    incbin "bin/music/song19.bin" ; Size: 0x027C
-}
+    ; SPC $F304-$F57F DATA
+    ; $0DA308-$0DA583 DATA
+    Song19_ZeldaRescue:
+    {
+        incbin "bin/music/song19.bin" ; Size: 0x027C
+    }
 
-; $0DA584-$0DA90C DATA
-Song1A_CrystalMaiden:
-{
-    incbin "bin/music/song1A.bin" ; Size: 0x0389
-}
+    ; SPC $F580-$F908 DATA
+    ; $0DA584-$0DA90C DATA
+    Song1A_CrystalMaiden:
+    {
+        incbin "bin/music/song1A.bin" ; Size: 0x0389
+    }
 
-; $0DA90D-$0DAB6D DATA
-Song1B_BigFairy:
-{
-    incbin "bin/music/song1B.bin" ; Size: 0x0261
-}
+    ; SPC $F909-$FB69 DATA
+    ; $0DA90D-$0DAB6D DATA
+    Song1B_BigFairy:
+    {
+        incbin "bin/music/song1B.bin" ; Size: 0x0261
+    }
 
-; $0DAB6E-$0DACC2 DATA
-Song1C_Suspense:
-{
-    incbin "bin/music/song1C.bin" ; Size: 0x0155
-}
+    ; SPC $FB6A-$FCBF DATA
+    ; $0DAB6E-$0DACC2 DATA
+    Song1C_Suspense:
+    {
+        incbin "bin/music/song1C.bin" ; Size: 0x0155
+    }
 
-base off
+    base off
+}
 
 ; ==============================================================================
 
-; $0DACC3-$0DACC6 DATA
+; $0DACC3-$0DB1D6 DATA
 SongBank_Underworld_Auxiliary:
 {
-    dw $050C, SONG_POINTERS_AUX ; Transfer size, transfer address
-}
+    ; Transfer size, transfer address
+    dw $050C, SONG_POINTERS_AUX
 
-base SONG_POINTERS_AUX
+    ; SPC $2B00-$300C DATA
+    ; $0DACC7-$0DB1D2 DATA
+    base SONG_POINTERS_AUX
 
-; $0DACC7-0DAD79 DATA
-Song1D_AgahnimEscapes:
-{
-    incbin "bin/music/song1D.bin" ; Size: 0x00B3
-}
+    ; SPC $2B00-$2BB2 DATA
+    ; $0DACC7-0DAD79 DATA
+    Song1D_AgahnimEscapes:
+    {
+        incbin "bin/music/song1D.bin"
+    }
 
-; $0DAD7A-0DB11F DATA
-Song1F_KingOfThieves:
-{
-    incbin "bin/music/song1F.bin" ; Size: 0x03A6
-}
+    ; SPC $2BB3-$2F58 DATA
+    ; $0DAD7A-0DB11F DATA
+    Song1F_KingOfThieves:
+    {
+        incbin "bin/music/song1F.bin"
+    }
 
-; $0DB120-$0DB1D6 DATA
-Song1E_MeetingGanon:
-{
-    incbin "bin/music/song1E.bin" ; Size: 0x00B3
+    ; SPC $2F59-$300C DATA
+    ; $0DB120-$0DB1D6 DATA
+    Song1E_MeetingGanon:
+    {
+        incbin "bin/music/song1E.bin"
+    }
 
     base off
 
+    ; End of transfer
     ; $0DB1D3
-    dw $0000, SPC_ENGINE ; End of transfer
+    dw $0000, SPC_ENGINE
 }
 
+; ==============================================================================
+; End of SPC Code/Data in this bank.
 ; ==============================================================================
 
 ; $0DB1D7-$0DB1DF DATA

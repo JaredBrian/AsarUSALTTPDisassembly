@@ -4,8 +4,9 @@
 ; $0D0000-$0D7FFF
 org $1A8000
 
-; SPC engine
-; Music data
+; The second half of the SPC engine
+; SFX data
+; Overworld and credits music data
 ; Misc sprite draw
 
 ; ==============================================================================
@@ -107,575 +108,1929 @@ SFX_Data:
 
     ; ==========================================================================
 
-SFX2_Pointers:
-#_1A8BD0: #_1820: dw SFX2_01
-#_1A8BD2: #_1822: dw SFX2_02
-#_1A8BD4: #_1824: dw SFX2_03
-#_1A8BD6: #_1826: dw SFX2_04
-#_1A8BD8: #_1828: dw SFX2_05
-#_1A8BDA: #_182A: dw SFX2_06
-#_1A8BDC: #_182C: dw SFX2_07
-#_1A8BDE: #_182E: dw SFX2_08
-#_1A8BE0: #_1830: dw SFX2_09
-#_1A8BE2: #_1832: dw SFX2_0A
-#_1A8BE4: #_1834: dw SFX2_0B
-#_1A8BE6: #_1836: dw SFX2_0C
-#_1A8BE8: #_1838: dw SFX2_0D
-#_1A8BEA: #_183A: dw SFX2_0E
-#_1A8BEC: #_183C: dw SFX2_0F
-#_1A8BEE: #_183E: dw SFX2_10
-#_1A8BF0: #_1840: dw SFX2_11
-#_1A8BF2: #_1842: dw SFX2_12
-#_1A8BF4: #_1844: dw SFX2_13
-#_1A8BF6: #_1846: dw SFX2_14
-#_1A8BF8: #_1848: dw SFX2_15
-#_1A8BFA: #_184A: dw SFX2_16
-#_1A8BFC: #_184C: dw SFX2_17
-#_1A8BFE: #_184E: dw SFX2_18
-#_1A8C00: #_1850: dw SFX2_19
-#_1A8C02: #_1852: dw SFX2_1A
-#_1A8C04: #_1854: dw SFX2_1B
-#_1A8C06: #_1856: dw SFX2_1C
-#_1A8C08: #_1858: dw SFX2_1D
-#_1A8C0A: #_185A: dw SFX2_1E
-#_1A8C0C: #_185C: dw SFX2_1F
-#_1A8C0E: #_185E: dw SFX2_20
-#_1A8C10: #_1860: dw SFX2_21
-#_1A8C12: #_1862: dw SFX2_22
-#_1A8C14: #_1864: dw SFX2_23
-#_1A8C16: #_1866: dw SFX2_24
-#_1A8C18: #_1868: dw SFX2_25
-#_1A8C1A: #_186A: dw SFX2_26
-#_1A8C1C: #_186C: dw SFX2_27
-#_1A8C1E: #_186E: dw SFX2_28
-#_1A8C20: #_1870: dw SFX2_29
-#_1A8C22: #_1872: dw SFX2_2A
-#_1A8C24: #_1874: dw SFX2_2B
-#_1A8C26: #_1876: dw SFX2_2C
-#_1A8C28: #_1878: dw SFX2_2D
-#_1A8C2A: #_187A: dw SFX2_2E
-#_1A8C2C: #_187C: dw SFX2_2F
-#_1A8C2E: #_187E: dw SFX2_30
-#_1A8C30: #_1880: dw SFX2_31
-#_1A8C32: #_1882: dw SFX2_32
-#_1A8C34: #_1884: dw SFX2_33
-#_1A8C36: #_1886: dw SFX2_34
-#_1A8C38: #_1888: dw SFX2_35
-#_1A8C3A: #_188A: dw SFX2_36
-#_1A8C3C: #_188C: dw SFX2_37
-#_1A8C3E: #_188E: dw SFX2_34
-#_1A8C40: #_1890: dw SFX2_39
-#_1A8C42: #_1892: dw SFX2_3A
-#_1A8C44: #_1894: dw SFX2_3B
-#_1A8C46: #_1896: dw SFX2_3C
-#_1A8C48: #_1898: dw SFX2_3D
-#_1A8C4A: #_189A: dw SFX2_3E
-#_1A8C4C: #_189C: dw SFX2_3F
+    ; SPC $1820-$189D DATA
+    ; $0D0BD0-0D0C4D DATA
+    SFX2_Pointers:
+    {
+        dw SFX2_01
+        dw SFX2_02
+        dw SFX2_03
+        dw SFX2_04
+        dw SFX2_05
+        dw SFX2_06
+        dw SFX2_07
+        dw SFX2_08
+        dw SFX2_09
+        dw SFX2_0A
+        dw SFX2_0B
+        dw SFX2_0C
+        dw SFX2_0D
+        dw SFX2_0E
+        dw SFX2_0F
+        dw SFX2_10
+        dw SFX2_11
+        dw SFX2_12
+        dw SFX2_13
+        dw SFX2_14
+        dw SFX2_15
+        dw SFX2_16
+        dw SFX2_17
+        dw SFX2_18
+        dw SFX2_19
+        dw SFX2_1A
+        dw SFX2_1B
+        dw SFX2_1C
+        dw SFX2_1D
+        dw SFX2_1E
+        dw SFX2_1F
+        dw SFX2_20
+        dw SFX2_21
+        dw SFX2_22
+        dw SFX2_23
+        dw SFX2_24
+        dw SFX2_25
+        dw SFX2_26
+        dw SFX2_27
+        dw SFX2_28
+        dw SFX2_29
+        dw SFX2_2A
+        dw SFX2_2B
+        dw SFX2_2C
+        dw SFX2_2D
+        dw SFX2_2E
+        dw SFX2_2F
+        dw SFX2_30
+        dw SFX2_31
+        dw SFX2_32
+        dw SFX2_33
+        dw SFX2_34
+        dw SFX2_35
+        dw SFX2_36
+        dw SFX2_37
+        dw SFX2_34
+        dw SFX2_39
+        dw SFX2_3A
+        dw SFX2_3B
+        dw SFX2_3C
+        dw SFX2_3D
+        dw SFX2_3E
+        dw SFX2_3F
+    }
 
-;---------------------------------------------------------------------------------------------------
+    ; ==========================================================================
 
-SFX2_Accomp:
-#_1A8C4E: #_189E: db $00 ; SFX2 01
-#_1A8C4F: #_189F: db $00 ; SFX2 02
-#_1A8C50: #_18A0: db $00 ; SFX2 03
-#_1A8C51: #_18A1: db $00 ; SFX2 04
-#_1A8C52: #_18A2: db $00 ; SFX2 05
-#_1A8C53: #_18A3: db $00 ; SFX2 06
-#_1A8C54: #_18A4: db $00 ; SFX2 07
-#_1A8C55: #_18A5: db $00 ; SFX2 08
-#_1A8C56: #_18A6: db $00 ; SFX2 09
-#_1A8C57: #_18A7: db $00 ; SFX2 0A
-#_1A8C58: #_18A8: db $00 ; SFX2 0B
-#_1A8C59: #_18A9: db $00 ; SFX2 0C
-#_1A8C5A: #_18AA: db $3F ; SFX2 0D
-#_1A8C5B: #_18AB: db $00 ; SFX2 0E
-#_1A8C5C: #_18AC: db $00 ; SFX2 0F
-#_1A8C5D: #_18AD: db $00 ; SFX2 10
-#_1A8C5E: #_18AE: db $00 ; SFX2 11
-#_1A8C5F: #_18AF: db $00 ; SFX2 12
-#_1A8C60: #_18B0: db $3E ; SFX2 13
-#_1A8C61: #_18B1: db $00 ; SFX2 14
-#_1A8C62: #_18B2: db $00 ; SFX2 15
-#_1A8C63: #_18B3: db $00 ; SFX2 16
-#_1A8C64: #_18B4: db $00 ; SFX2 17
-#_1A8C65: #_18B5: db $00 ; SFX2 18
-#_1A8C66: #_18B6: db $00 ; SFX2 19
-#_1A8C67: #_18B7: db $00 ; SFX2 1A
-#_1A8C68: #_18B8: db $00 ; SFX2 1B
-#_1A8C69: #_18B9: db $00 ; SFX2 1C
-#_1A8C6A: #_18BA: db $00 ; SFX2 1D
-#_1A8C6B: #_18BB: db $00 ; SFX2 1E
-#_1A8C6C: #_18BC: db $00 ; SFX2 1F
-#_1A8C6D: #_18BD: db $00 ; SFX2 20
-#_1A8C6E: #_18BE: db $00 ; SFX2 21
-#_1A8C6F: #_18BF: db $00 ; SFX2 22
-#_1A8C70: #_18C0: db $00 ; SFX2 23
-#_1A8C71: #_18C1: db $3D ; SFX2 24
-#_1A8C72: #_18C2: db $00 ; SFX2 25
-#_1A8C73: #_18C3: db $00 ; SFX2 26
-#_1A8C74: #_18C4: db $00 ; SFX2 27
-#_1A8C75: #_18C5: db $00 ; SFX2 28
-#_1A8C76: #_18C6: db $3B ; SFX2 29
-#_1A8C77: #_18C7: db $00 ; SFX2 2A
-#_1A8C78: #_18C8: db $00 ; SFX2 2B
-#_1A8C79: #_18C9: db $3A ; SFX2 2C
-#_1A8C7A: #_18CA: db $00 ; SFX2 2D
-#_1A8C7B: #_18CB: db $39 ; SFX2 2E
-#_1A8C7C: #_18CC: db $38 ; SFX2 2F
-#_1A8C7D: #_18CD: db $00 ; SFX2 30
-#_1A8C7E: #_18CE: db $00 ; SFX2 31
-#_1A8C7F: #_18CF: db $00 ; SFX2 32
-#_1A8C80: #_18D0: db $00 ; SFX2 33
-#_1A8C81: #_18D1: db $33 ; SFX2 34
-#_1A8C82: #_18D2: db $36 ; SFX2 35
-#_1A8C83: #_18D3: db $00 ; SFX2 36
-#_1A8C84: #_18D4: db $00 ; SFX2 37
-#_1A8C85: #_18D5: db $00 ; SFX2 38
-#_1A8C86: #_18D6: db $00 ; SFX2 39
-#_1A8C87: #_18D7: db $00 ; SFX2 3A
-#_1A8C88: #_18D8: db $00 ; SFX2 3B
-#_1A8C89: #_18D9: db $00 ; SFX2 3C
-#_1A8C8A: #_18DA: db $00 ; SFX2 3D
-#_1A8C8B: #_18DB: db $00 ; SFX2 3E
-#_1A8C8C: #_18DC: db $00 ; SFX2 3F
+    ; SPC $189E-$18DC DATA
+    ; $0D0C4E-0D0C8C DATA
+    SFX2_Accomp:
+    {
+        db $00 ; SFX2 01
+        db $00 ; SFX2 02
+        db $00 ; SFX2 03
+        db $00 ; SFX2 04
+        db $00 ; SFX2 05
+        db $00 ; SFX2 06
+        db $00 ; SFX2 07
+        db $00 ; SFX2 08
+        db $00 ; SFX2 09
+        db $00 ; SFX2 0A
+        db $00 ; SFX2 0B
+        db $00 ; SFX2 0C
+        db $3F ; SFX2 0D
+        db $00 ; SFX2 0E
+        db $00 ; SFX2 0F
+        db $00 ; SFX2 10
+        db $00 ; SFX2 11
+        db $00 ; SFX2 12
+        db $3E ; SFX2 13
+        db $00 ; SFX2 14
+        db $00 ; SFX2 15
+        db $00 ; SFX2 16
+        db $00 ; SFX2 17
+        db $00 ; SFX2 18
+        db $00 ; SFX2 19
+        db $00 ; SFX2 1A
+        db $00 ; SFX2 1B
+        db $00 ; SFX2 1C
+        db $00 ; SFX2 1D
+        db $00 ; SFX2 1E
+        db $00 ; SFX2 1F
+        db $00 ; SFX2 20
+        db $00 ; SFX2 21
+        db $00 ; SFX2 22
+        db $00 ; SFX2 23
+        db $3D ; SFX2 24
+        db $00 ; SFX2 25
+        db $00 ; SFX2 26
+        db $00 ; SFX2 27
+        db $00 ; SFX2 28
+        db $3B ; SFX2 29
+        db $00 ; SFX2 2A
+        db $00 ; SFX2 2B
+        db $3A ; SFX2 2C
+        db $00 ; SFX2 2D
+        db $39 ; SFX2 2E
+        db $38 ; SFX2 2F
+        db $00 ; SFX2 30
+        db $00 ; SFX2 31
+        db $00 ; SFX2 32
+        db $00 ; SFX2 33
+        db $33 ; SFX2 34
+        db $36 ; SFX2 35
+        db $00 ; SFX2 36
+        db $00 ; SFX2 37
+        db $00 ; SFX2 38
+        db $00 ; SFX2 39
+        db $00 ; SFX2 3A
+        db $00 ; SFX2 3B
+        db $00 ; SFX2 3C
+        db $00 ; SFX2 3D
+        db $00 ; SFX2 3E
+        db $00 ; SFX2 3F
+    }
 
-;---------------------------------------------------------------------------------------------------
+    ; ==========================================================================
 
-SFX2_Echo:
-#_1A8C8D: #_18DD: db $00 ; SFX2 01
-#_1A8C8E: #_18DE: db $00 ; SFX2 02
-#_1A8C8F: #_18DF: db $00 ; SFX2 03
-#_1A8C90: #_18E0: db $00 ; SFX2 04
-#_1A8C91: #_18E1: db $00 ; SFX2 05
-#_1A8C92: #_18E2: db $00 ; SFX2 06
-#_1A8C93: #_18E3: db $00 ; SFX2 07
-#_1A8C94: #_18E4: db $00 ; SFX2 08
-#_1A8C95: #_18E5: db $00 ; SFX2 09
-#_1A8C96: #_18E6: db $00 ; SFX2 0A
-#_1A8C97: #_18E7: db $00 ; SFX2 0B
-#_1A8C98: #_18E8: db $01 ; SFX2 0C
-#_1A8C99: #_18E9: db $00 ; SFX2 0D
-#_1A8C9A: #_18EA: db $00 ; SFX2 0E
-#_1A8C9B: #_18EB: db $00 ; SFX2 0F
-#_1A8C9C: #_18EC: db $00 ; SFX2 10
-#_1A8C9D: #_18ED: db $00 ; SFX2 11
-#_1A8C9E: #_18EE: db $00 ; SFX2 12
-#_1A8C9F: #_18EF: db $00 ; SFX2 13
-#_1A8CA0: #_18F0: db $00 ; SFX2 14
-#_1A8CA1: #_18F1: db $00 ; SFX2 15
-#_1A8CA2: #_18F2: db $00 ; SFX2 16
-#_1A8CA3: #_18F3: db $00 ; SFX2 17
-#_1A8CA4: #_18F4: db $00 ; SFX2 18
-#_1A8CA5: #_18F5: db $00 ; SFX2 19
-#_1A8CA6: #_18F6: db $00 ; SFX2 1A
-#_1A8CA7: #_18F7: db $00 ; SFX2 1B
-#_1A8CA8: #_18F8: db $00 ; SFX2 1C
-#_1A8CA9: #_18F9: db $00 ; SFX2 1D
-#_1A8CAA: #_18FA: db $00 ; SFX2 1E
-#_1A8CAB: #_18FB: db $00 ; SFX2 1F
-#_1A8CAC: #_18FC: db $00 ; SFX2 20
-#_1A8CAD: #_18FD: db $00 ; SFX2 21
-#_1A8CAE: #_18FE: db $00 ; SFX2 22
-#_1A8CAF: #_18FF: db $00 ; SFX2 23
-#_1A8CB0: #_1900: db $00 ; SFX2 24
-#_1A8CB1: #_1901: db $00 ; SFX2 25
-#_1A8CB2: #_1902: db $00 ; SFX2 26
-#_1A8CB3: #_1903: db $00 ; SFX2 27
-#_1A8CB4: #_1904: db $00 ; SFX2 28
-#_1A8CB5: #_1905: db $3B ; SFX2 29
-#_1A8CB6: #_1906: db $01 ; SFX2 2A
-#_1A8CB7: #_1907: db $01 ; SFX2 2B
-#_1A8CB8: #_1908: db $00 ; SFX2 2C
-#_1A8CB9: #_1909: db $01 ; SFX2 2D
-#_1A8CBA: #_190A: db $01 ; SFX2 2E
-#_1A8CBB: #_190B: db $01 ; SFX2 2F
-#_1A8CBC: #_190C: db $00 ; SFX2 30
-#_1A8CBD: #_190D: db $00 ; SFX2 31
-#_1A8CBE: #_190E: db $00 ; SFX2 32
-#_1A8CBF: #_190F: db $00 ; SFX2 33
-#_1A8CC0: #_1910: db $00 ; SFX2 34
-#_1A8CC1: #_1911: db $01 ; SFX2 35
-#_1A8CC2: #_1912: db $01 ; SFX2 36
-#_1A8CC3: #_1913: db $00 ; SFX2 37
-#_1A8CC4: #_1914: db $00 ; SFX2 38
-#_1A8CC5: #_1915: db $00 ; SFX2 39
-#_1A8CC6: #_1916: db $00 ; SFX2 3A
-#_1A8CC7: #_1917: db $00 ; SFX2 3B
-#_1A8CC8: #_1918: db $01 ; SFX2 3C
-#_1A8CC9: #_1919: db $00 ; SFX2 3D
-#_1A8CCA: #_191A: db $3C ; SFX2 3E
-#_1A8CCB: #_191B: db $00 ; SFX2 3F
+    ; SPC $18DD-$191B DATA
+    ; $0D0C8D-0D0CCB DATA
+    SFX2_Echo:
+    {
+        db $00 ; SFX2 01
+        db $00 ; SFX2 02
+        db $00 ; SFX2 03
+        db $00 ; SFX2 04
+        db $00 ; SFX2 05
+        db $00 ; SFX2 06
+        db $00 ; SFX2 07
+        db $00 ; SFX2 08
+        db $00 ; SFX2 09
+        db $00 ; SFX2 0A
+        db $00 ; SFX2 0B
+        db $01 ; SFX2 0C
+        db $00 ; SFX2 0D
+        db $00 ; SFX2 0E
+        db $00 ; SFX2 0F
+        db $00 ; SFX2 10
+        db $00 ; SFX2 11
+        db $00 ; SFX2 12
+        db $00 ; SFX2 13
+        db $00 ; SFX2 14
+        db $00 ; SFX2 15
+        db $00 ; SFX2 16
+        db $00 ; SFX2 17
+        db $00 ; SFX2 18
+        db $00 ; SFX2 19
+        db $00 ; SFX2 1A
+        db $00 ; SFX2 1B
+        db $00 ; SFX2 1C
+        db $00 ; SFX2 1D
+        db $00 ; SFX2 1E
+        db $00 ; SFX2 1F
+        db $00 ; SFX2 20
+        db $00 ; SFX2 21
+        db $00 ; SFX2 22
+        db $00 ; SFX2 23
+        db $00 ; SFX2 24
+        db $00 ; SFX2 25
+        db $00 ; SFX2 26
+        db $00 ; SFX2 27
+        db $00 ; SFX2 28
+        db $3B ; SFX2 29
+        db $01 ; SFX2 2A
+        db $01 ; SFX2 2B
+        db $00 ; SFX2 2C
+        db $01 ; SFX2 2D
+        db $01 ; SFX2 2E
+        db $01 ; SFX2 2F
+        db $00 ; SFX2 30
+        db $00 ; SFX2 31
+        db $00 ; SFX2 32
+        db $00 ; SFX2 33
+        db $00 ; SFX2 34
+        db $01 ; SFX2 35
+        db $01 ; SFX2 36
+        db $00 ; SFX2 37
+        db $00 ; SFX2 38
+        db $00 ; SFX2 39
+        db $00 ; SFX2 3A
+        db $00 ; SFX2 3B
+        db $01 ; SFX2 3C
+        db $00 ; SFX2 3D
+        db $3C ; SFX2 3E
+        db $00 ; SFX2 3F
+    }
 
-;===================================================================================================
+    ; ==========================================================================
 
-SFX3_Pointers:
-#_1A8CCC: #_191C: dw SFX3_01
-#_1A8CCE: #_191E: dw SFX3_02
-#_1A8CD0: #_1920: dw SFX3_03
-#_1A8CD2: #_1922: dw SFX3_04
-#_1A8CD4: #_1924: dw SFX2_07
-#_1A8CD6: #_1926: dw SFX3_06
-#_1A8CD8: #_1928: dw SFX3_07
-#_1A8CDA: #_192A: dw SFX3_08
-#_1A8CDC: #_192C: dw SFX3_09
-#_1A8CDE: #_192E: dw SFX3_0A
-#_1A8CE0: #_1930: dw SFX3_0B
-#_1A8CE2: #_1932: dw SFX3_0C
-#_1A8CE4: #_1934: dw SFX3_0D
-#_1A8CE6: #_1936: dw SFX3_0E
-#_1A8CE8: #_1938: dw SFX3_0F
-#_1A8CEA: #_193A: dw SFX3_10
-#_1A8CEC: #_193C: dw SFX3_11
-#_1A8CEE: #_193E: dw SFX3_12
-#_1A8CF0: #_1940: dw SFX3_13
-#_1A8CF2: #_1942: dw SFX3_14
-#_1A8CF4: #_1944: dw SFX3_15
-#_1A8CF6: #_1946: dw SFX3_16
-#_1A8CF8: #_1948: dw SFX3_17
-#_1A8CFA: #_194A: dw SFX3_18
-#_1A8CFC: #_194C: dw SFX3_19
-#_1A8CFE: #_194E: dw SFX3_1A
-#_1A8D00: #_1950: dw SFX3_1B
-#_1A8D02: #_1952: dw SFX3_1C
-#_1A8D04: #_1954: dw SFX2_2D
-#_1A8D06: #_1956: dw SFX3_1E
-#_1A8D08: #_1958: dw SFX3_1F
-#_1A8D0A: #_195A: dw SFX3_20
-#_1A8D0C: #_195C: dw SFX3_21
-#_1A8D0E: #_195E: dw SFX3_22
-#_1A8D10: #_1960: dw SFX3_23
-#_1A8D12: #_1962: dw SFX3_24
-#_1A8D14: #_1964: dw SFX3_25
-#_1A8D16: #_1966: dw SFX3_26
-#_1A8D18: #_1968: dw SFX3_27
-#_1A8D1A: #_196A: dw SFX3_28
-#_1A8D1C: #_196C: dw SFX3_29
-#_1A8D1E: #_196E: dw SFX3_2A
-#_1A8D20: #_1970: dw SFX3_2B
-#_1A8D22: #_1972: dw SFX3_2C
-#_1A8D24: #_1974: dw SFX3_2D
-#_1A8D26: #_1976: dw SFX3_2E
-#_1A8D28: #_1978: dw SFX3_2F
-#_1A8D2A: #_197A: dw SFX3_30
-#_1A8D2C: #_197C: dw SFX3_31
-#_1A8D2E: #_197E: dw SFX3_32
-#_1A8D30: #_1980: dw SFX3_33
-#_1A8D32: #_1982: dw SFX3_34
-#_1A8D34: #_1984: dw SFX3_35
-#_1A8D36: #_1986: dw SFX3_36
-#_1A8D38: #_1988: dw SFX3_37
-#_1A8D3A: #_198A: dw SFX3_38
-#_1A8D3C: #_198C: dw SFX3_39
-#_1A8D3E: #_198E: dw SFX3_3A
-#_1A8D40: #_1990: dw SFX3_3B
-#_1A8D42: #_1992: dw SFX3_3C
-#_1A8D44: #_1994: dw SFX3_3D
-#_1A8D46: #_1996: dw SFX3_3E
-#_1A8D48: #_1998: dw SFX3_3F
+    ; SPC $18DD-$191B DATA
+    ; $0D0CCC-0D0D49 DATA
+    SFX3_Pointers:
+    {
+        dw SFX3_01
+        dw SFX3_02
+        dw SFX3_03
+        dw SFX3_04
+        dw SFX2_07
+        dw SFX3_06
+        dw SFX3_07
+        dw SFX3_08
+        dw SFX3_09
+        dw SFX3_0A
+        dw SFX3_0B
+        dw SFX3_0C
+        dw SFX3_0D
+        dw SFX3_0E
+        dw SFX3_0F
+        dw SFX3_10
+        dw SFX3_11
+        dw SFX3_12
+        dw SFX3_13
+        dw SFX3_14
+        dw SFX3_15
+        dw SFX3_16
+        dw SFX3_17
+        dw SFX3_18
+        dw SFX3_19
+        dw SFX3_1A
+        dw SFX3_1B
+        dw SFX3_1C
+        dw SFX2_2D
+        dw SFX3_1E
+        dw SFX3_1F
+        dw SFX3_20
+        dw SFX3_21
+        dw SFX3_22
+        dw SFX3_23
+        dw SFX3_24
+        dw SFX3_25
+        dw SFX3_26
+        dw SFX3_27
+        dw SFX3_28
+        dw SFX3_29
+        dw SFX3_2A
+        dw SFX3_2B
+        dw SFX3_2C
+        dw SFX3_2D
+        dw SFX3_2E
+        dw SFX3_2F
+        dw SFX3_30
+        dw SFX3_31
+        dw SFX3_32
+        dw SFX3_33
+        dw SFX3_34
+        dw SFX3_35
+        dw SFX3_36
+        dw SFX3_37
+        dw SFX3_38
+        dw SFX3_39
+        dw SFX3_3A
+        dw SFX3_3B
+        dw SFX3_3C
+        dw SFX3_3D
+        dw SFX3_3E
+        dw SFX3_3F
+    }
 
-;---------------------------------------------------------------------------------------------------
+    ; ==========================================================================
 
-SFX3_Accomp:
-#_1A8D4A: #_199A: db $00 ; SFX3 01
-#_1A8D4B: #_199B: db $00 ; SFX3 02
-#_1A8D4C: #_199C: db $00 ; SFX3 03
-#_1A8D4D: #_199D: db $00 ; SFX3 04
-#_1A8D4E: #_199E: db $00 ; SFX3 05
-#_1A8D4F: #_199F: db $00 ; SFX3 06
-#_1A8D50: #_19A0: db $00 ; SFX3 07
-#_1A8D51: #_19A1: db $00 ; SFX3 08
-#_1A8D52: #_19A2: db $00 ; SFX3 09
-#_1A8D53: #_19A3: db $00 ; SFX3 0A
-#_1A8D54: #_19A4: db $00 ; SFX3 0B
-#_1A8D55: #_19A5: db $00 ; SFX3 0C
-#_1A8D56: #_19A6: db $00 ; SFX3 0D
-#_1A8D57: #_19A7: db $00 ; SFX3 0E
-#_1A8D58: #_19A8: db $3C ; SFX3 0F
-#_1A8D59: #_19A9: db $3B ; SFX3 10
-#_1A8D5A: #_19AA: db $00 ; SFX3 11
-#_1A8D5B: #_19AB: db $00 ; SFX3 12
-#_1A8D5C: #_19AC: db $00 ; SFX3 13
-#_1A8D5D: #_19AD: db $00 ; SFX3 14
-#_1A8D5E: #_19AE: db $00 ; SFX3 15
-#_1A8D5F: #_19AF: db $00 ; SFX3 16
-#_1A8D60: #_19B0: db $00 ; SFX3 17
-#_1A8D61: #_19B1: db $00 ; SFX3 18
-#_1A8D62: #_19B2: db $00 ; SFX3 19
-#_1A8D63: #_19B3: db $38 ; SFX3 1A
-#_1A8D64: #_19B4: db $3A ; SFX3 1B
-#_1A8D65: #_19B5: db $00 ; SFX3 1C
-#_1A8D66: #_19B6: db $00 ; SFX3 1D
-#_1A8D67: #_19B7: db $00 ; SFX3 1E
-#_1A8D68: #_19B8: db $00 ; SFX3 1F
-#_1A8D69: #_19B9: db $00 ; SFX3 20
-#_1A8D6A: #_19BA: db $00 ; SFX3 21
-#_1A8D6B: #_19BB: db $00 ; SFX3 22
-#_1A8D6C: #_19BC: db $39 ; SFX3 23
-#_1A8D6D: #_19BD: db $00 ; SFX3 24
-#_1A8D6E: #_19BE: db $00 ; SFX3 25
-#_1A8D6F: #_19BF: db $00 ; SFX3 26
-#_1A8D70: #_19C0: db $00 ; SFX3 27
-#_1A8D71: #_19C1: db $00 ; SFX3 28
-#_1A8D72: #_19C2: db $00 ; SFX3 29
-#_1A8D73: #_19C3: db $00 ; SFX3 2A
-#_1A8D74: #_19C4: db $00 ; SFX3 2B
-#_1A8D75: #_19C5: db $00 ; SFX3 2C
-#_1A8D76: #_19C6: db $37 ; SFX3 2D
-#_1A8D77: #_19C7: db $35 ; SFX3 2E
-#_1A8D78: #_19C8: db $33 ; SFX3 2F
-#_1A8D79: #_19C9: db $00 ; SFX3 30
-#_1A8D7A: #_19CA: db $00 ; SFX3 31
-#_1A8D7B: #_19CB: db $00 ; SFX3 32
-#_1A8D7C: #_19CC: db $00 ; SFX3 33
-#_1A8D7D: #_19CD: db $00 ; SFX3 34
-#_1A8D7E: #_19CE: db $34 ; SFX3 35
-#_1A8D7F: #_19CF: db $00 ; SFX3 36
-#_1A8D80: #_19D0: db $00 ; SFX3 37
-#_1A8D81: #_19D1: db $00 ; SFX3 38
-#_1A8D82: #_19D2: db $00 ; SFX3 39
-#_1A8D83: #_19D3: db $00 ; SFX3 3A
-#_1A8D84: #_19D4: db $00 ; SFX3 3B
-#_1A8D85: #_19D5: db $3D ; SFX3 3C
-#_1A8D86: #_19D6: db $3E ; SFX3 3D
-#_1A8D87: #_19D7: db $3F ; SFX3 3E
-#_1A8D88: #_19D8: db $00 ; SFX3 3F
+    ; SPC $199A-$19D8 DATA
+    ; $0D0D4A-0D0D88 DATA
+    SFX3_Accomp:
+    {
+        db $00 ; SFX3 01
+        db $00 ; SFX3 02
+        db $00 ; SFX3 03
+        db $00 ; SFX3 04
+        db $00 ; SFX3 05
+        db $00 ; SFX3 06
+        db $00 ; SFX3 07
+        db $00 ; SFX3 08
+        db $00 ; SFX3 09
+        db $00 ; SFX3 0A
+        db $00 ; SFX3 0B
+        db $00 ; SFX3 0C
+        db $00 ; SFX3 0D
+        db $00 ; SFX3 0E
+        db $3C ; SFX3 0F
+        db $3B ; SFX3 10
+        db $00 ; SFX3 11
+        db $00 ; SFX3 12
+        db $00 ; SFX3 13
+        db $00 ; SFX3 14
+        db $00 ; SFX3 15
+        db $00 ; SFX3 16
+        db $00 ; SFX3 17
+        db $00 ; SFX3 18
+        db $00 ; SFX3 19
+        db $38 ; SFX3 1A
+        db $3A ; SFX3 1B
+        db $00 ; SFX3 1C
+        db $00 ; SFX3 1D
+        db $00 ; SFX3 1E
+        db $00 ; SFX3 1F
+        db $00 ; SFX3 20
+        db $00 ; SFX3 21
+        db $00 ; SFX3 22
+        db $39 ; SFX3 23
+        db $00 ; SFX3 24
+        db $00 ; SFX3 25
+        db $00 ; SFX3 26
+        db $00 ; SFX3 27
+        db $00 ; SFX3 28
+        db $00 ; SFX3 29
+        db $00 ; SFX3 2A
+        db $00 ; SFX3 2B
+        db $00 ; SFX3 2C
+        db $37 ; SFX3 2D
+        db $35 ; SFX3 2E
+        db $33 ; SFX3 2F
+        db $00 ; SFX3 30
+        db $00 ; SFX3 31
+        db $00 ; SFX3 32
+        db $00 ; SFX3 33
+        db $00 ; SFX3 34
+        db $34 ; SFX3 35
+        db $00 ; SFX3 36
+        db $00 ; SFX3 37
+        db $00 ; SFX3 38
+        db $00 ; SFX3 39
+        db $00 ; SFX3 3A
+        db $00 ; SFX3 3B
+        db $3D ; SFX3 3C
+        db $3E ; SFX3 3D
+        db $3F ; SFX3 3E
+        db $00 ; SFX3 3F
+    }
 
-;---------------------------------------------------------------------------------------------------
+    ; ==========================================================================
 
-SFX3_Echo:
-#_1A8D89: #_19D9: db $00 ; SFX3 01
-#_1A8D8A: #_19DA: db $00 ; SFX3 02
-#_1A8D8B: #_19DB: db $00 ; SFX3 03
-#_1A8D8C: #_19DC: db $00 ; SFX3 04
-#_1A8D8D: #_19DD: db $00 ; SFX3 05
-#_1A8D8E: #_19DE: db $00 ; SFX3 06
-#_1A8D8F: #_19DF: db $00 ; SFX3 07
-#_1A8D90: #_19E0: db $00 ; SFX3 08
-#_1A8D91: #_19E1: db $00 ; SFX3 09
-#_1A8D92: #_19E2: db $00 ; SFX3 0A
-#_1A8D93: #_19E3: db $00 ; SFX3 0B
-#_1A8D94: #_19E4: db $01 ; SFX3 0C
-#_1A8D95: #_19E5: db $01 ; SFX3 0D
-#_1A8D96: #_19E6: db $00 ; SFX3 0E
-#_1A8D97: #_19E7: db $3C ; SFX3 0F
-#_1A8D98: #_19E8: db $3B ; SFX3 10
-#_1A8D99: #_19E9: db $01 ; SFX3 11
-#_1A8D9A: #_19EA: db $01 ; SFX3 12
-#_1A8D9B: #_19EB: db $00 ; SFX3 13
-#_1A8D9C: #_19EC: db $00 ; SFX3 14
-#_1A8D9D: #_19ED: db $00 ; SFX3 15
-#_1A8D9E: #_19EE: db $00 ; SFX3 16
-#_1A8D9F: #_19EF: db $00 ; SFX3 17
-#_1A8DA0: #_19F0: db $00 ; SFX3 18
-#_1A8DA1: #_19F1: db $00 ; SFX3 19
-#_1A8DA2: #_19F2: db $00 ; SFX3 1A
-#_1A8DA3: #_19F3: db $3A ; SFX3 1B
-#_1A8DA4: #_19F4: db $00 ; SFX3 1C
-#_1A8DA5: #_19F5: db $01 ; SFX3 1D
-#_1A8DA6: #_19F6: db $00 ; SFX3 1E
-#_1A8DA7: #_19F7: db $01 ; SFX3 1F
-#_1A8DA8: #_19F8: db $01 ; SFX3 20
-#_1A8DA9: #_19F9: db $01 ; SFX3 21
-#_1A8DAA: #_19FA: db $01 ; SFX3 22
-#_1A8DAB: #_19FB: db $00 ; SFX3 23
-#_1A8DAC: #_19FC: db $01 ; SFX3 24
-#_1A8DAD: #_19FD: db $00 ; SFX3 25
-#_1A8DAE: #_19FE: db $00 ; SFX3 26
-#_1A8DAF: #_19FF: db $00 ; SFX3 27
-#_1A8DB0: #_1A00: db $00 ; SFX3 28
-#_1A8DB1: #_1A01: db $00 ; SFX3 29
-#_1A8DB2: #_1A02: db $00 ; SFX3 2A
-#_1A8DB3: #_1A03: db $00 ; SFX3 2B
-#_1A8DB4: #_1A04: db $00 ; SFX3 2C
-#_1A8DB5: #_1A05: db $01 ; SFX3 2D
-#_1A8DB6: #_1A06: db $01 ; SFX3 2E
-#_1A8DB7: #_1A07: db $01 ; SFX3 2F
-#_1A8DB8: #_1A08: db $00 ; SFX3 30
-#_1A8DB9: #_1A09: db $01 ; SFX3 31
-#_1A8DBA: #_1A0A: db $00 ; SFX3 32
-#_1A8DBB: #_1A0B: db $01 ; SFX3 33
-#_1A8DBC: #_1A0C: db $01 ; SFX3 34
-#_1A8DBD: #_1A0D: db $01 ; SFX3 35
-#_1A8DBE: #_1A0E: db $00 ; SFX3 36
-#_1A8DBF: #_1A0F: db $01 ; SFX3 37
-#_1A8DC0: #_1A10: db $00 ; SFX3 38
-#_1A8DC1: #_1A11: db $00 ; SFX3 39
-#_1A8DC2: #_1A12: db $00 ; SFX3 3A
-#_1A8DC3: #_1A13: db $00 ; SFX3 3B
-#_1A8DC4: #_1A14: db $3D ; SFX3 3C
-#_1A8DC5: #_1A15: db $3E ; SFX3 3D
-#_1A8DC6: #_1A16: db $3F ; SFX3 3E
-#_1A8DC7: #_1A17: db $01 ; SFX3 3F
+    ; SPC $19D9-$1A17 DATA
+    ; $0D0D89-0D0DC7 DATA
+    SFX3_Echo:
+    {
+        db $00 ; SFX3 01
+        db $00 ; SFX3 02
+        db $00 ; SFX3 03
+        db $00 ; SFX3 04
+        db $00 ; SFX3 05
+        db $00 ; SFX3 06
+        db $00 ; SFX3 07
+        db $00 ; SFX3 08
+        db $00 ; SFX3 09
+        db $00 ; SFX3 0A
+        db $00 ; SFX3 0B
+        db $01 ; SFX3 0C
+        db $01 ; SFX3 0D
+        db $00 ; SFX3 0E
+        db $3C ; SFX3 0F
+        db $3B ; SFX3 10
+        db $01 ; SFX3 11
+        db $01 ; SFX3 12
+        db $00 ; SFX3 13
+        db $00 ; SFX3 14
+        db $00 ; SFX3 15
+        db $00 ; SFX3 16
+        db $00 ; SFX3 17
+        db $00 ; SFX3 18
+        db $00 ; SFX3 19
+        db $00 ; SFX3 1A
+        db $3A ; SFX3 1B
+        db $00 ; SFX3 1C
+        db $01 ; SFX3 1D
+        db $00 ; SFX3 1E
+        db $01 ; SFX3 1F
+        db $01 ; SFX3 20
+        db $01 ; SFX3 21
+        db $01 ; SFX3 22
+        db $00 ; SFX3 23
+        db $01 ; SFX3 24
+        db $00 ; SFX3 25
+        db $00 ; SFX3 26
+        db $00 ; SFX3 27
+        db $00 ; SFX3 28
+        db $00 ; SFX3 29
+        db $00 ; SFX3 2A
+        db $00 ; SFX3 2B
+        db $00 ; SFX3 2C
+        db $01 ; SFX3 2D
+        db $01 ; SFX3 2E
+        db $01 ; SFX3 2F
+        db $00 ; SFX3 30
+        db $01 ; SFX3 31
+        db $00 ; SFX3 32
+        db $01 ; SFX3 33
+        db $01 ; SFX3 34
+        db $01 ; SFX3 35
+        db $00 ; SFX3 36
+        db $01 ; SFX3 37
+        db $00 ; SFX3 38
+        db $00 ; SFX3 39
+        db $00 ; SFX3 3A
+        db $00 ; SFX3 3B
+        db $3D ; SFX3 3C
+        db $3E ; SFX3 3D
+        db $3F ; SFX3 3E
+        db $01 ; SFX3 3F
+    }
 
-;===================================================================================================
-; Sound effects
-;===================================================================================================
-#_1A8DC8: #_1A18: SFX3_01: incbin "bin/sfx/sfx3-01.sfx"            ; size: 0x001F
-#_1A8DE7: #_1A37: SFX2_3C: incbin "bin/sfx/sfx2-3C.sfx"            ; size: 0x000C
-#_1A8DF3: #_1A43: SFX2_37: incbin "bin/sfx/sfx2-37.sfx"            ; size: 0x0018
-#_1A8E0B: #_1A5B: UnusedSFX_1A5B: incbin "bin/sfx/unused-1A5B.sfx" ; size: 0x0007
-#_1A8E12: #_1A62: SFX3_1C: incbin "bin/sfx/sfx3-1C.sfx"            ; size: 0x0016
-#_1A8E28: #_1A78: SFX3_32: incbin "bin/sfx/sfx3-32.sfx"            ; size: 0x002F
-#_1A8E57: #_1AA7: SFX3_36: incbin "bin/sfx/sfx3-36.sfx"            ; size: 0x0023
-#_1A8E7A: #_1ACA: SFX3_31: incbin "bin/sfx/sfx3-31.sfx"            ; size: 0x0008
-#_1A8E82: #_1AD2: SFX1_13: incbin "bin/sfx/sfx1-13.sfx"            ; size: 0x000F
-#_1A8E91: #_1AE1: SFX1_14: incbin "bin/sfx/sfx1-14.sfx"            ; size: 0x000F
-#_1A8EA0: #_1AF0: SFX1_15: incbin "bin/sfx/sfx1-15.sfx"            ; size: 0x000F
-#_1A8EAF: #_1AFF: SFX1_16: incbin "bin/sfx/sfx1-16.sfx"            ; size: 0x000F
-#_1A8EBE: #_1B0E: SFX1_0D: incbin "bin/sfx/sfx1-0D.sfx"            ; size: 0x000F
-#_1A8ECD: #_1B1D: SFX1_0E: incbin "bin/sfx/sfx1-0E.sfx"            ; size: 0x000F
-#_1A8EDC: #_1B2C: SFX1_0F: incbin "bin/sfx/sfx1-0F.sfx"            ; size: 0x0012
-#_1A8EEE: #_1B3E: SFX1_10: incbin "bin/sfx/sfx1-10.sfx"            ; size: 0x0015
-#_1A8F03: #_1B53: SFX3_30: incbin "bin/sfx/sfx3-30.sfx"            ; size: 0x000F
-#_1A8F12: #_1B62: SFX1_0C: incbin "bin/sfx/sfx1-0C.sfx"            ; size: 0x0041
-#_1A8F53: #_1BA3: SFX1_0B: incbin "bin/sfx/sfx1-0B.sfx"            ; size: 0x0040
-#_1A8F93: #_1BE3: SFX1_18: incbin "bin/sfx/sfx1-18.sfx"            ; size: 0x0041
-#_1A8FD4: #_1C24: SFX1_17: incbin "bin/sfx/sfx1-17.sfx"            ; size: 0x0040
-#_1A9014: #_1C64: SFX2_36: incbin "bin/sfx/sfx2-36.sfx"            ; size: 0x0003
-#_1A9017: #_1C67: SFX2_35: incbin "bin/sfx/sfx2-35.sfx"            ; size: 0x0027
-#_1A903E: #_1C8E: SFX1_09: incbin "bin/sfx/sfx1-09.sfx"            ; size: 0x002E
-#_1A906C: #_1CBC: SFX1_0A: incbin "bin/sfx/sfx1-0A.sfx"            ; size: 0x0020
-#_1A908C: #_1CDC: SFX2_33: incbin "bin/sfx/sfx2-33.sfx"            ; size: 0x0040
-#_1A90CC: #_1D1C: UnusedSFX_1D1C: incbin "bin/sfx/unused-1D1C.sfx" ; size: 0x002B
-#_1A90F7: #_1D47: SFX2_32: incbin "bin/sfx/sfx2-32.sfx"            ; size: 0x0016
-#_1A910D: #_1D5D: SFX3_2E: incbin "bin/sfx/sfx3-2E.sfx"            ; size: 0x0009
-#_1A9116: #_1D66: SFX3_34: incbin "bin/sfx/sfx3-34.sfx"            ; size: 0x000D
-#_1A9123: #_1D73: SFX3_35: incbin "bin/sfx/sfx3-35.sfx"            ; size: 0x000D
-#_1A9130: #_1D80: SFX3_2F: incbin "bin/sfx/sfx3-2F.sfx"            ; size: 0x0013
-#_1A9143: #_1D93: SFX3_33: incbin "bin/sfx/sfx3-33.sfx"            ; size: 0x0016
-#_1A9159: #_1DA9: SFX3_2D: incbin "bin/sfx/sfx3-2D.sfx"            ; size: 0x000B
-#_1A9164: #_1DB4: SFX3_37: incbin "bin/sfx/sfx3-37.sfx"            ; size: 0x000C
-#_1A9170: #_1DC0: SFX3_2C: incbin "bin/sfx/sfx3-2C.sfx"            ; size: 0x0033
-#_1A91A3: #_1DF3: SFX3_2B: incbin "bin/sfx/sfx3-2B.sfx"            ; size: 0x001F
-#_1A91C2: #_1E12: SFX3_2A: incbin "bin/sfx/sfx3-2A.sfx"            ; size: 0x000F
-#_1A91D1: #_1E21: SFX3_29: incbin "bin/sfx/sfx3-29.sfx"            ; size: 0x001F
-#_1A91F0: #_1E40: SFX3_27: incbin "bin/sfx/sfx3-27.sfx"            ; size: 0x003B
-#_1A922B: #_1E7B: SFX3_26: incbin "bin/sfx/sfx3-26.sfx"            ; size: 0x000F
-#_1A923A: #_1E8A: SFX3_1A: incbin "bin/sfx/sfx3-1A.sfx"            ; size: 0x0009
-#_1A9243: #_1E93: SFX3_38: incbin "bin/sfx/sfx3-38.sfx"            ; size: 0x000A
-#_1A924D: #_1E9D: SFX3_25: incbin "bin/sfx/sfx3-25.sfx"            ; size: 0x000F
-#_1A925C: #_1EAC: SFX1_11: incbin "bin/sfx/sfx1-11.sfx"            ; size: 0x001C
-#_1A9278: #_1EC8: SFX1_12: incbin "bin/sfx/sfx1-12.sfx"            ; size: 0x001A
-#_1A9292: #_1EE2: UnusedSFX_1EE2: incbin "bin/sfx/unused-1EE2.sfx" ; size: 0x000F
-#_1A92A1: #_1EF1: SFX2_30: incbin "bin/sfx/sfx2-30.sfx"            ; size: 0x0022
-#_1A92C3: #_1F13: UnusedSFX_1F13: incbin "bin/sfx/unused-1F13.sfx" ; size: 0x0034
-#_1A92F7: #_1F47: SFX2_2F: incbin "bin/sfx/sfx2-2F.sfx"            ; size: 0x0028
-#_1A931F: #_1F6F: SFX2_34: incbin "bin/sfx/sfx2-34.sfx"            ; size: 0x002D
-#_1A934C: #_1F9C: SFX2_39: incbin "bin/sfx/sfx2-39.sfx"            ; size: 0x002E
-#_1A937A: #_1FCA: SFX2_2E: incbin "bin/sfx/sfx2-2E.sfx"            ; size: 0x000F
-#_1A9389: #_1FD9: SFX2_2C: incbin "bin/sfx/sfx2-2C.sfx"            ; size: 0x000E
-#_1A9397: #_1FE7: SFX2_3A: incbin "bin/sfx/sfx2-3A.sfx"            ; size: 0x000B
-#_1A93A2: #_1FF2: SFX2_2B: incbin "bin/sfx/sfx2-2B.sfx"            ; size: 0x000F
-#_1A93B1: #_2001: SFX3_23: incbin "bin/sfx/sfx3-23.sfx"            ; size: 0x0016
-#_1A93C7: #_2017: SFX3_39: incbin "bin/sfx/sfx3-39.sfx"            ; size: 0x001C
-#_1A93E3: #_2033: SFX2_2A: incbin "bin/sfx/sfx2-2A.sfx"            ; size: 0x0010
-#_1A93F3: #_2043: SFX3_24: incbin "bin/sfx/sfx3-24.sfx"            ; size: 0x0008
-#_1A93FB: #_204B: SFX3_1F: incbin "bin/sfx/sfx3-1F.sfx"            ; size: 0x0046
-#_1A9441: #_2091: SFX3_1E: incbin "bin/sfx/sfx3-1E.sfx"            ; size: 0x0015
-#_1A9456: #_20A6: SFX2_2D: incbin "bin/sfx/sfx2-2D.sfx"            ; size: 0x0010
-#_1A9466: #_20B6: SFX3_1B: incbin "bin/sfx/sfx3-1B.sfx"            ; size: 0x000A
-#_1A9470: #_20C0: SFX3_3A: incbin "bin/sfx/sfx3-3A.sfx"            ; size: 0x000E
-#_1A947E: #_20CE: SFX2_31: incbin "bin/sfx/sfx2-31.sfx"            ; size: 0x000F
-#_1A948D: #_20DD: SFX3_18: incbin "bin/sfx/sfx3-18.sfx"            ; size: 0x002A
-#_1A94B7: #_2107: SFX2_22: incbin "bin/sfx/sfx2-22.sfx"            ; size: 0x001C
-#_1A94D3: #_2123: SFX3_16: incbin "bin/sfx/sfx3-16.sfx"            ; size: 0x000C
-#_1A94DF: #_212F: SFX3_15: incbin "bin/sfx/sfx3-15.sfx"            ; size: 0x000C
-#_1A94EB: #_213B: SFX3_13: incbin "bin/sfx/sfx3-13.sfx"            ; size: 0x0014
-#_1A94FF: #_214F: SFX3_11: incbin "bin/sfx/sfx3-11.sfx"            ; size: 0x000F
-#_1A950E: #_215E: SFX3_12: incbin "bin/sfx/sfx3-12.sfx"            ; size: 0x000F
-#_1A951D: #_216D: SFX3_10: incbin "bin/sfx/sfx3-10.sfx"            ; size: 0x0009
-#_1A9526: #_2176: SFX3_3B: incbin "bin/sfx/sfx3-3B.sfx"            ; size: 0x000C
-#_1A9532: #_2182: SFX3_0E: incbin "bin/sfx/sfx3-0E.sfx"            ; size: 0x000C
-#_1A953E: #_218E: SFX3_0C: incbin "bin/sfx/sfx3-0C.sfx"            ; size: 0x000A
-#_1A9548: #_2198: SFX3_0B: incbin "bin/sfx/sfx3-0B.sfx"            ; size: 0x0011
-#_1A9559: #_21A9: SFX3_0A: incbin "bin/sfx/sfx3-0A.sfx"            ; size: 0x000C
-#_1A9565: #_21B5: SFX3_0D: incbin "bin/sfx/sfx3-0D.sfx"            ; size: 0x000C
-#_1A9571: #_21C1: SFX3_09: incbin "bin/sfx/sfx3-09.sfx"            ; size: 0x0025
-#_1A9596: #_21E6: SFX3_08: incbin "bin/sfx/sfx3-08.sfx"            ; size: 0x000F
-#_1A95A5: #_21F5: SFX3_06: incbin "bin/sfx/sfx3-06.sfx"            ; size: 0x0019
-#_1A95BE: #_220E: SFX3_04: incbin "bin/sfx/sfx3-04.sfx"            ; size: 0x002F
-#_1A95ED: #_223D: SFX3_07: incbin "bin/sfx/sfx3-07.sfx"            ; size: 0x000D
-#_1A95FA: #_224A: SFX3_03: incbin "bin/sfx/sfx3-03.sfx"            ; size: 0x0008
-#_1A9602: #_2252: SFX2_27: incbin "bin/sfx/sfx2-27.sfx"            ; size: 0x0035
-#_1A9637: #_2287: SFX2_28: incbin "bin/sfx/sfx2-28.sfx"            ; size: 0x000F
-#_1A9646: #_2296: SFX2_25: incbin "bin/sfx/sfx2-25.sfx"            ; size: 0x000F
-#_1A9655: #_22A5: SFX2_24: incbin "bin/sfx/sfx2-24.sfx"            ; size: 0x0006
-#_1A965B: #_22AB: SFX2_3D: incbin "bin/sfx/sfx2-3D.sfx"            ; size: 0x0006
-#_1A9661: #_22B1: SFX2_23: incbin "bin/sfx/sfx2-23.sfx"            ; size: 0x000A
-#_1A966B: #_22BB: SFX2_1D: incbin "bin/sfx/sfx2-1D.sfx"            ; size: 0x0014
-#_1A967F: #_22CF: SFX2_21: incbin "bin/sfx/sfx2-21.sfx"            ; size: 0x000B
-#_1A968A: #_22DA: SFX2_20: incbin "bin/sfx/sfx2-20.sfx"            ; size: 0x000F
-#_1A9699: #_22E9: SFX2_1F: incbin "bin/sfx/sfx2-1F.sfx"            ; size: 0x0018
-#_1A96B1: #_2301: SFX2_1C: incbin "bin/sfx/sfx2-1C.sfx"            ; size: 0x0006
-#_1A96B7: #_2307: SFX2_1B: incbin "bin/sfx/sfx2-1B.sfx"            ; size: 0x000F
-#_1A96C6: #_2316: SFX2_1A: incbin "bin/sfx/sfx2-1A.sfx"            ; size: 0x0016
-#_1A96DC: #_232C: SFX2_16: incbin "bin/sfx/sfx2-16.sfx"            ; size: 0x0018
-#_1A96F4: #_2344: SFX2_17: incbin "bin/sfx/sfx2-17.sfx"            ; size: 0x0012
-#_1A9706: #_2356: SFX2_18: incbin "bin/sfx/sfx2-18.sfx"            ; size: 0x0018
-#_1A971E: #_236E: SFX2_19: incbin "bin/sfx/sfx2-19.sfx"            ; size: 0x0012
-#_1A9730: #_2380: SFX2_14: incbin "bin/sfx/sfx2-14.sfx"            ; size: 0x0010
-#_1A9740: #_2390: SFX2_15: incbin "bin/sfx/sfx2-15.sfx"            ; size: 0x0010
-#_1A9750: #_23A0: SFX2_13: incbin "bin/sfx/sfx2-13.sfx"            ; size: 0x0015
-#_1A9765: #_23B5: SFX2_3E: incbin "bin/sfx/sfx2-3E.sfx"            ; size: 0x0018
-#_1A977D: #_23CD: SFX2_12: incbin "bin/sfx/sfx2-12.sfx"            ; size: 0x0023
-#_1A97A0: #_23F0: SFX2_11: incbin "bin/sfx/sfx2-11.sfx"            ; size: 0x000A
-#_1A97AA: #_23FA: SFX2_10: incbin "bin/sfx/sfx2-10.sfx"            ; size: 0x000A
-#_1A97B4: #_2404: SFX2_0E: incbin "bin/sfx/sfx2-0E.sfx"            ; size: 0x0010
-#_1A97C4: #_2414: SFX2_0D: incbin "bin/sfx/sfx2-0D.sfx"            ; size: 0x0021
-#_1A97E5: #_2435: SFX2_3F: incbin "bin/sfx/sfx2-3F.sfx"            ; size: 0x000A
-#_1A97EF: #_243F: SFX2_29: incbin "bin/sfx/sfx2-29.sfx"            ; size: 0x0023
-#_1A9812: #_2462: SFX2_3B: incbin "bin/sfx/sfx2-3B.sfx"            ; size: 0x000A
-#_1A981C: #_246C: SFX3_14: incbin "bin/sfx/sfx3-14.sfx"            ; size: 0x000C
-#_1A9828: #_2478: SFX2_0B: incbin "bin/sfx/sfx2-0B.sfx"            ; size: 0x0008
-#_1A9830: #_2480: SFX3_3F: incbin "bin/sfx/sfx3-3F.sfx"            ; size: 0x000A
-#_1A983A: #_248A: SFX3_3C: incbin "bin/sfx/sfx3-3C.sfx"            ; size: 0x000A
-#_1A9844: #_2494: SFX3_3D: incbin "bin/sfx/sfx3-3D.sfx"            ; size: 0x000A
-#_1A984E: #_249E: SFX3_3E: incbin "bin/sfx/sfx3-3E.sfx"            ; size: 0x001B
-#_1A9869: #_24B9: SFX3_0F: incbin "bin/sfx/sfx3-0F.sfx"            ; size: 0x000A
-#_1A9873: #_24C3: SFX2_0F: incbin "bin/sfx/sfx2-0F.sfx"            ; size: 0x0047
-#_1A98BA: #_250A: SFX3_19: incbin "bin/sfx/sfx3-19.sfx"            ; size: 0x0023
-#_1A98DD: #_252D: UnusedSFX_252D: incbin "bin/sfx/unused-252D.sfx" ; size: 0x0006
-#_1A98E3: #_2533: UnusedSFX_2533: incbin "bin/sfx/unused-2533.sfx" ; size: 0x001B
-#_1A98FE: #_254E: SFX3_02: incbin "bin/sfx/sfx3-02.sfx"            ; size: 0x0029
-#_1A9927: #_2577: SFX2_1E: incbin "bin/sfx/sfx2-1E.sfx"            ; size: 0x002F
-#_1A9956: #_25A6: SFX3_17: incbin "bin/sfx/sfx3-17.sfx"            ; size: 0x0007
-#_1A995D: #_25AD: SFX2_09: incbin "bin/sfx/sfx2-09.sfx"            ; size: 0x000A
-#_1A9967: #_25B7: SFX2_07: incbin "bin/sfx/sfx2-07.sfx"            ; size: 0x0010
-#_1A9977: #_25C7: SFX2_0A: incbin "bin/sfx/sfx2-0A.sfx"            ; size: 0x0010
-#_1A9987: #_25D7: SFX2_06: incbin "bin/sfx/sfx2-06.sfx"            ; size: 0x0006
-#_1A998D: #_25DD: SFX2_05: incbin "bin/sfx/sfx2-05.sfx"            ; size: 0x0006
-#_1A9993: #_25E3: SFX2_08: incbin "bin/sfx/sfx2-08.sfx"            ; size: 0x0031
-#_1A99C4: #_2614: SFX2_01: incbin "bin/sfx/sfx2-01.sfx"            ; size: 0x0011
-#_1A99D5: #_2625: SFX2_02: incbin "bin/sfx/sfx2-02.sfx"            ; size: 0x000F
-#_1A99E4: #_2634: SFX2_03: incbin "bin/sfx/sfx2-03.sfx"            ; size: 0x000F
-#_1A99F3: #_2643: SFX2_04: incbin "bin/sfx/sfx2-04.sfx"            ; size: 0x000F
-#_1A9A02: #_2652: SFX1_01: incbin "bin/sfx/sfx1-01.sfx"            ; size: 0x0005
-#_1A9A07: #_2657: UnusedSFX_2657: incbin "bin/sfx/unused-2657.sfx" ; size: 0x000B
-#_1A9A12: #_2662: SFX1_02: incbin "bin/sfx/sfx1-02.sfx"            ; size: 0x0015
-#_1A9A27: #_2677: SFX1_03: incbin "bin/sfx/sfx1-03.sfx"            ; size: 0x0005
-#_1A9A2C: #_267C: UnusedSFX_267C: incbin "bin/sfx/unused-267C.sfx" ; size: 0x000B
-#_1A9A37: #_2687: SFX1_04: incbin "bin/sfx/sfx1-04.sfx"            ; size: 0x0015
-#_1A9A4C: #_269C: SFX2_0C: incbin "bin/sfx/sfx2-0C.sfx"            ; size: 0x0006
-#_1A9A52: #_26A2: UnusedSFX_26A2: incbin "bin/sfx/unused-26A2.sfx" ; size: 0x002D
-#_1A9A7F: #_26CF: SFX3_22: incbin "bin/sfx/sfx3-22.sfx"            ; size: 0x0028
-#_1A9AA7: #_26F7: SFX3_28: incbin "bin/sfx/sfx3-28.sfx"            ; size: 0x003F
-#_1A9AE6: #_2736: SFX1_08: incbin "bin/sfx/sfx1-08.sfx"            ; size: 0x0003
-#_1A9AE9: #_2739: SFX1_07: incbin "bin/sfx/sfx1-07.sfx"            ; size: 0x0033
-#_1A9B1C: #_276C: SFX3_20: incbin "bin/sfx/sfx3-20.sfx"            ; size: 0x0012
-#_1A9B2E: #_277E: UnusedSFX_277E: incbin "bin/sfx/unused-277E.sfx" ; size: 0x001F
-#_1A9B4D: #_279D: UnusedSFX_279D: incbin "bin/sfx/unused-279D.sfx" ; size: 0x002C
-#_1A9B79: #_27C9: UnusedSFX_27C9: incbin "bin/sfx/unused-27C9.sfx" ; size: 0x0019
-#_1A9B92: #_27E2: SFX3_21: incbin "bin/sfx/sfx3-21.sfx"            ; size: 0x0014
-#_1A9BA6: #_27F6: UnusedSFX_27F6: incbin "bin/sfx/unused-27F6.sfx" ; size: 0x0011
-#_1A9BB7: #_2807: UnusedSFX_2807: incbin "bin/sfx/unused-2807.sfx" ; size: 0x0011
-#_1A9BC8: #_2818: UnusedSFX_2818: incbin "bin/sfx/unused-2818.sfx" ; size: 0x0011
-#_1A9BD9: #_2829: UnusedSFX_2829: incbin "bin/sfx/unused-2829.sfx" ; size: 0x0008
-#_1A9BE1: #_2831: UnusedSFX_2831: incbin "bin/sfx/unused-2831.sfx" ; size: 0x0013
-#_1A9BF4: #_2844: SFX2_26: incbin "bin/sfx/sfx2-26.sfx"            ; size: 0x0006
-#_1A9BFA: #_284A: UnusedSFX_284A: incbin "bin/sfx/unused-284A.sfx" ; size: 0x0005
-#_1A9BFF: #_284F: SFX1_05: incbin "bin/sfx/sfx1-05.sfx"            ; size: 0x0001
+    ; ==========================================================================
+    ; Sound effects
+    ; ==========================================================================
 
-base off
+    ; TODO: Write a script to extract the SFX from a ROM.
+
+    ; SPC $1A18-$1A36 DATA
+    ; $0D0DC8-$0D0DE6 DATA
+    SFX3_01:
+    {
+        incbin "Data/SFX/sfx3-01.sfx"
+    }
+
+    ; SPC $1A37-$1A42 DATA
+    ; $0D0DE7-$0D0DF2 DATA
+    SFX2_3C:
+    {
+        incbin "Data/SFX/sfx2-3C.sfx"
+    }
+
+    ; SPC $1A43-$1A5A DATA
+    ; $0D0DF3-$0D0E0A DATA
+    SFX2_37:
+    {
+        incbin "Data/SFX/sfx2-37.sfx"
+    }
+
+    ; SPC $1A5B-$1A61 DATA
+    ; $0D0E0B-$0D0E11 DATA
+    UnusedSFX_1A5B:
+    {
+        incbin "Data/SFX/unused-1A5B.sfx"
+    }
+
+    ; SPC $1A62-$1A77 DATA
+    ; $0D0E12-$0D0E27 DATA
+    SFX3_1C:
+    {
+        incbin "Data/SFX/sfx3-1C.sfx"
+    }
+
+    ; SPC $1A78-$1AA6 DATA
+    ; $0D0E28-$0D0E56 DATA
+    SFX3_32:
+    {
+        incbin "Data/SFX/sfx3-32.sfx"
+    }
+
+    ; SPC $1AA7-$1AC9 DATA
+    ; $0D0E57-$0D0E79 DATA
+    SFX3_36:
+    {
+        incbin "Data/SFX/sfx3-36.sfx"
+    }
+
+    ; SPC $1ACA-$1AD1 DATA
+    ; $0D0E7A-$0D0E81 DATA
+    SFX3_31:
+    {
+        incbin "Data/SFX/sfx3-31.sfx"
+    }
+
+    ; SPC $1AD2-$1AE0 DATA
+    ; $0D0E82-$0D0E90 DATA
+    SFX1_13:
+    {
+        incbin "Data/SFX/sfx1-13.sfx"
+    }
+
+    ; SPC $1AE1-$1AEF DATA
+    ; $0D0E91-$0D0E9F DATA
+    SFX1_14:
+    {
+        incbin "Data/SFX/sfx1-14.sfx"
+    }
+
+    ; SPC $1AF0-$1AFE DATA
+    ; $0D0EA0-$0D0EAE DATA
+    SFX1_15:
+    {
+        incbin "Data/SFX/sfx1-15.sfx"
+    }
+
+    ; SPC $1AFF-$1B0D DATA
+    ; $0D0EAF-$0D0EBD DATA
+    SFX1_16:
+    {
+        incbin "Data/SFX/sfx1-16.sfx"
+    }
+
+    ; SPC $1B0E-$1B1C DATA
+    ; $0D0EBE-$0D0ECC DATA
+    SFX1_0D:
+    {
+        incbin "Data/SFX/sfx1-0D.sfx"
+    }
+
+    ; SPC $1B1D-$1B2B DATA
+    ; $0D0ECD-$0D0EDB DATA
+    SFX1_0E:
+    {
+        incbin "Data/SFX/sfx1-0E.sfx"
+    }
+
+    ; SPC $1B2C-$1B3D DATA
+    ; $0D0EDC-$0D0EED DATA
+    SFX1_0F:
+    {
+        incbin "Data/SFX/sfx1-0F.sfx"
+    }
+
+    ; SPC $1B3E-$1B52 DATA
+    ; $0D0EEE-$0D0F02 DATA
+    SFX1_10:
+    {
+        incbin "Data/SFX/sfx1-10.sfx"
+    }
+
+    ; SPC $1B53-$1B61 DATA
+    ; $0D0F03-$0D0F11 DATA
+    SFX3_30:
+    {
+        incbin "Data/SFX/sfx3-30.sfx"
+    }
+
+    ; SPC $1B62-$1BA2 DATA
+    ; $0D0F12-$0D0F52 DATA
+    SFX1_0C:
+    {
+        incbin "Data/SFX/sfx1-0C.sfx"
+    }
+
+    ; SPC $1BA3-$1BE2 DATA
+    ; $0D0F53-$0D0F92 DATA
+    SFX1_0B:
+    {
+        incbin "Data/SFX/sfx1-0B.sfx"
+    }
+
+    ; SPC $1BE3-$1C23 DATA
+    ; $0D0F93-$0D0FD3 DATA
+    SFX1_18:
+    {
+        incbin "Data/SFX/sfx1-18.sfx"
+    }
+
+    ; SPC $1C24-$1C63 DATA
+    ; $0D0FD4-$0D1013 DATA
+    SFX1_17:
+    {
+        incbin "Data/SFX/sfx1-17.sfx"
+    }
+
+    ; SPC $1C64-$1C66 DATA
+    ; $0D1014-$0D1016 DATA
+    SFX2_36:
+    {
+        incbin "Data/SFX/sfx2-36.sfx"
+    }
+
+    ; SPC $1C67-$1C8D DATA
+    ; $0D1017-$0D103D DATA
+    SFX2_35:
+    {
+        incbin "Data/SFX/sfx2-35.sfx"
+    }
+
+    ; SPC $1C8E-$1CBB DATA
+    ; $0D103E-$0D106B DATA
+    SFX1_09:
+    {
+        incbin "Data/SFX/sfx1-09.sfx"
+    }
+
+    ; SPC $1CBC-$1CDB DATA
+    ; $0D106C-$0D108B DATA
+    SFX1_0A:
+    {
+        incbin "Data/SFX/sfx1-0A.sfx"
+    }
+
+    ; SPC $1CDC-$1D1B DATA
+    ; $0D108C-$0D10CB DATA
+    SFX2_33:
+    {
+        incbin "Data/SFX/sfx2-33.sfx"
+    }
+
+    ; SPC $1D1C-$1D46 DATA
+    ; $0D10CC-$0D10F6 DATA
+    UnusedSFX_1D1C:
+    {
+        incbin "Data/SFX/unused-1D1C.sfx"
+    }
+
+    ; SPC $1D47-$1D5C DATA
+    ; $0D10F7-$0D110C DATA
+    SFX2_32:
+    {
+        incbin "Data/SFX/sfx2-32.sfx"
+    }
+
+    ; SPC $1D5D-$1D65 DATA
+    ; $0D110D-$0D1115 DATA
+    SFX3_2E:
+    {
+        incbin "Data/SFX/sfx3-2E.sfx"
+    }
+
+    ; SPC $1D66-$1D72 DATA
+    ; $0D1116-$0D1122 DATA
+    SFX3_34:
+    {
+        incbin "Data/SFX/sfx3-34.sfx"
+    }
+
+    ; SPC $1D73-$1D7F DATA
+    ; $0D1123-$0D112F DATA
+    SFX3_35:
+    {
+        incbin "Data/SFX/sfx3-35.sfx"
+    }
+
+    ; SPC $1D80-$1D92 DATA
+    ; $0D1130-$0D1142 DATA
+    SFX3_2F:
+    {
+        incbin "Data/SFX/sfx3-2F.sfx"
+    }
+
+    ; SPC $1D93-$1DA8 DATA
+    ; $0D1143-$0D1158 DATA
+    SFX3_33:
+    {
+        incbin "Data/SFX/sfx3-33.sfx"
+    }
+
+    ; SPC $1DA9-$1DB3 DATA
+    ; $0D1159-$0D1163 DATA
+    SFX3_2D:
+    {
+        incbin "Data/SFX/sfx3-2D.sfx"
+    }
+
+    ; SPC $1DB4-$1DBF DATA
+    ; $0D1164-$0D116F DATA
+    SFX3_37:
+    {
+        incbin "Data/SFX/sfx3-37.sfx"
+    }
+
+    ; SPC $1DC0-$1DF2 DATA
+    ; $0D1170-$0D11A2 DATA
+    SFX3_2C:
+    {
+        incbin "Data/SFX/sfx3-2C.sfx"
+    }
+
+    ; SPC $1DF3-$1E11 DATA
+    ; $0D11A3-$0D11C1 DATA
+    SFX3_2B:
+    {
+        incbin "Data/SFX/sfx3-2B.sfx"
+    }
+
+    ; SPC $1E12-$1E20 DATA
+    ; $0D11C2-$0D11D0 DATA
+    SFX3_2A:
+    {
+        incbin "Data/SFX/sfx3-2A.sfx"
+    }
+
+    ; SPC $1E21-$1E3F DATA
+    ; $0D11D1-$0D11EF DATA
+    SFX3_29:
+    {
+        incbin "Data/SFX/sfx3-29.sfx"
+    }
+
+    ; SPC $1E40-$1E7A DATA
+    ; $0D11F0-$0D122A DATA
+    SFX3_27:
+    {
+        incbin "Data/SFX/sfx3-27.sfx"
+    }
+
+    ; SPC $1E7B-$1E89 DATA
+    ; $0D122B-$0D1239 DATA
+    SFX3_26:
+    {
+        incbin "Data/SFX/sfx3-26.sfx"
+    }
+
+    ; SPC $1E8A-$1E92 DATA
+    ; $0D123A-$0D1242 DATA
+    SFX3_1A:
+    {
+        incbin "Data/SFX/sfx3-1A.sfx"
+    }
+
+    ; SPC $1E93-$1E9C DATA
+    ; $0D1243-$0D124C DATA
+    SFX3_38:
+    {
+        incbin "Data/SFX/sfx3-38.sfx"
+    }
+
+    ; SPC $1E9D-$1EAB DATA
+    ; $0D124D-$0D125B DATA
+    SFX3_25:
+    {
+        incbin "Data/SFX/sfx3-25.sfx"
+    }
+
+    ; SPC $1EAC-$1EC7 DATA
+    ; $0D125C-$0D1277 DATA
+    SFX1_11:
+    {
+        incbin "Data/SFX/sfx1-11.sfx"
+    }
+
+    ; SPC $1EC8-$1EE1 DATA
+    ; $0D1278-$0D1291 DATA
+    SFX1_12:
+    {
+        incbin "Data/SFX/sfx1-12.sfx"
+    }
+
+    ; SPC $1EE2-$1EF0 DATA
+    ; $0D1292-$0D12A0 DATA
+    UnusedSFX_1EE2:
+    {
+        incbin "Data/SFX/unused-1EE2.sfx"
+    }
+
+    ; SPC $1EF1-$1F12 DATA
+    ; $0D12A1-$0D12C2 DATA
+    SFX2_30:
+    {
+        incbin "Data/SFX/sfx2-30.sfx"
+    }
+
+    ; SPC $1F13-$1F46 DATA
+    ; $0D12C3-$0D12F6 DATA
+    UnusedSFX_1F13:
+    {
+        incbin "Data/SFX/unused-1F13.sfx"
+    }
+
+    ; SPC $1F47-$1F6E DATA
+    ; $0D12F7-$0D131E DATA
+    SFX2_2F:
+    {
+        incbin "Data/SFX/sfx2-2F.sfx"
+    }
+
+    ; SPC $1F6F-$1F9B DATA
+    ; $0D131F-$0D134B DATA
+    SFX2_34:
+    {
+        incbin "Data/SFX/sfx2-34.sfx"
+    }
+
+    ; SPC $1F9C-$1FC9 DATA
+    ; $0D134C-$0D1379 DATA
+    SFX2_39:
+    {
+        incbin "Data/SFX/sfx2-39.sfx"
+    }
+
+    ; SPC $1FCA-$1FD8 DATA
+    ; $0D137A-$0D1388 DATA
+    SFX2_2E:
+    {
+        incbin "Data/SFX/sfx2-2E.sfx"
+    }
+
+    ; SPC $1FD9-$1FE6 DATA
+    ; $0D1389-$0D1396 DATA
+    SFX2_2C:
+    {
+        incbin "Data/SFX/sfx2-2C.sfx"
+    }
+
+    ; SPC $1FE7-$1FF1 DATA
+    ; $0D1397-$0D13A1 DATA
+    SFX2_3A:
+    {
+        incbin "Data/SFX/sfx2-3A.sfx"
+    }
+
+    ; SPC $1FF2-$2000 DATA
+    ; $0D13A2-$0D13B0 DATA
+    SFX2_2B:
+    {
+        incbin "Data/SFX/sfx2-2B.sfx"
+    }
+
+    ; SPC $2001-$2016 DATA
+    ; $0D13B1-$0D13C6 DATA
+    SFX3_23:
+    {
+        incbin "Data/SFX/sfx3-23.sfx"
+    }
+
+    ; SPC $2017-$2032 DATA
+    ; $0D13C7-$0D13E2 DATA
+    SFX3_39:
+    {
+        incbin "Data/SFX/sfx3-39.sfx"
+    }
+
+    ; SPC $2033-$2042 DATA
+    ; $0D13E3-$0D13F2 DATA
+    SFX2_2A:
+    {
+        incbin "Data/SFX/sfx2-2A.sfx"
+    }
+
+    ; SPC $2043-$204A DATA
+    ; $0D13F3-$0D13FA DATA
+    SFX3_24:
+    {
+        incbin "Data/SFX/sfx3-24.sfx"
+    }
+
+    ; SPC $204B-$2090 DATA
+    ; $0D13FB-$0D1440 DATA
+    SFX3_1F:
+    {
+        incbin "Data/SFX/sfx3-1F.sfx"
+    }
+
+    ; SPC $2091-$20A5 DATA
+    ; $0D1441-$0D1455 DATA
+    SFX3_1E:
+    {
+        incbin "Data/SFX/sfx3-1E.sfx"
+    }
+
+    ; SPC $20A6-$20B5 DATA
+    ; $0D1456-$0D1465 DATA
+    SFX2_2D:
+    {
+        incbin "Data/SFX/sfx2-2D.sfx"
+    }
+
+    ; SPC $20B6-$20BF DATA
+    ; $0D1466-$0D146F DATA
+    SFX3_1B:
+    {
+        incbin "Data/SFX/sfx3-1B.sfx"
+    }
+
+    ; SPC $20C0-$20CD DATA
+    ; $0D1470-$0D147D DATA
+    SFX3_3A:
+    {
+        incbin "Data/SFX/sfx3-3A.sfx"
+    }
+
+    ; SPC $20CE-$20DC DATA
+    ; $0D147E-$0D148C DATA
+    SFX2_31:
+    {
+        incbin "Data/SFX/sfx2-31.sfx"
+    }
+
+    ; SPC $20DD-$2106 DATA
+    ; $0D148D-$0D14B6 DATA
+    SFX3_18:
+    {
+        incbin "Data/SFX/sfx3-18.sfx"
+    }
+
+    ; SPC $2107-$2122 DATA
+    ; $0D14B7-$0D14D2 DATA
+    SFX2_22:
+    {
+        incbin "Data/SFX/sfx2-22.sfx"
+    }
+
+    ; SPC $2123-$212E DATA
+    ; $0D14D3-$0D14DE DATA
+    SFX3_16:
+    {
+        incbin "Data/SFX/sfx3-16.sfx"
+    }
+
+    ; SPC $212F-$213A DATA
+    ; $0D14DF-$0D14EA DATA
+    SFX3_15:
+    {
+        incbin "Data/SFX/sfx3-15.sfx"
+    }
+
+    ; SPC $213B-$214E DATA
+    ; $0D14EB-$0D14FE DATA
+    SFX3_13:
+    {
+        incbin "Data/SFX/sfx3-13.sfx"
+    }
+
+    ; SPC $214F-$215D DATA
+    ; $0D14FF-$0D150D DATA
+    SFX3_11:
+    {
+        incbin "Data/SFX/sfx3-11.sfx"
+    }
+
+    ; SPC $215E-$216C DATA
+    ; $0D150E-$0D151C DATA
+    SFX3_12:
+    {
+        incbin "Data/SFX/sfx3-12.sfx"
+    }
+
+    ; SPC $216D-$2175 DATA
+    ; $0D151D-$0D1525 DATA
+    SFX3_10:
+    {
+        incbin "Data/SFX/sfx3-10.sfx"
+    }
+
+    ; SPC $2176-$2181 DATA
+    ; $0D1526-$0D1531 DATA
+    SFX3_3B:
+    {
+        incbin "Data/SFX/sfx3-3B.sfx"
+    }
+
+    ; SPC $2182-$218D DATA
+    ; $0D1532-$0D153D DATA
+    SFX3_0E:
+    {
+        incbin "Data/SFX/sfx3-0E.sfx"
+    }
+
+    ; SPC $218E-$2197 DATA
+    ; $0D153E-$0D1547 DATA
+    SFX3_0C:
+    {
+        incbin "Data/SFX/sfx3-0C.sfx"
+    }
+
+    ; SPC $2198-$21A8 DATA
+    ; $0D1548-$0D1558 DATA
+    SFX3_0B:
+    {
+        incbin "Data/SFX/sfx3-0B.sfx"
+    }
+
+    ; SPC $21A9-$21B4 DATA
+    ; $0D1559-$0D1564 DATA
+    SFX3_0A:
+    {
+        incbin "Data/SFX/sfx3-0A.sfx"
+    }
+
+    ; SPC $21B5-$21C0 DATA
+    ; $0D1565-$0D1570 DATA
+    SFX3_0D:
+    {
+        incbin "Data/SFX/sfx3-0D.sfx"
+    }
+
+    ; SPC $21C1-$21E5 DATA
+    ; $0D1571-$0D1595 DATA
+    SFX3_09:
+    {
+        incbin "Data/SFX/sfx3-09.sfx"
+    }
+
+    ; SPC $21E6-$21F4 DATA
+    ; $0D1596-$0D15A4 DATA
+    SFX3_08:
+    {
+        incbin "Data/SFX/sfx3-08.sfx"
+    }
+
+    ; SPC $21F5-$220D DATA
+    ; $0D15A5-$0D15BD DATA
+    SFX3_06:
+    {
+        incbin "Data/SFX/sfx3-06.sfx"
+    }
+
+    ; SPC $220E-$223C DATA
+    ; $0D15BE-$0D15EC DATA
+    SFX3_04:
+    {
+        incbin "Data/SFX/sfx3-04.sfx"
+    }
+
+    ; SPC $223D-$2249 DATA
+    ; $0D15ED-$0D15F9 DATA
+    SFX3_07:
+    {
+        incbin "Data/SFX/sfx3-07.sfx"
+    }
+
+    ; SPC $224A-$2251 DATA
+    ; $0D15FA-$0D1601 DATA
+    SFX3_03:
+    {
+        incbin "Data/SFX/sfx3-03.sfx"
+    }
+
+    ; SPC $2252-$2286 DATA
+    ; $0D1602-$0D1636 DATA
+    SFX2_27:
+    {
+        incbin "Data/SFX/sfx2-27.sfx"
+    }
+
+    ; SPC $2287-$2295 DATA
+    ; $0D1637-$0D1645 DATA
+    SFX2_28:
+    {
+        incbin "Data/SFX/sfx2-28.sfx"
+    }
+
+    ; SPC $2296-$22A4 DATA
+    ; $0D1646-$0D1654 DATA
+    SFX2_25:
+    {
+        incbin "Data/SFX/sfx2-25.sfx"
+    }
+
+    ; SPC $22A5-$22AA DATA
+    ; $0D1655-$0D165A DATA
+    SFX2_24:
+    {
+        incbin "Data/SFX/sfx2-24.sfx"
+    }
+
+    ; SPC $22AB-$22B0 DATA
+    ; $0D165B-$0D1660 DATA
+    SFX2_3D:
+    {
+        incbin "Data/SFX/sfx2-3D.sfx"
+    }
+
+    ; SPC $22B1-$22BA DATA
+    ; $0D1661-$0D166A DATA
+    SFX2_23:
+    {
+        incbin "Data/SFX/sfx2-23.sfx"
+    }
+
+    ; SPC $22BB-$22CE DATA
+    ; $0D166B-$0D167E DATA
+    SFX2_1D:
+    {
+        incbin "Data/SFX/sfx2-1D.sfx"
+    }
+
+    ; SPC $22CF-$22D9 DATA
+    ; $0D167F-$0D1689 DATA
+    SFX2_21:
+    {
+        incbin "Data/SFX/sfx2-21.sfx"
+    }
+
+    ; SPC $22DA-$22E8 DATA
+    ; $0D168A-$0D1698 DATA
+    SFX2_20:
+    {
+        incbin "Data/SFX/sfx2-20.sfx"
+    }
+
+    ; SPC $22E9-$2300 DATA
+    ; $0D1699-$0D16B0 DATA
+    SFX2_1F:
+    {
+        incbin "Data/SFX/sfx2-1F.sfx"
+    }
+
+    ; SPC $2301-$2306 DATA
+    ; $0D16B1-$0D16B6 DATA
+    SFX2_1C:
+    {
+        incbin "Data/SFX/sfx2-1C.sfx"
+    }
+
+    ; SPC $2307-$2315 DATA
+    ; $0D16B7-$0D16C5 DATA
+    SFX2_1B:
+    {
+        incbin "Data/SFX/sfx2-1B.sfx"
+    }
+
+    ; SPC $2316-$232B DATA
+    ; $0D16C6-$0D16DB DATA
+    SFX2_1A:
+    {
+        incbin "Data/SFX/sfx2-1A.sfx"
+    }
+
+    ; SPC $232C-$2343 DATA
+    ; $0D16DC-$0D16F3 DATA
+    SFX2_16:
+    {
+        incbin "Data/SFX/sfx2-16.sfx"
+    }
+
+    ; SPC $2344-$2355 DATA
+    ; $0D16F4-$0D1705 DATA
+    SFX2_17:
+    {
+        incbin "Data/SFX/sfx2-17.sfx"
+    }
+
+    ; SPC $2356-$236D DATA
+    ; $0D1706-$0D171D DATA
+    SFX2_18:
+    {
+        incbin "Data/SFX/sfx2-18.sfx"
+    }
+
+    ; SPC $236E-$237F DATA
+    ; $0D171E-$0D172F DATA
+    SFX2_19:
+    {
+        incbin "Data/SFX/sfx2-19.sfx"
+    }
+
+    ; SPC $2380-$238F DATA
+    ; $0D1730-$0D173F DATA
+    SFX2_14:
+    {
+        incbin "Data/SFX/sfx2-14.sfx"
+    }
+
+    ; SPC $2390-$239F DATA
+    ; $0D1740-$0D174F DATA
+    SFX2_15:
+    {
+        incbin "Data/SFX/sfx2-15.sfx"
+    }
+
+    ; SPC $23A0-$23B4 DATA
+    ; $0D1750-$0D1764 DATA
+    SFX2_13:
+    {
+        incbin "Data/SFX/sfx2-13.sfx"
+    }
+
+    ; SPC $23B5-$23CC DATA
+    ; $0D1765-$0D177C DATA
+    SFX2_3E:
+    {
+        incbin "Data/SFX/sfx2-3E.sfx"
+    }
+
+    ; SPC $23CD-$23EF DATA
+    ; $0D177D-$0D179F DATA
+    SFX2_12:
+    {
+        incbin "Data/SFX/sfx2-12.sfx"
+    }
+
+    ; SPC $23F0-$23F9 DATA
+    ; $0D17A0-$0D17A9 DATA
+    SFX2_11:
+    {
+        incbin "Data/SFX/sfx2-11.sfx"
+    }
+
+    ; SPC $23FA-$2403 DATA
+    ; $0D17AA-$0D17B3 DATA
+    SFX2_10:
+    {
+        incbin "Data/SFX/sfx2-10.sfx"
+    }
+
+    ; SPC $2404-$2413 DATA
+    ; $0D17B4-$0D17C3 DATA
+    SFX2_0E:
+    {
+        incbin "Data/SFX/sfx2-0E.sfx"
+    }
+
+    ; SPC $2414-$2434 DATA
+    ; $0D17C4-$0D17E4 DATA
+    SFX2_0D:
+    {
+        incbin "Data/SFX/sfx2-0D.sfx"
+    }
+
+    ; SPC $2435-$243E DATA
+    ; $0D17E5-$0D17EE DATA
+    SFX2_3F:
+    {
+        incbin "Data/SFX/sfx2-3F.sfx"
+    }
+
+    ; SPC $243F-$2461 DATA
+    ; $0D17EF-$0D1811 DATA
+    SFX2_29:
+    {
+        incbin "Data/SFX/sfx2-29.sfx"
+    }
+
+    ; SPC $2462-$246B DATA
+    ; $0D1812-$0D181B DATA
+    SFX2_3B:
+    {
+        incbin "Data/SFX/sfx2-3B.sfx"
+    }
+
+    ; SPC $246C-$2477 DATA
+    ; $0D181C-$0D1827 DATA
+    SFX3_14:
+    {
+        incbin "Data/SFX/sfx3-14.sfx"
+    }
+
+    ; SPC $2478-$247F DATA
+    ; $0D1828-$0D182F DATA
+    SFX2_0B:
+    {
+        incbin "Data/SFX/sfx2-0B.sfx"
+    }
+
+    ; SPC $2480-$2489 DATA
+    ; $0D1830-$0D1839 DATA
+    SFX3_3F:
+    {
+        incbin "Data/SFX/sfx3-3F.sfx"
+    }
+
+    ; SPC $248A-$2493 DATA
+    ; $0D183A-$0D1843 DATA
+    SFX3_3C:
+    {
+        incbin "Data/SFX/sfx3-3C.sfx"
+    }
+
+    ; SPC $2494-$249D DATA
+    ; $0D1844-$0D184D DATA
+    SFX3_3D:
+    {
+        incbin "Data/SFX/sfx3-3D.sfx"
+    }
+
+    ; SPC $249E-$24B8 DATA
+    ; $0D184E-$0D1868 DATA
+    SFX3_3E:
+    {
+        incbin "Data/SFX/sfx3-3E.sfx"
+    }
+
+    ; SPC $24B9-$24C2 DATA
+    ; $0D1869-$0D1872 DATA
+    SFX3_0F:
+    {
+        incbin "Data/SFX/sfx3-0F.sfx"
+    }
+
+    ; SPC $24C3-$2509 DATA
+    ; $0D1873-$0D18B9 DATA
+    SFX2_0F:
+    {
+        incbin "Data/SFX/sfx2-0F.sfx"
+    }
+
+    ; SPC $250A-$252C DATA
+    ; $0D18BA-$0D18DC DATA
+    SFX3_19:
+    {
+        incbin "Data/SFX/sfx3-19.sfx"
+    }
+
+    ; SPC $252D-$2532 DATA
+    ; $0D18DD-$0D18E2 DATA
+    UnusedSFX_252D:
+    {
+        incbin "Data/SFX/unused-252D.sfx"
+    }
+
+    ; SPC $2533-$254D DATA
+    ; $0D18E3-$0D18FD DATA
+    UnusedSFX_2533:
+    {
+        incbin "Data/SFX/unused-2533.sfx"
+    }
+
+    ; SPC $254E-$2576 DATA
+    ; $0D18FE-$0D1926 DATA
+    SFX3_02:
+    {
+        incbin "Data/SFX/sfx3-02.sfx"
+    }
+
+    ; SPC $2577-$25A5 DATA
+    ; $0D1927-$0D1955 DATA
+    SFX2_1E:
+    {
+        incbin "Data/SFX/sfx2-1E.sfx"
+    }
+
+    ; SPC $25A6-$25AC DATA
+    ; $0D1956-$0D195C DATA
+    SFX3_17:
+    {
+        incbin "Data/SFX/sfx3-17.sfx"
+    }
+
+    ; SPC $25AD-$25B6 DATA
+    ; $0D195D-$0D1966 DATA
+    SFX2_09:
+    {
+        incbin "Data/SFX/sfx2-09.sfx"
+    }
+
+    ; SPC $25B7-$25C6 DATA
+    ; $0D1967-$0D1976 DATA
+    SFX2_07:
+    {
+        incbin "Data/SFX/sfx2-07.sfx"
+    }
+
+    ; SPC $25C7-$25D6 DATA
+    ; $0D1977-$0D1986 DATA
+    SFX2_0A:
+    {
+        incbin "Data/SFX/sfx2-0A.sfx"
+    }
+
+    ; SPC $25D7-$25DC DATA
+    ; $0D1987-$0D198C DATA
+    SFX2_06:
+    {
+        incbin "Data/SFX/sfx2-06.sfx"
+    }
+
+    ; SPC $25DD-$25E2 DATA
+    ; $0D198D-$0D1992 DATA
+    SFX2_05:
+    {
+        incbin "Data/SFX/sfx2-05.sfx"
+    }
+
+    ; SPC $25E3-$2613 DATA
+    ; $0D1993-$0D19C3 DATA
+    SFX2_08:
+    {
+        incbin "Data/SFX/sfx2-08.sfx"
+    }
+
+    ; SPC $2614-$2624 DATA
+    ; $0D19C4-$0D19D4 DATA
+    SFX2_01:
+    {
+        incbin "Data/SFX/sfx2-01.sfx"
+    }
+
+    ; SPC $2625-$2633 DATA
+    ; $0D19D5-$0D19E3 DATA
+    SFX2_02:
+    {
+        incbin "Data/SFX/sfx2-02.sfx"
+    }
+
+    ; SPC $2634-$2642 DATA
+    ; $0D19E4-$0D19F2 DATA
+    SFX2_03:
+    {
+        incbin "Data/SFX/sfx2-03.sfx"
+    }
+
+    ; SPC $2643-$2651 DATA
+    ; $0D19F3-$0D1A01 DATA
+    SFX2_04:
+    {
+        incbin "Data/SFX/sfx2-04.sfx"
+    }
+
+    ; SPC $2652-$2656 DATA
+    ; $0D1A02-$0D1A06 DATA
+    SFX1_01:
+    {
+        incbin "Data/SFX/sfx1-01.sfx"
+    }
+
+    ; SPC $2657-$2661 DATA
+    ; $0D1A07-$0D1A11 DATA
+    UnusedSFX_2657:
+    {
+        incbin "Data/SFX/unused-2657.sfx"
+    }
+
+    ; SPC $2662-$2676 DATA
+    ; $0D1A12-$0D1A26 DATA
+    SFX1_02:
+    {
+        incbin "Data/SFX/sfx1-02.sfx"
+    }
+
+    ; SPC $2677-$267B DATA
+    ; $0D1A27-$0D1A2B DATA
+    SFX1_03:
+    {
+        incbin "Data/SFX/sfx1-03.sfx"
+    }
+
+    ; SPC $267C-$2686 DATA
+    ; $0D1A2C-$0D1A36 DATA
+    UnusedSFX_267C:
+    {
+        incbin "Data/SFX/unused-267C.sfx"
+    }
+
+    ; SPC $2687-$269B DATA
+    ; $0D1A37-$0D1A4B DATA
+    SFX1_04:
+    {
+        incbin "Data/SFX/sfx1-04.sfx"
+    }
+
+    ; SPC $269C-$26A1 DATA
+    ; $0D1A4C-$0D1A51 DATA
+    SFX2_0C:
+    {
+        incbin "Data/SFX/sfx2-0C.sfx"
+    }
+
+    ; SPC $26A2-$26CE DATA
+    ; $0D1A52-$0D1A7E DATA
+    UnusedSFX_26A2:
+    {
+        incbin "Data/SFX/unused-26A2.sfx"
+    }
+
+    ; SPC $26CF-$26F6 DATA
+    ; $0D1A7F-$0D1AA6 DATA
+    SFX3_22:
+    {
+        incbin "Data/SFX/sfx3-22.sfx"
+    }
+
+    ; SPC $26F7-$2735 DATA
+    ; $0D1AA7-$0D1AE5 DATA
+    SFX3_28:
+    {
+        incbin "Data/SFX/sfx3-28.sfx"
+    }
+
+    ; SPC $2736-$2738 DATA
+    ; $0D1AE6-$0D1AE8 DATA
+    SFX1_08:
+    {
+        incbin "Data/SFX/sfx1-08.sfx"
+    }
+
+    ; SPC $2739-$276B DATA
+    ; $0D1AE9-$0D1B1B DATA
+    SFX1_07:
+    {
+        incbin "Data/SFX/sfx1-07.sfx"
+    }
+
+    ; SPC $276C-$277D DATA
+    ; $0D1B1C-$0D1B2D DATA
+    SFX3_20:
+    {
+        incbin "Data/SFX/sfx3-20.sfx"
+    }
+
+    ; SPC $277E-$279C DATA
+    ; $0D1B2E-$0D1B4C DATA
+    UnusedSFX_277E:
+    {
+        incbin "Data/SFX/unused-277E.sfx"
+    }
+
+    ; SPC $279D-$27C8 DATA
+    ; $0D1B4D-$0D1B78 DATA
+    UnusedSFX_279D:
+    {
+        incbin "Data/SFX/unused-279D.sfx"
+    }
+
+    ; SPC $27C9-$27E1 DATA
+    ; $0D1B79-$0D1B91 DATA
+    UnusedSFX_27C9:
+    {
+        incbin "Data/SFX/unused-27C9.sfx"
+    }
+
+    ; SPC $27E2-$27F5 DATA
+    ; $0D1B92-$0D1BA5 DATA
+    SFX3_21:
+    {
+        incbin "Data/SFX/sfx3-21.sfx"
+    }
+
+    ; SPC $27F6-$2806 DATA
+    ; $0D1BA6-$0D1BB6 DATA
+    UnusedSFX_27F6:
+    {
+        incbin "Data/SFX/unused-27F6.sfx"
+    }
+
+    ; SPC $2807-$2817 DATA
+    ; $0D1BB7-$0D1BC7 DATA
+    UnusedSFX_2807:
+    {
+        incbin "Data/SFX/unused-2807.sfx"
+    }
+
+    ; SPC $2818-$2828 DATA
+    ; $0D1BC8-$0D1BD8 DATA
+    UnusedSFX_2818:
+    {
+        incbin "Data/SFX/unused-2818.sfx"
+    }
+
+    ; SPC $2829-$2830 DATA
+    ; $0D1BD9-$0D1BE0 DATA
+    UnusedSFX_2829:
+    {
+        incbin "Data/SFX/unused-2829.sfx"
+    }
+
+    ; SPC $2831-$2843 DATA
+    ; $0D1BE1-$0D1BF3 DATA
+    UnusedSFX_2831:
+    {
+        incbin "Data/SFX/unused-2831.sfx"
+    }
+
+    ; SPC $2844-$2849 DATA
+    ; $0D1BF4-$0D1BF9 DATA
+    SFX2_26:
+    {
+        incbin "Data/SFX/sfx2-26.sfx"
+    }
+
+    ; SPC $284A-$284E DATA
+    ; $0D1BFA-$0D1BFE DATA
+    UnusedSFX_284A:
+    {
+        incbin "Data/SFX/unused-284A.sfx"
+    }
+
+    ; SPC $284F-$2850 DATA
+    ; $0D1BFF-$0D1C00 DATA
+    SFX1_05:
+    {
+        incbin "Data/SFX/sfx1-05.sfx"
+    }
+
+    base off
+}
+
+; ==============================================================================
+
+; $0D1C04-$0D1CE4 DATA
+SFXInstruments:
+{
+    ; Transfer size, transfer address
+    dw $00E1, INSTRUMENT_DATA_SFX
+
+    ; SPC $3E00-$3EE0 DATA
+    ; $0D1BFF-$0D1CE4 DATA
+    base INSTRUMENT_DATA_SFX
+    
+    ; TODO: Define all of these.
+    ; VOLL VOLR      Pitch     SRCN    ADSR   GAIN Mult
+    db $70, $70 : dw $1000 : db $00, $F6, $6A, $B8, $03 ; 00
+    db $70, $70 : dw $1000 : db $01, $8E, $E0, $B8, $02 ; 01
+    db $70, $70 : dw $1000 : db $14, $FE, $6A, $B8, $02 ; 02
+    db $70, $70 : dw $1000 : db $03, $FE, $F8, $B8, $0D ; 03
+    db $70, $70 : dw $1000 : db $04, $FE, $6A, $7F, $03 ; 04
+    db $70, $70 : dw $1000 : db $02, $FE, $6A, $7F, $03 ; 05
+    db $70, $70 : dw $1000 : db $05, $FE, $6A, $70, $03 ; 06
+    db $70, $70 : dw $1000 : db $06, $FE, $6A, $70, $03 ; 07
+    db $70, $70 : dw $1000 : db $08, $FA, $6A, $70, $03 ; 08
+    db $70, $70 : dw $1000 : db $06, $FE, $6A, $70, $01 ; 09
+    db $70, $70 : dw $1000 : db $07, $FE, $6A, $70, $05 ; 0A
+    db $70, $70 : dw $1000 : db $0B, $FE, $6A, $B8, $03 ; 0B
+    db $70, $70 : dw $1000 : db $0C, $FE, $E0, $B8, $02 ; 0C
+    db $70, $70 : dw $1000 : db $0D, $F9, $6E, $B8, $03 ; 0D
+    db $70, $70 : dw $1000 : db $0E, $FE, $F5, $B8, $07 ; 0E
+    db $70, $70 : dw $1000 : db $0F, $FE, $F5, $B8, $06 ; 0F
+    db $70, $70 : dw $1000 : db $01, $FE, $FC, $B8, $03 ; 10
+    db $70, $70 : dw $1000 : db $10, $8E, $E0, $B8, $03 ; 11
+    db $70, $70 : dw $1000 : db $08, $8E, $E0, $B8, $02 ; 12
+    db $70, $70 : dw $1000 : db $14, $8E, $E0, $B8, $02 ; 13
+    db $70, $70 : dw $1000 : db $0A, $88, $E0, $B8, $02 ; 14
+    db $70, $70 : dw $1000 : db $17, $8E, $E0, $B8, $02 ; 15
+    db $70, $70 : dw $1000 : db $15, $FF, $E0, $B8, $04 ; 16
+    db $70, $70 : dw $1000 : db $03, $DF, $11, $B8, $0F ; 17
+    db $70, $70 : dw $1000 : db $01, $88, $E0, $B8, $01 ; 18
+
+    base off
+}
+
+; ==============================================================================
+
+; TODO: Write a script to extract the music from a ROM.
+; TODO: Find out if the Fairy_Theme label is actually used. I don't think it is.
+
+; $0D1CE5-$0D1EF4 DATA
+Fairy_Theme:
+SongBlock_1:
+{
+    ; Transfer size, transfer address
+    dw $020C, $2880
+
+    ; SPC $2880-$2A8C DATA
+    ; $0D1CE9-$0D1CE4 DATA
+    base $2880
+
+    Song0B_FairyTheme:
+    {
+        incbin "Data/Music/song0B.bin"
+    }
+
+    base off
+}
+
+; ==============================================================================
+
+; $0D1EF5-$0D4CA7 DATA
+SongBank_Overworld_Main:
+{
+    ; Transfer size, transfer address
+    dw $2DAE, SONG_POINTERS
+
+    ; SPC $D000-$D035 DATA
+    ; $0D1EF9-$0D1F2E DATA
+    base SONG_POINTERS
+
+    dw Song01_TriforceIntro
+    dw Song02_LightWorldOverture
+    dw Song03_Rain
+    dw Song04_BunnyTheme
+    dw Song05_LostWoods
+    dw Song06_LegendsTheme_Attract
+    dw Song07_KakarikoVillage
+    dw Song08_MirrorWarp
+    dw Song09_DarkWorld
+    dw Song0A_PullingTheMasterSword
+    dw Song0B_FairyTheme
+    dw Song0C_Fugitive
+    dw Song0D_SkullWoodsMarch
+    dw Song0E_MinigameTheme
+    dw Song0F_IntroFanfare
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+
+    ; ==========================================================================
+
+    ; SPC $D036-$D0FE DATA
+    ; $0D1F2F-$0D1FF7 DATA
+    Song01_TriforceIntro:
+    {
+        incbin "bin/music/song01.bin" ; size: 0x00C9
+    }
+
+    ; SPC $D0FF-$D869 DATA
+    ; $0D1FF8-$0D2762 DATA
+    Song02_LightWorldOverture:
+    {
+        incbin "bin/music/song02.bin" ; size: 0x076B
+    }
+
+    ; SPC $D86A-$DCA6 DATA
+    ; $0D2763-$0D2B9F DATA
+    Song03_Rain:
+    {
+        incbin "bin/music/song03.bin" ; size: 0x043D
+    }
+
+    ; SPC $DCA7-$DEE4 DATA
+    ; $0D2BA0-$0D2DDD DATA
+    Song04_BunnyTheme:
+    {
+        incbin "bin/music/song04.bin" ; size: 0x023E
+    }
+
+    ; SPC $DEE5-$E369 DATA
+    ; $0D2DDE-$0D3262 DATA
+    Song05_LostWoods:
+    {
+        incbin "bin/music/song05.bin" ; size: 0x0485
+    }
+
+    ; SPC $E36A-$E8DB DATA
+    ; $0D3263-$0D37D4 DATA
+    Song06_LegendsTheme_Attract:
+    {
+        incbin "bin/music/song06.bin" ; size: 0x0572
+    }
+
+    ; SPC $E8DC-$EE10 DATA
+    ; $0D37D5-$0D3D09 DATA
+    Song07_KakarikoVillage:
+    {
+        incbin "bin/music/song07.bin" ; size: 0x0535
+    }
+
+    ; SPC $EE11-$EF6C DATA
+    ; $0D3D0A-$0D3E65 DATA
+    Song08_MirrorWarp:
+    {
+        incbin "bin/music/song08.bin" ; size: 0x015C
+    }
+
+    ; SPC $EF6D-$F812 DATA
+    ; $0D3E66-$0D470B DATA
+    Song09_DarkWorld:
+    {
+        incbin "bin/music/song09.bin" ; size: 0x08A6
+    }
+
+    ; SPC $F813-$F8F5 DATA
+    ; $0D470C-$0D47EE DATA
+    Song0A_PullingTheMasterSword:
+    {
+        incbin "bin/music/song0A.bin" ; size: 0x00E3
+    }
+
+    ; SPC $F8F6-$FAF9 DATA
+    ; $0D47EF-$0D49F2 DATA
+    Song0C_Fugitive:
+    {
+        incbin "bin/music/song0C.bin" ; size: 0x0204
+    }
+
+    ; SPC $FAFA-$FDAE DATA
+    ; $0D49F3-$0D4CA7 DATA
+    Song0F_IntroFanfare:
+    {
+        incbin "bin/music/song0F.bin" ; size: 0x02B4
+    }
+
+    base off
+}
+
+; ==============================================================================
+
+; $0D4CA7-$0D5336 DATA
+SongBank_Overworld_Auxiliary:
+{
+    ; Transfer size, transfer address
+    dw $0688, SONG_POINTERS_AUX
+
+    ; SPC $2B00-$3188 DATA
+    ; $0D4CA7-$0D5332 DATA
+    base SONG_POINTERS_AUX
+
+    ; SPC $2B00-$2FA5 DATA
+    ; $0D4CAB-$0D5150 DATA
+    Song0D_SkullWoodsMarch:
+    {
+        incbin "bin/music/song0D.bin"
+    }
+
+    ; SPC $2FA6-$3188 DATA
+    ; $0D4151-$0D5332 DATA
+    Song0E_MinigameTheme:
+    {
+        incbin "bin/music/song0E.bin"
+    }
+
+    base off
+
+    ; end of transfer
+    ; $0D5333
+    dw $0000, SPC_ENGINE
+}
+
+; ==============================================================================
+; End of SPC Code/Data in this bank.
+; ==============================================================================
+
+; $0D5337-$0D533F DATA
+GARBAGE_1AD337:
+{
+    db $77, $00, $00, $00, $00, $01, $FF, $00, $00
+}
+
+; ==============================================================================
+
+; $0D5340-$0D5380 DATA
+NULL_1AD340:
+{
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+}
+
+; ==============================================================================
+
+; $0D5380-$0D63E3 DATA
+SongBank_Credits_Main:
+{
+    ; Transfer size, transfer address
+    dw $1060, SONG_POINTERS
+
+    ; SPC $D000-$E05F DATA
+    ; $0D5384-$0D53E3 DATA
+    base SONG_POINTERS
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw $0000
+    dw Song20_TriforceRoom
+    dw Song21_EndingTheme
+    dw Song22_Credits
+    dw $0000
+
+    ; ==========================================================================
+
+    ; SPC $D046-$D2FC DATA
+    ; $0D53CA-$0D5680 DATA
+    Song20_TriforceRoom:
+    {
+        incbin "bin/music/song20.bin"
+    }
+
+    ; SPC $D2FD-$E05F DATA
+    ; $0D5681-$0D63E3 DATA
+    Song22_Credits:
+    {
+        incbin "bin/music/song22.bin"
+    }
+
+    base off
+}
+
+; ==============================================================================
+
+; $0D63E4-$0D7423 DATA
+SongBank_Credits_Auxiliary:
+{
+    ; Transfer size, transfer address
+    dw $1038, CREDITS_AUX_POINTER
+
+    base CREDITS_AUX_POINTER
+
+    ; SPC $2900-$3937 DATA
+    ; $0D63E8-$0D741F DATA
+    Song21_EndingTheme:
+    {
+        incbin "bin/music/song21.bin"
+    }
+
+    base off
+
+    ; End of transfer
+    ; $0D7420
+    dw $0000, SPC_ENGINE
 }
 
 ; ==============================================================================
@@ -814,7 +2169,7 @@ DrinkingGuy_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.w $0DC0, X : ASL : ADC.w $0DC0, X : ASL #3
+    LDA.w $0D40, X : ASL : ADC.w $0D40, X : ASL #3
     ADC.b #(.OAM_groups)              : STA.b $08
     LDA.b #(.OAM_groups) : ADC.b #$00 : STA.b $09
     
@@ -836,7 +2191,7 @@ Lady_Draw:
     LDA.b #$02 : STA.b $06
                  STZ.b $07
     
-    LDA.w $0DE0, X : ASL : ADC.w $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL : ADC.w $0D40, X : ASL #4
     
     ; TODO: Figure out where the reference goes.
     ; OPTIMIZE: Add 0?
@@ -925,7 +2280,7 @@ Lanmola_SpawnShrapnel:
         LDA.l Pool_Lanmola_SpawnShrapnel_speed_x, X : STA.w $0D50, Y
         LDA.l Pool_Lanmola_SpawnShrapnel_speed_y, X : STA.w $0D40, Y
         
-        JSL.l GetRandomInt : AND.b #$01 : STA.w $0DC0, Y
+        JSL.l GetRandomInt : AND.b #$01 : STA.w $0D40, Y
         
         PLX
     
@@ -1118,7 +2473,7 @@ Mothula_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X
+    LDA.w $0D40, X
     
     REP #$20
     
@@ -1135,7 +2490,7 @@ Mothula_Draw:
     LDA.w $0F00, X : BNE .skip
         PHX
         
-        LDA.w $0DC0, X : ASL #3 : ADC.w $0DC0, X : STA.b $06
+        LDA.w $0D40, X : ASL #3 : ADC.w $0D40, X : STA.b $06
         
         LDA.b $02 : CLC : ADC.w $0F70, X : STA.b $02
         LDA.b $03       : ADC.b #$00     : STA.b $03
@@ -1272,7 +2627,7 @@ Sprite_ChickenLady:
     
     .anoshow_message
     
-    LDA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #4 : AND.b #$01 : STA.w $0D40, X
     
     RTS
 }
@@ -1295,7 +2650,7 @@ SpritePrep_DiggingGameGuy:
         
         LDA.w $0D10, X : SEC : SBC.b #$09 : STA.w $0D10, X
         
-        LDA.b #$01 : STA.w $0DC0, X
+        LDA.b #$01 : STA.w $0D40, X
     
     .player_below_proprietor
     
