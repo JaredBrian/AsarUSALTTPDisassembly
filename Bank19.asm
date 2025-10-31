@@ -11,13 +11,13 @@ org $198000
 
 SPC_ENGINE          = $0800
 SFX_DATA            = $17C0
+CREDITS_AUX_POINTER = $2900
+SONG_POINTERS_AUX   = $2B00
 SAMPLE_POINTERS     = $3C00
 INSTRUMENT_DATA     = $3D00
 INSTRUMENT_DATA_SFX = $3E00
 SAMPLE_DATA         = $4000
 SONG_POINTERS       = $D000
-SONG_POINTERS_AUX   = $2B00
-CREDITS_AUX_POINTER = $2900
 
 ; ==============================================================================
 
@@ -256,7 +256,7 @@ InstrumentData:
 
 ; ==============================================================================
 
-; $0CFBCA-$0CFBCD DATA
+; $0CFBCA-$0D0B6B DATA
 SPCEngine:
 {
     ; Transfer size, transfer address
@@ -270,1145 +270,1097 @@ SPCEngine:
     ; $0CFBCE-$0D0B6B
     base SPC_ENGINE
 
-    ; SPC $0800-$XXXX
-    ; $0CFBCE-$XXXXXX
+    ; SPC $0800-$0843 JUMP LOCATION
+    ; $0CFBCE-$0CFC11 DATA
     Engine_Start:
-    #_19FBCE: #_0800: clrp
+    {
+        ; Set the dp to 0.
+        clrp
 
-    #_19FBCF: #_0801: mov.b X, #$CF
-    #_19FBD1: #_0803: mov SP, X
+        ; Set the stack pointer.
+        mov.b X, #$CF : mov SP, X
 
-    #_19FBD2: #_0804: mov.b A, #$00
-    #_19FBD4: #_0806: mov X, A
+        ; Clear $0000-$00E0 in ARAM.
+        mov.b A, #$00 : mov X, A
 
-    .zeroing_loop_1
-    #_19FBD5: #_0807: mov (X+), A
+        .zeroing_loop_1
 
-    #_19FBD6: #_0808: cmp.b X, #$E0
-    #_19FBD8: #_080A: bne .zeroing_loop_1
+            mov (X+), A
+        cmp.b X, #$E0 : bne .zeroing_loop_1
 
-    #_19FBDA: #_080C: mov.b X, #$00
+        mov.b X, #$00
 
-    .zeroing_loop_2
-    #_19FBDC: #_080E: mov.w $0200+X, A
+        ; Clear $0200-$0300 in ARAM.
+        .zeroing_loop_2
 
-    #_19FBDF: #_0811: inc X
-    #_19FBE0: #_0812: bne .zeroing_loop_2
+            mov.w $0200+X, A
 
-    .zeroing_loop_3
-    #_19FBE2: #_0814: mov.w $0300+X, A
+            inc X
+        bne .zeroing_loop_2
 
-    #_19FBE5: #_0817: inc X
-    #_19FBE6: #_0818: bne .zeroing_loop_3
+        ; Clear $0300-$0400 in ARAM.
+        .zeroing_loop_3
 
-    ; A = 1
-    #_19FBE8: #_081A: inc A
-    #_19FBE9: #_081B: call ConfigureEcho
+            mov.w $0300+X, A
 
-    #_19FBEC: #_081E: set5.b $48
+            inc X
+        bne .zeroing_loop_3
 
-    #_19FBEE: #_0820: mov.b A, #$60
-    #_19FBF0: #_0822: mov.b Y, #MVOLL
-    #_19FBF2: #_0824: call WriteToDSP
+        ; A = 1
+        inc A
+        call ConfigureEcho
 
-    #_19FBF5: #_0827: mov.b Y, #MVOLR
-    #_19FBF7: #_0829: call WriteToDSP
+        set5.b $48
 
-    #_19FBFA: #_082C: mov.b A, #SAMPLE_POINTERS>>8
-    #_19FBFC: #_082E: mov.b Y, #DIR
-    #_19FBFE: #_0830: call WriteToDSP
+        mov.b A, #$60
+        mov.b Y, #MVOLL
+        call WriteToDSP
 
-    ; Set $FFC0 to ROM, clear ports 0123, stop timer 0
-    #_19FC01: #_0833: mov.b A, #$F0
-    #_19FC03: #_0835: mov.w CONTROL, A
+        mov.b Y, #MVOLR
+        call WriteToDSP
 
-    #_19FC06: #_0838: mov.b A, #$10
-    #_19FC08: #_083A: mov.w T0DIV, A
-    #_19FC0B: #_083D: mov.b $53, A
+        mov.b A, #SAMPLE_POINTERS>>8
+        mov.b Y, #DIR
+        call WriteToDSP
 
-    ; Start timer 0
-    #_19FC0D: #_083F: mov.b A, #$01
-    #_19FC0F: #_0841: mov.w CONTROL, A
+        ; Set $FFC0 to ROM, clear ports 0123, stop timer 0
+        mov.b A, #$F0 : mov.w CONTROL, A
 
-    ;===================================================================================================
+        mov.b A, #$10 : mov.w T0DIV, A
+                        mov.b $53, A
 
+        ; Start timer 0
+        mov.b A, #$01 : mov.w CONTROL, A
+
+        ; Bleeds into the next function.
+    }
+
+    ; ==========================================================================
+
+    ; SPC $0844-$08E2 JUMP LOCATION
+    ; $0CFC12-$0CFCB0 DATA
     Engine_Main:
-    #_19FC12: #_0844: mov.b Y, #$0A
+    {
+        mov.b Y, #$0A
 
-    .next_register
-    #_19FC14: #_0846: cmp.b Y, #$05
-    #_19FC16: #_0848: beq .FLG_register
-    #_19FC18: #_084A: bcs .not_echo_register
+        .next_register
 
-    #_19FC1A: #_084C: cmp.b $4C, $4D
-    #_19FC1D: #_084F: bne .skip
+            cmp.b Y, #$05 : beq .FLG_register
+                bcs .not_echo_register
+                    cmp.b $4C, $4D
+                    bne .skip
 
-    .FLG_register
-    #_19FC1F: #_0851: bbs7.b $4C, .skip
+            .FLG_register
 
-    .not_echo_register
-    #_19FC22: #_0854: mov.w A, RegisterList-1+Y
-    #_19FC25: #_0857: mov.w DSPADDR, A
+            bbs7.b $4C, .skip
+                .not_echo_register
 
-    #_19FC28: #_085A: mov.w A, LoadValueFrom-1+Y
-    #_19FC2B: #_085D: mov X, A
-    #_19FC2C: #_085E: mov A, (X)
-    #_19FC2D: #_085F: mov.w DSPDATA, A
+                mov.w A, RegisterList-1+Y : mov.w DSPADDR, A
 
-    .skip
-    #_19FC30: #_0862: dbnz Y, .next_register
+                mov.w A, LoadValueFrom-1+Y : mov X, A
+                mov A, (X) : mov.w DSPDATA, A
 
-    ;---------------------------------------------------------------------------------------------------
+            .skip
+        dbnz Y, .next_register
 
-    #_19FC32: #_0864: mov.b $45, Y
-    #_19FC34: #_0866: mov.b $46, Y
+        mov.b $45, Y
+        mov.b $46, Y
 
-    #_19FC36: #_0868: mov.b A, $18
-    #_19FC38: #_086A: eor.b A, $19
-    #_19FC3A: #_086C: lsr A
-    #_19FC3B: #_086D: lsr A
+        mov.b A, $18 : eor.b A, $19 : lsr A : lsr A
 
-    #_19FC3C: #_086E: notc
-    #_19FC3D: #_086F: ror.b $18
-    #_19FC3F: #_0871: ror.b $19
+        notc
+        ror.b $18
+        ror.b $19
 
-    .timer_wait
-    #_19FC41: #_0873: mov.w Y, T0OUT
-    #_19FC44: #_0876: beq .timer_wait
+        .timer_wait
 
-    #_19FC46: #_0878: push Y
+            mov.w Y, T0OUT
+        beq .timer_wait
 
-    #_19FC47: #_0879: mov.b A, #$38
-    #_19FC49: #_087B: mul YA
+        push Y
 
-    #_19FC4A: #_087C: clrc
-    #_19FC4B: #_087D: adc.b A, $43
-    #_19FC4D: #_087F: mov.b $43, A
-    #_19FC4F: #_0881: bcc .wait_for_SFX
+        mov.b A, #$38 : mul YA : clrc : adc.b A, $43 : mov.b $43, A : bcc .wait_for_SFX
+            call Handle_SFX1
+            call HandleInput_SFX1
 
-    #_19FC51: #_0883: call Handle_SFX1
-    #_19FC54: #_0886: call HandleInput_SFX1
+            mov.b X, #$01
+            call Synchronize
 
-    #_19FC57: #_0889: mov.b X, #$01
-    #_19FC59: #_088B: call Synchronize
+            call Handle_SFX2
+            call HandleInput_SFX2
 
-    #_19FC5C: #_088E: call Handle_SFX2
-    #_19FC5F: #_0891: call HandleInput_SFX2
+            mov.b X, #$02
+            call Synchronize
 
-    #_19FC62: #_0894: mov.b X, #$02
-    #_19FC64: #_0896: call Synchronize
+            call Handle_SFX3
+            call HandleInput_SFX3
 
-    #_19FC67: #_0899: call Handle_SFX3
-    #_19FC6A: #_089C: call HandleInput_SFX3
+            mov.b X, #$03
+            call Synchronize
 
-    #_19FC6D: #_089F: mov.b X, #$03
-    #_19FC6F: #_08A1: call Synchronize
+            cmp.b $4C, $4D : beq .wait_for_SFX
+                inc.w $03C7 : mov.w A, $03C7
+                lsr A : bcs .wait_for_SFX
+                    inc.b $4C
 
-    #_19FC72: #_08A4: cmp.b $4C, $4D
-    #_19FC75: #_08A7: beq .wait_for_SFX
+        .wait_for_SFX
 
-    #_19FC77: #_08A9: inc.w $03C7
-    #_19FC7A: #_08AC: mov.w A, $03C7
-    #_19FC7D: #_08AF: lsr A
-    #_19FC7E: #_08B0: bcs .wait_for_SFX
+        mov.b A, $53
+        pop Y
+        mul YA
 
-    #_19FC80: #_08B2: inc.b $4C
+        clrc : adc.b A, $51 : mov.b $51, A
+                              bcc .ignore_tracker
+            call HandleInput_Song
 
-    .wait_for_SFX
-    #_19FC82: #_08B4: mov.b A, $53
+            mov.b X, #$00
+            call Synchronize
 
-    #_19FC84: #_08B6: pop Y
-    #_19FC85: #_08B7: mul YA
+            jmp Engine_Main
 
-    #_19FC86: #_08B8: clrc
-    #_19FC87: #_08B9: adc.b A, $51
-    #_19FC89: #_08BB: mov.b $51, A
-    #_19FC8B: #_08BD: bcc .ignore_tracker
+        .ignore_tracker
 
-    #_19FC8D: #_08BF: call HandleInput_Song
+        mov.b A, $04 : beq .no_song
+            mov.b X, #$00
+            mov.b $47, #$01
 
-    #_19FC90: #_08C2: mov.b X, #$00
-    #_19FC92: #_08C4: call Synchronize
+            .next_track
 
-    #_19FC95: #_08C7: jmp Engine_Main
+                mov.b A, $31+X : beq .skip_voice
+                    call BackgroundTasks
 
-    ;---------------------------------------------------------------------------------------------------
+                .skip_voice
 
-    .ignore_tracker
-    #_19FC98: #_08CA: mov.b A, $04
-    #_19FC9A: #_08CC: beq .no_song
+                inc X : inc X
 
-    #_19FC9C: #_08CE: mov.b X, #$00
-    #_19FC9E: #_08D0: mov.b $47, #$01
+                asl.b $47
+            bne .next_track
 
-    .next_track
-    #_19FCA1: #_08D3: mov.b A, $31+X
-    #_19FCA3: #_08D5: beq .skip_voice
+        .no_song
 
-    #_19FCA5: #_08D7: call BackgroundTasks
+        jmp Engine_Main
+    }
 
-    .skip_voice
-    #_19FCA8: #_08DA: inc X
-    #_19FCA9: #_08DB: inc X
+    ; ==========================================================================
 
-    #_19FCAA: #_08DC: asl.b $47
-    #_19FCAC: #_08DE: bne .next_track
-
-    .no_song
-    #_19FCAE: #_08E0: jmp Engine_Main
-
-    ;===================================================================================================
-
+    ; SPC $08E3-$0901 JUMP LOCATION
+    ; $0CFCB1-$0CFCCF DATA
     Synchronize:
-    #_19FCB1: #_08E3: mov.b A, $04+X
-    #_19FCB3: #_08E5: mov.w CPUIO0+X, A
+    {
+        mov.b A, $04+X : mov.w CPUIO0+X, A
 
-    .wait
-    #_19FCB6: #_08E8: mov.w A, CPUIO0+X
-    #_19FCB9: #_08EB: cmp.w A, CPUIO0+X
-    #_19FCBC: #_08EE: bne .wait
+        .wait
 
-    #_19FCBE: #_08F0: mov Y, A
-    #_19FCBF: #_08F1: bne .dumb
+            mov.w A, CPUIO0+X
+        cmp.w A, CPUIO0+X : bne .wait
 
-    .dumb
-    #_19FCC1: #_08F3: mov.b A, $08+X
-    #_19FCC3: #_08F5: mov.b $08+X, Y
-    #_19FCC5: #_08F7: cbne.b $08+X, .change
+        ; OPTIMIZE: Useless branch.
+        mov Y, A : bne .dumb
 
-    #_19FCC8: #_08FA: mov.b Y, #$00
-    #_19FCCA: #_08FC: mov.b $00+X, Y
+        .dumb
 
-    #_19FCCC: #_08FE: ret
+        mov.b A, $08+X
+        mov.b $08+X, Y : cbne.b $08+X, .change
+            mov.b Y, #$00 : mov.b $00+X, Y
 
-    .change
-    #_19FCCD: #_08FF: mov.b $00+X, Y
+            ret
 
-    .exit
-    #_19FCCF: #_0901: ret
+        .change
 
-    ;===================================================================================================
+        mov.b $00+X, Y
 
+        ; SPC $0901 ALTERNATE ENTRY POINT
+        ; $0CFCCF DATA
+        .exit
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; SPC $0902-$096B JUMP LOCATION
+    ; $0CFCD0-$0CFD39 DATA
     HandleNote:
-    #_19FCD0: #_0902: cmp.b Y, #$CA ; check if percussion hit
-    #_19FCD2: #_0904: bcc .not_percussion
+    {
+        ; Check if percussion hit:
+        cmp.b Y, #$CA : bcc .not_percussion
+            call TrackCommand_E0_ChangeInstrument
 
-    #_19FCD4: #_0906: call TrackCommand_E0_ChangeInstrument
+            mov.b Y, #$A4 ; note C4
 
-    #_19FCD7: #_0909: mov.b Y, #$A4 ; note C4
+        .not_percussion
 
-    .not_percussion
-    #_19FCD9: #_090B: cmp.b Y, #$C8 ; check if tie
-    #_19FCDB: #_090D: bcs Synchronize_exit
+        ; Check if tie:
+        cmp.b Y, #$C8 : bcs Synchronize_exit
+            mov.b A, $1A : and.b A, $47 : bne Synchronize_exit
+                mov A, Y : and.b A, #$7F : clrc : adc.b A, $50
+                clrc : adc.w A, $02F0+X : mov.w $0361+X, A
 
-    #_19FCDD: #_090F: mov.b A, $1A
-    #_19FCDF: #_0911: and.b A, $47
-    #_19FCE1: #_0913: bne Synchronize_exit
+                mov.w A, $0381+X : mov.w $0360+X, A
 
-    #_19FCE3: #_0915: mov A, Y
-    #_19FCE4: #_0916: and.b A, #$7F
+                ; Move the lowest bit into the carry flag.
+                mov.w A, $02B1+X : lsr A
 
-    #_19FCE6: #_0918: clrc
-    #_19FCE7: #_0919: adc.b A, $50
+                ; Move the carry flag into the highest bit.
+                mov.b A, #$00 : ror A : mov.w $02A0+X, A
 
-    #_19FCE9: #_091B: clrc
-    #_19FCEA: #_091C: adc.w A, $02F0+X
-    #_19FCED: #_091F: mov.w $0361+X, A
+                mov.b A, #$00 : mov.b $B0+X, A
+                                mov.w $0100+X, A
+                                mov.w $02D0+X, A
+                                mov.b $C0+X, A
 
-    #_19FCF0: #_0922: mov.w A, $0381+X
-    #_19FCF3: #_0925: mov.w $0360+X, A
+                or.b $5E, $47
+                or.b $45, $47
 
-    #_19FCF6: #_0928: mov.w A, $02B1+X
-    #_19FCF9: #_092B: lsr A
+                mov.w A, $0280+X : mov.b $A0+X, A
+                                   beq .no_pitch_slide
+                    mov.w A, $0281+X : mov.b $A1+X, A
 
-    #_19FCFA: #_092C: mov.b A, #$00
-    #_19FCFC: #_092E: ror A
-    #_19FCFD: #_092F: mov.w $02A0+X, A
+                    mov.w A, $0290+X : bne .do_slide_to
+                        mov.w A, $0361+X
+                        setc : sbc.w A, $0291+X : mov.w $0361+X, A
 
-    #_19FD00: #_0932: mov.b A, #$00
-    #_19FD02: #_0934: mov.b $B0+X, A
-    #_19FD04: #_0936: mov.w $0100+X, A
-    #_19FD07: #_0939: mov.w $02D0+X, A
-    #_19FD0A: #_093C: mov.b $C0+X, A
+                    .do_slide_to
 
-    #_19FD0C: #_093E: or.b $5E, $47
-    #_19FD0F: #_0941: or.b $45, $47
+                    mov.w A, $0291+X : clrc : adc.w A, $0361+X
+                    call PitchSlide_calc_frames
 
-    #_19FD12: #_0944: mov.w A, $0280+X
-    #_19FD15: #_0947: mov.b $A0+X, A
-    #_19FD17: #_0949: beq .no_pitch_slide
+                .no_pitch_slide
 
-    #_19FD19: #_094B: mov.w A, $0281+X
-    #_19FD1C: #_094E: mov.b $A1+X, A
+                call GetTempPitch
 
-    #_19FD1E: #_0950: mov.w A, $0290+X
-    #_19FD21: #_0953: bne .do_slide_to
+                ; Bleeds into the next function.
+    }
 
-    #_19FD23: #_0955: mov.w A, $0361+X
-    #_19FD26: #_0958: setc
-    #_19FD27: #_0959: sbc.w A, $0291+X
-    #_19FD2A: #_095C: mov.w $0361+X, A
+    ; ==========================================================================
 
-    .do_slide_to
-    #_19FD2D: #_095F: mov.w A, $0291+X
-    #_19FD30: #_0962: clrc
-    #_19FD31: #_0963: adc.w A, $0361+X
-    #_19FD34: #_0966: call PitchSlide_calc_frames
+    ; SPC $096C-$09EE JUMP LOCATION
+    ; $0CFD3A-$0CFDBC DATA
+    HandleNote_external:
+    {
+        mov.b Y, #$00
+        mov.b A, $11
 
-    .no_pitch_slide
-    #_19FD37: #_0969: call GetTempPitch
+        setc : sbc.b A, #$34 : bcs .high_note
+            mov.b A, $11 : setc : sbc.b A, #$13 : bcs .middle_note
+                dec Y
+                asl A
 
-    ;===================================================================================================
+        .high_note
 
-    #HandleNote_external:
-    #_19FD3A: #_096C: mov.b Y, #$00
-    #_19FD3C: #_096E: mov.b A, $11
+        addw.b YA, $10 : movw.b $10, YA
 
-    #_19FD3E: #_0970: setc
-    #_19FD3F: #_0971: sbc.b A, #$34
-    #_19FD41: #_0973: bcs .high_note
+        .middle_note
 
-    #_19FD43: #_0975: mov.b A, $11
-    #_19FD45: #_0977: setc
-    #_19FD46: #_0978: sbc.b A, #$13
-    #_19FD48: #_097A: bcs .middle_note
+        push X
 
-    #_19FD4A: #_097C: dec Y
-    #_19FD4B: #_097D: asl A
+        mov.b A, $11 : asl A
+        mov.b Y, #$00
+        mov.b X, #$18
+        div YA, X : mov X, A
 
-    .high_note
-    #_19FD4C: #_097E: addw.b YA, $10
-    #_19FD4E: #_0980: movw.b $10, YA
+        mov.w A, TuningValues+1+Y : mov.b $15, A
 
-    .middle_note
-    #_19FD50: #_0982: push X
+        mov.w A, TuningValues+0+Y : mov.b $14, A
 
-    #_19FD51: #_0983: mov.b A, $11
-    #_19FD53: #_0985: asl A
-    #_19FD54: #_0986: mov.b Y, #$00
-    #_19FD56: #_0988: mov.b X, #$18
+        mov.w A, TuningValues+3+Y : push A
 
-    #_19FD58: #_098A: div YA, X
-    #_19FD59: #_098B: mov X, A
-    #_19FD5A: #_098C: mov.w A, TuningValues+1+Y
-    #_19FD5D: #_098F: mov.b $15, A
+        mov.w A, TuningValues+2+Y
 
-    #_19FD5F: #_0991: mov.w A, TuningValues+0+Y
-    #_19FD62: #_0994: mov.b $14, A
+        pop Y
+        subw.b YA, $14
 
-    #_19FD64: #_0996: mov.w A, TuningValues+3+Y
-    #_19FD67: #_0999: push A
+        mov.b Y, $10
+        mul YA : mov A, Y
 
-    #_19FD68: #_099A: mov.w A, TuningValues+2+Y
+        mov.b Y, #$00 : addw.b YA, $14 : mov.b $15, Y
+        asl A
 
-    #_19FD6B: #_099D: pop Y
-    #_19FD6C: #_099E: subw.b YA, $14
+        rol.b $15
 
-    #_19FD6E: #_09A0: mov.b Y, $10
-    #_19FD70: #_09A2: mul YA
-    #_19FD71: #_09A3: mov A, Y
+        mov.b $14, A
 
-    #_19FD72: #_09A4: mov.b Y, #$00
-    #_19FD74: #_09A6: addw.b YA, $14
+        bra .proceed
 
-    #_19FD76: #_09A8: mov.b $15, Y
-    #_19FD78: #_09AA: asl A
-    #_19FD79: #_09AB: rol.b $15
-    #_19FD7B: #_09AD: mov.b $14, A
-    #_19FD7D: #_09AF: bra .proceed
+        .pitch_loop
 
-    .pitch_loop
-    #_19FD7F: #_09B1: lsr.b $15
-    #_19FD81: #_09B3: ror A
-    #_19FD82: #_09B4: inc X
+            lsr.b $15
+            ror A
 
-    .proceed
-    #_19FD83: #_09B5: cmp.b X, #$06
-    #_19FD85: #_09B7: bne .pitch_loop
+            inc X
 
-    #_19FD87: #_09B9: mov.b $14, A
+            .proceed
+        cmp.b X, #$06 : bne .pitch_loop
 
-    #_19FD89: #_09BB: pop X
+        mov.b $14, A
 
-    #_19FD8A: #_09BC: mov.w A, $0220+X
-    #_19FD8D: #_09BF: mov.b Y, $15
-    #_19FD8F: #_09C1: mul YA
-    #_19FD90: #_09C2: movw.b $16, YA
+        pop X
 
-    #_19FD92: #_09C4: mov.w A, $0220+X
-    #_19FD95: #_09C7: mov.b Y, $14
-    #_19FD97: #_09C9: mul YA
+        mov.w A, $0220+X
+        mov.b Y, $15
+        mul YA : movw.b $16, YA
 
-    #_19FD98: #_09CA: push Y
+        mov.w A, $0220+X
+        mov.b Y, $14
+        mul YA : push Y
 
-    #_19FD99: #_09CB: mov.w A, $0221+X
-    #_19FD9C: #_09CE: mov.b Y, $14
-    #_19FD9E: #_09D0: mul YA
-    #_19FD9F: #_09D1: addw.b YA, $16
+        mov.w A, $0221+X
+        mov.b Y, $14
+        mul YA : addw.b YA, $16
 
-    #_19FDA1: #_09D3: movw.b $16, YA
-    #_19FDA3: #_09D5: mov.w A, $0221+X
-    #_19FDA6: #_09D8: mov.b Y, $15
-    #_19FDA8: #_09DA: mul YA
+        movw.b $16, YA
 
-    #_19FDA9: #_09DB: mov Y, A
-    #_19FDAA: #_09DC: pop A
-    #_19FDAB: #_09DD: addw.b YA, $16
-    #_19FDAD: #_09DF: movw.b $16, YA
+        mov.w A, $0221+X
+        mov.b Y, $15
+        mul YA : mov Y, A
 
-    #_19FDAF: #_09E1: mov A, X
-    #_19FDB0: #_09E2: xcn A
-    #_19FDB1: #_09E3: lsr A
-    #_19FDB2: #_09E4: or.b A, #$02
+        pop A : addw.b YA, $16 : movw.b $16, YA
 
-    #_19FDB4: #_09E6: mov Y, A
-    #_19FDB5: #_09E7: mov.b A, $16
-    #_19FDB7: #_09E9: call WriteToDSP_Checked
+        mov A, X : xcn A : lsr A : or.b A, #$02
 
-    #_19FDBA: #_09EC: inc Y
-    #_19FDBB: #_09ED: mov.b A, $17
+        mov Y, A
+        mov.b A, $16
+        call WriteToDSP_Checked
 
-    ;===================================================================================================
-    ; Writes value A to DSP register Y
+        inc Y
+
+        mov.b A, $17
+
+        ; Bleeds into the next function.
+    }
+
+    ; ==========================================================================
+
+    ; Writes value A to DSP register Y.
     ; if the channel is enabled
-    ;===================================================================================================
+    ; SPC $09EF-$09F6 JUMP LOCATION
+    ; $0CFDBD-$0CFDC4 DATA
     WriteToDSP_Checked:
-    #_19FDBD: #_09EF: push A
+    {
+        push A
 
-    #_19FDBE: #_09F0: mov.b A, $47
-    #_19FDC0: #_09F2: and.b A, $1A
+        mov.b A, $47 : and.b A, $1A
 
-    #_19FDC2: #_09F4: pop A
-    #_19FDC3: #_09F5: bne .exit
+        pop A
+        bne WriteToDSP_exit
+            ; Bleeds into the next function.
+    }
 
-    ;===================================================================================================
-    ; Writes value A to DSP register Y
-    ;===================================================================================================
-    #WriteToDSP:
-    #_19FDC5: #_09F7: mov.w DSPADDR, Y
-    #_19FDC8: #_09FA: mov.w DSPDATA, A
+    ; ==========================================================================
 
-    .exit
-    #_19FDCB: #_09FD: ret
+    ; Writes value A to DSP register Y.
+    ; SPC $09F7-$09FD JUMP LOCATION
+    ; $0CFDC5-$0CFDCB DATA
+    WriteToDSP:
+    {
+        mov.w DSPADDR, Y
+        mov.w DSPDATA, A
 
-    ;===================================================================================================
-    ; Mutes everything then prepares for transfer
-    ;===================================================================================================
+        ; SPC $09FD ALTERNATE ENTRY POINT
+        ; $0CFDCB DATA
+        .exit
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Mutes everything then prepares for transfer.
+    ; SPC $09FE-$0A28 JUMP LOCATION
+    ; $0CFDCC-$0CFDF6 DATA
     SongCommand_FF_TransferData:
-    #_19FDCC: #_09FE: mov.b A, #$00
-    #_19FDCE: #_0A00: mov.b Y, #EVOLL
-    #_19FDD0: #_0A02: call WriteToDSP
+    {
+        mov.b A, #$00
+        mov.b Y, #EVOLL
+        call WriteToDSP
 
-    #_19FDD3: #_0A05: mov.b A, #$00
-    #_19FDD5: #_0A07: mov.b Y, #EVOLR
-    #_19FDD7: #_0A09: call WriteToDSP
+        mov.b A, #$00
+        mov.b Y, #EVOLR
+        call WriteToDSP
 
-    #_19FDDA: #_0A0C: mov.b A, #$FF
-    #_19FDDC: #_0A0E: mov.b Y, #KOFF
+        mov.b A, #$FF
+        mov.b Y, #KOFF
+        call WriteToDSP
 
-    #_19FDDE: #_0A10: call WriteToDSP
-    #_19FDE1: #_0A13: call Data_Loader
+        call Data_Loader
 
-    #_19FDE4: #_0A16: mov.b A, #$00
-    #_19FDE6: #_0A18: mov.w $03CA, A
-    #_19FDE9: #_0A1B: mov.b $04, A
-    #_19FDEB: #_0A1D: mov.w $03CF, A
-    #_19FDEE: #_0A20: mov.w $03CB, A
-    #_19FDF1: #_0A23: mov.w $03CD, A
-    #_19FDF4: #_0A26: mov.b $1A, A
+        mov.b A, #$00 : mov.w $03CA, A
+                        mov.b $04, A
+                        mov.w $03CF, A
+                        mov.w $03CB, A
+                        mov.w $03CD, A
+                        mov.b $1A, A
 
-    #_19FDF6: #_0A28: ret
+        ret
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0A29-$0A3E JUMP LOCATION
+    ; $0CFDF7-$0CFE0C DATA
     SongCommand_F1_Fadeout:
-    #_19FDF7: #_0A29: mov.b X, #$80
-    #_19FDF9: #_0A2B: mov.b $5A, X
-    #_19FDFB: #_0A2D: mov.w $03CA, X
+    {
+        mov.b X, #$80 : mov.b $5A, X
+                        mov.w $03CA, X
 
-    #_19FDFE: #_0A30: mov.b A, #$00
-    #_19FE00: #_0A32: mov.b $5B, A
+        mov.b A, #$00 : mov.b $5B, A
 
-    #_19FE02: #_0A34: setc
-    #_19FE03: #_0A35: sbc.b A, $59
-    #_19FE05: #_0A37: call MakeFraction
-    #_19FE08: #_0A3A: movw.b $5C, YA
+        setc : sbc.b A, $59
+        call MakeFraction : movw.b $5C, YA
 
-    #_19FE0A: #_0A3C: jmp HandleInput_Song_no_new_song
+        jmp HandleInput_Song_no_new_song
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0A3F-$0A4F JUMP LOCATION
+    ; $0CFE0D-$0CFE1D DATA
     SongCommand_F2_HalfVolume:
-    #_19FE0D: #_0A3F: mov.w A, $03E1
-    #_19FE10: #_0A42: bne SongCommand_F3_MaxVolume_exit
+    {
+        mov.w A, $03E1 : bne SongCommand_F3_MaxVolume_exit
+            mov.b A, $59 : mov.w $03E1, A
 
+            mov.b A, #$70 : mov.b $59, A
 
-    #_19FE12: #_0A44: mov.b A, $59
-    #_19FE14: #_0A46: mov.w $03E1, A
+            jmp HandleInput_Song_no_new_song
+    }
 
-    #_19FE17: #_0A49: mov.b A, #$70
-    #_19FE19: #_0A4B: mov.b $59, A
+    ; ==========================================================================
 
-    #_19FE1B: #_0A4D: jmp HandleInput_Song_no_new_song
-
-    ;===================================================================================================
-
+    ; SPC $0A4E-$0A62 JUMP LOCATION
+    ; $0CFE1E-$0CFE30 DATA
     SongCommand_F3_MaxVolume:
-    #_19FE1E: #_0A50: mov.w A, $03E1
-    #_19FE21: #_0A53: beq .exit
+    {
+        mov.w A, $03E1 : beq .exit
+            mov.w A, $03E1 : mov.b $59, A
 
-    #_19FE23: #_0A55: mov.w A, $03E1
-    #_19FE26: #_0A58: mov.b $59, A
+            mov.b A, #$00 : mov.w $03E1, A
 
-    #_19FE28: #_0A5A: mov.b A, #$00
-    #_19FE2A: #_0A5C: mov.w $03E1, A
+            jmp HandleInput_Song_no_new_song
 
-    #_19FE2D: #_0A5F: jmp HandleInput_Song_no_new_song
+        ; SPC $0A62 ALTERNATE ENTRY POINT
+        ; $0CFE30 DATA
+        .exit
 
-    .exit
-    #_19FE30: #_0A62: ret
+        ret
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0A63-$0A78 JUMP LOCATION
+    ; $0CFE31-$0CFE46 DATA
     Song_Commands:
-    #_19FE31: #_0A63: cmp.b A, #$FF ; SONG FF - transfer
-    #_19FE33: #_0A65: beq SongCommand_FF_TransferData
+    {
+        ; SONG FF - transfer
+        cmp.b A, #$FF : beq SongCommand_FF_TransferData
+            ; SONG F1 - fade
+            cmp.b A, #$F1 : beq SongCommand_F1_Fadeout
+                ; SONG F2 - half volume
+                cmp.b A, #$F2 : beq SongCommand_F2_HalfVolume
+                    ; SONG F3 - max volume
+                    cmp.b A, #$F3 : beq SongCommand_F3_MaxVolume
+                        ; SONG F0 - mute
+                        cmp.b A, #$F0 : beq SongCommand_F0_Mute
+                            bra Song_NewJam
+    }
 
-    #_19FE35: #_0A67: cmp.b A, #$F1 ; SONG F1 - fade
-    #_19FE37: #_0A69: beq SongCommand_F1_Fadeout
+    ; ==========================================================================
 
-    #_19FE39: #_0A6B: cmp.b A, #$F2 ; SONG F2 - half volume
-    #_19FE3B: #_0A6D: beq SongCommand_F2_HalfVolume
-
-    #_19FE3D: #_0A6F: cmp.b A, #$F3 ; SONG F3 - max volume
-    #_19FE3F: #_0A71: beq SongCommand_F3_MaxVolume
-
-    #_19FE41: #_0A73: cmp.b A, #$F0 ; SONG F0 - mute
-    #_19FE43: #_0A75: beq SongCommand_F0_Mute
-
-    #_19FE45: #_0A77: bra Song_NewJam
-
-    ;===================================================================================================
-
+    ; SPC $0A79-$0A80 JUMP LOCATION
+    ; $0CFE47-$0CFE4E DATA
     PerformFadeout:
-    #_19FE47: #_0A79: dec.w $03CA
-    #_19FE4A: #_0A7C: beq SongCommand_F0_Mute
+    {
+        dec.w $03CA
+        beq SongCommand_F0_Mute
+            jmp HandleInput_Song_dont_fade_out
+    }
 
-    #_19FE4C: #_0A7E: jmp HandleInput_Song_dont_fade_out
+    ; ==========================================================================
 
-    ;===================================================================================================
-
+    ; SPC $0A81-$0A8E JUMP LOCATION
+    ; $0CFE4F-$0CFE5C DATA
     SongCommand_F0_Mute:
-    #_19FE4F: #_0A81: mov.b A, $1A
-    #_19FE51: #_0A83: eor.b A, #$FF
-    #_19FE53: #_0A85: tset.w $0046, A
+    {
+        mov.b A, $1A : eor.b A, #$FF : tset.w $0046, A
 
-    #_19FE56: #_0A88: mov.b $04, #$00
-    #_19FE59: #_0A8B: mov.b $47, #$00
+        mov.b $04, #$00
+        mov.b $47, #$00
 
-    #_19FE5C: #_0A8E: ret
+        ret
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0A8F-$0A9C JUMP LOCATION
+    ; $0CFE5D-$0CFE6A DATA
     GetNextPart:
-    #_19FE5D: #_0A8F: mov.b Y, #$00
-    #_19FE5F: #_0A91: mov.b A, ($40)+Y
-    #_19FE61: #_0A93: incw.b $40
+    {
+        mov.b Y, #$00
+        mov.b A, ($40)+Y
+        incw.b $40
 
-    #_19FE63: #_0A95: push A
-    #_19FE64: #_0A96: mov.b A, ($40)+Y
-    #_19FE66: #_0A98: incw.b $40
+        push A
+        mov.b A, ($40)+Y
+        incw.b $40
 
-    #_19FE68: #_0A9A: mov Y, A
-    #_19FE69: #_0A9B: pop A
+        mov Y, A
+        pop A
 
-    #_19FE6A: #_0A9C: ret
+        ret
+    }
 
-    ;===================================================================================================
-    ; Drops a new track
-    ;===================================================================================================
+    ; ==========================================================================
+
+    ; Drops a new track.
+    ; SPC $0A9D-$0ABD JUMP LOCATION
+    ; $0CFE6B-$0CFE8B DATA
     Song_NewJam:
-    #_19FE6B: #_0A9D: clrc
+    {
+        clrc
 
-    #_19FE6C: #_0A9E: mov.b X, #$00
-    #_19FE6E: #_0AA0: mov.w $03CA, X
-    #_19FE71: #_0AA3: mov.w $03E1, X
+        mov.b X, #$00 : mov.w $03CA, X
+                        mov.w $03E1, X
 
-    #_19FE74: #_0AA6: mov.b $04, A
+        mov.b $04, A
 
-    #_19FE76: #_0AA8: asl A
-    #_19FE77: #_0AA9: mov X, A
-    #_19FE78: #_0AAA: mov.w A, SONG_POINTERS-1+X
+        asl A : mov X, A
+        mov.w A, SONG_POINTERS-1+X : mov Y, A
+        mov.w A, SONG_POINTERS-2+X : movw.b $40, YA
 
-    #_19FE7B: #_0AAD: mov Y, A
-    #_19FE7C: #_0AAE: mov.w A, SONG_POINTERS-2+X
+        mov.b $0C, #$02
 
-    #_19FE7F: #_0AB1: movw.b $40, YA
-    #_19FE81: #_0AB3: mov.b $0C, #$02
+        ; SPC $0AB6 ALTERNATE ENTRY POINT
+        ; $0CFE84 DATA
+        .key_off
 
-    .key_off
-    #_19FE84: #_0AB6: mov.b A, $1A
-    #_19FE86: #_0AB8: eor.b A, #$FF
-    #_19FE88: #_0ABA: tset.w $0046, A
+        mov.b A, $1A : eor.b A, #$FF : tset.w $0046, A
 
-    #_19FE8B: #_0ABD: ret
+        ret
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0ABE-$0AF8 JUMP LOCATION
+    ; $0CFE8C-$0CFEC6 DATA
     EngineStartDelay:
-    #_19FE8C: #_0ABE: mov.b X, #$0E
-    #_19FE8E: #_0AC0: mov.b $47, #$80
+    {
+        mov.b X, #$0E
+        mov.b $47, #$80
 
-    .next_channel
-    #_19FE91: #_0AC3: mov.b A, #$FF
-    #_19FE93: #_0AC5: mov.w $0301+X, A
+        .next_channel
 
-    #_19FE96: #_0AC8: mov.b A, #$0A
-    #_19FE98: #_0ACA: call TrackCommand_E1_ChangePan
+            mov.b A, #$FF : mov.w $0301+X, A
 
-    #_19FE9B: #_0ACD: mov.w $0211+X, A
-    #_19FE9E: #_0AD0: mov.w $0381+X, A
-    #_19FEA1: #_0AD3: mov.w $02F0+X, A
-    #_19FEA4: #_0AD6: mov.w $0280+X, A
-    #_19FEA7: #_0AD9: mov.w $03FF+X, A
+            mov.b A, #$0A
+            call TrackCommand_E1_ChangePan
 
-    #_19FEAA: #_0ADC: mov.b $B1+X, A
-    #_19FEAC: #_0ADE: mov.b $C1+X, A
+            mov.w $0211+X, A
+            mov.w $0381+X, A
+            mov.w $02F0+X, A
+            mov.w $0280+X, A
+            mov.w $03FF+X, A
 
-    #_19FEAE: #_0AE0: dec X
-    #_19FEAF: #_0AE1: dec X
+            mov.b $B1+X, A
+            mov.b $C1+X, A
 
-    #_19FEB0: #_0AE2: lsr.b $47
-    #_19FEB2: #_0AE4: bne .next_channel
+            dec X : dec X
 
-    #_19FEB4: #_0AE6: mov.b $5A, A
-    #_19FEB6: #_0AE8: mov.b $68, A
-    #_19FEB8: #_0AEA: mov.b $54, A
-    #_19FEBA: #_0AEC: mov.b $50, A
-    #_19FEBC: #_0AEE: mov.b $42, A
-    #_19FEBE: #_0AF0: mov.b $5F, A
+            lsr.b $47
+        bne .next_channel
 
-    #_19FEC0: #_0AF2: mov.b $59, #$C0
-    #_19FEC3: #_0AF5: mov.b $53, #$20
+        mov.b $5A, A
+        mov.b $68, A
+        mov.b $54, A
+        mov.b $50, A
+        mov.b $42, A
+        mov.b $5F, A
 
-    .exit
-    #_19FEC6: #_0AF8: ret
+        mov.b $59, #$C0
+        mov.b $53, #$20
 
-    ;===================================================================================================
+        ; SPC $0AF8 ALTERNATE ENTRY POINT
+        ; $0CFEC6 DATA 
+        .exit
 
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; The bank 0x19 boundary is crossed in this function.
+    ; SPC $0AF9-$0C49 JUMP LOCATION
+    ; $0CFEC7-$0D0017 DATA
     HandleInput_Song:
-    #_19FEC7: #_0AF9: mov.b A, $00
-    #_19FEC9: #_0AFB: beq .no_new_song
+    {
+        mov.b A, $00 : beq .no_new_song
+            jmp Song_Commands
 
-    #_19FECB: #_0AFD: jmp Song_Commands
+        .no_new_song
 
-    .no_new_song
-    #_19FECE: #_0B00: mov.b A, $04
-    #_19FED0: #_0B02: beq EngineStartDelay_exit
+        mov.b A, $04 : beq EngineStartDelay_exit
+            mov.w A, $03CA : beq .dont_fade_out
+                jmp PerformFadeout
 
-    #_19FED2: #_0B04: mov.w A, $03CA
-    #_19FED5: #_0B07: beq .dont_fade_out
+            .dont_fade_out
 
-    #_19FED7: #_0B09: jmp PerformFadeout
+            mov.b A, $0C : beq .no_delay
+                dbnz.b $0C, EngineStartDelay
+                    .loop
 
-    .dont_fade_out
-    #_19FEDA: #_0B0C: mov.b A, $0C
-    #_19FEDC: #_0B0E: beq .no_delay
+                                call GetNextPart : bne .valid_pointer
+                                    mov Y, A : bne .valid_command
+                                        jmp SongCommand_F0_Mute
 
-    #_19FEDE: #_0B10: dbnz.b $0C, EngineStartDelay
+                                    .valid_command
 
-    ;---------------------------------------------------------------------------------------------------
+                                    cmp.b A, #$80 : beq .disable_d_s_p
+                                        cmp.b A, #$81 : bne .set_num_loops
+                                            mov.b A, #$00
 
-    .loop
-    #_19FEE1: #_0B13: call GetNextPart
-    #_19FEE4: #_0B16: bne .valid_pointer
+                                    .disable_d_s_p
 
-    #_19FEE6: #_0B18: mov Y, A
-    #_19FEE7: #_0B19: bne .valid_command
+                                    mov.b $1B, A
+                            bra .loop
 
-    #_19FEE9: #_0B1B: jmp SongCommand_F0_Mute
+                            .set_num_loops
 
-    .valid_command
-    #_19FEEC: #_0B1E: cmp.b A, #$80
-    #_19FEEE: #_0B20: beq .disable_d_s_p
+                            dec.b $42 : bpl .loop_in_progress
+                                mov.b $42, A
 
-    #_19FEF0: #_0B22: cmp.b A, #$81
-    #_19FEF2: #_0B24: bne .set_num_loops
+                            .loop_in_progress
 
-    #_19FEF4: #_0B26: mov.b A, #$00
+                            call GetNextPart
+                        mov.b X, $42 : beq .loop
 
-    .disable_d_s_p
-    #_19FEF6: #_0B28: mov.b $1B, A
-    #_19FEF8: #_0B2A: bra .loop
+                        movw.b $40, YA
+                    bra .loop
 
-    .set_num_loops
-    #_19FEFA: #_0B2C: dec.b $42
-    #_19FEFC: #_0B2E: bpl .loop_in_progress
+                    .valid_pointer
 
-    #_19FEFE: #_0B30: mov.b $42, A
+                    movw.b $16, YA
+                    mov.b Y, #$0F
 
-    .loop_in_progress
-    #_19FF00: #_0B32: call GetNextPart
+                    .load_pattern_table_loop
 
-    #_19FF03: #_0B35: mov.b X, $42
-    #_19FF05: #_0B37: beq .loop
+                        mov.b A, ($16)+Y : mov.w $0030+Y, A
 
-    #_19FF07: #_0B39: movw.b $40, YA
-    #_19FF09: #_0B3B: bra .loop
+                        dec Y
+                    bpl .load_pattern_table_loop
 
-    .valid_pointer
-    #_19FF0B: #_0B3D: movw.b $16, YA
-    #_19FF0D: #_0B3F: mov.b Y, #$0F
+                    mov.b X, #$00
+                    mov.b $47, #$01
 
-    .load_pattern_table_loop
-    #_19FF0F: #_0B41: mov.b A, ($16)+Y
-    #_19FF11: #_0B43: mov.w $0030+Y, A
+                    .next_channel
 
-    #_19FF14: #_0B46: dec Y
-    #_19FF15: #_0B47: bpl .load_pattern_table_loop
+                        mov.b A, $31+X : beq .dont_make_noise
+                            mov.w A, $0211+X : bne .dont_make_noise
+                                mov.b A, #$00
+                                call TrackCommand_E0_ChangeInstrument
 
-    ;---------------------------------------------------------------------------------------------------
+                        .dont_make_noise
 
-    #_19FF17: #_0B49: mov.b X, #$00
-    #_19FF19: #_0B4B: mov.b $47, #$01
+                        mov.b A, #$00 : mov.b $80+X, A
+                                        mov.b $90+X, A
+                                        mov.b $91+X, A
+                        inc A : mov.b $70+X, A
 
-    .next_channel
-    #_19FF1C: #_0B4E: mov.b A, $31+X
-    #_19FF1E: #_0B50: beq .dont_make_noise
+                        inc X : inc X
 
-    #_19FF20: #_0B52: mov.w A, $0211+X
-    #_19FF23: #_0B55: bne .dont_make_noise
+                        asl.b $47
+                    bne .next_channel
 
-    #_19FF25: #_0B57: mov.b A, #$00
-    #_19FF27: #_0B59: call TrackCommand_E0_ChangeInstrument
+            .no_delay
 
-    .dont_make_noise
-    #_19FF2A: #_0B5C: mov.b A, #$00
-    #_19FF2C: #_0B5E: mov.b $80+X, A
-    #_19FF2E: #_0B60: mov.b $90+X, A
-    #_19FF30: #_0B62: mov.b $91+X, A
+            mov.b X, #$00 : mov.b $5E, X
+            mov.b $47, #$01
 
-    #_19FF32: #_0B64: inc A
-    #_19FF33: #_0B65: mov.b $70+X, A
+            .loop_2
 
-    #_19FF35: #_0B67: inc X
-    #_19FF36: #_0B68: inc X
+                mov.b $44, X
+                mov.b A, $31+X : beq .next_channel_2
+                    dec.b $70+X : bne .empty_track
+                        .try_again
 
-    #_19FF37: #_0B69: asl.b $47
-    #_19FF39: #_0B6B: bne .next_channel
+                                call GetTrackByte : bne .non_terminating
+                                    mov.b A, $80+X : beq .loop
+                                        call IteratePartLoop
 
-    ;---------------------------------------------------------------------------------------------------
+                                        dec.b $80+X
+                            bne .try_again
 
-    .no_delay
-    #_19FF3B: #_0B6D: mov.b X, #$00
-    #_19FF3D: #_0B6F: mov.b $5E, X
-    #_19FF3F: #_0B71: mov.b $47, #$01
+                            mov.w A, $0230+X : mov.b $30+X, A
 
-    .loop_2
-    #_19FF42: #_0B74: mov.b $44, X
-    #_19FF44: #_0B76: mov.b A, $31+X
-    #_19FF46: #_0B78: beq .next_channel_2
+                            mov.w A, $0231+X : mov.b $31+X, A
+                        bra .try_again
 
-    #_19FF48: #_0B7A: dec.b $70+X
-    #_19FF4A: #_0B7C: bne .empty_track
+                        .non_terminating
 
-    .try_again
-    #_19FF4C: #_0B7E: call GetTrackByte
-    #_19FF4F: #_0B81: bne .non_terminating
+                        bmi .note_or_command
+                            mov.w $0200+X, A
 
-    #_19FF51: #_0B83: mov.b A, $80+X
-    #_19FF53: #_0B85: beq .loop
+                            call GetTrackByte : bmi .note_or_command
+                                push A
 
-    #_19FF55: #_0B87: call IteratePartLoop
+                                xcn A : and.b A, #$07 : mov Y, A
+                                mov.w A, NoteStacc+Y : mov.w $0201+X, A
 
-    #_19FF58: #_0B8A: dec.b $80+X
-    #_19FF5A: #_0B8C: bne .try_again
+                                pop A : and.b A, #$0F : mov Y, A
+                                mov.w A, NoteAttack+Y : mov.w $0210+X, A
 
-    #_19FF5C: #_0B8E: mov.w A, $0230+X
-    #_19FF5F: #_0B91: mov.b $30+X, A
+                                call GetTrackByte
 
-    #_19FF61: #_0B93: mov.w A, $0231+X
-    #_19FF64: #_0B96: mov.b $31+X, A
+                        .note_or_command
 
-    #_19FF66: #_0B98: bra .try_again
+                        ; first command
+                        cmp.b A, #$E0 : bcc .note
+                            call ExecuteCommand
+                            bra .try_again
 
-    ;---------------------------------------------------------------------------------------------------
+                        .note
 
-    .non_terminating
-    #_19FF68: #_0B9A: bmi .note_or_command
+                        mov.w A, $03FF+X : or.b A, $1B : bne .disabled_channel
+                            mov A, Y : push A
 
-    #_19FF6A: #_0B9C: mov.w $0200+X, A
+                            mov.b A, $47 : and.b A, $1A
 
-    #_19FF6D: #_0B9F: call GetTrackByte
-    #_19FF70: #_0BA2: bmi .note_or_command
+                            pop A : bne .disabled_channel
+                                call HandleNote
 
-    #_19FF72: #_0BA4: push A
+                        .disabled_channel
 
-    #_19FF73: #_0BA5: xcn A
-    #_19FF74: #_0BA6: and.b A, #$07
-    #_19FF76: #_0BA8: mov Y, A
-    #_19FF77: #_0BA9: mov.w A, NoteStacc+Y
-    #_19FF7A: #_0BAC: mov.w $0201+X, A
+                        mov.w A, $0200+X : mov.b $70+X, A
 
-    #_19FF7D: #_0BAF: pop A
-    #_19FF7E: #_0BB0: and.b A, #$0F
-    #_19FF80: #_0BB2: mov Y, A
-    #_19FF81: #_0BB3: mov.w A, NoteAttack+Y
-    #_19FF84: #_0BB6: mov.w $0210+X, A
+                        mov Y, A
+                        mov.w A, $0201+X
+                        mul YA : mov A, Y
+                                 bne .non_zero
+                            inc A
 
-    #_19FF87: #_0BB9: call GetTrackByte
+                        .non_zero
 
-    .note_or_command
-    #_19FF8A: #_0BBC: cmp.b A, #$E0 ; first command
-    #_19FF8C: #_0BBE: bcc .note
+                        mov.b $71+X, A
 
-    #_19FF8E: #_0BC0: call ExecuteCommand
-    #_19FF91: #_0BC3: bra .try_again
+                        bra .continue
 
-    .note
-    #_19FF93: #_0BC5: mov.w A, $03FF+X
-    #_19FF96: #_0BC8: or.b A, $1B
-    #_19FF98: #_0BCA: bne .disabled_channel
-    #_19FF9A: #_0BCC: mov A, Y
+                    .empty_track
 
-    #_19FF9B: #_0BCD: push A
+                    mov.b A, $1B : bne .next_channel_2
+                        call Tracker
 
-    #_19FF9C: #_0BCE: mov.b A, $47
-    #_19FF9E: #_0BD0: and.b A, $1A
+                        .continue
+                        call PitchSlide
 
-    #_19FFA0: #_0BD2: pop A
+                .next_channel_2
 
-    #_19FFA1: #_0BD3: bne .disabled_channel
+                inc X : inc X
 
-    #_19FFA3: #_0BD5: call HandleNote
+                asl.b $47 : beq .done_with_channels
 
-    .disabled_channel
-    #_19FFA6: #_0BD8: mov.w A, $0200+X
-    #_19FFA9: #_0BDB: mov.b $70+X, A
+            jmp .loop_2
 
-    #_19FFAB: #_0BDD: mov Y, A
-    #_19FFAC: #_0BDE: mov.w A, $0201+X
-    #_19FFAF: #_0BE1: mul YA
-    #_19FFB0: #_0BE2: mov A, Y
-    #_19FFB1: #_0BE3: bne .non_zero
+            .done_with_channels
 
-    #_19FFB3: #_0BE5: inc A
+            mov.b A, $54 : beq .no_tempo_slide
+                movw.b YA, $56 : addw.b YA, $52 : dbnz.b $54, .temp_slide_not_done
+                    movw.b YA, $54
 
-    .non_zero
-    #_19FFB4: #_0BE6: mov.b $71+X, A
-    #_19FFB6: #_0BE8: bra .continue
+                .temp_slide_not_done
 
-    .empty_track
-    #_19FFB8: #_0BEA: mov.b A, $1B
-    #_19FFBA: #_0BEC: bne .next_channel_2
+                movw.b $52, YA
 
-    #_19FFBC: #_0BEE: call Tracker
+            .no_tempo_slide
 
-    .continue
-    #_19FFBF: #_0BF1: call PitchSlide
+            mov.b A, $68 : beq .no_echo_pan_slide
+                movw.b YA, $64 : addw.b YA, $60 : movw.b $60, YA
 
-    .next_channel_2
-    #_19FFC2: #_0BF4: inc X
-    #_19FFC3: #_0BF5: inc X
-    #_19FFC4: #_0BF6: asl.b $47
-    #_19FFC6: #_0BF8: beq .done_with_channels
+                movw.b YA, $66 : addw.b YA, $62 : dbnz.b $68, .pan_slide_not_done
+                    movw.b YA, $68 : movw.b $60, YA
 
-    #_19FFC8: #_0BFA: jmp .loop_2
+                    mov.b Y, $6A
 
-    ;---------------------------------------------------------------------------------------------------
+                .pan_slide_not_done
 
-    .done_with_channels
-    #_19FFCB: #_0BFD: mov.b A, $54
-    #_19FFCD: #_0BFF: beq .no_tempo_slide
+                movw.b $62, YA
 
-    #_19FFCF: #_0C01: movw.b YA, $56
-    #_19FFD1: #_0C03: addw.b YA, $52
-    #_19FFD3: #_0C05: dbnz.b $54, .temp_slide_not_done
+            .no_echo_pan_slide
 
-    #_19FFD6: #_0C08: movw.b YA, $54
+            mov.b A, $5A : beq .no_volume_slide
+                movw.b YA, $5C
+                addw.b YA, $58 : dbnz.b $5A, .volume_slide_not_done
+                    movw.b YA, $5A
 
-    .temp_slide_not_done
-    #_19FFD8: #_0C0A: movw.b $52, YA
+                .volume_slide_not_done
 
-    .no_tempo_slide
-    #_19FFDA: #_0C0C: mov.b A, $68
-    #_19FFDC: #_0C0E: beq .no_echo_pan_slide
+                movw.b $58, YA
+                mov.b $5E, #$FF
 
-    #_19FFDE: #_0C10: movw.b YA, $64
-    #_19FFE0: #_0C12: addw.b YA, $60
-    #_19FFE2: #_0C14: movw.b $60, YA
+            .no_volume_slide
 
-    #_19FFE4: #_0C16: movw.b YA, $66
-    #_19FFE6: #_0C18: addw.b YA, $62
-    #_19FFE8: #_0C1A: dbnz.b $68, .pan_slide_not_done
+            mov.b X, #$00
+            mov.b $47, #$01
 
-    #_19FFEB: #_0C1D: movw.b YA, $68
-    #_19FFED: #_0C1F: movw.b $60, YA
-    #_19FFEF: #_0C21: mov.b Y, $6A
+            .volume_settings_loop
 
-    .pan_slide_not_done
-    #_19FFF1: #_0C23: movw.b $62, YA
+                mov.b A, $31+X : beq .inactive_track
+                    call WritePitch
 
-    .no_echo_pan_slide
-    #_19FFF3: #_0C25: mov.b A, $5A
-    #_19FFF5: #_0C27: beq .no_volume_slide
+                .inactive_track
 
-    #_19FFF7: #_0C29: movw.b YA, $5C
-    #_19FFF9: #_0C2B: addw.b YA, $58
-    #_19FFFB: #_0C2D: dbnz.b $5A, .volume_slide_not_done
+                inc X : inc X
 
-    #_19FFFE: #_0C30: movw.b YA, $5A
+                asl.b $47
+            bne .volume_settings_loop
 
-    .volume_slide_not_done
-    #_1A8000: #_0C32: movw.b $58, YA
-    #_1A8002: #_0C34: mov.b $5E, #$FF
+            ret
+    }
 
-    .no_volume_slide
-    #_1A8005: #_0C37: mov.b X, #$00
-    #_1A8007: #_0C39: mov.b $47, #$01
+    ; ==========================================================================
 
-    .volume_settings_loop
-    #_1A800A: #_0C3C: mov.b A, $31+X
-    #_1A800C: #_0C3E: beq .inactive_track
-
-    #_1A800E: #_0C40: call WritePitch
-
-    .inactive_track
-    #_1A8011: #_0C43: inc X
-    #_1A8012: #_0C44: inc X
-
-    #_1A8013: #_0C45: asl.b $47
-    #_1A8015: #_0C47: bne .volume_settings_loop
-
-    #_1A8017: #_0C49: ret
-
-    ;===================================================================================================
-
+    ; SPC $0C4A-$0C5B JUMP LOCATION
+    ; $0D0018-$0D0029 DATA
     ExecuteCommand:
-    #_1A8018: #_0C4A: asl A
-    #_1A8019: #_0C4B: mov Y, A
+    {
+        asl A : mov Y, A
 
-    #_1A801A: #_0C4C: mov.w A, TrackCommand_Vectors+1-$C0+Y
-    #_1A801D: #_0C4F: push A
-    #_1A801E: #_0C50: mov.w A, TrackCommand_Vectors+0-$C0+Y
-    #_1A8021: #_0C53: push A
+        mov.w A, TrackCommand_Vectors+1-$C0+Y : push A
+        mov.w A, TrackCommand_Vectors+0-$C0+Y : push A
 
-    #_1A8022: #_0C54: mov A, Y
-    #_1A8023: #_0C55: lsr A
-    #_1A8024: #_0C56: mov Y, A
+        mov A, Y : lsr A : mov Y, A
 
-    #_1A8025: #_0C57: mov.w A, TrackCommandParamCount-$60+Y
-    #_1A8028: #_0C5A: beq NoParameters
+        mov.w A, TrackCommandParamCount-$60+Y : beq NoParameters
+            ; Bleeds into the next function.
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0C4A-$0C5D JUMP LOCATION
+    ; $0D002A-$0D002B DATA
     GetTrackByte:
-    #_1A802A: #_0C5C: mov.b A, ($30+X)
+    {
+        mov.b A, ($30+X)
 
-    ;===================================================================================================
+        ; Bleeds into the next function.
+    }
 
+    ; ==========================================================================
+
+    ; SPC $0C5E-$0C63 JUMP LOCATION
+    ; $0D002C-$0D0031 DATA
     SkipTrackByte:
-    #_1A802C: #_0C5E: inc.b $30+X
-    #_1A802E: #_0C60: bne NoParameters
+    {
+        inc.b $30+X
+        bne NoParameters
+            inc.b $31+X
 
-    #_1A8030: #_0C62: inc.b $31+X
+            ; Bleeds into the next function.
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0C64-$0C65 JUMP LOCATION
+    ; $0D0032-$0D0033 DATA
     NoParameters:
-    #_1A8032: #_0C64: mov Y, A
+    {
+        mov Y, A
 
-    #_1A8033: #_0C65: ret
+        ret
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0C64-$0CBE JUMP LOCATION
+    ; $0D0034-$0D008C DATA
     TrackCommand_E0_ChangeInstrument:
-    #_1A8034: #_0C66: mov.w $0211+X, A
+    {
+        mov.w $0211+X, A : mov Y, A
+        bpl .no_percussion
+            ; Percussion base
+            setc : sbc.b A, #$CA : clrc : adc.b A, $5F
 
-    #_1A8037: #_0C69: mov Y, A
-    #_1A8038: #_0C6A: bpl .no_percussion
+        .no_percussion
 
-    #_1A803A: #_0C6C: setc
-    #_1A803B: #_0C6D: sbc.b A, #$CA ; Percussion base
-    #_1A803D: #_0C6F: clrc
-    #_1A803E: #_0C70: adc.b A, $5F
+        mov.b Y, #$06
+        mul YA : movw.b $14, YA
 
-    .no_percussion
-    #_1A8040: #_0C72: mov.b Y, #$06
-    #_1A8042: #_0C74: mul YA
-    #_1A8043: #_0C75: movw.b $14, YA
+        clrc : adc.b $14, #INSTRUMENT_DATA>>0 : adc.b $15, #INSTRUMENT_DATA>>8
 
-    #_1A8045: #_0C77: clrc
-    #_1A8046: #_0C78: adc.b $14, #INSTRUMENT_DATA>>0
-    #_1A8049: #_0C7B: adc.b $15, #INSTRUMENT_DATA>>8
+        mov.b A, $1A : and.b A, $47 : bne .exit
+            push X
 
-    #_1A804C: #_0C7E: mov.b A, $1A
-    #_1A804E: #_0C80: and.b A, $47
-    #_1A8050: #_0C82: bne .exit
+            mov A, X : xcn A : lsr A : or.b A, #$04 : mov X, A
 
-    #_1A8052: #_0C84: push X
+            mov.b Y, #$00
+            mov.b A, ($14)+Y : bpl .normal_sample
+                and.b A, #$1F
+                and.b $48, #$20 : tset.w $0048, A
 
-    #_1A8053: #_0C85: mov A, X
-    #_1A8054: #_0C86: xcn A
-    #_1A8055: #_0C87: lsr A
-    #_1A8056: #_0C88: or.b A, #$04
-    #_1A8058: #_0C8A: mov X, A
+                or.b $49, $47
 
-    #_1A8059: #_0C8B: mov.b Y, #$00
-    #_1A805B: #_0C8D: mov.b A, ($14)+Y
-    #_1A805D: #_0C8F: bpl .normal_sample
+                mov A, Y
 
-    #_1A805F: #_0C91: and.b A, #$1F
-    #_1A8061: #_0C93: and.b $48, #$20
-    #_1A8064: #_0C96: tset.w $0048, A
+                bra .resume
 
-    #_1A8067: #_0C99: or.b $49, $47
+            .normal_sample
 
-    #_1A806A: #_0C9C: mov A, Y
-    #_1A806B: #_0C9D: bra .resume
+            mov.b A, $47 : tclr.w $0049, A
 
-    .normal_sample
-    #_1A806D: #_0C9F: mov.b A, $47
-    #_1A806F: #_0CA1: tclr.w $0049, A
+            .dsp_write_loop
 
-    .dsp_write_loop
-    #_1A8072: #_0CA4: mov.b A, ($14)+Y
+                mov.b A, ($14)+Y
 
-    .resume
-    #_1A8074: #_0CA6: mov.w DSPADDR, X
-    #_1A8077: #_0CA9: mov.w DSPDATA, A
+                .resume
 
-    #_1A807A: #_0CAC: inc X
-    #_1A807B: #_0CAD: inc Y
+                mov.w DSPADDR, X
+                mov.w DSPDATA, A
 
-    #_1A807C: #_0CAE: cmp.b Y, #$04
-    #_1A807E: #_0CB0: bne .dsp_write_loop
+                inc X
+                inc Y
+            cmp.b Y, #$04 : bne .dsp_write_loop
 
-    #_1A8080: #_0CB2: pop X
+            pop X
 
-    #_1A8081: #_0CB3: mov.b A, ($14)+Y
-    #_1A8083: #_0CB5: mov.w $0221+X, A
+            mov.b A, ($14)+Y : mov.w $0221+X, A
 
-    #_1A8086: #_0CB8: inc Y
-    #_1A8087: #_0CB9: mov.b A, ($14)+Y
-    #_1A8089: #_0CBB: mov.w $0220+X, A
+            inc Y
+            mov.b A, ($14)+Y : mov.w $0220+X, A
 
-    .exit
-    #_1A808C: #_0CBE: ret
+        .exit
 
-    ;===================================================================================================
+        ret
+    }
 
+    ; ==========================================================================
+
+    ; SPC $0CBF-$0CCC JUMP LOCATION
+    ; $0D008D-$0D009A DATA
     TrackCommand_E1_ChangePan:
-    #_1A808D: #_0CBF: mov.w $0351+X, A
+    {
+        mov.w $0351+X, A
+        and.b A, #$1F : mov.w $0331+X, A
 
-    #_1A8090: #_0CC2: and.b A, #$1F
-    #_1A8092: #_0CC4: mov.w $0331+X, A
+        mov.b A, #$00 : mov.w $0330+X, A
 
-    #_1A8095: #_0CC7: mov.b A, #$00
-    #_1A8097: #_0CC9: mov.w $0330+X, A
+        ret
+    }
 
-    #_1A809A: #_0CCC: ret
+    ; ==========================================================================
 
-    ;===================================================================================================
-
+    ; SPC $0CCD-$0CE5 JUMP LOCATION
+    ; $0D009B-$0D00B3 DATA
     TrackCommand_E2_PanSlide:
-    #_1A809B: #_0CCD: mov.b $91+X, A
+    {
+        mov.b $91+X, A
 
-    #_1A809D: #_0CCF: push A
-    #_1A809E: #_0CD0: call GetTrackByte
+        push A
+        call GetTrackByte
 
-    #_1A80A1: #_0CD3: mov.w $0350+X, A
-    #_1A80A4: #_0CD6: setc
-    #_1A80A5: #_0CD7: sbc.w A, $0331+X
+        mov.w $0350+X, A : setc : sbc.w A, $0331+X
 
-    #_1A80A8: #_0CDA: pop X
-    #_1A80A9: #_0CDB: call MakeFraction
+        pop X
+        call MakeFraction
 
-    #_1A80AC: #_0CDE: mov.w $0340+X, A
-    #_1A80AF: #_0CE1: mov A, Y
-    #_1A80B0: #_0CE2: mov.w $0341+X, A
+        mov.w $0340+X, A
+        mov A, Y : mov.w $0341+X, A
 
-    #_1A80B3: #_0CE5: ret
+        ret
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0CE6-$0CF1 JUMP LOCATION
+    ; $0D00B4-$0D00BF DATA
     TrackCommand_E3_SetVibrato:
-    #_1A80B4: #_0CE6: mov.w $02B0+X, A
+    {
+        mov.w $02B0+X, A
+        call GetTrackByte
 
-    #_1A80B7: #_0CE9: call GetTrackByte
-    #_1A80BA: #_0CEC: mov.w $02A1+X, A
+        mov.w $02A1+X, A
+        call GetTrackByte
 
-    #_1A80BD: #_0CEF: call GetTrackByte
+        ; Bleeds into the next function.
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0CF2-$0CFC JUMP LOCATION
+    ; $0D00C0-$0D00CA DATA
     TrackCommand_E4_VibratoOff:
-    #_1A80C0: #_0CF2: mov.b $B1+X, A
-    #_1A80C2: #_0CF4: mov.w $02C1+X, A
+    {
+        mov.b $B1+X, A
+        mov.w $02C1+X, A
 
-    #_1A80C5: #_0CF7: mov.b A, #$00
-    #_1A80C7: #_0CF9: mov.w $02B1+X, A
+        mov.b A, #$00 : mov.w $02B1+X, A
 
-    #_1A80CA: #_0CFC: ret
+        ret
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0CFD-$0D0C JUMP LOCATION
+    ; $0D00CB-$0D00DA DATA
     TrackCommand_F0_VibratoGradient:
-    #_1A80CB: #_0CFD: mov.w $02B1+X, A
-    #_1A80CE: #_0D00: push A
+    {
+        mov.w $02B1+X, A
+        push A
 
-    #_1A80CF: #_0D01: mov.b Y, #$00
-    #_1A80D1: #_0D03: mov.b A, $B1+X
+        mov.b Y, #$00
+        mov.b A, $B1+X
+        pop X
+        div YA, X
 
-    #_1A80D3: #_0D05: pop X
+        mov.b X, $44
+        mov.w $02C0+X, A
 
-    #_1A80D4: #_0D06: div YA, X
-    #_1A80D5: #_0D07: mov.b X, $44
-    #_1A80D7: #_0D09: mov.w $02C0+X, A
+        ret
+    }
 
-    #_1A80DA: #_0D0C: ret
+    ; ==========================================================================
 
-    ;===================================================================================================
-
+    ; SPC $0D0D-$0D1B JUMP LOCATION
+    ; $0D00DB-$0D00E9 DATA
     TrackCommand_E5_GlobalVolume:
-    #_1A80DB: #_0D0D: mov.w A, $03CA
-    #_1A80DE: #_0D10: bne .exit
+    {
+        mov.w A, $03CA : bne .exit
+            mov.w A, $03E1 : bne .exit
+                mov.b A, #$00 : movw.b $58, YA
 
-    #_1A80E0: #_0D12: mov.w A, $03E1
-    #_1A80E3: #_0D15: bne .exit
+        .exit
 
-    #_1A80E5: #_0D17: mov.b A, #$00
-    #_1A80E7: #_0D19: movw.b $58, YA
+        ret
+    }
 
-    .exit
-    #_1A80E9: #_0D1B: ret
+    ; ==========================================================================
 
-    ;===================================================================================================
-
+    ; SPC $0D1C-$0D2D JUMP LOCATION
+    ; $0D00EA-$0D00FB DATA
     TrackCommand_E6_GlobalVolumeSlide:
-    #_1A80EA: #_0D1C: mov.b $5A, A
+    {
+        mov.b $5A, A
+        call GetTrackByte
 
-    #_1A80EC: #_0D1E: call GetTrackByte
-    #_1A80EF: #_0D21: mov.b $5B, A
+        mov.b $5B, A
 
-    #_1A80F1: #_0D23: setc
-    #_1A80F2: #_0D24: sbc.b A, $59
-    #_1A80F4: #_0D26: mov.b X, $5A
-    #_1A80F6: #_0D28: call MakeFraction
+        setc : sbc.b A, $59
+        mov.b X, $5A
+        call MakeFraction
 
-    #_1A80F9: #_0D2B: movw.b $5C, YA
+        movw.b $5C, YA
 
-    #_1A80FB: #_0D2D: ret
+        ret
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
+    ; SPC $0D2E-$0D32 JUMP LOCATION
+    ; $0D00FC-$0D0100 DATA
     TrackCommand_E7_SetTempo:
-    #_1A80FC: #_0D2E: mov.b A, #$00
-    #_1A80FE: #_0D30: movw.b $52, YA
+    {
+        mov.b A, #$00 : movw.b $52, YA
 
-    #_1A8100: #_0D32: ret
+        ret
+    }
 
-    ;===================================================================================================
+    ; ==========================================================================
 
     TrackCommand_E8_TempoSlide:
     #_1A8101: #_0D33: mov.b $54, A
@@ -1425,14 +1377,14 @@ SPCEngine:
 
     #_1A8112: #_0D44: ret
 
-    ;===================================================================================================
+    ; ==========================================================================
 
     TrackCommand_E9_GlobalTranspose:
     #_1A8113: #_0D45: mov.b $50, A
 
     #_1A8115: #_0D47: ret
 
-    ;===================================================================================================
+    ; ==========================================================================
 
     TrackCommand_EA_ChannelTranspose:
     #_1A8116: #_0D48: mov.w $02F0+X, A
@@ -1644,55 +1596,50 @@ SPCEngine:
 
     ;===================================================================================================
 
+    ; SPC $0E22-$0E67 JUMP LOCATION
+    ; $0D01F0-$0D0235 DATA
     ConfigureEcho:
-    #_1A81F0: #_0E22: mov.b $4D, A
-    #_1A81F2: #_0E24: mov.b Y, #EDL
+    {
+        mov.b $4D, A
+        mov.b Y, #EDL
 
-    #_1A81F4: #_0E26: mov.w DSPADDR, Y
-    #_1A81F7: #_0E29: mov.w A, DSPDATA
+        mov.w DSPADDR, Y
+        mov.w A, DSPDATA
+        cmp.b A, $4D : beq .edl_same
+            and.b A, #$0F : eor.b A, #$FF : bbc7.b $4C, .buffer_ready
+                clrc
+                adc.b A, $4C
 
-    #_1A81FA: #_0E2C: cmp.b A, $4D
-    #_1A81FC: #_0E2E: beq .edl_same
+            .buffer_ready
 
-    #_1A81FE: #_0E30: and.b A, #$0F
-    #_1A8200: #_0E32: eor.b A, #$FF
-    #_1A8202: #_0E34: bbc7.b $4C, .buffer_ready
+            mov.b $4C, A
+            mov.b Y, #$04
 
-    #_1A8205: #_0E37: clrc
-    #_1A8206: #_0E38: adc.b A, $4C
+            .write_register
 
-    .buffer_ready
-    #_1A8208: #_0E3A: mov.b $4C, A
-    #_1A820A: #_0E3C: mov.b Y, #$04
+                mov.w A, RegisterList-1+Y
+                mov.w DSPADDR, A
 
-    .write_register
-    #_1A820C: #_0E3E: mov.w A, RegisterList-1+Y
-    #_1A820F: #_0E41: mov.w DSPADDR, A
+                mov.b A, #$00
+                mov.w DSPDATA, A
+            dbnz Y, .write_register
 
-    #_1A8212: #_0E44: mov.b A, #$00
-    #_1A8214: #_0E46: mov.w DSPDATA, A
+            mov.b A, $48 : or.b A, #$20
+            mov.b Y, #FLG
+            call WriteToDSP
 
-    #_1A8217: #_0E49: dbnz Y, .write_register
+            mov.b A, $4D
+            mov.b Y, #EDL
+            call WriteToDSP
 
-    #_1A8219: #_0E4B: mov.b A, $48
-    #_1A821B: #_0E4D: or.b A, #$20
-    #_1A821D: #_0E4F: mov.b Y, #FLG
-    #_1A821F: #_0E51: call WriteToDSP
+        .edl_same
 
-    #_1A8222: #_0E54: mov.b A, $4D
-    #_1A8224: #_0E56: mov.b Y, #EDL
-    #_1A8226: #_0E58: call WriteToDSP
+        asl A : asl A : asl A : eor.b A, #$FF
+        setc : adc.b A, #SONG_POINTERS>>8
+        mov.b Y, #ESA
 
-    .edl_same
-    #_1A8229: #_0E5B: asl A
-    #_1A822A: #_0E5C: asl A
-    #_1A822B: #_0E5D: asl A
-    #_1A822C: #_0E5E: eor.b A, #$FF
-    #_1A822E: #_0E60: setc
-    #_1A822F: #_0E61: adc.b A, #SONG_POINTERS>>8
-    #_1A8231: #_0E63: mov.b Y, #ESA
-
-    #_1A8233: #_0E65: jmp WriteToDSP
+        jmp WriteToDSP
+    }
 
     ;===================================================================================================
 
@@ -2942,83 +2889,63 @@ SPCEngine:
 
     ;===================================================================================================
 
+    ; SPC $1445-$14AC JUMP LOCATION
+    ; $0D0813-$0D087A DATA
     Handle_SFX1:
-    #_1A8813: #_1445: mov.w A, $03E4
-    #_1A8816: #_1448: beq .no_fadeout
+    {
+        mov.w A, $03E4 : beq .no_fadeout
+            jmp SFX1_FadeHandler
 
-    #_1A8818: #_144A: jmp SFX1_FadeHandler
+        .no_fadeout
 
-    .no_fadeout
-    #_1A881B: #_144D: mov.w A, $03CF
+        mov.w A, $03CF : mov.w $03E0, A
+                         beq .exit
+            mov.b X, #$0E
 
-    #_1A881E: #_1450: mov.w $03E0, A
-    #_1A8821: #_1453: beq .exit
+            mov.b A, #$80 : mov.w $03C1, A
 
-    #_1A8823: #_1455: mov.b X, #$0E
-    #_1A8825: #_1457: mov.b A, #$80
-    #_1A8827: #_1459: mov.w $03C1, A
+            .next_channel
 
-    .next_channel
-    #_1A882A: #_145C: asl.w $03E0
-    #_1A882D: #_145F: bcc .to_next_channel
+                asl.w $03E0 : bcc .to_next_channel
+                    mov.w $03C0, X
+                    mov A, X : xcn A : lsr A : mov.w $03C2, A
 
-    #_1A882F: #_1461: mov.w $03C0, X
+                    mov.w A, $03D0+X : mov.b $20, A
 
-    #_1A8832: #_1464: mov A, X
-    #_1A8833: #_1465: xcn A
-    #_1A8834: #_1466: lsr A
-    #_1A8835: #_1467: mov.w $03C2, A
+                    mov.w A, $03A1+X : bne .delayed
+                        mov.w A, $03A0+X : beq .to_next_channel
+                            jmp SFXControl
 
-    #_1A8838: #_146A: mov.w A, $03D0+X
-    #_1A883B: #_146D: mov.b $20, A
+                .to_next_channel
 
-    #_1A883D: #_146F: mov.w A, $03A1+X
-    #_1A8840: #_1472: bne .delayed
+                lsr.w $03C1
 
-    #_1A8842: #_1474: mov.w A, $03A0+X
-    #_1A8845: #_1477: beq .to_next_channel
+                dec X : dec X
+            cmp.b X, #$0A : bpl .next_channel
 
-    #_1A8847: #_1479: jmp SFXControl
+        .exit
 
-    .to_next_channel
-    #_1A884A: #_147C: lsr.w $03C1
+        ret
 
-    #_1A884D: #_147F: dec X
-    #_1A884E: #_1480: dec X
+        .delayed
 
-    #_1A884F: #_1481: cmp.b X, #$0A
-    #_1A8851: #_1483: bpl .next_channel
+        mov.w $03C0, X
 
-    .exit
-    #_1A8853: #_1485: ret
+        mov.w A, $03A1+X : dec A : mov.w $03A1+X, A
+                                   beq .initialize
+            jmp .to_next_channel
 
-    ;---------------------------------------------------------------------------------------------------
+        .initialize
 
-    .delayed
-    #_1A8854: #_1486: mov.w $03C0, X
+        mov.w A, $03A0+X : asl A : mov Y, A
+        mov.w A, SFX1_Pointers-1+Y : mov.w $0391+X, A
+                                     mov.b $2D, A
 
-    #_1A8857: #_1489: mov.w A, $03A1+X
-    #_1A885A: #_148C: dec A
-    #_1A885B: #_148D: mov.w $03A1+X, A
+        mov.w A, SFX1_Pointers-2+Y : mov.w $0390+X, A
+                                     mov.b $2C, A
 
-    #_1A885E: #_1490: beq .initialize
-
-    #_1A8860: #_1492: jmp .to_next_channel
-
-    .initialize
-    #_1A8863: #_1495: mov.w A, $03A0+X
-    #_1A8866: #_1498: asl A
-    #_1A8867: #_1499: mov Y, A
-
-    #_1A8868: #_149A: mov.w A, SFX1_Pointers-1+Y
-    #_1A886B: #_149D: mov.w $0391+X, A
-    #_1A886E: #_14A0: mov.b $2D, A
-
-    #_1A8870: #_14A2: mov.w A, SFX1_Pointers-2+Y
-    #_1A8873: #_14A5: mov.w $0390+X, A
-    #_1A8876: #_14A8: mov.b $2C, A
-
-    #_1A8878: #_14AA: jmp SFXControl_process_byte
+        jmp SFXControl_process_byte
+    }
 
     ;===================================================================================================
 
