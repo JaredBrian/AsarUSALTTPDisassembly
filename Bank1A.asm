@@ -16,7 +16,7 @@ org $1A8000
 
 ; ==============================================================================
 
-; $0D0B6C-1A9BFF DATA
+; $0D0B6C-$1A9BFF DATA
 org $1A8B6C
 SFX_Data:
 {
@@ -32,38 +32,38 @@ SFX_Data:
     ; $0D0B70-$0D0BAF DATA
     SFX1_Pointers:
     {
-        dw SFX1_01
-        dw SFX1_02
-        dw SFX1_03
-        dw SFX1_04
-        dw SFX1_05
-        dw SFX1_05
-        dw SFX1_07
-        dw SFX1_08
-        dw SFX1_09
-        dw SFX1_0A
-        dw SFX1_0B
-        dw SFX1_0C
-        dw SFX1_0D
-        dw SFX1_0E
-        dw SFX1_0F
-        dw SFX1_10
-        dw SFX1_11
-        dw SFX1_12
-        dw SFX1_13
-        dw SFX1_14
-        dw SFX1_15
-        dw SFX1_16
-        dw SFX1_17
-        dw SFX1_18
-        dw $0000
-        dw $0000
-        dw SFX1_0B ; TODO: Are these supposed to be duplicates?
-        dw SFX1_0C
-        dw SFX1_0D
-        dw SFX1_0E
-        dw SFX1_0F
-        dw SFX1_10
+        dw SFX1_01 ; 0x00
+        dw SFX1_02 ; 0x01
+        dw SFX1_03 ; 0x02
+        dw SFX1_04 ; 0x03
+        dw SFX1_05 ; 0x04
+        dw SFX1_05 ; 0x05
+        dw SFX1_07 ; 0x06
+        dw SFX1_08 ; 0x07
+        dw SFX1_09 ; 0x08
+        dw SFX1_0A ; 0x09
+        dw SFX1_0B ; 0x0A
+        dw SFX1_0C ; 0x0B
+        dw SFX1_0D ; 0x0C
+        dw SFX1_0E ; 0x0D
+        dw SFX1_0F ; 0x0E
+        dw SFX1_10 ; 0x0F
+        dw SFX1_11 ; 0x10
+        dw SFX1_12 ; 0x11
+        dw SFX1_13 ; 0x12
+        dw SFX1_14 ; 0x13
+        dw SFX1_15 ; 0x14
+        dw SFX1_16 ; 0x15
+        dw SFX1_17 ; 0x16
+        dw SFX1_18 ; 0x17
+        dw $0000   ; 0x18
+        dw $0000   ; 0x19
+        dw SFX1_0B ; 0x1A NOTE: This is not a mistake, these are duplicated.
+        dw SFX1_0C ; 0x1B
+        dw SFX1_0D ; 0x1C
+        dw SFX1_0E ; 0x1D
+        dw SFX1_0F ; 0x1E
+        dw SFX1_10 ; 0x1F
     }
 
     ; ==========================================================================
@@ -112,69 +112,69 @@ SFX_Data:
     ; $0D0BD0-0D0C4D DATA
     SFX2_Pointers:
     {
-        dw SFX2_01
-        dw SFX2_02
-        dw SFX2_03
-        dw SFX2_04
-        dw SFX2_05
-        dw SFX2_06
-        dw SFX2_07
-        dw SFX2_08
-        dw SFX2_09
-        dw SFX2_0A
-        dw SFX2_0B
-        dw SFX2_0C
-        dw SFX2_0D
-        dw SFX2_0E
-        dw SFX2_0F
-        dw SFX2_10
-        dw SFX2_11
-        dw SFX2_12
-        dw SFX2_13
-        dw SFX2_14
-        dw SFX2_15
-        dw SFX2_16
-        dw SFX2_17
-        dw SFX2_18
-        dw SFX2_19
-        dw SFX2_1A
-        dw SFX2_1B
-        dw SFX2_1C
-        dw SFX2_1D
-        dw SFX2_1E
-        dw SFX2_1F
-        dw SFX2_20
-        dw SFX2_21
-        dw SFX2_22
-        dw SFX2_23
-        dw SFX2_24
-        dw SFX2_25
-        dw SFX2_26
-        dw SFX2_27
-        dw SFX2_28
-        dw SFX2_29
-        dw SFX2_2A
-        dw SFX2_2B
-        dw SFX2_2C
-        dw SFX2_2D
-        dw SFX2_2E
-        dw SFX2_2F
-        dw SFX2_30
-        dw SFX2_31
-        dw SFX2_32
-        dw SFX2_33
-        dw SFX2_34
-        dw SFX2_35
-        dw SFX2_36
-        dw SFX2_37
-        dw SFX2_34
-        dw SFX2_39
-        dw SFX2_3A
-        dw SFX2_3B
-        dw SFX2_3C
-        dw SFX2_3D
-        dw SFX2_3E
-        dw SFX2_3F
+        dw SFX2_01 ; 0x00
+        dw SFX2_02 ; 0x01
+        dw SFX2_03 ; 0x02
+        dw SFX2_04 ; 0x03
+        dw SFX2_05 ; 0x04
+        dw SFX2_06 ; 0x05
+        dw SFX2_07 ; 0x06
+        dw SFX2_08 ; 0x07
+        dw SFX2_09 ; 0x08
+        dw SFX2_0A ; 0x09
+        dw SFX2_0B ; 0x0A
+        dw SFX2_0C ; 0x0B
+        dw SFX2_0D ; 0x0C
+        dw SFX2_0E ; 0x0D
+        dw SFX2_0F ; 0x0E
+        dw SFX2_10 ; 0x0F
+        dw SFX2_11 ; 0x10
+        dw SFX2_12 ; 0x11
+        dw SFX2_13 ; 0x12
+        dw SFX2_14 ; 0x13
+        dw SFX2_15 ; 0x14
+        dw SFX2_16 ; 0x15
+        dw SFX2_17 ; 0x16
+        dw SFX2_18 ; 0x17
+        dw SFX2_19 ; 0x18
+        dw SFX2_1A ; 0x19
+        dw SFX2_1B ; 0x1A
+        dw SFX2_1C ; 0x1B
+        dw SFX2_1D ; 0x1C
+        dw SFX2_1E ; 0x1D
+        dw SFX2_1F ; 0x1E
+        dw SFX2_20 ; 0x1F
+        dw SFX2_21 ; 0x20
+        dw SFX2_22 ; 0x21
+        dw SFX2_23 ; 0x22
+        dw SFX2_24 ; 0x23
+        dw SFX2_25 ; 0x24
+        dw SFX2_26 ; 0x25
+        dw SFX2_27 ; 0x26
+        dw SFX2_28 ; 0x27
+        dw SFX2_29 ; 0x28
+        dw SFX2_2A ; 0x29
+        dw SFX2_2B ; 0x2A
+        dw SFX2_2C ; 0x2B
+        dw SFX2_2D ; 0x2C
+        dw SFX2_2E ; 0x2D
+        dw SFX2_2F ; 0x2E
+        dw SFX2_30 ; 0x2F
+        dw SFX2_31 ; 0x30
+        dw SFX2_32 ; 0x31
+        dw SFX2_33 ; 0x32
+        dw SFX2_34 ; 0x33
+        dw SFX2_35 ; 0x34
+        dw SFX2_36 ; 0x35
+        dw SFX2_37 ; 0x36
+        dw SFX2_34 ; 0x37
+        dw SFX2_39 ; 0x38
+        dw SFX2_3A ; 0x39
+        dw SFX2_3B ; 0x3A
+        dw SFX2_3C ; 0x3B
+        dw SFX2_3D ; 0x3C
+        dw SFX2_3E ; 0x3D
+        dw SFX2_3F ; 0x3E
     }
 
     ; ==========================================================================
@@ -325,69 +325,69 @@ SFX_Data:
     ; $0D0CCC-0D0D49 DATA
     SFX3_Pointers:
     {
-        dw SFX3_01
-        dw SFX3_02
-        dw SFX3_03
-        dw SFX3_04
-        dw SFX2_07
-        dw SFX3_06
-        dw SFX3_07
-        dw SFX3_08
-        dw SFX3_09
-        dw SFX3_0A
-        dw SFX3_0B
-        dw SFX3_0C
-        dw SFX3_0D
-        dw SFX3_0E
-        dw SFX3_0F
-        dw SFX3_10
-        dw SFX3_11
-        dw SFX3_12
-        dw SFX3_13
-        dw SFX3_14
-        dw SFX3_15
-        dw SFX3_16
-        dw SFX3_17
-        dw SFX3_18
-        dw SFX3_19
-        dw SFX3_1A
-        dw SFX3_1B
-        dw SFX3_1C
-        dw SFX2_2D
-        dw SFX3_1E
-        dw SFX3_1F
-        dw SFX3_20
-        dw SFX3_21
-        dw SFX3_22
-        dw SFX3_23
-        dw SFX3_24
-        dw SFX3_25
-        dw SFX3_26
-        dw SFX3_27
-        dw SFX3_28
-        dw SFX3_29
-        dw SFX3_2A
-        dw SFX3_2B
-        dw SFX3_2C
-        dw SFX3_2D
-        dw SFX3_2E
-        dw SFX3_2F
-        dw SFX3_30
-        dw SFX3_31
-        dw SFX3_32
-        dw SFX3_33
-        dw SFX3_34
-        dw SFX3_35
-        dw SFX3_36
-        dw SFX3_37
-        dw SFX3_38
-        dw SFX3_39
-        dw SFX3_3A
-        dw SFX3_3B
-        dw SFX3_3C
-        dw SFX3_3D
-        dw SFX3_3E
-        dw SFX3_3F
+        dw SFX3_01 ; 0x00
+        dw SFX3_02 ; 0x01
+        dw SFX3_03 ; 0x02
+        dw SFX3_04 ; 0x03
+        dw SFX2_07 ; 0x04
+        dw SFX3_06 ; 0x05
+        dw SFX3_07 ; 0x06
+        dw SFX3_08 ; 0x07
+        dw SFX3_09 ; 0x08
+        dw SFX3_0A ; 0x09
+        dw SFX3_0B ; 0x0A
+        dw SFX3_0C ; 0x0B
+        dw SFX3_0D ; 0x0C
+        dw SFX3_0E ; 0x0D
+        dw SFX3_0F ; 0x0E
+        dw SFX3_10 ; 0x0F
+        dw SFX3_11 ; 0x10
+        dw SFX3_12 ; 0x11
+        dw SFX3_13 ; 0x12
+        dw SFX3_14 ; 0x13
+        dw SFX3_15 ; 0x14
+        dw SFX3_16 ; 0x15
+        dw SFX3_17 ; 0x16
+        dw SFX3_18 ; 0x17
+        dw SFX3_19 ; 0x18
+        dw SFX3_1A ; 0x19
+        dw SFX3_1B ; 0x1A
+        dw SFX3_1C ; 0x1B
+        dw SFX2_2D ; 0x1C
+        dw SFX3_1E ; 0x1D
+        dw SFX3_1F ; 0x1E
+        dw SFX3_20 ; 0x1F
+        dw SFX3_21 ; 0x20
+        dw SFX3_22 ; 0x21
+        dw SFX3_23 ; 0x22
+        dw SFX3_24 ; 0x23
+        dw SFX3_25 ; 0x24
+        dw SFX3_26 ; 0x25
+        dw SFX3_27 ; 0x26
+        dw SFX3_28 ; 0x27
+        dw SFX3_29 ; 0x28
+        dw SFX3_2A ; 0x29
+        dw SFX3_2B ; 0x2A
+        dw SFX3_2C ; 0x2B
+        dw SFX3_2D ; 0x2C
+        dw SFX3_2E ; 0x2D
+        dw SFX3_2F ; 0x2E
+        dw SFX3_30 ; 0x2F
+        dw SFX3_31 ; 0x30
+        dw SFX3_32 ; 0x31
+        dw SFX3_33 ; 0x32
+        dw SFX3_34 ; 0x33
+        dw SFX3_35 ; 0x34
+        dw SFX3_36 ; 0x35
+        dw SFX3_37 ; 0x36
+        dw SFX3_38 ; 0x37
+        dw SFX3_39 ; 0x38
+        dw SFX3_3A ; 0x39
+        dw SFX3_3B ; 0x3A
+        dw SFX3_3C ; 0x3B
+        dw SFX3_3D ; 0x3C
+        dw SFX3_3E ; 0x3D
+        dw SFX3_3F ; 0x3E
     }
 
     ; ==========================================================================
@@ -535,8 +535,6 @@ SFX_Data:
     ; ==========================================================================
     ; Sound effects
     ; ==========================================================================
-
-    ; TODO: Write a script to extract the SFX from a ROM.
 
     ; SPC $1A18-$1A36 DATA
     ; $0D0DC8-$0D0DE6 DATA
@@ -1680,7 +1678,7 @@ SFX_Data:
     }
 
     ; SPC $284F-$2850 DATA
-    ; $0D1BFF-$0D1C00 DATA
+    ; $0D1BFF-$0D1BFF DATA
     SFX1_05:
     {
         incbin "Data/SFX/sfx1-05.sfx"
@@ -1691,14 +1689,14 @@ SFX_Data:
 
 ; ==============================================================================
 
-; $0D1C04-$0D1CE4 DATA
+; $0D1C00-$0D1CE4 DATA
 SFXInstruments:
 {
     ; Transfer size, transfer address
     dw $00E1, INSTRUMENT_DATA_SFX
 
     ; SPC $3E00-$3EE0 DATA
-    ; $0D1BFF-$0D1CE4 DATA
+    ; $0D1C04-$0D1CE4 DATA
     base INSTRUMENT_DATA_SFX
     
     ; TODO: Define all of these.

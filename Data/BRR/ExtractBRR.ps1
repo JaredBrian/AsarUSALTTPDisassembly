@@ -1,22 +1,19 @@
 # ==============================================================================
 # BRR Extraction script
-# Used to extrac the BRR data out of a vanilla US ALTTP ROM.
+# Used to extract the BRR data out of a vanilla US ALTTP ROM.
 # By Jared_Brian_
 # Version 1.0
-# 10/28/25
+# 11/01/25
+# ==============================================================================
+# Use the "-noDefaulNames" flag to not name the instruments base on what they
+# are in vanilla and instead give them a generic name.
 # ==============================================================================
 
 param
 (
-    # Define an optional integer parameter for the starting address
-    # If not provided, it defaults to 0x008010
-    [string]$arg1 = "y"
+    # Define an optional string parameter for the default names.
+    [string]$arg1 = ""
 )
-
-# Define the relative paths from the script's location.
-$sourceRomPath = 'alttp.sfc'
-
-$defaultNames = "00_noise", "01_rain", "02_timpani", "03_square", "04_saw", "05_clink", "06_wobbly", "07_compoundSaw", "08_tweet", "09_strings", "0A_trombone", "0B_cymbal", "0C_ocarina", "0D_chime", "0E_harp", "0F_splash", "10_trumpet", "11_horn", "12_snare", "13_choir", "14_flute", "15_oof", "16_piano"
 
 $useDefaultNames = $true
 if ($args.Count -gt 0)
@@ -27,12 +24,21 @@ if ($args.Count -gt 0)
     }
 }
 
-Write-Host "========================================================="
-Write-Host "Extracting BRR files from $sourceFile"
-Write-Host "========================================================="
+$sourceRomPath = 'alttp.sfc'
+
+$pointerSizeAddress = 0x0C8000
+$pointerAddress = 0x0C8004
+$startOfSampleDataAddress = 0x0C8078
+$endOfSampleDataAddress = 0x0CFB18
+
+$defaultNames = "00_noise", "01_rain", "02_timpani", "03_square", "04_saw", "05_clink", "06_wobbly", "07_compoundSaw", "08_tweet", "09_strings", "0A_trombone", "0B_cymbal", "0C_ocarina", "0D_chime", "0E_harp", "0F_splash", "10_trumpet", "11_horn", "12_snare", "13_choir", "14_flute", "15_oof", "16_piano"
 
 # Combine the script's directory with the relative paths.
 $sourceFile = Join-Path -Path $PSScriptRoot -ChildPath $sourceRomPath
+
+Write-Host "========================================================="
+Write-Host "Extracting BRR files from $sourceFile"
+Write-Host "========================================================="
 
 try
 {
@@ -40,7 +46,7 @@ try
     $fileStream = [System.IO.File]::OpenRead($sourceFile)
 
     # Move the file stream's cursor to the correct position.
-    $fileStream.Seek(0x0C8000, [System.IO.SeekOrigin]::Begin) | Out-Null
+    $fileStream.Seek($pointerSizeAddress, [System.IO.SeekOrigin]::Begin) | Out-Null
     $buffer = New-Object byte[](2)
     $bytesRead = $fileStream.Read($buffer, 0, 2)
 
@@ -61,7 +67,7 @@ try
     for ($i = 0; $i -lt $pointerCount; $i++)
     {
         # Move the file stream's cursor to the correct position.
-        $fileStream.Seek(0x0C8004 + ($i * 4), [System.IO.SeekOrigin]::Begin) | Out-Null
+        $fileStream.Seek($pointerAddress + ($i * 4), [System.IO.SeekOrigin]::Begin) | Out-Null
 
         $buffer = New-Object byte[](2)
         $bytesRead = $fileStream.Read($buffer, 0, 2)
@@ -79,8 +85,8 @@ try
             continue
         }
 
-        # Adjust the pointer from the SPC poitner to a SNES one.
-        $int16Value = $int16Value - 0x4000 + 0x0C8078
+        # Adjust the pointer from the SPC poitner to a PC one.
+        $int16Value = $int16Value - 0x4000 + $startOfSampleDataAddress
 
         $size = 0xFFFF
 
@@ -119,14 +125,14 @@ try
             #Write-Host "Size:       0x$('{0:X4}' -f $size)`n"
         }
 
-        #Write-Host "Instrament: 0x$('{0:X2}' -f $i)"
+        #Write-Host "Instrument: 0x$('{0:X2}' -f $i)"
         #Write-Host "Address:    0x$('{0:X6}' -f $int16Value)"
     }
 
     # Get the size for the very last one
-    $sizes.Add(0x0CFB18 - $previousAddress)
+    $sizes.Add($endOfSampleDataAddress - $previousAddress)
 
-    # Get the data for each instrament:
+    # Get the data for each instrument:
     for ($i = 0; $i -lt $addresses.Count; $i++)
     {
         # Move the file stream's cursor to the correct position.

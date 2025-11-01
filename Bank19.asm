@@ -347,8 +347,7 @@ SPCEngine:
 
             cmp.b Y, #$05 : beq .FLG_register
                 bcs .not_echo_register
-                    cmp.b $4C, $4D
-                    bne .skip
+                    cmp.b $4C, $4D : bne .skip
 
             .FLG_register
 
