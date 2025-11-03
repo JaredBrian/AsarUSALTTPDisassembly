@@ -32,6 +32,9 @@ LD$1.w$2
 Get rid of kan address formatting:
 #_......: 
 
+Get rid of kan SPC address formatting:
+#_......: #_....: 
+
 Find a Function or pool label with out a:
 [^:]\n\{
 

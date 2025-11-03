@@ -1995,54 +1995,39 @@ SPCEngine:
     ; $0D0362-$0D039F DATA
     WritePitch_external:
     {
-        mov A, X
-        xcn A
-        lsr A
-        mov.b $12, A
+        mov A, X : xcn A : lsr A : mov.b $12, A
 
         .vol_right
-        mov.b Y, $11
-        mov.w A, LogisticFunc+1+Y
-        setc
-        sbc.w A, LogisticFunc+0+Y
 
-        mov.b Y, $10
-        mul YA
+            mov.b Y, $11
+            mov.w A, LogisticFunc+1+Y : setc : sbc.w A, LogisticFunc+0+Y
 
-        mov A, Y
-        mov.b Y, $11
-        clrc
-        adc.w A, LogisticFunc+0+Y
-        mov Y, A
+            mov.b Y, $10
+            mul YA : mov A, Y
 
-        mov.w A, $0321+X
-        mul YA
+            mov.b Y, $11
+            clrc : adc.w A, LogisticFunc+0+Y : mov Y, A
+            mov.w A, $0321+X
+            mul YA
+            
+            mov.w A, $0351+X : asl A : bbc0.b $12, .vol_left
+                asl A
 
-        mov.w A, $0351+X
-        asl A
+            .vol_left
 
-        bbc0.b $12, .vol_left
+            mov A, Y : bcc .no_phase_inversion
+                eor.b A, #$FF : inc A
 
-        asl A
+            .no_phase_inversion
 
-        .vol_left
-        mov A, Y
-        bcc .no_phase_inversion
+            mov.b Y, $12
+            call WriteToDSP_Checked
 
-        eor.b A, #$FF
-        inc A
+            mov.b Y, #$14
+            mov.b A, #$00
+            subw.b YA, $10 : movw.b $10, YA
 
-        .no_phase_inversion
-        mov.b Y, $12
-        call WriteToDSP_Checked
-
-        mov.b Y, #$14
-        mov.b A, #$00
-
-        subw.b YA, $10
-        movw.b $10, YA
-
-        inc.b $12
+            inc.b $12
         bbc1.b $12, .vol_right
 
         ; SPC $0FD1 ALTERNATE ENTRY POINT
@@ -2060,7 +2045,10 @@ SPCEngine:
     {
         or.b $5E, $47
 
+        ; SPC $0FD5 ALTERNATE ENTRY POINT
+        ; $0D03A3 DATA
         .quiet
+
         movw.b $14, YA
         movw.b $16, YA
 
@@ -2069,230 +2057,211 @@ SPCEngine:
 
         clrc
         bne .still_sliding
+            adc.b $16, #$1F
 
-        adc.b $16, #$1F
+            mov.b A, #$00 : mov.b ($14)+Y, A
 
-        mov.b A, #$00
-        mov.b ($14)+Y, A
+            inc Y
 
-        inc Y
-        bra .add
+            bra .add
 
         .still_sliding
+
         adc.b $16, #$10
         call .add_slide_amount
 
         inc Y
 
+        ; SPC $0FEF ALTERNATE ENTRY POINT
+        ; $0D03BD DATA
         .add_slide_amount
+
         mov.b A, ($14)+Y
 
         .add
-        adc.b A, ($16)+Y
-        mov.b ($14)+Y, A
+
+        adc.b A, ($16)+Y : mov.b ($14)+Y, A
 
         ret
     }
 
     ; ==========================================================================
 
-    ; SPC $0FF6-$10D0 JUMP LOCATION
-    ; $0D03C4-$0D049E DATA
+    ; SPC $0FF6-$10B0 JUMP LOCATION
+    ; $0D03C4-$0D047E DATA
     Tracker:
     {
-        mov.b A, $71+X
-        beq .time_left
+        mov.b A, $71+X : beq .time_left
+            dec.b $71+X
+            beq .times_up
+                mov.b A, #$02
+                cbne.b $70+X, .time_left
 
-        dec.b $71+X
-        beq .times_up
+            .times_up
+            
+            mov.b A, $80+X : mov.b $17, A
 
-        mov.b A, #$02
-        cbne.b $70+X, .time_left
+            mov.b A, $30+X
+            mov.b Y, $31+X
 
-        .times_up
-        mov.b A, $80+X
-        mov.b $17, A
+            .load_pointer
 
-        mov.b A, $30+X
-        mov.b Y, $31+X
+            movw.b $14, YA
+            mov.b Y, #$00
 
-        .load_pointer
-        movw.b $14, YA
-        mov.b Y, #$00
+            .next_byte
+            
+                mov.b A, ($14)+Y : beq .terminate_track
+                    bmi .command
+                        .read_track_data
 
-        .next_byte
-        mov.b A, ($14)+Y
-        beq .terminate_track
-        bmi .command
+                            inc Y : .call_loop_over
+                                mov.b A, ($14)+Y
+                        bpl .read_track_data
 
-        .read_track_data
-        inc Y
-        bmi .call_loop_over
+                    .command
 
-        mov.b A, ($14)+Y
-        bpl .read_track_data
+                    ; tie
+                    cmp.b A, #$C8 : beq .time_left
+                        ; call part
+                        cmp.b A, #$EF : beq .call_loop_command
+                            ; instrument change
+                            cmp.b A, #$E0 : bcc .call_loop_over
+                                push Y
+                                mov Y, A
+                                pop A
+                                adc.w A, TrackCommandParamCount-$E0+Y : mov Y, A
+            bra .next_byte
 
-        .command
-        cmp.b A, #$C8 ; tie
-        beq .time_left
+            .terminate_track
 
-        cmp.b A, #$EF ; call part
-        beq .call_loop_command
+            mov.b A, $17 : beq .call_loop_over
+                dec.b $17
+                bne .call_loop_notdone
+                    mov.w A, $0231+X : push A
+                    mov.w A, $0230+X
+                    pop Y
 
-        cmp.b A, #$E0 ; instrument change
-        bcc .call_loop_over
+                    bra .load_pointer
 
-        push Y
-        mov Y, A
+                .call_loop_notdone
 
-        pop A
-        adc.w A, TrackCommandParamCount-$E0+Y
-        mov Y, A
+                mov.w A, $0241+X : push A
+                mov.w A, $0240+X
+                pop Y
 
-        bra .next_byte
+                bra .load_pointer
 
-    ; ==========================================================================
+                .call_loop_command
 
-        .terminate_track
-        mov.b A, $17
-        beq .call_loop_over
+                inc Y
 
-        dec.b $17
-        bne .call_loop_notdone
+                mov.b A, ($14)+Y : push A
+                inc Y
+                mov.b A, ($14)+Y : mov Y, A
+                pop A
 
-        mov.w A, $0231+X
-        push A
+                bra .load_pointer
 
-        mov.w A, $0230+X
-        pop Y
+            .call_loop_over
 
-        bra .load_pointer
-
-        .call_loop_notdone
-        mov.w A, $0241+X
-        push A
-
-        mov.w A, $0240+X
-        pop Y
-
-        bra .load_pointer
-
-        .call_loop_command
-        inc Y
-        mov.b A, ($14)+Y
-
-        push A
-        inc Y
-
-        mov.b A, ($14)+Y
-
-        mov Y, A
-        pop A
-
-        bra .load_pointer
-
-        .call_loop_over
-        mov.b A, $47
-        mov.b Y, #KOFF
-        call WriteToDSP_Checked
+            mov.b A, $47
+            mov.b Y, #KOFF
+            call WriteToDSP_Checked
 
         .time_left
+
         clr7.b $13
 
-        mov.b A, $A0+X
-        beq .no_pitch_slide
+        mov.b A, $A0+X : beq .no_pitch_slide
+            mov.b A, $A1+X : beq .delay_finished
+                dec.b $A1+X
+                bra .no_pitch_slide
 
-        mov.b A, $A1+X
-        beq .delay_finished
+            .delay_finished
 
-        dec.b $A1+X
-        bra .no_pitch_slide
+            mov.b A, $1A : and.b A, $47 : bne .no_pitch_slide
+                set7.b $13
 
-        .delay_finished
-        mov.b A, $1A
-        and.b A, $47
-        bne .no_pitch_slide
+                mov.b A, #$0360>>0
+                mov.b Y, #$0360>>8
 
-        set7.b $13
-
-        mov.b A, #$0360>>0
-        mov.b Y, #$0360>>8
-
-        dec.b $A0+X
-        call IncrementSlide_quiet
+                dec.b $A0+X
+                call IncrementSlide_quiet
 
         .no_pitch_slide
+
         call GetTempPitch
 
-        mov.b A, $B1+X
-        beq Tracker_no_vibrato
+        mov.b A, $B1+X : beq Tracker_no_vibrato
+            mov.w A, $02B0+X : cbne.b $B0+X, Tracker_handle_pitch_set_point_wait
+                mov.w A, $0100+X : cmp.w A, $02B1+X : bne .increment
+                    mov.w A, $02C1+X
+                    bra .set_intensity
 
-        mov.w A, $02B0+X
-        cbne.b $B0+X, .set_point_wait
+                .increment
+                
+                ; TODO: Verify this byte. We are setting the direct page but then
+                ; it still says .b $0100? i'm pretty sure this can just be .b $00.
+                setp
+                inc.b $0100+X
+                clrp
 
-        mov.w A, $0100+X
-        cmp.w A, $02B1+X
-        bne .increment
+                mov Y, A : beq .initializing
+                    mov.b A, $B1+X
 
-        mov.w A, $02C1+X
-        bra .set_intensity
+                .initializing
 
-        .increment
-        setp
-        inc.b $0100+X
-        clrp
+                clrc : adc.w A, $02C0+X
 
-        mov Y, A
-        beq .initializing
+                .set_intensity
 
-        mov.b A, $B1+X
+                mov.b $B1+X, A
 
-        .initializing
-        clrc
-        adc.w A, $02C0+X
+                mov.w A, $02A0+X : clrc : adc.w A, $02A1+X : mov.w $02A0+X, A
 
-        .set_intensity
-        mov.b $B1+X, A
-        mov.w A, $02A0+X
-
-        clrc
-        adc.w A, $02A1+X
-        mov.w $02A0+X, A
+                ; Bleeds into the next function.
+    }
 
     ; ==========================================================================
 
-    #Tracker_handle_pitch:
+    ; SPC $10B1-$10D0 JUMP LOCATION
+    ; $0D047F-$0D049E DATA
+    Tracker_handle_pitch:
+    {
         mov.b $12, A
-        asl A
-        asl A
-        bcc .low_enough
-
-        eor.b A, #$FF
+        asl A : asl A : bcc .low_enough
+            eor.b A, #$FF
 
         .low_enough
+
         mov Y, A
 
-        mov.b A, $B1+X
-        cmp.b A, #$F1
-        bcc .too_small
+        mov.b A, $B1+X : cmp.b A, #$F1 : bcc .too_small
+            and.b A, #$0F
+            mul YA
 
-        and.b A, #$0F
-        mul YA
-
-        bra .continue
+            bra .continue
 
         .too_small
-        mul YA
-        mov A, Y
+
+        mul YA : mov A, Y
         mov.b Y, #$00
 
         .continue
+
         call AdjustPitch
 
+        ; SPC $10CC ALTERNATE ENTRY POINT
+        ; $0D049A DATA
         .change_pitch
+
         jmp HandleNote_external
 
+        ; SPC $10CF ALTERNATE ENTRY POINT
+        ; $0D049D DATA
         .set_point_wait
+
         inc.b $B0+X
     }
 
@@ -2302,9 +2271,8 @@ SPCEngine:
     ; $0D049F-$0D04A2 DATA
     Tracker_no_vibrato:
     {
-        bbs7.b $13, .change_pitch
-
-        ret
+        bbs7.b $13, Tracker_handle_pitch_change_pitch
+            ret
     }
 
     ; ==========================================================================
@@ -2315,68 +2283,49 @@ SPCEngine:
     {
         clr7.b $13
 
-        mov.b A, $C1+X
-        beq .no_tremelo
-
-        mov.w A, $02E0+X
-        cbne.b $C0+X, .no_tremelo
-
-        call VolumeModulation
+        mov.b A, $C1+X : beq .no_tremelo
+            mov.w A, $02E0+X : cbne.b $C0+X, .no_tremelo
+                call VolumeModulation
 
         .no_tremelo
-        mov.w A, $0331+X
-        mov Y, A
 
-        mov.w A, $0330+X
-        movw.b $10, YA
+        mov.w A, $0331+X : mov Y, A
 
-        mov.b A, $91+X
-        beq .no_pan_slide
+        mov.w A, $0330+X : movw.b $10, YA
 
-        mov.w A, $0341+X
-        mov Y, A
+        mov.b A, $91+X : beq .no_pan_slide
+            mov.w A, $0341+X : mov Y, A
 
-        mov.w A, $0340+X
-        call AdjustPitchByFrames
+            mov.w A, $0340+X
+            call AdjustPitchByFrames
 
         .no_pan_slide
-        bbc7.b $13, .pitch_unchanged
 
-        call WritePitch_external
+        bbc7.b $13, .pitch_unchanged
+            call WritePitch_external
 
         .pitch_unchanged
+
         clr7.b $13
 
         call GetTempPitch
 
-        mov.b A, $A0+X
-        beq .no_pitch_slide
+        mov.b A, $A0+X : beq .no_pitch_slide
+            mov.b A, $A1+X : bne .no_pitch_slide
+                mov.w A, $0371+X : mov Y, A
 
-        mov.b A, $A1+X
-        bne .no_pitch_slide
-
-        mov.w A, $0371+X
-        mov Y, A
-
-        mov.w A, $0370+X
-        call AdjustPitchByFrames
+                mov.w A, $0370+X
+                call AdjustPitchByFrames
 
         .no_pitch_slide
-        mov.b A, $B1+X
-        beq Tracker_no_vibrato
 
-        mov.w A, $02B0+X
-        cbne.b $B0+X, Tracker_no_vibrato
+        mov.b A, $B1+X : beq Tracker_no_vibrato
+            mov.w A, $02B0+X : cbne.b $B0+X, Tracker_no_vibrato
+                mov.b Y, $51
+                mov.w A, $02A1+X
+                mul YA : mov A, Y : clrc : adc.w A, $02A0+X
 
-        mov.b Y, $51
-        mov.w A, $02A1+X
-
-        mul YA
-        mov A, Y
-        clrc
-        adc.w A, $02A0+X
-
-        jmp Tracker_handle_pitch
+                jmp Tracker_handle_pitch
     }
 
     ; ==========================================================================
@@ -2393,15 +2342,15 @@ SPCEngine:
         push Y
 
         mov.b Y, $51
-        mul YA
-        mov.b $14, Y
+        mul YA : mov.b $14, Y
+
         mov.b $15, #$00
 
         mov.b Y, $51
-
         pop A
-        mul YA
-        addw.b YA, $14
+        mul YA : addw.b YA, $14
+
+        ; Bleeds into the next function.
     }
 
     ; ==========================================================================
@@ -2412,8 +2361,7 @@ SPCEngine:
     {
         call MakeFraction_abs
 
-        addw.b YA, $10
-        movw.b $10, YA
+        addw.b YA, $10 : movw.b $10, YA
 
         ret
     }
@@ -2428,11 +2376,9 @@ SPCEngine:
 
         mov.b Y, $51
         mov.w A, $02D1+X
+        mul YA : mov A, Y : clrc : adc.w A, $02D0+X
 
-        mul YA
-        mov A, Y
-        clrc
-        adc.w A, $02D0+X
+        ; Bleeds into the next function.
     }
 
     ; ==========================================================================
@@ -2441,18 +2387,18 @@ SPCEngine:
     ; $0D0529-$0D0545 DATA
     VolumeModulation_external:
     {
-        asl A
-        bcc .no_phase_invert
-
-        eor.b A, #$FF
+        asl A : bcc .no_phase_invert
+            eor.b A, #$FF
 
         .no_phase_invert
-        mov.b Y, $C1+X
-        mul YA
-        mov A, Y
-        eor.b A, #$FF
 
+        mov.b Y, $C1+X
+        mul YA : mov A, Y : eor.b A, #$FF
+
+        ; SPC $1166 ALTERNATE ENTRY POINT
+        ; $0D0534 DATA
         .final_volume
+
         mov.b Y, $59
         mul YA
 
@@ -2460,13 +2406,8 @@ SPCEngine:
         mul YA
 
         mov.w A, $0301+X
-        mul YA
-
-        mov A, Y
-        mul YA
-
-        mov A, Y
-        mov.w $0321+X, A
+        mul YA : mov A, Y
+        mul YA : mov A, Y : mov.w $0321+X, A
 
         ret
     }
@@ -2483,9 +2424,8 @@ SPCEngine:
     }
 
     ; ==========================================================================
-    ; Contains values for each of the 8 bytes of filter    }
-
-    ; ==========================================================================
+    
+    ; Contains values for each of the 8 bytes of filter
     ; SPC $118D-$11AC DATA
     ; $0D055B-$0D057A DATA
     EchoFilterParameters:
@@ -2578,53 +2518,55 @@ SPCEngine:
     ; $0D05B4-$0D05FF DATA
     Data_Loader:
     {
-        mov.b A, #$AA
-        mov.w CPUIO0, A
+        mov.b A, #$AA : mov.w CPUIO0, A
 
-        mov.b A, #$BB
-        mov.w CPUIO1, A
+        mov.b A, #$BB : mov.w CPUIO1, A
 
         .wait_data_start
-        mov.w A, CPUIO0
-        cmp.b A, #$CC
-        bne .wait_data_start
+
+            ; Loop
+        mov.w A, CPUIO0 : cmp.b A, #$CC : bne .wait_data_start
+
         bra .begin_transfer
 
         .loop
-        mov.w Y, CPUIO0
+
+                mov.w Y, CPUIO0
+            bne .loop
+
+            .reread
+
+                cmp.w Y, CPUIO0 : bne .coherence_error
+                    mov.w A, CPUIO1
+                    mov.w CPUIO0, Y
+                    mov.b ($14)+Y, A
+
+                    inc Y
+                    bne .reread
+                        inc.b $15
+
+                        bra .reread
+
+                .coherence_error
+
+                bpl .reread
+            cmp.w Y, CPUIO0 : bpl .reread
+
+            .begin_transfer
+
+            mov.w A, CPUIO2
+            mov.w Y, CPUIO3
+            movw.b $14, YA
+
+            mov.w Y, CPUIO0
+            mov.w A, CPUIO1
+
+            ; TODO: Why move Y back into CPUIO0? Probably because it will set
+            ; the Zero flag again. Verify.
+            mov.w CPUIO0, Y
         bne .loop
 
-        .reread
-        cmp.w Y, CPUIO0
-        bne .coherence_error
-
-        mov.w A, CPUIO1
-        mov.w CPUIO0, Y
-        mov.b ($14)+Y, A
-
-        inc Y
-        bne .reread
-
-        inc.b $15
-        bra .reread
-
-        .coherence_error
-        bpl .reread
-
-        cmp.w Y, CPUIO0
-        bpl .reread
-
-        .begin_transfer
-        mov.w A, CPUIO2
-        mov.w Y, CPUIO3
-        movw.b $14, YA
-
-        mov.w Y, CPUIO0
-        mov.w A, CPUIO1
-        mov.w CPUIO0, Y
-        bne .loop
-
-    ; clear ports 0123, start timer 0
+        ; clear ports 0123, start timer 0
         mov.b X, #$31
         mov.w CONTROL, X
 
@@ -2637,35 +2579,27 @@ SPCEngine:
     ; $0D0600-$0D062D DATA
     SFX2_HandleEcho:
     {
-        mov.b A, $02
-        and.b A, #$3F
-        mov X, A
+        mov.b A, $02 : and.b A, #$3F : mov X, A
 
-        mov.w A, SFX2_Echo-1+X
-        mov.w $03E2, A
+        mov.w A, SFX2_Echo-1+X : mov.w $03E2, A
 
         mov.b Y, #$0E
-        mov.b X, #$80
-        mov.w $03C1, X
+        mov.b X, #$80 : mov.w $03C1, X
 
         .loop_back
-        mov.w A, $03CB
-        and.w A, $03C1
-        beq .SFX2_next_slot
 
-        clrc
-        mov.w A, $03A0+Y
-        adc.w A, $03D0+Y
+            mov.w A, $03CB : and.w A, $03C1 : beq .SFX2_next_slot
+                clrc
+                mov.w A, $03A0+Y
+                adc.w A, $03D0+Y
 
-        cmp.b A, $02
-        beq SFX3_HandleEcho_match
+                cmp.b A, $02
+                beq SFX3_HandleEcho_match
 
-        .SFX2_next_slot
-        dec Y
-        dec Y
+            .SFX2_next_slot
 
-        lsr.w $03C1
-        bne .loop_back
+            dec Y : dec Y
+        lsr.w $03C1 : bne .loop_back
 
         bra SFX3_HandleEcho_no_slot
     }
@@ -2676,100 +2610,74 @@ SPCEngine:
     ; $0D062E-$0D06B4 DATA
     SFX3_HandleEcho:
     {
-        mov.b A, $03
-        and.b A, #$3F
-        mov X, A
-
-        mov.w A, SFX3_Echo-1+X
-        mov.w $03E2, A
+        mov.b A, $03 : and.b A, #$3F : mov X, A
+        mov.w A, SFX3_Echo-1+X : mov.w $03E2, A
 
         mov.b Y, #$0E
-        mov.b X, #$80
-        mov.w $03C1, X
+
+        mov.b X, #$80 : mov.w $03C1, X
 
         .SFX3_loop_point
-        mov.w A, $03CD
-        and.w A, $03C1
-        beq .SFX3_next_slot
+            mov.w A, $03CD : and.w A, $03C1 : beq .SFX3_next_slot
+                clrc
+                mov.w A, $03A0+Y : adc.w A, $03D0+Y : cmp.b A, $03 : beq .match
 
-        clrc
-        mov.w A, $03A0+Y
-        adc.w A, $03D0+Y
+            .SFX3_next_slot
 
-        cmp.b A, $03
-        beq .match
+            dec Y : dec Y
+        lsr.w $03C1: bne .SFX3_loop_point
 
-        .SFX3_next_slot
-        dec Y
-        dec Y
-
-        lsr.w $03C1
-        bne .SFX3_loop_point
         bra .no_slot
 
         .match
+
         mov.w $03C0, Y
+
         bra .enabled
 
         .no_slot
+
         clrc
         mov.b X, #$1A
 
-        mov.b A, #$80
-        mov.w $03C1, A
+        mov.b A, #$80 : mov.w $03C1, A
 
         mov.b Y, #$0E
 
         .loop_back_2
-        and A, (X)
-        beq .enabled
 
-        dec Y
-        dec Y
+            and A, (X) : beq .enabled
+                dec Y : dec Y
 
-        lsr.w $03C1
-        lsr A
-        bcc .loop_back_2
+                lsr.w $03C1
+        lsr A : bcc .loop_back_2
 
         .enabled
+
         mov.w $03C0, Y
         mov.w $03C8, Y
 
-        mov.w A, $03C1
-        mov.w $03C9, A
+        mov.w A, $03C1 : mov.w $03C9, A
+        or.b A, $1A : mov.b $1A, A
 
-        or.b A, $1A
-        mov.b $1A, A
-
-        mov.w X, $03E2
-        beq .disabled
-
-        or.w A, $03E3
-        mov.w $03E3, A
+        mov.w X, $03E2 : beq .disabled
+            or.w A, $03E3 : mov.w $03E3, A
 
         .disabled
-        mov.w A, $0004
-        and.b A, #$10
-        beq .lower_bank
 
-        mov.w A, $03C1
-        and.w A, $03E3
-        beq .echo_off
+        mov.w A, $0004 : and.b A, #$10 : beq .lower_bank
+            mov.w A, $03C1 : and.w A, $03E3 : beq .echo_off
 
         .lower_bank
-        mov.w A, $03C1
-        and.b A, $4A
-        beq .echo_off
 
-        mov.b A, $4A
-        setc
-        sbc.w A, $03C1
-        mov.b $4A, A
+        mov.w A, $03C1 : and.b A, $4A : beq .echo_off
+            mov.b A, $4A : setc : sbc.w A, $03C1 : mov.b $4A, A
 
-        mov.b Y, #EON
-        call WriteToDSP
+            mov.b Y, #EON
+            call WriteToDSP
 
         .echo_off
+
         ret
     }
 
@@ -2777,13 +2685,11 @@ SPCEngine:
 
     ; SPC $12E7-$12FE JUMP LOCATION
     ; $0D06B5-$0D06CC DATA
-    Unused_Function:
+    Unused_12E7:
     {
-        mov.w X, $03C4
-        mov.w $03C0, X
+        mov.w X, $03C4 : mov.w $03C0, X
 
-        mov.w Y, $03C5
-        mov.w $03C1, Y
+        mov.w Y, $03C5 : mov.w $03C1, Y
 
         mov.w A, $03C1
         mov.b Y, #KOFF
@@ -2800,32 +2706,19 @@ SPCEngine:
     ; $0D06CD-$0D073A DATA
     InitSFX1:
     {
-        mov.b $05, A
-        cmp.b A, #$05
-        bne .initialize
-
-        mov.w X, $03CF
-        bne .initialize
-
-        ret
+        mov.b $05, A : cmp.b A, #$05 : bne .initialize
+            mov.w X, $03CF : bne .initialize
+                ret
 
         .initialize
-        mov.b X, #$00
-        mov.w $03E4, X
+
+        mov.b X, #$00 :  mov.w $03E4, X
 
         mov.b X, #$0E
-
-        mov.b A, $01
-        mov.w $03A0+X, A
-
-        mov.b A, #$03
-        mov.w $03A1+X, A
-
-        mov.b A, #$00
-        mov.w $0280+X, A
-
-        mov.b A, #$80
-        mov.w $03CF, A
+        mov.b A, $01  : mov.w $03A0+X, A
+        mov.b A, #$03 : mov.w $03A1+X, A
+        mov.b A, #$00 : mov.w $0280+X, A
+        mov.b A, #$80 : mov.w $03CF, A
 
         mov.b Y, #KOFF
         call WriteToDSP
@@ -2833,24 +2726,16 @@ SPCEngine:
         set7.b $1A
 
         mov.b X, $01
-        mov.w A, SFX1_Accomp-1+X
-
-        mov.b $01, A
-        bne .also_use_chan_6
-
-        ret
+        mov.w A, SFX1_Accomp-1+X : mov.b $01, A
+                                   bne .also_use_chan_6
+            ret
 
         .also_use_chan_6
+
         mov.b X, #$0C
-
-        mov.b A, $01
-        mov.w $03A0+X, A
-
-        mov.b A, #$03
-        mov.w $03A1+X, A
-
-        mov.b A, #$00
-        mov.w $0280+X, A
+        mov.b A, $01  : mov.w $03A0+X, A
+        mov.b A, #$03 : mov.w $03A1+X, A
+        mov.b A, #$00 : mov.w $0280+X, A
 
         set6.b $1A
 
@@ -2858,19 +2743,12 @@ SPCEngine:
         mov.b Y, #KOFF
         call WriteToDSP
 
-        mov.b A, #$C0
-        mov.w $03CF, A
+        mov.b A, #$C0 : mov.w $03CF, A
+        or.w A, $03E3 : mov.w $03E3, A
 
-        or.w A, $03E3
-        mov.w $03E3, A
+        mov.b A, #$3F : and.w A, $03CB : mov.w $03CB, A
 
-        mov.b A, #$3F
-        and.w A, $03CB
-        mov.w $03CB, A
-
-        mov.b A, #$3F
-        and.w A, $03CD
-        mov.w $03CD, A
+        mov.b A, #$3F : and.w A, $03CD : mov.w $03CD, A
 
         ret
     }
@@ -2881,23 +2759,20 @@ SPCEngine:
     ; $0D073B-$0D074E DATA
     HandleInput_SFX1:
     {
-        mov.b A, $01
-        bmi .SFX1_negative
-
-        bne InitSFX1
-
-        ret
+        mov.b A, $01 : bmi .SFX1_negative
+            bne InitSFX1
+                ret
 
         .SFX1_negative
+
         mov.b $05, A
 
-        mov.w A, $03CF
-        beq .channels_not_used
-
-        mov.b A, #$78
-        mov.w $03E4, A
+        mov.w A, $03CF : beq .channels_not_used
+            mov.b A, #$78
+            mov.w $03E4, A
 
         .channels_not_used
+
         ret
     }
 
@@ -2908,22 +2783,17 @@ SPCEngine:
     SFX1_FadeHandler:
     {
         dec.w $03E4
+        mov.w A, $03E4 : bne .still_fading
+            mov.b A, #$05 :  mov.b $01, A
+            call InitSFX1_initialize
 
-        mov.w A, $03E4
-        bne .still_fading
+            mov.b A, #$00 : mov.b $01, A
 
-        mov.b A, #$05
-        mov.b $01, A
-        call InitSFX1_initialize
-
-        mov.b A, #$00
-        mov.b $01, A
-
-        ret
+            ret
 
         .still_fading
-        lsr A
-        mov.w $03E5, A
+
+        lsr A : mov.w $03E5, A
         mov.b Y, #V7VOLL
         call WriteToDSP
 
@@ -2948,10 +2818,8 @@ SPCEngine:
     ; $0D0785-$0D0789 DATA
     HandleInput_SFX2:
     {
-        mov.b A, $02
-        bne HandleValidSFX2
-
-        ret
+        mov.b A, $02 : bne HandleValidSFX2
+            ret
     }
 
     ; ==========================================================================
@@ -2960,51 +2828,38 @@ SPCEngine:
     ; $0D078A-$0D07D1 DATA
     HandleInput_SFX3:
     {
-        mov.b A, $03
-        bne .valid
-
-        ret
+        mov.b A, $03 : bne .valid
+            ret
 
         .valid
-        mov.b A, #$FF
-        cbne.b $1A, .not_all_muted
-        bra .exit
 
-        .not_all_muted
-        call SFX3_HandleEcho
+            mov.b A, #$FF : cbne.b $1A, .not_all_muted
+                bra .exit
 
-        mov.w X, $03C0
+            .not_all_muted
 
-        mov.b A, $03
-        and.b A, #$C0
-        mov.w $03D0+X, A
+            call SFX3_HandleEcho
 
-        mov.b A, $03
-        and.b A, #$3F
-        mov.w $03A0+X, A
+            mov.w X, $03C0
+            mov.b A, $03 : and.b A, #$C0 : mov.w $03D0+X, A
+            mov.b A, $03 : and.b A, #$3F : mov.w $03A0+X, A
 
-        mov.b A, #$03
-        mov.w $03A1+X, A
+            mov.b A, #$03 : mov.w $03A1+X, A
+            mov.b A, #$00 : mov.w $0280+X, A
 
-        mov.b A, #$00
-        mov.w $0280+X, A
+            mov.w A, $03C1 : or.w A, $03CD : mov.w $03CD, A
 
-        mov.w A, $03C1
-        or.w A, $03CD
-        mov.w $03CD, A
+            mov.w A, $03C1
+            mov.b Y, #KOFF
+            call WriteToDSP
 
-        mov.w A, $03C1
-        mov.b Y, #KOFF
-        call WriteToDSP
+            mov.w A, $03A0+X : mov X, A
 
-        mov.w A, $03A0+X
-        mov X, A
-
-        mov.w A, SFX3_Accomp-1+X
-        mov.b $03, A
+            mov.w A, SFX3_Accomp-1+X : mov.b $03, A
         bne .valid
 
         .exit
+
         ret
     }
 
@@ -3014,47 +2869,32 @@ SPCEngine:
     ; $0D07D1-$0D0812 DATA
     HandleValidSFX2:
     {
-        mov.b A, #$FF
-        cbne.b $1A, .not_all_muted
+            mov.b A, #$FF : cbne.b $1A, .not_all_muted
+                bra .exit
 
-        bra .exit
+            .not_all_muted
 
-        .not_all_muted
-        call SFX2_HandleEcho
+            call SFX2_HandleEcho
 
-        mov.w X, $03C0
+            mov.w X, $03C0
+            mov.b A, $02 : and.b A, #$3F : mov.w $03A0+X, A
+            mov.b A, $02 : and.b A, #$C0 : mov.w $03D0+X, A
 
-        mov.b A, $02
-        and.b A, #$3F
-        mov.w $03A0+X, A
+            mov.b A, #$03 : mov.w $03A1+X, A
+            mov.b A, #$00 : mov.w $0280+X, A
 
-        mov.b A, $02
-        and.b A, #$C0
-        mov.w $03D0+X, A
+            mov.w A, $03C1 : or.w A, $03CB : mov.w $03CB, A
 
-        mov.b A, #$03
-        mov.w $03A1+X, A
+            mov.w A, $03C1
+            mov.b Y, #KOFF
+            call WriteToDSP
 
-        mov.b A, #$00
-        mov.w $0280+X, A
-
-        mov.w A, $03C1
-        or.w A, $03CB
-        mov.w $03CB, A
-
-        mov.w A, $03C1
-        mov.b Y, #KOFF
-        call WriteToDSP
-
-        mov.w A, $03A0+X
-        mov X, A
-
-        mov.w A, SFX2_Accomp-1+X
-        mov.b $02, A
-
+            mov.w A, $03A0+X : mov X, A
+            mov.w A, SFX2_Accomp-1+X : mov.b $02, A
         bne HandleValidSFX2
 
         .exit
+
         ret
     }
 
@@ -3111,7 +2951,6 @@ SPCEngine:
         mov.w A, $03A0+X : asl A : mov Y, A
         mov.w A, SFX1_Pointers-1+Y : mov.w $0391+X, A
                                      mov.b $2D, A
-
         mov.w A, SFX1_Pointers-2+Y : mov.w $0390+X, A
                                      mov.b $2C, A
 
@@ -3124,68 +2963,50 @@ SPCEngine:
     ; $0D087B-$0D08D8 DATA
     Handle_SFX2:
     {
-        mov.w A, $03CB
-        mov.w $03CC, A
-        beq .exit
+        mov.w A, $03CB : mov.w $03CC, A
+                         beq .exit
+            mov.b X, #$0E
 
-        mov.b X, #$0E
-        mov.b A, #$80
-        mov.w $03C1, A
+            mov.b A, #$80 : mov.w $03C1, A
 
-        .next_channel
-        asl.w $03CC
-        bcc .to_next_channel
+            .next_channel
 
-        mov.w $03C0, X
-        mov A, X
-        xcn A
-        lsr A
-        mov.w $03C2, A
+                asl.w $03CC : bcc .to_next_channel
+                    mov.w $03C0, X
+                    mov A, X : xcn A : lsr A : mov.w $03C2, A
 
-        mov.w A, $03D0+X
-        mov.b $20, A
+                    mov.w A, $03D0+X : mov.b $20, A
 
-        mov.w A, $03A1+X
-        bne .delayed
+                    mov.w A, $03A1+X : bne .delayed
+                        mov.w A, $03A0+X : beq .to_next_channel
+                            jmp SFXControl
 
-        mov.w A, $03A0+X
-        beq .to_next_channel
+                .to_next_channel
 
-        jmp SFXControl
+                lsr.w $03C1
 
-        .to_next_channel
-        lsr.w $03C1
-        dec X
-        dec X
-        bpl .next_channel
+                dec X : dec X
+            bpl .next_channel
 
         .exit
+
         ret
 
-    ; ==========================================================================
-
         .delayed
+
         mov.w $03C0, X
 
-        mov.w A, $03A1+X
-        dec A
-        mov.w $03A1+X, A
-        beq .initialize
-
-        jmp .to_next_channel
+        mov.w A, $03A1+X : dec A : mov.w $03A1+X, A
+                                   beq .initialize
+            jmp .to_next_channel
 
         .initialize
-        mov.w A, $03A0+X
-        asl A
-        mov Y, A
 
-        mov.w A, SFX2_Pointers-1+Y
-        mov.w $0391+X, A
-        mov.b $2D, A
-
-        mov.w A, SFX2_Pointers-2+Y
-        mov.w $0390+X, A
-        mov.b $2C, A
+        mov.w A, $03A0+X : asl A : mov Y, A
+        mov.w A, SFX2_Pointers-1+Y : mov.w $0391+X, A
+                                     mov.b $2D, A
+        mov.w A, SFX2_Pointers-2+Y : mov.w $0390+X, A
+                                     mov.b $2C, A
 
         jmp SFXControl_process_byte
     }
@@ -3196,69 +3017,48 @@ SPCEngine:
     ; $0D08D9-$0D0936 DATA
     Handle_SFX3:
     {
-        mov.w A, $03CD
-        mov.w $03CE, A
-        beq .exit
+        mov.w A, $03CD : mov.w $03CE, A
+                         beq .exit
+            mov.b X, #$0E
+            mov.b A, #$80 : mov.w $03C1, A
 
-        mov.b X, #$0E
-        mov.b A, #$80
-        mov.w $03C1, A
+            .next_channel
+                
+                asl.w $03CE : bcc .to_next_channel
+                    mov.w $03C0, X
+                    mov A, X : xcn A : lsr A : mov.w $03C2, A
 
-        .next_channel
-        asl.w $03CE
-        bcc .to_next_channel
+                    mov.w A, $03D0+X : mov.b $20, A
 
-        mov.w $03C0, X
-        mov A, X
-        xcn A
-        lsr A
-        mov.w $03C2, A
+                    mov.w A, $03A1+X : bne .delayed
+                        mov.w A, $03A0+X : beq .to_next_channel
+                            jmp SFXControl
 
-        mov.w A, $03D0+X
-        mov.b $20, A
+                .to_next_channel
 
-        mov.w A, $03A1+X
-        bne .delayed
+                lsr.w $03C1
 
-        mov.w A, $03A0+X
-        beq .to_next_channel
-
-        jmp SFXControl
-
-        .to_next_channel
-        lsr.w $03C1
-        dec X
-        dec X
-        bpl .next_channel
+                dec X : dec X
+            bpl .next_channel
 
         .exit
+
         ret
 
-    ; ==========================================================================
-
         .delayed
+
         mov.w $03C0, X
-
-        mov.w A, $03A1+X
-        dec A
-        mov.w $03A1+X, A
-
-        beq .initialize
-
-        jmp .to_next_channel
+        mov.w A, $03A1+X : dec A : mov.w $03A1+X, A
+                                   beq .initialize
+            jmp .to_next_channel
 
         .initialize
-        mov.w A, $03A0+X
-        asl A
-        mov Y, A
 
-        mov.w A, SFX3_Pointers-1+Y
-        mov.w $0391+X, A
-        mov.b $2D, A
-
-        mov.w A, SFX3_Pointers-2+Y
-        mov.w $0390+X, A
-        mov.b $2C, A
+        mov.w A, $03A0+X : asl A : mov Y, A
+        mov.w A, SFX3_Pointers-1+Y : mov.w $0391+X, A
+                                     mov.b $2D, A
+        mov.w A, SFX3_Pointers-2+Y : mov.w $0390+X, A
+                                     mov.b $2C, A
 
         jmp SFXControl_process_byte
     }
@@ -3273,66 +3073,41 @@ SPCEngine:
         mov.w X, $03C0
         mov.w $03A0+X, A
 
-        mov.b A, $1A
-        setc
-        sbc.w A, $03C1
-        mov.b $1A, A
+        mov.b A, $1A : setc : sbc.w A, $03C1 : mov.b $1A, A
 
-        mov.w A, $03C1
-        and.w A, $03CB
-        beq .not_on_SFX_2
+        mov.w A, $03C1 : and.w A, $03CB : beq .not_on_SFX_2
+            mov.w A, $03CB : setc : sbc.w A, $03C1 : mov.w $03CB, A
 
-        mov.w A, $03CB
-        setc
-        sbc.w A, $03C1
-        mov.w $03CB, A
-
-        bra .resume
+            bra .resume
 
         .not_on_SFX_2
-        mov.w A, $03C1
-        and.w A, $03CD
-        beq .not_on_SFX_3
 
-        mov.w A, $03CD
-        setc
-        sbc.w A, $03C1
-        mov.w $03CD, A
+        mov.w A, $03C1 : and.w A, $03CD : beq .not_on_SFX_3
+            mov.w A, $03CD : setc : sbc.w A, $03C1 : mov.w $03CD, A
 
-        bra .resume
+            bra .resume
 
         .not_on_SFX_3
-        mov.w A, $03CF
-        setc
-        sbc.w A, $03C1
-        mov.w $03CF, A
+
+        mov.w A, $03CF : setc : sbc.w A, $03C1 : mov.w $03CF, A
 
         .resume
+
         mov.b $44, X
         mov.w A, $0211+X
         call TrackCommand_E0_ChangeInstrument
 
-        mov.w A, $03C1
-        and.w A, $03C3
-        beq .exit
+        mov.w A, $03C1 : and.w A, $03C3 : beq .exit
+            and.b A, $4A : bne .exit
+                mov.b A, $4A : clrc : adc.w A, $03C1 : mov.b $4A, A
 
-        and.b A, $4A
-        bne .exit
+                mov.b Y, #EON
+                call WriteToDSP
 
-        mov.b A, $4A
-        clrc
-        adc.w A, $03C1
-        mov.b $4A, A
-
-        mov.b Y, #EON
-        call WriteToDSP
-
-        mov.w A, $03E3
-        setc
-        sbc.w A, $03C1
-        mov.w $03E3, A
+                mov.w A, $03E3 : setc : sbc.w A, $03C1 : mov.w $03E3, A
 
         .exit
+
         mov.w X, $03C0
 
         ret
@@ -3344,22 +3119,18 @@ SPCEngine:
     ; $0D09A8-$0D09C6 DATA
     DisableSFX:
     {
-        mov.w A, $03C1
-        and.w A, $03CF
-        bne .used_by_SFX_1
-
-        mov.w A, $03C1
-        and.w A, $03CB
-        bne .used_by_SFX_2
-
-        call ResumeMusic
-        jmp Handle_SFX3_to_next_channel
+        mov.w A, $03C1 : and.w A, $03CF : bne .used_by_SFX_1
+            mov.w A, $03C1 : and.w A, $03CB : bne .used_by_SFX_2
+                call ResumeMusic
+                jmp Handle_SFX3_to_next_channel
 
         .used_by_SFX_1
+
         call ResumeMusic
         jmp Handle_SFX1_to_next_channel
 
         .used_by_SFX_2
+
         call ResumeMusic
         jmp Handle_SFX2_to_next_channel
     }
@@ -3373,266 +3144,234 @@ SPCEngine:
         call SFX3_HandleEcho_disabled
 
         mov.w $03C0, X
-        mov.w A, $0391+X
-        mov Y, A
+        mov.w A, $0391+X : mov Y, A
+        mov.w A, $0390+X : movw.b $2C, YA
 
-        mov.w A, $0390+X
-        movw.b $2C, YA
-
-        mov.w A, $03B0+X
-        dec A
-        mov.w $03B0+X, A
+        mov.w A, $03B0+X : dec A : mov.w $03B0+X, A
 
         beq .next_byte
-        jmp .do_pitch_slide
+            jmp .do_pitch_slide
 
         .next_byte
+
         incw.b $2C
 
+        ; SPC $1619 ALTERNATE ENTRY POINT
+        ; $0D09E7 DATA
         .process_byte
-        mov.w A, $03C0
-        xcn A
-        lsr A
-        mov.w $03C2, A
+
+        mov.w A, $03C0 : xcn A : lsr A : mov.w $03C2, A
 
         mov.b X, #$00
-        mov.b A, ($2C+X)
+        mov.b A, ($2C+X) : beq DisableSFX
+            bmi .note_or_command
+                mov.w Y, $03C0
+                mov.w $03B1+Y, A
 
-        beq DisableSFX
-        bmi .note_or_command
+                incw.b $2C
+                mov.b A, ($2C+X) : mov.b $10, A
+                                   bmi .note_or_command
+                    mov X, A
+                    mov.w A, $03C1 : and.w A, $03CF : beq .not_SFX_1
+                        mov A, X : beq .zero_byte
+                            mov.w X, $03E5 : bne .next_byte_2
 
-        mov.w Y, $03C0
-        mov.w $03B1+Y, A
+                        .zero_byte
+                        
+                        mov.b $10, A
+                        mov.w Y, $03C2
+                        call WriteToDSP
 
-        incw.b $2C
-        mov.b A, ($2C+X)
-        mov.b $10, A
-        bmi .note_or_command
+                        mov.b X, #$00
+                        incw.b $2C
+                        mov.b A, ($2C+X) : bpl .volume_command
+                            mov X, A
+                            mov.b A, $10
+                            mov.w Y, $03C2 : inc Y
+                            call WriteToDSP
 
-        mov X, A
-        mov.w A, $03C1
-        and.w A, $03CF
-        beq .not_SFX_1
+                            mov A, X
 
-        mov A, X
-        beq .zero_byte
+                            bra .note_or_command
 
-        mov.w X, $03E5
-        bne .next_byte_2
+                        .volume_command
 
-        .zero_byte
-        mov.b $10, A
-        mov.w Y, $03C2
-        call WriteToDSP
+                        mov.w Y, $03C2 : inc Y
+                        call WriteToDSP
 
-        mov.b X, #$00
-        incw.b $2C
-        mov.b A, ($2C+X)
-        bpl .volume_command
+                        bra .next_byte_2
 
-        mov X, A
-        mov.b A, $10
-        mov.w Y, $03C2
-        inc Y
-        call WriteToDSP
+                    .not_SFX_1
 
-        mov A, X
-        bra .note_or_command
+                    mov A, X
+                    mov.w X, $03C0
 
-        .volume_command
-        mov.w Y, $03C2
-        inc Y
-        call WriteToDSP
+                    asl A : mov.w $0321+X, A
 
-        bra .next_byte_2
+                    mov.b A, #$0A : mov.w $0351+X, A
 
-        .not_SFX_1
-        mov A, X
-        mov.w X, $03C0
+                    bbs7.b $20, .left_pan
+                        bbs6.b $20, .right_pan
+                            mov.b $11, #$0A : bne .set_pan
 
-        asl A
-        mov.w $0321+X, A
+                    .left_pan
 
-        mov.b A, #$0A
-        mov.w $0351+X, A
+                    mov.b $11, #$10 : bne .set_pan
+                        .right_pan
 
-        bbs7.b $20, .left_pan
-        bbs6.b $20, .right_pan
+                        mov.b $11, #$04
 
-        mov.b $11, #$0A
-        bne .set_pan
+                    .set_pan
 
-        .left_pan
-        mov.b $11, #$10
-        bne .set_pan
+                    mov.b $10, #$00
+                    call WritePitch_external
 
-        .right_pan
-        mov.b $11, #$04
+                    mov.b X, #$00
 
-        .set_pan
-        mov.b $10, #$00
-        call WritePitch_external
+                    .next_byte_2
 
-        mov.b X, #$00
+                    incw.b $2C
+                    mov.b A, ($2C+X)
 
-        .next_byte_2
-        incw.b $2C
-        mov.b A, ($2C+X)
+            .note_or_command
 
-        .note_or_command
-        cmp.b A, #$E0 ; instrument change
-        bne .not_instrument_change
+            ; instrument change
+            cmp.b A, #$E0 : bne .not_instrument_change
+                jmp .change_instrument
 
-        jmp .change_instrument
+            .not_instrument_change
 
-        .not_instrument_change
-        cmp.b A, #$F9 ; slide once
-        beq .pitch_slide_command
+            ; slide once
+            cmp.b A, #$F9 : beq .pitch_slide_command
+                ; slide to
+                cmp.b A, #$F1 : beq .pitch_slide_to_command
+                    ; SFX loop trigger
+                    cmp.b A, #$FF : bne .not_loop
+                        mov.w X, $03C0
+                        jmp Handle_SFX1_initialize
 
-        cmp.b A, #$F1 ; slide to
-        beq .pitch_slide_to_command
+                    .not_loop
 
-        cmp.b A, #$FF ; SFX loop trigger
-        bne .not_loop
+                    mov.w X, $03C0
+                    mov Y, A
+                    call HandleNote
 
-        mov.w X, $03C0
-        jmp Handle_SFX1_initialize
+                    mov.w A, $03C1
+                    call KeyOnSoundEffects
 
-        .not_loop
-        mov.w X, $03C0
-        mov Y, A
-        call HandleNote
+                    .setup_pitch_slide
 
-        mov.w A, $03C1
-        call KeyOnSoundEffects
+                    mov.w X, $03C0
 
-        .setup_pitch_slide
-        mov.w X, $03C0
+                    mov.w A, $03B1+X : mov.w $03B0+X, A
 
-        mov.w A, $03B1+X
-        mov.w $03B0+X, A
+                    .do_pitch_slide
+                    
+                    clr7.b $13
 
-        .do_pitch_slide
-        clr7.b $13
+                    mov.w X, $03C0
+                    mov.b A, $A0+X : beq .no_pitch_slide
+                        call PitchSlideSFX
 
-        mov.w X, $03C0
-        mov.b A, $A0+X
-        beq .no_pitch_slide
+                        bra .dont_key_off
 
-        call PitchSlideSFX
-        bra .dont_key_off
+                    .no_pitch_slide
 
-        .no_pitch_slide
-        mov.b A, #$02
-        cmp.w A, $03B0+X
-        bne .dont_key_off
+                    mov.b A, #$02 : cmp.w A, $03B0+X : bne .dont_key_off
+                        mov.w A, $03C1
+                        mov.b Y, #KOFF
+                        call WriteToDSP
 
-        mov.w A, $03C1
-        mov.b Y, #KOFF
-        call WriteToDSP
+                    .dont_key_off
 
-        .dont_key_off
-        mov.w X, $03C0
+                    mov.w X, $03C0
+                    mov.b A, $2D : mov.w $0391+X, A
+                    mov.b A, $2C : mov.w $0390+X, A
 
-        mov.b A, $2D
-        mov.w $0391+X, A
+                    mov.w A, $03C1 : and.w A, $03CF : bne .on_SFX_1
+                        mov.w A, $03C1 : and.w A, $03CB : bne .on_SFX_2
+                            jmp Handle_SFX3_to_next_channel
 
-        mov.b A, $2C
-        mov.w $0390+X, A
+                    .on_SFX_1
 
-        mov.w A, $03C1
-        and.w A, $03CF
-        bne .on_SFX_1
+                    jmp Handle_SFX1_to_next_channel
 
-        mov.w A, $03C1
-        and.w A, $03CB
-        bne .on_SFX_2
-        jmp Handle_SFX3_to_next_channel
+                    .on_SFX_2
+                    
+                    jmp Handle_SFX2_to_next_channel
 
-        .on_SFX_1
-        jmp Handle_SFX1_to_next_channel
+            .pitch_slide_command
 
-        .on_SFX_2
-        jmp Handle_SFX2_to_next_channel
+            mov.b X, #$00
+            incw.b $2C
+            mov.b A, ($2C+X)
 
-    ; ==========================================================================
+            mov.w X, $03C0 : mov.b $44, X
 
-        .pitch_slide_command
-        mov.b X, #$00
-        incw.b $2C
-        mov.b A, ($2C+X)
+            mov Y, A
+            call HandleNote
 
-        mov.w X, $03C0
+            mov.w A, $03C1
+            call KeyOnSoundEffects
 
-        mov.b $44, X
-        mov Y, A
-        call HandleNote
+            .pitch_slide_to_command
+            
+            mov.b X, #$00
+            incw.b $2C
+            mov.b A, ($2C+X)
 
-        mov.w A, $03C1
-        call KeyOnSoundEffects
+            mov.w X, $03C0
+            mov.b $A1+X, A
 
-    ; ==========================================================================
+            mov.b X, #$00
 
-        .pitch_slide_to_command
-        mov.b X, #$00
-        incw.b $2C
-        mov.b A, ($2C+X)
+            incw.b $2C
+            mov.b A, ($2C+X)
 
-        mov.w X, $03C0
+            mov.w X, $03C0
+            mov.b $A0+X, A
+            push A
 
-        mov.b $A1+X, A
-        mov.b X, #$00
+            mov.b X, #$00
+            incw.b $2C
+            mov.b A, ($2C+X)
 
-        incw.b $2C
-        mov.b A, ($2C+X)
-        mov.w X, $03C0
+            pop Y
 
-        mov.b $A0+X, A
-        push A
+            mov.w X, $03C0 : mov.b $44, X
 
-        mov.b X, #$00
-        incw.b $2C
-        mov.b A, ($2C+X)
+            call PitchSlide_calc_frames
 
-        pop Y
-        mov.w X, $03C0
-        mov.b $44, X
+            jmp .setup_pitch_slide
 
-        call PitchSlide_calc_frames
+            .change_instrument
 
-        jmp .setup_pitch_slide
+            mov.b X, #$00
+            incw.b $2C
+            mov.b A, ($2C+X)
+            mov.b Y, #$09
+            mul YA : mov X, A
 
-    ; ==========================================================================
+            mov.w Y, $03C2
 
-        .change_instrument
-        mov.b X, #$00
-        incw.b $2C
-        mov.b A, ($2C+X)
+            mov.b $12, #$08
 
-        mov.b Y, #$09
-        mul YA
-        mov X, A
+            .write_loop
+                mov.w A, INSTRUMENT_DATA_SFX+X
+                call WriteToDSP
 
-        mov.w Y, $03C2
-        mov.b $12, #$08
+                inc X
+                inc Y
+            dbnz.b $12, .write_loop
 
-        .write_loop
-        mov.w A, INSTRUMENT_DATA_SFX+X
-        call WriteToDSP
+            mov.w A, INSTRUMENT_DATA_SFX+X
 
-        inc X
-        inc Y
-        dbnz.b $12, .write_loop
+            mov.w Y, $03C0
+            mov.w $0221+Y, A
 
-        mov.w A, INSTRUMENT_DATA_SFX+X
+            mov.b A, #$00 : mov.w $0220+Y, A
 
-        mov.w Y, $03C0
-        mov.w $0221+Y, A
-
-        mov.b A, #$00
-        mov.w $0220+Y, A
-
-        jmp .next_byte
+            jmp .next_byte
     }
 
     ; ==========================================================================
@@ -3649,10 +3388,8 @@ SPCEngine:
         dec.b $A0+X
         call IncrementSlide_quiet
 
-        mov.w A, $0361+X
-        mov Y, A
-        mov.w A, $0360+X
-        movw.b $10, YA
+        mov.w A, $0361+X : mov Y, A
+        mov.w A, $0360+X : movw.b $10, YA
 
         mov.b $47, #$00
         jmp HandleNote_external
