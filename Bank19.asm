@@ -244,7 +244,7 @@ InstrumentData:
     }
 
     ; SPC $3D9E-$3DAD DATA
-    ; $0CFBB8-$0CFBCA
+    ; $0CFBB8-$0CFBC9
     NoteAttack:
     {
         db $19, $32, $4C, $65, $72, $7F, $8C, $98
@@ -886,7 +886,8 @@ SPCEngine:
 
     ; ==========================================================================
 
-    ; The bank 0x19 boundary is crossed in this function.
+    ; NOTE: The bank 0x19 boundary is crossed in the middle of this function.
+    ; TODO: Figure out how to represent that.
     ; SPC $0AF9-$0C49 JUMP LOCATION
     ; $0CFEC7-$0D0017 DATA
     HandleInput_Song:
@@ -3419,9 +3420,6 @@ SPCEngine:
 
     arch 65816
 }
-
-; NOTE: The SPC engine crosses the border into bank 1A here.
-; TODO: Figure out how to represent that.
 
 ; ==============================================================================
 

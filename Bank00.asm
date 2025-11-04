@@ -1239,17 +1239,17 @@ Sound_LoadSongBank:
             SEP #$20 ; Data byte to $2141. (Data byte represented as **).
         DEX : BNE .CONTINUE_TRANSFER
 
-    .SYNCHRONIZE ; We ran out of bytes to transfer.
+        .SYNCHRONIZE ; We ran out of bytes to transfer.
 
-        ; But we still need to synchronize.
-    CMP.w SNES.APUIOPort0 : BNE .SYNCHRONIZE
+            ; But we still need to synchronize.
+        CMP.w SNES.APUIOPort0 : BNE .SYNCHRONIZE
 
-    .NO_ZERO ; At this point SNES.APUIOPort0 = #$01.
+        .NO_ZERO ; At this point SNES.APUIOPort0 = #$01.
 
-        ; Add four to the byte count.
-    ADC.b #$03 : BEQ .NO_ZERO ; (But Don't let A be zero!).
+            ; Add four to the byte count.
+        ADC.b #$03 : BEQ .NO_ZERO ; (But Don't let A be zero!).
 
-    .SETUP_TRANSFER
+        .SETUP_TRANSFER
 
         PHA
         
@@ -1270,7 +1270,7 @@ Sound_LoadSongBank:
         ; He mistook #$0001 to be #$0100.
         LDA.b #$00 : ROL : STA.w SNES.APUIOPort1
         
-        ; TODO: Useless ADC?
+        ; OPTIMIZE: TODO: Useless ADC?
         ADC.b #$7F
         
         ; Hopefully no one was confused.
@@ -1296,10 +1296,10 @@ Sound_LoadSongBank:
 ; $000901-$000912 LOCAL JUMP LOCATION
 Sound_LoadIntroSongBank:
 {
-    ; $00[3] = $198000, which is $C8000 in Rom
-    LDA.b #$00 : STA.b $00
-    LDA.b #$80 : STA.b $01
-    LDA.b #$19 : STA.b $02
+    ; $00[3] = $198000, which is PC $0C8000.
+    LDA.b #SamplePointers>>0  : STA.b $00
+    LDA.b #SamplePointers>>8  : STA.b $01
+    LDA.b #SamplePointers>>16 : STA.b $02
     
     SEI
     
@@ -1316,11 +1316,9 @@ Sound_LoadIntroSongBank:
 Sound_LoadLightWorldSongBank:
 {
     ; $00[3] = $1A9EF5, or PC $0D1EF5.
-    ; TODO: This is SongBank_Overworld_Main in kan's dissasembly in sound.asm.
-    ; The SPC data has not been added to this dissasembly yet.
-    LDA.b #$F5 : STA.b $00
-    LDA.b #$9E : STA.b $01
-    LDA.b #$1A
+    LDA.b #SongBank_Overworld_Main>>0  : STA.b $00
+    LDA.b #SongBank_Overworld_Main>>8  : STA.b $01
+    LDA.b #SongBank_Overworld_Main>>16
 
     ; $00091D ALTERNATE ENTRY POINT
     .do_load
@@ -1339,10 +1337,10 @@ Sound_LoadLightWorldSongBank:
 ; $000925-$000930 LONG JUMP LOCATION
 Sound_LoadIndoorSongBank:
 {
-    ; $00[3] = $1B8000, or SongBank_Underworld_Main in bank 0x1B.
-    LDA.b #$00 : STA.b $00
-    LDA.b #$80 : STA.b $01
-    LDA.b #$1B
+    ; $00[3] = $1B8000, or PC $0D8000.
+    LDA.b #SongBank_Underworld_Main>>0  : STA.b $00
+    LDA.b #SongBank_Underworld_Main>>8  : STA.b $01
+    LDA.b #SongBank_Underworld_Main>>16
     
     BRA Sound_LoadLightWorldSongBank_do_load
 }
@@ -1351,11 +1349,9 @@ Sound_LoadIndoorSongBank:
 Sound_LoadEndingSongBank:
 {
     ; $00[3] = $1AD380, or PC $0D5380.
-    ; TODO: This is SongBank_Credits_Main in kan's dissasembly in sound.asm.
-    ; The SPC data has not been added to this dissasembly yet.
-    LDA.b #$80 : STA.b $00
-    LDA.b #$D3 : STA.b $01
-    LDA.b #$1A
+    LDA.b #SongBank_Credits_Main>>0  : STA.b $00
+    LDA.b #SongBank_Credits_Main>>8  : STA.b $01
+    LDA.b #SongBank_Credits_Main>>16
     
     BRA Sound_LoadLightWorldSongBank_do_load
 }

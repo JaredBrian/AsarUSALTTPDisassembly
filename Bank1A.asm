@@ -1911,7 +1911,7 @@ SongBank_Overworld_Auxiliary:
 
     base off
 
-    ; end of transfer
+    ; End of transfer
     ; $0D5333
     dw $0000, SPC_ENGINE
 }
