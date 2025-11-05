@@ -1911,7 +1911,10 @@ SongBank_Overworld_Auxiliary:
 
     base off
 
-    ; End of transfer
+    ; End transfer
+    ; This tells the APU the transfer is done and to reset itself. This end
+    ; transfer command doubles as the end to both the Sound_LoadIntroSongBank
+    ; transfer and the Sound_LoadOverworldWorldSongBank transfer.
     ; $0D5333
     dw $0000, SPC_ENGINE
 }
@@ -2026,7 +2029,7 @@ SongBank_Credits_Auxiliary:
 
     base off
 
-    ; End of transfer
+    ; End transfer
     ; $0D7420
     dw $0000, SPC_ENGINE
 }

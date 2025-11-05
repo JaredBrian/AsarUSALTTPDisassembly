@@ -180,7 +180,7 @@ SongBank_Underworld_Auxiliary:
 
     base off
 
-    ; End of transfer
+    ; End transfer
     ; $0DB1D3
     dw $0000, SPC_ENGINE
 }

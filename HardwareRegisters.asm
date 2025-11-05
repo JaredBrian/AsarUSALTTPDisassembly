@@ -1,4 +1,6 @@
 ; ==============================================================================
+; SNES Hardware Registers
+; ==============================================================================
 
 ; Shorthand legend:
 ; Addr = Address
@@ -6,7 +8,6 @@
 ; BG = BackGround
 ; CGRAM = Color Generator RAM
 ; Des = Designation
-; DMA = Direct Memory Access
 ; H = Horizontal
 ; HDMA = Horizontal Direct Memory Access
 ; HV = H/V or Horizontal/Vertical
@@ -29,8 +30,11 @@
 
 ; Further details on each register can be found here:
 ; https://github.com/gilligan/snesdev/blob/master/docs/snes_registers.txt
+; https://www.youtube.com/watch?v=-4OOuRvTXrM&t=167s
 
-struct SNES $21
+org $7E2100 ; Remove for asar 2.0.
+
+struct SNES $7E2100
 {
     .ScreenDisplay:             skip $01 ; $2100
     .OAMSizeAndDataDes:         skip $01 ; $2101
@@ -159,7 +163,7 @@ struct SNES $21
 }
 endstruct
 
-struct DMA $4300
+struct DMA $7E4300
 {
     ; Channel 0
     .0_TransferParameters:   skip $01 ; $4300
@@ -265,5 +269,34 @@ struct DMA $4300
     .7_TableAddrHigh:        skip $01 ; $4379
     .7_TransferLineNum:      skip $01 ; $437A
 }
+endstruct
+
+; ==============================================================================
+
+; Further documentation on the SPC700 can be found here:
+; https://www.romhacking.net/documents/197
+; https://youtu.be/zrn0QavLMyo?si=sJ2hysYTft148S7u
+; https://en.wikibooks.org/wiki/Super_NES_Programming/SPC700_reference
+
+struct APU $00F0
+{
+    .Test:    skip $01 ; $00F0
+    .Control: skip $01 ; $00F1
+    .DSPAddr: skip $01 ; $00F2
+    .DSPData: skip $01 ; $00F3
+    .APUIO0:  skip $01 ; $00F4
+    .APUIO1:  skip $01 ; $00F5
+    .APUIO2:  skip $01 ; $00F6
+    .APUIO3:  skip $01 ; $00F7
+    .AuxIO4:  skip $01 ; $00F8
+    .AuxIO5:  skip $01 ; $00F9
+    .T0Div:   skip $01 ; $00FA
+    .T1Div:   skip $01 ; $00FB
+    .T2Div:   skip $01 ; $00FC
+    .T0Out:   skip $01 ; $00FD
+    .T1Out:   skip $01 ; $00FE
+    .T2Out:   skip $01 ; $00FF
+}
+endstruct
 
 ; ==============================================================================

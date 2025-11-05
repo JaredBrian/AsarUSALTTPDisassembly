@@ -26,7 +26,7 @@ Vector_Reset:
     STZ.w SNES.HDMAChannelEnable
     STZ.w SNES.DMAChannelEnable  
 
-    ; Clear SPC locations. 
+    ; Clear APU Input/Output ports. 
     STZ.w SNES.APUIOPort0
     STZ.w SNES.APUIOPort1
     STZ.w SNES.APUIOPort2
@@ -1170,7 +1170,7 @@ Overworld_GetTileAttrAtLocation:
 
 ; ==============================================================================
 
-; Loads SPC with data.
+; Communicates with the APU to transfer data. See SPC700.asm for more details.
 ; $000888-$000900 LOCAL JUMP LOCATION
 Sound_LoadSongBank:
 {
@@ -1179,12 +1179,14 @@ Sound_LoadSongBank:
     REP #$30
     
     LDY.w #$0000
-    LDA.w #$AABB
+    LDA.w #$BBAA
 
-    .waitForSPC
+    .waitForAPU
 
-        ; Wait for the SPC to initialize to #$AABB.
-    CMP.w SNES.APUIOPort0 : BNE .waitForSPC
+        ; Wait for the SMP to initialize to #$BBAA.
+        ; If for whatever reason the APU was removed from the SNES, the
+        ; game would get stuck here forever waiting for the APU to respond.
+    CMP.w SNES.APUIOPort0 : BNE .waitForAPU
     
     SEP #$20
     
@@ -1207,13 +1209,17 @@ Sound_LoadSongBank:
 
             XBA
             
-            LDA.b [$00], Y ; Load the data byte to transmit.
+            ; Load the data byte to transmit.
+            LDA.b [$00], Y
             
             INY
             
-            ; Are we at the end of a bank? If not, then branch forward.
+            ; The SPC Engine code spills over from bank 0x19 to 0x1A. So when
+            ; that happens we need to adjust the bank we are reading from.
+
+            ; Are we at the end of a bank?
             CPY.w #$8000 : BNE .NOT_BANK_END 
-                ; Otherwise, increment the bank of the address at [$00].
+                ; Increment the bank of the address at [$00].
                 LDY.w #$0000
                 
                 INC.b $02
@@ -1227,7 +1233,8 @@ Sound_LoadSongBank:
                 ; Wait for $2140 to be #$00 (we're in 8bit mode).
             CMP.w SNES.APUIOPort0 : BNE .WAIT_FOR_ZERO
             
-            INC ; Increment the byte count.
+            ; Increment the byte count.
+            INC
 
             .WRITE_ZERO_BYTE
 
@@ -1236,15 +1243,18 @@ Sound_LoadSongBank:
             ; Ends up storing the byte count to $2140 and the.
             STA.w SNES.APUIOPort0
             
-            SEP #$20 ; Data byte to $2141. (Data byte represented as **).
+            ; Data byte to $2141. (Data byte represented as **).
+            SEP #$20
         DEX : BNE .CONTINUE_TRANSFER
 
-        .SYNCHRONIZE ; We ran out of bytes to transfer.
+        ; We ran out of bytes to transfer.
+        .SYNCHRONIZE
 
             ; But we still need to synchronize.
         CMP.w SNES.APUIOPort0 : BNE .SYNCHRONIZE
 
-        .NO_ZERO ; At this point SNES.APUIOPort0 = #$01.
+        ; At this point SNES.APUIOPort0 = #$01.
+        .NO_ZERO
 
             ; Add four to the byte count.
         ADC.b #$03 : BEQ .NO_ZERO ; (But Don't let A be zero!).
@@ -1263,7 +1273,8 @@ Sound_LoadSongBank:
         
         SEP #$20
         
-        CPX.w #$0001 ; If the number of bytes left to transfer > 0...
+        ; If the number of bytes left to transfer > 0...
+        CPX.w #$0001
         
         ; Then the carry bit will be set and rotated into the accumulator
         ; (A = #$01). NOTE ANTITRACK'S DOC IS WRONG ABOUT THIS!!!
@@ -1293,6 +1304,10 @@ Sound_LoadSongBank:
 
 ; ==============================================================================
 
+; This function sets up a transfer to move all of the SPC700 code, BRR samples,
+; SFX data, and overworld music data into the APU. If this function is not run
+; at least once on boot none of the sound effects and music will work even if
+; one of the other load functions are run.
 ; $000901-$000912 LOCAL JUMP LOCATION
 Sound_LoadIntroSongBank:
 {
@@ -1310,10 +1325,10 @@ Sound_LoadIntroSongBank:
     RTS
 }
 
-; ==============================================================================
-
+; This function sets up a transfer to move all of the overworld music data
+; into the APU.
 ; $000913-$000924 LONG JUMP LOCATION
-Sound_LoadLightWorldSongBank:
+Sound_LoadOverworldWorldSongBank:
 {
     ; $00[3] = $1A9EF5, or PC $0D1EF5.
     LDA.b #SongBank_Overworld_Main>>0  : STA.b $00
@@ -1334,17 +1349,21 @@ Sound_LoadLightWorldSongBank:
     RTL
 }
 
+; This function sets up a transfer to move all of the underworld music data
+; into the APU.
 ; $000925-$000930 LONG JUMP LOCATION
-Sound_LoadIndoorSongBank:
+Sound_UnderworldSongBank:
 {
     ; $00[3] = $1B8000, or PC $0D8000.
     LDA.b #SongBank_Underworld_Main>>0  : STA.b $00
     LDA.b #SongBank_Underworld_Main>>8  : STA.b $01
     LDA.b #SongBank_Underworld_Main>>16
     
-    BRA Sound_LoadLightWorldSongBank_do_load
+    BRA Sound_LoadOverworldWorldSongBank_do_load
 }
 
+; This function sets up a transfer to move all of the credits and ending
+; music data into the APU.
 ; $000931-$00093C LONG JUMP LOCATION
 Sound_LoadEndingSongBank:
 {
@@ -1353,7 +1372,7 @@ Sound_LoadEndingSongBank:
     LDA.b #SongBank_Credits_Main>>8  : STA.b $01
     LDA.b #SongBank_Credits_Main>>16
     
-    BRA Sound_LoadLightWorldSongBank_do_load
+    BRA Sound_LoadOverworldWorldSongBank_do_load
 }
 
 ; ==============================================================================

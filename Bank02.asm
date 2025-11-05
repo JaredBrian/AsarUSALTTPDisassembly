@@ -898,8 +898,7 @@ Overworld_LoadMusicIfNeeded:
         STZ.w $0136
 
         LDA.b #$FF : STA.w SNES.APUIOPort0
-
-        JSL.l Sound_LoadLightWorldSongBank
+        JSL.l Sound_LoadOverworldWorldSongBank
 
         ; Re-enable NMI and joypad.
         LDA.b #$81 : STA.w SNES.NMIVHCountJoypadEnable
@@ -4879,8 +4878,7 @@ Dungeon_LoadSongBankIfNeeded:
             INC.w $0136
 
             LDA.b #$FF : STA.w SNES.APUIOPort0
-
-            JSL.l Sound_LoadIndoorSongBank
+            JSL.l Sound_UnderworldSongBank
 
             LDA.b #$81 : STA.w SNES.NMIVHCountJoypadEnable
 

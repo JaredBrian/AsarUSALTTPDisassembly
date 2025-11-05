@@ -9606,8 +9606,7 @@ GameOver_FadeAndRevive:
     STZ.w $0136
         
     LDA.b #$FF : STA.w SNES.APUIOPort0
-        
-    JSL.l Sound_LoadLightWorldSongBank
+    JSL.l Sound_LoadOverworldWorldSongBank
         
     LDA #$81 : STA.w SNES.NMIVHCountJoypadEnable
         

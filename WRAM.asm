@@ -2170,9 +2170,10 @@ struct WRAM $7E0000
         ; it to half.
 
     ; $0131[0x01] - (SFX)
-    .LastSFX1: skip $01
-        ; Stores the last non-0 SFX value that was stored into SFX1. Used to
-        ; prevent the same sound effect from being spammed over and over.
+    .LastAmbient: skip $01
+        ; Stores the last non-0 ambient sound effec value that was stored
+        ; into AmbientSFX ($012D). Used to prevent the same sound effect
+        ; from being spammed over and over.
 
     ; $0132[0x01] - (SFX)
     .MusicQueue: skip $01
