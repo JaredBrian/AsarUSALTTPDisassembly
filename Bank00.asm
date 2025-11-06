@@ -45,7 +45,7 @@ Vector_Reset:
     ; Direct page is at $0000.
     LDA.w #$0000 : TCD
 
-    ; Stack is located at $01FF.
+    ; Setup the stack pointer.
     LDA.w #$01FF : TCS
 
     SEP #$30 ; M and X are 8 bit.
@@ -1194,9 +1194,8 @@ Sound_LoadSongBank:
     
     BRA .SETUP_TRANSFER
 
-    .BEGIN_TRANSFER
+    .beginTransfer
         LDA.b [$00], Y
-        
         INY
         
         XBA
@@ -1211,27 +1210,27 @@ Sound_LoadSongBank:
             
             ; Load the data byte to transmit.
             LDA.b [$00], Y
-            
             INY
             
             ; The SPC Engine code spills over from bank 0x19 to 0x1A. So when
             ; that happens we need to adjust the bank we are reading from.
 
             ; Are we at the end of a bank?
-            CPY.w #$8000 : BNE .NOT_BANK_END 
-                ; Increment the bank of the address at [$00].
+            CPY.w #$8000 : BNE .notBankEnd
                 LDY.w #$0000
                 
+                ; Increment the bank of the address at [$00].
                 INC.b $02
 
-            .NOT_BANK_END
+            .notBankEnd
 
             XBA
 
-            .WAIT_FOR_ZERO
+            .waitForByteRecieved
 
-                ; Wait for $2140 to be #$00 (we're in 8bit mode).
-            CMP.w SNES.APUIOPort0 : BNE .WAIT_FOR_ZERO
+                ; Wait the APU to respond with the same byte index,
+                ; meaning it has read the byte and is ready for the next one.
+            CMP.w SNES.APUIOPort0 : BNE .waitForByteRecieved
             
             ; Increment the byte count.
             INC
@@ -1240,10 +1239,10 @@ Sound_LoadSongBank:
 
             REP #$20
             
-            ; Ends up storing the byte count to $2140 and the.
+            ; Ends up storing the byte count to $2140 and the
+            ; data byte to $2141. (Data byte represented as **).
             STA.w SNES.APUIOPort0
             
-            ; Data byte to $2141. (Data byte represented as **).
             SEP #$20
         DEX : BNE .CONTINUE_TRANSFER
 
@@ -1253,11 +1252,11 @@ Sound_LoadSongBank:
             ; But we still need to synchronize.
         CMP.w SNES.APUIOPort0 : BNE .SYNCHRONIZE
 
-        ; At this point SNES.APUIOPort0 = #$01.
-        .NO_ZERO
+        ; Add 3 to signal to the APU that we're done with that block.
+        .noZero
 
-            ; Add four to the byte count.
-        ADC.b #$03 : BEQ .NO_ZERO ; (But Don't let A be zero!).
+            ; But don't let A be 0 or the APU will think we're done.
+        ADC.b #$03 : BEQ .noZero
 
         .SETUP_TRANSFER
 
@@ -1265,34 +1264,41 @@ Sound_LoadSongBank:
         
         REP #$20
         
-        ; Number of bytes to transmit to the SPC.
+        ; If non-0, this is the number of bytes to transmit to the APU.
+        ; If 0, this will tell the APU that the transfer is complete.
         LDA.b [$00], Y : INY : INY : TAX
         
-        ; Location in memory to map the data to.
+        ; If the previous byte was non-0, this will be the address in ARAM
+        ; to transfer the data to. If the previous byte was 0, this will
+        ; be the address in ARAM that the APU will jump to when its boot
+        ; ROM is finished running.
         LDA.b [$00], Y : INY : INY : STA.w SNES.APUIOPort2
         
         SEP #$20
         
-        ; If the number of bytes left to transfer > 0...
+        ; If the number of bytes left to transfer > 0, then the carry bit
+        ; will be set and rotated into the accumulator (A = #$01). This will
+        ; tell the APU we still have more left to transfer. If we send a 0
+        ; the APU will assume we are done transfering data and will start
+        ; the SPC engine.
         CPX.w #$0001
-        
-        ; Then the carry bit will be set and rotated into the accumulator
-        ; (A = #$01). NOTE ANTITRACK'S DOC IS WRONG ABOUT THIS!!!
-        ; He mistook #$0001 to be #$0100.
         LDA.b #$00 : ROL : STA.w SNES.APUIOPort1
         
-        ; OPTIMIZE: TODO: Useless ADC?
+        ; If A is #$01, adding #$7F will make A go up to #$80 which will set
+        ; the overflow flag.
         ADC.b #$7F
         
         ; Hopefully no one was confused.
         PLA : STA.w SNES.APUIOPort0
 
-        .TRANSFER_INIT_WAIT
+        .transferWait
 
             ; Initially, a 0xCC byte will be sent to initialize the transfer.
             ; if A was #$01 earlier...
-        CMP.w SNES.APUIOPort0 : BNE .TRANSFER_INIT_WAIT
-    BVS .BEGIN_TRANSFER
+        CMP.w SNES.APUIOPort0 : BNE .transferWait
+    ; If the overflow flag was set by the ADC.b #$7F eariler, meaning that the
+    ; size of the next transfer was non-0, we need to begin a transfer.
+    BVS .beginTransfer
     
     STZ.w SNES.APUIOPort0 : STZ.w SNES.APUIOPort1
     STZ.w SNES.APUIOPort2 : STZ.w SNES.APUIOPort3

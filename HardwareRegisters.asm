@@ -296,6 +296,135 @@ struct APU $00F0
     .T0Out:   skip $01 ; $00FD
     .T1Out:   skip $01 ; $00FE
     .T2Out:   skip $01 ; $00FF
+
+    .VxVOLL                   = $00
+    .V0VOLL                   = $00
+    .VxVOLR                   = $01
+    .V0VOLR                   = $01
+    .VxPITCHL                 = $02
+    .V0PITCHL                 = $02
+    .VxPITCHH                 = $03
+    .V0PITCHH                 = $03
+    .VxSRCN                   = $04
+    .V0SRCN                   = $04
+    .VxADSR1                  = $05
+    .V0ADSR1                  = $05
+    .VxADSR2                  = $06
+    .V0ADSR2                  = $06
+    .VxGAIN                   = $07
+    .V0GAIN                   = $07
+    .VxENVX                   = $08
+    .V0ENVX                   = $08
+    .VxOUTX                   = $09
+    .V0OUTX                   = $09
+
+    .MVOLL                    = $0C
+    .EFB                      = $0D
+    .FIR                      = $0F
+    .FIR0                     = $0F
+    .V1VOLL                   = $10
+    .V1VOLR                   = $11
+    .V1PITCHL                 = $12
+    .V1PITCHH                 = $13
+    .V1SRCN                   = $14
+    .V1ADSR1                  = $15
+    .V1ADSR2                  = $16
+    .V1GAIN                   = $17
+    .V1ENVX                   = $18
+    .V1OUTX                   = $19
+
+    .MVOLR                    = $1C
+    .FIR1                     = $1F
+    .V2VOLL                   = $20
+    .V2VOLR                   = $21
+    .V2PITCHL                 = $22
+    .V2PITCHH                 = $23
+    .V2SRCN                   = $24
+    .V2ADSR1                  = $25
+    .V2ADSR2                  = $26
+    .V2GAIN                   = $27
+    .V2ENVX                   = $28
+    .V2OUTX                   = $29
+
+    .EVOLL                    = $2C
+    .PMON                     = $2D
+
+    .FIR2                     = $2F
+    .V3VOLL                   = $30
+    .V3VOLR                   = $31
+    .V3PITCHL                 = $32
+    .V3PITCHH                 = $33
+    .V3SRCN                   = $34
+    .V3ADSR1                  = $35
+    .V3ADSR2                  = $36
+    .V3GAIN                   = $37
+    .V3ENVX                   = $38
+    .V3OUTX                   = $39
+
+    .EVOLR                    = $3C
+    .NON                      = $3D
+
+    .FIR3                     = $3F
+    .V4VOLL                   = $40
+    .V4VOLR                   = $41
+    .V4PITCHL                 = $42
+    .V4PITCHH                 = $43
+    .V4SRCN                   = $44
+    .V4ADSR1                  = $45
+    .V4ADSR2                  = $46
+    .V4GAIN                   = $47
+    .V4ENVX                   = $48
+    .V4OUTX                   = $49
+
+    .KON                      = $4C
+    .EON                      = $4D
+
+    .FIR4                     = $4F
+    .V5VOLL                   = $50
+    .V5VOLR                   = $51
+    .V5PITCHL                 = $52
+    .V5PITCHH                 = $53
+    .V5SRCN                   = $54
+    .V5ADSR1                  = $55
+    .V5ADSR2                  = $56
+    .V5GAIN                   = $57
+    .V5ENVX                   = $58
+    .V5OUTX                   = $59
+
+    .KOFF                     = $5C
+    .DIR                      = $5D
+
+    .FIR5                     = $5F
+    .V6VOLL                   = $60
+    .V6VOLR                   = $61
+    .V6PITCHL                 = $62
+    .V6PITCHH                 = $63
+    .V6SRCN                   = $64
+    .V6ADSR1                  = $65
+    .V6ADSR2                  = $66
+    .V6GAIN                   = $67
+    .V6ENVX                   = $68
+    .V6OUTX                   = $69
+
+    .FLG                      = $6C
+    .ESA                      = $6D
+
+    .FIR6                     = $6F
+    .V7VOLL                   = $70
+    .V7VOLR                   = $71
+    .V7PITCHL                 = $72
+    .V7PITCHH                 = $73
+    .V7SRCN                   = $74
+    .V7ADSR1                  = $75
+    .V7ADSR2                  = $76
+    .V7GAIN                   = $77
+    .V7ENVX                   = $78
+    .V7OUTX                   = $79
+
+    .ENDX                     = $7C
+    .EDL                      = $7D
+
+    .FIR7                     = $7F
 }
 endstruct
 

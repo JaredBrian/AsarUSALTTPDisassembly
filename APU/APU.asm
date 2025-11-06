@@ -19,10 +19,13 @@ SPC700_BootROM_Hex:
 {
     db $CD, $EF, $BD, $E8, $00, $C6, $1D, $D0
     db $FC, $8F, $AA, $F4, $8F, $BB, $F5, $78
+
     db $CC, $F4, $D0, $FB, $2F, $19, $EB, $F4
     db $D0, $FC, $7E, $F4, $D0, $0B, $E4, $F5
+
     db $CB, $F4, $D7, $00, $FC, $D0, $F3, $AB
     db $01, $10, $EF, $7E, $F4, $10, $EB, $BA
+
     db $F6, $DA, $00, $BA, $F4, $C4, $F4, $DD
     db $5D, $D0, $DB, $1F, $00, $00, $C0, $FF
 }
@@ -31,82 +34,87 @@ org $FFC0
 SPC700_BootROM:
 {
     ; *** INIT ***
+    ; SPC $FFC0
 
     ; Setup the stack pointer.
-    mov x, #$EF : mov sp, x    
+    mov.b X, #$EF : mov SP, X 
 
     ; Clear the 0 page ARAM.  
-    mov a, #$00
+    mov.b A, #$00
 
     .zeroLoop 
 
-        mov (x), a
-        dec x
+        mov (X), A
+        dec X
     bne .zeroLoop 
 
     ; Signal "ready" to the 5A22 (APUIOPort0-1 ($2140-1) will return #$BBAA).
-    mov APU.APUIO0, #$AA
-    mov APU.APUIO1, #$BB
+    mov.b APU.APUIO0, #$AA
+    mov.b APU.APUIO1, #$BB
 
     .replyLoop
 
         ; Wait for the 5A22 to reply by writing #$CC to APUIOPort0 ($2140).
-    cmp APU.APUIO0, #$CC : bne .replyLoop
+    cmp.b APU.APUIO0, #$CC : bne .replyLoop
     
-    bra .Start
+    bra .start
 
     ; *** TRANSFER ROUTINE ***
+    ; SPC $FFD6
     .block
-        .waitLooop
+        .waitLoop
 
             ; First, wait for the 5A22 to indicate that it is ready on
             ; APUIOPort0 ($2140).
-        mov y, APU.APUIO0 : bne .waitLooop
+        mov.b Y, APU.APUIO0 : bne .waitLoop
 
         .data
 
                 ; Start loop: wait for "next byte/end" signal on APUIOPort0
                 ; ($2140).
-                cmp y, APU.APUIO0 : bne .retry
+                cmp.b Y, APU.APUIO0 : bne .retry
                     ; Got "next byte" (APUIOPort0 ($2140) matches expected byte index).
 
                     ; Read byte-to-write from APUIOPort1 ($2141).
-                    mov a, APU.APUIO1
+                    mov.b A, APU.APUIO1
 
                     ; Echo the index back to APUIOPort0 ($2140) to signal ready.
-                    mov APU.APUIO0, y
+                    mov.b APU.APUIO0, Y
 
                     ; Write the byte and update the counter.
-                    mov ($00)+y, a
-                    inc y : bne .data
+                    mov.b ($00)+Y, A
+                    inc Y : bne .data
                         ; Handle $xxFF->$xx00 overflow case on increment.
-                        inc $01
+                        inc.b $01
 
                 .retry
             bpl .data
 
             ; If "next byte/end" is less than the expected next byte index,
             ; drop back into the main loop.
-        cmp y, APU.APUIO0 : bpl .data
+        cmp.b Y, APU.APUIO0 : bpl .data
 
         ; *** MAIN LOOP ***
-        .Start  
+        ; SPC $FFEF
+        .start
         
         ; If mode 0 this will be the starting address from 5A22's APUIOPort2-3
         ; ($2142-3). If not a mode 0 this will be the ARAM address to transfer to.
-        movw ya, APU.APUIO2 : movw $00, ya
+        movw.b YA, APU.APUIO2 : movw.b $00, YA
 
         ; Get the mode from APUIOPort1 ($2141), and echo APUIOPort0 ($2140) back.
-        movw ya, APU.APUIO0 : mov APU.APUIO0, a
+        movw.b YA, APU.APUIO0 : mov.b APU.APUIO0, A
 
-        mov a, y : mov x, a
+        mov A, Y : mov X, A
     ; If the mode is non-0, begin a block transfer.
     bne .block
 
     ; if mode 0, jump to address.
-    jmp ($0000+x)
+    ; SPC $FFFB
+    jmp.w ($0000+X)
 
     ; RESET vector
+    ; SPC $FFFE
     dw SPC700_BootROM
 }
 
