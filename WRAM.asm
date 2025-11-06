@@ -74,12 +74,12 @@ struct WRAM $7E0000
     ; TODO: Go back and check for word and long calls for each of these for
     ; other uses.
 
-    ; $00[0x10] (Main)
+    ; $00[0x10] - (Main)
     .Work: skip $10
-        ; Generic work WRAM. Used for temporary calculations. Should not be used
+        ; Generic work RAM. Used for temporary calculations. Should not be used
         ; for anything that needs to be used accross multiple frames.
 
-    ; $10[0x01] (Main)
+    ; $10[0x01] - (Main)
     .Module: skip $01
         ; Main Module index. This controls which top level subprogram
         ; we're currently in.
@@ -112,7 +112,7 @@ struct WRAM $7E0000
         ; 0x1A - End sequence
         ; 0x1B - Screen to select where to start from (House, sanctuary, etc.)
 
-    ; $11[0x01] (Main)
+    ; $11[0x01] - (Main)
     .Submodule: skip $01
         ; Submodule Index (See $B0)
 

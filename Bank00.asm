@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; Bank 00
+; Bank 0x00
 ; $000000-$00FFFF
 org $008000
 
@@ -1318,9 +1318,9 @@ Sound_LoadSongBank:
 Sound_LoadIntroSongBank:
 {
     ; $00[3] = $198000, which is PC $0C8000.
-    LDA.b #SamplePointers>>0  : STA.b $00
-    LDA.b #SamplePointers>>8  : STA.b $01
-    LDA.b #SamplePointers>>16 : STA.b $02
+    LDA.b #SongBank_Intro_Main>>0  : STA.b $00
+    LDA.b #SongBank_Intro_Main>>8  : STA.b $01
+    LDA.b #SongBank_Intro_Main>>16 : STA.b $02
     
     SEI
     

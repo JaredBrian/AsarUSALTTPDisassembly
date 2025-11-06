@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; Bank 1B
+; Bank 0x1B
 ; $0D8000-$0DFFFF
 org $1B8000
 
@@ -147,7 +147,7 @@ SongBank_Underworld_Main:
 
 ; ==============================================================================
 
-; $0DACC3-$0DB1D6 DATA
+; $0DACC3-$0DB1D2 DATA
 SongBank_Underworld_Auxiliary:
 {
     ; Transfer size, transfer address
@@ -172,16 +172,21 @@ SongBank_Underworld_Auxiliary:
     }
 
     ; SPC $2F59-$300C DATA
-    ; $0DB120-$0DB1D6 DATA
+    ; $0DB120-$0DB1D2 DATA
     Song1E_MeetingGanon:
     {
         incbin "bin/music/song1E.bin"
     }
 
     base off
+}
 
-    ; End transfer
-    ; $0DB1D3
+; ==============================================================================
+
+; End of transfer
+; $0DB1D3-$0DB1D6 DATA
+SongBank_Underworld_End:
+{
     dw $0000, SPC_ENGINE
 }
 

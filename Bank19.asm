@@ -1,10 +1,10 @@
 ; ==============================================================================
 
-; Bank 19
+; Bank 0x19
 ; $0C8000-$0CFFFF
 org $198000
 
-; The instrament brr samples
+; The instrument brr samples
 ; The first half of the SPC engine
 
 ; ==============================================================================
@@ -22,12 +22,13 @@ SONG_POINTERS       = $D000
 ; ==============================================================================
 
 ; $0C8000-$0C8073 DATA
+SongBank_Intro_Main:
 SamplePointers:
 {
     ; Transfer size, transfer address
-    dw $0070, SAMPLE_POINTERS
+    dw .end-SAMPLE_POINTERS, SAMPLE_POINTERS
 
-    ; SPC $D000-$D06F DATA
+    ; SPC $3C00-$3C6F DATA
     ; $0C8004-$0C8073 DATA
     base SAMPLE_POINTERS
 
@@ -60,6 +61,8 @@ SamplePointers:
     dw $FFFF, $FFFF ; 0x1A - null
     dw $FFFF, $FFFF ; 0x1B - null
 
+    .end
+
     base off
 }
 
@@ -69,7 +72,7 @@ SamplePointers:
 BRRSampleData:
 {
     ; Transfer size, transfer address
-    dw $7AA0, SAMPLE_DATA
+    dw .end-SAMPLE_DATA, SAMPLE_DATA
 
     ; SPC $4000-$BA9F DATA
     ; $0C8078-$0CFB17 DATA
@@ -190,6 +193,8 @@ BRRSampleData:
     .Piano
     incbin "Data/BRR/16_piano.brr"
 
+    .end
+
     base off
 }
 
@@ -198,9 +203,8 @@ BRRSampleData:
 ; $0CFB18-$0CFBC9 DATA
 InstrumentData:
 {
-    ; TODO: Format transfer block better.
     ; Transfer size, transfer address
-    dw $00AE, INSTRUMENT_DATA
+    dw .end-INSTRUMENT_DATA, INSTRUMENT_DATA
 
     ; SPC $3D00-$3D95 DATA
     ; $0CFB1A-$0CFBB1 DATA
@@ -251,6 +255,8 @@ InstrumentData:
         db $A5, $B2, $BF, $CB, $D8, $E5, $F2, $FC  
     }
 
+    InstrumentData_end:
+
     base off
 }
 
@@ -260,13 +266,13 @@ InstrumentData:
 SPCEngine:
 {
     ; Transfer size, transfer address
-    dw $0F9E, SPC_ENGINE
+    dw SPCEngine_end-SPC_ENGINE, SPC_ENGINE
 
     ; ==========================================================================
 
     arch SPC700
 
-    ; SPC $0800-$179E
+    ; SPC $0800-$179D
     ; $0CFBCE-$0D0B6B
     base SPC_ENGINE
 
@@ -313,24 +319,24 @@ SPCEngine:
         set5.b $48
 
         mov.b A, #$60
-        mov.b Y, #MVOLL
+        mov.b Y, #DSP.MVOLL
         call WriteToDSP
 
-        mov.b Y, #MVOLR
+        mov.b Y, #DSP.MVOLR
         call WriteToDSP
 
         mov.b A, #SAMPLE_POINTERS>>8
-        mov.b Y, #DIR
+        mov.b Y, #DSP.DIR
         call WriteToDSP
 
         ; Set $FFC0 to ROM, clear ports 0123, stop timer 0
-        mov.b A, #$F0 : mov.w CONTROL, A
+        mov.b A, #$F0 : mov.w SMP.CONTROL, A
 
-        mov.b A, #$10 : mov.w T0DIV, A
+        mov.b A, #$10 : mov.w SMP.T0DIV, A
                         mov.b $53, A
 
         ; Start timer 0
-        mov.b A, #$01 : mov.w CONTROL, A
+        mov.b A, #$01 : mov.w SMP.CONTROL, A
 
         ; Bleeds into the next function.
     }
@@ -354,10 +360,10 @@ SPCEngine:
             bbs7.b $4C, .skip
                 .not_echo_register
 
-                mov.w A, RegisterList-1+Y : mov.w DSPADDR, A
+                mov.w A, RegisterList-1+Y : mov.w SMP.DSPADDR, A
 
                 mov.w A, LoadValueFrom-1+Y : mov X, A
-                mov A, (X) : mov.w DSPDATA, A
+                mov A, (X) : mov.w SMP.DSPDATA, A
 
             .skip
         dbnz Y, .next_register
@@ -373,7 +379,7 @@ SPCEngine:
 
         .timer_wait
 
-            mov.w Y, T0OUT
+            mov.w Y, SMP.T0OUT
         beq .timer_wait
 
         push Y
@@ -450,8 +456,8 @@ SPCEngine:
 
         .wait
 
-            mov.w A, CPUIO0+X
-        cmp.w A, CPUIO0+X : bne .wait
+            mov.w A, SMP.CPUIO0+X
+        cmp.w A, SMP.CPUIO0+X : bne .wait
 
         ; OPTIMIZE: Useless branch.
         mov Y, A : bne .dumb
@@ -630,8 +636,7 @@ SPCEngine:
 
     ; ==========================================================================
 
-    ; Writes value A to DSP register Y.
-    ; if the channel is enabled
+    ; Writes value A to DSP register Y if the channel is enabled.
     ; SPC $09EF-$09F6 JUMP LOCATION
     ; $0CFDBD-$0CFDC4 DATA
     WriteToDSP_Checked:
@@ -652,8 +657,8 @@ SPCEngine:
     ; $0CFDC5-$0CFDCB DATA
     WriteToDSP:
     {
-        mov.w DSPADDR, Y
-        mov.w DSPDATA, A
+        mov.w SMP.DSPADDR, Y
+        mov.w SMP.DSPDATA, A
 
         ; SPC $09FD ALTERNATE ENTRY POINT
         ; $0CFDCB DATA
@@ -670,15 +675,15 @@ SPCEngine:
     SongCommand_FF_TransferData:
     {
         mov.b A, #$00
-        mov.b Y, #EVOLL
+        mov.b Y, #DSP.EVOLL
         call WriteToDSP
 
         mov.b A, #$00
-        mov.b Y, #EVOLR
+        mov.b Y, #DSP.EVOLR
         call WriteToDSP
 
         mov.b A, #$FF
-        mov.b Y, #KOFF
+        mov.b Y, #DSP.KOFF
         call WriteToDSP
 
         call Data_Loader
@@ -1210,8 +1215,8 @@ SPCEngine:
 
                 .resume
 
-                mov.w DSPADDR, X
-                mov.w DSPDATA, A
+                mov.w SMP.DSPADDR, X
+                mov.w SMP.DSPDATA, A
 
                 inc X
                 inc Y
@@ -1613,7 +1618,7 @@ SPCEngine:
         mov.b Y, #$08
         mul YA : mov X, A
 
-        mov.b Y, #FIR0
+        mov.b Y, #DSP.FIR0
 
         .set_next_filter
             mov.w A, EchoFilterParameters+X
@@ -1636,12 +1641,12 @@ SPCEngine:
     ConfigureEcho:
     {
         mov.b $4D, A
-        mov.b Y, #EDL
+        mov.b Y, #DSP.EDL
 
-        mov.w DSPADDR, Y
+        mov.w SMP.DSPADDR, Y
 
         ; OPTIMIZE: Why not "mov.w A, Y"?
-        mov.w A, DSPDATA : cmp.b A, $4D : beq .edl_same
+        mov.w A, SMP.DSPDATA : cmp.b A, $4D : beq .edl_same
             and.b A, #$0F : eor.b A, #$FF : bbc7.b $4C, .buffer_ready
                 clrc : adc.b A, $4C
 
@@ -1652,24 +1657,24 @@ SPCEngine:
 
             .write_register
 
-                mov.w A, RegisterList-1+Y : mov.w DSPADDR, A
+                mov.w A, RegisterList-1+Y : mov.w SMP.DSPADDR, A
 
-                mov.b A, #$00 : mov.w DSPDATA, A
+                mov.b A, #$00 : mov.w SMP.DSPDATA, A
             dbnz Y, .write_register
 
             mov.b A, $48 : or.b A, #$20
-            mov.b Y, #FLG
+            mov.b Y, #DSP.FLG
             call WriteToDSP
 
             mov.b A, $4D
-            mov.b Y, #EDL
+            mov.b Y, #DSP.EDL
             call WriteToDSP
 
         .edl_same
 
         asl A : asl A : asl A : eor.b A, #$FF
         setc : adc.b A, #SONG_POINTERS>>8
-        mov.b Y, #ESA
+        mov.b Y, #DSP.ESA
 
         jmp WriteToDSP
     }
@@ -2166,7 +2171,7 @@ SPCEngine:
             .call_loop_over
 
             mov.b A, $47
-            mov.b Y, #KOFF
+            mov.b Y, #DSP.KOFF
             call WriteToDSP_Checked
 
         .time_left
@@ -2518,27 +2523,27 @@ SPCEngine:
     ; $0D05B4-$0D05FF DATA
     Data_Loader:
     {
-        mov.b A, #$AA : mov.w CPUIO0, A
+        mov.b A, #$AA : mov.w SMP.CPUIO0, A
 
-        mov.b A, #$BB : mov.w CPUIO1, A
+        mov.b A, #$BB : mov.w SMP.CPUIO1, A
 
         .wait_data_start
 
             ; Loop
-        mov.w A, CPUIO0 : cmp.b A, #$CC : bne .wait_data_start
+        mov.w A, SMP.CPUIO0 : cmp.b A, #$CC : bne .wait_data_start
 
         bra .begin_transfer
 
         .loop
 
-                mov.w Y, CPUIO0
+                mov.w Y, SMP.CPUIO0
             bne .loop
 
             .reread
 
-                cmp.w Y, CPUIO0 : bne .coherence_error
-                    mov.w A, CPUIO1
-                    mov.w CPUIO0, Y
+                cmp.w Y, SMP.CPUIO0 : bne .coherence_error
+                    mov.w A, SMP.CPUIO1
+                    mov.w SMP.CPUIO0, Y
                     mov.b ($14)+Y, A
 
                     inc Y
@@ -2550,25 +2555,25 @@ SPCEngine:
                 .coherence_error
 
                 bpl .reread
-            cmp.w Y, CPUIO0 : bpl .reread
+            cmp.w Y, SMP.CPUIO0 : bpl .reread
 
             .begin_transfer
 
-            mov.w A, CPUIO2
-            mov.w Y, CPUIO3
+            mov.w A, SMP.CPUIO2
+            mov.w Y, SMP.CPUIO3
             movw.b $14, YA
 
-            mov.w Y, CPUIO0
-            mov.w A, CPUIO1
+            mov.w Y, SMP.CPUIO0
+            mov.w A, SMP.CPUIO1
 
             ; TODO: Why move Y back into CPUIO0? Probably because it will set
             ; the Zero flag again. Verify.
-            mov.w CPUIO0, Y
+            mov.w SMP.CPUIO0, Y
         bne .loop
 
         ; clear ports 0123, start timer 0
         mov.b X, #$31
-        mov.w CONTROL, X
+        mov.w SMP.CONTROL, X
 
         ret
     }
@@ -2673,7 +2678,7 @@ SPCEngine:
         mov.w A, $03C1 : and.b A, $4A : beq .echo_off
             mov.b A, $4A : setc : sbc.w A, $03C1 : mov.b $4A, A
 
-            mov.b Y, #EON
+            mov.b Y, #DSP.EON
             call WriteToDSP
 
         .echo_off
@@ -2692,7 +2697,7 @@ SPCEngine:
         mov.w Y, $03C5 : mov.w $03C1, Y
 
         mov.w A, $03C1
-        mov.b Y, #KOFF
+        mov.b Y, #DSP.KOFF
         call WriteToDSP
 
         call ResumeMusic
@@ -2720,7 +2725,7 @@ SPCEngine:
         mov.b A, #$00 : mov.w $0280+X, A
         mov.b A, #$80 : mov.w $03CF, A
 
-        mov.b Y, #KOFF
+        mov.b Y, #DSP.KOFF
         call WriteToDSP
 
         set7.b $1A
@@ -2740,7 +2745,7 @@ SPCEngine:
         set6.b $1A
 
         mov.b A, #$40
-        mov.b Y, #KOFF
+        mov.b Y, #DSP.KOFF
         call WriteToDSP
 
         mov.b A, #$C0 : mov.w $03CF, A
@@ -2794,18 +2799,18 @@ SPCEngine:
         .still_fading
 
         lsr A : mov.w $03E5, A
-        mov.b Y, #V7VOLL
+        mov.b Y, #DSP.V7VOLL
         call WriteToDSP
 
-        inc Y ; V7VOLR
+        inc Y ; DSP.V7VOLR
         mov.w A, $03E5
         call WriteToDSP
 
-        mov.b Y, #V6VOLL
+        mov.b Y, #DSP.V6VOLL
         mov.w A, $03E5
         call WriteToDSP
 
-        inc Y ; V6VOLR
+        inc Y ; DSP.V6VOLR
         mov.w A, $03E5
         call WriteToDSP
 
@@ -2850,7 +2855,7 @@ SPCEngine:
             mov.w A, $03C1 : or.w A, $03CD : mov.w $03CD, A
 
             mov.w A, $03C1
-            mov.b Y, #KOFF
+            mov.b Y, #DSP.KOFF
             call WriteToDSP
 
             mov.w A, $03A0+X : mov X, A
@@ -2886,7 +2891,7 @@ SPCEngine:
             mov.w A, $03C1 : or.w A, $03CB : mov.w $03CB, A
 
             mov.w A, $03C1
-            mov.b Y, #KOFF
+            mov.b Y, #DSP.KOFF
             call WriteToDSP
 
             mov.w A, $03A0+X : mov X, A
@@ -3101,7 +3106,7 @@ SPCEngine:
             and.b A, $4A : bne .exit
                 mov.b A, $4A : clrc : adc.w A, $03C1 : mov.b $4A, A
 
-                mov.b Y, #EON
+                mov.b Y, #DSP.EON
                 call WriteToDSP
 
                 mov.w A, $03E3 : setc : sbc.w A, $03C1 : mov.w $03E3, A
@@ -3279,7 +3284,7 @@ SPCEngine:
 
                     mov.b A, #$02 : cmp.w A, $03B0+X : bne .dont_key_off
                         mov.w A, $03C1
-                        mov.b Y, #KOFF
+                        mov.b Y, #DSP.KOFF
                         call WriteToDSP
 
                     .dont_key_off
@@ -3403,17 +3408,19 @@ SPCEngine:
     {
         push A
 
-        mov.b Y, #KOFF
+        mov.b Y, #DSP.KOFF
         mov.b A, #$00
         call WriteToDSP
 
         pop A
-        mov.b Y, #KON
+        mov.b Y, #DSP.KON
 
         jmp WriteToDSP
     }
 
     ; ==========================================================================
+
+    SPCEngine_end:
 
     base off
 
@@ -3422,4 +3429,5 @@ SPCEngine:
 
 ; ==============================================================================
 
+; TODO: Currently this will fail.
 warnpc $1A8000

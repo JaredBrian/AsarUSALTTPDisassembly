@@ -277,17 +277,18 @@ endstruct
 ; https://www.romhacking.net/documents/197
 ; https://youtu.be/zrn0QavLMyo?si=sJ2hysYTft148S7u
 ; https://en.wikibooks.org/wiki/Super_NES_Programming/SPC700_reference
+; https://snes.nesdev.org/wiki/S-DSP_registers#MVOL
 
-struct APU $00F0
+struct SMP $00F0
 {
     .Test:    skip $01 ; $00F0
     .Control: skip $01 ; $00F1
     .DSPAddr: skip $01 ; $00F2
     .DSPData: skip $01 ; $00F3
-    .APUIO0:  skip $01 ; $00F4
-    .APUIO1:  skip $01 ; $00F5
-    .APUIO2:  skip $01 ; $00F6
-    .APUIO3:  skip $01 ; $00F7
+    .CPUIO0:  skip $01 ; $00F4
+    .CPUIO1:  skip $01 ; $00F5
+    .CPUIO2:  skip $01 ; $00F6
+    .CPUIO3:  skip $01 ; $00F7
     .AuxIO4:  skip $01 ; $00F8
     .AuxIO5:  skip $01 ; $00F9
     .T0Div:   skip $01 ; $00FA
@@ -296,136 +297,141 @@ struct APU $00F0
     .T0Out:   skip $01 ; $00FD
     .T1Out:   skip $01 ; $00FE
     .T2Out:   skip $01 ; $00FF
-
-    .VxVOLL                   = $00
-    .V0VOLL                   = $00
-    .VxVOLR                   = $01
-    .V0VOLR                   = $01
-    .VxPITCHL                 = $02
-    .V0PITCHL                 = $02
-    .VxPITCHH                 = $03
-    .V0PITCHH                 = $03
-    .VxSRCN                   = $04
-    .V0SRCN                   = $04
-    .VxADSR1                  = $05
-    .V0ADSR1                  = $05
-    .VxADSR2                  = $06
-    .V0ADSR2                  = $06
-    .VxGAIN                   = $07
-    .V0GAIN                   = $07
-    .VxENVX                   = $08
-    .V0ENVX                   = $08
-    .VxOUTX                   = $09
-    .V0OUTX                   = $09
-
-    .MVOLL                    = $0C
-    .EFB                      = $0D
-    .FIR                      = $0F
-    .FIR0                     = $0F
-    .V1VOLL                   = $10
-    .V1VOLR                   = $11
-    .V1PITCHL                 = $12
-    .V1PITCHH                 = $13
-    .V1SRCN                   = $14
-    .V1ADSR1                  = $15
-    .V1ADSR2                  = $16
-    .V1GAIN                   = $17
-    .V1ENVX                   = $18
-    .V1OUTX                   = $19
-
-    .MVOLR                    = $1C
-    .FIR1                     = $1F
-    .V2VOLL                   = $20
-    .V2VOLR                   = $21
-    .V2PITCHL                 = $22
-    .V2PITCHH                 = $23
-    .V2SRCN                   = $24
-    .V2ADSR1                  = $25
-    .V2ADSR2                  = $26
-    .V2GAIN                   = $27
-    .V2ENVX                   = $28
-    .V2OUTX                   = $29
-
-    .EVOLL                    = $2C
-    .PMON                     = $2D
-
-    .FIR2                     = $2F
-    .V3VOLL                   = $30
-    .V3VOLR                   = $31
-    .V3PITCHL                 = $32
-    .V3PITCHH                 = $33
-    .V3SRCN                   = $34
-    .V3ADSR1                  = $35
-    .V3ADSR2                  = $36
-    .V3GAIN                   = $37
-    .V3ENVX                   = $38
-    .V3OUTX                   = $39
-
-    .EVOLR                    = $3C
-    .NON                      = $3D
-
-    .FIR3                     = $3F
-    .V4VOLL                   = $40
-    .V4VOLR                   = $41
-    .V4PITCHL                 = $42
-    .V4PITCHH                 = $43
-    .V4SRCN                   = $44
-    .V4ADSR1                  = $45
-    .V4ADSR2                  = $46
-    .V4GAIN                   = $47
-    .V4ENVX                   = $48
-    .V4OUTX                   = $49
-
-    .KON                      = $4C
-    .EON                      = $4D
-
-    .FIR4                     = $4F
-    .V5VOLL                   = $50
-    .V5VOLR                   = $51
-    .V5PITCHL                 = $52
-    .V5PITCHH                 = $53
-    .V5SRCN                   = $54
-    .V5ADSR1                  = $55
-    .V5ADSR2                  = $56
-    .V5GAIN                   = $57
-    .V5ENVX                   = $58
-    .V5OUTX                   = $59
-
-    .KOFF                     = $5C
-    .DIR                      = $5D
-
-    .FIR5                     = $5F
-    .V6VOLL                   = $60
-    .V6VOLR                   = $61
-    .V6PITCHL                 = $62
-    .V6PITCHH                 = $63
-    .V6SRCN                   = $64
-    .V6ADSR1                  = $65
-    .V6ADSR2                  = $66
-    .V6GAIN                   = $67
-    .V6ENVX                   = $68
-    .V6OUTX                   = $69
-
-    .FLG                      = $6C
-    .ESA                      = $6D
-
-    .FIR6                     = $6F
-    .V7VOLL                   = $70
-    .V7VOLR                   = $71
-    .V7PITCHL                 = $72
-    .V7PITCHH                 = $73
-    .V7SRCN                   = $74
-    .V7ADSR1                  = $75
-    .V7ADSR2                  = $76
-    .V7GAIN                   = $77
-    .V7ENVX                   = $78
-    .V7OUTX                   = $79
-
-    .ENDX                     = $7C
-    .EDL                      = $7D
-
-    .FIR7                     = $7F
 }
 endstruct
+
+struct DSP $00
+{
+    .VxVOLL:            ; $00
+    .V0VOLL:   skip $01 ; $00
+    .VxVOLR:            ; $01
+    .V0VOLR:   skip $01 ; $01
+    .VxPITCHL:          ; $02
+    .V0PITCHL: skip $01 ; $02
+    .VxPITCHH:          ; $03
+    .V0PITCHH: skip $01 ; $03
+    .VxSRCN:            ; $04
+    .V0SRCN:   skip $01 ; $04
+    .VxADSR1:           ; $05
+    .V0ADSR1:  skip $01 ; $05
+    .VxADSR2:           ; $06
+    .V0ADSR2:  skip $01 ; $06
+    .VxGAIN:            ; $07
+    .V0GAIN:   skip $01 ; $07
+    .VxENVX:            ; $08
+    .V0ENVX:   skip $01 ; $08
+    .VxOUTX:            ; $09
+    .V0OUTX:   skip $03 ; $09
+
+    .MVOLL:    skip $01 ; $0C
+    .EFB:      skip $02 ; $0D
+
+    .FIR:      skip $01 ; $0F
+    .FIR0:     skip $01 ; $0F
+    .V1VOLL:   skip $01 ; $10
+    .V1VOLR:   skip $01 ; $11
+    .V1PITCHL: skip $01 ; $12
+    .V1PITCHH: skip $01 ; $13
+    .V1SRCN:   skip $01 ; $14
+    .V1ADSR1:  skip $01 ; $15
+    .V1ADSR2:  skip $01 ; $16
+    .V1GAIN:   skip $01 ; $17
+    .V1ENVX:   skip $01 ; $18
+    .V1OUTX:   skip $03 ; $19
+
+    .MVOLR:    skip $03 ; $1C
+
+    .FIR1:     skip $01 ; $1F
+    .V2VOLL:   skip $01 ; $20
+    .V2VOLR:   skip $01 ; $21
+    .V2PITCHL: skip $01 ; $22
+    .V2PITCHH: skip $01 ; $23
+    .V2SRCN:   skip $01 ; $24
+    .V2ADSR1:  skip $01 ; $25
+    .V2ADSR2:  skip $01 ; $26
+    .V2GAIN:   skip $01 ; $27
+    .V2ENVX:   skip $01 ; $28
+    .V2OUTX:   skip $03 ; $29
+
+    .EVOLL:    skip $01 ; $2C
+    .PMON:     skip $02 ; $2D
+
+    .FIR2:     skip $01 ; $2F
+    .V3VOLL:   skip $01 ; $30
+    .V3VOLR:   skip $01 ; $31
+    .V3PITCHL: skip $01 ; $32
+    .V3PITCHH: skip $01 ; $33
+    .V3SRCN:   skip $01 ; $34
+    .V3ADSR1:  skip $01 ; $35
+    .V3ADSR2:  skip $01 ; $36
+    .V3GAIN:   skip $01 ; $37
+    .V3ENVX:   skip $01 ; $38
+    .V3OUTX:   skip $03 ; $39
+
+    .EVOLR:    skip $01 ; $3C
+    .NON:      skip $02 ; $3D
+
+    .FIR3:     skip $01 ; $3F
+    .V4VOLL:   skip $01 ; $40
+    .V4VOLR:   skip $01 ; $41
+    .V4PITCHL: skip $01 ; $42
+    .V4PITCHH: skip $01 ; $43
+    .V4SRCN:   skip $01 ; $44
+    .V4ADSR1:  skip $01 ; $45
+    .V4ADSR2:  skip $01 ; $46
+    .V4GAIN:   skip $01 ; $47
+    .V4ENVX:   skip $01 ; $48
+    .V4OUTX:   skip $03 ; $49
+
+    .KON:      skip $01 ; $4C
+    .EON:      skip $02 ; $4D
+
+    .FIR4:     skip $01 ; $4F
+    .V5VOLL:   skip $01 ; $50
+    .V5VOLR:   skip $01 ; $51
+    .V5PITCHL: skip $01 ; $52
+    .V5PITCHH: skip $01 ; $53
+    .V5SRCN:   skip $01 ; $54
+    .V5ADSR1:  skip $01 ; $55
+    .V5ADSR2:  skip $01 ; $56
+    .V5GAIN:   skip $01 ; $57
+    .V5ENVX:   skip $01 ; $58
+    .V5OUTX:   skip $03 ; $59
+
+    .KOFF:     skip $01 ; $5C
+    .DIR:      skip $02 ; $5D
+
+    .FIR5:     skip $01 ; $5F
+    .V6VOLL:   skip $01 ; $60
+    .V6VOLR:   skip $01 ; $61
+    .V6PITCHL: skip $01 ; $62
+    .V6PITCHH: skip $01 ; $63
+    .V6SRCN:   skip $01 ; $64
+    .V6ADSR1:  skip $01 ; $65
+    .V6ADSR2:  skip $01 ; $66
+    .V6GAIN:   skip $01 ; $67
+    .V6ENVX:   skip $01 ; $68
+    .V6OUTX:   skip $03 ; $69
+
+    .FLG:      skip $01 ; $6C
+    .ESA:      skip $02 ; $6D
+
+    .FIR6:     skip $01 ; $6F
+    .V7VOLL:   skip $01 ; $70
+    .V7VOLR:   skip $01 ; $71
+    .V7PITCHL: skip $01 ; $72
+    .V7PITCHH: skip $01 ; $73
+    .V7SRCN:   skip $01 ; $74
+    .V7ADSR1:  skip $01 ; $75
+    .V7ADSR2:  skip $01 ; $76
+    .V7GAIN:   skip $01 ; $77
+    .V7ENVX:   skip $01 ; $78
+    .V7OUTX:   skip $03 ; $79
+
+    .ENDX:     skip $01 ; $7C
+    .EDL:      skip $02 ; $7D
+
+    .FIR7:              ; $7F
+}
 
 ; ==============================================================================

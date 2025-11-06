@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; Bank 1A
+; Bank 0x1A
 ; $0D0000-$0D7FFF
 org $1A8000
 
@@ -21,9 +21,9 @@ org $1A8B6C
 SFX_Data:
 {
     ; Transfer size, transfer address
-    dw $1090, SFX_DATA
+    dw .end-SFX_DATA, SFX_DATA
 
-    ; SPC $17C0-$2850 DATA
+    ; SPC $17C0-$284F DATA
     base SFX_DATA
 
     ; ==========================================================================
@@ -1677,12 +1677,14 @@ SFX_Data:
         incbin "Data/SFX/unused-284A.sfx"
     }
 
-    ; SPC $284F-$2850 DATA
+    ; SPC $284F-$284F DATA
     ; $0D1BFF-$0D1BFF DATA
     SFX1_05:
     {
         incbin "Data/SFX/sfx1-05.sfx"
     }
+
+    SFX_Data_end:
 
     base off
 }
@@ -1693,7 +1695,7 @@ SFX_Data:
 SFXInstruments:
 {
     ; Transfer size, transfer address
-    dw $00E1, INSTRUMENT_DATA_SFX
+    dw .end-INSTRUMENT_DATA_SFX, INSTRUMENT_DATA_SFX
 
     ; SPC $3E00-$3EE0 DATA
     ; $0D1C04-$0D1CE4 DATA
@@ -1727,6 +1729,8 @@ SFXInstruments:
     db $70, $70 : dw $1000 : db $03, $DF, $11, $B8, $0F ; 17
     db $70, $70 : dw $1000 : db $01, $88, $E0, $B8, $01 ; 18
 
+    .end
+
     base off
 }
 
@@ -1740,7 +1744,7 @@ Fairy_Theme:
 SongBlock_1:
 {
     ; Transfer size, transfer address
-    dw $020C, $2880
+    dw .end-$2880, $2880
 
     ; SPC $2880-$2A8C DATA
     ; $0D1CE9-$0D1CE4 DATA
@@ -1751,6 +1755,8 @@ SongBlock_1:
         incbin "Data/Music/song0B.bin"
     }
 
+    SongBlock_1_end:
+
     base off
 }
 
@@ -1760,7 +1766,7 @@ SongBlock_1:
 SongBank_Overworld_Main:
 {
     ; Transfer size, transfer address
-    dw $2DAE, SONG_POINTERS
+    dw .end-SONG_POINTERS, SONG_POINTERS
 
     ; SPC $D000-$D035 DATA
     ; $0D1EF9-$0D1F2E DATA
@@ -1880,16 +1886,18 @@ SongBank_Overworld_Main:
         incbin "bin/music/song0F.bin" ; size: 0x02B4
     }
 
+    SongBank_Overworld_Main_end:
+
     base off
 }
 
 ; ==============================================================================
 
-; $0D4CA7-$0D5336 DATA
+; $0D4CA7-$0D5332 DATA
 SongBank_Overworld_Auxiliary:
 {
     ; Transfer size, transfer address
-    dw $0688, SONG_POINTERS_AUX
+    dw .end-SONG_POINTERS_AUX, SONG_POINTERS_AUX
 
     ; SPC $2B00-$3188 DATA
     ; $0D4CA7-$0D5332 DATA
@@ -1909,13 +1917,21 @@ SongBank_Overworld_Auxiliary:
         incbin "bin/music/song0E.bin"
     }
 
-    base off
+    SongBank_Overworld_Auxiliary_end:
 
-    ; End transfer
-    ; This tells the APU the transfer is done and to reset itself. This end
-    ; transfer command doubles as the end to both the Sound_LoadIntroSongBank
-    ; transfer and the Sound_LoadOverworldWorldSongBank transfer.
-    ; $0D5333
+    base off
+}
+
+; ==============================================================================
+
+; End of transfer
+; This tells the APU the transfer is done and to reset itself. This end
+; transfer command doubles as the end to both the Sound_LoadIntroSongBank
+; transfer and the Sound_LoadOverworldWorldSongBank transfer.
+; $0D5333-$0D5336 DATA
+SongBank_Intro_End:
+SongBank_Overworld_End:
+{
     dw $0000, SPC_ENGINE
 }
 
@@ -1950,7 +1966,7 @@ NULL_1AD340:
 SongBank_Credits_Main:
 {
     ; Transfer size, transfer address
-    dw $1060, SONG_POINTERS
+    dw .end-SONG_POINTERS, SONG_POINTERS
 
     ; SPC $D000-$E05F DATA
     ; $0D5384-$0D53E3 DATA
@@ -2007,16 +2023,18 @@ SongBank_Credits_Main:
         incbin "bin/music/song22.bin"
     }
 
+    SongBank_Credits_Main_end:
+
     base off
 }
 
 ; ==============================================================================
 
-; $0D63E4-$0D7423 DATA
+; $0D63E4-$0D741F DATA
 SongBank_Credits_Auxiliary:
 {
     ; Transfer size, transfer address
-    dw $1038, CREDITS_AUX_POINTER
+    dw .end-CREDITS_AUX_POINTER, CREDITS_AUX_POINTER
 
     base CREDITS_AUX_POINTER
 
@@ -2027,10 +2045,17 @@ SongBank_Credits_Auxiliary:
         incbin "bin/music/song21.bin"
     }
 
-    base off
+    SongBank_Credits_Auxiliary_end:
 
-    ; End transfer
-    ; $0D7420
+    base off
+}
+
+; ==============================================================================
+
+; End of transfer
+; $0D7420-$0D7423 DATA
+SongBank_Credits_End:
+{
     dw $0000, SPC_ENGINE
 }
 
