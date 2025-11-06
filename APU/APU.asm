@@ -49,13 +49,13 @@ SPC700_BootROM:
     bne .zeroLoop 
 
     ; Signal "ready" to the 5A22 (APUIOPort0-1 ($2140-1) will return #$BBAA).
-    mov.b APU.APUIO0, #$AA
-    mov.b APU.APUIO1, #$BB
+    mov.b SMP.CPUIO0, #$AA
+    mov.b SMP.CPUIO1, #$BB
 
     .replyLoop
 
         ; Wait for the 5A22 to reply by writing #$CC to APUIOPort0 ($2140).
-    cmp.b APU.APUIO0, #$CC : bne .replyLoop
+    cmp.b SMP.CPUIO0, #$CC : bne .replyLoop
     
     bra .start
 
@@ -66,20 +66,20 @@ SPC700_BootROM:
 
             ; First, wait for the 5A22 to indicate that it is ready on
             ; APUIOPort0 ($2140).
-        mov.b Y, APU.APUIO0 : bne .waitLoop
+        mov.b Y, SMP.CPUIO0 : bne .waitLoop
 
         .data
 
                 ; Start loop: wait for "next byte/end" signal on APUIOPort0
                 ; ($2140).
-                cmp.b Y, APU.APUIO0 : bne .retry
+                cmp.b Y, SMP.CPUIO0 : bne .retry
                     ; Got "next byte" (APUIOPort0 ($2140) matches expected byte index).
 
                     ; Read byte-to-write from APUIOPort1 ($2141).
-                    mov.b A, APU.APUIO1
+                    mov.b A, SMP.CPUIO1
 
                     ; Echo the index back to APUIOPort0 ($2140) to signal ready.
-                    mov.b APU.APUIO0, Y
+                    mov.b SMP.CPUIO0, Y
 
                     ; Write the byte and update the counter.
                     mov.b ($00)+Y, A
@@ -92,7 +92,7 @@ SPC700_BootROM:
 
             ; If "next byte/end" is less than the expected next byte index,
             ; drop back into the main loop.
-        cmp.b Y, APU.APUIO0 : bpl .data
+        cmp.b Y, SMP.CPUIO0 : bpl .data
 
         ; *** MAIN LOOP ***
         ; SPC $FFEF
@@ -100,10 +100,10 @@ SPC700_BootROM:
         
         ; If mode 0 this will be the starting address from 5A22's APUIOPort2-3
         ; ($2142-3). If not a mode 0 this will be the ARAM address to transfer to.
-        movw.b YA, APU.APUIO2 : movw.b $00, YA
+        movw.b YA, SMP.CPUIO2 : movw.b $00, YA
 
         ; Get the mode from APUIOPort1 ($2141), and echo APUIOPort0 ($2140) back.
-        movw.b YA, APU.APUIO0 : mov.b APU.APUIO0, A
+        movw.b YA, SMP.CPUIO0 : mov.b SMP.CPUIO0, A
 
         mov A, Y : mov X, A
     ; If the mode is non-0, begin a block transfer.
