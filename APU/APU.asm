@@ -44,9 +44,8 @@ SPC700_BootROM:
 
     .zeroLoop 
 
-        mov (X), A
-        dec X
-    bne .zeroLoop 
+        mov (X), A    
+    dec X : bne .zeroLoop 
 
     ; Signal "ready" to the 5A22 (APUIOPort0-1 ($2140-1) will return #$BBAA).
     mov.b SMP.CPUIO0, #$AA
@@ -90,7 +89,7 @@ SPC700_BootROM:
                 .retry
             bpl .data
 
-            ; If "next byte/end" is less than the expected next byte index,
+            ; If "next byte/end" is more than the expected next byte index,
             ; drop back into the main loop.
         cmp.b Y, SMP.CPUIO0 : bpl .data
 
