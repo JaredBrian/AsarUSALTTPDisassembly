@@ -7268,7 +7268,7 @@ struct WRAM $7E0000
 
     ; $0F60[0x10] - (Sprite)
     .SprSetting7: skip $10
-        ; isphhhhh
+        ; isph hhhh
         ; i - Ignore other collision settings and always check tile interaction 
         ;     on the same layer that the sprite is on.
         ; s - If set, indicates that the sprite should not be considered
@@ -7355,9 +7355,9 @@ struct WRAM $7E0000
         ; byte variable.
 
     ; $0FAF[0x01] - (RepulseSpark)
-        ; Delay timer between animation states of the repulse spark. When it expires,
-        ; it is reset to 0x01 if the repulse spark still has animation frames to
-        ; cycle through.
+        ; Delay timer between animation states of the repulse spark. When it 
+        ; expires, it is reset to 0x01 if the repulse spark still has animation 
+        ; frames to cycle through.
 
     ; $0FB0 - 
         ; Used to offset the high byte of pixel addresses in rooms. (X coord)
@@ -7381,9 +7381,9 @@ struct WRAM $7E0000
         ; temporarily.
 
     ; $0FB5[0x01] - 
-        ; used in constructing special designation $0E30[]. Two most significant bits
-        ; of the value. also used in calculating sprite damage.
-        ; ; $0DD0[] is stored here on a temporary basis.
+        ; used in constructing special designation $0E30[]. Two most significant
+        ; bits of the value. also used in calculating sprite damage.
+        ; $0DD0[] is stored here on a temporary basis.
 
     ; $0FB6 - 
         ; used in construction of special designation $0E30[]. Three least significant bits of the value. 

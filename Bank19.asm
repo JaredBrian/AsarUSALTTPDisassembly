@@ -384,7 +384,8 @@ SPCEngine:
 
         push Y
 
-        mov.b A, #$38 : mul YA : clrc : adc.b A, $43 : mov.b $43, A : bcc .wait_for_SFX
+        mov.b A, #$38
+        mul YA : clrc : adc.b A, $43 : mov.b $43, A : bcc .wait_for_SFX
             call Handle_SFX1
             call HandleInput_SFX1
 
@@ -413,7 +414,6 @@ SPCEngine:
         mov.b A, $53
         pop Y
         mul YA
-
         clrc : adc.b A, $51 : mov.b $51, A
                               bcc .ignore_tracker
             call HandleInput_Song
@@ -1530,7 +1530,6 @@ SPCEngine:
         call GetTrackByte : mov.b $80+X, A
 
         mov.b A, $30+X : mov.w $0230+X, A
-
         mov.b A, $31+X : mov.w $0231+X, A
     }
 
@@ -1541,7 +1540,6 @@ SPCEngine:
     IteratePartLoop:
     {
         mov.w A, $0240+X : mov.b $30+X, A
-
         mov.w A, $0241+X : mov.b $31+X, A
 
         ret
