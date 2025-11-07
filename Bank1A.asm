@@ -1740,7 +1740,6 @@ SFXInstruments:
 ; TODO: Find out if the Fairy_Theme label is actually used. I don't think it is.
 
 ; $0D1CE5-$0D1EF4 DATA
-Fairy_Theme:
 SongBlock_1:
 {
     ; Transfer size, transfer address

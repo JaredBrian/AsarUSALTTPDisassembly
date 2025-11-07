@@ -206,7 +206,7 @@ InstrumentData:
     ; Transfer size, transfer address
     dw .end-INSTRUMENT_DATA, INSTRUMENT_DATA
 
-    ; SPC $3D00-$3D95 DATA
+    ; SPC $3D00-$3DAD DATA
     ; $0CFB1A-$0CFBB1 DATA
     base INSTRUMENT_DATA
 
@@ -1641,11 +1641,8 @@ SPCEngine:
     ConfigureEcho:
     {
         mov.b $4D, A
-        mov.b Y, #DSP.EDL
+        mov.b Y, #DSP.EDL : mov.w SMP.DSPADDR, Y
 
-        mov.w SMP.DSPADDR, Y
-
-        ; OPTIMIZE: Why not "mov.w A, Y"?
         mov.w A, SMP.DSPDATA : cmp.b A, $4D : beq .edl_same
             and.b A, #$0F : eor.b A, #$FF : bbc7.b $4C, .buffer_ready
                 clrc : adc.b A, $4C

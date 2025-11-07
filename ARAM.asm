@@ -61,7 +61,6 @@ struct ARAM $0000
     .Free_0D: skip $01
         ; Free RAM.
 
-
     ; $000E[0x02] - (???)
     .ZERO: skip $02
         ; Always expected to hold the value 0x0000
@@ -273,7 +272,7 @@ struct ARAM $0000
     .TEMPOL: skip $01
 
     ; $0053[0x01] - (???)
-    .TEMPO: skip $01
+    .TEMPOH: skip $01
 
 
     ; $0054[0x01] - (???)
@@ -284,22 +283,13 @@ struct ARAM $0000
     .TEMPOTG: skip $01
         ; Target tempo for sweep
 
-
-    ; Tempo slide sweep amount
     ; $0056[0x01] - (???)
-    .TEMPOVL: skip $01
+    .TEMPOV: skip $01
+        ; Tempo slide sweep amount
 
-    ; $0057[0x01] - (???)
-    .TEMPOVH: skip $01
-
-
-    ; Global volume
-    ; $0058[0x01] - (???)
-    .GVOLL: skip $01
-
-    ; $0059[0x01] - (???)
-    .GVOL: skip $01
-
+    ; $0058[0x02] - (???)
+    .GVOL: skip $02
+        ; Global volume
 
     ; $005A[0x01] - (???)
     .GVOLTM: skip $01
@@ -309,14 +299,9 @@ struct ARAM $0000
     .GVOLTG: skip $01
         ; Global volume slide target
 
-
-    ; Global volume slide increment per loop
-    ; $005C[0x01] - (???)
-    .GVOLIL: skip $01
-
-    ; $005D[0x01] - (???)
-    .GVOLIH: skip $01
-
+    ; $005C[0x02] - (???)
+    .GVOLI: skip $02
+        ; Global volume slide increment per loop
 
     ; $005E[0x01] - (???)
     .SLIDE: skip $01
@@ -359,14 +344,13 @@ struct ARAM $0000
     .EPANTM: skip $01
         ; Echo pan timer
 
-
-    ; Echo pan target values
     ; $0069[0x01] - (???)
     .EPANLTG: skip $01
+        ; Echo pan target Left
 
     ; $006A[0x01] - (???)
     .EPANRTG: skip $01
-
+        ; Echo pan target Right
 
     ; $006B[0x05] - (Free)
     .Free_6B: skip $05
@@ -677,7 +661,6 @@ struct ARAM $0000
     ; $00D0[0x20] - (Free)
     .Free_D0: skip $20
         ; Free RAM.
-
 
     ; ==========================================================================
     ; SPC hardware registers at $F0..$FF
@@ -2025,7 +2008,7 @@ struct ARAM $0000
 
 
     ; Only referenced in an unused function, but it appears to relate to
-    ; SFXOFF and SFXBIT.
+    ; SFXOFF and SFXBIT. Junk?
     ; $03C4[0x01] - (???)
     .SFXOFFRT: skip $01
 
@@ -2041,7 +2024,7 @@ struct ARAM $0000
         ; Used as a flip flop for toggling incrementing of EDLC
 
 
-    ; Copies SFXOFF and SFXBIT, but never used
+    ; Copies SFXOFF and SFXBIT, but never used. Junk?
     ; $03C8[0x01] - (???)
     .SFXOFF2: skip $01
 
@@ -2141,14 +2124,13 @@ struct ARAM $0000
     .SFXECHOS: skip $01
         ; Bitfield for SFX echos
 
-
-    ; SFX1 fade timer and volume
     ; $03E4[0x01] - (???)
     .SFX1FADE: skip $01
+        ; SFX1 fade timer.
 
     ; $03E5[0x01] - (???)
     .SFX1FDVOL: skip $01
-
+        ; SFX1 volume.
 
     ; $03E6[0x19] - (???)
     .Free_03E6: skip $19
@@ -2203,21 +2185,48 @@ struct ARAM $0000
 
     ; $040E[0x01] - (???)
     .T7U400: skip $01
+
+    ; $040F[0x03F0] - (Free)
+    .Free_040F: skip $03F0
+        ; Free RAM.
+
+    ; Some of this data can move around depending on what sound bank is
+    ; loaded but all of the free RAM labled here is unused reguardless of
+    ; the sound bank loaded.
+
+    ; $0800-$179D SPC Engine Code
+    ; $179E-$17BF Free RAM
+
+    ; $17C0-$284F SFX_DATA
+    ; $2850-$287F Free RAM
+
+    ; $2880-$2A8C SongBlock_1
+    ; $2900-$3937 CREDITS_AUX_POINTER
+    ; $2B00-$3188 SONG_POINTERS_AUX
+    ; $3938-$3BFF Free RAM
+
+    ; $3C00-$3C6F SAMPLE_POINTERS
+    ; $3C70-$3CFF Free RAM
+
+    ; $3D00-$3DAD INSTRUMENT_DATA
+    ; $3DAE-$3DFF Free RAM
+
+    ; $3E00-$3EE0 INSTRUMENT_DATA_SFX
+    ; $3EE1-$3FFF Free RAM
+
+    ; $4000-$BA9F SAMPLE_DATA
+    ; $BAA0-$BFFF Free RAM
+
+    ; $C000-$CFFF TODO: The echo buffer? (pretty sure)
+
+    ; $D000-$D035 SONG_POINTERS (Overworld)
+    ; $D000-$E05F SONG_POINTERS (Credits)
+    ; $D000-$FCBF SONG_POINTERS (Underworld)
+
+    ; $FCC0-$FDAD TODO: Some sort of data is here but idk what.
+    ; $FDAE-$FFBF Free RAM
+
+    ; $FFC0-$FFFF Boot ROM
 }
-
-; $040F-$07FF ???
-; $0800-$179D SPC Engine
-; $17C0-$284F SF_DATA
-; $2880-$2A8C SongBlock_1
-; $2900-$3937 CREDITS_AUX_POINTER
-
-; $2B00-$3188 SONG_POINTERS_AUX
-; $3C00-$3C6F SAMPLE_POINTERS
-; $3D00-$3D95 INSTRUMENT_DATA
-; $3E00-$3EE0 INSTRUMENT_DATA_SFX
-; $4000-$BA9F SAMPLE_DATA
-; $D000-$D035 SONG_POINTERS (Overworld)
-; $D000-$E05F SONG_POINTERS (Credits)
-; $D000-$FCBF SONG_POINTERS (Underworld)
 
 ; ==============================================================================
