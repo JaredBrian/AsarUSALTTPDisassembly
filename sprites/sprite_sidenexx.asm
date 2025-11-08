@@ -388,7 +388,7 @@ Sidenexx_ExhaleDanger:
                 PLX
                 
                 LDA.b #$19
-                JSL.l Sound_SetSfx3PanLong
+                JSL.l Sound_SetSFX3PanLong
                 
                 BRA .final_adjustments
     
@@ -398,7 +398,7 @@ Sidenexx_ExhaleDanger:
         JSL.l Sprite_SetSpawnedCoords
         
         LDA.b #$2A
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         .final_adjustments
         
@@ -720,7 +720,7 @@ AddIceGarnish:
     INC.w $0E80, X
     LDA.w $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
         LDA.b #$14
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         PHX : TXY
         
@@ -776,7 +776,7 @@ AddFireGarnish:
     INC.w $0E80, X
     LDA.w $0E80, X : AND.b #$07 : BNE FireBat_SpawnFireballGarnish_exit
         LDA.b #$2A
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         LDA.b #$1D
 

@@ -569,7 +569,7 @@ Bee_Buzz:
 {
     TXA : EOR.b $1A : AND.b #$1F : BNE .delay
         LDA.b #$2C
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
     .delay
     

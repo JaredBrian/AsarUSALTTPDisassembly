@@ -6,6 +6,7 @@
 ; https://www.romhacking.net/documents/197
 ; Documentation cross-referenced with:
 ; https://youtu.be/zrn0QavLMyo?si=HEXF1BE-RoMJtQVD
+; https://snes.nesdev.org/wiki/S-DSP_registers
 ;
 ; This is not actually included in the build of the disasembly and is just here
 ; for reference. See Sound_LoadSongBank in bank 0x00 for the function that does
@@ -89,19 +90,20 @@ SPC700_BootROM:
                 .retry
             bpl .data
 
-            ; If "next byte/end" is more than the expected next byte index,
-            ; drop back into the main loop.
+        ; If "next byte/end" is more than the expected next byte index,
+        ; drop back into the main loop.
         cmp.b Y, SMP.CPUIO0 : bpl .data
 
         ; *** MAIN LOOP ***
         ; SPC $FFEF
         .start
         
-        ; If mode 0 this will be the starting address from 5A22's APUIOPort2-3
-        ; ($2142-3). If not a mode 0 this will be the ARAM address to transfer to.
+        ; If mode 0, this will be the starting address from 5A22's APUIOPort2-3
+        ; ($2142-3). If not mode 0, this will be the ARAM address to transfer to.
         movw.b YA, SMP.CPUIO2 : movw.b $00, YA
 
-        ; Get the mode from APUIOPort1 ($2141), and echo APUIOPort0 ($2140) back.
+        ; Get the mode from APUIOPort1 ($2141), and echo APUIOPort0 ($2140) back
+        ; to tell the 5A22 we're ready to move on.
         movw.b YA, SMP.CPUIO0 : mov.b SMP.CPUIO0, A
 
         mov A, Y : mov X, A

@@ -4073,7 +4073,7 @@ AddSwordBeam:
         LDA.l $7F580E : CLC : ADC.w Pool_AddSwordBeam_x_offsets_low,  Y : STA.w $0C04, X
         LDA.l $7F580F       : ADC.w Pool_AddSwordBeam_x_offsets_high, Y : STA.w $0C18, X
         
-        JSL.l Sound_SfxPanObjectCoords : ORA.b #$01 : STA.w $012F
+        JSL.l Sound_SFXPanObjectCoords : ORA.b #$01 : STA.w $012F
         
         LDA.b #$04 : STA.w $0C4A, X
         LDA.b #$07 : STA.w $0C68, X
@@ -4145,7 +4145,7 @@ SwordBeam:
     LDA.w $0C18, X : STA.l $7F580F
     
     LDA.w $0394, X : AND.b #$0F : BNE .SFX_delay
-        JSL.l Sound_SfxPanObjectCoords : ORA.b #$01 : STA.w $012F
+        JSL.l Sound_SFXPanObjectCoords : ORA.b #$01 : STA.w $012F
     
     .SFX_delay
     
@@ -4558,7 +4558,7 @@ Death_PrepFaint:
     STZ.w $03F6
     
     ; Play passing out noise.
-    JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.b #$27 : STA.w $012E
+    JSL.l Sound_SetSFXPanWithPlayerCoords : ORA.b #$27 : STA.w $012E
     
     ; \item
     LDA.b #$06 : CMP.l $7EF35C : BEQ .bottledFairy
@@ -4971,7 +4971,7 @@ Bomb_CheckUndersideSpriteStatus:
             
             STZ.w $012E
             
-            JSL.l Sound_SfxPanObjectCoords : ORA.b #$28 : STA.w $012E
+            JSL.l Sound_SFXPanObjectCoords : ORA.b #$28 : STA.w $012E
             
             BRA .shadow_size_logic
         

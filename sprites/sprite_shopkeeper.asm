@@ -777,7 +777,7 @@ ShopItem_HandleReceipt:
 ShopItem_PlayBeep:
 {
     LDA.b #$3C
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     RTS
 }

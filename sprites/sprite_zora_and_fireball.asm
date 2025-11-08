@@ -125,7 +125,7 @@ Sprite_ZoraAndFireball:
                         STZ.w $0DD0, X
                         
                         LDA.b #$06
-                        JSL.l Sound_SetSfx2PanLong
+                        JSL.l Sound_SetSFX2PanLong
                         
                     .no_shield_collision
     .ignore_shield_collision

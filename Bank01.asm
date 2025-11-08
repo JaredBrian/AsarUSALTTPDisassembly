@@ -11598,7 +11598,7 @@ DontOpenDoor:
                 SEP #$30
                 
                 LDA.b $08 : AND.b #$7F : ASL
-                JSL.l Sound_GetFineSfxPan
+                JSL.l Sound_GetFineSFXPan
                 
                 ORA.b #$1E : STA.w $012E
                 
@@ -16313,7 +16313,7 @@ Dungeon_LightTorch:
             SEP #$30
             
             AND.b #$7F : ASL
-            JSL.l Sound_GetFineSfxPan
+            JSL.l Sound_GetFineSFXPan
             
             ORA.b #$2A : STA.w $012E
             

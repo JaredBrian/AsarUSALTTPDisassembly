@@ -234,7 +234,7 @@ CaneSpark_TransmuteInitialToNormal:
     DEC        : STA.l $7F5808
     
     LDA.b #$30
-    JSR.w Ancilla_DoSfx3_NearPlayer
+    JSR.w Ancilla_DoSFX3_NearPlayer
 
     ; Bleeds into the next function.
 }
@@ -359,7 +359,7 @@ Ancilla_CaneSpark:
         LDA.b #$15 : STA.w $0C68, X
         
         LDA.b #$30
-        JSR.w Ancilla_DoSfx3_NearPlayer
+        JSR.w Ancilla_DoSFX3_NearPlayer
         
     .SFX_delay
     

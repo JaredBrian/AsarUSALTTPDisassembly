@@ -60,7 +60,7 @@ AddSomarianBlock:
     
     PLX
     
-    LDA.b #$2A : JSR.w Ancilla_DoSfx3_NearPlayer
+    LDA.b #$2A : JSR.w Ancilla_DoSFX3_NearPlayer
     
     STZ.w $0C54, X
     STZ.w $0C22, X

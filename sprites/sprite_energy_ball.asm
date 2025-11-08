@@ -99,7 +99,7 @@ Sprite_EnergyBall:
             .is_seeker
             
             LDA.b #$36
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             JSR.w SeekerEnergyBall_SplitIntoSixSmaller
             
@@ -108,10 +108,10 @@ Sprite_EnergyBall:
         .not_seeker_3
         
         LDA.b #$05
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         LDA.b #$29
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         LDA.b #$30
         JSL.l Sprite_ApplySpeedTowardsPlayerLong
@@ -205,7 +205,7 @@ Pool_SeekerEnergyBall_SplitIntoSixSmaller:
 SeekerEnergyBall_SplitIntoSixSmaller:
 {
     LDA.b #$36
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     LDA.b #$05 : STA.w $0FB5
     

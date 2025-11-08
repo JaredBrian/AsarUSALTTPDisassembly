@@ -32,7 +32,7 @@ Sprite_YellowStalfos:
         LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
         
         LDA.b #$20
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .initial_collision_check_complete
     

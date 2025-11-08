@@ -45,7 +45,7 @@ Ancilla_FireShot:
         LDA.b #$08 : STA.w $0C90, X
         
         LDA.b #$2A
-        JSR.w Ancilla_DoSfx2
+        JSR.w Ancilla_DoSFX2
         
         .no_collision
         

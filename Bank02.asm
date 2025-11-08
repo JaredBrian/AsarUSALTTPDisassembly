@@ -566,26 +566,26 @@ Module_PreDungeon:
     JSR.w Dungeon_LoadSongBankIfNeeded
 
     ; $01038C ALTERNATE ENTRY POINT
-    .setAmbientSfx
+    .setAmbientSFX
 
     ; If worldstate >= 2:
-    LDA.l $7EF3C5 : CMP.b #$02 : BCS .noAmbientRainSfx
+    LDA.l $7EF3C5 : CMP.b #$02 : BCS .noAmbientRainSFX
         ; By default set the ambient sound effect to silence.
         LDA.b #$05 : STA.w $012D
 
-        LDA.b $A4 : BMI .noAmbientRainSfx
+        LDA.b $A4 : BMI .noAmbientRainSFX
             REP #$20
 
             ; If this is the sewer room right before sanctuary.
-            LDA.b $A0 : CMP.w #$0002 : BEQ .noAmbientRainSfx
+            LDA.b $A0 : CMP.w #$0002 : BEQ .noAmbientRainSFX
                 ; Is it Sanctuary itself?
-                CMP.w #$0012 : BEQ .noAmbientRainSfx
+                CMP.w #$0012 : BEQ .noAmbientRainSFX
                     SEP #$20
 
                     ; Play the rain ambient sound effect.
                     LDA.b #$03 : STA.w $012D
 
-    .noAmbientRainSfx
+    .noAmbientRainSFX
 
     SEP #$20
 
@@ -4852,7 +4852,7 @@ HoleToDungeon_LoadDungeon:
     LDA.b #$80 : STA.b $9B
 
     JSL.l HUD_RefillLogicLong
-    JSL.l Module_PreDungeon_setAmbientSfx
+    JSL.l Module_PreDungeon_setAmbientSFX
 
     LDA.b #$07 : STA.b $11
 

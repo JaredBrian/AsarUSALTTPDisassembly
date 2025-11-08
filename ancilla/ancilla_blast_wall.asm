@@ -120,7 +120,7 @@ Ancilla_BlastWall:
                 ; The explosion would be off screen, so don't play the SFX.
                 LDA.b $73 : BNE .anoplay_explosion_SFX
                     LDA.b $72
-                    JSR.w Ancilla_SetSfxPan_NearEntity
+                    JSR.w Ancilla_SetSFXPan_NearEntity
                     ORA.b #$0C : STA.w $012E
                     
                 .anoplay_explosion_SFX

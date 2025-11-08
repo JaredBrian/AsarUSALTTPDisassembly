@@ -15,9 +15,9 @@ org $088000
 ; probably unused because ... probably no ancillae cause ambient sound effects
 ; to play.
 ; $040000-$040006 LOCAL 
-Ancilla_DoSfx1_NearPlayer:
+Ancilla_DoSFX1_NearPlayer:
 {
-    JSR.w Ancilla_SetSfxPan_NearPlayer : STA.w $012D
+    JSR.w Ancilla_SetSFXPan_NearPlayer : STA.w $012D
     
     RTS
 }
@@ -25,9 +25,9 @@ Ancilla_DoSfx1_NearPlayer:
 ; ==============================================================================
 
 ; $040007-$04000D LOCAL JUMP LOCATION
-Ancilla_DoSfx2_NearPlayer:
+Ancilla_DoSFX2_NearPlayer:
 {
-    JSR.w Ancilla_SetSfxPan_NearPlayer : STA.w $012E
+    JSR.w Ancilla_SetSFXPan_NearPlayer : STA.w $012E
     
     RTS
 }
@@ -35,9 +35,9 @@ Ancilla_DoSfx2_NearPlayer:
 ; ==============================================================================
 
 ; $04000E-$040014 LOCAL JUMP LOCATION
-Ancilla_DoSfx3_NearPlayer:
+Ancilla_DoSFX3_NearPlayer:
 {
-    JSR.w Ancilla_SetSfxPan_NearPlayer : STA.w $012F
+    JSR.w Ancilla_SetSFXPan_NearPlayer : STA.w $012F
     
     RTS
 }
@@ -45,11 +45,11 @@ Ancilla_DoSfx3_NearPlayer:
 ; ==============================================================================
 
 ; $040015-$04001F LOCAL JUMP LOCATION
-Ancilla_SetSfxPan_NearPlayer:
+Ancilla_SetSFXPan_NearPlayer:
 {
     STA.w $0CF8
     
-    JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.w $0CF8
+    JSL.l Sound_SetSFXPanWithPlayerCoords : ORA.w $0CF8
     
     RTS
 }
@@ -59,9 +59,9 @@ Ancilla_SetSfxPan_NearPlayer:
 ; TODO: Confirm this.
 ; Unused:
 ; $040020-$040026 LOCAL JUMP LOCATION
-Ancilla_DoSfx1:
+Ancilla_DoSFX1:
 {
-    JSR.w Ancilla_SetSfxPan : STA.w $012D
+    JSR.w Ancilla_SetSFXPan : STA.w $012D
     
     RTS
 }
@@ -69,9 +69,9 @@ Ancilla_DoSfx1:
 ; ==============================================================================
 
 ; $040027-$04002D LOCAL JUMP LOCATION
-Ancilla_DoSfx2:
+Ancilla_DoSFX2:
 {
-    JSR.w Ancilla_SetSfxPan : STA.w $012E
+    JSR.w Ancilla_SetSFXPan : STA.w $012E
     
     RTS
 }
@@ -79,9 +79,9 @@ Ancilla_DoSfx2:
 ; ==============================================================================
 
 ; $04002E-$040034 LOCAL JUMP LOCATION
-Ancilla_DoSfx3:
+Ancilla_DoSFX3:
 {
-    JSR.w Ancilla_SetSfxPan : STA.w $012F
+    JSR.w Ancilla_SetSFXPan : STA.w $012F
     
     RTS
 }
@@ -89,11 +89,11 @@ Ancilla_DoSfx3:
 ; ==============================================================================
 
 ; $040035-$04003F LOCAL JUMP LOCATION
-Ancilla_SetSfxPan:
+Ancilla_SetSFXPan:
 {
     STA.w $0CF8
     
-    JSL.l Sound_SfxPanObjectCoords : ORA.w $0CF8
+    JSL.l Sound_SFXPanObjectCoords : ORA.w $0CF8
     
     RTS
 }
@@ -264,7 +264,7 @@ AddFireRodShot:
         PHY
         
         LDA.b #$0E
-        JSR.w Ancilla_DoSfx2_NearPlayer
+        JSR.w Ancilla_DoSFX2_NearPlayer
         
         PLY
     
@@ -363,7 +363,7 @@ AddFireRodShot:
     LDA.b #$08 : STA.w $0C90, Y
     
     LDA.b #$2A
-    JSR.w Ancilla_DoSfx2
+    JSR.w Ancilla_DoSFX2
     
     .return_2
     
@@ -2071,7 +2071,7 @@ incsrc "ancilla_game_over_text.asm"
 ; ==============================================================================
 
 ; $047624-$047630 LOCAL JUMP LOCATION
-Ancilla_SetSfxPan_NearEntity:
+Ancilla_SetSFXPan_NearEntity:
 {
     PHX
     

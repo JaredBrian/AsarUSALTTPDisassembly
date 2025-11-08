@@ -493,7 +493,7 @@ Sprite_Blind:
                     INC.w $0FFC
                     
                     LDA.b #$22
-                    JSL.l Sound_SetSfx3PanLong
+                    JSL.l Sound_SetSFX3PanLong
                     
                     RTS
                 
@@ -611,7 +611,7 @@ Blind_BehindTheCurtain:
         LDA.b #$27 : STA.w $0E10, X
         
         LDA.b #$13
-        JSL.l Sound_SetSfx1PanLong
+        JSL.l Sound_SetSFX1PanLong
         
         RTS
     
@@ -728,7 +728,7 @@ Blind_SpawnFireball:
     AND.w !forward_timer, X : BNE .delay_fireball_spawning
         JSL.l Sprite_SpawnFireball : BMI .spawn_failed
             LDA.b #$19
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             PHX
             
@@ -1166,7 +1166,7 @@ Pool_Blind_SpawnLaser:
 Blind_SpawnLaser:
 {
     LDA.b #$CE : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-        JSL.l Sound_SetSfxPan : ORA.b #$26 : STA.w $012F
+        JSL.l Sound_SetSFXPan : ORA.b #$26 : STA.w $012F
         
         JSL.l Sprite_SetSpawnedCoords
         

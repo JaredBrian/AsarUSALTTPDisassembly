@@ -211,7 +211,7 @@ Sprite_RupeeCrab:
                 PLX
                 
                 LDA.b #$30
-                JSL.l Sound_SetSfx3PanLong
+                JSL.l Sound_SetSFX3PanLong
             
             .spawn_failed
     .BRANCH_EPSILON

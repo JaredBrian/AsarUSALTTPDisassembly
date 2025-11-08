@@ -165,7 +165,7 @@ Sprite_SpawnSmallWaterSplash:
         STZ.w $012E
         
         LDA.b #$28
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         LDA.b #$03 : STA.w $0DD0, Y
         

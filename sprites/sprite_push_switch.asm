@@ -44,7 +44,7 @@ WaterSwitch_Untoggled:
         
         LDA.b $1A : AND.b #$03 : BNE .BRANCH_GAMMA
             LDA.b #$22
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
         
         .BRANCH_GAMMA
         
@@ -67,7 +67,7 @@ WaterSwitch_ReleaseGate:
             INC.w $0642
             
             LDA.b #$25
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             RTS
         
@@ -77,7 +77,7 @@ WaterSwitch_ReleaseGate:
         LDA.w Pool_WaterSwitch_Position, Y : STA.w $0DE0, X
         
         LDA.b #$22
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .BRANCH_ALPHA
     

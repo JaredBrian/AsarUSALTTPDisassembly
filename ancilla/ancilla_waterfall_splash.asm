@@ -56,7 +56,7 @@ Ancilla_WaterfallSplash:
     LDA.b $11 : BNE .no_sound_effect
         LDA.b $1A : AND.b #$07 : BNE .no_sound_effect
             LDA.b #$1C
-            JSR.w Ancilla_DoSfx2_NearPlayer
+            JSR.w Ancilla_DoSFX2_NearPlayer
         
     .no_sound_effect
     

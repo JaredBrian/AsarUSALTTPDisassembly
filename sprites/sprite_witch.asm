@@ -209,7 +209,7 @@ Witch_PlayerHandsMushroomOver:
         JSL.l Sprite_ShowMessageUnconditional
         
         LDA.b #$0D
-        JSL.l Sound_SetSfx1PanLong
+        JSL.l Sound_SetSFX1PanLong
         
     .not_haz_mushroom
     

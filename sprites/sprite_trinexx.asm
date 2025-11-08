@@ -165,7 +165,7 @@ Trinexx_FinalPhase:
     
     LDA.b $1A : AND.b #$07 : BNE .BRANCH_EPSILON
         LDA.b #$31
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
     
     .BRANCH_EPSILON
     
@@ -559,7 +559,7 @@ Sprite_Trinexx:
     
     PHA : AND.b #$03 : BNE .BRANCH_THETA
         LDA.b #$0C
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .BRANCH_THETA
     
@@ -810,7 +810,7 @@ Trinexx_AnimateFeet:
     CLC : ADC.b #$01 : STA.w $0E80, X
     AND.b #$0F : BNE .BRANCH_KAPPA
         LDA.b #$21 
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .BRANCH_KAPPA
     

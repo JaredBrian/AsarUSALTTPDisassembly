@@ -23,7 +23,7 @@ Sprite_Hokbok:
     
     	JSR.w Sprite4_BounceFromTileCollision : BEQ .no_tile_collision
             LDA.b #$21
-			JSL.l Sound_SetSfx2PanLong
+			JSL.l Sound_SetSFX2PanLong
     
     	.no_tile_collision
     
@@ -35,7 +35,7 @@ Sprite_Hokbok:
     	    STZ.w $0BE0, X
     
     	    LDA.b #$1E
-			JSL.l Sound_SetSfx2PanLong
+			JSL.l Sound_SetSFX2PanLong
     
     	.not_quite_dead
     

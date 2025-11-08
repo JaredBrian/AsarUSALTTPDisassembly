@@ -1130,7 +1130,7 @@ Overworld_Map16_ToolInteraction:
     
     .notPeg
     
-    JSR.w Overworld_HammerSfx
+    JSR.w Overworld_HammerSFX
     
     .notBush
     
@@ -1290,7 +1290,7 @@ Overworld_Map16_ToolInteraction:
 ; ==============================================================================
 
 ; $0DBF1E-$0DBF4B LOCAL JUMP LOCATION
-Overworld_HammerSfx:
+Overworld_HammerSFX:
 {
     ASL #3 : TAX
     LDA.l Map16Definitions, X : AND.w #$01FF : TAX

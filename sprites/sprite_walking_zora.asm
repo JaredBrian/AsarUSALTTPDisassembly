@@ -65,7 +65,7 @@ WalkingZora_Surfacing:
         LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
         
         LDA.b #$28
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         INC.w $0DA0, X
         
@@ -132,7 +132,7 @@ WalkingZora_Ambulating:
             JSL.l Sprite_SelfTerminate
             
             LDA.b #$28
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
             LDA.b #$03 : STA.w $0DD0, X
             LDA.b #$0F : STA.w $0DF0, X

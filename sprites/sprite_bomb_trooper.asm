@@ -127,7 +127,7 @@ EnemyBomb_ExplosionImminent:
     .nu
 
     LDA.b #$0C
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     INC.w $0DB0, X
     
@@ -298,7 +298,7 @@ BombTrooper_SpawnAndThrowBomb:
         STZ.w $0E50, X
         
         LDA.b #$13
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         PLX
     

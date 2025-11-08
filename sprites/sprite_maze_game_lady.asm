@@ -97,7 +97,7 @@ MazeGameLady_AccumulateTime:
 MazeGameLady_PlayStartingNoise:
 {
     LDA.b #$07
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     INC.w $0D80, X
     

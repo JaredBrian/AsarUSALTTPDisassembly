@@ -316,7 +316,7 @@ Sprite_HeartPiece:
     .got_4_pieces
     
     LDA.b #$2D
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     LDA.l $7EF36B : TAY
     LDA.w Pool_Sprite_HeartPiece_messages_low, Y        : XBA

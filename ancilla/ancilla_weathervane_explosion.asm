@@ -43,7 +43,7 @@ Ancilla_WeathervaneExplosion:
             INC : STA.w $039F, X
             
             LDA.b #$0C
-            JSR.w Ancilla_DoSfx2_NearPlayer
+            JSR.w Ancilla_DoSFX2_NearPlayer
             
         .explosion_SFX_already_played
         

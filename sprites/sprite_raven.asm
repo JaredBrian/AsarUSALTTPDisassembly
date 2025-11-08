@@ -68,7 +68,7 @@ Raven_InWait:
             LDA.b #$18 : STA.w $0DF0, X
             
             LDA.b #$1E
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
     
     .player_too_far
     

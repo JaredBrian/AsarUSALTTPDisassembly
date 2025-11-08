@@ -609,7 +609,7 @@ Ganon_Phase3_DropTiles_descend:
         LDA.b #$07 : STA.w $012D
         
         LDA.b #$0C
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .BRANCH_DELTA
     
@@ -780,7 +780,7 @@ Ganon_SpawnFireBat:
     LDY.b #$08
     JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
         LDA.b #$2A
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         JSL.l Sprite_SetSpawnedCoords
         
@@ -1186,7 +1186,7 @@ Ganon_Phase1_AnimateTridentSpin:
     LDA.w GanonTrident_Timers_facing_down, Y        : STA.w $0ED0, X
     LDA.w GanonTridentAnimationSteps_facing_down, Y : STA.w $0DC0, X
     
-    JSR.w Sprite_PeriodicWhirringSfx
+    JSR.w Sprite_PeriodicWhirringSFX
     
     RTS
 }
@@ -1320,7 +1320,7 @@ Ganon_SelectWarpLocation:
     LDA.b #$30 : STA.w $0DF0, X
         
     LDA.b #$28
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
         
     RTS
 }

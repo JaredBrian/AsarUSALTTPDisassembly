@@ -117,7 +117,7 @@ IceBallGenerator_DoYourOnlyJob:
             TYX
             
             LDA.b #$20
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
             PLX
         
@@ -516,7 +516,7 @@ Sprite_IceBall:
             
             LDA.w $012E : BNE .channel_in_use
                 LDA.b #$1E
-                JSL.l Sound_SetSfx2PanLong
+                JSL.l Sound_SetSFX2PanLong
                 
                 LDA.b #$03 : STA.w $0DC0, X
             
@@ -549,7 +549,7 @@ Pool_IceBall_Quadruplicate:
 IceBall_Quadruplicate:
 {
     LDA.b #$1F
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     JSL.l GetRandomInt : AND.b #$04 : STA.b $0D
     

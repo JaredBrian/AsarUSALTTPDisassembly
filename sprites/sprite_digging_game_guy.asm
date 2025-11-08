@@ -321,7 +321,7 @@ DiggingGameGuy_GiveItem_spawn_item:
                 
     TYX      
     LDA.b #$30
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
                 
     RTS
 }

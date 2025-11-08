@@ -58,7 +58,7 @@ Sprite_Armos:
                     LDA.b #$30 : STA.w $0DF0, X
                     
                     LDA.b #$22
-                    JSL.l Sound_SetSfx2PanLong
+                    JSL.l Sound_SetSFX2PanLong
     
     .epsilon
     

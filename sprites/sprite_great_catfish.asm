@@ -382,7 +382,7 @@ GreatCatfish_SpawnQuakeMedallion:
         
         ; Play a sound effect.
         LDA.b #$20
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         LDA.b #$83 : STA.w $0E40, X
         
@@ -423,7 +423,7 @@ Sprite_SpawnFlippersItem:
         LDA.b #$1E : STA.w $0D90, X
         
         LDA.b #$20
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         LDA.b #$83 : STA.w $0E40, X
         
@@ -465,7 +465,7 @@ GreatCatfish_SpawnImmediatelyDrownedSprite:
         LDA.b #$03 : STA.w $0E40, Y
         
         LDA.b #$28
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
     .spawnFailed
     

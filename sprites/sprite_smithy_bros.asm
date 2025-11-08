@@ -270,7 +270,7 @@ Smithy_Main:
             JSR.w SmithyBros_SpawnSmithySpark
             
             LDA.b #$05
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
         .spark_spawn_delay
     .animation_step_delay

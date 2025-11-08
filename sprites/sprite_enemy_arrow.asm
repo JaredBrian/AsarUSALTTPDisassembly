@@ -57,7 +57,7 @@ Sprite_EnemyArrow:
                 LDA.b #$02 : STA.w $0D90, X
                 
                 LDA.b #$08
-                JSL.l Sound_SetSfx2PanLong
+                JSL.l Sound_SetSFX2PanLong
                 
                 RTS
                 

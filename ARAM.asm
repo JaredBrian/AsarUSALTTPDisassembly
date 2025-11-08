@@ -7,6 +7,7 @@
 ; CMD = Command
 ; Q = Queue
 ; SFX = Sound Effect
+; Trem = Tremolo
 ; Vbr = Vibrato
 ; Vol = Volume
 
@@ -21,7 +22,7 @@ struct ARAM $0000
     .InputSong: skip $01
 
     ; $0001[0x01] - (???)
-    .InputSFX1: skip $01
+    .InputAmbient: skip $01
 
     ; $0002[0x01] - (???)
     .InputSFX2: skip $01
@@ -31,34 +32,37 @@ struct ARAM $0000
 
 
     ; $0004[0x01] - (???)
-    .CurretnSong: skip $01
+    .CurrentSong: skip $01
         ; The currently playing song sent back to the SNES CPU over I/O.
 
     ; $0005[0x01] - (???)
-    .CurretSFX1: skip $01
-        ; The currently playing SFX1 sent back to the SNES CPU over I/O.
+    .CurrentAmbient: skip $01
+        ; The currently playing Ambient sent back to the SNES CPU over I/O.
 
     ; $0006[0x01] - (???)
-    .CurretSFX2: skip $01
+    .CurrentSFX2: skip $01
         ; The currently playing SFX2 sent back to the SNES CPU over I/O.
 
     ; $0007[0x01] - (???)
-    .CurretSFX3: skip $01
+    .CurrentSFX3: skip $01
         ; The currently playing SFX3 sent back to the SNES CPU over I/O.
 
 
-    ; Redundancy check for sound handling.
     ; $0008[0x01] - (???)
-    .RedundancySONG: skip $01
+    .LastSong: skip $01
+        ; The last song that the APU was told to play.
 
     ; $0009[0x01] - (???)
-    .RedundancySFX1: skip $01
+    .LastAmbient: skip $01
+        ; The last Ambient that the APU was told to play.
 
     ; $000A[0x01] - (???)
-    .RedundancySFX2: skip $01
+    .LastSFX2: skip $01
+        ; The last SFX2 that the APU was told to play.
 
     ; $000B[0x01] - (???)
-    .RedundancySFX3: skip $01
+    .LastSFX3: skip $01
+        ; The last SFX3 that the APU was told to play.
 
 
     ; $000C[0x01] - (???)
@@ -195,9 +199,10 @@ struct ARAM $0000
         ; Used to build up segment pointers during new songs.
 
     ; $0043[0x01] - (???)
-    .Timer0Accum: skip $01
-        ; Accumulates timer 0 with some funky math to keep steady timing.
-        ; TODO: Figure out how this works.
+    .SFXTimer: skip $01
+        ; This has 0x38 Added to it for every tick that passes on timer 0.
+        ; If the result added is greater than 0xFF, we need to take new sfx
+        ; input from the 5A22 and handle the current SFX.
 
     ; $0044[0x01] - (???)
     .ChannelOffset: skip $01
@@ -233,8 +238,9 @@ struct ARAM $0000
         ; The DSP.PMON (Pitch Modulation) queue.
 
     ; $004C[0x01] - (???)
-    .EchoDelayCache: skip $01
-        ; The DSP.EDL (Echo Delay) cache.
+    .EchoTimer: skip $01
+        ; A timer to prevent certain things until it reaches the same 
+        ; value as $4D (EchoDelayQ).
 
     ; $004D[0x01] - (???)
     .EchoDelayQ: skip $01
@@ -253,8 +259,10 @@ struct ARAM $0000
         ; The global transposition.
 
     ; $0051[0x01] - (???)
-    .MAccum: skip $01
-        ; Accumulator for clock passes. TODO: Figure out what this actually does.
+    .SongTimer: skip $01
+        ; This has the Tempo high byte ($53) Added to it for every tick that 
+        ; passes on timer 0. If the result added is greater than 0xFF, we need
+        ; to take new song input from the 5A22 and handle the current song.
 
     ; $0052[0x02] - (???)
     .Tempo: skip $02
@@ -624,54 +632,69 @@ struct ARAM $0000
         ; The channel 7 vibrato max intensity.
 
 
-    ; Channel tremolo timer and intensity
     ; $00C0[0x01] - (???)
-    .T0TRMTM: skip $01
+    .Channel0TremTimer: skip $01
+        ; The channel 0 tremolo timer.
 
     ; $00C1[0x01] - (???)
-    .T0TREMI: skip $01
+    .Channel0TremIntensity: skip $01
+        ; The channel 0 tremolo intensity.
 
     ; $00C2[0x01] - (???)
-    .T1TRMTM: skip $01
+    .Channel1TremTimer: skip $01
+        ; The channel 1 tremolo timer.
 
     ; $00C3[0x01] - (???)
-    .T1TREMI: skip $01
+    .Channel1TremIntensity: skip $01
+        ; The channel 1 tremolo intensity.
 
     ; $00C4[0x01] - (???)
-    .T2TRMTM: skip $01
+    .Channel2TremTimer: skip $01
+        ; The channel 2 tremolo timer.
 
     ; $00C5[0x01] - (???)
-    .T2TREMI: skip $01
+    .Channel2TremIntensity: skip $01
+        ; The channel 2 tremolo intensity.
 
     ; $00C6[0x01] - (???)
-    .T3TRMTM: skip $01
+    .Channel3TremTimer: skip $01
+        ; The channel 3 tremolo timer.
 
     ; $00C7[0x01] - (???)
-    .T3TREMI: skip $01
+    .Channel3TremIntensity: skip $01
+        ; The channel 3 tremolo intensity.
 
     ; $00C8[0x01] - (???)
-    .T4TRMTM: skip $01
+    .Channel4TremTimer: skip $01
+        ; The channel 4 tremolo timer.
 
     ; $00C9[0x01] - (???)
-    .T4TREMI: skip $01
+    .Channel4TremIntensity: skip $01
+        ; The channel 4 tremolo intensity.
 
     ; $00CA[0x01] - (???)
-    .T5TRMTM: skip $01
+    .Channel5TremTimer: skip $01
+        ; The channel 5 tremolo timer.
 
     ; $00CB[0x01] - (???)
-    .T5TREMI: skip $01
+    .Channel5TremIntensity: skip $01
+        ; The channel 5 tremolo intensity.
 
     ; $00CC[0x01] - (???)
-    .T6TRMTM: skip $01
+    .Channel6TremTimer: skip $01
+        ; The channel 6 tremolo timer.
 
     ; $00CD[0x01] - (???)
-    .T6TREMI: skip $01
+    .Channel6TremIntensity: skip $01
+        ; The channel 6 tremolo intensity.
 
     ; $00CE[0x01] - (???)
-    .T7TRMTM: skip $01
+    .Channel7TremTimer: skip $01
+        ; The channel 7 tremolo timer.
 
     ; $00CF[0x01] - (???)
-    .T7TREMI: skip $01
+    .Channel7TremIntensity: skip $01
+        ; The channel 7 tremolo intensity.
 
 
     ; $00D0[0x20] - (Free)
@@ -679,8 +702,9 @@ struct ARAM $0000
         ; Free RAM.
 
     ; ==========================================================================
-    ; SPC hardware registers at $F0..$FF
-    ; See «registers_spc.asm»
+    ; SPC hardware registers at $F0-$FF
+    ; See HardwareRegisters.asm
+    skip $10
     ; ==========================================================================
 
     ; Vibrato counter and unused variable
@@ -2008,19 +2032,19 @@ struct ARAM $0000
 
     ; $03C0[0x01] - (???)
     .SFXOFF: skip $01
-        ; SFX channel pointer in use
+        ; SFX channel pointer in use.
 
     ; $03C1[0x01] - (???)
     .SFXBIT: skip $01
-        ; SFX channel bit for bitfields
+        ; SFX channel bit for bitfields.
 
     ; $03C2[0x01] - (???)
     .BITASL3: skip $01
-        ; Contains channel<<3 for easier calculation
+        ; Contains channel<<3 for easier calculation.
 
     ; $03C3[0x01] - (???)
     .EONM: skip $01
-        ; Music channels flagged for echo enable
+        ; Music channels flagged for echo enable.
 
 
     ; Only referenced in an unused function, but it appears to relate to
@@ -2037,7 +2061,7 @@ struct ARAM $0000
 
     ; $03C7[0x01] - (???)
     .ECHOFLIP: skip $01
-        ; Used as a flip flop for toggling incrementing of EDLC
+        ; Used as a flip flop for toggling incrementing of EchoDelayCache.
 
 
     ; Copies SFXOFF and SFXBIT, but never used. Junk?
@@ -2070,8 +2094,8 @@ struct ARAM $0000
 
 
     ; $03CF[0x01] - (???)
-    .SFX1BIT: skip $01
-        ; Channel bits for SFX1
+    .AmbientBIT: skip $01
+        ; Channel bits for Ambient
 
 
     ; SFX channel pan values and unused variable
@@ -2125,8 +2149,8 @@ struct ARAM $0000
 
 
     ; $03E0[0x01] - (???)
-    .SFX1FIND: skip $01
-        ; Used to find SFX1 channel
+    .AmbientFIND: skip $01
+        ; Used to find Ambient channel
 
     ; $03E1[0x01] - (???)
     .SONGOVOL: skip $01
@@ -2141,12 +2165,12 @@ struct ARAM $0000
         ; Bitfield for SFX echos
 
     ; $03E4[0x01] - (???)
-    .SFX1FADE: skip $01
-        ; SFX1 fade timer.
+    .AmbientFADE: skip $01
+        ; Ambient fade timer.
 
     ; $03E5[0x01] - (???)
-    .SFX1FDVOL: skip $01
-        ; SFX1 volume.
+    .AmbientFDVOL: skip $01
+        ; Ambient volume.
 
     ; $03E6[0x19] - (???)
     .Free_03E6: skip $19

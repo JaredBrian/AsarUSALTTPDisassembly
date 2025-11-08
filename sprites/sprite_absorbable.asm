@@ -108,7 +108,7 @@ Sprite_Absorbable_draw_logic_finished:
         LDA.w $0E20, X : CMP.b #$E4 : BCC .dont_play_clink_SFX
             LDA.b $1B : BEQ .dont_play_clink_SFX
                 LDA.b #$05
-                JSL.l Sound_SetSfx2PanLong
+                JSL.l Sound_SetSFX2PanLong
                 
         .dont_play_clink_SFX
     .aloft
@@ -196,7 +196,7 @@ Sprite_HandleAbsorptionByPlayer:
     
     LDA.w $0E20, X : SEC : SBC.b #$D8 : TAY
     LDA.w .SFX, Y
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     TYA
     JSL.l UseImplicitRegIndexedLocalJumpTable
@@ -271,7 +271,7 @@ Key_AbsorptionByPlayer:
 Fairy_AbsorptionByPlayer:
 {
     LDA.b #$31
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     LDA.b #$38 ; Amount of hearts a Fairy refills (7 hearts).
     

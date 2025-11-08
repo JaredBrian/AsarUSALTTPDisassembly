@@ -21,7 +21,7 @@ Ancilla_SuperBombExplosion:
             INC.w $0C5E, X
             LDA.w $0C5E, X : CMP.b #$02 : BNE .blast_SFX_delay
                 LDA.b #$0C
-                JSR.w Ancilla_DoSfx2
+                JSR.w Ancilla_DoSFX2
             
             .blast_SFX_delay
             

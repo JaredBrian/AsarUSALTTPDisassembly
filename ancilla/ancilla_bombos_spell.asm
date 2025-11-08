@@ -63,7 +63,7 @@ AddBombosSpell:
     STZ.w $0C5E, X
     
     LDA.b #$2A
-    JSR.w Ancilla_DoSfx2_NearPlayer
+    JSR.w Ancilla_DoSFX2_NearPlayer
     
     PHX
     

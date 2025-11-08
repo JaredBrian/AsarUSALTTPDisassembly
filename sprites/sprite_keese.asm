@@ -24,7 +24,7 @@ Sprite_Keese:
     	    LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
     	    	LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
     	    	    LDA.b #$1E
-                    JSL.l Sound_SetSfx3PanLong
+                    JSL.l Sound_SetSFX3PanLong
     
     	    	    ; Keese gets mad when you invade its personal space :(.
     	     	    INC.w $0D80, X

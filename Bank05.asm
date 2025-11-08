@@ -828,7 +828,7 @@ Guard_InPursuit_delay:
     TYA : EOR.b $1A1A : AND.b #$1F : BNE .alpha
         LDA.w $0ED0, X : BNE .beta
             LDA.b #$04
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             INC.w $0ED0, X
         
@@ -1602,7 +1602,7 @@ PsychoSpearSoldier_PlayChaseMusic:
     LDA.w $0ED0, X : CMP.b #$10 : BEQ .no_change
         INC.w $0ED0, X : CMP.b #$0F : BNE .no_change
             LDA.b #$04
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             LDA.l $7EF3C5 : CMP.b #$02 : BNE .no_change
                 LDA.w $040A : CMP.b #$18 : BNE .no_change
@@ -2263,7 +2263,7 @@ Pool_JavelinTrooper_SpawnProjectile:
 JavelinTrooper_SpawnProjectile:
 {
     LDA.b #$1B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-        LDA.b #$05 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$05 : JSL.l Sound_SetSFX3PanLong
         
         PHX
         

@@ -57,7 +57,7 @@ Ancilla_Hookshot:
             LDA.b #$07 : STA.w $0C68, X
             
             LDA.b #$0A
-            JSR.w Ancilla_DoSfx2
+            JSR.w Ancilla_DoSFX2
             
         .chain_SFX_delay
         
@@ -224,7 +224,7 @@ Ancilla_Hookshot:
                 .hit_key_door
                 
                 TYA
-                JSR.w Ancilla_DoSfx2
+                JSR.w Ancilla_DoSFX2
     
     .no_extra_tile_collision
     

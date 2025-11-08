@@ -100,11 +100,11 @@ PhantomGanon_Draw:
 }
 
 ; $0E8AA9-$0E8AB5 LOCAL JUMP LOCATION
-Sprite_PeriodicWhirringSfx:
+Sprite_PeriodicWhirringSFX:
 {
     LDA.b $1A : AND.b #$0F : BNE .shadow_flicker
         LDA.b #$06
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
     
     .shadow_flicker
     

@@ -362,7 +362,7 @@ HelmasaurKing_MaybeFireball:
             LDA.b #$7F : STA.w $0E10, X
             
             LDA.b #$2A
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             RTS
         
@@ -433,7 +433,7 @@ HelmasaurKing_SwingTail:
     LDA.w $0EC0, X : BEQ .BRANCH_EPSILON
         LDA.w $0B30 : BNE .BRANCH_ZETA
             LDA.b #$06
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
         
         .BRANCH_ZETA
         
@@ -447,7 +447,7 @@ HelmasaurKing_SwingTail:
                     TYA : EOR.b #$01 : CMP.w $0EB0, X : BNE .BRANCH_EPSILON
                         INC.w $0EC0, X
                         
-                        JSL.l Sound_SetSfxPan : ORA.b #$26 : STA.w $012F
+                        JSL.l Sound_SetSFXPan : ORA.b #$26 : STA.w $012F
     
     .BRANCH_EPSILON
     
@@ -558,7 +558,7 @@ HelmasaurKing_CheckMaskDamageFromHammer:
                     .BRANCH_BETA
                     
                     LDA.b #$05
-                    JSL.l Sound_SetSfx2PanLong
+                    JSL.l Sound_SetSFX2PanLong
     
     .BRANCH_ALPHA
     
@@ -660,7 +660,7 @@ HelmasaurKing_ExplodeMask:
     .make_SFX
     
     LDA.b #$1F
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     RTS
 }

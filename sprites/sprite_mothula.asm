@@ -221,7 +221,7 @@ Mothula_FlapWings:
     LDA.w $0E80, X : LSR : LSR : AND.b #$03 : TAY
     BNE .SFX_delay
         LDA.b #$02
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
     
     .SFX_delay
     
@@ -274,7 +274,7 @@ Pool_Mothula_SpawnBeams:
 Mothula_SpawnBeams:
 {
     LDA.b #$36
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     LDA.b #$02 : STA.w $0FB5
     

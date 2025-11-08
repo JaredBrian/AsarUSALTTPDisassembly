@@ -21,7 +21,7 @@ Sprite_SpikeBlock:
             LDA.w $0D50, X : EOR.b #$FF : INC : STA.w $0D50, X
             
             LDA.b #$05
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
             .no_tile_collision
         .ignore_collision

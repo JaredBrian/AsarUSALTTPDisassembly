@@ -369,7 +369,7 @@ Kiki_DartHead:
         LDA.w .jump_heights, Y : STA.w $0F80, X
         
         LDA.b #$20
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         LDA.w $0D80, X : LSR : AND.b #$01 : ORA.b #$04 : STA.w $0DE0, X
         
@@ -416,7 +416,7 @@ Kiki_HopToSpot:
             LDA.b #$20 : STA.w $0E00, X
             
             LDA.b #$21
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
             RTS
     
@@ -518,7 +518,7 @@ Kiki_SlamButton:
             INC.w $0D80, X
             
             LDA.b #$25
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
     .BRANCH_ALPHA
 

@@ -199,7 +199,7 @@ Pikit_AttemptItemGrab:
                 SEP #$20
                 
                 LDA.w $0DF0, X : CMP.b #$2E : BCS .return
-                    JSL.l Sound_SetSfxPanWithPlayerCoords
+                    JSL.l Sound_SetSFXPanWithPlayerCoords
                     ORA.b #$26 : STA.w $012E
                     
                     JSL.l GetRandomInt : AND.b #$03 : INC : STA.w $0ED0, X

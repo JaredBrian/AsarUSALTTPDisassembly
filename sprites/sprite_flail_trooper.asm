@@ -156,7 +156,7 @@ FlailTrooper_DoubleAnimatePlusSound:
     
     TXA : EOR.b $1A : AND.b #$0F : BNE .return
         LDA.b #$06
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
     
     .return
     

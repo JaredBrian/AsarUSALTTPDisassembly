@@ -32,7 +32,7 @@ Sprite_FairyCloud:
     
     LDA.w $0E80, X : AND.b #$1F : BNE .delay_healing_SFX
         LDA.b #$31
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .delay_healing_SFX
     

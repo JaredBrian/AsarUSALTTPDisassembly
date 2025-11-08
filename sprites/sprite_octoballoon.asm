@@ -216,7 +216,7 @@ Pool_Octoballoon_SpawnTheSpawn:
 Octoballoon_SpawnTheSpawn:
 {
     LDA.b #$0C
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     LDA.b #$05 : STA.b $0D
     

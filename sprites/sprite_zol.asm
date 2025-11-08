@@ -21,7 +21,7 @@ Sprite_Zol:
             .anoself_terminate
 
             LDA.b #$20
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
 
     .skip_initial_collision_check
 
@@ -107,7 +107,7 @@ Zol_PoppingOut:
         
         ; Play popping out of ground SFX.
         LDA.b #$30
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         RTS
 

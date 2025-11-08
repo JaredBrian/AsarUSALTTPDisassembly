@@ -763,7 +763,7 @@ CrumbleTilePath_SpawnCrumbleTileGarnish:
             
             LDA.w $0B08, Y : STA.l $7FF83C, X
             
-            JSL.l Sound_GetFineSfxPan : ORA.b #$1F : STA.w $012E
+            JSL.l Sound_GetFineSFXPan : ORA.b #$1F : STA.w $012E
             
             LDA.w $0B10, Y : STA.l $7FF878, X
             
@@ -819,7 +819,7 @@ Overlord_WallMasterFactory:
         TYX
         
         LDA.b #$20
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         PLX
         
@@ -1003,7 +1003,7 @@ Overlord_StalfosFactory:
     
     LDA.b #$85
     LDY.b #$0C
-    JSL.l Sprite_SpawnDynamically_arbitrary : BMI Overlord_PlayDropSfx_return
+    JSL.l Sprite_SpawnDynamically_arbitrary : BMI Overlord_PlayDropSFX_return
         PHX
         
         LDA.b $2F : LSR : TAX
@@ -1026,12 +1026,12 @@ Overlord_StalfosFactory:
 ; ==============================================================================
 
 ; $04BDFD-$04BE06 LOCAL JUMP LOCATION
-Overlord_PlayDropSfx:
+Overlord_PlayDropSFX:
 {
     PHX : TYX
     
     LDA.b #$20
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     PLX
     
@@ -1088,7 +1088,7 @@ Overlord_StalfosTrap:
             
             LDA.w $0B40, X : STA.w $0F20, Y
             
-            JSR.w Overlord_PlayDropSfx
+            JSR.w Overlord_PlayDropSFX
 
         .spawn_failed
     .delay_spawn
@@ -1140,7 +1140,7 @@ Overlord_BombTrap:
             
             LDA.w $0B40, X : STA.w $0F20, Y
             
-            JSR.w Overlord_PlayFallingFromAboveSfx
+            JSR.w Overlord_PlayFallingFromAboveSFX
             
             LDA.w $0B00, X : STZ.w $0B00, X : CMP.b #$1A : BNE .not_bomb_trap
                 LDA.b #$4A : STA.w $0E20, Y
@@ -1299,7 +1299,7 @@ Overlord_SpawnMetalBall:
         PHX : TYX
         
         LDA.b #$07
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         PLX
     

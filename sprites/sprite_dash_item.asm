@@ -53,7 +53,7 @@ Sprite_DashKey:
         
         AND.b #$FE : BEQ .beta
             LDA.b #$14
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
     .beta
     
@@ -107,7 +107,7 @@ DashKey_GiveToPlayer:
     LDA.w $0403 : ORA.w .room_flag, Y : STA.w $0403
     
     LDA.b #$2F
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     RTS
 }
@@ -139,7 +139,7 @@ Sprite_DashBookOfMudora:
         LDA.w $0F80, X : EOR.b #$FF : INC : LSR : LSR : STA.w $0F80, X
         AND.b #$FE : BEQ .beta
             LDA.b #$21
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
     .beta
     

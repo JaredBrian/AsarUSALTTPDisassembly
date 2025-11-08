@@ -752,7 +752,7 @@ SomarianBlock_PlayerInteraction:
                     JSL.l Player_HaltDashAttackLong
                     
                     LDA.b #$32
-                    JSR.w Ancilla_DoSfx3
+                    JSR.w Ancilla_DoSFX3
                     
                     BRL SomarianBlock_InitDashBounce
             
@@ -817,7 +817,7 @@ SomarianBlock_PlayerInteraction:
                 LDA.w $0308 : AND.b #$80 : BNE .no_push_SFX
                     INC.w $038A, X : STA.w $038A, X
                     AND.b #$07 : BNE .no_push_SFX
-                        LDA.b $22 : JSR.w Ancilla_DoSfx2
+                        LDA.b $22 : JSR.w Ancilla_DoSFX2
                 
                 .no_push_SFX
             .no_tile_collision
@@ -875,7 +875,7 @@ SomarianBlock_ContinueDashBounce:
     
     ; Play plopping on the ground noise when it hits the ground.
     LDA.b #$21
-    JSR.w Ancilla_DoSfx2
+    JSR.w Ancilla_DoSFX2
     
     ; Force altitude to zero.
     STZ.w $029E, X

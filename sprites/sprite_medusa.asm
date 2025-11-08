@@ -28,7 +28,7 @@ Sprite_Medusa:
             LDA.w $0D00, X : SBC.b #$07 : STA.w $0D00, X
             
             LDA.b #$19
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             LDA.b #$80 : STA.w $0CAA, X
         

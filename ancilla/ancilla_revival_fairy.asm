@@ -76,7 +76,7 @@ Ancilla_RevivalFairy:
             
             ; Sprinkling fairy dust sound.
             LDA.b #$31
-            JSR.w Ancilla_DoSfx2
+            JSR.w Ancilla_DoSFX2
             
         .dont_initiate_sprinkle
         

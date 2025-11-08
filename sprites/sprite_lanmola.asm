@@ -76,7 +76,7 @@ Lanmola_Wait:
         
         ; Play rumbling sound.
         LDA.b #$35
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .delay
     
@@ -337,7 +337,7 @@ Lanmola_Death:
             LDA.b #$0C : STA.w $0F50, Y
             
             LDA.b #$0C
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
             LDA.l $7FF81E, X : BMI .beta
                 DEC : STA.l $7FF81E, X

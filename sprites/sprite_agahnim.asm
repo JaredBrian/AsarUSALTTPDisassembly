@@ -100,7 +100,7 @@ Agahnim_SpinToPyramid:
             STZ.w $0E80, X
             
             LDA.b #$04
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
         
     .BRANCH_DELTA
     
@@ -374,7 +374,7 @@ AttachThenFadeToBlack:
         PHA
         
         LDA.b #$27
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         PLA
     
@@ -554,7 +554,7 @@ DoLightningAttack:
         STZ.w $0E30, X
         
         LDA.b #$26
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         JSR.w .spawn_2
         
@@ -572,7 +572,7 @@ DoLightningAttack:
     
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$29
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         PHX
         

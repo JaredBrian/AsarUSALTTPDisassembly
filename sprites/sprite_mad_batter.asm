@@ -67,7 +67,7 @@ MadBatter_WaitForSummoning:
             JSL.l Sprite_SpawnSuperficialBombBlast
             
             LDA.b #$0D
-            JSL.l Sound_SetSfx1PanLong
+            JSL.l Sound_SetSFX1PanLong
             
             INC.w $0D80, X
             

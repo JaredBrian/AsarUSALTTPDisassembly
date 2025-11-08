@@ -65,7 +65,7 @@ ArmosCrusher_RetargetPlayer:
         LDA.b $21 : STA.w $0EB0, X
         
         LDA.b #$20
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
     .delay
     
@@ -141,7 +141,7 @@ ArmosCrusher_Crush:
         STZ.w $0ED0, X
         
         LDA.b #$0C
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         LDA.b #$20 : STA.w $0F10, X
     

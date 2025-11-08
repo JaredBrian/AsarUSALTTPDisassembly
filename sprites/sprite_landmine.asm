@@ -47,7 +47,7 @@ Landmine_Detonating:
             
             LDA.b #$03 : STA.w $0E40, Y
             
-            JSL.l Sound_SetSfxPan : ORA.b #$0C : STA.w $012E
+            JSL.l Sound_SetSFXPan : ORA.b #$0C : STA.w $012E
             
         .spawn_failed
         

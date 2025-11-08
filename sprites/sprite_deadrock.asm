@@ -48,7 +48,7 @@ Sprite_DeadRock:
         JSR.w Sprite_CheckDamageFromPlayer : BCC .anoplay_SFX
             LDA.w $012E : BNE .anoplay_SFX
                 LDA.b #$0B
-                JSL.l Sound_SetSfx2PanLong
+                JSL.l Sound_SetSFX2PanLong
     
     .anoplay_SFX
     

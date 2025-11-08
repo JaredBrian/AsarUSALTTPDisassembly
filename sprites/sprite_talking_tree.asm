@@ -60,7 +60,7 @@ TalkingTree_IdleWithBomb:
         LDA.b $01 : STA.b $28
         
         LDA.b #$32
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         INC.w $0D80, X
         

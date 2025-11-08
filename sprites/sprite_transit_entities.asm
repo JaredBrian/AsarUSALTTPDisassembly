@@ -975,7 +975,7 @@ Pipe_DragPlayerAlong:
             CMP.b #$B6 : BCS .BRANCH_BETA
                 
                 LDA.b #$0B
-                JSL.l Sound_SetSfx2PanLong
+                JSL.l Sound_SetSFX2PanLong
             
             .BRANCH_BETA
             

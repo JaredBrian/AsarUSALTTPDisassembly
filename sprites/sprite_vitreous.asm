@@ -172,7 +172,7 @@ Vitreous_PursuePlayer:
         
         JSL.l Sprite_ApplySpeedTowardsPlayerLong
         
-        LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$21 : JSL.l Sound_SetSFX2PanLong
     
     .aloft
     

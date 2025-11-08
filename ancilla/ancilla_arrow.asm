@@ -111,7 +111,7 @@ Ancilla_Arrow:
     
     LDA.w $0E20, Y : CMP.b #$1B : BEQ .hit_enemy_arrow_no_SFX
         LDA.b #$08
-        JSR.w Ancilla_DoSfx2
+        JSR.w Ancilla_DoSFX2
     
     .hit_enemy_arrow_no_SFX
     

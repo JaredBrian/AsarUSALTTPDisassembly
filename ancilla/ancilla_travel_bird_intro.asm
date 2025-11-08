@@ -20,7 +20,7 @@ Ancilla_TravelBirdIntro:
     ; Check the frame index.
     LDA.b $1A : AND.b #$1F : BNE .no_flutter_SFX
         LDA.b #$1E
-        JSR.w Ancilla_DoSfx3
+        JSR.w Ancilla_DoSFX3
         
     .no_flutter_SFX
     

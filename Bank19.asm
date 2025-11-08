@@ -286,7 +286,8 @@ SPCEngine:
         ; Set the stack pointer.
         mov.b X, #$CF : mov SP, X
 
-        ; Clear $0000-$00E0 in ARAM.
+        ; Clear $0000-$00DF in ARAM.
+        ; TODO: Why not $E0-$EF?
         mov.b A, #$00 : mov X, A
 
         .zeroing_loop_1
@@ -294,48 +295,52 @@ SPCEngine:
             mov (X+), A
         cmp.b X, #$E0 : bne .zeroing_loop_1
 
+        ; TODO: Why not $0100 to $01FF?
+
         mov.b X, #$00
 
-        ; Clear $0200-$0300 in ARAM.
+        ; Clear $0200-$02FF in ARAM.
         .zeroing_loop_2
 
             mov.w $0200+X, A
+        inc X : bne .zeroing_loop_2
 
-            inc X
-        bne .zeroing_loop_2
-
-        ; Clear $0300-$0400 in ARAM.
+        ; OPTIMIZE: This could have been done at the same time as the other loop.
+        ; Clear $0300-$03FF in ARAM.
         .zeroing_loop_3
 
             mov.w $0300+X, A
-
-            inc X
-        bne .zeroing_loop_3
+        inc X : bne .zeroing_loop_3
 
         ; A = 1
         inc A
         call ConfigureEcho
 
+        ; Disable echo buffer writes.
         set5.b $48
 
+        ; Set the left main volume.
         mov.b A, #$60
         mov.b Y, #DSP.MVOLL
         call WriteToDSP
 
+        ; Set the right main volume.
         mov.b Y, #DSP.MVOLR
         call WriteToDSP
 
+        ; Tell the DSP the high byte of where the BRR samples are.
         mov.b A, #SAMPLE_POINTERS>>8
         mov.b Y, #DSP.DIR
         call WriteToDSP
 
-        ; Set $FFC0 to ROM, clear ports 0123, stop timer 0
+        ; Set $FFC0 to ROM, clear ports 0123, stop timer 0.
         mov.b A, #$F0 : mov.w SMP.CONTROL, A
 
-        mov.b A, #$10 : mov.w SMP.T0DIV, A
+        ; Set the timer 0 target and the tempo.
+        mov.b A, #$10 : mov.w SMP.T0TARGET, A
                         mov.b $53, A
 
-        ; Start timer 0
+        ; Start timer 0.
         mov.b A, #$01 : mov.w SMP.CONTROL, A
 
         ; Bleeds into the next function.
@@ -347,99 +352,132 @@ SPCEngine:
     ; $0CFC12-$0CFCB0 DATA
     Engine_Main:
     {
+        ; Check 0x0A register "queues" to see if we need to send any updates
+        ; to the DSP. DSP.KOFF is written to twice, once from its queue at $46
+        ; and another time from $0E which is always 0.
         mov.b Y, #$0A
 
         .next_register
 
+            ; Always update the DSP.FLG register.
             cmp.b Y, #$05 : beq .FLG_register
                 bcs .not_echo_register
+                    ; If it is an echo register, don't update it if there
+                    ; is not a different echo delay.
                     cmp.b $4C, $4D : bne .skip
 
             .FLG_register
 
+            ; If bit 7 is set in the echo timer, don't update the
+            ; DSP.FLG register or any of the echo registers.
             bbs7.b $4C, .skip
                 .not_echo_register
 
+                ; Choose the DSP register to write to.
                 mov.w A, RegisterList-1+Y : mov.w SMP.DSPADDR, A
 
+                ; Choose the RAM value to get the value we will write to the
+                ; DSP register.
                 mov.w A, LoadValueFrom-1+Y : mov X, A
                 mov A, (X) : mov.w SMP.DSPDATA, A
 
             .skip
         dbnz Y, .next_register
 
+        ; Set both the key on and key off queues to 0.
         mov.b $45, Y
         mov.b $46, Y
 
+        ; OPTIMIZE: Do a bunch of math that seemingly has not impact on
+        ; anything else. $18 and $19 seem to be junk.
         mov.b A, $18 : eor.b A, $19 : lsr A : lsr A
-
-        notc
-        ror.b $18
-        ror.b $19
+        notc : ror.b $18 : ror.b $19
 
         .timer_wait
 
-            mov.w Y, SMP.T0OUT
-        beq .timer_wait
+            ; Wait for SMP timer 0 to not be 0.
+        mov.w Y, SMP.T0OUT : beq .timer_wait
 
         push Y
 
+        ; SMP.T0OUT * #$38
+        ; If the result added is greater than 0xFF, we need to take new SFX
+        ; and ambient input from the 5A22 and handle the current ambient/SFX.
         mov.b A, #$38
-        mul YA : clrc : adc.b A, $43 : mov.b $43, A : bcc .wait_for_SFX
-            call Handle_SFX1
-            call HandleInput_SFX1
+        mul YA : clrc : adc.b A, $43 : mov.b $43, A
+                                       bcc .wait_for_SFX
+            call Handle_Ambient
+            call HandleInput_Ambient
 
+            ; Check for new Ambient input.
             mov.b X, #$01
             call Synchronize
 
             call Handle_SFX2
             call HandleInput_SFX2
 
+            ; Check for new SFX2 input.
             mov.b X, #$02
             call Synchronize
 
             call Handle_SFX3
             call HandleInput_SFX3
 
+            ; Check for new SFX3 input.
             mov.b X, #$03
             call Synchronize
 
             cmp.b $4C, $4D : beq .wait_for_SFX
-                inc.w $03C7 : mov.w A, $03C7
-                lsr A : bcs .wait_for_SFX
+                ; Every other frame:
+                inc.w $03C7
+                mov.w A, $03C7 : lsr A : bcs .wait_for_SFX
+                    ; Incrament the echo timer.
                     inc.b $4C
 
         .wait_for_SFX
 
+        ; SMP.T0OUT * Tempo
+        ; If the result added is greater than 0xFF, we need to take new song
+        ; input from the 5A22 and handle the current song.
         mov.b A, $53
         pop Y
         mul YA
         clrc : adc.b A, $51 : mov.b $51, A
                               bcc .ignore_tracker
+            ; TODO: Verify.
+            ; Handle the next note in the current song.
             call HandleInput_Song
 
+            ; Check for new song input.
             mov.b X, #$00
             call Synchronize
 
+            ; TODO: I think this means that we always skip the "fancy" effects
+            ; on the first frame of the note.
             jmp Engine_Main
 
         .ignore_tracker
 
+        ; Are we currently playing a song?
         mov.b A, $04 : beq .no_song
             mov.b X, #$00
             mov.b $47, #$01
 
             .next_track
 
+                ; Is this channel enabled?
                 mov.b A, $31+X : beq .skip_voice
+                    ; If so, even though we haven't hit the next note, we still
+                    ; need to handle the special effects like tremelo, vibrato,
+                    ; pitch slides and echo.
                     call BackgroundTasks
 
                 .skip_voice
 
                 inc X : inc X
-
-                asl.b $47
-            bne .next_track
+            ; TODO: Verify.
+            ; Go until we find a channel that is disabled.
+            asl.b $47 : bne .next_track
 
         .no_song
 
@@ -452,10 +490,13 @@ SPCEngine:
     ; $0CFCB1-$0CFCCF DATA
     Synchronize:
     {
-        mov.b A, $04+X : mov.w CPUIO0+X, A
+        ; Tell the 5A22 the current song or SFX being played.
+        mov.b A, $04+X : mov.w SMP.CPUIO0+X, A
 
         .wait
 
+            ; Just in case the 5A22 was in the process of writing a new song
+            ; or SFX to the APU, check it again to make sure it didn't change.
             mov.w A, SMP.CPUIO0+X
         cmp.w A, SMP.CPUIO0+X : bne .wait
 
@@ -464,14 +505,17 @@ SPCEngine:
 
         .dumb
 
+        ; Check if we are already playing that same song/SFX.
         mov.b A, $08+X
         mov.b $08+X, Y : cbne.b $08+X, .change
+            ; If we are playing the same thing, don't play it again.
             mov.b Y, #$00 : mov.b $00+X, Y
 
             ret
 
         .change
 
+        ; Set the input song or SFX to the new song/SFX from the 5A22.
         mov.b $00+X, Y
 
         ; SPC $0901 ALTERNATE ENTRY POINT
@@ -2263,6 +2307,8 @@ SPCEngine:
         .set_point_wait
 
         inc.b $B0+X
+
+        ; Bleeds into the next function.
     }
 
     ; ==========================================================================
@@ -2442,34 +2488,32 @@ SPCEngine:
     ; $0D057B-$0D0584 DATA
     RegisterList:
     {
-        db EVOLL
-        db EVOLR
-        db EFB
-        db EON
-        db FLG
-        db KON
-        db KOFF
-        db NON
-        db PMON
-        db KOFF
+        db DSP.EVOLL
+        db DSP.EVOLR
+        db DSP.EFB
+        db DSP.EON
+        db DSP.FLG
+        db DSP.KON
+        db DSP.KOFF
+        db DSP.NON
+        db DSP.PMON
+        db DSP.KOFF
     }
-
-    ; ==========================================================================
 
     ; SPC $11B7-$11C0 DATA
     ; $0D0585-$0D058E DATA
     LoadValueFrom:
     {
-        db $61 ; EVOLL
-        db $63 ; EVOLR
-        db $4E ; EFB
-        db $4A ; EON
-        db $48 ; FLG
-        db $45 ; KON
-        db $0E ; KOFF
-        db $49 ; NON
-        db $4B ; PMON
-        db $46 ; KOFF
+        db $61 ; DSP.EVOLL
+        db $63 ; DSP.EVOLR
+        db $4E ; DSP.EFB
+        db $4A ; DSP.EON
+        db $48 ; DSP.FLG
+        db $45 ; DSP.KON
+        db $0E ; DSP.KOFF
+        db $49 ; DSP.NON
+        db $4B ; DSP.PMON
+        db $46 ; DSP.KOFF
     }
 
     ; ==========================================================================
@@ -2514,61 +2558,82 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; This is similar to the SMP boot ROM. Its purpose to communicate with the
+    ; 5A22 when transmitting new song banks.
     ; SPC $11E6-$1231 JUMP LOCATION
     ; $0D05B4-$0D05FF DATA
     Data_Loader:
     {
+        ; Tell the 5A22 we are ready for a transfer.
         mov.b A, #$AA : mov.w SMP.CPUIO0, A
-
         mov.b A, #$BB : mov.w SMP.CPUIO1, A
 
         .wait_data_start
 
-            ; Loop
+            ; Wait for the 5A22 to reply back.
         mov.w A, SMP.CPUIO0 : cmp.b A, #$CC : bne .wait_data_start
 
         bra .begin_transfer
 
         .loop
 
+                ; Wait for the 5A22 to reply with #$00 to use as the starting
+                ; address.
                 mov.w Y, SMP.CPUIO0
             bne .loop
 
             .reread
 
-                cmp.w Y, SMP.CPUIO0 : bne .coherence_error
+                ; Check if the 5A22 has updated the index yet.
+                cmp.w Y, SMP.CPUIO0 : bne .indexDoesntMatch
+                    ; If it has update the index, grab the next byte and
+                    ; store it.
+
+                    ; Grab the next byte.
                     mov.w A, SMP.CPUIO1
+
+                    ; Send the index back to the 5A22 to let it know its been
+                    ; recieved.
                     mov.w SMP.CPUIO0, Y
+
+                    ; Store the byte to the set ARAM adress.
                     mov.b ($14)+Y, A
 
-                    inc Y
-                    bne .reread
+                    ; Increase the address high byte if need be.
+                    inc Y : bne .reread
                         inc.b $15
 
                         bra .reread
 
-                .coherence_error
+                .indexDoesntMatch
 
                 bpl .reread
+
+            ; If "next byte/end" is more than the expected next byte index,
+            ; drop back into the main loop.
             cmp.w Y, SMP.CPUIO0 : bpl .reread
 
             .begin_transfer
 
+            ; This will be the ARAM address to transfer to.
             mov.w A, SMP.CPUIO2
             mov.w Y, SMP.CPUIO3
             movw.b $14, YA
 
+            ; Get a byte that we need to send back to the 5A22 later.
             mov.w Y, SMP.CPUIO0
+
+            ; Get the mode. If 0, we do not have any more data to transfer.
             mov.w A, SMP.CPUIO1
 
-            ; TODO: Why move Y back into CPUIO0? Probably because it will set
-            ; the Zero flag again. Verify.
+            ; Send the byte back so the 5A22 to let it know we've received the
+            ; transfer address and mode.
             mov.w SMP.CPUIO0, Y
+        ; See if we have another block to transfer.
         bne .loop
 
-        ; clear ports 0123, start timer 0
-        mov.b X, #$31
-        mov.w SMP.CONTROL, X
+        ; Clear ports 0123, start timer 0.
+        mov.b X, #$31 : mov.w SMP.CONTROL, X
 
         ret
     }
@@ -2704,7 +2769,7 @@ SPCEngine:
 
     ; SPC $12FF-$136C JUMP LOCATION
     ; $0D06CD-$0D073A DATA
-    InitSFX1:
+    InitAmbient:
     {
         mov.b $05, A : cmp.b A, #$05 : bne .initialize
             mov.w X, $03CF : bne .initialize
@@ -2726,8 +2791,8 @@ SPCEngine:
         set7.b $1A
 
         mov.b X, $01
-        mov.w A, SFX1_Accomp-1+X : mov.b $01, A
-                                   bne .also_use_chan_6
+        mov.w A, Ambient_Accomp-1+X : mov.b $01, A
+                                      bne .also_use_chan_6
             ret
 
         .also_use_chan_6
@@ -2747,7 +2812,6 @@ SPCEngine:
         or.w A, $03E3 : mov.w $03E3, A
 
         mov.b A, #$3F : and.w A, $03CB : mov.w $03CB, A
-
         mov.b A, #$3F : and.w A, $03CD : mov.w $03CD, A
 
         ret
@@ -2757,13 +2821,13 @@ SPCEngine:
 
     ; SPC $136D-$1380 JUMP LOCATION
     ; $0D073B-$0D074E DATA
-    HandleInput_SFX1:
+    HandleInput_Ambient:
     {
-        mov.b A, $01 : bmi .SFX1_negative
-            bne InitSFX1
+        mov.b A, $01 : bmi .Ambient_negative
+            bne InitAmbient
                 ret
 
-        .SFX1_negative
+        .Ambient_negative
 
         mov.b $05, A
 
@@ -2780,12 +2844,12 @@ SPCEngine:
 
     ; SPC $1381-$13B6 JUMP LOCATION
     ; $0D074F-$0D0784 DATA
-    SFX1_FadeHandler:
+    Ambient_FadeHandler:
     {
         dec.w $03E4
         mov.w A, $03E4 : bne .still_fading
             mov.b A, #$05 :  mov.b $01, A
-            call InitSFX1_initialize
+            call InitAmbient_initialize
 
             mov.b A, #$00 : mov.b $01, A
 
@@ -2809,7 +2873,7 @@ SPCEngine:
         mov.w A, $03E5
         call WriteToDSP
 
-        jmp Handle_SFX1_no_fadeout
+        jmp Handle_Ambient_no_fadeout
     }
 
     ; ==========================================================================
@@ -2902,10 +2966,10 @@ SPCEngine:
 
     ; SPC $1445-$14AC JUMP LOCATION
     ; $0D0813-$0D087A DATA
-    Handle_SFX1:
+    Handle_Ambient:
     {
         mov.w A, $03E4 : beq .no_fadeout
-            jmp SFX1_FadeHandler
+            jmp Ambient_FadeHandler
 
         .no_fadeout
 
@@ -2949,9 +3013,9 @@ SPCEngine:
         .initialize
 
         mov.w A, $03A0+X : asl A : mov Y, A
-        mov.w A, SFX1_Pointers-1+Y : mov.w $0391+X, A
+        mov.w A, Ambient_Pointers-1+Y : mov.w $0391+X, A
                                      mov.b $2D, A
-        mov.w A, SFX1_Pointers-2+Y : mov.w $0390+X, A
+        mov.w A, Ambient_Pointers-2+Y : mov.w $0390+X, A
                                      mov.b $2C, A
 
         jmp SFXControl_process_byte
@@ -3119,15 +3183,15 @@ SPCEngine:
     ; $0D09A8-$0D09C6 DATA
     DisableSFX:
     {
-        mov.w A, $03C1 : and.w A, $03CF : bne .used_by_SFX_1
+        mov.w A, $03C1 : and.w A, $03CF : bne .used_by_ambient
             mov.w A, $03C1 : and.w A, $03CB : bne .used_by_SFX_2
                 call ResumeMusic
                 jmp Handle_SFX3_to_next_channel
 
-        .used_by_SFX_1
+        .used_by_ambient
 
         call ResumeMusic
-        jmp Handle_SFX1_to_next_channel
+        jmp Handle_Ambient_to_next_channel
 
         .used_by_SFX_2
 
@@ -3172,7 +3236,7 @@ SPCEngine:
                 mov.b A, ($2C+X) : mov.b $10, A
                                    bmi .note_or_command
                     mov X, A
-                    mov.w A, $03C1 : and.w A, $03CF : beq .not_SFX_1
+                    mov.w A, $03C1 : and.w A, $03CF : beq .ambient
                         mov A, X : beq .zero_byte
                             mov.w X, $03E5 : bne .next_byte_2
 
@@ -3201,7 +3265,7 @@ SPCEngine:
 
                         bra .next_byte_2
 
-                    .not_SFX_1
+                    .ambient
 
                     mov A, X
                     mov.w X, $03C0
@@ -3248,7 +3312,7 @@ SPCEngine:
                     ; SFX loop trigger
                     cmp.b A, #$FF : bne .not_loop
                         mov.w X, $03C0
-                        jmp Handle_SFX1_initialize
+                        jmp Handle_Ambient_initialize
 
                     .not_loop
 
@@ -3288,13 +3352,13 @@ SPCEngine:
                     mov.b A, $2D : mov.w $0391+X, A
                     mov.b A, $2C : mov.w $0390+X, A
 
-                    mov.w A, $03C1 : and.w A, $03CF : bne .on_SFX_1
+                    mov.w A, $03C1 : and.w A, $03CF : bne .ambient
                         mov.w A, $03C1 : and.w A, $03CB : bne .on_SFX_2
                             jmp Handle_SFX3_to_next_channel
 
-                    .on_SFX_1
+                    .ambient
 
-                    jmp Handle_SFX1_to_next_channel
+                    jmp Handle_Ambient_to_next_channel
 
                     .on_SFX_2
                     

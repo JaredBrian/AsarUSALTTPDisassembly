@@ -72,7 +72,7 @@ StalfosKnight_WaitingForPlayer:
         LDA.b #$02 : STA.w $0DC0, X
         
         LDA.b #$20
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
     .didnt_touch
     
@@ -235,7 +235,7 @@ StalfosKnight_HopAround:
             TYA : STA.w $0EB0, X
             
             LDA.b #$13
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
         
         .BRANCH_BETA
         
@@ -320,7 +320,7 @@ StalfosKnight_Crumble:
     CMP.b #$E0 : BCC .BRANCH_EPSILON
         PHA : AND.b #$03 : BNE .BRANCH_ZETA
             LDA.b #$14
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
         
         .BRANCH_ZETA
         

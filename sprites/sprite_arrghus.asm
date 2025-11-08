@@ -148,7 +148,7 @@ Arrghus_SmooshFromAbove:
                 LDA.b #$20 : STA.w $0DF0, X
                 
                 LDA.b #$03
-                JSL.l Sound_SetSfx3PanLong
+                JSL.l Sound_SetSFX3PanLong
                 
                 LDA.b #$20 : STA.w $0D50, X
                              STA.w $0D40, X
@@ -158,7 +158,7 @@ Arrghus_SmooshFromAbove:
     
     DEC : BNE .dont_play_falling_sound
         LDA.b #$20
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .dont_play_falling_sound
     
@@ -179,7 +179,7 @@ Arrghus_SwimFrantically:
         
         LDA.b $1A : AND.b #$07  BNE .garnish_delay
             LDA.b #$28
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
             PHX : TXY
             
@@ -291,7 +291,7 @@ Arrghus_InitiateJumpWayUp:
     LDA.b #$03 : STA.w $0D80, X
     
     LDA.b #$32
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     STZ.w $0E80, X
     
@@ -376,7 +376,7 @@ Arrghus_PuffAttack:
         
         .play_sound_effect
         
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
     
     .sound_effect_delay
     

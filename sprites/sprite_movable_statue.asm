@@ -83,7 +83,7 @@ Statue_HandleGrab:
     LDA.w $0E70, X : AND.b #$0F : BNE .BRANCH_THETA
         LDA.w $0F10, X : BNE .BRANCH_THETA
             LDA.b #$22
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
                     
             LDA.b #$08 : STA.w $0F10, X
             

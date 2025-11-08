@@ -10,7 +10,7 @@ Sprite_Octostone:
         
         LDA.w $0DF0, X : CMP.b #$1E : BNE .dont_play_crumble_SFX
             LDA.b #$1F
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
         
         .dont_play_crumble_SFX
         

@@ -64,7 +64,7 @@ Ancilla_TransmuteToObjectSplash:
     LDA.w $0C18, X       : ADC.b #$FF : STA.w $0C18, X
     
     LDA.b #$28
-    JSR.w Ancilla_DoSfx2
+    JSR.w Ancilla_DoSFX2
 
     ; Bleeds into the next function.
 }

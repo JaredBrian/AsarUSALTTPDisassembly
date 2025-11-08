@@ -89,7 +89,7 @@ Sprite_Apple:
         
         JSR.w Sprite3_CheckDamageToPlayer : BCC .no_player_collision
             LDA.b #$0B
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             ; Fill in the player's life meter by 8 points (1 heart).
             LDA.l $7EF372 : CLC : ADC.b #$08 : STA.l $7EF372

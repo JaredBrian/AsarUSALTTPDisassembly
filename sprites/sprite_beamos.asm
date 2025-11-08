@@ -100,7 +100,7 @@ Beamos_FireBeam:
 {
     LDA.w $0B6A : CMP.b #$04 : BCS Sprite_Beamos_easy_out
         LDA.b #$61 : JSL.l Sprite_SpawnDynamically : BMI Sprite_Beamos_easy_out
-            LDA.b #$19 : JSL.l Sound_SetSfx3PanLong
+            LDA.b #$19 : JSL.l Sound_SetSFX3PanLong
             
             PHX
             
@@ -416,7 +416,7 @@ Sprite_BeamosLaser:
     .player_collision
     
     LDA.b #$26
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     LDA.b #$10 : STA.w $0DF0, X
     

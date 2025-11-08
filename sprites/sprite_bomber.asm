@@ -34,7 +34,7 @@ BomberPellet_Falling:
         INC.w $0E40, X
         
         LDA.b #$0C
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .aloft
     
@@ -282,7 +282,7 @@ Bomber_SpawnPellet:
 {
     LDA.b #$A8 : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$20
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         LDA.b $04 : STA.w $0F70, Y
         

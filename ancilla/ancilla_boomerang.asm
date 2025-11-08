@@ -28,7 +28,7 @@ Ancilla_Boomerang:
         ; Every 8 frames play the whirling sound effect of the boomerang.
         LDA.b $1A : AND.b #$07 : BNE .no_whirling_sound
             LDA.b #$09
-            JSR.w Ancilla_DoSfx2
+            JSR.w Ancilla_DoSFX2
         
         .no_whirling_sound
         
@@ -162,7 +162,7 @@ Ancilla_Boomerang:
                 .not_key_door
                 
                 TYA
-                JSR.w Ancilla_DoSfx2
+                JSR.w Ancilla_DoSFX2
                 
                 BRA .reverse_seek_polarity
                 

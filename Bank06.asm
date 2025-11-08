@@ -82,7 +82,7 @@ BottleVendor_SpawnFishRewards:
     PHB : PHK : PLB
     
     LDA.b #$13
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     LDA.b #$04 : STA.w $0FB5
     
@@ -270,7 +270,7 @@ Sprite_SpawnThrowableTerrain:
 {
     PHA
     
-    JSL.l Sound_SetSfxPanWithPlayerCoords
+    JSL.l Sound_SetSFXPanWithPlayerCoords
     
     ORA.b #$1D : STA.w $012E
     
@@ -3343,7 +3343,7 @@ SpriteHeld_ThrowQuery:
         .coerced_throw
         
         LDA.b #$13
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         LDA.b #$02 : STA.w $0309
         
@@ -3432,7 +3432,7 @@ ThrownSprite_TileAndPeerInteraction:
         LDA.w $0DD0, X : CMP.b #$0B : BNE .not_frozen
             ; Play clink sound because frozen sprite hit a wall.
             LDA.b #$05
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
 
         .not_frozen
     .no_tile_collision
@@ -3518,7 +3518,7 @@ Sprite_SetToFalling:
     STZ.w $012E
     
     LDA.b #$20
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     RTS
 }
@@ -3562,7 +3562,7 @@ ThrownSprite_PeerInteraction_not_pit_or_too_high:
 ; $0360F6-$036163 JUMP LOCATION
 ThrownSprite_PeerInteraction_plop_in_water:
 {
-    JSL.l Sound_SetSfxPan : ORA.b #$28 : STA.w $012E
+    JSL.l Sound_SetSFXPan : ORA.b #$28 : STA.w $012E
     
     LDA.b #$03 : STA.w $0DD0, X
     
@@ -3771,7 +3771,7 @@ ThrowableScenery_TransmuteToDebris:
         
     STZ.w $012E
         
-    LDA.w ThrownItemSFX, Y : JSL.l Sound_SetSfx2PanLong
+    LDA.w ThrownItemSFX, Y : JSL.l Sound_SetSFX2PanLong
 
     ; Bleeds into the next function.
 }
@@ -5678,7 +5678,7 @@ Ancilla_CheckSpriteDamage:
             STZ.w $012E
             
             LDA.b #$05
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
 
     .dont_spawn_repulse_spark
 
@@ -5828,7 +5828,7 @@ Sprite_ApplyCalculatedDamage:
         
         STZ.w $012F
         
-        LDA.b #$32 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$32 : JSL.l Sound_SetSFX3PanLong
         
         JMP.w Sprite_Clear_queued_damage
     
@@ -5888,7 +5888,7 @@ Sprite_ApplyCalculatedDamage:
             LDA.b #$0F : STA.w $0DF0, X
             
             LDA.b #$28
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
             RTL
     
@@ -5900,7 +5900,7 @@ Sprite_ApplyCalculatedDamage:
         .SpriteArrow_Break
         
         LDA.b #$05
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         JSR.w Sprite_ScheduleForBreakage
         JSL.l Sprite_PlaceRupulseSpark
@@ -5929,7 +5929,7 @@ Sprite_ApplyCalculatedDamage:
     .minor_damage_sound
     .boss_damage_sound
     
-    STY.b $01 : JSL.l Sound_SetSfxPan : ORA.b $01 : STA.w $012F
+    STY.b $01 : JSL.l Sound_SetSFXPan : ORA.b $01 : STA.w $012F
     
     .no_sound_effect
     
@@ -5981,7 +5981,7 @@ Sprite_HandleSpecialHits:
             STZ.w $0CE2, X
             
             LDA.b #$09
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             LDA.b #$07 : STA.w $0DD0, X
             LDA.b #$70 : STA.w $0DF0, X
@@ -6017,7 +6017,7 @@ Sprite_HandleSpecialHits:
                 ASL.w $0BE0, X : LSR.w $0BE0, X
                 
                 LDA.b #$0F
-                JSL.l Sound_SetSfx2PanLong
+                JSL.l Sound_SetSFX2PanLong
                 
                 LDA.b #$18 : STA.w $0F80, X
                 
@@ -6081,7 +6081,7 @@ Sprite_HandleSpecialHits:
     .BRANCH_GAMMA
     
     LDY.w $0E20, X : CPY.b #$1B : BEQ .BRANCH_EPSILON
-        LDA.b #$09 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$09 : JSL.l Sound_SetSFX3PanLong
     
     .BRANCH_EPSILON
     
@@ -6253,7 +6253,7 @@ Sprite_BossScreamAndDisableMenu:
 
     STZ.w $012F
     
-    LDA.b #$22 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$22 : JSL.l Sound_SetSFX3PanLong
     
     RTS
 }
@@ -6481,14 +6481,14 @@ Sprite_CheckDamageToPlayer:
                                             LDY.w $0DE0, X
                                             CMP.w Sprite_ToLink_Directions_opposing2, Y : BNE .BRANCH_ZETA
                                                 LDA.b #$06
-                                                JSL.l Sound_SetSfx2PanLong
+                                                JSL.l Sound_SetSFX2PanLong
                                                 
                                                 JSL.l Sprite_PlaceRupulseSpark_coerce
                                                 
                                                 ; Check if it's one of those laser eyes.
                                                 LDA.w $0E20, X : CMP.b #$95 : BNE .not_laser_eye
                                                     LDA.b #$26
-                                                    JSL.l Sound_SetSfx3PanLong
+                                                    JSL.l Sound_SetSFX3PanLong
         
     .no_damage
     
@@ -6629,7 +6629,7 @@ Sprite_CheckIfLiftedPermissive:
                 
         ; Play pick up object sound.
         LDA.b #$1D
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
                 
         LDA.w $0DD0, X : STA.l $7FFA2C, X
                 
@@ -6706,7 +6706,7 @@ Sprite_CheckDamageFromPlayer:
                                     LDA.w $0E40, X : AND.b #$E0 : ORA.b #$03 : STA.w $0E40, X
                                     
                                     LDA.b #$1F
-                                    JSL.l Sound_SetSfx2PanLong
+                                    JSL.l Sound_SetSFX2PanLong
                                     
                                     SEC
                                     
@@ -6766,7 +6766,7 @@ Sprite_CheckDamageFromPlayer:
             
             ; I don't think this would play a sound at all, actually...
             LDA.b #$32
-            JSL.l Sound_SetSfxPan : STA.w $012F
+            JSL.l Sound_SetSFXPan : STA.w $012F
             
             JMP.w .place_tink
     
@@ -6928,7 +6928,7 @@ Sprite_RecoilLinkAndTHUMP:
     LDA.b #$10 : STA.b $46
     
     LDA.b #$21
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     LDA.b #$30 : STA.w $0E00, X
     
@@ -7466,7 +7466,7 @@ Player_PlaceRepulseSpark:
         
         LDA.b $EE : STA.w $0B68
         
-        JSL.l Sound_SetSfxPanWithPlayerCoords
+        JSL.l Sound_SetSFXPanWithPlayerCoords
         
         ; Make "clink" against wall noise.
         ORA.b #$05 : STA.w $012E
@@ -7482,7 +7482,7 @@ Player_PlaceRepulseSpark:
 Sprite_PlaceRupulseSpark:
 {
     LDA.w $0FAC : BNE .dont_place
-        LDA.b #$05 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$05 : JSL.l Sound_SetSFX2PanLong
         
         ; NOTE: This entry point ignores whether there is already a repulse
         ; spark active (as there's only one slot for it, this would erase the
@@ -8285,7 +8285,7 @@ SpriteCustomFall_Main:
         
         LDA.w $0DF0, X : AND.b #$07 : ORA.b $11 : ORA.w $0FC1 : BNE .BRANCH_LAMBDA
             LDA.b #$31
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
         
         .BRANCH_LAMBDA
         
@@ -8307,7 +8307,7 @@ SpriteCustomFall_Main:
         PHA
         
         LDA.b #$20
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         PLA
     

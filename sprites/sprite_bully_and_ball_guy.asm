@@ -332,7 +332,7 @@ Bully_Draw:
 BallGuy_PlayBounceNoise:
 {
     LDA.b #$32
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     RTS
 }

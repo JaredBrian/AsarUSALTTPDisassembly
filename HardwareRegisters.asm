@@ -281,22 +281,22 @@ endstruct
 
 struct SMP $00F0
 {
-    .Test:    skip $01 ; $00F0
-    .Control: skip $01 ; $00F1
-    .DSPAddr: skip $01 ; $00F2
-    .DSPData: skip $01 ; $00F3
-    .CPUIO0:  skip $01 ; $00F4
-    .CPUIO1:  skip $01 ; $00F5
-    .CPUIO2:  skip $01 ; $00F6
-    .CPUIO3:  skip $01 ; $00F7
-    .AuxIO4:  skip $01 ; $00F8
-    .AuxIO5:  skip $01 ; $00F9
-    .T0Div:   skip $01 ; $00FA
-    .T1Div:   skip $01 ; $00FB
-    .T2Div:   skip $01 ; $00FC
-    .T0Out:   skip $01 ; $00FD
-    .T1Out:   skip $01 ; $00FE
-    .T2Out:   skip $01 ; $00FF
+    .TEST:     skip $01 ; $00F0
+    .CONTROL:  skip $01 ; $00F1
+    .DSPADDR:  skip $01 ; $00F2
+    .DSPDATA:  skip $01 ; $00F3
+    .CPUIO0:   skip $01 ; $00F4
+    .CPUIO1:   skip $01 ; $00F5
+    .CPUIO2:   skip $01 ; $00F6
+    .CPUIO3:   skip $01 ; $00F7
+    .AuxIO4:   skip $01 ; $00F8
+    .AuxIO5:   skip $01 ; $00F9
+    .T0TARGET: skip $01 ; $00FA
+    .T1TARGET: skip $01 ; $00FB
+    .T2TARGET: skip $01 ; $00FC
+    .T0OUT:    skip $01 ; $00FD
+    .T1OUT:    skip $01 ; $00FE
+    .T2OUT:    skip $01 ; $00FF
 }
 endstruct
 

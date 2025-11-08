@@ -250,7 +250,7 @@ Ancilla_ReceiveItem:
                 ; Fill in that one heart.
                 LDA.l $7EF372 : CLC : ADC.b #$08 : STA.l $7EF372
                 
-                BRA .playHeartContainerSfx
+                BRA .playHeartContainerSFX
     
     .heartContainerInChest
     
@@ -265,10 +265,10 @@ Ancilla_ReceiveItem:
         
         LDA.l $7EF372 : CLC : ADC.b $00 : STA.l $7EF372
     
-        .playHeartContainerSfx
+        .playHeartContainerSFX
     
         LDA.b #$0D
-        JSR.w Ancilla_DoSfx3_NearPlayer
+        JSR.w Ancilla_DoSFX3_NearPlayer
         
         BRA .objectFinished
     
@@ -355,7 +355,7 @@ Ancilla_ReceiveItem:
         .rupeesGiven
         
         LDA.b #$0F
-        JSR.w Ancilla_DoSfx3_NearPlayer
+        JSR.w Ancilla_DoSFX3_NearPlayer
         
         BRA .dontGiveRupees
     

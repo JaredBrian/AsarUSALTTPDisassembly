@@ -92,10 +92,21 @@ try
             $temp1 = $k + 1
             $temp2 = $i + 1
 
-            $addressTuple = [PSCustomObject]@{
-                Address = $int16Value
-                Name    = "SFX$temp1" + "_" + "$('{0:X2}' -f $temp2)"
-                Size    = 0x0000
+            if ($k -eq 0)
+            {
+                $addressTuple = [PSCustomObject]@{
+                    Address = $int16Value
+                    Name    = "Ambient_" + "$('{0:X2}' -f $temp2)"
+                    Size    = 0x0000
+                }
+            }
+            else
+            {
+                $addressTuple = [PSCustomObject]@{
+                    Address = $int16Value
+                    Name    = "SFX$temp1" + "_" + "$('{0:X2}' -f $temp2)"
+                    Size    = 0x0000
+                }
             }
 
             $addresses.Add($addressTuple)
@@ -109,7 +120,7 @@ try
         {
             $addressTuple = [PSCustomObject]@{
                 Address = $vanillaUnused[$i]
-                Name    = "UNUSEDSFX" + "_" + "$('{0:X4}' -f $vanillaUnusedNames[$i])"
+                Name    = "UnusedSFX" + "_" + "$('{0:X4}' -f $vanillaUnusedNames[$i])"
                 Size    = 0x0000
             }
 

@@ -49,7 +49,7 @@ Sprite_BombShopGuy:
         LDA.w Pool_Sprite_BombShopGuy_animation_states, Y : STA.w $0DC0, X
         BNE .play_breathe_in_sound
             LDA.b #$11
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             JSR.w BombShopGuy_SpawnSnoutPuff
             
@@ -58,7 +58,7 @@ Sprite_BombShopGuy:
         .play_breathe_in_sound
         
         LDA.b #$12
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         .moving_on
     .delay

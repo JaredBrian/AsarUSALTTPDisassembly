@@ -206,7 +206,7 @@ RabbitBeam_Active:
             
             ; Selects a sound to play.
             LDA.b #$15
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
     
         .no_tile_collision
     .cant_move_yet

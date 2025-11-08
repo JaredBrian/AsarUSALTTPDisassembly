@@ -7449,7 +7449,7 @@ incsrc "sprite_OAM_allocation.asm"
 ; ==============================================================================
 
 ; $06BB5B-$06BB5D DATA TABLE
-Sound_SetSfxPan_pan_options:
+Sound_SetSFXPan_pan_options:
 {
     dw $00, $80, $40
 }
@@ -7457,34 +7457,34 @@ Sound_SetSfxPan_pan_options:
 ; ==============================================================================
 
 ; $06BB5E-$06BB66 LONG JUMP LOCATION
-Sound_SfxPanObjectCoords:
+Sound_SFXPanObjectCoords:
 {
     LDA.w $0C18, X : XBA
     LDA.w $0C04, X
     
-    BRA Sound_SetSfxPan_useArbitraryCoords
+    BRA Sound_SetSFXPan_useArbitraryCoords
 }
 
 ; ==============================================================================
 
 ; $06BB67-$06BB6D LONG JUMP LOCATION
-Sound_SetSfxPanWithPlayerCoords:
+Sound_SetSFXPanWithPlayerCoords:
 {
     LDA.b $23 : XBA
     LDA.b $22
     
-    BRA Sound_SetSfxPan_useArbitraryCoords
+    BRA Sound_SetSFXPan_useArbitraryCoords
 }
 
 ; ==============================================================================
 
 ; $06BB6E-$06BB7B LONG JUMP LOCATION
-Sound_SetSfx1PanLong:
+Sound_SetSFX1PanLong:
 {
     PHY
     
     LDY.w $012D : BNE .channelInUse
-        JSR.w Sound_AddSfxPan
+        JSR.w Sound_AddSFXPan
         
         STA.w $012D
     
@@ -7498,12 +7498,12 @@ Sound_SetSfx1PanLong:
 ; ==============================================================================
 
 ; $06BB7C-$06BB89 LONG JUMP LOCATION
-Sound_SetSfx2PanLong:
+Sound_SetSFX2PanLong:
 {
     PHY
     
     LDY.w $012E : BEQ .channelInUse
-        JSR.w Sound_AddSfxPan
+        JSR.w Sound_AddSFXPan
         
         STA.w $012E
         
@@ -7517,13 +7517,13 @@ Sound_SetSfx2PanLong:
 ; ==============================================================================
 
 ; $06BB8A-$06BB97 LONG JUMP LOCATION
-Sound_SetSfx3PanLong:
+Sound_SetSFX3PanLong:
 {
     PHY
     
     ; Is there a sound effect playing on this channel?
     LDY.w $012F : BNE .channelInUse
-        JSR.w Sound_AddSfxPan
+        JSR.w Sound_AddSFXPan
         
         ; Picked a sound effect, play it.
         STA.w $012F
@@ -7538,12 +7538,12 @@ Sound_SetSfx3PanLong:
 ; ==============================================================================
 
 ; $06BB98-$06BBA0 LOCAL JUMP LOCATION
-Sound_AddSfxPan:
+Sound_AddSFXPan:
 {
     ; Store the sound effect index here temporarily.
     STA.b $0D
     
-    JSL.l Sound_SetSfxPan : ORA.b $0D
+    JSL.l Sound_SetSFXPan : ORA.b $0D
     
     RTS
 }
@@ -7554,7 +7554,7 @@ Sound_AddSfxPan:
 ; bomb is more towards the left of the screen, the sound will mostly come
 ; out of the left speaker. The sound engine knows how to handle these inputs.
 ; $06BBA1-$06BBC7 LONG JUMP LOCATION
-Sound_SetSfxPan:
+Sound_SetSFXPan:
 {
     LDA.w $0D30, X : XBA
     LDA.w $0D10, X
@@ -7590,13 +7590,13 @@ Sound_SetSfxPan:
 ; ==============================================================================
 
 ; $06BBC8-$06BBCF DATA
-Sound_GetFineSfxPan_settings:
+Sound_GetFineSFXPan_settings:
 {
     db $80, $80, $80, $00, $00, $40, $40, $40
 }
 
 ; $06BBD0-$06BBDF LONG JUMP LOCATION
-Sound_GetFineSfxPan:
+Sound_GetFineSFXPan:
 {
     SEC : SBC.b $E2 : LSR #5 : PHX
                              : TAX
@@ -9224,7 +9224,7 @@ Sprite_SpawnFireball:
     PHB : PHK : PLB
     
     LDA.b #$19
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     LDY.b #$0D
     LDA.b #$55

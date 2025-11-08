@@ -290,7 +290,7 @@ Ancilla_Bomb:
         INC.w $0C5E, X
         LDA.w $0C5E, X : CMP.b #$01 : BNE .not_just_exploded
             ; Play the bomb exploding sound.
-            LDA.b #$0C : JSR.w Ancilla_DoSfx2
+            LDA.b #$0C : JSR.w Ancilla_DoSFX2
             
             ; Did Link come in contact with the explosion?
             TXA : INC : CMP.w $02EC : BNE .dont_reset_player_lift_state
@@ -712,7 +712,7 @@ Ancilla_LiftableObjectLogic:
             LDY.w $0380, X : CPY.b #$03 : BEQ .throw_logic
                 CPY.b #$00 : BNE .dont_play_lift_SFX
                     LDA.w $03B1, X : CMP.b #$10 : BNE .dont_play_lift_SFX
-                        LDA.b #$1D : JSR.w Ancilla_DoSfx2
+                        LDA.b #$1D : JSR.w Ancilla_DoSFX2
                     
                 .dont_play_lift_SFX
                 
@@ -792,7 +792,7 @@ Ancilla_LiftableObjectLogic:
     STZ.w $0280, X
     
     LDA.b #$13
-    JSR.w Ancilla_DoSfx3
+    JSR.w Ancilla_DoSFX3
     
     .airborn_logic
     
@@ -850,7 +850,7 @@ Ancilla_LiftableObjectLogic:
     
     ; Play the "bomb hitting the ground" sound.
     LDA.b #$21
-    JSR.w Ancilla_DoSfx2
+    JSR.w Ancilla_DoSFX2
     
     INC.w $0385, X
     LDA.w $0385, X : CMP.b #$03 : BEQ .bounces_maxed_out

@@ -115,7 +115,7 @@ FltueBoy_PrepPhaseOut:
         LDA.b #$80 : STA.w $012D
         
         LDA.b #$33
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .delay
     
@@ -349,7 +349,7 @@ FluteAardvark_Arborating:
     LDA.w $0DF0, X : BNE .delay
         LDA.w $0D90, X : CMP.b #$03 : BCC .anoplay_SFX
             LDA.b #$33
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
         
         .anoplay_SFX
         

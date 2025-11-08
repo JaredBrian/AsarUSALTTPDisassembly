@@ -26,7 +26,7 @@ Sprite_CannonBall:
             JSL.l Sprite_PlaceRupulseSpark_coerce
             
             LDA.b #$05
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
         
     .no_tile_collision
 
@@ -223,7 +223,7 @@ CannonTrooper_SpawnCannonBall:
     LDA.b #$6B
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$07
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         LDA.b #$01 : STA.w $0DB0, Y
         

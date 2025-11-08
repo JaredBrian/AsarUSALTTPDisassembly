@@ -29,7 +29,7 @@ Sprite_Flame:
         LDA.w $0F50, X : AND.b #$3F : STA.w $0F50, X
         
         LDA.b #$2A
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         RTS
 }

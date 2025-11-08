@@ -6,7 +6,7 @@ Sprite_Trident:
     JSR.w Trident_Draw
     JSR.w Sprite4_CheckIfActive
     JSR.w Sprite4_CheckDamage
-    JSR.w Sprite_PeriodicWhirringSfx
+    JSR.w Sprite_PeriodicWhirringSFX
     JSR.w Sprite4_Move
     
     DEC.w $0E80, X

@@ -31,7 +31,7 @@ Sprite_LaserBeam:
                 STZ.w $0DD0, X
         
                 LDA.b #$26
-                JSL.l Sound_SetSfx3PanLong
+                JSL.l Sound_SetSFX3PanLong
     
    	    RTS
     
@@ -312,7 +312,7 @@ LaserEye_SpawnBeam:
     	PLX
     
     	LDA.b #$19
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
     
     .spawn_failed
     

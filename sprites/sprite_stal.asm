@@ -37,7 +37,7 @@ Stal_Dormant:
             LDA.b #$40 : STA.w $0DF0, X
             
             LDA.b #$22
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
         .still_activating
     .player_didnt_bump

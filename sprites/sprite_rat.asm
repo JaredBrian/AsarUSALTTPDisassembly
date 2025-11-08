@@ -85,7 +85,7 @@ Rat_Moving:
     LDA.w $0DF0, X : BNE .sound_wait
         LDA.w $0FFF : BNE .in_dark_world
             LDA.b #$17
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
         
         .in_dark_world
         

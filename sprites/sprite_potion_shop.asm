@@ -239,7 +239,7 @@ Sprite_GreenPotionItem:
             LDA.b #$4F
             LDY.b #$00
             JSL.l Sprite_ShowMessageFromPlayerContact : BCC .messsage_didnt_show
-                JSR.w PotionItem_ErrorSfx
+                JSR.w PotionItem_ErrorSFX
             
             .messsage_didnt_show
     .alpha
@@ -257,7 +257,7 @@ Sprite_GreenPotionItem:
                 JSL.l Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
                 
                 LDA.b #$1D
-                JSL.l Sound_SetSfx3PanLong
+                JSL.l Sound_SetSFX3PanLong
                 
                 LDA.b #$40 : STA.w $0DF0, X
                 
@@ -282,7 +282,7 @@ Sprite_GreenPotionItem:
     LDA.b #$50
     LDY.b #$00
     JSL.l Sprite_ShowMessageUnconditional
-    JMP PotionItem_ErrorSfx
+    JMP PotionItem_ErrorSFX
     
     .delta
     
@@ -327,7 +327,7 @@ Sprite_BluePotionItem:
             LDA.b #$4F
             LDY.b #$00
             JSL.l Sprite_ShowMessageFromPlayerContact : BCC .alpha
-                JSR.w PotionItem_ErrorSfx
+                JSR.w PotionItem_ErrorSFX
         
     .alpha
     
@@ -343,7 +343,7 @@ Sprite_BluePotionItem:
             LDA.l $7EF360 : CMP.w #$00A0 : SEP #$30 : BCC .delta
                 JSL.l Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
                     LDA.b #$1D
-                    JSL.l Sound_SetSfx3PanLong
+                    JSL.l Sound_SetSFX3PanLong
                     
                     LDA.b #$40 : STA.w $0DF0, X
                     
@@ -367,7 +367,7 @@ Sprite_BluePotionItem:
     LDY.b #$00
     JSL.l Sprite_ShowMessageUnconditional
 
-    JMP PotionItem_ErrorSfx
+    JMP PotionItem_ErrorSFX
     
     .delta
     
@@ -413,7 +413,7 @@ Sprite_RedPotionItem:
             LDA.b #$4F
             LDY.b #$00
             JSL.l Sprite_ShowMessageFromPlayerContact : BCC .alpha
-                JSR.w PotionItem_ErrorSfx
+                JSR.w PotionItem_ErrorSFX
     
     .alpha
     
@@ -429,7 +429,7 @@ Sprite_RedPotionItem:
             LDA.l $7EF360 : CMP.w #$0078 : SEP #$30 : BCC PotionCauldron_PovertyDisclaimer
                 JSL.l Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
                     LDA.b #$1D
-                    JSL.l Sound_SetSfx3PanLong
+                    JSL.l Sound_SetSFX3PanLong
                     
                     LDA.b #$40 : STA.w $0DF0, X
                     
@@ -454,7 +454,7 @@ Sprite_RedPotionItem:
     LDY.b #$00
     JSL.l Sprite_ShowMessageUnconditional
     
-    BRA PotionItem_ErrorSfx
+    BRA PotionItem_ErrorSFX
 }
 
 ; $02F83E-$02F845 JUMP LOCATION
@@ -469,10 +469,10 @@ PotionCauldron_PovertyDisclaimer:
 }
     
 ; $02F846-$02F84C JUMP LOCATION
-PotionItem_ErrorSfx:
+PotionItem_ErrorSFX:
 {
     LDA.b #$3C
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     RTS
 }

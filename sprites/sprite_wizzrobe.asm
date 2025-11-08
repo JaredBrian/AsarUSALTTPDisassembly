@@ -225,7 +225,7 @@ Wizzrobe_SpawnBeam:
     LDA.b #$9B
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$36
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         LDA.b #$01 : STA.w $0DB0, Y
                      STA.w $0BA0, Y

@@ -300,7 +300,7 @@ Thief_AttemptBootyGrab:
             
             LDA.w $0E20, Y : SEC : SBC.b #$D8 : TAX
             LDA.l Sprite_HandleAbsorptionByPlayer_SFX, X
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             PLX
             
@@ -343,7 +343,7 @@ Thief_CheckPlayerCollision:
 Thief_MakeStealingStuffNoise:
 {    
     LDA.b #$0B
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     .return
     

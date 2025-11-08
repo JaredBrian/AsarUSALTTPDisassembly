@@ -65,7 +65,7 @@ Sprite_WallCannon:
         LDY.b #$0D
         JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
             LDA.b #$07
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             LDA.b #$01 : STA.w $0DB0, Y
                          STA.w $0DC0, Y

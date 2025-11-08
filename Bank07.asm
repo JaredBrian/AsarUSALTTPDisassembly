@@ -48,9 +48,9 @@ Player_Main:
 ; UNUSED: Much like the Ancilla version of this routine, seems like ambient SFX
 ; gets no love.
 ; $038021-$038027 LOCAL JUMP LOCATION
-Player_DoSfx1:
+Player_DoSFX1:
 {
-    JSR.w Player_SetSfxPan : STA.w $012D
+    JSR.w Player_SetSFXPan : STA.w $012D
     
     RTS
 }
@@ -58,9 +58,9 @@ Player_DoSfx1:
 ; ==============================================================================
 
 ; $038028-$03802E LOCAL JUMP LOCATION
-Player_DoSfx2:
+Player_DoSFX2:
 {
-    JSR.w Player_SetSfxPan : STA.w $012E
+    JSR.w Player_SetSFXPan : STA.w $012E
     
     RTS
 }
@@ -68,9 +68,9 @@ Player_DoSfx2:
 ; ==============================================================================
 
 ; $03802F-$038035 LOCAL JUMP LOCATION
-Player_DoSfx3:
+Player_DoSFX3:
 {
-    JSR.w Player_SetSfxPan : STA.w $012F
+    JSR.w Player_SetSFXPan : STA.w $012F
     
     RTS
 }
@@ -78,12 +78,12 @@ Player_DoSfx3:
 ; ==============================================================================
 
 ; $038036-$038040 LOCAL JUMP LOCATION
-Player_SetSfxPan:
+Player_SetSFXPan:
 {
     STA.w $0CF8
     
     ; A will be 0x00, 0x80, or 0x40. (ORed with this address, too.).
-    JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.w $0CF8
+    JSL.l Sound_SetSFXPanWithPlayerCoords : ORA.w $0CF8
     
     RTS
 }
@@ -190,7 +190,7 @@ Link_ControlHandler:
             
             ; Selects the "Link has been hurt" sound.
             LDA.b #$26
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
             
             INC.w $0CFC
             
@@ -322,7 +322,7 @@ LinkState_Default:
             LDA.b $67 : AND.b #$F0 : STA.b $67
             
             LDA.b #$2B
-            JSR.w Player_DoSfx3
+            JSR.w Player_DoSFX3
             
             ; Link got hit with the Agahnim bug zapper.
             LDA.b #$07 : STA.b $5D
@@ -549,7 +549,7 @@ Link_HandleBunnyTransformation:
                 JSL.l AddTransformationCloud
                 
                 LDA.b #$14
-                JSR.w Player_DoSfx2
+                JSR.w Player_DoSFX2
                 
                 ; It will take 20 frames for the transformation to finish.
                 LDA.b #$14 : STA.w $02E2
@@ -613,7 +613,7 @@ LinkState_TemporaryBunny:
         JSL.l AddTransformationCloud
         
         LDA.b #$15
-        JSR.w Player_DoSfx2
+        JSR.w Player_DoSFX2
         
         LDA.b #$20 : STA.w $02E2
         
@@ -807,7 +807,7 @@ LinkState_HoldingBigRock:
             LDA.b $67 : AND.b #$F0 : STA.b $67
             
             LDA.b #$2B
-            JSR.w Player_DoSfx3
+            JSR.w Player_DoSFX3
             
             LDA.b #$07 : STA.b $5D
             
@@ -1260,7 +1260,7 @@ Link_HandleRecoilAndTimer:
             LDA.b $5D : CMP.b #$04 : BEQ .BRANCH_RHO
                 .BRANCH_PI
 
-                LDA.b #$21 : JSR.w Player_DoSfx2
+                LDA.b #$21 : JSR.w Player_DoSFX2
 
         .BRANCH_RHO
 
@@ -1285,13 +1285,13 @@ Link_HandleRecoilAndTimer:
         
         LDA.w $0357 : AND.b #$01 : BEQ .BRANCH_UPSILON
             ; Make grass swishy sound effect.
-            LDA.b #$1A : JSR.w Player_DoSfx2
+            LDA.b #$1A : JSR.w Player_DoSFX2
 
         .BRANCH_UPSILON
 
         LDA.w $0359 : AND.b #$01 : BEQ .BRANCH_PHI
             LDA.w $012E : CMP.b #$24 : BEQ .BRANCH_PHI
-                LDA.b #$1C : JSR.w Player_DoSfx2
+                LDA.b #$1C : JSR.w Player_DoSFX2
 
         .BRANCH_PHI
 
@@ -1560,7 +1560,7 @@ LinkState_HoppingSouthOW:
         LDA.w $0362 : BNE .BRANCH_ALPHA
             ; Play the "something's falling" sound effect.
             LDA.b #$20
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
             
             JSR.w LinkHop_FindTileToLandOnSouth
             
@@ -1607,7 +1607,7 @@ LinkState_HoppingSouthOW:
                         CMP.b #$01 : BEQ .BRANCH_EPSILON
                 LDA.w $0345 : BNE .BRANCH_EPSILON
                     ; The sound of something hitting the ground?
-                    LDA.b #$21 : JSR.w Player_DoSfx2
+                    LDA.b #$21 : JSR.w Player_DoSFX2
             
             .BRANCH_EPSILON
             
@@ -1710,7 +1710,7 @@ LinkState_HandlingJump:
         
         LDA.b $5D : CMP.b #$04 : BEQ .theta
             LDA.w $0345 : BNE .theta
-                LDA.b #$21 : JSR.w Player_DoSfx2
+                LDA.b #$21 : JSR.w Player_DoSFX2
         
         .theta
         
@@ -2219,7 +2219,7 @@ LinkState_HoppingDiagonallyUpOW:
         
         LDA.b $5D : CMP.b #$04 : BEQ .swimming
             LDA.w $0345 : BNE .BRANCH_BETA
-                LDA.b #$21 : JSR.w Player_DoSfx2
+                LDA.b #$21 : JSR.w Player_DoSFX2
 
             .BRANCH_BETA
         .swimming
@@ -2271,7 +2271,7 @@ LinkState_HoppingDiagonallyDownOW:
             LDA.b $23 : PHA
             
             LDA.b #$20
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
             
             JSR.w LinkHop_FindLandingSpotDiagonallyDown
             
@@ -2589,7 +2589,7 @@ LinkState_Dashing:
             LDA.b $67 : AND.b #$F0 : STA.b $67
             
             LDA.b #$2B
-            JSR.w Player_DoSfx3
+            JSR.w Player_DoSFX3
             
             LDA.b #$07 : STA.b $5D
             
@@ -2613,7 +2613,7 @@ LinkState_Dashing:
     .BRANCH_IOTA
     
     AND.w LinkDashSFXMasks, X : BNE .BRANCH_KAPPA
-        LDA.b #$23 : JSR.w Player_DoSfx2
+        LDA.b #$23 : JSR.w Player_DoSFX2
     
     .BRANCH_KAPPA
     
@@ -2928,7 +2928,7 @@ RepelDash:
     LDA.w $012F : AND.b #$3F : CMP.b #$1B : BEQ .BRANCH_GAMMA
                                CMP.b #$32 : BEQ .BRANCH_GAMMA
         LDA.b #$03
-        JSR.w Player_DoSfx3
+        JSR.w Player_DoSFX3
     
     .BRANCH_GAMMA
 }
@@ -3218,7 +3218,7 @@ Link_HandleFallingInPit:
             STZ.b $4D
             
             LDA.b #$1F
-            JSR.w Player_DoSfx3
+            JSR.w Player_DoSFX3
         
         .BRANCH_OMICRON
         
@@ -3505,7 +3505,7 @@ HandleUnderworldLandingFromPit:
     JSR.w TileDetect_MainHandler
     
     LDA.w $0359 : AND.b #$01 : BEQ .BRANCH_IOTA
-        LDA.b #$24 : JSR.w Player_DoSfx2
+        LDA.b #$24 : JSR.w Player_DoSFX2
     
     .BRANCH_IOTA
     
@@ -3513,7 +3513,7 @@ HandleUnderworldLandingFromPit:
     
     LDA.w $012E : AND.b #$3F : CMP.b #$24 : BEQ .BRANCH_KAPPA
         LDA.b #$21
-        JSR.w Player_DoSfx2
+        JSR.w Player_DoSFX2
     
     .BRANCH_KAPPA
     
@@ -3651,7 +3651,7 @@ LinkState_Swimming:
                 STA.w $034F
                 
                 LDA.b $25
-                JSR.w Player_DoSfx2
+                JSR.w Player_DoSFX2
                 
                 LDA.b #$01 : STA.w $032A
                 LDA.b #$07 : STA.w $02CB
@@ -4119,7 +4119,7 @@ Link_ReceiveItem:
     STY.w $02D8 : CPY.b #$3E : BNE .notHeartContainer
         ; Link received a heart container.. handle it.
         LDA.b #$2E
-        JSR.w Player_DoSfx3
+        JSR.w Player_DoSFX3
     
     .notHeartContainer
     
@@ -4622,7 +4622,7 @@ HandleSwordSFXAndBeam:
     .cantShootBeam
     
     ; Normal sword
-    JSL.l Sound_SetSfxPanWithPlayerCoords
+    JSL.l Sound_SetSFXPanWithPlayerCoords
     
     PHA
     
@@ -4820,14 +4820,14 @@ Link_ResetSwordAndItemUsage:
                     
                     LDA.b $48 : AND.b #$08 : BNE .BRANCH_MUNU
                         LDA.b $05
-                        JSR.w Player_DoSfx2
+                        JSR.w Player_DoSFX2
                         
                         BRA .BRANCH_XI
 
                     .BRANCH_MUNU
 
                     LDA.b #$06
-                    JSR.w Player_DoSfx2
+                    JSR.w Player_DoSFX2
 
                     .BRANCH_XI
 
@@ -4879,7 +4879,7 @@ Link_ResetSwordAndItemUsage:
             LDA.b $79 : CMP.b #$40 : BCS .return
                 INC.b $79 : LDA.b $79 : CMP.b #$30 : BNE .return
                     LDA.b #$37
-                    JSR.w Player_DoSfx2
+                    JSR.w Player_DoSFX2
                     
                     JSL.l AddChargedSpinAttackSparkle
                     
@@ -5124,7 +5124,7 @@ LinkItem_Hammer:
             
             LDA.w $012E : BNE .BRANCH_EPSILON
                 LDA.b #$10
-                JSR.w Player_DoSfx2
+                JSR.w Player_DoSFX2
                 
                 JSL.l Player_SpawnSmallWaterSplashFromHammer
 
@@ -5216,7 +5216,7 @@ LinkItem_Bow:
                 STZ.w $0C4A, X
                 
                 LDA.b #$3C
-                JSR.w Player_DoSfx2
+                JSR.w Player_DoSFX2
             
             .BRANCH_GAMMA
             
@@ -5521,7 +5521,7 @@ LinkItem_MagicPowder:
         LDA.b $6C : BNE LinkItem_Lamp_return
             JSR.w Link_CheckNewY_ButtonPress : BCC .return
                 LDA.l $7EF344 : CMP.b #$02 : BEQ .isMagicPowder
-                    LDA.b #$3C : JSR.w Player_DoSfx2
+                    LDA.b #$3C : JSR.w Player_DoSFX2
                     
                     BRA .BRANCH_DELTA
                 
@@ -5658,7 +5658,7 @@ LinkItem_Shovel:
         
         LDA.w $04B2 : BEQ .BRANCH_DELTA
             LDA.b #$1B
-            JSR.w Player_DoSfx3
+            JSR.w Player_DoSFX3
             
             PHX
             
@@ -5681,7 +5681,7 @@ LinkItem_Shovel:
             PLX
             
             LDA.b #$05
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
             
             BRA .BRANCH_GAMMA
         
@@ -5702,7 +5702,7 @@ LinkItem_Shovel:
         PLX
         
         LDA.b #$12
-        JSR.w Player_DoSfx2
+        JSR.w Player_DoSFX2
     
     .BRANCH_GAMMA
     
@@ -5740,7 +5740,7 @@ LinkItem_Flute:
         LDA.b #$80 : STA.w $03F0
         
         LDA.b #$13
-        JSR.w Player_DoSfx2
+        JSR.w Player_DoSFX2
         
         ; Are we indoors?
         LDA.b $1B : BNE LinkItem_Shovel_return
@@ -5810,7 +5810,7 @@ GanonEmerges_SpawnTravelBird:
     PHB : PHK : PLB
     
     LDA.b #$13
-    JSR.w Player_DoSfx2
+    JSR.w Player_DoSFX2
     
     ; Add travel bird.
     LDY.b #$04
@@ -5835,7 +5835,7 @@ LinkItem_Book:
                 
                 LDA.w $02ED : BNE .BRANCH_BETA
                     LDA.b #$3C
-                    JSR.w Player_DoSfx2
+                    JSR.w Player_DoSFX2
                     
                     BRA .BRANCH_ALPHA
                 
@@ -5883,7 +5883,7 @@ LinkItem_EtherMedallion:
                 STZ.w $0324
                 
                 LDA.b #$23
-                JSR.w Player_DoSfx3
+                JSR.w Player_DoSFX3
     
     .cant_cast_no_sound
     
@@ -5920,7 +5920,7 @@ LinkState_UsingEther:
             PHX
             
             LDA.b #$23
-            JSR.w Player_DoSfx3
+            JSR.w Player_DoSFX3
             
             PLX
         
@@ -5928,7 +5928,7 @@ LinkState_UsingEther:
         
         CPX.b #$09 : BNE .BRANCH_EPSILON
             LDA.b #$2C
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
         
         .BRANCH_EPSILON
         
@@ -5994,7 +5994,7 @@ LinkItem_Bombos:
                 STZ.w $0324
                 
                 LDA.b #$23
-                JSR.w Player_DoSfx3
+                JSR.w Player_DoSFX3
 
     .return
 
@@ -6028,7 +6028,7 @@ LinkState_UsingBombos:
             PHX
             
             LDA.b #$23
-            JSR.w Player_DoSfx3
+            JSR.w Player_DoSFX3
             
             PLX
         
@@ -6038,7 +6038,7 @@ LinkState_UsingBombos:
             PHX
             
             LDA.b #$2C
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
             
             PLX
         
@@ -6111,7 +6111,7 @@ LinkItem_Quake:
                 STZ.w $0364
                 
                 LDA.b #$23
-                JSR.w Player_DoSfx3
+                JSR.w Player_DoSFX3
     
     .return
     
@@ -6179,7 +6179,7 @@ LinkState_UsingQuake:
             PHX
             
             LDA.b #$23
-            JSR.w Player_DoSfx3
+            JSR.w Player_DoSFX3
             
             PLX
         
@@ -6189,7 +6189,7 @@ LinkState_UsingQuake:
             PHX
             
             LDA.b #$2C
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
             
             PLX
             
@@ -6197,7 +6197,7 @@ LinkState_UsingQuake:
         
         CPX.b #$0B : BNE .BRANCH_THETA
             LDA.b #$0C
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
         
         .BRANCH_THETA
         
@@ -6373,7 +6373,7 @@ LinkState_SpinAttack:
             LDA.b $67 : AND.b #$F0 : STA.b $67
             
             LDA.b #$2B
-            JSR.w Player_DoSfx3
+            JSR.w Player_DoSFX3
             
             LDA.b #$07 : STA.b $5D
             
@@ -6414,7 +6414,7 @@ LinkState_SpinAttack:
         LDA.w $031D : INC : STA.w $031D
         CMP.b #$02 : BNE .BRANCH_MU
             LDA.b #$23
-            JSR.w Player_DoSfx3
+            JSR.w Player_DoSFX3
         
         .BRANCH_MU
         
@@ -6531,7 +6531,7 @@ LinkGoBeep:
 {
     ; Play the "you can't do that" sound.
     LDA.b #$3C
-    JSR.w Player_DoSfx2
+    JSR.w Player_DoSFX2
     
     BRA Mirror_TryToWarp_cantWarp
 }
@@ -7149,7 +7149,7 @@ LinkState_Hookshotting:
                 
                 JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_ALIF
                     LDA.b #$1A
-                    JSR.w Player_DoSfx2
+                    JSR.w Player_DoSFX2
                     
                     BRA .BRANCH_ALIF
 
@@ -7160,14 +7160,14 @@ LinkState_Hookshotting:
                 
                 LDA.b $8A : CMP.b #$70 : BNE .BRANCH_DEL
                     LDA.b #$1B
-                    JSR.w Player_DoSfx2
+                    JSR.w Player_DoSFX2
                     
                     BRA .BRANCH_ALIF
 
                 .BRANCH_DEL
 
                 LDA.b #$1C
-                JSR.w Player_DoSfx2
+                JSR.w Player_DoSFX2
 
         .BRANCH_ALIF
 
@@ -7224,7 +7224,7 @@ LinkItem_Cape:
                     JSL.l AddTransformationCloud
                     
                     LDA.b #$14
-                    JSR.w Player_DoSfx2
+                    JSR.w Player_DoSFX2
                     
                     BRA Link_ForceUnequipCape_return
     
@@ -7271,7 +7271,7 @@ Link_ForceUnequipCape:
     JSL.l AddTransformationCloud
             
     LDA.b #$15
-    JSR.w Player_DoSfx2
+    JSR.w Player_DoSFX2
             
     ; $03AE54 ALTERNATE ENTRY POINT
     .quietly
@@ -7483,7 +7483,7 @@ PlayerItem_CaneOfByrna:
                 PHX
                 
                 LDA.b #$2A
-                JSR.w Player_DoSfx3
+                JSR.w Player_DoSFX3
                 
                 PLX
             
@@ -7578,7 +7578,7 @@ LinkItem_Net:
                 STZ.b $2E
                 
                 LDA.b #$32
-                JSR.w Player_DoSfx2
+                JSR.w Player_DoSFX2
     
     .BRANCH_ALPHA
     
@@ -7728,7 +7728,7 @@ Link_DisplayNoMagicMessage:
 {
     ; You naughty boy you have no magic power!
     LDA.b #$3C
-    JSR.w Player_DoSfx2
+    JSR.w Player_DoSFX2
     
     REP #$20
     
@@ -8320,7 +8320,7 @@ LinkState_TreePull:
                     STA.b $3A
                     
                     LDA.b #$22
-                    JSR.w Player_DoSfx2
+                    JSR.w Player_DoSFX2
                     
                     BRA .BRANCH_BETA
             
@@ -9372,7 +9372,7 @@ StartMovementCollisionChecks_Vertical:
         JSL.l Dungeon_ClearRupeeTile
         
         LDA.b #$0A
-        JSR.w Player_DoSfx3
+        JSR.w Player_DoSFX3
 
     .no_blue_rupee_touch
 
@@ -9422,7 +9422,7 @@ StartMovementCollisionChecks_Vertical:
             LDA.b #$02 : STA.b $4D
             
             LDA.b #$20
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
             
             BRA .BRANCH_IOTA2
 
@@ -9451,7 +9451,7 @@ StartMovementCollisionChecks_Vertical:
             JSL.l Player_ResetSwimState
             
             LDA.b #$20
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
 
             .BRANCH_IOTA2
 
@@ -9895,7 +9895,7 @@ StartMovementCollisionChecks_Vertical_HandleOutdoors:
                 .BRANCH_KAPPA
 
                 LDA.b #$20
-                JSR.w Player_DoSfx2
+                JSR.w Player_DoSFX2
                 
                 LDA.b $3E : STA.b $20
                 LDA.b $40 : STA.b $21
@@ -9995,7 +9995,7 @@ Link_HandleEnteringWater_Vertical:
         LDA.w $036D : AND.b #$07 : BEQ .BRANCH_SIGMA
             JSR.w RunLedgeHopTimer : BCC .BRANCH_SIGMA
                 LDA.b #$20
-                JSR.w Player_DoSfx2
+                JSR.w Player_DoSFX2
                 
                 LDA.b #$01 : STA.w $037B
                 
@@ -10065,7 +10065,7 @@ Link_HandleEnteringWater_Vertical:
                     JSR.w Player_HaltDashAttack
                     
                     LDA.b #$20
-                    JSR.w Player_DoSfx2
+                    JSR.w Player_DoSFX2
                     
                     LDY.b #$03
                     
@@ -10286,7 +10286,7 @@ Link_BonkAndSmash:
                     PHX
                     
                     LDA.b #$32
-                    JSR.w Player_DoSfx3
+                    JSR.w Player_DoSFX3
                     
                     PLX
 
@@ -10911,7 +10911,7 @@ StartMovementCollisionChecks_Horizontal:
         JSL.l Dungeon_ClearRupeeTile
         
         LDA.b #$0A
-        JSR.w Player_DoSfx3
+        JSR.w Player_DoSFX3
 
     .no_blue_rupee_touch
 
@@ -10999,7 +10999,7 @@ StartMovementCollisionChecks_Horizontal:
                 JSR.w Link_HopInOrOutOfWater_Horizontal
                 
                 LDA.b #$20
-                JSR.w Player_DoSfx2
+                JSR.w Player_DoSFX2
                 
                 BRA .BRANCH_JIIM
 
@@ -11374,7 +11374,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                 JSR.w Link_HopInOrOutOfWater_Horizontal
                 
                 LDA.b #$20
-                JSR.w Player_DoSfx2
+                JSR.w Player_DoSFX2
 
     .BRANCH_ZETA
     
@@ -11415,7 +11415,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
     LDA.w $036E : AND.b #$07 : BEQ .BRANCH_XI
         JSR.w RunLedgeHopTimer : BCC .BRANCH_XI
             LDA.b #$20
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
             
             LDX.b #$10
             
@@ -11478,7 +11478,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
     LDA.w $0370 : AND.b #$77 : BEQ .BRANCH_TAU
         JSR.w RunLedgeHopTimer : BCC .BRANCH_TAU
             LDA.b #$20
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
             
             LDX.b #$0F
             
@@ -11525,7 +11525,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                 LDA.b $5D : CMP.b #$0D : BEQ .BRANCH_CHI
                     JSR.w RunLedgeHopTimer : BCC .BRANCH_CHI
                         LDA.b #$20
-                        JSR.w Player_DoSfx2
+                        JSR.w Player_DoSFX2
                         
                         JSR.w Player_HaltDashAttack
                         
@@ -12461,7 +12461,7 @@ TileDetect_MainHandler:
                         JSL.l Dungeon_SaveRoomQuadrantData
                         
                         LDA.b #$33
-                        JSR.w Player_DoSfx2
+                        JSR.w Player_DoSFX2
                         
                         STZ.b $5E
                         
@@ -12494,7 +12494,7 @@ TileDetect_MainHandler:
             JSR.w Link_PermissionForSloshSounds : BCS .BRANCH_THETA
                 LDA.b $4D : BNE .BRANCH_THETA
                     LDA.b #$1A
-                    JSR.w Player_DoSfx2
+                    JSR.w Player_DoSFX2
             
             .BRANCH_THETA
             
@@ -12525,7 +12525,7 @@ TileDetect_MainHandler:
         .BRANCH_LAMBDA
         
         LDA.b #$1B
-        JSR.w Player_DoSfx2
+        JSR.w Player_DoSFX2
         
         BRA .BRANCH_TAU
         
@@ -12533,7 +12533,7 @@ TileDetect_MainHandler:
         
         LDA.b $4D : BNE .BRANCH_TAU
             LDA.b #$1C
-            JSR.w Player_DoSfx2
+            JSR.w Player_DoSFX2
         
         .BRANCH_TAU
         
@@ -12548,7 +12548,7 @@ TileDetect_MainHandler:
                         ; Dat be sum swamp o' evil.
                         LDA.b $8A : CMP.b #$70 : BNE .BRANCH_DALET
                             LDA.b #$1B
-                            JSR.w Player_DoSfx2
+                            JSR.w Player_DoSFX2
                             
                             BRA .BRANCH_BET
                         
@@ -12556,7 +12556,7 @@ TileDetect_MainHandler:
                         
                         LDA.b $4D : BNE .BRANCH_BET
                             LDA.b #$1C
-                            JSR.w Player_DoSfx2
+                            JSR.w Player_DoSFX2
                     
                     .BRANCH_BET
                     
@@ -16871,7 +16871,7 @@ InitializePushBlock:
     
     ; Dragging noise? (Block moving?)
     LDA.b #$22
-    JSR.w Player_DoSfx2
+    JSR.w Player_DoSFX2
     
     PLA : STA.b $0E
     
@@ -17671,14 +17671,14 @@ Link_AnimateIntraStairClimbAndSFX:
     
     LDA.w $0462 : AND.b #$04 : BEQ .delta
         LDA.b #$18
-        JSR.w Player_DoSfx2
+        JSR.w Player_DoSFX2
         
         BRA .epsilon
     
     .delta
     
     LDA.b #$16
-    JSR.w Player_DoSfx2
+    JSR.w Player_DoSFX2
     
     .epsilon
     
@@ -17818,7 +17818,7 @@ HandleLinkOnSpiralStairs:
         
         ; Play the up staircase sound.
         LDA.b #$17
-        JSR.w Player_DoSfx2
+        JSR.w Player_DoSFX2
         
         BRA .BRANCH_MU
     
@@ -17827,7 +17827,7 @@ HandleLinkOnSpiralStairs:
 
     ; Play a sound (also a staircase step sound presumably).
     LDA.b #$19
-    JSR.w Player_DoSfx2
+    JSR.w Player_DoSFX2
     
     .BRANCH_MU
     

@@ -37,7 +37,7 @@ Sprite_Bumper:
             PLX
             
             LDA.b #$32
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
         .no_player_collision
     .using_magic_cape
@@ -77,7 +77,7 @@ Sprite_Bumper:
                             LDA #$20 : STA.w $0DF0, X
                             
                             LDA.b #$32
-                            JSL.l Sound_SetSfx3PanLong
+                            JSL.l Sound_SetSFX3PanLong
         
         .no_sprite_collision
         

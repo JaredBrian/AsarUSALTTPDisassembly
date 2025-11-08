@@ -263,7 +263,7 @@ AddBlueBomb:
         
         .finalize_coordinates
         
-        JSL.l Sound_SetSfxPanWithPlayerCoords
+        JSL.l Sound_SetSFXPanWithPlayerCoords
         
         ; Play the bomb laying sound.
         ORA.b #$0B : STA.w $012E
@@ -523,14 +523,14 @@ AddBoomerang:
     STZ.w $0C4A, X : STZ.w $035F
     
     LDA.w $03E4, X : CMP.b #$F0 : BEQ .hit_key_door
-        JSL.l Sound_SfxPanObjectCoords : ORA.b #$05 : STA.w $012E
+        JSL.l Sound_SFXPanObjectCoords : ORA.b #$05 : STA.w $012E
         
         BRA .spawn_wall_hit_object
     
     .hit_key_door
     
     ; Play pinging sound from hitting key door.
-    JSL.l Sound_SfxPanObjectCoords : ORA.b #$06 : STA.w $012E
+    JSL.l Sound_SFXPanObjectCoords : ORA.b #$06 : STA.w $012E
     
     .spawn_wall_hit_object
     
@@ -936,7 +936,7 @@ AddReceivedItem:
                 LDA.b #$23
                 JSL.l AddTransformationCloud
 
-                JSL.l Sound_SetSfxPanWithPlayerCoords
+                JSL.l Sound_SetSFXPanWithPlayerCoords
                 
                 ; Play sound effect.
                 ORA.b #$15 : STA.w $012E
@@ -997,7 +997,7 @@ AddReceivedItem:
         CPY.b #$17 : BNE .notPieceOfHeart
             LDA.b [$00] : INC : AND.b #$03 : STA.b [$00]
             
-            JSL.l Sound_SetSfxPanWithPlayerCoords
+            JSL.l Sound_SetSFXPanWithPlayerCoords
             
             ORA.b #$2D : STA.w $012F
             
@@ -1155,7 +1155,7 @@ AddReceivedItem:
     LDA.w $0C54, X : BNE .notFromText
         ; Check item.
         LDA.w $0C5E, X : CMP.b #$01 : BNE .notMasterSword4
-            JSL.l Sound_SetSfxPanWithPlayerCoords
+            JSL.l Sound_SetSFXPanWithPlayerCoords
         
             ; Play sound of sword being brandished (since we're getting the
             ; master sword).
@@ -1178,7 +1178,7 @@ AddReceivedItem:
         CMP.b #$39 : BNE .generalSoundEffect
             .bossVictoryMusic
         
-            JSL.l Sound_SetSfxPanWithPlayerCoords
+            JSL.l Sound_SetSFXPanWithPlayerCoords
             
             ORA.b #$13 : STA.w $012C ; Play the boss victory song.
             
@@ -1186,7 +1186,7 @@ AddReceivedItem:
         
         .generalSoundEffect
         
-        JSL.l Sound_SetSfxPanWithPlayerCoords
+        JSL.l Sound_SetSFXPanWithPlayerCoords
             
         ; Play general "you got something sound effect"
         ORA.b #$0F : STA.w $012F
@@ -1408,7 +1408,7 @@ AddWishPondItem:
     STX.w $02D8
     
     JSR.w AddAncilla : BCS .spawn_failed
-        JSL.l Sound_SetSfxPanWithPlayerCoords
+        JSL.l Sound_SetSFXPanWithPlayerCoords
         
         ; Play throwing sound effect.
         ORA.b #$13 : STA.w $012F
@@ -1528,7 +1528,7 @@ AddHappinessPondRupees:
     
     .open_slot
     
-    JSL.l Sound_SetSfxPanWithPlayerCoords
+    JSL.l Sound_SetSFXPanWithPlayerCoords
     
     ; Play throwing sound effect.
     ORA.b #$13 : STA.w $012F
@@ -2203,7 +2203,7 @@ AddLampFlame:
         
         JSR.w Ancilla_SetCoords
         
-        JSL.l Sound_SfxPanObjectCoords : ORA.b #$2A : STA.w $012E
+        JSL.l Sound_SFXPanObjectCoords : ORA.b #$2A : STA.w $012E
         
         PLB
         
@@ -2466,7 +2466,7 @@ AddArrow:
     
     .openSlot
     
-    JSL.l Sound_SetSfxPanWithPlayerCoords
+    JSL.l Sound_SetSFXPanWithPlayerCoords
     ORA.b #$07 : STA.w $012E
     
     STZ.w $03C5, X
@@ -2523,14 +2523,14 @@ AddWarpTransformationCloud:
         
         ; Check on Link's graphic set.
         LDA.w $02E0 : BNE .bunnyLink
-            JSL.l Sound_SetSfxPanWithPlayerCoords
+            JSL.l Sound_SetSFXPanWithPlayerCoords
             ORA.b #$14 : STA.w $012E
             
             BRA .setup
             
         .bunnyLink
         
-        JSL.l Sound_SetSfxPanWithPlayerCoords
+        JSL.l Sound_SetSFXPanWithPlayerCoords
         ORA.b #$15 : STA.w $012E
         
         .setup
@@ -2593,14 +2593,14 @@ AddDwarfTransformationCloud:
     ; A = #$40
     JSR.w AddAncilla : BCS .noOpenSlots
         LDA.l $7EF3CC : CMP.b #$08 : BNE .notLightWorldDwarf
-            JSL.l Sound_SetSfxPanWithPlayerCoords
+            JSL.l Sound_SetSFXPanWithPlayerCoords
             ORA.b #$14 : STA.w $012E
             
             BRA .finishInit
             
         .notLightWorldDwarf
         
-        JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.b #$15 : STA.w $012E
+        JSL.l Sound_SetSFXPanWithPlayerCoords : ORA.b #$15 : STA.w $012E
         
         .finishInit
         
@@ -2648,7 +2648,7 @@ AddDisintegratingBushPoof:
             
             LDA.b #$07 : STA.w $0C68, X
             
-            JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.b #$15 : STA.w $012E
+            JSL.l Sound_SetSFXPanWithPlayerCoords : ORA.b #$15 : STA.w $012E
             
             REP #$20
             
@@ -2697,7 +2697,7 @@ AddEtherSpell:
     
     LDA.b #$40 : STA.l $7F5812
     
-    JSL.l Sound_SetSfxPanWithPlayerCoords : ORA.b #$26 : STA.w $012F
+    JSL.l Sound_SetSFXPanWithPlayerCoords : ORA.b #$26 : STA.w $012F
     
     LDA.b #$00 : STA.l $7F5800
     LDA.b #$08 : STA.l $7F5801
@@ -2852,7 +2852,7 @@ AddMagicPowder:
     
     SEP #$20
     
-    JSL.l Sound_SetSfxPanWithPlayerCoords
+    JSL.l Sound_SetSFXPanWithPlayerCoords
     ORA.b #$0D : STA.w $012E
     
     JMP Shortcut_just_coords
@@ -3628,7 +3628,7 @@ AddIceRodShot:
     
     .open_slot
     
-    JSL.l Sound_SetSfxPanWithPlayerCoords
+    JSL.l Sound_SetSFXPanWithPlayerCoords
     ORA.b #$0F : STA.w $012E
     
     STZ.w $0C54, X : STZ.w $03C2, X
@@ -3711,7 +3711,7 @@ AddTransitionSplash:
     PHB : PHK : PLB
     
     JSR.w AddAncilla : BCS .noOpenSlots
-        JSL.l Sound_SetSfxPanWithPlayerCoords
+        JSL.l Sound_SetSFXPanWithPlayerCoords
         ORA.b #$24 : STA.w $012E
         
         STZ.w $0C5E, X
@@ -3904,7 +3904,7 @@ AddGravestone:
     SEP #$30
     
     ; Play sound effect.
-    JSL.l Sound_SetSfxPanWithPlayerCoords
+    JSL.l Sound_SetSFXPanWithPlayerCoords
     ORA.b #$1B : STA.w $012F
 
     .notStairsUnderGrave
@@ -3935,7 +3935,7 @@ AddGravestone:
     SEP #$30
     
     LDA.w $012F : AND.b #$3F : CMP.b #$1B : BEQ .puzzleSoundPlaying
-        JSL.l Sound_SetSfxPanWithPlayerCoords
+        JSL.l Sound_SetSFXPanWithPlayerCoords
         
         ; If there's no mystery solved sound, just play the sound
         ; that happens when something's dragging on the floor.

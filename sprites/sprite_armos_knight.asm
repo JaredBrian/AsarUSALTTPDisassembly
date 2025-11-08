@@ -81,7 +81,7 @@ Sprite_ArmosKnight:
                 LDA.b #$30 : STA.w $0F80, X
                 
                 LDA.b #$16
-                JSL.l Sound_SetSfx3PanLong
+                JSL.l Sound_SetSFX3PanLong
         
     .zeta
     

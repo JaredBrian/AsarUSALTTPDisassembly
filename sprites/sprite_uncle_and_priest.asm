@@ -330,7 +330,7 @@ SanctuaryMantle_AttemptCutscene:
 ; $02DC39-$02DC51 JUMP LOCATION
 SanctuaryMantle_InitializeSlide:
 {
-    LDA.b #$18 : JSL.l Sound_SetSfx3PanLong
+    LDA.b #$18 : JSL.l Sound_SetSFX3PanLong
     
     INC.w $0D80, X
     
@@ -511,7 +511,7 @@ Sage_DeathFlash:
     LDA.b $1A : AND.b #$02 : STA.w $0D90, X
     
     LDA.w $0E10, X : AND.b #$07 : BNE .dont_play_sound
-        LDA.b #$33 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$33 : JSL.l Sound_SetSFX2PanLong
         
     .dont_play_sound
     

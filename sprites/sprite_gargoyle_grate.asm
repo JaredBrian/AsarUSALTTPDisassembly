@@ -35,7 +35,7 @@ Sprite_GargoyleGrate:
             
             LDA.w $0308 : AND.b #$01 : BEQ .dont_open
                 LDA.b #$1F
-                JSL.l Sound_SetSfx2PanLong
+                JSL.l Sound_SetSFX2PanLong
                 
                 PHX
                 

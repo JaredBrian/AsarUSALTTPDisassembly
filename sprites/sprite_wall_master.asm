@@ -125,7 +125,7 @@ WallMaster_GrabAttempt:
         LDA.b #$40 : STA.w $0E60, X
         
         LDA.b #$2A
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
     .didnt_grab_player
     

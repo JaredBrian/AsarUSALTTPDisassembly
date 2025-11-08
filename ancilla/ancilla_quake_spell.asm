@@ -143,7 +143,7 @@ QuakeSpell_ExecuteBolts:
                     
                     CMP.b #$02 : BNE .dont_activate_second_state
                         ; Play loud thud sound.
-                        LDA.b #$0C : JSR.w Ancilla_DoSfx2_NearPlayer
+                        LDA.b #$0C : JSR.w Ancilla_DoSFX2_NearPlayer
                         
                         ; Add an extra... something.
                         LDA.b #$01 : STA.l $7F580A

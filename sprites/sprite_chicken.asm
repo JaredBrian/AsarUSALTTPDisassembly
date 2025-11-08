@@ -386,7 +386,7 @@ Chicken_SpawnAvengerChicken:
             TYX
             
             LDA.b #$1E
-            JSL.l Sound_SetSfx3PanLong
+            JSL.l Sound_SetSFX3PanLong
             
             PLX
             
@@ -434,7 +434,7 @@ Chicken_SpawnAvengerChicken:
 Chicken_BawkBawk:
 {   
     LDA.b #$30
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
 
     ; $032852 ALTERNATE ENTRY POINT    
     .spawn_failed

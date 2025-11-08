@@ -116,7 +116,7 @@ Boulder_Main:
         TYA : AND.b #$02 : DEC : STA.w !animation_step_polarity, X
         
         LDA.b #$0B
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .aloft
     

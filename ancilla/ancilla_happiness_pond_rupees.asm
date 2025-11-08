@@ -103,7 +103,7 @@ HappinessPondRupees_ExecuteRupee:
                 LDA.b #$06 : STA.w $0C68, X
                 
                 LDA.b #$28
-                JSR.w Ancilla_DoSfx2
+                JSR.w Ancilla_DoSFX2
                 
                 INC.w $0C54, X
                 

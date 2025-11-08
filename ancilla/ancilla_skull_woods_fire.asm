@@ -110,7 +110,7 @@ Ancilla_SkullWoodsFire:
                     LDA.b #$01 : STA.l $7F0010
                     
                     LDA.b $00
-                    JSR.w Ancilla_SetSfxPan_NearEntity
+                    JSR.w Ancilla_SetSFXPan_NearEntity
 
                     ORA.b #$0C : STA.w $012E
                 
@@ -134,7 +134,7 @@ Ancilla_SkullWoodsFire:
             
             LDA.w $012E : BNE .SFX2_already_set
                 LDA.l $7F001A : SEC : SBC.b $E2
-                JSR.w Ancilla_SetSfxPan_NearEntity : ORA.b #$2A : STA.w $012E
+                JSR.w Ancilla_SetSFXPan_NearEntity : ORA.b #$2A : STA.w $012E
                 
             .SFX2_already_set
         .draw_flames_logic

@@ -239,15 +239,15 @@ Vector_NMI:
     
     ; Used to select a musical track.
     LDA.w $012C : BNE .nonzeroMusicInput
-        LDA.w SNES.APUIOPort0 : CMP.w $0133 : BNE .handleAmbientSfxInput
+        LDA.w SNES.APUIOPort0 : CMP.w $0133 : BNE .handleAmbientSFXInput
             ; If they were the same, put 0 in $2140.
             STZ.w SNES.APUIOPort0
             
-            BRA .handleAmbientSfxInput
+            BRA .handleAmbientSFXInput
 
     .nonzeroMusicInput
 
-    CMP.w $0133 : BEQ .handleAmbientSfxInput
+    CMP.w $0133 : BEQ .handleAmbientSFXInput
         ; The song has changed...
         STA.w SNES.APUIOPort0 : STA.w $0133
         CMP.b #$F2 : BCS .volumeOrTransferCommand
@@ -257,22 +257,22 @@ Vector_NMI:
 
         STZ.w $012C
 
-    .handleAmbientSfxInput
+    .handleAmbientSFXInput
 
-    LDA.w $012D : BNE .nonzeroAmbientSfxInput
+    LDA.w $012D : BNE .nonzeroAmbientSFXInput
         ; Compare the values.
-        LDA.w SNES.APUIOPort1 : CMP.w $0131 : BNE .writeSfx
+        LDA.w SNES.APUIOPort1 : CMP.w $0131 : BNE .writeSFX
             STZ.w SNES.APUIOPort1 ; If equal, zero out $2141.
             
-            BRA .writeSfx
+            BRA .writeSFX
 
-    .nonzeroAmbientSfxInput
+    .nonzeroAmbientSFXInput
 
     STA.w $0131 : STA.w SNES.APUIOPort1
     
     STZ.w $012D
 
-    .writeSfx
+    .writeSFX
 
     ; Addresses will hold SPC memory locations.
     LDA.w $012E : STA.w SNES.APUIOPort2

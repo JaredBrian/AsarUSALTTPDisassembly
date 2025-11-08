@@ -179,7 +179,7 @@ AddSomarianBlockDivide:
     
     STZ.w $0646
     
-    JSL.l Sound_SfxPanObjectCoords : ORA.b #$01 : STA.w $012F
+    JSL.l Sound_SFXPanObjectCoords : ORA.b #$01 : STA.w $012F
     
     PLB
     
@@ -323,7 +323,7 @@ Sprite_SpawnSuperficialBombBlast:
                      STA.w $0E40, Y
         INC        : STA.w $0F50, Y
         
-        LDA.b #$15 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$15 : JSL.l Sound_SetSFX2PanLong
 }
         
 ; $04AE64-$04AE7D LONG JUMP LOCATION
@@ -359,7 +359,7 @@ Sprite_SpawnDummyDeathAnimation:
         LDA.b #$0F : STA.w $0DF0, Y
         
         LDA.b #$14
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
         ; Ensure the spawned death sprite is visible by giving it high priority.
         LDA.b #$02 : STA.w $0F20, Y
@@ -399,7 +399,7 @@ Sprite_SpawnMadBatterBolts_attempt_bold_spawn:
 {
     LDA.b #$3A : JSL.l Sprite_SpawnDynamically : BMI .spawnFailed
         LDA.b #$01
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         JSL.l Sprite_SetSpawnedCoords
         
@@ -8640,7 +8640,7 @@ Explode_SpawnExplosion:
     PHA
     
     AND.b #$03 : BNE .explosion_SFX_delay
-        LDA.b #$0C : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$0C : JSL.l Sound_SetSFX2PanLong
     
     .explosion_SFX_delay
     

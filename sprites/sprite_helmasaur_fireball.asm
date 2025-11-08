@@ -209,7 +209,7 @@ Pool_HelmasaurFireball_TriSplit:
 HelmasaurFireball_TriSplit:
 {
     LDA.b #$36
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     STZ.w $0DD0, X
     
@@ -268,7 +268,7 @@ Pool_HelmasaurFireball_QuadSplit:
 HelmasaurFireball_QuadSplit:
 {
     LDA.b #$36
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     STZ.w $0DD0, X
     

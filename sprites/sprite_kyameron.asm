@@ -173,7 +173,7 @@ Kyameron_Moving:
     LDA.b #$0F : STA.w $0DF0, X
     
     LDA.b #$28
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     .not_enough_tile_collisions
     

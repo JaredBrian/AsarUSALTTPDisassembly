@@ -41,7 +41,7 @@ Sprite_RetreatBat:
         BNE .BRANCH_DELTA
             LDA.w $0D80, X : CMP.b #$02 : BCS .BRANCH_DELTA
                 LDA.b #$03
-                JSL.l Sound_SetSfx2PanLong
+                JSL.l Sound_SetSFX2PanLong
             
         .BRANCH_DELTA
         
@@ -113,7 +113,7 @@ BatCrash_Ascend:
         INC.w $0D80, X
         
         LDA.b #$26
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         INC.w $0DE0, X
         

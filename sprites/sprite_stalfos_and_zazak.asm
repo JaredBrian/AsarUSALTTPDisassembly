@@ -98,7 +98,7 @@ Sprite_Stalfos:
             STZ.w $0E90, X
             
             LDA.b #$15
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
             JSL.l Sprite_SpawnPoofGarnish
             
@@ -162,7 +162,7 @@ Stalfos_Visible:
                                 LDA.b #$20 : STA.w $0F80, X
                                 
                                 LDA.b #$13
-                                JSL.l Sound_SetSfx3PanLong
+                                JSL.l Sound_SetSFX3PanLong
                                 
                                 INC.w $0F70, X
         
@@ -207,7 +207,7 @@ Stalfos_Visible:
             JSR.w Sprite3_Zero_XY_Velocity
             
             LDA.b #$21
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
             LDA.w $0E30, X : BEQ .not_red_stalfos
                 ; Throw a bone at the player.
@@ -436,7 +436,7 @@ Sprite_SpawnFirePhlegm:
     LDA.b #$A5
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
         LDA.b #$05
-        JSL.l Sound_SetSfx3PanLong
+        JSL.l Sound_SetSFX3PanLong
         
         JSL.l Sprite_SetSpawnedCoords
         
@@ -542,7 +542,7 @@ Stalfos_ThrowBoneAtPlayer:
         PLX
         
         LDA.b #$02
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
         
     .spawn_failed
     

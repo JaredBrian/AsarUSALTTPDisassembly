@@ -131,7 +131,7 @@ ArcheryGameGuy_Main:
     
     LDA.w $0DF0, X : BEQ .not_banging_his_drum
         AND.b #$07 : BNE .sound_effect_delay
-            LDA.b #$11 : JSL.l Sound_SetSfx2PanLong
+            LDA.b #$11 : JSL.l Sound_SetSFX2PanLong
         
         .sound_effect_delay
         

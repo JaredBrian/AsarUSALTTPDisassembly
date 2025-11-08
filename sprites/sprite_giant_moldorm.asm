@@ -87,7 +87,7 @@ Sprite_GiantMoldorm:
     INC.w $0E80, X
     
     AND.b $1A : BNE .skip_sound_effect_this_frame
-        LDA.b #$31 : JSL.l Sound_SetSfx3PanLong
+        LDA.b #$31 : JSL.l Sound_SetSFX3PanLong
     
     .skip_sound_effect_this_frame
     
@@ -118,7 +118,7 @@ Sprite_GiantMoldorm:
             LDA.b #$30 : STA.w $0DF0, X
             
             ; BUG: how does this work? This value gets overriden by the call.
-            LDA.b #$32 : JSL.l Sound_SetSfxPan : STA.w $012F
+            LDA.b #$32 : JSL.l Sound_SetSFXPan : STA.w $012F
     
     .dont_repulse_player
     
@@ -141,7 +141,7 @@ Sprite_GiantMoldorm:
         LDA.w .directions, Y : STA.w $0DE0, X
         
         ; I guess... this is where the ticking sound comes from?
-        LDA.b #$21 : JSL.l Sound_SetSfx2PanLong
+        LDA.b #$21 : JSL.l Sound_SetSFX2PanLong
     
     .no_tile_collision
     
@@ -657,7 +657,7 @@ Sprite_ScheduleBossForDeath:
 Sprite_MakeBossDeathExplosion:
 {
     LDA.b #$0C
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     ; $0EDC30 ALTERNATE ENTRY POINT
     .silent

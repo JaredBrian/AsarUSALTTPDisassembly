@@ -72,7 +72,7 @@ Ancilla_TravelBird:
         LDA.b #$28 : STA.w $0394, X
         
         LDA.b #$1E
-        JSR.w Ancilla_DoSfx3
+        JSR.w Ancilla_DoSFX3
     
     .flapping_SFX_delay
     

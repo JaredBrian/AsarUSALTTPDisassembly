@@ -348,7 +348,7 @@ Sprite_SpawnSplashRingLong:
 Sprite_SpawnSplashRing:
 {
     LDA.b #$24
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     NOP
     

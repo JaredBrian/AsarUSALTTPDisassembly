@@ -72,7 +72,7 @@ FlyingTile_CareenTowardsPlayer:
 FlyingTile_Shatter:
 {
     LDA.b #$1F
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     LDA.b #$06 : STA.w $0DD0, X
     
@@ -135,7 +135,7 @@ FlyingTile_NoisilyAnimate:
     
     TXA : EOR.b $1A : AND.b #$07 : BNE .delay_SFX
         LDA.b #$07
-        JSL.l Sound_SetSfx2PanLong
+        JSL.l Sound_SetSFX2PanLong
     
     .delay_SFX
     

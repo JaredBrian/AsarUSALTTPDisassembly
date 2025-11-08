@@ -254,7 +254,7 @@ Pool_Octorock_SpitOutRock:
 Octorock_SpitOutRock:
 {
     LDA.b #$07
-    JSL.l Sound_SetSfx2PanLong
+    JSL.l Sound_SetSFX2PanLong
     
     LDA.b #$0C
     JSL.l Sprite_SpawnDynamically : BMI .spawn_failed

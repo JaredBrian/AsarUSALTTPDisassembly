@@ -52,7 +52,7 @@ Sprite_GanonBat:
                 PHA
                 
                 LDA.b #$1E
-                JSL.l Sound_SetSfx3PanLong
+                JSL.l Sound_SetSFX3PanLong
                 
                 PLA
                 

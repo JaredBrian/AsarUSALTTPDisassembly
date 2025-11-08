@@ -133,7 +133,7 @@ FireBat_LaunchedFlying:
     JSL.l Sprite_ApplySpeedTowardsPlayerLong
             
     LDA.b #$1E
-    JSL.l Sound_SetSfx3PanLong
+    JSL.l Sound_SetSFX3PanLong
     
     .BRANCH_GAMMA
     

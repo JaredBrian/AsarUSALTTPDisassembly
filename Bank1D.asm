@@ -1041,7 +1041,7 @@ Toppo_Flustered:
             LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
             
             LDA.b #$15
-            JSL.l Sound_SetSfx2PanLong
+            JSL.l Sound_SetSFX2PanLong
             
             LDA.b #$4D
             JSL.l Sprite_SpawnDynamically : BMI .prize_delay
@@ -1873,7 +1873,7 @@ PullForRupees_SpawnRupees:
             LDA.w .rupee_types, Y
             JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
                 LDA.b #$30
-                JSL.l Sound_SetSfx3PanLong
+                JSL.l Sound_SetSFX3PanLong
                 
                 JSL.l Sprite_SetSpawnedCoords
                 
