@@ -2031,12 +2031,12 @@ struct ARAM $0000
     ; ==========================================================================
 
     ; $03C0[0x01] - (???)
-    .SFXOFF: skip $01
-        ; SFX channel pointer in use.
+    .AmbientOFF: skip $01
+        ; Ambient channel pointer in use.
 
     ; $03C1[0x01] - (???)
-    .SFXBIT: skip $01
-        ; SFX channel bit for bitfields.
+    .AmbientBIT: skip $01
+        ; Ambient channel bit for bitfields.
 
     ; $03C2[0x01] - (???)
     .BITASL3: skip $01
@@ -2064,12 +2064,12 @@ struct ARAM $0000
         ; Used as a flip flop for toggling incrementing of EchoDelayCache.
 
 
-    ; Copies SFXOFF and SFXBIT, but never used. Junk?
+    ; Copies AmbientOFF and AmbientBIT, but never used. Junk?
     ; $03C8[0x01] - (???)
-    .SFXOFF2: skip $01
+    .AmbientOFF2: skip $01
 
     ; $03C9[0x01] - (???)
-    .SFXBIT2: skip $01
+    .AmbientBIT2: skip $01
 
 
     ; $03CA[0x01] - (???)
@@ -2149,8 +2149,8 @@ struct ARAM $0000
 
 
     ; $03E0[0x01] - (???)
-    .AmbientFIND: skip $01
-        ; Used to find Ambient channel
+    .AmbientFind: skip $01
+        ; Used to find Ambient channel.
 
     ; $03E1[0x01] - (???)
     .SONGOVOL: skip $01
@@ -2161,16 +2161,17 @@ struct ARAM $0000
         ; Holds value from echo table for SFX
 
     ; $03E3[0x01] - (???)
-    .SFXECHOS: skip $01
-        ; Bitfield for SFX echos
+    .SFXEchos: skip $01
+        ; Bitfield for SFX echos.
 
     ; $03E4[0x01] - (???)
-    .AmbientFADE: skip $01
-        ; Ambient fade timer.
+    .AmbientFade: skip $01
+        ; The ambient sound fade timer. If non-0, the ambient sound will fade.
 
     ; $03E5[0x01] - (???)
-    .AmbientFDVOL: skip $01
-        ; Ambient volume.
+    .AmbientFadeVol: skip $01
+        ; The ambient sound fade volume. While the ambient fade timer is non-0
+        ; this will be divided by 2 until its 0.
 
     ; $03E6[0x19] - (???)
     .Free_03E6: skip $19

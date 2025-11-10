@@ -1990,36 +1990,40 @@ struct WRAM $7E0000
     ; $012D[0x01] - (SFX)
     .AmbientSFX: skip $01
         ; Ambient Sound effects. Written to SNES.APUIOPort1 when non-0.
+        ; Each different sound has part 2 that is played at the same time on
+        ; a separate channel. When you play the part 1 the part 2 will be
+        ; played automatically but playing the part 2 on its own will not
+        ; play the part 1.
         ; ttss ssss
         ; t - The stereo setting. TODO: Document the values.
         ; s - The ID of the sound to play.
-        ; TODO: Verify all the names.
-        ; 0x00 - Silence
-        ; 0x01 - Outdoor rain
-        ; 0x02 - Outdoor rain broken
-        ; 0x03 - Indoor rain
-        ; 0x04 - Indoor rain broken
-        ; 0x05 - Silence
-        ; 0x06 - Silence
-        ; 0x07 - Rumbling Sound? (Seems fairly certain) (more echoey)
-        ; 0x08 - Rumbling Sound? (Seems fairly certain)
-        ; 0x09 - Wind 1
-        ; 0x0A - Wind 2
-        ; 0x0B - Activate Bird jingle Repeats 
-        ; 0x0C - Activate Bird jingle Repeast broken
-        ; 0x0D - Quest updated sound?
-        ; 0x0E - Quest updated sound broken
-        ; 0x0F - Save/Quit jingle
-        ; 0x10 - Save/Quit jingle broken
-        ; 0x11 - Prayer in the Desert (Sounds a bit like Sanctuary theme)
-        ; 0x12 - Alternate "Prayer in the desert", or maybe one part of
-        ;        the harmony.
-        ; 0x13 - Whoosh sound (bat ganon/ maybe agah?)
-        ; 0x14 - Whoosh sound (bat ganon/ maybe agah?) broken
-        ; 0x15 - Door to Triforce room opens
-        ; 0x16 - Door to Triforce room opens broken
-        ; 0x17 - Activate Bird jingle Single
+        ; 0x00 - Nothing
+        ; 0x01 - Outdoor rain part 1
+        ; 0x02 - Outdoor rain part 2
+        ; 0x03 - Indoor rain part 1
+        ; 0x04 - Indoor rain part 2
+        ; 0x05 - Silence part 1
+        ; 0x06 - Silence part 2
+        ; 0x07 - Rumbling Sound part 1
+        ; 0x08 - Rumbling Sound part 2
+        ; 0x09 - Wind 1 part 1
+        ; 0x0A - Wind 2 part 2
+        ; 0x0B - Activate Bird jingle Repeats part 1
+        ; 0x0C - Activate Bird jingle Repeast part 2
+        ; 0x0D - Quest updated sound part 1
+        ; 0x0E - Quest updated sound part 2
+        ; 0x0F - Save/Quit jingle part 1
+        ; 0x10 - Save/Quit jingle part 2
+        ; 0x11 - Prayer in the Desert part 1
+        ; 0x12 - Prayer in the Desert part 1
+        ; 0x13 - Whoosh sound part 1
+        ; 0x14 - Whoosh sound part 2
+        ; 0x15 - Door to Triforce room opens part 1
+        ; 0x16 - Door to Triforce room opens part 2
+        ; 0x17 - Activate Bird jingle part 1
+        ; 0x18 - Activate Bird jingle part 2
         ; 0x80 - Fade out sound?
+        ; TODO: Confirm other values.
 
     ; $012E[0x01] - (SFX)
     .SFX1: skip $01

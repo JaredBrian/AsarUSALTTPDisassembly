@@ -406,7 +406,7 @@ SPCEngine:
         mov.b A, #$38
         mul YA : clrc : adc.b A, $43 : mov.b $43, A
                                        bcc .wait_for_SFX
-            call Handle_Ambient
+            call Handle_AmbientAndSFX
             call HandleInput_Ambient
 
             ; Check for new Ambient input.
@@ -2771,46 +2771,71 @@ SPCEngine:
     ; $0D06CD-$0D073A DATA
     InitAmbient:
     {
-        mov.b $05, A : cmp.b A, #$05 : bne .initialize
-            mov.w X, $03CF : bne .initialize
+        ; Check if we are loading silence:
+        mov.b $05, A : cmp.b A, #$05 : bne .notSilence
+            ; Check if any of the channels are enabled for ambient sounds:
+            mov.w X, $03CF : bne .initializeSilence
+                ; If none of the channels are enable we don't need to do
+                ; anything more.
+
                 ret
 
-        .initialize
+            .initializeSilence
+        .notSilence
 
+        ; SPC $130B ALTERNATE ENTRY POINT
+        ; $0D06D9 DATA
+        .skipSilenceCheck
+
+        ; Set the ambient fade timer to 0.
         mov.b X, #$00 :  mov.w $03E4, X
 
+        ; Set the channel 7 SFX ID, delay, and pitch slide timer.
         mov.b X, #$0E
         mov.b A, $01  : mov.w $03A0+X, A
         mov.b A, #$03 : mov.w $03A1+X, A
         mov.b A, #$00 : mov.w $0280+X, A
+
+        ; Enable the ambient sound on channel 7.
         mov.b A, #$80 : mov.w $03CF, A
 
         mov.b Y, #DSP.KOFF
         call WriteToDSP
 
+        ; Mark that we are using channel 7.
         set7.b $1A
 
+        ; Check if the ambient sound has a part 2 to play on channel 6. If
+        ; we are playing the part 1, they all should have a part 2.
         mov.b X, $01
-        mov.w A, Ambient_Accomp-1+X : mov.b $01, A
+        mov.w A, Ambient_Part2-1+X : mov.b $01, A
                                       bne .also_use_chan_6
             ret
 
         .also_use_chan_6
 
+        ; Set the channel 6 SFX ID, delay, and pitch slide timer.
         mov.b X, #$0C
         mov.b A, $01  : mov.w $03A0+X, A
         mov.b A, #$03 : mov.w $03A1+X, A
         mov.b A, #$00 : mov.w $0280+X, A
 
+        ; Mark that we are using channel 6.
         set6.b $1A
 
         mov.b A, #$40
         mov.b Y, #DSP.KOFF
         call WriteToDSP
 
+        ; Enable the ambient sound on channels 6 and 7.
         mov.b A, #$C0 : mov.w $03CF, A
+
+        ; Enable echo on channels 6 and 7.
         or.w A, $03E3 : mov.w $03E3, A
 
+        ; NOTE: Weird that this isn't done for channel 7 if we arn't using a
+        ; part 2. I guess it doesn't matter since we're always using a part 2.
+        ; Block SFX2 and SFX3 from playing on channels 6 and 7.
         mov.b A, #$3F : and.w A, $03CB : mov.w $03CB, A
         mov.b A, #$3F : and.w A, $03CD : mov.w $03CD, A
 
@@ -2846,10 +2871,12 @@ SPCEngine:
     ; $0D074F-$0D0784 DATA
     Ambient_FadeHandler:
     {
+        ; Decrement the ambient fade timer.
         dec.w $03E4
         mov.w A, $03E4 : bne .still_fading
+            ; Change the ambient sound to silence.
             mov.b A, #$05 :  mov.b $01, A
-            call InitAmbient_initialize
+            call InitAmbient_skipSilenceCheck
 
             mov.b A, #$00 : mov.b $01, A
 
@@ -2857,10 +2884,12 @@ SPCEngine:
 
         .still_fading
 
+        ; Set the right and left volumes of channels 6 and 7.
         lsr A : mov.w $03E5, A
         mov.b Y, #DSP.V7VOLL
         call WriteToDSP
 
+        ; OPTIMIZE: We don't need to be reloading $03E5 into A every time.
         inc Y ; DSP.V7VOLR
         mov.w A, $03E5
         call WriteToDSP
@@ -2873,7 +2902,8 @@ SPCEngine:
         mov.w A, $03E5
         call WriteToDSP
 
-        jmp Handle_Ambient_no_fadeout
+        ; Go back to the function we came from.
+        jmp Handle_AmbientAndSFX_no_fadeout
     }
 
     ; ==========================================================================
@@ -2966,36 +2996,53 @@ SPCEngine:
 
     ; SPC $1445-$14AC JUMP LOCATION
     ; $0D0813-$0D087A DATA
-    Handle_Ambient:
+    Handle_AmbientAndSFX:
     {
+        ; If the ambient fade timer is not 0:
         mov.w A, $03E4 : beq .no_fadeout
             jmp Ambient_FadeHandler
 
+        ; SPC $144D ALTERNATE ENTRY POINT
+        ; $0D081B DATA
         .no_fadeout
 
+        ; Check which channels the ambient sounds are using. If none, move on.
         mov.w A, $03CF : mov.w $03E0, A
                          beq .exit
             mov.b X, #$0E
 
+            ; Mark that the ambient sound is using channel 7.
             mov.b A, #$80 : mov.w $03C1, A
 
             .next_channel
 
+                ; Shift the channels we're using until we find one that
+                ; is being used.
                 asl.w $03E0 : bcc .to_next_channel
                     mov.w $03C0, X
+                    ; Setup a temp variable that is the ambient channels x8
+                    ; to be used for easier calculations later.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
 
+                    ; Copy the ambient pan over to the SFX pan.
                     mov.w A, $03D0+X : mov.b $20, A
 
+                    ; Check if there is a delay to play the SFX on this channel.
                     mov.w A, $03A1+X : bne .delayed
+                        ; Check if there is a SFX on the channel currently
+                        ; being played on this channel.
                         mov.w A, $03A0+X : beq .to_next_channel
                             jmp SFXControl
 
+                ; SPC $147C ALTERNATE ENTRY POINT
+                ; $0D084A DATA
                 .to_next_channel
 
+                ; Mark that we no longer are using the current channel.
                 lsr.w $03C1
 
                 dec X : dec X
+            ; We only need to check channel 6 and 7.
             cmp.b X, #$0A : bpl .next_channel
 
         .exit
@@ -3010,13 +3057,15 @@ SPCEngine:
                                    beq .initialize
             jmp .to_next_channel
 
+        ; TODO: 
+        ; ALTERNATE ENTRY POINT
         .initialize
 
         mov.w A, $03A0+X : asl A : mov Y, A
         mov.w A, Ambient_Pointers-1+Y : mov.w $0391+X, A
-                                     mov.b $2D, A
+                                        mov.b $2D, A
         mov.w A, Ambient_Pointers-2+Y : mov.w $0390+X, A
-                                     mov.b $2C, A
+                                        mov.b $2C, A
 
         jmp SFXControl_process_byte
     }
@@ -3191,7 +3240,7 @@ SPCEngine:
         .used_by_ambient
 
         call ResumeMusic
-        jmp Handle_Ambient_to_next_channel
+        jmp Handle_AmbientAndSFX_to_next_channel
 
         .used_by_SFX_2
 
@@ -3312,7 +3361,7 @@ SPCEngine:
                     ; SFX loop trigger
                     cmp.b A, #$FF : bne .not_loop
                         mov.w X, $03C0
-                        jmp Handle_Ambient_initialize
+                        jmp Handle_AmbientAndSFX_initialize
 
                     .not_loop
 
@@ -3358,7 +3407,7 @@ SPCEngine:
 
                     .ambient
 
-                    jmp Handle_Ambient_to_next_channel
+                    jmp Handle_AmbientAndSFX_to_next_channel
 
                     .on_SFX_2
                     

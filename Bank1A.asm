@@ -56,8 +56,8 @@ SFX_Data:
         dw Ambient_16 ; 0x15
         dw Ambient_17 ; 0x16
         dw Ambient_18 ; 0x17
-        dw $0000   ; 0x18
-        dw $0000   ; 0x19
+        dw $0000      ; 0x18
+        dw $0000      ; 0x19
         dw Ambient_0B ; 0x1A NOTE: This is not a mistake, these are duplicated.
         dw Ambient_0C ; 0x1B
         dw Ambient_0D ; 0x1C
@@ -70,40 +70,40 @@ SFX_Data:
 
     ; SPC $1800-$181F DATA
     ; $0D0BB0-$0D0BCF DATA
-    Ambient_Accomp:
+    Ambient_Part2:
     {
-        db $02 ; Ambient 01
-        db $00 ; Ambient 02
-        db $04 ; Ambient 03
-        db $00 ; Ambient 04
-        db $06 ; Ambient 05
-        db $00 ; Ambient 06
-        db $08 ; Ambient 07
-        db $00 ; Ambient 08
-        db $0A ; Ambient 09
-        db $00 ; Ambient 0A
-        db $0C ; Ambient 0B
-        db $00 ; Ambient 0C
-        db $0E ; Ambient 0D
-        db $00 ; Ambient 0E
-        db $10 ; Ambient 0F
-        db $00 ; Ambient 10
-        db $12 ; Ambient 11
-        db $00 ; Ambient 12
-        db $14 ; Ambient 13
-        db $00 ; Ambient 14
-        db $16 ; Ambient 15
-        db $00 ; Ambient 16
-        db $18 ; Ambient 17
-        db $00 ; Ambient 18
-        db $1A ; Ambient 19
-        db $00 ; Ambient 1A
-        db $1C ; Ambient 1B
-        db $00 ; Ambient 1C
-        db $1E ; Ambient 1D
-        db $00 ; Ambient 1E
-        db $20 ; Ambient 1F
-        db $00 ; Ambient 20
+        db $02 ; Ambient 0x01
+        db $00 ; Ambient 0x02
+        db $04 ; Ambient 0x03
+        db $00 ; Ambient 0x04
+        db $06 ; Ambient 0x05
+        db $00 ; Ambient 0x06
+        db $08 ; Ambient 0x07
+        db $00 ; Ambient 0x08
+        db $0A ; Ambient 0x09
+        db $00 ; Ambient 0x0A
+        db $0C ; Ambient 0x0B
+        db $00 ; Ambient 0x0C
+        db $0E ; Ambient 0x0D
+        db $00 ; Ambient 0x0E
+        db $10 ; Ambient 0x0F
+        db $00 ; Ambient 0x10
+        db $12 ; Ambient 0x11
+        db $00 ; Ambient 0x12
+        db $14 ; Ambient 0x13
+        db $00 ; Ambient 0x14
+        db $16 ; Ambient 0x15
+        db $00 ; Ambient 0x16
+        db $18 ; Ambient 0x17
+        db $00 ; Ambient 0x18
+        db $1A ; Ambient 0x19
+        db $00 ; Ambient 0x1A
+        db $1C ; Ambient 0x1B
+        db $00 ; Ambient 0x1C
+        db $1E ; Ambient 0x1D
+        db $00 ; Ambient 0x1E
+        db $20 ; Ambient 0x1F
+        db $00 ; Ambient 0x20
     }
 
     ; ==========================================================================
@@ -183,69 +183,69 @@ SFX_Data:
     ; $0D0C4E-0D0C8C DATA
     SFX2_Accomp:
     {
-        db $00 ; SFX2 01
-        db $00 ; SFX2 02
-        db $00 ; SFX2 03
-        db $00 ; SFX2 04
-        db $00 ; SFX2 05
-        db $00 ; SFX2 06
-        db $00 ; SFX2 07
-        db $00 ; SFX2 08
-        db $00 ; SFX2 09
-        db $00 ; SFX2 0A
-        db $00 ; SFX2 0B
-        db $00 ; SFX2 0C
-        db $3F ; SFX2 0D
-        db $00 ; SFX2 0E
-        db $00 ; SFX2 0F
-        db $00 ; SFX2 10
-        db $00 ; SFX2 11
-        db $00 ; SFX2 12
-        db $3E ; SFX2 13
-        db $00 ; SFX2 14
-        db $00 ; SFX2 15
-        db $00 ; SFX2 16
-        db $00 ; SFX2 17
-        db $00 ; SFX2 18
-        db $00 ; SFX2 19
-        db $00 ; SFX2 1A
-        db $00 ; SFX2 1B
-        db $00 ; SFX2 1C
-        db $00 ; SFX2 1D
-        db $00 ; SFX2 1E
-        db $00 ; SFX2 1F
-        db $00 ; SFX2 20
-        db $00 ; SFX2 21
-        db $00 ; SFX2 22
-        db $00 ; SFX2 23
-        db $3D ; SFX2 24
-        db $00 ; SFX2 25
-        db $00 ; SFX2 26
-        db $00 ; SFX2 27
-        db $00 ; SFX2 28
-        db $3B ; SFX2 29
-        db $00 ; SFX2 2A
-        db $00 ; SFX2 2B
-        db $3A ; SFX2 2C
-        db $00 ; SFX2 2D
-        db $39 ; SFX2 2E
-        db $38 ; SFX2 2F
-        db $00 ; SFX2 30
-        db $00 ; SFX2 31
-        db $00 ; SFX2 32
-        db $00 ; SFX2 33
-        db $33 ; SFX2 34
-        db $36 ; SFX2 35
-        db $00 ; SFX2 36
-        db $00 ; SFX2 37
-        db $00 ; SFX2 38
-        db $00 ; SFX2 39
-        db $00 ; SFX2 3A
-        db $00 ; SFX2 3B
-        db $00 ; SFX2 3C
-        db $00 ; SFX2 3D
-        db $00 ; SFX2 3E
-        db $00 ; SFX2 3F
+        db $00 ; SFX2 0x01
+        db $00 ; SFX2 0x02
+        db $00 ; SFX2 0x03
+        db $00 ; SFX2 0x04
+        db $00 ; SFX2 0x05
+        db $00 ; SFX2 0x06
+        db $00 ; SFX2 0x07
+        db $00 ; SFX2 0x08
+        db $00 ; SFX2 0x09
+        db $00 ; SFX2 0x0A
+        db $00 ; SFX2 0x0B
+        db $00 ; SFX2 0x0C
+        db $3F ; SFX2 0x0D
+        db $00 ; SFX2 0x0E
+        db $00 ; SFX2 0x0F
+        db $00 ; SFX2 0x10
+        db $00 ; SFX2 0x11
+        db $00 ; SFX2 0x12
+        db $3E ; SFX2 0x13
+        db $00 ; SFX2 0x14
+        db $00 ; SFX2 0x15
+        db $00 ; SFX2 0x16
+        db $00 ; SFX2 0x17
+        db $00 ; SFX2 0x18
+        db $00 ; SFX2 0x19
+        db $00 ; SFX2 0x1A
+        db $00 ; SFX2 0x1B
+        db $00 ; SFX2 0x1C
+        db $00 ; SFX2 0x1D
+        db $00 ; SFX2 0x1E
+        db $00 ; SFX2 0x1F
+        db $00 ; SFX2 0x20
+        db $00 ; SFX2 0x21
+        db $00 ; SFX2 0x22
+        db $00 ; SFX2 0x23
+        db $3D ; SFX2 0x24
+        db $00 ; SFX2 0x25
+        db $00 ; SFX2 0x26
+        db $00 ; SFX2 0x27
+        db $00 ; SFX2 0x28
+        db $3B ; SFX2 0x29
+        db $00 ; SFX2 0x2A
+        db $00 ; SFX2 0x2B
+        db $3A ; SFX2 0x2C
+        db $00 ; SFX2 0x2D
+        db $39 ; SFX2 0x2E
+        db $38 ; SFX2 0x2F
+        db $00 ; SFX2 0x30
+        db $00 ; SFX2 0x31
+        db $00 ; SFX2 0x32
+        db $00 ; SFX2 0x33
+        db $33 ; SFX2 0x34
+        db $36 ; SFX2 0x35
+        db $00 ; SFX2 0x36
+        db $00 ; SFX2 0x37
+        db $00 ; SFX2 0x38
+        db $00 ; SFX2 0x39
+        db $00 ; SFX2 0x3A
+        db $00 ; SFX2 0x3B
+        db $00 ; SFX2 0x3C
+        db $00 ; SFX2 0x3D
+        db $00 ; SFX2 0x3E
+        db $00 ; SFX2 0x3F
     }
 
     ; ==========================================================================
@@ -254,69 +254,69 @@ SFX_Data:
     ; $0D0C8D-0D0CCB DATA
     SFX2_Echo:
     {
-        db $00 ; SFX2 01
-        db $00 ; SFX2 02
-        db $00 ; SFX2 03
-        db $00 ; SFX2 04
-        db $00 ; SFX2 05
-        db $00 ; SFX2 06
-        db $00 ; SFX2 07
-        db $00 ; SFX2 08
-        db $00 ; SFX2 09
-        db $00 ; SFX2 0A
-        db $00 ; SFX2 0B
-        db $01 ; SFX2 0C
-        db $00 ; SFX2 0D
-        db $00 ; SFX2 0E
-        db $00 ; SFX2 0F
-        db $00 ; SFX2 10
-        db $00 ; SFX2 11
-        db $00 ; SFX2 12
-        db $00 ; SFX2 13
-        db $00 ; SFX2 14
-        db $00 ; SFX2 15
-        db $00 ; SFX2 16
-        db $00 ; SFX2 17
-        db $00 ; SFX2 18
-        db $00 ; SFX2 19
-        db $00 ; SFX2 1A
-        db $00 ; SFX2 1B
-        db $00 ; SFX2 1C
-        db $00 ; SFX2 1D
-        db $00 ; SFX2 1E
-        db $00 ; SFX2 1F
-        db $00 ; SFX2 20
-        db $00 ; SFX2 21
-        db $00 ; SFX2 22
-        db $00 ; SFX2 23
-        db $00 ; SFX2 24
-        db $00 ; SFX2 25
-        db $00 ; SFX2 26
-        db $00 ; SFX2 27
-        db $00 ; SFX2 28
-        db $3B ; SFX2 29
-        db $01 ; SFX2 2A
-        db $01 ; SFX2 2B
-        db $00 ; SFX2 2C
-        db $01 ; SFX2 2D
-        db $01 ; SFX2 2E
-        db $01 ; SFX2 2F
-        db $00 ; SFX2 30
-        db $00 ; SFX2 31
-        db $00 ; SFX2 32
-        db $00 ; SFX2 33
-        db $00 ; SFX2 34
-        db $01 ; SFX2 35
-        db $01 ; SFX2 36
-        db $00 ; SFX2 37
-        db $00 ; SFX2 38
-        db $00 ; SFX2 39
-        db $00 ; SFX2 3A
-        db $00 ; SFX2 3B
-        db $01 ; SFX2 3C
-        db $00 ; SFX2 3D
-        db $3C ; SFX2 3E
-        db $00 ; SFX2 3F
+        db $00 ; SFX2 0x01
+        db $00 ; SFX2 0x02
+        db $00 ; SFX2 0x03
+        db $00 ; SFX2 0x04
+        db $00 ; SFX2 0x05
+        db $00 ; SFX2 0x06
+        db $00 ; SFX2 0x07
+        db $00 ; SFX2 0x08
+        db $00 ; SFX2 0x09
+        db $00 ; SFX2 0x0A
+        db $00 ; SFX2 0x0B
+        db $01 ; SFX2 0x0C
+        db $00 ; SFX2 0x0D
+        db $00 ; SFX2 0x0E
+        db $00 ; SFX2 0x0F
+        db $00 ; SFX2 0x10
+        db $00 ; SFX2 0x11
+        db $00 ; SFX2 0x12
+        db $00 ; SFX2 0x13
+        db $00 ; SFX2 0x14
+        db $00 ; SFX2 0x15
+        db $00 ; SFX2 0x16
+        db $00 ; SFX2 0x17
+        db $00 ; SFX2 0x18
+        db $00 ; SFX2 0x19
+        db $00 ; SFX2 0x1A
+        db $00 ; SFX2 0x1B
+        db $00 ; SFX2 0x1C
+        db $00 ; SFX2 0x1D
+        db $00 ; SFX2 0x1E
+        db $00 ; SFX2 0x1F
+        db $00 ; SFX2 0x20
+        db $00 ; SFX2 0x21
+        db $00 ; SFX2 0x22
+        db $00 ; SFX2 0x23
+        db $00 ; SFX2 0x24
+        db $00 ; SFX2 0x25
+        db $00 ; SFX2 0x26
+        db $00 ; SFX2 0x27
+        db $00 ; SFX2 0x28
+        db $3B ; SFX2 0x29
+        db $01 ; SFX2 0x2A
+        db $01 ; SFX2 0x2B
+        db $00 ; SFX2 0x2C
+        db $01 ; SFX2 0x2D
+        db $01 ; SFX2 0x2E
+        db $01 ; SFX2 0x2F
+        db $00 ; SFX2 0x30
+        db $00 ; SFX2 0x31
+        db $00 ; SFX2 0x32
+        db $00 ; SFX2 0x33
+        db $00 ; SFX2 0x34
+        db $01 ; SFX2 0x35
+        db $01 ; SFX2 0x36
+        db $00 ; SFX2 0x37
+        db $00 ; SFX2 0x38
+        db $00 ; SFX2 0x39
+        db $00 ; SFX2 0x3A
+        db $00 ; SFX2 0x3B
+        db $01 ; SFX2 0x3C
+        db $00 ; SFX2 0x3D
+        db $3C ; SFX2 0x3E
+        db $00 ; SFX2 0x3F
     }
 
     ; ==========================================================================
@@ -396,69 +396,69 @@ SFX_Data:
     ; $0D0D4A-0D0D88 DATA
     SFX3_Accomp:
     {
-        db $00 ; SFX3 01
-        db $00 ; SFX3 02
-        db $00 ; SFX3 03
-        db $00 ; SFX3 04
-        db $00 ; SFX3 05
-        db $00 ; SFX3 06
-        db $00 ; SFX3 07
-        db $00 ; SFX3 08
-        db $00 ; SFX3 09
-        db $00 ; SFX3 0A
-        db $00 ; SFX3 0B
-        db $00 ; SFX3 0C
-        db $00 ; SFX3 0D
-        db $00 ; SFX3 0E
-        db $3C ; SFX3 0F
-        db $3B ; SFX3 10
-        db $00 ; SFX3 11
-        db $00 ; SFX3 12
-        db $00 ; SFX3 13
-        db $00 ; SFX3 14
-        db $00 ; SFX3 15
-        db $00 ; SFX3 16
-        db $00 ; SFX3 17
-        db $00 ; SFX3 18
-        db $00 ; SFX3 19
-        db $38 ; SFX3 1A
-        db $3A ; SFX3 1B
-        db $00 ; SFX3 1C
-        db $00 ; SFX3 1D
-        db $00 ; SFX3 1E
-        db $00 ; SFX3 1F
-        db $00 ; SFX3 20
-        db $00 ; SFX3 21
-        db $00 ; SFX3 22
-        db $39 ; SFX3 23
-        db $00 ; SFX3 24
-        db $00 ; SFX3 25
-        db $00 ; SFX3 26
-        db $00 ; SFX3 27
-        db $00 ; SFX3 28
-        db $00 ; SFX3 29
-        db $00 ; SFX3 2A
-        db $00 ; SFX3 2B
-        db $00 ; SFX3 2C
-        db $37 ; SFX3 2D
-        db $35 ; SFX3 2E
-        db $33 ; SFX3 2F
-        db $00 ; SFX3 30
-        db $00 ; SFX3 31
-        db $00 ; SFX3 32
-        db $00 ; SFX3 33
-        db $00 ; SFX3 34
-        db $34 ; SFX3 35
-        db $00 ; SFX3 36
-        db $00 ; SFX3 37
-        db $00 ; SFX3 38
-        db $00 ; SFX3 39
-        db $00 ; SFX3 3A
-        db $00 ; SFX3 3B
-        db $3D ; SFX3 3C
-        db $3E ; SFX3 3D
-        db $3F ; SFX3 3E
-        db $00 ; SFX3 3F
+        db $00 ; SFX3 0x01
+        db $00 ; SFX3 0x02
+        db $00 ; SFX3 0x03
+        db $00 ; SFX3 0x04
+        db $00 ; SFX3 0x05
+        db $00 ; SFX3 0x06
+        db $00 ; SFX3 0x07
+        db $00 ; SFX3 0x08
+        db $00 ; SFX3 0x09
+        db $00 ; SFX3 0x0A
+        db $00 ; SFX3 0x0B
+        db $00 ; SFX3 0x0C
+        db $00 ; SFX3 0x0D
+        db $00 ; SFX3 0x0E
+        db $3C ; SFX3 0x0F
+        db $3B ; SFX3 0x10
+        db $00 ; SFX3 0x11
+        db $00 ; SFX3 0x12
+        db $00 ; SFX3 0x13
+        db $00 ; SFX3 0x14
+        db $00 ; SFX3 0x15
+        db $00 ; SFX3 0x16
+        db $00 ; SFX3 0x17
+        db $00 ; SFX3 0x18
+        db $00 ; SFX3 0x19
+        db $38 ; SFX3 0x1A
+        db $3A ; SFX3 0x1B
+        db $00 ; SFX3 0x1C
+        db $00 ; SFX3 0x1D
+        db $00 ; SFX3 0x1E
+        db $00 ; SFX3 0x1F
+        db $00 ; SFX3 0x20
+        db $00 ; SFX3 0x21
+        db $00 ; SFX3 0x22
+        db $39 ; SFX3 0x23
+        db $00 ; SFX3 0x24
+        db $00 ; SFX3 0x25
+        db $00 ; SFX3 0x26
+        db $00 ; SFX3 0x27
+        db $00 ; SFX3 0x28
+        db $00 ; SFX3 0x29
+        db $00 ; SFX3 0x2A
+        db $00 ; SFX3 0x2B
+        db $00 ; SFX3 0x2C
+        db $37 ; SFX3 0x2D
+        db $35 ; SFX3 0x2E
+        db $33 ; SFX3 0x2F
+        db $00 ; SFX3 0x30
+        db $00 ; SFX3 0x31
+        db $00 ; SFX3 0x32
+        db $00 ; SFX3 0x33
+        db $00 ; SFX3 0x34
+        db $34 ; SFX3 0x35
+        db $00 ; SFX3 0x36
+        db $00 ; SFX3 0x37
+        db $00 ; SFX3 0x38
+        db $00 ; SFX3 0x39
+        db $00 ; SFX3 0x3A
+        db $00 ; SFX3 0x3B
+        db $3D ; SFX3 0x3C
+        db $3E ; SFX3 0x3D
+        db $3F ; SFX3 0x3E
+        db $00 ; SFX3 0x3F
     }
 
     ; ==========================================================================
@@ -467,69 +467,69 @@ SFX_Data:
     ; $0D0D89-0D0DC7 DATA
     SFX3_Echo:
     {
-        db $00 ; SFX3 01
-        db $00 ; SFX3 02
-        db $00 ; SFX3 03
-        db $00 ; SFX3 04
-        db $00 ; SFX3 05
-        db $00 ; SFX3 06
-        db $00 ; SFX3 07
-        db $00 ; SFX3 08
-        db $00 ; SFX3 09
-        db $00 ; SFX3 0A
-        db $00 ; SFX3 0B
-        db $01 ; SFX3 0C
-        db $01 ; SFX3 0D
-        db $00 ; SFX3 0E
-        db $3C ; SFX3 0F
-        db $3B ; SFX3 10
-        db $01 ; SFX3 11
-        db $01 ; SFX3 12
-        db $00 ; SFX3 13
-        db $00 ; SFX3 14
-        db $00 ; SFX3 15
-        db $00 ; SFX3 16
-        db $00 ; SFX3 17
-        db $00 ; SFX3 18
-        db $00 ; SFX3 19
-        db $00 ; SFX3 1A
-        db $3A ; SFX3 1B
-        db $00 ; SFX3 1C
-        db $01 ; SFX3 1D
-        db $00 ; SFX3 1E
-        db $01 ; SFX3 1F
-        db $01 ; SFX3 20
-        db $01 ; SFX3 21
-        db $01 ; SFX3 22
-        db $00 ; SFX3 23
-        db $01 ; SFX3 24
-        db $00 ; SFX3 25
-        db $00 ; SFX3 26
-        db $00 ; SFX3 27
-        db $00 ; SFX3 28
-        db $00 ; SFX3 29
-        db $00 ; SFX3 2A
-        db $00 ; SFX3 2B
-        db $00 ; SFX3 2C
-        db $01 ; SFX3 2D
-        db $01 ; SFX3 2E
-        db $01 ; SFX3 2F
-        db $00 ; SFX3 30
-        db $01 ; SFX3 31
-        db $00 ; SFX3 32
-        db $01 ; SFX3 33
-        db $01 ; SFX3 34
-        db $01 ; SFX3 35
-        db $00 ; SFX3 36
-        db $01 ; SFX3 37
-        db $00 ; SFX3 38
-        db $00 ; SFX3 39
-        db $00 ; SFX3 3A
-        db $00 ; SFX3 3B
-        db $3D ; SFX3 3C
-        db $3E ; SFX3 3D
-        db $3F ; SFX3 3E
-        db $01 ; SFX3 3F
+        db $00 ; SFX3 0x01
+        db $00 ; SFX3 0x02
+        db $00 ; SFX3 0x03
+        db $00 ; SFX3 0x04
+        db $00 ; SFX3 0x05
+        db $00 ; SFX3 0x06
+        db $00 ; SFX3 0x07
+        db $00 ; SFX3 0x08
+        db $00 ; SFX3 0x09
+        db $00 ; SFX3 0x0A
+        db $00 ; SFX3 0x0B
+        db $01 ; SFX3 0x0C
+        db $01 ; SFX3 0x0D
+        db $00 ; SFX3 0x0E
+        db $3C ; SFX3 0x0F
+        db $3B ; SFX3 0x10
+        db $01 ; SFX3 0x11
+        db $01 ; SFX3 0x12
+        db $00 ; SFX3 0x13
+        db $00 ; SFX3 0x14
+        db $00 ; SFX3 0x15
+        db $00 ; SFX3 0x16
+        db $00 ; SFX3 0x17
+        db $00 ; SFX3 0x18
+        db $00 ; SFX3 0x19
+        db $00 ; SFX3 0x1A
+        db $3A ; SFX3 0x1B
+        db $00 ; SFX3 0x1C
+        db $01 ; SFX3 0x1D
+        db $00 ; SFX3 0x1E
+        db $01 ; SFX3 0x1F
+        db $01 ; SFX3 0x20
+        db $01 ; SFX3 0x21
+        db $01 ; SFX3 0x22
+        db $00 ; SFX3 0x23
+        db $01 ; SFX3 0x24
+        db $00 ; SFX3 0x25
+        db $00 ; SFX3 0x26
+        db $00 ; SFX3 0x27
+        db $00 ; SFX3 0x28
+        db $00 ; SFX3 0x29
+        db $00 ; SFX3 0x2A
+        db $00 ; SFX3 0x2B
+        db $00 ; SFX3 0x2C
+        db $01 ; SFX3 0x2D
+        db $01 ; SFX3 0x2E
+        db $01 ; SFX3 0x2F
+        db $00 ; SFX3 0x30
+        db $01 ; SFX3 0x31
+        db $00 ; SFX3 0x32
+        db $01 ; SFX3 0x33
+        db $01 ; SFX3 0x34
+        db $01 ; SFX3 0x35
+        db $00 ; SFX3 0x36
+        db $01 ; SFX3 0x37
+        db $00 ; SFX3 0x38
+        db $00 ; SFX3 0x39
+        db $00 ; SFX3 0x3A
+        db $00 ; SFX3 0x3B
+        db $3D ; SFX3 0x3C
+        db $3E ; SFX3 0x3D
+        db $3F ; SFX3 0x3E
+        db $01 ; SFX3 0x3F
     }
 
     ; ==========================================================================
@@ -1703,31 +1703,31 @@ SFXInstruments:
     
     ; TODO: Define all of these.
     ; VOLL VOLR      Pitch     SRCN    ADSR   GAIN Mult
-    db $70, $70 : dw $1000 : db $00, $F6, $6A, $B8, $03 ; 00
-    db $70, $70 : dw $1000 : db $01, $8E, $E0, $B8, $02 ; 01
-    db $70, $70 : dw $1000 : db $14, $FE, $6A, $B8, $02 ; 02
-    db $70, $70 : dw $1000 : db $03, $FE, $F8, $B8, $0D ; 03
-    db $70, $70 : dw $1000 : db $04, $FE, $6A, $7F, $03 ; 04
-    db $70, $70 : dw $1000 : db $02, $FE, $6A, $7F, $03 ; 05
-    db $70, $70 : dw $1000 : db $05, $FE, $6A, $70, $03 ; 06
-    db $70, $70 : dw $1000 : db $06, $FE, $6A, $70, $03 ; 07
-    db $70, $70 : dw $1000 : db $08, $FA, $6A, $70, $03 ; 08
-    db $70, $70 : dw $1000 : db $06, $FE, $6A, $70, $01 ; 09
-    db $70, $70 : dw $1000 : db $07, $FE, $6A, $70, $05 ; 0A
-    db $70, $70 : dw $1000 : db $0B, $FE, $6A, $B8, $03 ; 0B
-    db $70, $70 : dw $1000 : db $0C, $FE, $E0, $B8, $02 ; 0C
-    db $70, $70 : dw $1000 : db $0D, $F9, $6E, $B8, $03 ; 0D
-    db $70, $70 : dw $1000 : db $0E, $FE, $F5, $B8, $07 ; 0E
-    db $70, $70 : dw $1000 : db $0F, $FE, $F5, $B8, $06 ; 0F
-    db $70, $70 : dw $1000 : db $01, $FE, $FC, $B8, $03 ; 10
-    db $70, $70 : dw $1000 : db $10, $8E, $E0, $B8, $03 ; 11
-    db $70, $70 : dw $1000 : db $08, $8E, $E0, $B8, $02 ; 12
-    db $70, $70 : dw $1000 : db $14, $8E, $E0, $B8, $02 ; 13
-    db $70, $70 : dw $1000 : db $0A, $88, $E0, $B8, $02 ; 14
-    db $70, $70 : dw $1000 : db $17, $8E, $E0, $B8, $02 ; 15
-    db $70, $70 : dw $1000 : db $15, $FF, $E0, $B8, $04 ; 16
-    db $70, $70 : dw $1000 : db $03, $DF, $11, $B8, $0F ; 17
-    db $70, $70 : dw $1000 : db $01, $88, $E0, $B8, $01 ; 18
+    db $70, $70 : dw $1000 : db $00, $F6, $6A, $B8, $03 ; 0x00
+    db $70, $70 : dw $1000 : db $01, $8E, $E0, $B8, $02 ; 0x01
+    db $70, $70 : dw $1000 : db $14, $FE, $6A, $B8, $02 ; 0x02
+    db $70, $70 : dw $1000 : db $03, $FE, $F8, $B8, $0D ; 0x03
+    db $70, $70 : dw $1000 : db $04, $FE, $6A, $7F, $03 ; 0x04
+    db $70, $70 : dw $1000 : db $02, $FE, $6A, $7F, $03 ; 0x05
+    db $70, $70 : dw $1000 : db $05, $FE, $6A, $70, $03 ; 0x06
+    db $70, $70 : dw $1000 : db $06, $FE, $6A, $70, $03 ; 0x07
+    db $70, $70 : dw $1000 : db $08, $FA, $6A, $70, $03 ; 0x08
+    db $70, $70 : dw $1000 : db $06, $FE, $6A, $70, $01 ; 0x09
+    db $70, $70 : dw $1000 : db $07, $FE, $6A, $70, $05 ; 0x0A
+    db $70, $70 : dw $1000 : db $0B, $FE, $6A, $B8, $03 ; 0x0B
+    db $70, $70 : dw $1000 : db $0C, $FE, $E0, $B8, $02 ; 0x0C
+    db $70, $70 : dw $1000 : db $0D, $F9, $6E, $B8, $03 ; 0x0D
+    db $70, $70 : dw $1000 : db $0E, $FE, $F5, $B8, $07 ; 0x0E
+    db $70, $70 : dw $1000 : db $0F, $FE, $F5, $B8, $06 ; 0x0F
+    db $70, $70 : dw $1000 : db $01, $FE, $FC, $B8, $03 ; 0x10
+    db $70, $70 : dw $1000 : db $10, $8E, $E0, $B8, $03 ; 0x11
+    db $70, $70 : dw $1000 : db $08, $8E, $E0, $B8, $02 ; 0x12
+    db $70, $70 : dw $1000 : db $14, $8E, $E0, $B8, $02 ; 0x13
+    db $70, $70 : dw $1000 : db $0A, $88, $E0, $B8, $02 ; 0x14
+    db $70, $70 : dw $1000 : db $17, $8E, $E0, $B8, $02 ; 0x15
+    db $70, $70 : dw $1000 : db $15, $FF, $E0, $B8, $04 ; 0x16
+    db $70, $70 : dw $1000 : db $03, $DF, $11, $B8, $0F ; 0x17
+    db $70, $70 : dw $1000 : db $01, $88, $E0, $B8, $01 ; 0x18
 
     .end
 
