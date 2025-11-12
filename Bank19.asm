@@ -2245,8 +2245,8 @@ SPCEngine:
 
                 .increment
                 
-                ; TODO: Verify this byte. We are setting the direct page but then
-                ; it still says .b $0100? i'm pretty sure this can just be .b $00.
+                ; There is no Absolute indexed by X variant of inc, so we have to
+                ; switch the page for a second.
                 setp
                 inc.b $0100+X
                 clrp
@@ -3020,8 +3020,7 @@ SPCEngine:
                 ; is being used.
                 asl.w $03E0 : bcc .to_next_channel
                     mov.w $03C0, X
-                    ; Setup a temp variable that is the ambient channels x8
-                    ; to be used for easier calculations later.
+                    ; Calculate the DSP address for the channel.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
 
                     ; Copy the ambient pan over to the SFX pan.
@@ -3053,14 +3052,19 @@ SPCEngine:
 
         mov.w $03C0, X
 
+        ; Decrement the delay timer and check if it has hit 0 yet.
         mov.w A, $03A1+X : dec A : mov.w $03A1+X, A
-                                   beq .initialize
+                                   beq .timerDone
+            ; If we have a delay, move on to the next channel.
             jmp .to_next_channel
 
-        ; TODO: 
-        ; ALTERNATE ENTRY POINT
+        .timerDone
+
+        ; SPC $1495 ALTERNATE ENTRY POINT
+        ; $0D0863 DATA
         .initialize
 
+        ; Get the ambient ID and then get the data pointer for that sound.
         mov.w A, $03A0+X : asl A : mov Y, A
         mov.w A, Ambient_Pointers-1+Y : mov.w $0391+X, A
                                         mov.b $2D, A
@@ -3086,6 +3090,8 @@ SPCEngine:
 
                 asl.w $03CC : bcc .to_next_channel
                     mov.w $03C0, X
+
+                    ; Calculate the DSP address for the channel.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
 
                     mov.w A, $03D0+X : mov.b $20, A
@@ -3107,11 +3113,14 @@ SPCEngine:
 
         .delayed
 
+        ; Decrement the delay timer and check if it has hit 0 yet.
         mov.w $03C0, X
-
         mov.w A, $03A1+X : dec A : mov.w $03A1+X, A
-                                   beq .initialize
+                                   beq .timerDone
+            ; If we have a delay, move on to the next channel.
             jmp .to_next_channel
+
+        .timerDone
 
         .initialize
 
@@ -3139,6 +3148,8 @@ SPCEngine:
                 
                 asl.w $03CE : bcc .to_next_channel
                     mov.w $03C0, X
+
+                    ; Calculate the DSP address for the channel.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
 
                     mov.w A, $03D0+X : mov.b $20, A
@@ -3160,10 +3171,14 @@ SPCEngine:
 
         .delayed
 
+        ; Decrement the delay timer and check if it has hit 0 yet.
         mov.w $03C0, X
         mov.w A, $03A1+X : dec A : mov.w $03A1+X, A
-                                   beq .initialize
+                                   beq .timerDone
+            ; If we have a delay, move on to the next channel.
             jmp .to_next_channel
+
+        .timerDone
 
         .initialize
 
@@ -3256,235 +3271,271 @@ SPCEngine:
     {
         call SFX3_HandleEcho_disabled
 
+        ; Get the pointer for the current SFX.
         mov.w $03C0, X
         mov.w A, $0391+X : mov Y, A
         mov.w A, $0390+X : movw.b $2C, YA
 
+        ; Decrement the delay timer and check if it has hit 0 yet.
         mov.w A, $03B0+X : dec A : mov.w $03B0+X, A
-
-        beq .next_byte
+                                   beq .timerDone
             jmp .do_pitch_slide
+
+        .timerDone
 
         .next_byte
 
-        incw.b $2C
+            incw.b $2C
 
-        ; SPC $1619 ALTERNATE ENTRY POINT
-        ; $0D09E7 DATA
-        .process_byte
+            ; SPC $1619 ALTERNATE ENTRY POINT
+            ; $0D09E7 DATA
+            .process_byte
 
-        mov.w A, $03C0 : xcn A : lsr A : mov.w $03C2, A
+            ; OPTIMIZE: This being here, calculating the same value every loop
+            ; is a little goofy.
+            ; Calculate the DSP address for the channel.
+            mov.w A, $03C0 : xcn A : lsr A : mov.w $03C2, A
 
-        mov.b X, #$00
-        mov.b A, ($2C+X) : beq DisableSFX
-            bmi .note_or_command
-                mov.w Y, $03C0
-                mov.w $03B1+Y, A
+            mov.b X, #$00
 
-                incw.b $2C
-                mov.b A, ($2C+X) : mov.b $10, A
-                                   bmi .note_or_command
-                    mov X, A
-                    mov.w A, $03C1 : and.w A, $03CF : beq .ambient
-                        mov A, X : beq .zero_byte
-                            mov.w X, $03E5 : bne .next_byte_2
+            ; Load the next byte. If it is 0, stop the sound effect.
+            mov.b A, ($2C+X) : beq DisableSFX
+                ; If the byte is a negative value, it is a note or a command.
+                bmi .note_or_command
+                    ; Store the duration for the current note.
+                    mov.w Y, $03C0
+                    mov.w $03B1+Y, A
 
-                        .zero_byte
-                        
-                        mov.b $10, A
-                        mov.w Y, $03C2
-                        call WriteToDSP
+                    ; Load the next byte. Check if it is a note or a command.
+                    incw.b $2C
+                    mov.b A, ($2C+X) : mov.b $10, A
+                                       bmi .note_or_command
+                        ; OPTIMIZE: We already saved the byte in $10, why do both?
+                        ; Save the current byte.
+                        mov X, A
 
-                        mov.b X, #$00
-                        incw.b $2C
-                        mov.b A, ($2C+X) : bpl .volume_command
-                            mov X, A
-                            mov.b A, $10
+                        ; Check if any channels are being used by both SFX and
+                        ; Ambient sounds.
+                        mov.w A, $03C1 : and.w A, $03CF : beq .ambient
+                            ; If any channels are being used by both:
+
+                            ; If the current byte is 0:
+                            mov A, X : beq .zero_byte
+                                ; Check if the ambient sound is fading:
+                                mov.w X, $03E5 : bne .next_byte_2
+
+                            .zero_byte
+                            
+                            ; OPTIMIZE: $10 is already the current byte. Why
+                            ; write it again?
+                            mov.b $10, A
+
+                            ; Write the current byte to the SFX/Ambient DSP
+                            ; channel address.
+                            mov.w Y, $03C2
+                            call WriteToDSP
+
+                            mov.b X, #$00
+                            incw.b $2C
+                            ; If the next byte is positive, read it as a volume
+                            ; change command.
+                            mov.b A, ($2C+X) : bpl .volume_command
+                                ; Save A.
+                                mov X, A
+
+                                ; Write the previous byte to the SFX/Ambient 
+                                ; DSP channel address again.
+                                mov.b A, $10
+                                mov.w Y, $03C2 : inc Y
+                                call WriteToDSP
+
+                                ; Reload A.
+                                mov A, X
+
+                                bra .note_or_command
+
+                            .volume_command
+
+                            ; Write the current byte to the SFX/Ambient DSP
+                            ; channel address +1.
                             mov.w Y, $03C2 : inc Y
                             call WriteToDSP
 
-                            mov A, X
+                            bra .next_byte_2
 
-                            bra .note_or_command
+                        .ambient
 
-                        .volume_command
-
-                        mov.w Y, $03C2 : inc Y
-                        call WriteToDSP
-
-                        bra .next_byte_2
-
-                    .ambient
-
-                    mov A, X
-                    mov.w X, $03C0
-
-                    asl A : mov.w $0321+X, A
-
-                    mov.b A, #$0A : mov.w $0351+X, A
-
-                    bbs7.b $20, .left_pan
-                        bbs6.b $20, .right_pan
-                            mov.b $11, #$0A : bne .set_pan
-
-                    .left_pan
-
-                    mov.b $11, #$10 : bne .set_pan
-                        .right_pan
-
-                        mov.b $11, #$04
-
-                    .set_pan
-
-                    mov.b $10, #$00
-                    call WritePitch_external
-
-                    mov.b X, #$00
-
-                    .next_byte_2
-
-                    incw.b $2C
-                    mov.b A, ($2C+X)
-
-            .note_or_command
-
-            ; instrument change
-            cmp.b A, #$E0 : bne .not_instrument_change
-                jmp .change_instrument
-
-            .not_instrument_change
-
-            ; slide once
-            cmp.b A, #$F9 : beq .pitch_slide_command
-                ; slide to
-                cmp.b A, #$F1 : beq .pitch_slide_to_command
-                    ; SFX loop trigger
-                    cmp.b A, #$FF : bne .not_loop
+                        ; Write the current byte as the volume of the current
+                        ; channel.
+                        mov A, X
                         mov.w X, $03C0
-                        jmp Handle_AmbientAndSFX_initialize
+                        asl A : mov.w $0321+X, A
 
-                    .not_loop
+                        ; TODO: What does the setting mean?
+                        ; Set the pan setting for the current channel.
+                        mov.b A, #$0A : mov.w $0351+X, A
 
-                    mov.w X, $03C0
-                    mov Y, A
-                    call HandleNote
+                        bbs7.b $20, .left_pan
+                            bbs6.b $20, .right_pan
+                                mov.b $11, #$0A : bne .set_pan
 
-                    mov.w A, $03C1
-                    call KeyOnSoundEffects
+                        .left_pan
 
-                    .setup_pitch_slide
+                        mov.b $11, #$10 : bne .set_pan
+                            .right_pan
 
-                    mov.w X, $03C0
+                            mov.b $11, #$04
 
-                    mov.w A, $03B1+X : mov.w $03B0+X, A
+                        .set_pan
 
-                    .do_pitch_slide
-                    
-                    clr7.b $13
+                        mov.b $10, #$00
+                        call WritePitch_external
 
-                    mov.w X, $03C0
-                    mov.b A, $A0+X : beq .no_pitch_slide
-                        call PitchSlideSFX
+                        mov.b X, #$00
 
-                        bra .dont_key_off
+                        .next_byte_2
 
-                    .no_pitch_slide
+                        incw.b $2C
+                        mov.b A, ($2C+X)
 
-                    mov.b A, #$02 : cmp.w A, $03B0+X : bne .dont_key_off
+                .note_or_command
+
+                ; Check if the next byte is an instrument change command.
+                cmp.b A, #$E0 : bne .not_instrument_change
+                    jmp .change_instrument
+
+                .not_instrument_change
+
+                ; Check if the next byte is a slide once command.
+                cmp.b A, #$F9 : beq .pitch_slide_command
+                    ; Check if the next byte is a slide to command.
+                    cmp.b A, #$F1 : beq .pitch_slide_to_command
+                        ; Check if the next byte is a SFX loop trigger.
+                        cmp.b A, #$FF : bne .not_loop
+                            mov.w X, $03C0
+                            jmp Handle_AmbientAndSFX_initialize
+
+                        .not_loop
+
+                        mov.w X, $03C0
+                        mov Y, A
+                        call HandleNote
+
                         mov.w A, $03C1
-                        mov.b Y, #DSP.KOFF
-                        call WriteToDSP
+                        call KeyOnSoundEffects
 
-                    .dont_key_off
+                        .setup_pitch_slide
 
-                    mov.w X, $03C0
-                    mov.b A, $2D : mov.w $0391+X, A
-                    mov.b A, $2C : mov.w $0390+X, A
+                        mov.w X, $03C0
 
-                    mov.w A, $03C1 : and.w A, $03CF : bne .ambient
-                        mov.w A, $03C1 : and.w A, $03CB : bne .on_SFX_2
-                            jmp Handle_SFX3_to_next_channel
+                        mov.w A, $03B1+X : mov.w $03B0+X, A
 
-                    .ambient
+                        .do_pitch_slide
+                        
+                        clr7.b $13
 
-                    jmp Handle_AmbientAndSFX_to_next_channel
+                        mov.w X, $03C0
+                        mov.b A, $A0+X : beq .no_pitch_slide
+                            call PitchSlideSFX
 
-                    .on_SFX_2
-                    
-                    jmp Handle_SFX2_to_next_channel
+                            bra .dont_key_off
 
-            .pitch_slide_command
+                        .no_pitch_slide
 
-            mov.b X, #$00
-            incw.b $2C
-            mov.b A, ($2C+X)
+                        mov.b A, #$02 : cmp.w A, $03B0+X : bne .dont_key_off
+                            mov.w A, $03C1
+                            mov.b Y, #DSP.KOFF
+                            call WriteToDSP
 
-            mov.w X, $03C0 : mov.b $44, X
+                        .dont_key_off
 
-            mov Y, A
-            call HandleNote
+                        mov.w X, $03C0
+                        mov.b A, $2D : mov.w $0391+X, A
+                        mov.b A, $2C : mov.w $0390+X, A
 
-            mov.w A, $03C1
-            call KeyOnSoundEffects
+                        mov.w A, $03C1 : and.w A, $03CF : bne .ambient
+                            mov.w A, $03C1 : and.w A, $03CB : bne .on_SFX_2
+                                jmp Handle_SFX3_to_next_channel
 
-            .pitch_slide_to_command
-            
-            mov.b X, #$00
-            incw.b $2C
-            mov.b A, ($2C+X)
+                        .ambient
 
-            mov.w X, $03C0
-            mov.b $A1+X, A
+                        jmp Handle_AmbientAndSFX_to_next_channel
 
-            mov.b X, #$00
+                        .on_SFX_2
+                        
+                        jmp Handle_SFX2_to_next_channel
 
-            incw.b $2C
-            mov.b A, ($2C+X)
+                .pitch_slide_command
 
-            mov.w X, $03C0
-            mov.b $A0+X, A
-            push A
+                mov.b X, #$00
+                incw.b $2C
+                mov.b A, ($2C+X)
 
-            mov.b X, #$00
-            incw.b $2C
-            mov.b A, ($2C+X)
+                mov.w X, $03C0 : mov.b $44, X
 
-            pop Y
+                mov Y, A
+                call HandleNote
 
-            mov.w X, $03C0 : mov.b $44, X
+                mov.w A, $03C1
+                call KeyOnSoundEffects
 
-            call PitchSlide_calc_frames
+                .pitch_slide_to_command
+                
+                mov.b X, #$00
+                incw.b $2C
+                mov.b A, ($2C+X)
 
-            jmp .setup_pitch_slide
+                mov.w X, $03C0
+                mov.b $A1+X, A
 
-            .change_instrument
+                mov.b X, #$00
 
-            mov.b X, #$00
-            incw.b $2C
-            mov.b A, ($2C+X)
-            mov.b Y, #$09
-            mul YA : mov X, A
+                incw.b $2C
+                mov.b A, ($2C+X)
 
-            mov.w Y, $03C2
+                mov.w X, $03C0
+                mov.b $A0+X, A
+                push A
 
-            mov.b $12, #$08
+                mov.b X, #$00
+                incw.b $2C
+                mov.b A, ($2C+X)
 
-            .write_loop
+                pop Y
+
+                mov.w X, $03C0 : mov.b $44, X
+
+                call PitchSlide_calc_frames
+
+                jmp .setup_pitch_slide
+
+                .change_instrument
+
+                mov.b X, #$00
+                incw.b $2C
+                mov.b A, ($2C+X)
+                mov.b Y, #$09
+                mul YA : mov X, A
+
+                mov.w Y, $03C2
+
+                mov.b $12, #$08
+
+                .write_loop
+                    mov.w A, INSTRUMENT_DATA_SFX+X
+                    call WriteToDSP
+
+                    inc X
+                    inc Y
+                dbnz.b $12, .write_loop
+
                 mov.w A, INSTRUMENT_DATA_SFX+X
-                call WriteToDSP
 
-                inc X
-                inc Y
-            dbnz.b $12, .write_loop
+                mov.w Y, $03C0
+                mov.w $0221+Y, A
 
-            mov.w A, INSTRUMENT_DATA_SFX+X
-
-            mov.w Y, $03C0
-            mov.w $0221+Y, A
-
-            mov.b A, #$00 : mov.w $0220+Y, A
-
-            jmp .next_byte
+                mov.b A, #$00 : mov.w $0220+Y, A
+        jmp .next_byte
     }
 
     ; ==========================================================================
