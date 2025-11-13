@@ -527,45 +527,56 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; Input:
+    ; Y - The note or command
+    ; X - The channel
     ; SPC $0902-$096B JUMP LOCATION
     ; $0CFCD0-$0CFD39 DATA
     HandleNote:
     {
-        ; Check if percussion hit:
+        ; Check if the note is a percussion hit:
         cmp.b Y, #$CA : bcc .not_percussion
             call TrackCommand_E0_ChangeInstrument
 
-            mov.b Y, #$A4 ; note C4
+            mov.b Y, #$A4 ; Note C4
 
         .not_percussion
 
-        ; Check if tie:
+        ; Check if the note is a tie:
         cmp.b Y, #$C8 : bcs Synchronize_exit
             mov.b A, $1A : and.b A, $47 : bne Synchronize_exit
+                ; Apply the global transposition and the channel transposition
+                ; to the note:
                 mov A, Y : and.b A, #$7F : clrc : adc.b A, $50
                 clrc : adc.w A, $02F0+X : mov.w $0361+X, A
 
                 mov.w A, $0381+X : mov.w $0360+X, A
 
-                ; Move the lowest bit into the carry flag.
+                ; Move the lowest bit of the channel gradient wait into the
+                ; carry flag.
                 mov.w A, $02B1+X : lsr A
 
                 ; Move the carry flag into the highest bit.
                 mov.b A, #$00 : ror A : mov.w $02A0+X, A
 
+                ; Reset some channel vibrato and tremelo settings.
                 mov.b A, #$00 : mov.b $B0+X, A
                                 mov.w $0100+X, A
                                 mov.w $02D0+X, A
                                 mov.b $C0+X, A
 
+                ; Enable pitch slide and key on queue for used channels.
                 or.b $5E, $47
                 or.b $45, $47
 
+                ; Get the current channel's pitch slide timer.
                 mov.w A, $0280+X : mov.b $A0+X, A
                                    beq .no_pitch_slide
                     mov.w A, $0281+X : mov.b $A1+X, A
 
+                    ; Get the slide type. 0 for slide from and 1 for slide to.
                     mov.w A, $0290+X : bne .do_slide_to
+                        ; Slide from.
                         mov.w A, $0361+X
                         setc : sbc.w A, $0291+X : mov.w $0361+X, A
 
@@ -1714,7 +1725,6 @@ SPCEngine:
         asl A : asl A : asl A : eor.b A, #$FF
         setc : adc.b A, #SONG_POINTERS>>8
         mov.b Y, #DSP.ESA
-
         jmp WriteToDSP
     }
 
@@ -1811,6 +1821,8 @@ SPCEngine:
         call GetTrackByte
         clrc : adc.b A, $50 : adc.w A, $02F0+X
 
+        ; TODO: Address
+        ; ALTERNATE ENTRY POINT
         .calc_frames
 
         and.b A, #$7F : mov.w $0380+X, A
@@ -2035,6 +2047,10 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; TODO: Come back to this and document it.
+    ; Input:
+    ; X The channel number.
+    ; $10[0x02] the pan setting.
     ; SPC $0F94-$0FD1 JUMP LOCATION
     ; $0D0362-$0D039F DATA
     WritePitch_external:
@@ -3375,15 +3391,21 @@ SPCEngine:
                         ; Set the pan setting for the current channel.
                         mov.b A, #$0A : mov.w $0351+X, A
 
+                        ; Check if pan is enabled on the left channel:
                         bbs7.b $20, .left_pan
+                            ; Check if pan is enabled on the right channel:
                             bbs6.b $20, .right_pan
+                                ; TODO: Check if the mov sets the Z flag.
+                                ; No pan setting.
                                 mov.b $11, #$0A : bne .set_pan
 
                         .left_pan
 
+                        ; Left pan setting.
                         mov.b $11, #$10 : bne .set_pan
                             .right_pan
 
+                            ; Right pan setting.
                             mov.b $11, #$04
 
                         .set_pan
@@ -3395,6 +3417,7 @@ SPCEngine:
 
                         .next_byte_2
 
+                        ; Load the next byte.
                         incw.b $2C
                         mov.b A, ($2C+X)
 
@@ -3412,6 +3435,7 @@ SPCEngine:
                     cmp.b A, #$F1 : beq .pitch_slide_to_command
                         ; Check if the next byte is a SFX loop trigger.
                         cmp.b A, #$FF : bne .not_loop
+                            ; Restart the ambient or SFX.
                             mov.w X, $03C0
                             jmp Handle_AmbientAndSFX_initialize
 
