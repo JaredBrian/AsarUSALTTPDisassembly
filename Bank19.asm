@@ -583,7 +583,7 @@ SPCEngine:
                     .do_slide_to
 
                     mov.w A, $0291+X : clrc : adc.w A, $0361+X
-                    call PitchSlide_calc_frames
+                    call TrackCommand_F9_SlideOnce_calc_frames
 
                 .no_pitch_slide
 
@@ -1821,8 +1821,8 @@ SPCEngine:
         call GetTrackByte
         clrc : adc.b A, $50 : adc.w A, $02F0+X
 
-        ; TODO: Address
-        ; ALTERNATE ENTRY POINT
+        ; SPC $0EAB ALTERNATE ENTRY POINT
+        ; $0D0279 DATA
         .calc_frames
 
         and.b A, #$7F : mov.w $0380+X, A
@@ -3529,7 +3529,7 @@ SPCEngine:
 
                 mov.w X, $03C0 : mov.b $44, X
 
-                call PitchSlide_calc_frames
+                call TrackCommand_F9_SlideOnce_calc_frames
 
                 jmp .setup_pitch_slide
 
