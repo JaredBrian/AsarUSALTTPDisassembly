@@ -582,6 +582,7 @@ SPCEngine:
 
                     .do_slide_to
 
+                    ; Perform the slide calculation.
                     mov.w A, $0291+X : clrc : adc.w A, $0361+X
                     call TrackCommand_F9_SlideOnce_calc_frames
 
@@ -599,9 +600,10 @@ SPCEngine:
     HandleNote_external:
     {
         mov.b Y, #$00
-        mov.b A, $11
 
-        setc : sbc.b A, #$34 : bcs .high_note
+        ; Get the final pitch value after pitch slide, global transposition, and
+        ; channel transpositions are applied.
+        mov.b A, $11 : setc : sbc.b A, #$34 : bcs .high_note
             mov.b A, $11 : setc : sbc.b A, #$13 : bcs .middle_note
                 dec Y
                 asl A
@@ -614,17 +616,16 @@ SPCEngine:
 
         push X
 
+        ; TODO: Do a lot of math I don't understand.
         mov.b A, $11 : asl A
         mov.b Y, #$00
         mov.b X, #$18
         div YA, X : mov X, A
 
         mov.w A, TuningValues+1+Y : mov.b $15, A
-
         mov.w A, TuningValues+0+Y : mov.b $14, A
 
         mov.w A, TuningValues+3+Y : push A
-
         mov.w A, TuningValues+2+Y
 
         pop Y
@@ -656,6 +657,7 @@ SPCEngine:
 
         pop X
 
+        ; Apply some instrument level tuning.
         mov.w A, $0220+X
         mov.b Y, $15
         mul YA : movw.b $16, YA
@@ -666,9 +668,7 @@ SPCEngine:
 
         mov.w A, $0221+X
         mov.b Y, $14
-        mul YA : addw.b YA, $16
-
-        movw.b $16, YA
+        mul YA : addw.b YA, $16 : movw.b $16, YA
 
         mov.w A, $0221+X
         mov.b Y, $15
@@ -676,14 +676,13 @@ SPCEngine:
 
         pop A : addw.b YA, $16 : movw.b $16, YA
 
-        mov A, X : xcn A : lsr A : or.b A, #$02
-
-        mov Y, A
+        ; TODO: Figure out what DSP register ends up getting written to here.
+        mov A, X : xcn A : lsr A : or.b A, #$02 : mov Y, A
         mov.b A, $16
         call WriteToDSP_Checked
 
+        ; Setup the nexxt DSP write.
         inc Y
-
         mov.b A, $17
 
         ; Bleeds into the next function.
@@ -698,9 +697,12 @@ SPCEngine:
     {
         push A
 
+        ; Check if any channels are enabled.
         mov.b A, $47 : and.b A, $1A
 
         pop A
+
+        ; Only go to write if no channels are enabled.
         bne WriteToDSP_exit
             ; Bleeds into the next function.
     }
@@ -1049,7 +1051,6 @@ SPCEngine:
                             bne .try_again
 
                             mov.w A, $0230+X : mov.b $30+X, A
-
                             mov.w A, $0231+X : mov.b $31+X, A
                         bra .try_again
 
@@ -1197,6 +1198,7 @@ SPCEngine:
     ; $0D002A-$0D002B DATA
     GetTrackByte:
     {
+        ; Get the current channel track pointer.
         mov.b A, ($30+X)
 
         ; Bleeds into the next function.
@@ -1208,8 +1210,10 @@ SPCEngine:
     ; $0D002C-$0D0031 DATA
     SkipTrackByte:
     {
+        ; Increase the track pointer to the next byte.
         inc.b $30+X
         bne NoParameters
+            ; TODO: If the byte has a parameter, increase they highbyte? Why?
             inc.b $31+X
 
             ; Bleeds into the next function.
@@ -1814,24 +1818,30 @@ SPCEngine:
     ; $0D0269-$0D0290 DATA
     TrackCommand_F9_SlideOnce:
     {
+        ; Set the channel pitch delay.
         mov.b $A1+X, A
 
+        ; Get the next track byte and store it into the channel pitch timer.
         call GetTrackByte : mov.b $A0+X, A
 
-        call GetTrackByte
-        clrc : adc.b A, $50 : adc.w A, $02F0+X
+        ; Get the next track byte, add the global transposition, and the
+        ; channel transposition.
+        call GetTrackByte : clrc : adc.b A, $50 : adc.w A, $02F0+X
 
         ; SPC $0EAB ALTERNATE ENTRY POINT
         ; $0D0279 DATA
         .calc_frames
 
+        ; TODO: Do some math I don't understand.
         and.b A, #$7F : mov.w $0380+X, A
-
         setc : sbc.w A, $0361+X
-        mov.b Y, $A0+X
 
-        push Y
-        pop X
+        mov.b Y, $A0+X
+        
+        ; Theres no mov X, Y, so use the stack instead.
+        push Y : pop X
+
+        ; TODO: Do some math I don't understand.
         call MakeFraction : mov.w $0370+X, A
         mov A, Y : mov.w $0371+X, A
 
@@ -1849,7 +1859,6 @@ SPCEngine:
     GetTempPitch:
     {
         mov.w A, $0361+X : mov.b $11, A
-
         mov.w A, $0360+X : mov.b $10, A
 
         ret
@@ -1862,8 +1871,8 @@ SPCEngine:
     MakeFraction:
     {
         notc : ror.b $12 : bpl .positive_input
-            eor.b A, #$FF
-            inc A
+            ; * -1
+            eor.b A, #$FF : inc A
 
         .positive_input
 
@@ -2864,17 +2873,21 @@ SPCEngine:
     ; $0D073B-$0D074E DATA
     HandleInput_Ambient:
     {
+        ; Check the ambient input:
         mov.b A, $01 : bmi .Ambient_negative
             bne InitAmbient
+                ; Return if the input is 0.
                 ret
 
         .Ambient_negative
 
+        ; Set the current ambient to the recieved input.
         mov.b $05, A
 
+        ; Check if any channels are in use by an ambient sound:
         mov.w A, $03CF : beq .channels_not_used
-            mov.b A, #$78
-            mov.w $03E4, A
+            ; Set the ambient fade timer.
+            mov.b A, #$78 : mov.w $03E4, A
 
         .channels_not_used
 
@@ -3096,6 +3109,7 @@ SPCEngine:
     ; $0D087B-$0D08D8 DATA
     Handle_SFX2:
     {
+        ; Check if any channels are being used by A SXF2:
         mov.w A, $03CB : mov.w $03CC, A
                          beq .exit
             mov.b X, #$0E
