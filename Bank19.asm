@@ -550,6 +550,8 @@ SPCEngine:
                 mov A, Y : and.b A, #$7F : clrc : adc.b A, $50
                 clrc : adc.w A, $02F0+X : mov.w $0361+X, A
 
+                ; Get the current channel tuning and apply it to the channel
+                ; pitch calculation.
                 mov.w A, $0381+X : mov.w $0360+X, A
 
                 ; Move the lowest bit of the channel gradient wait into the
@@ -572,6 +574,8 @@ SPCEngine:
                 ; Get the current channel's pitch slide timer.
                 mov.w A, $0280+X : mov.b $A0+X, A
                                    beq .no_pitch_slide
+                    ; TODO: The descriptions of these ram values are bad.
+                    ; idk what this does.
                     mov.w A, $0281+X : mov.b $A1+X, A
 
                     ; Get the slide type. 0 for slide from and 1 for slide to.
@@ -731,20 +735,25 @@ SPCEngine:
     ; $0CFDCC-$0CFDF6 DATA
     SongCommand_FF_TransferData:
     {
+        ; Set the left and right echo volumes to 0.
         mov.b A, #$00
         mov.b Y, #DSP.EVOLL
         call WriteToDSP
 
+        ; OPTIMIZE: We don't need to set A again.
         mov.b A, #$00
         mov.b Y, #DSP.EVOLR
         call WriteToDSP
 
+        ; Turn off all channels.
         mov.b A, #$FF
         mov.b Y, #DSP.KOFF
         call WriteToDSP
 
+        ; Transfer the new data block.
         call Data_Loader
 
+        ; Stop all music, ambient, and SFX playing.
         mov.b A, #$00 : mov.w $03CA, A
                         mov.b $04, A
                         mov.w $03CF, A
@@ -761,15 +770,20 @@ SPCEngine:
     ; $0CFDF7-$0CFE0C DATA
     SongCommand_F1_Fadeout:
     {
+        ; Set the global volume and music fade timers.
         mov.b X, #$80 : mov.b $5A, X
                         mov.w $03CA, X
 
+        ; Set the global volume fade target.
         mov.b A, #$00 : mov.b $5B, A
 
+        ; Set the value that will be subtracted from the volume every time the
+        ; fade timer hits 0.
         setc : sbc.b A, $59
         call MakeFraction : movw.b $5C, YA
 
-        jmp HandleInput_Song_no_new_song
+        ; Go to the usual song handling.
+        jmp HandleInput_Song_run_song
     }
 
     ; ==========================================================================
@@ -778,12 +792,16 @@ SPCEngine:
     ; $0CFE0D-$0CFE1D DATA
     SongCommand_F2_HalfVolume:
     {
+        ; Don't set the volume to half if the volume has already been modified.
         mov.w A, $03E1 : bne SongCommand_F3_MaxVolume_exit
+            ; Cache the global volume.
             mov.b A, $59 : mov.w $03E1, A
 
+            ; Set the volume to half.
             mov.b A, #$70 : mov.b $59, A
 
-            jmp HandleInput_Song_no_new_song
+            ; Go to the usual song handling.
+            jmp HandleInput_Song_run_song
     }
 
     ; ==========================================================================
@@ -792,12 +810,16 @@ SPCEngine:
     ; $0CFE1E-$0CFE30 DATA
     SongCommand_F3_MaxVolume:
     {
+        ; Only set the volume to full if the cached value is not 0.
         mov.w A, $03E1 : beq .exit
+            ; Set the global volume back to the cached value.
             mov.w A, $03E1 : mov.b $59, A
 
+            ; Reset the cache.
             mov.b A, #$00 : mov.w $03E1, A
 
-            jmp HandleInput_Song_no_new_song
+            ; Go to the usual song handling.
+            jmp HandleInput_Song_run_song
 
         ; SPC $0A62 ALTERNATE ENTRY POINT
         ; $0CFE30 DATA
@@ -822,7 +844,7 @@ SPCEngine:
                     cmp.b A, #$F3 : beq SongCommand_F3_MaxVolume
                         ; SONG F0 - mute
                         cmp.b A, #$F0 : beq SongCommand_F0_Mute
-                            bra Song_NewJam
+                            bra Music_ChangeSong
     }
 
     ; ==========================================================================
@@ -831,7 +853,10 @@ SPCEngine:
     ; $0CFE47-$0CFE4E DATA
     PerformFadeout:
     {
+        ; Decrement the music fade timer.
         dec.w $03CA
+
+        ; Check if the timer is 0:
         beq SongCommand_F0_Mute
             jmp HandleInput_Song_dont_fade_out
     }
@@ -842,9 +867,13 @@ SPCEngine:
     ; $0CFE4F-$0CFE5C DATA
     SongCommand_F0_Mute:
     {
+        ; Set the channels that are being used to key off.
         mov.b A, $1A : eor.b A, #$FF : tset.w $0046, A
 
+        ; Set the current song to 0.
         mov.b $04, #$00
+
+        ; TODO: I don't understand what $47 does.
         mov.b $47, #$00
 
         ret
@@ -852,19 +881,22 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; Input:
+    ; $40 - The pointer to current song's segments.
     ; SPC $0A8F-$0A9C JUMP LOCATION
     ; $0CFE5D-$0CFE6A DATA
-    GetNextPart:
+    GetNextSegment:
     {
+        ; Thers no mov.b A, ($dp) with out a +X or +Y so just set Y to 0.
         mov.b Y, #$00
         mov.b A, ($40)+Y
         incw.b $40
-
         push A
+
         mov.b A, ($40)+Y
         incw.b $40
-
         mov Y, A
+
         pop A
 
         ret
@@ -872,28 +904,35 @@ SPCEngine:
 
     ; ==========================================================================
 
-    ; Drops a new track.
+    ; Input:
+    ; A - The song to play.
+    ; Starts a new song from the input.
     ; SPC $0A9D-$0ABD JUMP LOCATION
     ; $0CFE6B-$0CFE8B DATA
-    Song_NewJam:
+    Music_ChangeSong:
     {
         clrc
 
+        ; Set the music fade out timer and volume cache to 0.
         mov.b X, #$00 : mov.w $03CA, X
                         mov.w $03E1, X
 
+        ; Set the current song.
         mov.b $04, A
 
+        ; Get the song pointer and set it to the current song segment.
         asl A : mov X, A
         mov.w A, SONG_POINTERS-1+X : mov Y, A
         mov.w A, SONG_POINTERS-2+X : movw.b $40, YA
 
+        ; Set the pre start song delay.
         mov.b $0C, #$02
 
         ; SPC $0AB6 ALTERNATE ENTRY POINT
         ; $0CFE84 DATA
         .key_off
 
+        ; Set the channels that are being used to key off.
         mov.b A, $1A : eor.b A, #$FF : tset.w $0046, A
 
         ret
@@ -901,6 +940,7 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; This function is run while the pre start song delay is non-0.
     ; SPC $0ABE-$0AF8 JUMP LOCATION
     ; $0CFE8C-$0CFEC6 DATA
     EngineStartDelay:
@@ -908,27 +948,35 @@ SPCEngine:
         mov.b X, #$0E
         mov.b $47, #$80
 
+        ; Loop through each channel.
         .next_channel
 
+            ; Set the channel volume to full.
             mov.b A, #$FF : mov.w $0301+X, A
 
+            ; Set the current channel pan settings to equal on both sides.
             mov.b A, #$0A
             call TrackCommand_E1_ChangePan
 
+            ; A will be 0 after the call above.
+            ; Set a bunch of channel specific settings to 0. Instrument ID,
+            ; tuning, transposition, pitch slide timer, mute settings, vibrato
+            ; intensity, and tremolo intensity.
             mov.w $0211+X, A
             mov.w $0381+X, A
             mov.w $02F0+X, A
             mov.w $0280+X, A
             mov.w $03FF+X, A
-
             mov.b $B1+X, A
             mov.b $C1+X, A
 
             dec X : dec X
+        lsr.b $47 : bne .next_channel
 
-            lsr.b $47
-        bne .next_channel
-
+        ; A will be 0 after the loop above.
+        ; Set a bunch of channel specific settings to 0. Global volume slide
+        ; timer, echo pan timer, tempo sweep timer, global transposition,
+        ; the segment loop counter, and the precussion command.
         mov.b $5A, A
         mov.b $68, A
         mov.b $54, A
@@ -936,11 +984,12 @@ SPCEngine:
         mov.b $42, A
         mov.b $5F, A
 
+        ; Set the global volume and tempo.
         mov.b $59, #$C0
         mov.b $53, #$20
 
         ; SPC $0AF8 ALTERNATE ENTRY POINT
-        ; $0CFEC6 DATA 
+        ; $0CFEC6 DATA
         .exit
 
         ret
@@ -954,101 +1003,149 @@ SPCEngine:
     ; $0CFEC7-$0D0017 DATA
     HandleInput_Song:
     {
+        ; Check if we have been sent a new song command from the 5A22.
         mov.b A, $00 : beq .no_new_song
+            ; If we have been sent a new song to play or command, go set that up:
             jmp Song_Commands
 
         .no_new_song
 
+        ; SPC $0B00 ALTERNATE ENTRY POINT
+        ; $0CFECE DATA
+        .run_song
+
+        ; If there is no current song, do nothing.
         mov.b A, $04 : beq EngineStartDelay_exit
+            ; Check the music fade timer:
             mov.w A, $03CA : beq .dont_fade_out
+                ; If the fade out timer is not 0, perform the fade.
                 jmp PerformFadeout
 
             .dont_fade_out
 
+            ; Check if there is a music start delay:
             mov.b A, $0C : beq .no_delay
                 dbnz.b $0C, EngineStartDelay
-                    .loop
+                    ; On the first frame of no delay:
 
-                                call GetNextPart : bne .valid_pointer
+                    .setupSegmentLoop
+
+                                ; Get the current segment pointer:
+                                call GetNextSegment : bne .valid_pointer
+                                    ; Handle and invalid pointer:
+
                                     mov Y, A : bne .valid_command
+                                        ; If not a valid command, mute the song.
                                         jmp SongCommand_F0_Mute
 
                                     .valid_command
 
-                                    cmp.b A, #$80 : beq .disable_d_s_p
+                                    ; TODO: Also mute the song if #$80?
+                                    ; Investigate.
+                                    cmp.b A, #$80 : beq .disable_dsp
+                                        ; TODO: If not #$81 set the number of
+                                        ; setup segment loops?
                                         cmp.b A, #$81 : bne .set_num_loops
                                             mov.b A, #$00
 
-                                    .disable_d_s_p
+                                    .disable_dsp
 
                                     mov.b $1B, A
-                            bra .loop
+                            bra .setupSegmentLoop
 
                             .set_num_loops
 
+                            ; Decrement the number of setup segment loops and see 
+                            ; if a loop is still in progress.
                             dec.b $42 : bpl .loop_in_progress
+                                ; Set the number of setup segment loops.
                                 mov.b $42, A
 
                             .loop_in_progress
 
-                            call GetNextPart
-                        mov.b X, $42 : beq .loop
+                            call GetNextSegment
+                        mov.b X, $42 : beq .setupSegmentLoop
 
                         movw.b $40, YA
-                    bra .loop
+                    bra .setupSegmentLoop
 
                     .valid_pointer
 
                     movw.b $16, YA
                     mov.b Y, #$0F
 
+                    ; Load the track pointer for each channel:
                     .load_pattern_table_loop
 
                         mov.b A, ($16)+Y : mov.w $0030+Y, A
-
-                        dec Y
-                    bpl .load_pattern_table_loop
+                    dec Y : bpl .load_pattern_table_loop
 
                     mov.b X, #$00
                     mov.b $47, #$01
 
-                    .next_channel
+                    .initChannelLoop
 
+                        ; If the track pointer is 0:
                         mov.b A, $31+X : beq .dont_make_noise
+                            ; If the track instrument is 0:
                             mov.w A, $0211+X : bne .dont_make_noise
+                                ; Setup the instrument as having none.
                                 mov.b A, #$00
                                 call TrackCommand_E0_ChangeInstrument
 
                         .dont_make_noise
 
+                        ; Set the channel part loop counter, channel volume slide
+                        ; timer, and channel pan timer to 0.
                         mov.b A, #$00 : mov.b $80+X, A
                                         mov.b $90+X, A
                                         mov.b $91+X, A
+
+                        ; Set the channel duration to 1.
                         inc A : mov.b $70+X, A
 
                         inc X : inc X
-
-                        asl.b $47
-                    bne .next_channel
+                    ; Loop through each channel starting with channel 0.
+                    asl.b $47 bne .initChannelLoop
 
             .no_delay
 
+            ; Disable all pitch slides.
             mov.b X, #$00 : mov.b $5E, X
+
             mov.b $47, #$01
 
             .loop_2
 
+                ; Cache the channel offset.
                 mov.b $44, X
-                mov.b A, $31+X : beq .next_channel_2
-                    dec.b $70+X : bne .empty_track
+
+                ; If the channel's pointer is 0, skip the channel.
+                mov.b A, $31+X : beq .silentChannel
+                    ; If the channel duration is 0, skip it because the current
+                    ; note is still being played.
+                    dec.b $70+X : bne .stillPlayingNote
                         .try_again
+                            .try_again2
 
+                                ; If the next byte is 0:
                                 call GetTrackByte : bne .non_terminating
-                                    mov.b A, $80+X : beq .loop
+                                    ; If we do not need to loop the current part,
+                                    ; that means the #$00 byte came from the end
+                                    ; of the current segment and we need to move
+                                    ; on to the next one.
+                                    mov.b A, $80+X : beq .setupSegmentLoop
+                                        ; If the segment counter was non-0, that
+                                        ; means the #$00 came from the end of
+                                        ; a part and we need to repeat the part.
                                         call IteratePartLoop
+                                        
+                            ; Decrease the amount of times we need to loop the
+                            ; current part.
+                            dec.b $80+X : bne .try_again2
 
-                                        dec.b $80+X
-                            bne .try_again
+                            ; If 0, move on to the next byte instead of looping
+                            ; the part again.
 
                             mov.w A, $0230+X : mov.b $30+X, A
                             mov.w A, $0231+X : mov.b $31+X, A
@@ -1103,7 +1200,7 @@ SPCEngine:
 
                         bra .continue
 
-                    .empty_track
+                    .stillPlayingNote
 
                     mov.b A, $1B : bne .next_channel_2
                         call Tracker
@@ -1111,7 +1208,8 @@ SPCEngine:
                         .continue
                         call PitchSlide
 
-                .next_channel_2
+                    .next_channel_2
+                .silentChannel
 
                 inc X : inc X
 
@@ -1211,16 +1309,17 @@ SPCEngine:
     SkipTrackByte:
     {
         ; Increase the track pointer to the next byte.
-        inc.b $30+X
-        bne NoParameters
-            ; TODO: If the byte has a parameter, increase they highbyte? Why?
+        inc.b $30+X : bne .dontIncramentHigh
             inc.b $31+X
 
-            ; Bleeds into the next function.
+        .dontIncramentHigh
+
+        ; Bleeds into the next function.
     }
 
     ; ==========================================================================
 
+    ; TODO: I think the name for this function is bad.
     ; SPC $0C64-$0C65 JUMP LOCATION
     ; $0D0032-$0D0033 DATA
     NoParameters:
@@ -1237,7 +1336,7 @@ SPCEngine:
     TrackCommand_E0_ChangeInstrument:
     {
         mov.w $0211+X, A : mov Y, A
-        bpl .no_percussion
+                           bpl .no_percussion
             ; Percussion base
             setc : sbc.b A, #$CA : clrc : adc.b A, $5F
 
@@ -1299,7 +1398,8 @@ SPCEngine:
     ; $0D008D-$0D009A DATA
     TrackCommand_E1_ChangePan:
     {
-        mov.w $0351+X, A
+        ; Set the current channel pan settings.
+                        mov.w $0351+X, A
         and.b A, #$1F : mov.w $0331+X, A
 
         mov.b A, #$00 : mov.w $0330+X, A
@@ -1598,6 +1698,8 @@ SPCEngine:
     ; $0D0185-$0D018F DATA
     IteratePartLoop:
     {
+        ; Set the current channel pointer to the start of the channel's
+        ; subroutine part address.
         mov.w A, $0240+X : mov.b $30+X, A
         mov.w A, $0241+X : mov.b $31+X, A
 
@@ -1756,6 +1858,7 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; UNUSED: Doesn't appear to be referenced anywhere.
     ; SPC $0E6F-$0E73 JUMP LOCATION
     ; $0D023D-$0D0241 DATA
     ChannelStop:
@@ -1783,7 +1886,7 @@ SPCEngine:
     {
         mov.b $1B, A
 
-        jmp Song_NewJam_key_off
+        jmp Music_ChangeSong_key_off
     }
 
     ; ==========================================================================
@@ -3052,13 +3155,14 @@ SPCEngine:
                     ; Calculate the DSP address for the channel.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
 
-                    ; Copy the ambient pan over to the SFX pan.
+                    ; Get the current channel pan setting.
                     mov.w A, $03D0+X : mov.b $20, A
 
-                    ; Check if there is a delay to play the SFX on this channel.
+                    ; Check if there is a delay to play the ambient on
+                    ; this channel.
                     mov.w A, $03A1+X : bne .delayed
-                        ; Check if there is a SFX on the channel currently
-                        ; being played on this channel.
+                        ; Check if there is a ambient currently being played on
+                        ; this channel.
                         mov.w A, $03A0+X : beq .to_next_channel
                             jmp SFXControl
 
@@ -3068,10 +3172,8 @@ SPCEngine:
 
                 ; Mark that we no longer are using the current channel.
                 lsr.w $03C1
-
-                dec X : dec X
             ; We only need to check channel 6 and 7.
-            cmp.b X, #$0A : bpl .next_channel
+            dec X : dec X : cmp.b X, #$0A : bpl .next_channel
 
         .exit
 
@@ -3114,28 +3216,35 @@ SPCEngine:
                          beq .exit
             mov.b X, #$0E
 
+            ; Set channel 7 as in use by SFX2.
             mov.b A, #$80 : mov.w $03C1, A
 
             .next_channel
 
+                ; Shift the channels we're using until we find one that
+                ; is being used.
                 asl.w $03CC : bcc .to_next_channel
                     mov.w $03C0, X
 
                     ; Calculate the DSP address for the channel.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
 
+                    ; Get the current channel pan setting.
                     mov.w A, $03D0+X : mov.b $20, A
 
+                    ; Check if there is a delay to play the SFX on this channel.
                     mov.w A, $03A1+X : bne .delayed
+                        ; Check if there is a SFX currently being played on
+                        ; this channel.
                         mov.w A, $03A0+X : beq .to_next_channel
                             jmp SFXControl
 
                 .to_next_channel
 
+                ; Mark that we no longer are using the current channel.
                 lsr.w $03C1
-
-                dec X : dec X
-            bpl .next_channel
+            ; Loop through each channel.
+            dec X : dec X : bpl .next_channel
 
         .exit
 
@@ -3152,8 +3261,7 @@ SPCEngine:
 
         .timerDone
 
-        .initialize
-
+        ; Get the SFX2 ID and then get the data pointer for that sound.
         mov.w A, $03A0+X : asl A : mov Y, A
         mov.w A, SFX2_Pointers-1+Y : mov.w $0391+X, A
                                      mov.b $2D, A
@@ -3169,31 +3277,39 @@ SPCEngine:
     ; $0D08D9-$0D0936 DATA
     Handle_SFX3:
     {
+        ; Check if any channels are being used by A SXF3:
         mov.w A, $03CD : mov.w $03CE, A
                          beq .exit
             mov.b X, #$0E
+
+            ; Set channel 7 as in use by SFX2.
             mov.b A, #$80 : mov.w $03C1, A
 
             .next_channel
                 
+                ; Shift the channels we're using until we find one that
+                ; is being used.
                 asl.w $03CE : bcc .to_next_channel
                     mov.w $03C0, X
 
                     ; Calculate the DSP address for the channel.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
 
+                    ; Get the current channel pan setting.
                     mov.w A, $03D0+X : mov.b $20, A
 
+                    ; Check if there is a delay to play the SFX on this channel.
                     mov.w A, $03A1+X : bne .delayed
+                        ; Check if there is a SFX currently being played on
+                        ; this channel.
                         mov.w A, $03A0+X : beq .to_next_channel
                             jmp SFXControl
 
                 .to_next_channel
 
+                ; Mark that we no longer are using the current channel.
                 lsr.w $03C1
-
-                dec X : dec X
-            bpl .next_channel
+            dec X : dec X : bpl .next_channel
 
         .exit
 
@@ -3210,8 +3326,7 @@ SPCEngine:
 
         .timerDone
 
-        .initialize
-
+        ; Get the SFX3 ID and then get the data pointer for that sound.
         mov.w A, $03A0+X : asl A : mov Y, A
         mov.w A, SFX3_Pointers-1+Y : mov.w $0391+X, A
                                      mov.b $2D, A

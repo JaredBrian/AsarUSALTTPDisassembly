@@ -4,8 +4,10 @@
 
 ; Shorthand legend:
 ; Accum = Accumulator
+; Addr = Address
 ; CMD = Command
 ; Q = Queue
+; Ptr = Pointer
 ; SFX = Sound Effect
 ; Trem = Tremolo
 ; Vbr = Vibrato
@@ -14,690 +16,691 @@
 struct ARAM $0000
 {
     ; ===========================================================================
-    ; Page 0x00
+    ; Direct Page 0x00
     ; ===========================================================================
     
     ; Input values from APU ports.
-    ; $0000[0x01] - (???)
+    ; $00[0x01] - (???)
     .InputSong: skip $01
 
-    ; $0001[0x01] - (???)
+    ; $01[0x01] - (???)
     .InputAmbient: skip $01
 
-    ; $0002[0x01] - (???)
+    ; $02[0x01] - (???)
     .InputSFX2: skip $01
 
-    ; $0003[0x01] - (???)
+    ; $03[0x01] - (???)
     .InputSFX3: skip $01
 
 
-    ; $0004[0x01] - (???)
+    ; $04[0x01] - (???)
     .CurrentSong: skip $01
         ; The currently playing song sent back to the SNES CPU over I/O.
 
-    ; $0005[0x01] - (???)
+    ; $05[0x01] - (???)
     .CurrentAmbient: skip $01
         ; The currently playing Ambient sent back to the SNES CPU over I/O.
 
-    ; $0006[0x01] - (???)
+    ; $06[0x01] - (???)
     .CurrentSFX2: skip $01
         ; The currently playing SFX2 sent back to the SNES CPU over I/O.
 
-    ; $0007[0x01] - (???)
+    ; $07[0x01] - (???)
     .CurrentSFX3: skip $01
         ; The currently playing SFX3 sent back to the SNES CPU over I/O.
 
 
-    ; $0008[0x01] - (???)
+    ; $08[0x01] - (???)
     .LastSong: skip $01
         ; The last song that the APU was told to play.
 
-    ; $0009[0x01] - (???)
+    ; $09[0x01] - (???)
     .LastAmbient: skip $01
         ; The last Ambient that the APU was told to play.
 
-    ; $000A[0x01] - (???)
+    ; $0A[0x01] - (???)
     .LastSFX2: skip $01
         ; The last SFX2 that the APU was told to play.
 
-    ; $000B[0x01] - (???)
+    ; $0B[0x01] - (???)
     .LastSFX3: skip $01
         ; The last SFX3 that the APU was told to play.
 
 
-    ; $000C[0x01] - (???)
+    ; $0C[0x01] - (???)
     .Delay: skip $01
         ; Provides a short delay when changing songs.
 
-    ; $000D[0x01] - (Free)
+    ; $0D[0x01] - (Free)
     .Free_0D: skip $01
         ; Free RAM.
 
-    ; $000E[0x02] - (???)
+    ; $0E[0x02] - (???)
     .Zero: skip $02
         ; Always expected to hold the value 0x0000. Used to give YA a value
         ; of 0x0000. Also used to un-key off every channel each loop.
 
-    ; $0010[0x01] - (Main)
+    ; $10[0x01] - (Main)
     .Work_10: skip $01
         ; Generic work RAM. Used for temporary calculations. Should not be used
         ; for anything that needs to be used accross multiple frames.
 
-    ; $0011[0x01] - (Main)
+    ; $11[0x01] - (Main)
     .Work_11: skip $01
         ; Generic work RAM. Used for temporary calculations. Should not be used
         ; for anything that needs to be used accross multiple frames.
 
-    ; $0012[0x01] - (Main)
+    ; $12[0x01] - (Main)
     .Work_12: skip $01
         ; Generic work RAM. Used for temporary calculations. Should not be used
         ; for anything that needs to be used accross multiple frames.
 
-    ; $0013[0x01] - (???)
+    ; $13[0x01] - (???)
     .DoPitch: skip $01
         ; Flags pitch changes via commands.
         ; p... ....
         ; p - Run change
 
-    ; $0014[0x01] - (Main)
+    ; $14[0x01] - (Main)
     .Work_14: skip $01
         ; Generic work RAM. Used for temporary calculations. Should not be used
         ; for anything that needs to be used accross multiple frames.
 
-    ; $0015[0x01] - (Main)
+    ; $15[0x01] - (Main)
     .Work_15: skip $01
         ; Generic work RAM. Used for temporary calculations. Should not be used
         ; for anything that needs to be used accross multiple frames.
 
-    ; $0016[0x01] - (Main)
+    ; $16[0x01] - (Main)
     .Work_16: skip $01
         ; Generic work RAM. Used for temporary calculations. Should not be used
         ; for anything that needs to be used accross multiple frames.
 
-    ; $0017[0x01] - (Main)
+    ; $17[0x01] - (Main)
     .Work_17: skip $01
         ; Generic work RAM. Used for temporary calculations. Should not be used
         ; for anything that needs to be used accross multiple frames.
 
-    ; $0018[0x01] - (Junk)
+    ; $18[0x01] - (Junk)
     .Junk_18: skip $01
         ; Manipulated every loop, but to seemingly no effect.
 
-    ; $0019[0x01] - (Junk)
+    ; $19[0x01] - (Junk)
     .Junk_19: skip $01
         ; Manipulated every loop, but to seemingly no effect.
 
-    ; $001A[0x01] - (???)
-    .SFXChannelUse: skip $01
-        ; Flags channels currently in use by sound effects.
+    ; $1A[0x01] - (???)
+    .ChannelsInUse: skip $01
+        ; Flags channels currently in use by ambient, SFX, or music.
 
-    ; $001B[0x01] - (???)
+    ; $1B[0x01] - (???)
     .Mute: skip $01
         ; Disables all music.
 
-    ; $001C[0x04] - (Free)
+    ; $1C[0x04] - (Free)
     .Free_1C: skip $04
         ; Free RAM.
 
-    ; $0020[0x01] - (???)
+    ; $20[0x01] - (???)
     .SFXPan: skip $01
         ; Indicates pan of current SFX. The left takes priority.
         ; lr.. ....
         ; l - pan left
         ; r - pan right
 
-    ; $0021[0x0B] - (Free)
+    ; $21[0x0B] - (Free)
     .Free_21: skip $0B
         ; Free RAM.
 
-    ; $002C[0x02] - (???)
-    .SFXPointer: skip $02
+    ; $2C[0x02] - (???)
+    .SFXPtr: skip $02
         ; The SFX data pointer.
 
-    ; $002E[0x02] - (Free)
+    ; $2E[0x02] - (Free)
     .Free_2E: skip $02
         ; Free RAM.
 
-    ; $0030[0x02] - (???)
-    .Track0Pointer: skip $02
+    ; $30[0x02] - (???)
+    .Channel0Ptr: skip $02
         ; The track pointer for channel 0.
 
-    ; $0032[0x02] - (???)
-    .Track1Pointer: skip $02
+    ; $32[0x02] - (???)
+    .Channel1Ptr: skip $02
         ; The track pointer for channel 1.
 
-    ; $0034[0x02] - (???)
-    .Track2Pointer: skip $02
+    ; $34[0x02] - (???)
+    .Channel2Ptr: skip $02
         ; The track pointer for channel 2.
 
-    ; $0036[0x02] - (???)
-    .Track3Pointer: skip $02
+    ; $36[0x02] - (???)
+    .Channel3Ptr: skip $02
         ; The track pointer for channel 3.
 
-    ; $0038[0x02] - (???)
-    .Track4Pointer: skip $02
+    ; $38[0x02] - (???)
+    .Channel4Ptr: skip $02
         ; The track pointer for channel 4.
 
-    ; $003A[0x02] - (???)
-    .Track5Pointer: skip $02
+    ; $3A[0x02] - (???)
+    .Channel5Ptr: skip $02
         ; The track pointer for channel 5.
 
-    ; $003C[0x02] - (???)
-    .Track6Pointer: skip $02
+    ; $3C[0x02] - (???)
+    .Channel6Ptr: skip $02
         ; The track pointer for channel 6.
 
-    ; $003E[0x02] - (???)
-    .Track7Pointer: skip $02
+    ; $3E[0x02] - (???)
+    .Channel7Ptr: skip $02
         ; The track pointer for channel 7.
 
-    ; $0040[0x02] - (???)
-    .SegmentPointer: skip $02
-        ; Pointer to current song's segments.
+    ; $40[0x02] - (???)
+    .SegmentPtr: skip $02
+        ; The pointer to current song's segments.
 
-    ; $0042[0x01] - (???)
+    ; $42[0x01] - (???)
     .SegmentLoop: skip $01
         ; Used to build up segment pointers during new songs.
 
-    ; $0043[0x01] - (???)
+    ; $43[0x01] - (???)
     .SFXTimer: skip $01
         ; This has 0x38 Added to it for every tick that passes on timer 0.
         ; If the result added is greater than 0xFF, we need to take new sfx
         ; input from the 5A22 and handle the current SFX.
 
-    ; $0044[0x01] - (???)
+    ; $44[0x01] - (???)
     .ChannelOffset: skip $01
-        ; Saves channel offset index when the X register is required.
+        ; Caches channel offset index when the X register (which usually holds
+        ; the channel offset) is required.
 
-    ; $0045[0x01] - (???)
+    ; $45[0x01] - (???)
     .KeyOnQ: skip $01
         ; The DSP.KON (Key on) queue.
         ; TODO: What are these queues used for?
 
-    ; $0046[0x01] - (???)
+    ; $46[0x01] - (???)
     .KeyOffQ: skip $01
         ; The DSP.KOFF (Key off) queue.
 
-    ; $0047[0x01] - (???)
+    ; $47[0x01] - (???)
     .ChannelBit: skip $01
-        ; Current channel bit for bitfield writes.
+        ; Current channel bit for bitfield writes. TODO: What?
 
-    ; $0048[0x01] - (???)
+    ; $48[0x01] - (???)
     .FlagQ: skip $01
         ; The DSP.FLG (Flag) queue.
 
-    ; $0049[0x01] - (???)
+    ; $49[0x01] - (???)
     .NoiseQ: skip $01
         ; The DSP.NON (Noise Enable) queue.
 
-    ; $004A[0x01] - (???)
+    ; $4A[0x01] - (???)
     .EchoQ: skip $01
         ; The DSP.EON (Echo Enable) queue.
 
-    ; $004B[0x01] - (???)
+    ; $4B[0x01] - (???)
     .PitchModQ: skip $01
         ; The DSP.PMON (Pitch Modulation) queue.
 
-    ; $004C[0x01] - (???)
+    ; $4C[0x01] - (???)
     .EchoTimer: skip $01
         ; A timer to prevent certain things until it reaches the same 
         ; value as $4D (EchoDelayQ).
 
-    ; $004D[0x01] - (???)
+    ; $4D[0x01] - (???)
     .EchoDelayQ: skip $01
         ; The DSP.EDL (Echo Delay) queue.
 
-    ; $004E[0x01] - (???)
+    ; $4E[0x01] - (???)
     .EchoFeedbackQ: skip $01
         ; The DSP.EFB (Echo Feedback) queue.
 
-    ; $004F[0x01] - (Free)
+    ; $4F[0x01] - (Free)
     .Free_4F: skip $01
         ; Free RAM.
 
-    ; $0050[0x01] - (???)
+    ; $50[0x01] - (???)
     .GlobalTransposition: skip $01
         ; The global transposition.
 
-    ; $0051[0x01] - (???)
+    ; $51[0x01] - (???)
     .SongTimer: skip $01
         ; This has the Tempo high byte ($53) Added to it for every tick that 
         ; passes on timer 0. If the result added is greater than 0xFF, we need
         ; to take new song input from the 5A22 and handle the current song.
 
-    ; $0052[0x02] - (???)
+    ; $52[0x02] - (???)
     .Tempo: skip $02
         ; The song tempo.
 
-    ; $0054[0x01] - (???)
+    ; $54[0x01] - (???)
     .TempoTimer: skip $01
         ; The tempo sweep duration.
 
-    ; $0055[0x01] - (???)
+    ; $55[0x01] - (???)
     .TempoTarget: skip $01
         ; The target tempo for sweep.
 
-    ; $0056[0x01] - (???)
+    ; $56[0x01] - (???)
     .TempoSweep: skip $01
         ; The tempo slide sweep amount.
 
-    ; $0058[0x02] - (???)
+    ; $58[0x02] - (???)
     .GlobalVol: skip $02
         ; The global volume.
 
-    ; $005A[0x01] - (???)
+    ; $5A[0x01] - (???)
     .GlobalVolTimer: skip $01
         ; The global volume slide timer.
 
-    ; $005B[0x01] - (???)
+    ; $5B[0x01] - (???)
     .GlobalVolTarget: skip $01
         ; Global volume slide target.
 
-    ; $005C[0x02] - (???)
+    ; $5C[0x02] - (???)
     .GlobalVolIncrament: skip $02
         ; Global volume slide increment per loop.
 
-    ; $005E[0x01] - (???)
+    ; $5E[0x01] - (???)
     .Slide: skip $01
         ; Flags channels for pitch slide.
 
-    ; $005F[0x01] - (???)
+    ; $5F[0x01] - (???)
     .Drum: skip $01
         ; Base SRCN for percussion commands.
 
-    ; $0060[0x02] - (???)
+    ; $60[0x02] - (???)
     .EchoVolLeftQ: skip $02
         ; The EVOLL (Echo Volume Left) queue.
 
-    ; $0062[0x02] - (???)
+    ; $62[0x02] - (???)
     .EchoVolRightQ: skip $02
         ; The EVOLR (Echo Volume Right) queue.
 
-    ; $0064[0x02] - (???)
+    ; $64[0x02] - (???)
     .EchoPanLeft: skip $02
         ; Echo volume left panning steps.
 
-    ; $0066[0x02] - (???)
+    ; $66[0x02] - (???)
     .EchoPanRight: skip $02
         ; Echo volume right panning steps.
 
-    ; $0068[0x01] - (???)
+    ; $68[0x01] - (???)
     .EchoPanTimer: skip $01
         ; The echo pan timer.
 
-    ; $0069[0x01] - (???)
+    ; $69[0x01] - (???)
     .EchoPanLeftTarget: skip $01
         ; The echo pan target Left.
 
-    ; $006A[0x01] - (???)
+    ; $6A[0x01] - (???)
     .EchoPanRightTarget: skip $01
         ; The echo pan target Right.
 
-    ; $006B[0x05] - (Free)
+    ; $6B[0x05] - (Free)
     .Free_6B: skip $05
         ; Free RAM.
 
 
     ; TODO: Figure out the difference between the 2. The CMDTimer seems to always
     ; be one lower than the duration.
-    ; $0070[0x01] - (???)
+    ; $70[0x01] - (???)
     .Channel0Duration: skip $01
         ; The countdown for next note playing on channel 0.
 
-    ; $0071[0x01] - (???)
+    ; $71[0x01] - (???)
     .Channel0CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 0.
 
-    ; $0072[0x01] - (???)
+    ; $72[0x01] - (???)
     .Channel1Duration: skip $01
         ; The countdown for next note playing on channel 1.
 
-    ; $0073[0x01] - (???)
+    ; $73[0x01] - (???)
     .Channel1CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 1.
 
-    ; $0074[0x01] - (???)
+    ; $74[0x01] - (???)
     .Channel2Duration: skip $01
         ; The countdown for next note playing on channel 2.
 
-    ; $0075[0x01] - (???)
+    ; $75[0x01] - (???)
     .Channel2CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 2.
 
-    ; $0076[0x01] - (???)
+    ; $76[0x01] - (???)
     .Channel3Duration: skip $01
         ; The countdown for next note playing on channel 3.
 
-    ; $0077[0x01] - (???)
+    ; $77[0x01] - (???)
     .Channel3CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 3.
 
-    ; $0078[0x01] - (???)
+    ; $78[0x01] - (???)
     .Channel4Duration: skip $01
         ; The countdown for next note playing on channel 4.
 
-    ; $0079[0x01] - (???)
+    ; $79[0x01] - (???)
     .Channel4CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 4.
 
-    ; $007A[0x01] - (???)
+    ; $7A[0x01] - (???)
     .Channel5Duration: skip $01
         ; The countdown for next note playing on channel 5.
 
-    ; $007B[0x01] - (???)
+    ; $7B[0x01] - (???)
     .Channel5CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 5.
 
-    ; $007C[0x01] - (???)
+    ; $7C[0x01] - (???)
     .Channel6Duration: skip $01
         ; The countdown for next note playing on channel 6.
 
-    ; $007D[0x01] - (???)
+    ; $7D[0x01] - (???)
     .Channel6CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 6.
 
-    ; $007E[0x01] - (???)
+    ; $7E[0x01] - (???)
     .Channel7Duration: skip $01
         ; The countdown for next note playing on channel 7.
 
-    ; $007F[0x01] - (???)
+    ; $7F[0x01] - (???)
     .Channel7CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 7.
 
 
-    ; $0080[0x02] - (???)
+    ; $80[0x02] - (???)
     .Channel0PartCounter: skip $02
         ; The channel 0 part loop counters. The high byte is unused.
 
-    ; $0082[0x02] - (???)
+    ; $82[0x02] - (???)
     .Channel1PartCounter: skip $02
         ; The channel 1 part loop counters. The high byte is unused.
 
-    ; $0084[0x02] - (???)
+    ; $84[0x02] - (???)
     .Channel2PartCounter: skip $02
         ; The channel 2 part loop counters. The high byte is unused.
 
-    ; $0086[0x02] - (???)
+    ; $86[0x02] - (???)
     .Channel3PartCounter: skip $02
         ; The channel 3 part loop counters. The high byte is unused.
 
-    ; $0088[0x02] - (???)
+    ; $88[0x02] - (???)
     .Channel4PartCounter: skip $02
         ; The channel 4 part loop counters. The high byte is unused.
 
-    ; $008A[0x02] - (???)
+    ; $8A[0x02] - (???)
     .Channel5PartCounter: skip $02
         ; The channel 5 part loop counters. The high byte is unused.
 
-    ; $008C[0x02] - (???)
+    ; $8C[0x02] - (???)
     .Channel6PartCounter: skip $02
         ; The channel 6 part loop counters. The high byte is unused.
 
-    ; $008E[0x02] - (???)
+    ; $8E[0x02] - (???)
     .Channel7PartCounter: skip $02
         ; The channel 7 part loop counters. The high byte is unused.
 
 
-    ; $0090[0x01] - (???)
+    ; $90[0x01] - (???)
     .Channel0VolTimer: skip $01
         ; The channel 0 volume slide timer.
 
-    ; $0091[0x01] - (???)
+    ; $91[0x01] - (???)
     .Channel0PanTimer: skip $01
         ; The channel 0 pan slide timers.
 
-    ; $0092[0x01] - (???)
+    ; $92[0x01] - (???)
     .Channel1VolTimer: skip $01
         ; The channel 1 volume slide timer.
 
-    ; $0093[0x01] - (???)
+    ; $93[0x01] - (???)
     .Channel1PanTimer: skip $01
         ; The channel 1 pan slide timers.
 
-    ; $0094[0x01] - (???)
+    ; $94[0x01] - (???)
     .Channel2VolTimer: skip $01
         ; The channel 2 volume slide timer.
 
-    ; $0095[0x01] - (???)
+    ; $95[0x01] - (???)
     .Channel2PanTimer: skip $01
         ; The channel 2 pan slide timers.
 
-    ; $0096[0x01] - (???)
+    ; $96[0x01] - (???)
     .Channel3VolTimer: skip $01
         ; The channel 3 volume slide timer.
 
-    ; $0097[0x01] - (???)
+    ; $97[0x01] - (???)
     .Channel3PanTimer: skip $01
         ; The channel 3 pan slide timers.
 
-    ; $0098[0x01] - (???)
+    ; $98[0x01] - (???)
     .Channel4VolTimer: skip $01
         ; The channel 4 volume slide timer.
 
-    ; $0099[0x01] - (???)
+    ; $99[0x01] - (???)
     .Channel4PanTimer: skip $01
         ; The channel 4 pan slide timers.
 
-    ; $009A[0x01] - (???)
+    ; $9A[0x01] - (???)
     .Channel5VolTimer: skip $01
         ; The channel 5 volume slide timer.
 
-    ; $009B[0x01] - (???)
+    ; $9B[0x01] - (???)
     .Channel5PanTimer: skip $01
         ; The channel 5 pan slide timers.
 
-    ; $009C[0x01] - (???)
+    ; $9C[0x01] - (???)
     .Channel6VolTimer: skip $01
         ; The channel 6 volume slide timer.
 
-    ; $009D[0x01] - (???)
+    ; $9D[0x01] - (???)
     .Channel6PanTimer: skip $01
         ; The channel 6 pan slide timers.
 
-    ; $009E[0x01] - (???)
+    ; $9E[0x01] - (???)
     .Channel7VolTimer: skip $01
         ; The channel 7 volume slide timer.
 
-    ; $009F[0x01] - (???)
+    ; $9F[0x01] - (???)
     .Channel7PanTimer: skip $01
         ; The channel 7 pan slide timers.
 
 
-    ; $00A0[0x01] - (???)
+    ; $A0[0x01] - (???)
     .Channel0PitchTimer: skip $01
         ; The channel 0 pitch slide timer.
 
-    ; $00A1[0x01] - (???)
+    ; $A1[0x01] - (???)
     .Channel0PitchDelay: skip $01
         ; The channel 0 pitch slide delay for operation.
 
-    ; $00A2[0x01] - (???)
+    ; $A2[0x01] - (???)
     .Channel1PitchTimer: skip $01
         ; The channel 1 pitch slide timer.
 
-    ; $00A3[0x01] - (???)
+    ; $A3[0x01] - (???)
     .Channel1PitchDelay: skip $01
         ; The channel 1 pitch slide delay for operation.
 
-    ; $00A4[0x01] - (???)
+    ; $A4[0x01] - (???)
     .Channel2PitchTimer: skip $01
         ; The channel 2 pitch slide timer.
 
-    ; $00A5[0x01] - (???)
+    ; $A5[0x01] - (???)
     .Channel2PitchDelay: skip $01
         ; The channel 2 pitch slide delay for operation.
 
-    ; $00A6[0x01] - (???)
+    ; $A6[0x01] - (???)
     .Channel3PitchTimer: skip $01
         ; The channel 3 pitch slide timer.
 
-    ; $00A7[0x01] - (???)
+    ; $A7[0x01] - (???)
     .Channel3PitchDelay: skip $01
         ; The channel 3 pitch slide delay for operation.
 
-    ; $00A8[0x01] - (???)
+    ; $A8[0x01] - (???)
     .Channel4PitchTimer: skip $01
         ; The channel 4 pitch slide timer.
 
-    ; $00A9[0x01] - (???)
+    ; $A9[0x01] - (???)
     .Channel4PitchDelay: skip $01
         ; The channel 4 pitch slide delay for operation.
 
-    ; $00AA[0x01] - (???)
+    ; $AA[0x01] - (???)
     .Channel5PitchTimer: skip $01
         ; The channel 5 pitch slide timer.
 
-    ; $00AB[0x01] - (???)
+    ; $AB[0x01] - (???)
     .Channel5PitchDelay: skip $01
         ; The channel 5 pitch slide delay for operation.
 
-    ; $00AC[0x01] - (???)
+    ; $AC[0x01] - (???)
     .Channel6PitchTimer: skip $01
         ; The channel 6 pitch slide timer.
 
-    ; $00AD[0x01] - (???)
+    ; $AD[0x01] - (???)
     .Channel6PitchDelay: skip $01
         ; The channel 6 pitch slide delay for operation.
 
-    ; $00AE[0x01] - (???)
+    ; $AE[0x01] - (???)
     .Channel7PitchTimer: skip $01
         ; The channel 7 pitch slide timer.
 
-    ; $00AF[0x01] - (???)
+    ; $AF[0x01] - (???)
     .Channel7PitchDelay: skip $01
         ; The channel 7 pitch slide delay for operation.
 
 
-    ; $00B0[0x01] - (???)
+    ; $B0[0x01] - (???)
     .Channel0VBRStrength: skip $01
         ; The channel 0 vibrato strength.
 
-    ; $00B1[0x01] - (???)
+    ; $B1[0x01] - (???)
     .Channel0VBRIntensity: skip $01
         ; The channel 0 vibrato max intensity.
 
-    ; $00B2[0x01] - (???)
+    ; $B2[0x01] - (???)
     .Channel1VBRStrength: skip $01
         ; The channel 1 vibrato strength.
 
-    ; $00B3[0x01] - (???)
+    ; $B3[0x01] - (???)
     .Channel1VBRIntensity: skip $01
         ; The channel 1 vibrato max intensity.
 
-    ; $00B4[0x01] - (???)
+    ; $B4[0x01] - (???)
     .Channel2VBRStrength: skip $01
         ; The channel 2 vibrato strength.
 
-    ; $00B5[0x01] - (???)
+    ; $B5[0x01] - (???)
     .Channel2VBRIntensity: skip $01
         ; The channel 2 vibrato max intensity.
 
-    ; $00B6[0x01] - (???)
+    ; $B6[0x01] - (???)
     .Channel3VBRStrength: skip $01
         ; The channel 3 vibrato strength.
 
-    ; $00B7[0x01] - (???)
+    ; $B7[0x01] - (???)
     .Channel3VBRIntensity: skip $01
         ; The channel 3 vibrato max intensity.
 
-    ; $00B8[0x01] - (???)
+    ; $B8[0x01] - (???)
     .Channel4VBRStrength: skip $01
         ; The channel 4 vibrato strength.
 
-    ; $00B9[0x01] - (???)
+    ; $B9[0x01] - (???)
     .Channel4VBRIntensity: skip $01
         ; The channel 4 vibrato max intensity.
 
-    ; $00BA[0x01] - (???)
+    ; $BA[0x01] - (???)
     .Channel5VBRStrength: skip $01
         ; The channel 5 vibrato strength.
 
-    ; $00BB[0x01] - (???)
+    ; $BB[0x01] - (???)
     .Channel5VBRIntensity: skip $01
         ; The channel 5 vibrato max intensity.
 
-    ; $00BC[0x01] - (???)
+    ; $BC[0x01] - (???)
     .Channel6VBRStrength: skip $01
         ; The channel 6 vibrato strength.
 
-    ; $00BD[0x01] - (???)
+    ; $BD[0x01] - (???)
     .Channel6VBRIntensity: skip $01
         ; The channel 6 vibrato max intensity.
 
-    ; $00BE[0x01] - (???)
+    ; $BE[0x01] - (???)
     .Channel7VBRStrength: skip $01
         ; The channel 7 vibrato strength.
 
-    ; $00BF[0x01] - (???)
+    ; $BF[0x01] - (???)
     .Channel7VBRIntensity: skip $01
         ; The channel 7 vibrato max intensity.
 
 
-    ; $00C0[0x01] - (???)
+    ; $C0[0x01] - (???)
     .Channel0TremTimer: skip $01
         ; The channel 0 tremolo timer.
 
-    ; $00C1[0x01] - (???)
+    ; $C1[0x01] - (???)
     .Channel0TremIntensity: skip $01
         ; The channel 0 tremolo intensity.
 
-    ; $00C2[0x01] - (???)
+    ; $C2[0x01] - (???)
     .Channel1TremTimer: skip $01
         ; The channel 1 tremolo timer.
 
-    ; $00C3[0x01] - (???)
+    ; $C3[0x01] - (???)
     .Channel1TremIntensity: skip $01
         ; The channel 1 tremolo intensity.
 
-    ; $00C4[0x01] - (???)
+    ; $C4[0x01] - (???)
     .Channel2TremTimer: skip $01
         ; The channel 2 tremolo timer.
 
-    ; $00C5[0x01] - (???)
+    ; $C5[0x01] - (???)
     .Channel2TremIntensity: skip $01
         ; The channel 2 tremolo intensity.
 
-    ; $00C6[0x01] - (???)
+    ; $C6[0x01] - (???)
     .Channel3TremTimer: skip $01
         ; The channel 3 tremolo timer.
 
-    ; $00C7[0x01] - (???)
+    ; $C7[0x01] - (???)
     .Channel3TremIntensity: skip $01
         ; The channel 3 tremolo intensity.
 
-    ; $00C8[0x01] - (???)
+    ; $C8[0x01] - (???)
     .Channel4TremTimer: skip $01
         ; The channel 4 tremolo timer.
 
-    ; $00C9[0x01] - (???)
+    ; $C9[0x01] - (???)
     .Channel4TremIntensity: skip $01
         ; The channel 4 tremolo intensity.
 
-    ; $00CA[0x01] - (???)
+    ; $CA[0x01] - (???)
     .Channel5TremTimer: skip $01
         ; The channel 5 tremolo timer.
 
-    ; $00CB[0x01] - (???)
+    ; $CB[0x01] - (???)
     .Channel5TremIntensity: skip $01
         ; The channel 5 tremolo intensity.
 
-    ; $00CC[0x01] - (???)
+    ; $CC[0x01] - (???)
     .Channel6TremTimer: skip $01
         ; The channel 6 tremolo timer.
 
-    ; $00CD[0x01] - (???)
+    ; $CD[0x01] - (???)
     .Channel6TremIntensity: skip $01
         ; The channel 6 tremolo intensity.
 
-    ; $00CE[0x01] - (???)
+    ; $CE[0x01] - (???)
     .Channel7TremTimer: skip $01
         ; The channel 7 tremolo timer.
 
-    ; $00CF[0x01] - (???)
+    ; $CF[0x01] - (???)
     .Channel7TremIntensity: skip $01
         ; The channel 7 tremolo intensity.
 
 
-    ; $00D0[0x20] - (Free)
+    ; $D0[0x20] - (Free)
     .Free_D0: skip $20
         ; Free RAM.
 
@@ -706,6 +709,16 @@ struct ARAM $0000
     ; See HardwareRegisters.asm
     skip $10
     ; ==========================================================================
+
+    ; ===========================================================================
+    ; End of Direct Page 0x00
+    ; ===========================================================================
+
+    ; ===========================================================================
+    ; Direct Page 0x01
+    ; ===========================================================================
+    ; The direct page 0x01 is only used in one place in the SPC engine and only
+    ; very briefly. Most references to this section of RAM are absolute calls.
 
     ; Vibrato counter and unused variable
     ; $0100[0x01] - (???)
@@ -768,7 +781,13 @@ struct ARAM $0000
     ; $01FF[0x01] - (???)
     .IPLSTACK: skip $01
 
-    ; ==========================================================================
+    ; ===========================================================================
+    ; End of Direct Page 0x01
+    ; ===========================================================================
+
+    ; ===========================================================================
+    ; Absolute RAM
+    ; ===========================================================================
 
     ; Note duration reset value and release duration
     ; $0200[0x01] - (???)
@@ -920,105 +939,78 @@ struct ARAM $0000
     .T7MULTH: skip $01
 
 
-    ; Return address for part calling
-    ; $0230[0x01] - (???)
-    .T0PRETL: skip $01
+    ; $0230[0x02] - (???)
+    .Channel0PartReturn: skip $02
+        ; The address to return to after the current part is done looping on
+        ; channel 0.
 
-    ; $0231[0x01] - (???)
-    .T0PRETH: skip $01
+    ; $0232[0x02] - (???)
+    .Channel1PartReturn: skip $02
+        ; The address to return to after the current part is done looping on
+        ; channel 1.
 
-    ; $0232[0x01] - (???)
-    .T1PRETL: skip $01
+    ; $0234[0x02] - (???)
+    .Channel2PartReturn: skip $02
+        ; The address to return to after the current part is done looping on
+        ; channel 2.
 
-    ; $0233[0x01] - (???)
-    .T1PRETH: skip $01
+    ; $0236[0x02] - (???)
+    .Channel3PartReturn: skip $02
+        ; The address to return to after the current part is done looping on
+        ; channel 3.
 
-    ; $0234[0x01] - (???)
-    .T2PRETL: skip $01
+    ; $0238[0x02] - (???)
+    .Channel4PartReturn: skip $02
+        ; The address to return to after the current part is done looping on
+        ; channel 4.
 
-    ; $0235[0x01] - (???)
-    .T2PRETH: skip $01
+    ; $023A[0x02] - (???)
+    .Channel5PartReturn: skip $02
+        ; The address to return to after the current part is done looping on
+        ; channel 5.
 
-    ; $0236[0x01] - (???)
-    .T3PRETL: skip $01
+    ; $023C[0x02] - (???)
+    .Channel6PartReturn: skip $02
+        ; The address to return to after the current part is done looping on
+        ; channel 6.
 
-    ; $0237[0x01] - (???)
-    .T3PRETH: skip $01
-
-    ; $0238[0x01] - (???)
-    .T4PRETL: skip $01
-
-    ; $0239[0x01] - (???)
-    .T4PRETH: skip $01
-
-    ; $023A[0x01] - (???)
-    .T5PRETL: skip $01
-
-    ; $023B[0x01] - (???)
-    .T5PRETH: skip $01
-
-    ; $023C[0x01] - (???)
-    .T6PRETL: skip $01
-
-    ; $023D[0x01] - (???)
-    .T6PRETH: skip $01
-
-    ; $023E[0x01] - (???)
-    .T7PRETL: skip $01
-
-    ; $023F[0x01] - (???)
-    .T7PRETH: skip $01
+    ; $023E[0x02] - (???)
+    .Channel7PartReturn: skip $02
+        ; The address to return to after the current part is done looping on
+        ; channel 7.
 
 
-    ; Subroutine address for part calls
-    ; $0240[0x01] - (???)
-    .T0PADDL: skip $01
+    ; $0240[0x02] - (???)
+    .Channel0PartAddr: skip $02
+        ; The Subroutine address for part calls for channel 0.
 
-    ; $0241[0x01] - (???)
-    .T0PADDH: skip $01
+    ; $0242[0x02] - (???)
+    .Channel1PartAddr: skip $02
+        ; The Subroutine address for part calls for channel 1.
 
-    ; $0242[0x01] - (???)
-    .T1PADDL: skip $01
+    ; $0244[0x02] - (???)
+    .Channel2PartAddr: skip $02
+        ; The Subroutine address for part calls for channel 2.
 
-    ; $0243[0x01] - (???)
-    .T1PADDH: skip $01
+    ; $0246[0x02] - (???)
+    .Channel3PartAddr: skip $02
+        ; The Subroutine address for part calls for channel 3.
 
-    ; $0244[0x01] - (???)
-    .T2PADDL: skip $01
+    ; $0248[0x02] - (???)
+    .Channel4PartAddr: skip $02
+        ; The Subroutine address for part calls for channel 4.
 
-    ; $0245[0x01] - (???)
-    .T2PADDH: skip $01
+    ; $024A[0x02] - (???)
+    .Channel5PartAddr: skip $02
+        ; The Subroutine address for part calls for channel 5.
 
-    ; $0246[0x01] - (???)
-    .T3PADDL: skip $01
+    ; $024C[0x02] - (???)
+    .Channel6PartAddr: skip $02
+        ; The Subroutine address for part calls for channel 6.
 
-    ; $0247[0x01] - (???)
-    .T3PADDH: skip $01
-
-    ; $0248[0x01] - (???)
-    .T4PADDL: skip $01
-
-    ; $0249[0x01] - (???)
-    .T4PADDH: skip $01
-
-    ; $024A[0x01] - (???)
-    .T5PADDL: skip $01
-
-    ; $024B[0x01] - (???)
-    .T5PADDH: skip $01
-
-    ; $024C[0x01] - (???)
-    .T6PADDL: skip $01
-
-    ; $024D[0x01] - (???)
-    .T6PADDH: skip $01
-
-    ; $024E[0x01] - (???)
-    .T7PADDL: skip $01
-
-    ; $024F[0x01] - (???)
-    .T7PADDH: skip $01
-
+    ; $024E[0x02] - (???)
+    .Channel7PartAddr: skip $02
+        ; The Subroutine address for part calls for channel 7.
 
     ; $0250[0x30] - (Free)
     .Free_0250: skip $30
@@ -1428,54 +1420,37 @@ struct ARAM $0000
 
     ; ==========================================================================
 
-    ; Channel volume
-    ; $0300[0x01] - (???)
-    .T0VOLL: skip $01
+    ; $0300[0x02] - (???)
+    .Channel0Vol: skip $02
+        ; The volume for channel 0.
 
-    ; $0301[0x01] - (???)
-    .T0VOLH: skip $01
+    ; $0302[0x02] - (???)
+    .Channel1Vol: skip $02
+        ; The volume for channel 1.
 
-    ; $0302[0x01] - (???)
-    .T1VOLL: skip $01
+    ; $0304[0x02] - (???)
+    .Channel2Vol: skip $02
+        ; The volume for channel 2.
 
-    ; $0303[0x01] - (???)
-    .T1VOLH: skip $01
+    ; $0306[0x02] - (???)
+    .Channel3Vol: skip $02
+        ; The volume for channel 3.
 
-    ; $0304[0x01] - (???)
-    .T2VOLL: skip $01
+    ; $0308[0x02] - (???)
+    .Channel4Vol: skip $02
+        ; The volume for channel 4.
 
-    ; $0305[0x01] - (???)
-    .T2VOLH: skip $01
+    ; $030A[0x02] - (???)
+    .Channel5Vol: skip $02
+        ; The volume for channel 5.
 
-    ; $0306[0x01] - (???)
-    .T3VOLL: skip $01
+    ; $030C[0x02] - (???)
+    .Channel6Vol: skip $02
+        ; The volume for channel 6.
 
-    ; $0307[0x01] - (???)
-    .T3VOLH: skip $01
-
-    ; $0308[0x01] - (???)
-    .T4VOLL: skip $01
-
-    ; $0309[0x01] - (???)
-    .T4VOLH: skip $01
-
-    ; $030A[0x01] - (???)
-    .T5VOLL: skip $01
-
-    ; $030B[0x01] - (???)
-    .T5VOLH: skip $01
-
-    ; $030C[0x01] - (???)
-    .T6VOLL: skip $01
-
-    ; $030D[0x01] - (???)
-    .T6VOLH: skip $01
-
-    ; $030E[0x01] - (???)
-    .T7VOLL: skip $01
-
-    ; $030F[0x01] - (???)
-    .T7VOLH: skip $01
+    ; $030E[0x02] - (???)
+    .Channel7Vol: skip $02
+        ; The volume for channel 7.
 
 
     ; Volume sweep amount
@@ -1879,55 +1854,37 @@ struct ARAM $0000
     .T7TUNE: skip $01
 
 
-    ; Channel pointers for SFX
-    ; $0390[0x01] - (???)
-    .T0SFXPTL: skip $01
+    ; $0390[0x02] - (???)
+    .Channel0SFXPtr: skip $02
+        ; The channel 0 SFX pointer.
 
-    ; $0391[0x01] - (???)
-    .T0SFXPTH: skip $01
+    ; $0392[0x02] - (???)
+    .Channel1SFXPtr: skip $02
+        ; The channel 1 SFX pointer.
 
-    ; $0392[0x01] - (???)
-    .T1SFXPTL: skip $01
+    ; $0394[0x02] - (???)
+    .Channel2SFXPtr: skip $02
+        ; The channel 2 SFX pointer.
 
-    ; $0393[0x01] - (???)
-    .T1SFXPTH: skip $01
+    ; $0396[0x02] - (???)
+    .Channel3SFXPtr: skip $02
+        ; The channel 3 SFX pointer.
 
-    ; $0394[0x01] - (???)
-    .T2SFXPTL: skip $01
+    ; $0398[0x02] - (???)
+    .Channel4SFXPtr: skip $02
+        ; The channel 4 SFX pointer.
 
-    ; $0395[0x01] - (???)
-    .T2SFXPTH: skip $01
+    ; $039A[0x02] - (???)
+    .Channel5SFXPtr: skip $02
+        ; The channel 5 SFX pointer.
 
-    ; $0396[0x01] - (???)
-    .T3SFXPTL: skip $01
+    ; $039C[0x02] - (???)
+    .Channel6SFXPtr: skip $02
+        ; The channel 6 SFX pointer.
 
-    ; $0397[0x01] - (???)
-    .T3SFXPTH: skip $01
-
-    ; $0398[0x01] - (???)
-    .T4SFXPTL: skip $01
-
-    ; $0399[0x01] - (???)
-    .T4SFXPTH: skip $01
-
-    ; $039A[0x01] - (???)
-    .T5SFXPTL: skip $01
-
-    ; $039B[0x01] - (???)
-    .T5SFXPTH: skip $01
-
-    ; $039C[0x01] - (???)
-    .T6SFXPTL: skip $01
-
-    ; $039D[0x01] - (???)
-    .T6SFXPTH: skip $01
-
-    ; $039E[0x01] - (???)
-    .T7SFXPTL: skip $01
-
-    ; $039F[0x01] - (???)
-    .T7SFXPTH: skip $01
-
+    ; $039E[0x02] - (???)
+    .Channel7SFXPtr: skip $02
+        ; The channel 7 SFX pointer.
 
     ; SFX ID playing on channel and delay
     ; $03A0[0x01] - (???)
@@ -2031,16 +1988,18 @@ struct ARAM $0000
     ; ==========================================================================
 
     ; $03C0[0x01] - (???)
-    .AmbientOFF: skip $01
-        ; Ambient channel pointer in use.
+    .SFXAmbientOffest: skip $01
+        ; The SFX or ambient channel index offset. Used to index through SFX
+        ; and ambient arrays.
 
     ; $03C1[0x01] - (???)
-    .AmbientBIT: skip $01
-        ; Ambient channel bit for bitfields.
+    .SFXChannel: skip $01
+        ; The channels in use by SFX/Ambient.
 
     ; $03C2[0x01] - (???)
-    .BITASL3: skip $01
-        ; Contains channel<<3 for easier calculation.
+    .SFXAmbientDSPAddr: skip $01
+        ; This contains the DSP address for the current channel in use by SFX
+        ; or ambient sounds.
 
     ; $03C3[0x01] - (???)
     .EONM: skip $01
@@ -2073,8 +2032,8 @@ struct ARAM $0000
 
 
     ; $03CA[0x01] - (???)
-    .SONGFADE: skip $01
-        ; Music fade out timer
+    .MusicFade: skip $01
+        ; The music fade out timer.
 
 
     ; Channel bits for SFX2, playing and operating
@@ -2094,8 +2053,8 @@ struct ARAM $0000
 
 
     ; $03CF[0x01] - (???)
-    .AmbientBIT: skip $01
-        ; Channel bits for Ambient
+    .AmbientChannelsInUse: skip $01
+        ; The channels in use for Ambient.
 
 
     ; SFX channel pan values and unused variable
@@ -2153,8 +2112,8 @@ struct ARAM $0000
         ; Used to find Ambient channel.
 
     ; $03E1[0x01] - (???)
-    .SONGOVOL: skip $01
-        ; Caches song volume between half and max volume commsnds
+    .MusicVolumeCache: skip $01
+        ; Caches song volume between half and max volume commands.
 
     ; $03E2[0x01] - (???)
     .SFXECHOV: skip $01
@@ -2178,7 +2137,7 @@ struct ARAM $0000
         ; Free RAM.
 
 
-    ; Appears to mute channels via an unreachable command
+    ; Appears to mute channels.
     ; $03FF[0x01] - (???)
     .T0STOP: skip $01
 
