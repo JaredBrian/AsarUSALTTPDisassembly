@@ -789,51 +789,68 @@ struct ARAM $0000
     ; Absolute RAM
     ; ===========================================================================
 
-    ; Note duration reset value and release duration
     ; $0200[0x01] - (???)
-    .T0DUR0: skip $01
+    .Channel0Duration: skip $01
+        ; The channel 0 note duration reset value. How long a single note will
+        ; play on this channel.
 
     ; $0201[0x01] - (???)
     .T0STACC: skip $01
+        ; Note release duration
+        ; TODO: Document.
 
     ; $0202[0x01] - (???)
-    .T1DUR0: skip $01
+    .Channel1Duration: skip $01
+        ; The channel 1 note duration reset value. How long a single note will
+        ; play on this channel.
 
     ; $0203[0x01] - (???)
     .T1STACC: skip $01
 
     ; $0204[0x01] - (???)
-    .T2DUR0: skip $01
+    .Channel2Duration: skip $01
+        ; The channel 2 note duration reset value. How long a single note will
+        ; play on this channel.
 
     ; $0205[0x01] - (???)
     .T2STACC: skip $01
 
     ; $0206[0x01] - (???)
-    .T3DUR0: skip $01
+    .Channel3Duration: skip $01
+        ; The channel 3 note duration reset value. How long a single note will
+        ; play on this channel.
 
     ; $0207[0x01] - (???)
     .T3STACC: skip $01
 
     ; $0208[0x01] - (???)
-    .T4DUR0: skip $01
+    .Channel4Duration: skip $01
+        ; The channel 4 note duration reset value. How long a single note will
+        ; play on this channel.
 
     ; $0209[0x01] - (???)
     .T4STACC: skip $01
 
     ; $020A[0x01] - (???)
-    .T5DUR0: skip $01
+    .Channel5Duration: skip $01
+        ; The channel 5 note duration reset value. How long a single note will
+        ; play on this channel.
 
     ; $020B[0x01] - (???)
     .T5STACC: skip $01
 
     ; $020C[0x01] - (???)
-    .T6DUR0: skip $01
+    .Channel6Duration: skip $01
+        ; The channel 6 note duration reset value. How long a single note will
+        ; play on this channel.
 
     ; $020D[0x01] - (???)
     .T6STACC: skip $01
 
     ; $020E[0x01] - (???)
-    .T7DUR0: skip $01
+    .Channel7Duration: skip $01
+        ; The channel 7 note duration reset value. How long a single note will
+        ; play on this channel.
 
     ; $020F[0x01] - (???)
     .T7STACC: skip $01

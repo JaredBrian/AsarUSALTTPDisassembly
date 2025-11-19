@@ -1125,54 +1125,79 @@ SPCEngine:
                     ; If the channel duration is 0, skip it because the current
                     ; note is still being played.
                     dec.b $70+X : bne .stillPlayingNote
-                        .try_again
-                            .try_again2
+                        .readNextByte_AfterCommand
+                            .readNextByte_AfterReturn
+                                .readNextByte_AfterEnd
 
-                                ; If the next byte is 0:
-                                call GetTrackByte : bne .non_terminating
-                                    ; If we do not need to loop the current part,
-                                    ; that means the #$00 byte came from the end
-                                    ; of the current segment and we need to move
-                                    ; on to the next one.
-                                    mov.b A, $80+X : beq .setupSegmentLoop
-                                        ; If the segment counter was non-0, that
-                                        ; means the #$00 came from the end of
-                                        ; a part and we need to repeat the part.
-                                        call IteratePartLoop
-                                        
-                            ; Decrease the amount of times we need to loop the
-                            ; current part.
-                            dec.b $80+X : bne .try_again2
+                                    ; Check if we are hitting an end part or end
+                                    ; segment #$00 byte.
+                                    call GetTrackByte : bne .notEndByte
+                                        ; If we do not need to loop the current 
+                                        ; part, that means the #$00 byte came from 
+                                        ; the end of the current segment and we 
+                                        ; need to move on to the next one.
+                                        mov.b A, $80+X : beq .setupSegmentLoop
+                                            ; If the segment counter was non-0, 
+                                            ; that means the #$00 came from the 
+                                            ; end of a part and we need to repeat
+                                            ; the part.
+                                            call IteratePartLoop
+                                            
+                                ; Decrease the amount of times we need to loop
+                                ; the current part. If 0, instantly go to the
+                                ; next byte.
+                                dec.b $80+X : bne .readNextByte_AfterEnd
 
-                            ; If 0, move on to the next byte instead of looping
-                            ; the part again.
+                                ; If 0, move on to the next byte instead of looping
+                                ; the part again.
 
-                            mov.w A, $0230+X : mov.b $30+X, A
-                            mov.w A, $0231+X : mov.b $31+X, A
-                        bra .try_again
+                                ; Get the return address for the part.
+                                mov.w A, $0230+X : mov.b $30+X, A
+                                mov.w A, $0231+X : mov.b $31+X, A
 
-                        .non_terminating
+                                ; Instantly go to the next byte.
+                            bra .readNextByte_AfterReturn
 
-                        bmi .note_or_command
-                            mov.w $0200+X, A
+                            .notEndByte
 
-                            call GetTrackByte : bmi .note_or_command
-                                push A
+                            ; #$80 and greater are notes or commands.
+                            bmi .note_or_command
+                                ; Set the channel note duration reset value.
+                                mov.w $0200+X, A
 
-                                xcn A : and.b A, #$07 : mov Y, A
-                                mov.w A, NoteStacc+Y : mov.w $0201+X, A
+                                ; Instantly go to the next byte.
+                                ; #$80 and greater are notes or commands.
+                                call GetTrackByte : bmi .note_or_command
+                                    ; NOTE: Because this is in a nested if, that 
+                                    ; means the only way to set the stacc and 
+                                    ; attack is by doing it after setting the
+                                    ; note duration.
+                                    
+                                    push A
 
-                                pop A : and.b A, #$0F : mov Y, A
-                                mov.w A, NoteAttack+Y : mov.w $0210+X, A
+                                    ; TODO: What is stacc?
+                                    ; Use bits 4-6 as the index to get the note
+                                    ; stacc.
+                                    xcn A : and.b A, #$07 : mov Y, A
+                                    mov.w A, NoteStacc+Y : mov.w $0201+X, A
 
-                                call GetTrackByte
+                                    ; Use bits 0-3 as the index to get the note
+                                    ; attack.
+                                    pop A : and.b A, #$0F : mov Y, A
+                                    mov.w A, NoteAttack+Y : mov.w $0210+X, A
 
-                        .note_or_command
+                                    call GetTrackByte
 
-                        ; first command
+                                    ; NOTE: We always assume the next byte is a 
+                                    ; note or command.
+
+                            .note_or_command
+                        ; Check if we are playing a note or executing a command:
+                        ; Everything #$80 to #$DF is a note.
                         cmp.b A, #$E0 : bcc .note
                             call ExecuteCommand
-                            bra .try_again
+
+                            bra .readNextByte_AfterCommand
 
                         .note
 
@@ -1279,14 +1304,20 @@ SPCEngine:
     ; $0D0018-$0D0029 DATA
     ExecuteCommand:
     {
+        ; Get the pointer for the command. The address is -0xC0 from the actual
+        ; address of the command vectors because the commands index start at 0xC0.
         asl A : mov Y, A
-
         mov.w A, TrackCommand_Vectors+1-$C0+Y : push A
         mov.w A, TrackCommand_Vectors+0-$C0+Y : push A
 
+        ; OPTIMIZE: Why not just push a earlier and then pop Y?
         mov A, Y : lsr A : mov Y, A
 
-        mov.w A, TrackCommandParamCount-$60+Y : beq NoParameters
+        ; Get the number of parameters the command has from a table. The address
+        ; is -0x60 for the same reason as above but divided by 2.
+        ; If there is at least one parameter, load the first one and then after
+        ; a ret is hit, it will return to given TrackCommand_Vectors instead.
+        mov.w A, TrackCommandParamCount-$60+Y : beq .NoParameters
             ; Bleeds into the next function.
     }
 
@@ -1319,10 +1350,9 @@ SPCEngine:
 
     ; ==========================================================================
 
-    ; TODO: I think the name for this function is bad.
     ; SPC $0C64-$0C65 JUMP LOCATION
     ; $0D0032-$0D0033 DATA
-    NoParameters:
+    ExecuteCommand_NoParameters:
     {
         mov Y, A
 
@@ -2018,7 +2048,6 @@ SPCEngine:
         dw TrackCommand_E1_ChangePan
         dw TrackCommand_E2_PanSlide
         dw TrackCommand_E3_SetVibrato
-
         dw TrackCommand_E4_VibratoOff
         dw TrackCommand_E5_GlobalVolume
         dw TrackCommand_E6_GlobalVolumeSlide
@@ -2028,7 +2057,6 @@ SPCEngine:
         dw TrackCommand_E9_GlobalTranspose
         dw TrackCommand_EA_ChannelTranspose
         dw TrackCommand_EB_SetTremelo
-
         dw TrackCommand_EC_TremeloOff
         dw TrackCommand_ED_ChannelVolume
         dw TrackCommand_EE_ChannelVolumeSlide
@@ -2038,7 +2066,6 @@ SPCEngine:
         dw TrackCommand_F1_PitchSlideTo
         dw TrackCommand_F2_PitchSlideFrom
         dw TrackCommand_F3_PitchSlideStop
-
         dw TrackCommand_F4_FineTuning
         dw TrackCommand_F5_EchoBasicControl
         dw TrackCommand_F6_EchoSilence
