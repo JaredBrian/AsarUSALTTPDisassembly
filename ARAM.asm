@@ -304,8 +304,9 @@ struct ARAM $0000
         ; Flags channels for pitch slide.
 
     ; $5F[0x01] - (???)
-    .Drum: skip $01
-        ; Base SRCN for percussion commands.
+    .PrecussionBaseNote: skip $01
+        ; The base note that will be added to the percussion commands (0xCA-0xDF)
+        ; When playing a percussion note.
 
     ; $60[0x02] - (???)
     .EchoVolLeftQ: skip $02
@@ -1621,54 +1622,37 @@ struct ARAM $0000
     .T7PAN: skip $01
 
 
-    ; Pan sweep values
-    ; $0340[0x01] - (???)
-    .T0PANVL: skip $01
+    ; $0340[0x02] - (???)
+    .Channel0PanSweep: skip $02
+        ; The pan sweep value for channel 0.
 
-    ; $0341[0x01] - (???)
-    .T0PANVH: skip $01
+    ; $0342[0x02] - (???)
+    .Channel1PanSweep: skip $02
+        ; The pan sweep value for channel 1.
 
-    ; $0342[0x01] - (???)
-    .T1PANVL: skip $01
+    ; $0344[0x02] - (???)
+    .Channel2PanSweep: skip $02
+        ; The pan sweep value for channel 2.
 
-    ; $0343[0x01] - (???)
-    .T1PANVH: skip $01
+    ; $0346[0x02] - (???)
+    .Channel3PanSweep: skip $02
+        ; The pan sweep value for channel 3.
 
-    ; $0344[0x01] - (???)
-    .T2PANVL: skip $01
+    ; $0348[0x02] - (???)
+    .Channel4PanSweep: skip $02
+        ; The pan sweep value for channel 4.
 
-    ; $0345[0x01] - (???)
-    .T2PANVH: skip $01
+    ; $034A[0x02] - (???)
+    .Channel5PanSweep: skip $02
+        ; The pan sweep value for channel 5.
 
-    ; $0346[0x01] - (???)
-    .T3PANVL: skip $01
+    ; $034C[0x02] - (???)
+    .Channel6PanSweep: skip $02
+        ; The pan sweep value for channel 6.
 
-    ; $0347[0x01] - (???)
-    .T3PANVH: skip $01
-
-    ; $0348[0x01] - (???)
-    .T4PANVL: skip $01
-
-    ; $0349[0x01] - (???)
-    .T4PANVH: skip $01
-
-    ; $034A[0x01] - (???)
-    .T5PANVL: skip $01
-
-    ; $034B[0x01] - (???)
-    .T5PANVH: skip $01
-
-    ; $034C[0x01] - (???)
-    .T6PANVL: skip $01
-
-    ; $034D[0x01] - (???)
-    .T6PANVH: skip $01
-
-    ; $034E[0x01] - (???)
-    .T7PANVL: skip $01
-
-    ; $034F[0x01] - (???)
-    .T7PANVH: skip $01
+    ; $034E[0x02] - (???)
+    .Channel7PanSweep: skip $02
+        ; The pan sweep value for channel 7.
 
 
     ; Target pan sweep value and raw settings value

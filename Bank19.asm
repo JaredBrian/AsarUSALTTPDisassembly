@@ -1361,47 +1361,61 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; Input:
+    ; A - The instrament ID to change to.
     ; SPC $0C64-$0CBE JUMP LOCATION
     ; $0D0034-$0D008C DATA
     TrackCommand_E0_ChangeInstrument:
     {
+        ; Set the channel's instrument ID and check if it is a precussion value:
         mov.w $0211+X, A : mov Y, A
                            bpl .no_percussion
-            ; Percussion base
+            ; Add the precussion base note.
             setc : sbc.b A, #$CA : clrc : adc.b A, $5F
 
         .no_percussion
 
+        ; Get the index for the instrument data.
         mov.b Y, #$06
         mul YA : movw.b $14, YA
 
+        ; Get the address for the instrument data.
         clrc : adc.b $14, #INSTRUMENT_DATA>>0 : adc.b $15, #INSTRUMENT_DATA>>8
 
+        ; Check what channels are being used, if none, exit.
         mov.b A, $1A : and.b A, $47 : bne .exit
             push X
 
             mov A, X : xcn A : lsr A : or.b A, #$04 : mov X, A
 
+            ; Get the ID for the intrument. If positive, its a normal sample.
+            ; TODO: All of the IDs in the INSTRUMENT_DATA are positive so figure 
+            ; out how precussion changes that.
             mov.b Y, #$00
             mov.b A, ($14)+Y : bpl .normal_sample
+                ; TODO: Precussion?
                 and.b A, #$1F
                 and.b $48, #$20 : tset.w $0048, A
 
+                ; TODO: Enable noise generation on this channel?
                 or.b $49, $47
 
                 mov A, Y
 
-                bra .resume
+                bra .precussionStartLoop
 
             .normal_sample
 
+            ; Disables noise generation on the current channel.
             mov.b A, $47 : tclr.w $0049, A
 
+            ; Loop through the rest of the first 4 btyes of INSTRUMENT_DATA and
+            ; write them to the DSP registers.
             .dsp_write_loop
 
                 mov.b A, ($14)+Y
 
-                .resume
+                .precussionStartLoop
 
                 mov.w SMP.DSPADDR, X
                 mov.w SMP.DSPDATA, A
@@ -1410,10 +1424,11 @@ SPCEngine:
                 inc Y
             cmp.b Y, #$04 : bne .dsp_write_loop
 
+            ; TODO: Idk what the high-level tuning multiplier is.
+            ; Get the instrument high-level tuning multiplier from the
+            ; INSTRUMENT_DATA.
             pop X
-
             mov.b A, ($14)+Y : mov.w $0221+X, A
-
             inc Y
             mov.b A, ($14)+Y : mov.w $0220+X, A
 
@@ -1424,6 +1439,8 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; Input:
+    ; A - The pan setting.
     ; SPC $0CBF-$0CCC JUMP LOCATION
     ; $0D008D-$0D009A DATA
     TrackCommand_E1_ChangePan:
@@ -1431,7 +1448,6 @@ SPCEngine:
         ; Set the current channel pan settings.
                         mov.w $0351+X, A
         and.b A, #$1F : mov.w $0331+X, A
-
         mov.b A, #$00 : mov.w $0330+X, A
 
         ret
@@ -1439,20 +1455,26 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; Input:
+    ; A - The instrament ID to change to.
     ; SPC $0CCD-$0CE5 JUMP LOCATION
     ; $0D009B-$0D00B3 DATA
     TrackCommand_E2_PanSlide:
     {
+        ; Set the pan slide timer for the channel.
         mov.b $91+X, A
 
         push A
-        call GetTrackByte : mov.w $0350+X, A
-        
-        setc : sbc.w A, $0331+X
 
+        ; Get the pan target.
+        call GetTrackByte : mov.w $0350+X, A
+
+        ; TODO: Do some math I don't understand.
+        setc : sbc.w A, $0331+X
         pop X
         call MakeFraction
 
+        ; Set the pan sweep value for the channel.
         mov.w $0340+X, A
         mov A, Y : mov.w $0341+X, A
 
@@ -1465,10 +1487,14 @@ SPCEngine:
     ; $0D00B4-$0D00BF DATA
     TrackCommand_E3_SetVibrato:
     {
+        ; Set the channel vibrato wait for the channel.
         mov.w $02B0+X, A
 
+        ; TODO: What is the vibrato rate?
+        ; Set the vibrato rate.
         call GetTrackByte : mov.w $02A1+X, A
 
+        ; Get the vibrato intensity.
         call GetTrackByte
 
         ; Bleeds into the next function.
@@ -2078,43 +2104,47 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; These are the amount of parameters that each track command above has.
     ; SPC $0F20-$0F3E JUMP LOCATION
     ; $0D02EE-$0D030C DATA
     TrackCommandParamCount:
     {
-        db 1 ; E0
-        db 1 ; E1
-        db 2 ; E2
-        db 3 ; E3
-        db 0 ; E4
-        db 1 ; E5
-        db 2 ; E6
-        db 1 ; E7
-        db 2 ; E8
-        db 1 ; E9
-        db 1 ; EA
-        db 3 ; EB
-        db 0 ; EC
-        db 1 ; ED
-        db 2 ; EE
-        db 3 ; EF
-        db 1 ; F0
-        db 3 ; F1
-        db 3 ; F2
-        db 0 ; F3
-        db 1 ; F4
-        db 3 ; F5
-        db 0 ; F6
-        db 3 ; F7
-        db 3 ; F8
-        db 3 ; F9
-        db 1 ; FA
+        db 1 ; TrackCommand_E0_ChangeInstrument
+        db 1 ; TrackCommand_E1_ChangePan
+        db 2 ; TrackCommand_E2_PanSlide
+        db 3 ; TrackCommand_E3_SetVibrato
+        db 0 ; TrackCommand_E4_VibratoOff
+        db 1 ; TrackCommand_E5_GlobalVolume
+        db 2 ; TrackCommand_E6_GlobalVolumeSlide
+        db 1 ; TrackCommand_E7_SetTempo
 
-        ; extraneous
-        db 2 ; FB
-        db 0 ; FC
-        db 0 ; FD
-        db 0 ; FE
+        db 2 ; TrackCommand_E8_TempoSlide
+        db 1 ; TrackCommand_E9_GlobalTranspose
+        db 1 ; TrackCommand_EA_ChannelTranspose
+        db 3 ; TrackCommand_EB_SetTremelo
+        db 0 ; TrackCommand_EC_TremeloOff
+        db 1 ; TrackCommand_ED_ChannelVolume
+        db 2 ; TrackCommand_EE_ChannelVolumeSlide
+        db 3 ; TrackCommand_EF_CallPart
+
+        db 1 ; TrackCommand_F0_VibratoGradient
+        db 3 ; TrackCommand_F1_PitchSlideTo
+        db 3 ; TrackCommand_F2_PitchSlideFrom
+        db 0 ; TrackCommand_F3_PitchSlideStop
+        db 1 ; TrackCommand_F4_FineTuning
+        db 3 ; TrackCommand_F5_EchoBasicControl
+        db 0 ; TrackCommand_F6_EchoSilence
+        db 3 ; TrackCommand_F7_EchoFilter
+
+        db 3 ; TrackCommand_F8_EchoSlide
+        db 3 ; TrackCommand_F9_SlideOnce
+        db 1 ; TrackCommand_FA_PercussionOffset
+
+        ; TODO: Extra values for commands that don't exist?
+        db 2 ; 0xFB
+        db 0 ; 0xFC
+        db 0 ; 0xFD
+        db 0 ; 0xFE
     }
 
     ; ==========================================================================
