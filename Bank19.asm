@@ -1506,9 +1506,11 @@ SPCEngine:
     ; $0D00C0-$0D00CA DATA
     TrackCommand_E4_VibratoOff:
     {
+        ; Set the channel vibrato intensity and max intensity.
         mov.b $B1+X, A
         mov.w $02C1+X, A
 
+        ; Set the channel vibrato gradient wait.
         mov.b A, #$00 : mov.w $02B1+X, A
 
         ret
@@ -1520,14 +1522,17 @@ SPCEngine:
     ; $0D00CB-$0D00DA DATA
     TrackCommand_F0_VibratoGradient:
     {
+        ; Set the channel vibrato gradient wait.
         mov.w $02B1+X, A
         push A
 
+        ; Get the channel vibrato intensity and divide it by gradient wait.
         mov.b Y, #$00
         mov.b A, $B1+X
         pop X
         div YA, X
 
+        ; Reload the channel offset and set the vibrato step.
         mov.b X, $44
         mov.w $02C0+X, A
 
@@ -1540,8 +1545,11 @@ SPCEngine:
     ; $0D00DB-$0D00E9 DATA
     TrackCommand_E5_GlobalVolume:
     {
+        ; If we are fading out the music, don't change the global volume.
         mov.w A, $03CA : bne .exit
+            ; If we have cached the music volume, don't change the global volume.
             mov.w A, $03E1 : bne .exit
+                ; Set the global volume.
                 mov.b A, #$00 : movw.b $58, YA
 
         .exit
@@ -1555,15 +1563,17 @@ SPCEngine:
     ; $0D00EA-$0D00FB DATA
     TrackCommand_E6_GlobalVolumeSlide:
     {
+        ; Set the global volume slide timer.
         mov.b $5A, A
 
+        ; Set the global volume slide target.
         call GetTrackByte : mov.b $5B, A
 
+        ; Get the global volume incrament between the current global volume and 
+        ; the target based on the timer.
         setc : sbc.b A, $59
         mov.b X, $5A
-        call MakeFraction
-
-        movw.b $5C, YA
+        call MakeFraction : movw.b $5C, YA
 
         ret
     }
@@ -1574,6 +1584,7 @@ SPCEngine:
     ; $0D00FC-$0D0100 DATA
     TrackCommand_E7_SetTempo:
     {
+        ; Set the song tempo.
         mov.b A, #$00 : movw.b $52, YA
 
         ret
@@ -1585,9 +1596,14 @@ SPCEngine:
     ; $0D0101-$0D0112 DATA
     TrackCommand_E8_TempoSlide:
     {
+        ; Set the tempo sweep duration.
         mov.b $54, A
+
+        ; Set the tempo target.
         call GetTrackByte : mov.b $55, A
         
+        ; Get the tempo sweep incrament between the current tempo and the target
+        ; based on the timer.
         setc : sbc.b A, $53
         mov.b X, $54
         call MakeFraction : movw.b $56, YA
@@ -1601,6 +1617,7 @@ SPCEngine:
     ; $0D0113-$0D0115 DATA
     TrackCommand_E9_GlobalTranspose:
     {
+        ; Set the global transposition.
         mov.b $50, A
 
         ret
@@ -1612,6 +1629,7 @@ SPCEngine:
     ; $0D0116-$0D0119 DATA
     TrackCommand_EA_ChannelTranspose:
     {
+        ; Set the channel transposition.
         mov.w $02F0+X, A
 
         ret
@@ -1623,10 +1641,13 @@ SPCEngine:
     ; $0D011A-$0D0125 DATA
     TrackCommand_EB_SetTremelo:
     {
+        ; Set the tremolo delay.
         mov.w $02E0+X, A
 
+        ; Set the tremolo rate.
         call GetTrackByte : mov.w $02D1+X, A
 
+        ; Get the tremolo intensity.
         call GetTrackByte
 
         ; Bleeds into the next function.
@@ -1638,6 +1659,7 @@ SPCEngine:
     ; $0D0126-$0D0128 DATA
     TrackCommand_EC_TremeloOff:
     {
+        ; Set the tremolo intensity.
         mov.b $C1+X, A
 
         ret
@@ -1665,12 +1687,17 @@ SPCEngine:
         ; SPC $0D61 ALTERNATE ENTRY POINT
         ; $0D012F DATA
         .start
+
+        ; Set channel the pitch slide type (0: from | 1: to).
         mov.w $0290+X, A
 
+        ; Set channel the pitch slide delay queue.
         mov A, Y : mov.w $0281+X, A
 
+        ; Set channel the pitch slide timer queue.
         call GetTrackByte : mov.w $0280+X, A
 
+        ; Set channel the pitch slide target.
         call GetTrackByte : mov.w $0291+X, A
 
         ret
@@ -1678,10 +1705,13 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; OPTIMIZE: You could reorganize the parameters from the previous function
+    ; to reuse this one.
     ; SPC $0D75-$0D78 JUMP LOCATION
     ; $0D0143-$0D0146 DATA
     TrackCommand_F3_PitchSlideStop:
     {
+        ; Set channel the pitch slide timer queue.
         mov.w $0280+X, A
 
         ret
@@ -1693,8 +1723,10 @@ SPCEngine:
     ; $0D0147-$0D014F DATA
     TrackCommand_ED_ChannelVolume:
     {
+        ; Set the channel volume.
         mov.w $0301+X, A
 
+        ; Zero the low byte of the channel volume.
         mov.b A, #$00 : mov.w $0300+X, A
 
         ret
@@ -1706,16 +1738,17 @@ SPCEngine:
     ; $0D0150-$0D0168 DATA
     TrackCommand_EE_ChannelVolumeSlide:
     {
+        ; Set the channel volume slide timer.
         mov.b $90+X, A
         push A
 
+        ; Set the channel volume slide target.
         call GetTrackByte : mov.w $0320+X, A
 
+        ; Caluclate the volume slide incrament.
         setc : sbc.w A, $0301+X
-
         pop X
         call MakeFraction : mov.w $0310+X, A
-
         mov A, Y : mov.w $0311+X, A
 
         ret
