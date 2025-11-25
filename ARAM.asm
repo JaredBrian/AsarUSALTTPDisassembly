@@ -318,12 +318,12 @@ struct ARAM $0000
         ; The EVOLR (Echo Volume Right) queue.
 
     ; $64[0x02] - (???)
-    .EchoPanLeft: skip $02
-        ; Echo volume left panning steps.
+    .EchoPanLeftIncrament: skip $02
+        ; Echo volume left panning Incrament.
 
     ; $66[0x02] - (???)
-    .EchoPanRight: skip $02
-        ; Echo volume right panning steps.
+    .EchoPanRightIncrament: skip $02
+        ; Echo volume right panning Incrament.
 
     ; $68[0x01] - (???)
     .EchoPanTimer: skip $01
@@ -1855,54 +1855,62 @@ struct ARAM $0000
     .T7MPADDH: skip $01
 
 
-    ; Channel note for calculations and tuning
+    ; Channel note for calculations
     ; $0380[0x01] - (???)
     .T0NCALC: skip $01
 
     ; $0381[0x01] - (???)
-    .T0TUNE: skip $01
+    .Channel0Tuning: skip $01
+        ; The channel 0 fine pitch tuning.
 
     ; $0382[0x01] - (???)
     .T1NCALC: skip $01
 
     ; $0383[0x01] - (???)
-    .T1TUNE: skip $01
+    .Channel1Tuning: skip $01
+        ; The channel 1 fine pitch tuning.
 
     ; $0384[0x01] - (???)
     .T2NCALC: skip $01
 
     ; $0385[0x01] - (???)
-    .T2TUNE: skip $01
+    .Channel2Tuning: skip $01
+        ; The channel 2 fine pitch tuning.
 
     ; $0386[0x01] - (???)
     .T3NCALC: skip $01
 
     ; $0387[0x01] - (???)
-    .T3TUNE: skip $01
+    .Channel3Tuning: skip $01
+        ; The channel 3 fine pitch tuning.
 
     ; $0388[0x01] - (???)
     .T4NCALC: skip $01
 
     ; $0389[0x01] - (???)
-    .T4TUNE: skip $01
+    .Channel4Tuning: skip $01
+        ; The channel 4 fine pitch tuning.
 
     ; $038A[0x01] - (???)
     .T5NCALC: skip $01
 
     ; $038B[0x01] - (???)
-    .T5TUNE: skip $01
+    .Channel5Tuning: skip $01
+        ; The channel 5 fine pitch tuning.
 
     ; $038C[0x01] - (???)
     .T6NCALC: skip $01
 
     ; $038D[0x01] - (???)
-    .T6TUNE: skip $01
+    .Channel6Tuning: skip $01
+        ; The channel 6 fine pitch tuning.
 
     ; $038E[0x01] - (???)
     .T7NCALC: skip $01
 
     ; $038F[0x01] - (???)
-    .T7TUNE: skip $01
+    .Channel7Tuning: skip $01
+        ; The channel 7 fine pitch tuning.
 
 
     ; $0390[0x02] - (???)
@@ -2054,7 +2062,7 @@ struct ARAM $0000
         ; or ambient sounds.
 
     ; $03C3[0x01] - (???)
-    .EONM: skip $01
+    .MusicEchoEnable: skip $01
         ; Music channels flagged for echo enable.
 
 

@@ -1760,6 +1760,7 @@ SPCEngine:
     ; $0D0169-$0D016C DATA
     TrackCommand_F4_FineTuning:
     {
+        ; Set the current channel fine pitch tuning.
         mov.w $0381+X, A
 
         ret
@@ -1771,14 +1772,19 @@ SPCEngine:
     ; $0D016D-$0D0184 DATA
     TrackCommand_EF_CallPart:
     {
+        ; Set the current channel subroutine address.
         mov.w $0240+X, A
-
         call GetTrackByte : mov.w $0241+X, A
 
+        ; Set the current channel loop count. (How many times the part will loop.)
         call GetTrackByte : mov.b $80+X, A
 
+        ; Take the current track pointer and save it as the return address for
+        ; when the part is completed.
         mov.b A, $30+X : mov.w $0230+X, A
         mov.b A, $31+X : mov.w $0231+X, A
+
+        ; Bleeds into the next function.
     }
 
     ; ==========================================================================
@@ -1801,15 +1807,19 @@ SPCEngine:
     ; $0D0190-$0D01A5 DATA
     TrackCommand_F5_EchoBasicControl:
     {
+        ; Enable echo on the given channels.
         mov.w $03C3, A
         mov.b $4A, A
 
+        ; Set the echo volume left queue.
         call GetTrackByte
         mov.b A, #$00 : movw.b $60, YA
 
+        ; Set the echo volume right queue.
         call GetTrackByte
         mov.b A, #$00 : movw.b $62, YA
 
+        ; Clear the DSP.FLG queue disable echo flag.
         clr5.b $48
 
         ret
@@ -1821,16 +1831,22 @@ SPCEngine:
     ; $0D01A6-$0D01C6 DATA
     TrackCommand_F8_EchoSlide:
     {
+        ; Set the echo pan timer.
         mov.b $68, A
-        call GetTrackByte : mov.b $69, A
-        setc : sbc.b A, $61
 
+        ; Set the echo left target.
+        call GetTrackByte : mov.b $69, A
+
+        ; Calculate the echo slide left incrament.
+        setc : sbc.b A, $61
         mov.b X, $68
         call MakeFraction : movw.b $64, YA
 
+        ; Set the echo right target.
         call GetTrackByte : mov.b $6A, A
-        setc : sbc.b A, $63
 
+        ; Calculate the echo slide right incrament.
+        setc : sbc.b A, $63
         mov.b X, $68
         call MakeFraction : movw.b $66, YA
 
@@ -1843,9 +1859,13 @@ SPCEngine:
     ; $0D01C7-$0D01CD DATA
     TrackCommand_F6_EchoSilence:
     {
+        ; NOTE: Because command F6 does not have any parameters, YA will always
+        ; be 0 by the time we get here.
+        ; Set the left and right echo volume queues to 0.
         movw.b $60, YA
         movw.b $62, YA
 
+        ; Set the DSP.FLG queue disable echo flag.
         set5.b $48
 
         ret
@@ -1888,37 +1908,54 @@ SPCEngine:
     ; $0D01F0-$0D0235 DATA
     ConfigureEcho:
     {
+        ; Set the echo delay queue.
         mov.b $4D, A
-        mov.b Y, #DSP.EDL : mov.w SMP.DSPADDR, Y
 
+        ; Check if the current echo delay is the same:
+        mov.b Y, #DSP.EDL : mov.w SMP.DSPADDR, Y
         mov.w A, SMP.DSPDATA : cmp.b A, $4D : beq .edl_same
-            and.b A, #$0F : eor.b A, #$FF : bbc7.b $4C, .buffer_ready
+            ; TODO: Do some math I don't understand to set the echo delay timer.
+            and.b A, #$0F : eor.b A, #$FF
+            
+            bbc7.b $4C, .buffer_ready
                 clrc : adc.b A, $4C
 
             .buffer_ready
 
             mov.b $4C, A
+
             mov.b Y, #$04
 
+            ; Loop through 4 DSP registers and zero them out.
             .write_register
 
+                ; Choose the DSP register to write to.
                 mov.w A, RegisterList-1+Y : mov.w SMP.DSPADDR, A
 
+                ; Write 0 to that register.
                 mov.b A, #$00 : mov.w SMP.DSPDATA, A
             dbnz Y, .write_register
 
+            ; Write the flag queue to the DSP flag register.
             mov.b A, $48 : or.b A, #$20
             mov.b Y, #DSP.FLG
             call WriteToDSP
 
+            ; Write the echo delay queue to the DSP echo delay register.
             mov.b A, $4D
             mov.b Y, #DSP.EDL
             call WriteToDSP
 
         .edl_same
 
+        ; TODO: Do some math I don't understand.
         asl A : asl A : asl A : eor.b A, #$FF
+
+        ; TODO: I think this reference is wrong. I think its not actually meant
+        ; to reference the song pointer here.
         setc : adc.b A, #SONG_POINTERS>>8
+
+        ; Set the DSP echo source address.
         mov.b Y, #DSP.ESA
         jmp WriteToDSP
     }
@@ -1929,6 +1966,7 @@ SPCEngine:
     ; $0D0236-$0D0238 DATA
     TrackCommand_FA_PercussionOffset:
     {
+        ; Set the percussion base note.
         mov.b $5F, A
 
         ret
@@ -1936,9 +1974,10 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; UNUSED: Not referenced anywhere.
     ; SPC $0E6B-$0E6E JUMP LOCATION
     ; $0D0239-$0D023C DATA
-    DummyCommand:
+    UNUSED_DummyCommand:
     {
         call SkipTrackByte
 
@@ -1947,7 +1986,7 @@ SPCEngine:
 
     ; ==========================================================================
 
-    ; UNUSED: Doesn't appear to be referenced anywhere.
+    ; UNUSED: Not referenced anywhere.
     ; SPC $0E6F-$0E73 JUMP LOCATION
     ; $0D023D-$0D0241 DATA
     ChannelStop:
@@ -1965,6 +2004,8 @@ SPCEngine:
     SongStop:
     {
         inc A
+
+        ; Bleeds into the next function.
     }
 
     ; ==========================================================================
