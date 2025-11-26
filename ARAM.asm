@@ -3,8 +3,9 @@
 ; ==============================================================================
 
 ; Shorthand legend:
-; Accum = Accumulator
+; Acc = Accumulator
 ; Addr = Address
+; Calc = Calculation
 ; CMD = Command
 ; Mult = Multiplier
 ; Q = Queue
@@ -223,7 +224,11 @@ struct ARAM $0000
 
     ; $47[0x01] - (???)
     .ChannelBit: skip $01
-        ; Current channel bit for bitfield writes. TODO: What?
+        ; This is the current channel offset but represented by an individual bit.
+        ; Only one bit will ever be set at a time.
+        ; This is equal to 2^(ChannelOffset or the channel number).
+        ; 7654 3210
+        ; # - The channel number.
 
     ; $48[0x01] - (???)
     .FlagQ: skip $01
@@ -301,8 +306,8 @@ struct ARAM $0000
         ; Global volume slide increment per loop.
 
     ; $5E[0x01] - (???)
-    .Slide: skip $01
-        ; Flags channels for pitch slide.
+    .SpecialEffects: skip $01
+        ; Flags channels that have some special effect being applied to it.
 
     ; $5F[0x01] - (???)
     .PrecussionBaseNote: skip $01
@@ -1331,54 +1336,69 @@ struct ARAM $0000
     .T7VBRMX: skip $01
 
 
-    ; Tremolo accumulator and rate
     ; $02D0[0x01] - (???)
-    .T0TREMC: skip $01
+    .Channel0TremAcc: skip $01
+        ; The channel 0 tremolo accumulator.
 
     ; $02D1[0x01] - (???)
-    .T0TREMV: skip $01
+    .Channel0TremIncrament: skip $01
+        ; The channel 0 tremolo incrament.
 
     ; $02D2[0x01] - (???)
-    .T1TREMC: skip $01
+    .Channel1TremAcc: skip $01
+        ; The channel 1 tremolo accumulator.
 
     ; $02D3[0x01] - (???)
-    .T1TREMV: skip $01
+    .Channel1TremIncrament: skip $01
+        ; The channel 1 tremolo incrament.
 
     ; $02D4[0x01] - (???)
-    .T2TREMC: skip $01
+    .Channel2TremAcc: skip $01
+        ; The channel 2 tremolo accumulator.
 
     ; $02D5[0x01] - (???)
-    .T2TREMV: skip $01
+    .Channel2TremIncrament: skip $01
+        ; The channel 2 tremolo incrament.
 
     ; $02D6[0x01] - (???)
-    .T3TREMC: skip $01
+    .Channel3TremAcc: skip $01
+        ; The channel 3 tremolo accumulator.
 
     ; $02D7[0x01] - (???)
-    .T3TREMV: skip $01
+    .Channel3TremIncrament: skip $01
+        ; The channel 3 tremolo incrament.
 
     ; $02D8[0x01] - (???)
-    .T4TREMC: skip $01
+    .Channel4TremAcc: skip $01
+        ; The channel 4 tremolo accumulator.
 
     ; $02D9[0x01] - (???)
-    .T4TREMV: skip $01
+    .Channel4TremIncrament: skip $01
+        ; The channel 4 tremolo incrament.
 
     ; $02DA[0x01] - (???)
-    .T5TREMC: skip $01
+    .Channel5TremAcc: skip $01
+        ; The channel 5 tremolo accumulator.
 
     ; $02DB[0x01] - (???)
-    .T5TREMV: skip $01
+    .Channel5TremIncrament: skip $01
+        ; The channel 5 tremolo incrament.
 
     ; $02DC[0x01] - (???)
-    .T6TREMC: skip $01
+    .Channel6TremAcc: skip $01
+        ; The channel 6 tremolo accumulator.
 
     ; $02DD[0x01] - (???)
-    .T6TREMV: skip $01
+    .Channel6TremIncrament: skip $01
+        ; The channel 6 tremolo incrament.
 
     ; $02DE[0x01] - (???)
-    .T7TREMC: skip $01
+    .Channel7TremAcc: skip $01
+        ; The channel 7 tremolo accumulator.
 
     ; $02DF[0x01] - (???)
-    .T7TREMV: skip $01
+    .Channel7TremIncrament: skip $01
+        ; The channel 7 tremolo incrament.
 
 
     ; Tremolo delay and unused variable
@@ -1568,108 +1588,113 @@ struct ARAM $0000
         ; The channel 0 volume slide target.
 
     ; $0321[0x01] - (???)
-    .T0VOLF: skip $01
-        ; TODO: finalized volume of channel
+    .Channel0FinalVol: skip $01
+        ; The channel 0 finalized volume. This is the volume the channel will
+        ; actually use after all tremolo, global, and local channel volume
+        ; changes are applied.
 
     ; $0322[0x01] - (???)
     .Channel1VolTarget: skip $01
         ; The channel 1 volume slide target.
 
     ; $0323[0x01] - (???)
-    .T1VOLF: skip $01
+    .Channel1FinalVol: skip $01
+        ; The channel 1 finalized volume. This is the volume the channel will
+        ; actually use after all tremolo, global, and local channel volume
+        ; changes are applied.
 
     ; $0324[0x01] - (???)
     .Channel2VolTarget: skip $01
         ; The channel 2 volume slide target.
 
     ; $0325[0x01] - (???)
-    .T2VOLF: skip $01
+    .Channel2FinalVol: skip $01
+        ; The channel 2 finalized volume. This is the volume the channel will
+        ; actually use after all tremolo, global, and local channel volume
+        ; changes are applied.
 
     ; $0326[0x01] - (???)
     .Channel3VolTarget: skip $01
         ; The channel 3 volume slide target.
 
     ; $0327[0x01] - (???)
-    .T3VOLF: skip $01
+    .Channel3FinalVol: skip $01
+        ; The channel 3 finalized volume. This is the volume the channel will
+        ; actually use after all tremolo, global, and local channel volume
+        ; changes are applied.
 
     ; $0328[0x01] - (???)
     .Channel4VolTarget: skip $01
         ; The channel 4 volume slide target.
 
     ; $0329[0x01] - (???)
-    .T4VOLF: skip $01
+    .Channel4FinalVol: skip $01
+        ; The channel 4 finalized volume. This is the volume the channel will
+        ; actually use after all tremolo, global, and local channel volume
+        ; changes are applied.
 
     ; $032A[0x01] - (???)
     .Channel5VolTarget: skip $01
         ; The channel 5 volume slide target.
 
     ; $032B[0x01] - (???)
-    .T5VOLF: skip $01
+    .Channel5FinalVol: skip $01
+        ; The channel 5 finalized volume. This is the volume the channel will
+        ; actually use after all tremolo, global, and local channel volume
+        ; changes are applied.
 
     ; $032C[0x01] - (???)
     .Channel6VolTarget: skip $01
         ; The channel 6 volume slide target.
 
     ; $032D[0x01] - (???)
-    .T6VOLF: skip $01
+    .Channel6FinalVol: skip $01
+        ; The channel 6 finalized volume. This is the volume the channel will
+        ; actually use after all tremolo, global, and local channel volume
+        ; changes are applied.
 
     ; $032E[0x01] - (???)
     .Channel7VolTarget: skip $01
         ; The channel 7 volume slide target.
 
     ; $032F[0x01] - (???)
-    .T7VOLF: skip $01
+    .Channel7FinalVol: skip $01
+        ; The channel 7 finalized volume. This is the volume the channel will
+        ; actually use after all tremolo, global, and local channel volume
+        ; changes are applied.
 
 
-    ; Panning
-    ; high byte is TxPANS AND 0x1F
-    ; $0330[0x01] - (???)
-    .T0PANL: skip $01
+    ; $0330[0x02] - (???)
+    .Channel0Pan: skip $02
+        ; The channel 0 panning value. The high byte is TxPANS AND 0x1F.
 
-    ; $0331[0x01] - (???)
-    .T0PAN: skip $01
+    ; $0332[0x02] - (???)
+    .Channel1Pan: skip $02
+        ; The channel 1 panning value. The high byte is TxPANS AND 0x1F.
 
-    ; $0332[0x01] - (???)
-    .T1PANL: skip $01
+    ; $0334[0x02] - (???)
+    .Channel2Pan: skip $02
+        ; The channel 2 panning value. The high byte is TxPANS AND 0x1F.
 
-    ; $0333[0x01] - (???)
-    .T1PAN: skip $01
+    ; $0336[0x02] - (???)
+    .Channel3Pan: skip $02
+        ; The channel 3 panning value. The high byte is TxPANS AND 0x1F.
 
-    ; $0334[0x01] - (???)
-    .T2PANL: skip $01
+    ; $0338[0x02] - (???)
+    .Channel4Pan: skip $02
+        ; The channel 4 panning value. The high byte is TxPANS AND 0x1F.
 
-    ; $0335[0x01] - (???)
-    .T2PAN: skip $01
+    ; $033A[0x02] - (???)
+    .Channel5Pan: skip $02
+        ; The channel 5 panning value. The high byte is TxPANS AND 0x1F.
 
-    ; $0336[0x01] - (???)
-    .T3PANL: skip $01
+    ; $033C[0x02] - (???)
+    .Channel6Pan: skip $02
+        ; The channel 6 panning value. The high byte is TxPANS AND 0x1F.
 
-    ; $0337[0x01] - (???)
-    .T3PAN: skip $01
-
-    ; $0338[0x01] - (???)
-    .T4PANL: skip $01
-
-    ; $0339[0x01] - (???)
-    .T4PAN: skip $01
-
-    ; $033A[0x01] - (???)
-    .T5PANL: skip $01
-
-    ; $033B[0x01] - (???)
-    .T5PAN: skip $01
-
-    ; $033C[0x01] - (???)
-    .T6PANL: skip $01
-
-    ; $033D[0x01] - (???)
-    .T6PAN: skip $01
-
-    ; $033E[0x01] - (???)
-    .T7PANL: skip $01
-
-    ; $033F[0x01] - (???)
-    .T7PAN: skip $01
+    ; $033E[0x02] - (???)
+    .Channel7Pan: skip $02
+        ; The channel 7 panning value. The high byte is TxPANS AND 0x1F.
 
 
     ; $0340[0x02] - (???)
@@ -1705,104 +1730,102 @@ struct ARAM $0000
         ; The pan sweep value for channel 7.
 
 
-    ; Target pan sweep value and raw settings value
     ; $0350[0x01] - (???)
-    .T0PANTG: skip $01
+    .Channel0PanTarget: skip $01
+        ; The channel 0 target pan sweep.
 
     ; $0351[0x01] - (???)
-    .T0PANS: skip $01
+    .Channel0PanSetting: skip $01
+        ; The channel 0 pan sweep raw settings value.
 
     ; $0352[0x01] - (???)
-    .T1PANTG: skip $01
+    .Channel1PanTarget: skip $01
+        ; The channel 1 target pan sweep.
 
     ; $0353[0x01] - (???)
-    .T1PANS: skip $01
+    .Channel1PanSetting: skip $01
+        ; The channel 1 pan sweep raw settings value.
 
     ; $0354[0x01] - (???)
-    .T2PANTG: skip $01
+    .Channel2PanTarget: skip $01
+        ; The channel 2 target pan sweep.
 
     ; $0355[0x01] - (???)
-    .T2PANS: skip $01
+    .Channel2PanSetting: skip $01
+        ; The channel 2 pan sweep raw settings value.
 
     ; $0356[0x01] - (???)
-    .T3PANTG: skip $01
+    .Channel3PanTarget: skip $01
+        ; The channel 3 target pan sweep.
 
     ; $0357[0x01] - (???)
-    .T3PANS: skip $01
+    .Channel3PanSetting: skip $01
+        ; The channel 3 pan sweep raw settings value.
 
     ; $0358[0x01] - (???)
-    .T4PANTG: skip $01
+    .Channel4PanTarget: skip $01
+        ; The channel 4 target pan sweep.
 
     ; $0359[0x01] - (???)
-    .T4PANS: skip $01
+    .Channel4PanSetting: skip $01
+        ; The channel 4 pan sweep raw settings value.
 
     ; $035A[0x01] - (???)
-    .T5PANTG: skip $01
+    .Channel5PanTarget: skip $01
+        ; The channel 5 target pan sweep.
 
     ; $035B[0x01] - (???)
-    .T5PANS: skip $01
+    .Channel5PanSetting: skip $01
+        ; The channel 5 pan sweep raw settings value.
 
     ; $035C[0x01] - (???)
-    .T6PANTG: skip $01
+    .Channel6PanTarget: skip $01
+        ; The channel 6 target pan sweep.
 
     ; $035D[0x01] - (???)
-    .T6PANS: skip $01
+    .Channel6PanSetting: skip $01
+        ; The channel 6 pan sweep raw settings value.
 
     ; $035E[0x01] - (???)
-    .T7PANTG: skip $01
+    .Channel7PanTarget: skip $01
+        ; The channel 7 target pan sweep.
 
     ; $035F[0x01] - (???)
-    .T7PANS: skip $01
+    .Channel7PanSetting: skip $01
+        ; The channel 7 pan sweep raw settings value.
 
 
-    ; Pitch calculation
-    ; $0360[0x01] - (???)
-    .T0PCLCL: skip $01
+    ; $0360[0x02] - (???)
+    .Channel0PitchCalc: skip $02
+        ; The channel 0 pitch calculation.
 
-    ; $0361[0x01] - (???)
-    .T0PCLCH: skip $01
+    ; $0362[0x02] - (???)
+    .Channel1PitchCalc: skip $02
+        ; The channel 1 pitch calculation.
 
-    ; $0362[0x01] - (???)
-    .T1PCLCL: skip $01
+    ; $0364[0x02] - (???)
+    .Channel2PitchCalc: skip $02
+        ; The channel 2 pitch calculation.
 
-    ; $0363[0x01] - (???)
-    .T1PCLCH: skip $01
+    ; $0366[0x02] - (???)
+    .Channel3PitchCalc: skip $02
+        ; The channel 3 pitch calculation.
 
-    ; $0364[0x01] - (???)
-    .T2PCLCL: skip $01
+    ; $0368[0x02] - (???)
+    .Channel4PitchCalc: skip $02
+        ; The channel 4 pitch calculation.
 
-    ; $0365[0x01] - (???)
-    .T2PCLCH: skip $01
+    ; $036A[0x02] - (???)
+    .Channel5PitchCalc: skip $02
+        ; The channel 5 pitch calculation.
 
-    ; $0366[0x01] - (???)
-    .T3PCLCL: skip $01
+    ; $036C[0x02] - (???)
+    .Channel6PitchCalc: skip $02
+        ; The channel 6 pitch calculation.
 
-    ; $0367[0x01] - (???)
-    .T3PCLCH: skip $01
-
-    ; $0368[0x01] - (???)
-    .T4PCLCL: skip $01
-
-    ; $0369[0x01] - (???)
-    .T4PCLCH: skip $01
-
-    ; $036A[0x01] - (???)
-    .T5PCLCL: skip $01
-
-    ; $036B[0x01] - (???)
-    .T5PCLCH: skip $01
-
-    ; $036C[0x01] - (???)
-    .T6PCLCL: skip $01
-
-    ; $036D[0x01] - (???)
-    .T6PCLCH: skip $01
-
-    ; $036E[0x01] - (???)
-    .T7PCLCL: skip $01
-
-    ; $036F[0x01] - (???)
-    .T7PCLCH: skip $01
+    ; $036E[0x02] - (???)
+    .Channel7PitchCalc: skip $02
+        ; The channel 7 pitch calculation.
 
 
     ; Multiframe pitch adjustment

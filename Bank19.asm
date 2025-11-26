@@ -468,7 +468,7 @@ SPCEngine:
                 ; Is this channel enabled?
                 mov.b A, $31+X : beq .skip_voice
                     ; If so, even though we haven't hit the next note, we still
-                    ; need to handle the special effects like tremelo, vibrato,
+                    ; need to handle the special effects like tremolo, vibrato,
                     ; pitch slides and echo.
                     call BackgroundTasks
 
@@ -561,14 +561,16 @@ SPCEngine:
                 ; Move the carry flag into the highest bit.
                 mov.b A, #$00 : ror A : mov.w $02A0+X, A
 
-                ; Reset some channel vibrato and tremelo settings.
+                ; Reset some channel vibrato and tremolo settings.
                 mov.b A, #$00 : mov.b $B0+X, A
                                 mov.w $0100+X, A
                                 mov.w $02D0+X, A
                                 mov.b $C0+X, A
 
-                ; Enable pitch slide and key on queue for used channels.
+                ; Mark that we are using a special effect on the current channel.
                 or.b $5E, $47
+
+                ; Enable key on queue for the current channel.
                 or.b $45, $47
 
                 ; Get the current channel's pitch slide timer.
@@ -1110,7 +1112,7 @@ SPCEngine:
 
             .no_delay
 
-            ; Disable all pitch slides.
+            ; Disable all special effects on the current channel.
             mov.b X, #$00 : mov.b $5E, X
 
             mov.b $47, #$01
@@ -1276,6 +1278,8 @@ SPCEngine:
                 .volume_slide_not_done
 
                 movw.b $58, YA
+
+                ; Mark that we are using a special effect on all channels.
                 mov.b $5E, #$FF
 
             .no_volume_slide
@@ -1639,7 +1643,7 @@ SPCEngine:
 
     ; SPC $0D4C-$0D57 JUMP LOCATION
     ; $0D011A-$0D0125 DATA
-    TrackCommand_EB_SetTremelo:
+    TrackCommand_EB_SetTremolo:
     {
         ; Set the tremolo delay.
         mov.w $02E0+X, A
@@ -1657,7 +1661,7 @@ SPCEngine:
 
     ; SPC $0D58-$0D5A JUMP LOCATION
     ; $0D0126-$0D0128 DATA
-    TrackCommand_EC_TremeloOff:
+    TrackCommand_EC_TremoloOff:
     {
         ; Set the tremolo intensity.
         mov.b $C1+X, A
@@ -1989,7 +1993,7 @@ SPCEngine:
     ; UNUSED: Not referenced anywhere.
     ; SPC $0E6F-$0E73 JUMP LOCATION
     ; $0D023D-$0D0241 DATA
-    ChannelStop:
+    UNUSED_ChannelStop:
     {
         inc A
         mov.w $03FF+X, A
@@ -1999,9 +2003,10 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; UNUSED: Not referenced anywhere.
     ; SPC $0E74-$0E74 JUMP LOCATION
     ; $0D0242-$0D0242 DATA
-    SongStop:
+    UNUSED_SongStop:
     {
         inc A
 
@@ -2010,9 +2015,10 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; UNUSED: Not referenced anywhere.
     ; SPC $0E75-$0E79 JUMP LOCATION
     ; $0D0243-$0D0247 DATA
-    SongContinue:
+    UNUSED_SongContinue:
     {
         mov.b $1B, A
 
@@ -2025,9 +2031,14 @@ SPCEngine:
     ; $0D0248-$0D0269 DATA
     PitchSlide:
     {
+        ; If theres no active pitch timer on the current channel, don't do
+        ; anything.
         mov.b A, $A0+X : bne TrackCommand_F9_SlideOnce_exit
+            ; Get the next track command. If it is a slide once command, exit.
             mov.b A, ($30+X) : cmp.b A, #$F9 : bne TrackCommand_F9_SlideOnce_exit
+                ; Check if the current channel is enabled.
                 mov.b A, $47 : and.b A, $1A : beq .do_pitch_slide
+                    ; If not, skip the next 4 bytes of the track.
                     mov.b $10, #$04
 
                     .skip_loop
@@ -2039,7 +2050,10 @@ SPCEngine:
 
                 .do_pitch_slide
 
+                ; We read the current byte eariler so now we need to skip it.
                 call SkipTrackByte
+
+                ; Get the channel pitch delay.
                 call GetTrackByte
 
                 ; Bleeds into the next function.
@@ -2091,6 +2105,8 @@ SPCEngine:
     ; $0D0291-$0D029B DATA
     GetTempPitch:
     {
+        ; Get the current channel pitch calculation and store it in some temp
+        ; work RAM.
         mov.w A, $0361+X : mov.b $11, A
         mov.w A, $0360+X : mov.b $10, A
 
@@ -2099,10 +2115,13 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; The purpose of this function is to create incraments between 2 given values.
+    ; TODO: Document inputs.
     ; SPC $0ECE-$0EDF JUMP LOCATION
     ; $0D029C-$0D02AD DATA
     MakeFraction:
     {
+        ; TODO: Do a whole bunch of main I don't understand.
         notc : ror.b $12 : bpl .positive_input
             ; * -1
             eor.b A, #$FF : inc A
@@ -2119,6 +2138,7 @@ SPCEngine:
 
         pop Y
 
+        ; Reload the current channel offset.
         mov.b X, $44
 
         ; Bleeds into the next function.
@@ -2128,6 +2148,7 @@ SPCEngine:
     ; $0D02AE-$0D02B8 DATA
     MakeFraction_abs:
     {
+        ; TODO: Do a bunch of main I don't understand.
         bbc7.b $12, .keep_positive
             movw.b $14, YA
 
@@ -2156,8 +2177,8 @@ SPCEngine:
         dw TrackCommand_E8_TempoSlide
         dw TrackCommand_E9_GlobalTranspose
         dw TrackCommand_EA_ChannelTranspose
-        dw TrackCommand_EB_SetTremelo
-        dw TrackCommand_EC_TremeloOff
+        dw TrackCommand_EB_SetTremolo
+        dw TrackCommand_EC_TremoloOff
         dw TrackCommand_ED_ChannelVolume
         dw TrackCommand_EE_ChannelVolumeSlide
         dw TrackCommand_EF_CallPart
@@ -2195,8 +2216,8 @@ SPCEngine:
         db 2 ; TrackCommand_E8_TempoSlide
         db 1 ; TrackCommand_E9_GlobalTranspose
         db 1 ; TrackCommand_EA_ChannelTranspose
-        db 3 ; TrackCommand_EB_SetTremelo
-        db 0 ; TrackCommand_EC_TremeloOff
+        db 3 ; TrackCommand_EB_SetTremolo
+        db 0 ; TrackCommand_EC_TremoloOff
         db 1 ; TrackCommand_ED_ChannelVolume
         db 2 ; TrackCommand_EE_ChannelVolumeSlide
         db 3 ; TrackCommand_EF_CallPart
@@ -2227,63 +2248,80 @@ SPCEngine:
     ; $0D030D-$0D0361 DATA
     WritePitch:
     {
+        ; Check if we are performing a volume slide on the current channel:
         mov.b A, $90+X : beq .no_volume_slide
+            ; TODO: Change to Channel0Vol reference.
+            ; Set up the volume slide address pointer for IncrementSlide.
             mov.b A, #$0300>>0
             mov.b Y, #$0300>>8
+
+            ; Decrement the timer.
             dec.b $90+X
 
             call IncrementSlide
 
         .no_volume_slide
 
-        mov.b Y, $C1+X : beq .no_tremelo
-            mov.w A, $02E0+X : cbne.b $C0+X, .tremelo_not_ready
+        ; Check if we are perfomring a tremolo on the current channel.
+        mov.b Y, $C1+X : beq .no_tremolo
+            mov.w A, $02E0+X : cbne.b $C0+X, .tremolo_not_ready
+                ; Mark that we are using a special effect on the current channel.
                 or.b $5E, $47
 
-                mov.w A, $02D0+X : bpl .tremelo_accumulate
+                ; Check if the tremolo accumulator is positive:
+                mov.w A, $02D0+X : bpl .tremolo_accumulate
                     inc Y
-                    bne .tremelo_accumulate
+                    bne .tremolo_accumulate
                         mov.b A, #$80
 
                         bra .skip_accumulate
 
-                .tremelo_accumulate
+                .tremolo_accumulate
 
+                ; Add the tremolo incrament.
                 clrc : adc.w A, $02D1+X
 
                 .skip_accumulate
 
+                ; Set the tremolo accumulator.
                 mov.w $02D0+X, A
+
+                ; Calculate the final volume with tremolo.
                 call VolumeModulation_external
 
                 bra .handle_pan_slide
 
-            .tremelo_not_ready
+            .tremolo_not_ready
 
+            ; Increase the tremolo timer.
             inc.b $C0+X
 
-        .no_tremelo
+        .no_tremolo
 
+        ; Calculate the final volume without any tremolo.
         mov.b A, #$FF
         call VolumeModulation_final_volume
 
         .handle_pan_slide
 
+        ; Check if we are performing a pan sweep on the current channel:
         mov.b A, $91+X : beq .no_pan_slide
+            ; Set up the pan address pointer for IncrementSlide.
             mov.b A, #$0330>>0
             mov.b Y, #$0330>>8
+
+            ; Decrement the timer.
             dec.b $91+X
 
             call IncrementSlide
 
         .no_pan_slide
 
+        ; Check if there are any special effects playing on the current channel.
         mov.b A, $47 : and.b A, $5E : beq WritePitch_external_exit
-            mov.w A, $0331+X
-            mov Y, A
-
-            mov.w A, $0330+X
-            movw.b $10, YA
+            ; Get the channel pan value and store it in some work ram.
+            mov.w A, $0331+X : mov Y, A
+            mov.w A, $0330+X : movw.b $10, YA
 
             ; Bleeds into the next function.
     }
@@ -2342,47 +2380,62 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; Input:
+    ; YA - The address to slide.
+    ; X  - The current channel.
     ; SPC $0FD2-$0FF5 JUMP LOCATION
     ; $0D03A0-$0D03C3 DATA
     IncrementSlide:
     {
+        ; Mark that we are using a special effect on the current channel.
         or.b $5E, $47
 
         ; SPC $0FD5 ALTERNATE ENTRY POINT
         ; $0D03A3 DATA
         .quiet
 
+        ; Get the address pointer.
         movw.b $14, YA
         movw.b $16, YA
 
-        push X
-        pop Y
+        ; Move the current channel offset to Y.
+        push X : pop Y
 
         clrc
         bne .still_sliding
+            ; Move the address pointer to the slide target.
             adc.b $16, #$1F
 
+            ; Set the value low byte to 0.
             mov.b A, #$00 : mov.b ($14)+Y, A
 
+            ; Move on to the high byte of the value.
             inc Y
 
-            bra .add
+            bra .doneSliding
 
         .still_sliding
 
+        ; Move the address pointer to the slide incrament.
         adc.b $16, #$10
+
+        ; Write the low byte of the volume.
         call .add_slide_amount
 
+        ; Move on to the high byte of the value.
         inc Y
 
         ; SPC $0FEF ALTERNATE ENTRY POINT
         ; $0D03BD DATA
         .add_slide_amount
 
+        ; Get the current channel value.
         mov.b A, ($14)+Y
 
-        .add
+        .doneSliding
 
+        ; Add the slide incrament to the current channel value or if we are done
+        ; sliding, set the high byte of value to the target value.
         adc.b A, ($16)+Y : mov.b ($14)+Y, A
 
         ret
@@ -2476,20 +2529,28 @@ SPCEngine:
 
         clr7.b $13
 
+        ; Check if we are performing a pitch slide on the current channel:
         mov.b A, $A0+X : beq .no_pitch_slide
+            ; Check if we need to wait to perform the pitch slide:
             mov.b A, $A1+X : beq .delay_finished
+                ; Decrement the pitch slide wait timer.
                 dec.b $A1+X
+
                 bra .no_pitch_slide
 
             .delay_finished
 
+            ; Check if we are currently using the channel.
             mov.b A, $1A : and.b A, $47 : bne .no_pitch_slide
                 set7.b $13
 
+                ; Set up the pitch calculation address pointer for IncrementSlide.
                 mov.b A, #$0360>>0
                 mov.b Y, #$0360>>8
 
+                ; Decrement the pitch slide timer.
                 dec.b $A0+X
+
                 call IncrementSlide_quiet
 
         .no_pitch_slide
@@ -2588,11 +2649,11 @@ SPCEngine:
     {
         clr7.b $13
 
-        mov.b A, $C1+X : beq .no_tremelo
-            mov.w A, $02E0+X : cbne.b $C0+X, .no_tremelo
+        mov.b A, $C1+X : beq .no_tremolo
+            mov.w A, $02E0+X : cbne.b $C0+X, .no_tremolo
                 call VolumeModulation
 
-        .no_tremelo
+        .no_tremolo
 
         mov.w A, $0331+X : mov Y, A
 
@@ -2697,6 +2758,8 @@ SPCEngine:
 
         .no_phase_invert
 
+        ; Get the tremolo intensity for the current channel and multiply it by
+        ; the current tremolo accumulator.
         mov.b Y, $C1+X
         mul YA : mov A, Y : eor.b A, #$FF
 
@@ -2704,14 +2767,19 @@ SPCEngine:
         ; $0D0534 DATA
         .final_volume
 
+        ; Multiply the calculated tremolo volume by the global volume.
         mov.b Y, $59
         mul YA
 
+        ; Multiply the calculated tremolo volume by the channel attack.
         mov.w A, $0210+X
         mul YA
 
+        ; Multiply the calculated tremolo volume by the channel volume.
         mov.w A, $0301+X
         mul YA : mov A, Y
+
+        ; Square the result and store it as the final volume.
         mul YA : mov A, Y : mov.w $0321+X, A
 
         ret
