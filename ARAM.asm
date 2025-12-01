@@ -286,8 +286,8 @@ struct ARAM $0000
         ; The target tempo for sweep.
 
     ; $56[0x01] - (???)
-    .TempoSweep: skip $01
-        ; The tempo slide sweep amount.
+    .TempoSweepIncrament: skip $01
+        ; The tempo slide sweep incrament.
 
     ; $58[0x02] - (???)
     .GlobalVol: skip $02
@@ -350,64 +350,72 @@ struct ARAM $0000
     ; TODO: Figure out the difference between the 2. The CMDTimer seems to always
     ; be one lower than the duration.
     ; $70[0x01] - (???)
-    .Channel0Duration: skip $01
-        ; The countdown for next note playing on channel 0.
+    .Channel0Timer: skip $01
+        ; The countdown for next note or how long the current note has been
+        ; playing on channel 0.
 
     ; $71[0x01] - (???)
     .Channel0CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 0.
 
     ; $72[0x01] - (???)
-    .Channel1Duration: skip $01
-        ; The countdown for next note playing on channel 1.
+    .Channel1Timer: skip $01
+        ; The countdown for next note or how long the current note has been
+        ; playing on channel 1.
 
     ; $73[0x01] - (???)
     .Channel1CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 1.
 
     ; $74[0x01] - (???)
-    .Channel2Duration: skip $01
-        ; The countdown for next note playing on channel 2.
+    .Channel2Timer: skip $01
+        ; The countdown for next note or how long the current note has been
+        ; playing on channel 2.
 
     ; $75[0x01] - (???)
     .Channel2CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 2.
 
     ; $76[0x01] - (???)
-    .Channel3Duration: skip $01
-        ; The countdown for next note playing on channel 3.
+    .Channel3Timer: skip $01
+        ;; The countdown for next note or how long the current note has been
+        ; playing on channel 3.
 
     ; $77[0x01] - (???)
     .Channel3CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 3.
 
     ; $78[0x01] - (???)
-    .Channel4Duration: skip $01
-        ; The countdown for next note playing on channel 4.
+    .Channel4Timer: skip $01
+        ;; The countdown for next note or how long the current note has been
+        ; playing on channel 4.
 
     ; $79[0x01] - (???)
     .Channel4CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 4.
 
     ; $7A[0x01] - (???)
-    .Channel5Duration: skip $01
-        ; The countdown for next note playing on channel 5.
+    .Channel5Timer: skip $01
+        ;; The countdown for next note or how long the current note has been
+        ; playing on channel 5.
 
     ; $7B[0x01] - (???)
     .Channel5CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 5.
 
     ; $7C[0x01] - (???)
-    .Channel6Duration: skip $01
-        ; The countdown for next note playing on channel 6.
+    .Channel6Timer: skip $01
+        ;; The countdown for next note or how long the current note has been
+        ; playing on channel 6.
 
     ; $7D[0x01] - (???)
     .Channel6CMDTimer: skip $01
         ; The countdown for continuing sustained commands on channel 6.
 
     ; $7E[0x01] - (???)
-    .Channel7Duration: skip $01
-        ; The countdown for next note playing on channel 7.
+    .Channel7Timer: skip $01
+        ;; The countdown for next note or how long the current note has been
+        ; playing on channel 7.
 
     ; $7F[0x01] - (???)
     .Channel7CMDTimer: skip $01
@@ -2219,7 +2227,7 @@ struct ARAM $0000
         ; Free RAM.
 
 
-    ; Appears to mute channels.
+    ; TODO: Appears to mute channels.
     ; $03FF[0x01] - (???)
     .T0STOP: skip $01
 

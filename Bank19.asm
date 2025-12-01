@@ -883,13 +883,14 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; Get the current channel's next segment pointer.
     ; Input:
     ; $40 - The pointer to current song's segments.
     ; SPC $0A8F-$0A9C JUMP LOCATION
     ; $0CFE5D-$0CFE6A DATA
     GetNextSegment:
     {
-        ; Thers no mov.b A, ($dp) with out a +X or +Y so just set Y to 0.
+        ; Thers no mov.b A, ($dp) without a +X or +Y so just set Y to 0.
         mov.b Y, #$00
         mov.b A, ($40)+Y
         incw.b $40
@@ -1082,6 +1083,7 @@ SPCEngine:
                         mov.b A, ($16)+Y : mov.w $0030+Y, A
                     dec Y : bpl .load_pattern_table_loop
 
+                    ; Setup the channel bit offset for another loop.
                     mov.b X, #$00
                     mov.b $47, #$01
 
@@ -1115,6 +1117,7 @@ SPCEngine:
             ; Disable all special effects on the current channel.
             mov.b X, #$00 : mov.b $5E, X
 
+            ; Setup the channel bit offset for another loop.
             mov.b $47, #$01
 
             .loop_2
@@ -1127,6 +1130,8 @@ SPCEngine:
                     ; If the channel duration is 0, skip it because the current
                     ; note is still being played.
                     dec.b $70+X : bne .stillPlayingNote
+                        ; Execute the next command or play the next note.
+
                         .readNextByte_AfterCommand
                             .readNextByte_AfterReturn
                                 .readNextByte_AfterEnd
@@ -1203,18 +1208,24 @@ SPCEngine:
 
                         .note
 
+                        ; OPTIMIZE: The channel mute is never actually used.
+                        ; Check if this channel is muted.
                         mov.w A, $03FF+X : or.b A, $1B : bne .disabled_channel
+                            ; OPTIMIZE: Why not just push Y?
                             mov A, Y : push A
 
+                            ; Check if the channel is enabled.
                             mov.b A, $47 : and.b A, $1A
-
-                            pop A : bne .disabled_channel
+                            pop A
+                            bne .disabled_channel
                                 call HandleNote
 
                         .disabled_channel
 
+                        ; Set the channel timer with the channel duration.
                         mov.w A, $0200+X : mov.b $70+X, A
 
+                        ; Get the channel attack and multiply it by the timer.
                         mov Y, A
                         mov.w A, $0201+X
                         mul YA : mov A, Y
@@ -1223,16 +1234,20 @@ SPCEngine:
 
                         .non_zero
 
+                        ; TODO: Figure out WTF this is.
+                        ; Set the channel CMD timer.
                         mov.b $71+X, A
 
                         bra .continue
 
                     .stillPlayingNote
 
+                    ; Check if the music is disabled.
                     mov.b A, $1B : bne .next_channel_2
                         call Tracker
 
                         .continue
+
                         call PitchSlide
 
                     .next_channel_2
@@ -1240,28 +1255,37 @@ SPCEngine:
 
                 inc X : inc X
 
+                ; Check if we are done with each channel.
                 asl.b $47 : beq .done_with_channels
-
             jmp .loop_2
 
             .done_with_channels
 
+            ; Check if we are performing a tempo slide.
             mov.b A, $54 : beq .no_tempo_slide
-                movw.b YA, $56 : addw.b YA, $52 : dbnz.b $54, .temp_slide_not_done
+                ; Add the temp incrament to the tempo and see if the tempo
+                ; timer is done.
+                movw.b YA, $56 : addw.b YA, $52 : dbnz.b $54, .tempo_slide_not_done
+                    ; Set the tempo to the tempo slide target.
                     movw.b YA, $54
 
-                .temp_slide_not_done
+                .tempo_slide_not_done
 
                 movw.b $52, YA
 
             .no_tempo_slide
 
+            ; Check if we are performing a echo pan.
             mov.b A, $68 : beq .no_echo_pan_slide
+                ; Add the echo pan left incrament to the echo pan left queue.
                 movw.b YA, $64 : addw.b YA, $60 : movw.b $60, YA
 
+                ; Add the echo pan right incrament to the echo pan right queue.
                 movw.b YA, $66 : addw.b YA, $62 : dbnz.b $68, .pan_slide_not_done
+                    ; If the slide is done, set the left queue to the target value.
                     movw.b YA, $68 : movw.b $60, YA
 
+                    ; And set the right pan queue to the right target value.
                     mov.b Y, $6A
 
                 .pan_slide_not_done
@@ -1270,9 +1294,12 @@ SPCEngine:
 
             .no_echo_pan_slide
 
+            ; Check if we are performing a global volume slide.
             mov.b A, $5A : beq .no_volume_slide
+                ; Add the global volume incrament to the global volume.
                 movw.b YA, $5C
                 addw.b YA, $58 : dbnz.b $5A, .volume_slide_not_done
+                    ; Set the global volume to the target volume.
                     movw.b YA, $5A
 
                 .volume_slide_not_done
@@ -1284,11 +1311,13 @@ SPCEngine:
 
             .no_volume_slide
 
+            ; Setup the channel bit offset for another loop.
             mov.b X, #$00
             mov.b $47, #$01
 
             .volume_settings_loop
 
+                ; Check if there is an active pointer on this channel.
                 mov.b A, $31+X : beq .inactive_track
                     call WritePitch
 
@@ -1881,15 +1910,20 @@ SPCEngine:
     ; $0D01CE-$0D01EF DATA
     TrackCommand_F7_EchoFilter:
     {
+        ; Set the echo delay queue and setup a bunch of other settings based
+        ; on that.
         call ConfigureEcho
 
+        ; Get the next byte and set the echo feedback queue.
         call GetTrackByte : mov.b $4E, A
 
+        ; Get the next byte as the echo filter parameter index.
         call GetTrackByte
-
         mov.b Y, #$08
         mul YA : mov X, A
 
+        ; Loop through each of filter parameters and write them to each of
+        ; the coefficients.
         mov.b Y, #DSP.FIR0
 
         .set_next_filter
@@ -1901,6 +1935,7 @@ SPCEngine:
             mov A, Y : clrc : adc.b A, #$10 : mov Y, A
         bpl .set_next_filter
 
+        ; Reload the channel offset.
         mov.b X, $44
 
         ret
@@ -2361,6 +2396,7 @@ SPCEngine:
 
             .no_phase_inversion
 
+            ; TODO: Check what registers this actually ends up writing to.
             mov.b Y, $12
             call WriteToDSP_Checked
 
@@ -2448,10 +2484,8 @@ SPCEngine:
     Tracker:
     {
         mov.b A, $71+X : beq .time_left
-            dec.b $71+X
-            beq .times_up
-                mov.b A, #$02
-                cbne.b $70+X, .time_left
+            dec.b $71+X : beq .times_up
+                mov.b A, #$02 : cbne.b $70+X, .time_left
 
             .times_up
             
@@ -3080,7 +3114,6 @@ SPCEngine:
     Unused_12E7:
     {
         mov.w X, $03C4 : mov.w $03C0, X
-
         mov.w Y, $03C5 : mov.w $03C1, Y
 
         mov.w A, $03C1
