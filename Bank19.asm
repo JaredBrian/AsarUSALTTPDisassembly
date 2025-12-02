@@ -2375,6 +2375,8 @@ SPCEngine:
 
         .vol_right
 
+            ; TODO: Do a bunch of math I don't understand that involves the
+            ; final channel volume and pan settings.
             mov.b Y, $11
             mov.w A, LogisticFunc+1+Y : setc : sbc.w A, LogisticFunc+0+Y
 
@@ -2479,44 +2481,54 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; TODO: Investigate why this is needed when a bunch of similar logic
+    ; exists in HandleInput_Song.
     ; SPC $0FF6-$10B0 JUMP LOCATION
     ; $0D03C4-$0D047E DATA
     Tracker:
     {
+        ; TODO: Figure out in what scenarios we are waiting to read the next
+        ; note or command.
         mov.b A, $71+X : beq .time_left
             dec.b $71+X : beq .times_up
                 mov.b A, #$02 : cbne.b $70+X, .time_left
 
             .times_up
             
+            ; Get the channel part count.
             mov.b A, $80+X : mov.b $17, A
 
+            ; Get the channel pointer.
             mov.b A, $30+X
             mov.b Y, $31+X
 
-            .load_pointer
+            .next_byte_with_pointer
 
             movw.b $14, YA
             mov.b Y, #$00
 
             .next_byte
             
+                ; Get the next byte in the track and check if it is an end byte:
                 mov.b A, ($14)+Y : beq .terminate_track
+                    ; Check if the byte was a command:
                     bmi .command
                         .read_track_data
 
-                            inc Y : .call_loop_over
-                                mov.b A, ($14)+Y
-                        bpl .read_track_data
+                            inc Y : bmi .part_loop_over
+                        mov.b A, ($14)+Y : bpl .read_track_data
 
                     .command
 
-                    ; tie
+                    ; Check for a tie:
                     cmp.b A, #$C8 : beq .time_left
-                        ; call part
-                        cmp.b A, #$EF : beq .call_loop_command
-                            ; instrument change
-                            cmp.b A, #$E0 : bcc .call_loop_over
+                        ; Check for a call part command:
+                        cmp.b A, #$EF : beq .part_loop_command
+                            ; Check for an instrument change command:
+                            cmp.b A, #$E0 : bcc .part_loop_over
+                                ; Get the amount of parameters the command has and
+                                ; add them to Y so that we skip over them when we
+                                ; move on to the next byte.
                                 push Y
                                 mov Y, A
                                 pop A
@@ -2525,42 +2537,50 @@ SPCEngine:
 
             .terminate_track
 
-            mov.b A, $17 : beq .call_loop_over
-                dec.b $17
-                bne .call_loop_notdone
+            ; Check if we are in a part loop:
+            mov.b A, $17 : beq .part_loop_over
+                ; Check if this is the last loop:
+                dec.b $17 : bne .part_loop_notdone
+                    ; OPTIMIZE: Why not just mov Y, A?
+                    ; If it is the last loop, get the part return address.
                     mov.w A, $0231+X : push A
                     mov.w A, $0230+X
                     pop Y
 
-                    bra .load_pointer
+                    bra .next_byte_with_pointer
 
-                .call_loop_notdone
+                .part_loop_notdone
 
+                ; OPTIMIZE: Why not just mov Y, A?
+                ; Get the part address.
                 mov.w A, $0241+X : push A
                 mov.w A, $0240+X
                 pop Y
 
-                bra .load_pointer
+                bra .next_byte_with_pointer
 
-                .call_loop_command
+                .part_loop_command
 
                 inc Y
 
+                ; Get the next 2 bytes which will be the address of the part.
                 mov.b A, ($14)+Y : push A
                 inc Y
                 mov.b A, ($14)+Y : mov Y, A
                 pop A
 
-                bra .load_pointer
+                bra .next_byte_with_pointer
 
-            .call_loop_over
+            .part_loop_over
 
+            ; Set the current channel key off.
             mov.b A, $47
             mov.b Y, #DSP.KOFF
             call WriteToDSP_Checked
 
         .time_left
 
+        ; Mark that we are not doing any pitch chanes.
         clr7.b $13
 
         ; Check if we are performing a pitch slide on the current channel:
@@ -2576,6 +2596,7 @@ SPCEngine:
 
             ; Check if we are currently using the channel.
             mov.b A, $1A : and.b A, $47 : bne .no_pitch_slide
+                ; Mark that we are doing a pitch change.
                 set7.b $13
 
                 ; Set up the pitch calculation address pointer for IncrementSlide.
@@ -2591,10 +2612,16 @@ SPCEngine:
 
         call GetTempPitch
 
+        ; Check if there is a channel vibrato intensity set:
         mov.b A, $B1+X : beq Tracker_no_vibrato
+            ; Check if there is a channel vibrato delay:
             mov.w A, $02B0+X : cbne.b $B0+X, Tracker_handle_pitch_set_point_wait
+                ; Check if we want to gradually increase the intenisty instead
+                ; of just setting it to the max:
                 mov.w A, $0100+X : cmp.w A, $02B1+X : bne .increment
+                    ; Get the channel max vibrato intensity.
                     mov.w A, $02C1+X
+
                     bra .set_intensity
 
                 .increment
@@ -2610,12 +2637,15 @@ SPCEngine:
 
                 .initializing
 
+                ; Add the channel vibrato intensity slide incrament.
                 clrc : adc.w A, $02C0+X
 
                 .set_intensity
 
+                ; Set the channel vibrato intensity.
                 mov.b $B1+X, A
 
+                ; Add the channel vibrato incrament to the vibrato accumulator.
                 mov.w A, $02A0+X : clrc : adc.w A, $02A1+X : mov.w $02A0+X, A
 
                 ; Bleeds into the next function.
@@ -2627,6 +2657,7 @@ SPCEngine:
     ; $0D047F-$0D049E DATA
     Tracker_handle_pitch:
     {
+        ; TODO: Do a bunch of math I don't understand.
         mov.b $12, A
         asl A : asl A : bcc .low_enough
             eor.b A, #$FF
@@ -2660,6 +2691,7 @@ SPCEngine:
         ; $0D049D DATA
         .set_point_wait
 
+        ; Increase the channel vibrato strength.
         inc.b $B0+X
 
         ; Bleeds into the next function.
@@ -2671,6 +2703,7 @@ SPCEngine:
     ; $0D049F-$0D04A2 DATA
     Tracker_no_vibrato:
     {
+        ; Check if a pitch change needs to be made:
         bbs7.b $13, Tracker_handle_pitch_change_pitch
             ret
     }
@@ -2681,45 +2714,53 @@ SPCEngine:
     ; $0D04A3-$0D04FD DATA
     BackgroundTasks:
     {
+        ; Mark that no pitch changes are being made.
         clr7.b $13
 
+        ; Check if there is any tremolo on this channel:
         mov.b A, $C1+X : beq .no_tremolo
+            ; Check if the tremolo needs to be delayed:
             mov.w A, $02E0+X : cbne.b $C0+X, .no_tremolo
                 call VolumeModulation
 
         .no_tremolo
 
+        ; Get the channel panning value and store it into some work RAM.
         mov.w A, $0331+X : mov Y, A
-
         mov.w A, $0330+X : movw.b $10, YA
 
+        ; Check if we are performing a pan sweep on this channel:
         mov.b A, $91+X : beq .no_pan_slide
             mov.w A, $0341+X : mov Y, A
-
             mov.w A, $0340+X
             call AdjustPitchByFrames
 
         .no_pan_slide
 
+        ; Check if we are making any pitch changes:
         bbc7.b $13, .pitch_unchanged
             call WritePitch_external
 
         .pitch_unchanged
 
+        ; Mark that no pitch changes are being made.
         clr7.b $13
 
         call GetTempPitch
 
+        ; Check if we are performing a pitch slide on this channel:
         mov.b A, $A0+X : beq .no_pitch_slide
+            ; Check if the pitch slide needs to be delayed:
             mov.b A, $A1+X : bne .no_pitch_slide
                 mov.w A, $0371+X : mov Y, A
-
                 mov.w A, $0370+X
                 call AdjustPitchByFrames
 
         .no_pitch_slide
 
+        ; Check if we are performing any vibrato:
         mov.b A, $B1+X : beq Tracker_no_vibrato
+            ; Check if the vibrato needs to be delayed:
             mov.w A, $02B0+X : cbne.b $B0+X, Tracker_no_vibrato
                 mov.b Y, $51
                 mov.w A, $02A1+X
@@ -2734,8 +2775,10 @@ SPCEngine:
     ; $0D04FE-$0D0513 DATA
     AdjustPitchByFrames:
     {
+        ; Mark that we are making a pitch change:
         set7.b $13
 
+        ; TODO: Do a bunch of math that I don't understand.
         mov.b $12, Y
         call MakeFraction_abs
 
@@ -2772,8 +2815,10 @@ SPCEngine:
     ; $0D051C-$0D0528 DATA
     VolumeModulation:
     {
+        ; Mark that a pitch change is being made.
         set7.b $13
 
+        ; TODO: Do some math I don't understand.
         mov.b Y, $51
         mov.w A, $02D1+X
         mul YA : mov A, Y : clrc : adc.w A, $02D0+X
@@ -2787,6 +2832,7 @@ SPCEngine:
     ; $0D0529-$0D0545 DATA
     VolumeModulation_external:
     {
+        ; TODO: Do some math I don't understand.
         asl A : bcc .no_phase_invert
             eor.b A, #$FF
 
@@ -3005,22 +3051,22 @@ SPCEngine:
     ; $0D0600-$0D062D DATA
     SFX2_HandleEcho:
     {
+        ; Get the SFX2 input and get its echo settings.
         mov.b A, $02 : and.b A, #$3F : mov X, A
-
         mov.w A, SFX2_Echo-1+X : mov.w $03E2, A
 
+        ; Setup a loop to see which channels are in use by SFX2:
         mov.b Y, #$0E
         mov.b X, #$80 : mov.w $03C1, X
 
         .loop_back
 
+            ; See if the channel is in use by a SFX or ambient:
             mov.w A, $03CB : and.w A, $03C1 : beq .SFX2_next_slot
+                ; Check if we are already playing the same sound with the same
+                ; pan settings.
                 clrc
-                mov.w A, $03A0+Y
-                adc.w A, $03D0+Y
-
-                cmp.b A, $02
-                beq SFX3_HandleEcho_match
+                mov.w A, $03A0+Y : adc.w A, $03D0+Y : cmp.b A, $02 : beq SFX3_HandleEcho_match
 
             .SFX2_next_slot
 
@@ -3036,15 +3082,20 @@ SPCEngine:
     ; $0D062E-$0D06B4 DATA
     SFX3_HandleEcho:
     {
+        ; Get the SFX3 input and get its echo settings.
         mov.b A, $03 : and.b A, #$3F : mov X, A
         mov.w A, SFX3_Echo-1+X : mov.w $03E2, A
 
+        ; Setup a loop to see which channels are in use by SFX3:
         mov.b Y, #$0E
-
         mov.b X, #$80 : mov.w $03C1, X
 
         .SFX3_loop_point
+
+            ; See if the channel is in use by a SFX or ambient:
             mov.w A, $03CD : and.w A, $03C1 : beq .SFX3_next_slot
+                ; Check if we are already playing the same sound with the same
+                ; pan settings.
                 clrc
                 mov.w A, $03A0+Y : adc.w A, $03D0+Y : cmp.b A, $03 : beq .match
 
@@ -3055,50 +3106,65 @@ SPCEngine:
 
         bra .no_slot
 
+        ; SPC $128E ALTERNATE ENTRY POINT
+        ; $0D065C
         .match
 
+        ; OPTIMIZE: This is done again right after the bra.
         mov.w $03C0, Y
 
         bra .enabled
 
+        ; SPC $1293 ALTERNATE ENTRY POINT
+        ; $0D0661
         .no_slot
 
         clrc
+        
+        ; Setup a loop that finds the first channel that is in use by a SFX
+        ; or ambient.
         mov.b X, #$1A
-
         mov.b A, #$80 : mov.w $03C1, A
-
         mov.b Y, #$0E
 
-        .loop_back_2
+        .findSFXChannelLoop
 
+            ; NOTE: Ther is no regular and A, X so we use and A, (X) instead.
             and A, (X) : beq .enabled
                 dec Y : dec Y
 
                 lsr.w $03C1
-        lsr A : bcc .loop_back_2
+        lsr A : bcc .findSFXChannelLoop
 
         .enabled
 
         mov.w $03C0, Y
         mov.w $03C8, Y
 
+        ; Mark that the channel is in use by and SFX or ambient.
         mov.w A, $03C1 : mov.w $03C9, A
         or.b A, $1A : mov.b $1A, A
 
+        ; Check if echo is enabled on this channel.
         mov.w X, $03E2 : beq .disabled
+            ; Mark that echo is enabled on this channel.
             or.w A, $03E3 : mov.w $03E3, A
 
         .disabled
 
-        mov.w A, $0004 : and.b A, #$10 : beq .lower_bank
+        ; OPTIMIE: Why use the $0004 word?
+        ; Check if we are playing an "indoor" song:
+        mov.w A, $0004 : and.b A, #$10 : beq .notIndoors
+            ; Check if any channel is using echo:
             mov.w A, $03C1 : and.w A, $03E3 : beq .echo_off
 
-        .lower_bank
+        .notIndoors
 
+        ; Check if any channels don't already have their echo on bit set:
         mov.w A, $03C1 : and.b A, $4A : beq .echo_off
+            ; Remove the channels that already had their echo on bits set and
+            ; turn on the rest.
             mov.b A, $4A : setc : sbc.w A, $03C1 : mov.b $4A, A
-
             mov.b Y, #DSP.EON
             call WriteToDSP
 
@@ -3286,11 +3352,16 @@ SPCEngine:
     ; $0D078A-$0D07D1 DATA
     HandleInput_SFX3:
     {
+        ; Check if the SFX3 is non-0:
         mov.b A, $03 : bne .valid
             ret
 
         .valid
 
+        .accompanying
+
+            ; OPTIMIZE: cbeq.b $1A, .exit
+            ; Check if all channels are muted:
             mov.b A, #$FF : cbne.b $1A, .not_all_muted
                 bra .exit
 
@@ -3298,23 +3369,28 @@ SPCEngine:
 
             call SFX3_HandleEcho
 
+            ; Set the channel SFX ID and pan settings.
             mov.w X, $03C0
             mov.b A, $03 : and.b A, #$C0 : mov.w $03D0+X, A
             mov.b A, $03 : and.b A, #$3F : mov.w $03A0+X, A
 
+            ; Set a little bit of a delay for the SFX to start.
             mov.b A, #$03 : mov.w $03A1+X, A
+
+            ; Set the pitch slide queue for the channel to 0.
             mov.b A, #$00 : mov.w $0280+X, A
 
+            ; Mark which channels are being used by a SFX3.
             mov.w A, $03C1 : or.w A, $03CD : mov.w $03CD, A
 
+            ; Write the key off for the channel.
             mov.w A, $03C1
             mov.b Y, #DSP.KOFF
             call WriteToDSP
-
-            mov.w A, $03A0+X : mov X, A
-
-            mov.w A, SFX3_Accomp-1+X : mov.b $03, A
-        bne .valid
+        ; Check if the SFX has an accompanying channel that also needs to be
+        ; played.
+        mov.w A, $03A0+X : mov X, A
+        mov.w A, SFX3_Accomp-1+X : mov.b $03, A : bne .accompanying
 
         .exit
 
@@ -3327,6 +3403,9 @@ SPCEngine:
     ; $0D07D1-$0D0812 DATA
     HandleValidSFX2:
     {
+        .accompanying
+            ; OPTIMIZE: cbeq.b $1A, .exit
+            ; Check if all channels are muted:
             mov.b A, #$FF : cbne.b $1A, .not_all_muted
                 bra .exit
 
@@ -3334,22 +3413,28 @@ SPCEngine:
 
             call SFX2_HandleEcho
 
+            ; Set the channel SFX ID and pan settings.
             mov.w X, $03C0
             mov.b A, $02 : and.b A, #$3F : mov.w $03A0+X, A
             mov.b A, $02 : and.b A, #$C0 : mov.w $03D0+X, A
 
+            ; Set a little bit of a delay for the SFX to start.
             mov.b A, #$03 : mov.w $03A1+X, A
+
+            ; Set the pitch slide queue for the channel to 0.
             mov.b A, #$00 : mov.w $0280+X, A
 
+            ; Mark which channels are being used by a SFX2.
             mov.w A, $03C1 : or.w A, $03CB : mov.w $03CB, A
 
+            ; Write the key off for the channel.
             mov.w A, $03C1
             mov.b Y, #DSP.KOFF
             call WriteToDSP
-
-            mov.w A, $03A0+X : mov X, A
-            mov.w A, SFX2_Accomp-1+X : mov.b $02, A
-        bne HandleValidSFX2
+        ; Check if the SFX has an accompanying channel that also needs to be
+        ; played.
+        mov.w A, $03A0+X : mov X, A
+        mov.w A, SFX2_Accomp-1+X : mov.b $02, A : bne .accompanying
 
         .exit
 
@@ -3574,41 +3659,55 @@ SPCEngine:
     ; $0D0937-$0D09A7 DATA
     ResumeMusic:
     {
+        ; Cancel the currently playing SFX or ambient playing on the channel
+        ; that is playing one.
         mov.b A, #$00
         mov.w X, $03C0
         mov.w $03A0+X, A
 
+        ; Mark that the channels that were being used by SFX are no longer
+        ; being used.
         mov.b A, $1A : setc : sbc.w A, $03C1 : mov.b $1A, A
 
+        ; Check if the channels were being used by a SFX2:
         mov.w A, $03C1 : and.w A, $03CB : beq .not_on_SFX_2
+            ; Mark them as no longer being used by a SFX2.
             mov.w A, $03CB : setc : sbc.w A, $03C1 : mov.w $03CB, A
 
             bra .resume
 
         .not_on_SFX_2
 
+        ; Check if the channels were being used by a SFX3:
         mov.w A, $03C1 : and.w A, $03CD : beq .not_on_SFX_3
+            ; Mark them as no longer being used by a SFX3.
             mov.w A, $03CD : setc : sbc.w A, $03C1 : mov.w $03CD, A
 
             bra .resume
 
         .not_on_SFX_3
 
+        ; Mark that the channels that were being used by ambients are no longer
+        ; being used by ambients.
         mov.w A, $03CF : setc : sbc.w A, $03C1 : mov.w $03CF, A
 
         .resume
 
+        ; Set the instrament back to what the music was using.
         mov.b $44, X
         mov.w A, $0211+X
         call TrackCommand_E0_ChangeInstrument
 
+        ; Check if the channel already had echo enabled:
         mov.w A, $03C1 : and.w A, $03C3 : beq .exit
+            ; Check if the echo was already set to be enabled:
             and.b A, $4A : bne .exit
+                ; Mark that the echo needs to be enabled on this channel.
                 mov.b A, $4A : clrc : adc.w A, $03C1 : mov.b $4A, A
-
                 mov.b Y, #DSP.EON
                 call WriteToDSP
 
+                ; Reset the bitfield for SFX echo.
                 mov.w A, $03E3 : setc : sbc.w A, $03C1 : mov.w $03E3, A
 
         .exit
@@ -3624,19 +3723,25 @@ SPCEngine:
     ; $0D09A8-$0D09C6 DATA
     DisableSFX:
     {
+        ; Check if the current channel is being used by an ambient:
         mov.w A, $03C1 : and.w A, $03CF : bne .used_by_ambient
+            ; Check if the current channel is being used by an SFX2:
             mov.w A, $03C1 : and.w A, $03CB : bne .used_by_SFX_2
+                ; If we got here that means its a SFX3.
                 call ResumeMusic
+
                 jmp Handle_SFX3_to_next_channel
 
         .used_by_ambient
 
         call ResumeMusic
+
         jmp Handle_AmbientAndSFX_to_next_channel
 
         .used_by_SFX_2
 
         call ResumeMusic
+
         jmp Handle_SFX2_to_next_channel
     }
 
@@ -3798,27 +3903,33 @@ SPCEngine:
                         cmp.b A, #$FF : bne .not_loop
                             ; Restart the ambient or SFX.
                             mov.w X, $03C0
+
                             jmp Handle_AmbientAndSFX_initialize
 
                         .not_loop
 
+                        ; Handle the note on the given channel.
                         mov.w X, $03C0
                         mov Y, A
                         call HandleNote
 
+                        ; Key on the channels being used.
                         mov.w A, $03C1
                         call KeyOnSoundEffects
 
                         .setup_pitch_slide
 
+                        ; Set the note countdown.
                         mov.w X, $03C0
-
                         mov.w A, $03B1+X : mov.w $03B0+X, A
 
                         .do_pitch_slide
                         
+                        ; Mark that there are no pitch changes currently
+                        ; taking place.
                         clr7.b $13
 
+                        ; Check if we are performing a pitch slide on the channel.
                         mov.w X, $03C0
                         mov.b A, $A0+X : beq .no_pitch_slide
                             call PitchSlideSFX
@@ -3827,6 +3938,7 @@ SPCEngine:
 
                         .no_pitch_slide
 
+                        ; On frame 0x02 of the SFX note timer, key off the note.
                         mov.b A, #$02 : cmp.w A, $03B0+X : bne .dont_key_off
                             mov.w A, $03C1
                             mov.b Y, #DSP.KOFF
@@ -3834,12 +3946,18 @@ SPCEngine:
 
                         .dont_key_off
 
+                        ; Set the SFX data pointer for the channel to the current
+                        ; SFX data pointer.
                         mov.w X, $03C0
                         mov.b A, $2D : mov.w $0391+X, A
                         mov.b A, $2C : mov.w $0390+X, A
 
+                        ; Check if the current channel is being used by an ambient:
                         mov.w A, $03C1 : and.w A, $03CF : bne .ambient
+                            ; Check if the current channel is being used by
+                            ; an SFX2:
                             mov.w A, $03C1 : and.w A, $03CB : bne .on_SFX_2
+                                ; Its being used by an SFX3.
                                 jmp Handle_SFX3_to_next_channel
 
                         .ambient
@@ -3852,12 +3970,13 @@ SPCEngine:
 
                 .pitch_slide_command
 
+                ; Get the next byte of the SFX or ambient.
                 mov.b X, #$00
                 incw.b $2C
                 mov.b A, ($2C+X)
 
+                ; Handle the current note of the SFX.
                 mov.w X, $03C0 : mov.b $44, X
-
                 mov Y, A
                 call HandleNote
 
@@ -3866,6 +3985,7 @@ SPCEngine:
 
                 .pitch_slide_to_command
                 
+                ; Get the next byte and set it as the pitch slide delay.
                 mov.b X, #$00
                 incw.b $2C
                 mov.b A, ($2C+X)
@@ -3873,8 +3993,8 @@ SPCEngine:
                 mov.w X, $03C0
                 mov.b $A1+X, A
 
+                ; Get the next byte and set it as pitch slide timer.
                 mov.b X, #$00
-
                 incw.b $2C
                 mov.b A, ($2C+X)
 
@@ -3882,6 +4002,8 @@ SPCEngine:
                 mov.b $A0+X, A
                 push A
 
+                ; Get the next byte and use it as the base for the next pitch
+                ; slide calculation.
                 mov.b X, #$00
                 incw.b $2C
                 mov.b A, ($2C+X)
@@ -3889,13 +4011,14 @@ SPCEngine:
                 pop Y
 
                 mov.w X, $03C0 : mov.b $44, X
-
                 call TrackCommand_F9_SlideOnce_calc_frames
 
                 jmp .setup_pitch_slide
 
                 .change_instrument
 
+                ; Get the next byte and use it as the index to get the
+                ; INSTRUMENT_DATA_SFX.
                 mov.b X, #$00
                 incw.b $2C
                 mov.b A, ($2C+X)
@@ -3904,6 +4027,7 @@ SPCEngine:
 
                 mov.w Y, $03C2
 
+                ; Loop through each channel:
                 mov.b $12, #$08
 
                 .write_loop
@@ -3914,8 +4038,9 @@ SPCEngine:
                     inc Y
                 dbnz.b $12, .write_loop
 
+                ; Use the last byte in the INSTRUMENT_DATA_SFX as the channel
+                ; pitch tuning multiplier.
                 mov.w A, INSTRUMENT_DATA_SFX+X
-
                 mov.w Y, $03C0
                 mov.w $0221+Y, A
 

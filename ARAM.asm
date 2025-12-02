@@ -591,7 +591,7 @@ struct ARAM $0000
 
     ; $B1[0x01] - (???)
     .Channel0VBRIntensity: skip $01
-        ; The channel 0 vibrato max intensity.
+        ; The channel 0 vibrato intensity.
 
     ; $B2[0x01] - (???)
     .Channel1VBRStrength: skip $01
@@ -599,7 +599,7 @@ struct ARAM $0000
 
     ; $B3[0x01] - (???)
     .Channel1VBRIntensity: skip $01
-        ; The channel 1 vibrato max intensity.
+        ; The channel 1 vibrato intensity.
 
     ; $B4[0x01] - (???)
     .Channel2VBRStrength: skip $01
@@ -607,7 +607,7 @@ struct ARAM $0000
 
     ; $B5[0x01] - (???)
     .Channel2VBRIntensity: skip $01
-        ; The channel 2 vibrato max intensity.
+        ; The channel 2 vibrato intensity.
 
     ; $B6[0x01] - (???)
     .Channel3VBRStrength: skip $01
@@ -615,7 +615,7 @@ struct ARAM $0000
 
     ; $B7[0x01] - (???)
     .Channel3VBRIntensity: skip $01
-        ; The channel 3 vibrato max intensity.
+        ; The channel 3 vibrato intensity.
 
     ; $B8[0x01] - (???)
     .Channel4VBRStrength: skip $01
@@ -623,7 +623,7 @@ struct ARAM $0000
 
     ; $B9[0x01] - (???)
     .Channel4VBRIntensity: skip $01
-        ; The channel 4 vibrato max intensity.
+        ; The channel 4 vibrato intensity.
 
     ; $BA[0x01] - (???)
     .Channel5VBRStrength: skip $01
@@ -631,7 +631,7 @@ struct ARAM $0000
 
     ; $BB[0x01] - (???)
     .Channel5VBRIntensity: skip $01
-        ; The channel 5 vibrato max intensity.
+        ; The channel 5 vibrato intensity.
 
     ; $BC[0x01] - (???)
     .Channel6VBRStrength: skip $01
@@ -639,7 +639,7 @@ struct ARAM $0000
 
     ; $BD[0x01] - (???)
     .Channel6VBRIntensity: skip $01
-        ; The channel 6 vibrato max intensity.
+        ; The channel 6 vibrato intensity.
 
     ; $BE[0x01] - (???)
     .Channel7VBRStrength: skip $01
@@ -647,7 +647,7 @@ struct ARAM $0000
 
     ; $BF[0x01] - (???)
     .Channel7VBRIntensity: skip $01
-        ; The channel 7 vibrato max intensity.
+        ; The channel 7 vibrato intensity.
 
 
     ; $C0[0x01] - (???)
@@ -736,15 +736,15 @@ struct ARAM $0000
     ; very briefly. Most references to this section of RAM are absolute calls.
 
     ; $0100[0x01] - (???)
-    .Channel0VbrCounter: skip $01
-        ; The channel 0 vibrato counter.
+    .Channel0VbrIntensitySlideTimer: skip $01
+        ; The channel 0 vibrato intensity slide timer.
 
     ; $0101[0x01] - (Free)
     .Free_0101: skip $01
         ; Free RAM.
 
     ; $0102[0x01] - (???)
-    .Channel1VbrCounter: skip $01
+    .Channel1VbrIntensitySlideTimer: skip $01
         ; The channel 1 vibrato counter.
 
     ; $0103[0x01] - (Free)
@@ -752,7 +752,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $0104[0x01] - (???)
-    .Channel2VbrCounter: skip $01
+    .Channel2VbrIntensitySlideTimer: skip $01
         ; The channel 2 vibrato counter.
 
     ; $0105[0x01] - (Free)
@@ -760,7 +760,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $0106[0x01] - (???)
-    .Channel3VbrCounter: skip $01
+    .Channel3VbrIntensitySlideTimer: skip $01
         ; The channel 3 vibrato counter.
 
     ; $0107[0x01] - (Free)
@@ -768,7 +768,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $0108[0x01] - (???)
-    .Channel4VbrCounter: skip $01
+    .Channel4VbrIntensitySlideTimer: skip $01
         ; The channel 4 vibrato counter.
 
     ; $0109[0x01] - (Free)
@@ -776,7 +776,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $010A[0x01] - (???)
-    .Channel5VbrCounter: skip $01
+    .Channel5VbrIntensitySlideTimer: skip $01
         ; The channel 5 vibrato counter.
 
     ; $010B[0x01] - (Free)
@@ -784,7 +784,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $010C[0x01] - (???)
-    .Channel6VbrCounter: skip $01
+    .Channel6VbrIntensitySlideTimer: skip $01
         ; The channel 6 vibrato counter.
 
     ; $010D[0x01] - (Free)
@@ -792,7 +792,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $010E[0x01] - (???)
-    .Channel7VbrCounter: skip $01
+    .Channel7VbrIntensitySlideTimer: skip $01
         ; The channel 7 vibrato counter.
 
     ; $010F[0xC0] - (Free)
@@ -1192,153 +1192,197 @@ struct ARAM $0000
         ; The channel 7 pitch slide target.
 
 
-    ; Vibrato accumulator and rate
     ; $02A0[0x01] - (???)
-    .T0VBRC: skip $01
+    .Channel0VbrAcc: skip $01
+    ; The channel 0 vibrato accumulator.
 
     ; $02A1[0x01] - (???)
-    .T0VBRV: skip $01
+    .Channel0VbrIncrament: skip $01
+        ; The channel 0 vibrato incrament.
 
     ; $02A2[0x01] - (???)
-    .T1VBRC: skip $01
+    .Channel1VbrAcc: skip $01
+        ; The channel 1 vibrato accumulator.
 
     ; $02A3[0x01] - (???)
-    .T1VBRV: skip $01
+    .Channel1VbrIncrament: skip $01
+        ; The channel 1 vibrato incrament.
 
     ; $02A4[0x01] - (???)
-    .T2VBRC: skip $01
+    .Channel2VbrAcc: skip $01
+        ; The channel 2 vibrato accumulator.
 
     ; $02A5[0x01] - (???)
-    .T2VBRV: skip $01
+    .Channel2VbrIncrament: skip $01
+        ; The channel 2 vibrato incrament.
 
     ; $02A6[0x01] - (???)
-    .T3VBRC: skip $01
+    .Channel3VbrAcc: skip $01
+        ; The channel 3 vibrato accumulator.
 
     ; $02A7[0x01] - (???)
-    .T3VBRV: skip $01
+    .Channel3VbrIncrament: skip $01
+        ; The channel 3 vibrato incrament.
 
     ; $02A8[0x01] - (???)
-    .T4VBRC: skip $01
+    .Channel4VbrAcc: skip $01
+        ; The channel 4 vibrato accumulator.
 
     ; $02A9[0x01] - (???)
-    .T4VBRV: skip $01
+    .Channel4VbrIncrament: skip $01
+        ; The channel 4 vibrato incrament.
 
     ; $02AA[0x01] - (???)
-    .T5VBRC: skip $01
+    .Channel5VbrAcc: skip $01
+        ; The channel 5 vibrato accumulator.
 
     ; $02AB[0x01] - (???)
-    .T5VBRV: skip $01
+    .Channel5VbrIncrament: skip $01
+        ; The channel 5 vibrato incrament.
 
     ; $02AC[0x01] - (???)
-    .T6VBRC: skip $01
+    .Channel6VbrAcc: skip $01
+        ; The channel 6 vibrato accumulator.
 
     ; $02AD[0x01] - (???)
-    .T6VBRV: skip $01
+    .Channel6VbrIncrament: skip $01
+        ; The channel 6 vibrato incrament.
 
     ; $02AE[0x01] - (???)
-    .T7VBRC: skip $01
+    .Channel7VbrAcc: skip $01
+        ; The channel 7 vibrato accumulator.
 
     ; $02AF[0x01] - (???)
-    .T7VBRV: skip $01
+    .Channel7VbrIncrament: skip $01
+        ; The channel 7 vibrato incrament.
 
 
-    ; TODO: What is the gradient wait?
-    ; Vibrato delay and gradient wait
     ; $02B0[0x01] - (???)
-    .T0VBRWT: skip $01
+    .Channel0VbrDelay: skip $01
+        ; The channel 0 vibrato delay.
 
     ; $02B1[0x01] - (???)
-    .T0VBRGD: skip $01
+    .Channel0VbrIntensitySlideWait: skip $01
+        ; This is the value the channel 0 vibrato intensity slide timer needs to
+        ; reach to be complete.
 
     ; $02B2[0x01] - (???)
-    .T1VBRWT: skip $01
+    .Channel1VbrDelay: skip $01
+        ; The channel 1 vibrato delay.
 
     ; $02B3[0x01] - (???)
-    .T1VBRGD: skip $01
+    .Channel1VbrIntensitySlideWait: skip $01
+        ; This is the value the channel 1 vibrato intensity slide timer needs to
+        ; reach to be complete.
 
     ; $02B4[0x01] - (???)
-    .T2VBRWT: skip $01
+    .Channel2VbrDelay: skip $01
+        ; The channel 2 vibrato delay.
 
     ; $02B5[0x01] - (???)
-    .T2VBRGD: skip $01
+    .Channel2VbrIntensitySlideWait: skip $01
+        ; This is the value the channel 2 vibrato intensity slide timer needs to
+        ; reach to be complete.
 
     ; $02B6[0x01] - (???)
-    .T3VBRWT: skip $01
+    .Channel3VbrDelay: skip $01
+        ; The channel 3 vibrato delay.
 
     ; $02B7[0x01] - (???)
-    .T3VBRGD: skip $01
+    .Channel3VbrIntensitySlideWait: skip $01
+        ; This is the value the channel 3 vibrato intensity slide timer needs to
+        ; reach to be complete.
 
     ; $02B8[0x01] - (???)
-    .T4VBRWT: skip $01
+    .Channel4VbrDelay: skip $01
+        ; The channel 4 vibrato delay.
 
     ; $02B9[0x01] - (???)
-    .T4VBRGD: skip $01
+    .Channel4VbrIntensitySlideWait: skip $01
+        ; This is the value the channel 4 vibrato intensity slide timer needs to
+        ; reach to be complete.
 
     ; $02BA[0x01] - (???)
-    .T5VBRWT: skip $01
+    .Channel5VbrDelay: skip $01
+        ; The channel 5 vibrato delay.
 
     ; $02BB[0x01] - (???)
-    .T5VBRGD: skip $01
+    .Channel5VbrIntensitySlideWait: skip $01
+        ; This is the value the channel 5 vibrato intensity slide timer needs to
+        ; reach to be complete.
 
     ; $02BC[0x01] - (???)
-    .T6VBRWT: skip $01
+    .Channel6VbrDelay: skip $01
+        ; The channel 6 vibrato delay.
 
     ; $02BD[0x01] - (???)
-    .T6VBRGD: skip $01
+    .Channel6VbrIntensitySlideWait: skip $01
+        ; This is the value the channel 6 vibrato intensity slide timer needs to
+        ; reach to be complete.
 
     ; $02BE[0x01] - (???)
-    .T7VBRWT: skip $01
+    .Channel7VbrDelay: skip $01
+        ; The channel 7 vibrato delay.
 
     ; $02BF[0x01] - (???)
-    .T7VBRGD: skip $01
+    .Channel7VbrIntensitySlideWait: skip $01
+        ; This is the value the channel 7 vibrato intensity slide timer needs to
+        ; reach to be complete.
 
 
-    ; TODO: What is the vibrato step?
     ; Vibrato step and max intensity
     ; $02C0[0x01] - (???)
-    .T0VBRST: skip $01
+    .Channel0VbrIntensitySlideIncrament: skip $01
+        ; The channel 0 vibrato intensity slide incrament.
 
     ; $02C1[0x01] - (???)
     .T0VBRMX: skip $01
 
     ; $02C2[0x01] - (???)
-    .T1VBRST: skip $01
+    .Channel1VbrIntensitySlideIncrament: skip $01
+        ; The channel 1 vibrato intensity slide incrament.
 
     ; $02C3[0x01] - (???)
     .T1VBRMX: skip $01
 
     ; $02C4[0x01] - (???)
-    .T2VBRST: skip $01
+    .Channel2VbrIntensitySlideIncrament: skip $01
+        ; The channel 2 vibrato intensity slide incrament.
 
     ; $02C5[0x01] - (???)
     .T2VBRMX: skip $01
 
     ; $02C6[0x01] - (???)
-    .T3VBRST: skip $01
+    .Channel3VbrIntensitySlideIncrament: skip $01
+        ; The channel 3 vibrato intensity slide incrament.
 
     ; $02C7[0x01] - (???)
     .T3VBRMX: skip $01
 
     ; $02C8[0x01] - (???)
-    .T4VBRST: skip $01
+    .Channel4VbrIntensitySlideIncrament: skip $01
+        ; The channel 4 vibrato intensity slide incrament.
 
     ; $02C9[0x01] - (???)
     .T4VBRMX: skip $01
 
     ; $02CA[0x01] - (???)
-    .T5VBRST: skip $01
+    .Channel5VbrIntensitySlideIncrament: skip $01
+        ; The channel 5 vibrato intensity slide incrament.
 
     ; $02CB[0x01] - (???)
     .T5VBRMX: skip $01
 
     ; $02CC[0x01] - (???)
-    .T6VBRST: skip $01
+    .Channel6VbrIntensitySlideIncrament: skip $01
+        ; The channel 6 vibrato intensity slide incrament.
 
     ; $02CD[0x01] - (???)
     .T6VBRMX: skip $01
 
     ; $02CE[0x01] - (???)
-    .T7VBRST: skip $01
+    .Channel7VbrIntensitySlideIncrament: skip $01
+        ; The channel 7 vibrato intensity slide incrament.
 
     ; $02CF[0x01] - (???)
     .T7VBRMX: skip $01
@@ -2128,7 +2172,7 @@ struct ARAM $0000
     
     ; $03CB[0x01] - (???)
     .SFX2BIT: skip $01
-        ; Channel bits for SFX2, playing and operating
+        ; Channel bits for SFX2, playing and operating.
 
     ; $03CC[0x01] - (???)
     .SFX2FIND: skip $01
@@ -2136,7 +2180,7 @@ struct ARAM $0000
 
     ; $03CD[0x01] - (???)
     .SFX3BIT: skip $01
-        ; Channel bits for SFX3, playing and operating
+        ; Channel bits for SFX3, playing and operating.
 
     ; $03CE[0x01] - (???)
     .SFX3FIND: skip $01
@@ -2147,7 +2191,7 @@ struct ARAM $0000
         ; The channels in use for Ambient.
 
 
-    ; SFX channel pan values and unused variable
+    ; SFX channel pan values and unused variable.
     ; $03D0[0x01] - (???)
     .T0SFXPAN: skip $01
 
@@ -2207,7 +2251,7 @@ struct ARAM $0000
 
     ; $03E2[0x01] - (???)
     .SFXECHOV: skip $01
-        ; Holds value from echo table for SFX
+        ; Holds value from echo table for SFX.
 
     ; $03E3[0x01] - (???)
     .SFXEchos: skip $01
