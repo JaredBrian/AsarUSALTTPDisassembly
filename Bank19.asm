@@ -4054,33 +4054,42 @@ SPCEngine:
     ; $0D0B44-$0D0B5D DATA
     PitchSlideSFX:
     {
+        ; Mark that we are performing a pitch change.
         set7.b $13
 
+        ; Setup the address for the channel pitch calculation as a pointer and
+        ; perform the pitch slide.
         mov.b A, #$0360>>0
         mov.b Y, #$0360>>8
 
+        ; Decrement the pitch slide timer.
         dec.b $A0+X
+
         call IncrementSlide_quiet
 
         mov.w A, $0361+X : mov Y, A
         mov.w A, $0360+X : movw.b $10, YA
-
+        
         mov.b $47, #$00
         jmp HandleNote_external
     }
 
     ; ==========================================================================
 
+    ; Input:
+    ; A - The channel bits to channel on.
     ; SPC $1790-$179D JUMP LOCATION
     ; $0D0B5E-$0D0B6B DATA
     KeyOnSoundEffects:
     {
         push A
 
+        ; Make sure none of the key off bits are set.
         mov.b Y, #DSP.KOFF
         mov.b A, #$00
         call WriteToDSP
 
+        ; Key on the given channels.
         pop A
         mov.b Y, #DSP.KON
 
