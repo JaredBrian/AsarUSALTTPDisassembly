@@ -9191,5 +9191,6 @@ struct WRAM $7F0000
     ; 0x0480BE ; High X(used to change quadrant) -1 to move left portion
     ; 0x0480B9 ; High Y(used to change quadrant) -1 to move top portion
 }
+endstruct
 
 ; ===============================================================================

@@ -266,7 +266,7 @@ InstrumentData:
 SPCEngine:
 {
     ; Transfer size, transfer address
-    dw SPCEngine_end-SPC_ENGINE, SPC_ENGINE
+    dw SPC_ENGINE_end-SPC_ENGINE, SPC_ENGINE
 
     ; ==========================================================================
 
@@ -333,10 +333,10 @@ SPCEngine:
         mov.b Y, #DSP.DIR
         call WriteToDSP
 
-        ; Set $FFC0 to ROM, clear ports 0123, stop timer 0.
+        ; Set $FFC0 to ROM, clear ports all 5A22 input ports, and stop all timers.
         mov.b A, #$F0 : mov.w SMP.CONTROL, A
 
-        ; Set the timer 0 target and the tempo.
+        ; Set the timer 0 target and the tempo high byte.
         mov.b A, #$10 : mov.w SMP.T0TARGET, A
                         mov.b $53, A
 
@@ -373,12 +373,12 @@ SPCEngine:
             bbs7.b $4C, .skip
                 .not_echo_register
 
-                ; Choose the DSP register to write to.
+                ; Get the DSP register to write to.
                 mov.w A, RegisterList-1+Y : mov.w SMP.DSPADDR, A
 
-                ; Choose the RAM value to get the value we will write to the
+                ; Get the RAM value to get the value we will write to the
                 ; DSP register.
-                mov.w A, LoadValueFrom-1+Y : mov X, A
+                mov.w A, RegisterValueFrom-1+Y : mov X, A
                 mov A, (X) : mov.w SMP.DSPDATA, A
 
             .skip
@@ -388,7 +388,7 @@ SPCEngine:
         mov.b $45, Y
         mov.b $46, Y
 
-        ; OPTIMIZE: Do a bunch of math that seemingly has not impact on
+        ; OPTIMIZE: Do a bunch of math that seemingly has no impact on
         ; anything else. $18 and $19 seem to be junk.
         mov.b A, $18 : eor.b A, $19 : lsr A : lsr A
         notc : ror.b $18 : ror.b $19
@@ -411,21 +411,21 @@ SPCEngine:
 
             ; Check for new Ambient input.
             mov.b X, #$01
-            call Synchronize
+            call Get5A22Input
 
             call Handle_SFX2
             call HandleInput_SFX2
 
             ; Check for new SFX2 input.
             mov.b X, #$02
-            call Synchronize
+            call Get5A22Input
 
             call Handle_SFX3
             call HandleInput_SFX3
 
             ; Check for new SFX3 input.
             mov.b X, #$03
-            call Synchronize
+            call Get5A22Input
 
             cmp.b $4C, $4D : beq .wait_for_SFX
                 ; Every other frame:
@@ -441,22 +441,20 @@ SPCEngine:
         ; input from the 5A22 and handle the current song.
         mov.b A, $53
         pop Y
-        mul YA
-        clrc : adc.b A, $51 : mov.b $51, A
-                              bcc .ignore_tracker
-            ; TODO: Verify.
+        mul YA : clrc : adc.b A, $51 : mov.b $51, A
+                                       bcc .notOnTempo
             ; Handle the next note in the current song.
             call HandleInput_Song
 
             ; Check for new song input.
             mov.b X, #$00
-            call Synchronize
+            call Get5A22Input
 
             ; TODO: I think this means that we always skip the "fancy" effects
             ; on the first frame of the note.
             jmp Engine_Main
 
-        .ignore_tracker
+        .notOnTempo
 
         ; Are we currently playing a song?
         mov.b A, $04 : beq .no_song
@@ -475,7 +473,6 @@ SPCEngine:
                 .skip_voice
 
                 inc X : inc X
-            ; TODO: Verify.
             ; Go until we find a channel that is disabled.
             asl.b $47 : bne .next_track
 
@@ -488,13 +485,14 @@ SPCEngine:
 
     ; SPC $08E3-$0901 JUMP LOCATION
     ; $0CFCB1-$0CFCCF DATA
-    Synchronize:
+    Get5A22Input:
     {
         ; Tell the 5A22 the current song or SFX being played.
         mov.b A, $04+X : mov.w SMP.CPUIO0+X, A
 
         .wait
 
+            ; TODO: Verify:
             ; Just in case the 5A22 was in the process of writing a new song
             ; or SFX to the APU, check it again to make sure it didn't change.
             mov.w A, SMP.CPUIO0+X
@@ -505,9 +503,10 @@ SPCEngine:
 
         .dumb
 
-        ; Check if we are already playing that same song/SFX.
+        ; Check if we are already playing the same song/SFX.
         mov.b A, $08+X
-        mov.b $08+X, Y : cbne.b $08+X, .change
+        mov.b $08+X, Y
+        cbne.b $08+X, .change
             ; If we are playing the same thing, don't play it again.
             mov.b Y, #$00 : mov.b $00+X, Y
 
@@ -543,8 +542,8 @@ SPCEngine:
         .not_percussion
 
         ; Check if the note is a tie:
-        cmp.b Y, #$C8 : bcs Synchronize_exit
-            mov.b A, $1A : and.b A, $47 : bne Synchronize_exit
+        cmp.b Y, #$C8 : bcs Get5A22Input_exit
+            mov.b A, $1A : and.b A, $47 : bne Get5A22Input_exit
                 ; Apply the global transposition and the channel transposition
                 ; to the note:
                 mov A, Y : and.b A, #$7F : clrc : adc.b A, $50
@@ -2183,7 +2182,7 @@ SPCEngine:
     ; $0D02AE-$0D02B8 DATA
     MakeFraction_abs:
     {
-        ; TODO: Do a bunch of main I don't understand.
+        ; TODO: Do a bunch of math I don't understand.
         bbc7.b $12, .keep_positive
             movw.b $14, YA
 
@@ -2909,7 +2908,7 @@ SPCEngine:
 
     ; SPC $11B7-$11C0 DATA
     ; $0D0585-$0D058E DATA
-    LoadValueFrom:
+    RegisterValueFrom:
     {
         db $61 ; DSP.EVOLL
         db $63 ; DSP.EVOLR
@@ -4098,7 +4097,7 @@ SPCEngine:
 
     ; ==========================================================================
 
-    SPCEngine_end:
+    SPC_ENGINE_end:
 
     base off
 

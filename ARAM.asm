@@ -12,6 +12,7 @@
 ; Q = Queue
 ; Ptr = Pointer
 ; SFX = Sound Effect
+; Src = Source
 ; Trem = Tremolo
 ; Vbr = Vibrato
 ; Vol = Volume
@@ -220,7 +221,6 @@ struct ARAM $0000
     ; $45[0x01] - (DSP, I/O)
     .KeyOnQ: skip $01
         ; The DSP.KON (Key on) queue.
-        ; TODO: What are these queues used for?
 
     ; $46[0x01] - (DSP, I/O)
     .KeyOffQ: skip $01
@@ -239,11 +239,11 @@ struct ARAM $0000
         ; The DSP.FLG (Flag) queue.
 
     ; $49[0x01] - (DSP, I/O)
-    .NoiseQ: skip $01
+    .NoiseOnQ: skip $01
         ; The DSP.NON (Noise Enable) queue.
 
     ; $4A[0x01] - (DSP, I/O, Echo)
-    .EchoQ: skip $01
+    .EchoOnQ: skip $01
         ; The DSP.EON (Echo Enable) queue.
 
     ; $4B[0x01] - (DSP, I/O, Pitch)
@@ -2457,5 +2457,6 @@ struct ARAM $0000
 
     ; $FFC0-$FFFF Boot ROM
 }
+endstruct
 
 ; ==============================================================================
