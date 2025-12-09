@@ -239,16 +239,19 @@ Vector_NMI:
     
     ; Used to select a musical track.
     LDA.w $012C : BNE .nonzeroMusicInput
+        ; Check if the APU has handled the command we previously sent it:
         LDA.w SNES.APUIOPort0 : CMP.w $0133 : BNE .handleAmbientSFXInput
-            ; If they were the same, put 0 in $2140.
+            ; If the APU sent back the command we previously sent it, zero out
+            ; the sent command so it doesn't get triggered again.
             STZ.w SNES.APUIOPort0
             
             BRA .handleAmbientSFXInput
 
     .nonzeroMusicInput
 
-    CMP.w $0133 : BEQ .handleAmbientSFXInput
-        ; The song has changed...
+    ; Check if we are already playing the same song:
+    CMP.w $0133 : BEQ .sameSong
+        ; The song has changed, tell the APU.
         STA.w SNES.APUIOPort0 : STA.w $0133
         CMP.b #$F2 : BCS .volumeOrTransferCommand
             STA.w $0130
@@ -256,6 +259,8 @@ Vector_NMI:
         .volumeOrTransferCommand
 
         STZ.w $012C
+
+    .sameSong
 
     .handleAmbientSFXInput
 
