@@ -32,6 +32,7 @@ SamplePointers:
     ; $0C8004-$0C8073 DATA
     base SAMPLE_POINTERS
 
+    ;  Start,  Loop
     dw $4000, $4012 ; 0x00 - Noise
     dw $4048, $4063 ; 0x01 - Rain
     dw $47F2, $5395 ; 0x02 - Timpani
@@ -210,33 +211,35 @@ InstrumentData:
     ; $0CFB1A-$0CFBB1 DATA
     base INSTRUMENT_DATA
 
-    ; TODO: Define all of these.
-    ; SRCN, ADSR1, ADSR2, GAIN, MULT (big endian)
-    db $00, $FF, $E0, $B8, $04, $70 ; 0x00 - Noise
-    db $01, $FF, $E0, $B8, $07, $90 ; 0x01 - Rain
-    db $02, $FF, $E0, $B8, $09, $C0 ; 0x02 - Timpani
-    db $03, $FF, $E0, $B8, $04, $00 ; 0x03 - Square wave
-    db $04, $FF, $E0, $B8, $04, $00 ; 0x04 - Saw wave
-    db $05, $FF, $E0, $B8, $04, $70 ; 0x05 - Clink
-    db $06, $FF, $E0, $B8, $04, $70 ; 0x06 - Wobbly lead
-    db $07, $FF, $E0, $B8, $04, $70 ; 0x07 - Compound saw
-    db $08, $FF, $E0, $B8, $07, $A0 ; 0x08 - Tweet
-    db $09, $8F, $E9, $B8, $01, $E0 ; 0x09 - Strings A
-    db $0A, $8A, $E9, $B8, $01, $E0 ; 0x0A - Strings B
-    db $0B, $FF, $E0, $B8, $03, $00 ; 0x0B - Trombone
-    db $0C, $FF, $E0, $B8, $03, $A0 ; 0x0C - Cymbal
-    db $0D, $FF, $E0, $B8, $01, $00 ; 0x0D - Ocarina
-    db $0E, $FF, $EF, $B8, $0E, $A0 ; 0x0E - Chimes
-    db $0F, $FF, $EF, $B8, $06, $00 ; 0x0F - Harp
-    db $10, $FF, $E0, $B8, $03, $D0 ; 0x10 - Splash
-    db $11, $8F, $E0, $B8, $03, $00 ; 0x11 - Trumpet
-    db $12, $8F, $E0, $B8, $06, $F0 ; 0x12 - Horn
-    db $13, $FD, $E0, $B8, $07, $A0 ; 0x13 - Snare A
-    db $14, $FF, $E0, $B8, $07, $A0 ; 0x14 - Snare B
-    db $15, $FF, $E0, $B8, $03, $D0 ; 0x15 - Choir
-    db $16, $8F, $E0, $B8, $03, $00 ; 0x16 - Flute
-    db $17, $FF, $E0, $B8, $02, $C0 ; 0x17 - Oof
-    db $18, $FE, $8F, $B8, $06, $F0 ; 0x18 - Piano
+    ; The first 4 values are instrument specific DSP values and the last word
+    ; is a instrument high-level tuning multiplier. All of which will be read
+    ; from when an instrument change occurs.
+    ; DSP.SRCN, DSP.ADSR1, DSP.ADSR2, DSP.GAIN, ChanX_TuneMult
+    db $00, $FF, $E0, $B8 : dw $7004 ; 0x00 - Noise
+    db $01, $FF, $E0, $B8 : dw $9007 ; 0x01 - Rain
+    db $02, $FF, $E0, $B8 : dw $C009 ; 0x02 - Timpani
+    db $03, $FF, $E0, $B8 : dw $0004 ; 0x03 - Square wave
+    db $04, $FF, $E0, $B8 : dw $0004 ; 0x04 - Saw wave
+    db $05, $FF, $E0, $B8 : dw $7004 ; 0x05 - Clink
+    db $06, $FF, $E0, $B8 : dw $7004 ; 0x06 - Wobbly lead
+    db $07, $FF, $E0, $B8 : dw $7004 ; 0x07 - Compound saw
+    db $08, $FF, $E0, $B8 : dw $A007 ; 0x08 - Tweet
+    db $09, $8F, $E9, $B8 : dw $E001 ; 0x09 - Strings A
+    db $0A, $8A, $E9, $B8 : dw $E001 ; 0x0A - Strings B
+    db $0B, $FF, $E0, $B8 : dw $0003 ; 0x0B - Trombone
+    db $0C, $FF, $E0, $B8 : dw $A003 ; 0x0C - Cymbal
+    db $0D, $FF, $E0, $B8 : dw $0001 ; 0x0D - Ocarina
+    db $0E, $FF, $EF, $B8 : dw $A00E ; 0x0E - Chimes
+    db $0F, $FF, $EF, $B8 : dw $0006 ; 0x0F - Harp
+    db $10, $FF, $E0, $B8 : dw $D003 ; 0x10 - Splash
+    db $11, $8F, $E0, $B8 : dw $0003 ; 0x11 - Trumpet
+    db $12, $8F, $E0, $B8 : dw $F006 ; 0x12 - Horn
+    db $13, $FD, $E0, $B8 : dw $A007 ; 0x13 - Snare A
+    db $14, $FF, $E0, $B8 : dw $A007 ; 0x14 - Snare B
+    db $15, $FF, $E0, $B8 : dw $D003 ; 0x15 - Choir
+    db $16, $8F, $E0, $B8 : dw $0003 ; 0x16 - Flute
+    db $17, $FF, $E0, $B8 : dw $C002 ; 0x17 - Oof
+    db $18, $FE, $8F, $B8 : dw $F006 ; 0x18 - Piano
 
     ; TODO: Wtf is stacc?
     ; stacc and attack table
@@ -662,7 +665,7 @@ SPCEngine:
 
         pop X
 
-        ; Apply some instrument level tuning.
+        ; Apply some instrument high-level tuning.
         mov.w A, $0220+X
         mov.b Y, $15
         mul YA : movw.b $16, YA
@@ -678,15 +681,14 @@ SPCEngine:
         mov.w A, $0221+X
         mov.b Y, $15
         mul YA : mov Y, A
-
         pop A : addw.b YA, $16 : movw.b $16, YA
 
-        ; TODO: Figure out what DSP register ends up getting written to here.
+        ; Write to the DSP.VxPITCHL for the channel.
         mov A, X : xcn A : lsr A : or.b A, #$02 : mov Y, A
         mov.b A, $16
         call WriteToDSP_Checked
 
-        ; Setup the nexxt DSP write.
+        ; Setup the next DSP write. It will be DSP.VxPITCHH for the channel.
         inc Y
         mov.b A, $17
 
@@ -1104,7 +1106,7 @@ SPCEngine:
                                         mov.b $90+X, A
                                         mov.b $91+X, A
 
-                        ; Set the channel duration to 1.
+                        ; Set the channel timer to 1.
                         inc A : mov.b $70+X, A
 
                         inc X : inc X
@@ -1395,6 +1397,7 @@ SPCEngine:
 
     ; Input:
     ; A - The instrament ID to change to.
+    ; X - The current channel.
     ; SPC $0C64-$0CBE JUMP LOCATION
     ; $0D0034-$0D008C DATA
     TrackCommand_E0_ChangeInstrument:
@@ -1414,13 +1417,15 @@ SPCEngine:
         ; Get the address for the instrument data.
         clrc : adc.b $14, #INSTRUMENT_DATA>>0 : adc.b $15, #INSTRUMENT_DATA>>8
 
-        ; Check what channels are being used, if none, exit.
+        ; Check if the current channel is being used:
         mov.b A, $1A : and.b A, $47 : bne .exit
             push X
 
+            ; Setup X to point to DSP.VxSRCN.
             mov A, X : xcn A : lsr A : or.b A, #$04 : mov X, A
 
-            ; Get the ID for the intrument. If positive, its a normal sample.
+            ; Get the ID (DSP.SRCN) for the intrument. If positive, its a normal
+            ; sample.
             ; TODO: All of the IDs in the INSTRUMENT_DATA are positive so figure 
             ; out how precussion changes that.
             mov.b Y, #$00
@@ -1442,7 +1447,8 @@ SPCEngine:
             mov.b A, $47 : tclr.w $0049, A
 
             ; Loop through the rest of the first 4 btyes of INSTRUMENT_DATA and
-            ; write them to the DSP registers.
+            ; write them to some DSP registers.
+            ; This will write to: DSP.VxSRCN, VxADSR1, VxADSR2, and VxGAIN.
             .dsp_write_loop
 
                 mov.b A, ($14)+Y
@@ -1453,12 +1459,9 @@ SPCEngine:
                 mov.w SMP.DSPDATA, A
 
                 inc X
-                inc Y
-            cmp.b Y, #$04 : bne .dsp_write_loop
+            inc Y : cmp.b Y, #$04 : bne .dsp_write_loop
 
-            ; TODO: Idk what the high-level tuning multiplier is.
-            ; Get the instrument high-level tuning multiplier from the
-            ; INSTRUMENT_DATA.
+            ; Get the instrument high-level tuning multiplier.
             pop X
             mov.b A, ($14)+Y : mov.w $0221+X, A
             inc Y
@@ -2352,7 +2355,7 @@ SPCEngine:
         .no_pan_slide
 
         ; Check if there are any special effects playing on the current channel.
-        mov.b A, $47 : and.b A, $5E : beq WritePitch_external_exit
+        mov.b A, $47 : and.b A, $5E : beq WriteVolume_exit
             ; Get the channel pan value and store it in some work ram.
             mov.w A, $0331+X : mov Y, A
             mov.w A, $0330+X : movw.b $10, YA
@@ -2368,14 +2371,15 @@ SPCEngine:
     ; $10[0x02] the pan setting.
     ; SPC $0F94-$0FD1 JUMP LOCATION
     ; $0D0362-$0D039F DATA
-    WritePitch_external:
+    WriteVolume:
     {
+        ; Setup $12 to point to DSP.VxVOLL.
         mov A, X : xcn A : lsr A : mov.b $12, A
 
         .vol_right
 
-            ; TODO: Do a bunch of math I don't understand that involves the
-            ; final channel volume and pan settings.
+            ; Do a bunch of math that applies the pan settings to the final
+            ; volume.
             mov.b Y, $11
             mov.w A, LogisticFunc+1+Y : setc : sbc.w A, LogisticFunc+0+Y
 
@@ -2392,12 +2396,14 @@ SPCEngine:
 
             .vol_left
 
+            ; TODO: Verify.
+            ; Just in case the final volume ended up being negative:
             mov A, Y : bcc .no_phase_inversion
                 eor.b A, #$FF : inc A
 
             .no_phase_inversion
 
-            ; TODO: Check what registers this actually ends up writing to.
+            ; Ends up writing to DSP.VxVOLL and DSP.VxVOLR.
             mov.b Y, $12
             call WriteToDSP_Checked
 
@@ -2406,6 +2412,7 @@ SPCEngine:
             subw.b YA, $10 : movw.b $10, YA
 
             inc.b $12
+        ; Repeat everything one more time for the right volume.
         bbc1.b $12, .vol_right
 
         ; SPC $0FD1 ALTERNATE ENTRY POINT
@@ -2738,7 +2745,7 @@ SPCEngine:
 
         ; Check if we are making any pitch changes:
         bbc7.b $13, .pitch_unchanged
-            call WritePitch_external
+            call WriteVolume
 
         .pitch_unchanged
 
@@ -2964,8 +2971,8 @@ SPCEngine:
 
     ; ==========================================================================
 
-    ; This is similar to the SMP boot ROM. Its purpose to communicate with the
-    ; 5A22 when transmitting new song banks.
+    ; This is similar to the SMP IPL boot ROM. Its purpose to communicate with
+    ; the 5A22 when transmitting new song banks.
     ; SPC $11E6-$1231 JUMP LOCATION
     ; $0D05B4-$0D05FF DATA
     Data_Loader:
@@ -3468,7 +3475,7 @@ SPCEngine:
                 ; is being used.
                 asl.w $03E0 : bcc .to_next_channel
                     mov.w $03C0, X
-                    ; Calculate the DSP address for the channel.
+                    ; Calculate the channel specific DSP address.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
 
                     ; Get the current channel pan setting.
@@ -3542,7 +3549,7 @@ SPCEngine:
                 asl.w $03CC : bcc .to_next_channel
                     mov.w $03C0, X
 
-                    ; Calculate the DSP address for the channel.
+                    ; Calculate the channel specific DSP address.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
 
                     ; Get the current channel pan setting.
@@ -3608,7 +3615,7 @@ SPCEngine:
                 asl.w $03CE : bcc .to_next_channel
                     mov.w $03C0, X
 
-                    ; Calculate the DSP address for the channel.
+                    ; Calculate the channel specific DSP address.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
 
                     ; Get the current channel pan setting.
@@ -3774,7 +3781,7 @@ SPCEngine:
 
             ; OPTIMIZE: This being here, calculating the same value every loop
             ; is a little goofy.
-            ; Calculate the DSP address for the channel.
+            ; Calculate the channel specific DSP address.
             mov.w A, $03C0 : xcn A : lsr A : mov.w $03C2, A
 
             mov.b X, #$00
@@ -3825,7 +3832,7 @@ SPCEngine:
                                 mov X, A
 
                                 ; Write the previous byte to the SFX/Ambient 
-                                ; DSP channel address again.
+                                ; DSP channel address +1.
                                 mov.b A, $10
                                 mov.w Y, $03C2 : inc Y
                                 call WriteToDSP
@@ -3876,7 +3883,7 @@ SPCEngine:
                         .set_pan
 
                         mov.b $10, #$00
-                        call WritePitch_external
+                        call WriteVolume
 
                         mov.b X, #$00
 

@@ -8,6 +8,7 @@
 ; Calc = Calculation
 ; Chan = Channel
 ; CMD = Command
+; IPL = Initial Program Load
 ; Mult = Multiplier
 ; Q = Queue
 ; Ptr = Pointer
@@ -810,10 +811,11 @@ struct ARAM $0000
 
     ; $01CF[0x30] - (Main)
     .APUStack: skip $30
+        ; The initial stack location.
 
     ; $01FF[0x01] - (Main)
     .IPLStack: skip $01
-        ; TODO: What is IPL?
+        ; The initial stack location for the IPL boot ROM.
 
     ; ===========================================================================
     ; End of Direct Page 0x01
@@ -2342,7 +2344,7 @@ struct ARAM $0000
 
 
     
-    ; $03FF[0x01] - (Channel)
+    ; $03FF[0x01] - (Channel, Volume)
     .Chan0_Mute: skip $01
         ; When non-0, mutes channel 0. This var never actually has a non-0
         ; value written to it and is only set in an unused function.
@@ -2351,7 +2353,7 @@ struct ARAM $0000
     .Free_0400: skip $01
         ; Free RAM.
 
-    ; $0401[0x01] - (Channel)
+    ; $0401[0x01] - (Channel, Volume)
     .Chan1_Mute: skip $01
         ; When non-0, mutes channel 1. This var never actually has a non-0
         ; value written to it and is only set in an unused function.
@@ -2360,7 +2362,7 @@ struct ARAM $0000
     .Free_0402: skip $01
         ; Free RAM.
 
-    ; $0403[0x01] - (Channel)
+    ; $0403[0x01] - (Channel, Volume)
     .Chan2_Mute: skip $01
         ; When non-0, mutes channel 2. This var never actually has a non-0
         ; value written to it and is only set in an unused function.
@@ -2369,7 +2371,7 @@ struct ARAM $0000
     .Free_0404: skip $01
         ; Free RAM.
 
-    ; $0405[0x01] - (Channel)
+    ; $0405[0x01] - (Channel, Volume)
     .Chan3_Mute: skip $01
         ; When non-0, mutes channel 3. This var never actually has a non-0
         ; value written to it and is only set in an unused function.
@@ -2378,7 +2380,7 @@ struct ARAM $0000
     .Free_0406: skip $01
         ; Free RAM.
 
-    ; $0407[0x01] - (Channel)
+    ; $0407[0x01] - (Channel, Volume)
     .Chan4_Mute: skip $01
         ; When non-0, mutes channel 4. This var never actually has a non-0
         ; value written to it and is only set in an unused function.
@@ -2387,7 +2389,7 @@ struct ARAM $0000
     .Free_0408: skip $01
         ; Free RAM.
 
-    ; $0409[0x01] - (Channel)
+    ; $0409[0x01] - (Channel, Volume)
     .Chan5_Mute: skip $01
         ; When non-0, mutes channel 5. This var never actually has a non-0
         ; value written to it and is only set in an unused function.
@@ -2396,7 +2398,7 @@ struct ARAM $0000
     .Free_040A: skip $01
         ; Free RAM.
 
-    ; $040B[0x01] - (Channel)
+    ; $040B[0x01] - (Channel, Volume)
     .Chan6_Mute: skip $01
         ; When non-0, mutes channel 6. This var never actually has a non-0
         ; value written to it and is only set in an unused function.
@@ -2405,7 +2407,7 @@ struct ARAM $0000
     .Free_040C: skip $01
         ; Free RAM.
 
-    ; $040D[0x01] - (Channel)
+    ; $040D[0x01] - ((Channel, Volume)
     .Chan7_Mute: skip $01
         ; When non-0, mutes channel 7. This var never actually has a non-0
         ; value written to it and is only set in an unused function.
@@ -2455,7 +2457,7 @@ struct ARAM $0000
     ; $FCC0-$FDAD TODO: Some sort of data is here but idk what.
     ; $FDAE-$FFBF Free RAM
 
-    ; $FFC0-$FFFF Boot ROM
+    ; $FFC0-$FFFF IPL Boot ROM
 }
 endstruct
 
