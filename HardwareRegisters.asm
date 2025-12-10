@@ -326,7 +326,7 @@ struct DSP $00
     .MVOLL:    skip $01 ; $0C
     .EFB:      skip $02 ; $0D
 
-    .FIR:      skip $01 ; $0F
+    .FIR:               ; $0F
     .FIR0:     skip $01 ; $0F
     .V1VOLL:   skip $01 ; $10
     .V1VOLR:   skip $01 ; $11
