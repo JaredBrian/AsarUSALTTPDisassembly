@@ -464,7 +464,7 @@ SPCEngine:
             mov.b X, #$00
             mov.b $47, #$01
 
-            .next_track
+            .next_channel
 
                 ; Is this channel enabled?
                 mov.b A, $31+X : beq .skip_voice
@@ -476,8 +476,7 @@ SPCEngine:
                 .skip_voice
 
                 inc X : inc X
-            ; Go until we find a channel that is disabled.
-            asl.b $47 : bne .next_track
+            asl.b $47 : bne .next_channel
 
         .no_song
 
@@ -891,7 +890,7 @@ SPCEngine:
     ; $0CFE5D-$0CFE6A DATA
     GetNextSegment:
     {
-        ; Thers no mov.b A, ($dp) without a +X or +Y so just set Y to 0.
+        ; There is no mov.b A, ($dp) without a +X or +Y so just set Y to 0.
         mov.b Y, #$00
         mov.b A, ($40)+Y
         incw.b $40
@@ -947,7 +946,7 @@ SPCEngine:
     ; This function is run while the pre start song delay is non-0.
     ; SPC $0ABE-$0AF8 JUMP LOCATION
     ; $0CFE8C-$0CFEC6 DATA
-    EngineStartDelay:
+    ResetForNewSong:
     {
         mov.b X, #$0E
         mov.b $47, #$80
@@ -1019,7 +1018,7 @@ SPCEngine:
         .run_song
 
         ; If there is no current song, do nothing.
-        mov.b A, $04 : beq EngineStartDelay_exit
+        mov.b A, $04 : beq ResetForNewSong_exit
             ; Check the music fade timer:
             mov.w A, $03CA : beq .dont_fade_out
                 ; If the fade out timer is not 0, perform the fade.
@@ -1029,7 +1028,7 @@ SPCEngine:
 
             ; Check if there is a music start delay:
             mov.b A, $0C : beq .no_delay
-                dbnz.b $0C, EngineStartDelay
+                dbnz.b $0C, ResetForNewSong
                     ; On the first frame of no delay:
 
                     .setupSegmentLoop
@@ -1084,7 +1083,7 @@ SPCEngine:
                         mov.b A, ($16)+Y : mov.w $0030+Y, A
                     dec Y : bpl .load_pattern_table_loop
 
-                    ; Setup the channel bit offset for another loop.
+                    ; Loop through each channel starting with channel 0.
                     mov.b X, #$00
                     mov.b $47, #$01
 
@@ -1110,7 +1109,6 @@ SPCEngine:
                         inc A : mov.b $70+X, A
 
                         inc X : inc X
-                    ; Loop through each channel starting with channel 0.
                     asl.b $47 bne .initChannelLoop
 
             .no_delay
@@ -1255,9 +1253,8 @@ SPCEngine:
                 .silentChannel
 
                 inc X : inc X
-
-                ; Check if we are done with each channel.
-                asl.b $47 : beq .done_with_channels
+            ; Check if we are done with each channel.
+            asl.b $47 : beq .done_with_channels
             jmp .loop_2
 
             .done_with_channels
@@ -1325,9 +1322,7 @@ SPCEngine:
                 .inactive_track
 
                 inc X : inc X
-
-                asl.b $47
-            bne .volume_settings_loop
+            asl.b $47 : bne .volume_settings_loop
 
             ret
     }

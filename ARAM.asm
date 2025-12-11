@@ -168,37 +168,37 @@ struct ARAM $0000
     .Free_2E: skip $02
         ; Free RAM.
 
-    ; $30[0x02] - (Channel, Track)
+    ; $30[0x02] - (Channel, Song)
     .Chan0_Ptr: skip $02
-        ; The track pointer for channel 0.
+        ; The song pointer for channel 0.
 
-    ; $32[0x02] - (Channel, Track)
+    ; $32[0x02] - (Channel, Song)
     .Chan1_Ptr: skip $02
-        ; The track pointer for channel 1.
+        ; The song pointer for channel 1.
 
-    ; $34[0x02] - (Channel, Track)
+    ; $34[0x02] - (Channel, Song)
     .Chan2_Ptr: skip $02
-        ; The track pointer for channel 2.
+        ; The song pointer for channel 2.
 
-    ; $36[0x02] - (Channel, Track)
+    ; $36[0x02] - (Channel, Song)
     .Chan3_Ptr: skip $02
-        ; The track pointer for channel 3.
+        ; The song pointer for channel 3.
 
-    ; $38[0x02] - (Channel, Track)
+    ; $38[0x02] - (Channel, Song)
     .Chan4_Ptr: skip $02
-        ; The track pointer for channel 4.
+        ; The song pointer for channel 4.
 
-    ; $3A[0x02] - (Channel, Track)
+    ; $3A[0x02] - (Channel, Song)
     .Chan5_Ptr: skip $02
-        ; The track pointer for channel 5.
+        ; The song pointer for channel 5.
 
-    ; $3C[0x02] - (Channel, Track)
+    ; $3C[0x02] - (Channel, Song)
     .Chan6_Ptr: skip $02
-        ; The track pointer for channel 6.
+        ; The song pointer for channel 6.
 
-    ; $3E[0x02] - (Channel, Track)
+    ; $3E[0x02] - (Channel, Song)
     .Chan7_Ptr: skip $02
-        ; The track pointer for channel 7.
+        ; The song pointer for channel 7.
 
     ; $40[0x02] - (Segment)
     .SegmentPtr: skip $02
@@ -228,7 +228,7 @@ struct ARAM $0000
         ; The DSP.KOFF (Key off) queue.
 
     ; $47[0x01] - (Channel)
-    .ChannelBit: skip $01
+    .ChanBit: skip $01
         ; This is the current channel offset but represented by an individual bit.
         ; Only one bit will ever be set at a time.
         ; This is equal to 2^(ChannelOffset or the channel number).

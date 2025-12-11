@@ -10084,7 +10084,6 @@ Equipment_NormalMenu:
             LDX.w $0202
             LDA.b #$00 : STA.l $7EF33F, X
             
-            ; Unlike .movingOut, Anthony's Song.
             BRA .movingOn
         
         .dontBeAJerk
