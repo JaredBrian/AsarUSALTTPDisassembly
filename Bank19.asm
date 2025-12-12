@@ -875,7 +875,6 @@ SPCEngine:
         ; Set the current song to 0.
         mov.b $04, #$00
 
-        ; TODO: I don't understand what $47 does.
         mov.b $47, #$00
 
         ret
@@ -1033,7 +1032,8 @@ SPCEngine:
 
                     .setupSegmentLoop
 
-                                ; Get the current segment pointer:
+                                ; Get the pointer of the next segment and check if
+                                ; it is valid:
                                 call GetNextSegment : bne .valid_pointer
                                     ; Handle and invalid pointer:
 
@@ -1043,15 +1043,15 @@ SPCEngine:
 
                                     .valid_command
 
-                                    ; TODO: Also mute the song if #$80?
-                                    ; Investigate.
-                                    cmp.b A, #$80 : beq .disable_dsp
-                                        ; TODO: If not #$81 set the number of
-                                        ; setup segment loops?
+                                    ; Mute all music if #$80:
+                                    cmp.b A, #$80 : beq .hardMute
+                                        ; If anything else, use that as the number of
+                                        ; times to loop the current segment:
                                         cmp.b A, #$81 : bne .set_num_loops
+                                            ; Unmute all music if #$81:
                                             mov.b A, #$00
 
-                                    .disable_dsp
+                                    .hardMute
 
                                     mov.b $1B, A
                             bra .setupSegmentLoop
@@ -1059,13 +1059,14 @@ SPCEngine:
                             .set_num_loops
 
                             ; Decrement the number of setup segment loops and see 
-                            ; if a loop is still in progress.
+                            ; if a loop is still in progress:
                             dec.b $42 : bpl .loop_in_progress
                                 ; Set the number of setup segment loops.
                                 mov.b $42, A
 
                             .loop_in_progress
 
+                            ; Get the pointer of the next segment.
                             call GetNextSegment
                         mov.b X, $42 : beq .setupSegmentLoop
 
@@ -1078,10 +1079,10 @@ SPCEngine:
                     mov.b Y, #$0F
 
                     ; Load the track pointer for each channel:
-                    .load_pattern_table_loop
+                    .load_poiter_table_loop
 
                         mov.b A, ($16)+Y : mov.w $0030+Y, A
-                    dec Y : bpl .load_pattern_table_loop
+                    dec Y : bpl .load_poiter_table_loop
 
                     ; Loop through each channel starting with channel 0.
                     mov.b X, #$00
