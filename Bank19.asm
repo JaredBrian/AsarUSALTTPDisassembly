@@ -355,6 +355,10 @@ SPCEngine:
     ; $0CFC12-$0CFCB0 DATA
     Engine_Main:
     {
+        ; This section is almost like a SMP version of NMI. Its not actually
+        ; triggered by an interrupt, but it performs a similar purpose of
+        ; updating hardware registers that should only be updated once a "frame".
+
         ; Check 0x0A register "queues" to see if we need to send any updates
         ; to the DSP. DSP.KOFF is written to twice, once from its queue at $46
         ; and another time from $0E which is always 0.
@@ -387,7 +391,8 @@ SPCEngine:
             .skip
         dbnz Y, .next_register
 
-        ; Set both the key on and key off queues to 0.
+        ; Set both the key on and key off queues to 0 so that the DSP registers
+        ; do not get written to again next frame.
         mov.b $45, Y
         mov.b $46, Y
 
@@ -400,6 +405,8 @@ SPCEngine:
 
             ; Wait for SMP timer 0 to not be 0.
         mov.w Y, SMP.T0OUT : beq .timer_wait
+
+        ; This is the end of the "NMI" section.
 
         push Y
 
@@ -545,6 +552,7 @@ SPCEngine:
 
         ; Check if the note is a tie:
         cmp.b Y, #$C8 : bcs Get5A22Input_exit
+            ; Check if the channel is in use by the music:
             mov.b A, $1A : and.b A, $47 : bne Get5A22Input_exit
                 ; Apply the global transposition and the channel transposition
                 ; to the note:
@@ -608,60 +616,79 @@ SPCEngine:
     {
         mov.b Y, #$00
 
-        ; Get the final pitch value after pitch slide, global transposition, and
-        ; channel transpositions are applied.
+        ; TODO: Why?
+        ; Get the pitch value after pitch slide, global transposition, and
+        ; channel transpositions are applied and adjust it based on whether it
+        ; is a high note, middle note, or low note.
+        ; Check if the note is !E5 (the note, NOT the hex value) or higher:
         mov.b A, $11 : setc : sbc.b A, #$34 : bcs .high_note
+            ; Check if the note is !G2 or higher:
             mov.b A, $11 : setc : sbc.b A, #$13 : bcs .middle_note
+                ; Low note
                 dec Y
                 asl A
 
         .high_note
 
+        ; Apply the adjustment to the pitch value if its high or low.
         addw.b YA, $10 : movw.b $10, YA
 
         .middle_note
 
+        ; Save the channel index.
         push X
 
-        ; TODO: Do a lot of math I don't understand.
+        ; Take the high byte of the calculated pitch value x2 and divide it by 0x18
+        ; to extract the note without its octave as the remainder. X will be the
+        ; octave value.
         mov.b A, $11 : asl A
         mov.b Y, #$00
         mov.b X, #$18
         div YA, X : mov X, A
 
-        mov.w A, TuningValues+1+Y : mov.b $15, A
-        mov.w A, TuningValues+0+Y : mov.b $14, A
+        ; Get the difference between the tuning value for the note and the next
+        ; note on the scale. Example: If the note is Ds, get the difference between
+        ; Ds and E.
+        mov.w A, NotePitchValues+1+Y : mov.b $15, A
+        mov.w A, NotePitchValues+0+Y : mov.b $14, A
 
-        mov.w A, TuningValues+3+Y : push A
-        mov.w A, TuningValues+2+Y
+        mov.w A, NotePitchValues+3+Y : push A
+        mov.w A, NotePitchValues+2+Y
 
         pop Y
         subw.b YA, $14
 
+        ; Multiply the result of the difference by the low byte of the pitch value.
         mov.b Y, $10
         mul YA : mov A, Y
 
+        ; Add the result to the tuning value of the original note.
         mov.b Y, #$00 : addw.b YA, $14 : mov.b $15, Y
-        asl A
 
+        ; Multiply the whole pitch value by 2.
+        asl A
         rol.b $15
 
+        ; OPTIMIZE: This is done again right after the octave_loop.
         mov.b $14, A
 
-        bra .proceed
+        bra .start_octave_loop
 
-        .pitch_loop
+        ; Divide the calculated pitch by 2 for every octave we need to go down
+        ; starting at octave 6.
+        .octave_loop
 
             lsr.b $15
             ror A
 
             inc X
 
-            .proceed
-        cmp.b X, #$06 : bne .pitch_loop
+            .start_octave_loop
+        cmp.b X, #$06 : bne .octave_loop
 
         mov.b $14, A
 
+        ; Get the channel index back.
         pop X
 
         ; Apply some instrument high-level tuning.
@@ -1174,7 +1201,7 @@ SPCEngine:
 
                                 ; Instantly go to the next byte.
                                 ; #$80 and greater are notes or commands.
-                                call GetTrackByte : bmi .note_or_command
+                                call GetTrackByte : bmi .notAttackStacc
                                     ; NOTE: Because this is in a nested if, that 
                                     ; means the only way to set the stacc and 
                                     ; attack is by doing it after setting the
@@ -1197,6 +1224,8 @@ SPCEngine:
 
                                     ; NOTE: We always assume the next byte is a 
                                     ; note or command.
+                                    
+                                .notAttackStacc
 
                             .note_or_command
                         ; Check if we are playing a note or executing a command:
@@ -1216,8 +1245,7 @@ SPCEngine:
 
                             ; Check if the channel is enabled.
                             mov.b A, $47 : and.b A, $1A
-                            pop A
-                            bne .disabled_channel
+                            pop A : bne .disabled_channel
                                 call HandleNote
 
                         .disabled_channel
@@ -1335,12 +1363,14 @@ SPCEngine:
     ExecuteCommand:
     {
         ; Get the pointer for the command. The address is -0xC0 from the actual
-        ; address of the command vectors because the commands index start at 0xC0.
+        ; address of the command vectors because the commands index starts at 
+        ; 0xE0. 0xE0 x2 is 0x01C0 and the 7th bit will get cut off by the asl
+        ; leaving only 0xC0.
         asl A : mov Y, A
         mov.w A, TrackCommand_Vectors+1-$C0+Y : push A
         mov.w A, TrackCommand_Vectors+0-$C0+Y : push A
 
-        ; OPTIMIZE: Why not just push a earlier and then pop Y?
+        ; OPTIMIZE: Why not just push A earlier and then pop Y?
         mov A, Y : lsr A : mov Y, A
 
         ; Get the number of parameters the command has from a table. The address
@@ -1799,6 +1829,9 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; Input:
+    ; X - The current channel.
+    ; Sets up a subroutine call for a track part command (0xFE).
     ; SPC $0D9F-$0DB6 JUMP LOCATION
     ; $0D016D-$0D0184 DATA
     TrackCommand_EF_CallPart:
@@ -1820,6 +1853,9 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; Input:
+    ; X - The current channel.
+    ; Sets the channel track pointer to the start of the channel part subroutine.
     ; SPC $0DB7-$0DC1 JUMP LOCATION
     ; $0D0185-$0D018F DATA
     IteratePartLoop:
@@ -2927,23 +2963,24 @@ SPCEngine:
 
     ; ==========================================================================
 
+    ; These are the pitch values for octave 5 for each note.
     ; SPC $11C1-$11DA DATA
     ; $0D058F-$0D05A8 DATA
-    TuningValues:
+    NotePitchValues:
     {
-        dw $085F
-        dw $08DE
-        dw $0965
-        dw $09F4
-        dw $0A8C
-        dw $0B2C
-        dw $0BD6
-        dw $0C8B
-        dw $0D4A
-        dw $0E14
-        dw $0EEA
-        dw $0FCD
-        dw $10BE
+        dw $085F ; 0x00 - Note: C
+        dw $08DE ; 0x01 - Note: Cs
+        dw $0965 ; 0x02 - Note: D
+        dw $09F4 ; 0x03 - Note: Ds
+        dw $0A8C ; 0x04 - Note: E
+        dw $0B2C ; 0x05 - Note: F
+        dw $0BD6 ; 0x06 - Note: Fs
+        dw $0C8B ; 0x07 - Note: G
+        dw $0D4A ; 0x08 - Note: Gs
+        dw $0E14 ; 0x09 - Note: A
+        dw $0EEA ; 0x0A - Note: As
+        dw $0FCD ; 0x0B - Note: B
+        dw $10BE ; 0x0C - Note: C (next octave)
     }
 
     ; ==========================================================================
