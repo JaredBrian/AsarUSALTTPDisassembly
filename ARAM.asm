@@ -1752,36 +1752,36 @@ struct ARAM $0000
 
 
     ; $0330[0x02] - (Channel, Pan)
-    .Chan0_Pan: skip $02
-        ; The channel 0 panning value. The high byte is TxPANS AND 0x1F.
+    .Chan0_PanValue: skip $02
+        ; The channel 0 panning value.
 
     ; $0332[0x02] - (Channel, Pan)
-    .Chan1_Pan: skip $02
-        ; The channel 1 panning value. The high byte is TxPANS AND 0x1F.
+    .Chan1_PanValue: skip $02
+        ; The channel 1 panning value.
 
     ; $0334[0x02] - (Channel, Pan)
-    .Chan2_Pan: skip $02
-        ; The channel 2 panning value. The high byte is TxPANS AND 0x1F.
+    .Chan2_PanValue: skip $02
+        ; The channel 2 panning value.
 
     ; $0336[0x02] - (Channel, Pan)
-    .Chan3_Pan: skip $02
-        ; The channel 3 panning value. The high byte is TxPANS AND 0x1F.
+    .Chan3_PanValue: skip $02
+        ; The channel 3 panning value.
 
     ; $0338[0x02] - (Channel, Pan)
-    .Chan4_Pan: skip $02
-        ; The channel 4 panning value. The high byte is TxPANS AND 0x1F.
+    .Chan4_PanValue: skip $02
+        ; The channel 4 panning value.
 
     ; $033A[0x02] - (Channel, Pan)
-    .Chan5_Pan: skip $02
-        ; The channel 5 panning value. The high byte is TxPANS AND 0x1F.
+    .Chan5_PanValue: skip $02
+        ; The channel 5 panning value.
 
     ; $033C[0x02] - (Channel, Pan)
-    .Chan6_Pan: skip $02
-        ; The channel 6 panning value. The high byte is TxPANS AND 0x1F.
+    .Chan6_PanValue: skip $02
+        ; The channel 6 panning value.
 
     ; $033E[0x02] - (Channel, Pan)
-    .Chan7_Pan: skip $02
-        ; The channel 7 panning value. The high byte is TxPANS AND 0x1F.
+    .Chan7_PanValue: skip $02
+        ; The channel 7 panning value.
 
 
     ; $0340[0x02] - (Channel, Pan)
@@ -1823,7 +1823,7 @@ struct ARAM $0000
 
     ; $0351[0x01] - (Channel, Pan)
     .Chan0_PanSetting: skip $01
-        ; The channel 0 pan sweep raw settings value.
+        ; The channel 0 pan raw settings value.
 
     ; $0352[0x01] - (Channel, Pan)
     .Chan1_PanTarget: skip $01
@@ -1831,7 +1831,7 @@ struct ARAM $0000
 
     ; $0353[0x01] - (Channel, Pan)
     .Chan1_PanSetting: skip $01
-        ; The channel 1 pan sweep raw settings value.
+        ; The channel 1 pan raw settings value.
 
     ; $0354[0x01] - (Channel, Pan)
     .Chan2_PanTarget: skip $01
@@ -1839,7 +1839,7 @@ struct ARAM $0000
 
     ; $0355[0x01] - (Channel, Pan)
     .Chan2_PanSetting: skip $01
-        ; The channel 2 pan sweep raw settings value.
+        ; The channel 2 pan raw settings value.
 
     ; $0356[0x01] - (Channel, Pan)
     .Chan3_PanTarget: skip $01
@@ -1847,7 +1847,7 @@ struct ARAM $0000
 
     ; $0357[0x01] - (Channel, Pan)
     .Chan3_PanSetting: skip $01
-        ; The channel 3 pan sweep raw settings value.
+        ; The channel 3 pan raw settings value.
 
     ; $0358[0x01] - (Channel, Pan)
     .Chan4_PanTarget: skip $01
@@ -1855,7 +1855,7 @@ struct ARAM $0000
 
     ; $0359[0x01] - (Channel, Pan)
     .Chan4_PanSetting: skip $01
-        ; The channel 4 pan sweep raw settings value.
+        ; The channel 4 pan raw settings value.
 
     ; $035A[0x01] - (Channel, Pan)
     .Chan5_PanTarget: skip $01
@@ -1863,7 +1863,7 @@ struct ARAM $0000
 
     ; $035B[0x01] - (Channel, Pan)
     .Chan5_PanSetting: skip $01
-        ; The channel 5 pan sweep raw settings value.
+        ; The channel 5 pan raw settings value.
 
     ; $035C[0x01] - (Channel, Pan)
     .Chan6_PanTarget: skip $01
@@ -1871,7 +1871,7 @@ struct ARAM $0000
 
     ; $035D[0x01] - (Channel, Pan)
     .Chan6_PanSetting: skip $01
-        ; The channel 6 pan sweep raw settings value.
+        ; The channel 6 pan raw settings value.
 
     ; $035E[0x01] - (Channel, Pan)
     .Chan7_PanTarget: skip $01
@@ -1879,7 +1879,7 @@ struct ARAM $0000
 
     ; $035F[0x01] - (Channel, Pan)
     .Chan7_PanSetting: skip $01
-        ; The channel 7 pan sweep raw settings value.
+        ; The channel 7 pan raw settings value.
 
 
     ; $0360[0x02] - (Channel, Pitch)

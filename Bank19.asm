@@ -1324,8 +1324,8 @@ SPCEngine:
             ; Check if we are performing a global volume slide.
             mov.b A, $5A : beq .no_volume_slide
                 ; Add the global volume incrament to the global volume.
-                movw.b YA, $5C
-                addw.b YA, $58 : dbnz.b $5A, .volume_slide_not_done
+                movw.b YA, $5C : addw.b YA, $58
+                dbnz.b $5A, .volume_slide_not_done
                     ; Set the global volume to the target volume.
                     movw.b YA, $5A
 
@@ -2428,8 +2428,7 @@ SPCEngine:
 
             .vol_left
 
-            ; TODO: Verify.
-            ; Just in case the final volume ended up being negative:
+            ; TODO: Do some math I don't understand.
             mov A, Y : bcc .no_phase_inversion
                 eor.b A, #$FF : inc A
 
@@ -2771,15 +2770,15 @@ SPCEngine:
         mov.b A, $91+X : beq .no_pan_slide
             mov.w A, $0341+X : mov Y, A
             mov.w A, $0340+X
-            call AdjustPitchByFrames
+            call AdjustValueByFrames
 
         .no_pan_slide
 
-        ; Check if we are making any pitch changes:
-        bbc7.b $13, .pitch_unchanged
+        ; Check if we are making any volume changes:
+        bbc7.b $13, .volume_unchanged
             call WriteVolume
 
-        .pitch_unchanged
+        .volume_unchanged
 
         ; Mark that no pitch changes are being made.
         clr7.b $13
@@ -2792,7 +2791,7 @@ SPCEngine:
             mov.b A, $A1+X : bne .no_pitch_slide
                 mov.w A, $0371+X : mov Y, A
                 mov.w A, $0370+X
-                call AdjustPitchByFrames
+                call AdjustValueByFrames
 
         .no_pitch_slide
 
@@ -2811,7 +2810,7 @@ SPCEngine:
 
     ; SPC $1130-$1145 JUMP LOCATION
     ; $0D04FE-$0D0513 DATA
-    AdjustPitchByFrames:
+    AdjustValueByFrames:
     {
         ; Mark that we are making a pitch change:
         set7.b $13
@@ -2871,10 +2870,10 @@ SPCEngine:
     VolumeModulation_external:
     {
         ; TODO: Do some math I don't understand.
-        asl A : bcc .no_phase_invert
+        asl A : bcc .no_phase_inversion
             eor.b A, #$FF
 
-        .no_phase_invert
+        .no_phase_inversion
 
         ; Get the tremolo intensity for the current channel and multiply it by
         ; the current tremolo accumulator.
@@ -2885,19 +2884,19 @@ SPCEngine:
         ; $0D0534 DATA
         .final_volume
 
-        ; Multiply the calculated tremolo volume by the global volume.
+        ; Multiply the calculated volume by the global volume.
         mov.b Y, $59
         mul YA
 
-        ; Multiply the calculated tremolo volume by the channel attack.
+        ; Multiply the calculated volume by the channel attack.
         mov.w A, $0210+X
         mul YA
 
-        ; Multiply the calculated tremolo volume by the channel volume.
+        ; Multiply the calculated volume by the channel volume.
         mov.w A, $0301+X
         mul YA : mov A, Y
 
-        ; Square the result and store it as the final volume.
+        ; Square the high byte of the result and store it as the final volume.
         mul YA : mov A, Y : mov.w $0321+X, A
 
         ret
@@ -3892,7 +3891,6 @@ SPCEngine:
                         mov.w X, $03C0
                         asl A : mov.w $0321+X, A
 
-                        ; TODO: What does the setting mean?
                         ; Set the pan setting for the current channel.
                         mov.b A, #$0A : mov.w $0351+X, A
 
