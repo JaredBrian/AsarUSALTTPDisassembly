@@ -560,7 +560,7 @@ SPCEngine:
                 clrc : adc.w A, $02F0+X : mov.w $0361+X, A
 
                 ; Get the current channel tuning and apply it to the channel
-                ; pitch calculation.
+                ; pitch calculation low byte.
                 mov.w A, $0381+X : mov.w $0360+X, A
 
                 ; Move the lowest bit of the channel gradient wait into the
