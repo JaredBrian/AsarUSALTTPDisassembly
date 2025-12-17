@@ -2410,8 +2410,7 @@ SPCEngine:
 
         .vol_right
 
-            ; Do a bunch of math that applies the pan settings to the final
-            ; volume.
+            ; Do a bunch of math that applies the pan settings to the volume.
             mov.b Y, $11
             mov.w A, LogisticFunc+1+Y : setc : sbc.w A, LogisticFunc+0+Y
 
