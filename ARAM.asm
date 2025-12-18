@@ -279,7 +279,7 @@ struct ARAM $0000
         ; to take new song input from the 5A22 and handle the current song.
 
     ; $52[0x02] - (Song, Tempo)
-    .Tempo: skip $02
+    .SongTempo: skip $02
         ; The song tempo.
 
     ; $54[0x01] - (Song, Tempo, Timer)
@@ -352,8 +352,8 @@ struct ARAM $0000
         ; Free RAM.
 
 
-    ; TODO: Figure out the difference between the two The CMDTimer seems to always
-    ; be one lower than the duration.
+    ; TODO: Figure out the difference between the two The CMDTimer seems to 
+    ; always be one lower than the duration.
     ; $70[0x01] - (Channel, Timer)
     .Chan0_Timer: skip $01
         ; The countdown for next note or how long the current note has been
