@@ -9,7 +9,7 @@
 ; https://snes.nesdev.org/wiki/S-DSP_registers
 ;
 ; This is not actually included in the build of the disasembly and is just here
-; for reference. See Sound_LoadSongBank in bank 0x00 for the function that does
+; for reference. See APUTransfer in bank 0x00 for the function that does
 ; most of the communication with the SPC700 and this boot program.
 ; ==============================================================================
 

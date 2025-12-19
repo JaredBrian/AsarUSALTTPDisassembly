@@ -1177,7 +1177,7 @@ Overworld_GetTileAttrAtLocation:
 
 ; Communicates with the APU to transfer data. See SPC700.asm for more details.
 ; $000888-$000900 LOCAL JUMP LOCATION
-Sound_LoadSongBank:
+APUTransfer:
 {
     PHP
     
@@ -1329,7 +1329,7 @@ Sound_LoadIntroSongBank:
     
     SEI
     
-    JSR.w Sound_LoadSongBank
+    JSR.w APUTransfer
     
     CLI
     
@@ -1353,7 +1353,7 @@ Sound_LoadOverworldWorldSongBank:
     
     SEI
     
-    JSR.w Sound_LoadSongBank
+    JSR.w APUTransfer
     
     CLI
     

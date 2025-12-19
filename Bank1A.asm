@@ -1746,7 +1746,7 @@ SongBlock_1:
     dw .end-$2880, $2880
 
     ; SPC $2880-$2A8C DATA
-    ; $0D1CE9-$0D1CE4 DATA
+    ; $0D1CE9-$0D1EF4 DATA
     base $2880
 
     Song0B_FairyTheme:

@@ -21,6 +21,8 @@ SONG_POINTERS       = $D000
 
 ; ==============================================================================
 
+check bankcross off
+
 ; $0C8000-$0C8073 DATA
 SongBank_Intro_Main:
 SamplePointers:
@@ -4140,6 +4142,8 @@ SPCEngine:
 
     arch 65816
 }
+
+check bankcross full
 
 ; ==============================================================================
 
