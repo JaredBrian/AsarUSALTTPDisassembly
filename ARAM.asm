@@ -143,7 +143,7 @@ struct ARAM $0000
 
     ; $1B[0x01] - (Song)
     .SongMute: skip $01
-        ; Disables currently playing song.
+        ; Disables currently playing song. TODO: When non-zero?
 
     ; $1C[0x04] - (Free)
     .Free_1C: skip $04
@@ -206,7 +206,7 @@ struct ARAM $0000
 
     ; $42[0x01] - (Segment)
     .SegmentLoop: skip $01
-        ; Used to build up segment pointers during new songs.
+        ; The number of times to loop the current song segment.
 
     ; $43[0x01] - (SFX, Timer)
     .SFXTimer: skip $01

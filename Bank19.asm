@@ -10,7 +10,7 @@ org $198000
 ; ==============================================================================
 
 SPC_ENGINE          = $0800
-SF_DATA             = $17C0
+SFX_DATA            = $17C0
 CREDITS_AUX_POINTER = $2900
 SONG_POINTERS_AUX   = $2B00
 SAMPLE_POINTERS     = $3C00
@@ -35,34 +35,34 @@ SamplePointers:
     base SAMPLE_POINTERS
 
     ;  Start,  Loop
-    dw $4000, $4012 ; 0x00 - Noise
-    dw $4048, $4063 ; 0x01 - Rain
-    dw $47F2, $5395 ; 0x02 - Timpani
-    dw $5395, $53B0 ; 0x03 - Square wave
-    dw $53D4, $53EF ; 0x04 - Saw wave
-    dw $5413, $542E ; 0x05 - Clink
-    dw $5476, $54A3 ; 0x06 - Wobbly lead
-    dw $550F, $5521 ; 0x07 - Compound saw
-    dw $55B1, $5B2D ; 0x08 - Tweet
-    dw $5B2D, $60BB ; 0x09 - Strings A
-    dw $5B2D, $60BB ; 0x0A - Strings B
-    dw $68AD, $6C9D ; 0x0B - Trombone
-    dw $6CD3, $7A65 ; 0x0C - Cymbal
-    dw $7A65, $7BFA ; 0x0D - Ocarina
-    dw $7C03, $7C78 ; 0x0E - Chimes
-    dw $7CDB, $7EA6 ; 0x0F - Harp
-    dw $7EC1, $867D ; 0x10 - Splash
-    dw $867D, $8D6A ; 0x11 - Trumpet
-    dw $8D85, $944E ; 0x12 - Horn
-    dw $948D, $A1BC ; 0x13 - Snare A
-    dw $948D, $A1BC ; 0x14 - Snare B
-    dw $A1BC, $A6E7 ; 0x15 - Choir
-    dw $AEB5, $B0D1 ; 0x16 - Flute
-    dw $B0EC, $B32C ; 0x17 - Oof
-    dw $B32C, $BA61 ; 0x18 - Piano
-    dw $FFFF, $FFFF ; 0x19 - null
-    dw $FFFF, $FFFF ; 0x1A - null
-    dw $FFFF, $FFFF ; 0x1B - null
+    dw BRRSampleData_Noise,       BRRSampleData_Noise+$0012       ; 0x00
+    dw BRRSampleData_Rain,        BRRSampleData_Rain+$001B        ; 0x01
+    dw BRRSampleData_Timpani,     BRRSampleData_Timpani+$0BA3     ; 0x02
+    dw BRRSampleData_Square,      BRRSampleData_Square+$001B      ; 0x03
+    dw BRRSampleData_Saw,         BRRSampleData_Saw+$001B         ; 0x04
+    dw BRRSampleData_Clink,       BRRSampleData_Clink+$001B       ; 0x05
+    dw BRRSampleData_Wobbly,      BRRSampleData_Wobbly+$002D      ; 0x06
+    dw BRRSampleData_CompoundSaw, BRRSampleData_CompoundSaw+$0012 ; 0x07
+    dw BRRSampleData_Tweet,       BRRSampleData_Tweet+$057C       ; 0x08
+    dw BRRSampleData_Strings,     BRRSampleData_Strings+$058E     ; 0x09
+    dw BRRSampleData_Strings,     BRRSampleData_Strings+$058E     ; 0x0A
+    dw BRRSampleData_Trombone,    BRRSampleData_Trombone+$03F0    ; 0x0B
+    dw BRRSampleData_Cymbal,      BRRSampleData_Cymbal+$0D92      ; 0x0C
+    dw BRRSampleData_Ocarina,     BRRSampleData_Ocarina+$0195     ; 0x0D
+    dw BRRSampleData_Chime,       BRRSampleData_Chime+$0075       ; 0x0E
+    dw BRRSampleData_Harp,        BRRSampleData_Harp+$01CB        ; 0x0F
+    dw BRRSampleData_Splash,      BRRSampleData_Splash+$07BC      ; 0x10
+    dw BRRSampleData_Trumpet,     BRRSampleData_Trumpet+$06ED     ; 0x11
+    dw BRRSampleData_Horn,        BRRSampleData_Horn+$06C9        ; 0x12
+    dw BRRSampleData_Snare,       BRRSampleData_Snare+$0D2F       ; 0x13
+    dw BRRSampleData_Snare,       BRRSampleData_Snare+$0D2F       ; 0x14
+    dw BRRSampleData_Choir,       BRRSampleData_Choir+$052B       ; 0x15
+    dw BRRSampleData_Flute,       BRRSampleData_Flute+$021C       ; 0x16
+    dw BRRSampleData_Oof,         BRRSampleData_Oof+$0240         ; 0x17
+    dw BRRSampleData_Piano,       BRRSampleData_Piano+$0735       ; 0x18
+    dw $FFFF,                     $FFFF                           ; 0x19 - null
+    dw $FFFF,                     $FFFF                           ; 0x1A - null
+    dw $FFFF,                     $FFFF                           ; 0x1B - null
 
     .end
 
@@ -1059,50 +1059,57 @@ SPCEngine:
                 dbnz.b $0C, ResetForNewSong
                     ; On the first frame of no delay:
 
-                    .setupSegmentLoop
+                    .attemptNextSegment
 
-                                ; Get the pointer of the next segment and check if
-                                ; it is valid:
-                                call GetNextSegment : bne .valid_pointer
-                                    ; Handle and invalid pointer:
+                    ; Get the pointer of the next segment and check if
+                    ; the high byte for a command (0x00FF):
+                    call GetNextSegment : bne .notACommand
+                        ; Check the low byte for a valid command (0x00FF):
+                        mov Y, A : bne .validCommand
+                            ; If not a valid command, mute the song.
+                            jmp SongCommand_F0_Mute
 
-                                    mov Y, A : bne .valid_command
-                                        ; If not a valid command, mute the song.
-                                        jmp SongCommand_F0_Mute
+                        .validCommand
 
-                                    .valid_command
+                        ; Mute all music if #$80:
+                        cmp.b A, #$80 : beq .setMute
+                            ; Unmute all music if #$81:
+                            cmp.b A, #$81 : bne .set_num_loops
+                                mov.b A, #$00
 
-                                    ; Mute all music if #$80:
-                                    cmp.b A, #$80 : beq .hardMute
-                                        ; If anything else, use that as the number of
-                                        ; times to loop the current segment:
-                                        cmp.b A, #$81 : bne .set_num_loops
-                                            ; Unmute all music if #$81:
-                                            mov.b A, #$00
+                                .setMute
 
-                                    .hardMute
+                                mov.b $1B, A
+                                bra .attemptNextSegment
 
-                                    mov.b $1B, A
-                            bra .setupSegmentLoop
+                        .set_num_loops
 
-                            .set_num_loops
+                        ; If anything else, use that as the number of times
+                        ; to loop the current segment:
 
-                            ; Decrement the number of setup segment loops and see 
-                            ; if a loop is still in progress:
-                            dec.b $42 : bpl .loop_in_progress
-                                ; Set the number of setup segment loops.
-                                mov.b $42, A
+                        ; Decrement the number of segment loops. If the result is
+                        ; positive, don't set the number of loops again.
+                        dec.b $42 : bpl .loop_in_progress
+                            ; If the result is negative, set the number of loops
+                            ; again. Meaning that if the command low byte was
+                            ; 0x82-0xFF the segment will loop forever.
+                            mov.b $42, A
 
-                            .loop_in_progress
+                        .loop_in_progress
 
-                            ; Get the pointer of the next segment.
-                            call GetNextSegment
-                        mov.b X, $42 : beq .setupSegmentLoop
+                        ; Get the pointer of the loop segment.
+                        call GetNextSegment
 
-                        movw.b $40, YA
-                    bra .setupSegmentLoop
+                        ; If the segment loop counter is 0, that means we are
+                        ; done looping this segment and we need to move on to
+                        ; the next one.
+                        mov.b X, $42 : beq .attemptNextSegment
+                            ; Set the sgement pointer to the loop segment.
+                            movw.b $40, YA
 
-                    .valid_pointer
+                            bra .attemptNextSegment
+
+                    .notACommand
 
                     movw.b $16, YA
                     mov.b Y, #$0F
@@ -1172,7 +1179,7 @@ SPCEngine:
                                         ; part, that means the #$00 byte came from 
                                         ; the end of the current segment and we 
                                         ; need to move on to the next one.
-                                        mov.b A, $80+X : beq .setupSegmentLoop
+                                        mov.b A, $80+X : beq .getNextSegment
                                             ; If the segment counter was non-0, 
                                             ; that means the #$00 came from the 
                                             ; end of a part and we need to repeat
