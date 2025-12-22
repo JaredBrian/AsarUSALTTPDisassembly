@@ -2431,6 +2431,7 @@ SPCEngine:
             mov.w A, $0321+X
             mul YA
             
+            ; OPTIMIZE: Useless branch?
             mov.w A, $0351+X : asl A : bbc0.b $12, .vol_left
                 asl A
 
