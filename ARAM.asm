@@ -291,8 +291,8 @@ struct ARAM $0000
         ; The target tempo for sweep.
 
     ; $56[0x01] - (Song, Tempo)
-    .TempoSweepIncrament: skip $01
-        ; The tempo slide sweep incrament.
+    .TempoSweepIncrement: skip $01
+        ; The tempo slide sweep increment.
 
     ; $58[0x02] - (Song, Volume)
     .GlobalVol: skip $02
@@ -307,8 +307,8 @@ struct ARAM $0000
         ; Global volume slide target.
 
     ; $5C[0x02] - (Song, Volume)
-    .GlobalVolIncrament: skip $02
-        ; Global volume slide increment per loop.
+    .GlobalVolIncrement: skip $02
+        ; Global volume slide increment.
 
     ; $5E[0x01] - (Song, SFX, Ambient)
     .SpecialEffects: skip $01
@@ -328,12 +328,12 @@ struct ARAM $0000
         ; The DSP.EVOLR (Echo Volume Right) queue.
 
     ; $64[0x02] - (Echo)
-    .EchoPanLeftIncrament: skip $02
-        ; Echo volume left panning Incrament.
+    .EchoPanLeftIncrement: skip $02
+        ; Echo volume left panning Increment.
 
     ; $66[0x02] - (Echo)
-    .EchoPanRightIncrament: skip $02
-        ; Echo volume right panning Incrament.
+    .EchoPanRightIncrement: skip $02
+        ; Echo volume right panning Increment.
 
     ; $68[0x01] - (Echo, Timer)
     .EchoPanTimer: skip $01
@@ -1210,64 +1210,64 @@ struct ARAM $0000
         ; The channel 0 vibrato accumulator.
 
     ; $02A1[0x01] - (Channel, Vibrato)
-    .Chan0_VbrIncrament: skip $01
-        ; The channel 0 vibrato incrament.
+    .Chan0_VbrIncrement: skip $01
+        ; The channel 0 vibrato increment.
 
     ; $02A2[0x01] - (Channel, Vibrato)
     .Chan1_VbrAcc: skip $01
         ; The channel 1 vibrato accumulator.
 
     ; $02A3[0x01] - (Channel, Vibrato)
-    .Chan1_VbrIncrament: skip $01
-        ; The channel 1 vibrato incrament.
+    .Chan1_VbrIncrement: skip $01
+        ; The channel 1 vibrato increment.
 
     ; $02A4[0x01] - (Channel, Vibrato)
     .Chan2_VbrAcc: skip $01
         ; The channel 2 vibrato accumulator.
 
     ; $02A5[0x01] - (Channel, Vibrato)
-    .Chan2_VbrIncrament: skip $01
-        ; The channel 2 vibrato incrament.
+    .Chan2_VbrIncrement: skip $01
+        ; The channel 2 vibrato increment.
 
     ; $02A6[0x01] - (Channel, Vibrato)
     .Chan3_VbrAcc: skip $01
         ; The channel 3 vibrato accumulator.
 
     ; $02A7[0x01] - (Channel, Vibrato)
-    .Chan3_VbrIncrament: skip $01
-        ; The channel 3 vibrato incrament.
+    .Chan3_VbrIncrement: skip $01
+        ; The channel 3 vibrato increment.
 
     ; $02A8[0x01] - (Channel, Vibrato)
     .Chan4_VbrAcc: skip $01
         ; The channel 4 vibrato accumulator.
 
     ; $02A9[0x01] - (Channel, Vibrato)
-    .Chan4_VbrIncrament: skip $01
-        ; The channel 4 vibrato incrament.
+    .Chan4_VbrIncrement: skip $01
+        ; The channel 4 vibrato increment.
 
     ; $02AA[0x01] - (Channel, Vibrato)
     .Chan5_VbrAcc: skip $01
         ; The channel 5 vibrato accumulator.
 
     ; $02AB[0x01] - (Channel, Vibrato)
-    .Chan5_VbrIncrament: skip $01
-        ; The channel 5 vibrato incrament.
+    .Chan5_VbrIncrement: skip $01
+        ; The channel 5 vibrato increment.
 
     ; $02AC[0x01] - (Channel, Vibrato)
     .Chan6_VbrAcc: skip $01
         ; The channel 6 vibrato accumulator.
 
     ; $02AD[0x01] - (Channel, Vibrato)
-    .Chan6_VbrIncrament: skip $01
-        ; The channel 6 vibrato incrament.
+    .Chan6_VbrIncrement: skip $01
+        ; The channel 6 vibrato increment.
 
     ; $02AE[0x01] - (Channel, Vibrato)
     .Chan7_VbrAcc: skip $01
         ; The channel 7 vibrato accumulator.
 
     ; $02AF[0x01] - (Channel, Vibrato)
-    .Chan7_VbrIncrament: skip $01
-        ; The channel 7 vibrato incrament.
+    .Chan7_VbrIncrement: skip $01
+        ; The channel 7 vibrato increment.
 
 
     ; $02B0[0x01] - (Channel, Vibrato, Timer)
@@ -1344,64 +1344,64 @@ struct ARAM $0000
 
 
     ; $02C0[0x01] - (Channel, Vibrato)
-    .Chan0_VbrIntensitySlideIncrament: skip $01
-        ; The channel 0 vibrato intensity slide incrament.
+    .Chan0_VbrIntensitySlideIncrement: skip $01
+        ; The channel 0 vibrato intensity slide increment.
 
     ; $02C1[0x01] - (Channel, Vibrato)
     .Chan0_VbrMaxIntensity: skip $01
         ; The channel 0 max vibrato intensity.
 
     ; $02C2[0x01] - (Channel, Vibrato)
-    .Chan1_VbrIntensitySlideIncrament: skip $01
-        ; The channel 1 vibrato intensity slide incrament.
+    .Chan1_VbrIntensitySlideIncrement: skip $01
+        ; The channel 1 vibrato intensity slide increment.
 
     ; $02C3[0x01] - (Channel, Vibrato)
     .Chan1_VbrMaxIntensity: skip $01
         ; The channel 1 max vibrato intensity.
 
     ; $02C4[0x01] - (Channel, Vibrato)
-    .Chan2_VbrIntensitySlideIncrament: skip $01
-        ; The channel 2 vibrato intensity slide incrament.
+    .Chan2_VbrIntensitySlideIncrement: skip $01
+        ; The channel 2 vibrato intensity slide increment.
 
     ; $02C5[0x01] - (Channel, Vibrato)
     .Chan2_VbrMaxIntensity: skip $01
         ; The channel 2 max vibrato intensity.
 
     ; $02C6[0x01] - (Channel, Vibrato)
-    .Chan3_VbrIntensitySlideIncrament: skip $01
-        ; The channel 3 vibrato intensity slide incrament.
+    .Chan3_VbrIntensitySlideIncrement: skip $01
+        ; The channel 3 vibrato intensity slide increment.
 
     ; $02C7[0x01] - (Channel, Vibrato)
     .Chan3_VbrMaxIntensity: skip $01
         ; The channel 3 max vibrato intensity.
 
     ; $02C8[0x01] - (Channel, Vibrato)
-    .Chan4_VbrIntensitySlideIncrament: skip $01
-        ; The channel 4 vibrato intensity slide incrament.
+    .Chan4_VbrIntensitySlideIncrement: skip $01
+        ; The channel 4 vibrato intensity slide increment.
 
     ; $02C9[0x01] - (Channel, Vibrato)
     .Chan4_VbrMaxIntensity: skip $01
         ; The channel 4 max vibrato intensity.
 
     ; $02CA[0x01] - (Channel, Vibrato)
-    .Chan5_VbrIntensitySlideIncrament: skip $01
-        ; The channel 5 vibrato intensity slide incrament.
+    .Chan5_VbrIntensitySlideIncrement: skip $01
+        ; The channel 5 vibrato intensity slide increment.
 
     ; $02CB[0x01] - (Channel, Vibrato)
     .Chan5_VbrMaxIntensity: skip $01
         ; The channel 5 max vibrato intensity.
 
     ; $02CC[0x01] - (Channel, Vibrato)
-    .Chan6_VbrIntensitySlideIncrament: skip $01
-        ; The channel 6 vibrato intensity slide incrament.
+    .Chan6_VbrIntensitySlideIncrement: skip $01
+        ; The channel 6 vibrato intensity slide increment.
 
     ; $02CD[0x01] - (Channel, Vibrato)
     .Chan6_VbrMaxIntensity: skip $01
         ; The channel 6 max vibrato intensity.
 
     ; $02CE[0x01] - (Channel, Vibrato)
-    .Chan7_VbrIntensitySlideIncrament: skip $01
-        ; The channel 7 vibrato intensity slide incrament.
+    .Chan7_VbrIntensitySlideIncrement: skip $01
+        ; The channel 7 vibrato intensity slide increment.
 
     ; $02CF[0x01] - (Channel, Vibrato)
     .Chan7_VbrMaxIntensity: skip $01
@@ -1413,64 +1413,64 @@ struct ARAM $0000
         ; The channel 0 tremolo accumulator.
 
     ; $02D1[0x01] - (Channel, Tremolo)
-    .Chan0_TremIncrament: skip $01
-        ; The channel 0 tremolo incrament.
+    .Chan0_TremIncrement: skip $01
+        ; The channel 0 tremolo increment.
 
     ; $02D2[0x01] - (Channel, Tremolo)
     .Chan1_TremAcc: skip $01
         ; The channel 1 tremolo accumulator.
 
     ; $02D3[0x01] - (Channel, Tremolo)
-    .Chan1_TremIncrament: skip $01
-        ; The channel 1 tremolo incrament.
+    .Chan1_TremIncrement: skip $01
+        ; The channel 1 tremolo increment.
 
     ; $02D4[0x01] - (Channel, Tremolo)
     .Chan2_TremAcc: skip $01
         ; The channel 2 tremolo accumulator.
 
     ; $02D5[0x01] - (Channel, Tremolo)
-    .Chan2_TremIncrament: skip $01
-        ; The channel 2 tremolo incrament.
+    .Chan2_TremIncrement: skip $01
+        ; The channel 2 tremolo increment.
 
     ; $02D6[0x01] - (Channel, Tremolo)
     .Chan3_TremAcc: skip $01
         ; The channel 3 tremolo accumulator.
 
     ; $02D7[0x01] - (Channel, Tremolo)
-    .Chan3_TremIncrament: skip $01
-        ; The channel 3 tremolo incrament.
+    .Chan3_TremIncrement: skip $01
+        ; The channel 3 tremolo increment.
 
     ; $02D8[0x01] - (Channel, Tremolo)
     .Chan4_TremAcc: skip $01
         ; The channel 4 tremolo accumulator.
 
     ; $02D9[0x01] - (Channel, Tremolo)
-    .Chan4_TremIncrament: skip $01
-        ; The channel 4 tremolo incrament.
+    .Chan4_TremIncrement: skip $01
+        ; The channel 4 tremolo increment.
 
     ; $02DA[0x01] - (Channel, Tremolo)
     .Chan5_TremAcc: skip $01
         ; The channel 5 tremolo accumulator.
 
     ; $02DB[0x01] - (Channel, Tremolo)
-    .Chan5_TremIncrament: skip $01
-        ; The channel 5 tremolo incrament.
+    .Chan5_TremIncrement: skip $01
+        ; The channel 5 tremolo increment.
 
     ; $02DC[0x01] - (Channel, Tremolo)
     .Chan6_TremAcc: skip $01
         ; The channel 6 tremolo accumulator.
 
     ; $02DD[0x01] - (Channel, Tremolo)
-    .Chan6_TremIncrament: skip $01
-        ; The channel 6 tremolo incrament.
+    .Chan6_TremIncrement: skip $01
+        ; The channel 6 tremolo increment.
 
     ; $02DE[0x01] - (Channel, Tremolo)
     .Chan7_TremAcc: skip $01
         ; The channel 7 tremolo accumulator.
 
     ; $02DF[0x01] - (Channel, Tremolo)
-    .Chan7_TremIncrament: skip $01
-        ; The channel 7 tremolo incrament.
+    .Chan7_TremIncrement: skip $01
+        ; The channel 7 tremolo increment.
 
 
     ; $02E0[0x01] - (Channel, Tremolo, Timer)
@@ -1638,36 +1638,36 @@ struct ARAM $0000
 
 
     ; $0310[0x02] - (Channel, Volume)
-    .Chan0_VolIncrament: skip $02
-        ; The channel 0 volume slide incrament.
+    .Chan0_VolIncrement: skip $02
+        ; The channel 0 volume slide increment.
 
     ; $0312[0x02] - (Channel, Volume)
-    .Chan1_VolIncrament: skip $02
-        ; The channel 1 volume slide incrament.
+    .Chan1_VolIncrement: skip $02
+        ; The channel 1 volume slide increment.
 
     ; $0314[0x02] - (Channel, Volume)
-    .Chan2_VolIncrament: skip $02
-        ; The channel 2 volume slide incrament.
+    .Chan2_VolIncrement: skip $02
+        ; The channel 2 volume slide increment.
 
     ; $0316[0x02] - (Channel, Volume)
-    .Chan3_VolIncrament: skip $02
-        ; The channel 3 volume slide incrament.
+    .Chan3_VolIncrement: skip $02
+        ; The channel 3 volume slide increment.
 
     ; $0318[0x02] - (Channel, Volume)
-    .Chan4_VolIncrament: skip $02
-        ; The channel 4 volume slide incrament.
+    .Chan4_VolIncrement: skip $02
+        ; The channel 4 volume slide increment.
 
     ; $031A[0x02] - (Channel, Volume)
-    .Chan5_VolIncrament: skip $02
-        ; The channel 5 volume slide incrament.
+    .Chan5_VolIncrement: skip $02
+        ; The channel 5 volume slide increment.
 
     ; $031C[0x02] - (Channel, Volume)
-    .Chan6_VolIncrament: skip $02
-        ; The channel 6 volume slide incrament.
+    .Chan6_VolIncrement: skip $02
+        ; The channel 6 volume slide increment.
 
     ; $031E[0x02] - (Channel, Volume)
-    .Chan7_VolIncrament: skip $02
-        ; The channel 7 volume slide incrament.
+    .Chan7_VolIncrement: skip $02
+        ; The channel 7 volume slide increment.
 
 
     ; $0320[0x01] - (Channel, Volume)

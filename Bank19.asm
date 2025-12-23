@@ -443,7 +443,7 @@ SPCEngine:
                 ; Every other frame:
                 inc.w $03C7
                 mov.w A, $03C7 : lsr A : bcs .wait_for_SFX
-                    ; Incrament the echo timer.
+                    ; Increment the echo timer.
                     inc.b $4C
 
         .wait_for_SFX
@@ -614,7 +614,7 @@ SPCEngine:
 
     ; SPC $096C-$09EE JUMP LOCATION
     ; $0CFD3A-$0CFDBC DATA
-    HandleNote_external:
+    WritePitch:
     {
         mov.b Y, #$00
 
@@ -811,7 +811,7 @@ SPCEngine:
         ; Set the value that will be subtracted from the volume every time the
         ; fade timer hits 0.
         setc : sbc.b A, $59
-        call MakeFraction : movw.b $5C, YA
+        call MakeIncrement : movw.b $5C, YA
 
         ; Go to the usual song handling.
         jmp HandleInput_Song_run_song
@@ -1299,7 +1299,7 @@ SPCEngine:
 
             ; Check if we are performing a tempo slide.
             mov.b A, $54 : beq .no_tempo_slide
-                ; Add the temp incrament to the tempo and see if the tempo
+                ; Add the temp increment to the tempo and see if the tempo
                 ; timer is done.
                 movw.b YA, $56 : addw.b YA, $52 : dbnz.b $54, .tempo_slide_not_done
                     ; Set the tempo to the tempo slide target.
@@ -1313,10 +1313,10 @@ SPCEngine:
 
             ; Check if we are performing a echo pan.
             mov.b A, $68 : beq .no_echo_pan_slide
-                ; Add the echo pan left incrament to the echo pan left queue.
+                ; Add the echo pan left increment to the echo pan left queue.
                 movw.b YA, $64 : addw.b YA, $60 : movw.b $60, YA
 
-                ; Add the echo pan right incrament to the echo pan right queue.
+                ; Add the echo pan right increment to the echo pan right queue.
                 movw.b YA, $66 : addw.b YA, $62 : dbnz.b $68, .pan_slide_not_done
                     ; If the slide is done, set the left queue to the target value.
                     movw.b YA, $68 : movw.b $60, YA
@@ -1330,22 +1330,28 @@ SPCEngine:
 
             .no_echo_pan_slide
 
-            ; Check if we are performing a global volume slide.
-            mov.b A, $5A : beq .no_volume_slide
-                ; Add the global volume incrament to the global volume.
+            ; Check if we are performing a global volume slide:
+            mov.b A, $5A : beq .noVolumeSlide
+                ; Add the global volume increment to the global volume.
                 movw.b YA, $5C : addw.b YA, $58
-                dbnz.b $5A, .volume_slide_not_done
+
+                ; Decrememnt the global volume slide timer and check if we
+                ; need to reset it:
+                dbnz.b $5A, .volumeSlideNotDone
                     ; Set the global volume to the target volume.
+                    ; NOTE: The reference is to the timer. Which because the timer
+                    ; is now 0, it can be used as the low byte of the target
+                    ; global volume at $5B.
                     movw.b YA, $5A
 
-                .volume_slide_not_done
+                .volumeSlideNotDone
 
                 movw.b $58, YA
 
                 ; Mark that we are using a special effect on all channels.
                 mov.b $5E, #$FF
 
-            .no_volume_slide
+            .noVolumeSlide
 
             ; Setup the channel bit offset for another loop.
             mov.b X, #$00
@@ -1355,7 +1361,7 @@ SPCEngine:
 
                 ; Check if there is an active pointer on this channel.
                 mov.b A, $31+X : beq .inactive_track
-                    call WritePitch
+                    call CalculateVolume
 
                 .inactive_track
 
@@ -1409,10 +1415,10 @@ SPCEngine:
     SkipTrackByte:
     {
         ; Increase the track pointer to the next byte.
-        inc.b $30+X : bne .dontIncramentHigh
+        inc.b $30+X : bne .dontIncrementHigh
             inc.b $31+X
 
-        .dontIncramentHigh
+        .dontIncrementHigh
 
         ; Bleeds into the next function.
     }
@@ -1542,7 +1548,7 @@ SPCEngine:
         ; TODO: Do some math I don't understand.
         setc : sbc.w A, $0331+X
         pop X
-        call MakeFraction
+        call MakeIncrement
 
         ; Set the pan sweep value for the channel.
         mov.w $0340+X, A
@@ -1639,11 +1645,11 @@ SPCEngine:
         ; Set the global volume slide target.
         call GetTrackByte : mov.b $5B, A
 
-        ; Get the global volume incrament between the current global volume and 
+        ; Get the global volume increment between the current global volume and 
         ; the target based on the timer.
         setc : sbc.b A, $59
         mov.b X, $5A
-        call MakeFraction : movw.b $5C, YA
+        call MakeIncrement : movw.b $5C, YA
 
         ret
     }
@@ -1672,11 +1678,11 @@ SPCEngine:
         ; Set the tempo target.
         call GetTrackByte : mov.b $55, A
         
-        ; Get the tempo sweep incrament between the current tempo and the target
+        ; Get the tempo sweep increment between the current tempo and the target
         ; based on the timer.
         setc : sbc.b A, $53
         mov.b X, $54
-        call MakeFraction : movw.b $56, YA
+        call MakeIncrement : movw.b $56, YA
 
         ret
     }
@@ -1815,10 +1821,11 @@ SPCEngine:
         ; Set the channel volume slide target.
         call GetTrackByte : mov.w $0320+X, A
 
-        ; Caluclate the volume slide incrament.
+        ; Get the increment between the current channel volume and 
+        ; the target based on the timer.
         setc : sbc.w A, $0301+X
         pop X
-        call MakeFraction : mov.w $0310+X, A
+        call MakeIncrement : mov.w $0310+X, A
         mov A, Y : mov.w $0311+X, A
 
         ret
@@ -1913,18 +1920,18 @@ SPCEngine:
         ; Set the echo left target.
         call GetTrackByte : mov.b $69, A
 
-        ; Calculate the echo slide left incrament.
+        ; Calculate the echo slide left increment.
         setc : sbc.b A, $61
         mov.b X, $68
-        call MakeFraction : movw.b $64, YA
+        call MakeIncrement : movw.b $64, YA
 
         ; Set the echo right target.
         call GetTrackByte : mov.b $6A, A
 
-        ; Calculate the echo slide right incrament.
+        ; Calculate the echo slide right increment.
         setc : sbc.b A, $63
         mov.b X, $68
-        call MakeFraction : movw.b $66, YA
+        call MakeIncrement : movw.b $66, YA
 
         ret
     }
@@ -2167,7 +2174,7 @@ SPCEngine:
         push Y : pop X
 
         ; TODO: Do some math I don't understand.
-        call MakeFraction : mov.w $0370+X, A
+        call MakeIncrement : mov.w $0370+X, A
         mov A, Y : mov.w $0371+X, A
 
         ; SPC $0EC2 ALTERNATE ENTRY POINT
@@ -2193,24 +2200,32 @@ SPCEngine:
 
     ; ==========================================================================
 
-    ; The purpose of this function is to create incraments between 2 given values.
-    ; TODO: Document inputs.
+    ; Input:
+    ;     A - The difference between the source and target value.
+    ;     X - The amount of steps.
+    ; Create an increment value for X steps in A. This function is often used
+    ; to get the step values for slides or essentially how much to increase a
+    ; step value over time to get to the target value.
     ; SPC $0ECE-$0EDF JUMP LOCATION
     ; $0D029C-$0D02AD DATA
-    MakeFraction:
+    MakeIncrement:
     {
-        ; TODO: Do a whole bunch of main I don't understand.
+        ; Before calling this function, we should have done a subtract to get the
+        ; difference between the 2 values. If that subtraction ended up being
+        ; negative the carry bit will have been set. We then rotate that bit into
+        ; some work RAM so that we can flip the input for the math.
         notc : ror.b $12 : bpl .positive_input
             ; * -1
             eor.b A, #$FF : inc A
 
         .positive_input
 
+        ; Get the high byte of the increment.
         mov.b Y, #$00
-        div YA, X
+        div YA, X : push A
 
-        push A
-
+        ; Get the low byte of the increment by dividing the remainder again as
+        ; the high byte this time.
         mov.b A, #$00
         div YA, X
 
@@ -2224,12 +2239,12 @@ SPCEngine:
 
     ; SPC $0EE0-$0EE9 JUMP LOCATION
     ; $0D02AE-$0D02B8 DATA
-    MakeFraction_abs:
+    MakeIncrement_abs:
     {
-        ; TODO: Do a bunch of math I don't understand.
+        ; If the given value was negative, flip it to be negative again.
         bbc7.b $12, .keep_positive
+            ; 0 - the positive increment.
             movw.b $14, YA
-
             movw.b YA, $0E : subw.b YA, $14
 
         .keep_positive
@@ -2324,7 +2339,7 @@ SPCEngine:
 
     ; SPC $0F3F-$0F93 JUMP LOCATION
     ; $0D030D-$0D0361 DATA
-    WritePitch:
+    CalculateVolume:
     {
         ; Check if we are performing a volume slide on the current channel:
         mov.b A, $90+X : beq .no_volume_slide
@@ -2356,7 +2371,7 @@ SPCEngine:
 
                 .tremolo_accumulate
 
-                ; Add the tremolo incrament.
+                ; Add the tremolo increment.
                 clrc : adc.w A, $02D1+X
 
                 .skip_accumulate
@@ -2500,7 +2515,7 @@ SPCEngine:
 
         .still_sliding
 
-        ; Move the address pointer to the slide incrament.
+        ; Move the address pointer to the slide increment.
         adc.b $16, #$10
 
         ; Write the low byte of the volume.
@@ -2518,7 +2533,7 @@ SPCEngine:
 
         .doneSliding
 
-        ; Add the slide incrament to the current channel value or if we are done
+        ; Add the slide increment to the current channel value or if we are done
         ; sliding, set the high byte of value to the target value.
         adc.b A, ($16)+Y : mov.b ($14)+Y, A
 
@@ -2683,7 +2698,7 @@ SPCEngine:
 
                 .initializing
 
-                ; Add the channel vibrato intensity slide incrament.
+                ; Add the channel vibrato intensity slide increment.
                 clrc : adc.w A, $02C0+X
 
                 .set_intensity
@@ -2691,7 +2706,7 @@ SPCEngine:
                 ; Set the channel vibrato intensity.
                 mov.b $B1+X, A
 
-                ; Add the channel vibrato incrament to the vibrato accumulator.
+                ; Add the channel vibrato increment to the vibrato accumulator.
                 mov.w A, $02A0+X : clrc : adc.w A, $02A1+X : mov.w $02A0+X, A
 
                 ; Bleeds into the next function.
@@ -2731,7 +2746,7 @@ SPCEngine:
         ; $0D049A DATA
         .change_pitch
 
-        jmp HandleNote_external
+        jmp WritePitch
 
         ; SPC $10CF ALTERNATE ENTRY POINT
         ; $0D049D DATA
@@ -2826,7 +2841,7 @@ SPCEngine:
 
         ; TODO: Do a bunch of math that I don't understand.
         mov.b $12, Y
-        call MakeFraction_abs
+        call MakeIncrement_abs
 
         push Y
 
@@ -2848,7 +2863,7 @@ SPCEngine:
     ; $0D0514-$0D051B DATA
     AdjustPitch:
     {
-        call MakeFraction_abs
+        call MakeIncrement_abs
 
         addw.b YA, $10 : movw.b $10, YA
 
@@ -4117,7 +4132,7 @@ SPCEngine:
         mov.w A, $0360+X : movw.b $10, YA
         
         mov.b $47, #$00
-        jmp HandleNote_external
+        jmp WritePitch
     }
 
     ; ==========================================================================
