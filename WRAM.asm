@@ -162,10 +162,10 @@ struct WRAM $7E0000
         ; with some of the specialized routines that $17 can utilize.
 
     ; $19[0x01] - (GFX, Main, NMI)
-    .VRAMIncramentalUpload: skip $01
+    .VRAMIncrementalUpload: skip $01
         ; When nonzero, will trigger a transfer from $7FXXXX to VRAM
         ; address $YY00
-        ; XXXX is specified by variable IncramentalUploadBufferLow
+        ; XXXX is specified by variable IncrementalUploadBufferLow
         ; YY   is specified by this variable
         ; Seems to be used primarily for updating a strip of tilemap
         ; data, as it can only trigger a transfer of 0x200 bytes. That would
@@ -1852,15 +1852,15 @@ struct WRAM $7E0000
         ; high byte for VRAM addresses for various other uploads.
 
     ; $0118[0x01] - (NMI)
-    .IncramentalUploadBufferLow: skip $01
+    .IncrementalUploadBufferLow: skip $01
         ; Local portion of an address used to transfer data from $7FXXXX to
-        ; VRAM whenever variable VRAMIncramentalUpload is nonzero. This is
+        ; VRAM whenever variable VRAMIncrementalUpload is nonzero. This is
         ; always set to 0x00.
 
     ; $0119[0x01] - (NMI)
-    .IncramentalUploadBufferHigh: skip $01
+    .IncrementalUploadBufferHigh: skip $01
         ; Local portion of an address used to transfer data from $7FXXXX to
-        ; VRAM whenever variable VRAMIncramentalUpload is nonzero.
+        ; VRAM whenever variable VRAMIncrementalUpload is nonzero.
 
     ; $011A[0x02] - (Main)
     .BGHShake: skip $02
@@ -3766,10 +3766,10 @@ struct WRAM $7E0000
         ; r - Right
 
     ; $0412[0x01] - (GFX, Main, NMI)
-    .VRAMIncramentalUploadStep: skip $01
+    .VRAMIncrementalUploadStep: skip $01
         ; Index used during screen transitions to gradually, over the
         ; course of several frames, transmit data to VRAM.
-        ; See variables VRAMIncramentalUpload and IncramentalUploadBufferLow
+        ; See variables VRAMIncrementalUpload and IncrementalUploadBufferLow
 
     ; $0413[0x01] - (Free)
     .Free_0413: skip $01

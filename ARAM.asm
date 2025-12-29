@@ -1274,7 +1274,7 @@ struct ARAM $0000
     .Chan0_VbrDelay: skip $01
         ; The channel 0 vibrato delay.
 
-    ; $02B1[0x01] - (Channel, Vibrato)
+    ; $02B1[0x01] - (Channel, Vibrato, Timer)
     .Chan0_VbrIntensitySlideWait: skip $01
         ; This is the value the channel 0 vibrato intensity slide timer needs to
         ; reach to be complete.
@@ -1283,7 +1283,7 @@ struct ARAM $0000
     .Chan1_VbrDelay: skip $01
         ; The channel 1 vibrato delay.
 
-    ; $02B3[0x01] - (Channel, Vibrato)
+    ; $02B3[0x01] - (Channel, Vibrato, Timer)
     .Chan1_VbrIntensitySlideWait: skip $01
         ; This is the value the channel 1 vibrato intensity slide timer needs to
         ; reach to be complete.
@@ -1292,7 +1292,7 @@ struct ARAM $0000
     .Chan2_VbrDelay: skip $01
         ; The channel 2 vibrato delay.
 
-    ; $02B5[0x01] - (Channel, Vibrato)
+    ; $02B5[0x01] - (Channel, Vibrato, Timer)
     .Chan2_VbrIntensitySlideWait: skip $01
         ; This is the value the channel 2 vibrato intensity slide timer needs to
         ; reach to be complete.
@@ -1301,7 +1301,7 @@ struct ARAM $0000
     .Chan3_VbrDelay: skip $01
         ; The channel 3 vibrato delay.
 
-    ; $02B7[0x01] - (Channel, Vibrato)
+    ; $02B7[0x01] - (Channel, Vibrato, Timer)
     .Chan3_VbrIntensitySlideWait: skip $01
         ; This is the value the channel 3 vibrato intensity slide timer needs to
         ; reach to be complete.
@@ -1310,7 +1310,7 @@ struct ARAM $0000
     .Chan4_VbrDelay: skip $01
         ; The channel 4 vibrato delay.
 
-    ; $02B9[0x01] - (Channel, Vibrato)
+    ; $02B9[0x01] - (Channel, Vibrato, Timer)
     .Chan4_VbrIntensitySlideWait: skip $01
         ; This is the value the channel 4 vibrato intensity slide timer needs to
         ; reach to be complete.
@@ -1319,7 +1319,7 @@ struct ARAM $0000
     .Chan5_VbrDelay: skip $01
         ; The channel 5 vibrato delay.
 
-    ; $02BB[0x01] - (Channel, Vibrato)
+    ; $02BB[0x01] - (Channel, Vibrato, Timer)
     .Chan5_VbrIntensitySlideWait: skip $01
         ; This is the value the channel 5 vibrato intensity slide timer needs to
         ; reach to be complete.
@@ -1328,7 +1328,7 @@ struct ARAM $0000
     .Chan6_VbrDelay: skip $01
         ; The channel 6 vibrato delay.
 
-    ; $02BD[0x01] - (Channel, Vibrato)
+    ; $02BD[0x01] - (Channel, Vibrato, Timer)
     .Chan6_VbrIntensitySlideWait: skip $01
         ; This is the value the channel 6 vibrato intensity slide timer needs to
         ; reach to be complete.
@@ -1337,7 +1337,7 @@ struct ARAM $0000
     .Chan7_VbrDelay: skip $01
         ; The channel 7 vibrato delay.
 
-    ; $02BF[0x01] - (Channel, Vibrato)
+    ; $02BF[0x01] - (Channel, Vibrato, Timer)
     .Chan7_VbrIntensitySlideWait: skip $01
         ; This is the value the channel 7 vibrato intensity slide timer needs to
         ; reach to be complete.

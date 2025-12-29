@@ -622,9 +622,9 @@ SPCEngine:
         ; Get the pitch value after pitch slide, global transposition, and
         ; channel transpositions are applied and adjust it based on whether it
         ; is a high note, middle note, or low note.
-        ; Check if the note is !E5 (the note, NOT the hex value) or higher:
+        ; Check if the note is E5 (the note, NOT the hex value) or higher:
         mov.b A, $11 : setc : sbc.b A, #$34 : bcs .high_note
-            ; Check if the note is !G2 or higher:
+            ; Check if the note is G2 or higher:
             mov.b A, $11 : setc : sbc.b A, #$13 : bcs .middle_note
                 ; Low note
                 dec Y
@@ -640,17 +640,17 @@ SPCEngine:
         ; Save the channel index.
         push X
 
-        ; Take the high byte of the calculated pitch value x2 and divide it by 0x18
-        ; to extract the note without its octave as the remainder. X will be the
-        ; octave value.
+        ; Take the high byte of the calculated pitch value x2 and divide it by 
+        ; 0x18 to extract the note without its octave as the remainder. X will 
+        ; be the octave value.
         mov.b A, $11 : asl A
         mov.b Y, #$00
         mov.b X, #$18
         div YA, X : mov X, A
 
         ; Get the difference between the tuning value for the note and the next
-        ; note on the scale. Example: If the note is Ds, get the difference between
-        ; Ds and E.
+        ; note on the scale. Example: If the note is Ds, get the difference 
+        ; between Ds and E.
         mov.w A, NotePitchValues+1+Y : mov.b $15, A
         mov.w A, NotePitchValues+0+Y : mov.b $14, A
 
@@ -665,7 +665,8 @@ SPCEngine:
         mul YA : mov A, Y
 
         ; Add the result to the tuning value of the original note.
-        mov.b Y, #$00 : addw.b YA, $14 : mov.b $15, Y
+        mov.b Y, #$00
+        addw.b YA, $14 : mov.b $15, Y
 
         ; Multiply the whole pitch value by 2.
         asl A
@@ -687,6 +688,10 @@ SPCEngine:
 
             .start_octave_loop
         cmp.b X, #$06 : bne .octave_loop
+        ; NOTE: You would think that this should be bcc instead of bne, but
+        ; changing this to a bcc causes a bug where certain low notes can become
+        ; an extremly high pitched ring. I guess by making this loop around 0xFF
+        ; times to get back to a 0x06 fixes this.
 
         mov.b $14, A
 
@@ -1566,8 +1571,7 @@ SPCEngine:
         ; Set the channel vibrato wait for the channel.
         mov.w $02B0+X, A
 
-        ; TODO: What is the vibrato rate?
-        ; Set the vibrato rate.
+        ; Set the vibrato increment.
         call GetTrackByte : mov.w $02A1+X, A
 
         ; Get the vibrato intensity.
@@ -2237,13 +2241,17 @@ SPCEngine:
         ; Bleeds into the next function.
     }
 
+    ; Input:
+    ;     YA - The value to flip.
+    ;    $12 - Bit 7 high if we need to flip it.
+    ; This function flips the given YA value if the 7th bit of $12 is set. 
     ; SPC $0EE0-$0EE9 JUMP LOCATION
     ; $0D02AE-$0D02B8 DATA
-    MakeIncrement_abs:
+    YASignFlip:
     {
         ; If the given value was negative, flip it to be negative again.
         bbc7.b $12, .keep_positive
-            ; 0 - the positive increment.
+            ; 0 minus the positive increment.
             movw.b $14, YA
             movw.b YA, $0E : subw.b YA, $14
 
@@ -2718,23 +2726,33 @@ SPCEngine:
     ; $0D047F-$0D049E DATA
     Tracker_handle_pitch:
     {
-        ; TODO: Do a bunch of math I don't understand.
+        ; Save the vibrato accumulator for later.
         mov.b $12, A
-        asl A : asl A : bcc .low_enough
+
+        ; If negative, flip it:
+        asl A : asl A : bcc .accNotNegative
+            ; TODO: Why do we not inc A here as well?
             eor.b A, #$FF
 
-        .low_enough
+        .accNotNegative
 
         mov Y, A
 
-        mov.b A, $B1+X : cmp.b A, #$F1 : bcc .too_small
+        ; Check if the intensity is negative:
+        ; NOTE: I guess 0xF1-0xFF are the only values considered a valid
+        ; negative.
+        mov.b A, $B1+X : cmp.b A, #$F1 : bcc .intenistyNotNegative
+            ; Make roughly not negative:
             and.b A, #$0F
+
+            ; Multiply the vibrato accumulator by the intensity.
             mul YA
 
             bra .continue
 
-        .too_small
+        .intenistyNotNegative
 
+        ; Multiply the vibrato accumulator by the intensity.
         mul YA : mov A, Y
         mov.b Y, #$00
 
@@ -2841,7 +2859,7 @@ SPCEngine:
 
         ; TODO: Do a bunch of math that I don't understand.
         mov.b $12, Y
-        call MakeIncrement_abs
+        call YASignFlip
 
         push Y
 
@@ -2863,7 +2881,7 @@ SPCEngine:
     ; $0D0514-$0D051B DATA
     AdjustPitch:
     {
-        call MakeIncrement_abs
+        call YASignFlip
 
         addw.b YA, $10 : movw.b $10, YA
 
