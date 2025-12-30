@@ -2649,7 +2649,7 @@ SPCEngine:
 
         .time_left
 
-        ; Mark that we are not doing any pitch chanes.
+        ; Mark that we are not doing any pitch changes.
         clr7.b $13
 
         ; Check if we are performing a pitch slide on the current channel:
@@ -2695,7 +2695,7 @@ SPCEngine:
 
                 .increment
                 
-                ; There is no Absolute indexed by X variant of inc, so we have to
+                ; There is no absolute indexed by X variant of inc, so we have to
                 ; switch the page for a second.
                 setp
                 inc.b $0100+X
