@@ -1251,8 +1251,7 @@ SPCEngine:
 
                         .note
 
-                        ; OPTIMIZE: The channel mute is never actually used.
-                        ; Check if this channel is muted.
+                        ; Check if this channel or if the song has been puased.
                         mov.w A, $03FF+X : or.b A, $1B : bne .disabled_channel
                             ; OPTIMIZE: Why not just push Y?
                             mov A, Y : push A
