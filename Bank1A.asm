@@ -1771,33 +1771,33 @@ SongBank_Overworld_Main:
     ; $0D1EF9-$0D1F2E DATA
     base SONG_POINTERS
 
-    dw Song01_TriforceIntro
-    dw Song02_LightWorldOverture
-    dw Song03_Rain
-    dw Song04_BunnyTheme
-    dw Song05_LostWoods
-    dw Song06_LegendsTheme_Attract
-    dw Song07_KakarikoVillage
-    dw Song08_MirrorWarp
-    dw Song09_DarkWorld
-    dw Song0A_PullingTheMasterSword
-    dw Song0B_FairyTheme
-    dw Song0C_Fugitive
-    dw Song0D_SkullWoodsMarch
-    dw Song0E_MinigameTheme
-    dw Song0F_IntroFanfare
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
+    dw Song01_TriforceIntro         ; 0x01
+    dw Song02_LightWorldOverture    ; 0x02
+    dw Song03_Rain                  ; 0x03
+    dw Song04_BunnyTheme            ; 0x04
+    dw Song05_LostWoods             ; 0x05
+    dw Song06_LegendsTheme_Attract  ; 0x06
+    dw Song07_KakarikoVillage       ; 0x07
+    dw Song08_MirrorWarp            ; 0x08
+    dw Song09_DarkWorld             ; 0x09
+    dw Song0A_PullingTheMasterSword ; 0x0A
+    dw Song0B_FairyTheme            ; 0x0B
+    dw Song0C_Fugitive              ; 0x0C
+    dw Song0D_SkullWoodsMarch       ; 0x0D
+    dw Song0E_MinigameTheme         ; 0x0E
+    dw Song0F_IntroFanfare          ; 0x0F
+    dw $0000                        ; 0x10
+    dw $0000                        ; 0x11
+    dw $0000                        ; 0x12
+    dw $0000                        ; 0x13
+    dw $0000                        ; 0x14
+    dw $0000                        ; 0x15
+    dw $0000                        ; 0x16
+    dw $0000                        ; 0x17
+    dw $0000                        ; 0x18
+    dw $0000                        ; 0x19
+    dw $0000                        ; 0x1A
+    dw $0000                        ; 0x1B
 
     ; ==========================================================================
 
@@ -1970,41 +1970,41 @@ SongBank_Credits_Main:
     ; SPC $D000-$E05F DATA
     ; $0D5384-$0D53E3 DATA
     base SONG_POINTERS
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw Song20_TriforceRoom
-    dw Song21_EndingTheme
-    dw Song22_Credits
-    dw $0000
+    dw $0000               ; 0x01
+    dw $0000               ; 0x02
+    dw $0000               ; 0x03
+    dw $0000               ; 0x04
+    dw $0000               ; 0x05
+    dw $0000               ; 0x06
+    dw $0000               ; 0x07
+    dw $0000               ; 0x08
+    dw $0000               ; 0x09
+    dw $0000               ; 0x0A
+    dw $0000               ; 0x0B
+    dw $0000               ; 0x0C
+    dw $0000               ; 0x0D
+    dw $0000               ; 0x0E
+    dw $0000               ; 0x0F
+    dw $0000               ; 0x10
+    dw $0000               ; 0x11
+    dw $0000               ; 0x12
+    dw $0000               ; 0x13
+    dw $0000               ; 0x14
+    dw $0000               ; 0x15
+    dw $0000               ; 0x16
+    dw $0000               ; 0x17
+    dw $0000               ; 0x18
+    dw $0000               ; 0x19
+    dw $0000               ; 0x1A
+    dw $0000               ; 0x1B
+    dw $0000               ; 0x1C
+    dw $0000               ; 0x1D
+    dw $0000               ; 0x1E
+    dw $0000               ; 0x1F
+    dw Song20_TriforceRoom ; 0x20
+    dw Song21_EndingTheme  ; 0x21
+    dw Song22_Credits      ; 0x22
+    dw $0000               ; 0x23
 
     ; ==========================================================================
 

@@ -22,41 +22,41 @@ SongBank_Underworld_Main:
     ; $0D8004-$0DACC2 DATA
     base SONG_POINTERS
 
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw Song0B_FairyTheme
-    dw $0000
-    dw $0000
-    dw $0000
-    dw $0000
-    dw Song10_HyruleCastle
-    dw Song11_PendantDungeon
-    dw Song12_Cave
-    dw Song13_Fanfare
-    dw Song14_Sanctuary
-    dw Song15_Boss
-    dw Song16_CrystalDungeon
-    dw Song17_Shop
-    dw Song12_Cave
-    dw Song19_ZeldaRescue
-    dw Song1A_CrystalMaiden
-    dw Song1B_BigFairy
-    dw Song1C_Suspense
-    dw Song1D_AgahnimEscapes
-    dw Song1E_MeetingGanon
-    dw Song1F_KingOfThieves
-    dw $0000
-    dw Song1D_AgahnimEscapes
-    dw Song1E_MeetingGanon
-    dw Song1F_KingOfThieves
+    dw $0000                 ; 0x01
+    dw $0000                 ; 0x02
+    dw $0000                 ; 0x03
+    dw $0000                 ; 0x04
+    dw $0000                 ; 0x05
+    dw $0000                 ; 0x06
+    dw $0000                 ; 0x07
+    dw $0000                 ; 0x08
+    dw $0000                 ; 0x09
+    dw $0000                 ; 0x0A
+    dw Song0B_FairyTheme     ; 0x0B
+    dw $0000                 ; 0x0C
+    dw $0000                 ; 0x0D
+    dw $0000                 ; 0x0E
+    dw $0000                 ; 0x0F
+    dw Song10_HyruleCastle   ; 0x10
+    dw Song11_PendantDungeon ; 0x11
+    dw Song12_Cave           ; 0x12
+    dw Song13_Fanfare        ; 0x13
+    dw Song14_Sanctuary      ; 0x14
+    dw Song15_Boss           ; 0x15
+    dw Song16_CrystalDungeon ; 0x16
+    dw Song17_Shop           ; 0x17
+    dw Song12_Cave           ; 0x18
+    dw Song19_ZeldaRescue    ; 0x19
+    dw Song1A_CrystalMaiden  ; 0x1A
+    dw Song1B_BigFairy       ; 0x1B
+    dw Song1C_Suspense       ; 0x1C
+    dw Song1D_AgahnimEscapes ; 0x1D
+    dw Song1E_MeetingGanon   ; 0x1E
+    dw Song1F_KingOfThieves  ; 0x1F
+    dw $0000                 ; 0x20
+    dw Song1D_AgahnimEscapes ; 0x21
+    dw Song1E_MeetingGanon   ; 0x22
+    dw Song1F_KingOfThieves  ; 0x23
 
     ; SPC $D046-$DBEB DATA
     ; $0D804A-$0D8BEF DATA
@@ -158,14 +158,14 @@ SongBank_Underworld_Auxiliary:
     base SONG_POINTERS_AUX
 
     ; SPC $2B00-$2BB2 DATA
-    ; $0DACC7-0DAD79 DATA
+    ; $0DACC7-$0DAD79 DATA
     Song1D_AgahnimEscapes:
     {
         incbin "bin/music/song1D.bin"
     }
 
     ; SPC $2BB3-$2F58 DATA
-    ; $0DAD7A-0DB11F DATA
+    ; $0DAD7A-$0DB11F DATA
     Song1F_KingOfThieves:
     {
         incbin "bin/music/song1F.bin"
