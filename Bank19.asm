@@ -1181,9 +1181,9 @@ SPCEngine:
                                     ; segment #$00 byte.
                                     call GetTrackByte : bne .notEndByte
                                         ; If we do not need to loop the current 
-                                        ; part, that means the #$00 byte came from 
-                                        ; the end of the current segment and we 
-                                        ; need to move on to the next one.
+                                        ; part, that means the #$00 byte came 
+                                        ; from the end of the current segment  
+                                        ; and we need to move on to the next one.
                                         mov.b A, $80+X : beq .getNextSegment
                                             ; If the segment counter was non-0, 
                                             ; that means the #$00 came from the 
@@ -1266,7 +1266,7 @@ SPCEngine:
                         ; Set the channel timer with the channel duration.
                         mov.w A, $0200+X : mov.b $70+X, A
 
-                        ; Get the channel attack and multiply it by the timer.
+                        ; Get the channel stacc and multiply it by the timer.
                         mov Y, A
                         mov.w A, $0201+X
                         mul YA : mov A, Y

@@ -1909,8 +1909,8 @@ SongBank_Overworld_Auxiliary:
         incbin "bin/music/song0D.bin"
     }
 
-    ; SPC $2FA6-$3188 DATA
-    ; $0D4151-$0D5332 DATA
+    ; SPC $2FA6-$3187 DATA
+    ; $0D5151-$0D5332 DATA
     Song0E_MinigameTheme:
     {
         incbin "bin/music/song0E.bin"
