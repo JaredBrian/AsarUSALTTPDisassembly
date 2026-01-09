@@ -2022,9 +2022,9 @@ SongBank_Credits_Main:
         incbin "bin/music/song22.bin"
     }
 
-    SongBank_Credits_Main_end:
-
     base off
+
+    SongBank_Credits_Main_end:
 }
 
 ; ==============================================================================

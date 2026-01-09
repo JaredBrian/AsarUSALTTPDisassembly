@@ -243,11 +243,9 @@ InstrumentData:
     db $17, $FF, $E0, $B8 : dw $C002 ; 0x17 - Oof
     db $18, $FE, $8F, $B8 : dw $F006 ; 0x18 - Piano
 
-    ; TODO: Wtf is stacc?
-    ; stacc and attack table
     ; SPC $3D96-$3D9D DATA
     ; $0CFBB2-0CFBB8 DATA
-    NoteStacc:
+    NoteStaccato:
     {
         db $32, $65, $7F, $98, $B2, $CB, $E5, $FC
     }
@@ -1215,19 +1213,18 @@ SPCEngine:
 
                                 ; Instantly go to the next byte.
                                 ; #$80 and greater are notes or commands.
-                                call GetTrackByte : bmi .notAttackStacc
+                                call GetTrackByte : bmi .notAttackStaccato
                                     ; NOTE: Because this is in a nested if, that 
-                                    ; means the only way to set the stacc and 
+                                    ; means the only way to set the staccato and 
                                     ; attack is by doing it after setting the
                                     ; note duration.
                                     
                                     push A
 
-                                    ; TODO: What is stacc?
                                     ; Use bits 4-6 as the index to get the note
-                                    ; stacc.
+                                    ; staccato.
                                     xcn A : and.b A, #$07 : mov Y, A
-                                    mov.w A, NoteStacc+Y : mov.w $0201+X, A
+                                    mov.w A, NoteStaccato+Y : mov.w $0201+X, A
 
                                     ; Use bits 0-3 as the index to get the note
                                     ; attack.
@@ -1239,7 +1236,7 @@ SPCEngine:
                                     ; NOTE: We always assume the next byte is a 
                                     ; note or command.
                                     
-                                .notAttackStacc
+                                .notAttackStaccato
 
                             .note_or_command
                         ; Check if we are playing a note or executing a command:
@@ -1266,7 +1263,7 @@ SPCEngine:
                         ; Set the channel timer with the channel duration.
                         mov.w A, $0200+X : mov.b $70+X, A
 
-                        ; Get the channel stacc and multiply it by the timer.
+                        ; Get the channel staccato and multiply it by the timer.
                         mov Y, A
                         mov.w A, $0201+X
                         mul YA : mov A, Y
@@ -1275,8 +1272,7 @@ SPCEngine:
 
                         .non_zero
 
-                        ; TODO: Figure out WTF this is.
-                        ; Set the channel CMD timer.
+                        ; Set the channel release/staccato timer.
                         mov.b $71+X, A
 
                         bra .continue
@@ -2555,13 +2551,15 @@ SPCEngine:
     ; $0D03C4-$0D047E DATA
     Tracker:
     {
-        ; TODO: Figure out in what scenarios we are waiting to read the next
-        ; note or command.
-        mov.b A, $71+X : beq .time_left
-            dec.b $71+X : beq .times_up
-                mov.b A, #$02 : cbne.b $70+X, .time_left
+        ; Check if the note has already been released:
+        mov.b A, $71+X : beq .dontRelease
+            ; Check if the note needs to be released:
+            dec.b $71+X : beq .release
+                ; If the channel timer has hit 2 and the note has not
+                ; already been released we need to release it.
+                mov.b A, #$02 : cbne.b $70+X, .dontRelease
 
-            .times_up
+            .release
             
             ; Get the channel part count.
             mov.b A, $80+X : mov.b $17, A
@@ -2646,7 +2644,7 @@ SPCEngine:
             mov.b Y, #DSP.KOFF
             call WriteToDSP_Checked
 
-        .time_left
+        .dontRelease
 
         ; Mark that we are not doing any pitch changes.
         clr7.b $13

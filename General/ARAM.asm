@@ -352,16 +352,14 @@ struct ARAM $0000
         ; Free RAM.
 
 
-    ; TODO: Figure out the difference between the two The CMDTimer seems to 
-    ; always be one lower than the duration.
     ; $70[0x01] - (Channel, Timer)
     .Chan0_Timer: skip $01
         ; The countdown for next note or how long the current note has been
         ; playing on channel 0.
 
     ; $71[0x01] - (Channel, Timer)
-    .Chan0_CMDTimer: skip $01
-        ; The countdown for continuing sustained commands on channel 0.
+    .Chan0_ReleaseTimer: skip $01
+        ; The countdown for release/staccato timing on channel 0.
 
     ; $72[0x01] - (Channel, Timer)
     .Chan1_Timer: skip $01
@@ -369,8 +367,8 @@ struct ARAM $0000
         ; playing on channel 1.
 
     ; $73[0x01] - (Channel, Timer)
-    .Chan1_CMDTimer: skip $01
-        ; The countdown for continuing sustained commands on channel 1.
+    .Chan1_ReleaseTimer: skip $01
+        ; The countdown for release/staccato timing on channel 1.
 
     ; $74[0x01] - (Channel, Timer)
     .Chan2_Timer: skip $01
@@ -378,8 +376,8 @@ struct ARAM $0000
         ; playing on channel 2.
 
     ; $75[0x01] - (Channel, Timer)
-    .Chan2_CMDTimer: skip $01
-        ; The countdown for continuing sustained commands on channel 2.
+    .Chan2_ReleaseTimer: skip $01
+        ; The countdown for release/staccato timing on channel 2.
 
     ; $76[0x01] - (Channel, Timer)
     .Chan3_Timer: skip $01
@@ -387,8 +385,8 @@ struct ARAM $0000
         ; playing on channel 3.
 
     ; $77[0x01] - (Channel, Timer)
-    .Chan3_CMDTimer: skip $01
-        ; The countdown for continuing sustained commands on channel 3.
+    .Chan3_ReleaseTimer: skip $01
+        ; The countdown for release/staccato timing on channel 3.
 
     ; $78[0x01] - (Channel, Timer)
     .Chan4_Timer: skip $01
@@ -396,8 +394,8 @@ struct ARAM $0000
         ; playing on channel 4.
 
     ; $79[0x01] - (Channel, Timer)
-    .Chan4_CMDTimer: skip $01
-        ; The countdown for continuing sustained commands on channel 4.
+    .Chan4_ReleaseTimer: skip $01
+        ; The countdown for release/staccato timing on channel 4.
 
     ; $7A[0x01] - (Channel, Timer)
     .Chan5_Timer: skip $01
@@ -405,8 +403,8 @@ struct ARAM $0000
         ; playing on channel 5.
 
     ; $7B[0x01] - (Channel, Timer)
-    .Chan5_CMDTimer: skip $01
-        ; The countdown for continuing sustained commands on channel 5.
+    .Chan5_ReleaseTimer: skip $01
+        ; The countdown for release/staccato timing on channel 5.
 
     ; $7C[0x01] - (Channel, Timer)
     .Chan6_Timer: skip $01
@@ -414,8 +412,8 @@ struct ARAM $0000
         ; playing on channel 6.
 
     ; $7D[0x01] - (Channel, Timer)
-    .Chan6_CMDTimer: skip $01
-        ; The countdown for continuing sustained commands on channel 6.
+    .Chan6_ReleaseTimer: skip $01
+        ; The countdown for release/staccato timing on channel 6.
 
     ; $7E[0x01] - (Channel, Timer)
     .Chan7_Timer: skip $01
@@ -423,8 +421,8 @@ struct ARAM $0000
         ; playing on channel 7.
 
     ; $7F[0x01] - (Channel, Timer)
-    .Chan7_CMDTimer: skip $01
-        ; The countdown for continuing sustained commands on channel 7.
+    .Chan7_ReleaseTimer: skip $01
+        ; The countdown for release/staccato timing on channel 7.
 
 
     ; $80[0x02] - (Channel, Part)
@@ -831,8 +829,8 @@ struct ARAM $0000
         ; play on this channel.
 
     ; $0201[0x01] - (Channel, Note)
-    .Chan0_STACC: skip $01
-        ; Note release duration TODO: WTF is stacc?
+    .Chan0_Staccato: skip $01
+        ; Note release duration.
 
     ; $0202[0x01] - (Channel, Note)
     .Chan1_Duration: skip $01
@@ -840,8 +838,8 @@ struct ARAM $0000
         ; play on this channel.
 
     ; $0203[0x01] - (Channel, Note)
-    .Chan1_STACC: skip $01
-        ; Note release duration TODO: WTF is stacc?
+    .Chan1_Staccato: skip $01
+        ; Note release duration.
 
     ; $0204[0x01] - (Channel, Note)
     .Chan2_Duration: skip $01
@@ -849,8 +847,8 @@ struct ARAM $0000
         ; play on this channel.
 
     ; $0205[0x01] - (Channel, Note)
-    .Chan2_STACC: skip $01
-        ; Note release duration TODO: WTF is stacc?
+    .Chan2_Staccato: skip $01
+        ; Note release duration.
 
     ; $0206[0x01] - (Channel, Note)
     .Chan3_Duration: skip $01
@@ -858,8 +856,8 @@ struct ARAM $0000
         ; play on this channel.
 
     ; $0207[0x01] - (Channel, Note)
-    .Chan3_STACC: skip $01
-        ; Note release duration TODO: WTF is stacc?
+    .Chan3_Staccato: skip $01
+        ; Note release duration.
 
     ; $0208[0x01] - (Channel, Note)
     .Chan4_Duration: skip $01
@@ -867,8 +865,8 @@ struct ARAM $0000
         ; play on this channel.
 
     ; $0209[0x01] - (Channel, Note)
-    .Chan4_STACC: skip $01
-        ; Note release duration TODO: WTF is stacc?
+    .Chan4_Staccato: skip $01
+        ; Note release duration.
 
     ; $020A[0x01] - (Channel, Note)
     .Chan5_Duration: skip $01
@@ -876,8 +874,8 @@ struct ARAM $0000
         ; play on this channel.
 
     ; $020B[0x01] - (Channel, Note)
-    .Chan5_STACC: skip $01
-        ; Note release duration TODO: WTF is stacc?
+    .Chan5_Staccato: skip $01
+        ; Note release duration.
 
     ; $020C[0x01] - (Channel, Note)
     .Chan6_Duration: skip $01
@@ -885,8 +883,8 @@ struct ARAM $0000
         ; play on this channel.
 
     ; $020D[0x01] - (Channel, Note)
-    .Chan6_STACC: skip $01
-        ; Note release duration TODO: WTF is stacc?
+    .Chan6_Staccato: skip $01
+        ; Note release duration.
 
     ; $020E[0x01] - (Channel, Note)
     .Chan7_Duration: skip $01
@@ -894,8 +892,8 @@ struct ARAM $0000
         ; play on this channel.
 
     ; $020F[0x01] - (Channel, Note)
-    .Chan7_STACC: skip $01
-        ; Note release duration TODO: WTF is stacc?
+    .Chan7_Staccato: skip $01
+        ; Note release duration.
 
 
     ; $0210[0x01] - (Channel, Note)
