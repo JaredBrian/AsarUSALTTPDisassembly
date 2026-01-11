@@ -21,7 +21,9 @@ org $1A8B6C
 SFX_Data:
 {
     ; Transfer size, transfer address
-    dw .end-SFX_DATA, SFX_DATA
+    dw .end-.start, SFX_DATA
+
+    .start
 
     ; SPC $17C0-$284F DATA
     base SFX_DATA
@@ -1684,9 +1686,9 @@ SFX_Data:
         incbin "Data/SFX/Ambient_05.sfx"
     }
 
-    SFX_Data_end:
-
     base off
+
+    SFX_Data_end:
 }
 
 ; ==============================================================================
@@ -1695,7 +1697,9 @@ SFX_Data:
 SFXInstruments:
 {
     ; Transfer size, transfer address
-    dw .end-INSTRUMENT_DATA_SFX, INSTRUMENT_DATA_SFX
+    dw .end-.start, INSTRUMENT_DATA_SFX
+
+    .start
 
     ; SPC $3E00-$3EE0 DATA
     ; $0D1C04-$0D1CE4 DATA
@@ -1729,34 +1733,33 @@ SFXInstruments:
     db $70, $70 : dw $1000 : db $03, $DF, $11, $B8, $0F ; 0x17
     db $70, $70 : dw $1000 : db $01, $88, $E0, $B8, $01 ; 0x18
 
-    .end
-
     base off
+
+    .end
 }
 
 ; ==============================================================================
 
-; TODO: Write a script to extract the music from a ROM.
-; TODO: Find out if the Fairy_Theme label is actually used. I don't think it is.
-
 ; $0D1CE5-$0D1EF4 DATA
-SongBlock_1:
+SongBank_Fairy:
 {
     ; Transfer size, transfer address
-    dw .end-$2880, $2880
+    dw .end-.start, SONG_FAIRY_POINTER
+
+    .start
 
     ; SPC $2880-$2A8C DATA
     ; $0D1CE9-$0D1EF4 DATA
-    base $2880
+    base SONG_FAIRY_POINTER
 
     Song0B_FairyTheme:
     {
         incbin "Data/Music/song0B.bin"
     }
 
-    SongBlock_1_end:
-
     base off
+
+    SongBank_Fairy_end:
 }
 
 ; ==============================================================================
@@ -1765,7 +1768,9 @@ SongBlock_1:
 SongBank_Overworld_Main:
 {
     ; Transfer size, transfer address
-    dw .end-SONG_POINTERS, SONG_POINTERS
+    dw .end-.start, SONG_POINTERS
+
+    .start
 
     ; SPC $D000-$D035 DATA
     ; $0D1EF9-$0D1F2E DATA
@@ -1885,9 +1890,9 @@ SongBank_Overworld_Main:
         incbin "bin/music/song0F.bin" ; size: 0x02B4
     }
 
-    SongBank_Overworld_Main_end:
-
     base off
+
+    SongBank_Overworld_Main_end:
 }
 
 ; ==============================================================================
@@ -1896,7 +1901,9 @@ SongBank_Overworld_Main:
 SongBank_Overworld_Auxiliary:
 {
     ; Transfer size, transfer address
-    dw .end-SONG_POINTERS_AUX, SONG_POINTERS_AUX
+    dw .end-.start, SONG_POINTERS_AUX
+
+    .start
 
     ; SPC $2B00-$3188 DATA
     ; $0D4CA7-$0D5332 DATA
@@ -1916,9 +1923,9 @@ SongBank_Overworld_Auxiliary:
         incbin "bin/music/song0E.bin"
     }
 
-    SongBank_Overworld_Auxiliary_end:
-
     base off
+
+    SongBank_Overworld_Auxiliary_end:
 }
 
 ; ==============================================================================
@@ -1965,7 +1972,9 @@ NULL_1AD340:
 SongBank_Credits_Main:
 {
     ; Transfer size, transfer address
-    dw .end-SONG_POINTERS, SONG_POINTERS
+    dw .end-.start, SONG_POINTERS
+
+    .start
 
     ; SPC $D000-$E05F DATA
     ; $0D5384-$0D53E3 DATA
@@ -2033,7 +2042,9 @@ SongBank_Credits_Main:
 SongBank_Credits_Auxiliary:
 {
     ; Transfer size, transfer address
-    dw .end-CREDITS_AUX_POINTER, CREDITS_AUX_POINTER
+    dw .end-.start, CREDITS_AUX_POINTER
+
+    .start
 
     base CREDITS_AUX_POINTER
 
@@ -2044,9 +2055,9 @@ SongBank_Credits_Auxiliary:
         incbin "bin/music/song21.bin"
     }
 
-    SongBank_Credits_Auxiliary_end:
-
     base off
+
+    SongBank_Credits_Auxiliary_end:
 }
 
 ; ==============================================================================

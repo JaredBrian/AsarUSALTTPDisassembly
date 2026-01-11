@@ -11,6 +11,7 @@ org $198000
 
 SPC_ENGINE          = $0800
 SFX_DATA            = $17C0
+SONG_FAIRY_POINTER  = $2880
 CREDITS_AUX_POINTER = $2900
 SONG_POINTERS_AUX   = $2B00
 SAMPLE_POINTERS     = $3C00
@@ -28,7 +29,9 @@ SongBank_Intro_Main:
 SamplePointers:
 {
     ; Transfer size, transfer address
-    dw .end-SAMPLE_POINTERS, SAMPLE_POINTERS
+    dw .end-.start, SAMPLE_POINTERS
+
+    .start
 
     ; SPC $3C00-$3C6F DATA
     ; $0C8004-$0C8073 DATA
@@ -64,9 +67,9 @@ SamplePointers:
     dw $FFFF,                     $FFFF                           ; 0x1A - null
     dw $FFFF,                     $FFFF                           ; 0x1B - null
 
-    .end
-
     base off
+
+    .end
 }
 
 ; ==============================================================================
@@ -75,7 +78,9 @@ SamplePointers:
 BRRSampleData:
 {
     ; Transfer size, transfer address
-    dw .end-SAMPLE_DATA, SAMPLE_DATA
+    dw .end-.start, SAMPLE_DATA
+
+    .start
 
     ; SPC $4000-$BA9F DATA
     ; $0C8078-$0CFB17 DATA
@@ -196,9 +201,9 @@ BRRSampleData:
     .Piano
     incbin "Data/BRR/16_piano.brr"
 
-    .end
-
     base off
+
+    .end
 }
 
 ; ==============================================================================
@@ -207,7 +212,9 @@ BRRSampleData:
 InstrumentData:
 {
     ; Transfer size, transfer address
-    dw .end-INSTRUMENT_DATA, INSTRUMENT_DATA
+    dw .end-.start, INSTRUMENT_DATA
+
+    .start
 
     ; SPC $3D00-$3DAD DATA
     ; $0CFB1A-$0CFBB1 DATA
@@ -258,9 +265,9 @@ InstrumentData:
         db $A5, $B2, $BF, $CB, $D8, $E5, $F2, $FC  
     }
 
-    InstrumentData_end:
-
     base off
+
+    InstrumentData_end:
 }
 
 ; ==============================================================================
@@ -269,7 +276,9 @@ InstrumentData:
 SPCEngine:
 {
     ; Transfer size, transfer address
-    dw SPC_ENGINE_end-SPC_ENGINE, SPC_ENGINE
+    dw .end-.start, SPC_ENGINE
+
+    .start
 
     ; ==========================================================================
 
@@ -1009,7 +1018,7 @@ SPCEngine:
 
         ; A will be 0 after the loop above.
         ; Set a bunch of channel specific settings to 0. Global volume slide
-        ; timer, echo pan timer, tempo sweep timer, global transposition,
+        ; timer, echo pan timer, tempo slide timer, global transposition,
         ; the segment loop counter, and the precussion command.
         mov.b $5A, A
         mov.b $68, A
@@ -1299,9 +1308,11 @@ SPCEngine:
 
             ; Check if we are performing a tempo slide.
             mov.b A, $54 : beq .no_tempo_slide
-                ; Add the temp increment to the tempo and see if the tempo
-                ; timer is done.
-                movw.b YA, $56 : addw.b YA, $52 : dbnz.b $54, .tempo_slide_not_done
+                ; Add the temp increment to the tempo.
+                movw.b YA, $56 : addw.b YA, $52
+                
+                ; Check if the tempo slide timer is done:
+                dbnz.b $54, .tempo_slide_not_done
                     ; Set the tempo to the tempo slide target.
                     movw.b YA, $54
 
@@ -1545,12 +1556,13 @@ SPCEngine:
         ; Get the pan target.
         call GetTrackByte : mov.w $0350+X, A
 
-        ; TODO: Do some math I don't understand.
+        ; Get the difference between the current pan value and the target
+        ; and make an incrament based on the timer.
         setc : sbc.w A, $0331+X
         pop X
         call MakeIncrement
 
-        ; Set the pan sweep value for the channel.
+        ; Set the pan increment value for the channel.
         mov.w $0340+X, A
         mov A, Y : mov.w $0341+X, A
 
@@ -1671,13 +1683,13 @@ SPCEngine:
     ; $0D0101-$0D0112 DATA
     TrackCommand_E8_TempoSlide:
     {
-        ; Set the tempo sweep duration.
+        ; Set the tempo slide duration.
         mov.b $54, A
 
         ; Set the tempo target.
         call GetTrackByte : mov.b $55, A
         
-        ; Get the tempo sweep increment between the current tempo and the target
+        ; Get the tempo slide increment between the current tempo and the target
         ; based on the timer.
         setc : sbc.b A, $53
         mov.b X, $54
@@ -2244,11 +2256,14 @@ SPCEngine:
     ; $0D02AE-$0D02B8 DATA
     YASignFlip:
     {
+        !negative = $12
+        !flip = $14
+
         ; If the given value was negative, flip it to be negative again.
-        bbc7.b $12, .keep_positive
-            ; 0 minus the positive increment.
-            movw.b $14, YA
-            movw.b YA, $0E : subw.b YA, $14
+        bbc7.b !negative, .keep_positive
+            ; 0 minus the negative increment.
+            movw.b !flip, YA
+            movw.b YA, $0E : subw.b YA, !flip
 
         .keep_positive
 
@@ -2358,7 +2373,7 @@ SPCEngine:
 
         .no_volume_slide
 
-        ; Check if we are perfomring a tremolo on the current channel.
+        ; Check if we are perfomring a tremolo on the current channel:
         mov.b Y, $C1+X : beq .no_tremolo
             mov.w A, $02E0+X : cbne.b $C0+X, .tremolo_not_ready
                 ; Mark that we are using a special effect on the current channel.
@@ -2366,18 +2381,17 @@ SPCEngine:
 
                 ; Check if the tremolo accumulator is positive:
                 mov.w A, $02D0+X : bpl .tremolo_accumulate
-                    inc Y
-                    bne .tremolo_accumulate
+                    inc Y : bne .tremolo_accumulate
                         mov.b A, #$80
 
-                        bra .skip_accumulate
+                        bra .skipIncrement
 
                 .tremolo_accumulate
 
                 ; Add the tremolo increment.
                 clrc : adc.w A, $02D1+X
 
-                .skip_accumulate
+                .skipIncrement
 
                 ; Set the tremolo accumulator.
                 mov.w $02D0+X, A
@@ -2396,11 +2410,11 @@ SPCEngine:
 
         ; Calculate the final volume without any tremolo.
         mov.b A, #$FF
-        call VolumeModulation_final_volume
+        call VolumeModulation_noTremolo
 
         .handle_pan_slide
 
-        ; Check if we are performing a pan sweep on the current channel:
+        ; Check if we are performing a pan slide on the current channel:
         mov.b A, $91+X : beq .no_pan_slide
             ; Set up the pan address pointer for IncrementSlide.
             mov.b A, #$0330>>0
@@ -2805,7 +2819,7 @@ SPCEngine:
         mov.w A, $0331+X : mov Y, A
         mov.w A, $0330+X : movw.b $10, YA
 
-        ; Check if we are performing a pan sweep on this channel:
+        ; Check if we are performing a pan slide on this channel:
         mov.b A, $91+X : beq .no_pan_slide
             mov.w A, $0341+X : mov Y, A
             mov.w A, $0340+X
@@ -2851,23 +2865,26 @@ SPCEngine:
     ; $0D04FE-$0D0513 DATA
     AdjustValueByFrames:
     {
+        !negative = $12
+        !increment = $14
+
         ; Mark that we are making a pitch change:
         set7.b $13
 
-        ; TODO: Do a bunch of math that I don't understand.
-        mov.b $12, Y
-        call YASignFlip
+        ; Flip the incement to a positive value if needed.
+        mov.b !negative, Y
+        call YASignFlip : push Y
 
-        push Y
-
+        ; Multiply the increment low byte by the song timer in case more than
+        ; one frame has passed.
         mov.b Y, $51
-        mul YA : mov.b $14, Y
+        mul YA : mov.b !increment+0, Y
+        mov.b !increment+1, #$00
 
-        mov.b $15, #$00
-
+        ; Do the same for the high byte.
         mov.b Y, $51
         pop A
-        mul YA : addw.b YA, $14
+        mul YA : addw.b YA, !increment
 
         ; Bleeds into the next function.
     }
@@ -2887,27 +2904,23 @@ SPCEngine:
 
     ; ==========================================================================
 
-    ; SPC $114E-$115A JUMP LOCATION
-    ; $0D051C-$0D0528 DATA
+    ; SPC $114E-$1177 JUMP LOCATION
+    ; $0D051C-$0D0545 DATA
     VolumeModulation:
     {
         ; Mark that a pitch change is being made.
         set7.b $13
 
-        ; TODO: Do some math I don't understand.
+        ; Multiply the increment by the song timer in case more than one frame
+        ; has passed. Then add the increment to the tremolo accumulator.
         mov.b Y, $51
         mov.w A, $02D1+X
         mul YA : mov A, Y : clrc : adc.w A, $02D0+X
 
-        ; Bleeds into the next function.
-    }
+        ; SPC $115B ALTERNATE ENTRY POINT
+        ; $0D0529 DATA
+        .external
 
-    ; ==========================================================================
-
-    ; SPC $115B-$1177 JUMP LOCATION
-    ; $0D0529-$0D0545 DATA
-    VolumeModulation_external:
-    {
         ; TODO: Do some math I don't understand.
         asl A : bcc .no_phase_inversion
             eor.b A, #$FF
@@ -2921,7 +2934,7 @@ SPCEngine:
 
         ; SPC $1166 ALTERNATE ENTRY POINT
         ; $0D0534 DATA
-        .final_volume
+        .noTremolo
 
         ; Multiply the calculated volume by the global volume.
         mov.b Y, $59
@@ -4174,11 +4187,11 @@ SPCEngine:
 
     ; ==========================================================================
 
-    SPC_ENGINE_end:
-
     base off
 
     arch 65816
+
+    SPCEngine_end:
 }
 
 check bankcross full

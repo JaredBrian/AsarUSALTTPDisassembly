@@ -283,16 +283,16 @@ struct ARAM $0000
         ; The song tempo.
 
     ; $54[0x01] - (Song, Tempo, Timer)
-    .TempoTimer: skip $01
-        ; The tempo sweep duration.
+    .TempoSlideTimer: skip $01
+        ; The tempo slide duration.
 
     ; $55[0x01] - (Song, Tempo)
-    .TempoTarget: skip $01
-        ; The target tempo for sweep.
+    .TempoSlideTarget: skip $01
+        ; The target tempo slide value.
 
-    ; $56[0x01] - (Song, Tempo)
-    .TempoSweepIncrement: skip $01
-        ; The tempo slide sweep increment.
+    ; $56[0x02] - (Song, Tempo)
+    .TempoSlideIncrement: skip $02
+        ; The tempo slide increment.
 
     ; $58[0x02] - (Song, Volume)
     .GlobalVol: skip $02
@@ -464,7 +464,7 @@ struct ARAM $0000
 
     ; $91[0x01] - (Channel, Pan, Timer)
     .Chan0_PanTimer: skip $01
-        ; The channel 0 pan slide timers.
+        ; The channel 0 pan slide timer.
 
     ; $92[0x01] - (Channel, Volume, Timer)
     .Chan1_VolTimer: skip $01
@@ -472,7 +472,7 @@ struct ARAM $0000
 
     ; $93[0x01] - (Channel, Pan, Timer)
     .Chan1_PanTimer: skip $01
-        ; The channel 1 pan slide timers.
+        ; The channel 1 pan slide timer.
 
     ; $94[0x01] - (Channel, Volume, Timer)
     .Chan2_VolTimer: skip $01
@@ -480,7 +480,7 @@ struct ARAM $0000
 
     ; $95[0x01] - (Channel, Pan, Timer)
     .Chan2_PanTimer: skip $01
-        ; The channel 2 pan slide timers.
+        ; The channel 2 pan slide timer.
 
     ; $96[0x01] - (Channel, Volume, Timer)
     .Chan3_VolTimer: skip $01
@@ -488,7 +488,7 @@ struct ARAM $0000
 
     ; $97[0x01] - (Channel, Pan, Timer)
     .Chan3_PanTimer: skip $01
-        ; The channel 3 pan slide timers.
+        ; The channel 3 pan slide timer.
 
     ; $98[0x01] - (Channel, Volume, Timer)
     .Chan4_VolTimer: skip $01
@@ -496,7 +496,7 @@ struct ARAM $0000
 
     ; $99[0x01] - (Channel, Pan, Timer)
     .Chan4_PanTimer: skip $01
-        ; The channel 4 pan slide timers.
+        ; The channel 4 pan slide timer.
 
     ; $9A[0x01] - (Channel, Volume, Timer)
     .Chan5_VolTimer: skip $01
@@ -504,7 +504,7 @@ struct ARAM $0000
 
     ; $9B[0x01] - (Channel, Pan, Timer)
     .Chan5_PanTimer: skip $01
-        ; The channel 5 pan slide timers.
+        ; The channel 5 pan slide timer.
 
     ; $9C[0x01] - (Channel, Volume, Timer)
     .Chan6_VolTimer: skip $01
@@ -512,7 +512,7 @@ struct ARAM $0000
 
     ; $9D[0x01] - (Channel, Pan, Timer)
     .Chan6_PanTimer: skip $01
-        ; The channel 6 pan slide timers.
+        ; The channel 6 pan slide timer.
 
     ; $9E[0x01] - (Channel, Volume, Timer)
     .Chan7_VolTimer: skip $01
@@ -520,7 +520,7 @@ struct ARAM $0000
 
     ; $9F[0x01] - (Channel, Pan, Timer)
     .Chan7_PanTimer: skip $01
-        ; The channel 7 pan slide timers.
+        ; The channel 7 pan slide timer.
 
 
     ; $A0[0x01] - (Channel, Pitch, Timer)
@@ -739,7 +739,7 @@ struct ARAM $0000
     ; very briefly. Most references to this section of RAM are absolute calls.
 
     ; $0100[0x01] - (Channel, Vibrato, Timer)
-    .Chan0_VbrIntensitySlideTimer: skip $01
+    .Chan0_VbrSlideTimer: skip $01
         ; The channel 0 vibrato intensity slide timer.
 
     ; $0101[0x01] - (Free)
@@ -747,7 +747,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $0102[0x01] - (Channel, Vibrato, Timer)
-    .Chan1_VbrIntensitySlideTimer: skip $01
+    .Chan1_VbrSlideTimer: skip $01
         ; The channel 1 vibrato counter.
 
     ; $0103[0x01] - (Free)
@@ -755,7 +755,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $0104[0x01] - (Channel, Vibrato, Timer)
-    .Chan2_VbrIntensitySlideTimer: skip $01
+    .Chan2_VbrSlideTimer: skip $01
         ; The channel 2 vibrato counter.
 
     ; $0105[0x01] - (Free)
@@ -763,7 +763,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $0106[0x01] - (Channel, Vibrato, Timer)
-    .Chan3_VbrIntensitySlideTimer: skip $01
+    .Chan3_VbrSlideTimer: skip $01
         ; The channel 3 vibrato counter.
 
     ; $0107[0x01] - (Free)
@@ -771,7 +771,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $0108[0x01] - (Channel, Vibrato, Timer)
-    .Chan4_VbrIntensitySlideTimer: skip $01
+    .Chan4_VbrSlideTimer: skip $01
         ; The channel 4 vibrato counter.
 
     ; $0109[0x01] - (Free)
@@ -779,7 +779,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $010A[0x01] - (Channel, Vibrato, Timer)
-    .Chan5_VbrIntensitySlideTimer: skip $01
+    .Chan5_VbrSlideTimer: skip $01
         ; The channel 5 vibrato counter.
 
     ; $010B[0x01] - (Free)
@@ -787,7 +787,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $010C[0x01] - (Channel, Vibrato, Timer)
-    .Chan6_VbrIntensitySlideTimer: skip $01
+    .Chan6_VbrSlideTimer: skip $01
         ; The channel 6 vibrato counter.
 
     ; $010D[0x01] - (Free)
@@ -795,7 +795,7 @@ struct ARAM $0000
         ; Free RAM.
 
     ; $010E[0x01] - (Channel, Vibrato, Timer)
-    .Chan7_VbrIntensitySlideTimer: skip $01
+    .Chan7_VbrSlideTimer: skip $01
         ; The channel 7 vibrato counter.
 
     ; $010F[0xC0] - (Free)
@@ -1273,7 +1273,7 @@ struct ARAM $0000
         ; The channel 0 vibrato delay.
 
     ; $02B1[0x01] - (Channel, Vibrato, Timer)
-    .Chan0_VbrIntensitySlideWait: skip $01
+    .Chan0_VbrSlideWait: skip $01
         ; This is the value the channel 0 vibrato intensity slide timer needs to
         ; reach to be complete.
 
@@ -1282,7 +1282,7 @@ struct ARAM $0000
         ; The channel 1 vibrato delay.
 
     ; $02B3[0x01] - (Channel, Vibrato, Timer)
-    .Chan1_VbrIntensitySlideWait: skip $01
+    .Chan1_VbrSlideWait: skip $01
         ; This is the value the channel 1 vibrato intensity slide timer needs to
         ; reach to be complete.
 
@@ -1291,7 +1291,7 @@ struct ARAM $0000
         ; The channel 2 vibrato delay.
 
     ; $02B5[0x01] - (Channel, Vibrato, Timer)
-    .Chan2_VbrIntensitySlideWait: skip $01
+    .Chan2_VbrSlideWait: skip $01
         ; This is the value the channel 2 vibrato intensity slide timer needs to
         ; reach to be complete.
 
@@ -1300,7 +1300,7 @@ struct ARAM $0000
         ; The channel 3 vibrato delay.
 
     ; $02B7[0x01] - (Channel, Vibrato, Timer)
-    .Chan3_VbrIntensitySlideWait: skip $01
+    .Chan3_VbrSlideWait: skip $01
         ; This is the value the channel 3 vibrato intensity slide timer needs to
         ; reach to be complete.
 
@@ -1309,7 +1309,7 @@ struct ARAM $0000
         ; The channel 4 vibrato delay.
 
     ; $02B9[0x01] - (Channel, Vibrato, Timer)
-    .Chan4_VbrIntensitySlideWait: skip $01
+    .Chan4_VbrSlideWait: skip $01
         ; This is the value the channel 4 vibrato intensity slide timer needs to
         ; reach to be complete.
 
@@ -1318,7 +1318,7 @@ struct ARAM $0000
         ; The channel 5 vibrato delay.
 
     ; $02BB[0x01] - (Channel, Vibrato, Timer)
-    .Chan5_VbrIntensitySlideWait: skip $01
+    .Chan5_VbrSlideWait: skip $01
         ; This is the value the channel 5 vibrato intensity slide timer needs to
         ; reach to be complete.
 
@@ -1327,7 +1327,7 @@ struct ARAM $0000
         ; The channel 6 vibrato delay.
 
     ; $02BD[0x01] - (Channel, Vibrato, Timer)
-    .Chan6_VbrIntensitySlideWait: skip $01
+    .Chan6_VbrSlideWait: skip $01
         ; This is the value the channel 6 vibrato intensity slide timer needs to
         ; reach to be complete.
 
@@ -1336,13 +1336,13 @@ struct ARAM $0000
         ; The channel 7 vibrato delay.
 
     ; $02BF[0x01] - (Channel, Vibrato, Timer)
-    .Chan7_VbrIntensitySlideWait: skip $01
+    .Chan7_VbrSlideWait: skip $01
         ; This is the value the channel 7 vibrato intensity slide timer needs to
         ; reach to be complete.
 
 
     ; $02C0[0x01] - (Channel, Vibrato)
-    .Chan0_VbrIntensitySlideIncrement: skip $01
+    .Chan0_VbrSlideIncrement: skip $01
         ; The channel 0 vibrato intensity slide increment.
 
     ; $02C1[0x01] - (Channel, Vibrato)
@@ -1350,7 +1350,7 @@ struct ARAM $0000
         ; The channel 0 max vibrato intensity.
 
     ; $02C2[0x01] - (Channel, Vibrato)
-    .Chan1_VbrIntensitySlideIncrement: skip $01
+    .Chan1_VbrSlideIncrement: skip $01
         ; The channel 1 vibrato intensity slide increment.
 
     ; $02C3[0x01] - (Channel, Vibrato)
@@ -1358,7 +1358,7 @@ struct ARAM $0000
         ; The channel 1 max vibrato intensity.
 
     ; $02C4[0x01] - (Channel, Vibrato)
-    .Chan2_VbrIntensitySlideIncrement: skip $01
+    .Chan2_VbrSlideIncrement: skip $01
         ; The channel 2 vibrato intensity slide increment.
 
     ; $02C5[0x01] - (Channel, Vibrato)
@@ -1366,7 +1366,7 @@ struct ARAM $0000
         ; The channel 2 max vibrato intensity.
 
     ; $02C6[0x01] - (Channel, Vibrato)
-    .Chan3_VbrIntensitySlideIncrement: skip $01
+    .Chan3_VbrSlideIncrement: skip $01
         ; The channel 3 vibrato intensity slide increment.
 
     ; $02C7[0x01] - (Channel, Vibrato)
@@ -1374,7 +1374,7 @@ struct ARAM $0000
         ; The channel 3 max vibrato intensity.
 
     ; $02C8[0x01] - (Channel, Vibrato)
-    .Chan4_VbrIntensitySlideIncrement: skip $01
+    .Chan4_VbrSlideIncrement: skip $01
         ; The channel 4 vibrato intensity slide increment.
 
     ; $02C9[0x01] - (Channel, Vibrato)
@@ -1382,7 +1382,7 @@ struct ARAM $0000
         ; The channel 4 max vibrato intensity.
 
     ; $02CA[0x01] - (Channel, Vibrato)
-    .Chan5_VbrIntensitySlideIncrement: skip $01
+    .Chan5_VbrSlideIncrement: skip $01
         ; The channel 5 vibrato intensity slide increment.
 
     ; $02CB[0x01] - (Channel, Vibrato)
@@ -1390,7 +1390,7 @@ struct ARAM $0000
         ; The channel 5 max vibrato intensity.
 
     ; $02CC[0x01] - (Channel, Vibrato)
-    .Chan6_VbrIntensitySlideIncrement: skip $01
+    .Chan6_VbrSlideIncrement: skip $01
         ; The channel 6 vibrato intensity slide increment.
 
     ; $02CD[0x01] - (Channel, Vibrato)
@@ -1398,7 +1398,7 @@ struct ARAM $0000
         ; The channel 6 max vibrato intensity.
 
     ; $02CE[0x01] - (Channel, Vibrato)
-    .Chan7_VbrIntensitySlideIncrement: skip $01
+    .Chan7_VbrSlideIncrement: skip $01
         ; The channel 7 vibrato intensity slide increment.
 
     ; $02CF[0x01] - (Channel, Vibrato)
@@ -1783,41 +1783,41 @@ struct ARAM $0000
 
 
     ; $0340[0x02] - (Channel, Pan)
-    .Chan0_PanSweep: skip $02
-        ; The pan sweep value for channel 0.
+    .Chan0_PanIncrement: skip $02
+        ; The pan slide value for channel 0.
 
     ; $0342[0x02] - (Channel, Pan)
-    .Chan1_PanSweep: skip $02
-        ; The pan sweep value for channel 1.
+    .Chan1_PanIncrement: skip $02
+        ; The pan slide value for channel 1.
 
     ; $0344[0x02] - (Channel, Pan)
-    .Chan2_PanSweep: skip $02
-        ; The pan sweep value for channel 2.
+    .Chan2_PanIncrement: skip $02
+        ; The pan slide value for channel 2.
 
     ; $0346[0x02] - (Channel, Pan)
-    .Chan3_PanSweep: skip $02
-        ; The pan sweep value for channel 3.
+    .Chan3_PanIncrement: skip $02
+        ; The pan slide value for channel 3.
 
     ; $0348[0x02] - (Channel, Pan)
-    .Chan4_PanSweep: skip $02
-        ; The pan sweep value for channel 4.
+    .Chan4_PanIncrement: skip $02
+        ; The pan slide value for channel 4.
 
     ; $034A[0x02] - (Channel, Pan)
-    .Chan5_PanSweep: skip $02
-        ; The pan sweep value for channel 5.
+    .Chan5_PanIncrement: skip $02
+        ; The pan slide value for channel 5.
 
     ; $034C[0x02] - (Channel, Pan)
-    .Chan6_PanSweep: skip $02
-        ; The pan sweep value for channel 6.
+    .Chan6_PanIncrement: skip $02
+        ; The pan slide value for channel 6.
 
     ; $034E[0x02] - (Channel, Pan)
-    .Chan7_PanSweep: skip $02
-        ; The pan sweep value for channel 7.
+    .Chan7_PanIncrement: skip $02
+        ; The pan slide value for channel 7.
 
 
     ; $0350[0x01] - (Channel, Pan)
     .Chan0_PanTarget: skip $01
-        ; The channel 0 target pan sweep.
+        ; The channel 0 target pan slide value.
 
     ; $0351[0x01] - (Channel, Pan)
     .Chan0_PanSetting: skip $01
@@ -1825,7 +1825,7 @@ struct ARAM $0000
 
     ; $0352[0x01] - (Channel, Pan)
     .Chan1_PanTarget: skip $01
-        ; The channel 1 target pan sweep.
+        ; The channel 1 target pan slide value.
 
     ; $0353[0x01] - (Channel, Pan)
     .Chan1_PanSetting: skip $01
@@ -1833,7 +1833,7 @@ struct ARAM $0000
 
     ; $0354[0x01] - (Channel, Pan)
     .Chan2_PanTarget: skip $01
-        ; The channel 2 target pan sweep.
+        ; The channel 2 target pan slide value.
 
     ; $0355[0x01] - (Channel, Pan)
     .Chan2_PanSetting: skip $01
@@ -1841,7 +1841,7 @@ struct ARAM $0000
 
     ; $0356[0x01] - (Channel, Pan)
     .Chan3_PanTarget: skip $01
-        ; The channel 3 target pan sweep.
+        ; The channel 3 target pan slide value.
 
     ; $0357[0x01] - (Channel, Pan)
     .Chan3_PanSetting: skip $01
@@ -1849,7 +1849,7 @@ struct ARAM $0000
 
     ; $0358[0x01] - (Channel, Pan)
     .Chan4_PanTarget: skip $01
-        ; The channel 4 target pan sweep.
+        ; The channel 4 target pan slide value.
 
     ; $0359[0x01] - (Channel, Pan)
     .Chan4_PanSetting: skip $01
@@ -1857,7 +1857,7 @@ struct ARAM $0000
 
     ; $035A[0x01] - (Channel, Pan)
     .Chan5_PanTarget: skip $01
-        ; The channel 5 target pan sweep.
+        ; The channel 5 target pan slide value.
 
     ; $035B[0x01] - (Channel, Pan)
     .Chan5_PanSetting: skip $01
@@ -1865,7 +1865,7 @@ struct ARAM $0000
 
     ; $035C[0x01] - (Channel, Pan)
     .Chan6_PanTarget: skip $01
-        ; The channel 6 target pan sweep.
+        ; The channel 6 target pan slide value.
 
     ; $035D[0x01] - (Channel, Pan)
     .Chan6_PanSetting: skip $01
@@ -1873,7 +1873,7 @@ struct ARAM $0000
 
     ; $035E[0x01] - (Channel, Pan)
     .Chan7_PanTarget: skip $01
-        ; The channel 7 target pan sweep.
+        ; The channel 7 target pan slide value.
 
     ; $035F[0x01] - (Channel, Pan)
     .Chan7_PanSetting: skip $01
@@ -2429,7 +2429,7 @@ struct ARAM $0000
     ; $17C0-$284F SFX_DATA
     ; $2850-$287F Free RAM
 
-    ; $2880-$2A8C SongBlock_1
+    ; $2880-$2A8C SongBank_Fairy
     ; $2900-$3937 CREDITS_AUX_POINTER
     ; $2B00-$3188 SONG_POINTERS_AUX
     ; $3938-$3BFF Free RAM

@@ -16,7 +16,9 @@ org $1B8000
 SongBank_Underworld_Main:
 {
     ; Transfer size, transfer address
-    dw $2CBF, SONG_POINTERS
+    dw .end-.start, SONG_POINTERS
+
+    .start
 
     ; SPC $D000-$FCBF DATA
     ; $0D8004-$0DACC2 DATA
@@ -143,6 +145,8 @@ SongBank_Underworld_Main:
     }
 
     base off
+
+    SongBank_Underworld_Main_end:
 }
 
 ; ==============================================================================
@@ -151,7 +155,9 @@ SongBank_Underworld_Main:
 SongBank_Underworld_Auxiliary:
 {
     ; Transfer size, transfer address
-    dw $050C, SONG_POINTERS_AUX
+    dw .end-.start, SONG_POINTERS_AUX
+
+    .start
 
     ; SPC $2B00-$300C DATA
     ; $0DACC7-$0DB1D2 DATA
@@ -179,6 +185,8 @@ SongBank_Underworld_Auxiliary:
     }
 
     base off
+
+    SongBank_Underworld_Auxiliary_end:
 }
 
 ; ==============================================================================
