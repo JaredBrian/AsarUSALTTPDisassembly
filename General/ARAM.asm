@@ -524,7 +524,7 @@ struct ARAM $0000
 
 
     ; $A0[0x01] - (Channel, Pitch, Timer)
-    .Chan0_PitchTimer: skip $01
+    .Chan0_PitchSlideTimer: skip $01
         ; The channel 0 pitch slide timer.
 
     ; $A1[0x01] - (Channel, Pitch, Timer)
@@ -532,7 +532,7 @@ struct ARAM $0000
         ; The channel 0 pitch slide delay for operation.
 
     ; $A2[0x01] - (Channel, Pitch, Timer)
-    .Chan1_PitchTimer: skip $01
+    .Chan1_PitchSlideTimer: skip $01
         ; The channel 1 pitch slide timer.
 
     ; $A3[0x01] - (Channel, Pitch, Timer)
@@ -540,7 +540,7 @@ struct ARAM $0000
         ; The channel 1 pitch slide delay for operation.
 
     ; $A4[0x01] - (Channel, Pitch, Timer)
-    .Chan2_PitchTimer: skip $01
+    .Chan2_PitchSlideTimer: skip $01
         ; The channel 2 pitch slide timer.
 
     ; $A5[0x01] - (Channel, Pitch, Timer)
@@ -548,7 +548,7 @@ struct ARAM $0000
         ; The channel 2 pitch slide delay for operation.
 
     ; $A6[0x01] - (Channel, Pitch, Timer)
-    .Chan3_PitchTimer: skip $01
+    .Chan3_PitchSlideTimer: skip $01
         ; The channel 3 pitch slide timer.
 
     ; $A7[0x01] - (Channel, Pitch, Timer)
@@ -556,7 +556,7 @@ struct ARAM $0000
         ; The channel 3 pitch slide delay for operation.
 
     ; $A8[0x01] - (Channel, Pitch, Timer)
-    .Chan4_PitchTimer: skip $01
+    .Chan4_PitchSlideTimer: skip $01
         ; The channel 4 pitch slide timer.
 
     ; $A9[0x01] - (Channel, Pitch, Timer)
@@ -564,7 +564,7 @@ struct ARAM $0000
         ; The channel 4 pitch slide delay for operation.
 
     ; $AA[0x01] - (Channel, Pitch, Timer)
-    .Chan5_PitchTimer: skip $01
+    .Chan5_PitchSlideTimer: skip $01
         ; The channel 5 pitch slide timer.
 
     ; $AB[0x01] - (Channel, Pitch, Timer)
@@ -572,7 +572,7 @@ struct ARAM $0000
         ; The channel 5 pitch slide delay for operation.
 
     ; $AC[0x01] - (Channel, Pitch, Timer)
-    .Chan6_PitchTimer: skip $01
+    .Chan6_PitchSlideTimer: skip $01
         ; The channel 6 pitch slide timer.
 
     ; $AD[0x01] - (Channel, Pitch, Timer)
@@ -580,7 +580,7 @@ struct ARAM $0000
         ; The channel 6 pitch slide delay for operation.
 
     ; $AE[0x01] - (Channel, Pitch, Timer)
-    .Chan7_PitchTimer: skip $01
+    .Chan7_PitchSlideTimer: skip $01
         ; The channel 7 pitch slide timer.
 
     ; $AF[0x01] - (Channel, Pitch, Timer)

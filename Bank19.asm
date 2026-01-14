@@ -1619,7 +1619,7 @@ SPCEngine:
         pop X
         div YA, X
 
-        ; Reload the channel offset and set the vibrato step.
+        ; Reload the channel offset and set the vibrato increment.
         mov.b X, $44
         mov.w $02C0+X, A
 
