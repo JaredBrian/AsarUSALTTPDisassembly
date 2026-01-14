@@ -1778,10 +1778,10 @@ SPCEngine:
         ; Set channel the pitch slide type (0: from | 1: to).
         mov.w $0290+X, A
 
-        ; Set channel the pitch slide delay queue.
+        ; Set channel the pitch slide delay.
         mov A, Y : mov.w $0281+X, A
 
-        ; Set channel the pitch slide timer queue.
+        ; Set channel the pitch slide duration.
         call GetTrackByte : mov.w $0280+X, A
 
         ; Set channel the pitch slide target.
@@ -1798,7 +1798,7 @@ SPCEngine:
     ; $0D0143-$0D0146 DATA
     TrackCommand_F3_PitchSlideStop:
     {
-        ; Set channel the pitch slide timer queue.
+        ; Set channel the pitch slide duration.
         mov.w $0280+X, A
 
         ret
