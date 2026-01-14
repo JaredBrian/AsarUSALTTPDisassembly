@@ -528,64 +528,64 @@ struct ARAM $0000
         ; The channel 0 pitch slide timer.
 
     ; $A1[0x01] - (Channel, Pitch, Timer)
-    .Chan0_PitchDelay: skip $01
-        ; The channel 0 pitch slide delay for operation.
+    .Chan0_PitchSlideWait: skip $01
+        ; The channel 0 pitch slide wait time.
 
     ; $A2[0x01] - (Channel, Pitch, Timer)
     .Chan1_PitchSlideTimer: skip $01
         ; The channel 1 pitch slide timer.
 
     ; $A3[0x01] - (Channel, Pitch, Timer)
-    .Chan1_PitchDelay: skip $01
-        ; The channel 1 pitch slide delay for operation.
+    .Chan1_PitchSlideWait: skip $01
+        ; The channel 1 pitch slide wait time.
 
     ; $A4[0x01] - (Channel, Pitch, Timer)
     .Chan2_PitchSlideTimer: skip $01
         ; The channel 2 pitch slide timer.
 
     ; $A5[0x01] - (Channel, Pitch, Timer)
-    .Chan2_PitchDelay: skip $01
-        ; The channel 2 pitch slide delay for operation.
+    .Chan2_PitchSlideWait: skip $01
+        ; The channel 2 pitch slide wait time.
 
     ; $A6[0x01] - (Channel, Pitch, Timer)
     .Chan3_PitchSlideTimer: skip $01
         ; The channel 3 pitch slide timer.
 
     ; $A7[0x01] - (Channel, Pitch, Timer)
-    .Chan3_PitchDelay: skip $01
-        ; The channel 3 pitch slide delay for operation.
+    .Chan3_PitchSlideWait: skip $01
+        ; The channel 3 pitch slide wait time.
 
     ; $A8[0x01] - (Channel, Pitch, Timer)
     .Chan4_PitchSlideTimer: skip $01
         ; The channel 4 pitch slide timer.
 
     ; $A9[0x01] - (Channel, Pitch, Timer)
-    .Chan4_PitchDelay: skip $01
-        ; The channel 4 pitch slide delay for operation.
+    .Chan4_PitchSlideWait: skip $01
+        ; The channel 4 pitch slide wait time.
 
     ; $AA[0x01] - (Channel, Pitch, Timer)
     .Chan5_PitchSlideTimer: skip $01
         ; The channel 5 pitch slide timer.
 
     ; $AB[0x01] - (Channel, Pitch, Timer)
-    .Chan5_PitchDelay: skip $01
-        ; The channel 5 pitch slide delay for operation.
+    .Chan5_PitchSlideWait: skip $01
+        ; The channel 5 pitch slide wait time.
 
     ; $AC[0x01] - (Channel, Pitch, Timer)
     .Chan6_PitchSlideTimer: skip $01
         ; The channel 6 pitch slide timer.
 
     ; $AD[0x01] - (Channel, Pitch, Timer)
-    .Chan6_PitchDelay: skip $01
-        ; The channel 6 pitch slide delay for operation.
+    .Chan6_PitchSlideWait: skip $01
+        ; The channel 6 pitch slide wait time.
 
     ; $AE[0x01] - (Channel, Pitch, Timer)
     .Chan7_PitchSlideTimer: skip $01
         ; The channel 7 pitch slide timer.
 
     ; $AF[0x01] - (Channel, Pitch, Timer)
-    .Chan7_PitchDelay: skip $01
-        ; The channel 7 pitch slide delay for operation.
+    .Chan7_PitchSlideWait: skip $01
+        ; The channel 7 pitch slide wait time.
 
 
     ; $B0[0x01] - (Channel, Vibrato)
@@ -1074,68 +1074,68 @@ struct ARAM $0000
     ; ==========================================================================
 
     ; $0280[0x01] - (Channel, Pitch, Timer)
-    .Chan0_PitchSlideTimerQ: skip $01
-        ; The channel 0 pitch slide timer queue.
+    .Chan0_PitchSlideDuration: skip $01
+        ; The channel 0 pitch slide duration.
 
     ; $0281[0x01] - (Channel, Pitch, Timer)
-    .Chan0_PitchSlideDelayQ: skip $01
-        ; The channel 0 pitch slide delay queue.
+    .Chan0_PitchSlideDelay: skip $01
+        ; The channel 0 pitch slide delay.
 
     ; $0282[0x01] - (Channel, Pitch, Timer)
-    .Chan1_PitchSlideTimerQ: skip $01
-        ; The channel 1 pitch slide timer queue.
+    .Chan1_PitchSlideDuration: skip $01
+        ; The channel 1 pitch slide duration.
 
     ; $0283[0x01] - (Channel, Pitch, Timer)
-    .Chan1_PitchSlideDelayQ: skip $01
-        ; The channel 1 pitch slide delay queue.
+    .Chan1_PitchSlideDelay: skip $01
+        ; The channel 1 pitch slide delay.
 
     ; $0284[0x01] - (Channel, Pitch, Timer)
-    .Chan2_PitchSlideTimerQ: skip $01
-        ; The channel 2 pitch slide timer queue.
+    .Chan2_PitchSlideDuration: skip $01
+        ; The channel 2 pitch slide duration.
 
     ; $0285[0x01] - (Channel, Pitch, Timer)
-    .Chan2_PitchSlideDelayQ: skip $01
-        ; The channel 2 pitch slide delay queue.
+    .Chan2_PitchSlideDelay: skip $01
+        ; The channel 2 pitch slide delay.
 
     ; $0286[0x01] - (Channel, Pitch, Timer)
-    .Chan3_PitchSlideTimerQ: skip $01
-        ; The channel 3 pitch slide timer queue.
+    .Chan3_PitchSlideDuration: skip $01
+        ; The channel 3 pitch slide duration.
 
     ; $0287[0x01] - (Channel, Pitch, Timer)
-    .Chan3_PitchSlideDelayQ: skip $01
-        ; The channel 3 pitch slide delay queue.
+    .Chan3_PitchSlideDelay: skip $01
+        ; The channel 3 pitch slide delay.
 
     ; $0288[0x01] - (Channel, Pitch, Timer)
-    .Chan4_PitchSlideTimerQ: skip $01
-        ; The channel 4 pitch slide timer queue.
+    .Chan4_PitchSlideDuration: skip $01
+        ; The channel 4 pitch slide duration.
 
     ; $0289[0x01] - (Channel, Pitch, Timer)
-    .Chan4_PitchSlideDelayQ: skip $01
-        ; The channel 4 pitch slide delay queue.
+    .Chan4_PitchSlideDelay: skip $01
+        ; The channel 4 pitch slide delay.
 
     ; $028A[0x01] - (Channel, Pitch, Timer)
-    .Chan5_PitchSlideTimerQ: skip $01
-        ; The channel 5 pitch slide timer queue.
+    .Chan5_PitchSlideDuration: skip $01
+        ; The channel 5 pitch slide duration.
 
     ; $028B[0x01] - (Channel, Pitch, Timer)
-    .Chan5_PitchSlideDelayQ: skip $01
-        ; The channel 5 pitch slide delay queue.
+    .Chan5_PitchSlideDelay: skip $01
+        ; The channel 5 pitch slide delay.
 
     ; $028C[0x01] - (Channel, Pitch, Timer)
-    .Chan6_PitchSlideTimerQ: skip $01
-        ; The channel 6 pitch slide timer queue.
+    .Chan6_PitchSlideDuration: skip $01
+        ; The channel 6 pitch slide duration.
 
     ; $028D[0x01] - (Channel, Pitch, Timer)
-    .Chan6_PitchSlideDelayQ: skip $01
-        ; The channel 6 pitch slide delay queue.
+    .Chan6_PitchSlideDelay: skip $01
+        ; The channel 6 pitch slide delay.
 
     ; $028E[0x01] - (Channel, Pitch, Timer)
-    .Chan7_PitchSlideTimerQ: skip $01
-        ; The channel 7 pitch slide timer queue.
+    .Chan7_PitchSlideDuration: skip $01
+        ; The channel 7 pitch slide duration.
 
     ; $028F[0x01] - (Channel, Pitch, Timer)
-    .Chan7_PitchSlideDelayQ: skip $01
-        ; The channel 7 pitch slide delay queue.
+    .Chan7_PitchSlideDelay: skip $01
+        ; The channel 7 pitch slide delay.
 
 
     ; $0290[0x01] - (Channel, Pitch)
