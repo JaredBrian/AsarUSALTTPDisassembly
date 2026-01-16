@@ -594,8 +594,7 @@ SPCEngine:
                 ; Get the current channel's pitch slide timer.
                 mov.w A, $0280+X : mov.b $A0+X, A
                                    beq .no_pitch_slide
-                    ; TODO: The descriptions of these ram values are bad.
-                    ; idk what this does.
+                    ; Reset the pitch slide delay timer.
                     mov.w A, $0281+X : mov.b $A1+X, A
 
                     ; Get the slide type. 0 for slide from and 1 for slide to.
@@ -629,9 +628,9 @@ SPCEngine:
         ; Get the pitch value after pitch slide, global transposition, and
         ; channel transpositions are applied and adjust it based on whether it
         ; is a high note, middle note, or low note.
-        ; Check if the note is E5 (the note, NOT the hex value) or higher:
+        ; Check if the note is 𝅘𝅥𝅮E5 (the note, NOT the hex value) or higher:
         mov.b A, $11 : setc : sbc.b A, #$34 : bcs .high_note
-            ; Check if the note is G2 or higher:
+            ; Check if the note is 𝅘𝅥𝅮G2 or higher:
             mov.b A, $11 : setc : sbc.b A, #$13 : bcs .middle_note
                 ; Low note
                 dec Y
@@ -1557,7 +1556,7 @@ SPCEngine:
         call GetTrackByte : mov.w $0350+X, A
 
         ; Get the difference between the current pan value and the target
-        ; and make an incrament based on the timer.
+        ; and make an increment based on the timer.
         setc : sbc.w A, $0331+X
         pop X
         call MakeIncrement
@@ -2161,10 +2160,10 @@ SPCEngine:
     ; $0D0269-$0D0290 DATA
     TrackCommand_F9_SlideOnce:
     {
-        ; Set the channel pitch delay.
+        ; Set the channel pitch slide delay.
         mov.b $A1+X, A
 
-        ; Get the next track byte and store it into the channel pitch timer.
+        ; Get the next track byte and store it into the channel pitch slide timer.
         call GetTrackByte : mov.b $A0+X, A
 
         ; Get the next track byte, add the global transposition, and the
@@ -2175,16 +2174,17 @@ SPCEngine:
         ; $0D0279 DATA
         .calc_frames
 
-        ; TODO: Do some math I don't understand.
+        ; Store the new note into the channel note calculation var.
         and.b A, #$7F : mov.w $0380+X, A
+
+        ; Subtract the high byte of the current pitch calculation.
         setc : sbc.w A, $0361+X
 
-        mov.b Y, $A0+X
-        
-        ; Theres no mov X, Y, so use the stack instead.
-        push Y : pop X
+        ; Get the channel pitch slide timer. Theres no mov X, Y, so instead
+        ; use the stack to move the timer into Y without touching A.
+        mov.b Y, $A0+X : push Y : pop X
 
-        ; TODO: Do some math I don't understand.
+        ; Make an increment between the target note and the current pitch value.
         call MakeIncrement : mov.w $0370+X, A
         mov A, Y : mov.w $0371+X, A
 
@@ -2674,7 +2674,7 @@ SPCEngine:
 
             .delay_finished
 
-            ; Check if we are currently using the channel.
+            ; Check if we are currently using the channel:
             mov.b A, $1A : and.b A, $47 : bne .no_pitch_slide
                 ; Mark that we are doing a pitch change.
                 set7.b $13
