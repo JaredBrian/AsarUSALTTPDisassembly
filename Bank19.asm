@@ -591,25 +591,26 @@ SPCEngine:
                 ; Enable key on queue for the current channel.
                 or.b $45, $47
 
-                ; Get the current channel's pitch slide timer.
+                ; Set the current channel's pitch slide timer and check if it
+                ; is 0:
                 mov.w A, $0280+X : mov.b $A0+X, A
-                                   beq .no_pitch_slide
+                                   beq .noPitchSlide
                     ; Reset the pitch slide delay timer.
                     mov.w A, $0281+X : mov.b $A1+X, A
 
                     ; Get the slide type. 0 for slide from and 1 for slide to.
-                    mov.w A, $0290+X : bne .do_slide_to
+                    mov.w A, $0290+X : bne .doSlideTo
                         ; Slide from.
                         mov.w A, $0361+X
                         setc : sbc.w A, $0291+X : mov.w $0361+X, A
 
-                    .do_slide_to
+                    .doSlideTo
 
                     ; Perform the slide calculation.
                     mov.w A, $0291+X : clrc : adc.w A, $0361+X
-                    call TrackCommand_F9_SlideOnce_calc_frames
+                    call TrackCommand_F9_SlideOnce_calcFrames
 
-                .no_pitch_slide
+                .noPitchSlide
 
                 call GetTempPitch
 
@@ -2160,10 +2161,10 @@ SPCEngine:
     ; $0D0269-$0D0290 DATA
     TrackCommand_F9_SlideOnce:
     {
-        ; Set the channel pitch slide delay.
+        ; Set the channel pitch slide wait.
         mov.b $A1+X, A
 
-        ; Get the next track byte and store it into the channel pitch slide timer.
+        ; Set the channel pitch slide timer.
         call GetTrackByte : mov.b $A0+X, A
 
         ; Get the next track byte, add the global transposition, and the
@@ -2172,7 +2173,7 @@ SPCEngine:
 
         ; SPC $0EAB ALTERNATE ENTRY POINT
         ; $0D0279 DATA
-        .calc_frames
+        .calcFrames
 
         ; Store the new note into the channel note calculation var.
         and.b A, #$7F : mov.w $0380+X, A
@@ -2186,7 +2187,7 @@ SPCEngine:
 
         ; Make an increment between the target note and the current pitch value.
         call MakeIncrement : mov.w $0370+X, A
-        mov A, Y : mov.w $0371+X, A
+        mov A, Y           : mov.w $0371+X, A
 
         ; SPC $0EC2 ALTERNATE ENTRY POINT
         ; $0D0290 DATA
@@ -2664,18 +2665,18 @@ SPCEngine:
         clr7.b $13
 
         ; Check if we are performing a pitch slide on the current channel:
-        mov.b A, $A0+X : beq .no_pitch_slide
+        mov.b A, $A0+X : beq .noPitchSlide
             ; Check if we need to wait to perform the pitch slide:
             mov.b A, $A1+X : beq .delay_finished
                 ; Decrement the pitch slide wait timer.
                 dec.b $A1+X
 
-                bra .no_pitch_slide
+                bra .noPitchSlide
 
             .delay_finished
 
             ; Check if we are currently using the channel:
-            mov.b A, $1A : and.b A, $47 : bne .no_pitch_slide
+            mov.b A, $1A : and.b A, $47 : bne .noPitchSlide
                 ; Mark that we are doing a pitch change.
                 set7.b $13
 
@@ -2688,7 +2689,7 @@ SPCEngine:
 
                 call IncrementSlide_quiet
 
-        .no_pitch_slide
+        .noPitchSlide
 
         call GetTempPitch
 
@@ -2839,14 +2840,14 @@ SPCEngine:
         call GetTempPitch
 
         ; Check if we are performing a pitch slide on this channel:
-        mov.b A, $A0+X : beq .no_pitch_slide
+        mov.b A, $A0+X : beq .noPitchSlide
             ; Check if the pitch slide needs to be delayed:
-            mov.b A, $A1+X : bne .no_pitch_slide
+            mov.b A, $A1+X : bne .noPitchSlide
                 mov.w A, $0371+X : mov Y, A
                 mov.w A, $0370+X
                 call AdjustValueByFrames
 
-        .no_pitch_slide
+        .noPitchSlide
 
         ; Check if we are performing any vibrato:
         mov.b A, $B1+X : beq Tracker_no_vibrato
@@ -4020,12 +4021,12 @@ SPCEngine:
 
                         ; Check if we are performing a pitch slide on the channel.
                         mov.w X, $03C0
-                        mov.b A, $A0+X : beq .no_pitch_slide
+                        mov.b A, $A0+X : beq .noPitchSlide
                             call PitchSlideSFX
 
                             bra .dont_key_off
 
-                        .no_pitch_slide
+                        .noPitchSlide
 
                         ; On frame 0x02 of the SFX note timer, key off the note.
                         mov.b A, #$02 : cmp.w A, $03B0+X : bne .dont_key_off
@@ -4100,7 +4101,7 @@ SPCEngine:
                 pop Y
 
                 mov.w X, $03C0 : mov.b $44, X
-                call TrackCommand_F9_SlideOnce_calc_frames
+                call TrackCommand_F9_SlideOnce_calcFrames
 
                 jmp .setup_pitch_slide
 
