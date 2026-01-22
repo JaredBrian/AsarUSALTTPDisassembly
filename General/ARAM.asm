@@ -8,6 +8,7 @@
 ; Calc = Calculation
 ; Chan = Channel
 ; CMD = Command
+; Inc = Increment
 ; IPL = Initial Program Load
 ; Mult = Multiplier
 ; Q = Queue
