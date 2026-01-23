@@ -599,16 +599,16 @@ SPCEngine:
                     mov.w A, $0281+X : mov.b $A1+X, A
 
                     ; Get the slide type. 0 for slide from and 1 for slide to.
-                    mov.w A, $0290+X : bne .doSlideTo
+                    mov.w A, $0290+X : bne .notSlideFrom
                         ; Slide from.
                         mov.w A, $0361+X
                         setc : sbc.w A, $0291+X : mov.w $0361+X, A
 
-                    .doSlideTo
+                    .notSlideFrom
 
                     ; Perform the slide calculation.
                     mov.w A, $0291+X : clrc : adc.w A, $0361+X
-                    call TrackCommand_F9_SlideOnce_calcFrames
+                    call TrackCommand_F9_SlideOnce_calculateIncrement
 
                 .noPitchSlide
 
@@ -1294,7 +1294,10 @@ SPCEngine:
 
                         .continue
 
-                        call PitchSlide
+                        ; Pitch slide once commands come AFTER the note is 
+                        ; played instead of before with all the rest of
+                        ; the commands.
+                        call CheckForPitchSlideOnce
 
                     .next_channel_2
                 .silentChannel
@@ -2125,12 +2128,12 @@ SPCEngine:
 
     ; SPC $0E7A-$0E9A JUMP LOCATION
     ; $0D0248-$0D0269 DATA
-    PitchSlide:
+    CheckForPitchSlideOnce:
     {
-        ; If theres no active pitch timer on the current channel, don't do
+        ; If there is an active pitch timer on the current channel, don't do
         ; anything.
         mov.b A, $A0+X : bne TrackCommand_F9_SlideOnce_exit
-            ; Get the next track command. If it is a slide once command, exit.
+            ; Get the next track command, if its not a slide once command, exit.
             mov.b A, ($30+X) : cmp.b A, #$F9 : bne TrackCommand_F9_SlideOnce_exit
                 ; Check if the current channel is enabled.
                 mov.b A, $47 : and.b A, $1A : beq .do_pitch_slide
@@ -2173,7 +2176,7 @@ SPCEngine:
 
         ; SPC $0EAB ALTERNATE ENTRY POINT
         ; $0D0279 DATA
-        .calcFrames
+        .calculateIncrement
 
         ; Store the new note into the channel note calculation var.
         and.b A, #$7F : mov.w $0380+X, A
@@ -4101,7 +4104,7 @@ SPCEngine:
                 pop Y
 
                 mov.w X, $03C0 : mov.b $44, X
-                call TrackCommand_F9_SlideOnce_calcFrames
+                call TrackCommand_F9_SlideOnce_calculateIncrement
 
                 jmp .setup_pitch_slide
 
