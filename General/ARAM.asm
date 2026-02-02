@@ -315,8 +315,8 @@ struct ARAM $0000
     .SpecialEffects: skip $01
         ; Flags channels that have some special effect being applied to it.
 
-    ; $5F[0x01] - (Song, Precussion)
-    .PrecussionBaseNote: skip $01
+    ; $5F[0x01] - (Song, Percussion)
+    .PercussionBaseNote: skip $01
         ; The base note that will be added to the percussion commands (0xCA-0xDF)
         ; When playing a percussion note.
 
