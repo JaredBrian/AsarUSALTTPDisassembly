@@ -1019,7 +1019,7 @@ SPCEngine:
         ; A will be 0 after the loop above.
         ; Set a bunch of channel specific settings to 0. Global volume slide
         ; timer, echo pan timer, tempo slide timer, global transposition,
-        ; the segment loop counter, and the precussion command.
+        ; the segment loop counter, and the percussion command.
         mov.b $5A, A
         mov.b $68, A
         mov.b $54, A
@@ -1457,20 +1457,22 @@ SPCEngine:
     ; $0D0034-$0D008C DATA
     TrackCommand_E0_ChangeInstrument:
     {
-        ; Set the channel's instrument ID and check if it is a precussion value:
+        ; OPTIMIZE: Why mov Y, A?
+        ; Set the channel's instrument ID and check if it is a percussion value:
         mov.w $0211+X, A : mov Y, A
-                           bpl .no_percussion
-            ; Add the precussion base note.
+                           bpl .noPercussion
+            ; Add the percussion base note.
             setc : sbc.b A, #$CA : clrc : adc.b A, $5F
 
-        .no_percussion
+        .noPercussion
 
         ; Get the index for the instrument data.
         mov.b Y, #$06
         mul YA : movw.b $14, YA
 
         ; Get the address for the instrument data.
-        clrc : adc.b $14, #INSTRUMENT_DATA>>0 : adc.b $15, #INSTRUMENT_DATA>>8
+        clrc : adc.b $14, #INSTRUMENT_DATA>>0
+               adc.b $15, #INSTRUMENT_DATA>>8
 
         ; Check if the current channel is being used:
         mov.b A, $1A : and.b A, $47 : bne .exit
@@ -1482,39 +1484,41 @@ SPCEngine:
             ; Get the ID (DSP.SRCN) for the intrument. If positive, its a normal
             ; sample.
             ; TODO: All of the IDs in the INSTRUMENT_DATA are positive so figure 
-            ; out how precussion changes that.
+            ; out how percussion changes that.
             mov.b Y, #$00
-            mov.b A, ($14)+Y : bpl .normal_sample
-                ; TODO: Precussion?
+            mov.b A, ($14)+Y : bpl .normalSample
+                ; TODO: What is this?
                 and.b A, #$1F
+
+                ; Reset everything except echo.
                 and.b $48, #$20 : tset.w $0048, A
 
-                ; TODO: Enable noise generation on this channel?
+                ; Enable noise generation on this channel.
                 or.b $49, $47
 
                 mov A, Y
 
-                bra .precussionStartLoop
+                bra .percussionStartLoop
 
-            .normal_sample
+            .normalSample
 
-            ; Disables noise generation on the current channel.
+            ; Disable noise generation on the current channel.
             mov.b A, $47 : tclr.w $0049, A
 
             ; Loop through the rest of the first 4 btyes of INSTRUMENT_DATA and
             ; write them to some DSP registers.
             ; This will write to: DSP.VxSRCN, VxADSR1, VxADSR2, and VxGAIN.
-            .dsp_write_loop
+            .DSPWriteLoop
 
                 mov.b A, ($14)+Y
 
-                .precussionStartLoop
+                .percussionStartLoop
 
                 mov.w SMP.DSPADDR, X
                 mov.w SMP.DSPDATA, A
 
                 inc X
-            inc Y : cmp.b Y, #$04 : bne .dsp_write_loop
+            inc Y : cmp.b Y, #$04 : bne .DSPWriteLoop
 
             ; Get the instrument high-level tuning multiplier.
             pop X
