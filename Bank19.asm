@@ -1960,8 +1960,8 @@ SPCEngine:
     ; $0D01C7-$0D01CD DATA
     TrackCommand_F6_EchoSilence:
     {
-        ; NOTE: Because command F6 does not have any parameters, YA will always
-        ; be 0 by the time we get here.
+        ; NOTE: Because command 0xF6 does not have any parameters, YA will
+        ; always be 0 by the time we get here.
         ; Set the left and right echo volume queues to 0.
         movw.b $60, YA
         movw.b $62, YA
@@ -1994,14 +1994,15 @@ SPCEngine:
         ; the coefficients.
         mov.b Y, #DSP.FIR0
 
-        .set_next_filter
+        .setNextFilter
+        
             mov.w A, EchoFilterParameters+X
             call WriteToDSP
 
             inc X
 
             mov A, Y : clrc : adc.b A, #$10 : mov Y, A
-        bpl .set_next_filter
+        bpl .setNextFilter
 
         ; Reload the channel offset.
         mov.b X, $44
