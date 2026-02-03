@@ -2193,7 +2193,9 @@ struct ARAM $0000
 
     ; $03C3[0x01] - (Song, Echo)
     .SongEchoEnable: skip $01
-        ; Song channels flagged for echo enable.
+        ; Song channels currently using echo enable represented by a bit.
+        ; 7654 3210
+        ; # - The channel number.
 
 
     ; Only referenced in an unused function, but it appears to relate to
