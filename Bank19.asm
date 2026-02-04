@@ -290,7 +290,7 @@ SPCEngine:
 
     ; SPC $0800-$0843 JUMP LOCATION
     ; $0CFBCE-$0CFC11 DATA
-    Engine_Start:
+    EngineStart:
     {
         ; Set the dp to 0.
         clrp
@@ -302,27 +302,28 @@ SPCEngine:
         ; TODO: Why not $E0-$EF?
         mov.b A, #$00 : mov X, A
 
-        .zeroing_loop_1
+        .zeroingLoop1
 
             mov (X+), A
-        cmp.b X, #$E0 : bne .zeroing_loop_1
+        cmp.b X, #$E0 : bne .zeroingLoop1
 
         ; TODO: Why not $0100 to $01FF?
 
         mov.b X, #$00
 
         ; Clear $0200-$02FF in ARAM.
-        .zeroing_loop_2
+        .zeroingLoop2
 
             mov.w $0200+X, A
-        inc X : bne .zeroing_loop_2
+        inc X : bne .zeroingLoop2
 
-        ; OPTIMIZE: This could have been done at the same time as the other loop.
+        ; OPTIMIZE: This could have been done at the same time as the
+        ; other loop.
         ; Clear $0300-$03FF in ARAM.
-        .zeroing_loop_3
+        .zeroingLoop3
 
             mov.w $0300+X, A
-        inc X : bne .zeroing_loop_3
+        inc X : bne .zeroingLoop3
 
         ; A = 1
         inc A
@@ -345,7 +346,8 @@ SPCEngine:
         mov.b Y, #DSP.DIR
         call WriteToDSP
 
-        ; Set $FFC0 to ROM, clear ports all 5A22 input ports, and stop all timers.
+        ; Set $FFC0 to ROM, clear ports all 5A22 input ports, and stop
+        ; all timers.
         mov.b A, #$F0 : mov.w SMP.CONTROL, A
 
         ; Set the timer 0 target and the tempo high byte.
@@ -366,39 +368,40 @@ SPCEngine:
     {
         ; This section is almost like a SMP version of NMI. Its not actually
         ; triggered by an interrupt, but it performs a similar purpose of
-        ; updating hardware registers that should only be updated once a "frame".
+        ; updating hardware registers that should only be updated once a
+        ; "frame".
 
         ; Check 0x0A register "queues" to see if we need to send any updates
-        ; to the DSP. DSP.KOFF is written to twice, once from its queue at $46
-        ; and another time from $0E which is always 0.
+        ; to the DSP. DSP.KOFF is written to twice, once from its queue
+        ; and another time from a RAM value which is always 0.
         mov.b Y, #$0A
 
-        .next_register
+        .nextRegister
 
             ; Always update the DSP.FLG register.
-            cmp.b Y, #$05 : beq .FLG_register
-                bcs .not_echo_register
+            cmp.b Y, #$05 : beq .FLGRegister
+                bcs .notEchoRegister
                     ; If it is an echo register, don't update it if there
                     ; is not a different echo delay.
                     cmp.b $4C, $4D : bne .skip
 
-            .FLG_register
+            .FLGRegister
 
             ; If bit 7 is set in the echo timer, don't update the
             ; DSP.FLG register or any of the echo registers.
             bbs7.b $4C, .skip
-                .not_echo_register
+                .notEchoRegister
 
                 ; Get the DSP register to write to.
-                mov.w A, RegisterList-1+Y : mov.w SMP.DSPADDR, A
+                mov.w A, DSPQueueRegisters-1+Y : mov.w SMP.DSPADDR, A
 
                 ; Get the RAM value to get the value we will write to the
                 ; DSP register.
-                mov.w A, RegisterValueFrom-1+Y : mov X, A
+                mov.w A, DSPQueueRegisters_From-1+Y : mov X, A
                 mov A, (X) : mov.w SMP.DSPDATA, A
 
             .skip
-        dbnz Y, .next_register
+        dbnz Y, .nextRegister
 
         ; Set both the key on and key off queues to 0 so that the DSP registers
         ; do not get written to again next frame.
@@ -410,10 +413,10 @@ SPCEngine:
         mov.b A, $18 : eor.b A, $19 : lsr A : lsr A
         notc : ror.b $18 : ror.b $19
 
-        .timer_wait
+        .timerWait
 
             ; Wait for SMP timer 0 to not be 0.
-        mov.w Y, SMP.T0OUT : beq .timer_wait
+        mov.w Y, SMP.T0OUT : beq .timerWait
 
         ; This is the end of the "NMI" section.
 
@@ -424,7 +427,7 @@ SPCEngine:
         ; and ambient input from the 5A22 and handle the current ambient/SFX.
         mov.b A, #$38
         mul YA : clrc : adc.b A, $43 : mov.b $43, A
-                                       bcc .wait_for_SFX
+                                       bcc .waitForSFX
             call Handle_AmbientAndSFX
             call HandleInput_Ambient
 
@@ -446,14 +449,16 @@ SPCEngine:
             mov.b X, #$03
             call Get5A22Input
 
-            cmp.b $4C, $4D : beq .wait_for_SFX
+            cmp.b $4C, $4D : beq .dontIncrementEchoTimer
                 ; Every other frame:
                 inc.w $03C7
-                mov.w A, $03C7 : lsr A : bcs .wait_for_SFX
+                mov.w A, $03C7 : lsr A : bcs .notThisFrame
                     ; Increment the echo timer.
                     inc.b $4C
 
-        .wait_for_SFX
+                .notThisFrame
+            .dontIncrementEchoTimer
+        .waitForSFX
 
         ; SMP.T0OUT * Tempo
         ; If the result added is greater than 0xFF, we need to take new song
@@ -476,25 +481,25 @@ SPCEngine:
         .notOnTempo
 
         ; Are we currently playing a song?
-        mov.b A, $04 : beq .no_song
+        mov.b A, $04 : beq .noSong
             mov.b X, #$00
             mov.b $47, #$01
 
-            .next_channel
+            .nextChannel
 
                 ; Is this channel enabled?
-                mov.b A, $31+X : beq .skip_voice
+                mov.b A, $31+X : beq .skipChannel
                     ; If so, even though we haven't hit the next note, we still
                     ; need to handle the special effects like tremolo, vibrato,
                     ; pitch slides and echo.
                     call BackgroundTasks
 
-                .skip_voice
+                .skipChannel
 
                 inc X : inc X
-            asl.b $47 : bne .next_channel
+            asl.b $47 : bne .nextChannel
 
-        .no_song
+        .noSong
 
         jmp Engine_Main
     }
@@ -552,12 +557,12 @@ SPCEngine:
     HandleNote:
     {
         ; Check if the note is a percussion hit:
-        cmp.b Y, #$CA : bcc .not_percussion
+        cmp.b Y, #$CA : bcc .notPercussion
             call TrackCommand_E0_ChangeInstrument
 
             mov.b Y, #$A4 ; Note C4
 
-        .not_percussion
+        .notPercussion
 
         ; Check if the note is a tie:
         cmp.b Y, #$C8 : bcs Get5A22Input_exit
@@ -630,19 +635,19 @@ SPCEngine:
         ; channel transpositions are applied and adjust it based on whether it
         ; is a high note, middle note, or low note.
         ; Check if the note is 𝅘𝅥𝅮E5 (the note, NOT the hex value) or higher:
-        mov.b A, $11 : setc : sbc.b A, #$34 : bcs .high_note
+        mov.b A, $11 : setc : sbc.b A, #$34 : bcs .highNote
             ; Check if the note is 𝅘𝅥𝅮G2 or higher:
-            mov.b A, $11 : setc : sbc.b A, #$13 : bcs .middle_note
+            mov.b A, $11 : setc : sbc.b A, #$13 : bcs .middleNote
                 ; Low note
                 dec Y
                 asl A
 
-        .high_note
+        .highNote
 
         ; Apply the adjustment to the pitch value if its high or low.
         addw.b YA, $10 : movw.b $10, YA
 
-        .middle_note
+        .middleNote
 
         ; Save the channel index.
         push X
@@ -679,22 +684,22 @@ SPCEngine:
         asl A
         rol.b $15
 
-        ; OPTIMIZE: This is done again right after the octave_loop.
+        ; OPTIMIZE: This is done again right after the octaveLoop.
         mov.b $14, A
 
-        bra .start_octave_loop
+        bra .startOctaveLoop
 
         ; Divide the calculated pitch by 2 for every octave we need to go down
         ; starting at octave 6.
-        .octave_loop
+        .octaveLoop
 
             lsr.b $15
             ror A
 
             inc X
 
-            .start_octave_loop
-        cmp.b X, #$06 : bne .octave_loop
+            .startOctaveLoop
+        cmp.b X, #$06 : bne .octaveLoop
         ; NOTE: You would think that this should be bcc instead of bne, but
         ; changing this to a bcc causes a bug where certain low notes can become
         ; an extremly high pitched ring. I guess by making this loop around 0xFF
@@ -826,7 +831,7 @@ SPCEngine:
         call MakeIncrement : movw.b $5C, YA
 
         ; Go to the usual song handling.
-        jmp HandleInput_Song_run_song
+        jmp HandleInput_Song_runSong
     }
 
     ; ==========================================================================
@@ -844,7 +849,7 @@ SPCEngine:
             mov.b A, #$70 : mov.b $59, A
 
             ; Go to the usual song handling.
-            jmp HandleInput_Song_run_song
+            jmp HandleInput_Song_runSong
     }
 
     ; ==========================================================================
@@ -862,7 +867,7 @@ SPCEngine:
             mov.b A, #$00 : mov.w $03E1, A
 
             ; Go to the usual song handling.
-            jmp HandleInput_Song_run_song
+            jmp HandleInput_Song_runSong
 
         ; SPC $0A62 ALTERNATE ENTRY POINT
         ; $0CFE30 DATA
@@ -901,7 +906,7 @@ SPCEngine:
 
         ; Check if the timer is 0:
         beq SongCommand_F0_Mute
-            jmp HandleInput_Song_dont_fade_out
+            jmp HandleInput_Song_dontFadeOut
     }
 
     ; ==========================================================================
@@ -973,7 +978,7 @@ SPCEngine:
 
         ; SPC $0AB6 ALTERNATE ENTRY POINT
         ; $0CFE84 DATA
-        .key_off
+        .keyOff
 
         ; Set the channels that are being used to key off.
         mov.b A, $1A : eor.b A, #$FF : tset.w $0046, A
@@ -992,7 +997,7 @@ SPCEngine:
         mov.b $47, #$80
 
         ; Loop through each channel.
-        .next_channel
+        .nextChannel
 
             ; Set the channel volume to full.
             mov.b A, #$FF : mov.w $0301+X, A
@@ -1014,7 +1019,7 @@ SPCEngine:
             mov.b $C1+X, A
 
             dec X : dec X
-        lsr.b $47 : bne .next_channel
+        lsr.b $47 : bne .nextChannel
 
         ; A will be 0 after the loop above.
         ; Set a bunch of channel specific settings to 0. Global volume slide
@@ -1047,27 +1052,27 @@ SPCEngine:
     HandleInput_Song:
     {
         ; Check if we have been sent a new song command from the 5A22.
-        mov.b A, $00 : beq .no_new_song
+        mov.b A, $00 : beq .noNewSong
             ; If we have been sent a new song to play or command, go set that up:
             jmp Song_Commands
 
-        .no_new_song
+        .noNewSong
 
         ; SPC $0B00 ALTERNATE ENTRY POINT
         ; $0CFECE DATA
-        .run_song
+        .runSong
 
         ; If there is no current song, do nothing.
         mov.b A, $04 : beq ResetForNewSong_exit
             ; Check the music fade timer:
-            mov.w A, $03CA : beq .dont_fade_out
+            mov.w A, $03CA : beq .dontFadeOut
                 ; If the fade out timer is not 0, perform the fade.
                 jmp PerformFadeout
 
-            .dont_fade_out
+            .dontFadeOut
 
             ; Check if there is a music start delay:
-            mov.b A, $0C : beq .no_delay
+            mov.b A, $0C : beq .noDelay
                 dbnz.b $0C, ResetForNewSong
                     ; On the first frame of no delay:
 
@@ -1160,7 +1165,7 @@ SPCEngine:
                         inc X : inc X
                     asl.b $47 bne .initChannelLoop
 
-            .no_delay
+            .noDelay
 
             ; Disable all special effects on the current channel.
             mov.b X, #$00 : mov.b $5E, X
@@ -1289,7 +1294,7 @@ SPCEngine:
                     .stillPlayingNote
 
                     ; Check if the music is disabled.
-                    mov.b A, $1B : bne .next_channel_2
+                    mov.b A, $1B : bne .nextChannel2
                         call Tracker
 
                         .continue
@@ -1299,7 +1304,7 @@ SPCEngine:
                         ; the commands.
                         call CheckForPitchSlideOnce
 
-                    .next_channel_2
+                    .nextChannel2
                 .silentChannel
 
                 inc X : inc X
@@ -1483,8 +1488,8 @@ SPCEngine:
 
             ; Get the ID (DSP.SRCN) for the intrument. If positive, its a normal
             ; sample.
-            ; TODO: All of the IDs in the INSTRUMENT_DATA are positive so figure 
-            ; out how percussion changes that.
+            ; TODO: All of the IDs in the INSTRUMENT_DATA are positive so 
+            ; figure out how percussion changes that.
             mov.b Y, #$00
             mov.b A, ($14)+Y : bpl .normalSample
                 ; TODO: What is this?
@@ -2021,28 +2026,27 @@ SPCEngine:
 
         ; Check if the current echo delay is the same:
         mov.b Y, #DSP.EDL : mov.w SMP.DSPADDR, Y
-        mov.w A, SMP.DSPDATA : cmp.b A, $4D : beq .edl_same
+        mov.w A, SMP.DSPDATA : cmp.b A, $4D : beq .EchoDelaySame
             ; TODO: Do some math I don't understand to set the echo delay timer.
             and.b A, #$0F : eor.b A, #$FF
-            
-            bbc7.b $4C, .buffer_ready
+            bbc7.b $4C, .bufferReady
                 clrc : adc.b A, $4C
 
-            .buffer_ready
+            .bufferReady
 
             mov.b $4C, A
 
             mov.b Y, #$04
 
-            ; Loop through 4 DSP registers and zero them out.
-            .write_register
+            ; Loop through 4 echo related DSP registers and zero them out.
+            .writeRegisters
 
                 ; Choose the DSP register to write to.
-                mov.w A, RegisterList-1+Y : mov.w SMP.DSPADDR, A
+                mov.w A, DSPQueueRegisters-1+Y : mov.w SMP.DSPADDR, A
 
                 ; Write 0 to that register.
                 mov.b A, #$00 : mov.w SMP.DSPDATA, A
-            dbnz Y, .write_register
+            dbnz Y, .writeRegisters
 
             ; Write the flag queue to the DSP flag register.
             mov.b A, $48 : or.b A, #$20
@@ -2054,13 +2058,12 @@ SPCEngine:
             mov.b Y, #DSP.EDL
             call WriteToDSP
 
-        .edl_same
-
-        ; TODO: Do some math I don't understand.
-        asl A : asl A : asl A : eor.b A, #$FF
+        .EchoDelaySame
 
         ; TODO: I think this reference is wrong. I think its not actually meant
         ; to reference the song pointer here.
+        ; Calculate the echo source address.
+        asl A : asl A : asl A : eor.b A, #$FF
         setc : adc.b A, #SONG_POINTERS>>8
 
         ; Set the DSP echo source address.
@@ -2126,7 +2129,7 @@ SPCEngine:
     {
         mov.b $1B, A
 
-        jmp Music_ChangeSong_key_off
+        jmp Music_ChangeSong_keyOff
     }
 
     ; ==========================================================================
@@ -2991,7 +2994,7 @@ SPCEngine:
 
     ; SPC $11AD-$11B6 DATA
     ; $0D057B-$0D0584 DATA
-    RegisterList:
+    DSPQueueRegisters:
     {
         db DSP.EVOLL
         db DSP.EVOLR
@@ -3003,12 +3006,10 @@ SPCEngine:
         db DSP.NON
         db DSP.PMON
         db DSP.KOFF
-    }
-
-    ; SPC $11B7-$11C0 DATA
-    ; $0D0585-$0D058E DATA
-    RegisterValueFrom:
-    {
+ 
+        ; SPC $11B7-$11C0 DATA
+        ; $0D0585-$0D058E DATA
+        .From
         db $61 ; DSP.EVOLL
         db $63 ; DSP.EVOLR
         db $4E ; DSP.EFB
@@ -3562,11 +3563,11 @@ SPCEngine:
             ; Mark that the ambient sound is using channel 7.
             mov.b A, #$80 : mov.w $03C1, A
 
-            .next_channel
+            .nextChannel
 
                 ; Shift the channels we're using until we find one that
                 ; is being used.
-                asl.w $03E0 : bcc .to_next_channel
+                asl.w $03E0 : bcc .to_nextChannel
                     mov.w $03C0, X
                     ; Calculate the channel specific DSP address.
                     mov A, X : xcn A : lsr A : mov.w $03C2, A
@@ -3579,17 +3580,17 @@ SPCEngine:
                     mov.w A, $03A1+X : bne .delayed
                         ; Check if there is a ambient currently being played on
                         ; this channel.
-                        mov.w A, $03A0+X : beq .to_next_channel
+                        mov.w A, $03A0+X : beq .to_nextChannel
                             jmp SFXControl
 
                 ; SPC $147C ALTERNATE ENTRY POINT
                 ; $0D084A DATA
-                .to_next_channel
+                .to_nextChannel
 
                 ; Mark that we no longer are using the current channel.
                 lsr.w $03C1
             ; We only need to check channel 6 and 7.
-            dec X : dec X : cmp.b X, #$0A : bpl .next_channel
+            dec X : dec X : cmp.b X, #$0A : bpl .nextChannel
 
         .exit
 
@@ -3603,7 +3604,7 @@ SPCEngine:
         mov.w A, $03A1+X : dec A : mov.w $03A1+X, A
                                    beq .timerDone
             ; If we have a delay, move on to the next channel.
-            jmp .to_next_channel
+            jmp .to_nextChannel
 
         .timerDone
 
@@ -3635,11 +3636,11 @@ SPCEngine:
             ; Set channel 7 as in use by SFX2.
             mov.b A, #$80 : mov.w $03C1, A
 
-            .next_channel
+            .nextChannel
 
                 ; Shift the channels we're using until we find one that
                 ; is being used.
-                asl.w $03CC : bcc .to_next_channel
+                asl.w $03CC : bcc .to_nextChannel
                     mov.w $03C0, X
 
                     ; Calculate the channel specific DSP address.
@@ -3652,15 +3653,15 @@ SPCEngine:
                     mov.w A, $03A1+X : bne .delayed
                         ; Check if there is a SFX currently being played on
                         ; this channel.
-                        mov.w A, $03A0+X : beq .to_next_channel
+                        mov.w A, $03A0+X : beq .to_nextChannel
                             jmp SFXControl
 
-                .to_next_channel
+                .to_nextChannel
 
                 ; Mark that we no longer are using the current channel.
                 lsr.w $03C1
             ; Loop through each channel.
-            dec X : dec X : bpl .next_channel
+            dec X : dec X : bpl .nextChannel
 
         .exit
 
@@ -3673,7 +3674,7 @@ SPCEngine:
         mov.w A, $03A1+X : dec A : mov.w $03A1+X, A
                                    beq .timerDone
             ; If we have a delay, move on to the next channel.
-            jmp .to_next_channel
+            jmp .to_nextChannel
 
         .timerDone
 
@@ -3701,11 +3702,11 @@ SPCEngine:
             ; Set channel 7 as in use by SFX2.
             mov.b A, #$80 : mov.w $03C1, A
 
-            .next_channel
+            .nextChannel
                 
                 ; Shift the channels we're using until we find one that
                 ; is being used.
-                asl.w $03CE : bcc .to_next_channel
+                asl.w $03CE : bcc .to_nextChannel
                     mov.w $03C0, X
 
                     ; Calculate the channel specific DSP address.
@@ -3718,14 +3719,14 @@ SPCEngine:
                     mov.w A, $03A1+X : bne .delayed
                         ; Check if there is a SFX currently being played on
                         ; this channel.
-                        mov.w A, $03A0+X : beq .to_next_channel
+                        mov.w A, $03A0+X : beq .to_nextChannel
                             jmp SFXControl
 
-                .to_next_channel
+                .to_nextChannel
 
                 ; Mark that we no longer are using the current channel.
                 lsr.w $03C1
-            dec X : dec X : bpl .next_channel
+            dec X : dec X : bpl .nextChannel
 
         .exit
 
@@ -3738,7 +3739,7 @@ SPCEngine:
         mov.w A, $03A1+X : dec A : mov.w $03A1+X, A
                                    beq .timerDone
             ; If we have a delay, move on to the next channel.
-            jmp .to_next_channel
+            jmp .to_nextChannel
 
         .timerDone
 
@@ -3829,19 +3830,19 @@ SPCEngine:
                 ; If we got here that means its a SFX3.
                 call ResumeMusic
 
-                jmp Handle_SFX3_to_next_channel
+                jmp Handle_SFX3_to_nextChannel
 
         .used_by_ambient
 
         call ResumeMusic
 
-        jmp Handle_AmbientAndSFX_to_next_channel
+        jmp Handle_AmbientAndSFX_to_nextChannel
 
         .used_by_SFX_2
 
         call ResumeMusic
 
-        jmp Handle_SFX2_to_next_channel
+        jmp Handle_SFX2_to_nextChannel
     }
 
     ; ==========================================================================
@@ -4032,17 +4033,17 @@ SPCEngine:
                         mov.b A, $A0+X : beq .noPitchSlide
                             call PitchSlideSFX
 
-                            bra .dont_key_off
+                            bra .dont_keyOff
 
                         .noPitchSlide
 
                         ; On frame 0x02 of the SFX note timer, key off the note.
-                        mov.b A, #$02 : cmp.w A, $03B0+X : bne .dont_key_off
+                        mov.b A, #$02 : cmp.w A, $03B0+X : bne .dont_keyOff
                             mov.w A, $03C1
                             mov.b Y, #DSP.KOFF
                             call WriteToDSP
 
-                        .dont_key_off
+                        .dont_keyOff
 
                         ; Set the SFX data pointer for the channel to the current
                         ; SFX data pointer.
@@ -4056,15 +4057,15 @@ SPCEngine:
                             ; an SFX2:
                             mov.w A, $03C1 : and.w A, $03CB : bne .on_SFX_2
                                 ; Its being used by an SFX3.
-                                jmp Handle_SFX3_to_next_channel
+                                jmp Handle_SFX3_to_nextChannel
 
                         .ambient
 
-                        jmp Handle_AmbientAndSFX_to_next_channel
+                        jmp Handle_AmbientAndSFX_to_nextChannel
 
                         .on_SFX_2
                         
-                        jmp Handle_SFX2_to_next_channel
+                        jmp Handle_SFX2_to_nextChannel
 
                 .pitch_slide_command
 
