@@ -2212,7 +2212,7 @@ struct ARAM $0000
 
     ; $03C7[0x01] - (Echo)
     .EchoFlip: skip $01
-        ; Used as a flip flop for toggling incrementing of EchoDelayCache.
+        ; Used as a flip flop for incrementing of EchoTimer.
 
 
     ; TODO: Copies AmbientOFF and AmbientBIT, but never used. Junk?
