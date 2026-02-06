@@ -1153,8 +1153,8 @@ SPCEngine:
 
                         .dontMakeNoise
 
-                        ; Set the channel part loop counter, channel volume slide
-                        ; timer, and channel pan timer to 0.
+                        ; Set the channel part loop counter, channel volume 
+                        ; slide timer, and channel pan timer to 0.
                         mov.b A, #$00 : mov.b $80+X, A
                                         mov.b $90+X, A
                                         mov.b $91+X, A
@@ -1195,12 +1195,13 @@ SPCEngine:
                                         ; If we do not need to loop the current 
                                         ; part, that means the #$00 byte came 
                                         ; from the end of the current segment  
-                                        ; and we need to move on to the next one.
+                                        ; and we need to move on to the next
+                                        ; one.
                                         mov.b A, $80+X : beq .getNextSegment
                                             ; If the segment counter was non-0, 
                                             ; that means the #$00 came from the 
-                                            ; end of a part and we need to repeat
-                                            ; the part.
+                                            ; end of a part and we need to 
+                                            ; repeat the part.
                                             call IteratePartLoop
                                             
                                 ; Decrease the amount of times we need to loop
@@ -1208,8 +1209,8 @@ SPCEngine:
                                 ; next byte.
                                 dec.b $80+X : bne .readNextByteAfterEnd
 
-                                ; If 0, move on to the next byte instead of looping
-                                ; the part again.
+                                ; If 0, move on to the next byte instead of 
+                                ; looping the part again.
 
                                 ; Get the return address for the part.
                                 mov.w A, $0230+X : mov.b $30+X, A
@@ -1228,10 +1229,10 @@ SPCEngine:
                                 ; Instantly go to the next byte.
                                 ; #$80 and greater are notes or commands.
                                 call GetTrackByte : bmi .notAttackStaccato
-                                    ; NOTE: Because this is in a nested if, that 
-                                    ; means the only way to set the staccato and 
-                                    ; attack is by doing it after setting the
-                                    ; note duration.
+                                    ; NOTE: Because this is in a nested if, 
+                                    ; that means the only way to set the 
+                                    ; staccato and attack is by doing it after 
+                                    ; setting the note duration.
                                     
                                     push A
 
@@ -1997,7 +1998,7 @@ SPCEngine:
 
         ; Loop through each of filter parameters and write them to each of
         ; the coefficients.
-        mov.b Y, #DSP.FIR0
+        mov.b Y, #DSP.FIR
 
         .setNextFilter
         
