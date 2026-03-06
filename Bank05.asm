@@ -1,3562 +1,2829 @@
 ; ==============================================================================
-
 ; Bank 0x05
-; $028000-$02FFFF
-org $058000
+; ==============================================================================
+; APU Data and Engine
 
-; Misc Garnish code
-; Misc Sprites
+SPC_ENGINE          = $0800
+SFX_DATA            = $17C0
+SONG_FAIRY_POINTER  = $2880
+CREDITS_AUX_POINTER = $2900
+SONG_POINTERS_AUX   = $2B00
+SAMPLE_POINTERS     = $3C00
+INSTRUMENT_DATA     = $3D00
+INSTRUMENT_DATA_SFX = $3E00
+SAMPLE_DATA         = $4000
+SONG_POINTERS       = $D000
+
+print "Start of Bank 0x05: $", pc
 
 ; ==============================================================================
 
-; $028000-$028007 DATA
-Pool_Sprite_SpawnSparkleGarnish:
-{
-    .low_offset
-    db $FC, $00, $04, $08
-    
-    .high_offset
-    db $FF, $00, $00, $00
-}
+APUInitTransfer:
 
-; $028008-$02807E LONG JUMP LOCATION
-Sprite_SpawnSparkleGarnish:
+SamplePointers:
 {
-    ; Check if the frame counter is a multiple of 4:
-    LDA.b $1A : AND.b #$03 : BNE .skip_frame
-        PHX
-        
-        TXY
-        JSL.l GetRandomInt : AND.b #$03 : TAX
-        LDA.l Pool_Sprite_SpawnSparkleGarnish_low_offset, X  : STA.b $00
-        LDA.l Pool_Sprite_SpawnSparkleGarnish_high_offset, X : STA.b $01
-        
-        JSL.l GetRandomInt : AND.b #$03 : TAX
-        LDA.l Pool_Sprite_SpawnSparkleGarnish_low_offset, X  : STA.b $02
-        LDA.l Pool_Sprite_SpawnSparkleGarnish_high_offset, X : STA.b $03
-        
-        LDX.b #$1D
-        
-        .next_slot
-        
-            LDA.l $7FF800, X : BEQ .empty_slot
-        DEX : BPL .next_slot
-        
-        ; Even if we don't find an empty slot, we're still going to use slot 0
-        ; anyway.
-        INX
-        
-        .empty_slot
-        
-        ; Sprite falling into a hole animation?
-        ; (update: more likely to be setting up a sparkle animation, as this
-        ; has so far only been linked to good bees and something that also seems
-        ; to be a good bee).
-        LDA.b #$12 : STA.l $7FF800, X
-                     STA.w $0FB4
-        
-        LDA.w $0D10, Y : CLC : ADC.b $00 : STA.l $7FF83C, X
-        LDA.w $0D30, Y :       ADC.b $01 : STA.l $7FF878, X
-        
-        LDA.w $0D00, Y : CLC : ADC.b $02 : STA.l $7FF81E, X
-        LDA.w $0D20, Y :       ADC.b $03 : STA.l $7FF85A, X
-        
-        ; Set the associated sprite index for the garnish sprite?
-        TYA : STA.l $7FF92C, X
-        
-        LDA.b #$0F : STA.l $7FF90E, X
-        
-        TXY
-        
-        PLX
-    
-    .skip_frame
-    
-    RTL
+    ; Transfer size, transfer address
+    dw .endOfPointers-SAMPLE_POINTERS, SAMPLE_POINTERS
+
+    base SAMPLE_POINTERS
+
+    ;  Start,  Loop
+    dw BRRSampleData_Noise,       BRRSampleData_Noise+$0012       ; 0x00
+    dw BRRSampleData_Rain,        BRRSampleData_Rain+$001B        ; 0x01
+    dw BRRSampleData_Timpani,     BRRSampleData_Timpani+$0BA3     ; 0x02
+    dw BRRSampleData_Square,      BRRSampleData_Square+$001B      ; 0x03
+    dw BRRSampleData_Saw,         BRRSampleData_Saw+$001B         ; 0x04
+    dw BRRSampleData_Clink,       BRRSampleData_Clink+$001B       ; 0x05
+    dw BRRSampleData_Wobbly,      BRRSampleData_Wobbly+$002D      ; 0x06
+    dw BRRSampleData_CompoundSaw, BRRSampleData_CompoundSaw+$0012 ; 0x07
+    dw BRRSampleData_Tweet,       BRRSampleData_Tweet+$057C       ; 0x08
+    dw BRRSampleData_Strings,     BRRSampleData_Strings+$058E     ; 0x09
+    dw BRRSampleData_Strings,     BRRSampleData_Strings+$058E     ; 0x0A
+    dw BRRSampleData_Trombone,    BRRSampleData_Trombone+$03F0    ; 0x0B
+    dw BRRSampleData_Cymbal,      BRRSampleData_Cymbal+$0D92      ; 0x0C
+    dw BRRSampleData_Ocarina,     BRRSampleData_Ocarina+$0195     ; 0x0D
+    dw BRRSampleData_Chime,       BRRSampleData_Chime+$0075       ; 0x0E
+    dw BRRSampleData_Harp,        BRRSampleData_Harp+$01CB        ; 0x0F
+    dw BRRSampleData_Splash,      BRRSampleData_Splash+$07BC      ; 0x10
+    dw BRRSampleData_Trumpet,     BRRSampleData_Trumpet+$06ED     ; 0x11
+    dw BRRSampleData_Horn,        BRRSampleData_Horn+$06C9        ; 0x12
+    dw BRRSampleData_Snare,       BRRSampleData_Snare+$0D2F       ; 0x13
+    dw BRRSampleData_Snare,       BRRSampleData_Snare+$0D2F       ; 0x14
+    dw BRRSampleData_Choir,       BRRSampleData_Choir+$052B       ; 0x15
+    dw BRRSampleData_Flute,       BRRSampleData_Flute+$021C       ; 0x16
+    dw BRRSampleData_Oof,         BRRSampleData_Oof+$0240         ; 0x17
+    dw BRRSampleData_Piano,       BRRSampleData_Piano+$0735       ; 0x18
+    dw BRRSampleData_SleighBell,  BRRSampleData_SleighBell+$05CD  ; 0x19
+    dw BRRSampleData_MusicBox,    BRRSampleData_MusicBox+$0F6F    ; 0x1A
+    dw BRRSampleData_Pizzicato,   BRRSampleData_Pizzicato+$0288   ; 0x1B
+    dw BRRSampleData_Pizzicato2,  BRRSampleData_Pizzicato2+$0000  ; 0x1C
+    dw BRRSampleData_Testing,     BRRSampleData_Testing+$001B     ; 0x1D
+
+    .endOfPointers
+
+    assert pc() <= $3D00, "SamplePointers exceeds INSTRUMENT_DATA: ", pc
+
+    base off
 }
 
 ; ==============================================================================
 
-; $02807F-$028083 JUMP LOCATION
-Sprite_HelmasaurFireballTrampoline:
+BRRSampleData:
 {
-    JSL.l Sprite_HelmasaurFireballLong
-    
-    RTS
+    ; Transfer size, transfer address
+    dw .endSampleData-SAMPLE_DATA, SAMPLE_DATA
+
+    base SAMPLE_DATA
+
+    ; SPC $4000-$4047 DATA
+    .Noise
+    incbin "Data/BRR/00_noise.brr"
+
+    ; SPC $4048-$47F1 DATA
+    .Rain
+    incbin "Data/BRR/01_rain.brr"
+
+    ; SPC $47F2-$5394 DATA
+    .Timpani
+    incbin "Data/BRR/02_timpani.brr"
+
+    ; SPC $5395-$53D3 DATA
+    .Square
+    incbin "Data/BRR/03_square.brr"
+
+    ; SPC $53D4-$5412 DATA
+    .Saw
+    incbin "Data/BRR/04_saw.brr"
+
+    ; SPC $5413-$5475 DATA
+    .Clink
+    incbin "Data/BRR/05_clink.brr"
+
+    ; SPC $5476-$550E DATA
+    .Wobbly
+    incbin "Data/BRR/06_wobbly.brr"
+
+    ; SPC $550F-$55B0 DATA
+    .CompoundSaw
+    incbin "Data/BRR/07_compoundSaw.brr"
+
+    ; SPC $55B1-$5B2C DATA
+    .Tweet
+    incbin "Data/BRR/08_tweet.brr"
+
+    ; SPC $5B2D-$68AC DATA
+    .Strings
+    incbin "Data/BRR/09_strings.brr"
+
+    ; SPC $68AD-$6CD2 DATA
+    .Trombone
+    incbin "Data/BRR/0A_trombone.brr"
+
+    ; SPC $6CD3-$7A64 DATA
+    .Cymbal
+    incbin "Data/BRR/0B_cymbal.brr"
+
+    ; SPC $7A65-$7C02 DATA
+    .Ocarina
+    incbin "Data/BRR/0C_ocarina.brr"
+
+    ; SPC $7C03-$7CDA DATA
+    .Chime
+    incbin "Data/BRR/0D_chime.brr"
+
+    ; SPC $7CDB-$7EC0 DATA
+    .Harp
+    incbin "Data/BRR/0E_harp.brr"
+
+    ; SPC $7EC1-$867C DATA
+    .Splash
+    incbin "Data/BRR/0F_splash.brr"
+
+    ; SPC $867D-$8D84 DATA
+    .Trumpet
+    incbin "Data/BRR/10_trumpet.brr"
+
+    ; SPC $8D85-$948C DATA
+    .Horn
+    incbin "Data/BRR/11_horn.brr"
+
+    ; SPC $948D-$A1BB DATA
+    .Snare
+    incbin "Data/BRR/12_snare.brr"
+
+    ; SPC $A1BC-$AEB4 DATA
+    .Choir
+    incbin "Data/BRR/13_choir.brr"
+
+    ; SPC $AEB5-$B0EB DATA
+    .Flute
+    incbin "Data/BRR/14_flute.brr"
+
+    ; SPC $B0EC-$B32B DATA
+    .Oof
+    incbin "Data/BRR/15_oof.brr"
+
+    ; SPC $B32C-$BA9F DATA
+    .Piano
+    incbin "Data/BRR/16_piano.brr"
+
+    .SleighBell
+    ;incbin "Data/BRR/SleighBell.brr"
+
+    .MusicBox
+    incbin "Data/BRR/MusicBox.brr"
+
+    .Pizzicato
+    ;incbin "Data/BRR/PizzicatoStrings.brr"
+
+    .Pizzicato2
+    ;incbin "Data/BRR/PizzicatoStrings2.brr"
+
+    .Testing
+    ;incbin "Data/BRR/StringEnsemble.brr"
+
+    .endSampleData
+
+    assert pc() <= $D000, "BRRSampleData exceeds SONG_POINTERS: ", pc
+
+    base off
 }
 
 ; ==============================================================================
 
-; $028084-$028175
-incsrc "sprite_wall_cannon.asm"
-
-; $028176-$02852C
-incsrc "sprite_archery_game_guy.asm"
-
-; $02852D-$02874C
-incsrc "sprite_debirando_pit.asm"
-
-; $02874D-$0288C4
-incsrc "sprite_debirando.asm"
-
-; $0288C5-$028DD7
-incsrc "sprite_master_sword.asm"
-
-; $028DD8-$028F53
-incsrc "sprite_spike_roller.asm"
-
-; $028F54-$029332
-incsrc "sprite_beamos.asm"
-
-; $029333-$02940D
-incsrc "sprite_spark.asm"
-
-; $02940E-$029467
-incsrc "sprite_lost_woods_bird.asm"
-
-; $029468-$0294AE
-incsrc "sprite_lost_woods_squirrel.asm"
-
-; $0294AF-$02956C
-incsrc "sprite_crab.asm"
-
-; $02956D-$029669
-incsrc "sprite_desert_barrier.asm"
-
-; $02966A-$02995A
-incsrc "sprite_zora_and_fireball.asm"
-
-; $02995B-$029D49
-incsrc "sprite_zora_king.asm"
-
-; $029D4A-$02A030
-incsrc "sprite_walking_zora.asm"
-
-; $02A031-$02A376
-incsrc "sprite_armos_knight.asm"
-
-; $02A377-$02A87F
-incsrc "sprite_lanmola.asm"
-
-; $02A880-$02A95A
-incsrc "sprite_rat.asm"
-
-; $02A95B-$02AA86
-incsrc "sprite_rope.asm"
-
-; $02AA87-$02AB53
-incsrc "sprite_keese.asm"
-
-; $02AB54-$02AF70
-incsrc "sprite_cannon_trooper.asm"
-
-; $02AF71-$02B018
-incsrc "sprite_warp_vortex.asm"
-
-; $02B019-$02B5C2
-incsrc "sprite_flail_trooper.asm"
-
-; ==============================================================================
-
-; $02B5C3-$02B5CA LONG JUMP LOCATION
-SpriteActive2_MainLong:
+InstrumentData:
 {
-    PHB : PHK : PLB
-    
-    JSR.w SpriteActive2_Main
-    
-    PLB
-    
-    RTL
+    ; Transfer size, transfer address
+    dw .instrumentDataEnd-INSTRUMENT_DATA, INSTRUMENT_DATA
+
+    base INSTRUMENT_DATA
+
+    ; The first 4 values are instrument specific DSP values and the last word
+    ; is a instrument high-level tuning multiplier. All of which will be read
+    ; from when an instrument change occurs.
+    ; DSP.SRCN, DSP.ADSR1, DSP.ADSR2, DSP.GAIN, ChanX_TuneMult
+    db $00, $FF, $E0, $B8 : dw $7004 ; 0x00 - Noise
+    db $01, $FF, $E0, $B8 : dw $9007 ; 0x01 - Rain
+    db $02, $FF, $E0, $B8 : dw $C009 ; 0x02 - Timpani
+    db $03, $FF, $E0, $B8 : dw $0004 ; 0x03 - Square wave
+    db $04, $FF, $E0, $B8 : dw $0004 ; 0x04 - Saw wave
+    db $05, $FF, $E0, $B8 : dw $7004 ; 0x05 - Clink
+    db $06, $FF, $E0, $B8 : dw $7004 ; 0x06 - Wobbly lead
+    db $07, $FF, $E0, $B8 : dw $7004 ; 0x07 - Compound saw
+    db $08, $FF, $E0, $B8 : dw $A007 ; 0x08 - Tweet
+    db $09, $8F, $E9, $B8 : dw $E001 ; 0x09 - Strings A
+    db $0A, $8A, $E9, $B8 : dw $E001 ; 0x0A - Strings B
+    db $0B, $FF, $E0, $B8 : dw $0003 ; 0x0B - Trombone
+    db $0C, $FF, $E0, $B8 : dw $A003 ; 0x0C - Cymbal
+    db $0D, $FF, $E0, $B8 : dw $0001 ; 0x0D - Ocarina
+    db $0E, $FF, $EF, $B8 : dw $A00E ; 0x0E - Chimes
+    db $0F, $FF, $EF, $B8 : dw $0006 ; 0x0F - Harp
+    db $10, $FF, $E0, $B8 : dw $D003 ; 0x10 - Splash
+    db $11, $8F, $E0, $B8 : dw $0003 ; 0x11 - Trumpet
+    db $12, $8F, $E0, $B8 : dw $F006 ; 0x12 - Horn
+    db $13, $FD, $E0, $B8 : dw $A007 ; 0x13 - Snare A
+    db $14, $FF, $E0, $B8 : dw $A007 ; 0x14 - Snare B
+    db $15, $FF, $E0, $B8 : dw $D003 ; 0x15 - Choir
+    db $16, $8F, $E0, $B8 : dw $0003 ; 0x16 - Flute
+    db $17, $FF, $E0, $B8 : dw $C002 ; 0x17 - Oof
+    db $18, $FE, $8F, $B8 : dw $F006 ; 0x18 - Piano
+    db $19, $EB, $93, $B8 : dw $D004 ; 0x19 - Sleigh Bell
+    db $1A, $FF, $EF, $B8 : dw $D503 ; 0x1A - Music Box
+    db $1B, $FF, $F6, $B8 : dw $0003 ; 0x1B - Pizzicato Strings
+    db $1C, $FF, $E0, $B8 : dw $8E04 ; 0x1C - Pizzicato Strings 2
+    db $1D, $FA, $E4, $B8 : dw $2804 ; 0x1C - Testing
+
+    .instrumentDataEnd
+
+    assert pc() <= $3E00, "InstrumentData exceeds INSTRUMENT_DATA_SFX: ", pc
+
+    base off
 }
 
 ; ==============================================================================
 
-; $02B5CB-$02B5D2 DATA
-Soldier_DirectionLockSettings:
+SPCEngine:
 {
-    ; $02B5CB
-    .directions
-    db $03, $02, $00, $01
-    
-    ; $02B5CF
-    .animation_states
-    db $08, $00, $0C, $05
-}
+    ; Transfer size, transfer address
+    dw SPC_ENGINE_end-SPC_ENGINE, SPC_ENGINE
 
-; ==============================================================================
+    arch SPC700
 
-; This routine is meant to handle sprites with IDs 0x41 to 0x70.
-; $02B5D3-$02B647 LOCAL JUMP LOCATION
-SpriteActive2_Main:
-{
-    LDA.w $0E20, X : SEC : SBC.b #$41
+    base SPC_ENGINE
 
-    REP #$30
-    
-    AND.w #$00FF : ASL : TAY
-    LDA.w .sprite_routines, Y : DEC : PHA
-    
-    SEP #$30
-    
-    RTS
-    
-    ; Sprite routines 3*
-    .sprite_routines
-    
-    ; Please note that the numbers in the comments to the right are the actual
-    ; sprite numbers and have nothing to do with the orientation of the table,
-    ; though they are in order.
-    
-    dw Sprite_Soldier                     ; 0x41 - $C155 Green Soldier
-    dw Sprite_Soldier                     ; 0x42 - $C155 Blue Soldier
-    dw Sprite_Soldier                     ; 0x43 - $C155 Red Spear Soldier
-    dw Sprite_PsychoTrooper               ; 0x44 - $CC65 Crazy Blue Killer Soldiers
-    dw Sprite_PsychoSpearSoldier          ; 0x45 - $CBE0 Crazed Spear Soldiers
-                                          ;        (Green or Red)
-    dw Sprite_ArcherSoldier               ; 0x46 - $CDFF Blue Archers
-    dw Sprite_BushArcherSoldier           ; 0x47 - $D1BF Green Archers (in bushes)
-                                          
-    dw Sprite_JavelinTrooper              ; 0x48 - $CDE1 Red Javelin Soldiers
-                                          ;        (in special armor)
-    dw Sprite_BushJavelinSoldier          ; 0x49 - $D1AC Red Javelin Soldiers
-                                          ;        (in bushes)
-    dw Sprite_BombTrooper                 ; 0x4A - $BE0A Bomb Trooper / Enemy Bombs
-    dw Sprite_Recruit                     ; 0x4B - $BC8A Recruit
-    dw Sprite_GerudoMan                   ; 0x4C - $B8B3 Gerudo Man
-    dw Sprite_Toppo                       ; 0x4D - $BA85 Enemy bunnies (Toppo)
-    dw Sprite_Popo                        ; 0x4E - $B80A Snakebasket (Popo?)
-    dw Sprite_Bot                         ; 0x4F - $B80A Bot / Bit?
-    dw Sprite_MetalBall                   ; 0x50 - $B648 Metal Balls in Eastern
-                                          ;        Palace
-    dw Sprite_Armos                       ; 0x51 - $B703 Armos
-    dw Sprite_ZoraKing                    ; 0x52 - $995B Giant Zora
-    dw Sprite_ArmosKnight                 ; 0x53 - $A036 Armos Knight Code
-    dw Sprite_Lanmola                     ; 0x54 - $A3A2 Lanmola
-    dw Sprite_ZoraAndFireball             ; 0x55 - $967B Zora (or Agahnim) fireball
-                                          ;        code
-    dw Sprite_WalkingZora                 ; 0x56 - $9D4A Walking Zora
-    dw Sprite_DesertBarrier               ; 0x57 - $956D Desert Palace Barrier
-    dw Sprite_Crab                        ; 0x58 - $94B5 Crab
-    dw Sprite_LostWoodsBird               ; 0x59 - $940E Birds (master sword grove)
-    dw Sprite_LostWoodsSquirrel           ; 0x5A - $9468 Squirrel (master sword
-                                          ;        grove?)
-    dw Sprite_Spark                       ; 0x5B - $933F Spark (clockwise on convex,
-                                          ;        counterclockwise on concave)
-    dw Sprite_Spark                       ; 0x5C - $933F Spark (counterclockwise on
-                                          ;        convex, clockwise on concave)
-    dw Sprite_SpikeRoller                 ; 0x5D - $8DDE Roller (????)
-    dw Sprite_SpikeRoller                 ; 0x5E - $8DDE Roller (????)
-    dw Sprite_SpikeRoller                 ; 0x5F - $8DDE Roller (????)
-    dw Sprite_SpikeRoller                 ; 0x60 - $8DDE Roller (????)
-    dw Sprite_Beamos                      ; 0x61 - $8F54 Beamos (aka Statue Sentry)
-    dw Sprite_MasterSword                 ; 0x62 - $88C5 Master Sword (in the grove)
-    dw Sprite_DebirandoPit                ; 0x63 - $8531 Sand lion pit
-    dw Sprite_Debirando                   ; 0x64 - $874D Sand lion
-    dw Sprite_ArcheryGameGuy              ; 0x65 - $81FF Shooting gallery guy
-    dw Sprite_WallCannon                  ; 0x66 - $8090 Moving cannon ball shooters
-    dw Sprite_WallCannon                  ; 0x67 - $8090 Moving cannon ball shooters
-    dw Sprite_WallCannon                  ; 0x68 - $8090 Moving cannon ball shooters
-    dw Sprite_WallCannon                  ; 0x69 - $8090 Moving cannon ball shooters
-    dw Sprite_ChainBallTrooper            ; 0x6A - $B01B Ball n' Chain Trooper
-    dw Sprite_CannonTrooper               ; 0x6B - $ABE4 Cannon Ball Shooting
-                                          ;        Trooper (unused in game)
-    dw Sprite_WarpVortex                  ; 0x6C - $AF75 Warp Vortex (from Magic
-                                          ;        mirror in light world)
-    dw Sprite_Rat                         ; 0x6D - $A8B0 Rat / Bazu
-    dw Sprite_Rope                        ; 0x6E - $A973 Rope / Skullrope
-    dw Sprite_Keese                       ; 0x6F - $AA8B Keese
-    dw Sprite_HelmasaurFireballTrampoline ; 0x70 - $807F Helmasaur King fireballs
-}
+    ; ==========================================================================
 
-; ==============================================================================
+    EngineStart:
+    {
+        ; Set the dp to 0.
+        clrp
 
-; $02B648-$02B702
-incsrc "sprite_metal_ball.asm"
+        ; Set the stack pointer.
+        mov.b X, #$CF : mov SP, X
 
-; $02B703-$02B809
-incsrc "sprite_armos.asm"
+        ; Clear $0000-$00EF in ARAM. This needs to be done separately from the
+        ; other loop as to not write to the SMP hardware registers at $F0-$FF.
+        mov.b A, #$00
+        mov.b X, #$00
 
-; $02B80A-$02B8B2
-incsrc "sprite_bot.asm"
+        .dpZeroLoop
 
-; $02B8B3-$02BA84
-incsrc "sprite_gerudo_man.asm"
+            mov.b $00+X, A
+        inc X : cmp.b X, #$F0 : bcc .dpZeroLoop
 
-; $02BA85-$02BC89
-incsrc "sprite_toppo.asm"
+        ; Clear $0100-$03FF in ARAM.
+        mov.b A, #$00
+        mov.b X, #$00
 
-; $02BC8A-$02BE09
-incsrc "sprite_recruit.asm"
+        .absZeroLoop
 
-; $02BE0A-$02C154
-incsrc "sprite_bomb_trooper.asm"
+            mov.w $0100+X, A
+            mov.w $0200+X, A
+            mov.w $0300+X, A
+        inc X : bne .absZeroLoop
 
-; ==============================================================================
+        ; A = 1
+        inc A
+        call ConfigureEcho
 
-; $02C155-$02C15C LOCAL JUMP LOCATION
-Sprite_Soldier:
-{
-    LDA.w $0DB0, X : BNE .is_probe
-        JMP.w Soldier_Main
-    
-    .is_probe
-    
-    ; Bleeds into the next funtion.
-}
+        ; Disable echo for now.
+        mov A, #$20 : mov.b ARAM.FlagQ, A
 
-; $02C15D-$02C226 LOCAL JUMP LOCATION
-Sprite_Probe:
-{
-    LDY.b #$00
-    
-    ; Is the sprite moving right? Yes, so skip the decrement of Y.
-    LDA.w $0D50, X : BPL .moving_right
-        ; Sprite is moving left, so we have to make sure subtraction is done
-        ; smoothly.
-        DEY
-    
-    .moving_right
-    
-    ; This code moves the soldier left or right, depending on $0D50, X.
-    CLC : ADC.w $0D10, X : STA.w $0D10, X
-    TYA : ADC.w $0D30, X : STA.w $0D30, X
-    
-    LDY.b #$00
-    
-    ; Same as above but for Y coordinate of the soldier.
-    LDA.w $0D40, X : BPL .moving_down
-        DEY
-    
-    .moving_down
-    
-          CLC : ADC.w $0D00, X : STA.w $0D00, X
-    TYA : ADC.w $0D00, X : STA.w $0D20, X
-    
-    ; Usually 0. Otherwise the soldier's invisible.
-    LDY.w $0DB0, X
-    
-    ; Is this soldier (Link locator) belonging to Blind?
-    LDA.w $0E1F, Y : CMP.b #$CE : BNE .parent_not_blind_the_thief
-        REP #$20
-        
-        LDA.w $0FD8 : SEC : SBC.b $22 : CLC : ADC.w #$0010
-        CMP.w #$0020 : SEP #$20 : BCS .player_not_close
-            REP #$20
-            
-            LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0018
-            CMP.w #$0020 : SEP #$20 : BCS .player_not_close
-                JMP.w .made_contact
-        
-        .player_not_close
-        
-        JMP.w .no_contact
-    
-    .parent_not_blind_the_thief
-    
-    ; Check the tile attr that the sprite is interacting with.
-    JSL.l Probe_CheckTileSolidity : BCC .zeta
-        LDA.w $0FA5 : CMP.b #$09 : BNE .theta
-    
-    .zeta
-    
-    ; Is Link invisible and invincible? (magic cape).
-    LDA.w $0055 : BNE .theta 
-        REP #$20
-        
-        LDA.w $0FD8 : SEC : SBC.b $22 : CMP.w #$0010 : SEP #$20 : BCS .no_contact
-            REP #$20
-            
-            LDA.w $0FDA : SEC : SBC.b $20 : CMP.w #$0010 : SEP #$20 : BCS .no_contact
-                ; Are Link and the soldier on the same floor?
-                LDA.w $0F20, X : CMP.b $EE : BNE .no_contact
-                    ; $02C1F6 ALTERNATE ENTRY POINT
-                    .made_contact
-                    
-                    LDA.w $0DB0, X : DEC
-                    
-                    PHX
-                    
-                    TAX
-                    LDA.w $0D80, X : CMP.b #$03 : BEQ .kappa
-                        LDA.b #$03 : STA.w $0D80, X
-                        
-                        ; Is the sprite Blind the Thief?
-                        LDA.w $0E20, X : CMP.b #$CE : BEQ .kappa ; Yes...
-                            LDA.b #$10 : STA.w $0DF0, X
-                        
-                            STZ.w $0E80, X
-                    
-                    .kappa
-                    
-                    PLX
-    
-    BRA .theta
-    
-    ; $02C21A ALTERNATE ENTRY POINT
-    .no_contact
-    
-    JSR.w Sprite2_PrepOamCoord
-    
-    LDA.b $01 : ORA.b $03 : BEQ .return
-        .theta
-        
-        STZ.w $0DD0, X
-    
-    ; $02C226 ALTERNATE ENTRY POINT
-    .return
-    
-    RTS
-}
+        ; Set the DSP left and right main volume.
+        mov.b A, #$60 : mov.b ARAM.MasterVolLeftQ, A
+                        mov.b ARAM.MasterVolRightQ, A
 
-; ==============================================================================
+        ; Tell the DSP the high byte of where the BRR samples are.
+        mov.b A, #SAMPLE_POINTERS>>8 : mov.b ARAM.DirQ, A
 
-; $02C227-$02C2CF JUMP LOCATION
-Soldier_Main:
-{
-    LDA.w $0DC0, X : PHA
-    
-    LDY.w $0DE0, X : PHY
-    
-    ; This is actually used.
-    LDA.w $0E00, X : BEQ .direction_lock_inactive
-        LDA.w Soldier_DirectionLockSettings_directions, Y : STA.w $0DE0, X
-        
-        LDA.w Soldier_DirectionLockSettings_animation_states, Y : STA.w $0DC0, X
-    
-    .direction_lock_inactive
-    
-    ; Looks like a "draw soldier" function...
-    JSR.w Guard_HandleAllAnimation
-    
-    PLA : STA.w $0DE0, X
-    PLA : STA.w $0DC0, X
-    
-    LDA.w $0DD0, X : CMP.b #$05 : BNE .not_falling_in_hole
-        LDA.b $11 : BNE Sprite_Soldier_return
-            ; Ticking animation clock and state...
-            JSR.w Guard_TickTwiceAndUpdateBody
-            JMP.w Guard_TickTwiceAndUpdateBody
-    
-    .not_falling_in_hole
-    
-    JSR.w Sprite2_CheckIfActive
+        ; Set $FFC0 to ROM, clear ports all 5A22 input ports, and stop
+        ; all timers.
+        mov.b A, #$F0 : mov.b SMP.CONTROL, A
 
-    ; Push sprite back from sword hit?
-    JSL.l Guard_ParrySwordAttacks
-    
-    JSL.l Sprite_CheckDamageToPlayerLong : BCS .gamma
-        LDA.w $0FDC : BEQ .delta
-    
-    .gamma
-    
-    LDA.w $0D80, X : CMP.b #$03 : BCS .delta
-        LDA.b #$03 : STA.w $0D80, X
-        
-        LDA.b #$20
-        
-        BRA .epsilon
-    
-    .delta
-    
-    LDA.w $0EA0, X : BEQ .zeta
-        CMP.b #$04 : BCC .zeta
-            LDA.b #$04 : STA.w $0D80, X
-            
-            LDA.b #$80
-            
-            .epsilon
-            
-            JSR.w Guard_SetTimerAndAssertTileHitbox
-    
-    .zeta
-    
-    JSR.w Sprite2_CheckIfRecoiling
-    
-    LDA.w $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .theta
-        LDA.w $0E70, X : BNE .iota
-            JSR.w Sprite2_Move
-        
-        .iota
-        
-        JSR.w Sprite2_CheckTileCollision
-        
-        BRA .kappa
-    
-    .theta
-    
-    JSR.w Sprite2_Move
-    
-    .kappa
-    
-    LDA.w $0D80, X : CMP.b #$04 : BEQ .nu
-        STZ.w $0ED0, X
-    
-    .nu
-    
-    REP #$30
-    
-    AND.w #$00FF : ASL : TAY
-    LDA.w .states, Y : DEC : PHA
-    
-    SEP #$30
-    
-    RTS
-    
-    .states
-    
-    dw Guard_Idle         ; 0x00 - $C2D4
-    dw Guard_OnPatrol     ; 0x01 - $C403
-    dw Guard_Surveying    ; 0x02 - $C490
-    dw Guard_NoticeKouhai ; 0x03 - $C4C1
-    dw Guard_InPursuit    ; 0x04 - $C4E8
-}
+        ; Set the timer 0 target and the tempo high byte.
+        mov.b A, #$10 : mov.b SMP.T0TARGET, A
+                        mov.b ARAM.SongTempo+1, A
 
-; ==============================================================================
-
-; $02C2D0-$02C2D3 DATA
-Pool_Guard_Idle:
-{
-    db $60, $C0, $FF, $40
-}
-
-; $02C2D4-$02C330 JUMP LOCATION
-Guard_Idle:
-{
-    JSR.w Sprite2_ZeroVelocity
-    
-    LDA.w $0DF0, X : BNE .delay
-        INC.w $0D80, X
-        
-        LDA.w $0E30, X : BEQ .beta
-            AND.b #$07 : CMP.b #$05 : BCS .beta
-                LDA.w $0E30, X : LSR #3 : AND.b #$03 : TAY
-                LDA.w Pool_Guard_Idle, Y : STA.w $0DF0, X
-                
-                LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
-                
-                STZ.w $0E80, X
-                
-                BRA .gamma
-            
-        .beta
-        
-        JSL.l GetRandomInt : AND.b #$3F : ADC.b #$28 : STA.w $0DF0, X
-        
-        LDA.w $0DE0, X : PHA
-        
-        JSL.l GetRandomInt : AND.b #$03 : STA.w $0DE0, X
-        
-        PLA : CMP.w $0DE0, X : BEQ .alpha
-            EOR.w $0DE0, X : AND.b #$02 : BNE .alpha
-                ; $02C32B ALTERNATE ENTRY POINT
-                .Soldier_EnableDirectionLock
-                
-                .gamma
-                
-                LDA.b #$0C : STA.w $0E00, X
-        
-        .alpha
-    .delay
-    
-    RTS
-}
-
-; $02C331-$02C3A0 DATA
-Pool_Probe:
-Pool_Soldier:
-{
-    ; $02C331
-    .x_speeds
-    db $08, $F8, $00, $00
-    
-    ; $02C335
-    .y_speeds
-    db $00, $00, $08, $F8
-    
-    ; $02C339
-    .animation_states
-    db $0B, $0C, $0D, $0C, $04, $05, $06, $05
-    db $00, $01, $02, $03, $07, $08, $09, $0A
-    db $11, $12, $11, $12, $07, $08, $07, $08
-    db $03, $04, $03, $04, $0D, $0E, $0D, $0E
-    
-    ; $02C359
-    .x_checked_directions
-    db  1,  1, -1, -1
-    db -1, -1,  1,  1
-    
-    ; $02C361
-    .y_checked_directions
-    db -1,  1,  1, -1
-    db -1,  1,  1, -1
-    
-    ; $02C369
-    .chase_x_speeds
-    db $08, $00, $F8, $00
-    db $F8, $00, $08, $00
-    
-    ; $02C371
-    .chase_y_speeds
-    db $00, $08, $00, $F8
-    db $00, $08, $00, $F8
-    
-    ; $02C379
-    .ProbeType
-    db  0,  2,  1,  3
-    db  1,  2,  0,  3
-    
-    ; $02C381
-    .collinear_directions
-    db $01, $04, $02, $08
-    db $02, $04, $01, $08
-    
-    ; $02C389
-    .orthogonal_directions
-    db $08, $01, $04, $02
-    db $08, $02, $04, $01
-    
-    ; $02C391
-    .collinear_next_direction
-    db  1,  2,  3,  0
-    db  5,  6,  7,  4
-    
-    ; $02C399
-    .orthogonal_next_direction
-    db  3,  0,  1,  2
-    db  7,  4,  5,  6
-}
-
-; $02C3A1-$02C402 JUMP LOCATION
-Guard_ShootProbeAndStuff:
-{
-    LDY.w $0DA0, X
-    LDA.w Pool_Soldier_x_checked_directions, Y : STA.w $0D50, X
-    LDA.w Pool_Soldier_y_checked_directions, Y : STA.w $0D40, X
-    
-    JSR.w Sprite2_CheckTileCollision
-    
-    LDA.w $0E10, X : BEQ .alpha
-        CMP.b #$2C : BNE .beta
-            LDY.w $0DA0, X
-            LDA.w Pool_Soldier_orthogonal_next_direction, Y : STA.w $0DA0, X
-            
-            BRA .beta
-    
-    .alpha
-    
-    LDY.w $0DA0, X
-    LDA.w $0E70, Y : AND.w Pool_Soldier_orthogonal_directions, Y : BNE .beta
-        LDA.b #$58 : STA.w $0E10, X
-    
-    .beta
-    
-    LDY.w $0DA0, X
-    LDA.w $0E70, Y : AND.w Pool_Soldier_collinear_directions, Y : BEQ .gamma
-        LDA.w Pool_Soldier_collinear_next_direction, Y : STA.w $0DA0, X
-    
-    .gamma
-    
-    LDY.w $0DA0, X
-    LDA.w Pool_Soldier_chase_x_speeds, Y : STA.w $0D50, X
-    LDA.w Pool_Soldier_chase_y_speeds, Y : STA.w $0D40, X
-    LDA.w Pool_Soldier_ProbeType, Y      : STA.w $0DE0, X 
-                                           STA.w $0EB0, X
-    
-    JMP.w Guard_TickAndUpdateBody
-}
-
-; $02C403-$02C46F JUMP LOCATION
-Guard_OnPatrol:
-{
-    JSR.w Sprite_SpawnProbeStaggered
-    
-    LDA.w $0E30, X : AND.b #$07 : CMP.b #$05 : BCC .alpha
-        JMP.w Guard_ShootProbeAndStuff
-    
-    .alpha
-    
-    LDA.w $0DF0, X : BNE Guard_OnPatrol_delay
-        ; Bleeds into the next function.
-}
-    
-; $02C417-$02C424 JUMP LOCATION
-Guard_StopAndLookAround:
-{
-    JSR.w Sprite2_ZeroVelocity
-    
-    LDA.b #$02 : STA.w $0D80, X
-    LDA.b #$A0 : STA.w $0DF0, X
-    
-    RTS
-}
-
-; $02C425-$02C453 JUMP LOCATION
-Guard_OnPatrol_delay:
-{
-    LDA.w $0E80, X : AND.b #$01 : BNE .gamma
-        INC.w $0DF0, X
-
-    .gamma
-
-    LDA.w $0E70, X : AND.b #$0F : BEQ .delta
-        LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
-        
-        JSR.w Soldier_EnableDirectionLock
-
-    .delta
-
-    LDY.w $0DE0, X
-    LDA.w Soldier_x_speeds, Y : STA.w $0D50, X
-    LDA.w Soldier_y_speeds, Y : STA.w $0D40, X
-    
-    TYA : STA.w $0EB0, X
-    
-    INC.w $0E80, X
-
-    ; Bleeds into the next function.
-}
-
-; $02C454-$02C46F LOCAL JUMP LOCATION
-Guard_TickAndUpdateBody:
-{
-    INC.w $0E80, X
-    LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA.b $00
-    
-    LDA.w $0DE0, X : ASL : ASL : ADC.b $00 : TAY
-    LDA.w Soldier_animation_states, Y : STA.w $0DC0, X
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02C470-$02C48F DATA
-Soldier_head_looking_states:
-{
-    db $00, $02, $02, $02, $00, $03, $03, $03 ; Up
-    db $01, $03, $03, $03, $01, $02, $02, $02 ; Down
-    db $02, $00, $00, $00, $02, $01, $01, $01 ; Left
-    db $03, $01, $01, $01, $03, $00, $00, $00 ; Right
-}
-
-; $02C490-$02C4C0 JUMP LOCATION
-Guard_Surveying:
-{
-    JSR.w Sprite2_ZeroVelocity
-    JSR.w Sprite_SpawnProbeStaggered
-    
-    LDA.w $0DF0, X : BNE .alpha
-        LDA.b #$20 : STA.w $0DF0, X
-        
-        LDA.b #$00 : STA.w $0D80, X
-        
-        RTS
-        
-    .alpha
-    
-    CMP.b #$80 : BCS .beta
-        LSR #3 : AND.b #$07 : STA.b $00
-        
-        LDA.w $0DE0, X : ASL #3 : ORA.b $0000 : TAY
-        LDA.w Soldier_head_looking_states, Y : STA.w $0EB0, X
-    
-    .beta	
-    
-    RTS
-}
-
-; Green soldier submode 3
-; $02C4C1-$02C4D6 JUMP LOCATION
-Guard_NoticeKouhai:
-{
-    JSR.w Sprite2_ZeroVelocity
-    
-    JSR.w Sprite2_DirectionToFacePlayer : TYA : STA.w $0EB0, X
-    
-    LDA.w $0DF0, X : BNE Guard_SetTimerAndAssertTileHitbox_exit
-        LDA.b #$04 : STA.w $0D80, X
-        
-        LDA.b #$FF
+        ; Start timer 0.
+        mov.b A, #$01 : mov.b SMP.CONTROL, A
 
         ; Bleeds into the next function.
-}
-        
-; $02C4D7-$02C4E7 JUMP LOCATION
-Guard_SetTimerAndAssertTileHitbox:
-{
-    STA.w $0DF0, X
-        
-    STZ.w $0E30, X
-        
-    LDA.w $0B6B, X : AND.b #$0F : ORA.b #$60 : STA.w $0B6B, X
-    
-    ; $02C4E7 ALTERNATE ENTRY POINT
-    .exit
-    
-    RTS
-}
+    }
 
-; $02C4E8-$02C4F8 JUMP LOCATION
-Guard_InPursuit:
-{
-    LDA.w $0DF0, X : BNE .delay
-        LDY.w $0DE0, X
+    ; ==========================================================================
+
+    ; This is the main sound engine loop. The SMP will continuously loop here,
+    ; until the SNES is reset or powered off.
+    EngineMain:
+    {
+        ; This section is almost like a SMP version of NMI. Its not actually
+        ; triggered by an interrupt, but it performs a similar purpose of
+        ; updating hardware registers that should only be updated once a
+        ; "frame".
+
+        ; Check 0x0D register "queues" to see if we need to send any updates
+        ; to the DSP. DSP.KOFF is written to twice, once from its queue
+        ; and another time from a RAM value which is always 0.
+        mov.b Y, #$0D
+
+        .nextRegister
+
+            ; Always update the DSP.FLG register.
+            cmp.b Y, #$05 : beq .FLGRegister
+                bcs .notEchoRegister
+                    ; If it is an echo register, don't update it if there
+                    ; is not a different echo delay.
+                    cmp.b ARAM.EchoTimer, ARAM.EchoDelayQ : bne .skipEchoRegister
+
+            .FLGRegister
+
+            ; If bit 7 is set in the echo timer, don't update the
+            ; DSP.FLG register or any of the echo registers.
+            bbs7.b ARAM.EchoTimer, .skipEchoRegister
+                .notEchoRegister
+
+                ; Get the DSP register to write to.
+                mov.w A, DSPQueueRegisters-1+Y : mov.w SMP.DSPADDR, A
+
+                ; Get the RAM value to get the value we will write to the
+                ; DSP register.
+                mov.w A, DSPQueueRegisters_From-1+Y : mov X, A
+                mov A, (X) : mov.w SMP.DSPDATA, A
+
+            .skipEchoRegister
+        ; TODO: Change to dbnz when that is fixed.
+        dec y : bne .nextRegister
+
+        ; Set both the key on and key off queues to 0 so that the DSP registers
+        ; do not get written to again next frame.
+        mov.b ARAM.KeyOnQ, Y
+        mov.b ARAM.KeyOffQ, Y
+
+        .timerWait
+
+            ; Wait for SMP timer 0 to not be 0.
+        mov.w Y, SMP.T0OUT : beq .timerWait
+
+        ; This is the end of the "NMI" section.
+
+        push Y
+
+        ; TODO: Speed test line.
+        ;bra .waitForSFX
+
+        ; SMP.T0OUT * #$38
+        ; If the result added is greater than 0xFF, we need to take new SFX
+        ; and ambient input from the 5A22 and handle the current ambient/SFX.
+        mov.b A, #$38
+        mul YA : clrc : adc.b A, ARAM.SFXTimer : mov.b ARAM.SFXTimer, A
+                                       bcc .waitForSFX
+            ; TODO: Handle ambient and SFX here.
+
+            cmp.b ARAM.EchoTimer, ARAM.EchoDelayQ : beq .dontIncrementEchoTimer
+                inc.b ARAM.EchoArtificialTimer
+                mov.b A, ARAM.EchoArtificialTimer : cmp.b A, #$02 : bcc .notThisFrame
+                    ; Increment the echo timer.
+                    inc.b ARAM.EchoTimer
+
+                    mov.b ARAM.EchoArtificialTimer, #$00
+
+                .notThisFrame
+            .dontIncrementEchoTimer
+        .waitForSFX
+
+        pop Y
+
+        ; TODO: Store the tick value in some temp ram.
+        push Y : pop X
+        mov.w A, ARAM.TEMPTickRate+X : inc A : mov.w ARAM.TEMPTickRate+X, A
         
-        LDA.w JavelinTrooper_Attack_scan_anbles, X : STA.w $0EC0, X
-        
-        BRL Guard_StopAndLookAround
-}
+        ; SMP.T0OUT * ARAM.SongTempo+1
+        ; If the result added is greater than 0xFF, we need to take new song
+        ; input from the 5A22 and handle the current song.
+        mov.b A, ARAM.SongTempo+1
+        mul YA : clrc : addw.b YA, ARAM.SongTimer : mov.b ARAM.SongTimer, A
+                                    cmp.b Y, #$00 : beq .notOnTempo
+                                  ;bcc .notOnTempo ; Vanilla method
+            .onTempo
 
-; ==============================================================================
+            ; Check if we need to take new song input:
+            mov.b A, ARAM.InputSong : beq .noNewSongInput
+                call NewSongInput
+                
+                bra .newSong
 
-; $02C4F9-$02C4FF LOCAL JUMP LOCATION
-Sprite2_ZeroVelocity:
-{
-    ; Stop horizontal and vertical velocities.
-    STZ.w $0D50, X
-    STZ.w $0D40, X
-    
-    RTS
-}
+            .noNewSongInput
 
-; ==============================================================================
+            ; If no new song was given, run the next note of the song.
+            mov.b A, ARAM.CurrentSong : beq .noSongPlaying
+                .beatLoop
 
-; $02C500-$02C534 LOCAL JUMP LOCATION
-Guard_InPursuit_delay:
-{
-    TYA : EOR.b $1A1A : AND.b #$1F : BNE .alpha
-        LDA.w $0ED0, X : BNE .beta
-            LDA.b #$04
-            JSL.l Sound_SetSFX3PanLong
+                    push Y
+                    call RunMusic
+                    pop Y
+                dec Y : cmp.b Y, #$00 : bne .beatLoop
+
+            .noSongPlaying
+
+            .newSong
+
+            ; Check for new song input.
+            mov.b X, #$00
+            call Get5A22Input
+
+            ; TODO: Speed test line.
+            call TransferNotesTo5A22
+
+        .notOnTempo
+
+        mov.b ARAM.ChanInUse, ARAM.ChanInUseSong
+
+        ; Perform some global background tasks:
+
+        ; TODO: Speed test line.
+        ;bra .noVolumeSlide
+
+        ; Check if we are performing a global volume slide:
+        mov.b A, ARAM.GlobalVolTimer : beq .noVolumeSlide
+            ; Add the global volume increment to the global volume.
+            movw.b YA, ARAM.GlobalVol : addw.b YA, ARAM.GlobalVolInc
+            ; Decrement the global volume slide timer and check if we
+            ; need to reset it:
+            ; TODO: Change to dbnz when thats fixed.
+            dec.b ARAM.GlobalVolTimer : bne .volumeSlideNotDone
+                ; Set the global volume to the target volume.
+                movw.b YA, ARAM.GlobalVolTarget-1
+
+            .volumeSlideNotDone
+
+            movw.b ARAM.GlobalVol, YA
+
+            ; Mark that each channel needs to have its volume updated.
+            mov.b ARAM.ChanUpdateVol, #$FF
+
+        .noVolumeSlide
+
+        ; TODO: Speed test line.
+        ;bra .noTempoSlide
+
+        ; Check if we are performing a tempo slide.
+        mov.b A, ARAM.TempoSlideTimer : beq .noTempoSlide
+            ; Add the temp increment to the tempo.
+            movw.b YA, ARAM.SongTempo : addw.b YA, ARAM.TempoSlideInc
             
-            INC.w $0ED0, X
-        
-        .beta
-        
-        TXA : AND.b #$03 : TAY
-        
-        LDA.w $0E20, X : CMP.b #$42 : BEQ .gamma
-            ; OPTIMIZE: Useless branch.
-        .gamma
-        
-        LDA.w AppliedSpeed16, X
-        JSL.l Sprite_ApplySpeedTowardsPlayerLong
-        
-        JSR.w Sprite2_DirectionToFacePlayer
-        TYA : STA.w $0DE0, X
-              STA.w $0EB0, X
-    
-    .alpha
-    
-    JSL.l Probe_SetDirectionTowardsPlayer
+            ; Check if the tempo slide timer is done:
+            dec.b ARAM.TempoSlideTimer : bne .tempoSlideNotDone
+                ; Set the tempo to the tempo slide target.
+                movw.b YA, ARAM.TempoSlideTarget-1
 
-    ; Bleeds into the next function.
-}
+            .tempoSlideNotDone
 
-; $02C535-$02C53B LOCAL JUMP LOCATION
-Guard_TickTwiceAndUpdateBody:
-{
-    INC.w $0E80, X
-    
-    JSR.w Guard_TickAndUpdateBody
-    
-    RTS
-}
+            movw.b ARAM.SongTempo, YA
 
-; ==============================================================================
+        .noTempoSlide
 
-; $02C53C-$02C541 DATA
-Pool_Probe_SetDirectionTowardsPlayer:
-Pool_Sprite_PsychoSpearSoldier:
-Pool_Sprite_PsychoTrooper:
-{
-    ; $02C53C
-    .x_speeds ; Length 4
-    db $0E, $F2
-    
-    ; ; $02C53E
-    .y_speeds
-    db $00, $00, $0E, $F2
-}
+        ; Perform some channel specific background tasks:
 
-; $02C542-$02C565 LONG JUMP LOCATION
-Probe_SetDirectionTowardsPlayer:
-{
-    PHB : PHK : PLB
+        ; Loop through each channel:
+        mov.b X, #$00 : mov.b ARAM.ChannelOffset, X
+        mov.b ARAM.ChanBit, #$01
+
+        .nextChannel
+
+            ; Check if the current channel is in use:
+            mov.b A, ARAM.ChanInUse : and.b A, ARAM.ChanBit : beq .ChannelNotUsed
+                call PerformVolumeAdjustments
+
+                ; Check if we need to update the channel volume:
+                mov.b A, ARAM.ChanUpdateVol : and.b A, ARAM.ChanBit : beq .noVolume
+                    call CalculateVolume
+
+                .noVolume
+
+                call PerformPitchAdjustments
+
+                ; Check if we need to update the channel pitch:
+                mov.b A, ARAM.ChanUpdatePitch : and.b A, ARAM.ChanBit : beq .noPitch
+                    call CalculatePitch
+
+                .noPitch
+
+            .ChannelNotUsed
+                
+            inc X : inc X : mov.b ARAM.ChannelOffset, X
+        asl.b ARAM.ChanBit : bne .nextChannel
+
+        mov.b A, #$00 : mov.b ARAM.ChanUpdateVol, A
+                        mov.b ARAM.ChanUpdatePitch, A
+
+        ; Loop.
+        jmp EngineMain
+    }
+
+    DSPQueueRegisters:
+    {
+        db DSP.EVOLL ; 0x00
+        db DSP.EVOLR ; 0x01
+        db DSP.EFB   ; 0x02
+        db DSP.EON   ; 0x03
+        db DSP.FLG   ; 0x04
+        db DSP.MVOLL ; 0x05
+        db DSP.MVOLR ; 0x06
+        db DSP.PMON  ; 0x07
+        db DSP.KON   ; 0x08
+        db DSP.KOFF  ; 0x09
+        db DSP.NON   ; 0x0A
+        db DSP.DIR   ; 0x0B
+        db DSP.KOFF  ; 0x0C
     
-    LDA.w $0E70, X : BEQ .no_tile_collision
-        AND.b #$03 : BEQ .no_horiz_collision
-            JSR.w Sprite2_IsBelowPlayer : INY : INY
+        .From
+        db ARAM.EchoVolLeftQ+1  ; 0x00 DSP.EVOLL
+        db ARAM.EchoVolRightQ+1 ; 0x01 DSP.EVOLR
+        db ARAM.EchoFeedbackQ   ; 0x02 DSP.EFB
+        db ARAM.EchoOnQ         ; 0x03 DSP.EON
+        db ARAM.FlagQ           ; 0x04 DSP.FLG
+        db ARAM.MasterVolLeftQ  ; 0x05 DSP.MVOLL
+        db ARAM.MasterVolRightQ ; 0x06 DSP.MVOLR
+        db ARAM.PitchModQ       ; 0x07 DSP.PMON
+        db ARAM.KeyOnQ          ; 0x08 DSP.KON
+        db ARAM.Zero            ; 0x09 DSP.KOFF
+        db ARAM.NoiseOnQ        ; 0x0A DSP.NON
+        db ARAM.DirQ            ; 0x0B DSP.DIR
+        db ARAM.KeyOffQ         ; 0x0C DSP.KOFF
+    }
+
+    ; ==========================================================================
+
+    WriteToDSP:
+    {
+        mov.w SMP.DSPADDR, Y
+        mov.w SMP.DSPDATA, A
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     A - The difference between the source and target value.
+    ;     X - The amount of steps.
+    ; Uses: $00-$03
+    ; Create an increment value for X steps in A.
+    MakeIncrement:
+    {
+        !negative = $00
+        !flip = $02
+
+        ; Before calling this function, we should have done a subtract to get 
+        ; the difference between the 2 values. If that subtraction ended up 
+        ; being negative the carry bit will have been set. We then rotate that 
+        ; bit into some work RAM so that we can flip the input for the math.
+        notc : ror.b !negative : bpl .positiveInput
+            ; * -1
+            eor.b A, #$FF : inc A
+
+        .positiveInput
+
+        ; Get the high byte of the increment.
+        mov.b Y, #$00
+        div YA, X : push A
+
+        ; Get the low byte of the increment by dividing the remainder again as
+        ; the high byte this time.
+        mov.b A, #$00
+        div YA, X
+
+        pop Y
+
+        ; Reload the current channel offset.
+        mov.b X, ARAM.ChannelOffset
+
+        ; Bleeds into the next function:
+    }
+
+    ; Input:
+    ;     YA - The value to flip.
+    ;    $00 - Bit 7 high if we need to flip YA.
+    ; Uses: $00-$03
+    ; This function flips the given YA value if the 7th bit of $00 is set. 
+    YASignFlip:
+    {
+        !negative = $00
+        !flip = $02
+
+        ; If the given value was negative, flip it to be negative again.
+        bbc7.b !negative, .keepPositive
+            ; 0 minus the positive increment.
+            movw.b !flip, YA
+            movw.b YA, ARAM.Zero : subw.b YA, !flip
+
+        .keepPositive
+
+        ret
+    }
+
+    ; Input:
+    ;     YA  - The base incrememnt.
+    ;     $00 - Bit 7 high if we need to flip the increment.
+    ; Uses: $00-$03
+    ; This function flips the given YA value if the 7th bit of $00 is set. 
+    AdjustValueByFrames:
+    {
+        !negative = $00
+        !increment = $02
+
+        ; Flip the incement to a positive value if needed.
+        mov.b !negative, Y
+        call YASignFlip : push Y
+
+        ; Multiply the increment low byte by the song timer in case more than
+        ; one frame has passed.
+        mov.b Y, ARAM.SongTimer
+        mul YA : mov.b !increment+0, Y
+        mov.b !increment+1, #$00
+
+        ; Do the same for the high byte.
+        pop A
+        mov.b Y, ARAM.SongTimer
+        mul YA : addw.b YA, !increment
+
+        call YASignFlip
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    Get5A22Input:
+    {
+        ; Tell the 5A22 the current song or SFX being played.
+        mov.b A, ARAM.CurrentArray+X : mov.w SMP.CPUIO0+X, A
+
+        .wait
+
+            ; TODO: Verify and reenable?
+            ; Just in case the 5A22 was in the process of writing a new song
+            ; or SFX to the APU, check it again to make sure it didn't change.
+            mov.w A, SMP.CPUIO0+X
+        ;cmp.w A, SMP.CPUIO0+X : bne .wait
+
+        mov Y, A
+
+        ; Check if we are already playing the same song/SFX.
+        mov.b A, ARAM.LastArray+X
+        mov.b ARAM.LastArray+X, Y
+        ; TODO: Change to cbne when that is fixed.
+        cmp.b A, ARAM.LastArray+X : bne .change
+            ; If we are playing the same thing, don't play it again.
+            mov.b Y, #$00 : mov.b ARAM.InputArray+X, Y
+
+            ret
+
+        .change
+
+        ; Set the input song or SFX to the new song/SFX from the 5A22.
+        mov.b ARAM.InputArray+X, Y
+
+        ret
+    }
+
+    TransferNotesTo5A22:
+    {
+        mov.b A, $D0 : beq .transfer
+            dec.b $D0
+
+            ret
+
+        .transfer
+
+        ; Send the init message.
+        mov.b A, #$69 : mov.w SMP.CPUIO2, A
+                        mov.w SMP.CPUIO1, A
+                        mov.b $00, A
+
+        .waitForInit
+            ; Wait for the SNES to initialize with the message #$69.
+        cmp.w A, SMP.CPUIO1 : beq .SNESIsReady ; bne .waitForInit
+            ret
+
+        .SNESIsReady
+
+        mov.b X, #$00
+
+        .readLoop
+
+            mov.w A, .ReadValues+0+X : mov.b $01, A
+            mov.w A, .ReadValues+1+X : mov.b $02, A
+            and.b A, $01 : cmp.b A, #$FF : beq .endOfReadLoop
+                inc X : inc X : push x
+
+                mov.b X, #$00
+                mov.b Y, #$00
+
+                bra .startReadLoop
+
+                .loop
+                    .waitForSNES
+                        ; Wait for the SNES to initialize with the index of
+                        ; the data.
+                    cmp.w X, SMP.CPUIO2 : bne .waitForSNES
+
+                    inc X
+
+                    .startReadLoop
+
+                    ; Send the data and its index.
+                    mov.b A, ($01)+Y : mov.w SMP.CPUIO3, A
+                    mov.w SMP.CPUIO2, X
+                inc Y : inc Y : cmp.b Y, #$10 : bne .loop
+
+                dec.b $00
+                mov.b A, $00 : mov.w SMP.CPUIO1, A
+
+                .waitForNext
+                    ; Wait for the SNES to move on.
+                cmp.w A, SMP.CPUIO1 : bne .waitForNext
+
+                pop X
+        bra .readLoop
+
+        .endOfReadLoop
+
+        ; Send the end message.
+        ;dec.b $00
+        ;mov.b A, $00 : mov.w SMP.CPUIO1, A
+
+        ;.waitForEnd
+            ; Wait for the SNES to end.
+        ;cmp.w A, SMP.CPUIO1 : bne .waitForEnd
+
+        ; TODO: DON'T SET CPUIO0!
+        mov.b A, #$00 ;: mov.w SMP.CPUIO0, A
+                        ;mov.w SMP.CPUIO1, A
+                        mov.w SMP.CPUIO2, A
+                        mov.w SMP.CPUIO3, A
+
+        mov.b $D0, #$03
+
+        ret
+
+        .ReadValues
+        dw ARAM.Chan_Note
+        dw ARAM.Chan_Duration
+        dw ARAM.Chan_Staccato
+        dw ARAM.Chan_Instrument
+        dw ARAM.Chan_FinalVol
+        dw $FFFF
+    }
+
+    ; ==========================================================================
+
+    NewSongInput:
+    {
+        ; TODO: check for song commands such as fade in and out.
+
+        call ResetForNewSong
+
+        ret
+    }
+
+    ; Reset various global and channel specific values for starting a new song.
+    ResetForNewSong:
+    {
+        ; Set the current song.
+        mov.b ARAM.CurrentSong, A
+
+        ; Get the song pointer and set it to the current song segment.
+        asl A : mov X, A
+        mov.w A, SONG_POINTERS-1+X : mov Y, A
+        mov.w A, SONG_POINTERS-2+X : movw.b ARAM.SegmentPtr, YA
+
+        ; Set the channels that are being used by music to key off.
+        mov.b A, ARAM.ChanInUseSong : eor.b A, #$FF : tset.w ARAM.KeyOffQ, A
+        mov.b ARAM.ChanInUseSong, #$00
+        
+        call GetNextSegment
+
+        mov.b X, #$00
+        call NextSegmentSetup_skipCommandCheck
+        
+        ; Loop through each channel.
+        mov.b X, #$00
+        mov.b ARAM.ChanBit, #$01
+
+        .nextChannel
+
+            ; Set the current channel pan settings to equal on both sides.
+            mov.b A, #$0A
+            call TrackCommandE1_ChangePan_skipParameter
+
+            ; Set the channel timers so that they will trigger next frame.
+            mov.b A, #$01 : mov.b ARAM.Chan_Timer+X, A
+                            mov.b ARAM.Chan_ReleaseTimer+X, A
+
+            ; Set the channel note duration to a default value.
+            mov.b A, #$20 : mov.w ARAM.Chan_Duration+X, A
+
+            ; Set the channel staccato and attack to a default value.
+            mov.b A, #$20 : mov.w ARAM.Chan_Staccato+X, A
+            mov.b A, #$FC : mov.w ARAM.Chan_Attack+X, A
+
+            ; Set the channel volume to max.
+            mov.b A, #$FF : mov.w ARAM.Chan_Vol+1+X, A 
+
+            ; Set a bunch of channel specific settings to 0.
+            mov A, #$00 : mov.b ARAM.Chan_PartCounter+X, A
+                          mov.w ARAM.Chan_Note+X, A
+                          mov.w ARAM.Chan_Instrument+X, A
+                          mov.w ARAM.Chan_TuneMult+X, A
+                          mov.w ARAM.Chan_Transposition+X, A
+                          mov.w ARAM.Chan_Tuning+X, A
+
+                          mov.b ARAM.Chan_VolTimer+X, A
+                          mov.w ARAM.Chan_Vol+0+X, A
+                          ;mov.w ARAM.Chan_VolTarget+X, A
+                          mov.w ARAM.Chan_Mute+0+X, A
+                          mov.w ARAM.Chan_Mute+1+X, A
+                          ;mov.w ARAM.Chan_VolInc+X, A
+
+                          mov.b ARAM.Chan_PanTimer+X, A
+                          mov.w ARAM.Chan_PanTarget+X, A
+                          ;mov.w ARAM.Chan_PanInc+X, A
+                          
+                          mov.b ARAM.Chan_VbrSlideTimer+X, A
+                          mov.b ARAM.Chan_VbrTemp+X, A
+                          mov.w ARAM.Chan_VbrCalc+0+X, A
+                          mov.w ARAM.Chan_VbrCalc+1+X, A
+                          mov.w ARAM.Chan_VbrDelay+X, A
+                          mov.w ARAM.Chan_VbrStrength+X, A
+                          mov.w ARAM.Chan_VbrAcc+X, A
+                          mov.w ARAM.Chan_VbrInc+X, A
+                          mov.w ARAM.Chan_VbrIntensity+X, A
+                          mov.w ARAM.Chan_VbrMaxIntensity+X, A
+                          mov.w ARAM.Chan_VbrSlideWait+X, A
+                          mov.w ARAM.Chan_VbrSlideInc+X, A
+
+                          mov.b ARAM.Chan_TremTimer+X, A
+                          ;mov.w ARAM.Chan_TremDelay+X, A
+                          ;mov.w ARAM.Chan_TremInc+X, A
+                          ;mov.w ARAM.Chan_TremIntensity+X, A
+                          mov.w ARAM.Chan_TremAcc+X, A
+
+                          mov.b ARAM.Chan_PitchSlideTimer+X, A
+                          mov.b ARAM.Chan_PitchSlideWait+X, A
+                          mov.b ARAM.Chan_PitchSlideTemp+X, A
+                          ;mov.w ARAM.Chan_PitchSlideType+X, A
+                          ;mov.w ARAM.Chan_PitchSlideDelay+X, A
+                          ;mov.w ARAM.Chan_PitchSlideDuration+X, A
+                          ;mov.w ARAM.Chan_PitchSlideTarget+X, A
+                          mov.w ARAM.Chan_PitchSlideCalc+0+X, A
+                          mov.w ARAM.Chan_PitchSlideCalc+1+X, A
+                          ;mov.w ARAM.Chan_PitchSlideInc+0+X, A
+                          ;mov.w ARAM.Chan_PitchSlideInc+1+X, A
+
+            inc X : inc X
+        asl.b ARAM.ChanBit : bne .nextChannel
+
+        ; A will be 0 after the loop above.
+        ; Set some global settings.
+        mov.b ARAM.GlobalTransposition, A
+        mov.b ARAM.GlobalVol+0, A
+        mov.b ARAM.SongTempo+0, A
+        mov.b ARAM.SongMute, A
+        mov.b ARAM.PercussionBaseNote, A
+
+        mov.b ARAM.TempoSlideTimer, A
+        mov.b ARAM.TempoSlideTarget, A
+        mov.b ARAM.TempoSlideInc+0, A
+        mov.b ARAM.TempoSlideInc+1, A
+
+        mov.b ARAM.EchoPanTimer, A
+
+        mov.b ARAM.GlobalVol+1, #$FF
+        mov.b ARAM.SongTempo+1, #$20
+        mov.b ARAM.SongDelay, #$02
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Uses: $00-$01
+    NextSegmentSetup:
+    {
+        !CurrentChanSegPtr = $00
+        !CurrentChanDur = $00
+
+        push X
+
+        .attemptNextSegment
+
+        ; Check the high byte for a command:
+        call GetNextSegment : bne .notACommand
+            ; Check the low byte for a valid command (0x00FF):
+            mov Y, A : bne .validCommand
+                pop X
+
+                ; If not a valid command, mute the song.
+                setc
+
+                ret
+
+            .validCommand
+
+            ; Mute all music if #$80:
+            cmp.b A, #$80 : beq .setMute
+                ; Unmute all music if #$81:
+                cmp.b A, #$81 : bne .setNumLoops
+                    mov.b A, #$00
+
+                    .setMute
+
+                    mov.b ARAM.SongMute, A
+
+                    ; Key off all channels currently being used by a song.
+                    or.b ARAM.KeyOffQ, ARAM.ChanInUseSong
+
+                    bra .attemptNextSegment
+
+            .setNumLoops
+
+            ; If anything else, use that as the number of times to loop the
+            ; current segment:
+
+            ; Decrement the number of segment loops. If the result is
+            ; positive, don't set the number of loops again.
+            dec.b ARAM.SegmentLoop : bpl .loopInProgress
+                ; If the result is negative, set the number of loops again.
+                ; Meaning that if the command low byte was 0x82-0xFF the
+                ; segment will loop forever.
+                mov.b ARAM.SegmentLoop, A
+
+            .loopInProgress
+
+            ; Get the pointer of the loop segment.
+            call GetNextSegment
+
+            mov.b ARAM.TEMPCurrentSegment, #$00
+
+            ; If the segment loop counter is 0, that means we are done looping
+            ; this segment and we need to move on to the next one.
+            mov.b X, ARAM.SegmentLoop : beq .attemptNextSegment
+                ; Set the sgement pointer to the loop segment.
+                movw.b ARAM.SegmentPtr, YA
+
+                bra .attemptNextSegment
+
+        .notACommand
+
+        pop X
+
+        ; ALTERNATE ENTRY POINT
+        .skipCommandCheck
+
+        inc.b ARAM.TEMPCurrentSegment
+
+        movw.b !CurrentChanSegPtr, YA
+
+        ; Load the track pointer for each channel:
+        mov.b Y, #$0F
+
+        .loadPoiterTableLoop
+
+            mov.b A, (!CurrentChanSegPtr)+Y : mov.w ARAM.Chan_SongPtr+Y, A
+                                              mov.w ARAM.Chan_PartReturn+Y, A
+        dec Y : bpl .loadPoiterTableLoop
+
+        ; Save the current channel's timer so we can make the rest of 
+        ; the channels reset as well later and Make sure the timer set
+        ; is at least 1.
+        mov.b A, ARAM.Chan_Timer+X : bne .notZero
+            inc A
+        
+        .notZero
+        mov.b !CurrentChanDur, A
+
+        mov.b ARAM.ChanInUseSong, #$00
+
+        ; Loop through each channel.
+        mov.b X, #$00
+        mov.b ARAM.ChanBit, #$01
+
+        .nextChannel
+
+            ; Check if the current channel will be in use for this segment:
+            mov.b A, ARAM.Chan_SongPtr+1+X : bne .channelInUse
+                ; If not, key off the current channel.
+                or.b ARAM.KeyOffQ, ARAM.ChanBit
+
+            .channelInUse
+
+            ; Set the channel timers to the timer of the channel that triggered
+            ; the next segment so that they don't become desynced.
+            mov.b A, !CurrentChanDur : mov.b ARAM.Chan_Timer+X, A
+
+            ; Make sure the release timer is at least 1.
+            mov.b A, ARAM.Chan_ReleaseTimer+X : bne .notZeroRelease
+                mov.b A, #$01 : mov.b ARAM.Chan_ReleaseTimer+X, A
+
+            .notZeroRelease
+
+            inc X : inc X
+        asl.b ARAM.ChanBit : bne .nextChannel
+
+        clrc
+
+        ret
+    }
+
+    GetNextSegment:
+    {
+        ; Get the first segment pointer from the song data.
+        mov.b Y, #$00
+        mov.b A, (ARAM.SegmentPtr)+Y : push A
+        incw.b ARAM.SegmentPtr
+        
+        mov.b A, (ARAM.SegmentPtr)+Y
+        incw.b ARAM.SegmentPtr
+
+        mov Y, A
+        pop A
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    RunMusic:
+    {
+        ; Check if we need to wait to play the song:
+        mov.b A, ARAM.SongDelay : beq .noDelay
+            dec.b ARAM.SongDelay
             
-            BRA .moving_on
-        
-        .no_horiz_collision
-        
-        JSR.w Sprite2_IsToRightOfPlayer
-        
-        .moving_on
-        
-        LDA.w Pool_Probe_SetDirectionTowardsPlayer_x_speeds, Y : STA.w $0D50, X
-        LDA.w Pool_Probe_SetDirectionTowardsPlayer_y_speeds, Y : STA.w $0D40, X
-    
-    .no_tile_collision
-    
-    PLB
-    
-    RTL
-}
+            ret
 
-; ==============================================================================
-
-; $02C566-$02C569 DATA
-AppliedSpeed16:
-{
-    db $10, $10, $10, $10
-}
-
-; $02C56A-$02C56D DATA
-AppliedSpeed18:
-{
-    db $12, $12, $12, $12
-}
-    
-; $02C56E-$02C5F1 DATA
-Pool_Guard_SendOutProbe:
-{
-    ; $02C56E
-    .speed_x
-    db $F0, $F0, $F0, $F0, $F0, $F0, $F0, $F0
-    db $F0, $F2, $F4, $F6, $F8, $FA, $FC, $FE
-    
-    db $00, $02, $04, $06, $08, $0A, $0C, $0E
-    db $10, $10, $10, $10, $10, $10, $10, $10
-    
-    db $10, $10, $10, $10, $10, $10, $10, $10
-    db $0E, $0C, $0A, $08, $06, $04, $02, $00
-    
-    db $FE, $FC, $FA, $F8, $F6, $F4, $F2, $F0
-    db $F0, $F0, $F0, $F0, $F0, $F0, $F0, $F0
-    
-    ; $02C5AE
-    .speed_y
-    db $00, $02, $04, $06, $08, $0A, $0C, $0E
-    db $10, $10, $10, $10, $10, $10, $10, $10
-    
-    db $10, $10, $10, $10, $10, $10, $10, $10
-    db $0E, $0C, $0A, $08, $06, $04, $02, $00
-    
-    db $FE, $FC, $FA, $F8, $F6, $F4, $F2, $F0
-    db $F0, $F0, $F0, $F0, $F0, $F0, $F0, $F0
-    
-    db $F0, $F0, $F0, $F0, $F0, $F0, $F0, $F0
-    db $F2, $F4, $F6, $F8, $FA, $FC, $FE, $00
-    
-    ; $02C5EE
-    .index_offset
-    db $10, $30, $00, $20
-}
-
-; Soldiers and Archers seem to be the only two types that call this.
-; Beamos and Blind call the alternate entry point...
-; $02C5F2-$02C611 LOCAL JUMP LOCATION
-Sprite_SpawnProbeStaggered:
-{
-    ; TODO: Investigate this:
-    ; Is there some point to this store that I'm not seeing? It's
-    ; overwritten later before even being used.
-    TXA : CLC : ADC.b $1A1A : STA.b $0F
-    AND.b #$03 : ORA.w $0F00, X : BNE Sprite_SpawnProbeAlways_spawn_failed
-        LDA.w $0EC0, X
-        INC.w $0EC0, X
+        .noDelay
         
-        LDY.w $0DE0, X
-        CLC : AND.b #$1F : ADC.w Pool_Guard_SendOutProbe_index_offset, Y
-        AND.b #$3F : STA.b $0F
+        .redoChannels
+
+        ; Loop through each channel:
+        mov.b X, #$00 : mov.b ARAM.ChannelOffset, X
+        mov.b ARAM.ChanBit, #$01
+
+        .nextChannel
+
+            ; Check if the current channel is in use by the song:
+            mov.b A, ARAM.Chan_SongPtr+1+X : beq .channelNotUsed
+                ; Check if the note has already been released:
+                mov.b A, ARAM.Chan_ReleaseTimer+X : beq .alreadyReleased
+                    ; Check if the note needs to be released:
+                    dec.b ARAM.Chan_ReleaseTimer+X : beq .release
+                        ; If the channel timer has hit 2 and the note has not
+                        ; already been released we need to release it.
+                        mov.b A, ARAM.Chan_Timer+X : cmp.b A, #$02 : bne .alreadyReleased
+                            .release
+
+                            call CheckForTie
+
+                .alreadyReleased
+                
+                ; Check if the next note needs to be played:
+                dec.b ARAM.Chan_Timer+X : bne .noteNotDone
+                    ; Move on to the next note in the song. If carry
+                    ; set, we hit the end of a segment and need to redo 
+                    ; all of the channels.
+                    call Tracker : bcs .redoChannels
+                        ; If the song is muted, mute the note.
+                        mov.b A, ARAM.SongMute : bne .mute
+                            ; Key on queue the current channel.
+                            mov.b A, ARAM.KeyOnQQ : and.b A, ARAM.ChanBit
+                            or.b A, ARAM.KeyOnQ : mov.b ARAM.KeyOnQ, A
+
+                            ; Remove the KeyOnQQ for the channel.
+                            mov.b A, ARAM.ChanBit : tclr.w ARAM.KeyOnQQ, A
+
+                        .mute
+                        
+                        ; Reset the note timer based on the channel duration.
+                        mov.w A, ARAM.Chan_Duration+X : mov.b ARAM.Chan_Timer+X, A
+                                                        mov.b Y, A
+
+                        mov.w A, ARAM.Chan_Staccato+X
+                        mul YA : mov.b A, Y
+                                bne .notZero
+                            inc A
+                            
+                        .notZero
+
+                        ; TODO: Speed test line.
+                        ;dec A : dec A
+
+                        ; Set the channel release/staccato timer.
+                        mov.b ARAM.Chan_ReleaseTimer+X, A
+
+                .noteNotDone
+            .channelNotUsed
+
+            inc X : inc X : mov.b ARAM.ChannelOffset, X
+        asl.b ARAM.ChanBit : bne .nextChannel
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Skim through the next bytes until we hit one with an actual duration
+    ; and then check if it is a tie. If it is, we should not key off.
+    ; Input:
+    ;     X - The current channel.
+    CheckForTie:
+    {
+        !tempPtr = $02
+
+        mov.b A, ARAM.Chan_SongPtr+1+X : mov.b Y, A
+        mov.b A, ARAM.Chan_SongPtr+0+X : movw.b !tempPtr, YA
+
+        mov.b Y, #$00
+
+        bra .nextByte
+
+        .addParams
+
+            mov.b X, A
+            mov.b A, Y : clrc : adc.w A, TrackCommandParamCount-$E0+X : mov.b Y, A
+
+            .nextByte
+                
+                mov.b A, (!tempPtr)+Y
+
+                inc Y
+            ; Check if the next byte is a duration or an end command.
+            cmp.b A, #$80 : bcc .nextByte
+        ; Check if the next byte is a command.
+        cmp.b A, #$E0 : bcs .addParams
+
+        ; Everything except for the tie should key off.
+        cmp.b A, #$C8 : beq .tie
+            or.b ARAM.KeyOffQ, ARAM.ChanBit
+
+        .tie
+
+        mov.b X, ARAM.ChannelOffset
+
+        ret
+    }
+
+    TrackCommandParamCount:
+    {
+        db 1 ; TrackCommandE0_ChangeInstrument
+        db 1 ; TrackCommandE1_ChangePan
+        db 2 ; TrackCommandE2_PanSlide
+        db 3 ; TrackCommandE3_SetVibrato
+        db 0 ; TrackCommandE4_VibratoOff
+        db 1 ; TrackCommandE5_GlobalVolume
+        db 2 ; TrackCommandE6_GlobalVolumeSlide
+        db 1 ; TrackCommandE7_SetTempo
+
+        db 2 ; TrackCommandE8_TempoSlide
+        db 1 ; TrackCommandE9_GlobalTranspose
+        db 1 ; TrackCommandEA_ChannelTranspose
+        db 3 ; TrackCommandEB_SetTremolo
+        db 0 ; TrackCommandEC_TremoloOff
+        db 1 ; TrackCommandED_ChannelVolume
+        db 2 ; TrackCommandEE_ChannelVolumeSlide
+        db 3 ; TrackCommandEF_CallPart
+
+        db 1 ; TrackCommandF0_VibratoGradient
+        db 3 ; TrackCommandF1_PitchSlideTo
+        db 3 ; TrackCommandF2_PitchSlideFrom
+        db 0 ; TrackCommandF3_PitchSlideStop
+        db 1 ; TrackCommandF4_FineTuning
+        db 3 ; TrackCommandF5_EchoBasicControl
+        db 0 ; TrackCommandF6_EchoSilence
+        db 3 ; TrackCommandF7_EchoFilter
+
+        db 3 ; TrackCommandF8_EchoSlide
+        db 3 ; TrackCommandF9_SlideOnce
+        db 1 ; TrackCommandFA_PercussionOffset
+
+        db 2 ; 0xFB
+        db 0 ; 0xFC
+        db 0 ; 0xFD
+        db 0 ; 0xFE
+    }
+
+    ; Input:
+    ;     X - The current channel.
+    Tracker:
+    {
+        ; The current note is done, go to the next one.
+
+        .instantNextByte
+
+        ; Get the next note/command value from the song data.
+        call GetTrackByte
+
+        ; Check if the value is the end of the part/segment/song (0x00):
+        bne .notEnd
+            ; Check if we are running a part subroutine:
+            mov.b A, ARAM.Chan_PartCounter+X : beq .notEndPart
+                ; Decrease the part loop counter.
+                dec.b ARAM.Chan_PartCounter+X : beq .endPart
+                    ; Loop the part again by setting the track pointer to
+                    ; the start of the part.
+                    call IteratePartLoop
+
+                    bra .instantNextByte
+
+                .endPart
+
+                ; If the part loop counter is 0, return from the part.
+                mov.w A, ARAM.Chan_PartReturn+0+X : mov.w ARAM.Chan_SongPtr+0+X, A
+                mov.w A, ARAM.Chan_PartReturn+1+X : mov.w ARAM.Chan_SongPtr+1+X, A
+
+                bra .instantNextByte
+
+            .notEndPart
+
+            mov.b A, #$00 : mov.w ARAM.Chan_Note+X, A
+
+            call NextSegmentSetup : bcc .notSongEnd
+                ; The song has ended, mute the music.
+                call MusicCommand_Mute
+
+                ; Cancel the tracker loop.
+                mov.b ARAM.ChanBit, #$00
+                mov.b ARAM.ChannelOffset, #$00
+
+                clrc
+
+                ret
+
+            .notSongEnd
+
+            setc
+
+            ret
+
+        .notEnd
+        
+        ; Check if the value is a duration value for the channel
+        ; (<= 0x7F > 0x00).
+        bmi .notDuration
+            ; Set the new duration value for the channel.
+            mov.w ARAM.Chan_Duration+X, A
+                
+            ; Check the next byte for a staccato/attack setting: #$80 and 
+            ; greater are notes or commands.
+            mov.b A, (ARAM.Chan_SongPtr+X) : bmi .notAttackStaccato
+                ; NOTE: Because this is in a nested if, that means the only way
+                ; to set the staccato and attack is by doing it after setting
+                ; the note duration.
+
+                call SkipTrackByte
+                                    
+                push A
+
+                ; Use bits 4-6 as the index to get the note staccato.
+                xcn A : and.b A, #$07 : mov Y, A
+                mov.w A, .NoteStaccato+Y : mov.w ARAM.Chan_Staccato+X, A
+
+                ; Use bits 0-3 as the index to get the note
+                ; attack.
+                pop A : and.b A, #$0F : mov Y, A
+                mov.w A, .NoteAttack+Y : mov.w ARAM.Chan_Attack+X, A
+
+            .notAttackStaccato
+
+            bra .instantNextByte
+
+        .notDuration
+
+        ; Check if the value is a command (>= 0xE0):
+        cmp.b A, #$E0 : bcc .notCommand
+            ; It is a command, execute it.
+            call ExecuteTrackCommand
+
+            bra .instantNextByte
+
+        .notCommand
+
+        ; Check if the value is a percussion value (>= 0xCA and <= 0xDF):
+        cmp.b A, #$CA : bcc .notPercussion
+            call TrackCommandE0_ChangeInstrument
+
+            mov.b A, #$A4 ; Note C4
+
+        .notPercussion
+
+        ; Check if the note is a tie (0xC8).
+        cmp.b A, #$C8 : beq .tie
+            ; Check if the note is a rest (0xC9).
+            cmp.b A, #$C9 : beq .rest
+                ; If we got here, the value is a note ( >= 0x80 and <= 0xC7):
+                and.b A, #$7F
+
+                ; Add the channel transposition.
+                clrc : adc.w A, ARAM.Chan_Transposition+X
+
+                ; Apply global transposition.
+                clrc : adc.b A, ARAM.GlobalTransposition
+
+                ; Set the note value for the channel.
+                mov.w ARAM.Chan_Note+X, A
+
+                ; Reset some channel vibrato, tremolo, and pitch slide settings.
+                mov.b A, #$00 : mov.w ARAM.Chan_VbrStrength+X, A
+                                mov.w ARAM.Chan_VbrSlideTimer+X, A
+                                mov.w ARAM.Chan_TremAcc+X, A
+                                mov.b ARAM.Chan_TremTimer+X, A
+                                mov.w ARAM.Chan_PitchSlideCalc+0+X, A
+                                mov.w ARAM.Chan_PitchSlideCalc+1+X, A
+
+                ; TODO: Speed test line.
+                ;bra .noPitchSlideToFrom
+
+                ; Set the current channel's pitch slide timer and check if it
+                ; is 0:
+                mov.w A, ARAM.Chan_PitchSlideDuration+X
+                mov.b ARAM.Chan_PitchSlideTimer+X, A
+                beq .noPitchSlideToFrom
+                    ; Reset the pitch slide delay timer.
+                    mov.w A, ARAM.Chan_PitchSlideDelay+X
+                    mov.b ARAM.Chan_PitchSlideWait+X, A
+
+                    ; Get the slide type. 0 for slide from and 1 for slide to.
+                    mov.w A, ARAM.Chan_PitchSlideType+X : bne .notSlideFrom
+                        ; Change the current note to be the target note.
+                        mov.w A, ARAM.Chan_Note+X
+                        setc : sbc.w A, ARAM.Chan_PitchSlideTarget+X
+                        mov.w ARAM.Chan_Note+X, A
+
+                    .notSlideFrom
+
+                    ; Add the target offset to the current note, then calculate
+                    ; the pitch slide increment.
+                    mov.w A, ARAM.Chan_PitchSlideTarget+X
+                    clrc : adc.w A, ARAM.Chan_Note+X
+                    call TrackCommandF9_SlideOnce_calculateIncrement
+
+                .noPitchSlideToFrom
+
+                ; Mark that the channel is in use.
+                or.b ARAM.ChanInUseSong, ARAM.ChanBit
+
+                ; Mark that the channel needs to have its volume updated.
+                or.b ARAM.ChanUpdateVol, ARAM.ChanBit
+
+                ; Mark that the channel needs to have its pitch updated.
+                or.b ARAM.ChanUpdatePitch, ARAM.ChanBit
+
+                ; Mark that we need to key on queue when the next timer
+                ; runs out.
+                or.b ARAM.KeyOnQQ, ARAM.ChanBit
+
+                bra .note
+
+            .rest
+
+            mov.b A, #$00 : mov.w ARAM.Chan_Note+X, A
+
+            ; Mark that the channel is not in use.
+            mov.b A, ARAM.ChanBit : tclr.w ARAM.ChanInUseSong, A
+
+            .note
+        .tie
+
+        ; Pitch slide once commands happen after handling a note instead of 
+        ; before like all the rest of the commands.
+        ; If there is an active pitch timer on the current channel, don't
+        ; do anything.
+        mov.b A, ARAM.Chan_PitchSlideTimer+X : bne .timerActive
+            ; Get the next track command, if its not a slide once command, exit.
+            mov.b A, (ARAM.Chan_SongPtr+X) : cmp.b A, #$F9 : bne .notSlideOnce
+                ; We read the current byte eariler so now we need to skip it.
+                call SkipTrackByte
+
+                call TrackCommandF9_SlideOnce
+
+            .notSlideOnce
+        .timerActive
+
+        clrc
+
+        ret
+
+        .NoteStaccato
+        db $32, $65, $7F, $98, $B2, $CB, $E5, $FC
+
+        .NoteAttack
+        db $19, $32, $4C, $65, $72, $7F, $8C, $98
+        db $A5, $B2, $BF, $CB, $D8, $E5, $F2, $FC  
+    }
+
+    GetTrackByte:
+    {
+        ; Get the current channel track pointer.
+        mov.b A, (ARAM.Chan_SongPtr+X)
 
         ; Bleeds into the next function.
-}
-    
-; $02C612-$02C66D LOCAL JUMP LOCATION
-Sprite_SpawnProbeAlways:
-{
-    LDA.b #$41  ; If any of our sprites are dead, change it to a soldier.
-    LDY.b #$0A  ; We'll be checking sprites in slots 0x00 through 0x0A.
-    
-    JSL.l Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
-        LDA.b $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
-        LDA.b $01 :       ADC.b #$00 : STA.w $0D30, Y
-        
-        LDA.b $0202 : CLC : ADC.b #$04 : STA.w $0D00, Y
-        LDA.b $03 :         ADC.b #$00 : STA.w $0D20, Y
-        
-        PHX
-        
-        ; The direction the statue sentry eye is facing determines the direction
-        ; that the feeler will travel in.
-        LDX.b $0F : TXA
-                    STA.w $0DE0, Y
-        LDA.w Pool_Guard_SendOutProbe_speed_x, X : STA.w $0D50, Y
-        LDA.w Pool_Guard_SendOutProbe_speed_y, X : STA.w $0D40, Y
-        
-        LDA.w $0E40, Y : AND.b #$F0 : ORA.b #$A0 : STA.w $0E40, Y
-        
-        PLX
-        
-        TXA : INC : STA.w $0DB0, Y
-                    STA.w $0BA0, Y
-        
-        LDA.b #$40 : STA.w $0F60, Y
-                     STA.w $0E60, Y
-        
-        LDA.b #$02 : STA.w $0CAA, Y
-        
-    .spawn_failed
-    
-    RTS
-}
+    }
 
-; ==============================================================================
+    SkipTrackByte:
+    {
+        ; Increase the track pointer to the next byte.
+        inc.b ARAM.Chan_SongPtr+X : bne .dontIncrementHigh
+            inc.b ARAM.Chan_SongPtr+1+X
 
-; $02C66E-$02C675 LONG JUMP LOCATION
-Sprite_SpawnProbeAlwaysLong:
-{
-    PHB : PHK : PLB
-    
-    JSR.w Sprite_SpawnProbeAlways
-    
-    PLB
-    
-    RTL
-} 
+        .dontIncrementHigh
 
-; ==============================================================================
+        mov Y, A
 
-; $02C676-$02C67F LONG JUMP LOCATION
-Soldier_AnimateMarionetteTempLong:
-{
-    PHB : PHK : PLB
-    
-    PHX
-    
-    JSR.w Guard_HandleAllAnimation
-    
-    PLX
-    
-    PLB
-    
-    RTL
-}
+        ret
+    }
 
-; $02C680-$002C68B LOCAL JUMP LOCATION
-Guard_HandleAllAnimation:
-{
-    JSR.w Sprite2_PrepOamCoord
-    JSR.w Guard_AnimateHead
-    JSR.w Guard_AnimateBody
-    JSR.w Guard_AnimateWeapon
+    ; ==========================================================================
 
-    ; Bleeds into the next function.
-}
+    ; Input:
+    ;     X - The channel number.
+    ; Uses: $00-$03
+    ; Perform channel pitch related tasks such as channel pitch slide, vibrato,
+    ; and vibrato slides.
+    PerformPitchAdjustments:
+    {
+        !negative = $00
+        !pitchCalc = $02
 
-; $02C68C-$02C6A1 LOCAL JUMP LOCATION
-Guard_DrawShadow:
-{
-    LDA.w $0E60, X : AND.b #$10 : BEQ .alpha
-        LDY.w $0DE0, X
-        LDA.w .shadow_types, Y
-        JSL.l Sprite_DrawShadowLong_variable
-    
-    .alpha
-    
-    RTS
-    
-    .shadow_types
-    db $0C, $0C, $0A, $0A
-}
+        ; TODO: Speed test line.
+        ;bra .noPitchSlide
 
-; $02C6A2-$02C6DD LOCAL JUMP LOCATION
-Pool_Guard:
-{
-    ; $02C6A2
-    .headChar
-    db $42, $42, $40, $44
+        ; Check if we are performing a pitch slide on the current channel:
+        mov.b A, ARAM.Chan_PitchSlideTimer+X : beq .noPitchSlide
+            ; TODO: Remove.
+            ; Artificially slow down the pitch slide.
+            mov.b A, ARAM.Chan_PitchSlideTemp+X : bne .slowPitch
+                ; Check if we need to wait to perform the pitch slide:
+                mov.b A, ARAM.Chan_PitchSlideWait+X : beq .delayFinished
+                    ; Decrement the pitch slide wait timer.
+                    dec.b ARAM.Chan_PitchSlideWait+X
 
-    ; $02C6A6
-    .headProperties
-    db $40, $00, $00, $00
-    
-    ; $02C6AA
-    .headYOffset
-    dw 0007, 0008, 0007, 0008
-    dw 0008, 0007, 0008, 0007
-    dw 0008, 0007, 0008, 0008
-    dw 0007, 0008, 0008, 0008
-    dw 0008, 0008, 0008, 0008
-    dw 0008, 0008, 0008, 0008
-    dw 0008, 0008
-}
+                    mov.b A, #$06 : mov.b ARAM.Chan_PitchSlideTemp+X, A
 
-; $02C6DE-$02C72C LOCAL JUMP LOCATION
-Guard_AnimateHead:
-{
-    LDY.b #$00
-    
-    ; $02C6E0 ALTERNATE ENTRY POINT
-    .PreserveOAMOffset
-    
-    PHX
-    
-    LDA.w $0DC0, X : ASL : STA.b $0D
-    
-    LDA.w $0EB0, X : TAX
-    
-    REP #$20
-    
-    LDA.b $00    : STA.b ($90), Y
-    AND.w #$0100 : STA.b $0E
-    
-    PHY
-    
-    LDA.b $02
-    
-    SEC
-    
-    LDY.b $0D
-    SBC.w Pool_Guard_headYOffset, Y
-    
-    PLY : INY
-    STA.b ($90), Y
-    
-    CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
-        LDA.w #$00F0 : STA.b ($90), Y
-    
-    .alpha
-    
-    SEP #$20
-    
-    LDA.w Pool_Guard_headChar, X       : INY             : STA.b ($90), Y
-    LDA.w Pool_Guard_headProperties, X : INY : ORA.b $05 : STA.b ($90), Y
-    
-    TYA : LSR : LSR : TAY
-    LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
-    
-    PLX
-    
-    RTS
-}
+                    bra .noPitchSlide
 
-; ==============================================================================
+                .delayFinished
 
-; $02C72D-$02CA08 DATA
-Pool_GuardBody:
-{
-    ; $02C72D
-    .ObjectOffsetX
-    dw  -4,   4,  10,  10
-    dw  -4,   4,  10,  10
-    dw  -4,   4,  10,  10
-    dw  -4,   4,  10,  10
-    dw  -4,  -4,   0,   0
-    dw  -4,  -4,   0,   0
-    dw  -3,  -3,   0,   0
-    dw  -3,  -3,  -4,   4
-    dw  -3,  -3,  -4,   4
-    dw  -3,  -3,  -4,   4
-    dw  -3,  -3,  -4,   4
-    dw  12,  12,   0,   0
-    dw  12,  12,   0,   0
-    dw  11,  11,   0,   0
-    dw  -4,   4,   0,   0
-    dw  -4,   4,   0,   0
-    dw  -4,   4,   0,   0
-    dw   0,   0,   0,   0
-    dw   0,   0,   0,   0
-    dw   0,   0,   0,   0
-    dw  -4,   4,   0,   0
-    dw  -4,   4,   0,   0
-    dw  -4,   4,   0,   0
-    dw   0,   0,   0,   0
-    dw   0,   0,   0,   0
-    dw   0,   0,   0,   0
+                ; Decrement the pitch slide timer.
+                dec.b ARAM.Chan_PitchSlideTimer+X
 
-    ; $02C7FD
-    .ObjectOffsetY
-    dw   0,   0,   2,  10
-    dw   0,   0,   2,  10
-    dw   0,   0,   1,   9
-    dw   0,   0,   2,  10
-    dw  -2,   6,   1,   1
-    dw  -2,   6,   2,   2
-    dw  -2,   6,   1,   1
-    dw  -5,   3,   0,   0
-    dw  -4,   4,   0,   0
-    dw  -4,   4,   0,   0
-    dw  -5,   3,   0,   0
-    dw  -2,   6,   1,   1
-    dw  -2,   6,   2,   2
-    dw  -2,   6,   1,   1
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
-    dw   0,   0,   8,   8
+                ; Add the increment to the pitch slide calc.
+                mov.w A, ARAM.Chan_PitchSlideCalc+0+X
+                clrc : adc.w A, ARAM.Chan_PitchSlideInc+0+X
+                mov.w ARAM.Chan_PitchSlideCalc+0+X, A
 
-    ; $02C8CD
-    .ObjectChar
-    db $48, $49, $6D, $7D
-    db $49, $48, $6D, $7D
-    db $46, $46, $6D, $7D
-    db $4B, $46, $6D, $7D
-    db $4D, $5D, $4E, $4E
-    db $4D, $5D, $60, $60
-    db $4D, $5D, $62, $62
-    db $6D, $7D, $64, $64
-    db $6D, $7D, $66, $67
-    db $6D, $7D, $67, $66
-    db $6D, $7D, $64, $69
-    db $4D, $5D, $4E, $4E
-    db $4D, $5D, $60, $60
-    db $4D, $5D, $62, $62
-    db $02, $03, $20, $20
-    db $02, $0C, $20, $20
-    db $02, $0C, $20, $20
-    db $08, $08, $20, $20
-    db $0E, $0E, $20, $20
-    db $0E, $0E, $20, $20
-    db $05, $06, $20, $20
-    db $22, $06, $20, $20
-    db $22, $06, $20, $20
-    db $08, $08, $20, $20
-    db $0E, $0E, $20, $20
-    db $0E, $0E, $20, $20
+                mov.w A, ARAM.Chan_PitchSlideCalc+1+X
+                    adc.w A, ARAM.Chan_PitchSlideInc+1+X
+                mov.w ARAM.Chan_PitchSlideCalc+1+X, A
 
-    ; $02C935
-    .ObjectFlip
-    db $00, $00, $00, $00
-    db $40, $40, $00, $00
-    db $00, $40, $00, $00
-    db $00, $40, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $40
-    db $00, $00, $00, $00
-    db $00, $00, $40, $40
-    db $00, $00, $00, $40
-    db $40, $40, $40, $40
-    db $40, $40, $40, $40
-    db $40, $40, $40, $40
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $40, $40, $40, $40
-    db $40, $40, $40, $40
-    db $40, $40, $40, $40
+                ; Mark that the channel needs to have its pitch updated.
+                or.b ARAM.ChanUpdatePitch, ARAM.ChanBit
 
-    ; $02C99D
-    .ObjectSize
-    db $02, $02, $00, $00
-    db $02, $02, $00, $00
-    db $02, $02, $00, $00
-    db $02, $02, $00, $00
-    db $00, $00, $02, $02
-    db $00, $00, $02, $02
-    db $00, $00, $02, $02
-    db $00, $00, $02, $02
-    db $00, $00, $02, $02
-    db $00, $00, $02, $02
-    db $00, $00, $02, $02
-    db $00, $00, $02, $02
-    db $00, $00, $02, $02
-    db $00, $00, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
-    db $02, $02, $02, $02
+                mov.b A, #$05 : mov.b ARAM.Chan_PitchSlideTemp+X, A
 
-    ; $02CA05
-    .OAMOffsets
-    db $0C
-    db $0C
-    db $0C
-    db $04
-}
+            .slowPitch
 
-; $02CA09-$02CAB7 LOCAL JUMP LOCATION
-Guard_AnimateBody:
-{
-    LDY.w $0DE0, X
-    LDA.w Pool_GuardBody_OAMOffsets, Y : TAY
-    
-    ; $02CA10
-    .PreserveOAMOffset
+            dec.b ARAM.Chan_PitchSlideTemp+X
+                    
+        .noPitchSlide
 
-    LDA.w $0DC0, X : ASL : ASL : STA.b $07
-    LDA.w $0E20, X          : STA.b $08
-    
-    PHX
-    
-    LDX.b #$03
-    
-    ; $02CA1F ALTERNATE ENTRY POINT
-    .next_object
-    
-    PHX
-    
-    TXA : CLC : ADC.b $07 : TAX : STX.b $06
-    
-    LDA.b $08 : CMP.b #$46 : BCC .alpha
-        LDA.w Pool_GuardBody_ObjectSize, X : BEQ .beta
-            LDA.w Pool_GuardBody_ObjectChar, X
-            
-            PLX : PHX
-            CPX.b #$03 : BNE .alpha
-                CMP.b #$20 : BEQ .beta
-    
-    .alpha
-    
-    LDA.b $06 : ASL : TAX
-    
-    REP #$20
-    
-    LDA.b $00 : CLC : ADC.w Pool_GuardBody_ObjectOffsetX, X : STA.b ($90), Y
-    AND.w #$0100                                            : STA.b $0E
-    
-    LDA.b $02 : CLC : ADC.w Pool_GuardBody_ObjectOffsetY, X : INY : STA.b ($90), Y
-    
-    CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .gamma
-        LDA.w #$00F0 : STA.b ($90), Y
-    
-    .gamma
-    
-    SEP #$20
-    
-    LDA.w #$08 : STA.b $0D
-    
-    LDX.b $06
-    LDA.w Pool_GuardBody_ObjectChar, X : INY : STA.b ($90), Y
-    CMP.b #$20 : BNE .delta
-        LDA.b #$02 : STA.b $0D
-        
-        LDA.b $0808 : CMP.b #$46 : CLC : BNE .epsilon
-            DEY
-            LDA.b #$F0 : STA.b ($90), Y
-            
-            INY
-            
-            BRA .epsilon
-    
-    .delta
-    
-    ; WTF: OPTIMIZE: what is this for? Is this half a check that was supposed to
-    ; be removed?
-    LDA.w Pool_GuardBody_ObjectSize, X : CMP.b #$01
-    
-    .epsilon
-    
-    LDA.w Pool_GuardBody_ObjectFlip, X : ORA.b $05 : BCS .zeta
-        AND.b #$F1 : ORA.b $0D
-    
-    .zeta
-    
-    INY
-    STA.b ($90), Y
-    
-    PHY : TYA : LSR : LSR : TAY
-    LDA.w Pool_GuardBody_ObjectSize, X : ORA.b $0F0F : STA.b ($92), Y
-    
-    PLY : INY
-    
-    .beta
-    
-    PLX : DEX : BMI .theta
-        JMP.w Guard_AnimateBody_next_object
-    
-    .theta
-    
-    PLX
-    
-    RTS
-}
+        ; TODO: Speed test line.
+        ;bra .noVibrato
 
-; $02CAB8-$02CB63 DATA
-GuardWeaponObject:
-{
-    ; $02CAB8
-    .OffsetX
-    dw  -3,  -3
-    dw  -4,  -4
-    dw  -4,  -4
-    dw  -4,  -4
-    dw -11,  -3
-    dw -11,  -3
-    dw -16,  -8
-    dw  12,  12
-    dw  12,  12
-    dw  12,  12
-    dw  12,  12
-    dw  21,  13
-    dw  21,  13
-    dw  24,  16
+        ; Check if there is a channel vibrato intensity set:
+        mov.w A, ARAM.Chan_VbrIntensity+X : beq .noVibrato
+            ; Check if there is a channel vibrato delay:
+            mov.w A, ARAM.Chan_VbrStrength+X
+            cmp.w A, ARAM.Chan_VbrDelay+X : bne .vibratoDelay
+                ; Check if we want to gradually increase the intenisty instead
+                ; of just setting it to the max:
+                mov.w A, ARAM.Chan_VbrSlideTimer+X
+                cmp.w A, ARAM.Chan_VbrSlideWait+X : bne .increment
+                    ; Get the channel max vibrato intensity.
+                    mov.w A, ARAM.Chan_VbrMaxIntensity+X
 
-    ; $02CAF0
-    .OffsetY
-    dw  11,  19
-    dw  11,  19
-    dw  10,  18
-    dw  14,  22
-    dw   8,   8
-    dw   8,   8
-    dw   6,   6
-    dw -10,  -2
-    dw  -9,  -1
-    dw  -9,  -1
-    dw -16,  -8
-    dw   8,   8
-    dw   8,   8
-    dw   6,   6
+                    bra .setIntensity
 
-    ; $02CB28
-    .Char
-    db $7B, $6B
-    db $7B, $6B
-    db $7B, $6B
-    db $7B, $6B
-    db $6C, $7C
-    db $6C, $7C
-    db $6C, $7C
-    db $6B, $7B
-    db $6B, $7B
-    db $6B, $7B
-    db $6B, $7B
-    db $6C, $7C
-    db $6C, $7C
-    db $6C, $7C
-
-    ; $02CB44
-    .Flip
-    db $80, $80
-    db $80, $80
-    db $80, $80
-    db $80, $80
-    db $00, $00
-    db $00, $00
-    db $00, $00
-    db $00, $00
-    db $00, $00
-    db $00, $00
-    db $00, $00
-    db $40, $40
-    db $40, $40
-    db $40, $40
-
-    ; $02CB60
-    .OAMOffset
-    db $04
-    db $04
-    db $04
-    db $14
-}
-
-; $02CB64-$02CBDF LOCAL JUMP LOCATION
-Guard_AnimateWeapon:
-{
-    LDA.w $0DC0, X : ASL : STA.b $06
-    
-    LDA.w $0E20, X : SEC : SBC.b #$41 : STA.b $08
-    
-    LDY.w $0DE0, X
-    LDA.w GuardWeaponObject_OAMOffset, Y : TAY
-    
-    PHX
-    
-    LDX.b #$01
-    
-    .gamma
-    
-        PHX
-        
-        TXA : CLC : ADC.b $06 : PHA
-        
-        ASL : TAX
-        
-        REP #$20
-        
-        LDA.w GuardWeaponObject_OffsetX, X : CLC : ADC.b $0000 : STA.b ($90), Y
-        AND.w #$0100                                           : STA.b $0E
-        
-        LDA.w GuardWeaponObject_OffsetY, X : CLC : ADC.b $02 : INY : STA.b ($90), Y
-        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
-            LDA.w #$00F0 : STA.b ($90), Y
-        
-        .alpha
-        
-        SEP #$20
-        
-        LDA.w GuardWeaponObject_OffsetX, X : STA.w $0FAB
-        LDA.w GuardWeaponObject_OffsetY, X : STA.w $0FAA
-        
-        PLX
-        
-        ; WTF: OPTIMIZE: what is this for? Is this half a check that was supposed
-        ; to be removed?
-        LDA.b $08 : CMP.b #$02
-        
-        LDA.w GuardWeaponObject_Char, X : BCS .beta
-            ADC.b #$03
-        
-        .beta
-        
-        INY
-        STA.b ($90), Y
-        
-        LDA.w GuardWeaponObject_Flip, X : ORA.b $05 : INY : STA.b ($90), Y
-        
-        PHY : TYA : LSR : LSR : TAY
-        LDA.b $0F : STA.b ($92), Y
-        
-        PLY : INY
-    PLX : DEX : BPL .gamma
-    
-    PLX
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02CBE0-$02CC3B JUMP LOCATION
-Sprite_PsychoSpearSoldier:
-{
-    JSR.w Guard_HandleAllAnimation
-    JSR.w Sprite2_CheckIfActive
-    JSR.w PsychoSpearSoldier_PlayChaseMusic
-    JSL.l Guard_ParrySwordAttacks
-    JSR.w Sprite2_CheckIfRecoiling
-    JSR.w Sprite2_MoveIfNotTouchingWall
-    JSR.w Sprite2_CheckTileCollision
-    JSL.l Sprite_CheckDamageToPlayerLong
-    
-    TXA : EOR.b $1A : AND.b #$0F : BNE .no_direction_change
-        JSR.w Sprite2_DirectionToFacePlayer
-        TYA : STA.w $0EB0, X
-              STA.w $0DE0, X
-        
-        TXA : AND.b #$03 : TAY
-        LDA.w AppliedSpeed18, Y
-        JSL.l Sprite_ApplySpeedTowardsPlayerLong
-        
-        LDA.w $0E70, X : BEQ .no_direction_change
-            AND.b #$03 : BEQ .horizontal_tile_collision
-                JSR.w Sprite2_IsBelowPlayer
+                .increment
                 
-                INY : INY
+                inc.b ARAM.Chan_VbrSlideTimer+X
+
+                mov Y, A : beq .initializing
+                    mov.b A, ARAM.Chan_VbrIntensity+X
+
+                .initializing
+
+                ; Add the channel vibrato intensity slide increment.
+                clrc : adc.w A, ARAM.Chan_VbrSlideInc+X
+
+                .setIntensity
                 
-                BRA .gamma
+                ; Reset the vibrato intensity.
+                mov.w ARAM.Chan_VbrIntensity+X, A
+
+                ; TODO: Remove.
+                ; Artificially slow down the vibrato.
+                mov.b A, ARAM.Chan_VbrTemp+X : bne .dontAdd
+                    mov.b A, #$03 : mov.b ARAM.Chan_VbrTemp+X, A
+
+                    ; Add the channel vibrato increment to the vibrato
+                    ; accumulator.
+                    mov.w A, ARAM.Chan_VbrAcc+X
+                    clrc : adc.w A, ARAM.Chan_VbrInc+X
+                    mov.w ARAM.Chan_VbrAcc+X, A
+
+                    ; TODO: This is an alternate way to calculate the vibrato
+                    ; that also appears in alttp depending on the circumstance.
+                    ; I am currently unsure of when each one occurs.
+                    ;mov.b Y, ARAM.SongTimer
+                    ;mov.w A, ARAM.Chan_VbrInc+X
+                    ;mul YA : mov A, Y : clrc : adc.w A, ARAM.Chan_VbrAcc+X
+                    ;mov.w ARAM.Chan_VbrAcc+X, A
+
+                    bra .skip
+
+                .dontAdd
+
+                dec.b ARAM.Chan_VbrTemp+X
+
+                mov.w A, ARAM.Chan_VbrAcc+X
+
+                .skip
+
+                ; Save the vibrato accumulator for later.
+                mov.b !negative, A
+
+                ; If negative, flip it:
+                asl A : asl A : bcc .accNotNegative
+                    ; TODO: Why do we not inc A here as well?
+                    eor.b A, #$FF
+
+                .accNotNegative
+
+                mov Y, A
+
+                ; Check if the intensity is negative:
+                ; NOTE: I guess 0xF1-0xFF are the only values considered a
+                ; valid negative.
+                mov.w A, ARAM.Chan_VbrIntensity+X : cmp.b A, #$F1 : bcc .intenistyNotNegative
+                    ; Make roughly not negative:
+                    and.b A, #$0F
+
+                    ; Multiply the vibrato accumulator by the intensity.
+                    mul YA
+
+                    bra .continue
+
+                .intenistyNotNegative
+
+                ; Multiply the vibrato accumulator by the intensity.
+                mul YA : mov A, Y
+                mov.b Y, #$00
+
+                .continue
+
+                call YASignFlip
+
+                ; TODO: Change this to work RAM?
+                             mov.w ARAM.Chan_VbrCalc+0+X, A
+                mov.b A, Y : mov.w ARAM.Chan_VbrCalc+1+X, A
+
+                ; Mark that the channel needs to have its pitch updated.
+                or.b ARAM.ChanUpdatePitch, ARAM.ChanBit
+
+                bra .skipVibrato
+
+            .vibratoDelay
+
+            ; Increase the channel vibrato strength.
+            inc.b A : mov.w ARAM.Chan_VbrStrength+X, A
+
+            .skipVibrato
+
+        .noVibrato
+
+        ret
+    }
+
+    ; Input:
+    ;     A - The instrument ID to change to.
+    ;     X - The current channel.
+    ; Uses: $00-$05
+    CalculatePitch:
+    {
+        !firstPitchCalc = $00
+        !secondPitchCalc = $02
+        !finalPitchCalc = $04
+
+        ; Apply the channel vibrato.
+        mov.w A, ARAM.Chan_Tuning+X : clrc : adc.w A, ARAM.Chan_VbrCalc+0+X
+        mov.b !firstPitchCalc+0, A
+        mov.w A, ARAM.Chan_Note+X          : adc.w A, ARAM.Chan_VbrCalc+1+X
+        mov.b !firstPitchCalc+1, A
+
+        ; TODO: Speed test line.
+        ; Apply the channel pitch slide value.
+        mov.w A, ARAM.Chan_PitchSlideCalc+1+X : mov.b Y, A
+        mov.w A, ARAM.Chan_PitchSlideCalc+0+X
+        addw.b YA, !firstPitchCalc : movw.b !firstPitchCalc, YA
+
+        mov.b Y, #$00
+
+        ; TODO: Why?
+        ; Adjust the note based on whether it is a high note, middle note, or
+        ; low note.
+        ; Check if the note is 𝅘𝅥𝅮E5 (the note, NOT the hex value) or higher:
+        mov.b A, !firstPitchCalc+1 : setc : sbc.b A, #$34 : bcs .highNote
+            ; Check if the note is 𝅘𝅥𝅮G2 or higher:
+            mov.b A, !firstPitchCalc+1 : setc : sbc.b A, #$13 : bcs .middleNote
+                ; Low note
+                dec Y
+                asl A
+
+        .highNote
+
+        ; Apply the adjustment to the pitch value if its high or low.
+        addw.b YA, !firstPitchCalc : movw.b !firstPitchCalc, YA
+
+        .middleNote
+
+        ; Save the channel index.
+        push X
+
+        ; Take the high byte of the calculated pitch value x2 and divide it 
+        ; by 0x18 to extract the note without its octave as the remainder. X 
+        ; will  be the octave value.
+        mov.b A, !firstPitchCalc+1 : asl A
+        mov.b Y, #$00
+        mov.b X, #$18
+        div YA, X : asl A : mov X, A
+
+        ; Get the difference between the tuning value for the note and the 
+        ; next note on the scale. Example: If the note is Ds, get the 
+        ; difference  between Ds and E.
+        mov.w A, .NotePitchValues+1+Y : mov.b !secondPitchCalc+1, A
+        mov.w A, .NotePitchValues+0+Y : mov.b !secondPitchCalc+0, A
+
+        mov.w A, .NotePitchValues+3+Y : push A
+        mov.w A, .NotePitchValues+2+Y
+
+        pop Y
+        subw.b YA, !secondPitchCalc+0
+
+        ; Multiply the result of the difference by the low byte of the pitch
+        ; value.
+        mov.b Y, !firstPitchCalc
+        mul YA : mov A, Y
+
+        ; Add the result to the tuning value of the original note.
+        mov.b Y, #$00
+        addw.b YA, !secondPitchCalc+0 : mov.b !secondPitchCalc+1, Y
+
+        ; Multiply the whole pitch value by 2.
+        ;asl A
+        ;rol.b !secondPitchCalc+1
+
+        ; Crazy jump table to apply the octave shift that gemini came up with
+        ; that avoids usinga loop.
+        jmp (.pitchShiftTable+X)
+
+        .pitchShiftTable
+        dw .shift5, .shift4, .shift3, .shift2, .shift1, .noShifts
+
+        .shift5
+        lsr.b !secondPitchCalc+1
+        ror A
+
+        .shift4
+        lsr.b !secondPitchCalc+1
+        ror A
+
+        .shift3
+        lsr.b !secondPitchCalc+1
+        ror A
+
+        .shift2
+        lsr.b !secondPitchCalc+1
+        ror A
+
+        .shift1
+        lsr.b !secondPitchCalc+1
+        ror A
+
+        .noShifts
+
+        ;bra .startOctaveLoop
+
+        ; Divide the calculated pitch by 2 for every octave we need to go down
+        ; starting at octave 6.
+        ;.octaveLoop
+
+            ;lsr.b !secondPitchCalc+1
+            ;ror A
+
+            ;inc X
+
+            ;.startOctaveLoop
+        ;cmp.b X, #$06 : bne .octaveLoop
+        ; NOTE: You would think that this should be bcc instead of bne, but
+        ; changing this to a bcc causes a bug where certain low notes can 
+        ; become an extremly high pitched ring. I guess by making this loop 
+        ; around 0xFF times to get back to a 0x06 fixes this.
+
+        mov.b !secondPitchCalc+0, A
+
+        ; Get the channel index back.
+        pop X
+
+        ; Apply some instrument high-level tuning.
+        mov.w A, ARAM.Chan_TuneMult+0+X
+        mov.b Y, !secondPitchCalc+1
+        mul YA : movw.b !finalPitchCalc, YA
+
+        mov.w A, ARAM.Chan_TuneMult+0+X
+        mov.b Y, !secondPitchCalc+0
+        mul YA : push Y
+
+        mov.w A, ARAM.Chan_TuneMult+1+X
+        mov.b Y, !secondPitchCalc+0
+        mul YA : addw.b YA, !finalPitchCalc : movw.b !finalPitchCalc, YA
+
+        mov.w A, ARAM.Chan_TuneMult+1+X
+        mov.b Y, !secondPitchCalc+1
+        mul YA : mov Y, A
+        pop A : addw.b YA, !finalPitchCalc : movw.b !finalPitchCalc, YA
+
+        ; Write to the DSP.VxPITCHL for the channel.
+        mov A, X : xcn A : lsr A : or.b A, #$02 : mov Y, A
+        mov.b A, !finalPitchCalc+0 : mov.w ARAM.Chan_FinalPitch+0+X, A
+        call WriteToDSP
+
+        ; Write to the DSP.VxPITCHH for the channel.
+        inc Y
+        mov.b A, !finalPitchCalc+1 : mov.w ARAM.Chan_FinalPitch+1+X, A
+        call WriteToDSP
+
+        ret
+
+        .NotePitchValues
+        dw $085F ; 0x00 - Note: C
+        dw $08DE ; 0x01 - Note: Cs
+        dw $0965 ; 0x02 - Note: D
+        dw $09F4 ; 0x03 - Note: Ds
+        dw $0A8C ; 0x04 - Note: E
+        dw $0B2C ; 0x05 - Note: F
+        dw $0BD6 ; 0x06 - Note: Fs
+        dw $0C8B ; 0x07 - Note: G
+        dw $0D4A ; 0x08 - Note: Gs
+        dw $0E14 ; 0x09 - Note: A
+        dw $0EEA ; 0x0A - Note: As
+        dw $0FCD ; 0x0B - Note: B
+        dw $10BE ; 0x0C - Note: C (next octave)
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     X - The channel number.
+    ; Uses: $00-$01
+    ; Perform channel volume related tasks such as channel volume slide, 
+    ; tremolo, tremolo slides, and pan slides.
+    PerformVolumeAdjustments:
+    {
+        !addValue = $00
+
+        ; TODO: Speed test line.
+        ;bra .noChanVolumeSlide
+
+        ; Check if we are performing a volume slide on the channel:
+        mov.b A, ARAM.Chan_VolTimer+X : beq .noChanVolumeSlide
+            mov.b A, ARAM.Chan_VolTemp+X : bne .noChanVolumeSlideTemp
+                ; Decrement the channel volume slide timer and check if we
+                ; need to stop the slide:
+                dec.b ARAM.Chan_VolTimer+X : bne .chanVolSlideNotDone
+                    ; Set the channel volume to the target volume.
+                    mov.b A, #$00                  : mov.w ARAM.Chan_Vol+0+X, A
+                    mov.w A, ARAM.Chan_VolTarget+X : mov.w ARAM.Chan_Vol+1+X, A
+
+                    bra .chanVolSlideDone
+
+                .chanVolSlideNotDone
+
+                ; Add the increment to the volume.
+                mov.w A, ARAM.Chan_Vol+0+X
+                clrc : adc.w A, ARAM.Chan_VolInc+0+X
+                mov.w ARAM.Chan_Vol+0+X, A
+
+                mov.w A, ARAM.Chan_Vol+1+X
+                    adc.w A, ARAM.Chan_VolInc+1+X
+                mov.w ARAM.Chan_Vol+1+X, A
+
+                .chanVolSlideDone
+
+                ; Mark that the channel needs to have its volume updated.
+                or.b ARAM.ChanUpdateVol, ARAM.ChanBit
+
+                mov.b A, #$03 : mov.b ARAM.Chan_VolTemp+X, A
+
+            .noChanVolumeSlideTemp
+
+            dec.b ARAM.Chan_VolTemp+X
+
+        .noChanVolumeSlide
+
+        ; TODO: Speed test line.
+        ;bra .noChanPanSlide
+
+        ; Check if we are performing a pan slide on the channel:
+        mov.b A, ARAM.Chan_PanTimer+X : beq .noChanPanSlide
+            ; Decrement the channel pan slide timer and check if we
+            ; need to stop the slide:
+            dec.b ARAM.Chan_PanTimer+X : bne .chanPanSlideNotDone
+                ; Set the channel volume to the target volume.
+                mov.b A, #$00                  : mov.w ARAM.Chan_PanValue+0+X, A
+                mov.w A, ARAM.Chan_PanTarget+X : mov.w ARAM.Chan_PanValue+1+X, A
+
+                bra .chanPanSlideDone
+
+            .chanPanSlideNotDone
+
+            ; Make an incrament adjustment based on the frames passed.
+            mov.w A, ARAM.Chan_PanInc+1+X : mov Y, A
+            mov.w A, ARAM.Chan_PanInc+0+X
+            call AdjustValueByFrames
+
+            ; Add the increment to the pan value.
+            clrc : adc.w A, ARAM.Chan_PanValue+0+X
+            mov.w ARAM.Chan_PanValue+0+X, A
+
+            mov.w A, Y
+                   adc.w A, ARAM.Chan_PanValue+1+X
+            mov.w ARAM.Chan_PanValue+1+X, A
+
+            .chanPanSlideDone
+
+            ; Mark that the channel needs to have its volume updated.
+            or.b ARAM.ChanUpdateVol, ARAM.ChanBit
             
-            .horizontal_tile_collision
+        .noChanPanSlide
+
+        ; TODO: Speed test line.
+        ;bra .noTremolo
+
+        ; Check if we are perfomring a tremolo on the current channel:
+        mov.w A, ARAM.Chan_TremIntensity+X : mov.b Y, A
+                                             beq .noTremolo
+            mov.b A, ARAM.Chan_TremTimer+X
+            cmp.w A, ARAM.Chan_TremDelay+X : bne .tremoloNotReady
+                ; Check if the tremolo accumulator is positive:
+                mov.w A, ARAM.Chan_TremAcc+X : bpl .tremoloAccumulate
+                    inc Y : bne .tremoloAccumulate
+                        mov.b A, #$80
+
+                        bra .skipIncrement
+
+                .tremoloAccumulate
+
+                ; Add the tremolo increment.
+                clrc : adc.w A, ARAM.Chan_TremInc+X
+
+                .skipIncrement
+
+                ; Set the tremolo accumulator.
+                mov.w ARAM.Chan_TremAcc+X, A
+
+                ; Mark that the channel needs to have its volume updated.
+                or.b ARAM.ChanUpdateVol, ARAM.ChanBit
+
+                bra .skipTimer
+
+            .tremoloNotReady
+
+            ; Increase the tremolo timer.
+            inc.b ARAM.Chan_TremTimer+X
+
+            .skipTimer
+        .noTremolo
+
+        ret
+    }
+
+    ; Input:
+    ;     X - The channel number.
+    ; Uses: $00-$05
+    ; Calculate the given channel volume based on the global volume, channel 
+    ; volume, tremolo, attack, and pan settings. Then write the calculated
+    ; volume to the DSP.
+    CalculateVolume:
+    {
+        !addrWrite = $00
+        !panValue = $02
+        !calcVolume = $04
+
+        mov.w A, ARAM.Chan_TremIntensity+X : beq .noTremolo
+            mov.b Y, A
+
+            ; TODO: Do some math I don't understand.
+            mov.w A, ARAM.Chan_TremAcc+X : asl A : bcc .noPhaseInversion1
+                eor.b A, #$FF
+
+            .noPhaseInversion1
+
+            ; Multiply the tremolo intensity for the current channel by
+            ; the current tremolo accumulator.
+            mul YA : mov A, Y : eor.b A, #$FF
+
+            bra .tremolo
+
+        .noTremolo
+
+        mov.b A, #$FF
+
+        .tremolo
+
+        ; Multiply the calculated volume by the global volume.
+        mov.b Y, ARAM.GlobalVol+1
+        mul YA
+
+        ; Multiply the calculated volume by the channel attack.
+        mov.w A, ARAM.Chan_Attack+X
+        mul YA
+
+        ; Multiply the calculated volume by the channel volume.
+        mov.w A, ARAM.Chan_Vol+1+X
+        mul YA : mov A, Y
+
+        ; Square the high byte of the result.
+        mul YA : mov.w !calcVolume, Y
+
+        ; Setup !addrWrite to point to DSP.VxVOLL.
+        mov A, X : xcn A : lsr A : mov.b !addrWrite, A
+
+        mov.w A, ARAM.Chan_PanValue+1+X : mov.b !panValue+1, A
+        mov.w A, ARAM.Chan_PanValue+0+X : mov.b !panValue+0, A
+
+        .volumeRight
+
+            ; Do a bunch of math that applies the pan settings to the volume.
+            mov.b Y, !panValue+1
+            mov.w A, .LogisticFunc+1+Y : setc : sbc.w A, .LogisticFunc+0+Y
+
+            mov.b Y, !panValue+0
+            mul YA : mov A, Y
+
+            mov.b Y, !panValue+1
+            clrc : adc.w A, .LogisticFunc+0+Y : mov Y, A
+            mov.w A, !calcVolume
+            mul YA
             
-            JSR.w Sprite2_IsToRightOfPlayer
-            
-            .gamma
-            
-            LDA.w .x_speeds, Y : STA.w $0D50, X
-            LDA.w .y_speeds, Y : STA.w $0D40, X
-    
-    .no_direction_change
-    
-    INC.w $0E80, X
-    
-    JSR.w Guard_TickAndUpdateBody
-    
-    RTS
-}
+            ; TODO: Do some math I don't understand.
+            mov A, Y : bcc .noPhaseInversion2
+                eor.b A, #$FF : inc A
 
-; ==============================================================================
+            .noPhaseInversion2
 
-; $02CC3C-$02CC64 LOCAL JUMP LOCATION
-PsychoSpearSoldier_PlayChaseMusic:
-{
-    LDA.w $0ED0, X : CMP.b #$10 : BEQ .no_change
-        INC.w $0ED0, X : CMP.b #$0F : BNE .no_change
-            LDA.b #$04
-            JSL.l Sound_SetSFX3PanLong
-            
-            LDA.l $7EF3C5 : CMP.b #$02 : BNE .no_change
-                LDA.w $040A : CMP.b #$18 : BNE .no_change
-                    LDA.b #$0C : STA.w $012C
+            mov.w ARAM.Chan_FinalVol+X, A
 
-    .no_change
-    .alpha
-    
-    RTS
-}
+            ; Ends up writing to DSP.VxVOLL and DSP.VxVOLR.
+            mov.b Y, !addrWrite
+            call WriteToDSP
 
-; ==============================================================================
+            .volumeSame
 
-; $02CC65-$02CCD4 JUMP LOCATION
-Sprite_PsychoTrooper:
-{
-    JSR.w SpriteDraw_BluesainBolt
-    JSR.w Sprite2_CheckIfActive
-    JSR.w PsychoSpearSoldier_PlayChaseMusic
-    JSL.l Guard_ParrySwordAttacks
-    JSR.w Sprite2_CheckIfRecoiling
-    JSR.w Sprite2_MoveIfNotTouchingWall
-    JSR.w Sprite2_CheckTileCollision
-    JSL.l Sprite_CheckDamageToPlayerLong
-    
-    TXA : EOR.b $1A : AND.v #$0F : BNE .alpha
-        JSR.w Sprite2_DirectionToFacePlayer
-        TYA : STA.w $0EB0, X
-              STA.w $0DE0, X
-        
-        TXA : AND.b #$03 : TAY
-        LDA.w AppliedSpeed18, Y
-        
-        JSL.l Sprite_ApplySpeedTowardsPlayerLong
-        
-        LDA.w $0E70, X : BEQ .alpha
-            AND.b #$03 : BEQ .beta
-                JSR.w Sprite2_IsBelowPlayer
-                
-                INY : INY
-                
-                BRA .gamma
-                
-            .beta
-            
-            JSR.w Sprite2_IsToRightOfPlayer
-            
-            .gamma
-            
-            LDA.w .x_speeds, Y : STA.w $0D50, X
-            LDA.w .y_speeds, Y : STA.w $0D40, X
-    
-    .alpha
-    
-    LDA.w $0DE0, X : ASL #3 : STA.b $00
-    
-    INC.w $0E80, X
-    LDA.w $0E80, X : LSR : AND.b #$07 : ORA.b $00 : TAY
-    LDA.w Pool_Sprite_PsychoTrooper_animation_states, Y : STA.w $0DC0, X
-    
-    RTS
-}
+            mov.b Y, #$14
+            mov.b A, #$00
+            subw.b YA, !panValue : movw.b !panValue+0, YA
 
-; ==============================================================================
+            inc.b !addrWrite
+        ; Repeat everything one more time for the right volume.
+        bbc1.b !addrWrite, .volumeRight
 
-; $02CCD5-$02CCE7 LOCAL JUMP LOCATION
-SpriteDraw_BluesainBolt:
-{
-    JSR.w Sprite2_PrepOamCoord
-    
-    LDY.b #$0C
-    JSR.w SpriteDraw_GuardHead
-    
-    LDY.b #$08
-    JSR.w SpriteDraw_GuardBody
-    
-    JSR.w SpriteDraw_GuardSpear_Bolt
+        ;mov.b X, ARAM.ChannelOffset
 
-    JMP.w Guard_DrawShadow
-}
+        ret
 
-; ==============================================================================
+        .LogisticFunc
+        db $00, $01, $03, $07, $0D, $15, $1E, $29
+        db $34, $42, $51, $5E, $67, $6E, $73, $77
+        db $7A, $7C, $7D, $7E, $7F
+    }
 
-; $02CCE8-$02CD47 DATA
-Pool_SpriteDraw_GuardSpear:
-{
-    ; $02CCE8
-    .offset_x
-    dw  15,   7
-    dw  17,   9
-    dw  -8,   0
-    dw -10,  -2
-    dw  13,  13
-    dw  13,  13
-    dw  -4,  -4
-    dw  -4,  -4
+    ; ==========================================================================
 
-    ; $02CD08
-    .offset_y
-    dw  -2,  -2
-    dw  -2,  -2
-    dw  -2,  -2
-    dw  -2,  -2
-    dw   8,   0
-    dw  10,   2
-    dw -14,  -6
-    dw -16,  -8
+    ConfigureEcho:
+    {
+        ; Set the echo delay queue.
+        mov.b ARAM.EchoDelayQ, A
 
-    ; $02CD28
-    .char
-    db $6F, $7F
-    db $6F, $7F
-    db $6F, $7F
-    db $6F, $7F
-    db $6E, $7E
-    db $6E, $7E
-    db $6E, $7E
-    db $6E, $7E
+        ; Check if the current echo delay is the same:
+        mov.b Y, #DSP.EDL : mov.w SMP.DSPADDR, Y
+        mov.w A, SMP.DSPDATA : cmp.b A, ARAM.EchoDelayQ : beq .EchoDelaySame
+            ; TODO: Do some math I don't understand to set the echo delay timer.
+            and.b A, #$0F : eor.b A, #$FF
+            bbc7.b ARAM.EchoTimer, .bufferReady
+                clrc : adc.b A, ARAM.EchoTimer
 
-    ; $02CD38
-    .flip
-    db $40, $40
-    db $40, $40
-    db $00, $00
-    db $00, $00
-    db $80, $80
-    db $80, $80
-    db $00, $00
-    db $00, $00
-}
+            .bufferReady
 
-; $02CD48-$02CDD3 LOCAL JUMP LOCATION
-SpriteDraw_GuardSpear:
-{
-    .Fresh
+            mov.b ARAM.EchoTimer, A
 
-    LDY.b #$00
-    
-    ; $02CD4A ALTERNATE ENTRY POINT
-    .PreserveOAMOffset
-    
-    LDA.w $0D90, X
-    
-    BRA .alpha
-    
-    ; $02CD4F ALTERNATE ENTRY POINT
-    .Bolt
-    
-    LDA.w $0D90, X
-    
-    LDY.b #$00
-    
-    .alpha
-    
-    EOR.b #$01 : ASL : AND.b #$02 : STA.b $06
-    
-    LDA.w $0E20, X : STA.b $08
-    
-    LDA.w $0DE0, X : ASL : ASL : ORA.b $06 : STA.b $06
-    
-    PHX
-    
-    LDX.b #$01
-    
-    .delta
-        PHX
-        
-        TXA : CLC : ADC.b $06 : PHA
-        ASL                   : TAX
-        
-        REP #$20
-        
-        LDA.w Pool_SpriteDraw_GuardSpear_offset_x, X
-        CLC : ADC.b $00 : STA.b ($90), Y
-        
-        AND.w #$0100 : STA.b $0E
-        
-        LDA.w Pool_SpriteDraw_GuardSpear_offset_y, X
-        CLC : ADC.b $0202 : INY : STA.b ($90), Y
-        
-        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .beta
-            LDA.w #$00F0 : STA.b ($90), Y
-        
-        .beta
-        
-        SEP #$20
-        
-        LDA.w Pool_SpriteDraw_GuardSpear_offset_x, X : STA.w $0FAB
-        LDA.w Pool_SpriteDraw_GuardSpear_offset_y, X : STA.w $0FAA
-        
-        PLX
-        
-        LDA.b $0808 : CMP.b #$48 : LDA.w Pool_SpriteDraw_GuardSpear_char, X : BCC .gamma
-            SBC.b #$03
-        
-        .gamma
-        
-                                              INY : STA.b ($90), Y
+            mov.b Y, #$04
 
-        LDA.w Pool_SpriteDraw_GuardSpear_flip, X
-        ORA.b $05 : AND.b #$F1 : ORA.b #$08 : INY : STA.b ($90), Y
-        
-        PLX
-        
-        PHY : TYA : LSR : LSR : TAY
-        LDA.b $0F : STA.b ($92), Y
-        
-        PLY : INY
-    DEX : BPL .delta
-    
-    PLX
-    
-    RTS
-}
+            ; Loop through 4 echo related DSP registers and zero them out.
+            .writeRegisters
 
-; ==============================================================================
+                ; Choose the DSP register to write to.
+                mov.w A, DSPQueueRegisters-1+Y : mov.w SMP.DSPADDR, A
 
-; $02CDD4-$02CDDC LOCAL JUMP LOCATION
-Sprite2_MoveIfNotTouchingWall:
-{
-    LDA.w $0E70, X : BNE .alpha
-        JMP.w Sprite2_Move
-    
-    .alpha
-    
-    RTS
-}
+                ; Write 0 to that register.
+                mov.b A, #$00 : mov.w SMP.DSPDATA, A
+            ; TODO: Change to dbnz when thats fixed.
+            dec y : bne .writeRegisters
 
-; ==============================================================================
+            ; Write the flag queue to the DSP flag register.
+            mov.b A, ARAM.FlagQ : or.b A, #$20
+            mov.b Y, #DSP.FLG
+            call WriteToDSP
 
-; $02CDDD-$02CDE0 DATA
-Sprite_JavelinTrooper_animation_states:
-{
-    db $0C, $00, $12, $08
-}
+            ; Write the echo delay queue to the DSP echo delay register.
+            mov.b A, ARAM.EchoDelayQ
+            mov.b Y, #DSP.EDL
+            call WriteToDSP
 
-; $02CDE1-$02CDFE JUMP LOCATION
-Sprite_JavelinTrooper:
-{
-    LDA.w $0DC0, X : PHA
-    LDY.w $0DE0, X : PHY
-    
-    LDA.w $0E00, X : BEQ .direction_lock_inactive
-        LDA.w Soldier_DirectionLockSettings_directions, Y : STA.w $0DE0, X
-        
-        LDA.w .animation_states, Y : STA.w $0DC0, X
-    
-    .direction_lock_inactive
-    
-    JSR.w JavelinTrooper_Draw
-    
-    BRA ArcherAndJavelinGuardMain
-}
-    
-; $02CDFF-$02CE73 JUMP LOCATION
-Sprite_ArcherSoldier:
-{
-    LDA.w $0DC0, X : PHA
-    LDY.w $0DE0, X : PHY
-    
-    LDA.w $0E00, X : BEQ .direction_lock_inactive_2
-        LDA.w Soldier_DirectionLockSettings_directions, Y : STA.w $0DE0, X
-        
-        LDA.w Soldier_DirectionLockSettings_animation_states, Y : STA.w $0DC0, X
-    
-    .direction_lock_inactive_2
-    
-    JSR.w ArcherSoldier_Draw
+        .EchoDelaySame
 
-    ; Bleeds into the next function.
-}
+        ; TODO: I think this reference is wrong. I think its not actually meant
+        ; to reference the song pointer here.
+        ; Calculate the echo source address.
+        asl A : asl A : asl A : eor.b A, #$FF
+        setc : adc.b A, #SONG_POINTERS>>8
 
-; $02CE1B-$02CE73 JUMP LOCATION
-ArcherAndJavelinGuardMain:
-{
-    PLA : STA.w $0DE0, X
-    PLA : STA.w $0DC0, X
-    
-    JSR.w Sprite2_CheckIfActive
-    
-    JSR.w Sprite2_CheckDamage : BCS .gamma
-        LDA.w $0FDC : BEQ .delta
-    
-    .gamma
-    
-    LDA.w $0D80, X : CMP.b #$03 : BCS .delta
-        LDA.b #$03 : STA.w $0D80, X
-        LDA.b #$20 : STA.w $0DF0, X
-    
-    .delta
-    
-    LDA.w $0EA0, X : BEQ .not_recoiling
-    CMP.b #$04     : BCC .not_recoiling
-        JSR.w JavelinTrooper_NoticedPlayer_no_delay
-    
-    .not_recoiling
-    
-    JSR.w Sprite2_CheckIfRecoiling
-    JSR.w Sprite2_MoveIfNotTouchingWall
-    JSR.w Sprite2_CheckTileCollision
-    
-    LDA.w $0D80, X
-    
-    REP #$30
-    
-    AND.w #$00FF : ASL : TAY
-    LDA.w .states, Y : DEC : PHA
-    
-    SEP #$30
-    
-    RTS
-    
-    .states
-    dw JavelinTrooper_Resting
-    dw JavelinTrooper_WalkingAround
-    dw JavelinTrooper_LookingAround
-    dw JavelinTrooper_NoticedPlayer
-    dw JavelinTrooper_Agitated
-    dw JavelinTrooper_Attack
-}
+        ; Set the DSP echo source address.
+        mov.b Y, #DSP.ESA 
+        jmp WriteToDSP
+    }
 
-; ==============================================================================
+    ; ==========================================================================
 
-; $02CE74-$02CEA9 LOCAL JUMP LOCATION
-JavelinTrooper_Resting:
-{
-    JSR.w Sprite2_ZeroVelocity
-    
-    LDA.w $0DF0, X : BNE .delay
-        INC.w $0D80, X
-        
-        JSL.l GetRandomInt : AND.b #$7F : ADC.b #$50 : STA.w $0DF0, X
-        
-        LDA.w $0DE0, X : PHA
-        
-        JSL.l GetRandomInt : AND.b #$03 : STA.w $0DE0, X
-        
-        PLA : CMP.w $0DE0, X : BEQ .no_direction_change
-            EOR.w $0DE0, X : AND.b #$02 : BNE .no_direction_lock
-                LDA.b #$0C : STA.w $0E00, X
-            
-            .no_direction_lock
-        .no_direction_change
-    .delay
-    
-    RTS
-}
+    ExecuteTrackCommand:
+    {
+        ; Get the pointer for the command. The address is -0xC0 from the actual
+        ; address of the command vectors because the commands index starts at 
+        ; 0xE0. 0xE0 x2 is 0x01C0 and the 7th bit will get cut off by the asl
+        ; leaving only 0xC0.  
+        asl A : mov Y, A
+        mov.w A, .TrackCommandVectors+1-$C0+Y : push A
+        mov.w A, .TrackCommandVectors+0-$C0+Y : push A
 
-; ==============================================================================
+        ret
 
-; $02CEAA-$02CF12 LOCAL JUMP LOCATION
-JavelinTrooper:
-{
-    .WalkingAround
+        .TrackCommandVectors
+        dw TrackCommandE0_ChangeInstrument
+        dw TrackCommandE1_ChangePan
+        dw TrackCommandE2_PanSlide
+        dw TrackCommandE3_SetVibrato
+        dw TrackCommandE4_VibratoOff
+        dw TrackCommandE5_GlobalVolume
+        dw TrackCommandE6_GlobalVolumeSlide
+        dw TrackCommandE7_SetTempo
 
-    LDA.w $0DF0, X : BNE .delay
-        LDA.b #$02 : STA.w $0D80, X
-        
-        LDA.b #$A0 : STA.w $0DF0, X
-        
-        RTS
-    
-    .delay
-    
-    JSR.w Sprite_SpawnProbeStaggered
-    
-    LDA.w $0E70, X : AND.b #$0F : BEQ .no_tile_collision
-        LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
-        
-        JSR.w Soldier_EnableDirectionLock
-        
-    .no_tile_collision
-    
-    LDY.w $0DE0, X
-    LDA Soldier_x_speeds, Y : STA.w $0D50, X
-    LDA Soldier_y_speeds, Y : STA.w $0D40, X
-    
-    TYA : STA.w $0EB0, X
-    
-    ; $02CEE2 ALTERNATE ENTRY POINT
-    .Animate:
-    
-    INC.w $0E80, X
-    LDA.w $0E80, X : AND.b #$0F : BNE .gamma
-        INC.w $0D90, X
-        LDA.w $0D90, X : CMP.b #$02 : BNE .gamma
-            STZ.w $0D90, X
-    
-    .gamma
-    
-    LDA.w $0DE0, X : ASL : ASL : ADC.w $0D90, X
-    
-    LDY.w $0E20, X : CPY.b #$48 : BNE .is_archer
-        CLC : ADC.b #$10
-    
-    .is_archer
-    
-    TAY
-    LDA.w Soldier_animation_states, Y : STA.w $0DC0, X
-    
-    RTS
-}
+        dw TrackCommandE8_TempoSlide
+        dw TrackCommandE9_GlobalTranspose
+        dw TrackCommandEA_ChannelTranspose
+        dw TrackCommandEB_SetTremolo
+        dw TrackCommandEC_TremoloOff
+        dw TrackCommandED_ChannelVolume
+        dw TrackCommandEE_ChannelVolumeSlide
+        dw TrackCommandEF_CallPart
 
-; ==============================================================================
+        dw TrackCommandF0_VibratoGradient
+        dw TrackCommandF1_PitchSlideTo
+        dw TrackCommandF2_PitchSlideFrom
+        dw TrackCommandF3_PitchSlideStop
+        dw TrackCommandF4_FineTuning
+        dw TrackCommandF5_EchoBasicControl
+        dw TrackCommandF6_EchoSilence
+        dw TrackCommandF7_EchoFilter
 
-; $02CF13-$02CF43 LOCAL JUMP LOCATION
-JavelinTrooper_LookingAround:
-{
-    JSR.w Sprite2_ZeroVelocity
-    JSR.w Sprite_SpawnProbeStaggered
-    
-    LDA.w $0DF0, X : BNE .delay
-        LDA.b #$20 : STA.w $0DF0, X
-        LDA.b #$00 : STA.w $0D80, X
-        
-        RTS
-    
-    .delay
-    
-    CMP.b #$80 : BCS .mucho_time_left
-        LSR #3 : AND.b #$07 : STA.b $00
-        
-        LDA.w $0DE0, X : ASL #3 : ORA.b $0000 : TAY
-        LDA.w Soldier_head_looking_states, Y : STA.w $0EB0, X
-    
-    .mucho_time_left
-    
-    RTS
-}
+        dw TrackCommandF8_EchoSlide
+        dw TrackCommandF9_SlideOnce
+        dw TrackCommandFA_PercussionOffset
+        dw TrackCommandFB ; 0xFB - Future Expansion
+        dw TrackCommandFC ; 0xFC - Future Expansion
+        dw TrackCommandFD ; 0xFD - Future Expansion
+        dw TrackCommandFE ; 0xFE - Future Expansion
+        dw TrackCommandFF ; 0xFF - Future Expansion
+    }
 
-; ==============================================================================
+    ; ==========================================================================
 
-; $02CF44-$02CF60 LOCAL JUMP LOCATION
-JavelinTrooper_NoticedPlayer:
-{
-    JSR.w Sprite2_ZeroVelocity
-    
-    JSR.w Sprite2_DirectionToFacePlayer
-    
-    TYA : STA.w $0EB0, X
-    
-    LDA.w $0DF0, X : BNE .delay
-        ; $02CF53 ALTERNATE ENTRY POINT
-        .no_delay
-        
-        LDA.b #$04 : STA.w $0D80, X
-        LDA.b #$3C : STA.w $0DF0, X
-        
-        STZ.w $0E80, X
-    
-    .delay:
-    
-    RTS
-}
+    ; Input:
+    ;     A - The instrument ID to change to (If using the skipParameter).
+    ;     X - The current channel.
+    ; Uses: $00-$01
+    ; Uses one byte parameter:
+    ;     Byte 0: The index of the intrument to set.
+    ; Track command 0xE0. Changes the channel instrument.
+    TrackCommandE0_ChangeInstrument:
+    {
+        !InstrDataPtr = $00
 
-; ==============================================================================
+        call GetTrackByte
 
-; $02CF61-$02CF84 DATA
-Pool_JavelinTrooper_Agitated:
-{
-    ; $02CF61
-    .x_offsets_low
-    db $B0, $50, $00, $F8
-    db $B0, $50, $F8, $08
-    
-    ; $02CF69
-    .x_offsets_high
-    db $FF, $00, $00, $FF
-    db $FF, $00, $FF, $00
-    
-    ; $02CF71
-    .y_offsets_low
-    db $08, $08, $B0, $50
-    db $08, $08, $B0, $50
-    
-    ; $02CF79
-    .y_offsets_high
-    db $00, $00, $FF, $00
-    db $00, $00, $FF, $00
-    
-    ; $02CF81
-    .tile_collision_masks
-    db $03, $03, $0C, $0C
-}
+        ; ALTERNATE ENTRY POINT
+        .skipParameter
 
-; $02CF85-$02D000 LOCAL JUMP LOCATION
-JavelinTrooper_Agitated:
-{
-    LDY.w $0DE0, X
-    
-    LDA.w $0E70, X : AND .tile_collision_masks, Y : BNE .collided
-        LDA.w $0DF0, X : BNE .delay
-    
-    .collided
-    
-    INC.w $0D80, X
-    
-    LDA.b #$18 : STA.w $0DF0, X
-    
-    RTS
-    
-    .delay
-    
-    TXA : EOR.b $1A1A : AND.b #$07 : BNE .delay_facing_player
-        JSR.w Sprite2_DirectionToFacePlayer
-        TYA : STA.w $0DE0, X
-              STA.w $0EB0, X
-        
-        LDA.w $0E20, X : CMP.b #$48 : BNE .is_archer
-            INY #4
-        
-        .is_archer
-        
-        LDA.b $2222 : CLC : ADC.w .x_offsets_low, Y  : STA.b $04
-        LDA.b $23         : ADC.w .x_offsets_high, Y : STA.b $05
-        
-        LDA.b $20 : CLC : ADC.w .y_offsets_low, Y  : STA.b $06
-        LDA.b $21       : ADC.w .y_offsets_high, Y : STA.b $07
-        
-        LDA.b #$18
-        
-        JSL.l Sprite_ProjectSpeedTowardsEntityLong
-        
-        LDA.b $00 : STA.w $0D40, X
-        
-        LDA.b $01 : STA.w $0D50, X
-        
-        LDA.b $0E : CLC : ADC.b #$06 : CMP.b #$0C : BCS .delay_facing_player
-            LDA.b $0F : CLC : ADC.b #$06 : CMP.b #$0C : BCC .collided
-    
-    .delay_facing_player
-    
-    INC.w $0E80, X
-    
-    JSR.w JavelinTrooper_Animate
-    
-    RTS
-}
+        ; TODO: Remove test code. Music Box
+        ;mov.b A, #$1A
 
-; ==============================================================================
+        ; Set the channel's instrument ID and check if it is a percussion value:
+        mov.w ARAM.Chan_Instrument+X, A : bpl .notPercussion
+            ; Add the percussion base note.
+            setc : sbc.b A, #$CA : clrc : adc.b A, ARAM.PercussionBaseNote
 
-; $02D001-$02D044 DATA
-Pool_JavelinTrooper_Attack:
-{
-    ; Archer Soldier's states
-    ; $02D001
-    .animation_states
-    db $19, $19, $18, $18, $17, $17, $17, $17
-    db $13, $13, $12, $12, $11, $11, $11, $11
-    
-    db $10, $10, $0F, $0F, $0E, $0E, $0E, $0E
-    db $16, $16, $15, $15, $14, $14, $14, $14
-    
-    ; Javelin trooper's states
-    ; $02D021
-    db $14, $14, $12, $12, $12, $10, $10, $10
-    db $15, $15, $08, $08, $08, $06, $06, $06
-    
-    db $16, $16, $04, $04, $04, $03, $03, $03
-    db $17, $17, $0F, $0F, $0F, $0B, $0B, $0B
-}
+        .notPercussion
 
-; $02D041-$02D044 DATA
-Guard_GlanceTimers:
-{ 
-    db $0D, $0D, $0C, $0C
-}
+        ; Get the index for the INSTRUMENT_DATA.
+        mov.b Y, #$06
+        mul YA : movw.b !InstrDataPtr, YA
 
-; ==============================================================================
+        ; Get the address for the INSTRUMENT_DATA.
+        clrc : adc.b !InstrDataPtr+0, #INSTRUMENT_DATA>>0
+               adc.b !InstrDataPtr+1, #INSTRUMENT_DATA>>8
 
-; $02D045-$02D08A LOCAL JUMP LOCATION
-JavelinTrooper_Attack:
-{
-    LDY.w $0DE0, X
-    LDA.w Guard_GlanceTimers, Y : STA.w $0EC0, X
-    
-    JSR.w Sprite2_ZeroVelocity
-    
-    LDA.w $0DF0, X : BNE .delay
-        JMP.w Guard_StopAndLookAround
-    
-    .delay
-    
-    STZ.w $0E80, X
-    
-    CMP.b #$28 : BCC .beta
-        DEC.w $0E80, X
-    
-    .beta
-    
-    CMP.b #$0C : BNE .gamma
-        PHA
+        push X
+
+        ; Setup X to point to DSP.VxSRCN.
+        mov A, X : xcn A : lsr A : or.b A, #$04 : mov X, A
+
+        ; Get the ID (DSP.SRCN) for the intrument. If positive, its a normal
+        ; sample.
+        ; TODO: All of the IDs in the INSTRUMENT_DATA are positive so figure 
+        ; out how percussion changes that.
+        mov.b Y, #$00
+        mov.b A, (!InstrDataPtr)+Y : bpl .normalSample
+            ; TODO: What is this?
+            and.b A, #$1F
+
+            ; Reset everything except echo.
+            and.b ARAM.FlagQ, #$20 : tset.w ARAM.FlagQ, A
+
+            ; Enable noise generation on this channel.
+            or.b ARAM.NoiseOnQ, ARAM.ChanBit
+
+            mov A, Y
+
+            bra .percussionStartLoop
+
+        .normalSample
+
+        ; Disable noise generation on the current channel.
+        mov.b A, ARAM.ChanBit : tclr.w ARAM.NoiseOnQ, A
+
+        ; Loop through the rest of the first 4 btyes of INSTRUMENT_DATA and
+        ; write them to some DSP registers.
+        ; This will write to: DSP.VxSRCN, VxADSR1, VxADSR2, and VxGAIN.
+        mov.b Y, #$00
         
-        JSR.w JavelinTrooper_SpawnProjectile
+        .DSPWriteLoop
+
+            mov.b A, (!InstrDataPtr)+Y
+
+            .percussionStartLoop
+
+            mov.w SMP.DSPADDR, X
+            mov.w SMP.DSPDATA, A
+
+            inc X
+        inc Y : cmp.b Y, #$04 : bne .DSPWriteLoop
+
+        ; Get the instrument high-level tuning multiplier.
+        pop X
+        mov.b A, (!InstrDataPtr)+Y : mov.w ARAM.Chan_TuneMult+1+X, A
+        inc Y
+        mov.b A, (!InstrDataPtr)+Y : mov.w ARAM.Chan_TuneMult+0+X, A
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     A - The pan setting to change to (If using the skipParameter).
+    ;     X - The current channel.
+    ; Uses one byte parameter:
+    ;     Byte 0: The pan setting.
+    ; Track command 0xE0. Changes the channel instrument.
+    TrackCommandE1_ChangePan:
+    {
+        call GetTrackByte
+
+        ; ALTERNATE ENTRY POINT
+        .skipParameter
         
-        PLA
+        ; Set the channel pan settings.
+                        mov.w ARAM.Chan_PanSetting+X, A
+        and.b A, #$1F : mov.w ARAM.Chan_PanValue+1+X, A
+        mov.b A, #$00 : mov.w ARAM.Chan_PanValue+0+X, A
+
+        ret
+    }
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses two byte parameters:
+    ;     Byte 0: The channel pan timer.
+    ;     Byte 1: The channel pan target.
+    ; Track command 0xE2. Sets up a channel pan slide.
+    TrackCommandE2_PanSlide:
+    {
+        call GetTrackByte : mov.b ARAM.Chan_PanTimer+X, A
+                            push A
+
+        call GetTrackByte : mov.w ARAM.Chan_PanTarget+X, A
+
+        ; Get the difference between the current pan value and the target
+        ; and make an incrament based on the timer.
+        setc : sbc.w A, ARAM.Chan_PanValue+1+X
+        pop X
+        call MakeIncrement : mov.w ARAM.Chan_PanInc+0+X, A
+        mov A, Y           : mov.w ARAM.Chan_PanInc+1+X, A
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses three byte parameters:
+    ;     Byte 0: The channel vibrato delay.
+    ;     Byte 1: The channel vibrato increment.
+    ;     Byte 2: The channel vibrato max intensity.
+    ; Track command 0xE3. Sets up channel vibrato.
+    TrackCommandE3_SetVibrato:
+    {
+        call GetTrackByte : mov.w ARAM.Chan_VbrDelay+X, A
+        call GetTrackByte : mov.w ARAM.Chan_VbrInc+X, A
         
-    .gamma
-    
-    LSR #3 : STA.b $00
-    
-    LDA.w $0DE0, X : ASL #3 : ORA.b $00
-    
-    LDY.w $0E20, X : CPY.b #$48 : BNE .is_archer
-        CLC : ADC.b #$20
-    
-    .is_archer
-    
-    TAY
-    LDA.w .animation_states, Y : STA.w $0DC0, X
-    
-    RTS
-}
+        call GetTrackByte : mov.w ARAM.Chan_VbrIntensity+X, A
+                            mov.w ARAM.Chan_VbrMaxIntensity+X, A
 
-; ==============================================================================
+        mov.b A, #$00 : mov.w ARAM.Chan_VbrSlideWait+X, A
 
-; $02D08B-$02D0C4 DATA
-Pool_JavelinTrooper_SpawnProjectile:
-{
-    ; $02D08B
-    .x_offsets_low
-    db $10, $F8, $03, $0B
-    db $0C, $FC, $0C, $FC
-    
-    ; $02D093
-    .x_offsets_high
-    db $00, $FF, $00, $00
-    db $00, $FF, $00, $FF
-    
-    ; $02D09B
-    .y_offsets_low
-    db $02, $02, $10, $F8
-    db $FE, $FE, $02, $F8
-    
-    ; $02D0A3
-    .y_offsets_high
-    db $00, $00, $00, $FF
-    db $FF, $FF, $00, $FF
-    
-    ; $02D0AB
-    .x_speeds ; Length 8
-    db $30, $D0, $00, $00
-    db $20, $E0
-    
-    ; $02D0B1
-    .y_speeds
-    db $00, $00, $30, $D0, $00, $00, $20, $E0
-    db $03, $02, $01, $00, $03, $02, $01, $00
-    
-    ; $02D0C1
-    .hit_boxes
-    db $05, $05, $06, $06
-}
+        ret
+    }
 
-; ==============================================================================
+    ; Input:
+    ;     X - The current channel.
+    ; Track command 0xE4. Turns off any channel vibrato.
+    TrackCommandE4_VibratoOff:
+    {
+        mov.b A, #$00 : mov.w ARAM.Chan_VbrIntensity+X, A
+                        mov.w ARAM.Chan_VbrMaxIntensity+X, A
+                        mov.w ARAM.Chan_VbrSlideWait+X, A
 
-; $02D0C5-$02D140 LOCAL JUMP LOCATION
-JavelinTrooper_SpawnProjectile:
-{
-    LDA.b #$1B : JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-        LDA.b #$05 : JSL.l Sound_SetSFX3PanLong
-        
-        PHX
-        
-        LDA.w $0E20, X : CMP.b #$48
-        LDA.w $0DE0, X : BCC .is_archer
-            CLC : ADC.b #$04
-        
-        .is_archer
-        
-        TAX
-        
-        LDA.b $00 : CLC : ADC.w .x_offsets_low, X  : STA.w $0D10, Y
-        LDA.b $0101     : ADC.w .x_offsets_high, X : STA.w $0D30, Y
-        
-        LDA.b $02 : CLC : ADC.w .y_offsets_low, X  : STA.w $0D00, Y
-        LDA.b $03       : ADC.w .y_offsets_high, X : STA.w $0D20, Y
-        
-        LDA.w .x_speeds, X : STA.w $0D50, Y
-        LDA.w .y_speeds, X : STA.w $0D40, Y
-        
-        TXA : AND.b #$03 : STA.w $0DE0, Y
-                         : TAX
-        
-        LDA.w .hit_boxes, X : STA.w $0F60, Y
-        
-        LDA.b #$00 : STA.w $0F70, Y
-        
-        PLX
-        
-        LDA.w $0E20, X : CMP.b #$48
-        LDA.b #$00 : BCC .is_archer_2
-            INC
+        ret
+    }
 
-        .is_archer_2
+    ; ==========================================================================
 
-        STA.w $0D90, Y : BEQ .dont_disable_blockability
-            LDA.l $7EF35A : BNE .player_has_shield
-                ; Make the arrow unblockable by shield (which is dumb, because we
-                ; alraedy verified that the player doesn't have a shield).
-                LDA.w $0BE0, Y : AND.b #$DF : STA.w $0BE0, Y
+    ; Input:
+    ;     X - The current channel.
+    ; Uses one byte parameter:
+    ;     Byte 0: The high byte of the global volume.
+    ; Track command 0xE5. Sets the high byte of the global volume.
+    TrackCommandE5_GlobalVolume:
+    {
+        call GetTrackByte
+        mov.b A, #$00 : movw.b ARAM.GlobalVol, YA
 
-            .player_has_shield
-        .dont_disable_blockability
-    .spawn_failed
+        ; Mark that each channel needs to have its volume updated.
+        mov.b ARAM.ChanUpdateVol, #$FF
 
-    RTS
-}
+        ret
+    }
 
-; ==============================================================================
+    ; Uses two byte parameters:
+    ;     Byte 0: The global volume slide timer.
+    ;     Byte 1: The global volume slide target.
+    ; Track command 0xE6. Sets up a global volume slide timer.
+    TrackCommandE6_GlobalVolumeSlide:
+    {
+        call GetTrackByte
 
-; $02D141-$02D191 LOCAL JUMP LOCATION
-BushJavelinSoldier_Draw:
-{
-    LDA.w $0DC0, X : PHA
-    
-    STZ.w $0DC0, X
-    
-    LDA.w $0F50, X          : PHA
-    AND.b #$F1 : ORA.b #$02 : STA.w $0F50, X
-    
-    REP #$20
-    
-    LDA.w $0FDA        : PHA
-    CLC : ADC.w #$0008 : STA.w $0FDA
-    
-    SEP #$20
-    
-    JSL.l Sprite_PrepAndDrawSingleLargeLong
-    
-    REP #$20
-    
-    PLA : STA.w $0FDA
-    
-    SEP #$20
-    
-    PLA : STA.w $0F50, X
-    PLA : STA.w $0DC0, X
-    
-    JSR.w Sprite2_PrepOamCoord
-    
-    LDY.b #$10
-    JSR.w Guard_AnimateHead_PreserveOAMOffset
-    
-    LDY.b #$0C
-    JSR.w SpriteDraw_GuardBody
-    
-    LDA.w $0DC0, X : CMP.b #$14 : BCS .alpha
-        LDY.b #$04
-        JSR.w SpriteDraw_GuardSpear_PreserveOAMOffset
+        ; TODO: Temp code to artificially extend the length of the global
+        ; volume slide timer.
+        asl A : asl A : asl A : mov.b ARAM.GlobalVolTimer, A
+                                push A
 
-    .alpha
+        call GetTrackByte : mov.b ARAM.GlobalVolTarget, A
 
-    JMP.w Guard_DrawShadow
-}
+        ; Get the increment between the current global volume and 
+        ; the target based on the timer.
+        setc : sbc.b A, ARAM.GlobalVol+1
+        pop X
+        call MakeIncrement : movw.b ARAM.GlobalVolInc, YA
 
-; ==============================================================================
+        ret
+    }
 
-; $02D192-$02D1AB LOCAL JUMP LOCATION
-JavelinTrooper_Draw:
-{
-    JSR.w Sprite2_PrepOamCoord
-    
-    LDY.b #$0C
-    JSR.w SpriteDraw_GuardHead
-    
-    LDY.b #$08
-    JSR.w SpriteDraw_GuardBody
-    
-    LDA.w $0DC0, X : CMP.b #$14 : BCS .alpha
-        JSR.w SpriteDraw_GuardSpear_Fresh
+    ; ==========================================================================
 
-    .alpha
+    ; Input:
+    ;     X - The current channel.
+    ; Uses one byte parameter:
+    ;     Byte 0: The high byte of the song tempo.
+    ; Track command 0xE7. Sets the high byte of the song tempo.
+    TrackCommandE7_SetTempo:
+    {
+        ; Set the song tempo high byte and zero out the low byte.
+        call GetTrackByte
 
-    JMP.w Guard_DrawShadow
-}
+        mov.b A, #$00 : movw.b ARAM.SongTempo, YA
 
-; ==============================================================================
+        ret
+    }
 
-; $02D1AC-$02D1BE JUMP LOCATION
-Sprite_BushJavelinSoldier:
-{
-    LDA.w $0D80, X : BEQ .alpha
-        CMP.b #$02 : BNE .beta
-            JSR.w BushJavelinSoldier_Draw
-            
-            BRA .alpha
-        
-        .beta
-        
-        JSR.w SpriteDraw_BushGuardBush
-    
-    .alpha
-    
-    BRA BushGuard_Main
-}
+    ; Uses two byte parameters:
+    ;     Byte 0: The tempo timer.
+    ;     Byte 1: The tempo target.
+    ; Track command 0xE2. Sets up a tempo slide.
+    TrackCommandE8_TempoSlide:
+    {
+        call GetTrackByte : mov.b ARAM.TempoSlideTimer, A
+                            push A
 
-; $02D1BF-$02D1D2 JUMP LOCATION
-Sprite_BushArcherSoldier:
-{
-    LDA.w $0D80, X : BEQ BushGuard_Main
-        LDA.w $0DC0, X : CMP.b #$0E : BCC .delta
-            JSR.w ArcherSoldier_Draw
-            
-            BRA BushGuard_Main
-        
-        .delta
-        
-        JSR.w SpriteDraw_BushGuardBush
+        call GetTrackByte : mov.b ARAM.TempoSlideTarget, A
+
+        ; Get the tempo slide increment between the current tempo and the target
+        ; based on the timer.
+        setc : sbc.b A, ARAM.SongTempo+1
+        pop X
+        call MakeIncrement : movw.b ARAM.TempoSlideInc, YA
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Uses one byte parameter:
+    ;     Byte 0: The global transposition.
+    ; Track command 0xE9. Sets the song global transposition.
+    TrackCommandE9_GlobalTranspose:
+    {
+        call GetTrackByte : mov.b ARAM.GlobalTransposition, A
+
+        ; Mark that the channel needs to have its pitch updated.
+        or.b ARAM.ChanUpdatePitch, ARAM.ChanBit
+
+        ret
+    }
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses one byte parameter:
+    ;     Byte 0: The channel transposition.
+    ; Track command 0xEA. Sets the given channel's transposition.
+    TrackCommandEA_ChannelTranspose:
+    {
+        call GetTrackByte : mov.w ARAM.Chan_Transposition+X, A
+
+        ; Mark that the channel needs to have its pitch updated.
+        or.b ARAM.ChanUpdatePitch, ARAM.ChanBit
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses three byte parameters:
+    ;     Byte 0: The channel tremolo delay.
+    ;     Byte 1: The channel tremolo increment.
+    ;     Byte 2: The channel tremolo intensity.
+    ; Track command 0xEB. Sets up channel tremolo.
+    TrackCommandEB_SetTremolo:
+    {
+        call GetTrackByte : mov.w ARAM.Chan_TremDelay+X, A
+        call GetTrackByte : mov.w ARAM.Chan_TremInc+X, A
+        call GetTrackByte : mov.w ARAM.Chan_TremIntensity+X, A
+
+        ret
+    }
+
+    ; Input:
+    ;     X - The current channel.
+    ; Track command 0xEC. Cancels channel tremolo.
+    TrackCommandEC_TremoloOff:
+    {
+        mov.b A, #$00 : mov.w ARAM.Chan_TremIntensity+X, A
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses one byte parameter:
+    ;     Byte 0: The high byte of the volume to set.
+    ; Track command 0xED. Sets the channel volume.
+    TrackCommandED_ChannelVolume:
+    {
+        ; Set the channel volume high byte and zero out the low byte.
+        call GetTrackByte : mov.w ARAM.Chan_Vol+1+X, A
+        mov.b A, #$00     : mov.w ARAM.Chan_Vol+0+X, A
+
+        ; Mark that the channel needs to have its volume updated.
+        or.b ARAM.ChanUpdateVol, ARAM.ChanBit
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses two byte parameters:
+    ;     Byte 0: The channel volume slide timer
+    ;     Byte 1: The channel volume slide target.
+    ; Track command 0xE6. Sets up a channel volume slide timer.
+    TrackCommandEE_ChannelVolumeSlide:
+    {
+        call GetTrackByte : mov.b ARAM.Chan_VolTimer+X, A
+                            push A
+
+        call GetTrackByte : mov.w ARAM.Chan_VolTarget+X, A
+
+        ; Get the increment between the current channel volume and 
+        ; the target based on the timer.
+        setc : sbc.w A, ARAM.Chan_Vol+1+X
+        pop X
+        call MakeIncrement : mov.w ARAM.Chan_VolInc+0+X, A
+        mov A, Y           : mov.w ARAM.Chan_VolInc+1+X, A
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses three byte parameters:
+    ;     Byte 0-1: The address of the part to call.
+    ;     Byte   2: The number of times to loop the part.
+    ; Track command 0xEF. Sets up a part call.
+    TrackCommandEF_CallPart:
+    {
+        ; Set the current channel part address.
+        call GetTrackByte : mov.w ARAM.Chan_PartAddr+0+X, A
+        call GetTrackByte : mov.w ARAM.Chan_PartAddr+1+X, A
+
+        ; Set the current channel loop count. (How many times the part
+        ; will loop.)
+        call GetTrackByte : mov.b ARAM.Chan_PartCounter+X, A
+
+        ; Take the current track pointer and save it as the return address for
+        ; when the part is completed.
+        mov.b A, ARAM.Chan_SongPtr+0+X : mov.w ARAM.Chan_PartReturn+0+X, A
+        mov.b A, ARAM.Chan_SongPtr+1+X : mov.w ARAM.Chan_PartReturn+1+X, A
 
         ; Bleeds into the next function.
-}
+    }
 
-; $02D1D3-$02D1F4 JUMP LOCATION
-BushGuard_Main:
-{
-    JSR.w Sprite2_CheckIfActive
-    
-    LDA.b #$01 : STA.w $0BA0, X
-    
-    LDA.w $0D80, X
-    
-    REP #$30
-    
-    AND.w #$00FF : ASL : TAY
-    LDA.w .states, Y : DEC : PHA
-    
-    SEP #$30
-    
-    RTS
-    
-    .states
-    dw $D1F5 ; $2D1F5
-    dw $D223 ; $2D223
-    dw $D277 ; $2D277
-    dw $D2CE ; $2D2CE
-}
+    ; Input:
+    ;     X - The current channel.
+    ; Sets the channel track pointer to the start of the channel part.
+    IteratePartLoop:
+    {
+        ; Set the current channel pointer to the start of the channel's
+        ; part address.
+        mov.w A, ARAM.Chan_PartAddr+0+X : mov.b ARAM.Chan_SongPtr+0+X, A
+        mov.w A, ARAM.Chan_PartAddr+1+X : mov.b ARAM.Chan_SongPtr+1+X, A
 
-; $02D1F5-$02D202 JUMP LOCATION
-BushGuard_Hiding:
-{
-    LDA.w $0DF0, X : BNE .delay
-        INC.w $0D80, X
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses one byte parameter:
+    ;     Byte 0: The gradient wait.
+    ; Track command 0xF0. Sets up a channel vibrato gradient.
+    TrackCommandF0_VibratoGradient:
+    {
+        call GetTrackByte : mov.w ARAM.Chan_VbrSlideWait+X, A
+                            push A
+
+        ; Get the channel vibrato intensity and divide it by gradient wait.
+        mov.b Y, #$00
+        mov.w A, ARAM.Chan_VbrIntensity+X
+        pop X
+        div YA, X
+
+        ; Reload the channel offset and set the vibrato increment.
+        mov.b X, ARAM.ChannelOffset
+        mov.w ARAM.Chan_VbrSlideInc+X, A
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses three byte parameters:
+    ;     Byte 0: The pitch slide delay.
+    ;     Byte 1: The pitch slide timer.
+    ;     Byte 2: The pitch slide target.
+    ; Track command 0xF1. Sets up a continual pitch slide to.
+    TrackCommandF1_PitchSlideTo:
+    {
+        mov.b A, #$01
+
+        bra TrackCommandF2_PitchSlideFrom_start
+    }
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses three byte parameters:
+    ;     Byte 0: The pitch slide delay.
+    ;     Byte 1: The pitch slide timer.
+    ;     Byte 2: The pitch slide target.
+    ; Track command 0xF2. Sets up a continual pitch slide from.
+    TrackCommandF2_PitchSlideFrom:
+    {
+        mov.b A, #$00
+
+        ; ALTERNATE ENTRY POINT
+        .start
+
+        mov.w ARAM.Chan_PitchSlideType+X, A
         
-        LDA.b #$40 : STA.w $0DF0, X
+        call GetTrackByte : mov.w ARAM.Chan_PitchSlideDelay+X, A
+        call GetTrackByte : mov.w ARAM.Chan_PitchSlideDuration+X, A
+        call GetTrackByte : mov.w ARAM.Chan_PitchSlideTarget+X, A
+
+        ret
+    }
+
+    ; Input:
+    ;     X - The current channel.
+    ; Track command 0xF3. Stops a continual pitch slide from or from.
+    TrackCommandF3_PitchSlideStop:
+    {
+        mov.b A, #$00 : mov.w ARAM.Chan_PitchSlideDuration+X, A
+                        mov.w ARAM.Chan_PitchSlideDelay+X, A
+        
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; Input:
+    ;     X - The current channel.
+    ; Uses one byte parameter:
+    ;     Byte 0: The fine tuning value to set.
+    ; Track command 0xF4. Sets the channel fine tuning.
+    TrackCommandF4_FineTuning:
+    {
+        ; Set the current channel fine pitch tuning.
+        call GetTrackByte : mov.w ARAM.Chan_Tuning+X, A
+
+        ; Mark that the channel needs to have its pitch updated.
+        or.b ARAM.ChanUpdatePitch, ARAM.ChanBit
+
+        ret
+    }
+
+    ; ==========================================================================
     
-    .delay
-    
-    RTS
-}
+    ; Uses three byte parameters:
+    ;     Byte 0: The channels to enable echo on.
+    ;     Byte 1: The left echo volume.
+    ;     Byte 2: The right echo volume.
+    ; Track command 0xF5. Sets up echo.
+    TrackCommandF5_EchoBasicControl:
+    {
+        ; Enable echo on the given channels.
+        call GetTrackByte : mov.b ARAM.SongEchoEnable, A
+                            mov.b ARAM.EchoOnQ, A
 
-; ==============================================================================
+        ; Set the echo volume left queue.
+        call GetTrackByte
+        mov.b A, #$00 : movw.b ARAM.EchoVolLeftQ, YA
 
-; $02D203-$02D222 DATA
-BushGuard_Emerging_animation_states:
-{
-    db 4, 4, 4, 4, 4, 4, 4, 4
-    db 0, 1, 0, 1, 0, 1, 0, 1
-    db 0, 1, 0, 1, 0, 1, 0, 1
-    db 0, 1, 0, 1, 0, 1, 0, 1
-}
+        ; Set the echo volume right queue.
+        call GetTrackByte
+        mov.b A, #$00 : movw.b ARAM.EchoVolRightQ, YA
 
-; ==============================================================================
+        ; Clear the DSP.FLG queue disable echo flag.
+        clr5.b ARAM.FlagQ
 
-; $02D223-$02D251 JUMP LOCATION
-BushGuard_Emerging:
-{
-    JSL.l Sprite_CheckDamageFromPlayerLong
-    
-    LDA.w $0DF0, X : BNE .delay
-        INC.w $0D80, X
-        
-        LDA.b #$30 : STA.w $0DF0, X
-        
-        JSR.w Sprite2_DirectionToFacePlayer
-        
-        TYA : STA.w $0DE0, X
-              STA.w $0EB0, X
-        
-        RTS
-    
-    .delay
-    
-    CMP.b #$20 : BNE .alpha
-        PHA
-        
-        JSR.w BushGuard_SpawnFoliage
-        
-        PLA
-        
-    .alpha 
-        
-    LSR : LSR : TAY    
-    LDA.w BushGuard_Emerging_animation_states, Y : STA.w $0DC0, X
-        
-    RTS
-}
+        ret
+    }
 
-; $02D252-$02D276 LOCAL JUMP LOCATION
-BushGuard_SpawnFoliage:
-{
-    LDA.b #$EC
-    JSL.l Sprite_SpawnDynamically : BMI .spawn_failed
-        JSL.l Sprite_SetSpawnedCoords
-        
-        LDA.b #$06 : STA.w $0DD0, Y
-        
-        LDA.b #$20 : STA.w $0DF0, Y
-        
-        LDA.w $0E40, Y : CLC : ADC.b #$03 : STA.w $0E40, Y
-        
-        LDA.b #$02 : STA.w $0DB0, Y
-    
-    .spawn_failed
-    
-    RTS
-}
+    ; Track command 0xF6. Stops all echo.
+    TrackCommandF6_EchoSilence:
+    {
+        ; Set the left and right echo volume queues to 0.
+        mov.b A, #$00 : mov.b ARAM.EchoVolLeftQ+0, A
+                        mov.b ARAM.EchoVolLeftQ+1, A
+                        mov.b ARAM.EchoVolRightQ+0, A
+                        mov.b ARAM.EchoVolRightQ+1, A
 
-; $02D277-$02D2BD JUMP LOCATION
-BushGuard_Shoot:
-{
-    STZ.w $0BA0, X
-    
-    JSR.w Sprite2_CheckDamage
-    
-    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
-        INC.w $0D80, X
-        
-        LDA.b #$30 : STA.w $0DF0, X
-        
-        BRA BushGuard_Retreating
+        ; Set the DSP.FLG queue disable echo flag.
+        set5.b ARAM.FlagQ
 
-    .BRANCH_ALPHA
+        ret
+    }
 
-    STZ.w $0D90, X
-    
-    CMP.b #$28 : BCS .BRANCH_BETA
-        DEC.w $0D90, X
+    ; Uses three byte parameters:
+    ;     Byte 0: The echo delay.
+    ;     Byte 1: The echo feedback.
+    ;     Byte 2: The echo filter parameter.
+    ; Track command 0xF7. Sets up the echo filter.
+    TrackCommandF7_EchoFilter:
+    {
+        ; Set the echo delay queue and setup a bunch of other settings based
+        ; on that.
+        call GetTrackByte
 
-    .BRANCH_BETA
+        call ConfigureEcho
 
-    CMP.b #$10 : BNE .BRANCH_GAMMA
-        PHA
-        
-        JSR.w JavelinTrooper_SpawnProjectile
-        
-        PLA
+        ; Get the next byte and set the echo feedback queue.
+        call GetTrackByte : mov.b ARAM.EchoFeedbackQ, A
 
-    .BRANCH_GAMMA
+        ; Get the next byte as the echo filter parameter index.
+        call GetTrackByte
+        mov.b Y, #$08
+        mul YA : mov X, A
 
-    LSR #3 : STA.b $00
-    
-    LDA.w $0DE0, X : ASL #3 : ORA.b $00
-    
-    LDY.w $0E20, X : CPY.b #$49 : BNE .BRANCH_DELTA
-        CLC : ADC.b #$20
+        ; Loop through each of filter parameters and write them to each of
+        ; the coefficients.
+        mov.b Y, #DSP.FIR
 
-    .BRANCH_DELTA
+        .setNextFilter
 
-    TAY
-    
-    LDA.W JavelinTrooper_Attack_animation_states, Y : STA.w $0DC0, X
-    
-    RTS
-}
+            mov.w A, .EchoFilterParameters+X
+            call WriteToDSP
 
-; $02D2BE-$02D2CE DATA
-BushGuard_Retreating_anim_step:
-{
-    db $00, $01, $00, $01, $00, $01, $00, $01
-    db $00, $02, $03, $04, $04, $04, $04, $04
-}
+            inc X
 
-; $02D2CE-$02D2E8 JUMP LOCATION
-BushGuard_Retreating:
-{
-    JSR.w Sprite2_CheckDamage
-    
-    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
-        STZ.w $0D80, X
-        
-        LDA.b #$40 : STA.w $0DF0, X
-        
-        RTS
-        
-    .BRANCH_ALPHA
-    
-    LSR : LSR : TAY
-    LDA.w BushGuard_Retreating_anim_step, Y : STA.w $0DC0, X
-    
-    RTS
-}
+            mov A, Y : clrc : adc.b A, #$10 : mov Y, A
+        bpl .setNextFilter
 
-; ==============================================================================
+        ; Reload the channel offset.
+        mov.b X, ARAM.ChannelOffset
 
-; $02D2E9-$02D320 DATA
-Pool_SpriteDraw_BushGuardBush:
-{
-    ; $02D2E9
-    .offset_y
-    dw   8,   8
-    dw   8,   8
-    dw   2,   8
-    dw   0,   8
-    dw  -3,   8
-    dw  -3,   8
-    dw  -3,   8
+        ret
 
-    ; $02D305
-    .char
-    db $20, $20
-    db $20, $20
-    db $40, $20
-    db $40, $20
-    db $40, $20
-    db $42, $20
-    db $42, $20
+        .EchoFilterParameters
+        db $7F, $00, $00, $00, $00, $00, $00, $00
+        db $58, $BF, $DB, $F0, $FE, $07, $0C, $0C
+        db $0C, $21, $2B, $2B, $13, $FE, $F3, $F9
+        db $34, $33, $00, $D9, $E5, $01, $FC, $EB
+    }
 
-    ; $02D313
-    .prop
-    db $09, $03
-    db $49, $43
-    db $09, $03
-    db $49, $43
-    db $09, $03
-    db $49, $43
-    db $09, $03
-}
+    ; Uses three byte parameters:
+    ;     Byte 0: The echo pan timer.
+    ;     Byte 1: The left echo pan target.
+    ;     Byte 2: The right echo pan target.
+    ; Track command 0xF8. Sets an echo pan slide.
+    TrackCommandF8_EchoSlide:
+    {
+        ; Set the echo pan timer.
+        call GetTrackByte : mov.b ARAM.EchoPanTimer, A
 
-; $02D321-$02D380 LOCAL JUMP LOCATION
-SpriteDraw_BushGuardBush:
-{
-    JSR.w Sprite2_PrepOamCoord
-    
-    LDA.w $0DC0, X : ASL : STA.b $06
-    
-    PHX
-    
-    LDX.b #$01
-    
-    .next_subsprite
-    
-        PHX
-        
-        TXA : CLC : ADC.b $06 : PHA
-        ASL                   : TAX
-        
-        REP #$20
-        
-        LDA.b $00 : STA.b ($90), Y
-        
-        AND.w #$0100 : STA.b $0E
-        
-        LDA.b $0202 : CLC : ADC.w Pool_SpriteDraw_BushGuardBush_offset_y, X
-        INY : STA.b ($90), Y
-        
-        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
-            LDA.w #$00F0 : STA.b ($90), Y
-        
-        .alpha
-        
-        SEP #$20
-        
-        PLX
-        
-        LDA.w Pool_SpriteDraw_BushGuardBush_char, X : INY : STA.b ($90), Y
-        
-        LDA.w Pool_SpriteDraw_BushGuardBush_prop, X : ORA.b #$20 : PLX : BNE .beta
-            AND.b #$F1 : ORA.b $05
-        
-        .beta
-        
-        INY : STA.b ($90), Y
-        
-        PHY : TYA : LSR : LSR : TAY
-        LDA.b #$02 : ORA.b $0F : STA.b ($92), Y
-        
-        PLY : INY
-    DEX : BPL .next_subsprite
-    
-    PLX
-    
-    RTS
-}
+        ; Set the echo left target.
+        call GetTrackByte : mov.b ARAM.EchoPanLeftTarget, A
 
-; ==============================================================================
+        ; Calculate the echo slide left increment.
+        setc : sbc.b A, ARAM.EchoVolLeftQ+1
+        mov.b X, ARAM.EchoPanTimer
+        call MakeIncrement : movw.b ARAM.EchoPanLeftInc, YA
 
-; $02D381-$02D38B DATA
-Pool_ArcherSoldier_Draw:
-{
-    ; $02D381
-    .weapon
-    db $00 ; Right
-    db $00 ; Left
-    db $00 ; Down
-           ; Up bleeds into below
+        ; Set the echo right target.
+        call GetTrackByte : mov.b ARAM.EchoPanRightTarget, A
 
-    ; $02D384
-    .head
-    db $10 ; Right
-    db $10 ; Left
-    db $10 ; Down
-    db $00 ; Up
+        ; Calculate the echo slide right increment.
+        setc : sbc.b A, ARAM.EchoVolRightQ+1
+        mov.b X, ARAM.EchoPanTimer
+        call MakeIncrement : movw.b ARAM.EchoPanRightInc, YA
 
-    ; $02D388
-    .body
-    db $14 ; Right
-    db $14 ; Left
-    db $14 ; Down
-    db $04 ; Up
-}
+        ret
+    }
 
-; ==============================================================================
+    ; ==========================================================================
 
-; $02D38C-$02D3AF LOCAL JUMP LOCATION
-ArcherSoldier_Draw:
-{
-    JSR.w Sprite2_PrepOamCoord
-    
-    LDY.w $0DE0, X
-    LDA.w .head, Y : TAY
-    JSR.w Guard_AnimateHead_PreserveOAMOffset
-    
-    LDY.w $0DE0, X
-    LDA.w .body, Y : TAY
-    JSR.w Guard_AnimateBody_PreserveOAMOffset
-    
-    LDY.w $0DE0, X
-    LDA.w .weapon, Y : TAY
-    JSR.w SpriteDraw_Archer_Weapon
+    ; Input:
+    ;     X - The current channel.
+    ; Uses three byte parameters:
+    ;     Byte 0: The pitch slide delay.
+    ;     Byte 1: The pitch slide timer.
+    ;     Byte 2: The pitch slide target.
+    ; Track command 0xF9. Sets up a pitch slide once instance.
+    TrackCommandF9_SlideOnce:
+    {
+        ; Set the channel pitch slide wait.
+        call GetTrackByte : mov.b ARAM.Chan_PitchSlideWait+X, A
 
-    JMP.w Guard_DrawShadow
-}
+        ; Set the channel pitch slide timer.
+        call GetTrackByte : mov.b ARAM.Chan_PitchSlideTimer+X, A
 
-; ==============================================================================
+        ; Get target note, add the channel transposition, global transposition,
+        ; and then set the note value for the channel.
+        call GetTrackByte : and.b A, #$7F
+        clrc : adc.w A, ARAM.Chan_Transposition+X
+        clrc : adc.b A, ARAM.GlobalTransposition
 
-; $02D3B0-$02D4D3 DATA
-Pool_SpriteDraw_Archer_Weapon:
-{
-    ; $02D3B0
-    .offset_x
-    dw  -1,   7,   3,   3
-    dw  -1,   7,   3,   3
-    dw  -1,   7,   7,   7
-    dw  -5,  -5, -10,  -2
-    dw  -4,  -4,  -6,   2
-    dw  -5,  -5,  -5,  -5
-    dw   6,  14,  11,  11
-    dw   6,  14,  11,  11
-    dw   6,  14,  14,  14
-    dw  11,  11,  18,  10
-    dw  12,  12,  14,   6
-    dw  11,  11,  11,  11
+        ; ALTERNATE ENTRY POINT
+        .calculateIncrement
 
-    ; $02D410
-    .offset_y
-    dw   7,   7,   3,  11
-    dw   6,   6,   1,   9
-    dw   7,   7,   7,   7
-    dw  -2,   6,   2,   2
-    dw  -2,   6,   2,   2
-    dw  -2,   6,   6,   6
-    dw  -6,  -6, -12,  -4
-    dw  -6,  -6,  -9,  -1
-    dw  -6,  -6,  -6,  -6
-    dw  -2,   6,   2,   2
-    dw  -2,   6,   2,   2
-    dw  -2,   6,   6,   6
+        ; Make the difference positive, then subtract the current note.
+        setc : sbc.w A, ARAM.Chan_Note+X
 
-    ; $02D470
-    .char
-    db $0A, $0A, $2A, $2B
-    db $1A, $1A, $2A, $2B
-    db $0A, $0A, $0A, $0A
-    db $0B, $0B, $3D, $3A
-    db $1B, $1B, $3D, $3A
-    db $0B, $0B, $0B, $0B
-    db $0A, $0A, $2B, $2A
-    db $0A, $0A, $2B, $2A
-    db $0A, $0A, $0A, $0A
-    db $0B, $0B, $3D, $3A
-    db $1B, $1B, $3D, $3A
-    db $0B, $0B, $0B, $0B
+        ; Get the channel pitch slide timer. Theres no mov X, Y, so instead
+        ; use the stack to move the timer into Y without touching A.
+        mov.b Y, ARAM.Chan_PitchSlideTimer+X : push Y : pop X
 
-    ; $02D4A0
-    .prop
-    db $0D, $4D, $08, $08
-    db $0D, $4D, $08, $08
-    db $0D, $4D, $4D, $4D
-    db $0D, $8D, $48, $48
-    db $0D, $8D, $48, $48
-    db $0D, $8D, $8D, $8D
-    db $8D, $CD, $88, $88
-    db $8D, $CD, $88, $88
-    db $8D, $CD, $CD, $CD
-    db $4D, $CD, $08, $08
-    db $4D, $CD, $08, $08
-    db $4D, $CD, $CD, $CD
+        ; Make an increment between the target note and the current pitch value.
+        call MakeIncrement : mov.w ARAM.Chan_PitchSlideInc+0+X, A
+        mov A, Y           : mov.w ARAM.Chan_PitchSlideInc+1+X, A
 
-    ; $02D4D0
-    .OAM_offset
-    db $09
-    db $03
-    db $00
-    db $06
-}
+        ; ALTERNATE ENTRY POINT
+        .exit
 
-; $02D4D4-$02D53A LOCAL JUMP LOCATION
-SpriteDraw_Archer_Weapon:
-{
-    LDA.w $0DC0, X : SEC : SBC.b #$0E : BCS .alpha
-        PHY
-        
-        LDY.w $0DE0, X
-        LDA.w Pool_SpriteDraw_Archer_Weapon_OAM_offset, Y
-        
-        PLY
-        
-    .alpha
-    
-    ASL : ASL : STA.b $06
-    
-    PHX
-    
-    LDX.b #$03
-    
-    .gamma
-    
-        PHX
-        
-        TXA : CLC : ADC.b $06 : PHA
-        
-        ASL : TAX
-        
-        REP #$20
-        
-        LDA.b $00 : CLC : ADC.w Pool_SpriteDraw_Archer_Weapon_offset_x, X
-        STA.b ($90), Y
-        
-        AND.w #$0100 : STA.b $0E
-        
-        LDA.b $02 : CLC : ADC.w Pool_SpriteDraw_Archer_Weapon_offset_y, X
-        INY : STA.b ($90), Y
-        
-        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .beta
-            LDA.w #$00F0 : STA.b ($90), Y
-        
-        .beta
-        
-        SEP #$20
-        
-        PLX
-        
-        LDA.w Pool_SpriteDraw_Archer_Weapon_char, X
-        INY : STA.b ($90), Y
+        ret
+    }
 
-        LDA.w Pool_SpriteDraw_Archer_prop, X
-        ORA.b #$20 : INY : STA.b ($90), Y
-        
-        PHY : TYA : LSR : LSR : TAY
-        LDA.b $0F : STA.b ($92), Y
-        
-        PLY : INY
-    PLX : DEX : BPL .gamma
-    
-    PLX
-    
-    RTS
+    ; ==========================================================================
+
+    ; Uses one byte parameter:
+    ;     Byte 0: The percussion base note.
+    ; Track command 0xFA. Sets the percussion base note.
+    TrackCommandFA_PercussionOffset:
+    {
+        ; Set the percussion base note.
+        call GetTrackByte : mov.b ARAM.PercussionBaseNote, A
+
+        ret
+    }
+
+    ; ==========================================================================
+
+    ; TODO: Future Expansion.
+    TrackCommandFB:
+    TrackCommandFC:
+    TrackCommandFD:
+    TrackCommandFE:
+    TrackCommandFF:
+    {
+        ret
+    }
+
+    ; ==========================================================================
+
+    MusicCommand_Mute:
+    {
+        ; Key off queue the channels being used by the music.
+        or.b ARAM.KeyOffQ, ARAM.ChanInUseSong
+
+        ; Mark that all channels are not in use by the music.
+        mov.b A, #$00 : mov.b ARAM.ChanInUseSong, A
+
+        ; Set the current and last song to 0.
+        mov.b ARAM.CurrentSong, A
+        mov.b ARAM.LastSong, A
+
+        ret
+    }
+
+    ; ==========================================================================
+    print "End of SPC Engine:  $", pc
+
+    SPC_ENGINE_end:
+
+    assert pc() <= $17C0, "SPC Engine exceeds SFX_DATA: ", pc
+
+    base off
+
+    arch 65816
 }
 
 ; ==============================================================================
 
-; $02D53B-$02D6BB
-incsrc "sprite_tutorial_entities.asm"
-
-; $02D6BC-$02DA28
-incsrc "sprite_pull_switch.asm"
-
-; $02DA29-$02DF6B
-incsrc "sprite_uncle_and_priest.asm"
-
-; ==============================================================================
-
-; Widely called, seems to do with placing sprite graphics into OAM.
-; $02DF6C-$02DFE4 LONG JUMP LOCATION
-Sprite_DrawMultiple:
-{
-    STA.b $06
-    STZ.b $07
-    
-    ; $02DF70 ALTERNATE ENTRY POINT
-    .quantity_preset
-    
-    JSR.w SpriteDraw_Tabulated_prep_OAM
-    
-    BRA .moving_on
-    
-    ; $02DF75 ALTERNATE ENTRY POINT
-    .player_deferred
-    
-    JSR.w SpriteDraw_Tabulated_prep_OAM_deferred
-    
-    .moving_on
-    
-    ; Branch will be taken if the sprite were disabled due to being off
-    ; screen or something akin to that.
-    BCS .return
-    
-    PHX
-    
-    ; Routine is definitely used in drawing maidens.
-    REP #$30
-    
-    LDY.w #$0000
-    
-    LDX.w $0090
-    
-    .next_OAM_entry
-    
-        LDA.b ($08), Y : CLC : ADC.b $00 : STA.w $0000, X
-        AND.w #$0100                     : STA.b $0C
-        
-        INY : INY
-        
-        LDA.b ($08), Y : CLC : ADC.b $02 : STA.w $0001, X
-        
-        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
-            LDA.w #$00F0 : STA.w $0001, X
-        
-        .on_screen_y
-        
-        INY : INY
-        
-        LDA.w $0CFE : CMP.w #$0001
-        LDA.b ($08), Y : EOR.b $04 : BCC .dont_override_palette
-            ; Force sprite to use palette 2.
-            AND.w #$F1FF : ORA.w #$0400
-        
-        .dont_override_palette
-        
-        STA.w $0002, X
-        
-        PHX
-        
-        TXA : SEC : SBC.w #$0800 : LSR : LSR : TAX
-        
-        SEP #$20
-        
-        INY #3
-        LDA.b ($08), Y : ORA.b $0D : STA.w $0A20, X
-        
-        PLX
-        
-        REP #$20
-        
-        INY
-        
-        INX #4
-    DEC.b $06 : BNE .next_OAM_entry
-    
-    SEP #$30
-    
-    PLX
-    
-    .return
-    
-    RTL
-}
-
-; ==============================================================================
-
-; Has two return values (CLC and SEC)
-; $02DFE5-$02DFE8 LOCAL JUMP LOCATION
-SpriteDraw_Tabulated_prep_OAM_deferred:
-{
-    ; Optinally alter OAM allocation region.
-    JSL.l Sprite_OAM_AllocateDeferToPlayerLong
-
-    ; Bleeds into the next function.
-}
-    
-; $02DFE9-$02E00A LOCAL JUMP LOCATION
-SpriteDraw_Tabulated_prep_OAM:
-{
-    ; Note: it is possible for this callee to abort the caller (namely, the
-    ; routine we are in right now).
-    JSR.w Sprite2_PrepOamCoord
-    
-    ; Preserves the CLC or SEC status.
-    PHP
-    
-    STZ.w $0CFE
-    STZ.w $0CFF
-    
-    LDA.w $0DD0, X : CMP.b #$0A : BNE .notCarriedSprite
-        LDA.l $7FFA2C, X
-    
-    .notCarriedSprite
-    
-    CMP.b #$0B : BNE .notFrozenSprite
-        LDA.l $7FFA3C, X : STA.w $0CFE
-    
-    .notFrozenSprite
-    
-    PLP
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02E00B-$02E1A2
-incsrc "sprite_quarrel_bros.asm"
-
-; ==============================================================================
-
-; $02E1A3-$02E1A6 DATA
-Sprite_ShowSolicitedMessageIfPlayerFacing_facing_direction:
-{
-    db $04, $06, $00, $02
-}
-
-; Handles text messages
-; $02E1A7-$02E1EF LONG JUMP LOCATION
-Sprite_ShowSolicitedMessageIfPlayerFacing:
-{
-    STA.w $1CF0
-    STY.w $1CF1
-    
-    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .alpha
-        JSL.l Sprite_CheckIfPlayerPreoccupied : BCS .alpha
-            LDA.b $F6 : BPL .alpha
-                LDA.w $0F10, X : BNE .alpha
-                    LDA.b $4D : CMP.b #$02 : BEQ .alpha
-                        JSR.w Sprite2_DirectionToFacePlayer : PHX
-                                                              TYX
-                        
-                        ; Make sure that the sprite is facing towards the
-                        ; player, otherwise talking can't happen.
-                        ; TODO: (What sprites actually use this???)
-                        LDA.w .facing_direction, X : PLX : CMP.b $2F : BNE .not_facing_each_other
-                            PHY
-                            
-                            LDA.w $1CF0
-                            LDY.w $1CF1
-                            JSL.l Sprite_ShowMessageUnconditional
-                            
-                            LDA.b #$40 : STA.w $0F10, X
-                            
-                            PLA : EOR.b #$03
-                            
-                            SEC
-                            
-                            RTL
-                            
-                        .not_facing_each_other
-    .alpha
-    
-    LDA.w $0DE0, X
-    
-    CLC
-    
-    RTL
-}
-
-; ==============================================================================
-
-; You might be wondering how this differs from the similarly named
-; "Sprite_ShowMessageIfPlayerTouching", and the answer is there's really not
-; much difference at all. Feel free to let me know if you discern any
-; significant difference, other than that this one reports a direction as a
-; return value in the accumulator.
-; $02E1F0-$02E218 LONG JUMP LOCATION
-Sprite_ShowMessageFromPlayerContact:
-{
-    STA.w $1CF0
-    STY.w $1CF1
-    
-    JSL.l Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_show
-        LDA.b $4D : CMP.b #$02 : BEQ .dont_show
-            LDA.w $1CF0
-            LDY.w $1CF1
-            JSL.l Sprite_ShowMessageUnconditional
-            
-            JSR.w Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03
-            
-            SEC
-            
-            RTL
-    
-    .dont_show
-    
-    LDA.w $0DE0, X
-    
-    CLC
-    
-    RTL
-}
-
-; ==============================================================================
-
-; Routine is used to display a text message with an ID that is inputted via A
-; and Y registers.
-; A = low byte of message ID to use.
-; Y = high byte of message ID to use.
-; $02E219-$02E24C LONG JUMP LOCATION
-Sprite_ShowMessageUnconditional:
-{
-    STA.w $1CF0
-    STY.w $1CF1
-    
-    ; Unused: Only ever set to 0.
-    STZ.w $0223
-    
-    STZ.w $1CD8
-    
-    LDA.b #$02 : STA.b $11
-    
-    ; Cache the current module.
-    LDA.b $10 : STA.w $010C
-    
-    LDA.b #$0E : STA.b $10
-    
-    PHX
-    
-    JSL.l Sprite_NullifyHookshotDrag
-    
-    STZ.b $5E
-    
-    JSL.l Player_HaltDashAttackLong
-    
-    STZ.b $4D
-    STZ.b $46
-    
-    LDA.b $5D : CMP.b #$02 : BNE .alpha
-        LDA.b #$00 : STA.b $5D
-    
-    .alpha
-    
-    PLX
-    
-    RTL
-}
-
-; ==============================================================================
-
-; $02E24D-$02E28B
-incsrc "sprite_pull_for_rupees.asm"
-
-; $02E28C-$02E2E9
-incsrc "sprite_gargoyle_grate.asm"
-
-; $02E2EA-$02E3A2
-incsrc "sprite_young_snitch_lady.asm"
-
-; $02E3A3-$02E3F2
-incsrc "sprite_inn_keeper.asm"
-
-; $02E3F3-$02E62A
-incsrc "sprite_witch.asm"
-
-; $02E62B-$02E656
-incsrc "sprite_arrow_target.asm"
-
-; ==============================================================================
-
-; TODO: Investigate this.
-; Appears to be unsued, or orphaned code for now...
-; $02E657-$02E665 LONG UNUSED
-Sprite2_TrendHorizSpeedToZero:
-{
-    LDA.w $0D50, X : BEQ .at_rest
-        BPL .positive_velocity
-            INC
-            
-            BRA .moving_on
-        
-        .positive_velocity
-        
-        DEC
-        
-        .moving_on
-    .at_rest
-    
-    STA.w $0D50, X
-    
-    RTL
-}
-
-; ==============================================================================
-
-; $02E666-$02E674 LONG UNUSED
-Sprite2_TrendVertSpeedToZero:
-{
-    LDA.w $0D40, X : BEQ .at_rest
-        BPL .positive_velocity
-            INC
-            
-            BRA .moving_on
-        
-        .positive_velocity
-        
-        DEC
-        
-        .moving_on
-    .at_rest
-    
-    STA.w $0D40, X
-    
-    RTL
-}
-
-; ==============================================================================
-
-; $02E675-$02E88D
-incsrc "sprite_old_snitch_lady.asm"
-
-; $02E88E-$02EA70
-incsrc "sprite_running_man.asm"
-
-; $02EA71-$02EBC6
-incsrc "sprite_bottle_vendor.asm"
-
-; $02EBC7-$02EE4A
-incsrc "sprite_zelda.asm"
-
-; $02EE4B-$02EEA5
-incsrc "sprite_mushroom.asm"
-
-; $02EEA6-$02EEF8
-incsrc "sprite_fake_sword.asm"
-
-; $02EEF9-$02F0CC
-incsrc "sprite_heart_upgrades.asm"
-
-; $02F0CD-$02F259
-incsrc "sprite_elder.asm"
-
-; $02F25A-$02F468
-incsrc "sprite_medallion_tablet.asm"
-
-; $02F469-$02F520
-incsrc "sprite_elder_wife.asm"
-
-; $02F521-$02F93E
-incsrc "sprite_potion_shop.asm"
-    
-; ==============================================================================
-
-; $02F93F-$02F943 LOCAL JUMP LOCATION
-Sprite2_DirectionToFacePlayer:
-{
-    JSL.l Sprite_DirectionToFacePlayerLong
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02F944-$02F948 LOCAL JUMP LOCATION
-Sprite2_IsToRightOfPlayer:
-{
-    JSL.l Sprite_IsToRightOfPlayerLong
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02F949-$02F94D LOCAL JUMP LOCATION
-Sprite2_IsBelowPlayer:
-{
-    JSL.l Sprite_IsBelowPlayerLong
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02F94E-$02F96A LOCAL JUMP LOCATION
-Sprite2_CheckIfActive:
-{
-    LDA.w $0DD0, X : CMP.b #$09 : BNE .inactive
-        ; $02F955 ALTERNATE ENTRY POINT
-        .permissive
-    
-        LDA.w $0FC1 : BNE .inactive
-            LDA.b $11 : BNE .inactive
-                LDA.w $0CAA, X : BMI .active
-                    LDA.w $0F00, X : BEQ .active
-    
-    .inactive
-    
-    PLA : PLA
-    
-    .active
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02F96B-$02F970 DATA
-Pool_Sprite2_CheckIfRecoiling:
-{
-    .frame_counter_masks
-    db $03, $01, $00, $00, $0C, $03
-}
-
-; $02F971-$02F9EC LOCAL JUMP LOCATION
-Sprite2_CheckIfRecoiling:
-{
-    LDA.w $0EA0, X : BEQ .return
-        AND.b #$7F : BEQ .recoil_finished
-            LDA.w $0D40, X : PHA
-            LDA.w $0D50, X : PHA
-            
-            DEC.w $0EA0, X : BNE .not_halted_yet
-                LDA.w $0F40, X : CLC : ADC.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
-                    LDA.w $0F30, X : CLC : ADC.b #$20 : CMP.b #$40 : BCC .slow_enough
-                
-                .too_fast_so_halt
-                
-                LDA.b #$90 : STA.w $0EA0, X
-                
-                .slow_enough
-            .not_halted_yet
-            
-            LDA.w $0EA0, X : BMI .halted
-                LSR : LSR : TAY
-                LDA.b $1A : AND .frame_counter_masks, Y : BNE .halted
-                    LDA.w $0F30, X : STA.w $0D40, X
-                    LDA.w $0F40, X : STA.w $0D50, X
-                    
-                    LDA.w $0CD2, X : BMI .no_wall_collision
-                        JSR.w Sprite2_CheckTileCollision
-                        
-                        AND.b #$0F : BEQ .no_wall_collision
-                            CMP.b #$04 : BCS .y_axis_wall_collision
-                                STZ.w $0F40, X
-                                STZ.w $0D50, X
-                                
-                                BRA .moving_on
-                            
-                            .y_axis_wall_collision
-                            
-                            STZ.w $0F30, X
-                            STZ.w $0D40, X
-                            
-                            .moving_on
-                            
-                            BRA .halted
-                    
-                    .no_wall_collision
-                    
-                    JSR.w Sprite2_Move
-            
-            .halted
-            
-            PLA : STA.w $0D50, X
-            PLA : STA.w $0D40, X
-            
-            PLA : PLA
-    
-    .return
-    
-    RTS
-    
-    .recoil_finished
-    
-    STZ.w $0EA0, X
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02F9ED-$02F9F3 LOCAL JUMP LOCATION
-Sprite2_Move:
-{
-    JSR.w Sprite2_MoveHoriz
-    JSR.w Sprite2_MoveVert
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02F9F4-$02F9FF LOCAL JUMP LOCATION
-Sprite2_MoveHoriz:
-{
-    TXA : CLC : ADC.b #$10 : TAX
-    JSR.w Sprite2_MoveVert
-    
-    LDX.w $0FA0
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02FA00-$02FA2D LOCAL JUMP LOCATION
-Sprite2_MoveVert:
-{
-    LDA.w $0D40, X : BEQ .no_velocity
-        ASL #4 : CLC : ADC.w $0D60, X : STA.w $0D60, X
-        
-        LDA.w $0D40, X : PHP
-        LSR #4 : LDY.b #$00 : PLP : BPL .positive
-            ORA.b #$F0
-            
-            DEY
-        
-        .positive
-        
-              ADC.w $0D00, X : STA.w $0D00, X
-        TYA : ADC.w $0D20, X : STA.w $0D20, X
-    
-    .no_velocity
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02FA2E-$02FA4F LOCAL JUMP LOCATION
-Sprite2_MoveAltitude:
-{
-    LDA.w $0F80, X : ASL #4 : CLC : ADC.w $0F90, X : STA.w $0F90, X
-    
-    LDA.w $0F80, X : PHP
-    LSR #4 : PLP : BPL .positive
-        ORA.b #$F0
-    
-    .positive
-    
-    ADC.w $0F70, X : STA.w $0F70, X
-    
-    RTS
-}
-
-; ==============================================================================
-
-; TODO: Investigate this.
-; Collision detecting function (at least it calls one in bank $06).
-; $02FA50-$02FA58 LOCAL JUMP LOCATION
-Sprite2_PrepOamCoord:
-{
-    JSL.l Sprite_PrepOamCoordLong : BCC .sprite_wasnt_disabled
-        PLA : PLA
-    
-    .sprite_wasnt_disabled
-    
-    RTS
-}
-
-; ==============================================================================
-
-; $02FA59-$02FA8D LONG JUMP LOCATION
-Sprite_ShowMessageIfPlayerTouching:
-{
-    STA.w $1CF0
-    STY.w $1CF1
-    
-    LDA.w $0E40, X : PHA
-    
-    LDA.b #$80 : STA.w $0E40, X
-    
-    LDA.w $0F60, X : PHA
-    
-    ; Alter the hit detection box for the purposes of seeing if the player
-    ; wants to talk.
-    LDA.b #$07 : STA.w $0F60, X
-    
-    JSL.l Sprite_CheckDamageToPlayerSameLayerLong
-    
-    PLA : STA.w $0F60, X
-    PLA : STA.w $0E40, X
-    
-    BCC Sprite_ShowMessageMinimal_exit
-        PHP
-        
-        JSL.l Sprite_NullifyHookshotDrag
-        
-        PLP
-        
-        STZ.w $0372
-        STZ.b $5E
-        
-        LDA.b $4D : BNE Sprite_ShowMessageMinimal_exit
-            ; Bleeds into the next function.
-}
-
-; $02FA8E-$02FAA1 LONG JUMP LOCATION
-Sprite_ShowMessageMinimal:
-{
-    ; Unused: Only ever set to 0.
-    STZ.w $0223
-
-    STZ.w $1CD8
-            
-    LDA.b #$02 : STA.b $11
-    
-    ; Cache the current module.
-    LDA.b $10 : STA.w $010C
-            
-    LDA.b #$0E : STA.b $10
-    
-    ; $02FAA1 ALTERNATE ENTRY POINT
-    .exit
-    
-    RTL
-}
-
-; ==============================================================================
-
-; $02FAA2-$02FAC9 LONG JUMP LOCATION
-Overworld_ReadTileAttr:
-{
-    ; TODO: (rather a bug in the way I named this routine...)
-    ; Seems more like a map16 attr reader than a map8 reader.
-    REP #$30
-    
-    LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $06
-    
-    LDA.b $02 : SEC : SBC.w $070C : AND.w $070E : ORA.b $06 : TAX
-    
-    LDA.l $7E2000, X : TAX
-    LDA.l OverworldTileTypeTable, X
-    
-    SEP #$30
-    
-    RTL
-}
-
-; ==============================================================================
-
-; $02FACA-$02FBEE
-incsrc "sprite_mad_batter.asm"
-
-; $02FBEF-$02FF5D
-incsrc "sprite_dash_item.asm"
-
-; $02FF5E-$02FFFE
-incsrc "sprite_trough_boy.asm"
-
-; ==============================================================================
-
-; $02FFFF-$02FFFF NULL
-NULL_05FFFF:
-{
-    db $FF
-}
-
-; ==============================================================================
-
-warnpc $068000
+print "End of Bank 0x05:   $", pc
+print " "
