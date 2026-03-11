@@ -428,7 +428,7 @@ SPCEngine:
         mov.b A, #$38
         mul YA : clrc : adc.b A, $43 : mov.b $43, A
                                        bcc .waitForSFX
-            call HandleAmbientAndSFX
+            call Handle_AmbientAndSFX
             call HandleInput_Ambient
 
             ; Check for new Ambient input.
@@ -1606,7 +1606,7 @@ SPCEngine:
     ; $0D00C0-$0D00CA DATA
     TrackCommandE4_VibratoOff:
     {
-        ; Set the channel vibrato intensity and max intensity.
+        ; Set the channel vibrato intensity and max intensity to 0.
         mov.b $B1+X, A
         mov.w $02C1+X, A
 
