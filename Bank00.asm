@@ -318,7 +318,7 @@ Vector_NMI:
     LDA.b $99 : STA.w SNES.InitColorAddition
     LDA.b $9A : STA.w SNES.AddSubtractSelectAndEnable
     
-    ; Possibly a register that must be written 3 times (internal pointer).
+    ; This register must be written 3 times (internal pointer).
     LDA.b $9C : STA.w SNES.FixedColorData
     LDA.b $9D : STA.w SNES.FixedColorData
     LDA.b $9E : STA.w SNES.FixedColorData
@@ -12258,7 +12258,7 @@ Graphics_LoadCommonSprLong:
 ; faster to do this via DMA. in fact, in another place this operation is
 ; performed with DMA, if I'm not mistaken.
 ; $006399-$0063D1 LONG JUMP LOCATION
-CopyMode7Chr:
+WriteMode7Chr:
 {
     ; Set source address bank to 0x18.
     LDA.b #$18 : STA.b $02

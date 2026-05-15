@@ -988,14 +988,14 @@ struct WRAM $7E0000
         ; To be written to SNES.OBJAndColorWindow during NMI.
 
     ; $99[0x01] - (NMI)
-    .EnableFixedColor: skip $01
-        ; Enable Fixed Color +/-. To be written to SNES.InitColorAddition
-        ; during NMI.
+    .ColorAdditionSelect: skip $01
+        ; Sets the type of color addition/subtraction. To be written to
+        ; SNES.InitColorAddition during NMI.
 
     ; $9A[0x01] - (NMI)
     .AddSubSelect: skip $01
-        ; Enable +/- per layer. To be written to SNES.AddSubtractSelectAndEnable
-        ; during NMI.
+        ; Enables color addition/subtraction per layer. To be written to
+        ; SNES.AddSubtractSelectAndEnable during NMI.
 
     ; $9B[0x01] - (NMI)
     .HDMAEnable: skip $01
