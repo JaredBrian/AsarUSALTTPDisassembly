@@ -7291,7 +7291,7 @@ struct WRAM $7E0000
         ;     See Sprite_SetupHitBox for more details.
 
     ; $0F70[0x10] - (Sprite)
-    .SpriteZPos: skip $10
+    .SprZPos: skip $10
         ; This is the Z coodinate or the height value of the sprite. The main
         ; purpose of this value is to determine how far below the sprite to draw
         ; the default shadow, however there are some functions that check this
@@ -7299,98 +7299,191 @@ struct WRAM $7E0000
         ; the sprites on the "ground".
 
     ; $0F80[0x10] - (Sprite)
-    .SpriteZSpeed: skip $10
+    .SprZSpeed: skip $10
         ; This functions as the Z speed of the sprite. Usually used to simulate
         ; gravity in certain sprites. In sprites that do not have gravity, this
         ; is used as another auxiliary Timer that is decremented by 2 every
         ; frame instead of 1 like all of the other timers.
 
     ; $0F90[0x10] - (Sprite)
-        ; Subpixel portion of altitude.
+    .SpriteZPosSubPixel: skip $10
+        ; The sub pixel of SpriteZPos. Appears to be used by some misc purposes
+        ; by Agahnim and Kholdstare.
 
     ; $0FA0[0x01] - (Sprite)
-        ; When a special effect is executing, its index is stored here (0 to 0x0D)
-        ; Also applies to sprites and perhaps other similar types of objects.
-        ; Would require more research to verify.
+    .SprOffset:
+        ; This caches the current sprite offset index when the X register
+        ; (which usually holds the channel offset) is required.
 
-    ; $0FA1[0x01] - 
+    ; $0FA0[0x01] - (Ancilla)
+    .AncillaOffset: skip $01
+        ; This caches the current ancilla offset index when the X register
+        ; (which usually holds the channel offset) is required.
 
-        ; Accumulator for generating random numbers. Each time a ranom number is 
-        ; generated, the current low byte of the h count (ppu) plus the frame 
-        ; index ($1a) is added to this variable and then stored back to this 
-        ; variable. The resultant value of this variable is the random number
-        ; that ultimately gets returned.
+    ; $0FA1[0x01] - (Main)
+    .RandomAccumulator: skip $02
+        ; An accumulator used in random number generation. Each time a random
+        ; number is generated, the current low byte of the h count (ppu) plus
+        ; the FrameCounter is added to this variable and then stored back to
+        ; this variable. The resultant value of this variable is the random
+        ; number that ultimately gets returned.
 
-    ; $0FA2 - 
-        ; Free RAM
+    ; $0FA2[0x03] - (Free)
+    .Free_0FA2: skip $03
+        ; Free RAM.
 
-    ; $0FA5[0x01] - 
-        ; Tile type for sprite / tile interactions
-        ; (Used on a temporary basis for ancillary objects)
+    ; $0FA5[0x01] - (Sprite, Ancilla)
+    .EntityTileType
+        ; Tile type for sprite/ancilla tile interactions. When a sprite or ancilla
+        ; needs to interact with a tile, the tile type is stored here.
 
-    ; $0FA6 - 
-        ; Free RAM
+    ; $0FA6[0x02] - (Free)
+    .Free_0FA6: skip $02
+        ; Free RAM.
 
-    ; $0FA8 - 
-        ; Screen relative X coordinate of a sprite (only lowest 8 bits)
-    ; $0FA9 - 
-        ; Screen relative Y coordinate of a sprite (only lowest 8 bits)
+    ; $0FA8[0x01] - (Sprite, OAM)
+    .SprScreenLowXCoord:
+        ; The screen relative X coordinate low byte of a sprite. Set by
+        ; Sprite_PrepOamCoord.
 
-    ; $0FAA - 
-        ; ????
+    ; $0FA8[0x01] - (Sprite)
+    .SprMiscH: skip $01
+        ; A misc variable used by sprites. Some uses include:
+        ; Dungeon Map [0x02] - Used to store the X offset of the boss room icon.
+        ; Beamos - Used as the X position of where the beamos laser should fire
+        ;          from. Equates to the X position of where the beamos eye ball 
+        ;          currently is minus 0x03.
 
-    ; $0FAB[0x01] - 
-        ; ????
+    ; $0FA9[0x01] - 
+    .SprScreenLowYCoord:
+        ; The screen relative Y coordinate low byte of a sprite. Set by
+        ; Sprite_PrepOamCoord.
 
-    ; $0FAC[0x01] - (RepulseSpark)
-        ; Controls the animation state of the repulse spark ancillary object.
-        ; This is always set to 0x05 and then gradually counts down and then the
-        ; repulse spark becomes deactivated at value 0. Also, There is only WRAM 
-        ; allocated for one repulse spark at any given time.
-        ; Technically, this can be set to higher values, but all it does is induce
+    ; $0FA9[0x01] - (Sprite)
+    .SprMiscI: skip $01
+        ; A misc variable used by sprites. Some uses include:
+        ; Beamos - Used as the Y position of where the beamos laser should fire
+        ;          from. Equates to the Y position of where the beamos eye ball 
+        ;          currently is minus 0x12.
+
+    ; $0FAA[0x01] - (Sprite)
+    .SprMiscJ: skip $01
+        ; A misc variable used by sprites. Some uses include:
+        ; Dungeon Map [0x02] - Used to store the Y offset of the boss room icon.
+        ; Guards/Soldiers - Used to store the Y offset of the soldier's weapon.
+        ; Flail Trooper - TODO: Some sort of hitbox related var.
+
+    ; $0FAB[0x01] - (Sprite)
+    .SprMiscK: skip $01
+        ; A misc variable used by sprites. Some uses include:
+        ; Guards/Soldiers - Used to store the X offset of the soldier's weapon.
+        ; Flail Trooper - TODO: Some sort of hitbox related var.
+
+    ; $0FAC[0x01] - (Ancilla)
+    .RepulseSparkAniStep: skip $01
+        ; This controls the animation state of the repulse spark ancillary
+        ; object. This is always set to 0x05, gradually counts down, and then the
+        ; repulse spark becomes deactivated at value 0. However, there is code to
+        ; suggest that at some point in development, this could be set to higher
+        ; values such as 0x09. But setting this to a high value just induces a
         ; higher waiting time before the repulse spark resolves and disappears.
 
-    ; $0FAD[0x01] - (RepulseSpark)
-        ; Low byte of repulse spark X coordainte. There is no corresponding high
-        ; byte variable.
+    ; $0FAD[0x01] - (Ancilla)
+    .RepulseSparkXCoord: skip $01
+        ; The repulse spark X coordainte.
 
-    ; $0FAE[0x01] - (RepulseSpark)
-        ; Low byte of repulse spark Y coordainte. There is no corresponding high
-        ; byte variable.
+    ; $0FAE[0x01] - (Ancilla)
+    .RepulseSparkYCoord: skip $01
+        ; The repulse spark Y coordainte.
 
-    ; $0FAF[0x01] - (RepulseSpark)
-        ; Delay timer between animation states of the repulse spark. When it 
-        ; expires, it is reset to 0x01 if the repulse spark still has animation 
-        ; frames to cycle through.
+    ; $0FAF[0x01] - (Ancilla)
+    .RepulseSparkAniTimer: skip $01
+        ; The delay timer between animation states for the repulse spark. When
+        ; it expires, it is reset to 0x01.
 
-    ; $0FB0 - 
-        ; Used to offset the high byte of pixel addresses in rooms. (X coord)
-    ; $0FB1 - 
-        ; Used to offset the high byte of pixel addresses in rooms. (Y coord)
+    ; $0FB0[0x01] - (Sprite)
+    .SprDunXOffset: skip $01
+        ; The dungeon room X coordinate *2. Used to offset the high byte of
+        ; the sprite X coordinate in dungeon rooms when initializing sprites.
+
+    ; $0FB1[0x01] - (Sprite)
+    .SprDunYOffset: skip $01
+        ; The dungeon room Y coordinate *2. Used to offset the high byte of
+        ; the sprite Y coordinate in dungeon rooms when initializing sprites.
 
     ; $0FB2[0x01] - (Player)
-        ; Seems to be a debug read location, as it is never read, other than when
-        ; being pushed to the stack along side its brother, $7E0314. (Their values
-        ; always are the same).
+    .Junk_0FB2: skip $01
+        ; Written to but is never read. Seems to be the same as SpriteLift.  
 
-    ; $0FB3 - 
-        ; Corresponds to sort sprites in Hyrule Magic
+    ; $0FB3[0x01] - (Sprite, Ancilla)
+    .DunLayerSort: skip $01
+        ; Corresponds to "sort sprites" in ZScream. This address forces the OAM
+        ; allocation of certain sprites and ancillae to consider their layer.
+        ; Mostly helps to prevent ghosting with objects in multi layer rooms.
+        ; Also required to be set if sprites are to drop to the other layer when
+        ; hitting mask 0x1C. TODO: Verify.
 
     ; $0FB4[0x01] - (Garnish)
+    .GarnishEnabled: skip $01
         ; Acts as a flag to indicate that there may be Garnish objects active on
         ; screen. This is not set low until the load of the next room or area, or
         ; similar circumstance like warping. Its numerical value is not important,
-        ; so as long as it's nonzero, Garnish objects will be handled.
-        ; Hence, they could be "paused", technically, by setting this to zero
-        ; temporarily.
+        ; so as long as it's nonzero, Garnish objects will be handled. TODO: 
+        ; Possibly junk? seems to corrispond with $7FF800 so why not just use that
+        ; same value? However not all the same values are set here as in $7FF800.
+        ; 0x00 - No garnish
+        ; 0x01 - Winder Fireball
+        ; 0x02 - Mothula Beam
+        ; 0x04 - TODO: Laser Eye Garnish?
+        ; 0x05 - Simple Sparkle
+        ; 0x06 - TODO: Zoro Garnish?
+        ; 0x07 - Kholdstare Nebule
+        ; 0x09 - Lightning Fulgur
+        ; 0x0A - Cannon Trooper Poof
+        ; 0x0B - Pirogusu Splash
+        ; 0x0C - Trinexx Ice
+        ; 0x0F - Blind Laser Trail
+        ; 0x10 - Trinexx Fire
+        ; 0x12 - Good Bee Sparkle
+        ; 0x13 - Pyramid Debris
+        ; 0x14 - Running Man Dash Dust
+        ; 0x15 - Arrghus Swim Frantically Splash
+        ; 0x16 - Throwable Scenery Scatter Debris
+        ; 0x1F - Crumble Tile
 
-    ; $0FB5[0x01] - 
-        ; used in constructing special designation $0E30[]. Two most significant
-        ; bits of the value. also used in calculating sprite damage.
-        ; $0DD0[] is stored here on a temporary basis.
+    ; $0FB5[0x01] - (Sprite, Overlord)
+    .SprMiscL: skip $01
+        ; A misc variable used by sprites. Most of the time, this is used as a
+        ; loop counter when multiple sub sprites need to be spawened such as when
+        ; Kholdstare is splitting into 3, Agahnim 2 is spawning his shadow clones,
+        ; or when the lanmolas are deciding how many debris shards to spawn when
+        ; bursting out of the ground.
+        ; Some other uses include:
+        ; Pikit - Used to store the X coordinate of where the item it is stealing
+        ;    from the player should be drawn.
+        ; Sprite_DirectionToFacePlayer - Used to temporarily store the absolute
+        ;     Y distance of the player relative to the sprite trying to face
+        ;     the player.
+        ; Dungeon_LoadSprite - Temporarily used in constructing the sprite
+        ;     subtype when in dungeons.
+        ; Explode_VerifyPrizing - Used to temporarily check if the current sprite
+        ;     is Blind. If so, Add 0x10 to the y position of the prize drop.
+        ; also used in calculating sprite damage.
+        ; Medallion_CheckSpriteDamage - Used to temporarily store the ancilla
+        ;     type when damaging sprites with a medallion.
 
-    ; $0FB6 - 
-        ; used in construction of special designation $0E30[]. Three least significant bits of the value. 
+    ; $0FB6 - (Sprite, Overlord)
+    .SprMiscM: skip $01
+        ; A misc variable used by sprites. Some uses include:
+        ; Pikit - Used to store the Y coordinate of where the item it is stealing
+        ;    from the player should be drawn.
+        ; Dungeon_LoadSprite - Temporarily used in constructing the sprite
+        ;     subtype when in dungeons.
+        ; Helmasaur King Fire Ball - Used to store a random value that is added
+        ;     to the timer that controls when they split into 4 and fly off.
+        ; Thief - The index of what pool of items to spawn when stealing from
+        ;     the player.
+        ; Etc... TODO: Doccument other uses.
 
     ; $0FB7[0x01] - 
         ; Seems to have something to do with sprite behavior that
