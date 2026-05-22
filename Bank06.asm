@@ -5272,7 +5272,7 @@ Sprite_IsBelowPlayer:
 {
     LDY.b #$00
     
-    ; The additional 8 pixels I'm sure is to help simulate relative
+    ; The additional 8, pixels I'm sure, is to help simulate relative
     ; perspective. The altitude of the sprite is also factored in.
     LDA.b $20 : CLC : ADC.b #$08     : PHP 
                 CLC : ADC.w $0F70, X : PHP
@@ -5530,7 +5530,8 @@ Medallion_CheckSpriteDamage:
     
         LDA.w $0DD0, X : CMP.b #$09 : BCC .inactive_sprite
             LDA.w $0BA0, X : ORA.w $0F00, X : BNE .inactive_sprite
-                LDA.w $0FB5 : JSL.l Ancilla_CheckSpriteDamage_override
+                LDA.w $0FB5 
+                JSL.l Ancilla_CheckSpriteDamage_override
         
         .inactive_sprite
     DEX : BPL .next_sprite

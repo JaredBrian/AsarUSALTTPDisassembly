@@ -625,7 +625,7 @@ Ancilla_ExecuteObject:
         LDA.w $0C90, X
         
         ; If "sort sprites" is in effect, things are slightly different.
-        LDY.w $0FB3 : BEQ .sort_sprites
+        LDY.w $0FB3 : BEQ .sort_sprites ; TODO: Missing label.
             ; If the special effect is on a different floor use a different
             ; section of the OAM buffer (probably also changes priority).
             LDY.w $0C7C, X : BNE .on_bg1

@@ -4998,25 +4998,27 @@ DungeonMap_DrawRoomMarkers:
                  STA.w $0FAA
                  STZ.w $0FAB
     
+    ; Get the X and Y offsets for the boss icon.
     LDY.w #$0018
+    .bossIconYLoop
 
-    .BRANCH_LAMBDA
+        ; TODO: Find out exactly what this is checking for. The pointer leads
+        ; right to the dungeon map data offset by 0x18.
+        LDA.b ($0E), Y : CMP.b #$0F : BEQ .noBossRoom
+            CMP.w DungeonMapBossRooms, X : BEQ .bossRoomFound
 
-        LDA.b ($0E), Y : CMP.b #$0F : BEQ .BRANCH_THETA
-            CMP.w DungeonMapBossRooms, X : BEQ .BRANCH_IOTA
-
-        .BRANCH_THETA
+        .noBossRoom
 
         LDA.w $0FA8 : SEC : SBC.b #$10 : STA.w $0FA8
-        BPL .BRANCH_KAPPA
+        BPL .bossIconXNot0
             LDA.b #$40 : STA.w $0FA8
             
             LDA.w $0FAA : SEC : SBC.b #$10 : STA.w $0FAA
 
-        .BRANCH_KAPPA
-    DEY : BPL .BRANCH_LAMBDA
+        .bossIconXNot0
+    DEY : BPL .bossIconYLoop
 
-    .BRANCH_IOTA
+    .bossRoomFound
 
     STZ.b $02
     STZ.b $0F
@@ -6324,10 +6326,11 @@ DungeonMapFloorToDataOffset:
     dw $00AF
 }
 
-; Quick note, all of these pointers seem to be a multiple of 25 bytes apart.
+; NOTE: all of these pointers seem to be a multiple of 25 bytes apart.
 ; $057605-$057620 DATA
 DungeonMapRoomPointers:
 {
+    ; TODO: Find labels for these pointers:
     db $F621, $F66C, $F6E9, $F71B, $F766, $F815, $F860, $F892
     db $F8DD, $F90F, $F9D7, $FA6D, $FAB8, $FB1C
 }

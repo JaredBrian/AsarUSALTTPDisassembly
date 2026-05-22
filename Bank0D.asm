@@ -8148,7 +8148,6 @@ Probe_CheckTileSolidity:
     PHX
     
     STA.w $0FA5 : TAX
-    
     LDA Sprite_SimplifiedTileAttr, X : PLX : CMP.b #$01
     
     RTL

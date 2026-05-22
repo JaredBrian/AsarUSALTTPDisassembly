@@ -1005,7 +1005,7 @@ Dungeon_LoadSprites:
     
     REP #$30
     
-    ; (update: Black Magic ended up hooking $04C16E)
+    ; TODO: (update: Black Magic ended up hooking $04C16E)
     ; RoomData_SpritePointers is the pointer table for the sprite data in
     ; each room.
     LDA.w $048E : ASL : TAY
@@ -1016,14 +1016,15 @@ Dungeon_LoadSprites:
     
     SEP #$30
     
-    ; Used to offset the high byte of pixel addresses in rooms. (X coord).
+    ; Used to offset the high byte of sprite Y coordinates in when
+    ; initializing sprites.
     AND.b #$FE : STA.w $0FB1
     
-    ; Load the room index yet again.
-    ; Used to offset the high byte of pixel addresses in rooms. (Y coord).
+    ; Used to offset the high byte of sprite X coordinates in when
+    ; initializing sprites.
     LDA.w $048E : AND.b #$0F : ASL : STA.w $0FB0
     
-    ; Not sure what this does yet...
+    ; Get the sort sprite setting:
     LDA.b (!dataPtr) : STA.w $0FB3
     
     LDA.b #$01 : STA.b !dataOffset
