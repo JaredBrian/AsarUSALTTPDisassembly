@@ -348,7 +348,7 @@ SpriteDraw_TrinexxRockSnake:
     
     LDA.b #$00 : STA.w $0FB6
 
-    ; TODO: See if this an actual alternate entry point.
+    ; TODO: See if this is an actual alternate entry point.
     ; $0EAF94 ALTERNATE ENTRY POINT
     .next_segment
 
