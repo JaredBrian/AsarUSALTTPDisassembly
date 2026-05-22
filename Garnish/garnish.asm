@@ -44,8 +44,6 @@ ZoraFireball_SpawnTailGarnish:
 ; $04B06E-$04B07E LONG JUMP LOCATION
 Garnish_ExecuteUpperSlotsLong:
 {
-    ; NOTE: Maybe I'm nitpickin', but doesn't this seem a bit out of place
-    ; here?
     JSL.l Filter_MajorWhitenMain
     
     LDA.w $0FB4 : BEQ .no_spawned_garnishes
