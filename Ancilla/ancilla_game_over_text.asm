@@ -87,7 +87,8 @@ GameOverText_SweepLeft:
             
             ; Add another letter, and move on if we've got all the letters in
             ; place.
-            INX : STX.w $035F : CPX.b #$08 : BNE .not_time_to_unfurl
+            INX : STX.w $035F
+            CPX.b #$08 : BNE .not_time_to_unfurl
                 LDA.b #$07 : STA.w $035F
                 
                 ; Move on to the next phase and unfurl the letters back to the

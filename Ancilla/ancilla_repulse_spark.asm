@@ -12,10 +12,8 @@ Pool_Ancilla_RepulseSpark:
     db $22, $12, $22, $22
 }
 
-; My best guess is that this handles generic hit / spark effects that
-; don't fit anywhere else, but $0FAC is quite unfamiliar still. It never
-; seems to receive a value higher than 5, but there are checks for
-; it as high as 9 and beyond.
+; NOTE: $0FAC never seems to receive a value higher than 5, but there are
+; checks for it as high as 9.
 ; $040F89-$04107F LOCAL JUMP LOCATION
 Ancilla_RepulseSpark:
 {
@@ -107,7 +105,6 @@ Ancilla_RepulseSpark:
         EOR.b #$40           : LDY.b #$0B : STA.b ($90), Y
         
         LDX.w $0FAC
-        
         LDA.w .chr, X : LDY.b #$02 : STA.b ($90), Y
                         LDY.b #$06 : STA.b ($90), Y
                         LDY.b #$0A : STA.b ($90), Y

@@ -33,7 +33,6 @@ Ancilla_HappinessPondRupees:
     DEX : BPL .find_active_rupee_loop
     
     LDX.w $0FA0
-    
     STZ.w $0C4A, X
     
     RTS

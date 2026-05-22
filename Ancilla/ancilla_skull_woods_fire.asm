@@ -218,7 +218,6 @@ Ancilla_SkullWoodsFire:
     DEX : BPL .find_active_flame_loop
     
     LDX.w $0FA0
-    
     STZ.w $0C4A, X
     
     RTS

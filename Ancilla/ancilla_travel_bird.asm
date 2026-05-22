@@ -333,7 +333,6 @@ Ancilla_TravelBird:
     JSR.w Ancilla_DrawShadow
     
     LDX.w $0FA0
-    
     LDA.w $0C54, X : BEQ .dont_draw_player_shadow
         REP #$20
         
