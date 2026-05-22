@@ -19,10 +19,10 @@ Sprite_BombTrooper:
         .next_sprite
             
             CPY.w $0FA0 : BEQ .dont_damage
-            LDA.w $0DD0, Y : CMP.b #$09 : BCC .dont_damage
-            TYA : EOR.b $1A : AND.b #$07 : ORA.w $0EF0, Y : BNE .dont_damage
-                JSR.w EnemyBomb_CheckDamageToSprite
-            
+                LDA.w $0DD0, Y : CMP.b #$09 : BCC .dont_damage
+                    TYA : EOR.b $1A : AND.b #$07 : ORA.w $0EF0, Y : BNE .dont_damage
+                        JSR.w EnemyBomb_CheckDamageToSprite
+                    
             .dont_damage
         DEY : BPL .next_sprite
         

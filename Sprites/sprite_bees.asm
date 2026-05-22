@@ -513,7 +513,7 @@ GoodBee_ScanForTargetableSprites:
     
     .next_sprite
     
-        CPY.w $0FA0 : BEQ .skip_sprite
+        CPY.w $0FA0 : BEQ .skip_self
             LDA.w $0DD0, Y : CMP.b #$09 : BCC .skip_sprite
                 LDA.w $0F00, Y : BNE .skip_sprite
                     LDA.w $0E40, Y : BMI .is_npc_sprite
@@ -532,7 +532,8 @@ GoodBee_ScanForTargetableSprites:
                                     LDA.w $0CD2, Y : AND.b #$40 : BNE .attack_sprite2
 
                 .is_npc_sprite
-        .skip_sprite
+            .skip_sprite
+        .skip_self
         
         DEY : TYA : AND.b #$0F : TAY
     DEC.b $00 : BPL .next_sprite

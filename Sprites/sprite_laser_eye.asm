@@ -64,7 +64,7 @@ LaserBeam_Draw:
     
     .empty_slot
     
-    ; laser garnish...?
+    ; TOOD: Laser garnish...?
     LDA.b #$04 : STA.l $7FF800, X
                  STA.w $0FB4
     

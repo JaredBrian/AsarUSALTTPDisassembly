@@ -45,7 +45,6 @@ Sprite_ChainBallTrooper:
     RTS
     
     .states
-    
     db FlailTrooper_ApproachPlayer ; 0x00 - $B07D
     db FlailTrooper_ShortHalting   ; 0x01 - $B0E7
     db FlailTrooper_Attack         ; 0x02 - $B0FC
@@ -544,12 +543,11 @@ SpriteDraw_BNCFlail:
     STA.b $06
     
     LDY.b #$00
-    
     LDA.b $04 : SEC : SBC.b #$04 : CLC : ADC.b $0C : STA.w $0FAB
-    CLC : ADC.w $0FA8 : STA.b ($90), Y
+    CLC : ADC.w $0FA8       : STA.b ($90), Y
     
     LDA.b $06 : SEC : SBC.b #$04 : CLC : ADC.b $0D : STA.w $0FAA
-    CLC : ADC.w $0FA9  : INY : STA.b ($90), Y
+    CLC : ADC.w $0FA9 : INY : STA.b ($90), Y
 
     LDA.b #$2A : INY : STA.b ($90), Y
     LDA.b #$2D : INY : STA.b ($90), Y
