@@ -4458,9 +4458,23 @@ struct WRAM $7E0000
         ; This timer controlls how long to wait between low life beeps.
         ; Counts down from 0x1F to 0x00. When it reaches zero, the beep happens.
 
-    ; $04CB[0x25] - (Free)
+    ; $04CB[0x25] - (Free, ZScream)
     .Free_04CB: skip $25
-        ; Free RAM.
+        ; Free RAM. $04CB-$04DE are reserved by ZS.
+        ; $04CB[0x08] - TransGFXModule_PriorSheets - Used to keep track of what
+        ;               GFX sheets have been loaded on the overworld.
+        ; $04D5[0x02] - NewNMISource1 - Used by a custom NMI DMA function to
+        ;               store the source of the transfer.
+        ; $04D3[0x02] - NewNMITarget1 - Used by a custom NMI DMA function to
+        ;               store the target of the transfer.
+        ; $04D7[0x02] - NewNMICount1 - Used by a custom NMI DMA function to
+        ;               store the byte count of the transfer.
+        ; $04D9[0x02] - NewNMITarget2 - Used by a custom NMI DMA function to
+        ;               store the source of the transfer.
+        ; $04DB[0x02] - NewNMISource2 - Used by a custom NMI DMA function to
+        ;               store the target of the transfer.
+        ; $04DD[0x02] - NewNMICount2 - Used by a custom NMI DMA function to
+        ;               store the byte count of the transfer.
 
     ; $04F0[0x10] - (Dungeon)
     .TorchTimer: skip $10
@@ -5986,7 +6000,7 @@ struct WRAM $7E0000
     ; of 0x07 it will spawn as an overlord.
 
     ; $0B00[0x08] - (Overlord)
-    .OverlordTypeIndex: skip $08
+    .OverlordType: skip $08
         ; An array of the Overlords loaded in the current room.
 
         ; List of overlord types:
@@ -6167,7 +6181,7 @@ struct WRAM $7E0000
 
     ; $0B89[0x10] - (Sprite)
     .SprPriority: skip $10
-        ; OAM priority for sprites. TODO: Document the values.
+        ; The OAM priority for sprites. TODO: Document the values.
 
     ; $0B99[0x01] - (Sprite, Minigame)
     .ArcheryArrowCount: skip $01
@@ -6256,9 +6270,8 @@ struct WRAM $7E0000
         ;     the basic 'sprite getting hit' sound effect (which will play for
         ;     some enemies in spite of the fact that they are still taking
         ;     damage.)
-        ; p - Prize pack to grant (assassin17 has this somewhat figured out, I 
-        ;     just need to make sure my doc jives with his, and if not, find out 
-        ;     why.) prize pack for a sprite in the sprite object model (see below)
+        ; p - The prize pack pool to pick from upon death (See PrizePackIndex
+        ;     for more dteails).
 
     ; Ancillae Vars:
     ; "Ancilla" or "Ancillae" are supporting sprite objects that are
@@ -6586,10 +6599,12 @@ struct WRAM $7E0000
         ; sword can do to a sprite. In other words, this selects a row found at
         ; DamageSubclassValue whos value is then written to SprAppliedDamage.
 
-    ; $0CF3[0x01] - (Junk)
+    ; $0CF3[0x01] - (Junk, ZScream)
     .Junk_0CF3: skip $01
         ; Set to zero but never actually read. TODO: Maybe not? A comment in bank
         ; 0x06 seems to suggest otherwise.
+        ; Repurposed by ZS. TransGFXModuleFrame - Used to as a counter to spread
+        ; out GFX transfers between multiple frames.
 
     ; $0CF4[0x01] - (Overlord)
     .TriggerTrap: skip $01
@@ -7472,7 +7487,7 @@ struct WRAM $7E0000
         ; Medallion_CheckSpriteDamage - Used to temporarily store the ancilla
         ;     type when damaging sprites with a medallion.
 
-    ; $0FB6 - (Sprite, Overlord)
+    ; $0FB6[0x01] - (Sprite, Overlord)
     .SprMiscM: skip $01
         ; A misc variable used by sprites. Some uses include:
         ; Pikit - Used to store the Y coordinate of where the item it is stealing
@@ -7483,120 +7498,204 @@ struct WRAM $7E0000
         ;     to the timer that controls when they split into 4 and fly off.
         ; Thief - The index of what pool of items to spawn when stealing from
         ;     the player.
-        ; Etc... TODO: Doccument other uses.
+        ; TODO: Doccument other uses.
 
-    ; $0FB7[0x01] - 
-        ; Seems to have something to do with sprite behavior that
-        ; alternates between two options every otehr frame.
+    ; $0FB7[0x01] - (Sprite, Overworld)
+    .SprOWLoadProximity: skip $01
+        ; When in player control mode on the overworld, this controls the
+        ; alternating vertical and horizontal sprite proximity activation
+        ; every frame. When bit 0 is 0, the game checks horizontal, when 1,
+        ; the game checks vertical.
 
-    ; $0FB8 - 
-        ; ????
+    ; $0FB8[0x02] - (Sprite, Overworld)
+    .OWSprLoadXSize: skip $02
+        ; The X size of an overworld map used by
+        ; Overworld_ProximityMotivatedLoad to see if a sprite should be
+        ; proximity loaded.
+        ; 0x02 - Small area
+        ; 0x04 - Large area
 
-    ; $0FBA - 
-        ; ????
+    ; $0FBA[0x02] - (Sprite, Overworld)
+    .OWSprLoadYSize: skip $02
+        ; The Y size of an overworld map used by
+        ; Overworld_ProximityMotivatedLoad to see if a sprite should be
+        ; proximity loaded.
+        ; 0x02 - Small area
+        ; 0x04 - Large area
 
-    ; $0FBC - 
-        ; Sprite collisions? (????)
+    ; $0FBC[0x02] - (Sprite, Overworld)
+    .OWSprLoadWestCoord: skip $02
+        ; The western coordinates of an overworld area used by
+        ; Overworld_ProximityMotivatedLoad to see if a sprite should be
+        ; proximity loaded.
 
-    ; $0FBE - 
-        ; ????
+    ; $0FBE[0x02] - (Sprite, Overworld)
+    .OWSprLoadNorthCoord: skip $02
+        ; The northern coordinates of an overworld area used by
+        ; Overworld_ProximityMotivatedLoad to see if a sprite should be
+        ; proximity loaded.
 
-    ; $0FBF - 
-        ; Holds base upper byte of current overworld area's coordinates
-        ; (Warning: I think this is gravely mistaken, perhaps
-        ; documentation that is correct, but for the wrong address)
-        ; 
-    ; $0FC0 - 
-        ; Free RAM - RESERVED BY ZS used to keep track of which animated tile GFX set is currently being used.
+    ; $0FC0[0x01] - (Free, ZScream)
+    .Free_0FC0: skip $01
+        ; Free RAM. Reserved by ZS. AnimatedTileGFXSet - Used to keep track of 
+        ; which animated tile GFX set is currently being used.
 
-    ; $0FC1[0x01] - 
-        ; Set to one during Desert Palace / Book of Mudora sequence. Maybe has uses
-        ; in other sequences. Seems to freeze sprites. Could have uses in making a
-        ; scripting system.
+    ; $0FC1[0x01] - (Sprite)
+    .SprFreeze: skip $01
+        ; Used by all the variants of Sprite_CheckIfActive to pause sprite
+        ; execution when non zero.
+        ; Some examples of when this is set are:
+        ; During the travel bird sequence.
+        ; During the use of the 3 medallions.
+        ; During the overworld dungeon entrance opening like the Desert Palace
+        ; or turtle rock entrance openings.
+        ; Dungeon blast wall or dungeon moving wall sequences.
 
     ; $0FC2[0x02] - (Player)
-        ; Link's X-Coordinate (See $22)
+    .PlayerXCoordMirror: skip $02
+        ; A mirror of the player's X-Coordinate $22.
 
     ; $0FC4[0x02] - (Player)
-        ; Link's Y-Coordinate (See $20)
+    .PlayerYCoordMirror: skip $02
+        ; A mirror of the player's Y-Coordinate $20.
 
-    ; $0FC6[0x01] - 
-        ; Only time this ever gets written with a nontrivial value is from $0AAA,
-        ; which is also a poorly understood variable. It seems that certain sprites
-        ; depend upon this variable in order to be drawn properly. In other words,
-        ; it seems to indicate which graphics half slot has been loaded.
+    ; $0FC6[0x01] - (Sprite)
+    .GFXSpriteSheetIndexLoaded:
+        ; Stores non zero values from GFXSpriteSheetIndexTemp. Used by various
+        ; sprites to keep track of which GFX half sheets are currently loaded
+        ; and if they should draw or not to prevent drawing with the wrong GFX.
 
-    ; $0FC7[0x10] - 
-        ; ???? Affects something to do with prizes... is this length
-        ; correct? I'm not sure, but it seems logical given that it
-        ; interacts with sprite slots, of which there are also 0x10.
-        ; \task Find out what the index affects. Perhaps some of this is Free RAM.
-        ; 
+    ; $0FC7[0x08] - (Sprite)
+    .PrizePackIndex: skip $08
+        ; There are 8 possible prize pools of 8 items each that a sprite can
+        ; pick from (determined by SprSetting2) to drop an item upon death. Each
+        ; time a sprite drops on item from the given pool, the corrisponding
+        ; index for that pool is increased by 1 so that the next item in the pool
+        ; is dropped by the next sprite. See PrizePack_Prizes and
+        ; Sprite_DoTheDeath for more details.
 
-    ; $0FD7 - 
-        ; The code that writes and reads this variable is not enabled.
-        ; For this reason it is considered a debug or "cheat" variable.
-        ; When the value is odd, the game is frozen. The sprites that are
-        ; on screen will stay on screen. Technically you could consider
-        ; this Free RAM, unless you reenable the frame skipping debug
-        ; functionality.
+    ; $0FCE[0x08] - (Free)
+    .Free_0FCE: skip $08
+        ; Free RAM. This space was probably allotted for more prize packs, but
+        ; it goes unused.
+
+    ; $0FD7[0x01] - (Free)
+    .Free_0FD7: skip $01
+        ; Free RAM. The only code that writes and reads this variable is a bit
+        ; of disabled debug code that increases the value by 1 when the L button
+        ; is pressed. When the value is odd and the R button is NOT held down,
+        ; the game will freeze.
 
     ; $0FD8[0x02] - (Sprite)
-        ; Cached 16-bit version of the current sprite's X coordinate.
+    .SprXPos: skip $02
+        ; This is a cached 16-bit version of the current sprite's X coordinate.
 
     ; $0FDA[0x02] - (Sprite)
-        ; Cached 16-bit version of the current sprite's Y coordinate.
+    .SprYPos: skip $02
+        ; This is a cached 16-bit version of the current sprite's Y coordinate.
 
     ; $0FDC[0x01] - (Sprite)
-        ; Alert flag that activates "searching" enemies like soldiers.
-        ; usually in response to a sound effect.
-        ; 0 or 3, when 3 counts down to zero. This is nonzero when a projectile hits
-        ; a wall.
+    .AlertGuards: skip $01
+        ; A flag that when non zero, alerts the soldiers and its variants that
+        ; the player has made some noise and they should move to attack.
+        ; Set by the Repulse Spark and other ancillas that have tile interactions.
 
-    ; $0FDD - 
-        ; ????
+    ; $0FDD[0x01] - (Sprite)
+    .AnimalsRunFlag: skip $01
+        ; A flag that when non zero, tells the grove animals (bird, ostrich,
+        ; rabbit) to run away after the player gets too close to the flut boy.
 
-    ; $0FDE[0x02] - (Overlord)
-        ; When using an Overlord of type 0x00, it advertises its index by writing
+    ; $0FDE[0x01] - (Overlord)
+    .HomeOverlordIndex: skip $01
+        ; When using an Overlord of type 0x01, it advertises its index by writing
         ; it to this location. Sprites that need a reference point to go towards,
-        ; such as the Old Snitch Lady and the Old Man on the Mountain, will use this
-        ; index to look up the coordinates of the Overlord, and travel towards it.
-    ; $0FE0[0x0C] - (Oam)
-        ; Current position in each of the 6 different reserved areas of the OAM table.
-    ; $0FE2 - occurs specifically in module 1A. (Maybe a hardcoded usage of the preceding variable.)
+        ; such as the Old Snitch Lady and the Old Man on the Mountain, will use 
+        ; this index to look up the coordinates of the Overlord, and travel
+        ; towards it.
 
-    ; $0FEC[0x0C] - (Oam)
-        ; Also has something to do with the OAM table allocation mechanism. Needs more
-        ; research!!!!
+    ; $0FDF[0x01] - (Free)
+    .Free_0FDF: skip $01
+        ; Free RAM.
 
-    ; $0FF8[0x01] - 
-        ; Number of boss components left in a room? (e.g. Armos Knights)
+    ; $0FE0[0x0C] - (OAM)
+    .CurrentOAMRegionPtr: skip $0C
+        ; The current position in each of the 6 different reserved areas of the
+        ; OAM table which then gets stored into OAMLowPtr whenever one of the
+        ; OAM_AllocateFromRegion functions are run. Set at the start of every
+        ; sprite frame from Oam_ResetRegionBases_bases.
 
-    ; $0FF9[0x01] - (Sprite)
-        ; When set to a nonzero value, the sprite subsystem will rapidly do palette
-        ; filtering on the BGs to make a flashing affect that alternates between
-        ; normal palettes and a much brighter, white set of palettes.
-        ; This is a countdown timer, so the filtering effect will cease when it
-        ; expires.
+    ; $0FEC[0x0C] - (OAM)
+    .OAMFallbackCounter: skip $0C
+        ; These values keeps track of which OAM fallback position to use for
+        ; each region. When a region overflows, a fallback point is used instead,
+        ; effectively overwriting whatever OAM was already drawn there this
+        ; frame. The fallback points increment everytime a region overflows so
+        ; that the same OAM tiles aren't replaced every frame. Meaning this is
+        ; what induces a 'flickering' effect.
 
-    ; $0FFA[0x01] - 
-        ; When a screen transition occurs in the overworld or indoors,
-        ; this is set to the value of the variable $1B
-        ; Sprites are cached and reloaded from adjacent rooms only indoors,
-        ; so this serves the purpose of letting the game know to not reload
-        ; cached sprites during a screen transition.
+    ; $0FF8[0x01] - (Sprite)
+    .ArmosCount:
+        ; Used to keep track of how many Armos Knights are left.
 
-    ; $0FFB - 
-        ; Zeroed in one location, but doesn't seem to be used otherwise.
-        ; Thus, Free RAM, technically.
+    ; $0FF8[0x01] - (Sprite, Garnish)
+    .GarnishSlotIndex: skip $01
+        ; This is the current garnish slot index sprites use when spawning 
+        ; garnishes (See $7FF800). Often starts a 0x1D and is decreased
+        ; everytime a garnish spawns and then loops back to 0x1D when it
+        ; reaches 0. Meaning that the oldest garnishes will be replaced first. 
+        ; The exception is Ganon's spiral fire bats, they start and are reset
+        ; to 0x0E. Some uses include:
+        ; Used by some unused Blind code that spawns a garnish behind the
+        ; Blind lasers.
+        ; Used by the vitreous and agahnim lighing sprite to spread out its
+        ; fulgur sections.
+        ; Used by Trinexx to spawn the fire and ice garnishes.
+        ; Used by the Ganon spiral fire bats to spawn the fire garnishes.
+
+    ; $0FF9[0x01] - (Sprite, BG1, BG2)
+    .BGFlashTimer: skip $01
+        ; A timer that when non zero, will make the sprite subsystem rapidly
+        ; do palette filtering on the BGs to make a flashing affect that
+        ; alternates between normal palettes and a much brighter, white set
+        ; of palettes.
+
+    ; $0FFA[0x01] - (Sprite, Dungeon)
+    .RunCachedSpr: skip $01
+        ; When non zero, cached sptites will be executed. When a screen
+        ; transition to or within a dungeon occurs, this is set to the value
+        ; of IsIndoors. Meaning that the cached sprites will only execute when
+        ; currently indoors.
+
+    ; $0FFB[0x01] - (Junk)
+    .Junk_0FFB: skip $01
+        ; Zeroed in one place in Bank 09, but isn't used otherwise.
 
     ; $0FFC[0x01] - (Player)
-        ; If set, Link can't bring up his menu.
+    .NoMenu: skip $01
+        ; When non zero, this flag prevents the player from using the map,
+        ; the equipment, the select menu, using the mirror indoors, taking
+        ; damage from spikes, and taking damage from bombs. Used by boss deaths
+        ; and the medallions.
 
-    ; $0FFD - 
-        ; ????
-    ; $0FFF - 
-        ; Indicates whether you are in the light world or dark world (0,1 respectively)
+    ; $0FFD[0x01] - (Overlord)
+    .BoulderSpawnerPresent: skip $01
+        ; Set nonzero when the boulder spawner overlord is loaded on the
+        ; overworld. For some reason, the boulder spawner overlord is run
+        ; differently than all other overlords and does not exist in the list
+        ; of other overlord types in OverlordType. See Overlord_SpawnBoulder
+        ; for more details.
+
+    ; $0FFE[0x01] - (Overlord)
+    .BoulderSpawnerTimer: skip $01
+        ; This is a timer that increments by 1 while BoulderSpawnerPresent
+        ; is non zero. Spawns a new boulder every 0x40 frames.
+
+    ; $0FFF[0x01] - (Main)
+    .World
+        ; Indicates which world the player is in. This carries into dungeons
+        ; and not just on the overworld.
+        ; 0x00 - Light world
+        ; 0x00 - Dark world
 
     ; ===========================================================================
     ; Pages 0x10 to 0x17
@@ -8547,9 +8646,10 @@ struct WRAM $7E0000
         ;  (Overworld)
         ; Each byte is the sprite palette set to use for each overworld area.
 
-    ; $7EFDC0 - 
-        ;  Free RAM?
-        ; ZScream: ZS uses this as an extension of $7EFD40.
+    ; $7EFDC0 - (Free, ZScream)
+        ; Free RAM?
+        ; Reserved by ZS - ExpandedSpritePalArray - Used as an extension of
+        ; $7EFD40.
 
     ; $7EFE00[0x200] - CHR to Tile Attribute table. Each byte tells the game how Link interacts with the each CHR type.
         ; After the tilemaps are created from loading objects,
@@ -8966,61 +9066,42 @@ struct WRAM $7F0000
 
     ; $7FF800[0x1E] - (Garnish)
         
-        ; Mostly superficial graphical entities (hence, "Garnish"). The only one that
-        ; is known to damage the player are the Ganon Bat Flames.
-        
+        ; Mostly superficial graphical entities (hence, "Garnish"). The only
+        ; one that is known to damage the player are the Ganon Bat Flames.
         ; 0x00 - Garnish is considered inactive if it has this value.
-        
-        ; 0x01 - Winder fireball trails (which is why only the front fireball of the
-            ; Winder is harmful to the player).
-        
+        ; 0x01 - Winder fireball trails (which is why only the front fireball
+        ;        of the Winder is harmful to the player).
         ; 0x02 - Mothula Beam Trail.
-        
-        ; 0x03 - Falling tile? Or the effect after the tile has falling of it disappearing?
-        
-        ; 0x04 - Seems to be the trailing portions of the laser beams that laser eyes
-            ; shoot.
-        
-        ; 0x05 - one sparkling point produced when you freeze an enemy and as while 
-            ; it's frozen periodically
-        
+        ; 0x03 - Falling tile? Or the effect after the tile has falling of
+        ;        it disappearing?
+        ; 0x04 - Seems to be the trailing portions of the laser beams that
+        ;        laser eyes shoot.
+        ; 0x05 - one sparkling point produced when you freeze an enemy and as 
+        ;         while it's frozen periodically
         ; 0x06 - Zoro Dander. (Dust that trails behind them.)
-        
         ; 0x07 - Kholdstare nebule trails.
-        
-        ; 0x08 - Fireball sprite from zora or evil face things. Maybe the trails of those instead?
-        
+        ; 0x08 - Fireball sprite from zora or evil face things. Maybe the trails
+        ;        of those instead?
         ; 0x09 - Something to do with Vitreous... maybe his lightning
-        
-        ; 0x0A - bush clippings scattering (also used for grass
-            ; Update: trying to figure out how I ever thought this was the case...
-        
+        ; 0x0A - bush clippings scattering (also used for grass)
+        ;        Update: trying to figure out how I ever thought this was the
+        ;        case...
         ; 0x0B - Pirogusu splashes.
-        
         ; 0x0C - Trinexx related...?
-        
-        ; 0x0D - Invalid, don't use this animation as it will certainly crash the game. (It's a null pointer)
-        
+        ; 0x0D - Invalid, don't use this animation as it will certainly crash the
+        ;        game. (It's a null pointer)
         ; 0x0E - Trinexx related... ?
-        
         ; 0x0F - Blind related... maybe has to do with his laser eye shot.
-        
         ; 0x10 - Something to do with Trinexx... perhaps fire or ice blasts.
-            ; Also related to Ganon's firebats that spawn fireballs.
-            ; I think it's pretty clear it's those fireballs
-        
+        ;        Also related to Ganon's firebats that spawn fireballs.
+        ;        I think it's pretty clear it's those fireballs
         ; 0x11 - Spawned from special animation 0x0E...
-        
         ; 0x12 - A faster sparkle
-        
         ; 0x13 - The Ganon bat smashing into the pyramid of power
-        
         ; 0x14 - Running Man dash poofs
-        
         ; 0x15 - Arghus splashes?
-        
         ; 0x16 - Scattering pieces of a pot, bush, grass, sign, rock, or related
-            ; tile objects being broken.
+        ;        tile objects being broken.
 
     ; $7FF81E[0x1E] - (Garnish)
         
