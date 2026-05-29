@@ -156,7 +156,7 @@ OAM_GetBufferPosition:
     
     ; ($0FE0[0x10] is some kind of OAM allocator table)
     LDA.w $0FE0, Y : STA.b $90
-    CLC : ADC.b $0E : CMP .limits, Y : BCC .within_limit
+    CLC : ADC.b $0E : CMP.w .limits, Y : BCC .within_limit
         ; (Sprite overflow, doesn't happen very often)
         ; (I think what happens is it resets the OAM buffer)
         STY.b $0C
@@ -171,10 +171,11 @@ OAM_GetBufferPosition:
         ; Y = (sprite field * 8) + $0E... whatever that is
         LDA.b $0C : ASL #3 : ADC.b $0E : TAY
         
-        ; Reset the OAM Position (effectively ignores existing sprites)
-        ; Note: I find it fairly interesting that there are set fallback points
-        ; that increment state whenever this happens. This is kind of what
-        ; induces the famous 'flicker' effect in video games, I imagine.
+        ; This loads one of the OAM fallback positions. When a region overflows,
+        ; a fallback point is used instead,  effectively overwriting whatever OAM
+        ; was already drawn there this frame. The fallback points increment
+        ; everytime a region overflows so that the same OAM tiles aren't replaced
+        ; every frame. Meaning this is what induces a 'flickering' effect.
         LDA.w .fallback_points, Y : STA.b $90
         
         SEC

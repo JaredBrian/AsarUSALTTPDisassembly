@@ -220,7 +220,6 @@ Snitch_FreakOut:
     STZ.w $0EB0, X
     
     LDY.w $0FDE
-    
     LDA.w $0B18, Y : STA.b $00
     LDA.w $0B20, Y : STA.b $01
     
@@ -287,7 +286,6 @@ Snitch_OpenDoor:
 {
     LDA.w $0DF0, X : BNE .alpha
         LDY.w $0FDE
-        
         LDA.w $0B18, Y : STA.w $0D00, X
                          STA.b $00
 

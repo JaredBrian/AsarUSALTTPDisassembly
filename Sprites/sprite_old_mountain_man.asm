@@ -250,7 +250,6 @@ OldMountainMan_ApproachDoor:
     STZ.w $0DE0, X
     
     LDY.w $0FDE
-    
     LDA.w $0B18, Y : STA.b $00
     LDA.w $0B20, Y : STA.b $01
     

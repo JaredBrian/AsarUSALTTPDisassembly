@@ -254,8 +254,9 @@ Zol_Draw_hflip_states:
 ; $0F31C5-$0F3213 LOCAL JUMP LOCATION
 Zol_Draw:
 {
+    ; TODO: What is this branch instruction for?
     LDA.w $0F50, X : LSR : BCS .skip_unknown_check
-        ; TODO: What are this and the branch instruction above for?
+        ; Prevent drawing if the correct GFX half sheet is not loaded.
         LDA.w $0FC6 : CMP.b #$03 : BCS .return
 
     .skip_unknown_check
