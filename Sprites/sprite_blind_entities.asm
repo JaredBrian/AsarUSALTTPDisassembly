@@ -138,7 +138,7 @@ Blind_Initialize:
 ; $0EA0B1-$0EA10F LOCAL JUMP LOCATION
 BlindLaser_SpawnTrailGarnish:
 {
-    ; NOTE: Must have been some kind of development test code that never
+    ; DEBUG: Must have been some kind of development test code that never
     ; got edited out.
     LDA.w !forward_timer, X : AND.b #$00 : BNE .never
         PHX : TXY

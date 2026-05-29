@@ -68,7 +68,7 @@ FluteBoy_Chillin:
     
     INC.w $0DE0, X
     
-    ; TODO: Why increment this? What effect does it have?
+    ; Signal to the other grove animals that they need to run away.
     INC.w $0FDD
     
     LDA.b #$B0 : STA.w $0DF0, X

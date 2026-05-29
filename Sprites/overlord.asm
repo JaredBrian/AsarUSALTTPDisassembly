@@ -4,6 +4,10 @@
 Overlord_SpawnBoulder:
 {
     LDA.b $1B : BNE .indoors
+        ; For some reason, the boulder spawner overlord is run differently
+        ; than all other overlords and does not exist in the list of other
+        ; overlord types in Overlord_ExecuteSingle_handlers. So instead if
+        ; $0FFD is non zero, there is a boulder spawner overlord.
         LDA.w $0FFD : BEQ .cant_spawn
             LDA.b $11 : ORA.w $0FC1 : BNE .cant_spawn
                 INC.w $0FFE
