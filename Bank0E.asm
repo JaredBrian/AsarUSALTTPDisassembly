@@ -375,12 +375,10 @@ Pool_Module_EndSequence:
 Module_EndSequence:
 {   
     REP #$20
-        
     LDA.w #$0030 : STA.w $0FE0
     LDA.w #$01D0 : STA.w $0FE2
         
     STZ.w $0FE4
-        
     SEP #$20
         
     ; Load the level 1 submodule index and used it to index into a jump table.

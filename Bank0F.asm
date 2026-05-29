@@ -3822,10 +3822,8 @@ Sprite_NullifyHookshotDrag:
     LDA.b $21 : STA.b $40
     
     REP #$20
-    
     LDA.w $0FC2 : STA.b $22
     LDA.w $0FC4 : STA.b $20
-    
     SEP #$20
     
     ; This is what stops Link dead in his tracks when he collides with a

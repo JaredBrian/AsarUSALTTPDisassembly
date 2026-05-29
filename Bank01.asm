@@ -10423,7 +10423,9 @@ RoomTag_MovingWall_East:
                 LDX.b #$05 : STX.w $012D
                 
                 LDX.b $0E
-                LDY.b #$00 : STY.b $AE, X : STY.w $02E4 : STY.w $0FC1
+                LDY.b #$00 : STY.b $AE, X
+                             STY.w $02E4
+                             STY.w $0FC1
                 
                 STZ.w $011A
                 STZ.w $011B

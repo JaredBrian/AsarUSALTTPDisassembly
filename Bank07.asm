@@ -18,13 +18,11 @@ org $078000
 Player_Main:
 {
     PHB : PHK : PLB
-    
-    REP #$20
-    
+
     ; Mirror Link's coordinate variables.
+    REP #$20
     LDA.b $22 : STA.w $0FC2
     LDA.b $20 : STA.w $0FC4
-    
     SEP #$20
     
     STZ.w $0FC1
@@ -3435,10 +3433,8 @@ HandleUnderworldLandingFromPit:
     JSL.l PlayerOam_Main
     
     REP #$20
-    
     LDA.b $22 : STA.w $0FC2
     LDA.b $20 : STA.w $0FC4
-    
     SEP #$20
     
     LDA.b $11 : CMP.b #$07 : BNE .BRANCH_ALPHA
@@ -10221,13 +10217,11 @@ RunLedgeHopTimer:
     ; $03C189 ALTERNATE ENTRY POINT
     .restore_coordinates
     
-    REP #$20
-    
     ; Restore previous coordinates? (So as to not prematurely jump off
     ; of the ledge)?
+    REP #$20
     LDA.w $0FC4 : STA.b $20
     LDA.w $0FC2 : STA.b $22
-    
     SEP #$20
     
     STZ.b $2A
@@ -17714,10 +17708,8 @@ Link_AnimateIntraStairClimbAndSFX:
 HandleLinkOnSpiralStairs:
 {
     REP #$20
-    
     LDA.b $22 : STA.w $0FC2
     LDA.b $20 : STA.w $0FC4
-    
     SEP #$20
     
     LDA.w $030A : BEQ .BRANCH_ALPHA
@@ -17851,10 +17843,8 @@ SpiralStairs_FindLandingSpot:
     STZ.w $037B
     
     REP #$20
-    
     LDA.b $22 : STA.w $0FC2
     LDA.b $20 : STA.w $0FC4
-    
     SEP #$20
     
     DEC.w $0378 : BPL .BRANCH_ALPHA
@@ -17927,10 +17917,8 @@ UNREACHABLE_07F3FD:
     PHB : PHK : PLB
     
     REP #$20
-    
     LDA.b $22 : STA.w $0FC2
     LDA.b $20 : STA.w $0FC4
-    
     SEP #$20
     
     STZ.b $28
@@ -17984,7 +17972,7 @@ Player_IsScreenTransitionPermitted:
                 CMP.b #$08 : BEQ .takeNoAction
                 CMP.b #$09 : BEQ .takeNoAction
                 CMP.b #$0A : BEQ .takeNoAction
-        ; Is Link recovering from being damaged / bounced back?
+        ; Is the player recovering from being damaged / bounced back?
         LDA.b $46 : BEQ .actionIsPermitted
     
     .takeNoAction
@@ -17995,10 +17983,8 @@ Player_IsScreenTransitionPermitted:
     LDA.b #$03 : STA.w $02C6
     
     REP #$20
-    
     LDA.w $0FC2 : STA.b $22
     LDA.w $0FC4 : STA.b $20
-    
     SEP #$20
     
     SEC
@@ -18021,7 +18007,7 @@ Player_IsScreenTransitionPermitted:
 ; $03F46F-$03F49B LONG JUMP LOCATION
 Tagalong_CanWeDisplayMessage:
 {
-    ; Is link in his basic game state?
+    ; Is the player in the basic game state?
     LDA.b $5D : CMP.b #$00 : BEQ .affirmative
                 CMP.b #$04 : BEQ .affirmative
         CMP.b #$11 : BNE .negative

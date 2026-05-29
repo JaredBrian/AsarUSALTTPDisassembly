@@ -6862,7 +6862,6 @@ Attract_MaidenWarp:
     
     LDA.w $0FF9 : BEQ .BRANCH_DELTA
     AND.b #$04 : BEQ .BRANCH_DELTA
-    
         ; Sound effect.
         LDX.b #$2B : STX.w $012F
     

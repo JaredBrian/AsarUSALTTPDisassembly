@@ -69,36 +69,38 @@ Vector_Reset:
         BRA .do_frame
 
         ; UNUSED: Inaccessible code, used for debug if assembled in.
-        ; NOP out the above BRA to activate this code.
-        .frameStepDebugCode
+        ; NOP out the above BRA to activate this code. Used to essentially
+        ; freeze the game when the L button is pressed and the R button is
+        ; not pressed.
 
         ; OPTIMIZE: Use BIT instead and/or remove this debug code.
-
-        ; If the L button is down, then...
+        ; If the L button is down:
         LDA.b $F6 : AND.b #$20 : BEQ .L_ButtonDown
             INC.w $0FD7
 
         .L_ButtonDown
 
-        ; If the R button is down, then...
+        ; If the R button is not down:
         LDA.b $F6 : AND.b #$10 : BNE .R_ButtonDown
+            ; If the L button was held down earlier:
             LDA.w $0FD7 : AND.b #$01 : BNE .skip_frame
-                .R_ButtonDown
+
+        .R_ButtonDown
                     
-                    .do_frame
+        .do_frame
 
-                    ; Frame counter.
-                    INC.b $1A
+        ; Frame counter.
+        INC.b $1A
 
-                    JSR.w ClearOamBuffer
-                    JSL.l Module_MainRouting
+        JSR.w ClearOamBuffer
+        JSL.l Module_MainRouting
 
-            .skip_frame
+        .skip_frame
 
-            JSR.w Main_PrepSpritesForNmi
+        JSR.w Main_PrepSpritesForNmi
 
-            ; Start the NMI Wait loop again.
-            STZ.b $12
+        ; Start the NMI Wait loop again.
+        STZ.b $12
     BRA .mainGameLoop
 }
 

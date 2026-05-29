@@ -3132,7 +3132,7 @@ Overworld_EntranceSequence_handlers:
 Overworld_EntranceSequence:
 {
     STA.w $02E4 ; Link can't move.
-    STA.w $0FC1 ; TODO: Not sure...
+    STA.w $0FC1 ; Freeze sprites.
     STA.w $0710 ; There is a special graphical effect about to happen.
     
     DEC : ASL : TAX

@@ -1639,12 +1639,10 @@ Dungeon_IntraRoomTransTable:
 ; $01097C-$010994 LOCAL JUMP LOCATION
 Dungeon_IntraRoomTrans:
 {
-    REP #$20
-
     ; Cache link's coordinates.
+    REP #$20
     LDA.b $22 : STA.w $0FC2
     LDA.b $20 : STA.w $0FC4
-
     SEP #$20
 
     ; Only seems to handle aspects of Link's appearance during the transition
@@ -1777,10 +1775,8 @@ Dungeon_InterRoomTransTable:
 Dungeon_InterRoomTrans:
 {
     REP #$20
-
     LDA.b $22 : STA.w $0FC2
     LDA.b $20 : STA.w $0FC4
-
     SEP #$20
 
     LDA.b $B0 : BEQ .alpha

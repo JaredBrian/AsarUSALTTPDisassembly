@@ -872,7 +872,6 @@ Dungeon_CacheTransSprites:
 {
     ; Don't do this routine if we're outside.
     LDA.b $1B : BEQ .easy_out
-    
         ; Use $0FFA as a place holder.
         STA.w $0FFA
         
@@ -970,7 +969,6 @@ Sprite_DisableAll:
     
     STZ.w $0FF9 : STZ.w $0FF8 : STZ.w $0FFB
     STZ.w $0FFC : STZ.w $0FFD : STZ.w $0FC6
-    
     STZ.w $03FC
     
     LDX.b #$07
@@ -1309,9 +1307,8 @@ Sprite_ResetAll:
 ; $04C452-$04C498 LONG JUMP LOCATION
 Sprite_ResetBuffers:
 {
-    STZ.w $0FDD : STZ.w $0FDC
-    STZ.w $0FFD : STZ.w $02F0
-    STZ.w $0FC6 : STZ.w $0B6A
+    STZ.w $0FDD : STZ.w $0FDC : STZ.w $0FFD
+    STZ.w $02F0 : STZ.w $0FC6 : STZ.w $0B6A
     STZ.w $0FB3
     
     ; Branch if Link has the super bomb tagalong following him.
@@ -1385,10 +1382,10 @@ LoadOverworldSprites:
     LDA.w $040A : AND.b #$07 : ASL : STZ.w $0FBC
                                      STA.w $0FBD
     
-    ; Calculate lower bounds for Y coordinates in this map.
+    ; OPTIMIZE: These 2 ANDs could be combined into AND.b #$38.
+    ; Calculate upper bounds for Y coordinates in this map.
     LDA.w $040A : AND.b #$3F : LSR : LSR : AND.b #$0E : STA.w $0FBF
-    
-    STZ.w $0FBE
+                                                        STZ.w $0FBE
     
     ; OPTIMIZE: Why not just LDY.w $040A? or later skip loading the $040A again?
     ; ZSCREAM: ZS makes some code changes here.
@@ -1569,7 +1566,7 @@ Sprite_ActivateWhenProximal_Horizontal:
 {
     LDY.b #$00
     
-    ; Related to bombs? (i.e. no clue).
+    ; TODO: Related to bombs?
     LDA.w $069F : BEQ .return
         BPL .beta
             INY
@@ -1672,8 +1669,8 @@ Sprite_ActivateWhenProximal_Vertical:
 ; NOTE: Area 0x0A and 0x0F are incorrect. This does not appear to break
 ; anything in game and changing them to the correct value of 0x02 does not
 ; break anything either.
-; $04 = Large area
 ; $02 = Small area
+; $04 = Large area
 ; $04C635-$04C6F4 DATA
 OverworldScreenSizeForLoading:
 {
