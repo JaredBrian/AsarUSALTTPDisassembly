@@ -8091,6 +8091,13 @@ struct WRAM $7E0000
 
     ; Tile Tilemap Format: Vhopppcc cccccccc
 
+    ; Priority order of sprites and background tiles (from front to back):
+    ; High-priority Sprites (OAM priority 2 or 3)
+    ; High-priority Background Tiles (Priority 1)
+    ; Mid-priority  Sprites (OAM priority 1)
+    ; Low-priority  Background Tiles (Priority 0)
+    ; Low-priority  Sprites (OAM priority 0)
+
     ; Overworld:
     ; $7E2000[0x2000] - Map16 tile data for the overworld. Supports up to 1024x1024 pixels of tiles
     ; Note that this is handled somewhat differently than the Map8 data in the dungeons which supports up to 512x512
