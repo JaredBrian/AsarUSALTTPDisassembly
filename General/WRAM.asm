@@ -132,10 +132,22 @@ struct WRAM $7E0000
     ; $14[0x01] - (Main, NMI, Tilemap)
     .BGTileMapUpdateFlag: skip $01
         ; Value based flag, that if nonzero, causes the tilemap to update from
-        ; one of several source addresses. Some are in WRAM, but most are in rom.
-        ; However, the WRAM address $001000 is most commonly used as the source
-        ; address buffer. The others are used for highly specific parts of the
-        ; game code, such as the intro.
+        ; one of several source addresses. Some are in WRAM, most are in ROM.
+        ; However, the WRAM address $1002 is the most common value used as the
+        ; source address buffer. The others are used for highly specific parts
+        ; of the game code, such as the intro. See Stripes14_SourceAddress and
+        ; HandleStripes14.
+        ; 0x01 - $001002 WRAM $1002
+        ; 0x02 - $001000 WRAM $1000 TODO: Unused?
+        ; 0x03 - $0CDD6D IntroLogoTilemap
+        ; 0x04 - $00021B WRAM $021B Unused
+        ; 0x05 - $0CE7BF NamePlayerTilemap
+        ; 0x06 - $0CE2A8 FileSelectTilemap
+        ; 0x07 - $0CE63C FileSelectCopyFileTilemap
+        ; 0x08 - $0CE456 FileSelectKILLFileTilemap
+        ; 0x09 - $0EDA9C DungeonMap_BG3Tilemap
+
+        ; TODO: Doccument uses.
 
     ; $15[0x01] - (CGRAM, Main, NMI)
     .CGRAMUpdateFlag: skip $01
@@ -2354,10 +2366,9 @@ struct WRAM $7E0000
 
     ; $021B[0x02] - (Free)
     .Free_021B: skip $02
-        ; Free RAM
-        ; According to Kan: Unused but referenced in an unused table entry
-        ; indicating this address would have been used for stripes data of
-        ; some sort...?
+        ; Free RAM. This does go unused but it is referenced an unused table
+        ; entry indexed by BGTileMapUpdateFlag. Indicating this address would
+        ; have been used for stripes data of some sort.
 
     ; $021D[0x02] - (Free, Junk)
     .Free_021D: skip $02
@@ -6672,7 +6683,7 @@ struct WRAM $7E0000
         ; blue colors. The high byte is always 0 and is expected to be 0.
 
     ; ===========================================================================
-    ; Page 0x0D
+    ; Page 0x0D, 0x0E, 0x0F
     ; ===========================================================================
 
     ; $0D00[0x10] - (Sprite)
@@ -7691,7 +7702,7 @@ struct WRAM $7E0000
         ; is non zero. Spawns a new boulder every 0x40 frames.
 
     ; $0FFF[0x01] - (Main)
-    .World
+    .World: skip $01
         ; Indicates which world the player is in. This carries into dungeons
         ; and not just on the overworld.
         ; 0x00 - Light world
@@ -7701,17 +7712,70 @@ struct WRAM $7E0000
     ; Pages 0x10 to 0x17
     ; ===========================================================================
 
-    ; $1000[0x0980] - Placeholder just to indicate the overall buffer size for now.
+    ; $1000[0x??] - (Main, NMI, Tilemap)
+    .MiscBuffer1:
+        ; Used as a buffer for various tile/tilemap transfers.
+        ; Some uses include:
 
-    ; $1000 - 
-        ; For transfers that use variable $14, this indicates the current
-        ; length written into the buffer starting at $1002. Seems to be
-        ; addresses used for blitting graphics onto the screen after a
-        ; room or area has already loaded.
+        ; Used as a buffer to load Dungeon room quadrant BG1 tiles form $7E2000
+        ; after closing the dungeon map. (See Underworld_PrepareNextRoomQuadrantUpload)
 
-    ; $1002 - 
-        ; Big endian representation of the (word addressed) VRAM target
-        ; address.
+        ; Used as a buffer to load dungeon room quadrant BG2 tiles from $7E4000
+        ; during most loads. Particularly when loading the extra objects to show
+        ; the water dam flow. (See WaterFlood_BuildOneQuadrantForVRAM)
+
+        ; Used as a buffer to clear out the equipment menu tilemap when Start is
+        ; pressed. See (Equipment_ClearTilemap)
+
+        ; Used as a buffer to store the changed dark world OW map tiles that are
+        ; placed on top of the light world map. (See OverworldMap_DarkWorldTilemap)
+
+        ; Used as a buffer to draw the dungeon map floors backdrop. (Also how big
+        ; that buffer is?) (See Module0E_03_01_02_DrawFloorsBackdrop)
+
+    ; $1000[0x02] - (Dungeon)
+    .ChestPlaceIndex:
+        ; Used as an index for where to place interactable tiles such as chests
+        ; and push blocks in bank 0x01. TODO: Verify.
+
+    ; $1000[0x02] - (Main, NMI, Tilemap)
+    .HandleStripes14BufferSize: Skip $02
+        ; For tilemap update transfers that use value 0x01 in
+        ; BGTileMapUpdateFlag, this indicates the current length written into
+        ; the buffer starting at $1002. Seems to be addresses used for loading
+        ; in graphics or tiles onto the screen after a room/area has already
+        ; loaded.
+        ; Some uses include:
+
+        ; Used as a possible source address when running HandleStripes14 and
+        ; when BGTileMapUpdateFlag is non zero during NMI. TODO: It doesn't
+        ; look like this value is ever actually used. (See HandleStripes14)
+
+        ; Some sort of buffer size idicator for the save file copy selector.
+        ; (See CopyFile_SelectionAndBlinker and CopyFile_TargetSelectionAndBlink)
+
+        ; Used as the buffer size indicator of the end credits sequence text
+        ; buffer. (See Credits_AddEndingSequenceText and Credits_AddNextAttribution)
+
+        ; Used as the buffer size indicator for the chest reveal tag. (See
+        ; RoomTag_OperateChestReveal)
+
+        ; Used as an index for where to place interactable tile16 such as the
+        ; flute weather vane, dash rocks, etc. in bank 0x01. TODO: Verify.
+
+    ; $1002[0x??] - (Main, NMI, Tilemap)
+    .HandleStripes14Buffer: Skip $02
+        ; For tilemap update transfers that use value 0x01 in
+        ; BGTileMapUpdateFlag, this is the source buffer. Seems to be addresses
+        ; used for loading in graphics or tiles onto the screen after a
+        ; room/area has already loaded. See HandleStripes14BufferSize for uses.
+
+        ; Used as the target VRAM address to upload the file select background. See FileSelect_UploadLinoleum. TODO: Verify.
+
+        ; Used as a buffer to transfer the attract lore pictures. See Attract_LoadNextLegendGraphic
+
+        ; Used as a buffer to draw the text and text borders. See
+        ; Text_DrawBorder and Text_DrawCharacterTilemap.
 
     ; $1004 - 
         ; DMA configuration
