@@ -324,50 +324,50 @@ NULL_0E9814:
 ; $071820-$07186D DATA TABLE
 Pool_Module_EndSequence:
 { 
-    dw Credits_LoadNextScene_Overworld    ; 0x00 - $9889 Hyrule Castle restored
-    dw Credits_ScrollScene_Overworld      ; 0x01 - $9958 
-    dw Credits_LoadNextScene_Underworld   ; 0x02 - $9891 Priest Recovers
-    dw Credits_ScrollScene_Underworld     ; 0x03 - $99C5
-    dw Credits_LoadNextScene_Overworld    ; 0x04 - $9889 Sahasralah's Homecoming
-    dw Credits_ScrollScene_Overworld      ; 0x05 - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x06 - $9889 Vultures rule the desert
-    dw Credits_ScrollScene_Overworld      ; 0x07 - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x08 - $9889 The Bully makes a friend
-    dw Credits_ScrollScene_Overworld      ; 0x09 - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x0A - $9889 Uncle recovers
-    dw Credits_ScrollScene_Overworld      ; 0x0B - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x0C - $9889 Zora's Area Scene
-    dw Credits_ScrollScene_Overworld      ; 0x0D - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x0E - $9889 Witch and Assistant
-    dw Credits_ScrollScene_Overworld      ; 0x0F - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x10 - $9889 Twin Lumberjacks
-    dw Credits_ScrollScene_Overworld      ; 0x11 - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x12 - $9889 Fluteboy plays again
-    dw Credits_ScrollScene_Overworld      ; 0x13 - $9958
-    dw Credits_LoadNextScene_Underworld   ; 0x14 - $9891 Venus, queen of Fairys
-                                          ;        (and herpes)
-    dw Credits_ScrollScene_Underworld     ; 0x15 - $99C5
-    dw Credits_LoadNextScene_Underworld   ; 0x16 - $9891 Dwarven Swordsmiths
-    dw Credits_ScrollScene_Underworld     ; 0x17 - $99C5
-    dw Credits_LoadNextScene_Overworld    ; 0x18 - $9889 The Bug Catching Kid
-    dw Credits_ScrollScene_Overworld      ; 0x19 - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x1A - $9889 The Lost Old Man
-    dw Credits_ScrollScene_Overworld      ; 0x1B - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x1C - $9889 The Forest Thief
-    dw Credits_ScrollScene_Overworld      ; 0x1D - $9958
-    dw Credits_LoadNextScene_Overworld    ; 0x1E - $9889 Master Sword Sleeps
-                                          ;        Again, Forever!
-    dw Credits_ScrollScene_Overworld      ; 0x1F - $9958
-    dw Credits_InitializeTheActualCredits ; 0x20 - $BC6D Sets up for mode 0x22.
-                                          ;        Various other things
-    dw Credits_BrightenTriangles          ; 0x21 - $C37C Light up the triforce
-                                          ;        and the screen
-    dw Credits_FadeColorAndBeginAnimating ; 0x22 - $BD8B Scrolls the credits, and
-                                          ;        number of deaths, etc.
-    dw Credits_StopCreditsScroll          ; 0x23 - $C391
-    dw Credits_FadeAndDisperseTriangles   ; 0x24 - $C3B8
-    dw Credits_FadeInTheEnd               ; 0x25 - $C3D5
-    dw Credits_DrawTheEnd_HangForever     ; 0x26 - $C41A
+    dw Credits_LoadNextScene_Overworld      ; 0x00 - $9889 Hyrule Castle restored
+    dw Credits_ScrollScene_Overworld        ; 0x01 - $9958 
+    dw Credits_LoadNextScene_Underworld     ; 0x02 - $9891 Priest Recovers
+    dw Credits_ScrollScene_Underworld       ; 0x03 - $99C5
+    dw Credits_LoadNextScene_Overworld      ; 0x04 - $9889 Sahasralah's
+                                            ;        Homecoming
+    dw Credits_ScrollScene_Overworld        ; 0x05 - $9958
+    dw Credits_LoadNextScene_Overworld      ; 0x06 - $9889 Vultures rule the
+                                            ;        desert
+    dw Credits_ScrollScene_Overworld        ; 0x07 - $9958
+    dw Credits_LoadNextScene_Overworld      ; 0x08 - $9889 The Bully makes a
+                                            ;        friend
+    dw Credits_ScrollScene_Overworld        ; 0x09 - $9958
+    dw Credits_LoadNextScene_Overworld      ; 0x0A - $9889 Uncle recovers
+    dw Credits_ScrollScene_Overworld        ; 0x0B - $9958
+    dw Credits_LoadNextScene_Overworld      ; 0x0C - $9889 Zora's Area Scene
+    dw Credits_ScrollScene_Overworld        ; 0x0D - $9958
+    dw Credits_LoadNextScene_Overworld      ; 0x0E - $9889 Witch and Assistant
+    dw Credits_ScrollScene_Overworld        ; 0x0F - $9958
+    dw Credits_LoadNextScene_Overworld      ; 0x10 - $9889 Twin Lumberjacks
+    dw Credits_ScrollScene_Overworld        ; 0x11 - $9958
+    dw Credits_LoadNextScene_Overworld      ; 0x12 - $9889 Fluteboy plays again
+    dw Credits_ScrollScene_Overworld        ; 0x13 - $9958
+    dw Credits_LoadNextScene_Underworld     ; 0x14 - $9891 Venus, queen of Fairys
+                                            ;        (and herpes)
+    dw Credits_ScrollScene_Underworld       ; 0x15 - $99C5
+    dw Credits_LoadNextScene_Underworld     ; 0x16 - $9891 Dwarven Swordsmiths
+    dw Credits_ScrollScene_Underworld       ; 0x17 - $99C5
+    dw Credits_LoadNextScene_Overworld      ; 0x18 - $9889 The Bug Catching Kid
+    dw Credits_ScrollScene_Overworld        ; 0x19 - $9958
+    dw Credits_LoadNextScene_Overworld      ; 0x1A - $9889 The Lost Old Man
+    dw Credits_ScrollScene_Overworld        ; 0x1B - $9958
+    dw Credits_LoadNextScene_Overworld      ; 0x1C - $9889 The Forest Thief
+    dw Credits_ScrollScene_Overworld        ; 0x1D - $9958
+    dw Credits_LoadNextScene_Overworld      ; 0x1E - $9889 Master Sword Sleeps
+                                            ;        Again, Forever!
+    dw Credits_ScrollScene_Overworld        ; 0x1F - $9958
+    dw Credits_InitializeTheActualCredits   ; 0x20 - $BC6D
+    dw Credits_BrightenTriangles            ; 0x21 - $C37C
+    dw Credits_FadeInColorThenScrollCredits ; 0x22 - $BD8B
+    dw Credits_StopCreditsScroll            ; 0x23 - $C391
+    dw Credits_FadeAndDisperseTriangles     ; 0x24 - $C3B8
+    dw Credits_FadeInTheEnd                 ; 0x25 - $C3D5
+    dw Credits_DrawTheEnd_HangForever       ; 0x26 - $C41A
 }
 
 ; Module 0x1A - Ending Sequence Mode
@@ -404,6 +404,8 @@ Credits_LoadNextScene_Underworld:
     ; For dungeon portions
     JSL.l Credits_LoadScene_Dungeon ; Module 1A's basecamp in Bank02.
     JSR.w Credits_AddEndingSequenceText
+
+    RTS
 }
 
 ; Seems to be prep functions.
@@ -4529,6 +4531,7 @@ CreditsData:
 
 ; ==============================================================================
 
+; Sets up for mode 0x22, various other things.
 ; $073C6D-$073D65 LOCAL JUMP LOCATION
 Credits_InitializeTheActualCredits:
 {
@@ -4639,7 +4642,7 @@ Credits_InitializeTheActualCredits:
         
     LDA.b #$80 : STA.b $9B
         
-    BRL Credits_FadeColorAndBeginAnimating_return
+    BRL Credits_FadeInColorThenScrollCredits_return
 
     ; $073D4E
     .HDMA_data
@@ -4709,8 +4712,9 @@ Credits_FadeOutFixedCol:
 
 ; ==============================================================================
 
+; Scrolls the credits and number of deaths, etc.
 ; $073D8B-$073E03 LOCAL JUMP LOCATION
-Credits_FadeColorAndBeginAnimating:
+Credits_FadeInColorThenScrollCredits:
 {
     ; Gradually neutralize color add/sub.
     JSR.w Credits_FadeOutFixedCol
@@ -4719,7 +4723,7 @@ Credits_FadeColorAndBeginAnimating:
         
     SEP #$30
         
-    ; Presumably something to do with the 3D triforce.
+    ; TODO: Presumably something to do with the 3D triforce.
     JSL.l Credits_AnimateTheTriangles
         
     REP #$30
@@ -5334,6 +5338,7 @@ Credits_AddEndingSequenceText:
     RTS
 }
 
+; Light up the triforce and the screen
 ; $07437C-$074390 LOCAL JUMP LOCATION
 Credits_BrightenTriangles:
 {

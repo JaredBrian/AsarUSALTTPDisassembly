@@ -3873,8 +3873,7 @@ DungeonMap_SetupGraphics:
         
     PLA : STA.b $9B
     
-    LDA.b #$09
-    STA.b $14
+    LDA.b #$09 : STA.b $14
     
     STA.w $0710
     
@@ -3951,8 +3950,7 @@ DungeonMap_OptionalGraphic:
 
         .copyTiles
 
-            LDA.w Pool_DungeonMap_OptionalGraphic_LEVEL_top, X : STA.w $1002, X
-
+            LDA.w Pool_DungeonMap_OptionalGraphic_LEVEL_top, X    : STA.w $1002, X
             LDA.w Pool_DungeonMap_OptionalGraphic_LEVEL_bottom, X : STA.w $1012, X
         DEX : BPL .copyTiles
         
@@ -4099,6 +4097,7 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     
     REP #$10
     
+    ; TODO: Place #$FF at the end of the buffer?
     LDY.w $1000
     LDA.b #$FF : STA.w $1002, Y
     

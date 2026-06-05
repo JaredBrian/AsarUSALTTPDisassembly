@@ -10289,54 +10289,54 @@ RoomTag_OperateChestReveal:
     ; $00C7EB ALTERNATE ENTRY POINT
     .nextChest
     
-    LDX.w $0200
-    LDA.w $06E0, X : AND.w #$3FFF : TAX
-    
-    LDY.w #$149C
-    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.b $02
-    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X : STA.b $04
-    LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X : STA.b $06
-    LDA.w RoomDrawObjectData+06, Y : STA.l $7E2082, X : STA.b $08
-    
-    LDY.w $0200
-    LDA.w $06E0, Y : AND.w #$3FFF : LSR : TAX
-    LDA.b $0C : STA.l $7F2000, X
-                STA.l $7F2040, X
+        LDX.w $0200
+        LDA.w $06E0, X : AND.w #$3FFF : TAX
+        
+        LDY.w #$149C
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.b $02
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X : STA.b $04
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X : STA.b $06
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2082, X : STA.b $08
+        
+        LDY.w $0200
+        LDA.w $06E0, Y : AND.w #$3FFF : LSR : TAX
+        LDA.b $0C : STA.l $7F2000, X
+                    STA.l $7F2040, X
 
-    CLC : ADC.w #$0101 : STA.b $0C
-    
-    LDX.w $1000
-    LDA.w #$0000
-    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-    
-    STA.w $1002, X
-    LDA.w #$0080
-    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-    
-    STA.w $1008, X
-    LDA.w #$0002
-    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-    
-    STA.w $100E, X
-    LDA.w #$0082
-    JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
-    
-    STA.w $1014, X
-    
-    LDA.b $02 : STA.w $1006, X
-    LDA.b $04 : STA.w $100C, X
-    LDA.b $06 : STA.w $1012, X
-    LDA.b $08 : STA.w $1018, X
-    
-    LDA.w #$0100
-    STA.w $1004, X : STA.w $100A, X
-    STA.w $1010, X : STA.w $1016, X
-    
-    LDA.w #$FFFF : STA.w $101A, X
-    
-    TXA : CLC : ADC.w #$0018 : STA.w $1000
-    
-    LDA.w $0200 : INC : INC : STA.w $0200
+        CLC : ADC.w #$0101 : STA.b $0C
+        
+        LDX.w $1000
+        
+        LDA.w #$0000
+        JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
+        STA.w $1002, X
+
+        LDA.w #$0080
+        JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
+        STA.w $1008, X
+        
+        LDA.w #$0002
+        JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
+        STA.w $100E, X
+
+        LDA.w #$0082
+        JSR.w Dungeon_GetKeyedObjectRelativeVramAddr
+        STA.w $1014, X
+        
+        LDA.b $02 : STA.w $1006, X
+        LDA.b $04 : STA.w $100C, X
+        LDA.b $06 : STA.w $1012, X
+        LDA.b $08 : STA.w $1018, X
+        
+        LDA.w #$0100
+        STA.w $1004, X : STA.w $100A, X
+        STA.w $1010, X : STA.w $1016, X
+        
+        LDA.w #$FFFF : STA.w $101A, X
+        
+        TXA : CLC : ADC.w #$0018 : STA.w $1000
+        
+        LDA.w $0200 : INC : INC : STA.w $0200
     CMP.w $0496 : BEQ .lastChest
         JMP.w .nextChest
     
@@ -10346,10 +10346,10 @@ RoomTag_OperateChestReveal:
     
     SEP #$30
     
-    ; Play "show chest" sound effect
+    ; Play "show chest" sound effect.
     LDA.b #$1A : STA.w $012F
     
-    ; Update tilemap this frame
+    ; Update tilemap this frame.
     LDA.b #$01 : STA.b $14
     
     RTS

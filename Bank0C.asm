@@ -7345,7 +7345,6 @@ Attract_LoadNextLegendGraphic:
     REP #$20
     
     LDX.b $26
-    
     LDA Attract_LegendGraphics_sizes, X    : STA.b !picSize
     LDA Attract_LegendGraphics_pointers, X : STA.b !picData
     

@@ -7536,7 +7536,8 @@ Overworld_DoMapUpdate32x32_16bit_already:
     JSL.l Overworld_DrawMap16_Anywhere
 
     ; Put the finishing touches on the VRAM package that will be sent.
-    LDY.w $1000 : LDA.w #$FFFF : STA.w $1002, X
+    LDY.w $1000
+    LDA.w #$FFFF : STA.w $1002, X
 
     ; Increment the modification index by 8 (indicates we replaced 4 tiles).
     LDA.w $04AC : CLC : ADC.w #$0008 : STA.w $04AC

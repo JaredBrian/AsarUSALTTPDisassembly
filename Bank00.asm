@@ -2802,13 +2802,12 @@ Underworld_PrepareNextRoomQuadrantUpload:
             LDA.l $7E2102, X : STA.w $1082, Y
             LDA.l $7E2180, X : STA.w $10C0, Y
             LDA.l $7E2182, X : STA.w $10C2, Y
-            
+                
             INX #4
-        
+            
         ; Loop until Y has increased by $40.
-        ; (what's wrong with a CPY.w #$0040 : BCC ...?
         INY #4 : TYA : AND.w #$003F : BNE .copyTilemap
-        
+            
         ; Y's net increase: $100.
         TYA : CLC : ADC.w #$00C0 : TAY
         
@@ -2923,12 +2922,12 @@ HandleStripes14:
     ; Designates a source bank for a transfer to VRAM.
     STA.w DMA.1_SourceAddrBank
     
-    ; You may have noticed this function is passed parameters through memory.
     STZ.b $06
     
     LDY.w #$0000
     
-    ; Typically tells us whether to look at $1000 or $1002.
+    ; Get which of the Stripes14_SourceAddress to transfer from. Typically
+    ; $1000 or $1002.
     LDA.b [$00], Y : BPL .validTransfer
         SEP #$30
         

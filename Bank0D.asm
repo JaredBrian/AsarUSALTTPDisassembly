@@ -9684,19 +9684,20 @@ Equipment_Local:
     INC.w $0206
     LDA.w $0200
     JSL.l UseImplicitRegIndexedLocalJumpTable
-    dw ClearTilemap       ; 0x00 - $DD5A
-    dw Init               ; 0x01 - $DDAB
-    dw BringMenuDown      ; 0x02 - $DE59
-    dw ChooseNextMode     ; 0x03 - $DE6E
-    dw NormalMenu         ; 0x04 - $DF15
-    dw UpdateHUD          ; 0x05 - $DFA9
-    dw CloseMenu          ; 0x06 - $DFBA
-    dw GotoBottleMenu     ; 0x07 - $DFFB
-    dw InitBottleMenu     ; 0x08 - $E002
-    dw ExpandBottleMenu   ; 0x09 - $E08C
-    dw BottleMenu         ; 0x0A - $E0DF
-    dw EraseBottleMenu    ; 0x0B - $E2FD
-    dw RestoreNormalMenu  ; 0x0C - $E346
+    
+    dw Equipment_ClearTilemap       ; 0x00 - $DD5A
+    dw Equipment_Init               ; 0x01 - $DDAB
+    dw Equipment_BringMenuDown      ; 0x02 - $DE59
+    dw Equipment_ChooseNextMode     ; 0x03 - $DE6E
+    dw Equipment_NormalMenu         ; 0x04 - $DF15
+    dw Equipment_UpdateHUD          ; 0x05 - $DFA9
+    dw Equipment_CloseMenu          ; 0x06 - $DFBA
+    dw Equipment_GotoBottleMenu     ; 0x07 - $DFFB
+    dw Equipment_InitBottleMenu     ; 0x08 - $E002
+    dw Equipment_ExpandBottleMenu   ; 0x09 - $E08C
+    dw Equipment_BottleMenu         ; 0x0A - $E0DF
+    dw Equipment_EraseBottleMenu    ; 0x0B - $E2FD
+    dw Equipment_RestoreNormalMenu  ; 0x0C - $E346
 }
 
 ; ==============================================================================
