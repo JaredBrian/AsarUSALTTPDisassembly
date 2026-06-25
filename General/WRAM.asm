@@ -7755,7 +7755,8 @@ struct WRAM $7E0000
         ; (See CopyFile_SelectionAndBlinker and CopyFile_TargetSelectionAndBlink)
 
         ; Used as the buffer size indicator of the end credits sequence text
-        ; buffer. (See Credits_AddEndingSequenceText and Credits_AddNextAttribution)
+        ; buffer. (See Credits_AddEndingSequenceText and
+        ; Credits_AddNextAttribution)
 
         ; Used as the buffer size indicator for the chest reveal tag. (See
         ; RoomTag_OperateChestReveal)
@@ -7770,36 +7771,41 @@ struct WRAM $7E0000
         ; used for loading in graphics or tiles onto the screen after a
         ; room/area has already loaded. See HandleStripes14BufferSize for uses.
 
-        ; Used as the target VRAM address to upload the file select background. See FileSelect_UploadLinoleum. TODO: Verify.
+        ; Used as the target VRAM address to upload the file select background.
+        ; See FileSelect_UploadLinoleum. TODO: Verify.
 
-        ; Used as a buffer to transfer the attract lore pictures. See Attract_LoadNextLegendGraphic
+        ; Used as a buffer to transfer the attract lore pictures. See
+        ; Attract_LoadNextLegendGraphic
 
         ; Used as a buffer to draw the text and text borders. See
         ; Text_DrawBorder and Text_DrawCharacterTilemap.
 
-    ; $1004 - 
-        ; DMA configuration
-
+    ; $1004[0x02] - (Main, NMI, Tilemap)
+    .HandleStripes14DMASize: skip $02
+        ; For tilemap update transfers that use value 0x01 in
+        ; BGTileMapUpdateFlag, this contains some settings related to DMA
+        ; size and increment configuration. See HandleStripes14BufferSize for
+        ; uses and HandleStripes14 for more details.
         ; ssssssss wftttttt
-        ; 
+        ; s, t - The size of the DMA transfer in bytes minus 1. This value
+        ;        is composed of the 's' and 't' bits arranged like so:
+        ;        ..tttttt ssssssss
+        ; w - If set, VRAM target address increments by 64 bytes on writes to
+        ;     $2119. Otherwise, it increments by 2 bytes on writes to $2118.
         ; f - If set, DMA source address is fixed. Otherwise it auto increments.
-        ; 
-        ; s, t - One less(!) the 14-bit size of the DMA transfer, as expressed in bytes.
-        ; This value is composed of the 's' and 't' bits thusly:
-        ; 
-        ; 00ttttttssssssss
-        ; 
-        ; w - If not set, VRAM target address increments on writes to $2118.
-        ; Otherwise, it increments on writes to $2119.
-        ; ^ This documention is not 100% correct. I'll fix it when I have time.
-        ; Basically it determines whether or not to increment VRAM address by 1 or 32 words
-        ; after each adjustment (write to $2118 or $2119)
 
-    ; $1006 - 
-        ; First word of data for the transfer. Many more may follow.
+    ; $1006[0x02] - (Main, NMI, Tilemap)
+    .HandleStripes14Data: skip $02
+        ; For tilemap update transfers that use value 0x01 in
+        ; BGTileMapUpdateFlag, this is the first word of data for the transfer.
 
+        ; TODO: figure out the format of the data itself. It looks as if every
+        ; other word may use a different format.
 
+    ; $1008 - $10C2 are all referenced as other possible write locations
+    ; extending from $1006. TODO: Change all of these to be $1006+0xXX.
 
+    ; TODO: What are these notes for?
     ; Setup for making overlaid tiles appear (word addresses):
 
     ; Notes on converting in game tile positions into VRAM positions:
