@@ -2935,97 +2935,95 @@ HandleStripes14:
 
     .validTransfer
 
-    ; Determines the VRAM target address.
-    STA.b $04
+        ; Determines the VRAM target address.
+        STA.b $04
 
-    INY
-    LDA.b [$00], Y : STA.b $03 
-    
-    ; If this number is negative, A will end up as 0x01, otherwise 0x00. This
-    ; determines whether the transfer will write to the tilemap in a horizontal
-    ; or vertical fashion.
-    INY
-    LDA.b [$00], Y : AND.b #$80 : ASL : ROL : STA.b $07
-    
-    ; Check whether the source address will be fixed or incrmenting during the
-    ; transfer.
-    LDA.b [$00], Y : AND.b #$40 : STA.b $05
-    
-    ; This adds the "two registers, write once" setting.
-    LSR #3 : ORA.b #$01 : STA.w DMA.1_TransferParameters
-    
-    ; Write to $2118 in DMA transfers.
-    LDA.b #$18 : STA.w DMA.1_DestinationAddr
-    
-    REP #$20
-    
-    ; Write to the VRAM target address register.
-    LDA.b $03 : STA.w SNES.VRAMAddrReadWriteLow
-    
-    ; Set the number of bytes to transfer.
-    ; (the amount stored in the buffer is the number of bytes minus one).
-    LDA.b [$00], Y : XBA : AND.w #$3FFF : TAX
-    INX : STX.w DMA.1_TransferSizeLow
-    
-    ; Set the source address (which will be somewhere in the $1000[0x800]
-    ; buffer.
-    INY : INY : TYA : CLC : ADC.b $00 : STA.w DMA.1_SourceAddrOffsetLow
-    
-    ; A = #$40 or #$00.
-    ; If DMAing in incremental mode, branch.
-    LDA.b $05 : BEQ .incrementSourceAddress
-        INX
+        INY
+        LDA.b [$00], Y : STA.b $03 
         
-        TXA : LSR : TAX : STX.w DMA.1_TransferSizeLow
+        ; If this number is negative, A will end up as 0x01, otherwise 0x00. 
+        ; This determines whether the transfer will write to the tilemap in
+        ; a horizontal or vertical fashion.
+        INY
+        LDA.b [$00], Y : AND.b #$80 : ASL : ROL : STA.b $07
+        
+        ; Check whether the source address will be fixed or incrmenting
+        ; during the transfer.
+        LDA.b [$00], Y : AND.b #$40 : STA.b $05
+        
+        ; This adds the "two registers, write once" setting.
+        LSR #3 : ORA.b #$01 : STA.w DMA.1_TransferParameters
+        
+        ; Write to $2118 in DMA transfers.
+        LDA.b #$18 : STA.w DMA.1_DestinationAddr
+        
+        REP #$20
+        
+        ; Write to the VRAM target address register.
+        LDA.b $03 : STA.w SNES.VRAMAddrReadWriteLow
+        
+        ; Set the number of bytes to transfer.
+        ; (the amount stored in the buffer is the number of bytes minus one).
+        LDA.b [$00], Y : XBA : AND.w #$3FFF : TAX
+        INX : STX.w DMA.1_TransferSizeLow
+        
+        ; Set the source address (which will be somewhere in the $1000[0x800]
+        ; buffer.
+        INY : INY : TYA : CLC : ADC.b $00 : STA.w DMA.1_SourceAddrOffsetLow
+        
+        ; A = #$40 or #$00.
+        ; If DMAing in incremental mode, branch.
+        LDA.b $05 : BEQ .incrementSourceAddress
+            INX
+            TXA : LSR : TAX : STX.w DMA.1_TransferSizeLow
+            
+            SEP #$20
+            
+            LDA.b $05 : LSR #3 : STA.w DMA.1_TransferParameters
+            
+            ; A = 0x00 or 0x01.
+            ; Hence we'll either increment VRAM addresses by 2 or 64 bytes.
+            LDA.b $07 : STA.w SNES.VRAMAddrIncrementVal
+            
+            ; Fire DMA channel 1.
+            LDA.b #$02 : STA.w SNES.DMAChannelEnable
+            
+            ; Now data is written to $2119 (upper byte only gets written).
+            LDA.b #$19 : STA.w DMA.1_DestinationAddr
+            
+            REP #$21
+            
+            ; Y is still the offset after reading the encoding information
+            ; earlier. Add the original absolute address to this offset.
+            ; It becomes the source address for DMA.
+            TYA : ADC.b $00 : INC : STA.w DMA.1_SourceAddrOffsetLow
+            
+            ; $03 contains the VRAM target address.
+            LDA.b $03 : STA.w SNES.VRAMAddrReadWriteLow
+            
+            ; OPTIMIZE: Why are we writing the same value again?
+            ; X contains the number of bytes to transfer.
+            STX.w DMA.1_TransferSizeLow
+            
+            LDX.w #$0002
+
+        .incrementSourceAddress
+
+        ; TODO: Not sure what the point of this is.... seems useless.
+        STX.b $03
+        
+        ; Again, the offset past the encoding info.
+        ; A procedure to position ourselves just past the encoding information.
+        TYA : CLC : ADC.b $03 : TAY
         
         SEP #$20
         
-        LDA.b $05 : LSR #3 : STA.w DMA.1_TransferParameters
+        ; A = 0x01 or 0x00
+        ; We're incrementing when $2119 is accessed.
+        LDA.b $07 : ORA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
         
-        ; A = 0x00 or 0x01.
-        ; Hence we'll either increment VRAM addresses by 2 or 64 bytes.
-        LDA.b $07 : STA.w SNES.VRAMAddrIncrementVal
-        
-        LDA.b #$02 : STA.w SNES.DMAChannelEnable ; Fire DMA channel 2.
-        
-        ; Now data is written to $2119 (upper byte only gets written).
-        LDA.b #$19 : STA.w DMA.1_DestinationAddr
-        
-        REP #$21
-        
-        ; Y is still the offset after reading the encoding information earlier.
-        TYA
-        
-        ; Add the original absolute address to this offset.
-        ; It becomes the source address for DMA.
-        ADC.b $00 : INC : STA.w DMA.1_SourceAddrOffsetLow
-        
-        ; $03 contains the VRAM target address.
-        LDA.b $03 : STA.w SNES.VRAMAddrReadWriteLow
-        
-        ; X contains the number of bytes to transfer.
-        STX.w DMA.1_TransferSizeLow
-        
-        LDX.w #$0002
-
-    .incrementSourceAddress
-
-    ; Not sure what the point of this is.... seems useless.
-    STX.b $03
-    
-    ; Again, the offset past the encoding info.
-    ; A procedure to position ourselves just past the encoding information.
-    TYA : CLC : ADC.b $03 : TAY
-    
-    SEP #$20
-    
-    ; A = 0x01 or 0x00
-    ; We're incrementing when $2118 is accessed.
-    LDA.b $07 : ORA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
-    
-    ; Fire DMA channel 1.
-    LDA.b #$02 : STA.w SNES.DMAChannelEnable
-    
+        ; Fire DMA channel 1.
+        LDA.b #$02 : STA.w SNES.DMAChannelEnable
     LDA.b [$00], Y : BMI .endOfTransfers
         JMP.w .validTransfer
 

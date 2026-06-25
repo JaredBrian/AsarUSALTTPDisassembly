@@ -2528,7 +2528,7 @@ FileSelect_UploadLinoleum:
         ; I.e. 0x00 if even or 0x02 if odd.
         PLA : AND.w #$0001 : ASL : TAY
         
-        ; Notice in this function that $00 ranges over 0x0 - 0x3FF.
+        ; Notice in this function that $00 ranges over 0x0000 - 0x03FF.
         ; Addresses written range from $1006 to $1805.
         ; Sets up a complex data table.
         LDA.b ($02), Y : STA.w $1006, X
@@ -2595,7 +2595,7 @@ FileSelect_UploadFancyBackground:
     
     SEP #$20 ; Accumulator is now 8-bit.
     
-    ; Possibly an ending indicator for this block of data.
+    ; TODO: Possibly an ending indicator for this block of data.
     ; Written at $194E.
     LDA.b #$FF : STA.w $1006, X
     
@@ -4983,7 +4983,6 @@ NameFile_DrawSelectedCharacter:
     SEP #$30
     
     LDA.b #$FF : STA.w $100E
-    
     LDA.b #$01 : STA.b $14
     
     PLB

@@ -4937,7 +4937,6 @@ Credits_AddNextAttribution:
     SEP #$30
         
     LDA.b #$FF : STA.w $1002, X
-        
     LDA.b #$01 : STA.b $14
         
     PLB
@@ -5293,7 +5292,6 @@ Credits_AddEndingSequenceText:
     ; Take $11, round to the nearest lowest even integer.
     LDA.b $11 : AND.w #$00FE : TAY
     LDA.w Pool_Credits_AddEndingSequenceText_offset+2, Y : STA.b $04
-        
     LDA.w Pool_Credits_AddEndingSequenceText_offset+0, Y : TAY
         
     LDX.w #$0000
@@ -5305,7 +5303,6 @@ Credits_AddEndingSequenceText:
         INY : INY
         INX : INX
         LDA.w Pool_Credits_AddEndingSequenceText, Y : STA.w $1008, X
-        
         XBA : AND.w #$00FF : LSR : STA.b $00
         
         INY : INY
@@ -5329,8 +5326,7 @@ Credits_AddEndingSequenceText:
         
     SEP #$30
         
-    LDA.b #$FF : STA.w $1008, X
-        
+    LDA.b #$FF : STA.w $1008, X  
     LDA.b #$01 : STA.b $14
         
     PLB

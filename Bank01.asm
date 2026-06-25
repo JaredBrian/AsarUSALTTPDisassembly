@@ -12537,12 +12537,16 @@ PushBlock_StoppedMoving:
         ; Doing preliminary work to update the tilemap with the rematerializing
         ; block that has since moved by 2 tiles in some direction.
         LDX.w $1000
-        LDA.w #$0922 : STA.w $1006, X : INC : STA.w $1012, X
-        LDA.w #$0932 : STA.w $100C, X : INC : STA.w $1018, X
+        LDA.w #$0922 : STA.w $1006, X
+        INC          : STA.w $1012, X
+        LDA.w #$0932 : STA.w $100C, X
+        INC          : STA.w $1018, X
         
         LDA.w $0540, Y : AND.w #$3FFF : TAX
-        LDA.w #$0922 : STA.l $7E2000, X : INC : STA.l $7E2002, X
-        LDA.w #$0932 : STA.l $7E2080, X : INC : STA.l $7E2082, X
+        LDA.w #$0922 : STA.l $7E2000, X
+        INC          : STA.l $7E2002, X
+        LDA.w #$0932 : STA.l $7E2080, X
+        INC          : STA.l $7E2082, X
         
         SEP #$20
         
@@ -15047,13 +15051,15 @@ Dungeon_ClearRupeeTile:
     LDA.b $02 : AND.w #$01F8 : LSR #3 : ORA.b $06 : ASL : STA.b $06
     
     LDX.w $1000
-    LDA.w #$190F : STA.w $1006, X : STA.w $100C, X
+    LDA.w #$190F : STA.w $1006, X
+                   STA.w $100C, X
     
     LDX.b $06
     STA.l $7E2000, X : STA.l $7E2080, X
     
     AND.w #$03FF : TAX
-    LDA.l $7EFE00, X : AND.w #$00FF : STA.b $08 : STA.b $09
+    LDA.l $7EFE00, X : AND.w #$00FF : STA.b $08
+                                      STA.b $09
     
     LDA.b $06 : LSR : TAX
     LDA.b $08 : STA.l $7F2000, X : STA.l $7F2040, X
@@ -16843,7 +16849,7 @@ ClearAndStripeExplodingWall:
 
 ; ==============================================================================
 
-; This routine appears to be unused and unreferenced in the rom so far...
+; This routine appears to be unused and unreferenced in the ROM so far...
 ; I actually only noticed it by seeing that there was a gap in addresses.
 ; In any case, it's one of those routines that preps a DMA transfer for
 ; later when NMI hits. Usually these update the tilemaps.

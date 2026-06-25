@@ -3061,7 +3061,6 @@ Overworld_AlterTileHardcore:
     TYA : CLC : ADC.w #$0010 : STA.w $1000
     
     PLX
-    
     INX : INX
     
     PLA : INC
@@ -3757,11 +3756,8 @@ AnimateEntrance_TurtleRock_step4:
     STZ.w $1003
     
     REP #$30
-    
     LDA.w #$FE47 : STA.w $1004
-    
     LDA.w #$01E3 : STA.w $1006
-    
     SEP #$20
     
     LDA.b #$FF : STA.w $1008
