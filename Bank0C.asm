@@ -5707,8 +5707,7 @@ Intro_DisplayNintendoLogo:
 
 ; ==============================================================================
 
-; TODO: Confirm what this does.
-; Beginning of Module 0x14 - History Mode? Attract Mode
+; Beginning of Module 0x14 - Attract Mode
 ; $066DAD-$066DD1 LONG JUMP LOCATION
 Module_Attract:
 {
@@ -6510,7 +6509,6 @@ Attract_ThroneRoom:
         TXA : AND.w #$00FF : LSR : TAX
         LDA.l Pool_Attract_ThroneRoom_offset_y, X
         AND.w #$00FF : SEC : SBC.w $0122 : STA.b $00
-        
         CMP.w #$FFE0 : SEP #$20 : BMI .spriteSetOffscreen
             LDA.l Pool_Attract_ThroneRoom_offset_x, X : STA.b $28
             
@@ -6546,8 +6544,6 @@ Pool_Attract_Prison:
     .soldier_palette
     db $09, $07
 
-    ; Maybe has something to do with the offset of the prisoner being
-    ; led away?
     ; $06726A
     .maiden_jab_offset_x
     db  0,  1,  2,  3
@@ -6621,26 +6617,34 @@ Attract_ZeldaPrison:
         
         JSL.l Sprite_ResetProperties
         
-        ; I think that this animates the soldiers leading the prisoner away.
-        ; As in, generates their appearance and puts it into OAM and such.
-        ; Kind of like a marionette being controlled by a puppeteer, but one
-        ; frame at a time.
+        ; TODO: I think that this animates the soldiers leading the
+        ; prisoner away. As in, generates their appearance and puts it 
+        ; into OAM and such. Kind of like a marionette being controlled by 
+        ; a puppeteer, but one frame at a time.
         JSL.l Sprite_SimulateSoldier
     PLX : DEX : BPL .nextSoldier
     
+    ; Every 8 frames...
     INC.b $32
     LDA.b $32 : AND.b #$07 : BNE .BRANCH_ZETA
+        ; OPTIMIZE: This could be moved next to its store.
         LDY.b #$FF
         
+        ; Check if we need to reset the soldier animation frame.
         LDA.b $33 : CMP.b #$02 : BNE .BRANCH_THETA
             STY.b $33
             
+            ; Don't play the sound if the maiden is offscreen.
             LDA.b $31 : BNE .BRANCH_THETA
+                ; Every other 8 frames... (The result of this is every 48
+                ; frames)
                 LDA.b $32 : AND.b #$08 : BEQ .BRANCH_THETA
+                    ; Play the angry soldier noise.
                     LDA.b #$04 : STA.w $012F
         
         .BRANCH_THETA
         
+        ; Increase the soldier animation frame.
         INC.b $33
     
     .BRANCH_ZETA
@@ -6689,11 +6693,11 @@ Dramaghanim_WaitForCue:
     
     .BRANCH_BETA
     
-    LDA.w #$F8D9 : STA.b $2D
-    LDA.w #$F8DF : STA.b $02
-    LDA.w #$F8E5 : STA.b $04
-    LDA.w #$F903 : STA.b $06
-    LDA.w #$F915 : STA.b $08
+    LDA.w #AttractAgahnimOAM_size       : STA.b $2D
+    LDA.w #AttractAgahnimOAM_offset_x   : STA.b $02
+    LDA.w #AttractAgahnimOAM_offset_y   : STA.b $04
+    LDA.w #AttractAgahnimOAM_char_step0 : STA.b $06
+    LDA.w #AttractAgahnimOAM_prop_step0 : STA.b $08
     
     SEP #$20
     
@@ -6702,7 +6706,6 @@ Dramaghanim_WaitForCue:
     LDA.b $2B : STA.b $29
     
     LDY.b #$05
-    
     JSR.w Attract_DrawSpriteSet
     
     RTL
@@ -6788,10 +6791,9 @@ Dramaghanim_MoveAndSpin:
     
     .BRANCH_GAMMA
     
-    LDA.w #$F8D9 : STA.b $2D
-    LDA.w #$F8DF : STA.b $02
-    LDA.w #$F8E5 : STA.b $04
-    
+    LDA.w #AttractAgahnimOAM_size                  : STA.b $2D
+    LDA.w #AttractAgahnimOAM_offset_x              : STA.b $02
+    LDA.w #AttractAgahnimOAM_offset_y              : STA.b $04
     LDA.l Dramaghanim_MoveAndSpin_pointers_char, X : STA.b $06
     LDA.l Dramaghanim_MoveAndSpin_pointers_prop, X : STA.b $08
     
@@ -6906,9 +6908,9 @@ Attract_MaidenWarp:
     LDA.b $52 : BNE .BRANCH_IOTA
         REP #$20
         
-        LDA.w #$F927 : STA.b $2D
-        LDA.w #$F929 : STA.b $02
-        LDA.w #$F92B : STA.b $04
+        LDA.w #AttractAltarMaidenOAM_size     : STA.b $2D
+        LDA.w #AttractAltarMaidenOAM_offset_x : STA.b $02
+        LDA.w #AttractAltarMaidenOAM_offset_y : STA.b $04
         
         LDX.b #$00
         
@@ -6919,7 +6921,7 @@ Attract_MaidenWarp:
         
         LDA.l .maiden_char_pointer, X : STA.b $06
         
-        LDA.w #$F931 : STA.b $08
+        LDA.w #AttractAltarMaidenOAM_prop : STA.b $08
         
         SEP #$20
         
@@ -6938,15 +6940,13 @@ Attract_MaidenWarp:
         .BRANCH_LAMBDA
         
         REP #$20
-        
-        LDA.w #$F933 : STA.b $2D
-        
-        LDA.l .shadow_offset_x_pointer, X : STA.b $02
-        
-        LDA.w #$F93F : STA.b $04
-        LDA.w #$F941 : STA.b $06
-        LDA.w #$F943 : STA.b $08
-        
+
+        LDA.w #AttractAltarMaidenShadowOAM_size     : STA.b $2D
+        LDA.l .shadow_offset_x_pointer, X           : STA.b $02
+        LDA.w #AttractAltarMaidenShadowOAM_offset_y : STA.b $04
+        LDA.w #AttractAltarMaidenShadowOAM_char     : STA.b $06
+        LDA.w #AttractAltarMaidenShadowOAM_prop     : STA.b $08
+
         SEP #$20
         
         TXA : LSR : TAX
@@ -6955,7 +6955,6 @@ Attract_MaidenWarp:
         LDA.b #$76 : STA.b $29
         
         LDY.b #$01
-        
         JSR.w Attract_DrawSpriteSet
     
     .BRANCH_IOTA
@@ -6964,11 +6963,11 @@ Attract_MaidenWarp:
     
     REP #$20
     
-    LDA.w #$F8D9                   : STA.b $2D
-    LDA.w #$F8DF                   : STA.b $02
-    LDA.w #$F8E5                   : STA.b $04
-    LDA.l .agahnim_char_pointer, X : STA.b $06
-    LDA.w #$F915                   : STA.b $08
+    LDA.w #AttractAgahnimOAM_size       : STA.b $2D
+    LDA.w #AttractAgahnimOAM_offset_x   : STA.b $02
+    LDA.w #AttractAgahnimOAM_offset_y   : STA.b $04
+    LDA.l .agahnim_char_pointer, X      : STA.b $06
+    LDA.w #AttractAgahnimOAM_prop_step0 : STA.b $08
     
     SEP #$20
     
@@ -7058,10 +7057,9 @@ Dramagahnim_ReadySpell:
     
     REP #$20
     
-    LDA.w #$F945 : STA.b $2D
-    LDA.w #$F953 : STA.b $02
-    LDA.w #$F961 : STA.b $04
-    
+    LDA.w #DramagahnimSpellOAM_size      : STA.b $2D
+    LDA.w #DramagahnimSpellOAM_offset_x  : STA.b $02
+    LDA.w #DramagahnimSpellOAM_offset_y  : STA.b $04
     LDA.l DramagahnimSpellCharPointer, X : STA.b $06
     LDA.l DramagahnimSpellPropPointer, X : STA.b $08
     
@@ -7072,7 +7070,6 @@ Dramagahnim_ReadySpell:
     
     LDA.b $51 : LSR : AND.b #$07 : TAX
     LDA.l Dramagahnim_ReadySpell_OAM_count, X : TAY
-    
     JSR.w Attract_DrawSpriteSet
     
     LDA.b $51 : BNE .BRANCH_ALPHA
@@ -7146,9 +7143,14 @@ Dramagahnim_CastSpell:
     
     REP #$20
     
-    LDA.w #$F945 : CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $2D
-    LDA.w #$F953 : CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $02
-    LDA.w #$F961 : CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $04
+    LDA.w #DramagahnimSpellOAM_size
+    CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $2D
+
+    LDA.w #DramagahnimSpellOAM_offset_x
+    CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $02
+
+    LDA.w #DramagahnimSpellOAM_offset_y
+    CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $04
     
     LDA.w DramagahnimSpellCharPointer, X
     CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $06
@@ -7163,7 +7165,6 @@ Dramagahnim_CastSpell:
     
     LDX.b $00
     LDA.w Pool_Dramagahnim_CastSpell_OAM_count, X : TAY
-    
     JSR.w Attract_DrawSpriteSet
     
     PLB
@@ -7237,8 +7238,7 @@ Dramagahnim_RealizeWhatJustHappened:
         
         REP #$20
         
-        LDA.w #$F9A7 : STA.b $2D
-        
+        LDA.w #AttractTelebubbleOAM_size                    : STA.b $2D
         LDA.l Pool_Dramagahnim_Realize_pointers_offset_x, X : STA.b $02
         LDA.l Pool_Dramagahnim_Realize_pointers_offset_y, X : STA.b $04
         LDA.l Pool_Dramagahnim_Realize_pointers_char, X     : STA.b $06
@@ -7252,7 +7252,6 @@ Dramagahnim_RealizeWhatJustHappened:
         LDA.b #$60 : STA.b $29
         
         LDA.l Pool_Dramagahnim_Realize_object_count, X : TAY
-        
         JSR.w Attract_DrawSpriteSet
     
     .BRANCH_GAMMA
@@ -7428,6 +7427,25 @@ Attract_AdjustMapZoom:
 
 ; ==============================================================================
 
+; $0677BE-$0677DD DATA
+AttractBG1Tiles:
+{
+    ; TODO: Figure out exactly what tiles these are.
+    dw $01A0, $09A6, $89A5, $01A0
+    dw $09A5, $01A0, $01A0, $89A6
+    dw $49A5, $01A0, $01A0, $49A5
+    dw $01A0, $89A5, $C9A5, $01A0
+}
+
+; $0677DE-$0677E5 DATA
+AttractBG2Tiles:
+{
+    ; TODO: Figure out exactly what tiles these are.
+    dw $09A1, $09A2, $09A3, $09A4
+}
+
+; ==============================================================================
+
 ; $0677E6-$067878 LOCAL JUMP LOCATION
 Attract_BuildBackgrounds:
 {
@@ -7446,7 +7464,7 @@ Attract_BuildBackgrounds:
     
     LDX.w #$0000
     
-    LDA.w #$F7BE : STA.b $30
+    LDA.w #AttractBG1Tiles : STA.b $30
     
     .BRANCH_BETA
     
@@ -7473,7 +7491,7 @@ Attract_BuildBackgrounds:
 
     LDX.w #$0000
     
-    LDA.w #$F7DE : STA.b $30
+    LDA.w #AttractBG2Tiles : STA.b $30
     
     .BRANCH_DELTA
     
@@ -7481,16 +7499,15 @@ Attract_BuildBackgrounds:
         
         .BRANCH_GAMMA
         
-            LDA.b ($30), Y : STA.w $1006, X
-            
-            INY : INY
+                LDA.b ($30), Y : STA.w $1006, X
                 
-            INX : INX
-            
+                INY : INY
+                    
+                INX : INX
             TYA : AND.w #$0003 : BNE .BRANCH_GAMMA
         TXA : AND.w #$003F : BNE .BRANCH_DELTA
         
-        TXA : AND.w #$0040 : LSR #4 : CLC : ADC.w #$F7DE : STA.b $30
+        TXA : AND.w #$0040 : LSR #4 : CLC : ADC.w #AttractBG2Tiles : STA.b $30
     CPX.w #$0100 : BNE .BRANCH_DELTA
     
     LDA.w #$0000 : STA.b $30
@@ -7517,19 +7534,283 @@ Attract_TriggerBGDMA:
     
     .nextTransfer
     
-        LDY.b #$80 : STY.w SNES.VRAMAddrIncrementVal
-        
+        LDY.b #$80   : STY.w SNES.VRAMAddrIncrementVal
         LDA.w #$1801 : STA.w DMA.0_TransferParameters
-        
         LDA.w #$1006 : STA.w DMA.0_SourceAddrOffsetLow
         LDY.b #$00   : STY.w DMA.0_SourceAddrBank
-        
         LDA.w #$0100 : STA.w DMA.0_TransferSizeLow
         
         LDY.b #$01 : STY.w SNES.DMAChannelEnable
     DEX : BPL .nextTransfer
     
     RTS
+}
+
+; ==============================================================================
+
+; $0678A7-$0678BA DATA
+AttractKingOAM:
+{
+    ; $0678A7
+    .size
+    db $02, $02, $02, $02
+
+    ; $0678AB
+    .offset_x
+    db  16,   0,  16,   0
+
+    ; $0678AF
+    .offset_y
+    db  16,  16,   0,   0
+
+    ; $0678B3
+    .char
+    db $2A, $2A, $0A, $0A
+
+    ; $0678B7
+    .prop
+    db $7B, $3B, $7B, $3B
+}
+
+; $0678BB-$0678D8 DATA
+AttractMantleOAM:
+{
+    ; $0678BB
+    .size
+    db $02, $02, $02, $02, $02, $02
+
+    ; $0678C1
+    .offset_x
+    db   0,  16,  32,   0,  16,  32
+
+    ; $0678C7
+    .offset_y
+    db   0,   0,   0,  16,  16,  16
+
+    ; $0678CD
+    .char
+    db $0C, $0E, $0C, $2C, $2E, $2C
+
+    ; $0678D3
+    .prop
+    db $31, $31, $71, $31, $31, $71
+}
+
+; $0678D9-$067926 DATA
+AttractAgahnimOAM:
+{
+    ; $0678D9
+    .size
+    db $02, $02, $02, $02, $02, $02
+
+    ; $0678DF
+    .offset_x
+    db   5,  11,   0,  16,   0,  16
+
+    ; $0678E5
+    .offset_y
+    db  25,  25,   0,   0,  16,  16
+
+    ; $0678EB
+    .char_step3
+    db $6C, $6C, $82, $82, $A2, $A2
+
+    ; $0678F1
+    .char_step5
+    db $6C, $6C, $80, $82, $A0, $A2
+
+    ; $0678F7
+    .char_step6
+    db $6C, $6C, $82, $80, $A2, $A0
+
+    ; $0678FD
+    .char_step4
+    db $6C, $6C, $80, $80, $A0, $A0
+
+    ; $067903
+    .char_step0
+    db $6C, $6C, $84, $84, $A4, $A4
+
+    ; $067909
+    .char_step1
+    db $6C, $6C, $C4, $C2, $E4, $E6
+
+    ; $06790F
+    .char_step2
+    db $6C, $6C, $88, $8A, $A8, $AA
+
+    ; $067915
+    .prop_step0
+    db $38, $38, $3B, $7B, $3B, $7B
+
+    ; $06791B
+    .prop_step1
+    db $38, $38, $3B, $3B, $3B, $3B
+
+    ; $067921
+    .prop_step2
+    db $38, $38, $3B, $3B, $3B, $3B
+}
+
+; $067927-$067930 DATA
+AttractAltarMaidenOAM:
+{
+    ; $067927
+    .size
+    db $02, $02
+
+    ; $067929
+    .offset_x
+    db $00, $08
+
+    ; $06792B
+    .offset_y
+    db $00, $00
+
+    ; $06792D
+    .char_step0
+    db $03, $04
+
+    ; $06792F
+    .char_step1
+    db $00, $01
+
+    ; $067931
+    .prop
+    db $3D, $3D
+}
+
+; $067933-$067944 DATA
+AttractAltarMaidenShadowOAM:
+{
+    ; $067933
+    .size
+    db $02, $02
+
+    ; $067935
+    .offset_x_step4
+    db $00, $08
+
+    ; $067937
+    .offset_x_step3
+    db $00, $06
+
+    ; $067939
+    .offset_x_step2
+    db $00, $04
+
+    ; $06793B
+    .offset_x_step1
+    db $00, $02
+
+    ; $06793D
+    .offset_x_step0
+    db $00, $00
+
+    ; $06793F
+    .offset_y
+    db $00, $00
+
+    ; $067941
+    .char
+    db $6C, $6C
+
+    ; $067943
+    .prop
+    db $38, $38
+}
+
+; $067945-$0679A6 DATA
+DramagahnimSpellOAM:
+{
+    ; $067945
+    .size
+    db $00, $00, $00, $00
+    db $00, $00, $00, $00
+    db $00, $00, $02, $02
+    db $02, $02
+
+    ; $067953
+    .offset_x
+    db   0,  28,  -2,  30
+    db  -2,  30,   0,  28
+    db   0,  28,   2,  18
+    db   2,  18
+
+    ; $067961
+    .offset_y
+    db   0,   0,   3,   3
+    db  11,  11,  16,  16
+    db  24,  24,  16,  16
+    db  32,  32
+
+    ; $06796F
+    .char_step0
+    db $CE, $CE, $26, $26
+    db $36, $36, $26, $26
+    db $36, $36, $20, $20
+    db $20, $20
+
+    ; $06797D
+    .char_step1
+    db $CE, $CE, $26, $26
+    db $36, $36, $26, $26
+    db $36, $36, $22, $22
+    db $22, $22
+
+    ; $06798B
+    .prop_step0
+    db $35, $35, $75, $35
+    db $75, $35, $75, $35
+    db $75, $35, $35, $75
+    db $B5, $F5
+
+    ; $067999
+    .prop_step1
+    db $37, $37, $77, $37
+    db $77, $37, $77, $37
+    db $77, $37, $37, $77
+    db $B7, $F7
+}
+
+; $0679A7-$0679B4 DATA
+AttractTelebubbleOAM:
+{
+    ; $0679A7
+    .size
+    db $02, $02
+
+    ; $0679A9
+    .step0_offset_x
+    db   0
+
+    ; $0679AA
+    .step0_offset_y
+    db   0
+
+    ; $0679AB
+    .step0_char
+    db $C6
+
+    ; $0679AC
+    .step0_prop
+    db $3D
+
+    ; $0679AD
+    .step1_offset_x
+    db   0,  16
+
+    ; $0679AF
+    .step1_offset_y
+    db   0,   0
+
+    ; $0679B1
+    .step1_char
+    db $24, $24
+
+    ; $0679B3
+    .step1_prop
+    db $35, $75
 }
 
 ; ==============================================================================
@@ -7541,8 +7822,7 @@ Attract_TriggerBGDMA:
 ; $06 - Pointer to list of character values for each sprite.
 ; $08 - Pointer to list of property values for each sprites (vhoopppc).
 ; 
-; $2A - index into the second half of the OAM buffer. This index gets
-; multiplied by 4 for the actual byte offset within that buffer.
+; $2A - An index to dynamically allocate OAM to the sprite.
 ; 
 ; $2D - Pointer to list of size bits and 9th X coordinate bits for each
 ; sprite.
@@ -7554,7 +7834,6 @@ Attract_DrawSpriteSet:
     .nextSprite
     
         LDX.b $2A
-        
         LDA.b ($2D), Y : STA.w $0A60, X
         
         TXA : ASL : ASL : TAX

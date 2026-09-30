@@ -5405,6 +5405,8 @@ Guard_ParrySwordAttacks_main:
             JSR.w Sprite_DoHitboxesFast
             
             LDA.w $037A : AND.b #$10 : BNE .BRANCH_GAMMA
+                ; Check if the player is currently in a "hidden off-screen" state.
+                ; Usually occurs when exiting a dungeon.
                 LDA.b $44 : CMP.b #$80 : BEQ .BRANCH_GAMMA
                     JSR.w Player_SetupActionHitBox
                     
@@ -6678,6 +6680,8 @@ Sprite_CheckDamageFromPlayer:
     .just_began_death_sequence
     
     BNE .no_collision
+        ; Check if the player is currently in a "hidden off-screen" state.
+        ; Usually occurs when exiting a dungeon.
         LDA.b $44 : CMP.b #$80 : BEQ .no_collision
             JSR.w Player_SetupActionHitBox
             JSR.w Sprite_SetupHitBox
