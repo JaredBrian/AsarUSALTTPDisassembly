@@ -4611,6 +4611,8 @@ Hobo_Draw:
 Landmine_CheckDetonationFromHammer:
 {
     LDA.w $0301 : AND.b #$0A : BEQ .player_not_using_hammer
+        ; Check if the player is currently in a "hidden off-screen" state.
+        ; Usually occurs when exiting a dungeon.
         LDA.b $44 : CMP.b #$80 : BEQ .cant_check
             JSL.l Player_SetupActionHitBoxLong
             JSL.l Sprite_SetupHitBoxLong

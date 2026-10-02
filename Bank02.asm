@@ -4378,8 +4378,8 @@ Dungeon_OpenGanonDoor:
     RTS
 }
 
-; Beginning of Module 0x0C, ???? Mode. I think we can declare this one unused,
-; almost with complete certainty.
+; Beginning of Module 0x0C
+; UNUSED: Was likely intended for a screen transition effect when entering a dungeon.
 ; $01191B-$011921 LOCAL JUMP LOCATION
 Module0C_Unused:
 {
@@ -4389,6 +4389,7 @@ Module0C_Unused:
     RTL
 }
 
+; UNUSED: See Module0C_Unused.
 ; $011922-$01192D LOCAL JUMP LOCATION
 Module0C_RunSubmodule:
 {
@@ -4399,6 +4400,7 @@ Module0C_RunSubmodule:
     dw Module0C_RestoreSubmodule                     ; 0x02 - $992E
 }
 
+; UNUSED: See Module0C_Unused.
 ; $01192E-$011937 LOCAL JUMP LOCATION
 Module0C_RestoreSubmodule:
 {
@@ -4411,7 +4413,8 @@ Module0C_RestoreSubmodule:
     RTS
 }
 
-; Beginning of Module 0x0D - Unused? Blank Screen
+; Beginning of Module 0x0D - Unused
+; UNUSED: Was likely intended for a screen transition effect when exiting a dungeon.
 ; $011938-$011950 LONG JUMP LOCATION
 Module0D_Unused:
 {

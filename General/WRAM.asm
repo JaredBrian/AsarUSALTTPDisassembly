@@ -95,8 +95,8 @@ struct WRAM $7E0000
         ; 0x09 - Overworld Mode
         ; 0x0A - Pre Overworld Mode (special overworld)
         ; 0x0B - Overworld Mode (special overworld)
-        ; 0x0C - I think we can declare this one unused. TODO: Confirm this.
-        ; 0x0D - Blank Screen
+        ; 0x0C - Unused. Was likely intended for a screen transition effect when entering a dungeon.
+        ; 0x0D - Unused. Was likely intended for a screen transition effect when exiting a dungeon.
         ; 0x0E - Text Mode/Item Screen/Map
         ; 0x0F - Closing Spotlight
         ; 0x10 - Opening Spotlight
@@ -138,16 +138,22 @@ struct WRAM $7E0000
         ; of the game code, such as the intro. See Stripes14_SourceAddress and
         ; HandleStripes14.
         ; 0x01 - $001002 WRAM $1002
-        ; 0x02 - $001000 WRAM $1000 TODO: Unused?
+        ;        Used to make small dynamic tilemap changes like opening a chest, using a shovel, lighting a torch, hiting a crystal switch, opening a bomb wall, unlocking key doors, etc. 
+        ; 0x02 - $001000 WRAM $1000
+        ;        USUSED
         ; 0x03 - $0CDD6D IntroLogoTilemap
-        ; 0x04 - $00021B WRAM $021B Unused
+        ;        Used to upload the "The Legend of Zelda A Link to the Past" text onto BG1.
+        ; 0x04 - $00021B WRAM $021B
+        ;        UNUSED
         ; 0x05 - $0CE7BF NamePlayerTilemap
+        ;        Used to draw the "REGISTER YOUR NAME" menu screen.
         ; 0x06 - $0CE2A8 FileSelectTilemap
+        ;        Used to draw the "PLAYER SELECT" menu screen.
         ; 0x07 - $0CE63C FileSelectCopyFileTilemap
+        ;        Used to draw the "COPY PLAYER" menu screen.
         ; 0x08 - $0CE456 FileSelectKILLFileTilemap
+        ;        Used to draw the "ERASE PLAYER" menu screen.
         ; 0x09 - $0EDA9C DungeonMap_BG3Tilemap
-
-        ; TODO: Doccument uses.
 
     ; $15[0x01] - (CGRAM, Main, NMI)
     .CGRAMUpdateFlag: skip $01
@@ -299,9 +305,13 @@ struct WRAM $7E0000
         ; Agahnim's base Y coordinate relative to the screen.
 
     ; $2A[0x01] - (Player)
-    .PlayerYSubCoord: skip $01
+    .PlayerYSubCoord:
         ; The player's subpixel Y coordinate
-        ; TODO: Also has a use in the attract mode like most of this early WRAM.
+    
+    ; $2A[0x01] - (Attract, OAM)
+    .AttractDynamicOAMIndex: skip $01
+        ; Used as a index to dynamically allocate OAM to sprites drawn during
+        ; the attract sequence.
 
     ; $2B[0x01] - (Player)
     .PlayerXSubCoord: skip $01
@@ -312,10 +322,10 @@ struct WRAM $7E0000
         ; Only written to in one place in player code, and it's always a zero.
         ; Given the limited scope of this use compared to the one below, it
         ; could be considered Free RAM, so long as there's an understanding
-        ; that its use is shared with attract mode (see AttractTimer).
+        ; that its use is shared with attract mode (see AttractThroneTimer).
 
     ; $2C[0x01] - (Attract)
-    .AttractTimer: skip $01
+    .AttractThroneTimer: skip $01
         ; Used as a countdown timer on the throne room screen. When it reaches
         ; 0x1e, it is used to begin the fade to the next scene by decreasing the
         ; brightness by one on frames where this variable has an even value.
@@ -326,8 +336,7 @@ struct WRAM $7E0000
 
     ; $2D[0x02] - (Attract)
     .AttractUnknownPtr: skip $01
-        ; Appears to serve as a pointer to sprite data of some sort. Exact scope
-        ; of usage during this mode not known at this time.
+        ; Used by Attract_DrawSpriteSet as the pointer to the OAM high data.
 
     ; $2E[0x01] - (Player, OAM)
     .PlayerAnimationStep: skip $01
@@ -345,19 +354,40 @@ struct WRAM $7E0000
         ; considered invalid.
 
     ; $30[0x01] - (Player)
-    .PlayerYVelocity: skip $01
+    .PlayerYVelocity:
         ; When the player is moving down or up, this is the signed number of
         ; pixels that his Y coordinate will change by.
 
+    ; $30[0x02] - (Attract)
+    .AttractMisc1: skip $01
+        ; Used to keep track of the maiden and soldier's X position while
+        ; walking out of the prison.
+        ; Used as the Y coordinate of the maiden as she floats above the
+        ; altar in the warp scene.
+        ; Used as an index to manually place tiles when building BG2
+        ; tilemaps and as the destination pointer for a generic DMA
+        ; helper function.
+
     ; $31[0x01] - (Player)
     .PlayerXVelocity: skip $01
-        ; Same as $30 except it's for X coordinates
+        ; Same as PlayerYVelocity except it's for X coordinates.
 
-    ; $32[0x01] - (Player)
-    .PlayerCliffHoppingY: skip $02
+    ; $32[0x02] - (Player)
+    .PlayerCliffHoppingY:
         ; Seems to be used in some subsection of Bank 07 that handles hopping
-        ; off cliffs in relation to the player's Y coordinate. TODO: Also has
-        ; a use in the Attract Module. TODO: Figure out exact use.
+        ; off cliffs in relation to the player's Y coordinate.
+
+    ; $32[0x01] - (Attract)
+    .AttractMiscTimer: skip $01
+        ; Used to control play the angry soldier noise every 48 frames while
+        ; the soldiers are leading the maiden in the prision away.
+        ; Used to control the animation frame and position of the maiden
+        ; being warped by Agahnim.
+
+    ; $33[0x01] - (Attract)
+    .AttractSoldierAnimation: skip $01
+        ; This controls the animation frame the soldiers use while leading
+        ; the maiden in the prision away.
 
     ; $34[0x01] - (Attract)
     .AttractAgahCueFlag: skip $01
@@ -371,26 +401,27 @@ struct WRAM $7E0000
         ; Free RAM
 
     ; $38[0x02] - (Player)
-    .PlayerDWallCalc: skip $02
-        ; Seems to be set some of the time when going up diagonal walls.
-        ; It's a bitfield for tiles type 0x10 through 0x13. TODO: Confirm
-        ; this name.
+    .PlayerOuterDiagonalWall: skip $02
+        ; Set when going up diagonal walls. It's a bitfield for tiles type
+        ; 0x18-0x1B.
+        ; .... abcd
+        ; a - South east
+        ; b - South west
+        ; c - North east
+        ; d - North west
         ; SEE TILE ACT NOTES
 
     ; TILE ACT NOTES
-
     ; For tile act bitfields, each property is flagged with 4 bits.
-    ; These bits indicate which tile relative the player the tile was found.
+    ; These bits indicate which tile8 relative the player the tile was found.
     ;  a b
     ;   P
     ;  c d
     ;
-    ; abcd
     ;   a - Found to the north west
     ;   b - Found to the north east
     ;   c - Found to the south west
     ;   d - Found to the south east
-    ;
     ;   P - Player
 
     ; $3A[0x01] - (Input)
@@ -434,18 +465,23 @@ struct WRAM $7E0000
         ; X coordinate related variable (low byte).
 
     ; $40[0x01] - (Player)
-    .PlayerCalcYHigh: skip $01
+    .PlayerCalcYHigh:
         ; Y coordinate related variable (high byte).
+
+    ; $40[0x01] - (Attract)
+    .AttractMaidenXCoordCache: skip $01
+        ; Used to cache the attract prison maiden's X coord. Used to
+        ; determine whether the maiden is offscreen and should be drawn
+        ; or not.
 
     ; $41[0x01] - (Player)
     .PlayerCalcXHigh: skip $01
         ; X coordinate related variable (high byte).
 
     ; $42[0x01] - (Player)
-    .PlayerObstructV: skip $01
-        ; Appears to flag directions for freedom for vertical. Flags are set
-        ; when there's no obstruction. TODO: Of movement? or for freedom of what?
-        ; (0: obstructed | 1: unobstructed)
+    .PlayerObstructedV: skip $01
+        ; A bitfield that when zero indicates vertical movement is obstructed.
+        ; Bits 2 and 3 will only ever be set to 0 in this variable.
         ; .... udlr
         ;   u - upwards
         ;   d - downwards
@@ -453,10 +489,9 @@ struct WRAM $7E0000
         ;   r - rightwards
 
     ; $43[0x01] - (Player)
-    .PlayerObstructD: skip $01
-        ; Appears to flag directions for freedom for diagonal. Flags are set
-        ; when there's no obstruction. TODO: Of movement? or for freedom of what?
-        ; (0: obstructed | 1: unobstructed)
+    .PlayerObstructedH: skip $01
+        ; A bitfield that when zero indicates horizontal movement is obstructed.
+        ; Bits 1 and 0 will only ever be set to 0 in this variable.
         ; .... udlr
         ;   u - upwards
         ;   d - downwards
@@ -464,14 +499,27 @@ struct WRAM $7E0000
         ;   r - rightwards
 
     ; $44[0x01] - (Player)
-    .AttackOAMOffsetY: skip $01
-        ; Set to 0x80 during preoverworld. Seems to be an offset for player OAM
-        ; y offset. TODO: Not fully confirmed.
+    .PlayerOAMOffsetY: skip $01
+        ; A Y offset to the player's OAM draw when performing certain actions that
+        ; would otherwise make them appear to be "off center" from their true
+        ; coordinates. This includes attacking with the sword, lifting objects,
+        ; and using the bug net. It is also set to 0x80 on occasions where the
+        ; game needs to hide the player sprite offscreen while loading, usually when
+        ; exiting dungeons.
 
     ; $45[0x01] - (Player)
-    .AttackOAMOffsetX: skip $01
-        ; Set to 0x80 during preoverworld. Seems to be an offset for player OAM
-        ; x offset. TODO: Not fully confirmed.
+    .PlayerOAMOffsetX:
+        ; An X offset to the player's OAM draw when performing certain actions that
+        ; would otherwise make them appear to be "off center" from their true
+        ; coordinates. This includes attacking with the sword, lifting objects,
+        ; and using the bug net. This one also has an additional offset applied in
+        ; comparison to the Y offset, when jumping off diagonal down ledges. It is
+        ; also set to 0x80 on occasions where the game needs to hide the player
+        ; sprite offscreen while loading, usually when exiting dungeons.
+
+    ; $45[0x01] - (Polyhedral)
+    .Poly_Unknown_45: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $46[0x01] - (Player)
     .PlayerRecoilTimer: skip $01
@@ -758,7 +806,7 @@ struct WRAM $7E0000
         ; 0x1000 if PlayerDunLayer = 1, 0x2000 if PlayerDunLayer = 0.
 
     ; $64[0x02] - (Attract)
-    .AttractTimer2: skip $02
+    .AttractTextTimer: skip $02
         ; Used as a timer for Agahnim text display in attract mode.
 
     ; $66[0x01] - (Player)
@@ -772,9 +820,9 @@ struct WRAM $7E0000
 
     ; $67[0x01] - (Player)
     .PlayerDir: skip $01
-        ; Indicates which direction the player is walking (even if not going
-        ; anywhere).
-        ; ----udlr.
+        ; A bitfield that, when non-zero, indicates which direction the player
+        ; is walking (even if not going anywhere).
+        ; ---- udlr
         ; u - Up
         ; d - Down
         ; l - Left
@@ -2239,8 +2287,8 @@ struct WRAM $7E0000
     .FileCurrentSaveOffset:
         ; (Bank 0x00 and 0x0C) Used to temporarily store the save file offset.
 
-    ; $0200[0x02] - (Main)
-    .AttractTimer3: skip $02
+    ; $0200[0x02] - (Attract)
+    .AttractLegendTimer: skip $02
         ; (Bank 0x0C) Used as a timer to keep track of how long to show each BG3
         ; "legend" image.
 

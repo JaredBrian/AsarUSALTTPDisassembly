@@ -8698,6 +8698,7 @@ FlagObstructions:
         
         LDA.w $034A : BEQ .BRANCH_MU
             LDA.w $02E8 : AND.b #$03 : BNE .BRANCH_MU
+                ; Check if the player is walking in an horizontal direction.
                 LDA.b $67 : AND.b #$03 : BEQ .BRANCH_MU
                     STZ.w $033C
                     STZ.w $033D
@@ -8769,7 +8770,7 @@ FlagObstructions:
         
         LDA.w $034A : BEQ .BRANCH_UPSILON
             LDA.w $02E8 : AND.b #$03 : BNE .BRANCH_UPSILON
-                ; Check if Link is walking in an vertical direction.
+                ; Check if the player is walking in an vertical direction.
                 LDA.b $67 : AND.b #$0C : BEQ .BRANCH_UPSILON
                     STZ.w $033E
                     STZ.w $033F
