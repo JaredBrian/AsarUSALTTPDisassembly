@@ -1168,7 +1168,7 @@ OverworldMap_PrepExit:
 
 ; ==============================================================================
 
-; ZS makes a jump in this function.
+; ZSCREAM: ZS makes a jump in this function.
 ; 0x0E.0x07.0x07 (restoring graphics?)
 ; $053C54-$053C95 LONG JUMP LOCATION
 OverworldMap_RestoreGfx:

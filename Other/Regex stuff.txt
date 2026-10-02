@@ -65,3 +65,11 @@ Find opcodes missing .l .w .b and extra spaces
 ; Remove the "INC A", "ROL A", "ASL A" fomrat:
 ([A-Z][A-Z][A-Z]) A([\s\n])
 $1$2
+
+([0-9A-F][0-9A-F])
+\$$1, 
+
+; Format music parts
+(db \$EF), (\$)(..), \$(..),
+$1 : dw $2$4$3 : db
+
