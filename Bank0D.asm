@@ -3874,7 +3874,9 @@ PlayerOam_Main:
 
         .recoil_check:
 
+        ; OPTIMIZE: $4D is never actually set to 0x04, making this check useless.
         LDA.b $4D : CMP.b #$04 : BEQ .proceed_to_pose
+            ; Check if the player is swimming:
             LDA.b $5D : CMP.b #$04 : BEQ .proceed_to_pose
                 LDY.b #$00
                 

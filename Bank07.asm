@@ -92,6 +92,7 @@ Player_SetSFXPan:
 ; $038041-$03807E JUMP TABLE
 Pool_Link_ControlHandler:
 {
+    ; TODO: Update these descriptions based on the ones found in the WRAM.asm.
     dw LinkState_Default                 ; 0x00 - $8109 Ground state (normal mode)
     dw LinkState_Pits                    ; 0x01 - $92D3 Falling into a hole or 
                                          ;        getting close to edge of hole
@@ -357,7 +358,7 @@ LinkState_Default:
         
         LDA.w $0308 : ORA.w $0376 : BNE .BRANCH_IOTA
             LDA.w $0377 : BNE .BRANCH_IOTA
-                ; Is Link falling off of a ledge?  ; Yes...
+                ; Is the player dashing?
                 LDA.b $5D : CMP.b #$11 : BEQ .BRANCH_IOTA
                     JSR.w Link_HandleYItem ; Handle Y button items?
                     
@@ -1698,6 +1699,7 @@ LinkState_HandlingJump:
             
             LDA.b #$01 : STA.b $5B
             
+            ; OPTIMIZE: Extra "LDA.b #$01".
             LDA.b #$01 : STA.b $5D
             
             BRA .theta
@@ -8034,7 +8036,7 @@ Link_PerformDash:
                     
                 LDA.b #$40 : STA.w $02F1 ; Dash timer related
                     
-                LDA.b #$11 : STA.b $5D ; Set player in falling state...
+                LDA.b #$11 : STA.b $5D ; Set player to the dashing state.
                     
                 LDA.b #$01 : STA.w $0372 ; Will bounce if touch (bonk)
                     
@@ -10192,8 +10194,6 @@ Link_HandleEnteringWater_Vertical:
 RunLedgeHopTimer:
 {
     ; Check the sub sub mode we're in.
-    ; $03C171 Change from F0 to 80 to stop players from jumping off ledges all
-    ; together.
     LDA.b $4D : CMP.b #$01 : BEQ .restore_coordinates
         ; Is Link running? Bypass waiting to jump off of a ledge. I think...
         LDA.w $0372 : BNE .BRANCH_BETA
@@ -11303,6 +11303,7 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
                 
                 LDA.b #$01 : STA.b $5B
                 
+                ; OPTIMIZE: Extra "LDA.b #$01".
                 LDA.b #$01 : STA.b $5D
 
             .BRANCH_GAMMA
