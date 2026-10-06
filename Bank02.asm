@@ -7720,6 +7720,7 @@ Module09_1E_02_FBlankAndLoadSPOW:
 
 ; ==============================================================================
 
+; ZSCREAM: ZS rewrites most of this function.
 ; $012F0B-$012F18 LOCAL JUMP LOCATION
 OverworldLoadSubScreenOverlay:
 {
@@ -7741,7 +7742,6 @@ Overworld_LoadSubscreenAndSilenceSFX1:
     ; Bleeds into the next function.
 }
 
-; ZSCREAM: ZS rewrites most of this function.
 ; $012F1E-$0130D1 LOCAL JUMP LOCATION
 Overworld_ReloadSubscreenOverlay:
 {
@@ -14066,7 +14066,7 @@ LoadSpecialOverworld:
     ; Property property a
     LDA.l Pool_LoadSpecialOverworld_palette_prop_a, X
 
-    ; ZSCREAM: ZS USED to make a jump here but no longer does.
+    ; ZSCREAM: ZS USED to make a jump here but no longer does
     ; $01694A
     JSL.l Overworld_LoadPalettes
 
@@ -15517,7 +15517,6 @@ CheckForNewlyLoadedMapAreas_West:
 
 ; ==============================================================================
 
-; ZSCREAM: ZS modifies this function.
 ; $01737F-$0173B8 LOCAL JUMP LOCATION
 CheckForNewlyLoadedMapAreas_East:
 {

@@ -333,16 +333,16 @@ struct WRAM $7E0000
     ; $2D[0x01] - (Player)
     .PlayerAnimationTimer:
         ; Acts as a timer for certain animations to advance PlayerAnimationStep.
+        ; Used for walking, dashing, swimming, pushing, and pulling.
 
     ; $2D[0x02] - (Attract)
-    .AttractUnknownPtr: skip $01
+    .AttractOAMSizePtr: skip $01
         ; Used by Attract_DrawSpriteSet as the pointer to the OAM high data.
 
     ; $2E[0x01] - (Player, OAM)
     .PlayerAnimationStep: skip $01
-        ; Animation steps: seems to cycle from 0 to 5 then repeats. Seems that
-        ; other submodes of the player logic use a different number of steps
-        ; (spin attack maybe?)
+        ; Acts as the animation step for certain player movement animations.
+        ; Used for walking, dashing, swimming, pushing, and pulling.
 
     ; $2F[0x01] - (Player)
     .PlayerHeading: skip $01
@@ -445,13 +445,16 @@ struct WRAM $7E0000
         ; d - Debug flag. Checked in one place, but never set.
 
     ; $3C[0x01] - (Input)
-    .BFlag: skip $01
+    .SwordAnimationStep: skip $01
+        ; An animation step counter for sword swings. Doubles as a counter for
+        ; how many frames the B button has been held and it set to 0x90 when
+        ; performing a spin attack.
         ; ssss tttt
         ;   s - Set to 9 on spin attack release.
         ;   t - How many frames the B button has been held, approximately.
 
     ; $3D[0x01] - (Player, OAM)
-    .PlayerAnimationTimer: skip $01
+    .SwordAnimationTimer: skip $01
         ; A delay timer for the spin attack. Used between shifts to make the
         ; animation flow with the flash effect. Also used for delays between
         ; different graphics when swinging the sword.
@@ -543,12 +546,19 @@ struct WRAM $7E0000
         ;   t - harder push
 
     ; $49[0x02] - (Player)
-    .PlayerForceMove: skip $01
+    .PlayerForceMove:
         ; This address is written to make the player move in any given direction.
-        ; When indoors, it is cleared every frame. When outdoors, it is not
-        ; cleared every frame so watch out. Also any value besides 0 it overwrites
-        ; player directional input.
-
+        ; When indoors. In dungeons it is cleared every frame. When outdoors, it 
+        ; is not cleared every frame. This works by overwriting the joypad input,
+        ; resulting in the ability to write values that aren't actually possible
+        ; normally on the joypad such as pressing up and down at the same time.
+        ; This can lead to some weird behavior such as walking west while facing
+        ; east, or having more than one value give the same direction.
+        ; .... udlr
+        ; u - Up
+        ; d - Down
+        ; l - Left
+        ; r - Right
         ; 0x00 - Nothing
         ; 0x01 - East
         ; 0x02 - West
@@ -556,19 +566,25 @@ struct WRAM $7E0000
         ; 0x04 - South
         ; 0x05 - South East
         ; 0x06 - South West
-        ; 0x07 - South West too?
+        ; 0x07 - South West
         ; 0x08 - North
         ; 0x09 - North East
         ; 0x0A - North West
-        ; 0x0B - North West too?
+        ; 0x0B - North West
         ; 0x0C - North (facing south)
         ; 0x0D - North East (facing south)
         ; 0x0E - North West (facing south)
-        ; 0x0F - North West (facing south) too?
+        ; 0x0F - North West (facing south)
+
+    ; $49[0x01] - (Polyhedral)
+    .Poly_Unknown_49: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $4A[0x01] - (Polyhedral)
     .Poly_Unknown_4A: skip $01
         ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
+
+    ; TODO: Go through a bunch of these vars and check for double Polyhedral uses.
 
     ; $4B[0x01] - (Player)
     .PlayerVisible: skip $01
@@ -584,39 +600,47 @@ struct WRAM $7E0000
 
     ; $4D[0x01] - (Player)
     .PlayerAuxState: skip $01
-        ; An Auxiliary player handler.
+        ; An Auxiliary player handler. Used to handle states that happen to the
+        ; player rather than are caused by the player.
         ; As far as I know:
-        ; 0x00 - ground state (normal)
-        ; 0x01 - the recoil status
-        ; 0x02 - jumping in and out of water?
-        ; 0x04 - swimming state.
-        ; All other values never seem to be written to this location, so in some
-        ; sense it is treated more like a bitfield than a holder of discriminated
-        ; values indicating states. That is, each bit indicates a state, but the
-        ; states are assumedly mutually exclusive.
+        ; 0x00 - Ground state (normal)
+        ; 0x01 - Ordinary rebound/recoil or water-to-land hop.
+        ;        Causes PlayerState handling to enter the 0x02 recoil state. When
+        ;        set, prevents the player from falling off a ledge.
+        ;        This also acts as a flag to indicate we are jumping in or out of
+        ;        water from or to a regular ground tile.
+        ; 0x02 - Ledge Jump / Scripted Aerial-transition. Set when jumping off
+        ;        ledges and by the Quake airborne sequence.
+        ; 0x04 - Waterfall Ledge Jump. Set when swimming and then you try to jump of
+        ;        a ledge. Which, in practice, only happens when jumping off a south
+        ;        facing waterfall. This causes the PlayerHopZSpeed1 and
+        ;        PlayerHopZSpeed2 to be set to 0x0E instead of 0x014.
 
     ; $4E[0x01] - (Dungeon)
     .DunTransitionLand: skip $01
-        ; It indicates broadly the tile attribute of the location that the
+        ; This indicates broadly the tile attribute of the location that the
         ; player lands on after the transition. It can only take on a value
-        ; between 0 and 4, inclusive.
-        ; ------+-------------------------------------------------------------
-        ; 0 | 0x00, 0x09
-        ;   |
-        ; 1 | 0x80, 0x81, 0x90, 0x91, ..., 0xE0, 0xE1, 0xF0, 0xF1
-        ;   |
-        ; 2 | 0x82, 0x83, 0x92, 0x93, ..., 0xE2, 0xE3, 0xF2, 0xF3, and
-        ;   | any values not covered by the other tile attribute numbers.
-        ;   | 
-        ; 3 | 0x84, 0x85, 0x88, 0x89, ..., 0xF4, 0xF5, 0xF8, 0xF9
-        ;   |
-        ; 4 | 0x86, 0x87, 0x96, 0x97, ..., 0xE6, 0xE7, 0xF6, 0xF7
-        ; According to Kan:
-        ;   0x00 - Shallow water/Nothing
-        ;   0x01 - Normal door
-        ;   0x02 - Shutter doors/All others - zeros DOORWAY
-        ;   0x03 - Layer doors? TODO
-        ;   0x04 - Lower layer shutters - zeros DOORWAY
+        ; between 0 through 4.
+        ; 0x00 - 0x00 (nothing), 0x09 (shallow water)
+        ; 0x01 - 0x80, 0x81, 0x90, 0x91, 0xA0, 0xA1, 0xB0, 0xB1,
+        ;        0xC0, 0xC1, 0xD0, 0xD1, 0xE0, 0xE1, 0xF0, 0xF1
+        ;        (Normal doors)
+        ; 0x02 - 0x82, 0x83, 0x92, 0x93, 0xA2, 0xA3, 0xB2, 0xB3,
+        ;        0xC2, 0xC3, 0xD2, 0xD3, 0xE2, 0xE3, 0xF2, 0xF3
+        ;        (shutter doors and key doors), and any values not covered
+        ;        by the other tile attribute numbers.
+        ; 0x03 - 0x84, 0x85, 0x88, 0x89, 0x94, 0x95, 0x98, 0x99,
+        ;        0xA4, 0xA5, 0xA8, 0xA9, 0xB4, 0xB5, 0xB8, 0xB9,
+        ;        0xC4, 0xC5, 0xC8, 0xC9, 0xD4, 0xD5, 0xD8, 0xD9,
+        ;        0xE4, 0xE5, 0xE8, 0xE9, 0xF4, 0xF5, 0xF8, 0xF9
+        ;        (layer switch doors)
+        ; 0x04 - 0x86, 0x87, 0x96, 0x97, 0xA6, 0xA7, 0xB6, 0xB7,
+        ;        0xC6, 0xC7, 0xD6, 0xD7, 0xE6, 0xE7, 0xF6, 0xF7
+        ;        (Lower layer shutter doors)
+
+    ; $4E[0x01] - (Polyhedral)
+    .Poly_Unknown_4E: skip $01
+        ; (Bank 0x09) Used in the Polyhedral code. TODO: Figure out exact use.
 
     ; $4F[0x01] - (Player, SFX)
     .DashSFXTimer: skip $01
@@ -626,36 +650,41 @@ struct WRAM $7E0000
     ; $50[0x01] - (Player)
     .PlayerStrafeFlag: skip $01
         ; A flag indicating whether a change of the direction the player is
-        ; facing is possible. For example, when the B button is held down with a
-        ; sword. When non 0, strafe.
+        ; facing is possible. For example, when the B button is held down 
+        ; with a sword. When non 0, strafe.
         ; .... .bps
         ;   s - the bit generally flagged
         ;   p - flagged during rupee pull and perpendicular door movement
         ;   b - flagged during push blocks
 
     ; $51[0x01] - (Attract)
-    .AttractUnknownFlag_51:
-        ; TODO: Has some use in attract mode.
+    .AttractAgahnimSpellTImer:
+        ; Used to time Agahnim's spell casting in the altar scene in
+        ; attract mode.
 
     ; $51[0x02] - (Player)
     .PlayerTargetY: skip $01
-        ; Used as a buffer to store the Y position where the player is supposed to
-        ; land to when falling in a hole.
+        ; Used as a buffer to store the Y position where the player is 
+        ; supposed to land to when falling in a hole.
 
     ; $52[0x01] - (Attract)
-    .AttractUnknownFlag_52:
-        ; TODO: Has a function identical to $5F in some cases, though
-        ; sometimes it used for something else.
+    .AttractBrightnessFlag1:
+        ; Used as a flag during fade in from darkness when transitioning to
+        ; the throne room scene. Once the screen is fully bright, this
+        ; variable is set to 1. AttractBrightnessFlag2 is also used for this
+        ; purpose but in different scenes. This also doubles as a flag to
+        ; indicate whether or not to draw the maiden in the maiden warp
+        ; scene. If non-zero don't draw the maiden.
 
     ; $52[0x01] - (Polyhedral)
     .PolyCosCalc: skip $01
-        ; Has some sort of use in the Polyhedral code. Appears to store a
-        ; cosine value.
+        ; TODO: Has some sort of use in the Polyhedral code. Appears to 
+        ; store a cosine value.
 
     ; $53[0x02] - (Player)
     .PlayerTargetX: skip $02
-        ; Used as a buffer to store the X position where the player is supposed to
-        ; land to when falling in a hole.
+        ; Used as a buffer to store the X position where the player is 
+        ; supposed to land to when falling in a hole.
 
     ; $55[0x01] - (Player)
     .PlayerCapeOn: skip $01
@@ -672,7 +701,7 @@ struct WRAM $7E0000
     .PlayerSpeedModifier: skip $01
         ; Modifier for the player's movement speed. Counts up to 0x10 to
         ; induce slower speed on stairs. Famously uncleared after spiral stairs.
-        ; 0            - normal
+        ; 0x0          - normal
         ; 0x01 to 0x0F - slow
         ; 0x10 and up  - fast.
         ; Negative values actually reverse your direction.
@@ -683,8 +712,8 @@ struct WRAM $7E0000
         ; ....ssss
         ; s - Stair tiles
         ; If this masked with 0x07 equals 0x07, the player moves slowly, like
-        ; he's on a small staircase. $02C0 also needs this variable to be nonzero
-        ; to trigger.
+        ; he's on a small staircase. $02C0 also needs this variable to be 
+        ; nonzero to trigger.
         ; SEE TILE ACT NOTES
 
     ; $59[0x01] - (Player)
@@ -696,14 +725,14 @@ struct WRAM $7E0000
 
     ; $5A[0x01] - (Player)
     .PlayerFallPose: skip $01
-        ; Pose when landing from a pit fall in underworld.
+        ; The pose when landing from a pit fall in underworld.
 
     ; $5B[0x01] - (Player)
     .PlayerPitSlipping: skip $01
-        ; 0 - Indicates nothing
-        ; 1 - Player is dangerously near the edge of a pit
-        ; 2 - Player is falling
-        ; 3 - Player is falling into a hole, part 2?
+        ; 0x00 - Nothing
+        ; 0x01 - Teetering near the edge of a pit, pulled inward
+        ; 0x02 - Falling into the floor (actually "shrinking" into a pit)
+        ; 0x03 - Falling from ceiling (accelerating downward after falling into a pit)
 
     ; $5C[0x01] - (Player)
     .PlayerFallTimer: skip $01
@@ -712,39 +741,40 @@ struct WRAM $7E0000
     ; $5D[0x01] - (Player)
     .PlayerState: skip $01
         ; Player Handler or "State"
-        ; 0x00 - ground state
-        ; 0x01 - falling into a hole
-        ; 0x02 - recoil from hitting wall / enemies 
-        ; 0x03 - spin attacking
-        ; 0x04 - swimming
-        ; 0x05 - Turtle Rock platforms
-        ; 0x06 - recoil again (other movement)
+        ; 0x00 - Ground state
+        ; 0x01 - Falling into a pit state.
+        ; 0x02 - Recoil from collision, damage, or similar forced movement.
+        ; 0x03 - Spin-attack animation state, including scripted/victory spin use.
+        ; 0x04 - Swimming state
+        ; 0x05 - Riding on a Somaria platform state
+        ; 0x06 - Jumping off a north facing ledge and Water-to-Land or
+        ;        Land-to-Water Hops
         ; 0x07 - Being electrocuted
-        ; 0x08 - using ether medallion
-        ; 0x09 - using bombos medallion
-        ; 0x0A - using quake medallion
-        ; 0x0B - Falling into a hold by jumping off of a ledge.
-        ; 0x0C - Falling to the left / right off of a ledge.
-        ; 0x0D - Jumping off of a ledge diagonally up and left / right.
-        ; 0x0E - Jumping off of a ledge diagonally down and left / right.
-        ; 0x0F - More jumping off of a ledge but with dashing maybe + some
-        ;        directions.
-        ; 0x10 - Same or similar to 0x0F?
-        ; 0x11 - Falling off a ledge
-        ; 0x12 - Used when coming out of a dash by pressing a direction other 
-        ;        than the dash direction.
-        ; 0x13 - hookshot
-        ; 0x14 - magic mirror
-        ; 0x15 - holding up an item
-        ; 0x16 - asleep in his bed
-        ; 0x17 - permabunny
-        ; 0x18 - stuck under a heavy rock
+        ; 0x08 - Using the Ether medallion
+        ; 0x09 - Using the Bombos medallion
+        ; 0x0A - Using the Quake medallion
+        ; 0x0B - Jumping off a south facing ledge.
+        ; 0x0C - Jumping off a horizontal ledge, left or right.
+        ; 0x0D - Jumping off a diagonal up and left / right ledge.
+        ; 0x0E - Jumping off a diagonal down and left / right ledge.
+        ; 0x0F - Short special mountain/corner ledge jump down-left or down-right.
+        ; 0x10 - Long special mountain/corner ledge jump down-left or down-right.
+        ; 0x11 - Pegasus dash state. Also handles dash-related ledge/fall
+        ;        interactions.
+        ; 0x12 - Exiting Pegasus dash due to changed/released directional input.
+        ; 0x13 - Using Hookshot
+        ; 0x14 - Using Magic mirror
+        ; 0x15 - Holding up an item
+        ; 0x16 - Asleep in bed
+        ; 0x17 - Permabunny
+        ; 0x18 - Stuck under a heavy rock
         ; 0x19 - Receiving Ether Medallion
         ; 0x1A - Receiving Bombos Medallion
-        ; 0x1B - Opening Desert Palace
-        ; 0x1C - temporary bunny
-        ; 0x1D - Rolling back from Gargoyle gate or PullForRupees object
-        ; 0x1E - The actual spin attack motion.
+        ; 0x1B - Desert Palace tablet/prayer sequence that opens the entrance.
+        ; 0x1C - Temporary bunny
+        ; 0x1D - Pull/rollback interaction state. Used by the Gargoyle gate and
+        ;        pull-for-rupees/tree-style interactions.
+        ; 0x1E - The normal player-activated spin-attack state.
 
     ; $5E[0x01] - (Player)
     .PlayerSpeed: skip $01
@@ -759,9 +789,11 @@ struct WRAM $7E0000
         ; Bitfield used by manipulable tiles.
 
     ; $5F[0x01] - (Attract)
-    .AttractBrightnessFlag: skip $01
-        ; Used as a flag during fade in from darkness in between sequences.
-        ; Once the screen is fully bright, this variable is set to 1.
+    .AttractBrightnessFlag2: skip $01
+        ; Used as a flag during fade in from darkness when transitioning to
+        ; the prison scene and maiden warp scene. Once the screen is fully
+        ; bright, this variable is set to 1. AttractBrightnessFlag1 is also
+        ; used for this purpose but in different scenes.
 
     ; $60[0x01] - (Attract)
     .AttractSubModule2: skip $01
@@ -774,10 +806,10 @@ struct WRAM $7E0000
 
     ; $61[0x01] - (Attract)
     .AttractMaidenWarpFlag: skip $01
-        ; After a sufficient amount of time has counted down during the 'Maiden
-        ; Warp' sequence, this will transition from 0 to 1, and this tells the
-        ; sequence to move from the first subsequence to the second. Yeah,
-        ; narrow usage.
+        ; After a sufficient amount of time has counted down during the 
+        ; 'Maiden Warp' sequence, this will transition from 0 to 1, and this 
+        ; tells the sequence to move from the first subsequence to the 
+        ; second. Yeah, narrow usage.
 
     ; $62[0x02] - (Dungeon)
     .DoorHFlag: skip $01
@@ -1095,17 +1127,24 @@ struct WRAM $7E0000
         ;   Positive values indingating floors above the ground floor.
         ;   Negative values indicate basement floors.
 
-    ; $A6[0x01] - (Dungeon)
-    .DunCameraBoundsX: skip $01
-        ; Set to 0 or 2, but it depends upon the dungeon room's layout
-        ; and the quadrant it was entered from. Further investigation seems
-        ; to indicate that its purpose is to control the camera / scrolling
-        ; boundaries in dungeons. Also used during certain overworld scenarios,
-        ; possibly in special areas. TODO: Confirm this.
+    ; $A6[0x01] - (Dungeon, Camera)
+    .DunCamHBoundsIndex: skip $01
+        ; The horizontal dungeon camera-bounds table selector. Calculated from
+        ; the current room layout and PlayerQuadrantH. Can be overridden by
+        ; DunCameraBoundsXOverride for blast-wall behavior. Also contributes to
+        ; the index used when mapping the current camera/quadrant configuration
+        ; to the room's visited-quadrant flags.
+        ; Used as a byte offset into the horizontal camera-bound pairs:
+        ;   0x00 - Small-region bounds: west $0608, east $060C.
+        ;   0x02 - Large-region bounds: west $060A, east $060E.
 
-    ; $A7[0x01] - (Dungeon)
-    .DunCameraBoundsY: skip $01
-        ; Same as CameraBoundsX, but for vertical camera scrolling.
+        ; This is also initialized to $02 during overworld setup, but does not 
+        ; affect ordinary overworld camera behavior.
+
+    ; $A7[0x01] - (Dungeon, Camera)
+    .DunCamVBoundsIndex: skip $01
+        ; The vertical counterpart to DunCamHBoundsIndex.
+        ; 0x00 selects small north/south bounds; 0x02 selects large bounds.
 
     ; $A8[0x01] - (Dungeon)
     .DunRoomLayout: skip $01
@@ -2023,7 +2062,7 @@ struct WRAM $7E0000
         ; 0x0B - Fairy theme
         ; 0x0C - Chase theme
         ; 0x0D - Dark world (skull woods)
-        ; 0x0E - Game theme (Overworld only?)
+        ; 0x0E - Game theme (Overworld only?) TODO:
         ; 0x10 - Hyrule castle
         ; 0x11 - Light World Dungeon
         ; 0x13 - Fanfare
@@ -2107,7 +2146,7 @@ struct WRAM $7E0000
         ; 0x0D - magic powder noise
         ; 0x0E - fire rod being fired
         ; 0x0F - ice rod being fired
-        ; 0x10 - hammer being used?
+        ; 0x10 - hammer being used? TODO:
         ; 0x11 - hammer pounding down stake
         ; 0x12 - Shovel digging noise
         ; 0x13 - playing the flute
@@ -2165,7 +2204,7 @@ struct WRAM $7E0000
         ; 0x00 - none (no change)
         ; 0x01 - master sword beam
         ; 0x02 - unintelligble switch noise
-        ; 0x03 - ????? yet another loud thud  ; loud stomp /door?
+        ; 0x03 - ????? yet another loud thud  ; TODO: loud stomp /door?
         ; 0x04 - Nutcase soldier getting pissed off
         ; 0x05 - shooting a fireball (Lynel)
         ; 0x06 - ?????    ; low whoosh sound
@@ -2445,7 +2484,7 @@ struct WRAM $7E0000
         ; indeed free.
         ; Original MoN note:
         ; Free RAM? - Nope! causes some funky faded effects and a lack of an
-        ; overworld.
+        ; overworld. TODO:
 
     ; $0230[0x50] - (Free)
     .Free_0230: skip $50
@@ -2658,7 +2697,7 @@ struct WRAM $7E0000
     ; $02E1[0x01] - (Player)
     .IsPoofing: skip $01
         ; The player is transforming? Poofing in a cloud to transform into the
-        ; bunny or when using the cape.
+        ; bunny or when using the cape. TODO:
 
     ; $02E2[0x01] - (Player)
     .PoofTimer: skip $01
@@ -2692,7 +2731,7 @@ struct WRAM $7E0000
 
     ; $02E8[0x01] - (Player, Tile Attribute)
     .TileActSpikePegs: skip $01
-        ; Tile act bitfield for spike / cactus and barrier tile interactions?
+        ; Tile act bitfield for spike / cactus and barrier tile interactions? TODO:
         ; bbbb ssss
         ; s - spike blocks / cactus tiles
         ; b - orange / blue barrier tiles that are up
@@ -3338,14 +3377,15 @@ struct WRAM $7E0000
         ; d - Ledge tiles facing down + left or down + right
         ; SEE TILE ACT NOTES
 
-    ; $0370[0x01] - (Tile Attribute)
-    .EPTileAct: skip $01
-        ; Bitfield for interaction with unknown tile types. Kan: Tile act
-        ; bitfield used by weird things in EP (Eastern Palace?).
-        ; TODO: Confirm this.
+    ; $0370[0x01] - (Player, Overworld, Tile Attribute)
+    .PlayerSpecialCornerTileAct: skip $01
+        ; Bitfield for special "corner" tile types. These are only used on the
+        ; overworld for corners that need the player to end up more south than
+        ; other cliffs such as the sharp corners in the Eastern Palace area.
         ; bbbb aaaa
-        ; a - type 0x4C and 0x4D tiles (Overworld only)
-        ; b - type 0x4E and 0x4F tiles (Overworld only)
+        ; a - Type 0x4C/0x4D tiles. Puts the PlayerState into 0x0F. (TODO: UNUSED:
+        ;      Kan claims these tiles never appear in the overworld)
+        ; b - type 0x4E/0x4F tiles. Puts the PlayerState into 0x10.
         ; SEE TILE ACT NOTES
 
     ; $0371[0x01] - (Player)
@@ -3936,7 +3976,7 @@ struct WRAM $7E0000
         ; Collectively the limit for these types of objects is 16 per room.
         
         ; Another note from MoN that is interesting but should maybe be moved
-        ; somewhere else:
+        ; somewhere else: TODO:
         ; Notes about cracked floors: The breakable floor that is first in
         ; the object list is the the one that will open up. (Do ctrl-B on a
         ; cracked floor among others in hyrule magic if you don't believe me).
@@ -4632,7 +4672,7 @@ struct WRAM $7E0000
     ; $05F4[0x04] - (Push Blocks, Junk)
     .Junk_05F4: skip $04
         ; Possibly a pushblock vestigial subpixel value? Written to but never
-        ; read.
+        ; read. TODO:
 
     ; $05F8[0x04] - (Push Blocks, Junk)
     .PushBlockDir: skip $04

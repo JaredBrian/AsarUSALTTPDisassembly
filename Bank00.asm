@@ -1143,7 +1143,6 @@ Startup_InitializeMemory:
 
 ; ==============================================================================
 
-; ZSCREAM: This function has an address that is updated by ZS.
 ; Inputs:
 ; $00 - full 16-bit Y coordinate of an object.
 ; $02 - full 16-bit X coordinate of an object.
@@ -1160,9 +1159,7 @@ Overworld_GetTileAttrAtLocation:
     LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL : TAX
     
     LDA.l Map16Definitions, X : STA.b $06 : AND.w #$01FF : TAX
-
-    ; ZSCREAM: ZS updates this address.
-    ; $00086E
+    
     LDA.l Overworld_TileAttr, X
     
     SEP #$30
@@ -16196,7 +16193,7 @@ MirrorWarp_BuildWavingHDMATable:
         RTL
 }
 
-; ZSCREAM: ZS rewrites part of this function.
+;  ZScream Custom Overworld: ZS rewrites part of this function.
 ; $007F2F-$007FB6 JUMP LOCATION (LONG)
 MirrorWarp_BuildDewavingHDMATable:
 {
