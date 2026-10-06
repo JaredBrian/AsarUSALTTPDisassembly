@@ -1970,24 +1970,21 @@ AddTravelBirdIntro:
 ; $048DD2-$048DF8 LONG JUMP LOCATION
 AddSomarianPlatformPoof:
 {
-    LDA.b #$39
-    
-    .next_slot
+    LDA.b #$39 : STA.w $0C4A, X
+    LDA.b #$07 : STA.w $03B1, X
+
+    PHX : PHY
         
-        STA.w $0C4A, X
-        
-        LDA.b #$07 : STA.w $03B1, X
-        
-        PHX : PHY
-        
-        LDY.b #$0F
-        LDA.w $0E20, Y : CMP.b #$ED : BNE .not_somarian_platform
+    ; Check if there is already a somarian platform. If so, kill it.
+    LDY.b #$0F
+
+    .nextSlot
+        LDA.w $0E20, Y : CMP.b #$ED : BNE .notSomarianPlatform
             LDA.b #$00 : STA.w $0DD0, Y
                          STA.w $02F5
         
-        .not_somaria_platform
-    
-    DEY : BPL .next_slot
+        .notSomarianPlatform
+    DEY : BPL .nextSlot
     
     JSL.l Player_TileDetectNearbyLong
     

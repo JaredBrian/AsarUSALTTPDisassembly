@@ -10,6 +10,7 @@ Ancilla_SomarianPlatformPoof_directions:
 ; $046A83-$046B3D JUMP LOCATION
 Ancilla_SomarianPlatformPoof:
 {
+    ; Wait a few frames before doing anything:
     DEC.w $03B1, X : BMI .initiate_poof
         RTS
     

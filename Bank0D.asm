@@ -3220,7 +3220,7 @@ PlayerOam_Main:
 
     .nothing_with_desert_cutscene
 
-    LDA.b $4D  : BEQ .nothing_with_swim
+    LDA.b $4D : BEQ .nothing_with_swim
         CMP.b #$01 : BEQ .check_if_som_platform
             CMP.b #$04 : BNE .nothing_with_swim
                 LDY.b #$13
@@ -3261,7 +3261,7 @@ PlayerOam_Main:
 
     .nothing_with_swim
 
-    LDA.b $5B  : BEQ .no_slip_drawing
+    LDA.b $5B : BEQ .no_slip_drawing
     CMP.b #$01 : BEQ .no_slip_drawing
         CMP.b #$03 : BNE .not_fully_falling
             ; Use an offset of 0x0000 in the OAM buffer when the player is
@@ -3404,7 +3404,8 @@ PlayerOam_Main:
 
     .PlayerOam_ContinueWithAnimation
 
-    STY.w $0354 : CPY.b #$05 : BEQ .not_recoiling
+    STY.w $0354
+    CPY.b #$05 : BEQ .not_recoiling
         LDA.b $64 : STA.w $035D
         LDA.b $65 : STA.w $035E
 
@@ -3417,19 +3418,20 @@ PlayerOam_Main:
     REP #$30
     
     LDA.b $2F : AND.w #$00FF : TAX
-    LDA PlayerOam_AuxAnimationDirectionalStepIndexOffset, X : STA.b $74
+    LDA.w PlayerOam_AuxAnimationDirectionalStepIndexOffset, X : STA.b $74
 
     ; Multiples of 0x50...
-    LDA PlayerOam_AnimationDirectionalStepIndexOffset, X : STA.b $04 
+    LDA.w PlayerOam_AnimationDirectionalStepIndexOffset, X : STA.b $04 
     
-    ; I think Y is the "pose" for the particular direction we're facing.
+    ; Y is the "pose", then add the offset for the particular direction
+    ; we're facing.
     TYA : AND.w #$00FF : ASL : CLC : ADC.b $04 : TAY
     
     ; $02 is probably a subpose index...
-    LDA PlayerOam_AnimationStepDataOffsets, Y
-    CLC : ADC.b $02 : STA.b $02 : TAY
-    
-    LDA PlayerOam_Priority, Y : AND.w #$00FF : STA.b $04
+    LDA.w PlayerOam_AnimationStepDataOffsets, Y
+    CLC : ADC.b $02 : STA.b $02
+                      TAY
+    LDA.w PlayerOam_Priority, Y : AND.w #$00FF : STA.b $04
     
     LDA.w #$0E00 : STA.w $0346
     
@@ -3446,8 +3448,8 @@ PlayerOam_Main:
 
     .check_next
 
-        LDA.w $0354 : AND.w #$00FF : CMP PlayerOam_AnimationsWithAuxParts, X : BEQ .match
-    DEX : DEX : BPL  .check_next
+        LDA.w $0354 : AND.w #$00FF : CMP.w PlayerOam_AnimationsWithAuxParts, X : BEQ .match
+    DEX : DEX : BPL .check_next
     
     BRL .PlayerOam_NoAux
 
@@ -3645,11 +3647,12 @@ PlayerOam_Main:
 
     .rodding
 
-    LDA.w $037A : AND.b #$08 : BEQ .not_caning
-        LDA.w $0303 : CMP.b #$0D : BNE .not_caning
+    LDA.w $037A : AND.b #$08 : BEQ .notCaning
+        LDA.w $0303 : CMP.b #$0D : BNE .notByrna
             LDA.b #$04 : STA.b $0F
-
-    .not_caning
+            
+        .notByrna
+    .notCaning
 
     REP #$20
     
@@ -3677,7 +3680,7 @@ PlayerOam_Main:
 
         REP #$20
         
-        LDA PlayerOam_WeaponTiles, Y : CMP.w #$FFFF : BEQ .no_weapons
+        LDA.w PlayerOam_WeaponTiles, Y : CMP.w #$FFFF : BEQ .no_weapons
             AND.w #$CFFF : ORA.b $64 : STA.w $0802, X
             AND.w #$0E00 : CMP.w #$0200 : BEQ .ignore_palette_adjustments
                 LDA.w $0346 : BNE .ignore_palette_adjustments

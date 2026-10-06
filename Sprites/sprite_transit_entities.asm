@@ -27,8 +27,13 @@ SomariaPlatform_LocateTransitTile:
             LDA.w $0D00, X : CLC : ADC.b #$08 : STA.w $0D00, X
             LDA.w $0D20, X       : ADC.b #$00 : STA.w $0D20, X
             
-            ; BUG: This seems to have the potential to crash the game if the pipe
-            ; sprite is used in a room it should be used in.
+            ; BUG: This seems to have the potential to crash the game if the 
+            ; pipe sprite is used in a room it should be used in. Or if there
+            ; is not transit tile in the room for the somaria platform to bind
+            ; to. The game will just keep trying to find a transit tile and
+            ; will never find one, so it will just keep looping forever. The
+            ; Somaria platform related ancilla code should never allow this
+            ; to happen though.
     BRA .try_another_tile
     
     .is_upper_tile
@@ -121,7 +126,6 @@ SomariaPlatform_Spawn:
     JSR.w SomariaPlatform_LocateTransitTile
     JSL.l Sprite_SpawnSuperficialBombBlast
     
-    ; OPTIMIZE: Remove these - 0.
     ; X coordinate -= 0x08
     LDA.w $0D10, Y : SEC : SBC.b #$08 : STA.w $0D10, Y
     LDA.w $0D30, Y       : SBC.b #$00 : STA.w $0D30, Y
@@ -142,25 +146,31 @@ SomariaPlatformAndPipe_Main:
     JSR.w Sprite3_CheckIfActive
     
     LDA.w $0B7C : ORA.w $0B7D : ORA.w $0B7E : ORA.w $0B7F : BEQ .BRANCH_ALPHA
-        .BRANCH_BETA
+        .playerIsSlipping
             
         JMP.w SomariaPlatform_Inactive
         
     .BRANCH_ALPHA
 
-    LDA.b $5B : DEC : DEC : BPL .BRANCH_BETA
-        JSL.l Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .BRANCH_GAMMA
+    ; Check if the player is slipping into or falling into a hole:
+    LDA.b $5B : DEC : DEC : BPL .playerIsSlipping
+        JSL.l Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .playerIsNotTouching
+            ; Mark that $02F5 will need to be reset if the player is not
+            ; able to be on the plaform anymore. 
             LDA.b #$01 : STA.w $0DB0, X
             
             JSL.l Player_HaltDashAttackLong
             
-            LDA.b $5D : CMP.b #$13 : BEQ .BRANCH_GAMMA
-                        CMP.b #$03 : BEQ .BRANCH_GAMMA
+            LDA.b $5D : CMP.b #$13 : BEQ .usingHookshot
+                        CMP.b #$03 : BEQ .usingSpinAttack
                 LDA.w $0D80, X : BNE SomariaPlatformAndPipe_HandleMovement
                     INC.w $0D90, X
                     
+                    ; Set a flag that we are dragging the player along with the platform.
                     LDA.b #$02 : STA.w $02F5
                     
+                    ; Only check if we have hit a different direction tile every
+                    ; 8 frames.
                     LDA.w $0D90, X : AND.b #$07 : BNE .BRANCH_EPSILON
                         JSR.w SomariaPlatformAndPipe_CheckTile
                         CMP.w $0E90, X : BEQ .BRANCH_EPSILON
@@ -196,7 +206,9 @@ SomariaPlatformAndPipe_Main:
                     
                     JMP.w SomariaPlatform_EnableDragging
 
-        .BRANCH_GAMMA
+            .usingSpinAttack
+            .usingHookshot
+        .playerIsNotTouching
 
     ; Bleeds into the next function.
 }
@@ -204,11 +216,12 @@ SomariaPlatformAndPipe_Main:
 ; $0F77A3-$0F77AE JUMP LOCATION
 SomariaPlatform_Inactive:
 {
-    LDA.w $0DB0, X : BEQ .BRANCH_THETA
+    ; Check if the "player is on a somaria platform" flag needs to be reset:
+    LDA.w $0DB0, X : BEQ .dontResetSomariaFlag
         STZ.w $02F5
         STZ.w $0DB0, X
         
-    .BRANCH_THETA
+    .dontResetSomariaFlag
     
     RTS
 }

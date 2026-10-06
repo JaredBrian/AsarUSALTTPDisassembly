@@ -5,11 +5,17 @@ Pool_AddSomarianBlock:
 {
     ; $046068
     .initial_collision_y_offsets
-    dw -8, 31, 17, 17
+    dw  -8 ; up
+    dw  31 ; down
+    dw  17 ; left
+    dw  17 ; right
     
     ; $046070
     .initial_collision_x_offsets
-    dw  8,  8, -8, 23
+    dw   8 ; up
+    dw   8 ; down
+    dw  -8 ; left
+    dw  23 ; right
 }
 
 ; $046078-$046160 LONG JUMP LOCATION
@@ -26,9 +32,13 @@ AddSomarianBlock:
     
     LDX.b #$04
     
+    ; Loop through the bottom 4 ancilla slots to see if there are any somaria
+    ; blocks that need to be exploded.
     .find_somarian_block_loop
     
+        ; Ignore the ancilla we just spawned:
         CPX.b $00 : BEQ .ignore_slot
+            ; Check if this ancilla is a somaria block:
             LDA.w $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
                 STX.b $02
                 
@@ -60,7 +70,8 @@ AddSomarianBlock:
     
     PLX
     
-    LDA.b #$2A : JSR.w Ancilla_DoSFX3_NearPlayer
+    LDA.b #$2A
+    JSR.w Ancilla_DoSFX3_NearPlayer
     
     STZ.w $0C54, X
     STZ.w $0C22, X
@@ -109,16 +120,16 @@ AddSomarianBlock:
     
     LDY.b $2F
     
-    LDA.b $20 : CLC : ADC Pool_AddSomarianBlock_initial_collision_y_offsets+0, Y
+    LDA.b $20 : CLC : ADC.w Pool_AddSomarianBlock_initial_collision_y_offsets+0, Y
     STA.w $0BFA, X
 
-    LDA.b $21 : ADC Pool_AddSomarianBlock_initial_collision_y_offsets+1, Y
+    LDA.b $21       : ADC.w Pool_AddSomarianBlock_initial_collision_y_offsets+1, Y
     STA.w $0C0E, X
     
-    LDA.b $22 : CLC : ADC Pool_AddSomarianBlock_initial_collision_x_offsets+0, Y
+    LDA.b $22 : CLC : ADC.w Pool_AddSomarianBlock_initial_collision_x_offsets+0, Y
     STA.w $0C04, X
 
-    LDA.b $23 : ADC Pool_AddSomarianBlock_initial_collision_y_offsets+1, Y
+    LDA.b $23       : ADC.w Pool_AddSomarianBlock_initial_collision_x_offsets+1, Y
     STA.w $0C18, X
     
     JSR.w SomarianBlock_CheckForTransitLine
@@ -163,19 +174,19 @@ SomarianBlock_CheckForTransitLine:
         .next_offset
             
             LDA.w $0BFA, X
-            CLC : ADC Pool_SomarianBlock_CheckForTransitLine_y_offsets+0, Y
+            CLC : ADC.w Pool_SomarianBlock_CheckForTransitLine_y_offsets+0, Y
             STA.b $00 : STA.b $72
 
             LDA.w $0C0E, X
-            ADC Pool_SomarianBlock_CheckForTransitLine_y_offsets+1, Y
+                  ADC.w Pool_SomarianBlock_CheckForTransitLine_y_offsets+1, Y
             STA.b $01 : STA.b $73
             
             LDA.w $0C04, X
-            CLC : ADC Pool_SomarianBlock_CheckForTransitLine_x_offsets+0, Y
+            CLC : ADC.w Pool_SomarianBlock_CheckForTransitLine_x_offsets+0, Y
             STA.b $02 : STA.b $74
 
             LDA.w $0C18, X
-            ADC Pool_SomarianBlock_CheckForTransitLine_x_offsets+1, Y
+                  ADC.w Pool_SomarianBlock_CheckForTransitLine_x_offsets+1, Y
             STA.b $03 : STA.b $75
             
             PHY

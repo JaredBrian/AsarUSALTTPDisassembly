@@ -1006,7 +1006,7 @@ Ancilla_CheckTargetedTileCollision:
     .not_attr_3
     .forced_high_priority
     
-    ; Educated guess: This looks like an attempt to get the object out
+    ; TODO: Educated guess: This looks like an attempt to get the object out
     ; of high priority status that resulted from hitting certain tiles
     ; in earlier frames, like ledges.
     DEC.w $028A, X : BPL .no_collision

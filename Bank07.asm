@@ -4965,7 +4965,7 @@ RodAndCaneAnimationTimer:
 ; $039EEF-$039F58 LOCAL JUMP LOCATION
 LinkItem_Rod:
 {
-    BIT.b $3A : BVS .y_button_held
+    BIT.b $3A : BVS .yButtonHeld
         ; Can't use while standing in doorway.
         LDA.b $6C : BNE CalculateSwordHitbox_quick_return
             JSR.w Link_CheckNewY_ButtonPress : BCC CalculateSwordHitbox_quick_return
@@ -4989,7 +4989,7 @@ LinkItem_Rod:
                         
                         LDA.b #$01 : TSB.w $0301
     
-    .y_button_held
+    .yButtonHeld
     
     JSR.w HaltLinkWhenUsingItems
     
@@ -5346,6 +5346,7 @@ LinkItem_Bottle:
                 LDA.l $7EF36C : CMP.l $7EF36D : BNE .BRANCH_ZETA
             
             .BRANCH_ALPHA
+            
             
             BRL LinkGoBeep
             
@@ -5960,22 +5961,31 @@ LinkState_UsingEther:
 LinkItem_Bombos:
 {
     JSR.w Link_CheckNewY_ButtonPress : BCC .return
+        ; Cancel further Y button presses for this frame.
         LDA.b $3A : AND.b #$BF : STA.b $3A
         
-        LDA.b $6C : BNE .BRANCH_BETA
-            LDA.w $0FFC : BNE .BRANCH_BETA
-                LDA.w $0403 : AND.b #$80 : BNE .BRANCH_BETA
-                    LDA.l $7EF359 : INC : AND.b #$FE : BEQ .BRANCH_BETA
-                        LDA.l $7EF3D3 : BEQ .BRANCH_GAMMA
-                            LDA.l $7EF3CC : CMP.b #$0D : BNE .BRANCH_GAMMA
+        ; Check if we are in a doorway:
+        LDA.b $6C : BNE .cantUse
+            ; Check if we are allowed to use the medallions right now:
+            LDA.w $0FFC : BNE .cantUse
+                ; Check if we are in a boss room:
+                LDA.w $0403 : AND.b #$80 : BNE .cantUse
+                    ; Check to make sure we have at least the basic sword:
+                    LDA.l $7EF359 : INC : AND.b #$FE : BEQ .cantUse
+                        ; Make sure no super bomb is going off:
+                        LDA.l $7EF3D3 : BEQ .AttemptToUse
+                            ; Make sure we are not being followed by a super bomb:
+                            LDA.l $7EF3CC : CMP.b #$0D : BNE .AttemptToUse
 
-        .BRANCH_BETA
+        .cantUse
 
         BRL LinkGoBeep
 
-        .BRANCH_GAMMA
+        .AttemptToUse
 
+        ; Make sure the first 3 ancilla slots are free:
         LDA.w $0C4A : ORA.w $0C4B : ORA.w $0C4C : BNE .return
+            ; Make sure the player has enough magic:
             LDX.b #$01
             JSR.w LinkItem_EvaluateMagicCost : BCC .return
                 LDA.b #$09 : STA.b $5D
@@ -7364,54 +7374,76 @@ Link_HandleCape_passive:
 ; $03AEC0-$03AF3A JUMP LOCATION
 LinkItem_CaneOfSomaria:
 {
-    BIT.b $3A : BVS .y_button_held
+    ; Check if the player has pressed the Y button for more than one frame:
+    BIT.b $3A : BVS .yButtonHeld
+        ; Check if the player is currently standing on a somaria platform:
         LDA.w $02F5 : BNE HaltLinkWhenUsingItems_return
+            ; Check if the player is currently standing in a doorway:
             LDA.b $6C : BNE HaltLinkWhenUsingItems_return
+                ; Check if the player has pressed the Y button this frame:
                 JSR.w Link_CheckNewY_ButtonPress : BCC HaltLinkWhenUsingItems_return
+                    ; Loop through the first 5 ancillas to see if there is a somaria
+                    ; block already present:
                     LDX.b #$04
-                    
                     .next_obj_slot
                     
+                        ; If there is already a somaria block, skip the magic check.
                         LDA.w $0C4A, X : CMP.b #$2C : BEQ .is_somaria_block
                     DEX : BPL .next_obj_slot
                     
+                    ; Check if we have enough magic to use the item:
                     LDX.b #$04
                     JSR.w LinkItem_EvaluateMagicCost : BCC HaltLinkWhenUsingItems_return
                         .is_somaria_block
                         
                         LDA.b #$01 : STA.w $0350
                         
+                        ; Spawn the somaria block.
                         LDY.b #$01
                         LDA.b #$2C
                         JSL.l AddSomarianBlock
                         
+                        ; Set the player animation timer to 0x03 frames.
                         LDA.w RodAndCaneAnimationTimer : STA.b $3D
                         
+                        ; Reset the animation step coutner, item animation step 
+                        ; counter, and item use flags.
                         STZ.b $2E
                         STZ.w $0300
                         STZ.w $0301
                         
+                        ; Set the "canes in use" flag.
                         LDA.b #$08 : TSB.w $037A
                     
-    .y_button_held
+    .yButtonHeld
                     
     JSR.w HaltLinkWhenUsingItems
 
+    ; Cancel any player movement.
     LDA.b $67 : AND.b #$F0 : STA.b $67
-                    
-    DEC.b $3D : BPL .return           
+
+    ; Decrement the animation timer and check if it is still above 0: 
+    DEC.b $3D : BPL .return
+        ; Increase the item animation step counter and reset the timer to the
+        ; next animation delay value.
+        ; OPTIMIZE: This could be: "LDX.w $0300 : INC : STX.w $0300" without the TAX.
         LDA.w $0300 : INC : STA.w $0300
                             TAX
         LDA.w RodAndCaneAnimationTimer, X : STA.b $3D
-                    
-        CPX.b #$03 : BNE .return    
+        
+        ; Check if we have reached the end of the animation sequence:
+        CPX.b #$03 : BNE .return
+            ; Reset the player speed (TODO: Why?), item animation step counter,
+            ; player animation timer, and some junk.
             STZ.b $5E
             STZ.w $0300
             STZ.b $3D
             STZ.w $0350
-                        
+
+            ; Reset the Y button is being held flag.  
             LDA.b $3A : AND.b #$BF : STA.b $3A
-                        
+
+            ; Reset the "canes in use" flag.       
             LDA.w $037A : AND.b #$F7 : STA.w $037A
 
     ; $03AF3A ALTERNATE ENTRY POINT  
@@ -7426,7 +7458,7 @@ LinkItem_CaneOfSomaria:
 Pool_PlayerItem_CaneOfByrna:
 {
     .animation_delays
-    db 19, 7, 13
+    db $13, $07, $0D
 }
 
 ; Cane of Byrna
@@ -7448,8 +7480,7 @@ PlayerItem_CaneOfByrna:
                         
                         STZ.b $79
                         
-                        ; TODO: Is this supposed to have a , X or , Y?
-                        LDA Pool_PlayerItem_CaneOfByrna_animation_delays : STA.b $3D
+                        LDA.w Pool_PlayerItem_CaneOfByrna_animation_delays : STA.b $3D
                         
                         STZ.w $030D
                         STZ.w $0300
@@ -7468,12 +7499,7 @@ PlayerItem_CaneOfByrna:
         
         DEC.b $3D : BPL .return
             LDX.w $0300 : INX : STX.w $0300
-            
-            ; BUG: (unconfirmed) It seems to me that you could run one past the
-            ; end  of the designated data for this... Though the resulting
-            ; value is probably not used anyway. Still... unsafe!
-            ; TODO: Check the status of this in a debugger.
-            LDA.w .animation_delays, X : STA.b $3D
+            LDA.w Pool_PlayerItem_CaneOfByrna_animation_delays, X : STA.b $3D
             
             CPX.b #$01 : BNE .BRANCH_DELTA
                 PHX
@@ -7660,6 +7686,9 @@ LinkItem_MagicCosts:
     ; Cane of Somaria
     ; $03B093
     db $08, $04, $02
+
+    ; Unused?
+    ; $03B096
     db $10, $08, $04
     
     ; Lamp
@@ -7695,10 +7724,10 @@ LinkItem_EvaluateMagicCost:
     STX.b $02
     
     ; Load an index into the table below.
-    LDA LinkItem_MagicCostBaseIndices, X : CLC : ADC.l $7EF37B : TAX
+    LDA.w LinkItem_MagicCost_cost_offset, X : CLC : ADC.l $7EF37B : TAX
     
     ; This tells us how much magic to deplete.
-    LDA LinkItem_MagicCosts, X : STA.b $00
+    LDA.w LinkItem_MagicCosts_cost, X : STA.b $00
     
     LDA.l $7EF36E : BEQ .notEnoughMagicPoints
         ; Subtract the amount off of the magic meter.
@@ -15423,7 +15452,7 @@ Link_HandleVelocityAndSandDrag_long:
 }
     
 ; $03E3E0-$03E405 LOCAL JUMP LOCATION
-Link_HandleVelocityAndSandDrag::
+Link_HandleVelocityAndSandDrag:
 {
     REP #$20
     
