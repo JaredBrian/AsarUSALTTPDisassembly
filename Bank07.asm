@@ -1125,11 +1125,13 @@ HandleSomariaAndGraves:
         .no_gravestones_active
     .indoors
     
+    ; Check the top 5 ancilla slots for a Somarian block:
     LDX.b #$04
     
     .next_ancilla_2
     
         LDA.w $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
+            ; If one is found, perform the necessary player interactions.
             JSL.l SomarianBlock_PlayerInteraction
             
             BRA .return
@@ -4491,7 +4493,7 @@ Link_HandleAPress:
             
             .notMovingStatueAction
             
-            ; Detection of a bomb or cane of somaria block?
+            ; Check if we are near a liftable object:
             LDA.w $02EC : BNE .spriteLiftAction
                 ; Detection of a sprite object.
                 LDA.w $0314 : BEQ .checkOtherActions
@@ -7320,8 +7322,9 @@ HaltLinkWhenUsingItems:
     
     .BRANCH_ALPHA
     
-    ; Cane of Somaria transit lines?
+    ; Check if the player is riding a Somaria platform:
     LDA.w $02F5 : BEQ .return
+        ; If so, set the player walking direction to 0.
         STZ.b $67
     
     ; $03AE87 ALTERNATE ENTRY POINT
@@ -7384,12 +7387,13 @@ LinkItem_CaneOfSomaria:
             LDA.b $6C : BNE HaltLinkWhenUsingItems_return
                 ; Check if the player has pressed the Y button this frame:
                 JSR.w Link_CheckNewY_ButtonPress : BCC HaltLinkWhenUsingItems_return
-                    ; Loop through the first 5 ancillas to see if there is a somaria
-                    ; block already present:
+                    ; Loop through the first 5 ancillas to see if there is a 
+                    ; somaria block already present:
                     LDX.b #$04
                     .next_obj_slot
                     
-                        ; If there is already a somaria block, skip the magic check.
+                        ; If there is already a somaria block, skip the magic
+                        ; check.
                         LDA.w $0C4A, X : CMP.b #$2C : BEQ .is_somaria_block
                     DEX : BPL .next_obj_slot
                     
@@ -7428,14 +7432,15 @@ LinkItem_CaneOfSomaria:
     DEC.b $3D : BPL .return
         ; Increase the item animation step counter and reset the timer to the
         ; next animation delay value.
-        ; OPTIMIZE: This could be: "LDX.w $0300 : INC : STX.w $0300" without the TAX.
+        ; OPTIMIZE: This could be: "LDX.w $0300 : INX : STX.w $0300" without
+        ; the TAX.
         LDA.w $0300 : INC : STA.w $0300
                             TAX
         LDA.w RodAndCaneAnimationTimer, X : STA.b $3D
         
         ; Check if we have reached the end of the animation sequence:
         CPX.b #$03 : BNE .return
-            ; Reset the player speed (TODO: Why?), item animation step counter,
+            ; Reset the player speed, item animation step counter,
             ; player animation timer, and some junk.
             STZ.b $5E
             STZ.w $0300
@@ -7457,9 +7462,8 @@ LinkItem_CaneOfSomaria:
 ; ==============================================================================
 
 ; $03AF3B-$03AF3D DATA
-Pool_PlayerItem_CaneOfByrna:
+PlayerItem_CaneOfByrna_animation_delays:
 {
-    .animation_delays
     db $13, $07, $0D
 }
 
@@ -7482,7 +7486,7 @@ PlayerItem_CaneOfByrna:
                         
                         STZ.b $79
                         
-                        LDA.w Pool_PlayerItem_CaneOfByrna_animation_delays : STA.b $3D
+                        LDA.w .animation_delays : STA.b $3D
                         
                         STZ.w $030D
                         STZ.w $0300
@@ -7501,7 +7505,7 @@ PlayerItem_CaneOfByrna:
         
         DEC.b $3D : BPL .return
             LDX.w $0300 : INX : STX.w $0300
-            LDA.w Pool_PlayerItem_CaneOfByrna_animation_delays, X : STA.b $3D
+            LDA.w .animation_delays, X : STA.b $3D
             
             CPX.b #$01 : BNE .BRANCH_DELTA
                 PHX
