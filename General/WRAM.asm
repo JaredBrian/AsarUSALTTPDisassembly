@@ -1120,9 +1120,10 @@ struct WRAM $7E0000
         ; The last room we were in. If we move from room 0x69 to 0x6A, the last
         ; room would be 0x69.
 
-    ; $A4[0x02] - 
+    ; $A4[0x02] - (Dungeon)
     .DunFloor: skip $02
-        ; Indicates the current floor the player is on in a dungeon.
+        ; Indicates the current floor the player is on in a dungeon. The highest
+        ; floor possible is 9 and the Lowest is B9.
         ;   0x00 - Floor 1
         ;   Positive values indingating floors above the ground floor.
         ;   Negative values indicate basement floors.
@@ -1151,7 +1152,7 @@ struct WRAM $7E0000
         ; Composite of dungeon room layout info and quadrant info that gets
         ; updated periodically.
         ; uuucccba 
-        ; ccc - layout that the room uses (0 to 7)
+        ; c - layout that the room uses (0 to 7)
         ; b - ORed in value of $AA
         ; a - ORed in value of $A9
         ; u - Unused
@@ -1195,13 +1196,16 @@ struct WRAM $7E0000
         ; TODO: Add all the indexed tags here.
 
     ; $B0[0x01] - (Main)
-    .SunSubmodule: skip $01
+    .SunSubmodule:
         ; Sub-submodule index. (Submodules of the $11 submodule index.)
 
-    ; $B1[0x01] - (Junk)
-    .Junk_B1: skip $01
-        ; Is written to once in Poly code but does not seem to be used anywhere.
-        ; TODO: Confirm this.
+    ; $B0[0x02] - (Polyhedral)
+    .PolyCrossProduct: skip $02
+        ; Signed 16-bit determinant / cross-product result used by the polyhedral
+        ; renderer for face-orientation testing.
+        ; Produced by Polyhedral_CalculateCrossProduct. The caller branches on the
+        ; signed/zero result to determine whether to draw, reject, or reorder a face.
+        ; TODO: Verify and refine comment.
 
     ; $B2[0x02] - (Dungeon)
     .DunDrawObjWidth: skip $02
@@ -1216,10 +1220,24 @@ struct WRAM $7E0000
         ; Free RAM
 
     ; $B7[0x03] - (Dungeon)
-    .DunObjPtr: skip $01
-        ; Used as a 3 byte pointer to be indirectly accessed during dungeon
-        ; room loading.
-        ; TODO: Also something with palettes?
+    .DunRoomDataPtr:
+        ; A transient pointer to the currently processed dungeon room data.
+        ; Reused during room loading for object data, door data, room-layout object
+        ; data, overlay data, and special watergate channel-water object data.
+
+    ; $B7[0x02] - (Polyhedral)
+    .PolyBitmapColorMaskHigh: skip $02
+        ; Upper 16 bits of a 32-bit bitmap color mask.
+        ; The lower 16 bits are at $B5-$B6.
+        ; Used while filling polyhedral bitmap scanlines.
+        ; TODO: Verify and refine comment.
+
+    ; $B9[0x01] - (Polyhedral)
+    .PolyBitmapRowOffset: skip $01
+        ; Even row/word offset, ranging through a small bitmap block.
+        ; Combined with face/scanline information to index the polyhedral bitmap
+        ; destination buffer.
+        ; TODO: Verify and refine comment.
 
     ; $BA[0x02] - (Dungeon)
     .DunObjPtrOff: skip $01
@@ -1242,8 +1260,8 @@ struct WRAM $7E0000
 
     ; $BD[0x01] - (Item)
     .SomariaPlatformPoofTemp:
-        ; (Bank 0x08) Used as a temporary for the Cane of Somaria creation
-        ; poof, or something like that.
+        ; (Bank 0x08) Used as a temporary var for the Cane of Somaria creation
+        ; poof.
 
     ; $BD[0x01] - (Equipment)
     .EquipmentInputWait: skip $02
@@ -1448,15 +1466,10 @@ struct WRAM $7E0000
         ; (Bank 0x0C, 0x01, 0x1B) This RAM has other smaller uses that are still
         ; unclear. TODO: Make them clear.
 
-    ; $CB[0x02] - (GFX)
+    ; $CB[0x02] - (GFX, Overowlrd)
     .DecompWriteCount:
-        ; (Bank 0x00) A temporary count of bytes to write during GFX
-        ; decompression.
-
-    ; $CB[0x02] - (Overworld)
-    .OWDecompMiscWork_CB:
-        ; (Bank 0x02) Used during overworld decompression. Appears to have 
-        ; multiple uses. TODO: Needs more investigation.
+        ; (Bank 0x00, 0x02) A temporary count of bytes to write during GFX and 
+        ; overworld decompression.
 
     ; $CB[0x01] - (Title Screen)
     .LogoSwordTimerHigh:
@@ -1493,14 +1506,19 @@ struct WRAM $7E0000
         ; during the credits.
 
     ; $CD[0x01] - (GFX)
-    .GFXDecompMiscWork:
-        ; (Bank 0x00) Used as a temp var for GFX Decompression. TODO: Unsure of
-        ; exact use.
+    .GFXDecompCommand: skip $01
+        ; Current command byte from the graphics compressed-data stream.
+        ;   ccc lllll
+        ;   c - command type
+        ;   l - output-unit count minus one
+        ; The decoded count is stored in $CB. Commands whose top three bits are
+        ; all set use an extended-length format.
 
     ; $CD[0x01] - (Overworld)
-    .OWDecompMiscWork_CD:
-        ; (Bank 0x02) Used as a temp var for Overworld Decompression.
-        ; TODO: Unsure of exact use.
+    .OWDecompCommand: skip $01
+        ; Current command byte from the overworld compressed-data stream.
+        ; Uses the same command-header format as GFXDecompCommand. Decoded count
+        ; is stored in $CB.
 
     ; $CD[0x01] - (File Select)
     .FileCopyFromOffsetHigh:
@@ -1517,8 +1535,18 @@ struct WRAM $7E0000
         ; current digit of the current death count.
 
     ; $D0[0x01] - (Title Screen)
-    .LogoSword_Unknown_D0:
-        ; (Bank 0x0C) Used in the title screen logo sword. TODO: Purpose unknown.
+    .LogoSwordFlashColorIndex: skip $01
+        ; A cyclic index into the three fixed-color component bytes. Advances once
+        ; per eligible flash update during the title-logo sword flash effect and
+        ; wraps from 0x02 to 0x00.
+        ; 0x00 - FixedColorRed
+        ; 0x01 - FixedColorGreen
+        ; 0x02 - FixedColorBlue
+
+    ; $D1[0x0F] - (Free)
+    .Free_D1: skip $0F
+        ; No functional code references identified.
+        ; Adjacent $D0 is used only by the title-logo sword flash color index.
 
     ; BG positions/scroll registers.
     ; BG1:
@@ -1541,7 +1569,7 @@ struct WRAM $7E0000
     ;     Dungeon and Overworld: Item menu
     ;     Attract: History depictions
     ;     Dungeon Map: Outer box + "Map" label on the top left
-    ;     Save file naming and erasing: TODO: Find out.
+    ;     File Select / Copy / Erase / Name Entry Menu and text tilemap layer
 
     ; BG scroll registers / positions
 
@@ -1689,12 +1717,12 @@ struct WRAM $7E0000
     .Joypad1Low:
         ; Unfiltered Joypad 1 low Register SNES.JoyPad1DataLow.
         ; Updated once per frame during NMI.
-        ; AXLR iiii
+        ; AXLR IIII
         ; A - A button
         ; X - X button
         ; L - Left shoulder button
         ; R - Right shoulder button
-        ; i - ID for the controller type.
+        ; I - ID for the controller type.
 
     ; $F2[0x01] - (Polyhedral)
     .Poly_Unknown_F2: skip $01
@@ -1704,12 +1732,12 @@ struct WRAM $7E0000
     .Joypad2Low: skip $01
         ; Unfiltered Joypad 2 low Register SNES.JoyPad2DataLow.
         ; Input from joypad 2 is not read unless you do some ASM hacking.
-        ; AXLR iiii
+        ; AXLR IIII
         ; A - A button
         ; X - X button
         ; L - Left shoulder button
         ; R - Right shoulder button
-        ; i - ID for the controller type.
+        ; I - ID for the controller type.
 
     ; $F4[0x01] - (Input, NMI)
     .Joypad1PressedHigh: skip $01
@@ -1749,12 +1777,12 @@ struct WRAM $7E0000
         ; This is a rising edge trigger for the current state of the input.
         ; Meaning when a button is held down it will only appear for one frame
         ; here. Updated once per frame during NMI.
-        ; AXLR iiii
+        ; AXLR IIII
         ; A - A button
         ; X - X button
         ; L - Left shoulder button
         ; R - Right shoulder button
-        ; i - ID for the controller type.
+        ; I - ID for the controller type.
 
     ; $F7[0x01] - (Input, NMI)
     .Joypad2PressedLow: skip $01
@@ -1762,12 +1790,12 @@ struct WRAM $7E0000
         ; This is a rising edge trigger for the current state of the input.
         ; Meaning when a button is held down it will only appear for one frame
         ; here. Input from joypad 2 is not read unless you do some ASM hacking.
-        ; AXLR iiii
+        ; AXLR IIII
         ; A - A button
         ; X - X button
         ; L - Left shoulder button
         ; R - Right shoulder button
-        ; i - ID for the controller type.
+        ; I - ID for the controller type.
 
     ; $F8[0x01] - (Input, NMI)
     .Joypad1LastHigh: skip $01
@@ -1801,12 +1829,12 @@ struct WRAM $7E0000
     .Joypad1LastLow: skip $01
         ; Unfiltered Joypad 1 low Register SNES.JoyPad1DataLow from the previous
         ; frame. Updated once per frame during NMI.
-        ; AXLR iiii
+        ; AXLR IIII
         ; A - A button
         ; X - X button
         ; L - Left shoulder button
         ; R - Right shoulder button
-        ; i - ID for the controller type.
+        ; I - ID for the controller type.
 
     ; $FA[0x02] - (Polyhedral)
     .Poly_Unknown_FA: skip $01
@@ -1816,12 +1844,12 @@ struct WRAM $7E0000
     .Joypad2LastLow:
         ; Unfiltered Joypad 2 low Register SNES.JoyPad2DataLow from the previous
         ; frame. Input from joypad 2 is not read unless you do some ASM hacking.
-        ; AXLR iiii
+        ; AXLR IIII
         ; A - A button
         ; X - X button
         ; L - Left shoulder button
         ; R - Right shoulder button
-        ; i - ID for the controller type.
+        ; I - ID for the controller type.
 
     ; $FC[0x01] - (Dungeon)
     .DunCameraBoundsXOverride: skip $01
@@ -2094,7 +2122,11 @@ struct WRAM $7E0000
         ; played automatically but playing the part 2 on its own will not
         ; play the part 1.
         ; ttss ssss
-        ; t - The stereo setting. TODO: Document the values.
+        ; t - Stereo/pan flags:
+        ;     %00/$00 - Default centered pan
+        ;     %01/$40 - Pan right
+        ;     %10/$80 - Pan left
+        ;     %11/$C0 - Also left pan, bit 7 takes priority over bit 6.
         ; s - The ID of the sound to play.
         ; 0x00 - Nothing
         ; 0x01 - Outdoor rain part 1
@@ -2128,7 +2160,11 @@ struct WRAM $7E0000
     .SFX1: skip $01
         ; Sound Effects 1. Written to SNES.APUIOPort2.
         ; ttss ssss
-        ; t - The stereo setting. TODO: Document the values.
+        ; t - Stereo/pan flags:
+        ;     %00/$00 - Default centered pan
+        ;     %01/$40 - Pan right
+        ;     %10/$80 - Pan left
+        ;     %11/$C0 - Also left pan, bit 7 takes priority over bit 6.
         ; s - The ID of the sound to play.
         ; 0x00 - none (no change)
         ; 0x01 - small sword swing 1 (Fighter Sword)
@@ -2199,7 +2235,11 @@ struct WRAM $7E0000
     .SFX2: skip $01
         ; Sound Effects 2. Written to SNES.APUIOPort3.
         ; ttss ssss
-        ; t - The stereo setting. TODO: Document the values.
+        ; t - Stereo/pan flags:
+        ;     %00/$00 - Default centered pan
+        ;     %01/$40 - Pan right
+        ;     %10/$80 - Pan left
+        ;     %11/$C0 - Also left pan, bit 7 takes priority over bit 6.
         ; s - The ID of the sound to play.
         ; 0x00 - none (no change)
         ; 0x01 - master sword beam
@@ -2378,8 +2418,8 @@ struct WRAM $7E0000
     ; $020A[0x01] - (HUD)
     .CurrentlyHealing: skip $01
         ; Flag that indicates whether a heart refill animation is taking place.
-        ; 0 - Not healing
-        ; Non-0 - healing
+        ; 0     - Not healing
+        ; Non-0 - Healing
 
     ; $020B[0x01] - (Equipment, Junk)
     .EquipmentRodDebug: skip $01
@@ -2405,7 +2445,7 @@ struct WRAM $7E0000
 
     ; $020F[0x01] - (Junk)
     .Junk_020F: skip $01
-        ; Set to 00 once in the dungeon map code in Bank 0x0A but is never read.
+        ; Set to 0 once in the dungeon map code in Bank 0x0A but is never read.
 
     ; $0210[0x01] - (Dungeon Map)
     .DunMapInputFlag: skip $01
@@ -2417,8 +2457,8 @@ struct WRAM $7E0000
     ; $0211[0x02] - (Dungeon Map, High Junk)
     .DunMapCurrentFloor: skip $02
         ; Of the two floors shown on a dungeon map, this indicates which one is
-        ; of the floor the player is currently on. High byte isn't relevant and is
-        ; zeroed during drawing.
+        ; of the floor the player is currently on. High byte isn't relevant and 
+        ; is zeroed during drawing.
         ;   0x00 - top map
         ;   0x02 - bottom map
 
@@ -2476,18 +2516,8 @@ struct WRAM $7E0000
     .Junk_0223: skip $01
         ; Zeroed during message routines, but never used.
 
-    ; $0224[0x0C] - (Free)
-    .Free_224: skip $0C
-        ; Free RAM. MoN did give this a note saying it wasn't but I tested it
-        ; any was unable to recreate the effects he mentioned and these adresses
-        ; are not referenced anywhere in ROM. Kan's also agrees that these are
-        ; indeed free.
-        ; Original MoN note:
-        ; Free RAM? - Nope! causes some funky faded effects and a lack of an
-        ; overworld. TODO:
-
-    ; $0230[0x50] - (Free)
-    .Free_0230: skip $50
+    ; $0224[0x5C] - (Free)
+    .Free_224: skip $5C
         ; Free RAM.
 
     ; $0280[0x0A] - (Ancilla)
@@ -2543,9 +2573,9 @@ struct WRAM $7E0000
 
     ; $02C5[0x01] - (Player)
     .PlayerJumpDelay: skip $01
-        ; Related to PlayerRecoilTimer. Some weird timer/flag when doing very long
-        ; jumps or recoils. Seems to cause the player to hesitate briefly before
-        ; actually jumping.
+        ; Related to PlayerRecoilTimer. Some weird timer/flag when doing very 
+        ; long jumps or recoils. Seems to cause the player to hesitate briefly 
+        ; before actually jumping.
 
     ; $02C6[0x01] - (Player)
     .BounceShift: skip $01
@@ -2560,30 +2590,33 @@ struct WRAM $7E0000
     .Free_02C8: skip $01
         ; Free RAM.
 
-    ; $02C9 - (Player, Junk)
+    ; $02C9[0x01] - (Player, Junk)
     .PlayerPitFallAnimation: skip $01
         ; Used to temporarily store the index of the pit fall animation. Only
         ; written to once and read from very shortly after. Could be used as
         ; free RAM (Junk) as long as its not in a room or area with pits. You
         ; could also just use a PHX and PLX instead.
 
-    ; $02CA - (Player)
-    .PushFallTimer: skip $01
-        ; Timer that counts up to 0x1F when pushing a wall into falling.
-        ; TODO: Unsure of what it accomplishes. Could be used to handle and edge
-        ; case where the player goes straight from pushing a block into falling.
+    ; $02CA[0x01] - (Player)
+    .PitCollisionPersistTimer: skip $01
+        ; This counts consecutive PlayerMovementBlocked2 frames in the pit / 
+        ; ledge-danger state. On reaching $20, it is clamped to $1F and the 
+        ; pit handler prevents dashing input-processing. In effect, this
+        ; prevents the player from getting stuck on a wall while falling into
+        ; a pit.
 
     ; $02CB[0x01] - (Player)
     .PlayerSwimStrokeTimer: skip $01
-        ; A timer that controls the length of the player's swim stroke.
-        ; TODO: Confirm this.
+        ; A timer that controls the time between each step of the player's
+        ; swim stroke. Starts at 0x07 and then counts down. Once it reaches
+        ; 0 it increasts PlayerSwimStrokePhase.
 
     ; $02CC[0x01] - (Player)
     .PlayerSwimAnimationOffset: skip $01
         ; Acts as a step offset for swimming.
-        ; 0 - 
-        ; 1 - 
-        ; 2 - 
+        ; 0x00 - 
+        ; 0x01 - 
+        ; 0x02 - 
         ; TODO: Fill these out.
 
     ; $02CD[0x02] - (Tagalong)
@@ -2635,9 +2668,10 @@ struct WRAM $7E0000
         ; Zeroed twice in tagalong code, never read.
 
     ; $02D7[0x01] - (Tagalong)
-    .TagalongDrawChange
-        ; TODO: Seems to be something with overriding properties by changing the
-        ; chr read. Needs further investigation.
+    .TagalongAnimationFrame: skip $01
+        ; A Three-frame animation index for the normal tagalong draw routine.
+        ; In the normal follower-drawing path, this advances approximately once
+        ; every eight frames.
 
     ; $02D8[0x01] - (Item)
     .RecieveItem: skip $01
@@ -2690,14 +2724,17 @@ struct WRAM $7E0000
     .PlayerIsBunny2: skip $01
         ; Flag for Player's graphics set. Mirrored at PlayerIsBunny, One of the 2
         ; could just be removed as they appear to always be eqaul.
-        ; 0 - Normal Link.
-        ; 1 - Bunny Link.
+        ; 0x00 - Normal Link.
+        ; 0x01 - Bunny Link.
         ; All other values are invalid.
 
     ; $02E1[0x01] - (Player)
     .IsPoofing: skip $01
-        ; The player is transforming? Poofing in a cloud to transform into the
-        ; bunny or when using the cape. TODO:
+        ; While nonzero, this means an Ancilla_MorphPoof is active. Created
+        ; by AddTransformationCloud when a  bunny/cape transformation cloud
+        ; is needed. Pauses normal player state input processing. This is
+        ; Cleared when the Ancilla_MorphPoof terminates, and defensively by 
+        ; player initialization and several recovery/reset paths.
 
     ; $02E2[0x01] - (Player)
     .PoofTimer: skip $01
@@ -2730,7 +2767,7 @@ struct WRAM $7E0000
         ; g - gravestone
 
     ; $02E8[0x01] - (Player, Tile Attribute)
-    .TileActSpikePegs: skip $01
+    .TileActSpikes: skip $01
         ; Tile act bitfield for spike / cactus and barrier tile interactions? TODO:
         ; bbbb ssss
         ; s - spike blocks / cactus tiles
@@ -2751,8 +2788,9 @@ struct WRAM $7E0000
 
     ; $02EC[0x01] - (Player, Ancilla) 
     .LiftableID: skip $01
-        ; When the player is near a liftable ancilla, this holds its slot+1. Often
-        ; just used as a non zero check to see if the player can lift something.
+        ; When the player is near a liftable ancilla, this holds its slot+1. 
+        ; Often just used as a non zero check to see if the player can lift
+        ; something.
 
     ; $02ED[0x01] - (Player, Tile Attribute, DesertBarrier) 
     .NearPlaque: skip $01
@@ -2804,7 +2842,7 @@ struct WRAM $7E0000
         ; A button press.
 
     ; $02F5[0x01] - (Player, Somaria)
-    .PlayerOnSomaria: skip $01
+    .PlayerOnSomariaPlat: skip $01
         ; 0 - Not on a Somaria platform.
         ; 1 - On a Somaria platform.
         ; 2 - On a Somaria platform and moving.
@@ -2875,8 +2913,10 @@ struct WRAM $7E0000
         ; r - Ice Rod or Fire Rod
 
     ; $0302[0x01] - (Player)
-    .PlayerCollision: skip $01
-        ; Seems to be a flag for intraframe wall collisions, indicating pushback.
+    .PlayerMovementBlocked: skip $01
+        ; Set when the player's attempted movement is blocked. This is not set
+        ; while the player is just adjacent to a wall, it represents a movement
+        ; update that was blocked or otherwise required collision handling.
 
     ; $0303[0x01] - (Player, Item)
     .CurrentItem: skip $01
@@ -3071,8 +3111,11 @@ struct WRAM $7E0000
         ; down to 0.
 
     ; $032A[0x01] - (Player)
-    .SwimStrokeTimerCount: skip $01
-        ; Number of times the swim stroke timer has counted down (stops at 4).
+    .PlayerSwimStrokePhase: skip $01
+        ; The step of the player's swim stroke. Set to $01 when a strong stroke
+        ; begins. Incremented whenever PlayerSwimStrokeTimer expires. On
+        ; reaching 0x05, it is reset to 0x00 and the strong-stroke bits in
+        ; PlayerStroke are cleared.
 
     ; $032B[0x02] - (Player)
     .PlayerSwimY: skip $02
@@ -4359,8 +4402,8 @@ struct WRAM $7E0000
     .Stair1DCount: skip $02
         ; The number of 1.3.0x1D inter room stairs objects.
 
-    ; $04A0 - (Dungeon, HUD, High Junk)
-    .FloorIndicatorTimer: skip $01
+    ; $04A0[0x02] - (Dungeon, HUD, High Junk)
+    .FloorIndicatorTimer: skip $02
         ; A timer that when non zero, causes the floor indicator in dungeons
         ; to appear on the HUD. Is set to 0x01 and then counts up to 0xC0
         ; at which point is reset back to 0x00. The high byte is set to zero
