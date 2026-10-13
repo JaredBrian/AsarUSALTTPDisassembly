@@ -19,10 +19,10 @@ AddBombosSpell:
 {
     PHB : PHK : PLB
     
-    JSR.w Ancilla_Spawn : BCC .spawn_succeeded
+    JSR.w Ancilla_Spawn : BCC .spawnSucceeded
         BRL .spawn_failed
     
-    .spawn_succeeded
+    .spawnSucceeded
     
     LDA.b #$03
     STA.l $7F5800 : STA.l $7F5801

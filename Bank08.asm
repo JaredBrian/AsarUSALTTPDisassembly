@@ -977,7 +977,7 @@ Ancilla_CheckTargetedTileCollision:
             LDA.w .collision_table, Y : STA.b $0F
             
             ; Checks the special effect type.
-            LDA.w $0C4A, X : CMP #$02 : BNE .not_fire_rod_shot
+            LDA.w $0C4A, X : CMP.b #$02 : BNE .not_fire_rod_shot
                 ; Perhaps looking for a door type tile?
                 TYA : AND.b #$F0 : CMP.b #$C0 : BNE .not_torch_collision
                     ; Make a note of which torch it touched.

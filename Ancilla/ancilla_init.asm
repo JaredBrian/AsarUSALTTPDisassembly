@@ -1975,11 +1975,12 @@ AddSomarianPlatformPoof:
 
     PHX : PHY
         
-    ; Check if there is already a somarian platform. If so, kill it.
+    ; Check if there is already a somarian platform:
     LDY.b #$0F
 
     .nextSlot
         LDA.w $0E20, Y : CMP.b #$ED : BNE .notSomarianPlatform
+            ; If so, kill it and reset the player on a somaria platform flag.
             LDA.b #$00 : STA.w $0DD0, Y
                          STA.w $02F5
         

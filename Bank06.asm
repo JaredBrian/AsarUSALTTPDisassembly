@@ -7519,28 +7519,33 @@ Sprite_PlaceRupulseSpark:
 ; $037705-$03772E LOCAL JUMP LOCATION
 Player_SetupHitBox:
 {
-    LDA.w $037B : BNE .no_player_interaction_with_sprites
+    !pos1_low_x  = $00
+    !pos1_low_y  = $01
+    !pos1_size_x = $02
+    !pos1_size_y = $03
+    !pos1_high_x = $08
+    !pos1_high_y = $09
+    
+    LDA.w $037B : BNE .noInteractionWithSprites
         ; $03770A ALTERNATE ENTRY POINT
         .ignoreImmunity
         
-        LDA.b #$08 : STA.b $02
-                     STA.b $03
+        LDA.b #$08 : STA.b !pos1_size_x
+                     STA.b !pos1_size_y
         
-        LDA.b $22 : CLC : ADC.b #$04 : STA.b $00
-        LDA.b $23 :       ADC.b #$00 : STA.b $08
+        LDA.b $22 : CLC : ADC.b #$04 : STA.b !pos1_low_x
+        LDA.b $23 :       ADC.b #$00 : STA.b !pos1_high_x
         
-        LDA.b $20 : ADC.b #$08 : STA.b $01
-        LDA.b $21 : ADC.b #$00 : STA.b $09
+        LDA.b $20 : ADC.b #$08 : STA.b !pos1_low_y
+        LDA.b $21 : ADC.b #$00 : STA.b !pos1_high_y
         
         RTS
     
-    .no_player_interaction_with_sprites
+    .noInteractionWithSprites
     
-    ; WTF: Kind of .... lazy if you ask me. This ensures that the player hit
-    ; box is so out of range of whatever we're going to compare with so that
-    ; the hit boxes can't possibly overlap.
-    ; (with a Y coordinate of 0x8000 to 0x80ff, it's highly unlikely).
-    LDA.b #$80 : STA.b $09
+    ; This ensures that the player hit box is so out of range of whatever we're
+    ; going to compare with so that the hit boxes can't possibly overlap.
+    LDA.b #$80 : STA.b !pos1_high+1
     
     RTS
 }
@@ -7602,6 +7607,13 @@ Pool_Sprite_SetupHitBox:
 ; $0377EF-$037835 LOCAL JUMP LOCATION
 Sprite_SetupHitBox:
 {
+    !pos2_low_x  = $04
+    !pos2_low_y  = $05
+    !pos2_size_x = $06
+    !pos2_size_y = $07
+    !pos2_high_x = $0A
+    !pos2_high_y = $0B
+
     ; Check the height value of the sprite.
     LDA.w $0F70, X : BMI .out_of_view
         PHY
@@ -7611,20 +7623,20 @@ Sprite_SetupHitBox:
         
         ; Add an offset to the sprites X pos (lower byte)
         ; Store an offset X pos (high byte) to $0A.
-        LDA.w $0D10, X : CLC : ADC.w .x_offsets_low,  Y : STA.b $04
-        LDA.w $0D30, X :       ADC.w .x_offsets_high, Y : STA.b $0A
+        LDA.w $0D10, X : CLC : ADC.w .x_offsets_low,  Y : STA.b !pos2_low_x
+        LDA.w $0D30, X :       ADC.w .x_offsets_high, Y : STA.b !pos2_high_x
         
         LDA.w $0D00, X : CLC : ADC.w .y_offsets_low, Y  : PHP
-                         SEC : SBC.w $0F70, X           : STA.b $05
+                         SEC : SBC.w $0F70, X           : STA.b !pos2_low_y
 
         LDA.w $0D20, X :       SBC.b #$00               : PLP
-                               ADC.w .y_offsets_high, Y : STA.b $0B
+                               ADC.w .y_offsets_high, Y : STA.b !pos2_high_y
         
         ; Box widths.
-        LDA.w .width, Y : STA.b $06
+        LDA.w .width, Y : STA.b !pos2_size_x
 
         ; Box heights.
-        LDA.w .height, Y : STA.b $07
+        LDA.w .height, Y : STA.b !pos2_size_y
         
         PLY
         
@@ -7632,7 +7644,7 @@ Sprite_SetupHitBox:
     
     .out_of_view
     
-    LDA.b #$80 : STA.b $0A
+    LDA.b #$80 : STA.b !pos2_high_x
     
     RTS
 }
@@ -7649,23 +7661,26 @@ Utility_CheckIfHitBoxesOverlap:
     !pos2_size = $06
     !pos1_high = $08
     !pos2_high = $0A
-    
+
     !ans_low   = $0F
     !ans_high  = $0C
     
     PHX
     
+    ; Check the Y directin first, then the X.
+    ; X = 0x00
+    ; Y = 0x01
     LDX.b #$01
-    
-    .check_other_direction
+
+    .checkOtherDirection
     
         ; Delta p low goes to the stack...
         ; Delta p high goes to $0C...
         ; Delta p + width of p2 goes to $0F...
         ; Delta p low + 0x80
               LDA.b !pos2_low, X  : SEC : SBC.b !pos1_low, X  : PHA
-        PHP                       : CLC : ADC.b !pos2_size, X : STA.b $0F
-        PLP : LDA.b !pos2_high, X :       SBC.b !pos1_high, X : STA.b $0C
+        PHP                       : CLC : ADC.b !pos2_size, X : STA.b !ans_low
+        PLP : LDA.b !pos2_high, X :       SBC.b !pos1_high, X : STA.b !ans_high
         
         ; Wasn't clear at first, but the the purpose of this is to filter out
         ; delta p's [in 16-bit] that are smaller than -0x0080, and larger then
@@ -7673,12 +7688,12 @@ Utility_CheckIfHitBoxesOverlap:
         ; as 8-bit, perhaps that's the reason for this restriction.
         PLA : CLC : ADC.b #$80
         
-        LDA.b $0C : ADC.b #$00 : BNE .out_of_range
-            LDA.b !pos1_size, X : CLC : ADC.b !pos2_size, X : CMP.b $0F : BCC .not_overlapping
-    DEX : BPL .check_other_direction
+        LDA.b !ans_high : ADC.b #$00 : BNE .outOfRange
+            LDA.b !pos1_size, X : CLC : ADC.b !pos2_size, X : CMP.b !ans_low : BCC .notOverlapping
+    DEX : BPL .checkOtherDirection
     
-    .out_of_range
-    .not_overlapping
+    .outOfRange
+    .notOverlapping
     
     PLX
     

@@ -30,10 +30,10 @@ Ancilla_SomarianPlatformPoof:
     
     ; Create a cane of Somaria platform sprite.
     LDA.b #$ED
-    JSL.l Sprite_SpawnDynamically : BPL .spawn_succeeded
+    JSL.l Sprite_SpawnDynamically : BPL .spawnSucceeded
         BRL .spawn_failed
     
-    .spawn_succeeded
+    .spawnSucceeded
     
     STZ.w $02F5
     

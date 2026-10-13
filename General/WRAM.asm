@@ -783,6 +783,7 @@ struct WRAM $7E0000
         ; 0x00 - Normal walking speed
         ; 0x02 - Walking (or dashing) on stairs
         ; 0x10 - Dashing
+        ; TODO: Check if 0x12 is possible.
 
     ; $5F[0x02] - (Dungeon, Overworld)
     .TileManip:

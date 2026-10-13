@@ -14,12 +14,13 @@ Pipe_LocateTransitTile:
 ; $0F7640-$0F76A0 JUMP LOCATION
 SomariaPlatform_LocateTransitTile:
 {
-    .try_another_tile
+    .tryAnotherTile
     
         ; Get the tile type the sprite interacted with.
         JSR.w SomariaPlatformAndPipe_CheckTile : STA.w $0E90, X
-        SEC : SBC.b #$B0 : BCS .is_upper_tile
-            .not_pipe_tile
+        ; Check if the tile is 0xB0-0xBE:
+        SEC : SBC.b #$B0 : BCS .isUpperTile
+            .notValidTile
             
             LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
             LDA.w $0D30, X       : ADC.b #$00 : STA.w $0D30, X
@@ -34,11 +35,11 @@ SomariaPlatform_LocateTransitTile:
             ; will never find one, so it will just keep looping forever. The
             ; Somaria platform related ancilla code should never allow this
             ; to happen though.
-    BRA .try_another_tile
+    BRA .tryAnotherTile
     
-    .is_upper_tile
+    .isUpperTile
     
-    CMP.b #$0F : BCS .not_pipe_tile
+    CMP.b #$0F : BCS .notValidTile
     
     ; Reaching this address means that we were able to find a special tile
     ; (0xB0 to 0xBE) to bind to, somewhere in the map.

@@ -5490,10 +5490,10 @@ LinkItem_Lamp:
             STZ.b $3C
             STZ.b $50
             
-            LDA.b $3C : CMP.b #$09 : BNE .dont_reset_player_speed
+            LDA.b $3C : CMP.b #$09 : BNE .dontResetPlayerSpeed
                 STZ.b $5E
             
-            .dont_reset_player_speed
+            .dontResetPlayerSpeed
     .no_input
 
     ; $03A288 ALTERNATE ENTRY POINT
@@ -7390,13 +7390,13 @@ LinkItem_CaneOfSomaria:
                     .next_obj_slot
                     
                         ; If there is already a somaria block, skip the magic check.
-                        LDA.w $0C4A, X : CMP.b #$2C : BEQ .is_somaria_block
+                        LDA.w $0C4A, X : CMP.b #$2C : BEQ .isSomariaBlock
                     DEX : BPL .next_obj_slot
                     
                     ; Check if we have enough magic to use the item:
                     LDX.b #$04
                     JSR.w LinkItem_EvaluateMagicCost : BCC HaltLinkWhenUsingItems_return
-                        .is_somaria_block
+                        .isSomariaBlock
                         
                         LDA.b #$01 : STA.w $0350
                         

@@ -34,20 +34,20 @@ AddSomarianBlock:
     
     ; Loop through the bottom 4 ancilla slots to see if there are any somaria
     ; blocks that need to be exploded.
-    .find_somarian_block_loop
+    .findSomarianBlockLoop
     
         ; Ignore the ancilla we just spawned:
-        CPX.b $00 : BEQ .ignore_slot
+        CPX.b $00 : BEQ .ignoreSlot
             ; Check if this ancilla is a somaria block:
             LDA.w $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
                 STX.b $02
                 
-                LDA.w $02EC : DEC : CMP.b $02 : BNE .not_closest_carryable_ancilla
+                LDA.w $02EC : DEC : CMP.b $02 : BNE .notClosestCarryableAncilla
                     ; Zero that index anyways so the player can't pick it up
                     ; (it's being terminated anyways).
                     STZ.w $02EC
                 
-                .not_closest_carryable_ancilla
+                .notClosestCarryableAncilla
                 
                 JSL.l AddSomarianBlockDivide
                 
@@ -56,17 +56,18 @@ AddSomarianBlock:
                 STZ.w $0C4A, X
                 STZ.w $0646
                 
-                LDA.b $5E : CMP.b #$12 : BNE .dont_reset_player_speed
+                ; TODO: Check if the player is walking/dashin? Idk if thats possible. 
+                LDA.b $5E : CMP.b #$12 : BNE .dontResetPlayerSpeed
                     STZ.b $48
                     STZ.b $5E
                     
-                .dont_reset_player_speed
+                .dontResetPlayerSpeed
                 
                 BRL .return
             
             .not_somarian_block
-        .ignore_slot
-    DEX : BPL .find_somarian_block_loop
+        .ignoreSlot
+    DEX : BPL .findSomarianBlockLoop
     
     PLX
     
@@ -153,6 +154,15 @@ AddSomarianBlock:
 ; $046161-$046190 DATA
 Pool_SomarianBlock_CheckForTransitLine:
 {
+    ; NOTE: This list of offests only checks the tiles surrounding immediately
+    ; where the block is. The center is checked again later by
+    ; Ancilla_SomarianBlock itself. The pattern looks like this:
+    ; 0 C B A 0 0
+    ; 6 0 0 0 3 0
+    ; 5 0 0 0 2 0
+    ; 4 0 0 0 1 0
+    ; 0 9 8 7 0 0
+    
     ; $046161
     .y_offsets
     dw -16, -16, -16,  16,  16,  16
@@ -171,7 +181,8 @@ SomarianBlock_CheckForTransitLine:
     LDA.w $03F4 : BEQ .return
         LDY.b #$16
         
-        .next_offset
+        ; Check for a valid tile to place a somaria platform on:
+        .nextOffset
             
             LDA.w $0BFA, X
             CLC : ADC.w Pool_SomarianBlock_CheckForTransitLine_y_offsets+0, Y
@@ -199,13 +210,14 @@ SomarianBlock_CheckForTransitLine:
             
             PLY
             
-            LDA.w $03E4, X : CMP.b #$B6 : BEQ .transit_node
-                             CMP.b #$BC : BEQ .transit_node
-        DEY : DEY : BPL .next_offset
+            ; Check for one of the two transit nodes:
+            LDA.w $03E4, X : CMP.b #$B6 : BEQ .transitNode
+                             CMP.b #$BC : BEQ .transitNode
+        DEY : DEY : BPL .nextOffset
         
         BRA .return
         
-        .transit_node
+        .transitNode
         
         LDA.b $72 : STA.w $0BFA, X
         LDA.b $73 : STA.w $0C0E, X

@@ -102,7 +102,7 @@ Ancilla_SomarianBlock:
         LDA.w $03F4 : BEQ .no_tranit_tiles_available
             LDA.b $1A : AND.b #$03 : ASL : TAY
             
-            .find_transit_node_nearby
+            .find_transitNode_nearby
             
             LDA.w $0BFA, X
             CLC : ADC.w Pool_Ancilla_SomarianBlock_node_check_y_offsets+0, Y
@@ -139,7 +139,7 @@ Ancilla_SomarianBlock:
                              CMP.b #$BC : BEQ .attempt_platform_spawn
                 TYA : CLC : ADC.b #$08 : TAY
                 CPY.b #$18 : BCS .tile_collision_logic
-                    BRA .find_transit_node_nearby
+                    BRA .find_transitNode_nearby
                 
             .attempt_platform_spawn
             
@@ -588,7 +588,7 @@ SomarianBlock_CheckCoveredTileTrigger:
     
     LDY.b #$06
     
-    .next_offset
+    .nextOffset
         
         LDA.w $0BFA, X
         CLC : ADC Pool_SomarianBlock_CheckCoveredTileTrigger_y_offsets+0, Y
@@ -629,7 +629,7 @@ SomarianBlock_CheckCoveredTileTrigger:
             INC.w $03DB, X
         
         .ignored_tile_attr
-    DEY : DEY : BPL .next_offset
+    DEY : DEY : BPL .nextOffset
     
     LDA.w $03DB, X : CMP.b #$04 : BNE .not_full_covering
         CLC
