@@ -2758,29 +2758,31 @@ struct WRAM $7E0000
         ; Bitfield for chest interaction. High byte unused but written. SEE TILE
         ; ACT NOTES.
         ; .... cccc
-        ; c - touching chest
+        ; c - Chests (tile types 0x58-0x5D)
 
     ; $02E7[0x01] - (Playe, Tile Attribute)
     .TileActChestGrave: skip $01
         ; Tile act bitfield for big key locks and gravestone interactions.
+        ; SEE TILE ACT NOTES.
         ; bbbb gggg
-        ; b - big key lock
-        ; g - gravestone
+        ; b - Big key lock (tile types 0x58-0x5D)
+        ; g - Gravestone (tile type 0x42)
 
     ; $02E8[0x01] - (Player, Tile Attribute)
     .TileActSpikes: skip $01
-        ; Tile act bitfield for spike / cactus and barrier tile interactions? TODO:
+        ; Tile act bitfield for spike/cactus damage and crystal peg barrier
+        ; tile interactions.
         ; bbbb ssss
-        ; s - spike blocks / cactus tiles
-        ; b - orange / blue barrier tiles that are up
+        ; s - Dungeon spike blocks / overworld cacti (tile type 0x44)
+        ; b - Raised crystal pegs / blue-orange barriers (tile type 0x67)
 
     ; $02E9[0x01] - (Item)
-    .RecieveItemMethod: 
+    .RecieveItemMethod: skip $01
         ; The method by which the player is recieving an item.
-        ; 0 - Receiving item from an NPC or message
-        ; 1 - Receiving item from a chest
-        ; 2 - Receiving item that was spawned in the game by a sprite
-        ; 3 - Receiving item that was spawned by a ancilla.
+        ; 0x00 - Receiving item from an NPC or message
+        ; 0x01 - Receiving item from a chest
+        ; 0x02 - Receiving item that was spawned in the game by a sprite
+        ; 0x03 - Receiving item that was spawned by a ancilla
 
     ; $02EA[0x02] - (Player, Tile Attribute, High Junk)
     .ChestTileType: skip $02
@@ -2794,25 +2796,27 @@ struct WRAM $7E0000
         ; something.
 
     ; $02ED[0x01] - (Player, Tile Attribute, DesertBarrier) 
-    .NearPlaque: skip $01
-        ; If nonzero, it indicates that the player is near the plaque tile that
-        ; triggers the Desert Palace opening with the Book of Mudora. TODO:
-        ; Check if this is only the desert palace plaque or if its all plaques.
+    .NearDesertPlaque: skip $01
+        ; If nonzero, it indicates that the player is near the plaque tile
+        ; type 0x46 that triggers the Desert Palace opening with the Book
+        ; of Mudora. See TileActSpikePlaque.
 
     ; $02EE[0x01] - (Player, Tile Attribute, DesertBarrier)
     .TileActSpikePlaque: skip $01
-        ; Tile act bitfield for spike floor and hylian plaques tile interactions
+        ; Tile act bitfield for spike floor and hylian plaques tile interactions.
+        ; SEE TILE ACT NOTES.
         ; ssss pppp
-        ; p - plaques
-        ; s - spike floor tiles
+        ; p - Plaques (tile type 0x46)
+        ; s - Spike floor tiles (tile type 0x0D)
 
     ; $02EF[0x01] - (Player, Tile Attribute)
     .TileActBreakEntrance: skip $01
         ; Tile act bitfield for dashable (breakable with dash) and entrances
-        ; tile interactions.
+        ; tile interactions. SEE TILE ACT NOTES.
         ; bbbb dddd
-        ;   d - entrance
-        ;   b - breakables
+        ;   d - Overworld entrance (tile types 0x8E-0x8F)
+        ;   b - Bonk/dash-breakable terrain contact bits:
+        ;       0x50 green bush, 0x51 off-color bush, 0x57 rock pile
 
     ; $02F0[0x01] - (DesertBarrier)
     .DesertBarrierFlag: skip $01
