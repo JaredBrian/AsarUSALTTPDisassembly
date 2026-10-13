@@ -635,7 +635,7 @@ PreOverworld_LoadProperties:
     ; subscreen addition rather than fixed color addition.
     LDA.b #$82 : STA.b $99
 
-    ; Cane of Somaria variable?
+    ; Set the count of available Somaria platform lines to 0.
     STZ.w $03F4
 
     ; If Link has moon pearl, load his default graphic states and otherwise.

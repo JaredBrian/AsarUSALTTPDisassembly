@@ -8296,7 +8296,7 @@ Intro_HandleLogoSword:
             LDX.b $D0
             LDA.b $1F : ORA.b $9C, X : STA.b $9C, X
             
-            DEX : CPX.b #$03 : BNE .BRANCH_2
+            INX : CPX.b #$03 : BNE .BRANCH_2
                 LDX.b #$00
             
             .BRANCH_2
