@@ -42,7 +42,8 @@ Sprite_ZoraAndFireball:
     STA.w $0BA0, X
     
     LDA.w $0DF0, X : BEQ .dont_allocate_OAM
-        LDA.b #$04 : JSL.l OAM_AllocateFromRegionC
+        LDA.b #$04
+        JSL.l OAM_AllocateFromRegionC
     
     .dont_allocate_OAM
     

@@ -23,7 +23,8 @@ Ancilla_MotiveDashDust:
     .delay
     
     LDA.b $2F : CMP.b #$02 : BNE .not_behind_player
-        LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
+        LDA.b #$04
+        JSL.l OAM_AllocateFromRegionB
         
     .not_behind_player
     

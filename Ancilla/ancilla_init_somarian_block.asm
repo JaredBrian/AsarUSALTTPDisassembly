@@ -4,14 +4,14 @@
 Pool_AddSomarianBlock:
 {
     ; $046068
-    .initial_collision_y_offsets
+    .initialCollisionYOffsets
     dw  -8 ; up
     dw  31 ; down
     dw  17 ; left
     dw  17 ; right
     
     ; $046070
-    .initial_collision_x_offsets
+    .initialCollisionXOffsets
     dw   8 ; up
     dw   8 ; down
     dw  -8 ; left
@@ -23,10 +23,10 @@ AddSomarianBlock:
 {
     PHB : PHK : PLB
     
-    JSR.w Ancilla_Spawn : BCC .spawn_success
-        BRL .spawn_failed
+    JSR.w Ancilla_Spawn : BCC .spawnSuccess
+        BRL .spawnFailed
     
-    .spawn_success
+    .spawnSuccess
     
     PHX : STX.b $00
     
@@ -39,7 +39,7 @@ AddSomarianBlock:
         ; Ignore the ancilla we just spawned:
         CPX.b $00 : BEQ .ignoreSlot
             ; Check if this ancilla is a somaria block:
-            LDA.w $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
+            LDA.w $0C4A, X : CMP.b #$2C : BNE .notSomarianBlock
                 STX.b $02
                 
                 LDA.w $02EC : DEC : CMP.b $02 : BNE .notClosestCarryableAncilla
@@ -65,7 +65,7 @@ AddSomarianBlock:
                 
                 BRL .return
             
-            .not_somarian_block
+            .notSomarianBlock
         .ignoreSlot
     DEX : BPL .findSomarianBlockLoop
     
@@ -98,7 +98,7 @@ AddSomarianBlock:
     
     LDA.b $2F : LSR : STA.w $0C72, X
     
-    JSL.l Ancilla_CheckInitialTileCollision_Class2 : BCC .enough_space
+    JSL.l Ancilla_CheckInitialTileCollision_Class2 : BCC .enoughSpace
         ; Basically, if the player is so close to a collision surface that
         ; the block could get embedded in a wall, just place it where the
         ; player actually is to be safe.
@@ -117,27 +117,27 @@ AddSomarianBlock:
         
         BRA .return
     
-    .enough_space
+    .enoughSpace
     
     LDY.b $2F
     
-    LDA.b $20 : CLC : ADC.w Pool_AddSomarianBlock_initial_collision_y_offsets+0, Y
+    LDA.b $20 : CLC : ADC.w Pool_AddSomarianBlock_initialCollisionYOffsets+0, Y
     STA.w $0BFA, X
 
-    LDA.b $21       : ADC.w Pool_AddSomarianBlock_initial_collision_y_offsets+1, Y
+    LDA.b $21       : ADC.w Pool_AddSomarianBlock_initialCollisionYOffsets+1, Y
     STA.w $0C0E, X
     
-    LDA.b $22 : CLC : ADC.w Pool_AddSomarianBlock_initial_collision_x_offsets+0, Y
+    LDA.b $22 : CLC : ADC.w Pool_AddSomarianBlock_initialCollisionXOffsets+0, Y
     STA.w $0C04, X
 
-    LDA.b $23       : ADC.w Pool_AddSomarianBlock_initial_collision_x_offsets+1, Y
+    LDA.b $23       : ADC.w Pool_AddSomarianBlock_initialCollisionXOffsets+1, Y
     STA.w $0C18, X
     
     JSR.w SomarianBlock_CheckForTransitLine
     
     BRA .return
     
-    .spawn_failed
+    .spawnFailed
     
     LDX.b #$04
     JSL.l LinkItem_ReturnUnusedMagic

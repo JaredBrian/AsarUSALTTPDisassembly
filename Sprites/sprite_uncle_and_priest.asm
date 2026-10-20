@@ -384,7 +384,8 @@ Mantle_Draw:
     LDA.b (.animation_states >> 8) : STA.b $09
     
     LDA.w $0DB0, X : BNE .moving
-        LDA.b #$10 : JSL.l OAM_AllocateFromRegionB
+        LDA.b #$10
+        JSL.l OAM_AllocateFromRegionB
         
     .moving
     

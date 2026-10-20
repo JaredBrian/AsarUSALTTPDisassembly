@@ -1336,7 +1336,8 @@ Bomb_Draw:
     
     LDA.w Bomb_Draw_chr_start_offset, Y : ASL : TAY
     
-    ASL : STA.b $04 : STZ.b $05
+    ASL : STA.b $04
+          STZ.b $05
     
     STZ.b $0A
     

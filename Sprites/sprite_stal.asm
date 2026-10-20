@@ -5,7 +5,8 @@ Sprite_Stal:
 {
     LDA.w $0FC6 : CMP.b #$03 : BCS .improper_GFX_set_loaded
         LDA.w $0D80, X : BNE .ignore_player_OAM_overlap
-            LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
+            LDA.b #$04
+            JSL.l OAM_AllocateFromRegionB
         
         .ignore_player_OAM_overlap
         

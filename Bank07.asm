@@ -17448,7 +17448,8 @@ Underworld_DrawSinglePushBlock:
 {
     PHY
     
-    LDA.b #$04 : JSL.l OAM_AllocateFromRegionB
+    LDA.b #$04
+    JSL.l OAM_AllocateFromRegionB
     
     PLY
     

@@ -428,7 +428,8 @@ SomarianBlock_Draw:
         LDA.w $0308 : BPL .no_special_OAM_allocation
             LDA.w $0380, X : CMP.b #$03 : BEQ .no_special_OAM_allocation
                 LDA.b $2F : BNE .no_special_OAM_allocation
-                    LDA.w $0C90, X : JSR.w Ancilla_AllocateOam_B_or_E
+                    LDA.w $0C90, X
+                    JSR.w Ancilla_AllocateOam_B_or_E
                     
                     BRA .prep_coords
                 
@@ -443,7 +444,8 @@ SomarianBlock_Draw:
              .other_special_allocation_if_airborn
                 
             REP #$20
-                
+            
+            ; OPTIMIZE: Just add them together.
             LDA.w #$00D0 : CLC : ADC.w #$0800 : STA.b $90
             LDA.w #$0034 : CLC : ADC.w #$0A20 : STA.b $92
                 
@@ -460,7 +462,8 @@ SomarianBlock_Draw:
         
     .sign_ext_z_coord
         
-    STA.b $04 : BEQ .anoset_max_priority
+    STA.b $04
+    BEQ .anoset_max_priority
     CMP.w #$FFFF : BEQ .anoset_max_priority
         ; OPTIMIZE: Use bit instruction instead?
         LDA.w $0380, X : AND.w #$00FF : CMP.w #$0003 : BEQ .anoset_max_priority
@@ -496,7 +499,6 @@ SomarianBlock_Draw:
         TXA : ASL : TAX
         LDA.b $04 : CLC : ADC .y_offsets, X : STA.b $00
         LDA.b $06 : CLC : ADC .x_offsets, X : STA.b $02
-        
         PLX
         
         SEP #$20
@@ -526,39 +528,45 @@ SomarianBlock_Draw:
         
     ; Don't self terminate if in the player's hands.
     LDA.w $0380, X : CMP.b #$03 : BEQ .return
-        
+        ; Loop through each of the OAM entries:
         LDY.b #$01
+
+        .findOnScreenYOAMEntry
         
-        .find_on_screen_y_OAM_entry
+            ; Check if the are all off screen on the Y axis:
+            LDA.b ($90), Y : CMP.b #$F0 : BNE .OAMEntryNotOffScreenY
+        INY #4 : CPY.b #$11 : BNE .findOnScreenYOAMEntry
         
-            LDA.b ($90), Y : CMP.b #$F0 : BNE .OAM_entry_not_off_screen_y
-        INY #4 : CPY.b #$11 : BNE .find_on_screen_y_OAM_entry
+        BRA .terminatePerOffScreen
         
-        BRA .terminate_per_off_screen
-        
-        .OAM_entry_not_off_screen_y
+        .OAMEntryNotOffScreenY
         
         LDY.b #$00
         
-        .find_on_screen_x_OAM_entry
+        .findOnScreenXOAMEntry
         
-            LDA.b ($92), Y : AND.b #$01 : BEQ .return
-        INY : CPY.b #$04 : BNE .find_on_screen_x_OAM_entry
+            ; Check if the are all off screen on the X axis:
+            LDA.b ($92), Y : AND.b #$01 : BEQ .OAMEntryNotOffScreenX
+        INY : CPY.b #$04 : BNE .findOnScreenXOAMEntry
         
-        .terminate_per_off_screen
+        .terminatePerOffScreen
         
         STZ.w $0646
         
         ; The block self terminates and unsets the 'switch set' status variable.
         STZ.w $0C4A, X
         
+        ; Check if this block is the one currently marked as the ancilla to be picked
+        ; up by the player:
         TXA : INC : CMP.w $02EC : BNE .return
+            ; If so, reset that value.
             STZ.w $02EC
             
             LDA.w $0308 : AND.b #$80 : BEQ .return
                 ; Reset player carrying status.
                 STZ.w $0308
-        
+
+        .OAMEntryNotOffScreenX
     .return
         
     RTS

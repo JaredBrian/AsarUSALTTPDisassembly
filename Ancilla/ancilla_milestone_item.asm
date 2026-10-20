@@ -118,7 +118,6 @@ Ancilla_MilestoneItem:
         ; If altitude >= 0x18 you can't grab it.
         LDA.w $029E, X : CMP.b #$18 : BCS .no_player_collision
             LDY.b #$02
-            
             JSR.w Ancilla_CheckPlayerCollision : BCC .no_player_collision
                 LDA.w $037E : BNE .no_player_collision
                     LDA.b $4D : BNE .no_player_collision

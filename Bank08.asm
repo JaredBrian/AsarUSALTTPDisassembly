@@ -623,6 +623,10 @@ Ancilla_ExecuteObject:
     CPX.b #$06 : BCS .ignore_OAM_allocation
         ; This is the number of sprites allocated for the s.o. at init.
         LDA.w $0C90, X
+
+        ; It would seem that the ancilla engine itself is responsible for
+        ; setting up the starting OAM allocation. Rather than each ancilla's
+        ; specific draw code.
         
         ; If "sort sprites" is in effect, things are slightly different.
         LDY.w $0FB3 : BEQ .sort_sprites ; TODO: Missing label.
@@ -642,7 +646,7 @@ Ancilla_ExecuteObject:
             BRA .record_starting_OAM_position
             
             .sortSprites
-            
+
             JSL.l OAM_AllocateFromRegionA
             
             .record_starting_OAM_position
@@ -2147,7 +2151,7 @@ Ancilla_FindMatch:
 ; ==============================================================================
 
 ; $04766D-$047670 DATA
-Ancilla_PrepOamCoord_priority:
+AncillaPriorities:
 {
     db $20, $10, $30, $20
 }
@@ -2156,53 +2160,42 @@ Ancilla_PrepOamCoord_priority:
 Ancilla_PrepOamCoord:
 {
     LDY.w $0C7C, X
-    
-    LDA.w .priority, Y : STA.b $65
-
-    STZ.b $64
+    LDA.w AncillaPriorities, Y : STA.b $65
+                                 STZ.b $64
     
     LDA.w $0BFA, X : STA.b $00
     LDA.w $0C0E, X : STA.b $01
-    
     LDA.w $0C04, X : STA.b $02
     LDA.w $0C18, X : STA.b $03
     
     REP #$20
-    
     LDA.b $00 : SEC : SBC.b $E8 : STA.b $00
     LDA.b $02 : SEC : SBC.b $E2 : STA.b $02
                                   STA.b $04
-    
     SEP #$20
     
     RTS
 }
 
 ; Identical to the preceding routine, except that it measures against
-; the adjusted screen coordinates ($0122 and $011e) which can be
+; the adjusted screen coordinates ($0122 and $011E) which can be
 ; manipulated via effects and.... moving floors maybe.
 ; $0476A4-$0476D8 LOCAL JUMP LOCATION
 Ancilla_PrepAdjustedOamCoord:
 {
     LDY.w $0C7C, X
-    
-    LDA Pool_Ancilla_PrepOamCoord_priority, Y : STA.b $65
-
-    STZ.b $64
+    LDA.w AncillaPriorities, Y : STA.b $65
+                                 STZ.b $64
     
     LDA.w $0BFA, X : STA.b $00
     LDA.w $0C0E, X : STA.b $01
-    
     LDA.w $0C04, X : STA.b $02
     LDA.w $0C18, X : STA.b $03
     
     REP #$20
-    
     LDA.b $00 : SEC : SBC.w $0122 : STA.b $00
-    
     LDA.b $02 : SEC : SBC.w $011E : STA.b $02
                                     STA.b $04
-    
     SEP #$20
     
     RTS
@@ -2294,7 +2287,7 @@ Ancilla_SetSafeOam_XY:
         
         LDA.b $00 : STA.b ($90), Y
         
-        ; Same as CMP #$00F0... I don't get it.
+        ; TODO: Same as CMP #$00F0... I don't get it.
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
     
     .off_screen
@@ -2316,36 +2309,59 @@ Ancilla_SetSafeOam_XY:
 Pool_Ancilla_CheckPlayerCollision:
 {
     ; $04772F
-    .y_offsets
-    db  0,  0,  8,  0,  8,  0,  8,  0,  0,  0
+    .yOffsets
+    dw $0000
+    dw $0008
+    dw $0008
+    dw $0008
+    dw $0000
     
     ; $047739
-    .x_offsets
-    db  0,  0,  8,  0,  8,  0,  8,  0,  0,  0
+    .xOffsets
+    dw $0000
+    dw $0008
+    dw $0008
+    dw $0008
+    dw $0000
     
     ; $047743
-    .y_windows
-    db 20,  0, 20,  0,  8,  0, 28,  0, 14,  0
+    .yWindows
+    dw $0014
+    dw $0014
+    dw $0008
+    dw $001C
+    dw $000E
     
     ; $04774D
-    .x_windows
-    db 20,  0,  3,  0,  8,  0, 24,  0, 14,  0
+    .xWindows
+    dw $0014
+    dw $0003
+    dw $0008
+    dw $0018
+    dw $000E
     
     ; $047757
-    .player_y_offsets
-    db 12,  0, 12,  0, 12,  0, 12,  0, 12,  0
+    .playerYOffsets
+    dw $000C
+    dw $000C
+    dw $000C
+    dw $000C
+    dw $000C
     
     ; $047761
-    .player_x_offsets
-    db  8,  0,  8,  0,  8,  0, 12,  0,  8,  0
-    
+    .playerXOffsets
+    dw $0008
+    dw $0008
+    dw $0008
+    dw $000C
+    dw $0008
 }
 
-; Note: Checks ancilla collision or proximity with the player.
+; Checks ancilla collision or proximity with the player.
 ; $04776B-$0477DB LOCAL JUMP LOCATION
 Ancilla_CheckPlayerCollision:
 {
-    ; Y is probably a selector for different hit box sizes.
+    ; Y is a selector for different hit box sizes.
     TYA : ASL : TAY
     
     ; $00 = Y coordinate
@@ -2360,39 +2376,39 @@ Ancilla_CheckPlayerCollision:
     
     ; $0A = "altitude"
     LDA.w $029E, X : STA.b $0A
-    BPL .sign_ext_z_coord
+    BPL .signExtZCoord
         LDA.b #$FF : STA.b $0B
     
-    .sign_ext_z_coord
+    .signExtZCoord
     
     REP #$20
     
-    LDA.b $00 : CLC : ADC.b $0A : CLC : ADC.w .y_offsets, Y : STA.b $00
-    LDA.b $02                   : CLC : ADC.w .x_offsets, Y : STA.b $02
+    LDA.b $00 : CLC : ADC.b $0A : CLC : ADC.w .yOffsets, Y : STA.b $00
+    LDA.b $02                   : CLC : ADC.w .xOffsets, Y : STA.b $02
     
-    LDA.b $20 : CLC : ADC.w .player_y_offsets, Y : SEC : SBC.b $00
-    
-    STA.b $04 : BPL .positive_delta_y
+    LDA.b $20 : CLC : ADC.w .playerYOffsets, Y : SEC : SBC.b $00 : STA.b $04
+    BPL .positiveDeltaY
         EOR.w #$FFFF : INC
     
-    .positive_delta_y
+    .positiveDeltaY
     
-    STA.b $08 : CMP .y_windows, Y : BCC .not_collision
-        LDA.b $22 : CLC : ADC.w .player_x_offsets, Y : SEC : SBC.b $02
-        
-        STA.b $06 : BPL .positive_delta_x
+    STA.b $08
+    CMP.w .yWindows, Y : BCC .notCollision
+        LDA.b $22 : CLC : ADC.w .playerXOffsets, Y : SEC : SBC.b $02 : STA.b $06
+        BPL .positiveDeltaX
             EOR.w #$FFFF : INC
         
-        .positive_delta_x
+        .positiveDeltaX
         
-        STA.b $0A : CMP .x_windows, Y : BCS .not_collision
+        STA.b $0A
+        CMP.w .xWindows, Y : BCS .notCollision
             SEP #$20
             
             SEC
             
             RTS
 
-    .not_collision
+    .notCollision
 
     SEP #$20
     
@@ -2411,10 +2427,10 @@ Hookshot_CheckChainLinkProximityToPlayer:
     LDA.b $00 : CLC : ADC.w #$0004 : STA.b $72
     LDA.b $02 : CLC : ADC.w #$0004 : STA.b $74
     
-    LDA.b $20 : SEC : SBC.b $E8 : CLC : ADC.w #$000C : SEC : SBC.b $72 : BPL .positive_delta_y
+    LDA.b $20 : SEC : SBC.b $E8 : CLC : ADC.w #$000C : SEC : SBC.b $72 : BPL .positiveDeltaY
         EOR.w #$FFFF : INC
     
-    .positive_delta_y
+    .positiveDeltaY
     
     CMP.w #$000C : BCS .out_of_range
         LDA.b $22 : SEC : SBC.b $E2 : CLC : ADC.w #$0008 : SEC : SBC.b $74 : BPL .positive_delta_x
@@ -2469,10 +2485,10 @@ Ancilla_CheckIfEntranceTriggered:
     REP #$20
     
     ; Centers player's Y coordinate.
-    LDA.b $20 : CLC : ADC.w #$000C : SEC : SBC.w .trigger_coord_y, Y : BPL .positive_delta_y
+    LDA.b $20 : CLC : ADC.w #$000C : SEC : SBC.w .trigger_coord_y, Y : BPL .positiveDeltaY
         EOR.w #$FFFF : INC
     
-    .positive_delta_y
+    .positiveDeltaY
     
     ; Is the distance less than or equal to this many pixels?
     CMP.w .trigger_window_y, Y : BCS .failure
@@ -2671,7 +2687,7 @@ Tagalong_GetCloseToPlayer:
             LDA.b $03 : STA.w $1A3C, X
             
             LDY.b $EE
-            LDA.w Ancilla_PrepOamCoord_priority, Y
+            LDA.w AncillaPriorities, Y
             LSR : LSR : ORA.b #$01 : STA.w $1A64, X
     BRL .need_to_get_closer_to_player
     
