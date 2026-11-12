@@ -2620,15 +2620,11 @@ struct WRAM $7E0000
         ; 0x02 - 
         ; TODO: Fill these out.
 
-    ; $02CD[0x02] - (Tagalong)
-    .TagalongMessageTimer: skip $01
+    ; $02CD[0x02] - (Tagalong, Message)
+    .TagalongMessageTimer: skip $02
         ; A timer to control how long until a tagalong can display a message.
         ; Used for the beginning of the game where Zelda telepathically
         ; contacts you over and over again and a few other smaller cases.
-
-    ; $02CE[0x02] - (Tagalong)
-    .TagalongMessageTimerHigh: skip $01
-        ; The high byte for TagalongMessageTime.
 
     ; $02CF[0x01] - (Tagalong)
     .TagalongAnimationRead: skip $01
@@ -2824,18 +2820,25 @@ struct WRAM $7E0000
         ; progress into the Desert Palace.
 
     ; $02F1[0x01] - (Player)
-    .DashStop: skip $01
-        ; Related to dashing. Set to 0x40 at start, counts down to 0x20. If it
-        ; could reach 0x0F (which it can't), the player would stop moving. TODO:
-        ; Figure out exact use.
+    .DashStartupTimer: skip $01
+        ; Set to 0x40 when dash movement begins. Decremented during the dash
+        ; and clamped at 0x20. The initial 0x40/0x3F startup interval 
+        ; suppresses normal dash bonk/rebound and delays dash-breaking terrain
+        ; interactions.
 
-    ; $02F2[0x01] - (Tagalong)
-    .TagalongMessageSent: skip $01
+    ; $02F2[0x01] - (Tagalong, Sprite, Message)
+    .TagalongMessageFlags: skip $01
         ; Used as a bitfield of event flags of a temporary nature relating to
-        ; Tagalongs. Specifically these are usually used to indicate if a text
+        ; Tagalongs. Specifically, these are usually used to indicate if a text
         ; message triggered by a Tagalong has already fired once while being
-        ; in a room or an overworld area.
-        ; TODO: Map the bitfield.
+        ; in a room or an overworld area. Cleared by player reset and
+        ; tagalong/ancilla cleanup.
+        ; .... .cba
+        ; a - Generic tagalong no-timed-message latch channel 0. Also used
+        ;     with bit 0x02 as paired state 0x03 by the Hylian Plaque sprite.
+        ; b - Generic tagalong no-timed-message latch channel 1. Also used
+        ;     with bit 0x01 as paired state 0x03 by the Hylian Plaque sprite.
+        ; c - Generic tagalong no-timed-message latch channel 2.
 
     ; $02F3[0x01] - (Junk)
     .Junk_02F3: skip $01
@@ -2848,14 +2851,14 @@ struct WRAM $7E0000
 
     ; $02F5[0x01] - (Player, Somaria)
     .PlayerOnSomariaPlat: skip $01
-        ; 0 - Not on a Somaria platform.
-        ; 1 - On a Somaria platform.
-        ; 2 - On a Somaria platform and moving.
+        ; 0x00 - Not on a Somaria platform.
+        ; 0x01 - On a Somaria platform.
+        ; 0x02 - On a Somaria platform and moving.
 
     ; $02F6[0x01] - (Player, Tile Attribute, Hookshot)
     .TileActHookshotDoor: skip $01
-        ; Bitfield for interaction with hookshot grabbable and key/flagable door
-        ; tiles.
+        ; Bitfield for interaction with hookshot grabbable and key/flagable
+        ; door tiles.
         ; kkkk gggg
         ; k - Key Door tiles/ flagable door tiles
         ; g - Tiles grabbable by Hookshot
@@ -2864,8 +2867,8 @@ struct WRAM $7E0000
     .TileActRupee: skip $01
         ; Tile act bitfield used by rupees.
         ; bbbb rrrr
-        ;   b - rupee tiles (low)
-        ;   r - rupee tiles (high)
+        ; b - rupee tiles (low)
+        ; r - rupee tiles (high)
         ; SEE TILE ACT NOTES
 
     ; $02F8[0x01] - (Player)
@@ -2908,12 +2911,12 @@ struct WRAM $7E0000
         ; b - Boomerang
         ; p - Magic Powder
         ; a - Bow and Arrow
-        ; e - Tested for simultaneously with the hammer in many locations. Perhaps
-        ;     this suggests another hammer-like item was cut from the game during
-        ;     development.
-        ; t - Tested for exclusively with the rods bit, but no code seems to set
-        ;     this particular bit. Perhaps at one point the bits for the two rods
-        ;     were separate at some point.
+        ; e - Tested for simultaneously with the hammer in many locations. 
+        ;     Perhaps this suggests another hammer-like item was cut from the 
+        ;     game during development.
+        ; t - Tested for exclusively with the rods bit, but no code seems to
+        ;     set this particular bit. Perhaps at one point the bits for the
+        ;     two rods were separate at some point.
         ; h - Hammer
         ; r - Ice Rod or Fire Rod
 
@@ -2992,13 +2995,22 @@ struct WRAM $7E0000
     .PlayerStrainAnimation: skip $01
         ; Indexes the player's grab animation, but all nonzero values seem to
         ; behave the same way. Used with $030B.
-        
         ; TODO: Investigate this.
         ; Also, $030A-B seem to be used for the opening of the desert palace.
 
-    ; $030B[0x01] - (Player, OAM)
-    .PlayerStrainTimer: skip $01
-        ; Animation timer for throwing and picking up items like rocks or signs.
+    ; $030A[0x01] - (Player, OAM)
+    .PlayerActionPoseStep: skip $01
+        ; Context-dependent action-pose step used by PlayerOam_Main.
+        ; Primarily selects stages of pulling/straining, statue dragging, tree
+        ; pulling, lifting, carrying, and throwing. Usually 0x00-0x03, tree pull
+        ; also uses 0x04. The meaning of each value depends on the active action.
+
+    ; $030B[0x01] - (Player)
+    .PlayerActionPoseTimer: skip $01
+        ; Countdown for the current $030A action-pose stage. On expiration, the
+        ; active action handler loads the next pose step and its duration.
+        ; Also initialized to 0x16 during Desert Palace prayer setup while
+        ; $030A is held at 0x00.
 
     ; $030C[0x01] - (Free)
     .Free_030C: skip $01
@@ -6264,7 +6276,7 @@ struct WRAM $7E0000
         ; The layer to display a repulse spark on. Set based on the player's layer
         ; or a sprite's layer. 
 
-    ; $0B69[0x01] - (Sprite)
+    ; $0B69[0x01] - (Sprite, Message)
     .TutorialGuardMessage:
         ; A value used to keep track of which message the tutorial guard should
         ; show next. TODO: Document the values here.
