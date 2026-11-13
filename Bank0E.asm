@@ -11557,21 +11557,19 @@ Overworld_DwDeathMountainPaletteAnimation_easyOut:
 Overworld_DwDeathMountainPaletteAnimation:
 {
     LDA.w $04C6 : BNE .easyOut
-        LDA.b $8A
-        CMP.b #$43 : BEQ .dwDeathMountain
-        CMP.b #$45 : BEQ .dwDeathMountain
-        CMP.b #$47 : BNE .easyOut
+        LDA.b $8A : CMP.b #$43 : BEQ .dwDeathMountain
+                    CMP.b #$45 : BEQ .dwDeathMountain
+                    CMP.b #$47 : BNE .easyOut
             .dwDeathMountain
             
             PHB : PHK : PLB
                 
-            LDA.b $1A
-            CMP.b #$03 : BEQ .alter_palettes
-            CMP.b #$05 : BEQ .restore_palettes
-            CMP.b #$24 : BEQ .play_sound
-            CMP.b #$2C : BEQ .restore_palettes
-            CMP.b #$58 : BEQ .alter_palettes
-            CMP.b #$5A : BNE .abstain        
+            LDA.b $1A : CMP.b #$03 : BEQ .alter_palettes
+                        CMP.b #$05 : BEQ .restore_palettes
+                        CMP.b #$24 : BEQ .play_sound
+                        CMP.b #$2C : BEQ .restore_palettes
+                        CMP.b #$58 : BEQ .alter_palettes
+                        CMP.b #$5A : BNE .abstain        
                 .restore_palettes
                     
                 REP #$20
@@ -11579,12 +11577,12 @@ Overworld_DwDeathMountainPaletteAnimation:
                 LDX.b #$02
                     
                 .loop_1
+
                     LDA.l $7EC360, X : STA.l $7EC560, X
                     LDA.l $7EC370, X : STA.l $7EC570, X
                     LDA.l $7EC390, X : STA.l $7EC590, X
                     LDA.l $7EC3E0, X : STA.l $7EC5E0, X
                     LDA.l $7EC3F0, X : STA.l $7EC5F0, X
-                        
                 INX : INX : CPX.b #$10 : BNE .loop_1
                         
                 BRA .abstain

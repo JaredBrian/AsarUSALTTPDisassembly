@@ -65,11 +65,13 @@ Sprite_BombShopGuy:
     
     LDY.b #$00
     
+    ; Check if the player has the Ice Palace and Misery Mire crystals:
     LDA.l $7EF37A : AND.b #$05 : CMP.b #$05 : BNE .dont_have_super_bomb
+        ; Check if the player has saved the smithy:
         LDA.l $7EF3C9 : AND.b #$20 : BEQ .dont_have_super_bomb
-            ; Change dialogue to reflect that the Super Bomb is present. (Doesn't
-            ; actually spawn the super bomb, though. That's done during this
-            ; sprite's spawn routine).
+            ; Change dialogue to reflect that the Super Bomb is present.
+            ; (Doesn't actually spawn the super bomb, though. That's done
+            ; during this sprite's spawn routine).
             LDY.b #$01
             
     .dont_have_super_bomb
@@ -93,7 +95,8 @@ Sprite_BombShopBomb:
     JSL.l Sprite_PlayerCantPassThrough
     
     JSR.w ShopKeeper_CheckPlayerSolicitedDamage : BCC .didnt_solicit
-        LDA.l $7EF370 : PHX : TAX
+        LDA.l $7EF370 : PHX
+                        TAX
         LDA.l HUD_CapacityUpgrades_bombs_hex, X : PLX : CMP.l $7EF343 : BEQ .dont_need_any_bombs
             LDA.b #$64
             LDY.b #$00

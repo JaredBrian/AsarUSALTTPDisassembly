@@ -519,8 +519,8 @@ Module_PreDungeon:
     JSR.w ResetThenCacheRoomEntryProperties
 
     LDA.l $7EF3CC : CMP.b #$0D : BNE .notSuperBombTagalong
-        ; If we saved the game having a super bomb, sad to say it's going to be
-        ; gone.
+        ; If we saved the game having a super bomb, sad to say it's going to 
+        ; be gone.
         LDA.b #$00 : STA.l $7EF3CC
 
         ; OPTIMIZE: STA.w instead.

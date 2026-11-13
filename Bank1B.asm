@@ -478,37 +478,104 @@ Overworld_Hole:
     RTL
 }
 
-; $0DB8BF-$0DBBF3 - chr types indicating door entrances left
+; $0DB8BF-$0DBBF3 DATA
 Pool_Overworld_Entrance:
 {
+    ; Chr types indicating door entrances right
     ; $0DB8BF
-    .ValidDoorTypes_low
-    dw $00FE, $00C5, $00FE, $0114
-    dw $0115, $0175, $0156, $00F5
-    dw $00E2, $01EF, $0119, $00FE
-    dw $0172, $0177, $013F, $0172
-    dw $0112, $0161, $0172, $014C
-    dw $0156, $01EF, $00FE, $00FE
-    dw $00FE, $010B, $0173, $0143
-    dw $0149, $0175, $0103, $0100
-    dw $01CC, $015E, $0167, $0128
-    dw $0131, $0112, $016D, $0163
-    dw $0173, $00FE, $0113, $0177
+    .ValidDoorTypes_Right
+    dw $00FE ; 0x00 - Hyrule Castle Opened big doors
+    dw $00C5 ; 0x01 - Normal Houses
+    dw $00FE ; 0x02 - Unused
+    dw $0114 ; 0x03 - Unused
+    dw $0115 ; 0x04 - Unused
+    dw $0175 ; 0x05 - Unused
+    dw $0156 ; 0x06 - Sanctuary Opened Entrance
+    dw $00F5 ; 0x07 - Bombable Hut Opened Entrances
+    dw $00E2 ; 0x08 - Tavern Back Entrance
+    dw $01EF ; 0x09 - Cave Entrances
+    dw $0119 ; 0x0A - Unused
+    dw $00FE ; 0x0B - Main Desert Palace Entrance
+    dw $0172 ; 0x0C - Unused
+    dw $0177 ; 0x0D - East and West Desert Palace Entrance
+    dw $013F ; 0x0E - King's Tomb Opened Entrance
+    dw $0172 ; 0x0F - Unused
+    dw $0112 ; 0x10 - Unused
+    dw $0161 ; 0x11 - Small Skull Woods Skull Entrances
+    dw $0172 ; 0x12 - Swamp Palace and Light World Dam Entrances
+    dw $014C ; 0x13 - Unused
+    dw $0156 ; 0x14 - Unused
+    dw $01EF ; 0x15 - Old Man Home Cave Entrance
+    dw $00FE ; 0x16 - Unused
+    dw $00FE ; 0x17 - Misery Mire Opened Entrances
+    dw $00FE ; 0x18 - Hyrule Castle Secret Stairs Entrance
+    dw $010B ; 0x19 - Ice Palace Entrance
+    dw $0173 ; 0x1A - Eastern Palace Entrance
+    dw $0143 ; 0x1B - Tower of Hera Entrance
+    dw $0149 ; 0x1C - Sahasrahla's Hideout Entrance
+    dw $0175 ; 0x1D - Unused
+    dw $0103 ; 0x1E - House near Palace of Darkness
+    dw $0100 ; 0x1F - Pyramid Wall Entrance
+    dw $01CC ; 0x20 - Waterfall of Wishing Entrance
+    dw $015E ; 0x21 - Turtle Rock Opened Entrance
+    dw $0167 ; 0x22 - Cave Entrances
+    dw $0128 ; 0x23 - Lost Woods Hideout Entrance
+    dw $0131 ; 0x24 - Ganon's Tower Intermediate Animation Entrance
+    dw $0112 ; 0x25 - Palace of Darkness Opened Entrance
+    dw $016D ; 0x26 - Skull Woods Opened Entrance
+    dw $0163 ; 0x27 - Blind's Old Hideout in Kakariko Entrance
+    dw $0173 ; 0x28 - Lost Woods Chest Game Entrance
+    dw $00FE ; 0x29 - Flat Ground Cave Entrances
+    dw $0113 ; 0x2A - Thieves' Town Opened Entrance
+    dw $0177 ; 0x2B - Pyramid Fat Fairy Entrance
     
-    ; chr types indicating door entrances right
+    ; Chr types indicating door entrances left
     ; $0DB917
-    .ValidDoorTypes_high
-    dw $014A, $00C4, $014F, $0115
-    dw $0114, $0174, $0155, $00F5
-    dw $00EE, $01EB, $0118, $0146
-    dw $0171, $0155, $0137, $0174
-    dw $0173, $0121, $0164, $0155
-    dw $0157, $0128, $0114, $0123
-    dw $0113, $0109, $0118, $0161
-    dw $0149, $0117, $0174, $0101
-    dw $01CC, $0131, $0051, $014E
-    dw $0131, $0112, $017A, $0163
-    dw $0172, $01BD, $0152, $0167
+    .ValidDoorTypes_Left
+    dw $014A ; 0x00 - Hyrule Castle Opened big doors
+    dw $00C4 ; 0x01 - Normal Houses
+    dw $014F ; 0x02 - Unused
+    dw $0115 ; 0x03 - Unused
+    dw $0114 ; 0x04 - Unused
+    dw $0174 ; 0x05 - Unused
+    dw $0155 ; 0x06 - Sanctuary Opened Entrance
+    dw $00F5 ; 0x07 - Bombable Hut Opened Entrances
+    dw $00EE ; 0x08 - Tavern Back Entrance
+    dw $01EB ; 0x09 - Cave Entrances
+    dw $0118 ; 0x0A - Unused
+    dw $0146 ; 0x0B - Main Desert Palace Entrance
+    dw $0171 ; 0x0C - Unused
+    dw $0155 ; 0x0D - East and West Desert Palace Entrance
+    dw $0137 ; 0x0E - King's Tomb Opened Entrance
+    dw $0174 ; 0x0F - Unused
+    dw $0173 ; 0x10 - Unused
+    dw $0121 ; 0x11 - Small Skull Woods Skull Entrances
+    dw $0164 ; 0x12 - Swamp Palace and Light World Dam Entrances
+    dw $0155 ; 0x13 - Unused
+    dw $0157 ; 0x14 - Unused
+    dw $0128 ; 0x15 - Old Man Home Cave Entrance
+    dw $0114 ; 0x16 - Unused
+    dw $0123 ; 0x17 - Misery Mire Opened Entrances
+    dw $0113 ; 0x18 - Hyrule Castle Secret Stairs Entrance
+    dw $0109 ; 0x19 - Ice Palace Entrance
+    dw $0118 ; 0x1A - Eastern Palace Entrance
+    dw $0161 ; 0x1B - Tower of Hera Entrance
+    dw $0149 ; 0x1C - Sahasrahla's Hideout Entrance
+    dw $0117 ; 0x1D - Unused
+    dw $0174 ; 0x1E - House near Palace of Darkness
+    dw $0101 ; 0x1F - Pyramid Wall Entrance
+    dw $01CC ; 0x20 - Waterfall of Wishing Entrance
+    dw $0131 ; 0x21 - Turtle Rock Opened Entrance
+    dw $0051 ; 0x22 - Cave Entrances
+    dw $014E ; 0x23 - Lost Woods Hideout Entrance
+    dw $0131 ; 0x24 - Ganon's Tower Intermediate Animation Entrance
+    dw $0112 ; 0x25 - Palace of Darkness Opened Entrance
+    dw $017A ; 0x26 - Skull Woods Opened Entrance
+    dw $0163 ; 0x27 - Blind's Old Hideout in Kakariko Entrance
+    dw $0172 ; 0x28 - Lost Woods Chest Game Entrance
+    dw $01BD ; 0x29 - Flat Ground Cave Entrances
+    dw $0152 ; 0x2A - Thieves' Town Opened Entrance
+    dw $0167 ; 0x2B - Pyramid Fat Fairy Entrance
 
     ; $0DB96F Area list for entrances
     .Screens
@@ -999,8 +1066,8 @@ Overworld_Entrance:
     
     .loop
     
-        LDA.b $00 : CMP.l Pool_Overworld_Entrance_ValidDoorTypes_low, X : BNE .BRANCH_ZETA
-            LDA.b $02 : CMP.l Pool_Overworld_Entrance_ValidDoorTypes_high, X : BEQ .BRANCH_KAPPA
+        LDA.b $00 : CMP.l Pool_Overworld_Entrance_ValidDoorTypes_Right, X : BNE .BRANCH_ZETA
+            LDA.b $02 : CMP.l Pool_Overworld_Entrance_ValidDoorTypes_Left, X : BEQ .BRANCH_KAPPA
         
         .BRANCH_ZETA
     DEX : DEX : BPL .loop
@@ -1639,6 +1706,7 @@ Overworld_ApplyBombToTile:
     ; Check to see if Link has a super bomb.
     LDA.l $7EF3CC : AND.w #$00FF : CMP.w #$000D : BEQ .checkForBomableCave
         LDA.l $7E2000, X
+        
         LDY.w #$0DC7
         LDX.w #$0002
         
