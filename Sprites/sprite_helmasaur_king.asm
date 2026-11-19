@@ -526,6 +526,8 @@ HelmasaurKing_CheckMaskDamageFromHammer:
 {
     LDA.w $0DB0, X : CMP.b #$03 : BCS .BRANCH_ALPHA
         LDA.w $0301 : AND.b #$0A : BEQ .BRANCH_ALPHA
+            ; Check if the player is currently in a "hidden off-screen" state.
+            ; Usually occurs when exiting a dungeon.
             LDA.b $44 : CMP.b #$80 : BEQ .BRANCH_ALPHA
                 JSL.l Player_SetupActionHitBoxLong
                 

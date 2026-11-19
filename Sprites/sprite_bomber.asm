@@ -115,6 +115,8 @@ Bomber_Main:
     
     LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
         LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
+            ; Check if the player is currently in a "hidden off-screen" state.
+            ; Usually occurs when exiting a dungeon.
             LDA.b $44 : CMP.b #$80 : BEQ .player_not_attacking
                 LDA.w $0372 : BNE .dodge_player_attack
                     LDA.b $3C : CMP.b #$09 : BPL .player_not_attacking
