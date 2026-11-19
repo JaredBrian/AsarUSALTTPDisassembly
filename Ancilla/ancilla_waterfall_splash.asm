@@ -64,6 +64,7 @@ Ancilla_WaterfallSplash:
     
     ; WTF: Why would this be necessary?
     LDA.b $2E : SEC : SBC.b #$06 : BMI .dont_reset_player_animation
+        ; TODO: Shouldn't this be a STZ.b ?
         STA.b $2E
     
     .dont_reset_player_animation

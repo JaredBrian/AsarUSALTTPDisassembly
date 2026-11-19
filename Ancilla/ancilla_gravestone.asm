@@ -36,7 +36,7 @@ Gravestone_Move:
             
             LDA.b $72 : STA.w $0698
             
-            ; This accomplishes the second part of the map16 update (which
+            ; This accomplishes the second part of the Tile16 update (which
             ; actually updates a 32x32 region).
             LDY.b #$48
             

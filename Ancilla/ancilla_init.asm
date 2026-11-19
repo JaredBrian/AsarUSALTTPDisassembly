@@ -3917,7 +3917,7 @@ AddGravestone:
     
     PHY : PHX
     
-    ; Perform the first half (lower half) of the map16 modifications that
+    ; Perform the first half (lower half) of the Tile16 modifications that
     ; result from moving the grave. The second half will be accomplished
     ; later when the gravestone has moved up a bit.
     JSL.l Overworld_DoMapUpdate32x32_Long
