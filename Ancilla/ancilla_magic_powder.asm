@@ -241,7 +241,7 @@ MagicPowder_ApplySpriteDamage:
                         ; Check damage from magic powder to general sprites (not
                         ; specifically transformable like chickens or buzzblobs).
                         LDA.b #$0A
-                        JSL.l Ancilla_CheckSpriteDamage_preset_class
+                        JSL.l Ancilla_CheckSpriteDamage_presetClass
                         
                         PLY : PLX
                 .immuneToPowder

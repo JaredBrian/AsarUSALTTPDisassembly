@@ -3350,24 +3350,24 @@ AddBlastWall:
 {
     PHB : PHK : PLB
     
-    ; Put it into two different slots... interesting.
+    ; Put a blast wall ancilla into two different slots.
     LDA.b #$33 : STA.w $0C4A
                  STA.w $0C4B 
     
+    ; Kill all other anicllae.
     STZ.w $0C4C
     STZ.w $0C4D
     STZ.w $0C4E
     STZ.w $0C4F
     STZ.w $0C5E
     
+    ; Cancel some player related actions.
     STZ.w $02EC
-    
     STZ.w $0308
-    
     STZ.b $50
-    
     STZ.w $0380
     
+    ; Set the ancillae layer to that of the player.
     LDA.b $EE : STA.w $0C7C
                 STA.w $0C7D
     
@@ -3383,6 +3383,7 @@ AddBlastWall:
     
     LDA.b #$03 : STA.l $7F0008
     
+    ; Get the index of the exploding wall.
     LDA.l $7F001C : TAY
     
     REP #$20
@@ -3397,7 +3398,8 @@ AddBlastWall:
     
     LDY.b #$00
     
-    ; TODO: Figure out what's going on here.
+    ; TODO: Check which of the two vanilla exploding walls is the first type.
+    ; Check if the exploding wall is the first type:
     LDA.l $7F001C : CMP.b #$04 : BCS .unknown
         LDY.b #$10
     
@@ -3405,7 +3407,7 @@ AddBlastWall:
     
     LDX.b #$06
     
-    .init_component_loop
+    .initComponentLoop
         
         REP #$20
         
@@ -3419,7 +3421,8 @@ AddBlastWall:
         
         SEP #$20
         
-        LDA.b $01 : BNE .off_screen_so_no_SFX
+        ; Check if the explosion is offscreen:
+        LDA.b $01 : BNE .offScreenSoNoSFX
             PHY : PHX
             
             LDA.b $00 : LSR #5 : TAX
@@ -3427,10 +3430,10 @@ AddBlastWall:
             
             PLX : PLY
         
-        .off_screen_so_no_SFX
+        .offScreenSoNoSFX
         
         INY #4
-    DEX : DEX : BPL .init_component_loop
+    DEX : DEX : BPL .initComponentLoop
     
     PLB
     

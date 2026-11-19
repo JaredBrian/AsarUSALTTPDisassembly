@@ -69,7 +69,7 @@ EnemyBomb_CheckDamageToSprite:
             TYX : PHY
             
             LDA.b #$08
-            JSL.l Ancilla_CheckSpriteDamage_preset_class
+            JSL.l Ancilla_CheckSpriteDamage_presetClass
             
             PLY : PLX
             

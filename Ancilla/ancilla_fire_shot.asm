@@ -148,14 +148,15 @@ UNUSED_0887CA:
 ; ==============================================================================
 
 ; $0407CB-$0407E8 BRANCH LOCATION
-Ancilla_ConsumingFire_self_terminate:
+Ancilla_ConsumingFire_selfTerminate:
 {
-    ; Check if it was a torch flame (not fire rod).
-    LDA.w $0C4A, X : STZ.w $0C4A, X : CMP.b #$2F : BEQ .dont_burn_skull
-        ; Check if it's Skull Woods area (0x40).
-        LDA.b $8A : CMP.b #$40 : BNE .dont_burn_skull
+    ; OPTIMIZE: We can't even get here if we are a lamp flame?
+    ; Check if it was a torch flame (not fire rod) and kill self, in Minecraft.
+    LDA.w $0C4A, X : STZ.w $0C4A, X : CMP.b #$2F : BEQ .notRodFlame
+        ; Check if it's Skull Woods area (0x40):
+        LDA.b $8A : CMP.b #$40 : BNE .notSkullWoods
             ; Check if it's the right tile type (0x43).
-            LDA.w $03E4, X : CMP.b #$43 : BNE .dont_burn_skull
+            LDA.w $03E4, X : CMP.b #$43 : BNE .dontBurnSkull
                 PHX
                 
                 ; Initiate the sequence for burning open the final portion of the
@@ -164,7 +165,9 @@ Ancilla_ConsumingFire_self_terminate:
                 
                 PLX
     
-    .dont_burn_skull
+            .dontBurnSkull
+        .notSkullWoods
+    .notRodFlame
     
     RTS
 }
@@ -183,7 +186,7 @@ Ancilla_ConsumingFire:
     
     LDY.b #$00
     
-    LDA.w $0C68, X : BEQ .self_terminate
+    LDA.w $0C68, X : BEQ .selfTerminate
         LSR #3 : BEQ .flaming_out
             TAX
             

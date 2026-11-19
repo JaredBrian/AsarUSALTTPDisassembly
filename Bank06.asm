@@ -3715,7 +3715,7 @@ ThrownSprite_CheckDamageToSinglePeer:
         
         PHY
         
-        JSL.l Ancilla_CheckSpriteDamage_preset_class
+        JSL.l Ancilla_CheckSpriteDamage_presetClass
         
         PLY : PLX
         
@@ -4664,7 +4664,7 @@ Sprite_CheckTileProperty:
             LDA.w $0EA0, X : BEQ .BRANCH_PI
                 LDA.w $0CE2, X : BMI .BRANCH_UPSILON
                     LDA.b #$04
-                    JSL.l Ancilla_CheckSpriteDamage_preset_class
+                    JSL.l Ancilla_CheckSpriteDamage_presetClass
                     
                     LDA.w $0EF0, X : BEQ .BRANCH_UPSILON
                         LDA.b #$99 : STA.w $0EF0, X
@@ -5610,7 +5610,7 @@ AncillaDamageClasses:
 
 ; ==============================================================================
 
-; $036CB7-$036D24 LONG JUMP LOCATION
+; $036CB7-$036D32 LONG JUMP LOCATION
 Ancilla_CheckSpriteDamage:
 {
     LDY.w $0EF0, X : BPL .sprite_not_already_dying
@@ -5630,82 +5630,80 @@ Ancilla_CheckSpriteDamage:
     
     PLX
     
-    CMP.b #$06 : BNE .not_arrow_damage_class
+    ; Check if we need to use the arrow damage class:
+    CMP.b #$06 : BNE .notArrowDamageClass
         ; Do we have silver arrows?
-        PHA : LDA.l $7EF340 : CMP.b #$03 : PLA : BCC .not_arrow_damage_class
-            ; Is this Ganon?
-            ; TODO: Go back and check if this means he's invincible, or just
-            ; arrow prone (to deathing).
-            LDA.w $0E20, X : CMP.b #$D7 : BNE .not_invincible_ganon
+        PHA : LDA.l $7EF340 : CMP.b #$03 : PLA : BCC .notArrowDamageClass
+            ; Is this invincible Ganon?
+            LDA.w $0E20, X : CMP.b #$D7 : BNE .notInvincibleGanon
                 ; Set damage timer? (In the event it's the arrow-vulnerable
                 ; Ganon).
                 LDA.b #$20 : STA.w $0F10, X
             
-            .not_invincible_ganon
+            .notInvincibleGanon
             
             LDA.b #$09
             
-    .not_arrow_damage_class
+    .notArrowDamageClass
 
-    ; TODO: Should this really be in the Ancilla namespace? Perhaps this and
-    ; its brethen should be in the Sprite_ namespace and flip around the
-    ; ancilla part so it's taking damage from an ancilla or damage class.
     ; $036CE0 ALTERNATE ENTRY POINT
-    .preset_class
+    .presetClass
     
-    CMP.b #$0F : BNE .not_quake_spell
-        LDY.w $0F70, X : BEQ .quake_only_affects_enemy_on_ground
-            ; Dem's tha breaks, kiddo.
+    ; Check for the quake spell damage class:
+    CMP.b #$0F : BNE .notQuakeSpell
+        ; Check if the sprite is on the ground:
+        LDY.w $0F70, X : BEQ .enemyOnGround
+            ; If not, it won't be affected by the quake spell.
             RTL
         
-        .quake_only_affects_enemy_on_ground
-    .not_quake_spell
+        .enemyOnGround
+    .notQuakeSpell
     
-    CMP.b #$00 : BEQ .boomerang_or_hookshot_class
-        CMP.b #$07 : BNE .not_boomerang_or_hookshot
+    ; Check for the boomerang/hookshot damage class:
+    CMP.b #$00 : BEQ .boomerangOrHookshotClass
+        CMP.b #$07 : BNE .notBoomerangOrHookshot
+            .boomerangOrHookshotClass
     
-    .boomerang_or_hookshot_class
-    
-    JSL.l .apply_damage
-    
-    LDA.w $0CE2, X : BNE .dont_spawn_repulse_spark
-        LDA.w $0FAC : BNE .dont_spawn_repulse_spark
-            LDA.b #$05 : STA.w $0FAC
+            JSL.l .applyDamage
             
-            LDY.w $0FB6
-            LDA.w $0C04, Y : ADC.b #$04 : STA.w $0FAD
-            LDA.w $0BFA, Y              : STA.w $0FAE
-            
-            LDA.b $EE : STA.w $0B68
-            
-            STZ.w $012E
-            
-            LDA.b #$05
-            JSL.l Sound_SetSFX2PanLong
+            ; If the sprite took damage, don't spawn a repulse spark:
+            LDA.w $0CE2, X : BNE .dontSpawnRepulseSpark
+                ; Don't add a repulse spark if one is already animating:
+                LDA.w $0FAC : BNE .dontSpawnRepulseSpark
+                    LDA.b #$05 : STA.w $0FAC
+                    
+                    LDY.w $0FB6
+                    LDA.w $0C04, Y : ADC.b #$04 : STA.w $0FAD
+                    LDA.w $0BFA, Y              : STA.w $0FAE
+                    
+                    LDA.b $EE : STA.w $0B68
+                    
+                    STZ.w $012E
+                    
+                    LDA.b #$05
+                    JSL.l Sound_SetSFX2PanLong
 
-    .dont_spawn_repulse_spark
+            .dontSpawnRepulseSpark
 
-    RTL
+            RTL
 
-    .not_boomerang_or_hookshot
+    .notBoomerangOrHookshot
 
-    ; Bleeds into the next function.
-}
-    
-; $036D25-$036D32 LONG JUMP LOCATION
-Ancilla_CheckSpriteDamage_apply_damage:
-{
-    STA.w $0CF2 : TAY
+    ; $036D25 ALTERNATE ENTRY POINT
+    .applyDamage
+
+    STA.w $0CF2
+    TAY
     
     LDA.b #$20
     
-    CPY.b #$08 : BNE .not_bomb_class
+    CPY.b #$08 : BNE .notBombClass
         ; Cause the sprite to recoil more from bomb damage, right?
         LDA.b #$35
 
-    .not_bomb_class
+    .notBombClass
 
-    BRA .BRANCH_$36D89
+    BRA Sprite_ApplyCalculatedDamage
 }
 
 ; ==============================================================================
@@ -5784,6 +5782,7 @@ Sprite_ApplyCalculatedDamage:
     ; Removing this line makes it impossible to hit anything with your sword.
     STZ.w $0CF3
     
+    ; Check if the sprite is impervious to damage:
     LDA.w $0E60, X : AND.b #$40 : BNE .impervious
         LDA.b #$00 : XBA
         
@@ -5797,7 +5796,9 @@ Sprite_ApplyCalculatedDamage:
     
     REP #$20
     ASL #4 : ORA.w $0CF2 : PHX
+
     REP #$10
+
     TAX
     SEP #$20
     

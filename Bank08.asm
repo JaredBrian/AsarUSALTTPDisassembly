@@ -953,7 +953,7 @@ Ancilla_CheckTargetedTileCollision:
         
         ; This one is also due to ignoring off screen collision, but in the
         ; x coordinate.
-        LDA.b $02 : SEC : SBC.b $E2 : CMP.w #$0100 : SEP #$20 : BCS .no_collision
+        LDA.b $02 : SEC : SBC.b $E2 : CMP.w #$0100 : SEP #$20 : BCS .noCollision
             LDA.b $1B : BNE .check_indoor_collision
                 REP #$20
                 
@@ -1005,7 +1005,7 @@ Ancilla_CheckTargetedTileCollision:
     
     .ignore_off_screen_collision_y
     
-    BRA .no_collision
+    BRA .noCollision
     
     .not_attr_3
     .forced_high_priority
@@ -1013,17 +1013,17 @@ Ancilla_CheckTargetedTileCollision:
     ; TODO: Educated guess: This looks like an attempt to get the object out
     ; of high priority status that resulted from hitting certain tiles
     ; in earlier frames, like ledges.
-    DEC.w $028A, X : BPL .no_collision
+    DEC.w $028A, X : BPL .noCollision
         STZ.w $028A, X
         
-        LDA.b $0F : CMP.b #$04 : BNE .no_collision
+        LDA.b $0F : CMP.b #$04 : BNE .noCollision
             LDA.b #$06 : STA.w $028A, X
             
             LDA.w $0280, X : EOR.b #$01 : STA.w $0280, X
             
-            BRA .no_collision
+            BRA .noCollision
         
-    .no_collision
+    .noCollision
     .tile_type_not_collision_candidate
     
     CLC
@@ -1217,7 +1217,7 @@ Ancilla_CheckTileCollision_Class2:
             
             ; Collision detection table:
             TAY
-            LDA.w .collision_table, Y : BEQ .no_collision
+            LDA.w .collision_table, Y : BEQ .noCollision
                 CMP.b #$02 : BNE .not_sloped_collision
                     ; Should be noted that like the other return points for this
                     ; routine, the above routine returns a boolean result via
@@ -1234,14 +1234,14 @@ Ancilla_CheckTileCollision_Class2:
                     LDA.w $03CA, X : BNE .collided
                         LDA.b #$01 : STA.w $0280, X
                         
-                        BRA .no_collision
+                        BRA .noCollision
                 
                 .not_ledge_tile
                 
                 CMP.b #$03 : BNE .collided
                     LDY.w $03CA, X : BNE .collided
 
-            .no_collision
+            .noCollision
             .ignore_collision_on_pseudo_bg
     .ignore_off_screen_collision
     
@@ -1268,27 +1268,38 @@ incsrc "ancilla_beam_hit.asm"
 ; $040D68-$040DA1 LOCAL JUMP LOCATION
 Ancilla_CheckSpriteCollision:
 {
+    ; Loop through each sprite:
     LDY.b #$0F
+    .spriteLoop
     
-    .next_sprite
-    
-        LDA.w $0C4A, X : CMP.b #$09 : BEQ .arrow_or_hookshot
-                         CMP.b #$1F : BEQ .arrow_or_hookshot
-            TYA : EOR.b $1A : AND.b #$03 : ORA.w $0F00, Y : BNE .ignore_sprite
+        ; Check if the ancilla is an arrow or the hookshot.
+        LDA.w $0C4A, X : CMP.b #$09 : BEQ .arrowOrHookshot
+                         CMP.b #$1F : BEQ .arrowOrHookshot
+            ; Do some crazy math to determine if collision should be calculated
+            ; this frame and if the sprite is paused:
+            TYA : EOR.b $1A : AND.b #$03 : ORA.w $0F00, Y : BNE .ignoreSprite
         
-        .arrow_or_hookshot
+        .arrowOrHookshot
         
-        LDA.w $0DD0, Y : CMP.b #$09 : BCC .ignore_sprite
-            LDA.w $0CAA, Y : AND.b #$02 : BNE .ignore_priority_differences
-                LDA.w $0280, X : BNE .ignore_sprite
+        ; Check if the sprite is alive:
+        LDA.w $0DD0, Y : CMP.b #$09 : BCC .notAlive
+            ; Check if the sprite should check for priority differences:
+            LDA.w $0CAA, Y : AND.b #$02 : BNE .ignorePriorityDifferences
+                ; TODO: Why?
+                ; Check if the ancilla has high OAM priority:
+                LDA.w $0280, X : BNE .ignoreSprite
             
-            .ignore_priority_differences
+            .ignorePriorityDifferences
             
-            LDA.w $0C7C, X : CMP.w $0F20, Y : BNE .ignore_sprite
+            ; Check if the ancilla and sprite are on the same layer:
+            LDA.w $0C7C, X : CMP.w $0F20, Y : BNE .notSameLayer
                 JSR.w Ancilla_CheckIndividualSpriteCollision
         
-        .ignore_sprite
-    DEY : BPL .next_sprite
+            .notSameLayer
+        .notAlive
+
+        .ignoreSprite
+    DEY : BPL .spriteLoop
     
     CLC
     
@@ -1330,15 +1341,21 @@ Ancilla_CheckIndividualSpriteCollision:
     
     PLX : PLY
     
-    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCS .hit_box_overlap
-        JMP.w .no_collision
+    ; Check if the hitboxes overlap:
+    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCS .hitBoxOverlap
+        ; OPTIMIZE: Would have been better to just return here.
+        JMP.w .noCollision
     
-    .hit_box_overlap
+    .hitBoxOverlap
     
-    LDA.w $0B6B, Y : AND.b #$08 : BEQ .doesnt_deflect_arrows
-        LDA.w $0C4A, X : CMP.b #$09 : BNE .not_arrow_ancilla
-            LDA.w $0E20, Y : CMP.b #$1B : BEQ .not_arrow_vs_enemy_arrow
-                .create_deflected_arrow
+    ; Check if the sprite deflects arrows (or the hookshot):
+    LDA.w $0B6B, Y : AND.b #$08 : BEQ .doesntDeflectArrows
+        ; Check if the ancilla is an arrow:
+        LDA.w $0C4A, X : CMP.b #$09 : BNE .notArrowAncilla
+            ; Check if the sprite is an enemy arrow:
+            LDA.w $0E20, Y : CMP.b #$1B : BEQ .notEnemyArrow
+                ; $040DD8 ALTERNATE ENTRY POINT
+                .createDeflectedArrow
                 
                 JSL.l Sprite_CreateDeflectedArrow
                 
@@ -1346,27 +1363,28 @@ Ancilla_CheckIndividualSpriteCollision:
                 
                 RTS
             
-            .not_arrow_vs_enemy_arrow
+            .notEnemyArrow
             
-            ; Do we have Silver Arrows?
-            LDA.l $7EF340 : CMP.b #$03 : BCC .not_silver_arrows
-                JSR.w .undeflected_silver_arrow
+            ; Check if the player has the Silver Arrows:
+            LDA.l $7EF340 : CMP.b #$03 : BCC .noSilverArrows
+                JSR.w .undeflectedSilverSrrow
                 
                 CLC
                 
                 RTS
             
-            .not_silver_arrows
+            .noSilverArrows
             
-            JSR.w .create_deflected_arrow
+            JSR.w .createDeflectedArrow
 
-        .not_arrow_ancilla
-    .doesnt_deflect_arrows
+        .notArrowAncilla
+    .doesntDeflectArrows
     
     ; $040DEE ALTERNATE ENTRY POINT
-    .undeflected_silver_arrow
+    .undeflectedSilverSrrow
     
-    LDA.w $0CAA, Y : AND.b #$10 : BEQ .doesnt_absorb_ancilla
+    ; Check if the sprite is immune from the ancilla's effect:
+    LDA.w $0CAA, Y : AND.b #$10 : BEQ .doesntAbsorbAncilla
         ; Check if the ancilla hit the sprite from the 'front', meaning
         ; that they have opposing orientations.
         LDA.w $0C72, X : AND.b #$03 : STA.w $0C72, X
@@ -1378,34 +1396,41 @@ Ancilla_CheckIndividualSpriteCollision:
         
         PLY
         
-        CMP.w $0C72, X : BEQ .collision_immunity
+        CMP.w $0C72, X : BEQ .collisionImmunity
     
-    .doesnt_absorb_ancilla
+    .doesntAbsorbAncilla
     
-    LDA.w $0C4A, X : CMP.b #$05 : BEQ .boomerang_ancilla
-        CMP.b #$1F : BNE .not_hookshot_ancilla
-            LDA.w $0E20, Y : CMP.b #$8D : BEQ .is_arrghus_spawn
+    ; Check if the aniclla is the boomerang:
+    LDA.w $0C4A, X : CMP.b #$05 : BEQ .boomerangAncilla
+        ; Or the hookshot:
+        CMP.b #$1F : BNE .notHookshotAncilla
+            ; Check if the sprite is an Arrghus spawn:
+            LDA.w $0E20, Y : CMP.b #$8D : BEQ .isArrghusSpawn
     
-    .boomerang_ancilla
+    .boomerangAncilla
     
-    ; Can't collide because the sprite has begun dying.
-    LDA.w $0EF0, Y : BNE .collision_immunity
-        LDA.w $0CAA, Y : AND.b #$02 : BEQ .not_draggable_sprite
-            .is_arrghus_spawn
+    ; Check if the sprite is currently dying:
+    LDA.w $0EF0, Y : BNE .collisionImmunity
+        ; Check if the sprite is draggable:
+        LDA.w $0CAA, Y : AND.b #$02 : BEQ .notDraggableSprite
+            .isArrghusSpawn
             
-            ; Initiate dragging the sprite with the hookshot or boomerang?
+            ; TODO: Initiate dragging the sprite with the hookshot or boomerang?
             TXA : INC : STA.w $0DA0, Y
             
-            BRA .indicate_dragging_ancilla
+            BRA .indicateDraggingAncilla
             
-            .not_hookshot_ancilla
-        .not_draggable_sprite
+            .notHookshotAncilla
+        .notDraggableSprite
         
-        LDA.w $0BA0, Y : BNE .no_collision
-            LDA.w $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king_component
-                LDA.w $0DB0, Y : CMP.b #$03 : BCC .collision_immunity
+        ; Check if the sprite should ignore projectiles:
+        LDA.w $0BA0, Y : BNE .noCollision
+            ; Check if the sprite is the Helmasaur King:
+            LDA.w $0E20, Y : CMP.b #$92 : BNE .notHelmasaurKing
+                ; Check if the Helmasaur King is in the "invincible" state:
+                LDA.w $0DB0, Y : CMP.b #$03 : BCC .collisionImmunity
             
-            .not_helmasaur_king_component
+            .notHelmasaurKing
             
             PHX
             
@@ -1414,21 +1439,23 @@ Ancilla_CheckIndividualSpriteCollision:
             LDA.w .sprite_recoil_y, X : STA.w $0F30, Y
             
             PLX : PHX
+            LDA.w $0C4A, X
+
+            STX.w $0FB6
             
-            LDA.w $0C4A, X : STX.w $0FB6
-            
-            TYX : PHY
+            TYX
+            PHY
             
             JSL.l Ancilla_CheckSpriteDamage
             
             PLY
             PLX
             
-            .indicate_dragging_ancilla
+            .indicateDraggingAncilla
             
             LDA.w $0C4A, X : STA.w $0BB0, Y
     
-    .collision_immunity
+    .collisionImmunity
     
     PLA : PLA
     
@@ -1438,7 +1465,7 @@ Ancilla_CheckIndividualSpriteCollision:
     
     RTS
     
-    .no_collision
+    .noCollision
     
     CLC
     
@@ -1902,32 +1929,34 @@ Ancilla_CheckBasicSpriteCollision:
 {
     LDY.b #$0F
     
-    .next_sprite
+    .spriteLoop
     
         ; This staggers out collision detection so only some fraction of the
         ; prites are being checked for collision with the object.
         TYA : EOR.b $1A : AND.b #$03
-        ORA.w $0F00, Y : ORA.w $0EF0, Y : BNE .no_collision
-            LDA.w $0DD0, Y : CMP.b #$09 : BCC .no_collision
+        ORA.w $0F00, Y : ORA.w $0EF0, Y : BNE .noCollision
+            ; Check if the sprite is alive:
+            LDA.w $0DD0, Y : CMP.b #$09 : BCC .spriteIsDead
                 LDA.w $0CAA, Y : AND.b #$02 : BNE .sprite_ignores_priority
-                    LDA.w $0280, X : BNE .no_collision
+                    LDA.w $0280, X : BNE .noCollision
                 
                 .sprite_ignores_priority
                 
-                LDA.w $0C7C, X : CMP.w $0F20, Y : BNE .no_collision
+                LDA.w $0C7C, X : CMP.w $0F20, Y : BNE .noCollision
                     LDA.w $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
                         ; Crystal switches ignore interaction with somarian
                         ; blocks apparently. (But when they are transmuted to
                         ; blasts, this is no longer the case.)
-                        LDA.w $0E20, Y : CMP.b #$1E : BEQ .no_collision
-                            CMP.b #$90 : BEQ .no_collision
+                        LDA.w $0E20, Y : CMP.b #$1E : BEQ .noCollision
+                            CMP.b #$90 : BEQ .noCollision
                     
                     .not_somarian_block
                     
                     JSR.w Ancilla_CheckSingleBasicSpriteCollision
         
-        .no_collision
-    DEY : BPL .next_sprite
+            .spriteIsDead
+        .noCollision
+    DEY : BPL .spriteLoop
     
     CLC
     
@@ -1950,7 +1979,7 @@ Ancilla_CheckSingleBasicSpriteCollision:
     PLX
     PLY
     
-    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
+    JSL.l Utility_CheckIfHitBoxesOverlapLong : BCC .noCollision
         ; Helmasaur king check...
         LDA.w $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king_component
             LDA.w $0DB0, Y : CMP.b #$03 : BCC .not_helmasaur_king_mask
@@ -1967,7 +1996,7 @@ Ancilla_CheckSingleBasicSpriteCollision:
         
         .dont_repulse_sprite
         
-        LDA.w $0BA0, Y : BNE .no_collision
+        LDA.w $0BA0, Y : BNE .noCollision
             LDA.w $0C04, X : SEC : SBC.b #$08 : STA.b $04
             LDA.w $0C18, X       : SBC.b #$00 : STA.b $05
             
@@ -2007,7 +2036,7 @@ Ancilla_CheckSingleBasicSpriteCollision:
             
             RTS
     
-    .no_collision
+    .noCollision
     
     CLC
     
@@ -2032,6 +2061,7 @@ Ancilla_SetupBasicHitBox:
     LDA.b #$0F : STA.b $02
     LDA.b #$0F : STA.b $03
     
+    ; $0462F8 ALTERNATE ENTRY POINT
     .return
     
     RTS

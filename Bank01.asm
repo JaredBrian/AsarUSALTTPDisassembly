@@ -10021,7 +10021,7 @@ ExplodingWall:
 {
     ; $00C666
     .ExplosionMovement
-    dw $0004, $0006, $0000, $0000, $0000
+    dw $0004, $0006, $0000, $0000, $0002
     
     ; $00C670
     .TilemapOffset
@@ -10047,30 +10047,42 @@ RoomTag_PullSwitchExplodingWall:
     LDA.w $0642 : BEQ .return
         REP #$30
         
+        ; $00C68C ALTERNATE ENTRY POINT
         .checkForBombableWall
         
+        ; Loop through the door slots and look for an explosion wall.
         LDY.w #$FFFE
-        
-        .BRANCH_GAMMA
+        .findDoorLoop
         
             INY : INY
-        LDA.w $1980, Y : AND.w #$00FE : CMP.w #$0030 : BNE .BRANCH_GAMMA
+        LDA.w $1980, Y : AND.w #$00FE : CMP.w #$0030 : BNE .findDoorLoop
         
+        ; Store the index of the explosion wall.
         STY.w $0456
         
-        ; WTF: Based on this logic, wouldn't index 6 never get used in the
-        ; tables below?
         LDA.b $21 : AND.w #$0001 : INC : ASL : ASL : TAX
         
-        LDA.w $19C0, Y : AND.w #$0002 : BEQ .BRANCH_DELTA
+        ; Load from Link's X position instead if the door is horizontal:
+        LDA.w $19C0, Y : AND.w #$0002 : BEQ .vertical
+            ; TODO: There are no horizontal walls in game but if I had to guess,
+            ; horizontal walls were never fully functional as there should be another
+            ; ASL here I think.
             LDA.b $23 : AND.w #$0001 : ASL : TAX
         
-        .BRANCH_DELTA
+        .vertical
         
+        ; Set the direction the exploding wall bursts will move.
+        ; 0x00 is out from center top
+        ; 0x02 is out from center bottom
+        ; 0x04 is down
+        ; 0x06 is down
         LDA.l ExplodingWall_ExplosionMovement, X : STA.l $7F001C
-        
+
+        ; Get the tilemap address for the door and add an offset to it.
         LDA.w $19A0, Y : CLC : ADC.l ExplodingWall_TilemapOffset, X : TAY
         
+        ; Get some dungeon tilemap positions that will be used by the
+        ; blast wall ancilla later.
               AND.w #$007E : ASL #2 : CLC : ADC.w $062C : STA.l $7F001A
         TYA : AND.w #$1F80 : LSR #4 : CLC : ADC.w $062E : STA.l $7F0018
         
@@ -10079,8 +10091,10 @@ RoomTag_PullSwitchExplodingWall:
         ; Play "puzzle solved" sound effect.
         LDA.b #$1B : STA.w $012F
         
+        ; Set the blast wall AI step.
         LDA.b #$01 : STA.w $0454
         
+        ; Cancel out the current tag.
         LDX.b $0E
         STZ.b $AE, X
         
@@ -10619,8 +10633,10 @@ RoomTag_AdvanceGiganticWall:
     CPY.b #$20 : BCS .beta
         TXA : CLC : ADC.w #$0008 : TAX
     
-    ; $00CA93 ALTERNATE ENTRY POINT
     .beta
+
+    ; $00CA93 ALTERNATE ENTRY POINT
+    .return
     
     RTS
 }
@@ -10631,7 +10647,8 @@ RoomTag_AdvanceGiganticWall:
 ; $00CA94-$00CB19 JUMP LOCATION
 RoomTag_WaterOff:
 {
-    LDA.w $0642 : BEQ RoomTag_AdvanceGiganticWall_beta
+    ; Check if a sprite switch has been triggered:
+    LDA.w $0642 : BEQ RoomTag_AdvanceGiganticWall_return
         ; Change window mask settings...
         LDA.b #$03 : STA.b $96
         
@@ -10942,7 +10959,6 @@ RoomTag_OperateChestHoles:
         ; Tell the "show dungeon overlay" submodule which overlay to use.
         STY.w $04BA
         
-        ; OPTIMIZE: Is this SEP necessary?
         SEP #$30
         
         STZ.b $BA
@@ -12261,10 +12277,11 @@ Object_RefreshStaircaseAttr:
 ; $00D6C1-$00D747 LONG JUMP LOCATION
 Door_BlastWallExploding:
 {
-    ; Compare with $7F0000? .... well that's confusing
     LDA.b #$06 : STA.w $02E4
                  STA.w $0FC1
-    CMP.l $7F0000 : BNE .BRANCH_ALPHA
+
+    ; Wait until the ancilla blast wall has advanced enough:
+    CMP.l $7F0000 : BNE .dontAdvance
         REP #$30
         
         JSR.w IndexAndClearExplodingWall
@@ -12274,7 +12291,6 @@ Door_BlastWallExploding:
                        STA.w $0710
         
         INC.w $0454 : INC.w $0454
-        
         LDA.w $0454 : CMP.w #$0015 : BNE .notDoneExploding
             LDY.w $0456
             LDA.w $068C : ORA.w DungeonMask, Y : STA.w $068C
@@ -12314,7 +12330,7 @@ Door_BlastWallExploding:
         
         LDA.b #$03 : STA.b $18
     
-    .BRANCH_ALPHA
+    .dontAdvance
     
     RTL
 }
@@ -16936,7 +16952,6 @@ Dungeon_DrawChunk:
     
     LDA.b $01 : LSR #3 : ROR.b $08 : STA.b $09
     
-    ; There was an error here, it was an STA when it should be a STY.
     INY : STY.b $BA
     
     REP #$20
@@ -16946,22 +16961,30 @@ Dungeon_DrawChunk:
     LDX.b $08
     
     CMP.w #$00A4 : BNE .notHole
-        LDY.w #$05AA
-        LDA.w RoomDrawObjectData+00, Y
-        STA.l $7E2080, X : STA.l $7E2082, X
-        STA.l $7E2084, X : STA.l $7E2086, X
-        STA.l $7E2100, X : STA.l $7E2102, X
-        STA.l $7E2104, X : STA.l $7E2106, X
+        ; #$05AA
+        LDY.w #RoomDrawObjectData_Obj05AA-RoomDrawObjectData
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000+$0080, X
+                                         STA.l $7E2000+$0082, X
+                                         STA.l $7E2000+$0084, X
+                                         STA.l $7E2000+$0086, X
+                                         STA.l $7E2000+$0100, X
+                                         STA.l $7E2000+$0102, X
+                                         STA.l $7E2000+$0104, X
+                                         STA.l $7E2000+$0106, X
+
+        ; #$063C
+        LDY.w #RoomDrawObjectData_Obj063C-RoomDrawObjectData
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2000+$0000, X
+                                         STA.l $7E2000+$0002, X
+                                         STA.l $7E2000+$0004, X
+                                         STA.l $7E2000+$0006, X
         
-        LDY.w #$063C
-        LDA.w RoomDrawObjectData+02, Y
-        STA.l $7E2000, X : STA.l $7E2002, X
-        STA.l $7E2004, X : STA.l $7E2006, X
-        
-        LDY.w #$0642
-        LDA.w RoomDrawObjectData+02, Y
-        STA.l $7E2180, X : STA.l $7E2182, X
-        STA.l $7E2184, X : STA.l $7E2186, X
+        ; #$0642
+        LDY.w #-RoomDrawObjectData_Obj0642-RoomDrawObjectData
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2000+$0180, X
+                                         STA.l $7E2000+$0182, X
+                                         STA.l $7E2000+$0184, X
+                                         STA.l $7E2000+$0186, X
         
         RTS
     
@@ -16969,22 +16992,25 @@ Dungeon_DrawChunk:
     
     ; Use the floor 2 pattern.
     LDY.w $046A
-    
-    LDA.w RoomDrawObjectData+00, Y
-    STA.l $7E2000, X : STA.l $7E2004, X
-    STA.l $7E2100, X : STA.l $7E2104, X
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000+$0000, X
+                                     STA.l $7E2000+$0004, X
+                                     STA.l $7E2000+$0100, X
+                                     STA.l $7E2000+$0104, X
 
-    LDA.w RoomDrawObjectData+02, Y
-    STA.l $7E2002, X : STA.l $7E2006, X
-    STA.l $7E2102, X : STA.l $7E2106, X
+    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2000+$0002, X
+                                     STA.l $7E2000+$0006, X
+                                     STA.l $7E2000+$0102, X
+                                     STA.l $7E2000+$0106, X
 
-    LDA.w RoomDrawObjectData+08, Y
-    STA.l $7E2080, X : STA.l $7E2084, X
-    STA.l $7E2180, X : STA.l $7E2184, X
+    LDA.w RoomDrawObjectData+08, Y : STA.l $7E2000+$0080, X
+                                     STA.l $7E2000+$0084, X
+                                     STA.l $7E2000+$0180, X
+                                     STA.l $7E2000+$0184, X
 
-    LDA.w RoomDrawObjectData+10, Y
-    STA.l $7E2082, X : STA.l $7E2086, X
-    STA.l $7E2182, X : STA.l $7E2186, X
+    LDA.w RoomDrawObjectData+10, Y : STA.l $7E2000+$0082, X
+                                     STA.l $7E2000+$0086, X
+                                     STA.l $7E2000+$0182, X
+                                     STA.l $7E2000+$0186, X
     
     RTS
 }

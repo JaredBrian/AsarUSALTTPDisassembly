@@ -8828,7 +8828,7 @@ GoodBee_AttackOtherSprite:
                     PHY : PHX
                     
                     TYX
-                    JSL.l Ancilla_CheckSpriteDamage_preset_class
+                    JSL.l Ancilla_CheckSpriteDamage_presetClass
                     
                     PLX : PLY
                     
