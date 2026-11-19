@@ -81,7 +81,8 @@ Tektite_Stationary:
     
     LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .dont_dodge
         LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .dont_dodge
-            ; Is this checking for a sword attack? Maybe.
+            ; Check if the player is currently in a "hidden off-screen" state.
+            ; Usually occurs when exiting a dungeon.
             LDA.b $44 : CMP.b #$80 : BEQ .dont_dodge
                 LDA.w $0F70, X : ORA.w $0F00, X : BNE .dont_dodge
                     LDA.b $EE : CMP.w $0F20, X : BNE .dont_dodge

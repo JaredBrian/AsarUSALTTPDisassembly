@@ -135,6 +135,8 @@ Stalfos_Visible:
             LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0050 : BCS .dont_dodge
                 SEP #$20
                 
+                ; Check if the player is currently in a "hidden off-screen" state.
+                ; Usually occurs when exiting a dungeon.
                 LDA.b $44 : CMP.b #$80 : BEQ .dont_dodge
                     LDA.w $0F70, X : ORA.w $0F00, X : BNE .dont_dodge
                         LDA.b $EE : CMP.w $0F20, X : BNE .dont_dodge
