@@ -970,15 +970,29 @@ struct WRAM $7E0000
 
     ; $84[0x02] - (Overworld)
     .OWTMIndex: skip $02
-        ; Index for overworld map16 buffer to load new graphics when scrolling.
+        ; Index for the overworld Tile16 buffer to load new tiles when scrolling.
 
     ; $86[0x02] - (Overworld)
-    .OWTMHScroll: skip $02
-        ; Overworld horizontal scroll position. Used to index $0500 and tilemap.
+    .OWTile16HRingIndex: skip $02
+        ; the column index for large overworld area's BG2 Tile16 map ring buffer.
+        ; This selects which of the 0x20 physical Tile16 column slots receives
+        ; the next incoming world column slice when horizontal camera scrolling
+        ; crosses a Tile16 boundary.
+        ; Incremented/decremented with AND 0x001F, so it wraps:
+        ;   0x00 -> ... -> 0x1F -> 0x00
+        ; Values 0x00-0x0F select the left tilemap half; values 0x10-0x1F select
+        ; the right half.
 
-    ; $88[0x02] - (Overworld)
-    .OWTMVScroll: skip $02
-        ; Overworld vertical scroll position. Used to index $0500 and tilemap.
+    ; $88[0x02] - (Overworld, Tilemap)
+    .OWTile16VRingIndex: skip $02
+        ; the row index for large overworld area's BG2 Tile16 map ring buffer.
+        ; This selects which of the 0x20 physical Tile16 row slots receives
+        ; the next incoming world row slice when vertical camera scrolling
+        ; crosses a Tile16 boundary.
+        ; Incremented/decremented with AND 0x001F, so it wraps:
+        ;   0x00 -> ... -> 0x1F -> 0x00
+        ; Values 0x00-0x0F select the upper tilemap half; values 0x10-0x1F select
+        ; the lower half.
 
     ; $8A[0x02] - (Overworld, High Junk)
     .OWAreaIndex: skip $02
@@ -4466,7 +4480,7 @@ struct WRAM $7E0000
         ; and infinite loop where you pick up a rock and try to warp where
         ; it was. If the warp failed, and the game sends you back to the
         ; LW you would spawn on top of the rock again and get stuck. See
-        ; Overworld_RestoreFailedWarpMap16 in bank 0x02 for more details.
+        ; Overworld_RestoreFailedWarpTile16 in bank 0x02 for more details.
 
     ; TODO: There are some duplicate stair count names here, verify what
     ; they actually are with ZS.
@@ -7961,6 +7975,44 @@ struct WRAM $7E0000
     ; In game layout: (u = unused?)       uuddaaaa abcccccc
     ; Translated into VRAM base address:  uuuddbaa aaaccccc
 
+    ; ===========================================================================
+    ; $1100 dynamic NMI DMA-buffer formats
+    ; ===========================================================================
+    ;
+    ; $1100 is reused by at least two incompatible NMI DMA packet formats.
+    ;
+    ; 1. Overworld scrolling ($17 = 0x03; NMI_UpdateScrollingOwMap):
+    ;
+    ;     $1100[0x02] - Shared list header:
+    ;         bits 0-13 - Fixed DMA byte count for every transfer in the list.
+    ;         bit 15    - Selects the VRAM increment layout used for the list.
+    ;         bit 14    - Ignored by NMI_UpdateScrollingOwMap.
+    ;
+    ;     $1102[0x02] - First target VRAM word address.
+    ;     $1104[0x??] - First inline source payload.
+    ;
+    ;     Each later transfer consists only of:
+    ;         target VRAM address [0x02]
+    ;         inline payload [header byte count]
+    ;
+    ;     A 0xFFFF target terminates the list.
+    ;
+    ; 2. Dungeon dynamic updates ($18 = 0x01):
+    ;
+    ;     Each variable-length packet is:
+    ;         +0x00[0x02] - Target VRAM word address.
+    ;         +0x02[0x01] - VMAIN ($2115) value.
+    ;         +0x03[0x01] - DMA byte count.
+    ;         +0x04[0x??] - Inline source payload.
+    ;
+    ;     A 0xFFFF target terminates the packet list.
+
+    ; $1100[0x??] - (Overworld, NMI, Tilemap)
+    .OWScrollDMATransferList:
+
+    ; $1100[0x??] - (Dungeon, NMI, Tilemap)
+    .DunDynamicTilemapDMAPacketList:
+
     ; $1100 - 
         ; Target VRAM address for the transfer
 
@@ -8307,7 +8359,7 @@ struct WRAM $7E0000
     ; Start of unmirrored WRAM
     ; ===========================================================================
 
-    ; Tile Tilemap Format: Vhopppcc cccccccc
+    ; Tile8 Tilemap Format: Vhopppcc cccccccc
 
     ; Priority order of sprites and background tiles (from front to back):
     ; High-priority Sprites (OAM priority 2 or 3)
@@ -8316,9 +8368,23 @@ struct WRAM $7E0000
     ; Low-priority  Background Tiles (Priority 0)
     ; Low-priority  Sprites (OAM priority 0)
 
-    ; Overworld:
-    ; $7E2000[0x2000] - Map16 tile data for the overworld. Supports up to 1024x1024 pixels of tiles
-    ; Note that this is handled somewhat differently than the Map8 data in the dungeons which supports up to 512x512
+    ; $7E2000[0x2000] - (Overworld, Tile16)
+    .OverworldTil16Buffer: skip $02
+        ; Complete current overworld area in Tile16. Large areas take up the
+        ; whole 0x2000 byte buffer, small areas only take up 0x0800.
+        ; For large areas, incoming Tile16 rows or columns are expanded on
+        ; demand to Tile8 tilemap words while scrolling, then uploaded into the
+        ; wrappedBG2 VRAM tilemap.
+
+    ; The live 64x64 Tile16 area map is stored at $7E2000. When camera scrolling
+    ; crosses a 16x16 Tile16 boundary, $0416 selects an incoming edge. The 
+    ; scrolling code uses $84 as a source index into $7E2000 and $86/$88 as 
+    ; modulo-0x20 destination indices for the BG2 tilemap ring buffer.
+
+    ; Selected Tile16 IDs are staged in $0500, expanded through the ROM
+    ; Tile16Definitions tables into Map8 tilemap words in $1100, then uploaded by
+    ; NMI_UpdateScrollingOwMap ($17 = 0x03). This is separate from 
+    ; HandleStripes14 and its $14 / $1002 command stream.
 
     ; Dungeons:
     ; $7E2000[0x2000] - when loading dungeon graphics, contains the (map8) tilemap for BG2.
@@ -9278,7 +9344,7 @@ struct WRAM $7F0000
     ; $7FDE00[0x180?] -   ???
 
     ; $7FDF80[0x0280] -   (indoors) I think this is used to describe which rooms have had their sprites loaded (while in a dungeon)
-    ; $7FDF80[0x1000] -   (outdoors) Memory region that indicates where sprites are in the currently loaded overworld map (which map16 tile they're on)
+    ; $7FDF80[0x1000] -   (outdoors) Memory region that indicates where sprites are in the currently loaded overworld map (which Tile16 tile they're on)
 
     ; $7FE200 - 
 
