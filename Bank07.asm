@@ -14136,7 +14136,7 @@ TileDetection_Execute_overworld:
 ; $03DC4A-$03DC4F LOCAL JUMP LOCATION
 TileBehavior_HandleItemAndExecute:
 {
-    JSL.l Overworld_Map16_ToolInteraction
+    JSL.l Overworld_Tile16_ToolInteraction
     
     BRA TileDetection_Execute_overworld_do8x8TileInteraction
 }

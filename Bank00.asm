@@ -1158,7 +1158,7 @@ Overworld_GetTileAttrAtLocation:
     LDA.b $00 : AND.w #$0008 : LSR : LSR : TSB.b $06
     LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL : TAX
     
-    LDA.l Map16Definitions, X : STA.b $06 : AND.w #$01FF : TAX
+    LDA.l Tile16Definitions, X : STA.b $06 : AND.w #$01FF : TAX
     
     LDA.l Overworld_TileAttr, X
     
@@ -1972,7 +1972,7 @@ NMI_UploadBg3Text:
 
 ; ==============================================================================
 
-; This updates the tilemap on the overworld every time you reach a map16
+; This updates the tilemap on the overworld every time you reach a tile16
 ; boundary. From a graphical standpoint, that means every time you cross a
 ; boundary on an imaginary grid of 16x16 pixel tiles.
 ; $000D13-$000D61 JUMP LOCATION
@@ -2935,6 +2935,8 @@ HandleStripes14:
 
     .validTransfer
 
+    .nextTransfer
+
         ; Determines the VRAM target address.
         STA.b $04
 
@@ -3025,7 +3027,7 @@ HandleStripes14:
         ; Fire DMA channel 1.
         LDA.b #$02 : STA.w SNES.DMAChannelEnable
     LDA.b [$00], Y : BMI .endOfTransfers
-        JMP.w .validTransfer
+        JMP.w .nextTransfer
 
     .endOfTransfers
 

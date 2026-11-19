@@ -414,8 +414,8 @@ NULL_1BB1E0:
 ; $0DB800-$0DB85F DATA
 Pool_Overworld_Hole:
 {
-    ; $0DB800 - Map16 coordinates for holes.
-    .map16
+    ; $0DB800 - Tile16 coordinates for holes.
+    .Tile16
     dw $0CE0, $124E, $12CE, $1162, $11E2, $073C, $07BC, $0CE0
     dw $003C, $00BE, $003E, $0388, $0170, $03A4, $0424, $0518
     dw $028A, $020A, $0108
@@ -451,9 +451,9 @@ Overworld_Hole:
 
     .nextHole
 
-        LDA.b $00 : CMP Pool_Overworld_Hole_map16, X : BNE .wrongMap16
+        LDA.b $00 : CMP Pool_Overworld_Hole_Tile16, X : BNE .wrongTile16
             LDA.w $040A : CMP Pool_Overworld_Hole_area, X : BEQ .matchedHole
-                .wrongMap16
+                .wrongTile16
     DEX : DEX : BPL .nextHole
     
     ; Send us to the Chris Houlihan room.      
@@ -709,7 +709,7 @@ Pool_Overworld_Entrance:
     dw $0037 ; 0x7F - OW 37 - Ice rod cave
     dw $0077 ; 0x80 - OW 77 - Dark ice rod big fairy
     
-    ; $0DBA71 - Map16 list for entrances
+    ; $0DBA71 - Tile16 list for entrances
     .TileIndex
     dw $0796 ; 0x00 - Link's house
     dw $01AA ; 0x01 - Sanctuary
@@ -989,12 +989,12 @@ Overworld_Entrance:
     
     ; If player is facing a different direction than up, branch
     LDA.b $2F : AND.w #$00FF : BNE .notFacingUp
-        LDA.l Map16Definitions_1, X : AND.w #$41FF : CMP.w #$00E9 : BEQ .BRANCH_BETA
+        LDA.l Tile16Definitions_1, X : AND.w #$41FF : CMP.w #$00E9 : BEQ .BRANCH_BETA
             CMP.w #$0149 : BEQ .BRANCH_GAMMA
             CMP.w #$0169 : BEQ .BRANCH_GAMMA
                 TYX
                 LDA.l $7E2002, X : ASL #3 : TAX
-                LDA.l Map16Definitions_0, X : AND.w #$41FF : CMP.w #$4149 : BEQ .BRANCH_DELTA
+                LDA.l Tile16Definitions_0, X : AND.w #$41FF : CMP.w #$4149 : BEQ .BRANCH_DELTA
                     CMP.w #$4169 : BEQ .BRANCH_DELTA
                         CMP.w #$40E9 : BNE .BRANCH_EPSILON
                             DEY : DEY
@@ -1007,12 +1007,12 @@ Overworld_Entrance:
         TYX
         
         LDA.w #$0DA4
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDA.w #$0DA6 : STA.l $7E2002, X
         
         LDY.w #$0002
-        JSL.l Overworld_DrawMap16_Anywhere
+        JSL.l Overworld_DrawTile16_Anywhere
         
         SEP #$30
         
@@ -1059,8 +1059,8 @@ Overworld_Entrance:
     
     .BRANCH_EPSILON
     
-    LDA.l Map16Definitions_2, X : AND.w #$01FF : STA.b $00
-    LDA.l Map16Definitions_3, X : AND.w #$01FF : STA.b $02
+    LDA.l Tile16Definitions_2, X : AND.w #$01FF : STA.b $00
+    LDA.l Tile16Definitions_3, X : AND.w #$01FF : STA.b $02
     
     LDX.w #$0056
     
@@ -1146,9 +1146,9 @@ Overworld_Entrance:
 
 ; ==============================================================================
 
-; Handles Map16 interactions with sword, hammer, shovel, magic powder, etc.
+; Handles Tile16 interactions with sword, hammer, shovel, magic powder, etc.
 ; $0DBD7A-$0DBF1D LONG JUMP LOCATION
-Overworld_Map16_ToolInteraction:
+Overworld_Tile16_ToolInteraction:
 {
     LDA.b $1B : BEQ .outdoors ; Yes... branch
         JML.l Dungeon_ToolAndTileInteraction
@@ -1198,7 +1198,7 @@ Overworld_Map16_ToolInteraction:
         
         JSL.l HandlePegPuzzles
         
-        ; Choose the map16 tile with the "peg pounded down" tile
+        ; Choose the Tile16 tile with the "peg pounded down" tile
         LDA.w #$0DCB
         
         JMP.w .noSecret
@@ -1292,7 +1292,7 @@ Overworld_Map16_ToolInteraction:
         LDY.w #$0DC7
         
         CMP.w #$072A : BNE .notOffColorBush
-            ; Use a different replacement map16 tile for the off color bushes
+            ; Use a different replacement Tile16 tile for the off color bushes
             LDY.w #$0DC8
         
         .notOffColorBush
@@ -1303,15 +1303,15 @@ Overworld_Map16_ToolInteraction:
         ; Check for secrets under the bush?
         JSR.w Overworld_RevealSecret : BCS .noSecret
             ; If there's a secret under the bush, like a hole or a cave
-            ; it would require a different replacement map16 tile
+            ; it would require a different replacement Tile16 tile
             LDA.b $0E
         
         .noSecret
         
         STA.l $7E2000, X
         
-        JSL.l Overworld_Memorize_Map16_Change
-        JSL.l Overworld_DrawMap16
+        JSL.l Overworld_Memorize_Tile16_Change
+        JSL.l Overworld_DrawTile16
         
         SEP #$20
         
@@ -1337,7 +1337,7 @@ Overworld_Map16_ToolInteraction:
     LDA.b $00 : AND.w #$0008 : LSR : LSR : TSB.b $06
     
     LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL : TAX
-    LDA.l Map16Definitions, X : AND.w #$01FF : TAX
+    LDA.l Tile16Definitions, X : AND.w #$01FF : TAX
     LDA Overworld_TileAttr, X : PHA
     
     LDA.b $72 : STA.b $00
@@ -1368,7 +1368,7 @@ Overworld_Map16_ToolInteraction:
 Overworld_HammerSFX:
 {
     ASL #3 : TAX
-    LDA.l Map16Definitions, X : AND.w #$01FF : TAX
+    LDA.l Tile16Definitions, X : AND.w #$01FF : TAX
     LDA.l Overworld_TileAttr, X
     
     SEP #$30
@@ -1426,7 +1426,7 @@ RockSmashReplaceOffset:
 ; ==============================================================================
 
 ; $0DBF64-$0DBF9C LOCAL JUMP LOCATION
-Overworld_GetLinkMap16Coords:
+Overworld_GetLinkTile16Coords:
 {
     LDA.b $2F : AND.w #$00FF : TAX
 
@@ -1448,11 +1448,11 @@ Overworld_GetLinkMap16Coords:
 ; $0DBF9D-$0DC054 LONG JUMP LOCATION
 Overworld_LiftableTiles:
 {
-    ; Handles Map16 tiles that are liftable.
+    ; Handles Tile16 tiles that are liftable.
     
     REP #$30
     
-    JSR.w Overworld_GetLinkMap16Coords
+    JSR.w Overworld_GetLinkTile16Coords
     
     LDA.b $00 : PHA
     LDA.b $02 : PHA
@@ -1518,8 +1518,8 @@ Overworld_LiftableTiles:
     
     STA.l $7E2000, X
     
-    JSL.l Overworld_Memorize_Map16_Change
-    JSL.l Overworld_DrawMap16
+    JSL.l Overworld_Memorize_Tile16_Change
+    JSL.l Overworld_DrawTile16
     
     SEP #$20
     
@@ -1539,7 +1539,7 @@ Overworld_LiftableTiles:
     LDA.b $02 : AND.w #$0008 : LSR : LSR : TSB.b $06
     
     LDA.b $00 : LSR #3 : AND.w #$0001 : ORA.b $06 : ASL : TAX
-    LDA.l Map16Definitions, X : AND.w #$01FF : TAX
+    LDA.l Tile16Definitions, X : AND.w #$01FF : TAX
     
     PLA : STA.b $00
     PLA : STA.b $02
@@ -1559,7 +1559,7 @@ Overworld_SmashRockPile:
     .checkForBush
     
     LDY.w #$0DC7
-    ; Check if the map16 tile is a bush
+    ; Check if the Tile16 tile is a bush
     CMP.w #$0036 : BEQ Overworld_LiftableTile_liftingSmallObject
         PLA : PLA
 
@@ -1578,7 +1578,7 @@ Overworld_SmashRockPileFromAbove:
     LDA.b $20 : PHA
     CLC : ADC.w #$0008 : STA.b $20
     
-    JSR.w Overworld_GetLinkMap16Coords
+    JSR.w Overworld_GetLinkTile16Coords
     
     PLA : STA.b $20
     
@@ -1590,7 +1590,7 @@ Overworld_SmashRockPileFromHere:
 {
     REP #$30
     
-    JSR.w Overworld_GetLinkMap16Coords
+    JSR.w Overworld_GetLinkTile16Coords
     
     .continue
     
@@ -1735,10 +1735,10 @@ Overworld_ApplyBombToTile:
         
         STA.l $7E2000, X
         
-        JSL.l Overworld_Memorize_Map16_Change
+        JSL.l Overworld_Memorize_Tile16_Change
         
         LDY.w #$0000
-        JSL.l Overworld_DrawMap16_Anywhere
+        JSL.l Overworld_DrawTile16_Anywhere
         
         PLA         : AND.w #$FFF8 : STA.b $00
         LDA.w $0488 : AND.w #$FFF8 : STA.b $02
@@ -1772,17 +1772,17 @@ Overworld_ApplyBombToTile:
     
     STA.l $7E2000, X
     
-    JSL.l Overworld_Memorize_Map16_Change
+    JSL.l Overworld_Memorize_Tile16_Change
     
     LDY.w #$0000
-    JSL.l Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawTile16_Anywhere
     
     LDA.w #$0DB5 : STA.l $7E2002, X
     
-    JSL.l Overworld_Memorize_Map16_Change
+    JSL.l Overworld_Memorize_Tile16_Change
     
     LDY.w #$0002
-    JSL.l Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawTile16_Anywhere
     
     STZ.b $0E
     
@@ -1813,7 +1813,7 @@ Overworld_AlterWeathervane:
 {
     REP #$30
     
-    ; The replacement map16 tile to use?
+    ; The replacement Tile16 tile to use?
     LDA.w #$0068 : STA.w $0692
     
     ; The index in the tile map to start from.
@@ -1826,13 +1826,13 @@ Overworld_AlterWeathervane:
     LDA.w #$0E21 : STA.l $7E2000, X
     
     LDY.w #$0000
-    JSL.l Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawTile16_Anywhere
     
     LDX.w #$0CC0
     LDA.w #$0E25 : STA.l $7E2002, X
     
     LDY.w #$0002
-    JSL.l Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawTile16_Anywhere
     
     SEP #$30
     
@@ -1857,7 +1857,7 @@ Overworld_AlterGargoyleEntrance:
     
     LDX.w #$0D3E
     LDA.w #$0E1B
-    JSL.l Overworld_DrawPersistentMap16
+    JSL.l Overworld_DrawPersistentTile16
     
     LDX.w #$0D40
     LDA.w #$0E1C
@@ -1896,7 +1896,7 @@ Overworld_CreatePyramidHole:
     
     LDX.w #$03BC
     LDA.w #$0E3F
-    JSL.l Overworld_DrawPersistentMap16
+    JSL.l Overworld_DrawPersistentTile16
     
     LDX.w #$03BE
     LDA.w #$0E40
@@ -2887,7 +2887,7 @@ Overworld_SecretTileType:
 
 ; ZScream: Updates a couple of references in this function.
 ; Routine is used for checking if there's secrets underneath a newly
-; exposed map16 tile.
+; exposed Tile16 tile.
 ; $0DC8A4-$0DC942 LOCAL JUMP LOCATION
 Overworld_RevealSecret:
 {
@@ -2991,7 +2991,7 @@ Overworld_DrawWoodenDoor:
         ; The only other option is to, you guessed it your cleverness, an open
         ; door.
         LDA.w #$0DA4
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDA.w #$0DA6
         
@@ -3000,7 +3000,7 @@ Overworld_DrawWoodenDoor:
     .draw_closed_door
     
     LDA.w #$0DA5
-    JSL.l Overworld_DrawPersistentMap16
+    JSL.l Overworld_DrawPersistentTile16
     
     LDA.w #$0DA7
     
@@ -3009,7 +3009,7 @@ Overworld_DrawWoodenDoor:
     STA.l $7E2002, X
     
     LDY.w #$0002
-    JSL.l Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawTile16_Anywhere
     
     SEP #$3
     
@@ -3021,7 +3021,7 @@ Overworld_DrawWoodenDoor:
 ; ==============================================================================
 
 ; $0DC97C-$$0DC97F LONG JUMP LOCATION
-Overworld_DrawPersistentMap16:
+Overworld_DrawPersistentTile16:
 {
     STA.l $7E2000, X
 
@@ -3029,7 +3029,7 @@ Overworld_DrawPersistentMap16:
 }
 
 ; $0DC980-$0DC982 LONG JUMP LOCATION
-Overworld_DrawMap16:
+Overworld_DrawTile16:
 {
     LDY.w #$0000
 
@@ -3037,7 +3037,7 @@ Overworld_DrawMap16:
 }
 
 ; $0DC983-$0DC9DD LONG JUMP LOCATION
-Overworld_DrawMap16_Anywhere:
+Overworld_DrawTile16_Anywhere:
 {
     PHX
     
@@ -3048,7 +3048,7 @@ Overworld_DrawMap16_Anywhere:
     
     TXA : CLC : ADC.b $00 : STA.b $00
     
-    JSR.w Overworld_FindMap16VRAMAddress
+    JSR.w Overworld_FindTile16VRAMAddress
 
     ; Write the base VRAM (tilemap) address of the first two tiles.
     LDY.w $1000
@@ -3062,10 +3062,10 @@ Overworld_DrawMap16_Anywhere:
                    STA.w $100C, Y
     
     LDX.b $0C
-    LDA.l Map16Definitions_0, X : STA.w $1006, Y
-    LDA.l Map16Definitions_1, X : STA.w $1008, Y
-    LDA.l Map16Definitions_2, X : STA.w $100E, Y
-    LDA.l Map16Definitions_3, X : STA.w $1010, Y
+    LDA.l Tile16Definitions_0, X : STA.w $1006, Y
+    LDA.l Tile16Definitions_1, X : STA.w $1008, Y
+    LDA.l Tile16Definitions_2, X : STA.w $100E, Y
+    LDA.l Tile16Definitions_3, X : STA.w $1010, Y
     
     LDA.w #$FFFF : STA.w $1012, Y
     
@@ -3121,10 +3121,10 @@ Overworld_AlterTileHardcore:
 
     ; Load tile indices from ROM.
     LDX.b $0C
-    LDA.l Map16Definitions_0, X : STA.w $1006, Y ; The top left corner.
-    LDA.l Map16Definitions_1, X : STA.w $1008, Y ; The top right corner.
-    LDA.l Map16Definitions_2, X : STA.w $100E, Y ; The bottom left corner.
-    LDA.l Map16Definitions_3, X : STA.w $1010, Y ; The bottom right corner.
+    LDA.l Tile16Definitions_0, X : STA.w $1006, Y ; The top left corner.
+    LDA.l Tile16Definitions_1, X : STA.w $1008, Y ; The top right corner.
+    LDA.l Tile16Definitions_2, X : STA.w $100E, Y ; The bottom left corner.
+    LDA.l Tile16Definitions_3, X : STA.w $1010, Y ; The bottom right corner.
     
     TYA : CLC : ADC.w #$0010 : STA.w $1000
     
@@ -3140,7 +3140,7 @@ Overworld_AlterTileHardcore:
 
 ; I guess this calculates some sort of VRAM type address for an outdoor tile?
 ; $0DCA69-$0DCA9E LOCAL JUMP LOCATION
-Overworld_FindMap16VRAMAddress:
+Overworld_FindTile16VRAMAddress:
 {
     STZ.b $02
     
@@ -3172,8 +3172,8 @@ Overworld_DrawWarpTile:
     
     STA.l $7E2000, X
     
-    JSL.l Overworld_Memorize_Map16_Change
-    JSL.l Overworld_DrawMap16
+    JSL.l Overworld_Memorize_Tile16_Change
+    JSL.l Overworld_DrawTile16
     
     SEP #$30
     
@@ -3242,7 +3242,7 @@ AnimateEntrance_PoD_step1:
         
         LDX.w #$01E6
         LDA.w #$0E31
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         ; $0DCB18 ALTERNATE ENTRY POINT
         .modify_bottom_stair_part
@@ -3286,7 +3286,7 @@ AnimateEntrance_PoD_step2:
         
         LDX.w #$026A
         LDA.w #$0E28
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDA.w #$0E29
         
@@ -3306,7 +3306,7 @@ AnimateEntrance_PoD_step3:
         
         LDX.w #$026A
         LDA.w #$0E2A
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$02EA
         LDA.w #$0E2B
@@ -3330,7 +3330,7 @@ AnimateEntrance_PoD_step4:
         
         LDX.w #$026A
         LDA.w #$0E2D
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$02EA
         LDA.w #$0E2E
@@ -3384,7 +3384,7 @@ AnimateEntrance_Skull_step1:
     
         LDX.w #$0812
         LDA.w #$0E06
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
     
         LDX.w #$0814
         LDA.w #$0E06
@@ -3422,7 +3422,7 @@ AnimateEntrance_Skull_step2:
     
     	LDX.w #$0790
     	LDA.w #$0E07
-    	JSL.l Overworld_DrawPersistentMap16
+    	JSL.l Overworld_DrawPersistentTile16
     
     	LDX.w #$0792
     	LDA.w #$0E08
@@ -3461,7 +3461,7 @@ AnimateEntrance_Skull_step3:
     
         LDX.w #$0710
         LDA.w #$0E07
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
     
         LDX.w #$0712
         LDA.w #$0E08
@@ -3484,7 +3484,7 @@ AnimateEntrance_Skull_step4:
     
        LDX.w #$0590
        LDA.w #$0E11
-       JSL.l Overworld_DrawPersistentMap16
+       JSL.l Overworld_DrawPersistentTile16
     
        LDX.w #$0596
        LDA.w #$0E12
@@ -3517,7 +3517,7 @@ AnimateEntrance_Skull_step5:
         
         LDX.w #$0590
         LDA.w #$0E13
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$0596
         LDA.w #$0E14
@@ -3647,7 +3647,7 @@ AnimateEntrance_Mire_step2:
         
         ; An index into the set of tiles to use.
         LDA.w #$0E48
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$0624
         LDA.w #$0E49
@@ -3695,7 +3695,7 @@ AnimateEntrance_Mire_step3:
         
         LDX.w #$05A2
         LDA.w #$0E54
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$05A4
         LDA.w #$0E55
@@ -3723,7 +3723,7 @@ AnimateEntrance_Mire_step4:
         
         LDX.w #$0522
         LDA.w #$0E64
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$0524
         LDA.w $0E65
@@ -3985,7 +3985,7 @@ OverworldEntrance_DrawManyTR:
     
     LDX.w #$099E
     LDA.w #$0E78
-    JSL.l Overworld_DrawPersistentMap16
+    JSL.l Overworld_DrawPersistentTile16
     
     LDX.w #$09A0
     LDA.w #$0E79
@@ -4113,7 +4113,7 @@ AnimateEntrance_GanonsTower_step03:
         
         LDX.w #$045E
         LDA.w #$0E88
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$0460
         LDA.w #$0E89
@@ -4164,7 +4164,7 @@ AnimateEntrance_GanonsTower_step04:
         
         LDX.w #$045E
         LDA.w #$0E8C
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$0460
         LDA.w #$0E8D
@@ -4191,7 +4191,7 @@ AnimateEntrance_GanonsTower_step05:
         
         LDX.w #$045E
         LDA.w #$0E92
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$0460
         LDA.w #$0E93
@@ -4234,7 +4234,7 @@ AnimateEntrance_GanonsTower_step06:
         
         LDX.w #$045E
         LDA.w #$0E9C
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$0460
         LDA.w #$0E97
@@ -4256,7 +4256,7 @@ AnimateEntrance_GanonsTower_step07:
         
         LDX.w #$04DE
         LDA.w #$0E9A
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$04E0
         LDA.w #$0E9B
@@ -4274,7 +4274,7 @@ AnimateEntrance_GanonsTower_step08:
         
         LDX.w #$04DE
         LDA.w #$0E9C
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$04E0
         LDA.w #$0E9D
@@ -4295,7 +4295,7 @@ AnimateEntrance_GanonsTower_step09:
         
         LDX.w #$055E
         LDA.w #$0E9A
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$0560
         LDA.w #$0E9B
@@ -4313,7 +4313,7 @@ AnimateEntrance_GanonsTower_step10:
         
         LDX.w #$055E
         LDA.w #$0E9C
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDX.w #$0560
         LDA.w #$0E9D
@@ -4345,7 +4345,7 @@ AnimateEntrance_GanonsTower_step11:
         
         LDX.w #$05DE
         LDA.w #$0E9A
-        JSL.l Overworld_DrawPersistentMap16
+        JSL.l Overworld_DrawPersistentTile16
         
         LDA.w #$0E9B
         BRA .draw1_at_05E0_advance
@@ -6877,7 +6877,7 @@ NULL_1BF108:
 ; ==============================================================================
 
 ; Some kind of tile properties data for bank $05... Seems to be
-; indexed by map16 values.
+; indexed by Tile16 values.
 ; $0DF110-$0DFFBF DATA
 OverworldTileTypeTable:
 {

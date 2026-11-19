@@ -9648,7 +9648,7 @@ NULL_0EDD31:
 
 ; Keeps track of map modifications for when warping between worlds.
 ; $075D40-$075D60 LONG JUMP LOCATION
-Overworld_Memorize_Map16_Change:
+Overworld_Memorize_Tile16_Change:
 {
     ; Shovel hole
     CMP.w #$0DC5 : BEQ .dontRemember
@@ -9685,7 +9685,7 @@ HandlePegPuzzles:
 {
     LDA.b $8A : CMP.w #$0007 : BNE .notLwTurtleRock
         LDA.l $7EF287 : AND.w #$0020 : BNE .warpAlreadyOpen
-            ; Y in this routine apparently contains the map16 address of the
+            ; Y in this routine apparently contains the Tile16 address of the
             ; peg tile that Link hit.
             STY.b $00
             
@@ -9822,11 +9822,11 @@ Overworld_CheckForSpecialOverworldTrigger:
 {   
     REP #$31
         
-    ; Get the map16 address of Link's coordinates.
-    JSR.w GetMap16Tile
+    ; Get the Tile16 address of Link's coordinates.
+    JSR.w GetTile16
         
     ; Get the CHR at that location...
-    LDA.l Map16Definitions, X : AND.w #$01FF : STA.b $00
+    LDA.l Tile16Definitions, X : AND.w #$01FF : STA.b $00
         
     LDX.w #$0008
     
@@ -9886,7 +9886,7 @@ Overworld_CheckForSpecialOverworldTrigger:
 }
 
 ; $075E9A-$075ECD LOCAL JUMP LOCATION
-GetMap16Tile:
+GetTile16:
 {
     LDA.b $20 : CLC : ADC.w #$000C                       : STA.b $00
                 SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $06
@@ -9939,9 +9939,9 @@ SpecialOverworld_CheckForReturnTrigger:
 {
     REP #$31
         
-    JSR.w GetMap16Tile
+    JSR.w GetTile16
         
-    LDA.l Map16Definitions, X : AND.w #$01FF : STA.b $00
+    LDA.l Tile16Definitions, X : AND.w #$01FF : STA.b $00
         
     LDX.w #$0006
     

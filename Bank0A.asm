@@ -669,7 +669,7 @@ BirdTravel_LoadAmbientOverlay:
     
     SEP #$20
     
-    ; Loads overworld map32 data (and subsequently map16, etc etc).
+    ; Loads overworld map32 data (and subsequently Tile16, etc etc).
     JSL.l Overworld_LoadAndBuildScreen_long
     
     REP #$20

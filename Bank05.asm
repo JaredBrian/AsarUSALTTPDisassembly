@@ -3523,7 +3523,7 @@ Sprite_ShowMessageMinimal:
 Overworld_ReadTileAttr:
 {
     ; TODO: (rather a bug in the way I named this routine...)
-    ; Seems more like a map16 attr reader than a map8 reader.
+    ; Seems more like a Tile16 attr reader than a map8 reader.
     REP #$30
     
     LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $06

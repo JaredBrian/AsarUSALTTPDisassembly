@@ -63,7 +63,8 @@ Intro_SetupScreen:
     ; Target VRAM address is $27F0 (word).
     LDA.w #$27F0 : STA.w SNES.VRAMAddrReadWriteLow
 
-    LDX.b #$20 : LDA.w #$7FFF
+    LDX.b #$20
+    LDA.w #$7FFF
 
     ; Will plug initialize sprite palette 1 to be completely white.
     .initSP1
@@ -6265,7 +6266,7 @@ Module_OverworldTable:
     dw Overworld_FinishTransGfx             ; 0x02 - $ABBC Loads the remainder of
                                             ;        the bg / spr graphics to VRAM
     dw Overworld_LoadNewMapAndGfx           ; 0x03 - $ABC6 Loads map32 data, event
-                                            ;        overlay, converts to map16
+                                            ;        overlay, converts to Tile16
                                             ;        and map8
     dw Overworld_LoadNewSprites             ; 0x04 - $ABED Loads new sprites.
     dw Overworld_LoadNewSprites_justScroll  ; 0x05 - $AC27 Start Scroll Transition.
@@ -7160,7 +7161,7 @@ Overworld_LoadNewMapAndGfx:
 
     INC.w $0710
 
-    ; This mess all looks like it does map16 to map8 conversion, and the
+    ; This mess all looks like it does Tile16 to map8 conversion, and the
     ; subsequent one sets up the system to blit it to VRAM during the next
     ; VBlank.
     JSR.w Overworld_StartTransMapUpdate
@@ -7255,7 +7256,7 @@ OverworldTranScrollSet:
 Overworld_EaseOffScrollTransition:
 {
     LDX.b $8A
-    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+    LDA.l Pool_BufferAndBuildTile16Stripes_overworldScreenSize, X
     
     ; ZSCREAM: ZS Changes this BEQ to a BNE.
     ; $012C40
@@ -7283,7 +7284,7 @@ Overworld_EaseOffScrollTransition:
             STZ.w $0410
 
             LDX.b $8A
-            LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+            LDA.l Pool_BufferAndBuildTile16Stripes_overworldScreenSize, X
 
             ; ZSCREAM: ZS Changes this BEQ to a BNE.
             ; $012C70
@@ -7465,31 +7466,31 @@ Overworld_DoMapUpdate32x32:
     ; Bleeds into the next function.
 }
 
-; This appears to happen if you pick up a large rock (Or other map16
+; This appears to happen if you pick up a large rock (Or other Tile16
 ; modifications like a place sanctuary door opening)
 ; $012D87-$012E59 LOCAL JUMP LOCATION
 Overworld_DoMapUpdate32x32_16bit_already:
 {
     PHB : PHK : PLB
 
-    ; This is the starting address for the 2x2 (map16) replacement.
-    ; Store the address of the map16 modification.
+    ; This is the starting address for the 2x2 (Tile16) replacement.
+    ; Store the address of the Tile16 modification.
     LDA.w $0698
     LDX.w $04AC
     STA.l $7EF800, X : TAX
 
-    ; Load a map16 tile type based on this input and store it to the tile map.
+    ; Load a Tile16 tile type based on this input and store it to the tile map.
     ; A here is the tile16, X is the location on the tilemap.
     LDY.w $0692
     LDA.w Map32UpdateTiles_0, Y : STA.l $7E2000, X
 
-    ; Store the actual map16 value to our array for failed warps.
+    ; Store the actual Tile16 value to our array for failed warps.
     LDX.w $04AC
     STA.l $7EFA00, X
 
     LDY.w #$0000
     LDX.w $0698
-    JSL.l Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawTile16_Anywhere
 
     LDA.w $0698
     LDX.w $04AC
@@ -7504,7 +7505,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     LDY.w #$0002
     LDX.w $0698
-    JSL.l Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawTile16_Anywhere
 
     LDA.w $0698
     LDX.w $04AC
@@ -7521,7 +7522,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     LDY.w #$0080
     LDX.w $0698
-    JSL.l Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawTile16_Anywhere
 
     LDA.w $0698
     LDX.w $04AC
@@ -7536,7 +7537,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     LDY.w #$0082
     LDX.w $0698
-    JSL.l Overworld_DrawMap16_Anywhere
+    JSL.l Overworld_DrawTile16_Anywhere
 
     ; Put the finishing touches on the VRAM package that will be sent.
     LDY.w $1000
@@ -8147,7 +8148,7 @@ Module09_18:
     RTS
 }
 
-; Goes on to load a bunch of OW data like Map16 / Map32
+; Goes on to load a bunch of OW data like Tile16 / Map32
 ; $0131DF-$0131EF LOCAL JUMP LOCATION
 Module09_19:
 {
@@ -8334,7 +8335,7 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
     LDA.b $88 : PHA
 
     LDX.b $8A
-    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
+    LDA.l Pool_BufferAndBuildTile16Stripes_overworldScreenSize, X : AND.w #$00FF
 
     ; ZSCREAM: ZS Changes this BEQ to a BNE.
     ; $0132FA
@@ -8351,7 +8352,7 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
 
     ; Compare it to the other magic mirror mode
     LDA.b $11 : CMP.b #$2C : BNE .notFailedWarp
-        JSR.w Overworld_RestoreFailedWarpMap16
+        JSR.w Overworld_RestoreFailedWarpTile16
 
     .notFailedWarp
 
@@ -8385,7 +8386,7 @@ MirrorWarp_LoadSpritesAndColors:
     STZ.b $CA : STZ.b $CC
 
     LDX.b $8A
-    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
+    LDA.l Pool_BufferAndBuildTile16Stripes_overworldScreenSize, X : AND.w #$00FF
 
     ; ZSCREAM: ZS Changes this BEQ to a BNE.
     ; $013356
@@ -8398,7 +8399,7 @@ MirrorWarp_LoadSpritesAndColors:
 
     SEP #$20
 
-    JSR.w Map16ToMap8_normalArea
+    JSR.w Tile16ToMap8_normalArea
 
     REP #$20
 
@@ -14220,7 +14221,7 @@ Pool_BirdTravel_LoadTargetAreaData:
     dw $007F ; OW 7F - Dark Lake Hylia falls whirlpool
 
     ; $016B07
-    .map16_index
+    .Tile166_index
     dw $1600 ; Flute 1
     dw $0888 ; Flute 2
     dw $0B30 ; Flute 3
@@ -14441,7 +14442,7 @@ Whirlpool_LoadTargetAreaData:
     LDA.w Pool_BirdTravel_LoadTargetAreaData_screen_id, X : STA.b $8A
                                                             STA.w $040A
 
-    LDA.w Pool_BirdTravel_LoadTargetAreaData_map16_index, X : STA.b $84
+    LDA.w Pool_BirdTravel_LoadTargetAreaData_Tile16_index, X : STA.b $84
     SEC : SBC.w #$0400 : AND.w #$0F80 : ASL : XBA           : STA.b $88
 
     LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR : STA.b $86
@@ -14537,7 +14538,7 @@ Overworld_LoadAmbientOverlay:
     LDA.b $88 : PHA
 
     LDX.b $8A
-    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
+    LDA.l Pool_BufferAndBuildTile166Stripes_overworldScreenSize, X : AND.w #$00FF
     
     ; ZSCREAM: ZS Changes this BEQ to a BNE.
     ; $016D39
@@ -14562,7 +14563,7 @@ Overworld_LoadAmbientOverlay:
 
         ; X = Area number
         LDX.b $8A
-        LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
+        LDA.l Pool_BufferAndBuildTile166Stripes_overworldScreenSize, X : AND.w #$00FF
         
         ; ZSCREAM: ZS Changes this BEQ to a BNE.
         ; $016D6D
@@ -14589,7 +14590,7 @@ Overworld_LoadAmbientOverlay:
 
         SEP #$20
 
-        JSR.w Map16ToMap8.normalArea
+        JSR.w Tile16ToMap8.normalArea
 
     .large_area
 
@@ -14632,7 +14633,7 @@ PreOverworld_LoadAndAdvance:
 }
 
 ; ZScream: ZS Moves this table to $012644.
-; $016DC5-$016EC4 DATA (Map16 locations of bombable doors)
+; $016DC5-$016EC4 DATA (Tile16 locations of bombable doors)
 Overworld_HandleOverlaysAndBombDoors_bombable_door_location:
 {
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
@@ -14662,7 +14663,7 @@ Overworld_LoadMapData:
 {
     REP #$30
 
-    ; Decompresses and loads the Area's map16 data.
+    ; Decompresses and loads the Area's Tile16 data.
     JSR.w Overworld_LoadMap32
 
     LDX.w #$001E
@@ -14690,7 +14691,7 @@ Overworld_LoadMapData:
             CPX.w #$8000 : BCS .drawBombableDoor
                 LDA.w #$0DA4 : STA.l $7E2000, X
 
-                JSL.l Overworld_Memorize_Map16_Change
+                JSL.l Overworld_Memorize_Tile16_Change
 
                 ; 0x0DA4 and 0x0DA6 are the wooden door frames.
                 LDA.w #$0DA6
@@ -14703,7 +14704,7 @@ Overworld_LoadMapData:
 
             ; Bombable door tile (left)
             LDA.w #$0DB4
-            JSL.l Overworld_Memorize_Map16_Change : STA.l $7E2000, X
+            JSL.l Overworld_Memorize_Tile16_Change : STA.l $7E2000, X
 
             ; Bombable door tile (right)
             LDA.w #$0DB5
@@ -14714,7 +14715,7 @@ Overworld_LoadMapData:
             
             INX : INX
 
-            JSL.l Overworld_Memorize_Map16_Change
+            JSL.l Overworld_Memorize_Tile16_Change
 
             DEX : DEX
 
@@ -14768,7 +14769,7 @@ Overworld_LoadMapData:
         REP #$30
 
         ; Designates locations to write opened bomb doors to. i.e. it contains
-        ; the map16 coordinates for them.
+        ; the Tile16 coordinates for them.
         LDA.b $8A : ASL TAX
         LDA.l .bombable_door_location, X : TAX
 
@@ -14864,20 +14865,20 @@ Overworld_LoadTransMapData:
 
     .default
 
-        ; Fills $7E4000-$7E407F with the map16 value 0x0DC4, which is a blank
+        ; Fills $7E4000-$7E407F with the Tile16 value 0x0DC4, which is a blank
         ; transparent tile.
         STA.l $7E4000, X : STA.l $7E4020, X
         STA.l $7E4040, X : STA.l $7E4060, X
     DEX : DEX : BPL .default
 
-    ; Draws the "overlay", which is an event sensitive set of map16 tiles that
+    ; Draws the "overlay", which is an event sensitive set of Tile16 tiles that
     ; show that an event has occurred. One example is the Misery Mire dungeon's
     ; entrance being overdrawn as open rather than close
     JSR.w Overworld_LoadMapData_justOverlays
 
     ; Clean up and finish up all the stuff a dungeon->OW load would do,
     ; except for drawing an opened door. Next we'll be moving on to turning
-    ; the map16 data into map8
+    ; the Tile16 data into map8
 
     INC.b $11
 
@@ -14923,7 +14924,7 @@ Overworld_StartTransMapUpdate:
     ; Performa a different routine depending on whether the area is 512x512 or
     ; 1024x1024.
     LDX.b $8A
-    LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X
+    LDA.l Pool_BufferAndBuildTile16Stripes_overworldScreenSize, X
     
     ; ZSCREAM: ZS Changes this BNE to a BEQ.
     ; $017039
@@ -15396,15 +15397,19 @@ MapScroll_NorthAndClear:
     RTS
 }
 
+; ==============================================================================
+
 ; ZSCREAM: ZS modifies this function.
 ; $0172DD-$017310 LOCAL JUMP LOCATION
 CheckForNewlyLoadedMapAreas_North:
 {
     REP #$30
 
-    LDA.b $84 : CMP.w #$0080 : BMI .BRANCH_ALPHA
+    ; Check if we are at the top of the area:
+    LDA.b $84 : CMP.w #$0080 : BMI .tooFarNorth
+        ; Check if the current area is a small area:
         LDX.b $8A
-        LDA.l Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
+        LDA.l Pool_BufferAndBuildTile16Stripes_overworldScreenSize, X : AND.w #$00FF
         
         ; ZSCREAM: ZS Changes this BNE to a BEQ.
         ; $0172EF
@@ -15416,15 +15421,17 @@ CheckForNewlyLoadedMapAreas_North:
             LDA.w #$0080 : STA.w $1100, Y
 
             INY : INY : STY.b $0E
-
             JSR.w Overworld_DrawVerticalStrip
 
-        .BRANCH_BETA
+        .smallArea
 
+        ; Adjust the OW tile16 index.
         LDA.b $84 : SEC : SBC.w #$0080 : STA.b $84
+
+        ; Adjust the vertical scroll position.
         LDA.b $88 : DEC : AND.w #$001F : STA.b $88
 
-    .smallArea
+    .tooFarNorth
 
     RTS
 }
@@ -15435,31 +15442,33 @@ CheckForNewlyLoadedMapAreas_South:
 {
     REP #$30
 
-    LDA.b $84 : CMP.w #$1800 : BCS .BRANCH_ALPHA
+    ; Check if we are at the bottom of the area:
+    LDA.b $84 : CMP.w #$1800 : BCS .tooFarSouth
+        ; Check if the current area is a small area:
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
+        LDA.w Pool_BufferAndBuildTile16Stripes_overworldScreenSize, X : AND.w #$00FF
         
         ; ZSCREAM: ZS Changes this BNE to a BEQ.
         ; $017323
-        BNE .small_area
+        BNE .smallArea
             ; $017325 ALTERNATE ENTRY POINT
             .NewStripe
 
             LDY.b $0E
             LDA.w #$0080 : STA.w $1100, Y
 
-            INX : INX
-
-            STY.b $0E
-
+            INY : INY : STY.b $0E
             JSR.w Overworld_DrawVerticalStrip
 
-        .small_area
+        .smallArea
 
+        ; Adjust the OW tile16 index.
         LDA.b $84 : CLC : ADC.w #$0080 : STA.b $84
+
+        ; Adjust the vertical scroll position.
         LDA.b $88 : INC : AND.w #$001F : STA.b $88
 
-    .BRANCH_ALPHA
+    .tooFarSouth
 
     RTS
 }
@@ -15470,24 +15479,27 @@ CheckForNewlyLoadedMapAreas_West:
 {
     REP #$30
 
+    ; Subtract 0x80 from the tile16 buffer index until we get the raw
+    ; X position.
     LDA.b $84
+    .loop
 
-    .BRANCH_BETA
+        ; If the index is < 0x80, we have the X position:
+        CMP.w #$0080 : BCC .gotXPos
+            SBC.w #$0080
+    BRA .loop
 
-    CMP.w #$0080 : BCC .BRANCH_ALPHA
-        SBC.w #$0080
+    .gotXPos
 
-        BRA .BRANCH_BETA
-
-    .BRANCH_ALPHA
-
-    CMP.w #$0000 : BEQ .BRANCH_GAMMA
+    ; Check if we are at the right of the area:
+    CMP.w #$0000 : BEQ .tooFarWest
+        ; Check if the current area is a small area:
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
+        LDA.w Pool_BufferAndBuildTile16Stripes_overworldScreenSize, X : AND.w #$00FF
         
         ; ZSCREAM: ZS Changes this BNE to a BEQ.
         ; $017361
-        BNE .small_area
+        BNE .smallArea
             ; $017363 ALTERNATE ENTRY POINT
             .NewStripe
 
@@ -15495,63 +15507,65 @@ CheckForNewlyLoadedMapAreas_West:
             LDA.w #$8040 : STA.w $1100, Y
 
             INY : INY : STY.b $0E
-
             JSR.w Overworld_DrawHorizontalStrip
 
-        .small_area
+        .smallArea
 
+        ; Adjust the OW tile16 index.
         DEC.b $84 : DEC.b $84
 
+        ; Adjust the horizontal scroll position.
         LDA.b $86 : DEC : AND.w #$001F : STA.b $86
 
-    .BRANCH_GAMMA
+    .tooFarWest
 
     RTS
 }
-
-; ==============================================================================
 
 ; $01737F-$0173B8 LOCAL JUMP LOCATION
 CheckForNewlyLoadedMapAreas_East:
 {
     REP #$30
 
+    ; Subtract 0x80 from the tile16 buffer index until we get the raw
+    ; X position.
     LDA.b $84
+    .loop
 
-    .BRANCH_BETA
+        ; If the index is < 0x80, we have the X position:
+        CMP.w #$0080 : BCC .gotXPos
+            SBC.w #$0080
+    BRA .loop
 
-    CMP.w #$0080 : BCC .BRANCH_ALPHA
-        SBC.w #$0080
+    .gotXPos
 
-        BRA .BRANCH_BETA
-
-    .BRANCH_ALPHA
-
-    CMP.w #$0060 : BCS .BRANCH_GAMMA
+    ; Check if we are at the left of the area:
+    CMP.w #$0060 : BCS .tooFarEast
+        ; Check if the current area is a small area:
         LDX.b $8A
-        LDA.w Pool_BufferAndBuildMap16Stripes_overworldScreenSize, X : AND.w #$00FF
+        LDA.w Pool_BufferAndBuildTile16Stripes_overworldScreenSize, X : AND.w #$00FF
         
         ; ZSCREAM: ZS Changes this BNE to a BEQ.
         ; $01739B
-        BNE .small_area
+        BNE .smallArea
             ; $01739D ALTERNATE ENTRY POINT
             .NewStripe
 
             LDY.b $0E
-
             LDA.w #$8040 : STA.w $1100, Y
 
-            INY : INY : STA.b $0E
-
+            INY : INY : STY.b $0E
             JSR.w Overworld_DrawHorizontalStrip
 
-        .small_area
+        .smallArea
 
+        ; Adjust the OW tile16 index.
         INC.b $84 : INC.b $84
 
+        ; Adjust the horizontal scroll position.
         LDA.b $86 : INC : AND.w #$001F : STA.b $86
 
-    .BRANCH_GAMMA
+    .tooFarEast
 
     RTS
 }
@@ -15561,97 +15575,133 @@ CheckForNewlyLoadedMapAreas_East:
 ; $0173B9-$017434 LOCAL JUMP LOCATION
 Overworld_DrawHorizontalStrip:
 {
+    ; Get the direction of the transition if there is one.
     LDA.w $0416 : AND.w #$0002 : TAX
     LDA.b $84
-    SEC : SBC.l Pool_BufferAndBuildMap16Stripes_verticalScrollTileOffset, X : TAY
+    SEC : SBC.l Pool_BufferAndBuildTile16Stripes_verticalScrollTileOffset, X : TAY
 
+    ; Get the starting vertical offset for the Tile16.
     LDA.b $88 : ASL : TAX
 
     ; $00[3] = $7E2000
-    ; $03[2] = $0010
     LDA.w #$2000 : STA.b $00
     LDA.w #$007E : STA.b $02
+
+    ; Get a horizontal line of tile16 from the BG2 tile16 buffer and store it
+    ; into a temp array at $0500.
     LDA.w #$0010 : STA.b $03
-
-    LDA.b [$00], Y : STA.w $0500, X
-
-    INX : INX
-    TXA : AND.w #$003F : TAX
-
-    ; Move down one map16 tile
-    TYA : CLC : ADC.w #$0080 : TAY
-
     .fillBuffer
 
-        ; Populate the buffer ($0500[0x40]) with 0x10 map16 entries (256
-        ; pixels)
+        ; Write one Tile16 from the BG2 Tile16 buffer to our temporary buffer.
         LDA.b [$00], Y : STA.w $0500, X
 
-        ; Advance by one map16 tile in our temporary buffer
+        ; Advance by one Tile16 in our temporary buffer.
         INX : INX
         TXA : AND.w #$003F : TAX
 
-        ; Move down one map16 tile
+        ; Move down one Tile16
+        TYA : CLC : ADC.w #$0080 : TAY
+
+        ; Write one Tile16 from the BG2 Tile16 buffer to our temporary buffer.
+        LDA.b [$00], Y : STA.w $0500, X
+
+        ; Advance by one Tile16 in our temporary buffer.
+        INX : INX
+        TXA : AND.w #$003F : TAX
+
+        ; Move down one Tile16
         TYA : CLC : ADC.w #$0080 : TAY
     DEC.b $03 : BNE .fillBuffer
 
+    ; Write to the top half of the tilemap.
     STZ.b $00
 
+    ; Check which half of the tilemap to write to. If $86 is 0x00-0x0F then
+    ; we do not need to add any offset to draw to the bottom of the 2x2
+    ; sized tilemap.
     LDA.b $86 : STA.b $02
-    CMP.w #$0010 : BCC .inBounds
+    CMP.w #$0010 : BCC .topHalf
+        ; Narrow down the offset to one of the 0x10 columns.
         AND.w #$000F : STA.b $02
 
+        ; Write to the bottom half of the tilemap.
         LDA.w #$0400 : STA.b $00
 
-    .inBounds
+    .topHalf
 
-    LDA.b $02 : ASL : CLC : ADC.b $00    : STA.b $00
-                      CLC : ADC.w #$0800 : STA.b $0C
+    ; Calculate the actual tilemap address to write to for the first block.
+    LDA.b $02 : ASL : CLC : ADC.b $00 : STA.b $00
 
-    LDA.l Pool_BufferAndBuildMap16Stripes_Map16BufferOffsetLow
+    ; Calculate the actual tilemap address to write to for the second block.
+    CLC : ADC.w #$0800                : STA.b $0C
 
-    JSR.w CreateMap16Stripes_Horizontal
+    ; The transfers have to be broken up into 2 blocks becuase of the way
+    ; the 2x2 tilemap mode is laid out in VRAM.
+    ; ┌────────────────┬────────────────┐
+    ; │ top-left       │ top-right      │
+    ; │ VRAM + 0x0000  │ VRAM + 0x0400  │
+    ; ├────────────────┼────────────────┤
+    ; │ bottom-left    │ bottom-right   │
+    ; │ VRAM + 0x0800  │ VRAM + 0x0C00  │
+    ; └────────────────┴────────────────┘
+    ; Both the top and bottom halves need to be written to separatly because
+    ; of the offset difference between the top and bottom halves.
+
+    LDA.l Pool_BufferAndBuildTile16Stripes_Tile16BufferOffset+$00
+    JSR.w CreateTile16Stripes_Horizontal
 
     LDA.b $0C : STA.b $00
 
-    LDA.l Pool_BufferAndBuildMap16Stripes_Map16BufferOffsetHigh
+    LDA.l Pool_BufferAndBuildTile16Stripes_Tile16BufferOffset+$02
 
     ; Bleeds into the next function.
 }
 
 ; $017435-$017481 LOCAL JUMP LOCATION
-CreateMap16Stripes_Horizontal:
+CreateTile16Stripes_Horizontal:
 {
     STA.b $02
 
+    ; Store the address of the transfer.
     LDY.b $0E
     LDA.b $00 : STA.w $1100, Y
     INC       : STA.w $1142, Y
     
     INY : INY
 
+    ; Loop through each of the 0x10 tiles in the temp buffer:
     LDA.w #$0010 : STA.b $06
+    .nextTile16
 
-    .copyToNmiBuf
-
+        ; Get the tile16 from the temp $0500 buffer.
         LDX.b $02
         LDA.w $0500, X
         
+        ; Move the pointer to the next tile for the next loop.
         INX : INX : STX.b $02
 
+        ; Get the position of the tile16 in the tile16 definitions.
         ASL #3 : TAX
-        LDA.l Map16Definitions_0, X : STA.w $1100, Y
-        LDA.l Map16Definitions_1, X : STA.w $1142, Y
+
+        ; Place the top left tile8.
+        LDA.l Tile16Definitions_0, X : STA.w $1100, Y
+
+        ; Place the bottom left tile8.
+        LDA.l Tile16Definitions_1, X : STA.w $1142, Y
 
         INY : INY
-        LDA.l Map16Definitions_2, X : STA.w $1100, Y
-        LDA.l Map16Definitions_3, X : STA.w $1142, Y
+
+        ; Place the top right tile8.
+        LDA.l Tile16Definitions_2, X : STA.w $1100, Y
+
+        ; Place the bottom right tile8.
+        LDA.l Tile16Definitions_3, X : STA.w $1142, Y
 
         INY : INY
-    DEC.b $06 : BNE .copyToNmiBuf
+    DEC.b $06 : BNE .nextTile16
 
-    ; 0x10 map16 tiles = 0x40 bytes of map8 data
-    ; And there's also 2 bytes of header information in the NMI buffer, so
+    ; 0x10 Tile16 tiles = 0x40 bytes of tile8 data.
+    ; There's also 2 bytes of header information in the NMI buffer, so
     ; we advance by that much.
     TYA : CLC : ADC.w #$0042 : STA.b $0E
 
@@ -15663,98 +15713,129 @@ CreateMap16Stripes_Horizontal:
 ; $017482-$017509 LOCAL JUMP LOCATION
 Overworld_DrawVerticalStrip:
 {
+    ; Get the direction of the transition if there is one.
     LDA.w $0416 : AND.w #$0004 : LSR : TAX
     LDA.b $84
-    SEC : SBC Pool_BufferAndBuildMap16Stripes_verticalScrollTileOffset, X : TAY
+    SEC : SBC.l Pool_BufferAndBuildTile16Stripes_verticalScrollTileOffset, X : TAY
 
+    ; Get the starting horizontal offset for the tile16.
     LDA.b $86 : ASL : TAX
 
     ; $00[3] = $7E2000
     LDA.w #$2000 : STA.b $00
     LDA.w #$007E : STA.b $02
 
-    ; $03[2] = 0x0010
+    ; Get a vertical line of tile16 from the BG2 tile16 buffer and store it
+    ; into a temp array at $0500.
     LDA.w #$0010 : STA.b $03
-
     .fillBuffer
 
         ; Writes 0x40 bytes to $0500[0x40]
         LDA.b [$00], Y : STA.w $0500, X
 
-        INX : INX : TXA : AND.w #$003F : TAX
+        ; Write one Tile16 from the BG2 Tile16 buffer to our temporary buffer.
+        INX : INX
+        TXA : AND.w #$003F : TAX
 
         INY : INY
         LDA.b [$00], Y : STA.w $0500, X
 
-        INX : INX : TXA : AND.w #$003F : TAX
+        ; Write one Tile16 from the BG2 Tile16 buffer to our temporary buffer.
+        INX : INX
+        TXA : AND.w #$003F : TAX
 
         INY : INY
     DEC.b $03 : BNE .fillBuffer
 
+    ; Write to the left half of the tilemap.
     STZ.b $00
 
+    ; Check which half of the tilemap to write to. If $88 is 0x00-0x0F then
+    ; we do not need to add any offset to draw to the right side of the 2x2
+    ; sized tilemap.
     LDA.b $88 : STA.b $02
-    CMP.w #$0010 : BCC .inBounds
+    CMP.w #$0010 : BCC .leftHalf
+        ; Narrow down the offset to one of the 0x10 rows.
         AND.w #$000F : STA.b $02
 
+        ; Write to the right half of the tilemap.
         LDA.w #$0800 : STA.b $00
 
-    .inBounds
+    .leftHalf
 
+    ; Calculate the actual tilemap address to write to for the first block.
     LDA.b $02 : ASL #6 : CLC : ADC.b $00 : STA.b $00
+
+    ; Calculate the actual tilemap address to write to for the second block.
     CLC : ADC.w #$0400                   : STA.b $0C
 
+    ; The transfers have to be broken up into 2 blocks becuase of the way
+    ; the 2x2 tilemap mode is laid out in VRAM.
+    ; ┌────────────────┬────────────────┐
+    ; │ top-left       │ top-right      │
+    ; │ VRAM + 0x0000  │ VRAM + 0x0400  │
+    ; ├────────────────┼────────────────┤
+    ; │ bottom-left    │ bottom-right   │
+    ; │ VRAM + 0x0800  │ VRAM + 0x0C00  │
+    ; └────────────────┴────────────────┘
+    ; Both the left and right halves need to be written to separatly because
+    ; of the offset difference between the left and right halves.
+
+    ; Store the address of the first transfer.
     LDY.b $0E
-
     LDA.b $00 : STA.w $1100, Y
-    
     INY : INY
-    LDA.l Pool_BufferAndBuildMap16Stripes_Map16BufferOffsetLow
 
-    JSR.w CreateMap16Stripes_Vertical
+    LDA.l Pool_BufferAndBuildTile16Stripes_Tile16BufferOffset+$00
+    JSR.w CreateTile16Stripes_Vertical
 
+    ; Store the address of the second transfer.
     LDY.b $0E
     LDA.b $0C : STA.w $1100, Y
-    
     INY : INY
-    LDA.l Pool_BufferAndBuildMap16Stripes_Map16BufferOffsetHigh
+
+    LDA.l Pool_BufferAndBuildTile16Stripes_Tile16BufferOffset+$02
 
     ; Bleeds into the next function.
 }
 
 ; $01750A-$017549 JUMP LOCATION
-CreateMap16Stripes_Vertical:
+CreateTile16Stripes_Vertical:
 {
     STA.b $02
 
+    ; Loop through each of the 0x10 tiles in the temp buffer:
     LDA.w #$0010 : STA.b $06
+    .nextTile16
 
-    .nextMap16Tile
-
+        ; Get the tile16 from the temp $0500 buffer.
         LDX.b $02
         LDA.w $0500, X
         
+        ; Move the pointer to the next tile for the next loop.
         INX : INX : STX.b $02
         
+        ; Get the position of the tile16 in the tile16 definitions.
         ASL #3 : TAX
 
-        ; Place the top left map8 tile.
-        LDA.l Map16Definitions_0, X : STA.w $1100, Y
+        ; Place the top left tile8.
+        LDA.l Tile16Definitions_0, X : STA.w $1100, Y
 
-        ; Place the bottom left map8 tile.
-        LDA.l Map16Definitions_2, X : STA.w $1140, Y
-
-        INY : INY
-
-        ; Place the top right map8 tile.
-        LDA.l Map16Definitions_1, X : STA.w $1100, Y
-
-        ; Place the bottom right map8 tile.
-        LDA.l Map16Definitions_3, X : STA.w $1104, Y
+        ; Place the bottom left tile8.
+        LDA.l Tile16Definitions_2, X : STA.w $1140, Y
 
         INY : INY
-    DEC.b $06 : BNE .nextMap16Tile
 
+        ; Place the top right tile8.
+        LDA.l Tile16Definitions_1, X : STA.w $1100, Y
+
+        ; Place the bottom right tile8.
+        LDA.l Tile16Definitions_3, X : STA.w $1104, Y
+
+        INY : INY
+    DEC.b $06 : BNE .nextTile16
+
+    ; 0x10 Tile16 tiles = 0x40 bytes of tile8 data.
     TYA : CLC : ADC.w #$0040 : STA.b $0E
 
     RTS
@@ -15880,7 +15961,7 @@ Overworld_LoadMap32:
             LDA.b [$08], Y : ASL
 
             LDY.b $06
-            JSR.w Map32ToMap16
+            JSR.w Map32ToTile16
 
             STY.b $06
 
@@ -15976,9 +16057,9 @@ InterlaceMap32:
 
 ; ==============================================================================
 
-; Converts a map32 tile to its 4 map16 tiles.
+; Converts a map32 tile to its 4 Tile16 tiles.
 ; $017691-$0177CA LOCAL JUMP LOCATION
-Map32ToMap16:
+Map32ToTile16:
 {
     PHA
 
@@ -15999,7 +16080,7 @@ Map32ToMap16:
 
     ; X = (input >> 2) + (input >> 1)
     ; Thus the formula is X = (input / 4) + (input / 2) = input * (3 / 4)
-    ; The map32 to map16 conversion data is packed 12 bits at time, hence we
+    ; The map32 to Tile16 conversion data is packed 12 bits at time, hence we
     ; take a 16-bit index and multiply it by (3/4) to get a 12-bit index.
     LSR : ADC.w $4442 : TAX
 
@@ -16173,7 +16254,7 @@ LoadSubOverlayMap32:
 
             LDY.b $06
 
-            JSR.w Map32ToMap16
+            JSR.w Map32ToTile16
 
             STY.b $06
 
@@ -16201,7 +16282,7 @@ UNREACHABLE_02F87F:
 }
 
 ; $017883-$01794C DATA TABLE
-Pool_BufferAndBuildMap16Stripes:
+Pool_BufferAndBuildTile16Stripes:
 {
     ; $017883
     .horizontalScrollTileOffset
@@ -16212,12 +16293,8 @@ Pool_BufferAndBuildMap16Stripes:
     dw $0410, $F410
 
     ; $017889
-    .Map16BufferOffsetLow
-    dw $0000
-
-    ; $01788B
-    .Map16BufferOffsetHigh
-    dw $0020
+    .Tile16BufferOffset
+    dw $0000, $0020
 
     ; ZSCREAM: This table is updated by ZS to allow layout changes.
     ; NOTE: ZS also flips these 2 values, so 00 is small and 01 is large.
@@ -16373,14 +16450,14 @@ LoadSubscreenOverlay:
 {
     REP #$30
 
-    ; Loads data for the overlay and converts from map32 to map16.
+    ; Loads data for the overlay and converts from map32 to Tile16.
     JSR.w LoadSubOverlayMap32
 
     LDA.w #$1000 : STA.b $CC
 
     SEP #$30
 
-    JSR.w Map16ToMap8_subscreenOverlay
+    JSR.w Tile16ToMap8_subscreenOverlay
 
     ; Trigger an NMI routine that will upload the subscreen overlay to
     ; VRAM during VBlank.
@@ -16395,11 +16472,11 @@ LoadSubscreenOverlay:
 ; ==============================================================================
 
 ; $017D26-$017D86 LOCAL JUMP LOCATION
-Map16ToMap8:
+Tile16ToMap8:
 {
-    !srcAddr    = $04
-    !srcBank    = $06
-    !counter    = $08
+    !srcAddr = $04
+    !srcBank = $06
+    !counter = $08
 
     ; -------------------------------
 
@@ -16445,13 +16522,13 @@ Map16ToMap8:
 
     .conversionLoop
 
-        JSR.w Map16ChunkToMap8
+        JSR.w Tile16ChunkToMap8
 
         ; $84 -= 0x0080, $88 = ($88 - 1) % 32
         LDA.b $84 : SEC : SBC.w #$0080 : STA.b $84
         LDA.b $88 : DEC : AND.w #$001F : STA.b $88
 
-        JSR.w Map16ChunkToMap8
+        JSR.w Tile16ChunkToMap8
 
         ; $84 -= 0x0080, $88 = ($88 - 1) & 32
         LDA.b $84 : SEC : SBC.w #$0080 : STA.b $84
@@ -16467,14 +16544,14 @@ Map16ToMap8:
 
 ; ==============================================================================
 
-; Converts Map16 data to Map8 data (normal tile data) 0x40 bytes at a time.
+; Converts Tile16 data to Map8 data (normal tile data) 0x40 bytes at a time.
 ; Also populates $7F4000 with the addresses of each of the resultant Map8
 ; chunks.
 ; $017D87-$017E46 LOCAL JUMP LOCATION
-Map16ChunkToMap8:
+Tile16ChunkToMap8:
 {
     !srcAddr    = $04
-    !map16Buf   = $0500
+    !Tile16Buf   = $0500
 
     ; ---------------------------------------
 
@@ -16485,23 +16562,31 @@ Map16ChunkToMap8:
     LDA.b $86 : ASL : TAX
     LDA.w #$0010 : STA.b $00
 
-    .getMap16Chunk
+    .getTile16Chunk
 
-        ; Grab 0x20 map16 tiles (which is a 16 X 512 pixel swath) and populate
+        ; Grab 0x20 Tile16 tiles (which is a 16 X 512 pixel swath) and populate
         ; the buffer with these tiles.
 
-        LDA.b [!srcAddr], Y : STA.w !map16Buf, X
+        LDA.b [!srcAddr], Y : STA.w !Tile16Buf, X
 
-        ; X = (X + 2) & 0x003F, Y = (Y + 2) & 0x1FFF
-        INX : INX : TXA : AND.w #$003F : TAX
-        INY : INY : TYA : AND.w #$1FFF : TAY
+        ; X = (X + 2) & 0x003F
+        INX : INX
+        TXA : AND.w #$003F : TAX
 
-        LDA.b [!srcAddr], Y : STA.w !map16Buf, X
+        ; Y = (Y + 2) & 0x1FFF
+        INY : INY
+        TYA : AND.w #$1FFF : TAY
 
-        ; X = (X + 2) & 0x003F, Y = (Y + 2) & 0x1FFF
-        INX : INX : TXA : AND.w #$003F : TAX
-        INY : INY : TYA : AND.w #$1FFF : TAY
-    DEC.b $00 : BNE .getMap16Chunk
+        LDA.b [!srcAddr], Y : STA.w !Tile16Buf, X
+
+        ; X = (X + 2) & 0x003F
+        INX : INX
+        TXA : AND.w #$003F : TAX
+
+        ; Y = (Y + 2) & 0x1FFF
+        INY : INY
+        TYA : AND.w #$1FFF : TAY
+    DEC.b $00 : BNE .getTile16Chunk
 
     LDA.b $88 : STA.b $02
     CMP.w #$0010 : BCC .inRange
@@ -16517,16 +16602,16 @@ Map16ChunkToMap8:
 
     ; Why they needed to use a long address for this, I don't know.
     ; LDA.w #$0000 would have sufficed.
-    LDA.l Pool_BufferAndBuildMap16Stripes_Map16BufferOffsetLow
+    LDA.l Pool_BufferAndBuildTile16Stripes_Tile16BufferOffset+$00
 
     JSR.w .prepForUpload
 
     ; $00 += 0x0400
     LDA.b $00 : CLC : ADC.w #$0400 : STA.b $00
 
-    ; Why they needed to use a long address for this, I don't know.
+    ; TODO: Why they needed to use a long address for this, I don't know.
     ; LDA.w #$0020 would have sufficed.
-    LDA.l Pool_BufferAndBuildMap16Stripes_Map16BufferOffsetHigh
+    LDA.l Pool_BufferAndBuildTile16Stripes_Tile16BufferOffset+$02
 
     .prepForUpload
 
@@ -16544,12 +16629,12 @@ Map16ChunkToMap8:
     ; Going to loop #$10 times and write #$80 bytes overall.
     LDA.w #$0010 : STA.b $0C
 
-    .nextMap16Tile
+    .nextTile16
 
-        ; Load a map16 value from the buffer at $7E0500.
-        LDY.b $02 : LDA.w !map16Buf, Y
+        ; Load a Tile16 value from the buffer at $7E0500.
+        LDY.b $02 : LDA.w !Tile16Buf, Y
 
-        ; Increment to the next map16 value's position.
+        ; Increment to the next Tile16 value's position.
         INY : INY : STY.b $02
 
         ; A *= 8
@@ -16558,16 +16643,16 @@ Map16ChunkToMap8:
         ; The data in $7F2000 will end up as the tilemap for BG0 or BG1
         ; (depending on settings) Also note that $8000 and its cousins here
         ; represent $0F8000, etc, in actuality.
-        LDA.w Map16Definitions_0, Y : STA.l $7F2000, X
-        LDA.w Map16Definitions_2, Y : STA.l $7F2040, X
+        LDA.w Tile16Definitions_0, Y : STA.l $7F2000, X
+        LDA.w Tile16Definitions_2, Y : STA.l $7F2040, X
         
         INX : INX
 
-        LDA.w Map16Definitions_1, Y : STA.l $7F2000, X
-        LDA.w Map16Definitions_3, Y : STA.l $7F2040, X
+        LDA.w Tile16Definitions_1, Y : STA.l $7F2000, X
+        LDA.w Tile16Definitions_3, Y : STA.l $7F2040, X
         
         INX : INX
-    DEC.b $0C : BNE .nextMap16Tile
+    DEC.b $0C : BNE .nextTile16
 
     ; Increment the index for the target array by #$40 (since we weren't doing
     ; it during the loop).
@@ -16586,7 +16671,7 @@ Map16ChunkToMap8:
 ; infinite loop of failed warps from the DW to the LW and back. It makes it
 ; like the warp never happened, from a graphical standpoint.
 ; $017E47-$017E70 LOCAL JUMP LOCATION
-Overworld_RestoreFailedWarpMap16:
+Overworld_RestoreFailedWarpTile16:
 {
     REP #$30
 
@@ -16599,7 +16684,7 @@ Overworld_RestoreFailedWarpMap16:
             LDX.b $00
             LDA.l $7EF800, X : TAY
 
-            ; Supply the actual map16 tile value to be used
+            ; Supply the actual Tile16 tile value to be used
             LDA.l $7EFA00, X : TYX : STA.l $7E2000, X
             
             INC.b $00 : INC.b $00
