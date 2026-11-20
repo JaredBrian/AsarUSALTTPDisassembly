@@ -4885,32 +4885,36 @@ struct WRAM $7E0000
         ; The subscreen overlay sub-pixel Y position. Used to scroll overlays
         ; such as the fog on the overworld. TODO: Is used in dungeons too?
 
-    ; $0624[0x02] - (Overworld, Camrea, Credits)
-    .OWCamOffsetY: skip $02
-        ; UnderworldExitData_scroll_mod_y,
-        ; Pool_BirdTravel_LoadTargetAreaData_scroll_mod_y, OWTransitionDir2
-        ; TODO: Look at what ZS saves to the bird and exit data listed above.
-        ; My current guess is that this is an offset applied to the camera when
-        ; exiting or using bird travel. This is used to determine where to update
-        ; the tilemap while moving around on the OW. Also has a credits use in
-        ; bank 0x0E but it could be the same function.
+    ; $0624[0x02] - (Overworld, Camera, Tilemap)
+    .OWMap16ScrollPhaseY: skip $02
+        ; Signed vertical Tile16 streaming phase counter.
+        ; Incremented once per northward camera-scroll pixel. When it reaches
+        ; 0x10, it is reduced by 0x10 and requests a northward overworld tilemap
+        ; stripe update through bit 0x0008 of $0416.
+        ; $0626 is maintained as this value's additive inverse and is used as the
+        ; active counter during southward scrolling. Initialized from overworld
+        ; exit, bird-travel, and whirlpool scroll-modifier data.
+    ; $0626[0x02] - (Overworld, Camera, Tilemap)
+    .OWMap16ScrollPhaseYInverse: skip $02
+        ; Additive inverse of OWMap16ScrollPhaseY.
+        ; Incremented while the camera scrolls south; reaching 0x10 requests a
+        ; southward tilemap stripe update through bit 0x0004 of $0416.
 
-    ; $0626[0x02] - (Overworld, Camrea)
-    .OWCamOffsetYInverse: skip $02
-        ; The the additive inverse of OWCamOffsetY.
+    ; $0628[0x02] - (Overworld, Camera, Tilemap)
+    .OWMap16ScrollPhaseX: skip $02
+        ; Signed horizontal Tile16 streaming phase counter.
+        ; Incremented once per westward camera-scroll pixel. When it reaches
+        ; 0x10, it is reduced by 0x10 and requests a westward overworld tilemap
+        ; stripe update through bit 0x0002 of $0416.
+        ; $062A is maintained as this value's additive inverse and is used as the
+        ; active counter during eastward scrolling. Initialized from overworld
+        ; exit, bird-travel, and whirlpool scroll-modifier data.
 
-    ; $0628[0x02] - (Overworld, Camrea)
-    .OWCamOffsetX: skip $02
-        ; UnderworldExitData_scroll_mod_x,
-        ; Pool_BirdTravel_LoadTargetAreaData_scroll_mod_x, OWTransitionDir2
-        ; TODO: Look at what ZS saves to the bird and exit data listed above.
-        ; My current guess is that this is an offset applied to the camera when
-        ; exiting or using bird travel. This is used to determine where to update
-        ; the tilemap while moving around on the OW.
-
-    ; $062A[0x02] - (Overworld, Camrea)
-    .OWCamOffsetXInverse: skip $02
-        ; The the additive inverse of OWCamOffsetX.
+    ; $062A[0x02] - (Overworld, Camera, Tilemap)
+    .OWMap16ScrollPhaseXInverse: skip $02
+        ; Additive inverse of OWMap16ScrollPhaseX.
+        ; Incremented while the camera scrolls east; reaching 0x10 requests an
+        ; eastward tilemap stripe update through bit 0x0001 of $0416.
 
     ; $062C[0x02] - (Dungeon, Objects)
     .DunBG2HHighPos: skip $02
