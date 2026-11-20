@@ -6569,8 +6569,8 @@ Overworld_PlayerControl:
     JSR.w Overworld_OperateCameraScroll
 
     ; ZScream: ZS starts writing here.
-    ; If special outdoors mode skip this part.
     ; $0125D3
+    ; If special outdoors mode skip this part:
     LDA.b $10 : CMP.b #$0B : BEQ .specialOverworld
         JSL.l Overworld_Entrance
         JSL.l Overworld_DwDeathMountainPaletteAnimation
@@ -7071,10 +7071,10 @@ Overworld_LoadMapProperties:
 ; $012B7B-$012B87 LOCAL JUMP LOCATION
 ScrollAndCheckForSOWExit:
 {
-    LDA.w $0416 : BEQ .alpha
+    LDA.w $0416 : BEQ .notMoving
         JSR.w Overworld_ScrollMap
 
-    .alpha
+    .notMoving
 
     ; Checks for tiles that lead back to normal overworld.
     JSL.l SpecialOverworld_CheckForReturnTrigger
@@ -7334,6 +7334,7 @@ Overworld_WalkFromExiting_FaceDown:
         JSR.w Overworld_OperateCameraScroll
         LDA.w $0416 : BEQ .noScroll
             JSR.w Overworld_ScrollMap
+            
         .noScroll
 
     .timedWait
@@ -10006,16 +10007,15 @@ OverworldHandleBGOverlayScroll:
 OverworldCameraBoundaryCheck:
 {
     ; Compare X or Y scroll coordinate to the current position coordinate:
-    LDA.b $E2, X : CMP.w $0600, Y : BNE .BRANCH_ALPHA
-        ; OPTIMIZE: Clears out both $0624 and $0626 (this is a silly trick,
-        ; they could have just done STZ.w $0624 : STZ.w $0626).
+    LDA.b $E2, X : CMP.w $0600, Y : BNE .inBounds
+        ; OPTIMIZE: Clears out both $0624 and $0626.
         TYA : EOR.w #$0002 : TAX
         LDA.w #$0000 : STA.w $0624, Y
                        STA.w $0624, X
 
         RTS
 
-    .BRANCH_ALPHA
+    .inBounds
 
     ; Updating a number of coordinates, including the scroll register mirror.
     CLC : ADC.b $00 : STA.b $E2, X
@@ -15318,14 +15318,12 @@ Overworld_ScrollMap:
 ; $0172A2-$0172A4 LOCAL JUMP LOCATION
 Overworld_TransError:
 {
-    ; Resets the submodule index to normal. This routine... should never occur
-    ; under normal circumstances if I understand correctly.
+    ; Resets the submodule index to normal. This routine should never occur
+    ; under normal circumstances.
     STZ.b $11
 
     RTS
 }
-
-; ==============================================================================
 
 ; $0172A5-$0172AB LOCAL JUMP LOCATION
 Overworld_ScrollRight:
@@ -15337,8 +15335,6 @@ Overworld_ScrollRight:
     RTS
 }
 
-; ==============================================================================
-
 ; $0172AC-$0172B2 LOCAL JUMP LOCATION
 Overworld_ScrollLeft:
 {
@@ -15349,8 +15345,6 @@ Overworld_ScrollLeft:
     RTS
 }
 
-; ==============================================================================
-
 ; $0172B3-$0172B9 LOCAL JUMP LOCATION
 Overworld_ScrollUp:
 {
@@ -15360,8 +15354,6 @@ Overworld_ScrollUp:
 
     RTS
 }
-
-; ==============================================================================
 
 ; $0172BA-$0172C7 LOCAL JUMP LOCATION
 MapScroll_SouthAndClear:
@@ -15562,7 +15554,7 @@ CheckForNewlyLoadedMapAreas_East:
         ; Adjust the OW tile16 index.
         INC.b $84 : INC.b $84
 
-        ; Adjust the horizontal scroll position.
+        ; Adjust the Tile16 horizontal scroll position.
         LDA.b $86 : INC : AND.w #$001F : STA.b $86
 
     .tooFarEast
