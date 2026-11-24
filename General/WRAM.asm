@@ -165,10 +165,11 @@ struct WRAM $7E0000
         ; source address $7EC700 (0x14A bytes).
 
     ; $17[0x01] - (GFX, Main, NMI)
-    .DMAMask: skip $01
+    .SpecialDMARoutine: skip $01
         ; Value based flag that, if nonzero, indexes one of a set of specialized
-        ; subroutines to execute. Examples of these are updating portions of the
-        ; sprite chr region in VRAM.
+        ; subroutines to execute during NMI. Examples of these are updating 
+        ; portions of the sprite chr region in VRAM.
+        ; TODO: Document each value.
 
     ; $18[0x01] - (GFX, Main, NMI)
     .GFXUpdateFlag: skip $01
