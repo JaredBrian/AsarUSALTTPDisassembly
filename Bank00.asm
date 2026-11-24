@@ -1821,47 +1821,44 @@ NMI_DoUpdates:
         LDX.w #$0000
         LDA.w $1100, X
 
-    .BRANCH_8
+        .BRANCH_8
 
-    ; Extract the target VRAM Address.
-    STA.w SNES.VRAMAddrReadWriteLow
-    
-    TXA : CLC : ADC.w #$1104 : STA.w DMA.1_SourceAddrOffsetLow
-    
-    ; Tells us how many bytes to transfer.
-    LDA.w $1103, X : AND.w #$00FF : STA.w DMA.1_TransferSizeLow
-               CLC : ADC.w #$0004 : STA.b $00
-    
-    SEP #$20
-    
-    ; Video port settings are determined in the packed data.
-    LDA.w $1102, X : STA.w SNES.VRAMAddrIncrementVal
-    
-    ; Transfer data on channel 1.
-    LDA.b #$02 : STA.w SNES.DMAChannelEnable
-    
-    REP #$21
-    
-    TXA : ADC.b $00 : TAX
-    LDA.w $1100, X : CMP.w #$FFFF : BNE .BRANCH_8
+            ; Extract the target VRAM Address.
+            STA.w SNES.VRAMAddrReadWriteLow
+            
+            TXA : CLC : ADC.w #$1104 : STA.w DMA.1_SourceAddrOffsetLow
+            
+            ; Tells us how many bytes to transfer.
+            LDA.w $1103, X : AND.w #$00FF : STA.w DMA.1_TransferSizeLow
+                    CLC : ADC.w #$0004 : STA.b $00
+            
+            SEP #$20
+            
+            ; Video port settings are determined in the packed data.
+            LDA.w $1102, X : STA.w SNES.VRAMAddrIncrementVal
+            
+            ; Transfer data on channel 1.
+            LDA.b #$02 : STA.w SNES.DMAChannelEnable
+            
+            REP #$21
+            
+            TXA : ADC.b $00 : TAX
+        LDA.w $1100, X : CMP.w #$FFFF : BNE .BRANCH_8
+
         SEP #$30
         
         STZ.b $18 : STZ.w $0710
 
     .BRANCH_9
 
-    .NMI_UpdateChr_Bg2
-    ; This graphics variable is not a flag but an index for which specialized
-    ; graphics routine to run this frame.
+    ; If non-zero, run one of the following specialized DMA routines.
     LDA.b $17 : ASL : TAX
-    
-    ; Disable the variable (meaning it will have to be reenabled next frame).
     STZ.b $17
     
-    JMP.w (.Modules, X)
+    JMP.w (.specialDMARoutines, X)
 
     ; $000C7E-$000CAF JUMP TABLE
-    .Modules
+    .specialDMARoutines
     dw NMI_UploadTilemap_doNothing           ; 0x00 - $8CE3
     dw NMI_UploadTilemap                     ; 0x01 - $8CB0
     dw NMI_UploadBg3Text                     ; 0x02 - $8CE4
@@ -1980,22 +1977,28 @@ NMI_UpdateScrollingOwMap:
 {
     REP #$10
     
-    ; Dma will alternate writing between $2118 and $2119.
+    ; DMA will alternate writing between $2118 and $2119.
     LDX.w #$1801 : STX.w DMA.0_TransferParameters
     
     ; Source bank is determined to be 0x00.
     STZ.w DMA.0_SourceAddrBank
+
+    ; $1100[0x02] - Shared header for the entire list:
+    ;     bits 0-13 - DMA byte count of every payload record.
+    ;     bit 15    - Selects the VMAIN increment arrangement.
     
-    ; Value is either 0x81 or 0x80. This means, increment on writing to $2119
-    ; and optionally write to VRAM horizontally (0x80) or vertically (0x81)
-    ; It depends on how the data in the $1100 area was set up.
+    ; SNES.VRAMAddrIncrementVal will end up as either 0x81 or 0x80. This
+    ; means, increment on writing to $2119 and optionally write to VRAM
+    ; horizontally (0x80) or vertically (0x81). It depends on how the data
+    ; in the $1100 area was set up.
     LDA.w $1101
     AND.b #$80 : ASL : ROL : ORA.b #$80 : STA.w SNES.VRAMAddrIncrementVal
     
     REP #$20
     
     ; X = $1100 & 0x3FFF, $02 = X + 2
-    LDA.w $1100 : AND.w #$3FFF : TAX : INC : INC : STA.b $02
+    LDA.w $1100 : AND.w #$3FFF : TAX
+    INC : INC                  : STA.b $02
     
     LDY.w #$0000
 
@@ -2003,9 +2006,10 @@ NMI_UpdateScrollingOwMap:
 
         REP #$21
         
-        ; The next word in the array determines the target VRAM address (word).
+        ; The next word in the array determines the target VRAM address.
         LDA.w $1102, Y : STA.w SNES.VRAMAddrReadWriteLow
         
+        ; Setup the source address.
         TYA : ADC.w #$1104 : STA.w DMA.0_SourceAddrOffsetLow
         
         ; Brings us to the header of the next transfer block.
@@ -2019,9 +2023,7 @@ NMI_UpdateScrollingOwMap:
         ; Transfer data on channel 0.
         LDA.b #$01 : STA.w SNES.DMAChannelEnable
     
-    ; While somewhat nonsensical, the signal to stop transferring is a negative
-    ; byte (what if you wanted the next transfer to do between 0x80 and 0xFF
-    ; bytes?) well apparently it wasn't designed for that.
+    ; The signal to stop transferring is a negative byte.
     LDA.w $1103, Y : BPL .nextTransfer
     
     SEP #$30
@@ -2884,7 +2886,8 @@ WaterFlood_BuildOneQuadrantForVRAM:
     
     LDA.w UnderworldTilemapQuadrantVRAMIndex, X : CLC : ADC.b #$10 : STA.w $0116
     
-    LDA.b #$01 : STA.b $17 : STA.w $0710
+    LDA.b #$01 : STA.b $17
+                 STA.w $0710
     
     RTL
 

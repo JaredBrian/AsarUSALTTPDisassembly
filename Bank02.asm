@@ -15564,7 +15564,7 @@ CheckForNewlyLoadedMapAreas_East:
 
 ; ==============================================================================
 
-; $0173B9-$017434 LOCAL JUMP LOCATION
+; $0173B9-$017481 LOCAL JUMP LOCATION
 Overworld_DrawHorizontalStrip:
 {
     ; Get the direction of the transition if there is one.
@@ -15572,54 +15572,61 @@ Overworld_DrawHorizontalStrip:
     LDA.b $84
     SEC : SBC.l Pool_BufferAndBuildTile16Stripes_verticalScrollTileOffset, X : TAY
 
-    ; Get the starting vertical offset for the Tile16.
+    ; Get the starting vertical offset for the Tile16. This is done so that
+    ; the Y ring position is preserved.
     LDA.b $88 : ASL : TAX
 
     ; $00[3] = $7E2000
     LDA.w #$2000 : STA.b $00
     LDA.w #$007E : STA.b $02
 
-    ; Get a horizontal line of tile16 from the BG2 tile16 buffer and store it
-    ; into a temp array at $0500.
+    ; Get a vertical line of Tile16 from the BG2 Tile16 buffer and store it
+    ; into a temp array at $0500. Two words are loaded at a time as a cycle
+    ; saving measure, so that the loop check: "DEC.b $03 : BNE .fillBuffer"
+    ; does not have to be run as much at the cost of a few bytes of ROM space.
+    ; OPTIMIZE: However, if they were that concerned with cycles, theres a
+    ; lot more that could be done here. Such as getting rid of the pointer
+    ; call entirely and just reading from RAM and combining the two
+    ; "TYA : CLC : ADC.w #$0080 : TAY"s into one with ADC.w #$0100 instead.
     LDA.w #$0010 : STA.b $03
     .fillBuffer
 
-        ; Write one Tile16 from the BG2 Tile16 buffer to our temporary buffer.
+        ; Write one Tile16 from the BG2 Tile16 buffer to a temporary buffer.
         LDA.b [$00], Y : STA.w $0500, X
 
-        ; Advance by one Tile16 in our temporary buffer.
+        ; Advance by one Tile16 in the temporary buffer.
         INX : INX
         TXA : AND.w #$003F : TAX
 
-        ; Move down one Tile16
+        ; Move down one Tile16 in the BG2 buffer.
         TYA : CLC : ADC.w #$0080 : TAY
 
-        ; Write one Tile16 from the BG2 Tile16 buffer to our temporary buffer.
+        ; Write one Tile16 from the BG2 Tile16 buffer to a temporary buffer.
         LDA.b [$00], Y : STA.w $0500, X
 
-        ; Advance by one Tile16 in our temporary buffer.
+        ; Advance by one Tile16 in the temporary buffer.
         INX : INX
         TXA : AND.w #$003F : TAX
 
-        ; Move down one Tile16
+        ; Move down one Tile16 in the BG2 buffer.
         TYA : CLC : ADC.w #$0080 : TAY
     DEC.b $03 : BNE .fillBuffer
 
-    ; Write to the top half of the tilemap.
+    ; Write to the left half of the tilemap.
     STZ.b $00
 
     ; Check which half of the tilemap to write to. If $86 is 0x00-0x0F then
-    ; we do not need to add any offset to draw to the bottom of the 2x2
+    ; we do not need to add any offset to draw to the right of the 2x2
     ; sized tilemap.
     LDA.b $86 : STA.b $02
-    CMP.w #$0010 : BCC .topHalf
+    CMP.w #$0010 : BCC .leftHalf
         ; Narrow down the offset to one of the 0x10 columns.
         AND.w #$000F : STA.b $02
 
-        ; Write to the bottom half of the tilemap.
+        ; Write to the right half of the tilemap.
         LDA.w #$0400 : STA.b $00
 
-    .topHalf
+    .leftHalf
 
     ; Calculate the actual tilemap address to write to for the first block.
     LDA.b $02 : ASL : CLC : ADC.b $00 : STA.b $00
@@ -15639,29 +15646,28 @@ Overworld_DrawHorizontalStrip:
     ; Both the top and bottom halves need to be written to separatly because
     ; of the offset difference between the top and bottom halves.
 
+    ; Load the left half of the Tile16
     LDA.l Pool_BufferAndBuildTile16Stripes_Tile16BufferOffset+$00
-    JSR.w CreateTile16Stripes_Horizontal
+    JSR.w .createTile16Stripes_Horizontal
 
+    ; Load the second block tilemap address.
     LDA.b $0C : STA.b $00
 
     LDA.l Pool_BufferAndBuildTile16Stripes_Tile16BufferOffset+$02
 
-    ; Bleeds into the next function.
-}
+    ; $017435 ALTERNATE JUMP LOCATION
+    .createTile16Stripes_Horizontal
 
-; $017435-$017481 LOCAL JUMP LOCATION
-CreateTile16Stripes_Horizontal:
-{
     STA.b $02
 
-    ; Store the address of the transfer.
+    ; Store the destination address of the transfer.
     LDY.b $0E
     LDA.b $00 : STA.w $1100, Y
     INC       : STA.w $1142, Y
     
     INY : INY
 
-    ; Loop through each of the 0x10 tiles in the temp buffer:
+    ; Loop through 0x10 of the Tile16 in the temp buffer:
     LDA.w #$0010 : STA.b $06
     .nextTile16
 
@@ -15702,7 +15708,7 @@ CreateTile16Stripes_Horizontal:
 
 ; ==============================================================================
 
-; $017482-$017509 LOCAL JUMP LOCATION
+; $017482-$017549 JUMP LOCATION
 Overworld_DrawVerticalStrip:
 {
     ; Get the direction of the transition if there is one.
@@ -15710,50 +15716,55 @@ Overworld_DrawVerticalStrip:
     LDA.b $84
     SEC : SBC.l Pool_BufferAndBuildTile16Stripes_verticalScrollTileOffset, X : TAY
 
-    ; Get the starting horizontal offset for the tile16.
+    ; Get the starting horizontal offset for the Tile16. This is done so that
+    ; the X ring position is preserved.
     LDA.b $86 : ASL : TAX
 
     ; $00[3] = $7E2000
     LDA.w #$2000 : STA.b $00
     LDA.w #$007E : STA.b $02
 
-    ; Get a vertical line of tile16 from the BG2 tile16 buffer and store it
+    ; Get a horizontal line of Tile16 from the BG2 Tile16 buffer and store it
     ; into a temp array at $0500.
     LDA.w #$0010 : STA.b $03
     .fillBuffer
 
-        ; Writes 0x40 bytes to $0500[0x40]
+        ; Write one Tile16 from the BG2 Tile16 buffer to a temporary buffer.
         LDA.b [$00], Y : STA.w $0500, X
 
-        ; Write one Tile16 from the BG2 Tile16 buffer to our temporary buffer.
+        ; Advance by one Tile16 in the temporary buffer.
         INX : INX
         TXA : AND.w #$003F : TAX
 
+        ; Move right by one Tile16 in the BG2 buffer.
         INY : INY
+
+        ; Write one Tile16 from the BG2 Tile16 buffer to a temporary buffer.
         LDA.b [$00], Y : STA.w $0500, X
 
-        ; Write one Tile16 from the BG2 Tile16 buffer to our temporary buffer.
+        ; Advance by one Tile16 in the temporary buffer.
         INX : INX
         TXA : AND.w #$003F : TAX
 
+        ; Move right by one Tile16 in the BG2 buffer.
         INY : INY
     DEC.b $03 : BNE .fillBuffer
 
-    ; Write to the left half of the tilemap.
+    ; Write to the top half of the tilemap.
     STZ.b $00
 
     ; Check which half of the tilemap to write to. If $88 is 0x00-0x0F then
-    ; we do not need to add any offset to draw to the right side of the 2x2
+    ; we do not need to add any offset to draw to the top side of the 2x2
     ; sized tilemap.
     LDA.b $88 : STA.b $02
-    CMP.w #$0010 : BCC .leftHalf
+    CMP.w #$0010 : BCC .bottomHalf
         ; Narrow down the offset to one of the 0x10 rows.
         AND.w #$000F : STA.b $02
 
-        ; Write to the right half of the tilemap.
+        ; Write to the bottom half of the tilemap.
         LDA.w #$0800 : STA.b $00
 
-    .leftHalf
+    .bottomHalf
 
     ; Calculate the actual tilemap address to write to for the first block.
     LDA.b $02 : ASL #6 : CLC : ADC.b $00 : STA.b $00
@@ -15788,15 +15799,12 @@ Overworld_DrawVerticalStrip:
 
     LDA.l Pool_BufferAndBuildTile16Stripes_Tile16BufferOffset+$02
 
-    ; Bleeds into the next function.
-}
+    ; $01750AALTERNATE JUMP LOCATION
+    .createTile16Stripes_Vertical
 
-; $01750A-$017549 JUMP LOCATION
-CreateTile16Stripes_Vertical:
-{
     STA.b $02
 
-    ; Loop through each of the 0x10 tiles in the temp buffer:
+    ; Loop through 0x10 of the Tile16 in the temp buffer:
     LDA.w #$0010 : STA.b $06
     .nextTile16
 
