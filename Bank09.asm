@@ -1407,24 +1407,24 @@ LoadOverworldSprites:
     LDA.l $7EF3C5 : CMP.b #$03 : BEQ .secondPart
         CMP.b #$02 : BEQ .firstPart
             ; Load the "Beginning" sprites for the Overworld.
-            LDA.w Overworld_SpritePointers_state_0+0, Y : STA.b $00
-            LDA.w Overworld_SpritePointers_state_0+1, Y
+            LDA.w Overworld_SpritePointers_state0+0, Y : STA.b $00
+            LDA.w Overworld_SpritePointers_state0+1, Y
             
             BRA .loadData
         
     .secondPart
     
     ; Load the "Second part" sprites for the Overworld.
-    LDA.w Overworld_SpritePointers_state_2+0, Y : STA.b $00
-    LDA.w Overworld_SpritePointers_state_2+1, Y
+    LDA.w Overworld_SpritePointers_state2+0, Y : STA.b $00
+    LDA.w Overworld_SpritePointers_state2+1, Y
     
     BRA .loadData
     
     .firstPart
     
     ; Load the "First Part" sprites for the Overworld.
-    LDA.w Overworld_SpritePointers_state_1+0, Y : STA.b $00
-    LDA.w Overworld_SpritePointers_state_1+1, Y
+    LDA.w Overworld_SpritePointers_state1+0, Y : STA.b $00
+    LDA.w Overworld_SpritePointers_state1+1, Y
     
     .loadData
     
@@ -1460,7 +1460,7 @@ LoadOverworldSprites:
         
         ; The sprite / overlord index as stored as one plus it's normal index.
         ; Don't ask me why yet. Load them into what I guess you might call a
-        ; sprite map.
+        ; Sprite map.
         INY
         LDA.b ($00), Y
         
@@ -1922,371 +1922,371 @@ Overworld_LoadOverlord:
 Overworld_SpritePointers:
 {
     ; $04C881
-    .state_0
-    dw Overworld_Sprites_EMPTY      ; 0x00 - $CB41 Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 0x01 - $CB41 Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 0x02 - $CB41 Lumberjacks
-    dw Overworld_Sprites_EMPTY      ; 0x03 - $CB41 West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x04 - $CB41 West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x05 - $CB41 East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x06 - $CB41 East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x07 - $CB41 Turtle Rock Portalway
-    dw Overworld_Sprites_EMPTY      ; 0x08 - $CB41 Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 0x09 - $CB41 Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 0x0A - $CB41 Death Mountain Foot
-    dw Overworld_Sprites_EMPTY      ; 0x0B - $CB41 West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x0C - $CB41 West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x0D - $CB41 East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x0E - $CB41 East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x0F - $CB41 Waterfall of Wishing
-    dw Overworld_Sprites_EMPTY      ; 0x10 - $CB41 Lost Woods Alcove
-    dw Overworld_Sprites_EMPTY      ; 0x11 - $CB41 North of Kakariko
-    dw Overworld_Sprites_EMPTY      ; 0x12 - $CB41 Northwest Pond
-    dw Overworld_Sprites_EMPTY      ; 0x13 - $CB41 Sanctuary
-    dw Overworld_Sprites_EMPTY      ; 0x14 - $CB41 Graveyard
-    dw Overworld_Sprites_EMPTY      ; 0x15 - $CB41 Hylia River Bend
-    dw Overworld_Sprites_EMPTY      ; 0x16 - $CB41 Potion Shop
-    dw Overworld_Sprites_EMPTY      ; 0x17 - $CB41 Octorok Pit
-    dw Overworld_Sprites_EMPTY      ; 0x18 - $CB41 Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 0x19 - $CB41 Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 0x1A - $CB41 Kakariko Orchard
-    dw Overworld_Sprites_Screen1B_0 ; 0x1B - $CB42 Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 0x1C - $CB41 Hyrule Castle
-    dw Overworld_Sprites_Screen1D_0 ; 0x1D - $CB5B Hylia River Peninsula
-    dw Overworld_Sprites_EMPTY      ; 0x1E - $CB41 Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 0x1F - $CB41 Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 0x20 - $CB41 Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 0x21 - $CB41 Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 0x22 - $CB41 Smith's House
-    dw Overworld_Sprites_EMPTY      ; 0x23 - $CB41 Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 0x24 - $CB41 Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 0x25 - $CB41 Boulder Field
-    dw Overworld_Sprites_EMPTY      ; 0x26 - $CB41 Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 0x27 - $CB41 Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 0x28 - $CB41 Racing Game
-    dw Overworld_Sprites_EMPTY      ; 0x29 - $CB41 South of Kakariko
-    dw Overworld_Sprites_EMPTY      ; 0x2A - $CB41 Haunted Grove
-    dw Overworld_Sprites_Screen2B_0 ; 0x2B - $CB5F West of Link's House
-    dw Overworld_Sprites_Screen2C_0 ; 0x2C - $CB66 Link's House
-    dw Overworld_Sprites_EMPTY      ; 0x2D - $CB41 Eastern Bridge
-    dw Overworld_Sprites_EMPTY      ; 0x2E - $CB41 Lake Hylia River Bend
-    dw Overworld_Sprites_EMPTY      ; 0x2F - $CB41 Eastern Portalway
-    dw Overworld_Sprites_EMPTY      ; 0x30 - $CB41 Desert
-    dw Overworld_Sprites_EMPTY      ; 0x31 - $CB41 Desert
-    dw Overworld_Sprites_Screen32_0 ; 0x32 - $CB73 Haunted Grove Entrance
-    dw Overworld_Sprites_EMPTY      ; 0x33 - $CB41 Marshlands Portalway
-    dw Overworld_Sprites_EMPTY      ; 0x34 - $CB41 Marshlands Totems
-    dw Overworld_Sprites_EMPTY      ; 0x35 - $CB41 Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 0x36 - $CB41 Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 0x37 - $CB41 Lake Hylia River End
-    dw Overworld_Sprites_EMPTY      ; 0x38 - $CB41 Desert
-    dw Overworld_Sprites_EMPTY      ; 0x39 - $CB41 Desert
-    dw Overworld_Sprites_EMPTY      ; 0x3A - $CB41 Desert Pass
-    dw Overworld_Sprites_EMPTY      ; 0x3B - $CB41 Marshlands Dam Entrance
-    dw Overworld_Sprites_EMPTY      ; 0x3C - $CB41 Marshlands Ravine
-    dw Overworld_Sprites_EMPTY      ; 0x3D - $CB41 Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 0x3E - $CB41 Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 0x3F - $CB41 Lake Hylia Waterfall
+    .state0
+    dw OverworldSpritesNothing ; 0x00 - $CB41 Lost Woods
+    dw OverworldSpritesNothing ; 0x01 - $CB41 Lost Woods
+    dw OverworldSpritesNothing ; 0x02 - $CB41 Lumberjacks
+    dw OverworldSpritesNothing ; 0x03 - $CB41 West Death Mountain
+    dw OverworldSpritesNothing ; 0x04 - $CB41 West Death Mountain
+    dw OverworldSpritesNothing ; 0x05 - $CB41 East Death Mountain
+    dw OverworldSpritesNothing ; 0x06 - $CB41 East Death Mountain
+    dw OverworldSpritesNothing ; 0x07 - $CB41 Turtle Rock Portalway
+    dw OverworldSpritesNothing ; 0x08 - $CB41 Lost Woods
+    dw OverworldSpritesNothing ; 0x09 - $CB41 Lost Woods
+    dw OverworldSpritesNothing ; 0x0A - $CB41 Death Mountain Foot
+    dw OverworldSpritesNothing ; 0x0B - $CB41 West Death Mountain
+    dw OverworldSpritesNothing ; 0x0C - $CB41 West Death Mountain
+    dw OverworldSpritesNothing ; 0x0D - $CB41 East Death Mountain
+    dw OverworldSpritesNothing ; 0x0E - $CB41 East Death Mountain
+    dw OverworldSpritesNothing ; 0x0F - $CB41 Waterfall of Wishing
+    dw OverworldSpritesNothing ; 0x10 - $CB41 Lost Woods Alcove
+    dw OverworldSpritesNothing ; 0x11 - $CB41 North of Kakariko
+    dw OverworldSpritesNothing ; 0x12 - $CB41 Northwest Pond
+    dw OverworldSpritesNothing ; 0x13 - $CB41 Sanctuary
+    dw OverworldSpritesNothing ; 0x14 - $CB41 Graveyard
+    dw OverworldSpritesNothing ; 0x15 - $CB41 Hylia River Bend
+    dw OverworldSpritesNothing ; 0x16 - $CB41 Potion Shop
+    dw OverworldSpritesNothing ; 0x17 - $CB41 Octorok Pit
+    dw OverworldSpritesNothing ; 0x18 - $CB41 Kakariko Village
+    dw OverworldSpritesNothing ; 0x19 - $CB41 Kakariko Village
+    dw OverworldSpritesNothing ; 0x1A - $CB41 Kakariko Orchard
+    dw OverworldSprites_1B_0   ; 0x1B - $CB42 Hyrule Castle
+    dw OverworldSpritesNothing ; 0x1C - $CB41 Hyrule Castle
+    dw OverworldSprites_1D_0   ; 0x1D - $CB5B Hylia River Peninsula
+    dw OverworldSpritesNothing ; 0x1E - $CB41 Eastern Ruins
+    dw OverworldSpritesNothing ; 0x1F - $CB41 Eastern Ruins
+    dw OverworldSpritesNothing ; 0x20 - $CB41 Kakariko Village
+    dw OverworldSpritesNothing ; 0x21 - $CB41 Kakariko Village
+    dw OverworldSpritesNothing ; 0x22 - $CB41 Smith's House
+    dw OverworldSpritesNothing ; 0x23 - $CB41 Hyrule Castle
+    dw OverworldSpritesNothing ; 0x24 - $CB41 Hyrule Castle
+    dw OverworldSpritesNothing ; 0x25 - $CB41 Boulder Field
+    dw OverworldSpritesNothing ; 0x26 - $CB41 Eastern Ruins
+    dw OverworldSpritesNothing ; 0x27 - $CB41 Eastern Ruins
+    dw OverworldSpritesNothing ; 0x28 - $CB41 Racing Game
+    dw OverworldSpritesNothing ; 0x29 - $CB41 South of Kakariko
+    dw OverworldSpritesNothing ; 0x2A - $CB41 Haunted Grove
+    dw OverworldSprites_2B_0   ; 0x2B - $CB5F West of Link's House
+    dw OverworldSprites_2C_0   ; 0x2C - $CB66 Link's House
+    dw OverworldSpritesNothing ; 0x2D - $CB41 Eastern Bridge
+    dw OverworldSpritesNothing ; 0x2E - $CB41 Lake Hylia River Bend
+    dw OverworldSpritesNothing ; 0x2F - $CB41 Eastern Portalway
+    dw OverworldSpritesNothing ; 0x30 - $CB41 Desert
+    dw OverworldSpritesNothing ; 0x31 - $CB41 Desert
+    dw OverworldSprites_32_0   ; 0x32 - $CB73 Haunted Grove Entrance
+    dw OverworldSpritesNothing ; 0x33 - $CB41 Marshlands Portalway
+    dw OverworldSpritesNothing ; 0x34 - $CB41 Marshlands Totems
+    dw OverworldSpritesNothing ; 0x35 - $CB41 Lake Hylia
+    dw OverworldSpritesNothing ; 0x36 - $CB41 Lake Hylia
+    dw OverworldSpritesNothing ; 0x37 - $CB41 Lake Hylia River End
+    dw OverworldSpritesNothing ; 0x38 - $CB41 Desert
+    dw OverworldSpritesNothing ; 0x39 - $CB41 Desert
+    dw OverworldSpritesNothing ; 0x3A - $CB41 Desert Pass
+    dw OverworldSpritesNothing ; 0x3B - $CB41 Marshlands Dam Entrance
+    dw OverworldSpritesNothing ; 0x3C - $CB41 Marshlands Ravine
+    dw OverworldSpritesNothing ; 0x3D - $CB41 Lake Hylia
+    dw OverworldSpritesNothing ; 0x3E - $CB41 Lake Hylia
+    dw OverworldSpritesNothing ; 0x3F - $CB41 Lake Hylia Waterfall
 
     ; $04C901
-    .state_1
-    dw Overworld_Sprites_Screen00_1 ; 0x00 - $CF4C Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 0x01 - $CB41 Lost Woods
-    dw Overworld_Sprites_Screen02_1 ; 0x02 - $CF7A Lumberjacks
-    dw Overworld_Sprites_Screen03_1 ; 0x03 - $CF84 West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x04 - $CB41 West Death Mountain
-    dw Overworld_Sprites_Screen05_1 ; 0x05 - $CFA6 East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x06 - $CB41 East Death Mountain
-    dw Overworld_Sprites_Screen07_1 ; 0x07 - $CFCE Turtle Rock Portalway
-    dw Overworld_Sprites_EMPTY      ; 0x08 - $CB41 Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 0x09 - $CB41 Lost Woods
-    dw Overworld_Sprites_Screen0A_1 ; 0x0A - $CFDE Death Mountain Foot
-    dw Overworld_Sprites_EMPTY      ; 0x0B - $CB41 West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x0C - $CB41 West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x0D - $CB41 East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x0E - $CB41 East Death Mountain
-    dw Overworld_Sprites_Screen0F_1 ; 0x0F - $CFFD Waterfall of Wishing
-    dw Overworld_Sprites_Screen10_1 ; 0x10 - $D013 Lost Woods Alcove
-    dw Overworld_Sprites_Screen11_1 ; 0x11 - $D020 North of Kakariko
-    dw Overworld_Sprites_Screen12_1 ; 0x12 - $D02D Northwest Pond
-    dw Overworld_Sprites_Screen13_1 ; 0x13 - $D03A Sanctuary
-    dw Overworld_Sprites_Screen14_1 ; 0x14 - $D041 Graveyard
-    dw Overworld_Sprites_Screen15_1 ; 0x15 - $D051 Hylia River Bend
-    dw Overworld_Sprites_Screen16_1 ; 0x16 - $D05E Potion Shop
-    dw Overworld_Sprites_Screen17_1 ; 0x17 - $D068 Octorok Pit
-    dw Overworld_Sprites_Screen18_1 ; 0x18 - $D078 Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 0x19 - $CB41 Kakariko Village
-    dw Overworld_Sprites_Screen1A_1 ; 0x1A - $D0A0 Kakariko Orchard
-    dw Overworld_Sprites_Screen1B_1 ; 0x1B - $D0B3 Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 0x1C - $CB41 Hyrule Castle
-    dw Overworld_Sprites_Screen1D_1 ; 0x1D - $D0DB Hylia River Peninsula
-    dw Overworld_Sprites_Screen1E_1 ; 0x1E - $D0EB Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 0x1F - $CB41 Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 0x20 - $CB41 Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 0x21 - $CB41 Kakariko Village
-    dw Overworld_Sprites_Screen22_1 ; 0x22 - $D125 Smith's House
-    dw Overworld_Sprites_EMPTY      ; 0x23 - $CB41 Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 0x24 - $CB41 Hyrule Castle
-    dw Overworld_Sprites_Screen25_1 ; 0x25 - $D12F Boulder Field
-    dw Overworld_Sprites_EMPTY      ; 0x26 - $CB41 Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 0x27 - $CB41 Eastern Ruins
-    dw Overworld_Sprites_Screen28_1 ; 0x28 - $D148 Racing Game
-    dw Overworld_Sprites_EMPTY      ; 0x29 - $CB41 South of Kakariko
-    dw Overworld_Sprites_Screen2A_1 ; 0x2A - $D152 Haunted Grove
-    dw Overworld_Sprites_Screen2B_1 ; 0x2B - $D168 West of Link's House
-    dw Overworld_Sprites_Screen2C_1 ; 0x2C - $D175 Link's House
-    dw Overworld_Sprites_Screen2D_1 ; 0x2D - $D17C Eastern Bridge
-    dw Overworld_Sprites_Screen2E_1 ; 0x2E - $D186 Lake Hylia River Bend
-    dw Overworld_Sprites_Screen2F_1 ; 0x2F - $D193 Eastern Portalway
-    dw Overworld_Sprites_Screen30_1 ; 0x30 - $D19D Desert
-    dw Overworld_Sprites_EMPTY      ; 0x31 - $CB41 Desert
-    dw Overworld_Sprites_Screen32_1 ; 0x32 - $D1E3 Haunted Grove Entrance
-    dw Overworld_Sprites_Screen33_1 ; 0x33 - $D1F0 Marshlands Portalway
-    dw Overworld_Sprites_Screen34_1 ; 0x34 - $D1FD Marshlands Totems
-    dw Overworld_Sprites_Screen35_1 ; 0x35 - $D213 Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 0x36 - $CB41 Lake Hylia
-    dw Overworld_Sprites_Screen37_1 ; 0x37 - $D259 Lake Hylia River End
-    dw Overworld_Sprites_EMPTY      ; 0x38 - $CB41 Desert
-    dw Overworld_Sprites_EMPTY      ; 0x39 - $CB41 Desert
-    dw Overworld_Sprites_Screen3A_1 ; 0x3A - $D26C Desert Pass
-    dw Overworld_Sprites_Screen3B_1 ; 0x3B - $D279 Marshlands Dam Entrance
-    dw Overworld_Sprites_Screen3C_1 ; 0x3C - $D292 Marshlands Ravine
-    dw Overworld_Sprites_EMPTY      ; 0x3D - $CB41 Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 0x3E - $CB41 Lake Hylia
-    dw Overworld_Sprites_Screen3F_1 ; 0x3F - $D2A8 Lake Hylia Waterfall
-    dw Overworld_Sprites_Screen40   ; 0x40 - $CB7A Skull Woods
-    dw Overworld_Sprites_Screen42   ; 0x41 - $CBB7 Skull Woods
-    dw Overworld_Sprites_Screen42   ; 0x42 - $CBB7 Dark Lumberjacks
-    dw Overworld_Sprites_Screen43   ; 0x43 - $CBC4 West Dark Death Mountain
-    dw Overworld_Sprites_Screen45   ; 0x44 - $CBCB West Dark Death Mountain
-    dw Overworld_Sprites_Screen45   ; 0x45 - $CBCB East Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x46 - $CB41 East Dark Death Mountain
-    dw Overworld_Sprites_Screen47   ; 0x47 - $CBD5 Turtle Rock
-    dw Overworld_Sprites_EMPTY      ; 0x48 - $CB41 Skull Woods
-    dw Overworld_Sprites_EMPTY      ; 0x49 - $CB41 Skull Woods
-    dw Overworld_Sprites_Screen4A   ; 0x4A - $CBD9 Bumper Ledge
-    dw Overworld_Sprites_EMPTY      ; 0x4B - $CB41 West Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x4C - $CB41 West Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x4D - $CB41 East Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x4E - $CB41 East Dark Death Mountain
-    dw Overworld_Sprites_Screen4F   ; 0x4F - $CBF5 Lake of Bad Omens
-    dw Overworld_Sprites_Screen50   ; 0x50 - $CC02 Skull Woods Alcove
-    dw Overworld_Sprites_Screen51   ; 0x51 - $CC12 North of Outcasts
-    dw Overworld_Sprites_Screen52   ; 0x52 - $CC25 Dark Northwest Pond
-    dw Overworld_Sprites_Screen53   ; 0x53 - $CC35 Dark Sanctuary
-    dw Overworld_Sprites_Screen54   ; 0x54 - $CC45 Dark Graveyard
-    dw Overworld_Sprites_Screen55   ; 0x55 - $CC5E Dark Hylia River Bend
-    dw Overworld_Sprites_Screen56   ; 0x56 - $CC74 Dark Northeast Shop
-    dw Overworld_Sprites_Screen57   ; 0x57 - $CC84 Dark Octorok Pit
-    dw Overworld_Sprites_Screen58   ; 0x58 - $CC9A Village of Outcasts
-    dw Overworld_Sprites_EMPTY      ; 0x59 - $CB41 Village of Outcasts
-    dw Overworld_Sprites_Screen5A   ; 0x5A - $CCCE Outcasts Orchard
-    dw Overworld_Sprites_Screen5B   ; 0x5B - $CCE1 Pyramid of Power
-    dw Overworld_Sprites_EMPTY      ; 0x5C - $CB41 Pyramid of Power
-    dw Overworld_Sprites_Screen5D   ; 0x5D - $CD03 Dark Hylia River Peninsula
-    dw Overworld_Sprites_Screen5E   ; 0x5E - $CD19 Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 0x5F - $CB41 Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 0x60 - $CB41 Village of Outcasts
-    dw Overworld_Sprites_EMPTY      ; 0x61 - $CB41 Village of Outcasts
-    dw Overworld_Sprites_Screen62   ; 0x62 - $CD59 Stake Puzzle
-    dw Overworld_Sprites_EMPTY      ; 0x63 - $CB41 Pyramid of Power
-    dw Overworld_Sprites_EMPTY      ; 0x64 - $CB41 Pyramid of Power
-    dw Overworld_Sprites_Screen65   ; 0x65 - $CD6C Boulder Field
-    dw Overworld_Sprites_EMPTY      ; 0x66 - $CB41 Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 0x67 - $CB41 Palace of Darkness Maze
-    dw Overworld_Sprites_Screen68   ; 0x68 - $CD7F Digging Game
-    dw Overworld_Sprites_Screen69   ; 0x69 - $CD83 South of Outcasts
-    dw Overworld_Sprites_Screen6A   ; 0x6A - $CD87 Stumpy Grove
-    dw Overworld_Sprites_Screen6B   ; 0x6B - $CD8B West of Bomb Shoppe
-    dw Overworld_Sprites_Screen6C   ; 0x6C - $CD9B Bomb Shoppe
-    dw Overworld_Sprites_Screen6D   ; 0x6D - $CDAB Hammer Bridge
-    dw Overworld_Sprites_Screen6E   ; 0x6E - $CDBE Dark Lake Hylia River Bend
-    dw Overworld_Sprites_Screen6F   ; 0x6F - $CDD1 East Dark World Portalway
-    dw Overworld_Sprites_Screen70   ; 0x70 - $CDE1 Misery Mire
-    dw Overworld_Sprites_Screen72   ; 0x71 - $CE06 Misery Mire
-    dw Overworld_Sprites_Screen72   ; 0x72 - $CE06 Stumpy Grove Entrance
-    dw Overworld_Sprites_Screen73   ; 0x73 - $CE16 Swamplands Portalway
-    dw Overworld_Sprites_Screen74   ; 0x74 - $CE26 Swamplands Totems
-    dw Overworld_Sprites_Screen75   ; 0x75 - $CE3C Dark Lake Hylia
-    dw Overworld_Sprites_Screen77   ; 0x76 - $CE7F Dark Lake Hylia
-    dw Overworld_Sprites_Screen77   ; 0x77 - $CE7F Dark Lake Hylia River End
-    dw Overworld_Sprites_EMPTY      ; 0x78 - $CB41 Misery Mire
-    dw Overworld_Sprites_EMPTY      ; 0x79 - $CB41 Misery Mire
-    dw Overworld_Sprites_Screen7A   ; 0x7A - $CE92 West of Swamplands
-    dw Overworld_Sprites_Screen7B   ; 0x7B - $CE9F Swamplands Palace Entrance
-    dw Overworld_Sprites_Screen7C   ; 0x7C - $CEB2 Swamplands Ravine
-    dw Overworld_Sprites_EMPTY      ; 0x7D - $CB41 Dark Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 0x7E - $CB41 Dark Lake Hylia
-    dw Overworld_Sprites_Screen7F   ; 0x7F - $CEC5 Dark Lake Hylia Waterfall
-    dw Overworld_Sprites_Screen80   ; 0x80 - $CEDB Master Sword Pedestal
-    dw Overworld_Sprites_Screen81   ; 0x81 - $CEF4 Zora's Domain
-    dw Overworld_Sprites_EMPTY      ; 0x82 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x83 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x84 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x85 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x86 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x87 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x88 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x89 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8A - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8B - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8C - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8D - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8E - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8F - $CB41 Unused SW Area
+    .state1
+    dw OverworldSprites_00_1   ; 0x00 - $CF4C Lost Woods
+    dw OverworldSpritesNothing ; 0x01 - $CB41 Lost Woods
+    dw OverworldSprites_02_1   ; 0x02 - $CF7A Lumberjacks
+    dw OverworldSprites_03_1   ; 0x03 - $CF84 West Death Mountain
+    dw OverworldSpritesNothing ; 0x04 - $CB41 West Death Mountain
+    dw OverworldSprites_05_1   ; 0x05 - $CFA6 East Death Mountain
+    dw OverworldSpritesNothing ; 0x06 - $CB41 East Death Mountain
+    dw OverworldSprites_07_1   ; 0x07 - $CFCE Turtle Rock Portalway
+    dw OverworldSpritesNothing ; 0x08 - $CB41 Lost Woods
+    dw OverworldSpritesNothing ; 0x09 - $CB41 Lost Woods
+    dw OverworldSprites_0A_1   ; 0x0A - $CFDE Death Mountain Foot
+    dw OverworldSpritesNothing ; 0x0B - $CB41 West Death Mountain
+    dw OverworldSpritesNothing ; 0x0C - $CB41 West Death Mountain
+    dw OverworldSpritesNothing ; 0x0D - $CB41 East Death Mountain
+    dw OverworldSpritesNothing ; 0x0E - $CB41 East Death Mountain
+    dw OverworldSprites_0F_1   ; 0x0F - $CFFD Waterfall of Wishing
+    dw OverworldSprites_10_1   ; 0x10 - $D013 Lost Woods Alcove
+    dw OverworldSprites_11_1   ; 0x11 - $D020 North of Kakariko
+    dw OverworldSprites_12_1   ; 0x12 - $D02D Northwest Pond
+    dw OverworldSprites_13_1   ; 0x13 - $D03A Sanctuary
+    dw OverworldSprites_14_1   ; 0x14 - $D041 Graveyard
+    dw OverworldSprites_15_1   ; 0x15 - $D051 Hylia River Bend
+    dw OverworldSprites_16_1   ; 0x16 - $D05E Potion Shop
+    dw OverworldSprites_17_1   ; 0x17 - $D068 Octorok Pit
+    dw OverworldSprites_18_1   ; 0x18 - $D078 Kakariko Village
+    dw OverworldSpritesNothing ; 0x19 - $CB41 Kakariko Village
+    dw OverworldSprites_1A_1   ; 0x1A - $D0A0 Kakariko Orchard
+    dw OverworldSprites_1B_1   ; 0x1B - $D0B3 Hyrule Castle
+    dw OverworldSpritesNothing ; 0x1C - $CB41 Hyrule Castle
+    dw OverworldSprites_1D_1   ; 0x1D - $D0DB Hylia River Peninsula
+    dw OverworldSprites_1E_1   ; 0x1E - $D0EB Eastern Ruins
+    dw OverworldSpritesNothing ; 0x1F - $CB41 Eastern Ruins
+    dw OverworldSpritesNothing ; 0x20 - $CB41 Kakariko Village
+    dw OverworldSpritesNothing ; 0x21 - $CB41 Kakariko Village
+    dw OverworldSprites_22_1   ; 0x22 - $D125 Smith's House
+    dw OverworldSpritesNothing ; 0x23 - $CB41 Hyrule Castle
+    dw OverworldSpritesNothing ; 0x24 - $CB41 Hyrule Castle
+    dw OverworldSprites_25_1   ; 0x25 - $D12F Boulder Field
+    dw OverworldSpritesNothing ; 0x26 - $CB41 Eastern Ruins
+    dw OverworldSpritesNothing ; 0x27 - $CB41 Eastern Ruins
+    dw OverworldSprites_28_1   ; 0x28 - $D148 Racing Game
+    dw OverworldSpritesNothing ; 0x29 - $CB41 South of Kakariko
+    dw OverworldSprites_2A_1   ; 0x2A - $D152 Haunted Grove
+    dw OverworldSprites_2B_1   ; 0x2B - $D168 West of Link's House
+    dw OverworldSprites_2C_1   ; 0x2C - $D175 Link's House
+    dw OverworldSprites_2D_1   ; 0x2D - $D17C Eastern Bridge
+    dw OverworldSprites_2E_1   ; 0x2E - $D186 Lake Hylia River Bend
+    dw OverworldSprites_2F_1   ; 0x2F - $D193 Eastern Portalway
+    dw OverworldSprites_30_1   ; 0x30 - $D19D Desert
+    dw OverworldSpritesNothing ; 0x31 - $CB41 Desert
+    dw OverworldSprites_32_1   ; 0x32 - $D1E3 Haunted Grove Entrance
+    dw OverworldSprites_33_1   ; 0x33 - $D1F0 Marshlands Portalway
+    dw OverworldSprites_34_1   ; 0x34 - $D1FD Marshlands Totems
+    dw OverworldSprites_35_1   ; 0x35 - $D213 Lake Hylia
+    dw OverworldSpritesNothing ; 0x36 - $CB41 Lake Hylia
+    dw OverworldSprites_37_1   ; 0x37 - $D259 Lake Hylia River End
+    dw OverworldSpritesNothing ; 0x38 - $CB41 Desert
+    dw OverworldSpritesNothing ; 0x39 - $CB41 Desert
+    dw OverworldSprites_3A_1   ; 0x3A - $D26C Desert Pass
+    dw OverworldSprites_3B_1   ; 0x3B - $D279 Marshlands Dam Entrance
+    dw OverworldSprites_3C_1   ; 0x3C - $D292 Marshlands Ravine
+    dw OverworldSpritesNothing ; 0x3D - $CB41 Lake Hylia
+    dw OverworldSpritesNothing ; 0x3E - $CB41 Lake Hylia
+    dw OverworldSprites_3F_1   ; 0x3F - $D2A8 Lake Hylia Waterfall
+    dw OverworldSprites_40     ; 0x40 - $CB7A Skull Woods
+    dw OverworldSprites_42     ; 0x41 - $CBB7 Skull Woods
+    dw OverworldSprites_42     ; 0x42 - $CBB7 Dark Lumberjacks
+    dw OverworldSprites_43     ; 0x43 - $CBC4 West Dark Death Mountain
+    dw OverworldSprites_45     ; 0x44 - $CBCB West Dark Death Mountain
+    dw OverworldSprites_45     ; 0x45 - $CBCB East Dark Death Mountain
+    dw OverworldSpritesNothing ; 0x46 - $CB41 East Dark Death Mountain
+    dw OverworldSprites_47     ; 0x47 - $CBD5 Turtle Rock
+    dw OverworldSpritesNothing ; 0x48 - $CB41 Skull Woods
+    dw OverworldSpritesNothing ; 0x49 - $CB41 Skull Woods
+    dw OverworldSprites_4A     ; 0x4A - $CBD9 Bumper Ledge
+    dw OverworldSpritesNothing ; 0x4B - $CB41 West Dark Death Mountain
+    dw OverworldSpritesNothing ; 0x4C - $CB41 West Dark Death Mountain
+    dw OverworldSpritesNothing ; 0x4D - $CB41 East Dark Death Mountain
+    dw OverworldSpritesNothing ; 0x4E - $CB41 East Dark Death Mountain
+    dw OverworldSprites_4F     ; 0x4F - $CBF5 Lake of Bad Omens
+    dw OverworldSprites_50     ; 0x50 - $CC02 Skull Woods Alcove
+    dw OverworldSprites_51     ; 0x51 - $CC12 North of Outcasts
+    dw OverworldSprites_52     ; 0x52 - $CC25 Dark Northwest Pond
+    dw OverworldSprites_53     ; 0x53 - $CC35 Dark Sanctuary
+    dw OverworldSprites_54     ; 0x54 - $CC45 Dark Graveyard
+    dw OverworldSprites_55     ; 0x55 - $CC5E Dark Hylia River Bend
+    dw OverworldSprites_56     ; 0x56 - $CC74 Dark Northeast Shop
+    dw OverworldSprites_57     ; 0x57 - $CC84 Dark Octorok Pit
+    dw OverworldSprites_58     ; 0x58 - $CC9A Village of Outcasts
+    dw OverworldSpritesNothing ; 0x59 - $CB41 Village of Outcasts
+    dw OverworldSprites_5A     ; 0x5A - $CCCE Outcasts Orchard
+    dw OverworldSprites_5B     ; 0x5B - $CCE1 Pyramid of Power
+    dw OverworldSpritesNothing ; 0x5C - $CB41 Pyramid of Power
+    dw OverworldSprites_5D     ; 0x5D - $CD03 Dark Hylia River Peninsula
+    dw OverworldSprites_5E     ; 0x5E - $CD19 Palace of Darkness Maze
+    dw OverworldSpritesNothing ; 0x5F - $CB41 Palace of Darkness Maze
+    dw OverworldSpritesNothing ; 0x60 - $CB41 Village of Outcasts
+    dw OverworldSpritesNothing ; 0x61 - $CB41 Village of Outcasts
+    dw OverworldSprites_62     ; 0x62 - $CD59 Stake Puzzle
+    dw OverworldSpritesNothing ; 0x63 - $CB41 Pyramid of Power
+    dw OverworldSpritesNothing ; 0x64 - $CB41 Pyramid of Power
+    dw OverworldSprites_65     ; 0x65 - $CD6C Boulder Field
+    dw OverworldSpritesNothing ; 0x66 - $CB41 Palace of Darkness Maze
+    dw OverworldSpritesNothing ; 0x67 - $CB41 Palace of Darkness Maze
+    dw OverworldSprites_68     ; 0x68 - $CD7F Digging Game
+    dw OverworldSprites_69     ; 0x69 - $CD83 South of Outcasts
+    dw OverworldSprites_6A     ; 0x6A - $CD87 Stumpy Grove
+    dw OverworldSprites_6B     ; 0x6B - $CD8B West of Bomb Shoppe
+    dw OverworldSprites_6C     ; 0x6C - $CD9B Bomb Shoppe
+    dw OverworldSprites_6D     ; 0x6D - $CDAB Hammer Bridge
+    dw OverworldSprites_6E     ; 0x6E - $CDBE Dark Lake Hylia River Bend
+    dw OverworldSprites_6F     ; 0x6F - $CDD1 East Dark World Portalway
+    dw OverworldSprites_70     ; 0x70 - $CDE1 Misery Mire
+    dw OverworldSprites_72     ; 0x71 - $CE06 Misery Mire
+    dw OverworldSprites_72     ; 0x72 - $CE06 Stumpy Grove Entrance
+    dw OverworldSprites_73     ; 0x73 - $CE16 Swamplands Portalway
+    dw OverworldSprites_74     ; 0x74 - $CE26 Swamplands Totems
+    dw OverworldSprites_75     ; 0x75 - $CE3C Dark Lake Hylia
+    dw OverworldSprites_77     ; 0x76 - $CE7F Dark Lake Hylia
+    dw OverworldSprites_77     ; 0x77 - $CE7F Dark Lake Hylia River End
+    dw OverworldSpritesNothing ; 0x78 - $CB41 Misery Mire
+    dw OverworldSpritesNothing ; 0x79 - $CB41 Misery Mire
+    dw OverworldSprites_7A     ; 0x7A - $CE92 West of Swamplands
+    dw OverworldSprites_7B     ; 0x7B - $CE9F Swamplands Palace Entrance
+    dw OverworldSprites_7C     ; 0x7C - $CEB2 Swamplands Ravine
+    dw OverworldSpritesNothing ; 0x7D - $CB41 Dark Lake Hylia
+    dw OverworldSpritesNothing ; 0x7E - $CB41 Dark Lake Hylia
+    dw OverworldSprites_7F     ; 0x7F - $CEC5 Dark Lake Hylia Waterfall
+    dw OverworldSprites_80     ; 0x80 - $CEDB Master Sword Pedestal
+    dw OverworldSprites_81     ; 0x81 - $CEF4 Zora's Domain
+    dw OverworldSpritesNothing ; 0x82 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x83 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x84 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x85 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x86 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x87 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x88 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x89 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8A - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8B - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8C - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8D - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8E - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8F - $CB41 Unused SW Area
    
    ; $04CA21
-   .state_2
-    dw Overworld_Sprites_Screen00_2 ; 0x00 - $D2B8 Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 0x01 - $CB41 Lost Woods
-    dw Overworld_Sprites_Screen02_2 ; 0x02 - $D2E3 Lumberjacks
-    dw Overworld_Sprites_Screen03_2 ; 0x03 - $D2E7 West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x04 - $CB41 West Death Mountain
-    dw Overworld_Sprites_Screen05_2 ; 0x05 - $D315 East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x06 - $CB41 East Death Mountain
-    dw Overworld_Sprites_Screen07_2 ; 0x07 - $D343 Turtle Rock Portalway
-    dw Overworld_Sprites_EMPTY      ; 0x08 - $CB41 Lost Woods
-    dw Overworld_Sprites_EMPTY      ; 0x09 - $CB41 Lost Woods
-    dw Overworld_Sprites_Screen0A_2 ; 0x0A - $D353 Death Mountain Foot
-    dw Overworld_Sprites_EMPTY      ; 0x0B - $CB41 West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x0C - $CB41 West Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x0D - $CB41 East Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x0E - $CB41 East Death Mountain
-    dw Overworld_Sprites_Screen0F_2 ; 0x0F - $D369 Waterfall of Wishing
-    dw Overworld_Sprites_Screen10_2 ; 0x10 - $D37F Lost Woods Alcove
-    dw Overworld_Sprites_Screen11_2 ; 0x11 - $D38F North of Kakariko
-    dw Overworld_Sprites_Screen12_2 ; 0x12 - $D39C Northwest Pond
-    dw Overworld_Sprites_Screen13_2 ; 0x13 - $D3A9 Sanctuary
-    dw Overworld_Sprites_Screen14_2 ; 0x14 - $D3B6 Graveyard
-    dw Overworld_Sprites_Screen15_2 ; 0x15 - $D3C9 Hylia River Bend
-    dw Overworld_Sprites_Screen16_2 ; 0x16 - $D3D9 Potion Shop
-    dw Overworld_Sprites_Screen17_2 ; 0x17 - $D3E3 Octorok Pit
-    dw Overworld_Sprites_Screen18_2 ; 0x18 - $D3F3 Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 0x19 - $CB41 Kakariko Village
-    dw Overworld_Sprites_Screen1A_2 ; 0x1A - $D418 Kakariko Orchard
-    dw Overworld_Sprites_Screen1B_2 ; 0x1B - $D428 Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 0x1C - $CB41 Hyrule Castle
-    dw Overworld_Sprites_Screen1D_2 ; 0x1D - $D447 Hylia River Peninsula
-    dw Overworld_Sprites_Screen1E_2 ; 0x1E - $D454 Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 0x1F - $CB41 Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 0x20 - $CB41 Kakariko Village
-    dw Overworld_Sprites_EMPTY      ; 0x21 - $CB41 Kakariko Village
-    dw Overworld_Sprites_Screen22_2 ; 0x22 - $D491 Smith's House
-    dw Overworld_Sprites_EMPTY      ; 0x23 - $CB41 Hyrule Castle
-    dw Overworld_Sprites_EMPTY      ; 0x24 - $CB41 Hyrule Castle
-    dw Overworld_Sprites_Screen25_2 ; 0x25 - $D49B Boulder Field
-    dw Overworld_Sprites_EMPTY      ; 0x26 - $CB41 Eastern Ruins
-    dw Overworld_Sprites_EMPTY      ; 0x27 - $CB41 Eastern Ruins
-    dw Overworld_Sprites_Screen28_2 ; 0x28 - $D4A8 Racing Game
-    dw Overworld_Sprites_Screen29_2 ; 0x29 - D4B8 South of Kakariko
-    dw Overworld_Sprites_Screen2A_2 ; 0x2A - $D4C2 Haunted Grove
-    dw Overworld_Sprites_Screen2B_2 ; 0x2B - $D4DE West of Link's House
-    dw Overworld_Sprites_Screen2C_2 ; 0x2C - $D4EE Link's House
-    dw Overworld_Sprites_Screen2D_2 ; 0x2D - $D4F5 Eastern Bridge
-    dw Overworld_Sprites_Screen2E_2 ; 0x2E - $D502 Lake Hylia River Bend
-    dw Overworld_Sprites_Screen2F_2 ; 0x2F - $D515 Eastern Portalway
-    dw Overworld_Sprites_Screen30_2 ; 0x30 - $D51F Desert
-    dw Overworld_Sprites_EMPTY      ; 0x31 - $CB41 Desert
-    dw Overworld_Sprites_Screen32_2 ; 0x32 - $D55C Haunted Grove Entrance
-    dw Overworld_Sprites_Screen33_2 ; 0x33 - $D56F Marshlands Portalway
-    dw Overworld_Sprites_Screen34_2 ; 0x34 - $D57F Marshlands Totems
-    dw Overworld_Sprites_Screen35_2 ; 0x35 - $D58F Lake Hylia
-    dw Overworld_Sprites_Screen37_2 ; 0x36 - $D5D5 Lake Hylia
-    dw Overworld_Sprites_Screen37_2 ; 0x37 - $D5D5 Lake Hylia River End
-    dw Overworld_Sprites_Screen3A_2 ; 0x38 - $D5E5 Desert
-    dw Overworld_Sprites_Screen3A_2 ; 0x39 - $D5E5 Desert
-    dw Overworld_Sprites_Screen3A_2 ; 0x3A - $D5E5 Desert Pass
-    dw Overworld_Sprites_Screen3B_2 ; 0x3B - $D5FE Marshlands Dam Entrance
-    dw Overworld_Sprites_Screen3C_2 ; 0x3C - $D611 Marshlands Ravine
-    dw Overworld_Sprites_Screen3F_2 ; 0x3D - $D621 Lake Hylia
-    dw Overworld_Sprites_Screen3F_2 ; 0x3E - $D621 Lake Hylia
-    dw Overworld_Sprites_Screen3F_2 ; 0x3F - $D621 Lake Hylia Waterfall
-    dw Overworld_Sprites_Screen40   ; 0x40 - $CB7A Skull Woods
-    dw Overworld_Sprites_Screen42   ; 0x41 - $CBB7 Skull Woods
-    dw Overworld_Sprites_Screen42   ; 0x42 - $CBB7 Dark Lumberjacks
-    dw Overworld_Sprites_Screen43   ; 0x43 - $CBC4 West Dark Death Mountain
-    dw Overworld_Sprites_Screen45   ; 0x44 - $CBCB West Dark Death Mountain
-    dw Overworld_Sprites_Screen45   ; 0x45 - $CBCB East Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x46 - $CB41 East Dark Death Mountain
-    dw Overworld_Sprites_Screen47   ; 0x47 - $CBD5 Turtle Rock
-    dw Overworld_Sprites_EMPTY      ; 0x48 - $CB41 Skull Woods
-    dw Overworld_Sprites_EMPTY      ; 0x49 - $CB41 Skull Woods
-    dw Overworld_Sprites_Screen4A   ; 0x4A - $CBD9 Bumper Ledge
-    dw Overworld_Sprites_EMPTY      ; 0x4B - $CB41 West Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x4C - $CB41 West Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x4D - $CB41 East Dark Death Mountain
-    dw Overworld_Sprites_EMPTY      ; 0x4E - $CB41 East Dark Death Mountain
-    dw Overworld_Sprites_Screen4F   ; 0x4F - $CBF5 Lake of Bad Omens
-    dw Overworld_Sprites_Screen50   ; 0x50 - $CC02 Skull Woods Alcove
-    dw Overworld_Sprites_Screen51   ; 0x51 - $CC12 North of Outcasts
-    dw Overworld_Sprites_Screen52   ; 0x52 - $CC25 Dark Northwest Pond
-    dw Overworld_Sprites_Screen53   ; 0x53 - $CC35 Dark Sanctuary
-    dw Overworld_Sprites_Screen54   ; 0x54 - $CC45 Dark Graveyard
-    dw Overworld_Sprites_Screen55   ; 0x55 - $CC5E Dark Hylia River Bend
-    dw Overworld_Sprites_Screen56   ; 0x56 - $CC74 Dark Northeast Shop
-    dw Overworld_Sprites_Screen57   ; 0x57 - $CC84 Dark Octorok Pit
-    dw Overworld_Sprites_Screen58   ; 0x58 - $CC9A Village of Outcasts
-    dw Overworld_Sprites_EMPTY      ; 0x59 - $CB41 Village of Outcasts
-    dw Overworld_Sprites_Screen5A   ; 0x5A - $CCCE Outcasts Orchard
-    dw Overworld_Sprites_Screen5B   ; 0x5B - $CCE1 Pyramid of Power
-    dw Overworld_Sprites_EMPTY      ; 0x5C - $CB41 Pyramid of Power
-    dw Overworld_Sprites_Screen5D   ; 0x5D - $CD03 Dark Hylia River Peninsula
-    dw Overworld_Sprites_Screen5E   ; 0x5E - $CD19 Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 0x5F - $CB41 Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 0x60 - $CB41 Village of Outcasts
-    dw Overworld_Sprites_EMPTY      ; 0x61 - $CB41 Village of Outcasts
-    dw Overworld_Sprites_Screen62   ; 0x62 - $CD59 Stake Puzzle
-    dw Overworld_Sprites_EMPTY      ; 0x63 - $CB41 Pyramid of Power
-    dw Overworld_Sprites_EMPTY      ; 0x64 - $CB41 Pyramid of Power
-    dw Overworld_Sprites_Screen65   ; 0x65 - $CD6C Boulder Field
-    dw Overworld_Sprites_EMPTY      ; 0x66 - $CB41 Palace of Darkness Maze
-    dw Overworld_Sprites_EMPTY      ; 0x67 - $CB41 Palace of Darkness Maze
-    dw Overworld_Sprites_Screen68   ; 0x68 - $CD7F Digging Game
-    dw Overworld_Sprites_Screen69   ; 0x69 - $CD83 South of Outcasts
-    dw Overworld_Sprites_Screen6A   ; 0x6A - $CD87 Stumpy Grove
-    dw Overworld_Sprites_Screen6B   ; 0x6B - $CD8B West of Bomb Shoppe
-    dw Overworld_Sprites_Screen6C   ; 0x6C - $CD9B Bomb Shoppe
-    dw Overworld_Sprites_Screen6D   ; 0x6D - $CDAB Hammer Bridge
-    dw Overworld_Sprites_Screen6E   ; 0x6E - $CDBE Dark Lake Hylia River Bend
-    dw Overworld_Sprites_Screen6F   ; 0x6F - $CDD1 East Dark World Portalway
-    dw Overworld_Sprites_Screen70   ; 0x70 - $CDE1 Misery Mire
-    dw Overworld_Sprites_Screen72   ; 0x71 - $CE06 Misery Mire
-    dw Overworld_Sprites_Screen72   ; 0x72 - $CE06 Stumpy Grove Entrance
-    dw Overworld_Sprites_Screen73   ; 0x73 - $CE16 Swamplands Portalway
-    dw Overworld_Sprites_Screen74   ; 0x74 - $CE26 Swamplands Totems
-    dw Overworld_Sprites_Screen75   ; 0x75 - $CE3C Dark Lake Hylia
-    dw Overworld_Sprites_Screen77   ; 0x76 - $CE7F Dark Lake Hylia
-    dw Overworld_Sprites_Screen77   ; 0x77 - $CE7F Dark Lake Hylia River End
-    dw Overworld_Sprites_EMPTY      ; 0x78 - $CB41 Misery Mire
-    dw Overworld_Sprites_EMPTY      ; 0x79 - $CB41 Misery Mire
-    dw Overworld_Sprites_Screen7A   ; 0x7A - $CE92 West of Swamplands
-    dw Overworld_Sprites_Screen7B   ; 0x7B - $CE9F Swamplands Palace Entrance
-    dw Overworld_Sprites_Screen7C   ; 0x7C - $CEB2 Swamplands Ravine
-    dw Overworld_Sprites_EMPTY      ; 0x7D - $CB41 Dark Lake Hylia
-    dw Overworld_Sprites_EMPTY      ; 0x7E - $CB41 Dark Lake Hylia
-    dw Overworld_Sprites_Screen7F   ; 0x7F - $CEC5 Dark Lake Hylia Waterfall
-    dw Overworld_Sprites_Screen80   ; 0x80 - $CEDB Master Sword Pedestal
-    dw Overworld_Sprites_Screen81   ; 0x81 - $CEF4 Zora's Domain
-    dw Overworld_Sprites_EMPTY      ; 0x82 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x83 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x84 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x85 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x86 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x87 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x88 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x89 - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8A - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8B - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8C - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8D - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8E - $CB41 Unused SW Area
-    dw Overworld_Sprites_EMPTY      ; 0x8F - $CB41 Unused SW Area
+   .state2
+    dw OverworldSprites_00_2   ; 0x00 - $D2B8 Lost Woods
+    dw OverworldSpritesNothing ; 0x01 - $CB41 Lost Woods
+    dw OverworldSprites_02_2   ; 0x02 - $D2E3 Lumberjacks
+    dw OverworldSprites_03_2   ; 0x03 - $D2E7 West Death Mountain
+    dw OverworldSpritesNothing ; 0x04 - $CB41 West Death Mountain
+    dw OverworldSprites_05_2   ; 0x05 - $D315 East Death Mountain
+    dw OverworldSpritesNothing ; 0x06 - $CB41 East Death Mountain
+    dw OverworldSprites_07_2   ; 0x07 - $D343 Turtle Rock Portalway
+    dw OverworldSpritesNothing ; 0x08 - $CB41 Lost Woods
+    dw OverworldSpritesNothing ; 0x09 - $CB41 Lost Woods
+    dw OverworldSprites_0A_2   ; 0x0A - $D353 Death Mountain Foot
+    dw OverworldSpritesNothing ; 0x0B - $CB41 West Death Mountain
+    dw OverworldSpritesNothing ; 0x0C - $CB41 West Death Mountain
+    dw OverworldSpritesNothing ; 0x0D - $CB41 East Death Mountain
+    dw OverworldSpritesNothing ; 0x0E - $CB41 East Death Mountain
+    dw OverworldSprites_0F_2   ; 0x0F - $D369 Waterfall of Wishing
+    dw OverworldSprites_10_2   ; 0x10 - $D37F Lost Woods Alcove
+    dw OverworldSprites_11_2   ; 0x11 - $D38F North of Kakariko
+    dw OverworldSprites_12_2   ; 0x12 - $D39C Northwest Pond
+    dw OverworldSprites_13_2   ; 0x13 - $D3A9 Sanctuary
+    dw OverworldSprites_14_2   ; 0x14 - $D3B6 Graveyard
+    dw OverworldSprites_15_2   ; 0x15 - $D3C9 Hylia River Bend
+    dw OverworldSprites_16_2   ; 0x16 - $D3D9 Potion Shop
+    dw OverworldSprites_17_2   ; 0x17 - $D3E3 Octorok Pit
+    dw OverworldSprites_18_2   ; 0x18 - $D3F3 Kakariko Village
+    dw OverworldSpritesNothing ; 0x19 - $CB41 Kakariko Village
+    dw OverworldSprites_1A_2   ; 0x1A - $D418 Kakariko Orchard
+    dw OverworldSprites_1B_2   ; 0x1B - $D428 Hyrule Castle
+    dw OverworldSpritesNothing ; 0x1C - $CB41 Hyrule Castle
+    dw OverworldSprites_1D_2   ; 0x1D - $D447 Hylia River Peninsula
+    dw OverworldSprites_1E_2   ; 0x1E - $D454 Eastern Ruins
+    dw OverworldSpritesNothing ; 0x1F - $CB41 Eastern Ruins
+    dw OverworldSpritesNothing ; 0x20 - $CB41 Kakariko Village
+    dw OverworldSpritesNothing ; 0x21 - $CB41 Kakariko Village
+    dw OverworldSprites_22_2   ; 0x22 - $D491 Smith's House
+    dw OverworldSpritesNothing ; 0x23 - $CB41 Hyrule Castle
+    dw OverworldSpritesNothing ; 0x24 - $CB41 Hyrule Castle
+    dw OverworldSprites_25_2   ; 0x25 - $D49B Boulder Field
+    dw OverworldSpritesNothing ; 0x26 - $CB41 Eastern Ruins
+    dw OverworldSpritesNothing ; 0x27 - $CB41 Eastern Ruins
+    dw OverworldSprites_28_2   ; 0x28 - $D4A8 Racing Game
+    dw OverworldSprites_29_2   ; 0x29 - D4B8 South of Kakariko
+    dw OverworldSprites_2A_2   ; 0x2A - $D4C2 Haunted Grove
+    dw OverworldSprites_2B_2   ; 0x2B - $D4DE West of Link's House
+    dw OverworldSprites_2C_2   ; 0x2C - $D4EE Link's House
+    dw OverworldSprites_2D_2   ; 0x2D - $D4F5 Eastern Bridge
+    dw OverworldSprites_2E_2   ; 0x2E - $D502 Lake Hylia River Bend
+    dw OverworldSprites_2F_2   ; 0x2F - $D515 Eastern Portalway
+    dw OverworldSprites_30_2   ; 0x30 - $D51F Desert
+    dw OverworldSpritesNothing ; 0x31 - $CB41 Desert
+    dw OverworldSprites_32_2   ; 0x32 - $D55C Haunted Grove Entrance
+    dw OverworldSprites_33_2   ; 0x33 - $D56F Marshlands Portalway
+    dw OverworldSprites_34_2   ; 0x34 - $D57F Marshlands Totems
+    dw OverworldSprites_35_2   ; 0x35 - $D58F Lake Hylia
+    dw OverworldSprites_37_2   ; 0x36 - $D5D5 Lake Hylia
+    dw OverworldSprites_37_2   ; 0x37 - $D5D5 Lake Hylia River End
+    dw OverworldSprites_3A_2   ; 0x38 - $D5E5 Desert
+    dw OverworldSprites_3A_2   ; 0x39 - $D5E5 Desert
+    dw OverworldSprites_3A_2   ; 0x3A - $D5E5 Desert Pass
+    dw OverworldSprites_3B_2   ; 0x3B - $D5FE Marshlands Dam Entrance
+    dw OverworldSprites_3C_2   ; 0x3C - $D611 Marshlands Ravine
+    dw OverworldSprites_3F_2   ; 0x3D - $D621 Lake Hylia
+    dw OverworldSprites_3F_2   ; 0x3E - $D621 Lake Hylia
+    dw OverworldSprites_3F_2   ; 0x3F - $D621 Lake Hylia Waterfall
+    dw OverworldSprites_40     ; 0x40 - $CB7A Skull Woods
+    dw OverworldSprites_42     ; 0x41 - $CBB7 Skull Woods
+    dw OverworldSprites_42     ; 0x42 - $CBB7 Dark Lumberjacks
+    dw OverworldSprites_43     ; 0x43 - $CBC4 West Dark Death Mountain
+    dw OverworldSprites_45     ; 0x44 - $CBCB West Dark Death Mountain
+    dw OverworldSprites_45     ; 0x45 - $CBCB East Dark Death Mountain
+    dw OverworldSpritesNothing ; 0x46 - $CB41 East Dark Death Mountain
+    dw OverworldSprites_47     ; 0x47 - $CBD5 Turtle Rock
+    dw OverworldSpritesNothing ; 0x48 - $CB41 Skull Woods
+    dw OverworldSpritesNothing ; 0x49 - $CB41 Skull Woods
+    dw OverworldSprites_4A     ; 0x4A - $CBD9 Bumper Ledge
+    dw OverworldSpritesNothing ; 0x4B - $CB41 West Dark Death Mountain
+    dw OverworldSpritesNothing ; 0x4C - $CB41 West Dark Death Mountain
+    dw OverworldSpritesNothing ; 0x4D - $CB41 East Dark Death Mountain
+    dw OverworldSpritesNothing ; 0x4E - $CB41 East Dark Death Mountain
+    dw OverworldSprites_4F     ; 0x4F - $CBF5 Lake of Bad Omens
+    dw OverworldSprites_50     ; 0x50 - $CC02 Skull Woods Alcove
+    dw OverworldSprites_51     ; 0x51 - $CC12 North of Outcasts
+    dw OverworldSprites_52     ; 0x52 - $CC25 Dark Northwest Pond
+    dw OverworldSprites_53     ; 0x53 - $CC35 Dark Sanctuary
+    dw OverworldSprites_54     ; 0x54 - $CC45 Dark Graveyard
+    dw OverworldSprites_55     ; 0x55 - $CC5E Dark Hylia River Bend
+    dw OverworldSprites_56     ; 0x56 - $CC74 Dark Northeast Shop
+    dw OverworldSprites_57     ; 0x57 - $CC84 Dark Octorok Pit
+    dw OverworldSprites_58     ; 0x58 - $CC9A Village of Outcasts
+    dw OverworldSpritesNothing ; 0x59 - $CB41 Village of Outcasts
+    dw OverworldSprites_5A     ; 0x5A - $CCCE Outcasts Orchard
+    dw OverworldSprites_5B     ; 0x5B - $CCE1 Pyramid of Power
+    dw OverworldSpritesNothing ; 0x5C - $CB41 Pyramid of Power
+    dw OverworldSprites_5D     ; 0x5D - $CD03 Dark Hylia River Peninsula
+    dw OverworldSprites_5E     ; 0x5E - $CD19 Palace of Darkness Maze
+    dw OverworldSpritesNothing ; 0x5F - $CB41 Palace of Darkness Maze
+    dw OverworldSpritesNothing ; 0x60 - $CB41 Village of Outcasts
+    dw OverworldSpritesNothing ; 0x61 - $CB41 Village of Outcasts
+    dw OverworldSprites_62     ; 0x62 - $CD59 Stake Puzzle
+    dw OverworldSpritesNothing ; 0x63 - $CB41 Pyramid of Power
+    dw OverworldSpritesNothing ; 0x64 - $CB41 Pyramid of Power
+    dw OverworldSprites_65     ; 0x65 - $CD6C Boulder Field
+    dw OverworldSpritesNothing ; 0x66 - $CB41 Palace of Darkness Maze
+    dw OverworldSpritesNothing ; 0x67 - $CB41 Palace of Darkness Maze
+    dw OverworldSprites_68     ; 0x68 - $CD7F Digging Game
+    dw OverworldSprites_69     ; 0x69 - $CD83 South of Outcasts
+    dw OverworldSprites_6A     ; 0x6A - $CD87 Stumpy Grove
+    dw OverworldSprites_6B     ; 0x6B - $CD8B West of Bomb Shoppe
+    dw OverworldSprites_6C     ; 0x6C - $CD9B Bomb Shoppe
+    dw OverworldSprites_6D     ; 0x6D - $CDAB Hammer Bridge
+    dw OverworldSprites_6E     ; 0x6E - $CDBE Dark Lake Hylia River Bend
+    dw OverworldSprites_6F     ; 0x6F - $CDD1 East Dark World Portalway
+    dw OverworldSprites_70     ; 0x70 - $CDE1 Misery Mire
+    dw OverworldSprites_72     ; 0x71 - $CE06 Misery Mire
+    dw OverworldSprites_72     ; 0x72 - $CE06 Stumpy Grove Entrance
+    dw OverworldSprites_73     ; 0x73 - $CE16 Swamplands Portalway
+    dw OverworldSprites_74     ; 0x74 - $CE26 Swamplands Totems
+    dw OverworldSprites_75     ; 0x75 - $CE3C Dark Lake Hylia
+    dw OverworldSprites_77     ; 0x76 - $CE7F Dark Lake Hylia
+    dw OverworldSprites_77     ; 0x77 - $CE7F Dark Lake Hylia River End
+    dw OverworldSpritesNothing ; 0x78 - $CB41 Misery Mire
+    dw OverworldSpritesNothing ; 0x79 - $CB41 Misery Mire
+    dw OverworldSprites_7A     ; 0x7A - $CE92 West of Swamplands
+    dw OverworldSprites_7B     ; 0x7B - $CE9F Swamplands Palace Entrance
+    dw OverworldSprites_7C     ; 0x7C - $CEB2 Swamplands Ravine
+    dw OverworldSpritesNothing ; 0x7D - $CB41 Dark Lake Hylia
+    dw OverworldSpritesNothing ; 0x7E - $CB41 Dark Lake Hylia
+    dw OverworldSprites_7F     ; 0x7F - $CEC5 Dark Lake Hylia Waterfall
+    dw OverworldSprites_80     ; 0x80 - $CEDB Master Sword Pedestal
+    dw OverworldSprites_81     ; 0x81 - $CEF4 Zora's Domain
+    dw OverworldSpritesNothing ; 0x82 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x83 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x84 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x85 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x86 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x87 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x88 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x89 - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8A - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8B - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8C - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8D - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8E - $CB41 Unused SW Area
+    dw OverworldSpritesNothing ; 0x8F - $CB41 Unused SW Area
 }
 
 ; ==============================================================================
 
 ; $04CB41-$04CB41 DATA
-Overworld_Sprites_EMPTY:
+OverworldSpritesNothing:
 {
     db $FF ; END
 }
@@ -2294,1898 +2294,1898 @@ Overworld_Sprites_EMPTY:
 ; ==============================================================================
 
 ; $04CB42-$04CB5A DATA
-Overworld_Sprites_Screen1B_0:
+OverworldSprites_1B_0:
 {
-    db $06, $1F, $40 ; SPRITE 40   | xy: { 0x1F0, 0x060 }
-    db $12, $01, $3F ; SPRITE 3F   | xy: { 0x010, 0x120 }
-    db $14, $01, $3F ; SPRITE 3F   | xy: { 0x010, 0x140 }
-    db $13, $1F, $42 ; SPRITE 42   | xy: { 0x1F0, 0x130 }
-    db $1A, $1F, $4B ; SPRITE 4B   | xy: { 0x1F0, 0x1A0 }
-    db $1A, $20, $4B ; SPRITE 4B   | xy: { 0x200, 0x1A0 }
-    db $25, $2D, $3F ; SPRITE 3F   | xy: { 0x2D0, 0x250 }
-    db $29, $20, $3F ; SPRITE 3F   | xy: { 0x200, 0x290 }
+    db $06, $1F, $40 ; Sprite 0x40 (0x01F0, 0x0060)
+    db $12, $01, $3F ; Sprite 0x3F (0x0010, 0x0120)
+    db $14, $01, $3F ; Sprite 0x3F (0x0010, 0x0140)
+    db $13, $1F, $42 ; Sprite 0x42 (0x01F0, 0x0130)
+    db $1A, $1F, $4B ; Sprite 0x4B (0x01F0, 0x01A0)
+    db $1A, $20, $4B ; Sprite 0x4B (0x0200, 0x01A0)
+    db $25, $2D, $3F ; Sprite 0x3F (0x02D0, 0x0250)
+    db $29, $20, $3F ; Sprite 0x3F (0x0200, 0x0290)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CB5B-$04CB5E DATA
-Overworld_Sprites_Screen1D_0:
+OverworldSprites_1D_0:
 {
-    db $06, $0B, $AC ; SPRITE AC   | xy: { 0x0B0, 0x060 }
+    db $06, $0B, $AC ; Sprite 0xAC (0x00B0, 0x0060)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CB5F-$04CB65 DATA
-Overworld_Sprites_Screen2B_0:
+OverworldSprites_2B_0:
 {
-    db $1E, $09, $3F ; SPRITE 3F   | xy: { 0x090, 0x1E0 }
-    db $1E, $0B, $3F ; SPRITE 3F   | xy: { 0x0B0, 0x1E0 }
+    db $1E, $09, $3F ; Sprite 0x3F (0x0090, 0x01E0)
+    db $1E, $0B, $3F ; Sprite 0x3F (0x00B0, 0x01E0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CB66-$04CB72 DATA
-Overworld_Sprites_Screen2C_0:
+OverworldSprites_2C_0:
 {
-    db $18, $1E, $3F ; SPRITE 3F   | xy: { 0x1E0, 0x180 }
-    db $1A, $1E, $3F ; SPRITE 3F   | xy: { 0x1E0, 0x1A0 }
-    db $1E, $0D, $3F ; SPRITE 3F   | xy: { 0x0D0, 0x1E0 }
-    db $1E, $0F, $3F ; SPRITE 3F   | xy: { 0x0F0, 0x1E0 }
+    db $18, $1E, $3F ; Sprite 0x3F (0x01E0, 0x0180)
+    db $1A, $1E, $3F ; Sprite 0x3F (0x01E0, 0x01A0)
+    db $1E, $0D, $3F ; Sprite 0x3F (0x00D0, 0x01E0)
+    db $1E, $0F, $3F ; Sprite 0x3F (0x00F0, 0x01E0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CB73-$04CB79 DATA
-Overworld_Sprites_Screen32_0:
+OverworldSprites_32_0:
 {
-    db $09, $1A, $DC ; SPRITE DC   | xy: { 0x1A0, 0x090 }
-    db $12, $18, $D8 ; SPRITE D8   | xy: { 0x180, 0x120 }
+    db $09, $1A, $DC ; Sprite 0xDC (0x01A0, 0x0090)
+    db $12, $18, $D8 ; Sprite 0xD8 (0x0180, 0x0120)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CB7A-$04CBB6 DATA
-Overworld_Sprites_Screen40:
+OverworldSprites_40:
 {
-    db $07, $1A, $22 ; SPRITE 22   | xy: { 0x1A0, 0x070 }
-    db $11, $12, $22 ; SPRITE 22   | xy: { 0x120, 0x110 }
-    db $1E, $0A, $22 ; SPRITE 22   | xy: { 0x0A0, 0x1E0 }
-    db $09, $2F, $22 ; SPRITE 22   | xy: { 0x2F0, 0x090 }
-    db $0A, $31, $0E ; SPRITE 0E   | xy: { 0x310, 0x0A0 }
-    db $0B, $33, $22 ; SPRITE 22   | xy: { 0x330, 0x0B0 }
-    db $14, $29, $22 ; SPRITE 22   | xy: { 0x290, 0x140 }
-    db $16, $23, $22 ; SPRITE 22   | xy: { 0x230, 0x160 }
-    db $17, $39, $AA ; SPRITE AA   | xy: { 0x390, 0x170 }
-    db $21, $0A, $22 ; SPRITE 22   | xy: { 0x0A0, 0x210 }
-    db $25, $1A, $22 ; SPRITE 22   | xy: { 0x1A0, 0x250 }
-    db $28, $0B, $AA ; SPRITE AA   | xy: { 0x0B0, 0x280 }
-    db $30, $1E, $22 ; SPRITE 22   | xy: { 0x1E0, 0x300 }
-    db $38, $0E, $22 ; SPRITE 22   | xy: { 0x0E0, 0x380 }
-    db $38, $11, $22 ; SPRITE 22   | xy: { 0x110, 0x380 }
-    db $39, $1A, $22 ; SPRITE 22   | xy: { 0x1A0, 0x390 }
-    db $21, $2D, $22 ; SPRITE 22   | xy: { 0x2D0, 0x210 }
-    db $28, $32, $22 ; SPRITE 22   | xy: { 0x320, 0x280 }
-    db $32, $37, $22 ; SPRITE 22   | xy: { 0x370, 0x320 }
-    db $37, $28, $AA ; SPRITE AA   | xy: { 0x280, 0x370 }
+    db $07, $1A, $22 ; Sprite 0x22 (0x01A0, 0x0070)
+    db $11, $12, $22 ; Sprite 0x22 (0x0120, 0x0110)
+    db $1E, $0A, $22 ; Sprite 0x22 (0x00A0, 0x01E0)
+    db $09, $2F, $22 ; Sprite 0x22 (0x02F0, 0x0090)
+    db $0A, $31, $0E ; Sprite 0x0E (0x0310, 0x00A0)
+    db $0B, $33, $22 ; Sprite 0x22 (0x0330, 0x00B0)
+    db $14, $29, $22 ; Sprite 0x22 (0x0290, 0x0140)
+    db $16, $23, $22 ; Sprite 0x22 (0x0230, 0x0160)
+    db $17, $39, $AA ; Sprite 0xAA (0x0390, 0x0170)
+    db $21, $0A, $22 ; Sprite 0x22 (0x00A0, 0x0210)
+    db $25, $1A, $22 ; Sprite 0x22 (0x01A0, 0x0250)
+    db $28, $0B, $AA ; Sprite 0xAA (0x00B0, 0x0280)
+    db $30, $1E, $22 ; Sprite 0x22 (0x01E0, 0x0300)
+    db $38, $0E, $22 ; Sprite 0x22 (0x00E0, 0x0380)
+    db $38, $11, $22 ; Sprite 0x22 (0x0110, 0x0380)
+    db $39, $1A, $22 ; Sprite 0x22 (0x01A0, 0x0390)
+    db $21, $2D, $22 ; Sprite 0x22 (0x02D0, 0x0210)
+    db $28, $32, $22 ; Sprite 0x22 (0x0320, 0x0280)
+    db $32, $37, $22 ; Sprite 0x22 (0x0370, 0x0320)
+    db $37, $28, $AA ; Sprite 0xAA (0x0280, 0x0370)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CBB7-$04CBC3 DATA
-Overworld_Sprites_Screen42:
+OverworldSprites_42:
 {
-    db $11, $0C, $0E ; SPRITE 0E   | xy: { 0x0C0, 0x110 }
-    db $13, $0C, $0E ; SPRITE 0E   | xy: { 0x0C0, 0x130 }
-    db $16, $06, $E3 ; SPRITE E3   | xy: { 0x060, 0x160 }
-    db $19, $0E, $12 ; SPRITE 12   | xy: { 0x0E0, 0x190 }
+    db $11, $0C, $0E ; Sprite 0x0E (0x00C0, 0x0110)
+    db $13, $0C, $0E ; Sprite 0x0E (0x00C0, 0x0130)
+    db $16, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0160)
+    db $19, $0E, $12 ; Sprite 0x12 (0x00E0, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CBC4-$04CBCA DATA
-Overworld_Sprites_Screen43:
+OverworldSprites_43:
 {
-    db $0C, $2F, $37 ; SPRITE 37   | xy: { 0x2F0, 0x0C0 }
-    db $18, $20, $B9 ; SPRITE B9   | xy: { 0x200, 0x180 }
+    db $0C, $2F, $37 ; Sprite 0x37 (0x02F0, 0x00C0)
+    db $18, $20, $B9 ; Sprite 0xB9 (0x0200, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CBCB-$04CBD4 DATA
-Overworld_Sprites_Screen45:
+OverworldSprites_45:
 {
-    db $0C, $06, $D0 ; SPRITE D0   | xy: { 0x060, 0x0C0 }
-    db $0E, $1D, $D0 ; SPRITE D0   | xy: { 0x1D0, 0x0E0 }
-    db $0B, $20, $D0 ; SPRITE D0   | xy: { 0x200, 0x0B0 }
+    db $0C, $06, $D0 ; Sprite 0xD0 (0x0060, 0x00C0)
+    db $0E, $1D, $D0 ; Sprite 0xD0 (0x01D0, 0x00E0)
+    db $0B, $20, $D0 ; Sprite 0xD0 (0x0200, 0x00B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CBD5-$04CBD8 DATA
-Overworld_Sprites_Screen47:
+OverworldSprites_47:
 {
-    db $14, $16, $33 ; SPRITE 33   | xy: { 0x160, 0x140 }
+    db $14, $16, $33 ; Sprite 0x33 (0x0160, 0x0140)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CBD9-$04CBF4 DATA
-Overworld_Sprites_Screen4A:
+OverworldSprites_4A:
 {
-    db $06, $0E, $33 ; SPRITE 33   | xy: { 0x0E0, 0x060 }
-    db $08, $18, $EB ; SPRITE EB   | xy: { 0x180, 0x080 }
-    db $0F, $0B, $12 ; SPRITE 12   | xy: { 0x0B0, 0x0F0 }
-    db $10, $08, $12 ; SPRITE 12   | xy: { 0x080, 0x100 }
-    db $13, $16, $12 ; SPRITE 12   | xy: { 0x160, 0x130 }
-    db $13, $13, $00 ; SPRITE 00   | xy: { 0x130, 0x130 }
-    db $14, $13, $00 ; SPRITE 00   | xy: { 0x130, 0x140 }
-    db $18, $0E, $22 ; SPRITE 22   | xy: { 0x0E0, 0x180 }
-    db $1A, $14, $D3 ; SPRITE D3   | xy: { 0x140, 0x1A0 }
+    db $06, $0E, $33 ; Sprite 0x33 (0x00E0, 0x0060)
+    db $08, $18, $EB ; Sprite 0xEB (0x0180, 0x0080)
+    db $0F, $0B, $12 ; Sprite 0x12 (0x00B0, 0x00F0)
+    db $10, $08, $12 ; Sprite 0x12 (0x0080, 0x0100)
+    db $13, $16, $12 ; Sprite 0x12 (0x0160, 0x0130)
+    db $13, $13, $00 ; Sprite 0x00 (0x0130, 0x0130)
+    db $14, $13, $00 ; Sprite 0x00 (0x0130, 0x0140)
+    db $18, $0E, $22 ; Sprite 0x22 (0x00E0, 0x0180)
+    db $1A, $14, $D3 ; Sprite 0xD3 (0x0140, 0x01A0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CBF5-$04CC01 DATA
-Overworld_Sprites_Screen4F:
+OverworldSprites_4F:
 {
-    db $08, $19, $55 ; SPRITE 55   | xy: { 0x190, 0x080 }
-    db $0B, $04, $C0 ; SPRITE C0   | xy: { 0x040, 0x0B0 }
-    db $0D, $18, $D3 ; SPRITE D3   | xy: { 0x180, 0x0D0 }
-    db $11, $1A, $22 ; SPRITE 22   | xy: { 0x1A0, 0x110 }
+    db $08, $19, $55 ; Sprite 0x55 (0x0190, 0x0080)
+    db $0B, $04, $C0 ; Sprite 0xC0 (0x0040, 0x00B0)
+    db $0D, $18, $D3 ; Sprite 0xD3 (0x0180, 0x00D0)
+    db $11, $1A, $22 ; Sprite 0x22 (0x01A0, 0x0110)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CC02-$04CC11 DATA
-Overworld_Sprites_Screen50:
+OverworldSprites_50:
 {
-    db $0B, $16, $19 ; SPRITE 19   | xy: { 0x160, 0x0B0 }
-    db $0C, $05, $12 ; SPRITE 12   | xy: { 0x050, 0x0C0 }
-    db $0E, $08, $25 ; SPRITE 25   | xy: { 0x080, 0x0E0 }
-    db $13, $19, $0B ; SPRITE 0B   | xy: { 0x190, 0x130 }
-    db $18, $08, $12 ; SPRITE 12   | xy: { 0x080, 0x180 }
+    db $0B, $16, $19 ; Sprite 0x19 (0x0160, 0x00B0)
+    db $0C, $05, $12 ; Sprite 0x12 (0x0050, 0x00C0)
+    db $0E, $08, $25 ; Sprite 0x25 (0x0080, 0x00E0)
+    db $13, $19, $0B ; Sprite 0x0B (0x0190, 0x0130)
+    db $18, $08, $12 ; Sprite 0x12 (0x0080, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CC12-$04CC24 DATA
-Overworld_Sprites_Screen51:
+OverworldSprites_51:
 {
-    db $0E, $17, $45 ; SPRITE 45   | xy: { 0x170, 0x0E0 }
-    db $10, $08, $E3 ; SPRITE E3   | xy: { 0x080, 0x100 }
-    db $10, $09, $E3 ; SPRITE E3   | xy: { 0x090, 0x100 }
-    db $15, $1C, $D3 ; SPRITE D3   | xy: { 0x1C0, 0x150 }
-    db $16, $14, $12 ; SPRITE 12   | xy: { 0x140, 0x160 }
-    db $17, $0E, $12 ; SPRITE 12   | xy: { 0x0E0, 0x170 }
+    db $0E, $17, $45 ; Sprite 0x45 (0x0170, 0x00E0)
+    db $10, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0100)
+    db $10, $09, $E3 ; Sprite 0xE3 (0x0090, 0x0100)
+    db $15, $1C, $D3 ; Sprite 0xD3 (0x01C0, 0x0150)
+    db $16, $14, $12 ; Sprite 0x12 (0x0140, 0x0160)
+    db $17, $0E, $12 ; Sprite 0x12 (0x00E0, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CC25-$04CC34 DATA
-Overworld_Sprites_Screen52:
+OverworldSprites_52:
 {
-    db $09, $12, $D3 ; SPRITE D3   | xy: { 0x120, 0x090 }
-    db $0D, $15, $12 ; SPRITE 12   | xy: { 0x150, 0x0D0 }
-    db $10, $07, $41 ; SPRITE 41   | xy: { 0x070, 0x100 }
-    db $17, $14, $41 ; SPRITE 41   | xy: { 0x140, 0x170 }
-    db $18, $0E, $12 ; SPRITE 12   | xy: { 0x0E0, 0x180 }
+    db $09, $12, $D3 ; Sprite 0xD3 (0x0120, 0x0090)
+    db $0D, $15, $12 ; Sprite 0x12 (0x0150, 0x00D0)
+    db $10, $07, $41 ; Sprite 0x41 (0x0070, 0x0100)
+    db $17, $14, $41 ; Sprite 0x41 (0x0140, 0x0170)
+    db $18, $0E, $12 ; Sprite 0x12 (0x00E0, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CC35-$04CC44 DATA
-Overworld_Sprites_Screen53:
+OverworldSprites_53:
 {
-    db $0B, $06, $D3 ; SPRITE D3   | xy: { 0x060, 0x0B0 }
-    db $0C, $15, $11 ; SPRITE 11   | xy: { 0x150, 0x0C0 }
-    db $0D, $08, $22 ; SPRITE 22   | xy: { 0x080, 0x0D0 }
-    db $15, $0D, $12 ; SPRITE 12   | xy: { 0x0D0, 0x150 }
-    db $18, $16, $0E ; SPRITE 0E   | xy: { 0x160, 0x180 }
+    db $0B, $06, $D3 ; Sprite 0xD3 (0x0060, 0x00B0)
+    db $0C, $15, $11 ; Sprite 0x11 (0x0150, 0x00C0)
+    db $0D, $08, $22 ; Sprite 0x22 (0x0080, 0x00D0)
+    db $15, $0D, $12 ; Sprite 0x12 (0x00D0, 0x0150)
+    db $18, $16, $0E ; Sprite 0x0E (0x0160, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CC45-$04CC5D DATA
-Overworld_Sprites_Screen54:
+OverworldSprites_54:
 {
-    db $0D, $14, $22 ; SPRITE 22   | xy: { 0x140, 0x0D0 }
-    db $0B, $05, $DC ; SPRITE DC   | xy: { 0x050, 0x0B0 }
-    db $0B, $19, $DB ; SPRITE DB   | xy: { 0x190, 0x0B0 }
-    db $0F, $07, $22 ; SPRITE 22   | xy: { 0x070, 0x0F0 }
-    db $0E, $0F, $E3 ; SPRITE E3   | xy: { 0x0F0, 0x0E0 }
-    db $10, $19, $22 ; SPRITE 22   | xy: { 0x190, 0x100 }
-    db $14, $0D, $22 ; SPRITE 22   | xy: { 0x0D0, 0x140 }
-    db $19, $11, $11 ; SPRITE 11   | xy: { 0x110, 0x190 }
+    db $0D, $14, $22 ; Sprite 0x22 (0x0140, 0x00D0)
+    db $0B, $05, $DC ; Sprite 0xDC (0x0050, 0x00B0)
+    db $0B, $19, $DB ; Sprite 0xDB (0x0190, 0x00B0)
+    db $0F, $07, $22 ; Sprite 0x22 (0x0070, 0x00F0)
+    db $0E, $0F, $E3 ; Sprite 0xE3 (0x00F0, 0x00E0)
+    db $10, $19, $22 ; Sprite 0x22 (0x0190, 0x0100)
+    db $14, $0D, $22 ; Sprite 0x22 (0x00D0, 0x0140)
+    db $19, $11, $11 ; Sprite 0x11 (0x0110, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CC5E-$04CC73 DATA
-Overworld_Sprites_Screen55:
+OverworldSprites_55:
 {
-    db $09, $11, $BA ; SPRITE BA   | xy: { 0x110, 0x090 }
-    db $0E, $16, $11 ; SPRITE 11   | xy: { 0x160, 0x0E0 }
-    db $0E, $18, $D3 ; SPRITE D3   | xy: { 0x180, 0x0E0 }
-    db $0F, $1B, $DA ; SPRITE DA   | xy: { 0x1B0, 0x0F0 }
-    db $17, $07, $11 ; SPRITE 11   | xy: { 0x070, 0x170 }
-    db $1A, $0A, $79 ; SPRITE 79   | xy: { 0x0A0, 0x1A0 }
-    db $1B, $1A, $22 ; SPRITE 22   | xy: { 0x1A0, 0x1B0 }
+    db $09, $11, $BA ; Sprite 0xBA (0x0110, 0x0090)
+    db $0E, $16, $11 ; Sprite 0x11 (0x0160, 0x00E0)
+    db $0E, $18, $D3 ; Sprite 0xD3 (0x0180, 0x00E0)
+    db $0F, $1B, $DA ; Sprite 0xDA (0x01B0, 0x00F0)
+    db $17, $07, $11 ; Sprite 0x11 (0x0070, 0x0170)
+    db $1A, $0A, $79 ; Sprite 0x79 (0x00A0, 0x01A0)
+    db $1B, $1A, $22 ; Sprite 0x22 (0x01A0, 0x01B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CC74-$04CC83 DATA
-Overworld_Sprites_Screen56:
+OverworldSprites_56:
 {
-    db $06, $0A, $55 ; SPRITE 55   | xy: { 0x0A0, 0x060 }
-    db $0A, $13, $55 ; SPRITE 55   | xy: { 0x130, 0x0A0 }
-    db $0E, $04, $79 ; SPRITE 79   | xy: { 0x040, 0x0E0 }
-    db $17, $11, $22 ; SPRITE 22   | xy: { 0x110, 0x170 }
-    db $1A, $05, $22 ; SPRITE 22   | xy: { 0x050, 0x1A0 }
+    db $06, $0A, $55 ; Sprite 0x55 (0x00A0, 0x0060)
+    db $0A, $13, $55 ; Sprite 0x55 (0x0130, 0x00A0)
+    db $0E, $04, $79 ; Sprite 0x79 (0x0040, 0x00E0)
+    db $17, $11, $22 ; Sprite 0x22 (0x0110, 0x0170)
+    db $1A, $05, $22 ; Sprite 0x22 (0x0050, 0x01A0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CC84-$04CC99 DATA
-Overworld_Sprites_Screen57:
+OverworldSprites_57:
 {
-    db $04, $0C, $55 ; SPRITE 55   | xy: { 0x0C0, 0x040 }
-    db $08, $16, $08 ; SPRITE 08   | xy: { 0x160, 0x080 }
-    db $0A, $18, $08 ; SPRITE 08   | xy: { 0x180, 0x0A0 }
-    db $0E, $0E, $08 ; SPRITE 08   | xy: { 0x0E0, 0x0E0 }
-    db $10, $0E, $D3 ; SPRITE D3   | xy: { 0x0E0, 0x100 }
-    db $1A, $0E, $08 ; SPRITE 08   | xy: { 0x0E0, 0x1A0 }
-    db $1B, $0D, $08 ; SPRITE 08   | xy: { 0x0D0, 0x1B0 }
+    db $04, $0C, $55 ; Sprite 0x55 (0x00C0, 0x0040)
+    db $08, $16, $08 ; Sprite 0x08 (0x0160, 0x0080)
+    db $0A, $18, $08 ; Sprite 0x08 (0x0180, 0x00A0)
+    db $0E, $0E, $08 ; Sprite 0x08 (0x00E0, 0x00E0)
+    db $10, $0E, $D3 ; Sprite 0xD3 (0x00E0, 0x0100)
+    db $1A, $0E, $08 ; Sprite 0x08 (0x00E0, 0x01A0)
+    db $1B, $0D, $08 ; Sprite 0x08 (0x00D0, 0x01B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CC9A-$04CCCD DATA
-Overworld_Sprites_Screen58:
+OverworldSprites_58:
 {
-    db $06, $13, $12 ; SPRITE 12   | xy: { 0x130, 0x060 }
-    db $0C, $18, $25 ; SPRITE 25   | xy: { 0x180, 0x0C0 }
-    db $1C, $07, $41 ; SPRITE 41   | xy: { 0x070, 0x1C0 }
-    db $0A, $35, $12 ; SPRITE 12   | xy: { 0x350, 0x0A0 }
-    db $0C, $2B, $19 ; SPRITE 19   | xy: { 0x2B0, 0x0C0 }
-    db $17, $2E, $C4 ; SPRITE C4   | xy: { 0x2E0, 0x170 }
-    db $1C, $20, $14 ; SPRITE 14   | xy: { 0x200, 0x1C0 }
-    db $25, $18, $19 ; SPRITE 19   | xy: { 0x180, 0x250 }
-    db $27, $0D, $C4 ; SPRITE C4   | xy: { 0x0D0, 0x270 }
-    db $28, $1D, $19 ; SPRITE 19   | xy: { 0x1D0, 0x280 }
-    db $2E, $12, $12 ; SPRITE 12   | xy: { 0x120, 0x2E0 }
-    db $34, $16, $0B ; SPRITE 0B   | xy: { 0x160, 0x340 }
-    db $37, $15, $0B ; SPRITE 0B   | xy: { 0x150, 0x370 }
-    db $27, $28, $0B ; SPRITE 0B   | xy: { 0x280, 0x270 }
-    db $2F, $33, $41 ; SPRITE 41   | xy: { 0x330, 0x2F0 }
-    db $34, $2C, $19 ; SPRITE 19   | xy: { 0x2C0, 0x340 }
-    db $35, $37, $25 ; SPRITE 25   | xy: { 0x370, 0x350 }
+    db $06, $13, $12 ; Sprite 0x12 (0x0130, 0x0060)
+    db $0C, $18, $25 ; Sprite 0x25 (0x0180, 0x00C0)
+    db $1C, $07, $41 ; Sprite 0x41 (0x0070, 0x01C0)
+    db $0A, $35, $12 ; Sprite 0x12 (0x0350, 0x00A0)
+    db $0C, $2B, $19 ; Sprite 0x19 (0x02B0, 0x00C0)
+    db $17, $2E, $C4 ; Sprite 0xC4 (0x02E0, 0x0170)
+    db $1C, $20, $14 ; Sprite 0x14 (0x0200, 0x01C0)
+    db $25, $18, $19 ; Sprite 0x19 (0x0180, 0x0250)
+    db $27, $0D, $C4 ; Sprite 0xC4 (0x00D0, 0x0270)
+    db $28, $1D, $19 ; Sprite 0x19 (0x01D0, 0x0280)
+    db $2E, $12, $12 ; Sprite 0x12 (0x0120, 0x02E0)
+    db $34, $16, $0B ; Sprite 0x0B (0x0160, 0x0340)
+    db $37, $15, $0B ; Sprite 0x0B (0x0150, 0x0370)
+    db $27, $28, $0B ; Sprite 0x0B (0x0280, 0x0270)
+    db $2F, $33, $41 ; Sprite 0x41 (0x0330, 0x02F0)
+    db $34, $2C, $19 ; Sprite 0x19 (0x02C0, 0x0340)
+    db $35, $37, $25 ; Sprite 0x25 (0x0370, 0x0350)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CCCE-$04CCE0 DATA
-Overworld_Sprites_Screen5A:
+OverworldSprites_5A:
 {
-    db $08, $0F, $12 ; SPRITE 12   | xy: { 0x0F0, 0x080 }
-    db $08, $12, $25 ; SPRITE 25   | xy: { 0x120, 0x080 }
-    db $0D, $12, $D3 ; SPRITE D3   | xy: { 0x120, 0x0D0 }
-    db $0C, $15, $12 ; SPRITE 12   | xy: { 0x150, 0x0C0 }
-    db $0F, $0B, $11 ; SPRITE 11   | xy: { 0x0B0, 0x0F0 }
-    db $19, $0E, $12 ; SPRITE 12   | xy: { 0x0E0, 0x190 }
+    db $08, $0F, $12 ; Sprite 0x12 (0x00F0, 0x0080)
+    db $08, $12, $25 ; Sprite 0x25 (0x0120, 0x0080)
+    db $0D, $12, $D3 ; Sprite 0xD3 (0x0120, 0x00D0)
+    db $0C, $15, $12 ; Sprite 0x12 (0x0150, 0x00C0)
+    db $0F, $0B, $11 ; Sprite 0x11 (0x00B0, 0x00F0)
+    db $19, $0E, $12 ; Sprite 0x12 (0x00E0, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CCE1-$04CD02 DATA
-Overworld_Sprites_Screen5B:
+OverworldSprites_5B:
 {
-    db $17, $15, $22 ; SPRITE 22   | xy: { 0x150, 0x170 }
-    db $12, $34, $EB ; SPRITE EB   | xy: { 0x340, 0x120 }
-    db $24, $13, $33 ; SPRITE 33   | xy: { 0x130, 0x240 }
-    db $27, $0F, $12 ; SPRITE 12   | xy: { 0x0F0, 0x270 }
-    db $2A, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x2A0 }
-    db $2A, $0C, $12 ; SPRITE 12   | xy: { 0x0C0, 0x2A0 }
-    db $2C, $1E, $11 ; SPRITE 11   | xy: { 0x1E0, 0x2C0 }
-    db $25, $34, $0E ; SPRITE 0E   | xy: { 0x340, 0x250 }
-    db $27, $32, $12 ; SPRITE 12   | xy: { 0x320, 0x270 }
-    db $29, $30, $12 ; SPRITE 12   | xy: { 0x300, 0x290 }
-    db $2C, $21, $11 ; SPRITE 11   | xy: { 0x210, 0x2C0 }
+    db $17, $15, $22 ; Sprite 0x22 (0x0150, 0x0170)
+    db $12, $34, $EB ; Sprite 0xEB (0x0340, 0x0120)
+    db $24, $13, $33 ; Sprite 0x33 (0x0130, 0x0240)
+    db $27, $0F, $12 ; Sprite 0x12 (0x00F0, 0x0270)
+    db $2A, $17, $E3 ; Sprite 0xE3 (0x0170, 0x02A0)
+    db $2A, $0C, $12 ; Sprite 0x12 (0x00C0, 0x02A0)
+    db $2C, $1E, $11 ; Sprite 0x11 (0x01E0, 0x02C0)
+    db $25, $34, $0E ; Sprite 0x0E (0x0340, 0x0250)
+    db $27, $32, $12 ; Sprite 0x12 (0x0320, 0x0270)
+    db $29, $30, $12 ; Sprite 0x12 (0x0300, 0x0290)
+    db $2C, $21, $11 ; Sprite 0x11 (0x0210, 0x02C0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CD03-$04CD18 DATA
-Overworld_Sprites_Screen5D:
+OverworldSprites_5D:
 {
-    db $08, $0B, $25 ; SPRITE 25   | xy: { 0x0B0, 0x080 }
-    db $09, $07, $11 ; SPRITE 11   | xy: { 0x070, 0x090 }
-    db $0B, $06, $0E ; SPRITE 0E   | xy: { 0x060, 0x0B0 }
-    db $0B, $18, $12 ; SPRITE 12   | xy: { 0x180, 0x0B0 }
-    db $0E, $17, $D3 ; SPRITE D3   | xy: { 0x170, 0x0E0 }
-    db $10, $1A, $12 ; SPRITE 12   | xy: { 0x1A0, 0x100 }
-    db $11, $08, $41 ; SPRITE 41   | xy: { 0x080, 0x110 }
+    db $08, $0B, $25 ; Sprite 0x25 (0x00B0, 0x0080)
+    db $09, $07, $11 ; Sprite 0x11 (0x0070, 0x0090)
+    db $0B, $06, $0E ; Sprite 0x0E (0x0060, 0x00B0)
+    db $0B, $18, $12 ; Sprite 0x12 (0x0180, 0x00B0)
+    db $0E, $17, $D3 ; Sprite 0xD3 (0x0170, 0x00E0)
+    db $10, $1A, $12 ; Sprite 0x12 (0x01A0, 0x0100)
+    db $11, $08, $41 ; Sprite 0x41 (0x0080, 0x0110)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CD19-$04CD58 DATA
-Overworld_Sprites_Screen5E:
+OverworldSprites_5E:
 {
-    db $04, $0D, $22 ; SPRITE 22   | xy: { 0x0D0, 0x040 }
-    db $11, $03, $22 ; SPRITE 22   | xy: { 0x030, 0x110 }
-    db $11, $15, $B6 ; SPRITE B6   | xy: { 0x150, 0x110 }
-    db $1A, $12, $22 ; SPRITE 22   | xy: { 0x120, 0x1A0 }
-    db $09, $27, $22 ; SPRITE 22   | xy: { 0x270, 0x090 }
-    db $10, $2F, $22 ; SPRITE 22   | xy: { 0x2F0, 0x100 }
-    db $15, $25, $12 ; SPRITE 12   | xy: { 0x250, 0x150 }
-    db $17, $26, $11 ; SPRITE 11   | xy: { 0x260, 0x170 }
-    db $18, $35, $22 ; SPRITE 22   | xy: { 0x350, 0x180 }
-    db $1E, $2A, $22 ; SPRITE 22   | xy: { 0x2A0, 0x1E0 }
-    db $26, $0A, $12 ; SPRITE 12   | xy: { 0x0A0, 0x260 }
-    db $2B, $0C, $12 ; SPRITE 12   | xy: { 0x0C0, 0x2B0 }
-    db $35, $07, $22 ; SPRITE 22   | xy: { 0x070, 0x350 }
-    db $37, $16, $11 ; SPRITE 11   | xy: { 0x160, 0x370 }
-    db $38, $09, $0E ; SPRITE 0E   | xy: { 0x090, 0x380 }
-    db $24, $32, $12 ; SPRITE 12   | xy: { 0x320, 0x240 }
-    db $28, $35, $0E ; SPRITE 0E   | xy: { 0x350, 0x280 }
-    db $30, $24, $22 ; SPRITE 22   | xy: { 0x240, 0x300 }
-    db $30, $30, $E3 ; SPRITE E3   | xy: { 0x300, 0x300 }
-    db $36, $35, $11 ; SPRITE 11   | xy: { 0x350, 0x360 }
-    db $37, $29, $00 ; SPRITE 00   | xy: { 0x290, 0x370 }
+    db $04, $0D, $22 ; Sprite 0x22 (0x00D0, 0x0040)
+    db $11, $03, $22 ; Sprite 0x22 (0x0030, 0x0110)
+    db $11, $15, $B6 ; Sprite 0xB6 (0x0150, 0x0110)
+    db $1A, $12, $22 ; Sprite 0x22 (0x0120, 0x01A0)
+    db $09, $27, $22 ; Sprite 0x22 (0x0270, 0x0090)
+    db $10, $2F, $22 ; Sprite 0x22 (0x02F0, 0x0100)
+    db $15, $25, $12 ; Sprite 0x12 (0x0250, 0x0150)
+    db $17, $26, $11 ; Sprite 0x11 (0x0260, 0x0170)
+    db $18, $35, $22 ; Sprite 0x22 (0x0350, 0x0180)
+    db $1E, $2A, $22 ; Sprite 0x22 (0x02A0, 0x01E0)
+    db $26, $0A, $12 ; Sprite 0x12 (0x00A0, 0x0260)
+    db $2B, $0C, $12 ; Sprite 0x12 (0x00C0, 0x02B0)
+    db $35, $07, $22 ; Sprite 0x22 (0x0070, 0x0350)
+    db $37, $16, $11 ; Sprite 0x11 (0x0160, 0x0370)
+    db $38, $09, $0E ; Sprite 0x0E (0x0090, 0x0380)
+    db $24, $32, $12 ; Sprite 0x12 (0x0320, 0x0240)
+    db $28, $35, $0E ; Sprite 0x0E (0x0350, 0x0280)
+    db $30, $24, $22 ; Sprite 0x22 (0x0240, 0x0300)
+    db $30, $30, $E3 ; Sprite 0xE3 (0x0300, 0x0300)
+    db $36, $35, $11 ; Sprite 0x11 (0x0350, 0x0360)
+    db $37, $29, $00 ; Sprite 0x00 (0x0290, 0x0370)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CD59-$04CD6B DATA
-Overworld_Sprites_Screen62:
+OverworldSprites_62:
 {
-    db $05, $0D, $B4 ; SPRITE B4   | xy: { 0x0D0, 0x050 }
-    db $11, $13, $0B ; SPRITE 0B   | xy: { 0x130, 0x110 }
-    db $13, $11, $0B ; SPRITE 0B   | xy: { 0x110, 0x130 }
-    db $15, $15, $0B ; SPRITE 0B   | xy: { 0x150, 0x150 }
-    db $16, $09, $0B ; SPRITE 0B   | xy: { 0x090, 0x160 }
-    db $17, $11, $0B ; SPRITE 0B   | xy: { 0x110, 0x170 }
+    db $05, $0D, $B4 ; Sprite 0xB4 (0x00D0, 0x0050)
+    db $11, $13, $0B ; Sprite 0x0B (0x0130, 0x0110)
+    db $13, $11, $0B ; Sprite 0x0B (0x0110, 0x0130)
+    db $15, $15, $0B ; Sprite 0x0B (0x0150, 0x0150)
+    db $16, $09, $0B ; Sprite 0x0B (0x0090, 0x0160)
+    db $17, $11, $0B ; Sprite 0x0B (0x0110, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CD6C-$04CD7E DATA
-Overworld_Sprites_Screen65:
+OverworldSprites_65:
 {
-    db $07, $13, $12 ; SPRITE 12   | xy: { 0x130, 0x070 }
-    db $0A, $0F, $D3 ; SPRITE D3   | xy: { 0x0F0, 0x0A0 }
-    db $0C, $0E, $12 ; SPRITE 12   | xy: { 0x0E0, 0x0C0 }
-    db $11, $05, $11 ; SPRITE 11   | xy: { 0x050, 0x110 }
-    db $16, $0A, $12 ; SPRITE 12   | xy: { 0x0A0, 0x160 }
-    db $16, $13, $12 ; SPRITE 12   | xy: { 0x130, 0x160 }
+    db $07, $13, $12 ; Sprite 0x12 (0x0130, 0x0070)
+    db $0A, $0F, $D3 ; Sprite 0xD3 (0x00F0, 0x00A0)
+    db $0C, $0E, $12 ; Sprite 0x12 (0x00E0, 0x00C0)
+    db $11, $05, $11 ; Sprite 0x11 (0x0050, 0x0110)
+    db $16, $0A, $12 ; Sprite 0x12 (0x00A0, 0x0160)
+    db $16, $13, $12 ; Sprite 0x12 (0x0130, 0x0160)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CD7F-$04CD82 DATA
-Overworld_Sprites_Screen68:
+OverworldSprites_68:
 {
-    db $11, $0E, $D5 ; SPRITE D5   | xy: { 0x0E0, 0x110 }
+    db $11, $0E, $D5 ; Sprite 0xD5 (0x00E0, 0x0110)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CD83-$04CD86 DATA
-Overworld_Sprites_Screen69:
+OverworldSprites_69:
 {
-    db $09, $06, $1A ; SPRITE 1A   | xy: { 0x060, 0x090 }
+    db $09, $06, $1A ; Sprite 0x1A (0x0060, 0x0090)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CD87-$04CD8A DATA
-Overworld_Sprites_Screen6A:
+OverworldSprites_6A:
 {
-    db $0F, $0E, $2E ; SPRITE 2E   | xy: { 0x0E0, 0x0F0 }
+    db $0F, $0E, $2E ; Sprite 0x2E (0x00E0, 0x00F0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CD8B-$04CD9A DATA
-Overworld_Sprites_Screen6B:
+OverworldSprites_6B:
 {
-    db $08, $16, $25 ; SPRITE 25   | xy: { 0x160, 0x080 }
-    db $09, $08, $22 ; SPRITE 22   | xy: { 0x080, 0x090 }
-    db $0F, $17, $25 ; SPRITE 25   | xy: { 0x170, 0x0F0 }
-    db $16, $13, $12 ; SPRITE 12   | xy: { 0x130, 0x160 }
-    db $19, $0F, $12 ; SPRITE 12   | xy: { 0x0F0, 0x190 }
+    db $08, $16, $25 ; Sprite 0x25 (0x0160, 0x0080)
+    db $09, $08, $22 ; Sprite 0x22 (0x0080, 0x0090)
+    db $0F, $17, $25 ; Sprite 0x25 (0x0170, 0x00F0)
+    db $16, $13, $12 ; Sprite 0x12 (0x0130, 0x0160)
+    db $19, $0F, $12 ; Sprite 0x12 (0x00F0, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CD9B-$04CDAA DATA
-Overworld_Sprites_Screen6C:
+OverworldSprites_6C:
 {
-    db $06, $15, $0E ; SPRITE 0E   | xy: { 0x150, 0x060 }
-    db $0A, $15, $12 ; SPRITE 12   | xy: { 0x150, 0x0A0 }
-    db $0D, $14, $12 ; SPRITE 12   | xy: { 0x140, 0x0D0 }
-    db $16, $14, $11 ; SPRITE 11   | xy: { 0x140, 0x160 }
-    db $19, $09, $22 ; SPRITE 22   | xy: { 0x090, 0x190 }
+    db $06, $15, $0E ; Sprite 0x0E (0x0150, 0x0060)
+    db $0A, $15, $12 ; Sprite 0x12 (0x0150, 0x00A0)
+    db $0D, $14, $12 ; Sprite 0x12 (0x0140, 0x00D0)
+    db $16, $14, $11 ; Sprite 0x11 (0x0140, 0x0160)
+    db $19, $09, $22 ; Sprite 0x22 (0x0090, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CDAB-$04CDBD DATA
-Overworld_Sprites_Screen6D:
+OverworldSprites_6D:
 {
-    db $05, $0F, $22 ; SPRITE 22   | xy: { 0x0F0, 0x050 }
-    db $07, $0D, $11 ; SPRITE 11   | xy: { 0x0D0, 0x070 }
-    db $08, $12, $41 ; SPRITE 41   | xy: { 0x120, 0x080 }
-    db $0A, $10, $41 ; SPRITE 41   | xy: { 0x100, 0x0A0 }
-    db $1A, $10, $D3 ; SPRITE D3   | xy: { 0x100, 0x1A0 }
-    db $1B, $13, $D3 ; SPRITE D3   | xy: { 0x130, 0x1B0 }
+    db $05, $0F, $22 ; Sprite 0x22 (0x00F0, 0x0050)
+    db $07, $0D, $11 ; Sprite 0x11 (0x00D0, 0x0070)
+    db $08, $12, $41 ; Sprite 0x41 (0x0120, 0x0080)
+    db $0A, $10, $41 ; Sprite 0x41 (0x0100, 0x00A0)
+    db $1A, $10, $D3 ; Sprite 0xD3 (0x0100, 0x01A0)
+    db $1B, $13, $D3 ; Sprite 0xD3 (0x0130, 0x01B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CDBE-$04CDD0 DATA
-Overworld_Sprites_Screen6E:
+OverworldSprites_6E:
 {
-    db $08, $0C, $DA ; SPRITE DA   | xy: { 0x0C0, 0x080 }
-    db $09, $10, $79 ; SPRITE 79   | xy: { 0x100, 0x090 }
-    db $0A, $14, $AC ; SPRITE AC   | xy: { 0x140, 0x0A0 }
-    db $0B, $08, $41 ; SPRITE 41   | xy: { 0x080, 0x0B0 }
-    db $0E, $10, $41 ; SPRITE 41   | xy: { 0x100, 0x0E0 }
-    db $18, $1A, $22 ; SPRITE 22   | xy: { 0x1A0, 0x180 }
+    db $08, $0C, $DA ; Sprite 0xDA (0x00C0, 0x0080)
+    db $09, $10, $79 ; Sprite 0x79 (0x0100, 0x0090)
+    db $0A, $14, $AC ; Sprite 0xAC (0x0140, 0x00A0)
+    db $0B, $08, $41 ; Sprite 0x41 (0x0080, 0x00B0)
+    db $0E, $10, $41 ; Sprite 0x41 (0x0100, 0x00E0)
+    db $18, $1A, $22 ; Sprite 0x22 (0x01A0, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CDD1-$04CDE0 DATA
-Overworld_Sprites_Screen6F:
+OverworldSprites_6F:
 {
-    db $08, $0D, $0E ; SPRITE 0E   | xy: { 0x0D0, 0x080 }
-    db $08, $0F, $0E ; SPRITE 0E   | xy: { 0x0F0, 0x080 }
-    db $0B, $0E, $0E ; SPRITE 0E   | xy: { 0x0E0, 0x0B0 }
-    db $0C, $17, $00 ; SPRITE 00   | xy: { 0x170, 0x0C0 }
-    db $17, $09, $D3 ; SPRITE D3   | xy: { 0x090, 0x170 }
+    db $08, $0D, $0E ; Sprite 0x0E (0x00D0, 0x0080)
+    db $08, $0F, $0E ; Sprite 0x0E (0x00F0, 0x0080)
+    db $0B, $0E, $0E ; Sprite 0x0E (0x00E0, 0x00B0)
+    db $0C, $17, $00 ; Sprite 0x00 (0x0170, 0x00C0)
+    db $17, $09, $D3 ; Sprite 0xD3 (0x0090, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CDE1-$04CE05 DATA
-Overworld_Sprites_Screen70:
+OverworldSprites_70:
 {
-    db $1B, $21, $00 ; SPRITE 00   | xy: { 0x210, 0x1B0 }
-    db $1C, $2B, $55 ; SPRITE 55   | xy: { 0x2B0, 0x1C0 }
-    db $21, $12, $55 ; SPRITE 55   | xy: { 0x120, 0x210 }
-    db $24, $1B, $CF ; SPRITE CF   | xy: { 0x1B0, 0x240 }
-    db $27, $10, $CF ; SPRITE CF   | xy: { 0x100, 0x270 }
-    db $28, $07, $00 ; SPRITE 00   | xy: { 0x070, 0x280 }
-    db $2B, $16, $55 ; SPRITE 55   | xy: { 0x160, 0x2B0 }
-    db $2E, $1E, $55 ; SPRITE 55   | xy: { 0x1E0, 0x2E0 }
-    db $33, $17, $CF ; SPRITE CF   | xy: { 0x170, 0x330 }
-    db $38, $11, $55 ; SPRITE 55   | xy: { 0x110, 0x380 }
-    db $2B, $23, $55 ; SPRITE 55   | xy: { 0x230, 0x2B0 }
-    db $2C, $27, $CF ; SPRITE CF   | xy: { 0x270, 0x2C0 }
+    db $1B, $21, $00 ; Sprite 0x00 (0x0210, 0x01B0)
+    db $1C, $2B, $55 ; Sprite 0x55 (0x02B0, 0x01C0)
+    db $21, $12, $55 ; Sprite 0x55 (0x0120, 0x0210)
+    db $24, $1B, $CF ; Sprite 0xCF (0x01B0, 0x0240)
+    db $27, $10, $CF ; Sprite 0xCF (0x0100, 0x0270)
+    db $28, $07, $00 ; Sprite 0x00 (0x0070, 0x0280)
+    db $2B, $16, $55 ; Sprite 0x55 (0x0160, 0x02B0)
+    db $2E, $1E, $55 ; Sprite 0x55 (0x01E0, 0x02E0)
+    db $33, $17, $CF ; Sprite 0xCF (0x0170, 0x0330)
+    db $38, $11, $55 ; Sprite 0x55 (0x0110, 0x0380)
+    db $2B, $23, $55 ; Sprite 0x55 (0x0230, 0x02B0)
+    db $2C, $27, $CF ; Sprite 0xCF (0x0270, 0x02C0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CE06-$04CE15 DATA
-Overworld_Sprites_Screen72:
+OverworldSprites_72:
 {
-    db $0B, $1B, $25 ; SPRITE 25   | xy: { 0x1B0, 0x0B0 }
-    db $0D, $10, $41 ; SPRITE 41   | xy: { 0x100, 0x0D0 }
-    db $0E, $13, $41 ; SPRITE 41   | xy: { 0x130, 0x0E0 }
-    db $14, $1A, $25 ; SPRITE 25   | xy: { 0x1A0, 0x140 }
-    db $17, $0B, $22 ; SPRITE 22   | xy: { 0x0B0, 0x170 }
+    db $0B, $1B, $25 ; Sprite 0x25 (0x01B0, 0x00B0)
+    db $0D, $10, $41 ; Sprite 0x41 (0x0100, 0x00D0)
+    db $0E, $13, $41 ; Sprite 0x41 (0x0130, 0x00E0)
+    db $14, $1A, $25 ; Sprite 0x25 (0x01A0, 0x0140)
+    db $17, $0B, $22 ; Sprite 0x22 (0x00B0, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CE16-$04CE25 DATA
-Overworld_Sprites_Screen73:
+OverworldSprites_73:
 {
-    db $0C, $17, $AA ; SPRITE AA   | xy: { 0x170, 0x0C0 }
-    db $0D, $09, $12 ; SPRITE 12   | xy: { 0x090, 0x0D0 }
-    db $0E, $14, $A8 ; SPRITE A8   | xy: { 0x140, 0x0E0 }
-    db $1A, $15, $A8 ; SPRITE A8   | xy: { 0x150, 0x1A0 }
-    db $1B, $1B, $A9 ; SPRITE A9   | xy: { 0x1B0, 0x1B0 }
+    db $0C, $17, $AA ; Sprite 0xAA (0x0170, 0x00C0)
+    db $0D, $09, $12 ; Sprite 0x12 (0x0090, 0x00D0)
+    db $0E, $14, $A8 ; Sprite 0xA8 (0x0140, 0x00E0)
+    db $1A, $15, $A8 ; Sprite 0xA8 (0x0150, 0x01A0)
+    db $1B, $1B, $A9 ; Sprite 0xA9 (0x01B0, 0x01B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CE26-$04CE3B DATA
-Overworld_Sprites_Screen74:
+OverworldSprites_74:
 {
-    db $0D, $0B, $12 ; SPRITE 12   | xy: { 0x0B0, 0x0D0 }
-    db $0E, $17, $33 ; SPRITE 33   | xy: { 0x170, 0x0E0 }
-    db $11, $10, $A8 ; SPRITE A8   | xy: { 0x100, 0x110 }
-    db $11, $15, $12 ; SPRITE 12   | xy: { 0x150, 0x110 }
-    db $12, $0A, $AA ; SPRITE AA   | xy: { 0x0A0, 0x120 }
-    db $14, $0E, $AC ; SPRITE AC   | xy: { 0x0E0, 0x140 }
-    db $17, $11, $12 ; SPRITE 12   | xy: { 0x110, 0x170 }
+    db $0D, $0B, $12 ; Sprite 0x12 (0x00B0, 0x00D0)
+    db $0E, $17, $33 ; Sprite 0x33 (0x0170, 0x00E0)
+    db $11, $10, $A8 ; Sprite 0xA8 (0x0100, 0x0110)
+    db $11, $15, $12 ; Sprite 0x12 (0x0150, 0x0110)
+    db $12, $0A, $AA ; Sprite 0xAA (0x00A0, 0x0120)
+    db $14, $0E, $AC ; Sprite 0xAC (0x00E0, 0x0140)
+    db $17, $11, $12 ; Sprite 0x12 (0x0110, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CE3C-$04CE7E DATA
-Overworld_Sprites_Screen75:
+OverworldSprites_75:
 {
-    db $05, $0A, $D3 ; SPRITE D3   | xy: { 0x0A0, 0x050 }
-    db $07, $09, $41 ; SPRITE 41   | xy: { 0x090, 0x070 }
-    db $09, $0B, $41 ; SPRITE 41   | xy: { 0x0B0, 0x090 }
-    db $13, $07, $08 ; SPRITE 08   | xy: { 0x070, 0x130 }
-    db $16, $18, $A8 ; SPRITE A8   | xy: { 0x180, 0x160 }
-    db $17, $09, $AA ; SPRITE AA   | xy: { 0x090, 0x170 }
-    db $0C, $30, $55 ; SPRITE 55   | xy: { 0x300, 0x0C0 }
-    db $11, $29, $A9 ; SPRITE A9   | xy: { 0x290, 0x110 }
-    db $15, $36, $A8 ; SPRITE A8   | xy: { 0x360, 0x150 }
-    db $1F, $31, $AA ; SPRITE AA   | xy: { 0x310, 0x1F0 }
-    db $22, $1B, $55 ; SPRITE 55   | xy: { 0x1B0, 0x220 }
-    db $28, $14, $A8 ; SPRITE A8   | xy: { 0x140, 0x280 }
-    db $2E, $16, $AA ; SPRITE AA   | xy: { 0x160, 0x2E0 }
-    db $32, $19, $A8 ; SPRITE A8   | xy: { 0x190, 0x320 }
-    db $35, $0A, $A9 ; SPRITE A9   | xy: { 0x0A0, 0x350 }
-    db $39, $08, $22 ; SPRITE 22   | xy: { 0x080, 0x390 }
-    db $39, $1B, $55 ; SPRITE 55   | xy: { 0x1B0, 0x390 }
-    db $26, $2A, $AA ; SPRITE AA   | xy: { 0x2A0, 0x260 }
-    db $28, $32, $A8 ; SPRITE A8   | xy: { 0x320, 0x280 }
-    db $2C, $2A, $55 ; SPRITE 55   | xy: { 0x2A0, 0x2C0 }
-    db $35, $32, $55 ; SPRITE 55   | xy: { 0x320, 0x350 }
-    db $39, $37, $08 ; SPRITE 08   | xy: { 0x370, 0x390 }
+    db $05, $0A, $D3 ; Sprite 0xD3 (0x00A0, 0x0050)
+    db $07, $09, $41 ; Sprite 0x41 (0x0090, 0x0070)
+    db $09, $0B, $41 ; Sprite 0x41 (0x00B0, 0x0090)
+    db $13, $07, $08 ; Sprite 0x08 (0x0070, 0x0130)
+    db $16, $18, $A8 ; Sprite 0xA8 (0x0180, 0x0160)
+    db $17, $09, $AA ; Sprite 0xAA (0x0090, 0x0170)
+    db $0C, $30, $55 ; Sprite 0x55 (0x0300, 0x00C0)
+    db $11, $29, $A9 ; Sprite 0xA9 (0x0290, 0x0110)
+    db $15, $36, $A8 ; Sprite 0xA8 (0x0360, 0x0150)
+    db $1F, $31, $AA ; Sprite 0xAA (0x0310, 0x01F0)
+    db $22, $1B, $55 ; Sprite 0x55 (0x01B0, 0x0220)
+    db $28, $14, $A8 ; Sprite 0xA8 (0x0140, 0x0280)
+    db $2E, $16, $AA ; Sprite 0xAA (0x0160, 0x02E0)
+    db $32, $19, $A8 ; Sprite 0xA8 (0x0190, 0x0320)
+    db $35, $0A, $A9 ; Sprite 0xA9 (0x00A0, 0x0350)
+    db $39, $08, $22 ; Sprite 0x22 (0x0080, 0x0390)
+    db $39, $1B, $55 ; Sprite 0x55 (0x01B0, 0x0390)
+    db $26, $2A, $AA ; Sprite 0xAA (0x02A0, 0x0260)
+    db $28, $32, $A8 ; Sprite 0xA8 (0x0320, 0x0280)
+    db $2C, $2A, $55 ; Sprite 0x55 (0x02A0, 0x02C0)
+    db $35, $32, $55 ; Sprite 0x55 (0x0320, 0x0350)
+    db $39, $37, $08 ; Sprite 0x08 (0x0370, 0x0390)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CE7F-$04CE91 DATA
-Overworld_Sprites_Screen77:
+OverworldSprites_77:
 {
-    db $08, $11, $08 ; SPRITE 08   | xy: { 0x110, 0x080 }
-    db $0A, $09, $D3 ; SPRITE D3   | xy: { 0x090, 0x0A0 }
-    db $0B, $0D, $A9 ; SPRITE A9   | xy: { 0x0D0, 0x0B0 }
-    db $11, $18, $08 ; SPRITE 08   | xy: { 0x180, 0x110 }
-    db $12, $07, $55 ; SPRITE 55   | xy: { 0x070, 0x120 }
-    db $19, $12, $55 ; SPRITE 55   | xy: { 0x120, 0x190 }
+    db $08, $11, $08 ; Sprite 0x08 (0x0110, 0x0080)
+    db $0A, $09, $D3 ; Sprite 0xD3 (0x0090, 0x00A0)
+    db $0B, $0D, $A9 ; Sprite 0xA9 (0x00D0, 0x00B0)
+    db $11, $18, $08 ; Sprite 0x08 (0x0180, 0x0110)
+    db $12, $07, $55 ; Sprite 0x55 (0x0070, 0x0120)
+    db $19, $12, $55 ; Sprite 0x55 (0x0120, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CE92-$04CE9E DATA
-Overworld_Sprites_Screen7A:
+OverworldSprites_7A:
 {
-    db $07, $06, $11 ; SPRITE 11   | xy: { 0x060, 0x070 }
-    db $09, $16, $22 ; SPRITE 22   | xy: { 0x160, 0x090 }
-    db $0B, $14, $22 ; SPRITE 22   | xy: { 0x140, 0x0B0 }
-    db $0B, $16, $22 ; SPRITE 22   | xy: { 0x160, 0x0B0 }
+    db $07, $06, $11 ; Sprite 0x11 (0x0060, 0x0070)
+    db $09, $16, $22 ; Sprite 0x22 (0x0160, 0x0090)
+    db $0B, $14, $22 ; Sprite 0x22 (0x0140, 0x00B0)
+    db $0B, $16, $22 ; Sprite 0x22 (0x0160, 0x00B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CE9F-$04CEB1 DATA
-Overworld_Sprites_Screen7B:
+OverworldSprites_7B:
 {
-    db $06, $12, $A9 ; SPRITE A9   | xy: { 0x120, 0x060 }
-    db $0A, $16, $AA ; SPRITE AA   | xy: { 0x160, 0x0A0 }
-    db $0F, $0D, $12 ; SPRITE 12   | xy: { 0x0D0, 0x0F0 }
-    db $10, $0A, $D3 ; SPRITE D3   | xy: { 0x0A0, 0x100 }
-    db $14, $13, $12 ; SPRITE 12   | xy: { 0x130, 0x140 }
-    db $18, $16, $22 ; SPRITE 22   | xy: { 0x160, 0x180 }
+    db $06, $12, $A9 ; Sprite 0xA9 (0x0120, 0x0060)
+    db $0A, $16, $AA ; Sprite 0xAA (0x0160, 0x00A0)
+    db $0F, $0D, $12 ; Sprite 0x12 (0x00D0, 0x00F0)
+    db $10, $0A, $D3 ; Sprite 0xD3 (0x00A0, 0x0100)
+    db $14, $13, $12 ; Sprite 0x12 (0x0130, 0x0140)
+    db $18, $16, $22 ; Sprite 0x22 (0x0160, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CEB2-$04CEC4 DATA
-Overworld_Sprites_Screen7C:
+OverworldSprites_7C:
 {
-    db $05, $03, $D3 ; SPRITE D3   | xy: { 0x030, 0x050 }
-    db $06, $07, $41 ; SPRITE 41   | xy: { 0x070, 0x060 }
-    db $06, $0F, $33 ; SPRITE 33   | xy: { 0x0F0, 0x060 }
-    db $11, $11, $11 ; SPRITE 11   | xy: { 0x110, 0x110 }
-    db $15, $18, $22 ; SPRITE 22   | xy: { 0x180, 0x150 }
-    db $19, $16, $22 ; SPRITE 22   | xy: { 0x160, 0x190 }
+    db $05, $03, $D3 ; Sprite 0xD3 (0x0030, 0x0050)
+    db $06, $07, $41 ; Sprite 0x41 (0x0070, 0x0060)
+    db $06, $0F, $33 ; Sprite 0x33 (0x00F0, 0x0060)
+    db $11, $11, $11 ; Sprite 0x11 (0x0110, 0x0110)
+    db $15, $18, $22 ; Sprite 0x22 (0x0180, 0x0150)
+    db $19, $16, $22 ; Sprite 0x22 (0x0160, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CEC5-$04CEDA DATA
-Overworld_Sprites_Screen7F:
+OverworldSprites_7F:
 {
-    db $06, $10, $A8 ; SPRITE A8   | xy: { 0x100, 0x060 }
-    db $06, $16, $08 ; SPRITE 08   | xy: { 0x160, 0x060 }
-    db $0C, $07, $BA ; SPRITE BA   | xy: { 0x070, 0x0C0 }
-    db $0E, $07, $55 ; SPRITE 55   | xy: { 0x070, 0x0E0 }
-    db $13, $0D, $A8 ; SPRITE A8   | xy: { 0x0D0, 0x130 }
-    db $14, $16, $AA ; SPRITE AA   | xy: { 0x160, 0x140 }
-    db $17, $0F, $08 ; SPRITE 08   | xy: { 0x0F0, 0x170 }
+    db $06, $10, $A8 ; Sprite 0xA8 (0x0100, 0x0060)
+    db $06, $16, $08 ; Sprite 0x08 (0x0160, 0x0060)
+    db $0C, $07, $BA ; Sprite 0xBA (0x0070, 0x00C0)
+    db $0E, $07, $55 ; Sprite 0x55 (0x0070, 0x00E0)
+    db $13, $0D, $A8 ; Sprite 0xA8 (0x00D0, 0x0130)
+    db $14, $16, $AA ; Sprite 0xAA (0x0160, 0x0140)
+    db $17, $0F, $08 ; Sprite 0x08 (0x00F0, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CEDB-$04CEF3 DATA
-Overworld_Sprites_Screen80:
+OverworldSprites_80:
 {
-    db $08, $07, $62 ; SPRITE 62   | xy: { 0x070, 0x080 }
-    db $0A, $07, $B3 ; SPRITE B3   | xy: { 0x070, 0x0A0 }
-    db $14, $0F, $5A ; SPRITE 5A   | xy: { 0x0F0, 0x140 }
-    db $16, $00, $59 ; SPRITE 59   | xy: { 0x000, 0x160 }
-    db $18, $02, $5A ; SPRITE 5A   | xy: { 0x020, 0x180 }
-    db $1A, $0E, $59 ; SPRITE 59   | xy: { 0x0E0, 0x1A0 }
-    db $1B, $0F, $5A ; SPRITE 5A   | xy: { 0x0F0, 0x1B0 }
-    db $04, $16, $2B ; SPRITE 2B   | xy: { 0x160, 0x040 }
+    db $08, $07, $62 ; Sprite 0x62 (0x0070, 0x0080)
+    db $0A, $07, $B3 ; Sprite 0xB3 (0x0070, 0x00A0)
+    db $14, $0F, $5A ; Sprite 0x5A (0x00F0, 0x0140)
+    db $16, $00, $59 ; Sprite 0x59 (0x0000, 0x0160)
+    db $18, $02, $5A ; Sprite 0x5A (0x0020, 0x0180)
+    db $1A, $0E, $59 ; Sprite 0x59 (0x00E0, 0x01A0)
+    db $1B, $0F, $5A ; Sprite 0x5A (0x00F0, 0x01B0)
+    db $04, $16, $2B ; Sprite 0x2B (0x0160, 0x0040)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CEF4-$04CF4B DATA
-Overworld_Sprites_Screen81:
+OverworldSprites_81:
 {
-    db $26, $1B, $EB ; SPRITE EB   | xy: { 0x1B0, 0x260 }
-    db $06, $0A, $56 ; SPRITE 56   | xy: { 0x0A0, 0x060 }
-    db $06, $1C, $56 ; SPRITE 56   | xy: { 0x1C0, 0x060 }
-    db $07, $11, $55 ; SPRITE 55   | xy: { 0x110, 0x070 }
-    db $0A, $16, $56 ; SPRITE 56   | xy: { 0x160, 0x0A0 }
-    db $0A, $1A, $55 ; SPRITE 55   | xy: { 0x1A0, 0x0A0 }
-    db $0C, $09, $55 ; SPRITE 55   | xy: { 0x090, 0x0C0 }
-    db $0D, $12, $55 ; SPRITE 55   | xy: { 0x120, 0x0D0 }
-    db $12, $1A, $56 ; SPRITE 56   | xy: { 0x1A0, 0x120 }
-    db $13, $07, $56 ; SPRITE 56   | xy: { 0x070, 0x130 }
-    db $13, $14, $56 ; SPRITE 56   | xy: { 0x140, 0x130 }
-    db $18, $08, $56 ; SPRITE 56   | xy: { 0x080, 0x180 }
-    db $1C, $04, $56 ; SPRITE 56   | xy: { 0x040, 0x1C0 }
-    db $04, $3B, $52 ; SPRITE 52   | xy: { 0x3B0, 0x040 }
-    db $08, $27, $55 ; SPRITE 55   | xy: { 0x270, 0x080 }
-    db $08, $2D, $55 ; SPRITE 55   | xy: { 0x2D0, 0x080 }
-    db $0E, $22, $56 ; SPRITE 56   | xy: { 0x220, 0x0E0 }
-    db $0E, $2D, $55 ; SPRITE 55   | xy: { 0x2D0, 0x0E0 }
-    db $14, $21, $55 ; SPRITE 55   | xy: { 0x210, 0x140 }
-    db $20, $0D, $56 ; SPRITE 56   | xy: { 0x0D0, 0x200 }
-    db $31, $08, $56 ; SPRITE 56   | xy: { 0x080, 0x310 }
-    db $31, $14, $55 ; SPRITE 55   | xy: { 0x140, 0x310 }
-    db $33, $0C, $56 ; SPRITE 56   | xy: { 0x0C0, 0x330 }
-    db $35, $0E, $55 ; SPRITE 55   | xy: { 0x0E0, 0x350 }
-    db $38, $08, $56 ; SPRITE 56   | xy: { 0x080, 0x380 }
-    db $28, $3B, $56 ; SPRITE 56   | xy: { 0x3B0, 0x280 }
-    db $2B, $3A, $56 ; SPRITE 56   | xy: { 0x3A0, 0x2B0 }
-    db $35, $2D, $56 ; SPRITE 56   | xy: { 0x2D0, 0x350 }
-    db $36, $37, $56 ; SPRITE 56   | xy: { 0x370, 0x360 }
+    db $26, $1B, $EB ; Sprite 0xEB (0x01B0, 0x0260)
+    db $06, $0A, $56 ; Sprite 0x56 (0x00A0, 0x0060)
+    db $06, $1C, $56 ; Sprite 0x56 (0x01C0, 0x0060)
+    db $07, $11, $55 ; Sprite 0x55 (0x0110, 0x0070)
+    db $0A, $16, $56 ; Sprite 0x56 (0x0160, 0x00A0)
+    db $0A, $1A, $55 ; Sprite 0x55 (0x01A0, 0x00A0)
+    db $0C, $09, $55 ; Sprite 0x55 (0x0090, 0x00C0)
+    db $0D, $12, $55 ; Sprite 0x55 (0x0120, 0x00D0)
+    db $12, $1A, $56 ; Sprite 0x56 (0x01A0, 0x0120)
+    db $13, $07, $56 ; Sprite 0x56 (0x0070, 0x0130)
+    db $13, $14, $56 ; Sprite 0x56 (0x0140, 0x0130)
+    db $18, $08, $56 ; Sprite 0x56 (0x0080, 0x0180)
+    db $1C, $04, $56 ; Sprite 0x56 (0x0040, 0x01C0)
+    db $04, $3B, $52 ; Sprite 0x52 (0x03B0, 0x0040)
+    db $08, $27, $55 ; Sprite 0x55 (0x0270, 0x0080)
+    db $08, $2D, $55 ; Sprite 0x55 (0x02D0, 0x0080)
+    db $0E, $22, $56 ; Sprite 0x56 (0x0220, 0x00E0)
+    db $0E, $2D, $55 ; Sprite 0x55 (0x02D0, 0x00E0)
+    db $14, $21, $55 ; Sprite 0x55 (0x0210, 0x0140)
+    db $20, $0D, $56 ; Sprite 0x56 (0x00D0, 0x0200)
+    db $31, $08, $56 ; Sprite 0x56 (0x0080, 0x0310)
+    db $31, $14, $55 ; Sprite 0x55 (0x0140, 0x0310)
+    db $33, $0C, $56 ; Sprite 0x56 (0x00C0, 0x0330)
+    db $35, $0E, $55 ; Sprite 0x55 (0x00E0, 0x0350)
+    db $38, $08, $56 ; Sprite 0x56 (0x0080, 0x0380)
+    db $28, $3B, $56 ; Sprite 0x56 (0x03B0, 0x0280)
+    db $2B, $3A, $56 ; Sprite 0x56 (0x03A0, 0x02B0)
+    db $35, $2D, $56 ; Sprite 0x56 (0x02D0, 0x0350)
+    db $36, $37, $56 ; Sprite 0x56 (0x0370, 0x0360)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CF4C-$04CF79 DATA
-Overworld_Sprites_Screen00_1:
+OverworldSprites_00_1:
 {
-    db $12, $07, $E8 ; SPRITE E8   | xy: { 0x070, 0x120 }
-    db $0B, $12, $00 ; SPRITE 00   | xy: { 0x120, 0x0B0 }
-    db $15, $1E, $E7 ; SPRITE E7   | xy: { 0x1E0, 0x150 }
-    db $06, $28, $E8 ; SPRITE E8   | xy: { 0x280, 0x060 }
-    db $0A, $31, $0D ; SPRITE 0D   | xy: { 0x310, 0x0A0 }
-    db $0A, $2D, $00 ; SPRITE 00   | xy: { 0x2D0, 0x0A0 }
-    db $10, $2A, $17 ; SPRITE 17   | xy: { 0x2A0, 0x100 }
-    db $15, $39, $E8 ; SPRITE E8   | xy: { 0x390, 0x150 }
-    db $22, $0E, $C4 ; SPRITE C4   | xy: { 0x0E0, 0x220 }
-    db $2D, $1E, $17 ; SPRITE 17   | xy: { 0x1E0, 0x2D0 }
-    db $25, $29, $79 ; SPRITE 79   | xy: { 0x290, 0x250 }
-    db $27, $2A, $33 ; SPRITE 33   | xy: { 0x2A0, 0x270 }
-    db $2D, $36, $00 ; SPRITE 00   | xy: { 0x360, 0x2D0 }
-    db $35, $25, $E8 ; SPRITE E8   | xy: { 0x250, 0x350 }
-    db $35, $29, $C4 ; SPRITE C4   | xy: { 0x290, 0x350 }
+    db $12, $07, $E8 ; Sprite 0xE8 (0x0070, 0x0120)
+    db $0B, $12, $00 ; Sprite 0x00 (0x0120, 0x00B0)
+    db $15, $1E, $E7 ; Sprite 0xE7 (0x01E0, 0x0150)
+    db $06, $28, $E8 ; Sprite 0xE8 (0x0280, 0x0060)
+    db $0A, $31, $0D ; Sprite 0x0D (0x0310, 0x00A0)
+    db $0A, $2D, $00 ; Sprite 0x00 (0x02D0, 0x00A0)
+    db $10, $2A, $17 ; Sprite 0x17 (0x02A0, 0x0100)
+    db $15, $39, $E8 ; Sprite 0xE8 (0x0390, 0x0150)
+    db $22, $0E, $C4 ; Sprite 0xC4 (0x00E0, 0x0220)
+    db $2D, $1E, $17 ; Sprite 0x17 (0x01E0, 0x02D0)
+    db $25, $29, $79 ; Sprite 0x79 (0x0290, 0x0250)
+    db $27, $2A, $33 ; Sprite 0x33 (0x02A0, 0x0270)
+    db $2D, $36, $00 ; Sprite 0x00 (0x0360, 0x02D0)
+    db $35, $25, $E8 ; Sprite 0xE8 (0x0250, 0x0350)
+    db $35, $29, $C4 ; Sprite 0xC4 (0x0290, 0x0350)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CF7A-$04CF83 DATA
-Overworld_Sprites_Screen02_1:
+OverworldSprites_02_1:
 {
-    db $13, $04, $0D ; SPRITE 0D   | xy: { 0x040, 0x130 }
-    db $13, $0C, $2C ; SPRITE 2C   | xy: { 0x0C0, 0x130 }
-    db $1A, $0D, $17 ; SPRITE 17   | xy: { 0x0D0, 0x1A0 }
+    db $13, $04, $0D ; Sprite 0x0D (0x0040, 0x0130)
+    db $13, $0C, $2C ; Sprite 0x2C (0x00C0, 0x0130)
+    db $1A, $0D, $17 ; Sprite 0x17 (0x00D0, 0x01A0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CF84-$04CFA5 DATA
-Overworld_Sprites_Screen03_1:
+OverworldSprites_03_1:
 {
-    db $00, $00, $F4 ; OVERLORD 02 | xy: { 0x000, 0x000 }
-    db $04, $0B, $F2 ; SPRITE F2   | xy: { 0x0B0, 0x040 }
-    db $0C, $27, $27 ; SPRITE 27   | xy: { 0x270, 0x0C0 }
-    db $16, $22, $EB ; SPRITE EB   | xy: { 0x220, 0x160 }
-    db $35, $0A, $27 ; SPRITE 27   | xy: { 0x0A0, 0x350 }
-    db $36, $06, $27 ; SPRITE 27   | xy: { 0x060, 0x360 }
-    db $3B, $0D, $27 ; SPRITE 27   | xy: { 0x0D0, 0x3B0 }
-    db $3B, $12, $F3 ; OVERLORD 01 | xy: { 0x120, 0x3B0 }
-    db $2D, $2C, $27 ; SPRITE 27   | xy: { 0x2C0, 0x2D0 }
-    db $33, $34, $27 ; SPRITE 27   | xy: { 0x340, 0x330 }
-    db $34, $2F, $27 ; SPRITE 27   | xy: { 0x2F0, 0x340 }
+    db $00, $00, $F4 ; Overlord 02 | xy: { 0x000, 0x000 }
+    db $04, $0B, $F2 ; Sprite 0xF2 (0x00B0, 0x0040)
+    db $0C, $27, $27 ; Sprite 0x27 (0x0270, 0x00C0)
+    db $16, $22, $EB ; Sprite 0xEB (0x0220, 0x0160)
+    db $35, $0A, $27 ; Sprite 0x27 (0x00A0, 0x0350)
+    db $36, $06, $27 ; Sprite 0x27 (0x0060, 0x0360)
+    db $3B, $0D, $27 ; Sprite 0x27 (0x00D0, 0x03B0)
+    db $3B, $12, $F3 ; Overlord 01 | xy: { 0x120, 0x3B0 }
+    db $2D, $2C, $27 ; Sprite 0x27 (0x02C0, 0x02D0)
+    db $33, $34, $27 ; Sprite 0x27 (0x0340, 0x0330)
+    db $34, $2F, $27 ; Sprite 0x27 (0x02F0, 0x0340)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CFA6-$04CFCD DATA
-Overworld_Sprites_Screen05_1:
+OverworldSprites_05_1:
 {
-    db $0E, $1E, $27 ; SPRITE 27   | xy: { 0x1E0, 0x0E0 }
-    db $0F, $1F, $C9 ; SPRITE C9   | xy: { 0x1F0, 0x0F0 }
-    db $03, $2F, $EB ; SPRITE EB   | xy: { 0x2F0, 0x030 }
-    db $0D, $35, $27 ; SPRITE 27   | xy: { 0x350, 0x0D0 }
-    db $0F, $29, $C9 ; SPRITE C9   | xy: { 0x290, 0x0F0 }
-    db $0F, $35, $27 ; SPRITE 27   | xy: { 0x350, 0x0F0 }
-    db $10, $34, $E3 ; SPRITE E3   | xy: { 0x340, 0x100 }
-    db $31, $1E, $C9 ; SPRITE C9   | xy: { 0x1E0, 0x310 }
-    db $2A, $35, $C9 ; SPRITE C9   | xy: { 0x350, 0x2A0 }
-    db $2F, $2A, $27 ; SPRITE 27   | xy: { 0x2A0, 0x2F0 }
-    db $2F, $2F, $C9 ; SPRITE C9   | xy: { 0x2F0, 0x2F0 }
-    db $36, $29, $27 ; SPRITE 27   | xy: { 0x290, 0x360 }
-    db $36, $36, $27 ; SPRITE 27   | xy: { 0x360, 0x360 }
+    db $0E, $1E, $27 ; Sprite 0x27 (0x01E0, 0x00E0)
+    db $0F, $1F, $C9 ; Sprite 0xC9 (0x01F0, 0x00F0)
+    db $03, $2F, $EB ; Sprite 0xEB (0x02F0, 0x0030)
+    db $0D, $35, $27 ; Sprite 0x27 (0x0350, 0x00D0)
+    db $0F, $29, $C9 ; Sprite 0xC9 (0x0290, 0x00F0)
+    db $0F, $35, $27 ; Sprite 0x27 (0x0350, 0x00F0)
+    db $10, $34, $E3 ; Sprite 0xE3 (0x0340, 0x0100)
+    db $31, $1E, $C9 ; Sprite 0xC9 (0x01E0, 0x0310)
+    db $2A, $35, $C9 ; Sprite 0xC9 (0x0350, 0x02A0)
+    db $2F, $2A, $27 ; Sprite 0x27 (0x02A0, 0x02F0)
+    db $2F, $2F, $C9 ; Sprite 0xC9 (0x02F0, 0x02F0)
+    db $36, $29, $27 ; Sprite 0x27 (0x0290, 0x0360)
+    db $36, $36, $27 ; Sprite 0x27 (0x0360, 0x0360)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CFCE-$04CFDD DATA
-Overworld_Sprites_Screen07_1:
+OverworldSprites_07_1:
 {
-    db $07, $0E, $27 ; SPRITE 27   | xy: { 0x0E0, 0x070 }
-    db $0D, $0A, $27 ; SPRITE 27   | xy: { 0x0A0, 0x0D0 }
-    db $15, $17, $27 ; SPRITE 27   | xy: { 0x170, 0x150 }
-    db $16, $0F, $27 ; SPRITE 27   | xy: { 0x0F0, 0x160 }
-    db $16, $12, $27 ; SPRITE 27   | xy: { 0x120, 0x160 }
+    db $07, $0E, $27 ; Sprite 0x27 (0x00E0, 0x0070)
+    db $0D, $0A, $27 ; Sprite 0x27 (0x00A0, 0x00D0)
+    db $15, $17, $27 ; Sprite 0x27 (0x0170, 0x0150)
+    db $16, $0F, $27 ; Sprite 0x27 (0x00F0, 0x0160)
+    db $16, $12, $27 ; Sprite 0x27 (0x0120, 0x0160)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CFDE-$04CFFC DATA
-Overworld_Sprites_Screen0A_1:
+OverworldSprites_0A_1:
 {
-    db $04, $0E, $79 ; SPRITE 79   | xy: { 0x0E0, 0x040 }
-    db $06, $0E, $33 ; SPRITE 33   | xy: { 0x0E0, 0x060 }
-    db $09, $05, $00 ; SPRITE 00   | xy: { 0x050, 0x090 }
-    db $0D, $10, $0D ; SPRITE 0D   | xy: { 0x100, 0x0D0 }
-    db $0E, $0B, $0D ; SPRITE 0D   | xy: { 0x0B0, 0x0E0 }
-    db $16, $13, $00 ; SPRITE 00   | xy: { 0x130, 0x160 }
-    db $16, $0E, $17 ; SPRITE 17   | xy: { 0x0E0, 0x160 }
-    db $16, $16, $0D ; SPRITE 0D   | xy: { 0x160, 0x160 }
-    db $17, $11, $00 ; SPRITE 00   | xy: { 0x110, 0x170 }
-    db $1A, $19, $AC ; SPRITE AC   | xy: { 0x190, 0x1A0 }
+    db $04, $0E, $79 ; Sprite 0x79 (0x00E0, 0x0040)
+    db $06, $0E, $33 ; Sprite 0x33 (0x00E0, 0x0060)
+    db $09, $05, $00 ; Sprite 0x00 (0x0050, 0x0090)
+    db $0D, $10, $0D ; Sprite 0x0D (0x0100, 0x00D0)
+    db $0E, $0B, $0D ; Sprite 0x0D (0x00B0, 0x00E0)
+    db $16, $13, $00 ; Sprite 0x00 (0x0130, 0x0160)
+    db $16, $0E, $17 ; Sprite 0x17 (0x00E0, 0x0160)
+    db $16, $16, $0D ; Sprite 0x0D (0x0160, 0x0160)
+    db $17, $11, $00 ; Sprite 0x00 (0x0110, 0x0170)
+    db $1A, $19, $AC ; Sprite 0xAC (0x0190, 0x01A0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04CFFD-$04D012 DATA
-Overworld_Sprites_Screen0F_1:
+OverworldSprites_0F_1:
 {
-    db $02, $06, $37 ; SPRITE 37   | xy: { 0x060, 0x020 }
-    db $0D, $0D, $58 ; SPRITE 58   | xy: { 0x0D0, 0x0D0 }
-    db $10, $05, $55 ; SPRITE 55   | xy: { 0x050, 0x100 }
-    db $12, $11, $58 ; SPRITE 58   | xy: { 0x110, 0x120 }
-    db $13, $08, $BA ; SPRITE BA   | xy: { 0x080, 0x130 }
-    db $15, $1C, $00 ; SPRITE 00   | xy: { 0x1C0, 0x150 }
-    db $17, $0E, $0A ; SPRITE 0A   | xy: { 0x0E0, 0x170 }
+    db $02, $06, $37 ; Sprite 0x37 (0x0060, 0x0020)
+    db $0D, $0D, $58 ; Sprite 0x58 (0x00D0, 0x00D0)
+    db $10, $05, $55 ; Sprite 0x55 (0x0050, 0x0100)
+    db $12, $11, $58 ; Sprite 0x58 (0x0110, 0x0120)
+    db $13, $08, $BA ; Sprite 0xBA (0x0080, 0x0130)
+    db $15, $1C, $00 ; Sprite 0x00 (0x01C0, 0x0150)
+    db $17, $0E, $0A ; Sprite 0x0A (0x00E0, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D013-$04D01F DATA
-Overworld_Sprites_Screen10_1:
+OverworldSprites_10_1:
 {
-    db $0C, $05, $42 ; SPRITE 42   | xy: { 0x050, 0x0C0 }
-    db $0C, $07, $AC ; SPRITE AC   | xy: { 0x070, 0x0C0 }
-    db $0F, $17, $E0 ; SPRITE E0   | xy: { 0x170, 0x0F0 }
-    db $18, $08, $42 ; SPRITE 42   | xy: { 0x080, 0x180 }
+    db $0C, $05, $42 ; Sprite 0x42 (0x0050, 0x00C0)
+    db $0C, $07, $AC ; Sprite 0xAC (0x0070, 0x00C0)
+    db $0F, $17, $E0 ; Sprite 0xE0 (0x0170, 0x00F0)
+    db $18, $08, $42 ; Sprite 0x42 (0x0080, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D020-$04D02C DATA
-Overworld_Sprites_Screen11_1:
+OverworldSprites_11_1:
 {
-    db $0C, $17, $42 ; SPRITE 42   | xy: { 0x170, 0x0C0 }
-    db $0D, $1A, $42 ; SPRITE 42   | xy: { 0x1A0, 0x0D0 }
-    db $10, $08, $DC ; SPRITE DC   | xy: { 0x080, 0x100 }
-    db $17, $08, $0B ; SPRITE 0B   | xy: { 0x080, 0x170 }
+    db $0C, $17, $42 ; Sprite 0x42 (0x0170, 0x00C0)
+    db $0D, $1A, $42 ; Sprite 0x42 (0x01A0, 0x00D0)
+    db $10, $08, $DC ; Sprite 0xDC (0x0080, 0x0100)
+    db $17, $08, $0B ; Sprite 0x0B (0x0080, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D02D-$04D039 DATA
-Overworld_Sprites_Screen12_1:
+OverworldSprites_12_1:
 {
-    db $0E, $15, $42 ; SPRITE 42   | xy: { 0x150, 0x0E0 }
-    db $10, $07, $42 ; SPRITE 42   | xy: { 0x070, 0x100 }
-    db $10, $0F, $BA ; SPRITE BA   | xy: { 0x0F0, 0x100 }
-    db $15, $15, $42 ; SPRITE 42   | xy: { 0x150, 0x150 }
+    db $0E, $15, $42 ; Sprite 0x42 (0x0150, 0x00E0)
+    db $10, $07, $42 ; Sprite 0x42 (0x0070, 0x0100)
+    db $10, $0F, $BA ; Sprite 0xBA (0x00F0, 0x0100)
+    db $15, $15, $42 ; Sprite 0x42 (0x0150, 0x0150)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D03A-$04D040 DATA
-Overworld_Sprites_Screen13_1:
+OverworldSprites_13_1:
 {
-    db $09, $18, $AC ; SPRITE AC   | xy: { 0x180, 0x090 }
-    db $17, $11, $42 ; SPRITE 42   | xy: { 0x110, 0x170 }
+    db $09, $18, $AC ; Sprite 0xAC (0x0180, 0x0090)
+    db $17, $11, $42 ; Sprite 0x42 (0x0110, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D041-$04D050 DATA
-Overworld_Sprites_Screen14_1:
+OverworldSprites_14_1:
 {
-    db $11, $15, $48 ; SPRITE 48   | xy: { 0x150, 0x110 }
-    db $19, $11, $42 ; SPRITE 42   | xy: { 0x110, 0x190 }
-    db $0C, $08, $C5 ; SPRITE C5   | xy: { 0x080, 0x0C0 }
-    db $11, $17, $C5 ; SPRITE C5   | xy: { 0x170, 0x110 }
-    db $0E, $12, $C5 ; SPRITE C5   | xy: { 0x120, 0x0E0 }
+    db $11, $15, $48 ; Sprite 0x48 (0x0150, 0x0110)
+    db $19, $11, $42 ; Sprite 0x42 (0x0110, 0x0190)
+    db $0C, $08, $C5 ; Sprite 0xC5 (0x0080, 0x00C0)
+    db $11, $17, $C5 ; Sprite 0xC5 (0x0170, 0x0110)
+    db $0E, $12, $C5 ; Sprite 0xC5 (0x0120, 0x00E0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D051-$04D05D DATA
-Overworld_Sprites_Screen15_1:
+OverworldSprites_15_1:
 {
-    db $09, $11, $BA ; SPRITE BA   | xy: { 0x110, 0x090 }
-    db $0E, $16, $41 ; SPRITE 41   | xy: { 0x160, 0x0E0 }
-    db $0F, $1B, $E3 ; SPRITE E3   | xy: { 0x1B0, 0x0F0 }
-    db $17, $0B, $41 ; SPRITE 41   | xy: { 0x0B0, 0x170 }
+    db $09, $11, $BA ; Sprite 0xBA (0x0110, 0x0090)
+    db $0E, $16, $41 ; Sprite 0x41 (0x0160, 0x00E0)
+    db $0F, $1B, $E3 ; Sprite 0xE3 (0x01B0, 0x00F0)
+    db $17, $0B, $41 ; Sprite 0x41 (0x00B0, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D05E-$04D067 DATA
-Overworld_Sprites_Screen16_1:
+OverworldSprites_16_1:
 {
-    db $0A, $0D, $0D ; SPRITE 0D   | xy: { 0x0D0, 0x0A0 }
-    db $15, $0F, $36 ; SPRITE 36   | xy: { 0x0F0, 0x150 }
-    db $18, $06, $0D ; SPRITE 0D   | xy: { 0x060, 0x180 }
+    db $0A, $0D, $0D ; Sprite 0x0D (0x00D0, 0x00A0)
+    db $15, $0F, $36 ; Sprite 0x36 (0x00F0, 0x0150)
+    db $18, $06, $0D ; Sprite 0x0D (0x0060, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D068-$04D077 DATA
-Overworld_Sprites_Screen17_1:
+OverworldSprites_17_1:
 {
-    db $08, $18, $0D ; SPRITE 0D   | xy: { 0x180, 0x080 }
-    db $0A, $17, $0D ; SPRITE 0D   | xy: { 0x170, 0x0A0 }
-    db $0B, $0D, $0D ; SPRITE 0D   | xy: { 0x0D0, 0x0B0 }
-    db $0C, $16, $0D ; SPRITE 0D   | xy: { 0x160, 0x0C0 }
-    db $16, $08, $0D ; SPRITE 0D   | xy: { 0x080, 0x160 }
+    db $08, $18, $0D ; Sprite 0x0D (0x0180, 0x0080)
+    db $0A, $17, $0D ; Sprite 0x0D (0x0170, 0x00A0)
+    db $0B, $0D, $0D ; Sprite 0x0D (0x00D0, 0x00B0)
+    db $0C, $16, $0D ; Sprite 0x0D (0x0160, 0x00C0)
+    db $16, $08, $0D ; Sprite 0x0D (0x0080, 0x0160)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D078-$04D09F DATA
-Overworld_Sprites_Screen18_1:
+OverworldSprites_18_1:
 {
-    db $0A, $18, $E3 ; SPRITE E3   | xy: { 0x180, 0x0A0 }
-    db $17, $0C, $F3 ; OVERLORD 01 | xy: { 0x0C0, 0x170 }
-    db $16, $18, $75 ; SPRITE 75   | xy: { 0x180, 0x160 }
-    db $1C, $0E, $3D ; SPRITE 3D   | xy: { 0x0E0, 0x1C0 }
-    db $18, $20, $1D ; SPRITE 1D   | xy: { 0x200, 0x180 }
-    db $1B, $34, $F3 ; OVERLORD 01 | xy: { 0x340, 0x1B0 }
-    db $2E, $1D, $74 ; SPRITE 74   | xy: { 0x1D0, 0x2E0 }
-    db $2C, $19, $2A ; SPRITE 2A   | xy: { 0x190, 0x2C0 }
-    db $31, $18, $3C ; SPRITE 3C   | xy: { 0x180, 0x310 }
-    db $35, $16, $0B ; SPRITE 0B   | xy: { 0x160, 0x350 }
-    db $36, $18, $0B ; SPRITE 0B   | xy: { 0x180, 0x360 }
-    db $20, $33, $34 ; SPRITE 34   | xy: { 0x330, 0x200 }
-    db $33, $36, $DA ; SPRITE DA   | xy: { 0x360, 0x330 }
+    db $0A, $18, $E3 ; Sprite 0xE3 (0x0180, 0x00A0)
+    db $17, $0C, $F3 ; Overlord 01 | xy: { 0x0C0, 0x170 }
+    db $16, $18, $75 ; Sprite 0x75 (0x0180, 0x0160)
+    db $1C, $0E, $3D ; Sprite 0x3D (0x00E0, 0x01C0)
+    db $18, $20, $1D ; Sprite 0x1D (0x0200, 0x0180)
+    db $1B, $34, $F3 ; Overlord 01 | xy: { 0x340, 0x1B0 }
+    db $2E, $1D, $74 ; Sprite 0x74 (0x01D0, 0x02E0)
+    db $2C, $19, $2A ; Sprite 0x2A (0x0190, 0x02C0)
+    db $31, $18, $3C ; Sprite 0x3C (0x0180, 0x0310)
+    db $35, $16, $0B ; Sprite 0x0B (0x0160, 0x0350)
+    db $36, $18, $0B ; Sprite 0x0B (0x0180, 0x0360)
+    db $20, $33, $34 ; Sprite 0x34 (0x0330, 0x0200)
+    db $33, $36, $DA ; Sprite 0xDA (0x0360, 0x0330)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D0A0-$04D0B2 DATA
-Overworld_Sprites_Screen1A_1:
+OverworldSprites_1A_1:
 {
-    db $0C, $14, $41 ; SPRITE 41   | xy: { 0x140, 0x0C0 }
-    db $0E, $0C, $42 ; SPRITE 42   | xy: { 0x0C0, 0x0E0 }
-    db $11, $0D, $E3 ; SPRITE E3   | xy: { 0x0D0, 0x110 }
-    db $17, $17, $DA ; SPRITE DA   | xy: { 0x170, 0x170 }
-    db $18, $0A, $D8 ; SPRITE D8   | xy: { 0x0A0, 0x180 }
-    db $18, $0F, $43 ; SPRITE 43   | xy: { 0x0F0, 0x180 }
+    db $0C, $14, $41 ; Sprite 0x41 (0x0140, 0x00C0)
+    db $0E, $0C, $42 ; Sprite 0x42 (0x00C0, 0x00E0)
+    db $11, $0D, $E3 ; Sprite 0xE3 (0x00D0, 0x0110)
+    db $17, $17, $DA ; Sprite 0xDA (0x0170, 0x0170)
+    db $18, $0A, $D8 ; Sprite 0xD8 (0x00A0, 0x0180)
+    db $18, $0F, $43 ; Sprite 0x43 (0x00F0, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D0B3-$04D0DA DATA
-Overworld_Sprites_Screen1B_1:
+OverworldSprites_1B_1:
 {
-    db $06, $1F, $40 ; SPRITE 40   | xy: { 0x1F0, 0x060 }
-    db $11, $09, $49 ; SPRITE 49   | xy: { 0x090, 0x110 }
-    db $13, $0A, $49 ; SPRITE 49   | xy: { 0x0A0, 0x130 }
-    db $14, $16, $AC ; SPRITE AC   | xy: { 0x160, 0x140 }
-    db $19, $0E, $4A ; SPRITE 4A   | xy: { 0x0E0, 0x190 }
-    db $1A, $1F, $41 ; SPRITE 41   | xy: { 0x1F0, 0x1A0 }
-    db $17, $29, $33 ; SPRITE 33   | xy: { 0x290, 0x170 }
-    db $19, $31, $4A ; SPRITE 4A   | xy: { 0x310, 0x190 }
-    db $1A, $20, $41 ; SPRITE 41   | xy: { 0x200, 0x1A0 }
-    db $25, $0E, $4A ; SPRITE 4A   | xy: { 0x0E0, 0x250 }
-    db $2D, $14, $42 ; SPRITE 42   | xy: { 0x140, 0x2D0 }
-    db $2D, $26, $48 ; SPRITE 48   | xy: { 0x260, 0x2D0 }
-    db $32, $21, $48 ; SPRITE 48   | xy: { 0x210, 0x320 }
+    db $06, $1F, $40 ; Sprite 0x40 (0x01F0, 0x0060)
+    db $11, $09, $49 ; Sprite 0x49 (0x0090, 0x0110)
+    db $13, $0A, $49 ; Sprite 0x49 (0x00A0, 0x0130)
+    db $14, $16, $AC ; Sprite 0xAC (0x0160, 0x0140)
+    db $19, $0E, $4A ; Sprite 0x4A (0x00E0, 0x0190)
+    db $1A, $1F, $41 ; Sprite 0x41 (0x01F0, 0x01A0)
+    db $17, $29, $33 ; Sprite 0x33 (0x0290, 0x0170)
+    db $19, $31, $4A ; Sprite 0x4A (0x0310, 0x0190)
+    db $1A, $20, $41 ; Sprite 0x41 (0x0200, 0x01A0)
+    db $25, $0E, $4A ; Sprite 0x4A (0x00E0, 0x0250)
+    db $2D, $14, $42 ; Sprite 0x42 (0x0140, 0x02D0)
+    db $2D, $26, $48 ; Sprite 0x48 (0x0260, 0x02D0)
+    db $32, $21, $48 ; Sprite 0x48 (0x0210, 0x0320)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D0DB-$04D0EA DATA
-Overworld_Sprites_Screen1D_1:
+OverworldSprites_1D_1:
 {
-    db $06, $0B, $AC ; SPRITE AC   | xy: { 0x0B0, 0x060 }
-    db $0C, $1B, $46 ; SPRITE 46   | xy: { 0x1B0, 0x0C0 }
-    db $0D, $07, $41 ; SPRITE 41   | xy: { 0x070, 0x0D0 }
-    db $0F, $1B, $46 ; SPRITE 46   | xy: { 0x1B0, 0x0F0 }
-    db $12, $07, $58 ; SPRITE 58   | xy: { 0x070, 0x120 }
+    db $06, $0B, $AC ; Sprite 0xAC (0x00B0, 0x0060)
+    db $0C, $1B, $46 ; Sprite 0x46 (0x01B0, 0x00C0)
+    db $0D, $07, $41 ; Sprite 0x41 (0x0070, 0x00D0)
+    db $0F, $1B, $46 ; Sprite 0x46 (0x01B0, 0x00F0)
+    db $12, $07, $58 ; Sprite 0x58 (0x0070, 0x0120)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D0EB-$04D124 DATA
-Overworld_Sprites_Screen1E_1:
+OverworldSprites_1E_1:
 {
-    db $08, $13, $51 ; SPRITE 51   | xy: { 0x130, 0x080 }
-    db $0E, $0E, $51 ; SPRITE 51   | xy: { 0x0E0, 0x0E0 }
-    db $1A, $11, $08 ; SPRITE 08   | xy: { 0x110, 0x1A0 }
-    db $1A, $19, $51 ; SPRITE 51   | xy: { 0x190, 0x1A0 }
-    db $09, $33, $51 ; SPRITE 51   | xy: { 0x330, 0x090 }
-    db $09, $37, $51 ; SPRITE 51   | xy: { 0x370, 0x090 }
-    db $10, $31, $41 ; SPRITE 41   | xy: { 0x310, 0x100 }
-    db $17, $2F, $51 ; SPRITE 51   | xy: { 0x2F0, 0x170 }
-    db $1D, $35, $0A ; SPRITE 0A   | xy: { 0x350, 0x1D0 }
-    db $25, $0F, $0A ; SPRITE 0A   | xy: { 0x0F0, 0x250 }
-    db $28, $09, $08 ; SPRITE 08   | xy: { 0x090, 0x280 }
-    db $2C, $15, $08 ; SPRITE 08   | xy: { 0x150, 0x2C0 }
-    db $33, $14, $51 ; SPRITE 51   | xy: { 0x140, 0x330 }
-    db $33, $17, $51 ; SPRITE 51   | xy: { 0x170, 0x330 }
-    db $36, $09, $08 ; SPRITE 08   | xy: { 0x090, 0x360 }
-    db $25, $24, $51 ; SPRITE 51   | xy: { 0x240, 0x250 }
-    db $29, $28, $51 ; SPRITE 51   | xy: { 0x280, 0x290 }
-    db $29, $3D, $51 ; SPRITE 51   | xy: { 0x3D0, 0x290 }
-    db $3B, $2E, $08 ; SPRITE 08   | xy: { 0x2E0, 0x3B0 }
+    db $08, $13, $51 ; Sprite 0x51 (0x0130, 0x0080)
+    db $0E, $0E, $51 ; Sprite 0x51 (0x00E0, 0x00E0)
+    db $1A, $11, $08 ; Sprite 0x08 (0x0110, 0x01A0)
+    db $1A, $19, $51 ; Sprite 0x51 (0x0190, 0x01A0)
+    db $09, $33, $51 ; Sprite 0x51 (0x0330, 0x0090)
+    db $09, $37, $51 ; Sprite 0x51 (0x0370, 0x0090)
+    db $10, $31, $41 ; Sprite 0x41 (0x0310, 0x0100)
+    db $17, $2F, $51 ; Sprite 0x51 (0x02F0, 0x0170)
+    db $1D, $35, $0A ; Sprite 0x0A (0x0350, 0x01D0)
+    db $25, $0F, $0A ; Sprite 0x0A (0x00F0, 0x0250)
+    db $28, $09, $08 ; Sprite 0x08 (0x0090, 0x0280)
+    db $2C, $15, $08 ; Sprite 0x08 (0x0150, 0x02C0)
+    db $33, $14, $51 ; Sprite 0x51 (0x0140, 0x0330)
+    db $33, $17, $51 ; Sprite 0x51 (0x0170, 0x0330)
+    db $36, $09, $08 ; Sprite 0x08 (0x0090, 0x0360)
+    db $25, $24, $51 ; Sprite 0x51 (0x0240, 0x0250)
+    db $29, $28, $51 ; Sprite 0x51 (0x0280, 0x0290)
+    db $29, $3D, $51 ; Sprite 0x51 (0x03D0, 0x0290)
+    db $3B, $2E, $08 ; Sprite 0x08 (0x02E0, 0x03B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D125-$04D12E DATA
-Overworld_Sprites_Screen22_1:
+OverworldSprites_22_1:
 {
-    db $04, $0C, $D1 ; SPRITE D1   | xy: { 0x0C0, 0x040 }
-    db $12, $17, $42 ; SPRITE 42   | xy: { 0x170, 0x120 }
-    db $14, $12, $0B ; SPRITE 0B   | xy: { 0x120, 0x140 }
+    db $04, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x0040)
+    db $12, $17, $42 ; Sprite 0x42 (0x0170, 0x0120)
+    db $14, $12, $0B ; Sprite 0x0B (0x0120, 0x0140)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D12F-$04D147 DATA
-Overworld_Sprites_Screen25_1:
+OverworldSprites_25_1:
 {
-    db $08, $0F, $08 ; SPRITE 08   | xy: { 0x0F0, 0x080 }
-    db $0C, $05, $08 ; SPRITE 08   | xy: { 0x050, 0x0C0 }
-    db $0C, $14, $08 ; SPRITE 08   | xy: { 0x140, 0x0C0 }
-    db $0D, $10, $08 ; SPRITE 08   | xy: { 0x100, 0x0D0 }
-    db $11, $0C, $08 ; SPRITE 08   | xy: { 0x0C0, 0x110 }
-    db $16, $18, $08 ; SPRITE 08   | xy: { 0x180, 0x160 }
-    db $17, $08, $08 ; SPRITE 08   | xy: { 0x080, 0x170 }
-    db $17, $10, $08 ; SPRITE 08   | xy: { 0x100, 0x170 }
+    db $08, $0F, $08 ; Sprite 0x08 (0x00F0, 0x0080)
+    db $0C, $05, $08 ; Sprite 0x08 (0x0050, 0x00C0)
+    db $0C, $14, $08 ; Sprite 0x08 (0x0140, 0x00C0)
+    db $0D, $10, $08 ; Sprite 0x08 (0x0100, 0x00D0)
+    db $11, $0C, $08 ; Sprite 0x08 (0x00C0, 0x0110)
+    db $16, $18, $08 ; Sprite 0x08 (0x0180, 0x0160)
+    db $17, $08, $08 ; Sprite 0x08 (0x0080, 0x0170)
+    db $17, $10, $08 ; Sprite 0x08 (0x0100, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D148-$04D151 DATA
-Overworld_Sprites_Screen28_1:
+OverworldSprites_28_1:
 {
-    db $13, $07, $EB ; SPRITE EB   | xy: { 0x070, 0x130 }
-    db $12, $08, $30 ; SPRITE 30   | xy: { 0x080, 0x120 }
-    db $18, $19, $2F ; SPRITE 2F   | xy: { 0x190, 0x180 }
+    db $13, $07, $EB ; Sprite 0xEB (0x0070, 0x0130)
+    db $12, $08, $30 ; Sprite 0x30 (0x0080, 0x0120)
+    db $18, $19, $2F ; Sprite 0x2F (0x0190, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D152-$04D167 DATA
-Overworld_Sprites_Screen2A_1:
+OverworldSprites_2A_1:
 {
-    db $09, $09, $1D ; SPRITE 1D   | xy: { 0x090, 0x090 }
-    db $0C, $0E, $9E ; SPRITE 9E   | xy: { 0x0E0, 0x0C0 }
-    db $0E, $0D, $A0 ; SPRITE A0   | xy: { 0x0D0, 0x0E0 }
-    db $0E, $0E, $2E ; SPRITE 2E   | xy: { 0x0E0, 0x0E0 }
-    db $0E, $11, $A0 ; SPRITE A0   | xy: { 0x110, 0x0E0 }
-    db $0F, $0C, $9F ; SPRITE 9F   | xy: { 0x0C0, 0x0F0 }
-    db $10, $11, $9F ; SPRITE 9F   | xy: { 0x110, 0x100 }
+    db $09, $09, $1D ; Sprite 0x1D (0x0090, 0x0090)
+    db $0C, $0E, $9E ; Sprite 0x9E (0x00E0, 0x00C0)
+    db $0E, $0D, $A0 ; Sprite 0xA0 (0x00D0, 0x00E0)
+    db $0E, $0E, $2E ; Sprite 0x2E (0x00E0, 0x00E0)
+    db $0E, $11, $A0 ; Sprite 0xA0 (0x0110, 0x00E0)
+    db $0F, $0C, $9F ; Sprite 0x9F (0x00C0, 0x00F0)
+    db $10, $11, $9F ; Sprite 0x9F (0x0110, 0x0100)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D168-$04D174 DATA
-Overworld_Sprites_Screen2B_1:
+OverworldSprites_2B_1:
 {
-    db $0D, $16, $E3 ; SPRITE E3   | xy: { 0x160, 0x0D0 }
-    db $11, $14, $42 ; SPRITE 42   | xy: { 0x140, 0x110 }
-    db $15, $14, $42 ; SPRITE 42   | xy: { 0x140, 0x150 }
-    db $17, $10, $42 ; SPRITE 42   | xy: { 0x100, 0x170 }
+    db $0D, $16, $E3 ; Sprite 0xE3 (0x0160, 0x00D0)
+    db $11, $14, $42 ; Sprite 0x42 (0x0140, 0x0110)
+    db $15, $14, $42 ; Sprite 0x42 (0x0140, 0x0150)
+    db $17, $10, $42 ; Sprite 0x42 (0x0100, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D175-$04D17B DATA
-Overworld_Sprites_Screen2C_1:
+OverworldSprites_2C_1:
 {
-    db $14, $18, $42 ; SPRITE 42   | xy: { 0x180, 0x140 }
-    db $19, $09, $41 ; SPRITE 41   | xy: { 0x090, 0x190 }
+    db $14, $18, $42 ; Sprite 0x42 (0x0180, 0x0140)
+    db $19, $09, $41 ; Sprite 0x41 (0x0090, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D17C-$04D185 DATA
-Overworld_Sprites_Screen2D_1:
+OverworldSprites_2D_1:
 {
-    db $0B, $13, $42 ; SPRITE 42   | xy: { 0x130, 0x0B0 }
-    db $10, $10, $46 ; SPRITE 46   | xy: { 0x100, 0x100 }
-    db $16, $12, $41 ; SPRITE 41   | xy: { 0x120, 0x160 }
+    db $0B, $13, $42 ; Sprite 0x42 (0x0130, 0x00B0)
+    db $10, $10, $46 ; Sprite 0x46 (0x0100, 0x0100)
+    db $16, $12, $41 ; Sprite 0x41 (0x0120, 0x0160)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D186-$04D192 DATA
-Overworld_Sprites_Screen2E_1:
+OverworldSprites_2E_1:
 {
-    db $0C, $0E, $41 ; SPRITE 41   | xy: { 0x0E0, 0x0C0 }
-    db $0E, $17, $41 ; SPRITE 41   | xy: { 0x170, 0x0E0 }
-    db $12, $05, $55 ; SPRITE 55   | xy: { 0x050, 0x120 }
-    db $17, $19, $08 ; SPRITE 08   | xy: { 0x190, 0x170 }
+    db $0C, $0E, $41 ; Sprite 0x41 (0x00E0, 0x00C0)
+    db $0E, $17, $41 ; Sprite 0x41 (0x0170, 0x00E0)
+    db $12, $05, $55 ; Sprite 0x55 (0x0050, 0x0120)
+    db $17, $19, $08 ; Sprite 0x08 (0x0190, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D193-$04D19C DATA
-Overworld_Sprites_Screen2F_1:
+OverworldSprites_2F_1:
 {
-    db $0C, $0F, $41 ; SPRITE 41   | xy: { 0x0F0, 0x0C0 }
-    db $17, $07, $51 ; SPRITE 51   | xy: { 0x070, 0x170 }
-    db $17, $0C, $51 ; SPRITE 51   | xy: { 0x0C0, 0x170 }
+    db $0C, $0F, $41 ; Sprite 0x41 (0x00F0, 0x00C0)
+    db $17, $07, $51 ; Sprite 0x51 (0x0070, 0x0170)
+    db $17, $0C, $51 ; Sprite 0x51 (0x00C0, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D19D-$04D1E2 DATA
-Overworld_Sprites_Screen30_1:
+OverworldSprites_30_1:
 {
-    db $14, $12, $57 ; SPRITE 57   | xy: { 0x120, 0x140 }
-    db $19, $12, $B3 ; SPRITE B3   | xy: { 0x120, 0x190 }
-    db $1C, $0E, $57 ; SPRITE 57   | xy: { 0x0E0, 0x1C0 }
-    db $1C, $16, $57 ; SPRITE 57   | xy: { 0x160, 0x1C0 }
-    db $19, $27, $4C ; SPRITE 4C   | xy: { 0x270, 0x190 }
-    db $1C, $22, $01 ; SPRITE 01   | xy: { 0x220, 0x1C0 }
-    db $1F, $2A, $4C ; SPRITE 4C   | xy: { 0x2A0, 0x1F0 }
-    db $26, $1D, $4C ; SPRITE 4C   | xy: { 0x1D0, 0x260 }
-    db $29, $07, $01 ; SPRITE 01   | xy: { 0x070, 0x290 }
-    db $29, $0F, $4C ; SPRITE 4C   | xy: { 0x0F0, 0x290 }
-    db $2A, $06, $EB ; SPRITE EB   | xy: { 0x060, 0x2A0 }
-    db $2C, $1B, $4C ; SPRITE 4C   | xy: { 0x1B0, 0x2C0 }
-    db $30, $0A, $4C ; SPRITE 4C   | xy: { 0x0A0, 0x300 }
-    db $35, $14, $4C ; SPRITE 4C   | xy: { 0x140, 0x350 }
-    db $2B, $37, $F2 ; SPRITE F2   | xy: { 0x370, 0x2B0 }
-    db $21, $36, $D4 ; SPRITE D4   | xy: { 0x360, 0x210 }
-    db $24, $22, $4C ; SPRITE 4C   | xy: { 0x220, 0x240 }
-    db $25, $29, $D4 ; SPRITE D4   | xy: { 0x290, 0x250 }
-    db $2C, $20, $4C ; SPRITE 4C   | xy: { 0x200, 0x2C0 }
-    db $32, $23, $4C ; SPRITE 4C   | xy: { 0x230, 0x320 }
-    db $32, $30, $D4 ; SPRITE D4   | xy: { 0x300, 0x320 }
-    db $33, $34, $01 ; SPRITE 01   | xy: { 0x340, 0x330 }
-    db $3B, $2D, $D4 ; SPRITE D4   | xy: { 0x2D0, 0x3B0 }
+    db $14, $12, $57 ; Sprite 0x57 (0x0120, 0x0140)
+    db $19, $12, $B3 ; Sprite 0xB3 (0x0120, 0x0190)
+    db $1C, $0E, $57 ; Sprite 0x57 (0x00E0, 0x01C0)
+    db $1C, $16, $57 ; Sprite 0x57 (0x0160, 0x01C0)
+    db $19, $27, $4C ; Sprite 0x4C (0x0270, 0x0190)
+    db $1C, $22, $01 ; Sprite 0x01 (0x0220, 0x01C0)
+    db $1F, $2A, $4C ; Sprite 0x4C (0x02A0, 0x01F0)
+    db $26, $1D, $4C ; Sprite 0x4C (0x01D0, 0x0260)
+    db $29, $07, $01 ; Sprite 0x01 (0x0070, 0x0290)
+    db $29, $0F, $4C ; Sprite 0x4C (0x00F0, 0x0290)
+    db $2A, $06, $EB ; Sprite 0xEB (0x0060, 0x02A0)
+    db $2C, $1B, $4C ; Sprite 0x4C (0x01B0, 0x02C0)
+    db $30, $0A, $4C ; Sprite 0x4C (0x00A0, 0x0300)
+    db $35, $14, $4C ; Sprite 0x4C (0x0140, 0x0350)
+    db $2B, $37, $F2 ; Sprite 0xF2 (0x0370, 0x02B0)
+    db $21, $36, $D4 ; Sprite 0xD4 (0x0360, 0x0210)
+    db $24, $22, $4C ; Sprite 0x4C (0x0220, 0x0240)
+    db $25, $29, $D4 ; Sprite 0xD4 (0x0290, 0x0250)
+    db $2C, $20, $4C ; Sprite 0x4C (0x0200, 0x02C0)
+    db $32, $23, $4C ; Sprite 0x4C (0x0230, 0x0320)
+    db $32, $30, $D4 ; Sprite 0xD4 (0x0300, 0x0320)
+    db $33, $34, $01 ; Sprite 0x01 (0x0340, 0x0330)
+    db $3B, $2D, $D4 ; Sprite 0xD4 (0x02D0, 0x03B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D1E3-$04D1EF DATA
-Overworld_Sprites_Screen32_1:
+OverworldSprites_32_1:
 {
-    db $09, $1A, $D8 ; SPRITE D8   | xy: { 0x1A0, 0x090 }
-    db $0B, $0B, $41 ; SPRITE 41   | xy: { 0x0B0, 0x0B0 }
-    db $0B, $12, $41 ; SPRITE 41   | xy: { 0x120, 0x0B0 }
-    db $12, $19, $E3 ; SPRITE E3   | xy: { 0x190, 0x120 }
+    db $09, $1A, $D8 ; Sprite 0xD8 (0x01A0, 0x0090)
+    db $0B, $0B, $41 ; Sprite 0x41 (0x00B0, 0x00B0)
+    db $0B, $12, $41 ; Sprite 0x41 (0x0120, 0x00B0)
+    db $12, $19, $E3 ; Sprite 0xE3 (0x0190, 0x0120)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D1F0-$04D1FC DATA
-Overworld_Sprites_Screen33_1:
+OverworldSprites_33_1:
 {
-    db $0B, $15, $47 ; SPRITE 47   | xy: { 0x150, 0x0B0 }
-    db $0E, $09, $46 ; SPRITE 46   | xy: { 0x090, 0x0E0 }
-    db $12, $17, $BA ; SPRITE BA   | xy: { 0x170, 0x120 }
-    db $1B, $1A, $08 ; SPRITE 08   | xy: { 0x1A0, 0x1B0 }
+    db $0B, $15, $47 ; Sprite 0x47 (0x0150, 0x00B0)
+    db $0E, $09, $46 ; Sprite 0x46 (0x0090, 0x00E0)
+    db $12, $17, $BA ; Sprite 0xBA (0x0170, 0x0120)
+    db $1B, $1A, $08 ; Sprite 0x08 (0x01A0, 0x01B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D1FD-$04D212 DATA
-Overworld_Sprites_Screen34_1:
+OverworldSprites_34_1:
 {
-    db $0D, $0B, $46 ; SPRITE 46   | xy: { 0x0B0, 0x0D0 }
-    db $11, $15, $4D ; SPRITE 4D   | xy: { 0x150, 0x110 }
-    db $12, $11, $47 ; SPRITE 47   | xy: { 0x110, 0x120 }
-    db $13, $08, $00 ; SPRITE 00   | xy: { 0x080, 0x130 }
-    db $13, $0E, $E3 ; SPRITE E3   | xy: { 0x0E0, 0x130 }
-    db $17, $15, $47 ; SPRITE 47   | xy: { 0x150, 0x170 }
-    db $18, $0C, $46 ; SPRITE 46   | xy: { 0x0C0, 0x180 }
+    db $0D, $0B, $46 ; Sprite 0x46 (0x00B0, 0x00D0)
+    db $11, $15, $4D ; Sprite 0x4D (0x0150, 0x0110)
+    db $12, $11, $47 ; Sprite 0x47 (0x0110, 0x0120)
+    db $13, $08, $00 ; Sprite 0x00 (0x0080, 0x0130)
+    db $13, $0E, $E3 ; Sprite 0xE3 (0x00E0, 0x0130)
+    db $17, $15, $47 ; Sprite 0x47 (0x0150, 0x0170)
+    db $18, $0C, $46 ; Sprite 0x46 (0x00C0, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D213-$04D258 DATA
-Overworld_Sprites_Screen35_1:
+OverworldSprites_35_1:
 {
-    db $07, $0E, $00 ; SPRITE 00   | xy: { 0x0E0, 0x070 }
-    db $09, $0D, $08 ; SPRITE 08   | xy: { 0x0D0, 0x090 }
-    db $0C, $0A, $46 ; SPRITE 46   | xy: { 0x0A0, 0x0C0 }
-    db $13, $19, $EB ; SPRITE EB   | xy: { 0x190, 0x130 }
-    db $14, $19, $0D ; SPRITE 0D   | xy: { 0x190, 0x140 }
-    db $17, $07, $58 ; SPRITE 58   | xy: { 0x070, 0x170 }
-    db $17, $11, $55 ; SPRITE 55   | xy: { 0x110, 0x170 }
-    db $0D, $25, $55 ; SPRITE 55   | xy: { 0x250, 0x0D0 }
-    db $1F, $27, $0D ; SPRITE 0D   | xy: { 0x270, 0x1F0 }
-    db $1F, $2F, $0D ; SPRITE 0D   | xy: { 0x2F0, 0x1F0 }
-    db $35, $0A, $08 ; SPRITE 08   | xy: { 0x0A0, 0x350 }
-    db $35, $14, $55 ; SPRITE 55   | xy: { 0x140, 0x350 }
-    db $35, $0F, $00 ; SPRITE 00   | xy: { 0x0F0, 0x350 }
-    db $39, $0B, $08 ; SPRITE 08   | xy: { 0x0B0, 0x390 }
-    db $3A, $19, $0D ; SPRITE 0D   | xy: { 0x190, 0x3A0 }
-    db $3B, $11, $58 ; SPRITE 58   | xy: { 0x110, 0x3B0 }
-    db $2B, $24, $55 ; SPRITE 55   | xy: { 0x240, 0x2B0 }
-    db $2B, $29, $BA ; SPRITE BA   | xy: { 0x290, 0x2B0 }
-    db $31, $39, $55 ; SPRITE 55   | xy: { 0x390, 0x310 }
-    db $36, $21, $55 ; SPRITE 55   | xy: { 0x210, 0x360 }
-    db $37, $32, $0D ; SPRITE 0D   | xy: { 0x320, 0x370 }
-    db $39, $34, $0D ; SPRITE 0D   | xy: { 0x340, 0x390 }
-    db $3A, $2E, $58 ; SPRITE 58   | xy: { 0x2E0, 0x3A0 }
+    db $07, $0E, $00 ; Sprite 0x00 (0x00E0, 0x0070)
+    db $09, $0D, $08 ; Sprite 0x08 (0x00D0, 0x0090)
+    db $0C, $0A, $46 ; Sprite 0x46 (0x00A0, 0x00C0)
+    db $13, $19, $EB ; Sprite 0xEB (0x0190, 0x0130)
+    db $14, $19, $0D ; Sprite 0x0D (0x0190, 0x0140)
+    db $17, $07, $58 ; Sprite 0x58 (0x0070, 0x0170)
+    db $17, $11, $55 ; Sprite 0x55 (0x0110, 0x0170)
+    db $0D, $25, $55 ; Sprite 0x55 (0x0250, 0x00D0)
+    db $1F, $27, $0D ; Sprite 0x0D (0x0270, 0x01F0)
+    db $1F, $2F, $0D ; Sprite 0x0D (0x02F0, 0x01F0)
+    db $35, $0A, $08 ; Sprite 0x08 (0x00A0, 0x0350)
+    db $35, $14, $55 ; Sprite 0x55 (0x0140, 0x0350)
+    db $35, $0F, $00 ; Sprite 0x00 (0x00F0, 0x0350)
+    db $39, $0B, $08 ; Sprite 0x08 (0x00B0, 0x0390)
+    db $3A, $19, $0D ; Sprite 0x0D (0x0190, 0x03A0)
+    db $3B, $11, $58 ; Sprite 0x58 (0x0110, 0x03B0)
+    db $2B, $24, $55 ; Sprite 0x55 (0x0240, 0x02B0)
+    db $2B, $29, $BA ; Sprite 0xBA (0x0290, 0x02B0)
+    db $31, $39, $55 ; Sprite 0x55 (0x0390, 0x0310)
+    db $36, $21, $55 ; Sprite 0x55 (0x0210, 0x0360)
+    db $37, $32, $0D ; Sprite 0x0D (0x0320, 0x0370)
+    db $39, $34, $0D ; Sprite 0x0D (0x0340, 0x0390)
+    db $3A, $2E, $58 ; Sprite 0x58 (0x02E0, 0x03A0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D259-$04D26B DATA
-Overworld_Sprites_Screen37_1:
+OverworldSprites_37_1:
 {
-    db $08, $08, $58 ; SPRITE 58   | xy: { 0x080, 0x080 }
-    db $08, $10, $58 ; SPRITE 58   | xy: { 0x100, 0x080 }
-    db $0B, $0F, $58 ; SPRITE 58   | xy: { 0x0F0, 0x0B0 }
-    db $11, $16, $58 ; SPRITE 58   | xy: { 0x160, 0x110 }
-    db $15, $0C, $00 ; SPRITE 00   | xy: { 0x0C0, 0x150 }
-    db $19, $12, $55 ; SPRITE 55   | xy: { 0x120, 0x190 }
+    db $08, $08, $58 ; Sprite 0x58 (0x0080, 0x0080)
+    db $08, $10, $58 ; Sprite 0x58 (0x0100, 0x0080)
+    db $0B, $0F, $58 ; Sprite 0x58 (0x00F0, 0x00B0)
+    db $11, $16, $58 ; Sprite 0x58 (0x0160, 0x0110)
+    db $15, $0C, $00 ; Sprite 0x00 (0x00C0, 0x0150)
+    db $19, $12, $55 ; Sprite 0x55 (0x0120, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D26C-$04D278 DATA
-Overworld_Sprites_Screen3A_1:
+OverworldSprites_3A_1:
 {
-    db $05, $17, $39 ; SPRITE 39   | xy: { 0x170, 0x050 }
-    db $09, $0E, $00 ; SPRITE 00   | xy: { 0x0E0, 0x090 }
-    db $0A, $0B, $3E ; SPRITE 3E   | xy: { 0x0B0, 0x0A0 }
-    db $0E, $18, $3E ; SPRITE 3E   | xy: { 0x180, 0x0E0 }
+    db $05, $17, $39 ; Sprite 0x39 (0x0170, 0x0050)
+    db $09, $0E, $00 ; Sprite 0x00 (0x00E0, 0x0090)
+    db $0A, $0B, $3E ; Sprite 0x3E (0x00B0, 0x00A0)
+    db $0E, $18, $3E ; Sprite 0x3E (0x0180, 0x00E0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D279-$04D291 DATA
-Overworld_Sprites_Screen3B_1:
+OverworldSprites_3B_1:
 {
-    db $06, $13, $47 ; SPRITE 47   | xy: { 0x130, 0x060 }
-    db $0A, $0C, $46 ; SPRITE 46   | xy: { 0x0C0, 0x0A0 }
-    db $0D, $13, $D2 ; SPRITE D2   | xy: { 0x130, 0x0D0 }
-    db $0B, $08, $00 ; SPRITE 00   | xy: { 0x080, 0x0B0 }
-    db $0E, $14, $EB ; SPRITE EB   | xy: { 0x140, 0x0E0 }
-    db $10, $1B, $D2 ; SPRITE D2   | xy: { 0x1B0, 0x100 }
-    db $14, $0F, $4D ; SPRITE 4D   | xy: { 0x0F0, 0x140 }
-    db $1B, $14, $00 ; SPRITE 00   | xy: { 0x140, 0x1B0 }
+    db $06, $13, $47 ; Sprite 0x47 (0x0130, 0x0060)
+    db $0A, $0C, $46 ; Sprite 0x46 (0x00C0, 0x00A0)
+    db $0D, $13, $D2 ; Sprite 0xD2 (0x0130, 0x00D0)
+    db $0B, $08, $00 ; Sprite 0x00 (0x0080, 0x00B0)
+    db $0E, $14, $EB ; Sprite 0xEB (0x0140, 0x00E0)
+    db $10, $1B, $D2 ; Sprite 0xD2 (0x01B0, 0x0100)
+    db $14, $0F, $4D ; Sprite 0x4D (0x00F0, 0x0140)
+    db $1B, $14, $00 ; Sprite 0x00 (0x0140, 0x01B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D292-$04D2A7 DATA
-Overworld_Sprites_Screen3C_1:
+OverworldSprites_3C_1:
 {
-    db $0C, $08, $47 ; SPRITE 47   | xy: { 0x080, 0x0C0 }
-    db $0F, $14, $08 ; SPRITE 08   | xy: { 0x140, 0x0F0 }
-    db $0F, $0E, $00 ; SPRITE 00   | xy: { 0x0E0, 0x0F0 }
-    db $11, $09, $17 ; SPRITE 17   | xy: { 0x090, 0x110 }
-    db $15, $14, $0A ; SPRITE 0A   | xy: { 0x140, 0x150 }
-    db $17, $16, $58 ; SPRITE 58   | xy: { 0x160, 0x170 }
-    db $18, $0B, $08 ; SPRITE 08   | xy: { 0x0B0, 0x180 }
+    db $0C, $08, $47 ; Sprite 0x47 (0x0080, 0x00C0)
+    db $0F, $14, $08 ; Sprite 0x08 (0x0140, 0x00F0)
+    db $0F, $0E, $00 ; Sprite 0x00 (0x00E0, 0x00F0)
+    db $11, $09, $17 ; Sprite 0x17 (0x0090, 0x0110)
+    db $15, $14, $0A ; Sprite 0x0A (0x0140, 0x0150)
+    db $17, $16, $58 ; Sprite 0x58 (0x0160, 0x0170)
+    db $18, $0B, $08 ; Sprite 0x08 (0x00B0, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D2A8-$04D2B7 DATA
-Overworld_Sprites_Screen3F_1:
+OverworldSprites_3F_1:
 {
-    db $04, $11, $08 ; SPRITE 08   | xy: { 0x110, 0x040 }
-    db $05, $16, $08 ; SPRITE 08   | xy: { 0x160, 0x050 }
-    db $0B, $08, $55 ; SPRITE 55   | xy: { 0x080, 0x0B0 }
-    db $0C, $07, $BA ; SPRITE BA   | xy: { 0x070, 0x0C0 }
-    db $16, $10, $0F ; SPRITE 0F   | xy: { 0x100, 0x160 }
+    db $04, $11, $08 ; Sprite 0x08 (0x0110, 0x0040)
+    db $05, $16, $08 ; Sprite 0x08 (0x0160, 0x0050)
+    db $0B, $08, $55 ; Sprite 0x55 (0x0080, 0x00B0)
+    db $0C, $07, $BA ; Sprite 0xBA (0x0070, 0x00C0)
+    db $16, $10, $0F ; Sprite 0x0F (0x0100, 0x0160)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D2B8-$04D2E2 DATA
-Overworld_Sprites_Screen00_2:
+OverworldSprites_00_2:
 {
-    db $11, $0F, $41 ; SPRITE 41   | xy: { 0x0F0, 0x110 }
-    db $12, $07, $E8 ; SPRITE E8   | xy: { 0x070, 0x120 }
-    db $15, $1E, $E7 ; SPRITE E7   | xy: { 0x1E0, 0x150 }
-    db $1F, $0D, $C4 ; SPRITE C4   | xy: { 0x0D0, 0x1F0 }
-    db $06, $28, $E8 ; SPRITE E8   | xy: { 0x280, 0x060 }
-    db $08, $2B, $33 ; SPRITE 33   | xy: { 0x2B0, 0x080 }
-    db $08, $33, $41 ; SPRITE 41   | xy: { 0x330, 0x080 }
-    db $0A, $2B, $C4 ; SPRITE C4   | xy: { 0x2B0, 0x0A0 }
-    db $0A, $31, $0D ; SPRITE 0D   | xy: { 0x310, 0x0A0 }
-    db $10, $2A, $17 ; SPRITE 17   | xy: { 0x2A0, 0x100 }
-    db $2C, $0D, $17 ; SPRITE 17   | xy: { 0x0D0, 0x2C0 }
-    db $33, $09, $41 ; SPRITE 41   | xy: { 0x090, 0x330 }
-    db $25, $29, $79 ; SPRITE 79   | xy: { 0x290, 0x250 }
-    db $2F, $28, $17 ; SPRITE 17   | xy: { 0x280, 0x2F0 }
+    db $11, $0F, $41 ; Sprite 0x41 (0x00F0, 0x0110)
+    db $12, $07, $E8 ; Sprite 0xE8 (0x0070, 0x0120)
+    db $15, $1E, $E7 ; Sprite 0xE7 (0x01E0, 0x0150)
+    db $1F, $0D, $C4 ; Sprite 0xC4 (0x00D0, 0x01F0)
+    db $06, $28, $E8 ; Sprite 0xE8 (0x0280, 0x0060)
+    db $08, $2B, $33 ; Sprite 0x33 (0x02B0, 0x0080)
+    db $08, $33, $41 ; Sprite 0x41 (0x0330, 0x0080)
+    db $0A, $2B, $C4 ; Sprite 0xC4 (0x02B0, 0x00A0)
+    db $0A, $31, $0D ; Sprite 0x0D (0x0310, 0x00A0)
+    db $10, $2A, $17 ; Sprite 0x17 (0x02A0, 0x0100)
+    db $2C, $0D, $17 ; Sprite 0x17 (0x00D0, 0x02C0)
+    db $33, $09, $41 ; Sprite 0x41 (0x0090, 0x0330)
+    db $25, $29, $79 ; Sprite 0x79 (0x0290, 0x0250)
+    db $2F, $28, $17 ; Sprite 0x17 (0x0280, 0x02F0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D2E3-$04D2E6 DATA
-Overworld_Sprites_Screen02_2:
+OverworldSprites_02_2:
 {
-    db $12, $0D, $3B ; SPRITE 3B   | xy: { 0x0D0, 0x120 }
+    db $12, $0D, $3B ; Sprite 0x3B (0x00D0, 0x0120)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D2E7-$04D314 DATA
-Overworld_Sprites_Screen03_2:
+OverworldSprites_03_2:
 {
-    db $00, $00, $F4 ; OVERLORD 02 | xy: { 0x000, 0x000 }
-    db $04, $0B, $F2 ; SPRITE F2   | xy: { 0x0B0, 0x040 }
-    db $1A, $10, $C9 ; SPRITE C9   | xy: { 0x100, 0x1A0 }
-    db $1E, $1A, $C9 ; SPRITE C9   | xy: { 0x1A0, 0x1E0 }
-    db $0C, $27, $27 ; SPRITE 27   | xy: { 0x270, 0x0C0 }
-    db $15, $2C, $C9 ; SPRITE C9   | xy: { 0x2C0, 0x150 }
-    db $16, $22, $EB ; SPRITE EB   | xy: { 0x220, 0x160 }
-    db $19, $28, $C9 ; SPRITE C9   | xy: { 0x280, 0x190 }
-    db $35, $0A, $27 ; SPRITE 27   | xy: { 0x0A0, 0x350 }
-    db $36, $06, $27 ; SPRITE 27   | xy: { 0x060, 0x360 }
-    db $3B, $0D, $27 ; SPRITE 27   | xy: { 0x0D0, 0x3B0 }
-    db $3B, $12, $F3 ; OVERLORD 01 | xy: { 0x120, 0x3B0 }
-    db $2D, $2C, $27 ; SPRITE 27   | xy: { 0x2C0, 0x2D0 }
-    db $33, $34, $27 ; SPRITE 27   | xy: { 0x340, 0x330 }
-    db $34, $2F, $27 ; SPRITE 27   | xy: { 0x2F0, 0x340 }
+    db $00, $00, $F4 ; Overlord 02 | xy: { 0x000, 0x000 }
+    db $04, $0B, $F2 ; Sprite 0xF2 (0x00B0, 0x0040)
+    db $1A, $10, $C9 ; Sprite 0xC9 (0x0100, 0x01A0)
+    db $1E, $1A, $C9 ; Sprite 0xC9 (0x01A0, 0x01E0)
+    db $0C, $27, $27 ; Sprite 0x27 (0x0270, 0x00C0)
+    db $15, $2C, $C9 ; Sprite 0xC9 (0x02C0, 0x0150)
+    db $16, $22, $EB ; Sprite 0xEB (0x0220, 0x0160)
+    db $19, $28, $C9 ; Sprite 0xC9 (0x0280, 0x0190)
+    db $35, $0A, $27 ; Sprite 0x27 (0x00A0, 0x0350)
+    db $36, $06, $27 ; Sprite 0x27 (0x0060, 0x0360)
+    db $3B, $0D, $27 ; Sprite 0x27 (0x00D0, 0x03B0)
+    db $3B, $12, $F3 ; Overlord 01 | xy: { 0x120, 0x3B0 }
+    db $2D, $2C, $27 ; Sprite 0x27 (0x02C0, 0x02D0)
+    db $33, $34, $27 ; Sprite 0x27 (0x0340, 0x0330)
+    db $34, $2F, $27 ; Sprite 0x27 (0x02F0, 0x0340)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D315-$04D342 DATA
-Overworld_Sprites_Screen05_2:
+OverworldSprites_05_2:
 {
-    db $0B, $07, $27 ; SPRITE 27   | xy: { 0x070, 0x0B0 }
-    db $0D, $08, $C9 ; SPRITE C9   | xy: { 0x080, 0x0D0 }
-    db $0E, $1E, $27 ; SPRITE 27   | xy: { 0x1E0, 0x0E0 }
-    db $0F, $1F, $C9 ; SPRITE C9   | xy: { 0x1F0, 0x0F0 }
-    db $03, $2F, $EB ; SPRITE EB   | xy: { 0x2F0, 0x030 }
-    db $0D, $35, $27 ; SPRITE 27   | xy: { 0x350, 0x0D0 }
-    db $0F, $29, $C9 ; SPRITE C9   | xy: { 0x290, 0x0F0 }
-    db $0F, $35, $27 ; SPRITE 27   | xy: { 0x350, 0x0F0 }
-    db $10, $34, $E3 ; SPRITE E3   | xy: { 0x340, 0x100 }
-    db $31, $1E, $C9 ; SPRITE C9   | xy: { 0x1E0, 0x310 }
-    db $2A, $35, $C9 ; SPRITE C9   | xy: { 0x350, 0x2A0 }
-    db $2F, $2A, $27 ; SPRITE 27   | xy: { 0x2A0, 0x2F0 }
-    db $2F, $2F, $C9 ; SPRITE C9   | xy: { 0x2F0, 0x2F0 }
-    db $36, $29, $27 ; SPRITE 27   | xy: { 0x290, 0x360 }
-    db $36, $36, $27 ; SPRITE 27   | xy: { 0x360, 0x360 }
+    db $0B, $07, $27 ; Sprite 0x27 (0x0070, 0x00B0)
+    db $0D, $08, $C9 ; Sprite 0xC9 (0x0080, 0x00D0)
+    db $0E, $1E, $27 ; Sprite 0x27 (0x01E0, 0x00E0)
+    db $0F, $1F, $C9 ; Sprite 0xC9 (0x01F0, 0x00F0)
+    db $03, $2F, $EB ; Sprite 0xEB (0x02F0, 0x0030)
+    db $0D, $35, $27 ; Sprite 0x27 (0x0350, 0x00D0)
+    db $0F, $29, $C9 ; Sprite 0xC9 (0x0290, 0x00F0)
+    db $0F, $35, $27 ; Sprite 0x27 (0x0350, 0x00F0)
+    db $10, $34, $E3 ; Sprite 0xE3 (0x0340, 0x0100)
+    db $31, $1E, $C9 ; Sprite 0xC9 (0x01E0, 0x0310)
+    db $2A, $35, $C9 ; Sprite 0xC9 (0x0350, 0x02A0)
+    db $2F, $2A, $27 ; Sprite 0x27 (0x02A0, 0x02F0)
+    db $2F, $2F, $C9 ; Sprite 0xC9 (0x02F0, 0x02F0)
+    db $36, $29, $27 ; Sprite 0x27 (0x0290, 0x0360)
+    db $36, $36, $27 ; Sprite 0x27 (0x0360, 0x0360)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D343-$04D352 DATA
-Overworld_Sprites_Screen07_2:
+OverworldSprites_07_2:
 {
-    db $07, $0E, $27 ; SPRITE 27   | xy: { 0x0E0, 0x070 }
-    db $0D, $0A, $27 ; SPRITE 27   | xy: { 0x0A0, 0x0D0 }
-    db $15, $17, $27 ; SPRITE 27   | xy: { 0x170, 0x150 }
-    db $16, $0F, $27 ; SPRITE 27   | xy: { 0x0F0, 0x160 }
-    db $16, $12, $27 ; SPRITE 27   | xy: { 0x120, 0x160 }
+    db $07, $0E, $27 ; Sprite 0x27 (0x00E0, 0x0070)
+    db $0D, $0A, $27 ; Sprite 0x27 (0x00A0, 0x00D0)
+    db $15, $17, $27 ; Sprite 0x27 (0x0170, 0x0150)
+    db $16, $0F, $27 ; Sprite 0x27 (0x00F0, 0x0160)
+    db $16, $12, $27 ; Sprite 0x27 (0x0120, 0x0160)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D353-$04D368 DATA
-Overworld_Sprites_Screen0A_2:
+OverworldSprites_0A_2:
 {
-    db $04, $0E, $79 ; SPRITE 79   | xy: { 0x0E0, 0x040 }
-    db $0D, $10, $41 ; SPRITE 41   | xy: { 0x100, 0x0D0 }
-    db $16, $11, $00 ; SPRITE 00   | xy: { 0x110, 0x160 }
-    db $16, $13, $00 ; SPRITE 00   | xy: { 0x130, 0x160 }
-    db $16, $0E, $17 ; SPRITE 17   | xy: { 0x0E0, 0x160 }
-    db $17, $11, $00 ; SPRITE 00   | xy: { 0x110, 0x170 }
-    db $1A, $19, $AC ; SPRITE AC   | xy: { 0x190, 0x1A0 }
+    db $04, $0E, $79 ; Sprite 0x79 (0x00E0, 0x0040)
+    db $0D, $10, $41 ; Sprite 0x41 (0x0100, 0x00D0)
+    db $16, $11, $00 ; Sprite 0x00 (0x0110, 0x0160)
+    db $16, $13, $00 ; Sprite 0x00 (0x0130, 0x0160)
+    db $16, $0E, $17 ; Sprite 0x17 (0x00E0, 0x0160)
+    db $17, $11, $00 ; Sprite 0x00 (0x0110, 0x0170)
+    db $1A, $19, $AC ; Sprite 0xAC (0x0190, 0x01A0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D369-$04D37E DATA
-Overworld_Sprites_Screen0F_2:
+OverworldSprites_0F_2:
 {
-    db $02, $06, $37 ; SPRITE 37   | xy: { 0x060, 0x020 }
-    db $0D, $0D, $58 ; SPRITE 58   | xy: { 0x0D0, 0x0D0 }
-    db $10, $05, $55 ; SPRITE 55   | xy: { 0x050, 0x100 }
-    db $11, $0A, $55 ; SPRITE 55   | xy: { 0x0A0, 0x110 }
-    db $12, $11, $58 ; SPRITE 58   | xy: { 0x110, 0x120 }
-    db $13, $08, $BA ; SPRITE BA   | xy: { 0x080, 0x130 }
-    db $17, $0E, $0A ; SPRITE 0A   | xy: { 0x0E0, 0x170 }
+    db $02, $06, $37 ; Sprite 0x37 (0x0060, 0x0020)
+    db $0D, $0D, $58 ; Sprite 0x58 (0x00D0, 0x00D0)
+    db $10, $05, $55 ; Sprite 0x55 (0x0050, 0x0100)
+    db $11, $0A, $55 ; Sprite 0x55 (0x00A0, 0x0110)
+    db $12, $11, $58 ; Sprite 0x58 (0x0110, 0x0120)
+    db $13, $08, $BA ; Sprite 0xBA (0x0080, 0x0130)
+    db $17, $0E, $0A ; Sprite 0x0A (0x00E0, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D37F-$04D38E DATA
-Overworld_Sprites_Screen10_2:
+OverworldSprites_10_2:
 {
-    db $0C, $05, $41 ; SPRITE 41   | xy: { 0x050, 0x0C0 }
-    db $0C, $07, $AC ; SPRITE AC   | xy: { 0x070, 0x0C0 }
-    db $0F, $17, $E0 ; SPRITE E0   | xy: { 0x170, 0x0F0 }
-    db $12, $07, $41 ; SPRITE 41   | xy: { 0x070, 0x120 }
-    db $18, $08, $41 ; SPRITE 41   | xy: { 0x080, 0x180 }
+    db $0C, $05, $41 ; Sprite 0x41 (0x0050, 0x00C0)
+    db $0C, $07, $AC ; Sprite 0xAC (0x0070, 0x00C0)
+    db $0F, $17, $E0 ; Sprite 0xE0 (0x0170, 0x00F0)
+    db $12, $07, $41 ; Sprite 0x41 (0x0070, 0x0120)
+    db $18, $08, $41 ; Sprite 0x41 (0x0080, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D38F-$04D39B DATA
-Overworld_Sprites_Screen11_2:
+OverworldSprites_11_2:
 {
-    db $0C, $17, $41 ; SPRITE 41   | xy: { 0x170, 0x0C0 }
-    db $0D, $1A, $41 ; SPRITE 41   | xy: { 0x1A0, 0x0D0 }
-    db $10, $08, $DC ; SPRITE DC   | xy: { 0x080, 0x100 }
-    db $17, $08, $0B ; SPRITE 0B   | xy: { 0x080, 0x170 }
+    db $0C, $17, $41 ; Sprite 0x41 (0x0170, 0x00C0)
+    db $0D, $1A, $41 ; Sprite 0x41 (0x01A0, 0x00D0)
+    db $10, $08, $DC ; Sprite 0xDC (0x0080, 0x0100)
+    db $17, $08, $0B ; Sprite 0x0B (0x0080, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D39C-$04D3A8 DATA
-Overworld_Sprites_Screen12_2:
+OverworldSprites_12_2:
 {
-    db $0A, $14, $E3 ; SPRITE E3   | xy: { 0x140, 0x0A0 }
-    db $0E, $15, $41 ; SPRITE 41   | xy: { 0x150, 0x0E0 }
-    db $10, $0F, $BA ; SPRITE BA   | xy: { 0x0F0, 0x100 }
-    db $15, $15, $42 ; SPRITE 42   | xy: { 0x150, 0x150 }
+    db $0A, $14, $E3 ; Sprite 0xE3 (0x0140, 0x00A0)
+    db $0E, $15, $41 ; Sprite 0x41 (0x0150, 0x00E0)
+    db $10, $0F, $BA ; Sprite 0xBA (0x00F0, 0x0100)
+    db $15, $15, $42 ; Sprite 0x42 (0x0150, 0x0150)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D3A9-$04D3B5 DATA
-Overworld_Sprites_Screen13_2:
+OverworldSprites_13_2:
 {
-    db $09, $18, $79 ; SPRITE 79   | xy: { 0x180, 0x090 }
-    db $0C, $07, $DE ; SPRITE DE   | xy: { 0x070, 0x0C0 }
-    db $17, $0D, $41 ; SPRITE 41   | xy: { 0x0D0, 0x170 }
-    db $1A, $12, $41 ; SPRITE 41   | xy: { 0x120, 0x1A0 }
+    db $09, $18, $79 ; Sprite 0x79 (0x0180, 0x0090)
+    db $0C, $07, $DE ; Sprite 0xDE (0x0070, 0x00C0)
+    db $17, $0D, $41 ; Sprite 0x41 (0x00D0, 0x0170)
+    db $1A, $12, $41 ; Sprite 0x41 (0x0120, 0x01A0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D3B6-$04D3C8 DATA
-Overworld_Sprites_Screen14_2:
+OverworldSprites_14_2:
 {
-    db $0D, $0D, $19 ; SPRITE 19   | xy: { 0x0D0, 0x0D0 }
-    db $0F, $19, $19 ; SPRITE 19   | xy: { 0x190, 0x0F0 }
-    db $10, $08, $19 ; SPRITE 19   | xy: { 0x080, 0x100 }
-    db $11, $14, $19 ; SPRITE 19   | xy: { 0x140, 0x110 }
-    db $14, $13, $19 ; SPRITE 19   | xy: { 0x130, 0x140 }
-    db $19, $11, $41 ; SPRITE 41   | xy: { 0x110, 0x190 }
+    db $0D, $0D, $19 ; Sprite 0x19 (0x00D0, 0x00D0)
+    db $0F, $19, $19 ; Sprite 0x19 (0x0190, 0x00F0)
+    db $10, $08, $19 ; Sprite 0x19 (0x0080, 0x0100)
+    db $11, $14, $19 ; Sprite 0x19 (0x0140, 0x0110)
+    db $14, $13, $19 ; Sprite 0x19 (0x0130, 0x0140)
+    db $19, $11, $41 ; Sprite 0x41 (0x0110, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D3C9-$04D3D8 DATA
-Overworld_Sprites_Screen15_2:
+OverworldSprites_15_2:
 {
-    db $09, $11, $BA ; SPRITE BA   | xy: { 0x110, 0x090 }
-    db $0E, $16, $45 ; SPRITE 45   | xy: { 0x160, 0x0E0 }
-    db $0F, $1B, $E3 ; SPRITE E3   | xy: { 0x1B0, 0x0F0 }
-    db $17, $0B, $43 ; SPRITE 43   | xy: { 0x0B0, 0x170 }
-    db $1A, $04, $AC ; SPRITE AC   | xy: { 0x040, 0x1A0 }
+    db $09, $11, $BA ; Sprite 0xBA (0x0110, 0x0090)
+    db $0E, $16, $45 ; Sprite 0x45 (0x0160, 0x00E0)
+    db $0F, $1B, $E3 ; Sprite 0xE3 (0x01B0, 0x00F0)
+    db $17, $0B, $43 ; Sprite 0x43 (0x00B0, 0x0170)
+    db $1A, $04, $AC ; Sprite 0xAC (0x0040, 0x01A0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D3D9-$04D3E2 DATA
-Overworld_Sprites_Screen16_2:
+OverworldSprites_16_2:
 {
-    db $0A, $0D, $0D ; SPRITE 0D   | xy: { 0x0D0, 0x0A0 }
-    db $15, $0F, $36 ; SPRITE 36   | xy: { 0x0F0, 0x150 }
-    db $18, $06, $0D ; SPRITE 0D   | xy: { 0x060, 0x180 }
+    db $0A, $0D, $0D ; Sprite 0x0D (0x00D0, 0x00A0)
+    db $15, $0F, $36 ; Sprite 0x36 (0x00F0, 0x0150)
+    db $18, $06, $0D ; Sprite 0x0D (0x0060, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D3E3-$04D3F2 DATA
-Overworld_Sprites_Screen17_2:
+OverworldSprites_17_2:
 {
-    db $08, $18, $0D ; SPRITE 0D   | xy: { 0x180, 0x080 }
-    db $0A, $17, $0D ; SPRITE 0D   | xy: { 0x170, 0x0A0 }
-    db $0B, $0D, $45 ; SPRITE 45   | xy: { 0x0D0, 0x0B0 }
-    db $0C, $16, $0D ; SPRITE 0D   | xy: { 0x160, 0x0C0 }
-    db $16, $08, $0D ; SPRITE 0D   | xy: { 0x080, 0x160 }
+    db $08, $18, $0D ; Sprite 0x0D (0x0180, 0x0080)
+    db $0A, $17, $0D ; Sprite 0x0D (0x0170, 0x00A0)
+    db $0B, $0D, $45 ; Sprite 0x45 (0x00D0, 0x00B0)
+    db $0C, $16, $0D ; Sprite 0x0D (0x0160, 0x00C0)
+    db $16, $08, $0D ; Sprite 0x0D (0x0080, 0x0160)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D3F3-$04D417 DATA
-Overworld_Sprites_Screen18_2:
+OverworldSprites_18_2:
 {
-    db $08, $12, $41 ; SPRITE 41   | xy: { 0x120, 0x080 }
-    db $0A, $18, $DB ; SPRITE DB   | xy: { 0x180, 0x0A0 }
-    db $16, $18, $75 ; SPRITE 75   | xy: { 0x180, 0x160 }
-    db $1C, $07, $41 ; SPRITE 41   | xy: { 0x070, 0x1C0 }
-    db $0B, $35, $41 ; SPRITE 41   | xy: { 0x350, 0x0B0 }
-    db $18, $20, $1D ; SPRITE 1D   | xy: { 0x200, 0x180 }
-    db $2E, $12, $41 ; SPRITE 41   | xy: { 0x120, 0x2E0 }
-    db $34, $14, $0B ; SPRITE 0B   | xy: { 0x140, 0x340 }
-    db $35, $16, $0B ; SPRITE 0B   | xy: { 0x160, 0x350 }
-    db $22, $39, $43 ; SPRITE 43   | xy: { 0x390, 0x220 }
-    db $2E, $20, $41 ; SPRITE 41   | xy: { 0x200, 0x2E0 }
-    db $33, $36, $79 ; SPRITE 79   | xy: { 0x360, 0x330 }
+    db $08, $12, $41 ; Sprite 0x41 (0x0120, 0x0080)
+    db $0A, $18, $DB ; Sprite 0xDB (0x0180, 0x00A0)
+    db $16, $18, $75 ; Sprite 0x75 (0x0180, 0x0160)
+    db $1C, $07, $41 ; Sprite 0x41 (0x0070, 0x01C0)
+    db $0B, $35, $41 ; Sprite 0x41 (0x0350, 0x00B0)
+    db $18, $20, $1D ; Sprite 0x1D (0x0200, 0x0180)
+    db $2E, $12, $41 ; Sprite 0x41 (0x0120, 0x02E0)
+    db $34, $14, $0B ; Sprite 0x0B (0x0140, 0x0340)
+    db $35, $16, $0B ; Sprite 0x0B (0x0160, 0x0350)
+    db $22, $39, $43 ; Sprite 0x43 (0x0390, 0x0220)
+    db $2E, $20, $41 ; Sprite 0x41 (0x0200, 0x02E0)
+    db $33, $36, $79 ; Sprite 0x79 (0x0360, 0x0330)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D418-$04D427 DATA
-Overworld_Sprites_Screen1A_2:
+OverworldSprites_1A_2:
 {
-    db $08, $0F, $41 ; SPRITE 41   | xy: { 0x0F0, 0x080 }
-    db $0E, $0C, $41 ; SPRITE 41   | xy: { 0x0C0, 0x0E0 }
-    db $11, $0D, $E3 ; SPRITE E3   | xy: { 0x0D0, 0x110 }
-    db $18, $0A, $D8 ; SPRITE D8   | xy: { 0x0A0, 0x180 }
-    db $18, $0F, $45 ; SPRITE 45   | xy: { 0x0F0, 0x180 }
+    db $08, $0F, $41 ; Sprite 0x41 (0x00F0, 0x0080)
+    db $0E, $0C, $41 ; Sprite 0x41 (0x00C0, 0x00E0)
+    db $11, $0D, $E3 ; Sprite 0xE3 (0x00D0, 0x0110)
+    db $18, $0A, $D8 ; Sprite 0xD8 (0x00A0, 0x0180)
+    db $18, $0F, $45 ; Sprite 0x45 (0x00F0, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D428-$04D446 DATA
-Overworld_Sprites_Screen1B_2:
+OverworldSprites_1B_2:
 {
-    db $0D, $06, $45 ; SPRITE 45   | xy: { 0x060, 0x0D0 }
-    db $14, $16, $AC ; SPRITE AC   | xy: { 0x160, 0x140 }
-    db $1A, $1F, $45 ; SPRITE 45   | xy: { 0x1F0, 0x1A0 }
-    db $13, $37, $41 ; SPRITE 41   | xy: { 0x370, 0x130 }
-    db $25, $1E, $BA ; SPRITE BA   | xy: { 0x1E0, 0x250 }
-    db $28, $08, $43 ; SPRITE 43   | xy: { 0x080, 0x280 }
-    db $2B, $1F, $42 ; SPRITE 42   | xy: { 0x1F0, 0x2B0 }
-    db $29, $38, $41 ; SPRITE 41   | xy: { 0x380, 0x290 }
-    db $2D, $21, $41 ; SPRITE 41   | xy: { 0x210, 0x2D0 }
-    db $32, $21, $45 ; SPRITE 45   | xy: { 0x210, 0x320 }
+    db $0D, $06, $45 ; Sprite 0x45 (0x0060, 0x00D0)
+    db $14, $16, $AC ; Sprite 0xAC (0x0160, 0x0140)
+    db $1A, $1F, $45 ; Sprite 0x45 (0x01F0, 0x01A0)
+    db $13, $37, $41 ; Sprite 0x41 (0x0370, 0x0130)
+    db $25, $1E, $BA ; Sprite 0xBA (0x01E0, 0x0250)
+    db $28, $08, $43 ; Sprite 0x43 (0x0080, 0x0280)
+    db $2B, $1F, $42 ; Sprite 0x42 (0x01F0, 0x02B0)
+    db $29, $38, $41 ; Sprite 0x41 (0x0380, 0x0290)
+    db $2D, $21, $41 ; Sprite 0x41 (0x0210, 0x02D0)
+    db $32, $21, $45 ; Sprite 0x45 (0x0210, 0x0320)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D447-$04D453 DATA
-Overworld_Sprites_Screen1D_2:
+OverworldSprites_1D_2:
 {
-    db $06, $0B, $79 ; SPRITE 79   | xy: { 0x0B0, 0x060 }
-    db $0C, $1B, $46 ; SPRITE 46   | xy: { 0x1B0, 0x0C0 }
-    db $0D, $07, $45 ; SPRITE 45   | xy: { 0x070, 0x0D0 }
-    db $0F, $1B, $46 ; SPRITE 46   | xy: { 0x1B0, 0x0F0 }
+    db $06, $0B, $79 ; Sprite 0x79 (0x00B0, 0x0060)
+    db $0C, $1B, $46 ; Sprite 0x46 (0x01B0, 0x00C0)
+    db $0D, $07, $45 ; Sprite 0x45 (0x0070, 0x00D0)
+    db $0F, $1B, $46 ; Sprite 0x46 (0x01B0, 0x00F0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D454-$04D490 DATA
-Overworld_Sprites_Screen1E_2:
+OverworldSprites_1E_2:
 {
-    db $0E, $0E, $51 ; SPRITE 51   | xy: { 0x0E0, 0x0E0 }
-    db $1A, $11, $45 ; SPRITE 45   | xy: { 0x110, 0x1A0 }
-    db $1A, $19, $51 ; SPRITE 51   | xy: { 0x190, 0x1A0 }
-    db $04, $33, $33 ; SPRITE 33   | xy: { 0x330, 0x040 }
-    db $09, $33, $51 ; SPRITE 51   | xy: { 0x330, 0x090 }
-    db $09, $37, $51 ; SPRITE 51   | xy: { 0x370, 0x090 }
-    db $10, $31, $45 ; SPRITE 45   | xy: { 0x310, 0x100 }
-    db $17, $2F, $51 ; SPRITE 51   | xy: { 0x2F0, 0x170 }
-    db $25, $0F, $41 ; SPRITE 41   | xy: { 0x0F0, 0x250 }
-    db $28, $09, $45 ; SPRITE 45   | xy: { 0x090, 0x280 }
-    db $2C, $15, $43 ; SPRITE 43   | xy: { 0x150, 0x2C0 }
-    db $33, $14, $51 ; SPRITE 51   | xy: { 0x140, 0x330 }
-    db $33, $17, $51 ; SPRITE 51   | xy: { 0x170, 0x330 }
-    db $25, $24, $51 ; SPRITE 51   | xy: { 0x240, 0x250 }
-    db $28, $31, $51 ; SPRITE 51   | xy: { 0x310, 0x280 }
-    db $29, $28, $51 ; SPRITE 51   | xy: { 0x280, 0x290 }
-    db $29, $3A, $51 ; SPRITE 51   | xy: { 0x3A0, 0x290 }
-    db $29, $3D, $51 ; SPRITE 51   | xy: { 0x3D0, 0x290 }
-    db $37, $22, $E3 ; SPRITE E3   | xy: { 0x220, 0x370 }
-    db $3A, $2D, $45 ; SPRITE 45   | xy: { 0x2D0, 0x3A0 }
+    db $0E, $0E, $51 ; Sprite 0x51 (0x00E0, 0x00E0)
+    db $1A, $11, $45 ; Sprite 0x45 (0x0110, 0x01A0)
+    db $1A, $19, $51 ; Sprite 0x51 (0x0190, 0x01A0)
+    db $04, $33, $33 ; Sprite 0x33 (0x0330, 0x0040)
+    db $09, $33, $51 ; Sprite 0x51 (0x0330, 0x0090)
+    db $09, $37, $51 ; Sprite 0x51 (0x0370, 0x0090)
+    db $10, $31, $45 ; Sprite 0x45 (0x0310, 0x0100)
+    db $17, $2F, $51 ; Sprite 0x51 (0x02F0, 0x0170)
+    db $25, $0F, $41 ; Sprite 0x41 (0x00F0, 0x0250)
+    db $28, $09, $45 ; Sprite 0x45 (0x0090, 0x0280)
+    db $2C, $15, $43 ; Sprite 0x43 (0x0150, 0x02C0)
+    db $33, $14, $51 ; Sprite 0x51 (0x0140, 0x0330)
+    db $33, $17, $51 ; Sprite 0x51 (0x0170, 0x0330)
+    db $25, $24, $51 ; Sprite 0x51 (0x0240, 0x0250)
+    db $28, $31, $51 ; Sprite 0x51 (0x0310, 0x0280)
+    db $29, $28, $51 ; Sprite 0x51 (0x0280, 0x0290)
+    db $29, $3A, $51 ; Sprite 0x51 (0x03A0, 0x0290)
+    db $29, $3D, $51 ; Sprite 0x51 (0x03D0, 0x0290)
+    db $37, $22, $E3 ; Sprite 0xE3 (0x0220, 0x0370)
+    db $3A, $2D, $45 ; Sprite 0x45 (0x02D0, 0x03A0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D491-$04D49A DATA
-Overworld_Sprites_Screen22_2:
+OverworldSprites_22_2:
 {
-    db $04, $0C, $D1 ; SPRITE D1   | xy: { 0x0C0, 0x040 }
-    db $14, $0C, $0B ; SPRITE 0B   | xy: { 0x0C0, 0x140 }
-    db $14, $12, $0B ; SPRITE 0B   | xy: { 0x120, 0x140 }
+    db $04, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x0040)
+    db $14, $0C, $0B ; Sprite 0x0B (0x00C0, 0x0140)
+    db $14, $12, $0B ; Sprite 0x0B (0x0120, 0x0140)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D49B-$04D4A7 DATA
-Overworld_Sprites_Screen25_2:
+OverworldSprites_25_2:
 {
-    db $08, $0E, $41 ; SPRITE 41   | xy: { 0x0E0, 0x080 }
-    db $0C, $05, $41 ; SPRITE 41   | xy: { 0x050, 0x0C0 }
-    db $11, $09, $41 ; SPRITE 41   | xy: { 0x090, 0x110 }
-    db $16, $19, $45 ; SPRITE 45   | xy: { 0x190, 0x160 }
+    db $08, $0E, $41 ; Sprite 0x41 (0x00E0, 0x0080)
+    db $0C, $05, $41 ; Sprite 0x41 (0x0050, 0x00C0)
+    db $11, $09, $41 ; Sprite 0x41 (0x0090, 0x0110)
+    db $16, $19, $45 ; Sprite 0x45 (0x0190, 0x0160)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D4A8-$04D4B7 DATA
-Overworld_Sprites_Screen28_2:
+OverworldSprites_28_2:
 {
-    db $0C, $12, $41 ; SPRITE 41   | xy: { 0x120, 0x0C0 }
-    db $13, $07, $EB ; SPRITE EB   | xy: { 0x070, 0x130 }
-    db $12, $08, $30 ; SPRITE 30   | xy: { 0x080, 0x120 }
-    db $18, $19, $2F ; SPRITE 2F   | xy: { 0x190, 0x180 }
-    db $19, $0C, $41 ; SPRITE 41   | xy: { 0x0C0, 0x190 }
+    db $0C, $12, $41 ; Sprite 0x41 (0x0120, 0x00C0)
+    db $13, $07, $EB ; Sprite 0xEB (0x0070, 0x0130)
+    db $12, $08, $30 ; Sprite 0x30 (0x0080, 0x0120)
+    db $18, $19, $2F ; Sprite 0x2F (0x0190, 0x0180)
+    db $19, $0C, $41 ; Sprite 0x41 (0x00C0, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D4B8-$04D4C1 DATA
-Overworld_Sprites_Screen29_2:
+OverworldSprites_29_2:
 {
-    db $05, $0E, $41 ; SPRITE 41   | xy: { 0x0E0, 0x050 }
-    db $0C, $0C, $45 ; SPRITE 45   | xy: { 0x0C0, 0x0C0 }
-    db $14, $0B, $41 ; SPRITE 41   | xy: { 0x0B0, 0x140 }
+    db $05, $0E, $41 ; Sprite 0x41 (0x00E0, 0x0050)
+    db $0C, $0C, $45 ; Sprite 0x45 (0x00C0, 0x00C0)
+    db $14, $0B, $41 ; Sprite 0x41 (0x00B0, 0x0140)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D4C2-$04D4DD DATA
-Overworld_Sprites_Screen2A_2:
+OverworldSprites_2A_2:
 {
-    db $09, $09, $1D ; SPRITE 1D   | xy: { 0x090, 0x090 }
-    db $0C, $0E, $9E ; SPRITE 9E   | xy: { 0x0E0, 0x0C0 }
-    db $0E, $0D, $A0 ; SPRITE A0   | xy: { 0x0D0, 0x0E0 }
-    db $0E, $0E, $2E ; SPRITE 2E   | xy: { 0x0E0, 0x0E0 }
-    db $0E, $11, $A0 ; SPRITE A0   | xy: { 0x110, 0x0E0 }
-    db $0F, $0C, $9F ; SPRITE 9F   | xy: { 0x0C0, 0x0F0 }
-    db $10, $11, $9F ; SPRITE 9F   | xy: { 0x110, 0x100 }
-    db $14, $15, $DB ; SPRITE DB   | xy: { 0x150, 0x140 }
-    db $18, $0F, $DB ; SPRITE DB   | xy: { 0x0F0, 0x180 }
+    db $09, $09, $1D ; Sprite 0x1D (0x0090, 0x0090)
+    db $0C, $0E, $9E ; Sprite 0x9E (0x00E0, 0x00C0)
+    db $0E, $0D, $A0 ; Sprite 0xA0 (0x00D0, 0x00E0)
+    db $0E, $0E, $2E ; Sprite 0x2E (0x00E0, 0x00E0)
+    db $0E, $11, $A0 ; Sprite 0xA0 (0x0110, 0x00E0)
+    db $0F, $0C, $9F ; Sprite 0x9F (0x00C0, 0x00F0)
+    db $10, $11, $9F ; Sprite 0x9F (0x0110, 0x0100)
+    db $14, $15, $DB ; Sprite 0xDB (0x0150, 0x0140)
+    db $18, $0F, $DB ; Sprite 0xDB (0x00F0, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D4DE-$04D4ED DATA
-Overworld_Sprites_Screen2B_2:
+OverworldSprites_2B_2:
 {
-    db $06, $08, $41 ; SPRITE 41   | xy: { 0x080, 0x060 }
-    db $0D, $16, $E3 ; SPRITE E3   | xy: { 0x160, 0x0D0 }
-    db $11, $14, $41 ; SPRITE 41   | xy: { 0x140, 0x110 }
-    db $15, $14, $41 ; SPRITE 41   | xy: { 0x140, 0x150 }
-    db $17, $10, $41 ; SPRITE 41   | xy: { 0x100, 0x170 }
+    db $06, $08, $41 ; Sprite 0x41 (0x0080, 0x0060)
+    db $0D, $16, $E3 ; Sprite 0xE3 (0x0160, 0x00D0)
+    db $11, $14, $41 ; Sprite 0x41 (0x0140, 0x0110)
+    db $15, $14, $41 ; Sprite 0x41 (0x0140, 0x0150)
+    db $17, $10, $41 ; Sprite 0x41 (0x0100, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D4EE-$04D4F4 DATA
-Overworld_Sprites_Screen2C_2:
+OverworldSprites_2C_2:
 {
-    db $14, $18, $41 ; SPRITE 41   | xy: { 0x180, 0x140 }
-    db $19, $09, $41 ; SPRITE 41   | xy: { 0x090, 0x190 }
+    db $14, $18, $41 ; Sprite 0x41 (0x0180, 0x0140)
+    db $19, $09, $41 ; Sprite 0x41 (0x0090, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D4F5-$04D501 DATA
-Overworld_Sprites_Screen2D_2:
+OverworldSprites_2D_2:
 {
-    db $08, $0F, $0A ; SPRITE 0A   | xy: { 0x0F0, 0x080 }
-    db $0B, $12, $41 ; SPRITE 41   | xy: { 0x120, 0x0B0 }
-    db $16, $12, $45 ; SPRITE 45   | xy: { 0x120, 0x160 }
-    db $17, $1C, $55 ; SPRITE 55   | xy: { 0x1C0, 0x170 }
+    db $08, $0F, $0A ; Sprite 0x0A (0x00F0, 0x0080)
+    db $0B, $12, $41 ; Sprite 0x41 (0x0120, 0x00B0)
+    db $16, $12, $45 ; Sprite 0x45 (0x0120, 0x0160)
+    db $17, $1C, $55 ; Sprite 0x55 (0x01C0, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D502-$04D514 DATA
-Overworld_Sprites_Screen2E_2:
+OverworldSprites_2E_2:
 {
-    db $09, $0C, $E3 ; SPRITE E3   | xy: { 0x0C0, 0x090 }
-    db $0B, $14, $79 ; SPRITE 79   | xy: { 0x140, 0x0B0 }
-    db $0C, $0E, $45 ; SPRITE 45   | xy: { 0x0E0, 0x0C0 }
-    db $0E, $17, $41 ; SPRITE 41   | xy: { 0x170, 0x0E0 }
-    db $12, $05, $55 ; SPRITE 55   | xy: { 0x050, 0x120 }
-    db $17, $19, $08 ; SPRITE 08   | xy: { 0x190, 0x170 }
+    db $09, $0C, $E3 ; Sprite 0xE3 (0x00C0, 0x0090)
+    db $0B, $14, $79 ; Sprite 0x79 (0x0140, 0x00B0)
+    db $0C, $0E, $45 ; Sprite 0x45 (0x00E0, 0x00C0)
+    db $0E, $17, $41 ; Sprite 0x41 (0x0170, 0x00E0)
+    db $12, $05, $55 ; Sprite 0x55 (0x0050, 0x0120)
+    db $17, $19, $08 ; Sprite 0x08 (0x0190, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D515-$04D51E DATA
-Overworld_Sprites_Screen2F_2:
+OverworldSprites_2F_2:
 {
-    db $0C, $0F, $45 ; SPRITE 45   | xy: { 0x0F0, 0x0C0 }
-    db $17, $07, $51 ; SPRITE 51   | xy: { 0x070, 0x170 }
-    db $17, $0C, $51 ; SPRITE 51   | xy: { 0x0C0, 0x170 }
+    db $0C, $0F, $45 ; Sprite 0x45 (0x00F0, 0x00C0)
+    db $17, $07, $51 ; Sprite 0x51 (0x0070, 0x0170)
+    db $17, $0C, $51 ; Sprite 0x51 (0x00C0, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D51F-$04D55B DATA
-Overworld_Sprites_Screen30_2:
+OverworldSprites_30_2:
 {
-    db $14, $12, $57 ; SPRITE 57   | xy: { 0x120, 0x140 }
-    db $19, $12, $B3 ; SPRITE B3   | xy: { 0x120, 0x190 }
-    db $1C, $0E, $57 ; SPRITE 57   | xy: { 0x0E0, 0x1C0 }
-    db $1C, $16, $57 ; SPRITE 57   | xy: { 0x160, 0x1C0 }
-    db $19, $27, $4C ; SPRITE 4C   | xy: { 0x270, 0x190 }
-    db $1C, $22, $01 ; SPRITE 01   | xy: { 0x220, 0x1C0 }
-    db $1F, $2A, $4C ; SPRITE 4C   | xy: { 0x2A0, 0x1F0 }
-    db $23, $0C, $D4 ; SPRITE D4   | xy: { 0x0C0, 0x230 }
-    db $26, $1D, $4C ; SPRITE 4C   | xy: { 0x1D0, 0x260 }
-    db $29, $07, $01 ; SPRITE 01   | xy: { 0x070, 0x290 }
-    db $29, $0F, $4C ; SPRITE 4C   | xy: { 0x0F0, 0x290 }
-    db $2A, $06, $EB ; SPRITE EB   | xy: { 0x060, 0x2A0 }
-    db $2C, $1B, $4C ; SPRITE 4C   | xy: { 0x1B0, 0x2C0 }
-    db $30, $0A, $4C ; SPRITE 4C   | xy: { 0x0A0, 0x300 }
-    db $35, $14, $4C ; SPRITE 4C   | xy: { 0x140, 0x350 }
-    db $2B, $37, $F2 ; SPRITE F2   | xy: { 0x370, 0x2B0 }
-    db $24, $22, $4C ; SPRITE 4C   | xy: { 0x220, 0x240 }
-    db $2A, $28, $4C ; SPRITE 4C   | xy: { 0x280, 0x2A0 }
-    db $32, $23, $4C ; SPRITE 4C   | xy: { 0x230, 0x320 }
-    db $33, $34, $01 ; SPRITE 01   | xy: { 0x340, 0x330 }
+    db $14, $12, $57 ; Sprite 0x57 (0x0120, 0x0140)
+    db $19, $12, $B3 ; Sprite 0xB3 (0x0120, 0x0190)
+    db $1C, $0E, $57 ; Sprite 0x57 (0x00E0, 0x01C0)
+    db $1C, $16, $57 ; Sprite 0x57 (0x0160, 0x01C0)
+    db $19, $27, $4C ; Sprite 0x4C (0x0270, 0x0190)
+    db $1C, $22, $01 ; Sprite 0x01 (0x0220, 0x01C0)
+    db $1F, $2A, $4C ; Sprite 0x4C (0x02A0, 0x01F0)
+    db $23, $0C, $D4 ; Sprite 0xD4 (0x00C0, 0x0230)
+    db $26, $1D, $4C ; Sprite 0x4C (0x01D0, 0x0260)
+    db $29, $07, $01 ; Sprite 0x01 (0x0070, 0x0290)
+    db $29, $0F, $4C ; Sprite 0x4C (0x00F0, 0x0290)
+    db $2A, $06, $EB ; Sprite 0xEB (0x0060, 0x02A0)
+    db $2C, $1B, $4C ; Sprite 0x4C (0x01B0, 0x02C0)
+    db $30, $0A, $4C ; Sprite 0x4C (0x00A0, 0x0300)
+    db $35, $14, $4C ; Sprite 0x4C (0x0140, 0x0350)
+    db $2B, $37, $F2 ; Sprite 0xF2 (0x0370, 0x02B0)
+    db $24, $22, $4C ; Sprite 0x4C (0x0220, 0x0240)
+    db $2A, $28, $4C ; Sprite 0x4C (0x0280, 0x02A0)
+    db $32, $23, $4C ; Sprite 0x4C (0x0230, 0x0320)
+    db $33, $34, $01 ; Sprite 0x01 (0x0340, 0x0330)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D55C-$04D56F DATA
-Overworld_Sprites_Screen32_2:
+OverworldSprites_32_2:
 {
-    db $09, $1A, $D8 ; SPRITE D8   | xy: { 0x1A0, 0x090 }
-    db $0C, $0B, $42 ; SPRITE 42   | xy: { 0x0B0, 0x0C0 }
-    db $0C, $12, $41 ; SPRITE 41   | xy: { 0x120, 0x0C0 }
-    db $10, $13, $42 ; SPRITE 42   | xy: { 0x130, 0x100 }
-    db $12, $19, $DD ; SPRITE DD   | xy: { 0x190, 0x120 }
-    db $15, $08, $D4 ; SPRITE D4   | xy: { 0x080, 0x150 }
+    db $09, $1A, $D8 ; Sprite 0xD8 (0x01A0, 0x0090)
+    db $0C, $0B, $42 ; Sprite 0x42 (0x00B0, 0x00C0)
+    db $0C, $12, $41 ; Sprite 0x41 (0x0120, 0x00C0)
+    db $10, $13, $42 ; Sprite 0x42 (0x0130, 0x0100)
+    db $12, $19, $DD ; Sprite 0xDD (0x0190, 0x0120)
+    db $15, $08, $D4 ; Sprite 0xD4 (0x0080, 0x0150)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D56F-$04D57E DATA
-Overworld_Sprites_Screen33_2:
+OverworldSprites_33_2:
 {
-    db $06, $13, $08 ; SPRITE 08   | xy: { 0x130, 0x060 }
-    db $0B, $14, $0A ; SPRITE 0A   | xy: { 0x140, 0x0B0 }
-    db $12, $17, $BA ; SPRITE BA   | xy: { 0x170, 0x120 }
-    db $16, $12, $08 ; SPRITE 08   | xy: { 0x120, 0x160 }
-    db $1B, $1A, $08 ; SPRITE 08   | xy: { 0x1A0, 0x1B0 }
+    db $06, $13, $08 ; Sprite 0x08 (0x0130, 0x0060)
+    db $0B, $14, $0A ; Sprite 0x0A (0x0140, 0x00B0)
+    db $12, $17, $BA ; Sprite 0xBA (0x0170, 0x0120)
+    db $16, $12, $08 ; Sprite 0x08 (0x0120, 0x0160)
+    db $1B, $1A, $08 ; Sprite 0x08 (0x01A0, 0x01B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D57F-$04D58E DATA
-Overworld_Sprites_Screen34_2:
+OverworldSprites_34_2:
 {
-    db $0E, $17, $33 ; SPRITE 33   | xy: { 0x170, 0x0E0 }
-    db $13, $08, $00 ; SPRITE 00   | xy: { 0x080, 0x130 }
-    db $12, $11, $41 ; SPRITE 41   | xy: { 0x110, 0x120 }
-    db $13, $06, $08 ; SPRITE 08   | xy: { 0x060, 0x130 }
-    db $18, $0C, $08 ; SPRITE 08   | xy: { 0x0C0, 0x180 }
+    db $0E, $17, $33 ; Sprite 0x33 (0x0170, 0x00E0)
+    db $13, $08, $00 ; Sprite 0x00 (0x0080, 0x0130)
+    db $12, $11, $41 ; Sprite 0x41 (0x0110, 0x0120)
+    db $13, $06, $08 ; Sprite 0x08 (0x0060, 0x0130)
+    db $18, $0C, $08 ; Sprite 0x08 (0x00C0, 0x0180)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D58F-$04D5D4 DATA
-Overworld_Sprites_Screen35_2:
+OverworldSprites_35_2:
 {
-    db $07, $0E, $00 ; SPRITE 00   | xy: { 0x0E0, 0x070 }
-    db $09, $0D, $08 ; SPRITE 08   | xy: { 0x0D0, 0x090 }
-    db $0C, $0A, $45 ; SPRITE 45   | xy: { 0x0A0, 0x0C0 }
-    db $13, $19, $EB ; SPRITE EB   | xy: { 0x190, 0x130 }
-    db $14, $19, $0D ; SPRITE 0D   | xy: { 0x190, 0x140 }
-    db $17, $11, $55 ; SPRITE 55   | xy: { 0x110, 0x170 }
-    db $0A, $38, $0A ; SPRITE 0A   | xy: { 0x380, 0x0A0 }
-    db $0D, $25, $55 ; SPRITE 55   | xy: { 0x250, 0x0D0 }
-    db $19, $37, $55 ; SPRITE 55   | xy: { 0x370, 0x190 }
-    db $1F, $27, $0D ; SPRITE 0D   | xy: { 0x270, 0x1F0 }
-    db $1F, $2F, $0D ; SPRITE 0D   | xy: { 0x2F0, 0x1F0 }
-    db $26, $1B, $55 ; SPRITE 55   | xy: { 0x1B0, 0x260 }
-    db $2F, $0D, $00 ; SPRITE 00   | xy: { 0x0D0, 0x2F0 }
-    db $34, $06, $08 ; SPRITE 08   | xy: { 0x060, 0x340 }
-    db $35, $0A, $08 ; SPRITE 08   | xy: { 0x0A0, 0x350 }
-    db $35, $14, $55 ; SPRITE 55   | xy: { 0x140, 0x350 }
-    db $39, $0B, $08 ; SPRITE 08   | xy: { 0x0B0, 0x390 }
-    db $3A, $19, $0D ; SPRITE 0D   | xy: { 0x190, 0x3A0 }
-    db $2B, $29, $BA ; SPRITE BA   | xy: { 0x290, 0x2B0 }
-    db $31, $39, $55 ; SPRITE 55   | xy: { 0x390, 0x310 }
-    db $36, $21, $55 ; SPRITE 55   | xy: { 0x210, 0x360 }
-    db $37, $32, $0D ; SPRITE 0D   | xy: { 0x320, 0x370 }
-    db $39, $34, $0D ; SPRITE 0D   | xy: { 0x340, 0x390 }
+    db $07, $0E, $00 ; Sprite 0x00 (0x00E0, 0x0070)
+    db $09, $0D, $08 ; Sprite 0x08 (0x00D0, 0x0090)
+    db $0C, $0A, $45 ; Sprite 0x45 (0x00A0, 0x00C0)
+    db $13, $19, $EB ; Sprite 0xEB (0x0190, 0x0130)
+    db $14, $19, $0D ; Sprite 0x0D (0x0190, 0x0140)
+    db $17, $11, $55 ; Sprite 0x55 (0x0110, 0x0170)
+    db $0A, $38, $0A ; Sprite 0x0A (0x0380, 0x00A0)
+    db $0D, $25, $55 ; Sprite 0x55 (0x0250, 0x00D0)
+    db $19, $37, $55 ; Sprite 0x55 (0x0370, 0x0190)
+    db $1F, $27, $0D ; Sprite 0x0D (0x0270, 0x01F0)
+    db $1F, $2F, $0D ; Sprite 0x0D (0x02F0, 0x01F0)
+    db $26, $1B, $55 ; Sprite 0x55 (0x01B0, 0x0260)
+    db $2F, $0D, $00 ; Sprite 0x00 (0x00D0, 0x02F0)
+    db $34, $06, $08 ; Sprite 0x08 (0x0060, 0x0340)
+    db $35, $0A, $08 ; Sprite 0x08 (0x00A0, 0x0350)
+    db $35, $14, $55 ; Sprite 0x55 (0x0140, 0x0350)
+    db $39, $0B, $08 ; Sprite 0x08 (0x00B0, 0x0390)
+    db $3A, $19, $0D ; Sprite 0x0D (0x0190, 0x03A0)
+    db $2B, $29, $BA ; Sprite 0xBA (0x0290, 0x02B0)
+    db $31, $39, $55 ; Sprite 0x55 (0x0390, 0x0310)
+    db $36, $21, $55 ; Sprite 0x55 (0x0210, 0x0360)
+    db $37, $32, $0D ; Sprite 0x0D (0x0320, 0x0370)
+    db $39, $34, $0D ; Sprite 0x0D (0x0340, 0x0390)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D5D5-$04D5E4 DATA
-Overworld_Sprites_Screen37_2:
+OverworldSprites_37_2:
 {
-    db $08, $08, $58 ; SPRITE 58   | xy: { 0x080, 0x080 }
-    db $08, $10, $58 ; SPRITE 58   | xy: { 0x100, 0x080 }
-    db $0B, $0F, $58 ; SPRITE 58   | xy: { 0x0F0, 0x0B0 }
-    db $11, $16, $58 ; SPRITE 58   | xy: { 0x160, 0x110 }
-    db $19, $12, $55 ; SPRITE 55   | xy: { 0x120, 0x190 }
+    db $08, $08, $58 ; Sprite 0x58 (0x0080, 0x0080)
+    db $08, $10, $58 ; Sprite 0x58 (0x0100, 0x0080)
+    db $0B, $0F, $58 ; Sprite 0x58 (0x00F0, 0x00B0)
+    db $11, $16, $58 ; Sprite 0x58 (0x0160, 0x0110)
+    db $19, $12, $55 ; Sprite 0x55 (0x0120, 0x0190)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D5E5-$04D5FD DATA
-Overworld_Sprites_Screen3A_2:
+OverworldSprites_3A_2:
 {
-    db $05, $17, $39 ; SPRITE 39   | xy: { 0x170, 0x050 }
-    db $0A, $0B, $3E ; SPRITE 3E   | xy: { 0x0B0, 0x0A0 }
-    db $0D, $14, $00 ; SPRITE 00   | xy: { 0x140, 0x0D0 }
-    db $0E, $13, $00 ; SPRITE 00   | xy: { 0x130, 0x0E0 }
-    db $0F, $14, $00 ; SPRITE 00   | xy: { 0x140, 0x0F0 }
-    db $10, $13, $00 ; SPRITE 00   | xy: { 0x130, 0x100 }
-    db $0F, $11, $45 ; SPRITE 45   | xy: { 0x110, 0x0F0 }
-    db $17, $17, $3E ; SPRITE 3E   | xy: { 0x170, 0x170 }
+    db $05, $17, $39 ; Sprite 0x39 (0x0170, 0x0050)
+    db $0A, $0B, $3E ; Sprite 0x3E (0x00B0, 0x00A0)
+    db $0D, $14, $00 ; Sprite 0x00 (0x0140, 0x00D0)
+    db $0E, $13, $00 ; Sprite 0x00 (0x0130, 0x00E0)
+    db $0F, $14, $00 ; Sprite 0x00 (0x0140, 0x00F0)
+    db $10, $13, $00 ; Sprite 0x00 (0x0130, 0x0100)
+    db $0F, $11, $45 ; Sprite 0x45 (0x0110, 0x00F0)
+    db $17, $17, $3E ; Sprite 0x3E (0x0170, 0x0170)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D5FE-$04D610 DATA
-Overworld_Sprites_Screen3B_2:
+OverworldSprites_3B_2:
 {
-    db $0D, $13, $D2 ; SPRITE D2   | xy: { 0x130, 0x0D0 }
-    db $0F, $0C, $08 ; SPRITE 08   | xy: { 0x0C0, 0x0F0 }
-    db $0E, $14, $EB ; SPRITE EB   | xy: { 0x140, 0x0E0 }
-    db $14, $0F, $0A ; SPRITE 0A   | xy: { 0x0F0, 0x140 }
-    db $18, $17, $41 ; SPRITE 41   | xy: { 0x170, 0x180 }
-    db $1B, $14, $00 ; SPRITE 00   | xy: { 0x140, 0x1B0 }
+    db $0D, $13, $D2 ; Sprite 0xD2 (0x0130, 0x00D0)
+    db $0F, $0C, $08 ; Sprite 0x08 (0x00C0, 0x00F0)
+    db $0E, $14, $EB ; Sprite 0xEB (0x0140, 0x00E0)
+    db $14, $0F, $0A ; Sprite 0x0A (0x00F0, 0x0140)
+    db $18, $17, $41 ; Sprite 0x41 (0x0170, 0x0180)
+    db $1B, $14, $00 ; Sprite 0x00 (0x0140, 0x01B0)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D611-$04D620 DATA
-Overworld_Sprites_Screen3C_2:
+OverworldSprites_3C_2:
 {
-    db $09, $0B, $00 ; SPRITE 00   | xy: { 0x0B0, 0x090 }
-    db $0A, $08, $41 ; SPRITE 41   | xy: { 0x080, 0x0A0 }
-    db $0F, $14, $08 ; SPRITE 08   | xy: { 0x140, 0x0F0 }
-    db $11, $09, $45 ; SPRITE 45   | xy: { 0x090, 0x110 }
-    db $15, $14, $0A ; SPRITE 0A   | xy: { 0x140, 0x150 }
+    db $09, $0B, $00 ; Sprite 0x00 (0x00B0, 0x0090)
+    db $0A, $08, $41 ; Sprite 0x41 (0x0080, 0x00A0)
+    db $0F, $14, $08 ; Sprite 0x08 (0x0140, 0x00F0)
+    db $11, $09, $45 ; Sprite 0x45 (0x0090, 0x0110)
+    db $15, $14, $0A ; Sprite 0x0A (0x0140, 0x0150)
     db $FF ; END
 }
 
 ; ==============================================================================
 
 ; $04D621-$04D62D DATA
-Overworld_Sprites_Screen3F_2:
+OverworldSprites_3F_2:
 {
-    db $05, $16, $0A ; SPRITE 0A   | xy: { 0x160, 0x050 }
-    db $0C, $07, $BA ; SPRITE BA   | xy: { 0x070, 0x0C0 }
-    db $13, $06, $55 ; SPRITE 55   | xy: { 0x060, 0x130 }
-    db $16, $11, $0F ; SPRITE 0F   | xy: { 0x110, 0x160 }
+    db $05, $16, $0A ; Sprite 0x0A (0x0160, 0x0050)
+    db $0C, $07, $BA ; Sprite 0xBA (0x0070, 0x00C0)
+    db $13, $06, $55 ; Sprite 0x55 (0x0060, 0x0130)
+    db $16, $11, $0F ; Sprite 0x0F (0x0110, 0x0160)
     db $FF ; END
 }
 
@@ -4618,7 +4618,7 @@ RoomData_SpritePointers:
 RoomData_Sprites_Room0000:
 {
     db $00 ; Unlayered OAM
-    db $05, $17, $D6 ; SPRITE D6   | xy: { 0x170, 0x050, U } | s: 0x00
+    db $05, $17, $D6 ; Sprite 0xD6 (0x0170, 0x0050, U) size: 0x00
     db $FF ; END
 }
 
@@ -4628,22 +4628,22 @@ RoomData_Sprites_Room0000:
 RoomData_Sprites_Room0002:
 {
     db $00 ; Unlayered OAM
-    db $85, $12, $6D ; SPRITE 6D   | xy: { 0x120, 0x050, L } | s: 0x00
-    db $86, $15, $6D ; SPRITE 6D   | xy: { 0x150, 0x060, L } | s: 0x00
-    db $88, $0F, $6D ; SPRITE 6D   | xy: { 0x0F0, 0x080, L } | s: 0x00
-    db $88, $10, $6D ; SPRITE 6D   | xy: { 0x100, 0x080, L } | s: 0x00
-    db $89, $18, $6D ; SPRITE 6D   | xy: { 0x180, 0x090, L } | s: 0x00
-    db $97, $EF, $06 ; OVERLORD 06 | xy: { 0x0F0, 0x170, L }
-    db $98, $E9, $06 ; OVERLORD 06 | xy: { 0x090, 0x180, L }
-    db $98, $EB, $06 ; OVERLORD 06 | xy: { 0x0B0, 0x180, L }
-    db $99, $EA, $06 ; OVERLORD 06 | xy: { 0x0A0, 0x190, L }
-    db $99, $EC, $06 ; OVERLORD 06 | xy: { 0x0C0, 0x190, L }
-    db $9A, $E9, $06 ; OVERLORD 06 | xy: { 0x090, 0x1A0, L }
-    db $9B, $EB, $06 ; OVERLORD 06 | xy: { 0x0B0, 0x1B0, L }
-    db $97, $0A, $06 ; SPRITE 06   | xy: { 0x0A0, 0x170, L } | s: 0x00
-    db $97, $15, $04 ; SPRITE 04   | xy: { 0x150, 0x170, L } | s: 0x00
-    db $9A, $0D, $6D ; SPRITE 6D   | xy: { 0x0D0, 0x1A0, L } | s: 0x00
-    db $9A, $12, $6D ; SPRITE 6D   | xy: { 0x120, 0x1A0, L } | s: 0x00
+    db $85, $12, $6D ; Sprite 0x6D (0x0120, 0x0050, L) size: 0x00
+    db $86, $15, $6D ; Sprite 0x6D (0x0150, 0x0060, L) size: 0x00
+    db $88, $0F, $6D ; Sprite 0x6D (0x00F0, 0x0080, L) size: 0x00
+    db $88, $10, $6D ; Sprite 0x6D (0x0100, 0x0080, L) size: 0x00
+    db $89, $18, $6D ; Sprite 0x6D (0x0180, 0x0090, L) size: 0x00
+    db $97, $EF, $06 ; Overlord 06 (0x00F0, 0x0170, L)
+    db $98, $E9, $06 ; Overlord 06 (0x0090, 0x0180, L)
+    db $98, $EB, $06 ; Overlord 06 (0x00B0, 0x0180, L)
+    db $99, $EA, $06 ; Overlord 06 (0x00A0, 0x0190, L)
+    db $99, $EC, $06 ; Overlord 06 (0x00C0, 0x0190, L)
+    db $9A, $E9, $06 ; Overlord 06 (0x0090, 0x01A0, L)
+    db $9B, $EB, $06 ; Overlord 06 (0x00B0, 0x01B0, L)
+    db $97, $0A, $06 ; Sprite 0x06 (0x00A0, 0x0170, L) size: 0x00
+    db $97, $15, $04 ; Sprite 0x04 (0x0150, 0x0170, L) size: 0x00
+    db $9A, $0D, $6D ; Sprite 0x6D (0x00D0, 0x01A0, L) size: 0x00
+    db $9A, $12, $6D ; Sprite 0x6D (0x0120, 0x01A0, L) size: 0x00
     db $FF ; END
 }
 
@@ -4653,22 +4653,22 @@ RoomData_Sprites_Room0002:
 RoomData_Sprites_Room0004:
 {
     db $00 ; Unlayered OAM
-    db $04, $09, $1E ; SPRITE 1E   | xy: { 0x090, 0x040, U } | s: 0x00
-    db $04, $14, $5D ; SPRITE 5D   | xy: { 0x140, 0x040, U } | s: 0x00
-    db $04, $1B, $60 ; SPRITE 60   | xy: { 0x1B0, 0x040, U } | s: 0x00
-    db $07, $05, $5F ; SPRITE 5F   | xy: { 0x050, 0x070, U } | s: 0x00
-    db $09, $15, $5F ; SPRITE 5F   | xy: { 0x150, 0x090, U } | s: 0x00
-    db $12, $E7, $16 ; OVERLORD 16 | xy: { 0x070, 0x120, U }
-    db $15, $15, $04 ; SPRITE 04   | xy: { 0x150, 0x150, U } | s: 0x00
-    db $15, $1A, $06 ; SPRITE 06   | xy: { 0x1A0, 0x150, U } | s: 0x00
-    db $15, $F8, $1A ; OVERLORD 1A | xy: { 0x180, 0x150, U }
-    db $15, $1C, $8F ; SPRITE 8F   | xy: { 0x1C0, 0x150, U } | s: 0x00
-    db $17, $F6, $1A ; OVERLORD 1A | xy: { 0x160, 0x170, U }
-    db $17, $FA, $1A ; OVERLORD 1A | xy: { 0x1A0, 0x170, U }
-    db $18, $F8, $1A ; OVERLORD 1A | xy: { 0x180, 0x180, U }
-    db $1A, $1A, $8F ; SPRITE 8F   | xy: { 0x1A0, 0x1A0, U } | s: 0x00
-    db $1B, $15, $8F ; SPRITE 8F   | xy: { 0x150, 0x1B0, U } | s: 0x00
-    db $18, $07, $C7 ; SPRITE C7   | xy: { 0x070, 0x180, U } | s: 0x00
+    db $04, $09, $1E ; Sprite 0x1E (0x0090, 0x0040, U) size: 0x00
+    db $04, $14, $5D ; Sprite 0x5D (0x0140, 0x0040, U) size: 0x00
+    db $04, $1B, $60 ; Sprite 0x60 (0x01B0, 0x0040, U) size: 0x00
+    db $07, $05, $5F ; Sprite 0x5F (0x0050, 0x0070, U) size: 0x00
+    db $09, $15, $5F ; Sprite 0x5F (0x0150, 0x0090, U) size: 0x00
+    db $12, $E7, $16 ; Overlord 16 (0x0070, 0x0120, U)
+    db $15, $15, $04 ; Sprite 0x04 (0x0150, 0x0150, U) size: 0x00
+    db $15, $1A, $06 ; Sprite 0x06 (0x01A0, 0x0150, U) size: 0x00
+    db $15, $F8, $1A ; Overlord 1A (0x0180, 0x0150, U)
+    db $15, $1C, $8F ; Sprite 0x8F (0x01C0, 0x0150, U) size: 0x00
+    db $17, $F6, $1A ; Overlord 1A (0x0160, 0x0170, U)
+    db $17, $FA, $1A ; Overlord 1A (0x01A0, 0x0170, U)
+    db $18, $F8, $1A ; Overlord 1A (0x0180, 0x0180, U)
+    db $1A, $1A, $8F ; Sprite 0x8F (0x01A0, 0x01A0, U) size: 0x00
+    db $1B, $15, $8F ; Sprite 0x8F (0x0150, 0x01B0, U) size: 0x00
+    db $18, $07, $C7 ; Sprite 0xC7 (0x0070, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -4678,20 +4678,20 @@ RoomData_Sprites_Room0004:
 RoomData_Sprites_Room0006:
 {
     db $00 ; Unlayered OAM
-    db $17, $07, $8C ; SPRITE 8C   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $07, $8D ; SPRITE 8D   | xy: { 0x070, 0x170, U } | s: 0x00
+    db $17, $07, $8C ; Sprite 0x8C (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
+    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -4701,7 +4701,7 @@ RoomData_Sprites_Room0006:
 RoomData_Sprites_Room0007:
 {
     db $00 ; Unlayered OAM
-    db $0E, $12, $09 ; SPRITE 09   | xy: { 0x120, 0x0E0, U } | s: 0x00
+    db $0E, $12, $09 ; Sprite 0x09 (0x0120, 0x00E0, U) size: 0x00
     db $FF ; END
 }
 
@@ -4711,7 +4711,7 @@ RoomData_Sprites_Room0007:
 RoomData_Sprites_Room0008:
 {
     db $00 ; Unlayered OAM
-    db $16, $07, $C8 ; SPRITE C8   | xy: { 0x070, 0x160, U } | s: 0x00
+    db $16, $07, $C8 ; Sprite 0xC8 (0x0070, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -4721,9 +4721,9 @@ RoomData_Sprites_Room0008:
 RoomData_Sprites_Room0009:
 {
     db $00 ; Unlayered OAM
-    db $08, $07, $C5 ; SPRITE C5   | xy: { 0x070, 0x080, U } | s: 0x00
-    db $08, $08, $C5 ; SPRITE C5   | xy: { 0x080, 0x080, U } | s: 0x00
-    db $0B, $17, $15 ; SPRITE 15   | xy: { 0x170, 0x0B0, U } | s: 0x00
+    db $08, $07, $C5 ; Sprite 0xC5 (0x0070, 0x0080, U) size: 0x00
+    db $08, $08, $C5 ; Sprite 0xC5 (0x0080, 0x0080, U) size: 0x00
+    db $0B, $17, $15 ; Sprite 0x15 (0x0170, 0x00B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -4733,13 +4733,13 @@ RoomData_Sprites_Room0009:
 RoomData_Sprites_Room000A:
 {
     db $00 ; Unlayered OAM
-    db $08, $17, $8E ; SPRITE 8E   | xy: { 0x170, 0x080, U } | s: 0x00
-    db $09, $17, $8E ; SPRITE 8E   | xy: { 0x170, 0x090, U } | s: 0x00
-    db $09, $ED, $05 ; OVERLORD 05 | xy: { 0x0D0, 0x090, U }
-    db $09, $F1, $05 ; OVERLORD 05 | xy: { 0x110, 0x090, U }
-    db $0B, $F3, $17 ; OVERLORD 17 | xy: { 0x130, 0x0B0, U }
-    db $0E, $ED, $05 ; OVERLORD 05 | xy: { 0x0D0, 0x0E0, U }
-    db $0E, $F1, $05 ; OVERLORD 05 | xy: { 0x110, 0x0E0, U }
+    db $08, $17, $8E ; Sprite 0x8E (0x0170, 0x0080, U) size: 0x00
+    db $09, $17, $8E ; Sprite 0x8E (0x0170, 0x0090, U) size: 0x00
+    db $09, $ED, $05 ; Overlord 05 (0x00D0, 0x0090, U)
+    db $09, $F1, $05 ; Overlord 05 (0x0110, 0x0090, U)
+    db $0B, $F3, $17 ; Overlord 17 (0x0130, 0x00B0, U)
+    db $0E, $ED, $05 ; Overlord 05 (0x00D0, 0x00E0, U)
+    db $0E, $F1, $05 ; Overlord 05 (0x0110, 0x00E0, U)
     db $FF ; END
 }
 
@@ -4749,16 +4749,16 @@ RoomData_Sprites_Room000A:
 RoomData_Sprites_Room000B:
 {
     db $00 ; Unlayered OAM
-    db $04, $1C, $1E ; SPRITE 1E   | xy: { 0x1C0, 0x040, U } | s: 0x00
-    db $08, $07, $8E ; SPRITE 8E   | xy: { 0x070, 0x080, U } | s: 0x00
-    db $0B, $16, $8E ; SPRITE 8E   | xy: { 0x160, 0x0B0, U } | s: 0x00
-    db $0B, $1B, $8E ; SPRITE 8E   | xy: { 0x1B0, 0x0B0, U } | s: 0x00
-    db $16, $05, $8E ; SPRITE 8E   | xy: { 0x050, 0x160, U } | s: 0x00
-    db $16, $0A, $8E ; SPRITE 8E   | xy: { 0x0A0, 0x160, U } | s: 0x00
-    db $19, $07, $8E ; SPRITE 8E   | xy: { 0x070, 0x190, U } | s: 0x00
-    db $19, $08, $8E ; SPRITE 8E   | xy: { 0x080, 0x190, U } | s: 0x00
-    db $1B, $06, $8E ; SPRITE 8E   | xy: { 0x060, 0x1B0, U } | s: 0x00
-    db $1B, $09, $8E ; SPRITE 8E   | xy: { 0x090, 0x1B0, U } | s: 0x00
+    db $04, $1C, $1E ; Sprite 0x1E (0x01C0, 0x0040, U) size: 0x00
+    db $08, $07, $8E ; Sprite 0x8E (0x0070, 0x0080, U) size: 0x00
+    db $0B, $16, $8E ; Sprite 0x8E (0x0160, 0x00B0, U) size: 0x00
+    db $0B, $1B, $8E ; Sprite 0x8E (0x01B0, 0x00B0, U) size: 0x00
+    db $16, $05, $8E ; Sprite 0x8E (0x0050, 0x0160, U) size: 0x00
+    db $16, $0A, $8E ; Sprite 0x8E (0x00A0, 0x0160, U) size: 0x00
+    db $19, $07, $8E ; Sprite 0x8E (0x0070, 0x0190, U) size: 0x00
+    db $19, $08, $8E ; Sprite 0x8E (0x0080, 0x0190, U) size: 0x00
+    db $1B, $06, $8E ; Sprite 0x8E (0x0060, 0x01B0, U) size: 0x00
+    db $1B, $09, $8E ; Sprite 0x8E (0x0090, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -4768,7 +4768,7 @@ RoomData_Sprites_Room000B:
 RoomData_Sprites_Room000D:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $7A ; SPRITE 7A   | xy: { 0x070, 0x150, U } | s: 0x00
+    db $15, $07, $7A ; Sprite 0x7A (0x0070, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -4778,10 +4778,10 @@ RoomData_Sprites_Room000D:
 RoomData_Sprites_Room000E:
 {
     db $00 ; Unlayered OAM
-    db $12, $16, $A1 ; SPRITE A1   | xy: { 0x160, 0x120, U } | s: 0x00
-    db $16, $05, $24 ; SPRITE 24   | xy: { 0x050, 0x160, U } | s: 0x00
-    db $18, $05, $24 ; SPRITE 24   | xy: { 0x050, 0x180, U } | s: 0x00
-    db $1A, $05, $24 ; SPRITE 24   | xy: { 0x050, 0x1A0, U } | s: 0x00
+    db $12, $16, $A1 ; Sprite 0xA1 (0x0160, 0x0120, U) size: 0x00
+    db $16, $05, $24 ; Sprite 0x24 (0x0050, 0x0160, U) size: 0x00
+    db $18, $05, $24 ; Sprite 0x24 (0x0050, 0x0180, U) size: 0x00
+    db $1A, $05, $24 ; Sprite 0x24 (0x0050, 0x01A0, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
     db $FF ; END
 }
@@ -4792,14 +4792,14 @@ RoomData_Sprites_Room000E:
 RoomData_Sprites_Room0011:
 {
     db $00 ; Unlayered OAM
-    db $0A, $17, $6D ; SPRITE 6D   | xy: { 0x170, 0x0A0, U } | s: 0x00
-    db $0A, $18, $6D ; SPRITE 6D   | xy: { 0x180, 0x0A0, U } | s: 0x00
-    db $0C, $17, $6F ; SPRITE 6F   | xy: { 0x170, 0x0C0, U } | s: 0x00
-    db $0C, $18, $6F ; SPRITE 6F   | xy: { 0x180, 0x0C0, U } | s: 0x00
-    db $11, $1C, $6D ; SPRITE 6D   | xy: { 0x1C0, 0x110, U } | s: 0x00
-    db $12, $1C, $6D ; SPRITE 6D   | xy: { 0x1C0, 0x120, U } | s: 0x00
-    db $16, $1A, $6D ; SPRITE 6D   | xy: { 0x1A0, 0x160, U } | s: 0x00
-    db $16, $1B, $6D ; SPRITE 6D   | xy: { 0x1B0, 0x160, U } | s: 0x00
+    db $0A, $17, $6D ; Sprite 0x6D (0x0170, 0x00A0, U) size: 0x00
+    db $0A, $18, $6D ; Sprite 0x6D (0x0180, 0x00A0, U) size: 0x00
+    db $0C, $17, $6F ; Sprite 0x6F (0x0170, 0x00C0, U) size: 0x00
+    db $0C, $18, $6F ; Sprite 0x6F (0x0180, 0x00C0, U) size: 0x00
+    db $11, $1C, $6D ; Sprite 0x6D (0x01C0, 0x0110, U) size: 0x00
+    db $12, $1C, $6D ; Sprite 0x6D (0x01C0, 0x0120, U) size: 0x00
+    db $16, $1A, $6D ; Sprite 0x6D (0x01A0, 0x0160, U) size: 0x00
+    db $16, $1B, $6D ; Sprite 0x6D (0x01B0, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -4809,8 +4809,8 @@ RoomData_Sprites_Room0011:
 RoomData_Sprites_Room0012:
 {
     db $00 ; Unlayered OAM
-    db $07, $0F, $73 ; SPRITE 73   | xy: { 0x0F0, 0x070, U } | s: 0x00
-    db $06, $10, $76 ; SPRITE 76   | xy: { 0x100, 0x060, U } | s: 0x00
+    db $07, $0F, $73 ; Sprite 0x73 (0x00F0, 0x0070, U) size: 0x00
+    db $06, $10, $76 ; Sprite 0x76 (0x0100, 0x0060, U) size: 0x00
     db $FF ; END
 }
 
@@ -4820,17 +4820,17 @@ RoomData_Sprites_Room0012:
 RoomData_Sprites_Room0013:
 {
     db $00 ; Unlayered OAM
-    db $11, $14, $1E ; SPRITE 1E   | xy: { 0x140, 0x110, U } | s: 0x00
-    db $04, $18, $15 ; SPRITE 15   | xy: { 0x180, 0x040, U } | s: 0x00
-    db $04, $1A, $15 ; SPRITE 15   | xy: { 0x1A0, 0x040, U } | s: 0x00
-    db $05, $18, $15 ; SPRITE 15   | xy: { 0x180, 0x050, U } | s: 0x00
-    db $05, $1A, $15 ; SPRITE 15   | xy: { 0x1A0, 0x050, U } | s: 0x00
-    db $16, $1B, $7C ; SPRITE 7C   | xy: { 0x1B0, 0x160, U } | s: 0x00
-    db $18, $16, $C7 ; SPRITE C7   | xy: { 0x160, 0x180, U } | s: 0x00
+    db $11, $14, $1E ; Sprite 0x1E (0x0140, 0x0110, U) size: 0x00
+    db $04, $18, $15 ; Sprite 0x15 (0x0180, 0x0040, U) size: 0x00
+    db $04, $1A, $15 ; Sprite 0x15 (0x01A0, 0x0040, U) size: 0x00
+    db $05, $18, $15 ; Sprite 0x15 (0x0180, 0x0050, U) size: 0x00
+    db $05, $1A, $15 ; Sprite 0x15 (0x01A0, 0x0050, U) size: 0x00
+    db $16, $1B, $7C ; Sprite 0x7C (0x01B0, 0x0160, U) size: 0x00
+    db $18, $16, $C7 ; Sprite 0xC7 (0x0160, 0x0180, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
-    db $18, $1E, $96 ; SPRITE 96   | xy: { 0x1E0, 0x180, U } | s: 0x00
-    db $1A, $14, $7C ; SPRITE 7C   | xy: { 0x140, 0x1A0, U } | s: 0x00
-    db $1B, $1B, $D1 ; SPRITE D1   | xy: { 0x1B0, 0x1B0, U } | s: 0x00
+    db $18, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0180, U) size: 0x00
+    db $1A, $14, $7C ; Sprite 0x7C (0x0140, 0x01A0, U) size: 0x00
+    db $1B, $1B, $D1 ; Sprite 0xD1 (0x01B0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -4840,16 +4840,16 @@ RoomData_Sprites_Room0013:
 RoomData_Sprites_Room0014:
 {
     db $01 ; Layered OAM
-    db $84, $0C, $B0 ; SPRITE B0   | xy: { 0x0C0, 0x040, L } | s: 0x00
-    db $8A, $0F, $AF ; SPRITE AF   | xy: { 0x0F0, 0x0A0, L } | s: 0x00
-    db $8A, $19, $AE ; SPRITE AE   | xy: { 0x190, 0x0A0, L } | s: 0x00
-    db $8D, $03, $AE ; SPRITE AE   | xy: { 0x030, 0x0D0, L } | s: 0x00
-    db $8D, $1B, $AE ; SPRITE AE   | xy: { 0x1B0, 0x0D0, L } | s: 0x00
-    db $93, $0F, $AE ; SPRITE AE   | xy: { 0x0F0, 0x130, L } | s: 0x00
-    db $98, $08, $B0 ; SPRITE B0   | xy: { 0x080, 0x180, L } | s: 0x00
-    db $98, $17, $B1 ; SPRITE B1   | xy: { 0x170, 0x180, L } | s: 0x00
-    db $9B, $0C, $B0 ; SPRITE B0   | xy: { 0x0C0, 0x1B0, L } | s: 0x00
-    db $9B, $13, $B1 ; SPRITE B1   | xy: { 0x130, 0x1B0, L } | s: 0x00
+    db $84, $0C, $B0 ; Sprite 0xB0 (0x00C0, 0x0040, L) size: 0x00
+    db $8A, $0F, $AF ; Sprite 0xAF (0x00F0, 0x00A0, L) size: 0x00
+    db $8A, $19, $AE ; Sprite 0xAE (0x0190, 0x00A0, L) size: 0x00
+    db $8D, $03, $AE ; Sprite 0xAE (0x0030, 0x00D0, L) size: 0x00
+    db $8D, $1B, $AE ; Sprite 0xAE (0x01B0, 0x00D0, L) size: 0x00
+    db $93, $0F, $AE ; Sprite 0xAE (0x00F0, 0x0130, L) size: 0x00
+    db $98, $08, $B0 ; Sprite 0xB0 (0x0080, 0x0180, L) size: 0x00
+    db $98, $17, $B1 ; Sprite 0xB1 (0x0170, 0x0180, L) size: 0x00
+    db $9B, $0C, $B0 ; Sprite 0xB0 (0x00C0, 0x01B0, L) size: 0x00
+    db $9B, $13, $B1 ; Sprite 0xB1 (0x0130, 0x01B0, L) size: 0x00
     db $FF ; END
 }
 
@@ -4859,16 +4859,16 @@ RoomData_Sprites_Room0014:
 RoomData_Sprites_Room0015:
 {
     db $01 ; Layered OAM
-    db $8C, $04, $AE ; SPRITE AE   | xy: { 0x040, 0x0C0, L } | s: 0x00
-    db $91, $11, $AE ; SPRITE AE   | xy: { 0x110, 0x110, L } | s: 0x00
-    db $97, $04, $AF ; SPRITE AF   | xy: { 0x040, 0x170, L } | s: 0x00
-    db $9B, $16, $B1 ; SPRITE B1   | xy: { 0x160, 0x1B0, L } | s: 0x00
-    db $89, $0A, $8F ; SPRITE 8F   | xy: { 0x0A0, 0x090, L } | s: 0x00
-    db $89, $15, $8F ; SPRITE 8F   | xy: { 0x150, 0x090, L } | s: 0x00
-    db $8A, $09, $15 ; SPRITE 15   | xy: { 0x090, 0x0A0, L } | s: 0x00
-    db $96, $18, $C7 ; SPRITE C7   | xy: { 0x180, 0x160, L } | s: 0x00
-    db $97, $08, $15 ; SPRITE 15   | xy: { 0x080, 0x170, L } | s: 0x00
-    db $97, $17, $15 ; SPRITE 15   | xy: { 0x170, 0x170, L } | s: 0x00
+    db $8C, $04, $AE ; Sprite 0xAE (0x0040, 0x00C0, L) size: 0x00
+    db $91, $11, $AE ; Sprite 0xAE (0x0110, 0x0110, L) size: 0x00
+    db $97, $04, $AF ; Sprite 0xAF (0x0040, 0x0170, L) size: 0x00
+    db $9B, $16, $B1 ; Sprite 0xB1 (0x0160, 0x01B0, L) size: 0x00
+    db $89, $0A, $8F ; Sprite 0x8F (0x00A0, 0x0090, L) size: 0x00
+    db $89, $15, $8F ; Sprite 0x8F (0x0150, 0x0090, L) size: 0x00
+    db $8A, $09, $15 ; Sprite 0x15 (0x0090, 0x00A0, L) size: 0x00
+    db $96, $18, $C7 ; Sprite 0xC7 (0x0180, 0x0160, L) size: 0x00
+    db $97, $08, $15 ; Sprite 0x15 (0x0080, 0x0170, L) size: 0x00
+    db $97, $17, $15 ; Sprite 0x15 (0x0170, 0x0170, L) size: 0x00
     db $FF ; END
 }
 
@@ -4878,13 +4878,13 @@ RoomData_Sprites_Room0015:
 RoomData_Sprites_Room0016:
 {
     db $00 ; Unlayered OAM
-    db $07, $15, $8F ; SPRITE 8F   | xy: { 0x150, 0x070, U } | s: 0x00
-    db $08, $15, $8F ; SPRITE 8F   | xy: { 0x150, 0x080, U } | s: 0x00
-    db $09, $15, $24 ; SPRITE 24   | xy: { 0x150, 0x090, U } | s: 0x00
-    db $0A, $10, $8F ; SPRITE 8F   | xy: { 0x100, 0x0A0, U } | s: 0x00
-    db $98, $0C, $81 ; SPRITE 81   | xy: { 0x0C0, 0x180, L } | s: 0x00
-    db $9B, $07, $81 ; SPRITE 81   | xy: { 0x070, 0x1B0, L } | s: 0x00
-    db $9B, $14, $81 ; SPRITE 81   | xy: { 0x140, 0x1B0, L } | s: 0x00
+    db $07, $15, $8F ; Sprite 0x8F (0x0150, 0x0070, U) size: 0x00
+    db $08, $15, $8F ; Sprite 0x8F (0x0150, 0x0080, U) size: 0x00
+    db $09, $15, $24 ; Sprite 0x24 (0x0150, 0x0090, U) size: 0x00
+    db $0A, $10, $8F ; Sprite 0x8F (0x0100, 0x00A0, U) size: 0x00
+    db $98, $0C, $81 ; Sprite 0x81 (0x00C0, 0x0180, L) size: 0x00
+    db $9B, $07, $81 ; Sprite 0x81 (0x0070, 0x01B0, L) size: 0x00
+    db $9B, $14, $81 ; Sprite 0x81 (0x0140, 0x01B0, L) size: 0x00
     db $FF ; END
 }
 
@@ -4894,15 +4894,15 @@ RoomData_Sprites_Room0016:
 RoomData_Sprites_Room0017:
 {
     db $00 ; Unlayered OAM
-    db $0B, $07, $93 ; SPRITE 93   | xy: { 0x070, 0x0B0, U } | s: 0x00
-    db $0E, $10, $93 ; SPRITE 93   | xy: { 0x100, 0x0E0, U } | s: 0x00
-    db $16, $07, $93 ; SPRITE 93   | xy: { 0x070, 0x160, U } | s: 0x00
-    db $07, $15, $26 ; SPRITE 26   | xy: { 0x150, 0x070, U } | s: 0x00
-    db $09, $0B, $26 ; SPRITE 26   | xy: { 0x0B0, 0x090, U } | s: 0x00
-    db $11, $06, $7E ; SPRITE 7E   | xy: { 0x060, 0x110, U } | s: 0x00
-    db $11, $12, $26 ; SPRITE 26   | xy: { 0x120, 0x110, U } | s: 0x00
-    db $17, $0B, $26 ; SPRITE 26   | xy: { 0x0B0, 0x170, U } | s: 0x00
-    db $17, $17, $26 ; SPRITE 26   | xy: { 0x170, 0x170, U } | s: 0x00
+    db $0B, $07, $93 ; Sprite 0x93 (0x0070, 0x00B0, U) size: 0x00
+    db $0E, $10, $93 ; Sprite 0x93 (0x0100, 0x00E0, U) size: 0x00
+    db $16, $07, $93 ; Sprite 0x93 (0x0070, 0x0160, U) size: 0x00
+    db $07, $15, $26 ; Sprite 0x26 (0x0150, 0x0070, U) size: 0x00
+    db $09, $0B, $26 ; Sprite 0x26 (0x00B0, 0x0090, U) size: 0x00
+    db $11, $06, $7E ; Sprite 0x7E (0x0060, 0x0110, U) size: 0x00
+    db $11, $12, $26 ; Sprite 0x26 (0x0120, 0x0110, U) size: 0x00
+    db $17, $0B, $26 ; Sprite 0x26 (0x00B0, 0x0170, U) size: 0x00
+    db $17, $17, $26 ; Sprite 0x26 (0x0170, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -4912,10 +4912,10 @@ RoomData_Sprites_Room0017:
 RoomData_Sprites_Room0019:
 {
     db $00 ; Unlayered OAM
-    db $0A, $16, $86 ; SPRITE 86   | xy: { 0x160, 0x0A0, U } | s: 0x00
-    db $0E, $1A, $86 ; SPRITE 86   | xy: { 0x1A0, 0x0E0, U } | s: 0x00
-    db $10, $16, $86 ; SPRITE 86   | xy: { 0x160, 0x100, U } | s: 0x00
-    db $16, $18, $86 ; SPRITE 86   | xy: { 0x180, 0x160, U } | s: 0x00
+    db $0A, $16, $86 ; Sprite 0x86 (0x0160, 0x00A0, U) size: 0x00
+    db $0E, $1A, $86 ; Sprite 0x86 (0x01A0, 0x00E0, U) size: 0x00
+    db $10, $16, $86 ; Sprite 0x86 (0x0160, 0x0100, U) size: 0x00
+    db $16, $18, $86 ; Sprite 0x86 (0x0180, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -4925,17 +4925,17 @@ RoomData_Sprites_Room0019:
 RoomData_Sprites_Room001A:
 {
     db $00 ; Unlayered OAM
-    db $06, $08, $13 ; SPRITE 13   | xy: { 0x080, 0x060, U } | s: 0x00
-    db $06, $16, $8E ; SPRITE 8E   | xy: { 0x160, 0x060, U } | s: 0x00
-    db $06, $19, $8E ; SPRITE 8E   | xy: { 0x190, 0x060, U } | s: 0x00
-    db $0A, $16, $8E ; SPRITE 8E   | xy: { 0x160, 0x0A0, U } | s: 0x00
-    db $0A, $19, $8E ; SPRITE 8E   | xy: { 0x190, 0x0A0, U } | s: 0x00
-    db $10, $07, $13 ; SPRITE 13   | xy: { 0x070, 0x100, U } | s: 0x00
-    db $15, $16, $8A ; SPRITE 8A   | xy: { 0x160, 0x150, U } | s: 0x00
-    db $17, $16, $8A ; SPRITE 8A   | xy: { 0x160, 0x170, U } | s: 0x00
-    db $19, $15, $1C ; SPRITE 1C   | xy: { 0x150, 0x190, U } | s: 0x00
-    db $19, $16, $8A ; SPRITE 8A   | xy: { 0x160, 0x190, U } | s: 0x00
-    db $1A, $E7, $0B ; OVERLORD 0B | xy: { 0x070, 0x1A0, U }
+    db $06, $08, $13 ; Sprite 0x13 (0x0080, 0x0060, U) size: 0x00
+    db $06, $16, $8E ; Sprite 0x8E (0x0160, 0x0060, U) size: 0x00
+    db $06, $19, $8E ; Sprite 0x8E (0x0190, 0x0060, U) size: 0x00
+    db $0A, $16, $8E ; Sprite 0x8E (0x0160, 0x00A0, U) size: 0x00
+    db $0A, $19, $8E ; Sprite 0x8E (0x0190, 0x00A0, U) size: 0x00
+    db $10, $07, $13 ; Sprite 0x13 (0x0070, 0x0100, U) size: 0x00
+    db $15, $16, $8A ; Sprite 0x8A (0x0160, 0x0150, U) size: 0x00
+    db $17, $16, $8A ; Sprite 0x8A (0x0160, 0x0170, U) size: 0x00
+    db $19, $15, $1C ; Sprite 0x1C (0x0150, 0x0190, U) size: 0x00
+    db $19, $16, $8A ; Sprite 0x8A (0x0160, 0x0190, U) size: 0x00
+    db $1A, $E7, $0B ; Overlord 0B (0x0070, 0x01A0, U)
     db $FF ; END
 }
 
@@ -4945,12 +4945,12 @@ RoomData_Sprites_Room001A:
 RoomData_Sprites_Room001B:
 {
     db $00 ; Unlayered OAM
-    db $04, $07, $1E ; SPRITE 1E   | xy: { 0x070, 0x040, U } | s: 0x00
-    db $04, $10, $38 ; SPRITE 38   | xy: { 0x100, 0x040, U } | s: 0x00
-    db $0C, $03, $8A ; SPRITE 8A   | xy: { 0x030, 0x0C0, U } | s: 0x00
-    db $14, $07, $84 ; SPRITE 84   | xy: { 0x070, 0x140, U } | s: 0x00
-    db $1C, $03, $83 ; SPRITE 83   | xy: { 0x030, 0x1C0, U } | s: 0x00
-    db $1C, $0C, $83 ; SPRITE 83   | xy: { 0x0C0, 0x1C0, U } | s: 0x00
+    db $04, $07, $1E ; Sprite 0x1E (0x0070, 0x0040, U) size: 0x00
+    db $04, $10, $38 ; Sprite 0x38 (0x0100, 0x0040, U) size: 0x00
+    db $0C, $03, $8A ; Sprite 0x8A (0x0030, 0x00C0, U) size: 0x00
+    db $14, $07, $84 ; Sprite 0x84 (0x0070, 0x0140, U) size: 0x00
+    db $1C, $03, $83 ; Sprite 0x83 (0x0030, 0x01C0, U) size: 0x00
+    db $1C, $0C, $83 ; Sprite 0x83 (0x00C0, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -4960,17 +4960,17 @@ RoomData_Sprites_Room001B:
 RoomData_Sprites_Room001C:
 {
     db $00 ; Unlayered OAM
-    db $15, $14, $53 ; SPRITE 53   | xy: { 0x140, 0x150, U } | s: 0x00
-    db $15, $17, $53 ; SPRITE 53   | xy: { 0x170, 0x150, U } | s: 0x00
-    db $15, $1A, $53 ; SPRITE 53   | xy: { 0x1A0, 0x150, U } | s: 0x00
-    db $18, $1A, $53 ; SPRITE 53   | xy: { 0x1A0, 0x180, U } | s: 0x00
-    db $18, $17, $53 ; SPRITE 53   | xy: { 0x170, 0x180, U } | s: 0x00
-    db $18, $14, $53 ; SPRITE 53   | xy: { 0x140, 0x180, U } | s: 0x00
-    db $18, $F7, $19 ; OVERLORD 19 | xy: { 0x170, 0x180, U }
-    db $07, $07, $E3 ; SPRITE E3   | xy: { 0x070, 0x070, U } | s: 0x00
-    db $07, $08, $E3 ; SPRITE E3   | xy: { 0x080, 0x070, U } | s: 0x00
-    db $08, $07, $E3 ; SPRITE E3   | xy: { 0x070, 0x080, U } | s: 0x00
-    db $08, $08, $E3 ; SPRITE E3   | xy: { 0x080, 0x080, U } | s: 0x00
+    db $15, $14, $53 ; Sprite 0x53 (0x0140, 0x0150, U) size: 0x00
+    db $15, $17, $53 ; Sprite 0x53 (0x0170, 0x0150, U) size: 0x00
+    db $15, $1A, $53 ; Sprite 0x53 (0x01A0, 0x0150, U) size: 0x00
+    db $18, $1A, $53 ; Sprite 0x53 (0x01A0, 0x0180, U) size: 0x00
+    db $18, $17, $53 ; Sprite 0x53 (0x0170, 0x0180, U) size: 0x00
+    db $18, $14, $53 ; Sprite 0x53 (0x0140, 0x0180, U) size: 0x00
+    db $18, $F7, $19 ; Overlord 19 (0x0170, 0x0180, U)
+    db $07, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0070, U) size: 0x00
+    db $07, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0070, U) size: 0x00
+    db $08, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0080, U) size: 0x00
+    db $08, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0080, U) size: 0x00
     db $FF ; END
 }
 
@@ -4980,13 +4980,13 @@ RoomData_Sprites_Room001C:
 RoomData_Sprites_Room001E:
 {
     db $00 ; Unlayered OAM
-    db $09, $1A, $1E ; SPRITE 1E   | xy: { 0x1A0, 0x090, U } | s: 0x00
-    db $05, $16, $23 ; SPRITE 23   | xy: { 0x160, 0x050, U } | s: 0x00
-    db $05, $19, $23 ; SPRITE 23   | xy: { 0x190, 0x050, U } | s: 0x00
-    db $0A, $16, $23 ; SPRITE 23   | xy: { 0x160, 0x0A0, U } | s: 0x00
-    db $0A, $19, $23 ; SPRITE 23   | xy: { 0x190, 0x0A0, U } | s: 0x00
-    db $18, $08, $8F ; SPRITE 8F   | xy: { 0x080, 0x180, U } | s: 0x00
-    db $1C, $05, $8F ; SPRITE 8F   | xy: { 0x050, 0x1C0, U } | s: 0x00
+    db $09, $1A, $1E ; Sprite 0x1E (0x01A0, 0x0090, U) size: 0x00
+    db $05, $16, $23 ; Sprite 0x23 (0x0160, 0x0050, U) size: 0x00
+    db $05, $19, $23 ; Sprite 0x23 (0x0190, 0x0050, U) size: 0x00
+    db $0A, $16, $23 ; Sprite 0x23 (0x0160, 0x00A0, U) size: 0x00
+    db $0A, $19, $23 ; Sprite 0x23 (0x0190, 0x00A0, U) size: 0x00
+    db $18, $08, $8F ; Sprite 0x8F (0x0080, 0x0180, U) size: 0x00
+    db $1C, $05, $8F ; Sprite 0x8F (0x0050, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -4996,14 +4996,14 @@ RoomData_Sprites_Room001E:
 RoomData_Sprites_Room001F:
 {
     db $00 ; Unlayered OAM
-    db $15, $04, $99 ; SPRITE 99   | xy: { 0x040, 0x150, U } | s: 0x00
-    db $15, $09, $99 ; SPRITE 99   | xy: { 0x090, 0x150, U } | s: 0x00
-    db $16, $06, $15 ; SPRITE 15   | xy: { 0x060, 0x160, U } | s: 0x00
-    db $17, $07, $D1 ; SPRITE D1   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $0A, $99 ; SPRITE 99   | xy: { 0x0A0, 0x170, U } | s: 0x00
-    db $19, $0A, $99 ; SPRITE 99   | xy: { 0x0A0, 0x190, U } | s: 0x00
-    db $1B, $04, $99 ; SPRITE 99   | xy: { 0x040, 0x1B0, U } | s: 0x00
-    db $1B, $09, $99 ; SPRITE 99   | xy: { 0x090, 0x1B0, U } | s: 0x00
+    db $15, $04, $99 ; Sprite 0x99 (0x0040, 0x0150, U) size: 0x00
+    db $15, $09, $99 ; Sprite 0x99 (0x0090, 0x0150, U) size: 0x00
+    db $16, $06, $15 ; Sprite 0x15 (0x0060, 0x0160, U) size: 0x00
+    db $17, $07, $D1 ; Sprite 0xD1 (0x0070, 0x0170, U) size: 0x00
+    db $17, $0A, $99 ; Sprite 0x99 (0x00A0, 0x0170, U) size: 0x00
+    db $19, $0A, $99 ; Sprite 0x99 (0x00A0, 0x0190, U) size: 0x00
+    db $1B, $04, $99 ; Sprite 0x99 (0x0040, 0x01B0, U) size: 0x00
+    db $1B, $09, $99 ; Sprite 0x99 (0x0090, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5013,7 +5013,7 @@ RoomData_Sprites_Room001F:
 RoomData_Sprites_Room0020:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $7A ; SPRITE 7A   | xy: { 0x070, 0x150, U } | s: 0x00
+    db $15, $07, $7A ; Sprite 0x7A (0x0070, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -5023,18 +5023,18 @@ RoomData_Sprites_Room0020:
 RoomData_Sprites_Room0021:
 {
     db $00 ; Unlayered OAM
-    db $06, $05, $6D ; SPRITE 6D   | xy: { 0x050, 0x060, U } | s: 0x00
+    db $06, $05, $6D ; Sprite 0x6D (0x0050, 0x0060, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
-    db $06, $17, $6F ; SPRITE 6F   | xy: { 0x170, 0x060, U } | s: 0x00
-    db $06, $18, $6F ; SPRITE 6F   | xy: { 0x180, 0x060, U } | s: 0x00
-    db $09, $11, $6D ; SPRITE 6D   | xy: { 0x110, 0x090, U } | s: 0x00
-    db $0A, $0D, $6D ; SPRITE 6D   | xy: { 0x0D0, 0x0A0, U } | s: 0x00
-    db $14, $07, $6D ; SPRITE 6D   | xy: { 0x070, 0x140, U } | s: 0x00
-    db $14, $0D, $6F ; SPRITE 6F   | xy: { 0x0D0, 0x140, U } | s: 0x00
-    db $14, $12, $6F ; SPRITE 6F   | xy: { 0x120, 0x140, U } | s: 0x00
-    db $18, $0D, $6D ; SPRITE 6D   | xy: { 0x0D0, 0x180, U } | s: 0x00
-    db $1C, $0A, $6D ; SPRITE 6D   | xy: { 0x0A0, 0x1C0, U } | s: 0x00
-    db $1C, $13, $6D ; SPRITE 6D   | xy: { 0x130, 0x1C0, U } | s: 0x00
+    db $06, $17, $6F ; Sprite 0x6F (0x0170, 0x0060, U) size: 0x00
+    db $06, $18, $6F ; Sprite 0x6F (0x0180, 0x0060, U) size: 0x00
+    db $09, $11, $6D ; Sprite 0x6D (0x0110, 0x0090, U) size: 0x00
+    db $0A, $0D, $6D ; Sprite 0x6D (0x00D0, 0x00A0, U) size: 0x00
+    db $14, $07, $6D ; Sprite 0x6D (0x0070, 0x0140, U) size: 0x00
+    db $14, $0D, $6F ; Sprite 0x6F (0x00D0, 0x0140, U) size: 0x00
+    db $14, $12, $6F ; Sprite 0x6F (0x0120, 0x0140, U) size: 0x00
+    db $18, $0D, $6D ; Sprite 0x6D (0x00D0, 0x0180, U) size: 0x00
+    db $1C, $0A, $6D ; Sprite 0x6D (0x00A0, 0x01C0, U) size: 0x00
+    db $1C, $13, $6D ; Sprite 0x6D (0x0130, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5044,13 +5044,13 @@ RoomData_Sprites_Room0021:
 RoomData_Sprites_Room0022:
 {
     db $00 ; Unlayered OAM
-    db $14, $06, $6D ; SPRITE 6D   | xy: { 0x060, 0x140, U } | s: 0x00
-    db $14, $08, $6D ; SPRITE 6D   | xy: { 0x080, 0x140, U } | s: 0x00
-    db $14, $11, $6D ; SPRITE 6D   | xy: { 0x110, 0x140, U } | s: 0x00
-    db $14, $12, $6D ; SPRITE 6D   | xy: { 0x120, 0x140, U } | s: 0x00
-    db $15, $11, $6D ; SPRITE 6D   | xy: { 0x110, 0x150, U } | s: 0x00
-    db $15, $12, $6D ; SPRITE 6D   | xy: { 0x120, 0x150, U } | s: 0x00
-    db $18, $09, $6D ; SPRITE 6D   | xy: { 0x090, 0x180, U } | s: 0x00
+    db $14, $06, $6D ; Sprite 0x6D (0x0060, 0x0140, U) size: 0x00
+    db $14, $08, $6D ; Sprite 0x6D (0x0080, 0x0140, U) size: 0x00
+    db $14, $11, $6D ; Sprite 0x6D (0x0110, 0x0140, U) size: 0x00
+    db $14, $12, $6D ; Sprite 0x6D (0x0120, 0x0140, U) size: 0x00
+    db $15, $11, $6D ; Sprite 0x6D (0x0110, 0x0150, U) size: 0x00
+    db $15, $12, $6D ; Sprite 0x6D (0x0120, 0x0150, U) size: 0x00
+    db $18, $09, $6D ; Sprite 0x6D (0x0090, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -5060,11 +5060,11 @@ RoomData_Sprites_Room0022:
 RoomData_Sprites_Room0023:
 {
     db $00 ; Unlayered OAM
-    db $14, $15, $97 ; SPRITE 97   | xy: { 0x150, 0x140, U } | s: 0x00
-    db $14, $16, $97 ; SPRITE 97   | xy: { 0x160, 0x140, U } | s: 0x00
-    db $14, $17, $97 ; SPRITE 97   | xy: { 0x170, 0x140, U } | s: 0x00
-    db $14, $18, $97 ; SPRITE 97   | xy: { 0x180, 0x140, U } | s: 0x00
-    db $14, $19, $97 ; SPRITE 97   | xy: { 0x190, 0x140, U } | s: 0x00
+    db $14, $15, $97 ; Sprite 0x97 (0x0150, 0x0140, U) size: 0x00
+    db $14, $16, $97 ; Sprite 0x97 (0x0160, 0x0140, U) size: 0x00
+    db $14, $17, $97 ; Sprite 0x97 (0x0170, 0x0140, U) size: 0x00
+    db $14, $18, $97 ; Sprite 0x97 (0x0180, 0x0140, U) size: 0x00
+    db $14, $19, $97 ; Sprite 0x97 (0x0190, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -5074,13 +5074,13 @@ RoomData_Sprites_Room0023:
 RoomData_Sprites_Room0024:
 {
     db $00 ; Unlayered OAM
-    db $04, $13, $C5 ; SPRITE C5   | xy: { 0x130, 0x040, U } | s: 0x00
-    db $04, $1C, $C5 ; SPRITE C5   | xy: { 0x1C0, 0x040, U } | s: 0x00
-    db $06, $1B, $60 ; SPRITE 60   | xy: { 0x1B0, 0x060, U } | s: 0x00
-    db $08, $05, $C7 ; SPRITE C7   | xy: { 0x050, 0x080, U } | s: 0x00
-    db $08, $07, $C5 ; SPRITE C5   | xy: { 0x070, 0x080, U } | s: 0x00
-    db $08, $0A, $C7 ; SPRITE C7   | xy: { 0x0A0, 0x080, U } | s: 0x00
-    db $0C, $0C, $D1 ; SPRITE D1   | xy: { 0x0C0, 0x0C0, U } | s: 0x00
+    db $04, $13, $C5 ; Sprite 0xC5 (0x0130, 0x0040, U) size: 0x00
+    db $04, $1C, $C5 ; Sprite 0xC5 (0x01C0, 0x0040, U) size: 0x00
+    db $06, $1B, $60 ; Sprite 0x60 (0x01B0, 0x0060, U) size: 0x00
+    db $08, $05, $C7 ; Sprite 0xC7 (0x0050, 0x0080, U) size: 0x00
+    db $08, $07, $C5 ; Sprite 0xC5 (0x0070, 0x0080, U) size: 0x00
+    db $08, $0A, $C7 ; Sprite 0xC7 (0x00A0, 0x0080, U) size: 0x00
+    db $0C, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x00C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5099,18 +5099,18 @@ RoomData_Sprites_Room0025:
 RoomData_Sprites_Room0026:
 {
     db $00 ; Unlayered OAM
-    db $04, $03, $C5 ; SPRITE C5   | xy: { 0x030, 0x040, U } | s: 0x00
-    db $05, $1A, $23 ; SPRITE 23   | xy: { 0x1A0, 0x050, U } | s: 0x00
-    db $06, $05, $23 ; SPRITE 23   | xy: { 0x050, 0x060, U } | s: 0x00
-    db $06, $09, $A7 ; SPRITE A7   | xy: { 0x090, 0x060, U } | s: 0x00
-    db $09, $04, $A7 ; SPRITE A7   | xy: { 0x040, 0x090, U } | s: 0x00
-    db $0C, $0C, $C5 ; SPRITE C5   | xy: { 0x0C0, 0x0C0, U } | s: 0x00
-    db $17, $06, $1C ; SPRITE 1C   | xy: { 0x060, 0x170, U } | s: 0x00
-    db $17, $19, $C6 ; SPRITE C6   | xy: { 0x190, 0x170, U } | s: 0x00
-    db $18, $07, $23 ; SPRITE 23   | xy: { 0x070, 0x180, U } | s: 0x00
-    db $18, $15, $9A ; SPRITE 9A   | xy: { 0x150, 0x180, U } | s: 0x00
-    db $19, $18, $24 ; SPRITE 24   | xy: { 0x180, 0x190, U } | s: 0x00
-    db $1A, $1C, $80 ; SPRITE 80   | xy: { 0x1C0, 0x1A0, U } | s: 0x00
+    db $04, $03, $C5 ; Sprite 0xC5 (0x0030, 0x0040, U) size: 0x00
+    db $05, $1A, $23 ; Sprite 0x23 (0x01A0, 0x0050, U) size: 0x00
+    db $06, $05, $23 ; Sprite 0x23 (0x0050, 0x0060, U) size: 0x00
+    db $06, $09, $A7 ; Sprite 0xA7 (0x0090, 0x0060, U) size: 0x00
+    db $09, $04, $A7 ; Sprite 0xA7 (0x0040, 0x0090, U) size: 0x00
+    db $0C, $0C, $C5 ; Sprite 0xC5 (0x00C0, 0x00C0, U) size: 0x00
+    db $17, $06, $1C ; Sprite 0x1C (0x0060, 0x0170, U) size: 0x00
+    db $17, $19, $C6 ; Sprite 0xC6 (0x0190, 0x0170, U) size: 0x00
+    db $18, $07, $23 ; Sprite 0x23 (0x0070, 0x0180, U) size: 0x00
+    db $18, $15, $9A ; Sprite 0x9A (0x0150, 0x0180, U) size: 0x00
+    db $19, $18, $24 ; Sprite 0x24 (0x0180, 0x0190, U) size: 0x00
+    db $1A, $1C, $80 ; Sprite 0x80 (0x01C0, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5120,13 +5120,13 @@ RoomData_Sprites_Room0026:
 RoomData_Sprites_Room0027:
 {
     db $00 ; Unlayered OAM
-    db $09, $17, $18 ; SPRITE 18   | xy: { 0x170, 0x090, U } | s: 0x00
-    db $13, $18, $18 ; SPRITE 18   | xy: { 0x180, 0x130, U } | s: 0x00
-    db $13, $1B, $18 ; SPRITE 18   | xy: { 0x1B0, 0x130, U } | s: 0x00
-    db $1A, $0C, $18 ; SPRITE 18   | xy: { 0x0C0, 0x1A0, U } | s: 0x00
-    db $06, $0F, $5B ; SPRITE 5B   | xy: { 0x0F0, 0x060, U } | s: 0x00
-    db $0E, $05, $86 ; SPRITE 86   | xy: { 0x050, 0x0E0, U } | s: 0x00
-    db $16, $04, $86 ; SPRITE 86   | xy: { 0x040, 0x160, U } | s: 0x00
+    db $09, $17, $18 ; Sprite 0x18 (0x0170, 0x0090, U) size: 0x00
+    db $13, $18, $18 ; Sprite 0x18 (0x0180, 0x0130, U) size: 0x00
+    db $13, $1B, $18 ; Sprite 0x18 (0x01B0, 0x0130, U) size: 0x00
+    db $1A, $0C, $18 ; Sprite 0x18 (0x00C0, 0x01A0, U) size: 0x00
+    db $06, $0F, $5B ; Sprite 0x5B (0x00F0, 0x0060, U) size: 0x00
+    db $0E, $05, $86 ; Sprite 0x86 (0x0050, 0x00E0, U) size: 0x00
+    db $16, $04, $86 ; Sprite 0x86 (0x0040, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -5136,11 +5136,11 @@ RoomData_Sprites_Room0027:
 RoomData_Sprites_Room0028:
 {
     db $00 ; Unlayered OAM
-    db $06, $0A, $9A ; SPRITE 9A   | xy: { 0x0A0, 0x060, U } | s: 0x00
-    db $08, $08, $81 ; SPRITE 81   | xy: { 0x080, 0x080, U } | s: 0x00
-    db $0A, $0B, $81 ; SPRITE 81   | xy: { 0x0B0, 0x0A0, U } | s: 0x00
-    db $0D, $07, $81 ; SPRITE 81   | xy: { 0x070, 0x0D0, U } | s: 0x00
-    db $10, $08, $8A ; SPRITE 8A   | xy: { 0x080, 0x100, U } | s: 0x00
+    db $06, $0A, $9A ; Sprite 0x9A (0x00A0, 0x0060, U) size: 0x00
+    db $08, $08, $81 ; Sprite 0x81 (0x0080, 0x0080, U) size: 0x00
+    db $0A, $0B, $81 ; Sprite 0x81 (0x00B0, 0x00A0, U) size: 0x00
+    db $0D, $07, $81 ; Sprite 0x81 (0x0070, 0x00D0, U) size: 0x00
+    db $10, $08, $8A ; Sprite 0x8A (0x0080, 0x0100, U) size: 0x00
     db $FF ; END
 }
 
@@ -5150,8 +5150,8 @@ RoomData_Sprites_Room0028:
 RoomData_Sprites_Room0029:
 {
     db $00 ; Unlayered OAM
-    db $16, $18, $88 ; SPRITE 88   | xy: { 0x180, 0x160, U } | s: 0x00
-    db $16, $E7, $07 ; OVERLORD 07 | xy: { 0x070, 0x160, U }
+    db $16, $18, $88 ; Sprite 0x88 (0x0180, 0x0160, U) size: 0x00
+    db $16, $E7, $07 ; Overlord 07 (0x0070, 0x0160, U)
     db $FF ; END
 }
 
@@ -5161,14 +5161,14 @@ RoomData_Sprites_Room0029:
 RoomData_Sprites_Room002A:
 {
     db $00 ; Unlayered OAM
-    db $17, $10, $1E ; SPRITE 1E   | xy: { 0x100, 0x170, U } | s: 0x00
-    db $0F, $0F, $93 ; SPRITE 93   | xy: { 0x0F0, 0x0F0, U } | s: 0x00
-    db $08, $0D, $26 ; SPRITE 26   | xy: { 0x0D0, 0x080, U } | s: 0x00
-    db $0C, $07, $26 ; SPRITE 26   | xy: { 0x070, 0x0C0, U } | s: 0x00
-    db $0C, $10, $26 ; SPRITE 26   | xy: { 0x100, 0x0C0, U } | s: 0x00
-    db $0F, $0D, $26 ; SPRITE 26   | xy: { 0x0D0, 0x0F0, U } | s: 0x00
-    db $11, $13, $26 ; SPRITE 26   | xy: { 0x130, 0x110, U } | s: 0x00
-    db $13, $0F, $26 ; SPRITE 26   | xy: { 0x0F0, 0x130, U } | s: 0x00
+    db $17, $10, $1E ; Sprite 0x1E (0x0100, 0x0170, U) size: 0x00
+    db $0F, $0F, $93 ; Sprite 0x93 (0x00F0, 0x00F0, U) size: 0x00
+    db $08, $0D, $26 ; Sprite 0x26 (0x00D0, 0x0080, U) size: 0x00
+    db $0C, $07, $26 ; Sprite 0x26 (0x0070, 0x00C0, U) size: 0x00
+    db $0C, $10, $26 ; Sprite 0x26 (0x0100, 0x00C0, U) size: 0x00
+    db $0F, $0D, $26 ; Sprite 0x26 (0x00D0, 0x00F0, U) size: 0x00
+    db $11, $13, $26 ; Sprite 0x26 (0x0130, 0x0110, U) size: 0x00
+    db $13, $0F, $26 ; Sprite 0x26 (0x00F0, 0x0130, U) size: 0x00
     db $FF ; END
 }
 
@@ -5178,14 +5178,14 @@ RoomData_Sprites_Room002A:
 RoomData_Sprites_Room002B:
 {
     db $00 ; Unlayered OAM
-    db $11, $0A, $1E ; SPRITE 1E   | xy: { 0x0A0, 0x110, U } | s: 0x00
-    db $0A, $0A, $1C ; SPRITE 1C   | xy: { 0x0A0, 0x0A0, U } | s: 0x00
-    db $17, $07, $23 ; SPRITE 23   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $16, $E3 ; SPRITE E3   | xy: { 0x160, 0x170, U } | s: 0x00
-    db $18, $18, $E3 ; SPRITE E3   | xy: { 0x180, 0x180, U } | s: 0x00
-    db $1A, $05, $23 ; SPRITE 23   | xy: { 0x050, 0x1A0, U } | s: 0x00
-    db $1A, $0A, $23 ; SPRITE 23   | xy: { 0x0A0, 0x1A0, U } | s: 0x00
-    db $1A, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x1A0, U } | s: 0x00
+    db $11, $0A, $1E ; Sprite 0x1E (0x00A0, 0x0110, U) size: 0x00
+    db $0A, $0A, $1C ; Sprite 0x1C (0x00A0, 0x00A0, U) size: 0x00
+    db $17, $07, $23 ; Sprite 0x23 (0x0070, 0x0170, U) size: 0x00
+    db $17, $16, $E3 ; Sprite 0xE3 (0x0160, 0x0170, U) size: 0x00
+    db $18, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0180, U) size: 0x00
+    db $1A, $05, $23 ; Sprite 0x23 (0x0050, 0x01A0, U) size: 0x00
+    db $1A, $0A, $23 ; Sprite 0x23 (0x00A0, 0x01A0, U) size: 0x00
+    db $1A, $17, $E3 ; Sprite 0xE3 (0x0170, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5195,10 +5195,10 @@ RoomData_Sprites_Room002B:
 RoomData_Sprites_Room002C:
 {
     db $00 ; Unlayered OAM
-    db $05, $17, $C8 ; SPRITE C8   | xy: { 0x170, 0x050, U } | s: 0x00
-    db $04, $09, $E3 ; SPRITE E3   | xy: { 0x090, 0x040, U } | s: 0x00
-    db $05, $06, $E3 ; SPRITE E3   | xy: { 0x060, 0x050, U } | s: 0x00
-    db $07, $08, $E3 ; SPRITE E3   | xy: { 0x080, 0x070, U } | s: 0x00
+    db $05, $17, $C8 ; Sprite 0xC8 (0x0170, 0x0050, U) size: 0x00
+    db $04, $09, $E3 ; Sprite 0xE3 (0x0090, 0x0040, U) size: 0x00
+    db $05, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0050, U) size: 0x00
+    db $07, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0070, U) size: 0x00
     db $FF ; END
 }
 
@@ -5208,12 +5208,12 @@ RoomData_Sprites_Room002C:
 RoomData_Sprites_Room002E:
 {
     db $00 ; Unlayered OAM
-    db $06, $14, $99 ; SPRITE 99   | xy: { 0x140, 0x060, U } | s: 0x00
-    db $06, $1C, $99 ; SPRITE 99   | xy: { 0x1C0, 0x060, U } | s: 0x00
-    db $08, $16, $99 ; SPRITE 99   | xy: { 0x160, 0x080, U } | s: 0x00
-    db $08, $19, $99 ; SPRITE 99   | xy: { 0x190, 0x080, U } | s: 0x00
-    db $0B, $14, $99 ; SPRITE 99   | xy: { 0x140, 0x0B0, U } | s: 0x00
-    db $0B, $1B, $99 ; SPRITE 99   | xy: { 0x1B0, 0x0B0, U } | s: 0x00
+    db $06, $14, $99 ; Sprite 0x99 (0x0140, 0x0060, U) size: 0x00
+    db $06, $1C, $99 ; Sprite 0x99 (0x01C0, 0x0060, U) size: 0x00
+    db $08, $16, $99 ; Sprite 0x99 (0x0160, 0x0080, U) size: 0x00
+    db $08, $19, $99 ; Sprite 0x99 (0x0190, 0x0080, U) size: 0x00
+    db $0B, $14, $99 ; Sprite 0x99 (0x0140, 0x00B0, U) size: 0x00
+    db $0B, $1B, $99 ; Sprite 0x99 (0x01B0, 0x00B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5223,7 +5223,7 @@ RoomData_Sprites_Room002E:
 RoomData_Sprites_Room0030:
 {
     db $00 ; Unlayered OAM
-    db $05, $07, $C1 ; SPRITE C1   | xy: { 0x070, 0x050, U } | s: 0x00
+    db $05, $07, $C1 ; Sprite 0xC1 (0x0070, 0x0050, U) size: 0x00
     db $FF ; END
 }
 
@@ -5233,18 +5233,18 @@ RoomData_Sprites_Room0030:
 RoomData_Sprites_Room0031:
 {
     db $00 ; Unlayered OAM
-    db $1A, $18, $1E ; SPRITE 1E   | xy: { 0x180, 0x1A0, U } | s: 0x00
-    db $0B, $16, $1E ; SPRITE 1E   | xy: { 0x160, 0x0B0, U } | s: 0x00
-    db $05, $15, $26 ; SPRITE 26   | xy: { 0x150, 0x050, U } | s: 0x00
-    db $06, $05, $26 ; SPRITE 26   | xy: { 0x050, 0x060, U } | s: 0x00
-    db $09, $03, $26 ; SPRITE 26   | xy: { 0x030, 0x090, U } | s: 0x00
-    db $0C, $0B, $26 ; SPRITE 26   | xy: { 0x0B0, 0x0C0, U } | s: 0x00
-    db $15, $03, $26 ; SPRITE 26   | xy: { 0x030, 0x150, U } | s: 0x00
-    db $15, $1B, $26 ; SPRITE 26   | xy: { 0x1B0, 0x150, U } | s: 0x00
-    db $16, $13, $26 ; SPRITE 26   | xy: { 0x130, 0x160, U } | s: 0x00
-    db $18, $03, $26 ; SPRITE 26   | xy: { 0x030, 0x180, U } | s: 0x00
-    db $19, $17, $26 ; SPRITE 26   | xy: { 0x170, 0x190, U } | s: 0x00
-    db $1C, $09, $26 ; SPRITE 26   | xy: { 0x090, 0x1C0, U } | s: 0x00
+    db $1A, $18, $1E ; Sprite 0x1E (0x0180, 0x01A0, U) size: 0x00
+    db $0B, $16, $1E ; Sprite 0x1E (0x0160, 0x00B0, U) size: 0x00
+    db $05, $15, $26 ; Sprite 0x26 (0x0150, 0x0050, U) size: 0x00
+    db $06, $05, $26 ; Sprite 0x26 (0x0050, 0x0060, U) size: 0x00
+    db $09, $03, $26 ; Sprite 0x26 (0x0030, 0x0090, U) size: 0x00
+    db $0C, $0B, $26 ; Sprite 0x26 (0x00B0, 0x00C0, U) size: 0x00
+    db $15, $03, $26 ; Sprite 0x26 (0x0030, 0x0150, U) size: 0x00
+    db $15, $1B, $26 ; Sprite 0x26 (0x01B0, 0x0150, U) size: 0x00
+    db $16, $13, $26 ; Sprite 0x26 (0x0130, 0x0160, U) size: 0x00
+    db $18, $03, $26 ; Sprite 0x26 (0x0030, 0x0180, U) size: 0x00
+    db $19, $17, $26 ; Sprite 0x26 (0x0170, 0x0190, U) size: 0x00
+    db $1C, $09, $26 ; Sprite 0x26 (0x0090, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5254,11 +5254,11 @@ RoomData_Sprites_Room0031:
 RoomData_Sprites_Room0032:
 {
     db $00 ; Unlayered OAM
-    db $0D, $0B, $6F ; SPRITE 6F   | xy: { 0x0B0, 0x0D0, U } | s: 0x00
-    db $0D, $0F, $6E ; SPRITE 6E   | xy: { 0x0F0, 0x0D0, U } | s: 0x00
-    db $0D, $13, $6F ; SPRITE 6F   | xy: { 0x130, 0x0D0, U } | s: 0x00
-    db $0E, $10, $6E ; SPRITE 6E   | xy: { 0x100, 0x0E0, U } | s: 0x00
-    db $0F, $12, $6E ; SPRITE 6E   | xy: { 0x120, 0x0F0, U } | s: 0x00
+    db $0D, $0B, $6F ; Sprite 0x6F (0x00B0, 0x00D0, U) size: 0x00
+    db $0D, $0F, $6E ; Sprite 0x6E (0x00F0, 0x00D0, U) size: 0x00
+    db $0D, $13, $6F ; Sprite 0x6F (0x0130, 0x00D0, U) size: 0x00
+    db $0E, $10, $6E ; Sprite 0x6E (0x0100, 0x00E0, U) size: 0x00
+    db $0F, $12, $6E ; Sprite 0x6E (0x0120, 0x00F0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5268,9 +5268,9 @@ RoomData_Sprites_Room0032:
 RoomData_Sprites_Room0033:
 {
     db $00 ; Unlayered OAM
-    db $17, $06, $54 ; SPRITE 54   | xy: { 0x060, 0x170, U } | s: 0x00
-    db $17, $09, $54 ; SPRITE 54   | xy: { 0x090, 0x170, U } | s: 0x00
-    db $19, $07, $54 ; SPRITE 54   | xy: { 0x070, 0x190, U } | s: 0x00
+    db $17, $06, $54 ; Sprite 0x54 (0x0060, 0x0170, U) size: 0x00
+    db $17, $09, $54 ; Sprite 0x54 (0x0090, 0x0170, U) size: 0x00
+    db $19, $07, $54 ; Sprite 0x54 (0x0070, 0x0190, U) size: 0x00
     db $FF ; END
 }
 
@@ -5280,13 +5280,13 @@ RoomData_Sprites_Room0033:
 RoomData_Sprites_Room0034:
 {
     db $00 ; Unlayered OAM
-    db $0B, $0F, $81 ; SPRITE 81   | xy: { 0x0F0, 0x0B0, U } | s: 0x00
-    db $12, $10, $81 ; SPRITE 81   | xy: { 0x100, 0x120, U } | s: 0x00
-    db $15, $0F, $9A ; SPRITE 9A   | xy: { 0x0F0, 0x150, U } | s: 0x00
-    db $17, $19, $80 ; SPRITE 80   | xy: { 0x190, 0x170, U } | s: 0x00
-    db $18, $03, $8F ; SPRITE 8F   | xy: { 0x030, 0x180, U } | s: 0x00
-    db $18, $14, $24 ; SPRITE 24   | xy: { 0x140, 0x180, U } | s: 0x00
-    db $1A, $16, $A7 ; SPRITE A7   | xy: { 0x160, 0x1A0, U } | s: 0x00
+    db $0B, $0F, $81 ; Sprite 0x81 (0x00F0, 0x00B0, U) size: 0x00
+    db $12, $10, $81 ; Sprite 0x81 (0x0100, 0x0120, U) size: 0x00
+    db $15, $0F, $9A ; Sprite 0x9A (0x00F0, 0x0150, U) size: 0x00
+    db $17, $19, $80 ; Sprite 0x80 (0x0190, 0x0170, U) size: 0x00
+    db $18, $03, $8F ; Sprite 0x8F (0x0030, 0x0180, U) size: 0x00
+    db $18, $14, $24 ; Sprite 0x24 (0x0140, 0x0180, U) size: 0x00
+    db $1A, $16, $A7 ; Sprite 0xA7 (0x0160, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5296,17 +5296,17 @@ RoomData_Sprites_Room0034:
 RoomData_Sprites_Room0035:
 {
     db $00 ; Unlayered OAM
-    db $06, $16, $1E ; SPRITE 1E   | xy: { 0x160, 0x060, U } | s: 0x00
-    db $05, $14, $21 ; SPRITE 21   | xy: { 0x140, 0x050, U } | s: 0x00
-    db $05, $18, $23 ; SPRITE 23   | xy: { 0x180, 0x050, U } | s: 0x00
-    db $09, $13, $8A ; SPRITE 8A   | xy: { 0x130, 0x090, U } | s: 0x00
-    db $0B, $14, $A7 ; SPRITE A7   | xy: { 0x140, 0x0B0, U } | s: 0x00
-    db $14, $07, $8F ; SPRITE 8F   | xy: { 0x070, 0x140, U } | s: 0x00
-    db $18, $14, $A7 ; SPRITE A7   | xy: { 0x140, 0x180, U } | s: 0x00
-    db $19, $16, $80 ; SPRITE 80   | xy: { 0x160, 0x190, U } | s: 0x00
-    db $1A, $17, $C6 ; SPRITE C6   | xy: { 0x170, 0x1A0, U } | s: 0x00
-    db $1B, $14, $24 ; SPRITE 24   | xy: { 0x140, 0x1B0, U } | s: 0x00
-    db $1C, $1B, $A7 ; SPRITE A7   | xy: { 0x1B0, 0x1C0, U } | s: 0x00
+    db $06, $16, $1E ; Sprite 0x1E (0x0160, 0x0060, U) size: 0x00
+    db $05, $14, $21 ; Sprite 0x21 (0x0140, 0x0050, U) size: 0x00
+    db $05, $18, $23 ; Sprite 0x23 (0x0180, 0x0050, U) size: 0x00
+    db $09, $13, $8A ; Sprite 0x8A (0x0130, 0x0090, U) size: 0x00
+    db $0B, $14, $A7 ; Sprite 0xA7 (0x0140, 0x00B0, U) size: 0x00
+    db $14, $07, $8F ; Sprite 0x8F (0x0070, 0x0140, U) size: 0x00
+    db $18, $14, $A7 ; Sprite 0xA7 (0x0140, 0x0180, U) size: 0x00
+    db $19, $16, $80 ; Sprite 0x80 (0x0160, 0x0190, U) size: 0x00
+    db $1A, $17, $C6 ; Sprite 0xC6 (0x0170, 0x01A0, U) size: 0x00
+    db $1B, $14, $24 ; Sprite 0x24 (0x0140, 0x01B0, U) size: 0x00
+    db $1C, $1B, $A7 ; Sprite 0xA7 (0x01B0, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5316,17 +5316,17 @@ RoomData_Sprites_Room0035:
 RoomData_Sprites_Room0036:
 {
     db $00 ; Unlayered OAM
-    db $02, $F7, $12 ; OVERLORD 12 | xy: { 0x170, 0x020, U }
-    db $0A, $0B, $81 ; SPRITE 81   | xy: { 0x0B0, 0x0A0, U } | s: 0x00
-    db $0A, $14, $81 ; SPRITE 81   | xy: { 0x140, 0x0A0, U } | s: 0x00
-    db $0B, $15, $C5 ; SPRITE C5   | xy: { 0x150, 0x0B0, U } | s: 0x00
-    db $0D, $E1, $10 ; OVERLORD 10 | xy: { 0x010, 0x0D0, U }
-    db $13, $14, $9A ; SPRITE 9A   | xy: { 0x140, 0x130, U } | s: 0x00
-    db $13, $FE, $11 ; OVERLORD 11 | xy: { 0x1E0, 0x130, U }
-    db $14, $09, $81 ; SPRITE 81   | xy: { 0x090, 0x140, U } | s: 0x00
-    db $17, $12, $81 ; SPRITE 81   | xy: { 0x120, 0x170, U } | s: 0x00
-    db $1E, $EA, $13 ; OVERLORD 13 | xy: { 0x0A0, 0x1E0, U }
-    db $1E, $F4, $13 ; OVERLORD 13 | xy: { 0x140, 0x1E0, U }
+    db $02, $F7, $12 ; Overlord 12 (0x0170, 0x0020, U)
+    db $0A, $0B, $81 ; Sprite 0x81 (0x00B0, 0x00A0, U) size: 0x00
+    db $0A, $14, $81 ; Sprite 0x81 (0x0140, 0x00A0, U) size: 0x00
+    db $0B, $15, $C5 ; Sprite 0xC5 (0x0150, 0x00B0, U) size: 0x00
+    db $0D, $E1, $10 ; Overlord 10 (0x0010, 0x00D0, U)
+    db $13, $14, $9A ; Sprite 0x9A (0x0140, 0x0130, U) size: 0x00
+    db $13, $FE, $11 ; Overlord 11 (0x01E0, 0x0130, U)
+    db $14, $09, $81 ; Sprite 0x81 (0x0090, 0x0140, U) size: 0x00
+    db $17, $12, $81 ; Sprite 0x81 (0x0120, 0x0170, U) size: 0x00
+    db $1E, $EA, $13 ; Overlord 13 (0x00A0, 0x01E0, U)
+    db $1E, $F4, $13 ; Overlord 13 (0x0140, 0x01E0, U)
     db $FF ; END
 }
 
@@ -5336,16 +5336,16 @@ RoomData_Sprites_Room0036:
 RoomData_Sprites_Room0037:
 {
     db $00 ; Unlayered OAM
-    db $04, $0B, $21 ; SPRITE 21   | xy: { 0x0B0, 0x040, U } | s: 0x00
-    db $06, $05, $A7 ; SPRITE A7   | xy: { 0x050, 0x060, U } | s: 0x00
-    db $08, $17, $8F ; SPRITE 8F   | xy: { 0x170, 0x080, U } | s: 0x00
-    db $08, $1A, $8F ; SPRITE 8F   | xy: { 0x1A0, 0x080, U } | s: 0x00
-    db $09, $0C, $A7 ; SPRITE A7   | xy: { 0x0C0, 0x090, U } | s: 0x00
-    db $14, $15, $80 ; SPRITE 80   | xy: { 0x150, 0x140, U } | s: 0x00
-    db $17, $17, $A7 ; SPRITE A7   | xy: { 0x170, 0x170, U } | s: 0x00
-    db $19, $13, $24 ; SPRITE 24   | xy: { 0x130, 0x190, U } | s: 0x00
-    db $1A, $17, $C6 ; SPRITE C6   | xy: { 0x170, 0x1A0, U } | s: 0x00
-    db $1C, $15, $23 ; SPRITE 23   | xy: { 0x150, 0x1C0, U } | s: 0x00
+    db $04, $0B, $21 ; Sprite 0x21 (0x00B0, 0x0040, U) size: 0x00
+    db $06, $05, $A7 ; Sprite 0xA7 (0x0050, 0x0060, U) size: 0x00
+    db $08, $17, $8F ; Sprite 0x8F (0x0170, 0x0080, U) size: 0x00
+    db $08, $1A, $8F ; Sprite 0x8F (0x01A0, 0x0080, U) size: 0x00
+    db $09, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x0090, U) size: 0x00
+    db $14, $15, $80 ; Sprite 0x80 (0x0150, 0x0140, U) size: 0x00
+    db $17, $17, $A7 ; Sprite 0xA7 (0x0170, 0x0170, U) size: 0x00
+    db $19, $13, $24 ; Sprite 0x24 (0x0130, 0x0190, U) size: 0x00
+    db $1A, $17, $C6 ; Sprite 0xC6 (0x0170, 0x01A0, U) size: 0x00
+    db $1C, $15, $23 ; Sprite 0x23 (0x0150, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5355,13 +5355,13 @@ RoomData_Sprites_Room0037:
 RoomData_Sprites_Room0038:
 {
     db $00 ; Unlayered OAM
-    db $06, $0C, $81 ; SPRITE 81   | xy: { 0x0C0, 0x060, U } | s: 0x00
-    db $0A, $07, $81 ; SPRITE 81   | xy: { 0x070, 0x0A0, U } | s: 0x00
-    db $0C, $0C, $9A ; SPRITE 9A   | xy: { 0x0C0, 0x0C0, U } | s: 0x00
-    db $10, $0C, $C5 ; SPRITE C5   | xy: { 0x0C0, 0x100, U } | s: 0x00
-    db $14, $06, $9A ; SPRITE 9A   | xy: { 0x060, 0x140, U } | s: 0x00
-    db $18, $0C, $9A ; SPRITE 9A   | xy: { 0x0C0, 0x180, U } | s: 0x00
-    db $1A, $07, $81 ; SPRITE 81   | xy: { 0x070, 0x1A0, U } | s: 0x00
+    db $06, $0C, $81 ; Sprite 0x81 (0x00C0, 0x0060, U) size: 0x00
+    db $0A, $07, $81 ; Sprite 0x81 (0x0070, 0x00A0, U) size: 0x00
+    db $0C, $0C, $9A ; Sprite 0x9A (0x00C0, 0x00C0, U) size: 0x00
+    db $10, $0C, $C5 ; Sprite 0xC5 (0x00C0, 0x0100, U) size: 0x00
+    db $14, $06, $9A ; Sprite 0x9A (0x0060, 0x0140, U) size: 0x00
+    db $18, $0C, $9A ; Sprite 0x9A (0x00C0, 0x0180, U) size: 0x00
+    db $1A, $07, $81 ; Sprite 0x81 (0x0070, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5371,14 +5371,14 @@ RoomData_Sprites_Room0038:
 RoomData_Sprites_Room0039:
 {
     db $00 ; Unlayered OAM
-    db $18, $04, $18 ; SPRITE 18   | xy: { 0x040, 0x180, U } | s: 0x00
-    db $0F, $EF, $09 ; OVERLORD 09 | xy: { 0x0F0, 0x0F0, U }
-    db $15, $05, $8B ; SPRITE 8B   | xy: { 0x050, 0x150, U } | s: 0x00
+    db $18, $04, $18 ; Sprite 0x18 (0x0040, 0x0180, U) size: 0x00
+    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
+    db $15, $05, $8B ; Sprite 0x8B (0x0050, 0x0150, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
-    db $15, $09, $13 ; SPRITE 13   | xy: { 0x090, 0x150, U } | s: 0x00
-    db $16, $17, $8A ; SPRITE 8A   | xy: { 0x170, 0x160, U } | s: 0x00
-    db $18, $0B, $26 ; SPRITE 26   | xy: { 0x0B0, 0x180, U } | s: 0x00
-    db $1A, $17, $8A ; SPRITE 8A   | xy: { 0x170, 0x1A0, U } | s: 0x00
+    db $15, $09, $13 ; Sprite 0x13 (0x0090, 0x0150, U) size: 0x00
+    db $16, $17, $8A ; Sprite 0x8A (0x0170, 0x0160, U) size: 0x00
+    db $18, $0B, $26 ; Sprite 0x26 (0x00B0, 0x0180, U) size: 0x00
+    db $1A, $17, $8A ; Sprite 0x8A (0x0170, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5388,12 +5388,12 @@ RoomData_Sprites_Room0039:
 RoomData_Sprites_Room003A:
 {
     db $00 ; Unlayered OAM
-    db $11, $0E, $8E ; SPRITE 8E   | xy: { 0x0E0, 0x110, U } | s: 0x00
-    db $11, $11, $8E ; SPRITE 8E   | xy: { 0x110, 0x110, U } | s: 0x00
-    db $14, $04, $C5 ; SPRITE C5   | xy: { 0x040, 0x140, U } | s: 0x00
-    db $14, $0A, $24 ; SPRITE 24   | xy: { 0x0A0, 0x140, U } | s: 0x00
-    db $14, $15, $24 ; SPRITE 24   | xy: { 0x150, 0x140, U } | s: 0x00
-    db $14, $1B, $C5 ; SPRITE C5   | xy: { 0x1B0, 0x140, U } | s: 0x00
+    db $11, $0E, $8E ; Sprite 0x8E (0x00E0, 0x0110, U) size: 0x00
+    db $11, $11, $8E ; Sprite 0x8E (0x0110, 0x0110, U) size: 0x00
+    db $14, $04, $C5 ; Sprite 0xC5 (0x0040, 0x0140, U) size: 0x00
+    db $14, $0A, $24 ; Sprite 0x24 (0x00A0, 0x0140, U) size: 0x00
+    db $14, $15, $24 ; Sprite 0x24 (0x0150, 0x0140, U) size: 0x00
+    db $14, $1B, $C5 ; Sprite 0xC5 (0x01B0, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -5403,13 +5403,13 @@ RoomData_Sprites_Room003A:
 RoomData_Sprites_Room003B:
 {
     db $00 ; Unlayered OAM
-    db $06, $03, $8A ; SPRITE 8A   | xy: { 0x030, 0x060, U } | s: 0x00
-    db $09, $07, $23 ; SPRITE 23   | xy: { 0x070, 0x090, U } | s: 0x00
-    db $0D, $0C, $8A ; SPRITE 8A   | xy: { 0x0C0, 0x0D0, U } | s: 0x00
-    db $0F, $08, $24 ; SPRITE 24   | xy: { 0x080, 0x0F0, U } | s: 0x00
-    db $13, $03, $8A ; SPRITE 8A   | xy: { 0x030, 0x130, U } | s: 0x00
-    db $16, $07, $24 ; SPRITE 24   | xy: { 0x070, 0x160, U } | s: 0x00
-    db $1A, $0C, $8A ; SPRITE 8A   | xy: { 0x0C0, 0x1A0, U } | s: 0x00
+    db $06, $03, $8A ; Sprite 0x8A (0x0030, 0x0060, U) size: 0x00
+    db $09, $07, $23 ; Sprite 0x23 (0x0070, 0x0090, U) size: 0x00
+    db $0D, $0C, $8A ; Sprite 0x8A (0x00C0, 0x00D0, U) size: 0x00
+    db $0F, $08, $24 ; Sprite 0x24 (0x0080, 0x00F0, U) size: 0x00
+    db $13, $03, $8A ; Sprite 0x8A (0x0030, 0x0130, U) size: 0x00
+    db $16, $07, $24 ; Sprite 0x24 (0x0070, 0x0160, U) size: 0x00
+    db $1A, $0C, $8A ; Sprite 0x8A (0x00C0, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5419,9 +5419,9 @@ RoomData_Sprites_Room003B:
 RoomData_Sprites_Room003C:
 {
     db $00 ; Unlayered OAM
-    db $08, $09, $26 ; SPRITE 26   | xy: { 0x090, 0x080, U } | s: 0x00
-    db $14, $0A, $24 ; SPRITE 24   | xy: { 0x0A0, 0x140, U } | s: 0x00
-    db $14, $12, $24 ; SPRITE 24   | xy: { 0x120, 0x140, U } | s: 0x00
+    db $08, $09, $26 ; Sprite 0x26 (0x0090, 0x0080, U) size: 0x00
+    db $14, $0A, $24 ; Sprite 0x24 (0x00A0, 0x0140, U) size: 0x00
+    db $14, $12, $24 ; Sprite 0x24 (0x0120, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -5431,21 +5431,21 @@ RoomData_Sprites_Room003C:
 RoomData_Sprites_Room003D:
 {
     db $00 ; Unlayered OAM
-    db $17, $05, $1E ; SPRITE 1E   | xy: { 0x050, 0x170, U } | s: 0x00
-    db $19, $0A, $1E ; SPRITE 1E   | xy: { 0x0A0, 0x190, U } | s: 0x00
-    db $07, $17, $13 ; SPRITE 13   | xy: { 0x170, 0x070, U } | s: 0x00
+    db $17, $05, $1E ; Sprite 0x1E (0x0050, 0x0170, U) size: 0x00
+    db $19, $0A, $1E ; Sprite 0x1E (0x00A0, 0x0190, U) size: 0x00
+    db $07, $17, $13 ; Sprite 0x13 (0x0170, 0x0070, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
-    db $07, $18, $13 ; SPRITE 13   | xy: { 0x180, 0x070, U } | s: 0x00
-    db $08, $15, $C5 ; SPRITE C5   | xy: { 0x150, 0x080, U } | s: 0x00
-    db $08, $1A, $C5 ; SPRITE C5   | xy: { 0x1A0, 0x080, U } | s: 0x00
-    db $0A, $04, $8A ; SPRITE 8A   | xy: { 0x040, 0x0A0, U } | s: 0x00
-    db $0B, $03, $7D ; SPRITE 7D   | xy: { 0x030, 0x0B0, U } | s: 0x00
-    db $15, $FB, $0A ; OVERLORD 0A | xy: { 0x1B0, 0x150, U }
-    db $16, $13, $5C ; SPRITE 5C   | xy: { 0x130, 0x160, U } | s: 0x00
-    db $16, $1C, $5B ; SPRITE 5B   | xy: { 0x1C0, 0x160, U } | s: 0x00
-    db $16, $09, $5B ; SPRITE 5B   | xy: { 0x090, 0x160, U } | s: 0x00
-    db $17, $07, $D1 ; SPRITE D1   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $08, $15 ; SPRITE 15   | xy: { 0x080, 0x170, U } | s: 0x00
+    db $07, $18, $13 ; Sprite 0x13 (0x0180, 0x0070, U) size: 0x00
+    db $08, $15, $C5 ; Sprite 0xC5 (0x0150, 0x0080, U) size: 0x00
+    db $08, $1A, $C5 ; Sprite 0xC5 (0x01A0, 0x0080, U) size: 0x00
+    db $0A, $04, $8A ; Sprite 0x8A (0x0040, 0x00A0, U) size: 0x00
+    db $0B, $03, $7D ; Sprite 0x7D (0x0030, 0x00B0, U) size: 0x00
+    db $15, $FB, $0A ; Overlord 0A (0x01B0, 0x0150, U)
+    db $16, $13, $5C ; Sprite 0x5C (0x0130, 0x0160, U) size: 0x00
+    db $16, $1C, $5B ; Sprite 0x5B (0x01C0, 0x0160, U) size: 0x00
+    db $16, $09, $5B ; Sprite 0x5B (0x0090, 0x0160, U) size: 0x00
+    db $17, $07, $D1 ; Sprite 0xD1 (0x0070, 0x0170, U) size: 0x00
+    db $17, $08, $15 ; Sprite 0x15 (0x0080, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -5455,19 +5455,19 @@ RoomData_Sprites_Room003D:
 RoomData_Sprites_Room003E:
 {
     db $00 ; Unlayered OAM
-    db $15, $06, $1E ; SPRITE 1E   | xy: { 0x060, 0x150, U } | s: 0x00
-    db $04, $19, $91 ; SPRITE 91   | xy: { 0x190, 0x040, U } | s: 0x00
-    db $0B, $16, $91 ; SPRITE 91   | xy: { 0x160, 0x0B0, U } | s: 0x00
-    db $12, $05, $9D ; SPRITE 9D   | xy: { 0x050, 0x120, U } | s: 0x00
-    db $12, $0E, $9D ; SPRITE 9D   | xy: { 0x0E0, 0x120, U } | s: 0x00
-    db $12, $F0, $07 ; OVERLORD 07 | xy: { 0x100, 0x120, U }
-    db $12, $12, $9D ; SPRITE 9D   | xy: { 0x120, 0x120, U } | s: 0x00
-    db $12, $15, $9D ; SPRITE 9D   | xy: { 0x150, 0x120, U } | s: 0x00
-    db $16, $07, $24 ; SPRITE 24   | xy: { 0x070, 0x160, U } | s: 0x00
-    db $18, $11, $24 ; SPRITE 24   | xy: { 0x110, 0x180, U } | s: 0x00
+    db $15, $06, $1E ; Sprite 0x1E (0x0060, 0x0150, U) size: 0x00
+    db $04, $19, $91 ; Sprite 0x91 (0x0190, 0x0040, U) size: 0x00
+    db $0B, $16, $91 ; Sprite 0x91 (0x0160, 0x00B0, U) size: 0x00
+    db $12, $05, $9D ; Sprite 0x9D (0x0050, 0x0120, U) size: 0x00
+    db $12, $0E, $9D ; Sprite 0x9D (0x00E0, 0x0120, U) size: 0x00
+    db $12, $F0, $07 ; Overlord 07 (0x0100, 0x0120, U)
+    db $12, $12, $9D ; Sprite 0x9D (0x0120, 0x0120, U) size: 0x00
+    db $12, $15, $9D ; Sprite 0x9D (0x0150, 0x0120, U) size: 0x00
+    db $16, $07, $24 ; Sprite 0x24 (0x0070, 0x0160, U) size: 0x00
+    db $18, $11, $24 ; Sprite 0x24 (0x0110, 0x0180, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
-    db $19, $15, $24 ; SPRITE 24   | xy: { 0x150, 0x190, U } | s: 0x00
-    db $1A, $0B, $24 ; SPRITE 24   | xy: { 0x0B0, 0x1A0, U } | s: 0x00
+    db $19, $15, $24 ; Sprite 0x24 (0x0150, 0x0190, U) size: 0x00
+    db $1A, $0B, $24 ; Sprite 0x24 (0x00B0, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5477,11 +5477,11 @@ RoomData_Sprites_Room003E:
 RoomData_Sprites_Room003F:
 {
     db $00 ; Unlayered OAM
-    db $15, $04, $04 ; SPRITE 04   | xy: { 0x040, 0x150, U } | s: 0x00
-    db $16, $0C, $91 ; SPRITE 91   | xy: { 0x0C0, 0x160, U } | s: 0x00
-    db $15, $13, $04 ; SPRITE 04   | xy: { 0x130, 0x150, U } | s: 0x00
-    db $17, $04, $91 ; SPRITE 91   | xy: { 0x040, 0x170, U } | s: 0x00
-    db $18, $08, $D1 ; SPRITE D1   | xy: { 0x080, 0x180, U } | s: 0x00
+    db $15, $04, $04 ; Sprite 0x04 (0x0040, 0x0150, U) size: 0x00
+    db $16, $0C, $91 ; Sprite 0x91 (0x00C0, 0x0160, U) size: 0x00
+    db $15, $13, $04 ; Sprite 0x04 (0x0130, 0x0150, U) size: 0x00
+    db $17, $04, $91 ; Sprite 0x91 (0x0040, 0x0170, U) size: 0x00
+    db $18, $08, $D1 ; Sprite 0xD1 (0x0080, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -5491,12 +5491,12 @@ RoomData_Sprites_Room003F:
 RoomData_Sprites_Room0040:
 {
     db $00 ; Unlayered OAM
-    db $88, $09, $41 ; SPRITE 41   | xy: { 0x090, 0x080, L } | s: 0x00
-    db $EF, $69, $41 ; SPRITE 41   | xy: { 0x090, 0x0F0, L } | s: 0x1B
-    db $95, $18, $1C ; SPRITE 1C   | xy: { 0x180, 0x150, L } | s: 0x00
-    db $98, $1B, $43 ; SPRITE 43   | xy: { 0x1B0, 0x180, L } | s: 0x00
-    db $9A, $17, $46 ; SPRITE 46   | xy: { 0x170, 0x1A0, L } | s: 0x00
-    db $9A, $19, $46 ; SPRITE 46   | xy: { 0x190, 0x1A0, L } | s: 0x00
+    db $88, $09, $41 ; Sprite 0x41 (0x0090, 0x0080, L) size: 0x00
+    db $EF, $69, $41 ; Sprite 0x41 (0x0090, 0x00F0, L) size: 0x1B
+    db $95, $18, $1C ; Sprite 0x1C (0x0180, 0x0150, L) size: 0x00
+    db $98, $1B, $43 ; Sprite 0x43 (0x01B0, 0x0180, L) size: 0x00
+    db $9A, $17, $46 ; Sprite 0x46 (0x0170, 0x01A0, L) size: 0x00
+    db $9A, $19, $46 ; Sprite 0x46 (0x0190, 0x01A0, L) size: 0x00
     db $FF ; END
 }
 
@@ -5515,10 +5515,10 @@ UNREACHABLE_09DE37:
 RoomData_Sprites_Room0041:
 {
     db $00 ; Unlayered OAM
-    db $0A, $11, $6D ; SPRITE 6D   | xy: { 0x110, 0x0A0, U } | s: 0x00
-    db $0B, $1B, $6D ; SPRITE 6D   | xy: { 0x1B0, 0x0B0, U } | s: 0x00
-    db $0D, $0F, $6D ; SPRITE 6D   | xy: { 0x0F0, 0x0D0, U } | s: 0x00
-    db $15, $06, $6D ; SPRITE 6D   | xy: { 0x060, 0x150, U } | s: 0x00
+    db $0A, $11, $6D ; Sprite 0x6D (0x0110, 0x00A0, U) size: 0x00
+    db $0B, $1B, $6D ; Sprite 0x6D (0x01B0, 0x00B0, U) size: 0x00
+    db $0D, $0F, $6D ; Sprite 0x6D (0x00F0, 0x00D0, U) size: 0x00
+    db $15, $06, $6D ; Sprite 0x6D (0x0060, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -5528,12 +5528,12 @@ RoomData_Sprites_Room0041:
 RoomData_Sprites_Room0042:
 {
     db $00 ; Unlayered OAM
-    db $06, $12, $6E ; SPRITE 6E   | xy: { 0x120, 0x060, U } | s: 0x00
-    db $06, $13, $6E ; SPRITE 6E   | xy: { 0x130, 0x060, U } | s: 0x00
-    db $06, $14, $6E ; SPRITE 6E   | xy: { 0x140, 0x060, U } | s: 0x00
-    db $07, $12, $6E ; SPRITE 6E   | xy: { 0x120, 0x070, U } | s: 0x00
-    db $07, $13, $6E ; SPRITE 6E   | xy: { 0x130, 0x070, U } | s: 0x00
-    db $07, $14, $6E ; SPRITE 6E   | xy: { 0x140, 0x070, U } | s: 0x00
+    db $06, $12, $6E ; Sprite 0x6E (0x0120, 0x0060, U) size: 0x00
+    db $06, $13, $6E ; Sprite 0x6E (0x0130, 0x0060, U) size: 0x00
+    db $06, $14, $6E ; Sprite 0x6E (0x0140, 0x0060, U) size: 0x00
+    db $07, $12, $6E ; Sprite 0x6E (0x0120, 0x0070, U) size: 0x00
+    db $07, $13, $6E ; Sprite 0x6E (0x0130, 0x0070, U) size: 0x00
+    db $07, $14, $6E ; Sprite 0x6E (0x0140, 0x0070, U) size: 0x00
     db $FF ; END
 }
 
@@ -5543,8 +5543,8 @@ RoomData_Sprites_Room0042:
 RoomData_Sprites_Room0043:
 {
     db $00 ; Unlayered OAM
-    db $06, $0C, $84 ; SPRITE 84   | xy: { 0x0C0, 0x060, U } | s: 0x00
-    db $18, $F7, $14 ; OVERLORD 14 | xy: { 0x170, 0x180, U }
+    db $06, $0C, $84 ; Sprite 0x84 (0x00C0, 0x0060, U) size: 0x00
+    db $18, $F7, $14 ; Overlord 14 (0x0170, 0x0180, U)
     db $FF ; END
 }
 
@@ -5554,15 +5554,15 @@ RoomData_Sprites_Room0043:
 RoomData_Sprites_Room0044:
 {
     db $00 ; Unlayered OAM
-    db $06, $09, $93 ; SPRITE 93   | xy: { 0x090, 0x060, U } | s: 0x00
-    db $08, $05, $93 ; SPRITE 93   | xy: { 0x050, 0x080, U } | s: 0x00
-    db $04, $08, $24 ; SPRITE 24   | xy: { 0x080, 0x040, U } | s: 0x00
-    db $08, $03, $24 ; SPRITE 24   | xy: { 0x030, 0x080, U } | s: 0x00
-    db $08, $17, $8F ; SPRITE 8F   | xy: { 0x170, 0x080, U } | s: 0x00
-    db $0C, $08, $24 ; SPRITE 24   | xy: { 0x080, 0x0C0, U } | s: 0x00
-    db $0F, $17, $23 ; SPRITE 23   | xy: { 0x170, 0x0F0, U } | s: 0x00
-    db $15, $EB, $0A ; OVERLORD 0A | xy: { 0x0B0, 0x150, U }
-    db $16, $18, $24 ; SPRITE 24   | xy: { 0x180, 0x160, U } | s: 0x00
+    db $06, $09, $93 ; Sprite 0x93 (0x0090, 0x0060, U) size: 0x00
+    db $08, $05, $93 ; Sprite 0x93 (0x0050, 0x0080, U) size: 0x00
+    db $04, $08, $24 ; Sprite 0x24 (0x0080, 0x0040, U) size: 0x00
+    db $08, $03, $24 ; Sprite 0x24 (0x0030, 0x0080, U) size: 0x00
+    db $08, $17, $8F ; Sprite 0x8F (0x0170, 0x0080, U) size: 0x00
+    db $0C, $08, $24 ; Sprite 0x24 (0x0080, 0x00C0, U) size: 0x00
+    db $0F, $17, $23 ; Sprite 0x23 (0x0170, 0x00F0, U) size: 0x00
+    db $15, $EB, $0A ; Overlord 0A (0x00B0, 0x0150, U)
+    db $16, $18, $24 ; Sprite 0x24 (0x0180, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -5572,17 +5572,17 @@ RoomData_Sprites_Room0044:
 RoomData_Sprites_Room0045:
 {
     db $00 ; Unlayered OAM
-    db $06, $19, $B7 ; SPRITE B7   | xy: { 0x190, 0x060, U } | s: 0x00
-    db $06, $06, $A6 ; SPRITE A6   | xy: { 0x060, 0x060, U } | s: 0x00
-    db $0B, $04, $A5 ; SPRITE A5   | xy: { 0x040, 0x0B0, U } | s: 0x00
-    db $0B, $0B, $A7 ; SPRITE A7   | xy: { 0x0B0, 0x0B0, U } | s: 0x00
-    db $0B, $17, $D1 ; SPRITE D1   | xy: { 0x170, 0x0B0, U } | s: 0x00
-    db $0C, $18, $A5 ; SPRITE A5   | xy: { 0x180, 0x0C0, U } | s: 0x00
-    db $0C, $1A, $A5 ; SPRITE A5   | xy: { 0x1A0, 0x0C0, U } | s: 0x00
-    db $11, $18, $A5 ; SPRITE A5   | xy: { 0x180, 0x110, U } | s: 0x00
-    db $18, $16, $8F ; SPRITE 8F   | xy: { 0x160, 0x180, U } | s: 0x00
-    db $1B, $19, $A6 ; SPRITE A6   | xy: { 0x190, 0x1B0, U } | s: 0x00
-    db $1C, $07, $A6 ; SPRITE A6   | xy: { 0x070, 0x1C0, U } | s: 0x00
+    db $06, $19, $B7 ; Sprite 0xB7 (0x0190, 0x0060, U) size: 0x00
+    db $06, $06, $A6 ; Sprite 0xA6 (0x0060, 0x0060, U) size: 0x00
+    db $0B, $04, $A5 ; Sprite 0xA5 (0x0040, 0x00B0, U) size: 0x00
+    db $0B, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x00B0, U) size: 0x00
+    db $0B, $17, $D1 ; Sprite 0xD1 (0x0170, 0x00B0, U) size: 0x00
+    db $0C, $18, $A5 ; Sprite 0xA5 (0x0180, 0x00C0, U) size: 0x00
+    db $0C, $1A, $A5 ; Sprite 0xA5 (0x01A0, 0x00C0, U) size: 0x00
+    db $11, $18, $A5 ; Sprite 0xA5 (0x0180, 0x0110, U) size: 0x00
+    db $18, $16, $8F ; Sprite 0x8F (0x0160, 0x0180, U) size: 0x00
+    db $1B, $19, $A6 ; Sprite 0xA6 (0x0190, 0x01B0, U) size: 0x00
+    db $1C, $07, $A6 ; Sprite 0xA6 (0x0070, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5592,11 +5592,11 @@ RoomData_Sprites_Room0045:
 RoomData_Sprites_Room0046:
 {
     db $00 ; Unlayered OAM
-    db $05, $16, $81 ; SPRITE 81   | xy: { 0x160, 0x050, U } | s: 0x00
-    db $06, $FB, $11 ; OVERLORD 11 | xy: { 0x1B0, 0x060, U }
-    db $1A, $09, $81 ; SPRITE 81   | xy: { 0x090, 0x1A0, U } | s: 0x00
-    db $1A, $FB, $11 ; OVERLORD 11 | xy: { 0x1B0, 0x1A0, U }
-    db $1B, $11, $81 ; SPRITE 81   | xy: { 0x110, 0x1B0, U } | s: 0x00
+    db $05, $16, $81 ; Sprite 0x81 (0x0160, 0x0050, U) size: 0x00
+    db $06, $FB, $11 ; Overlord 11 (0x01B0, 0x0060, U)
+    db $1A, $09, $81 ; Sprite 0x81 (0x0090, 0x01A0, U) size: 0x00
+    db $1A, $FB, $11 ; Overlord 11 (0x01B0, 0x01A0, U)
+    db $1B, $11, $81 ; Sprite 0x81 (0x0110, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5615,19 +5615,19 @@ RoomData_Sprites_Room0047:
 RoomData_Sprites_Room0049:
 {
     db $00 ; Unlayered OAM
-    db $05, $0B, $18 ; SPRITE 18   | xy: { 0x0B0, 0x050, U } | s: 0x00
-    db $0B, $04, $18 ; SPRITE 18   | xy: { 0x040, 0x0B0, U } | s: 0x00
-    db $0C, $09, $18 ; SPRITE 18   | xy: { 0x090, 0x0C0, U } | s: 0x00
-    db $06, $08, $D1 ; SPRITE D1   | xy: { 0x080, 0x060, U } | s: 0x00
-    db $08, $07, $8B ; SPRITE 8B   | xy: { 0x070, 0x080, U } | s: 0x00
-    db $0B, $17, $8B ; SPRITE 8B   | xy: { 0x170, 0x0B0, U } | s: 0x00
-    db $0F, $EF, $09 ; OVERLORD 09 | xy: { 0x0F0, 0x0F0, U }
-    db $10, $17, $8B ; SPRITE 8B   | xy: { 0x170, 0x100, U } | s: 0x00
-    db $14, $16, $8B ; SPRITE 8B   | xy: { 0x160, 0x140, U } | s: 0x00
-    db $16, $09, $24 ; SPRITE 24   | xy: { 0x090, 0x160, U } | s: 0x00
-    db $17, $0A, $23 ; SPRITE 23   | xy: { 0x0A0, 0x170, U } | s: 0x00
-    db $18, $07, $24 ; SPRITE 24   | xy: { 0x070, 0x180, U } | s: 0x00
-    db $18, $1A, $8B ; SPRITE 8B   | xy: { 0x1A0, 0x180, U } | s: 0x00
+    db $05, $0B, $18 ; Sprite 0x18 (0x00B0, 0x0050, U) size: 0x00
+    db $0B, $04, $18 ; Sprite 0x18 (0x0040, 0x00B0, U) size: 0x00
+    db $0C, $09, $18 ; Sprite 0x18 (0x0090, 0x00C0, U) size: 0x00
+    db $06, $08, $D1 ; Sprite 0xD1 (0x0080, 0x0060, U) size: 0x00
+    db $08, $07, $8B ; Sprite 0x8B (0x0070, 0x0080, U) size: 0x00
+    db $0B, $17, $8B ; Sprite 0x8B (0x0170, 0x00B0, U) size: 0x00
+    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
+    db $10, $17, $8B ; Sprite 0x8B (0x0170, 0x0100, U) size: 0x00
+    db $14, $16, $8B ; Sprite 0x8B (0x0160, 0x0140, U) size: 0x00
+    db $16, $09, $24 ; Sprite 0x24 (0x0090, 0x0160, U) size: 0x00
+    db $17, $0A, $23 ; Sprite 0x23 (0x00A0, 0x0170, U) size: 0x00
+    db $18, $07, $24 ; Sprite 0x24 (0x0070, 0x0180, U) size: 0x00
+    db $18, $1A, $8B ; Sprite 0x8B (0x01A0, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -5637,9 +5637,9 @@ RoomData_Sprites_Room0049:
 RoomData_Sprites_Room004A:
 {
     db $00 ; Unlayered OAM
-    db $07, $14, $1C ; SPRITE 1C   | xy: { 0x140, 0x070, U } | s: 0x00
-    db $08, $08, $13 ; SPRITE 13   | xy: { 0x080, 0x080, U } | s: 0x00
-    db $08, $18, $13 ; SPRITE 13   | xy: { 0x180, 0x080, U } | s: 0x00
+    db $07, $14, $1C ; Sprite 0x1C (0x0140, 0x0070, U) size: 0x00
+    db $08, $08, $13 ; Sprite 0x13 (0x0080, 0x0080, U) size: 0x00
+    db $08, $18, $13 ; Sprite 0x13 (0x0180, 0x0080, U) size: 0x00
     db $FF ; END
 }
 
@@ -5649,14 +5649,14 @@ RoomData_Sprites_Room004A:
 RoomData_Sprites_Room004B:
 {
     db $00 ; Unlayered OAM
-    db $04, $07, $84 ; SPRITE 84   | xy: { 0x070, 0x040, U } | s: 0x00
-    db $05, $17, $15 ; SPRITE 15   | xy: { 0x170, 0x050, U } | s: 0x00
-    db $06, $18, $15 ; SPRITE 15   | xy: { 0x180, 0x060, U } | s: 0x00
-    db $08, $04, $83 ; SPRITE 83   | xy: { 0x040, 0x080, U } | s: 0x00
-    db $08, $0B, $83 ; SPRITE 83   | xy: { 0x0B0, 0x080, U } | s: 0x00
-    db $18, $0F, $24 ; SPRITE 24   | xy: { 0x0F0, 0x180, U } | s: 0x00
-    db $19, $0B, $24 ; SPRITE 24   | xy: { 0x0B0, 0x190, U } | s: 0x00
-    db $19, $12, $24 ; SPRITE 24   | xy: { 0x120, 0x190, U } | s: 0x00
+    db $04, $07, $84 ; Sprite 0x84 (0x0070, 0x0040, U) size: 0x00
+    db $05, $17, $15 ; Sprite 0x15 (0x0170, 0x0050, U) size: 0x00
+    db $06, $18, $15 ; Sprite 0x15 (0x0180, 0x0060, U) size: 0x00
+    db $08, $04, $83 ; Sprite 0x83 (0x0040, 0x0080, U) size: 0x00
+    db $08, $0B, $83 ; Sprite 0x83 (0x00B0, 0x0080, U) size: 0x00
+    db $18, $0F, $24 ; Sprite 0x24 (0x00F0, 0x0180, U) size: 0x00
+    db $19, $0B, $24 ; Sprite 0x24 (0x00B0, 0x0190, U) size: 0x00
+    db $19, $12, $24 ; Sprite 0x24 (0x0120, 0x0190, U) size: 0x00
     db $FF ; END
 }
 
@@ -5666,14 +5666,14 @@ RoomData_Sprites_Room004B:
 RoomData_Sprites_Room004C:
 {
     db $00 ; Unlayered OAM
-    db $11, $15, $93 ; SPRITE 93   | xy: { 0x150, 0x110, U } | s: 0x00
-    db $12, $19, $93 ; SPRITE 93   | xy: { 0x190, 0x120, U } | s: 0x00
-    db $05, $15, $13 ; SPRITE 13   | xy: { 0x150, 0x050, U } | s: 0x00
-    db $05, $1A, $13 ; SPRITE 13   | xy: { 0x1A0, 0x050, U } | s: 0x00
-    db $06, $17, $13 ; SPRITE 13   | xy: { 0x170, 0x060, U } | s: 0x00
-    db $0A, $18, $13 ; SPRITE 13   | xy: { 0x180, 0x0A0, U } | s: 0x00
-    db $15, $14, $13 ; SPRITE 13   | xy: { 0x140, 0x150, U } | s: 0x00
-    db $18, $13, $8A ; SPRITE 8A   | xy: { 0x130, 0x180, U } | s: 0x00
+    db $11, $15, $93 ; Sprite 0x93 (0x0150, 0x0110, U) size: 0x00
+    db $12, $19, $93 ; Sprite 0x93 (0x0190, 0x0120, U) size: 0x00
+    db $05, $15, $13 ; Sprite 0x13 (0x0150, 0x0050, U) size: 0x00
+    db $05, $1A, $13 ; Sprite 0x13 (0x01A0, 0x0050, U) size: 0x00
+    db $06, $17, $13 ; Sprite 0x13 (0x0170, 0x0060, U) size: 0x00
+    db $0A, $18, $13 ; Sprite 0x13 (0x0180, 0x00A0, U) size: 0x00
+    db $15, $14, $13 ; Sprite 0x13 (0x0140, 0x0150, U) size: 0x00
+    db $18, $13, $8A ; Sprite 0x8A (0x0130, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -5683,7 +5683,7 @@ RoomData_Sprites_Room004C:
 RoomData_Sprites_Room004D:
 {
     db $00 ; Unlayered OAM
-    db $0E, $0E, $09 ; SPRITE 09   | xy: { 0x0E0, 0x0E0, U } | s: 0x00
+    db $0E, $0E, $09 ; Sprite 0x09 (0x00E0, 0x00E0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5693,10 +5693,10 @@ RoomData_Sprites_Room004D:
 RoomData_Sprites_Room004E:
 {
     db $00 ; Unlayered OAM
-    db $08, $14, $8F ; SPRITE 8F   | xy: { 0x140, 0x080, U } | s: 0x00
-    db $08, $16, $8F ; SPRITE 8F   | xy: { 0x160, 0x080, U } | s: 0x00
-    db $08, $18, $8F ; SPRITE 8F   | xy: { 0x180, 0x080, U } | s: 0x00
-    db $09, $07, $7E ; SPRITE 7E   | xy: { 0x070, 0x090, U } | s: 0x00
+    db $08, $14, $8F ; Sprite 0x8F (0x0140, 0x0080, U) size: 0x00
+    db $08, $16, $8F ; Sprite 0x8F (0x0160, 0x0080, U) size: 0x00
+    db $08, $18, $8F ; Sprite 0x8F (0x0180, 0x0080, U) size: 0x00
+    db $09, $07, $7E ; Sprite 0x7E (0x0070, 0x0090, U) size: 0x00
     db $FF ; END
 }
 
@@ -5706,9 +5706,9 @@ RoomData_Sprites_Room004E:
 RoomData_Sprites_Room004F:
 {
     db $00 ; Unlayered OAM
-    db $06, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x060, U } | s: 0x00
-    db $08, $14, $E3 ; SPRITE E3   | xy: { 0x140, 0x080, U } | s: 0x00
-    db $08, $1A, $E3 ; SPRITE E3   | xy: { 0x1A0, 0x080, U } | s: 0x00
+    db $06, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0060, U) size: 0x00
+    db $08, $14, $E3 ; Sprite 0xE3 (0x0140, 0x0080, U) size: 0x00
+    db $08, $1A, $E3 ; Sprite 0xE3 (0x01A0, 0x0080, U) size: 0x00
     db $FF ; END
 }
 
@@ -5718,9 +5718,9 @@ RoomData_Sprites_Room004F:
 RoomData_Sprites_Room0050:
 {
     db $00 ; Unlayered OAM
-    db $8E, $17, $42 ; SPRITE 42   | xy: { 0x170, 0x0E0, L } | s: 0x00
-    db $90, $18, $4B ; SPRITE 4B   | xy: { 0x180, 0x100, L } | s: 0x00
-    db $92, $17, $4B ; SPRITE 4B   | xy: { 0x170, 0x120, L } | s: 0x00
+    db $8E, $17, $42 ; Sprite 0x42 (0x0170, 0x00E0, L) size: 0x00
+    db $90, $18, $4B ; Sprite 0x4B (0x0180, 0x0100, L) size: 0x00
+    db $92, $17, $4B ; Sprite 0x4B (0x0170, 0x0120, L) size: 0x00
     db $FF ; END
 }
 
@@ -5730,9 +5730,9 @@ RoomData_Sprites_Room0050:
 RoomData_Sprites_Room0051:
 {
     db $01 ; Layered OAM
-    db $02, $0E, $EE ; SPRITE EE   | xy: { 0x0E0, 0x020, U } | s: 0x00
-    db $97, $29, $41 ; SPRITE 41   | xy: { 0x090, 0x170, L } | s: 0x01
-    db $97, $56, $41 ; SPRITE 41   | xy: { 0x160, 0x170, L } | s: 0x02
+    db $02, $0E, $EE ; Sprite 0xEE (0x00E0, 0x0020, U) size: 0x00
+    db $97, $29, $41 ; Sprite 0x41 (0x0090, 0x0170, L) size: 0x01
+    db $97, $56, $41 ; Sprite 0x41 (0x0160, 0x0170, L) size: 0x02
     db $FF ; END
 }
 
@@ -5742,9 +5742,9 @@ RoomData_Sprites_Room0051:
 RoomData_Sprites_Room0052:
 {
     db $00 ; Unlayered OAM
-    db $8D, $07, $42 ; SPRITE 42   | xy: { 0x070, 0x0D0, L } | s: 0x00
-    db $8F, $08, $4B ; SPRITE 4B   | xy: { 0x080, 0x0F0, L } | s: 0x00
-    db $92, $07, $4B ; SPRITE 4B   | xy: { 0x070, 0x120, L } | s: 0x00
+    db $8D, $07, $42 ; Sprite 0x42 (0x0070, 0x00D0, L) size: 0x00
+    db $8F, $08, $4B ; Sprite 0x4B (0x0080, 0x00F0, L) size: 0x00
+    db $92, $07, $4B ; Sprite 0x4B (0x0070, 0x0120, L) size: 0x00
     db $FF ; END
 }
 
@@ -5754,19 +5754,19 @@ RoomData_Sprites_Room0052:
 RoomData_Sprites_Room0053:
 {
     db $00 ; Unlayered OAM
-    db $07, $17, $4E ; SPRITE 4E   | xy: { 0x170, 0x070, U } | s: 0x00
-    db $09, $1C, $61 ; SPRITE 61   | xy: { 0x1C0, 0x090, U } | s: 0x00
-    db $0C, $17, $4F ; SPRITE 4F   | xy: { 0x170, 0x0C0, U } | s: 0x00
-    db $0C, $1A, $4F ; SPRITE 4F   | xy: { 0x1A0, 0x0C0, U } | s: 0x00
-    db $0E, $13, $61 ; SPRITE 61   | xy: { 0x130, 0x0E0, U } | s: 0x00
-    db $15, $05, $4E ; SPRITE 4E   | xy: { 0x050, 0x150, U } | s: 0x00
-    db $16, $0B, $4E ; SPRITE 4E   | xy: { 0x0B0, 0x160, U } | s: 0x00
-    db $17, $1A, $4E ; SPRITE 4E   | xy: { 0x1A0, 0x170, U } | s: 0x00
-    db $19, $07, $61 ; SPRITE 61   | xy: { 0x070, 0x190, U } | s: 0x00
-    db $1A, $04, $4E ; SPRITE 4E   | xy: { 0x040, 0x1A0, U } | s: 0x00
-    db $1A, $0B, $4E ; SPRITE 4E   | xy: { 0x0B0, 0x1A0, U } | s: 0x00
-    db $1A, $1B, $61 ; SPRITE 61   | xy: { 0x1B0, 0x1A0, U } | s: 0x00
-    db $1B, $1A, $4E ; SPRITE 4E   | xy: { 0x1A0, 0x1B0, U } | s: 0x00
+    db $07, $17, $4E ; Sprite 0x4E (0x0170, 0x0070, U) size: 0x00
+    db $09, $1C, $61 ; Sprite 0x61 (0x01C0, 0x0090, U) size: 0x00
+    db $0C, $17, $4F ; Sprite 0x4F (0x0170, 0x00C0, U) size: 0x00
+    db $0C, $1A, $4F ; Sprite 0x4F (0x01A0, 0x00C0, U) size: 0x00
+    db $0E, $13, $61 ; Sprite 0x61 (0x0130, 0x00E0, U) size: 0x00
+    db $15, $05, $4E ; Sprite 0x4E (0x0050, 0x0150, U) size: 0x00
+    db $16, $0B, $4E ; Sprite 0x4E (0x00B0, 0x0160, U) size: 0x00
+    db $17, $1A, $4E ; Sprite 0x4E (0x01A0, 0x0170, U) size: 0x00
+    db $19, $07, $61 ; Sprite 0x61 (0x0070, 0x0190, U) size: 0x00
+    db $1A, $04, $4E ; Sprite 0x4E (0x0040, 0x01A0, U) size: 0x00
+    db $1A, $0B, $4E ; Sprite 0x4E (0x00B0, 0x01A0, U) size: 0x00
+    db $1A, $1B, $61 ; Sprite 0x61 (0x01B0, 0x01A0, U) size: 0x00
+    db $1B, $1A, $4E ; Sprite 0x4E (0x01A0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5776,14 +5776,14 @@ RoomData_Sprites_Room0053:
 RoomData_Sprites_Room0054:
 {
     db $00 ; Unlayered OAM
-    db $05, $0E, $9A ; SPRITE 9A   | xy: { 0x0E0, 0x050, U } | s: 0x00
-    db $0B, $0C, $81 ; SPRITE 81   | xy: { 0x0C0, 0x0B0, U } | s: 0x00
-    db $0E, $0B, $C5 ; SPRITE C5   | xy: { 0x0B0, 0x0E0, U } | s: 0x00
-    db $0E, $0F, $7E ; SPRITE 7E   | xy: { 0x0F0, 0x0E0, U } | s: 0x00
-    db $0F, $10, $81 ; SPRITE 81   | xy: { 0x100, 0x0F0, U } | s: 0x00
-    db $14, $12, $9A ; SPRITE 9A   | xy: { 0x120, 0x140, U } | s: 0x00
-    db $15, $0F, $81 ; SPRITE 81   | xy: { 0x0F0, 0x150, U } | s: 0x00
-    db $17, $0C, $9A ; SPRITE 9A   | xy: { 0x0C0, 0x170, U } | s: 0x00
+    db $05, $0E, $9A ; Sprite 0x9A (0x00E0, 0x0050, U) size: 0x00
+    db $0B, $0C, $81 ; Sprite 0x81 (0x00C0, 0x00B0, U) size: 0x00
+    db $0E, $0B, $C5 ; Sprite 0xC5 (0x00B0, 0x00E0, U) size: 0x00
+    db $0E, $0F, $7E ; Sprite 0x7E (0x00F0, 0x00E0, U) size: 0x00
+    db $0F, $10, $81 ; Sprite 0x81 (0x0100, 0x00F0, U) size: 0x00
+    db $14, $12, $9A ; Sprite 0x9A (0x0120, 0x0140, U) size: 0x00
+    db $15, $0F, $81 ; Sprite 0x81 (0x00F0, 0x0150, U) size: 0x00
+    db $17, $0C, $9A ; Sprite 0x9A (0x00C0, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -5793,9 +5793,9 @@ RoomData_Sprites_Room0054:
 RoomData_Sprites_Room0055:
 {
     db $00 ; Unlayered OAM
-    db $08, $0E, $73 ; SPRITE 73   | xy: { 0x0E0, 0x080, U } | s: 0x00
-    db $15, $14, $4B ; SPRITE 4B   | xy: { 0x140, 0x150, U } | s: 0x00
-    db $16, $0D, $4B ; SPRITE 4B   | xy: { 0x0D0, 0x160, U } | s: 0x00
+    db $08, $0E, $73 ; Sprite 0x73 (0x00E0, 0x0080, U) size: 0x00
+    db $15, $14, $4B ; Sprite 0x4B (0x0140, 0x0150, U) size: 0x00
+    db $16, $0D, $4B ; Sprite 0x4B (0x00D0, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -5805,19 +5805,19 @@ RoomData_Sprites_Room0055:
 RoomData_Sprites_Room0056:
 {
     db $00 ; Unlayered OAM
-    db $05, $EB, $0A ; OVERLORD 0A | xy: { 0x0B0, 0x050, U }
-    db $19, $07, $93 ; SPRITE 93   | xy: { 0x070, 0x190, U } | s: 0x00
-    db $19, $17, $93 ; SPRITE 93   | xy: { 0x170, 0x190, U } | s: 0x00
-    db $04, $07, $13 ; SPRITE 13   | xy: { 0x070, 0x040, U } | s: 0x00
-    db $05, $1B, $26 ; SPRITE 26   | xy: { 0x1B0, 0x050, U } | s: 0x00
-    db $06, $03, $13 ; SPRITE 13   | xy: { 0x030, 0x060, U } | s: 0x00
-    db $06, $0C, $13 ; SPRITE 13   | xy: { 0x0C0, 0x060, U } | s: 0x00
-    db $0F, $EF, $09 ; OVERLORD 09 | xy: { 0x0F0, 0x0F0, U }
-    db $11, $13, $26 ; SPRITE 26   | xy: { 0x130, 0x110, U } | s: 0x00
-    db $12, $18, $8A ; SPRITE 8A   | xy: { 0x180, 0x120, U } | s: 0x00
-    db $1B, $03, $26 ; SPRITE 26   | xy: { 0x030, 0x1B0, U } | s: 0x00
-    db $1C, $13, $80 ; SPRITE 80   | xy: { 0x130, 0x1C0, U } | s: 0x00
-    db $1C, $19, $26 ; SPRITE 26   | xy: { 0x190, 0x1C0, U } | s: 0x00
+    db $05, $EB, $0A ; Overlord 0A (0x00B0, 0x0050, U)
+    db $19, $07, $93 ; Sprite 0x93 (0x0070, 0x0190, U) size: 0x00
+    db $19, $17, $93 ; Sprite 0x93 (0x0170, 0x0190, U) size: 0x00
+    db $04, $07, $13 ; Sprite 0x13 (0x0070, 0x0040, U) size: 0x00
+    db $05, $1B, $26 ; Sprite 0x26 (0x01B0, 0x0050, U) size: 0x00
+    db $06, $03, $13 ; Sprite 0x13 (0x0030, 0x0060, U) size: 0x00
+    db $06, $0C, $13 ; Sprite 0x13 (0x00C0, 0x0060, U) size: 0x00
+    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
+    db $11, $13, $26 ; Sprite 0x26 (0x0130, 0x0110, U) size: 0x00
+    db $12, $18, $8A ; Sprite 0x8A (0x0180, 0x0120, U) size: 0x00
+    db $1B, $03, $26 ; Sprite 0x26 (0x0030, 0x01B0, U) size: 0x00
+    db $1C, $13, $80 ; Sprite 0x80 (0x0130, 0x01C0, U) size: 0x00
+    db $1C, $19, $26 ; Sprite 0x26 (0x0190, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5827,22 +5827,22 @@ RoomData_Sprites_Room0056:
 RoomData_Sprites_Room0057:
 {
     db $00 ; Unlayered OAM
-    db $04, $08, $D1 ; SPRITE D1   | xy: { 0x080, 0x040, U } | s: 0x00
-    db $04, $0C, $23 ; SPRITE 23   | xy: { 0x0C0, 0x040, U } | s: 0x00
-    db $05, $08, $8A ; SPRITE 8A   | xy: { 0x080, 0x050, U } | s: 0x00
-    db $07, $04, $A7 ; SPRITE A7   | xy: { 0x040, 0x070, U } | s: 0x00
-    db $0C, $03, $A7 ; SPRITE A7   | xy: { 0x030, 0x0C0, U } | s: 0x00
-    db $0C, $0C, $8B ; SPRITE 8B   | xy: { 0x0C0, 0x0C0, U } | s: 0x00
-    db $0F, $EF, $09 ; OVERLORD 09 | xy: { 0x0F0, 0x0F0, U }
-    db $14, $05, $8B ; SPRITE 8B   | xy: { 0x050, 0x140, U } | s: 0x00
-    db $14, $0A, $8B ; SPRITE 8B   | xy: { 0x0A0, 0x140, U } | s: 0x00
-    db $14, $17, $8B ; SPRITE 8B   | xy: { 0x170, 0x140, U } | s: 0x00
-    db $14, $19, $8B ; SPRITE 8B   | xy: { 0x190, 0x140, U } | s: 0x00
-    db $15, $15, $A7 ; SPRITE A7   | xy: { 0x150, 0x150, U } | s: 0x00
-    db $17, $13, $8B ; SPRITE 8B   | xy: { 0x130, 0x170, U } | s: 0x00
-    db $18, $07, $24 ; SPRITE 24   | xy: { 0x070, 0x180, U } | s: 0x00
-    db $18, $08, $24 ; SPRITE 24   | xy: { 0x080, 0x180, U } | s: 0x00
-    db $18, $0B, $1C ; SPRITE 1C   | xy: { 0x0B0, 0x180, U } | s: 0x00
+    db $04, $08, $D1 ; Sprite 0xD1 (0x0080, 0x0040, U) size: 0x00
+    db $04, $0C, $23 ; Sprite 0x23 (0x00C0, 0x0040, U) size: 0x00
+    db $05, $08, $8A ; Sprite 0x8A (0x0080, 0x0050, U) size: 0x00
+    db $07, $04, $A7 ; Sprite 0xA7 (0x0040, 0x0070, U) size: 0x00
+    db $0C, $03, $A7 ; Sprite 0xA7 (0x0030, 0x00C0, U) size: 0x00
+    db $0C, $0C, $8B ; Sprite 0x8B (0x00C0, 0x00C0, U) size: 0x00
+    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
+    db $14, $05, $8B ; Sprite 0x8B (0x0050, 0x0140, U) size: 0x00
+    db $14, $0A, $8B ; Sprite 0x8B (0x00A0, 0x0140, U) size: 0x00
+    db $14, $17, $8B ; Sprite 0x8B (0x0170, 0x0140, U) size: 0x00
+    db $14, $19, $8B ; Sprite 0x8B (0x0190, 0x0140, U) size: 0x00
+    db $15, $15, $A7 ; Sprite 0xA7 (0x0150, 0x0150, U) size: 0x00
+    db $17, $13, $8B ; Sprite 0x8B (0x0130, 0x0170, U) size: 0x00
+    db $18, $07, $24 ; Sprite 0x24 (0x0070, 0x0180, U) size: 0x00
+    db $18, $08, $24 ; Sprite 0x24 (0x0080, 0x0180, U) size: 0x00
+    db $18, $0B, $1C ; Sprite 0x1C (0x00B0, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -5852,15 +5852,15 @@ RoomData_Sprites_Room0057:
 RoomData_Sprites_Room0058:
 {
     db $00 ; Unlayered OAM
-    db $14, $0C, $18 ; SPRITE 18   | xy: { 0x0C0, 0x140, U } | s: 0x00
-    db $16, $06, $18 ; SPRITE 18   | xy: { 0x060, 0x160, U } | s: 0x00
-    db $16, $16, $93 ; SPRITE 93   | xy: { 0x160, 0x160, U } | s: 0x00
-    db $04, $14, $13 ; SPRITE 13   | xy: { 0x140, 0x040, U } | s: 0x00
-    db $06, $16, $5B ; SPRITE 5B   | xy: { 0x160, 0x060, U } | s: 0x00
-    db $0A, $08, $04 ; SPRITE 04   | xy: { 0x080, 0x0A0, U } | s: 0x00
-    db $0B, $1B, $26 ; SPRITE 26   | xy: { 0x1B0, 0x0B0, U } | s: 0x00
-    db $19, $16, $26 ; SPRITE 26   | xy: { 0x160, 0x190, U } | s: 0x00
-    db $1A, $0A, $23 ; SPRITE 23   | xy: { 0x0A0, 0x1A0, U } | s: 0x00
+    db $14, $0C, $18 ; Sprite 0x18 (0x00C0, 0x0140, U) size: 0x00
+    db $16, $06, $18 ; Sprite 0x18 (0x0060, 0x0160, U) size: 0x00
+    db $16, $16, $93 ; Sprite 0x93 (0x0160, 0x0160, U) size: 0x00
+    db $04, $14, $13 ; Sprite 0x13 (0x0140, 0x0040, U) size: 0x00
+    db $06, $16, $5B ; Sprite 0x5B (0x0160, 0x0060, U) size: 0x00
+    db $0A, $08, $04 ; Sprite 0x04 (0x0080, 0x00A0, U) size: 0x00
+    db $0B, $1B, $26 ; Sprite 0x26 (0x01B0, 0x00B0, U) size: 0x00
+    db $19, $16, $26 ; Sprite 0x26 (0x0160, 0x0190, U) size: 0x00
+    db $1A, $0A, $23 ; Sprite 0x23 (0x00A0, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5870,18 +5870,18 @@ RoomData_Sprites_Room0058:
 RoomData_Sprites_Room0059:
 {
     db $01 ; Layered OAM
-    db $10, $07, $18 ; SPRITE 18   | xy: { 0x070, 0x100, U } | s: 0x00
-    db $16, $08, $18 ; SPRITE 18   | xy: { 0x080, 0x160, U } | s: 0x00
-    db $8F, $14, $93 ; SPRITE 93   | xy: { 0x140, 0x0F0, L } | s: 0x00
-    db $8F, $1A, $93 ; SPRITE 93   | xy: { 0x1A0, 0x0F0, L } | s: 0x00
-    db $8A, $1A, $8A ; SPRITE 8A   | xy: { 0x1A0, 0x0A0, L } | s: 0x00
-    db $0B, $08, $80 ; SPRITE 80   | xy: { 0x080, 0x0B0, U } | s: 0x00
-    db $8D, $15, $8A ; SPRITE 8A   | xy: { 0x150, 0x0D0, L } | s: 0x00
-    db $8E, $05, $5B ; SPRITE 5B   | xy: { 0x050, 0x0E0, L } | s: 0x00
-    db $93, $1A, $D1 ; SPRITE D1   | xy: { 0x1A0, 0x130, L } | s: 0x00
-    db $14, $17, $8B ; SPRITE 8B   | xy: { 0x170, 0x140, U } | s: 0x00
-    db $95, $15, $8B ; SPRITE 8B   | xy: { 0x150, 0x150, L } | s: 0x00
-    db $95, $1A, $8B ; SPRITE 8B   | xy: { 0x1A0, 0x150, L } | s: 0x00
+    db $10, $07, $18 ; Sprite 0x18 (0x0070, 0x0100, U) size: 0x00
+    db $16, $08, $18 ; Sprite 0x18 (0x0080, 0x0160, U) size: 0x00
+    db $8F, $14, $93 ; Sprite 0x93 (0x0140, 0x00F0, L) size: 0x00
+    db $8F, $1A, $93 ; Sprite 0x93 (0x01A0, 0x00F0, L) size: 0x00
+    db $8A, $1A, $8A ; Sprite 0x8A (0x01A0, 0x00A0, L) size: 0x00
+    db $0B, $08, $80 ; Sprite 0x80 (0x0080, 0x00B0, U) size: 0x00
+    db $8D, $15, $8A ; Sprite 0x8A (0x0150, 0x00D0, L) size: 0x00
+    db $8E, $05, $5B ; Sprite 0x5B (0x0050, 0x00E0, L) size: 0x00
+    db $93, $1A, $D1 ; Sprite 0xD1 (0x01A0, 0x0130, L) size: 0x00
+    db $14, $17, $8B ; Sprite 0x8B (0x0170, 0x0140, U) size: 0x00
+    db $95, $15, $8B ; Sprite 0x8B (0x0150, 0x0150, L) size: 0x00
+    db $95, $1A, $8B ; Sprite 0x8B (0x01A0, 0x0150, L) size: 0x00
     db $FF ; END
 }
 
@@ -5891,7 +5891,7 @@ RoomData_Sprites_Room0059:
 RoomData_Sprites_Room005A:
 {
     db $00 ; Unlayered OAM
-    db $16, $17, $92 ; SPRITE 92   | xy: { 0x170, 0x160, U } | s: 0x00
+    db $16, $17, $92 ; Sprite 0x92 (0x0170, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -5901,15 +5901,15 @@ RoomData_Sprites_Room005A:
 RoomData_Sprites_Room005B:
 {
     db $01 ; Layered OAM
-    db $8C, $17, $1E ; SPRITE 1E   | xy: { 0x170, 0x0C0, L } | s: 0x00
-    db $93, $18, $1E ; SPRITE 1E   | xy: { 0x180, 0x130, L } | s: 0x00
-    db $95, $17, $8A ; SPRITE 8A   | xy: { 0x170, 0x150, L } | s: 0x00
-    db $88, $16, $83 ; SPRITE 83   | xy: { 0x160, 0x080, L } | s: 0x00
-    db $88, $19, $84 ; SPRITE 84   | xy: { 0x190, 0x080, L } | s: 0x00
-    db $8E, $14, $8A ; SPRITE 8A   | xy: { 0x140, 0x0E0, L } | s: 0x00
-    db $90, $1B, $8A ; SPRITE 8A   | xy: { 0x1B0, 0x100, L } | s: 0x00
-    db $91, $17, $8A ; SPRITE 8A   | xy: { 0x170, 0x110, L } | s: 0x00
-    db $92, $14, $8A ; SPRITE 8A   | xy: { 0x140, 0x120, L } | s: 0x00
+    db $8C, $17, $1E ; Sprite 0x1E (0x0170, 0x00C0, L) size: 0x00
+    db $93, $18, $1E ; Sprite 0x1E (0x0180, 0x0130, L) size: 0x00
+    db $95, $17, $8A ; Sprite 0x8A (0x0170, 0x0150, L) size: 0x00
+    db $88, $16, $83 ; Sprite 0x83 (0x0160, 0x0080, L) size: 0x00
+    db $88, $19, $84 ; Sprite 0x84 (0x0190, 0x0080, L) size: 0x00
+    db $8E, $14, $8A ; Sprite 0x8A (0x0140, 0x00E0, L) size: 0x00
+    db $90, $1B, $8A ; Sprite 0x8A (0x01B0, 0x0100, L) size: 0x00
+    db $91, $17, $8A ; Sprite 0x8A (0x0170, 0x0110, L) size: 0x00
+    db $92, $14, $8A ; Sprite 0x8A (0x0140, 0x0120, L) size: 0x00
     db $FF ; END
 }
 
@@ -5919,11 +5919,11 @@ RoomData_Sprites_Room005B:
 RoomData_Sprites_Room005C:
 {
     db $00 ; Unlayered OAM
-    db $02, $0B, $68 ; SPRITE 68   | xy: { 0x0B0, 0x020, U } | s: 0x00
-    db $0E, $05, $69 ; SPRITE 69   | xy: { 0x050, 0x0E0, U } | s: 0x00
-    db $0E, $0E, $69 ; SPRITE 69   | xy: { 0x0E0, 0x0E0, U } | s: 0x00
-    db $18, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x180, U } | s: 0x00
-    db $18, $18, $E3 ; SPRITE E3   | xy: { 0x180, 0x180, U } | s: 0x00
+    db $02, $0B, $68 ; Sprite 0x68 (0x00B0, 0x0020, U) size: 0x00
+    db $0E, $05, $69 ; Sprite 0x69 (0x0050, 0x00E0, U) size: 0x00
+    db $0E, $0E, $69 ; Sprite 0x69 (0x00E0, 0x00E0, U) size: 0x00
+    db $18, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0180, U) size: 0x00
+    db $18, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -5933,19 +5933,19 @@ RoomData_Sprites_Room005C:
 RoomData_Sprites_Room005D:
 {
     db $00 ; Unlayered OAM
-    db $05, $07, $A7 ; SPRITE A7   | xy: { 0x070, 0x050, U } | s: 0x00
-    db $06, $08, $61 ; SPRITE 61   | xy: { 0x080, 0x060, U } | s: 0x00
-    db $08, $03, $A7 ; SPRITE A7   | xy: { 0x030, 0x080, U } | s: 0x00
-    db $08, $15, $A6 ; SPRITE A6   | xy: { 0x150, 0x080, U } | s: 0x00
-    db $08, $17, $A7 ; SPRITE A7   | xy: { 0x170, 0x080, U } | s: 0x00
-    db $08, $19, $A5 ; SPRITE A5   | xy: { 0x190, 0x080, U } | s: 0x00
-    db $08, $1B, $A7 ; SPRITE A7   | xy: { 0x1B0, 0x080, U } | s: 0x00
-    db $0B, $07, $A7 ; SPRITE A7   | xy: { 0x070, 0x0B0, U } | s: 0x00
-    db $15, $04, $61 ; SPRITE 61   | xy: { 0x040, 0x150, U } | s: 0x00
-    db $15, $0B, $A5 ; SPRITE A5   | xy: { 0x0B0, 0x150, U } | s: 0x00
-    db $1A, $04, $A5 ; SPRITE A5   | xy: { 0x040, 0x1A0, U } | s: 0x00
-    db $1A, $08, $A5 ; SPRITE A5   | xy: { 0x080, 0x1A0, U } | s: 0x00
-    db $1A, $0B, $61 ; SPRITE 61   | xy: { 0x0B0, 0x1A0, U } | s: 0x00
+    db $05, $07, $A7 ; Sprite 0xA7 (0x0070, 0x0050, U) size: 0x00
+    db $06, $08, $61 ; Sprite 0x61 (0x0080, 0x0060, U) size: 0x00
+    db $08, $03, $A7 ; Sprite 0xA7 (0x0030, 0x0080, U) size: 0x00
+    db $08, $15, $A6 ; Sprite 0xA6 (0x0150, 0x0080, U) size: 0x00
+    db $08, $17, $A7 ; Sprite 0xA7 (0x0170, 0x0080, U) size: 0x00
+    db $08, $19, $A5 ; Sprite 0xA5 (0x0190, 0x0080, U) size: 0x00
+    db $08, $1B, $A7 ; Sprite 0xA7 (0x01B0, 0x0080, U) size: 0x00
+    db $0B, $07, $A7 ; Sprite 0xA7 (0x0070, 0x00B0, U) size: 0x00
+    db $15, $04, $61 ; Sprite 0x61 (0x0040, 0x0150, U) size: 0x00
+    db $15, $0B, $A5 ; Sprite 0xA5 (0x00B0, 0x0150, U) size: 0x00
+    db $1A, $04, $A5 ; Sprite 0xA5 (0x0040, 0x01A0, U) size: 0x00
+    db $1A, $08, $A5 ; Sprite 0xA5 (0x0080, 0x01A0, U) size: 0x00
+    db $1A, $0B, $61 ; Sprite 0x61 (0x00B0, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5955,11 +5955,11 @@ RoomData_Sprites_Room005D:
 RoomData_Sprites_Room005E:
 {
     db $00 ; Unlayered OAM
-    db $05, $FB, $0A ; OVERLORD 0A | xy: { 0x1B0, 0x050, U }
-    db $05, $1C, $C5 ; SPRITE C5   | xy: { 0x1C0, 0x050, U } | s: 0x00
-    db $0B, $13, $C5 ; SPRITE C5   | xy: { 0x130, 0x0B0, U } | s: 0x00
-    db $14, $17, $7D ; SPRITE 7D   | xy: { 0x170, 0x140, U } | s: 0x00
-    db $18, $08, $7E ; SPRITE 7E   | xy: { 0x080, 0x180, U } | s: 0x00
+    db $05, $FB, $0A ; Overlord 0A (0x01B0, 0x0050, U)
+    db $05, $1C, $C5 ; Sprite 0xC5 (0x01C0, 0x0050, U) size: 0x00
+    db $0B, $13, $C5 ; Sprite 0xC5 (0x0130, 0x00B0, U) size: 0x00
+    db $14, $17, $7D ; Sprite 0x7D (0x0170, 0x0140, U) size: 0x00
+    db $18, $08, $7E ; Sprite 0x7E (0x0080, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -5969,9 +5969,9 @@ RoomData_Sprites_Room005E:
 RoomData_Sprites_Room005F:
 {
     db $00 ; Unlayered OAM
-    db $18, $04, $24 ; SPRITE 24   | xy: { 0x040, 0x180, U } | s: 0x00
-    db $18, $0B, $24 ; SPRITE 24   | xy: { 0x0B0, 0x180, U } | s: 0x00
-    db $1B, $08, $24 ; SPRITE 24   | xy: { 0x080, 0x1B0, U } | s: 0x00
+    db $18, $04, $24 ; Sprite 0x24 (0x0040, 0x0180, U) size: 0x00
+    db $18, $0B, $24 ; Sprite 0x24 (0x00B0, 0x0180, U) size: 0x00
+    db $1B, $08, $24 ; Sprite 0x24 (0x0080, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -5981,7 +5981,7 @@ RoomData_Sprites_Room005F:
 RoomData_Sprites_Room0060:
 {
     db $01 ; Layered OAM
-    db $48, $73, $41 ; SPRITE 41   | xy: { 0x130, 0x080, U } | s: 0x13
+    db $48, $73, $41 ; Sprite 0x41 (0x0130, 0x0080, U) size: 0x13
     db $FF ; END
 }
 
@@ -5991,9 +5991,9 @@ RoomData_Sprites_Room0060:
 RoomData_Sprites_Room0061:
 {
     db $00 ; Unlayered OAM
-    db $0E, $2C, $42 ; SPRITE 42   | xy: { 0x0C0, 0x0E0, U } | s: 0x01
-    db $12, $0D, $4B ; SPRITE 4B   | xy: { 0x0D0, 0x120, U } | s: 0x00
-    db $12, $12, $4B ; SPRITE 4B   | xy: { 0x120, 0x120, U } | s: 0x00
+    db $0E, $2C, $42 ; Sprite 0x42 (0x00C0, 0x00E0, U) size: 0x01
+    db $12, $0D, $4B ; Sprite 0x4B (0x00D0, 0x0120, U) size: 0x00
+    db $12, $12, $4B ; Sprite 0x4B (0x0120, 0x0120, U) size: 0x00
     db $FF ; END
 }
 
@@ -6003,9 +6003,9 @@ RoomData_Sprites_Room0061:
 RoomData_Sprites_Room0062:
 {
     db $01 ; Layered OAM
-    db $48, $6C, $41 ; SPRITE 41   | xy: { 0x0C0, 0x080, U } | s: 0x13
-    db $8D, $0A, $42 ; SPRITE 42   | xy: { 0x0A0, 0x0D0, L } | s: 0x00
-    db $8E, $11, $42 ; SPRITE 42   | xy: { 0x110, 0x0E0, L } | s: 0x00
+    db $48, $6C, $41 ; Sprite 0x41 (0x00C0, 0x0080, U) size: 0x13
+    db $8D, $0A, $42 ; Sprite 0x42 (0x00A0, 0x00D0, L) size: 0x00
+    db $8E, $11, $42 ; Sprite 0x42 (0x0110, 0x00E0, L) size: 0x00
     db $FF ; END
 }
 
@@ -6015,8 +6015,8 @@ RoomData_Sprites_Room0062:
 RoomData_Sprites_Room0063:
 {
     db $00 ; Unlayered OAM
-    db $08, $E7, $14 ; OVERLORD 14 | xy: { 0x070, 0x080, U }
-    db $18, $07, $61 ; SPRITE 61   | xy: { 0x070, 0x180, U } | s: 0x00
+    db $08, $E7, $14 ; Overlord 14 (0x0070, 0x0080, U)
+    db $18, $07, $61 ; Sprite 0x61 (0x0070, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -6026,19 +6026,19 @@ RoomData_Sprites_Room0063:
 RoomData_Sprites_Room0064:
 {
     db $00 ; Unlayered OAM
-    db $12, $05, $6F ; SPRITE 6F   | xy: { 0x050, 0x120, U } | s: 0x00
-    db $13, $0B, $06 ; SPRITE 06   | xy: { 0x0B0, 0x130, U } | s: 0x00
-    db $13, $05, $6F ; SPRITE 6F   | xy: { 0x050, 0x130, U } | s: 0x00
-    db $16, $03, $D1 ; SPRITE D1   | xy: { 0x030, 0x160, U } | s: 0x00
-    db $17, $17, $6D ; SPRITE 6D   | xy: { 0x170, 0x170, U } | s: 0x00
-    db $19, $19, $6D ; SPRITE 6D   | xy: { 0x190, 0x190, U } | s: 0x00
-    db $1A, $05, $6D ; SPRITE 6D   | xy: { 0x050, 0x1A0, U } | s: 0x00
-    db $15, $E9, $06 ; OVERLORD 06 | xy: { 0x090, 0x150, U }
-    db $17, $E7, $06 ; OVERLORD 06 | xy: { 0x070, 0x170, U }
-    db $17, $E9, $06 ; OVERLORD 06 | xy: { 0x090, 0x170, U }
-    db $17, $EB, $06 ; OVERLORD 06 | xy: { 0x0B0, 0x170, U }
-    db $19, $E9, $06 ; OVERLORD 06 | xy: { 0x090, 0x190, U }
-    db $1B, $EC, $06 ; OVERLORD 06 | xy: { 0x0C0, 0x1B0, U }
+    db $12, $05, $6F ; Sprite 0x6F (0x0050, 0x0120, U) size: 0x00
+    db $13, $0B, $06 ; Sprite 0x06 (0x00B0, 0x0130, U) size: 0x00
+    db $13, $05, $6F ; Sprite 0x6F (0x0050, 0x0130, U) size: 0x00
+    db $16, $03, $D1 ; Sprite 0xD1 (0x0030, 0x0160, U) size: 0x00
+    db $17, $17, $6D ; Sprite 0x6D (0x0170, 0x0170, U) size: 0x00
+    db $19, $19, $6D ; Sprite 0x6D (0x0190, 0x0190, U) size: 0x00
+    db $1A, $05, $6D ; Sprite 0x6D (0x0050, 0x01A0, U) size: 0x00
+    db $15, $E9, $06 ; Overlord 06 (0x0090, 0x0150, U)
+    db $17, $E7, $06 ; Overlord 06 (0x0070, 0x0170, U)
+    db $17, $E9, $06 ; Overlord 06 (0x0090, 0x0170, U)
+    db $17, $EB, $06 ; Overlord 06 (0x00B0, 0x0170, U)
+    db $19, $E9, $06 ; Overlord 06 (0x0090, 0x0190, U)
+    db $1B, $EC, $06 ; Overlord 06 (0x00C0, 0x01B0, U)
     db $FF ; END
 }
 
@@ -6048,11 +6048,11 @@ RoomData_Sprites_Room0064:
 RoomData_Sprites_Room0065:
 {
     db $00 ; Unlayered OAM
-    db $15, $13, $6D ; SPRITE 6D   | xy: { 0x130, 0x150, U } | s: 0x00
-    db $17, $09, $6D ; SPRITE 6D   | xy: { 0x090, 0x170, U } | s: 0x00
-    db $18, $06, $6D ; SPRITE 6D   | xy: { 0x060, 0x180, U } | s: 0x00
-    db $19, $16, $6D ; SPRITE 6D   | xy: { 0x160, 0x190, U } | s: 0x00
-    db $1C, $16, $6D ; SPRITE 6D   | xy: { 0x160, 0x1C0, U } | s: 0x00
+    db $15, $13, $6D ; Sprite 0x6D (0x0130, 0x0150, U) size: 0x00
+    db $17, $09, $6D ; Sprite 0x6D (0x0090, 0x0170, U) size: 0x00
+    db $18, $06, $6D ; Sprite 0x6D (0x0060, 0x0180, U) size: 0x00
+    db $19, $16, $6D ; Sprite 0x6D (0x0160, 0x0190, U) size: 0x00
+    db $1C, $16, $6D ; Sprite 0x6D (0x0160, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6062,18 +6062,18 @@ RoomData_Sprites_Room0065:
 RoomData_Sprites_Room0066:
 {
     db $00 ; Unlayered OAM
-    db $85, $0B, $81 ; SPRITE 81   | xy: { 0x0B0, 0x050, L } | s: 0x00
-    db $86, $E4, $10 ; OVERLORD 10 | xy: { 0x040, 0x060, L }
-    db $06, $16, $24 ; SPRITE 24   | xy: { 0x160, 0x060, U } | s: 0x00
-    db $07, $1A, $24 ; SPRITE 24   | xy: { 0x1A0, 0x070, U } | s: 0x00
-    db $94, $17, $37 ; SPRITE 37   | xy: { 0x170, 0x140, L } | s: 0x00
-    db $96, $E1, $10 ; OVERLORD 10 | xy: { 0x010, 0x160, L }
-    db $96, $0F, $9A ; SPRITE 9A   | xy: { 0x0F0, 0x160, L } | s: 0x00
-    db $96, $13, $81 ; SPRITE 81   | xy: { 0x130, 0x160, L } | s: 0x00
-    db $98, $0B, $81 ; SPRITE 81   | xy: { 0x0B0, 0x180, L } | s: 0x00
-    db $99, $0D, $81 ; SPRITE 81   | xy: { 0x0D0, 0x190, L } | s: 0x00
-    db $99, $FE, $11 ; OVERLORD 11 | xy: { 0x1E0, 0x190, L }
-    db $9B, $17, $81 ; SPRITE 81   | xy: { 0x170, 0x1B0, L } | s: 0x00
+    db $85, $0B, $81 ; Sprite 0x81 (0x00B0, 0x0050, L) size: 0x00
+    db $86, $E4, $10 ; Overlord 10 (0x0040, 0x0060, L)
+    db $06, $16, $24 ; Sprite 0x24 (0x0160, 0x0060, U) size: 0x00
+    db $07, $1A, $24 ; Sprite 0x24 (0x01A0, 0x0070, U) size: 0x00
+    db $94, $17, $37 ; Sprite 0x37 (0x0170, 0x0140, L) size: 0x00
+    db $96, $E1, $10 ; Overlord 10 (0x0010, 0x0160, L)
+    db $96, $0F, $9A ; Sprite 0x9A (0x00F0, 0x0160, L) size: 0x00
+    db $96, $13, $81 ; Sprite 0x81 (0x0130, 0x0160, L) size: 0x00
+    db $98, $0B, $81 ; Sprite 0x81 (0x00B0, 0x0180, L) size: 0x00
+    db $99, $0D, $81 ; Sprite 0x81 (0x00D0, 0x0190, L) size: 0x00
+    db $99, $FE, $11 ; Overlord 11 (0x01E0, 0x0190, L)
+    db $9B, $17, $81 ; Sprite 0x81 (0x0170, 0x01B0, L) size: 0x00
     db $FF ; END
 }
 
@@ -6083,16 +6083,16 @@ RoomData_Sprites_Room0066:
 RoomData_Sprites_Room0067:
 {
     db $00 ; Unlayered OAM
-    db $0C, $07, $93 ; SPRITE 93   | xy: { 0x070, 0x0C0, U } | s: 0x00
-    db $06, $04, $24 ; SPRITE 24   | xy: { 0x040, 0x060, U } | s: 0x00
-    db $06, $0B, $24 ; SPRITE 24   | xy: { 0x0B0, 0x060, U } | s: 0x00
-    db $0C, $05, $26 ; SPRITE 26   | xy: { 0x050, 0x0C0, U } | s: 0x00
-    db $0F, $13, $26 ; SPRITE 26   | xy: { 0x130, 0x0F0, U } | s: 0x00
-    db $13, $05, $26 ; SPRITE 26   | xy: { 0x050, 0x130, U } | s: 0x00
-    db $13, $09, $26 ; SPRITE 26   | xy: { 0x090, 0x130, U } | s: 0x00
-    db $14, $18, $7E ; SPRITE 7E   | xy: { 0x180, 0x140, U } | s: 0x00
-    db $17, $07, $7F ; SPRITE 7F   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $1A, $18, $26 ; SPRITE 26   | xy: { 0x180, 0x1A0, U } | s: 0x00
+    db $0C, $07, $93 ; Sprite 0x93 (0x0070, 0x00C0, U) size: 0x00
+    db $06, $04, $24 ; Sprite 0x24 (0x0040, 0x0060, U) size: 0x00
+    db $06, $0B, $24 ; Sprite 0x24 (0x00B0, 0x0060, U) size: 0x00
+    db $0C, $05, $26 ; Sprite 0x26 (0x0050, 0x00C0, U) size: 0x00
+    db $0F, $13, $26 ; Sprite 0x26 (0x0130, 0x00F0, U) size: 0x00
+    db $13, $05, $26 ; Sprite 0x26 (0x0050, 0x0130, U) size: 0x00
+    db $13, $09, $26 ; Sprite 0x26 (0x0090, 0x0130, U) size: 0x00
+    db $14, $18, $7E ; Sprite 0x7E (0x0180, 0x0140, U) size: 0x00
+    db $17, $07, $7F ; Sprite 0x7F (0x0070, 0x0170, U) size: 0x00
+    db $1A, $18, $26 ; Sprite 0x26 (0x0180, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6102,14 +6102,14 @@ RoomData_Sprites_Room0067:
 RoomData_Sprites_Room0068:
 {
     db $00 ; Unlayered OAM
-    db $07, $0E, $93 ; SPRITE 93   | xy: { 0x0E0, 0x070, U } | s: 0x00
-    db $07, $11, $93 ; SPRITE 93   | xy: { 0x110, 0x070, U } | s: 0x00
-    db $0B, $0C, $93 ; SPRITE 93   | xy: { 0x0C0, 0x0B0, U } | s: 0x00
-    db $0B, $13, $93 ; SPRITE 93   | xy: { 0x130, 0x0B0, U } | s: 0x00
-    db $08, $14, $8B ; SPRITE 8B   | xy: { 0x140, 0x080, U } | s: 0x00
-    db $0F, $EF, $09 ; OVERLORD 09 | xy: { 0x0F0, 0x0F0, U }
-    db $12, $0E, $8B ; SPRITE 8B   | xy: { 0x0E0, 0x120, U } | s: 0x00
-    db $12, $12, $8B ; SPRITE 8B   | xy: { 0x120, 0x120, U } | s: 0x00
+    db $07, $0E, $93 ; Sprite 0x93 (0x00E0, 0x0070, U) size: 0x00
+    db $07, $11, $93 ; Sprite 0x93 (0x0110, 0x0070, U) size: 0x00
+    db $0B, $0C, $93 ; Sprite 0x93 (0x00C0, 0x00B0, U) size: 0x00
+    db $0B, $13, $93 ; Sprite 0x93 (0x0130, 0x00B0, U) size: 0x00
+    db $08, $14, $8B ; Sprite 0x8B (0x0140, 0x0080, U) size: 0x00
+    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
+    db $12, $0E, $8B ; Sprite 0x8B (0x00E0, 0x0120, U) size: 0x00
+    db $12, $12, $8B ; Sprite 0x8B (0x0120, 0x0120, U) size: 0x00
     db $FF ; END
 }
 
@@ -6119,12 +6119,12 @@ RoomData_Sprites_Room0068:
 RoomData_Sprites_Room006A:
 {
     db $00 ; Unlayered OAM
-    db $0A, $17, $8E ; SPRITE 8E   | xy: { 0x170, 0x0A0, U } | s: 0x00
-    db $0A, $18, $8E ; SPRITE 8E   | xy: { 0x180, 0x0A0, U } | s: 0x00
-    db $0B, $14, $15 ; SPRITE 15   | xy: { 0x140, 0x0B0, U } | s: 0x00
-    db $0B, $1C, $15 ; SPRITE 15   | xy: { 0x1C0, 0x0B0, U } | s: 0x00
-    db $0E, $17, $8E ; SPRITE 8E   | xy: { 0x170, 0x0E0, U } | s: 0x00
-    db $0E, $18, $8E ; SPRITE 8E   | xy: { 0x180, 0x0E0, U } | s: 0x00
+    db $0A, $17, $8E ; Sprite 0x8E (0x0170, 0x00A0, U) size: 0x00
+    db $0A, $18, $8E ; Sprite 0x8E (0x0180, 0x00A0, U) size: 0x00
+    db $0B, $14, $15 ; Sprite 0x15 (0x0140, 0x00B0, U) size: 0x00
+    db $0B, $1C, $15 ; Sprite 0x15 (0x01C0, 0x00B0, U) size: 0x00
+    db $0E, $17, $8E ; Sprite 0x8E (0x0170, 0x00E0, U) size: 0x00
+    db $0E, $18, $8E ; Sprite 0x8E (0x0180, 0x00E0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6134,20 +6134,20 @@ RoomData_Sprites_Room006A:
 RoomData_Sprites_Room006B:
 {
     db $00 ; Unlayered OAM
-    db $04, $07, $1E ; SPRITE 1E   | xy: { 0x070, 0x040, U } | s: 0x00
-    db $04, $0B, $1E ; SPRITE 1E   | xy: { 0x0B0, 0x040, U } | s: 0x00
-    db $06, $0A, $83 ; SPRITE 83   | xy: { 0x0A0, 0x060, U } | s: 0x00
-    db $09, $06, $84 ; SPRITE 84   | xy: { 0x060, 0x090, U } | s: 0x00
-    db $0A, $0C, $15 ; SPRITE 15   | xy: { 0x0C0, 0x0A0, U } | s: 0x00
-    db $15, $06, $1C ; SPRITE 1C   | xy: { 0x060, 0x150, U } | s: 0x00
-    db $18, $03, $84 ; SPRITE 84   | xy: { 0x030, 0x180, U } | s: 0x00
-    db $18, $04, $8A ; SPRITE 8A   | xy: { 0x040, 0x180, U } | s: 0x00
-    db $1B, $04, $8A ; SPRITE 8A   | xy: { 0x040, 0x1B0, U } | s: 0x00
-    db $1B, $0C, $84 ; SPRITE 84   | xy: { 0x0C0, 0x1B0, U } | s: 0x00
-    db $15, $17, $84 ; SPRITE 84   | xy: { 0x170, 0x150, U } | s: 0x00
-    db $15, $1B, $61 ; SPRITE 61   | xy: { 0x1B0, 0x150, U } | s: 0x00
-    db $1B, $14, $61 ; SPRITE 61   | xy: { 0x140, 0x1B0, U } | s: 0x00
-    db $1B, $18, $84 ; SPRITE 84   | xy: { 0x180, 0x1B0, U } | s: 0x00
+    db $04, $07, $1E ; Sprite 0x1E (0x0070, 0x0040, U) size: 0x00
+    db $04, $0B, $1E ; Sprite 0x1E (0x00B0, 0x0040, U) size: 0x00
+    db $06, $0A, $83 ; Sprite 0x83 (0x00A0, 0x0060, U) size: 0x00
+    db $09, $06, $84 ; Sprite 0x84 (0x0060, 0x0090, U) size: 0x00
+    db $0A, $0C, $15 ; Sprite 0x15 (0x00C0, 0x00A0, U) size: 0x00
+    db $15, $06, $1C ; Sprite 0x1C (0x0060, 0x0150, U) size: 0x00
+    db $18, $03, $84 ; Sprite 0x84 (0x0030, 0x0180, U) size: 0x00
+    db $18, $04, $8A ; Sprite 0x8A (0x0040, 0x0180, U) size: 0x00
+    db $1B, $04, $8A ; Sprite 0x8A (0x0040, 0x01B0, U) size: 0x00
+    db $1B, $0C, $84 ; Sprite 0x84 (0x00C0, 0x01B0, U) size: 0x00
+    db $15, $17, $84 ; Sprite 0x84 (0x0170, 0x0150, U) size: 0x00
+    db $15, $1B, $61 ; Sprite 0x61 (0x01B0, 0x0150, U) size: 0x00
+    db $1B, $14, $61 ; Sprite 0x61 (0x0140, 0x01B0, U) size: 0x00
+    db $1B, $18, $84 ; Sprite 0x84 (0x0180, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6157,11 +6157,11 @@ RoomData_Sprites_Room006B:
 RoomData_Sprites_Room006C:
 {
     db $00 ; Unlayered OAM
-    db $17, $06, $54 ; SPRITE 54   | xy: { 0x060, 0x170, U } | s: 0x00
-    db $17, $09, $54 ; SPRITE 54   | xy: { 0x090, 0x170, U } | s: 0x00
-    db $19, $07, $54 ; SPRITE 54   | xy: { 0x070, 0x190, U } | s: 0x00
-    db $18, $17, $D1 ; SPRITE D1   | xy: { 0x170, 0x180, U } | s: 0x00
-    db $1C, $03, $C5 ; SPRITE C5   | xy: { 0x030, 0x1C0, U } | s: 0x00
+    db $17, $06, $54 ; Sprite 0x54 (0x0060, 0x0170, U) size: 0x00
+    db $17, $09, $54 ; Sprite 0x54 (0x0090, 0x0170, U) size: 0x00
+    db $19, $07, $54 ; Sprite 0x54 (0x0070, 0x0190, U) size: 0x00
+    db $18, $17, $D1 ; Sprite 0xD1 (0x0170, 0x0180, U) size: 0x00
+    db $1C, $03, $C5 ; Sprite 0xC5 (0x0030, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6171,15 +6171,15 @@ RoomData_Sprites_Room006C:
 RoomData_Sprites_Room006D:
 {
     db $00 ; Unlayered OAM
-    db $06, $05, $A6 ; SPRITE A6   | xy: { 0x050, 0x060, U } | s: 0x00
-    db $06, $0B, $61 ; SPRITE 61   | xy: { 0x0B0, 0x060, U } | s: 0x00
-    db $09, $04, $61 ; SPRITE 61   | xy: { 0x040, 0x090, U } | s: 0x00
-    db $0B, $0A, $A6 ; SPRITE A6   | xy: { 0x0A0, 0x0B0, U } | s: 0x00
-    db $15, $04, $C5 ; SPRITE C5   | xy: { 0x040, 0x150, U } | s: 0x00
-    db $15, $0B, $61 ; SPRITE 61   | xy: { 0x0B0, 0x150, U } | s: 0x00
-    db $18, $05, $A7 ; SPRITE A7   | xy: { 0x050, 0x180, U } | s: 0x00
-    db $18, $0A, $A6 ; SPRITE A6   | xy: { 0x0A0, 0x180, U } | s: 0x00
-    db $1A, $06, $5C ; SPRITE 5C   | xy: { 0x060, 0x1A0, U } | s: 0x00
+    db $06, $05, $A6 ; Sprite 0xA6 (0x0050, 0x0060, U) size: 0x00
+    db $06, $0B, $61 ; Sprite 0x61 (0x00B0, 0x0060, U) size: 0x00
+    db $09, $04, $61 ; Sprite 0x61 (0x0040, 0x0090, U) size: 0x00
+    db $0B, $0A, $A6 ; Sprite 0xA6 (0x00A0, 0x00B0, U) size: 0x00
+    db $15, $04, $C5 ; Sprite 0xC5 (0x0040, 0x0150, U) size: 0x00
+    db $15, $0B, $61 ; Sprite 0x61 (0x00B0, 0x0150, U) size: 0x00
+    db $18, $05, $A7 ; Sprite 0xA7 (0x0050, 0x0180, U) size: 0x00
+    db $18, $0A, $A6 ; Sprite 0xA6 (0x00A0, 0x0180, U) size: 0x00
+    db $1A, $06, $5C ; Sprite 0x5C (0x0060, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6189,11 +6189,11 @@ RoomData_Sprites_Room006D:
 RoomData_Sprites_Room006E:
 {
     db $00 ; Unlayered OAM
-    db $08, $13, $99 ; SPRITE 99   | xy: { 0x130, 0x080, U } | s: 0x00
-    db $09, $13, $99 ; SPRITE 99   | xy: { 0x130, 0x090, U } | s: 0x00
-    db $0A, $13, $99 ; SPRITE 99   | xy: { 0x130, 0x0A0, U } | s: 0x00
-    db $0B, $13, $99 ; SPRITE 99   | xy: { 0x130, 0x0B0, U } | s: 0x00
-    db $0C, $13, $99 ; SPRITE 99   | xy: { 0x130, 0x0C0, U } | s: 0x00
+    db $08, $13, $99 ; Sprite 0x99 (0x0130, 0x0080, U) size: 0x00
+    db $09, $13, $99 ; Sprite 0x99 (0x0130, 0x0090, U) size: 0x00
+    db $0A, $13, $99 ; Sprite 0x99 (0x0130, 0x00A0, U) size: 0x00
+    db $0B, $13, $99 ; Sprite 0x99 (0x0130, 0x00B0, U) size: 0x00
+    db $0C, $13, $99 ; Sprite 0x99 (0x0130, 0x00C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6203,8 +6203,8 @@ RoomData_Sprites_Room006E:
 RoomData_Sprites_Room0071:
 {
     db $00 ; Unlayered OAM
-    db $98, $06, $42 ; SPRITE 42   | xy: { 0x060, 0x180, L } | s: 0x00
-    db $D8, $BA, $41 ; SPRITE 41   | xy: { 0x1A0, 0x180, L } | s: 0x15
+    db $98, $06, $42 ; Sprite 0x42 (0x0060, 0x0180, L) size: 0x00
+    db $D8, $BA, $41 ; Sprite 0x41 (0x01A0, 0x0180, L) size: 0x15
     db $FE, $00, $E4 ; Small key on above sprite
     db $FF ; END
 }
@@ -6215,9 +6215,9 @@ RoomData_Sprites_Room0071:
 RoomData_Sprites_Room0072:
 {
     db $00 ; Unlayered OAM
-    db $06, $B1, $41 ; SPRITE 41   | xy: { 0x110, 0x060, U } | s: 0x05
+    db $06, $B1, $41 ; Sprite 0x41 (0x0110, 0x0060, U) size: 0x05
     db $FE, $00, $E4 ; Small key on above sprite
-    db $99, $2A, $41 ; SPRITE 41   | xy: { 0x0A0, 0x190, L } | s: 0x01
+    db $99, $2A, $41 ; Sprite 0x41 (0x00A0, 0x0190, L) size: 0x01
     db $FF ; END
 }
 
@@ -6227,13 +6227,13 @@ RoomData_Sprites_Room0072:
 RoomData_Sprites_Room0073:
 {
     db $00 ; Unlayered OAM
-    db $18, $18, $64 ; SPRITE 64   | xy: { 0x180, 0x180, U } | s: 0x00
-    db $09, $17, $61 ; SPRITE 61   | xy: { 0x170, 0x090, U } | s: 0x00
-    db $15, $15, $71 ; SPRITE 71   | xy: { 0x150, 0x150, U } | s: 0x00
-    db $18, $1B, $71 ; SPRITE 71   | xy: { 0x1B0, 0x180, U } | s: 0x00
-    db $19, $07, $61 ; SPRITE 61   | xy: { 0x070, 0x190, U } | s: 0x00
-    db $1B, $16, $71 ; SPRITE 71   | xy: { 0x160, 0x1B0, U } | s: 0x00
-    db $06, $14, $3B ; SPRITE 3B   | xy: { 0x140, 0x060, U } | s: 0x00
+    db $18, $18, $64 ; Sprite 0x64 (0x0180, 0x0180, U) size: 0x00
+    db $09, $17, $61 ; Sprite 0x61 (0x0170, 0x0090, U) size: 0x00
+    db $15, $15, $71 ; Sprite 0x71 (0x0150, 0x0150, U) size: 0x00
+    db $18, $1B, $71 ; Sprite 0x71 (0x01B0, 0x0180, U) size: 0x00
+    db $19, $07, $61 ; Sprite 0x61 (0x0070, 0x0190, U) size: 0x00
+    db $1B, $16, $71 ; Sprite 0x71 (0x0160, 0x01B0, U) size: 0x00
+    db $06, $14, $3B ; Sprite 0x3B (0x0140, 0x0060, U) size: 0x00
     db $FF ; END
 }
 
@@ -6243,14 +6243,14 @@ RoomData_Sprites_Room0073:
 RoomData_Sprites_Room0074:
 {
     db $00 ; Unlayered OAM
-    db $18, $08, $64 ; SPRITE 64   | xy: { 0x080, 0x180, U } | s: 0x00
-    db $18, $17, $64 ; SPRITE 64   | xy: { 0x170, 0x180, U } | s: 0x00
-    db $05, $0C, $83 ; SPRITE 83   | xy: { 0x0C0, 0x050, U } | s: 0x00
-    db $05, $13, $83 ; SPRITE 83   | xy: { 0x130, 0x050, U } | s: 0x00
-    db $0A, $0C, $71 ; SPRITE 71   | xy: { 0x0C0, 0x0A0, U } | s: 0x00
-    db $0A, $13, $71 ; SPRITE 71   | xy: { 0x130, 0x0A0, U } | s: 0x00
-    db $1B, $0E, $71 ; SPRITE 71   | xy: { 0x0E0, 0x1B0, U } | s: 0x00
-    db $1B, $12, $71 ; SPRITE 71   | xy: { 0x120, 0x1B0, U } | s: 0x00
+    db $18, $08, $64 ; Sprite 0x64 (0x0080, 0x0180, U) size: 0x00
+    db $18, $17, $64 ; Sprite 0x64 (0x0170, 0x0180, U) size: 0x00
+    db $05, $0C, $83 ; Sprite 0x83 (0x00C0, 0x0050, U) size: 0x00
+    db $05, $13, $83 ; Sprite 0x83 (0x0130, 0x0050, U) size: 0x00
+    db $0A, $0C, $71 ; Sprite 0x71 (0x00C0, 0x00A0, U) size: 0x00
+    db $0A, $13, $71 ; Sprite 0x71 (0x0130, 0x00A0, U) size: 0x00
+    db $1B, $0E, $71 ; Sprite 0x71 (0x00E0, 0x01B0, U) size: 0x00
+    db $1B, $12, $71 ; Sprite 0x71 (0x0120, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6260,16 +6260,16 @@ RoomData_Sprites_Room0074:
 RoomData_Sprites_Room0075:
 {
     db $00 ; Unlayered OAM
-    db $07, $08, $64 ; SPRITE 64   | xy: { 0x080, 0x070, U } | s: 0x00
-    db $1B, $04, $64 ; SPRITE 64   | xy: { 0x040, 0x1B0, U } | s: 0x00
-    db $05, $06, $71 ; SPRITE 71   | xy: { 0x060, 0x050, U } | s: 0x00
-    db $05, $0A, $71 ; SPRITE 71   | xy: { 0x0A0, 0x050, U } | s: 0x00
-    db $0A, $06, $71 ; SPRITE 71   | xy: { 0x060, 0x0A0, U } | s: 0x00
-    db $0A, $0A, $71 ; SPRITE 71   | xy: { 0x0A0, 0x0A0, U } | s: 0x00
-    db $0B, $11, $66 ; SPRITE 66   | xy: { 0x110, 0x0B0, U } | s: 0x00
-    db $0B, $1E, $67 ; SPRITE 67   | xy: { 0x1E0, 0x0B0, U } | s: 0x00
-    db $19, $07, $71 ; SPRITE 71   | xy: { 0x070, 0x190, U } | s: 0x00
-    db $19, $09, $71 ; SPRITE 71   | xy: { 0x090, 0x190, U } | s: 0x00
+    db $07, $08, $64 ; Sprite 0x64 (0x0080, 0x0070, U) size: 0x00
+    db $1B, $04, $64 ; Sprite 0x64 (0x0040, 0x01B0, U) size: 0x00
+    db $05, $06, $71 ; Sprite 0x71 (0x0060, 0x0050, U) size: 0x00
+    db $05, $0A, $71 ; Sprite 0x71 (0x00A0, 0x0050, U) size: 0x00
+    db $0A, $06, $71 ; Sprite 0x71 (0x0060, 0x00A0, U) size: 0x00
+    db $0A, $0A, $71 ; Sprite 0x71 (0x00A0, 0x00A0, U) size: 0x00
+    db $0B, $11, $66 ; Sprite 0x66 (0x0110, 0x00B0, U) size: 0x00
+    db $0B, $1E, $67 ; Sprite 0x67 (0x01E0, 0x00B0, U) size: 0x00
+    db $19, $07, $71 ; Sprite 0x71 (0x0070, 0x0190, U) size: 0x00
+    db $19, $09, $71 ; Sprite 0x71 (0x0090, 0x0190, U) size: 0x00
     db $FF ; END
 }
 
@@ -6279,13 +6279,13 @@ RoomData_Sprites_Room0075:
 RoomData_Sprites_Room0076:
 {
     db $00 ; Unlayered OAM
-    db $03, $19, $21 ; SPRITE 21   | xy: { 0x190, 0x030, U } | s: 0x00
-    db $0A, $07, $81 ; SPRITE 81   | xy: { 0x070, 0x0A0, U } | s: 0x00
-    db $0F, $07, $9A ; SPRITE 9A   | xy: { 0x070, 0x0F0, U } | s: 0x00
-    db $11, $08, $81 ; SPRITE 81   | xy: { 0x080, 0x110, U } | s: 0x00
-    db $19, $1B, $8F ; SPRITE 8F   | xy: { 0x1B0, 0x190, U } | s: 0x00
-    db $1C, $E8, $13 ; OVERLORD 13 | xy: { 0x080, 0x1C0, U }
-    db $1C, $1B, $24 ; SPRITE 24   | xy: { 0x1B0, 0x1C0, U } | s: 0x00
+    db $03, $19, $21 ; Sprite 0x21 (0x0190, 0x0030, U) size: 0x00
+    db $0A, $07, $81 ; Sprite 0x81 (0x0070, 0x00A0, U) size: 0x00
+    db $0F, $07, $9A ; Sprite 0x9A (0x0070, 0x00F0, U) size: 0x00
+    db $11, $08, $81 ; Sprite 0x81 (0x0080, 0x0110, U) size: 0x00
+    db $19, $1B, $8F ; Sprite 0x8F (0x01B0, 0x0190, U) size: 0x00
+    db $1C, $E8, $13 ; Overlord 13 (0x0080, 0x01C0, U)
+    db $1C, $1B, $24 ; Sprite 0x24 (0x01B0, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6295,12 +6295,12 @@ RoomData_Sprites_Room0076:
 RoomData_Sprites_Room0077:
 {
     db $00 ; Unlayered OAM
-    db $89, $0B, $18 ; SPRITE 18   | xy: { 0x0B0, 0x090, L } | s: 0x00
-    db $98, $10, $1E ; SPRITE 1E   | xy: { 0x100, 0x180, L } | s: 0x00
-    db $9A, $09, $1E ; SPRITE 1E   | xy: { 0x090, 0x1A0, L } | s: 0x00
-    db $9A, $16, $1E ; SPRITE 1E   | xy: { 0x160, 0x1A0, L } | s: 0x00
-    db $8A, $07, $86 ; SPRITE 86   | xy: { 0x070, 0x0A0, L } | s: 0x00
-    db $8A, $17, $86 ; SPRITE 86   | xy: { 0x170, 0x0A0, L } | s: 0x00
+    db $89, $0B, $18 ; Sprite 0x18 (0x00B0, 0x0090, L) size: 0x00
+    db $98, $10, $1E ; Sprite 0x1E (0x0100, 0x0180, L) size: 0x00
+    db $9A, $09, $1E ; Sprite 0x1E (0x0090, 0x01A0, L) size: 0x00
+    db $9A, $16, $1E ; Sprite 0x1E (0x0160, 0x01A0, L) size: 0x00
+    db $8A, $07, $86 ; Sprite 0x86 (0x0070, 0x00A0, L) size: 0x00
+    db $8A, $17, $86 ; Sprite 0x86 (0x0170, 0x00A0, L) size: 0x00
     db $FF ; END
 }
 
@@ -6310,17 +6310,17 @@ RoomData_Sprites_Room0077:
 RoomData_Sprites_Room007B:
 {
     db $00 ; Unlayered OAM
-    db $07, $0B, $24 ; SPRITE 24   | xy: { 0x0B0, 0x070, U } | s: 0x00
-    db $09, $16, $24 ; SPRITE 24   | xy: { 0x160, 0x090, U } | s: 0x00
-    db $15, $04, $C6 ; SPRITE C6   | xy: { 0x040, 0x150, U } | s: 0x00
-    db $15, $0B, $A7 ; SPRITE A7   | xy: { 0x0B0, 0x150, U } | s: 0x00
-    db $17, $07, $A7 ; SPRITE A7   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $17, $09, $C6 ; SPRITE C6   | xy: { 0x090, 0x170, U } | s: 0x00
-    db $18, $13, $1C ; SPRITE 1C   | xy: { 0x130, 0x180, U } | s: 0x00
-    db $18, $17, $26 ; SPRITE 26   | xy: { 0x170, 0x180, U } | s: 0x00
-    db $19, $09, $A7 ; SPRITE A7   | xy: { 0x090, 0x190, U } | s: 0x00
-    db $1A, $05, $C6 ; SPRITE C6   | xy: { 0x050, 0x1A0, U } | s: 0x00
-    db $1B, $0B, $C6 ; SPRITE C6   | xy: { 0x0B0, 0x1B0, U } | s: 0x00
+    db $07, $0B, $24 ; Sprite 0x24 (0x00B0, 0x0070, U) size: 0x00
+    db $09, $16, $24 ; Sprite 0x24 (0x0160, 0x0090, U) size: 0x00
+    db $15, $04, $C6 ; Sprite 0xC6 (0x0040, 0x0150, U) size: 0x00
+    db $15, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x0150, U) size: 0x00
+    db $17, $07, $A7 ; Sprite 0xA7 (0x0070, 0x0170, U) size: 0x00
+    db $17, $09, $C6 ; Sprite 0xC6 (0x0090, 0x0170, U) size: 0x00
+    db $18, $13, $1C ; Sprite 0x1C (0x0130, 0x0180, U) size: 0x00
+    db $18, $17, $26 ; Sprite 0x26 (0x0170, 0x0180, U) size: 0x00
+    db $19, $09, $A7 ; Sprite 0xA7 (0x0090, 0x0190, U) size: 0x00
+    db $1A, $05, $C6 ; Sprite 0xC6 (0x0050, 0x01A0, U) size: 0x00
+    db $1B, $0B, $C6 ; Sprite 0xC6 (0x00B0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6330,13 +6330,13 @@ RoomData_Sprites_Room007B:
 RoomData_Sprites_Room007C:
 {
     db $00 ; Unlayered OAM
-    db $1C, $19, $18 ; SPRITE 18   | xy: { 0x190, 0x1C0, U } | s: 0x00
-    db $0C, $06, $7F ; SPRITE 7F   | xy: { 0x060, 0x0C0, U } | s: 0x00
-    db $10, $07, $8A ; SPRITE 8A   | xy: { 0x070, 0x100, U } | s: 0x00
-    db $14, $09, $7E ; SPRITE 7E   | xy: { 0x090, 0x140, U } | s: 0x00
-    db $18, $0B, $26 ; SPRITE 26   | xy: { 0x0B0, 0x180, U } | s: 0x00
-    db $18, $17, $24 ; SPRITE 24   | xy: { 0x170, 0x180, U } | s: 0x00
-    db $1A, $E7, $0B ; OVERLORD 0B | xy: { 0x070, 0x1A0, U }
+    db $1C, $19, $18 ; Sprite 0x18 (0x0190, 0x01C0, U) size: 0x00
+    db $0C, $06, $7F ; Sprite 0x7F (0x0060, 0x00C0, U) size: 0x00
+    db $10, $07, $8A ; Sprite 0x8A (0x0070, 0x0100, U) size: 0x00
+    db $14, $09, $7E ; Sprite 0x7E (0x0090, 0x0140, U) size: 0x00
+    db $18, $0B, $26 ; Sprite 0x26 (0x00B0, 0x0180, U) size: 0x00
+    db $18, $17, $24 ; Sprite 0x24 (0x0170, 0x0180, U) size: 0x00
+    db $1A, $E7, $0B ; Overlord 0B (0x0070, 0x01A0, U)
     db $FF ; END
 }
 
@@ -6346,17 +6346,17 @@ RoomData_Sprites_Room007C:
 RoomData_Sprites_Room007D:
 {
     db $00 ; Unlayered OAM
-    db $06, $11, $80 ; SPRITE 80   | xy: { 0x110, 0x060, U } | s: 0x00
-    db $08, $11, $80 ; SPRITE 80   | xy: { 0x110, 0x080, U } | s: 0x00
-    db $0A, $11, $80 ; SPRITE 80   | xy: { 0x110, 0x0A0, U } | s: 0x00
-    db $0C, $11, $80 ; SPRITE 80   | xy: { 0x110, 0x0C0, U } | s: 0x00
-    db $16, $15, $A7 ; SPRITE A7   | xy: { 0x150, 0x160, U } | s: 0x00
-    db $17, $18, $C6 ; SPRITE C6   | xy: { 0x180, 0x170, U } | s: 0x00
-    db $19, $1C, $80 ; SPRITE 80   | xy: { 0x1C0, 0x190, U } | s: 0x00
-    db $1A, $14, $13 ; SPRITE 13   | xy: { 0x140, 0x1A0, U } | s: 0x00
-    db $1A, $17, $23 ; SPRITE 23   | xy: { 0x170, 0x1A0, U } | s: 0x00
-    db $1C, $0A, $80 ; SPRITE 80   | xy: { 0x0A0, 0x1C0, U } | s: 0x00
-    db $1C, $1B, $26 ; SPRITE 26   | xy: { 0x1B0, 0x1C0, U } | s: 0x00
+    db $06, $11, $80 ; Sprite 0x80 (0x0110, 0x0060, U) size: 0x00
+    db $08, $11, $80 ; Sprite 0x80 (0x0110, 0x0080, U) size: 0x00
+    db $0A, $11, $80 ; Sprite 0x80 (0x0110, 0x00A0, U) size: 0x00
+    db $0C, $11, $80 ; Sprite 0x80 (0x0110, 0x00C0, U) size: 0x00
+    db $16, $15, $A7 ; Sprite 0xA7 (0x0150, 0x0160, U) size: 0x00
+    db $17, $18, $C6 ; Sprite 0xC6 (0x0180, 0x0170, U) size: 0x00
+    db $19, $1C, $80 ; Sprite 0x80 (0x01C0, 0x0190, U) size: 0x00
+    db $1A, $14, $13 ; Sprite 0x13 (0x0140, 0x01A0, U) size: 0x00
+    db $1A, $17, $23 ; Sprite 0x23 (0x0170, 0x01A0, U) size: 0x00
+    db $1C, $0A, $80 ; Sprite 0x80 (0x00A0, 0x01C0, U) size: 0x00
+    db $1C, $1B, $26 ; Sprite 0x26 (0x01B0, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6366,13 +6366,13 @@ RoomData_Sprites_Room007D:
 RoomData_Sprites_Room007E:
 {
     db $00 ; Unlayered OAM
-    db $11, $17, $93 ; SPRITE 93   | xy: { 0x170, 0x110, U } | s: 0x00
-    db $0E, $18, $7F ; SPRITE 7F   | xy: { 0x180, 0x0E0, U } | s: 0x00
-    db $0F, $14, $99 ; SPRITE 99   | xy: { 0x140, 0x0F0, U } | s: 0x00
-    db $12, $07, $A1 ; SPRITE A1   | xy: { 0x070, 0x120, U } | s: 0x00
-    db $12, $0A, $A1 ; SPRITE A1   | xy: { 0x0A0, 0x120, U } | s: 0x00
-    db $16, $1B, $99 ; SPRITE 99   | xy: { 0x1B0, 0x160, U } | s: 0x00
-    db $17, $17, $7F ; SPRITE 7F   | xy: { 0x170, 0x170, U } | s: 0x00
+    db $11, $17, $93 ; Sprite 0x93 (0x0170, 0x0110, U) size: 0x00
+    db $0E, $18, $7F ; Sprite 0x7F (0x0180, 0x00E0, U) size: 0x00
+    db $0F, $14, $99 ; Sprite 0x99 (0x0140, 0x00F0, U) size: 0x00
+    db $12, $07, $A1 ; Sprite 0xA1 (0x0070, 0x0120, U) size: 0x00
+    db $12, $0A, $A1 ; Sprite 0xA1 (0x00A0, 0x0120, U) size: 0x00
+    db $16, $1B, $99 ; Sprite 0x99 (0x01B0, 0x0160, U) size: 0x00
+    db $17, $17, $7F ; Sprite 0x7F (0x0170, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -6382,14 +6382,14 @@ RoomData_Sprites_Room007E:
 RoomData_Sprites_Room007F:
 {
     db $00 ; Unlayered OAM
-    db $07, $06, $23 ; SPRITE 23   | xy: { 0x060, 0x070, U } | s: 0x00
-    db $07, $08, $23 ; SPRITE 23   | xy: { 0x080, 0x070, U } | s: 0x00
-    db $08, $0A, $23 ; SPRITE 23   | xy: { 0x0A0, 0x080, U } | s: 0x00
-    db $09, $07, $23 ; SPRITE 23   | xy: { 0x070, 0x090, U } | s: 0x00
-    db $14, $0B, $7D ; SPRITE 7D   | xy: { 0x0B0, 0x140, U } | s: 0x00
-    db $17, $03, $7D ; SPRITE 7D   | xy: { 0x030, 0x170, U } | s: 0x00
-    db $19, $0B, $7D ; SPRITE 7D   | xy: { 0x0B0, 0x190, U } | s: 0x00
-    db $1B, $03, $7D ; SPRITE 7D   | xy: { 0x030, 0x1B0, U } | s: 0x00
+    db $07, $06, $23 ; Sprite 0x23 (0x0060, 0x0070, U) size: 0x00
+    db $07, $08, $23 ; Sprite 0x23 (0x0080, 0x0070, U) size: 0x00
+    db $08, $0A, $23 ; Sprite 0x23 (0x00A0, 0x0080, U) size: 0x00
+    db $09, $07, $23 ; Sprite 0x23 (0x0070, 0x0090, U) size: 0x00
+    db $14, $0B, $7D ; Sprite 0x7D (0x00B0, 0x0140, U) size: 0x00
+    db $17, $03, $7D ; Sprite 0x7D (0x0030, 0x0170, U) size: 0x00
+    db $19, $0B, $7D ; Sprite 0x7D (0x00B0, 0x0190, U) size: 0x00
+    db $1B, $03, $7D ; Sprite 0x7D (0x0030, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6399,9 +6399,9 @@ RoomData_Sprites_Room007F:
 RoomData_Sprites_Room0080:
 {
     db $00 ; Unlayered OAM
-    db $03, $16, $76 ; SPRITE 76   | xy: { 0x160, 0x030, U } | s: 0x00
-    db $09, $07, $42 ; SPRITE 42   | xy: { 0x070, 0x090, U } | s: 0x00
-    db $09, $1A, $6A ; SPRITE 6A   | xy: { 0x1A0, 0x090, U } | s: 0x00
+    db $03, $16, $76 ; Sprite 0x76 (0x0160, 0x0030, U) size: 0x00
+    db $09, $07, $42 ; Sprite 0x42 (0x0070, 0x0090, U) size: 0x00
+    db $09, $1A, $6A ; Sprite 0x6A (0x01A0, 0x0090, U) size: 0x00
     db $FD, $00, $E4 ; Big key on above sprite
     db $FF ; END
 }
@@ -6412,8 +6412,8 @@ RoomData_Sprites_Room0080:
 RoomData_Sprites_Room0081:
 {
     db $01 ; Layered OAM
-    db $EB, $6B, $42 ; SPRITE 42   | xy: { 0x0B0, 0x0B0, L } | s: 0x1B
-    db $8B, $6E, $42 ; SPRITE 42   | xy: { 0x0E0, 0x0B0, L } | s: 0x03
+    db $EB, $6B, $42 ; Sprite 0x42 (0x00B0, 0x00B0, L) size: 0x1B
+    db $8B, $6E, $42 ; Sprite 0x42 (0x00E0, 0x00B0, L) size: 0x03
     db $FF ; END
 }
 
@@ -6423,9 +6423,9 @@ RoomData_Sprites_Room0081:
 RoomData_Sprites_Room0082:
 {
     db $00 ; Unlayered OAM
-    db $E5, $69, $41 ; SPRITE 41   | xy: { 0x090, 0x050, L } | s: 0x1B
-    db $86, $70, $41 ; SPRITE 41   | xy: { 0x100, 0x060, L } | s: 0x03
-    db $91, $75, $41 ; SPRITE 41   | xy: { 0x150, 0x110, L } | s: 0x03
+    db $E5, $69, $41 ; Sprite 0x41 (0x0090, 0x0050, L) size: 0x1B
+    db $86, $70, $41 ; Sprite 0x41 (0x0100, 0x0060, L) size: 0x03
+    db $91, $75, $41 ; Sprite 0x41 (0x0150, 0x0110, L) size: 0x03
     db $FF ; END
 }
 
@@ -6435,16 +6435,16 @@ RoomData_Sprites_Room0082:
 RoomData_Sprites_Room0083:
 {
     db $00 ; Unlayered OAM
-    db $08, $1B, $63 ; SPRITE 63   | xy: { 0x1B0, 0x080, U } | s: 0x00
-    db $10, $14, $63 ; SPRITE 63   | xy: { 0x140, 0x100, U } | s: 0x00
-    db $05, $14, $71 ; SPRITE 71   | xy: { 0x140, 0x050, U } | s: 0x00
-    db $06, $07, $E3 ; SPRITE E3   | xy: { 0x070, 0x060, U } | s: 0x00
-    db $08, $08, $E3 ; SPRITE E3   | xy: { 0x080, 0x080, U } | s: 0x00
-    db $0B, $1B, $71 ; SPRITE 71   | xy: { 0x1B0, 0x0B0, U } | s: 0x00
-    db $10, $17, $71 ; SPRITE 71   | xy: { 0x170, 0x100, U } | s: 0x00
-    db $17, $08, $61 ; SPRITE 61   | xy: { 0x080, 0x170, U } | s: 0x00
-    db $18, $18, $71 ; SPRITE 71   | xy: { 0x180, 0x180, U } | s: 0x00
-    db $1B, $14, $71 ; SPRITE 71   | xy: { 0x140, 0x1B0, U } | s: 0x00
+    db $08, $1B, $63 ; Sprite 0x63 (0x01B0, 0x0080, U) size: 0x00
+    db $10, $14, $63 ; Sprite 0x63 (0x0140, 0x0100, U) size: 0x00
+    db $05, $14, $71 ; Sprite 0x71 (0x0140, 0x0050, U) size: 0x00
+    db $06, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0060, U) size: 0x00
+    db $08, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0080, U) size: 0x00
+    db $0B, $1B, $71 ; Sprite 0x71 (0x01B0, 0x00B0, U) size: 0x00
+    db $10, $17, $71 ; Sprite 0x71 (0x0170, 0x0100, U) size: 0x00
+    db $17, $08, $61 ; Sprite 0x61 (0x0080, 0x0170, U) size: 0x00
+    db $18, $18, $71 ; Sprite 0x71 (0x0180, 0x0180, U) size: 0x00
+    db $1B, $14, $71 ; Sprite 0x71 (0x0140, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6454,13 +6454,13 @@ RoomData_Sprites_Room0083:
 RoomData_Sprites_Room0084:
 {
     db $00 ; Unlayered OAM
-    db $05, $03, $71 ; SPRITE 71   | xy: { 0x030, 0x050, U } | s: 0x00
-    db $05, $1B, $71 ; SPRITE 71   | xy: { 0x1B0, 0x050, U } | s: 0x00
-    db $07, $0F, $61 ; SPRITE 61   | xy: { 0x0F0, 0x070, U } | s: 0x00
-    db $12, $09, $71 ; SPRITE 71   | xy: { 0x090, 0x120, U } | s: 0x00
-    db $12, $15, $71 ; SPRITE 71   | xy: { 0x150, 0x120, U } | s: 0x00
-    db $1B, $09, $71 ; SPRITE 71   | xy: { 0x090, 0x1B0, U } | s: 0x00
-    db $1B, $15, $71 ; SPRITE 71   | xy: { 0x150, 0x1B0, U } | s: 0x00
+    db $05, $03, $71 ; Sprite 0x71 (0x0030, 0x0050, U) size: 0x00
+    db $05, $1B, $71 ; Sprite 0x71 (0x01B0, 0x0050, U) size: 0x00
+    db $07, $0F, $61 ; Sprite 0x61 (0x00F0, 0x0070, U) size: 0x00
+    db $12, $09, $71 ; Sprite 0x71 (0x0090, 0x0120, U) size: 0x00
+    db $12, $15, $71 ; Sprite 0x71 (0x0150, 0x0120, U) size: 0x00
+    db $1B, $09, $71 ; Sprite 0x71 (0x0090, 0x01B0, U) size: 0x00
+    db $1B, $15, $71 ; Sprite 0x71 (0x0150, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6470,16 +6470,16 @@ RoomData_Sprites_Room0084:
 RoomData_Sprites_Room0085:
 {
     db $00 ; Unlayered OAM
-    db $0E, $07, $63 ; SPRITE 63   | xy: { 0x070, 0x0E0, U } | s: 0x00
-    db $1B, $09, $64 ; SPRITE 64   | xy: { 0x090, 0x1B0, U } | s: 0x00
-    db $05, $14, $4F ; SPRITE 4F   | xy: { 0x140, 0x050, U } | s: 0x00
-    db $05, $1B, $4F ; SPRITE 4F   | xy: { 0x1B0, 0x050, U } | s: 0x00
-    db $08, $16, $4F ; SPRITE 4F   | xy: { 0x160, 0x080, U } | s: 0x00
-    db $0A, $18, $61 ; SPRITE 61   | xy: { 0x180, 0x0A0, U } | s: 0x00
-    db $0E, $03, $71 ; SPRITE 71   | xy: { 0x030, 0x0E0, U } | s: 0x00
-    db $15, $0C, $71 ; SPRITE 71   | xy: { 0x0C0, 0x150, U } | s: 0x00
-    db $18, $18, $61 ; SPRITE 61   | xy: { 0x180, 0x180, U } | s: 0x00
-    db $1C, $07, $71 ; SPRITE 71   | xy: { 0x070, 0x1C0, U } | s: 0x00
+    db $0E, $07, $63 ; Sprite 0x63 (0x0070, 0x00E0, U) size: 0x00
+    db $1B, $09, $64 ; Sprite 0x64 (0x0090, 0x01B0, U) size: 0x00
+    db $05, $14, $4F ; Sprite 0x4F (0x0140, 0x0050, U) size: 0x00
+    db $05, $1B, $4F ; Sprite 0x4F (0x01B0, 0x0050, U) size: 0x00
+    db $08, $16, $4F ; Sprite 0x4F (0x0160, 0x0080, U) size: 0x00
+    db $0A, $18, $61 ; Sprite 0x61 (0x0180, 0x00A0, U) size: 0x00
+    db $0E, $03, $71 ; Sprite 0x71 (0x0030, 0x00E0, U) size: 0x00
+    db $15, $0C, $71 ; Sprite 0x71 (0x00C0, 0x0150, U) size: 0x00
+    db $18, $18, $61 ; Sprite 0x61 (0x0180, 0x0180, U) size: 0x00
+    db $1C, $07, $71 ; Sprite 0x71 (0x0070, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6498,19 +6498,19 @@ RoomData_Sprites_Room0086:
 RoomData_Sprites_Room0087:
 {
     db $00 ; Unlayered OAM
-    db $05, $14, $18 ; SPRITE 18   | xy: { 0x140, 0x050, U } | s: 0x00
-    db $07, $1A, $18 ; SPRITE 18   | xy: { 0x1A0, 0x070, U } | s: 0x00
-    db $0B, $13, $18 ; SPRITE 18   | xy: { 0x130, 0x0B0, U } | s: 0x00
-    db $19, $06, $18 ; SPRITE 18   | xy: { 0x060, 0x190, U } | s: 0x00
-    db $08, $E7, $14 ; OVERLORD 14 | xy: { 0x070, 0x080, U }
-    db $04, $17, $1E ; SPRITE 1E   | xy: { 0x170, 0x040, U } | s: 0x00
-    db $0C, $03, $1E ; SPRITE 1E   | xy: { 0x030, 0x0C0, U } | s: 0x00
-    db $15, $04, $1E ; SPRITE 1E   | xy: { 0x040, 0x150, U } | s: 0x00
-    db $17, $0B, $A7 ; SPRITE A7   | xy: { 0x0B0, 0x170, U } | s: 0x00
-    db $18, $19, $A7 ; SPRITE A7   | xy: { 0x190, 0x180, U } | s: 0x00
-    db $19, $04, $A7 ; SPRITE A7   | xy: { 0x040, 0x190, U } | s: 0x00
-    db $1A, $08, $E4 ; SPRITE E4   | xy: { 0x080, 0x1A0, U } | s: 0x00
-    db $1C, $15, $A7 ; SPRITE A7   | xy: { 0x150, 0x1C0, U } | s: 0x00
+    db $05, $14, $18 ; Sprite 0x18 (0x0140, 0x0050, U) size: 0x00
+    db $07, $1A, $18 ; Sprite 0x18 (0x01A0, 0x0070, U) size: 0x00
+    db $0B, $13, $18 ; Sprite 0x18 (0x0130, 0x00B0, U) size: 0x00
+    db $19, $06, $18 ; Sprite 0x18 (0x0060, 0x0190, U) size: 0x00
+    db $08, $E7, $14 ; Overlord 14 (0x0070, 0x0080, U)
+    db $04, $17, $1E ; Sprite 0x1E (0x0170, 0x0040, U) size: 0x00
+    db $0C, $03, $1E ; Sprite 0x1E (0x0030, 0x00C0, U) size: 0x00
+    db $15, $04, $1E ; Sprite 0x1E (0x0040, 0x0150, U) size: 0x00
+    db $17, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x0170, U) size: 0x00
+    db $18, $19, $A7 ; Sprite 0xA7 (0x0190, 0x0180, U) size: 0x00
+    db $19, $04, $A7 ; Sprite 0xA7 (0x0040, 0x0190, U) size: 0x00
+    db $1A, $08, $E4 ; Sprite 0xE4 (0x0080, 0x01A0, U) size: 0x00
+    db $1C, $15, $A7 ; Sprite 0xA7 (0x0150, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6520,8 +6520,8 @@ RoomData_Sprites_Room0087:
 RoomData_Sprites_Room0089:
 {
     db $00 ; Unlayered OAM
-    db $0A, $10, $E3 ; SPRITE E3   | xy: { 0x100, 0x0A0, U } | s: 0x00
-    db $0B, $0F, $E3 ; SPRITE E3   | xy: { 0x0F0, 0x0B0, U } | s: 0x00
+    db $0A, $10, $E3 ; Sprite 0xE3 (0x0100, 0x00A0, U) size: 0x00
+    db $0B, $0F, $E3 ; Sprite 0xE3 (0x00F0, 0x00B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6531,14 +6531,14 @@ RoomData_Sprites_Room0089:
 RoomData_Sprites_Room008B:
 {
     db $00 ; Unlayered OAM
-    db $07, $15, $93 ; SPRITE 93   | xy: { 0x150, 0x070, U } | s: 0x00
-    db $18, $04, $1E ; SPRITE 1E   | xy: { 0x040, 0x180, U } | s: 0x00
-    db $18, $0B, $1E ; SPRITE 1E   | xy: { 0x0B0, 0x180, U } | s: 0x00
-    db $04, $1A, $24 ; SPRITE 24   | xy: { 0x1A0, 0x040, U } | s: 0x00
-    db $12, $03, $8A ; SPRITE 8A   | xy: { 0x030, 0x120, U } | s: 0x00
-    db $18, $07, $A7 ; SPRITE A7   | xy: { 0x070, 0x180, U } | s: 0x00
-    db $18, $18, $7E ; SPRITE 7E   | xy: { 0x180, 0x180, U } | s: 0x00
-    db $18, $18, $7F ; SPRITE 7F   | xy: { 0x180, 0x180, U } | s: 0x00
+    db $07, $15, $93 ; Sprite 0x93 (0x0150, 0x0070, U) size: 0x00
+    db $18, $04, $1E ; Sprite 0x1E (0x0040, 0x0180, U) size: 0x00
+    db $18, $0B, $1E ; Sprite 0x1E (0x00B0, 0x0180, U) size: 0x00
+    db $04, $1A, $24 ; Sprite 0x24 (0x01A0, 0x0040, U) size: 0x00
+    db $12, $03, $8A ; Sprite 0x8A (0x0030, 0x0120, U) size: 0x00
+    db $18, $07, $A7 ; Sprite 0xA7 (0x0070, 0x0180, U) size: 0x00
+    db $18, $18, $7E ; Sprite 0x7E (0x0180, 0x0180, U) size: 0x00
+    db $18, $18, $7F ; Sprite 0x7F (0x0180, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -6548,22 +6548,22 @@ RoomData_Sprites_Room008B:
 RoomData_Sprites_Room008C:
 {
     db $00 ; Unlayered OAM
-    db $03, $1A, $06 ; SPRITE 06   | xy: { 0x1A0, 0x030, U } | s: 0x00
-    db $05, $F8, $1A ; OVERLORD 1A | xy: { 0x180, 0x050, U }
-    db $06, $F5, $1A ; OVERLORD 1A | xy: { 0x150, 0x060, U }
-    db $06, $FA, $1A ; OVERLORD 1A | xy: { 0x1A0, 0x060, U }
-    db $0A, $F5, $1A ; OVERLORD 1A | xy: { 0x150, 0x0A0, U }
-    db $0A, $FA, $1A ; OVERLORD 1A | xy: { 0x1A0, 0x0A0, U }
-    db $08, $08, $5B ; SPRITE 5B   | xy: { 0x080, 0x080, U } | s: 0x00
-    db $08, $17, $8A ; SPRITE 8A   | xy: { 0x170, 0x080, U } | s: 0x00
-    db $09, $0B, $A7 ; SPRITE A7   | xy: { 0x0B0, 0x090, U } | s: 0x00
-    db $0B, $03, $A7 ; SPRITE A7   | xy: { 0x030, 0x0B0, U } | s: 0x00
-    db $17, $05, $80 ; SPRITE 80   | xy: { 0x050, 0x170, U } | s: 0x00
-    db $17, $16, $5B ; SPRITE 5B   | xy: { 0x160, 0x170, U } | s: 0x00
-    db $18, $14, $15 ; SPRITE 15   | xy: { 0x140, 0x180, U } | s: 0x00
-    db $1B, $0B, $80 ; SPRITE 80   | xy: { 0x0B0, 0x1B0, U } | s: 0x00
-    db $1C, $1A, $15 ; SPRITE 15   | xy: { 0x1A0, 0x1C0, U } | s: 0x00
-    db $07, $09, $3B ; SPRITE 3B   | xy: { 0x090, 0x070, U } | s: 0x00
+    db $03, $1A, $06 ; Sprite 0x06 (0x01A0, 0x0030, U) size: 0x00
+    db $05, $F8, $1A ; Overlord 1A (0x0180, 0x0050, U)
+    db $06, $F5, $1A ; Overlord 1A (0x0150, 0x0060, U)
+    db $06, $FA, $1A ; Overlord 1A (0x01A0, 0x0060, U)
+    db $0A, $F5, $1A ; Overlord 1A (0x0150, 0x00A0, U)
+    db $0A, $FA, $1A ; Overlord 1A (0x01A0, 0x00A0, U)
+    db $08, $08, $5B ; Sprite 0x5B (0x0080, 0x0080, U) size: 0x00
+    db $08, $17, $8A ; Sprite 0x8A (0x0170, 0x0080, U) size: 0x00
+    db $09, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x0090, U) size: 0x00
+    db $0B, $03, $A7 ; Sprite 0xA7 (0x0030, 0x00B0, U) size: 0x00
+    db $17, $05, $80 ; Sprite 0x80 (0x0050, 0x0170, U) size: 0x00
+    db $17, $16, $5B ; Sprite 0x5B (0x0160, 0x0170, U) size: 0x00
+    db $18, $14, $15 ; Sprite 0x15 (0x0140, 0x0180, U) size: 0x00
+    db $1B, $0B, $80 ; Sprite 0x80 (0x00B0, 0x01B0, U) size: 0x00
+    db $1C, $1A, $15 ; Sprite 0x15 (0x01A0, 0x01C0, U) size: 0x00
+    db $07, $09, $3B ; Sprite 0x3B (0x0090, 0x0070, U) size: 0x00
     db $FF ; END
 }
 
@@ -6573,19 +6573,19 @@ RoomData_Sprites_Room008C:
 RoomData_Sprites_Room008D:
 {
     db $00 ; Unlayered OAM
-    db $08, $E7, $14 ; OVERLORD 14 | xy: { 0x070, 0x080, U }
-    db $04, $07, $C6 ; SPRITE C6   | xy: { 0x070, 0x040, U } | s: 0x00
-    db $08, $09, $15 ; SPRITE 15   | xy: { 0x090, 0x080, U } | s: 0x00
-    db $09, $08, $D1 ; SPRITE D1   | xy: { 0x080, 0x090, U } | s: 0x00
-    db $0C, $09, $C6 ; SPRITE C6   | xy: { 0x090, 0x0C0, U } | s: 0x00
-    db $0D, $13, $8B ; SPRITE 8B   | xy: { 0x130, 0x0D0, U } | s: 0x00
-    db $0F, $EF, $09 ; OVERLORD 09 | xy: { 0x0F0, 0x0F0, U }
-    db $10, $17, $8A ; SPRITE 8A   | xy: { 0x170, 0x100, U } | s: 0x00
-    db $14, $17, $A7 ; SPRITE A7   | xy: { 0x170, 0x140, U } | s: 0x00
-    db $18, $07, $7E ; SPRITE 7E   | xy: { 0x070, 0x180, U } | s: 0x00
-    db $1B, $14, $24 ; SPRITE 24   | xy: { 0x140, 0x1B0, U } | s: 0x00
-    db $1C, $13, $C5 ; SPRITE C5   | xy: { 0x130, 0x1C0, U } | s: 0x00
-    db $1C, $14, $24 ; SPRITE 24   | xy: { 0x140, 0x1C0, U } | s: 0x00
+    db $08, $E7, $14 ; Overlord 14 (0x0070, 0x0080, U)
+    db $04, $07, $C6 ; Sprite 0xC6 (0x0070, 0x0040, U) size: 0x00
+    db $08, $09, $15 ; Sprite 0x15 (0x0090, 0x0080, U) size: 0x00
+    db $09, $08, $D1 ; Sprite 0xD1 (0x0080, 0x0090, U) size: 0x00
+    db $0C, $09, $C6 ; Sprite 0xC6 (0x0090, 0x00C0, U) size: 0x00
+    db $0D, $13, $8B ; Sprite 0x8B (0x0130, 0x00D0, U) size: 0x00
+    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
+    db $10, $17, $8A ; Sprite 0x8A (0x0170, 0x0100, U) size: 0x00
+    db $14, $17, $A7 ; Sprite 0xA7 (0x0170, 0x0140, U) size: 0x00
+    db $18, $07, $7E ; Sprite 0x7E (0x0070, 0x0180, U) size: 0x00
+    db $1B, $14, $24 ; Sprite 0x24 (0x0140, 0x01B0, U) size: 0x00
+    db $1C, $13, $C5 ; Sprite 0xC5 (0x0130, 0x01C0, U) size: 0x00
+    db $1C, $14, $24 ; Sprite 0x24 (0x0140, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6595,14 +6595,14 @@ RoomData_Sprites_Room008D:
 RoomData_Sprites_Room008E:
 {
     db $00 ; Unlayered OAM
-    db $02, $1B, $A1 ; SPRITE A1   | xy: { 0x1B0, 0x020, U } | s: 0x00
-    db $05, $18, $8F ; SPRITE 8F   | xy: { 0x180, 0x050, U } | s: 0x00
-    db $06, $14, $D1 ; SPRITE D1   | xy: { 0x140, 0x060, U } | s: 0x00
-    db $08, $1B, $8F ; SPRITE 8F   | xy: { 0x1B0, 0x080, U } | s: 0x00
-    db $09, $14, $8F ; SPRITE 8F   | xy: { 0x140, 0x090, U } | s: 0x00
-    db $0A, $16, $8F ; SPRITE 8F   | xy: { 0x160, 0x0A0, U } | s: 0x00
-    db $0B, $14, $8F ; SPRITE 8F   | xy: { 0x140, 0x0B0, U } | s: 0x00
-    db $0B, $18, $8F ; SPRITE 8F   | xy: { 0x180, 0x0B0, U } | s: 0x00
+    db $02, $1B, $A1 ; Sprite 0xA1 (0x01B0, 0x0020, U) size: 0x00
+    db $05, $18, $8F ; Sprite 0x8F (0x0180, 0x0050, U) size: 0x00
+    db $06, $14, $D1 ; Sprite 0xD1 (0x0140, 0x0060, U) size: 0x00
+    db $08, $1B, $8F ; Sprite 0x8F (0x01B0, 0x0080, U) size: 0x00
+    db $09, $14, $8F ; Sprite 0x8F (0x0140, 0x0090, U) size: 0x00
+    db $0A, $16, $8F ; Sprite 0x8F (0x0160, 0x00A0, U) size: 0x00
+    db $0B, $14, $8F ; Sprite 0x8F (0x0140, 0x00B0, U) size: 0x00
+    db $0B, $18, $8F ; Sprite 0x8F (0x0180, 0x00B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6612,7 +6612,7 @@ RoomData_Sprites_Room008E:
 RoomData_Sprites_Room0090:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $BD ; SPRITE BD   | xy: { 0x070, 0x150, U } | s: 0x00
+    db $15, $07, $BD ; Sprite 0xBD (0x0070, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -6622,13 +6622,13 @@ RoomData_Sprites_Room0090:
 RoomData_Sprites_Room0091:
 {
     db $00 ; Unlayered OAM
-    db $04, $18, $1E ; SPRITE 1E   | xy: { 0x180, 0x040, U } | s: 0x00
-    db $0E, $1B, $8A ; SPRITE 8A   | xy: { 0x1B0, 0x0E0, U } | s: 0x00
-    db $0F, $F7, $08 ; OVERLORD 08 | xy: { 0x170, 0x0F0, U }
-    db $12, $17, $C5 ; SPRITE C5   | xy: { 0x170, 0x120, U } | s: 0x00
-    db $12, $18, $D1 ; SPRITE D1   | xy: { 0x180, 0x120, U } | s: 0x00
-    db $12, $19, $15 ; SPRITE 15   | xy: { 0x190, 0x120, U } | s: 0x00
-    db $18, $18, $15 ; SPRITE 15   | xy: { 0x180, 0x180, U } | s: 0x00
+    db $04, $18, $1E ; Sprite 0x1E (0x0180, 0x0040, U) size: 0x00
+    db $0E, $1B, $8A ; Sprite 0x8A (0x01B0, 0x00E0, U) size: 0x00
+    db $0F, $F7, $08 ; Overlord 08 (0x0170, 0x00F0, U)
+    db $12, $17, $C5 ; Sprite 0xC5 (0x0170, 0x0120, U) size: 0x00
+    db $12, $18, $D1 ; Sprite 0xD1 (0x0180, 0x0120, U) size: 0x00
+    db $12, $19, $15 ; Sprite 0x15 (0x0190, 0x0120, U) size: 0x00
+    db $18, $18, $15 ; Sprite 0x15 (0x0180, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -6638,18 +6638,18 @@ RoomData_Sprites_Room0091:
 RoomData_Sprites_Room0092:
 {
     db $00 ; Unlayered OAM
-    db $09, $18, $1E ; SPRITE 1E   | xy: { 0x180, 0x090, U } | s: 0x00
-    db $0C, $03, $1E ; SPRITE 1E   | xy: { 0x030, 0x0C0, U } | s: 0x00
-    db $04, $18, $15 ; SPRITE 15   | xy: { 0x180, 0x040, U } | s: 0x00
-    db $05, $0B, $C5 ; SPRITE C5   | xy: { 0x0B0, 0x050, U } | s: 0x00
-    db $08, $09, $15 ; SPRITE 15   | xy: { 0x090, 0x080, U } | s: 0x00
-    db $09, $17, $C5 ; SPRITE C5   | xy: { 0x170, 0x090, U } | s: 0x00
-    db $0F, $15, $C6 ; SPRITE C6   | xy: { 0x150, 0x0F0, U } | s: 0x00
-    db $12, $E7, $16 ; OVERLORD 16 | xy: { 0x070, 0x120, U }
-    db $12, $19, $8A ; SPRITE 8A   | xy: { 0x190, 0x120, U } | s: 0x00
-    db $14, $03, $15 ; SPRITE 15   | xy: { 0x030, 0x140, U } | s: 0x00
-    db $16, $0A, $A7 ; SPRITE A7   | xy: { 0x0A0, 0x160, U } | s: 0x00
-    db $1B, $03, $15 ; SPRITE 15   | xy: { 0x030, 0x1B0, U } | s: 0x00
+    db $09, $18, $1E ; Sprite 0x1E (0x0180, 0x0090, U) size: 0x00
+    db $0C, $03, $1E ; Sprite 0x1E (0x0030, 0x00C0, U) size: 0x00
+    db $04, $18, $15 ; Sprite 0x15 (0x0180, 0x0040, U) size: 0x00
+    db $05, $0B, $C5 ; Sprite 0xC5 (0x00B0, 0x0050, U) size: 0x00
+    db $08, $09, $15 ; Sprite 0x15 (0x0090, 0x0080, U) size: 0x00
+    db $09, $17, $C5 ; Sprite 0xC5 (0x0170, 0x0090, U) size: 0x00
+    db $0F, $15, $C6 ; Sprite 0xC6 (0x0150, 0x00F0, U) size: 0x00
+    db $12, $E7, $16 ; Overlord 16 (0x0070, 0x0120, U)
+    db $12, $19, $8A ; Sprite 0x8A (0x0190, 0x0120, U) size: 0x00
+    db $14, $03, $15 ; Sprite 0x15 (0x0030, 0x0140, U) size: 0x00
+    db $16, $0A, $A7 ; Sprite 0xA7 (0x00A0, 0x0160, U) size: 0x00
+    db $1B, $03, $15 ; Sprite 0x15 (0x0030, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6659,14 +6659,14 @@ RoomData_Sprites_Room0092:
 RoomData_Sprites_Room0093:
 {
     db $00 ; Unlayered OAM
-    db $09, $09, $C5 ; SPRITE C5   | xy: { 0x090, 0x090, U } | s: 0x00
-    db $09, $16, $C5 ; SPRITE C5   | xy: { 0x160, 0x090, U } | s: 0x00
-    db $0C, $0C, $C5 ; SPRITE C5   | xy: { 0x0C0, 0x0C0, U } | s: 0x00
-    db $0C, $13, $C5 ; SPRITE C5   | xy: { 0x130, 0x0C0, U } | s: 0x00
-    db $0C, $17, $8F ; SPRITE 8F   | xy: { 0x170, 0x0C0, U } | s: 0x00
-    db $15, $04, $A7 ; SPRITE A7   | xy: { 0x040, 0x150, U } | s: 0x00
-    db $1C, $0C, $A7 ; SPRITE A7   | xy: { 0x0C0, 0x1C0, U } | s: 0x00
-    db $1C, $04, $15 ; SPRITE 15   | xy: { 0x040, 0x1C0, U } | s: 0x00
+    db $09, $09, $C5 ; Sprite 0xC5 (0x0090, 0x0090, U) size: 0x00
+    db $09, $16, $C5 ; Sprite 0xC5 (0x0160, 0x0090, U) size: 0x00
+    db $0C, $0C, $C5 ; Sprite 0xC5 (0x00C0, 0x00C0, U) size: 0x00
+    db $0C, $13, $C5 ; Sprite 0xC5 (0x0130, 0x00C0, U) size: 0x00
+    db $0C, $17, $8F ; Sprite 0x8F (0x0170, 0x00C0, U) size: 0x00
+    db $15, $04, $A7 ; Sprite 0xA7 (0x0040, 0x0150, U) size: 0x00
+    db $1C, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x01C0, U) size: 0x00
+    db $1C, $04, $15 ; Sprite 0x15 (0x0040, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6676,11 +6676,11 @@ RoomData_Sprites_Room0093:
 RoomData_Sprites_Room0095:
 {
     db $00 ; Unlayered OAM
-    db $0C, $16, $43 ; SPRITE 43   | xy: { 0x160, 0x0C0, U } | s: 0x00
-    db $0C, $17, $43 ; SPRITE 43   | xy: { 0x170, 0x0C0, U } | s: 0x00
-    db $0C, $18, $43 ; SPRITE 43   | xy: { 0x180, 0x0C0, U } | s: 0x00
-    db $0C, $19, $43 ; SPRITE 43   | xy: { 0x190, 0x0C0, U } | s: 0x00
-    db $1A, $F7, $0B ; OVERLORD 0B | xy: { 0x170, 0x1A0, U }
+    db $0C, $16, $43 ; Sprite 0x43 (0x0160, 0x00C0, U) size: 0x00
+    db $0C, $17, $43 ; Sprite 0x43 (0x0170, 0x00C0, U) size: 0x00
+    db $0C, $18, $43 ; Sprite 0x43 (0x0180, 0x00C0, U) size: 0x00
+    db $0C, $19, $43 ; Sprite 0x43 (0x0190, 0x00C0, U) size: 0x00
+    db $1A, $F7, $0B ; Overlord 0B (0x0170, 0x01A0, U)
     db $FF ; END
 }
 
@@ -6690,11 +6690,11 @@ RoomData_Sprites_Room0095:
 RoomData_Sprites_Room0096:
 {
     db $00 ; Unlayered OAM
-    db $0B, $08, $7E ; SPRITE 7E   | xy: { 0x080, 0x0B0, U } | s: 0x00
-    db $15, $1E, $96 ; SPRITE 96   | xy: { 0x1E0, 0x150, U } | s: 0x00
-    db $17, $1E, $96 ; SPRITE 96   | xy: { 0x1E0, 0x170, U } | s: 0x00
-    db $19, $1E, $96 ; SPRITE 96   | xy: { 0x1E0, 0x190, U } | s: 0x00
-    db $1B, $1E, $96 ; SPRITE 96   | xy: { 0x1E0, 0x1B0, U } | s: 0x00
+    db $0B, $08, $7E ; Sprite 0x7E (0x0080, 0x00B0, U) size: 0x00
+    db $15, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0150, U) size: 0x00
+    db $17, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0170, U) size: 0x00
+    db $19, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0190, U) size: 0x00
+    db $1B, $1E, $96 ; Sprite 0x96 (0x01E0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6704,7 +6704,7 @@ RoomData_Sprites_Room0096:
 RoomData_Sprites_Room0097:
 {
     db $00 ; Unlayered OAM
-    db $0F, $EF, $15 ; OVERLORD 15 | xy: { 0x0F0, 0x0F0, U }
+    db $0F, $EF, $15 ; Overlord 15 (0x00F0, 0x00F0, U)
     db $FF ; END
 }
 
@@ -6714,11 +6714,11 @@ RoomData_Sprites_Room0097:
 RoomData_Sprites_Room0098:
 {
     db $00 ; Unlayered OAM
-    db $13, $10, $8F ; SPRITE 8F   | xy: { 0x100, 0x130, U } | s: 0x00
-    db $14, $09, $8F ; SPRITE 8F   | xy: { 0x090, 0x140, U } | s: 0x00
-    db $14, $0C, $8F ; SPRITE 8F   | xy: { 0x0C0, 0x140, U } | s: 0x00
-    db $14, $0F, $8F ; SPRITE 8F   | xy: { 0x0F0, 0x140, U } | s: 0x00
-    db $17, $08, $8F ; SPRITE 8F   | xy: { 0x080, 0x170, U } | s: 0x00
+    db $13, $10, $8F ; Sprite 0x8F (0x0100, 0x0130, U) size: 0x00
+    db $14, $09, $8F ; Sprite 0x8F (0x0090, 0x0140, U) size: 0x00
+    db $14, $0C, $8F ; Sprite 0x8F (0x00C0, 0x0140, U) size: 0x00
+    db $14, $0F, $8F ; Sprite 0x8F (0x00F0, 0x0140, U) size: 0x00
+    db $17, $08, $8F ; Sprite 0x8F (0x0080, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -6728,17 +6728,17 @@ RoomData_Sprites_Room0098:
 RoomData_Sprites_Room0099:
 {
     db $00 ; Unlayered OAM
-    db $06, $15, $15 ; SPRITE 15   | xy: { 0x150, 0x060, U } | s: 0x00
-    db $08, $1A, $15 ; SPRITE 15   | xy: { 0x1A0, 0x080, U } | s: 0x00
-    db $17, $0E, $83 ; SPRITE 83   | xy: { 0x0E0, 0x170, U } | s: 0x00
-    db $17, $11, $83 ; SPRITE 83   | xy: { 0x110, 0x170, U } | s: 0x00
+    db $06, $15, $15 ; Sprite 0x15 (0x0150, 0x0060, U) size: 0x00
+    db $08, $1A, $15 ; Sprite 0x15 (0x01A0, 0x0080, U) size: 0x00
+    db $17, $0E, $83 ; Sprite 0x83 (0x00E0, 0x0170, U) size: 0x00
+    db $17, $11, $83 ; Sprite 0x83 (0x0110, 0x0170, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
-    db $18, $0D, $4E ; SPRITE 4E   | xy: { 0x0D0, 0x180, U } | s: 0x00
-    db $18, $12, $4E ; SPRITE 4E   | xy: { 0x120, 0x180, U } | s: 0x00
-    db $19, $0E, $4F ; SPRITE 4F   | xy: { 0x0E0, 0x190, U } | s: 0x00
-    db $19, $0F, $4F ; SPRITE 4F   | xy: { 0x0F0, 0x190, U } | s: 0x00
-    db $19, $10, $4F ; SPRITE 4F   | xy: { 0x100, 0x190, U } | s: 0x00
-    db $19, $11, $4F ; SPRITE 4F   | xy: { 0x110, 0x190, U } | s: 0x00
+    db $18, $0D, $4E ; Sprite 0x4E (0x00D0, 0x0180, U) size: 0x00
+    db $18, $12, $4E ; Sprite 0x4E (0x0120, 0x0180, U) size: 0x00
+    db $19, $0E, $4F ; Sprite 0x4F (0x00E0, 0x0190, U) size: 0x00
+    db $19, $0F, $4F ; Sprite 0x4F (0x00F0, 0x0190, U) size: 0x00
+    db $19, $10, $4F ; Sprite 0x4F (0x0100, 0x0190, U) size: 0x00
+    db $19, $11, $4F ; Sprite 0x4F (0x0110, 0x0190, U) size: 0x00
     db $FF ; END
 }
 
@@ -6748,19 +6748,19 @@ RoomData_Sprites_Room0099:
 RoomData_Sprites_Room009B:
 {
     db $00 ; Unlayered OAM
-    db $08, $06, $1E ; SPRITE 1E   | xy: { 0x060, 0x080, U } | s: 0x00
-    db $08, $07, $1E ; SPRITE 1E   | xy: { 0x070, 0x080, U } | s: 0x00
-    db $08, $14, $1E ; SPRITE 1E   | xy: { 0x140, 0x080, U } | s: 0x00
-    db $05, $1C, $8A ; SPRITE 8A   | xy: { 0x1C0, 0x050, U } | s: 0x00
-    db $06, $1C, $8A ; SPRITE 8A   | xy: { 0x1C0, 0x060, U } | s: 0x00
-    db $07, $1C, $8A ; SPRITE 8A   | xy: { 0x1C0, 0x070, U } | s: 0x00
-    db $08, $03, $C6 ; SPRITE C6   | xy: { 0x030, 0x080, U } | s: 0x00
-    db $08, $1C, $8A ; SPRITE 8A   | xy: { 0x1C0, 0x080, U } | s: 0x00
-    db $09, $1C, $8A ; SPRITE 8A   | xy: { 0x1C0, 0x090, U } | s: 0x00
-    db $0A, $1C, $8A ; SPRITE 8A   | xy: { 0x1C0, 0x0A0, U } | s: 0x00
-    db $0B, $1C, $8A ; SPRITE 8A   | xy: { 0x1C0, 0x0B0, U } | s: 0x00
-    db $1A, $17, $26 ; SPRITE 26   | xy: { 0x170, 0x1A0, U } | s: 0x00
-    db $1B, $13, $26 ; SPRITE 26   | xy: { 0x130, 0x1B0, U } | s: 0x00
+    db $08, $06, $1E ; Sprite 0x1E (0x0060, 0x0080, U) size: 0x00
+    db $08, $07, $1E ; Sprite 0x1E (0x0070, 0x0080, U) size: 0x00
+    db $08, $14, $1E ; Sprite 0x1E (0x0140, 0x0080, U) size: 0x00
+    db $05, $1C, $8A ; Sprite 0x8A (0x01C0, 0x0050, U) size: 0x00
+    db $06, $1C, $8A ; Sprite 0x8A (0x01C0, 0x0060, U) size: 0x00
+    db $07, $1C, $8A ; Sprite 0x8A (0x01C0, 0x0070, U) size: 0x00
+    db $08, $03, $C6 ; Sprite 0xC6 (0x0030, 0x0080, U) size: 0x00
+    db $08, $1C, $8A ; Sprite 0x8A (0x01C0, 0x0080, U) size: 0x00
+    db $09, $1C, $8A ; Sprite 0x8A (0x01C0, 0x0090, U) size: 0x00
+    db $0A, $1C, $8A ; Sprite 0x8A (0x01C0, 0x00A0, U) size: 0x00
+    db $0B, $1C, $8A ; Sprite 0x8A (0x01C0, 0x00B0, U) size: 0x00
+    db $1A, $17, $26 ; Sprite 0x26 (0x0170, 0x01A0, U) size: 0x00
+    db $1B, $13, $26 ; Sprite 0x26 (0x0130, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6770,13 +6770,13 @@ RoomData_Sprites_Room009B:
 RoomData_Sprites_Room009C:
 {
     db $00 ; Unlayered OAM
-    db $09, $13, $26 ; SPRITE 26   | xy: { 0x130, 0x090, U } | s: 0x00
-    db $0A, $0B, $13 ; SPRITE 13   | xy: { 0x0B0, 0x0A0, U } | s: 0x00
-    db $0F, $11, $26 ; SPRITE 26   | xy: { 0x110, 0x0F0, U } | s: 0x00
-    db $0E, $17, $26 ; SPRITE 26   | xy: { 0x170, 0x0E0, U } | s: 0x00
-    db $12, $0D, $26 ; SPRITE 26   | xy: { 0x0D0, 0x120, U } | s: 0x00
-    db $13, $09, $26 ; SPRITE 26   | xy: { 0x090, 0x130, U } | s: 0x00
-    db $1C, $0F, $80 ; SPRITE 80   | xy: { 0x0F0, 0x1C0, U } | s: 0x00
+    db $09, $13, $26 ; Sprite 0x26 (0x0130, 0x0090, U) size: 0x00
+    db $0A, $0B, $13 ; Sprite 0x13 (0x00B0, 0x00A0, U) size: 0x00
+    db $0F, $11, $26 ; Sprite 0x26 (0x0110, 0x00F0, U) size: 0x00
+    db $0E, $17, $26 ; Sprite 0x26 (0x0170, 0x00E0, U) size: 0x00
+    db $12, $0D, $26 ; Sprite 0x26 (0x00D0, 0x0120, U) size: 0x00
+    db $13, $09, $26 ; Sprite 0x26 (0x0090, 0x0130, U) size: 0x00
+    db $1C, $0F, $80 ; Sprite 0x80 (0x00F0, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6786,15 +6786,15 @@ RoomData_Sprites_Room009C:
 RoomData_Sprites_Room009D:
 {
     db $00 ; Unlayered OAM
-    db $06, $1C, $1E ; SPRITE 1E   | xy: { 0x1C0, 0x060, U } | s: 0x00
-    db $04, $06, $26 ; SPRITE 26   | xy: { 0x060, 0x040, U } | s: 0x00
-    db $04, $14, $8B ; SPRITE 8B   | xy: { 0x140, 0x040, U } | s: 0x00
-    db $09, $18, $8B ; SPRITE 8B   | xy: { 0x180, 0x090, U } | s: 0x00
-    db $0C, $05, $26 ; SPRITE 26   | xy: { 0x050, 0x0C0, U } | s: 0x00
-    db $0C, $13, $8B ; SPRITE 8B   | xy: { 0x130, 0x0C0, U } | s: 0x00
-    db $14, $10, $24 ; SPRITE 24   | xy: { 0x100, 0x140, U } | s: 0x00
-    db $18, $0B, $24 ; SPRITE 24   | xy: { 0x0B0, 0x180, U } | s: 0x00
-    db $1C, $11, $24 ; SPRITE 24   | xy: { 0x110, 0x1C0, U } | s: 0x00
+    db $06, $1C, $1E ; Sprite 0x1E (0x01C0, 0x0060, U) size: 0x00
+    db $04, $06, $26 ; Sprite 0x26 (0x0060, 0x0040, U) size: 0x00
+    db $04, $14, $8B ; Sprite 0x8B (0x0140, 0x0040, U) size: 0x00
+    db $09, $18, $8B ; Sprite 0x8B (0x0180, 0x0090, U) size: 0x00
+    db $0C, $05, $26 ; Sprite 0x26 (0x0050, 0x00C0, U) size: 0x00
+    db $0C, $13, $8B ; Sprite 0x8B (0x0130, 0x00C0, U) size: 0x00
+    db $14, $10, $24 ; Sprite 0x24 (0x0100, 0x0140, U) size: 0x00
+    db $18, $0B, $24 ; Sprite 0x24 (0x00B0, 0x0180, U) size: 0x00
+    db $1C, $11, $24 ; Sprite 0x24 (0x0110, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6804,11 +6804,11 @@ RoomData_Sprites_Room009D:
 RoomData_Sprites_Room009E:
 {
     db $00 ; Unlayered OAM
-    db $05, $18, $23 ; SPRITE 23   | xy: { 0x180, 0x050, U } | s: 0x00
-    db $08, $16, $23 ; SPRITE 23   | xy: { 0x160, 0x080, U } | s: 0x00
-    db $08, $18, $91 ; SPRITE 91   | xy: { 0x180, 0x080, U } | s: 0x00
-    db $08, $19, $23 ; SPRITE 23   | xy: { 0x190, 0x080, U } | s: 0x00
-    db $12, $14, $A1 ; SPRITE A1   | xy: { 0x140, 0x120, U } | s: 0x00
+    db $05, $18, $23 ; Sprite 0x23 (0x0180, 0x0050, U) size: 0x00
+    db $08, $16, $23 ; Sprite 0x23 (0x0160, 0x0080, U) size: 0x00
+    db $08, $18, $91 ; Sprite 0x91 (0x0180, 0x0080, U) size: 0x00
+    db $08, $19, $23 ; Sprite 0x23 (0x0190, 0x0080, U) size: 0x00
+    db $12, $14, $A1 ; Sprite 0xA1 (0x0140, 0x0120, U) size: 0x00
     db $FF ; END
 }
 
@@ -6818,12 +6818,12 @@ RoomData_Sprites_Room009E:
 RoomData_Sprites_Room009F:
 {
     db $00 ; Unlayered OAM
-    db $12, $04, $9D ; SPRITE 9D   | xy: { 0x040, 0x120, U } | s: 0x00
-    db $12, $06, $9D ; SPRITE 9D   | xy: { 0x060, 0x120, U } | s: 0x00
-    db $12, $09, $9D ; SPRITE 9D   | xy: { 0x090, 0x120, U } | s: 0x00
-    db $12, $0B, $9D ; SPRITE 9D   | xy: { 0x0B0, 0x120, U } | s: 0x00
-    db $17, $07, $15 ; SPRITE 15   | xy: { 0x070, 0x170, U } | s: 0x00
-    db $18, $08, $7E ; SPRITE 7E   | xy: { 0x080, 0x180, U } | s: 0x00
+    db $12, $04, $9D ; Sprite 0x9D (0x0040, 0x0120, U) size: 0x00
+    db $12, $06, $9D ; Sprite 0x9D (0x0060, 0x0120, U) size: 0x00
+    db $12, $09, $9D ; Sprite 0x9D (0x0090, 0x0120, U) size: 0x00
+    db $12, $0B, $9D ; Sprite 0x9D (0x00B0, 0x0120, U) size: 0x00
+    db $17, $07, $15 ; Sprite 0x15 (0x0070, 0x0170, U) size: 0x00
+    db $18, $08, $7E ; Sprite 0x7E (0x0080, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -6833,9 +6833,9 @@ RoomData_Sprites_Room009F:
 RoomData_Sprites_Room00A0:
 {
     db $00 ; Unlayered OAM
-    db $08, $03, $C5 ; SPRITE C5   | xy: { 0x030, 0x080, U } | s: 0x00
-    db $08, $0E, $15 ; SPRITE 15   | xy: { 0x0E0, 0x080, U } | s: 0x00
-    db $0C, $14, $80 ; SPRITE 80   | xy: { 0x140, 0x0C0, U } | s: 0x00
+    db $08, $03, $C5 ; Sprite 0xC5 (0x0030, 0x0080, U) size: 0x00
+    db $08, $0E, $15 ; Sprite 0x15 (0x00E0, 0x0080, U) size: 0x00
+    db $0C, $14, $80 ; Sprite 0x80 (0x0140, 0x00C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6845,15 +6845,15 @@ RoomData_Sprites_Room00A0:
 RoomData_Sprites_Room00A1:
 {
     db $00 ; Unlayered OAM
-    db $08, $0A, $1E ; SPRITE 1E   | xy: { 0x0A0, 0x080, U } | s: 0x00
-    db $07, $18, $5B ; SPRITE 5B   | xy: { 0x180, 0x070, U } | s: 0x00
-    db $0B, $16, $5B ; SPRITE 5B   | xy: { 0x160, 0x0B0, U } | s: 0x00
-    db $10, $19, $9B ; SPRITE 9B   | xy: { 0x190, 0x100, U } | s: 0x00
-    db $15, $15, $C5 ; SPRITE C5   | xy: { 0x150, 0x150, U } | s: 0x00
-    db $15, $1A, $C5 ; SPRITE C5   | xy: { 0x1A0, 0x150, U } | s: 0x00
-    db $19, $15, $A7 ; SPRITE A7   | xy: { 0x150, 0x190, U } | s: 0x00
-    db $19, $17, $D1 ; SPRITE D1   | xy: { 0x170, 0x190, U } | s: 0x00
-    db $19, $1B, $A7 ; SPRITE A7   | xy: { 0x1B0, 0x190, U } | s: 0x00
+    db $08, $0A, $1E ; Sprite 0x1E (0x00A0, 0x0080, U) size: 0x00
+    db $07, $18, $5B ; Sprite 0x5B (0x0180, 0x0070, U) size: 0x00
+    db $0B, $16, $5B ; Sprite 0x5B (0x0160, 0x00B0, U) size: 0x00
+    db $10, $19, $9B ; Sprite 0x9B (0x0190, 0x0100, U) size: 0x00
+    db $15, $15, $C5 ; Sprite 0xC5 (0x0150, 0x0150, U) size: 0x00
+    db $15, $1A, $C5 ; Sprite 0xC5 (0x01A0, 0x0150, U) size: 0x00
+    db $19, $15, $A7 ; Sprite 0xA7 (0x0150, 0x0190, U) size: 0x00
+    db $19, $17, $D1 ; Sprite 0xD1 (0x0170, 0x0190, U) size: 0x00
+    db $19, $1B, $A7 ; Sprite 0xA7 (0x01B0, 0x0190, U) size: 0x00
     db $FF ; END
 }
 
@@ -6872,9 +6872,9 @@ RoomData_Sprites_Room00A3:
 RoomData_Sprites_Room00A4:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $CB ; SPRITE CB   | xy: { 0x070, 0x150, U } | s: 0x00
-    db $15, $07, $CC ; SPRITE CC   | xy: { 0x070, 0x150, U } | s: 0x00
-    db $15, $07, $CD ; SPRITE CD   | xy: { 0x070, 0x150, U } | s: 0x00
+    db $15, $07, $CB ; Sprite 0xCB (0x0070, 0x0150, U) size: 0x00
+    db $15, $07, $CC ; Sprite 0xCC (0x0070, 0x0150, U) size: 0x00
+    db $15, $07, $CD ; Sprite 0xCD (0x0070, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -6884,18 +6884,18 @@ RoomData_Sprites_Room00A4:
 RoomData_Sprites_Room00A5:
 {
     db $00 ; Unlayered OAM
-    db $05, $16, $9B ; SPRITE 9B   | xy: { 0x160, 0x050, U } | s: 0x00
-    db $05, $19, $9B ; SPRITE 9B   | xy: { 0x190, 0x050, U } | s: 0x00
-    db $07, $04, $9B ; SPRITE 9B   | xy: { 0x040, 0x070, U } | s: 0x00
-    db $07, $0B, $9B ; SPRITE 9B   | xy: { 0x0B0, 0x070, U } | s: 0x00
-    db $08, $17, $8A ; SPRITE 8A   | xy: { 0x170, 0x080, U } | s: 0x00
-    db $09, $15, $9B ; SPRITE 9B   | xy: { 0x150, 0x090, U } | s: 0x00
-    db $09, $1A, $9B ; SPRITE 9B   | xy: { 0x1A0, 0x090, U } | s: 0x00
-    db $0A, $08, $9B ; SPRITE 9B   | xy: { 0x080, 0x0A0, U } | s: 0x00
-    db $12, $0C, $97 ; SPRITE 97   | xy: { 0x0C0, 0x120, U } | s: 0x00
-    db $12, $12, $97 ; SPRITE 97   | xy: { 0x120, 0x120, U } | s: 0x00
-    db $17, $12, $43 ; SPRITE 43   | xy: { 0x120, 0x170, U } | s: 0x00
-    db $18, $13, $41 ; SPRITE 41   | xy: { 0x130, 0x180, U } | s: 0x00
+    db $05, $16, $9B ; Sprite 0x9B (0x0160, 0x0050, U) size: 0x00
+    db $05, $19, $9B ; Sprite 0x9B (0x0190, 0x0050, U) size: 0x00
+    db $07, $04, $9B ; Sprite 0x9B (0x0040, 0x0070, U) size: 0x00
+    db $07, $0B, $9B ; Sprite 0x9B (0x00B0, 0x0070, U) size: 0x00
+    db $08, $17, $8A ; Sprite 0x8A (0x0170, 0x0080, U) size: 0x00
+    db $09, $15, $9B ; Sprite 0x9B (0x0150, 0x0090, U) size: 0x00
+    db $09, $1A, $9B ; Sprite 0x9B (0x01A0, 0x0090, U) size: 0x00
+    db $0A, $08, $9B ; Sprite 0x9B (0x0080, 0x00A0, U) size: 0x00
+    db $12, $0C, $97 ; Sprite 0x97 (0x00C0, 0x0120, U) size: 0x00
+    db $12, $12, $97 ; Sprite 0x97 (0x0120, 0x0120, U) size: 0x00
+    db $17, $12, $43 ; Sprite 0x43 (0x0120, 0x0170, U) size: 0x00
+    db $18, $13, $41 ; Sprite 0x41 (0x0130, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -6905,8 +6905,8 @@ RoomData_Sprites_Room00A5:
 RoomData_Sprites_Room00A6:
 {
     db $00 ; Unlayered OAM
-    db $0F, $EF, $15 ; OVERLORD 15 | xy: { 0x0F0, 0x0F0, U }
-    db $0E, $0C, $15 ; SPRITE 15   | xy: { 0x0C0, 0x0E0, U } | s: 0x00
+    db $0F, $EF, $15 ; Overlord 15 (0x00F0, 0x00F0, U)
+    db $0E, $0C, $15 ; Sprite 0x15 (0x00C0, 0x00E0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6916,8 +6916,8 @@ RoomData_Sprites_Room00A6:
 RoomData_Sprites_Room00A7:
 {
     db $00 ; Unlayered OAM
-    db $08, $06, $E3 ; SPRITE E3   | xy: { 0x060, 0x080, U } | s: 0x00
-    db $09, $06, $E3 ; SPRITE E3   | xy: { 0x060, 0x090, U } | s: 0x00
+    db $08, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0080, U) size: 0x00
+    db $09, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0090, U) size: 0x00
     db $FF ; END
 }
 
@@ -6927,11 +6927,11 @@ RoomData_Sprites_Room00A7:
 RoomData_Sprites_Room00A8:
 {
     db $01 ; Layered OAM
-    db $0E, $16, $A7 ; SPRITE A7   | xy: { 0x160, 0x0E0, U } | s: 0x00
-    db $0E, $1A, $A7 ; SPRITE A7   | xy: { 0x1A0, 0x0E0, U } | s: 0x00
-    db $12, $16, $A7 ; SPRITE A7   | xy: { 0x160, 0x120, U } | s: 0x00
-    db $12, $1A, $A7 ; SPRITE A7   | xy: { 0x1A0, 0x120, U } | s: 0x00
-    db $16, $E8, $18 ; OVERLORD 18 | xy: { 0x080, 0x160, U }
+    db $0E, $16, $A7 ; Sprite 0xA7 (0x0160, 0x00E0, U) size: 0x00
+    db $0E, $1A, $A7 ; Sprite 0xA7 (0x01A0, 0x00E0, U) size: 0x00
+    db $12, $16, $A7 ; Sprite 0xA7 (0x0160, 0x0120, U) size: 0x00
+    db $12, $1A, $A7 ; Sprite 0xA7 (0x01A0, 0x0120, U) size: 0x00
+    db $16, $E8, $18 ; Overlord 18 (0x0080, 0x0160, U)
     db $FF ; END
 }
 
@@ -6941,14 +6941,14 @@ RoomData_Sprites_Room00A8:
 RoomData_Sprites_Room00A9:
 {
     db $00 ; Unlayered OAM
-    db $85, $09, $83 ; SPRITE 83   | xy: { 0x090, 0x050, L } | s: 0x00
-    db $85, $16, $83 ; SPRITE 83   | xy: { 0x160, 0x050, L } | s: 0x00
-    db $8C, $ED, $05 ; OVERLORD 05 | xy: { 0x0D0, 0x0C0, L }
-    db $8C, $F2, $05 ; OVERLORD 05 | xy: { 0x120, 0x0C0, L }
-    db $92, $ED, $05 ; OVERLORD 05 | xy: { 0x0D0, 0x120, L }
-    db $92, $F2, $05 ; OVERLORD 05 | xy: { 0x120, 0x120, L }
-    db $90, $0A, $A7 ; SPRITE A7   | xy: { 0x0A0, 0x100, L } | s: 0x00
-    db $90, $14, $A7 ; SPRITE A7   | xy: { 0x140, 0x100, L } | s: 0x00
+    db $85, $09, $83 ; Sprite 0x83 (0x0090, 0x0050, L) size: 0x00
+    db $85, $16, $83 ; Sprite 0x83 (0x0160, 0x0050, L) size: 0x00
+    db $8C, $ED, $05 ; Overlord 05 (0x00D0, 0x00C0, L)
+    db $8C, $F2, $05 ; Overlord 05 (0x0120, 0x00C0, L)
+    db $92, $ED, $05 ; Overlord 05 (0x00D0, 0x0120, L)
+    db $92, $F2, $05 ; Overlord 05 (0x0120, 0x0120, L)
+    db $90, $0A, $A7 ; Sprite 0xA7 (0x00A0, 0x0100, L) size: 0x00
+    db $90, $14, $A7 ; Sprite 0xA7 (0x0140, 0x0100, L) size: 0x00
     db $FF ; END
 }
 
@@ -6958,12 +6958,12 @@ RoomData_Sprites_Room00A9:
 RoomData_Sprites_Room00AA:
 {
     db $01 ; Layered OAM
-    db $06, $18, $15 ; SPRITE 15   | xy: { 0x180, 0x060, U } | s: 0x00
-    db $07, $0A, $4F ; SPRITE 4F   | xy: { 0x0A0, 0x070, U } | s: 0x00
-    db $0B, $06, $A7 ; SPRITE A7   | xy: { 0x060, 0x0B0, U } | s: 0x00
-    db $0C, $0C, $A7 ; SPRITE A7   | xy: { 0x0C0, 0x0C0, U } | s: 0x00
-    db $13, $0C, $A7 ; SPRITE A7   | xy: { 0x0C0, 0x130, U } | s: 0x00
-    db $14, $0A, $4F ; SPRITE 4F   | xy: { 0x0A0, 0x140, U } | s: 0x00
+    db $06, $18, $15 ; Sprite 0x15 (0x0180, 0x0060, U) size: 0x00
+    db $07, $0A, $4F ; Sprite 0x4F (0x00A0, 0x0070, U) size: 0x00
+    db $0B, $06, $A7 ; Sprite 0xA7 (0x0060, 0x00B0, U) size: 0x00
+    db $0C, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x00C0, U) size: 0x00
+    db $13, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x0130, U) size: 0x00
+    db $14, $0A, $4F ; Sprite 0x4F (0x00A0, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -6973,14 +6973,14 @@ RoomData_Sprites_Room00AA:
 RoomData_Sprites_Room00AB:
 {
     db $00 ; Unlayered OAM
-    db $18, $04, $1E ; SPRITE 1E   | xy: { 0x040, 0x180, U } | s: 0x00
-    db $15, $03, $8A ; SPRITE 8A   | xy: { 0x030, 0x150, U } | s: 0x00
-    db $16, $0C, $8A ; SPRITE 8A   | xy: { 0x0C0, 0x160, U } | s: 0x00
-    db $17, $03, $8A ; SPRITE 8A   | xy: { 0x030, 0x170, U } | s: 0x00
-    db $18, $06, $8F ; SPRITE 8F   | xy: { 0x060, 0x180, U } | s: 0x00
-    db $19, $03, $8A ; SPRITE 8A   | xy: { 0x030, 0x190, U } | s: 0x00
-    db $1A, $0C, $8A ; SPRITE 8A   | xy: { 0x0C0, 0x1A0, U } | s: 0x00
-    db $1B, $03, $8A ; SPRITE 8A   | xy: { 0x030, 0x1B0, U } | s: 0x00
+    db $18, $04, $1E ; Sprite 0x1E (0x0040, 0x0180, U) size: 0x00
+    db $15, $03, $8A ; Sprite 0x8A (0x0030, 0x0150, U) size: 0x00
+    db $16, $0C, $8A ; Sprite 0x8A (0x00C0, 0x0160, U) size: 0x00
+    db $17, $03, $8A ; Sprite 0x8A (0x0030, 0x0170, U) size: 0x00
+    db $18, $06, $8F ; Sprite 0x8F (0x0060, 0x0180, U) size: 0x00
+    db $19, $03, $8A ; Sprite 0x8A (0x0030, 0x0190, U) size: 0x00
+    db $1A, $0C, $8A ; Sprite 0x8A (0x00C0, 0x01A0, U) size: 0x00
+    db $1B, $03, $8A ; Sprite 0x8A (0x0030, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -6990,7 +6990,7 @@ RoomData_Sprites_Room00AB:
 RoomData_Sprites_Room00AC:
 {
     db $00 ; Unlayered OAM
-    db $15, $19, $CE ; SPRITE CE   | xy: { 0x190, 0x150, U } | s: 0x00
+    db $15, $19, $CE ; Sprite 0xCE (0x0190, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -7000,8 +7000,8 @@ RoomData_Sprites_Room00AC:
 RoomData_Sprites_Room00AE:
 {
     db $00 ; Unlayered OAM
-    db $07, $13, $24 ; SPRITE 24   | xy: { 0x130, 0x070, U } | s: 0x00
-    db $07, $15, $24 ; SPRITE 24   | xy: { 0x150, 0x070, U } | s: 0x00
+    db $07, $13, $24 ; Sprite 0x24 (0x0130, 0x0070, U) size: 0x00
+    db $07, $15, $24 ; Sprite 0x24 (0x0150, 0x0070, U) size: 0x00
     db $FF ; END
 }
 
@@ -7011,7 +7011,7 @@ RoomData_Sprites_Room00AE:
 RoomData_Sprites_Room00AF:
 {
     db $00 ; Unlayered OAM
-    db $08, $0A, $7E ; SPRITE 7E   | xy: { 0x0A0, 0x080, U } | s: 0x00
+    db $08, $0A, $7E ; Sprite 0x7E (0x00A0, 0x0080, U) size: 0x00
     db $FF ; END
 }
 
@@ -7021,20 +7021,20 @@ RoomData_Sprites_Room00AF:
 RoomData_Sprites_Room00B0:
 {
     db $00 ; Unlayered OAM
-    db $07, $07, $43 ; SPRITE 43   | xy: { 0x070, 0x070, U } | s: 0x00
-    db $07, $17, $6F ; SPRITE 6F   | xy: { 0x170, 0x070, U } | s: 0x00
-    db $07, $18, $6F ; SPRITE 6F   | xy: { 0x180, 0x070, U } | s: 0x00
-    db $08, $14, $48 ; SPRITE 48   | xy: { 0x140, 0x080, U } | s: 0x00
-    db $08, $1B, $48 ; SPRITE 48   | xy: { 0x1B0, 0x080, U } | s: 0x00
-    db $0B, $05, $43 ; SPRITE 43   | xy: { 0x050, 0x0B0, U } | s: 0x00
-    db $14, $16, $6A ; SPRITE 6A   | xy: { 0x160, 0x140, U } | s: 0x00
-    db $16, $04, $6F ; SPRITE 6F   | xy: { 0x040, 0x160, U } | s: 0x00
-    db $16, $0B, $6F ; SPRITE 6F   | xy: { 0x0B0, 0x160, U } | s: 0x00
-    db $16, $0A, $43 ; SPRITE 43   | xy: { 0x0A0, 0x160, U } | s: 0x00
-    db $18, $08, $43 ; SPRITE 43   | xy: { 0x080, 0x180, U } | s: 0x00
+    db $07, $07, $43 ; Sprite 0x43 (0x0070, 0x0070, U) size: 0x00
+    db $07, $17, $6F ; Sprite 0x6F (0x0170, 0x0070, U) size: 0x00
+    db $07, $18, $6F ; Sprite 0x6F (0x0180, 0x0070, U) size: 0x00
+    db $08, $14, $48 ; Sprite 0x48 (0x0140, 0x0080, U) size: 0x00
+    db $08, $1B, $48 ; Sprite 0x48 (0x01B0, 0x0080, U) size: 0x00
+    db $0B, $05, $43 ; Sprite 0x43 (0x0050, 0x00B0, U) size: 0x00
+    db $14, $16, $6A ; Sprite 0x6A (0x0160, 0x0140, U) size: 0x00
+    db $16, $04, $6F ; Sprite 0x6F (0x0040, 0x0160, U) size: 0x00
+    db $16, $0B, $6F ; Sprite 0x6F (0x00B0, 0x0160, U) size: 0x00
+    db $16, $0A, $43 ; Sprite 0x43 (0x00A0, 0x0160, U) size: 0x00
+    db $18, $08, $43 ; Sprite 0x43 (0x0080, 0x0180, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
-    db $1A, $1B, $44 ; SPRITE 44   | xy: { 0x1B0, 0x1A0, U } | s: 0x00
-    db $1C, $17, $48 ; SPRITE 48   | xy: { 0x170, 0x1C0, U } | s: 0x00
+    db $1A, $1B, $44 ; Sprite 0x44 (0x01B0, 0x01A0, U) size: 0x00
+    db $1C, $17, $48 ; Sprite 0x48 (0x0170, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7044,16 +7044,16 @@ RoomData_Sprites_Room00B0:
 RoomData_Sprites_Room00B1:
 {
     db $00 ; Unlayered OAM
-    db $07, $15, $C5 ; SPRITE C5   | xy: { 0x150, 0x070, U } | s: 0x00
-    db $07, $1A, $C5 ; SPRITE C5   | xy: { 0x1A0, 0x070, U } | s: 0x00
-    db $0E, $16, $8A ; SPRITE 8A   | xy: { 0x160, 0x0E0, U } | s: 0x00
-    db $11, $19, $8A ; SPRITE 8A   | xy: { 0x190, 0x110, U } | s: 0x00
-    db $17, $0C, $9B ; SPRITE 9B   | xy: { 0x0C0, 0x170, U } | s: 0x00
-    db $17, $1A, $7D ; SPRITE 7D   | xy: { 0x1A0, 0x170, U } | s: 0x00
-    db $18, $07, $C6 ; SPRITE C6   | xy: { 0x070, 0x180, U } | s: 0x00
-    db $1A, $03, $9B ; SPRITE 9B   | xy: { 0x030, 0x1A0, U } | s: 0x00
-    db $1A, $15, $15 ; SPRITE 15   | xy: { 0x150, 0x1A0, U } | s: 0x00
-    db $1C, $08, $9B ; SPRITE 9B   | xy: { 0x080, 0x1C0, U } | s: 0x00
+    db $07, $15, $C5 ; Sprite 0xC5 (0x0150, 0x0070, U) size: 0x00
+    db $07, $1A, $C5 ; Sprite 0xC5 (0x01A0, 0x0070, U) size: 0x00
+    db $0E, $16, $8A ; Sprite 0x8A (0x0160, 0x00E0, U) size: 0x00
+    db $11, $19, $8A ; Sprite 0x8A (0x0190, 0x0110, U) size: 0x00
+    db $17, $0C, $9B ; Sprite 0x9B (0x00C0, 0x0170, U) size: 0x00
+    db $17, $1A, $7D ; Sprite 0x7D (0x01A0, 0x0170, U) size: 0x00
+    db $18, $07, $C6 ; Sprite 0xC6 (0x0070, 0x0180, U) size: 0x00
+    db $1A, $03, $9B ; Sprite 0x9B (0x0030, 0x01A0, U) size: 0x00
+    db $1A, $15, $15 ; Sprite 0x15 (0x0150, 0x01A0, U) size: 0x00
+    db $1C, $08, $9B ; Sprite 0x9B (0x0080, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7063,20 +7063,20 @@ RoomData_Sprites_Room00B1:
 RoomData_Sprites_Room00B2:
 {
     db $01 ; Layered OAM
-    db $88, $14, $9B ; SPRITE 9B   | xy: { 0x140, 0x080, L } | s: 0x00
-    db $8A, $0C, $D1 ; SPRITE D1   | xy: { 0x0C0, 0x0A0, L } | s: 0x00
-    db $8A, $12, $15 ; SPRITE 15   | xy: { 0x120, 0x0A0, L } | s: 0x00
-    db $8A, $13, $D1 ; SPRITE D1   | xy: { 0x130, 0x0A0, L } | s: 0x00
-    db $8B, $07, $15 ; SPRITE 15   | xy: { 0x070, 0x0B0, L } | s: 0x00
-    db $15, $04, $20 ; SPRITE 20   | xy: { 0x040, 0x150, U } | s: 0x00
-    db $15, $0B, $20 ; SPRITE 20   | xy: { 0x0B0, 0x150, U } | s: 0x00
-    db $16, $03, $15 ; SPRITE 15   | xy: { 0x030, 0x160, U } | s: 0x00
-    db $18, $15, $C5 ; SPRITE C5   | xy: { 0x150, 0x180, U } | s: 0x00
-    db $18, $1A, $C5 ; SPRITE C5   | xy: { 0x1A0, 0x180, U } | s: 0x00
-    db $1B, $04, $20 ; SPRITE 20   | xy: { 0x040, 0x1B0, U } | s: 0x00
-    db $1B, $0B, $20 ; SPRITE 20   | xy: { 0x0B0, 0x1B0, U } | s: 0x00
-    db $1B, $14, $4E ; SPRITE 4E   | xy: { 0x140, 0x1B0, U } | s: 0x00
-    db $1B, $1B, $4E ; SPRITE 4E   | xy: { 0x1B0, 0x1B0, U } | s: 0x00
+    db $88, $14, $9B ; Sprite 0x9B (0x0140, 0x0080, L) size: 0x00
+    db $8A, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x00A0, L) size: 0x00
+    db $8A, $12, $15 ; Sprite 0x15 (0x0120, 0x00A0, L) size: 0x00
+    db $8A, $13, $D1 ; Sprite 0xD1 (0x0130, 0x00A0, L) size: 0x00
+    db $8B, $07, $15 ; Sprite 0x15 (0x0070, 0x00B0, L) size: 0x00
+    db $15, $04, $20 ; Sprite 0x20 (0x0040, 0x0150, U) size: 0x00
+    db $15, $0B, $20 ; Sprite 0x20 (0x00B0, 0x0150, U) size: 0x00
+    db $16, $03, $15 ; Sprite 0x15 (0x0030, 0x0160, U) size: 0x00
+    db $18, $15, $C5 ; Sprite 0xC5 (0x0150, 0x0180, U) size: 0x00
+    db $18, $1A, $C5 ; Sprite 0xC5 (0x01A0, 0x0180, U) size: 0x00
+    db $1B, $04, $20 ; Sprite 0x20 (0x0040, 0x01B0, U) size: 0x00
+    db $1B, $0B, $20 ; Sprite 0x20 (0x00B0, 0x01B0, U) size: 0x00
+    db $1B, $14, $4E ; Sprite 0x4E (0x0140, 0x01B0, U) size: 0x00
+    db $1B, $1B, $4E ; Sprite 0x4E (0x01B0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7086,11 +7086,11 @@ RoomData_Sprites_Room00B2:
 RoomData_Sprites_Room00B3:
 {
     db $00 ; Unlayered OAM
-    db $15, $03, $A7 ; SPRITE A7   | xy: { 0x030, 0x150, U } | s: 0x00
-    db $15, $0B, $A7 ; SPRITE A7   | xy: { 0x0B0, 0x150, U } | s: 0x00
-    db $18, $06, $61 ; SPRITE 61   | xy: { 0x060, 0x180, U } | s: 0x00
-    db $1A, $0A, $C6 ; SPRITE C6   | xy: { 0x0A0, 0x1A0, U } | s: 0x00
-    db $1C, $07, $A7 ; SPRITE A7   | xy: { 0x070, 0x1C0, U } | s: 0x00
+    db $15, $03, $A7 ; Sprite 0xA7 (0x0030, 0x0150, U) size: 0x00
+    db $15, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x0150, U) size: 0x00
+    db $18, $06, $61 ; Sprite 0x61 (0x0060, 0x0180, U) size: 0x00
+    db $1A, $0A, $C6 ; Sprite 0xC6 (0x00A0, 0x01A0, U) size: 0x00
+    db $1C, $07, $A7 ; Sprite 0xA7 (0x0070, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7100,9 +7100,9 @@ RoomData_Sprites_Room00B3:
 RoomData_Sprites_Room00B5:
 {
     db $00 ; Unlayered OAM
-    db $0A, $16, $7E ; SPRITE 7E   | xy: { 0x160, 0x0A0, U } | s: 0x00
-    db $0F, $09, $7E ; SPRITE 7E   | xy: { 0x090, 0x0F0, U } | s: 0x00
-    db $16, $16, $7E ; SPRITE 7E   | xy: { 0x160, 0x160, U } | s: 0x00
+    db $0A, $16, $7E ; Sprite 0x7E (0x0160, 0x00A0, U) size: 0x00
+    db $0F, $09, $7E ; Sprite 0x7E (0x0090, 0x00F0, U) size: 0x00
+    db $16, $16, $7E ; Sprite 0x7E (0x0160, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -7112,16 +7112,16 @@ RoomData_Sprites_Room00B5:
 RoomData_Sprites_Room00B6:
 {
     db $00 ; Unlayered OAM
-    db $07, $06, $CA ; SPRITE CA   | xy: { 0x060, 0x070, U } | s: 0x00
-    db $07, $0A, $CA ; SPRITE CA   | xy: { 0x0A0, 0x070, U } | s: 0x00
-    db $04, $03, $1E ; SPRITE 1E   | xy: { 0x030, 0x040, U } | s: 0x00
-    db $04, $0C, $1E ; SPRITE 1E   | xy: { 0x0C0, 0x040, U } | s: 0x00
-    db $07, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x070, U } | s: 0x00
-    db $15, $07, $C7 ; SPRITE C7   | xy: { 0x070, 0x150, U } | s: 0x00
+    db $07, $06, $CA ; Sprite 0xCA (0x0060, 0x0070, U) size: 0x00
+    db $07, $0A, $CA ; Sprite 0xCA (0x00A0, 0x0070, U) size: 0x00
+    db $04, $03, $1E ; Sprite 0x1E (0x0030, 0x0040, U) size: 0x00
+    db $04, $0C, $1E ; Sprite 0x1E (0x00C0, 0x0040, U) size: 0x00
+    db $07, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0070, U) size: 0x00
+    db $15, $07, $C7 ; Sprite 0xC7 (0x0070, 0x0150, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
-    db $18, $F7, $14 ; OVERLORD 14 | xy: { 0x170, 0x180, U }
-    db $1B, $07, $8F ; SPRITE 8F   | xy: { 0x070, 0x1B0, U } | s: 0x00
-    db $1B, $08, $8F ; SPRITE 8F   | xy: { 0x080, 0x1B0, U } | s: 0x00
+    db $18, $F7, $14 ; Overlord 14 (0x0170, 0x0180, U)
+    db $1B, $07, $8F ; Sprite 0x8F (0x0070, 0x01B0, U) size: 0x00
+    db $1B, $08, $8F ; Sprite 0x8F (0x0080, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7131,8 +7131,8 @@ RoomData_Sprites_Room00B6:
 RoomData_Sprites_Room00B7:
 {
     db $00 ; Unlayered OAM
-    db $09, $04, $5F ; SPRITE 5F   | xy: { 0x040, 0x090, U } | s: 0x00
-    db $11, $04, $5D ; SPRITE 5D   | xy: { 0x040, 0x110, U } | s: 0x00
+    db $09, $04, $5F ; Sprite 0x5F (0x0040, 0x0090, U) size: 0x00
+    db $11, $04, $5D ; Sprite 0x5D (0x0040, 0x0110, U) size: 0x00
     db $FF ; END
 }
 
@@ -7142,12 +7142,12 @@ RoomData_Sprites_Room00B7:
 RoomData_Sprites_Room00B8:
 {
     db $00 ; Unlayered OAM
-    db $0B, $15, $4E ; SPRITE 4E   | xy: { 0x150, 0x0B0, U } | s: 0x00
-    db $0B, $1B, $4E ; SPRITE 4E   | xy: { 0x1B0, 0x0B0, U } | s: 0x00
-    db $0D, $18, $82 ; SPRITE 82   | xy: { 0x180, 0x0D0, U } | s: 0x00
-    db $13, $18, $83 ; SPRITE 83   | xy: { 0x180, 0x130, U } | s: 0x00
-    db $16, $14, $A7 ; SPRITE A7   | xy: { 0x140, 0x160, U } | s: 0x00
-    db $16, $1C, $A7 ; SPRITE A7   | xy: { 0x1C0, 0x160, U } | s: 0x00
+    db $0B, $15, $4E ; Sprite 0x4E (0x0150, 0x00B0, U) size: 0x00
+    db $0B, $1B, $4E ; Sprite 0x4E (0x01B0, 0x00B0, U) size: 0x00
+    db $0D, $18, $82 ; Sprite 0x82 (0x0180, 0x00D0, U) size: 0x00
+    db $13, $18, $83 ; Sprite 0x83 (0x0180, 0x0130, U) size: 0x00
+    db $16, $14, $A7 ; Sprite 0xA7 (0x0140, 0x0160, U) size: 0x00
+    db $16, $1C, $A7 ; Sprite 0xA7 (0x01C0, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -7157,7 +7157,7 @@ RoomData_Sprites_Room00B8:
 RoomData_Sprites_Room00B9:
 {
     db $01 ; Layered OAM
-    db $85, $F1, $03 ; OVERLORD 03 | xy: { 0x110, 0x050, L }
+    db $85, $F1, $03 ; Overlord 03 (0x0110, 0x0050, L)
     db $FF ; END
 }
 
@@ -7167,13 +7167,13 @@ RoomData_Sprites_Room00B9:
 RoomData_Sprites_Room00BA:
 {
     db $00 ; Unlayered OAM
-    db $04, $14, $A7 ; SPRITE A7   | xy: { 0x140, 0x040, U } | s: 0x00
-    db $06, $03, $15 ; SPRITE 15   | xy: { 0x030, 0x060, U } | s: 0x00
-    db $06, $18, $A7 ; SPRITE A7   | xy: { 0x180, 0x060, U } | s: 0x00
-    db $09, $03, $15 ; SPRITE 15   | xy: { 0x030, 0x090, U } | s: 0x00
-    db $09, $0C, $4F ; SPRITE 4F   | xy: { 0x0C0, 0x090, U } | s: 0x00
-    db $0A, $18, $A7 ; SPRITE A7   | xy: { 0x180, 0x0A0, U } | s: 0x00
-    db $0C, $08, $4F ; SPRITE 4F   | xy: { 0x080, 0x0C0, U } | s: 0x00
+    db $04, $14, $A7 ; Sprite 0xA7 (0x0140, 0x0040, U) size: 0x00
+    db $06, $03, $15 ; Sprite 0x15 (0x0030, 0x0060, U) size: 0x00
+    db $06, $18, $A7 ; Sprite 0xA7 (0x0180, 0x0060, U) size: 0x00
+    db $09, $03, $15 ; Sprite 0x15 (0x0030, 0x0090, U) size: 0x00
+    db $09, $0C, $4F ; Sprite 0x4F (0x00C0, 0x0090, U) size: 0x00
+    db $0A, $18, $A7 ; Sprite 0xA7 (0x0180, 0x00A0, U) size: 0x00
+    db $0C, $08, $4F ; Sprite 0x4F (0x0080, 0x00C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7183,17 +7183,17 @@ RoomData_Sprites_Room00BA:
 RoomData_Sprites_Room00BB:
 {
     db $00 ; Unlayered OAM
-    db $04, $1B, $A6 ; SPRITE A6   | xy: { 0x1B0, 0x040, U } | s: 0x00
-    db $0A, $06, $C3 ; SPRITE C3   | xy: { 0x060, 0x0A0, U } | s: 0x00
-    db $0A, $16, $A6 ; SPRITE A6   | xy: { 0x160, 0x0A0, U } | s: 0x00
-    db $0A, $19, $C3 ; SPRITE C3   | xy: { 0x190, 0x0A0, U } | s: 0x00
-    db $0C, $08, $15 ; SPRITE 15   | xy: { 0x080, 0x0C0, U } | s: 0x00
-    db $0E, $09, $C3 ; SPRITE C3   | xy: { 0x090, 0x0E0, U } | s: 0x00
-    db $10, $07, $80 ; SPRITE 80   | xy: { 0x070, 0x100, U } | s: 0x00
-    db $14, $08, $C3 ; SPRITE C3   | xy: { 0x080, 0x140, U } | s: 0x00
-    db $15, $19, $C3 ; SPRITE C3   | xy: { 0x190, 0x150, U } | s: 0x00
-    db $16, $15, $15 ; SPRITE 15   | xy: { 0x150, 0x160, U } | s: 0x00
-    db $1A, $17, $C3 ; SPRITE C3   | xy: { 0x170, 0x1A0, U } | s: 0x00
+    db $04, $1B, $A6 ; Sprite 0xA6 (0x01B0, 0x0040, U) size: 0x00
+    db $0A, $06, $C3 ; Sprite 0xC3 (0x0060, 0x00A0, U) size: 0x00
+    db $0A, $16, $A6 ; Sprite 0xA6 (0x0160, 0x00A0, U) size: 0x00
+    db $0A, $19, $C3 ; Sprite 0xC3 (0x0190, 0x00A0, U) size: 0x00
+    db $0C, $08, $15 ; Sprite 0x15 (0x0080, 0x00C0, U) size: 0x00
+    db $0E, $09, $C3 ; Sprite 0xC3 (0x0090, 0x00E0, U) size: 0x00
+    db $10, $07, $80 ; Sprite 0x80 (0x0070, 0x0100, U) size: 0x00
+    db $14, $08, $C3 ; Sprite 0xC3 (0x0080, 0x0140, U) size: 0x00
+    db $15, $19, $C3 ; Sprite 0xC3 (0x0190, 0x0150, U) size: 0x00
+    db $16, $15, $15 ; Sprite 0x15 (0x0150, 0x0160, U) size: 0x00
+    db $1A, $17, $C3 ; Sprite 0xC3 (0x0170, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7203,18 +7203,18 @@ RoomData_Sprites_Room00BB:
 RoomData_Sprites_Room00BC:
 {
     db $00 ; Unlayered OAM
-    db $05, $06, $A5 ; SPRITE A5   | xy: { 0x060, 0x050, U } | s: 0x00
-    db $05, $0C, $A7 ; SPRITE A7   | xy: { 0x0C0, 0x050, U } | s: 0x00
-    db $06, $08, $8A ; SPRITE 8A   | xy: { 0x080, 0x060, U } | s: 0x00
-    db $09, $0A, $A6 ; SPRITE A6   | xy: { 0x0A0, 0x090, U } | s: 0x00
-    db $0A, $09, $8A ; SPRITE 8A   | xy: { 0x090, 0x0A0, U } | s: 0x00
-    db $0B, $05, $A5 ; SPRITE A5   | xy: { 0x050, 0x0B0, U } | s: 0x00
-    db $0A, $17, $A7 ; SPRITE A7   | xy: { 0x170, 0x0A0, U } | s: 0x00
-    db $11, $18, $A7 ; SPRITE A7   | xy: { 0x180, 0x110, U } | s: 0x00
-    db $16, $16, $A7 ; SPRITE A7   | xy: { 0x160, 0x160, U } | s: 0x00
-    db $17, $08, $A5 ; SPRITE A5   | xy: { 0x080, 0x170, U } | s: 0x00
-    db $18, $07, $80 ; SPRITE 80   | xy: { 0x070, 0x180, U } | s: 0x00
-    db $19, $08, $A6 ; SPRITE A6   | xy: { 0x080, 0x190, U } | s: 0x00
+    db $05, $06, $A5 ; Sprite 0xA5 (0x0060, 0x0050, U) size: 0x00
+    db $05, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x0050, U) size: 0x00
+    db $06, $08, $8A ; Sprite 0x8A (0x0080, 0x0060, U) size: 0x00
+    db $09, $0A, $A6 ; Sprite 0xA6 (0x00A0, 0x0090, U) size: 0x00
+    db $0A, $09, $8A ; Sprite 0x8A (0x0090, 0x00A0, U) size: 0x00
+    db $0B, $05, $A5 ; Sprite 0xA5 (0x0050, 0x00B0, U) size: 0x00
+    db $0A, $17, $A7 ; Sprite 0xA7 (0x0170, 0x00A0, U) size: 0x00
+    db $11, $18, $A7 ; Sprite 0xA7 (0x0180, 0x0110, U) size: 0x00
+    db $16, $16, $A7 ; Sprite 0xA7 (0x0160, 0x0160, U) size: 0x00
+    db $17, $08, $A5 ; Sprite 0xA5 (0x0080, 0x0170, U) size: 0x00
+    db $18, $07, $80 ; Sprite 0x80 (0x0070, 0x0180, U) size: 0x00
+    db $19, $08, $A6 ; Sprite 0xA6 (0x0080, 0x0190, U) size: 0x00
     db $FF ; END
 }
 
@@ -7233,13 +7233,13 @@ RoomData_Sprites_Room00BD:
 RoomData_Sprites_Room00BE:
 {
     db $00 ; Unlayered OAM
-    db $08, $17, $15 ; SPRITE 15   | xy: { 0x170, 0x080, U } | s: 0x00
-    db $12, $14, $A1 ; SPRITE A1   | xy: { 0x140, 0x120, U } | s: 0x00
-    db $15, $14, $24 ; SPRITE 24   | xy: { 0x140, 0x150, U } | s: 0x00
-    db $15, $1B, $24 ; SPRITE 24   | xy: { 0x1B0, 0x150, U } | s: 0x00
-    db $16, $18, $91 ; SPRITE 91   | xy: { 0x180, 0x160, U } | s: 0x00
-    db $1A, $14, $24 ; SPRITE 24   | xy: { 0x140, 0x1A0, U } | s: 0x00
-    db $1A, $1B, $24 ; SPRITE 24   | xy: { 0x1B0, 0x1A0, U } | s: 0x00
+    db $08, $17, $15 ; Sprite 0x15 (0x0170, 0x0080, U) size: 0x00
+    db $12, $14, $A1 ; Sprite 0xA1 (0x0140, 0x0120, U) size: 0x00
+    db $15, $14, $24 ; Sprite 0x24 (0x0140, 0x0150, U) size: 0x00
+    db $15, $1B, $24 ; Sprite 0x24 (0x01B0, 0x0150, U) size: 0x00
+    db $16, $18, $91 ; Sprite 0x91 (0x0180, 0x0160, U) size: 0x00
+    db $1A, $14, $24 ; Sprite 0x24 (0x0140, 0x01A0, U) size: 0x00
+    db $1A, $1B, $24 ; Sprite 0x24 (0x01B0, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7249,8 +7249,8 @@ RoomData_Sprites_Room00BE:
 RoomData_Sprites_Room00BF:
 {
     db $00 ; Unlayered OAM
-    db $18, $0B, $1E ; SPRITE 1E   | xy: { 0x0B0, 0x180, U } | s: 0x00
-    db $15, $0C, $D1 ; SPRITE D1   | xy: { 0x0C0, 0x150, U } | s: 0x00
+    db $18, $0B, $1E ; Sprite 0x1E (0x00B0, 0x0180, U) size: 0x00
+    db $15, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -7260,15 +7260,15 @@ RoomData_Sprites_Room00BF:
 RoomData_Sprites_Room00C0:
 {
     db $00 ; Unlayered OAM
-    db $05, $17, $41 ; SPRITE 41   | xy: { 0x170, 0x050, U } | s: 0x00
-    db $07, $1A, $46 ; SPRITE 46   | xy: { 0x1A0, 0x070, U } | s: 0x00
-    db $09, $0B, $41 ; SPRITE 41   | xy: { 0x0B0, 0x090, U } | s: 0x00
-    db $0B, $14, $46 ; SPRITE 46   | xy: { 0x140, 0x0B0, U } | s: 0x00
+    db $05, $17, $41 ; Sprite 0x41 (0x0170, 0x0050, U) size: 0x00
+    db $07, $1A, $46 ; Sprite 0x46 (0x01A0, 0x0070, U) size: 0x00
+    db $09, $0B, $41 ; Sprite 0x41 (0x00B0, 0x0090, U) size: 0x00
+    db $0B, $14, $46 ; Sprite 0x46 (0x0140, 0x00B0, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
-    db $0E, $06, $41 ; SPRITE 41   | xy: { 0x060, 0x0E0, U } | s: 0x00
-    db $18, $04, $41 ; SPRITE 41   | xy: { 0x040, 0x180, U } | s: 0x00
-    db $1B, $14, $46 ; SPRITE 46   | xy: { 0x140, 0x1B0, U } | s: 0x00
-    db $1B, $1B, $41 ; SPRITE 41   | xy: { 0x1B0, 0x1B0, U } | s: 0x00
+    db $0E, $06, $41 ; Sprite 0x41 (0x0060, 0x00E0, U) size: 0x00
+    db $18, $04, $41 ; Sprite 0x41 (0x0040, 0x0180, U) size: 0x00
+    db $1B, $14, $46 ; Sprite 0x46 (0x0140, 0x01B0, U) size: 0x00
+    db $1B, $1B, $41 ; Sprite 0x41 (0x01B0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7278,19 +7278,19 @@ RoomData_Sprites_Room00C0:
 RoomData_Sprites_Room00C1:
 {
     db $00 ; Unlayered OAM
-    db $17, $15, $1E ; SPRITE 1E   | xy: { 0x150, 0x170, U } | s: 0x00
-    db $05, $14, $C5 ; SPRITE C5   | xy: { 0x140, 0x050, U } | s: 0x00
-    db $05, $1B, $C5 ; SPRITE C5   | xy: { 0x1B0, 0x050, U } | s: 0x00
-    db $0B, $06, $A7 ; SPRITE A7   | xy: { 0x060, 0x0B0, U } | s: 0x00
-    db $0B, $15, $A7 ; SPRITE A7   | xy: { 0x150, 0x0B0, U } | s: 0x00
-    db $15, $17, $7C ; SPRITE 7C   | xy: { 0x170, 0x150, U } | s: 0x00
-    db $16, $09, $C5 ; SPRITE C5   | xy: { 0x090, 0x160, U } | s: 0x00
-    db $18, $E7, $14 ; OVERLORD 14 | xy: { 0x070, 0x180, U }
-    db $19, $14, $15 ; SPRITE 15   | xy: { 0x140, 0x190, U } | s: 0x00
-    db $1A, $18, $C6 ; SPRITE C6   | xy: { 0x180, 0x1A0, U } | s: 0x00
-    db $1B, $13, $24 ; SPRITE 24   | xy: { 0x130, 0x1B0, U } | s: 0x00
+    db $17, $15, $1E ; Sprite 0x1E (0x0150, 0x0170, U) size: 0x00
+    db $05, $14, $C5 ; Sprite 0xC5 (0x0140, 0x0050, U) size: 0x00
+    db $05, $1B, $C5 ; Sprite 0xC5 (0x01B0, 0x0050, U) size: 0x00
+    db $0B, $06, $A7 ; Sprite 0xA7 (0x0060, 0x00B0, U) size: 0x00
+    db $0B, $15, $A7 ; Sprite 0xA7 (0x0150, 0x00B0, U) size: 0x00
+    db $15, $17, $7C ; Sprite 0x7C (0x0170, 0x0150, U) size: 0x00
+    db $16, $09, $C5 ; Sprite 0xC5 (0x0090, 0x0160, U) size: 0x00
+    db $18, $E7, $14 ; Overlord 14 (0x0070, 0x0180, U)
+    db $19, $14, $15 ; Sprite 0x15 (0x0140, 0x0190, U) size: 0x00
+    db $1A, $18, $C6 ; Sprite 0xC6 (0x0180, 0x01A0, U) size: 0x00
+    db $1B, $13, $24 ; Sprite 0x24 (0x0130, 0x01B0, U) size: 0x00
     db $FE, $00, $E4 ; Small key on above sprite
-    db $1B, $1B, $7C ; SPRITE 7C   | xy: { 0x1B0, 0x1B0, U } | s: 0x00
+    db $1B, $1B, $7C ; Sprite 0x7C (0x01B0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7300,14 +7300,14 @@ RoomData_Sprites_Room00C1:
 RoomData_Sprites_Room00C2:
 {
     db $01 ; Layered OAM
-    db $8B, $15, $80 ; SPRITE 80   | xy: { 0x150, 0x0B0, L } | s: 0x00
-    db $0C, $0B, $80 ; SPRITE 80   | xy: { 0x0B0, 0x0C0, U } | s: 0x00
-    db $10, $08, $C5 ; SPRITE C5   | xy: { 0x080, 0x100, U } | s: 0x00
-    db $92, $10, $5B ; SPRITE 5B   | xy: { 0x100, 0x120, L } | s: 0x00
-    db $92, $19, $5B ; SPRITE 5B   | xy: { 0x190, 0x120, L } | s: 0x00
-    db $94, $10, $D1 ; SPRITE D1   | xy: { 0x100, 0x140, L } | s: 0x00
-    db $96, $08, $80 ; SPRITE 80   | xy: { 0x080, 0x160, L } | s: 0x00
-    db $96, $16, $5B ; SPRITE 5B   | xy: { 0x160, 0x160, L } | s: 0x00
+    db $8B, $15, $80 ; Sprite 0x80 (0x0150, 0x00B0, L) size: 0x00
+    db $0C, $0B, $80 ; Sprite 0x80 (0x00B0, 0x00C0, U) size: 0x00
+    db $10, $08, $C5 ; Sprite 0xC5 (0x0080, 0x0100, U) size: 0x00
+    db $92, $10, $5B ; Sprite 0x5B (0x0100, 0x0120, L) size: 0x00
+    db $92, $19, $5B ; Sprite 0x5B (0x0190, 0x0120, L) size: 0x00
+    db $94, $10, $D1 ; Sprite 0xD1 (0x0100, 0x0140, L) size: 0x00
+    db $96, $08, $80 ; Sprite 0x80 (0x0080, 0x0160, L) size: 0x00
+    db $96, $16, $5B ; Sprite 0x5B (0x0160, 0x0160, L) size: 0x00
     db $FF ; END
 }
 
@@ -7317,14 +7317,14 @@ RoomData_Sprites_Room00C2:
 RoomData_Sprites_Room00C3:
 {
     db $00 ; Unlayered OAM
-    db $06, $05, $C5 ; SPRITE C5   | xy: { 0x050, 0x060, U } | s: 0x00
-    db $09, $1E, $96 ; SPRITE 96   | xy: { 0x1E0, 0x090, U } | s: 0x00
-    db $0D, $11, $95 ; SPRITE 95   | xy: { 0x110, 0x0D0, U } | s: 0x00
-    db $11, $1E, $96 ; SPRITE 96   | xy: { 0x1E0, 0x110, U } | s: 0x00
-    db $15, $11, $95 ; SPRITE 95   | xy: { 0x110, 0x150, U } | s: 0x00
-    db $1A, $F7, $0B ; OVERLORD 0B | xy: { 0x170, 0x1A0, U }
-    db $1B, $0A, $15 ; SPRITE 15   | xy: { 0x0A0, 0x1B0, U } | s: 0x00
-    db $1C, $07, $C5 ; SPRITE C5   | xy: { 0x070, 0x1C0, U } | s: 0x00
+    db $06, $05, $C5 ; Sprite 0xC5 (0x0050, 0x0060, U) size: 0x00
+    db $09, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0090, U) size: 0x00
+    db $0D, $11, $95 ; Sprite 0x95 (0x0110, 0x00D0, U) size: 0x00
+    db $11, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0110, U) size: 0x00
+    db $15, $11, $95 ; Sprite 0x95 (0x0110, 0x0150, U) size: 0x00
+    db $1A, $F7, $0B ; Overlord 0B (0x0170, 0x01A0, U)
+    db $1B, $0A, $15 ; Sprite 0x15 (0x00A0, 0x01B0, U) size: 0x00
+    db $1C, $07, $C5 ; Sprite 0xC5 (0x0070, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7334,16 +7334,16 @@ RoomData_Sprites_Room00C3:
 RoomData_Sprites_Room00C4:
 {
     db $00 ; Unlayered OAM
-    db $0A, $0B, $1E ; SPRITE 1E   | xy: { 0x0B0, 0x0A0, U } | s: 0x00
-    db $0F, $18, $1E ; SPRITE 1E   | xy: { 0x180, 0x0F0, U } | s: 0x00
-    db $1B, $1C, $1E ; SPRITE 1E   | xy: { 0x1C0, 0x1B0, U } | s: 0x00
-    db $15, $0F, $1E ; SPRITE 1E   | xy: { 0x0F0, 0x150, U } | s: 0x00
-    db $0E, $0F, $C7 ; SPRITE C7   | xy: { 0x0F0, 0x0E0, U } | s: 0x00
-    db $0F, $0B, $15 ; SPRITE 15   | xy: { 0x0B0, 0x0F0, U } | s: 0x00
-    db $14, $07, $13 ; SPRITE 13   | xy: { 0x070, 0x140, U } | s: 0x00
-    db $14, $18, $13 ; SPRITE 13   | xy: { 0x180, 0x140, U } | s: 0x00
-    db $1A, $0B, $15 ; SPRITE 15   | xy: { 0x0B0, 0x1A0, U } | s: 0x00
-    db $1A, $14, $15 ; SPRITE 15   | xy: { 0x140, 0x1A0, U } | s: 0x00
+    db $0A, $0B, $1E ; Sprite 0x1E (0x00B0, 0x00A0, U) size: 0x00
+    db $0F, $18, $1E ; Sprite 0x1E (0x0180, 0x00F0, U) size: 0x00
+    db $1B, $1C, $1E ; Sprite 0x1E (0x01C0, 0x01B0, U) size: 0x00
+    db $15, $0F, $1E ; Sprite 0x1E (0x00F0, 0x0150, U) size: 0x00
+    db $0E, $0F, $C7 ; Sprite 0xC7 (0x00F0, 0x00E0, U) size: 0x00
+    db $0F, $0B, $15 ; Sprite 0x15 (0x00B0, 0x00F0, U) size: 0x00
+    db $14, $07, $13 ; Sprite 0x13 (0x0070, 0x0140, U) size: 0x00
+    db $14, $18, $13 ; Sprite 0x13 (0x0180, 0x0140, U) size: 0x00
+    db $1A, $0B, $15 ; Sprite 0x15 (0x00B0, 0x01A0, U) size: 0x00
+    db $1A, $14, $15 ; Sprite 0x15 (0x0140, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7353,14 +7353,14 @@ RoomData_Sprites_Room00C4:
 RoomData_Sprites_Room00C5:
 {
     db $00 ; Unlayered OAM
-    db $09, $0E, $96 ; SPRITE 96   | xy: { 0x0E0, 0x090, U } | s: 0x00
-    db $0B, $01, $95 ; SPRITE 95   | xy: { 0x010, 0x0B0, U } | s: 0x00
-    db $0D, $0E, $96 ; SPRITE 96   | xy: { 0x0E0, 0x0D0, U } | s: 0x00
-    db $0F, $01, $95 ; SPRITE 95   | xy: { 0x010, 0x0F0, U } | s: 0x00
-    db $11, $0E, $96 ; SPRITE 96   | xy: { 0x0E0, 0x110, U } | s: 0x00
-    db $13, $01, $95 ; SPRITE 95   | xy: { 0x010, 0x130, U } | s: 0x00
-    db $15, $07, $13 ; SPRITE 13   | xy: { 0x070, 0x150, U } | s: 0x00
-    db $15, $0E, $96 ; SPRITE 96   | xy: { 0x0E0, 0x150, U } | s: 0x00
+    db $09, $0E, $96 ; Sprite 0x96 (0x00E0, 0x0090, U) size: 0x00
+    db $0B, $01, $95 ; Sprite 0x95 (0x0010, 0x00B0, U) size: 0x00
+    db $0D, $0E, $96 ; Sprite 0x96 (0x00E0, 0x00D0, U) size: 0x00
+    db $0F, $01, $95 ; Sprite 0x95 (0x0010, 0x00F0, U) size: 0x00
+    db $11, $0E, $96 ; Sprite 0x96 (0x00E0, 0x0110, U) size: 0x00
+    db $13, $01, $95 ; Sprite 0x95 (0x0010, 0x0130, U) size: 0x00
+    db $15, $07, $13 ; Sprite 0x13 (0x0070, 0x0150, U) size: 0x00
+    db $15, $0E, $96 ; Sprite 0x96 (0x00E0, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -7370,13 +7370,13 @@ RoomData_Sprites_Room00C5:
 RoomData_Sprites_Room00C6:
 {
     db $00 ; Unlayered OAM
-    db $04, $0B, $A7 ; SPRITE A7   | xy: { 0x0B0, 0x040, U } | s: 0x00
-    db $04, $15, $A7 ; SPRITE A7   | xy: { 0x150, 0x040, U } | s: 0x00
-    db $09, $08, $24 ; SPRITE 24   | xy: { 0x080, 0x090, U } | s: 0x00
-    db $09, $17, $24 ; SPRITE 24   | xy: { 0x170, 0x090, U } | s: 0x00
-    db $0E, $10, $7C ; SPRITE 7C   | xy: { 0x100, 0x0E0, U } | s: 0x00
-    db $14, $18, $24 ; SPRITE 24   | xy: { 0x180, 0x140, U } | s: 0x00
-    db $17, $08, $24 ; SPRITE 24   | xy: { 0x080, 0x170, U } | s: 0x00
+    db $04, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x0040, U) size: 0x00
+    db $04, $15, $A7 ; Sprite 0xA7 (0x0150, 0x0040, U) size: 0x00
+    db $09, $08, $24 ; Sprite 0x24 (0x0080, 0x0090, U) size: 0x00
+    db $09, $17, $24 ; Sprite 0x24 (0x0170, 0x0090, U) size: 0x00
+    db $0E, $10, $7C ; Sprite 0x7C (0x0100, 0x00E0, U) size: 0x00
+    db $14, $18, $24 ; Sprite 0x24 (0x0180, 0x0140, U) size: 0x00
+    db $17, $08, $24 ; Sprite 0x24 (0x0080, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -7386,13 +7386,13 @@ RoomData_Sprites_Room00C6:
 RoomData_Sprites_Room00C8:
 {
     db $00 ; Unlayered OAM
-    db $15, $14, $53 ; SPRITE 53   | xy: { 0x140, 0x150, U } | s: 0x00
-    db $15, $17, $53 ; SPRITE 53   | xy: { 0x170, 0x150, U } | s: 0x00
-    db $15, $1A, $53 ; SPRITE 53   | xy: { 0x1A0, 0x150, U } | s: 0x00
-    db $18, $1A, $53 ; SPRITE 53   | xy: { 0x1A0, 0x180, U } | s: 0x00
-    db $18, $17, $53 ; SPRITE 53   | xy: { 0x170, 0x180, U } | s: 0x00
-    db $18, $14, $53 ; SPRITE 53   | xy: { 0x140, 0x180, U } | s: 0x00
-    db $18, $F7, $19 ; OVERLORD 19 | xy: { 0x170, 0x180, U }
+    db $15, $14, $53 ; Sprite 0x53 (0x0140, 0x0150, U) size: 0x00
+    db $15, $17, $53 ; Sprite 0x53 (0x0170, 0x0150, U) size: 0x00
+    db $15, $1A, $53 ; Sprite 0x53 (0x01A0, 0x0150, U) size: 0x00
+    db $18, $1A, $53 ; Sprite 0x53 (0x01A0, 0x0180, U) size: 0x00
+    db $18, $17, $53 ; Sprite 0x53 (0x0170, 0x0180, U) size: 0x00
+    db $18, $14, $53 ; Sprite 0x53 (0x0140, 0x0180, U) size: 0x00
+    db $18, $F7, $19 ; Overlord 19 (0x0170, 0x0180, U)
     db $FF ; END
 }
 
@@ -7402,9 +7402,9 @@ RoomData_Sprites_Room00C8:
 RoomData_Sprites_Room00C9:
 {
     db $00 ; Unlayered OAM
-    db $05, $10, $4F ; SPRITE 4F   | xy: { 0x100, 0x050, U } | s: 0x00
-    db $06, $0F, $4F ; SPRITE 4F   | xy: { 0x0F0, 0x060, U } | s: 0x00
-    db $07, $10, $4F ; SPRITE 4F   | xy: { 0x100, 0x070, U } | s: 0x00
+    db $05, $10, $4F ; Sprite 0x4F (0x0100, 0x0050, U) size: 0x00
+    db $06, $0F, $4F ; Sprite 0x4F (0x00F0, 0x0060, U) size: 0x00
+    db $07, $10, $4F ; Sprite 0x4F (0x0100, 0x0070, U) size: 0x00
     db $FF ; END
 }
 
@@ -7414,18 +7414,18 @@ RoomData_Sprites_Room00C9:
 RoomData_Sprites_Room00CB:
 {
     db $01 ; Layered OAM
-    db $04, $14, $D1 ; SPRITE D1   | xy: { 0x140, 0x040, U } | s: 0x00
-    db $89, $08, $80 ; SPRITE 80   | xy: { 0x080, 0x090, L } | s: 0x00
-    db $8A, $10, $A5 ; SPRITE A5   | xy: { 0x100, 0x0A0, L } | s: 0x00
-    db $0A, $13, $8F ; SPRITE 8F   | xy: { 0x130, 0x0A0, U } | s: 0x00
-    db $8A, $16, $5B ; SPRITE 5B   | xy: { 0x160, 0x0A0, L } | s: 0x00
-    db $0A, $1C, $8F ; SPRITE 8F   | xy: { 0x1C0, 0x0A0, U } | s: 0x00
-    db $10, $0C, $A7 ; SPRITE A7   | xy: { 0x0C0, 0x100, U } | s: 0x00
-    db $95, $18, $A6 ; SPRITE A6   | xy: { 0x180, 0x150, L } | s: 0x00
-    db $97, $08, $A6 ; SPRITE A6   | xy: { 0x080, 0x170, L } | s: 0x00
-    db $17, $0B, $8F ; SPRITE 8F   | xy: { 0x0B0, 0x170, U } | s: 0x00
-    db $18, $0C, $8F ; SPRITE 8F   | xy: { 0x0C0, 0x180, U } | s: 0x00
-    db $1C, $14, $D1 ; SPRITE D1   | xy: { 0x140, 0x1C0, U } | s: 0x00
+    db $04, $14, $D1 ; Sprite 0xD1 (0x0140, 0x0040, U) size: 0x00
+    db $89, $08, $80 ; Sprite 0x80 (0x0080, 0x0090, L) size: 0x00
+    db $8A, $10, $A5 ; Sprite 0xA5 (0x0100, 0x00A0, L) size: 0x00
+    db $0A, $13, $8F ; Sprite 0x8F (0x0130, 0x00A0, U) size: 0x00
+    db $8A, $16, $5B ; Sprite 0x5B (0x0160, 0x00A0, L) size: 0x00
+    db $0A, $1C, $8F ; Sprite 0x8F (0x01C0, 0x00A0, U) size: 0x00
+    db $10, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x0100, U) size: 0x00
+    db $95, $18, $A6 ; Sprite 0xA6 (0x0180, 0x0150, L) size: 0x00
+    db $97, $08, $A6 ; Sprite 0xA6 (0x0080, 0x0170, L) size: 0x00
+    db $17, $0B, $8F ; Sprite 0x8F (0x00B0, 0x0170, U) size: 0x00
+    db $18, $0C, $8F ; Sprite 0x8F (0x00C0, 0x0180, U) size: 0x00
+    db $1C, $14, $D1 ; Sprite 0xD1 (0x0140, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7435,20 +7435,20 @@ RoomData_Sprites_Room00CB:
 RoomData_Sprites_Room00CC:
 {
     db $01 ; Layered OAM
-    db $04, $13, $80 ; SPRITE 80   | xy: { 0x130, 0x040, U } | s: 0x00
-    db $89, $0B, $D1 ; SPRITE D1   | xy: { 0x0B0, 0x090, L } | s: 0x00
-    db $8A, $08, $A5 ; SPRITE A5   | xy: { 0x080, 0x0A0, L } | s: 0x00
-    db $8A, $0E, $5B ; SPRITE 5B   | xy: { 0x0E0, 0x0A0, L } | s: 0x00
-    db $0B, $0C, $8F ; SPRITE 8F   | xy: { 0x0C0, 0x0B0, U } | s: 0x00
-    db $8C, $10, $A6 ; SPRITE A6   | xy: { 0x100, 0x0C0, L } | s: 0x00
-    db $8C, $18, $A5 ; SPRITE A5   | xy: { 0x180, 0x0C0, L } | s: 0x00
-    db $94, $0E, $80 ; SPRITE 80   | xy: { 0x0E0, 0x140, L } | s: 0x00
-    db $15, $1C, $8F ; SPRITE 8F   | xy: { 0x1C0, 0x150, U } | s: 0x00
-    db $96, $06, $5B ; SPRITE 5B   | xy: { 0x060, 0x160, L } | s: 0x00
-    db $96, $09, $5B ; SPRITE 5B   | xy: { 0x090, 0x160, L } | s: 0x00
-    db $98, $09, $A6 ; SPRITE A6   | xy: { 0x090, 0x180, L } | s: 0x00
-    db $16, $1C, $8F ; SPRITE 8F   | xy: { 0x1C0, 0x160, U } | s: 0x00
-    db $9C, $07, $D1 ; SPRITE D1   | xy: { 0x070, 0x1C0, L } | s: 0x00
+    db $04, $13, $80 ; Sprite 0x80 (0x0130, 0x0040, U) size: 0x00
+    db $89, $0B, $D1 ; Sprite 0xD1 (0x00B0, 0x0090, L) size: 0x00
+    db $8A, $08, $A5 ; Sprite 0xA5 (0x0080, 0x00A0, L) size: 0x00
+    db $8A, $0E, $5B ; Sprite 0x5B (0x00E0, 0x00A0, L) size: 0x00
+    db $0B, $0C, $8F ; Sprite 0x8F (0x00C0, 0x00B0, U) size: 0x00
+    db $8C, $10, $A6 ; Sprite 0xA6 (0x0100, 0x00C0, L) size: 0x00
+    db $8C, $18, $A5 ; Sprite 0xA5 (0x0180, 0x00C0, L) size: 0x00
+    db $94, $0E, $80 ; Sprite 0x80 (0x00E0, 0x0140, L) size: 0x00
+    db $15, $1C, $8F ; Sprite 0x8F (0x01C0, 0x0150, U) size: 0x00
+    db $96, $06, $5B ; Sprite 0x5B (0x0060, 0x0160, L) size: 0x00
+    db $96, $09, $5B ; Sprite 0x5B (0x0090, 0x0160, L) size: 0x00
+    db $98, $09, $A6 ; Sprite 0xA6 (0x0090, 0x0180, L) size: 0x00
+    db $16, $1C, $8F ; Sprite 0x8F (0x01C0, 0x0160, U) size: 0x00
+    db $9C, $07, $D1 ; Sprite 0xD1 (0x0070, 0x01C0, L) size: 0x00
     db $FF ; END
 }
 
@@ -7458,14 +7458,14 @@ RoomData_Sprites_Room00CC:
 RoomData_Sprites_Room00CE:
 {
     db $00 ; Unlayered OAM
-    db $05, $16, $23 ; SPRITE 23   | xy: { 0x160, 0x050, U } | s: 0x00
-    db $05, $19, $23 ; SPRITE 23   | xy: { 0x190, 0x050, U } | s: 0x00
-    db $05, $1C, $04 ; SPRITE 04   | xy: { 0x1C0, 0x050, U } | s: 0x00
-    db $09, $14, $1C ; SPRITE 1C   | xy: { 0x140, 0x090, U } | s: 0x00
-    db $08, $1B, $24 ; SPRITE 24   | xy: { 0x1B0, 0x080, U } | s: 0x00
-    db $08, $1C, $24 ; SPRITE 24   | xy: { 0x1C0, 0x080, U } | s: 0x00
-    db $09, $1B, $24 ; SPRITE 24   | xy: { 0x1B0, 0x090, U } | s: 0x00
-    db $09, $1C, $24 ; SPRITE 24   | xy: { 0x1C0, 0x090, U } | s: 0x00
+    db $05, $16, $23 ; Sprite 0x23 (0x0160, 0x0050, U) size: 0x00
+    db $05, $19, $23 ; Sprite 0x23 (0x0190, 0x0050, U) size: 0x00
+    db $05, $1C, $04 ; Sprite 0x04 (0x01C0, 0x0050, U) size: 0x00
+    db $09, $14, $1C ; Sprite 0x1C (0x0140, 0x0090, U) size: 0x00
+    db $08, $1B, $24 ; Sprite 0x24 (0x01B0, 0x0080, U) size: 0x00
+    db $08, $1C, $24 ; Sprite 0x24 (0x01C0, 0x0080, U) size: 0x00
+    db $09, $1B, $24 ; Sprite 0x24 (0x01B0, 0x0090, U) size: 0x00
+    db $09, $1C, $24 ; Sprite 0x24 (0x01C0, 0x0090, U) size: 0x00
     db $FF ; END
 }
 
@@ -7475,17 +7475,17 @@ RoomData_Sprites_Room00CE:
 RoomData_Sprites_Room00D0:
 {
     db $00 ; Unlayered OAM
-    db $05, $0B, $6F ; SPRITE 6F   | xy: { 0x0B0, 0x050, U } | s: 0x00
-    db $07, $09, $41 ; SPRITE 41   | xy: { 0x090, 0x070, U } | s: 0x00
-    db $07, $17, $6F ; SPRITE 6F   | xy: { 0x170, 0x070, U } | s: 0x00
-    db $0B, $15, $44 ; SPRITE 44   | xy: { 0x150, 0x0B0, U } | s: 0x00
-    db $0C, $09, $6F ; SPRITE 6F   | xy: { 0x090, 0x0C0, U } | s: 0x00
-    db $0F, $08, $6F ; SPRITE 6F   | xy: { 0x080, 0x0F0, U } | s: 0x00
-    db $10, $63, $41 ; SPRITE 41   | xy: { 0x030, 0x100, U } | s: 0x03
-    db $14, $09, $41 ; SPRITE 41   | xy: { 0x090, 0x140, U } | s: 0x00
-    db $16, $1B, $44 ; SPRITE 44   | xy: { 0x1B0, 0x160, U } | s: 0x00
-    db $19, $06, $6F ; SPRITE 6F   | xy: { 0x060, 0x190, U } | s: 0x00
-    db $19, $1A, $44 ; SPRITE 44   | xy: { 0x1A0, 0x190, U } | s: 0x00
+    db $05, $0B, $6F ; Sprite 0x6F (0x00B0, 0x0050, U) size: 0x00
+    db $07, $09, $41 ; Sprite 0x41 (0x0090, 0x0070, U) size: 0x00
+    db $07, $17, $6F ; Sprite 0x6F (0x0170, 0x0070, U) size: 0x00
+    db $0B, $15, $44 ; Sprite 0x44 (0x0150, 0x00B0, U) size: 0x00
+    db $0C, $09, $6F ; Sprite 0x6F (0x0090, 0x00C0, U) size: 0x00
+    db $0F, $08, $6F ; Sprite 0x6F (0x0080, 0x00F0, U) size: 0x00
+    db $10, $63, $41 ; Sprite 0x41 (0x0030, 0x0100, U) size: 0x03
+    db $14, $09, $41 ; Sprite 0x41 (0x0090, 0x0140, U) size: 0x00
+    db $16, $1B, $44 ; Sprite 0x44 (0x01B0, 0x0160, U) size: 0x00
+    db $19, $06, $6F ; Sprite 0x6F (0x0060, 0x0190, U) size: 0x00
+    db $19, $1A, $44 ; Sprite 0x44 (0x01A0, 0x0190, U) size: 0x00
     db $FF ; END
 }
 
@@ -7495,14 +7495,14 @@ RoomData_Sprites_Room00D0:
 RoomData_Sprites_Room00D1:
 {
     db $00 ; Unlayered OAM
-    db $06, $14, $61 ; SPRITE 61   | xy: { 0x140, 0x060, U } | s: 0x00
-    db $06, $1B, $61 ; SPRITE 61   | xy: { 0x1B0, 0x060, U } | s: 0x00
-    db $07, $04, $9B ; SPRITE 9B   | xy: { 0x040, 0x070, U } | s: 0x00
-    db $08, $0C, $23 ; SPRITE 23   | xy: { 0x0C0, 0x080, U } | s: 0x00
-    db $09, $05, $C6 ; SPRITE C6   | xy: { 0x050, 0x090, U } | s: 0x00
-    db $0B, $04, $20 ; SPRITE 20   | xy: { 0x040, 0x0B0, U } | s: 0x00
-    db $0B, $0B, $20 ; SPRITE 20   | xy: { 0x0B0, 0x0B0, U } | s: 0x00
-    db $0B, $1B, $20 ; SPRITE 20   | xy: { 0x1B0, 0x0B0, U } | s: 0x00
+    db $06, $14, $61 ; Sprite 0x61 (0x0140, 0x0060, U) size: 0x00
+    db $06, $1B, $61 ; Sprite 0x61 (0x01B0, 0x0060, U) size: 0x00
+    db $07, $04, $9B ; Sprite 0x9B (0x0040, 0x0070, U) size: 0x00
+    db $08, $0C, $23 ; Sprite 0x23 (0x00C0, 0x0080, U) size: 0x00
+    db $09, $05, $C6 ; Sprite 0xC6 (0x0050, 0x0090, U) size: 0x00
+    db $0B, $04, $20 ; Sprite 0x20 (0x0040, 0x00B0, U) size: 0x00
+    db $0B, $0B, $20 ; Sprite 0x20 (0x00B0, 0x00B0, U) size: 0x00
+    db $0B, $1B, $20 ; Sprite 0x20 (0x01B0, 0x00B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7512,16 +7512,16 @@ RoomData_Sprites_Room00D1:
 RoomData_Sprites_Room00D2:
 {
     db $00 ; Unlayered OAM
-    db $06, $18, $9B ; SPRITE 9B   | xy: { 0x180, 0x060, U } | s: 0x00
-    db $07, $1A, $4E ; SPRITE 4E   | xy: { 0x1A0, 0x070, U } | s: 0x00
-    db $08, $13, $9B ; SPRITE 9B   | xy: { 0x130, 0x080, U } | s: 0x00
-    db $08, $1C, $9B ; SPRITE 9B   | xy: { 0x1C0, 0x080, U } | s: 0x00
-    db $0A, $18, $61 ; SPRITE 61   | xy: { 0x180, 0x0A0, U } | s: 0x00
-    db $0C, $16, $4E ; SPRITE 4E   | xy: { 0x160, 0x0C0, U } | s: 0x00
-    db $0D, $13, $4E ; SPRITE 4E   | xy: { 0x130, 0x0D0, U } | s: 0x00
-    db $10, $13, $9B ; SPRITE 9B   | xy: { 0x130, 0x100, U } | s: 0x00
-    db $14, $14, $4E ; SPRITE 4E   | xy: { 0x140, 0x140, U } | s: 0x00
-    db $14, $1C, $4E ; SPRITE 4E   | xy: { 0x1C0, 0x140, U } | s: 0x00
+    db $06, $18, $9B ; Sprite 0x9B (0x0180, 0x0060, U) size: 0x00
+    db $07, $1A, $4E ; Sprite 0x4E (0x01A0, 0x0070, U) size: 0x00
+    db $08, $13, $9B ; Sprite 0x9B (0x0130, 0x0080, U) size: 0x00
+    db $08, $1C, $9B ; Sprite 0x9B (0x01C0, 0x0080, U) size: 0x00
+    db $0A, $18, $61 ; Sprite 0x61 (0x0180, 0x00A0, U) size: 0x00
+    db $0C, $16, $4E ; Sprite 0x4E (0x0160, 0x00C0, U) size: 0x00
+    db $0D, $13, $4E ; Sprite 0x4E (0x0130, 0x00D0, U) size: 0x00
+    db $10, $13, $9B ; Sprite 0x9B (0x0130, 0x0100, U) size: 0x00
+    db $14, $14, $4E ; Sprite 0x4E (0x0140, 0x0140, U) size: 0x00
+    db $14, $1C, $4E ; Sprite 0x4E (0x01C0, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -7531,11 +7531,11 @@ RoomData_Sprites_Room00D2:
 RoomData_Sprites_Room00D5:
 {
     db $00 ; Unlayered OAM
-    db $09, $0E, $96 ; SPRITE 96   | xy: { 0x0E0, 0x090, U } | s: 0x00
-    db $0D, $01, $95 ; SPRITE 95   | xy: { 0x010, 0x0D0, U } | s: 0x00
-    db $11, $0E, $96 ; SPRITE 96   | xy: { 0x0E0, 0x110, U } | s: 0x00
-    db $15, $01, $95 ; SPRITE 95   | xy: { 0x010, 0x150, U } | s: 0x00
-    db $15, $04, $26 ; SPRITE 26   | xy: { 0x040, 0x150, U } | s: 0x00
+    db $09, $0E, $96 ; Sprite 0x96 (0x00E0, 0x0090, U) size: 0x00
+    db $0D, $01, $95 ; Sprite 0x95 (0x0010, 0x00D0, U) size: 0x00
+    db $11, $0E, $96 ; Sprite 0x96 (0x00E0, 0x0110, U) size: 0x00
+    db $15, $01, $95 ; Sprite 0x95 (0x0010, 0x0150, U) size: 0x00
+    db $15, $04, $26 ; Sprite 0x26 (0x0040, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -7545,9 +7545,9 @@ RoomData_Sprites_Room00D5:
 RoomData_Sprites_Room00D6:
 {
     db $00 ; Unlayered OAM
-    db $02, $07, $97 ; SPRITE 97   | xy: { 0x070, 0x020, U } | s: 0x00
-    db $16, $03, $C5 ; SPRITE C5   | xy: { 0x030, 0x160, U } | s: 0x00
-    db $16, $0C, $C5 ; SPRITE C5   | xy: { 0x0C0, 0x160, U } | s: 0x00
+    db $02, $07, $97 ; Sprite 0x97 (0x0070, 0x0020, U) size: 0x00
+    db $16, $03, $C5 ; Sprite 0xC5 (0x0030, 0x0160, U) size: 0x00
+    db $16, $0C, $C5 ; Sprite 0xC5 (0x00C0, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -7557,17 +7557,17 @@ RoomData_Sprites_Room00D6:
 RoomData_Sprites_Room00D8:
 {
     db $00 ; Unlayered OAM
-    db $05, $17, $84 ; SPRITE 84   | xy: { 0x170, 0x050, U } | s: 0x00
-    db $05, $18, $84 ; SPRITE 84   | xy: { 0x180, 0x050, U } | s: 0x00
-    db $09, $17, $4F ; SPRITE 4F   | xy: { 0x170, 0x090, U } | s: 0x00
-    db $09, $18, $4F ; SPRITE 4F   | xy: { 0x180, 0x090, U } | s: 0x00
-    db $0A, $16, $4F ; SPRITE 4F   | xy: { 0x160, 0x0A0, U } | s: 0x00
-    db $0A, $19, $4F ; SPRITE 4F   | xy: { 0x190, 0x0A0, U } | s: 0x00
-    db $0B, $16, $4E ; SPRITE 4E   | xy: { 0x160, 0x0B0, U } | s: 0x00
-    db $0B, $19, $4E ; SPRITE 4E   | xy: { 0x190, 0x0B0, U } | s: 0x00
-    db $14, $17, $84 ; SPRITE 84   | xy: { 0x170, 0x140, U } | s: 0x00
-    db $16, $18, $A7 ; SPRITE A7   | xy: { 0x180, 0x160, U } | s: 0x00
-    db $1B, $18, $A7 ; SPRITE A7   | xy: { 0x180, 0x1B0, U } | s: 0x00
+    db $05, $17, $84 ; Sprite 0x84 (0x0170, 0x0050, U) size: 0x00
+    db $05, $18, $84 ; Sprite 0x84 (0x0180, 0x0050, U) size: 0x00
+    db $09, $17, $4F ; Sprite 0x4F (0x0170, 0x0090, U) size: 0x00
+    db $09, $18, $4F ; Sprite 0x4F (0x0180, 0x0090, U) size: 0x00
+    db $0A, $16, $4F ; Sprite 0x4F (0x0160, 0x00A0, U) size: 0x00
+    db $0A, $19, $4F ; Sprite 0x4F (0x0190, 0x00A0, U) size: 0x00
+    db $0B, $16, $4E ; Sprite 0x4E (0x0160, 0x00B0, U) size: 0x00
+    db $0B, $19, $4E ; Sprite 0x4E (0x0190, 0x00B0, U) size: 0x00
+    db $14, $17, $84 ; Sprite 0x84 (0x0170, 0x0140, U) size: 0x00
+    db $16, $18, $A7 ; Sprite 0xA7 (0x0180, 0x0160, U) size: 0x00
+    db $1B, $18, $A7 ; Sprite 0xA7 (0x0180, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7577,10 +7577,10 @@ RoomData_Sprites_Room00D8:
 RoomData_Sprites_Room00D9:
 {
     db $00 ; Unlayered OAM
-    db $14, $EC, $02 ; OVERLORD 02 | xy: { 0x0C0, 0x140, U }
-    db $15, $18, $83 ; SPRITE 83   | xy: { 0x180, 0x150, U } | s: 0x00
-    db $18, $18, $83 ; SPRITE 83   | xy: { 0x180, 0x180, U } | s: 0x00
-    db $1B, $18, $83 ; SPRITE 83   | xy: { 0x180, 0x1B0, U } | s: 0x00
+    db $14, $EC, $02 ; Overlord 02 (0x00C0, 0x0140, U)
+    db $15, $18, $83 ; Sprite 0x83 (0x0180, 0x0150, U) size: 0x00
+    db $18, $18, $83 ; Sprite 0x83 (0x0180, 0x0180, U) size: 0x00
+    db $1B, $18, $83 ; Sprite 0x83 (0x0180, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7590,8 +7590,8 @@ RoomData_Sprites_Room00D9:
 RoomData_Sprites_Room00DA:
 {
     db $00 ; Unlayered OAM
-    db $18, $07, $15 ; SPRITE 15   | xy: { 0x070, 0x180, U } | s: 0x00
-    db $18, $08, $15 ; SPRITE 15   | xy: { 0x080, 0x180, U } | s: 0x00
+    db $18, $07, $15 ; Sprite 0x15 (0x0070, 0x0180, U) size: 0x00
+    db $18, $08, $15 ; Sprite 0x15 (0x0080, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -7601,13 +7601,13 @@ RoomData_Sprites_Room00DA:
 RoomData_Sprites_Room00DB:
 {
     db $01 ; Layered OAM
-    db $04, $03, $D1 ; SPRITE D1   | xy: { 0x030, 0x040, U } | s: 0x00
-    db $8A, $0E, $5B ; SPRITE 5B   | xy: { 0x0E0, 0x0A0, L } | s: 0x00
-    db $8B, $17, $A6 ; SPRITE A6   | xy: { 0x170, 0x0B0, L } | s: 0x00
-    db $8C, $0F, $A5 ; SPRITE A5   | xy: { 0x0F0, 0x0C0, L } | s: 0x00
-    db $10, $0B, $8F ; SPRITE 8F   | xy: { 0x0B0, 0x100, U } | s: 0x00
-    db $10, $14, $80 ; SPRITE 80   | xy: { 0x140, 0x100, U } | s: 0x00
-    db $95, $0F, $A5 ; SPRITE A5   | xy: { 0x0F0, 0x150, L } | s: 0x00
+    db $04, $03, $D1 ; Sprite 0xD1 (0x0030, 0x0040, U) size: 0x00
+    db $8A, $0E, $5B ; Sprite 0x5B (0x00E0, 0x00A0, L) size: 0x00
+    db $8B, $17, $A6 ; Sprite 0xA6 (0x0170, 0x00B0, L) size: 0x00
+    db $8C, $0F, $A5 ; Sprite 0xA5 (0x00F0, 0x00C0, L) size: 0x00
+    db $10, $0B, $8F ; Sprite 0x8F (0x00B0, 0x0100, U) size: 0x00
+    db $10, $14, $80 ; Sprite 0x80 (0x0140, 0x0100, U) size: 0x00
+    db $95, $0F, $A5 ; Sprite 0xA5 (0x00F0, 0x0150, L) size: 0x00
     db $FF ; END
 }
 
@@ -7617,17 +7617,17 @@ RoomData_Sprites_Room00DB:
 RoomData_Sprites_Room00DC:
 {
     db $01 ; Layered OAM
-    db $8A, $09, $A5 ; SPRITE A5   | xy: { 0x090, 0x0A0, L } | s: 0x00
-    db $8A, $0E, $5C ; SPRITE 5C   | xy: { 0x0E0, 0x0A0, L } | s: 0x00
-    db $8C, $0F, $A6 ; SPRITE A6   | xy: { 0x0F0, 0x0C0, L } | s: 0x00
-    db $10, $0B, $8F ; SPRITE 8F   | xy: { 0x0B0, 0x100, U } | s: 0x00
-    db $10, $16, $8F ; SPRITE 8F   | xy: { 0x160, 0x100, U } | s: 0x00
-    db $96, $0C, $D1 ; SPRITE D1   | xy: { 0x0C0, 0x160, L } | s: 0x00
-    db $96, $0F, $A6 ; SPRITE A6   | xy: { 0x0F0, 0x160, L } | s: 0x00
-    db $97, $09, $A5 ; SPRITE A5   | xy: { 0x090, 0x170, L } | s: 0x00
-    db $97, $16, $80 ; SPRITE 80   | xy: { 0x160, 0x170, L } | s: 0x00
-    db $1C, $05, $80 ; SPRITE 80   | xy: { 0x050, 0x1C0, U } | s: 0x00
-    db $1C, $0F, $8F ; SPRITE 8F   | xy: { 0x0F0, 0x1C0, U } | s: 0x00
+    db $8A, $09, $A5 ; Sprite 0xA5 (0x0090, 0x00A0, L) size: 0x00
+    db $8A, $0E, $5C ; Sprite 0x5C (0x00E0, 0x00A0, L) size: 0x00
+    db $8C, $0F, $A6 ; Sprite 0xA6 (0x00F0, 0x00C0, L) size: 0x00
+    db $10, $0B, $8F ; Sprite 0x8F (0x00B0, 0x0100, U) size: 0x00
+    db $10, $16, $8F ; Sprite 0x8F (0x0160, 0x0100, U) size: 0x00
+    db $96, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x0160, L) size: 0x00
+    db $96, $0F, $A6 ; Sprite 0xA6 (0x00F0, 0x0160, L) size: 0x00
+    db $97, $09, $A5 ; Sprite 0xA5 (0x0090, 0x0170, L) size: 0x00
+    db $97, $16, $80 ; Sprite 0x80 (0x0160, 0x0170, L) size: 0x00
+    db $1C, $05, $80 ; Sprite 0x80 (0x0050, 0x01C0, U) size: 0x00
+    db $1C, $0F, $8F ; Sprite 0x8F (0x00F0, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7637,9 +7637,9 @@ RoomData_Sprites_Room00DC:
 RoomData_Sprites_Room00DE:
 {
     db $00 ; Unlayered OAM
-    db $05, $17, $A3 ; SPRITE A3   | xy: { 0x170, 0x050, U } | s: 0x00
-    db $05, $17, $A4 ; SPRITE A4   | xy: { 0x170, 0x050, U } | s: 0x00
-    db $05, $17, $A2 ; SPRITE A2   | xy: { 0x170, 0x050, U } | s: 0x00
+    db $05, $17, $A3 ; Sprite 0xA3 (0x0170, 0x0050, U) size: 0x00
+    db $05, $17, $A4 ; Sprite 0xA4 (0x0170, 0x0050, U) size: 0x00
+    db $05, $17, $A2 ; Sprite 0xA2 (0x0170, 0x0050, U) size: 0x00
     db $FF ; END
 }
 
@@ -7649,8 +7649,8 @@ RoomData_Sprites_Room00DE:
 RoomData_Sprites_Room00DF:
 {
     db $00 ; Unlayered OAM
-    db $95, $0C, $18 ; SPRITE 18   | xy: { 0x0C0, 0x150, L } | s: 0x00
-    db $96, $0C, $18 ; SPRITE 18   | xy: { 0x0C0, 0x160, L } | s: 0x00
+    db $95, $0C, $18 ; Sprite 0x18 (0x00C0, 0x0150, L) size: 0x00
+    db $96, $0C, $18 ; Sprite 0x18 (0x00C0, 0x0160, L) size: 0x00
     db $FF ; END
 }
 
@@ -7660,10 +7660,10 @@ RoomData_Sprites_Room00DF:
 RoomData_Sprites_Room00E0:
 {
     db $00 ; Unlayered OAM
-    db $06, $04, $6A ; SPRITE 6A   | xy: { 0x040, 0x060, U } | s: 0x00
-    db $06, $0B, $6A ; SPRITE 6A   | xy: { 0x0B0, 0x060, U } | s: 0x00
-    db $06, $1A, $44 ; SPRITE 44   | xy: { 0x1A0, 0x060, U } | s: 0x00
-    db $09, $1A, $44 ; SPRITE 44   | xy: { 0x1A0, 0x090, U } | s: 0x00
+    db $06, $04, $6A ; Sprite 0x6A (0x0040, 0x0060, U) size: 0x00
+    db $06, $0B, $6A ; Sprite 0x6A (0x00B0, 0x0060, U) size: 0x00
+    db $06, $1A, $44 ; Sprite 0x44 (0x01A0, 0x0060, U) size: 0x00
+    db $09, $1A, $44 ; Sprite 0x44 (0x01A0, 0x0090, U) size: 0x00
     db $FF ; END
 }
 
@@ -7673,8 +7673,8 @@ RoomData_Sprites_Room00E0:
 RoomData_Sprites_Room00E1:
 {
     db $00 ; Unlayered OAM
-    db $0D, $17, $EB ; SPRITE EB   | xy: { 0x170, 0x0D0, U } | s: 0x00
-    db $92, $07, $29 ; SPRITE 29   | xy: { 0x070, 0x120, L } | s: 0x00
+    db $0D, $17, $EB ; Sprite 0xEB (0x0170, 0x00D0, U) size: 0x00
+    db $92, $07, $29 ; Sprite 0x29 (0x0070, 0x0120, L) size: 0x00
     db $FF ; END
 }
 
@@ -7684,11 +7684,11 @@ RoomData_Sprites_Room00E1:
 RoomData_Sprites_Room00E2:
 {
     db $00 ; Unlayered OAM
-    db $06, $07, $E3 ; SPRITE E3   | xy: { 0x070, 0x060, U } | s: 0x00
-    db $06, $08, $E3 ; SPRITE E3   | xy: { 0x080, 0x060, U } | s: 0x00
-    db $07, $07, $E3 ; SPRITE E3   | xy: { 0x070, 0x070, U } | s: 0x00
-    db $07, $08, $E3 ; SPRITE E3   | xy: { 0x080, 0x070, U } | s: 0x00
-    db $10, $13, $EB ; SPRITE EB   | xy: { 0x130, 0x100, U } | s: 0x00
+    db $06, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0060, U) size: 0x00
+    db $06, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0060, U) size: 0x00
+    db $07, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0070, U) size: 0x00
+    db $07, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0070, U) size: 0x00
+    db $10, $13, $EB ; Sprite 0xEB (0x0130, 0x0100, U) size: 0x00
     db $FF ; END
 }
 
@@ -7698,7 +7698,7 @@ RoomData_Sprites_Room00E2:
 RoomData_Sprites_Room00E3:
 {
     db $00 ; Unlayered OAM
-    db $85, $17, $3A ; SPRITE 3A   | xy: { 0x170, 0x050, L } | s: 0x00
+    db $85, $17, $3A ; Sprite 0x3A (0x0170, 0x0050, L) size: 0x00
     db $FF ; END
 }
 
@@ -7708,10 +7708,10 @@ RoomData_Sprites_Room00E3:
 RoomData_Sprites_Room00E4:
 {
     db $00 ; Unlayered OAM
-    db $07, $19, $6F ; SPRITE 6F   | xy: { 0x190, 0x070, U } | s: 0x00
-    db $08, $18, $6F ; SPRITE 6F   | xy: { 0x180, 0x080, U } | s: 0x00
-    db $09, $17, $6F ; SPRITE 6F   | xy: { 0x170, 0x090, U } | s: 0x00
-    db $16, $06, $AD ; SPRITE AD   | xy: { 0x060, 0x160, U } | s: 0x00
+    db $07, $19, $6F ; Sprite 0x6F (0x0190, 0x0070, U) size: 0x00
+    db $08, $18, $6F ; Sprite 0x6F (0x0180, 0x0080, U) size: 0x00
+    db $09, $17, $6F ; Sprite 0x6F (0x0170, 0x0090, U) size: 0x00
+    db $16, $06, $AD ; Sprite 0xAD (0x0060, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -7721,12 +7721,12 @@ RoomData_Sprites_Room00E4:
 RoomData_Sprites_Room00E5:
 {
     db $00 ; Unlayered OAM
-    db $09, $0F, $6F ; SPRITE 6F   | xy: { 0x0F0, 0x090, U } | s: 0x00
-    db $09, $10, $6F ; SPRITE 6F   | xy: { 0x100, 0x090, U } | s: 0x00
-    db $09, $11, $6F ; SPRITE 6F   | xy: { 0x110, 0x090, U } | s: 0x00
-    db $0E, $1B, $6F ; SPRITE 6F   | xy: { 0x1B0, 0x0E0, U } | s: 0x00
-    db $12, $0F, $6F ; SPRITE 6F   | xy: { 0x0F0, 0x120, U } | s: 0x00
-    db $12, $11, $6F ; SPRITE 6F   | xy: { 0x110, 0x120, U } | s: 0x00
+    db $09, $0F, $6F ; Sprite 0x6F (0x00F0, 0x0090, U) size: 0x00
+    db $09, $10, $6F ; Sprite 0x6F (0x0100, 0x0090, U) size: 0x00
+    db $09, $11, $6F ; Sprite 0x6F (0x0110, 0x0090, U) size: 0x00
+    db $0E, $1B, $6F ; Sprite 0x6F (0x01B0, 0x00E0, U) size: 0x00
+    db $12, $0F, $6F ; Sprite 0x6F (0x00F0, 0x0120, U) size: 0x00
+    db $12, $11, $6F ; Sprite 0x6F (0x0110, 0x0120, U) size: 0x00
     db $FF ; END
 }
 
@@ -7736,11 +7736,11 @@ RoomData_Sprites_Room00E5:
 RoomData_Sprites_Room00E6:
 {
     db $00 ; Unlayered OAM
-    db $0B, $1B, $6F ; SPRITE 6F   | xy: { 0x1B0, 0x0B0, U } | s: 0x00
-    db $0F, $17, $6F ; SPRITE 6F   | xy: { 0x170, 0x0F0, U } | s: 0x00
-    db $13, $13, $6F ; SPRITE 6F   | xy: { 0x130, 0x130, U } | s: 0x00
-    db $17, $0F, $6F ; SPRITE 6F   | xy: { 0x0F0, 0x170, U } | s: 0x00
-    db $1B, $0B, $6F ; SPRITE 6F   | xy: { 0x0B0, 0x1B0, U } | s: 0x00
+    db $0B, $1B, $6F ; Sprite 0x6F (0x01B0, 0x00B0, U) size: 0x00
+    db $0F, $17, $6F ; Sprite 0x6F (0x0170, 0x00F0, U) size: 0x00
+    db $13, $13, $6F ; Sprite 0x6F (0x0130, 0x0130, U) size: 0x00
+    db $17, $0F, $6F ; Sprite 0x6F (0x00F0, 0x0170, U) size: 0x00
+    db $1B, $0B, $6F ; Sprite 0x6F (0x00B0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7750,13 +7750,13 @@ RoomData_Sprites_Room00E6:
 RoomData_Sprites_Room00E7:
 {
     db $00 ; Unlayered OAM
-    db $04, $10, $6F ; SPRITE 6F   | xy: { 0x100, 0x040, U } | s: 0x00
-    db $04, $13, $6F ; SPRITE 6F   | xy: { 0x130, 0x040, U } | s: 0x00
-    db $0B, $15, $6F ; SPRITE 6F   | xy: { 0x150, 0x0B0, U } | s: 0x00
-    db $0C, $0B, $6F ; SPRITE 6F   | xy: { 0x0B0, 0x0C0, U } | s: 0x00
-    db $0D, $0B, $6F ; SPRITE 6F   | xy: { 0x0B0, 0x0D0, U } | s: 0x00
-    db $0D, $15, $6F ; SPRITE 6F   | xy: { 0x150, 0x0D0, U } | s: 0x00
-    db $0F, $15, $6F ; SPRITE 6F   | xy: { 0x150, 0x0F0, U } | s: 0x00
+    db $04, $10, $6F ; Sprite 0x6F (0x0100, 0x0040, U) size: 0x00
+    db $04, $13, $6F ; Sprite 0x6F (0x0130, 0x0040, U) size: 0x00
+    db $0B, $15, $6F ; Sprite 0x6F (0x0150, 0x00B0, U) size: 0x00
+    db $0C, $0B, $6F ; Sprite 0x6F (0x00B0, 0x00C0, U) size: 0x00
+    db $0D, $0B, $6F ; Sprite 0x6F (0x00B0, 0x00D0, U) size: 0x00
+    db $0D, $15, $6F ; Sprite 0x6F (0x0150, 0x00D0, U) size: 0x00
+    db $0F, $15, $6F ; Sprite 0x6F (0x0150, 0x00F0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7766,10 +7766,10 @@ RoomData_Sprites_Room00E7:
 RoomData_Sprites_Room00E8:
 {
     db $00 ; Unlayered OAM
-    db $05, $07, $26 ; SPRITE 26   | xy: { 0x070, 0x050, U } | s: 0x00
-    db $08, $17, $26 ; SPRITE 26   | xy: { 0x170, 0x080, U } | s: 0x00
-    db $0C, $07, $26 ; SPRITE 26   | xy: { 0x070, 0x0C0, U } | s: 0x00
-    db $0C, $19, $26 ; SPRITE 26   | xy: { 0x190, 0x0C0, U } | s: 0x00
+    db $05, $07, $26 ; Sprite 0x26 (0x0070, 0x0050, U) size: 0x00
+    db $08, $17, $26 ; Sprite 0x26 (0x0170, 0x0080, U) size: 0x00
+    db $0C, $07, $26 ; Sprite 0x26 (0x0070, 0x00C0, U) size: 0x00
+    db $0C, $19, $26 ; Sprite 0x26 (0x0190, 0x00C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7779,7 +7779,7 @@ RoomData_Sprites_Room00E8:
 RoomData_Sprites_Room00EA:
 {
     db $00 ; Unlayered OAM
-    db $0B, $0B, $EB ; SPRITE EB   | xy: { 0x0B0, 0x0B0, U } | s: 0x00
+    db $0B, $0B, $EB ; Sprite 0xEB (0x00B0, 0x00B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7789,7 +7789,7 @@ RoomData_Sprites_Room00EA:
 RoomData_Sprites_Room00EB:
 {
     db $00 ; Unlayered OAM
-    db $14, $17, $93 ; SPRITE 93   | xy: { 0x170, 0x140, U } | s: 0x00
+    db $14, $17, $93 ; Sprite 0x93 (0x0170, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -7799,11 +7799,11 @@ RoomData_Sprites_Room00EB:
 RoomData_Sprites_Room00EE:
 {
     db $00 ; Unlayered OAM
-    db $04, $10, $18 ; SPRITE 18   | xy: { 0x100, 0x040, U } | s: 0x00
-    db $0E, $0B, $18 ; SPRITE 18   | xy: { 0x0B0, 0x0E0, U } | s: 0x00
-    db $1C, $09, $18 ; SPRITE 18   | xy: { 0x090, 0x1C0, U } | s: 0x00
-    db $0B, $03, $24 ; SPRITE 24   | xy: { 0x030, 0x0B0, U } | s: 0x00
-    db $0C, $1C, $24 ; SPRITE 24   | xy: { 0x1C0, 0x0C0, U } | s: 0x00
+    db $04, $10, $18 ; Sprite 0x18 (0x0100, 0x0040, U) size: 0x00
+    db $0E, $0B, $18 ; Sprite 0x18 (0x00B0, 0x00E0, U) size: 0x00
+    db $1C, $09, $18 ; Sprite 0x18 (0x0090, 0x01C0, U) size: 0x00
+    db $0B, $03, $24 ; Sprite 0x24 (0x0030, 0x00B0, U) size: 0x00
+    db $0C, $1C, $24 ; Sprite 0x24 (0x01C0, 0x00C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7813,10 +7813,10 @@ RoomData_Sprites_Room00EE:
 RoomData_Sprites_Room00EF:
 {
     db $00 ; Unlayered OAM
-    db $09, $17, $18 ; SPRITE 18   | xy: { 0x170, 0x090, U } | s: 0x00
-    db $0A, $14, $18 ; SPRITE 18   | xy: { 0x140, 0x0A0, U } | s: 0x00
-    db $0A, $1B, $18 ; SPRITE 18   | xy: { 0x1B0, 0x0A0, U } | s: 0x00
-    db $06, $18, $1E ; SPRITE 1E   | xy: { 0x180, 0x060, U } | s: 0x00
+    db $09, $17, $18 ; Sprite 0x18 (0x0170, 0x0090, U) size: 0x00
+    db $0A, $14, $18 ; Sprite 0x18 (0x0140, 0x00A0, U) size: 0x00
+    db $0A, $1B, $18 ; Sprite 0x18 (0x01B0, 0x00A0, U) size: 0x00
+    db $06, $18, $1E ; Sprite 0x1E (0x0180, 0x0060, U) size: 0x00
     db $FF ; END
 }
 
@@ -7826,16 +7826,16 @@ RoomData_Sprites_Room00EF:
 RoomData_Sprites_Room00F0:
 {
     db $00 ; Unlayered OAM
-    db $03, $09, $6F ; SPRITE 6F   | xy: { 0x090, 0x030, U } | s: 0x00
-    db $03, $10, $6F ; SPRITE 6F   | xy: { 0x100, 0x030, U } | s: 0x00
-    db $04, $08, $6F ; SPRITE 6F   | xy: { 0x080, 0x040, U } | s: 0x00
-    db $04, $0A, $6F ; SPRITE 6F   | xy: { 0x0A0, 0x040, U } | s: 0x00
-    db $07, $09, $6F ; SPRITE 6F   | xy: { 0x090, 0x070, U } | s: 0x00
-    db $0A, $03, $6F ; SPRITE 6F   | xy: { 0x030, 0x0A0, U } | s: 0x00
-    db $0A, $05, $6F ; SPRITE 6F   | xy: { 0x050, 0x0A0, U } | s: 0x00
-    db $0C, $0E, $6F ; SPRITE 6F   | xy: { 0x0E0, 0x0C0, U } | s: 0x00
-    db $10, $1B, $AD ; SPRITE AD   | xy: { 0x1B0, 0x100, U } | s: 0x00
-    db $13, $13, $6F ; SPRITE 6F   | xy: { 0x130, 0x130, U } | s: 0x00
+    db $03, $09, $6F ; Sprite 0x6F (0x0090, 0x0030, U) size: 0x00
+    db $03, $10, $6F ; Sprite 0x6F (0x0100, 0x0030, U) size: 0x00
+    db $04, $08, $6F ; Sprite 0x6F (0x0080, 0x0040, U) size: 0x00
+    db $04, $0A, $6F ; Sprite 0x6F (0x00A0, 0x0040, U) size: 0x00
+    db $07, $09, $6F ; Sprite 0x6F (0x0090, 0x0070, U) size: 0x00
+    db $0A, $03, $6F ; Sprite 0x6F (0x0030, 0x00A0, U) size: 0x00
+    db $0A, $05, $6F ; Sprite 0x6F (0x0050, 0x00A0, U) size: 0x00
+    db $0C, $0E, $6F ; Sprite 0x6F (0x00E0, 0x00C0, U) size: 0x00
+    db $10, $1B, $AD ; Sprite 0xAD (0x01B0, 0x0100, U) size: 0x00
+    db $13, $13, $6F ; Sprite 0x6F (0x0130, 0x0130, U) size: 0x00
     db $FF ; END
 }
 
@@ -7845,16 +7845,16 @@ RoomData_Sprites_Room00F0:
 RoomData_Sprites_Room00F1:
 {
     db $00 ; Unlayered OAM
-    db $10, $19, $6F ; SPRITE 6F   | xy: { 0x190, 0x100, U } | s: 0x00
-    db $10, $1C, $6F ; SPRITE 6F   | xy: { 0x1C0, 0x100, U } | s: 0x00
-    db $11, $18, $6F ; SPRITE 6F   | xy: { 0x180, 0x110, U } | s: 0x00
-    db $11, $1D, $6F ; SPRITE 6F   | xy: { 0x1D0, 0x110, U } | s: 0x00
-    db $12, $17, $6F ; SPRITE 6F   | xy: { 0x170, 0x120, U } | s: 0x00
-    db $12, $1E, $6F ; SPRITE 6F   | xy: { 0x1E0, 0x120, U } | s: 0x00
-    db $1B, $06, $6F ; SPRITE 6F   | xy: { 0x060, 0x1B0, U } | s: 0x00
-    db $1B, $09, $6F ; SPRITE 6F   | xy: { 0x090, 0x1B0, U } | s: 0x00
-    db $1C, $07, $6F ; SPRITE 6F   | xy: { 0x070, 0x1C0, U } | s: 0x00
-    db $1C, $08, $6F ; SPRITE 6F   | xy: { 0x080, 0x1C0, U } | s: 0x00
+    db $10, $19, $6F ; Sprite 0x6F (0x0190, 0x0100, U) size: 0x00
+    db $10, $1C, $6F ; Sprite 0x6F (0x01C0, 0x0100, U) size: 0x00
+    db $11, $18, $6F ; Sprite 0x6F (0x0180, 0x0110, U) size: 0x00
+    db $11, $1D, $6F ; Sprite 0x6F (0x01D0, 0x0110, U) size: 0x00
+    db $12, $17, $6F ; Sprite 0x6F (0x0170, 0x0120, U) size: 0x00
+    db $12, $1E, $6F ; Sprite 0x6F (0x01E0, 0x0120, U) size: 0x00
+    db $1B, $06, $6F ; Sprite 0x6F (0x0060, 0x01B0, U) size: 0x00
+    db $1B, $09, $6F ; Sprite 0x6F (0x0090, 0x01B0, U) size: 0x00
+    db $1C, $07, $6F ; Sprite 0x6F (0x0070, 0x01C0, U) size: 0x00
+    db $1C, $08, $6F ; Sprite 0x6F (0x0080, 0x01C0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7864,7 +7864,7 @@ RoomData_Sprites_Room00F1:
 RoomData_Sprites_Room00F3:
 {
     db $00 ; Unlayered OAM
-    db $14, $06, $78 ; SPRITE 78   | xy: { 0x060, 0x140, U } | s: 0x00
+    db $14, $06, $78 ; Sprite 0x78 (0x0060, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -7874,7 +7874,7 @@ RoomData_Sprites_Room00F3:
 RoomData_Sprites_Room00F4:
 {
     db $00 ; Unlayered OAM
-    db $14, $17, $32 ; SPRITE 32   | xy: { 0x170, 0x140, U } | s: 0x00
+    db $14, $17, $32 ; Sprite 0x32 (0x0170, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -7884,7 +7884,7 @@ RoomData_Sprites_Room00F4:
 RoomData_Sprites_Room00F5:
 {
     db $00 ; Unlayered OAM
-    db $14, $08, $32 ; SPRITE 32   | xy: { 0x080, 0x140, U } | s: 0x00
+    db $14, $08, $32 ; Sprite 0x32 (0x0080, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -7894,10 +7894,10 @@ RoomData_Sprites_Room00F5:
 RoomData_Sprites_Room00F9:
 {
     db $00 ; Unlayered OAM
-    db $05, $1A, $18 ; SPRITE 18   | xy: { 0x1A0, 0x050, U } | s: 0x00
-    db $0F, $15, $18 ; SPRITE 18   | xy: { 0x150, 0x0F0, U } | s: 0x00
-    db $13, $11, $18 ; SPRITE 18   | xy: { 0x110, 0x130, U } | s: 0x00
-    db $17, $0C, $18 ; SPRITE 18   | xy: { 0x0C0, 0x170, U } | s: 0x00
+    db $05, $1A, $18 ; Sprite 0x18 (0x01A0, 0x0050, U) size: 0x00
+    db $0F, $15, $18 ; Sprite 0x18 (0x0150, 0x00F0, U) size: 0x00
+    db $13, $11, $18 ; Sprite 0x18 (0x0110, 0x0130, U) size: 0x00
+    db $17, $0C, $18 ; Sprite 0x18 (0x00C0, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -7907,9 +7907,9 @@ RoomData_Sprites_Room00F9:
 RoomData_Sprites_Room00FA:
 {
     db $00 ; Unlayered OAM
-    db $0E, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x0E0, U } | s: 0x00
-    db $10, $18, $E3 ; SPRITE E3   | xy: { 0x180, 0x100, U } | s: 0x00
-    db $11, $15, $E3 ; SPRITE E3   | xy: { 0x150, 0x110, U } | s: 0x00
+    db $0E, $17, $E3 ; Sprite 0xE3 (0x0170, 0x00E0, U) size: 0x00
+    db $10, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0100, U) size: 0x00
+    db $11, $15, $E3 ; Sprite 0xE3 (0x0150, 0x0110, U) size: 0x00
     db $FF ; END
 }
 
@@ -7919,9 +7919,9 @@ RoomData_Sprites_Room00FA:
 RoomData_Sprites_Room00FB:
 {
     db $00 ; Unlayered OAM
-    db $0D, $17, $93 ; SPRITE 93   | xy: { 0x170, 0x0D0, U } | s: 0x00
-    db $0A, $19, $26 ; SPRITE 26   | xy: { 0x190, 0x0A0, U } | s: 0x00
-    db $12, $15, $26 ; SPRITE 26   | xy: { 0x150, 0x120, U } | s: 0x00
+    db $0D, $17, $93 ; Sprite 0x93 (0x0170, 0x00D0, U) size: 0x00
+    db $0A, $19, $26 ; Sprite 0x26 (0x0190, 0x00A0, U) size: 0x00
+    db $12, $15, $26 ; Sprite 0x26 (0x0150, 0x0120, U) size: 0x00
     db $FF ; END
 }
 
@@ -7940,11 +7940,11 @@ RoomData_Sprites_Room00FC:
 RoomData_Sprites_Room00FD:
 {
     db $00 ; Unlayered OAM
-    db $0E, $09, $18 ; SPRITE 18   | xy: { 0x090, 0x0E0, U } | s: 0x00
-    db $08, $05, $24 ; SPRITE 24   | xy: { 0x050, 0x080, U } | s: 0x00
-    db $08, $16, $E3 ; SPRITE E3   | xy: { 0x160, 0x080, U } | s: 0x00
-    db $08, $18, $E3 ; SPRITE E3   | xy: { 0x180, 0x080, U } | s: 0x00
-    db $11, $0F, $24 ; SPRITE 24   | xy: { 0x0F0, 0x110, U } | s: 0x00
+    db $0E, $09, $18 ; Sprite 0x18 (0x0090, 0x00E0, U) size: 0x00
+    db $08, $05, $24 ; Sprite 0x24 (0x0050, 0x0080, U) size: 0x00
+    db $08, $16, $E3 ; Sprite 0xE3 (0x0160, 0x0080, U) size: 0x00
+    db $08, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0080, U) size: 0x00
+    db $11, $0F, $24 ; Sprite 0x24 (0x00F0, 0x0110, U) size: 0x00
     db $FF ; END
 }
 
@@ -7954,11 +7954,11 @@ RoomData_Sprites_Room00FD:
 RoomData_Sprites_Room00FE:
 {
     db $00 ; Unlayered OAM
-    db $12, $16, $18 ; SPRITE 18   | xy: { 0x160, 0x120, U } | s: 0x00
-    db $16, $14, $18 ; SPRITE 18   | xy: { 0x140, 0x160, U } | s: 0x00
-    db $16, $1A, $18 ; SPRITE 18   | xy: { 0x1A0, 0x160, U } | s: 0x00
-    db $12, $18, $24 ; SPRITE 24   | xy: { 0x180, 0x120, U } | s: 0x00
-    db $18, $18, $24 ; SPRITE 24   | xy: { 0x180, 0x180, U } | s: 0x00
+    db $12, $16, $18 ; Sprite 0x18 (0x0160, 0x0120, U) size: 0x00
+    db $16, $14, $18 ; Sprite 0x18 (0x0140, 0x0160, U) size: 0x00
+    db $16, $1A, $18 ; Sprite 0x18 (0x01A0, 0x0160, U) size: 0x00
+    db $12, $18, $24 ; Sprite 0x24 (0x0180, 0x0120, U) size: 0x00
+    db $18, $18, $24 ; Sprite 0x24 (0x0180, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -7968,7 +7968,7 @@ RoomData_Sprites_Room00FE:
 RoomData_Sprites_Room00FF:
 {
     db $00 ; Unlayered OAM
-    db $04, $07, $BB ; SPRITE BB   | xy: { 0x070, 0x040, U } | s: 0x00
+    db $04, $07, $BB ; Sprite 0xBB (0x0070, 0x0040, U) size: 0x00
     db $FF ; END
 }
 
@@ -7978,7 +7978,7 @@ RoomData_Sprites_Room00FF:
 RoomData_Sprites_Room0100:
 {
     db $00 ; Unlayered OAM
-    db $1B, $0B, $BB ; SPRITE BB   | xy: { 0x0B0, 0x1B0, U } | s: 0x00
+    db $1B, $0B, $BB ; Sprite 0xBB (0x00B0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -7988,7 +7988,7 @@ RoomData_Sprites_Room0100:
 RoomData_Sprites_Room0101:
 {
     db $00 ; Unlayered OAM
-    db $13, $08, $33 ; SPRITE 33   | xy: { 0x080, 0x130, U } | s: 0x00
+    db $13, $08, $33 ; Sprite 0x33 (0x0080, 0x0130, U) size: 0x00
     db $FF ; END
 }
 
@@ -7998,7 +7998,7 @@ RoomData_Sprites_Room0101:
 RoomData_Sprites_Room0102:
 {
     db $00 ; Unlayered OAM
-    db $18, $03, $1F ; SPRITE 1F   | xy: { 0x030, 0x180, U } | s: 0x00
+    db $18, $03, $1F ; Sprite 0x1F (0x0030, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -8008,9 +8008,9 @@ RoomData_Sprites_Room0102:
 RoomData_Sprites_Room0103:
 {
     db $00 ; Unlayered OAM
-    db $15, $06, $BC ; SPRITE BC   | xy: { 0x060, 0x150, U } | s: 0x00
-    db $1B, $0A, $29 ; SPRITE 29   | xy: { 0x0A0, 0x1B0, U } | s: 0x00
-    db $17, $17, $35 ; SPRITE 35   | xy: { 0x170, 0x170, U } | s: 0x00
+    db $15, $06, $BC ; Sprite 0xBC (0x0060, 0x0150, U) size: 0x00
+    db $1B, $0A, $29 ; Sprite 0x29 (0x00A0, 0x01B0, U) size: 0x00
+    db $17, $17, $35 ; Sprite 0x35 (0x0170, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -8020,7 +8020,7 @@ RoomData_Sprites_Room0103:
 RoomData_Sprites_Room0104:
 {
     db $00 ; Unlayered OAM
-    db $17, $1A, $73 ; SPRITE 73   | xy: { 0x1A0, 0x170, U } | s: 0x00
+    db $17, $1A, $73 ; Sprite 0x73 (0x01A0, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -8030,7 +8030,7 @@ RoomData_Sprites_Room0104:
 RoomData_Sprites_Room0105:
 {
     db $00 ; Unlayered OAM
-    db $18, $07, $16 ; SPRITE 16   | xy: { 0x070, 0x180, U } | s: 0x00
+    db $18, $07, $16 ; Sprite 0x16 (0x0070, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -8040,7 +8040,7 @@ RoomData_Sprites_Room0105:
 RoomData_Sprites_Room0106:
 {
     db $00 ; Unlayered OAM
-    db $1B, $08, $BB ; SPRITE BB   | xy: { 0x080, 0x1B0, U } | s: 0x00
+    db $1B, $08, $BB ; Sprite 0xBB (0x0080, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -8050,9 +8050,9 @@ RoomData_Sprites_Room0106:
 RoomData_Sprites_Room0107:
 {
     db $00 ; Unlayered OAM
-    db $15, $03, $3B ; SPRITE 3B   | xy: { 0x030, 0x150, U } | s: 0x00
-    db $1B, $17, $6D ; SPRITE 6D   | xy: { 0x170, 0x1B0, U } | s: 0x00
-    db $1B, $18, $6D ; SPRITE 6D   | xy: { 0x180, 0x1B0, U } | s: 0x00
+    db $15, $03, $3B ; Sprite 0x3B (0x0030, 0x0150, U) size: 0x00
+    db $1B, $17, $6D ; Sprite 0x6D (0x0170, 0x01B0, U) size: 0x00
+    db $1B, $18, $6D ; Sprite 0x6D (0x0180, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -8062,10 +8062,10 @@ RoomData_Sprites_Room0107:
 RoomData_Sprites_Room0108:
 {
     db $00 ; Unlayered OAM
-    db $16, $09, $0B ; SPRITE 0B   | xy: { 0x090, 0x160, U } | s: 0x00
-    db $16, $0C, $0B ; SPRITE 0B   | xy: { 0x0C0, 0x160, U } | s: 0x00
-    db $19, $09, $0B ; SPRITE 0B   | xy: { 0x090, 0x190, U } | s: 0x00
-    db $1A, $06, $0B ; SPRITE 0B   | xy: { 0x060, 0x1A0, U } | s: 0x00
+    db $16, $09, $0B ; Sprite 0x0B (0x0090, 0x0160, U) size: 0x00
+    db $16, $0C, $0B ; Sprite 0x0B (0x00C0, 0x0160, U) size: 0x00
+    db $19, $09, $0B ; Sprite 0x0B (0x0090, 0x0190, U) size: 0x00
+    db $1A, $06, $0B ; Sprite 0x0B (0x0060, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -8075,7 +8075,7 @@ RoomData_Sprites_Room0108:
 RoomData_Sprites_Room0109:
 {
     db $00 ; Unlayered OAM
-    db $1B, $0A, $E9 ; SPRITE E9   | xy: { 0x0A0, 0x1B0, U } | s: 0x00
+    db $1B, $0A, $E9 ; Sprite 0xE9 (0x00A0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -8085,7 +8085,7 @@ RoomData_Sprites_Room0109:
 RoomData_Sprites_Room010A:
 {
     db $00 ; Unlayered OAM
-    db $04, $19, $16 ; SPRITE 16   | xy: { 0x190, 0x040, U } | s: 0x00
+    db $04, $19, $16 ; Sprite 0x16 (0x0190, 0x0040, U) size: 0x00
     db $FF ; END
 }
 
@@ -8095,13 +8095,13 @@ RoomData_Sprites_Room010A:
 RoomData_Sprites_Room010B:
 {
     db $00 ; Unlayered OAM
-    db $03, $0F, $06 ; SPRITE 06   | xy: { 0x0F0, 0x030, U } | s: 0x00
-    db $06, $ED, $1A ; OVERLORD 1A | xy: { 0x0D0, 0x060, U }
-    db $06, $F0, $1A ; OVERLORD 1A | xy: { 0x100, 0x060, U }
-    db $07, $F2, $1A ; OVERLORD 1A | xy: { 0x120, 0x070, U }
-    db $09, $EF, $1A ; OVERLORD 1A | xy: { 0x0F0, 0x090, U }
-    db $03, $12, $04 ; SPRITE 04   | xy: { 0x120, 0x030, U } | s: 0x00
-    db $07, $0D, $15 ; SPRITE 15   | xy: { 0x0D0, 0x070, U } | s: 0x00
+    db $03, $0F, $06 ; Sprite 0x06 (0x00F0, 0x0030, U) size: 0x00
+    db $06, $ED, $1A ; Overlord 1A (0x00D0, 0x0060, U)
+    db $06, $F0, $1A ; Overlord 1A (0x0100, 0x0060, U)
+    db $07, $F2, $1A ; Overlord 1A (0x0120, 0x0070, U)
+    db $09, $EF, $1A ; Overlord 1A (0x00F0, 0x0090, U)
+    db $03, $12, $04 ; Sprite 0x04 (0x0120, 0x0030, U) size: 0x00
+    db $07, $0D, $15 ; Sprite 0x15 (0x00D0, 0x0070, U) size: 0x00
     db $FF ; END
 }
 
@@ -8111,14 +8111,14 @@ RoomData_Sprites_Room010B:
 RoomData_Sprites_Room010C:
 {
     db $00 ; Unlayered OAM
-    db $07, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x070, U } | s: 0x00
-    db $07, $18, $E3 ; SPRITE E3   | xy: { 0x180, 0x070, U } | s: 0x00
-    db $08, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x080, U } | s: 0x00
-    db $08, $18, $E3 ; SPRITE E3   | xy: { 0x180, 0x080, U } | s: 0x00
-    db $14, $07, $83 ; SPRITE 83   | xy: { 0x070, 0x140, U } | s: 0x00
-    db $14, $08, $83 ; SPRITE 83   | xy: { 0x080, 0x140, U } | s: 0x00
-    db $14, $0C, $83 ; SPRITE 83   | xy: { 0x0C0, 0x140, U } | s: 0x00
-    db $1A, $0C, $83 ; SPRITE 83   | xy: { 0x0C0, 0x1A0, U } | s: 0x00
+    db $07, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0070, U) size: 0x00
+    db $07, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0070, U) size: 0x00
+    db $08, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0080, U) size: 0x00
+    db $08, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0080, U) size: 0x00
+    db $14, $07, $83 ; Sprite 0x83 (0x0070, 0x0140, U) size: 0x00
+    db $14, $08, $83 ; Sprite 0x83 (0x0080, 0x0140, U) size: 0x00
+    db $14, $0C, $83 ; Sprite 0x83 (0x00C0, 0x0140, U) size: 0x00
+    db $1A, $0C, $83 ; Sprite 0x83 (0x00C0, 0x01A0, U) size: 0x00
     db $FF ; END
 }
 
@@ -8128,8 +8128,8 @@ RoomData_Sprites_Room010C:
 RoomData_Sprites_Room010D:
 {
     db $00 ; Unlayered OAM
-    db $16, $05, $5B ; SPRITE 5B   | xy: { 0x050, 0x160, U } | s: 0x00
-    db $16, $0A, $5C ; SPRITE 5C   | xy: { 0x0A0, 0x160, U } | s: 0x00
+    db $16, $05, $5B ; Sprite 0x5B (0x0050, 0x0160, U) size: 0x00
+    db $16, $0A, $5C ; Sprite 0x5C (0x00A0, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -8139,8 +8139,8 @@ RoomData_Sprites_Room010D:
 RoomData_Sprites_Room010E:
 {
     db $00 ; Unlayered OAM
-    db $06, $06, $28 ; SPRITE 28   | xy: { 0x060, 0x060, U } | s: 0x00
-    db $06, $18, $28 ; SPRITE 28   | xy: { 0x180, 0x060, U } | s: 0x00
+    db $06, $06, $28 ; Sprite 0x28 (0x0060, 0x0060, U) size: 0x00
+    db $06, $18, $28 ; Sprite 0x28 (0x0180, 0x0060, U) size: 0x00
     db $FF ; END
 }
 
@@ -8150,7 +8150,7 @@ RoomData_Sprites_Room010E:
 RoomData_Sprites_Room010F:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $BB ; SPRITE BB   | xy: { 0x070, 0x150, U } | s: 0x00
+    db $15, $07, $BB ; Sprite 0xBB (0x0070, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -8160,7 +8160,7 @@ RoomData_Sprites_Room010F:
 RoomData_Sprites_Room0110:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $BB ; SPRITE BB   | xy: { 0x070, 0x150, U } | s: 0x00
+    db $15, $07, $BB ; Sprite 0xBB (0x0070, 0x0150, U) size: 0x00
     db $FF ; END
 }
 
@@ -8170,7 +8170,7 @@ RoomData_Sprites_Room0110:
 RoomData_Sprites_Room0111:
 {
     db $00 ; Unlayered OAM
-    db $1B, $0B, $65 ; SPRITE 65   | xy: { 0x0B0, 0x1B0, U } | s: 0x00
+    db $1B, $0B, $65 ; Sprite 0x65 (0x00B0, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -8180,8 +8180,8 @@ RoomData_Sprites_Room0111:
 RoomData_Sprites_Room0112:
 {
     db $00 ; Unlayered OAM
-    db $0A, $07, $28 ; SPRITE 28   | xy: { 0x070, 0x0A0, U } | s: 0x00
-    db $14, $17, $BB ; SPRITE BB   | xy: { 0x170, 0x140, U } | s: 0x00
+    db $0A, $07, $28 ; Sprite 0x28 (0x0070, 0x00A0, U) size: 0x00
+    db $14, $17, $BB ; Sprite 0xBB (0x0170, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -8191,8 +8191,8 @@ RoomData_Sprites_Room0112:
 RoomData_Sprites_Room0114:
 {
     db $00 ; Unlayered OAM
-    db $18, $07, $72 ; SPRITE 72   | xy: { 0x070, 0x180, U } | s: 0x00
-    db $14, $19, $28 ; SPRITE 28   | xy: { 0x190, 0x140, U } | s: 0x00
+    db $18, $07, $72 ; Sprite 0x72 (0x0070, 0x0180, U) size: 0x00
+    db $14, $19, $28 ; Sprite 0x28 (0x0190, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -8202,12 +8202,12 @@ RoomData_Sprites_Room0114:
 RoomData_Sprites_Room0115:
 {
     db $00 ; Unlayered OAM
-    db $16, $17, $C8 ; SPRITE C8   | xy: { 0x170, 0x160, U } | s: 0x00
-    db $07, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x070, U } | s: 0x00
-    db $07, $18, $E3 ; SPRITE E3   | xy: { 0x180, 0x070, U } | s: 0x00
-    db $08, $17, $E3 ; SPRITE E3   | xy: { 0x170, 0x080, U } | s: 0x00
-    db $08, $18, $E3 ; SPRITE E3   | xy: { 0x180, 0x080, U } | s: 0x00
-    db $09, $07, $72 ; SPRITE 72   | xy: { 0x070, 0x090, U } | s: 0x00
+    db $16, $17, $C8 ; Sprite 0xC8 (0x0170, 0x0160, U) size: 0x00
+    db $07, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0070, U) size: 0x00
+    db $07, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0070, U) size: 0x00
+    db $08, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0080, U) size: 0x00
+    db $08, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0080, U) size: 0x00
+    db $09, $07, $72 ; Sprite 0x72 (0x0070, 0x0090, U) size: 0x00
     db $FF ; END
 }
 
@@ -8217,7 +8217,7 @@ RoomData_Sprites_Room0115:
 RoomData_Sprites_Room0116:
 {
     db $00 ; Unlayered OAM
-    db $18, $17, $72 ; SPRITE 72   | xy: { 0x170, 0x180, U } | s: 0x00
+    db $18, $17, $72 ; Sprite 0x72 (0x0170, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -8227,7 +8227,7 @@ RoomData_Sprites_Room0116:
 RoomData_Sprites_Room0118:
 {
     db $00 ; Unlayered OAM
-    db $1B, $19, $BB ; SPRITE BB   | xy: { 0x190, 0x1B0, U } | s: 0x00
+    db $1B, $19, $BB ; Sprite 0xBB (0x0190, 0x01B0, U) size: 0x00
     db $FF ; END
 }
 
@@ -8237,7 +8237,7 @@ RoomData_Sprites_Room0118:
 RoomData_Sprites_Room0119:
 {
     db $00 ; Unlayered OAM
-    db $18, $0E, $29 ; SPRITE 29   | xy: { 0x0E0, 0x180, U } | s: 0x00
+    db $18, $0E, $29 ; Sprite 0x29 (0x00E0, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -8247,7 +8247,7 @@ RoomData_Sprites_Room0119:
 RoomData_Sprites_Room011A:
 {
     db $00 ; Unlayered OAM
-    db $17, $18, $28 ; SPRITE 28   | xy: { 0x180, 0x170, U } | s: 0x00
+    db $17, $18, $28 ; Sprite 0x28 (0x0180, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -8257,8 +8257,8 @@ RoomData_Sprites_Room011A:
 RoomData_Sprites_Room011B:
 {
     db $00 ; Unlayered OAM
-    db $09, $18, $EB ; SPRITE EB   | xy: { 0x180, 0x090, U } | s: 0x00
-    db $96, $05, $EB ; SPRITE EB   | xy: { 0x050, 0x160, L } | s: 0x00
+    db $09, $18, $EB ; Sprite 0xEB (0x0180, 0x0090, U) size: 0x00
+    db $96, $05, $EB ; Sprite 0xEB (0x0050, 0x0160, L) size: 0x00
     db $FF ; END
 }
 
@@ -8268,7 +8268,7 @@ RoomData_Sprites_Room011B:
 RoomData_Sprites_Room011C:
 {
     db $00 ; Unlayered OAM
-    db $19, $09, $B5 ; SPRITE B5   | xy: { 0x090, 0x190, U } | s: 0x00
+    db $19, $09, $B5 ; Sprite 0xB5 (0x0090, 0x0190, U) size: 0x00
     db $FF ; END
 }
 
@@ -8278,11 +8278,11 @@ RoomData_Sprites_Room011C:
 RoomData_Sprites_Room011E:
 {
     db $00 ; Unlayered OAM
-    db $07, $05, $E3 ; SPRITE E3   | xy: { 0x050, 0x070, U } | s: 0x00
-    db $07, $06, $E3 ; SPRITE E3   | xy: { 0x060, 0x070, U } | s: 0x00
-    db $08, $05, $E3 ; SPRITE E3   | xy: { 0x050, 0x080, U } | s: 0x00
-    db $08, $06, $E3 ; SPRITE E3   | xy: { 0x060, 0x080, U } | s: 0x00
-    db $16, $18, $BB ; SPRITE BB   | xy: { 0x180, 0x160, U } | s: 0x00
+    db $07, $05, $E3 ; Sprite 0xE3 (0x0050, 0x0070, U) size: 0x00
+    db $07, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0070, U) size: 0x00
+    db $08, $05, $E3 ; Sprite 0xE3 (0x0050, 0x0080, U) size: 0x00
+    db $08, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0080, U) size: 0x00
+    db $16, $18, $BB ; Sprite 0xBB (0x0180, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -8292,7 +8292,7 @@ RoomData_Sprites_Room011E:
 RoomData_Sprites_Room011F:
 {
     db $00 ; Unlayered OAM
-    db $16, $17, $BB ; SPRITE BB   | xy: { 0x170, 0x160, U } | s: 0x00
+    db $16, $17, $BB ; Sprite 0xBB (0x0170, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -8302,9 +8302,9 @@ RoomData_Sprites_Room011F:
 RoomData_Sprites_Room0120:
 {
     db $00 ; Unlayered OAM
-    db $07, $17, $B2 ; SPRITE B2   | xy: { 0x170, 0x070, U } | s: 0x00
-    db $08, $1B, $E3 ; SPRITE E3   | xy: { 0x1B0, 0x080, U } | s: 0x00
-    db $09, $1A, $E3 ; SPRITE E3   | xy: { 0x1A0, 0x090, U } | s: 0x00
+    db $07, $17, $B2 ; Sprite 0xB2 (0x0170, 0x0070, U) size: 0x00
+    db $08, $1B, $E3 ; Sprite 0xE3 (0x01B0, 0x0080, U) size: 0x00
+    db $09, $1A, $E3 ; Sprite 0xE3 (0x01A0, 0x0090, U) size: 0x00
     db $FF ; END
 }
 
@@ -8314,7 +8314,7 @@ RoomData_Sprites_Room0120:
 RoomData_Sprites_Room0121:
 {
     db $00 ; Unlayered OAM
-    db $17, $04, $1A ; SPRITE 1A   | xy: { 0x040, 0x170, U } | s: 0x00
+    db $17, $04, $1A ; Sprite 0x1A (0x0040, 0x0170, U) size: 0x00
     db $FF ; END
 }
 
@@ -8324,8 +8324,8 @@ RoomData_Sprites_Room0121:
 RoomData_Sprites_Room0122:
 {
     db $00 ; Unlayered OAM
-    db $18, $07, $31 ; SPRITE 31   | xy: { 0x070, 0x180, U } | s: 0x00
-    db $18, $17, $31 ; SPRITE 31   | xy: { 0x170, 0x180, U } | s: 0x00
+    db $18, $07, $31 ; Sprite 0x31 (0x0070, 0x0180, U) size: 0x00
+    db $18, $17, $31 ; Sprite 0x31 (0x0170, 0x0180, U) size: 0x00
     db $FF ; END
 }
 
@@ -8335,11 +8335,11 @@ RoomData_Sprites_Room0122:
 RoomData_Sprites_Room0123:
 {
     db $00 ; Unlayered OAM
-    db $16, $03, $18 ; SPRITE 18   | xy: { 0x030, 0x160, U } | s: 0x00
-    db $16, $0C, $18 ; SPRITE 18   | xy: { 0x0C0, 0x160, U } | s: 0x00
-    db $17, $08, $18 ; SPRITE 18   | xy: { 0x080, 0x170, U } | s: 0x00
-    db $1A, $03, $18 ; SPRITE 18   | xy: { 0x030, 0x1A0, U } | s: 0x00
-    db $05, $08, $BB ; SPRITE BB   | xy: { 0x080, 0x050, U } | s: 0x00
+    db $16, $03, $18 ; Sprite 0x18 (0x0030, 0x0160, U) size: 0x00
+    db $16, $0C, $18 ; Sprite 0x18 (0x00C0, 0x0160, U) size: 0x00
+    db $17, $08, $18 ; Sprite 0x18 (0x0080, 0x0170, U) size: 0x00
+    db $1A, $03, $18 ; Sprite 0x18 (0x0030, 0x01A0, U) size: 0x00
+    db $05, $08, $BB ; Sprite 0xBB (0x0080, 0x0050, U) size: 0x00
     db $FF ; END
 }
 
@@ -8349,7 +8349,7 @@ RoomData_Sprites_Room0123:
 RoomData_Sprites_Room0124:
 {
     db $00 ; Unlayered OAM
-    db $16, $08, $BB ; SPRITE BB   | xy: { 0x080, 0x160, U } | s: 0x00
+    db $16, $08, $BB ; Sprite 0xBB (0x0080, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -8359,7 +8359,7 @@ RoomData_Sprites_Room0124:
 RoomData_Sprites_Room0125:
 {
     db $00 ; Unlayered OAM
-    db $16, $08, $BB ; SPRITE BB   | xy: { 0x080, 0x160, U } | s: 0x00
+    db $16, $08, $BB ; Sprite 0xBB (0x0080, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -8369,11 +8369,11 @@ RoomData_Sprites_Room0125:
 RoomData_Sprites_Room0126:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $E3 ; SPRITE E3   | xy: { 0x070, 0x150, U } | s: 0x00
-    db $15, $08, $E3 ; SPRITE E3   | xy: { 0x080, 0x150, U } | s: 0x00
-    db $16, $07, $E3 ; SPRITE E3   | xy: { 0x070, 0x160, U } | s: 0x00
-    db $16, $08, $E3 ; SPRITE E3   | xy: { 0x080, 0x160, U } | s: 0x00
-    db $14, $1C, $EB ; SPRITE EB   | xy: { 0x1C0, 0x140, U } | s: 0x00
+    db $15, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0150, U) size: 0x00
+    db $15, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0150, U) size: 0x00
+    db $16, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0160, U) size: 0x00
+    db $16, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0160, U) size: 0x00
+    db $14, $1C, $EB ; Sprite 0xEB (0x01C0, 0x0140, U) size: 0x00
     db $FF ; END
 }
 
@@ -8383,7 +8383,7 @@ RoomData_Sprites_Room0126:
 RoomData_Sprites_Room0127:
 {
     db $00 ; Unlayered OAM
-    db $16, $07, $EB ; SPRITE EB   | xy: { 0x070, 0x160, U } | s: 0x00
+    db $16, $07, $EB ; Sprite 0xEB (0x0070, 0x0160, U) size: 0x00
     db $FF ; END
 }
 
@@ -9080,7 +9080,7 @@ Module_Death:
     JSR.w (Module_Death_JumpTable, X)
     
     LDA.b $11 : CMP.b #$09 : BEQ .dont_show_player
-        JSL.l PlayerOam_Main
+        JSL.l PlayerOAM_Main
     
     .dont_show_player
     
@@ -9814,7 +9814,7 @@ Module_Quit:
     JSR.w (.submodules, X)
     
     JSL.l Sprite_Main
-    JSL.l PlayerOam_Main
+    JSL.l PlayerOAM_Main
     
     RTL
 }

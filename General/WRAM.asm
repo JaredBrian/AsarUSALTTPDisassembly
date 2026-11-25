@@ -3015,7 +3015,7 @@ struct WRAM $7E0000
 
     ; $030A[0x01] - (Player, OAM)
     .PlayerActionPoseStep: skip $01
-        ; Context-dependent action-pose step used by PlayerOam_Main.
+        ; Context-dependent action-pose step used by PlayerOAM_Main.
         ; Primarily selects stages of pulling/straining, statue dragging, tree
         ; pulling, lifting, carrying, and throwing. Usually 0x00-0x03, tree pull
         ; also uses 0x04. The meaning of each value depends on the active action.
@@ -3118,7 +3118,7 @@ struct WRAM $7E0000
         ; A sudo mirror of PlayerHeading, which is an indicator for which
         ; direction you are facing. Only used in the rendering of the player's OAM
         ; data in Bank 0x0D. Has one case where it is not a 1 for 1 match with
-        ; PlayerHeading in PlayerOam_Main in bank 0x0D. Explicitly set to down
+        ; PlayerHeading in PlayerOAM_Main in bank 0x0D. Explicitly set to down
         ; (0x02) for Desert prayer.
 
     ; $0324[0x01] - (Player, Item)
@@ -6314,12 +6314,12 @@ struct WRAM $7E0000
     ; $0B6B[0x10] - (Sprite)
     .SprSetting1: skip $10
         ; This array contains various settings for active sprites.
-        ; tttt acbp
+        ; tttt asbp
         ; t - Tile Interaction Hit Box. Selects from one of several hitbox
         ;     limits for use when detecting the tile types that the sprite is
         ;     interacting with.
         ; a - Deflect arrows. If set, the sprite will deflect arrow.
-        ; c - Override slash imminuty granted by $0CF2.
+        ; s - Override slash imminuty granted by $0CF2.
         ; b - Boss death animation. If set, the sprite will have an explosive
         ;     death animation and will make a different noise while dying. Also
         ;     prevents the sprite from being attacked by the good bee (except for

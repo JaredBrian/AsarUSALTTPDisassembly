@@ -15324,7 +15324,7 @@ Module_Messaging:
         .processCoreTasks
 
         JSL.l Sprite_Main
-        JSL.l PlayerOam_Main
+        JSL.l PlayerOAM_Main
         
         LDA.b $1B : BNE .indoors
             JSL.l Module_Overworld_rainAnimation

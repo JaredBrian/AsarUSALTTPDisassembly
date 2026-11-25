@@ -3434,7 +3434,7 @@ HandleUnderworldLandingFromPit:
 {
     PHB : PHK : PLB
     
-    JSL.l PlayerOam_Main
+    JSL.l PlayerOAM_Main
     
     REP #$20
     LDA.b $22 : STA.w $0FC2
@@ -4919,10 +4919,10 @@ CalculateSwordHitbox:
                 REP #$30
                 
                 LDA.b $2F : AND.w #$00FF : TAX
-                LDA.l PlayerOam_AnimationDirectionalStepIndexOffset, X : STA.b $04
+                LDA.l PlayerOAM_AnimationDirectionalStepIndexOffset, X : STA.b $04
                 
                 TYA : AND.w #$00FF : ASL : CLC : ADC.b $04 : TAX
-                LDA.l PlayerOam_AnimationStepDataOffsets, X : CLC : ADC.b $02 : TAX
+                LDA.l PlayerOAM_AnimationStepDataOffsets, X : CLC : ADC.b $02 : TAX
                 
                 SEP #$20
                 
@@ -4941,10 +4941,10 @@ CalculateSwordHitbox:
         LDA.b $2F : LSR : STA.b $0E
         
         ASL #3 : CLC : ADC.b $0E : ASL : CLC : ADC.b $04 : TAX
-        LDA.l PlayerOam_SwordSwingTipTile_up, X : CMP.b #$FF : BEQ .no_hitbox
+        LDA.l PlayerOAM_SwordSwingTipTile_up, X : CMP.b #$FF : BEQ .no_hitbox
             TXA : LSR : TAX
-            LDA.l PlayerOam_SwordSwingTipOffsetY_up, X : STA.b $44
-            LDA.l PlayerOam_SwordSwingTipOffsetX_up, X : STA.b $45
+            LDA.l PlayerOAM_SwordSwingTipOffsetY_up, X : STA.b $44
+            LDA.l PlayerOAM_SwordSwingTipOffsetX_up, X : STA.b $45
 
             .return
 
@@ -12457,7 +12457,7 @@ TileDetect_MainHandler:
     
     SEP #$30
     
-    JSR.w TileBehavior_HandleItemAndExecute
+    JSR.w TileCollision_HandleItemAndExecute
     
     .stillSpinAttacking
     
@@ -13449,293 +13449,293 @@ TileDetect_ResetState:
 ; $03D7D8-$03D9D7 JUMP TABLE
 TileDetect_Execute_modules:
 {
-    dw TileBehavior_Nothing ; 0x00 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_StandardCollision ; 0x01 - $DC50 Tests and sets bits from $0A into $0E
-    dw TileBehavior_StandardCollision ; 0x02 - $DC50 Tests and sets bits from $0A into $0E
-    dw TileBehavior_StandardCollision ; 0x03 - $DC50 Tests and sets bits from $0A into $0E
-    dw TileBehavior_StandardCollision ; 0x04 - $DC50 Tests and sets bits from $0A into $0E
-    dw TileBehavior_Nothing ; 0x05 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x06 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x07 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x00 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_StandardCollision ; 0x01 - $DC50 Tests and sets bits from $0A into $0E
+    dw TileCollision_StandardCollision ; 0x02 - $DC50 Tests and sets bits from $0A into $0E
+    dw TileCollision_StandardCollision ; 0x03 - $DC50 Tests and sets bits from $0A into $0E
+    dw TileCollision_StandardCollision ; 0x04 - $DC50 Tests and sets bits from $0A into $0E
+    dw TileCollision_Nothing ; 0x05 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x06 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x07 - $DC54 Do nothing. Normal tile.
     
-    dw TileBehavior_ManualStairs ; 0x08 - $DC86 Tests and sets bits from $0A into $58
-    dw TileBehavior_ShallowWater ; 0x09 - $DD1B Shallow water
-    dw TileBehavior_ShortWaterLadder ; 0x0A - $DCBC Tests and sets bits from $0A into $0343
-    dw TileBehavior_StandardCollision ; 0x0B - $DC50 Tests and sets bits from $0A into $0E
-    dw TileBehavior_OverlayMask_0C ; 0x0C - $DC98 Tests and sets bits from $0A into $0320
-    dw TileBehavior_SpikeFloor ; 0x0D - $DDCA Tests and sets bits from $0A into $02EE (Spike floor)
-    dw TileBehavior_GanonIce ; 0x0E - $DC9E Tests and sets bits from $0A into $0348
-    dw TileBehavior_PalaceIce ; 0x0F - $DCA4 Tests and sets bits from $0A into $0348
+    dw TileCollision_ManualStairs ; 0x08 - $DC86 Tests and sets bits from $0A into $58
+    dw TileCollision_ShallowWater ; 0x09 - $DD1B Shallow water
+    dw TileCollision_ShortWaterLadder ; 0x0A - $DCBC Tests and sets bits from $0A into $0343
+    dw TileCollision_StandardCollision ; 0x0B - $DC50 Tests and sets bits from $0A into $0E
+    dw TileCollision_OverlayMask_0C ; 0x0C - $DC98 Tests and sets bits from $0A into $0320
+    dw TileCollision_SpikeFloor ; 0x0D - $DDCA Tests and sets bits from $0A into $02EE (Spike floor)
+    dw TileCollision_GanonIce ; 0x0E - $DC9E Tests and sets bits from $0A into $0348
+    dw TileCollision_PalaceIce ; 0x0F - $DCA4 Tests and sets bits from $0A into $0348
     
-    dw TileBehavior_Slope ; 0x10 - $DC61 Tests and sets bits from $0A into $0C
-    dw TileBehavior_Slope ; 0x11 - $DC61 Tests and sets bits from $0A into $0C
-    dw TileBehavior_Slope ; 0x12 - $DC61 Tests and sets bits from $0A into $0C
-    dw TileBehavior_Slope ; 0x13 - $DC61 Tests and sets bits from $0A into $0C
-    dw TileBehavior_Nothing ; 0x14 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x15 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x16 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x17 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_SlopeOuter ; 0x18 - $DC5D These are the slanted wall tiles that make you move diagonally when you move against them
+    dw TileCollision_Slope ; 0x10 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileCollision_Slope ; 0x11 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileCollision_Slope ; 0x12 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileCollision_Slope ; 0x13 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileCollision_Nothing ; 0x14 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x15 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x16 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x17 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_SlopeOuter ; 0x18 - $DC5D These are the slanted wall tiles that make you move diagonally when you move against them
 
-    dw TileBehavior_SlopeOuter ; 0x19 - $DC5D Also a slanted wall
-    dw TileBehavior_SlopeOuter ; 0x1A - $DC5D Also a slanted wall
-    dw TileBehavior_SlopeOuter ; 0x1B - $DC5D Also a slanted wall
-    dw TileBehavior_OverlayMask_1C ; 0x1C - $DCC2 Top of water staircase
-    dw TileBehavior_NorthSingleLayerStairs ; 0x1D - $DC72 These three are related
-    dw TileBehavior_NorthSwapLayerStairs ; 0x1E - $DC7D Staircases (ladders really)
-    dw TileBehavior_NorthSwapLayerStairs ; 0x1F - $DC7D 
+    dw TileCollision_SlopeOuter ; 0x19 - $DC5D Also a slanted wall
+    dw TileCollision_SlopeOuter ; 0x1A - $DC5D Also a slanted wall
+    dw TileCollision_SlopeOuter ; 0x1B - $DC5D Also a slanted wall
+    dw TileCollision_OverlayMask_1C ; 0x1C - $DCC2 Top of water staircase
+    dw TileCollision_NorthSingleLayerStairs ; 0x1D - $DC72 These three are related
+    dw TileCollision_NorthSwapLayerStairs ; 0x1E - $DC7D Staircases (ladders really)
+    dw TileCollision_NorthSwapLayerStairs ; 0x1F - $DC7D 
     
-    dw TileBehavior_Pit ; 0x20 - $DC8B Hole
-    dw TileBehavior_Nothing ; 0x21 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_ManualStairs ; 0x22 - $DC86 Steps that slow Link down
-    dw TileBehavior_Nothing ; 0x23 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x24 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x25 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_StandardCollision ; 0x26 - $DC50 
-    dw TileBehavior_Hookshottables ; 0x27 - $DDE1 Empty chest
+    dw TileCollision_Pit ; 0x20 - $DC8B Hole
+    dw TileCollision_Nothing ; 0x21 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_ManualStairs ; 0x22 - $DC86 Steps that slow Link down
+    dw TileCollision_Nothing ; 0x23 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x24 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x25 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_StandardCollision ; 0x26 - $DC50 
+    dw TileCollision_Hookshottables ; 0x27 - $DDE1 Empty chest
     
-    dw TileBehavior_Ledge_North ; 0x28 - $DEBB Ledge leading up
-    dw TileBehavior_Ledge_South ; 0x29 - $DEAD Ledge leading down
-    dw TileBehavior_Ledge_EastWest ; 0x2A - $DEC5 Ledge leading left
-    dw TileBehavior_Ledge_EastWest ; 0x2B - $DEC5 Ledge leading right
-    dw TileBehavior_Ledge_NorthDiagonal ; 0x2C - $DECF Ledge leading up + left
-    dw TileBehavior_Ledge_SouthDiagonal ; 0x2D - $DEDD Ledge leading down + left
-    dw TileBehavior_Ledge_NorthDiagonal ; 0x2E - $DECF Ledge leading up + right
-    dw TileBehavior_Ledge_SouthDiagonal ; 0x2F - $DEDD Ledge leading down + right
+    dw TileCollision_Ledge_North ; 0x28 - $DEBB Ledge leading up
+    dw TileCollision_Ledge_South ; 0x29 - $DEAD Ledge leading down
+    dw TileCollision_Ledge_EastWest ; 0x2A - $DEC5 Ledge leading left
+    dw TileCollision_Ledge_EastWest ; 0x2B - $DEC5 Ledge leading right
+    dw TileCollision_Ledge_NorthDiagonal ; 0x2C - $DECF Ledge leading up + left
+    dw TileCollision_Ledge_SouthDiagonal ; 0x2D - $DEDD Ledge leading down + left
+    dw TileCollision_Ledge_NorthDiagonal ; 0x2E - $DECF Ledge leading up + right
+    dw TileCollision_Ledge_SouthDiagonal ; 0x2F - $DEDD Ledge leading down + right
     
-    dw TileBehavior_ManualStairs ; 0x30 - $DC86 Up Staircase 0
-    dw TileBehavior_ManualStairs ; 0x31 - $DC86 Up Staircase 1
-    dw TileBehavior_ManualStairs ; 0x32 - $DC86 Up Staircase 2
-    dw TileBehavior_ManualStairs ; 0x33 - $DC86 Up Staircase 3
-    dw TileBehavior_ManualStairs ; 0x34 - $DC86 Down Staircase 0
-    dw TileBehavior_ManualStairs ; 0x35 - $DC86 Down Staircase 1
-    dw TileBehavior_ManualStairs ; 0x36 - $DC86 Down Staircase 2
-    dw TileBehavior_ManualStairs ; 0x37 - $DC86 Down Staircase 3
+    dw TileCollision_ManualStairs ; 0x30 - $DC86 Up Staircase 0
+    dw TileCollision_ManualStairs ; 0x31 - $DC86 Up Staircase 1
+    dw TileCollision_ManualStairs ; 0x32 - $DC86 Up Staircase 2
+    dw TileCollision_ManualStairs ; 0x33 - $DC86 Up Staircase 3
+    dw TileCollision_ManualStairs ; 0x34 - $DC86 Down Staircase 0
+    dw TileCollision_ManualStairs ; 0x35 - $DC86 Down Staircase 1
+    dw TileCollision_ManualStairs ; 0x36 - $DC86 Down Staircase 2
+    dw TileCollision_ManualStairs ; 0x37 - $DC86 Down Staircase 3
     
-    dw TileBehavior_Nothing ; 0x38 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x39 - $DC54 Do nothing. Normal tile. (Straight up south staircase)
-    dw TileBehavior_Nothing ; 0x3A - $DC54 Do nothing. Normal tile. (Star tile behavior handled elsewhere)
-    dw TileBehavior_Nothing ; 0x3B - $DC54 Do nothing. Normal tile. (Star tile behavior handled elsewhere)
-    dw TileBehavior_Nothing ; 0x3C - $DC54 Do nothing. Normal tile. (Unknown if this has other behavior)
-    dw TileBehavior_SouthSingleLayerStairs ; 0x3D - $DD9D (inter floor staircase?)
-    dw TileBehavior_SouthSwapLayerStairs ; 0x3E - $DDA1 (inter floor staircase?)
-    dw TileBehavior_SouthSwapLayerStairs ; 0x3F - $DDA1 (inter floor staircase?)
+    dw TileCollision_Nothing ; 0x38 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x39 - $DC54 Do nothing. Normal tile. (Straight up south staircase)
+    dw TileCollision_Nothing ; 0x3A - $DC54 Do nothing. Normal tile. (Star tile behavior handled elsewhere)
+    dw TileCollision_Nothing ; 0x3B - $DC54 Do nothing. Normal tile. (Star tile behavior handled elsewhere)
+    dw TileCollision_Nothing ; 0x3C - $DC54 Do nothing. Normal tile. (Unknown if this has other behavior)
+    dw TileCollision_SouthSingleLayerStairs ; 0x3D - $DD9D (inter floor staircase?)
+    dw TileCollision_SouthSwapLayerStairs ; 0x3E - $DDA1 (inter floor staircase?)
+    dw TileCollision_SouthSwapLayerStairs ; 0x3F - $DDA1 (inter floor staircase?)
     
-    dw TileBehavior_ThickGrass ; 0x40 - $DE61 Grass tile
-    dw TileBehavior_Nothing ; 0x41 - $DC54 
-    dw TileBehavior_Nothing ; 0x42 - $DC54 
-    dw TileBehavior_StandardCollision ; 0x43 - $DC50 
-    dw TileBehavior_Spike ; 0x44 - $DDB1 spike block tile
-    dw TileBehavior_Nothing ; 0x45 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_HylianPlaque ; 0x46 - $DF11 ????
-    dw TileBehavior_Nothing ; 0x47 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_ThickGrass ; 0x40 - $DE61 Grass tile
+    dw TileCollision_Nothing ; 0x41 - $DC54 
+    dw TileCollision_Nothing ; 0x42 - $DC54 
+    dw TileCollision_StandardCollision ; 0x43 - $DC50 
+    dw TileCollision_Spike ; 0x44 - $DDB1 spike block tile
+    dw TileCollision_Nothing ; 0x45 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_HylianPlaque ; 0x46 - $DF11 ????
+    dw TileCollision_Nothing ; 0x47 - $DC54 Do nothing. Normal tile.
     
-    dw TileBehavior_DiggableGround ; 0x48 - $DE67 Aftermath tiles?
-    dw TileBehavior_Nothing ; 0x49 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_DiggableGround ; 0x4A - $DE67 Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
-    dw TileBehavior_Warp ; 0x4B - $DEFF Warp Tile
-    dw TileBehavior_Nothing ; 0x4C - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x4D - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x4E - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x4F - $DC54 Do nothing. Normal tile.
+    dw TileCollision_DiggableGround ; 0x48 - $DE67 Aftermath tiles?
+    dw TileCollision_Nothing ; 0x49 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_DiggableGround ; 0x4A - $DE67 Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
+    dw TileCollision_Warp ; 0x4B - $DEFF Warp Tile
+    dw TileCollision_Nothing ; 0x4C - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x4D - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x4E - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x4F - $DC54 Do nothing. Normal tile.
     
-    dw TileBehavior_Liftable ; 0x50 - $DE7E 
-    dw TileBehavior_Liftable ; 0x51 - $DE7E  
-    dw TileBehavior_Liftable ; 0x52 - $DE7E  
-    dw TileBehavior_Liftable ; 0x53 - $DE7E 
-    dw TileBehavior_Liftable ; 0x54 - $DE7E 
-    dw TileBehavior_Liftable ; 0x55 - $DE7E 
-    dw TileBehavior_Liftable ; 0x56 - $DE7E 
-    dw TileBehavior_BonkRocks ; 0x57 - $DF19
+    dw TileCollision_Liftable ; 0x50 - $DE7E 
+    dw TileCollision_Liftable ; 0x51 - $DE7E  
+    dw TileCollision_Liftable ; 0x52 - $DE7E  
+    dw TileCollision_Liftable ; 0x53 - $DE7E 
+    dw TileCollision_Liftable ; 0x54 - $DE7E 
+    dw TileCollision_Liftable ; 0x55 - $DE7E 
+    dw TileCollision_Liftable ; 0x56 - $DE7E 
+    dw TileCollision_BonkRocks ; 0x57 - $DF19
     
-    dw TileBehavior_Chest ; 0x58 - $DD6A Chest attribute 0
-    dw TileBehavior_Chest ; 0x59 - $DD6A Chest attribute 1
-    dw TileBehavior_Chest ; 0x5A - $DD6A Chest attribute 2
-    dw TileBehavior_Chest ; 0x5B - $DD6A Chest attribute 3
-    dw TileBehavior_Chest ; 0x5C - $DD6A Chest attribute 4
-    dw TileBehavior_Chest ; 0x5D - $DD6A Chest attribute 5
-    dw TileBehavior_Nothing ; 0x5E - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x5F - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Chest ; 0x58 - $DD6A Chest attribute 0
+    dw TileCollision_Chest ; 0x59 - $DD6A Chest attribute 1
+    dw TileCollision_Chest ; 0x5A - $DD6A Chest attribute 2
+    dw TileCollision_Chest ; 0x5B - $DD6A Chest attribute 3
+    dw TileCollision_Chest ; 0x5C - $DD6A Chest attribute 4
+    dw TileCollision_Chest ; 0x5D - $DD6A Chest attribute 5
+    dw TileCollision_Nothing ; 0x5E - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x5F - $DC54 Do nothing. Normal tile.
     
-    dw TileBehavior_RupeeTile ; 0x60 - $DDF7 Blue rupees on ground tile
-    dw TileBehavior_Nothing ; 0x61 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x62 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_MinigameChest ; 0x63 - $DE45 Minigame chest
-    dw TileBehavior_Nothing ; 0x64 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x65 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0x66 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_CrystalPeg_Up ; 0x67 - $DE17 
+    dw TileCollision_RupeeTile ; 0x60 - $DDF7 Blue rupees on ground tile
+    dw TileCollision_Nothing ; 0x61 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x62 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_MinigameChest ; 0x63 - $DE45 Minigame chest
+    dw TileCollision_Nothing ; 0x64 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x65 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0x66 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_CrystalPeg_Up ; 0x67 - $DE17 
     
-    dw TileBehavior_Conveyor_Upwards ; 0x68 - $DE29 
-    dw TileBehavior_Conveyor_Downwards ; 0x69 - $DE2D 
-    dw TileBehavior_Conveyor_Leftwards ; 0x6A - $DE35 
-    dw TileBehavior_Conveyor_Leftwards ; 0x6B - $DE3A 
-    dw TileBehavior_StandardCollision ; 0x6C - $DC50 
-    dw TileBehavior_StandardCollision ; 0x6D - $DC50 
-    dw TileBehavior_StandardCollision ; 0x6E - $DC50 
-    dw TileBehavior_StandardCollision ; 0x6F - $DC50 
+    dw TileCollision_Conveyor_Upwards ; 0x68 - $DE29 
+    dw TileCollision_Conveyor_Downwards ; 0x69 - $DE2D 
+    dw TileCollision_Conveyor_Leftwards ; 0x6A - $DE35 
+    dw TileCollision_Conveyor_Leftwards ; 0x6B - $DE3A 
+    dw TileCollision_StandardCollision ; 0x6C - $DC50 
+    dw TileCollision_StandardCollision ; 0x6D - $DC50 
+    dw TileCollision_StandardCollision ; 0x6E - $DC50 
+    dw TileCollision_StandardCollision ; 0x6F - $DC50 
     
-    dw TileBehavior_ManipulablyReplaced ; 0x70 - $DD41 Pot attribute 0
-    dw TileBehavior_ManipulablyReplaced ; 0x71 - $DD41 Pot attribute 1
-    dw TileBehavior_ManipulablyReplaced ; 0x72 - $DD41 Pot attribute 2
-    dw TileBehavior_ManipulablyReplaced ; 0x73 - $DD41 Pot attribute 3
-    dw TileBehavior_ManipulablyReplaced ; 0x74 - $DD41 Pot attribute 4
-    dw TileBehavior_ManipulablyReplaced ; 0x75 - $DD41 Pot attribute 5
-    dw TileBehavior_ManipulablyReplaced ; 0x76 - $DD41 Pot attribute 6
-    dw TileBehavior_ManipulablyReplaced ; 0x77 - $DD41 Pot attribute 7
+    dw TileCollision_ManipulablyReplaced ; 0x70 - $DD41 Pot attribute 0
+    dw TileCollision_ManipulablyReplaced ; 0x71 - $DD41 Pot attribute 1
+    dw TileCollision_ManipulablyReplaced ; 0x72 - $DD41 Pot attribute 2
+    dw TileCollision_ManipulablyReplaced ; 0x73 - $DD41 Pot attribute 3
+    dw TileCollision_ManipulablyReplaced ; 0x74 - $DD41 Pot attribute 4
+    dw TileCollision_ManipulablyReplaced ; 0x75 - $DD41 Pot attribute 5
+    dw TileCollision_ManipulablyReplaced ; 0x76 - $DD41 Pot attribute 6
+    dw TileCollision_ManipulablyReplaced ; 0x77 - $DD41 Pot attribute 7
     
-    dw TileBehavior_ManipulablyReplaced ; 0x78 - $DD41 Pot attribute 8
-    dw TileBehavior_ManipulablyReplaced ; 0x79 - $DD41 Pot attribute 9
-    dw TileBehavior_ManipulablyReplaced ; 0x7A - $DD41 Pot attribute A
-    dw TileBehavior_ManipulablyReplaced ; 0x7B - $DD41 Pot attribute B
-    dw TileBehavior_ManipulablyReplaced ; 0x7C - $DD41 Pot attribute C
-    dw TileBehavior_ManipulablyReplaced ; 0x7D - $DD41 Pot attribute D
-    dw TileBehavior_ManipulablyReplaced ; 0x7E - $DD41 Pot attribute E
-    dw TileBehavior_ManipulablyReplaced ; 0x7F - $DD41 Pot attribute F
+    dw TileCollision_ManipulablyReplaced ; 0x78 - $DD41 Pot attribute 8
+    dw TileCollision_ManipulablyReplaced ; 0x79 - $DD41 Pot attribute 9
+    dw TileCollision_ManipulablyReplaced ; 0x7A - $DD41 Pot attribute A
+    dw TileCollision_ManipulablyReplaced ; 0x7B - $DD41 Pot attribute B
+    dw TileCollision_ManipulablyReplaced ; 0x7C - $DD41 Pot attribute C
+    dw TileCollision_ManipulablyReplaced ; 0x7D - $DD41 Pot attribute D
+    dw TileCollision_ManipulablyReplaced ; 0x7E - $DD41 Pot attribute E
+    dw TileCollision_ManipulablyReplaced ; 0x7F - $DD41 Pot attribute F
     
-    dw TileBehavior_Door ; 0x80 - $DD0A 
-    dw TileBehavior_Door ; 0x81 - $DD0A 
-    dw TileBehavior_ShutterDoor ; 0x82 - $DCEA 
-    dw TileBehavior_ShutterDoor ; 0x83 - $DCEA 
-    dw TileBehavior_Door ; 0x84 - $DD0A 
-    dw TileBehavior_Door ; 0x85 - $DD0A 
-    dw TileBehavior_Door ; 0x86 - $DD0A 
-    dw TileBehavior_Door ; 0x87 - $DD0A 
+    dw TileCollision_Door ; 0x80 - $DD0A 
+    dw TileCollision_Door ; 0x81 - $DD0A 
+    dw TileCollision_ShutterDoor ; 0x82 - $DCEA 
+    dw TileCollision_ShutterDoor ; 0x83 - $DCEA 
+    dw TileCollision_Door ; 0x84 - $DD0A 
+    dw TileCollision_Door ; 0x85 - $DD0A 
+    dw TileCollision_Door ; 0x86 - $DD0A 
+    dw TileCollision_Door ; 0x87 - $DD0A 
     
-    dw TileBehavior_Door ; 0x88 - $DD0A
-    dw TileBehavior_Door ; 0x89 - $DD0A Room link door
-    dw TileBehavior_Door ; 0x8A - $DD0A
-    dw TileBehavior_Door ; 0x8B - $DD0A
-    dw TileBehavior_Door ; 0x8C - $DD0A
-    dw TileBehavior_Door ; 0x8D - $DD0A
-    dw TileBehavior_Entrance ; 0x8E - $DE4F Overworld link door
-    dw TileBehavior_Entrance ; 0x8F - $DE4F
+    dw TileCollision_Door ; 0x88 - $DD0A
+    dw TileCollision_Door ; 0x89 - $DD0A Room link door
+    dw TileCollision_Door ; 0x8A - $DD0A
+    dw TileCollision_Door ; 0x8B - $DD0A
+    dw TileCollision_Door ; 0x8C - $DD0A
+    dw TileCollision_Door ; 0x8D - $DD0A
+    dw TileCollision_Entrance ; 0x8E - $DE4F Overworld link door
+    dw TileCollision_Entrance ; 0x8F - $DE4F
     
-    dw TileBehavior_LayerToggleShutterDoor ; 0x90 - $DCC8
-    dw TileBehavior_LayerToggleShutterDoor ; 0x91 - $DCC8
-    dw TileBehavior_LayerToggleShutterDoor ; 0x92 - $DCC8
-    dw TileBehavior_LayerToggleShutterDoor ; 0x93 - $DCC8
-    dw TileBehavior_LayerToggleShutterDoor ; 0x94 - $DCC8
-    dw TileBehavior_LayerToggleShutterDoor ; 0x95 - $DCC8
-    dw TileBehavior_LayerToggleShutterDoor ; 0x96 - $DCC8
-    dw TileBehavior_LayerToggleShutterDoor ; 0x97 - $DCC8
+    dw TileCollision_LayerToggleShutterDoor ; 0x90 - $DCC8
+    dw TileCollision_LayerToggleShutterDoor ; 0x91 - $DCC8
+    dw TileCollision_LayerToggleShutterDoor ; 0x92 - $DCC8
+    dw TileCollision_LayerToggleShutterDoor ; 0x93 - $DCC8
+    dw TileCollision_LayerToggleShutterDoor ; 0x94 - $DCC8
+    dw TileCollision_LayerToggleShutterDoor ; 0x95 - $DCC8
+    dw TileCollision_LayerToggleShutterDoor ; 0x96 - $DCC8
+    dw TileCollision_LayerToggleShutterDoor ; 0x97 - $DCC8
     
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x98 - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x99 - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9A - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9B - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9C - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9D - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9E - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9F - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x98 - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x99 - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9A - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9B - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9C - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9D - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9E - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9F - $DCD4 
     
-    dw TileBehavior_DungeonToggleManualDoor ; 0xA0 - $DD00 Used in the sewer / HC transition
-    dw TileBehavior_DungeonToggleManualDoor ; 0xA1 - $DD00 
-    dw TileBehavior_DungeonToggleShutterDoor ; 0xA2 - $DCE0 
-    dw TileBehavior_DungeonToggleShutterDoor ; 0xA3 - $DCE0 
-    dw TileBehavior_DungeonToggleManualDoor ; 0xA4 - $DD00 
-    dw TileBehavior_DungeonToggleManualDoor ; 0xA5 - $DD00 
-    dw TileBehavior_Nothing ; 0xA6 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xA7 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_DungeonToggleManualDoor ; 0xA0 - $DD00 Used in the sewer / HC transition
+    dw TileCollision_DungeonToggleManualDoor ; 0xA1 - $DD00 
+    dw TileCollision_DungeonToggleShutterDoor ; 0xA2 - $DCE0 
+    dw TileCollision_DungeonToggleShutterDoor ; 0xA3 - $DCE0 
+    dw TileCollision_DungeonToggleManualDoor ; 0xA4 - $DD00 
+    dw TileCollision_DungeonToggleManualDoor ; 0xA5 - $DD00 
+    dw TileCollision_Nothing ; 0xA6 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xA7 - $DC54 Do nothing. Normal tile.
     
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xA8 - $DCD4 Do nothing. Normal tile.
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xA9 - $DCD4 Do nothing. Normal tile.
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAA - $DCD4 Do nothing. Normal tile.
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAB - $DCD4 Do nothing. Normal tile.
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAC - $DCD4 Do nothing. Normal tile.
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAD - $DCD4 Do nothing. Normal tile.
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAE - $DCD4 Do nothing. Normal tile.
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAF - $DCD4 Do nothing. Normal tile.
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xA8 - $DCD4 Do nothing. Normal tile.
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xA9 - $DCD4 Do nothing. Normal tile.
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAA - $DCD4 Do nothing. Normal tile.
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAB - $DCD4 Do nothing. Normal tile.
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAC - $DCD4 Do nothing. Normal tile.
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAD - $DCD4 Do nothing. Normal tile.
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAE - $DCD4 Do nothing. Normal tile.
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAF - $DCD4 Do nothing. Normal tile.
     
-    dw TileBehavior_Pit ; 0xB0 - $DC8B Hole tile (same as 0x20 but not sure of other differences)
-    dw TileBehavior_Pit ; 0xB1 - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xB2 - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xB3 - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xB4 - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xB5 - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xB6 - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xB7 - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xB0 - $DC8B Hole tile (same as 0x20 but not sure of other differences)
+    dw TileCollision_Pit ; 0xB1 - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xB2 - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xB3 - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xB4 - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xB5 - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xB6 - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xB7 - $DC8B Hole AI ''
     
-    dw TileBehavior_Pit ; 0xB8 - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xB9 - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xBA - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xBB - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xBC - $DC8B Hole AI ''
-    dw TileBehavior_Pit ; 0xBD - $DC8B Hole AI ''
-    dw TileBehavior_Nothing ; 0xBE - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xBF - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Pit ; 0xB8 - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xB9 - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xBA - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xBB - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xBC - $DC8B Hole AI ''
+    dw TileCollision_Pit ; 0xBD - $DC8B Hole AI ''
+    dw TileCollision_Nothing ; 0xBE - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xBF - $DC54 Do nothing. Normal tile.
     
-    dw TileBehavior_LightableTorch ; 0xC0 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC1 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC2 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC3 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC4 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC5 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC6 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC7 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC0 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC1 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC2 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC3 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC4 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC5 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC6 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC7 - $DCAE Torch
     
-    dw TileBehavior_LightableTorch ; 0xC8 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC9 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCA - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCB - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCC - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCD - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCE - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCF - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC8 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC9 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCA - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCB - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCC - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCD - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCE - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCF - $DCAE Torch
     
-    dw TileBehavior_Nothing ; 0xD0 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xD1 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xD2 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xD3 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xD4 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xD5 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xD6 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xD7 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xD0 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xD1 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xD2 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xD3 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xD4 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xD5 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xD6 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xD7 - $DC54 Do nothing. Normal tile.
     
-    dw TileBehavior_Nothing ; 0xD8 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xD9 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xDA - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xDB - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xDC - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xDD - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xDE - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xDF - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xD8 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xD9 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xDA - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xDB - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xDC - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xDD - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xDE - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xDF - $DC54 Do nothing. Normal tile.
     
-    dw TileBehavior_Nothing ; 0xE0 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xE1 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xE2 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xE3 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xE4 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xE5 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xE6 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xE7 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xE0 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xE1 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xE2 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xE3 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xE4 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xE5 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xE6 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xE7 - $DC54 Do nothing. Normal tile.
     
-    dw TileBehavior_Nothing ; 0xE8 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xE9 - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xEA - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xEB - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xEC - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xED - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xEE - $DC54 Do nothing. Normal tile.
-    dw TileBehavior_Nothing ; 0xEF - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xE8 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xE9 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xEA - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xEB - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xEC - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xED - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xEE - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing ; 0xEF - $DC54 Do nothing. Normal tile.
     
-    dw TileBehavior_FlaggableDoor ; 0xF0 - $DDEB Key Door 1
-    dw TileBehavior_FlaggableDoor ; 0xF1 - $DDEB Key Door 2
-    dw TileBehavior_FlaggableDoor ; 0xF2 - $DDEB ....
-    dw TileBehavior_FlaggableDoor ; 0xF3 - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xF4 - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xF5 - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xF6 - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xF7 - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xF0 - $DDEB Key Door 1
+    dw TileCollision_FlaggableDoor ; 0xF1 - $DDEB Key Door 2
+    dw TileCollision_FlaggableDoor ; 0xF2 - $DDEB ....
+    dw TileCollision_FlaggableDoor ; 0xF3 - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xF4 - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xF5 - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xF6 - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xF7 - $DDEB 
     
-    dw TileBehavior_FlaggableDoor ; 0xF8 - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xF9 - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFA - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFB - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFC - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFD - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFE - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFF - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xF8 - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xF9 - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFA - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFB - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFC - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFD - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFE - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFF - $DDEB 
 }
 
 ; Tile attribute handler
@@ -13817,293 +13817,293 @@ TileDetect_Execute:
 ; $03DA2A-$03DC29 JUMP TABLE
 TileDetection_Execute_overworld_modules:
 {
-    dw TileBehavior_NothingOW ; 0x00 - $DE5B Normal tile (no interaction)
-    dw TileBehavior_StandardCollision ; 0x01 - $DC50 Blocked
-    dw TileBehavior_StandardCollision ; 0x02 - $DC50 Blocked
-    dw TileBehavior_StandardCollision ; 0x03 - $DC50 Blocked
-    dw TileBehavior_Slope ; 0x04 - $DC61 ????
-    dw TileBehavior_NothingOW ; 0x05 - $DE5B Normal tile (no interaction)
-    dw TileBehavior_NothingOW ; 0x06 - $DE5B Normal tile
-    dw TileBehavior_NothingOW ; 0x07 - $DE5B 
+    dw TileCollision_NothingOW ; 0x00 - $DE5B Normal tile (no interaction)
+    dw TileCollision_StandardCollision ; 0x01 - $DC50 Blocked
+    dw TileCollision_StandardCollision ; 0x02 - $DC50 Blocked
+    dw TileCollision_StandardCollision ; 0x03 - $DC50 Blocked
+    dw TileCollision_Slope ; 0x04 - $DC61 ????
+    dw TileCollision_NothingOW ; 0x05 - $DE5B Normal tile (no interaction)
+    dw TileCollision_NothingOW ; 0x06 - $DE5B Normal tile
+    dw TileCollision_NothingOW ; 0x07 - $DE5B 
     
-    dw TileBehavior_DeepWater ; 0x08 - $DCB6 Deep water
-    dw TileBehavior_ShallowWater ; 0x09 - $DD1B Shallow water
-    dw TileBehavior_ShortWaterLadder ; 0x0A - $DCBC 
-    dw TileBehavior_UnusedDeepWater ; 0x0B - $DD5C ????
-    dw TileBehavior_OverlayMask_0C ; 0x0C - $DC98 Moving floor (e.g. Mothula's room and the one in the Ice Palace)
-    dw TileBehavior_SpikeFloor ; 0x0D - $DDCA Spike floors, not sure if any exist in Overworld (Didn't Parallel Worlds do this with Lava?)
-    dw TileBehavior_GanonIce ; 0x0E - $DC9E 
-    dw TileBehavior_PalaceIce ; 0x0F - $DCA4 
+    dw TileCollision_DeepWater ; 0x08 - $DCB6 Deep water
+    dw TileCollision_ShallowWater ; 0x09 - $DD1B Shallow water
+    dw TileCollision_ShortWaterLadder ; 0x0A - $DCBC 
+    dw TileCollision_UnusedDeepWater ; 0x0B - $DD5C ????
+    dw TileCollision_OverlayMask_0C ; 0x0C - $DC98 Moving floor (e.g. Mothula's room and the one in the Ice Palace)
+    dw TileCollision_SpikeFloor ; 0x0D - $DDCA Spike floors, not sure if any exist in Overworld (Didn't Parallel Worlds do this with Lava?)
+    dw TileCollision_GanonIce ; 0x0E - $DC9E 
+    dw TileCollision_PalaceIce ; 0x0F - $DCA4 
     
-    dw TileBehavior_Slope ; 0x10 - $DC61  
-    dw TileBehavior_Slope ; 0x11 - $DC61  
-    dw TileBehavior_Slope ; 0x12 - $DC61  
-    dw TileBehavior_Slope ; 0x13 - $DC61  
-    dw TileBehavior_NothingOW ; 0x14 - $DE5B  
-    dw TileBehavior_NothingOW ; 0x15 - $DE5B  
-    dw TileBehavior_NothingOW ; 0x16 - $DE5B  
-    dw TileBehavior_NothingOW ; 0x17 - $DE5B  
+    dw TileCollision_Slope ; 0x10 - $DC61  
+    dw TileCollision_Slope ; 0x11 - $DC61  
+    dw TileCollision_Slope ; 0x12 - $DC61  
+    dw TileCollision_Slope ; 0x13 - $DC61  
+    dw TileCollision_NothingOW ; 0x14 - $DE5B  
+    dw TileCollision_NothingOW ; 0x15 - $DE5B  
+    dw TileCollision_NothingOW ; 0x16 - $DE5B  
+    dw TileCollision_NothingOW ; 0x17 - $DE5B  
     
-    dw TileBehavior_SlopeOuter ; 0x18 - $DC5D  
-    dw TileBehavior_SlopeOuter ; 0x19 - $DC5D  
-    dw TileBehavior_SlopeOuter ; 0x1A - $DC5D  
-    dw TileBehavior_SlopeOuter ; 0x1B - $DC5D  
-    dw TileBehavior_OverlayMask_1C ; 0x1C - $DCC2 Top of in room staircase
-    dw TileBehavior_NorthSingleLayerStairs ; 0x1D - $DC72 
-    dw TileBehavior_NorthSwapLayerStairs ; 0x1E - $DC7D 
-    dw TileBehavior_NorthSwapLayerStairs ; 0x1F - $DC7D 
+    dw TileCollision_SlopeOuter ; 0x18 - $DC5D  
+    dw TileCollision_SlopeOuter ; 0x19 - $DC5D  
+    dw TileCollision_SlopeOuter ; 0x1A - $DC5D  
+    dw TileCollision_SlopeOuter ; 0x1B - $DC5D  
+    dw TileCollision_OverlayMask_1C ; 0x1C - $DCC2 Top of in room staircase
+    dw TileCollision_NorthSingleLayerStairs ; 0x1D - $DC72 
+    dw TileCollision_NorthSwapLayerStairs ; 0x1E - $DC7D 
+    dw TileCollision_NorthSwapLayerStairs ; 0x1F - $DC7D 
     
-    dw TileBehavior_Pit ; 0x20 - $DC8B Hole tile
-    dw TileBehavior_NothingOW ; 0x21 - $DE5B 
-    dw TileBehavior_ManualStairs ; 0x22 - $DC86 Wooden steps (slow you down)
-    dw TileBehavior_NothingOW ; 0x23 - $DE5B 
-    dw TileBehavior_NothingOW ; 0x24 - $DE5B 
-    dw TileBehavior_NothingOW ; 0x25 - $DE5B 
-    dw TileBehavior_StandardCollision ; 0x26 - $DC50 
-    dw TileBehavior_Hookshottables ; 0x27 - $DDE1 (empty chest and maybe others)
+    dw TileCollision_Pit ; 0x20 - $DC8B Hole tile
+    dw TileCollision_NothingOW ; 0x21 - $DE5B 
+    dw TileCollision_ManualStairs ; 0x22 - $DC86 Wooden steps (slow you down)
+    dw TileCollision_NothingOW ; 0x23 - $DE5B 
+    dw TileCollision_NothingOW ; 0x24 - $DE5B 
+    dw TileCollision_NothingOW ; 0x25 - $DE5B 
+    dw TileCollision_StandardCollision ; 0x26 - $DC50 
+    dw TileCollision_Hookshottables ; 0x27 - $DDE1 (empty chest and maybe others)
 
-    dw TileBehavior_Ledge_North ; 0x28 - $DEBB Ledge leading up
-    dw TileBehavior_Ledge_South ; 0x29 - $DEAD Ledge leading down
-    dw TileBehavior_Ledge_EastWest ; 0x2A - $DEC5 Ledge leading left
-    dw TileBehavior_Ledge_EastWest ; 0x2B - $DEC5 Ledge leading right
-    dw TileBehavior_Ledge_NorthDiagonal ; 0x2C - $DECF Ledge leading up + left
-    dw TileBehavior_Ledge_SouthDiagonal ; 0x2D - $DEDD Ledge leading down + left
-    dw TileBehavior_Ledge_NorthDiagonal ; 0x2E - $DECF Ledge leading up + right
-    dw TileBehavior_Ledge_SouthDiagonal ; 0x2F - $DEDD Ledge leading down + right
+    dw TileCollision_Ledge_North ; 0x28 - $DEBB Ledge leading up
+    dw TileCollision_Ledge_South ; 0x29 - $DEAD Ledge leading down
+    dw TileCollision_Ledge_EastWest ; 0x2A - $DEC5 Ledge leading left
+    dw TileCollision_Ledge_EastWest ; 0x2B - $DEC5 Ledge leading right
+    dw TileCollision_Ledge_NorthDiagonal ; 0x2C - $DECF Ledge leading up + left
+    dw TileCollision_Ledge_SouthDiagonal ; 0x2D - $DEDD Ledge leading down + left
+    dw TileCollision_Ledge_NorthDiagonal ; 0x2E - $DECF Ledge leading up + right
+    dw TileCollision_Ledge_SouthDiagonal ; 0x2F - $DEDD Ledge leading down + right
                           
-    dw TileBehavior_ManualStairs ; 0x30 - $DC86 
-    dw TileBehavior_ManualStairs ; 0x31 - $DC86 
-    dw TileBehavior_ManualStairs ; 0x32 - $DC86 
-    dw TileBehavior_ManualStairs ; 0x33 - $DC86 
-    dw TileBehavior_ManualStairs ; 0x34 - $DC86 
-    dw TileBehavior_ManualStairs ; 0x35 - $DC86 
-    dw TileBehavior_ManualStairs ; 0x36 - $DC86 
-    dw TileBehavior_ManualStairs ; 0x37 - $DC86 
+    dw TileCollision_ManualStairs ; 0x30 - $DC86 
+    dw TileCollision_ManualStairs ; 0x31 - $DC86 
+    dw TileCollision_ManualStairs ; 0x32 - $DC86 
+    dw TileCollision_ManualStairs ; 0x33 - $DC86 
+    dw TileCollision_ManualStairs ; 0x34 - $DC86 
+    dw TileCollision_ManualStairs ; 0x35 - $DC86 
+    dw TileCollision_ManualStairs ; 0x36 - $DC86 
+    dw TileCollision_ManualStairs ; 0x37 - $DC86 
     
-    dw TileBehavior_NothingOW ; 0x38 - $DE5B  
-    dw TileBehavior_NothingOW ; 0x39 - $DE5B 
-    dw TileBehavior_NothingOW ; 0x3A - $DE5B 
-    dw TileBehavior_NothingOW ; 0x3B - $DE5B 
-    dw TileBehavior_NothingOW ; 0x3C - $DE5B 
-    dw TileBehavior_SouthSingleLayerStairs ; 0x3D - $DD9D 
-    dw TileBehavior_SouthSwapLayerStairs ;  0x3E - $DDA1
-    dw TileBehavior_SouthSwapLayerStairs ;  0x3F - $DDA1 
+    dw TileCollision_NothingOW ; 0x38 - $DE5B  
+    dw TileCollision_NothingOW ; 0x39 - $DE5B 
+    dw TileCollision_NothingOW ; 0x3A - $DE5B 
+    dw TileCollision_NothingOW ; 0x3B - $DE5B 
+    dw TileCollision_NothingOW ; 0x3C - $DE5B 
+    dw TileCollision_SouthSingleLayerStairs ; 0x3D - $DD9D 
+    dw TileCollision_SouthSwapLayerStairs ;  0x3E - $DDA1
+    dw TileCollision_SouthSwapLayerStairs ;  0x3F - $DDA1 
     
-    dw TileBehavior_ThickGrass ; 0x40 - $DE61 Grass tile
-    dw TileBehavior_NothingOW ; 0x41 - $DE5B 
-    dw TileBehavior_NothingOW ; 0x42 -  $DF09 ????
-    dw TileBehavior_StandardCollision ; 0x43 - $DC50 
-    dw TileBehavior_Spike ; 0x44 - $DDB1 Cactus tile
-    dw TileBehavior_NothingOW ; 0x45 - $DE5B 
-    dw TileBehavior_HylianPlaque ; 0x46 - $DF11 ????
-    dw TileBehavior_NothingOW ; 0x47 - $DE5B 
+    dw TileCollision_ThickGrass ; 0x40 - $DE61 Grass tile
+    dw TileCollision_NothingOW ; 0x41 - $DE5B 
+    dw TileCollision_NothingOW ; 0x42 -  $DF09 ????
+    dw TileCollision_StandardCollision ; 0x43 - $DC50 
+    dw TileCollision_Spike ; 0x44 - $DDB1 Cactus tile
+    dw TileCollision_NothingOW ; 0x45 - $DE5B 
+    dw TileCollision_HylianPlaque ; 0x46 - $DF11 ????
+    dw TileCollision_NothingOW ; 0x47 - $DE5B 
     
-    dw TileBehavior_DiggableGround ; 0x48 - $DE67 aftermath tiles of picking things up?
-    dw TileBehavior_NothingOW ; 0x49 - $DE5B 
-    dw TileBehavior_DiggableGround ; 0x4A - $DE67 Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
-    dw TileBehavior_Warp ; 0x4B - $DEFF Warp tile
-    dw TileBehavior_UnusedCornerType ; 0x4C - $DEE7 Unused, but would probably be for special mountain tiles too
-    dw TileBehavior_UnusedCornerType ; 0x4D - $DEE7 Unused, but would probably be for special mountain tiles too
-    dw TileBehavior_EasternRuinsCorner ; $DEF1 0x4E - Certain mountain tiles
-    dw TileBehavior_EasternRuinsCorner ; $DEF1 0x4F - Certain mountain tiles
+    dw TileCollision_DiggableGround ; 0x48 - $DE67 aftermath tiles of picking things up?
+    dw TileCollision_NothingOW ; 0x49 - $DE5B 
+    dw TileCollision_DiggableGround ; 0x4A - $DE67 Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
+    dw TileCollision_Warp ; 0x4B - $DEFF Warp tile
+    dw TileCollision_UnusedCornerType ; 0x4C - $DEE7 Unused, but would probably be for special mountain tiles too
+    dw TileCollision_UnusedCornerType ; 0x4D - $DEE7 Unused, but would probably be for special mountain tiles too
+    dw TileCollision_EasternRuinsCorner ; $DEF1 0x4E - Certain mountain tiles
+    dw TileCollision_EasternRuinsCorner ; $DEF1 0x4F - Certain mountain tiles
     
-    dw TileBehavior_Liftable ; 0x50 - $DE7E bush
-    dw TileBehavior_Liftable ; 0x51 - $DE7E off color bush
-    dw TileBehavior_Liftable ; 0x52 - $DE7E small light rock
-    dw TileBehavior_Liftable ; 0x53 - $DE7E small heavy rock
-    dw TileBehavior_Liftable ; 0x54 - $DE7E sign
-    dw TileBehavior_Liftable ; 0x55 - $DE7E large light rock
-    dw TileBehavior_Liftable ; 0x56 - $DE7E large heavy rock
-    dw TileBehavior_BonkRocks ; 0x57 - $DF19 
+    dw TileCollision_Liftable ; 0x50 - $DE7E bush
+    dw TileCollision_Liftable ; 0x51 - $DE7E off color bush
+    dw TileCollision_Liftable ; 0x52 - $DE7E small light rock
+    dw TileCollision_Liftable ; 0x53 - $DE7E small heavy rock
+    dw TileCollision_Liftable ; 0x54 - $DE7E sign
+    dw TileCollision_Liftable ; 0x55 - $DE7E large light rock
+    dw TileCollision_Liftable ; 0x56 - $DE7E large heavy rock
+    dw TileCollision_BonkRocks ; 0x57 - $DF19 
     
-    dw TileBehavior_Chest ; 0x58 - $DD6A Chest block
-    dw TileBehavior_Chest ; 0x59 - $DD6A Chest block
-    dw TileBehavior_Chest ; 0x5A - $DD6A Chest block
-    dw TileBehavior_Chest ; 0x5B - $DD6A Chest block
-    dw TileBehavior_Chest ; 0x5C - $DD6A Chest block
-    dw TileBehavior_Chest ; 0x5D - $DD6A Chest block
-    dw TileBehavior_NothingOW ; 0x5E - $DE5B 
-    dw TileBehavior_NothingOW ; 0x5F - $DE5B 
+    dw TileCollision_Chest ; 0x58 - $DD6A Chest block
+    dw TileCollision_Chest ; 0x59 - $DD6A Chest block
+    dw TileCollision_Chest ; 0x5A - $DD6A Chest block
+    dw TileCollision_Chest ; 0x5B - $DD6A Chest block
+    dw TileCollision_Chest ; 0x5C - $DD6A Chest block
+    dw TileCollision_Chest ; 0x5D - $DD6A Chest block
+    dw TileCollision_NothingOW ; 0x5E - $DE5B 
+    dw TileCollision_NothingOW ; 0x5F - $DE5B 
     
-    dw TileBehavior_NothingOW ; 0x60 - $DE5B 
-    dw TileBehavior_NothingOW ; 0x61 - $DE5B 
-    dw TileBehavior_NothingOW ; 0x62 - $DE5B 
-    dw TileBehavior_MinigameChest ; 0x63 - $DE45 Minigame chest tile
-    dw TileBehavior_NothingOW ; 0x64 - $DE5B 
-    dw TileBehavior_NothingOW ; 0x65 - $DE5B 
-    dw TileBehavior_NothingOW ; 0x66 - $DE5B 
-    dw TileBehavior_CrystalPeg_Up ; 0x67 - $DE17 
+    dw TileCollision_NothingOW ; 0x60 - $DE5B 
+    dw TileCollision_NothingOW ; 0x61 - $DE5B 
+    dw TileCollision_NothingOW ; 0x62 - $DE5B 
+    dw TileCollision_MinigameChest ; 0x63 - $DE45 Minigame chest tile
+    dw TileCollision_NothingOW ; 0x64 - $DE5B 
+    dw TileCollision_NothingOW ; 0x65 - $DE5B 
+    dw TileCollision_NothingOW ; 0x66 - $DE5B 
+    dw TileCollision_CrystalPeg_Up ; 0x67 - $DE17 
     
-    dw TileBehavior_Conveyor_Upwards ; 0x68 - $DE29 
-    dw TileBehavior_Conveyor_Downwards ; 0x69 - $DE2D 
-    dw TileBehavior_Conveyor_Leftwards ; 0x6A - $DE35 
-    dw TileBehavior_Conveyor_Rightwards ; 0x6B - $DE3A 
-    dw TileBehavior_NothingOW ; 0x6C - $DE5B 
-    dw TileBehavior_NothingOW ; 0x6D - $DE5B 
-    dw TileBehavior_NothingOW ; 0x6E - $DE5B 
-    dw TileBehavior_NothingOW ; 0x6F - $DE5B 
+    dw TileCollision_Conveyor_Upwards ; 0x68 - $DE29 
+    dw TileCollision_Conveyor_Downwards ; 0x69 - $DE2D 
+    dw TileCollision_Conveyor_Leftwards ; 0x6A - $DE35 
+    dw TileCollision_Conveyor_Rightwards ; 0x6B - $DE3A 
+    dw TileCollision_NothingOW ; 0x6C - $DE5B 
+    dw TileCollision_NothingOW ; 0x6D - $DE5B 
+    dw TileCollision_NothingOW ; 0x6E - $DE5B 
+    dw TileCollision_NothingOW ; 0x6F - $DE5B 
     
-    dw TileBehavior_ManipulablyReplaced ; 0x70 - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x71 - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x72 - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x73 - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x74 - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x75 - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x76 - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x77 - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x70 - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x71 - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x72 - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x73 - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x74 - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x75 - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x76 - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x77 - $DD41 
     
-    dw TileBehavior_ManipulablyReplaced ; 0x78 - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x79 - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x7A - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x7B - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x7C - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x7D - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x7E - $DD41 
-    dw TileBehavior_ManipulablyReplaced ; 0x7F - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x78 - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x79 - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x7A - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x7B - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x7C - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x7D - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x7E - $DD41 
+    dw TileCollision_ManipulablyReplaced ; 0x7F - $DD41 
     
-    dw TileBehavior_Door ; 0x80 - $DD0A 
-    dw TileBehavior_Door ; 0x81 - $DD0A 
-    dw TileBehavior_ShutterDoor ; 0x82 - $DCEA 
-    dw TileBehavior_ShutterDoor ; 0x83 - $DCEA 
-    dw TileBehavior_Door ; 0x84 - $DD0A 
-    dw TileBehavior_Door ; 0x85 - $DD0A 
-    dw TileBehavior_Door ; 0x86 - $DD0A 
-    dw TileBehavior_Door ; 0x87 - $DD0A 
+    dw TileCollision_Door ; 0x80 - $DD0A 
+    dw TileCollision_Door ; 0x81 - $DD0A 
+    dw TileCollision_ShutterDoor ; 0x82 - $DCEA 
+    dw TileCollision_ShutterDoor ; 0x83 - $DCEA 
+    dw TileCollision_Door ; 0x84 - $DD0A 
+    dw TileCollision_Door ; 0x85 - $DD0A 
+    dw TileCollision_Door ; 0x86 - $DD0A 
+    dw TileCollision_Door ; 0x87 - $DD0A 
     
-    dw TileBehavior_Door ; 0x88 - $DD0A 
-    dw TileBehavior_Door ; 0x89 - $DD0A 
-    dw TileBehavior_Door ; 0x8A - $DD0A 
-    dw TileBehavior_Door ; 0x8B - $DD0A 
-    dw TileBehavior_Door ; 0x8C - $DD0A 
-    dw TileBehavior_Door ; 0x8D - $DD0A 
-    dw TileBehavior_Entrance ; 0x8E - $DE4F 
-    dw TileBehavior_Entrance ; 0x8F - $DE4F 
+    dw TileCollision_Door ; 0x88 - $DD0A 
+    dw TileCollision_Door ; 0x89 - $DD0A 
+    dw TileCollision_Door ; 0x8A - $DD0A 
+    dw TileCollision_Door ; 0x8B - $DD0A 
+    dw TileCollision_Door ; 0x8C - $DD0A 
+    dw TileCollision_Door ; 0x8D - $DD0A 
+    dw TileCollision_Entrance ; 0x8E - $DE4F 
+    dw TileCollision_Entrance ; 0x8F - $DE4F 
 
-    dw TileBehavior_LayerToggleShutterDoor ; 0x90 - $DCC8 
-    dw TileBehavior_LayerToggleShutterDoor ; 0x91 - $DCC8 
-    dw TileBehavior_LayerToggleShutterDoor ; 0x92 - $DCC8 
-    dw TileBehavior_LayerToggleShutterDoor ; 0x93 - $DCC8 
-    dw TileBehavior_LayerToggleShutterDoor ; 0x94 - $DCC8 
-    dw TileBehavior_LayerToggleShutterDoor ; 0x95 - $DCC8 
-    dw TileBehavior_LayerToggleShutterDoor ; 0x96 - $DCC8 
-    dw TileBehavior_LayerToggleShutterDoor ; 0x97 - $DCC8 
+    dw TileCollision_LayerToggleShutterDoor ; 0x90 - $DCC8 
+    dw TileCollision_LayerToggleShutterDoor ; 0x91 - $DCC8 
+    dw TileCollision_LayerToggleShutterDoor ; 0x92 - $DCC8 
+    dw TileCollision_LayerToggleShutterDoor ; 0x93 - $DCC8 
+    dw TileCollision_LayerToggleShutterDoor ; 0x94 - $DCC8 
+    dw TileCollision_LayerToggleShutterDoor ; 0x95 - $DCC8 
+    dw TileCollision_LayerToggleShutterDoor ; 0x96 - $DCC8 
+    dw TileCollision_LayerToggleShutterDoor ; 0x97 - $DCC8 
     
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x98 - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x99 - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9A - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9B - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9C - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9D - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9E - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0x9F - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x98 - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x99 - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9A - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9B - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9C - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9D - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9E - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9F - $DCD4 
     
-    dw TileBehavior_DungeonToggleManualDoor ; 0xA0 - $DD00 
-    dw TileBehavior_DungeonToggleManualDoor ; 0xA1 - $DD00 
-    dw TileBehavior_DungeonToggleShutterDoor ; 0xA2 - $DCE0 
-    dw TileBehavior_DungeonToggleShutterDoor ; 0xA3 - $DCE0 
-    dw TileBehavior_DungeonToggleManualDoor ; 0xA4 - $DD00 
-    dw TileBehavior_DungeonToggleManualDoor ; 0xA5 - $DD00 
-    dw TileBehavior_NothingOW ; 0xA6 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xA7 - $DE5B 
+    dw TileCollision_DungeonToggleManualDoor ; 0xA0 - $DD00 
+    dw TileCollision_DungeonToggleManualDoor ; 0xA1 - $DD00 
+    dw TileCollision_DungeonToggleShutterDoor ; 0xA2 - $DCE0 
+    dw TileCollision_DungeonToggleShutterDoor ; 0xA3 - $DCE0 
+    dw TileCollision_DungeonToggleManualDoor ; 0xA4 - $DD00 
+    dw TileCollision_DungeonToggleManualDoor ; 0xA5 - $DD00 
+    dw TileCollision_NothingOW ; 0xA6 - $DE5B 
+    dw TileCollision_NothingOW ; 0xA7 - $DE5B 
     
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xA8 - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xA9 - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAA - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAB - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAC - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAD - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAE - $DCD4 
-    dw TileBehavior_LayerAndDungeonToggleShutterDoor ; 0xAF - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xA8 - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xA9 - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAA - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAB - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAC - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAD - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAE - $DCD4 
+    dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xAF - $DCD4 
     
-    dw TileBehavior_Pit ; 0xB0 - $DC8B hole tile (somaria transit line, more likely though)
-    dw TileBehavior_Pit ; 0xB1 - $DC8B  
-    dw TileBehavior_Pit ; 0xB2 - $DC8B  
-    dw TileBehavior_Pit ; 0xB3 - $DC8B  
-    dw TileBehavior_Pit ; 0xB4 - $DC8B  
-    dw TileBehavior_Pit ; 0xB5 - $DC8B  
-    dw TileBehavior_Pit ; 0xB6 - $DC8B  
-    dw TileBehavior_Pit ; 0xB7 - $DC8B  
+    dw TileCollision_Pit ; 0xB0 - $DC8B hole tile (somaria transit line, more likely though)
+    dw TileCollision_Pit ; 0xB1 - $DC8B  
+    dw TileCollision_Pit ; 0xB2 - $DC8B  
+    dw TileCollision_Pit ; 0xB3 - $DC8B  
+    dw TileCollision_Pit ; 0xB4 - $DC8B  
+    dw TileCollision_Pit ; 0xB5 - $DC8B  
+    dw TileCollision_Pit ; 0xB6 - $DC8B  
+    dw TileCollision_Pit ; 0xB7 - $DC8B  
     
-    dw TileBehavior_Pit ; 0xB8 - $DC8B 
-    dw TileBehavior_Pit ; 0xB9 - $DC8B 
-    dw TileBehavior_Pit ; 0xBA - $DC8B 
-    dw TileBehavior_Pit ; 0xBB - $DC8B 
-    dw TileBehavior_Pit ; 0xBC - $DC8B 
-    dw TileBehavior_Pit ; 0xBD - $DC8B 
-    dw TileBehavior_NothingOW ; 0xBE - $DE5B 
-    dw TileBehavior_NothingOW ; 0xBF - $DE5B 
+    dw TileCollision_Pit ; 0xB8 - $DC8B 
+    dw TileCollision_Pit ; 0xB9 - $DC8B 
+    dw TileCollision_Pit ; 0xBA - $DC8B 
+    dw TileCollision_Pit ; 0xBB - $DC8B 
+    dw TileCollision_Pit ; 0xBC - $DC8B 
+    dw TileCollision_Pit ; 0xBD - $DC8B 
+    dw TileCollision_NothingOW ; 0xBE - $DE5B 
+    dw TileCollision_NothingOW ; 0xBF - $DE5B 
     
-    dw TileBehavior_LightableTorch ; 0xC0 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC1 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC2 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC3 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC4 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC5 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC6 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC7 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC0 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC1 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC2 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC3 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC4 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC5 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC6 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC7 - $DCAE Torch
     
-    dw TileBehavior_LightableTorch ; 0xC8 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xC9 - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCA - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCB - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCC - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCD - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCE - $DCAE Torch
-    dw TileBehavior_LightableTorch ; 0xCF - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC8 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xC9 - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCA - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCB - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCC - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCD - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCE - $DCAE Torch
+    dw TileCollision_LightableTorch ; 0xCF - $DCAE Torch
     
-    dw TileBehavior_NothingOW ; 0xD0 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xD1 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xD2 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xD3 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xD4 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xD5 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xD6 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xD7 - $DE5B 
+    dw TileCollision_NothingOW ; 0xD0 - $DE5B 
+    dw TileCollision_NothingOW ; 0xD1 - $DE5B 
+    dw TileCollision_NothingOW ; 0xD2 - $DE5B 
+    dw TileCollision_NothingOW ; 0xD3 - $DE5B 
+    dw TileCollision_NothingOW ; 0xD4 - $DE5B 
+    dw TileCollision_NothingOW ; 0xD5 - $DE5B 
+    dw TileCollision_NothingOW ; 0xD6 - $DE5B 
+    dw TileCollision_NothingOW ; 0xD7 - $DE5B 
     
-    dw TileBehavior_NothingOW ; 0xD8 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xD9 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xDA - $DE5B 
-    dw TileBehavior_NothingOW ; 0xDB - $DE5B 
-    dw TileBehavior_NothingOW ; 0xDC - $DE5B 
-    dw TileBehavior_NothingOW ; 0xDD - $DE5B 
-    dw TileBehavior_NothingOW ; 0xDE - $DE5B 
-    dw TileBehavior_NothingOW ; 0xDF - $DE5B 
+    dw TileCollision_NothingOW ; 0xD8 - $DE5B 
+    dw TileCollision_NothingOW ; 0xD9 - $DE5B 
+    dw TileCollision_NothingOW ; 0xDA - $DE5B 
+    dw TileCollision_NothingOW ; 0xDB - $DE5B 
+    dw TileCollision_NothingOW ; 0xDC - $DE5B 
+    dw TileCollision_NothingOW ; 0xDD - $DE5B 
+    dw TileCollision_NothingOW ; 0xDE - $DE5B 
+    dw TileCollision_NothingOW ; 0xDF - $DE5B 
     
-    dw TileBehavior_NothingOW ; 0xE0 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xE1 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xE2 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xE3 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xE4 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xE5 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xE6 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xE7 - $DE5B 
+    dw TileCollision_NothingOW ; 0xE0 - $DE5B 
+    dw TileCollision_NothingOW ; 0xE1 - $DE5B 
+    dw TileCollision_NothingOW ; 0xE2 - $DE5B 
+    dw TileCollision_NothingOW ; 0xE3 - $DE5B 
+    dw TileCollision_NothingOW ; 0xE4 - $DE5B 
+    dw TileCollision_NothingOW ; 0xE5 - $DE5B 
+    dw TileCollision_NothingOW ; 0xE6 - $DE5B 
+    dw TileCollision_NothingOW ; 0xE7 - $DE5B 
     
-    dw TileBehavior_NothingOW ; 0xE8 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xE9 - $DE5B 
-    dw TileBehavior_NothingOW ; 0xEA - $DE5B 
-    dw TileBehavior_NothingOW ; 0xEB - $DE5B 
-    dw TileBehavior_NothingOW ; 0xEC - $DE5B 
-    dw TileBehavior_NothingOW ; 0xED - $DE5B 
-    dw TileBehavior_NothingOW ; 0xEE - $DE5B 
-    dw TileBehavior_NothingOW ; 0xEF - $DE5B 
+    dw TileCollision_NothingOW ; 0xE8 - $DE5B 
+    dw TileCollision_NothingOW ; 0xE9 - $DE5B 
+    dw TileCollision_NothingOW ; 0xEA - $DE5B 
+    dw TileCollision_NothingOW ; 0xEB - $DE5B 
+    dw TileCollision_NothingOW ; 0xEC - $DE5B 
+    dw TileCollision_NothingOW ; 0xED - $DE5B 
+    dw TileCollision_NothingOW ; 0xEE - $DE5B 
+    dw TileCollision_NothingOW ; 0xEF - $DE5B 
     
-    dw TileBehavior_FlaggableDoor ; 0xF0 - $DDEB Key door 1
-    dw TileBehavior_FlaggableDoor ; 0xF1 - $DDEB Key door 2
-    dw TileBehavior_FlaggableDoor ; 0xF2 - $DDEB
-    dw TileBehavior_FlaggableDoor ; 0xF3 - $DDEB
-    dw TileBehavior_FlaggableDoor ; 0xF4 - $DDEB
-    dw TileBehavior_FlaggableDoor ; 0xF5 - $DDEB
-    dw TileBehavior_FlaggableDoor ; 0xF6 - $DDEB
-    dw TileBehavior_FlaggableDoor ; 0xF7 - $DDEB
+    dw TileCollision_FlaggableDoor ; 0xF0 - $DDEB Key door 1
+    dw TileCollision_FlaggableDoor ; 0xF1 - $DDEB Key door 2
+    dw TileCollision_FlaggableDoor ; 0xF2 - $DDEB
+    dw TileCollision_FlaggableDoor ; 0xF3 - $DDEB
+    dw TileCollision_FlaggableDoor ; 0xF4 - $DDEB
+    dw TileCollision_FlaggableDoor ; 0xF5 - $DDEB
+    dw TileCollision_FlaggableDoor ; 0xF6 - $DDEB
+    dw TileCollision_FlaggableDoor ; 0xF7 - $DDEB
     
-    dw TileBehavior_FlaggableDoor ; 0xF8 - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xF9 - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFA - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFB - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFC - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFD - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFE - $DDEB 
-    dw TileBehavior_FlaggableDoor ; 0xFF - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xF8 - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xF9 - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFA - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFB - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFC - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFD - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFE - $DDEB 
+    dw TileCollision_FlaggableDoor ; 0xFF - $DDEB 
 }
 
 ; $03DC2A-$03DC49 LONG BRANCH LOCATION
@@ -14134,7 +14134,7 @@ TileDetection_Execute_overworld:
 }
 
 ; $03DC4A-$03DC4F LOCAL JUMP LOCATION
-TileBehavior_HandleItemAndExecute:
+TileCollision_HandleItemAndExecute:
 {
     JSL.l Overworld_Tile16_ToolInteraction
     
@@ -14142,7 +14142,7 @@ TileBehavior_HandleItemAndExecute:
 }
 
 ; $03DC50-$03DC53 LOCAL JUMP LOCATION
-TileBehavior_StandardCollision:
+TileCollision_StandardCollision:
 {
     ; $0E is the collision bitfield.
     LDA.b $0A : TSB.b $0E
@@ -14151,13 +14151,13 @@ TileBehavior_StandardCollision:
 }
 
 ; $03DC54-$03DC54 LOCAL JUMP LOCATION
-TileBehavior_Nothing:
+TileCollision_Nothing:
 {
     RTS
 }
 
 ; $03DC55-$03DC5C DATA
-TileBehavior_Slope_masks:
+TileCollision_Slope_masks:
 {
     dw $0004 ; 00000100
     dw $0000 ; 00000000
@@ -14166,7 +14166,7 @@ TileBehavior_Slope_masks:
 }
 
 ; $03DC5D-$03DC60 LOCAL JUMP LOCATION
-TileBehavior_SlopeOuter:
+TileCollision_SlopeOuter:
 {
     LDA.b $0A : TSB.b $38
 
@@ -14174,29 +14174,29 @@ TileBehavior_SlopeOuter:
 }
 
 ; $03DC61-$03DC71 LOCAL JUMP LOCATION
-TileBehavior_Slope:
+TileCollision_Slope:
 {
     LDA.b $0A : TSB.b $0C
     
     LDA.b $06 : AND.w #$0003 : ASL : TAY
-    LDA.w TileBehavior_Slope_masks, Y : STA.b $6E
+    LDA.w TileCollision_Slope_masks, Y : STA.b $6E
     
     RTS
 }
 
 ; $03DC72-$03DC7C LOCAL JUMP LOCATION
-TileBehavior_NorthSingleLayerStairs:
+TileCollision_NorthSingleLayerStairs:
 {
     ; Notice how in actuality this routine is identical to the following one.
     LDA.b $06 : STA.b $76
     
     LDA.b $0A : TSB.w $02C0
     
-    BRA TileBehavior_ManualStairs
+    BRA TileCollision_ManualStairs
 }
 
 ; $03DC7D-$03DC85 LOCAL JUMP LOCATION
-TileBehavior_NorthSwapLayerStairs:
+TileCollision_NorthSwapLayerStairs:
 {
     LDA.b $06 : STA.b $76
     
@@ -14206,7 +14206,7 @@ TileBehavior_NorthSwapLayerStairs:
 }
 
 ; $03DC86-$03DC8A LOCAL JUMP LOCATION
-TileBehavior_ManualStairs:
+TileCollision_ManualStairs:
 {
     LDA.b $0A : TSB.b $58
     
@@ -14215,7 +14215,7 @@ TileBehavior_ManualStairs:
 
 ; Hole tile or Somaria platform transit line tile
 ; $03DC8B-$03DC97 JUMP LOCATION
-TileBehavior_Pit:
+TileCollision_Pit:
 {
     ; I think this is saying that if Link's on a Somaria platform, we won't
     ; treat it as something he can fall into.
@@ -14228,7 +14228,7 @@ TileBehavior_Pit:
 }
 
 ; $03DC98-$03DC9D JUMP LOCATION
-TileBehavior_OverlayMask_0C:
+TileCollision_OverlayMask_0C:
 {
     LDA.b $0A : TSB.w $0320
     
@@ -14236,7 +14236,7 @@ TileBehavior_OverlayMask_0C:
 }
 
 ; $03DC9E-$03DCA3 JUMP LOCATION
-TileBehavior_GanonIce:
+TileCollision_GanonIce:
 {
     LDA.b $0A : TSB.w $0348
     
@@ -14244,7 +14244,7 @@ TileBehavior_GanonIce:
 }
 
 ; $03DCA4-$03DCAD JUMP LOCATION
-TileBehavior_PalaceIce:
+TileCollision_PalaceIce:
 {
     LDA.b $0A : ASL #4 : TSB.w $0348
     
@@ -14253,7 +14253,7 @@ TileBehavior_PalaceIce:
 
 ; Torch tiles
 ; $03DCAE-$03DCB5 JUMP LOCATION
-TileBehavior_LightableTorch:
+TileCollision_LightableTorch:
 {
     LDA.b $0A : TSB.b $0E : TSB.w $02F6
     
@@ -14261,7 +14261,7 @@ TileBehavior_LightableTorch:
 }
 
 ; $03DCB6-$03DCBB JUMP LOCATION
-TileBehavior_DeepWater:
+TileCollision_DeepWater:
 {
     LDA.b $0A : TSB.w $0341
     
@@ -14269,7 +14269,7 @@ TileBehavior_DeepWater:
 }
 
 ; $03DCBC-$03DCC1 JUMP LOCATION
-TileBehavior_ShortWaterLadder:
+TileCollision_ShortWaterLadder:
 {
     LDA.b $0A : TSB.w $0343
     
@@ -14278,7 +14278,7 @@ TileBehavior_ShortWaterLadder:
 
 ; Water staircase tile
 ; $03DCC2-$03DCC7 JUMP LOCATION
-TileBehavior_OverlayMask_1C:
+TileCollision_OverlayMask_1C:
 {
     LDA.b $0A : TSB.w $034C
     
@@ -14287,25 +14287,25 @@ TileBehavior_OverlayMask_1C:
 
 ; BG change
 ; $03DCC8-$03DCD3 LOCAL JUMP LOCATION
-TileBehavior_LayerToggleShutterDoor:
+TileCollision_LayerToggleShutterDoor:
 {
     LDA.b $EF : AND.w #$FF00 : ORA.w #$0001 : STA.b $EF
     
-    BRA TileBehavior_ShutterDoor
+    BRA TileCollision_ShutterDoor
 }    
 
 ; BG change and dungeon change (sewer/Hyrule Castle)
 ; $03DCD4-$03DCDF LOCAL JUMP LOCATION
-TileBehavior_LayerAndDungeonToggleShutterDoor:
+TileCollision_LayerAndDungeonToggleShutterDoor:
 {
     LDA.b $EF : AND.w #$FF00 : ORA #$0003 : STA.b $EF
     
-    BRA TileBehavior_ShutterDoor
+    BRA TileCollision_ShutterDoor
 }
 
 ; Dungeon change
 ; $03DCE0-$03DCE9 LOCAL JUMP LOCATION
-TileBehavior_DungeonToggleShutterDoor:
+TileCollision_DungeonToggleShutterDoor:
 {
     LDA.b $EF : AND.w #$FF00 : ORA.w #$0002 : STA.b $EF
 
@@ -14313,7 +14313,7 @@ TileBehavior_DungeonToggleShutterDoor:
 }
 
 ; $03DCEA-$03DCFF LOCAL JUMP LOCATION
-TileBehavior_ShutterDoor:
+TileCollision_ShutterDoor:
 {
     LDA.b $0A : ASL #4 : TSB.b $0E
     
@@ -14325,7 +14325,7 @@ TileBehavior_ShutterDoor:
 }
 
 ; $03DD00-$03DD09 JUMP LOCATION
-TileBehavior_DungeonToggleManualDoor:
+TileCollision_DungeonToggleManualDoor:
 {
     LDA.b $EF : AND.w #$FF00 : ORA.w #$0002 : STA.b $EF
 
@@ -14333,7 +14333,7 @@ TileBehavior_DungeonToggleManualDoor:
 }
     
 ; $03DD0A-$03DD1A LOCAL JUMP LOACTION
-TileBehavior_Door:
+TileCollision_Door:
 {
     LDA.b $0A : ASL #4 : TSB.b $0E
     
@@ -14344,7 +14344,7 @@ TileBehavior_Door:
 
 ; Shallow water tile
 ; $03DD1B-$03DD20 JUMP LOCATION
-TileBehavior_ShallowWater:
+TileCollision_ShallowWater:
 {
     LDA.b $0A : TSB.w $0359
     
@@ -14354,7 +14354,7 @@ TileBehavior_ShallowWater:
 ; ==============================================================================
 
 ; $03DD21-$03DD40 DATA
-TileBehavior_ManipulablyReplaced_bitmask:
+TileCollision_ManipulablyReplaced_bitmask:
 {
     dw $0001 ; 0000000000000001
     dw $0002 ; 0000000000000010
@@ -14375,7 +14375,7 @@ TileBehavior_ManipulablyReplaced_bitmask:
 }
 
 ; $03DD41-$03DD5B JUMP LOCATION
-TileBehavior_ManipulablyReplaced:
+TileCollision_ManipulablyReplaced:
 {
     LDA.b $0A : AND.w #$0002 : BEQ .BRANCH_ALPHA
         LDA.b $06 : AND.w #$000F : ASL : TAY
@@ -14385,7 +14385,7 @@ TileBehavior_ManipulablyReplaced:
     
     LDA.b $0A : TSB.b $0E
     
-    JSR.w TileBehavior_FlagManipulable
+    JSR.w TileCollision_FlagManipulable
     
     RTS
 }
@@ -14393,7 +14393,7 @@ TileBehavior_ManipulablyReplaced:
 ; ==============================================================================
 
 ; $03DD5C-$03DD69 JUMP LOCATION
-TileBehavior_UnusedDeepWater:
+TileCollision_UnusedDeepWater:
 {
     LDA.b $06 : STA.b $76
     
@@ -14406,10 +14406,10 @@ TileBehavior_UnusedDeepWater:
 
 ; Handler for chest tiles
 ; $03DD6A-$03DD9C JUMP LOCATION
-TileBehavior_Chest:
+TileCollision_Chest:
 {
     ; TSB to $02F6
-    JSR.w TileBehavior_FlagManipulable
+    JSR.w TileCollision_FlagManipulable
     
     ; Store the tile type we're handling to $76.
     LDA.b $06 : STA.b $76
@@ -14441,15 +14441,15 @@ TileBehavior_Chest:
 }
 
 ; $03DD9D-$03DDA0 LOCAL JUMP LOCATION
-TileBehavior_SouthSingleLayerStairs:
+TileCollision_SouthSingleLayerStairs:
 {
     LDA.b $06
     
-    BRA TileBehavior_SouthAutoStairs
+    BRA TileCollision_SouthAutoStairs
 }
     
 ; $03DDA1-$03DDA2 LOCAL JUMP LOCATION
-TileBehavior_SouthSwapLayerStairs:
+TileCollision_SouthSwapLayerStairs:
 {
     LDA.b $06
 
@@ -14457,7 +14457,7 @@ TileBehavior_SouthSwapLayerStairs:
 }
 
 ; $03DDA3-$03DDB0 LOCAL JUMP LOCATION
-TileBehavior_SouthAutoStairs:
+TileCollision_SouthAutoStairs:
 {
     STA.b $76
     
@@ -14470,7 +14470,7 @@ TileBehavior_SouthAutoStairs:
 
 ; Spike / cactus tile handler
 ; $03DDB1-$03DDC9 LOCAL JUMP LOCATION
-TileBehavior_Spike:
+TileCollision_Spike:
 {
     ; (invincible because he just beat a boss):
     LDA.w $0FFC : BNE .linkInvincible
@@ -14490,7 +14490,7 @@ TileBehavior_Spike:
 }
 
 ; $03DDCA-$03DDE0 LOCAL JUMP LOCATION
-TileBehavior_SpikeFloor:
+TileCollision_SpikeFloor:
 {
     ; The invincibility mentioned in this routine occurs after beating a boss
     ; fight, not by using some item or anything like that.
@@ -14505,7 +14505,7 @@ TileBehavior_SpikeFloor:
 }
 
 ; $03DDE1-$03DDE4 LOCAL JUMP LOCATION
-TileBehavior_Hookshottables:
+TileCollision_Hookshottables:
 {
     LDA.b $0A : TSB.b $0E
 
@@ -14513,7 +14513,7 @@ TileBehavior_Hookshottables:
 }
 
 ; $03DDE5-$03DDEA LOCAL JUMP LOCATION
-TileBehavior_FlagManipulable:
+TileCollision_FlagManipulable:
 {
     LDA.b $0A : TSB.w $02F6
     
@@ -14522,7 +14522,7 @@ TileBehavior_FlagManipulable:
 
 ; Key door, and maybe other types of tiles...
 ; $03DDEB-$03DDF6 LOCAL JUMP LOCATION
-TileBehavior_FlaggableDoor:
+TileCollision_FlaggableDoor:
 {
     LDA.b $0A : TSB.b $0E
     
@@ -14533,7 +14533,7 @@ TileBehavior_FlaggableDoor:
 
 ; Blue Rupee tile
 ; $03DDF7-$03DE16 JUMP LOCATION
-TileBehavior_RupeeTile:
+TileCollision_RupeeTile:
 {
     LDX.b $BD
     
@@ -14554,7 +14554,7 @@ TileBehavior_RupeeTile:
 
 ; Tile attribute 0x67 handler.... (orange / blue barrier tiles)
 ; $03DE17-$03DE28 JUMP LOCATION
-TileBehavior_CrystalPeg_Up:
+TileCollision_CrystalPeg_Up:
 {
     ; TODO: Investigate what the poitn of these TSBs are for.
     LDA.b $0A : TSB.b $0E : TSB.w $02F6
@@ -14565,31 +14565,31 @@ TileBehavior_CrystalPeg_Up:
 }
 
 ; $03DE29-$03DE2C LOCAL JUMP LOCATION
-TileBehavior_Conveyor_Upwards:
+TileCollision_Conveyor_Upwards:
 {
     LDA.b $0A
     
-    BRA TileBehavior_Conveyor
+    BRA TileCollision_Conveyor
 }
     
 ; $03DE2D-$03DE34 LOCAL JUMP LOCATION
-TileBehavior_Conveyor_Downwards:
+TileCollision_Conveyor_Downwards:
 {
     LDA.b $0A : ASL #4
     
-    BRA TileBehavior_Conveyor
+    BRA TileCollision_Conveyor
 }
     
 ; $03DE35-$03DE39 LOCAL JUMP LOCATION
-TileBehavior_Conveyor_Leftwards:
+TileCollision_Conveyor_Leftwards:
 {
     LDA.b $0A : XBA
     
-    BRA TileBehavior_Conveyor
+    BRA TileCollision_Conveyor
 }
     
 ; $03DE3A-$03DE40 LOCAL JUMP LOCATION
-TileBehavior_Conveyor_Rightwards:
+TileCollision_Conveyor_Rightwards:
 {
     LDA.b $0A : XBA : ASL #4
 
@@ -14597,7 +14597,7 @@ TileBehavior_Conveyor_Rightwards:
 }
     
 ; $03DE41-$03DE44 LOCAL JUMP LOCATION
-TileBehavior_Conveyor:
+TileCollision_Conveyor:
 {
     TSB.w $03F1
     
@@ -14605,19 +14605,19 @@ TileBehavior_Conveyor:
 }
 
 ; $03DE45-$03DE4E LOCAL JUMP LOCATION
-TileBehavior_MinigameChest:
+TileCollision_MinigameChest:
 {
-    JSR.w TileBehavior_FlagManipulable
+    JSR.w TileCollision_FlagManipulable
     
     LDA.b $06 : STA.b $76
     
-    BRL.l TileBehavior_Chest_notBigKeyLock
+    BRL.l TileCollision_Chest_notBigKeyLock
 }
 
 ; $03DE4F-$03DE5A LOCAL JUMP LOCATION
-TileBehavior_Entrance:
+TileCollision_Entrance:
 {
-    JSR.w TileBehavior_Door
+    JSR.w TileCollision_Door
     
     LDA.b $0A : XBA : TSB.w $02EE
     
@@ -14627,7 +14627,7 @@ TileBehavior_Entrance:
 }
 
 ; $03DE5B-$03DE60 LOCAL JUMP LOCATION
-TileBehavior_NothingOW:
+TileCollision_NothingOW:
 {
     LDA.b $0A : TSB.w $0343
     
@@ -14635,7 +14635,7 @@ TileBehavior_NothingOW:
 }
 
 ; $03DE61-$03DE66 LOCAL JUMP LOCATION
-TileBehavior_ThickGrass:
+TileCollision_ThickGrass:
 {
     LDA.b $0A : TSB.w $0357
     
@@ -14644,7 +14644,7 @@ TileBehavior_ThickGrass:
 
 ; Aftermath tiles from destroying / picking things up?
 ; $03DE67-$03DE6F LOCAL JUMP LOCATION
-TileBehavior_DiggableGround:
+TileCollision_DiggableGround:
 {
     LDA.b $0A : TSB.w $035B : TSB.w $0343
     
@@ -14652,7 +14652,7 @@ TileBehavior_DiggableGround:
 }
 
 ; $03DE70-$03DE7D DATA
-TileBehavior_Liftable_id_matcher:
+TileCollision_Liftable_id_matcher:
 {
     dw $0054 ; Hint tile/Sign
     dw $0052 ; Gray rock
@@ -14664,7 +14664,7 @@ TileBehavior_Liftable_id_matcher:
 }
 
 ; $03DE7E-$03DEAC LOCAL JUMP LOCATION
-TileBehavior_Liftable:
+TileCollision_Liftable:
 {
     LDX.w #$000C
     
@@ -14687,7 +14687,7 @@ TileBehavior_Liftable:
             
             STX.w $036A
             
-            JSR.w TileBehavior_Hookshottables
+            JSR.w TileCollision_Hookshottables
             
             RTS
         
@@ -14698,7 +14698,7 @@ TileBehavior_Liftable:
 }
 
 ; $03DEAD-$03DEBA LOCAL JUMP LOCATION
-TileBehavior_Ledge_South:
+TileCollision_Ledge_South:
 {
     LDA.b $06 : STA.b $76
     
@@ -14708,7 +14708,7 @@ TileBehavior_Ledge_South:
 }
 
 ; $03DEBB-$03DEC4 LOCAL JUMP LOCATION
-TileBehavior_Ledge_North:
+TileCollision_Ledge_North:
 {
     LDA.b $06 : STA.b $76
     
@@ -14718,7 +14718,7 @@ TileBehavior_Ledge_North:
 }
 
 ; $03DEC5-$03DECE LOCAL JUMP LOCATION
-TileBehavior_Ledge_EastWest:
+TileCollision_Ledge_EastWest:
 {
     LDA.b $06 : STA.b $76
     
@@ -14728,7 +14728,7 @@ TileBehavior_Ledge_EastWest:
 }
 
 ; $03DECF-$03DEDC LOCAL JUMP LOCATION
-TileBehavior_Ledge_NorthDiagonal:
+TileCollision_Ledge_NorthDiagonal:
 {
     LDA.b $06 : STA.b $76
     
@@ -14738,7 +14738,7 @@ TileBehavior_Ledge_NorthDiagonal:
 }
 
 ; $03DEDD-$03DEE6 LOCAL JUMP LOCATION
-TileBehavior_Ledge_SouthDiagonal:
+TileCollision_Ledge_SouthDiagonal:
 {
     LDA.b $06 : STA.b $76
     
@@ -14748,7 +14748,7 @@ TileBehavior_Ledge_SouthDiagonal:
 }
 
 ; $03DEE7-$03DEF0 LOCAL JUMP LOCATION
-TileBehavior_UnusedCornerType:
+TileCollision_UnusedCornerType:
 {
     LDA.b $06 : STA.b $76
     
@@ -14758,7 +14758,7 @@ TileBehavior_UnusedCornerType:
 }
 
 ; $03DEF1-$03DFFE LOCAL JUMP LOCATION
-TileBehavior_EasternRuinsCorner:
+TileCollision_EasternRuinsCorner:
 {
     LDA.b $06 : STA.b $76
     
@@ -14768,7 +14768,7 @@ TileBehavior_EasternRuinsCorner:
 }
 
 ; $03DEFF-$03DF08 LOCAL JUMP LOCATION
-TileBehavior_Warp:
+TileCollision_Warp:
 {
     LDA.b $0A : ASL #4 : TSB.w $0357
     
@@ -14776,7 +14776,7 @@ TileBehavior_Warp:
 }
 
 ; $03DF09-$03DF10 LOCAL JUMP LOCATION
-TileBehavior_GraveStone:
+TileCollision_GraveStone:
 {
     LDA.b $0A : TSB.w $02E7 : TSB.b $0E
     
@@ -14784,7 +14784,7 @@ TileBehavior_GraveStone:
 }
 
 ; $03DF11-$03DF18 LOCAL JUMP LOCATION
-TileBehavior_HylianPlaque:
+TileCollision_HylianPlaque:
 {
     ; Desert palace trigger tile? (Book o' mudora inscription?).
     LDA.b $0A : TSB.w $02EE : TSB.b $0E
@@ -14793,7 +14793,7 @@ TileBehavior_HylianPlaque:
 }
 
 ; $03DF19-$03DF25 JUMP LOCATION
-TileBehavior_BonkRocks:
+TileCollision_BonkRocks:
 {
     ; Rock pile tile.
     LDA.b $0A : TSB.b $0E

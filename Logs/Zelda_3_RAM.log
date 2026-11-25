@@ -365,7 +365,7 @@ $47[0x01] -
     
     Set when damaging enemies, unsure of exact usage yet.
 
-$48[0x01] - (PlayerOam)
+$48[0x01] - (PlayerOAM)
     
     If set, when the A button is pressed, the player sprite will enter the
     "grabbing at something" state.
@@ -472,7 +472,7 @@ $53[0x02] - (Dungeon, Overworld)
 $55[0x01] - Cape flag, when set, makes you invisible and invincible.
             You can also go through objects, such as bungies.
 
-$56[0x01] - (PlayerOam)
+$56[0x01] - (PlayerOAM)
     
     Link's graphic status. 1 - bunny link, 0 - real link.
 
@@ -1697,7 +1697,7 @@ $0309[0x01] -
     1 - picking up something.
     2 - throwing something or halfway done picking up something.
 
-$030A[0x01] -   (PlayerOam)
+$030A[0x01] -   (PlayerOAM)
 
     Step counter used with $030B. Also, $030A-B seem to be used for the opening
     of the desert palace
@@ -1757,7 +1757,7 @@ $0320[0x02] -   Bitfield for interaction with moving floor tiles
 
 $0322[0x01] -   ????
 
-$0323[0x01] -   (PlayerOam)
+$0323[0x01] -   (PlayerOAM)
 
     Mirror of $2F, which is an indicator for which direction you are facing.
     Only used in the rendering of Link's OAM data in Bank 0x0D
@@ -1882,7 +1882,7 @@ $0350[0x01] -   (WriteOnly)
     as it's currently used in several places as an apparent debug variable.
     Specifically, it always written to, but never read.
 
-$0351[0x01] -   (PlayerOam)
+$0351[0x01] -   (PlayerOAM)
 
     Value that, if set to 1, draws the water ripples around the player sprite
     while standing in water. The drawing, of course, uses sprites.
@@ -1890,22 +1890,22 @@ $0351[0x01] -   (PlayerOam)
     If the value is 2, then a patch of tall grass is instead. Any value other
     than 2 (besides 0) produces the water effect.
 
-$0352[0x02] -   (PlayerOam)
+$0352[0x02] -   (PlayerOAM)
 
     Used exclusively during writing Link's OAM data (bank 0x0D) as an offset into
     the OAM buffer ($0800)
 
-$0354[0x01] -   (PlayerOam)
+$0354[0x01] -   (PlayerOAM)
     
     Used exclusively during writing Link's OAM data for currently unknown
     purposes.
 
-$0355[0x01] -   (PlayerOam)
+$0355[0x01] -   (PlayerOAM)
 
     Secondary water / grass timer. Increments when $0356 reaches 9. Values
     range from 0 to 2, and gets set back to 0 when it reaches 3.
 
-$0356[0x01] -   (PlayerOam)
+$0356[0x01] -   (PlayerOAM)
 
     Primary water / grass timer. Valuess range from 0 to 8, and gets set back
     to 0 when it reaches 9.
@@ -2201,7 +2201,7 @@ $03E9[0x01] -
 
 $03EA[0x0A] -   special effect ???
 
-$03EF[0x01] -   (Player, PlayerOam)
+$03EF[0x01] -   (Player, PlayerOAM)
     
     Normally zero. If set to nonzero, it forces Link to the pose
     where he is holding his sword up. One example of where this is

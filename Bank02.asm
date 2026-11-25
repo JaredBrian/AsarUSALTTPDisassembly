@@ -1413,7 +1413,7 @@ Module_Dungeon:
 
     SEP #$20
 
-    JSL.l PlayerOam_Main
+    JSL.l PlayerOAM_Main
     JSL.l HUD_RefillLogicLong
 
     ; Handles HUD floor indicator.
@@ -3384,7 +3384,7 @@ Dungeon_LandingWipe:
     JSR.w (.Modules, X)
 
     JSL.l Link_HandleMovingAnimation_FullLongEntry
-    JSL.l PlayerOam_Main
+    JSL.l PlayerOAM_Main
 
     RTS
 }
@@ -4516,7 +4516,7 @@ Module_CloseSpotlight:
                           STA.b $67
 
     JSL.l Link_HandleMovingAnimation_FullLongEntry
-    JML.l PlayerOam_Main
+    JML.l PlayerOAM_Main
 }
 
 ; ==============================================================================
@@ -4701,7 +4701,7 @@ Module_OpenSpotlight:
     LDA.b $11 : ASL : TAX
     JSR.w (.Modules, X)
 
-    JML.l PlayerOam_Main
+    JML.l PlayerOAM_Main
 }
 
 ; ==============================================================================
@@ -4946,7 +4946,7 @@ Module_BossVictory:
     JSR.w (.Modules, X)
 
     JSL.l Sprite_Main
-    JML.l PlayerOam_Main
+    JML.l PlayerOAM_Main
 }
 
 ; ==============================================================================
@@ -5091,7 +5091,7 @@ Module_Mirror:
     .runCoreTasks
 
     JSL.l Sprite_Main
-    JSL.l PlayerOam_Main
+    JSL.l PlayerOAM_Main
 
     .ignoreCoreTasks
 
@@ -5385,7 +5385,7 @@ Module_Victory:
     JSR.w (.states, X)
 
     JSL.l Sprite_Main
-    JML.l PlayerOam_Main
+    JML.l PlayerOAM_Main
 }
 
 ; ==============================================================================
@@ -5465,7 +5465,7 @@ Module_GanonEmerges:
     LDA.w $0200 : ASL : TAX
     JSR.w (.submodules, X)
 
-    JML.l PlayerOam_Main
+    JML.l PlayerOAM_Main
 }
 
 ; ==============================================================================
@@ -5673,7 +5673,7 @@ Module_TriforceRoom:
 
     .BRANCH_BETA
 
-    JML.l PlayerOam_Main
+    JML.l PlayerOAM_Main
 }
 
 ; ==============================================================================
@@ -6395,7 +6395,7 @@ Module_Overworld:
 
     SEP #$20
 
-    JSL.l PlayerOam_Main
+    JSL.l PlayerOAM_Main
     JSL.l HUD_RefillLogicLong
 
     ; ZSCREAM: ZS overwrites the rest of this function.
