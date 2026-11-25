@@ -25,13 +25,13 @@ SprState     = $0DD0 ; This tells if the sprite is alive, dead, frozen, etc...
 
 SprNbrOAM    = $0E40 ; Bits 0-4: define the number of OAM slots used by the sprite
 SprHealth    = $0E50
-SprGfxProps  = $0E60
+SprGfxProps  = $0E60 ; DIWS UUUU - [D boss death][I Impervious to all attacks][W Water slash] [S Draw Shadow] [U Unused]
 SprCollision = $0E70 ; When a sprite hit a wall, this gets set to the direction in which the collision occurred.
 SprDelay     = $0E80 ; Used in sprite state 0x03 (falling in water), used as delay in most of the sprites
 SprRecoil    = $0EA0 ; Recoil Timer
 SprDeath     = $0EF0
 
-SprProps     = $0F50 ; DIWS UUUU - [D boss death][I Impervious to all attacks][W Water slash] [S Draw Shadow] [U Unused]
+SprProps     = $0F50 ; SprPal Gets copied into the 4th OAM byte
 SprHitbox    = $0F60 ; ISPH HHHH - [I ignore collisions][S Statis (not alive eg beamos)][P Persist code still run outside of camera][H Hitbox] 
 SprHeight    = $0F70 ; Distance from the shadow
 SprHeightS   = $0F90 ; Distance from the shadow subpixel

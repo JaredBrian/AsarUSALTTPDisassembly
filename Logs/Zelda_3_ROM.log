@@ -757,13 +757,13 @@ $15D8A-$164A2 - Exit Data (Note that some of these are fake "rooms" used in the 
 								     0x0000: no change
 								     bmmmmmmm mmmmmmmm: (bit pattern)
 										b - if set, it's a bombable exit, otherwise it's a wooden exit.
-										m - (15-bit number) map16 address of the exit
+										m - (15-bit number) Tile16 address of the exit
 
 	$16405-$164A2 - (0x4F entries, 2 bytes each) - Door type setting 2. Write to $0698.
 								     0x0000: no change
 								     smmmmmmm mmmmmmmm: (bit pattern) 
 										s - if set, it's a palace exit, otherwise it's a sanctuary exit.
-										m - (15-bit number) map16 address of the exit
+										m - (15-bit number) Tile16 address of the exit
 
 !**********************************
 
@@ -977,8 +977,8 @@ $17D0D - $17F6D Code
 
 ***********************************
 
-$18000-$1B3FF - Map32 to Map16 conversion values (upper left corners) 
-$1B400-$1E7FF - Map32 to Map16 conversion values (upper right corners)
+$18000-$1B3FF - Map32 to Tile16 conversion values (upper left corners) 
+$1B400-$1E7FF - Map32 to Tile16 conversion values (upper right corners)
 
     See $20000 as well.
 
@@ -988,8 +988,8 @@ $1E800-$1EB04? - Compressed data that will be written to $7F6000.
 
 ***********************************
 
-$20000-$233FF - Map32 to map16 conversion values (lower left corners)
-$23400-$267EF - Map32 to Map16 conversion values (lower right corners)
+$20000-$233FF - Map32 to Tile16 conversion values (lower left corners)
+$23400-$267EF - Map32 to Tile16 conversion values (lower right corners)
 
     See $18000 as well.
 
@@ -1304,7 +1304,7 @@ $75460 - location of palette indices (grouped in 4's)
 
 ************************************
 
-$78000 - Map16 to Map8 conversions (comes in groups of 8 bytes, 4 Map8 tiles each)
+$78000 - Tile16 to Map8 conversions (comes in groups of 8 bytes, 4 Map8 tiles each)
 
 ************************************
 
@@ -1338,7 +1338,7 @@ $C3953 - location of compressed graphics for the menu screen (magic mirror, book
 
 $DB800-$DB85F - Hole Data
 
-	$DB800-$DB825 - (0x13 entries, 2 bytes each) modified (less 0x400) map16 coordinates for each hole
+	$DB800-$DB825 - (0x13 entries, 2 bytes each) modified (less 0x400) Tile16 coordinates for each hole
 	$DB826-$DB84B - (0x13 entries, 2 bytes each) corresponding area numbers for each hole
 	$DB84C-$DB85F - (0x13 entries, 1 byte each)  corresponding entrance numbers
 
@@ -1353,7 +1353,7 @@ $DB8BF-$DBBF3 Overworld accessible entrances (other entrances are accessible via
 	$DB8BF (0x2C entries, 2 bytes each) - valid map8 (CHR) values for entrances (left side)
 	$DB917 (0x2C entries, 2 bytes each) - valid map8 (CHR) values for entrances (right side)
 	$DB96F (0x81 entries, 2 bytes each) - area numbers for each entrance
-	$DBA71 (0x81 entries, 2 bytes each) - map16 coordinates for each entrance
+	$DBA71 (0x81 entries, 2 bytes each) - Tile16 coordinates for each entrance
 	$DBB73 (0x81 entries, 1 byte each)  - entrance numbers (ranging from 0x00 to 0x84)
 
 !************************************
@@ -1374,9 +1374,9 @@ $DC2F9-$DC8A3 - Overworld Secrets (Item) Data
 
     $DC2F9-$DC3F8 - Local pointer table (2 bytes, 0x80 entries) to the data for each Area
     $DC3F9-$DC89B - The actual data, each entry being 3 bytes. 
-                The first two bytes are the map16 coordinate for the secret. 
+                The first two bytes are the Tile16 coordinate for the secret. 
                 The last byte is the value of the secret. Valid values are 0x00 to 0x16, and 0x80, 0x82, 0x84, 0x86, 0x88
-    $DC89C-$DC8A3 (4 entries, 2 bytes each) - replacement map16 values. E.g. a hole secret would have a hole map16 as the replacement
+    $DC89C-$DC8A3 (4 entries, 2 bytes each) - replacement Tile16 values. E.g. a hole secret would have a hole Tile16 as the replacement
 
     Note: Areas 0x80 and above don't have items.
 
