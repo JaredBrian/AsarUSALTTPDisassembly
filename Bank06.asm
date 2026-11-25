@@ -380,128 +380,128 @@ Pool_Sprite_SpawnSecret:
 {
     ; $0301F4
     .ID
-    db $D9 ; SPRITE D9 - 0x01 - green rupee
-    db $3E ; SPRITE 3E - 0x02 - hoarder
-    db $79 ; SPRITE 79 - 0x03 - bee
-    db $D9 ; SPRITE D9 - 0x04 - green rupee
-    db $DC ; SPRITE DC - 0x05 - 1 bomb
-    db $D8 ; SPRITE D8 - 0x06 - heart
-    db $DA ; SPRITE DA - 0x07 - blue rupee
-    db $E4 ; SPRITE E4 - 0x08 - small key
-    db $E1 ; SPRITE E1 - 0x09 - 5 arrows
-    db $DC ; SPRITE DC - 0x0A - 1 bomb
-    db $D8 ; SPRITE D8 - 0x0B - heart
-    db $DF ; SPRITE DF - 0x0C - small magic
-    db $E0 ; SPRITE E0 - 0x0D - full magic
-    db $0B ; SPRITE 0B - 0x0E - cucco
-    db $42 ; SPRITE 42 - 0x0F - green guard
-    db $D3 ; SPRITE D3 - 0x10 - stal
-    db $41 ; SPRITE 41 - 0x11 - blue guard
-    db $D4 ; SPRITE D4 - 0x12 - landmine
-    db $D9 ; SPRITE D9 - 0x13 - green rupee
-    db $E3 ; SPRITE E3 - 0x14 - fairy
-    db $D8 ; SPRITE D8 - 0x15 - heart
+    db $D9 ; 0x01 - Green rupee
+    db $3E ; 0x02 - Hoarder
+    db $79 ; 0x03 - Bee
+    db $D9 ; 0x04 - Green rupee
+    db $DC ; 0x05 - 1 bomb
+    db $D8 ; 0x06 - Heart
+    db $DA ; 0x07 - Blue rupee
+    db $E4 ; 0x08 - Small key
+    db $E1 ; 0x09 - 5 arrows
+    db $DC ; 0x0A - 1 bomb
+    db $D8 ; 0x0B - Heart
+    db $DF ; 0x0C - Small magic
+    db $E0 ; 0x0D - Full magic
+    db $0B ; 0x0E - Cucco
+    db $42 ; 0x0F - Green guard
+    db $D3 ; 0x10 - Stal
+    db $41 ; 0x11 - Blue guard
+    db $D4 ; 0x12 - Landmine
+    db $D9 ; 0x13 - Green rupee
+    db $E3 ; 0x14 - Fairy
+    db $D8 ; 0x15 - Heart
 
     ; $030209
     .AI2
-    db $00 ; 0x00 - null
-    db $00 ; 0x01 - green rupee
-    db $01 ; 0x02 - hoarder
-    db $01 ; 0x03 - bee
-    db $00 ; 0x04 - green rupee
+    db $00 ; 0x00 - Null
+    db $00 ; 0x01 - Green rupee
+    db $01 ; 0x02 - Hoarder
+    db $01 ; 0x03 - Bee
+    db $00 ; 0x04 - Green rupee
     db $00 ; 0x05 - 1 bomb
-    db $00 ; 0x06 - heart
-    db $00 ; 0x07 - blue rupee
-    db $00 ; 0x08 - small key
+    db $00 ; 0x06 - Heart
+    db $00 ; 0x07 - Blue rupee
+    db $00 ; 0x08 - Small key
     db $00 ; 0x09 - 5 arrows
     db $00 ; 0x0A - 1 bomb
-    db $03 ; 0x0B - heart
-    db $00 ; 0x0C - small magic
-    db $00 ; 0x0D - full magic
-    db $01 ; 0x0E - cucco
-    db $00 ; 0x0F - green guard
-    db $00 ; 0x10 - stal
-    db $00 ; 0x11 - blue guard
-    db $00 ; 0x12 - landmine
-    db $00 ; 0x13 - green rupee
-    db $00 ; 0x14 - fairy
-    db $00 ; 0x15 - heart
+    db $03 ; 0x0B - Heart
+    db $00 ; 0x0C - Small magic
+    db $00 ; 0x0D - Full magic
+    db $01 ; 0x0E - Cucco
+    db $00 ; 0x0F - Green guard
+    db $00 ; 0x10 - Stal
+    db $00 ; 0x11 - Blue guard
+    db $00 ; 0x12 - Landmine
+    db $00 ; 0x13 - Green rupee
+    db $00 ; 0x14 - Fairy
+    db $00 ; 0x15 - Heart
 
     ; $03021F
     .offset_x
-    db $00 ; 0x00 - null
-    db $04 ; 0x01 - green rupee
-    db $00 ; 0x02 - hoarder
-    db $04 ; 0x03 - bee
-    db $04 ; 0x04 - green rupee
+    db $00 ; 0x00 - Null
+    db $04 ; 0x01 - Green rupee
+    db $00 ; 0x02 - Hoarder
+    db $04 ; 0x03 - Bee
+    db $04 ; 0x04 - Green rupee
     db $00 ; 0x05 - 1 bomb
-    db $04 ; 0x06 - heart
-    db $04 ; 0x07 - blue rupee
-    db $04 ; 0x08 - small key
+    db $04 ; 0x06 - Heart
+    db $04 ; 0x07 - Blue rupee
+    db $04 ; 0x08 - Small key
     db $04 ; 0x09 - 5 arrows
     db $00 ; 0x0A - 1 bomb
-    db $04 ; 0x0B - heart
-    db $04 ; 0x0C - small magic
-    db $04 ; 0x0D - full magic
-    db $00 ; 0x0E - cucco
-    db $00 ; 0x0F - green guard
-    db $00 ; 0x10 - stal
-    db $00 ; 0x11 - blue guard
-    db $00 ; 0x12 - landmine
-    db $04 ; 0x13 - green rupee
-    db $00 ; 0x14 - fairy
-    db $04 ; 0x15 - heart
+    db $04 ; 0x0B - Heart
+    db $04 ; 0x0C - Small magic
+    db $04 ; 0x0D - Full magic
+    db $00 ; 0x0E - Cucco
+    db $00 ; 0x0F - Green guard
+    db $00 ; 0x10 - Stal
+    db $00 ; 0x11 - Blue guard
+    db $00 ; 0x12 - Landmine
+    db $04 ; 0x13 - Green rupee
+    db $00 ; 0x14 - Fairy
+    db $04 ; 0x15 - Heart
 
     ; $030235
     .ignore_ancillae
-    db $04 ; 0x00 - null
-    db $01 ; 0x01 - green rupee
-    db $00 ; 0x02 - hoarder
-    db $00 ; 0x03 - bee
-    db $01 ; 0x04 - green rupee
+    db $04 ; 0x00 - Null
+    db $01 ; 0x01 - Green rupee
+    db $00 ; 0x02 - Hoarder
+    db $00 ; 0x03 - Bee
+    db $01 ; 0x04 - Green rupee
     db $01 ; 0x05 - 1 bomb
-    db $01 ; 0x06 - heart
-    db $01 ; 0x07 - blue rupee
-    db $01 ; 0x08 - small key
+    db $01 ; 0x06 - Heart
+    db $01 ; 0x07 - Blue rupee
+    db $01 ; 0x08 - Small key
     db $01 ; 0x09 - 5 arrows
     db $01 ; 0x0A - 1 bomb
-    db $01 ; 0x0B - heart
-    db $01 ; 0x0C - small magic
-    db $01 ; 0x0D - full magic
-    db $00 ; 0x0E - cucco
-    db $00 ; 0x0F - green guard
-    db $00 ; 0x10 - stal
-    db $00 ; 0x11 - blue guard
-    db $00 ; 0x12 - landmine
-    db $01 ; 0x13 - green rupee
-    db $01 ; 0x14 - fairy
-    db $01 ; 0x15 - heart
+    db $01 ; 0x0B - Heart
+    db $01 ; 0x0C - Small magic
+    db $01 ; 0x0D - Full magic
+    db $00 ; 0x0E - Cucco
+    db $00 ; 0x0F - Green guard
+    db $00 ; 0x10 - Stal
+    db $00 ; 0x11 - Blue guard
+    db $00 ; 0x12 - Landmine
+    db $01 ; 0x13 - Green rupee
+    db $01 ; 0x14 - Fairy
+    db $01 ; 0x15 - Heart
 
     ; $03024B
     .jump_velocity
-    db $01 ; 0x00 - null
-    db $10 ; 0x01 - green rupee
-    db $00 ; 0x02 - hoarder
-    db $00 ; 0x03 - bee
-    db $10 ; 0x04 - green rupee
+    db $01 ; 0x00 - Null
+    db $10 ; 0x01 - Green rupee
+    db $00 ; 0x02 - Hoarder
+    db $00 ; 0x03 - Bee
+    db $10 ; 0x04 - Green rupee
     db $00 ; 0x05 - 1 bomb
-    db $00 ; 0x06 - heart
-    db $10 ; 0x07 - blue rupee
-    db $10 ; 0x08 - small key
+    db $00 ; 0x06 - Heart
+    db $10 ; 0x07 - Blue rupee
+    db $10 ; 0x08 - Small key
     db $10 ; 0x09 - 5 arrows
     db $10 ; 0x0A - 1 bomb
-    db $00 ; 0x0B - heart
-    db $10 ; 0x0C - small magic
-    db $0A ; 0x0D - full magic
-    db $10 ; 0x0E - cucco
-    db $00 ; 0x0F - green guard
-    db $00 ; 0x10 - stal
-    db $00 ; 0x11 - blue guard
-    db $00 ; 0x12 - landmine
-    db $10 ; 0x13 - green rupee
-    db $00 ; 0x14 - fairy
-    db $00 ; 0x15 - heart
-    db $00 ; 0x16 - null
+    db $00 ; 0x0B - Heart
+    db $10 ; 0x0C - Small magic
+    db $0A ; 0x0D - Full magic
+    db $10 ; 0x0E - Cucco
+    db $00 ; 0x0F - Green guard
+    db $00 ; 0x10 - Stal
+    db $00 ; 0x11 - Blue guard
+    db $00 ; 0x12 - Landmine
+    db $10 ; 0x13 - Green rupee
+    db $00 ; 0x14 - Fairy
+    db $00 ; 0x15 - Heart
+    db $00 ; 0x16 - Null
 }
 
 ; $030262-$030263 BRANCH LOCATION

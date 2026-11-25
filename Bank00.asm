@@ -3267,63 +3267,63 @@ RoomFlagMask:
 ; $00190C-$00197D
 RoomsWithPitDamage:
 {
-    dw $0072 ; ROOM 0072
-    dw $0082 ; ROOM 0082
-    dw $0040 ; ROOM 0040
-    dw $00C0 ; ROOM 00C0
-    dw $0112 ; ROOM 0112
-    dw $0056 ; ROOM 0056
-    dw $0057 ; ROOM 0057
-    dw $0058 ; ROOM 0058
-    dw $0067 ; ROOM 0067
-    dw $0068 ; ROOM 0068
-    dw $0049 ; ROOM 0049
-    dw $0098 ; ROOM 0098
-    dw $00D1 ; ROOM 00D1
-    dw $00C3 ; ROOM 00C3
-    dw $00A3 ; ROOM 00A3
-    dw $00A2 ; ROOM 00A2
-    dw $0092 ; ROOM 0092
-    dw $00A0 ; ROOM 00A0
-    dw $004E ; ROOM 004E
-    dw $007F ; ROOM 007F
-    dw $00AF ; ROOM 00AF
-    dw $00F0 ; ROOM 00F0
-    dw $00F1 ; ROOM 00F1
-    dw $00E6 ; ROOM 00E6
-    dw $00E7 ; ROOM 00E7
-    dw $00C6 ; ROOM 00C6
-    dw $00C7 ; ROOM 00C7
-    dw $00D6 ; ROOM 00D6
-    dw $00B4 ; ROOM 00B4
-    dw $00B5 ; ROOM 00B5
-    dw $00C5 ; ROOM 00C5
-    dw $0024 ; ROOM 0024
-    dw $00D5 ; ROOM 00D5
-    dw $00C9 ; ROOM 00C9
-    dw $002A ; ROOM 002A
-    dw $001A ; ROOM 001A
-    dw $004B ; ROOM 004B
-    dw $00BC ; ROOM 00BC
-    dw $0044 ; ROOM 0044
-    dw $00FB ; ROOM 00FB
-    dw $007B ; ROOM 007B
-    dw $007C ; ROOM 007C
-    dw $008B ; ROOM 008B
-    dw $008D ; ROOM 008D
-    dw $009B ; ROOM 009B
-    dw $009C ; ROOM 009C
-    dw $009D ; ROOM 009D
-    dw $00A5 ; ROOM 00A5
-    dw $0095 ; ROOM 0095
-    dw $001C ; ROOM 001C
-    dw $005C ; ROOM 005C
-    dw $007D ; ROOM 007D
-    dw $004C ; ROOM 004C
-    dw $0096 ; ROOM 0096
-    dw $0120 ; ROOM 0120
-    dw $003C ; ROOM 003C
-    dw $0123 ; ROOM 0123
+    dw $0072 ; Room 0072
+    dw $0082 ; Room 0082
+    dw $0040 ; Room 0040
+    dw $00C0 ; Room 00C0
+    dw $0112 ; Room 0112
+    dw $0056 ; Room 0056
+    dw $0057 ; Room 0057
+    dw $0058 ; Room 0058
+    dw $0067 ; Room 0067
+    dw $0068 ; Room 0068
+    dw $0049 ; Room 0049
+    dw $0098 ; Room 0098
+    dw $00D1 ; Room 00D1
+    dw $00C3 ; Room 00C3
+    dw $00A3 ; Room 00A3
+    dw $00A2 ; Room 00A2
+    dw $0092 ; Room 0092
+    dw $00A0 ; Room 00A0
+    dw $004E ; Room 004E
+    dw $007F ; Room 007F
+    dw $00AF ; Room 00AF
+    dw $00F0 ; Room 00F0
+    dw $00F1 ; Room 00F1
+    dw $00E6 ; Room 00E6
+    dw $00E7 ; Room 00E7
+    dw $00C6 ; Room 00C6
+    dw $00C7 ; Room 00C7
+    dw $00D6 ; Room 00D6
+    dw $00B4 ; Room 00B4
+    dw $00B5 ; Room 00B5
+    dw $00C5 ; Room 00C5
+    dw $0024 ; Room 0024
+    dw $00D5 ; Room 00D5
+    dw $00C9 ; Room 00C9
+    dw $002A ; Room 002A
+    dw $001A ; Room 001A
+    dw $004B ; Room 004B
+    dw $00BC ; Room 00BC
+    dw $0044 ; Room 0044
+    dw $00FB ; Room 00FB
+    dw $007B ; Room 007B
+    dw $007C ; Room 007C
+    dw $008B ; Room 008B
+    dw $008D ; Room 008D
+    dw $009B ; Room 009B
+    dw $009C ; Room 009C
+    dw $009D ; Room 009D
+    dw $00A5 ; Room 00A5
+    dw $0095 ; Room 0095
+    dw $001C ; Room 001C
+    dw $005C ; Room 005C
+    dw $007D ; Room 007D
+    dw $004C ; Room 004C
+    dw $0096 ; Room 0096
+    dw $0120 ; Room 0120
+    dw $003C ; Room 003C
+    dw $0123 ; Room 0123
 }
 
 ; $00197E-$001989
@@ -15554,33 +15554,33 @@ Pool_PrepareDungeonExitFromBossFight:
 {
     ; $00792D
     .boss_room
-    db $C8 ; ROOM 00C8 - Armos→Eastern lobby
-    db $33 ; ROOM 0033 - Lanmolas→Desert 3
-    db $07 ; ROOM 0007 - Moldorm→Hera lobby
-    db $20 ; ROOM 0020 - Agahnim→self
-    db $06 ; ROOM 0006 - Arrghus→Swamp lobby
-    db $5A ; ROOM 005A - Helmasaur→PoD lobby
-    db $29 ; ROOM 0029 - Mothula→Skull 3
-    db $90 ; ROOM 0090 - Vitreous→Mire foyer
-    db $DE ; ROOM 00DE - Kholdstare→Ice 1
-    db $A4 ; ROOM 00A4 - Trinexx→TR foyer
-    db $AC ; ROOM 00AC - Blind→Thieves' lobby
-    db $0D ; ROOM 000D - Agahnim 2→self
+    db $C8 ; Room 00C8 - Armos→Eastern lobby
+    db $33 ; Room 0033 - Lanmolas→Desert 3
+    db $07 ; Room 0007 - Moldorm→Hera lobby
+    db $20 ; Room 0020 - Agahnim→self
+    db $06 ; Room 0006 - Arrghus→Swamp lobby
+    db $5A ; Room 005A - Helmasaur→PoD lobby
+    db $29 ; Room 0029 - Mothula→Skull 3
+    db $90 ; Room 0090 - Vitreous→Mire foyer
+    db $DE ; Room 00DE - Kholdstare→Ice 1
+    db $A4 ; Room 00A4 - Trinexx→TR foyer
+    db $AC ; Room 00AC - Blind→Thieves' lobby
+    db $0D ; Room 000D - Agahnim 2→self
         
     ; $007939
     .exit_room
-    db $C9 ; ROOM C9 - Armos→Eastern lobby
-    db $63 ; ROOM 63 - Lanmolas→Desert 3
-    db $77 ; ROOM 77 - Moldorm→Hera lobby
-    db $20 ; ROOM 20 - Agahnim→self
-    db $28 ; ROOM 28 - Arrghus→Swamp lobby
-    db $4A ; ROOM 4A - Helmasaur→PoD lobby
-    db $59 ; ROOM 59 - Mothula→Skull 3
-    db $98 ; ROOM 98 - Vitreous→Mire foyer
-    db $0E ; ROOM 0E - Kholdstare→Ice 1
-    db $D6 ; ROOM D6 - Trinexx→TR foyer
-    db $DB ; ROOM DB - Blind→Thieves' lobby
-    db $0D ; ROOM 0D - Agahnim 2→self
+    db $C9 ; Room C9 - Armos→Eastern lobby
+    db $63 ; Room 63 - Lanmolas→Desert 3
+    db $77 ; Room 77 - Moldorm→Hera lobby
+    db $20 ; Room 20 - Agahnim→self
+    db $28 ; Room 28 - Arrghus→Swamp lobby
+    db $4A ; Room 4A - Helmasaur→PoD lobby
+    db $59 ; Room 59 - Mothula→Skull 3
+    db $98 ; Room 98 - Vitreous→Mire foyer
+    db $0E ; Room 0E - Kholdstare→Ice 1
+    db $D6 ; Room D6 - Trinexx→TR foyer
+    db $DB ; Room DB - Blind→Thieves' lobby
+    db $0D ; Room 0D - Agahnim 2→self
 }
 
 ; ==============================================================================

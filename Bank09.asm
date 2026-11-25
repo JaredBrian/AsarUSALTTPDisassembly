@@ -2288,23 +2288,26 @@ Overworld_SpritePointers:
 ; $04CB41-$04CB41 DATA
 OverworldSpritesNothing:
 {
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
 
+; Ypos, Xpos, SpriteID
+; TODO: Change all of the SpriteIDs to use contants.
+
 ; $04CB42-$04CB5A DATA
 OverworldSprites_1B_0:
 {
-    db $06, $1F, $40 ; Sprite 0x40 (0x01F0, 0x0060)
-    db $12, $01, $3F ; Sprite 0x3F (0x0010, 0x0120)
-    db $14, $01, $3F ; Sprite 0x3F (0x0010, 0x0140)
-    db $13, $1F, $42 ; Sprite 0x42 (0x01F0, 0x0130)
-    db $1A, $1F, $4B ; Sprite 0x4B (0x01F0, 0x01A0)
-    db $1A, $20, $4B ; Sprite 0x4B (0x0200, 0x01A0)
-    db $25, $2D, $3F ; Sprite 0x3F (0x02D0, 0x0250)
-    db $29, $20, $3F ; Sprite 0x3F (0x0200, 0x0290)
-    db $FF ; END
+    db $06, $1F, $40
+    db $12, $01, $3F
+    db $14, $01, $3F
+    db $13, $1F, $42
+    db $1A, $1F, $4B
+    db $1A, $20, $4B
+    db $25, $2D, $3F
+    db $29, $20, $3F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2312,8 +2315,8 @@ OverworldSprites_1B_0:
 ; $04CB5B-$04CB5E DATA
 OverworldSprites_1D_0:
 {
-    db $06, $0B, $AC ; Sprite 0xAC (0x00B0, 0x0060)
-    db $FF ; END
+    db $06, $0B, $AC
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2321,9 +2324,9 @@ OverworldSprites_1D_0:
 ; $04CB5F-$04CB65 DATA
 OverworldSprites_2B_0:
 {
-    db $1E, $09, $3F ; Sprite 0x3F (0x0090, 0x01E0)
-    db $1E, $0B, $3F ; Sprite 0x3F (0x00B0, 0x01E0)
-    db $FF ; END
+    db $1E, $09, $3F
+    db $1E, $0B, $3F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2331,11 +2334,11 @@ OverworldSprites_2B_0:
 ; $04CB66-$04CB72 DATA
 OverworldSprites_2C_0:
 {
-    db $18, $1E, $3F ; Sprite 0x3F (0x01E0, 0x0180)
-    db $1A, $1E, $3F ; Sprite 0x3F (0x01E0, 0x01A0)
-    db $1E, $0D, $3F ; Sprite 0x3F (0x00D0, 0x01E0)
-    db $1E, $0F, $3F ; Sprite 0x3F (0x00F0, 0x01E0)
-    db $FF ; END
+    db $18, $1E, $3F
+    db $1A, $1E, $3F
+    db $1E, $0D, $3F
+    db $1E, $0F, $3F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2343,9 +2346,9 @@ OverworldSprites_2C_0:
 ; $04CB73-$04CB79 DATA
 OverworldSprites_32_0:
 {
-    db $09, $1A, $DC ; Sprite 0xDC (0x01A0, 0x0090)
-    db $12, $18, $D8 ; Sprite 0xD8 (0x0180, 0x0120)
-    db $FF ; END
+    db $09, $1A, $DC
+    db $12, $18, $D8
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2353,27 +2356,27 @@ OverworldSprites_32_0:
 ; $04CB7A-$04CBB6 DATA
 OverworldSprites_40:
 {
-    db $07, $1A, $22 ; Sprite 0x22 (0x01A0, 0x0070)
-    db $11, $12, $22 ; Sprite 0x22 (0x0120, 0x0110)
-    db $1E, $0A, $22 ; Sprite 0x22 (0x00A0, 0x01E0)
-    db $09, $2F, $22 ; Sprite 0x22 (0x02F0, 0x0090)
-    db $0A, $31, $0E ; Sprite 0x0E (0x0310, 0x00A0)
-    db $0B, $33, $22 ; Sprite 0x22 (0x0330, 0x00B0)
-    db $14, $29, $22 ; Sprite 0x22 (0x0290, 0x0140)
-    db $16, $23, $22 ; Sprite 0x22 (0x0230, 0x0160)
-    db $17, $39, $AA ; Sprite 0xAA (0x0390, 0x0170)
-    db $21, $0A, $22 ; Sprite 0x22 (0x00A0, 0x0210)
-    db $25, $1A, $22 ; Sprite 0x22 (0x01A0, 0x0250)
-    db $28, $0B, $AA ; Sprite 0xAA (0x00B0, 0x0280)
-    db $30, $1E, $22 ; Sprite 0x22 (0x01E0, 0x0300)
-    db $38, $0E, $22 ; Sprite 0x22 (0x00E0, 0x0380)
-    db $38, $11, $22 ; Sprite 0x22 (0x0110, 0x0380)
-    db $39, $1A, $22 ; Sprite 0x22 (0x01A0, 0x0390)
-    db $21, $2D, $22 ; Sprite 0x22 (0x02D0, 0x0210)
-    db $28, $32, $22 ; Sprite 0x22 (0x0320, 0x0280)
-    db $32, $37, $22 ; Sprite 0x22 (0x0370, 0x0320)
-    db $37, $28, $AA ; Sprite 0xAA (0x0280, 0x0370)
-    db $FF ; END
+    db $07, $1A, $22
+    db $11, $12, $22
+    db $1E, $0A, $22
+    db $09, $2F, $22
+    db $0A, $31, $0E
+    db $0B, $33, $22
+    db $14, $29, $22
+    db $16, $23, $22
+    db $17, $39, $AA
+    db $21, $0A, $22
+    db $25, $1A, $22
+    db $28, $0B, $AA
+    db $30, $1E, $22
+    db $38, $0E, $22
+    db $38, $11, $22
+    db $39, $1A, $22
+    db $21, $2D, $22
+    db $28, $32, $22
+    db $32, $37, $22
+    db $37, $28, $AA
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2381,11 +2384,11 @@ OverworldSprites_40:
 ; $04CBB7-$04CBC3 DATA
 OverworldSprites_42:
 {
-    db $11, $0C, $0E ; Sprite 0x0E (0x00C0, 0x0110)
-    db $13, $0C, $0E ; Sprite 0x0E (0x00C0, 0x0130)
-    db $16, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0160)
-    db $19, $0E, $12 ; Sprite 0x12 (0x00E0, 0x0190)
-    db $FF ; END
+    db $11, $0C, $0E
+    db $13, $0C, $0E
+    db $16, $06, $E3
+    db $19, $0E, $12
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2393,9 +2396,9 @@ OverworldSprites_42:
 ; $04CBC4-$04CBCA DATA
 OverworldSprites_43:
 {
-    db $0C, $2F, $37 ; Sprite 0x37 (0x02F0, 0x00C0)
-    db $18, $20, $B9 ; Sprite 0xB9 (0x0200, 0x0180)
-    db $FF ; END
+    db $0C, $2F, $37
+    db $18, $20, $B9
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2403,10 +2406,10 @@ OverworldSprites_43:
 ; $04CBCB-$04CBD4 DATA
 OverworldSprites_45:
 {
-    db $0C, $06, $D0 ; Sprite 0xD0 (0x0060, 0x00C0)
-    db $0E, $1D, $D0 ; Sprite 0xD0 (0x01D0, 0x00E0)
-    db $0B, $20, $D0 ; Sprite 0xD0 (0x0200, 0x00B0)
-    db $FF ; END
+    db $0C, $06, $D0
+    db $0E, $1D, $D0
+    db $0B, $20, $D0
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2414,8 +2417,8 @@ OverworldSprites_45:
 ; $04CBD5-$04CBD8 DATA
 OverworldSprites_47:
 {
-    db $14, $16, $33 ; Sprite 0x33 (0x0160, 0x0140)
-    db $FF ; END
+    db $14, $16, $33
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2423,16 +2426,16 @@ OverworldSprites_47:
 ; $04CBD9-$04CBF4 DATA
 OverworldSprites_4A:
 {
-    db $06, $0E, $33 ; Sprite 0x33 (0x00E0, 0x0060)
-    db $08, $18, $EB ; Sprite 0xEB (0x0180, 0x0080)
-    db $0F, $0B, $12 ; Sprite 0x12 (0x00B0, 0x00F0)
-    db $10, $08, $12 ; Sprite 0x12 (0x0080, 0x0100)
-    db $13, $16, $12 ; Sprite 0x12 (0x0160, 0x0130)
-    db $13, $13, $00 ; Sprite 0x00 (0x0130, 0x0130)
-    db $14, $13, $00 ; Sprite 0x00 (0x0130, 0x0140)
-    db $18, $0E, $22 ; Sprite 0x22 (0x00E0, 0x0180)
-    db $1A, $14, $D3 ; Sprite 0xD3 (0x0140, 0x01A0)
-    db $FF ; END
+    db $06, $0E, $33
+    db $08, $18, $EB
+    db $0F, $0B, $12
+    db $10, $08, $12
+    db $13, $16, $12
+    db $13, $13, $00
+    db $14, $13, $00
+    db $18, $0E, $22
+    db $1A, $14, $D3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2440,11 +2443,11 @@ OverworldSprites_4A:
 ; $04CBF5-$04CC01 DATA
 OverworldSprites_4F:
 {
-    db $08, $19, $55 ; Sprite 0x55 (0x0190, 0x0080)
-    db $0B, $04, $C0 ; Sprite 0xC0 (0x0040, 0x00B0)
-    db $0D, $18, $D3 ; Sprite 0xD3 (0x0180, 0x00D0)
-    db $11, $1A, $22 ; Sprite 0x22 (0x01A0, 0x0110)
-    db $FF ; END
+    db $08, $19, $55
+    db $0B, $04, $C0
+    db $0D, $18, $D3
+    db $11, $1A, $22
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2452,12 +2455,12 @@ OverworldSprites_4F:
 ; $04CC02-$04CC11 DATA
 OverworldSprites_50:
 {
-    db $0B, $16, $19 ; Sprite 0x19 (0x0160, 0x00B0)
-    db $0C, $05, $12 ; Sprite 0x12 (0x0050, 0x00C0)
-    db $0E, $08, $25 ; Sprite 0x25 (0x0080, 0x00E0)
-    db $13, $19, $0B ; Sprite 0x0B (0x0190, 0x0130)
-    db $18, $08, $12 ; Sprite 0x12 (0x0080, 0x0180)
-    db $FF ; END
+    db $0B, $16, $19
+    db $0C, $05, $12
+    db $0E, $08, $25
+    db $13, $19, $0B
+    db $18, $08, $12
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2465,13 +2468,13 @@ OverworldSprites_50:
 ; $04CC12-$04CC24 DATA
 OverworldSprites_51:
 {
-    db $0E, $17, $45 ; Sprite 0x45 (0x0170, 0x00E0)
-    db $10, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0100)
-    db $10, $09, $E3 ; Sprite 0xE3 (0x0090, 0x0100)
-    db $15, $1C, $D3 ; Sprite 0xD3 (0x01C0, 0x0150)
-    db $16, $14, $12 ; Sprite 0x12 (0x0140, 0x0160)
-    db $17, $0E, $12 ; Sprite 0x12 (0x00E0, 0x0170)
-    db $FF ; END
+    db $0E, $17, $45
+    db $10, $08, $E3
+    db $10, $09, $E3
+    db $15, $1C, $D3
+    db $16, $14, $12
+    db $17, $0E, $12
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2479,12 +2482,12 @@ OverworldSprites_51:
 ; $04CC25-$04CC34 DATA
 OverworldSprites_52:
 {
-    db $09, $12, $D3 ; Sprite 0xD3 (0x0120, 0x0090)
-    db $0D, $15, $12 ; Sprite 0x12 (0x0150, 0x00D0)
-    db $10, $07, $41 ; Sprite 0x41 (0x0070, 0x0100)
-    db $17, $14, $41 ; Sprite 0x41 (0x0140, 0x0170)
-    db $18, $0E, $12 ; Sprite 0x12 (0x00E0, 0x0180)
-    db $FF ; END
+    db $09, $12, $D3
+    db $0D, $15, $12
+    db $10, $07, $41
+    db $17, $14, $41
+    db $18, $0E, $12
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2492,12 +2495,12 @@ OverworldSprites_52:
 ; $04CC35-$04CC44 DATA
 OverworldSprites_53:
 {
-    db $0B, $06, $D3 ; Sprite 0xD3 (0x0060, 0x00B0)
-    db $0C, $15, $11 ; Sprite 0x11 (0x0150, 0x00C0)
-    db $0D, $08, $22 ; Sprite 0x22 (0x0080, 0x00D0)
-    db $15, $0D, $12 ; Sprite 0x12 (0x00D0, 0x0150)
-    db $18, $16, $0E ; Sprite 0x0E (0x0160, 0x0180)
-    db $FF ; END
+    db $0B, $06, $D3
+    db $0C, $15, $11
+    db $0D, $08, $22
+    db $15, $0D, $12
+    db $18, $16, $0E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2505,15 +2508,15 @@ OverworldSprites_53:
 ; $04CC45-$04CC5D DATA
 OverworldSprites_54:
 {
-    db $0D, $14, $22 ; Sprite 0x22 (0x0140, 0x00D0)
-    db $0B, $05, $DC ; Sprite 0xDC (0x0050, 0x00B0)
-    db $0B, $19, $DB ; Sprite 0xDB (0x0190, 0x00B0)
-    db $0F, $07, $22 ; Sprite 0x22 (0x0070, 0x00F0)
-    db $0E, $0F, $E3 ; Sprite 0xE3 (0x00F0, 0x00E0)
-    db $10, $19, $22 ; Sprite 0x22 (0x0190, 0x0100)
-    db $14, $0D, $22 ; Sprite 0x22 (0x00D0, 0x0140)
-    db $19, $11, $11 ; Sprite 0x11 (0x0110, 0x0190)
-    db $FF ; END
+    db $0D, $14, $22
+    db $0B, $05, $DC
+    db $0B, $19, $DB
+    db $0F, $07, $22
+    db $0E, $0F, $E3
+    db $10, $19, $22
+    db $14, $0D, $22
+    db $19, $11, $11
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2521,14 +2524,14 @@ OverworldSprites_54:
 ; $04CC5E-$04CC73 DATA
 OverworldSprites_55:
 {
-    db $09, $11, $BA ; Sprite 0xBA (0x0110, 0x0090)
-    db $0E, $16, $11 ; Sprite 0x11 (0x0160, 0x00E0)
-    db $0E, $18, $D3 ; Sprite 0xD3 (0x0180, 0x00E0)
-    db $0F, $1B, $DA ; Sprite 0xDA (0x01B0, 0x00F0)
-    db $17, $07, $11 ; Sprite 0x11 (0x0070, 0x0170)
-    db $1A, $0A, $79 ; Sprite 0x79 (0x00A0, 0x01A0)
-    db $1B, $1A, $22 ; Sprite 0x22 (0x01A0, 0x01B0)
-    db $FF ; END
+    db $09, $11, $BA
+    db $0E, $16, $11
+    db $0E, $18, $D3
+    db $0F, $1B, $DA
+    db $17, $07, $11
+    db $1A, $0A, $79
+    db $1B, $1A, $22
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2536,12 +2539,12 @@ OverworldSprites_55:
 ; $04CC74-$04CC83 DATA
 OverworldSprites_56:
 {
-    db $06, $0A, $55 ; Sprite 0x55 (0x00A0, 0x0060)
-    db $0A, $13, $55 ; Sprite 0x55 (0x0130, 0x00A0)
-    db $0E, $04, $79 ; Sprite 0x79 (0x0040, 0x00E0)
-    db $17, $11, $22 ; Sprite 0x22 (0x0110, 0x0170)
-    db $1A, $05, $22 ; Sprite 0x22 (0x0050, 0x01A0)
-    db $FF ; END
+    db $06, $0A, $55
+    db $0A, $13, $55
+    db $0E, $04, $79
+    db $17, $11, $22
+    db $1A, $05, $22
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2549,14 +2552,14 @@ OverworldSprites_56:
 ; $04CC84-$04CC99 DATA
 OverworldSprites_57:
 {
-    db $04, $0C, $55 ; Sprite 0x55 (0x00C0, 0x0040)
-    db $08, $16, $08 ; Sprite 0x08 (0x0160, 0x0080)
-    db $0A, $18, $08 ; Sprite 0x08 (0x0180, 0x00A0)
-    db $0E, $0E, $08 ; Sprite 0x08 (0x00E0, 0x00E0)
-    db $10, $0E, $D3 ; Sprite 0xD3 (0x00E0, 0x0100)
-    db $1A, $0E, $08 ; Sprite 0x08 (0x00E0, 0x01A0)
-    db $1B, $0D, $08 ; Sprite 0x08 (0x00D0, 0x01B0)
-    db $FF ; END
+    db $04, $0C, $55
+    db $08, $16, $08
+    db $0A, $18, $08
+    db $0E, $0E, $08
+    db $10, $0E, $D3
+    db $1A, $0E, $08
+    db $1B, $0D, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2564,24 +2567,24 @@ OverworldSprites_57:
 ; $04CC9A-$04CCCD DATA
 OverworldSprites_58:
 {
-    db $06, $13, $12 ; Sprite 0x12 (0x0130, 0x0060)
-    db $0C, $18, $25 ; Sprite 0x25 (0x0180, 0x00C0)
-    db $1C, $07, $41 ; Sprite 0x41 (0x0070, 0x01C0)
-    db $0A, $35, $12 ; Sprite 0x12 (0x0350, 0x00A0)
-    db $0C, $2B, $19 ; Sprite 0x19 (0x02B0, 0x00C0)
-    db $17, $2E, $C4 ; Sprite 0xC4 (0x02E0, 0x0170)
-    db $1C, $20, $14 ; Sprite 0x14 (0x0200, 0x01C0)
-    db $25, $18, $19 ; Sprite 0x19 (0x0180, 0x0250)
-    db $27, $0D, $C4 ; Sprite 0xC4 (0x00D0, 0x0270)
-    db $28, $1D, $19 ; Sprite 0x19 (0x01D0, 0x0280)
-    db $2E, $12, $12 ; Sprite 0x12 (0x0120, 0x02E0)
-    db $34, $16, $0B ; Sprite 0x0B (0x0160, 0x0340)
-    db $37, $15, $0B ; Sprite 0x0B (0x0150, 0x0370)
-    db $27, $28, $0B ; Sprite 0x0B (0x0280, 0x0270)
-    db $2F, $33, $41 ; Sprite 0x41 (0x0330, 0x02F0)
-    db $34, $2C, $19 ; Sprite 0x19 (0x02C0, 0x0340)
-    db $35, $37, $25 ; Sprite 0x25 (0x0370, 0x0350)
-    db $FF ; END
+    db $06, $13, $12
+    db $0C, $18, $25
+    db $1C, $07, $41
+    db $0A, $35, $12
+    db $0C, $2B, $19
+    db $17, $2E, $C4
+    db $1C, $20, $14
+    db $25, $18, $19
+    db $27, $0D, $C4
+    db $28, $1D, $19
+    db $2E, $12, $12
+    db $34, $16, $0B
+    db $37, $15, $0B
+    db $27, $28, $0B
+    db $2F, $33, $41
+    db $34, $2C, $19
+    db $35, $37, $25
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2589,13 +2592,13 @@ OverworldSprites_58:
 ; $04CCCE-$04CCE0 DATA
 OverworldSprites_5A:
 {
-    db $08, $0F, $12 ; Sprite 0x12 (0x00F0, 0x0080)
-    db $08, $12, $25 ; Sprite 0x25 (0x0120, 0x0080)
-    db $0D, $12, $D3 ; Sprite 0xD3 (0x0120, 0x00D0)
-    db $0C, $15, $12 ; Sprite 0x12 (0x0150, 0x00C0)
-    db $0F, $0B, $11 ; Sprite 0x11 (0x00B0, 0x00F0)
-    db $19, $0E, $12 ; Sprite 0x12 (0x00E0, 0x0190)
-    db $FF ; END
+    db $08, $0F, $12
+    db $08, $12, $25
+    db $0D, $12, $D3
+    db $0C, $15, $12
+    db $0F, $0B, $11
+    db $19, $0E, $12
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2603,18 +2606,18 @@ OverworldSprites_5A:
 ; $04CCE1-$04CD02 DATA
 OverworldSprites_5B:
 {
-    db $17, $15, $22 ; Sprite 0x22 (0x0150, 0x0170)
-    db $12, $34, $EB ; Sprite 0xEB (0x0340, 0x0120)
-    db $24, $13, $33 ; Sprite 0x33 (0x0130, 0x0240)
-    db $27, $0F, $12 ; Sprite 0x12 (0x00F0, 0x0270)
-    db $2A, $17, $E3 ; Sprite 0xE3 (0x0170, 0x02A0)
-    db $2A, $0C, $12 ; Sprite 0x12 (0x00C0, 0x02A0)
-    db $2C, $1E, $11 ; Sprite 0x11 (0x01E0, 0x02C0)
-    db $25, $34, $0E ; Sprite 0x0E (0x0340, 0x0250)
-    db $27, $32, $12 ; Sprite 0x12 (0x0320, 0x0270)
-    db $29, $30, $12 ; Sprite 0x12 (0x0300, 0x0290)
-    db $2C, $21, $11 ; Sprite 0x11 (0x0210, 0x02C0)
-    db $FF ; END
+    db $17, $15, $22
+    db $12, $34, $EB
+    db $24, $13, $33
+    db $27, $0F, $12
+    db $2A, $17, $E3
+    db $2A, $0C, $12
+    db $2C, $1E, $11
+    db $25, $34, $0E
+    db $27, $32, $12
+    db $29, $30, $12
+    db $2C, $21, $11
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2622,14 +2625,14 @@ OverworldSprites_5B:
 ; $04CD03-$04CD18 DATA
 OverworldSprites_5D:
 {
-    db $08, $0B, $25 ; Sprite 0x25 (0x00B0, 0x0080)
-    db $09, $07, $11 ; Sprite 0x11 (0x0070, 0x0090)
-    db $0B, $06, $0E ; Sprite 0x0E (0x0060, 0x00B0)
-    db $0B, $18, $12 ; Sprite 0x12 (0x0180, 0x00B0)
-    db $0E, $17, $D3 ; Sprite 0xD3 (0x0170, 0x00E0)
-    db $10, $1A, $12 ; Sprite 0x12 (0x01A0, 0x0100)
-    db $11, $08, $41 ; Sprite 0x41 (0x0080, 0x0110)
-    db $FF ; END
+    db $08, $0B, $25
+    db $09, $07, $11
+    db $0B, $06, $0E
+    db $0B, $18, $12
+    db $0E, $17, $D3
+    db $10, $1A, $12
+    db $11, $08, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2637,28 +2640,28 @@ OverworldSprites_5D:
 ; $04CD19-$04CD58 DATA
 OverworldSprites_5E:
 {
-    db $04, $0D, $22 ; Sprite 0x22 (0x00D0, 0x0040)
-    db $11, $03, $22 ; Sprite 0x22 (0x0030, 0x0110)
-    db $11, $15, $B6 ; Sprite 0xB6 (0x0150, 0x0110)
-    db $1A, $12, $22 ; Sprite 0x22 (0x0120, 0x01A0)
-    db $09, $27, $22 ; Sprite 0x22 (0x0270, 0x0090)
-    db $10, $2F, $22 ; Sprite 0x22 (0x02F0, 0x0100)
-    db $15, $25, $12 ; Sprite 0x12 (0x0250, 0x0150)
-    db $17, $26, $11 ; Sprite 0x11 (0x0260, 0x0170)
-    db $18, $35, $22 ; Sprite 0x22 (0x0350, 0x0180)
-    db $1E, $2A, $22 ; Sprite 0x22 (0x02A0, 0x01E0)
-    db $26, $0A, $12 ; Sprite 0x12 (0x00A0, 0x0260)
-    db $2B, $0C, $12 ; Sprite 0x12 (0x00C0, 0x02B0)
-    db $35, $07, $22 ; Sprite 0x22 (0x0070, 0x0350)
-    db $37, $16, $11 ; Sprite 0x11 (0x0160, 0x0370)
-    db $38, $09, $0E ; Sprite 0x0E (0x0090, 0x0380)
-    db $24, $32, $12 ; Sprite 0x12 (0x0320, 0x0240)
-    db $28, $35, $0E ; Sprite 0x0E (0x0350, 0x0280)
-    db $30, $24, $22 ; Sprite 0x22 (0x0240, 0x0300)
-    db $30, $30, $E3 ; Sprite 0xE3 (0x0300, 0x0300)
-    db $36, $35, $11 ; Sprite 0x11 (0x0350, 0x0360)
-    db $37, $29, $00 ; Sprite 0x00 (0x0290, 0x0370)
-    db $FF ; END
+    db $04, $0D, $22
+    db $11, $03, $22
+    db $11, $15, $B6
+    db $1A, $12, $22
+    db $09, $27, $22
+    db $10, $2F, $22
+    db $15, $25, $12
+    db $17, $26, $11
+    db $18, $35, $22
+    db $1E, $2A, $22
+    db $26, $0A, $12
+    db $2B, $0C, $12
+    db $35, $07, $22
+    db $37, $16, $11
+    db $38, $09, $0E
+    db $24, $32, $12
+    db $28, $35, $0E
+    db $30, $24, $22
+    db $30, $30, $E3
+    db $36, $35, $11
+    db $37, $29, $00
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2666,13 +2669,13 @@ OverworldSprites_5E:
 ; $04CD59-$04CD6B DATA
 OverworldSprites_62:
 {
-    db $05, $0D, $B4 ; Sprite 0xB4 (0x00D0, 0x0050)
-    db $11, $13, $0B ; Sprite 0x0B (0x0130, 0x0110)
-    db $13, $11, $0B ; Sprite 0x0B (0x0110, 0x0130)
-    db $15, $15, $0B ; Sprite 0x0B (0x0150, 0x0150)
-    db $16, $09, $0B ; Sprite 0x0B (0x0090, 0x0160)
-    db $17, $11, $0B ; Sprite 0x0B (0x0110, 0x0170)
-    db $FF ; END
+    db $05, $0D, $B4
+    db $11, $13, $0B
+    db $13, $11, $0B
+    db $15, $15, $0B
+    db $16, $09, $0B
+    db $17, $11, $0B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2680,13 +2683,13 @@ OverworldSprites_62:
 ; $04CD6C-$04CD7E DATA
 OverworldSprites_65:
 {
-    db $07, $13, $12 ; Sprite 0x12 (0x0130, 0x0070)
-    db $0A, $0F, $D3 ; Sprite 0xD3 (0x00F0, 0x00A0)
-    db $0C, $0E, $12 ; Sprite 0x12 (0x00E0, 0x00C0)
-    db $11, $05, $11 ; Sprite 0x11 (0x0050, 0x0110)
-    db $16, $0A, $12 ; Sprite 0x12 (0x00A0, 0x0160)
-    db $16, $13, $12 ; Sprite 0x12 (0x0130, 0x0160)
-    db $FF ; END
+    db $07, $13, $12
+    db $0A, $0F, $D3
+    db $0C, $0E, $12
+    db $11, $05, $11
+    db $16, $0A, $12
+    db $16, $13, $12
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2694,8 +2697,8 @@ OverworldSprites_65:
 ; $04CD7F-$04CD82 DATA
 OverworldSprites_68:
 {
-    db $11, $0E, $D5 ; Sprite 0xD5 (0x00E0, 0x0110)
-    db $FF ; END
+    db $11, $0E, $D5
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2703,8 +2706,8 @@ OverworldSprites_68:
 ; $04CD83-$04CD86 DATA
 OverworldSprites_69:
 {
-    db $09, $06, $1A ; Sprite 0x1A (0x0060, 0x0090)
-    db $FF ; END
+    db $09, $06, $1A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2712,8 +2715,8 @@ OverworldSprites_69:
 ; $04CD87-$04CD8A DATA
 OverworldSprites_6A:
 {
-    db $0F, $0E, $2E ; Sprite 0x2E (0x00E0, 0x00F0)
-    db $FF ; END
+    db $0F, $0E, $2E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2721,12 +2724,12 @@ OverworldSprites_6A:
 ; $04CD8B-$04CD9A DATA
 OverworldSprites_6B:
 {
-    db $08, $16, $25 ; Sprite 0x25 (0x0160, 0x0080)
-    db $09, $08, $22 ; Sprite 0x22 (0x0080, 0x0090)
-    db $0F, $17, $25 ; Sprite 0x25 (0x0170, 0x00F0)
-    db $16, $13, $12 ; Sprite 0x12 (0x0130, 0x0160)
-    db $19, $0F, $12 ; Sprite 0x12 (0x00F0, 0x0190)
-    db $FF ; END
+    db $08, $16, $25
+    db $09, $08, $22
+    db $0F, $17, $25
+    db $16, $13, $12
+    db $19, $0F, $12
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2734,12 +2737,12 @@ OverworldSprites_6B:
 ; $04CD9B-$04CDAA DATA
 OverworldSprites_6C:
 {
-    db $06, $15, $0E ; Sprite 0x0E (0x0150, 0x0060)
-    db $0A, $15, $12 ; Sprite 0x12 (0x0150, 0x00A0)
-    db $0D, $14, $12 ; Sprite 0x12 (0x0140, 0x00D0)
-    db $16, $14, $11 ; Sprite 0x11 (0x0140, 0x0160)
-    db $19, $09, $22 ; Sprite 0x22 (0x0090, 0x0190)
-    db $FF ; END
+    db $06, $15, $0E
+    db $0A, $15, $12
+    db $0D, $14, $12
+    db $16, $14, $11
+    db $19, $09, $22
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2747,13 +2750,13 @@ OverworldSprites_6C:
 ; $04CDAB-$04CDBD DATA
 OverworldSprites_6D:
 {
-    db $05, $0F, $22 ; Sprite 0x22 (0x00F0, 0x0050)
-    db $07, $0D, $11 ; Sprite 0x11 (0x00D0, 0x0070)
-    db $08, $12, $41 ; Sprite 0x41 (0x0120, 0x0080)
-    db $0A, $10, $41 ; Sprite 0x41 (0x0100, 0x00A0)
-    db $1A, $10, $D3 ; Sprite 0xD3 (0x0100, 0x01A0)
-    db $1B, $13, $D3 ; Sprite 0xD3 (0x0130, 0x01B0)
-    db $FF ; END
+    db $05, $0F, $22
+    db $07, $0D, $11
+    db $08, $12, $41
+    db $0A, $10, $41
+    db $1A, $10, $D3
+    db $1B, $13, $D3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2761,13 +2764,13 @@ OverworldSprites_6D:
 ; $04CDBE-$04CDD0 DATA
 OverworldSprites_6E:
 {
-    db $08, $0C, $DA ; Sprite 0xDA (0x00C0, 0x0080)
-    db $09, $10, $79 ; Sprite 0x79 (0x0100, 0x0090)
-    db $0A, $14, $AC ; Sprite 0xAC (0x0140, 0x00A0)
-    db $0B, $08, $41 ; Sprite 0x41 (0x0080, 0x00B0)
-    db $0E, $10, $41 ; Sprite 0x41 (0x0100, 0x00E0)
-    db $18, $1A, $22 ; Sprite 0x22 (0x01A0, 0x0180)
-    db $FF ; END
+    db $08, $0C, $DA
+    db $09, $10, $79
+    db $0A, $14, $AC
+    db $0B, $08, $41
+    db $0E, $10, $41
+    db $18, $1A, $22
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2775,12 +2778,12 @@ OverworldSprites_6E:
 ; $04CDD1-$04CDE0 DATA
 OverworldSprites_6F:
 {
-    db $08, $0D, $0E ; Sprite 0x0E (0x00D0, 0x0080)
-    db $08, $0F, $0E ; Sprite 0x0E (0x00F0, 0x0080)
-    db $0B, $0E, $0E ; Sprite 0x0E (0x00E0, 0x00B0)
-    db $0C, $17, $00 ; Sprite 0x00 (0x0170, 0x00C0)
-    db $17, $09, $D3 ; Sprite 0xD3 (0x0090, 0x0170)
-    db $FF ; END
+    db $08, $0D, $0E
+    db $08, $0F, $0E
+    db $0B, $0E, $0E
+    db $0C, $17, $00
+    db $17, $09, $D3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2788,19 +2791,19 @@ OverworldSprites_6F:
 ; $04CDE1-$04CE05 DATA
 OverworldSprites_70:
 {
-    db $1B, $21, $00 ; Sprite 0x00 (0x0210, 0x01B0)
-    db $1C, $2B, $55 ; Sprite 0x55 (0x02B0, 0x01C0)
-    db $21, $12, $55 ; Sprite 0x55 (0x0120, 0x0210)
-    db $24, $1B, $CF ; Sprite 0xCF (0x01B0, 0x0240)
-    db $27, $10, $CF ; Sprite 0xCF (0x0100, 0x0270)
-    db $28, $07, $00 ; Sprite 0x00 (0x0070, 0x0280)
-    db $2B, $16, $55 ; Sprite 0x55 (0x0160, 0x02B0)
-    db $2E, $1E, $55 ; Sprite 0x55 (0x01E0, 0x02E0)
-    db $33, $17, $CF ; Sprite 0xCF (0x0170, 0x0330)
-    db $38, $11, $55 ; Sprite 0x55 (0x0110, 0x0380)
-    db $2B, $23, $55 ; Sprite 0x55 (0x0230, 0x02B0)
-    db $2C, $27, $CF ; Sprite 0xCF (0x0270, 0x02C0)
-    db $FF ; END
+    db $1B, $21, $00
+    db $1C, $2B, $55
+    db $21, $12, $55
+    db $24, $1B, $CF
+    db $27, $10, $CF
+    db $28, $07, $00
+    db $2B, $16, $55
+    db $2E, $1E, $55
+    db $33, $17, $CF
+    db $38, $11, $55
+    db $2B, $23, $55
+    db $2C, $27, $CF
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2808,12 +2811,12 @@ OverworldSprites_70:
 ; $04CE06-$04CE15 DATA
 OverworldSprites_72:
 {
-    db $0B, $1B, $25 ; Sprite 0x25 (0x01B0, 0x00B0)
-    db $0D, $10, $41 ; Sprite 0x41 (0x0100, 0x00D0)
-    db $0E, $13, $41 ; Sprite 0x41 (0x0130, 0x00E0)
-    db $14, $1A, $25 ; Sprite 0x25 (0x01A0, 0x0140)
-    db $17, $0B, $22 ; Sprite 0x22 (0x00B0, 0x0170)
-    db $FF ; END
+    db $0B, $1B, $25
+    db $0D, $10, $41
+    db $0E, $13, $41
+    db $14, $1A, $25
+    db $17, $0B, $22
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2821,12 +2824,12 @@ OverworldSprites_72:
 ; $04CE16-$04CE25 DATA
 OverworldSprites_73:
 {
-    db $0C, $17, $AA ; Sprite 0xAA (0x0170, 0x00C0)
-    db $0D, $09, $12 ; Sprite 0x12 (0x0090, 0x00D0)
-    db $0E, $14, $A8 ; Sprite 0xA8 (0x0140, 0x00E0)
-    db $1A, $15, $A8 ; Sprite 0xA8 (0x0150, 0x01A0)
-    db $1B, $1B, $A9 ; Sprite 0xA9 (0x01B0, 0x01B0)
-    db $FF ; END
+    db $0C, $17, $AA
+    db $0D, $09, $12
+    db $0E, $14, $A8
+    db $1A, $15, $A8
+    db $1B, $1B, $A9
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2834,14 +2837,14 @@ OverworldSprites_73:
 ; $04CE26-$04CE3B DATA
 OverworldSprites_74:
 {
-    db $0D, $0B, $12 ; Sprite 0x12 (0x00B0, 0x00D0)
-    db $0E, $17, $33 ; Sprite 0x33 (0x0170, 0x00E0)
-    db $11, $10, $A8 ; Sprite 0xA8 (0x0100, 0x0110)
-    db $11, $15, $12 ; Sprite 0x12 (0x0150, 0x0110)
-    db $12, $0A, $AA ; Sprite 0xAA (0x00A0, 0x0120)
-    db $14, $0E, $AC ; Sprite 0xAC (0x00E0, 0x0140)
-    db $17, $11, $12 ; Sprite 0x12 (0x0110, 0x0170)
-    db $FF ; END
+    db $0D, $0B, $12
+    db $0E, $17, $33
+    db $11, $10, $A8
+    db $11, $15, $12
+    db $12, $0A, $AA
+    db $14, $0E, $AC
+    db $17, $11, $12
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2849,29 +2852,29 @@ OverworldSprites_74:
 ; $04CE3C-$04CE7E DATA
 OverworldSprites_75:
 {
-    db $05, $0A, $D3 ; Sprite 0xD3 (0x00A0, 0x0050)
-    db $07, $09, $41 ; Sprite 0x41 (0x0090, 0x0070)
-    db $09, $0B, $41 ; Sprite 0x41 (0x00B0, 0x0090)
-    db $13, $07, $08 ; Sprite 0x08 (0x0070, 0x0130)
-    db $16, $18, $A8 ; Sprite 0xA8 (0x0180, 0x0160)
-    db $17, $09, $AA ; Sprite 0xAA (0x0090, 0x0170)
-    db $0C, $30, $55 ; Sprite 0x55 (0x0300, 0x00C0)
-    db $11, $29, $A9 ; Sprite 0xA9 (0x0290, 0x0110)
-    db $15, $36, $A8 ; Sprite 0xA8 (0x0360, 0x0150)
-    db $1F, $31, $AA ; Sprite 0xAA (0x0310, 0x01F0)
-    db $22, $1B, $55 ; Sprite 0x55 (0x01B0, 0x0220)
-    db $28, $14, $A8 ; Sprite 0xA8 (0x0140, 0x0280)
-    db $2E, $16, $AA ; Sprite 0xAA (0x0160, 0x02E0)
-    db $32, $19, $A8 ; Sprite 0xA8 (0x0190, 0x0320)
-    db $35, $0A, $A9 ; Sprite 0xA9 (0x00A0, 0x0350)
-    db $39, $08, $22 ; Sprite 0x22 (0x0080, 0x0390)
-    db $39, $1B, $55 ; Sprite 0x55 (0x01B0, 0x0390)
-    db $26, $2A, $AA ; Sprite 0xAA (0x02A0, 0x0260)
-    db $28, $32, $A8 ; Sprite 0xA8 (0x0320, 0x0280)
-    db $2C, $2A, $55 ; Sprite 0x55 (0x02A0, 0x02C0)
-    db $35, $32, $55 ; Sprite 0x55 (0x0320, 0x0350)
-    db $39, $37, $08 ; Sprite 0x08 (0x0370, 0x0390)
-    db $FF ; END
+    db $05, $0A, $D3
+    db $07, $09, $41
+    db $09, $0B, $41
+    db $13, $07, $08
+    db $16, $18, $A8
+    db $17, $09, $AA
+    db $0C, $30, $55
+    db $11, $29, $A9
+    db $15, $36, $A8
+    db $1F, $31, $AA
+    db $22, $1B, $55
+    db $28, $14, $A8
+    db $2E, $16, $AA
+    db $32, $19, $A8
+    db $35, $0A, $A9
+    db $39, $08, $22
+    db $39, $1B, $55
+    db $26, $2A, $AA
+    db $28, $32, $A8
+    db $2C, $2A, $55
+    db $35, $32, $55
+    db $39, $37, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2879,13 +2882,13 @@ OverworldSprites_75:
 ; $04CE7F-$04CE91 DATA
 OverworldSprites_77:
 {
-    db $08, $11, $08 ; Sprite 0x08 (0x0110, 0x0080)
-    db $0A, $09, $D3 ; Sprite 0xD3 (0x0090, 0x00A0)
-    db $0B, $0D, $A9 ; Sprite 0xA9 (0x00D0, 0x00B0)
-    db $11, $18, $08 ; Sprite 0x08 (0x0180, 0x0110)
-    db $12, $07, $55 ; Sprite 0x55 (0x0070, 0x0120)
-    db $19, $12, $55 ; Sprite 0x55 (0x0120, 0x0190)
-    db $FF ; END
+    db $08, $11, $08
+    db $0A, $09, $D3
+    db $0B, $0D, $A9
+    db $11, $18, $08
+    db $12, $07, $55
+    db $19, $12, $55
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2893,11 +2896,11 @@ OverworldSprites_77:
 ; $04CE92-$04CE9E DATA
 OverworldSprites_7A:
 {
-    db $07, $06, $11 ; Sprite 0x11 (0x0060, 0x0070)
-    db $09, $16, $22 ; Sprite 0x22 (0x0160, 0x0090)
-    db $0B, $14, $22 ; Sprite 0x22 (0x0140, 0x00B0)
-    db $0B, $16, $22 ; Sprite 0x22 (0x0160, 0x00B0)
-    db $FF ; END
+    db $07, $06, $11
+    db $09, $16, $22
+    db $0B, $14, $22
+    db $0B, $16, $22
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2905,13 +2908,13 @@ OverworldSprites_7A:
 ; $04CE9F-$04CEB1 DATA
 OverworldSprites_7B:
 {
-    db $06, $12, $A9 ; Sprite 0xA9 (0x0120, 0x0060)
-    db $0A, $16, $AA ; Sprite 0xAA (0x0160, 0x00A0)
-    db $0F, $0D, $12 ; Sprite 0x12 (0x00D0, 0x00F0)
-    db $10, $0A, $D3 ; Sprite 0xD3 (0x00A0, 0x0100)
-    db $14, $13, $12 ; Sprite 0x12 (0x0130, 0x0140)
-    db $18, $16, $22 ; Sprite 0x22 (0x0160, 0x0180)
-    db $FF ; END
+    db $06, $12, $A9
+    db $0A, $16, $AA
+    db $0F, $0D, $12
+    db $10, $0A, $D3
+    db $14, $13, $12
+    db $18, $16, $22
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2919,13 +2922,13 @@ OverworldSprites_7B:
 ; $04CEB2-$04CEC4 DATA
 OverworldSprites_7C:
 {
-    db $05, $03, $D3 ; Sprite 0xD3 (0x0030, 0x0050)
-    db $06, $07, $41 ; Sprite 0x41 (0x0070, 0x0060)
-    db $06, $0F, $33 ; Sprite 0x33 (0x00F0, 0x0060)
-    db $11, $11, $11 ; Sprite 0x11 (0x0110, 0x0110)
-    db $15, $18, $22 ; Sprite 0x22 (0x0180, 0x0150)
-    db $19, $16, $22 ; Sprite 0x22 (0x0160, 0x0190)
-    db $FF ; END
+    db $05, $03, $D3
+    db $06, $07, $41
+    db $06, $0F, $33
+    db $11, $11, $11
+    db $15, $18, $22
+    db $19, $16, $22
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2933,14 +2936,14 @@ OverworldSprites_7C:
 ; $04CEC5-$04CEDA DATA
 OverworldSprites_7F:
 {
-    db $06, $10, $A8 ; Sprite 0xA8 (0x0100, 0x0060)
-    db $06, $16, $08 ; Sprite 0x08 (0x0160, 0x0060)
-    db $0C, $07, $BA ; Sprite 0xBA (0x0070, 0x00C0)
-    db $0E, $07, $55 ; Sprite 0x55 (0x0070, 0x00E0)
-    db $13, $0D, $A8 ; Sprite 0xA8 (0x00D0, 0x0130)
-    db $14, $16, $AA ; Sprite 0xAA (0x0160, 0x0140)
-    db $17, $0F, $08 ; Sprite 0x08 (0x00F0, 0x0170)
-    db $FF ; END
+    db $06, $10, $A8
+    db $06, $16, $08
+    db $0C, $07, $BA
+    db $0E, $07, $55
+    db $13, $0D, $A8
+    db $14, $16, $AA
+    db $17, $0F, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2948,15 +2951,15 @@ OverworldSprites_7F:
 ; $04CEDB-$04CEF3 DATA
 OverworldSprites_80:
 {
-    db $08, $07, $62 ; Sprite 0x62 (0x0070, 0x0080)
-    db $0A, $07, $B3 ; Sprite 0xB3 (0x0070, 0x00A0)
-    db $14, $0F, $5A ; Sprite 0x5A (0x00F0, 0x0140)
-    db $16, $00, $59 ; Sprite 0x59 (0x0000, 0x0160)
-    db $18, $02, $5A ; Sprite 0x5A (0x0020, 0x0180)
-    db $1A, $0E, $59 ; Sprite 0x59 (0x00E0, 0x01A0)
-    db $1B, $0F, $5A ; Sprite 0x5A (0x00F0, 0x01B0)
-    db $04, $16, $2B ; Sprite 0x2B (0x0160, 0x0040)
-    db $FF ; END
+    db $08, $07, $62
+    db $0A, $07, $B3
+    db $14, $0F, $5A
+    db $16, $00, $59
+    db $18, $02, $5A
+    db $1A, $0E, $59
+    db $1B, $0F, $5A
+    db $04, $16, $2B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -2964,36 +2967,36 @@ OverworldSprites_80:
 ; $04CEF4-$04CF4B DATA
 OverworldSprites_81:
 {
-    db $26, $1B, $EB ; Sprite 0xEB (0x01B0, 0x0260)
-    db $06, $0A, $56 ; Sprite 0x56 (0x00A0, 0x0060)
-    db $06, $1C, $56 ; Sprite 0x56 (0x01C0, 0x0060)
-    db $07, $11, $55 ; Sprite 0x55 (0x0110, 0x0070)
-    db $0A, $16, $56 ; Sprite 0x56 (0x0160, 0x00A0)
-    db $0A, $1A, $55 ; Sprite 0x55 (0x01A0, 0x00A0)
-    db $0C, $09, $55 ; Sprite 0x55 (0x0090, 0x00C0)
-    db $0D, $12, $55 ; Sprite 0x55 (0x0120, 0x00D0)
-    db $12, $1A, $56 ; Sprite 0x56 (0x01A0, 0x0120)
-    db $13, $07, $56 ; Sprite 0x56 (0x0070, 0x0130)
-    db $13, $14, $56 ; Sprite 0x56 (0x0140, 0x0130)
-    db $18, $08, $56 ; Sprite 0x56 (0x0080, 0x0180)
-    db $1C, $04, $56 ; Sprite 0x56 (0x0040, 0x01C0)
-    db $04, $3B, $52 ; Sprite 0x52 (0x03B0, 0x0040)
-    db $08, $27, $55 ; Sprite 0x55 (0x0270, 0x0080)
-    db $08, $2D, $55 ; Sprite 0x55 (0x02D0, 0x0080)
-    db $0E, $22, $56 ; Sprite 0x56 (0x0220, 0x00E0)
-    db $0E, $2D, $55 ; Sprite 0x55 (0x02D0, 0x00E0)
-    db $14, $21, $55 ; Sprite 0x55 (0x0210, 0x0140)
-    db $20, $0D, $56 ; Sprite 0x56 (0x00D0, 0x0200)
-    db $31, $08, $56 ; Sprite 0x56 (0x0080, 0x0310)
-    db $31, $14, $55 ; Sprite 0x55 (0x0140, 0x0310)
-    db $33, $0C, $56 ; Sprite 0x56 (0x00C0, 0x0330)
-    db $35, $0E, $55 ; Sprite 0x55 (0x00E0, 0x0350)
-    db $38, $08, $56 ; Sprite 0x56 (0x0080, 0x0380)
-    db $28, $3B, $56 ; Sprite 0x56 (0x03B0, 0x0280)
-    db $2B, $3A, $56 ; Sprite 0x56 (0x03A0, 0x02B0)
-    db $35, $2D, $56 ; Sprite 0x56 (0x02D0, 0x0350)
-    db $36, $37, $56 ; Sprite 0x56 (0x0370, 0x0360)
-    db $FF ; END
+    db $26, $1B, $EB
+    db $06, $0A, $56
+    db $06, $1C, $56
+    db $07, $11, $55
+    db $0A, $16, $56
+    db $0A, $1A, $55
+    db $0C, $09, $55
+    db $0D, $12, $55
+    db $12, $1A, $56
+    db $13, $07, $56
+    db $13, $14, $56
+    db $18, $08, $56
+    db $1C, $04, $56
+    db $04, $3B, $52
+    db $08, $27, $55
+    db $08, $2D, $55
+    db $0E, $22, $56
+    db $0E, $2D, $55
+    db $14, $21, $55
+    db $20, $0D, $56
+    db $31, $08, $56
+    db $31, $14, $55
+    db $33, $0C, $56
+    db $35, $0E, $55
+    db $38, $08, $56
+    db $28, $3B, $56
+    db $2B, $3A, $56
+    db $35, $2D, $56
+    db $36, $37, $56
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3001,22 +3004,22 @@ OverworldSprites_81:
 ; $04CF4C-$04CF79 DATA
 OverworldSprites_00_1:
 {
-    db $12, $07, $E8 ; Sprite 0xE8 (0x0070, 0x0120)
-    db $0B, $12, $00 ; Sprite 0x00 (0x0120, 0x00B0)
-    db $15, $1E, $E7 ; Sprite 0xE7 (0x01E0, 0x0150)
-    db $06, $28, $E8 ; Sprite 0xE8 (0x0280, 0x0060)
-    db $0A, $31, $0D ; Sprite 0x0D (0x0310, 0x00A0)
-    db $0A, $2D, $00 ; Sprite 0x00 (0x02D0, 0x00A0)
-    db $10, $2A, $17 ; Sprite 0x17 (0x02A0, 0x0100)
-    db $15, $39, $E8 ; Sprite 0xE8 (0x0390, 0x0150)
-    db $22, $0E, $C4 ; Sprite 0xC4 (0x00E0, 0x0220)
-    db $2D, $1E, $17 ; Sprite 0x17 (0x01E0, 0x02D0)
-    db $25, $29, $79 ; Sprite 0x79 (0x0290, 0x0250)
-    db $27, $2A, $33 ; Sprite 0x33 (0x02A0, 0x0270)
-    db $2D, $36, $00 ; Sprite 0x00 (0x0360, 0x02D0)
-    db $35, $25, $E8 ; Sprite 0xE8 (0x0250, 0x0350)
-    db $35, $29, $C4 ; Sprite 0xC4 (0x0290, 0x0350)
-    db $FF ; END
+    db $12, $07, $E8
+    db $0B, $12, $00
+    db $15, $1E, $E7
+    db $06, $28, $E8
+    db $0A, $31, $0D
+    db $0A, $2D, $00
+    db $10, $2A, $17
+    db $15, $39, $E8
+    db $22, $0E, $C4
+    db $2D, $1E, $17
+    db $25, $29, $79
+    db $27, $2A, $33
+    db $2D, $36, $00
+    db $35, $25, $E8
+    db $35, $29, $C4
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3024,10 +3027,10 @@ OverworldSprites_00_1:
 ; $04CF7A-$04CF83 DATA
 OverworldSprites_02_1:
 {
-    db $13, $04, $0D ; Sprite 0x0D (0x0040, 0x0130)
-    db $13, $0C, $2C ; Sprite 0x2C (0x00C0, 0x0130)
-    db $1A, $0D, $17 ; Sprite 0x17 (0x00D0, 0x01A0)
-    db $FF ; END
+    db $13, $04, $0D
+    db $13, $0C, $2C
+    db $1A, $0D, $17
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3036,17 +3039,17 @@ OverworldSprites_02_1:
 OverworldSprites_03_1:
 {
     db $00, $00, $F4 ; Overlord 02 | xy: { 0x000, 0x000 }
-    db $04, $0B, $F2 ; Sprite 0xF2 (0x00B0, 0x0040)
-    db $0C, $27, $27 ; Sprite 0x27 (0x0270, 0x00C0)
-    db $16, $22, $EB ; Sprite 0xEB (0x0220, 0x0160)
-    db $35, $0A, $27 ; Sprite 0x27 (0x00A0, 0x0350)
-    db $36, $06, $27 ; Sprite 0x27 (0x0060, 0x0360)
-    db $3B, $0D, $27 ; Sprite 0x27 (0x00D0, 0x03B0)
+    db $04, $0B, $F2
+    db $0C, $27, $27
+    db $16, $22, $EB
+    db $35, $0A, $27
+    db $36, $06, $27
+    db $3B, $0D, $27
     db $3B, $12, $F3 ; Overlord 01 | xy: { 0x120, 0x3B0 }
-    db $2D, $2C, $27 ; Sprite 0x27 (0x02C0, 0x02D0)
-    db $33, $34, $27 ; Sprite 0x27 (0x0340, 0x0330)
-    db $34, $2F, $27 ; Sprite 0x27 (0x02F0, 0x0340)
-    db $FF ; END
+    db $2D, $2C, $27
+    db $33, $34, $27
+    db $34, $2F, $27
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3054,20 +3057,20 @@ OverworldSprites_03_1:
 ; $04CFA6-$04CFCD DATA
 OverworldSprites_05_1:
 {
-    db $0E, $1E, $27 ; Sprite 0x27 (0x01E0, 0x00E0)
-    db $0F, $1F, $C9 ; Sprite 0xC9 (0x01F0, 0x00F0)
-    db $03, $2F, $EB ; Sprite 0xEB (0x02F0, 0x0030)
-    db $0D, $35, $27 ; Sprite 0x27 (0x0350, 0x00D0)
-    db $0F, $29, $C9 ; Sprite 0xC9 (0x0290, 0x00F0)
-    db $0F, $35, $27 ; Sprite 0x27 (0x0350, 0x00F0)
-    db $10, $34, $E3 ; Sprite 0xE3 (0x0340, 0x0100)
-    db $31, $1E, $C9 ; Sprite 0xC9 (0x01E0, 0x0310)
-    db $2A, $35, $C9 ; Sprite 0xC9 (0x0350, 0x02A0)
-    db $2F, $2A, $27 ; Sprite 0x27 (0x02A0, 0x02F0)
-    db $2F, $2F, $C9 ; Sprite 0xC9 (0x02F0, 0x02F0)
-    db $36, $29, $27 ; Sprite 0x27 (0x0290, 0x0360)
-    db $36, $36, $27 ; Sprite 0x27 (0x0360, 0x0360)
-    db $FF ; END
+    db $0E, $1E, $27
+    db $0F, $1F, $C9
+    db $03, $2F, $EB
+    db $0D, $35, $27
+    db $0F, $29, $C9
+    db $0F, $35, $27
+    db $10, $34, $E3
+    db $31, $1E, $C9
+    db $2A, $35, $C9
+    db $2F, $2A, $27
+    db $2F, $2F, $C9
+    db $36, $29, $27
+    db $36, $36, $27
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3075,12 +3078,12 @@ OverworldSprites_05_1:
 ; $04CFCE-$04CFDD DATA
 OverworldSprites_07_1:
 {
-    db $07, $0E, $27 ; Sprite 0x27 (0x00E0, 0x0070)
-    db $0D, $0A, $27 ; Sprite 0x27 (0x00A0, 0x00D0)
-    db $15, $17, $27 ; Sprite 0x27 (0x0170, 0x0150)
-    db $16, $0F, $27 ; Sprite 0x27 (0x00F0, 0x0160)
-    db $16, $12, $27 ; Sprite 0x27 (0x0120, 0x0160)
-    db $FF ; END
+    db $07, $0E, $27
+    db $0D, $0A, $27
+    db $15, $17, $27
+    db $16, $0F, $27
+    db $16, $12, $27
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3088,17 +3091,17 @@ OverworldSprites_07_1:
 ; $04CFDE-$04CFFC DATA
 OverworldSprites_0A_1:
 {
-    db $04, $0E, $79 ; Sprite 0x79 (0x00E0, 0x0040)
-    db $06, $0E, $33 ; Sprite 0x33 (0x00E0, 0x0060)
-    db $09, $05, $00 ; Sprite 0x00 (0x0050, 0x0090)
-    db $0D, $10, $0D ; Sprite 0x0D (0x0100, 0x00D0)
-    db $0E, $0B, $0D ; Sprite 0x0D (0x00B0, 0x00E0)
-    db $16, $13, $00 ; Sprite 0x00 (0x0130, 0x0160)
-    db $16, $0E, $17 ; Sprite 0x17 (0x00E0, 0x0160)
-    db $16, $16, $0D ; Sprite 0x0D (0x0160, 0x0160)
-    db $17, $11, $00 ; Sprite 0x00 (0x0110, 0x0170)
-    db $1A, $19, $AC ; Sprite 0xAC (0x0190, 0x01A0)
-    db $FF ; END
+    db $04, $0E, $79
+    db $06, $0E, $33
+    db $09, $05, $00
+    db $0D, $10, $0D
+    db $0E, $0B, $0D
+    db $16, $13, $00
+    db $16, $0E, $17
+    db $16, $16, $0D
+    db $17, $11, $00
+    db $1A, $19, $AC
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3106,14 +3109,14 @@ OverworldSprites_0A_1:
 ; $04CFFD-$04D012 DATA
 OverworldSprites_0F_1:
 {
-    db $02, $06, $37 ; Sprite 0x37 (0x0060, 0x0020)
-    db $0D, $0D, $58 ; Sprite 0x58 (0x00D0, 0x00D0)
-    db $10, $05, $55 ; Sprite 0x55 (0x0050, 0x0100)
-    db $12, $11, $58 ; Sprite 0x58 (0x0110, 0x0120)
-    db $13, $08, $BA ; Sprite 0xBA (0x0080, 0x0130)
-    db $15, $1C, $00 ; Sprite 0x00 (0x01C0, 0x0150)
-    db $17, $0E, $0A ; Sprite 0x0A (0x00E0, 0x0170)
-    db $FF ; END
+    db $02, $06, $37
+    db $0D, $0D, $58
+    db $10, $05, $55
+    db $12, $11, $58
+    db $13, $08, $BA
+    db $15, $1C, $00
+    db $17, $0E, $0A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3121,11 +3124,11 @@ OverworldSprites_0F_1:
 ; $04D013-$04D01F DATA
 OverworldSprites_10_1:
 {
-    db $0C, $05, $42 ; Sprite 0x42 (0x0050, 0x00C0)
-    db $0C, $07, $AC ; Sprite 0xAC (0x0070, 0x00C0)
-    db $0F, $17, $E0 ; Sprite 0xE0 (0x0170, 0x00F0)
-    db $18, $08, $42 ; Sprite 0x42 (0x0080, 0x0180)
-    db $FF ; END
+    db $0C, $05, $42
+    db $0C, $07, $AC
+    db $0F, $17, $E0
+    db $18, $08, $42
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3133,11 +3136,11 @@ OverworldSprites_10_1:
 ; $04D020-$04D02C DATA
 OverworldSprites_11_1:
 {
-    db $0C, $17, $42 ; Sprite 0x42 (0x0170, 0x00C0)
-    db $0D, $1A, $42 ; Sprite 0x42 (0x01A0, 0x00D0)
-    db $10, $08, $DC ; Sprite 0xDC (0x0080, 0x0100)
-    db $17, $08, $0B ; Sprite 0x0B (0x0080, 0x0170)
-    db $FF ; END
+    db $0C, $17, $42
+    db $0D, $1A, $42
+    db $10, $08, $DC
+    db $17, $08, $0B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3145,11 +3148,11 @@ OverworldSprites_11_1:
 ; $04D02D-$04D039 DATA
 OverworldSprites_12_1:
 {
-    db $0E, $15, $42 ; Sprite 0x42 (0x0150, 0x00E0)
-    db $10, $07, $42 ; Sprite 0x42 (0x0070, 0x0100)
-    db $10, $0F, $BA ; Sprite 0xBA (0x00F0, 0x0100)
-    db $15, $15, $42 ; Sprite 0x42 (0x0150, 0x0150)
-    db $FF ; END
+    db $0E, $15, $42
+    db $10, $07, $42
+    db $10, $0F, $BA
+    db $15, $15, $42
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3157,9 +3160,9 @@ OverworldSprites_12_1:
 ; $04D03A-$04D040 DATA
 OverworldSprites_13_1:
 {
-    db $09, $18, $AC ; Sprite 0xAC (0x0180, 0x0090)
-    db $17, $11, $42 ; Sprite 0x42 (0x0110, 0x0170)
-    db $FF ; END
+    db $09, $18, $AC
+    db $17, $11, $42
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3167,12 +3170,12 @@ OverworldSprites_13_1:
 ; $04D041-$04D050 DATA
 OverworldSprites_14_1:
 {
-    db $11, $15, $48 ; Sprite 0x48 (0x0150, 0x0110)
-    db $19, $11, $42 ; Sprite 0x42 (0x0110, 0x0190)
-    db $0C, $08, $C5 ; Sprite 0xC5 (0x0080, 0x00C0)
-    db $11, $17, $C5 ; Sprite 0xC5 (0x0170, 0x0110)
-    db $0E, $12, $C5 ; Sprite 0xC5 (0x0120, 0x00E0)
-    db $FF ; END
+    db $11, $15, $48
+    db $19, $11, $42
+    db $0C, $08, $C5
+    db $11, $17, $C5
+    db $0E, $12, $C5
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3180,11 +3183,11 @@ OverworldSprites_14_1:
 ; $04D051-$04D05D DATA
 OverworldSprites_15_1:
 {
-    db $09, $11, $BA ; Sprite 0xBA (0x0110, 0x0090)
-    db $0E, $16, $41 ; Sprite 0x41 (0x0160, 0x00E0)
-    db $0F, $1B, $E3 ; Sprite 0xE3 (0x01B0, 0x00F0)
-    db $17, $0B, $41 ; Sprite 0x41 (0x00B0, 0x0170)
-    db $FF ; END
+    db $09, $11, $BA
+    db $0E, $16, $41
+    db $0F, $1B, $E3
+    db $17, $0B, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3192,10 +3195,10 @@ OverworldSprites_15_1:
 ; $04D05E-$04D067 DATA
 OverworldSprites_16_1:
 {
-    db $0A, $0D, $0D ; Sprite 0x0D (0x00D0, 0x00A0)
-    db $15, $0F, $36 ; Sprite 0x36 (0x00F0, 0x0150)
-    db $18, $06, $0D ; Sprite 0x0D (0x0060, 0x0180)
-    db $FF ; END
+    db $0A, $0D, $0D
+    db $15, $0F, $36
+    db $18, $06, $0D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3203,12 +3206,12 @@ OverworldSprites_16_1:
 ; $04D068-$04D077 DATA
 OverworldSprites_17_1:
 {
-    db $08, $18, $0D ; Sprite 0x0D (0x0180, 0x0080)
-    db $0A, $17, $0D ; Sprite 0x0D (0x0170, 0x00A0)
-    db $0B, $0D, $0D ; Sprite 0x0D (0x00D0, 0x00B0)
-    db $0C, $16, $0D ; Sprite 0x0D (0x0160, 0x00C0)
-    db $16, $08, $0D ; Sprite 0x0D (0x0080, 0x0160)
-    db $FF ; END
+    db $08, $18, $0D
+    db $0A, $17, $0D
+    db $0B, $0D, $0D
+    db $0C, $16, $0D
+    db $16, $08, $0D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3216,20 +3219,20 @@ OverworldSprites_17_1:
 ; $04D078-$04D09F DATA
 OverworldSprites_18_1:
 {
-    db $0A, $18, $E3 ; Sprite 0xE3 (0x0180, 0x00A0)
+    db $0A, $18, $E3
     db $17, $0C, $F3 ; Overlord 01 | xy: { 0x0C0, 0x170 }
-    db $16, $18, $75 ; Sprite 0x75 (0x0180, 0x0160)
-    db $1C, $0E, $3D ; Sprite 0x3D (0x00E0, 0x01C0)
-    db $18, $20, $1D ; Sprite 0x1D (0x0200, 0x0180)
+    db $16, $18, $75
+    db $1C, $0E, $3D
+    db $18, $20, $1D
     db $1B, $34, $F3 ; Overlord 01 | xy: { 0x340, 0x1B0 }
-    db $2E, $1D, $74 ; Sprite 0x74 (0x01D0, 0x02E0)
-    db $2C, $19, $2A ; Sprite 0x2A (0x0190, 0x02C0)
-    db $31, $18, $3C ; Sprite 0x3C (0x0180, 0x0310)
-    db $35, $16, $0B ; Sprite 0x0B (0x0160, 0x0350)
-    db $36, $18, $0B ; Sprite 0x0B (0x0180, 0x0360)
-    db $20, $33, $34 ; Sprite 0x34 (0x0330, 0x0200)
-    db $33, $36, $DA ; Sprite 0xDA (0x0360, 0x0330)
-    db $FF ; END
+    db $2E, $1D, $74
+    db $2C, $19, $2A
+    db $31, $18, $3C
+    db $35, $16, $0B
+    db $36, $18, $0B
+    db $20, $33, $34
+    db $33, $36, $DA
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3237,13 +3240,13 @@ OverworldSprites_18_1:
 ; $04D0A0-$04D0B2 DATA
 OverworldSprites_1A_1:
 {
-    db $0C, $14, $41 ; Sprite 0x41 (0x0140, 0x00C0)
-    db $0E, $0C, $42 ; Sprite 0x42 (0x00C0, 0x00E0)
-    db $11, $0D, $E3 ; Sprite 0xE3 (0x00D0, 0x0110)
-    db $17, $17, $DA ; Sprite 0xDA (0x0170, 0x0170)
-    db $18, $0A, $D8 ; Sprite 0xD8 (0x00A0, 0x0180)
-    db $18, $0F, $43 ; Sprite 0x43 (0x00F0, 0x0180)
-    db $FF ; END
+    db $0C, $14, $41
+    db $0E, $0C, $42
+    db $11, $0D, $E3
+    db $17, $17, $DA
+    db $18, $0A, $D8
+    db $18, $0F, $43
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3251,20 +3254,20 @@ OverworldSprites_1A_1:
 ; $04D0B3-$04D0DA DATA
 OverworldSprites_1B_1:
 {
-    db $06, $1F, $40 ; Sprite 0x40 (0x01F0, 0x0060)
-    db $11, $09, $49 ; Sprite 0x49 (0x0090, 0x0110)
-    db $13, $0A, $49 ; Sprite 0x49 (0x00A0, 0x0130)
-    db $14, $16, $AC ; Sprite 0xAC (0x0160, 0x0140)
-    db $19, $0E, $4A ; Sprite 0x4A (0x00E0, 0x0190)
-    db $1A, $1F, $41 ; Sprite 0x41 (0x01F0, 0x01A0)
-    db $17, $29, $33 ; Sprite 0x33 (0x0290, 0x0170)
-    db $19, $31, $4A ; Sprite 0x4A (0x0310, 0x0190)
-    db $1A, $20, $41 ; Sprite 0x41 (0x0200, 0x01A0)
-    db $25, $0E, $4A ; Sprite 0x4A (0x00E0, 0x0250)
-    db $2D, $14, $42 ; Sprite 0x42 (0x0140, 0x02D0)
-    db $2D, $26, $48 ; Sprite 0x48 (0x0260, 0x02D0)
-    db $32, $21, $48 ; Sprite 0x48 (0x0210, 0x0320)
-    db $FF ; END
+    db $06, $1F, $40
+    db $11, $09, $49
+    db $13, $0A, $49
+    db $14, $16, $AC
+    db $19, $0E, $4A
+    db $1A, $1F, $41
+    db $17, $29, $33
+    db $19, $31, $4A
+    db $1A, $20, $41
+    db $25, $0E, $4A
+    db $2D, $14, $42
+    db $2D, $26, $48
+    db $32, $21, $48
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3272,12 +3275,12 @@ OverworldSprites_1B_1:
 ; $04D0DB-$04D0EA DATA
 OverworldSprites_1D_1:
 {
-    db $06, $0B, $AC ; Sprite 0xAC (0x00B0, 0x0060)
-    db $0C, $1B, $46 ; Sprite 0x46 (0x01B0, 0x00C0)
-    db $0D, $07, $41 ; Sprite 0x41 (0x0070, 0x00D0)
-    db $0F, $1B, $46 ; Sprite 0x46 (0x01B0, 0x00F0)
-    db $12, $07, $58 ; Sprite 0x58 (0x0070, 0x0120)
-    db $FF ; END
+    db $06, $0B, $AC
+    db $0C, $1B, $46
+    db $0D, $07, $41
+    db $0F, $1B, $46
+    db $12, $07, $58
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3285,26 +3288,26 @@ OverworldSprites_1D_1:
 ; $04D0EB-$04D124 DATA
 OverworldSprites_1E_1:
 {
-    db $08, $13, $51 ; Sprite 0x51 (0x0130, 0x0080)
-    db $0E, $0E, $51 ; Sprite 0x51 (0x00E0, 0x00E0)
-    db $1A, $11, $08 ; Sprite 0x08 (0x0110, 0x01A0)
-    db $1A, $19, $51 ; Sprite 0x51 (0x0190, 0x01A0)
-    db $09, $33, $51 ; Sprite 0x51 (0x0330, 0x0090)
-    db $09, $37, $51 ; Sprite 0x51 (0x0370, 0x0090)
-    db $10, $31, $41 ; Sprite 0x41 (0x0310, 0x0100)
-    db $17, $2F, $51 ; Sprite 0x51 (0x02F0, 0x0170)
-    db $1D, $35, $0A ; Sprite 0x0A (0x0350, 0x01D0)
-    db $25, $0F, $0A ; Sprite 0x0A (0x00F0, 0x0250)
-    db $28, $09, $08 ; Sprite 0x08 (0x0090, 0x0280)
-    db $2C, $15, $08 ; Sprite 0x08 (0x0150, 0x02C0)
-    db $33, $14, $51 ; Sprite 0x51 (0x0140, 0x0330)
-    db $33, $17, $51 ; Sprite 0x51 (0x0170, 0x0330)
-    db $36, $09, $08 ; Sprite 0x08 (0x0090, 0x0360)
-    db $25, $24, $51 ; Sprite 0x51 (0x0240, 0x0250)
-    db $29, $28, $51 ; Sprite 0x51 (0x0280, 0x0290)
-    db $29, $3D, $51 ; Sprite 0x51 (0x03D0, 0x0290)
-    db $3B, $2E, $08 ; Sprite 0x08 (0x02E0, 0x03B0)
-    db $FF ; END
+    db $08, $13, $51
+    db $0E, $0E, $51
+    db $1A, $11, $08
+    db $1A, $19, $51
+    db $09, $33, $51
+    db $09, $37, $51
+    db $10, $31, $41
+    db $17, $2F, $51
+    db $1D, $35, $0A
+    db $25, $0F, $0A
+    db $28, $09, $08
+    db $2C, $15, $08
+    db $33, $14, $51
+    db $33, $17, $51
+    db $36, $09, $08
+    db $25, $24, $51
+    db $29, $28, $51
+    db $29, $3D, $51
+    db $3B, $2E, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3312,10 +3315,10 @@ OverworldSprites_1E_1:
 ; $04D125-$04D12E DATA
 OverworldSprites_22_1:
 {
-    db $04, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x0040)
-    db $12, $17, $42 ; Sprite 0x42 (0x0170, 0x0120)
-    db $14, $12, $0B ; Sprite 0x0B (0x0120, 0x0140)
-    db $FF ; END
+    db $04, $0C, $D1
+    db $12, $17, $42
+    db $14, $12, $0B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3323,15 +3326,15 @@ OverworldSprites_22_1:
 ; $04D12F-$04D147 DATA
 OverworldSprites_25_1:
 {
-    db $08, $0F, $08 ; Sprite 0x08 (0x00F0, 0x0080)
-    db $0C, $05, $08 ; Sprite 0x08 (0x0050, 0x00C0)
-    db $0C, $14, $08 ; Sprite 0x08 (0x0140, 0x00C0)
-    db $0D, $10, $08 ; Sprite 0x08 (0x0100, 0x00D0)
-    db $11, $0C, $08 ; Sprite 0x08 (0x00C0, 0x0110)
-    db $16, $18, $08 ; Sprite 0x08 (0x0180, 0x0160)
-    db $17, $08, $08 ; Sprite 0x08 (0x0080, 0x0170)
-    db $17, $10, $08 ; Sprite 0x08 (0x0100, 0x0170)
-    db $FF ; END
+    db $08, $0F, $08
+    db $0C, $05, $08
+    db $0C, $14, $08
+    db $0D, $10, $08
+    db $11, $0C, $08
+    db $16, $18, $08
+    db $17, $08, $08
+    db $17, $10, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3339,10 +3342,10 @@ OverworldSprites_25_1:
 ; $04D148-$04D151 DATA
 OverworldSprites_28_1:
 {
-    db $13, $07, $EB ; Sprite 0xEB (0x0070, 0x0130)
-    db $12, $08, $30 ; Sprite 0x30 (0x0080, 0x0120)
-    db $18, $19, $2F ; Sprite 0x2F (0x0190, 0x0180)
-    db $FF ; END
+    db $13, $07, $EB
+    db $12, $08, $30
+    db $18, $19, $2F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3350,14 +3353,14 @@ OverworldSprites_28_1:
 ; $04D152-$04D167 DATA
 OverworldSprites_2A_1:
 {
-    db $09, $09, $1D ; Sprite 0x1D (0x0090, 0x0090)
-    db $0C, $0E, $9E ; Sprite 0x9E (0x00E0, 0x00C0)
-    db $0E, $0D, $A0 ; Sprite 0xA0 (0x00D0, 0x00E0)
-    db $0E, $0E, $2E ; Sprite 0x2E (0x00E0, 0x00E0)
-    db $0E, $11, $A0 ; Sprite 0xA0 (0x0110, 0x00E0)
-    db $0F, $0C, $9F ; Sprite 0x9F (0x00C0, 0x00F0)
-    db $10, $11, $9F ; Sprite 0x9F (0x0110, 0x0100)
-    db $FF ; END
+    db $09, $09, $1D
+    db $0C, $0E, $9E
+    db $0E, $0D, $A0
+    db $0E, $0E, $2E
+    db $0E, $11, $A0
+    db $0F, $0C, $9F
+    db $10, $11, $9F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3365,11 +3368,11 @@ OverworldSprites_2A_1:
 ; $04D168-$04D174 DATA
 OverworldSprites_2B_1:
 {
-    db $0D, $16, $E3 ; Sprite 0xE3 (0x0160, 0x00D0)
-    db $11, $14, $42 ; Sprite 0x42 (0x0140, 0x0110)
-    db $15, $14, $42 ; Sprite 0x42 (0x0140, 0x0150)
-    db $17, $10, $42 ; Sprite 0x42 (0x0100, 0x0170)
-    db $FF ; END
+    db $0D, $16, $E3
+    db $11, $14, $42
+    db $15, $14, $42
+    db $17, $10, $42
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3377,9 +3380,9 @@ OverworldSprites_2B_1:
 ; $04D175-$04D17B DATA
 OverworldSprites_2C_1:
 {
-    db $14, $18, $42 ; Sprite 0x42 (0x0180, 0x0140)
-    db $19, $09, $41 ; Sprite 0x41 (0x0090, 0x0190)
-    db $FF ; END
+    db $14, $18, $42
+    db $19, $09, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3387,10 +3390,10 @@ OverworldSprites_2C_1:
 ; $04D17C-$04D185 DATA
 OverworldSprites_2D_1:
 {
-    db $0B, $13, $42 ; Sprite 0x42 (0x0130, 0x00B0)
-    db $10, $10, $46 ; Sprite 0x46 (0x0100, 0x0100)
-    db $16, $12, $41 ; Sprite 0x41 (0x0120, 0x0160)
-    db $FF ; END
+    db $0B, $13, $42
+    db $10, $10, $46
+    db $16, $12, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3398,11 +3401,11 @@ OverworldSprites_2D_1:
 ; $04D186-$04D192 DATA
 OverworldSprites_2E_1:
 {
-    db $0C, $0E, $41 ; Sprite 0x41 (0x00E0, 0x00C0)
-    db $0E, $17, $41 ; Sprite 0x41 (0x0170, 0x00E0)
-    db $12, $05, $55 ; Sprite 0x55 (0x0050, 0x0120)
-    db $17, $19, $08 ; Sprite 0x08 (0x0190, 0x0170)
-    db $FF ; END
+    db $0C, $0E, $41
+    db $0E, $17, $41
+    db $12, $05, $55
+    db $17, $19, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3410,10 +3413,10 @@ OverworldSprites_2E_1:
 ; $04D193-$04D19C DATA
 OverworldSprites_2F_1:
 {
-    db $0C, $0F, $41 ; Sprite 0x41 (0x00F0, 0x00C0)
-    db $17, $07, $51 ; Sprite 0x51 (0x0070, 0x0170)
-    db $17, $0C, $51 ; Sprite 0x51 (0x00C0, 0x0170)
-    db $FF ; END
+    db $0C, $0F, $41
+    db $17, $07, $51
+    db $17, $0C, $51
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3421,30 +3424,30 @@ OverworldSprites_2F_1:
 ; $04D19D-$04D1E2 DATA
 OverworldSprites_30_1:
 {
-    db $14, $12, $57 ; Sprite 0x57 (0x0120, 0x0140)
-    db $19, $12, $B3 ; Sprite 0xB3 (0x0120, 0x0190)
-    db $1C, $0E, $57 ; Sprite 0x57 (0x00E0, 0x01C0)
-    db $1C, $16, $57 ; Sprite 0x57 (0x0160, 0x01C0)
-    db $19, $27, $4C ; Sprite 0x4C (0x0270, 0x0190)
-    db $1C, $22, $01 ; Sprite 0x01 (0x0220, 0x01C0)
-    db $1F, $2A, $4C ; Sprite 0x4C (0x02A0, 0x01F0)
-    db $26, $1D, $4C ; Sprite 0x4C (0x01D0, 0x0260)
-    db $29, $07, $01 ; Sprite 0x01 (0x0070, 0x0290)
-    db $29, $0F, $4C ; Sprite 0x4C (0x00F0, 0x0290)
-    db $2A, $06, $EB ; Sprite 0xEB (0x0060, 0x02A0)
-    db $2C, $1B, $4C ; Sprite 0x4C (0x01B0, 0x02C0)
-    db $30, $0A, $4C ; Sprite 0x4C (0x00A0, 0x0300)
-    db $35, $14, $4C ; Sprite 0x4C (0x0140, 0x0350)
-    db $2B, $37, $F2 ; Sprite 0xF2 (0x0370, 0x02B0)
-    db $21, $36, $D4 ; Sprite 0xD4 (0x0360, 0x0210)
-    db $24, $22, $4C ; Sprite 0x4C (0x0220, 0x0240)
-    db $25, $29, $D4 ; Sprite 0xD4 (0x0290, 0x0250)
-    db $2C, $20, $4C ; Sprite 0x4C (0x0200, 0x02C0)
-    db $32, $23, $4C ; Sprite 0x4C (0x0230, 0x0320)
-    db $32, $30, $D4 ; Sprite 0xD4 (0x0300, 0x0320)
-    db $33, $34, $01 ; Sprite 0x01 (0x0340, 0x0330)
-    db $3B, $2D, $D4 ; Sprite 0xD4 (0x02D0, 0x03B0)
-    db $FF ; END
+    db $14, $12, $57
+    db $19, $12, $B3
+    db $1C, $0E, $57
+    db $1C, $16, $57
+    db $19, $27, $4C
+    db $1C, $22, $01
+    db $1F, $2A, $4C
+    db $26, $1D, $4C
+    db $29, $07, $01
+    db $29, $0F, $4C
+    db $2A, $06, $EB
+    db $2C, $1B, $4C
+    db $30, $0A, $4C
+    db $35, $14, $4C
+    db $2B, $37, $F2
+    db $21, $36, $D4
+    db $24, $22, $4C
+    db $25, $29, $D4
+    db $2C, $20, $4C
+    db $32, $23, $4C
+    db $32, $30, $D4
+    db $33, $34, $01
+    db $3B, $2D, $D4
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3452,11 +3455,11 @@ OverworldSprites_30_1:
 ; $04D1E3-$04D1EF DATA
 OverworldSprites_32_1:
 {
-    db $09, $1A, $D8 ; Sprite 0xD8 (0x01A0, 0x0090)
-    db $0B, $0B, $41 ; Sprite 0x41 (0x00B0, 0x00B0)
-    db $0B, $12, $41 ; Sprite 0x41 (0x0120, 0x00B0)
-    db $12, $19, $E3 ; Sprite 0xE3 (0x0190, 0x0120)
-    db $FF ; END
+    db $09, $1A, $D8
+    db $0B, $0B, $41
+    db $0B, $12, $41
+    db $12, $19, $E3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3464,11 +3467,11 @@ OverworldSprites_32_1:
 ; $04D1F0-$04D1FC DATA
 OverworldSprites_33_1:
 {
-    db $0B, $15, $47 ; Sprite 0x47 (0x0150, 0x00B0)
-    db $0E, $09, $46 ; Sprite 0x46 (0x0090, 0x00E0)
-    db $12, $17, $BA ; Sprite 0xBA (0x0170, 0x0120)
-    db $1B, $1A, $08 ; Sprite 0x08 (0x01A0, 0x01B0)
-    db $FF ; END
+    db $0B, $15, $47
+    db $0E, $09, $46
+    db $12, $17, $BA
+    db $1B, $1A, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3476,14 +3479,14 @@ OverworldSprites_33_1:
 ; $04D1FD-$04D212 DATA
 OverworldSprites_34_1:
 {
-    db $0D, $0B, $46 ; Sprite 0x46 (0x00B0, 0x00D0)
-    db $11, $15, $4D ; Sprite 0x4D (0x0150, 0x0110)
-    db $12, $11, $47 ; Sprite 0x47 (0x0110, 0x0120)
-    db $13, $08, $00 ; Sprite 0x00 (0x0080, 0x0130)
-    db $13, $0E, $E3 ; Sprite 0xE3 (0x00E0, 0x0130)
-    db $17, $15, $47 ; Sprite 0x47 (0x0150, 0x0170)
-    db $18, $0C, $46 ; Sprite 0x46 (0x00C0, 0x0180)
-    db $FF ; END
+    db $0D, $0B, $46
+    db $11, $15, $4D
+    db $12, $11, $47
+    db $13, $08, $00
+    db $13, $0E, $E3
+    db $17, $15, $47
+    db $18, $0C, $46
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3491,30 +3494,30 @@ OverworldSprites_34_1:
 ; $04D213-$04D258 DATA
 OverworldSprites_35_1:
 {
-    db $07, $0E, $00 ; Sprite 0x00 (0x00E0, 0x0070)
-    db $09, $0D, $08 ; Sprite 0x08 (0x00D0, 0x0090)
-    db $0C, $0A, $46 ; Sprite 0x46 (0x00A0, 0x00C0)
-    db $13, $19, $EB ; Sprite 0xEB (0x0190, 0x0130)
-    db $14, $19, $0D ; Sprite 0x0D (0x0190, 0x0140)
-    db $17, $07, $58 ; Sprite 0x58 (0x0070, 0x0170)
-    db $17, $11, $55 ; Sprite 0x55 (0x0110, 0x0170)
-    db $0D, $25, $55 ; Sprite 0x55 (0x0250, 0x00D0)
-    db $1F, $27, $0D ; Sprite 0x0D (0x0270, 0x01F0)
-    db $1F, $2F, $0D ; Sprite 0x0D (0x02F0, 0x01F0)
-    db $35, $0A, $08 ; Sprite 0x08 (0x00A0, 0x0350)
-    db $35, $14, $55 ; Sprite 0x55 (0x0140, 0x0350)
-    db $35, $0F, $00 ; Sprite 0x00 (0x00F0, 0x0350)
-    db $39, $0B, $08 ; Sprite 0x08 (0x00B0, 0x0390)
-    db $3A, $19, $0D ; Sprite 0x0D (0x0190, 0x03A0)
-    db $3B, $11, $58 ; Sprite 0x58 (0x0110, 0x03B0)
-    db $2B, $24, $55 ; Sprite 0x55 (0x0240, 0x02B0)
-    db $2B, $29, $BA ; Sprite 0xBA (0x0290, 0x02B0)
-    db $31, $39, $55 ; Sprite 0x55 (0x0390, 0x0310)
-    db $36, $21, $55 ; Sprite 0x55 (0x0210, 0x0360)
-    db $37, $32, $0D ; Sprite 0x0D (0x0320, 0x0370)
-    db $39, $34, $0D ; Sprite 0x0D (0x0340, 0x0390)
-    db $3A, $2E, $58 ; Sprite 0x58 (0x02E0, 0x03A0)
-    db $FF ; END
+    db $07, $0E, $00
+    db $09, $0D, $08
+    db $0C, $0A, $46
+    db $13, $19, $EB
+    db $14, $19, $0D
+    db $17, $07, $58
+    db $17, $11, $55
+    db $0D, $25, $55
+    db $1F, $27, $0D
+    db $1F, $2F, $0D
+    db $35, $0A, $08
+    db $35, $14, $55
+    db $35, $0F, $00
+    db $39, $0B, $08
+    db $3A, $19, $0D
+    db $3B, $11, $58
+    db $2B, $24, $55
+    db $2B, $29, $BA
+    db $31, $39, $55
+    db $36, $21, $55
+    db $37, $32, $0D
+    db $39, $34, $0D
+    db $3A, $2E, $58
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3522,13 +3525,13 @@ OverworldSprites_35_1:
 ; $04D259-$04D26B DATA
 OverworldSprites_37_1:
 {
-    db $08, $08, $58 ; Sprite 0x58 (0x0080, 0x0080)
-    db $08, $10, $58 ; Sprite 0x58 (0x0100, 0x0080)
-    db $0B, $0F, $58 ; Sprite 0x58 (0x00F0, 0x00B0)
-    db $11, $16, $58 ; Sprite 0x58 (0x0160, 0x0110)
-    db $15, $0C, $00 ; Sprite 0x00 (0x00C0, 0x0150)
-    db $19, $12, $55 ; Sprite 0x55 (0x0120, 0x0190)
-    db $FF ; END
+    db $08, $08, $58
+    db $08, $10, $58
+    db $0B, $0F, $58
+    db $11, $16, $58
+    db $15, $0C, $00
+    db $19, $12, $55
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3536,11 +3539,11 @@ OverworldSprites_37_1:
 ; $04D26C-$04D278 DATA
 OverworldSprites_3A_1:
 {
-    db $05, $17, $39 ; Sprite 0x39 (0x0170, 0x0050)
-    db $09, $0E, $00 ; Sprite 0x00 (0x00E0, 0x0090)
-    db $0A, $0B, $3E ; Sprite 0x3E (0x00B0, 0x00A0)
-    db $0E, $18, $3E ; Sprite 0x3E (0x0180, 0x00E0)
-    db $FF ; END
+    db $05, $17, $39
+    db $09, $0E, $00
+    db $0A, $0B, $3E
+    db $0E, $18, $3E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3548,15 +3551,15 @@ OverworldSprites_3A_1:
 ; $04D279-$04D291 DATA
 OverworldSprites_3B_1:
 {
-    db $06, $13, $47 ; Sprite 0x47 (0x0130, 0x0060)
-    db $0A, $0C, $46 ; Sprite 0x46 (0x00C0, 0x00A0)
-    db $0D, $13, $D2 ; Sprite 0xD2 (0x0130, 0x00D0)
-    db $0B, $08, $00 ; Sprite 0x00 (0x0080, 0x00B0)
-    db $0E, $14, $EB ; Sprite 0xEB (0x0140, 0x00E0)
-    db $10, $1B, $D2 ; Sprite 0xD2 (0x01B0, 0x0100)
-    db $14, $0F, $4D ; Sprite 0x4D (0x00F0, 0x0140)
-    db $1B, $14, $00 ; Sprite 0x00 (0x0140, 0x01B0)
-    db $FF ; END
+    db $06, $13, $47
+    db $0A, $0C, $46
+    db $0D, $13, $D2
+    db $0B, $08, $00
+    db $0E, $14, $EB
+    db $10, $1B, $D2
+    db $14, $0F, $4D
+    db $1B, $14, $00
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3564,14 +3567,14 @@ OverworldSprites_3B_1:
 ; $04D292-$04D2A7 DATA
 OverworldSprites_3C_1:
 {
-    db $0C, $08, $47 ; Sprite 0x47 (0x0080, 0x00C0)
-    db $0F, $14, $08 ; Sprite 0x08 (0x0140, 0x00F0)
-    db $0F, $0E, $00 ; Sprite 0x00 (0x00E0, 0x00F0)
-    db $11, $09, $17 ; Sprite 0x17 (0x0090, 0x0110)
-    db $15, $14, $0A ; Sprite 0x0A (0x0140, 0x0150)
-    db $17, $16, $58 ; Sprite 0x58 (0x0160, 0x0170)
-    db $18, $0B, $08 ; Sprite 0x08 (0x00B0, 0x0180)
-    db $FF ; END
+    db $0C, $08, $47
+    db $0F, $14, $08
+    db $0F, $0E, $00
+    db $11, $09, $17
+    db $15, $14, $0A
+    db $17, $16, $58
+    db $18, $0B, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3579,12 +3582,12 @@ OverworldSprites_3C_1:
 ; $04D2A8-$04D2B7 DATA
 OverworldSprites_3F_1:
 {
-    db $04, $11, $08 ; Sprite 0x08 (0x0110, 0x0040)
-    db $05, $16, $08 ; Sprite 0x08 (0x0160, 0x0050)
-    db $0B, $08, $55 ; Sprite 0x55 (0x0080, 0x00B0)
-    db $0C, $07, $BA ; Sprite 0xBA (0x0070, 0x00C0)
-    db $16, $10, $0F ; Sprite 0x0F (0x0100, 0x0160)
-    db $FF ; END
+    db $04, $11, $08
+    db $05, $16, $08
+    db $0B, $08, $55
+    db $0C, $07, $BA
+    db $16, $10, $0F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3592,21 +3595,21 @@ OverworldSprites_3F_1:
 ; $04D2B8-$04D2E2 DATA
 OverworldSprites_00_2:
 {
-    db $11, $0F, $41 ; Sprite 0x41 (0x00F0, 0x0110)
-    db $12, $07, $E8 ; Sprite 0xE8 (0x0070, 0x0120)
-    db $15, $1E, $E7 ; Sprite 0xE7 (0x01E0, 0x0150)
-    db $1F, $0D, $C4 ; Sprite 0xC4 (0x00D0, 0x01F0)
-    db $06, $28, $E8 ; Sprite 0xE8 (0x0280, 0x0060)
-    db $08, $2B, $33 ; Sprite 0x33 (0x02B0, 0x0080)
-    db $08, $33, $41 ; Sprite 0x41 (0x0330, 0x0080)
-    db $0A, $2B, $C4 ; Sprite 0xC4 (0x02B0, 0x00A0)
-    db $0A, $31, $0D ; Sprite 0x0D (0x0310, 0x00A0)
-    db $10, $2A, $17 ; Sprite 0x17 (0x02A0, 0x0100)
-    db $2C, $0D, $17 ; Sprite 0x17 (0x00D0, 0x02C0)
-    db $33, $09, $41 ; Sprite 0x41 (0x0090, 0x0330)
-    db $25, $29, $79 ; Sprite 0x79 (0x0290, 0x0250)
-    db $2F, $28, $17 ; Sprite 0x17 (0x0280, 0x02F0)
-    db $FF ; END
+    db $11, $0F, $41
+    db $12, $07, $E8
+    db $15, $1E, $E7
+    db $1F, $0D, $C4
+    db $06, $28, $E8
+    db $08, $2B, $33
+    db $08, $33, $41
+    db $0A, $2B, $C4
+    db $0A, $31, $0D
+    db $10, $2A, $17
+    db $2C, $0D, $17
+    db $33, $09, $41
+    db $25, $29, $79
+    db $2F, $28, $17
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3614,8 +3617,8 @@ OverworldSprites_00_2:
 ; $04D2E3-$04D2E6 DATA
 OverworldSprites_02_2:
 {
-    db $12, $0D, $3B ; Sprite 0x3B (0x00D0, 0x0120)
-    db $FF ; END
+    db $12, $0D, $3B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3624,21 +3627,21 @@ OverworldSprites_02_2:
 OverworldSprites_03_2:
 {
     db $00, $00, $F4 ; Overlord 02 | xy: { 0x000, 0x000 }
-    db $04, $0B, $F2 ; Sprite 0xF2 (0x00B0, 0x0040)
-    db $1A, $10, $C9 ; Sprite 0xC9 (0x0100, 0x01A0)
-    db $1E, $1A, $C9 ; Sprite 0xC9 (0x01A0, 0x01E0)
-    db $0C, $27, $27 ; Sprite 0x27 (0x0270, 0x00C0)
-    db $15, $2C, $C9 ; Sprite 0xC9 (0x02C0, 0x0150)
-    db $16, $22, $EB ; Sprite 0xEB (0x0220, 0x0160)
-    db $19, $28, $C9 ; Sprite 0xC9 (0x0280, 0x0190)
-    db $35, $0A, $27 ; Sprite 0x27 (0x00A0, 0x0350)
-    db $36, $06, $27 ; Sprite 0x27 (0x0060, 0x0360)
-    db $3B, $0D, $27 ; Sprite 0x27 (0x00D0, 0x03B0)
+    db $04, $0B, $F2
+    db $1A, $10, $C9
+    db $1E, $1A, $C9
+    db $0C, $27, $27
+    db $15, $2C, $C9
+    db $16, $22, $EB
+    db $19, $28, $C9
+    db $35, $0A, $27
+    db $36, $06, $27
+    db $3B, $0D, $27
     db $3B, $12, $F3 ; Overlord 01 | xy: { 0x120, 0x3B0 }
-    db $2D, $2C, $27 ; Sprite 0x27 (0x02C0, 0x02D0)
-    db $33, $34, $27 ; Sprite 0x27 (0x0340, 0x0330)
-    db $34, $2F, $27 ; Sprite 0x27 (0x02F0, 0x0340)
-    db $FF ; END
+    db $2D, $2C, $27
+    db $33, $34, $27
+    db $34, $2F, $27
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3646,22 +3649,22 @@ OverworldSprites_03_2:
 ; $04D315-$04D342 DATA
 OverworldSprites_05_2:
 {
-    db $0B, $07, $27 ; Sprite 0x27 (0x0070, 0x00B0)
-    db $0D, $08, $C9 ; Sprite 0xC9 (0x0080, 0x00D0)
-    db $0E, $1E, $27 ; Sprite 0x27 (0x01E0, 0x00E0)
-    db $0F, $1F, $C9 ; Sprite 0xC9 (0x01F0, 0x00F0)
-    db $03, $2F, $EB ; Sprite 0xEB (0x02F0, 0x0030)
-    db $0D, $35, $27 ; Sprite 0x27 (0x0350, 0x00D0)
-    db $0F, $29, $C9 ; Sprite 0xC9 (0x0290, 0x00F0)
-    db $0F, $35, $27 ; Sprite 0x27 (0x0350, 0x00F0)
-    db $10, $34, $E3 ; Sprite 0xE3 (0x0340, 0x0100)
-    db $31, $1E, $C9 ; Sprite 0xC9 (0x01E0, 0x0310)
-    db $2A, $35, $C9 ; Sprite 0xC9 (0x0350, 0x02A0)
-    db $2F, $2A, $27 ; Sprite 0x27 (0x02A0, 0x02F0)
-    db $2F, $2F, $C9 ; Sprite 0xC9 (0x02F0, 0x02F0)
-    db $36, $29, $27 ; Sprite 0x27 (0x0290, 0x0360)
-    db $36, $36, $27 ; Sprite 0x27 (0x0360, 0x0360)
-    db $FF ; END
+    db $0B, $07, $27
+    db $0D, $08, $C9
+    db $0E, $1E, $27
+    db $0F, $1F, $C9
+    db $03, $2F, $EB
+    db $0D, $35, $27
+    db $0F, $29, $C9
+    db $0F, $35, $27
+    db $10, $34, $E3
+    db $31, $1E, $C9
+    db $2A, $35, $C9
+    db $2F, $2A, $27
+    db $2F, $2F, $C9
+    db $36, $29, $27
+    db $36, $36, $27
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3669,12 +3672,12 @@ OverworldSprites_05_2:
 ; $04D343-$04D352 DATA
 OverworldSprites_07_2:
 {
-    db $07, $0E, $27 ; Sprite 0x27 (0x00E0, 0x0070)
-    db $0D, $0A, $27 ; Sprite 0x27 (0x00A0, 0x00D0)
-    db $15, $17, $27 ; Sprite 0x27 (0x0170, 0x0150)
-    db $16, $0F, $27 ; Sprite 0x27 (0x00F0, 0x0160)
-    db $16, $12, $27 ; Sprite 0x27 (0x0120, 0x0160)
-    db $FF ; END
+    db $07, $0E, $27
+    db $0D, $0A, $27
+    db $15, $17, $27
+    db $16, $0F, $27
+    db $16, $12, $27
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3682,14 +3685,14 @@ OverworldSprites_07_2:
 ; $04D353-$04D368 DATA
 OverworldSprites_0A_2:
 {
-    db $04, $0E, $79 ; Sprite 0x79 (0x00E0, 0x0040)
-    db $0D, $10, $41 ; Sprite 0x41 (0x0100, 0x00D0)
-    db $16, $11, $00 ; Sprite 0x00 (0x0110, 0x0160)
-    db $16, $13, $00 ; Sprite 0x00 (0x0130, 0x0160)
-    db $16, $0E, $17 ; Sprite 0x17 (0x00E0, 0x0160)
-    db $17, $11, $00 ; Sprite 0x00 (0x0110, 0x0170)
-    db $1A, $19, $AC ; Sprite 0xAC (0x0190, 0x01A0)
-    db $FF ; END
+    db $04, $0E, $79
+    db $0D, $10, $41
+    db $16, $11, $00
+    db $16, $13, $00
+    db $16, $0E, $17
+    db $17, $11, $00
+    db $1A, $19, $AC
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3697,14 +3700,14 @@ OverworldSprites_0A_2:
 ; $04D369-$04D37E DATA
 OverworldSprites_0F_2:
 {
-    db $02, $06, $37 ; Sprite 0x37 (0x0060, 0x0020)
-    db $0D, $0D, $58 ; Sprite 0x58 (0x00D0, 0x00D0)
-    db $10, $05, $55 ; Sprite 0x55 (0x0050, 0x0100)
-    db $11, $0A, $55 ; Sprite 0x55 (0x00A0, 0x0110)
-    db $12, $11, $58 ; Sprite 0x58 (0x0110, 0x0120)
-    db $13, $08, $BA ; Sprite 0xBA (0x0080, 0x0130)
-    db $17, $0E, $0A ; Sprite 0x0A (0x00E0, 0x0170)
-    db $FF ; END
+    db $02, $06, $37
+    db $0D, $0D, $58
+    db $10, $05, $55
+    db $11, $0A, $55
+    db $12, $11, $58
+    db $13, $08, $BA
+    db $17, $0E, $0A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3712,12 +3715,12 @@ OverworldSprites_0F_2:
 ; $04D37F-$04D38E DATA
 OverworldSprites_10_2:
 {
-    db $0C, $05, $41 ; Sprite 0x41 (0x0050, 0x00C0)
-    db $0C, $07, $AC ; Sprite 0xAC (0x0070, 0x00C0)
-    db $0F, $17, $E0 ; Sprite 0xE0 (0x0170, 0x00F0)
-    db $12, $07, $41 ; Sprite 0x41 (0x0070, 0x0120)
-    db $18, $08, $41 ; Sprite 0x41 (0x0080, 0x0180)
-    db $FF ; END
+    db $0C, $05, $41
+    db $0C, $07, $AC
+    db $0F, $17, $E0
+    db $12, $07, $41
+    db $18, $08, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3725,11 +3728,11 @@ OverworldSprites_10_2:
 ; $04D38F-$04D39B DATA
 OverworldSprites_11_2:
 {
-    db $0C, $17, $41 ; Sprite 0x41 (0x0170, 0x00C0)
-    db $0D, $1A, $41 ; Sprite 0x41 (0x01A0, 0x00D0)
-    db $10, $08, $DC ; Sprite 0xDC (0x0080, 0x0100)
-    db $17, $08, $0B ; Sprite 0x0B (0x0080, 0x0170)
-    db $FF ; END
+    db $0C, $17, $41
+    db $0D, $1A, $41
+    db $10, $08, $DC
+    db $17, $08, $0B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3737,11 +3740,11 @@ OverworldSprites_11_2:
 ; $04D39C-$04D3A8 DATA
 OverworldSprites_12_2:
 {
-    db $0A, $14, $E3 ; Sprite 0xE3 (0x0140, 0x00A0)
-    db $0E, $15, $41 ; Sprite 0x41 (0x0150, 0x00E0)
-    db $10, $0F, $BA ; Sprite 0xBA (0x00F0, 0x0100)
-    db $15, $15, $42 ; Sprite 0x42 (0x0150, 0x0150)
-    db $FF ; END
+    db $0A, $14, $E3
+    db $0E, $15, $41
+    db $10, $0F, $BA
+    db $15, $15, $42
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3749,11 +3752,11 @@ OverworldSprites_12_2:
 ; $04D3A9-$04D3B5 DATA
 OverworldSprites_13_2:
 {
-    db $09, $18, $79 ; Sprite 0x79 (0x0180, 0x0090)
-    db $0C, $07, $DE ; Sprite 0xDE (0x0070, 0x00C0)
-    db $17, $0D, $41 ; Sprite 0x41 (0x00D0, 0x0170)
-    db $1A, $12, $41 ; Sprite 0x41 (0x0120, 0x01A0)
-    db $FF ; END
+    db $09, $18, $79
+    db $0C, $07, $DE
+    db $17, $0D, $41
+    db $1A, $12, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3761,13 +3764,13 @@ OverworldSprites_13_2:
 ; $04D3B6-$04D3C8 DATA
 OverworldSprites_14_2:
 {
-    db $0D, $0D, $19 ; Sprite 0x19 (0x00D0, 0x00D0)
-    db $0F, $19, $19 ; Sprite 0x19 (0x0190, 0x00F0)
-    db $10, $08, $19 ; Sprite 0x19 (0x0080, 0x0100)
-    db $11, $14, $19 ; Sprite 0x19 (0x0140, 0x0110)
-    db $14, $13, $19 ; Sprite 0x19 (0x0130, 0x0140)
-    db $19, $11, $41 ; Sprite 0x41 (0x0110, 0x0190)
-    db $FF ; END
+    db $0D, $0D, $19
+    db $0F, $19, $19
+    db $10, $08, $19
+    db $11, $14, $19
+    db $14, $13, $19
+    db $19, $11, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3775,12 +3778,12 @@ OverworldSprites_14_2:
 ; $04D3C9-$04D3D8 DATA
 OverworldSprites_15_2:
 {
-    db $09, $11, $BA ; Sprite 0xBA (0x0110, 0x0090)
-    db $0E, $16, $45 ; Sprite 0x45 (0x0160, 0x00E0)
-    db $0F, $1B, $E3 ; Sprite 0xE3 (0x01B0, 0x00F0)
-    db $17, $0B, $43 ; Sprite 0x43 (0x00B0, 0x0170)
-    db $1A, $04, $AC ; Sprite 0xAC (0x0040, 0x01A0)
-    db $FF ; END
+    db $09, $11, $BA
+    db $0E, $16, $45
+    db $0F, $1B, $E3
+    db $17, $0B, $43
+    db $1A, $04, $AC
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3788,10 +3791,10 @@ OverworldSprites_15_2:
 ; $04D3D9-$04D3E2 DATA
 OverworldSprites_16_2:
 {
-    db $0A, $0D, $0D ; Sprite 0x0D (0x00D0, 0x00A0)
-    db $15, $0F, $36 ; Sprite 0x36 (0x00F0, 0x0150)
-    db $18, $06, $0D ; Sprite 0x0D (0x0060, 0x0180)
-    db $FF ; END
+    db $0A, $0D, $0D
+    db $15, $0F, $36
+    db $18, $06, $0D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3799,12 +3802,12 @@ OverworldSprites_16_2:
 ; $04D3E3-$04D3F2 DATA
 OverworldSprites_17_2:
 {
-    db $08, $18, $0D ; Sprite 0x0D (0x0180, 0x0080)
-    db $0A, $17, $0D ; Sprite 0x0D (0x0170, 0x00A0)
-    db $0B, $0D, $45 ; Sprite 0x45 (0x00D0, 0x00B0)
-    db $0C, $16, $0D ; Sprite 0x0D (0x0160, 0x00C0)
-    db $16, $08, $0D ; Sprite 0x0D (0x0080, 0x0160)
-    db $FF ; END
+    db $08, $18, $0D
+    db $0A, $17, $0D
+    db $0B, $0D, $45
+    db $0C, $16, $0D
+    db $16, $08, $0D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3812,19 +3815,19 @@ OverworldSprites_17_2:
 ; $04D3F3-$04D417 DATA
 OverworldSprites_18_2:
 {
-    db $08, $12, $41 ; Sprite 0x41 (0x0120, 0x0080)
-    db $0A, $18, $DB ; Sprite 0xDB (0x0180, 0x00A0)
-    db $16, $18, $75 ; Sprite 0x75 (0x0180, 0x0160)
-    db $1C, $07, $41 ; Sprite 0x41 (0x0070, 0x01C0)
-    db $0B, $35, $41 ; Sprite 0x41 (0x0350, 0x00B0)
-    db $18, $20, $1D ; Sprite 0x1D (0x0200, 0x0180)
-    db $2E, $12, $41 ; Sprite 0x41 (0x0120, 0x02E0)
-    db $34, $14, $0B ; Sprite 0x0B (0x0140, 0x0340)
-    db $35, $16, $0B ; Sprite 0x0B (0x0160, 0x0350)
-    db $22, $39, $43 ; Sprite 0x43 (0x0390, 0x0220)
-    db $2E, $20, $41 ; Sprite 0x41 (0x0200, 0x02E0)
-    db $33, $36, $79 ; Sprite 0x79 (0x0360, 0x0330)
-    db $FF ; END
+    db $08, $12, $41
+    db $0A, $18, $DB
+    db $16, $18, $75
+    db $1C, $07, $41
+    db $0B, $35, $41
+    db $18, $20, $1D
+    db $2E, $12, $41
+    db $34, $14, $0B
+    db $35, $16, $0B
+    db $22, $39, $43
+    db $2E, $20, $41
+    db $33, $36, $79
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3832,12 +3835,12 @@ OverworldSprites_18_2:
 ; $04D418-$04D427 DATA
 OverworldSprites_1A_2:
 {
-    db $08, $0F, $41 ; Sprite 0x41 (0x00F0, 0x0080)
-    db $0E, $0C, $41 ; Sprite 0x41 (0x00C0, 0x00E0)
-    db $11, $0D, $E3 ; Sprite 0xE3 (0x00D0, 0x0110)
-    db $18, $0A, $D8 ; Sprite 0xD8 (0x00A0, 0x0180)
-    db $18, $0F, $45 ; Sprite 0x45 (0x00F0, 0x0180)
-    db $FF ; END
+    db $08, $0F, $41
+    db $0E, $0C, $41
+    db $11, $0D, $E3
+    db $18, $0A, $D8
+    db $18, $0F, $45
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3845,17 +3848,17 @@ OverworldSprites_1A_2:
 ; $04D428-$04D446 DATA
 OverworldSprites_1B_2:
 {
-    db $0D, $06, $45 ; Sprite 0x45 (0x0060, 0x00D0)
-    db $14, $16, $AC ; Sprite 0xAC (0x0160, 0x0140)
-    db $1A, $1F, $45 ; Sprite 0x45 (0x01F0, 0x01A0)
-    db $13, $37, $41 ; Sprite 0x41 (0x0370, 0x0130)
-    db $25, $1E, $BA ; Sprite 0xBA (0x01E0, 0x0250)
-    db $28, $08, $43 ; Sprite 0x43 (0x0080, 0x0280)
-    db $2B, $1F, $42 ; Sprite 0x42 (0x01F0, 0x02B0)
-    db $29, $38, $41 ; Sprite 0x41 (0x0380, 0x0290)
-    db $2D, $21, $41 ; Sprite 0x41 (0x0210, 0x02D0)
-    db $32, $21, $45 ; Sprite 0x45 (0x0210, 0x0320)
-    db $FF ; END
+    db $0D, $06, $45
+    db $14, $16, $AC
+    db $1A, $1F, $45
+    db $13, $37, $41
+    db $25, $1E, $BA
+    db $28, $08, $43
+    db $2B, $1F, $42
+    db $29, $38, $41
+    db $2D, $21, $41
+    db $32, $21, $45
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3863,11 +3866,11 @@ OverworldSprites_1B_2:
 ; $04D447-$04D453 DATA
 OverworldSprites_1D_2:
 {
-    db $06, $0B, $79 ; Sprite 0x79 (0x00B0, 0x0060)
-    db $0C, $1B, $46 ; Sprite 0x46 (0x01B0, 0x00C0)
-    db $0D, $07, $45 ; Sprite 0x45 (0x0070, 0x00D0)
-    db $0F, $1B, $46 ; Sprite 0x46 (0x01B0, 0x00F0)
-    db $FF ; END
+    db $06, $0B, $79
+    db $0C, $1B, $46
+    db $0D, $07, $45
+    db $0F, $1B, $46
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3875,27 +3878,27 @@ OverworldSprites_1D_2:
 ; $04D454-$04D490 DATA
 OverworldSprites_1E_2:
 {
-    db $0E, $0E, $51 ; Sprite 0x51 (0x00E0, 0x00E0)
-    db $1A, $11, $45 ; Sprite 0x45 (0x0110, 0x01A0)
-    db $1A, $19, $51 ; Sprite 0x51 (0x0190, 0x01A0)
-    db $04, $33, $33 ; Sprite 0x33 (0x0330, 0x0040)
-    db $09, $33, $51 ; Sprite 0x51 (0x0330, 0x0090)
-    db $09, $37, $51 ; Sprite 0x51 (0x0370, 0x0090)
-    db $10, $31, $45 ; Sprite 0x45 (0x0310, 0x0100)
-    db $17, $2F, $51 ; Sprite 0x51 (0x02F0, 0x0170)
-    db $25, $0F, $41 ; Sprite 0x41 (0x00F0, 0x0250)
-    db $28, $09, $45 ; Sprite 0x45 (0x0090, 0x0280)
-    db $2C, $15, $43 ; Sprite 0x43 (0x0150, 0x02C0)
-    db $33, $14, $51 ; Sprite 0x51 (0x0140, 0x0330)
-    db $33, $17, $51 ; Sprite 0x51 (0x0170, 0x0330)
-    db $25, $24, $51 ; Sprite 0x51 (0x0240, 0x0250)
-    db $28, $31, $51 ; Sprite 0x51 (0x0310, 0x0280)
-    db $29, $28, $51 ; Sprite 0x51 (0x0280, 0x0290)
-    db $29, $3A, $51 ; Sprite 0x51 (0x03A0, 0x0290)
-    db $29, $3D, $51 ; Sprite 0x51 (0x03D0, 0x0290)
-    db $37, $22, $E3 ; Sprite 0xE3 (0x0220, 0x0370)
-    db $3A, $2D, $45 ; Sprite 0x45 (0x02D0, 0x03A0)
-    db $FF ; END
+    db $0E, $0E, $51
+    db $1A, $11, $45
+    db $1A, $19, $51
+    db $04, $33, $33
+    db $09, $33, $51
+    db $09, $37, $51
+    db $10, $31, $45
+    db $17, $2F, $51
+    db $25, $0F, $41
+    db $28, $09, $45
+    db $2C, $15, $43
+    db $33, $14, $51
+    db $33, $17, $51
+    db $25, $24, $51
+    db $28, $31, $51
+    db $29, $28, $51
+    db $29, $3A, $51
+    db $29, $3D, $51
+    db $37, $22, $E3
+    db $3A, $2D, $45
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3903,10 +3906,10 @@ OverworldSprites_1E_2:
 ; $04D491-$04D49A DATA
 OverworldSprites_22_2:
 {
-    db $04, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x0040)
-    db $14, $0C, $0B ; Sprite 0x0B (0x00C0, 0x0140)
-    db $14, $12, $0B ; Sprite 0x0B (0x0120, 0x0140)
-    db $FF ; END
+    db $04, $0C, $D1
+    db $14, $0C, $0B
+    db $14, $12, $0B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3914,11 +3917,11 @@ OverworldSprites_22_2:
 ; $04D49B-$04D4A7 DATA
 OverworldSprites_25_2:
 {
-    db $08, $0E, $41 ; Sprite 0x41 (0x00E0, 0x0080)
-    db $0C, $05, $41 ; Sprite 0x41 (0x0050, 0x00C0)
-    db $11, $09, $41 ; Sprite 0x41 (0x0090, 0x0110)
-    db $16, $19, $45 ; Sprite 0x45 (0x0190, 0x0160)
-    db $FF ; END
+    db $08, $0E, $41
+    db $0C, $05, $41
+    db $11, $09, $41
+    db $16, $19, $45
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3926,12 +3929,12 @@ OverworldSprites_25_2:
 ; $04D4A8-$04D4B7 DATA
 OverworldSprites_28_2:
 {
-    db $0C, $12, $41 ; Sprite 0x41 (0x0120, 0x00C0)
-    db $13, $07, $EB ; Sprite 0xEB (0x0070, 0x0130)
-    db $12, $08, $30 ; Sprite 0x30 (0x0080, 0x0120)
-    db $18, $19, $2F ; Sprite 0x2F (0x0190, 0x0180)
-    db $19, $0C, $41 ; Sprite 0x41 (0x00C0, 0x0190)
-    db $FF ; END
+    db $0C, $12, $41
+    db $13, $07, $EB
+    db $12, $08, $30
+    db $18, $19, $2F
+    db $19, $0C, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3939,10 +3942,10 @@ OverworldSprites_28_2:
 ; $04D4B8-$04D4C1 DATA
 OverworldSprites_29_2:
 {
-    db $05, $0E, $41 ; Sprite 0x41 (0x00E0, 0x0050)
-    db $0C, $0C, $45 ; Sprite 0x45 (0x00C0, 0x00C0)
-    db $14, $0B, $41 ; Sprite 0x41 (0x00B0, 0x0140)
-    db $FF ; END
+    db $05, $0E, $41
+    db $0C, $0C, $45
+    db $14, $0B, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3950,16 +3953,16 @@ OverworldSprites_29_2:
 ; $04D4C2-$04D4DD DATA
 OverworldSprites_2A_2:
 {
-    db $09, $09, $1D ; Sprite 0x1D (0x0090, 0x0090)
-    db $0C, $0E, $9E ; Sprite 0x9E (0x00E0, 0x00C0)
-    db $0E, $0D, $A0 ; Sprite 0xA0 (0x00D0, 0x00E0)
-    db $0E, $0E, $2E ; Sprite 0x2E (0x00E0, 0x00E0)
-    db $0E, $11, $A0 ; Sprite 0xA0 (0x0110, 0x00E0)
-    db $0F, $0C, $9F ; Sprite 0x9F (0x00C0, 0x00F0)
-    db $10, $11, $9F ; Sprite 0x9F (0x0110, 0x0100)
-    db $14, $15, $DB ; Sprite 0xDB (0x0150, 0x0140)
-    db $18, $0F, $DB ; Sprite 0xDB (0x00F0, 0x0180)
-    db $FF ; END
+    db $09, $09, $1D
+    db $0C, $0E, $9E
+    db $0E, $0D, $A0
+    db $0E, $0E, $2E
+    db $0E, $11, $A0
+    db $0F, $0C, $9F
+    db $10, $11, $9F
+    db $14, $15, $DB
+    db $18, $0F, $DB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3967,12 +3970,12 @@ OverworldSprites_2A_2:
 ; $04D4DE-$04D4ED DATA
 OverworldSprites_2B_2:
 {
-    db $06, $08, $41 ; Sprite 0x41 (0x0080, 0x0060)
-    db $0D, $16, $E3 ; Sprite 0xE3 (0x0160, 0x00D0)
-    db $11, $14, $41 ; Sprite 0x41 (0x0140, 0x0110)
-    db $15, $14, $41 ; Sprite 0x41 (0x0140, 0x0150)
-    db $17, $10, $41 ; Sprite 0x41 (0x0100, 0x0170)
-    db $FF ; END
+    db $06, $08, $41
+    db $0D, $16, $E3
+    db $11, $14, $41
+    db $15, $14, $41
+    db $17, $10, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3980,9 +3983,9 @@ OverworldSprites_2B_2:
 ; $04D4EE-$04D4F4 DATA
 OverworldSprites_2C_2:
 {
-    db $14, $18, $41 ; Sprite 0x41 (0x0180, 0x0140)
-    db $19, $09, $41 ; Sprite 0x41 (0x0090, 0x0190)
-    db $FF ; END
+    db $14, $18, $41
+    db $19, $09, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -3990,11 +3993,11 @@ OverworldSprites_2C_2:
 ; $04D4F5-$04D501 DATA
 OverworldSprites_2D_2:
 {
-    db $08, $0F, $0A ; Sprite 0x0A (0x00F0, 0x0080)
-    db $0B, $12, $41 ; Sprite 0x41 (0x0120, 0x00B0)
-    db $16, $12, $45 ; Sprite 0x45 (0x0120, 0x0160)
-    db $17, $1C, $55 ; Sprite 0x55 (0x01C0, 0x0170)
-    db $FF ; END
+    db $08, $0F, $0A
+    db $0B, $12, $41
+    db $16, $12, $45
+    db $17, $1C, $55
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4002,13 +4005,13 @@ OverworldSprites_2D_2:
 ; $04D502-$04D514 DATA
 OverworldSprites_2E_2:
 {
-    db $09, $0C, $E3 ; Sprite 0xE3 (0x00C0, 0x0090)
-    db $0B, $14, $79 ; Sprite 0x79 (0x0140, 0x00B0)
-    db $0C, $0E, $45 ; Sprite 0x45 (0x00E0, 0x00C0)
-    db $0E, $17, $41 ; Sprite 0x41 (0x0170, 0x00E0)
-    db $12, $05, $55 ; Sprite 0x55 (0x0050, 0x0120)
-    db $17, $19, $08 ; Sprite 0x08 (0x0190, 0x0170)
-    db $FF ; END
+    db $09, $0C, $E3
+    db $0B, $14, $79
+    db $0C, $0E, $45
+    db $0E, $17, $41
+    db $12, $05, $55
+    db $17, $19, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4016,10 +4019,10 @@ OverworldSprites_2E_2:
 ; $04D515-$04D51E DATA
 OverworldSprites_2F_2:
 {
-    db $0C, $0F, $45 ; Sprite 0x45 (0x00F0, 0x00C0)
-    db $17, $07, $51 ; Sprite 0x51 (0x0070, 0x0170)
-    db $17, $0C, $51 ; Sprite 0x51 (0x00C0, 0x0170)
-    db $FF ; END
+    db $0C, $0F, $45
+    db $17, $07, $51
+    db $17, $0C, $51
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4027,27 +4030,27 @@ OverworldSprites_2F_2:
 ; $04D51F-$04D55B DATA
 OverworldSprites_30_2:
 {
-    db $14, $12, $57 ; Sprite 0x57 (0x0120, 0x0140)
-    db $19, $12, $B3 ; Sprite 0xB3 (0x0120, 0x0190)
-    db $1C, $0E, $57 ; Sprite 0x57 (0x00E0, 0x01C0)
-    db $1C, $16, $57 ; Sprite 0x57 (0x0160, 0x01C0)
-    db $19, $27, $4C ; Sprite 0x4C (0x0270, 0x0190)
-    db $1C, $22, $01 ; Sprite 0x01 (0x0220, 0x01C0)
-    db $1F, $2A, $4C ; Sprite 0x4C (0x02A0, 0x01F0)
-    db $23, $0C, $D4 ; Sprite 0xD4 (0x00C0, 0x0230)
-    db $26, $1D, $4C ; Sprite 0x4C (0x01D0, 0x0260)
-    db $29, $07, $01 ; Sprite 0x01 (0x0070, 0x0290)
-    db $29, $0F, $4C ; Sprite 0x4C (0x00F0, 0x0290)
-    db $2A, $06, $EB ; Sprite 0xEB (0x0060, 0x02A0)
-    db $2C, $1B, $4C ; Sprite 0x4C (0x01B0, 0x02C0)
-    db $30, $0A, $4C ; Sprite 0x4C (0x00A0, 0x0300)
-    db $35, $14, $4C ; Sprite 0x4C (0x0140, 0x0350)
-    db $2B, $37, $F2 ; Sprite 0xF2 (0x0370, 0x02B0)
-    db $24, $22, $4C ; Sprite 0x4C (0x0220, 0x0240)
-    db $2A, $28, $4C ; Sprite 0x4C (0x0280, 0x02A0)
-    db $32, $23, $4C ; Sprite 0x4C (0x0230, 0x0320)
-    db $33, $34, $01 ; Sprite 0x01 (0x0340, 0x0330)
-    db $FF ; END
+    db $14, $12, $57
+    db $19, $12, $B3
+    db $1C, $0E, $57
+    db $1C, $16, $57
+    db $19, $27, $4C
+    db $1C, $22, $01
+    db $1F, $2A, $4C
+    db $23, $0C, $D4
+    db $26, $1D, $4C
+    db $29, $07, $01
+    db $29, $0F, $4C
+    db $2A, $06, $EB
+    db $2C, $1B, $4C
+    db $30, $0A, $4C
+    db $35, $14, $4C
+    db $2B, $37, $F2
+    db $24, $22, $4C
+    db $2A, $28, $4C
+    db $32, $23, $4C
+    db $33, $34, $01
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4055,13 +4058,13 @@ OverworldSprites_30_2:
 ; $04D55C-$04D56F DATA
 OverworldSprites_32_2:
 {
-    db $09, $1A, $D8 ; Sprite 0xD8 (0x01A0, 0x0090)
-    db $0C, $0B, $42 ; Sprite 0x42 (0x00B0, 0x00C0)
-    db $0C, $12, $41 ; Sprite 0x41 (0x0120, 0x00C0)
-    db $10, $13, $42 ; Sprite 0x42 (0x0130, 0x0100)
-    db $12, $19, $DD ; Sprite 0xDD (0x0190, 0x0120)
-    db $15, $08, $D4 ; Sprite 0xD4 (0x0080, 0x0150)
-    db $FF ; END
+    db $09, $1A, $D8
+    db $0C, $0B, $42
+    db $0C, $12, $41
+    db $10, $13, $42
+    db $12, $19, $DD
+    db $15, $08, $D4
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4069,12 +4072,12 @@ OverworldSprites_32_2:
 ; $04D56F-$04D57E DATA
 OverworldSprites_33_2:
 {
-    db $06, $13, $08 ; Sprite 0x08 (0x0130, 0x0060)
-    db $0B, $14, $0A ; Sprite 0x0A (0x0140, 0x00B0)
-    db $12, $17, $BA ; Sprite 0xBA (0x0170, 0x0120)
-    db $16, $12, $08 ; Sprite 0x08 (0x0120, 0x0160)
-    db $1B, $1A, $08 ; Sprite 0x08 (0x01A0, 0x01B0)
-    db $FF ; END
+    db $06, $13, $08
+    db $0B, $14, $0A
+    db $12, $17, $BA
+    db $16, $12, $08
+    db $1B, $1A, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4082,12 +4085,12 @@ OverworldSprites_33_2:
 ; $04D57F-$04D58E DATA
 OverworldSprites_34_2:
 {
-    db $0E, $17, $33 ; Sprite 0x33 (0x0170, 0x00E0)
-    db $13, $08, $00 ; Sprite 0x00 (0x0080, 0x0130)
-    db $12, $11, $41 ; Sprite 0x41 (0x0110, 0x0120)
-    db $13, $06, $08 ; Sprite 0x08 (0x0060, 0x0130)
-    db $18, $0C, $08 ; Sprite 0x08 (0x00C0, 0x0180)
-    db $FF ; END
+    db $0E, $17, $33
+    db $13, $08, $00
+    db $12, $11, $41
+    db $13, $06, $08
+    db $18, $0C, $08
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4095,30 +4098,30 @@ OverworldSprites_34_2:
 ; $04D58F-$04D5D4 DATA
 OverworldSprites_35_2:
 {
-    db $07, $0E, $00 ; Sprite 0x00 (0x00E0, 0x0070)
-    db $09, $0D, $08 ; Sprite 0x08 (0x00D0, 0x0090)
-    db $0C, $0A, $45 ; Sprite 0x45 (0x00A0, 0x00C0)
-    db $13, $19, $EB ; Sprite 0xEB (0x0190, 0x0130)
-    db $14, $19, $0D ; Sprite 0x0D (0x0190, 0x0140)
-    db $17, $11, $55 ; Sprite 0x55 (0x0110, 0x0170)
-    db $0A, $38, $0A ; Sprite 0x0A (0x0380, 0x00A0)
-    db $0D, $25, $55 ; Sprite 0x55 (0x0250, 0x00D0)
-    db $19, $37, $55 ; Sprite 0x55 (0x0370, 0x0190)
-    db $1F, $27, $0D ; Sprite 0x0D (0x0270, 0x01F0)
-    db $1F, $2F, $0D ; Sprite 0x0D (0x02F0, 0x01F0)
-    db $26, $1B, $55 ; Sprite 0x55 (0x01B0, 0x0260)
-    db $2F, $0D, $00 ; Sprite 0x00 (0x00D0, 0x02F0)
-    db $34, $06, $08 ; Sprite 0x08 (0x0060, 0x0340)
-    db $35, $0A, $08 ; Sprite 0x08 (0x00A0, 0x0350)
-    db $35, $14, $55 ; Sprite 0x55 (0x0140, 0x0350)
-    db $39, $0B, $08 ; Sprite 0x08 (0x00B0, 0x0390)
-    db $3A, $19, $0D ; Sprite 0x0D (0x0190, 0x03A0)
-    db $2B, $29, $BA ; Sprite 0xBA (0x0290, 0x02B0)
-    db $31, $39, $55 ; Sprite 0x55 (0x0390, 0x0310)
-    db $36, $21, $55 ; Sprite 0x55 (0x0210, 0x0360)
-    db $37, $32, $0D ; Sprite 0x0D (0x0320, 0x0370)
-    db $39, $34, $0D ; Sprite 0x0D (0x0340, 0x0390)
-    db $FF ; END
+    db $07, $0E, $00
+    db $09, $0D, $08
+    db $0C, $0A, $45
+    db $13, $19, $EB
+    db $14, $19, $0D
+    db $17, $11, $55
+    db $0A, $38, $0A
+    db $0D, $25, $55
+    db $19, $37, $55
+    db $1F, $27, $0D
+    db $1F, $2F, $0D
+    db $26, $1B, $55
+    db $2F, $0D, $00
+    db $34, $06, $08
+    db $35, $0A, $08
+    db $35, $14, $55
+    db $39, $0B, $08
+    db $3A, $19, $0D
+    db $2B, $29, $BA
+    db $31, $39, $55
+    db $36, $21, $55
+    db $37, $32, $0D
+    db $39, $34, $0D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4126,12 +4129,12 @@ OverworldSprites_35_2:
 ; $04D5D5-$04D5E4 DATA
 OverworldSprites_37_2:
 {
-    db $08, $08, $58 ; Sprite 0x58 (0x0080, 0x0080)
-    db $08, $10, $58 ; Sprite 0x58 (0x0100, 0x0080)
-    db $0B, $0F, $58 ; Sprite 0x58 (0x00F0, 0x00B0)
-    db $11, $16, $58 ; Sprite 0x58 (0x0160, 0x0110)
-    db $19, $12, $55 ; Sprite 0x55 (0x0120, 0x0190)
-    db $FF ; END
+    db $08, $08, $58
+    db $08, $10, $58
+    db $0B, $0F, $58
+    db $11, $16, $58
+    db $19, $12, $55
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4139,15 +4142,15 @@ OverworldSprites_37_2:
 ; $04D5E5-$04D5FD DATA
 OverworldSprites_3A_2:
 {
-    db $05, $17, $39 ; Sprite 0x39 (0x0170, 0x0050)
-    db $0A, $0B, $3E ; Sprite 0x3E (0x00B0, 0x00A0)
-    db $0D, $14, $00 ; Sprite 0x00 (0x0140, 0x00D0)
-    db $0E, $13, $00 ; Sprite 0x00 (0x0130, 0x00E0)
-    db $0F, $14, $00 ; Sprite 0x00 (0x0140, 0x00F0)
-    db $10, $13, $00 ; Sprite 0x00 (0x0130, 0x0100)
-    db $0F, $11, $45 ; Sprite 0x45 (0x0110, 0x00F0)
-    db $17, $17, $3E ; Sprite 0x3E (0x0170, 0x0170)
-    db $FF ; END
+    db $05, $17, $39
+    db $0A, $0B, $3E
+    db $0D, $14, $00
+    db $0E, $13, $00
+    db $0F, $14, $00
+    db $10, $13, $00
+    db $0F, $11, $45
+    db $17, $17, $3E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4155,13 +4158,13 @@ OverworldSprites_3A_2:
 ; $04D5FE-$04D610 DATA
 OverworldSprites_3B_2:
 {
-    db $0D, $13, $D2 ; Sprite 0xD2 (0x0130, 0x00D0)
-    db $0F, $0C, $08 ; Sprite 0x08 (0x00C0, 0x00F0)
-    db $0E, $14, $EB ; Sprite 0xEB (0x0140, 0x00E0)
-    db $14, $0F, $0A ; Sprite 0x0A (0x00F0, 0x0140)
-    db $18, $17, $41 ; Sprite 0x41 (0x0170, 0x0180)
-    db $1B, $14, $00 ; Sprite 0x00 (0x0140, 0x01B0)
-    db $FF ; END
+    db $0D, $13, $D2
+    db $0F, $0C, $08
+    db $0E, $14, $EB
+    db $14, $0F, $0A
+    db $18, $17, $41
+    db $1B, $14, $00
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4169,12 +4172,12 @@ OverworldSprites_3B_2:
 ; $04D611-$04D620 DATA
 OverworldSprites_3C_2:
 {
-    db $09, $0B, $00 ; Sprite 0x00 (0x00B0, 0x0090)
-    db $0A, $08, $41 ; Sprite 0x41 (0x0080, 0x00A0)
-    db $0F, $14, $08 ; Sprite 0x08 (0x0140, 0x00F0)
-    db $11, $09, $45 ; Sprite 0x45 (0x0090, 0x0110)
-    db $15, $14, $0A ; Sprite 0x0A (0x0140, 0x0150)
-    db $FF ; END
+    db $09, $0B, $00
+    db $0A, $08, $41
+    db $0F, $14, $08
+    db $11, $09, $45
+    db $15, $14, $0A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4182,11 +4185,11 @@ OverworldSprites_3C_2:
 ; $04D621-$04D62D DATA
 OverworldSprites_3F_2:
 {
-    db $05, $16, $0A ; Sprite 0x0A (0x0160, 0x0050)
-    db $0C, $07, $BA ; Sprite 0xBA (0x0070, 0x00C0)
-    db $13, $06, $55 ; Sprite 0x55 (0x0060, 0x0130)
-    db $16, $11, $0F ; Sprite 0x0F (0x0110, 0x0160)
-    db $FF ; END
+    db $05, $16, $0A
+    db $0C, $07, $BA
+    db $13, $06, $55
+    db $16, $11, $0F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4618,8 +4621,8 @@ RoomData_SpritePointers:
 RoomData_Sprites_Room0000:
 {
     db $00 ; Unlayered OAM
-    db $05, $17, $D6 ; Sprite 0xD6 (0x0170, 0x0050, U) size: 0x00
-    db $FF ; END
+    db $05, $17, $D6
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4628,23 +4631,23 @@ RoomData_Sprites_Room0000:
 RoomData_Sprites_Room0002:
 {
     db $00 ; Unlayered OAM
-    db $85, $12, $6D ; Sprite 0x6D (0x0120, 0x0050, L) size: 0x00
-    db $86, $15, $6D ; Sprite 0x6D (0x0150, 0x0060, L) size: 0x00
-    db $88, $0F, $6D ; Sprite 0x6D (0x00F0, 0x0080, L) size: 0x00
-    db $88, $10, $6D ; Sprite 0x6D (0x0100, 0x0080, L) size: 0x00
-    db $89, $18, $6D ; Sprite 0x6D (0x0180, 0x0090, L) size: 0x00
-    db $97, $EF, $06 ; Overlord 06 (0x00F0, 0x0170, L)
-    db $98, $E9, $06 ; Overlord 06 (0x0090, 0x0180, L)
-    db $98, $EB, $06 ; Overlord 06 (0x00B0, 0x0180, L)
-    db $99, $EA, $06 ; Overlord 06 (0x00A0, 0x0190, L)
-    db $99, $EC, $06 ; Overlord 06 (0x00C0, 0x0190, L)
-    db $9A, $E9, $06 ; Overlord 06 (0x0090, 0x01A0, L)
-    db $9B, $EB, $06 ; Overlord 06 (0x00B0, 0x01B0, L)
-    db $97, $0A, $06 ; Sprite 0x06 (0x00A0, 0x0170, L) size: 0x00
-    db $97, $15, $04 ; Sprite 0x04 (0x0150, 0x0170, L) size: 0x00
-    db $9A, $0D, $6D ; Sprite 0x6D (0x00D0, 0x01A0, L) size: 0x00
-    db $9A, $12, $6D ; Sprite 0x6D (0x0120, 0x01A0, L) size: 0x00
-    db $FF ; END
+    db $85, $12, $6D
+    db $86, $15, $6D
+    db $88, $0F, $6D
+    db $88, $10, $6D
+    db $89, $18, $6D
+    db $97, $EF, $06
+    db $98, $E9, $06
+    db $98, $EB, $06
+    db $99, $EA, $06
+    db $99, $EC, $06
+    db $9A, $E9, $06
+    db $9B, $EB, $06
+    db $97, $0A, $06
+    db $97, $15, $04
+    db $9A, $0D, $6D
+    db $9A, $12, $6D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4653,23 +4656,23 @@ RoomData_Sprites_Room0002:
 RoomData_Sprites_Room0004:
 {
     db $00 ; Unlayered OAM
-    db $04, $09, $1E ; Sprite 0x1E (0x0090, 0x0040, U) size: 0x00
-    db $04, $14, $5D ; Sprite 0x5D (0x0140, 0x0040, U) size: 0x00
-    db $04, $1B, $60 ; Sprite 0x60 (0x01B0, 0x0040, U) size: 0x00
-    db $07, $05, $5F ; Sprite 0x5F (0x0050, 0x0070, U) size: 0x00
-    db $09, $15, $5F ; Sprite 0x5F (0x0150, 0x0090, U) size: 0x00
-    db $12, $E7, $16 ; Overlord 16 (0x0070, 0x0120, U)
-    db $15, $15, $04 ; Sprite 0x04 (0x0150, 0x0150, U) size: 0x00
-    db $15, $1A, $06 ; Sprite 0x06 (0x01A0, 0x0150, U) size: 0x00
-    db $15, $F8, $1A ; Overlord 1A (0x0180, 0x0150, U)
-    db $15, $1C, $8F ; Sprite 0x8F (0x01C0, 0x0150, U) size: 0x00
-    db $17, $F6, $1A ; Overlord 1A (0x0160, 0x0170, U)
-    db $17, $FA, $1A ; Overlord 1A (0x01A0, 0x0170, U)
-    db $18, $F8, $1A ; Overlord 1A (0x0180, 0x0180, U)
-    db $1A, $1A, $8F ; Sprite 0x8F (0x01A0, 0x01A0, U) size: 0x00
-    db $1B, $15, $8F ; Sprite 0x8F (0x0150, 0x01B0, U) size: 0x00
-    db $18, $07, $C7 ; Sprite 0xC7 (0x0070, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $04, $09, $1E
+    db $04, $14, $5D
+    db $04, $1B, $60
+    db $07, $05, $5F
+    db $09, $15, $5F
+    db $12, $E7, $16
+    db $15, $15, $04
+    db $15, $1A, $06
+    db $15, $F8, $1A
+    db $15, $1C, $8F
+    db $17, $F6, $1A
+    db $17, $FA, $1A
+    db $18, $F8, $1A
+    db $1A, $1A, $8F
+    db $1B, $15, $8F
+    db $18, $07, $C7
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4678,21 +4681,21 @@ RoomData_Sprites_Room0004:
 RoomData_Sprites_Room0006:
 {
     db $00 ; Unlayered OAM
-    db $17, $07, $8C ; Sprite 0x8C (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $17, $07, $8D ; Sprite 0x8D (0x0070, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $17, $07, $8C
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $17, $07, $8D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4701,8 +4704,8 @@ RoomData_Sprites_Room0006:
 RoomData_Sprites_Room0007:
 {
     db $00 ; Unlayered OAM
-    db $0E, $12, $09 ; Sprite 0x09 (0x0120, 0x00E0, U) size: 0x00
-    db $FF ; END
+    db $0E, $12, $09
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4711,8 +4714,8 @@ RoomData_Sprites_Room0007:
 RoomData_Sprites_Room0008:
 {
     db $00 ; Unlayered OAM
-    db $16, $07, $C8 ; Sprite 0xC8 (0x0070, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $16, $07, $C8
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4721,10 +4724,10 @@ RoomData_Sprites_Room0008:
 RoomData_Sprites_Room0009:
 {
     db $00 ; Unlayered OAM
-    db $08, $07, $C5 ; Sprite 0xC5 (0x0070, 0x0080, U) size: 0x00
-    db $08, $08, $C5 ; Sprite 0xC5 (0x0080, 0x0080, U) size: 0x00
-    db $0B, $17, $15 ; Sprite 0x15 (0x0170, 0x00B0, U) size: 0x00
-    db $FF ; END
+    db $08, $07, $C5
+    db $08, $08, $C5
+    db $0B, $17, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4733,14 +4736,14 @@ RoomData_Sprites_Room0009:
 RoomData_Sprites_Room000A:
 {
     db $00 ; Unlayered OAM
-    db $08, $17, $8E ; Sprite 0x8E (0x0170, 0x0080, U) size: 0x00
-    db $09, $17, $8E ; Sprite 0x8E (0x0170, 0x0090, U) size: 0x00
-    db $09, $ED, $05 ; Overlord 05 (0x00D0, 0x0090, U)
-    db $09, $F1, $05 ; Overlord 05 (0x0110, 0x0090, U)
-    db $0B, $F3, $17 ; Overlord 17 (0x0130, 0x00B0, U)
-    db $0E, $ED, $05 ; Overlord 05 (0x00D0, 0x00E0, U)
-    db $0E, $F1, $05 ; Overlord 05 (0x0110, 0x00E0, U)
-    db $FF ; END
+    db $08, $17, $8E
+    db $09, $17, $8E
+    db $09, $ED, $05
+    db $09, $F1, $05
+    db $0B, $F3, $17
+    db $0E, $ED, $05
+    db $0E, $F1, $05
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4749,17 +4752,17 @@ RoomData_Sprites_Room000A:
 RoomData_Sprites_Room000B:
 {
     db $00 ; Unlayered OAM
-    db $04, $1C, $1E ; Sprite 0x1E (0x01C0, 0x0040, U) size: 0x00
-    db $08, $07, $8E ; Sprite 0x8E (0x0070, 0x0080, U) size: 0x00
-    db $0B, $16, $8E ; Sprite 0x8E (0x0160, 0x00B0, U) size: 0x00
-    db $0B, $1B, $8E ; Sprite 0x8E (0x01B0, 0x00B0, U) size: 0x00
-    db $16, $05, $8E ; Sprite 0x8E (0x0050, 0x0160, U) size: 0x00
-    db $16, $0A, $8E ; Sprite 0x8E (0x00A0, 0x0160, U) size: 0x00
-    db $19, $07, $8E ; Sprite 0x8E (0x0070, 0x0190, U) size: 0x00
-    db $19, $08, $8E ; Sprite 0x8E (0x0080, 0x0190, U) size: 0x00
-    db $1B, $06, $8E ; Sprite 0x8E (0x0060, 0x01B0, U) size: 0x00
-    db $1B, $09, $8E ; Sprite 0x8E (0x0090, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $04, $1C, $1E
+    db $08, $07, $8E
+    db $0B, $16, $8E
+    db $0B, $1B, $8E
+    db $16, $05, $8E
+    db $16, $0A, $8E
+    db $19, $07, $8E
+    db $19, $08, $8E
+    db $1B, $06, $8E
+    db $1B, $09, $8E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4768,8 +4771,8 @@ RoomData_Sprites_Room000B:
 RoomData_Sprites_Room000D:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $7A ; Sprite 0x7A (0x0070, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $15, $07, $7A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4778,12 +4781,12 @@ RoomData_Sprites_Room000D:
 RoomData_Sprites_Room000E:
 {
     db $00 ; Unlayered OAM
-    db $12, $16, $A1 ; Sprite 0xA1 (0x0160, 0x0120, U) size: 0x00
-    db $16, $05, $24 ; Sprite 0x24 (0x0050, 0x0160, U) size: 0x00
-    db $18, $05, $24 ; Sprite 0x24 (0x0050, 0x0180, U) size: 0x00
-    db $1A, $05, $24 ; Sprite 0x24 (0x0050, 0x01A0, U) size: 0x00
+    db $12, $16, $A1
+    db $16, $05, $24
+    db $18, $05, $24
+    db $1A, $05, $24
     db $FE, $00, $E4 ; Small key on above sprite
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4792,15 +4795,15 @@ RoomData_Sprites_Room000E:
 RoomData_Sprites_Room0011:
 {
     db $00 ; Unlayered OAM
-    db $0A, $17, $6D ; Sprite 0x6D (0x0170, 0x00A0, U) size: 0x00
-    db $0A, $18, $6D ; Sprite 0x6D (0x0180, 0x00A0, U) size: 0x00
-    db $0C, $17, $6F ; Sprite 0x6F (0x0170, 0x00C0, U) size: 0x00
-    db $0C, $18, $6F ; Sprite 0x6F (0x0180, 0x00C0, U) size: 0x00
-    db $11, $1C, $6D ; Sprite 0x6D (0x01C0, 0x0110, U) size: 0x00
-    db $12, $1C, $6D ; Sprite 0x6D (0x01C0, 0x0120, U) size: 0x00
-    db $16, $1A, $6D ; Sprite 0x6D (0x01A0, 0x0160, U) size: 0x00
-    db $16, $1B, $6D ; Sprite 0x6D (0x01B0, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $0A, $17, $6D
+    db $0A, $18, $6D
+    db $0C, $17, $6F
+    db $0C, $18, $6F
+    db $11, $1C, $6D
+    db $12, $1C, $6D
+    db $16, $1A, $6D
+    db $16, $1B, $6D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4809,9 +4812,9 @@ RoomData_Sprites_Room0011:
 RoomData_Sprites_Room0012:
 {
     db $00 ; Unlayered OAM
-    db $07, $0F, $73 ; Sprite 0x73 (0x00F0, 0x0070, U) size: 0x00
-    db $06, $10, $76 ; Sprite 0x76 (0x0100, 0x0060, U) size: 0x00
-    db $FF ; END
+    db $07, $0F, $73
+    db $06, $10, $76
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4820,18 +4823,18 @@ RoomData_Sprites_Room0012:
 RoomData_Sprites_Room0013:
 {
     db $00 ; Unlayered OAM
-    db $11, $14, $1E ; Sprite 0x1E (0x0140, 0x0110, U) size: 0x00
-    db $04, $18, $15 ; Sprite 0x15 (0x0180, 0x0040, U) size: 0x00
-    db $04, $1A, $15 ; Sprite 0x15 (0x01A0, 0x0040, U) size: 0x00
-    db $05, $18, $15 ; Sprite 0x15 (0x0180, 0x0050, U) size: 0x00
-    db $05, $1A, $15 ; Sprite 0x15 (0x01A0, 0x0050, U) size: 0x00
-    db $16, $1B, $7C ; Sprite 0x7C (0x01B0, 0x0160, U) size: 0x00
-    db $18, $16, $C7 ; Sprite 0xC7 (0x0160, 0x0180, U) size: 0x00
+    db $11, $14, $1E
+    db $04, $18, $15
+    db $04, $1A, $15
+    db $05, $18, $15
+    db $05, $1A, $15
+    db $16, $1B, $7C
+    db $18, $16, $C7
     db $FE, $00, $E4 ; Small key on above sprite
-    db $18, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0180, U) size: 0x00
-    db $1A, $14, $7C ; Sprite 0x7C (0x0140, 0x01A0, U) size: 0x00
-    db $1B, $1B, $D1 ; Sprite 0xD1 (0x01B0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $18, $1E, $96
+    db $1A, $14, $7C
+    db $1B, $1B, $D1
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4840,17 +4843,17 @@ RoomData_Sprites_Room0013:
 RoomData_Sprites_Room0014:
 {
     db $01 ; Layered OAM
-    db $84, $0C, $B0 ; Sprite 0xB0 (0x00C0, 0x0040, L) size: 0x00
-    db $8A, $0F, $AF ; Sprite 0xAF (0x00F0, 0x00A0, L) size: 0x00
-    db $8A, $19, $AE ; Sprite 0xAE (0x0190, 0x00A0, L) size: 0x00
-    db $8D, $03, $AE ; Sprite 0xAE (0x0030, 0x00D0, L) size: 0x00
-    db $8D, $1B, $AE ; Sprite 0xAE (0x01B0, 0x00D0, L) size: 0x00
-    db $93, $0F, $AE ; Sprite 0xAE (0x00F0, 0x0130, L) size: 0x00
-    db $98, $08, $B0 ; Sprite 0xB0 (0x0080, 0x0180, L) size: 0x00
-    db $98, $17, $B1 ; Sprite 0xB1 (0x0170, 0x0180, L) size: 0x00
-    db $9B, $0C, $B0 ; Sprite 0xB0 (0x00C0, 0x01B0, L) size: 0x00
-    db $9B, $13, $B1 ; Sprite 0xB1 (0x0130, 0x01B0, L) size: 0x00
-    db $FF ; END
+    db $84, $0C, $B0
+    db $8A, $0F, $AF
+    db $8A, $19, $AE
+    db $8D, $03, $AE
+    db $8D, $1B, $AE
+    db $93, $0F, $AE
+    db $98, $08, $B0
+    db $98, $17, $B1
+    db $9B, $0C, $B0
+    db $9B, $13, $B1
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4859,17 +4862,17 @@ RoomData_Sprites_Room0014:
 RoomData_Sprites_Room0015:
 {
     db $01 ; Layered OAM
-    db $8C, $04, $AE ; Sprite 0xAE (0x0040, 0x00C0, L) size: 0x00
-    db $91, $11, $AE ; Sprite 0xAE (0x0110, 0x0110, L) size: 0x00
-    db $97, $04, $AF ; Sprite 0xAF (0x0040, 0x0170, L) size: 0x00
-    db $9B, $16, $B1 ; Sprite 0xB1 (0x0160, 0x01B0, L) size: 0x00
-    db $89, $0A, $8F ; Sprite 0x8F (0x00A0, 0x0090, L) size: 0x00
-    db $89, $15, $8F ; Sprite 0x8F (0x0150, 0x0090, L) size: 0x00
-    db $8A, $09, $15 ; Sprite 0x15 (0x0090, 0x00A0, L) size: 0x00
-    db $96, $18, $C7 ; Sprite 0xC7 (0x0180, 0x0160, L) size: 0x00
-    db $97, $08, $15 ; Sprite 0x15 (0x0080, 0x0170, L) size: 0x00
-    db $97, $17, $15 ; Sprite 0x15 (0x0170, 0x0170, L) size: 0x00
-    db $FF ; END
+    db $8C, $04, $AE
+    db $91, $11, $AE
+    db $97, $04, $AF
+    db $9B, $16, $B1
+    db $89, $0A, $8F
+    db $89, $15, $8F
+    db $8A, $09, $15
+    db $96, $18, $C7
+    db $97, $08, $15
+    db $97, $17, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4878,14 +4881,14 @@ RoomData_Sprites_Room0015:
 RoomData_Sprites_Room0016:
 {
     db $00 ; Unlayered OAM
-    db $07, $15, $8F ; Sprite 0x8F (0x0150, 0x0070, U) size: 0x00
-    db $08, $15, $8F ; Sprite 0x8F (0x0150, 0x0080, U) size: 0x00
-    db $09, $15, $24 ; Sprite 0x24 (0x0150, 0x0090, U) size: 0x00
-    db $0A, $10, $8F ; Sprite 0x8F (0x0100, 0x00A0, U) size: 0x00
-    db $98, $0C, $81 ; Sprite 0x81 (0x00C0, 0x0180, L) size: 0x00
-    db $9B, $07, $81 ; Sprite 0x81 (0x0070, 0x01B0, L) size: 0x00
-    db $9B, $14, $81 ; Sprite 0x81 (0x0140, 0x01B0, L) size: 0x00
-    db $FF ; END
+    db $07, $15, $8F
+    db $08, $15, $8F
+    db $09, $15, $24
+    db $0A, $10, $8F
+    db $98, $0C, $81
+    db $9B, $07, $81
+    db $9B, $14, $81
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4894,16 +4897,16 @@ RoomData_Sprites_Room0016:
 RoomData_Sprites_Room0017:
 {
     db $00 ; Unlayered OAM
-    db $0B, $07, $93 ; Sprite 0x93 (0x0070, 0x00B0, U) size: 0x00
-    db $0E, $10, $93 ; Sprite 0x93 (0x0100, 0x00E0, U) size: 0x00
-    db $16, $07, $93 ; Sprite 0x93 (0x0070, 0x0160, U) size: 0x00
-    db $07, $15, $26 ; Sprite 0x26 (0x0150, 0x0070, U) size: 0x00
-    db $09, $0B, $26 ; Sprite 0x26 (0x00B0, 0x0090, U) size: 0x00
-    db $11, $06, $7E ; Sprite 0x7E (0x0060, 0x0110, U) size: 0x00
-    db $11, $12, $26 ; Sprite 0x26 (0x0120, 0x0110, U) size: 0x00
-    db $17, $0B, $26 ; Sprite 0x26 (0x00B0, 0x0170, U) size: 0x00
-    db $17, $17, $26 ; Sprite 0x26 (0x0170, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $0B, $07, $93
+    db $0E, $10, $93
+    db $16, $07, $93
+    db $07, $15, $26
+    db $09, $0B, $26
+    db $11, $06, $7E
+    db $11, $12, $26
+    db $17, $0B, $26
+    db $17, $17, $26
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4912,11 +4915,11 @@ RoomData_Sprites_Room0017:
 RoomData_Sprites_Room0019:
 {
     db $00 ; Unlayered OAM
-    db $0A, $16, $86 ; Sprite 0x86 (0x0160, 0x00A0, U) size: 0x00
-    db $0E, $1A, $86 ; Sprite 0x86 (0x01A0, 0x00E0, U) size: 0x00
-    db $10, $16, $86 ; Sprite 0x86 (0x0160, 0x0100, U) size: 0x00
-    db $16, $18, $86 ; Sprite 0x86 (0x0180, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $0A, $16, $86
+    db $0E, $1A, $86
+    db $10, $16, $86
+    db $16, $18, $86
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4925,18 +4928,18 @@ RoomData_Sprites_Room0019:
 RoomData_Sprites_Room001A:
 {
     db $00 ; Unlayered OAM
-    db $06, $08, $13 ; Sprite 0x13 (0x0080, 0x0060, U) size: 0x00
-    db $06, $16, $8E ; Sprite 0x8E (0x0160, 0x0060, U) size: 0x00
-    db $06, $19, $8E ; Sprite 0x8E (0x0190, 0x0060, U) size: 0x00
-    db $0A, $16, $8E ; Sprite 0x8E (0x0160, 0x00A0, U) size: 0x00
-    db $0A, $19, $8E ; Sprite 0x8E (0x0190, 0x00A0, U) size: 0x00
-    db $10, $07, $13 ; Sprite 0x13 (0x0070, 0x0100, U) size: 0x00
-    db $15, $16, $8A ; Sprite 0x8A (0x0160, 0x0150, U) size: 0x00
-    db $17, $16, $8A ; Sprite 0x8A (0x0160, 0x0170, U) size: 0x00
-    db $19, $15, $1C ; Sprite 0x1C (0x0150, 0x0190, U) size: 0x00
-    db $19, $16, $8A ; Sprite 0x8A (0x0160, 0x0190, U) size: 0x00
-    db $1A, $E7, $0B ; Overlord 0B (0x0070, 0x01A0, U)
-    db $FF ; END
+    db $06, $08, $13
+    db $06, $16, $8E
+    db $06, $19, $8E
+    db $0A, $16, $8E
+    db $0A, $19, $8E
+    db $10, $07, $13
+    db $15, $16, $8A
+    db $17, $16, $8A
+    db $19, $15, $1C
+    db $19, $16, $8A
+    db $1A, $E7, $0B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4945,13 +4948,13 @@ RoomData_Sprites_Room001A:
 RoomData_Sprites_Room001B:
 {
     db $00 ; Unlayered OAM
-    db $04, $07, $1E ; Sprite 0x1E (0x0070, 0x0040, U) size: 0x00
-    db $04, $10, $38 ; Sprite 0x38 (0x0100, 0x0040, U) size: 0x00
-    db $0C, $03, $8A ; Sprite 0x8A (0x0030, 0x00C0, U) size: 0x00
-    db $14, $07, $84 ; Sprite 0x84 (0x0070, 0x0140, U) size: 0x00
-    db $1C, $03, $83 ; Sprite 0x83 (0x0030, 0x01C0, U) size: 0x00
-    db $1C, $0C, $83 ; Sprite 0x83 (0x00C0, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $04, $07, $1E
+    db $04, $10, $38
+    db $0C, $03, $8A
+    db $14, $07, $84
+    db $1C, $03, $83
+    db $1C, $0C, $83
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4960,18 +4963,18 @@ RoomData_Sprites_Room001B:
 RoomData_Sprites_Room001C:
 {
     db $00 ; Unlayered OAM
-    db $15, $14, $53 ; Sprite 0x53 (0x0140, 0x0150, U) size: 0x00
-    db $15, $17, $53 ; Sprite 0x53 (0x0170, 0x0150, U) size: 0x00
-    db $15, $1A, $53 ; Sprite 0x53 (0x01A0, 0x0150, U) size: 0x00
-    db $18, $1A, $53 ; Sprite 0x53 (0x01A0, 0x0180, U) size: 0x00
-    db $18, $17, $53 ; Sprite 0x53 (0x0170, 0x0180, U) size: 0x00
-    db $18, $14, $53 ; Sprite 0x53 (0x0140, 0x0180, U) size: 0x00
-    db $18, $F7, $19 ; Overlord 19 (0x0170, 0x0180, U)
-    db $07, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0070, U) size: 0x00
-    db $07, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0070, U) size: 0x00
-    db $08, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0080, U) size: 0x00
-    db $08, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0080, U) size: 0x00
-    db $FF ; END
+    db $15, $14, $53
+    db $15, $17, $53
+    db $15, $1A, $53
+    db $18, $1A, $53
+    db $18, $17, $53
+    db $18, $14, $53
+    db $18, $F7, $19
+    db $07, $07, $E3
+    db $07, $08, $E3
+    db $08, $07, $E3
+    db $08, $08, $E3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4980,14 +4983,14 @@ RoomData_Sprites_Room001C:
 RoomData_Sprites_Room001E:
 {
     db $00 ; Unlayered OAM
-    db $09, $1A, $1E ; Sprite 0x1E (0x01A0, 0x0090, U) size: 0x00
-    db $05, $16, $23 ; Sprite 0x23 (0x0160, 0x0050, U) size: 0x00
-    db $05, $19, $23 ; Sprite 0x23 (0x0190, 0x0050, U) size: 0x00
-    db $0A, $16, $23 ; Sprite 0x23 (0x0160, 0x00A0, U) size: 0x00
-    db $0A, $19, $23 ; Sprite 0x23 (0x0190, 0x00A0, U) size: 0x00
-    db $18, $08, $8F ; Sprite 0x8F (0x0080, 0x0180, U) size: 0x00
-    db $1C, $05, $8F ; Sprite 0x8F (0x0050, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $09, $1A, $1E
+    db $05, $16, $23
+    db $05, $19, $23
+    db $0A, $16, $23
+    db $0A, $19, $23
+    db $18, $08, $8F
+    db $1C, $05, $8F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -4996,15 +4999,15 @@ RoomData_Sprites_Room001E:
 RoomData_Sprites_Room001F:
 {
     db $00 ; Unlayered OAM
-    db $15, $04, $99 ; Sprite 0x99 (0x0040, 0x0150, U) size: 0x00
-    db $15, $09, $99 ; Sprite 0x99 (0x0090, 0x0150, U) size: 0x00
-    db $16, $06, $15 ; Sprite 0x15 (0x0060, 0x0160, U) size: 0x00
-    db $17, $07, $D1 ; Sprite 0xD1 (0x0070, 0x0170, U) size: 0x00
-    db $17, $0A, $99 ; Sprite 0x99 (0x00A0, 0x0170, U) size: 0x00
-    db $19, $0A, $99 ; Sprite 0x99 (0x00A0, 0x0190, U) size: 0x00
-    db $1B, $04, $99 ; Sprite 0x99 (0x0040, 0x01B0, U) size: 0x00
-    db $1B, $09, $99 ; Sprite 0x99 (0x0090, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $15, $04, $99
+    db $15, $09, $99
+    db $16, $06, $15
+    db $17, $07, $D1
+    db $17, $0A, $99
+    db $19, $0A, $99
+    db $1B, $04, $99
+    db $1B, $09, $99
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5013,8 +5016,8 @@ RoomData_Sprites_Room001F:
 RoomData_Sprites_Room0020:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $7A ; Sprite 0x7A (0x0070, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $15, $07, $7A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5023,19 +5026,19 @@ RoomData_Sprites_Room0020:
 RoomData_Sprites_Room0021:
 {
     db $00 ; Unlayered OAM
-    db $06, $05, $6D ; Sprite 0x6D (0x0050, 0x0060, U) size: 0x00
+    db $06, $05, $6D
     db $FE, $00, $E4 ; Small key on above sprite
-    db $06, $17, $6F ; Sprite 0x6F (0x0170, 0x0060, U) size: 0x00
-    db $06, $18, $6F ; Sprite 0x6F (0x0180, 0x0060, U) size: 0x00
-    db $09, $11, $6D ; Sprite 0x6D (0x0110, 0x0090, U) size: 0x00
-    db $0A, $0D, $6D ; Sprite 0x6D (0x00D0, 0x00A0, U) size: 0x00
-    db $14, $07, $6D ; Sprite 0x6D (0x0070, 0x0140, U) size: 0x00
-    db $14, $0D, $6F ; Sprite 0x6F (0x00D0, 0x0140, U) size: 0x00
-    db $14, $12, $6F ; Sprite 0x6F (0x0120, 0x0140, U) size: 0x00
-    db $18, $0D, $6D ; Sprite 0x6D (0x00D0, 0x0180, U) size: 0x00
-    db $1C, $0A, $6D ; Sprite 0x6D (0x00A0, 0x01C0, U) size: 0x00
-    db $1C, $13, $6D ; Sprite 0x6D (0x0130, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $06, $17, $6F
+    db $06, $18, $6F
+    db $09, $11, $6D
+    db $0A, $0D, $6D
+    db $14, $07, $6D
+    db $14, $0D, $6F
+    db $14, $12, $6F
+    db $18, $0D, $6D
+    db $1C, $0A, $6D
+    db $1C, $13, $6D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5044,14 +5047,14 @@ RoomData_Sprites_Room0021:
 RoomData_Sprites_Room0022:
 {
     db $00 ; Unlayered OAM
-    db $14, $06, $6D ; Sprite 0x6D (0x0060, 0x0140, U) size: 0x00
-    db $14, $08, $6D ; Sprite 0x6D (0x0080, 0x0140, U) size: 0x00
-    db $14, $11, $6D ; Sprite 0x6D (0x0110, 0x0140, U) size: 0x00
-    db $14, $12, $6D ; Sprite 0x6D (0x0120, 0x0140, U) size: 0x00
-    db $15, $11, $6D ; Sprite 0x6D (0x0110, 0x0150, U) size: 0x00
-    db $15, $12, $6D ; Sprite 0x6D (0x0120, 0x0150, U) size: 0x00
-    db $18, $09, $6D ; Sprite 0x6D (0x0090, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $14, $06, $6D
+    db $14, $08, $6D
+    db $14, $11, $6D
+    db $14, $12, $6D
+    db $15, $11, $6D
+    db $15, $12, $6D
+    db $18, $09, $6D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5060,12 +5063,12 @@ RoomData_Sprites_Room0022:
 RoomData_Sprites_Room0023:
 {
     db $00 ; Unlayered OAM
-    db $14, $15, $97 ; Sprite 0x97 (0x0150, 0x0140, U) size: 0x00
-    db $14, $16, $97 ; Sprite 0x97 (0x0160, 0x0140, U) size: 0x00
-    db $14, $17, $97 ; Sprite 0x97 (0x0170, 0x0140, U) size: 0x00
-    db $14, $18, $97 ; Sprite 0x97 (0x0180, 0x0140, U) size: 0x00
-    db $14, $19, $97 ; Sprite 0x97 (0x0190, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $14, $15, $97
+    db $14, $16, $97
+    db $14, $17, $97
+    db $14, $18, $97
+    db $14, $19, $97
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5074,14 +5077,14 @@ RoomData_Sprites_Room0023:
 RoomData_Sprites_Room0024:
 {
     db $00 ; Unlayered OAM
-    db $04, $13, $C5 ; Sprite 0xC5 (0x0130, 0x0040, U) size: 0x00
-    db $04, $1C, $C5 ; Sprite 0xC5 (0x01C0, 0x0040, U) size: 0x00
-    db $06, $1B, $60 ; Sprite 0x60 (0x01B0, 0x0060, U) size: 0x00
-    db $08, $05, $C7 ; Sprite 0xC7 (0x0050, 0x0080, U) size: 0x00
-    db $08, $07, $C5 ; Sprite 0xC5 (0x0070, 0x0080, U) size: 0x00
-    db $08, $0A, $C7 ; Sprite 0xC7 (0x00A0, 0x0080, U) size: 0x00
-    db $0C, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x00C0, U) size: 0x00
-    db $FF ; END
+    db $04, $13, $C5
+    db $04, $1C, $C5
+    db $06, $1B, $60
+    db $08, $05, $C7
+    db $08, $07, $C5
+    db $08, $0A, $C7
+    db $0C, $0C, $D1
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5090,7 +5093,7 @@ RoomData_Sprites_Room0024:
 RoomData_Sprites_Room0025:
 {
     db $00 ; Unlayered OAM
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5099,19 +5102,19 @@ RoomData_Sprites_Room0025:
 RoomData_Sprites_Room0026:
 {
     db $00 ; Unlayered OAM
-    db $04, $03, $C5 ; Sprite 0xC5 (0x0030, 0x0040, U) size: 0x00
-    db $05, $1A, $23 ; Sprite 0x23 (0x01A0, 0x0050, U) size: 0x00
-    db $06, $05, $23 ; Sprite 0x23 (0x0050, 0x0060, U) size: 0x00
-    db $06, $09, $A7 ; Sprite 0xA7 (0x0090, 0x0060, U) size: 0x00
-    db $09, $04, $A7 ; Sprite 0xA7 (0x0040, 0x0090, U) size: 0x00
-    db $0C, $0C, $C5 ; Sprite 0xC5 (0x00C0, 0x00C0, U) size: 0x00
-    db $17, $06, $1C ; Sprite 0x1C (0x0060, 0x0170, U) size: 0x00
-    db $17, $19, $C6 ; Sprite 0xC6 (0x0190, 0x0170, U) size: 0x00
-    db $18, $07, $23 ; Sprite 0x23 (0x0070, 0x0180, U) size: 0x00
-    db $18, $15, $9A ; Sprite 0x9A (0x0150, 0x0180, U) size: 0x00
-    db $19, $18, $24 ; Sprite 0x24 (0x0180, 0x0190, U) size: 0x00
-    db $1A, $1C, $80 ; Sprite 0x80 (0x01C0, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $04, $03, $C5
+    db $05, $1A, $23
+    db $06, $05, $23
+    db $06, $09, $A7
+    db $09, $04, $A7
+    db $0C, $0C, $C5
+    db $17, $06, $1C
+    db $17, $19, $C6
+    db $18, $07, $23
+    db $18, $15, $9A
+    db $19, $18, $24
+    db $1A, $1C, $80
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5120,14 +5123,14 @@ RoomData_Sprites_Room0026:
 RoomData_Sprites_Room0027:
 {
     db $00 ; Unlayered OAM
-    db $09, $17, $18 ; Sprite 0x18 (0x0170, 0x0090, U) size: 0x00
-    db $13, $18, $18 ; Sprite 0x18 (0x0180, 0x0130, U) size: 0x00
-    db $13, $1B, $18 ; Sprite 0x18 (0x01B0, 0x0130, U) size: 0x00
-    db $1A, $0C, $18 ; Sprite 0x18 (0x00C0, 0x01A0, U) size: 0x00
-    db $06, $0F, $5B ; Sprite 0x5B (0x00F0, 0x0060, U) size: 0x00
-    db $0E, $05, $86 ; Sprite 0x86 (0x0050, 0x00E0, U) size: 0x00
-    db $16, $04, $86 ; Sprite 0x86 (0x0040, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $09, $17, $18
+    db $13, $18, $18
+    db $13, $1B, $18
+    db $1A, $0C, $18
+    db $06, $0F, $5B
+    db $0E, $05, $86
+    db $16, $04, $86
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5136,12 +5139,12 @@ RoomData_Sprites_Room0027:
 RoomData_Sprites_Room0028:
 {
     db $00 ; Unlayered OAM
-    db $06, $0A, $9A ; Sprite 0x9A (0x00A0, 0x0060, U) size: 0x00
-    db $08, $08, $81 ; Sprite 0x81 (0x0080, 0x0080, U) size: 0x00
-    db $0A, $0B, $81 ; Sprite 0x81 (0x00B0, 0x00A0, U) size: 0x00
-    db $0D, $07, $81 ; Sprite 0x81 (0x0070, 0x00D0, U) size: 0x00
-    db $10, $08, $8A ; Sprite 0x8A (0x0080, 0x0100, U) size: 0x00
-    db $FF ; END
+    db $06, $0A, $9A
+    db $08, $08, $81
+    db $0A, $0B, $81
+    db $0D, $07, $81
+    db $10, $08, $8A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5150,9 +5153,9 @@ RoomData_Sprites_Room0028:
 RoomData_Sprites_Room0029:
 {
     db $00 ; Unlayered OAM
-    db $16, $18, $88 ; Sprite 0x88 (0x0180, 0x0160, U) size: 0x00
-    db $16, $E7, $07 ; Overlord 07 (0x0070, 0x0160, U)
-    db $FF ; END
+    db $16, $18, $88
+    db $16, $E7, $07
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5161,15 +5164,15 @@ RoomData_Sprites_Room0029:
 RoomData_Sprites_Room002A:
 {
     db $00 ; Unlayered OAM
-    db $17, $10, $1E ; Sprite 0x1E (0x0100, 0x0170, U) size: 0x00
-    db $0F, $0F, $93 ; Sprite 0x93 (0x00F0, 0x00F0, U) size: 0x00
-    db $08, $0D, $26 ; Sprite 0x26 (0x00D0, 0x0080, U) size: 0x00
-    db $0C, $07, $26 ; Sprite 0x26 (0x0070, 0x00C0, U) size: 0x00
-    db $0C, $10, $26 ; Sprite 0x26 (0x0100, 0x00C0, U) size: 0x00
-    db $0F, $0D, $26 ; Sprite 0x26 (0x00D0, 0x00F0, U) size: 0x00
-    db $11, $13, $26 ; Sprite 0x26 (0x0130, 0x0110, U) size: 0x00
-    db $13, $0F, $26 ; Sprite 0x26 (0x00F0, 0x0130, U) size: 0x00
-    db $FF ; END
+    db $17, $10, $1E
+    db $0F, $0F, $93
+    db $08, $0D, $26
+    db $0C, $07, $26
+    db $0C, $10, $26
+    db $0F, $0D, $26
+    db $11, $13, $26
+    db $13, $0F, $26
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5178,15 +5181,15 @@ RoomData_Sprites_Room002A:
 RoomData_Sprites_Room002B:
 {
     db $00 ; Unlayered OAM
-    db $11, $0A, $1E ; Sprite 0x1E (0x00A0, 0x0110, U) size: 0x00
-    db $0A, $0A, $1C ; Sprite 0x1C (0x00A0, 0x00A0, U) size: 0x00
-    db $17, $07, $23 ; Sprite 0x23 (0x0070, 0x0170, U) size: 0x00
-    db $17, $16, $E3 ; Sprite 0xE3 (0x0160, 0x0170, U) size: 0x00
-    db $18, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0180, U) size: 0x00
-    db $1A, $05, $23 ; Sprite 0x23 (0x0050, 0x01A0, U) size: 0x00
-    db $1A, $0A, $23 ; Sprite 0x23 (0x00A0, 0x01A0, U) size: 0x00
-    db $1A, $17, $E3 ; Sprite 0xE3 (0x0170, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $11, $0A, $1E
+    db $0A, $0A, $1C
+    db $17, $07, $23
+    db $17, $16, $E3
+    db $18, $18, $E3
+    db $1A, $05, $23
+    db $1A, $0A, $23
+    db $1A, $17, $E3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5195,11 +5198,11 @@ RoomData_Sprites_Room002B:
 RoomData_Sprites_Room002C:
 {
     db $00 ; Unlayered OAM
-    db $05, $17, $C8 ; Sprite 0xC8 (0x0170, 0x0050, U) size: 0x00
-    db $04, $09, $E3 ; Sprite 0xE3 (0x0090, 0x0040, U) size: 0x00
-    db $05, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0050, U) size: 0x00
-    db $07, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0070, U) size: 0x00
-    db $FF ; END
+    db $05, $17, $C8
+    db $04, $09, $E3
+    db $05, $06, $E3
+    db $07, $08, $E3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5208,13 +5211,13 @@ RoomData_Sprites_Room002C:
 RoomData_Sprites_Room002E:
 {
     db $00 ; Unlayered OAM
-    db $06, $14, $99 ; Sprite 0x99 (0x0140, 0x0060, U) size: 0x00
-    db $06, $1C, $99 ; Sprite 0x99 (0x01C0, 0x0060, U) size: 0x00
-    db $08, $16, $99 ; Sprite 0x99 (0x0160, 0x0080, U) size: 0x00
-    db $08, $19, $99 ; Sprite 0x99 (0x0190, 0x0080, U) size: 0x00
-    db $0B, $14, $99 ; Sprite 0x99 (0x0140, 0x00B0, U) size: 0x00
-    db $0B, $1B, $99 ; Sprite 0x99 (0x01B0, 0x00B0, U) size: 0x00
-    db $FF ; END
+    db $06, $14, $99
+    db $06, $1C, $99
+    db $08, $16, $99
+    db $08, $19, $99
+    db $0B, $14, $99
+    db $0B, $1B, $99
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5223,8 +5226,8 @@ RoomData_Sprites_Room002E:
 RoomData_Sprites_Room0030:
 {
     db $00 ; Unlayered OAM
-    db $05, $07, $C1 ; Sprite 0xC1 (0x0070, 0x0050, U) size: 0x00
-    db $FF ; END
+    db $05, $07, $C1
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5233,19 +5236,19 @@ RoomData_Sprites_Room0030:
 RoomData_Sprites_Room0031:
 {
     db $00 ; Unlayered OAM
-    db $1A, $18, $1E ; Sprite 0x1E (0x0180, 0x01A0, U) size: 0x00
-    db $0B, $16, $1E ; Sprite 0x1E (0x0160, 0x00B0, U) size: 0x00
-    db $05, $15, $26 ; Sprite 0x26 (0x0150, 0x0050, U) size: 0x00
-    db $06, $05, $26 ; Sprite 0x26 (0x0050, 0x0060, U) size: 0x00
-    db $09, $03, $26 ; Sprite 0x26 (0x0030, 0x0090, U) size: 0x00
-    db $0C, $0B, $26 ; Sprite 0x26 (0x00B0, 0x00C0, U) size: 0x00
-    db $15, $03, $26 ; Sprite 0x26 (0x0030, 0x0150, U) size: 0x00
-    db $15, $1B, $26 ; Sprite 0x26 (0x01B0, 0x0150, U) size: 0x00
-    db $16, $13, $26 ; Sprite 0x26 (0x0130, 0x0160, U) size: 0x00
-    db $18, $03, $26 ; Sprite 0x26 (0x0030, 0x0180, U) size: 0x00
-    db $19, $17, $26 ; Sprite 0x26 (0x0170, 0x0190, U) size: 0x00
-    db $1C, $09, $26 ; Sprite 0x26 (0x0090, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $1A, $18, $1E
+    db $0B, $16, $1E
+    db $05, $15, $26
+    db $06, $05, $26
+    db $09, $03, $26
+    db $0C, $0B, $26
+    db $15, $03, $26
+    db $15, $1B, $26
+    db $16, $13, $26
+    db $18, $03, $26
+    db $19, $17, $26
+    db $1C, $09, $26
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5254,12 +5257,12 @@ RoomData_Sprites_Room0031:
 RoomData_Sprites_Room0032:
 {
     db $00 ; Unlayered OAM
-    db $0D, $0B, $6F ; Sprite 0x6F (0x00B0, 0x00D0, U) size: 0x00
-    db $0D, $0F, $6E ; Sprite 0x6E (0x00F0, 0x00D0, U) size: 0x00
-    db $0D, $13, $6F ; Sprite 0x6F (0x0130, 0x00D0, U) size: 0x00
-    db $0E, $10, $6E ; Sprite 0x6E (0x0100, 0x00E0, U) size: 0x00
-    db $0F, $12, $6E ; Sprite 0x6E (0x0120, 0x00F0, U) size: 0x00
-    db $FF ; END
+    db $0D, $0B, $6F
+    db $0D, $0F, $6E
+    db $0D, $13, $6F
+    db $0E, $10, $6E
+    db $0F, $12, $6E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5268,10 +5271,10 @@ RoomData_Sprites_Room0032:
 RoomData_Sprites_Room0033:
 {
     db $00 ; Unlayered OAM
-    db $17, $06, $54 ; Sprite 0x54 (0x0060, 0x0170, U) size: 0x00
-    db $17, $09, $54 ; Sprite 0x54 (0x0090, 0x0170, U) size: 0x00
-    db $19, $07, $54 ; Sprite 0x54 (0x0070, 0x0190, U) size: 0x00
-    db $FF ; END
+    db $17, $06, $54
+    db $17, $09, $54
+    db $19, $07, $54
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5280,14 +5283,14 @@ RoomData_Sprites_Room0033:
 RoomData_Sprites_Room0034:
 {
     db $00 ; Unlayered OAM
-    db $0B, $0F, $81 ; Sprite 0x81 (0x00F0, 0x00B0, U) size: 0x00
-    db $12, $10, $81 ; Sprite 0x81 (0x0100, 0x0120, U) size: 0x00
-    db $15, $0F, $9A ; Sprite 0x9A (0x00F0, 0x0150, U) size: 0x00
-    db $17, $19, $80 ; Sprite 0x80 (0x0190, 0x0170, U) size: 0x00
-    db $18, $03, $8F ; Sprite 0x8F (0x0030, 0x0180, U) size: 0x00
-    db $18, $14, $24 ; Sprite 0x24 (0x0140, 0x0180, U) size: 0x00
-    db $1A, $16, $A7 ; Sprite 0xA7 (0x0160, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $0B, $0F, $81
+    db $12, $10, $81
+    db $15, $0F, $9A
+    db $17, $19, $80
+    db $18, $03, $8F
+    db $18, $14, $24
+    db $1A, $16, $A7
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5296,18 +5299,18 @@ RoomData_Sprites_Room0034:
 RoomData_Sprites_Room0035:
 {
     db $00 ; Unlayered OAM
-    db $06, $16, $1E ; Sprite 0x1E (0x0160, 0x0060, U) size: 0x00
-    db $05, $14, $21 ; Sprite 0x21 (0x0140, 0x0050, U) size: 0x00
-    db $05, $18, $23 ; Sprite 0x23 (0x0180, 0x0050, U) size: 0x00
-    db $09, $13, $8A ; Sprite 0x8A (0x0130, 0x0090, U) size: 0x00
-    db $0B, $14, $A7 ; Sprite 0xA7 (0x0140, 0x00B0, U) size: 0x00
-    db $14, $07, $8F ; Sprite 0x8F (0x0070, 0x0140, U) size: 0x00
-    db $18, $14, $A7 ; Sprite 0xA7 (0x0140, 0x0180, U) size: 0x00
-    db $19, $16, $80 ; Sprite 0x80 (0x0160, 0x0190, U) size: 0x00
-    db $1A, $17, $C6 ; Sprite 0xC6 (0x0170, 0x01A0, U) size: 0x00
-    db $1B, $14, $24 ; Sprite 0x24 (0x0140, 0x01B0, U) size: 0x00
-    db $1C, $1B, $A7 ; Sprite 0xA7 (0x01B0, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $06, $16, $1E
+    db $05, $14, $21
+    db $05, $18, $23
+    db $09, $13, $8A
+    db $0B, $14, $A7
+    db $14, $07, $8F
+    db $18, $14, $A7
+    db $19, $16, $80
+    db $1A, $17, $C6
+    db $1B, $14, $24
+    db $1C, $1B, $A7
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5316,18 +5319,18 @@ RoomData_Sprites_Room0035:
 RoomData_Sprites_Room0036:
 {
     db $00 ; Unlayered OAM
-    db $02, $F7, $12 ; Overlord 12 (0x0170, 0x0020, U)
-    db $0A, $0B, $81 ; Sprite 0x81 (0x00B0, 0x00A0, U) size: 0x00
-    db $0A, $14, $81 ; Sprite 0x81 (0x0140, 0x00A0, U) size: 0x00
-    db $0B, $15, $C5 ; Sprite 0xC5 (0x0150, 0x00B0, U) size: 0x00
-    db $0D, $E1, $10 ; Overlord 10 (0x0010, 0x00D0, U)
-    db $13, $14, $9A ; Sprite 0x9A (0x0140, 0x0130, U) size: 0x00
-    db $13, $FE, $11 ; Overlord 11 (0x01E0, 0x0130, U)
-    db $14, $09, $81 ; Sprite 0x81 (0x0090, 0x0140, U) size: 0x00
-    db $17, $12, $81 ; Sprite 0x81 (0x0120, 0x0170, U) size: 0x00
-    db $1E, $EA, $13 ; Overlord 13 (0x00A0, 0x01E0, U)
-    db $1E, $F4, $13 ; Overlord 13 (0x0140, 0x01E0, U)
-    db $FF ; END
+    db $02, $F7, $12
+    db $0A, $0B, $81
+    db $0A, $14, $81
+    db $0B, $15, $C5
+    db $0D, $E1, $10
+    db $13, $14, $9A
+    db $13, $FE, $11
+    db $14, $09, $81
+    db $17, $12, $81
+    db $1E, $EA, $13
+    db $1E, $F4, $13
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5336,17 +5339,17 @@ RoomData_Sprites_Room0036:
 RoomData_Sprites_Room0037:
 {
     db $00 ; Unlayered OAM
-    db $04, $0B, $21 ; Sprite 0x21 (0x00B0, 0x0040, U) size: 0x00
-    db $06, $05, $A7 ; Sprite 0xA7 (0x0050, 0x0060, U) size: 0x00
-    db $08, $17, $8F ; Sprite 0x8F (0x0170, 0x0080, U) size: 0x00
-    db $08, $1A, $8F ; Sprite 0x8F (0x01A0, 0x0080, U) size: 0x00
-    db $09, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x0090, U) size: 0x00
-    db $14, $15, $80 ; Sprite 0x80 (0x0150, 0x0140, U) size: 0x00
-    db $17, $17, $A7 ; Sprite 0xA7 (0x0170, 0x0170, U) size: 0x00
-    db $19, $13, $24 ; Sprite 0x24 (0x0130, 0x0190, U) size: 0x00
-    db $1A, $17, $C6 ; Sprite 0xC6 (0x0170, 0x01A0, U) size: 0x00
-    db $1C, $15, $23 ; Sprite 0x23 (0x0150, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $04, $0B, $21
+    db $06, $05, $A7
+    db $08, $17, $8F
+    db $08, $1A, $8F
+    db $09, $0C, $A7
+    db $14, $15, $80
+    db $17, $17, $A7
+    db $19, $13, $24
+    db $1A, $17, $C6
+    db $1C, $15, $23
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5355,14 +5358,14 @@ RoomData_Sprites_Room0037:
 RoomData_Sprites_Room0038:
 {
     db $00 ; Unlayered OAM
-    db $06, $0C, $81 ; Sprite 0x81 (0x00C0, 0x0060, U) size: 0x00
-    db $0A, $07, $81 ; Sprite 0x81 (0x0070, 0x00A0, U) size: 0x00
-    db $0C, $0C, $9A ; Sprite 0x9A (0x00C0, 0x00C0, U) size: 0x00
-    db $10, $0C, $C5 ; Sprite 0xC5 (0x00C0, 0x0100, U) size: 0x00
-    db $14, $06, $9A ; Sprite 0x9A (0x0060, 0x0140, U) size: 0x00
-    db $18, $0C, $9A ; Sprite 0x9A (0x00C0, 0x0180, U) size: 0x00
-    db $1A, $07, $81 ; Sprite 0x81 (0x0070, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $06, $0C, $81
+    db $0A, $07, $81
+    db $0C, $0C, $9A
+    db $10, $0C, $C5
+    db $14, $06, $9A
+    db $18, $0C, $9A
+    db $1A, $07, $81
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5371,15 +5374,15 @@ RoomData_Sprites_Room0038:
 RoomData_Sprites_Room0039:
 {
     db $00 ; Unlayered OAM
-    db $18, $04, $18 ; Sprite 0x18 (0x0040, 0x0180, U) size: 0x00
-    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
-    db $15, $05, $8B ; Sprite 0x8B (0x0050, 0x0150, U) size: 0x00
+    db $18, $04, $18
+    db $0F, $EF, $09
+    db $15, $05, $8B
     db $FE, $00, $E4 ; Small key on above sprite
-    db $15, $09, $13 ; Sprite 0x13 (0x0090, 0x0150, U) size: 0x00
-    db $16, $17, $8A ; Sprite 0x8A (0x0170, 0x0160, U) size: 0x00
-    db $18, $0B, $26 ; Sprite 0x26 (0x00B0, 0x0180, U) size: 0x00
-    db $1A, $17, $8A ; Sprite 0x8A (0x0170, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $15, $09, $13
+    db $16, $17, $8A
+    db $18, $0B, $26
+    db $1A, $17, $8A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5388,13 +5391,13 @@ RoomData_Sprites_Room0039:
 RoomData_Sprites_Room003A:
 {
     db $00 ; Unlayered OAM
-    db $11, $0E, $8E ; Sprite 0x8E (0x00E0, 0x0110, U) size: 0x00
-    db $11, $11, $8E ; Sprite 0x8E (0x0110, 0x0110, U) size: 0x00
-    db $14, $04, $C5 ; Sprite 0xC5 (0x0040, 0x0140, U) size: 0x00
-    db $14, $0A, $24 ; Sprite 0x24 (0x00A0, 0x0140, U) size: 0x00
-    db $14, $15, $24 ; Sprite 0x24 (0x0150, 0x0140, U) size: 0x00
-    db $14, $1B, $C5 ; Sprite 0xC5 (0x01B0, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $11, $0E, $8E
+    db $11, $11, $8E
+    db $14, $04, $C5
+    db $14, $0A, $24
+    db $14, $15, $24
+    db $14, $1B, $C5
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5403,14 +5406,14 @@ RoomData_Sprites_Room003A:
 RoomData_Sprites_Room003B:
 {
     db $00 ; Unlayered OAM
-    db $06, $03, $8A ; Sprite 0x8A (0x0030, 0x0060, U) size: 0x00
-    db $09, $07, $23 ; Sprite 0x23 (0x0070, 0x0090, U) size: 0x00
-    db $0D, $0C, $8A ; Sprite 0x8A (0x00C0, 0x00D0, U) size: 0x00
-    db $0F, $08, $24 ; Sprite 0x24 (0x0080, 0x00F0, U) size: 0x00
-    db $13, $03, $8A ; Sprite 0x8A (0x0030, 0x0130, U) size: 0x00
-    db $16, $07, $24 ; Sprite 0x24 (0x0070, 0x0160, U) size: 0x00
-    db $1A, $0C, $8A ; Sprite 0x8A (0x00C0, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $06, $03, $8A
+    db $09, $07, $23
+    db $0D, $0C, $8A
+    db $0F, $08, $24
+    db $13, $03, $8A
+    db $16, $07, $24
+    db $1A, $0C, $8A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5419,10 +5422,10 @@ RoomData_Sprites_Room003B:
 RoomData_Sprites_Room003C:
 {
     db $00 ; Unlayered OAM
-    db $08, $09, $26 ; Sprite 0x26 (0x0090, 0x0080, U) size: 0x00
-    db $14, $0A, $24 ; Sprite 0x24 (0x00A0, 0x0140, U) size: 0x00
-    db $14, $12, $24 ; Sprite 0x24 (0x0120, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $08, $09, $26
+    db $14, $0A, $24
+    db $14, $12, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5431,22 +5434,22 @@ RoomData_Sprites_Room003C:
 RoomData_Sprites_Room003D:
 {
     db $00 ; Unlayered OAM
-    db $17, $05, $1E ; Sprite 0x1E (0x0050, 0x0170, U) size: 0x00
-    db $19, $0A, $1E ; Sprite 0x1E (0x00A0, 0x0190, U) size: 0x00
-    db $07, $17, $13 ; Sprite 0x13 (0x0170, 0x0070, U) size: 0x00
+    db $17, $05, $1E
+    db $19, $0A, $1E
+    db $07, $17, $13
     db $FE, $00, $E4 ; Small key on above sprite
-    db $07, $18, $13 ; Sprite 0x13 (0x0180, 0x0070, U) size: 0x00
-    db $08, $15, $C5 ; Sprite 0xC5 (0x0150, 0x0080, U) size: 0x00
-    db $08, $1A, $C5 ; Sprite 0xC5 (0x01A0, 0x0080, U) size: 0x00
-    db $0A, $04, $8A ; Sprite 0x8A (0x0040, 0x00A0, U) size: 0x00
-    db $0B, $03, $7D ; Sprite 0x7D (0x0030, 0x00B0, U) size: 0x00
-    db $15, $FB, $0A ; Overlord 0A (0x01B0, 0x0150, U)
-    db $16, $13, $5C ; Sprite 0x5C (0x0130, 0x0160, U) size: 0x00
-    db $16, $1C, $5B ; Sprite 0x5B (0x01C0, 0x0160, U) size: 0x00
-    db $16, $09, $5B ; Sprite 0x5B (0x0090, 0x0160, U) size: 0x00
-    db $17, $07, $D1 ; Sprite 0xD1 (0x0070, 0x0170, U) size: 0x00
-    db $17, $08, $15 ; Sprite 0x15 (0x0080, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $07, $18, $13
+    db $08, $15, $C5
+    db $08, $1A, $C5
+    db $0A, $04, $8A
+    db $0B, $03, $7D
+    db $15, $FB, $0A
+    db $16, $13, $5C
+    db $16, $1C, $5B
+    db $16, $09, $5B
+    db $17, $07, $D1
+    db $17, $08, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5455,20 +5458,20 @@ RoomData_Sprites_Room003D:
 RoomData_Sprites_Room003E:
 {
     db $00 ; Unlayered OAM
-    db $15, $06, $1E ; Sprite 0x1E (0x0060, 0x0150, U) size: 0x00
-    db $04, $19, $91 ; Sprite 0x91 (0x0190, 0x0040, U) size: 0x00
-    db $0B, $16, $91 ; Sprite 0x91 (0x0160, 0x00B0, U) size: 0x00
-    db $12, $05, $9D ; Sprite 0x9D (0x0050, 0x0120, U) size: 0x00
-    db $12, $0E, $9D ; Sprite 0x9D (0x00E0, 0x0120, U) size: 0x00
-    db $12, $F0, $07 ; Overlord 07 (0x0100, 0x0120, U)
-    db $12, $12, $9D ; Sprite 0x9D (0x0120, 0x0120, U) size: 0x00
-    db $12, $15, $9D ; Sprite 0x9D (0x0150, 0x0120, U) size: 0x00
-    db $16, $07, $24 ; Sprite 0x24 (0x0070, 0x0160, U) size: 0x00
-    db $18, $11, $24 ; Sprite 0x24 (0x0110, 0x0180, U) size: 0x00
+    db $15, $06, $1E
+    db $04, $19, $91
+    db $0B, $16, $91
+    db $12, $05, $9D
+    db $12, $0E, $9D
+    db $12, $F0, $07
+    db $12, $12, $9D
+    db $12, $15, $9D
+    db $16, $07, $24
+    db $18, $11, $24
     db $FE, $00, $E4 ; Small key on above sprite
-    db $19, $15, $24 ; Sprite 0x24 (0x0150, 0x0190, U) size: 0x00
-    db $1A, $0B, $24 ; Sprite 0x24 (0x00B0, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $19, $15, $24
+    db $1A, $0B, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5477,12 +5480,12 @@ RoomData_Sprites_Room003E:
 RoomData_Sprites_Room003F:
 {
     db $00 ; Unlayered OAM
-    db $15, $04, $04 ; Sprite 0x04 (0x0040, 0x0150, U) size: 0x00
-    db $16, $0C, $91 ; Sprite 0x91 (0x00C0, 0x0160, U) size: 0x00
-    db $15, $13, $04 ; Sprite 0x04 (0x0130, 0x0150, U) size: 0x00
-    db $17, $04, $91 ; Sprite 0x91 (0x0040, 0x0170, U) size: 0x00
-    db $18, $08, $D1 ; Sprite 0xD1 (0x0080, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $15, $04, $04
+    db $16, $0C, $91
+    db $15, $13, $04
+    db $17, $04, $91
+    db $18, $08, $D1
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5491,13 +5494,13 @@ RoomData_Sprites_Room003F:
 RoomData_Sprites_Room0040:
 {
     db $00 ; Unlayered OAM
-    db $88, $09, $41 ; Sprite 0x41 (0x0090, 0x0080, L) size: 0x00
-    db $EF, $69, $41 ; Sprite 0x41 (0x0090, 0x00F0, L) size: 0x1B
-    db $95, $18, $1C ; Sprite 0x1C (0x0180, 0x0150, L) size: 0x00
-    db $98, $1B, $43 ; Sprite 0x43 (0x01B0, 0x0180, L) size: 0x00
-    db $9A, $17, $46 ; Sprite 0x46 (0x0170, 0x01A0, L) size: 0x00
-    db $9A, $19, $46 ; Sprite 0x46 (0x0190, 0x01A0, L) size: 0x00
-    db $FF ; END
+    db $88, $09, $41
+    db $EF, $69, $41
+    db $95, $18, $1C
+    db $98, $1B, $43
+    db $9A, $17, $46
+    db $9A, $19, $46
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5506,7 +5509,7 @@ RoomData_Sprites_Room0040:
 UNREACHABLE_09DE37:
 {
     db $00 ; Unlayered OAM
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5515,11 +5518,11 @@ UNREACHABLE_09DE37:
 RoomData_Sprites_Room0041:
 {
     db $00 ; Unlayered OAM
-    db $0A, $11, $6D ; Sprite 0x6D (0x0110, 0x00A0, U) size: 0x00
-    db $0B, $1B, $6D ; Sprite 0x6D (0x01B0, 0x00B0, U) size: 0x00
-    db $0D, $0F, $6D ; Sprite 0x6D (0x00F0, 0x00D0, U) size: 0x00
-    db $15, $06, $6D ; Sprite 0x6D (0x0060, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $0A, $11, $6D
+    db $0B, $1B, $6D
+    db $0D, $0F, $6D
+    db $15, $06, $6D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5528,13 +5531,13 @@ RoomData_Sprites_Room0041:
 RoomData_Sprites_Room0042:
 {
     db $00 ; Unlayered OAM
-    db $06, $12, $6E ; Sprite 0x6E (0x0120, 0x0060, U) size: 0x00
-    db $06, $13, $6E ; Sprite 0x6E (0x0130, 0x0060, U) size: 0x00
-    db $06, $14, $6E ; Sprite 0x6E (0x0140, 0x0060, U) size: 0x00
-    db $07, $12, $6E ; Sprite 0x6E (0x0120, 0x0070, U) size: 0x00
-    db $07, $13, $6E ; Sprite 0x6E (0x0130, 0x0070, U) size: 0x00
-    db $07, $14, $6E ; Sprite 0x6E (0x0140, 0x0070, U) size: 0x00
-    db $FF ; END
+    db $06, $12, $6E
+    db $06, $13, $6E
+    db $06, $14, $6E
+    db $07, $12, $6E
+    db $07, $13, $6E
+    db $07, $14, $6E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5543,9 +5546,9 @@ RoomData_Sprites_Room0042:
 RoomData_Sprites_Room0043:
 {
     db $00 ; Unlayered OAM
-    db $06, $0C, $84 ; Sprite 0x84 (0x00C0, 0x0060, U) size: 0x00
-    db $18, $F7, $14 ; Overlord 14 (0x0170, 0x0180, U)
-    db $FF ; END
+    db $06, $0C, $84
+    db $18, $F7, $14
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5554,16 +5557,16 @@ RoomData_Sprites_Room0043:
 RoomData_Sprites_Room0044:
 {
     db $00 ; Unlayered OAM
-    db $06, $09, $93 ; Sprite 0x93 (0x0090, 0x0060, U) size: 0x00
-    db $08, $05, $93 ; Sprite 0x93 (0x0050, 0x0080, U) size: 0x00
-    db $04, $08, $24 ; Sprite 0x24 (0x0080, 0x0040, U) size: 0x00
-    db $08, $03, $24 ; Sprite 0x24 (0x0030, 0x0080, U) size: 0x00
-    db $08, $17, $8F ; Sprite 0x8F (0x0170, 0x0080, U) size: 0x00
-    db $0C, $08, $24 ; Sprite 0x24 (0x0080, 0x00C0, U) size: 0x00
-    db $0F, $17, $23 ; Sprite 0x23 (0x0170, 0x00F0, U) size: 0x00
-    db $15, $EB, $0A ; Overlord 0A (0x00B0, 0x0150, U)
-    db $16, $18, $24 ; Sprite 0x24 (0x0180, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $06, $09, $93
+    db $08, $05, $93
+    db $04, $08, $24
+    db $08, $03, $24
+    db $08, $17, $8F
+    db $0C, $08, $24
+    db $0F, $17, $23
+    db $15, $EB, $0A
+    db $16, $18, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5572,18 +5575,18 @@ RoomData_Sprites_Room0044:
 RoomData_Sprites_Room0045:
 {
     db $00 ; Unlayered OAM
-    db $06, $19, $B7 ; Sprite 0xB7 (0x0190, 0x0060, U) size: 0x00
-    db $06, $06, $A6 ; Sprite 0xA6 (0x0060, 0x0060, U) size: 0x00
-    db $0B, $04, $A5 ; Sprite 0xA5 (0x0040, 0x00B0, U) size: 0x00
-    db $0B, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x00B0, U) size: 0x00
-    db $0B, $17, $D1 ; Sprite 0xD1 (0x0170, 0x00B0, U) size: 0x00
-    db $0C, $18, $A5 ; Sprite 0xA5 (0x0180, 0x00C0, U) size: 0x00
-    db $0C, $1A, $A5 ; Sprite 0xA5 (0x01A0, 0x00C0, U) size: 0x00
-    db $11, $18, $A5 ; Sprite 0xA5 (0x0180, 0x0110, U) size: 0x00
-    db $18, $16, $8F ; Sprite 0x8F (0x0160, 0x0180, U) size: 0x00
-    db $1B, $19, $A6 ; Sprite 0xA6 (0x0190, 0x01B0, U) size: 0x00
-    db $1C, $07, $A6 ; Sprite 0xA6 (0x0070, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $06, $19, $B7
+    db $06, $06, $A6
+    db $0B, $04, $A5
+    db $0B, $0B, $A7
+    db $0B, $17, $D1
+    db $0C, $18, $A5
+    db $0C, $1A, $A5
+    db $11, $18, $A5
+    db $18, $16, $8F
+    db $1B, $19, $A6
+    db $1C, $07, $A6
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5592,12 +5595,12 @@ RoomData_Sprites_Room0045:
 RoomData_Sprites_Room0046:
 {
     db $00 ; Unlayered OAM
-    db $05, $16, $81 ; Sprite 0x81 (0x0160, 0x0050, U) size: 0x00
-    db $06, $FB, $11 ; Overlord 11 (0x01B0, 0x0060, U)
-    db $1A, $09, $81 ; Sprite 0x81 (0x0090, 0x01A0, U) size: 0x00
-    db $1A, $FB, $11 ; Overlord 11 (0x01B0, 0x01A0, U)
-    db $1B, $11, $81 ; Sprite 0x81 (0x0110, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $05, $16, $81
+    db $06, $FB, $11
+    db $1A, $09, $81
+    db $1A, $FB, $11
+    db $1B, $11, $81
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5606,7 +5609,7 @@ RoomData_Sprites_Room0046:
 RoomData_Sprites_Room0047:
 {
     db $00 ; Unlayered OAM
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5615,20 +5618,20 @@ RoomData_Sprites_Room0047:
 RoomData_Sprites_Room0049:
 {
     db $00 ; Unlayered OAM
-    db $05, $0B, $18 ; Sprite 0x18 (0x00B0, 0x0050, U) size: 0x00
-    db $0B, $04, $18 ; Sprite 0x18 (0x0040, 0x00B0, U) size: 0x00
-    db $0C, $09, $18 ; Sprite 0x18 (0x0090, 0x00C0, U) size: 0x00
-    db $06, $08, $D1 ; Sprite 0xD1 (0x0080, 0x0060, U) size: 0x00
-    db $08, $07, $8B ; Sprite 0x8B (0x0070, 0x0080, U) size: 0x00
-    db $0B, $17, $8B ; Sprite 0x8B (0x0170, 0x00B0, U) size: 0x00
-    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
-    db $10, $17, $8B ; Sprite 0x8B (0x0170, 0x0100, U) size: 0x00
-    db $14, $16, $8B ; Sprite 0x8B (0x0160, 0x0140, U) size: 0x00
-    db $16, $09, $24 ; Sprite 0x24 (0x0090, 0x0160, U) size: 0x00
-    db $17, $0A, $23 ; Sprite 0x23 (0x00A0, 0x0170, U) size: 0x00
-    db $18, $07, $24 ; Sprite 0x24 (0x0070, 0x0180, U) size: 0x00
-    db $18, $1A, $8B ; Sprite 0x8B (0x01A0, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $05, $0B, $18
+    db $0B, $04, $18
+    db $0C, $09, $18
+    db $06, $08, $D1
+    db $08, $07, $8B
+    db $0B, $17, $8B
+    db $0F, $EF, $09
+    db $10, $17, $8B
+    db $14, $16, $8B
+    db $16, $09, $24
+    db $17, $0A, $23
+    db $18, $07, $24
+    db $18, $1A, $8B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5637,10 +5640,10 @@ RoomData_Sprites_Room0049:
 RoomData_Sprites_Room004A:
 {
     db $00 ; Unlayered OAM
-    db $07, $14, $1C ; Sprite 0x1C (0x0140, 0x0070, U) size: 0x00
-    db $08, $08, $13 ; Sprite 0x13 (0x0080, 0x0080, U) size: 0x00
-    db $08, $18, $13 ; Sprite 0x13 (0x0180, 0x0080, U) size: 0x00
-    db $FF ; END
+    db $07, $14, $1C
+    db $08, $08, $13
+    db $08, $18, $13
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5649,15 +5652,15 @@ RoomData_Sprites_Room004A:
 RoomData_Sprites_Room004B:
 {
     db $00 ; Unlayered OAM
-    db $04, $07, $84 ; Sprite 0x84 (0x0070, 0x0040, U) size: 0x00
-    db $05, $17, $15 ; Sprite 0x15 (0x0170, 0x0050, U) size: 0x00
-    db $06, $18, $15 ; Sprite 0x15 (0x0180, 0x0060, U) size: 0x00
-    db $08, $04, $83 ; Sprite 0x83 (0x0040, 0x0080, U) size: 0x00
-    db $08, $0B, $83 ; Sprite 0x83 (0x00B0, 0x0080, U) size: 0x00
-    db $18, $0F, $24 ; Sprite 0x24 (0x00F0, 0x0180, U) size: 0x00
-    db $19, $0B, $24 ; Sprite 0x24 (0x00B0, 0x0190, U) size: 0x00
-    db $19, $12, $24 ; Sprite 0x24 (0x0120, 0x0190, U) size: 0x00
-    db $FF ; END
+    db $04, $07, $84
+    db $05, $17, $15
+    db $06, $18, $15
+    db $08, $04, $83
+    db $08, $0B, $83
+    db $18, $0F, $24
+    db $19, $0B, $24
+    db $19, $12, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5666,15 +5669,15 @@ RoomData_Sprites_Room004B:
 RoomData_Sprites_Room004C:
 {
     db $00 ; Unlayered OAM
-    db $11, $15, $93 ; Sprite 0x93 (0x0150, 0x0110, U) size: 0x00
-    db $12, $19, $93 ; Sprite 0x93 (0x0190, 0x0120, U) size: 0x00
-    db $05, $15, $13 ; Sprite 0x13 (0x0150, 0x0050, U) size: 0x00
-    db $05, $1A, $13 ; Sprite 0x13 (0x01A0, 0x0050, U) size: 0x00
-    db $06, $17, $13 ; Sprite 0x13 (0x0170, 0x0060, U) size: 0x00
-    db $0A, $18, $13 ; Sprite 0x13 (0x0180, 0x00A0, U) size: 0x00
-    db $15, $14, $13 ; Sprite 0x13 (0x0140, 0x0150, U) size: 0x00
-    db $18, $13, $8A ; Sprite 0x8A (0x0130, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $11, $15, $93
+    db $12, $19, $93
+    db $05, $15, $13
+    db $05, $1A, $13
+    db $06, $17, $13
+    db $0A, $18, $13
+    db $15, $14, $13
+    db $18, $13, $8A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5683,8 +5686,8 @@ RoomData_Sprites_Room004C:
 RoomData_Sprites_Room004D:
 {
     db $00 ; Unlayered OAM
-    db $0E, $0E, $09 ; Sprite 0x09 (0x00E0, 0x00E0, U) size: 0x00
-    db $FF ; END
+    db $0E, $0E, $09
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5693,11 +5696,11 @@ RoomData_Sprites_Room004D:
 RoomData_Sprites_Room004E:
 {
     db $00 ; Unlayered OAM
-    db $08, $14, $8F ; Sprite 0x8F (0x0140, 0x0080, U) size: 0x00
-    db $08, $16, $8F ; Sprite 0x8F (0x0160, 0x0080, U) size: 0x00
-    db $08, $18, $8F ; Sprite 0x8F (0x0180, 0x0080, U) size: 0x00
-    db $09, $07, $7E ; Sprite 0x7E (0x0070, 0x0090, U) size: 0x00
-    db $FF ; END
+    db $08, $14, $8F
+    db $08, $16, $8F
+    db $08, $18, $8F
+    db $09, $07, $7E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5706,10 +5709,10 @@ RoomData_Sprites_Room004E:
 RoomData_Sprites_Room004F:
 {
     db $00 ; Unlayered OAM
-    db $06, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0060, U) size: 0x00
-    db $08, $14, $E3 ; Sprite 0xE3 (0x0140, 0x0080, U) size: 0x00
-    db $08, $1A, $E3 ; Sprite 0xE3 (0x01A0, 0x0080, U) size: 0x00
-    db $FF ; END
+    db $06, $17, $E3
+    db $08, $14, $E3
+    db $08, $1A, $E3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5718,10 +5721,10 @@ RoomData_Sprites_Room004F:
 RoomData_Sprites_Room0050:
 {
     db $00 ; Unlayered OAM
-    db $8E, $17, $42 ; Sprite 0x42 (0x0170, 0x00E0, L) size: 0x00
-    db $90, $18, $4B ; Sprite 0x4B (0x0180, 0x0100, L) size: 0x00
-    db $92, $17, $4B ; Sprite 0x4B (0x0170, 0x0120, L) size: 0x00
-    db $FF ; END
+    db $8E, $17, $42
+    db $90, $18, $4B
+    db $92, $17, $4B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5730,10 +5733,10 @@ RoomData_Sprites_Room0050:
 RoomData_Sprites_Room0051:
 {
     db $01 ; Layered OAM
-    db $02, $0E, $EE ; Sprite 0xEE (0x00E0, 0x0020, U) size: 0x00
-    db $97, $29, $41 ; Sprite 0x41 (0x0090, 0x0170, L) size: 0x01
-    db $97, $56, $41 ; Sprite 0x41 (0x0160, 0x0170, L) size: 0x02
-    db $FF ; END
+    db $02, $0E, $EE
+    db $97, $29, $41
+    db $97, $56, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5742,10 +5745,10 @@ RoomData_Sprites_Room0051:
 RoomData_Sprites_Room0052:
 {
     db $00 ; Unlayered OAM
-    db $8D, $07, $42 ; Sprite 0x42 (0x0070, 0x00D0, L) size: 0x00
-    db $8F, $08, $4B ; Sprite 0x4B (0x0080, 0x00F0, L) size: 0x00
-    db $92, $07, $4B ; Sprite 0x4B (0x0070, 0x0120, L) size: 0x00
-    db $FF ; END
+    db $8D, $07, $42
+    db $8F, $08, $4B
+    db $92, $07, $4B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5754,20 +5757,20 @@ RoomData_Sprites_Room0052:
 RoomData_Sprites_Room0053:
 {
     db $00 ; Unlayered OAM
-    db $07, $17, $4E ; Sprite 0x4E (0x0170, 0x0070, U) size: 0x00
-    db $09, $1C, $61 ; Sprite 0x61 (0x01C0, 0x0090, U) size: 0x00
-    db $0C, $17, $4F ; Sprite 0x4F (0x0170, 0x00C0, U) size: 0x00
-    db $0C, $1A, $4F ; Sprite 0x4F (0x01A0, 0x00C0, U) size: 0x00
-    db $0E, $13, $61 ; Sprite 0x61 (0x0130, 0x00E0, U) size: 0x00
-    db $15, $05, $4E ; Sprite 0x4E (0x0050, 0x0150, U) size: 0x00
-    db $16, $0B, $4E ; Sprite 0x4E (0x00B0, 0x0160, U) size: 0x00
-    db $17, $1A, $4E ; Sprite 0x4E (0x01A0, 0x0170, U) size: 0x00
-    db $19, $07, $61 ; Sprite 0x61 (0x0070, 0x0190, U) size: 0x00
-    db $1A, $04, $4E ; Sprite 0x4E (0x0040, 0x01A0, U) size: 0x00
-    db $1A, $0B, $4E ; Sprite 0x4E (0x00B0, 0x01A0, U) size: 0x00
-    db $1A, $1B, $61 ; Sprite 0x61 (0x01B0, 0x01A0, U) size: 0x00
-    db $1B, $1A, $4E ; Sprite 0x4E (0x01A0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $07, $17, $4E
+    db $09, $1C, $61
+    db $0C, $17, $4F
+    db $0C, $1A, $4F
+    db $0E, $13, $61
+    db $15, $05, $4E
+    db $16, $0B, $4E
+    db $17, $1A, $4E
+    db $19, $07, $61
+    db $1A, $04, $4E
+    db $1A, $0B, $4E
+    db $1A, $1B, $61
+    db $1B, $1A, $4E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5776,15 +5779,15 @@ RoomData_Sprites_Room0053:
 RoomData_Sprites_Room0054:
 {
     db $00 ; Unlayered OAM
-    db $05, $0E, $9A ; Sprite 0x9A (0x00E0, 0x0050, U) size: 0x00
-    db $0B, $0C, $81 ; Sprite 0x81 (0x00C0, 0x00B0, U) size: 0x00
-    db $0E, $0B, $C5 ; Sprite 0xC5 (0x00B0, 0x00E0, U) size: 0x00
-    db $0E, $0F, $7E ; Sprite 0x7E (0x00F0, 0x00E0, U) size: 0x00
-    db $0F, $10, $81 ; Sprite 0x81 (0x0100, 0x00F0, U) size: 0x00
-    db $14, $12, $9A ; Sprite 0x9A (0x0120, 0x0140, U) size: 0x00
-    db $15, $0F, $81 ; Sprite 0x81 (0x00F0, 0x0150, U) size: 0x00
-    db $17, $0C, $9A ; Sprite 0x9A (0x00C0, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $05, $0E, $9A
+    db $0B, $0C, $81
+    db $0E, $0B, $C5
+    db $0E, $0F, $7E
+    db $0F, $10, $81
+    db $14, $12, $9A
+    db $15, $0F, $81
+    db $17, $0C, $9A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5793,10 +5796,10 @@ RoomData_Sprites_Room0054:
 RoomData_Sprites_Room0055:
 {
     db $00 ; Unlayered OAM
-    db $08, $0E, $73 ; Sprite 0x73 (0x00E0, 0x0080, U) size: 0x00
-    db $15, $14, $4B ; Sprite 0x4B (0x0140, 0x0150, U) size: 0x00
-    db $16, $0D, $4B ; Sprite 0x4B (0x00D0, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $08, $0E, $73
+    db $15, $14, $4B
+    db $16, $0D, $4B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5805,20 +5808,20 @@ RoomData_Sprites_Room0055:
 RoomData_Sprites_Room0056:
 {
     db $00 ; Unlayered OAM
-    db $05, $EB, $0A ; Overlord 0A (0x00B0, 0x0050, U)
-    db $19, $07, $93 ; Sprite 0x93 (0x0070, 0x0190, U) size: 0x00
-    db $19, $17, $93 ; Sprite 0x93 (0x0170, 0x0190, U) size: 0x00
-    db $04, $07, $13 ; Sprite 0x13 (0x0070, 0x0040, U) size: 0x00
-    db $05, $1B, $26 ; Sprite 0x26 (0x01B0, 0x0050, U) size: 0x00
-    db $06, $03, $13 ; Sprite 0x13 (0x0030, 0x0060, U) size: 0x00
-    db $06, $0C, $13 ; Sprite 0x13 (0x00C0, 0x0060, U) size: 0x00
-    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
-    db $11, $13, $26 ; Sprite 0x26 (0x0130, 0x0110, U) size: 0x00
-    db $12, $18, $8A ; Sprite 0x8A (0x0180, 0x0120, U) size: 0x00
-    db $1B, $03, $26 ; Sprite 0x26 (0x0030, 0x01B0, U) size: 0x00
-    db $1C, $13, $80 ; Sprite 0x80 (0x0130, 0x01C0, U) size: 0x00
-    db $1C, $19, $26 ; Sprite 0x26 (0x0190, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $05, $EB, $0A
+    db $19, $07, $93
+    db $19, $17, $93
+    db $04, $07, $13
+    db $05, $1B, $26
+    db $06, $03, $13
+    db $06, $0C, $13
+    db $0F, $EF, $09
+    db $11, $13, $26
+    db $12, $18, $8A
+    db $1B, $03, $26
+    db $1C, $13, $80
+    db $1C, $19, $26
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5827,23 +5830,23 @@ RoomData_Sprites_Room0056:
 RoomData_Sprites_Room0057:
 {
     db $00 ; Unlayered OAM
-    db $04, $08, $D1 ; Sprite 0xD1 (0x0080, 0x0040, U) size: 0x00
-    db $04, $0C, $23 ; Sprite 0x23 (0x00C0, 0x0040, U) size: 0x00
-    db $05, $08, $8A ; Sprite 0x8A (0x0080, 0x0050, U) size: 0x00
-    db $07, $04, $A7 ; Sprite 0xA7 (0x0040, 0x0070, U) size: 0x00
-    db $0C, $03, $A7 ; Sprite 0xA7 (0x0030, 0x00C0, U) size: 0x00
-    db $0C, $0C, $8B ; Sprite 0x8B (0x00C0, 0x00C0, U) size: 0x00
-    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
-    db $14, $05, $8B ; Sprite 0x8B (0x0050, 0x0140, U) size: 0x00
-    db $14, $0A, $8B ; Sprite 0x8B (0x00A0, 0x0140, U) size: 0x00
-    db $14, $17, $8B ; Sprite 0x8B (0x0170, 0x0140, U) size: 0x00
-    db $14, $19, $8B ; Sprite 0x8B (0x0190, 0x0140, U) size: 0x00
-    db $15, $15, $A7 ; Sprite 0xA7 (0x0150, 0x0150, U) size: 0x00
-    db $17, $13, $8B ; Sprite 0x8B (0x0130, 0x0170, U) size: 0x00
-    db $18, $07, $24 ; Sprite 0x24 (0x0070, 0x0180, U) size: 0x00
-    db $18, $08, $24 ; Sprite 0x24 (0x0080, 0x0180, U) size: 0x00
-    db $18, $0B, $1C ; Sprite 0x1C (0x00B0, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $04, $08, $D1
+    db $04, $0C, $23
+    db $05, $08, $8A
+    db $07, $04, $A7
+    db $0C, $03, $A7
+    db $0C, $0C, $8B
+    db $0F, $EF, $09
+    db $14, $05, $8B
+    db $14, $0A, $8B
+    db $14, $17, $8B
+    db $14, $19, $8B
+    db $15, $15, $A7
+    db $17, $13, $8B
+    db $18, $07, $24
+    db $18, $08, $24
+    db $18, $0B, $1C
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5852,16 +5855,16 @@ RoomData_Sprites_Room0057:
 RoomData_Sprites_Room0058:
 {
     db $00 ; Unlayered OAM
-    db $14, $0C, $18 ; Sprite 0x18 (0x00C0, 0x0140, U) size: 0x00
-    db $16, $06, $18 ; Sprite 0x18 (0x0060, 0x0160, U) size: 0x00
-    db $16, $16, $93 ; Sprite 0x93 (0x0160, 0x0160, U) size: 0x00
-    db $04, $14, $13 ; Sprite 0x13 (0x0140, 0x0040, U) size: 0x00
-    db $06, $16, $5B ; Sprite 0x5B (0x0160, 0x0060, U) size: 0x00
-    db $0A, $08, $04 ; Sprite 0x04 (0x0080, 0x00A0, U) size: 0x00
-    db $0B, $1B, $26 ; Sprite 0x26 (0x01B0, 0x00B0, U) size: 0x00
-    db $19, $16, $26 ; Sprite 0x26 (0x0160, 0x0190, U) size: 0x00
-    db $1A, $0A, $23 ; Sprite 0x23 (0x00A0, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $14, $0C, $18
+    db $16, $06, $18
+    db $16, $16, $93
+    db $04, $14, $13
+    db $06, $16, $5B
+    db $0A, $08, $04
+    db $0B, $1B, $26
+    db $19, $16, $26
+    db $1A, $0A, $23
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5870,19 +5873,19 @@ RoomData_Sprites_Room0058:
 RoomData_Sprites_Room0059:
 {
     db $01 ; Layered OAM
-    db $10, $07, $18 ; Sprite 0x18 (0x0070, 0x0100, U) size: 0x00
-    db $16, $08, $18 ; Sprite 0x18 (0x0080, 0x0160, U) size: 0x00
-    db $8F, $14, $93 ; Sprite 0x93 (0x0140, 0x00F0, L) size: 0x00
-    db $8F, $1A, $93 ; Sprite 0x93 (0x01A0, 0x00F0, L) size: 0x00
-    db $8A, $1A, $8A ; Sprite 0x8A (0x01A0, 0x00A0, L) size: 0x00
-    db $0B, $08, $80 ; Sprite 0x80 (0x0080, 0x00B0, U) size: 0x00
-    db $8D, $15, $8A ; Sprite 0x8A (0x0150, 0x00D0, L) size: 0x00
-    db $8E, $05, $5B ; Sprite 0x5B (0x0050, 0x00E0, L) size: 0x00
-    db $93, $1A, $D1 ; Sprite 0xD1 (0x01A0, 0x0130, L) size: 0x00
-    db $14, $17, $8B ; Sprite 0x8B (0x0170, 0x0140, U) size: 0x00
-    db $95, $15, $8B ; Sprite 0x8B (0x0150, 0x0150, L) size: 0x00
-    db $95, $1A, $8B ; Sprite 0x8B (0x01A0, 0x0150, L) size: 0x00
-    db $FF ; END
+    db $10, $07, $18
+    db $16, $08, $18
+    db $8F, $14, $93
+    db $8F, $1A, $93
+    db $8A, $1A, $8A
+    db $0B, $08, $80
+    db $8D, $15, $8A
+    db $8E, $05, $5B
+    db $93, $1A, $D1
+    db $14, $17, $8B
+    db $95, $15, $8B
+    db $95, $1A, $8B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5891,8 +5894,8 @@ RoomData_Sprites_Room0059:
 RoomData_Sprites_Room005A:
 {
     db $00 ; Unlayered OAM
-    db $16, $17, $92 ; Sprite 0x92 (0x0170, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $16, $17, $92
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5901,16 +5904,16 @@ RoomData_Sprites_Room005A:
 RoomData_Sprites_Room005B:
 {
     db $01 ; Layered OAM
-    db $8C, $17, $1E ; Sprite 0x1E (0x0170, 0x00C0, L) size: 0x00
-    db $93, $18, $1E ; Sprite 0x1E (0x0180, 0x0130, L) size: 0x00
-    db $95, $17, $8A ; Sprite 0x8A (0x0170, 0x0150, L) size: 0x00
-    db $88, $16, $83 ; Sprite 0x83 (0x0160, 0x0080, L) size: 0x00
-    db $88, $19, $84 ; Sprite 0x84 (0x0190, 0x0080, L) size: 0x00
-    db $8E, $14, $8A ; Sprite 0x8A (0x0140, 0x00E0, L) size: 0x00
-    db $90, $1B, $8A ; Sprite 0x8A (0x01B0, 0x0100, L) size: 0x00
-    db $91, $17, $8A ; Sprite 0x8A (0x0170, 0x0110, L) size: 0x00
-    db $92, $14, $8A ; Sprite 0x8A (0x0140, 0x0120, L) size: 0x00
-    db $FF ; END
+    db $8C, $17, $1E
+    db $93, $18, $1E
+    db $95, $17, $8A
+    db $88, $16, $83
+    db $88, $19, $84
+    db $8E, $14, $8A
+    db $90, $1B, $8A
+    db $91, $17, $8A
+    db $92, $14, $8A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5919,12 +5922,12 @@ RoomData_Sprites_Room005B:
 RoomData_Sprites_Room005C:
 {
     db $00 ; Unlayered OAM
-    db $02, $0B, $68 ; Sprite 0x68 (0x00B0, 0x0020, U) size: 0x00
-    db $0E, $05, $69 ; Sprite 0x69 (0x0050, 0x00E0, U) size: 0x00
-    db $0E, $0E, $69 ; Sprite 0x69 (0x00E0, 0x00E0, U) size: 0x00
-    db $18, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0180, U) size: 0x00
-    db $18, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $02, $0B, $68
+    db $0E, $05, $69
+    db $0E, $0E, $69
+    db $18, $17, $E3
+    db $18, $18, $E3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5933,20 +5936,20 @@ RoomData_Sprites_Room005C:
 RoomData_Sprites_Room005D:
 {
     db $00 ; Unlayered OAM
-    db $05, $07, $A7 ; Sprite 0xA7 (0x0070, 0x0050, U) size: 0x00
-    db $06, $08, $61 ; Sprite 0x61 (0x0080, 0x0060, U) size: 0x00
-    db $08, $03, $A7 ; Sprite 0xA7 (0x0030, 0x0080, U) size: 0x00
-    db $08, $15, $A6 ; Sprite 0xA6 (0x0150, 0x0080, U) size: 0x00
-    db $08, $17, $A7 ; Sprite 0xA7 (0x0170, 0x0080, U) size: 0x00
-    db $08, $19, $A5 ; Sprite 0xA5 (0x0190, 0x0080, U) size: 0x00
-    db $08, $1B, $A7 ; Sprite 0xA7 (0x01B0, 0x0080, U) size: 0x00
-    db $0B, $07, $A7 ; Sprite 0xA7 (0x0070, 0x00B0, U) size: 0x00
-    db $15, $04, $61 ; Sprite 0x61 (0x0040, 0x0150, U) size: 0x00
-    db $15, $0B, $A5 ; Sprite 0xA5 (0x00B0, 0x0150, U) size: 0x00
-    db $1A, $04, $A5 ; Sprite 0xA5 (0x0040, 0x01A0, U) size: 0x00
-    db $1A, $08, $A5 ; Sprite 0xA5 (0x0080, 0x01A0, U) size: 0x00
-    db $1A, $0B, $61 ; Sprite 0x61 (0x00B0, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $05, $07, $A7
+    db $06, $08, $61
+    db $08, $03, $A7
+    db $08, $15, $A6
+    db $08, $17, $A7
+    db $08, $19, $A5
+    db $08, $1B, $A7
+    db $0B, $07, $A7
+    db $15, $04, $61
+    db $15, $0B, $A5
+    db $1A, $04, $A5
+    db $1A, $08, $A5
+    db $1A, $0B, $61
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5955,12 +5958,12 @@ RoomData_Sprites_Room005D:
 RoomData_Sprites_Room005E:
 {
     db $00 ; Unlayered OAM
-    db $05, $FB, $0A ; Overlord 0A (0x01B0, 0x0050, U)
-    db $05, $1C, $C5 ; Sprite 0xC5 (0x01C0, 0x0050, U) size: 0x00
-    db $0B, $13, $C5 ; Sprite 0xC5 (0x0130, 0x00B0, U) size: 0x00
-    db $14, $17, $7D ; Sprite 0x7D (0x0170, 0x0140, U) size: 0x00
-    db $18, $08, $7E ; Sprite 0x7E (0x0080, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $05, $FB, $0A
+    db $05, $1C, $C5
+    db $0B, $13, $C5
+    db $14, $17, $7D
+    db $18, $08, $7E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5969,10 +5972,10 @@ RoomData_Sprites_Room005E:
 RoomData_Sprites_Room005F:
 {
     db $00 ; Unlayered OAM
-    db $18, $04, $24 ; Sprite 0x24 (0x0040, 0x0180, U) size: 0x00
-    db $18, $0B, $24 ; Sprite 0x24 (0x00B0, 0x0180, U) size: 0x00
-    db $1B, $08, $24 ; Sprite 0x24 (0x0080, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $18, $04, $24
+    db $18, $0B, $24
+    db $1B, $08, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5981,8 +5984,8 @@ RoomData_Sprites_Room005F:
 RoomData_Sprites_Room0060:
 {
     db $01 ; Layered OAM
-    db $48, $73, $41 ; Sprite 0x41 (0x0130, 0x0080, U) size: 0x13
-    db $FF ; END
+    db $48, $73, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -5991,10 +5994,10 @@ RoomData_Sprites_Room0060:
 RoomData_Sprites_Room0061:
 {
     db $00 ; Unlayered OAM
-    db $0E, $2C, $42 ; Sprite 0x42 (0x00C0, 0x00E0, U) size: 0x01
-    db $12, $0D, $4B ; Sprite 0x4B (0x00D0, 0x0120, U) size: 0x00
-    db $12, $12, $4B ; Sprite 0x4B (0x0120, 0x0120, U) size: 0x00
-    db $FF ; END
+    db $0E, $2C, $42
+    db $12, $0D, $4B
+    db $12, $12, $4B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6003,10 +6006,10 @@ RoomData_Sprites_Room0061:
 RoomData_Sprites_Room0062:
 {
     db $01 ; Layered OAM
-    db $48, $6C, $41 ; Sprite 0x41 (0x00C0, 0x0080, U) size: 0x13
-    db $8D, $0A, $42 ; Sprite 0x42 (0x00A0, 0x00D0, L) size: 0x00
-    db $8E, $11, $42 ; Sprite 0x42 (0x0110, 0x00E0, L) size: 0x00
-    db $FF ; END
+    db $48, $6C, $41
+    db $8D, $0A, $42
+    db $8E, $11, $42
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6015,9 +6018,9 @@ RoomData_Sprites_Room0062:
 RoomData_Sprites_Room0063:
 {
     db $00 ; Unlayered OAM
-    db $08, $E7, $14 ; Overlord 14 (0x0070, 0x0080, U)
-    db $18, $07, $61 ; Sprite 0x61 (0x0070, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $08, $E7, $14
+    db $18, $07, $61
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6026,20 +6029,20 @@ RoomData_Sprites_Room0063:
 RoomData_Sprites_Room0064:
 {
     db $00 ; Unlayered OAM
-    db $12, $05, $6F ; Sprite 0x6F (0x0050, 0x0120, U) size: 0x00
-    db $13, $0B, $06 ; Sprite 0x06 (0x00B0, 0x0130, U) size: 0x00
-    db $13, $05, $6F ; Sprite 0x6F (0x0050, 0x0130, U) size: 0x00
-    db $16, $03, $D1 ; Sprite 0xD1 (0x0030, 0x0160, U) size: 0x00
-    db $17, $17, $6D ; Sprite 0x6D (0x0170, 0x0170, U) size: 0x00
-    db $19, $19, $6D ; Sprite 0x6D (0x0190, 0x0190, U) size: 0x00
-    db $1A, $05, $6D ; Sprite 0x6D (0x0050, 0x01A0, U) size: 0x00
-    db $15, $E9, $06 ; Overlord 06 (0x0090, 0x0150, U)
-    db $17, $E7, $06 ; Overlord 06 (0x0070, 0x0170, U)
-    db $17, $E9, $06 ; Overlord 06 (0x0090, 0x0170, U)
-    db $17, $EB, $06 ; Overlord 06 (0x00B0, 0x0170, U)
-    db $19, $E9, $06 ; Overlord 06 (0x0090, 0x0190, U)
-    db $1B, $EC, $06 ; Overlord 06 (0x00C0, 0x01B0, U)
-    db $FF ; END
+    db $12, $05, $6F
+    db $13, $0B, $06
+    db $13, $05, $6F
+    db $16, $03, $D1
+    db $17, $17, $6D
+    db $19, $19, $6D
+    db $1A, $05, $6D
+    db $15, $E9, $06
+    db $17, $E7, $06
+    db $17, $E9, $06
+    db $17, $EB, $06
+    db $19, $E9, $06
+    db $1B, $EC, $06
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6048,12 +6051,12 @@ RoomData_Sprites_Room0064:
 RoomData_Sprites_Room0065:
 {
     db $00 ; Unlayered OAM
-    db $15, $13, $6D ; Sprite 0x6D (0x0130, 0x0150, U) size: 0x00
-    db $17, $09, $6D ; Sprite 0x6D (0x0090, 0x0170, U) size: 0x00
-    db $18, $06, $6D ; Sprite 0x6D (0x0060, 0x0180, U) size: 0x00
-    db $19, $16, $6D ; Sprite 0x6D (0x0160, 0x0190, U) size: 0x00
-    db $1C, $16, $6D ; Sprite 0x6D (0x0160, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $15, $13, $6D
+    db $17, $09, $6D
+    db $18, $06, $6D
+    db $19, $16, $6D
+    db $1C, $16, $6D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6062,19 +6065,19 @@ RoomData_Sprites_Room0065:
 RoomData_Sprites_Room0066:
 {
     db $00 ; Unlayered OAM
-    db $85, $0B, $81 ; Sprite 0x81 (0x00B0, 0x0050, L) size: 0x00
-    db $86, $E4, $10 ; Overlord 10 (0x0040, 0x0060, L)
-    db $06, $16, $24 ; Sprite 0x24 (0x0160, 0x0060, U) size: 0x00
-    db $07, $1A, $24 ; Sprite 0x24 (0x01A0, 0x0070, U) size: 0x00
-    db $94, $17, $37 ; Sprite 0x37 (0x0170, 0x0140, L) size: 0x00
-    db $96, $E1, $10 ; Overlord 10 (0x0010, 0x0160, L)
-    db $96, $0F, $9A ; Sprite 0x9A (0x00F0, 0x0160, L) size: 0x00
-    db $96, $13, $81 ; Sprite 0x81 (0x0130, 0x0160, L) size: 0x00
-    db $98, $0B, $81 ; Sprite 0x81 (0x00B0, 0x0180, L) size: 0x00
-    db $99, $0D, $81 ; Sprite 0x81 (0x00D0, 0x0190, L) size: 0x00
-    db $99, $FE, $11 ; Overlord 11 (0x01E0, 0x0190, L)
-    db $9B, $17, $81 ; Sprite 0x81 (0x0170, 0x01B0, L) size: 0x00
-    db $FF ; END
+    db $85, $0B, $81
+    db $86, $E4, $10
+    db $06, $16, $24
+    db $07, $1A, $24
+    db $94, $17, $37
+    db $96, $E1, $10
+    db $96, $0F, $9A
+    db $96, $13, $81
+    db $98, $0B, $81
+    db $99, $0D, $81
+    db $99, $FE, $11
+    db $9B, $17, $81
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6083,17 +6086,17 @@ RoomData_Sprites_Room0066:
 RoomData_Sprites_Room0067:
 {
     db $00 ; Unlayered OAM
-    db $0C, $07, $93 ; Sprite 0x93 (0x0070, 0x00C0, U) size: 0x00
-    db $06, $04, $24 ; Sprite 0x24 (0x0040, 0x0060, U) size: 0x00
-    db $06, $0B, $24 ; Sprite 0x24 (0x00B0, 0x0060, U) size: 0x00
-    db $0C, $05, $26 ; Sprite 0x26 (0x0050, 0x00C0, U) size: 0x00
-    db $0F, $13, $26 ; Sprite 0x26 (0x0130, 0x00F0, U) size: 0x00
-    db $13, $05, $26 ; Sprite 0x26 (0x0050, 0x0130, U) size: 0x00
-    db $13, $09, $26 ; Sprite 0x26 (0x0090, 0x0130, U) size: 0x00
-    db $14, $18, $7E ; Sprite 0x7E (0x0180, 0x0140, U) size: 0x00
-    db $17, $07, $7F ; Sprite 0x7F (0x0070, 0x0170, U) size: 0x00
-    db $1A, $18, $26 ; Sprite 0x26 (0x0180, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $0C, $07, $93
+    db $06, $04, $24
+    db $06, $0B, $24
+    db $0C, $05, $26
+    db $0F, $13, $26
+    db $13, $05, $26
+    db $13, $09, $26
+    db $14, $18, $7E
+    db $17, $07, $7F
+    db $1A, $18, $26
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6102,15 +6105,15 @@ RoomData_Sprites_Room0067:
 RoomData_Sprites_Room0068:
 {
     db $00 ; Unlayered OAM
-    db $07, $0E, $93 ; Sprite 0x93 (0x00E0, 0x0070, U) size: 0x00
-    db $07, $11, $93 ; Sprite 0x93 (0x0110, 0x0070, U) size: 0x00
-    db $0B, $0C, $93 ; Sprite 0x93 (0x00C0, 0x00B0, U) size: 0x00
-    db $0B, $13, $93 ; Sprite 0x93 (0x0130, 0x00B0, U) size: 0x00
-    db $08, $14, $8B ; Sprite 0x8B (0x0140, 0x0080, U) size: 0x00
-    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
-    db $12, $0E, $8B ; Sprite 0x8B (0x00E0, 0x0120, U) size: 0x00
-    db $12, $12, $8B ; Sprite 0x8B (0x0120, 0x0120, U) size: 0x00
-    db $FF ; END
+    db $07, $0E, $93
+    db $07, $11, $93
+    db $0B, $0C, $93
+    db $0B, $13, $93
+    db $08, $14, $8B
+    db $0F, $EF, $09
+    db $12, $0E, $8B
+    db $12, $12, $8B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6119,13 +6122,13 @@ RoomData_Sprites_Room0068:
 RoomData_Sprites_Room006A:
 {
     db $00 ; Unlayered OAM
-    db $0A, $17, $8E ; Sprite 0x8E (0x0170, 0x00A0, U) size: 0x00
-    db $0A, $18, $8E ; Sprite 0x8E (0x0180, 0x00A0, U) size: 0x00
-    db $0B, $14, $15 ; Sprite 0x15 (0x0140, 0x00B0, U) size: 0x00
-    db $0B, $1C, $15 ; Sprite 0x15 (0x01C0, 0x00B0, U) size: 0x00
-    db $0E, $17, $8E ; Sprite 0x8E (0x0170, 0x00E0, U) size: 0x00
-    db $0E, $18, $8E ; Sprite 0x8E (0x0180, 0x00E0, U) size: 0x00
-    db $FF ; END
+    db $0A, $17, $8E
+    db $0A, $18, $8E
+    db $0B, $14, $15
+    db $0B, $1C, $15
+    db $0E, $17, $8E
+    db $0E, $18, $8E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6134,21 +6137,21 @@ RoomData_Sprites_Room006A:
 RoomData_Sprites_Room006B:
 {
     db $00 ; Unlayered OAM
-    db $04, $07, $1E ; Sprite 0x1E (0x0070, 0x0040, U) size: 0x00
-    db $04, $0B, $1E ; Sprite 0x1E (0x00B0, 0x0040, U) size: 0x00
-    db $06, $0A, $83 ; Sprite 0x83 (0x00A0, 0x0060, U) size: 0x00
-    db $09, $06, $84 ; Sprite 0x84 (0x0060, 0x0090, U) size: 0x00
-    db $0A, $0C, $15 ; Sprite 0x15 (0x00C0, 0x00A0, U) size: 0x00
-    db $15, $06, $1C ; Sprite 0x1C (0x0060, 0x0150, U) size: 0x00
-    db $18, $03, $84 ; Sprite 0x84 (0x0030, 0x0180, U) size: 0x00
-    db $18, $04, $8A ; Sprite 0x8A (0x0040, 0x0180, U) size: 0x00
-    db $1B, $04, $8A ; Sprite 0x8A (0x0040, 0x01B0, U) size: 0x00
-    db $1B, $0C, $84 ; Sprite 0x84 (0x00C0, 0x01B0, U) size: 0x00
-    db $15, $17, $84 ; Sprite 0x84 (0x0170, 0x0150, U) size: 0x00
-    db $15, $1B, $61 ; Sprite 0x61 (0x01B0, 0x0150, U) size: 0x00
-    db $1B, $14, $61 ; Sprite 0x61 (0x0140, 0x01B0, U) size: 0x00
-    db $1B, $18, $84 ; Sprite 0x84 (0x0180, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $04, $07, $1E
+    db $04, $0B, $1E
+    db $06, $0A, $83
+    db $09, $06, $84
+    db $0A, $0C, $15
+    db $15, $06, $1C
+    db $18, $03, $84
+    db $18, $04, $8A
+    db $1B, $04, $8A
+    db $1B, $0C, $84
+    db $15, $17, $84
+    db $15, $1B, $61
+    db $1B, $14, $61
+    db $1B, $18, $84
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6157,12 +6160,12 @@ RoomData_Sprites_Room006B:
 RoomData_Sprites_Room006C:
 {
     db $00 ; Unlayered OAM
-    db $17, $06, $54 ; Sprite 0x54 (0x0060, 0x0170, U) size: 0x00
-    db $17, $09, $54 ; Sprite 0x54 (0x0090, 0x0170, U) size: 0x00
-    db $19, $07, $54 ; Sprite 0x54 (0x0070, 0x0190, U) size: 0x00
-    db $18, $17, $D1 ; Sprite 0xD1 (0x0170, 0x0180, U) size: 0x00
-    db $1C, $03, $C5 ; Sprite 0xC5 (0x0030, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $17, $06, $54
+    db $17, $09, $54
+    db $19, $07, $54
+    db $18, $17, $D1
+    db $1C, $03, $C5
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6171,16 +6174,16 @@ RoomData_Sprites_Room006C:
 RoomData_Sprites_Room006D:
 {
     db $00 ; Unlayered OAM
-    db $06, $05, $A6 ; Sprite 0xA6 (0x0050, 0x0060, U) size: 0x00
-    db $06, $0B, $61 ; Sprite 0x61 (0x00B0, 0x0060, U) size: 0x00
-    db $09, $04, $61 ; Sprite 0x61 (0x0040, 0x0090, U) size: 0x00
-    db $0B, $0A, $A6 ; Sprite 0xA6 (0x00A0, 0x00B0, U) size: 0x00
-    db $15, $04, $C5 ; Sprite 0xC5 (0x0040, 0x0150, U) size: 0x00
-    db $15, $0B, $61 ; Sprite 0x61 (0x00B0, 0x0150, U) size: 0x00
-    db $18, $05, $A7 ; Sprite 0xA7 (0x0050, 0x0180, U) size: 0x00
-    db $18, $0A, $A6 ; Sprite 0xA6 (0x00A0, 0x0180, U) size: 0x00
-    db $1A, $06, $5C ; Sprite 0x5C (0x0060, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $06, $05, $A6
+    db $06, $0B, $61
+    db $09, $04, $61
+    db $0B, $0A, $A6
+    db $15, $04, $C5
+    db $15, $0B, $61
+    db $18, $05, $A7
+    db $18, $0A, $A6
+    db $1A, $06, $5C
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6189,12 +6192,12 @@ RoomData_Sprites_Room006D:
 RoomData_Sprites_Room006E:
 {
     db $00 ; Unlayered OAM
-    db $08, $13, $99 ; Sprite 0x99 (0x0130, 0x0080, U) size: 0x00
-    db $09, $13, $99 ; Sprite 0x99 (0x0130, 0x0090, U) size: 0x00
-    db $0A, $13, $99 ; Sprite 0x99 (0x0130, 0x00A0, U) size: 0x00
-    db $0B, $13, $99 ; Sprite 0x99 (0x0130, 0x00B0, U) size: 0x00
-    db $0C, $13, $99 ; Sprite 0x99 (0x0130, 0x00C0, U) size: 0x00
-    db $FF ; END
+    db $08, $13, $99
+    db $09, $13, $99
+    db $0A, $13, $99
+    db $0B, $13, $99
+    db $0C, $13, $99
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6203,10 +6206,10 @@ RoomData_Sprites_Room006E:
 RoomData_Sprites_Room0071:
 {
     db $00 ; Unlayered OAM
-    db $98, $06, $42 ; Sprite 0x42 (0x0060, 0x0180, L) size: 0x00
-    db $D8, $BA, $41 ; Sprite 0x41 (0x01A0, 0x0180, L) size: 0x15
+    db $98, $06, $42
+    db $D8, $BA, $41
     db $FE, $00, $E4 ; Small key on above sprite
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6215,10 +6218,10 @@ RoomData_Sprites_Room0071:
 RoomData_Sprites_Room0072:
 {
     db $00 ; Unlayered OAM
-    db $06, $B1, $41 ; Sprite 0x41 (0x0110, 0x0060, U) size: 0x05
+    db $06, $B1, $41
     db $FE, $00, $E4 ; Small key on above sprite
-    db $99, $2A, $41 ; Sprite 0x41 (0x00A0, 0x0190, L) size: 0x01
-    db $FF ; END
+    db $99, $2A, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6227,14 +6230,14 @@ RoomData_Sprites_Room0072:
 RoomData_Sprites_Room0073:
 {
     db $00 ; Unlayered OAM
-    db $18, $18, $64 ; Sprite 0x64 (0x0180, 0x0180, U) size: 0x00
-    db $09, $17, $61 ; Sprite 0x61 (0x0170, 0x0090, U) size: 0x00
-    db $15, $15, $71 ; Sprite 0x71 (0x0150, 0x0150, U) size: 0x00
-    db $18, $1B, $71 ; Sprite 0x71 (0x01B0, 0x0180, U) size: 0x00
-    db $19, $07, $61 ; Sprite 0x61 (0x0070, 0x0190, U) size: 0x00
-    db $1B, $16, $71 ; Sprite 0x71 (0x0160, 0x01B0, U) size: 0x00
-    db $06, $14, $3B ; Sprite 0x3B (0x0140, 0x0060, U) size: 0x00
-    db $FF ; END
+    db $18, $18, $64
+    db $09, $17, $61
+    db $15, $15, $71
+    db $18, $1B, $71
+    db $19, $07, $61
+    db $1B, $16, $71
+    db $06, $14, $3B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6243,15 +6246,15 @@ RoomData_Sprites_Room0073:
 RoomData_Sprites_Room0074:
 {
     db $00 ; Unlayered OAM
-    db $18, $08, $64 ; Sprite 0x64 (0x0080, 0x0180, U) size: 0x00
-    db $18, $17, $64 ; Sprite 0x64 (0x0170, 0x0180, U) size: 0x00
-    db $05, $0C, $83 ; Sprite 0x83 (0x00C0, 0x0050, U) size: 0x00
-    db $05, $13, $83 ; Sprite 0x83 (0x0130, 0x0050, U) size: 0x00
-    db $0A, $0C, $71 ; Sprite 0x71 (0x00C0, 0x00A0, U) size: 0x00
-    db $0A, $13, $71 ; Sprite 0x71 (0x0130, 0x00A0, U) size: 0x00
-    db $1B, $0E, $71 ; Sprite 0x71 (0x00E0, 0x01B0, U) size: 0x00
-    db $1B, $12, $71 ; Sprite 0x71 (0x0120, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $18, $08, $64
+    db $18, $17, $64
+    db $05, $0C, $83
+    db $05, $13, $83
+    db $0A, $0C, $71
+    db $0A, $13, $71
+    db $1B, $0E, $71
+    db $1B, $12, $71
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6260,17 +6263,17 @@ RoomData_Sprites_Room0074:
 RoomData_Sprites_Room0075:
 {
     db $00 ; Unlayered OAM
-    db $07, $08, $64 ; Sprite 0x64 (0x0080, 0x0070, U) size: 0x00
-    db $1B, $04, $64 ; Sprite 0x64 (0x0040, 0x01B0, U) size: 0x00
-    db $05, $06, $71 ; Sprite 0x71 (0x0060, 0x0050, U) size: 0x00
-    db $05, $0A, $71 ; Sprite 0x71 (0x00A0, 0x0050, U) size: 0x00
-    db $0A, $06, $71 ; Sprite 0x71 (0x0060, 0x00A0, U) size: 0x00
-    db $0A, $0A, $71 ; Sprite 0x71 (0x00A0, 0x00A0, U) size: 0x00
-    db $0B, $11, $66 ; Sprite 0x66 (0x0110, 0x00B0, U) size: 0x00
-    db $0B, $1E, $67 ; Sprite 0x67 (0x01E0, 0x00B0, U) size: 0x00
-    db $19, $07, $71 ; Sprite 0x71 (0x0070, 0x0190, U) size: 0x00
-    db $19, $09, $71 ; Sprite 0x71 (0x0090, 0x0190, U) size: 0x00
-    db $FF ; END
+    db $07, $08, $64
+    db $1B, $04, $64
+    db $05, $06, $71
+    db $05, $0A, $71
+    db $0A, $06, $71
+    db $0A, $0A, $71
+    db $0B, $11, $66
+    db $0B, $1E, $67
+    db $19, $07, $71
+    db $19, $09, $71
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6279,14 +6282,14 @@ RoomData_Sprites_Room0075:
 RoomData_Sprites_Room0076:
 {
     db $00 ; Unlayered OAM
-    db $03, $19, $21 ; Sprite 0x21 (0x0190, 0x0030, U) size: 0x00
-    db $0A, $07, $81 ; Sprite 0x81 (0x0070, 0x00A0, U) size: 0x00
-    db $0F, $07, $9A ; Sprite 0x9A (0x0070, 0x00F0, U) size: 0x00
-    db $11, $08, $81 ; Sprite 0x81 (0x0080, 0x0110, U) size: 0x00
-    db $19, $1B, $8F ; Sprite 0x8F (0x01B0, 0x0190, U) size: 0x00
-    db $1C, $E8, $13 ; Overlord 13 (0x0080, 0x01C0, U)
-    db $1C, $1B, $24 ; Sprite 0x24 (0x01B0, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $03, $19, $21
+    db $0A, $07, $81
+    db $0F, $07, $9A
+    db $11, $08, $81
+    db $19, $1B, $8F
+    db $1C, $E8, $13
+    db $1C, $1B, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6295,13 +6298,13 @@ RoomData_Sprites_Room0076:
 RoomData_Sprites_Room0077:
 {
     db $00 ; Unlayered OAM
-    db $89, $0B, $18 ; Sprite 0x18 (0x00B0, 0x0090, L) size: 0x00
-    db $98, $10, $1E ; Sprite 0x1E (0x0100, 0x0180, L) size: 0x00
-    db $9A, $09, $1E ; Sprite 0x1E (0x0090, 0x01A0, L) size: 0x00
-    db $9A, $16, $1E ; Sprite 0x1E (0x0160, 0x01A0, L) size: 0x00
-    db $8A, $07, $86 ; Sprite 0x86 (0x0070, 0x00A0, L) size: 0x00
-    db $8A, $17, $86 ; Sprite 0x86 (0x0170, 0x00A0, L) size: 0x00
-    db $FF ; END
+    db $89, $0B, $18
+    db $98, $10, $1E
+    db $9A, $09, $1E
+    db $9A, $16, $1E
+    db $8A, $07, $86
+    db $8A, $17, $86
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6310,18 +6313,18 @@ RoomData_Sprites_Room0077:
 RoomData_Sprites_Room007B:
 {
     db $00 ; Unlayered OAM
-    db $07, $0B, $24 ; Sprite 0x24 (0x00B0, 0x0070, U) size: 0x00
-    db $09, $16, $24 ; Sprite 0x24 (0x0160, 0x0090, U) size: 0x00
-    db $15, $04, $C6 ; Sprite 0xC6 (0x0040, 0x0150, U) size: 0x00
-    db $15, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x0150, U) size: 0x00
-    db $17, $07, $A7 ; Sprite 0xA7 (0x0070, 0x0170, U) size: 0x00
-    db $17, $09, $C6 ; Sprite 0xC6 (0x0090, 0x0170, U) size: 0x00
-    db $18, $13, $1C ; Sprite 0x1C (0x0130, 0x0180, U) size: 0x00
-    db $18, $17, $26 ; Sprite 0x26 (0x0170, 0x0180, U) size: 0x00
-    db $19, $09, $A7 ; Sprite 0xA7 (0x0090, 0x0190, U) size: 0x00
-    db $1A, $05, $C6 ; Sprite 0xC6 (0x0050, 0x01A0, U) size: 0x00
-    db $1B, $0B, $C6 ; Sprite 0xC6 (0x00B0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $07, $0B, $24
+    db $09, $16, $24
+    db $15, $04, $C6
+    db $15, $0B, $A7
+    db $17, $07, $A7
+    db $17, $09, $C6
+    db $18, $13, $1C
+    db $18, $17, $26
+    db $19, $09, $A7
+    db $1A, $05, $C6
+    db $1B, $0B, $C6
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6330,14 +6333,14 @@ RoomData_Sprites_Room007B:
 RoomData_Sprites_Room007C:
 {
     db $00 ; Unlayered OAM
-    db $1C, $19, $18 ; Sprite 0x18 (0x0190, 0x01C0, U) size: 0x00
-    db $0C, $06, $7F ; Sprite 0x7F (0x0060, 0x00C0, U) size: 0x00
-    db $10, $07, $8A ; Sprite 0x8A (0x0070, 0x0100, U) size: 0x00
-    db $14, $09, $7E ; Sprite 0x7E (0x0090, 0x0140, U) size: 0x00
-    db $18, $0B, $26 ; Sprite 0x26 (0x00B0, 0x0180, U) size: 0x00
-    db $18, $17, $24 ; Sprite 0x24 (0x0170, 0x0180, U) size: 0x00
-    db $1A, $E7, $0B ; Overlord 0B (0x0070, 0x01A0, U)
-    db $FF ; END
+    db $1C, $19, $18
+    db $0C, $06, $7F
+    db $10, $07, $8A
+    db $14, $09, $7E
+    db $18, $0B, $26
+    db $18, $17, $24
+    db $1A, $E7, $0B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6346,18 +6349,18 @@ RoomData_Sprites_Room007C:
 RoomData_Sprites_Room007D:
 {
     db $00 ; Unlayered OAM
-    db $06, $11, $80 ; Sprite 0x80 (0x0110, 0x0060, U) size: 0x00
-    db $08, $11, $80 ; Sprite 0x80 (0x0110, 0x0080, U) size: 0x00
-    db $0A, $11, $80 ; Sprite 0x80 (0x0110, 0x00A0, U) size: 0x00
-    db $0C, $11, $80 ; Sprite 0x80 (0x0110, 0x00C0, U) size: 0x00
-    db $16, $15, $A7 ; Sprite 0xA7 (0x0150, 0x0160, U) size: 0x00
-    db $17, $18, $C6 ; Sprite 0xC6 (0x0180, 0x0170, U) size: 0x00
-    db $19, $1C, $80 ; Sprite 0x80 (0x01C0, 0x0190, U) size: 0x00
-    db $1A, $14, $13 ; Sprite 0x13 (0x0140, 0x01A0, U) size: 0x00
-    db $1A, $17, $23 ; Sprite 0x23 (0x0170, 0x01A0, U) size: 0x00
-    db $1C, $0A, $80 ; Sprite 0x80 (0x00A0, 0x01C0, U) size: 0x00
-    db $1C, $1B, $26 ; Sprite 0x26 (0x01B0, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $06, $11, $80
+    db $08, $11, $80
+    db $0A, $11, $80
+    db $0C, $11, $80
+    db $16, $15, $A7
+    db $17, $18, $C6
+    db $19, $1C, $80
+    db $1A, $14, $13
+    db $1A, $17, $23
+    db $1C, $0A, $80
+    db $1C, $1B, $26
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6366,14 +6369,14 @@ RoomData_Sprites_Room007D:
 RoomData_Sprites_Room007E:
 {
     db $00 ; Unlayered OAM
-    db $11, $17, $93 ; Sprite 0x93 (0x0170, 0x0110, U) size: 0x00
-    db $0E, $18, $7F ; Sprite 0x7F (0x0180, 0x00E0, U) size: 0x00
-    db $0F, $14, $99 ; Sprite 0x99 (0x0140, 0x00F0, U) size: 0x00
-    db $12, $07, $A1 ; Sprite 0xA1 (0x0070, 0x0120, U) size: 0x00
-    db $12, $0A, $A1 ; Sprite 0xA1 (0x00A0, 0x0120, U) size: 0x00
-    db $16, $1B, $99 ; Sprite 0x99 (0x01B0, 0x0160, U) size: 0x00
-    db $17, $17, $7F ; Sprite 0x7F (0x0170, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $11, $17, $93
+    db $0E, $18, $7F
+    db $0F, $14, $99
+    db $12, $07, $A1
+    db $12, $0A, $A1
+    db $16, $1B, $99
+    db $17, $17, $7F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6382,15 +6385,15 @@ RoomData_Sprites_Room007E:
 RoomData_Sprites_Room007F:
 {
     db $00 ; Unlayered OAM
-    db $07, $06, $23 ; Sprite 0x23 (0x0060, 0x0070, U) size: 0x00
-    db $07, $08, $23 ; Sprite 0x23 (0x0080, 0x0070, U) size: 0x00
-    db $08, $0A, $23 ; Sprite 0x23 (0x00A0, 0x0080, U) size: 0x00
-    db $09, $07, $23 ; Sprite 0x23 (0x0070, 0x0090, U) size: 0x00
-    db $14, $0B, $7D ; Sprite 0x7D (0x00B0, 0x0140, U) size: 0x00
-    db $17, $03, $7D ; Sprite 0x7D (0x0030, 0x0170, U) size: 0x00
-    db $19, $0B, $7D ; Sprite 0x7D (0x00B0, 0x0190, U) size: 0x00
-    db $1B, $03, $7D ; Sprite 0x7D (0x0030, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $07, $06, $23
+    db $07, $08, $23
+    db $08, $0A, $23
+    db $09, $07, $23
+    db $14, $0B, $7D
+    db $17, $03, $7D
+    db $19, $0B, $7D
+    db $1B, $03, $7D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6399,11 +6402,11 @@ RoomData_Sprites_Room007F:
 RoomData_Sprites_Room0080:
 {
     db $00 ; Unlayered OAM
-    db $03, $16, $76 ; Sprite 0x76 (0x0160, 0x0030, U) size: 0x00
-    db $09, $07, $42 ; Sprite 0x42 (0x0070, 0x0090, U) size: 0x00
-    db $09, $1A, $6A ; Sprite 0x6A (0x01A0, 0x0090, U) size: 0x00
+    db $03, $16, $76
+    db $09, $07, $42
+    db $09, $1A, $6A
     db $FD, $00, $E4 ; Big key on above sprite
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6412,9 +6415,9 @@ RoomData_Sprites_Room0080:
 RoomData_Sprites_Room0081:
 {
     db $01 ; Layered OAM
-    db $EB, $6B, $42 ; Sprite 0x42 (0x00B0, 0x00B0, L) size: 0x1B
-    db $8B, $6E, $42 ; Sprite 0x42 (0x00E0, 0x00B0, L) size: 0x03
-    db $FF ; END
+    db $EB, $6B, $42
+    db $8B, $6E, $42
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6423,10 +6426,10 @@ RoomData_Sprites_Room0081:
 RoomData_Sprites_Room0082:
 {
     db $00 ; Unlayered OAM
-    db $E5, $69, $41 ; Sprite 0x41 (0x0090, 0x0050, L) size: 0x1B
-    db $86, $70, $41 ; Sprite 0x41 (0x0100, 0x0060, L) size: 0x03
-    db $91, $75, $41 ; Sprite 0x41 (0x0150, 0x0110, L) size: 0x03
-    db $FF ; END
+    db $E5, $69, $41
+    db $86, $70, $41
+    db $91, $75, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6435,17 +6438,17 @@ RoomData_Sprites_Room0082:
 RoomData_Sprites_Room0083:
 {
     db $00 ; Unlayered OAM
-    db $08, $1B, $63 ; Sprite 0x63 (0x01B0, 0x0080, U) size: 0x00
-    db $10, $14, $63 ; Sprite 0x63 (0x0140, 0x0100, U) size: 0x00
-    db $05, $14, $71 ; Sprite 0x71 (0x0140, 0x0050, U) size: 0x00
-    db $06, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0060, U) size: 0x00
-    db $08, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0080, U) size: 0x00
-    db $0B, $1B, $71 ; Sprite 0x71 (0x01B0, 0x00B0, U) size: 0x00
-    db $10, $17, $71 ; Sprite 0x71 (0x0170, 0x0100, U) size: 0x00
-    db $17, $08, $61 ; Sprite 0x61 (0x0080, 0x0170, U) size: 0x00
-    db $18, $18, $71 ; Sprite 0x71 (0x0180, 0x0180, U) size: 0x00
-    db $1B, $14, $71 ; Sprite 0x71 (0x0140, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $08, $1B, $63
+    db $10, $14, $63
+    db $05, $14, $71
+    db $06, $07, $E3
+    db $08, $08, $E3
+    db $0B, $1B, $71
+    db $10, $17, $71
+    db $17, $08, $61
+    db $18, $18, $71
+    db $1B, $14, $71
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6454,14 +6457,14 @@ RoomData_Sprites_Room0083:
 RoomData_Sprites_Room0084:
 {
     db $00 ; Unlayered OAM
-    db $05, $03, $71 ; Sprite 0x71 (0x0030, 0x0050, U) size: 0x00
-    db $05, $1B, $71 ; Sprite 0x71 (0x01B0, 0x0050, U) size: 0x00
-    db $07, $0F, $61 ; Sprite 0x61 (0x00F0, 0x0070, U) size: 0x00
-    db $12, $09, $71 ; Sprite 0x71 (0x0090, 0x0120, U) size: 0x00
-    db $12, $15, $71 ; Sprite 0x71 (0x0150, 0x0120, U) size: 0x00
-    db $1B, $09, $71 ; Sprite 0x71 (0x0090, 0x01B0, U) size: 0x00
-    db $1B, $15, $71 ; Sprite 0x71 (0x0150, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $05, $03, $71
+    db $05, $1B, $71
+    db $07, $0F, $61
+    db $12, $09, $71
+    db $12, $15, $71
+    db $1B, $09, $71
+    db $1B, $15, $71
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6470,17 +6473,17 @@ RoomData_Sprites_Room0084:
 RoomData_Sprites_Room0085:
 {
     db $00 ; Unlayered OAM
-    db $0E, $07, $63 ; Sprite 0x63 (0x0070, 0x00E0, U) size: 0x00
-    db $1B, $09, $64 ; Sprite 0x64 (0x0090, 0x01B0, U) size: 0x00
-    db $05, $14, $4F ; Sprite 0x4F (0x0140, 0x0050, U) size: 0x00
-    db $05, $1B, $4F ; Sprite 0x4F (0x01B0, 0x0050, U) size: 0x00
-    db $08, $16, $4F ; Sprite 0x4F (0x0160, 0x0080, U) size: 0x00
-    db $0A, $18, $61 ; Sprite 0x61 (0x0180, 0x00A0, U) size: 0x00
-    db $0E, $03, $71 ; Sprite 0x71 (0x0030, 0x00E0, U) size: 0x00
-    db $15, $0C, $71 ; Sprite 0x71 (0x00C0, 0x0150, U) size: 0x00
-    db $18, $18, $61 ; Sprite 0x61 (0x0180, 0x0180, U) size: 0x00
-    db $1C, $07, $71 ; Sprite 0x71 (0x0070, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $0E, $07, $63
+    db $1B, $09, $64
+    db $05, $14, $4F
+    db $05, $1B, $4F
+    db $08, $16, $4F
+    db $0A, $18, $61
+    db $0E, $03, $71
+    db $15, $0C, $71
+    db $18, $18, $61
+    db $1C, $07, $71
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6489,7 +6492,7 @@ RoomData_Sprites_Room0085:
 RoomData_Sprites_Room0086:
 {
     db $01 ; Layered OAM
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6498,20 +6501,20 @@ RoomData_Sprites_Room0086:
 RoomData_Sprites_Room0087:
 {
     db $00 ; Unlayered OAM
-    db $05, $14, $18 ; Sprite 0x18 (0x0140, 0x0050, U) size: 0x00
-    db $07, $1A, $18 ; Sprite 0x18 (0x01A0, 0x0070, U) size: 0x00
-    db $0B, $13, $18 ; Sprite 0x18 (0x0130, 0x00B0, U) size: 0x00
-    db $19, $06, $18 ; Sprite 0x18 (0x0060, 0x0190, U) size: 0x00
-    db $08, $E7, $14 ; Overlord 14 (0x0070, 0x0080, U)
-    db $04, $17, $1E ; Sprite 0x1E (0x0170, 0x0040, U) size: 0x00
-    db $0C, $03, $1E ; Sprite 0x1E (0x0030, 0x00C0, U) size: 0x00
-    db $15, $04, $1E ; Sprite 0x1E (0x0040, 0x0150, U) size: 0x00
-    db $17, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x0170, U) size: 0x00
-    db $18, $19, $A7 ; Sprite 0xA7 (0x0190, 0x0180, U) size: 0x00
-    db $19, $04, $A7 ; Sprite 0xA7 (0x0040, 0x0190, U) size: 0x00
-    db $1A, $08, $E4 ; Sprite 0xE4 (0x0080, 0x01A0, U) size: 0x00
-    db $1C, $15, $A7 ; Sprite 0xA7 (0x0150, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $05, $14, $18
+    db $07, $1A, $18
+    db $0B, $13, $18
+    db $19, $06, $18
+    db $08, $E7, $14
+    db $04, $17, $1E
+    db $0C, $03, $1E
+    db $15, $04, $1E
+    db $17, $0B, $A7
+    db $18, $19, $A7
+    db $19, $04, $A7
+    db $1A, $08, $E4
+    db $1C, $15, $A7
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6520,9 +6523,9 @@ RoomData_Sprites_Room0087:
 RoomData_Sprites_Room0089:
 {
     db $00 ; Unlayered OAM
-    db $0A, $10, $E3 ; Sprite 0xE3 (0x0100, 0x00A0, U) size: 0x00
-    db $0B, $0F, $E3 ; Sprite 0xE3 (0x00F0, 0x00B0, U) size: 0x00
-    db $FF ; END
+    db $0A, $10, $E3
+    db $0B, $0F, $E3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6531,15 +6534,15 @@ RoomData_Sprites_Room0089:
 RoomData_Sprites_Room008B:
 {
     db $00 ; Unlayered OAM
-    db $07, $15, $93 ; Sprite 0x93 (0x0150, 0x0070, U) size: 0x00
-    db $18, $04, $1E ; Sprite 0x1E (0x0040, 0x0180, U) size: 0x00
-    db $18, $0B, $1E ; Sprite 0x1E (0x00B0, 0x0180, U) size: 0x00
-    db $04, $1A, $24 ; Sprite 0x24 (0x01A0, 0x0040, U) size: 0x00
-    db $12, $03, $8A ; Sprite 0x8A (0x0030, 0x0120, U) size: 0x00
-    db $18, $07, $A7 ; Sprite 0xA7 (0x0070, 0x0180, U) size: 0x00
-    db $18, $18, $7E ; Sprite 0x7E (0x0180, 0x0180, U) size: 0x00
-    db $18, $18, $7F ; Sprite 0x7F (0x0180, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $07, $15, $93
+    db $18, $04, $1E
+    db $18, $0B, $1E
+    db $04, $1A, $24
+    db $12, $03, $8A
+    db $18, $07, $A7
+    db $18, $18, $7E
+    db $18, $18, $7F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6548,23 +6551,23 @@ RoomData_Sprites_Room008B:
 RoomData_Sprites_Room008C:
 {
     db $00 ; Unlayered OAM
-    db $03, $1A, $06 ; Sprite 0x06 (0x01A0, 0x0030, U) size: 0x00
-    db $05, $F8, $1A ; Overlord 1A (0x0180, 0x0050, U)
-    db $06, $F5, $1A ; Overlord 1A (0x0150, 0x0060, U)
-    db $06, $FA, $1A ; Overlord 1A (0x01A0, 0x0060, U)
-    db $0A, $F5, $1A ; Overlord 1A (0x0150, 0x00A0, U)
-    db $0A, $FA, $1A ; Overlord 1A (0x01A0, 0x00A0, U)
-    db $08, $08, $5B ; Sprite 0x5B (0x0080, 0x0080, U) size: 0x00
-    db $08, $17, $8A ; Sprite 0x8A (0x0170, 0x0080, U) size: 0x00
-    db $09, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x0090, U) size: 0x00
-    db $0B, $03, $A7 ; Sprite 0xA7 (0x0030, 0x00B0, U) size: 0x00
-    db $17, $05, $80 ; Sprite 0x80 (0x0050, 0x0170, U) size: 0x00
-    db $17, $16, $5B ; Sprite 0x5B (0x0160, 0x0170, U) size: 0x00
-    db $18, $14, $15 ; Sprite 0x15 (0x0140, 0x0180, U) size: 0x00
-    db $1B, $0B, $80 ; Sprite 0x80 (0x00B0, 0x01B0, U) size: 0x00
-    db $1C, $1A, $15 ; Sprite 0x15 (0x01A0, 0x01C0, U) size: 0x00
-    db $07, $09, $3B ; Sprite 0x3B (0x0090, 0x0070, U) size: 0x00
-    db $FF ; END
+    db $03, $1A, $06
+    db $05, $F8, $1A
+    db $06, $F5, $1A
+    db $06, $FA, $1A
+    db $0A, $F5, $1A
+    db $0A, $FA, $1A
+    db $08, $08, $5B
+    db $08, $17, $8A
+    db $09, $0B, $A7
+    db $0B, $03, $A7
+    db $17, $05, $80
+    db $17, $16, $5B
+    db $18, $14, $15
+    db $1B, $0B, $80
+    db $1C, $1A, $15
+    db $07, $09, $3B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6573,20 +6576,20 @@ RoomData_Sprites_Room008C:
 RoomData_Sprites_Room008D:
 {
     db $00 ; Unlayered OAM
-    db $08, $E7, $14 ; Overlord 14 (0x0070, 0x0080, U)
-    db $04, $07, $C6 ; Sprite 0xC6 (0x0070, 0x0040, U) size: 0x00
-    db $08, $09, $15 ; Sprite 0x15 (0x0090, 0x0080, U) size: 0x00
-    db $09, $08, $D1 ; Sprite 0xD1 (0x0080, 0x0090, U) size: 0x00
-    db $0C, $09, $C6 ; Sprite 0xC6 (0x0090, 0x00C0, U) size: 0x00
-    db $0D, $13, $8B ; Sprite 0x8B (0x0130, 0x00D0, U) size: 0x00
-    db $0F, $EF, $09 ; Overlord 09 (0x00F0, 0x00F0, U)
-    db $10, $17, $8A ; Sprite 0x8A (0x0170, 0x0100, U) size: 0x00
-    db $14, $17, $A7 ; Sprite 0xA7 (0x0170, 0x0140, U) size: 0x00
-    db $18, $07, $7E ; Sprite 0x7E (0x0070, 0x0180, U) size: 0x00
-    db $1B, $14, $24 ; Sprite 0x24 (0x0140, 0x01B0, U) size: 0x00
-    db $1C, $13, $C5 ; Sprite 0xC5 (0x0130, 0x01C0, U) size: 0x00
-    db $1C, $14, $24 ; Sprite 0x24 (0x0140, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $08, $E7, $14
+    db $04, $07, $C6
+    db $08, $09, $15
+    db $09, $08, $D1
+    db $0C, $09, $C6
+    db $0D, $13, $8B
+    db $0F, $EF, $09
+    db $10, $17, $8A
+    db $14, $17, $A7
+    db $18, $07, $7E
+    db $1B, $14, $24
+    db $1C, $13, $C5
+    db $1C, $14, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6595,15 +6598,15 @@ RoomData_Sprites_Room008D:
 RoomData_Sprites_Room008E:
 {
     db $00 ; Unlayered OAM
-    db $02, $1B, $A1 ; Sprite 0xA1 (0x01B0, 0x0020, U) size: 0x00
-    db $05, $18, $8F ; Sprite 0x8F (0x0180, 0x0050, U) size: 0x00
-    db $06, $14, $D1 ; Sprite 0xD1 (0x0140, 0x0060, U) size: 0x00
-    db $08, $1B, $8F ; Sprite 0x8F (0x01B0, 0x0080, U) size: 0x00
-    db $09, $14, $8F ; Sprite 0x8F (0x0140, 0x0090, U) size: 0x00
-    db $0A, $16, $8F ; Sprite 0x8F (0x0160, 0x00A0, U) size: 0x00
-    db $0B, $14, $8F ; Sprite 0x8F (0x0140, 0x00B0, U) size: 0x00
-    db $0B, $18, $8F ; Sprite 0x8F (0x0180, 0x00B0, U) size: 0x00
-    db $FF ; END
+    db $02, $1B, $A1
+    db $05, $18, $8F
+    db $06, $14, $D1
+    db $08, $1B, $8F
+    db $09, $14, $8F
+    db $0A, $16, $8F
+    db $0B, $14, $8F
+    db $0B, $18, $8F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6612,8 +6615,8 @@ RoomData_Sprites_Room008E:
 RoomData_Sprites_Room0090:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $BD ; Sprite 0xBD (0x0070, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $15, $07, $BD
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6622,14 +6625,14 @@ RoomData_Sprites_Room0090:
 RoomData_Sprites_Room0091:
 {
     db $00 ; Unlayered OAM
-    db $04, $18, $1E ; Sprite 0x1E (0x0180, 0x0040, U) size: 0x00
-    db $0E, $1B, $8A ; Sprite 0x8A (0x01B0, 0x00E0, U) size: 0x00
-    db $0F, $F7, $08 ; Overlord 08 (0x0170, 0x00F0, U)
-    db $12, $17, $C5 ; Sprite 0xC5 (0x0170, 0x0120, U) size: 0x00
-    db $12, $18, $D1 ; Sprite 0xD1 (0x0180, 0x0120, U) size: 0x00
-    db $12, $19, $15 ; Sprite 0x15 (0x0190, 0x0120, U) size: 0x00
-    db $18, $18, $15 ; Sprite 0x15 (0x0180, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $04, $18, $1E
+    db $0E, $1B, $8A
+    db $0F, $F7, $08
+    db $12, $17, $C5
+    db $12, $18, $D1
+    db $12, $19, $15
+    db $18, $18, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6638,19 +6641,19 @@ RoomData_Sprites_Room0091:
 RoomData_Sprites_Room0092:
 {
     db $00 ; Unlayered OAM
-    db $09, $18, $1E ; Sprite 0x1E (0x0180, 0x0090, U) size: 0x00
-    db $0C, $03, $1E ; Sprite 0x1E (0x0030, 0x00C0, U) size: 0x00
-    db $04, $18, $15 ; Sprite 0x15 (0x0180, 0x0040, U) size: 0x00
-    db $05, $0B, $C5 ; Sprite 0xC5 (0x00B0, 0x0050, U) size: 0x00
-    db $08, $09, $15 ; Sprite 0x15 (0x0090, 0x0080, U) size: 0x00
-    db $09, $17, $C5 ; Sprite 0xC5 (0x0170, 0x0090, U) size: 0x00
-    db $0F, $15, $C6 ; Sprite 0xC6 (0x0150, 0x00F0, U) size: 0x00
-    db $12, $E7, $16 ; Overlord 16 (0x0070, 0x0120, U)
-    db $12, $19, $8A ; Sprite 0x8A (0x0190, 0x0120, U) size: 0x00
-    db $14, $03, $15 ; Sprite 0x15 (0x0030, 0x0140, U) size: 0x00
-    db $16, $0A, $A7 ; Sprite 0xA7 (0x00A0, 0x0160, U) size: 0x00
-    db $1B, $03, $15 ; Sprite 0x15 (0x0030, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $09, $18, $1E
+    db $0C, $03, $1E
+    db $04, $18, $15
+    db $05, $0B, $C5
+    db $08, $09, $15
+    db $09, $17, $C5
+    db $0F, $15, $C6
+    db $12, $E7, $16
+    db $12, $19, $8A
+    db $14, $03, $15
+    db $16, $0A, $A7
+    db $1B, $03, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6659,15 +6662,15 @@ RoomData_Sprites_Room0092:
 RoomData_Sprites_Room0093:
 {
     db $00 ; Unlayered OAM
-    db $09, $09, $C5 ; Sprite 0xC5 (0x0090, 0x0090, U) size: 0x00
-    db $09, $16, $C5 ; Sprite 0xC5 (0x0160, 0x0090, U) size: 0x00
-    db $0C, $0C, $C5 ; Sprite 0xC5 (0x00C0, 0x00C0, U) size: 0x00
-    db $0C, $13, $C5 ; Sprite 0xC5 (0x0130, 0x00C0, U) size: 0x00
-    db $0C, $17, $8F ; Sprite 0x8F (0x0170, 0x00C0, U) size: 0x00
-    db $15, $04, $A7 ; Sprite 0xA7 (0x0040, 0x0150, U) size: 0x00
-    db $1C, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x01C0, U) size: 0x00
-    db $1C, $04, $15 ; Sprite 0x15 (0x0040, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $09, $09, $C5
+    db $09, $16, $C5
+    db $0C, $0C, $C5
+    db $0C, $13, $C5
+    db $0C, $17, $8F
+    db $15, $04, $A7
+    db $1C, $0C, $A7
+    db $1C, $04, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6676,12 +6679,12 @@ RoomData_Sprites_Room0093:
 RoomData_Sprites_Room0095:
 {
     db $00 ; Unlayered OAM
-    db $0C, $16, $43 ; Sprite 0x43 (0x0160, 0x00C0, U) size: 0x00
-    db $0C, $17, $43 ; Sprite 0x43 (0x0170, 0x00C0, U) size: 0x00
-    db $0C, $18, $43 ; Sprite 0x43 (0x0180, 0x00C0, U) size: 0x00
-    db $0C, $19, $43 ; Sprite 0x43 (0x0190, 0x00C0, U) size: 0x00
-    db $1A, $F7, $0B ; Overlord 0B (0x0170, 0x01A0, U)
-    db $FF ; END
+    db $0C, $16, $43
+    db $0C, $17, $43
+    db $0C, $18, $43
+    db $0C, $19, $43
+    db $1A, $F7, $0B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6690,12 +6693,12 @@ RoomData_Sprites_Room0095:
 RoomData_Sprites_Room0096:
 {
     db $00 ; Unlayered OAM
-    db $0B, $08, $7E ; Sprite 0x7E (0x0080, 0x00B0, U) size: 0x00
-    db $15, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0150, U) size: 0x00
-    db $17, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0170, U) size: 0x00
-    db $19, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0190, U) size: 0x00
-    db $1B, $1E, $96 ; Sprite 0x96 (0x01E0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $0B, $08, $7E
+    db $15, $1E, $96
+    db $17, $1E, $96
+    db $19, $1E, $96
+    db $1B, $1E, $96
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6704,8 +6707,8 @@ RoomData_Sprites_Room0096:
 RoomData_Sprites_Room0097:
 {
     db $00 ; Unlayered OAM
-    db $0F, $EF, $15 ; Overlord 15 (0x00F0, 0x00F0, U)
-    db $FF ; END
+    db $0F, $EF, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6714,12 +6717,12 @@ RoomData_Sprites_Room0097:
 RoomData_Sprites_Room0098:
 {
     db $00 ; Unlayered OAM
-    db $13, $10, $8F ; Sprite 0x8F (0x0100, 0x0130, U) size: 0x00
-    db $14, $09, $8F ; Sprite 0x8F (0x0090, 0x0140, U) size: 0x00
-    db $14, $0C, $8F ; Sprite 0x8F (0x00C0, 0x0140, U) size: 0x00
-    db $14, $0F, $8F ; Sprite 0x8F (0x00F0, 0x0140, U) size: 0x00
-    db $17, $08, $8F ; Sprite 0x8F (0x0080, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $13, $10, $8F
+    db $14, $09, $8F
+    db $14, $0C, $8F
+    db $14, $0F, $8F
+    db $17, $08, $8F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6728,18 +6731,18 @@ RoomData_Sprites_Room0098:
 RoomData_Sprites_Room0099:
 {
     db $00 ; Unlayered OAM
-    db $06, $15, $15 ; Sprite 0x15 (0x0150, 0x0060, U) size: 0x00
-    db $08, $1A, $15 ; Sprite 0x15 (0x01A0, 0x0080, U) size: 0x00
-    db $17, $0E, $83 ; Sprite 0x83 (0x00E0, 0x0170, U) size: 0x00
-    db $17, $11, $83 ; Sprite 0x83 (0x0110, 0x0170, U) size: 0x00
+    db $06, $15, $15
+    db $08, $1A, $15
+    db $17, $0E, $83
+    db $17, $11, $83
     db $FE, $00, $E4 ; Small key on above sprite
-    db $18, $0D, $4E ; Sprite 0x4E (0x00D0, 0x0180, U) size: 0x00
-    db $18, $12, $4E ; Sprite 0x4E (0x0120, 0x0180, U) size: 0x00
-    db $19, $0E, $4F ; Sprite 0x4F (0x00E0, 0x0190, U) size: 0x00
-    db $19, $0F, $4F ; Sprite 0x4F (0x00F0, 0x0190, U) size: 0x00
-    db $19, $10, $4F ; Sprite 0x4F (0x0100, 0x0190, U) size: 0x00
-    db $19, $11, $4F ; Sprite 0x4F (0x0110, 0x0190, U) size: 0x00
-    db $FF ; END
+    db $18, $0D, $4E
+    db $18, $12, $4E
+    db $19, $0E, $4F
+    db $19, $0F, $4F
+    db $19, $10, $4F
+    db $19, $11, $4F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6748,20 +6751,20 @@ RoomData_Sprites_Room0099:
 RoomData_Sprites_Room009B:
 {
     db $00 ; Unlayered OAM
-    db $08, $06, $1E ; Sprite 0x1E (0x0060, 0x0080, U) size: 0x00
-    db $08, $07, $1E ; Sprite 0x1E (0x0070, 0x0080, U) size: 0x00
-    db $08, $14, $1E ; Sprite 0x1E (0x0140, 0x0080, U) size: 0x00
-    db $05, $1C, $8A ; Sprite 0x8A (0x01C0, 0x0050, U) size: 0x00
-    db $06, $1C, $8A ; Sprite 0x8A (0x01C0, 0x0060, U) size: 0x00
-    db $07, $1C, $8A ; Sprite 0x8A (0x01C0, 0x0070, U) size: 0x00
-    db $08, $03, $C6 ; Sprite 0xC6 (0x0030, 0x0080, U) size: 0x00
-    db $08, $1C, $8A ; Sprite 0x8A (0x01C0, 0x0080, U) size: 0x00
-    db $09, $1C, $8A ; Sprite 0x8A (0x01C0, 0x0090, U) size: 0x00
-    db $0A, $1C, $8A ; Sprite 0x8A (0x01C0, 0x00A0, U) size: 0x00
-    db $0B, $1C, $8A ; Sprite 0x8A (0x01C0, 0x00B0, U) size: 0x00
-    db $1A, $17, $26 ; Sprite 0x26 (0x0170, 0x01A0, U) size: 0x00
-    db $1B, $13, $26 ; Sprite 0x26 (0x0130, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $08, $06, $1E
+    db $08, $07, $1E
+    db $08, $14, $1E
+    db $05, $1C, $8A
+    db $06, $1C, $8A
+    db $07, $1C, $8A
+    db $08, $03, $C6
+    db $08, $1C, $8A
+    db $09, $1C, $8A
+    db $0A, $1C, $8A
+    db $0B, $1C, $8A
+    db $1A, $17, $26
+    db $1B, $13, $26
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6770,14 +6773,14 @@ RoomData_Sprites_Room009B:
 RoomData_Sprites_Room009C:
 {
     db $00 ; Unlayered OAM
-    db $09, $13, $26 ; Sprite 0x26 (0x0130, 0x0090, U) size: 0x00
-    db $0A, $0B, $13 ; Sprite 0x13 (0x00B0, 0x00A0, U) size: 0x00
-    db $0F, $11, $26 ; Sprite 0x26 (0x0110, 0x00F0, U) size: 0x00
-    db $0E, $17, $26 ; Sprite 0x26 (0x0170, 0x00E0, U) size: 0x00
-    db $12, $0D, $26 ; Sprite 0x26 (0x00D0, 0x0120, U) size: 0x00
-    db $13, $09, $26 ; Sprite 0x26 (0x0090, 0x0130, U) size: 0x00
-    db $1C, $0F, $80 ; Sprite 0x80 (0x00F0, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $09, $13, $26
+    db $0A, $0B, $13
+    db $0F, $11, $26
+    db $0E, $17, $26
+    db $12, $0D, $26
+    db $13, $09, $26
+    db $1C, $0F, $80
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6786,16 +6789,16 @@ RoomData_Sprites_Room009C:
 RoomData_Sprites_Room009D:
 {
     db $00 ; Unlayered OAM
-    db $06, $1C, $1E ; Sprite 0x1E (0x01C0, 0x0060, U) size: 0x00
-    db $04, $06, $26 ; Sprite 0x26 (0x0060, 0x0040, U) size: 0x00
-    db $04, $14, $8B ; Sprite 0x8B (0x0140, 0x0040, U) size: 0x00
-    db $09, $18, $8B ; Sprite 0x8B (0x0180, 0x0090, U) size: 0x00
-    db $0C, $05, $26 ; Sprite 0x26 (0x0050, 0x00C0, U) size: 0x00
-    db $0C, $13, $8B ; Sprite 0x8B (0x0130, 0x00C0, U) size: 0x00
-    db $14, $10, $24 ; Sprite 0x24 (0x0100, 0x0140, U) size: 0x00
-    db $18, $0B, $24 ; Sprite 0x24 (0x00B0, 0x0180, U) size: 0x00
-    db $1C, $11, $24 ; Sprite 0x24 (0x0110, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $06, $1C, $1E
+    db $04, $06, $26
+    db $04, $14, $8B
+    db $09, $18, $8B
+    db $0C, $05, $26
+    db $0C, $13, $8B
+    db $14, $10, $24
+    db $18, $0B, $24
+    db $1C, $11, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6804,12 +6807,12 @@ RoomData_Sprites_Room009D:
 RoomData_Sprites_Room009E:
 {
     db $00 ; Unlayered OAM
-    db $05, $18, $23 ; Sprite 0x23 (0x0180, 0x0050, U) size: 0x00
-    db $08, $16, $23 ; Sprite 0x23 (0x0160, 0x0080, U) size: 0x00
-    db $08, $18, $91 ; Sprite 0x91 (0x0180, 0x0080, U) size: 0x00
-    db $08, $19, $23 ; Sprite 0x23 (0x0190, 0x0080, U) size: 0x00
-    db $12, $14, $A1 ; Sprite 0xA1 (0x0140, 0x0120, U) size: 0x00
-    db $FF ; END
+    db $05, $18, $23
+    db $08, $16, $23
+    db $08, $18, $91
+    db $08, $19, $23
+    db $12, $14, $A1
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6818,13 +6821,13 @@ RoomData_Sprites_Room009E:
 RoomData_Sprites_Room009F:
 {
     db $00 ; Unlayered OAM
-    db $12, $04, $9D ; Sprite 0x9D (0x0040, 0x0120, U) size: 0x00
-    db $12, $06, $9D ; Sprite 0x9D (0x0060, 0x0120, U) size: 0x00
-    db $12, $09, $9D ; Sprite 0x9D (0x0090, 0x0120, U) size: 0x00
-    db $12, $0B, $9D ; Sprite 0x9D (0x00B0, 0x0120, U) size: 0x00
-    db $17, $07, $15 ; Sprite 0x15 (0x0070, 0x0170, U) size: 0x00
-    db $18, $08, $7E ; Sprite 0x7E (0x0080, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $12, $04, $9D
+    db $12, $06, $9D
+    db $12, $09, $9D
+    db $12, $0B, $9D
+    db $17, $07, $15
+    db $18, $08, $7E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6833,10 +6836,10 @@ RoomData_Sprites_Room009F:
 RoomData_Sprites_Room00A0:
 {
     db $00 ; Unlayered OAM
-    db $08, $03, $C5 ; Sprite 0xC5 (0x0030, 0x0080, U) size: 0x00
-    db $08, $0E, $15 ; Sprite 0x15 (0x00E0, 0x0080, U) size: 0x00
-    db $0C, $14, $80 ; Sprite 0x80 (0x0140, 0x00C0, U) size: 0x00
-    db $FF ; END
+    db $08, $03, $C5
+    db $08, $0E, $15
+    db $0C, $14, $80
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6845,16 +6848,16 @@ RoomData_Sprites_Room00A0:
 RoomData_Sprites_Room00A1:
 {
     db $00 ; Unlayered OAM
-    db $08, $0A, $1E ; Sprite 0x1E (0x00A0, 0x0080, U) size: 0x00
-    db $07, $18, $5B ; Sprite 0x5B (0x0180, 0x0070, U) size: 0x00
-    db $0B, $16, $5B ; Sprite 0x5B (0x0160, 0x00B0, U) size: 0x00
-    db $10, $19, $9B ; Sprite 0x9B (0x0190, 0x0100, U) size: 0x00
-    db $15, $15, $C5 ; Sprite 0xC5 (0x0150, 0x0150, U) size: 0x00
-    db $15, $1A, $C5 ; Sprite 0xC5 (0x01A0, 0x0150, U) size: 0x00
-    db $19, $15, $A7 ; Sprite 0xA7 (0x0150, 0x0190, U) size: 0x00
-    db $19, $17, $D1 ; Sprite 0xD1 (0x0170, 0x0190, U) size: 0x00
-    db $19, $1B, $A7 ; Sprite 0xA7 (0x01B0, 0x0190, U) size: 0x00
-    db $FF ; END
+    db $08, $0A, $1E
+    db $07, $18, $5B
+    db $0B, $16, $5B
+    db $10, $19, $9B
+    db $15, $15, $C5
+    db $15, $1A, $C5
+    db $19, $15, $A7
+    db $19, $17, $D1
+    db $19, $1B, $A7
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6863,7 +6866,7 @@ RoomData_Sprites_Room00A1:
 RoomData_Sprites_Room00A3:
 {
     db $00 ; Unlayered OAM
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6872,10 +6875,10 @@ RoomData_Sprites_Room00A3:
 RoomData_Sprites_Room00A4:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $CB ; Sprite 0xCB (0x0070, 0x0150, U) size: 0x00
-    db $15, $07, $CC ; Sprite 0xCC (0x0070, 0x0150, U) size: 0x00
-    db $15, $07, $CD ; Sprite 0xCD (0x0070, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $15, $07, $CB
+    db $15, $07, $CC
+    db $15, $07, $CD
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6884,19 +6887,19 @@ RoomData_Sprites_Room00A4:
 RoomData_Sprites_Room00A5:
 {
     db $00 ; Unlayered OAM
-    db $05, $16, $9B ; Sprite 0x9B (0x0160, 0x0050, U) size: 0x00
-    db $05, $19, $9B ; Sprite 0x9B (0x0190, 0x0050, U) size: 0x00
-    db $07, $04, $9B ; Sprite 0x9B (0x0040, 0x0070, U) size: 0x00
-    db $07, $0B, $9B ; Sprite 0x9B (0x00B0, 0x0070, U) size: 0x00
-    db $08, $17, $8A ; Sprite 0x8A (0x0170, 0x0080, U) size: 0x00
-    db $09, $15, $9B ; Sprite 0x9B (0x0150, 0x0090, U) size: 0x00
-    db $09, $1A, $9B ; Sprite 0x9B (0x01A0, 0x0090, U) size: 0x00
-    db $0A, $08, $9B ; Sprite 0x9B (0x0080, 0x00A0, U) size: 0x00
-    db $12, $0C, $97 ; Sprite 0x97 (0x00C0, 0x0120, U) size: 0x00
-    db $12, $12, $97 ; Sprite 0x97 (0x0120, 0x0120, U) size: 0x00
-    db $17, $12, $43 ; Sprite 0x43 (0x0120, 0x0170, U) size: 0x00
-    db $18, $13, $41 ; Sprite 0x41 (0x0130, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $05, $16, $9B
+    db $05, $19, $9B
+    db $07, $04, $9B
+    db $07, $0B, $9B
+    db $08, $17, $8A
+    db $09, $15, $9B
+    db $09, $1A, $9B
+    db $0A, $08, $9B
+    db $12, $0C, $97
+    db $12, $12, $97
+    db $17, $12, $43
+    db $18, $13, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6905,9 +6908,9 @@ RoomData_Sprites_Room00A5:
 RoomData_Sprites_Room00A6:
 {
     db $00 ; Unlayered OAM
-    db $0F, $EF, $15 ; Overlord 15 (0x00F0, 0x00F0, U)
-    db $0E, $0C, $15 ; Sprite 0x15 (0x00C0, 0x00E0, U) size: 0x00
-    db $FF ; END
+    db $0F, $EF, $15
+    db $0E, $0C, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6916,9 +6919,9 @@ RoomData_Sprites_Room00A6:
 RoomData_Sprites_Room00A7:
 {
     db $00 ; Unlayered OAM
-    db $08, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0080, U) size: 0x00
-    db $09, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0090, U) size: 0x00
-    db $FF ; END
+    db $08, $06, $E3
+    db $09, $06, $E3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6927,12 +6930,12 @@ RoomData_Sprites_Room00A7:
 RoomData_Sprites_Room00A8:
 {
     db $01 ; Layered OAM
-    db $0E, $16, $A7 ; Sprite 0xA7 (0x0160, 0x00E0, U) size: 0x00
-    db $0E, $1A, $A7 ; Sprite 0xA7 (0x01A0, 0x00E0, U) size: 0x00
-    db $12, $16, $A7 ; Sprite 0xA7 (0x0160, 0x0120, U) size: 0x00
-    db $12, $1A, $A7 ; Sprite 0xA7 (0x01A0, 0x0120, U) size: 0x00
-    db $16, $E8, $18 ; Overlord 18 (0x0080, 0x0160, U)
-    db $FF ; END
+    db $0E, $16, $A7
+    db $0E, $1A, $A7
+    db $12, $16, $A7
+    db $12, $1A, $A7
+    db $16, $E8, $18
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6941,15 +6944,15 @@ RoomData_Sprites_Room00A8:
 RoomData_Sprites_Room00A9:
 {
     db $00 ; Unlayered OAM
-    db $85, $09, $83 ; Sprite 0x83 (0x0090, 0x0050, L) size: 0x00
-    db $85, $16, $83 ; Sprite 0x83 (0x0160, 0x0050, L) size: 0x00
-    db $8C, $ED, $05 ; Overlord 05 (0x00D0, 0x00C0, L)
-    db $8C, $F2, $05 ; Overlord 05 (0x0120, 0x00C0, L)
-    db $92, $ED, $05 ; Overlord 05 (0x00D0, 0x0120, L)
-    db $92, $F2, $05 ; Overlord 05 (0x0120, 0x0120, L)
-    db $90, $0A, $A7 ; Sprite 0xA7 (0x00A0, 0x0100, L) size: 0x00
-    db $90, $14, $A7 ; Sprite 0xA7 (0x0140, 0x0100, L) size: 0x00
-    db $FF ; END
+    db $85, $09, $83
+    db $85, $16, $83
+    db $8C, $ED, $05
+    db $8C, $F2, $05
+    db $92, $ED, $05
+    db $92, $F2, $05
+    db $90, $0A, $A7
+    db $90, $14, $A7
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6958,13 +6961,13 @@ RoomData_Sprites_Room00A9:
 RoomData_Sprites_Room00AA:
 {
     db $01 ; Layered OAM
-    db $06, $18, $15 ; Sprite 0x15 (0x0180, 0x0060, U) size: 0x00
-    db $07, $0A, $4F ; Sprite 0x4F (0x00A0, 0x0070, U) size: 0x00
-    db $0B, $06, $A7 ; Sprite 0xA7 (0x0060, 0x00B0, U) size: 0x00
-    db $0C, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x00C0, U) size: 0x00
-    db $13, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x0130, U) size: 0x00
-    db $14, $0A, $4F ; Sprite 0x4F (0x00A0, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $06, $18, $15
+    db $07, $0A, $4F
+    db $0B, $06, $A7
+    db $0C, $0C, $A7
+    db $13, $0C, $A7
+    db $14, $0A, $4F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6973,15 +6976,15 @@ RoomData_Sprites_Room00AA:
 RoomData_Sprites_Room00AB:
 {
     db $00 ; Unlayered OAM
-    db $18, $04, $1E ; Sprite 0x1E (0x0040, 0x0180, U) size: 0x00
-    db $15, $03, $8A ; Sprite 0x8A (0x0030, 0x0150, U) size: 0x00
-    db $16, $0C, $8A ; Sprite 0x8A (0x00C0, 0x0160, U) size: 0x00
-    db $17, $03, $8A ; Sprite 0x8A (0x0030, 0x0170, U) size: 0x00
-    db $18, $06, $8F ; Sprite 0x8F (0x0060, 0x0180, U) size: 0x00
-    db $19, $03, $8A ; Sprite 0x8A (0x0030, 0x0190, U) size: 0x00
-    db $1A, $0C, $8A ; Sprite 0x8A (0x00C0, 0x01A0, U) size: 0x00
-    db $1B, $03, $8A ; Sprite 0x8A (0x0030, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $18, $04, $1E
+    db $15, $03, $8A
+    db $16, $0C, $8A
+    db $17, $03, $8A
+    db $18, $06, $8F
+    db $19, $03, $8A
+    db $1A, $0C, $8A
+    db $1B, $03, $8A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -6990,8 +6993,8 @@ RoomData_Sprites_Room00AB:
 RoomData_Sprites_Room00AC:
 {
     db $00 ; Unlayered OAM
-    db $15, $19, $CE ; Sprite 0xCE (0x0190, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $15, $19, $CE
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7000,9 +7003,9 @@ RoomData_Sprites_Room00AC:
 RoomData_Sprites_Room00AE:
 {
     db $00 ; Unlayered OAM
-    db $07, $13, $24 ; Sprite 0x24 (0x0130, 0x0070, U) size: 0x00
-    db $07, $15, $24 ; Sprite 0x24 (0x0150, 0x0070, U) size: 0x00
-    db $FF ; END
+    db $07, $13, $24
+    db $07, $15, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7011,8 +7014,8 @@ RoomData_Sprites_Room00AE:
 RoomData_Sprites_Room00AF:
 {
     db $00 ; Unlayered OAM
-    db $08, $0A, $7E ; Sprite 0x7E (0x00A0, 0x0080, U) size: 0x00
-    db $FF ; END
+    db $08, $0A, $7E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7021,21 +7024,21 @@ RoomData_Sprites_Room00AF:
 RoomData_Sprites_Room00B0:
 {
     db $00 ; Unlayered OAM
-    db $07, $07, $43 ; Sprite 0x43 (0x0070, 0x0070, U) size: 0x00
-    db $07, $17, $6F ; Sprite 0x6F (0x0170, 0x0070, U) size: 0x00
-    db $07, $18, $6F ; Sprite 0x6F (0x0180, 0x0070, U) size: 0x00
-    db $08, $14, $48 ; Sprite 0x48 (0x0140, 0x0080, U) size: 0x00
-    db $08, $1B, $48 ; Sprite 0x48 (0x01B0, 0x0080, U) size: 0x00
-    db $0B, $05, $43 ; Sprite 0x43 (0x0050, 0x00B0, U) size: 0x00
-    db $14, $16, $6A ; Sprite 0x6A (0x0160, 0x0140, U) size: 0x00
-    db $16, $04, $6F ; Sprite 0x6F (0x0040, 0x0160, U) size: 0x00
-    db $16, $0B, $6F ; Sprite 0x6F (0x00B0, 0x0160, U) size: 0x00
-    db $16, $0A, $43 ; Sprite 0x43 (0x00A0, 0x0160, U) size: 0x00
-    db $18, $08, $43 ; Sprite 0x43 (0x0080, 0x0180, U) size: 0x00
+    db $07, $07, $43
+    db $07, $17, $6F
+    db $07, $18, $6F
+    db $08, $14, $48
+    db $08, $1B, $48
+    db $0B, $05, $43
+    db $14, $16, $6A
+    db $16, $04, $6F
+    db $16, $0B, $6F
+    db $16, $0A, $43
+    db $18, $08, $43
     db $FE, $00, $E4 ; Small key on above sprite
-    db $1A, $1B, $44 ; Sprite 0x44 (0x01B0, 0x01A0, U) size: 0x00
-    db $1C, $17, $48 ; Sprite 0x48 (0x0170, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $1A, $1B, $44
+    db $1C, $17, $48
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7044,17 +7047,17 @@ RoomData_Sprites_Room00B0:
 RoomData_Sprites_Room00B1:
 {
     db $00 ; Unlayered OAM
-    db $07, $15, $C5 ; Sprite 0xC5 (0x0150, 0x0070, U) size: 0x00
-    db $07, $1A, $C5 ; Sprite 0xC5 (0x01A0, 0x0070, U) size: 0x00
-    db $0E, $16, $8A ; Sprite 0x8A (0x0160, 0x00E0, U) size: 0x00
-    db $11, $19, $8A ; Sprite 0x8A (0x0190, 0x0110, U) size: 0x00
-    db $17, $0C, $9B ; Sprite 0x9B (0x00C0, 0x0170, U) size: 0x00
-    db $17, $1A, $7D ; Sprite 0x7D (0x01A0, 0x0170, U) size: 0x00
-    db $18, $07, $C6 ; Sprite 0xC6 (0x0070, 0x0180, U) size: 0x00
-    db $1A, $03, $9B ; Sprite 0x9B (0x0030, 0x01A0, U) size: 0x00
-    db $1A, $15, $15 ; Sprite 0x15 (0x0150, 0x01A0, U) size: 0x00
-    db $1C, $08, $9B ; Sprite 0x9B (0x0080, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $07, $15, $C5
+    db $07, $1A, $C5
+    db $0E, $16, $8A
+    db $11, $19, $8A
+    db $17, $0C, $9B
+    db $17, $1A, $7D
+    db $18, $07, $C6
+    db $1A, $03, $9B
+    db $1A, $15, $15
+    db $1C, $08, $9B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7063,21 +7066,21 @@ RoomData_Sprites_Room00B1:
 RoomData_Sprites_Room00B2:
 {
     db $01 ; Layered OAM
-    db $88, $14, $9B ; Sprite 0x9B (0x0140, 0x0080, L) size: 0x00
-    db $8A, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x00A0, L) size: 0x00
-    db $8A, $12, $15 ; Sprite 0x15 (0x0120, 0x00A0, L) size: 0x00
-    db $8A, $13, $D1 ; Sprite 0xD1 (0x0130, 0x00A0, L) size: 0x00
-    db $8B, $07, $15 ; Sprite 0x15 (0x0070, 0x00B0, L) size: 0x00
-    db $15, $04, $20 ; Sprite 0x20 (0x0040, 0x0150, U) size: 0x00
-    db $15, $0B, $20 ; Sprite 0x20 (0x00B0, 0x0150, U) size: 0x00
-    db $16, $03, $15 ; Sprite 0x15 (0x0030, 0x0160, U) size: 0x00
-    db $18, $15, $C5 ; Sprite 0xC5 (0x0150, 0x0180, U) size: 0x00
-    db $18, $1A, $C5 ; Sprite 0xC5 (0x01A0, 0x0180, U) size: 0x00
-    db $1B, $04, $20 ; Sprite 0x20 (0x0040, 0x01B0, U) size: 0x00
-    db $1B, $0B, $20 ; Sprite 0x20 (0x00B0, 0x01B0, U) size: 0x00
-    db $1B, $14, $4E ; Sprite 0x4E (0x0140, 0x01B0, U) size: 0x00
-    db $1B, $1B, $4E ; Sprite 0x4E (0x01B0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $88, $14, $9B
+    db $8A, $0C, $D1
+    db $8A, $12, $15
+    db $8A, $13, $D1
+    db $8B, $07, $15
+    db $15, $04, $20
+    db $15, $0B, $20
+    db $16, $03, $15
+    db $18, $15, $C5
+    db $18, $1A, $C5
+    db $1B, $04, $20
+    db $1B, $0B, $20
+    db $1B, $14, $4E
+    db $1B, $1B, $4E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7086,12 +7089,12 @@ RoomData_Sprites_Room00B2:
 RoomData_Sprites_Room00B3:
 {
     db $00 ; Unlayered OAM
-    db $15, $03, $A7 ; Sprite 0xA7 (0x0030, 0x0150, U) size: 0x00
-    db $15, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x0150, U) size: 0x00
-    db $18, $06, $61 ; Sprite 0x61 (0x0060, 0x0180, U) size: 0x00
-    db $1A, $0A, $C6 ; Sprite 0xC6 (0x00A0, 0x01A0, U) size: 0x00
-    db $1C, $07, $A7 ; Sprite 0xA7 (0x0070, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $15, $03, $A7
+    db $15, $0B, $A7
+    db $18, $06, $61
+    db $1A, $0A, $C6
+    db $1C, $07, $A7
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7100,10 +7103,10 @@ RoomData_Sprites_Room00B3:
 RoomData_Sprites_Room00B5:
 {
     db $00 ; Unlayered OAM
-    db $0A, $16, $7E ; Sprite 0x7E (0x0160, 0x00A0, U) size: 0x00
-    db $0F, $09, $7E ; Sprite 0x7E (0x0090, 0x00F0, U) size: 0x00
-    db $16, $16, $7E ; Sprite 0x7E (0x0160, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $0A, $16, $7E
+    db $0F, $09, $7E
+    db $16, $16, $7E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7112,17 +7115,17 @@ RoomData_Sprites_Room00B5:
 RoomData_Sprites_Room00B6:
 {
     db $00 ; Unlayered OAM
-    db $07, $06, $CA ; Sprite 0xCA (0x0060, 0x0070, U) size: 0x00
-    db $07, $0A, $CA ; Sprite 0xCA (0x00A0, 0x0070, U) size: 0x00
-    db $04, $03, $1E ; Sprite 0x1E (0x0030, 0x0040, U) size: 0x00
-    db $04, $0C, $1E ; Sprite 0x1E (0x00C0, 0x0040, U) size: 0x00
-    db $07, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0070, U) size: 0x00
-    db $15, $07, $C7 ; Sprite 0xC7 (0x0070, 0x0150, U) size: 0x00
+    db $07, $06, $CA
+    db $07, $0A, $CA
+    db $04, $03, $1E
+    db $04, $0C, $1E
+    db $07, $17, $E3
+    db $15, $07, $C7
     db $FE, $00, $E4 ; Small key on above sprite
-    db $18, $F7, $14 ; Overlord 14 (0x0170, 0x0180, U)
-    db $1B, $07, $8F ; Sprite 0x8F (0x0070, 0x01B0, U) size: 0x00
-    db $1B, $08, $8F ; Sprite 0x8F (0x0080, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $18, $F7, $14
+    db $1B, $07, $8F
+    db $1B, $08, $8F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7131,9 +7134,9 @@ RoomData_Sprites_Room00B6:
 RoomData_Sprites_Room00B7:
 {
     db $00 ; Unlayered OAM
-    db $09, $04, $5F ; Sprite 0x5F (0x0040, 0x0090, U) size: 0x00
-    db $11, $04, $5D ; Sprite 0x5D (0x0040, 0x0110, U) size: 0x00
-    db $FF ; END
+    db $09, $04, $5F
+    db $11, $04, $5D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7142,13 +7145,13 @@ RoomData_Sprites_Room00B7:
 RoomData_Sprites_Room00B8:
 {
     db $00 ; Unlayered OAM
-    db $0B, $15, $4E ; Sprite 0x4E (0x0150, 0x00B0, U) size: 0x00
-    db $0B, $1B, $4E ; Sprite 0x4E (0x01B0, 0x00B0, U) size: 0x00
-    db $0D, $18, $82 ; Sprite 0x82 (0x0180, 0x00D0, U) size: 0x00
-    db $13, $18, $83 ; Sprite 0x83 (0x0180, 0x0130, U) size: 0x00
-    db $16, $14, $A7 ; Sprite 0xA7 (0x0140, 0x0160, U) size: 0x00
-    db $16, $1C, $A7 ; Sprite 0xA7 (0x01C0, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $0B, $15, $4E
+    db $0B, $1B, $4E
+    db $0D, $18, $82
+    db $13, $18, $83
+    db $16, $14, $A7
+    db $16, $1C, $A7
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7157,8 +7160,8 @@ RoomData_Sprites_Room00B8:
 RoomData_Sprites_Room00B9:
 {
     db $01 ; Layered OAM
-    db $85, $F1, $03 ; Overlord 03 (0x0110, 0x0050, L)
-    db $FF ; END
+    db $85, $F1, $03
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7167,14 +7170,14 @@ RoomData_Sprites_Room00B9:
 RoomData_Sprites_Room00BA:
 {
     db $00 ; Unlayered OAM
-    db $04, $14, $A7 ; Sprite 0xA7 (0x0140, 0x0040, U) size: 0x00
-    db $06, $03, $15 ; Sprite 0x15 (0x0030, 0x0060, U) size: 0x00
-    db $06, $18, $A7 ; Sprite 0xA7 (0x0180, 0x0060, U) size: 0x00
-    db $09, $03, $15 ; Sprite 0x15 (0x0030, 0x0090, U) size: 0x00
-    db $09, $0C, $4F ; Sprite 0x4F (0x00C0, 0x0090, U) size: 0x00
-    db $0A, $18, $A7 ; Sprite 0xA7 (0x0180, 0x00A0, U) size: 0x00
-    db $0C, $08, $4F ; Sprite 0x4F (0x0080, 0x00C0, U) size: 0x00
-    db $FF ; END
+    db $04, $14, $A7
+    db $06, $03, $15
+    db $06, $18, $A7
+    db $09, $03, $15
+    db $09, $0C, $4F
+    db $0A, $18, $A7
+    db $0C, $08, $4F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7183,18 +7186,18 @@ RoomData_Sprites_Room00BA:
 RoomData_Sprites_Room00BB:
 {
     db $00 ; Unlayered OAM
-    db $04, $1B, $A6 ; Sprite 0xA6 (0x01B0, 0x0040, U) size: 0x00
-    db $0A, $06, $C3 ; Sprite 0xC3 (0x0060, 0x00A0, U) size: 0x00
-    db $0A, $16, $A6 ; Sprite 0xA6 (0x0160, 0x00A0, U) size: 0x00
-    db $0A, $19, $C3 ; Sprite 0xC3 (0x0190, 0x00A0, U) size: 0x00
-    db $0C, $08, $15 ; Sprite 0x15 (0x0080, 0x00C0, U) size: 0x00
-    db $0E, $09, $C3 ; Sprite 0xC3 (0x0090, 0x00E0, U) size: 0x00
-    db $10, $07, $80 ; Sprite 0x80 (0x0070, 0x0100, U) size: 0x00
-    db $14, $08, $C3 ; Sprite 0xC3 (0x0080, 0x0140, U) size: 0x00
-    db $15, $19, $C3 ; Sprite 0xC3 (0x0190, 0x0150, U) size: 0x00
-    db $16, $15, $15 ; Sprite 0x15 (0x0150, 0x0160, U) size: 0x00
-    db $1A, $17, $C3 ; Sprite 0xC3 (0x0170, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $04, $1B, $A6
+    db $0A, $06, $C3
+    db $0A, $16, $A6
+    db $0A, $19, $C3
+    db $0C, $08, $15
+    db $0E, $09, $C3
+    db $10, $07, $80
+    db $14, $08, $C3
+    db $15, $19, $C3
+    db $16, $15, $15
+    db $1A, $17, $C3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7203,19 +7206,19 @@ RoomData_Sprites_Room00BB:
 RoomData_Sprites_Room00BC:
 {
     db $00 ; Unlayered OAM
-    db $05, $06, $A5 ; Sprite 0xA5 (0x0060, 0x0050, U) size: 0x00
-    db $05, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x0050, U) size: 0x00
-    db $06, $08, $8A ; Sprite 0x8A (0x0080, 0x0060, U) size: 0x00
-    db $09, $0A, $A6 ; Sprite 0xA6 (0x00A0, 0x0090, U) size: 0x00
-    db $0A, $09, $8A ; Sprite 0x8A (0x0090, 0x00A0, U) size: 0x00
-    db $0B, $05, $A5 ; Sprite 0xA5 (0x0050, 0x00B0, U) size: 0x00
-    db $0A, $17, $A7 ; Sprite 0xA7 (0x0170, 0x00A0, U) size: 0x00
-    db $11, $18, $A7 ; Sprite 0xA7 (0x0180, 0x0110, U) size: 0x00
-    db $16, $16, $A7 ; Sprite 0xA7 (0x0160, 0x0160, U) size: 0x00
-    db $17, $08, $A5 ; Sprite 0xA5 (0x0080, 0x0170, U) size: 0x00
-    db $18, $07, $80 ; Sprite 0x80 (0x0070, 0x0180, U) size: 0x00
-    db $19, $08, $A6 ; Sprite 0xA6 (0x0080, 0x0190, U) size: 0x00
-    db $FF ; END
+    db $05, $06, $A5
+    db $05, $0C, $A7
+    db $06, $08, $8A
+    db $09, $0A, $A6
+    db $0A, $09, $8A
+    db $0B, $05, $A5
+    db $0A, $17, $A7
+    db $11, $18, $A7
+    db $16, $16, $A7
+    db $17, $08, $A5
+    db $18, $07, $80
+    db $19, $08, $A6
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7224,7 +7227,7 @@ RoomData_Sprites_Room00BC:
 RoomData_Sprites_Room00BD:
 {
     db $00 ; Unlayered OAM
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7233,14 +7236,14 @@ RoomData_Sprites_Room00BD:
 RoomData_Sprites_Room00BE:
 {
     db $00 ; Unlayered OAM
-    db $08, $17, $15 ; Sprite 0x15 (0x0170, 0x0080, U) size: 0x00
-    db $12, $14, $A1 ; Sprite 0xA1 (0x0140, 0x0120, U) size: 0x00
-    db $15, $14, $24 ; Sprite 0x24 (0x0140, 0x0150, U) size: 0x00
-    db $15, $1B, $24 ; Sprite 0x24 (0x01B0, 0x0150, U) size: 0x00
-    db $16, $18, $91 ; Sprite 0x91 (0x0180, 0x0160, U) size: 0x00
-    db $1A, $14, $24 ; Sprite 0x24 (0x0140, 0x01A0, U) size: 0x00
-    db $1A, $1B, $24 ; Sprite 0x24 (0x01B0, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $08, $17, $15
+    db $12, $14, $A1
+    db $15, $14, $24
+    db $15, $1B, $24
+    db $16, $18, $91
+    db $1A, $14, $24
+    db $1A, $1B, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7249,9 +7252,9 @@ RoomData_Sprites_Room00BE:
 RoomData_Sprites_Room00BF:
 {
     db $00 ; Unlayered OAM
-    db $18, $0B, $1E ; Sprite 0x1E (0x00B0, 0x0180, U) size: 0x00
-    db $15, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $18, $0B, $1E
+    db $15, $0C, $D1
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7260,16 +7263,16 @@ RoomData_Sprites_Room00BF:
 RoomData_Sprites_Room00C0:
 {
     db $00 ; Unlayered OAM
-    db $05, $17, $41 ; Sprite 0x41 (0x0170, 0x0050, U) size: 0x00
-    db $07, $1A, $46 ; Sprite 0x46 (0x01A0, 0x0070, U) size: 0x00
-    db $09, $0B, $41 ; Sprite 0x41 (0x00B0, 0x0090, U) size: 0x00
-    db $0B, $14, $46 ; Sprite 0x46 (0x0140, 0x00B0, U) size: 0x00
+    db $05, $17, $41
+    db $07, $1A, $46
+    db $09, $0B, $41
+    db $0B, $14, $46
     db $FE, $00, $E4 ; Small key on above sprite
-    db $0E, $06, $41 ; Sprite 0x41 (0x0060, 0x00E0, U) size: 0x00
-    db $18, $04, $41 ; Sprite 0x41 (0x0040, 0x0180, U) size: 0x00
-    db $1B, $14, $46 ; Sprite 0x46 (0x0140, 0x01B0, U) size: 0x00
-    db $1B, $1B, $41 ; Sprite 0x41 (0x01B0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $0E, $06, $41
+    db $18, $04, $41
+    db $1B, $14, $46
+    db $1B, $1B, $41
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7278,20 +7281,20 @@ RoomData_Sprites_Room00C0:
 RoomData_Sprites_Room00C1:
 {
     db $00 ; Unlayered OAM
-    db $17, $15, $1E ; Sprite 0x1E (0x0150, 0x0170, U) size: 0x00
-    db $05, $14, $C5 ; Sprite 0xC5 (0x0140, 0x0050, U) size: 0x00
-    db $05, $1B, $C5 ; Sprite 0xC5 (0x01B0, 0x0050, U) size: 0x00
-    db $0B, $06, $A7 ; Sprite 0xA7 (0x0060, 0x00B0, U) size: 0x00
-    db $0B, $15, $A7 ; Sprite 0xA7 (0x0150, 0x00B0, U) size: 0x00
-    db $15, $17, $7C ; Sprite 0x7C (0x0170, 0x0150, U) size: 0x00
-    db $16, $09, $C5 ; Sprite 0xC5 (0x0090, 0x0160, U) size: 0x00
-    db $18, $E7, $14 ; Overlord 14 (0x0070, 0x0180, U)
-    db $19, $14, $15 ; Sprite 0x15 (0x0140, 0x0190, U) size: 0x00
-    db $1A, $18, $C6 ; Sprite 0xC6 (0x0180, 0x01A0, U) size: 0x00
-    db $1B, $13, $24 ; Sprite 0x24 (0x0130, 0x01B0, U) size: 0x00
+    db $17, $15, $1E
+    db $05, $14, $C5
+    db $05, $1B, $C5
+    db $0B, $06, $A7
+    db $0B, $15, $A7
+    db $15, $17, $7C
+    db $16, $09, $C5
+    db $18, $E7, $14
+    db $19, $14, $15
+    db $1A, $18, $C6
+    db $1B, $13, $24
     db $FE, $00, $E4 ; Small key on above sprite
-    db $1B, $1B, $7C ; Sprite 0x7C (0x01B0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $1B, $1B, $7C
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7300,15 +7303,15 @@ RoomData_Sprites_Room00C1:
 RoomData_Sprites_Room00C2:
 {
     db $01 ; Layered OAM
-    db $8B, $15, $80 ; Sprite 0x80 (0x0150, 0x00B0, L) size: 0x00
-    db $0C, $0B, $80 ; Sprite 0x80 (0x00B0, 0x00C0, U) size: 0x00
-    db $10, $08, $C5 ; Sprite 0xC5 (0x0080, 0x0100, U) size: 0x00
-    db $92, $10, $5B ; Sprite 0x5B (0x0100, 0x0120, L) size: 0x00
-    db $92, $19, $5B ; Sprite 0x5B (0x0190, 0x0120, L) size: 0x00
-    db $94, $10, $D1 ; Sprite 0xD1 (0x0100, 0x0140, L) size: 0x00
-    db $96, $08, $80 ; Sprite 0x80 (0x0080, 0x0160, L) size: 0x00
-    db $96, $16, $5B ; Sprite 0x5B (0x0160, 0x0160, L) size: 0x00
-    db $FF ; END
+    db $8B, $15, $80
+    db $0C, $0B, $80
+    db $10, $08, $C5
+    db $92, $10, $5B
+    db $92, $19, $5B
+    db $94, $10, $D1
+    db $96, $08, $80
+    db $96, $16, $5B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7317,15 +7320,15 @@ RoomData_Sprites_Room00C2:
 RoomData_Sprites_Room00C3:
 {
     db $00 ; Unlayered OAM
-    db $06, $05, $C5 ; Sprite 0xC5 (0x0050, 0x0060, U) size: 0x00
-    db $09, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0090, U) size: 0x00
-    db $0D, $11, $95 ; Sprite 0x95 (0x0110, 0x00D0, U) size: 0x00
-    db $11, $1E, $96 ; Sprite 0x96 (0x01E0, 0x0110, U) size: 0x00
-    db $15, $11, $95 ; Sprite 0x95 (0x0110, 0x0150, U) size: 0x00
-    db $1A, $F7, $0B ; Overlord 0B (0x0170, 0x01A0, U)
-    db $1B, $0A, $15 ; Sprite 0x15 (0x00A0, 0x01B0, U) size: 0x00
-    db $1C, $07, $C5 ; Sprite 0xC5 (0x0070, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $06, $05, $C5
+    db $09, $1E, $96
+    db $0D, $11, $95
+    db $11, $1E, $96
+    db $15, $11, $95
+    db $1A, $F7, $0B
+    db $1B, $0A, $15
+    db $1C, $07, $C5
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7334,17 +7337,17 @@ RoomData_Sprites_Room00C3:
 RoomData_Sprites_Room00C4:
 {
     db $00 ; Unlayered OAM
-    db $0A, $0B, $1E ; Sprite 0x1E (0x00B0, 0x00A0, U) size: 0x00
-    db $0F, $18, $1E ; Sprite 0x1E (0x0180, 0x00F0, U) size: 0x00
-    db $1B, $1C, $1E ; Sprite 0x1E (0x01C0, 0x01B0, U) size: 0x00
-    db $15, $0F, $1E ; Sprite 0x1E (0x00F0, 0x0150, U) size: 0x00
-    db $0E, $0F, $C7 ; Sprite 0xC7 (0x00F0, 0x00E0, U) size: 0x00
-    db $0F, $0B, $15 ; Sprite 0x15 (0x00B0, 0x00F0, U) size: 0x00
-    db $14, $07, $13 ; Sprite 0x13 (0x0070, 0x0140, U) size: 0x00
-    db $14, $18, $13 ; Sprite 0x13 (0x0180, 0x0140, U) size: 0x00
-    db $1A, $0B, $15 ; Sprite 0x15 (0x00B0, 0x01A0, U) size: 0x00
-    db $1A, $14, $15 ; Sprite 0x15 (0x0140, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $0A, $0B, $1E
+    db $0F, $18, $1E
+    db $1B, $1C, $1E
+    db $15, $0F, $1E
+    db $0E, $0F, $C7
+    db $0F, $0B, $15
+    db $14, $07, $13
+    db $14, $18, $13
+    db $1A, $0B, $15
+    db $1A, $14, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7353,15 +7356,15 @@ RoomData_Sprites_Room00C4:
 RoomData_Sprites_Room00C5:
 {
     db $00 ; Unlayered OAM
-    db $09, $0E, $96 ; Sprite 0x96 (0x00E0, 0x0090, U) size: 0x00
-    db $0B, $01, $95 ; Sprite 0x95 (0x0010, 0x00B0, U) size: 0x00
-    db $0D, $0E, $96 ; Sprite 0x96 (0x00E0, 0x00D0, U) size: 0x00
-    db $0F, $01, $95 ; Sprite 0x95 (0x0010, 0x00F0, U) size: 0x00
-    db $11, $0E, $96 ; Sprite 0x96 (0x00E0, 0x0110, U) size: 0x00
-    db $13, $01, $95 ; Sprite 0x95 (0x0010, 0x0130, U) size: 0x00
-    db $15, $07, $13 ; Sprite 0x13 (0x0070, 0x0150, U) size: 0x00
-    db $15, $0E, $96 ; Sprite 0x96 (0x00E0, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $09, $0E, $96
+    db $0B, $01, $95
+    db $0D, $0E, $96
+    db $0F, $01, $95
+    db $11, $0E, $96
+    db $13, $01, $95
+    db $15, $07, $13
+    db $15, $0E, $96
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7370,14 +7373,14 @@ RoomData_Sprites_Room00C5:
 RoomData_Sprites_Room00C6:
 {
     db $00 ; Unlayered OAM
-    db $04, $0B, $A7 ; Sprite 0xA7 (0x00B0, 0x0040, U) size: 0x00
-    db $04, $15, $A7 ; Sprite 0xA7 (0x0150, 0x0040, U) size: 0x00
-    db $09, $08, $24 ; Sprite 0x24 (0x0080, 0x0090, U) size: 0x00
-    db $09, $17, $24 ; Sprite 0x24 (0x0170, 0x0090, U) size: 0x00
-    db $0E, $10, $7C ; Sprite 0x7C (0x0100, 0x00E0, U) size: 0x00
-    db $14, $18, $24 ; Sprite 0x24 (0x0180, 0x0140, U) size: 0x00
-    db $17, $08, $24 ; Sprite 0x24 (0x0080, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $04, $0B, $A7
+    db $04, $15, $A7
+    db $09, $08, $24
+    db $09, $17, $24
+    db $0E, $10, $7C
+    db $14, $18, $24
+    db $17, $08, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7386,14 +7389,14 @@ RoomData_Sprites_Room00C6:
 RoomData_Sprites_Room00C8:
 {
     db $00 ; Unlayered OAM
-    db $15, $14, $53 ; Sprite 0x53 (0x0140, 0x0150, U) size: 0x00
-    db $15, $17, $53 ; Sprite 0x53 (0x0170, 0x0150, U) size: 0x00
-    db $15, $1A, $53 ; Sprite 0x53 (0x01A0, 0x0150, U) size: 0x00
-    db $18, $1A, $53 ; Sprite 0x53 (0x01A0, 0x0180, U) size: 0x00
-    db $18, $17, $53 ; Sprite 0x53 (0x0170, 0x0180, U) size: 0x00
-    db $18, $14, $53 ; Sprite 0x53 (0x0140, 0x0180, U) size: 0x00
-    db $18, $F7, $19 ; Overlord 19 (0x0170, 0x0180, U)
-    db $FF ; END
+    db $15, $14, $53
+    db $15, $17, $53
+    db $15, $1A, $53
+    db $18, $1A, $53
+    db $18, $17, $53
+    db $18, $14, $53
+    db $18, $F7, $19
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7402,10 +7405,10 @@ RoomData_Sprites_Room00C8:
 RoomData_Sprites_Room00C9:
 {
     db $00 ; Unlayered OAM
-    db $05, $10, $4F ; Sprite 0x4F (0x0100, 0x0050, U) size: 0x00
-    db $06, $0F, $4F ; Sprite 0x4F (0x00F0, 0x0060, U) size: 0x00
-    db $07, $10, $4F ; Sprite 0x4F (0x0100, 0x0070, U) size: 0x00
-    db $FF ; END
+    db $05, $10, $4F
+    db $06, $0F, $4F
+    db $07, $10, $4F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7414,19 +7417,19 @@ RoomData_Sprites_Room00C9:
 RoomData_Sprites_Room00CB:
 {
     db $01 ; Layered OAM
-    db $04, $14, $D1 ; Sprite 0xD1 (0x0140, 0x0040, U) size: 0x00
-    db $89, $08, $80 ; Sprite 0x80 (0x0080, 0x0090, L) size: 0x00
-    db $8A, $10, $A5 ; Sprite 0xA5 (0x0100, 0x00A0, L) size: 0x00
-    db $0A, $13, $8F ; Sprite 0x8F (0x0130, 0x00A0, U) size: 0x00
-    db $8A, $16, $5B ; Sprite 0x5B (0x0160, 0x00A0, L) size: 0x00
-    db $0A, $1C, $8F ; Sprite 0x8F (0x01C0, 0x00A0, U) size: 0x00
-    db $10, $0C, $A7 ; Sprite 0xA7 (0x00C0, 0x0100, U) size: 0x00
-    db $95, $18, $A6 ; Sprite 0xA6 (0x0180, 0x0150, L) size: 0x00
-    db $97, $08, $A6 ; Sprite 0xA6 (0x0080, 0x0170, L) size: 0x00
-    db $17, $0B, $8F ; Sprite 0x8F (0x00B0, 0x0170, U) size: 0x00
-    db $18, $0C, $8F ; Sprite 0x8F (0x00C0, 0x0180, U) size: 0x00
-    db $1C, $14, $D1 ; Sprite 0xD1 (0x0140, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $04, $14, $D1
+    db $89, $08, $80
+    db $8A, $10, $A5
+    db $0A, $13, $8F
+    db $8A, $16, $5B
+    db $0A, $1C, $8F
+    db $10, $0C, $A7
+    db $95, $18, $A6
+    db $97, $08, $A6
+    db $17, $0B, $8F
+    db $18, $0C, $8F
+    db $1C, $14, $D1
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7435,21 +7438,21 @@ RoomData_Sprites_Room00CB:
 RoomData_Sprites_Room00CC:
 {
     db $01 ; Layered OAM
-    db $04, $13, $80 ; Sprite 0x80 (0x0130, 0x0040, U) size: 0x00
-    db $89, $0B, $D1 ; Sprite 0xD1 (0x00B0, 0x0090, L) size: 0x00
-    db $8A, $08, $A5 ; Sprite 0xA5 (0x0080, 0x00A0, L) size: 0x00
-    db $8A, $0E, $5B ; Sprite 0x5B (0x00E0, 0x00A0, L) size: 0x00
-    db $0B, $0C, $8F ; Sprite 0x8F (0x00C0, 0x00B0, U) size: 0x00
-    db $8C, $10, $A6 ; Sprite 0xA6 (0x0100, 0x00C0, L) size: 0x00
-    db $8C, $18, $A5 ; Sprite 0xA5 (0x0180, 0x00C0, L) size: 0x00
-    db $94, $0E, $80 ; Sprite 0x80 (0x00E0, 0x0140, L) size: 0x00
-    db $15, $1C, $8F ; Sprite 0x8F (0x01C0, 0x0150, U) size: 0x00
-    db $96, $06, $5B ; Sprite 0x5B (0x0060, 0x0160, L) size: 0x00
-    db $96, $09, $5B ; Sprite 0x5B (0x0090, 0x0160, L) size: 0x00
-    db $98, $09, $A6 ; Sprite 0xA6 (0x0090, 0x0180, L) size: 0x00
-    db $16, $1C, $8F ; Sprite 0x8F (0x01C0, 0x0160, U) size: 0x00
-    db $9C, $07, $D1 ; Sprite 0xD1 (0x0070, 0x01C0, L) size: 0x00
-    db $FF ; END
+    db $04, $13, $80
+    db $89, $0B, $D1
+    db $8A, $08, $A5
+    db $8A, $0E, $5B
+    db $0B, $0C, $8F
+    db $8C, $10, $A6
+    db $8C, $18, $A5
+    db $94, $0E, $80
+    db $15, $1C, $8F
+    db $96, $06, $5B
+    db $96, $09, $5B
+    db $98, $09, $A6
+    db $16, $1C, $8F
+    db $9C, $07, $D1
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7458,15 +7461,15 @@ RoomData_Sprites_Room00CC:
 RoomData_Sprites_Room00CE:
 {
     db $00 ; Unlayered OAM
-    db $05, $16, $23 ; Sprite 0x23 (0x0160, 0x0050, U) size: 0x00
-    db $05, $19, $23 ; Sprite 0x23 (0x0190, 0x0050, U) size: 0x00
-    db $05, $1C, $04 ; Sprite 0x04 (0x01C0, 0x0050, U) size: 0x00
-    db $09, $14, $1C ; Sprite 0x1C (0x0140, 0x0090, U) size: 0x00
-    db $08, $1B, $24 ; Sprite 0x24 (0x01B0, 0x0080, U) size: 0x00
-    db $08, $1C, $24 ; Sprite 0x24 (0x01C0, 0x0080, U) size: 0x00
-    db $09, $1B, $24 ; Sprite 0x24 (0x01B0, 0x0090, U) size: 0x00
-    db $09, $1C, $24 ; Sprite 0x24 (0x01C0, 0x0090, U) size: 0x00
-    db $FF ; END
+    db $05, $16, $23
+    db $05, $19, $23
+    db $05, $1C, $04
+    db $09, $14, $1C
+    db $08, $1B, $24
+    db $08, $1C, $24
+    db $09, $1B, $24
+    db $09, $1C, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7475,18 +7478,18 @@ RoomData_Sprites_Room00CE:
 RoomData_Sprites_Room00D0:
 {
     db $00 ; Unlayered OAM
-    db $05, $0B, $6F ; Sprite 0x6F (0x00B0, 0x0050, U) size: 0x00
-    db $07, $09, $41 ; Sprite 0x41 (0x0090, 0x0070, U) size: 0x00
-    db $07, $17, $6F ; Sprite 0x6F (0x0170, 0x0070, U) size: 0x00
-    db $0B, $15, $44 ; Sprite 0x44 (0x0150, 0x00B0, U) size: 0x00
-    db $0C, $09, $6F ; Sprite 0x6F (0x0090, 0x00C0, U) size: 0x00
-    db $0F, $08, $6F ; Sprite 0x6F (0x0080, 0x00F0, U) size: 0x00
-    db $10, $63, $41 ; Sprite 0x41 (0x0030, 0x0100, U) size: 0x03
-    db $14, $09, $41 ; Sprite 0x41 (0x0090, 0x0140, U) size: 0x00
-    db $16, $1B, $44 ; Sprite 0x44 (0x01B0, 0x0160, U) size: 0x00
-    db $19, $06, $6F ; Sprite 0x6F (0x0060, 0x0190, U) size: 0x00
-    db $19, $1A, $44 ; Sprite 0x44 (0x01A0, 0x0190, U) size: 0x00
-    db $FF ; END
+    db $05, $0B, $6F
+    db $07, $09, $41
+    db $07, $17, $6F
+    db $0B, $15, $44
+    db $0C, $09, $6F
+    db $0F, $08, $6F
+    db $10, $63, $41
+    db $14, $09, $41
+    db $16, $1B, $44
+    db $19, $06, $6F
+    db $19, $1A, $44
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7495,15 +7498,15 @@ RoomData_Sprites_Room00D0:
 RoomData_Sprites_Room00D1:
 {
     db $00 ; Unlayered OAM
-    db $06, $14, $61 ; Sprite 0x61 (0x0140, 0x0060, U) size: 0x00
-    db $06, $1B, $61 ; Sprite 0x61 (0x01B0, 0x0060, U) size: 0x00
-    db $07, $04, $9B ; Sprite 0x9B (0x0040, 0x0070, U) size: 0x00
-    db $08, $0C, $23 ; Sprite 0x23 (0x00C0, 0x0080, U) size: 0x00
-    db $09, $05, $C6 ; Sprite 0xC6 (0x0050, 0x0090, U) size: 0x00
-    db $0B, $04, $20 ; Sprite 0x20 (0x0040, 0x00B0, U) size: 0x00
-    db $0B, $0B, $20 ; Sprite 0x20 (0x00B0, 0x00B0, U) size: 0x00
-    db $0B, $1B, $20 ; Sprite 0x20 (0x01B0, 0x00B0, U) size: 0x00
-    db $FF ; END
+    db $06, $14, $61
+    db $06, $1B, $61
+    db $07, $04, $9B
+    db $08, $0C, $23
+    db $09, $05, $C6
+    db $0B, $04, $20
+    db $0B, $0B, $20
+    db $0B, $1B, $20
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7512,17 +7515,17 @@ RoomData_Sprites_Room00D1:
 RoomData_Sprites_Room00D2:
 {
     db $00 ; Unlayered OAM
-    db $06, $18, $9B ; Sprite 0x9B (0x0180, 0x0060, U) size: 0x00
-    db $07, $1A, $4E ; Sprite 0x4E (0x01A0, 0x0070, U) size: 0x00
-    db $08, $13, $9B ; Sprite 0x9B (0x0130, 0x0080, U) size: 0x00
-    db $08, $1C, $9B ; Sprite 0x9B (0x01C0, 0x0080, U) size: 0x00
-    db $0A, $18, $61 ; Sprite 0x61 (0x0180, 0x00A0, U) size: 0x00
-    db $0C, $16, $4E ; Sprite 0x4E (0x0160, 0x00C0, U) size: 0x00
-    db $0D, $13, $4E ; Sprite 0x4E (0x0130, 0x00D0, U) size: 0x00
-    db $10, $13, $9B ; Sprite 0x9B (0x0130, 0x0100, U) size: 0x00
-    db $14, $14, $4E ; Sprite 0x4E (0x0140, 0x0140, U) size: 0x00
-    db $14, $1C, $4E ; Sprite 0x4E (0x01C0, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $06, $18, $9B
+    db $07, $1A, $4E
+    db $08, $13, $9B
+    db $08, $1C, $9B
+    db $0A, $18, $61
+    db $0C, $16, $4E
+    db $0D, $13, $4E
+    db $10, $13, $9B
+    db $14, $14, $4E
+    db $14, $1C, $4E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7531,12 +7534,12 @@ RoomData_Sprites_Room00D2:
 RoomData_Sprites_Room00D5:
 {
     db $00 ; Unlayered OAM
-    db $09, $0E, $96 ; Sprite 0x96 (0x00E0, 0x0090, U) size: 0x00
-    db $0D, $01, $95 ; Sprite 0x95 (0x0010, 0x00D0, U) size: 0x00
-    db $11, $0E, $96 ; Sprite 0x96 (0x00E0, 0x0110, U) size: 0x00
-    db $15, $01, $95 ; Sprite 0x95 (0x0010, 0x0150, U) size: 0x00
-    db $15, $04, $26 ; Sprite 0x26 (0x0040, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $09, $0E, $96
+    db $0D, $01, $95
+    db $11, $0E, $96
+    db $15, $01, $95
+    db $15, $04, $26
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7545,10 +7548,10 @@ RoomData_Sprites_Room00D5:
 RoomData_Sprites_Room00D6:
 {
     db $00 ; Unlayered OAM
-    db $02, $07, $97 ; Sprite 0x97 (0x0070, 0x0020, U) size: 0x00
-    db $16, $03, $C5 ; Sprite 0xC5 (0x0030, 0x0160, U) size: 0x00
-    db $16, $0C, $C5 ; Sprite 0xC5 (0x00C0, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $02, $07, $97
+    db $16, $03, $C5
+    db $16, $0C, $C5
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7557,18 +7560,18 @@ RoomData_Sprites_Room00D6:
 RoomData_Sprites_Room00D8:
 {
     db $00 ; Unlayered OAM
-    db $05, $17, $84 ; Sprite 0x84 (0x0170, 0x0050, U) size: 0x00
-    db $05, $18, $84 ; Sprite 0x84 (0x0180, 0x0050, U) size: 0x00
-    db $09, $17, $4F ; Sprite 0x4F (0x0170, 0x0090, U) size: 0x00
-    db $09, $18, $4F ; Sprite 0x4F (0x0180, 0x0090, U) size: 0x00
-    db $0A, $16, $4F ; Sprite 0x4F (0x0160, 0x00A0, U) size: 0x00
-    db $0A, $19, $4F ; Sprite 0x4F (0x0190, 0x00A0, U) size: 0x00
-    db $0B, $16, $4E ; Sprite 0x4E (0x0160, 0x00B0, U) size: 0x00
-    db $0B, $19, $4E ; Sprite 0x4E (0x0190, 0x00B0, U) size: 0x00
-    db $14, $17, $84 ; Sprite 0x84 (0x0170, 0x0140, U) size: 0x00
-    db $16, $18, $A7 ; Sprite 0xA7 (0x0180, 0x0160, U) size: 0x00
-    db $1B, $18, $A7 ; Sprite 0xA7 (0x0180, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $05, $17, $84
+    db $05, $18, $84
+    db $09, $17, $4F
+    db $09, $18, $4F
+    db $0A, $16, $4F
+    db $0A, $19, $4F
+    db $0B, $16, $4E
+    db $0B, $19, $4E
+    db $14, $17, $84
+    db $16, $18, $A7
+    db $1B, $18, $A7
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7577,11 +7580,11 @@ RoomData_Sprites_Room00D8:
 RoomData_Sprites_Room00D9:
 {
     db $00 ; Unlayered OAM
-    db $14, $EC, $02 ; Overlord 02 (0x00C0, 0x0140, U)
-    db $15, $18, $83 ; Sprite 0x83 (0x0180, 0x0150, U) size: 0x00
-    db $18, $18, $83 ; Sprite 0x83 (0x0180, 0x0180, U) size: 0x00
-    db $1B, $18, $83 ; Sprite 0x83 (0x0180, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $14, $EC, $02
+    db $15, $18, $83
+    db $18, $18, $83
+    db $1B, $18, $83
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7590,9 +7593,9 @@ RoomData_Sprites_Room00D9:
 RoomData_Sprites_Room00DA:
 {
     db $00 ; Unlayered OAM
-    db $18, $07, $15 ; Sprite 0x15 (0x0070, 0x0180, U) size: 0x00
-    db $18, $08, $15 ; Sprite 0x15 (0x0080, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $18, $07, $15
+    db $18, $08, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7601,14 +7604,14 @@ RoomData_Sprites_Room00DA:
 RoomData_Sprites_Room00DB:
 {
     db $01 ; Layered OAM
-    db $04, $03, $D1 ; Sprite 0xD1 (0x0030, 0x0040, U) size: 0x00
-    db $8A, $0E, $5B ; Sprite 0x5B (0x00E0, 0x00A0, L) size: 0x00
-    db $8B, $17, $A6 ; Sprite 0xA6 (0x0170, 0x00B0, L) size: 0x00
-    db $8C, $0F, $A5 ; Sprite 0xA5 (0x00F0, 0x00C0, L) size: 0x00
-    db $10, $0B, $8F ; Sprite 0x8F (0x00B0, 0x0100, U) size: 0x00
-    db $10, $14, $80 ; Sprite 0x80 (0x0140, 0x0100, U) size: 0x00
-    db $95, $0F, $A5 ; Sprite 0xA5 (0x00F0, 0x0150, L) size: 0x00
-    db $FF ; END
+    db $04, $03, $D1
+    db $8A, $0E, $5B
+    db $8B, $17, $A6
+    db $8C, $0F, $A5
+    db $10, $0B, $8F
+    db $10, $14, $80
+    db $95, $0F, $A5
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7617,18 +7620,18 @@ RoomData_Sprites_Room00DB:
 RoomData_Sprites_Room00DC:
 {
     db $01 ; Layered OAM
-    db $8A, $09, $A5 ; Sprite 0xA5 (0x0090, 0x00A0, L) size: 0x00
-    db $8A, $0E, $5C ; Sprite 0x5C (0x00E0, 0x00A0, L) size: 0x00
-    db $8C, $0F, $A6 ; Sprite 0xA6 (0x00F0, 0x00C0, L) size: 0x00
-    db $10, $0B, $8F ; Sprite 0x8F (0x00B0, 0x0100, U) size: 0x00
-    db $10, $16, $8F ; Sprite 0x8F (0x0160, 0x0100, U) size: 0x00
-    db $96, $0C, $D1 ; Sprite 0xD1 (0x00C0, 0x0160, L) size: 0x00
-    db $96, $0F, $A6 ; Sprite 0xA6 (0x00F0, 0x0160, L) size: 0x00
-    db $97, $09, $A5 ; Sprite 0xA5 (0x0090, 0x0170, L) size: 0x00
-    db $97, $16, $80 ; Sprite 0x80 (0x0160, 0x0170, L) size: 0x00
-    db $1C, $05, $80 ; Sprite 0x80 (0x0050, 0x01C0, U) size: 0x00
-    db $1C, $0F, $8F ; Sprite 0x8F (0x00F0, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $8A, $09, $A5
+    db $8A, $0E, $5C
+    db $8C, $0F, $A6
+    db $10, $0B, $8F
+    db $10, $16, $8F
+    db $96, $0C, $D1
+    db $96, $0F, $A6
+    db $97, $09, $A5
+    db $97, $16, $80
+    db $1C, $05, $80
+    db $1C, $0F, $8F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7637,10 +7640,10 @@ RoomData_Sprites_Room00DC:
 RoomData_Sprites_Room00DE:
 {
     db $00 ; Unlayered OAM
-    db $05, $17, $A3 ; Sprite 0xA3 (0x0170, 0x0050, U) size: 0x00
-    db $05, $17, $A4 ; Sprite 0xA4 (0x0170, 0x0050, U) size: 0x00
-    db $05, $17, $A2 ; Sprite 0xA2 (0x0170, 0x0050, U) size: 0x00
-    db $FF ; END
+    db $05, $17, $A3
+    db $05, $17, $A4
+    db $05, $17, $A2
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7649,9 +7652,9 @@ RoomData_Sprites_Room00DE:
 RoomData_Sprites_Room00DF:
 {
     db $00 ; Unlayered OAM
-    db $95, $0C, $18 ; Sprite 0x18 (0x00C0, 0x0150, L) size: 0x00
-    db $96, $0C, $18 ; Sprite 0x18 (0x00C0, 0x0160, L) size: 0x00
-    db $FF ; END
+    db $95, $0C, $18
+    db $96, $0C, $18
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7660,11 +7663,11 @@ RoomData_Sprites_Room00DF:
 RoomData_Sprites_Room00E0:
 {
     db $00 ; Unlayered OAM
-    db $06, $04, $6A ; Sprite 0x6A (0x0040, 0x0060, U) size: 0x00
-    db $06, $0B, $6A ; Sprite 0x6A (0x00B0, 0x0060, U) size: 0x00
-    db $06, $1A, $44 ; Sprite 0x44 (0x01A0, 0x0060, U) size: 0x00
-    db $09, $1A, $44 ; Sprite 0x44 (0x01A0, 0x0090, U) size: 0x00
-    db $FF ; END
+    db $06, $04, $6A
+    db $06, $0B, $6A
+    db $06, $1A, $44
+    db $09, $1A, $44
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7673,9 +7676,9 @@ RoomData_Sprites_Room00E0:
 RoomData_Sprites_Room00E1:
 {
     db $00 ; Unlayered OAM
-    db $0D, $17, $EB ; Sprite 0xEB (0x0170, 0x00D0, U) size: 0x00
-    db $92, $07, $29 ; Sprite 0x29 (0x0070, 0x0120, L) size: 0x00
-    db $FF ; END
+    db $0D, $17, $EB
+    db $92, $07, $29
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7684,12 +7687,12 @@ RoomData_Sprites_Room00E1:
 RoomData_Sprites_Room00E2:
 {
     db $00 ; Unlayered OAM
-    db $06, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0060, U) size: 0x00
-    db $06, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0060, U) size: 0x00
-    db $07, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0070, U) size: 0x00
-    db $07, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0070, U) size: 0x00
-    db $10, $13, $EB ; Sprite 0xEB (0x0130, 0x0100, U) size: 0x00
-    db $FF ; END
+    db $06, $07, $E3
+    db $06, $08, $E3
+    db $07, $07, $E3
+    db $07, $08, $E3
+    db $10, $13, $EB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7698,8 +7701,8 @@ RoomData_Sprites_Room00E2:
 RoomData_Sprites_Room00E3:
 {
     db $00 ; Unlayered OAM
-    db $85, $17, $3A ; Sprite 0x3A (0x0170, 0x0050, L) size: 0x00
-    db $FF ; END
+    db $85, $17, $3A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7708,11 +7711,11 @@ RoomData_Sprites_Room00E3:
 RoomData_Sprites_Room00E4:
 {
     db $00 ; Unlayered OAM
-    db $07, $19, $6F ; Sprite 0x6F (0x0190, 0x0070, U) size: 0x00
-    db $08, $18, $6F ; Sprite 0x6F (0x0180, 0x0080, U) size: 0x00
-    db $09, $17, $6F ; Sprite 0x6F (0x0170, 0x0090, U) size: 0x00
-    db $16, $06, $AD ; Sprite 0xAD (0x0060, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $07, $19, $6F
+    db $08, $18, $6F
+    db $09, $17, $6F
+    db $16, $06, $AD
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7721,13 +7724,13 @@ RoomData_Sprites_Room00E4:
 RoomData_Sprites_Room00E5:
 {
     db $00 ; Unlayered OAM
-    db $09, $0F, $6F ; Sprite 0x6F (0x00F0, 0x0090, U) size: 0x00
-    db $09, $10, $6F ; Sprite 0x6F (0x0100, 0x0090, U) size: 0x00
-    db $09, $11, $6F ; Sprite 0x6F (0x0110, 0x0090, U) size: 0x00
-    db $0E, $1B, $6F ; Sprite 0x6F (0x01B0, 0x00E0, U) size: 0x00
-    db $12, $0F, $6F ; Sprite 0x6F (0x00F0, 0x0120, U) size: 0x00
-    db $12, $11, $6F ; Sprite 0x6F (0x0110, 0x0120, U) size: 0x00
-    db $FF ; END
+    db $09, $0F, $6F
+    db $09, $10, $6F
+    db $09, $11, $6F
+    db $0E, $1B, $6F
+    db $12, $0F, $6F
+    db $12, $11, $6F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7736,12 +7739,12 @@ RoomData_Sprites_Room00E5:
 RoomData_Sprites_Room00E6:
 {
     db $00 ; Unlayered OAM
-    db $0B, $1B, $6F ; Sprite 0x6F (0x01B0, 0x00B0, U) size: 0x00
-    db $0F, $17, $6F ; Sprite 0x6F (0x0170, 0x00F0, U) size: 0x00
-    db $13, $13, $6F ; Sprite 0x6F (0x0130, 0x0130, U) size: 0x00
-    db $17, $0F, $6F ; Sprite 0x6F (0x00F0, 0x0170, U) size: 0x00
-    db $1B, $0B, $6F ; Sprite 0x6F (0x00B0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $0B, $1B, $6F
+    db $0F, $17, $6F
+    db $13, $13, $6F
+    db $17, $0F, $6F
+    db $1B, $0B, $6F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7750,14 +7753,14 @@ RoomData_Sprites_Room00E6:
 RoomData_Sprites_Room00E7:
 {
     db $00 ; Unlayered OAM
-    db $04, $10, $6F ; Sprite 0x6F (0x0100, 0x0040, U) size: 0x00
-    db $04, $13, $6F ; Sprite 0x6F (0x0130, 0x0040, U) size: 0x00
-    db $0B, $15, $6F ; Sprite 0x6F (0x0150, 0x00B0, U) size: 0x00
-    db $0C, $0B, $6F ; Sprite 0x6F (0x00B0, 0x00C0, U) size: 0x00
-    db $0D, $0B, $6F ; Sprite 0x6F (0x00B0, 0x00D0, U) size: 0x00
-    db $0D, $15, $6F ; Sprite 0x6F (0x0150, 0x00D0, U) size: 0x00
-    db $0F, $15, $6F ; Sprite 0x6F (0x0150, 0x00F0, U) size: 0x00
-    db $FF ; END
+    db $04, $10, $6F
+    db $04, $13, $6F
+    db $0B, $15, $6F
+    db $0C, $0B, $6F
+    db $0D, $0B, $6F
+    db $0D, $15, $6F
+    db $0F, $15, $6F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7766,11 +7769,11 @@ RoomData_Sprites_Room00E7:
 RoomData_Sprites_Room00E8:
 {
     db $00 ; Unlayered OAM
-    db $05, $07, $26 ; Sprite 0x26 (0x0070, 0x0050, U) size: 0x00
-    db $08, $17, $26 ; Sprite 0x26 (0x0170, 0x0080, U) size: 0x00
-    db $0C, $07, $26 ; Sprite 0x26 (0x0070, 0x00C0, U) size: 0x00
-    db $0C, $19, $26 ; Sprite 0x26 (0x0190, 0x00C0, U) size: 0x00
-    db $FF ; END
+    db $05, $07, $26
+    db $08, $17, $26
+    db $0C, $07, $26
+    db $0C, $19, $26
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7779,8 +7782,8 @@ RoomData_Sprites_Room00E8:
 RoomData_Sprites_Room00EA:
 {
     db $00 ; Unlayered OAM
-    db $0B, $0B, $EB ; Sprite 0xEB (0x00B0, 0x00B0, U) size: 0x00
-    db $FF ; END
+    db $0B, $0B, $EB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7789,8 +7792,8 @@ RoomData_Sprites_Room00EA:
 RoomData_Sprites_Room00EB:
 {
     db $00 ; Unlayered OAM
-    db $14, $17, $93 ; Sprite 0x93 (0x0170, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $14, $17, $93
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7799,12 +7802,12 @@ RoomData_Sprites_Room00EB:
 RoomData_Sprites_Room00EE:
 {
     db $00 ; Unlayered OAM
-    db $04, $10, $18 ; Sprite 0x18 (0x0100, 0x0040, U) size: 0x00
-    db $0E, $0B, $18 ; Sprite 0x18 (0x00B0, 0x00E0, U) size: 0x00
-    db $1C, $09, $18 ; Sprite 0x18 (0x0090, 0x01C0, U) size: 0x00
-    db $0B, $03, $24 ; Sprite 0x24 (0x0030, 0x00B0, U) size: 0x00
-    db $0C, $1C, $24 ; Sprite 0x24 (0x01C0, 0x00C0, U) size: 0x00
-    db $FF ; END
+    db $04, $10, $18
+    db $0E, $0B, $18
+    db $1C, $09, $18
+    db $0B, $03, $24
+    db $0C, $1C, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7813,11 +7816,11 @@ RoomData_Sprites_Room00EE:
 RoomData_Sprites_Room00EF:
 {
     db $00 ; Unlayered OAM
-    db $09, $17, $18 ; Sprite 0x18 (0x0170, 0x0090, U) size: 0x00
-    db $0A, $14, $18 ; Sprite 0x18 (0x0140, 0x00A0, U) size: 0x00
-    db $0A, $1B, $18 ; Sprite 0x18 (0x01B0, 0x00A0, U) size: 0x00
-    db $06, $18, $1E ; Sprite 0x1E (0x0180, 0x0060, U) size: 0x00
-    db $FF ; END
+    db $09, $17, $18
+    db $0A, $14, $18
+    db $0A, $1B, $18
+    db $06, $18, $1E
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7826,17 +7829,17 @@ RoomData_Sprites_Room00EF:
 RoomData_Sprites_Room00F0:
 {
     db $00 ; Unlayered OAM
-    db $03, $09, $6F ; Sprite 0x6F (0x0090, 0x0030, U) size: 0x00
-    db $03, $10, $6F ; Sprite 0x6F (0x0100, 0x0030, U) size: 0x00
-    db $04, $08, $6F ; Sprite 0x6F (0x0080, 0x0040, U) size: 0x00
-    db $04, $0A, $6F ; Sprite 0x6F (0x00A0, 0x0040, U) size: 0x00
-    db $07, $09, $6F ; Sprite 0x6F (0x0090, 0x0070, U) size: 0x00
-    db $0A, $03, $6F ; Sprite 0x6F (0x0030, 0x00A0, U) size: 0x00
-    db $0A, $05, $6F ; Sprite 0x6F (0x0050, 0x00A0, U) size: 0x00
-    db $0C, $0E, $6F ; Sprite 0x6F (0x00E0, 0x00C0, U) size: 0x00
-    db $10, $1B, $AD ; Sprite 0xAD (0x01B0, 0x0100, U) size: 0x00
-    db $13, $13, $6F ; Sprite 0x6F (0x0130, 0x0130, U) size: 0x00
-    db $FF ; END
+    db $03, $09, $6F
+    db $03, $10, $6F
+    db $04, $08, $6F
+    db $04, $0A, $6F
+    db $07, $09, $6F
+    db $0A, $03, $6F
+    db $0A, $05, $6F
+    db $0C, $0E, $6F
+    db $10, $1B, $AD
+    db $13, $13, $6F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7845,17 +7848,17 @@ RoomData_Sprites_Room00F0:
 RoomData_Sprites_Room00F1:
 {
     db $00 ; Unlayered OAM
-    db $10, $19, $6F ; Sprite 0x6F (0x0190, 0x0100, U) size: 0x00
-    db $10, $1C, $6F ; Sprite 0x6F (0x01C0, 0x0100, U) size: 0x00
-    db $11, $18, $6F ; Sprite 0x6F (0x0180, 0x0110, U) size: 0x00
-    db $11, $1D, $6F ; Sprite 0x6F (0x01D0, 0x0110, U) size: 0x00
-    db $12, $17, $6F ; Sprite 0x6F (0x0170, 0x0120, U) size: 0x00
-    db $12, $1E, $6F ; Sprite 0x6F (0x01E0, 0x0120, U) size: 0x00
-    db $1B, $06, $6F ; Sprite 0x6F (0x0060, 0x01B0, U) size: 0x00
-    db $1B, $09, $6F ; Sprite 0x6F (0x0090, 0x01B0, U) size: 0x00
-    db $1C, $07, $6F ; Sprite 0x6F (0x0070, 0x01C0, U) size: 0x00
-    db $1C, $08, $6F ; Sprite 0x6F (0x0080, 0x01C0, U) size: 0x00
-    db $FF ; END
+    db $10, $19, $6F
+    db $10, $1C, $6F
+    db $11, $18, $6F
+    db $11, $1D, $6F
+    db $12, $17, $6F
+    db $12, $1E, $6F
+    db $1B, $06, $6F
+    db $1B, $09, $6F
+    db $1C, $07, $6F
+    db $1C, $08, $6F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7864,8 +7867,8 @@ RoomData_Sprites_Room00F1:
 RoomData_Sprites_Room00F3:
 {
     db $00 ; Unlayered OAM
-    db $14, $06, $78 ; Sprite 0x78 (0x0060, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $14, $06, $78
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7874,8 +7877,8 @@ RoomData_Sprites_Room00F3:
 RoomData_Sprites_Room00F4:
 {
     db $00 ; Unlayered OAM
-    db $14, $17, $32 ; Sprite 0x32 (0x0170, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $14, $17, $32
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7884,8 +7887,8 @@ RoomData_Sprites_Room00F4:
 RoomData_Sprites_Room00F5:
 {
     db $00 ; Unlayered OAM
-    db $14, $08, $32 ; Sprite 0x32 (0x0080, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $14, $08, $32
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7894,11 +7897,11 @@ RoomData_Sprites_Room00F5:
 RoomData_Sprites_Room00F9:
 {
     db $00 ; Unlayered OAM
-    db $05, $1A, $18 ; Sprite 0x18 (0x01A0, 0x0050, U) size: 0x00
-    db $0F, $15, $18 ; Sprite 0x18 (0x0150, 0x00F0, U) size: 0x00
-    db $13, $11, $18 ; Sprite 0x18 (0x0110, 0x0130, U) size: 0x00
-    db $17, $0C, $18 ; Sprite 0x18 (0x00C0, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $05, $1A, $18
+    db $0F, $15, $18
+    db $13, $11, $18
+    db $17, $0C, $18
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7907,10 +7910,10 @@ RoomData_Sprites_Room00F9:
 RoomData_Sprites_Room00FA:
 {
     db $00 ; Unlayered OAM
-    db $0E, $17, $E3 ; Sprite 0xE3 (0x0170, 0x00E0, U) size: 0x00
-    db $10, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0100, U) size: 0x00
-    db $11, $15, $E3 ; Sprite 0xE3 (0x0150, 0x0110, U) size: 0x00
-    db $FF ; END
+    db $0E, $17, $E3
+    db $10, $18, $E3
+    db $11, $15, $E3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7919,10 +7922,10 @@ RoomData_Sprites_Room00FA:
 RoomData_Sprites_Room00FB:
 {
     db $00 ; Unlayered OAM
-    db $0D, $17, $93 ; Sprite 0x93 (0x0170, 0x00D0, U) size: 0x00
-    db $0A, $19, $26 ; Sprite 0x26 (0x0190, 0x00A0, U) size: 0x00
-    db $12, $15, $26 ; Sprite 0x26 (0x0150, 0x0120, U) size: 0x00
-    db $FF ; END
+    db $0D, $17, $93
+    db $0A, $19, $26
+    db $12, $15, $26
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7931,7 +7934,7 @@ RoomData_Sprites_Room00FB:
 RoomData_Sprites_Room00FC:
 {
     db $00 ; Unlayered OAM
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7940,12 +7943,12 @@ RoomData_Sprites_Room00FC:
 RoomData_Sprites_Room00FD:
 {
     db $00 ; Unlayered OAM
-    db $0E, $09, $18 ; Sprite 0x18 (0x0090, 0x00E0, U) size: 0x00
-    db $08, $05, $24 ; Sprite 0x24 (0x0050, 0x0080, U) size: 0x00
-    db $08, $16, $E3 ; Sprite 0xE3 (0x0160, 0x0080, U) size: 0x00
-    db $08, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0080, U) size: 0x00
-    db $11, $0F, $24 ; Sprite 0x24 (0x00F0, 0x0110, U) size: 0x00
-    db $FF ; END
+    db $0E, $09, $18
+    db $08, $05, $24
+    db $08, $16, $E3
+    db $08, $18, $E3
+    db $11, $0F, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7954,12 +7957,12 @@ RoomData_Sprites_Room00FD:
 RoomData_Sprites_Room00FE:
 {
     db $00 ; Unlayered OAM
-    db $12, $16, $18 ; Sprite 0x18 (0x0160, 0x0120, U) size: 0x00
-    db $16, $14, $18 ; Sprite 0x18 (0x0140, 0x0160, U) size: 0x00
-    db $16, $1A, $18 ; Sprite 0x18 (0x01A0, 0x0160, U) size: 0x00
-    db $12, $18, $24 ; Sprite 0x24 (0x0180, 0x0120, U) size: 0x00
-    db $18, $18, $24 ; Sprite 0x24 (0x0180, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $12, $16, $18
+    db $16, $14, $18
+    db $16, $1A, $18
+    db $12, $18, $24
+    db $18, $18, $24
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7968,8 +7971,8 @@ RoomData_Sprites_Room00FE:
 RoomData_Sprites_Room00FF:
 {
     db $00 ; Unlayered OAM
-    db $04, $07, $BB ; Sprite 0xBB (0x0070, 0x0040, U) size: 0x00
-    db $FF ; END
+    db $04, $07, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7978,8 +7981,8 @@ RoomData_Sprites_Room00FF:
 RoomData_Sprites_Room0100:
 {
     db $00 ; Unlayered OAM
-    db $1B, $0B, $BB ; Sprite 0xBB (0x00B0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $1B, $0B, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7988,8 +7991,8 @@ RoomData_Sprites_Room0100:
 RoomData_Sprites_Room0101:
 {
     db $00 ; Unlayered OAM
-    db $13, $08, $33 ; Sprite 0x33 (0x0080, 0x0130, U) size: 0x00
-    db $FF ; END
+    db $13, $08, $33
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -7998,8 +8001,8 @@ RoomData_Sprites_Room0101:
 RoomData_Sprites_Room0102:
 {
     db $00 ; Unlayered OAM
-    db $18, $03, $1F ; Sprite 0x1F (0x0030, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $18, $03, $1F
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8008,10 +8011,10 @@ RoomData_Sprites_Room0102:
 RoomData_Sprites_Room0103:
 {
     db $00 ; Unlayered OAM
-    db $15, $06, $BC ; Sprite 0xBC (0x0060, 0x0150, U) size: 0x00
-    db $1B, $0A, $29 ; Sprite 0x29 (0x00A0, 0x01B0, U) size: 0x00
-    db $17, $17, $35 ; Sprite 0x35 (0x0170, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $15, $06, $BC
+    db $1B, $0A, $29
+    db $17, $17, $35
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8020,8 +8023,8 @@ RoomData_Sprites_Room0103:
 RoomData_Sprites_Room0104:
 {
     db $00 ; Unlayered OAM
-    db $17, $1A, $73 ; Sprite 0x73 (0x01A0, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $17, $1A, $73
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8030,8 +8033,8 @@ RoomData_Sprites_Room0104:
 RoomData_Sprites_Room0105:
 {
     db $00 ; Unlayered OAM
-    db $18, $07, $16 ; Sprite 0x16 (0x0070, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $18, $07, $16
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8040,8 +8043,8 @@ RoomData_Sprites_Room0105:
 RoomData_Sprites_Room0106:
 {
     db $00 ; Unlayered OAM
-    db $1B, $08, $BB ; Sprite 0xBB (0x0080, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $1B, $08, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8050,10 +8053,10 @@ RoomData_Sprites_Room0106:
 RoomData_Sprites_Room0107:
 {
     db $00 ; Unlayered OAM
-    db $15, $03, $3B ; Sprite 0x3B (0x0030, 0x0150, U) size: 0x00
-    db $1B, $17, $6D ; Sprite 0x6D (0x0170, 0x01B0, U) size: 0x00
-    db $1B, $18, $6D ; Sprite 0x6D (0x0180, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $15, $03, $3B
+    db $1B, $17, $6D
+    db $1B, $18, $6D
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8062,11 +8065,11 @@ RoomData_Sprites_Room0107:
 RoomData_Sprites_Room0108:
 {
     db $00 ; Unlayered OAM
-    db $16, $09, $0B ; Sprite 0x0B (0x0090, 0x0160, U) size: 0x00
-    db $16, $0C, $0B ; Sprite 0x0B (0x00C0, 0x0160, U) size: 0x00
-    db $19, $09, $0B ; Sprite 0x0B (0x0090, 0x0190, U) size: 0x00
-    db $1A, $06, $0B ; Sprite 0x0B (0x0060, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $16, $09, $0B
+    db $16, $0C, $0B
+    db $19, $09, $0B
+    db $1A, $06, $0B
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8075,8 +8078,8 @@ RoomData_Sprites_Room0108:
 RoomData_Sprites_Room0109:
 {
     db $00 ; Unlayered OAM
-    db $1B, $0A, $E9 ; Sprite 0xE9 (0x00A0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $1B, $0A, $E9
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8085,8 +8088,8 @@ RoomData_Sprites_Room0109:
 RoomData_Sprites_Room010A:
 {
     db $00 ; Unlayered OAM
-    db $04, $19, $16 ; Sprite 0x16 (0x0190, 0x0040, U) size: 0x00
-    db $FF ; END
+    db $04, $19, $16
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8095,14 +8098,14 @@ RoomData_Sprites_Room010A:
 RoomData_Sprites_Room010B:
 {
     db $00 ; Unlayered OAM
-    db $03, $0F, $06 ; Sprite 0x06 (0x00F0, 0x0030, U) size: 0x00
-    db $06, $ED, $1A ; Overlord 1A (0x00D0, 0x0060, U)
-    db $06, $F0, $1A ; Overlord 1A (0x0100, 0x0060, U)
-    db $07, $F2, $1A ; Overlord 1A (0x0120, 0x0070, U)
-    db $09, $EF, $1A ; Overlord 1A (0x00F0, 0x0090, U)
-    db $03, $12, $04 ; Sprite 0x04 (0x0120, 0x0030, U) size: 0x00
-    db $07, $0D, $15 ; Sprite 0x15 (0x00D0, 0x0070, U) size: 0x00
-    db $FF ; END
+    db $03, $0F, $06
+    db $06, $ED, $1A
+    db $06, $F0, $1A
+    db $07, $F2, $1A
+    db $09, $EF, $1A
+    db $03, $12, $04
+    db $07, $0D, $15
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8111,15 +8114,15 @@ RoomData_Sprites_Room010B:
 RoomData_Sprites_Room010C:
 {
     db $00 ; Unlayered OAM
-    db $07, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0070, U) size: 0x00
-    db $07, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0070, U) size: 0x00
-    db $08, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0080, U) size: 0x00
-    db $08, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0080, U) size: 0x00
-    db $14, $07, $83 ; Sprite 0x83 (0x0070, 0x0140, U) size: 0x00
-    db $14, $08, $83 ; Sprite 0x83 (0x0080, 0x0140, U) size: 0x00
-    db $14, $0C, $83 ; Sprite 0x83 (0x00C0, 0x0140, U) size: 0x00
-    db $1A, $0C, $83 ; Sprite 0x83 (0x00C0, 0x01A0, U) size: 0x00
-    db $FF ; END
+    db $07, $17, $E3
+    db $07, $18, $E3
+    db $08, $17, $E3
+    db $08, $18, $E3
+    db $14, $07, $83
+    db $14, $08, $83
+    db $14, $0C, $83
+    db $1A, $0C, $83
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8128,9 +8131,9 @@ RoomData_Sprites_Room010C:
 RoomData_Sprites_Room010D:
 {
     db $00 ; Unlayered OAM
-    db $16, $05, $5B ; Sprite 0x5B (0x0050, 0x0160, U) size: 0x00
-    db $16, $0A, $5C ; Sprite 0x5C (0x00A0, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $16, $05, $5B
+    db $16, $0A, $5C
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8139,9 +8142,9 @@ RoomData_Sprites_Room010D:
 RoomData_Sprites_Room010E:
 {
     db $00 ; Unlayered OAM
-    db $06, $06, $28 ; Sprite 0x28 (0x0060, 0x0060, U) size: 0x00
-    db $06, $18, $28 ; Sprite 0x28 (0x0180, 0x0060, U) size: 0x00
-    db $FF ; END
+    db $06, $06, $28
+    db $06, $18, $28
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8150,8 +8153,8 @@ RoomData_Sprites_Room010E:
 RoomData_Sprites_Room010F:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $BB ; Sprite 0xBB (0x0070, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $15, $07, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8160,8 +8163,8 @@ RoomData_Sprites_Room010F:
 RoomData_Sprites_Room0110:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $BB ; Sprite 0xBB (0x0070, 0x0150, U) size: 0x00
-    db $FF ; END
+    db $15, $07, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8170,8 +8173,8 @@ RoomData_Sprites_Room0110:
 RoomData_Sprites_Room0111:
 {
     db $00 ; Unlayered OAM
-    db $1B, $0B, $65 ; Sprite 0x65 (0x00B0, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $1B, $0B, $65
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8180,9 +8183,9 @@ RoomData_Sprites_Room0111:
 RoomData_Sprites_Room0112:
 {
     db $00 ; Unlayered OAM
-    db $0A, $07, $28 ; Sprite 0x28 (0x0070, 0x00A0, U) size: 0x00
-    db $14, $17, $BB ; Sprite 0xBB (0x0170, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $0A, $07, $28
+    db $14, $17, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8191,9 +8194,9 @@ RoomData_Sprites_Room0112:
 RoomData_Sprites_Room0114:
 {
     db $00 ; Unlayered OAM
-    db $18, $07, $72 ; Sprite 0x72 (0x0070, 0x0180, U) size: 0x00
-    db $14, $19, $28 ; Sprite 0x28 (0x0190, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $18, $07, $72
+    db $14, $19, $28
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8202,13 +8205,13 @@ RoomData_Sprites_Room0114:
 RoomData_Sprites_Room0115:
 {
     db $00 ; Unlayered OAM
-    db $16, $17, $C8 ; Sprite 0xC8 (0x0170, 0x0160, U) size: 0x00
-    db $07, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0070, U) size: 0x00
-    db $07, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0070, U) size: 0x00
-    db $08, $17, $E3 ; Sprite 0xE3 (0x0170, 0x0080, U) size: 0x00
-    db $08, $18, $E3 ; Sprite 0xE3 (0x0180, 0x0080, U) size: 0x00
-    db $09, $07, $72 ; Sprite 0x72 (0x0070, 0x0090, U) size: 0x00
-    db $FF ; END
+    db $16, $17, $C8
+    db $07, $17, $E3
+    db $07, $18, $E3
+    db $08, $17, $E3
+    db $08, $18, $E3
+    db $09, $07, $72
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8217,8 +8220,8 @@ RoomData_Sprites_Room0115:
 RoomData_Sprites_Room0116:
 {
     db $00 ; Unlayered OAM
-    db $18, $17, $72 ; Sprite 0x72 (0x0170, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $18, $17, $72
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8227,8 +8230,8 @@ RoomData_Sprites_Room0116:
 RoomData_Sprites_Room0118:
 {
     db $00 ; Unlayered OAM
-    db $1B, $19, $BB ; Sprite 0xBB (0x0190, 0x01B0, U) size: 0x00
-    db $FF ; END
+    db $1B, $19, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8237,8 +8240,8 @@ RoomData_Sprites_Room0118:
 RoomData_Sprites_Room0119:
 {
     db $00 ; Unlayered OAM
-    db $18, $0E, $29 ; Sprite 0x29 (0x00E0, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $18, $0E, $29
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8247,8 +8250,8 @@ RoomData_Sprites_Room0119:
 RoomData_Sprites_Room011A:
 {
     db $00 ; Unlayered OAM
-    db $17, $18, $28 ; Sprite 0x28 (0x0180, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $17, $18, $28
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8257,9 +8260,9 @@ RoomData_Sprites_Room011A:
 RoomData_Sprites_Room011B:
 {
     db $00 ; Unlayered OAM
-    db $09, $18, $EB ; Sprite 0xEB (0x0180, 0x0090, U) size: 0x00
-    db $96, $05, $EB ; Sprite 0xEB (0x0050, 0x0160, L) size: 0x00
-    db $FF ; END
+    db $09, $18, $EB
+    db $96, $05, $EB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8268,8 +8271,8 @@ RoomData_Sprites_Room011B:
 RoomData_Sprites_Room011C:
 {
     db $00 ; Unlayered OAM
-    db $19, $09, $B5 ; Sprite 0xB5 (0x0090, 0x0190, U) size: 0x00
-    db $FF ; END
+    db $19, $09, $B5
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8278,12 +8281,12 @@ RoomData_Sprites_Room011C:
 RoomData_Sprites_Room011E:
 {
     db $00 ; Unlayered OAM
-    db $07, $05, $E3 ; Sprite 0xE3 (0x0050, 0x0070, U) size: 0x00
-    db $07, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0070, U) size: 0x00
-    db $08, $05, $E3 ; Sprite 0xE3 (0x0050, 0x0080, U) size: 0x00
-    db $08, $06, $E3 ; Sprite 0xE3 (0x0060, 0x0080, U) size: 0x00
-    db $16, $18, $BB ; Sprite 0xBB (0x0180, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $07, $05, $E3
+    db $07, $06, $E3
+    db $08, $05, $E3
+    db $08, $06, $E3
+    db $16, $18, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8292,8 +8295,8 @@ RoomData_Sprites_Room011E:
 RoomData_Sprites_Room011F:
 {
     db $00 ; Unlayered OAM
-    db $16, $17, $BB ; Sprite 0xBB (0x0170, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $16, $17, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8302,10 +8305,10 @@ RoomData_Sprites_Room011F:
 RoomData_Sprites_Room0120:
 {
     db $00 ; Unlayered OAM
-    db $07, $17, $B2 ; Sprite 0xB2 (0x0170, 0x0070, U) size: 0x00
-    db $08, $1B, $E3 ; Sprite 0xE3 (0x01B0, 0x0080, U) size: 0x00
-    db $09, $1A, $E3 ; Sprite 0xE3 (0x01A0, 0x0090, U) size: 0x00
-    db $FF ; END
+    db $07, $17, $B2
+    db $08, $1B, $E3
+    db $09, $1A, $E3
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8314,8 +8317,8 @@ RoomData_Sprites_Room0120:
 RoomData_Sprites_Room0121:
 {
     db $00 ; Unlayered OAM
-    db $17, $04, $1A ; Sprite 0x1A (0x0040, 0x0170, U) size: 0x00
-    db $FF ; END
+    db $17, $04, $1A
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8324,9 +8327,9 @@ RoomData_Sprites_Room0121:
 RoomData_Sprites_Room0122:
 {
     db $00 ; Unlayered OAM
-    db $18, $07, $31 ; Sprite 0x31 (0x0070, 0x0180, U) size: 0x00
-    db $18, $17, $31 ; Sprite 0x31 (0x0170, 0x0180, U) size: 0x00
-    db $FF ; END
+    db $18, $07, $31
+    db $18, $17, $31
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8335,12 +8338,12 @@ RoomData_Sprites_Room0122:
 RoomData_Sprites_Room0123:
 {
     db $00 ; Unlayered OAM
-    db $16, $03, $18 ; Sprite 0x18 (0x0030, 0x0160, U) size: 0x00
-    db $16, $0C, $18 ; Sprite 0x18 (0x00C0, 0x0160, U) size: 0x00
-    db $17, $08, $18 ; Sprite 0x18 (0x0080, 0x0170, U) size: 0x00
-    db $1A, $03, $18 ; Sprite 0x18 (0x0030, 0x01A0, U) size: 0x00
-    db $05, $08, $BB ; Sprite 0xBB (0x0080, 0x0050, U) size: 0x00
-    db $FF ; END
+    db $16, $03, $18
+    db $16, $0C, $18
+    db $17, $08, $18
+    db $1A, $03, $18
+    db $05, $08, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8349,8 +8352,8 @@ RoomData_Sprites_Room0123:
 RoomData_Sprites_Room0124:
 {
     db $00 ; Unlayered OAM
-    db $16, $08, $BB ; Sprite 0xBB (0x0080, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $16, $08, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8359,8 +8362,8 @@ RoomData_Sprites_Room0124:
 RoomData_Sprites_Room0125:
 {
     db $00 ; Unlayered OAM
-    db $16, $08, $BB ; Sprite 0xBB (0x0080, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $16, $08, $BB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8369,12 +8372,12 @@ RoomData_Sprites_Room0125:
 RoomData_Sprites_Room0126:
 {
     db $00 ; Unlayered OAM
-    db $15, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0150, U) size: 0x00
-    db $15, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0150, U) size: 0x00
-    db $16, $07, $E3 ; Sprite 0xE3 (0x0070, 0x0160, U) size: 0x00
-    db $16, $08, $E3 ; Sprite 0xE3 (0x0080, 0x0160, U) size: 0x00
-    db $14, $1C, $EB ; Sprite 0xEB (0x01C0, 0x0140, U) size: 0x00
-    db $FF ; END
+    db $15, $07, $E3
+    db $15, $08, $E3
+    db $16, $07, $E3
+    db $16, $08, $E3
+    db $14, $1C, $EB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8383,8 +8386,8 @@ RoomData_Sprites_Room0126:
 RoomData_Sprites_Room0127:
 {
     db $00 ; Unlayered OAM
-    db $16, $07, $EB ; Sprite 0xEB (0x0070, 0x0160, U) size: 0x00
-    db $FF ; END
+    db $16, $07, $EB
+    db $FF ; End
 }
 
 ; ==============================================================================
@@ -8393,7 +8396,7 @@ RoomData_Sprites_Room0127:
 RoomData_Sprites_Empty:
 {
     db $00 ; Unlayered OAM
-    db $FF ; END
+    db $FF ; End
 }
 
 ; ==============================================================================

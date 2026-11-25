@@ -9,38 +9,14 @@ org $048000
 ; Misc ancilla code
 ; Dungeon overlay data
 ; Dungeon default layouts
-; Room headers
+; Room 0xheaders
 
 ; ==============================================================================
 
 ; $020000-$0233EF DATA
 Tile32_BottomLeft:
 {
-    ; 0x000A, 0x000C, 0x000B, 0x000D
-    ; $020000
-    .0
-    db $0A
-
-    ; $020001
-    .1
-    db $0C
-
-    ; $020002
-    .2
-    db $0B
-
-    ; $020003
-    .3
-    db $0D
-
-    ; $020004
-    .4
-    db $00
-
-    ; $020005
-    .5
-    db $00 
-
+    db $0A, $0C, $0B, $0D, $00, $00 ; 0x000A, 0x000C, 0x000B, 0x000D
     db $04, $0F, $11, $13, $00, $00 ; 0x0004, 0x000F, 0x0011, 0x0013
     db $12, $1C, $1E, $1D, $00, $00 ; 0x0012, 0x001C, 0x001E, 0x001D
     db $1F, $20, $22, $24, $00, $00 ; 0x001F, 0x0020, 0x0022, 0x0024
@@ -2272,31 +2248,7 @@ NULL_04B3F0:
 ; $023400-$0267EF DATA
 Tile32_BottomRight:
 {
-    ; 0x000B, 0x000A, 0x000C, 0x000E
-    ; $023400
-    .0
-    db $0B
-
-    ; $023401
-    .1
-    db $0A
-
-    ; $023402
-    .2
-    db $0C
-
-    ; $023403
-    .3
-    db $0E
-
-    ; $023404
-    .4
-    db $00
-
-    ; $023405
-    .5
-    db $00
-
+    db $0B, $0A, $0C, $0E, $00, $00 ; 0x000B, 0x000A, 0x000C, 0x000E
     db $04, $10, $12, $11, $00, $00 ; 0x0004, 0x0010, 0x0012, 0x0011
     db $13, $1D, $1C, $1E, $00, $00 ; 0x0013, 0x001D, 0x001C, 0x001E
     db $04, $21, $23, $25, $00, $00 ; 0x0004, 0x0021, 0x0023, 0x0025
@@ -4889,294 +4841,309 @@ OverlayDataPointers:
     dl OverlayData_11
     dl OverlayData_12
 }
+
+; Only two types of objects are supported by defualt on overlays.
+; The 0xA4 pit and the 0xC7 floor 4
+
+; ===========================================================================
+; Dungeon overlay-object format
+; ===========================================================================
+; Entries are 3 bytes each and terminate with db $FF, $FF.
+; xxxxxx..  yyyyyy..  iiiiiiii
+;     x - Tile8 X coordinate, 0x00-0x3F
+;     y - Tile8 Y coordinate, 0x00-0x3F
+;     i - Object ID
+;        0xA4 - Pit chunk.
+;        0xC7 - Floor chunk. The code treats this as the non-0xA4 case rather
+;               than explicitly comparing it.
     
 ; $026CF9-$026D25 DATA
 OverlayData_00:
 {
-    db $AC, $38, $A4 ; 0x00A4: Pit ⇲ (0x2B, 0x0E) Size: 00
-    db $BC, $50, $A4 ; 0x00A4: Pit ⇲ (0x2F, 0x14) Size: 00
-    db $B0, $70, $A4 ; 0x00A4: Pit ⇲ (0x2C, 0x1C) Size: 00
-    db $C8, $70, $A4 ; 0x00A4: Pit ⇲ (0x32, 0x1C) Size: 00
-    db $94, $90, $A4 ; 0x00A4: Pit ⇲ (0x25, 0x24) Size: 00
-    db $B0, $90, $A4 ; 0x00A4: Pit ⇲ (0x2C, 0x24) Size: 00
-    db $C8, $90, $A4 ; 0x00A4: Pit ⇲ (0x32, 0x24) Size: 00
-    db $94, $A8, $A4 ; 0x00A4: Pit ⇲ (0x25, 0x2A) Size: 00
-    db $DC, $A8, $A4 ; 0x00A4: Pit ⇲ (0x37, 0x2A) Size: 00
-    db $B8, $B8, $A4 ; 0x00A4: Pit ⇲ (0x2E, 0x2E) Size: 00
-    db $A0, $D0, $A4 ; 0x00A4: Pit ⇲ (0x28, 0x34) Size: 00
-    db $D0, $D0, $A4 ; 0x00A4: Pit ⇲ (0x34, 0x34) Size: 00
-    db $A4, $A8, $A4 ; 0x00A4: Pit ⇲ (0x29, 0x2A) Size: 00
-    db $A0, $70, $A4 ; 0x00A4: Pit ⇲ (0x28, 0x1C) Size: 00
+    db $AC, $38, $A4
+    db $BC, $50, $A4
+    db $B0, $70, $A4
+    db $C8, $70, $A4
+    db $94, $90, $A4
+    db $B0, $90, $A4
+    db $C8, $90, $A4
+    db $94, $A8, $A4
+    db $DC, $A8, $A4
+    db $B8, $B8, $A4
+    db $A0, $D0, $A4
+    db $D0, $D0, $A4
+    db $A4, $A8, $A4
+    db $A0, $70, $A4
     db $FF, $FF ; End
 }
 
 ; $026D25-$026D4D DATA
 OverlayData_01:
 {
-    db $58, $58, $A4 ; 0x00A4: Pit ⇲     (0x16, 0x16) Size: 00
-    db $A8, $58, $A4 ; 0x00A4: Pit ⇲     (0x2A, 0x16) Size: 00
-    db $C8, $58, $A4 ; 0x00A4: Pit ⇲     (0x32, 0x16) Size: 00
-    db $C8, $A0, $A4 ; 0x00A4: Pit ⇲     (0x32, 0x28) Size: 00
-    db $D8, $B0, $A4 ; 0x00A4: Pit ⇲     (0x36, 0x2C) Size: 00
-    db $C8, $C0, $A4 ; 0x00A4: Pit ⇲     (0x32, 0x30) Size: 00
-    db $30, $58, $A4 ; 0x00A4: Pit ⇲     (0x0C, 0x16) Size: 00
-    db $48, $58, $A4 ; 0x00A4: Pit ⇲     (0x12, 0x16) Size: 00
-    db $A0, $C8, $A4 ; 0x00A4: Pit ⇲     (0x28, 0x32) Size: 00
-    db $B8, $80, $C7 ; 0x00C7: Floor 4 ⇲ (0x2E, 0x20) Size: 00
-    db $C8, $B0, $C7 ; 0x00C7: Floor 4 ⇲ (0x32, 0x2C) Size: 00
-    db $18, $48, $C7 ; 0x00C7: Floor 4 ⇲ (0x06, 0x12) Size: 00
-    db $A0, $D8, $C7 ; 0x00C7: Floor 4 ⇲ (0x28, 0x36) Size: 00
+    db $58, $58, $A4
+    db $A8, $58, $A4
+    db $C8, $58, $A4
+    db $C8, $A0, $A4
+    db $D8, $B0, $A4
+    db $C8, $C0, $A4
+    db $30, $58, $A4
+    db $48, $58, $A4
+    db $A0, $C8, $A4
+    db $B8, $80, $C7
+    db $C8, $B0, $C7
+    db $18, $48, $C7
+    db $A0, $D8, $C7
     db $FF, $FF ; End
 }
 
 ; $026D4E-$026D76 DATA
 OverlayData_02:
 {
-    db $B8, $80, $A4 ; 0x00A4: Pit ⇲     (0x2E, 0x20) Size: 00
-    db $C8, $B0, $A4 ; 0x00A4: Pit ⇲     (0x32, 0x2C) Size: 00
-    db $18, $48, $A4 ; 0x00A4: Pit ⇲     (0x06, 0x12) Size: 00
-    db $A0, $D8, $A4 ; 0x00A4: Pit ⇲     (0x28, 0x36) Size: 00
-    db $30, $58, $C7 ; 0x00C7: Floor 4 ⇲ (0x0C, 0x16) Size: 00
-    db $48, $58, $C7 ; 0x00C7: Floor 4 ⇲ (0x12, 0x16) Size: 00
-    db $A0, $C8, $C7 ; 0x00C7: Floor 4 ⇲ (0x28, 0x32) Size: 00
-    db $C8, $A0, $C7 ; 0x00C7: Floor 4 ⇲ (0x32, 0x28) Size: 00
-    db $D8, $B0, $C7 ; 0x00C7: Floor 4 ⇲ (0x36, 0x2C) Size: 00
-    db $C8, $C0, $C7 ; 0x00C7: Floor 4 ⇲ (0x32, 0x30) Size: 00
-    db $58, $58, $C7 ; 0x00C7: Floor 4 ⇲ (0x16, 0x16) Size: 00
-    db $A8, $58, $C7 ; 0x00C7: Floor 4 ⇲ (0x2A, 0x16) Size: 00
-    db $C8, $58, $C7 ; 0x00C7: Floor 4 ⇲ (0x32, 0x16) Size: 00
+    db $B8, $80, $A4
+    db $C8, $B0, $A4
+    db $18, $48, $A4
+    db $A0, $D8, $A4
+    db $30, $58, $C7
+    db $48, $58, $C7
+    db $A0, $C8, $C7
+    db $C8, $A0, $C7
+    db $D8, $B0, $C7
+    db $C8, $C0, $C7
+    db $58, $58, $C7
+    db $A8, $58, $C7
+    db $C8, $58, $C7
     db $FF, $FF ; End
 }
 
 ; $026D77-$026D9F DATA
 OverlayData_03:
 {
-    db $B8, $38, $A4 ; 0x00A4: Pit ⇲     (0x2E, 0x0E) Size: 00
-    db $98, $50, $A4 ; 0x00A4: Pit ⇲     (0x26, 0x14) Size: 00
-    db $D8, $50, $A4 ; 0x00A4: Pit ⇲     (0x36, 0x14) Size: 00
-    db $B8, $A0, $A4 ; 0x00A4: Pit ⇲     (0x2E, 0x28) Size: 00
-    db $20, $A0, $A4 ; 0x00A4: Pit ⇲     (0x08, 0x28) Size: 00
-    db $30, $B0, $A4 ; 0x00A4: Pit ⇲     (0x0C, 0x2C) Size: 00
-    db $40, $B0, $A4 ; 0x00A4: Pit ⇲     (0x10, 0x2C) Size: 00
-    db $50, $A0, $A4 ; 0x00A4: Pit ⇲     (0x14, 0x28) Size: 00
-    db $A0, $70, $C7 ; 0x00C7: Floor 4 ⇲ (0x28, 0x1C) Size: 00
-    db $B8, $70, $C7 ; 0x00C7: Floor 4 ⇲ (0x2E, 0x1C) Size: 00
-    db $D0, $70, $C7 ; 0x00C7: Floor 4 ⇲ (0x34, 0x1C) Size: 00
-    db $A0, $B0, $C7 ; 0x00C7: Floor 4 ⇲ (0x28, 0x2C) Size: 00
-    db $D0, $B0, $C7 ; 0x00C7: Floor 4 ⇲ (0x34, 0x2C) Size: 00
+    db $B8, $38, $A4
+    db $98, $50, $A4
+    db $D8, $50, $A4
+    db $B8, $A0, $A4
+    db $20, $A0, $A4
+    db $30, $B0, $A4
+    db $40, $B0, $A4
+    db $50, $A0, $A4
+    db $A0, $70, $C7
+    db $B8, $70, $C7
+    db $D0, $70, $C7
+    db $A0, $B0, $C7
+    db $D0, $B0, $C7
     db $FF, $FF ; End
 }
 
 ; $026DA0-$026DC8 DATA
 OverlayData_04:
 {
-    db $A0, $70, $A4 ; 0x00A4: Pit ⇲     (0x28, 0x1C) Size: 00
-    db $B8, $70, $A4 ; 0x00A4: Pit ⇲     (0x2E, 0x1C) Size: 00
-    db $D0, $70, $A4 ; 0x00A4: Pit ⇲     (0x34, 0x1C) Size: 00
-    db $A0, $B0, $A4 ; 0x00A4: Pit ⇲     (0x28, 0x2C) Size: 00
-    db $D0, $B0, $A4 ; 0x00A4: Pit ⇲     (0x34, 0x2C) Size: 00
-    db $20, $A0, $C7 ; 0x00C7: Floor 4 ⇲ (0x08, 0x28) Size: 00
-    db $30, $B0, $C7 ; 0x00C7: Floor 4 ⇲ (0x0C, 0x2C) Size: 00
-    db $40, $B0, $C7 ; 0x00C7: Floor 4 ⇲ (0x10, 0x2C) Size: 00
-    db $50, $A0, $C7 ; 0x00C7: Floor 4 ⇲ (0x14, 0x28) Size: 00
-    db $B8, $38, $C7 ; 0x00C7: Floor 4 ⇲ (0x2E, 0x0E) Size: 00
-    db $98, $50, $C7 ; 0x00C7: Floor 4 ⇲ (0x26, 0x14) Size: 00
-    db $D8, $50, $C7 ; 0x00C7: Floor 4 ⇲ (0x36, 0x14) Size: 00
-    db $B8, $A0, $C7 ; 0x00C7: Floor 4 ⇲ (0x2E, 0x28) Size: 00
+    db $A0, $70, $A4
+    db $B8, $70, $A4
+    db $D0, $70, $A4
+    db $A0, $B0, $A4
+    db $D0, $B0, $A4
+    db $20, $A0, $C7
+    db $30, $B0, $C7
+    db $40, $B0, $C7
+    db $50, $A0, $C7
+    db $B8, $38, $C7
+    db $98, $50, $C7
+    db $D8, $50, $C7
+    db $B8, $A0, $C7
     db $FF, $FF ; End
 }
 
 ; $026DC9-$026DCD DATA
 OverlayData_05:
 {
-    db $78, $78, $A4 ; 0x00A4: Pit ⇲ (0x1E, 0x1E) Size: 00
+    db $78, $78, $A4
     db $FF, $FF ; End
 }
 
 ; $026DCE-$04EE02 DATA
 OverlayData_06:
 {
-    db $28, $9C, $A4 ; 0x00A4: Pit ⇲     (0x0A, 0x27) Size: 00
-    db $38, $9C, $A4 ; 0x00A4: Pit ⇲     (0x0E, 0x27) Size: 00
-    db $38, $AC, $A4 ; 0x00A4: Pit ⇲     (0x0E, 0x2B) Size: 00
-    db $18, $AC, $A4 ; 0x00A4: Pit ⇲     (0x06, 0x2B) Size: 00
-    db $18, $BC, $A4 ; 0x00A4: Pit ⇲     (0x06, 0x2F) Size: 00
-    db $18, $CC, $A4 ; 0x00A4: Pit ⇲     (0x06, 0x33) Size: 00
-    db $38, $CC, $A4 ; 0x00A4: Pit ⇲     (0x0E, 0x33) Size: 00
-    db $48, $BC, $A4 ; 0x00A4: Pit ⇲     (0x12, 0x2F) Size: 00
-    db $58, $AC, $A4 ; 0x00A4: Pit ⇲     (0x16, 0x2B) Size: 00
-    db $58, $CC, $A4 ; 0x00A4: Pit ⇲     (0x16, 0x33) Size: 00
-    db $28, $AC, $C7 ; 0x00C7: Floor 4 ⇲ (0x0A, 0x2B) Size: 00
-    db $28, $BC, $C7 ; 0x00C7: Floor 4 ⇲ (0x0A, 0x2F) Size: 00
-    db $28, $CC, $C7 ; 0x00C7: Floor 4 ⇲ (0x0A, 0x33) Size: 00
-    db $28, $DC, $C7 ; 0x00C7: Floor 4 ⇲ (0x0A, 0x37) Size: 00
-    db $48, $CC, $C7 ; 0x00C7: Floor 4 ⇲ (0x12, 0x33) Size: 00
-    db $48, $DC, $C7 ; 0x00C7: Floor 4 ⇲ (0x12, 0x37) Size: 00
-    db $48, $9C, $C7 ; 0x00C7: Floor 4 ⇲ (0x12, 0x27) Size: 00
+    db $28, $9C, $A4
+    db $38, $9C, $A4
+    db $38, $AC, $A4
+    db $18, $AC, $A4
+    db $18, $BC, $A4
+    db $18, $CC, $A4
+    db $38, $CC, $A4
+    db $48, $BC, $A4
+    db $58, $AC, $A4
+    db $58, $CC, $A4
+    db $28, $AC, $C7
+    db $28, $BC, $C7
+    db $28, $CC, $C7
+    db $28, $DC, $C7
+    db $48, $CC, $C7
+    db $48, $DC, $C7
+    db $48, $9C, $C7
     db $FF, $FF ; End
 }
 
 ; $04EE03-$04EE37 DATA
 OverlayData_07:
 {
-    db $28, $AC, $A4 ; 0x00A4: Pit ⇲     (0x0A, 0x2B) Size: 00
-    db $28, $BC, $A4 ; 0x00A4: Pit ⇲     (0x0A, 0x2F) Size: 00
-    db $28, $CC, $A4 ; 0x00A4: Pit ⇲     (0x0A, 0x33) Size: 00
-    db $28, $DC, $A4 ; 0x00A4: Pit ⇲     (0x0A, 0x37) Size: 00
-    db $48, $CC, $A4 ; 0x00A4: Pit ⇲     (0x12, 0x33) Size: 00
-    db $48, $DC, $A4 ; 0x00A4: Pit ⇲     (0x12, 0x37) Size: 00
-    db $48, $9C, $A4 ; 0x00A4: Pit ⇲     (0x12, 0x27) Size: 00
-    db $18, $AC, $C7 ; 0x00C7: Floor 4 ⇲ (0x06, 0x2B) Size: 00
-    db $18, $BC, $C7 ; 0x00C7: Floor 4 ⇲ (0x06, 0x2F) Size: 00
-    db $18, $CC, $C7 ; 0x00C7: Floor 4 ⇲ (0x06, 0x33) Size: 00
-    db $28, $9C, $C7 ; 0x00C7: Floor 4 ⇲ (0x0A, 0x27) Size: 00
-    db $38, $9C, $C7 ; 0x00C7: Floor 4 ⇲ (0x0E, 0x27) Size: 00
-    db $38, $AC, $C7 ; 0x00C7: Floor 4 ⇲ (0x0E, 0x2B) Size: 00
-    db $38, $CC, $C7 ; 0x00C7: Floor 4 ⇲ (0x0E, 0x33) Size: 00
-    db $48, $BC, $C7 ; 0x00C7: Floor 4 ⇲ (0x12, 0x2F) Size: 00
-    db $58, $AC, $C7 ; 0x00C7: Floor 4 ⇲ (0x16, 0x2B) Size: 00
-    db $58, $CC, $C7 ; 0x00C7: Floor 4 ⇲ (0x16, 0x33) Size: 00
+    db $28, $AC, $A4
+    db $28, $BC, $A4
+    db $28, $CC, $A4
+    db $28, $DC, $A4
+    db $48, $CC, $A4
+    db $48, $DC, $A4
+    db $48, $9C, $A4
+    db $18, $AC, $C7
+    db $18, $BC, $C7
+    db $18, $CC, $C7
+    db $28, $9C, $C7
+    db $38, $9C, $C7
+    db $38, $AC, $C7
+    db $38, $CC, $C7
+    db $48, $BC, $C7
+    db $58, $AC, $C7
+    db $58, $CC, $C7
     db $FF, $FF ; End
 }
 
 ; $04EE38-$04EE48 DATA
 OverlayData_08:
 {
-    db $30, $68, $A4 ; 0x00A4: Pit ⇲     (0x0C, 0x1A) Size: 00
-    db $30, $A0, $A4 ; 0x00A4: Pit ⇲     (0x0C, 0x28) Size: 00
-    db $30, $78, $C7 ; 0x00C7: Floor 4 ⇲ (0x0C, 0x1E) Size: 00
-    db $30, $90, $C7 ; 0x00C7: Floor 4 ⇲ (0x0C, 0x24) Size: 00
-    db $78, $48, $C7 ; 0x00C7: Floor 4 ⇲ (0x1E, 0x12) Size: 00
+    db $30, $68, $A4
+    db $30, $A0, $A4
+    db $30, $78, $C7
+    db $30, $90, $C7
+    db $78, $48, $C7
     db $FF, $FF ; End
 }
 
 ; $04EE49-$04EE59 DATA
 OverlayData_09:
 {
-    db $30, $78, $A4 ; 0x00A4: Pit ⇲     (0x0C, 0x1E) Size: 00
-    db $30, $90, $A4 ; 0x00A4: Pit ⇲     (0x0C, 0x24) Size: 00
-    db $78, $48, $A4 ; 0x00A4: Pit ⇲     (0x1E, 0x12) Size: 00
-    db $30, $68, $C7 ; 0x00C7: Floor 4 ⇲ (0x0C, 0x1A) Size: 00
-    db $30, $A0, $C7 ; 0x00C7: Floor 4 ⇲ (0x0C, 0x28) Size: 00
+    db $30, $78, $A4
+    db $30, $90, $A4
+    db $78, $48, $A4
+    db $30, $68, $C7
+    db $30, $A0, $C7
     db $FF, $FF ; End
 }
 
 ; $04EE5A-$04EE61 DATA
 OverlayData_0A:
 {
-    db $78, $58, $A4 ; 0x00A4: Pit ⇲     (0x1E, 0x16) Size: 00
-    db $78, $38, $C7 ; 0x00C7: Floor 4 ⇲ (0x1E, 0x0E) Size: 00
+    db $78, $58, $A4
+    db $78, $38, $C7
     db $FF, $FF ; End
 }
 
 ; $04EE62-$04EE69 DATA
 OverlayData_0B:
 {
-    db $78, $38, $A4 ; 0x00A4: Pit ⇲     (0x1E, 0x0E) Size: 00
-    db $78, $58, $C7 ; 0x00C7: Floor 4 ⇲ (0x1E, 0x16) Size: 00
+    db $78, $38, $A4
+    db $78, $58, $C7
     db $FF, $FF ; End
 }
 
 ; $04EE6A-$04EE8F DATA
 OverlayData_0C:
 {
-    db $28, $B0, $A4 ; 0x00A4: Pit ⇲     (0x0A, 0x2C) Size: 00
-    db $38, $C8, $A4 ; 0x00A4: Pit ⇲     (0x0E, 0x32) Size: 00
-    db $40, $B0, $C7 ; 0x00C7: Floor 4 ⇲ (0x10, 0x2C) Size: 00
-    db $50, $D0, $C7 ; 0x00C7: Floor 4 ⇲ (0x14, 0x34) Size: 00
-    db $1C, $58, $A4 ; 0x00A4: Pit ⇲     (0x07, 0x16) Size: 00
-    db $58, $38, $A4 ; 0x00A4: Pit ⇲     (0x16, 0x0E) Size: 00
-    db $78, $58, $A4 ; 0x00A4: Pit ⇲     (0x1E, 0x16) Size: 00
-    db $A0, $38, $A4 ; 0x00A4: Pit ⇲     (0x28, 0x0E) Size: 00
-    db $38, $38, $C7 ; 0x00C7: Floor 4 ⇲ (0x0E, 0x0E) Size: 00
-    db $58, $48, $C7 ; 0x00C7: Floor 4 ⇲ (0x16, 0x12) Size: 00
-    db $B0, $38, $C7 ; 0x00C7: Floor 4 ⇲ (0x2C, 0x0E) Size: 00
-    db $D0, $58, $C7 ; 0x00C7: Floor 4 ⇲ | TODO: Finish this comment.
+    db $28, $B0, $A4
+    db $38, $C8, $A4
+    db $40, $B0, $C7
+    db $50, $D0, $C7
+    db $1C, $58, $A4
+    db $58, $38, $A4
+    db $78, $58, $A4
+    db $A0, $38, $A4
+    db $38, $38, $C7
+    db $58, $48, $C7
+    db $B0, $38, $C7
+    db $D0, $58, $C7
     db $FF, $FF ; End
 }
 
 ; $04EE90-$04EEB5 DATA
 OverlayData_0D:
 {
-    db $40, $B0, $A4 ; 0x00A4: Pit ⇲     (0x10, 0x2C) Size: 00
-    db $50, $D0, $A4 ; 0x00A4: Pit ⇲     (0x14, 0x34) Size: 00
-    db $28, $B0, $C7 ; 0x00C7: Floor 4 ⇲ (0x0A, 0x2C) Size: 00
-    db $38, $C8, $C7 ; 0x00C7: Floor 4 ⇲ (0x0E, 0x32) Size: 00
-    db $38, $38, $A4 ; 0x00A4: Pit ⇲     (0x0E, 0x0E) Size: 00
-    db $58, $48, $A4 ; 0x00A4: Pit ⇲     (0x16, 0x12) Size: 00
-    db $B0, $38, $A4 ; 0x00A4: Pit ⇲     (0x2C, 0x0E) Size: 00
-    db $D0, $58, $A4 ; DATA
-    db $1C, $58, $C7 ; 0x00C7: Floor 4 ⇲ (0x07, 0x16) Size: 00
-    db $58, $38, $C7 ; 0x00C7: Floor 4 ⇲ (0x16, 0x0E) Size: 00
-    db $78, $58, $C7 ; 0x00C7: Floor 4 ⇲ (0x1E, 0x16) Size: 00
-    db $A0, $38, $C7 ; 0x00C7: Floor 4 ⇲ (0x28, 0x0E) Size: 00
+    db $40, $B0, $A4
+    db $50, $D0, $A4
+    db $28, $B0, $C7
+    db $38, $C8, $C7
+    db $38, $38, $A4
+    db $58, $48, $A4
+    db $B0, $38, $A4
+    db $D0, $58, $5A48
+    db $1C, $58, $C7
+    db $58, $38, $C7
+    db $78, $58, $C7
+    db $A0, $38, $C7
     db $FF, $FF ; End
 }
 
 ; $04EEB6-$04EED2 DATA
 OverlayData_0E:
 {
-    db $30, $48, $A4 ; 0x00A4: Pit ⇲     (0x0C, 0x12) Size: 00
-    db $40, $48, $A4 ; 0x00A4: Pit ⇲     (0x10, 0x12) Size: 00
-    db $50, $48, $A4 ; 0x00A4: Pit ⇲     (0x14, 0x12) Size: 00
-    db $A0, $48, $A4 ; 0x00A4: Pit ⇲     (0x28, 0x12) Size: 00
-    db $B8, $A8, $A4 ; 0x00A4: Pit ⇲     (0x2E, 0x2A) Size: 00
-    db $68, $38, $C7 ; 0x00C7: Floor 4 ⇲ (0x1A, 0x0E) Size: 00
-    db $78, $38, $C7 ; 0x00C7: Floor 4 ⇲ (0x1E, 0x0E) Size: 00
-    db $88, $38, $C7 ; 0x00C7: Floor 4 ⇲ (0x22, 0x0E) Size: 00
-    db $B8, $38, $C7 ; 0x00C7: Floor 4 ⇲ (0x2E, 0x0E) Size: 00
+    db $30, $48, $A4
+    db $40, $48, $A4
+    db $50, $48, $A4
+    db $A0, $48, $A4
+    db $B8, $A8, $A4
+    db $68, $38, $C7
+    db $78, $38, $C7
+    db $88, $38, $C7
+    db $B8, $38, $C7
     db $FF, $FF ; End
 }
 
 ; $04EED3-$04EEEF DATA
 OverlayData_0F:
 {
-    db $68, $38, $A4 ; 0x00A4: Pit ⇲     (0x1A, 0x0E) Size: 00
-    db $78, $38, $A4 ; 0x00A4: Pit ⇲     (0x1E, 0x0E) Size: 00
-    db $88, $38, $A4 ; 0x00A4: Pit ⇲     (0x22, 0x0E) Size: 00
-    db $B8, $38, $A4 ; 0x00A4: Pit ⇲     (0x2E, 0x0E) Size: 00
-    db $30, $48, $C7 ; 0x00C7: Floor 4 ⇲ (0x0C, 0x12) Size: 00
-    db $40, $48, $C7 ; 0x00C7: Floor 4 ⇲ (0x10, 0x12) Size: 00
-    db $50, $48, $C7 ; 0x00C7: Floor 4 ⇲ (0x14, 0x12) Size: 00
-    db $A0, $48, $C7 ; 0x00C7: Floor 4 ⇲ (0x28, 0x12) Size: 00
-    db $B8, $A8, $C7 ; 0x00C7: Floor 4 ⇲ (0x2E, 0x2A) Size: 00
+    db $68, $38, $A4
+    db $78, $38, $A4
+    db $88, $38, $A4
+    db $B8, $38, $A4
+    db $30, $48, $C7
+    db $40, $48, $C7
+    db $50, $48, $C7
+    db $A0, $48, $C7
+    db $B8, $A8, $C7
     db $FF, $FF ; End
 }
 
 ; $04EEF0-$04EF03 DATA
 OverlayData_10:
 {
-    db $98, $30, $A4 ; 0x00A4: Pit ⇲     (0x26, 0x0C) Size: 00
-    db $98, $48, $A4 ; 0x00A4: Pit ⇲     (0x26, 0x12) Size: 00
-    db $A0, $A0, $C7 ; 0x00C7: Floor 4 ⇲ (0x28, 0x28) Size: 00
-    db $B0, $A0, $C7 ; 0x00C7: Floor 4 ⇲ (0x2C, 0x28) Size: 00
-    db $C8, $D8, $C7 ; 0x00C7: Floor 4 ⇲ (0x32, 0x36) Size: 00
-    db $D8, $D8, $C7 ; 0x00C7: Floor 4 ⇲ (0x36, 0x36) Size: 00
+    db $98, $30, $A4
+    db $98, $48, $A4
+    db $A0, $A0, $C7
+    db $B0, $A0, $C7
+    db $C8, $D8, $C7
+    db $D8, $D8, $C7
     db $FF, $FF ; End
 }
 
 ; $04EF04-$04EF17 DATA
 OverlayData_11:
 {
-    db $98, $30, $C7 ; 0x00C7: Floor 4 ⇲ (0x26, 0x0C) Size: 00
-    db $98, $48, $C7 ; 0x00C7: Floor 4 ⇲ (0x26, 0x12) Size: 00
-    db $A0, $A0, $A4 ; 0x00A4: Pit ⇲     (0x28, 0x28) Size: 00
-    db $B0, $A0, $A4 ; 0x00A4: Pit ⇲     (0x2C, 0x28) Size: 00
-    db $C8, $D8, $A4 ; 0x00A4: Pit ⇲     (0x32, 0x36) Size: 00
-    db $D8, $D8, $A4 ; 0x00A4: Pit ⇲     (0x36, 0x36) Size: 00
+    db $98, $30, $C7
+    db $98, $48, $C7
+    db $A0, $A0, $A4
+    db $B0, $A0, $A4
+    db $C8, $D8, $A4
+    db $D8, $D8, $A4
     db $FF, $FF ; End
 }
 
 ; $04EF18-$026F2E DATA
 OverlayData_12:
 {
-    db $20, $20, $A4 ; 0x00A4: Pit ⇲ (0x08, 0x08) Size: 00
-    db $18, $50, $A4 ; 0x00A4: Pit ⇲ (0x06, 0x14) Size: 00
-    db $38, $40, $A4 ; 0x00A4: Pit ⇲ (0x0E, 0x10) Size: 00
-    db $38, $58, $A4 ; 0x00A4: Pit ⇲ (0x0E, 0x16) Size: 00
-    db $50, $20, $A4 ; 0x00A4: Pit ⇲ (0x14, 0x08) Size: 00
-    db $50, $38, $A4 ; 0x00A4: Pit ⇲ (0x14, 0x0E) Size: 00
-    db $58, $50, $A4 ; 0x00A4: Pit ⇲ (0x16, 0x14) Size: 00
+    db $20, $20, $A4
+    db $18, $50, $A4
+    db $38, $40, $A4
+    db $38, $58, $A4
+    db $50, $20, $A4
+    db $50, $38, $A4
+    db $58, $50, $A4
     db $FF, $FF ; End
 }
 
@@ -5195,261 +5162,285 @@ RoomDraw_LayoutPointers:
     dl LayoutData_07
 }
 
+; ===========================================================================
+; Dungeon layout object format
+; ===========================================================================
+; Entries are 3 bytes each and terminate with db $FF, $FF.
+; LayoutData_00 through LayoutData_07 are baseline object streams selected from
+; the room header's layout field. They are drawn before the room's Layer 1,
+; Layer 2, and Layer 3 object lists.
+
+; The format depends on the first byte, if the byte & 0xFC equals 0xFC, then
+; we need to use the second format.
+; Subtype-1 object record, when (byte0 & 0xFC) != 0xFC:
+;     xxxxxxww  yyyyyyhh  iiiiiiii
+;         x - X coordinate, 0x00-0x3F
+;         y - Y coordinate, 0x00-0x3F
+;         w - Object-specific first size parameter
+;         h - Object-specific second size parameter
+;         i - Subtype-1 object ID.
+
+; Subtype-2 object record, when (byte0 & 0xFC) == 0xFC:
+;     111111xx  xxxxyyyy  yyiiiiii
+;         x - X coordinate, 0x00-0x3F
+;         y - Y coordinate, 0x00-0x3F
+;         i = Subtype-2 object ID
+
 ; $026F47-$026FAE DATA
 LayoutData_00:
 {
-    db $18, $10, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x04) Size: 00
-    db $18, $90, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x24) Size: 00
-    db $18, $68, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x1A) Size: 00
-    db $18, $E8, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x3A) Size: 00
-    db $08, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x02, 0x06) Size: 00
-    db $88, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x22, 0x06) Size: 00
-    db $68, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x1A, 0x06) Size: 00
-    db $E8, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x3A, 0x06) Size: 00
-    db $00, $00, $00 ; 0x0000: Ceiling ↔ (0x00, 0x00) Size: 00
-    db $00, $08, $00 ; 0x0000: Ceiling ↔ (0x00, 0x02) Size: 00
-    db $00, $78, $00 ; 0x0000: Ceiling ↔ (0x00, 0x1E) Size: 00
-    db $00, $80, $00 ; 0x0000: Ceiling ↔ (0x00, 0x20) Size: 00
-    db $00, $88, $00 ; 0x0000: Ceiling ↔ (0x00, 0x22) Size: 00
-    db $00, $F8, $00 ; 0x0000: Ceiling ↔ (0x00, 0x3E) Size: 00
-    db $00, $00, $60 ; 0x0060: Ceiling ↕ (0x00, 0x00) Size: 00
-    db $78, $00, $60 ; 0x0060: Ceiling ↕ (0x1E, 0x00) Size: 00
-    db $80, $00, $60 ; 0x0060: Ceiling ↕ (0x20, 0x00) Size: 00
-    db $F8, $00, $60 ; 0x0060: Ceiling ↕ (0x3E, 0x00) Size: 00
-    db $FC, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 04 }
-    db $FE, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 22, 04 }
-    db $FC, $29, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 24 }
-    db $FE, $29, $00 ; 0x0100: Corner (top, concave) ▛ | { 22, 24 }
-    db $FC, $26, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 1A }
-    db $FE, $26, $81 ; 0x0101: Corner (top, concave) ▙ | { 22, 1A }
-    db $FC, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 3A }
-    db $FE, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 22, 3A }
-    db $FD, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 1A, 04 }
-    db $FF, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 04 }
-    db $FD, $A9, $02 ; 0x0102: Corner (top, concave) ▜ | { 1A, 24 }
-    db $FF, $A9, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 24 }
-    db $FD, $A6, $83 ; 0x0103: Corner (top, concave) ▟ | { 1A, 1A }
-    db $FF, $A6, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 1A }
-    db $FD, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 1A, 3A }
-    db $FF, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 3A }
+    db $18, $10, $01
+    db $18, $90, $01
+    db $18, $68, $02
+    db $18, $E8, $02
+    db $08, $18, $61
+    db $88, $18, $61
+    db $68, $18, $62
+    db $E8, $18, $62
+    db $00, $00, $00
+    db $00, $08, $00
+    db $00, $78, $00
+    db $00, $80, $00
+    db $00, $88, $00
+    db $00, $F8, $00
+    db $00, $00, $60
+    db $78, $00, $60
+    db $80, $00, $60
+    db $F8, $00, $60
+    db $FC, $21, $00
+    db $FE, $21, $00
+    db $FC, $29, $00
+    db $FE, $29, $00
+    db $FC, $26, $81
+    db $FE, $26, $81
+    db $FC, $2E, $81
+    db $FE, $2E, $81
+    db $FD, $A1, $02
+    db $FF, $A1, $02
+    db $FD, $A9, $02
+    db $FF, $A9, $02
+    db $FD, $A6, $83
+    db $FF, $A6, $83
+    db $FD, $AE, $83
+    db $FF, $AE, $83
     db $FF, $FF ; End
 }
 
 ; $026FAF-$026FEF DATA
 LayoutData_01:
 {
-    db $18, $10, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x04) Size: 00
-    db $18, $E8, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x3A) Size: 00
-    db $08, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x02, 0x06) Size: 00
-    db $88, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x22, 0x06) Size: 00
-    db $68, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x1A, 0x06) Size: 00
-    db $E8, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x3A, 0x06) Size: 00
-    db $00, $00, $00 ; 0x0000: Ceiling ↔ (0x00, 0x00) Size: 00
-    db $00, $08, $00 ; 0x0000: Ceiling ↔ (0x00, 0x02) Size: 00
-    db $00, $F8, $00 ; 0x0000: Ceiling ↔ (0x00, 0x3E) Size: 00
-    db $00, $00, $60 ; 0x0060: Ceiling ↕ (0x00, 0x00) Size: 00
-    db $78, $00, $60 ; 0x0060: Ceiling ↕ (0x1E, 0x00) Size: 00
-    db $80, $00, $60 ; 0x0060: Ceiling ↕ (0x20, 0x00) Size: 00
-    db $F8, $00, $60 ; 0x0060: Ceiling ↕ (0x3E, 0x00) Size: 00
-    db $FC, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 04 }
-    db $FE, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 22, 04 }
-    db $FC, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 3A }
-    db $FE, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 22, 3A }
-    db $FD, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 1A, 04 }
-    db $FF, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 04 }
-    db $FD, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 1A, 3A }
-    db $FF, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 3A }
+    db $18, $10, $01
+    db $18, $E8, $02
+    db $08, $18, $61
+    db $88, $18, $61
+    db $68, $18, $62
+    db $E8, $18, $62
+    db $00, $00, $00
+    db $00, $08, $00
+    db $00, $F8, $00
+    db $00, $00, $60
+    db $78, $00, $60
+    db $80, $00, $60
+    db $F8, $00, $60
+    db $FC, $21, $00
+    db $FE, $21, $00
+    db $FC, $2E, $81
+    db $FE, $2E, $81
+    db $FD, $A1, $02
+    db $FF, $A1, $02
+    db $FD, $AE, $83
+    db $FF, $AE, $83
     db $FF, $FF ; End
 }
 
 ; $026FF0-$02704B DATA
 LayoutData_02:
 {
-    db $18, $10, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x04) Size: 00
-    db $1A, $92, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x24) Size: 0A
-    db $1A, $6A, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x1A) Size: 0A
-    db $18, $E8, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x3A) Size: 00
-    db $08, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x02, 0x06) Size: 00
-    db $88, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x22, 0x06) Size: 00
-    db $68, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x1A, 0x06) Size: 00
-    db $E8, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x3A, 0x06) Size: 00
-    db $00, $00, $00 ; 0x0000: Ceiling ↔ (0x00, 0x00) Size: 00
-    db $00, $08, $00 ; 0x0000: Ceiling ↔ (0x00, 0x02) Size: 00
-    db $0B, $7A, $00 ; 0x0000: Ceiling ↔ (0x02, 0x1E) Size: 0E
-    db $0B, $82, $00 ; 0x0000: Ceiling ↔ (0x02, 0x20) Size: 0E
-    db $0B, $8A, $00 ; 0x0000: Ceiling ↔ (0x02, 0x22) Size: 0E
-    db $00, $F8, $00 ; 0x0000: Ceiling ↔ (0x00, 0x3E) Size: 00
-    db $00, $00, $60 ; 0x0060: Ceiling ↕ (0x00, 0x00) Size: 00
-    db $78, $00, $60 ; 0x0060: Ceiling ↕ (0x1E, 0x00) Size: 00
-    db $80, $00, $60 ; 0x0060: Ceiling ↕ (0x20, 0x00) Size: 00
-    db $F8, $00, $60 ; 0x0060: Ceiling ↕ (0x3E, 0x00) Size: 00
-    db $FC, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 04 }
-    db $FE, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 22, 04 }
-    db $FC, $29, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 24 }
-    db $FC, $26, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 1A }
-    db $FE, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 22, 3A }
-    db $FC, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 3A }
-    db $FD, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 1A, 04 }
-    db $FF, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 04 }
-    db $FD, $A9, $02 ; 0x0102: Corner (top, concave) ▜ | { 1A, 24 }
-    db $FD, $A6, $83 ; 0x0103: Corner (top, concave) ▟ | { 1A, 1A }
-    db $FF, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 3A }
-    db $FD, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 1A, 3A }
+    db $18, $10, $01
+    db $1A, $92, $01
+    db $1A, $6A, $02
+    db $18, $E8, $02
+    db $08, $18, $61
+    db $88, $18, $61
+    db $68, $18, $62
+    db $E8, $18, $62
+    db $00, $00, $00
+    db $00, $08, $00
+    db $0B, $7A, $00
+    db $0B, $82, $00
+    db $0B, $8A, $00
+    db $00, $F8, $00
+    db $00, $00, $60
+    db $78, $00, $60
+    db $80, $00, $60
+    db $F8, $00, $60
+    db $FC, $21, $00
+    db $FE, $21, $00
+    db $FC, $29, $00
+    db $FC, $26, $81
+    db $FE, $2E, $81
+    db $FC, $2E, $81
+    db $FD, $A1, $02
+    db $FF, $A1, $02
+    db $FD, $A9, $02
+    db $FD, $A6, $83
+    db $FF, $AE, $83
+    db $FD, $AE, $83
     db $FF, $FF ; End
 }
 
 ; $02704C-$0270A7 DATA
 LayoutData_03:
 {
-    db $18, $10, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x04) Size: 00
-    db $9A, $92, $01 ; 0x0001: Wall (top, north) ↔ (0x26, 0x24) Size: 0A
-    db $9A, $6A, $02 ; 0x0002: Wall (top, south) ↔ (0x26, 0x1A) Size: 0A
-    db $18, $E8, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x3A) Size: 00
-    db $08, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x02, 0x06) Size: 00
-    db $88, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x22, 0x06) Size: 00
-    db $68, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x1A, 0x06) Size: 00
-    db $E8, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x3A, 0x06) Size: 00
-    db $00, $00, $00 ; 0x0000: Ceiling ↔ (0x00, 0x00) Size: 00
-    db $00, $08, $00 ; 0x0000: Ceiling ↔ (0x00, 0x02) Size: 00
-    db $8B, $7A, $00 ; 0x0000: Ceiling ↔ (0x22, 0x1E) Size: 0E
-    db $8B, $82, $00 ; 0x0000: Ceiling ↔ (0x22, 0x20) Size: 0E
-    db $8B, $8A, $00 ; 0x0000: Ceiling ↔ (0x22, 0x22) Size: 0E
-    db $00, $F8, $00 ; 0x0000: Ceiling ↔ (0x00, 0x3E) Size: 00
-    db $00, $00, $60 ; 0x0060: Ceiling ↕ (0x00, 0x00) Size: 00
-    db $78, $00, $60 ; 0x0060: Ceiling ↕ (0x1E, 0x00) Size: 00
-    db $80, $00, $60 ; 0x0060: Ceiling ↕ (0x20, 0x00) Size: 00
-    db $F8, $00, $60 ; 0x0060: Ceiling ↕ (0x3E, 0x00) Size: 00
-    db $FC, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 04 }
-    db $FE, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 22, 04 }
-    db $FE, $29, $00 ; 0x0100: Corner (top, concave) ▛ | { 22, 24 }
-    db $FE, $26, $81 ; 0x0101: Corner (top, concave) ▙ | { 22, 1A }
-    db $FC, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 3A }
-    db $FE, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 22, 3A }
-    db $FD, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 1A, 04 }
-    db $FF, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 04 }
-    db $FF, $A9, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 24 }
-    db $FF, $A6, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 1A }
-    db $FD, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 1A, 3A }
-    db $FF, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 3A }
+    db $18, $10, $01
+    db $9A, $92, $01
+    db $9A, $6A, $02
+    db $18, $E8, $02
+    db $08, $18, $61
+    db $88, $18, $61
+    db $68, $18, $62
+    db $E8, $18, $62
+    db $00, $00, $00
+    db $00, $08, $00
+    db $8B, $7A, $00
+    db $8B, $82, $00
+    db $8B, $8A, $00
+    db $00, $F8, $00
+    db $00, $00, $60
+    db $78, $00, $60
+    db $80, $00, $60
+    db $F8, $00, $60
+    db $FC, $21, $00
+    db $FE, $21, $00
+    db $FE, $29, $00
+    db $FE, $26, $81
+    db $FC, $2E, $81
+    db $FE, $2E, $81
+    db $FD, $A1, $02
+    db $FF, $A1, $02
+    db $FF, $A9, $02
+    db $FF, $A6, $83
+    db $FD, $AE, $83
+    db $FF, $AE, $83
     db $FF, $FF ; End
 }
 
 ; $0270A8-$0270EB DATA
 LayoutData_04:
 {
-    db $18, $10, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x04) Size: 00
-    db $18, $90, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x24) Size: 00
-    db $18, $68, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x1A) Size: 00
-    db $18, $E8, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x3A) Size: 00
-    db $08, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x02, 0x06) Size: 00
-    db $E8, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x3A, 0x06) Size: 00
-    db $00, $00, $00 ; 0x0000: Ceiling ↔ (0x00, 0x00) Size: 00
-    db $00, $08, $00 ; 0x0000: Ceiling ↔ (0x00, 0x02) Size: 00
-    db $00, $78, $00 ; 0x0000: Ceiling ↔ (0x00, 0x1E) Size: 00
-    db $00, $80, $00 ; 0x0000: Ceiling ↔ (0x00, 0x20) Size: 00
-    db $00, $88, $00 ; 0x0000: Ceiling ↔ (0x00, 0x22) Size: 00
-    db $00, $F8, $00 ; 0x0000: Ceiling ↔ (0x00, 0x3E) Size: 00
-    db $00, $00, $60 ; 0x0060: Ceiling ↕ (0x00, 0x00) Size: 00
-    db $F8, $00, $60 ; 0x0060: Ceiling ↕ (0x3E, 0x00) Size: 00
-    db $FC, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 04 }
-    db $FC, $29, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 24 }
-    db $FC, $26, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 1A }
-    db $FC, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 3A }
-    db $FF, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 04 }
-    db $FF, $A9, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 24 }
-    db $FF, $A6, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 1A }
-    db $FF, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 3A }
+    db $18, $10, $01
+    db $18, $90, $01
+    db $18, $68, $02
+    db $18, $E8, $02
+    db $08, $18, $61
+    db $E8, $18, $62
+    db $00, $00, $00
+    db $00, $08, $00
+    db $00, $78, $00
+    db $00, $80, $00
+    db $00, $88, $00
+    db $00, $F8, $00
+    db $00, $00, $60
+    db $F8, $00, $60
+    db $FC, $21, $00
+    db $FC, $29, $00
+    db $FC, $26, $81
+    db $FC, $2E, $81
+    db $FF, $A1, $02
+    db $FF, $A9, $02
+    db $FF, $A6, $83
+    db $FF, $AE, $83
     db $FF, $FF ; End
 }
 
 ; $0270EC-$027147 DATA
 LayoutData_05:
 {
-    db $18, $10, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x04) Size: 00
-    db $18, $90, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x24) Size: 00
-    db $18, $68, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x1A) Size: 00
-    db $18, $E8, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x3A) Size: 00
-    db $08, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x02, 0x06) Size: 00
-    db $8A, $1A, $61 ; 0x0061: Wall (top, west) ↕ (0x22, 0x06) Size: 0A
-    db $6A, $1A, $62 ; 0x0062: Wall (top, east) ↕ (0x1A, 0x06) Size: 0A
-    db $E8, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x3A, 0x06) Size: 00
-    db $00, $00, $00 ; 0x0000: Ceiling ↔ (0x00, 0x00) Size: 00
-    db $00, $08, $00 ; 0x0000: Ceiling ↔ (0x00, 0x02) Size: 00
-    db $00, $78, $00 ; 0x0000: Ceiling ↔ (0x00, 0x1E) Size: 00
-    db $00, $80, $00 ; 0x0000: Ceiling ↔ (0x00, 0x20) Size: 00
-    db $00, $88, $00 ; 0x0000: Ceiling ↔ (0x00, 0x22) Size: 00
-    db $00, $F8, $00 ; 0x0000: Ceiling ↔ (0x00, 0x3E) Size: 00
-    db $00, $00, $60 ; 0x0060: Ceiling ↕ (0x00, 0x00) Size: 00
-    db $7B, $11, $60 ; 0x0060: Ceiling ↕ (0x1E, 0x04) Size: 0D
-    db $83, $11, $60 ; 0x0060: Ceiling ↕ (0x20, 0x04) Size: 0D
-    db $F8, $00, $60 ; 0x0060: Ceiling ↕ (0x3E, 0x00) Size: 00
-    db $FC, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 04 }
-    db $FE, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 22, 04 }
-    db $FC, $29, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 24 }
-    db $FC, $26, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 1A }
-    db $FE, $26, $81 ; 0x0101: Corner (top, concave) ▙ | { 22, 1A }
-    db $FC, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 3A }
-    db $FD, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 1A, 04 }
-    db $FF, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 04 }
-    db $FF, $A9, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 24 }
-    db $FD, $A6, $83 ; 0x0103: Corner (top, concave) ▟ | { 1A, 1A }
-    db $FF, $A6, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 1A }
-    db $FF, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 3A }
+    db $18, $10, $01
+    db $18, $90, $01
+    db $18, $68, $02
+    db $18, $E8, $02
+    db $08, $18, $61
+    db $8A, $1A, $61
+    db $6A, $1A, $62
+    db $E8, $18, $62
+    db $00, $00, $00
+    db $00, $08, $00
+    db $00, $78, $00
+    db $00, $80, $00
+    db $00, $88, $00
+    db $00, $F8, $00
+    db $00, $00, $60
+    db $7B, $11, $60
+    db $83, $11, $60
+    db $F8, $00, $60
+    db $FC, $21, $00
+    db $FE, $21, $00
+    db $FC, $29, $00
+    db $FC, $26, $81
+    db $FE, $26, $81
+    db $FC, $2E, $81
+    db $FD, $A1, $02
+    db $FF, $A1, $02
+    db $FF, $A9, $02
+    db $FD, $A6, $83
+    db $FF, $A6, $83
+    db $FF, $AE, $83
     db $FF, $FF ; End
 }
 
 ; $027148-$0271A3 DATA
 LayoutData_06:
 {
-    db $18, $10, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x04) Size: 00
-    db $18, $90, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x24) Size: 00
-    db $18, $68, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x1A) Size: 00
-    db $18, $E8, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x3A) Size: 00
-    db $08, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x02, 0x06) Size: 00
-    db $8A, $9A, $61 ; 0x0061: Wall (top, west) ↕ (0x22, 0x26) Size: 0A
-    db $6A, $9A, $62 ; 0x0062: Wall (top, east) ↕ (0x1A, 0x26) Size: 0A
-    db $E8, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x3A, 0x06) Size: 00
-    db $00, $00, $00 ; 0x0000: Ceiling ↔ (0x00, 0x00) Size: 00
-    db $00, $08, $00 ; 0x0000: Ceiling ↔ (0x00, 0x02) Size: 00
-    db $00, $78, $00 ; 0x0000: Ceiling ↔ (0x00, 0x1E) Size: 00
-    db $00, $80, $00 ; 0x0000: Ceiling ↔ (0x00, 0x20) Size: 00
-    db $00, $88, $00 ; 0x0000: Ceiling ↔ (0x00, 0x22) Size: 00
-    db $00, $F8, $00 ; 0x0000: Ceiling ↔ (0x00, 0x3E) Size: 00
-    db $00, $00, $60 ; 0x0060: Ceiling ↕ (0x00, 0x00) Size: 00
-    db $7B, $91, $60 ; 0x0060: Ceiling ↕ (0x1E, 0x24) Size: 0D
-    db $83, $91, $60 ; 0x0060: Ceiling ↕ (0x20, 0x24) Size: 0D
-    db $F8, $00, $60 ; 0x0060: Ceiling ↕ (0x3E, 0x00) Size: 00
-    db $FC, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 04 }
-    db $FC, $29, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 24 }
-    db $FE, $29, $00 ; 0x0100: Corner (top, concave) ▛ | { 22, 24 }
-    db $FC, $26, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 1A }
-    db $FC, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 3A }
-    db $FE, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 22, 3A }
-    db $FF, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 04 }
-    db $FD, $A9, $02 ; 0x0102: Corner (top, concave) ▜ | { 1A, 24 }
-    db $FF, $A9, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 24 }
-    db $FF, $A6, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 1A }
-    db $FD, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 1A, 3A }
-    db $FF, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 3A }
+    db $18, $10, $01
+    db $18, $90, $01
+    db $18, $68, $02
+    db $18, $E8, $02
+    db $08, $18, $61
+    db $8A, $9A, $61
+    db $6A, $9A, $62
+    db $E8, $18, $62
+    db $00, $00, $00
+    db $00, $08, $00
+    db $00, $78, $00
+    db $00, $80, $00
+    db $00, $88, $00
+    db $00, $F8, $00
+    db $00, $00, $60
+    db $7B, $91, $60
+    db $83, $91, $60
+    db $F8, $00, $60
+    db $FC, $21, $00
+    db $FC, $29, $00
+    db $FE, $29, $00
+    db $FC, $26, $81
+    db $FC, $2E, $81
+    db $FE, $2E, $81
+    db $FF, $A1, $02
+    db $FD, $A9, $02
+    db $FF, $A9, $02
+    db $FF, $A6, $83
+    db $FD, $AE, $83
+    db $FF, $AE, $83
     db $FF, $FF ; End
 }
 
 ; $0271A4-$0271CC DATA
 LayoutData_07:
 {
-    db $18, $10, $01 ; 0x0001: Wall (top, north) ↔ (0x06, 0x04) Size: 00
-    db $18, $E8, $02 ; 0x0002: Wall (top, south) ↔ (0x06, 0x3A) Size: 00
-    db $08, $18, $61 ; 0x0061: Wall (top, west) ↕ (0x02, 0x06) Size: 00
-    db $E8, $18, $62 ; 0x0062: Wall (top, east) ↕ (0x3A, 0x06) Size: 00
-    db $00, $00, $00 ; 0x0000: Ceiling ↔ (0x00, 0x00) Size: 00
-    db $00, $08, $00 ; 0x0000: Ceiling ↔ (0x00, 0x02) Size: 00
-    db $00, $F8, $00 ; 0x0000: Ceiling ↔ (0x00, 0x3E) Size: 00
-    db $00, $00, $60 ; 0x0060: Ceiling ↕ (0x00, 0x00) Size: 00
-    db $F8, $00, $60 ; 0x0060: Ceiling ↕ (0x3E, 0x00) Size: 00
-    db $FC, $21, $00 ; 0x0100: Corner (top, concave) ▛ | { 02, 04 }
-    db $FC, $2E, $81 ; 0x0101: Corner (top, concave) ▙ | { 02, 3A }
-    db $FF, $A1, $02 ; 0x0102: Corner (top, concave) ▜ | { 3A, 04 }
-    db $FF, $AE, $83 ; 0x0103: Corner (top, concave) ▟ | { 3A, 3A }
+    db $18, $10, $01
+    db $18, $E8, $02
+    db $08, $18, $61
+    db $E8, $18, $62
+    db $00, $00, $00
+    db $00, $08, $00
+    db $00, $F8, $00
+    db $00, $00, $60
+    db $F8, $00, $60
+    db $FC, $21, $00
+    db $FC, $2E, $81
+    db $FF, $A1, $02
+    db $FF, $AE, $83
     db $FF, $FF ; End
 }
 
@@ -5458,11 +5449,11 @@ LayoutData_07:
 ; $0271CD-$0271DD DATA
 WaterOverlayData:
 {
-    db $1B, $A1, $C9 ; 0x00C9: Flood water (medium) ⇲ (0x06, 0x28) Size: 0D
-    db $51, $A1, $C9 ; 0x00C9: Flood water (medium) ⇲ (0x14, 0x28) Size: 05
-    db $92, $A1, $C9 ; 0x00C9: Flood water (medium) ⇲ (0x24, 0x28) Size: 09
-    db $A1, $33, $C9 ; 0x00C9: Flood water (medium) ⇲ (0x28, 0x0C) Size: 07
-    db $A1, $72, $C9 ; 0x00C9: Flood water (medium) ⇲ (0x28, 0x1C) Size: 06
+    db $1B, $A1, $C9
+    db $51, $A1, $C9
+    db $92, $A1, $C9
+    db $A1, $33, $C9
+    db $A1, $72, $C9
     db $FF, $FF ; End
 }
 
@@ -5472,42 +5463,42 @@ WaterOverlayData:
 SpecialUnderworldObjects_pushable_block:
 {
     ; RoomID, tilemap index
-    dw $010B, $193A ; Room 010B
+    dw $010B, $193A ; Room 0x010B
     dw $010B, $193E
 
-    dw $00A8, $36E0 ; Room 00A8
+    dw $00A8, $36E0 ; Room 0x00A8
 
-    dw $0063, $162A ; Room 0063
+    dw $0063, $162A ; Room 0x0063
 
-    dw $0083, $1514 ; Room 0083
+    dw $0083, $1514 ; Room 0x0083
 
-    dw $00CA, $56B2 ; Room 00CA
+    dw $00CA, $56B2 ; Room 0x00CA
     dw $00CA, $56BA
 
-    dw $0034, $5722 ; Room 0034
+    dw $0034, $5722 ; Room 0x0034
     dw $0034, $572A
     dw $0034, $5826
     dw $0034, $5926
 
-    dw $0054, $482A ; Room 0054
+    dw $0054, $482A ; Room 0x0054
     dw $0054, $484A
     dw $0054, $542A
 
-    dw $0066, $383C ; Room 0066
+    dw $0066, $383C ; Room 0x0066
 
-    dw $0011, $465E ; Room 0011
+    dw $0011, $465E ; Room 0x0011
 
-    dw $002C, $2814 ; Room 002C
+    dw $002C, $2814 ; Room 0x002C
 
-    dw $002A, $1328 ; Room 002A
+    dw $002A, $1328 ; Room 0x002A
 
-    dw $010B, $1942 ; Room 010B
+    dw $010B, $1942 ; Room 0x010B
 
-    dw $001F, $5B52 ; Room 001F
+    dw $001F, $5B52 ; Room 0x001F
 
-    dw $0019, $100C ; Room 0019
+    dw $0019, $100C ; Room 0x0019
 
-    dw $010D, $4718 ; Room 010D
+    dw $010D, $4718 ; Room 0x010D
     dw $010D, $4724
     dw $010D, $4918
     dw $010D, $491C
@@ -5515,14 +5506,14 @@ SpecialUnderworldObjects_pushable_block:
     dw $010D, $4A18
     dw $010D, $4A20
 
-    dw $001E, $585E ; Room 001E
+    dw $001E, $585E ; Room 0x001E
 
-    dw $009E, $13A4 ; Room 009E
+    dw $009E, $13A4 ; Room 0x009E
     dw $009E, $1858
     dw $009E, $179C
     dw $009E, $1CA4
 
-    dw $0097, $5418 ; Room 0097
+    dw $0097, $5418 ; Room 0x0097
     dw $0097, $5424
     dw $0097, $4A18
     dw $0097, $4A24
@@ -5531,19 +5522,19 @@ SpecialUnderworldObjects_pushable_block:
     dw $0097, $4C18
     dw $0097, $4C24
 
-    dw $0126, $5868 ; Room 0126
+    dw $0126, $5868 ; Room 0x0126
 
-    dw $001F, $5A52 ; Room 001F
+    dw $001F, $5A52 ; Room 0x001F
 
-    dw $008D, $4AEE ; Room 008D
+    dw $008D, $4AEE ; Room 0x008D
 
-    dw $0004, $5A5E ; Room 0004
+    dw $0004, $5A5E ; Room 0x0004
 
-    dw $000B, $5760 ; Room 000B
+    dw $000B, $5760 ; Room 0x000B
 
-    dw $004B, $4960 ; Room 004B
+    dw $004B, $4960 ; Room 0x004B
 
-    dw $00F8, $4522 ; Room 00F8
+    dw $00F8, $4522 ; Room 0x00F8
     dw $00F8, $449E
     dw $00F8, $4B1E
     dw $00F8, $4B22
@@ -5552,42 +5543,42 @@ SpecialUnderworldObjects_pushable_block:
     dw $00F8, $4BEA
     dw $00F8, $4CEE
 
-    dw $0046, $0624 ; Room 0046
+    dw $0046, $0624 ; Room 0x0046
 
-    dw $00C0, $0710 ; Room 00C0
+    dw $00C0, $0710 ; Room 0x00C0
 
-    dw $00D0, $1C16 ; Room 00D0
+    dw $00D0, $1C16 ; Room 0x00D0
 
-    dw $007D, $0938 ; Room 007D
+    dw $007D, $0938 ; Room 0x007D
 
-    dw $00B2, $175E ; Room 00B2
+    dw $00B2, $175E ; Room 0x00B2
 
-    dw $00FF, $5A60 ; Room 00FF
+    dw $00FF, $5A60 ; Room 0x00FF
 
-    dw $009E, $5764 ; Room 009E
+    dw $009E, $5764 ; Room 0x009E
 
-    dw $008B, $0860 ; Room 008B
+    dw $008B, $0860 ; Room 0x008B
 
-    dw $00B6, $0A96 ; Room 00B6
+    dw $00B6, $0A96 ; Room 0x00B6
 
-    dw $008D, $5718 ; Room 008D
+    dw $008D, $5718 ; Room 0x008D
 
-    dw $006B, $060C ; Room 006B
+    dw $006B, $060C ; Room 0x006B
 
-    dw $009D, $4914 ; Room 009D
+    dw $009D, $4914 ; Room 0x009D
 
-    dw $008C, $5414 ; Room 008C
+    dw $008C, $5414 ; Room 0x008C
 
-    dw $00B6, $0AA6 ; Room 00B6
+    dw $00B6, $0AA6 ; Room 0x00B6
 
-    dw $008D, $5720 ; Room 008D
+    dw $008D, $5720 ; Room 0x008D
     dw $008D, $5824
     dw $008D, $5918
     dw $008D, $5920
 
-    dw $003A, $4E60 ; Room 003A
+    dw $003A, $4E60 ; Room 0x003A
 
-    dw $011D, $583C ; Room 011D
+    dw $011D, $583C ; Room 0x011D
     dw $011D, $5840
     dw $011D, $5A34
     dw $011D, $5A38
@@ -5597,12 +5588,12 @@ SpecialUnderworldObjects_pushable_block:
     dw $011D, $5B40
     dw $011D, $5B44
 
-    dw $0097, $5518 ; Room 0097
+    dw $0097, $5518 ; Room 0x0097
     dw $0097, $5524
     dw $0097, $5618
     dw $0097, $5624
 
-    dw $0126, $5460 ; Room 0126
+    dw $0126, $5460 ; Room 0x0126
     dw $0126, $5468
     dw $0126, $555C
     dw $0126, $5860
@@ -5612,7 +5603,7 @@ SpecialUnderworldObjects_pushable_block:
     dw $0126, $5670
     dw $0126, $575C
 
-    dw $004D, $5BA0 ; Room 004D
+    dw $004D, $5BA0 ; Room 0x004D
     dw $004D, $5BB0
     dw $004D, $5CA8
 }
@@ -5623,35 +5614,35 @@ SpecialUnderworldObjects_pushable_block:
 SpecialUnderworldObjects_torch:
 {
     ;dw  room : dw tilemap index, ...                : terminator
-    dw $0043 : dw $03AA, $03B6, $09AA, $09B6        : dw $FFFF ; Room 0043
-    dw $00CA : dw $14B2, $16AA, $18B2               : dw $FFFF ; Room 00CA
-    dw $0099 : dw $13BE, $1CAA, $1CD2               : dw $FFFF ; Room 0099
-    dw $0000 : dw $8CCA, $8CF2                      : dw $FFFF ; Room 0000
-    dw $0074 : dw $07B8, $07C4                      : dw $FFFF ; Room 0074
-    dw $008D : dw $0470, $0E72, $1970, $1B4C        : dw $FFFF ; Room 008D
-    dw $0021 : dw $0C92, $0CEA, $138A, $1C8A        : dw $FFFF ; Room 0021
-    dw $0022 : dw $13CC, $1CCC                      : dw $FFFF ; Room 0022
-    dw $0053 : dw $08E2, $1368, $1864               : dw $FFFF ; Room 0053
-    dw $0073 : dw $0C8A, $0CB2                      : dw $FFFF ; Room 0073
-    dw $000B : dw $1814, $1828, $1854, $1864        : dw $FFFF ; Room 000B
-    dw $0032 : dw $0B8A, $0BF2, $0FF2               : dw $FFFF ; Room 0032
-    dw $0042 : dw $07B6, $07F2                      : dw $FFFF ; Room 0042
-    dw $0083 : dw $1914, $191E, $1928               : dw $FFFF ; Room 0083
-    dw $006A : dw $03CA, $03F2                      : dw $FFFF ; Room 006A
-    dw $00C0 : dw $06D8, $06E4, $0D24, $1518, $1A10 : dw $FFFF ; Room 00C0
-    dw $00D0 : dw $0A1E, $0D24, $1012               : dw $FFFF ; Room 00D0
-    dw $0055 : dw $1850                             : dw $FFFF ; Room 0055
-    dw $0041 : dw $053E, $0E70, $1590               : dw $FFFF ; Room 0041
-    dw $0049 : dw $055C, $0FCE, $0FEE, $1870        : dw $FFFF ; Room 0049
-    dw $0087 : dw $1850, $186C, $1B50, $1B6C        : dw $FFFF ; Room 0087
-    dw $00C7 : dw $0932, $094A, $0DB2, $0DCA        : dw $FFFF ; Room 00C7
-    dw $0096 : dw $0420, $0B0C, $0B32, $1220        : dw $FFFF ; Room 0096
+    dw $0043 : dw $03AA, $03B6, $09AA, $09B6        : dw $FFFF ; Room 0x0x0043
+    dw $00CA : dw $14B2, $16AA, $18B2               : dw $FFFF ; Room 0x0x00CA
+    dw $0099 : dw $13BE, $1CAA, $1CD2               : dw $FFFF ; Room 0x0x0099
+    dw $0000 : dw $8CCA, $8CF2                      : dw $FFFF ; Room 0x0x0000
+    dw $0074 : dw $07B8, $07C4                      : dw $FFFF ; Room 0x0x0074
+    dw $008D : dw $0470, $0E72, $1970, $1B4C        : dw $FFFF ; Room 0x0x008D
+    dw $0021 : dw $0C92, $0CEA, $138A, $1C8A        : dw $FFFF ; Room 0x0x0021
+    dw $0022 : dw $13CC, $1CCC                      : dw $FFFF ; Room 0x0x0022
+    dw $0053 : dw $08E2, $1368, $1864               : dw $FFFF ; Room 0x0x0053
+    dw $0073 : dw $0C8A, $0CB2                      : dw $FFFF ; Room 0x0x0073
+    dw $000B : dw $1814, $1828, $1854, $1864        : dw $FFFF ; Room 0x0x000B
+    dw $0032 : dw $0B8A, $0BF2, $0FF2               : dw $FFFF ; Room 0x0x0032
+    dw $0042 : dw $07B6, $07F2                      : dw $FFFF ; Room 0x0x0042
+    dw $0083 : dw $1914, $191E, $1928               : dw $FFFF ; Room 0x0x0083
+    dw $006A : dw $03CA, $03F2                      : dw $FFFF ; Room 0x0x006A
+    dw $00C0 : dw $06D8, $06E4, $0D24, $1518, $1A10 : dw $FFFF ; Room 0x0x00C0
+    dw $00D0 : dw $0A1E, $0D24, $1012               : dw $FFFF ; Room 0x0x00D0
+    dw $0055 : dw $1850                             : dw $FFFF ; Room 0x0x0055
+    dw $0041 : dw $053E, $0E70, $1590               : dw $FFFF ; Room 0x0x0041
+    dw $0049 : dw $055C, $0FCE, $0FEE, $1870        : dw $FFFF ; Room 0x0x0049
+    dw $0087 : dw $1850, $186C, $1B50, $1B6C        : dw $FFFF ; Room 0x0x0087
+    dw $00C7 : dw $0932, $094A, $0DB2, $0DCA        : dw $FFFF ; Room 0x0x00C7
+    dw $0096 : dw $0420, $0B0C, $0B32, $1220        : dw $FFFF ; Room 0x0x0096
     dw $FFFF                                        : dw $FFFF ; Deleted
-    dw $00C1 : dw $140C, $1430, $1C0C, $1C30        : dw $FFFF ; Room 00C1
-    dw $0097 : dw $0C0C, $0C30, $140C, $1430        : dw $FFFF ; Room 0097
-    dw $009C : dw $0550                             : dw $FFFF ; Room 009C
-    dw $009D : dw $150C, $1668                      : dw $FFFF ; Room 009D
-    dw $003D : dw $154C, $1570, $1C50, $1C6C        : dw $FFFF ; Room 003D
+    dw $00C1 : dw $140C, $1430, $1C0C, $1C30        : dw $FFFF ; Room 0x0x00C1
+    dw $0097 : dw $0C0C, $0C30, $140C, $1430        : dw $FFFF ; Room 0x0x0097
+    dw $009C : dw $0550                             : dw $FFFF ; Room 0x0x009C
+    dw $009D : dw $150C, $1668                      : dw $FFFF ; Room 0x0x009D
+    dw $003D : dw $154C, $1570, $1C50, $1C6C        : dw $FFFF ; Room 0x0x003D
 }
 
 ; ==============================================================================
@@ -5792,4218 +5783,3820 @@ DefaultSaveFileItems:
 ; $027502-$027782 DATA
 RoomHeader_RoomToPointer:
 {
-    dw RoomHeader_Room0000
-    dw RoomHeader_Room0001
-    dw RoomHeader_Room0002
-    dw RoomHeader_Room0003 ; Shared { 0003, 002F }
-    dw RoomHeader_Room0004
-    dw RoomHeader_Room0005 ; Shared { 0005, 0006}
-    dw RoomHeader_Room0006 ; Shared { 0005, 0006}
-    dw RoomHeader_Room0007
-
-    dw RoomHeader_Room0008
-    dw RoomHeader_Room0009
-    dw RoomHeader_Room000A
-    dw RoomHeader_Room000B
-    dw RoomHeader_Room000C
-    dw RoomHeader_Room000D
-    dw RoomHeader_Room000E
-    dw RoomHeader_Room000F ; Shared { 000F, 0010 }
-
-    dw RoomHeader_Room0010 ; Shared { 000F, 0010 }
-    dw RoomHeader_Room0011
-    dw RoomHeader_Room0012
-    dw RoomHeader_Room0013 ; Shared { 0013, 0023 }
-    dw RoomHeader_Room0014
-    dw RoomHeader_Room0015
-    dw RoomHeader_Room0016
-    dw RoomHeader_Room0017
-
-    dw RoomHeader_Room0018 ; Shared { 0018, 002C, 0114, 0115 }
-    dw RoomHeader_Room0019
-    dw RoomHeader_Room001A
-    dw RoomHeader_Room001B
-    dw RoomHeader_Room001C
-    dw RoomHeader_Room001D
-    dw RoomHeader_Room001E
-    dw RoomHeader_Room001F
-
-    dw RoomHeader_Room0020
-    dw RoomHeader_Room0021 ; Shared { 0021, 0022 }
-    dw RoomHeader_Room0022 ; Shared { 0021, 0022 }
-    dw RoomHeader_Room0023 ; Shared { 0013, 0023 }
-    dw RoomHeader_Room0024
-    dw RoomHeader_Room0025 ; Shared { 0025, 0026 }
-    dw RoomHeader_Room0026 ; Shared { 0025, 0026 }
-    dw RoomHeader_Room0027
-
-    dw RoomHeader_Room0028
-    dw RoomHeader_Room0029
-    dw RoomHeader_Room002A
-    dw RoomHeader_Room002B
-    dw RoomHeader_Room002C ; Shared { 0018, 002C, 0114, 0115 }
-    dw RoomHeader_Room002D ; Shared { 002D, 002E }
-    dw RoomHeader_Room002E ; Shared { 002D, 002E }
-    dw RoomHeader_Room002F ; Shared { 0003, 002F }
-
-    dw RoomHeader_Room0030
-    dw RoomHeader_Room0031
-    dw RoomHeader_Room0032
-    dw RoomHeader_Room0033
-    dw RoomHeader_Room0034
-    dw RoomHeader_Room0035 ; Shared { 0035, 0037 }
-    dw RoomHeader_Room0036
-    dw RoomHeader_Room0037 ; Shared { 0035, 0037 }
-
-    dw RoomHeader_Room0038
-    dw RoomHeader_Room0039
-    dw RoomHeader_Room003A
-    dw RoomHeader_Room003B
-    dw RoomHeader_Room003C
-    dw RoomHeader_Room003D
-    dw RoomHeader_Room003E
-    dw RoomHeader_Room003F
-
-    dw RoomHeader_Room0040
-    dw RoomHeader_Room0041
-    dw RoomHeader_Room0042
-    dw RoomHeader_Room0043
-    dw RoomHeader_Room0044
-    dw RoomHeader_Room0045
-    dw RoomHeader_Room0046
-    dw RoomHeader_Room0047 ; Shared { 0047, 0048, 0049 }
-
-    dw RoomHeader_Room0048 ; Shared { 0047, 0048, 0049 }
-    dw RoomHeader_Room0049 ; Shared { 0047, 0048, 0049 }
-    dw RoomHeader_Room004A
-    dw RoomHeader_Room004B
-    dw RoomHeader_Room004C
-    dw RoomHeader_Room004D
-    dw RoomHeader_Room004E
-    dw RoomHeader_Room004F
-
-    dw RoomHeader_Room0050
-    dw RoomHeader_Room0051
-    dw RoomHeader_Room0052
-    dw RoomHeader_Room0053
-    dw RoomHeader_Room0054
-    dw RoomHeader_Room0055
-    dw RoomHeader_Room0056
-    dw RoomHeader_Room0057
-
-    dw RoomHeader_Room0058
-    dw RoomHeader_Room0059
-    dw RoomHeader_Room005A
-    dw RoomHeader_Room005B
-    dw RoomHeader_Room005C
-    dw RoomHeader_Room005D
-    dw RoomHeader_Room005E
-    dw RoomHeader_Room005F
-
-    dw RoomHeader_Room0060 ; Shared { 0060, 0062 }
-    dw RoomHeader_Room0061
-    dw RoomHeader_Room0062 ; Shared { 0060, 0062 }
-    dw RoomHeader_Room0063
-    dw RoomHeader_Room0064
-    dw RoomHeader_Room0065
-    dw RoomHeader_Room0066
-    dw RoomHeader_Room0067
-
-    dw RoomHeader_Room0068
-    dw RoomHeader_Room0069 ; Shared { 0069, 006A }
-    dw RoomHeader_Room006A ; Shared { 0069, 006A }
-    dw RoomHeader_Room006B
-    dw RoomHeader_Room006C
-    dw RoomHeader_Room006D
-    dw RoomHeader_Room006E
-    dw RoomHeader_Room006F ; Shared { 006F, 0070 }
-
-    dw RoomHeader_Room0070 ; Shared { 006F, 0070 }
-    dw RoomHeader_Room0071
-    dw RoomHeader_Room0072
-    dw RoomHeader_Room0073
-    dw RoomHeader_Room0074
-    dw RoomHeader_Room0075
-    dw RoomHeader_Room0076
-    dw RoomHeader_Room0077
-
-    dw RoomHeader_Room0078 ; Shared { 0078, 0079, 007A, 007B }
-    dw RoomHeader_Room0079 ; Shared { 0078, 0079, 007A, 007B }
-    dw RoomHeader_Room007A ; Shared { 0078, 0079, 007A, 007B }
-    dw RoomHeader_Room007B ; Shared { 0078, 0079, 007A, 007B }
-    dw RoomHeader_Room007C
-    dw RoomHeader_Room007D
-    dw RoomHeader_Room007E
-    dw RoomHeader_Room007F
-
-    dw RoomHeader_Room0080
-    dw RoomHeader_Room0081 ; Shared { 0081, 0082 }
-    dw RoomHeader_Room0082 ; Shared { 0081, 0082 }
-    dw RoomHeader_Room0083
-    dw RoomHeader_Room0084
-    dw RoomHeader_Room0085
-    dw RoomHeader_Room0086 ; Shared { 0086, 0087 }
-    dw RoomHeader_Room0087 ; Shared { 0086, 0087 }
-
-    dw RoomHeader_Room0088 ; Shared { 0088, 0089 }
-    dw RoomHeader_Room0089 ; Shared { 0088, 0089 }
-    dw RoomHeader_Room008A ; Shared { 008A, 008B }
-    dw RoomHeader_Room008B ; Shared { 008A, 008B }
-    dw RoomHeader_Room008C
-    dw RoomHeader_Room008D
-    dw RoomHeader_Room008E
-    dw RoomHeader_Room008F ; Shared { 008F, 0090 }
-
-    dw RoomHeader_Room0090 ; Shared { 008F, 0090 }
-    dw RoomHeader_Room0091
-    dw RoomHeader_Room0092
-    dw RoomHeader_Room0093
-    dw RoomHeader_Room0094 ; Shared { 0094, 0095 }
-    dw RoomHeader_Room0095 ; Shared { 0094, 0095 }
-    dw RoomHeader_Room0096
-    dw RoomHeader_Room0097
-
-    dw RoomHeader_Room0098
-    dw RoomHeader_Room0099
-    dw RoomHeader_Room009A ; Shared { 009A, 009B }
-    dw RoomHeader_Room009B ; Shared { 009A, 009B }
-    dw RoomHeader_Room009C
-    dw RoomHeader_Room009D
-    dw RoomHeader_Room009E
-    dw RoomHeader_Room009F
-
-    dw RoomHeader_Room00A0
-    dw RoomHeader_Room00A1 ; Shared { 00A1, 00A3 }
-    dw RoomHeader_Room00A2
-    dw RoomHeader_Room00A3 ; Shared { 00A1, 00A3 }
-    dw RoomHeader_Room00A4
-    dw RoomHeader_Room00A5
-    dw RoomHeader_Room00A6
-    dw RoomHeader_Room00A7
-
-    dw RoomHeader_Room00A8
-    dw RoomHeader_Room00A9
-    dw RoomHeader_Room00AA
-    dw RoomHeader_Room00AB
-    dw RoomHeader_Room00AC
-    dw RoomHeader_Room00AD ; Shared { 00AD, 00AE }
-    dw RoomHeader_Room00AE ; Shared { 00AD, 00AE }
-    dw RoomHeader_Room00AF
-
-    dw RoomHeader_Room00B0
-    dw RoomHeader_Room00B1
-    dw RoomHeader_Room00B2
-    dw RoomHeader_Room00B3
-    dw RoomHeader_Room00B4
-    dw RoomHeader_Room00B5
-    dw RoomHeader_Room00B6
-    dw RoomHeader_Room00B7 ; Shared { 00B7, 00C6, 00D6 }
-
-    dw RoomHeader_Room00B8
-    dw RoomHeader_Room00B9
-    dw RoomHeader_Room00BA
-    dw RoomHeader_Room00BB
-    dw RoomHeader_Room00BC
-    dw RoomHeader_Room00BD ; Shared { 00BD, 00BE }
-    dw RoomHeader_Room00BE ; Shared { 00BD, 00BE }
-    dw RoomHeader_Room00BF
-
-    dw RoomHeader_Room00C0
-    dw RoomHeader_Room00C1
-    dw RoomHeader_Room00C2
-    dw RoomHeader_Room00C3
-    dw RoomHeader_Room00C4
-    dw RoomHeader_Room00C5 ; Shared { 00C5, 00D5 }
-    dw RoomHeader_Room00C6 ; Shared { 00B7, 00C6, 00D6 }
-    dw RoomHeader_Room00C7
-
-    dw RoomHeader_Room00C8
-    dw RoomHeader_Room00C9
-    dw RoomHeader_Room00CA ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
-    dw RoomHeader_Room00CB ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
-    dw RoomHeader_Room00CC ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
-    dw RoomHeader_Room00CD ; Shared { 00CD, 00CE }
-    dw RoomHeader_Room00CE ; Shared { 00CD, 00CE }
-    dw RoomHeader_Room00CF ; Shared { 00CF, 00D0 }
-
-    dw RoomHeader_Room00D0 ; Shared { 00CF, 00D0 }
-    dw RoomHeader_Room00D1
-    dw RoomHeader_Room00D2
-    dw RoomHeader_Room00D3 ; Shared { 00D3, 00D4, 00D7, 00D8 }
-    dw RoomHeader_Room00D4 ; Shared { 00D3, 00D4, 00D7, 00D8 }
-    dw RoomHeader_Room00D5 ; Shared { 00C5, 00D5 }
-    dw RoomHeader_Room00D6 ; Shared { 00B7, 00C6, 00D6 }
-    dw RoomHeader_Room00D7 ; Shared { 00D3, 00D4, 00D7, 00D8 }
-
-    dw RoomHeader_Room00D8 ; Shared { 00D3, 00D4, 00D7, 00D8 }
-    dw RoomHeader_Room00D9
-    dw RoomHeader_Room00DA
-    dw RoomHeader_Room00DB ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
-    dw RoomHeader_Room00DC ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
-    dw RoomHeader_Room00DD ; Shared { 00DD, 00DE }
-    dw RoomHeader_Room00DE ; Shared { 00DD, 00DE }
-    dw RoomHeader_Room00DF
-
-    dw RoomHeader_Room00E0
-    dw RoomHeader_Room00E1
-    dw RoomHeader_Room00E2
-    dw RoomHeader_Room00E3
-    dw RoomHeader_Room00E4 ; Shared { 00E4, 00E5 }
-    dw RoomHeader_Room00E5 ; Shared { 00E4, 00E5 }
-    dw RoomHeader_Room00E6 ; Shared { 00E6, 00E7, 00F0, 00F1 }
-    dw RoomHeader_Room00E7 ; Shared { 00E6, 00E7, 00F0, 00F1 }
-
-    dw RoomHeader_Room00E8
-    dw RoomHeader_Room00E9 ; Shared { 00E9, 00EA }
-    dw RoomHeader_Room00EA ; Shared { 00E9, 00EA }
-    dw RoomHeader_Room00EB
-    dw RoomHeader_Room00EC ; Shared { 00EC, 00ED }
-    dw RoomHeader_Room00ED ; Shared { 00EC, 00ED }
-    dw RoomHeader_Room00EE
-    dw RoomHeader_Room00EF
-
-    dw RoomHeader_Room00F0 ; Shared { 00E6, 00E7, 00F0, 00F1 }
-    dw RoomHeader_Room00F1 ; Shared { 00E6, 00E7, 00F0, 00F1 }
-    dw RoomHeader_Room00F2 ; Shared { 00F2, 00F3 }
-    dw RoomHeader_Room00F3 ; Shared { 00F2, 00F3 }
-    dw RoomHeader_Room00F4 ; Shared { 00F4, 00F5 }
-    dw RoomHeader_Room00F5 ; Shared { 00F4, 00F5 }
-    dw RoomHeader_Room00F6 ; Shared { 00F6, 00F7, 00F8 }
-    dw RoomHeader_Room00F7 ; Shared { 00F6, 00F7, 00F8 }
-
-    dw RoomHeader_Room00F8 ; Shared { 00F6, 00F7, 00F8 }
-    dw RoomHeader_Room00F9 ; Shared { 00F9, 00FE }
-    dw RoomHeader_Room00FA
-    dw RoomHeader_Room00FB
-    dw RoomHeader_Room00FC ; Shared { 00FC, 00FD }
-    dw RoomHeader_Room00FD ; Shared { 00FC, 00FD }
-    dw RoomHeader_Room00FE ; Shared { 00F9, 00FE }
-    dw RoomHeader_Room00FF
-
-    dw RoomHeader_Room0100
-    dw RoomHeader_Room0101
-    dw RoomHeader_Room0102
-    dw RoomHeader_Room0103 ; Shared { 0103, 0118 }
-    dw RoomHeader_Room0104
-    dw RoomHeader_Room0105
-    dw RoomHeader_Room0106
-    dw RoomHeader_Room0107
-
-    dw RoomHeader_Room0108
-    dw RoomHeader_Room0109
-    dw RoomHeader_Room010A
-    dw RoomHeader_Room010B
-    dw RoomHeader_Room010C
-    dw RoomHeader_Room010D
-    dw RoomHeader_Room010E
-    dw RoomHeader_Room010F ; Shared { 010F, 0110, 011C }
-
-    dw RoomHeader_Room0110 ; Shared { 010F, 0110, 011C }
-    dw RoomHeader_Room0111 ; Shared { 0111, 0121, 0122 }
-    dw RoomHeader_Room0112
-    dw RoomHeader_Room0113
-    dw RoomHeader_Room0114 ; Shared { 0018, 002C, 0114, 0115 }
-    dw RoomHeader_Room0115 ; Shared { 0018, 002C, 0114, 0115 }
-    dw RoomHeader_Room0116
-    dw RoomHeader_Room0117
-
-    dw RoomHeader_Room0118 ; Shared { 0103, 0118 }
-    dw RoomHeader_Room0119
-    dw RoomHeader_Room011A
-    dw RoomHeader_Room011B
-    dw RoomHeader_Room011C ; Shared { 010F, 0110, 011C }
-    dw RoomHeader_Room011D
-    dw RoomHeader_Room011E ; Shared { 011E, 0127 }
-    dw RoomHeader_Room011F
-
-    dw RoomHeader_Room0120
-    dw RoomHeader_Room0121 ; Shared { 0111, 0121, 0122 }
-    dw RoomHeader_Room0122 ; Shared { 0111, 0121, 0122 }
-    dw RoomHeader_Room0123
-    dw RoomHeader_Room0124 ; Shared { 0124, 0125, 0126 }
-    dw RoomHeader_Room0125 ; Shared { 0124, 0125, 0126 }
-    dw RoomHeader_Room0126 ; Shared { 0124, 0125, 0126 }
-    dw RoomHeader_Room0127 ; Shared { 011E, 0127 }
-
-    dw RoomHeader_Room0128 ; Shared { 0128–013F }
-    dw RoomHeader_Room0129 ; Shared { 0128–013F }
-    dw RoomHeader_Room012A ; Shared { 0128–013F }
-    dw RoomHeader_Room012B ; Shared { 0128–013F }
-    dw RoomHeader_Room012C ; Shared { 0128–013F }
-    dw RoomHeader_Room012D ; Shared { 0128–013F }
-    dw RoomHeader_Room012E ; Shared { 0128–013F }
-    dw RoomHeader_Room012F ; Shared { 0128–013F }
-
-    dw RoomHeader_Room0130 ; Shared { 0128–013F }
-    dw RoomHeader_Room0131 ; Shared { 0128–013F }
-    dw RoomHeader_Room0132 ; Shared { 0128–013F }
-    dw RoomHeader_Room0133 ; Shared { 0128–013F }
-    dw RoomHeader_Room0134 ; Shared { 0128–013F }
-    dw RoomHeader_Room0135 ; Shared { 0128–013F }
-    dw RoomHeader_Room0136 ; Shared { 0128–013F }
-    dw RoomHeader_Room0137 ; Shared { 0128–013F }
-
-    dw RoomHeader_Room0138 ; Shared { 0128–013F }
-    dw RoomHeader_Room0139 ; Shared { 0128–013F }
-    dw RoomHeader_Room013A ; Shared { 0128–013F }
-    dw RoomHeader_Room013B ; Shared { 0128–013F }
-    dw RoomHeader_Room013C ; Shared { 0128–013F }
-    dw RoomHeader_Room013D ; Shared { 0128–013F }
-    dw RoomHeader_Room013E ; Shared { 0128–013F }
-    dw RoomHeader_Room013F ; Shared { 0128–013F }
+    dw RoomHeader_Room0000 ; 0x0000
+    dw RoomHeader_Room0001 ; 0x0001
+    dw RoomHeader_Room0002 ; 0x0002
+    dw RoomHeader_Room0003 ; 0x0003
+    dw RoomHeader_Room0004 ; 0x0004
+    dw RoomHeader_Room0005 ; 0x0005
+    dw RoomHeader_Room0006 ; 0x0006
+    dw RoomHeader_Room0007 ; 0x0007
+    dw RoomHeader_Room0008 ; 0x0008
+    dw RoomHeader_Room0009 ; 0x0009
+    dw RoomHeader_Room000A ; 0x000A
+    dw RoomHeader_Room000B ; 0x000B
+    dw RoomHeader_Room000C ; 0x000C
+    dw RoomHeader_Room000D ; 0x000D
+    dw RoomHeader_Room000E ; 0x000E
+    dw RoomHeader_Room000F ; 0x000F
+    dw RoomHeader_Room0010 ; 0x0010
+    dw RoomHeader_Room0011 ; 0x0011
+    dw RoomHeader_Room0012 ; 0x0012
+    dw RoomHeader_Room0013 ; 0x0013
+    dw RoomHeader_Room0014 ; 0x0014
+    dw RoomHeader_Room0015 ; 0x0015
+    dw RoomHeader_Room0016 ; 0x0016
+    dw RoomHeader_Room0017 ; 0x0017
+    dw RoomHeader_Room0018 ; 0x0018
+    dw RoomHeader_Room0019 ; 0x0019
+    dw RoomHeader_Room001A ; 0x001A
+    dw RoomHeader_Room001B ; 0x001B
+    dw RoomHeader_Room001C ; 0x001C
+    dw RoomHeader_Room001D ; 0x001D
+    dw RoomHeader_Room001E ; 0x001E
+    dw RoomHeader_Room001F ; 0x001F
+    dw RoomHeader_Room0020 ; 0x0020
+    dw RoomHeader_Room0021 ; 0x0021
+    dw RoomHeader_Room0022 ; 0x0022
+    dw RoomHeader_Room0023 ; 0x0023
+    dw RoomHeader_Room0024 ; 0x0024
+    dw RoomHeader_Room0025 ; 0x0025
+    dw RoomHeader_Room0026 ; 0x0026
+    dw RoomHeader_Room0027 ; 0x0027
+    dw RoomHeader_Room0028 ; 0x0028
+    dw RoomHeader_Room0029 ; 0x0029
+    dw RoomHeader_Room002A ; 0x002A
+    dw RoomHeader_Room002B ; 0x002B
+    dw RoomHeader_Room002C ; 0x002C
+    dw RoomHeader_Room002D ; 0x002D
+    dw RoomHeader_Room002E ; 0x002E
+    dw RoomHeader_Room002F ; 0x002F
+    dw RoomHeader_Room0030 ; 0x0030
+    dw RoomHeader_Room0031 ; 0x0031
+    dw RoomHeader_Room0032 ; 0x0032
+    dw RoomHeader_Room0033 ; 0x0033
+    dw RoomHeader_Room0034 ; 0x0034
+    dw RoomHeader_Room0035 ; 0x0035
+    dw RoomHeader_Room0036 ; 0x0036
+    dw RoomHeader_Room0037 ; 0x0037
+    dw RoomHeader_Room0038 ; 0x0038
+    dw RoomHeader_Room0039 ; 0x0039
+    dw RoomHeader_Room003A ; 0x003A
+    dw RoomHeader_Room003B ; 0x003B
+    dw RoomHeader_Room003C ; 0x003C
+    dw RoomHeader_Room003D ; 0x003D
+    dw RoomHeader_Room003E ; 0x003E
+    dw RoomHeader_Room003F ; 0x003F
+    dw RoomHeader_Room0040 ; 0x0040
+    dw RoomHeader_Room0041 ; 0x0041
+    dw RoomHeader_Room0042 ; 0x0042
+    dw RoomHeader_Room0043 ; 0x0043
+    dw RoomHeader_Room0044 ; 0x0044
+    dw RoomHeader_Room0045 ; 0x0045
+    dw RoomHeader_Room0046 ; 0x0046
+    dw RoomHeader_Room0047 ; 0x0047
+    dw RoomHeader_Room0048 ; 0x0048
+    dw RoomHeader_Room0049 ; 0x0049
+    dw RoomHeader_Room004A ; 0x004A
+    dw RoomHeader_Room004B ; 0x004B
+    dw RoomHeader_Room004C ; 0x004C
+    dw RoomHeader_Room004D ; 0x004D
+    dw RoomHeader_Room004E ; 0x004E
+    dw RoomHeader_Room004F ; 0x004F
+    dw RoomHeader_Room0050 ; 0x0050
+    dw RoomHeader_Room0051 ; 0x0051
+    dw RoomHeader_Room0052 ; 0x0052
+    dw RoomHeader_Room0053 ; 0x0053
+    dw RoomHeader_Room0054 ; 0x0054
+    dw RoomHeader_Room0055 ; 0x0055
+    dw RoomHeader_Room0056 ; 0x0056
+    dw RoomHeader_Room0057 ; 0x0057
+    dw RoomHeader_Room0058 ; 0x0058
+    dw RoomHeader_Room0059 ; 0x0059
+    dw RoomHeader_Room005A ; 0x005A
+    dw RoomHeader_Room005B ; 0x005B
+    dw RoomHeader_Room005C ; 0x005C
+    dw RoomHeader_Room005D ; 0x005D
+    dw RoomHeader_Room005E ; 0x005E
+    dw RoomHeader_Room005F ; 0x005F
+    dw RoomHeader_Room0060 ; 0x0060
+    dw RoomHeader_Room0061 ; 0x0061
+    dw RoomHeader_Room0062 ; 0x0062
+    dw RoomHeader_Room0063 ; 0x0063
+    dw RoomHeader_Room0064 ; 0x0064
+    dw RoomHeader_Room0065 ; 0x0065
+    dw RoomHeader_Room0066 ; 0x0066
+    dw RoomHeader_Room0067 ; 0x0067
+    dw RoomHeader_Room0068 ; 0x0068
+    dw RoomHeader_Room0069 ; 0x0069
+    dw RoomHeader_Room006A ; 0x006A
+    dw RoomHeader_Room006B ; 0x006B
+    dw RoomHeader_Room006C ; 0x006C
+    dw RoomHeader_Room006D ; 0x006D
+    dw RoomHeader_Room006E ; 0x006E
+    dw RoomHeader_Room006F ; 0x006F
+    dw RoomHeader_Room0070 ; 0x0070
+    dw RoomHeader_Room0071 ; 0x0071
+    dw RoomHeader_Room0072 ; 0x0072
+    dw RoomHeader_Room0073 ; 0x0073
+    dw RoomHeader_Room0074 ; 0x0074
+    dw RoomHeader_Room0075 ; 0x0075
+    dw RoomHeader_Room0076 ; 0x0076
+    dw RoomHeader_Room0077 ; 0x0077
+    dw RoomHeader_Room0078 ; 0x0078
+    dw RoomHeader_Room0079 ; 0x0079
+    dw RoomHeader_Room007A ; 0x007A
+    dw RoomHeader_Room007B ; 0x007B
+    dw RoomHeader_Room007C ; 0x007C
+    dw RoomHeader_Room007D ; 0x007D
+    dw RoomHeader_Room007E ; 0x007E
+    dw RoomHeader_Room007F ; 0x007F
+    dw RoomHeader_Room0080 ; 0x0080
+    dw RoomHeader_Room0081 ; 0x0081
+    dw RoomHeader_Room0082 ; 0x0082
+    dw RoomHeader_Room0083 ; 0x0083
+    dw RoomHeader_Room0084 ; 0x0084
+    dw RoomHeader_Room0085 ; 0x0085
+    dw RoomHeader_Room0086 ; 0x0086
+    dw RoomHeader_Room0087 ; 0x0087
+    dw RoomHeader_Room0088 ; 0x0088
+    dw RoomHeader_Room0089 ; 0x0089
+    dw RoomHeader_Room008A ; 0x008A
+    dw RoomHeader_Room008B ; 0x008B
+    dw RoomHeader_Room008C ; 0x008C
+    dw RoomHeader_Room008D ; 0x008D
+    dw RoomHeader_Room008E ; 0x008E
+    dw RoomHeader_Room008F ; 0x008F
+    dw RoomHeader_Room0090 ; 0x0090
+    dw RoomHeader_Room0091 ; 0x0091
+    dw RoomHeader_Room0092 ; 0x0092
+    dw RoomHeader_Room0093 ; 0x0093
+    dw RoomHeader_Room0094 ; 0x0094
+    dw RoomHeader_Room0095 ; 0x0095
+    dw RoomHeader_Room0096 ; 0x0096
+    dw RoomHeader_Room0097 ; 0x0097
+    dw RoomHeader_Room0098 ; 0x0098
+    dw RoomHeader_Room0099 ; 0x0099
+    dw RoomHeader_Room009A ; 0x009A
+    dw RoomHeader_Room009B ; 0x009B
+    dw RoomHeader_Room009C ; 0x009C
+    dw RoomHeader_Room009D ; 0x009D
+    dw RoomHeader_Room009E ; 0x009E
+    dw RoomHeader_Room009F ; 0x009F
+    dw RoomHeader_Room00A0 ; 0x00A0
+    dw RoomHeader_Room00A1 ; 0x00A1
+    dw RoomHeader_Room00A2 ; 0x00A2
+    dw RoomHeader_Room00A3 ; 0x00A3
+    dw RoomHeader_Room00A4 ; 0x00A4
+    dw RoomHeader_Room00A5 ; 0x00A5
+    dw RoomHeader_Room00A6 ; 0x00A6
+    dw RoomHeader_Room00A7 ; 0x00A7
+    dw RoomHeader_Room00A8 ; 0x00A8
+    dw RoomHeader_Room00A9 ; 0x00A9
+    dw RoomHeader_Room00AA ; 0x00AA
+    dw RoomHeader_Room00AB ; 0x00AB
+    dw RoomHeader_Room00AC ; 0x00AC
+    dw RoomHeader_Room00AD ; 0x00AD
+    dw RoomHeader_Room00AE ; 0x00AE
+    dw RoomHeader_Room00AF ; 0x00AF
+    dw RoomHeader_Room00B0 ; 0x00B0
+    dw RoomHeader_Room00B1 ; 0x00B1
+    dw RoomHeader_Room00B2 ; 0x00B2
+    dw RoomHeader_Room00B3 ; 0x00B3
+    dw RoomHeader_Room00B4 ; 0x00B4
+    dw RoomHeader_Room00B5 ; 0x00B5
+    dw RoomHeader_Room00B6 ; 0x00B6
+    dw RoomHeader_Room00B7 ; 0x00B7
+    dw RoomHeader_Room00B8 ; 0x00B8
+    dw RoomHeader_Room00B9 ; 0x00B9
+    dw RoomHeader_Room00BA ; 0x00BA
+    dw RoomHeader_Room00BB ; 0x00BB
+    dw RoomHeader_Room00BC ; 0x00BC
+    dw RoomHeader_Room00BD ; 0x00BD
+    dw RoomHeader_Room00BE ; 0x00BE
+    dw RoomHeader_Room00BF ; 0x00BF
+    dw RoomHeader_Room00C0 ; 0x00C0
+    dw RoomHeader_Room00C1 ; 0x00C1
+    dw RoomHeader_Room00C2 ; 0x00C2
+    dw RoomHeader_Room00C3 ; 0x00C3
+    dw RoomHeader_Room00C4 ; 0x00C4
+    dw RoomHeader_Room00C5 ; 0x00C5
+    dw RoomHeader_Room00C6 ; 0x00C6
+    dw RoomHeader_Room00C7 ; 0x00C7
+    dw RoomHeader_Room00C8 ; 0x00C8
+    dw RoomHeader_Room00C9 ; 0x00C9
+    dw RoomHeader_Room00CA ; 0x00CA
+    dw RoomHeader_Room00CB ; 0x00CB
+    dw RoomHeader_Room00CC ; 0x00CC
+    dw RoomHeader_Room00CD ; 0x00CD
+    dw RoomHeader_Room00CE ; 0x00CE
+    dw RoomHeader_Room00CF ; 0x00CF
+    dw RoomHeader_Room00D0 ; 0x00D0
+    dw RoomHeader_Room00D1 ; 0x00D1
+    dw RoomHeader_Room00D2 ; 0x00D2
+    dw RoomHeader_Room00D3 ; 0x00D3
+    dw RoomHeader_Room00D4 ; 0x00D4
+    dw RoomHeader_Room00D5 ; 0x00D5
+    dw RoomHeader_Room00D6 ; 0x00D6
+    dw RoomHeader_Room00D7 ; 0x00D7
+    dw RoomHeader_Room00D8 ; 0x00D8
+    dw RoomHeader_Room00D9 ; 0x00D9
+    dw RoomHeader_Room00DA ; 0x00DA
+    dw RoomHeader_Room00DB ; 0x00DB
+    dw RoomHeader_Room00DC ; 0x00DC
+    dw RoomHeader_Room00DD ; 0x00DD
+    dw RoomHeader_Room00DE ; 0x00DE
+    dw RoomHeader_Room00DF ; 0x00DF
+    dw RoomHeader_Room00E0 ; 0x00E0
+    dw RoomHeader_Room00E1 ; 0x00E1
+    dw RoomHeader_Room00E2 ; 0x00E2
+    dw RoomHeader_Room00E3 ; 0x00E3
+    dw RoomHeader_Room00E4 ; 0x00E4
+    dw RoomHeader_Room00E5 ; 0x00E5
+    dw RoomHeader_Room00E6 ; 0x00E6
+    dw RoomHeader_Room00E7 ; 0x00E7
+    dw RoomHeader_Room00E8 ; 0x00E8
+    dw RoomHeader_Room00E9 ; 0x00E9
+    dw RoomHeader_Room00EA ; 0x00EA
+    dw RoomHeader_Room00EB ; 0x00EB
+    dw RoomHeader_Room00EC ; 0x00EC
+    dw RoomHeader_Room00ED ; 0x00ED
+    dw RoomHeader_Room00EE ; 0x00EE
+    dw RoomHeader_Room00EF ; 0x00EF
+    dw RoomHeader_Room00F0 ; 0x00F0
+    dw RoomHeader_Room00F1 ; 0x00F1
+    dw RoomHeader_Room00F2 ; 0x00F2
+    dw RoomHeader_Room00F3 ; 0x00F3
+    dw RoomHeader_Room00F4 ; 0x00F4
+    dw RoomHeader_Room00F5 ; 0x00F5
+    dw RoomHeader_Room00F6 ; 0x00F6
+    dw RoomHeader_Room00F7 ; 0x00F7
+    dw RoomHeader_Room00F8 ; 0x00F8
+    dw RoomHeader_Room00F9 ; 0x00F9
+    dw RoomHeader_Room00FA ; 0x00FA
+    dw RoomHeader_Room00FB ; 0x00FB
+    dw RoomHeader_Room00FC ; 0x00FC
+    dw RoomHeader_Room00FD ; 0x00FD
+    dw RoomHeader_Room00FE ; 0x00FE
+    dw RoomHeader_Room00FF ; 0x00FF
+    dw RoomHeader_Room0100 ; 0x0100
+    dw RoomHeader_Room0101 ; 0x0101
+    dw RoomHeader_Room0102 ; 0x0102
+    dw RoomHeader_Room0103 ; 0x0103
+    dw RoomHeader_Room0104 ; 0x0104
+    dw RoomHeader_Room0105 ; 0x0105
+    dw RoomHeader_Room0106 ; 0x0106
+    dw RoomHeader_Room0107 ; 0x0107
+    dw RoomHeader_Room0108 ; 0x0108
+    dw RoomHeader_Room0109 ; 0x0109
+    dw RoomHeader_Room010A ; 0x010A
+    dw RoomHeader_Room010B ; 0x010B
+    dw RoomHeader_Room010C ; 0x010C
+    dw RoomHeader_Room010D ; 0x010D
+    dw RoomHeader_Room010E ; 0x010E
+    dw RoomHeader_Room010F ; 0x010F
+    dw RoomHeader_Room0110 ; 0x0110
+    dw RoomHeader_Room0111 ; 0x0111
+    dw RoomHeader_Room0112 ; 0x0112
+    dw RoomHeader_Room0113 ; 0x0113
+    dw RoomHeader_Room0114 ; 0x0114
+    dw RoomHeader_Room0115 ; 0x0115
+    dw RoomHeader_Room0116 ; 0x0116
+    dw RoomHeader_Room0117 ; 0x0117
+    dw RoomHeader_Room0118 ; 0x0118
+    dw RoomHeader_Room0119 ; 0x0119
+    dw RoomHeader_Room011A ; 0x011A
+    dw RoomHeader_Room011B ; 0x011B
+    dw RoomHeader_Room011C ; 0x011C
+    dw RoomHeader_Room011D ; 0x011D
+    dw RoomHeader_Room011E ; 0x011E
+    dw RoomHeader_Room011F ; 0x011F
+    dw RoomHeader_Room0120 ; 0x0120
+    dw RoomHeader_Room0121 ; 0x0121
+    dw RoomHeader_Room0122 ; 0x0122
+    dw RoomHeader_Room0123 ; 0x0123
+    dw RoomHeader_Room0124 ; 0x0124
+    dw RoomHeader_Room0125 ; 0x0125
+    dw RoomHeader_Room0126 ; 0x0126
+    dw RoomHeader_Room0127 ; 0x0127
+    dw RoomHeader_Room0128 ; 0x0128
+    dw RoomHeader_Room0129 ; 0x0129
+    dw RoomHeader_Room012A ; 0x012A
+    dw RoomHeader_Room012B ; 0x012B
+    dw RoomHeader_Room012C ; 0x012C
+    dw RoomHeader_Room012D ; 0x012D
+    dw RoomHeader_Room012E ; 0x012E
+    dw RoomHeader_Room012F ; 0x012F
+    dw RoomHeader_Room0130 ; 0x0130
+    dw RoomHeader_Room0131 ; 0x0131
+    dw RoomHeader_Room0132 ; 0x0132
+    dw RoomHeader_Room0133 ; 0x0133
+    dw RoomHeader_Room0134 ; 0x0134
+    dw RoomHeader_Room0135 ; 0x0135
+    dw RoomHeader_Room0136 ; 0x0136
+    dw RoomHeader_Room0137 ; 0x0137
+    dw RoomHeader_Room0138 ; 0x0138
+    dw RoomHeader_Room0139 ; 0x0139
+    dw RoomHeader_Room013A ; 0x013A
+    dw RoomHeader_Room013B ; 0x013B
+    dw RoomHeader_Room013C ; 0x013C
+    dw RoomHeader_Room013D ; 0x013D
+    dw RoomHeader_Room013E ; 0x013E
+    dw RoomHeader_Room013F ; 0x013F
 }
 
 ; ==============================================================================
-; BG2PROP   0x41
-; PALETTE   0x21
-; BLKSET    0x13
-; SPRSET    0x22
-; BGMOVE    0x07
-; EFFECT1   0x3D - Triforce door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x10 => ROOM 0010
-; STAIRS0   0xC0 => ROOM 00C0 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x04 => ROOM 0004 - leaked value
 
-; $027782- DATA
+; $027782-$02778B DATA
 RoomHeader_Room0000:
 {
-    db $41, $21, $13, $22, $07, $3D, $00, $00, $00, $10
+    db $41 ; BG2 Properties
+    db $21 ; Palette
+    db $13 ; Block set
+    db $22 ; Sprite set
+    db $07 ; BGMOVE
+    db $3D ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $10 ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x00
-; BLKSET    0x00
-; SPRSET    0x04
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x72 => ROOM 0072
-; STAIRS1   0x00 => ROOM 0000
-; STAIRS2   0x50 => ROOM 0050
-; STAIRS3   0x52 => ROOM 0052
 
 ; $02778C-$02779A DATA
 RoomHeader_Room0001:
 {
-    db $C0, $00, $00, $04, $00, $00, $00, $00, $00, $00, $72, $00, $50, $52
+    db $C0 ; BG2 Properties
+    db $00 ; Palette
+    db $00 ; Block set
+    db $04 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $72 ; Stair 0
+    db $00 ; Stair 1
+    db $50 ; Stair 2
+    db $52 ; Stair 3
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x1D
-; BLKSET    0x04
-; SPRSET    0x06
-; BGMOVE    0x00
-; EFFECT1   0x14 - Pull switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x11 => ROOM 0011
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x18 => ROOM 0018 - leaked value
-; STAIRS3   0x0D => ROOM 000D - leaked value
-
 ; $02779A-$0277A5 DATA
 RoomHeader_Room0002:
 {
-    db $C0, $1D, $04, $06, $00, $14, $00, $00, $00, $00, $11
+    db $C0 ; BG2 Properties
+    db $1D ; Palette
+    db $04 ; Block set
+    db $06 ; Sprite set
+    db $00 ; BGMOVE
+    db $14 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $11 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x26
-; BGMOVE    0x00
-; EFFECT1   0x26 - SE kill push block
-; EFFECT2   0x14 - Pull switch door
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xB5 => ROOM 00B5
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x08 => ROOM 0008 - leaked value
-; STAIRS3   0x08 => ROOM 0008 - leaked value
-
 ; $0277A5-$0277B0 DATA
 RoomHeader_Room0004:
 {
-    db $00, $18, $0D, $26, $00, $26, $14, $00, $00, $00, $B5
+    db $00 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $26 ; Sprite set
+    db $00 ; BGMOVE
+    db $26 ; Effect 1
+    db $14 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $B5 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x08
-; BLKSET    0x08
-; SPRSET    0x14
-; BGMOVE    0x00
-; EFFECT1   0x25 - Dungeon prize
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x20 - leaked value
-; PLANES2   0x06 - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x0C => ROOM 000C - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x25 => ROOM 0025 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
-RoomHeader_Room0005:
 ; $0277B0-$0277B7 DATA
+RoomHeader_Room0005:
 RoomHeader_Room0006:
 {
-    db $00, $08, $08, $14, $00, $25, $00
+    db $00 ; BG2 Properties
+    db $08 ; Palette
+    db $08 ; Block set
+    db $14 ; Sprite set
+    db $00 ; BGMOVE
+    db $25 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x06
-; BLKSET    0x05
-; SPRSET    0x0C
-; BGMOVE    0x00
-; EFFECT1   0x25 - Dungeon prize
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x17 => ROOM 0017
-; STAIRS0   0x17 => ROOM 0017
-; STAIRS1   0xC0 => ROOM 00C0 - leaked value
-; STAIRS2   0x07 => ROOM 0007 - leaked value
-; STAIRS3   0x06 => ROOM 0006 - leaked value
-
 ; $0277B7-$0277C2 DATA
 RoomHeader_Room0007:
 {
-    db $20, $06, $05, $0C, $00, $25, $00, $00, $00, $17, $17
+    db $20 ; BG2 Properties
+    db $06 ; Palette
+    db $05 ; Block set
+    db $0C ; Sprite set
+    db $00 ; BGMOVE
+    db $25 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $17 ; Warp
+    db $17 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x07
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0F - leaked value
-; WARP      0x07 => ROOM 0007 - leaked value
-; STAIRS0   0x19 => ROOM 0019 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x27 => ROOM 0027 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $0277C2-$0277C9 DATA
 RoomHeader_Room0008:
 {
-    db $C0, $07, $06, $07, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $07 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x27 - Switch chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x4B => ROOM 004B
-; STAIRS0   0x4A => ROOM 004A
-; STAIRS1   0x4A => ROOM 004A
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x0F => ROOM 000F - leaked value
-
 ; $0277C9-$0277D5 DATA
 RoomHeader_Room0009:
 {
-    db $00, $0F, $07, $19, $00, $27, $00, $00, $00, $4B, $4A, $4A
+    db $00 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $27 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $4B ; Warp
+    db $4A ; Stair 0
+    db $4A ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x27 - Switch chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x09 => ROOM 0009
-; STAIRS0   0x3A => ROOM 003A
-; STAIRS1   0x01 => ROOM 0001 - leaked value
-; STAIRS2   0x0F => ROOM 000F - leaked value
-; STAIRS3   0x07 => ROOM 0007 - leaked value
-
 ; $0277D5-$0277E0 DATA
 RoomHeader_Room000A:
 {
-    db $00, $0F, $07, $19, $00, $27, $00, $00, $00, $09, $3A
+    db $00 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $27 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $09 ; Warp
+    db $3A ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x03 - SW kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x6A => ROOM 006A
-; STAIRS0   0x1B => ROOM 001B
-; STAIRS1   0xC0 => ROOM 00C0 - leaked value
-; STAIRS2   0x28 => ROOM 0028 - leaked value
-; STAIRS3   0x0E => ROOM 000E - leaked value
-
 ; $0277E0-$0277EB DATA
 RoomHeader_Room000B:
 {
-    db $01, $0F, $07, $19, $00, $03, $00, $00, $00, $6A, $1B
+    db $01 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $03 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $6A ; Warp
+    db $1B ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x28
-; BLKSET    0x0E
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x6B => ROOM 006B
-; STAIRS1   0x8C => ROOM 008C
-; STAIRS2   0x8C => ROOM 008C
-; STAIRS3   0x40 => ROOM 0040 - leaked value
-
 ; $0277EB-$0277F8 DATA
 RoomHeader_Room000C:
 {
-    db $C0, $28, $0E, $13, $00, $00, $00, $00, $00, $00, $6B, $8C, $8C
+    db $C0 ; BG2 Properties
+    db $28 ; Palette
+    db $0E ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $6B ; Stair 0
+    db $8C ; Stair 1
+    db $8C ; Stair 2
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x40
-; PALETTE   0x1B
-; BLKSET    0x0E
-; SPRSET    0x18
-; BGMOVE    0x05
-; EFFECT1   0x38 - Agahnim 2
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x13 - leaked value
-; WARP      0x0B => ROOM 000B - leaked value
-; STAIRS0   0x1C => ROOM 001C - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x08 => ROOM 0008 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $0277F8-$0277FF DATA
 RoomHeader_Room000D:
 {
-    db $40, $1B, $0E, $18, $05, $38, $00
+    db $40 ; BG2 Properties
+    db $1B ; Palette
+    db $0E ; Block set
+    db $18 ; Sprite set
+    db $05 ; BGMOVE
+    db $38 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x08 - S kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x1E => ROOM 001E
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x21 => ROOM 0021 - leaked value
-; STAIRS3   0x13 => ROOM 0013 - leaked value
-
 ; $0277FF-$02780A DATA
 RoomHeader_Room000E:
 {
-    db $00, $13, $0B, $1C, $00, $08, $00, $00, $00, $00, $1E
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $08 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $1E ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x21
-; BLKSET    0x13
-; SPRSET    0x22
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x01 - leaked value
-; WARP      0x01 => ROOM 0001 - leaked value
-; STAIRS0   0x01 => ROOM 0001 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
-RoomHeader_Room000F:
 ; $02780A-$027811 DATA
+RoomHeader_Room000F:
 RoomHeader_Room0010:
 {
-    db $00, $21, $13, $22, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $21 ; Palette
+    db $13 ; Block set
+    db $22 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x01
-; BLKSET    0x01
-; SPRSET    0x01
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x08
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x02 => ROOM 0002
-; STAIRS1   0xC0 => ROOM 00C0 - leaked value
-; STAIRS2   0x1D => ROOM 001D - leaked value
-; STAIRS3   0x04 => ROOM 0004 - leaked value
-
 ; $027811-$02781C DATA
 RoomHeader_Room0011:
 {
-    db $00, $01, $01, $01, $00, $00, $00, $08, $00, $00, $02
+    db $00 ; BG2 Properties
+    db $01 ; Palette
+    db $01 ; Block set
+    db $01 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $08 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $02 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x1D
-; BLKSET    0x04
-; SPRSET    0x06
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x18 - leaked value
-; WARP      0x0D => ROOM 000D - leaked value
-; STAIRS0   0x26 => ROOM 0026 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $02781C-$027823 DATA
 RoomHeader_Room0012:
 {
-    db $C0, $1D, $04, $06, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $1D ; Palette
+    db $04 ; Block set
+    db $06 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x26
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x18 - leaked value
-; WARP      0x0D => ROOM 000D - leaked value
-; STAIRS0   0x1E => ROOM 001E - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027823-$02782A DATA
 RoomHeader_Room0013:
 RoomHeader_Room0023:
 {
-    db $00, $18, $0D, $26, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $26 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x1E
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x20 - leaked value
-; PLANES2   0x18 - leaked value
-; WARP      0x0D => ROOM 000D - leaked value
-; STAIRS0   0x26 => ROOM 0026 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $02782A-$027831 DATA
 RoomHeader_Room00B7:
 RoomHeader_Room00C6:
 RoomHeader_Room00D6:
 {
-    db $00, $18, $0D, $1E, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $1E ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x26
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x18 - leaked value
-; WARP      0x0D => ROOM 000D - leaked value
-; STAIRS0   0x26 => ROOM 0026 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027831-$027838 DATA
 RoomHeader_Room0014:
 {
-    db $20, $18, $0D, $26, $00, $00, $00
+    db $20 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $26 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x26
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xB6 => ROOM 00B6
-; STAIRS1   0x90 => ROOM 0090 - leaked value
-; STAIRS2   0x08 => ROOM 0008 - leaked value
-; STAIRS3   0x08 => ROOM 0008 - leaked value
-
 ; $027838-$027843 DATA
 RoomHeader_Room0015:
 {
-    db $C0, $18, $0D, $26, $00, $00, $00, $00, $00, $00, $B6
+    db $C0 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $26 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $B6 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x90
-; PALETTE   0x08
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x03
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x66 => ROOM 0066
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x06 => ROOM 0006 - leaked value
-; STAIRS3   0x05 => ROOM 0005 - leaked value
-
 ; $027843-$02784E DATA
 RoomHeader_Room0016:
 {
-    db $90, $08, $08, $11, $03, $00, $00, $00, $00, $00, $66
+    db $90 ; BG2 Properties
+    db $08 ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $03 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $66 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x06
-; BLKSET    0x05
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x35 - Holes 4
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x27 => ROOM 0027
-; STAIRS0   0x07 => ROOM 0007
-; STAIRS1   0x27 => ROOM 0027
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x0F => ROOM 000F - leaked value
-
 ; $02784E-$02785A DATA
 RoomHeader_Room0017:
 {
-    db $20, $06, $05, $19, $00, $35, $00, $00, $00, $27, $07, $27
+    db $20 ; BG2 Properties
+    db $06 ; Palette
+    db $05 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $35 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $27 ; Warp
+    db $07 ; Stair 0
+    db $27 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0F - leaked value
-; WARP      0x07 => ROOM 0007 - leaked value
-; STAIRS0   0x19 => ROOM 0019 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x16 => ROOM 0016 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $02785A-$027861 DATA
 RoomHeader_Room0019:
 {
-    db $01, $0F, $07, $19, $00, $00, $00
+    db $01 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x16 - Hold switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x6A => ROOM 006A
-; STAIRS1   0x6A => ROOM 006A
-; STAIRS2   0x68 => ROOM 0068 - leaked value
-; STAIRS3   0x0F => ROOM 000F - leaked value
-
 ; $027861-$02786D DATA
 RoomHeader_Room001A:
 {
-    db $00, $0F, $07, $19, $00, $16, $00, $00, $00, $00, $6A, $6A
+    db $00 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $16 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $6A ; Stair 0
+    db $6A ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x68
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x03 - SW kill door
-; EFFECT2   0x1C - Moving wall east
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x0B => ROOM 000B
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x1A => ROOM 001A - leaked value
-; STAIRS3   0x0E => ROOM 000E - leaked value
-
 ; $02786D-$027878 DATA
 RoomHeader_Room001B:
 {
-    db $68, $0F, $07, $08, $00, $03, $1C, $00, $00, $00, $0B
+    db $68 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $03 ; Effect 1
+    db $1C ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $0B ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x1A
-; BLKSET    0x0E
-; SPRSET    0x09
-; BGMOVE    0x00
-; EFFECT1   0x04 - SE kill door
-; EFFECT2   0x3F - Rekillable boss
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x8C => ROOM 008C
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x1B => ROOM 001B - leaked value
-; STAIRS3   0x0E => ROOM 000E - leaked value
-
 ; $027878-$027883 DATA
 RoomHeader_Room001C:
 {
-    db $00, $1A, $0E, $09, $00, $04, $3F, $00, $00, $00, $8C
+    db $00 ; BG2 Properties
+    db $1A ; Palette
+    db $0E ; Block set
+    db $09 ; Sprite set
+    db $00 ; BGMOVE
+    db $04 ; Effect 1
+    db $3F ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $8C ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x1B
-; BLKSET    0x0E
-; SPRSET    0x18
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x4C => ROOM 004C
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027883-$02788E DATA
 RoomHeader_Room001D:
 {
-    db $00, $1B, $0E, $18, $00, $00, $00, $00, $00, $00, $4C
+    db $00 ; BG2 Properties
+    db $1B ; Palette
+    db $0E ; Block set
+    db $18 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $4C ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x3E => ROOM 003E
-; STAIRS0   0x0E => ROOM 000E
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $02788E-$027899 DATA
 RoomHeader_Room001E:
 {
-    db $20, $13, $0B, $1C, $00, $17, $00, $00, $00, $3E, $0E
+    db $20 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $3E ; Warp
+    db $0E ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x29
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x3F => ROOM 003F
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x0C => ROOM 000C - leaked value
-; STAIRS3   0x02 => ROOM 0002 - leaked value
-
 ; $027899-$0278A4 DATA
 RoomHeader_Room001F:
 {
-    db $00, $13, $0B, $29, $00, $17, $00, $00, $00, $00, $3F
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $29 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $3F ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x0C
-; BLKSET    0x02
-; SPRSET    0x12
-; BGMOVE    0x00
-; EFFECT1   0x15 - Beat dungeon door
-; EFFECT2   0x25 - Dungeon prize
-; PLANES1   0x01 - leaked value
-; PLANES2   0x01 - leaked value
-; WARP      0x01 => ROOM 0001 - leaked value
-; STAIRS0   0x01 => ROOM 0001 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $0278A4-$0278AB DATA
 RoomHeader_Room0020:
 {
-    db $20, $0C, $02, $12, $00, $15, $25
+    db $20 ; BG2 Properties
+    db $0C ; Palette
+    db $02 ; Block set
+    db $12 ; Sprite set
+    db $00 ; BGMOVE
+    db $15 ; Effect 1
+    db $25 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x01
-; BLKSET    0x01
-; SPRSET    0x01
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x18 - leaked value
-; WARP      0x0D => ROOM 000D - leaked value
-; STAIRS0   0x26 => ROOM 0026 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
-RoomHeader_Room0021:
 ; $0278AB-$0278B2 DATA
+RoomHeader_Room0021:
 RoomHeader_Room0022:
 {
-    db $01, $01, $01, $01, $00, $00, $00
+    db $01 ; BG2 Properties
+    db $01 ; Palette
+    db $01 ; Block set
+    db $01 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x26
-; BGMOVE    0x00
-; EFFECT1   0x01 - NW kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0A - leaked value
-; WARP      0x08 => ROOM 0008 - leaked value
-; STAIRS0   0x11 => ROOM 0011 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x16 => ROOM 0016 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $0278B2-$0278B9 DATA
 RoomHeader_Room0024:
 {
-    db $00, $18, $0D, $26, $00, $01, $00
+    db $00 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $26 ; Sprite set
+    db $00 ; BGMOVE
+    db $01 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x16 - Hold switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x76 => ROOM 0076
-; STAIRS1   0x76 => ROOM 0076
-; STAIRS2   0x76 => ROOM 0076
-; STAIRS3   0x20 => ROOM 0020 - leaked value
-
 ; $0278B9-$0278C6 DATA
 RoomHeader_Room0025:
 RoomHeader_Room0026:
 {
-    db $00, $0A, $08, $11, $00, $16, $00, $00, $00, $00, $76, $76, $76
+    db $00 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $16 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $76 ; Stair 0
+    db $76 ; Stair 1
+    db $76 ; Stair 2
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x06
-; BLKSET    0x05
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x36 - Holes 5
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x31 => ROOM 0031
-; STAIRS0   0x17 => ROOM 0017
-; STAIRS1   0x31 => ROOM 0031
-; STAIRS2   0x80 => ROOM 0080 - leaked value
-; STAIRS3   0x0A => ROOM 000A - leaked value
-
 ; $0278C6-$0278D2 DATA
 RoomHeader_Room0027:
 {
-    db $20, $06, $05, $19, $00, $36, $00, $00, $00, $31, $17, $31
+    db $20 ; BG2 Properties
+    db $06 ; Palette
+    db $05 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $36 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $31 ; Warp
+    db $17 ; Stair 0
+    db $31 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x80
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x32 - Full room kill chest
-; EFFECT2   0x1B - Water gate twin
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x38 => ROOM 0038
-; STAIRS1   0xCC => ROOM 00CC - leaked value
-; STAIRS2   0x0E => ROOM 000E - leaked value
-; STAIRS3   0x09 => ROOM 0009 - leaked value
-
 ; $0278D2-$0278DD DATA
 RoomHeader_Room0028:
 {
-    db $80, $0A, $08, $11, $00, $32, $1B, $00, $00, $00, $38
+    db $80 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $32 ; Effect 1
+    db $1B ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $38 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xCC
-; PALETTE   0x0E
-; BLKSET    0x09
-; SPRSET    0x1A
-; BGMOVE    0x02
-; EFFECT1   0x25 - Dungeon prize
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0F - leaked value
-; WARP      0x07 => ROOM 0007 - leaked value
-; STAIRS0   0x19 => ROOM 0019 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $0278DD-$0278E4 DATA
 RoomHeader_Room0029:
 {
-    db $CC, $0E, $09, $1A, $02, $25, $00
+    db $CC ; BG2 Properties
+    db $0E ; Palette
+    db $09 ; Block set
+    db $1A ; Sprite set
+    db $02 ; BGMOVE
+    db $25 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x0F - leaked value
-; WARP      0x07 => ROOM 0007 - leaked value
-; STAIRS0   0x2B => ROOM 002B - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x16 => ROOM 0016 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $0278E4-$0278EB DATA
 RoomHeader_Room002A:
 {
-    db $00, $0F, $07, $19, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x2B
-; BGMOVE    0x00
-; EFFECT1   0x16 - Hold switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x3B => ROOM 003B
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $0278EB-$0278F6 DATA
 RoomHeader_Room002B:
 {
-    db $C0, $0F, $07, $2B, $00, $16, $00, $00, $00, $00, $3B
+    db $C0 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $2B ; Sprite set
+    db $00 ; BGMOVE
+    db $16 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $3B ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x2A - NE kill chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x06 => ROOM 0006 - leaked value
-; STAIRS0   0x19 => ROOM 0019 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
-RoomHeader_Room002D:
 ; $0278F6-$0278FD DATA
+RoomHeader_Room002D:
 RoomHeader_Room002E:
 {
-    db $00, $13, $0B, $1C, $00, $2A, $00
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $2A ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0C - leaked value
-; WARP      0x02 => ROOM 0002 - leaked value
-; STAIRS0   0x12 => ROOM 0012 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
-RoomHeader_Room0003:
 ; $0278FD-$027904 DATA
+RoomHeader_Room0003:
 RoomHeader_Room002F:
 {
-    db $C0, $07, $06, $19, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0C
-; BLKSET    0x02
-; SPRSET    0x12
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x40 => ROOM 0040
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x06 => ROOM 0006 - leaked value
-; STAIRS3   0x05 => ROOM 0005 - leaked value
-
 ; $027904-$02790F DATA
 RoomHeader_Room0030:
 {
-    db $00, $0C, $02, $12, $00, $00, $00, $00, $00, $00, $40
+    db $00 ; BG2 Properties
+    db $0C ; Palette
+    db $02 ; Block set
+    db $12 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $40 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x06
-; BLKSET    0x05
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x37 - Holes 6
-; EFFECT2   0x04 - SE kill door
-; PLANES1   0x22
-; PLANES2   0x00
-; WARP      0x77 => ROOM 0077
-; STAIRS0   0x27 => ROOM 0027
-; STAIRS1   0x77 => ROOM 0077
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x01 => ROOM 0001 - leaked value
-
 ; $02790F-$02791B DATA
 RoomHeader_Room0031:
 {
-    db $20, $06, $05, $19, $00, $37, $04, $22, $00, $77, $27, $77
+    db $20 ; BG2 Properties
+    db $06 ; Palette
+    db $05 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $37 ; Effect 1
+    db $04 ; Effect 2
+    db $22 ; Floor 1
+    db $00 ; Floor 2
+    db $77 ; Warp
+    db $27 ; Stair 0
+    db $77 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x01
-; BLKSET    0x01
-; SPRSET    0x01
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x42 => ROOM 0042
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x04 => ROOM 0004 - leaked value
-; STAIRS3   0x05 => ROOM 0005 - leaked value
-
 ; $02791B-$027926 DATA
 RoomHeader_Room0032:
 {
-    db $01, $01, $01, $01, $00, $00, $00, $00, $00, $00, $42
+    db $01 ; BG2 Properties
+    db $01 ; Palette
+    db $01 ; Block set
+    db $01 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $42 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x04
-; BLKSET    0x05
-; SPRSET    0x0B
-; BGMOVE    0x00
-; EFFECT1   0x15 - Beat dungeon door
-; EFFECT2   0x25 - Dungeon prize
-; PLANES1   0x80 - leaked value
-; PLANES2   0x0A - leaked value
-; WARP      0x08 => ROOM 0008 - leaked value
-; STAIRS0   0x11 => ROOM 0011 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027926-$02792D DATA
 RoomHeader_Room0033:
 {
-    db $00, $04, $05, $0B, $00, $15, $25
+    db $00 ; BG2 Properties
+    db $04 ; Palette
+    db $05 ; Block set
+    db $0B ; Sprite set
+    db $00 ; BGMOVE
+    db $15 ; Effect 1
+    db $25 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x80
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x54 => ROOM 0054
-; STAIRS1   0x80 => ROOM 0080 - leaked value
-; STAIRS2   0x0A => ROOM 000A - leaked value
-; STAIRS3   0x08 => ROOM 0008 - leaked value
-
 ; $02792D-$027938 DATA
 RoomHeader_Room0034:
 {
-    db $80, $0A, $08, $11, $00, $00, $00, $00, $00, $00, $54
+    db $80 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $54 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x80
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x19 - Fill water
-; PLANES1   0x80 - leaked value
-; PLANES2   0x0A - leaked value
-; WARP      0x08 => ROOM 0008 - leaked value
-; STAIRS0   0x11 => ROOM 0011 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027938-$02793F DATA
 RoomHeader_Room0035:
 RoomHeader_Room0037:
 {
-    db $80, $0A, $08, $11, $00, $00, $19
+    db $80 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $19 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x80
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x80 - leaked value
-; PLANES2   0x0A - leaked value
-; WARP      0x08 => ROOM 0008 - leaked value
-; STAIRS0   0x11 => ROOM 0011 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $02793F-$027946 DATA
 RoomHeader_Room0036:
 {
-    db $80, $0A, $08, $11, $00, $00, $00
+    db $80 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x80
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x28 => ROOM 0028
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x0D => ROOM 000D - leaked value
-; STAIRS3   0x09 => ROOM 0009 - leaked value
-
 ; $027946-$027951 DATA
 RoomHeader_Room0038:
 {
-    db $80, $0A, $08, $11, $00, $00, $00, $00, $00, $00, $28
+    db $80 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $28 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x0D
-; BLKSET    0x09
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x29 => ROOM 0029
-; STAIRS0   0x20 => ROOM 0020 - leaked value
-; STAIRS1   0x0F => ROOM 000F - leaked value
-; STAIRS2   0x07 => ROOM 0007 - leaked value
-; STAIRS3   0x19 => ROOM 0019 - leaked value
-
 ; $027951-$02795B DATA
 RoomHeader_Room0039:
 {
-    db $20, $0D, $09, $13, $00, $00, $00, $00, $00, $29
+    db $20 ; BG2 Properties
+    db $0D ; Palette
+    db $09 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $29 ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x0A => ROOM 000A
-; STAIRS0   0x0A => ROOM 000A
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x0F => ROOM 000F - leaked value
-; STAIRS3   0x07 => ROOM 0007 - leaked value
-
 ; $02795B-$027966 DATA
 RoomHeader_Room003A:
 {
-    db $20, $0F, $07, $19, $00, $00, $00, $00, $00, $0A, $0A
+    db $20 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $0A ; Warp
+    db $0A ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x2B => ROOM 002B
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x07 => ROOM 0007 - leaked value
-; STAIRS3   0x06 => ROOM 0006 - leaked value
-
 ; $027966-$027971 DATA
 RoomHeader_Room003B:
 {
-    db $00, $0F, $07, $08, $00, $00, $00, $00, $00, $00, $2B
+    db $00 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $2B ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x20 - leaked value
-; PLANES2   0x1A - leaked value
-; WARP      0x0E => ROOM 000E - leaked value
-; STAIRS0   0x0C => ROOM 000C - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x33 => ROOM 0033 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027971-$027978 DATA
 RoomHeader_Room003C:
 {
-    db $00, $07, $06, $13, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x1A
-; BLKSET    0x0E
-; SPRSET    0x0C
-; BGMOVE    0x00
-; EFFECT1   0x33 - Torch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x96 => ROOM 0096
-; STAIRS0   0x96 => ROOM 0096
-; STAIRS1   0xCC => ROOM 00CC - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027978-$027983 DATA
 RoomHeader_Room003D:
 {
-    db $20, $1A, $0E, $0C, $00, $33, $00, $00, $00, $96, $96
+    db $20 ; BG2 Properties
+    db $1A ; Palette
+    db $0E ; Block set
+    db $0C ; Sprite set
+    db $00 ; BGMOVE
+    db $33 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $96 ; Warp
+    db $96 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xCC
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x29
-; BGMOVE    0x02
-; EFFECT1   0x02 - NE kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x1E => ROOM 001E
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027983-$02798E DATA
 RoomHeader_Room003E:
 {
-    db $CC, $13, $0B, $29, $02, $02, $00, $00, $00, $00, $1E
+    db $CC ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $29 ; Sprite set
+    db $02 ; BGMOVE
+    db $02 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $1E ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x29
-; BGMOVE    0x00
-; EFFECT1   0x27 - Switch chest
-; EFFECT2   0x14 - Pull switch door
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x1F => ROOM 001F
-; STAIRS1   0x5F => ROOM 005F
-; STAIRS2   0xC0 => ROOM 00C0 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $02798E-$02799A DATA
 RoomHeader_Room003F:
 {
-    db $00, $13, $0B, $29, $00, $27, $14, $00, $00, $00, $1F, $5F
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $29 ; Sprite set
+    db $00 ; BGMOVE
+    db $27 ; Effect 1
+    db $14 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $1F ; Stair 0
+    db $5F ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x00
-; BLKSET    0x02
-; SPRSET    0x27
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x30 => ROOM 0030
-; STAIRS1   0xB0 => ROOM 00B0
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $02799A-$0279A6 DATA
 RoomHeader_Room0040:
 {
-    db $C0, $00, $02, $27, $00, $00, $00, $00, $00, $00, $30, $B0
+    db $C0 ; BG2 Properties
+    db $00 ; Palette
+    db $02 ; Block set
+    db $27 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $30 ; Stair 0
+    db $B0 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x00
-; BLKSET    0x00
-; SPRSET    0x02
-; BGMOVE    0x00
-; EFFECT1   0x13 - Quadrant block door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x42 => ROOM 0042
-; STAIRS1   0x01 => ROOM 0001 - leaked value
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x01 => ROOM 0001 - leaked value
-
 ; $0279A6-$0279B1 DATA
 RoomHeader_Room0041:
 {
-    db $01, $00, $00, $02, $00, $13, $00, $00, $00, $00, $42
+    db $01 ; BG2 Properties
+    db $00 ; Palette
+    db $00 ; Block set
+    db $02 ; Sprite set
+    db $00 ; BGMOVE
+    db $13 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $42 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x01
-; BLKSET    0x01
-; SPRSET    0x01
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x41 => ROOM 0041
-; STAIRS1   0x32 => ROOM 0032
-; STAIRS2   0x68 => ROOM 0068 - leaked value
-; STAIRS3   0x04 => ROOM 0004 - leaked value
-
 ; $0279B1-$0279BD DATA
 RoomHeader_Room0042:
 {
-    db $01, $01, $01, $01, $00, $00, $00, $00, $00, $00, $41, $32
+    db $01 ; BG2 Properties
+    db $01 ; Palette
+    db $01 ; Block set
+    db $01 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $41 ; Stair 0
+    db $32 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x68
-; PALETTE   0x04
-; BLKSET    0x05
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x1D - Moving wall west
-; PLANES1   0x00 - leaked value
-; PLANES2   0x17 - leaked value
-; WARP      0x0A => ROOM 000A - leaked value
-; STAIRS0   0x1B => ROOM 001B - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $0279BD-$0279C4 DATA
 RoomHeader_Room0043:
 {
-    db $68, $04, $05, $0A, $00, $00, $1D
+    db $68 ; BG2 Properties
+    db $04 ; Palette
+    db $05 ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $1D ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x17
-; BLKSET    0x0A
-; SPRSET    0x1B
-; BGMOVE    0x00
-; EFFECT1   0x01 - NW kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x60 - leaked value
-; PLANES2   0x17 - leaked value
-; WARP      0x0A => ROOM 000A - leaked value
-; STAIRS0   0x1B => ROOM 001B - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $0279C4-$0279CB DATA
 RoomHeader_Room0044:
 {
-    db $00, $17, $0A, $1B, $00, $01, $00
+    db $00 ; BG2 Properties
+    db $17 ; Palette
+    db $0A ; Block set
+    db $1B ; Sprite set
+    db $00 ; BGMOVE
+    db $01 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x60
-; PALETTE   0x17
-; BLKSET    0x0A
-; SPRSET    0x1B
-; BGMOVE    0x00
-; EFFECT1   0x01 - NW kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xBC => ROOM 00BC
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x0A => ROOM 000A - leaked value
-; STAIRS3   0x08 => ROOM 0008 - leaked value
-
 ; $0279CB-$0279D6 DATA
 RoomHeader_Room0045:
 {
-    db $60, $17, $0A, $1B, $00, $01, $00, $00, $00, $00, $BC
+    db $60 ; BG2 Properties
+    db $17 ; Palette
+    db $0A ; Block set
+    db $1B ; Sprite set
+    db $00 ; BGMOVE
+    db $01 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $BC ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x3C - Push block chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0D - leaked value
-; WARP      0x09 => ROOM 0009 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x33 => ROOM 0033 - leaked value
-; STAIRS3   0x34 => ROOM 0034 - leaked value
-
 ; $0279D6-$0279DD DATA
 RoomHeader_Room0046:
 {
-    db $00, $0A, $08, $11, $00, $3C, $00
+    db $00 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $3C ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0D
-; BLKSET    0x09
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x33 - Torch door
-; EFFECT2   0x34 - Holes 3
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0F - leaked value
-; WARP      0x07 => ROOM 0007 - leaked value
-; STAIRS0   0x19 => ROOM 0019 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x17 => ROOM 0017 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $0279DD-$0279E4 DATA
 RoomHeader_Room0047:
 RoomHeader_Room0048:
 RoomHeader_Room0049:
 {
-    db $00, $0D, $09, $13, $00, $33, $34
+    db $00 ; BG2 Properties
+    db $0D ; Palette
+    db $09 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $33 ; Effect 1
+    db $34 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x09 => ROOM 0009
-; STAIRS1   0x09 => ROOM 0009
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x0F => ROOM 000F - leaked value
-
 ; $0279E4-$0279F0 DATA
 RoomHeader_Room004A:
 {
-    db $00, $0F, $07, $19, $00, $17, $00, $00, $00, $00, $09, $09
+    db $00 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $09 ; Stair 0
+    db $09 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x01 - NW kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x09 => ROOM 0009
-; STAIRS0   0x00 => ROOM 0000 - leaked value
-; STAIRS1   0x1A => ROOM 001A - leaked value
-; STAIRS2   0x0E => ROOM 000E - leaked value
-; STAIRS3   0x0C => ROOM 000C - leaked value
-
 ; $0279F0-$0279FA DATA
 RoomHeader_Room004B:
 {
-    db $00, $0F, $07, $08, $00, $01, $00, $00, $00, $09
+    db $00 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $01 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $09 ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x1A
-; BLKSET    0x0E
-; SPRSET    0x0C
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x1D => ROOM 001D
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x1A => ROOM 001A - leaked value
-; STAIRS3   0x0E => ROOM 000E - leaked value
-
 ; $0279FA-$027A05 DATA
 RoomHeader_Room004C:
 {
-    db $00, $1A, $0E, $0C, $00, $00, $00, $00, $00, $00, $1D
+    db $00 ; BG2 Properties
+    db $1A ; Palette
+    db $0E ; Block set
+    db $0C ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $1D ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x1A
-; BLKSET    0x0E
-; SPRSET    0x0C
-; BGMOVE    0x00
-; EFFECT1   0x32 - Full room kill chest
-; EFFECT2   0x3F - Rekillable boss
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xA6 => ROOM 00A6
-; STAIRS0   0xA6 => ROOM 00A6
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027A05-$027A10 DATA
 RoomHeader_Room004D:
 {
-    db $20, $1A, $0E, $0C, $00, $32, $3F, $00, $00, $A6, $A6
+    db $20 ; BG2 Properties
+    db $1A ; Palette
+    db $0E ; Block set
+    db $0C ; Sprite set
+    db $00 ; BGMOVE
+    db $32 ; Effect 1
+    db $3F ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $A6 ; Warp
+    db $A6 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x29
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x6E => ROOM 006E
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027A10-$027A1B DATA
 RoomHeader_Room004E:
 {
-    db $00, $13, $0B, $29, $00, $17, $00, $00, $00, $00, $6E
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $29 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $6E ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xBE => ROOM 00BE
-; STAIRS0   0xC0 => ROOM 00C0 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x04 => ROOM 0004 - leaked value
-
 ; $027A1B-$027A25 DATA
 RoomHeader_Room004F:
 {
-    db $00, $13, $0B, $1C, $00, $00, $00, $00, $00, $BE
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $BE ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x00
-; BLKSET    0x00
-; SPRSET    0x04
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x00 => ROOM 0000
-; STAIRS1   0x00 => ROOM 0000
-; STAIRS2   0x01 => ROOM 0001
-; STAIRS3   0x01 => ROOM 0001
-
 ; $027A25-$027A33 DATA
 RoomHeader_Room0050:
 {
-    db $C0, $00, $00, $04, $00, $00, $00, $00, $00, $00, $00, $00, $01, $01
+    db $C0 ; BG2 Properties
+    db $00 ; Palette
+    db $00 ; Block set
+    db $04 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $00 ; Stair 0
+    db $00 ; Stair 1
+    db $01 ; Stair 2
+    db $01 ; Stair 3
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x00
-; BLKSET    0x00
-; SPRSET    0x03
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x61 => ROOM 0061
-; STAIRS1   0xC0 => ROOM 00C0 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027A33-$027A3E DATA
 RoomHeader_Room0051:
 {
-    db $C0, $00, $00, $03, $00, $00, $00, $00, $00, $00, $61
+    db $C0 ; BG2 Properties
+    db $00 ; Palette
+    db $00 ; Block set
+    db $03 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $61 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x00
-; BLKSET    0x00
-; SPRSET    0x04
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x00 => ROOM 0000
-; STAIRS1   0x00 => ROOM 0000
-; STAIRS2   0x01 => ROOM 0001
-; STAIRS3   0x01 => ROOM 0001
-
 ; $027A3E-$027A4C DATA
 RoomHeader_Room0052:
 {
-    db $C0, $00, $00, $04, $00, $00, $00, $00, $00, $00, $00, $00, $01, $01
+    db $C0 ; BG2 Properties
+    db $00 ; Palette
+    db $00 ; Block set
+    db $04 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $00 ; Stair 0
+    db $00 ; Stair 1
+    db $01 ; Stair 2
+    db $01 ; Stair 3
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x04
-; BLKSET    0x05
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x03 - SW kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x63 => ROOM 0063
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x0A => ROOM 000A - leaked value
-; STAIRS3   0x08 => ROOM 0008 - leaked value
-
 ; $027A4C-$027A57 DATA
 RoomHeader_Room0053:
 {
-    db $C0, $04, $05, $0A, $00, $03, $00, $00, $00, $00, $63
+    db $C0 ; BG2 Properties
+    db $04 ; Palette
+    db $05 ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $03 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $63 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x34 => ROOM 0034
-; STAIRS0   0x34 => ROOM 0034
-; STAIRS1   0x01 => ROOM 0001 - leaked value
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x10 => ROOM 0010 - leaked value
-
 ; $027A57-$027A62 DATA
 RoomHeader_Room0054:
 {
-    db $20, $0A, $08, $11, $00, $00, $00, $00, $00, $34, $34
+    db $20 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $34 ; Warp
+    db $34 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x01
-; BLKSET    0x10
-; SPRSET    0x0D
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0D - leaked value
-; WARP      0x09 => ROOM 0009 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x23 => ROOM 0023 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027A62-$027A69 DATA
 RoomHeader_Room0055:
 {
-    db $01, $01, $10, $0D, $00, $00, $00
+    db $01 ; BG2 Properties
+    db $01 ; Palette
+    db $10 ; Block set
+    db $0D ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0D
-; BLKSET    0x09
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x23 - Holes 1
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0D - leaked value
-; WARP      0x09 => ROOM 0009 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x16 => ROOM 0016 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027A69-$027A70 DATA
 RoomHeader_Room0056:
 {
-    db $00, $0D, $09, $13, $00, $23, $00
+    db $00 ; BG2 Properties
+    db $0D ; Palette
+    db $09 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $23 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0D
-; BLKSET    0x09
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x16 - Hold switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0D - leaked value
-; WARP      0x09 => ROOM 0009 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x21 => ROOM 0021 - leaked value
-; STAIRS3   0x28 => ROOM 0028 - leaked value
-
 ; $027A70-$027A77 DATA
 RoomHeader_Room0057:
 {
-    db $00, $0D, $09, $13, $00, $16, $00
+    db $00 ; BG2 Properties
+    db $0D ; Palette
+    db $09 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $16 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0D
-; BLKSET    0x09
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x21 - Holes 0
-; EFFECT2   0x28 - Pull switch bomb wall
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x0D - leaked value'
-; WARP      0x09 => ROOM 0009 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027A77-$027A7E DATA
 RoomHeader_Room0058:
 {
-    db $00, $0D, $09, $13, $00, $21, $28
+    db $00 ; BG2 Properties
+    db $0D ; Palette
+    db $09 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $21 ; Effect 1
+    db $28 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x0D
-; BLKSET    0x09
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x10 - leaked value
-; WARP      0x07 => ROOM 0007 - leaked value
-; STAIRS0   0x15 => ROOM 0015 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x25 => ROOM 0025 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027A7E-$027A85 DATA
 RoomHeader_Room0059:
 {
-    db $C0, $0D, $09, $13, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $0D ; Palette
+    db $09 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x10
-; BLKSET    0x07
-; SPRSET    0x15
-; BGMOVE    0x00
-; EFFECT1   0x25 - Dungeon prize
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x1B - leaked value
-; WARP      0x0E => ROOM 000E - leaked value
-; STAIRS0   0x0A => ROOM 000A - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x17 => ROOM 0017 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027A85-$027A8C DATA
 RoomHeader_Room005A:
 {
-    db $00, $10, $07, $15, $00, $25, $00
+    db $00 ; BG2 Properties
+    db $10 ; Palette
+    db $07 ; Block set
+    db $15 ; Sprite set
+    db $00 ; BGMOVE
+    db $25 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x1B
-; BLKSET    0x0E
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x1B - leaked value
-; WARP      0x0E => ROOM 000E - leaked value
-; STAIRS0   0x0A => ROOM 000A - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027A8C-$027A93 DATA
 RoomHeader_Room005B:
 {
-    db $C0, $1B, $0E, $0A, $00, $17, $00
+    db $C0 ; BG2 Properties
+    db $1B ; Palette
+    db $0E ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x1B
-; BLKSET    0x0E
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x5D => ROOM 005D
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x24 => ROOM 0024 - leaked value
-; STAIRS3   0x0E => ROOM 000E - leaked value
-
 ; $027A93-$027A9E DATA
 RoomHeader_Room005C:
 {
-    db $00, $1B, $0E, $0A, $00, $00, $00, $00, $00, $00, $5D
+    db $00 ; BG2 Properties
+    db $1B ; Palette
+    db $0E ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $5D ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x24
-; BLKSET    0x0E
-; SPRSET    0x23
-; BGMOVE    0x00
-; EFFECT1   0x09 - Quadrant kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x5C => ROOM 005C
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027A9E-$027AA9 DATA
 RoomHeader_Room005D:
 {
-    db $00, $24, $0E, $23, $00, $09, $00, $00, $00, $00, $5C
+    db $00 ; BG2 Properties
+    db $24 ; Palette
+    db $0E ; Block set
+    db $23 ; Sprite set
+    db $00 ; BGMOVE
+    db $09 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $5C ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x7E => ROOM 007E
-; STAIRS0   0x7E => ROOM 007E
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027AA9-$027AB4 DATA
 RoomHeader_Room005E:
 {
-    db $20, $13, $0B, $1C, $00, $00, $00, $00, $00, $7E, $7E
+    db $20 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $7E ; Warp
+    db $7E ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x27 - Switch chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x3F => ROOM 003F
-; STAIRS1   0x7F => ROOM 007F
-; STAIRS2   0xC0 => ROOM 00C0 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027AB4-$027AC0 DATA
 RoomHeader_Room005F:
 {
-    db $00, $13, $0B, $1C, $00, $27, $00, $00, $00, $00, $3F, $7F
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $27 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $3F ; Stair 0
+    db $7F ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x00
-; BLKSET    0x00
-; SPRSET    0x04
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x00 - leaked value
-; WARP      0x00 => ROOM 0000 - leaked value
-; STAIRS0   0x04 => ROOM 0004 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
-RoomHeader_Room0060:
 ; $027AC0-$027AC7 DATA
+RoomHeader_Room0060:
 RoomHeader_Room0062:
 {
-    db $C0, $00, $00, $04, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $00 ; Palette
+    db $00 ; Block set
+    db $04 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x00
-; BLKSET    0x00
-; SPRSET    0x04
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x08
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x51 => ROOM 0051
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x09 => ROOM 0009 - leaked value
-; STAIRS3   0x05 => ROOM 0005 - leaked value
-
 ; $027AC7-$027AD2 DATA
 RoomHeader_Room0061:
 {
-    db $C0, $00, $00, $04, $00, $00, $00, $08, $00, $00, $51
+    db $C0 ; BG2 Properties
+    db $00 ; Palette
+    db $00 ; Block set
+    db $04 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $08 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $51 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x09
-; BLKSET    0x05
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x0D - SW block door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x53 => ROOM 0053
-; STAIRS1   0xE0 => ROOM 00E0 - leaked value
-; STAIRS2   0x23 => ROOM 0023 - leaked value
-; STAIRS3   0x0A => ROOM 000A - leaked value
-
 ; $027AD2-$027ADD DATA
 RoomHeader_Room0063:
 {
-    db $00, $09, $05, $0A, $00, $0D, $00, $00, $00, $00, $53
+    db $00 ; BG2 Properties
+    db $09 ; Palette
+    db $05 ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $0D ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $53 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xE0
-; PALETTE   0x23
-; BLKSET    0x0A
-; SPRSET    0x21
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xAB => ROOM 00AB
-; STAIRS1   0xE0 => ROOM 00E0 - leaked value
-; STAIRS2   0x23 => ROOM 0023 - leaked value
-; STAIRS3   0x0A => ROOM 000A - leaked value
-
 ; $027ADD-$027AE8 DATA
 RoomHeader_Room0064:
 {
-    db $E0, $23, $0A, $21, $00, $17, $00, $00, $00, $00, $AB
+    db $E0 ; BG2 Properties
+    db $23 ; Palette
+    db $0A ; Block set
+    db $21 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $AB ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xE0
-; PALETTE   0x23
-; BLKSET    0x0A
-; SPRSET    0x21
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xAC => ROOM 00AC
-; STAIRS0   0xC0 => ROOM 00C0 - leaked value
-; STAIRS1   0x0A => ROOM 000A - leaked value
-; STAIRS2   0x08 => ROOM 0008 - leaked value
-; STAIRS3   0x11 => ROOM 0011 - leaked value
-
 ; $027AE8-$027AF2 DATA
 RoomHeader_Room0065:
 {
-    db $E0, $23, $0A, $21, $00, $00, $00, $00, $00, $AC
+    db $E0 ; BG2 Properties
+    db $23 ; Palette
+    db $0A ; Block set
+    db $21 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $AC ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x3C - Push block chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x16 => ROOM 0016
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x0D => ROOM 000D - leaked value
-; STAIRS3   0x09 => ROOM 0009 - leaked value
-
 ; $027AF2-$027AFD DATA
 RoomHeader_Room0066:
 {
-    db $C0, $0A, $08, $11, $00, $3C, $00, $00, $00, $00, $16
+    db $C0 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $3C ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $16 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0D
-; BLKSET    0x09
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x22 - Chest holes 0
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0D - leaked value
-; WARP      0x09 => ROOM 0009 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027AFD-$027B04 DATA
 RoomHeader_Room0067:
 {
-    db $00, $0D, $09, $13, $00, $22, $00
+    db $00 ; BG2 Properties
+    db $0D ; Palette
+    db $09 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $22 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0D
-; BLKSET    0x09
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x01 - leaked value
-; PLANES2   0x0F - leaked value
-; WARP      0x07 => ROOM 0007 - leaked value
-; STAIRS0   0x19 => ROOM 0019 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027B04-$027B0B DATA
 RoomHeader_Room0068:
 {
-    db $00, $0D, $09, $13, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $0D ; Palette
+    db $09 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x0F
-; BLKSET    0x07
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x1A => ROOM 001A
-; STAIRS1   0x1A => ROOM 001A
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x1B => ROOM 001B - leaked value
-
 ; $027B0B-$027B17 DATA
 RoomHeader_Room0069:
 RoomHeader_Room006A:
 {
-    db $01, $0F, $07, $19, $00, $00, $00, $00, $00, $00, $1A, $1A
+    db $01 ; BG2 Properties
+    db $0F ; Palette
+    db $07 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $1A ; Stair 0
+    db $1A ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x1B
-; BLKSET    0x0E
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x08 - S kill door
-; EFFECT2   0x0B - NW block door
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x0C => ROOM 000C
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x24 => ROOM 0024 - leaked value
-; STAIRS3   0x0E => ROOM 000E - leaked value
-
 ; $027B17-$027B22 DATA
 RoomHeader_Room006B:
 {
-    db $00, $1B, $0E, $0A, $00, $08, $0B, $00, $00, $00, $0C
+    db $00 ; BG2 Properties
+    db $1B ; Palette
+    db $0E ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $08 ; Effect 1
+    db $0B ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $0C ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x24
-; BLKSET    0x0E
-; SPRSET    0x23
-; BGMOVE    0x00
-; EFFECT1   0x03 - SW kill door
-; EFFECT2   0x3F - Rekillable boss
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xA5 => ROOM 00A5
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x24 => ROOM 0024 - leaked value
-; STAIRS3   0x0E => ROOM 000E - leaked value
-
 ; $027B22-$027B2D DATA
 RoomHeader_Room006C:
 {
-    db $00, $24, $0E, $23, $00, $03, $3F, $00, $00, $00, $A5
+    db $00 ; BG2 Properties
+    db $24 ; Palette
+    db $0E ; Block set
+    db $23 ; Sprite set
+    db $00 ; BGMOVE
+    db $03 ; Effect 1
+    db $3F ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $A5 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x24
-; BLKSET    0x0E
-; SPRSET    0x23
-; BGMOVE    0x00
-; EFFECT1   0x05 - W kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x13 - leaked value
-; WARP      0x0B => ROOM 000B - leaked value
-; STAIRS0   0x1C => ROOM 001C - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x02 => ROOM 0002 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027B2D-$027B34 DATA
 RoomHeader_Room006D:
 {
-    db $00, $24, $0E, $23, $00, $05, $00
+    db $00 ; BG2 Properties
+    db $24 ; Palette
+    db $0E ; Block set
+    db $23 ; Sprite set
+    db $00 ; BGMOVE
+    db $05 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x02 - NE kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x4E => ROOM 004E
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x01 => ROOM 0001 - leaked value
-
 ; $027B34-$027B3F DATA
 RoomHeader_Room006E:
 {
-    db $00, $13, $0B, $1C, $00, $02, $00, $00, $00, $00, $4E
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $02 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $4E ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x01
-; BLKSET    0x01
-; SPRSET    0x04
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x08
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x71 => ROOM 0071
-; STAIRS1   0x80 => ROOM 0080
-; STAIRS2   0xC0 => ROOM 00C0 - leaked value
-; STAIRS3   0x01 => ROOM 0001 - leaked value
-
 ; $027B3F-$027B4B DATA
 RoomHeader_Room006F:
 RoomHeader_Room0070:
 {
-    db $00, $01, $01, $04, $00, $00, $00, $08, $00, $00, $71, $80
+    db $00 ; BG2 Properties
+    db $01 ; Palette
+    db $01 ; Block set
+    db $04 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $08 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $71 ; Stair 0
+    db $80 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x01
-; BLKSET    0x01
-; SPRSET    0x04
-; BGMOVE    0x00
-; EFFECT1   0x08 - S kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x70 => ROOM 0070
-; STAIRS1   0xC0 => ROOM 00C0 - leaked value
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x01 => ROOM 0001 - leaked value
-
 ; $027B4B-$027B56 DATA
 RoomHeader_Room0071:
 {
-    db $C0, $01, $01, $04, $00, $08, $00, $00, $00, $00, $70
+    db $C0 ; BG2 Properties
+    db $01 ; Palette
+    db $01 ; Block set
+    db $04 ; Sprite set
+    db $00 ; BGMOVE
+    db $08 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $70 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x01
-; BLKSET    0x01
-; SPRSET    0x04
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x08
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x01 => ROOM 0001
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x09 => ROOM 0009 - leaked value
-; STAIRS3   0x05 => ROOM 0005 - leaked value
-
 ; $027B56-$027B61 DATA
 RoomHeader_Room0072:
 {
-    db $C0, $01, $01, $04, $00, $00, $00, $08, $00, $00, $01
+    db $C0 ; BG2 Properties
+    db $01 ; Palette
+    db $01 ; Block set
+    db $04 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $08 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $01 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x09
-; BLKSET    0x05
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x09 - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x0A => ROOM 000A - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x27 => ROOM 0027 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027B61-$027B68 DATA
 RoomHeader_Room0073:
 {
-    db $00, $09, $05, $0A, $00, $17, $00
+    db $00 ; BG2 Properties
+    db $09 ; Palette
+    db $05 ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x09
-; BLKSET    0x05
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x27 - Switch chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x09 - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x0A => ROOM 000A - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027B68-$027B6F DATA
 RoomHeader_Room0074:
 {
-    db $00, $09, $05, $0A, $00, $27, $00
+    db $00 ; BG2 Properties
+    db $09 ; Palette
+    db $05 ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $27 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x09
-; BLKSET    0x05
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x01 - NW kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x80 - leaked value
-; PLANES2   0x0A - leaked value
-; WARP      0x08 => ROOM 0008 - leaked value
-; STAIRS0   0x11 => ROOM 0011 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x18 => ROOM 0018 - leaked value
-
 ; $027B6F-$027B76 DATA
 RoomHeader_Room0075:
 {
-    db $00, $09, $05, $0A, $00, $01, $00
+    db $00 ; BG2 Properties
+    db $09 ; Palette
+    db $05 ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $01 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x80
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x18 - Water drain
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x26 => ROOM 0026
-; STAIRS1   0x26 => ROOM 0026
-; STAIRS2   0x26 => ROOM 0026
-; STAIRS3   0xC0 => ROOM 00C0 - leaked value
-
 ; $027B76-$027B83 DATA
 RoomHeader_Room0076:
 {
-    db $80, $0A, $08, $11, $00, $00, $18, $00, $00, $00, $26, $26, $26
+    db $80 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $18 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $26 ; Stair 0
+    db $26 ; Stair 1
+    db $26 ; Stair 2
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x06
-; BLKSET    0x05
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xA7 => ROOM 00A7
-; STAIRS0   0x31 => ROOM 0031
-; STAIRS1   0x87 => ROOM 0087
-; STAIRS2   0x87 => ROOM 0087
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027B83-$027B90 DATA
 RoomHeader_Room0077:
 {
-    db $C0, $06, $05, $19, $00, $00, $00, $00, $00, $A7, $31, $87, $87
+    db $C0 ; BG2 Properties
+    db $06 ; Palette
+    db $05 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $A7 ; Warp
+    db $31 ; Stair 0
+    db $87 ; Stair 1
+    db $87 ; Stair 2
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x28
-; BLKSET    0x0E
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x03 - SW kill door
-; EFFECT2   0x39 - Holes 7
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x9D => ROOM 009D
-; STAIRS0   0x00 => ROOM 0000 - leaked value
-; STAIRS1   0x28 => ROOM 0028 - leaked value
-; STAIRS2   0x0E => ROOM 000E - leaked value
-; STAIRS3   0x13 => ROOM 0013 - leaked value
-
 ; $027B90-$027B9A DATA
 RoomHeader_Room0078:
 RoomHeader_Room0079:
 RoomHeader_Room007A:
 RoomHeader_Room007B:
 {
-    db $00, $28, $0E, $13, $00, $03, $39, $00, $00, $9D
+    db $00 ; BG2 Properties
+    db $28 ; Palette
+    db $0E ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $03 ; Effect 1
+    db $39 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $9D ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x28
-; BLKSET    0x0E
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x20 - Exploding wall switch
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x28 - leaked value
-; WARP      0x0E => ROOM 000E - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x04 => ROOM 0004 - leaked value
-; STAIRS3   0x3C => ROOM 003C - leaked value
-
 ; $027B9A-$027BA1 DATA
 RoomHeader_Room007C:
 {
-    db $00, $28, $0E, $13, $00, $20, $00
+    db $00 ; BG2 Properties
+    db $28 ; Palette
+    db $0E ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $20 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x28
-; BLKSET    0x0E
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x04 - SE kill door
-; EFFECT2   0x3C - Push block chest
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x9B => ROOM 009B
-; STAIRS0   0x20 => ROOM 0020 - leaked value
-; STAIRS1   0x13 => ROOM 0013 - leaked value
-; STAIRS2   0x0B => ROOM 000B - leaked value
-; STAIRS3   0x1C => ROOM 001C - leaked value
-
 ; $027BA1-$027BAB DATA
 RoomHeader_Room007D:
 {
-    db $00, $28, $0E, $13, $00, $04, $3C, $00, $00, $9B
+    db $00 ; BG2 Properties
+    db $28 ; Palette
+    db $0E ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $04 ; Effect 1
+    db $3C ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $9B ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x2B - SW kill chest
-; EFFECT2   0x17 - Toggle switch door
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x9E => ROOM 009E
-; STAIRS0   0x5E => ROOM 005E
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027BAB-$027BB6 DATA
 RoomHeader_Room007E:
 {
-    db $20, $13, $0B, $1C, $00, $2B, $17, $00, $00, $9E, $5E
+    db $20 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $2B ; Effect 1
+    db $17 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $9E ; Warp
+    db $5E ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x5F => ROOM 005F
-; STAIRS1   0x60 => ROOM 0060 - leaked value
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x01 => ROOM 0001 - leaked value
-
 ; $027BB6-$027BC1 DATA
 RoomHeader_Room007F:
 {
-    db $00, $13, $0B, $1C, $00, $00, $00, $00, $00, $00, $5F
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $5F ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x60
-; PALETTE   0x01
-; BLKSET    0x01
-; SPRSET    0x04
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x70 => ROOM 0070
-; STAIRS1   0xC0 => ROOM 00C0 - leaked value
-; STAIRS2   0x01 => ROOM 0001 - leaked value
-; STAIRS3   0x01 => ROOM 0001 - leaked value
-
 ; $027BC1-$027BCC DATA
 RoomHeader_Room0080:
 {
-    db $60, $01, $01, $04, $00, $00, $00, $00, $00, $00, $70
+    db $60 ; BG2 Properties
+    db $01 ; Palette
+    db $01 ; Block set
+    db $04 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $70 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x01
-; BLKSET    0x01
-; SPRSET    0x04
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x09 - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x0A => ROOM 000A - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x0D => ROOM 000D - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027BCC-$027BD3 DATA
 RoomHeader_Room0081:
 RoomHeader_Room0082:
 {
-    db $C0, $01, $01, $04, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $01 ; Palette
+    db $01 ; Block set
+    db $04 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x09
-; BLKSET    0x05
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x0D - SW block door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x09 - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x0A => ROOM 000A - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027BD3-$027BDA DATA
 RoomHeader_Room0083:
 {
-    db $00, $09, $05, $0A, $00, $0D, $00
+    db $00 ; BG2 Properties
+    db $09 ; Palette
+    db $05 ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $0D ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x09
-; BLKSET    0x05
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x09 - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x0A => ROOM 000A - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x02 => ROOM 0002 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027BDA-$027BE1 DATA
 RoomHeader_Room0084:
 {
-    db $00, $09, $05, $0A, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $09 ; Palette
+    db $05 ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x09
-; BLKSET    0x05
-; SPRSET    0x0A
-; BGMOVE    0x00
-; EFFECT1   0x02 - NE kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x06 - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x19 => ROOM 0019 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x3E => ROOM 003E - leaked value
-; STAIRS3   0x01 => ROOM 0001 - leaked value
-
 ; $027BE1- DATA
 RoomHeader_Room0085:
 {
-    db $00, $09, $05, $0A, $00, $02, $00
+    db $00 ; BG2 Properties
+    db $09 ; Palette
+    db $05 ; Block set
+    db $0A ; Sprite set
+    db $00 ; BGMOVE
+    db $02 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x06
-; BLKSET    0x05
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x3E - Torch chest
-; EFFECT2   0x01 - NW kill door
-; PLANES1   0x28
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x77 => ROOM 0077
-; STAIRS1   0x77 => ROOM 0077
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027BE8-$027BF4 DATA
 RoomHeader_Room0086:
 RoomHeader_Room0087:
 {
-    db $00, $06, $05, $19, $00, $3E, $01, $28, $00, $00, $77, $77
+    db $00 ; BG2 Properties
+    db $06 ; Palette
+    db $05 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $3E ; Effect 1
+    db $01 ; Effect 2
+    db $28 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $77 ; Stair 0
+    db $77 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x02
-; PLANES2   0x00
-; WARP      0xA9 => ROOM 00A9
-; STAIRS0   0x00 => ROOM 0000 - leaked value
-; STAIRS1   0x28 => ROOM 0028 - leaked value
-; STAIRS2   0x0E => ROOM 000E - leaked value
-; STAIRS3   0x13 => ROOM 0013 - leaked value
-
 ; $027BF4-$027BFE DATA
 RoomHeader_Room0088:
 RoomHeader_Room0089:
 {
-    db $00, $0B, $05, $08, $00, $00, $00, $02, $00, $A9
+    db $00 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $02 ; Floor 1
+    db $00 ; Floor 2
+    db $A9 ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x28
-; BLKSET    0x0E
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x3A - Holes 8
-; EFFECT2   0x0C - NE block door
-; PLANES1   0x20 - leaked value
-; PLANES2   0x28 - leaked value
-; WARP      0x0E => ROOM 000E - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x16 => ROOM 0016 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027BFE-$027C05 DATA
 RoomHeader_Room008A:
 RoomHeader_Room008B:
 {
-    db $00, $28, $0E, $13, $00, $3A, $0C
+    db $00 ; BG2 Properties
+    db $28 ; Palette
+    db $0E ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $3A ; Effect 1
+    db $0C ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x28
-; BLKSET    0x0E
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x16 - Hold switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x28
-; PLANES2   0x00
-; WARP      0x1C => ROOM 001C
-; STAIRS0   0x0C => ROOM 000C
-; STAIRS1   0x0C => ROOM 000C
-; STAIRS2   0x1C => ROOM 001C
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027C05-$027C12 DATA
 RoomHeader_Room008C:
 {
-    db $20, $28, $0E, $13, $00, $16, $00, $28, $00, $1C, $0C, $0C, $1C
+    db $20 ; BG2 Properties
+    db $28 ; Palette
+    db $0E ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $16 ; Effect 1
+    db $00 ; Effect 2
+    db $28 ; Floor 1
+    db $00 ; Floor 2
+    db $1C ; Warp
+    db $0C ; Stair 0
+    db $0C ; Stair 1
+    db $1C ; Stair 2
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x28
-; BLKSET    0x0E
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x33 - Torch door
-; EFFECT2   0x29 - NW kill chest
-; PLANES1   0x00 - leaked value
-; PLANES2   0x13 - leaked value
-; WARP      0x0B => ROOM 000B - leaked value
-; STAIRS0   0x1C => ROOM 001C - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027C12-$027C19 DATA
 RoomHeader_Room008D:
 {
-    db $00, $28, $0E, $13, $00, $33, $29
+    db $00 ; BG2 Properties
+    db $28 ; Palette
+    db $0E ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $33 ; Effect 1
+    db $29 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xAE => ROOM 00AE
-; STAIRS1   0x80 => ROOM 0080 - leaked value
-; STAIRS2   0x12 => ROOM 0012 - leaked value
-; STAIRS3   0x0C => ROOM 000C - leaked value
-
 ; $027C19-$027C24 DATA
 RoomHeader_Room008E:
 {
-    db $00, $13, $0B, $1C, $00, $00, $00, $00, $00, $00, $AE
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $AE ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x80
-; PALETTE   0x12
-; BLKSET    0x0C
-; SPRSET    0x16
-; BGMOVE    0x00
-; EFFECT1   0x25 - Dungeon prize
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x11 - leaked value
-; WARP      0x0C => ROOM 000C - leaked value
-; STAIRS0   0x1C => ROOM 001C - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027C24-$027C2B DATA
 RoomHeader_Room008F:
 RoomHeader_Room0090:
 {
-    db $80, $12, $0C, $16, $00, $25, $00
+    db $80 ; BG2 Properties
+    db $12 ; Palette
+    db $0C ; Block set
+    db $16 ; Sprite set
+    db $00 ; BGMOVE
+    db $25 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xA0 => ROOM 00A0
-; STAIRS1   0x01 => ROOM 0001 - leaked value
-; STAIRS2   0x11 => ROOM 0011 - leaked value
-; STAIRS3   0x0C => ROOM 000C - leaked value
-
 ; $027C2B-$027C36 DATA
 RoomHeader_Room0091:
 {
-    db $00, $11, $0C, $1C, $00, $00, $00, $00, $00, $00, $A0
+    db $00 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $A0 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x01 - leaked value
-; PLANES2   0x11 - leaked value
-; WARP      0x0C => ROOM 000C - leaked value
-; STAIRS0   0x1C => ROOM 001C - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x16 => ROOM 0016 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027C36-$027C3D DATA
 RoomHeader_Room0092:
 {
-    db $01, $11, $0C, $1C, $00, $00, $00
+    db $01 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x16 - Hold switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x08
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xA2 => ROOM 00A2
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x25 => ROOM 0025 - leaked value
-; STAIRS3   0x0E => ROOM 000E - leaked value
-
 ; $027C3D-$027C48 DATA
 RoomHeader_Room0093:
 {
-    db $01, $11, $0C, $1C, $00, $16, $00, $08, $00, $00, $A2
+    db $01 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $16 ; Effect 1
+    db $00 ; Effect 2
+    db $08 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $A2 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x25
-; BLKSET    0x0E
-; SPRSET    0x24
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x25 - leaked value
-; WARP      0x0E => ROOM 000E - leaked value
-; STAIRS0   0x24 => ROOM 0024 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x33 => ROOM 0033 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027C48-$027C4F DATA
 RoomHeader_Room0094:
 RoomHeader_Room0095:
 {
-    db $00, $25, $0E, $24, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $25 ; Palette
+    db $0E ; Block set
+    db $24 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x25
-; BLKSET    0x0E
-; SPRSET    0x24
-; BGMOVE    0x00
-; EFFECT1   0x33 - Torch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x3D => ROOM 003D
-; STAIRS1   0x68 => ROOM 0068 - leaked value
-; STAIRS2   0x11 => ROOM 0011 - leaked value
-; STAIRS3   0x0C => ROOM 000C - leaked value
-
 ; $027C4F-$027C5A DATA
 RoomHeader_Room0096:
 {
-    db $00, $25, $0E, $24, $00, $33, $00, $00, $00, $00, $3D
+    db $00 ; BG2 Properties
+    db $25 ; Palette
+    db $0E ; Block set
+    db $24 ; Sprite set
+    db $00 ; BGMOVE
+    db $33 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $3D ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x68
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x1C - Moving wall east
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xD1 => ROOM 00D1
-; STAIRS0   0xD1 => ROOM 00D1
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x11 => ROOM 0011 - leaked value
-; STAIRS3   0x0C => ROOM 000C - leaked value
-
 ; $027C5A-$027C65 DATA
 RoomHeader_Room0097:
 {
-    db $68, $11, $0C, $1D, $00, $1C, $00, $00, $00, $D1, $D1
+    db $68 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $1C ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $D1 ; Warp
+    db $D1 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xD2 => ROOM 00D2
-; STAIRS1   0x01 => ROOM 0001 - leaked value
-; STAIRS2   0x0B => ROOM 000B - leaked value
-; STAIRS3   0x05 => ROOM 0005 - leaked value
-
 ; $027C65-$027C70 DATA
 RoomHeader_Room0098:
 {
-    db $00, $11, $0C, $1C, $00, $00, $00, $00, $00, $00, $D2
+    db $00 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $D2 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xDA => ROOM 00DA
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x28 => ROOM 0028 - leaked value
-; STAIRS3   0x0E => ROOM 000E - leaked value
-
 ; $027C70-$027C7B DATA
 RoomHeader_Room0099:
 {
-    db $01, $0B, $05, $08, $00, $00, $00, $00, $00, $00, $DA
+    db $01 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $DA ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x28
-; BLKSET    0x0E
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x7D => ROOM 007D
-; STAIRS0   0x00 => ROOM 0000 - leaked value
-; STAIRS1   0x28 => ROOM 0028 - leaked value
-; STAIRS2   0x0E => ROOM 000E - leaked value
-; STAIRS3   0x13 => ROOM 0013 - leaked value
-
-RoomHeader_Room009A:
 ; $027C7B-$027C85 DATA
+RoomHeader_Room009A:
 RoomHeader_Room009B:
 {
-    db $00, $28, $0E, $13, $00, $00, $00, $00, $00, $7D
+    db $00 ; BG2 Properties
+    db $28 ; Palette
+    db $0E ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $7D ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x28
-; BLKSET    0x0E
-; SPRSET    0x13
-; BGMOVE    0x06
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x28 - leaked value
-; WARP      0x0E => ROOM 000E - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x06 => ROOM 0006 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x3B => ROOM 003B - leaked value
-
 ; $027C85-$027C8C DATA
 RoomHeader_Room009C:
 {
-    db $00, $28, $0E, $13, $06, $00, $00
+    db $00 ; BG2 Properties
+    db $28 ; Palette
+    db $0E ; Block set
+    db $13 ; Sprite set
+    db $06 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x28
-; BLKSET    0x0E
-; SPRSET    0x13
-; BGMOVE    0x06
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x3B - Chest holes 8
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x7B => ROOM 007B
-; STAIRS0   0x20 => ROOM 0020 - leaked value
-; STAIRS1   0x13 => ROOM 0013 - leaked value
-; STAIRS2   0x0B => ROOM 000B - leaked value
-; STAIRS3   0x1C => ROOM 001C - leaked value
-
 ; $027C8C-$027C96 DATA
 RoomHeader_Room009D:
 {
-    db $00, $28, $0E, $13, $06, $00, $3B, $00, $00, $7B
+    db $00 ; BG2 Properties
+    db $28 ; Palette
+    db $0E ; Block set
+    db $13 ; Sprite set
+    db $06 ; BGMOVE
+    db $00 ; Effect 1
+    db $3B ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $7B ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xBE => ROOM 00BE
-; STAIRS0   0xBE => ROOM 00BE
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027C96-$027CA1 DATA
 RoomHeader_Room009E:
 {
-    db $20, $13, $0B, $1C, $00, $00, $00, $00, $00, $BE, $BE
+    db $20 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $BE ; Warp
+    db $BE ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x12 - leaked value
-; WARP      0x0C => ROOM 000C - leaked value
-; STAIRS0   0x1D => ROOM 001D - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027CA1-$027CA8 DATA
 RoomHeader_Room009F:
 {
-    db $00, $13, $0B, $1C, $00, $17, $00
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x12
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x91 => ROOM 0091
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x11 => ROOM 0011 - leaked value
-; STAIRS3   0x0C => ROOM 000C - leaked value
-
 ; $027CA8-$027CB3 DATA
 RoomHeader_Room00A0:
 {
-    db $00, $12, $0C, $1D, $00, $00, $00, $00, $00, $00, $91
+    db $00 ; BG2 Properties
+    db $12 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $91 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x11 - leaked value
-; WARP      0x0C => ROOM 000C - leaked value
-; STAIRS0   0x1D => ROOM 001D - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
-RoomHeader_Room00A1:
 ; $027CB3-$027CBA DATA
+RoomHeader_Room00A1:
 RoomHeader_Room00A3:
 {
-    db $00, $11, $0C, $1D, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x93 => ROOM 0093
-; STAIRS1   0x60 => ROOM 0060 - leaked value
-; STAIRS2   0x19 => ROOM 0019 - leaked value
-; STAIRS3   0x0D => ROOM 000D - leaked value
-
 ; $027CBA-$027CC5 DATA
 RoomHeader_Room00A2:
 {
-    db $C0, $11, $0C, $1D, $00, $00, $00, $00, $00, $00, $93
+    db $C0 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $93 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x60
-; PALETTE   0x19
-; BLKSET    0x0D
-; SPRSET    0x17
-; BGMOVE    0x04
-; EFFECT1   0x25 - Dungeon prize
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x25 - leaked value
-; WARP      0x0E => ROOM 000E - leaked value
-; STAIRS0   0x24 => ROOM 0024 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x07 => ROOM 0007 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027CC5-$027CCC DATA
 RoomHeader_Room00A4:
 {
-    db $60, $19, $0D, $17, $04, $25, $00
+    db $60 ; BG2 Properties
+    db $19 ; Palette
+    db $0D ; Block set
+    db $17 ; Sprite set
+    db $04 ; BGMOVE
+    db $25 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x25
-; BLKSET    0x0E
-; SPRSET    0x24
-; BGMOVE    0x00
-; EFFECT1   0x07 - N kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x6C => ROOM 006C
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x25 => ROOM 0025 - leaked value
-; STAIRS3   0x0E => ROOM 000E - leaked value
-
 ; $027CCC-$027CD7 DATA
 RoomHeader_Room00A5:
 {
-    db $00, $25, $0E, $24, $00, $07, $00, $00, $00, $00, $6C
+    db $00 ; BG2 Properties
+    db $25 ; Palette
+    db $0E ; Block set
+    db $24 ; Sprite set
+    db $00 ; BGMOVE
+    db $07 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $6C ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x25
-; BLKSET    0x0E
-; SPRSET    0x24
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x4D => ROOM 004D
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x06 => ROOM 0006 - leaked value
-; STAIRS3   0x05 => ROOM 0005 - leaked value
-
 ; $027CD7-$027CE2 DATA
 RoomHeader_Room00A6:
 {
-    db $00, $25, $0E, $24, $00, $00, $00, $00, $00, $00, $4D
+    db $00 ; BG2 Properties
+    db $25 ; Palette
+    db $0E ; Block set
+    db $24 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $4D ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x06
-; BLKSET    0x05
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x17 => ROOM 0017
-; STAIRS0   0xC0 => ROOM 00C0 - leaked value
-; STAIRS1   0x0B => ROOM 000B - leaked value
-; STAIRS2   0x05 => ROOM 0005 - leaked value
-; STAIRS3   0x08 => ROOM 0008 - leaked value
-
 ; $027CE2-$027CEC DATA
 RoomHeader_Room00A7:
 {
-    db $00, $06, $05, $19, $00, $00, $00, $00, $00, $17
+    db $00 ; BG2 Properties
+    db $06 ; Palette
+    db $05 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $17 ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x03 - SW kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x0B - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x08 => ROOM 0008 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x17 => ROOM 0017 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027CEC-$027CF3 DATA
 RoomHeader_Room00A8:
 {
-    db $C0, $0B, $05, $08, $00, $03, $00
+    db $C0 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $03 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x89 => ROOM 0089
-; STAIRS0   0xC0 => ROOM 00C0 - leaked value
-; STAIRS1   0x0B => ROOM 000B - leaked value
-; STAIRS2   0x05 => ROOM 0005 - leaked value
-; STAIRS3   0x08 => ROOM 0008 - leaked value
-
 ; $027CF3-$027CFD DATA
 RoomHeader_Room00A9:
 {
-    db $C0, $0B, $05, $08, $00, $17, $00, $00, $00, $89
+    db $C0 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $89 ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x17 - leaked value
-; WARP      0x0A => ROOM 000A - leaked value
-; STAIRS0   0x1B => ROOM 001B - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027CFD-$027D04 DATA
 RoomHeader_Room00AA:
 {
-    db $C0, $0B, $05, $08, $00, $17, $00
+    db $C0 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x17
-; BLKSET    0x0A
-; SPRSET    0x1B
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x64 => ROOM 0064
-; STAIRS1   0xE0 => ROOM 00E0 - leaked value
-; STAIRS2   0x17 => ROOM 0017 - leaked value
-; STAIRS3   0x0A => ROOM 000A - leaked value
-
 ; $027D04-$027D0F DATA
 RoomHeader_Room00AB:
 {
-    db $00, $17, $0A, $1B, $00, $00, $00, $00, $00, $00, $64
+    db $00 ; BG2 Properties
+    db $17 ; Palette
+    db $0A ; Block set
+    db $1B ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $64 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xE0
-; PALETTE   0x17
-; BLKSET    0x0A
-; SPRSET    0x20
-; BGMOVE    0x00
-; EFFECT1   0x25 - Dungeon prize
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x13 - leaked value
-; WARP      0x0B => ROOM 000B - leaked value
-; STAIRS0   0x1C => ROOM 001C - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x27 => ROOM 0027 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027D0F-$027D16 DATA
 RoomHeader_Room00AC:
 {
-    db $E0, $17, $0A, $20, $00, $25, $00
+    db $E0 ; BG2 Properties
+    db $17 ; Palette
+    db $0A ; Block set
+    db $20 ; Sprite set
+    db $00 ; BGMOVE
+    db $25 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x27 - Switch chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x8E => ROOM 008E
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027D16-$027D21 DATA
 RoomHeader_Room00AD:
 RoomHeader_Room00AE:
 {
-    db $00, $13, $0B, $1C, $00, $27, $00, $00, $00, $00, $8E
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $27 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $8E ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x1C
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x26 - leaked value
-; WARP      0x02 => ROOM 0002 - leaked value
-; STAIRS0   0x21 => ROOM 0021 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x05 => ROOM 0005 - leaked value
-; STAIRS3   0x02 => ROOM 0002 - leaked value
-
 ; $027D21-$027D28 DATA
 RoomHeader_Room00AF:
 {
-    db $00, $13, $0B, $1C, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $1C ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x26
-; BLKSET    0x02
-; SPRSET    0x21
-; BGMOVE    0x00
-; EFFECT1   0x05 - W kill door
-; EFFECT2   0x02 - NE kill door
-; PLANES1   0x08
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x40 => ROOM 0040
-; STAIRS1   0xC0 => ROOM 00C0
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x11 => ROOM 0011 - leaked value
-
 ; $027D28-$027D34 DATA
 RoomHeader_Room00B0:
 {
-    db $00, $26, $02, $21, $00, $05, $02, $08, $00, $00, $40, $C0
+    db $00 ; BG2 Properties
+    db $26 ; Palette
+    db $02 ; Block set
+    db $21 ; Sprite set
+    db $00 ; BGMOVE
+    db $05 ; Effect 1
+    db $02 ; Effect 2
+    db $08 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $40 ; Stair 0
+    db $C0 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x02
-; PLANES2   0x00
-; WARP      0xB2 => ROOM 00B2
-; STAIRS0   0xC0 => ROOM 00C0 - leaked value
-; STAIRS1   0x11 => ROOM 0011 - leaked value
-; STAIRS2   0x0C => ROOM 000C - leaked value
-; STAIRS3   0x1D => ROOM 001D - leaked value
-
 ; $027D34-$027D3E DATA
 RoomHeader_Room00B1:
 {
-    db $00, $11, $0C, $1D, $00, $00, $00, $02, $00, $B2
+    db $00 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $02 ; Floor 1
+    db $00 ; Floor 2
+    db $B2 ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x03 - SW kill door
-; EFFECT2   0x0E - SE block door
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x11 - leaked value
-; WARP      0x0C => ROOM 000C - leaked value
-; STAIRS0   0x1D => ROOM 001D - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x27 => ROOM 0027 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027D3E-$027D45 DATA
 RoomHeader_Room00B2:
 {
-    db $C0, $11, $0C, $1D, $00, $03, $0E
+    db $C0 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $03 ; Effect 1
+    db $0E ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x27 - Switch chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x19 - leaked value
-; WARP      0x0D => ROOM 000D - leaked value
-; STAIRS0   0x17 => ROOM 0017 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027D45-$027D4C DATA
 RoomHeader_Room00B3:
 {
-    db $C0, $11, $0C, $1D, $00, $27, $00
+    db $C0 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $27 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x19
-; BLKSET    0x0D
-; SPRSET    0x17
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xC4 => ROOM 00C4
-; STAIRS1   0x01 => ROOM 0001 - leaked value
-; STAIRS2   0x18 => ROOM 0018 - leaked value
-; STAIRS3   0x0D => ROOM 000D - leaked value
-
 ; $027D4C-$027D57 DATA
 RoomHeader_Room00B4:
 {
-    db $00, $19, $0D, $17, $00, $00, $00, $00, $00, $00, $C4
+    db $00 ; BG2 Properties
+    db $19 ; Palette
+    db $0D ; Block set
+    db $17 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $C4 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x25
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x04 => ROOM 0004
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x18 => ROOM 0018 - leaked value
-; STAIRS3   0x0D => ROOM 000D - leaked value
-
 ; $027D57-$027D62 DATA
 RoomHeader_Room00B5:
 {
-    db $01, $18, $0D, $25, $00, $17, $00, $00, $00, $00, $04
+    db $01 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $25 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $04 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x1E
-; BGMOVE    0x00
-; EFFECT1   0x04 - SE kill door
-; EFFECT2   0x3C - Push block chest
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x15 => ROOM 0015
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x0B => ROOM 000B - leaked value
-; STAIRS3   0x05 => ROOM 0005 - leaked value
-
 ; $027D62-$027D6D DATA
 RoomHeader_Room00B6:
 {
-    db $00, $18, $0D, $1E, $00, $04, $3C, $00, $00, $00, $15
+    db $00 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $1E ; Sprite set
+    db $00 ; BGMOVE
+    db $04 ; Effect 1
+    db $3C ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $15 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x27 - Switch chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x0B - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x08 => ROOM 0008 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027D6D-$027D74 DATA
 RoomHeader_Room00B8:
 {
-    db $00, $0B, $05, $08, $00, $27, $00
+    db $00 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $27 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x01 - leaked value
-; PLANES2   0x0B - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x08 => ROOM 0008 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x17 => ROOM 0017 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027D74-$027D7B DATA
 RoomHeader_Room00B9:
 {
-    db $C0, $0B, $05, $08, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x40 - leaked value
-; PLANES2   0x17 - leaked value
-; WARP      0x0A => ROOM 000A - leaked value
-; STAIRS0   0x1B => ROOM 001B - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027D7B-$027D82 DATA
 RoomHeader_Room00BA:
 {
-    db $01, $0B, $05, $08, $00, $17, $00
+    db $01 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x40
-; PALETTE   0x17
-; BLKSET    0x0A
-; SPRSET    0x1B
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x17 - leaked value
-; WARP      0x0A => ROOM 000A - leaked value
-; STAIRS0   0x1B => ROOM 001B - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x17 => ROOM 0017 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027D82-$027D89 DATA
 RoomHeader_Room00BB:
 {
-    db $40, $17, $0A, $1B, $00, $00, $00
+    db $40 ; BG2 Properties
+    db $17 ; Palette
+    db $0A ; Block set
+    db $1B ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x17
-; BLKSET    0x0A
-; SPRSET    0x1B
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x45 => ROOM 0045
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027D89-$027D94 DATA
 RoomHeader_Room00BC:
 {
-    db $00, $17, $0A, $1B, $00, $17, $00, $00, $00, $00, $45
+    db $00 ; BG2 Properties
+    db $17 ; Palette
+    db $0A ; Block set
+    db $1B ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $45 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x29
-; BGMOVE    0x00
-; EFFECT1   0x16 - Hold switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x4F => ROOM 004F
-; STAIRS0   0x9E => ROOM 009E
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x13 => ROOM 0013 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027D94-$027D9F DATA
 RoomHeader_Room00BD:
 RoomHeader_Room00BE:
 {
-    db $00, $13, $0B, $29, $00, $16, $00, $00, $00, $4F, $9E
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $29 ; Sprite set
+    db $00 ; BGMOVE
+    db $16 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $4F ; Warp
+    db $9E ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x29
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x01 - leaked value
-; PLANES2   0x00 - leaked value
-; WARP      0x02 => ROOM 0002 - leaked value
-; STAIRS0   0x27 => ROOM 0027 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x02 => ROOM 0002 - leaked value
-; STAIRS3   0x0F => ROOM 000F - leaked value
-
 ; $027D9F-$027DA6 DATA
 RoomHeader_Room00BF:
 {
-    db $00, $13, $0B, $29, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $29 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x00
-; BLKSET    0x02
-; SPRSET    0x27
-; BGMOVE    0x00
-; EFFECT1   0x02 - NE kill door
-; EFFECT2   0x0F - W block door
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xB0 => ROOM 00B0
-; STAIRS1   0xD0 => ROOM 00D0
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x11 => ROOM 0011 - leaked value
-
 ; $027DA6-$027DB2 DATA
 RoomHeader_Room00C0:
 {
-    db $01, $00, $02, $27, $00, $02, $0F, $00, $00, $00, $B0, $D0
+    db $01 ; BG2 Properties
+    db $00 ; Palette
+    db $02 ; Block set
+    db $27 ; Sprite set
+    db $00 ; BGMOVE
+    db $02 ; Effect 1
+    db $0F ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $B0 ; Stair 0
+    db $D0 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x33 - Torch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x11 - leaked value
-; WARP      0x0C => ROOM 000C - leaked value
-; STAIRS0   0x1D => ROOM 001D - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x27 => ROOM 0027 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027DB2-$027DB9 DATA
 RoomHeader_Room00C1:
 {
-    db $00, $11, $0C, $1D, $00, $33, $00
+    db $00 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $33 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x27 - Switch chest
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x11 - leaked value
-; WARP      0x0C => ROOM 000C - leaked value
-; STAIRS0   0x1D => ROOM 001D - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027DB9-$027DC0 DATA
 RoomHeader_Room00C2:
 {
-    db $C0, $11, $0C, $1D, $00, $27, $00
+    db $C0 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $27 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x18 - leaked value
-; WARP      0x0D => ROOM 000D - leaked value
-; STAIRS0   0x25 => ROOM 0025 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027DC0-$027DC7 DATA
 RoomHeader_Room00C3:
 {
-    db $C0, $11, $0C, $1D, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x25
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xB4 => ROOM 00B4
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x18 => ROOM 0018 - leaked value
-; STAIRS3   0x0D => ROOM 000D - leaked value
-
 ; $027DC7-$027DD2 DATA
 RoomHeader_Room00C4:
 {
-    db $00, $18, $0D, $25, $00, $00, $00, $00, $00, $00, $B4
+    db $00 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $25 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $B4 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x25
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x18 - leaked value
-; WARP      0x0D => ROOM 000D - leaked value
-; STAIRS0   0x1E => ROOM 001E - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x33 => ROOM 0033 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
-RoomHeader_Room00C5:
 ; $027DD2-$027DD9 DATA
+RoomHeader_Room00C5:
 RoomHeader_Room00D5:
 {
-    db $00, $18, $0D, $25, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $25 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x18
-; BLKSET    0x0D
-; SPRSET    0x1E
-; BGMOVE    0x00
-; EFFECT1   0x33 - Torch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0B - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x09 => ROOM 0009 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x15 => ROOM 0015 - leaked value
-; STAIRS3   0x25 => ROOM 0025 - leaked value
-
 ; $027DD9-$027DE0 DATA
 RoomHeader_Room00C7:
 {
-    db $00, $18, $0D, $1E, $00, $33, $00
+    db $00 ; BG2 Properties
+    db $18 ; Palette
+    db $0D ; Block set
+    db $1E ; Sprite set
+    db $00 ; BGMOVE
+    db $33 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x09
-; BGMOVE    0x00
-; EFFECT1   0x15 - Beat dungeon door
-; EFFECT2   0x25 - Dungeon prize
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0B - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x08 => ROOM 0008 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x17 => ROOM 0017 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027DE0-$027DE7 DATA
 RoomHeader_Room00C8:
 {
-    db $00, $0B, $05, $09, $00, $15, $25
+    db $00 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $09 ; Sprite set
+    db $00 ; BGMOVE
+    db $15 ; Effect 1
+    db $25 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x17 - leaked value
-; WARP      0x0A => ROOM 000A - leaked value
-; STAIRS0   0x1B => ROOM 001B - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027DE7-$027DEE DATA
 RoomHeader_Room00C9:
 {
-    db $00, $0B, $05, $08, $00, $17, $00
+    db $00 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x17
-; BLKSET    0x0A
-; SPRSET    0x1B
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x20 - leaked value
-; PLANES2   0x13 - leaked value
-; WARP      0x0B => ROOM 000B - leaked value
-; STAIRS0   0x29 => ROOM 0029 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x14 => ROOM 0014 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027DEE-$027DF5 DATA
 RoomHeader_Room00CA:
 RoomHeader_Room00CB:
@@ -10011,1374 +9604,1255 @@ RoomHeader_Room00CC:
 RoomHeader_Room00DB:
 RoomHeader_Room00DC:
 {
-    db $C0, $17, $0A, $1B, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $17 ; Palette
+    db $0A ; Block set
+    db $1B ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x13
-; BLKSET    0x0B
-; SPRSET    0x29
-; BGMOVE    0x00
-; EFFECT1   0x14 - Pull switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xDE => ROOM 00DE
-; STAIRS0   0x01 => ROOM 0001 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x02 => ROOM 0002 - leaked value
-; STAIRS3   0x21 => ROOM 0021 - leaked value
-
 ; $027DF5-$027DFF DATA
 RoomHeader_Room00CD:
 RoomHeader_Room00CE:
 {
-    db $20, $13, $0B, $29, $00, $14, $00, $00, $00, $DE
+    db $20 ; BG2 Properties
+    db $13 ; Palette
+    db $0B ; Block set
+    db $29 ; Sprite set
+    db $00 ; BGMOVE
+    db $14 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $DE ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x00
-; BLKSET    0x02
-; SPRSET    0x21
-; BGMOVE    0x00
-; EFFECT1   0x0F - W block door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xC0 => ROOM 00C0
-; STAIRS1   0xE0 => ROOM 00E0
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x11 => ROOM 0011 - leaked value
-
 ; $027DFF-$027E0B DATA
 RoomHeader_Room00CF:
 RoomHeader_Room00D0:
 {
-    db $01, $00, $02, $21, $00, $0F, $00, $00, $00, $00, $C0, $E0
+    db $01 ; BG2 Properties
+    db $00 ; Palette
+    db $02 ; Block set
+    db $21 ; Sprite set
+    db $00 ; BGMOVE
+    db $0F ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $C0 ; Stair 0
+    db $E0 ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xB1 => ROOM 00B1
-; STAIRS0   0x97 => ROOM 0097
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x11 => ROOM 0011 - leaked value
-; STAIRS3   0x0C => ROOM 000C - leaked value
-
 ; $027E0B-$027E16 DATA
 RoomHeader_Room00D1:
 {
-    db $00, $11, $0C, $1D, $00, $00, $00, $00, $00, $B1, $97
+    db $00 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $B1 ; Warp
+    db $97 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x11
-; BLKSET    0x0C
-; SPRSET    0x1D
-; BGMOVE    0x00
-; EFFECT1   0x0A - Full room kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x98 => ROOM 0098
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x0B => ROOM 000B - leaked value
-; STAIRS3   0x05 => ROOM 0005 - leaked value
-
 ; $027E16-$027E21 DATA
 RoomHeader_Room00D2:
 {
-    db $00, $11, $0C, $1D, $00, $0A, $00, $00, $00, $00, $98
+    db $00 ; BG2 Properties
+    db $11 ; Palette
+    db $0C ; Block set
+    db $1D ; Sprite set
+    db $00 ; BGMOVE
+    db $0A ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $98 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x06 - E kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0B - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x08 => ROOM 0008 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x17 => ROOM 0017 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027E21-$027E28 DATA
 RoomHeader_Room00D3:
 RoomHeader_Room00D4:
 RoomHeader_Room00D7:
 RoomHeader_Room00D8:
 {
-    db $00, $0B, $05, $08, $00, $06, $00
+    db $00 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $06 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0B - leaked value
-; WARP      0x05 => ROOM 0005 - leaked value
-; STAIRS0   0x08 => ROOM 0008 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x17 => ROOM 0017 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027E28-$027E2F DATA
 RoomHeader_Room00D9:
 {
-    db $00, $0B, $05, $08, $00, $17, $00
+    db $00 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0B
-; BLKSET    0x05
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x17 - Toggle switch door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0x99 => ROOM 0099
-; STAIRS1   0xE0 => ROOM 00E0 - leaked value
-; STAIRS2   0x14 => ROOM 0014 - leaked value
-; STAIRS3   0x0B => ROOM 000B - leaked value
-
 ; $027E2F-$027E3A DATA
 RoomHeader_Room00DA:
 {
-    db $00, $0B, $05, $08, $00, $17, $00, $00, $00, $00, $99
+    db $00 ; BG2 Properties
+    db $0B ; Palette
+    db $05 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $17 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $99 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xE0
-; PALETTE   0x14
-; BLKSET    0x0B
-; SPRSET    0x16
-; BGMOVE    0x00
-; EFFECT1   0x25 - Dungeon prize
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x20 - leaked value
-; WARP      0x06 => ROOM 0006 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027E3A-$027E41 DATA
 RoomHeader_Room00DD:
 RoomHeader_Room00DE:
 {
-    db $E0, $14, $0B, $16, $00, $25, $00
+    db $E0 ; BG2 Properties
+    db $14 ; Palette
+    db $0B ; Block set
+    db $16 ; Sprite set
+    db $00 ; BGMOVE
+    db $25 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xEF => ROOM 00EF
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x26 => ROOM 0026 - leaked value
-; STAIRS3   0x02 => ROOM 0002 - leaked value
-
 ; $027E41-$027E4C DATA
 RoomHeader_Room00DF:
 {
-    db $C0, $20, $06, $13, $00, $00, $00, $00, $00, $00, $EF
+    db $C0 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $EF ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x26
-; BLKSET    0x02
-; SPRSET    0x21
-; BGMOVE    0x00
-; EFFECT1   0x01 - NW kill door
-; EFFECT2   0x2A - NE kill chest
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xD0 => ROOM 00D0
-; STAIRS1   0xC0 => ROOM 00C0 - leaked value
-; STAIRS2   0x07 => ROOM 0007 - leaked value
-; STAIRS3   0x06 => ROOM 0006 - leaked value
-
 ; $027E4C-$027E57 DATA
 RoomHeader_Room00E0:
 {
-    db $00, $26, $02, $21, $00, $01, $2A, $00, $00, $00, $D0
+    db $00 ; BG2 Properties
+    db $26 ; Palette
+    db $02 ; Block set
+    db $21 ; Sprite set
+    db $00 ; BGMOVE
+    db $01 ; Effect 1
+    db $2A ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $D0 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x28
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x20 - leaked value
-; WARP      0x06 => ROOM 0006 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027E57-$027E5E DATA
 RoomHeader_Room00E1:
 {
-    db $C0, $07, $06, $28, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $28 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x20 - leaked value
-; WARP      0x06 => ROOM 0006 - leaked value
-; STAIRS0   0x09 => ROOM 0009 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027E5E-$027E65 DATA
 RoomHeader_Room00E2:
 {
-    db $00, $20, $06, $13, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x09
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x01 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x14 => ROOM 0014 - leaked value
-; STAIRS0   0x01 => ROOM 0001 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027E65-$027E6C DATA
 RoomHeader_Room00E3:
 {
-    db $C0, $20, $06, $09, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $09 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x07
-; BLKSET    0x14
-; SPRSET    0x01
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x01 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x06 => ROOM 0006 - leaked value
-; STAIRS0   0x01 => ROOM 0001 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027E6C-$027E73 DATA
 RoomHeader_Room00E4:
 RoomHeader_Room00E5:
 {
-    db $01, $07, $14, $01, $00, $00, $00
+    db $01 ; BG2 Properties
+    db $07 ; Palette
+    db $14 ; Block set
+    db $01 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x01
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x20 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x06 => ROOM 0006 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027E73-$027E7A DATA
 RoomHeader_Room00E6:
 RoomHeader_Room00E7:
 RoomHeader_Room00F0:
 RoomHeader_Room00F1:
 {
-    db $01, $07, $06, $01, $00, $00, $00
+    db $01 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $01 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xF8 => ROOM 00F8
-; STAIRS0   0xF8 => ROOM 00F8
-; STAIRS1   0xF8 => ROOM 00F8
-; STAIRS2   0xF8 => ROOM 00F8
-; STAIRS3   0xF8 => ROOM 00F8
-
 ; $027E7A-$027E88 DATA
 RoomHeader_Room00E8:
 {
-    db $20, $07, $06, $13, $00, $00, $00, $00, $00, $F8, $F8, $F8, $F8, $F8
+    db $20 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $F8 ; Warp
+    db $F8 ; Stair 0
+    db $F8 ; Stair 1
+    db $F8 ; Stair 2
+    db $F8 ; Stair 3
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xFA => ROOM 00FA
-; STAIRS0   0xFA => ROOM 00FA
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x07 => ROOM 0007 - leaked value
-; STAIRS3   0x06 => ROOM 0006 - leaked value
-
 ; $027E88-$027E93 DATA
 RoomHeader_Room00E9:
 RoomHeader_Room00EA:
 {
-    db $20, $20, $06, $13, $00, $00, $00, $00, $00, $FA, $FA
+    db $20 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $FA ; Warp
+    db $FA ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xFB => ROOM 00FB
-; STAIRS0   0xFB => ROOM 00FB
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x20 => ROOM 0020 - leaked value
-; STAIRS3   0x06 => ROOM 0006 - leaked value
-
 ; $027E93-$027E9E DATA
 RoomHeader_Room00EB:
 {
-    db $20, $07, $06, $19, $00, $00, $00, $00, $00, $FB, $FB
+    db $20 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $FB ; Warp
+    db $FB ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xFD => ROOM 00FD
-; STAIRS0   0xFD => ROOM 00FD
-; STAIRS1   0xFD => ROOM 00FD
-; STAIRS2   0x20 => ROOM 0020 - leaked value
-; STAIRS3   0x20 => ROOM 0020 - leaked value
-
 ; $027E9E-$027EAA DATA
 RoomHeader_Room00EC:
 RoomHeader_Room00ED:
 {
-    db $20, $20, $06, $13, $00, $00, $00, $00, $00, $FD, $FD, $FD
+    db $20 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $FD ; Warp
+    db $FD ; Stair 0
+    db $FD ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0xFE => ROOM 00FE
-; STAIRS0   0x20 => ROOM 0020 - leaked value
-; STAIRS1   0x20 => ROOM 0020 - leaked value
-; STAIRS2   0x06 => ROOM 0006 - leaked value
-; STAIRS3   0x13 => ROOM 0013 - leaked value
-
 ; $027EAA-$027EB4 DATA
 RoomHeader_Room00EE:
 {
-    db $20, $20, $06, $13, $00, $00, $00, $00, $00, $FE
+    db $20 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $FE ; Warp
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x20
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x02 - NE kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x08
-; PLANES2   0x00
-; WARP      0xFF => ROOM 00FF
-; STAIRS0   0xDF => ROOM 00DF
-; STAIRS1   0xFF => ROOM 00FF
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x02 => ROOM 0002 - leaked value
-
 ; $027EB4-$027EC0 DATA
 RoomHeader_Room00EF:
 {
-    db $20, $20, $06, $13, $00, $02, $00, $08, $00, $FF, $DF, $FF
+    db $20 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $02 ; Effect 1
+    db $00 ; Effect 2
+    db $08 ; Floor 1
+    db $00 ; Floor 2
+    db $FF ; Warp
+    db $DF ; Stair 0
+    db $FF ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x02
-; BLKSET    0x03
-; SPRSET    0x05
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing - leaked value
-; EFFECT2   0x02 - NE kill door - leaked value
-; PLANES1   0x03 - leaked value
-; PLANES2   0x0F - leaked value
-; WARP      0x00 => ROOM 0000 - leaked value
-; STAIRS0   0x00 => ROOM 0000 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x07 => ROOM 0007 - leaked value
-
 ; $027EC0-$027EC5 DATA
 RoomHeader_Room00F2:
 RoomHeader_Room00F3:
 {
-    db $00, $02, $03, $05, $00
+    db $00 ; BG2 Properties
+    db $02 ; Palette
+    db $03 ; Block set
+    db $05 ; Sprite set
+    db $00 ; BGMOVE
+    ; Effect 1 - leaked value
+    ; Effect 2 - leaked value
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x02
-; BLKSET    0x03
-; SPRSET    0x0F
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x06 => ROOM 0006 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027EC5-$027ECC DATA
 RoomHeader_Room00F4:
 RoomHeader_Room00F5:
 {
-    db $00, $02, $03, $0F, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $02 ; Palette
+    db $03 ; Block set
+    db $0F ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xE8 => ROOM 00E8
-; STAIRS1   0xE8 => ROOM 00E8
-; STAIRS2   0xE8 => ROOM 00E8
-; STAIRS3   0xE8 => ROOM 00E8
-
 ; $027ECC-$027EDA DATA
 RoomHeader_Room00F6:
 RoomHeader_Room00F7:
 RoomHeader_Room00F8:
 {
-    db $00, $07, $06, $13, $00, $00, $00, $00, $00, $00, $E8, $E8, $E8, $E8
+    db $00 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $E8 ; Stair 0
+    db $E8 ; Stair 1
+    db $E8 ; Stair 2
+    db $E8 ; Stair 3
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x20 - leaked value
-; WARP      0x06 => ROOM 0006 - leaked value
-; STAIRS0   0x13 => ROOM 0013 - leaked value
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x00 => ROOM 0000 - leaked value
-
 ; $027EDA-$027EE1 DATA
 RoomHeader_Room00F9:
 RoomHeader_Room00FE:
 {
-    db $00, $20, $06, $13, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xEA => ROOM 00EA
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x07 => ROOM 0007 - leaked value
-; STAIRS3   0x06 => ROOM 0006 - leaked value
-
 ; $027EE1-$027EEB DATA
 RoomHeader_Room00FA:
 {
-    db $C0, $20, $06, $13, $00, $00, $00, $00, $00, $00, $EA
+    db $C0 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $EA ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x19
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xEB => ROOM 00EB
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x20 => ROOM 0020 - leaked value
-; STAIRS3   0x06 => ROOM 0006 - leaked value
-
 ; $027EEC-$027EF6 DATA
 RoomHeader_Room00FB:
 {
-    db $00, $07, $06, $19, $00, $00, $00, $00, $00, $00, $EB
+    db $00 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $19 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $EB ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xED => ROOM 00ED
-; STAIRS1   0xED => ROOM 00ED
-; STAIRS2   0x00 => ROOM 0000 - leaked value
-; STAIRS3   0x07 => ROOM 0007 - leaked value
-
 ; $027EF7-$027F02 DATA
 RoomHeader_Room00FC:
 RoomHeader_Room00FD:
 {
-    db $00, $20, $06, $13, $00, $00, $00, $00, $00, $00, $ED, $ED
+    db $00 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $ED ; Stair 0
+    db $ED ; Stair 1
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x05
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0000
-; STAIRS0   0xEF => ROOM 00EF
-; STAIRS1   0x00 => ROOM 0000 - leaked value
-; STAIRS2   0x05 => ROOM 0005 - leaked value
-; STAIRS3   0x03 => ROOM 0003 - leaked value
-
 ; $027F03-$027F0D DATA
 RoomHeader_Room00FF:
 {
-    db $00, $07, $06, $05, $00, $00, $00, $00, $00, $00, $EF
+    db $00 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $05 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $EF ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x05
-; BLKSET    0x03
-; SPRSET    0x28
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x1F - leaked value
-; WARP      0x03 => ROOM 0103 - leaked value
-; STAIRS0   0x05 => ROOM 0105 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F0E-$027F14 DATA
 RoomHeader_Room0100:
 {
-    db $00, $05, $03, $28, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $05 ; Palette
+    db $03 ; Block set
+    db $28 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x1F
-; BLKSET    0x03
-; SPRSET    0x05
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x02 - leaked value
-; WARP      0x03 => ROOM 0103 - leaked value
-; STAIRS0   0x0F => ROOM 010F - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F15-$027F1B DATA
 RoomHeader_Room010F:
 RoomHeader_Room0110:
 RoomHeader_Room011C:
 {
-    db $00, $1F, $03, $05, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $1F ; Palette
+    db $03 ; Block set
+    db $05 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x02
-; BLKSET    0x03
-; SPRSET    0x0F
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x15 - leaked value
-; WARP      0x03 => ROOM 0103 - leaked value
-; STAIRS0   0x0D => ROOM 010D - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F1C-$027F22 DATA
 RoomHeader_Room0101:
 {
-    db $00, $02, $03, $0F, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $02 ; Palette
+    db $03 ; Block set
+    db $0F ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x15
-; BLKSET    0x03
-; SPRSET    0x0D
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x05 - leaked value
-; WARP      0x03 => ROOM 0103 - leaked value
-; STAIRS0   0x0F => ROOM 010F - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F23-$027F29 DATA
 RoomHeader_Room0102:
 {
-    db $00, $15, $03, $0D, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $15 ; Palette
+    db $03 ; Block set
+    db $0D ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x05
-; BLKSET    0x03
-; SPRSET    0x0F
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x01 - leaked value
-; PLANES2   0x15 - leaked value
-; WARP      0x03 => ROOM 0103 - leaked value
-; STAIRS0   0x0D => ROOM 010D - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F2A-$027F30 DATA
 RoomHeader_Room0103:
 RoomHeader_Room0118:
 {
-    db $00, $05, $03, $0F, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $05 ; Palette
+    db $03 ; Block set
+    db $0F ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x15
-; BLKSET    0x03
-; SPRSET    0x0D
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x1C - leaked value
-; WARP      0x0F => ROOM 010F - leaked value
-; STAIRS0   0x10 => ROOM 0110 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F31-$027F37 DATA
 RoomHeader_Room0104:
 {
-    db $01, $15, $03, $0D, $00, $00, $00
+    db $01 ; BG2 Properties
+    db $15 ; Palette
+    db $03 ; Block set
+    db $0D ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x1C
-; BLKSET    0x0F
-; SPRSET    0x10
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x1F - leaked value
-; WARP      0x03 => ROOM 0103 - leaked value
-; STAIRS0   0x0F => ROOM 010F - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F38-$027F3E DATA
 RoomHeader_Room0105:
 {
-    db $00, $1C, $0F, $10, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $1C ; Palette
+    db $0F ; Block set
+    db $10 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x1F
-; BLKSET    0x03
-; SPRSET    0x0F
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x02 - leaked value
-; WARP      0x03 => ROOM 0103 - leaked value
-; STAIRS0   0x01 => ROOM 0101 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F3F-$027F45 DATA
 RoomHeader_Room0106:
 {
-    db $00, $1F, $03, $0F, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $1F ; Palette
+    db $03 ; Block set
+    db $0F ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x02
-; BLKSET    0x03
-; SPRSET    0x01
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x02 - leaked value
-; WARP      0x03 => ROOM 0103 - leaked value
-; STAIRS0   0x0E => ROOM 010E - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F46-$027F4C DATA
 RoomHeader_Room0107:
 {
-    db $00, $02, $03, $01, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $02 ; Palette
+    db $03 ; Block set
+    db $01 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x02
-; BLKSET    0x03
-; SPRSET    0x0E
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x01 - leaked value
-; PLANES2   0x05 - leaked value
-; WARP      0x03 => ROOM 0103 - leaked value
-; STAIRS0   0x05 => ROOM 0105 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F4D-$027F53 DATA
 RoomHeader_Room0108:
 {
-    db $00, $02, $03, $0E, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $02 ; Palette
+    db $03 ; Block set
+    db $0E ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x05
-; BLKSET    0x03
-; SPRSET    0x05
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x01 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x06 => ROOM 0106 - leaked value
-; STAIRS0   0x10 => ROOM 0110 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F54-$027F5A DATA
 RoomHeader_Room0109:
 {
-    db $01, $05, $03, $05, $00, $00, $00
+    db $01 ; BG2 Properties
+    db $05 ; Palette
+    db $03 ; Block set
+    db $05 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x01
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x10
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x80 - leaked value
-; PLANES2   0x0A - leaked value
-; WARP      0x08 => ROOM 0108 - leaked value
-; STAIRS0   0x08 => ROOM 0108 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x1A => ROOM 011A - leaked value
-
 ; $027F5B-$027F61 DATA
 RoomHeader_Room010A:
 {
-    db $01, $07, $06, $10, $00, $00, $00
+    db $01 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $10 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x80
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x1A - Water gate
-; PLANES1   0x00 - leaked value
-; PLANES2   0x27 - leaked value
-; WARP      0x06 => ROOM 0106 - leaked value
-; STAIRS0   0x08 => ROOM 0108 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x03 => ROOM 0103 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F62-$027F68 DATA
 RoomHeader_Room010B:
 {
-    db $80, $0A, $08, $08, $00, $00, $1A
+    db $80 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $1A ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x27
-; BLKSET    0x06
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x03 - SW kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x0A - leaked value
-; WARP      0x08 => ROOM 0108 - leaked value
-; STAIRS0   0x11 => ROOM 0111 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F69-$027F69 DATA
 RoomHeader_Room010C:
 {
-    db $00, $27, $06, $08, $00, $03, $00
+    db $00 ; BG2 Properties
+    db $27 ; Palette
+    db $06 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $03 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x0A
-; BLKSET    0x08
-; SPRSET    0x11
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x14 => ROOM 0114 - leaked value
-; STAIRS0   0x05 => ROOM 0105 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F70-$027F76 DATA
 RoomHeader_Room010D:
 {
-    db $00, $0A, $08, $11, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $0A ; Palette
+    db $08 ; Block set
+    db $11 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x07
-; BLKSET    0x14
-; SPRSET    0x05
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x1E - leaked value
-; WARP      0x11 => ROOM 0111 - leaked value
-; STAIRS0   0x05 => ROOM 0105 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F77-$027F7D DATA
 RoomHeader_Room010E:
 {
-    db $00, $07, $14, $05, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $07 ; Palette
+    db $14 ; Block set
+    db $05 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x1E
-; BLKSET    0x11
-; SPRSET    0x05
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x14 => ROOM 0114 - leaked value
-; STAIRS0   0x05 => ROOM 0105 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F7E-$027F84 DATA
 RoomHeader_Room0111:
 RoomHeader_Room0121:
 RoomHeader_Room0122:
 {
-    db $00, $1E, $11, $05, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $1E ; Palette
+    db $11 ; Block set
+    db $05 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x07
-; BLKSET    0x14
-; SPRSET    0x05
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x03 - leaked value
-; WARP      0x10 => ROOM 0110 - leaked value
-; STAIRS0   0x08 => ROOM 0108 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F85-$027F8B DATA
 RoomHeader_Room0112:
 {
-    db $00, $07, $14, $05, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $07 ; Palette
+    db $14 ; Block set
+    db $05 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x03
-; BLKSET    0x10
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x06 => ROOM 0106 - leaked value
-; STAIRS0   0x07 => ROOM 0107 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F8C-$027F92 DATA
 RoomHeader_Room0113:
 {
-    db $00, $03, $10, $08, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $03 ; Palette
+    db $10 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x07
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x22 - leaked value
-; WARP      0x12 => ROOM 0112 - leaked value
-; STAIRS0   0x07 => ROOM 0107 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F93-$027F99 DATA
 RoomHeader_Room0018:
 RoomHeader_Room002C:
 RoomHeader_Room0114:
 RoomHeader_Room0115:
 {
-    db $00, $07, $06, $07, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $07 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x22
-; BLKSET    0x12
-; SPRSET    0x07
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x20 - leaked value
-; WARP      0x14 => ROOM 0114 - leaked value
-; STAIRS0   0x05 => ROOM 0105 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027F9A-$027FA0 DATA
 RoomHeader_Room0116:
 {
-    db $00, $22, $12, $07, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $22 ; Palette
+    db $12 ; Block set
+    db $07 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x20
-; BLKSET    0x14
-; SPRSET    0x05
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xE0 - leaked value
-; PLANES2   0x23 - leaked value
-; WARP      0x0A => ROOM 010A - leaked value
-; STAIRS0   0x0F => ROOM 010F - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027FA1-$027FA7 DATA
 RoomHeader_Room0117:
 {
-    db $00, $20, $14, $05, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $20 ; Palette
+    db $14 ; Block set
+    db $05 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xE0
-; PALETTE   0x23
-; BLKSET    0x0A
-; SPRSET    0x0F
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0100
-; STAIRS0   0x1D => ROOM 011D
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x1C => ROOM 011C - leaked value
-; STAIRS3   0x0F => ROOM 010F - leaked value
-
 ; $027FA8-$027FB2 DATA
 RoomHeader_Room0119:
 {
-    db $E0, $23, $0A, $0F, $00, $00, $00, $00, $00, $00, $1D
+    db $E0 ; BG2 Properties
+    db $23 ; Palette
+    db $0A ; Block set
+    db $0F ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $1D ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x1C
-; BLKSET    0x0F
-; SPRSET    0x05
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xC0 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x06 => ROOM 0106 - leaked value
-; STAIRS0   0x08 => ROOM 0108 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027FB3-$027FB9 DATA
 RoomHeader_Room011A:
 {
-    db $00, $1C, $0F, $05, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $1C ; Palette
+    db $0F ; Block set
+    db $05 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xC0
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x08
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x23 - leaked value
-; WARP      0x0A => ROOM 010A - leaked value
-; STAIRS0   0x0F => ROOM 010F - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027FBA-$027FC0 DATA
 RoomHeader_Room011B:
 {
-    db $C0, $07, $06, $08, $00, $00, $00
+    db $C0 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $08 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x23
-; BLKSET    0x0A
-; SPRSET    0x0F
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00
-; PLANES2   0x00
-; WARP      0x00 => ROOM 0100
-; STAIRS0   0x19 => ROOM 0119
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x20 => ROOM 0120 - leaked value
-; STAIRS3   0x06 => ROOM 0106 - leaked value
-
 ; $027FC1-$027FCB DATA
 RoomHeader_Room011D:
 {
-    db $00, $23, $0A, $0F, $00, $00, $00, $00, $00, $00, $19
+    db $00 ; BG2 Properties
+    db $23 ; Palette
+    db $0A ; Block set
+    db $0F ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    db $00 ; Floor 1
+    db $00 ; Floor 2
+    db $00 ; Warp
+    db $19 ; Stair 0
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x20
-; BLKSET    0x06
-; SPRSET    0x2A
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x05 - leaked value
-; WARP      0x03 => ROOM 0103 - leaked value
-; STAIRS0   0x05 => ROOM 0105 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027FCC-$027FD2 DATA
 RoomHeader_Room011E:
 RoomHeader_Room0127:
 {
-    db $00, $20, $06, $2A, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $20 ; Palette
+    db $06 ; Block set
+    db $2A ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x05
-; BLKSET    0x03
-; SPRSET    0x05
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x13 - leaked value
-; WARP      0x06 => ROOM 0106 - leaked value
-; STAIRS0   0x13 => ROOM 0113 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027FD3-$027FD9 DATA
 RoomHeader_Room011F:
 {
-    db $00, $05, $03, $05, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $05 ; Palette
+    db $03 ; Block set
+    db $05 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x13
-; BLKSET    0x06
-; SPRSET    0x13
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x06 => ROOM 0106 - leaked value
-; STAIRS0   0x28 => ROOM 0128 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x03 => ROOM 0103 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027FDA-$027FE0 DATA
 RoomHeader_Room0120:
 {
-    db $00, $13, $06, $13, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $13 ; Palette
+    db $06 ; Block set
+    db $13 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x28
-; BGMOVE    0x00
-; EFFECT1   0x03 - SW kill door
-; EFFECT2   0x00 - Nothing
-; PLANES1   0x00 - leaked value
-; PLANES2   0x07 - leaked value
-; WARP      0x06 => ROOM 0106 - leaked value
-; STAIRS0   0x28 => ROOM 0128 - leaked value
-; STAIRS1   0x00 => ROOM 0100 - leaked value
-; STAIRS2   0x00 => ROOM 0100 - leaked value
-; STAIRS3   0x00 => ROOM 0100 - leaked value
-
 ; $027FE1-$027FE7 DATA
 RoomHeader_Room0123:
 {
-    db $00, $07, $06, $28, $00, $03, $00
+    db $00 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $28 ; Sprite set
+    db $00 ; BGMOVE
+    db $03 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0x00
-; PALETTE   0x07
-; BLKSET    0x06
-; SPRSET    0x28
-; BGMOVE    0x00
-; EFFECT1   0x00 - Nothing
-; EFFECT2   0x00 - Nothing
-; PLANES1   0xFF - leaked value
-; PLANES2   0xFF - leaked value
-; WARP      0xFF => ROOM 01FF - leaked value
-; STAIRS0   0xFF => ROOM 01FF - leaked value
-; STAIRS1   0xFF => ROOM 01FF - leaked value
-; STAIRS2   0xFF => ROOM 01FF - leaked value
-; STAIRS3   0xFF => ROOM 01FF - leaked value
-
 ; $027FE8-$027FEE DATA
 RoomHeader_Room0124:
 RoomHeader_Room0125:
 RoomHeader_Room0126:
 {
-    db $00, $07, $06, $28, $00, $00, $00
+    db $00 ; BG2 Properties
+    db $07 ; Palette
+    db $06 ; Block set
+    db $28 ; Sprite set
+    db $00 ; BGMOVE
+    db $00 ; Effect 1
+    db $00 ; Effect 2
+    ; Floor 1 - leaked value
+    ; Floor 2 - leaked value
+    ; Warp    - leaked value
+    ; Stair 0 - leaked value
+    ; Stair 1 - leaked value
+    ; Stair 2 - leaked value
+    ; Stair 3 - leaked value
 }
 
 ; ==============================================================================
-; BG2PROP   0xFF
-; PALETTE   0xFF
-; BLKSET    0xFF
-; SPRSET    0xFF
-; BGMOVE    0xFF
-; EFFECT1   0xFF
-; EFFECT2   0xFF
-; PLANES1   0xFF
-; PLANES2   0xFF
-; WARP      0xFF => ROOM 01FF
-; STAIRS0   0xFF => ROOM 01FF
-; STAIRS1   0xFF => ROOM 01FF
-; STAIRS2   0xFF => ROOM 01FF
-; STAIRS3   0xFF => ROOM 01FF
 
+; Technically null but the last 24 unused room's header data points here.
+; $027FEF-$027FFF
 RoomHeader_Room0128:
 RoomHeader_Room0129:
 RoomHeader_Room012A:
@@ -11403,12 +10877,25 @@ RoomHeader_Room013C:
 RoomHeader_Room013D:
 RoomHeader_Room013E:
 RoomHeader_Room013F:
-; Technically null but the last 24 unused room's header data points here.
-; $027FEF-$027FFF
 NULL_04FFEF:
 {
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF ; BG2 Properties
+    db $FF ; Palette
+    db $FF ; Block set
+    db $FF ; Sprite set
+    db $FF ; BGMOVE
+    db $FF ; Effect 1
+    db $FF ; Effect 2
+    db $FF ; Floor 1
+    db $FF ; Floor 2
+    db $FF ; Warp
+    db $FF ; Stair 0
+    db $FF ; Stair 1
+    db $FF ; Stair 2
+    db $FF ; Stair 3
+
+    db $FF
+    db $FF
     db $FF
 }
 

@@ -16112,31 +16112,31 @@ Map32ToTile16:
     LSR #4                     : STA.w $4415
     PLA : AND.b #$0F           : STA.w $4417
 
-    LDA.l Tile32_BottomLeft_0, X : STA.w $4420
-    LDA.l Tile32_BottomLeft_1, X : STA.w $4422
-    LDA.l Tile32_BottomLeft_2, X : STA.w $4424
-    LDA.l Tile32_BottomLeft_3, X : STA.w $4426
+    LDA.l Tile32_BottomLeft+$00, X : STA.w $4420
+    LDA.l Tile32_BottomLeft+$01, X : STA.w $4422
+    LDA.l Tile32_BottomLeft+$02, X : STA.w $4424
+    LDA.l Tile32_BottomLeft+$03, X : STA.w $4426
 
-    LDA.l Tile32_BottomLeft_4, X : PHA
-    LSR #4                       : STA.w $4421
-    PLA : AND.b #$0F             : STA.w $4423
+    LDA.l Tile32_BottomLeft+$04, X : PHA
+    LSR #4                         : STA.w $4421
+    PLA : AND.b #$0F               : STA.w $4423
 
-    LDA.l Tile32_BottomLeft_5, X : PHA
-    LSR #4                       : STA.w $4425
-    PLA : AND.b #$0F             : STA.w $4427
+    LDA.l Tile32_BottomLeft+$05, X : PHA
+    LSR #4                         : STA.w $4425
+    PLA : AND.b #$0F               : STA.w $4427
 
-    LDA.l Tile32_BottomRight_0, X : STA.w $4430
-    LDA.l Tile32_BottomRight_1, X : STA.w $4432
-    LDA.l Tile32_BottomRight_2, X : STA.w $4434
-    LDA.l Tile32_BottomRight_3, X : STA.w $4436
+    LDA.l Tile32_BottomRight+$00, X : STA.w $4430
+    LDA.l Tile32_BottomRight+$01, X : STA.w $4432
+    LDA.l Tile32_BottomRight+$02, X : STA.w $4434
+    LDA.l Tile32_BottomRight+$03, X : STA.w $4436
 
-    LDA.l Tile32_BottomRight_4, X : PHA
-    LSR #4                        : STA.w $4431
-    PLA : AND.b #$0F              : STA.w $4433
+    LDA.l Tile32_BottomRight+$04, X : PHA
+    LSR #4                          : STA.w $4431
+    PLA : AND.b #$0F                : STA.w $4433
 
-    LDA.l Tile32_BottomRight_5, X : PHA
-    LSR #4                        : STA.w $4435
-    PLA : AND.b #$0F              : STA.w $4437
+    LDA.l Tile32_BottomRight+$05, X : PHA
+    LSR #4                          : STA.w $4435
+    PLA : AND.b #$0F                : STA.w $4437
 
     REP #$30
 

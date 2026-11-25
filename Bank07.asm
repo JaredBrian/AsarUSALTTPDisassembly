@@ -13449,55 +13449,55 @@ TileDetect_ResetState:
 ; $03D7D8-$03D9D7 JUMP TABLE
 TileDetect_Execute_modules:
 {
-    dw TileCollision_Nothing ; 0x00 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing            ; 0x00 - $DC54 Do nothing. Normal tile.
     dw TileCollision_StandardCollision ; 0x01 - $DC50 Tests and sets bits from $0A into $0E
     dw TileCollision_StandardCollision ; 0x02 - $DC50 Tests and sets bits from $0A into $0E
     dw TileCollision_StandardCollision ; 0x03 - $DC50 Tests and sets bits from $0A into $0E
     dw TileCollision_StandardCollision ; 0x04 - $DC50 Tests and sets bits from $0A into $0E
-    dw TileCollision_Nothing ; 0x05 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x06 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x07 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing           ; 0x05 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing           ; 0x06 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing           ; 0x07 - $DC54 Do nothing. Normal tile.
     
-    dw TileCollision_ManualStairs ; 0x08 - $DC86 Tests and sets bits from $0A into $58
-    dw TileCollision_ShallowWater ; 0x09 - $DD1B Shallow water
-    dw TileCollision_ShortWaterLadder ; 0x0A - $DCBC Tests and sets bits from $0A into $0343
+    dw TileCollision_ManualStairs      ; 0x08 - $DC86 Tests and sets bits from $0A into $58
+    dw TileCollision_ShallowWater      ; 0x09 - $DD1B Shallow water
+    dw TileCollision_ShortWaterLadder  ; 0x0A - $DCBC Tests and sets bits from $0A into $0343
     dw TileCollision_StandardCollision ; 0x0B - $DC50 Tests and sets bits from $0A into $0E
-    dw TileCollision_OverlayMask_0C ; 0x0C - $DC98 Tests and sets bits from $0A into $0320
-    dw TileCollision_SpikeFloor ; 0x0D - $DDCA Tests and sets bits from $0A into $02EE (Spike floor)
-    dw TileCollision_GanonIce ; 0x0E - $DC9E Tests and sets bits from $0A into $0348
-    dw TileCollision_PalaceIce ; 0x0F - $DCA4 Tests and sets bits from $0A into $0348
+    dw TileCollision_OverlayMask_0C    ; 0x0C - $DC98 Tests and sets bits from $0A into $0320
+    dw TileCollision_SpikeFloor        ; 0x0D - $DDCA Tests and sets bits from $0A into $02EE (Spike floor)
+    dw TileCollision_GanonIce          ; 0x0E - $DC9E Tests and sets bits from $0A into $0348
+    dw TileCollision_PalaceIce         ; 0x0F - $DCA4 Tests and sets bits from $0A into $0348
     
-    dw TileCollision_Slope ; 0x10 - $DC61 Tests and sets bits from $0A into $0C
-    dw TileCollision_Slope ; 0x11 - $DC61 Tests and sets bits from $0A into $0C
-    dw TileCollision_Slope ; 0x12 - $DC61 Tests and sets bits from $0A into $0C
-    dw TileCollision_Slope ; 0x13 - $DC61 Tests and sets bits from $0A into $0C
-    dw TileCollision_Nothing ; 0x14 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x15 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x16 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x17 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Slope      ; 0x10 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileCollision_Slope      ; 0x11 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileCollision_Slope      ; 0x12 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileCollision_Slope      ; 0x13 - $DC61 Tests and sets bits from $0A into $0C
+    dw TileCollision_Nothing    ; 0x14 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing    ; 0x15 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing    ; 0x16 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing    ; 0x17 - $DC54 Do nothing. Normal tile.
     dw TileCollision_SlopeOuter ; 0x18 - $DC5D These are the slanted wall tiles that make you move diagonally when you move against them
 
-    dw TileCollision_SlopeOuter ; 0x19 - $DC5D Also a slanted wall
-    dw TileCollision_SlopeOuter ; 0x1A - $DC5D Also a slanted wall
-    dw TileCollision_SlopeOuter ; 0x1B - $DC5D Also a slanted wall
-    dw TileCollision_OverlayMask_1C ; 0x1C - $DCC2 Top of water staircase
+    dw TileCollision_SlopeOuter             ; 0x19 - $DC5D Also a slanted wall
+    dw TileCollision_SlopeOuter             ; 0x1A - $DC5D Also a slanted wall
+    dw TileCollision_SlopeOuter             ; 0x1B - $DC5D Also a slanted wall
+    dw TileCollision_OverlayMask_1C         ; 0x1C - $DCC2 Top of water staircase
     dw TileCollision_NorthSingleLayerStairs ; 0x1D - $DC72 These three are related
-    dw TileCollision_NorthSwapLayerStairs ; 0x1E - $DC7D Staircases (ladders really)
-    dw TileCollision_NorthSwapLayerStairs ; 0x1F - $DC7D 
+    dw TileCollision_NorthSwapLayerStairs   ; 0x1E - $DC7D Staircases (ladders really)
+    dw TileCollision_NorthSwapLayerStairs   ; 0x1F - $DC7D 
     
-    dw TileCollision_Pit ; 0x20 - $DC8B Hole
-    dw TileCollision_Nothing ; 0x21 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_ManualStairs ; 0x22 - $DC86 Steps that slow Link down
-    dw TileCollision_Nothing ; 0x23 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x24 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x25 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Pit               ; 0x20 - $DC8B Hole
+    dw TileCollision_Nothing           ; 0x21 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_ManualStairs      ; 0x22 - $DC86 Steps that slow Link down
+    dw TileCollision_Nothing           ; 0x23 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing           ; 0x24 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing           ; 0x25 - $DC54 Do nothing. Normal tile.
     dw TileCollision_StandardCollision ; 0x26 - $DC50 
-    dw TileCollision_Hookshottables ; 0x27 - $DDE1 Empty chest
+    dw TileCollision_Hookshottables    ; 0x27 - $DDE1 Empty chest
     
-    dw TileCollision_Ledge_North ; 0x28 - $DEBB Ledge leading up
-    dw TileCollision_Ledge_South ; 0x29 - $DEAD Ledge leading down
-    dw TileCollision_Ledge_EastWest ; 0x2A - $DEC5 Ledge leading left
-    dw TileCollision_Ledge_EastWest ; 0x2B - $DEC5 Ledge leading right
+    dw TileCollision_Ledge_North         ; 0x28 - $DEBB Ledge leading up
+    dw TileCollision_Ledge_South         ; 0x29 - $DEAD Ledge leading down
+    dw TileCollision_Ledge_EastWest      ; 0x2A - $DEC5 Ledge leading left
+    dw TileCollision_Ledge_EastWest      ; 0x2B - $DEC5 Ledge leading right
     dw TileCollision_Ledge_NorthDiagonal ; 0x2C - $DECF Ledge leading up + left
     dw TileCollision_Ledge_SouthDiagonal ; 0x2D - $DEDD Ledge leading down + left
     dw TileCollision_Ledge_NorthDiagonal ; 0x2E - $DECF Ledge leading up + right
@@ -13512,32 +13512,32 @@ TileDetect_Execute_modules:
     dw TileCollision_ManualStairs ; 0x36 - $DC86 Down Staircase 2
     dw TileCollision_ManualStairs ; 0x37 - $DC86 Down Staircase 3
     
-    dw TileCollision_Nothing ; 0x38 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x39 - $DC54 Do nothing. Normal tile. (Straight up south staircase)
-    dw TileCollision_Nothing ; 0x3A - $DC54 Do nothing. Normal tile. (Star tile behavior handled elsewhere)
-    dw TileCollision_Nothing ; 0x3B - $DC54 Do nothing. Normal tile. (Star tile behavior handled elsewhere)
-    dw TileCollision_Nothing ; 0x3C - $DC54 Do nothing. Normal tile. (Unknown if this has other behavior)
+    dw TileCollision_Nothing                ; 0x38 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing                ; 0x39 - $DC54 Do nothing. Normal tile. (Straight up south staircase)
+    dw TileCollision_Nothing                ; 0x3A - $DC54 Do nothing. Normal tile. (Star tile behavior handled elsewhere)
+    dw TileCollision_Nothing                ; 0x3B - $DC54 Do nothing. Normal tile. (Star tile behavior handled elsewhere)
+    dw TileCollision_Nothing                ; 0x3C - $DC54 Do nothing. Normal tile. (Unknown if this has other behavior)
     dw TileCollision_SouthSingleLayerStairs ; 0x3D - $DD9D (inter floor staircase?)
-    dw TileCollision_SouthSwapLayerStairs ; 0x3E - $DDA1 (inter floor staircase?)
-    dw TileCollision_SouthSwapLayerStairs ; 0x3F - $DDA1 (inter floor staircase?)
+    dw TileCollision_SouthSwapLayerStairs   ; 0x3E - $DDA1 (inter floor staircase?)
+    dw TileCollision_SouthSwapLayerStairs   ; 0x3F - $DDA1 (inter floor staircase?)
     
-    dw TileCollision_ThickGrass ; 0x40 - $DE61 Grass tile
-    dw TileCollision_Nothing ; 0x41 - $DC54 
-    dw TileCollision_Nothing ; 0x42 - $DC54 
+    dw TileCollision_ThickGrass        ; 0x40 - $DE61 Grass tile
+    dw TileCollision_Nothing           ; 0x41 - $DC54 
+    dw TileCollision_Nothing           ; 0x42 - $DC54 
     dw TileCollision_StandardCollision ; 0x43 - $DC50 
-    dw TileCollision_Spike ; 0x44 - $DDB1 spike block tile
-    dw TileCollision_Nothing ; 0x45 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_HylianPlaque ; 0x46 - $DF11 ????
-    dw TileCollision_Nothing ; 0x47 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Spike             ; 0x44 - $DDB1 spike block tile
+    dw TileCollision_Nothing           ; 0x45 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_HylianPlaque      ; 0x46 - $DF11 ????
+    dw TileCollision_Nothing           ; 0x47 - $DC54 Do nothing. Normal tile.
     
     dw TileCollision_DiggableGround ; 0x48 - $DE67 Aftermath tiles?
-    dw TileCollision_Nothing ; 0x49 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing        ; 0x49 - $DC54 Do nothing. Normal tile.
     dw TileCollision_DiggableGround ; 0x4A - $DE67 Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
-    dw TileCollision_Warp ; 0x4B - $DEFF Warp Tile
-    dw TileCollision_Nothing ; 0x4C - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x4D - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x4E - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x4F - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Warp           ; 0x4B - $DEFF Warp Tile
+    dw TileCollision_Nothing        ; 0x4C - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing        ; 0x4D - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing        ; 0x4E - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing        ; 0x4F - $DC54 Do nothing. Normal tile.
     
     dw TileCollision_Liftable ; 0x50 - $DE7E 
     dw TileCollision_Liftable ; 0x51 - $DE7E  
@@ -13548,32 +13548,32 @@ TileDetect_Execute_modules:
     dw TileCollision_Liftable ; 0x56 - $DE7E 
     dw TileCollision_BonkRocks ; 0x57 - $DF19
     
-    dw TileCollision_Chest ; 0x58 - $DD6A Chest attribute 0
-    dw TileCollision_Chest ; 0x59 - $DD6A Chest attribute 1
-    dw TileCollision_Chest ; 0x5A - $DD6A Chest attribute 2
-    dw TileCollision_Chest ; 0x5B - $DD6A Chest attribute 3
-    dw TileCollision_Chest ; 0x5C - $DD6A Chest attribute 4
-    dw TileCollision_Chest ; 0x5D - $DD6A Chest attribute 5
+    dw TileCollision_Chest   ; 0x58 - $DD6A Chest attribute 0
+    dw TileCollision_Chest   ; 0x59 - $DD6A Chest attribute 1
+    dw TileCollision_Chest   ; 0x5A - $DD6A Chest attribute 2
+    dw TileCollision_Chest   ; 0x5B - $DD6A Chest attribute 3
+    dw TileCollision_Chest   ; 0x5C - $DD6A Chest attribute 4
+    dw TileCollision_Chest   ; 0x5D - $DD6A Chest attribute 5
     dw TileCollision_Nothing ; 0x5E - $DC54 Do nothing. Normal tile.
     dw TileCollision_Nothing ; 0x5F - $DC54 Do nothing. Normal tile.
     
-    dw TileCollision_RupeeTile ; 0x60 - $DDF7 Blue rupees on ground tile
-    dw TileCollision_Nothing ; 0x61 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x62 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_RupeeTile     ; 0x60 - $DDF7 Blue rupees on ground tile
+    dw TileCollision_Nothing       ; 0x61 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing       ; 0x62 - $DC54 Do nothing. Normal tile.
     dw TileCollision_MinigameChest ; 0x63 - $DE45 Minigame chest
-    dw TileCollision_Nothing ; 0x64 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x65 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0x66 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing       ; 0x64 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing       ; 0x65 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing       ; 0x66 - $DC54 Do nothing. Normal tile.
     dw TileCollision_CrystalPeg_Up ; 0x67 - $DE17 
     
-    dw TileCollision_Conveyor_Upwards ; 0x68 - $DE29 
+    dw TileCollision_Conveyor_Upwards   ; 0x68 - $DE29 
     dw TileCollision_Conveyor_Downwards ; 0x69 - $DE2D 
     dw TileCollision_Conveyor_Leftwards ; 0x6A - $DE35 
     dw TileCollision_Conveyor_Leftwards ; 0x6B - $DE3A 
-    dw TileCollision_StandardCollision ; 0x6C - $DC50 
-    dw TileCollision_StandardCollision ; 0x6D - $DC50 
-    dw TileCollision_StandardCollision ; 0x6E - $DC50 
-    dw TileCollision_StandardCollision ; 0x6F - $DC50 
+    dw TileCollision_StandardCollision  ; 0x6C - $DC50 
+    dw TileCollision_StandardCollision  ; 0x6D - $DC50 
+    dw TileCollision_StandardCollision  ; 0x6E - $DC50 
+    dw TileCollision_StandardCollision  ; 0x6F - $DC50 
     
     dw TileCollision_ManipulablyReplaced ; 0x70 - $DD41 Pot attribute 0
     dw TileCollision_ManipulablyReplaced ; 0x71 - $DD41 Pot attribute 1
@@ -13593,21 +13593,21 @@ TileDetect_Execute_modules:
     dw TileCollision_ManipulablyReplaced ; 0x7E - $DD41 Pot attribute E
     dw TileCollision_ManipulablyReplaced ; 0x7F - $DD41 Pot attribute F
     
-    dw TileCollision_Door ; 0x80 - $DD0A 
-    dw TileCollision_Door ; 0x81 - $DD0A 
+    dw TileCollision_Door        ; 0x80 - $DD0A 
+    dw TileCollision_Door        ; 0x81 - $DD0A 
     dw TileCollision_ShutterDoor ; 0x82 - $DCEA 
     dw TileCollision_ShutterDoor ; 0x83 - $DCEA 
-    dw TileCollision_Door ; 0x84 - $DD0A 
-    dw TileCollision_Door ; 0x85 - $DD0A 
-    dw TileCollision_Door ; 0x86 - $DD0A 
-    dw TileCollision_Door ; 0x87 - $DD0A 
+    dw TileCollision_Door        ; 0x84 - $DD0A 
+    dw TileCollision_Door        ; 0x85 - $DD0A 
+    dw TileCollision_Door        ; 0x86 - $DD0A 
+    dw TileCollision_Door        ; 0x87 - $DD0A 
     
-    dw TileCollision_Door ; 0x88 - $DD0A
-    dw TileCollision_Door ; 0x89 - $DD0A Room link door
-    dw TileCollision_Door ; 0x8A - $DD0A
-    dw TileCollision_Door ; 0x8B - $DD0A
-    dw TileCollision_Door ; 0x8C - $DD0A
-    dw TileCollision_Door ; 0x8D - $DD0A
+    dw TileCollision_Door     ; 0x88 - $DD0A
+    dw TileCollision_Door     ; 0x89 - $DD0A Room link door
+    dw TileCollision_Door     ; 0x8A - $DD0A
+    dw TileCollision_Door     ; 0x8B - $DD0A
+    dw TileCollision_Door     ; 0x8C - $DD0A
+    dw TileCollision_Door     ; 0x8D - $DD0A
     dw TileCollision_Entrance ; 0x8E - $DE4F Overworld link door
     dw TileCollision_Entrance ; 0x8F - $DE4F
     
@@ -13629,14 +13629,14 @@ TileDetect_Execute_modules:
     dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9E - $DCD4 
     dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9F - $DCD4 
     
-    dw TileCollision_DungeonToggleManualDoor ; 0xA0 - $DD00 Used in the sewer / HC transition
-    dw TileCollision_DungeonToggleManualDoor ; 0xA1 - $DD00 
+    dw TileCollision_DungeonToggleManualDoor  ; 0xA0 - $DD00 Used in the sewer / HC transition
+    dw TileCollision_DungeonToggleManualDoor  ; 0xA1 - $DD00 
     dw TileCollision_DungeonToggleShutterDoor ; 0xA2 - $DCE0 
     dw TileCollision_DungeonToggleShutterDoor ; 0xA3 - $DCE0 
-    dw TileCollision_DungeonToggleManualDoor ; 0xA4 - $DD00 
-    dw TileCollision_DungeonToggleManualDoor ; 0xA5 - $DD00 
-    dw TileCollision_Nothing ; 0xA6 - $DC54 Do nothing. Normal tile.
-    dw TileCollision_Nothing ; 0xA7 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_DungeonToggleManualDoor  ; 0xA4 - $DD00 
+    dw TileCollision_DungeonToggleManualDoor  ; 0xA5 - $DD00 
+    dw TileCollision_Nothing                  ; 0xA6 - $DC54 Do nothing. Normal tile.
+    dw TileCollision_Nothing                  ; 0xA7 - $DC54 Do nothing. Normal tile.
     
     dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xA8 - $DCD4 Do nothing. Normal tile.
     dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xA9 - $DCD4 Do nothing. Normal tile.
@@ -13656,12 +13656,12 @@ TileDetect_Execute_modules:
     dw TileCollision_Pit ; 0xB6 - $DC8B Hole AI ''
     dw TileCollision_Pit ; 0xB7 - $DC8B Hole AI ''
     
-    dw TileCollision_Pit ; 0xB8 - $DC8B Hole AI ''
-    dw TileCollision_Pit ; 0xB9 - $DC8B Hole AI ''
-    dw TileCollision_Pit ; 0xBA - $DC8B Hole AI ''
-    dw TileCollision_Pit ; 0xBB - $DC8B Hole AI ''
-    dw TileCollision_Pit ; 0xBC - $DC8B Hole AI ''
-    dw TileCollision_Pit ; 0xBD - $DC8B Hole AI ''
+    dw TileCollision_Pit     ; 0xB8 - $DC8B Hole AI ''
+    dw TileCollision_Pit     ; 0xB9 - $DC8B Hole AI ''
+    dw TileCollision_Pit     ; 0xBA - $DC8B Hole AI ''
+    dw TileCollision_Pit     ; 0xBB - $DC8B Hole AI ''
+    dw TileCollision_Pit     ; 0xBC - $DC8B Hole AI ''
+    dw TileCollision_Pit     ; 0xBD - $DC8B Hole AI ''
     dw TileCollision_Nothing ; 0xBE - $DC54 Do nothing. Normal tile.
     dw TileCollision_Nothing ; 0xBF - $DC54 Do nothing. Normal tile.
     
@@ -13813,59 +13813,60 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
+; TODO: Clean up the comments here.
 ; Overworld Tile Attribute Jump Table
 ; $03DA2A-$03DC29 JUMP TABLE
 TileDetection_Execute_overworld_modules:
 {
-    dw TileCollision_NothingOW ; 0x00 - $DE5B Normal tile (no interaction)
+    dw TileCollision_NothingOW         ; 0x00 - $DE5B Normal tile (no interaction)
     dw TileCollision_StandardCollision ; 0x01 - $DC50 Blocked
     dw TileCollision_StandardCollision ; 0x02 - $DC50 Blocked
     dw TileCollision_StandardCollision ; 0x03 - $DC50 Blocked
-    dw TileCollision_Slope ; 0x04 - $DC61 ????
-    dw TileCollision_NothingOW ; 0x05 - $DE5B Normal tile (no interaction)
-    dw TileCollision_NothingOW ; 0x06 - $DE5B Normal tile
-    dw TileCollision_NothingOW ; 0x07 - $DE5B 
+    dw TileCollision_Slope             ; 0x04 - $DC61 ????
+    dw TileCollision_NothingOW         ; 0x05 - $DE5B Normal tile (no interaction)
+    dw TileCollision_NothingOW         ; 0x06 - $DE5B Normal tile
+    dw TileCollision_NothingOW         ; 0x07 - $DE5B 
     
-    dw TileCollision_DeepWater ; 0x08 - $DCB6 Deep water
-    dw TileCollision_ShallowWater ; 0x09 - $DD1B Shallow water
+    dw TileCollision_DeepWater        ; 0x08 - $DCB6 Deep water
+    dw TileCollision_ShallowWater     ; 0x09 - $DD1B Shallow water
     dw TileCollision_ShortWaterLadder ; 0x0A - $DCBC 
-    dw TileCollision_UnusedDeepWater ; 0x0B - $DD5C ????
-    dw TileCollision_OverlayMask_0C ; 0x0C - $DC98 Moving floor (e.g. Mothula's room and the one in the Ice Palace)
-    dw TileCollision_SpikeFloor ; 0x0D - $DDCA Spike floors, not sure if any exist in Overworld (Didn't Parallel Worlds do this with Lava?)
-    dw TileCollision_GanonIce ; 0x0E - $DC9E 
-    dw TileCollision_PalaceIce ; 0x0F - $DCA4 
+    dw TileCollision_UnusedDeepWater  ; 0x0B - $DD5C ????
+    dw TileCollision_OverlayMask_0C   ; 0x0C - $DC98 Moving floor (e.g. Mothula's room and the one in the Ice Palace)
+    dw TileCollision_SpikeFloor       ; 0x0D - $DDCA Spike floors
+    dw TileCollision_GanonIce         ; 0x0E - $DC9E 
+    dw TileCollision_PalaceIce        ; 0x0F - $DCA4 
     
-    dw TileCollision_Slope ; 0x10 - $DC61  
-    dw TileCollision_Slope ; 0x11 - $DC61  
-    dw TileCollision_Slope ; 0x12 - $DC61  
-    dw TileCollision_Slope ; 0x13 - $DC61  
+    dw TileCollision_Slope     ; 0x10 - $DC61  
+    dw TileCollision_Slope     ; 0x11 - $DC61  
+    dw TileCollision_Slope     ; 0x12 - $DC61  
+    dw TileCollision_Slope     ; 0x13 - $DC61  
     dw TileCollision_NothingOW ; 0x14 - $DE5B  
     dw TileCollision_NothingOW ; 0x15 - $DE5B  
     dw TileCollision_NothingOW ; 0x16 - $DE5B  
     dw TileCollision_NothingOW ; 0x17 - $DE5B  
     
-    dw TileCollision_SlopeOuter ; 0x18 - $DC5D  
-    dw TileCollision_SlopeOuter ; 0x19 - $DC5D  
-    dw TileCollision_SlopeOuter ; 0x1A - $DC5D  
-    dw TileCollision_SlopeOuter ; 0x1B - $DC5D  
-    dw TileCollision_OverlayMask_1C ; 0x1C - $DCC2 Top of in room staircase
+    dw TileCollision_SlopeOuter             ; 0x18 - $DC5D  
+    dw TileCollision_SlopeOuter             ; 0x19 - $DC5D  
+    dw TileCollision_SlopeOuter             ; 0x1A - $DC5D  
+    dw TileCollision_SlopeOuter             ; 0x1B - $DC5D  
+    dw TileCollision_OverlayMask_1C         ; 0x1C - $DCC2 Top of in room staircase
     dw TileCollision_NorthSingleLayerStairs ; 0x1D - $DC72 
-    dw TileCollision_NorthSwapLayerStairs ; 0x1E - $DC7D 
-    dw TileCollision_NorthSwapLayerStairs ; 0x1F - $DC7D 
+    dw TileCollision_NorthSwapLayerStairs   ; 0x1E - $DC7D 
+    dw TileCollision_NorthSwapLayerStairs   ; 0x1F - $DC7D 
     
-    dw TileCollision_Pit ; 0x20 - $DC8B Hole tile
-    dw TileCollision_NothingOW ; 0x21 - $DE5B 
-    dw TileCollision_ManualStairs ; 0x22 - $DC86 Wooden steps (slow you down)
-    dw TileCollision_NothingOW ; 0x23 - $DE5B 
-    dw TileCollision_NothingOW ; 0x24 - $DE5B 
-    dw TileCollision_NothingOW ; 0x25 - $DE5B 
+    dw TileCollision_Pit               ; 0x20 - $DC8B Hole tile
+    dw TileCollision_NothingOW         ; 0x21 - $DE5B 
+    dw TileCollision_ManualStairs      ; 0x22 - $DC86 Wooden steps (slow you down)
+    dw TileCollision_NothingOW         ; 0x23 - $DE5B 
+    dw TileCollision_NothingOW         ; 0x24 - $DE5B 
+    dw TileCollision_NothingOW         ; 0x25 - $DE5B 
     dw TileCollision_StandardCollision ; 0x26 - $DC50 
-    dw TileCollision_Hookshottables ; 0x27 - $DDE1 (empty chest and maybe others)
+    dw TileCollision_Hookshottables    ; 0x27 - $DDE1 (empty chest and maybe others)
 
-    dw TileCollision_Ledge_North ; 0x28 - $DEBB Ledge leading up
-    dw TileCollision_Ledge_South ; 0x29 - $DEAD Ledge leading down
-    dw TileCollision_Ledge_EastWest ; 0x2A - $DEC5 Ledge leading left
-    dw TileCollision_Ledge_EastWest ; 0x2B - $DEC5 Ledge leading right
+    dw TileCollision_Ledge_North         ; 0x28 - $DEBB Ledge leading up
+    dw TileCollision_Ledge_South         ; 0x29 - $DEAD Ledge leading down
+    dw TileCollision_Ledge_EastWest      ; 0x2A - $DEC5 Ledge leading left
+    dw TileCollision_Ledge_EastWest      ; 0x2B - $DEC5 Ledge leading right
     dw TileCollision_Ledge_NorthDiagonal ; 0x2C - $DECF Ledge leading up + left
     dw TileCollision_Ledge_SouthDiagonal ; 0x2D - $DEDD Ledge leading down + left
     dw TileCollision_Ledge_NorthDiagonal ; 0x2E - $DECF Ledge leading up + right
@@ -13880,68 +13881,68 @@ TileDetection_Execute_overworld_modules:
     dw TileCollision_ManualStairs ; 0x36 - $DC86 
     dw TileCollision_ManualStairs ; 0x37 - $DC86 
     
-    dw TileCollision_NothingOW ; 0x38 - $DE5B  
-    dw TileCollision_NothingOW ; 0x39 - $DE5B 
-    dw TileCollision_NothingOW ; 0x3A - $DE5B 
-    dw TileCollision_NothingOW ; 0x3B - $DE5B 
-    dw TileCollision_NothingOW ; 0x3C - $DE5B 
+    dw TileCollision_NothingOW              ; 0x38 - $DE5B  
+    dw TileCollision_NothingOW              ; 0x39 - $DE5B 
+    dw TileCollision_NothingOW              ; 0x3A - $DE5B 
+    dw TileCollision_NothingOW              ; 0x3B - $DE5B 
+    dw TileCollision_NothingOW              ; 0x3C - $DE5B 
     dw TileCollision_SouthSingleLayerStairs ; 0x3D - $DD9D 
-    dw TileCollision_SouthSwapLayerStairs ;  0x3E - $DDA1
-    dw TileCollision_SouthSwapLayerStairs ;  0x3F - $DDA1 
+    dw TileCollision_SouthSwapLayerStairs   ; 0x3E - $DDA1
+    dw TileCollision_SouthSwapLayerStairs   ; 0x3F - $DDA1 
     
-    dw TileCollision_ThickGrass ; 0x40 - $DE61 Grass tile
-    dw TileCollision_NothingOW ; 0x41 - $DE5B 
-    dw TileCollision_NothingOW ; 0x42 -  $DF09 ????
+    dw TileCollision_ThickGrass        ; 0x40 - $DE61 Grass tile
+    dw TileCollision_NothingOW         ; 0x41 - $DE5B 
+    dw TileCollision_NothingOW         ; 0x42 -  $DF09 ????
     dw TileCollision_StandardCollision ; 0x43 - $DC50 
-    dw TileCollision_Spike ; 0x44 - $DDB1 Cactus tile
-    dw TileCollision_NothingOW ; 0x45 - $DE5B 
-    dw TileCollision_HylianPlaque ; 0x46 - $DF11 ????
-    dw TileCollision_NothingOW ; 0x47 - $DE5B 
+    dw TileCollision_Spike             ; 0x44 - $DDB1 Cactus tile
+    dw TileCollision_NothingOW         ; 0x45 - $DE5B 
+    dw TileCollision_HylianPlaque      ; 0x46 - $DF11 ????
+    dw TileCollision_NothingOW         ; 0x47 - $DE5B 
     
-    dw TileCollision_DiggableGround ; 0x48 - $DE67 aftermath tiles of picking things up?
-    dw TileCollision_NothingOW ; 0x49 - $DE5B 
-    dw TileCollision_DiggableGround ; 0x4A - $DE67 Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
-    dw TileCollision_Warp ; 0x4B - $DEFF Warp tile
-    dw TileCollision_UnusedCornerType ; 0x4C - $DEE7 Unused, but would probably be for special mountain tiles too
-    dw TileCollision_UnusedCornerType ; 0x4D - $DEE7 Unused, but would probably be for special mountain tiles too
+    dw TileCollision_DiggableGround     ; 0x48 - $DE67 aftermath tiles of picking things up?
+    dw TileCollision_NothingOW          ; 0x49 - $DE5B 
+    dw TileCollision_DiggableGround     ; 0x4A - $DE67 Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
+    dw TileCollision_Warp               ; 0x4B - $DEFF Warp tile
+    dw TileCollision_UnusedCornerType   ; 0x4C - $DEE7 Unused, but would probably be for special mountain tiles too
+    dw TileCollision_UnusedCornerType   ; 0x4D - $DEE7 Unused, but would probably be for special mountain tiles too
     dw TileCollision_EasternRuinsCorner ; $DEF1 0x4E - Certain mountain tiles
     dw TileCollision_EasternRuinsCorner ; $DEF1 0x4F - Certain mountain tiles
     
-    dw TileCollision_Liftable ; 0x50 - $DE7E bush
-    dw TileCollision_Liftable ; 0x51 - $DE7E off color bush
-    dw TileCollision_Liftable ; 0x52 - $DE7E small light rock
-    dw TileCollision_Liftable ; 0x53 - $DE7E small heavy rock
-    dw TileCollision_Liftable ; 0x54 - $DE7E sign
-    dw TileCollision_Liftable ; 0x55 - $DE7E large light rock
-    dw TileCollision_Liftable ; 0x56 - $DE7E large heavy rock
+    dw TileCollision_Liftable  ; 0x50 - $DE7E bush
+    dw TileCollision_Liftable  ; 0x51 - $DE7E off color bush
+    dw TileCollision_Liftable  ; 0x52 - $DE7E small light rock
+    dw TileCollision_Liftable  ; 0x53 - $DE7E small heavy rock
+    dw TileCollision_Liftable  ; 0x54 - $DE7E sign
+    dw TileCollision_Liftable  ; 0x55 - $DE7E large light rock
+    dw TileCollision_Liftable  ; 0x56 - $DE7E large heavy rock
     dw TileCollision_BonkRocks ; 0x57 - $DF19 
     
-    dw TileCollision_Chest ; 0x58 - $DD6A Chest block
-    dw TileCollision_Chest ; 0x59 - $DD6A Chest block
-    dw TileCollision_Chest ; 0x5A - $DD6A Chest block
-    dw TileCollision_Chest ; 0x5B - $DD6A Chest block
-    dw TileCollision_Chest ; 0x5C - $DD6A Chest block
-    dw TileCollision_Chest ; 0x5D - $DD6A Chest block
+    dw TileCollision_Chest     ; 0x58 - $DD6A Chest block
+    dw TileCollision_Chest     ; 0x59 - $DD6A Chest block
+    dw TileCollision_Chest     ; 0x5A - $DD6A Chest block
+    dw TileCollision_Chest     ; 0x5B - $DD6A Chest block
+    dw TileCollision_Chest     ; 0x5C - $DD6A Chest block
+    dw TileCollision_Chest     ; 0x5D - $DD6A Chest block
     dw TileCollision_NothingOW ; 0x5E - $DE5B 
     dw TileCollision_NothingOW ; 0x5F - $DE5B 
     
-    dw TileCollision_NothingOW ; 0x60 - $DE5B 
-    dw TileCollision_NothingOW ; 0x61 - $DE5B 
-    dw TileCollision_NothingOW ; 0x62 - $DE5B 
+    dw TileCollision_NothingOW     ; 0x60 - $DE5B 
+    dw TileCollision_NothingOW     ; 0x61 - $DE5B 
+    dw TileCollision_NothingOW     ; 0x62 - $DE5B 
     dw TileCollision_MinigameChest ; 0x63 - $DE45 Minigame chest tile
-    dw TileCollision_NothingOW ; 0x64 - $DE5B 
-    dw TileCollision_NothingOW ; 0x65 - $DE5B 
-    dw TileCollision_NothingOW ; 0x66 - $DE5B 
+    dw TileCollision_NothingOW     ; 0x64 - $DE5B 
+    dw TileCollision_NothingOW     ; 0x65 - $DE5B 
+    dw TileCollision_NothingOW     ; 0x66 - $DE5B 
     dw TileCollision_CrystalPeg_Up ; 0x67 - $DE17 
     
-    dw TileCollision_Conveyor_Upwards ; 0x68 - $DE29 
-    dw TileCollision_Conveyor_Downwards ; 0x69 - $DE2D 
-    dw TileCollision_Conveyor_Leftwards ; 0x6A - $DE35 
+    dw TileCollision_Conveyor_Upwards    ; 0x68 - $DE29 
+    dw TileCollision_Conveyor_Downwards  ; 0x69 - $DE2D 
+    dw TileCollision_Conveyor_Leftwards  ; 0x6A - $DE35 
     dw TileCollision_Conveyor_Rightwards ; 0x6B - $DE3A 
-    dw TileCollision_NothingOW ; 0x6C - $DE5B 
-    dw TileCollision_NothingOW ; 0x6D - $DE5B 
-    dw TileCollision_NothingOW ; 0x6E - $DE5B 
-    dw TileCollision_NothingOW ; 0x6F - $DE5B 
+    dw TileCollision_NothingOW           ; 0x6C - $DE5B 
+    dw TileCollision_NothingOW           ; 0x6D - $DE5B 
+    dw TileCollision_NothingOW           ; 0x6E - $DE5B 
+    dw TileCollision_NothingOW           ; 0x6F - $DE5B 
     
     dw TileCollision_ManipulablyReplaced ; 0x70 - $DD41 
     dw TileCollision_ManipulablyReplaced ; 0x71 - $DD41 
@@ -13961,21 +13962,21 @@ TileDetection_Execute_overworld_modules:
     dw TileCollision_ManipulablyReplaced ; 0x7E - $DD41 
     dw TileCollision_ManipulablyReplaced ; 0x7F - $DD41 
     
-    dw TileCollision_Door ; 0x80 - $DD0A 
-    dw TileCollision_Door ; 0x81 - $DD0A 
+    dw TileCollision_Door        ; 0x80 - $DD0A 
+    dw TileCollision_Door        ; 0x81 - $DD0A 
     dw TileCollision_ShutterDoor ; 0x82 - $DCEA 
     dw TileCollision_ShutterDoor ; 0x83 - $DCEA 
-    dw TileCollision_Door ; 0x84 - $DD0A 
-    dw TileCollision_Door ; 0x85 - $DD0A 
-    dw TileCollision_Door ; 0x86 - $DD0A 
-    dw TileCollision_Door ; 0x87 - $DD0A 
+    dw TileCollision_Door        ; 0x84 - $DD0A 
+    dw TileCollision_Door        ; 0x85 - $DD0A 
+    dw TileCollision_Door        ; 0x86 - $DD0A 
+    dw TileCollision_Door        ; 0x87 - $DD0A 
     
-    dw TileCollision_Door ; 0x88 - $DD0A 
-    dw TileCollision_Door ; 0x89 - $DD0A 
-    dw TileCollision_Door ; 0x8A - $DD0A 
-    dw TileCollision_Door ; 0x8B - $DD0A 
-    dw TileCollision_Door ; 0x8C - $DD0A 
-    dw TileCollision_Door ; 0x8D - $DD0A 
+    dw TileCollision_Door     ; 0x88 - $DD0A 
+    dw TileCollision_Door     ; 0x89 - $DD0A 
+    dw TileCollision_Door     ; 0x8A - $DD0A 
+    dw TileCollision_Door     ; 0x8B - $DD0A 
+    dw TileCollision_Door     ; 0x8C - $DD0A 
+    dw TileCollision_Door     ; 0x8D - $DD0A 
     dw TileCollision_Entrance ; 0x8E - $DE4F 
     dw TileCollision_Entrance ; 0x8F - $DE4F 
 
@@ -13997,14 +13998,14 @@ TileDetection_Execute_overworld_modules:
     dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9E - $DCD4 
     dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0x9F - $DCD4 
     
-    dw TileCollision_DungeonToggleManualDoor ; 0xA0 - $DD00 
-    dw TileCollision_DungeonToggleManualDoor ; 0xA1 - $DD00 
+    dw TileCollision_DungeonToggleManualDoor  ; 0xA0 - $DD00 
+    dw TileCollision_DungeonToggleManualDoor  ; 0xA1 - $DD00 
     dw TileCollision_DungeonToggleShutterDoor ; 0xA2 - $DCE0 
     dw TileCollision_DungeonToggleShutterDoor ; 0xA3 - $DCE0 
-    dw TileCollision_DungeonToggleManualDoor ; 0xA4 - $DD00 
-    dw TileCollision_DungeonToggleManualDoor ; 0xA5 - $DD00 
-    dw TileCollision_NothingOW ; 0xA6 - $DE5B 
-    dw TileCollision_NothingOW ; 0xA7 - $DE5B 
+    dw TileCollision_DungeonToggleManualDoor  ; 0xA4 - $DD00 
+    dw TileCollision_DungeonToggleManualDoor  ; 0xA5 - $DD00 
+    dw TileCollision_NothingOW                ; 0xA6 - $DE5B 
+    dw TileCollision_NothingOW                ; 0xA7 - $DE5B 
     
     dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xA8 - $DCD4 
     dw TileCollision_LayerAndDungeonToggleShutterDoor ; 0xA9 - $DCD4 
@@ -14024,12 +14025,12 @@ TileDetection_Execute_overworld_modules:
     dw TileCollision_Pit ; 0xB6 - $DC8B  
     dw TileCollision_Pit ; 0xB7 - $DC8B  
     
-    dw TileCollision_Pit ; 0xB8 - $DC8B 
-    dw TileCollision_Pit ; 0xB9 - $DC8B 
-    dw TileCollision_Pit ; 0xBA - $DC8B 
-    dw TileCollision_Pit ; 0xBB - $DC8B 
-    dw TileCollision_Pit ; 0xBC - $DC8B 
-    dw TileCollision_Pit ; 0xBD - $DC8B 
+    dw TileCollision_Pit       ; 0xB8 - $DC8B 
+    dw TileCollision_Pit       ; 0xB9 - $DC8B 
+    dw TileCollision_Pit       ; 0xBA - $DC8B 
+    dw TileCollision_Pit       ; 0xBB - $DC8B 
+    dw TileCollision_Pit       ; 0xBC - $DC8B 
+    dw TileCollision_Pit       ; 0xBD - $DC8B 
     dw TileCollision_NothingOW ; 0xBE - $DE5B 
     dw TileCollision_NothingOW ; 0xBF - $DE5B 
     
@@ -15148,36 +15149,36 @@ Link_HandleRecoiling:
 ; $03E227-$03E244 DATA
 SubVelocityValues:
 {
-    db $18 ; 0x00 - walking on ground
-    db $10 ; 0x01 - walking diagonally
-    db $0A ; 0x02 - walking on stairs
-    db $18 ; 0x03 - walking on stairs diagonally, but it's impossible to reach
-    db $10 ; 0x04 - soft slipping
-    db $08 ; 0x05 - soft slipping diagonally
-    db $08 ; 0x06 - entering underworld/hard slipping
-    db $04 ; 0x07 - hard slipping diagonally
-    db $0C ; 0x08 - pushing statue
-    db $10 ; 0x09 - pushing statue diagonally
-    db $09 ; 0x0A - intraroom stairs
-    db $19 ; 0x0B - 
-    db $14 ; 0x0C - walking with sword out/carrying/sloshing
-    db $0D ; 0x0D - walking with sword out/carrying/sloshing diagonally
-    db $10 ; 0x0E - sword out/carry sloshing
-    db $08 ; 0x0F - sword out/carry sloshing diagonally
-    db $40 ; 0x10 - dashing
-    db $2A ; 0x11 - dashing diagonally
-    db $10 ; 0x12 - pushing block
-    db $08 ; 0x13 - pushing block diagonally
-    db $04 ; 0x14 - pulling statue/walking to triforce
-    db $02 ; 0x15 - pulling statue diagonally
-    db $30 ; 0x16 - slosh dashing
-    db $18 ; 0x17 - slosh dashing diagonally
-    db $20 ; 0x18 - dashing on ice
-    db $15 ; 0x19 - dashing on ice diagonally
-    db $F0 ; 0x1A - 
-    db $00 ; 0x1B - 
-    db $F0 ; 0x1C - 
-    db $01 ; 0x1D - 
+    db $18 ; 0x00 - Walking on ground
+    db $10 ; 0x01 - Walking diagonally
+    db $0A ; 0x02 - Walking on stairs
+    db $18 ; 0x03 - Walking on stairs diagonally, but it's impossible to reach
+    db $10 ; 0x04 - Soft slipping
+    db $08 ; 0x05 - Soft slipping diagonally
+    db $08 ; 0x06 - Entering underworld/hard slipping
+    db $04 ; 0x07 - Hard slipping diagonally
+    db $0C ; 0x08 - Pushing statue
+    db $10 ; 0x09 - Pushing statue diagonally
+    db $09 ; 0x0A - Intraroom stairs
+    db $19 ; 0x0B - TODO: ???
+    db $14 ; 0x0C - Walking with sword out/carrying/sloshing
+    db $0D ; 0x0D - Walking with sword out/carrying/sloshing diagonally
+    db $10 ; 0x0E - Sword out/carry sloshing
+    db $08 ; 0x0F - Sword out/carry sloshing diagonally
+    db $40 ; 0x10 - Dashing
+    db $2A ; 0x11 - Dashing diagonally
+    db $10 ; 0x12 - Pushing block
+    db $08 ; 0x13 - Pushing block diagonally
+    db $04 ; 0x14 - Pulling statue/walking to triforce
+    db $02 ; 0x15 - Pulling statue diagonally
+    db $30 ; 0x16 - Slosh dashing
+    db $18 ; 0x17 - Slosh dashing diagonally
+    db $20 ; 0x18 - Dashing on ice
+    db $15 ; 0x19 - Dashing on ice diagonally
+    db $F0 ; 0x1A - TODO: ???
+    db $00 ; 0x1B - TODO: ???
+    db $F0 ; 0x1C - TODO: ???
+    db $01 ; 0x1D - TODO: ???
 }
 
 ; ==============================================================================
