@@ -55,6 +55,7 @@
 ; V = Vertical
 ; Val = Value
 ; VRAM = Video RAM
+; WRAM = Work RAM
 
 ; ===============================================================================
 ; Start of bank 0x7E and direct page memory
@@ -95,8 +96,10 @@ struct WRAM $7E0000
         ; 0x09 - Overworld Mode
         ; 0x0A - Pre Overworld Mode (special overworld)
         ; 0x0B - Overworld Mode (special overworld)
-        ; 0x0C - Unused. Was likely intended for a screen transition effect when entering a dungeon.
-        ; 0x0D - Unused. Was likely intended for a screen transition effect when exiting a dungeon.
+        ; 0x0C - Unused. Was likely intended for a screen transition effect when
+        ;        entering a dungeon.
+        ; 0x0D - Unused. Was likely intended for a screen transition effect when
+        ;        exiting a dungeon.
         ; 0x0E - Text Mode/Item Screen/Map
         ; 0x0F - Closing Spotlight
         ; 0x10 - Opening Spotlight
@@ -138,11 +141,14 @@ struct WRAM $7E0000
         ; of the game code, such as the intro. See Stripes14_SourceAddress and
         ; HandleStripes14.
         ; 0x01 - $001002 WRAM $1002
-        ;        Used to make small dynamic tilemap changes like opening a chest, using a shovel, lighting a torch, hiting a crystal switch, opening a bomb wall, unlocking key doors, etc. 
+        ;        Used to make small dynamic tilemap changes like opening a
+        ;        chest, using a shovel, lighting a torch, hiting a crystal
+        ;        switch, opening a bomb wall, unlocking key doors, etc. 
         ; 0x02 - $001000 WRAM $1000
         ;        USUSED
         ; 0x03 - $0CDD6D IntroLogoTilemap
-        ;        Used to upload the "The Legend of Zelda A Link to the Past" text onto BG1.
+        ;        Used to upload the "The Legend of Zelda A Link to the Past"
+        ;        text onto BG1.
         ; 0x04 - $00021B WRAM $021B
         ;        UNUSED
         ; 0x05 - $0CE7BF NamePlayerTilemap
@@ -504,22 +510,23 @@ struct WRAM $7E0000
 
     ; $44[0x01] - (Player)
     .PlayerOAMOffsetY: skip $01
-        ; A Y offset to the player's OAM draw when performing certain actions that
-        ; would otherwise make them appear to be "off center" from their true
-        ; coordinates. This includes attacking with the sword, lifting objects,
-        ; and using the bug net. It is also set to 0x80 on occasions where the
-        ; game needs to hide the player sprite offscreen while loading, usually when
-        ; exiting dungeons.
+        ; A Y offset to the player's OAM draw when performing certain actions
+        ; that would otherwise make them appear to be "off center" from their
+        ; true coordinates. This includes attacking with the sword, lifting
+        ; objects, and using the bug net. It is also set to 0x80 on occasions
+        ; where the game needs to hide the player sprite offscreen while
+        ; loading, usually when exiting dungeons.
 
     ; $45[0x01] - (Player)
     .PlayerOAMOffsetX:
-        ; An X offset to the player's OAM draw when performing certain actions that
-        ; would otherwise make them appear to be "off center" from their true
-        ; coordinates. This includes attacking with the sword, lifting objects,
-        ; and using the bug net. This one also has an additional offset applied in
-        ; comparison to the Y offset, when jumping off diagonal down ledges. It is
-        ; also set to 0x80 on occasions where the game needs to hide the player
-        ; sprite offscreen while loading, usually when exiting dungeons.
+        ; An X offset to the player's OAM draw when performing certain actions
+        ; that would otherwise make them appear to be "off center" from their
+        ; true coordinates. This includes attacking with the sword, lifting
+        ; objects, and using the bug net. This one also has an additional offset
+        ; applied in comparison to the Y offset, when jumping off diagonal down
+        ; ledges. It is also set to 0x80 on occasions where the game needs to
+        ; hide the player sprite offscreen while loading, usually when exiting
+        ; dungeons.
 
     ; $45[0x01] - (Polyhedral)
     .Poly_Unknown_45: skip $01
@@ -612,10 +619,10 @@ struct WRAM $7E0000
         ;        water from or to a regular ground tile.
         ; 0x02 - Ledge Jump / Scripted Aerial-transition. Set when jumping off
         ;        ledges and by the Quake airborne sequence.
-        ; 0x04 - Waterfall Ledge Jump. Set when swimming and then you try to jump of
-        ;        a ledge. Which, in practice, only happens when jumping off a south
-        ;        facing waterfall. This causes the PlayerHopZSpeed1 and
-        ;        PlayerHopZSpeed2 to be set to 0x0E instead of 0x014.
+        ; 0x04 - Waterfall Ledge Jump. Set when swimming and then you try to
+        ;        jump of a ledge. Which, in practice, only happens when jumping
+        ;        off a south facing waterfall. This causes the PlayerHopZSpeed1
+        ;        and PlayerHopZSpeed2 to be set to 0x0E instead of 0x014.
 
     ; $4E[0x01] - (Dungeon)
     .DunTransitionLand: skip $01
@@ -758,7 +765,8 @@ struct WRAM $7E0000
         ; 0x0C - Jumping off a horizontal ledge, left or right.
         ; 0x0D - Jumping off a diagonal up and left / right ledge.
         ; 0x0E - Jumping off a diagonal down and left / right ledge.
-        ; 0x0F - Short special mountain/corner ledge jump down-left or down-right.
+        ; 0x0F - Short special mountain/corner ledge jump down-left or
+        ;        down-right.
         ; 0x10 - Long special mountain/corner ledge jump down-left or down-right.
         ; 0x11 - Pegasus dash state. Also handles dash-related ledge/fall
         ;        interactions.
@@ -1219,9 +1227,9 @@ struct WRAM $7E0000
     .PolyCrossProduct: skip $02
         ; Signed 16-bit determinant / cross-product result used by the polyhedral
         ; renderer for face-orientation testing.
-        ; Produced by Polyhedral_CalculateCrossProduct. The caller branches on the
-        ; signed/zero result to determine whether to draw, reject, or reorder a face.
-        ; TODO: Verify and refine comment.
+        ; Produced by Polyhedral_CalculateCrossProduct. The caller branches on
+        ; the signed/zero result to determine whether to draw, reject, or
+        ; reorder a face. TODO: Verify and refine comment.
 
     ; $B2[0x02] - (Dungeon)
     .DunDrawObjWidth: skip $02
@@ -1238,8 +1246,9 @@ struct WRAM $7E0000
     ; $B7[0x03] - (Dungeon)
     .DunRoomDataPtr:
         ; A transient pointer to the currently processed dungeon room data.
-        ; Reused during room loading for object data, door data, room-layout object
-        ; data, overlay data, and special watergate channel-water object data.
+        ; Reused during room loading for object data, door data, room-layout
+        ; object data, overlay data, and special watergate channel-water
+        ; object data.
 
     ; $B7[0x02] - (Polyhedral)
     .PolyBitmapColorMaskHigh: skip $02
@@ -1552,9 +1561,9 @@ struct WRAM $7E0000
 
     ; $D0[0x01] - (Title Screen)
     .LogoSwordFlashColorIndex: skip $01
-        ; A cyclic index into the three fixed-color component bytes. Advances once
-        ; per eligible flash update during the title-logo sword flash effect and
-        ; wraps from 0x02 to 0x00.
+        ; A cyclic index into the three fixed-color component bytes. Advances
+        ; once per eligible flash update during the title-logo sword flash
+        ; effect and wraps from 0x02 to 0x00.
         ; 0x00 - FixedColorRed
         ; 0x01 - FixedColorGreen
         ; 0x02 - FixedColorBlue
@@ -1618,8 +1627,8 @@ struct WRAM $7E0000
         ; register SNES.BG1VScrollOffset. $E6 is written to as if it were the
         ; scroll register most of the time. However, its value is occasionally
         ; changed and then written to $0124 which is the true BG1 vertical scroll
-        ; register. Functionally this means this is the Y position of BG1 relative
-        ; to the camera.
+        ; register. Functionally this means this is the Y position of BG1
+        ; relative to the camera.
 
     ; $E8[0x02] - (Main)
     .BG2VPos: skip $02
@@ -1627,8 +1636,8 @@ struct WRAM $7E0000
         ; register SNES.BG2VScrollOffset. $E8 is written to as if it were the
         ; scroll register most of the time. However, its value is occasionally
         ; changed and then written to $0124 which is the true BG2 vertical scroll
-        ; register. Functionally this means this is the Y position of BG2 relative
-        ; to the camera.
+        ; register. Functionally this means this is the Y position of BG2
+        ; relative to the camera.
 
     ; $EA[0x02] - (Main, NMI)
     .BG3VScroll: skip $02
@@ -1815,8 +1824,8 @@ struct WRAM $7E0000
 
     ; $F8[0x01] - (Input, NMI)
     .Joypad1LastHigh: skip $01
-        ; Unfiltered Joypad 1 high Register SNES.JoyPad1DataHigh from the previous
-        ; frame. Updated once per frame during NMI.
+        ; Unfiltered Joypad 1 high Register SNES.JoyPad1DataHigh from the
+        ; previous frame. Updated once per frame during NMI.
         ; BYsS udlr
         ; B - B button
         ; Y - Y button
@@ -1829,8 +1838,9 @@ struct WRAM $7E0000
 
     ; $F9[0x01] - (Input, NMI)
     .Joypad2LastHigh: skip $01
-        ; Unfiltered Joypad 2 high Register SNES.JoyPad2DataHigh from the previous
-        ; frame. Input from joypad 2 is not read unless you do some ASM hacking.
+        ; Unfiltered Joypad 2 high Register SNES.JoyPad2DataHigh from the
+        ; previous frame. Input from joypad 2 is not read unless you do some
+        ; ASM hacking.
         ; BYsS udlr
         ; B - B button
         ; Y - Y button
@@ -2894,7 +2904,8 @@ struct WRAM $7E0000
 
     ; $02F9[0x01] - (Tagalong)
     .TagalongDraw: skip $01
-        ; When set, prevents a tagalong from drawing and forces a game mode check.
+        ; When set, prevents a tagalong from drawing and forces a game mode
+        ; check.
 
     ; $02FA[0x01] - (Player, Statue)
     .PlayerDrag: skip $01
@@ -3116,10 +3127,10 @@ struct WRAM $7E0000
     ; $0323[0x01] - (Player, OAM)
     .PlayerHeadingMirror: skip $01
         ; A sudo mirror of PlayerHeading, which is an indicator for which
-        ; direction you are facing. Only used in the rendering of the player's OAM
-        ; data in Bank 0x0D. Has one case where it is not a 1 for 1 match with
-        ; PlayerHeading in PlayerOAM_Main in bank 0x0D. Explicitly set to down
-        ; (0x02) for Desert prayer.
+        ; direction you are facing. Only used in the rendering of the player's
+        ; OAM data in Bank 0x0D. Has one case where it is not a 1 for 1 match
+        ; with PlayerHeading in PlayerOAM_Main in bank 0x0D. Explicitly set to
+        ; down (0x02) for Desert prayer.
 
     ; $0324[0x01] - (Player, Item)
     .AddSpell: skip $01
@@ -3209,7 +3220,8 @@ struct WRAM $7E0000
 
     ; $0341[0x02] - (Player, Tile Attribute, High Junk)
     .PlayerSwimTileAct: skip $02
-        ; Tile act bitfield used by water. The high byte is written to but never used.
+        ; Tile act bitfield used by water. The high byte is written to but
+        ; never used.
         ; bbbb dddd
         ;   b - tile 0B Waterfall? TODO: Verify this.
         ;   d - deep water
@@ -3458,8 +3470,9 @@ struct WRAM $7E0000
         ; overworld for corners that need the player to end up more south than
         ; other cliffs such as the sharp corners in the Eastern Palace area.
         ; bbbb aaaa
-        ; a - Type 0x4C/0x4D tiles. Puts the PlayerState into 0x0F. (TODO: UNUSED:
-        ;      Kan claims these tiles never appear in the overworld)
+        ; a - Type 0x4C/0x4D tiles. Puts the PlayerState into 0x0F.
+        ;     (TODO: UNUSED: Kan claims these tiles never appear in
+        ;     the overworld)
         ; b - type 0x4E/0x4F tiles. Puts the PlayerState into 0x10.
         ; SEE TILE ACT NOTES
 
@@ -4695,11 +4708,11 @@ struct WRAM $7E0000
         ; Stores an object's offset in ROM data for certain manipulable objects.
         ; Stores the positions of pots, bombable floors, single moles, push
         ; blocks, and torches. However the positions are only ever read for
-        ; push blocks and torches. These values are always taken from DunObjPtrOff
-        ; in some form and then used to parse $7EF940 for push blocks and $7EFB40
-        ; for torches. TODO: Determine if the game actually doesn't use the 
-        ; offsets stored for post, bombable floors, and single moles. I'm pretty 
-        ; sure it doesn't.
+        ; push blocks and torches. These values are always taken from
+        ; DunObjPtrOff in some form and then used to parse $7EF940 for push
+        ; blocks and $7EFB40 for torches. TODO: Determine if the game actually
+        ; doesn't use the  offsets stored for post, bombable floors, and single
+        ; moles. I'm pretty sure it doesn't.
 
     ; $0540[0x20] - (Dungeon, Objects)
     .DunManipObjTMPos: skip $20
@@ -4921,14 +4934,16 @@ struct WRAM $7E0000
     .DunBG2HHighPos: skip $02
         ; In loading dungeons, sometimes contains the upper even byte of BG2HPos.
         ; This is used for some sort of effect relating to water object, bomb
-        ; doors, explosion doors, and the water gate. TODO: Figure out exact uses.
+        ; doors, explosion doors, and the water gate. TODO: Figure out exact
+        ; uses.
 
     ; $062E[0x02] - (Dungeon, Objects)
     .DunBG2VHighPos: skip $02
         ; In loading dungeons, contains the upper even byte of BG2VPos. 
         ; This is used for some sort of effect relating to water object, bomb
-        ; doors, explosion doors, and the water gate. TODO: Figure out exact uses.
-        ; Note: The upper even byte refers to the operation (argument & 0xFE00).
+        ; doors, explosion doors, and the water gate. TODO: Figure out exact
+        ; uses. Note: The upper even byte refers to the operation (argument &
+        ; 0xFE00).
 
     ; $0630[0x02] - (IRQ)
     .BG3HScrollIRQ: skip $02
@@ -5001,8 +5016,8 @@ struct WRAM $7E0000
     ; $0641[0x01] - (Dungeon, Push Block, Tag)
     .PushBlockPushed: skip $01
         ; A flag that when nonzero indicates a block has been pushed. Used to 
-        ; check if we need to open some doors or make a chest appear based on the 
-        ; room tags.
+        ; check if we need to open some doors or make a chest appear based on
+        ; the  room tags.
 
     ; $0642[0x01] - (Dungeon, Tag)
     .SpriteActivateTag: skip $01
@@ -5149,10 +5164,10 @@ struct WRAM $7E0000
         ; When using an entrance or exit on the overworld, this is the tilemap
         ; location of where the opening animation tiles need to be placed i.e. a
         ; wooden door opening or the sanctuary and hyrule castle doors opening.
-        ; This has a secondary use of dertimining certain aspects of the entrance 
-        ; = for example 0xFFFF indicates the north facing entrance in kakariko
-        ; village. Values < 0x8000 indicate tilemap coordinates for a wooden
-        ; doorway and values >= 0x8000 indicate a bombable wall hole.
+        ; This has a secondary use of dertimining certain aspects of the
+        ; entrance = for example 0xFFFF indicates the north facing entrance in
+        ; kakariko village. Values < 0x8000 indicate tilemap coordinates for a
+        ; wooden doorway and values >= 0x8000 indicate a bombable wall hole.
         ; 0x0000           - No doorway
         ; 0x0001 to 0x7FFF - Wooden doorway
         ; 0x8000 to 0xFFFE - Bombable doorway
@@ -5200,9 +5215,9 @@ struct WRAM $7E0000
     ; $069F[0x01] - (Overworld, Tilemap, Sprite)
     .BG1HScrollRelativeBG2Off: 
         ; TODO: This needs to be confirmed, but my best guess right now is that
-        ; this is an offset used to change the horizontal position of BG1 relative
-        ; to the BG2 position. This is used by subscreen overlays, credits and
-        ; certain sprites.
+        ; this is an offset used to change the horizontal position of BG1
+        ; relative to the BG2 position. This is used by subscreen overlays,
+        ; credits and certain sprites.
 
     ; $06A0[0x0?] - (Dungeon, Object)
     .StarTileTilemapAddr: 
@@ -5281,8 +5296,8 @@ struct WRAM $7E0000
     .IntraStairSlots: skip $02
         ; Tilemap positions of intraroom stairs: The size of the array depends
         ; on Stair36Count. TODO: Test if there is a max array size.
-        ; Ancilla slots for type 1.2.0x30, 1.2.0x31, 1.2.0x32, 1.2.0x33, 1.2.0x35,
-        ; 1.2.0x36, 1.3.0x1B TODO: Find the actual name for these.
+        ; Ancilla slots for type 1.2.0x30, 1.2.0x31, 1.2.0x32, 1.2.0x33,
+        ; 1.2.0x35, 1.2.0x36, 1.3.0x1B TODO: Find the actual name for these.
 
     ; $06BA[0x01] - (Warp)
     .WarpTimer1: skip $01
@@ -5352,8 +5367,8 @@ struct WRAM $7E0000
 
     ; $06FE[0x02] - (Junk)
     .Junk_06FE: skip $02
-        ; Zeroed out once in bank 0x0E, seems to be junk but this may overlap with
-        ; MergedLayerStairSlots. So this should not be used for hacking.
+        ; Zeroed out once in bank 0x0E, seems to be junk but this may overlap
+        ; with MergedLayerStairSlots. So this should not be used for hacking.
 
     ; ===========================================================================
     ; Page 0x07
@@ -5363,10 +5378,11 @@ struct WRAM $7E0000
     .PlayerOWPos: skip $02
         ; This is the non-parent non-world specific calculated overworld position
         ; of the player multiplied by 2. Contrary to OWAreaIndex this is does not
-        ; take the parent area into account meaning if you are in the bottom right
-        ; corner of the lost woods this will show up as 0x09 and not 0x00 like
-        ; OWAreaIndex would. Additionally, this position is only relative to the
-        ; current world so area 0x02, 0x42, and 0x82 will all show up as 0x02.
+        ; take the parent area into account meaning if you are in the bottom
+        ; right corner of the lost woods this will show up as 0x09 and not 0x00
+        ; like OWAreaIndex would. Additionally, this position is only relative
+        ; to the current world so area 0x02, 0x42, and 0x82 will all show up as
+        ; 0x02.
         ; yyyzxxx.
         ; y - Obtained by masking the player's Y coordinate ($20) with 0x1E00,
         ;     shifting left three times.
@@ -5485,7 +5501,8 @@ struct WRAM $7E0000
     .Junk_072E: skip $02
         ; Zeroed out once in bank 0x0E. As you can see there is a pattern here.
         ; For some reason every "E" address from $069E to $07DE is zeroed out in
-        ; the same spot. This is probably just left over from some unused feature.
+        ; the same spot. This is probably just left over from some unused
+        ; feature.
 
     ; $0730[0x0E] - (Free)
     .Free_0730: skip $0E
@@ -5631,9 +5648,9 @@ struct WRAM $7E0000
     ; $0AA0[0x01] - (GFX, Junk)
     .Junk_0AA0: skip $01
         ; Appears to have been a GFX sheet index at some point like $0AA1 as it
-        ; is cached in the same spots as $0AA1 to $7EC164 and $7EC124. However it 
-        ; is never actually written other than from $7EC164 and $7EC124 so it is
-        ; always zero.
+        ; is cached in the same spots as $0AA1 to $7EC164 and $7EC124. However
+        ; it is never actually written other than from $7EC164 and $7EC124 so
+        ; it is always zero.
 
     ; $0AA1[0x01] - (GFX)
     .GFXTileSheetIndexMain: skip $01
@@ -5670,8 +5687,9 @@ struct WRAM $7E0000
     .GFXSpriteSheetIndexMain: skip $01
         ; The main sprite tile set index. TODO: Find out if this has a ZS
         ; equivilant. This controls sheets 8, 9, A, and B which are the "global"
-        ; sprites sheets. These sheets are the same for the whole LW, whole DW, or
-        ; all dungeons. This sheet is also used to load some polyhedral sheets.
+        ; sprites sheets. These sheets are the same for the whole LW, whole DW,
+        ; or all dungeons. This sheet is also used to load some polyhedral
+        ; sheets.
         ; 0x01 - Light world Overworld
         ; 0x08 - Polyhedral
         ; 0x0A - Dungeons
@@ -5688,10 +5706,10 @@ struct WRAM $7E0000
 
     ; $0AA8[0x02] - (Palettes)
     .PalLoadBuffer: skip $02
-        ; It's used during palette loading to select between the auxiliary palette
-        ; buffer ($7EC300) and the main palette buffer ($7EC500) as targets to
-        ; write colors to. Typically only the high byte of this variable is
-        ; modified.
+        ; It's used during palette loading to select between the auxiliary
+        ; palette buffer ($7EC300) and the main palette buffer ($7EC500) as
+        ; targets to write colors to. Typically only the high byte of this
+        ; variable is modified.
         ; 0x0000 - Load into $7EC300
         ; 0x0200 - Load into $7EC500
 
@@ -5816,8 +5834,9 @@ struct WRAM $7E0000
 
     ; $0AB0[0x01] - (Free, Palette)
     .Free_0AB0: skip $01
-        ; Only seen once in an unreferenced routine: Palette_Unused. This function
-        ; would have been used to load a 7 color palette to the first half SP-6.
+        ; Only seen once in an unreferenced routine: Palette_Unused. This
+        ; function would have been used to load a 7 color palette to the first
+        ; half SP-6.
 
     ; $0AB1[0x01] - (Palette)
     .SprLiftPal: skip $01
@@ -5964,8 +5983,8 @@ struct WRAM $7E0000
         ; that require sprite transparency such as the flute boy ghost and the
         ; ponds of wishing. This is because of a hardware limitation where only
         ; SP-4 through SP-7 can have sprite transparency. This also changes how
-        ; certain sprites, including the player, are drawn that use these palettes
-        ; to use the new correct palette.
+        ; certain sprites, including the player, are drawn that use these
+        ; palettes to use the new correct palette.
 
     ; $0ABE[0x01] - (Free)
     .Free_0ABE: skip $01
@@ -5975,9 +5994,9 @@ struct WRAM $7E0000
     .OWAreaEventFlag: skip $01
         ; Set to zero when an event is initialized, and will be set to 1 the next
         ; time a change of overworld area occurs. This is used to trigger the 
-        ; magic powder showing up in the Witch's Hut, when your sword is finished 
-        ; being tempered, and also used to make sure you didn't cheat during the 
-        ; heart piece maze game in Kakkariko.
+        ; magic powder showing up in the Witch's Hut, when your sword is
+        ; finished being tempered, and also used to make sure you didn't cheat
+        ; during the heart piece maze game in Kakkariko.
         ; 0x00    - Indicates that an overworld transition needs to occur before
         ;           an event can happen.
         ; Nonzero - Indicates that an overworld transition has occured and the 
@@ -6001,8 +6020,8 @@ struct WRAM $7E0000
     ; $0AC4[0x02] - (NMI, GFX, OAM)
     .ShieldChrAddressTop: skip $02
         ; The ROM Address for the top shield GFX tile DMA transfer during NMI.
-        ; The value stored here is grabbed from a table indexed by SheildChrIndex.
-        ; TODO: Document the values.
+        ; The value stored here is grabbed from a table indexed by
+        ; SheildChrIndex. TODO: Document the values.
 
     ; $0AC6[0x02] - (NMI, GFX, OAM)
     .ShieldChrAddressBottom: skip $02
@@ -6096,9 +6115,9 @@ struct WRAM $7E0000
 
     ; $0AE2[0x02] - (NMI, GFX, OAM)
     .SprRupeeChrAddressBottom: skip $02
-        ; The ROM Address for the bottom sprite rupee GFX tile DMA transfer during
-        ; NMI. The value stored here is always SprRupeeChrAddressTop + 0x0060.
-        ; TODO: Document the values.
+        ; The ROM Address for the bottom sprite rupee GFX tile DMA transfer 
+        ; during NMI. The value stored here is always SprRupeeChrAddressTop + 
+        ; 0x0060. TODO: Document the values.
 
     ; $0AE4[0x04] - (Free)
     .Free_0AE4: skip $04
@@ -6127,8 +6146,8 @@ struct WRAM $7E0000
     ; $0AEE[0x02] - (NMI, GFX, OAM)
     .TagalongHeadChrAddressBottom: skip $02
         ; The ROM Address for the bottom tagalong head GFX tile DMA transfer
-        ; during NMI. The value stored here is TagalongHeadChrAddressTop + 0x0200.
-        ; TODO: Document the values.
+        ; during NMI. The value stored here is TagalongHeadChrAddressTop + 
+        ; 0x0200. TODO: Document the values.
 
     ; $0AF0[0x02] - (NMI, GFX, OAM)
     .TagalongBodyChrAddressTop: skip $02
@@ -6139,8 +6158,8 @@ struct WRAM $7E0000
     ; $0AF2[0x02] - (NMI, GFX, OAM)
     .TagalongBodyChrAddressBottom: skip $02
         ; The ROM Address for the bottom tagalong body GFX tile DMA transfer 
-        ; during NMI. The value stored here is TagalongBodyChrAddressTop + 0x0200.
-        ; TODO: Document the values.
+        ; during NMI. The value stored here is TagalongBodyChrAddressTop + 
+        ; 0x0200. TODO: Document the values.
 
     ; $0AF4[0x02] - (GFX, OAM, Bird)
     .BirdPoseChrIndex: skip $02
@@ -6208,7 +6227,8 @@ struct WRAM $7E0000
         ; 0x15 - Wizzrobe Spawner
         ; 0x16 - Zoro Spawner
         ; 0x17 - Pot Trap
-        ; 0x18 - Stalfos that Materialize (a la Eastern Palace) TODO: Is this different than 0x05 Stalfos trap?
+        ; 0x18 - Stalfos that Materialize (a la Eastern Palace)
+        ;        TODO: Is this different than 0x05 Stalfos trap?
         ; 0x19 - Armos Knights Handler
         ; 0x1A - TODO: ???
         ; TODO: Are there any more that should be here?
@@ -6286,14 +6306,15 @@ struct WRAM $7E0000
 
     ; $0B58[0x10] - (Sprite)
     .SprEffectTimer: skip $10
-        ; A timer that controls the timing of special sprite effects such as being
-        ; stuned, frozen, or faing out. Counts down from 0xFF most of the time.
+        ; A timer that controls the timing of special sprite effects such as 
+        ; being stuned, frozen, or faing out. Counts down from 0xFF most of
+        ; the time.
         ; TODO: Document other uses.
 
     ; $0B68[0x01] - (Sprite)
     .SparkLayer: skip $01
-        ; The layer to display a repulse spark on. Set based on the player's layer
-        ; or a sprite's layer. 
+        ; The layer to display a repulse spark on. Set based on the player's
+        ; layer or a sprite's layer. 
 
     ; $0B69[0x01] - (Sprite, Message)
     .TutorialGuardMessage:
@@ -6367,20 +6388,20 @@ struct WRAM $7E0000
 
     ; $0B9A[0x01] - (Sprite, Minigame)
     .PreventBowUse: skip $01
-        ; A flag that when set to a nonzero value, you cannot fire arrows. This is
-        ; reset to 0 every frame that sprite code is run. It's only used during 
-        ; the archery mini game, which sets this flag to 1 if you are out of 
-        ; "minigame" arrows.
+        ; A flag that when set to a nonzero value, you cannot fire arrows. This
+        ; is reset to 0 every frame that sprite code is run. It's only used
+        ; during the archery mini game, which sets this flag to 1 if you are
+        ; out of "minigame" arrows.
 
     ; $0B9B[0x01] - (Dungeon, Sprite)
     .DashKeySaveSlot: skip $01
         ; Used to control which save slot in DunRoomInfo will be set to 1 when
         ; collecting a dash key. This also tells the game if there is more than 
-        ; one dash key in a single room to make the second one a big key, however 
-        ; this is never actually done in the vanilla game. This is also increased 
-        ; by a regular key sprite, so if there is a key placed on the ground or 
-        ; from a pot, the next bonk item recieved in the same room would be a
-        ; big key.
+        ; one dash key in a single room to make the second one a big key,
+        ; however this is never actually done in the vanilla game. This is also
+        ; increased by a regular key sprite, so if there is a key placed on the
+        ; ground or from a pot, the next bonk item recieved in the same room
+        ; would be a big key.
         ; 0x00 - Regular key drop, first DunRoomInfo key slot
         ; 0x01 - Big key drop, second DunRoomInfo key slot
 
@@ -6405,8 +6426,8 @@ struct WRAM $7E0000
 
     ; $0BA0[0x10] - (Sprite, Ancilla)
     .SprIgnoreProjectiles: skip $10
-        ; A flag that when non-zero, will prevent all projectile interactions with
-        ; the sprite.
+        ; A flag that when non-zero, will prevent all projectile interactions
+        ; with the sprite.
 
     ; $0BB0[0x10] - (Sprite, Ancilla)
     .SprCollidedAncilla: skip $10
@@ -6414,9 +6435,9 @@ struct WRAM $7E0000
 
     ; $0BC0[0x10] - (Dungeon, Sprite)
     .DunSpriteSlotIndex:
-        ; Contains the index of the sprite in the sprite arrays while in dungeons.
-        ; The array only seems to be modified in the initial dungeon loading
-        ; routine (room transitions don't appear to write here).
+        ; Contains the index of the sprite in the sprite arrays while in
+        ; dungeons. The array only seems to be modified in the initial dungeon
+        ; loading routine (room transitions don't appear to write here).
         ; 0x00-0x0F - The valid sprite slots.
         ; 0xFF      - No sprite.
 
@@ -6436,17 +6457,17 @@ struct WRAM $7E0000
         ;     water.
         ;     Normally, sprites will either be blocked, bounce off of, or have no
         ;     interaction with water at all. But if this is set this will allow
-        ;     certain sprites to "fall into" the water, like the walking zora, and
-        ;     the fish. TODO: Confirm.
+        ;     certain sprites to "fall into" the water, like the walking zora,
+        ;     and the fish. TODO: Confirm.
         ; b - If set, the sprite can be blocked by a shield, provided the player 
         ;     has any level shield at all. The sprite will die if this is set and
         ;     a collision with the player occurs while they have a shield,
         ;     regardless of whether it 'hits' the shield. However, it must be
         ;     traveling towards the face of the shield to be blocked. Otherwise,
         ;     the player will be harmed.
-        ; s - If set, play the 'enemy taking damage' sound effect. Otherwise, play
-        ;     the basic 'sprite getting hit' sound effect (which will play for
-        ;     some enemies in spite of the fact that they are still taking
+        ; s - If set, play the 'enemy taking damage' sound effect. Otherwise,
+        ;     play the basic 'sprite getting hit' sound effect (which will play
+        ;     for some enemies in spite of the fact that they are still taking
         ;     damage.)
         ; p - The prize pack pool to pick from upon death (See PrizePackIndex
         ;     for more dteails).
@@ -6497,8 +6518,8 @@ struct WRAM $7E0000
         ; The type ID for ancillae.
         ; 0x00 - Nothing: An indicator that no ancilla is currently active in 
         ;        this slot.
-        ; 0x01 - Somarian Blast: Results from splitting a Somarian block, both the
-        ;        pieces of somarian block splitting and the fireballs.
+        ; 0x01 - Somarian Blast: Results from splitting a Somarian block, both
+        ;        the pieces of somarian block splitting and the fireballs.
         ; 0x02 - Fire Rod flame (both flying and after hitting something).
         ; 0x03 - Unused: Instantiating one of these creates an object that does
         ;        nothing.
@@ -6552,8 +6573,8 @@ struct WRAM $7E0000
         ; 0x1F - Hookshot: The hookshot item.
         ; 0x20 - The Player's Bed Spread: The blanket on top of the player at the
         ;        beginning of the game.
-        ; 0x21 - The Player's Zzzzs: The Zs that appear above the player while the
-        ;        player is sleeping at the benginning of the game.
+        ; 0x21 - The Player's Zzzzs: The Zs that appear above the player while
+        ;        the player is sleeping at the benginning of the game.
         ; 0x22 - Received Item: The item that rises into the air after collecting
         ;        it from a chest, from a wish pond fairy, or from picking it up 
         ;        off the ground.
@@ -6585,8 +6606,8 @@ struct WRAM $7E0000
         ;        blast wall (after pulling a switch).
         ; 0x34 - Skull Woods Fire: Burning effect used to open up the entrance to
         ;        skull woods.
-        ; 0x35 - Master Sword Ceremony: TODO: not sure if it's the whole thing or 
-        ;        a part of it.
+        ; 0x35 - Master Sword Ceremony: TODO: not sure if it's the whole thing
+        ;        or a part of it.
         ; 0x36 - Digging Flute: The flute that pops out of the ground in the 
         ;        haunted grove after digging it up.
         ; 0x37 - Weathervane Explosion: The explosion that occurs at the 
@@ -6604,10 +6625,11 @@ struct WRAM $7E0000
         ;        into 3D crystal.
         ; 0x3F - Bush Poof: The disintegrating bush poof (due to magic powder).
         ;        TODO: Investigate what the magic powder comment means.
-        ; 0x40 - Dwarf Poof: The poof cloud that appears when the dwarf transforms
-        ;        back into a dwarf from a frog.
-        ; 0x41 - Waterfall Splash: The water splash when going under the waterfall
-        ;        of wishing entrance and in the Swamp Palace waterfall doors.
+        ; 0x40 - Dwarf Poof: The poof cloud that appears when the dwarf
+        ;        transforms back into a dwarf from a frog.
+        ; 0x41 - Waterfall Splash: The water splash when going under the
+        ;        waterfall of wishing entrance and in the Swamp Palace
+        ;        waterfall doors.
         ; 0x42 - Happiness Pond Rupees: The rupees that you throw in to the Pond
         ;        of Happiness.
         ; 0x43 - Break Tower Seal: The Ganon's tower seal being broken. (not 
@@ -6661,8 +6683,9 @@ struct WRAM $7E0000
         ; a - If set, the sprite will not despawn when off screen.
         ; b - If set, sprites that can self terminate when off screen will skip a
         ;     check that prevents sprites from self terminating when indoors. In 
-        ;     effect, this means the sprite will always self terminate reguardless
-        ;     if in a dungeon or not. See Sprite_SelfTerminate for more details.
+        ;     effect, this means the sprite will always self terminate 
+        ;     reguardless if in a dungeon or not. See Sprite_SelfTerminate for
+        ;     more details.
         ; c - Here is the original MoN comment that, as far as I can tell, is
         ;     correct:
         ;     While this is set and unset in a lot of places for various sprites,
@@ -6670,9 +6693,10 @@ struct WRAM $7E0000
         ;     pattern of its usage the best deduction I can make is that this was
         ;     a flag intended to signal that a sprite is an interactive object 
         ;     that the player can push against, pull on, or otherwise exerts a 
-        ;     physical presence. In general, it might have indicated some kind of 
-        ;     A button (action button) affinity for the sprite, but I think this 
-        ;     is merely informative rather than something relevant to gameplay.
+        ;     physical presence. In general, it might have indicated some kind 
+        ;     of A button (action button) affinity for the sprite, but I think 
+        ;     this is merely informative rather than something relevant to
+        ;     gameplay.
         ; d - If set, the sprite will "deflect" certain ancillae attacks if they
         ;     hit the "front" of the sprite. The ancillae attacks inclue: the Ice
         ;     Rod shot, the Somarian missile, the boomerang, the hookshot, the
@@ -6682,15 +6706,16 @@ struct WRAM $7E0000
         ; e - If set, makes the sprite use a simplified tile collision routine 
         ;     that cuases the sprite to have less tile interactions. This is 
         ;     often used for projectiles. TODO: Document the exact differences.
-        ; f - If set, makes sprite impervious to sword and hammer type attacks and
-        ;     instead will apply recoil to the player and spawn a repulse spark.
+        ; f - If set, makes sprite impervious to sword and hammer type attacks 
+        ;     and instead will apply recoil to the player and spawn a repulse
+        ;     spark.
         ; g - Has several purposes that depend on the sprite and other settings.
         ;     Functions include:
         ;          If set, makes sprites ignore layer checks when checking
         ;          collisions with various types of ancillae.
         ;          If set, makes the sprite "draggable" by the hookshot.
-        ;          If set, the sprite will not be killed while a boss is currently
-        ;          dying.
+        ;          If set, the sprite will not be killed while a boss is
+        ;          currently dying.
         ;          If set, will cause a halted arrow that hits the sprite to
         ;          dissapear.
         ;          If set, the sprite will not be affected by dashing rumble 
@@ -6796,12 +6821,12 @@ struct WRAM $7E0000
 
     ; $0CF7[0x01] - (Overworld)
     .OWBushRandom: skip $01
-        ; The randomness accumulator for bush prizes on the overworld. When a bush
-        ; is lifted up on the overworld, there is a chance that a item prize will
-        ; spawn when there isn't one placed manually or a different item than what
-        ; was intened will spawn. This is used to keep track of that randomness
-        ; like $0FA1. See Overworld_SubstituteAlternateSecret in bank 0x1A for
-        ; more details.
+        ; The randomness accumulator for bush prizes on the overworld. When a 
+        ; bush is lifted up on the overworld, there is a chance that a item
+        ; prize will spawn when there isn't one placed manually or a different
+        ; item than what was intened will spawn. This is used to keep track of
+        ; that randomness like $0FA1. See Overworld_SubstituteAlternateSecret in
+        ; bank 0x1A for more details.
 
     ; $0CF8[0x01] - (SFX)
     .SFXTempStereoBuffer: skip $01
@@ -6959,8 +6984,9 @@ struct WRAM $7E0000
         ; A misc variable used by sprites. Generally used as a direction 
         ; indicator. Some uses include:
         ; A position counter for the statue sentry? TODO: Verify.
-        ; Seems that some sprites use this as an indicator for cardinal direction?
-        ; (Octorocks, for example). This is controlled by sprite helper functions.
+        ; Seems that some sprites use this as an indicator for cardinal
+        ; direction? (Octorocks, for example). This is controlled by sprite
+        ; helper functions.
         ; 0x00 - up
         ; 0x01 - down
         ; 0x02 - left
@@ -6970,8 +6996,9 @@ struct WRAM $7E0000
         ; 0x01 - left
         ; 0x02 - down
         ; 0x03 - up
-        ; The Giant Moldorm uses this one somewhat more like the expanded cardinal
-        ; directions. Each state corresponds to an angular step of 22.5 degrees.
+        ; The Giant Moldorm uses this one somewhat more like the expanded
+        ; cardinal directions. Each state corresponds to an angular step of
+        ; 22.5 degrees.
         ; 0x00 - East
         ; 0x01 - East-Southeast
         ; 0x02 - South East
@@ -7012,10 +7039,10 @@ struct WRAM $7E0000
         ; increase as the eye rotates counter-clockwise, unlike the Giant 
         ; Moldorm's rotation scheme. The starting position of 0 is located 
         ; directly to the left, with 0x10 being south, 0x20 east, and 0x30 north.
-        ; The Spark sprite has two sets of 4 cardinal direction states. The first 
-        ; set is for clockwise oriented adhesion to wall surfaces as is travels, 
-        ; and the other set (0x04 to 0x07) indicates adhesion but in the 
-        ; counterclockwise attitude.
+        ; The Spark sprite has two sets of 4 cardinal direction states. The
+        ; first set is for clockwise oriented adhesion to wall surfaces as is
+        ; travels, and the other set (0x04 to 0x07) indicates adhesion but in
+        ; the counterclockwise attitude.
 
     ; $0DF0[0x10] - (Sprite)
     .SprTimerA: skip $10
@@ -7527,8 +7554,8 @@ struct WRAM $7E0000
 
     ; $0FA5[0x01] - (Sprite, Ancilla)
     .EntityTileType
-        ; Tile type for sprite/ancilla tile interactions. When a sprite or ancilla
-        ; needs to interact with a tile, the tile type is stored here.
+        ; Tile type for sprite/ancilla tile interactions. When a sprite or
+        ; ancilla needs to interact with a tile, the tile type is stored here.
 
     ; $0FA6[0x02] - (Free)
     .Free_0FA6: skip $02
@@ -7620,10 +7647,11 @@ struct WRAM $7E0000
     .GarnishEnabled: skip $01
         ; Acts as a flag to indicate that there may be Garnish objects active on
         ; screen. This is not set low until the load of the next room or area, or
-        ; similar circumstance like warping. Its numerical value is not important,
-        ; so as long as it's nonzero, Garnish objects will be handled. TODO: 
-        ; Possibly junk? seems to corrispond with $7FF800 so why not just use that
-        ; same value? However not all the same values are set here as in $7FF800.
+        ; similar circumstance like warping. Its numerical value is not
+        ; important, so as long as it's nonzero, Garnish objects will be 
+        ; handled. TODO: Possibly junk? seems to corrispond with $7FF800 so why 
+        ; not just use that same value? However not all the same values are set
+        ; here as in $7FF800.
         ; 0x00 - No garnish
         ; 0x01 - Winder Fireball
         ; 0x02 - Mothula Beam
@@ -7648,9 +7676,9 @@ struct WRAM $7E0000
     .SprMiscL: skip $01
         ; A misc variable used by sprites. Most of the time, this is used as a
         ; loop counter when multiple sub sprites need to be spawened such as when
-        ; Kholdstare is splitting into 3, Agahnim 2 is spawning his shadow clones,
-        ; or when the lanmolas are deciding how many debris shards to spawn when
-        ; bursting out of the ground.
+        ; Kholdstare is splitting into 3, Agahnim 2 is spawning his shadow 
+        ; clones, or when the lanmolas are deciding how many debris shards to 
+        ; spawn when bursting out of the ground.
         ; Some other uses include:
         ; Pikit - Used to store the X coordinate of where the item it is stealing
         ;    from the player should be drawn.
